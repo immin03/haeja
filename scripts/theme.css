@@ -73,3 +73,29 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 
 /* 막대 색: 핵심 = 금, 탐험 = 회청색 */
 .cmp-row .stackbar{border:0;background:var(--line)}
+
+/* ===== 톤 맞춘 데이터 색: 골드·슬레이트·세이지·코퍼·더스티 바이올렛·샌드 ===== */
+:root{
+  --s1:#B08A3E; --s2:#5C6F8C; --s3:#4F7F76; --s4:#A8654A; --s5:#6B6799; --s6:#C2B08A; --series:#5C6F8C;
+  --up:#C8483F; --down:#3D6BB3;
+  --c-core:#B08A3E; --c-exp:#8C97A8; --c-cash:#E2DCCF;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
+  --up:#EE8A7E; --down:#86AEEA;
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}}
+:root[data-theme="dark"]{
+  --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
+  --up:#EE8A7E; --down:#86AEEA;
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}
+.pf-top{
+  --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4;
+  --up:#EE8A7E; --down:#8DB4EC}
+.pf-top .pf-bar{gap:3px;height:8px}
+.pf-top .pf-bar i{border-radius:4px}
+.pf-dot{border-radius:50%;width:9px;height:9px}
+.pf-top .pf-name b{font-weight:700}
+.pf-top .pf-ret b{font-weight:700}
+/* 상태 배지도 톤 다운 */
+.p-good{background:var(--accent-soft);color:var(--accent)}
+.p-warn{background:var(--gold-soft);color:var(--warn)}

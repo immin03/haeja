@@ -27,7 +27,7 @@
   --bad:#B3362C; --bad-soft:#F6E0DC; --up:#D2373A; --down:#2C62C9;
   --font:"Pretendard","SUIT","IBM Plex Sans KR",system-ui,-apple-system,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-  --r:14px;
+  --r:14px; --c-core:var(--accent); --c-exp:var(--warn); --c-cash:var(--line);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111613; --surface:#19201C; --ink:#E5EBE6; --muted:#93A198; --line:#2A342E;
@@ -1088,7 +1088,7 @@ function viewPortfolio(){
     return `<button type="button" class="pf-row" data-act="hold-toggle" data-id="${r.h.id}" aria-expanded="${open}">
       <span class="pf-dot" style="background:${SER(i)}"></span>
       <span class="pf-name"><b>${esc(short(r.h.name))}</b><span class="small muted">${{core:'핵심',explore:'탐험',cash:'현금성'}[b.k]} · 비중 ${fmt(r.w,0)}%</span></span>
-      <span class="pf-ret"><b class="num ${r.calc.pl>=0?'up':'down'}">${pct(r.calc.plPct)}</b><span class="small muted num">${fmtKRW(r.calc.value)}</span></span>
+      <span class="pf-ret"><b class="num ${Math.abs(r.calc.plPct||0)<0.05?'muted':r.calc.pl>0?'up':'down'}">${pct(r.calc.plPct)}</b><span class="small muted num">${fmtKRW(r.calc.value)}</span></span>
     </button>${open ? `<div class="pf-open">${holdCard(r)}</div>` : ''}`; };
   const acts = P.acts.filter(a => a.lv !== 'good').slice(0,3);
   return `
@@ -1105,9 +1105,9 @@ function viewPortfolio(){
   </div>
   ${rows.length ? `<h2>지금 할 일</h2>
   <div class="card">${acts.length ? `<ol class="acts">${acts.map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':'참고'}</span><span>${esc(a.short || a.t)}</span></li>`).join('')}</ol>` : `<div class="muted">구조가 목표 안에 있다. 매도 조건과 분기 실적만 확인하면 된다.</div>`}
-    <div class="cmp-row" style="margin-top:12px"><span class="small">지금</span><div class="stackbar">${P.coreW>0?`<i style="width:${Math.min(100,P.coreW)}%;background:var(--accent)"></i>`:''}${P.expW>0?`<i style="width:${Math.min(100,P.expW)}%;background:var(--warn)"></i>`:''}${P.cashAll>0?`<i style="width:${Math.min(100,P.cashAll)}%;background:var(--line)"></i>`:''}</div></div>
-    <div class="cmp-row"><span class="small">목표</span><div class="stackbar"><i style="width:75%;background:var(--accent)"></i><i style="width:10%;background:var(--warn)"></i><i style="width:15%;background:var(--line)"></i></div></div>
-    <div class="legend"><span style="--c:var(--accent)">핵심 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--warn)">탐험 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--line)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
+    <div class="cmp-row" style="margin-top:12px"><span class="small">지금</span><div class="stackbar">${P.coreW>0?`<i style="width:${Math.min(100,P.coreW)}%;background:var(--c-core)"></i>`:''}${P.expW>0?`<i style="width:${Math.min(100,P.expW)}%;background:var(--c-exp)"></i>`:''}${P.cashAll>0?`<i style="width:${Math.min(100,P.cashAll)}%;background:var(--c-cash)"></i>`:''}</div></div>
+    <div class="cmp-row"><span class="small">목표</span><div class="stackbar"><i style="width:75%;background:var(--c-core)"></i><i style="width:10%;background:var(--c-exp)"></i><i style="width:15%;background:var(--c-cash)"></i></div></div>
+    <div class="legend"><span style="--c:var(--c-core)">핵심 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">탐험 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
   </div>` : ''}
   <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">가치 추이 · 균형 점검 · 원칙 점검 · 환율 · 설정</span></summary>
     <div class="stack" style="margin-top:12px">
@@ -2808,6 +2808,32 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 
 /* 막대 색: 핵심 = 금, 탐험 = 회청색 */
 .cmp-row .stackbar{border:0;background:var(--line)}
+
+/* ===== 톤 맞춘 데이터 색: 골드·슬레이트·세이지·코퍼·더스티 바이올렛·샌드 ===== */
+:root{
+  --s1:#B08A3E; --s2:#5C6F8C; --s3:#4F7F76; --s4:#A8654A; --s5:#6B6799; --s6:#C2B08A; --series:#5C6F8C;
+  --up:#C8483F; --down:#3D6BB3;
+  --c-core:#B08A3E; --c-exp:#8C97A8; --c-cash:#E2DCCF;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
+  --up:#EE8A7E; --down:#86AEEA;
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}}
+:root[data-theme="dark"]{
+  --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
+  --up:#EE8A7E; --down:#86AEEA;
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}
+.pf-top{
+  --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4;
+  --up:#EE8A7E; --down:#8DB4EC}
+.pf-top .pf-bar{gap:3px;height:8px}
+.pf-top .pf-bar i{border-radius:4px}
+.pf-dot{border-radius:50%;width:9px;height:9px}
+.pf-top .pf-name b{font-weight:700}
+.pf-top .pf-ret b{font-weight:700}
+/* 상태 배지도 톤 다운 */
+.p-good{background:var(--accent-soft);color:var(--accent)}
+.p-warn{background:var(--gold-soft);color:var(--warn)}
 
 </style>
 </body>
