@@ -561,6 +561,17 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 .hold-grid b span{font-size:inherit!important;font-weight:inherit;display:inline}
 .hold-grid b span.up{color:var(--up)!important} .hold-grid b span.down{color:var(--down)!important}
 .note-line{font-size:11.5px;line-height:1.5}
+.fin-row{grid-template-columns:minmax(0,1fr) 116px!important;row-gap:6px}
+.fin-row .lbl b{display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.fin-row .fin-val{display:flex;align-items:center;gap:6px}
+.fin-row .fin-val input{text-align:right;min-width:0}
+.fin-row .fin-val em{font-style:normal;font-size:12px;color:var(--muted);width:18px;flex:0 0 auto}
+.fin-row .res{grid-column:1/-1;text-align:left!important;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fin-row .res .fin-pt{margin-left:auto}
+.auto-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:1px;flex:0 0 auto}
+.fin-legend{margin:-4px 0 10px;display:flex;align-items:center;gap:4px;white-space:nowrap}
+@media (max-width:400px){.fin-row{grid-template-columns:minmax(0,1fr) 98px!important}.fin-row .fin-val em{width:14px}.fin-row .lbl b{font-size:13.5px}}
+.fin-legend .auto-dot{margin:0 2px 0 0}
 </style>
 
 <header class="top">
@@ -586,8 +597,8 @@ const FIN = [
   {g:'사업의 질', k:'lossYears', label:'최근 10년 적자 연도', unit:'회', w:2, op:'<=', th:{US:0,KR:0}, hint:'예측 가능한 수익력'},
   {g:'재무 안전', k:'fcfConv', label:'FCF ÷ 순이익', unit:'%', w:2, op:'>=', th:{US:80,KR:80}, hint:'이익이 현금으로 들어오는가'},
   {g:'재무 안전', k:'capexNi', label:'설비투자 ÷ 순이익', unit:'%', w:1, op:'<=', th:{US:50,KR:50}, hint:'돈을 계속 재투자해야 버티는 사업인가'},
-  {g:'재무 안전', k:'ltdNi', label:'장기차입금 ÷ 순이익', unit:'년', w:2, op:'<=', th:{US:4,KR:4}, hint:'적자이면서 차입금이 있으면 99, 무차입이면 0'},
-  {g:'재무 안전', k:'icr', label:'이자보상배율', unit:'배', w:1, op:'>=', th:{US:7,KR:7}, hint:'무차입이면 99 입력'},
+  {g:'재무 안전', k:'ltdNi', label:'장기차입금 ÷ 순이익', unit:'년', w:2, op:'<=', th:{US:4,KR:4}, hint:'지금 이익으로 장기 빚을 다 갚는 데 걸리는 햇수. 빚이 없으면 0, 적자인데 빚이 있으면 99'},
+  {g:'재무 안전', k:'icr', label:'이자보상배율', unit:'배', w:1, op:'>=', th:{US:7,KR:7}, hint:'영업이익이 이자 비용의 몇 배인지. 빚이 없으면 99'},
   {g:'재무 안전', k:'currentRatio', label:'유동비율', unit:'배', w:1, op:'>=', th:{US:1.5,KR:1.5}, hint:'그레이엄 방어적 투자자 기준'},
   {g:'자본 배분', k:'shareChg', label:'주식 수 5년 변화', unit:'%', w:1, op:'<=', th:{US:0,KR:0}, hint:'유상증자·CB 희석 여부'},
 ];
@@ -1551,7 +1562,7 @@ function companyForm(c){
   let lastG = '';
   const finRows = FIN.map(f => {
     const head = f.g !== lastG ? `${lastG?'</div>':''}<div class="eyebrow" style="margin-top:14px">${f.g}</div><div>` : ''; lastG = f.g;
-    return head + `<div class="metric"><div class="lbl"><b>${f.label}${gl(f.k)}${filled.has(f.k)?`<span class="ai-dot" title="자동으로 채운 값">● ${c.source?'자동':'AI'}</span>`:''}</b><span>${f.hint}</span></div>${numInp('fin.'+f.k, c.fin?.[f.k])}<div class="res" id="b-${f.k}"></div></div>`;
+    return head + `<div class="metric fin-row"><div class="lbl"><b>${f.label}${gl(f.k)}${filled.has(f.k)?`<i class="auto-dot" title="자동으로 채운 값" aria-label="자동"></i>`:''}</b><span>${f.hint}</span></div><div class="fin-val">${numInp('fin.'+f.k, c.fin?.[f.k])}<em>${f.unit}</em></div><div class="res" id="b-${f.k}"></div></div>`;
   }).join('') + '</div>';
   const t = c.thesis || {};
   return `
@@ -1577,6 +1588,7 @@ function companyForm(c){
   </div>
 
   <h2>2. 숫자로 보는 해자</h2>
+  <p class="small muted fin-legend"><i class="auto-dot"></i>자동으로 채운 값 (칸을 눌러 수정)</p>
   <details class="card" style="margin-bottom:12px"><summary>재무 데이터 붙여넣어 AI로 채우기</summary>
     <p class="small muted">네이버 증권·FnGuide·DART, 미국은 SEC 10-K·Macrotrends 등에서 연도별 재무표를 복사해 붙여넣으세요. AI가 계산할 수 있는 값만 채우고 나머지는 비워 둡니다. 채운 값은 원문과 대조하세요.</p>
     <textarea id="pasteBox" placeholder="예: 연도별 매출, 영업이익, 순이익, ROE, 부채, 영업현금흐름, 설비투자, 주식 수 …" style="min-height:120px"></textarea>
@@ -1677,9 +1689,9 @@ function updateEval(){
   const ev = evaluate(c), st = cfg(), cr = curOf(c.market);
   FIN.forEach(f => {
     const el = document.getElementById('b-'+f.k); if(!el) return; const it = ev.items[f.k];
-    const th = `기준 ${f.op==='>='?'≥':'≤'}${it.th}${f.unit}`;
+    const th = `기준 ${it.th}${f.unit} ${f.op==='>='?'이상':'이하'}`;
     const lab = {pass:['good','통과'], near:['warn','근접'], fail:['bad','미달']}[it.state];
-    el.innerHTML = it.state==='none' ? `<span class="small muted">${th}</span>` : `<span class="pill p-${lab[0]}">${lab[1]} ${Math.round(it.s*100)}</span><div class="small muted">${th}</div>`;
+    el.innerHTML = it.state==='none' ? `<span class="small muted">${th} · 값 없음</span>` : `<span class="pill p-${lab[0]}">${lab[1]}</span><span class="small muted">${th}</span><span class="small muted fin-pt">점수 ${Math.round(it.s*100)}</span>`;
   });
   const v = $('#verdict');
   if(v){
