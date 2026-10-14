@@ -6,7 +6,7 @@
 """
 import sys
 
-APP_NAME = "가치노트"
+APP_NAME = "ValueNote"
 APP_SLOGAN = "Inspired by Graham, Buffett & Munger"
 
 src, dst = sys.argv[1], sys.argv[2]
@@ -71,13 +71,15 @@ STORE = r"""const store = (() => {
 })();
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
-  return `<div class="card stack" style="margin-top:24px;max-width:420px">
-    <h3 style="margin:0">로그인</h3>
-    <p class="small muted" style="margin:0">Supabase에 등록한 이메일과 비밀번호로 로그인합니다. 한 번 로그인하면 이 기기에서는 계속 열립니다.</p>
+  return `<div class="login">
+    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">Inspired by Graham, Buffett &amp; Munger</div>
+      <p>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자 노트</p></div>
+    <div class="card stack login-card">
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="current-password"></label>
     <button class="btn primary" id="lg-go">로그인</button>
     <div class="status-line" id="lg-msg"></div>
+    </div><p class="small muted" style="text-align:center;margin-top:12px">한 번 로그인하면 이 기기에서는 계속 열립니다.</p>
   </div>`;
 }
 function bindLogin(){
@@ -213,7 +215,7 @@ rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
 LOGO = '<svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#16243A"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#C9A45C"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#C9A45C"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#C9A45C"/></svg>'
-rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><div class="brand-t"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
+rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
 rep("function setSave(t){ const el = $('#saveState'); if(el) el.textContent = t; }", "function setSave(t){ const el = $('#saveState'); if(!el) return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }")
 # tab icons (bottom bar on mobile)
 ICONS = {'portfolio':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
@@ -234,7 +236,7 @@ HEAD = """<!doctype html>
 <link rel="apple-touch-icon" href="/icon-192.png">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="가치노트">
+<meta name="apple-mobile-web-app-title" content="ValueNote">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>

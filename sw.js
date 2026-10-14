@@ -4,7 +4,7 @@ self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
 self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : '' }; }
-  e.waitUntil(self.registration.showNotification(d.title || '가치노트', {
+  e.waitUntil(self.registration.showNotification(d.title || 'ValueNote', {
     body: d.body || '', tag: d.tag || 'haeja', icon: '/icon-192.png', badge: '/badge-72.png', data: { url: d.url || '/#alerts' }
   }));
 });

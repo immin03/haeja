@@ -9,14 +9,14 @@
 <link rel="apple-touch-icon" href="/icon-192.png">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="가치노트">
+<meta name="apple-mobile-web-app-title" content="ValueNote">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 </head>
 <body>
-<title>가치노트</title>
+<title>ValueNote</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -463,10 +463,30 @@ body.noscroll{overflow:hidden}
 .co-more>summary::after{content:"";width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px}
 .co-more[open]>summary::after{transform:rotate(-135deg)}
 .linkbtn.muted-link,.intro-nav .linkbtn{color:var(--muted);text-decoration:none;font-weight:600}
+.intro-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.intro-prog{flex:1;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.intro-prog i{display:block;height:100%;background:var(--gold, var(--accent));border-radius:2px;transition:width .25s}
+.intro-card{min-height:440px;display:flex;flex-direction:column}
+.intro-b{flex:1}
+.in-lead{font-size:17px;font-weight:700;margin:0 0 4px!important}
+.in-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.in-list>div{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:baseline;padding:10px 12px;border-radius:12px;background:var(--bg)}
+.in-list b{color:var(--gold, var(--accent));font-size:14px}
+.in-list span{font-size:14px}
+.in-tabs{display:flex;flex-direction:column;gap:8px}
+.in-tabs>div{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--bg)}
+.in-tabs i{width:38px;height:38px;border-radius:10px;background:var(--navy, #0E1A2B);color:#FFFFFF;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.in-tabs span{display:flex;flex-direction:column;font-size:13px;color:var(--muted);line-height:1.45}
+.in-tabs b{font-size:15px;color:var(--ink)}
+.in-score{display:flex;flex-direction:column;gap:6px}
+.in-score>div{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:14px}
+.in-score b{font-size:15px}
+.in-score .g b{color:var(--accent)} .in-score .w b{color:var(--warn)} .in-score .n b{color:var(--muted)}
+.in-push{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;padding:14px 4px 0;margin-top:12px;border-top:1px solid var(--line);font-weight:600;cursor:pointer}
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><div class="brand-t"><h1>가치노트</h1><span class="brand-sub">Inspired by Graham, Buffett & Munger</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">Inspired by Graham, Buffett & Munger</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -772,13 +792,15 @@ const store = (() => {
 })();
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
-  return `<div class="card stack" style="margin-top:24px;max-width:420px">
-    <h3 style="margin:0">로그인</h3>
-    <p class="small muted" style="margin:0">Supabase에 등록한 이메일과 비밀번호로 로그인합니다. 한 번 로그인하면 이 기기에서는 계속 열립니다.</p>
+  return `<div class="login">
+    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">Inspired by Graham, Buffett &amp; Munger</div>
+      <p>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자 노트</p></div>
+    <div class="card stack login-card">
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="current-password"></label>
     <button class="btn primary" id="lg-go">로그인</button>
     <div class="status-line" id="lg-msg"></div>
+    </div><p class="small muted" style="text-align:center;margin-top:12px">한 번 로그인하면 이 기기에서는 계속 열립니다.</p>
   </div>`;
 }
 function bindLogin(){
@@ -900,7 +922,7 @@ async function enablePush(){
   const msg = document.getElementById('al-msg');
   const say = t => { if(msg) msg.textContent = t; };
   try{
-    if(pushState === 'ios-install'){ say('아이폰은 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 가치노트 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
+    if(pushState === 'ios-install'){ say('아이폰은 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 ValueNote 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
     if(pushState === 'unsupported'){ say('이 브라우저는 푸시 알림을 지원하지 않습니다.'); return; }
     say('권한 요청 중');
     const perm = await Notification.requestPermission();
@@ -912,7 +934,7 @@ async function enablePush(){
     const id = await subId(sub.endpoint);
     await store.set('push_subs', id, { sub: sub.toJSON(), device: (isIOS() ? '아이폰' : /Android/.test(navigator.userAgent) ? '안드로이드' : 'PC') , at: new Date().toISOString() });
     pushState = 'on';
-    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: '이 기기로 가치노트 알림이 옵니다.', read: false, source: '설정' });
+    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: '이 기기로 ValueNote 알림이 옵니다.', read: false, source: '설정' });
     say('');
     render();
   }catch(e){ say('연결하지 못했습니다: ' + (e.message || e)); }
@@ -2470,22 +2492,30 @@ function animateHero(){
   el.textContent = fmtKRW(from); requestAnimationFrame(step);
 }
 /* ===== 첫 방문 안내 (3장, 한 번만) ===== */
+const TAB_SVG = {
+  pf:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  br:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  co:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.6" cy="10.6" r="5.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15 15 4.6 4.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>'};
 const INTRO = [
-  {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>안전마진 30%</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>좋은 사업·10년 보유</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·집중</span></div></div><p>세 기준을 모두 넘은 회사만 "매수 후보"가 됩니다. 시세·뉴스·분석은 자동이고, 직접 넣는 것은 보유 종목·예수금·메모뿐입니다.</p>`},
-  {t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 핵심 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
-  {t:'가진 종목부터 넣어 보세요', b:`<p>보유 종목을 넣으면 수익률·비중이 바로 계산되고, 다음 날 아침부터 브리핑과 알림이 옵니다. 목록에 없는 종목도 검색해서 같은 기준으로 바로 점수를 볼 수 있습니다(무료 3회).</p><div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>`},
+  {k:'안녕하세요', t:'안녕하세요, ValueNote입니다', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}반갑습니다.</p><p>ValueNote는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 앱입니다. 주가가 오를지 맞히지 않습니다. 대신 "지금 사도 되는 가격인가", "내 포트폴리오가 원칙에서 벗어나지 않았나"를 알려 드립니다.</p><p class="small muted">1분이면 끝납니다. 언제든 건너뛸 수 있습니다.</p>`},
+  {k:'왜', t:'왜 만들었나요', b:`<p>많은 손실은 정보가 없어서가 아니라 <b>판단이 흔들려서</b> 생깁니다. 테마와 소문에 사고, 급락에 겁먹고 팔고, 한 종목에 몰리는 일이죠.</p><div class="in-list"><div><b>자동</b><span>시세·뉴스·재무 분석·환율은 앱이 매일 채웁니다</span></div><div><b>원칙</b><span>같은 기준으로 모든 회사를 점수로 비교합니다</span></div><div><b>기록</b><span>왜 샀는지, 언제 팔지 미리 적어 두고 지킵니다</span></div></div>`},
+  {k:'원칙', t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
+  {k:'화면', t:'화면은 세 개뿐입니다', b:`<div class="in-tabs"><div><i>${TAB_SVG.pf}</i><span><b>포트폴리오</b>수익률·비중, 그리고 지금 할 일 최대 3개</span></div><div><i>${TAB_SVG.br}</i><span><b>브리핑</b>매일 아침, 내 종목 소식을 한 줄씩</span></div><div><i>${TAB_SVG.co}</i><span><b>기업</b>220여 개 회사 점수, 내 종목 검색·분석</span></div></div><p class="small muted">급등락, 매수 가격 도달 같은 중요한 일은 위의 종 모양 알림으로 옵니다.</p>`},
+  {k:'점수', t:'점수는 이렇게 읽습니다', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div><p><b>매수 가능 가격</b> = 내재가치 × 70%. 이 가격 아래로 내려오면 알려 드립니다.</p>`},
+  {k:'등급', t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 핵심 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 앱이 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
+  {k:'시작', t:'이제 시작해 볼까요', b:`<p>가진 종목부터 넣어 보세요. 수익률과 비중이 바로 계산되고, 내일 아침부터 브리핑이 옵니다. 목록에 없는 종목도 검색해서 같은 기준으로 점수를 볼 수 있습니다(무료 3회).</p><div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div><button type="button" class="in-push" data-act="intro-push"><span>휴대폰 알림 켜기</span><span class="muted">›</span></button>`},
 ];
-const introOn = () => S.loaded.s && S.loaded.h && !prog().introDone && !S.introClosed;
+const introOn = () => S.loaded.s && S.loaded.h && !prog().introV2 && !S.introClosed;
 function introHtml(){
   if(!introOn() && !S.introForce) return '';
-  const i = Math.min(S.introStep || 0, INTRO.length - 1), it = INTRO[i];
-  return `<div class="intro" role="dialog" aria-modal="true" aria-label="가치노트 안내"><div class="intro-card">
-    <div class="intro-dots">${INTRO.map((_,k) => `<i class="${k===i?'on':''}"></i>`).join('')}</div>
+  const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
+  return `<div class="intro" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
+    <div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
     <h2 class="intro-t">${esc(it.t)}</h2><div class="intro-b">${typeof it.b === 'function' ? it.b() : it.b}</div>
-    <div class="intro-nav"><button type="button" class="linkbtn" data-act="intro-close">${i === INTRO.length - 1 ? '닫기' : '건너뛰기'}</button>${i < INTRO.length - 1 ? `<button type="button" class="btn primary" data-act="intro-next">다음</button>` : `<button type="button" class="btn" data-act="intro-close">시작하기</button>`}</div>
+    <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
   </div></div>`;
 }
-function introDone(){ S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today()}); }
+function introDone(){ S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today()}); }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
   {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계. 그레이엄은 이것을 투자와 구분했다.'},
@@ -2597,7 +2627,7 @@ async function checkLevelUp(){
 /* ============ Q&A: 설계와 사용법 ============ */
 const GUIDE = [
   {g:'처음 쓰는 분께', items:[
-    ['가치노트는 어떤 앱인가요?', `<p>벤저민 그레이엄, 워런 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
+    ['ValueNote는 어떤 앱인가요?', `<p>ValueNote(가치노트)는 벤저민 그레이엄, 워런 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
      <p>예측하는 앱이 아니라 판단을 정리하는 앱이다. 주가가 오를지 맞히지 않는다. 대신 가격이 가치보다 충분히 낮은지, 내 포트폴리오가 원칙에서 벗어났는지를 알려 준다.</p>`],
     ['무엇을 직접 넣고, 무엇이 자동인가요?', `<p><b>직접 넣는 것은 세 가지뿐이다.</b> 보유 종목(종목·수량·평균 매수가), 예수금, 그리고 종목별 투자 메모와 매도 조건.</p>
      <p><b>나머지는 자동이다.</b> 시세는 앱을 열 때와 10분마다, 종가는 평일 하루 두 번(아시아장 마감 후, 미국장 마감 후) 갱신된다. 환율·국채 금리, 아침 브리핑과 뉴스, 메가트렌드 지수, 220여 개 종목 스크리너 가격, 핵심·탐험·현금 분류와 "지금 할 일"도 자동으로 계산된다.</p>`],
@@ -2621,13 +2651,13 @@ const GUIDE = [
       <tr><td><b>버핏</b></td><td>오래 돈을 잘 버는 좋은 회사인가</td><td>좋은 회사를 너무 비싸게 산다</td></tr>
       <tr><td><b>멍거</b></td><td>무엇이 이 투자를 망가뜨리나, 나는 실수하지 않나</td><td>기준은 있는데 사고팔 숫자 기준이 약하다</td></tr>
      </tbody></table>
-     <p>가치노트는 세 사람에게 각각 <b>거부권</b>을 준다. 멍거의 탈락 조건을 넘고, 버핏의 품질 기준을 넘고, 그레이엄의 안전마진까지 채운 회사만 "매수 후보"가 된다. 그래서 후보가 적게 나오는 것이 정상이다. 버크셔도 1년에 새로 사는 종목이 몇 개 안 된다.</p>`],
+     <p>ValueNote는 세 사람에게 각각 <b>거부권</b>을 준다. 멍거의 탈락 조건을 넘고, 버핏의 품질 기준을 넘고, 그레이엄의 안전마진까지 채운 회사만 "매수 후보"가 된다. 그래서 후보가 적게 나오는 것이 정상이다. 버크셔도 1년에 새로 사는 종목이 몇 개 안 된다.</p>`],
     ['벤저민 그레이엄은 무엇을 지향했나', `<p><b>철학.</b> 그레이엄(1894~1976)은 버핏의 스승이자 『현명한 투자자』『증권분석』의 저자다. 1929년 대공황에서 재산 대부분을 잃은 뒤 "먼저 잃지 않는 법"을 체계로 만들었다. 핵심은 세 가지다.</p>
      <ul><li><b>안전마진:</b> 가치를 정확히 알 수는 없으니, 가치보다 훨씬 싸게 사서 계산이 틀려도 손해가 작게 한다.</li>
      <li><b>미스터 마켓:</b> 시장은 매일 기분에 따라 값을 부르는 동업자일 뿐이다. 그 값에 끌려가지 말고, 싸게 부를 때만 이용한다.</li>
      <li><b>투자와 투기의 구분:</b> 철저한 분석, 원금의 안전, 적절한 수익. 이 셋이 없으면 투기다.</li></ul>
      <p><b>그레이엄의 방어적 투자자 기준</b>(『현명한 투자자』 14장)은 충분한 규모, 유동비율 2 이상, 10년 연속 흑자, 20년 연속 배당, 10년간 주당이익 3분의 1 이상 성장, 과거 3년 평균 이익 대비 PER 15배 이하, PBR 1.5배 이하(또는 PER×PBR 22.5 이하)였다.</p>
-     <p><b>가치노트에 넣은 것.</b></p>
+     <p><b>ValueNote에 넣은 것.</b></p>
      <ul><li>안전마진 30%: 내재가치보다 30% 이상 쌀 때만 매수 후보.</li>
      <li>그레이엄 넘버 √(22.5 × EPS × BPS)와 PER×PBR 22.5 한도.</li>
      <li>이익수익률(1/PER)과 국채 금리 비교: 국채의 2배 이상이면 저평가 근거.</li>
@@ -2639,7 +2669,7 @@ const GUIDE = [
      <li><b>오너이익:</b> 회계 이익이 아니라 주인이 실제로 가져갈 수 있는 돈. 순이익에 감가상각을 더하고 사업 유지에 필요한 투자만 뺀다(1986년 주주서한).</li>
      <li><b>자기자본이익률(ROE):</b> 빚 없이 자본 대비 높은 이익을 꾸준히 내는가.</li>
      <li><b>능력 범위와 10년 보유:</b> 이해하는 사업만 사고, 10년 들고 있을 생각이 없으면 10분도 들지 않는다.</li></ul>
-     <p><b>가치노트에 넣은 것.</b></p>
+     <p><b>ValueNote에 넣은 것.</b></p>
      <ul><li><b>숫자 품질 13개 지표</b>(0~100점): ROE 5년 평균·최저 연도, ROIC, 매출총이익률, 순이익률, EPS 성장, 적자 연도, FCF ÷ 순이익, 설비투자 ÷ 순이익, 장기차입금 ÷ 순이익, 이자보상배율, 유동비율, 주식 수 변화.</li>
      <li><b>오너이익 DCF:</b> 주당 오너이익을 10년 성장시킨 뒤 영구성장으로 마무리해 내재가치를 낸다. 성장률은 과거 이익·매출 성장률 중 낮은 값의 절반(0~8%)으로 보수적으로 잡는다. 스톡옵션 같은 주식보상비용은 오너이익에서 뺀다.</li>
      <li><b>역DCF:</b> 지금 주가가 가정한 10년 성장률을 거꾸로 풀어, 회사가 실제로 보여 준 성장률보다 낮으면 저평가 근거로 본다. PER이 높아도 싼 회사(코카콜라 1988형)를 놓치지 않기 위해서다.</li>
@@ -2651,7 +2681,7 @@ const GUIDE = [
      <li><b>너무 어려운 것 바구니:</b> 모르는 것은 "예/아니오"가 아니라 "너무 어려움"으로 분류하고 넘긴다.</li>
      <li><b>심리적 오판:</b> 남 따라 하기, 손실 회피, 조급함 같은 인간의 판단 오류를 체크리스트로 막는다.</li>
      <li><b>집중과 기다림:</b> 확신 있는 몇 개에 크게 걸고 오래 기다린다. 큰돈은 사고파는 데서가 아니라 기다리는 데서 번다.</li></ul>
-     <p><b>가치노트에 넣은 것.</b></p>
+     <p><b>ValueNote에 넣은 것.</b></p>
      <ul><li><b>즉시 탈락:</b> 능력 범위 밖(돈 버는 방식을 한 문장으로 설명 못 함), 지배구조 위험(쪼개기 상장, 반복 유상증자·CB, 대주주 사익추구).</li>
      <li><b>위험 신호 감점:</b> 잦은 적자, 차입 부담, 주식 희석, 현금 전환 약함, 이익 정점 가능, 성장 감속. 개당 −8점, 최대 3개.</li>
      <li><b>뒤집어 생각하기 칸:</b> 회사마다 "이 회사를 망가뜨리는 시나리오"를 먼저 적는다.</li>
@@ -3368,6 +3398,8 @@ document.addEventListener('click', async e => {
   if(act === 'ai-auto'){ const c = cur(); if(c) aiAuto(c); }
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
   if(act === 'intro-next'){ S.introStep = (S.introStep||0) + 1; render(); return; }
+  if(act === 'intro-prev'){ S.introStep = Math.max(0, (S.introStep||0) - 1); render(); return; }
+  if(act === 'intro-push'){ introDone(); if(typeof checkPush === 'function'){ S.tab = 'alerts'; await checkPush(); } render(); window.scrollTo(0,0); return; }
   if(act === 'intro-close'){ introDone(); render(); return; }
   if(act === 'intro-open'){ S.introForce = true; S.introStep = 0; render(); return; }
   if(act === 'intro-add'){ introDone(); S.tab = 'portfolio'; S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); window.scrollTo(0,0); document.getElementById('h-name')?.focus(); return; }
@@ -3732,6 +3764,18 @@ input,select,textarea{border-radius:10px}
 .ac-out{width:100%;color:var(--bad);padding:12px}
 #ac-msg-1:empty,#ac-msg-2:empty{display:none}
 .brand h1{font-size:20px}
+
+/* 워드마크: ValueNote */
+.wordmark{font-size:21px;font-weight:800;letter-spacing:-.035em;line-height:1.1;margin:0}
+.wordmark .wm-a{color:#FFFFFF}
+.wordmark .wm-b{color:var(--gold);font-weight:700}
+.login{max-width:420px;margin:28px auto 0}
+.login-brand{text-align:center;margin:8px 0 22px}
+.wordmark.lg{font-size:38px;display:inline-block}
+.wordmark.lg .wm-a{color:var(--ink)}
+.login-sub{color:var(--gold);font-size:13px;font-weight:500;letter-spacing:.02em;margin-top:6px}
+.login-brand p{margin:14px 0 0;color:var(--muted);font-size:14px}
+.login-card{padding:22px}
 
 </style>
 </body>
