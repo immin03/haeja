@@ -104,6 +104,19 @@ Deno.serve(async (_req: Request) => {
     const rows: any[] = [];
     const put = (collection: string, id: string, data: any) => rows.push({ collection, id, data, owner, updated_at: new Date().toISOString() });
     for (const h of holdings) { const p = last(heldSym[h.id]); if (p) put("holdings", h.id, { ...h.data, price: p[1], priceAt: p[0], updatedAt: today }); }
+    // 보유 종목 하루 5% 이상 움직이면 알림 (같은 날 한 번)
+    const alertRows: any[] = [];
+    for (const h of holdings) {
+      const pts = hist[heldSym[h.id]]; if (!pts || pts.length < 2) continue;
+      const [d1, v1] = pts[pts.length - 1], v0 = pts[pts.length - 2][1];
+      const chg = (v1 / v0 - 1) * 100; if (Math.abs(chg) < 5) continue;
+      const name = String(h.data.name || h.data.ticker).replace(/\s*\(.*\)$/, "");
+      const cur = h.data.currency === "USD" ? "$" + v1.toFixed(2) : Math.round(v1).toLocaleString("ko-KR") + "원";
+      alertRows.push({ collection: "alerts", id: `move-${h.id}-${d1}`, owner, updated_at: new Date().toISOString(), data: {
+        at: new Date().toISOString(), level: chg <= -7 ? "urgent" : chg < 0 ? "warn" : "info",
+        title: `${name} ${chg > 0 ? "+" : ""}${chg.toFixed(1)}%`, body: `${d1} 종가 ${cur}. ${chg < 0 ? "급락 이유와 매도 조건을 확인하세요." : "내재가치 대비 가격을 확인하세요."}`,
+        link: { co: h.data.companyId || null, tab: "portfolio" }, read: false, source: "종가 갱신" } });
+    }
     for (const [cid, s] of Object.entries(compSym)) { const p = last(s); if (p) put("companies", cid, { ...companies[cid], price: p[1] }); }
     const pmap: Record<string, any> = Object.fromEntries(prices.map((r) => [r.id, r.data]));
     for (const s of new Set([...Object.values(heldSym), ...Object.values(compSym)])) {
@@ -126,11 +139,13 @@ Deno.serve(async (_req: Request) => {
       put("screen", r.id, d);
     }
 
+    // 알림은 새로 생길 때만 넣는다 (이미 있으면 건드리지 않아 중복 푸시가 없다)
+    if (alertRows.length) { const { error } = await sb.from("docs").upsert(alertRows, { onConflict: "collection,id", ignoreDuplicates: true }); if (error) throw error; }
     for (let i = 0; i < rows.length; i += 50) {
       const { error } = await sb.from("docs").upsert(rows.slice(i, i + 50));
       if (error) throw error;
     }
-    return Response.json({ ok: true, date: today, writes: rows.length, held: Object.keys(heldSym).length, hist: Object.keys(hist).length, screen: nScreen + "/" + tickers.length });
+    return Response.json({ ok: true, date: today, writes: rows.length, held: Object.keys(heldSym).length, hist: Object.keys(hist).length, screen: nScreen + "/" + tickers.length, alerts: alertRows.length });
   } catch (e) {
     return Response.json({ ok: false, error: String((e as Error)?.message || e) }, { status: 500 });
   }

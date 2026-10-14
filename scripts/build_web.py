@@ -155,7 +155,7 @@ async function refreshQuotes(force){
   finally{ quoteBusy = false; }
 }
 """
-s = s[:i] + STORE + s[j:]
+s = s[:i] + STORE + open(__file__.replace('build_web.py','web_alerts.js'), encoding='utf-8').read() + s[j:]
 
 # 2) 시작 루틴: 로그인 분기, 시세 타이머, 로그아웃 버튼
 rep("""  await store.init();
@@ -166,13 +166,37 @@ rep("""  await store.init();
     if(count === 0){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); return; } }
   setSave('동기화됨');
   const brand = document.querySelector('.brand');
-  if(brand){ const b = document.createElement('button'); b.className = 'btn'; b.style.cssText = 'font-size:12px;padding:4px 10px'; b.textContent = '로그아웃'; b.onclick = () => store.logout(); brand.appendChild(b); }
+  if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
+    const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
+    const b = document.createElement('button'); b.className = 'btn'; b.style.cssText = 'font-size:12px;padding:4px 10px'; b.textContent = '로그아웃'; b.onclick = () => store.logout();
+    wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
+  if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
+  window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   render();""")
 rep("""  store.sub('holdings', docs => { S.holdings = docs; S.loaded.h = 1; refresh('h'); });""",
     """  store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);
+  store.sub('alerts', docs => { S.alerts = docs; const first = !S.alertsLoaded; S.alertsLoaded = true; updateBell(); if(S.tab === 'alerts') refresh('a'); if(first) setTimeout(scanAlerts, 2500); });
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') refreshQuotes(false); });""")
 
+rep("  if(S.tab === 'dividend') app.innerHTML = viewDividend();", "  if(S.tab === 'dividend') app.innerHTML = viewDividend();\n  if(S.tab === 'alerts') app.innerHTML = viewAlerts();")
+rep("  if(sub) sub.innerHTML = g.subs.map(", "  if(sub && S.tab === 'alerts'){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }\n  if(sub) sub.innerHTML = g.subs.map(")
+rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left:auto}
+.bell{all:unset;position:relative;cursor:pointer;color:var(--ink);display:flex;padding:6px;border-radius:8px}
+.bell:focus-visible{outline:2px solid var(--accent)}
+.bell-n{position:absolute;top:0;right:-2px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:var(--bad);color:#FFFFFF;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.al-list{padding:4px 12px}
+.al-item{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:10px 1fr;gap:10px;align-items:start;padding:12px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.al-item:last-child{border-bottom:0}
+.al-item:focus-visible{outline:2px solid var(--accent)}
+.al-item.read{opacity:.55}
+.al-dot{width:10px;height:10px;border-radius:50%;margin-top:6px}
+.al-main{display:flex;flex-direction:column;gap:2px;min-width:0}
+.al-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.al-top .small{white-space:nowrap;flex:0 0 auto}
+.al-top b{font-size:15px}
+.al-body{color:var(--ink)}
+.dropbox{""")
 # 3) 로컬 저장 안내 문구 제거 (웹에서는 항상 DB)
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
@@ -183,6 +207,11 @@ HEAD = """<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Cpath d='M8 22V10h3l5 7 5-7h3v12h-3v-7l-5 7-5-7v7z' fill='%23FFFFFF'/%3E%3C/svg%3E">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="theme-color" content="#1E6A4C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="해자 장부">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 </head>
