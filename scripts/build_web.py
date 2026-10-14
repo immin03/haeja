@@ -200,7 +200,7 @@ rep("""  store.sub('holdings', docs => { S.holdings = docs; S.loaded.h = 1; refr
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') refreshQuotes(false); });""")
 
 rep("  if(S.tab === 'dividend') app.innerHTML = viewDividend();", "  if(S.tab === 'dividend') app.innerHTML = viewDividend();\n  if(S.tab === 'alerts') app.innerHTML = viewAlerts();\n  if(S.tab === 'account') app.innerHTML = viewAccount();")
-rep("  if(sub) sub.innerHTML = g.subs.map(", "  if(sub && (S.tab === 'alerts' || S.tab === 'account')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }\n  if(sub) sub.innerHTML = g.subs.map(")
+rep("  if(sub) sub.innerHTML = g.subs.map(", "  if(sub && (S.tab === 'alerts' || S.tab === 'account' || S.tab === 'guide')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }\n  if(sub) sub.innerHTML = g.subs.map(")
 rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left:auto}
 .bell{all:unset;position:relative;cursor:pointer;color:var(--ink);display:flex;padding:6px;border-radius:8px}
 .bell:focus-visible{outline:2px solid var(--accent)}

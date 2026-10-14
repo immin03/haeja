@@ -541,6 +541,20 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 .fresh-list>div{display:flex;flex-direction:column;gap:1px}
 .fresh-list b{font-size:12.5px;color:var(--ink)} .fresh-list span{font-size:12px;color:var(--muted);line-height:1.5}
 .fresh-line{margin:4px 0 10px}
+.gl{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:5px;border-radius:50%;border:1px solid var(--line);color:var(--muted);font-size:10.5px;font-weight:700;line-height:1;cursor:pointer;vertical-align:1px;text-transform:none;letter-spacing:0;font-family:var(--font);flex:0 0 auto}
+.gl:hover,.gl.on{border-color:var(--gold, var(--accent));color:var(--gold, var(--accent))}
+.gl:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.gl::before{content:"";position:absolute;inset:-10px}
+.gl{position:relative}
+.gl-pop{position:absolute;z-index:80;background:var(--navy, #0E1A2B);color:#FFFFFF;border-radius:12px;padding:12px 14px;box-shadow:0 12px 32px rgba(7,12,21,.3);display:flex;flex-direction:column;gap:4px;font-size:13px;line-height:1.6;animation:glIn .15s ease-out;word-break:keep-all}
+.gl-pop b{color:var(--gold, #C9A45C);font-size:13px}
+@keyframes glIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.deep-in{padding:0 10px 14px}
+.deep-in .card{padding:14px 12px;box-shadow:none}
+@media (max-width:440px){.metric{grid-template-columns:minmax(0,1fr) 78px 54px;gap:6px}.metric .lbl b{font-size:13.5px}.metric .lbl span{font-size:11.5px}}
+.deep-in{padding:0 10px 14px}
+.deep-in .card{padding:14px 12px;box-shadow:none}
+@media (max-width:440px){.metric{grid-template-columns:minmax(0,1fr) 78px 54px;gap:6px}.metric .lbl b{font-size:13.5px}.metric .lbl span{font-size:11.5px}}
 </style>
 
 <header class="top">
@@ -1298,25 +1312,25 @@ function portfolioChecks(rows, total, cashW){
   if(total > 0 && cashW < 10) out.push(['warn', `현금 비중 ${fmt(cashW,1)}%. 기회 대기 자금 10~25% 권장`]);
   return out;
 }
-/* ============ 집중 구조: 핵심 3종목 70~80% · 탐험 ≤10% · 현금 10~20% (자동 분류) ============ */
+/* ============ 집중 구조: 주력 3종목 70~80% · 도전 ≤10% · 현금 10~20% (자동 분류) ============ */
 const PLAN = {coreN:3, coreLo:70, coreHi:80, slotLo:20, slotHi:35, slotMax:40, expMax:10, cashLo:10, cashHi:20};
 function earnsMoney(c){ const v = c?.val || {}, f = c?.fin || {}; return isNum(v.eps) && v.eps > 0 && !((f.lossYears||0) >= 2); }
-/* 보유 종목을 핵심/탐험/현금성으로 자동 분류한다. 사용자가 고르지 않는다 */
+/* 보유 종목을 주력/도전/현금성으로 자동 분류한다. 사용자가 고르지 않는다 */
 function autoBucket(r){
   const {h, c, ev} = r;
   if(h.kind === 'lev') return {k:'explore', why:'레버리지 상품: 매일 재조정돼 오래 들고 있으면 가치가 깎인다'};
   if(h.kind === 'etf') return {k:'cash', why:'지수 ETF: 현금 대용으로 본다'};
-  if(!c || !ev) return {k:'explore', why:'심사 기록이 없어 핵심으로 인정하지 않는다'};
+  if(!c || !ev) return {k:'explore', why:'심사 기록이 없어 주력으로 인정하지 않는다'};
   if(ev.gates.length) return {k:'explore', why:'탈락 사유: '+ev.gates[0].t};
   if(c.qual?.revModel === '혁신 의존형') return {k:'explore', why:'혁신 의존형: 아직 꾸준한 이익이 증명되지 않은 미래 기대 사업'};
   if(!earnsMoney(c)) return {k:'explore', why:'이익이 증명되지 않았다(적자 또는 잦은 적자)'};
   if(c.qual?.hold10 === false) return {k:'explore', why:'10년 보유 테스트 미통과'};
-  if(isNum(ev.qScore) && ev.qScore < 60) return {k:'explore', why:`품질 점수 ${ev.qScore}점 (핵심 기준 60점)`};
+  if(isNum(ev.qScore) && ev.qScore < 60) return {k:'explore', why:`품질 점수 ${ev.qScore}점 (주력 기준 60점)`};
   return {k:'core', why:`이익이 증명된 사업 · 품질 ${ev.qScore ?? '–'}점 · ${ev.verdict}`};
 }
 const IND_MAP = [[/보험|insurance/i,'보험'],[/은행|bank/i,'은행'],[/자동차|auto/i,'자동차'],[/반도체|semiconductor/i,'반도체'],[/소프트웨어|software/i,'소프트웨어'],[/통신|telecom/i,'통신'],[/석유|정유|oil|gas|에너지|energy/i,'에너지'],[/물류|해운|logistics|shipping|freight|trucking/i,'물류'],[/의류|신발|apparel|footwear|textile/i,'의류'],[/결제|payment|credit services/i,'결제'],[/우주|항공|aerospace|space/i,'우주항공'],[/가전|appliance/i,'가전']];
 const indOf = c => { const t = [c?.profile?.industry, c?.sector].filter(Boolean).join(' '); if(!t) return ''; const m = IND_MAP.find(([re]) => re.test(t)); return m ? m[1] : t.trim(); };
-/* 빈 핵심 자리를 채울 후보: 관심 후보·내 종목 중 핵심 조건을 통과하고 기존 핵심과 업종이 겹치지 않는 회사 */
+/* 빈 주력 자리를 채울 후보: 관심 후보·내 종목 중 주력 조건을 통과하고 기존 주력과 업종이 겹치지 않는 회사 */
 function coreCandidates(coreRows, n){
   const held = new Set(S.holdings.map(h => companyFor(h)?.id).filter(Boolean));
   const inds = new Set(coreRows.map(r => indOf(r.c)).filter(Boolean));
@@ -1349,17 +1363,17 @@ function concPlan(rows, total, cashW){
   if(lev.length) acts.push({lv:'bad', short:`${lev.map(r => r.h.ticker || r.h.name).join(', ')} 정리 1순위 — 레버리지는 원칙상 0% (지금 ${fmt(lev.reduce((a,r)=>a+r.w,0),0)}%)`, t:`${lev.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(', ')} 정리가 1순위다. 레버리지 상품은 규칙상 비중 0%이고 현재 ${fmt(lev.reduce((a,r)=>a+r.w,0),0)}%(${won(lev.reduce((a,r)=>a+r.w,0))})다.`});
   if(expW > PLAN.expMax + 0.5){
     const order = [...exp].sort((a,b) => (a.h.kind==='lev'?0:!earnsMoney(a.c)?1:2) - (b.h.kind==='lev'?0:!earnsMoney(b.c)?1:2) || b.w - a.w);
-    acts.push({lv:'warn', short:`탐험 ${fmt(expW,0)}% → 10% 이하로. 줄일 순서: ${order.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(' → ')}`, t:`탐험 칸이 ${fmt(expW,0)}%로 상한 ${PLAN.expMax}%보다 ${fmt(expW-PLAN.expMax,0)}%p 많다. 약 ${won(expW-PLAN.expMax)}어치를 줄여 핵심 칸으로 옮기는 것이 목표다. 줄이는 순서: ${order.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(' → ')}. 한 번에 맞출 필요는 없고, 매도 조건에 닿거나 반등할 때마다 나눠 옮긴다.`});
+    acts.push({lv:'warn', short:`도전 ${fmt(expW,0)}% → 10% 이하로. 줄일 순서: ${order.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(' → ')}`, t:`도전 칸이 ${fmt(expW,0)}%로 상한 ${PLAN.expMax}%보다 ${fmt(expW-PLAN.expMax,0)}%p 많다. 약 ${won(expW-PLAN.expMax)}어치를 줄여 주력 칸으로 옮기는 것이 목표다. 줄이는 순서: ${order.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(' → ')}. 한 번에 맞출 필요는 없고, 매도 조건에 닿거나 반등할 때마다 나눠 옮긴다.`});
   }
   if(core.length < PLAN.coreN){
-    acts.push({lv:'warn', short:`핵심 자리 ${PLAN.coreN - core.length}개 비어 있음. 새 돈은 핵심 칸(매수 후보)으로만`, t:`핵심 자리 ${PLAN.coreN}개 중 ${core.length}개가 차 있다. ${cands.length ? '빈 자리 후보: '+cands.map(x => `${x.c.name}(${x.ev.verdict})`).join(', ')+'.' : '조건을 통과한 후보가 아직 없다. 관심 후보가 매주 월요일 다시 선정된다.'} 매수는 판정이 "매수 후보"이거나 매수 가격 이하일 때만 한다.`});
+    acts.push({lv:'warn', short:`주력 자리 ${PLAN.coreN - core.length}개 비어 있음. 새 돈은 주력 칸(매수 후보)으로만`, t:`주력 자리 ${PLAN.coreN}개 중 ${core.length}개가 차 있다. ${cands.length ? '빈 자리 후보: '+cands.map(x => `${x.c.name}(${x.ev.verdict})`).join(', ')+'.' : '조건을 통과한 후보가 아직 없다. 관심 후보가 매주 월요일 다시 선정된다.'} 매수는 판정이 "매수 후보"이거나 매수 가격 이하일 때만 한다.`});
   } else if(core.length > PLAN.coreN){
     const weakest = [...core].sort((a,b) => (a.ev?.total??0) - (b.ev?.total??0))[0];
-    acts.push({lv:'warn', t:`핵심이 ${core.length}개다. 3개로 압축하려면 종합 점수가 가장 낮은 ${weakest.h.name}부터 검토한다.`});
+    acts.push({lv:'warn', t:`주력이 ${core.length}개다. 3개로 압축하려면 종합 점수가 가장 낮은 ${weakest.h.name}부터 검토한다.`});
   }
   core.forEach(r => { if(r.w > PLAN.slotMax) acts.push({lv:'warn', t:`${r.h.name} 한 종목이 ${fmt(r.w,0)}%다. 한 종목 상한은 ${PLAN.slotMax}%.`}); });
-  if(coreW < PLAN.coreLo && core.length) acts.push({lv:'none', short:`핵심 비중 ${fmt(coreW,0)}% → 70~80%`, t:`핵심 비중 ${fmt(coreW,0)}% → 목표 ${PLAN.coreLo}~${PLAN.coreHi}%. 새로 넣는 돈과 탐험 칸 정리금은 핵심 칸으로만 보낸다.`});
-  if(cashAll < PLAN.cashLo) acts.push({lv:'none', short:`현금 ${fmt(cashAll,0)}% → 10~20% (설정에서 예수금 입력)`, t:`현금 ${fmt(cashAll,0)}%. 폭락 때 핵심 종목을 더 살 대기 자금 ${PLAN.cashLo}~${PLAN.cashHi}%를 둔다. 예수금은 설정에서 자동 반영된다.`});
+  if(coreW < PLAN.coreLo && core.length) acts.push({lv:'none', short:`주력 비중 ${fmt(coreW,0)}% → 70~80%`, t:`주력 비중 ${fmt(coreW,0)}% → 목표 ${PLAN.coreLo}~${PLAN.coreHi}%. 새로 넣는 돈과 도전 칸 정리금은 주력 칸으로만 보낸다.`});
+  if(cashAll < PLAN.cashLo) acts.push({lv:'none', short:`현금 ${fmt(cashAll,0)}% → 10~20% (설정에서 예수금 입력)`, t:`현금 ${fmt(cashAll,0)}%. 폭락 때 주력 종목을 더 살 대기 자금 ${PLAN.cashLo}~${PLAN.cashHi}%를 둔다. 예수금은 설정에서 자동 반영된다.`});
   core.forEach(r => { if(r.ev && isNum(r.ev.mos) && r.ev.mos < -10) acts.push({lv:'warn', t:`${r.h.name}: 주가가 내재가치보다 ${fmt(-r.ev.mos,0)}% 높다. 매도 조건(내재가치 초과)을 점검할 시점이다.`}); });
   if(!acts.length) acts.push({lv:'good', t:'구조가 목표 안에 있다. 할 일은 매도 조건 점검과 분기 실적 확인뿐이다.'});
   /* 균형 점검 */
@@ -1368,11 +1382,11 @@ function concPlan(rows, total, cashW){
   const dupInd = indsCore.length !== new Set(indsCore).size;
   const cycN = core.filter(r => r.c?.qual?.revModel === '사이클형').length;
   const mkts = new Set(core.map(r => grpOf(r.h.market)));
-  bal.push({ok: !dupInd, t:'핵심 종목끼리 업종이 겹치지 않는다', why: dupInd ? '같은 업종 두 개는 같은 이유로 함께 떨어진다' : ''});
-  bal.push({ok: cycN <= 1, t:'경기를 타는 사업(사이클형)은 핵심 중 1개 이하', why: cycN > 1 ? `사이클형 ${cycN}개. 불황에 동시에 이익이 줄어든다` : ''});
+  bal.push({ok: !dupInd, t:'주력 종목끼리 업종이 겹치지 않는다', why: dupInd ? '같은 업종 두 개는 같은 이유로 함께 떨어진다' : ''});
+  bal.push({ok: cycN <= 1, t:'경기를 타는 사업(사이클형)은 주력 중 1개 이하', why: cycN > 1 ? `사이클형 ${cycN}개. 불황에 동시에 이익이 줄어든다` : ''});
   bal.push({ok: !core.some(r => r.w > PLAN.slotMax), t:`한 종목 ${PLAN.slotMax}% 이하`});
-  bal.push({ok: !core.some(r => r.c?.profile?.dividend?.safety === '위험'), t:'핵심 종목 중 배당 삭감 위험 없음'});
-  bal.push({ok: core.length < 2 || mkts.size >= 2 || core.every(r => r.c?.qual?.revModel === '통행료형'), t:'한 나라 경기에만 기대지 않는다', why: core.length >= 2 && mkts.size < 2 ? '핵심이 모두 한 시장이다. 통행료형이면 괜찮다' : ''});
+  bal.push({ok: !core.some(r => r.c?.profile?.dividend?.safety === '위험'), t:'주력 종목 중 배당 삭감 위험 없음'});
+  bal.push({ok: core.length < 2 || mkts.size >= 2 || core.every(r => r.c?.qual?.revModel === '통행료형'), t:'한 나라 경기에만 기대지 않는다', why: core.length >= 2 && mkts.size < 2 ? '주력이 모두 한 시장이다. 통행료형이면 괜찮다' : ''});
   return {R, core, exp, coreW, expW, cashAll, top3, cands, acts, bal};
 }
 function concHtml(rows, total, cashW){
@@ -1380,26 +1394,26 @@ function concHtml(rows, total, cashW){
   const P = concPlan(rows, total, cashW);
   const slot = i => {
     const r = P.core[i];
-    if(r) return `<div class="slot full"><div class="eyebrow">핵심 ${i+1}</div><b>${esc(r.h.name.replace(/\s*\(.*\)$/,''))}</b><div class="num slot-w">${fmt(r.w,0)}%</div><div class="bar"><i style="width:${Math.min(100, r.w/PLAN.slotHi*100)}%"></i></div><div class="small muted">목표 ${PLAN.slotLo}~${PLAN.slotHi}%</div></div>`;
+    if(r) return `<div class="slot full"><div class="eyebrow">주력 ${i+1}</div><b>${esc(r.h.name.replace(/\s*\(.*\)$/,''))}</b><div class="num slot-w">${fmt(r.w,0)}%</div><div class="bar"><i style="width:${Math.min(100, r.w/PLAN.slotHi*100)}%"></i></div><div class="small muted">목표 ${PLAN.slotLo}~${PLAN.slotHi}%</div></div>`;
     const cd = P.cands[i - P.core.length];
-    return `<div class="slot empty"><div class="eyebrow">핵심 ${i+1}</div><b class="muted">빈 자리</b>${cd ? `<div class="small" style="margin-top:6px">후보 <button class="linkbtn" data-act="open-co" data-id="${cd.c.id}">${esc(cd.c.name)}</button></div><div class="small muted">${esc(cd.ev.verdict)}${isNum(cd.ev.buyBelow) ? ' · 매수가 '+fmtPx(cd.ev.buyBelow, curOf(cd.c.market))+' 이하' : ''}</div>` : `<div class="small muted" style="margin-top:6px">조건 통과 후보 없음</div>`}</div>`;
+    return `<div class="slot empty"><div class="eyebrow">주력 ${i+1}</div><b class="muted">빈 자리</b>${cd ? `<div class="small" style="margin-top:6px">후보 <button class="linkbtn" data-act="open-co" data-id="${cd.c.id}">${esc(cd.c.name)}</button></div><div class="small muted">${esc(cd.ev.verdict)}${isNum(cd.ev.buyBelow) ? ' · 매수가 '+fmtPx(cd.ev.buyBelow, curOf(cd.c.market))+' 이하' : ''}</div>` : `<div class="small muted" style="margin-top:6px">조건 통과 후보 없음</div>`}</div>`;
   };
   const seg = (w, c) => w > 0 ? `<i style="width:${Math.min(100,w)}%;background:${c}"></i>` : '';
   const nowBar = `${seg(P.coreW,'var(--accent)')}${seg(P.expW,'var(--warn)')}${seg(P.cashAll,'var(--line)')}`;
   const tgtBar = `${seg(75,'var(--accent)')}${seg(10,'var(--warn)')}${seg(15,'var(--line)')}`;
   const ok = P.bal.filter(b => b.ok).length;
   return `<div class="card stack conc">
-    <div class="row" style="justify-content:space-between"><h3 style="margin:0">핵심 3자리</h3><span class="small muted">핵심 합계 <b class="num">${fmt(P.coreW,0)}%</b> · 목표 ${PLAN.coreLo}~${PLAN.coreHi}%</span></div>
+    <div class="row" style="justify-content:space-between"><h3 style="margin:0">주력 3종목</h3><span class="small muted">주력 합계 <b class="num">${fmt(P.coreW,0)}%</b> · 목표 ${PLAN.coreLo}~${PLAN.coreHi}%</span></div>
     <div class="slots">${[0,1,2].map(slot).join('')}</div>
     <div>
       <div class="cmp-row"><span class="small">지금</span><div class="stackbar">${nowBar}</div></div>
       <div class="cmp-row"><span class="small">목표</span><div class="stackbar">${tgtBar}</div></div>
-      <div class="legend"><span style="--c:var(--accent)">핵심 ${fmt(P.coreW,0)}% (목표 ${PLAN.coreLo}~${PLAN.coreHi})</span><span style="--c:var(--warn)">탐험 ${fmt(P.expW,0)}% (≤${PLAN.expMax})</span><span style="--c:var(--line)">현금 ${fmt(P.cashAll,0)}% (${PLAN.cashLo}~${PLAN.cashHi})</span></div>
+      <div class="legend"><span style="--c:var(--accent)">주력 ${fmt(P.coreW,0)}% (목표 ${PLAN.coreLo}~${PLAN.coreHi})</span><span style="--c:var(--warn)">도전 ${fmt(P.expW,0)}% (≤${PLAN.expMax})</span><span style="--c:var(--line)">현금 ${fmt(P.cashAll,0)}% (${PLAN.cashLo}~${PLAN.cashHi})</span></div>
     </div>
   </div>
   <h2>지금 할 일 <span class="small muted">자동 판단</span></h2>
   <div class="card"><ol class="acts">${P.acts.slice(0,5).map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':a.lv==='good'?'유지':'참고'}</span><span>${esc(a.t)}</span></li>`).join('')}</ol>
-    <p class="small muted" style="margin:8px 0 0">분류는 자동이다. 이익이 증명되고 10년 보유 테스트를 통과한 회사만 핵심, 레버리지·적자·혁신 의존·10년 미통과는 탐험 칸으로 간다.</p></div>
+    <p class="small muted" style="margin:8px 0 0">분류는 자동이다. 이익이 증명되고 10년 보유 테스트를 통과한 회사만 주력, 레버리지·적자·혁신 의존·10년 미통과는 도전 칸으로 간다.</p></div>
   <h2>균형 점검 <span class="small muted">${ok}/${P.bal.length} 통과</span></h2>
   <div class="card">${P.bal.map(b => `<div class="check"><span class="pill ${b.ok?'p-good':'p-warn'}">${b.ok?'통과':'확인'}</span><span>${esc(b.t)}${b.why?`<div class="small muted">${esc(b.why)}</div>`:''}</span></div>`).join('')}</div>`;
 }
@@ -1424,7 +1438,7 @@ function viewPortfolio(){
   const row = (r, i) => { const b = bk[r.h.id] || {k:'explore'}; const open = S.openHold === r.h.id;
     return `<button type="button" class="pf-row" data-act="hold-toggle" data-id="${r.h.id}" aria-expanded="${open}">
       <span class="pf-dot" style="background:${SER(i)}"></span>
-      <span class="pf-name"><b>${esc(short(r.h.name))}</b><span class="small muted">${{core:'핵심',explore:'탐험',cash:'현금성'}[b.k]} · 비중 ${fmt(r.w,0)}%</span></span>
+      <span class="pf-name"><b>${esc(short(r.h.name))}</b><span class="small muted">${{core:'주력',explore:'도전',cash:'현금성'}[b.k]} · 비중 ${fmt(r.w,0)}%</span></span>
       <span class="pf-ret"><b class="num ${Math.abs(r.calc.plPct||0)<0.05?'muted':r.calc.pl>0?'up':'down'}">${pct(r.calc.plPct)}</b><span class="small muted num">${fmtKRW(r.calc.value)}</span></span>
     </button>${open ? `<div class="pf-open">${holdCard(r)}</div>` : ''}`; };
   const acts = P.acts.filter(a => a.lv !== 'good').slice(0,3);
@@ -1447,7 +1461,7 @@ function viewPortfolio(){
   <div class="card">${acts.length ? `<ol class="acts">${acts.map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':'참고'}</span><span>${esc(a.short || a.t)}</span></li>`).join('')}</ol>` : `<div class="muted">구조가 목표 안에 있다. 매도 조건과 분기 실적만 확인하면 된다.</div>`}
     <div class="cmp-row" style="margin-top:12px"><span class="small">지금</span><div class="stackbar">${P.coreW>0?`<i style="width:${Math.min(100,P.coreW)}%;background:var(--c-core)"></i>`:''}${P.expW>0?`<i style="width:${Math.min(100,P.expW)}%;background:var(--c-exp)"></i>`:''}${P.cashAll>0?`<i style="width:${Math.min(100,P.cashAll)}%;background:var(--c-cash)"></i>`:''}</div></div>
     <div class="cmp-row"><span class="small">목표</span><div class="stackbar"><i style="width:75%;background:var(--c-core)"></i><i style="width:10%;background:var(--c-exp)"></i><i style="width:15%;background:var(--c-cash)"></i></div></div>
-    <div class="legend"><span style="--c:var(--c-core)">핵심 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">탐험 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
+    <div class="legend"><span style="--c:var(--c-core)">주력 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">도전 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
   </div>` : ''}
   <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">가치 추이 · 균형 점검 · 원칙 점검 · 환율</span></summary>
     <div class="stack" style="margin-top:12px">
@@ -1463,7 +1477,7 @@ function viewPortfolio(){
 }
 function holdCard({h, calc, c, ev, w}){
   const kindPill = h.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : h.kind==='etf' ? '<span class="pill p-none">ETF</span>' : '';
-  const bk = autoBucket({h, c, ev}); const role = `<span class="pill ${bk.k==='core'?'p-good':bk.k==='explore'?'p-warn':'p-none'}" title="${esc(bk.why)}">${{core:'핵심',explore:'탐험',cash:'현금성'}[bk.k]}</span>`;
+  const bk = autoBucket({h, c, ev}); const role = `<span class="pill ${bk.k==='core'?'p-good':bk.k==='explore'?'p-warn':'p-none'}" title="${esc(bk.why)}">${{core:'주력',explore:'도전',cash:'현금성'}[bk.k]}</span>`;
   const sellSig = h.kind==='stock' && ev && isNum(ev.mos) && ev.mos < -10 ? `<span class="pill p-warn">내재가치 ${fmt(-ev.mos,0)}% 초과</span>` : '';
   return `<div class="card hold">
     <div class="hold-head">
@@ -1531,7 +1545,7 @@ function companyForm(c){
   let lastG = '';
   const finRows = FIN.map(f => {
     const head = f.g !== lastG ? `${lastG?'</div>':''}<div class="eyebrow" style="margin-top:14px">${f.g}</div><div>` : ''; lastG = f.g;
-    return head + `<div class="metric"><div class="lbl"><b>${f.label}${filled.has(f.k)?`<span class="ai-dot" title="자동으로 채운 값">● ${c.source?'자동':'AI'}</span>`:''}</b><span>${f.hint}</span></div>${numInp('fin.'+f.k, c.fin?.[f.k])}<div class="res" id="b-${f.k}"></div></div>`;
+    return head + `<div class="metric"><div class="lbl"><b>${f.label}${gl(f.k)}${filled.has(f.k)?`<span class="ai-dot" title="자동으로 채운 값">● ${c.source?'자동':'AI'}</span>`:''}</b><span>${f.hint}</span></div>${numInp('fin.'+f.k, c.fin?.[f.k])}<div class="res" id="b-${f.k}"></div></div>`;
   }).join('') + '</div>';
   const t = c.thesis || {};
   return `
@@ -1664,29 +1678,29 @@ function updateEval(){
   const v = $('#verdict');
   if(v){
     v.className = 'card verdict v-'+ev.cls;
-    const bar = (l, s, note='') => `<div><span class="eyebrow">${l}</span><div class="num" style="font-weight:700">${s===null||s===undefined?'–':s+'점'}</div><div class="bar"><i style="width:${s||0}%"></i></div>${note?`<div class="small muted">${note}</div>`:''}</div>`;
+    const bar = (l, s, note='') => `<div><span class="eyebrow">${l}${gl(l)}</span><div class="num" style="font-weight:700">${s===null||s===undefined?'–':s+'점'}</div><div class="bar"><i style="width:${s||0}%"></i></div>${note?`<div class="small muted">${note}</div>`:''}</div>`;
     const gatesHtml = ev.gates.length ? `<div class="gates">${ev.gates.map(g => `<div><span class="pill p-bad">탈락 사유</span> ${esc(g.t)}</div>`).join('')}</div>` : '';
     const WARN_ONLY = [...WARN_FLAGS];
-    const FLAG_HELP = {'이익 정점 가능':'최근 EPS가 가용 연수 평균의 1.5배 이상. 정점 이익에 낮은 PER이 붙은 함정일 수 있다','성장 감속':'매출 성장률이 3년 연속 둔화하고 최근 0 이하. 해자 침식 신호','지주회사':'지주회사·순환출자 구조. PBR과 EV가 왜곡될 수 있어 순자산가치 할인으로 따로 봐야 한다','경기순환·이익 변동':'업종 또는 ROE 변동성. 정점 매수 여부를 스스로 점검','주식보상 큼':'주식보상비용이 오너이익의 25%를 넘는다. 내재가치는 이미 이 비용을 빼고 계산했다','혁신 의존':'꾸준한 이익보다 미래 기술·제품 성공에 기대는 사업. 핵심 칸이 아니라 탐험 칸으로 분류된다'};
+    const FLAG_HELP = {'이익 정점 가능':'최근 EPS가 가용 연수 평균의 1.5배 이상. 정점 이익에 낮은 PER이 붙은 함정일 수 있다','성장 감속':'매출 성장률이 3년 연속 둔화하고 최근 0 이하. 해자 침식 신호','지주회사':'지주회사·순환출자 구조. PBR과 EV가 왜곡될 수 있어 순자산가치 할인으로 따로 봐야 한다','경기순환·이익 변동':'업종 또는 ROE 변동성. 정점 매수 여부를 스스로 점검','주식보상 큼':'주식보상비용이 오너이익의 25%를 넘는다. 내재가치는 이미 이 비용을 빼고 계산했다','혁신 의존':'꾸준한 이익보다 미래 기술·제품 성공에 기대는 사업. 주력 칸이 아니라 도전 칸으로 분류된다'};
     const flagsHtml = ev.flags.length ? `<div class="gates">${ev.flags.map(g => `<div><span class="pill ${WARN_ONLY.includes(g)?'p-none':'p-warn'}">${WARN_ONLY.includes(g)?'경고':'감점'}</span> ${esc(g)}${WARN_ONLY.includes(g)?'':' (−8점)'}${FLAG_HELP[g]?`<div class="small muted">${FLAG_HELP[g]}</div>`:''}</div>`).join('')}</div>` : '';
     const confHtml = ev.dataConf ? `<div class="gates"><div><span class="pill ${ev.dataConf==='low'?'p-bad':ev.dataConf==='medium'?'p-warn':'p-good'}">데이터 신뢰도 ${ {low:'낮음',medium:'보통',high:'높음'}[ev.dataConf] }</span> ${ev.dataConf==='low'?'신뢰도가 낮은 데이터라 매수 후보로 올리지 않는다. 공시 원문으로 재확인 필요':'매수 전 공시 원문(DART·EDGAR·EDINET) 대조 필수'}</div></div>` : '';
     let next = '';
     if(ev.verdict==='좋은 회사, 가격 대기' && isNum(ev.buyBelow)) next = `매수 가능 가격 <b class="num">${fmtPx(ev.buyBelow,cr)}</b> 이하에서 분할 매수 대기`;
-    else if(ev.verdict==='매수 후보') next = ev.memoOk ? `비중 상한 <b>${ev.maxW}%</b>. 핵심 슬롯 편입 가능` : '투자 이유와 매도 조건 2개를 써야 비중이 열립니다';
+    else if(ev.verdict==='매수 후보') next = ev.memoOk ? `비중 상한 <b>${ev.maxW}%</b>. 주력 슬롯 편입 가능` : '투자 이유와 매도 조건 2개를 써야 비중이 열립니다';
     else if(ev.verdict==='숫자 우수 · 정성 평가 필요') next = '3번 멍거의 질문을 채우면 최종 판정이 나옵니다';
     else if(ev.verdict==='공격 슬롯 후보' || ev.verdict==='근접 · 관찰') next = ev.memoOk ? `위성 슬롯 최대 ${ev.maxW}%` : '투자 이유와 매도 조건 2개를 쓰면 위성 슬롯(≤15%)이 열립니다';
     else if(ev.verdict==='데이터 부족') next = `재무 지표 입력률 ${Math.round(ev.coverage*100)}%. 50% 이상 필요합니다`;
     v.innerHTML = `<div class="row" style="justify-content:space-between"><span class="eyebrow">${esc(c.name||'이름 없음')} ${esc(c.ticker||'')}</span>${pillFor(ev)}</div>
       <div class="row" style="align-items:baseline;gap:12px"><div class="vtitle">${esc(ev.verdict)}</div><div class="num muted">종합 ${ev.total ?? '–'}점</div></div>
       ${next?`<div class="small">${next}</div>`:''}
-      <div class="bars">${bar('숫자 품질', ev.qScore)}${bar('저평가', ev.valScore, isNum(ev.mos)?`안전마진 ${fmt(ev.mos,0)}%`:'')}${bar('정성 평가', ev.qualScore, ev.qualScore===null?'미입력':'')}${bar('트렌드', ev.trend, ev.trend===null?'미연결':'')}<div><span class="eyebrow">버핏 근접도</span><div class="num" style="font-weight:700">${ev.b ?? '–'}점</div><div class="small muted">숫자+가격</div></div></div>
+      <div class="bars">${bar('숫자 품질', ev.qScore)}${bar('저평가', ev.valScore, isNum(ev.mos)?`안전마진 ${fmt(ev.mos,0)}%`:'')}${bar('정성 평가', ev.qualScore, ev.qualScore===null?'미입력':'')}${bar('트렌드', ev.trend, ev.trend===null?'미연결':'')}<div><span class="eyebrow">버핏 근접도${gl('버핏 근접도')}</span><div class="num" style="font-weight:700">${ev.b ?? '–'}점</div><div class="small muted">숫자+가격</div></div></div>
       <div class="small muted" style="margin-top:8px">종합 = 근접도 65% + 정성 20% + 트렌드 15% (입력된 항목만)</div>
       ${ev.trendWarn ? `<div class="gates"><div><span class="pill p-warn">테마 프리미엄</span> ${esc(ev.trendWarn)}</div></div>` : ''}
       ${gatesHtml}${flagsHtml}${confHtml}`;
   }
   const vo = $('#valOut');
   if(vo){
-    const line = (l, val, note='') => `<div class="metric" style="grid-template-columns:1fr auto"><div class="lbl"><b>${l}</b>${note?`<span>${note}</span>`:''}</div><div class="num" style="text-align:right">${val}</div></div>`;
+    const line = (l, val, note='') => `<div class="metric" style="grid-template-columns:1fr auto"><div class="lbl"><b>${l}${gl(l)}</b>${note?`<span>${note}</span>`:''}</div><div class="num" style="text-align:right">${val}</div></div>`;
     vo.innerHTML = `<div>
       ${line('PER', isNum(ev.per)?fmt(ev.per,1)+'배':'–', '그레이엄 기준 15배 이하')}
       ${line('PBR', isNum(ev.pbr)?fmt(ev.pbr,2)+'배':'–', 'PER×PBR 22.5 이하: '+(isNum(ev.per)&&isNum(ev.pbr)?fmt(ev.per*ev.pbr,1):'–'))}
@@ -1866,7 +1880,7 @@ function watchHtml(){
   return `<h2>관심 후보</h2><div class="stack">${list.map(({c,ev}) => `<div class="card hold">
     <div class="hold-head"><div style="min-width:0"><div class="name">${esc(c.name)}</div><div class="small muted">${esc(c.ticker)} · ${(MKT[c.market]||MKT.KR).label}${c.sector?' · '+esc(c.sector):''}</div></div>
       <div style="text-align:right"><span class="pill ${scoreCls(ev.total)}" style="font-size:15px">${ev.total ?? '–'}</span><div class="small muted">종합</div></div></div>
-    <div class="hold-grid"><div><span>근접도</span><b class="num">${ev.b ?? '–'}</b></div><div><span>안전마진</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>
+    <div class="hold-grid"><div><span>근접도</span><b class="num">${ev.b ?? '–'}</b></div><div><span>안전마진${gl('안전마진')}</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격${gl('매수 가능 가격')}</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>
     <div class="row" style="justify-content:space-between">${pillFor(ev)}<button class="btn" data-act="open-co" data-id="${c.id}">심사 보기</button></div></div>`).join('')}</div>`;
 }
 /* ============ 브리핑: 뉴스·산업·트렌드 ============ */
@@ -2219,7 +2233,7 @@ function companyCard(c, h){
     ${!h && (c.watchWhy || scopeOf(c)==='내 종목') ? `<div class="small muted">${scopeOf(c)==='내 종목' ? '<span class="pill p-good">내 종목</span> 직접 추가했거나 메모를 쓴 종목' : esc(c.watchWhy)}</div>` : ''}
     ${p.what ? `<p style="margin:0">${esc(p.what)}</p>` : (c.auto?.businessOneLine ? `<p style="margin:0">${esc(c.auto.businessOneLine)}</p>` : `<p class="small muted" style="margin:0">기업 개요는 다음 자동 실행 때 채워집니다.</p>`)}
     ${ev ? `<div class="hold-grid key4"><div><span>판정</span><b class="kv-verdict">${esc(ev.verdict)}</b></div><div><span>안전마진</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>` : ''}
-    ${ev && isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">가치 범위 <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, curOf(c.market))} ~ ${fmtPx(ev.ivNow, curOf(c.market))}</b> · 과거 평균 이익 기준 ~ 최근 이익 유지 시</div>` : ''}
+    ${ev && isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">가치 범위${gl('가치 범위')} <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, curOf(c.market))} ~ ${fmtPx(ev.ivNow, curOf(c.market))}</b> · 과거 평균 이익 기준 ~ 최근 이익 유지 시</div>` : ''}
     <details class="co-more"><summary><span>회사 개요 · 실적 · 주가 차트</span></summary><div class="stack" style="gap:12px;margin-top:12px">
     ${p.model ? `<div><div class="eyebrow">어떻게 돈을 버나</div><p class="small" style="margin:4px 0 0">${esc(p.model)}</p></div>` : ''}
     ${(p.segments||[]).length ? `<div><div class="eyebrow">${c.kind==='lev' ? '지수 상위 구성' : '매출 구성'} <span class="muted" style="text-transform:none;letter-spacing:0">${esc(p.segAsOf||'')}</span></div>${stackBar(p.segments)}</div>` : ''}
@@ -2597,13 +2611,13 @@ function invAdvice(){
   const v = inv(), out = [];
   if(!v.style && !v.count && !v.horizon) return [];
   if(v.horizon === '몇 주~몇 달') out.push('ValueNote는 1년 이상 보유를 전제로 합니다. 짧은 매매보다 "좋은 회사를 싸게 사서 기다리기"부터 시작해 보세요.');
-  if(['8~15개','16개 이상'].includes(v.count)) out.push('종목이 많은 편입니다. 잘 아는 핵심 3종목에 70~80%를 모으는 것이 첫 목표입니다.');
+  if(['8~15개','16개 이상'].includes(v.count)) out.push('종목이 많은 편입니다. 잘 아는 주력 3종목에 70~80%를 모으는 것이 첫 목표입니다.');
   if(v.count === '아직 없음') out.push('처음이라면 관심 후보 중 "매수 후보" 판정이 나온 회사부터 천천히 살펴보세요.');
   if(v.style === '배당형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 배당 아이콘이 붙은 회사부터 보여 드립니다.');
   if(v.style === '성장형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 상승 여력 아이콘이 붙은 회사부터 보여 드립니다. 그래도 안전마진 30%는 지킵니다.');
-  if(v.style === '공격형') out.push('큰 수익을 노리는 베팅은 탐험 칸(포트폴리오의 10% 이하) 안에서만 하도록 알려 드립니다.');
+  if(v.style === '공격형') out.push('큰 수익을 노리는 베팅은 도전 칸(포트폴리오의 10% 이하) 안에서만 하도록 알려 드립니다.');
   if(v.style === '안정형') out.push('품질 점수가 높고 부채가 적은 회사부터 보여 드리고, 현금 10~20%를 늘 지키도록 알려 드립니다.');
-  if(v.style === '균형형') out.push('핵심 3종목 70~80%, 현금 10~20%의 기본 구조가 잘 맞습니다.');
+  if(v.style === '균형형') out.push('주력 3종목 70~80%, 현금 10~20%의 기본 구조가 잘 맞습니다.');
   if((v.markets||[]).includes('ETF·펀드')) out.push('ETF·펀드는 회사가 아니라 점수 대상이 아닙니다. 개별 회사 위주로 보시면 점수가 더 쓸모 있습니다.');
   if(v.exp === '1년 미만') out.push('처음 3개월은 사기보다 Q&A와 매일 브리핑으로 원칙을 익히는 것을 권합니다.');
   return out.slice(0, 4);
@@ -2628,6 +2642,57 @@ function styleBadges(x){
   return (t.div ? `<span class="stag stag-div${mineDiv?' mine':''}" title="배당 지향 후보">${ICO_DIV}배당${isNum(t.yld) ? ' '+fmt(t.yld,1)+'%' : ''}</span>` : '')
        + (t.up ? `<span class="stag stag-up${mineUp?' mine':''}" title="상승 여력 후보">${ICO_UP}상승 여력</span>` : '');
 }
+/* ===== 용어 풀이: 물음표를 누르면 쉬운 설명 ===== */
+const GLOSS = {
+  roeAvg:['ROE 5년 평균','자기자본이익률. 주주가 맡긴 돈 100원으로 1년에 몇 원을 버는지다. 15%면 100원으로 15원을 번다. 높고 꾸준할수록 좋은 사업이다.'],
+  roeMin:['ROE 최저 연도','최근 몇 년 중 가장 나빴던 해의 ROE. 나쁜 해에도 크게 무너지지 않아야 해자가 있다고 본다.'],
+  roic:['ROIC','투하자본이익률. 빚까지 포함해 사업에 들어간 돈 전체로 얼마를 버는지다. 빚으로 부풀린 ROE와 달리 사업 자체의 실력을 보여 준다.'],
+  gpm:['매출총이익률','매출에서 원가를 뺀 몫의 비율. 높을수록 가격을 올려도 손님이 떠나지 않는 회사, 즉 가격결정력이 있는 회사다.'],
+  npm:['순이익률','매출 100원 중 세금·이자까지 다 내고 남는 돈. 10%면 100원 팔아 10원이 남는다.'],
+  epsCagr:['EPS 5년 연평균 성장','주당순이익(EPS)이 해마다 평균 몇 %씩 늘었는지. 회사가 커지면서 주주 몫도 커지는지를 본다.'],
+  lossYears:['적자 연도','최근 기간 중 순이익이 마이너스였던 해의 수. 0이 가장 좋다. 적자가 잦으면 미래 이익을 예측하기 어렵다.'],
+  fcfConv:['FCF ÷ 순이익','장부상 이익이 실제 현금으로 얼마나 들어오는지. 80% 이상이면 이익이 진짜 돈이라는 뜻이다. FCF(잉여현금흐름)는 영업으로 번 현금에서 설비투자를 뺀 돈이다.'],
+  capexNi:['설비투자 ÷ 순이익','번 돈 중 공장·장비에 다시 넣어야 하는 비율. 낮을수록 주주에게 남는 돈이 많다. 100%가 넘으면 번 돈보다 더 많이 투자하는 중이다.'],
+  ltdNi:['장기차입금 ÷ 순이익','지금 이익으로 장기 빚을 다 갚는 데 몇 년이 걸리는지. 4년 이하면 빚이 부담스럽지 않다.'],
+  icr:['이자보상배율','영업이익이 이자 비용의 몇 배인지. 7배 이상이면 이자 걱정이 없다. 1배 미만이면 벌어서 이자도 못 낸다.'],
+  currentRatio:['유동비율','1년 안에 현금이 되는 자산 ÷ 1년 안에 갚을 빚. 1.5배 이상이면 단기 자금 사정이 넉넉하다. 그레이엄이 중시한 지표다.'],
+  shareChg:['주식 수 변화','5년 동안 주식 수가 몇 % 바뀌었는지. 늘었다면 유상증자 등으로 내 지분이 묽어졌다는 뜻이고, 줄었다면 자사주를 사서 없앴다는 뜻이다.'],
+  PER:['PER','주가 ÷ 주당순이익. 지금 이익으로 투자금을 회수하는 데 몇 년 걸리는지. 낮을수록 싸지만, 이익이 정점일 때 낮게 보이는 함정도 있다.'],
+  PBR:['PBR','주가 ÷ 주당 순자산. 1배면 회사를 청산해 나눌 장부 가치만큼의 가격이다. 그레이엄은 1.5배 이하를 선호했다.'],
+  '이익수익률 vs 국채':['이익수익률','PER을 뒤집은 값(1 ÷ PER). 주식으로 버는 이익 "이자율"이다. 위험 없는 국채 금리의 2배는 되어야 주식을 들 이유가 있다고 본다.'],
+  '그레이엄 넘버':['그레이엄 넘버','√(22.5 × EPS × BPS). PER 15배, PBR 1.5배를 넘지 않는 가격의 상한이다. 그레이엄식으로 "이 이상은 비싸다"는 선.'],
+  '오너이익 DCF':['오너이익 DCF','주인이 실제로 가져갈 수 있는 돈(오너이익)이 앞으로 10년 어떻게 늘지 가정하고, 그 돈을 지금 가치로 할인해 더한 값. 버핏식 내재가치 계산법이다.'],
+  '정상 이익 DCF':['정상 이익 DCF','공장을 크게 늘리는 회사는 현금흐름이 일시적으로 작아 보인다. 그래서 여러 해 평균 이익을 기준으로 내재가치를 계산한 값이다.'],
+  '내재가치':['내재가치','회사가 앞으로 벌 돈을 지금 가치로 환산한 "진짜 값". 주가는 매일 변하지만 내재가치는 천천히 변한다.'],
+  '매수 가능 가격':['매수 가능 가격','내재가치에서 30%를 깎은 가격. 계산이 틀려도 손해가 작도록 남겨 두는 여유(안전마진)를 뺀 값이다.'],
+  '안전마진':['안전마진','주가가 내재가치보다 몇 % 싼지. 30%면 1만 원짜리를 7천 원에 사는 것이다. 마이너스면 가치보다 비싸다는 뜻이다.'],
+  '가치 범위':['가치 범위','과거 평균 이익으로 돌아갈 때와 최근 이익이 계속될 때의 가치. 폭이 넓으면 이익이 사이클의 정점이나 바닥일 수 있다.'],
+  '할인율 민감도':['할인율 민감도','할인율(요구 수익률)을 1%p 바꿨을 때 안전마진이 얼마나 변하는지. 폭이 크면 작은 가정 차이에도 가치가 크게 흔들리는 종목이다.'],
+  '다년 평균 EPS 기준 PER':['다년 평균 PER','여러 해 평균 이익으로 계산한 PER. 최근 PER과 차이가 크면 지금 이익이 유난히 좋거나 나쁜 해라는 신호다.'],
+  '숫자 품질':['숫자 품질','ROE·이익률·현금흐름·부채 등 13개 재무 지표로 매긴 사업의 질(0~100점).'],
+  '저평가':['저평가 점수','안전마진, 시장이 가정한 성장률, 이익수익률, PER×PBR로 매긴 "지금 가격이 싼 정도"(0~100점).'],
+  '정성 평가':['정성 평가','해자, 가격결정력, 경영진, 지배구조, 10년 보유 테스트처럼 숫자로 안 보이는 부분의 점수.'],
+  '트렌드':['트렌드 점수','회사가 커지는 산업에 얼마나 걸려 있는지. 종합 점수에 15%만 반영한다.'],
+  '버핏 근접도':['버핏 근접도','숫자 품질 40% + 저평가 60%에서 위험 신호를 뺀 점수. 버핏의 기준에 숫자로 얼마나 가까운지다.'],
+};
+const glKey = k => GLOSS[k] ? k : null;
+function gl(k){ if(!GLOSS[k]) return ''; return `<button type="button" class="gl" data-gl="${esc(k)}" aria-label="${esc(GLOSS[k][0])} 설명">?</button>`; }
+function glClose(){ document.querySelector('.gl-pop')?.remove(); document.querySelectorAll('.gl.on').forEach(b => b.classList.remove('on')); }
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('.gl');
+  if(!b){ if(!e.target.closest || !e.target.closest('.gl-pop')) glClose(); return; }
+  e.preventDefault(); e.stopPropagation();
+  const was = b.classList.contains('on'); glClose(); if(was) return;
+  const [t, d] = GLOSS[b.dataset.gl] || []; if(!t) return;
+  b.classList.add('on');
+  const pop = document.createElement('div'); pop.className = 'gl-pop'; pop.setAttribute('role','tooltip');
+  pop.innerHTML = `<b>${esc(t)}</b><span>${esc(d)}</span>`; document.body.appendChild(pop);
+  const r = b.getBoundingClientRect(), W = Math.min(300, innerWidth - 24); pop.style.width = W + 'px';
+  let left = Math.min(Math.max(12, r.left + r.width/2 - W/2), innerWidth - W - 12);
+  const ph = pop.offsetHeight; let top = r.bottom + 8 + scrollY; if(r.bottom + 8 + ph > innerHeight - 80) top = r.top - ph - 8 + scrollY;
+  pop.style.left = left + 'px'; pop.style.top = top + 'px';
+}, true);
+window.addEventListener('scroll', () => { if(document.querySelector('.gl-pop')) glClose(); }, {passive:true});
 /* ===== 갱신 시각: 마지막 업데이트와 다음 갱신 (모두 한국 시간) ===== */
 const SCHED = {
   close: [{h:16,m:10,d:[1,2,3,4,5], l:'아시아장 종가'}, {h:6,m:40,d:[2,3,4,5,6], l:'미국장 종가'}],
@@ -2717,7 +2782,7 @@ const INTRO = [
   {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
     <p><b>매수 가능 가격</b> = 내재가치 × 70%. 이 가격 아래로 오면 알려 드립니다.</p>`},
-  {t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 핵심 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 앱이 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
+  {t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 주력 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 앱이 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
   {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(inv().style || '나')}${inv().style ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
     ${homeAddHtml()}
     <div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>
@@ -2775,9 +2840,9 @@ function missions(){
     {id:'g-lev', m:'graham', p:8, t:'레버리지·인버스 0%', why:'시간이 지날수록 가치가 깎이는 상품은 투자가 아니라 투기다.', ok: has && !rows.some(r => r.h.kind === 'lev'), now: rows.filter(r => r.h.kind === 'lev').map(r => r.h.ticker || r.h.name).join(', '), go:'portfolio'},
     {id:'g-mos', m:'graham', p:8, t:'안전마진 30% 가격에 산 종목 1개', why:'내재가치보다 충분히 싸게 사면 틀려도 크게 잃지 않는다.', ok: mosHit.length > 0, now: mosHit.map(r => r.h.name).join(', '), go:'companies', btn:'매수 후보 보기'},
     {id:'b-first', m:'buffett', p:4, t:'보유 종목 등록하기', why:'내가 가진 회사부터 같은 기준으로 본다.', ok: has, go:'portfolio', btn:'종목 추가'},
-    {id:'b-core3', m:'buffett', p:8, t:'핵심 3자리 채우기', why:'잘 아는 좋은 회사 세 곳이면 충분하다.', ok: !!P && P.core.length >= PLAN.coreN, now: P ? `${P.core.length}/3` : '0/3', go:'portfolio'},
-    {id:'b-corew', m:'buffett', p:8, t:'핵심 비중 70~80%', why:'확신 있는 곳에 크게 건다. 버크셔도 상위 5종목이 약 70%다.', ok: !!P && P.coreW >= PLAN.coreLo && P.coreW <= PLAN.coreHi, now: P ? `지금 ${fmt(P.coreW,0)}%` : '', go:'portfolio'},
-    {id:'b-exp', m:'buffett', p:6, t:'탐험 칸 10% 이하', why:'검증 안 된 베팅은 잃어도 괜찮은 만큼만.', ok: !!P && P.expW <= PLAN.expMax + 0.5, now: P ? `지금 ${fmt(P.expW,0)}%` : '', go:'portfolio'},
+    {id:'b-core3', m:'buffett', p:8, t:'주력 3종목 채우기', why:'잘 아는 좋은 회사 세 곳이면 충분하다.', ok: !!P && P.core.length >= PLAN.coreN, now: P ? `${P.core.length}/3` : '0/3', go:'portfolio'},
+    {id:'b-corew', m:'buffett', p:8, t:'주력 비중 70~80%', why:'확신 있는 곳에 크게 건다. 버크셔도 상위 5종목이 약 70%다.', ok: !!P && P.coreW >= PLAN.coreLo && P.coreW <= PLAN.coreHi, now: P ? `지금 ${fmt(P.coreW,0)}%` : '', go:'portfolio'},
+    {id:'b-exp', m:'buffett', p:6, t:'도전 칸 10% 이하', why:'검증 안 된 베팅은 잃어도 괜찮은 만큼만.', ok: !!P && P.expW <= PLAN.expMax + 0.5, now: P ? `지금 ${fmt(P.expW,0)}%` : '', go:'portfolio'},
     {id:'b-hold10', m:'buffett', p:6, t:'모든 보유 종목 10년 보유 테스트 통과', why:'10년 들고 있을 수 없는 주식은 10분도 들고 있지 마라.', ok: cos.length > 0 && cos.every(c => c.qual?.hold10 === true), now: cos.filter(c => c.qual?.hold10 !== true).map(c => c.name).slice(0,3).join(', '), go:'portfolio'},
     {id:'m-guide', m:'munger', p:3, t:'Q&A 읽기', why:'규칙을 알아야 규칙을 지킬 수 있다.', ok: !!pg.guideAt, go:'guide', btn:'Q&A 열기'},
     {id:'m-memo', m:'munger', p:7, t:'보유 종목마다 내 메모 쓰기', why:'왜 샀는지 한 문장으로 못 쓰면 능력 범위 밖이다.', ok: cos.length > 0 && cos.every(c => (c.thesis?.memo||'').trim()), now: cos.length ? `${cos.filter(c => (c.thesis?.memo||'').trim()).length}/${cos.length}` : '', go:'portfolio'},
@@ -2859,15 +2924,15 @@ const GUIDE = [
     ['ValueNote는 어떤 앱인가요?', `<p>ValueNote(가치노트)는 벤저민 그레이엄, 워런 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
      <p>예측하는 앱이 아니라 판단을 정리하는 앱이다. 주가가 오를지 맞히지 않는다. 대신 가격이 가치보다 충분히 낮은지, 내 포트폴리오가 원칙에서 벗어났는지를 알려 준다.</p>`],
     ['무엇을 직접 넣고, 무엇이 자동인가요?', `<p><b>직접 넣는 것은 세 가지뿐이다.</b> 보유 종목(종목·수량·평균 매수가), 예수금, 그리고 종목별 투자 메모와 매도 조건.</p>
-     <p><b>나머지는 자동이다.</b> 시세는 앱을 열 때와 10분마다, 종가는 평일 하루 두 번(아시아장 마감 후, 미국장 마감 후) 갱신된다. 환율·국채 금리, 아침 브리핑과 뉴스, 메가트렌드 지수, 220여 개 종목 스크리너 가격, 핵심·탐험·현금 분류와 "지금 할 일"도 자동으로 계산된다.</p>`],
+     <p><b>나머지는 자동이다.</b> 시세는 앱을 열 때와 10분마다, 종가는 평일 하루 두 번(아시아장 마감 후, 미국장 마감 후) 갱신된다. 환율·국채 금리, 아침 브리핑과 뉴스, 메가트렌드 지수, 220여 개 종목 스크리너 가격, 주력·도전·현금 분류와 "지금 할 일"도 자동으로 계산된다.</p>`],
     ['투자자 등급은 무엇인가요?', `<p>그레이엄의 『현명한 투자자』를 따라, 원칙을 얼마나 지키고 있는지를 0~100점으로 매긴 등급이다. 투기꾼 → 입문 투자자 → 방어적 투자자 → 적극적 투자자 → 현명한 투자자의 5단계다.</p>
-     <p>점수는 18개 미션으로 정해진다. 그레이엄(현금·안전마진·레버리지 0%), 버핏(핵심 3자리·10년 보유), 멍거(내 메모·매도 조건·결정 일지·균형), 습관(알림·브리핑·분기 점검)으로 나뉜다. 포트폴리오와 일지를 보고 자동으로 확인하므로 직접 체크할 필요가 없다. 원칙에서 벗어나면 점수도 내려간다. "포트폴리오 → 내 등급"에서 남은 미션을 볼 수 있다.</p>`],
+     <p>점수는 18개 미션으로 정해진다. 그레이엄(현금·안전마진·레버리지 0%), 버핏(주력 3종목·10년 보유), 멍거(내 메모·매도 조건·결정 일지·균형), 습관(알림·브리핑·분기 점검)으로 나뉜다. 포트폴리오와 일지를 보고 자동으로 확인하므로 직접 체크할 필요가 없다. 원칙에서 벗어나면 점수도 내려간다. "포트폴리오 → 내 등급"에서 남은 미션을 볼 수 있다.</p>`],
     ['어떤 회사들이 들어 있나요?', () => { const m = S2.meta || {}; const c = m.counts || {}; const n = m.total || Object.values(c).reduce((a,b)=>a+b,0) || 221;
       const parts = [['US','미국'],['KR','한국(코스피·코스닥)'],['JP','일본'],['CN','중국 본토'],['HK','홍콩']].filter(([k]) => c[k]).map(([k,l]) => `${l} ${c[k]}`).join(', ');
       return `<p>"기업 → 찾기" 목록에는 5개 시장의 시가총액 상위 대형주 <b>${n}곳</b>이 들어 있다${parts ? ` (${parts})` : ''}. 버핏식 기준을 적용하려면 최근 5개년 연간 재무(매출·이익·현금흐름·부채)가 필요해서, 이 자료를 모을 수 있는 회사만 남겼다.</p>
       <p>재무는 ${esc(m.generatedAt ? m.generatedAt.replace(/\s*\(.*\)/,'') : '2026-10-12')}에 stockanalysis·roic.ai·기업 공시를 웹으로 조사해 모았고, 가격은 평일 매일 갱신된다. 회사마다 데이터 신뢰도(높음·보통·낮음)를 표시하며, 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다.</p>
       <p>이 목록은 "좋은 회사"를 고른 것이 아니라 비교할 수 있는 큰 회사를 모은 것이다. 판정은 목록 안에서 같은 기준으로 매긴다.</p>`; }],
-    ['내가 가진 회사가 목록에 없으면요?', `<p><b>바로 분석:</b> "기업 → 찾기"의 "목록에 없는 종목 바로 분석"에서 회사명(한글·영문)이나 티커로 찾아 [분석]을 누르면, 연간 재무제표를 불러와 목록의 회사와 같은 기준으로 품질·저평가·내재가치를 10초 안에 계산한다. 무료로 서로 다른 종목 3개까지 분석할 수 있고, 같은 종목을 다시 분석하는 것과 이미 목록에 있는 회사를 보는 것은 횟수에서 빠지지 않는다.</p><p><b>정성 평가:</b> 해자·경영진·10년 보유 테스트 같은 정성 평가는 다음 날 아침 자동 분석 때 채워진다. 보유 종목으로 등록한 회사도 같은 방식으로 자동 분석된다(하루 최대 12곳, 보유 종목 우선).</p><p>ETF·레버리지 상품은 회사가 아니라서 점수 대신 탐험 칸으로 분류된다.</p>`],
+    ['내가 가진 회사가 목록에 없으면요?', `<p><b>바로 분석:</b> "기업 → 찾기"의 "목록에 없는 종목 바로 분석"에서 회사명(한글·영문)이나 티커로 찾아 [분석]을 누르면, 연간 재무제표를 불러와 목록의 회사와 같은 기준으로 품질·저평가·내재가치를 10초 안에 계산한다. 무료로 서로 다른 종목 3개까지 분석할 수 있고, 같은 종목을 다시 분석하는 것과 이미 목록에 있는 회사를 보는 것은 횟수에서 빠지지 않는다.</p><p><b>정성 평가:</b> 해자·경영진·10년 보유 테스트 같은 정성 평가는 다음 날 아침 자동 분석 때 채워진다. 보유 종목으로 등록한 회사도 같은 방식으로 자동 분석된다(하루 최대 12곳, 보유 종목 우선).</p><p>ETF·레버리지 상품은 회사가 아니라서 점수 대신 도전 칸으로 분류된다.</p>`],
     ['하루에 어떻게 쓰면 좋나요?', `<p><b>아침 1분:</b> 브리핑 탭의 헤드라인과 보유 종목 한 줄 요약을 본다. 자세한 내용은 눌러서 펼친다.</p>
      <p><b>포트폴리오 확인:</b> 맨 위 카드에서 수익률과 비중을, 아래 "지금 할 일"에서 비중 조정이 필요한지를 본다. 할 일이 없으면 아무것도 안 하는 것이 정답이다.</p>
      <p><b>알림이 오면:</b> 급등락, 매수 가격 도달, 내재가치 초과 알림만 확인하면 된다. 휴대폰 푸시는 종 모양 → "알림 켜기"로 연결한다.</p>
@@ -2914,8 +2979,8 @@ const GUIDE = [
      <ul><li><b>즉시 탈락:</b> 능력 범위 밖(돈 버는 방식을 한 문장으로 설명 못 함), 지배구조 위험(쪼개기 상장, 반복 유상증자·CB, 대주주 사익추구).</li>
      <li><b>위험 신호 감점:</b> 잦은 적자, 차입 부담, 주식 희석, 현금 전환 약함, 이익 정점 가능, 성장 감속. 개당 −8점, 최대 3개.</li>
      <li><b>뒤집어 생각하기 칸:</b> 회사마다 "이 회사를 망가뜨리는 시나리오"를 먼저 적는다.</li>
-     <li><b>혁신 의존형은 탐험 칸으로:</b> 다음 제품이 성공해야 가치가 유지되는 회사는 핵심 자리에 넣지 않는다.</li>
-     <li><b>집중 구조:</b> 핵심 3자리 70~80%, 탐험 칸 10% 이하, 현금 10~20%.</li>
+     <li><b>혁신 의존형은 도전 칸으로:</b> 다음 제품이 성공해야 가치가 유지되는 회사는 주력 자리에 넣지 않는다.</li>
+     <li><b>집중 구조:</b> 주력 3종목 70~80%, 도전 칸 10% 이하, 현금 10~20%.</li>
      <li><b>행동 장치:</b> 매도 조건을 미리 2개 이상 적고, 결정 일지에 그때의 심리(근거 기반·조급함·남들 따라 등)를 남기고, 모델 준수율을 잰다.</li></ul>`],
     ['세 공식을 묶으면 무엇이 좋은가', `<p>투자에서 큰 손실은 대개 네 가지 실수에서 나온다. 셋을 묶으면 각 실수를 다른 사람이 막아 준다.</p>
      <table class="g-tbl"><thead><tr><th>실수 유형</th><th>실제 사례</th><th>누가 막나</th></tr></thead><tbody>
@@ -2936,7 +3001,7 @@ const GUIDE = [
       <li><b>버핏 근접도:</b> 품질 40% + 저평가 60% − 감점.</li>
       <li><b>종합 점수:</b> 근접도 65% + 정성 평가 20% + 트렌드 15%.</li>
       <li><b>판정:</b> 종합 75점 이상 + 품질 70 이상 + 10년 보유 통과 + 안전마진 30% → 매수 후보. 가격만 비싸면 "좋은 회사, 가격 대기".</li>
-      <li><b>포트폴리오 (멍거):</b> 핵심 3자리에 넣을지, 탐험 칸으로 보낼지 자동 분류.</li>
+      <li><b>포트폴리오 (멍거):</b> 주력 3종목에 넣을지, 도전 칸으로 보낼지 자동 분류.</li>
      </ol>`],
     ['내재가치는 어떻게 계산하나 (예시)', `<p>주당 오너이익이 1,000원, 성장률 5%, 할인율 10%, 영구성장 2%인 회사를 예로 든다.</p>
      <ul><li>앞으로 10년간 오너이익이 매년 5%씩 늘어난다고 보고, 각 해의 돈을 10%로 할인해 지금 가치로 더한다. 약 7,800원.</li>
@@ -2950,11 +3015,11 @@ const GUIDE = [
   {g:'점수와 판정', items:[
     ['점수는 몇 점이면 어떤 뜻인가요?', `<p><b>종합 점수(0~100)</b>는 "이 회사가 그레이엄·버핏·멍거의 기준에 얼마나 가까운가"를 뜻한다. 주가가 오를 확률이 아니다.</p>
      <table class="g-tbl"><thead><tr><th>점수</th><th>뜻</th><th>할 일</th></tr></thead><tbody>
-      <tr><td><b>90점 이상</b></td><td>사업의 질과 가격이 함께 기준을 크게 넘는다. 아주 드물다</td><td>안전마진·10년 보유를 확인하고 핵심 자리 후보로 검토</td></tr>
+      <tr><td><b>90점 이상</b></td><td>사업의 질과 가격이 함께 기준을 크게 넘는다. 아주 드물다</td><td>안전마진·10년 보유를 확인하고 주력 자리 후보로 검토</td></tr>
       <tr><td><b>75~89점</b></td><td>기준에 가깝다. 품질 70점 이상·10년 보유 통과·안전마진 30%를 채우면 "매수 후보"</td><td>못 채운 조건이 무엇인지 보고, 가격이 조건이면 매수가 알림을 기다린다</td></tr>
       <tr><td><b>60~74점</b></td><td>장점은 분명하지만 가격이나 품질 중 하나가 모자라다 ("근접 · 관찰")</td><td>관심 목록에 두고 분기 실적과 가격을 지켜본다</td></tr>
       <tr><td><b>40~59점</b></td><td>기준과 거리가 있다. 비싸거나, 이익이 불안정하거나, 위험 신호가 있다</td><td>사지 않는다. 이미 갖고 있다면 매도 조건을 점검한다</td></tr>
-      <tr><td><b>40점 미만</b></td><td>이 원칙과 맞지 않는 회사다. 대부분 가격에 큰 기대가 이미 들어 있다</td><td>원칙상 대상이 아니다. 산다면 탐험 칸(10% 이하)에서만</td></tr>
+      <tr><td><b>40점 미만</b></td><td>이 원칙과 맞지 않는 회사다. 대부분 가격에 큰 기대가 이미 들어 있다</td><td>원칙상 대상이 아니다. 산다면 도전 칸(10% 이하)에서만</td></tr>
      </tbody></table>
      <p><b>얼마나 드문가.</b> 2026-10-12 기준 221곳을 숫자만으로(버핏 근접도) 매기면 90점 이상 3곳, 75~89점 15곳, 60~74점 23곳, 40~59점 63곳, 40점 미만 115곳이다. 큰 회사 대부분이 지금은 비싸다는 뜻이고, 그래서 후보가 적게 나오는 것이 정상이다.</p>
      <p><b>점수가 높아도 매수 후보가 아닌 경우.</b> 탈락 조건(능력 범위 밖, 지배구조 위험)에 걸리거나, 데이터 신뢰도가 낮거나, 10년 보유 테스트를 통과하지 못하면 점수와 관계없이 후보에서 빠진다. 반대로 품질 80점 이상인 회사는 점수가 낮아도 "좋은 회사, 가격 대기"로 남긴다.</p>
@@ -2970,13 +3035,13 @@ const GUIDE = [
      <p><b>종합 점수</b> = 버핏 근접도 65% + 정성 평가 20% + 트렌드 15%. 비어 있는 항목은 빼고 나머지로 다시 나눈다.</p>`],
     ['판정은 몇 가지이고 각각 무슨 뜻인가요?', `<ul><li><b>매수 후보:</b> 종합 75점 이상, 품질 70 이상, 10년 보유 테스트 통과, 안전마진 충족. 매수가가 함께 표시된다.</li>
      <li><b>좋은 회사, 가격 대기:</b> 회사는 기준을 넘지만 지금 가격이 비싸다. 매수가에 닿으면 알림이 온다.</li>
-     <li><b>근접 · 관찰:</b> 60점 이상. 지켜볼 가치는 있지만 핵심 자리에 넣을 단계는 아니다.</li>
+     <li><b>근접 · 관찰:</b> 60점 이상. 지켜볼 가치는 있지만 주력 자리에 넣을 단계는 아니다.</li>
      <li><b>기준과 거리 있음 / 탈락:</b> 원칙상 사지 않는다.</li></ul>
      <p>자동 수집 데이터의 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다. 사기 전에 공시 원문과 대조하는 것은 필수다.</p>`],
     ['기술주는 어떻게 평가하나요?', `<p>기술의 미래를 맞히려 하지 않고, 이미 드러난 수익 구조로 나눈다.</p>
      <ul><li><b>통행료형:</b> 반복 결제, 바꾸기 어려운 서비스. 일반 기업과 같은 기준으로 본다.</li>
      <li><b>사이클형:</b> 반도체·메모리처럼 경기를 탄다. 감점 없이 경고를 달아 정점 매수를 스스로 점검하게 한다.</li>
-     <li><b>혁신 의존형:</b> 다음 제품이 성공해야 가치가 유지된다. 핵심 자리에 넣지 않고 탐험 칸으로 보낸다.</li></ul>
+     <li><b>혁신 의존형:</b> 다음 제품이 성공해야 가치가 유지된다. 주력 자리에 넣지 않고 도전 칸으로 보낸다.</li></ul>
      <p>스톡옵션·RSU 같은 주식보상비용은 현금이 나가지 않아도 주주 몫을 희석하므로 오너이익에서 뺀다.</p>`],
     ['정성 평가는 누가 하나요?', `<p>해자 유형, 가격결정력, 경영진, 10년 보유 테스트, 뒤집어 생각하기는 AI가 공시·뉴스를 근거로 초안을 채우고 근거를 함께 남긴다. 사람은 투자 메모와 매도 조건만 쓰면 된다. 초안이 틀렸다고 생각되면 종목 화면에서 고칠 수 있다.</p>`],
     ['이 기준은 검증됐나요?', `<p>"기업 → 기준·검증" 화면에 버크셔의 실제 매수 62건(성공·실패 포함)과 고전 사례 10건을 이 앱의 점수로 다시 매긴 결과가 있다. 검증 결과에 맞춰 가중치, 경기순환 처리, 10년 보유 테스트 같은 규칙을 고쳤고 그 이유도 그 화면에 적어 두었다.</p>
@@ -2984,10 +3049,10 @@ const GUIDE = [
   ]},
   {g:'포트폴리오', items:[
     ['왜 3종목에 70~80%를 거나요?', `<p>버핏은 "분산은 무지에 대한 보호"라고 했다. 잘 아는 소수의 회사에 집중하는 편이 장기 수익에 유리하다는 생각이다. 버크셔도 상위 5종목이 주식 포트폴리오의 약 70%다.</p>
-     <ul><li><b>핵심 3자리:</b> 합계 70~80%, 한 자리 20~35%, 한 종목 최대 40%. 이익이 증명되고 10년 보유 테스트를 통과한 회사만.</li>
-     <li><b>탐험 칸:</b> 10% 이하. 레버리지 상품, 적자 기업, 혁신 의존형은 자동으로 여기에 들어간다. 0원이 돼도 판단이 흔들리지 않을 금액만.</li>
-     <li><b>현금:</b> 10~20%. 폭락 때 핵심 종목을 더 살 대기 자금이다.</li></ul>`],
-    ['"지금 할 일"은 어떻게 정해지나요?', `<p>지금 비중을 목표 구조와 비교해 차이가 큰 순서로 최대 3개를 보여 준다. 핵심 비중이 모자라면 채울 후보를, 탐험 칸이 넘치면 줄일 종목을, 현금이 부족하면 확보 방법을 제안한다. 같은 업종 두 개나 경기 타는 사업 두 개가 핵심에 함께 있으면 "균형 점검"에서 표시한다.</p>`],
+     <ul><li><b>주력 3종목:</b> 합계 70~80%, 한 자리 20~35%, 한 종목 최대 40%. 이익이 증명되고 10년 보유 테스트를 통과한 회사만.</li>
+     <li><b>도전 칸:</b> 10% 이하. 레버리지 상품, 적자 기업, 혁신 의존형은 자동으로 여기에 들어간다. 0원이 돼도 판단이 흔들리지 않을 금액만.</li>
+     <li><b>현금:</b> 10~20%. 폭락 때 주력 종목을 더 살 대기 자금이다.</li></ul>`],
+    ['"지금 할 일"은 어떻게 정해지나요?', `<p>지금 비중을 목표 구조와 비교해 차이가 큰 순서로 최대 3개를 보여 준다. 주력 비중이 모자라면 채울 후보를, 도전 칸이 넘치면 줄일 종목을, 현금이 부족하면 확보 방법을 제안한다. 같은 업종 두 개나 경기 타는 사업 두 개가 주력에 함께 있으면 "균형 점검"에서 표시한다.</p>`],
     ['언제 팔아야 하나요?', `<p>세 가지 경우만 판다. 투자 논리가 훼손됐을 때, 주가가 내재가치를 크게(10% 이상) 넘었을 때, 더 나은 기회가 생겼을 때다. <b>주가가 떨어졌다는 사실 자체는 매도 이유가 아니다.</b> 그래서 종목마다 매도 조건을 미리 두 개 이상 적어 두게 했다.</p>`],
   ]},
   {g:'브리핑 · 트렌드 · 알림', items:[
@@ -3017,7 +3082,7 @@ function viewGuide(){
 const NAV = [
   {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지'],['fx','환율']]},
   {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['trends','메가트렌드']]},
-  {k:'companies', l:'기업', subs:[['companies','찾기'],['dividend','배당'],['ref','기준·검증'],['guide','Q&A']]},
+  {k:'companies', l:'기업', subs:[['companies','찾기'],['dividend','배당'],['ref','기준·검증']]},
 ];
 const TAB_ALIAS = {analyze:'companies', screener:'companies'};
 const groupOf = tab => NAV.find(g => g.subs.some(([k]) => k === (TAB_ALIAS[tab] || tab))) || NAV[0];
@@ -3025,7 +3090,7 @@ function renderNav(){
   const g = groupOf(S.tab);
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === g.k)));
   const sub = document.getElementById('subnav');
-  if(sub && (S.tab === 'alerts' || S.tab === 'account')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }
+  if(sub && (S.tab === 'alerts' || S.tab === 'account' || S.tab === 'guide')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }
   if(sub) sub.innerHTML = g.subs.map(([k,l]) => `<button type="button" data-sub="${k}" aria-pressed="${(TAB_ALIAS[S.tab]||S.tab)===k}">${l}</button>`).join('');
 }
 
@@ -3483,16 +3548,16 @@ function viewRules(){
     <div class="rule"><span class="t">지주회사·경기순환</span><span class="th">경고만</span><span class="d">감점 없이 표시. 지주회사는 PBR·EV가 왜곡되므로 순자산가치 할인으로 따로 보고, 경기순환은 정점 매수 여부를 스스로 점검</span></div>
     <div class="rule"><span class="t">데이터 신뢰도</span><span class="th">낮음 → 매수 후보 제외</span><span class="d">자동 수집 데이터의 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다. 매수 전 공시 원문 대조는 체크리스트 필수 항목</span></div>
     <div class="rule"><span class="t">주식보상비용</span><span class="th">오너이익에서 차감</span><span class="d">스톡옵션·RSU는 현금 지출이 없어도 주주 몫을 희석한다. 기술주의 현금흐름은 이 비용만큼 부풀려 보이므로 내재가치 계산 전에 뺀다. 오너이익의 25%를 넘으면 경고</span></div>
-    <div class="rule"><span class="t">수익 구조 유형</span><span class="th">통행료형 · 사이클형 · 혁신 의존형</span><span class="d">기술의 미래를 맞히는 대신 이미 드러난 수익 구조로 본다. 통행료형(반복 결제, 바꾸기 어려운 서비스)은 그대로, 사이클형은 경기순환 경고, 혁신 의존형은 탐험 칸으로 보낸다</span></div>
+    <div class="rule"><span class="t">수익 구조 유형</span><span class="th">통행료형 · 사이클형 · 혁신 의존형</span><span class="d">기술의 미래를 맞히는 대신 이미 드러난 수익 구조로 본다. 통행료형(반복 결제, 바꾸기 어려운 서비스)은 그대로, 사이클형은 경기순환 경고, 혁신 의존형은 도전 칸으로 보낸다</span></div>
     <div class="rule"><span class="t">지배구조 위험</span><span class="th">즉시 탈락</span><span class="d">쪼개기 상장, 반복 유상증자·CB, 대주주 사익추구 이력</span></div>
   </div>
 
   <h2>포트폴리오 구조</h2>
   <div class="card rule-group">
-    <div class="rule"><span class="t">핵심 3자리</span><span class="th">합계 70~80%</span><span class="d">이익이 증명되고 10년 보유 테스트를 통과한 회사만. 한 자리 20~35%, 한 종목 최대 40%. 버크셔도 상위 5종목이 주식 포트폴리오의 약 70%다</span></div>
-    <div class="rule"><span class="t">탐험 칸</span><span class="th">≤10%</span><span class="d">레버리지, 적자 기업, 혁신 의존형, 10년 보유 미통과는 자동으로 여기로 간다. 0원이 돼도 판단이 흔들리지 않을 금액만</span></div>
-    <div class="rule"><span class="t">현금</span><span class="th">10~20%</span><span class="d">폭락 때 핵심 종목을 더 살 대기 자금</span></div>
-    <div class="rule"><span class="t">균형</span><span class="th">업종 중복 없음 · 사이클형 ≤1</span><span class="d">집중하되 같은 이유로 함께 무너지지 않게. 같은 업종 두 개, 경기 타는 사업 두 개를 핵심에 함께 두지 않는다</span></div>
+    <div class="rule"><span class="t">주력 3종목</span><span class="th">합계 70~80%</span><span class="d">이익이 증명되고 10년 보유 테스트를 통과한 회사만. 한 자리 20~35%, 한 종목 최대 40%. 버크셔도 상위 5종목이 주식 포트폴리오의 약 70%다</span></div>
+    <div class="rule"><span class="t">도전 칸</span><span class="th">≤10%</span><span class="d">레버리지, 적자 기업, 혁신 의존형, 10년 보유 미통과는 자동으로 여기로 간다. 0원이 돼도 판단이 흔들리지 않을 금액만</span></div>
+    <div class="rule"><span class="t">현금</span><span class="th">10~20%</span><span class="d">폭락 때 주력 종목을 더 살 대기 자금</span></div>
+    <div class="rule"><span class="t">균형</span><span class="th">업종 중복 없음 · 사이클형 ≤1</span><span class="d">집중하되 같은 이유로 함께 무너지지 않게. 같은 업종 두 개, 경기 타는 사업 두 개를 주력에 함께 두지 않는다</span></div>
     <div class="rule"><span class="t">매도</span><span class="th">내재가치 초과 · 논리 훼손</span><span class="d">주가가 올랐다는 이유가 아니라 내재가치를 10% 넘게 웃돌거나 매도 조건에 닿았을 때 점검한다</span></div>
   </div>
 
@@ -3558,8 +3623,8 @@ function viewRules(){
 
   <h2>집중 포트폴리오 구조</h2>
   <div class="card rule-group">
-    <div class="rule"><span class="t">핵심 3자리</span><span class="th">합계 70~80%</span><span class="d">"매수 후보"이거나 품질이 증명된 회사. 한 자리 20~35%, 한 종목 최대 40%. 투자 메모와 매도 조건 2개 이상</span></div>
-    <div class="rule"><span class="t">탐험 칸</span><span class="th">≤ 10%</span><span class="d">레버리지, 적자, 혁신 의존형, 10년 보유 미통과는 자동으로 여기에 들어간다</span></div>
+    <div class="rule"><span class="t">주력 3종목</span><span class="th">합계 70~80%</span><span class="d">"매수 후보"이거나 품질이 증명된 회사. 한 자리 20~35%, 한 종목 최대 40%. 투자 메모와 매도 조건 2개 이상</span></div>
+    <div class="rule"><span class="t">도전 칸</span><span class="th">≤ 10%</span><span class="d">레버리지, 적자, 혁신 의존형, 10년 보유 미통과는 자동으로 여기에 들어간다</span></div>
     <div class="rule"><span class="t">현금</span><span class="th">10~20%</span><span class="d">버핏처럼 기회가 올 때 쓸 탄약. 좋은 회사가 매수 가능 가격에 오면 투입</span></div>
     <div class="rule"><span class="t">매도</span><span class="th">세 가지 경우만</span><span class="d">논리 훼손, 내재가치를 크게 넘는 가격, 더 나은 기회. 주가 하락 자체는 매도 이유가 아니다</span></div>
     <div class="rule"><span class="t">점검</span><span class="th">분기 1회</span><span class="d">실적 발표 후 점검일에 매도 조건을 하나씩 대조하고 일지에 기록</span></div>
