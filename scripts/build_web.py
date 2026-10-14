@@ -1,4 +1,4 @@
-"""해자 장부 아티팩트 HTML → 웹 버전(index.html) 변환.
+"""스노우볼 노트 아티팩트 HTML → 웹 버전(index.html) 변환.
 사용: python3 scripts/build_web.py <artifact.html> index.html
 - 저장소를 Supabase로 교체 (로그인한 본인 데이터만)
 - 로그인 화면, 로그아웃 버튼
@@ -206,12 +206,12 @@ HEAD = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Cpath d='M8 22V10h3l5 7 5-7h3v12h-3v-7l-5 7-5-7v7z' fill='%23FFFFFF'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Ccircle cx='19' cy='15.5' r='7.5' fill='%23FFFFFF'/%3E%3Ccircle cx='9.2' cy='21.5' r='1.9' fill='%23FFFFFF'/%3E%3Ccircle cx='5.6' cy='24.2' r='1.35' fill='%23FFFFFF'/%3E%3Crect x='3' y='27.6' width='26' height='1.4' rx='.7' fill='%23FFFFFF'/%3E%3C/svg%3E">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <meta name="theme-color" content="#1E6A4C">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="해자 장부">
+<meta name="apple-mobile-web-app-title" content="스노우볼 노트">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 </head>

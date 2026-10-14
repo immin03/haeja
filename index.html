@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Cpath d='M8 22V10h3l5 7 5-7h3v12h-3v-7l-5 7-5-7v7z' fill='%23FFFFFF'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Ccircle cx='19' cy='15.5' r='7.5' fill='%23FFFFFF'/%3E%3Ccircle cx='9.2' cy='21.5' r='1.9' fill='%23FFFFFF'/%3E%3Ccircle cx='5.6' cy='24.2' r='1.35' fill='%23FFFFFF'/%3E%3Crect x='3' y='27.6' width='26' height='1.4' rx='.7' fill='%23FFFFFF'/%3E%3C/svg%3E">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <meta name="theme-color" content="#1E6A4C">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="해자 장부">
+<meta name="apple-mobile-web-app-title" content="스노우볼 노트">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 </head>
 <body>
-<title>해자 장부</title>
+<title>스노우볼 노트</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -297,7 +297,7 @@ details.more>summary{font-size:15px}
 </style>
 
 <header class="top">
-  <div class="brand"><h1>해자 장부</h1><small id="saveState">불러오는 중</small></div>
+  <div class="brand"><h1>스노우볼 노트</h1><small id="saveState">불러오는 중</small></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true">포트폴리오</button>
     <button role="tab" data-tab="briefing" aria-selected="false">브리핑</button>
@@ -722,7 +722,7 @@ async function enablePush(){
   const msg = document.getElementById('al-msg');
   const say = t => { if(msg) msg.textContent = t; };
   try{
-    if(pushState === 'ios-install'){ say('아이폰은 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 해자 장부 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
+    if(pushState === 'ios-install'){ say('아이폰은 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 스노우볼 노트 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
     if(pushState === 'unsupported'){ say('이 브라우저는 푸시 알림을 지원하지 않습니다.'); return; }
     say('권한 요청 중');
     const perm = await Notification.requestPermission();
@@ -734,7 +734,7 @@ async function enablePush(){
     const id = await subId(sub.endpoint);
     await store.set('push_subs', id, { sub: sub.toJSON(), device: (isIOS() ? '아이폰' : /Android/.test(navigator.userAgent) ? '안드로이드' : 'PC') , at: new Date().toISOString() });
     pushState = 'on';
-    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: '이 기기로 해자 장부 알림이 옵니다.', read: false, source: '설정' });
+    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: '이 기기로 스노우볼 노트 알림이 옵니다.', read: false, source: '설정' });
     say('');
     render();
   }catch(e){ say('연결하지 못했습니다: ' + (e.message || e)); }
