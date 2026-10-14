@@ -531,6 +531,7 @@ body.noscroll{overflow:hidden}
 body[class*="tour-"] nav.tabs button{transition:background .2s}
 body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav.tabs button[data-tab="briefing"],body.tour-companies nav.tabs button[data-tab="companies"]{background:rgba(201,164,92,.22);border-radius:14px;animation:tourPulse 1.6s ease-in-out infinite}
 @keyframes tourPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,164,92,.0)}50%{box-shadow:0 0 0 6px rgba(201,164,92,.25)}}
+.in-demo{font-size:12px;font-weight:600;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:6px 10px;margin-bottom:12px}
 </style>
 
 <header class="top">
@@ -1233,6 +1234,7 @@ function evaluate(c){
 function render(){
   { const st = tourStep(); if(st){ S.__tourOn = true; if(S.tab !== st.tab){ S.tab = st.tab; window.scrollTo(0,0); } } else if(S.__tourOn){ S.__tourOn = false; S.tab = 'portfolio'; window.scrollTo(0,0); } }
   renderNav();
+  const __restore = applyDemo();
   const app = $('#app');
   if(S.tab === 'portfolio') app.innerHTML = viewPortfolio();
   if(S.tab === 'briefing') app.innerHTML = viewBriefing();
@@ -1249,6 +1251,7 @@ function render(){
   clearTimeout(S.__lvT); S.__lvT = setTimeout(checkLevelUp, 3000);
   if(introOn() || S.introForce){ app.insertAdjacentHTML('beforeend', introHtml()); document.body.classList.toggle('noscroll', !tourStep()); } else { document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(!S.trBig) document.body.classList.remove('noscroll'); }
   if(S.tab === 'portfolio') animateHero();
+  if(__restore) __restore();
   if(S.tab === 'dividend') app.innerHTML = viewDividend();
   if(S.tab === 'alerts') app.innerHTML = viewAlerts();
   if(S.tab === 'account') app.innerHTML = viewAccount();
@@ -2528,6 +2531,35 @@ function dropCheckHtml(c){
   </div>`;
 }
 
+/* ===== 튜토리얼 예시 데이터: 내 데이터가 비어 있을 때만, 튜토리얼 화면 안내 중에만 잠깐 보여 준다 ===== */
+const DEMO_ROWS = [{"code":"600519","conf":"high","ctrl":54.1,"cur":"CNY","dataConf":"high","en":"Kweichow Moutai","fin":{"capexNi":5.34,"currentRatio":5.59,"epsCagr":11.98,"fcfConv":84.3,"gpm":90.42,"icr":99,"lossYears":0,"ltdNi":0,"npm":47.01,"roeAvg":33.83,"roeMin":27.68,"roic":44.7,"shareChg":-0.31},"fin_sector":false,"fy":null,"ind":"Beverages - Baijiu","m":"CN","mcap":1578853,"n":"구이저우마오타이","px":1263,"s":"Consumer Staples","so":true,"t":"600519.SS","tags":["품질 상위 10%","국유기업","지배주주 54%"],"val":{"bps":200.9868,"eps":65.05,"epsAvg":53.775,"growth":6,"mfEY":7.44,"ncavps":171.0026,"oeps":56.0363,"revCagr":12,"revYoY":[18,15.7,-1.2],"sps":138.5797},"yrs":6},{"code":"0700","conf":"medium","ctrl":null,"cur":"HKD","dataConf":"medium","en":"Tencent Holdings","fin":{"capexNi":23.59,"currentRatio":1.29,"epsCagr":1.05,"fcfConv":93.06,"gpm":56.7,"lossYears":0,"ltdNi":1.56,"npm":29.87,"roeAvg":22.1,"roeMin":15.06,"roic":17.83,"shareChg":-4.09},"fin_sector":false,"fy":null,"ind":"Internet Content & Information","m":"HK","mcap":3823000,"n":"텐센트","px":424.8,"s":"Communication Services","so":false,"t":"0700.HK","tags":[],"val":{"bps":143.9394,"eps":29.8452,"epsAvg":23.2265,"growth":0.5,"mfEY":7.8,"ncavps":-34.6534,"oeps":25.8566,"revCagr":7.6,"revYoY":[9.8,8.4,13.9],"sbcps":2.8485,"sps":99.9194},"yrs":5},{"code":"8001","conf":"high","ctrl":null,"cur":"JPY","dataConf":"high","en":"ITOCHU Corporation","fin":{"capexNi":25.37,"currentRatio":1.35,"epsCagr":3.73,"fcfConv":89.94,"gpm":16.78,"lossYears":0,"ltdNi":3.64,"npm":6.01,"roeAvg":16.65,"roeMin":14.59,"roic":5.15,"shareChg":-5.19},"fin_sector":false,"fy":null,"ind":"Trading company (sogo shosha)","m":"JP","mcap":15069915,"n":"이토추상사","px":2155,"s":"Industrials","so":false,"t":"8001.T","tags":[],"val":{"bps":965.7289,"eps":129.81,"epsAvg":116.304,"growth":1.9,"mfEY":3.78,"ncavps":-485.7085,"oeps":113.7349,"revCagr":4.8,"revYoY":[0.6,4.9,0.7],"sps":2159.435},"yrs":5},{"code":"005930","conf":"high","ctrl":20,"cur":"KRW","dataConf":"high","en":"Samsung Electronics","fin":{"capexNi":135.83,"currentRatio":2.54,"epsCagr":3.4,"fcfConv":41.13,"gpm":57.49,"icr":99,"lossYears":0,"ltdNi":0.02,"npm":30.86,"roeAvg":10.87,"roeMin":4.14,"roic":39.36,"shareChg":-1.32},"fin_sector":false,"fy":null,"ind":"Semiconductors & Consumer Electronics","m":"KR","mcap":1666160,"n":"삼성전자","px":262000,"s":"Technology","so":false,"t":"005930.KS","tags":[],"val":{"bps":71849.1788,"eps":22704.36,"epsAvg":5503.696,"growth":1.7,"mfEY":11.12,"ncavps":24187.4825,"oeps":2319.7053,"revCagr":4.5,"revYoY":[-14.3,16.2,10.9],"sps":73576.7823},"yrs":5},{"code":"105560","conf":"medium","ctrl":null,"cur":"KRW","dataConf":"medium","en":"KB Financial Group","fin":{"epsCagr":8.8,"lossYears":0,"npm":35.45,"roeAvg":8.67,"roeMin":8.03,"shareChg":-7.52},"fin_sector":true,"fy":null,"ind":"Banks","m":"KR","mcap":61430,"n":"KB금융","px":173200,"s":"Financials","so":false,"t":"105560.KS","tags":[],"val":{"bps":168206.7348,"eps":16831.33,"epsAvg":12038.732,"growth":2.2,"revCagr":4.5,"revYoY":[7.8,15.2,5.8],"sps":47507.163},"yrs":5},{"code":"035720","conf":"high","ctrl":null,"cur":"KRW","dataConf":"high","en":"Kakao Corp","fin":{"capexNi":92.26,"currentRatio":1.53,"epsCagr":-22.86,"fcfConv":170.13,"gpm":93.48,"lossYears":1,"ltdNi":0.97,"npm":4.09,"roeAvg":4.49,"roeMin":-10.26,"roic":100.67,"shareChg":0.05},"fin_sector":false,"fy":null,"ind":"Internet Content & Information","m":"KR","mcap":14290000,"n":"카카오","px":32300,"s":"Communication Services","so":false,"t":"035720.KS","tags":[],"val":{"bps":26482.2773,"eps":778.63,"epsAvg":1020.63,"growth":0,"mfEY":26.67,"ncavps":6343.3908,"oeps":1919.7778,"revCagr":8.2,"revYoY":[11.2,4.1,3],"sps":19047.2815},"yrs":5},{"code":"000270","conf":"high","ctrl":36.2,"cur":"KRW","dataConf":"high","en":"Kia Corp","fin":{"capexNi":34.17,"currentRatio":1.51,"epsCagr":13.03,"fcfConv":102.56,"gpm":18.69,"lossYears":0,"ltdNi":0.07,"npm":5.92,"roeAvg":16.13,"roeMin":12.92,"roic":14.63,"shareChg":-2.7},"fin_sector":false,"fy":null,"ind":"Auto Manufacturers","m":"KR","mcap":41510000,"n":"기아","px":106800,"s":"Consumer Discretionary","so":false,"t":"000270.KS","tags":["지배주주 36%"],"val":{"bps":166604.6076,"eps":18178.43,"epsAvg":18362.138,"growth":6.5,"mfEY":40.34,"ncavps":17633.9094,"oeps":20029.2279,"revCagr":13.1,"revYoY":[15.3,7.7,6.2],"sps":307293.1465},"yrs":5},{"code":"AAPL","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"Apple Inc.","fin":{"capexNi":11.04,"currentRatio":0.89,"epsCagr":7.39,"fcfConv":102.88,"gpm":46.91,"lossYears":0,"ltdNi":0.7,"npm":26.92,"roeAvg":165.26,"roeMin":150.07,"roic":89.31,"shareChg":-11.03},"fin_sector":false,"fy":null,"ind":"Consumer Electronics","m":"US","mcap":4912000,"n":"애플","px":336.64,"s":"Technology","so":false,"t":"AAPL","tags":[],"val":{"bps":4.9139,"eps":7.46,"epsAvg":5.7783,"growth":1.6,"mfEY":2.61,"ncavps":-9.167,"oeps":6.8235,"revCagr":3.3,"revYoY":[-2.8,2,6.4],"sbcps":0.7861,"sps":27.7348},"yrs":6},{"code":"GOOGL","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"Alphabet Inc. (Class A)","fin":{"capexNi":52.56,"currentRatio":2.01,"epsCagr":17.82,"fcfConv":77.48,"gpm":59.65,"icr":99,"lossYears":0,"ltdNi":0.45,"npm":32.81,"roeAvg":29.96,"roeMin":23.62,"roic":29.32,"shareChg":-9.76},"fin_sector":false,"fy":null,"ind":"Internet Content & Information","m":"US","mcap":4300000,"n":"알파벳","px":351.66,"s":"Communication Services","so":false,"t":"GOOGL","tags":[],"val":{"bps":33.9546,"eps":10.81,"epsAvg":6.2917,"growth":5.9,"mfEY":3.05,"ncavps":2.1277,"oeps":5.8742,"revCagr":11.8,"revYoY":[8.7,13.9,15.1],"sbcps":1.9133,"sps":32.9383},"yrs":6},{"code":"MSFT","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"Microsoft Corporation","fin":{"capexNi":59.08,"currentRatio":1.23,"epsCagr":16.78,"fcfConv":71.95,"gpm":67.94,"icr":50.88,"lossYears":0,"ltdNi":0.36,"npm":40.31,"roeAvg":37.39,"roeMin":33.28,"roic":29.02,"shareChg":-1.15},"fin_sector":false,"fy":null,"ind":"Software - Infrastructure","m":"US","mcap":3973000,"n":"마이크로소프트","px":535.07,"s":"Technology","so":false,"t":"MSFT","tags":[],"val":{"bps":59.3569,"eps":17.95,"epsAvg":10.9329,"growth":6.8,"mfEY":3.91,"ncavps":-14.5282,"oeps":9.5116,"revCagr":13.7,"revYoY":[15.7,14.9,17.8],"sbcps":1.5704,"sps":44.5242},"yrs":7},{"code":"V","conf":"medium","ctrl":null,"cur":"USD","dataConf":"medium","en":"Visa Inc.","fin":{"capexNi":6.6,"currentRatio":1.08,"epsCagr":16.02,"fcfConv":111.37,"gpm":80.36,"icr":45.09,"lossYears":0,"ltdNi":0.99,"npm":49.63,"roeAvg":43.83,"roeMin":31.95,"roic":47.59,"shareChg":-8.77},"fin_sector":false,"fy":null,"ind":"Credit Services (payment network)","m":"US","mcap":707530,"n":"비자","px":385.45,"s":"Financials","so":false,"t":"V","tags":["품질 상위 10%"],"val":{"bps":19.4805,"eps":10.2,"epsAvg":8.168,"growth":6.8,"mfEY":3.51,"ncavps":-12.3083,"oeps":10.2717,"revCagr":13.5,"revYoY":[11.4,10,11.3],"sbcps":0.4303,"sps":20.555},"yrs":6},{"code":"KO","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"The Coca-Cola Company","fin":{"capexNi":16.51,"currentRatio":1.46,"epsCagr":7.81,"fcfConv":75.47,"gpm":61.63,"icr":9.02,"lossYears":0,"ltdNi":3.21,"npm":27.34,"roeAvg":42.73,"roeMin":40.51,"roic":19.04,"shareChg":-0.62},"fin_sector":false,"fy":null,"ind":"Beverages - Non-Alcoholic","m":"US","mcap":378840,"n":"코카콜라","px":88.05,"s":"Consumer Staples","so":false,"t":"KO","tags":[],"val":{"bps":7.4586,"eps":3.04,"epsAvg":2.3667,"growth":2.8,"mfEY":3.64,"ncavps":-9.1577,"oeps":1.529,"revCagr":5.5,"revYoY":[6.4,2.9,1.9],"sbcps":0.0633,"sps":11.1155},"yrs":6}];
+function demoData(){
+  const row = c => DEMO_ROWS.find(r => r.code === c);
+  const mk = (code, qty, avg) => { const r = row(code); if(!r) return null; const m = r.m === 'US' ? 'US' : 'KR';
+    return { h: { id:'demo-h-'+code, name:r.n, ticker:code, market:m, kind:'stock', qty, avg, price:r.px, prevClose: Math.round(r.px*0.99*100)/100, currency: m === 'US' ? 'USD' : 'KRW', companyId:'demo-'+code },
+      c: { id:'demo-'+code, name:r.n, ticker:code, yf:r.t, market:m, kind:'stock', price:r.px, sector:r.ind, fin:r.fin, val:r.val, finSector:!!r.fin_sector, dataConf:r.dataConf, qual:{hold10:true, circle:true, moatStr:2, pricing:2, mgmt:2, governance:2}, thesis:{memo:'', sell1:'예시', sell2:'예시'} } }; };
+  const items = [mk('000270', 30, 98000), mk('KO', 40, 62), mk('105560', 25, 72000), mk('AAPL', 6, 190)].filter(Boolean);
+  const prices = {};
+  items.forEach(({h}, k) => { const pts = []; const end = new Date(); let v = h.price * (0.9 + k*0.02);
+    for(let i = 59; i >= 0; i--){ const d = new Date(end - i*864e5); if(d.getDay() % 6 === 0) continue; v = v * (1 + Math.sin((i + k*7) / 6) * 0.004 + 0.0012); pts.push([d.toISOString().slice(0,10), Math.round(v*100)/100]); }
+    const f = h.price / pts.at(-1)[1]; prices[normKey(h.ticker)] = { daily: pts.map(([d,x]) => [d, Math.round(x*f*100)/100]) }; });
+  const brief = { id: today(), headline: '[예시] 미국 금리 동결 기대에 코스피 1.2% 올라, 보유 4종목 중 3종목 상승',
+    holdings: [ {ticker:'000270', name:'기아', oneLine:'[예시] 3분기 미국 판매 8% 증가, 목표가 상향', impact:'호재'}, {ticker:'KO', name:'코카콜라', oneLine:'[예시] 배당 64년 연속 인상 발표', impact:'호재'}, {ticker:'105560', name:'KB금융', oneLine:'[예시] 자사주 소각 계획 공시', impact:'호재'}, {ticker:'AAPL', name:'애플', oneLine:'[예시] 신제품 수요 둔화 우려로 1.4% 하락', impact:'악재'} ],
+    summary: '예시 브리핑입니다. 실제로는 매일 아침 내 보유 종목의 뉴스와 버핏식 판단에 미치는 영향을 이렇게 정리해 드립니다.' };
+  return { holdings: items.map(x => x.h), companies: items.map(x => x.c), prices, briefings: [brief], screen: DEMO_ROWS };
+}
+/* 튜토리얼 화면 안내 중이면 빈 데이터 자리를 예시로 잠깐 바꿔 그리고, 그린 뒤 원래대로 돌린다 */
+function applyDemo(){
+  if(!(typeof tourStep === 'function' && tourStep())) return null;
+  const needH = !S.holdings.length, needB = !S.briefings.length, needS = !(S2.screen||[]).length;
+  if(!needH && !needB && !needS) return null;
+  const D = demoData(), saved = { holdings:S.holdings, companies:S.companies, prices:S.prices, briefings:S.briefings, screen:S2.screen, scope:S.scope };
+  if(needH){ S.holdings = D.holdings; S.companies = [...S.companies, ...D.companies]; S.prices = {...S.prices, ...D.prices}; }
+  if(needB) S.briefings = D.briefings;
+  if(needS){ S2.screen = D.screen; S.scope = 'all'; }
+  scoredCache = null; S.__demoOn = true;
+  return () => { S.holdings = saved.holdings; S.companies = saved.companies; S.prices = saved.prices; S.briefings = saved.briefings; S2.screen = saved.screen; S.scope = saved.scope; scoredCache = null; S.__demoOn = false; };
+}
 /* ===== 투자자 자기 점검 (맞춤 제안용) ===== */
 const INV_Q = [
   {k:'size', q:'투자 규모는?', o:['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억 원 이상']},
@@ -2646,18 +2678,19 @@ const INTRO = [
     <button type="button" class="in-push" data-act="intro-push"><span>휴대폰 알림 켜기</span><span class="muted">›</span></button>`; }},
 ];
 const tourStep = () => { if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null; const it = INTRO[Math.min(S.introStep || 0, INTRO.length - 1)]; return it && it.tab ? it : null; };
-const introOn = () => S.loaded.s && S.loaded.h && !prog().introV3 && !S.introClosed;
+const introSeenLocal = () => { try{ return localStorage.getItem('vn-intro-v3') === '1'; }catch(_){ return false; } };
+const introOn = () => S.loaded.s && S.loaded.h && !prog().introV3 && !introSeenLocal() && !S.introClosed;
 function introHtml(){
   if(!introOn() && !S.introForce) return '';
   const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
   document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(it.tab) document.body.classList.add('tour-' + it.tab);
   return `<div class="intro${it.tab ? ' tour' : ''}" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
-    <div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
+    ${it.tab && S.__demoOn ? `<div class="in-demo">예시 데이터로 보여 드립니다. 내 종목을 넣으면 내 화면으로 바뀝니다.</div>` : ''}<div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
     <h2 class="intro-t">${esc(it.t)}</h2><div class="intro-b">${typeof it.b === 'function' ? it.b() : it.b}</div>
     <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
   </div></div>`;
 }
-function introDone(){ if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); }
+function introDone(){ if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); try{ localStorage.setItem('vn-intro-v3','1'); }catch(_){} }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
   {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계. 그레이엄은 이것을 투자와 구분했다.'},
@@ -3668,7 +3701,8 @@ function refresh(kind){
   await store.init();
   if(store.mode !== 'db'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); hideSplash(); return; }
   { const { count } = await store.client.from('docs').select('id', { count: 'exact', head: true });
-    if(count === 0){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
+    /* 새 사용자는 빈 상태로 바로 시작한다 (튜토리얼은 예시 데이터로 보여 준다). 옛 JSON 가져오기는 ?import 로만 연다 */
+    if(count === 0 && location.search.includes('import')){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
   setSave('동기화됨');
   const brand = document.querySelector('.brand');
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';

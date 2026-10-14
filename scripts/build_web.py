@@ -172,7 +172,8 @@ rep("""  await store.init();
   render();""", """  await store.init();
   if(store.mode !== 'db'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); hideSplash(); return; }
   { const { count } = await store.client.from('docs').select('id', { count: 'exact', head: true });
-    if(count === 0){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
+    /* 새 사용자는 빈 상태로 바로 시작한다 (튜토리얼은 예시 데이터로 보여 준다). 옛 JSON 가져오기는 ?import 로만 연다 */
+    if(count === 0 && location.search.includes('import')){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
   setSave('동기화됨');
   const brand = document.querySelector('.brand');
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
