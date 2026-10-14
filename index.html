@@ -1611,7 +1611,7 @@ function holdForm(h){
 
 /* ============ 종목 심사 ============ */
 function cur(){ return S.companies.find(c => c.id === S.curId) || null; }
-const SCOPE_RULE = '심사 대상: 보유 종목 + 관심 후보(스크리너 근접도 70점 이상, 탈락·감점 신호·구조적 훼손 없음, 시장당 최대 4곳, 상위 12곳, 매주 월요일 재선정) + 직접 추가했거나 메모를 쓴 내 종목.';
+const SCOPE_RULE = '심사 대상: 보유 종목 + 관심 후보(스크리너 근접도 70점 이상, 탈락·감점 신호·구조적 훼손 없음, 시장당 최대 6곳, 상위 20곳, 매주 월요일 재선정) + 직접 추가했거나 메모를 쓴 내 종목.';
 function scopeOf(c){
   if(S.holdings.some(h => companyFor(h)?.id === c.id)) return '보유';
   if(c.pinned || (c.thesis?.memo||'').trim()) return '내 종목';
@@ -2327,7 +2327,7 @@ function companyCard(c, h){
 /* ============ 기업: 찾기(목록) + 상세(개요·심사) 한 곳으로 ============ */
 const STAGES = [
   {k:'all',   l:'전체', rule:'스크리너가 모은 5개 시장(한·미·일·중·홍콩) 대형 우량주. 매주 갱신'},
-  {k:'watch', l:'관심 후보', rule:'점수 70+ · 탈락/위험 없음 · 시장당 4곳 · 상위 12 (+ 직접 고른 내 종목). 매주 월요일 재선정'},
+  {k:'watch', l:'관심 후보', rule:'점수 70+ · 탈락/위험 없음 · 시장당 6곳 · 상위 20 (+ 직접 고른 내 종목). 매주 월요일 재선정'},
   {k:'held',  l:'보유', rule:'내가 실제로 산 종목'},
 ];
 function rowFor(c){ const r = scoredRows().find(r => normKey(r.code||r.t)===normKey(c.ticker) || r.t===c.yf) || null; return {key:c.ticker, name:c.name, code:c.ticker, m:grpOf(c.market||'KR'), c, r, b:r?.b ?? null, p:profileFor(c.yf||c.ticker, c.ticker, c)}; }
@@ -2368,7 +2368,7 @@ function filterBarHtml(){
       <select id="co-sort" aria-label="정렬">${[...(inv().style ? [['fit','내 성향 맞춤']] : []),['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
     ${(() => { const base = filteredStage(st, true); const cnt = m => m ? base.filter(x => isNum(x.b) && x.b >= m).length : base.length; const cur = S.coMin || 0;
       return `<div class="minbar" role="group" aria-label="점수로 거르기"><span class="small muted">점수</span>${[[0,'전체'],[60,'60+'],[70,'70+'],[75,'75+'],[90,'90+']].map(([m,l]) => `<button class="chip sm" data-act="co-min" data-v="${m}" aria-current="${cur===m}">${l} <span class="num muted">${cnt(m)}</span></button>`).join('')}</div>`; })()}
-    ${st === 'watch' ? `<p class="small muted" style="margin:0">관심 후보는 매주 월요일 아침 자동으로 다시 고릅니다: 점수 70점 이상, 탈락·위험 신호 없음, 시장마다 최대 4곳씩 상위 12곳. 여기에 ☆를 누르거나 메모를 쓴 회사가 더해집니다.</p>` : ''}
+    ${st === 'watch' ? `<p class="small muted" style="margin:0">관심 후보는 매주 월요일 아침 자동으로 다시 고릅니다: 점수 70점 이상, 탈락·위험 신호 없음, 시장마다 최대 6곳씩 상위 20곳. 여기에 ☆를 누르거나 메모를 쓴 회사가 더해집니다.</p>` : ''}
     ${st === 'all' ? `<details class="small"><summary>더 거르기</summary><div class="stack" style="gap:6px;margin-top:6px">
       <label class="f">전략 신호<select id="co-tag"><option value="">전체</option>${TAGS.map(t => `<option ${S.coTag===t?'selected':''}>${t}</option>`).join('')}</select></label>
       <label class="chk"><input type="checkbox" id="co-hide" ${S.coHide?'checked':''}>위험 신호(잦은 적자·차입 부담·희석·현금 전환 약함) 있는 기업 숨기기</label></div></details>` : ''}

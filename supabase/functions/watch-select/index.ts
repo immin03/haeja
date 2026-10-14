@@ -1,6 +1,6 @@
 // 관심 후보 자동 선정 (매주 월요일 07:00 KST, pg_cron) — 화면과 똑같은 점수 코드(scoring.js)로 계산한다.
 // 규칙: 버핏 근접도 70점 이상, 감점 신호 없음, 데이터 신뢰도 낮음 아님, 보유 종목 아님, 탈락·구조적 훼손 우려 아님,
-//       점수순으로 시장마다 최대 4곳, 전체 12곳. 직접 고른(☆·메모) 회사의 관심 표시는 건드리지 않는다.
+//       점수순으로 시장마다 최대 6곳, 전체 20곳. 직접 고른(☆·메모) 회사의 관심 표시는 건드리지 않는다.
 // {dry:true} 이면 저장하지 않고 결과만 돌려준다.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -9,8 +9,8 @@ import { scoreRow, grpOf, WARN_FLAGS, setSettings } from "./scoring.js";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
-const MIN_B = 70, PER_MKT = 4, TOTAL = 12;
-const RULE = `기준: ${MIN_B}점 이상, 탈락·감점 없음, 데이터 신뢰도 양호, 시장당 최대 ${PER_MKT}곳, 상위 ${TOTAL}곳`;
+const MIN_B = 70; let PER_MKT = 6, TOTAL = 20;
+const rule = () => `기준: ${MIN_B}점 이상, 탈락·감점 없음, 데이터 신뢰도 양호, 시장당 최대 ${PER_MKT}곳, 상위 ${TOTAL}곳`;
 const nk = (s: unknown) => String(s || "").toUpperCase().replace(/\.(KS|KQ|T|HK|SS|SZ)$/, "").replace(/^0+(?=\d{4}$)/, "");
 
 async function load(col: string) {
@@ -20,6 +20,7 @@ async function load(col: string) {
 
 Deno.serve(async (req: Request) => {
   const body = await req.json().catch(() => ({}));
+  PER_MKT = 6; TOTAL = 20; if (body.dry && body.total) TOTAL = +body.total; if (body.dry && body.perMkt) PER_MKT = +body.perMkt;
   try {
     const D = kst();
     const [screen, settings, comps, holds] = await Promise.all(["screen", "settings", "companies", "holdings"].map(load));
@@ -54,7 +55,7 @@ Deno.serve(async (req: Request) => {
     const pickIds = new Set<string>();
     pick.forEach((x, i) => {
       const r = x.r, rank = i + 1;
-      const w = { watch: true, watchAt: D, watchRank: rank, watchWhy: `스크리너 근접도 ${x.sc.b}점 · 전체 ${rank}위 (${RULE})` };
+      const w = { watch: true, watchAt: D, watchRank: rank, watchWhy: `스크리너 근접도 ${x.sc.b}점 · 전체 ${rank}위 (${rule()})` };
       if (x.c) {
         pickIds.add(x.c.id); (x.c.data.watch === true ? kept : added).push(r.n);
         writes.push({ collection: "companies", id: x.c.id, owner, updated_at: now, data: { ...x.c.data, ...w, watchOut: null } });
@@ -70,7 +71,7 @@ Deno.serve(async (req: Request) => {
       if (c.data.watch !== true || pickIds.has(c.id)) continue;
       if (c.data.pinned || String(c.data.thesis?.memo || "").trim()) continue; // 직접 고른 회사는 그대로
       removed.push(c.data.name);
-      writes.push({ collection: "companies", id: c.id, owner, updated_at: now, data: { ...c.data, watch: false, watchOut: { at: D, why: `이번 재선정에서 빠짐 (${RULE})` } } });
+      writes.push({ collection: "companies", id: c.id, owner, updated_at: now, data: { ...c.data, watch: false, watchOut: { at: D, why: `이번 재선정에서 빠짐 (${rule()})` } } });
     }
     const summary = { date: D, picked: pick.map((x, i) => ({ rank: i + 1, n: x.r.n, t: x.r.t, m: grpOf(x.r.m), b: x.sc.b })), added, kept, removed,
       candidates: cands.length, rejectedTop: rejected.slice(0, 15) };

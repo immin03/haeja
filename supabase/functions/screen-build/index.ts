@@ -141,15 +141,21 @@ async function universe(): Promise<U[]> {
   const cn = top([...shh, ...shz].filter((s) => /^\d{6}\.(SS|SZ)$/.test(s.reutersCode)).map((s) => w(s, "CN", s.reutersCode, s.reutersCode.slice(0, 6))), TARGET.CN);
   // 미국: 우선주·워런트 제외, 같은 회사의 여러 주식(GOOG/GOOGL)은 하나만
   const usAll = [...nyse, ...nasdaq].filter((s) => /^[A-Z]{1,5}(\.[A-Z])?$/.test(String(s.symbolCode || ""))).map((s) => w(s, "US", String(s.symbolCode).replace(".", "-"), String(s.symbolCode).replace(".", "-")));
-  // 다른 시장에 본주가 있는 ADR은 본주로 본다 (토요타 TM → 7203.T)
-  const homeNames = new Set([...jp, ...cn].map((x) => baseName(x.en || "")).filter(Boolean));
+  // 다른 시장(한국·일본·중국·홍콩)에 본주가 있는 ADR은 빼고 본주로 본다 (SK하이닉스 ADR → 000660, 알리바바 ADR → 9988.HK)
+  const hkAll = hkg.filter((s) => /^\d{4}\.HK$/.test(s.reutersCode)).map((s) => w(s, "HK", s.reutersCode, s.reutersCode.replace(".HK", "")));
+  const homeNames = new Set([...jp, ...cn, ...hkAll].map((x) => baseName(x.en || "")).filter(Boolean));
+  const krNames = new Set([...kospi, ...kosdaq].map((x) => x.n.replace(/\s/g, "")));
+  const isAdr = (x: U) => /ADR|ADS/i.test(x.n + " " + (x.en || ""));
   const seen = new Set<string>(); const us: U[] = [];
-  for (const x of top(usAll, 400)) { const b = baseName(x.en || x.n); if (!b || seen.has(b) || (/ADR/i.test(x.n + " " + x.en) && homeNames.has(b))) continue; seen.add(b); us.push(x); if (us.length >= TARGET.US) break; }
-  // 홍콩: 해외 기업 예탁증서(마이크로소프트 4338 등)와 본토 A주와 같은 회사의 H주는 제외
-  const usNames = new Set(us.map((x) => baseName(x.en || "")));
+  for (const x of top(usAll, 400)) {
+    const b = baseName(x.en || x.n); if (!b || seen.has(b)) continue;
+    if (isAdr(x) && (homeNames.has(b) || krNames.has(x.n.replace(/\s*ADR$/i, "").replace(/\s/g, "")))) continue;
+    seen.add(b); us.push(x); if (us.length >= TARGET.US) break;
+  }
+  // 홍콩: 미국 기업의 홍콩 예탁증서(마이크로소프트 4338 등)와 본토 A주와 같은 회사의 H주는 제외
+  const usNames = new Set(us.filter((x) => !isAdr(x)).map((x) => baseName(x.en || "")));
   const cnNames = new Set(cn.map((x) => baseName(x.en || "")));
-  const hk = top(hkg.filter((s) => /^\d{4}\.HK$/.test(s.reutersCode)).map((s) => w(s, "HK", s.reutersCode, s.reutersCode.replace(".HK", "")))
-    .filter((x) => { const b = baseName(x.en || ""); return !usNames.has(b) && !cnNames.has(b); }), TARGET.HK);
+  const hk = top(hkAll.filter((x) => { const b = baseName(x.en || ""); return !usNames.has(b) && !cnNames.has(b); }), TARGET.HK);
   return [...kospi, ...kosdaq, ...us, ...jp, ...cn, ...hk];
 }
 
@@ -292,7 +298,7 @@ Deno.serve(async (req: Request) => {
     if (body.action === "start") return Response.json(await start(owner, !!body.force));
     if (body.action === "step") return Response.json(await step(owner));
     if (body.action === "finish") return Response.json(await finish(owner));
-    if (body.action === "universe") { const u = await universe(); const c: Record<string, number> = {}; for (const x of u) c[x.m] = (c[x.m] || 0) + 1; return Response.json({ n: u.length, c, sample: u.filter((_, i) => i % 97 === 0).map((x) => [x.t, x.n, x.en]) }); }
+    if (body.action === "universe") { const u = await universe(); const c: Record<string, number> = {}; for (const x of u) c[x.m] = (c[x.m] || 0) + 1; return Response.json({ n: u.length, c, sample: u.filter((_, i) => i % 97 === 0).map((x) => [x.t, x.n, x.en]), adr: u.filter((x) => /ADR/.test(x.n)).map((x) => x.n) }); }
     if (body.action === "one") return Response.json(await rowFor({ t: body.t, code: body.t, n: body.t, m: marketOf(body.t), mv: 0 }));
     const job = await getDoc("screen_job", "job");
     return Response.json(job ? { state: job.state, i: job.i, n: job.list?.length, ok: job.ok, fail: (job.fail || []).length, startedAt: job.startedAt, doneAt: job.doneAt, counts: job.counts } : { state: "none" });
