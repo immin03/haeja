@@ -408,6 +408,16 @@ body.noscroll{overflow:hidden}
 .ms-now{color:var(--warn);margin-top:2px}
 .ms-ok{color:var(--accent);font-weight:700}
 .ms-row .btn{font-size:12px;padding:5px 10px;white-space:nowrap}
+.az-form{display:flex;gap:8px}
+.az-form input{flex:1;min-width:0;font:inherit;font-size:16px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.az-list{margin-top:8px}
+.az-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.az-row:last-child{border-bottom:0}
+.az-main{display:flex;flex-direction:column;min-width:0}
+.az-main b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.az-row .btn{flex:0 0 auto;font-size:13px;padding:6px 12px;white-space:nowrap}
+.az #az-msg:empty{display:none}
+.az #az-msg{margin-top:8px}
 </style>
 
 <header class="top">
@@ -1022,7 +1032,7 @@ function render(){
   if(S.tab === 'screener'){ S.tab = 'companies'; S.scope = 'all'; }
   if(S.tab === 'analyze') app.innerHTML = viewAnalyze();
   if(S.tab === 'journal') app.innerHTML = viewJournal();
-  if(S.tab === 'companies') app.innerHTML = viewCompanies();
+  if(S.tab === 'companies'){ app.innerHTML = viewCompanies(); azQuota(); }
   if(S.tab === 'fx') app.innerHTML = viewFx();
   if(S.tab === 'ref') app.innerHTML = viewRef();
   if(S.tab === 'trends') app.innerHTML = viewTrends();
@@ -2055,12 +2065,76 @@ function viewCompanies(){
   const shown = rows.slice(0, S.coShown || 30);
   return `<div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">기업</h2><button class="btn" data-act="co-new">직접 추가</button></div>
   <div class="card stack" style="margin-top:10px;gap:10px">${funnelHtml()}${filterBarHtml()}</div>
+  ${(S.coQ||'').trim() && !rows.length && azOn() ? `<div class="notice" style="margin-top:10px">"${esc(S.coQ)}"은 목록에 없습니다. 아래에서 검색해 바로 분석할 수 있습니다.</div>` : ''}
+  <div style="margin-top:10px">${(() => { if(azOn() && (S.coQ||'').trim() && !rows.length && !AZ.items && !AZ.busy) AZ.q = S.coQ.trim(); return azHtml(); })()}</div>
   ${st !== 'held' ? `<div style="margin-top:12px">${scoreMapHtml(rows)}</div>` : ''}
   <div class="small muted" style="margin-top:12px" id="coListTop">${rows.length}개${rows.length > shown.length ? ` 중 ${shown.length}개` : ''} · 누르면 개요와 심사가 열립니다</div>
   <div class="card pick-list" style="margin-top:6px">${shown.map(listRowHtml).join('') || '<div class="empty">조건에 맞는 기업이 없습니다.</div>'}
     ${rows.length > shown.length ? `<div class="row" style="justify-content:center;padding:8px 0"><button class="btn" data-act="co-more">더 보기 (${rows.length - shown.length})</button></div>` : ''}</div>
   ${S2.meta ? `<p class="small muted" style="margin-top:10px">${esc(S2.meta.source||'')} · ${esc(S2.meta.generatedAt||'')}. 무료 데이터라 누락이 있을 수 있습니다.</p>` : ''}`;
 }
+/* ============ 목록에 없는 종목: 검색 → 즉시 분석 (웹 전용, 무료 3회) ============ */
+const AZ = { q:'', items:null, busy:false, msg:'', quota:null, run:null };
+const azOn = () => typeof store !== 'undefined' && store.mode === 'db' && store.client && store.client.functions;
+async function azCall(body){
+  const { data, error } = await store.client.functions.invoke('analyze', { body });
+  if(error){ let d = null; try{ d = await error.context?.json(); }catch(_){} if(d) return d; throw error; }
+  return data;
+}
+async function azQuota(){ if(!azOn() || AZ.quota) return; try{ const d = await azCall({action:'quota'}); if(d && isNum(d.left)){ AZ.quota = d; if(S.tab === 'companies') azPaint(); } }catch(_){} }
+function azKnown(sym){
+  const S_ = String(sym).toUpperCase(), code = S_.replace(/\.(KS|KQ|T|HK|SS|SZ)$/,'');
+  const c = S.companies.find(x => (x.yf||'').toUpperCase() === S_ || (normKey(x.ticker) === code && (x.yf ? x.yf.toUpperCase() === S_ : true)));
+  if(c) return {c};
+  const r = (S2.screen||[]).find(r => (r.t||'').toUpperCase() === S_);
+  return r ? {r} : null;
+}
+function azHtml(){
+  if(!azOn()) return '';
+  const q = AZ.quota, left = q ? q.left : null;
+  const items = AZ.items || [];
+  const row = it => { const k = azKnown(it.symbol); const usedIt = (AZ.usedSyms||[]).includes(it.symbol);
+    const btn = k?.c ? `<button class="btn" data-act="pick" data-id="${k.c.id}">보기</button>`
+      : k?.r ? `<button class="btn" data-act="sc-import" data-t="${esc(k.r.t)}">보기</button>`
+      : AZ.run === it.symbol ? `<button class="btn" disabled>분석 중…</button>`
+      : (left === 0 && !usedIt) ? `<button class="btn" disabled>무료 횟수 소진</button>`
+      : `<button class="btn primary" data-act="az-run" data-sym="${esc(it.symbol)}" data-name="${esc(it.name)}">분석</button>`;
+    return `<div class="az-row"><div class="az-main"><b>${esc(it.name)}</b><span class="small muted">${esc(it.symbol)} · ${esc(it.exch||'')}${k ? ' · 이미 목록에 있음' : ''}</span></div>${btn}</div>`; };
+  return `<div class="card az" id="azBox">
+    <div class="row" style="justify-content:space-between;gap:8px"><b>목록에 없는 종목 바로 분석</b>${q ? `<span class="pill ${left ? 'p-good' : 'p-none'}">무료 ${left}/${q.limit}회 남음</span>` : ''}</div>
+    <p class="small muted" style="margin:4px 0 10px">한국·미국·일본·중국·홍콩 상장사를 회사명이나 티커로 찾아, 목록의 회사와 같은 기준(품질·저평가·내재가치)으로 바로 점수를 매깁니다. 정성 평가는 다음 날 아침 자동 분석 때 채워집니다.</p>
+    <form id="az-form" class="az-form" autocomplete="off"><input id="az-q" value="${esc(AZ.q)}" placeholder="예: 에코프로, 팔란티어, 7203" aria-label="종목 검색" enterkeyhint="search"><button class="btn primary" type="submit" ${AZ.busy?'disabled':''}>${AZ.busy && !AZ.run ? '찾는 중' : '검색'}</button></form>
+    ${AZ.items ? (items.length ? `<div class="az-list">${items.map(row).join('')}</div>` : `<div class="small muted" style="margin-top:8px">찾은 종목이 없습니다. 티커(예: PLTR, 005930, 7203)로도 찾아 보세요.</div>`) : ''}
+    <div class="status-line small" id="az-msg">${esc(AZ.msg)}</div>
+    <p class="small muted" style="margin:6px 0 0">같은 종목을 다시 분석하는 것은 횟수에서 빠지지 않습니다. 이미 목록에 있는 회사는 무료로 바로 볼 수 있습니다.</p>
+  </div>`;
+}
+function azPaint(){ const b = document.getElementById('azBox'); if(b){ const y = window.scrollY; b.outerHTML = azHtml(); window.scrollTo(0,y); } }
+async function azSearch(q){
+  AZ.q = q; AZ.busy = true; AZ.msg = ''; azPaint();
+  try{ const d = await azCall({action:'search', q}); AZ.items = d.items || []; if(isNum(d.left)) AZ.quota = {used:d.used, limit:d.limit, left:d.left}; if(d.error) AZ.msg = d.error; }
+  catch(e){ AZ.msg = '검색하지 못했습니다: ' + (e.message || e); }
+  AZ.busy = false; azPaint();
+}
+async function azRun(sym, name){
+  AZ.run = sym; AZ.busy = true; AZ.msg = '재무제표를 불러와 계산하는 중입니다 (10초 정도)'; azPaint();
+  try{
+    const d = await azCall({action:'run', symbol:sym, name});
+    if(isNum(d?.left)) AZ.quota = {used:d.used, limit:d.limit, left:d.left};
+    if(!d?.ok){ AZ.msg = d?.error || '분석하지 못했습니다.'; }
+    else {
+      (AZ.usedSyms ||= []).push(sym);
+      AZ.msg = d.again ? '다시 계산했습니다. 횟수는 줄지 않았습니다.' : `분석했습니다. 무료 ${AZ.quota?.left ?? ''}회 남았습니다.`;
+      for(let i = 0; i < 20 && !S.companies.some(c => c.id === d.id); i++) await new Promise(r => setTimeout(r, 300));
+      if(S.companies.some(c => c.id === d.id)){ AZ.run = null; AZ.busy = false; S.curId = d.id; S.tab = 'analyze'; render(); updateEval(); window.scrollTo(0,0); return; }
+    }
+  }catch(e){ AZ.msg = '분석하지 못했습니다: ' + (e.message || e); }
+  AZ.run = null; AZ.busy = false; azPaint();
+}
+document.addEventListener('submit', e => {
+  if(e.target && e.target.id === 'az-form'){ e.preventDefault(); const q = (document.getElementById('az-q')?.value || '').trim(); if(q) azSearch(q); }
+});
+
 /* 상세: 개요 카드 + 심사 */
 function viewAnalyze(){
   if(!S.loaded.c) return `<div class="empty">불러오는 중</div>`;
@@ -2351,7 +2425,7 @@ const GUIDE = [
       return `<p>"기업 → 찾기" 목록에는 5개 시장의 시가총액 상위 대형주 <b>${n}곳</b>이 들어 있다${parts ? ` (${parts})` : ''}. 버핏식 기준을 적용하려면 최근 5개년 연간 재무(매출·이익·현금흐름·부채)가 필요해서, 이 자료를 모을 수 있는 회사만 남겼다.</p>
       <p>재무는 ${esc(m.generatedAt ? m.generatedAt.replace(/\s*\(.*\)/,'') : '2026-10-12')}에 stockanalysis·roic.ai·기업 공시를 웹으로 조사해 모았고, 가격은 평일 매일 갱신된다. 회사마다 데이터 신뢰도(높음·보통·낮음)를 표시하며, 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다.</p>
       <p>이 목록은 "좋은 회사"를 고른 것이 아니라 비교할 수 있는 큰 회사를 모은 것이다. 판정은 목록 안에서 같은 기준으로 매긴다.</p>`; }],
-    ['내가 가진 회사가 목록에 없으면요?', `<p>보유 종목으로 등록하면 시세·비중·알림은 바로 관리된다. 품질·저평가·내재가치 점수는 다음 날 아침 자동 분석 때 목록의 회사와 같은 기준으로 채워진다(하루 최대 12곳, 보유 종목 우선). ETF·레버리지 상품은 회사가 아니라서 점수 대신 탐험 칸으로 분류된다.</p>`],
+    ['내가 가진 회사가 목록에 없으면요?', `<p><b>바로 분석:</b> "기업 → 찾기"의 "목록에 없는 종목 바로 분석"에서 회사명(한글·영문)이나 티커로 찾아 [분석]을 누르면, 연간 재무제표를 불러와 목록의 회사와 같은 기준으로 품질·저평가·내재가치를 10초 안에 계산한다. 무료로 서로 다른 종목 3개까지 분석할 수 있고, 같은 종목을 다시 분석하는 것과 이미 목록에 있는 회사를 보는 것은 횟수에서 빠지지 않는다.</p><p><b>정성 평가:</b> 해자·경영진·10년 보유 테스트 같은 정성 평가는 다음 날 아침 자동 분석 때 채워진다. 보유 종목으로 등록한 회사도 같은 방식으로 자동 분석된다(하루 최대 12곳, 보유 종목 우선).</p><p>ETF·레버리지 상품은 회사가 아니라서 점수 대신 탐험 칸으로 분류된다.</p>`],
     ['하루에 어떻게 쓰면 좋나요?', `<p><b>아침 1분:</b> 브리핑 탭의 헤드라인과 보유 종목 한 줄 요약을 본다. 자세한 내용은 눌러서 펼친다.</p>
      <p><b>포트폴리오 확인:</b> 맨 위 카드에서 수익률과 비중을, 아래 "지금 할 일"에서 비중 조정이 필요한지를 본다. 할 일이 없으면 아무것도 안 하는 것이 정답이다.</p>
      <p><b>알림이 오면:</b> 급등락, 매수 가격 도달, 내재가치 초과 알림만 확인하면 된다. 휴대폰 푸시는 종 모양 → "알림 켜기"로 연결한다.</p>
@@ -3024,6 +3098,7 @@ document.addEventListener('click', async e => {
   if(act === 'sc-more'){ S2.shown += 40; $('#scList').innerHTML = screenListHtml(); return; }
   if(act === 'sc-open'){ S2.open = S2.open === a.dataset.t ? null : a.dataset.t; const y = window.scrollY; $('#scList').innerHTML = screenListHtml(); window.scrollTo(0,y); return; }
   if(act === 'sc-import'){ importRow(a.dataset.t); return; }
+  if(act === 'az-run'){ azRun(a.dataset.sym, a.dataset.name); return; }
   if(act === 'pick'){ S.curId = id; S.tab = 'analyze'; render(); updateEval(); window.scrollTo(0,0); }
   if(act === 'back-list'){ S.tab = 'companies'; render(); window.scrollTo(0,0); return; }
   if(act === 'co-new'){ const c = {id:uid(), ...newCompany(), pinned:true}; S.companies.push(c); S.curId = c.id; queueSave(c); render(); updateEval(); $('#i-name')?.focus(); }
