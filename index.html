@@ -498,12 +498,21 @@ function scoreRow(row, p, reqMOS){
   const graham = eps && bps && eps > 0 && bps > 0 ? Math.sqrt(22.5*eps*bps) : null;
   /* 주식보상비용 차감: 스톡옵션·RSU는 현금이 나가지 않아도 주주 몫을 희석하는 실제 비용이다 */
   const oe = isNum(val.oeps) ? (isNum(val.sbcps) ? val.oeps - val.sbcps : val.oeps) : null;
-  const dcf = row.fin_sector ? null : dcfValue(oe, val.growth, p.disc, p.tg);
+  /* 성장 투자 보정: 설비투자가 순이익보다 크고(capex/NI>100%) ROIC가 15% 이상이면 FCF는 '유지 투자'가 아니라 '성장 투자'에 눌린 값이다.
+     버핏의 오너이익은 유지 투자만 뺀다. 이런 회사는 그레이엄식 정상 이익(다년 평균 EPS, 최근 EPS보다 크지 않게)을 기준으로 삼는다 */
+  const eAvg = val.epsAvg;
+  const normEps = isNum(eAvg) && eAvg > 0 ? (isNum(eps) && eps > 0 ? Math.min(eAvg, eps) : eAvg) : null;
+  const growthCapex = !row.fin_sector && isNum(oe) && normEps !== null && oe < normEps*0.6 && isNum(fin.capexNi) && fin.capexNi > 100 && isNum(fin.roic) && fin.roic >= 15;
+  const ivBase = growthCapex ? normEps : oe;
+  const dcf = row.fin_sector ? null : dcfValue(ivBase, val.growth, p.disc, p.tg);
   const iv = dcf ?? graham; const mos = iv && px ? (1 - px/iv)*100 : null;
+  /* 가치 범위: 과거 평균 이익으로 돌아갈 때 ~ 최근 12개월 이익이 유지될 때 (같은 성장률·할인율) */
+  const ivNorm = row.fin_sector ? null : dcfValue(normEps, val.growth, p.disc, p.tg);
+  const ivNow = row.fin_sector ? null : dcfValue(isNum(eps) && eps > 0 ? eps : null, val.growth, p.disc, p.tg);
   /* 역DCF: 현재가가 가정한 성장률 vs 회사가 보여 준 성장률 */
   const histArr = [val.revCagr, fin.epsCagr].filter(isNum);
   const hist = histArr.length ? Math.min(Math.min(...histArr), 15) : null;
-  const base = !row.fin_sector && isNum(oe) && oe > 0 ? oe : (isNum(eps) && eps > 0 ? eps : null);
+  const base = !row.fin_sector && isNum(ivBase) && ivBase > 0 ? ivBase : (isNum(eps) && eps > 0 ? eps : null);
   const igo = base ? impliedGrowth(px, base, p.disc, p.tg) : null;
   const ig = igo ? igo.g : null;
   const parts = [];
@@ -539,9 +548,9 @@ function scoreRow(row, p, reqMOS){
   /* 가중치 0.4 품질 + 0.6 저평가: 버크셔 매수 62건 역검증에서 저평가 점수만 이후 수익률과 양(+)의 상관을 보였다 */
   if(q !== null && cov >= 0.5){ const base2 = 0.4*q + 0.6*(v ?? 40); b = Math.max(0, Math.min(100, Math.round(base2 - 8*Math.min(penal,3)))); }
   let mosLo = null, mosHi = null;
-  if(dcf !== null && px){ const dHi = dcfValue(oe, val.growth, p.disc+1, p.tg), dLo = dcfValue(oe, val.growth, p.disc-1, p.tg); mosLo = dHi ? (1 - px/dHi)*100 : null; mosHi = dLo ? (1 - px/dLo)*100 : null; }
+  if(dcf !== null && px){ const dHi = dcfValue(ivBase, val.growth, p.disc+1, p.tg), dLo = dcfValue(ivBase, val.growth, p.disc-1, p.tg); mosLo = dHi ? (1 - px/dHi)*100 : null; mosHi = dLo ? (1 - px/dLo)*100 : null; }
   const perAvg = px && isNum(epsAvg) && epsAvg > 0 ? px/epsAvg : null;
-  return {q, v, b, cov:Math.round(cov*100)/100, per, pbr, graham, dcf, iv, mos, flags, ig, hist, mosLo, mosHi, perAvg};
+  return {q, v, b, cov:Math.round(cov*100)/100, per, pbr, graham, dcf, iv, mos, flags, ig, hist, mosLo, mosHi, perAvg, ivBasis: growthCapex ? 'norm' : 'oe', ivNorm, ivNow};
 }
 /* ===== 가격 해부: 역DCF와 저평가·고평가 근거 ===== */
 function dcfRaw(base, g, disc, tg){
@@ -978,7 +987,7 @@ function evaluate(c){
   let qualScore = qualIn ? Math.round(qualSum/qualIn*100) : null;
   if(qualScore !== null && q.hold10 === false) qualScore = Math.max(0, qualScore - 15);
   // 3. 가격
-  const ivSrc = sc.dcf ? '오너이익 DCF' : sc.graham ? '그레이엄 넘버' : null;
+  const ivSrc = sc.dcf ? (sc.ivBasis === 'norm' ? '정상 이익 DCF (다년 평균 EPS, 성장 투자 보정)' : '오너이익 DCF') : sc.graham ? '그레이엄 넘버' : null;
   const buyBelow = isNum(sc.iv) ? sc.iv*(1 - st.reqMOS/100) : null;
   const ey = sc.per ? 100/sc.per : null;
   // 4. 탈락 조건 (최소한만)
@@ -1019,7 +1028,7 @@ function evaluate(c){
   if(v === '매수 후보' && memoOk) maxW = MAXW[t.conviction||3] ?? 0;
   else if((v === '공격 슬롯 후보' || v === '좋은 회사, 가격 대기' || v === '근접 · 관찰') && memoOk) maxW = Math.min(15, MAXW[t.conviction||3] ?? 0);
   return {items, coverage:sc.cov, qScore:sc.q, valScore:sc.v, b, total, qualScore, flags:sc.flags, trend:tr.score, trendHits:tr.hits, trendWarn:tr.warn, mosLo:sc.mosLo, mosHi:sc.mosHi, perAvg:sc.perAvg, dataConf:c.dataConf||null,
-    per:sc.per, pbr:sc.pbr, graham:sc.graham, dcf:sc.dcf, iv:sc.iv, ivSrc, mos:sc.mos, buyBelow, ey, bond:p.bond,
+    per:sc.per, pbr:sc.pbr, graham:sc.graham, dcf:sc.dcf, iv:sc.iv, ivSrc, ivNorm:sc.ivNorm, ivNow:sc.ivNow, ivBasis:sc.ivBasis, mos:sc.mos, buyBelow, ey, bond:p.bond,
     disc:p.disc, tg:p.tg, gates, agg, fs, verdict:v, cls, memoOk, sellN, maxW};
 }
 
@@ -1465,7 +1474,8 @@ function updateEval(){
       ${line('PBR', isNum(ev.pbr)?fmt(ev.pbr,2)+'배':'–', 'PER×PBR 22.5 이하: '+(isNum(ev.per)&&isNum(ev.pbr)?fmt(ev.per*ev.pbr,1):'–'))}
       ${line('이익수익률 vs 국채', isNum(ev.ey)?fmt(ev.ey,1)+'% / '+fmt(ev.bond,1)+'%':'–', '이익수익률이 국채의 2배 이상이면 유리')}
       ${line('그레이엄 넘버', fmtPx(ev.graham,cr), '√(22.5×EPS×BPS)')}
-      ${line('오너이익 DCF', fmtPx(ev.dcf,cr), `할인율 ${ev.disc}%, 영구성장 ${ev.tg}%`)}
+      ${line(ev.ivBasis === 'norm' ? '정상 이익 DCF' : '오너이익 DCF', fmtPx(ev.dcf,cr), ev.ivBasis === 'norm' ? `설비투자가 순이익보다 크고 ROIC가 높아 FCF 대신 다년 평균 EPS로 계산. 할인율 ${ev.disc}%` : `할인율 ${ev.disc}%, 영구성장 ${ev.tg}%`)}
+      ${isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? line('가치 범위', `${fmtPx(ev.ivNorm,cr)} ~ ${fmtPx(ev.ivNow,cr)}`, `과거 평균 이익으로 돌아갈 때 ~ 최근 12개월 이익이 계속될 때. 폭이 크면 이익이 사이클 정점이나 바닥일 수 있다`) : ''}
       ${line('내재가치', fmtPx(ev.iv,cr), ev.ivSrc?'기준: '+ev.ivSrc:'EPS·BPS 또는 오너이익·성장률 입력 필요')}
       ${line('매수 가능 가격', `<b>${fmtPx(ev.buyBelow,cr)}</b>`, `내재가치 × (1 − ${st.reqMOS}%)`)}
       ${isNum(ev.mosLo)&&isNum(ev.mosHi) ? line('할인율 민감도', `${fmt(ev.mosLo,0)}% ~ ${fmt(ev.mosHi,0)}%`, `할인율 ${ev.disc+1}% ~ ${ev.disc-1}%일 때 안전마진. 폭이 크면 가정에 민감한 종목`) : ''}
@@ -1994,6 +2004,7 @@ function companyCard(c, h){
     <details><summary class="small">가격 차트${h ? ' · 평균단가 표시' : ''}</summary><div style="margin-top:8px">${priceChart(c.ticker, {ref: avg, refLabel:'평균단가', fmtV: v => fmtPx(v, curOf(c.market)), label: c.name+' 주가'})}</div></details>
     ${(p.customers || p.competitors) ? `<details><summary class="small">고객·경쟁사</summary>${p.customers ? `<p class="small" style="margin:6px 0 0"><b>고객</b> ${esc(p.customers)}</p>` : ''}${p.competitors ? `<p class="small" style="margin:4px 0 0"><b>경쟁사</b> ${esc(p.competitors)}</p>` : ''}</details>` : ''}
     ${ev ? `<div class="hold-grid"><div><span>판정</span><b style="font-size:13px">${esc(ev.verdict)}</b></div><div><span>안전마진</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>` : ''}
+    ${ev && isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">가치 범위 <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, curOf(c.market))} ~ ${fmtPx(ev.ivNow, curOf(c.market))}</b> · 과거 평균 이익 기준 ~ 최근 이익 유지 시</div>` : ''}
     <div class="row" style="justify-content:space-between"><span class="small muted">${p.asOf ? '개요 '+esc(p.asOf) : ''}${(p.sources||[]).filter(safeUrl).slice(0,3).map((u,i) => ` · <a href="${esc(u)}" target="_blank" rel="noopener" style="color:var(--accent)">출처${i+1}</a>`).join('')}</span>${S.tab==='analyze' ? '' : `<button class="btn" data-act="open-co" data-id="${c.id}">심사 보기</button>`}</div>
   </article>`;
 }
