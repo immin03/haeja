@@ -211,18 +211,19 @@ HEAD = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Crect x='7' y='5' width='18' height='22' rx='2.2' fill='%23FFFFFF'/%3E%3Crect x='10.5' y='18.5' width='3' height='5' rx='.6' fill='%231E6A4C'/%3E%3Crect x='14.5' y='15' width='3' height='8.5' rx='.6' fill='%231E6A4C'/%3E%3Crect x='18.5' y='11' width='3' height='12.5' rx='.6' fill='%231E6A4C'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E1A2B'/%3E%3Crect x='7' y='5' width='18' height='22' rx='2.2' fill='%23FFFFFF'/%3E%3Crect x='10.5' y='18.5' width='3' height='5' rx='.6' fill='%23C9A45C'/%3E%3Crect x='14.5' y='15' width='3' height='8.5' rx='.6' fill='%23C9A45C'/%3E%3Crect x='18.5' y='11' width='3' height='12.5' rx='.6' fill='%23C9A45C'/%3E%3C/svg%3E">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icon-192.png">
-<meta name="theme-color" content="#1E6A4C">
+<meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="가치노트">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 </head>
 <body>
 """
-s = HEAD.replace("가치노트", APP_NAME) + s.lstrip() + "\n</body>\n</html>\n"
+s = HEAD.replace("가치노트", APP_NAME) + s.lstrip() + "\n<style>\n" + open(__file__.replace("build_web.py", "theme.css"), encoding="utf-8").read() + "\n</style>\n</body>\n</html>\n"
 open(dst, "w", encoding="utf-8").write(s)
 print("wrote", dst, len(s))

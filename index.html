@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Crect x='7' y='5' width='18' height='22' rx='2.2' fill='%23FFFFFF'/%3E%3Crect x='10.5' y='18.5' width='3' height='5' rx='.6' fill='%231E6A4C'/%3E%3Crect x='14.5' y='15' width='3' height='8.5' rx='.6' fill='%231E6A4C'/%3E%3Crect x='18.5' y='11' width='3' height='12.5' rx='.6' fill='%231E6A4C'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E1A2B'/%3E%3Crect x='7' y='5' width='18' height='22' rx='2.2' fill='%23FFFFFF'/%3E%3Crect x='10.5' y='18.5' width='3' height='5' rx='.6' fill='%23C9A45C'/%3E%3Crect x='14.5' y='15' width='3' height='8.5' rx='.6' fill='%23C9A45C'/%3E%3Crect x='18.5' y='11' width='3' height='12.5' rx='.6' fill='%23C9A45C'/%3E%3C/svg%3E">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icon-192.png">
-<meta name="theme-color" content="#1E6A4C">
+<meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="가치노트">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
@@ -2731,5 +2732,83 @@ function refresh(kind){
 
 
 
+<style>
+/* ===== 가치노트 테마: Navy & Gold (웹 버전 전용, 기존 스타일 위에 덮어쓴다) ===== */
+:root{
+  --font:"SUIT Variable","SUIT","Pretendard Variable","Pretendard",system-ui,-apple-system,sans-serif;
+  --navy:#0E1A2B; --navy-2:#16243A; --gold:#C9A45C; --gold-soft:#F4ECDC;
+  --bg:#F5F3EE; --surface:#FFFFFF; --ink:#0E1A2B; --muted:#646E7E; --line:#E6E1D6;
+  --accent:#2D7A5F; --accent-soft:#E3F0EA; --warn:#A8761C; --warn-soft:#F7EDD8;
+  --bad:#C0392B; --bad-soft:#F8E3E0; --up:#D23C3C; --down:#2E64C8;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --navy:#070C15; --navy-2:#111B2B; --gold:#D8B56E; --gold-soft:#2A2416;
+  --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
+  --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E2412;
+  --bad:#F07D70; --bad-soft:#331B18; --up:#FF7171; --down:#78A6FF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --navy:#070C15; --navy-2:#111B2B; --gold:#D8B56E; --gold-soft:#2A2416;
+  --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
+  --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E2412;
+  --bad:#F07D70; --bad-soft:#331B18; --up:#FF7171; --down:#78A6FF; color-scheme:dark}
+
+html,body{margin:0;padding:0}
+body{font-family:var(--font);letter-spacing:-.01em;background:var(--bg)}
+.num{font-family:var(--font)}
+
+/* 헤더: 네이비 바탕, 흰 글씨, 금색 포인트 */
+header.top{background:var(--navy);border-bottom:0;box-shadow:0 2px 12px rgba(7,12,21,.18)}
+.brand h1{color:#FFFFFF;font-weight:800;font-size:21px;letter-spacing:-.03em}
+.brand-sub{color:var(--gold);font-weight:500;letter-spacing:.02em}
+.brand-sub #saveState{color:rgba(255,255,255,.55);font-weight:400;letter-spacing:0}
+.brand .bell{color:#FFFFFF}
+.brand .btn{background:transparent;border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.85)}
+nav.tabs button{color:rgba(255,255,255,.6);font-weight:600}
+nav.tabs button[aria-selected="true"]{color:#FFFFFF;border-color:var(--gold)}
+nav.subtabs button{background:transparent;border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.75)}
+nav.subtabs button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#0E1A2B}
+.bell-n{background:var(--gold);color:#0E1A2B}
+
+/* 제목: 금색 짧은 막대 */
+h2{font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+h2::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--gold);flex:0 0 auto}
+.row>h2::before{margin-right:0}
+h3{font-weight:700}
+.eyebrow{color:var(--muted);font-weight:600;letter-spacing:.06em}
+
+/* 카드 */
+.card{border:1px solid var(--line);border-radius:var(--r);box-shadow:0 1px 2px rgba(14,26,43,.04),0 8px 24px rgba(14,26,43,.05)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .card{box-shadow:none}}
+
+/* 버튼 */
+button.btn{border-radius:10px;font-weight:600}
+button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.btn.primary{background:var(--gold);border-color:var(--gold);color:#0E1A2B}}
+
+/* 포트폴리오 맨 위 카드: 네이비 그라데이션 */
+.pf-top{
+  --ink:#F3EFE6; --muted:#A3ADBE; --line:rgba(255,255,255,.12); --surface:#1A2940; --bg:#13203A;
+  --up:#FF7E7E; --down:#86B6FF; --accent:#66CFA4; --accent-soft:rgba(102,207,164,.14);
+  --warn:#E9BC64; --warn-soft:rgba(233,188,100,.14); --bad:#FF8A7E; --bad-soft:rgba(255,138,126,.14);
+  background:linear-gradient(160deg,#16243A 0%,#0E1A2B 70%);border:0;color:var(--ink);
+  box-shadow:0 10px 30px rgba(14,26,43,.25)}
+.pf-top .eyebrow{color:var(--gold)}
+.pf-top .hero-num{color:#FFFFFF;font-weight:800;letter-spacing:-.03em}
+.pf-top .btn{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:#FFFFFF}
+.pf-top .pf-bar{background:rgba(255,255,255,.06)}
+.pf-top .pf-open .card{background:#1A2940;border-color:var(--gold);box-shadow:none}
+.pf-top input,.pf-top select{background:#0E1A2B;color:#F3EFE6;border-color:rgba(255,255,255,.18)}
+
+/* 브리핑 헤드라인 */
+.br-head{font-weight:800;letter-spacing:-.02em}
+
+/* 알림 */
+.al-item b{font-weight:700}
+
+/* 막대 색: 핵심 = 금, 탐험 = 회청색 */
+.cmp-row .stackbar{border:0;background:var(--line)}
+
+</style>
 </body>
 </html>
