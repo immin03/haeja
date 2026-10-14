@@ -171,7 +171,13 @@ rep("""  await store.init();
   const brand = document.querySelector('.brand');
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
-    const b = document.createElement('button'); b.className = 'btn'; b.style.cssText = 'font-size:12px;padding:4px 10px'; b.textContent = '로그아웃'; b.onclick = () => store.logout();
+    const b = document.createElement('div'); b.className = 'acct';
+    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-mail small muted"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
+    const ab = b.querySelector('button'), am = b.querySelector('.acct-menu');
+    try{ store.client.auth.getUser().then(({data}) => { const m = data?.user?.email; if(m) b.querySelector('.acct-mail').textContent = m; }).catch(() => {}); }catch(_){}
+    ab.onclick = e => { e.stopPropagation(); const open = am.hidden; am.hidden = !open; ab.setAttribute('aria-expanded', String(open)); };
+    document.addEventListener('click', e => { if(!b.contains(e.target)){ am.hidden = true; ab.setAttribute('aria-expanded','false'); } });
+    b.querySelector('[data-acct="logout"]').onclick = () => store.logout();
     const q = document.createElement('button'); q.type = 'button'; q.className = 'bell help'; q.setAttribute('aria-label', 'Q&A: 사용법과 설계'); q.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
     q.onclick = () => { S.tab = 'guide'; render(); window.scrollTo(0,0); };
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
@@ -205,7 +211,16 @@ rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left
 # 3) 로컬 저장 안내 문구 제거 (웹에서는 항상 DB)
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
-rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + ' · <span id="saveState">불러오는 중</span></span></div></div>')
+LOGO = '<svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#16243A"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#C9A45C"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#C9A45C"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#C9A45C"/></svg>'
+rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l">' + LOGO + '<div class="brand-t"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
+rep("function setSave(t){ const el = $('#saveState'); if(el) el.textContent = t; }", "function setSave(t){ const el = $('#saveState'); if(!el) return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }")
+# tab icons (bottom bar on mobile)
+ICONS = {'portfolio':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+ 'briefing':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+ 'companies':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.6" cy="10.6" r="5.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15 15 4.6 4.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>'}
+for k, lab in [('portfolio','포트폴리오'),('briefing','브리핑'),('companies','기업')]:
+    sel = 'true' if k == 'portfolio' else 'false'
+    rep(f'<button role="tab" data-tab="{k}" aria-selected="{sel}">{lab}</button>', f'<button role="tab" data-tab="{k}" aria-selected="{sel}"><span class="tab-ic">{ICONS[k]}</span><span class="tab-l">{lab}</span></button>')
 s = s.replace('<title>가치노트</title>', '<title>' + APP_NAME + '</title>')
 HEAD = """<!doctype html>
 <html lang="ko">

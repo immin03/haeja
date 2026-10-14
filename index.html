@@ -426,11 +426,11 @@ body.noscroll{overflow:hidden}
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><h1>가치노트</h1><span class="brand-sub">Inspired by Graham, Buffett & Munger · <span id="saveState">불러오는 중</span></span></div></div>
+  <div class="brand"><div class="brand-l"><svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#16243A"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#C9A45C"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#C9A45C"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#C9A45C"/></svg><div class="brand-t"><h1>가치노트</h1><span class="brand-sub">Inspired by Graham, Buffett & Munger</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
-    <button role="tab" data-tab="portfolio" aria-selected="true">포트폴리오</button>
-    <button role="tab" data-tab="briefing" aria-selected="false">브리핑</button>
-    <button role="tab" data-tab="companies" aria-selected="false">기업</button>
+    <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
+    <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
+    <button role="tab" data-tab="companies" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.6" cy="10.6" r="5.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15 15 4.6 4.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">기업</span></button>
       </nav>
   <nav class="subtabs" id="subnav" aria-label="하위 메뉴"></nav>
 </header>
@@ -966,7 +966,7 @@ const pct = (v, d=1) => isNum(v) ? (v>0?'+':'')+fmt(v,d)+'%' : '–';
 const today = () => new Date(Date.now() + 9*3600e3).toISOString().slice(0,10);
 function setPath(o, p, v){ const ks = p.split('.'); let t = o; ks.slice(0,-1).forEach(k => { if(typeof t[k] !== 'object' || t[k] === null) t[k] = {}; t = t[k]; }); t[ks.at(-1)] = v; }
 function getPath(o, p){ return p.split('.').reduce((a,k) => a == null ? undefined : a[k], o); }
-function setSave(t){ const el = $('#saveState'); if(el) el.textContent = t; }
+function setSave(t){ const el = $('#saveState'); if(!el) return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }
 
 /* ============ 심사 엔진 ============ */
 function newCompany(){
@@ -2579,17 +2579,9 @@ const GUIDE = [
   ]},
 ];
 function viewGuide(){
-  const open = S.guideOpen ?? '0-0';
+  const open = S.guideOpen ?? null;
   return `
-  <h2>Q&amp;A <span class="small muted">가치노트는 이렇게 만들었다</span></h2>
-  <div class="card guide-top">
-    <div class="g3">
-      <div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span class="small muted">안전마진 30% · 그레이엄 넘버 · 이익수익률</span></div>
-      <div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span class="small muted">사업의 질 · 오너이익 DCF · 10년 보유</span></div>
-      <div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span class="small muted">뒤집어 생각하기 · 위험 신호 · 집중</span></div>
-    </div>
-    <p class="small" style="margin:12px 0 0">세 사람의 기준을 모두 넘은 회사만 "매수 후보"가 되고, 산 뒤에는 핵심 3자리 70~80% 구조와 매도 조건으로 관리한다. 사용자는 보유 종목, 예수금, 투자 메모만 넣으면 된다. 원칙을 지킬수록 "내 투자자 등급"이 올라간다.</p>
-  </div>
+  <h2 class="guide-title">Q&amp;A</h2>
   ${GUIDE.map((sec, si) => `<h3 class="eyebrow guide-h">${esc(sec.g)}</h3><div class="card guide-list">${sec.items.map(([q, a], qi) => { const k = si+'-'+qi;
     return `<details class="guide-q" data-gq="${k}"${open === k ? ' open' : ''}><summary><span>${esc(q)}</span></summary><div class="guide-a prose">${typeof a === 'function' ? a() : a}</div></details>`; }).join('')}</div>`).join('')}
   <p class="small muted" style="margin-top:16px">더 자세한 숫자 기준은 "기업 → 기준·검증"에 있다.</p>`;
@@ -3323,7 +3315,13 @@ function refresh(kind){
   const brand = document.querySelector('.brand');
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
-    const b = document.createElement('button'); b.className = 'btn'; b.style.cssText = 'font-size:12px;padding:4px 10px'; b.textContent = '로그아웃'; b.onclick = () => store.logout();
+    const b = document.createElement('div'); b.className = 'acct';
+    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-mail small muted"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
+    const ab = b.querySelector('button'), am = b.querySelector('.acct-menu');
+    try{ store.client.auth.getUser().then(({data}) => { const m = data?.user?.email; if(m) b.querySelector('.acct-mail').textContent = m; }).catch(() => {}); }catch(_){}
+    ab.onclick = e => { e.stopPropagation(); const open = am.hidden; am.hidden = !open; ab.setAttribute('aria-expanded', String(open)); };
+    document.addEventListener('click', e => { if(!b.contains(e.target)){ am.hidden = true; ab.setAttribute('aria-expanded','false'); } });
+    b.querySelector('[data-acct="logout"]').onclick = () => store.logout();
     const q = document.createElement('button'); q.type = 'button'; q.className = 'bell help'; q.setAttribute('aria-label', 'Q&A: 사용법과 설계'); q.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
     q.onclick = () => { S.tab = 'guide'; render(); window.scrollTo(0,0); };
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
@@ -3469,6 +3467,74 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}}
 :root[data-theme="dark"] .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}
 .tr-chip.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+
+/* ================= 디자인 v2: 더 단정하고 앱다운 화면 ================= */
+:root{ --r:18px; --line:#E8E3D8; --bg:#F6F4EF; }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){ --line:#1F2A3A; --bg:#0A0F18; }}
+:root[data-theme="dark"]{ --line:#1F2A3A; --bg:#0A0F18; }
+
+/* 헤더: 로고 + 워드마크 + 슬로건(잘리지 않게), 오른쪽은 아이콘만 */
+header.top{box-shadow:none}
+.brand{padding:14px 16px 8px;align-items:center;gap:10px}
+.brand-l{flex-direction:row;align-items:center;gap:10px;min-width:0;flex:1 1 auto}
+.logo-mark{flex:0 0 auto;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.14)}
+.brand-t{display:flex;flex-direction:column;min-width:0;gap:1px}
+.brand h1{font-size:19px;line-height:1.15;letter-spacing:-.035em}
+.brand-sub{font-size:clamp(9.5px,2.6vw,11.5px);white-space:nowrap;overflow:visible;text-overflow:clip;letter-spacing:.015em;color:var(--gold);opacity:.92;font-weight:500}
+@media (max-width:380px){.logo-mark{display:none}}
+.brand-r{gap:0;flex:0 0 auto;margin-left:0}
+.brand .bell{padding:7px;border-radius:10px;color:rgba(255,255,255,.9);transition:background .15s}
+.brand .bell:hover{background:rgba(255,255,255,.08)}
+.bell-n{top:1px;right:0;min-width:16px;height:16px;font-size:10px;box-shadow:0 0 0 2px var(--navy)}
+.acct{position:relative;display:flex}
+.acct-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:220px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 36px rgba(7,12,21,.24);padding:6px;z-index:40}
+.acct-mail{padding:10px 10px 10px;border-bottom:1px solid var(--line);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-item{all:unset;box-sizing:border-box;display:block;width:100%;padding:10px;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px}
+.acct-item:hover,.acct-item:focus-visible{background:var(--bg)}
+
+/* 저장 상태: 헤더 대신 잠깐 뜨는 토스트 */
+.save-toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,8px);background:rgba(14,26,43,.94);color:#FFFFFF;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;white-space:nowrap}
+.save-toast.show{opacity:1;transform:translate(-50%,0)}
+@media (min-width:721px){.save-toast{bottom:28px}}
+
+/* 하위 메뉴: 테두리 없는 칩 */
+nav.subtabs{padding:4px 16px 12px;gap:6px}
+nav.subtabs button{border:0!important;background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);font-weight:600;padding:7px 14px}
+nav.subtabs button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}
+
+/* 메인 메뉴: 휴대폰에서는 아래 탭 바 */
+.tab-ic{display:none}
+@media (max-width:720px){
+  nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;max-width:none;margin:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+    background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
+  nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;border:0!important;color:#8A93A3!important;font-size:11px;font-weight:600;letter-spacing:0}
+  nav.tabs button[aria-selected="true"]{color:var(--navy)!important}
+  .tab-ic{display:block;line-height:0}
+  .wrap{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+}
+@media (max-width:720px) and (prefers-color-scheme: dark){:root:not([data-theme="light"]) nav.tabs{background:rgba(11,17,27,.92)} :root:not([data-theme="light"]) nav.tabs button[aria-selected="true"]{color:var(--gold)!important}}
+@media (max-width:720px){:root[data-theme="dark"] nav.tabs{background:rgba(11,17,27,.92)} :root[data-theme="dark"] nav.tabs button[aria-selected="true"]{color:var(--gold)!important}}
+
+/* 제목·카드·칩: 장식 줄이고 여백·위계로 정리 */
+h2{font-size:19px;font-weight:800;letter-spacing:-.03em;margin:32px 0 12px}
+h2::before{display:none}
+h3{letter-spacing:-.02em}
+.card{border-radius:var(--r);padding:18px;box-shadow:0 1px 1px rgba(14,26,43,.03),0 8px 24px rgba(14,26,43,.045)}
+.eyebrow{letter-spacing:.02em;font-size:11.5px;font-weight:600}
+.pill{font-weight:600;border-radius:7px;padding:3px 8px;letter-spacing:-.01em}
+button.btn{border-radius:10px;font-weight:600;letter-spacing:-.01em}
+input,select,textarea{border-radius:10px}
+.hero-num{letter-spacing:-.04em}
+
+/* Q&A: 제목만, 펼침 화살표 */
+.guide-title{font-size:24px;margin-top:24px}
+.guide-h{margin:22px 0 8px;color:var(--muted)}
+.guide-list{padding:0 18px}
+.guide-q summary{padding:16px 0;font-size:15px;letter-spacing:-.02em}
+.guide-q summary::after{content:"";width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin:5px 4px 0 0;transition:transform .2s;flex:0 0 auto}
+.guide-q[open] summary::after{content:"";transform:rotate(-135deg);margin-top:9px}
+.guide-a{color:var(--ink)}
+.acct-mail:empty{display:none}
 
 </style>
 </body>
