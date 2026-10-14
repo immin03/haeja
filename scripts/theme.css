@@ -214,3 +214,10 @@ input,select,textarea{border-radius:10px}
 .login-brand p{margin:14px 0 0;color:var(--muted);font-size:14px}
 .login-card{padding:22px}
 .brand-t{cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+/* 워드마크: 세리프(Fraunces)로 가치 투자 노트다운 인상 */
+.wordmark{font-family:"Fraunces",Georgia,"Times New Roman",serif!important;font-weight:600;letter-spacing:-.015em;font-variation-settings:"opsz" 96}
+.wordmark .wm-b{font-style:italic;font-weight:600}
+.brand h1.wordmark{font-size:23px;line-height:1}
+.brand-sub{letter-spacing:.06em;text-transform:uppercase;font-size:clamp(8.5px,2.3vw,10px)!important;margin-top:3px}
+.wordmark.lg{font-size:44px}

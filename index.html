@@ -10,6 +10,8 @@
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ValueNote">
+<link rel="preload" href="/fonts/fraunces-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -18,8 +20,8 @@
 <style>
 #splash{position:fixed;inset:0;z-index:100;background:#0E1A2B;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .45s ease;font-family:"SUIT Variable","SUIT","Pretendard Variable",system-ui,sans-serif}
 #splash.out{opacity:0;pointer-events:none}
-#splash .sp-wm{font-size:44px;font-weight:800;letter-spacing:-.04em;color:#FFFFFF;animation:spIn .7s ease-out both}
-#splash .sp-wm span{color:#C9A45C;font-weight:700}
+#splash .sp-wm{font-family:"Fraunces",Georgia,serif;font-size:46px;font-weight:600;letter-spacing:-.02em;color:#FFFFFF;animation:spIn .7s ease-out both;font-variation-settings:"opsz" 144}
+#splash .sp-wm span{color:#C9A45C;font-style:italic}
 #splash .sp-sub{color:#C9A45C;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;animation:spIn .7s .15s ease-out both}
 #splash .sp-ko{color:rgba(255,255,255,.6);font-size:13px;animation:spIn .7s .3s ease-out both}
 #splash .sp-bar{width:120px;height:2px;border-radius:1px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:18px}
@@ -600,6 +602,13 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 .wl-auto{padding:4px 14px}
 .wl-arow{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
 .wl-arow:last-child{border-bottom:0}
+.meta-line{font-size:12px;color:var(--muted);margin:10px 2px 0}
+.segx{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:14px;background:var(--bg)}
+.segx button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:baseline;justify-content:center;gap:6px;padding:9px 6px;border-radius:10px;font-size:14px;font-weight:600;color:var(--muted)}
+.segx button b{font-size:13px;font-weight:700;color:var(--muted)}
+.segx button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(14,26,43,.12)}
+.segx button[aria-selected="true"] b{color:var(--gold, var(--accent))}
+.segx button:focus-visible{outline:2px solid var(--accent)}
 </style>
 
 <header class="top">
@@ -1595,18 +1604,18 @@ function companyForm(c){
   }).join('') + '</div>';
   const t = c.thesis || {};
   return `
-  ${c.source ? `<div class="notice" style="margin-top:12px;background:var(--accent-soft);color:var(--accent)">${esc(c.source)}. 매수 전에 공시 원문과 대조하세요.</div>` : ''}
+  ${c.source ? `<p class="meta-line">${esc(String(c.source).replace(/\s*\(.*$/,'').replace('스크리너 자동 수집','자동 수집'))}${c.createdAt ? ' · '+esc(c.createdAt) : ''} · 매수 전 공시 원문 확인</p>` : ''}
   ${c.example ? `<div class="notice" style="margin-top:12px">예시 기록입니다. 수치는 가상의 회사로 실제 종목이 아닙니다. 구조를 확인한 뒤 삭제하세요.</div>` : ''}
   <div class="card verdict" id="verdict" style="margin-top:12px"></div>
 
   <div class="card stack" style="margin-top:12px">
-    <label class="f"><b style="color:var(--ink);font-size:15px">나의 메모</b><span class="small">직접 쓰는 칸은 여기 하나뿐입니다. 나머지는 자동으로 채워집니다.</span><textarea data-path="thesis.memo" id="i-memo" placeholder="왜 관심이 생겼는지, 확인하고 싶은 것, 매매 기록 등">${esc(c.thesis?.memo)}</textarea></label>
+    <label class="f"><b style="color:var(--ink);font-size:15px">나의 메모</b><textarea data-path="thesis.memo" id="i-memo" placeholder="왜 관심이 생겼는지, 확인하고 싶은 것, 매매 기록 등">${esc(c.thesis?.memo)}</textarea></label>
     ${c.kind==='stock' ? `<div class="row" style="justify-content:space-between"><span class="small muted" id="autoMsg">${c.auto?.at ? `${esc(c.auto.by||'자동 분석')} · ${esc(c.auto.at)}` : '아직 자동 분석 전입니다'}</span><button class="btn" data-act="ai-auto" ${sampleFn?'':'disabled'}>${c.auto?.at ? '다시 분석' : '자동 분석 실행'}</button></div>` : ''}
   </div>
 
   <details class="card deep"${S.deepOpen ? ' open' : ''}><summary><span><b>자세한 심사 보기</b><span class="small muted">재무 13개 지표 · 멍거의 질문 · 버크셔 관점 · 트렌드 · 가격 해부 · 뉴스</span></span></summary>
   <div class="deep-in">
-  <h2>1. 기본 정보</h2>
+  <h2>기본 정보</h2>
   <div class="card grid2">
     <label class="f">회사명${inp('name', c.name)}</label>
     <label class="f">티커·종목코드${inp('ticker', c.ticker)}</label>
@@ -1616,7 +1625,7 @@ function companyForm(c){
     <label class="f">현재 주가${numInp('price', c.price)}</label>
   </div>
 
-  <h2>2. 숫자로 보는 해자</h2>
+  <h2>숫자로 보는 해자</h2>
   <p class="small muted fin-legend"><i class="auto-dot"></i>자동으로 채운 값 (칸을 눌러 수정)</p>
   <details class="card" style="margin-bottom:12px"><summary>재무 데이터 붙여넣어 AI로 채우기</summary>
     <p class="small muted">네이버 증권·FnGuide·DART, 미국은 SEC 10-K·Macrotrends 등에서 연도별 재무표를 복사해 붙여넣으세요. AI가 계산할 수 있는 값만 채우고 나머지는 비워 둡니다. 채운 값은 원문과 대조하세요.</p>
@@ -1625,7 +1634,7 @@ function companyForm(c){
   </details>
   <div class="card">${finRows}</div>
 
-  <h2>3. 멍거의 질문 <span class="small muted">자동</span></h2>
+  <h2>멍거의 질문</h2>
   <div class="card stack">
     <div id="qualView">${qualViewHtml(c)}</div>
     <details><summary class="small">직접 고치기</summary><div style="margin-top:8px">
@@ -1655,7 +1664,7 @@ function companyForm(c){
     </details>
   </div>
 
-  <h2>4. 가격 해부: 왜 싸거나 비싼가</h2>
+  <h2>왜 싸거나 비싼가</h2>
   <div class="card stack">
     <div id="storyOut"></div>
     <details><summary>계산에 쓰는 입력값</summary>
@@ -1664,7 +1673,7 @@ function companyForm(c){
     <div id="valOut"></div>
   </div>
 
-  <h2>5. 공격 전략 신호</h2>
+  <h2>공격 전략 신호</h2>
   <div class="card stack">
     <p class="small muted" style="margin:0">버핏 기준을 다 통과하지 못해도 아래 신호가 있으면 위성 슬롯(최대 15%)으로만 담을 수 있습니다.</p>
     <div class="grid3">
@@ -1685,7 +1694,7 @@ function companyForm(c){
   <div class="card">${newsHtml(newsFor(c), 8)}</div>
 
   </div></details>
-  <h2>6. 투자 논리와 매도 조건 <span class="small muted">자동 초안</span></h2>
+  <h2>투자 논리와 매도 조건</h2>
   <div class="card stack">
     <div id="thesisView">${thesisViewHtml(c)}</div>
     <details><summary class="small">직접 고치기</summary><div class="stack" style="margin-top:8px">
@@ -1741,7 +1750,7 @@ function updateEval(){
       <div class="row" style="align-items:baseline;gap:12px"><div class="vtitle">${esc(ev.verdict)}</div><div class="num muted">종합 ${ev.total ?? '–'}점</div></div>
       ${next?`<div class="small">${next}</div>`:''}
       <div class="bars">${bar('숫자 품질', ev.qScore)}${bar('저평가', ev.valScore, isNum(ev.mos)?`안전마진 ${fmt(ev.mos,0)}%`:'')}${bar('정성 평가', ev.qualScore, ev.qualScore===null?'미입력':'')}${bar('트렌드', ev.trend, ev.trend===null?'미연결':'')}<div><span class="eyebrow">버핏 근접도${gl('버핏 근접도')}</span><div class="num" style="font-weight:700">${ev.b ?? '–'}점</div><div class="small muted">숫자+가격</div></div></div>
-      <div class="small muted" style="margin-top:8px">종합 = 근접도 65% + 정성 20% + 트렌드 15% (입력된 항목만)</div>
+
       ${ev.trendWarn ? `<div class="gates"><div><span class="pill p-warn">테마 프리미엄</span> ${esc(ev.trendWarn)}</div></div>` : ''}
       ${gatesHtml}${flagsHtml}${confHtml}`;
   }
@@ -2136,7 +2145,7 @@ function viewTrends(){
   return `
   <h2>메가트렌드 사이클 ${sr?.asOf ? `<span class="small muted num">${esc(sr.asOf)} 기준</span>` : ''}</h2>
   <div class="small muted fresh-line" style="margin:-6px 0 8px">화~토 07:20 갱신 · 다음 ${nextRun(SCHED.trend)}</div>
-  <p class="small muted" style="margin:-4px 0 10px">트렌드마다 수혜 기업을 같은 비중으로 묶은 지수입니다. 기간 시작을 100으로 맞췄고, 점선은 코스피(회색)와 S&amp;P 500입니다. 하루 등락보다 몇 달~몇 년의 오르내림을 보세요.</p>
+  <p class="small muted" style="margin:-4px 0 10px">수혜 기업을 같은 비중으로 묶은 지수 · 시작 = 100 · 점선은 코스피와 S&amp;P 500</p>
   <div class="row" style="justify-content:space-between;gap:8px;margin-bottom:10px">${trRangeSeg()}<button type="button" class="btn primary" data-act="tr-big" data-v="1">전체 비교 크게 보기</button></div>
   ${lines.length ? `<div class="card stack" style="gap:10px"><div class="row" style="justify-content:space-between"><h3 style="margin:0">한눈에 비교</h3><span class="small muted">칩을 누르면 강조</span></div>${trCompareChart(240)}${trLegend()}</div>` : ''}
   <div class="stack" style="margin-top:12px">${tl.length ? tl.map(card).join('') : `<div class="card empty">트렌드 데이터가 없습니다.</div>`}</div>
@@ -2325,8 +2334,7 @@ function filteredStage(stage){
 }
 function funnelHtml(){
   const st = S.scope || 'held', n = {all: allCompanyRows().length, watch: stageItems('watch').length, held: stageItems('held').length};
-  return `<div class="funnel" role="group" aria-label="선정 단계">${STAGES.map((s,i) => `${i ? '<span class="fn-arrow" aria-hidden="true">›</span>' : ''}<button type="button" class="fn-step" data-act="scope" data-v="${s.k}" aria-pressed="${st===s.k}"><span class="fn-n num">${n[s.k]}</span><span class="fn-l">${s.l}</span></button>`).join('')}</div>
-  <p class="small muted" style="margin:6px 0 0">${esc(STAGES.find(s => s.k===st).rule)}</p>`;
+  return `<div class="segx" role="tablist" aria-label="보기">${STAGES.map(x => `<button type="button" role="tab" data-act="scope" data-v="${x.k}" aria-selected="${st===x.k}"><span>${x.l}</span><b class="num">${n[x.k]}</b></button>`).join('')}</div>`;
 }
 function filterBarHtml(){
   const mk = S.coMkt || 'ALL', so = S.coSort || (inv().style ? 'fit' : 'b'), st = S.scope || 'held';
@@ -2368,10 +2376,10 @@ function viewCompanies(){
   ${(S.coQ||'').trim() && !rows.length && azOn() ? `<div class="notice" style="margin-top:10px">"${esc(S.coQ)}"은 목록에 없습니다. 아래에서 검색해 바로 분석할 수 있습니다.</div>` : ''}
   <div style="margin-top:10px">${(() => { if(azOn() && (S.coQ||'').trim() && !rows.length && !AZ.items && !AZ.busy) AZ.q = S.coQ.trim(); return azHtml(); })()}</div>
   ${st !== 'held' ? `<div style="margin-top:12px">${scoreMapHtml(rows)}</div>` : ''}
-  <div class="small muted" style="margin-top:12px" id="coListTop">${rows.length}개${rows.length > shown.length ? ` 중 ${shown.length}개` : ''} · 누르면 개요와 심사가 열립니다</div>
+  <div class="small muted" style="margin-top:12px" id="coListTop">${rows.length}개${rows.length > shown.length ? ` 중 ${shown.length}개` : ''}</div>
   <div class="card pick-list" style="margin-top:6px">${shown.map(listRowHtml).join('') || '<div class="empty">조건에 맞는 기업이 없습니다.</div>'}
     ${rows.length > shown.length ? `<div class="row" style="justify-content:center;padding:8px 0"><button class="btn" data-act="co-more">더 보기 (${rows.length - shown.length})</button></div>` : ''}</div>
-  ${S2.meta ? `<p class="small muted" style="margin-top:10px">${esc(S2.meta.source||'')} · ${esc(S2.meta.generatedAt||'')}. 무료 데이터라 누락이 있을 수 있습니다.</p>` : ''}`;
+  `;
 }
 /* ============ 목록에 없는 종목: 검색 → 즉시 분석 (웹 전용, 무료 3회) ============ */
 const AZ = { q:'', items:null, busy:false, msg:'', quota:null, run:null };
@@ -2402,11 +2410,11 @@ function azHtml(){
     return `<div class="az-row"><div class="az-main"><b>${esc(it.name)}</b><span class="small muted">${esc(it.symbol)} · ${esc(it.exch||'')}${k ? ' · 이미 목록에 있음' : ''}</span></div>${btn}</div>`; };
   return `<div class="card az" id="azBox">
     <div class="row" style="justify-content:space-between;gap:8px"><b>목록에 없는 종목 바로 분석</b>${q ? `<span class="pill ${left ? 'p-good' : 'p-none'}">무료 ${left}/${q.limit}회 남음</span>` : ''}</div>
-    <p class="small muted" style="margin:4px 0 10px">한국·미국·일본·중국·홍콩 상장사를 회사명이나 티커로 찾아, 목록의 회사와 같은 기준(품질·저평가·내재가치)으로 바로 점수를 매깁니다. 정성 평가는 다음 날 아침 자동 분석 때 채워집니다.</p>
+    <p class="small muted" style="margin:2px 0 10px">한국·미국·일본·중국·홍콩 상장사를 같은 기준으로 바로 점수 매깁니다.</p>
     <form id="az-form" class="az-form" autocomplete="off"><input id="az-q" value="${esc(AZ.q)}" placeholder="예: 에코프로, 팔란티어, 7203" aria-label="종목 검색" enterkeyhint="search"><button class="btn primary" type="submit" ${AZ.busy?'disabled':''}>${AZ.busy && !AZ.run ? '찾는 중' : '검색'}</button></form>
     ${AZ.items ? (items.length ? `<div class="az-list">${items.map(row).join('')}</div>` : `<div class="small muted" style="margin-top:8px">찾은 종목이 없습니다. 티커(예: PLTR, 005930, 7203)로도 찾아 보세요.</div>`) : ''}
     <div class="status-line small" id="az-msg">${esc(AZ.msg)}</div>
-    <p class="small muted" style="margin:6px 0 0">같은 종목을 다시 분석하는 것은 횟수에서 빠지지 않습니다. 이미 목록에 있는 회사는 무료로 바로 볼 수 있습니다.</p>
+    
   </div>`;
 }
 function azPaint(){ const b = document.getElementById('azBox'); if(b){ const y = window.scrollY; b.outerHTML = azHtml(); window.scrollTo(0,y); } }
@@ -2763,7 +2771,7 @@ function valueRow(ev, px, cur){
     </div>
     ${isNum(ev.buyBelow) ? `<div class="small muted buyline">매수 상한${gl('매수 상한')} <b class="num" style="color:var(--ink)">${fmtPx(ev.buyBelow, cur)}</b> · ${isNum(px) && px <= ev.buyBelow ? '<span class="ok-tag">지금 가격이 매수 상한 아래</span>' : '이 가격 아래로 오면 매수 조건 충족'}</div>` : ''}
     ${isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">적정 가격 범위${gl('가치 범위')} <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, cur)} ~ ${fmtPx(ev.ivNow, cur)}</b> · 기대 수익 ${upHtml(upPct(ev.ivNorm, px))} ~ ${upHtml(upPct(ev.ivNow, px))}</div>` : ''}
-    ${isNum(u) && u > 0 ? `<div class="small muted note-line">기대 수익은 가정(이익·성장률·할인율)이 맞을 때 주가가 적정 가격에 닿는다는 뜻입니다. 보장이 아니고, 보통 여러 해가 걸립니다.</div>` : ''}`;
+    ${isNum(u) && u > 0 ? `<div class="small muted note-line">가정이 맞을 때의 값이며 보장이 아닙니다. 보통 여러 해가 걸립니다.</div>` : ''}`;
 }
 /* ===== 용어 풀이: 물음표를 누르면 쉬운 설명 ===== */
 const GLOSS = {
@@ -4206,6 +4214,13 @@ input,select,textarea{border-radius:10px}
 .login-brand p{margin:14px 0 0;color:var(--muted);font-size:14px}
 .login-card{padding:22px}
 .brand-t{cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+/* 워드마크: 세리프(Fraunces)로 가치 투자 노트다운 인상 */
+.wordmark{font-family:"Fraunces",Georgia,"Times New Roman",serif!important;font-weight:600;letter-spacing:-.015em;font-variation-settings:"opsz" 96}
+.wordmark .wm-b{font-style:italic;font-weight:600}
+.brand h1.wordmark{font-size:23px;line-height:1}
+.brand-sub{letter-spacing:.06em;text-transform:uppercase;font-size:clamp(8.5px,2.3vw,10px)!important;margin-top:3px}
+.wordmark.lg{font-size:44px}
 
 </style>
 </body>
