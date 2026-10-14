@@ -280,6 +280,11 @@ details.more>summary{font-size:15px}
 .fbar-row{display:grid;grid-template-columns:1fr auto;gap:8px}
 .fbar-row select{width:auto}
 .chip.sm{padding:5px 12px;font-size:13px}
+.minbar{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px;padding:0 2px}
+.minbar::-webkit-scrollbar{display:none}
+.minbar>.small{flex:0 0 auto;margin-right:2px}
+.minbar .chip{flex:0 0 auto;white-space:nowrap;padding:5px 9px;font-size:12.5px}
+.minbar .chip .num{font-size:11px;margin-left:2px}
 .pick-list{padding:6px 10px}
 .pick-row{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 6px;border-bottom:1px solid var(--line);cursor:pointer}
 .pick-row:last-of-type{border-bottom:0}
@@ -635,6 +640,7 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 .segx{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:14px;background:var(--bg)}
 .segx button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:baseline;justify-content:center;gap:6px;padding:9px 6px;border-radius:10px;font-size:14px;font-weight:600;color:var(--muted)}
 .segx button b{font-size:13px;font-weight:700;color:var(--muted)}
+.segx button span{white-space:nowrap}
 .segx button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(14,26,43,.12)}
 .segx button[aria-selected="true"] b{color:var(--gold, var(--accent))}
 .segx button:focus-visible{outline:2px solid var(--accent)}
@@ -2330,12 +2336,13 @@ function stageItems(stage){
   if(stage === 'watch') return S.companies.filter(c => ['관심','내 종목'].includes(scopeOf(c))).map(rowFor);
   return allCompanyRows();
 }
-function filteredStage(stage){
+function filteredStage(stage, noMin){
   const q = (S.coQ||'').trim().toLowerCase(), mk = S.coMkt || 'ALL', so = S.coSort || (inv().style ? 'fit' : 'b');
   let rows = stageItems(stage);
   if(mk !== 'ALL') rows = rows.filter(x => x.m === mk);
   if(q) rows = rows.filter(x => [x.name, x.en, x.code, x.p?.industry, x.c?.sector, x.r?.ind].join(' ').toLowerCase().includes(q));
   if(S.coTag) rows = rows.filter(x => (x.r?.tags||[]).includes(S.coTag));
+  if(S.coMin && !noMin) rows = rows.filter(x => isNum(x.b) && x.b >= S.coMin);
   if(S.coHide && stage === 'all') rows = rows.filter(x => !(x.r?.flags||[]).some(f => f !== '경기순환·이익 변동'));
   const yld = x => { const d = x.p?.dividend; const px = x.c?.price ?? x.px; return d && isNum(d.dps) && d.dps > 0 && isNum(px) ? d.dps/px*100 : (d?.yield ?? -1); };
   const num = v => isNum(v) ? v : -1;
@@ -2359,6 +2366,9 @@ function filterBarHtml(){
     <div class="chips" role="group" aria-label="시장">${[['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국'],['HK','홍콩']].map(([k,l]) => `<button class="chip sm" data-act="co-mkt" data-v="${k}" aria-current="${mk===k}">${l}</button>`).join('')}</div>
     <div class="fbar-row"><input id="co-q" value="${esc(S.coQ||'')}" placeholder="회사명·티커·산업 검색" aria-label="검색">
       <select id="co-sort" aria-label="정렬">${[...(inv().style ? [['fit','내 성향 맞춤']] : []),['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
+    ${(() => { const base = filteredStage(st, true); const cnt = m => m ? base.filter(x => isNum(x.b) && x.b >= m).length : base.length; const cur = S.coMin || 0;
+      return `<div class="minbar" role="group" aria-label="점수로 거르기"><span class="small muted">점수</span>${[[0,'전체'],[60,'60+'],[70,'70+'],[75,'75+'],[90,'90+']].map(([m,l]) => `<button class="chip sm" data-act="co-min" data-v="${m}" aria-current="${cur===m}">${l} <span class="num muted">${cnt(m)}</span></button>`).join('')}</div>`; })()}
+    ${st === 'watch' ? `<p class="small muted" style="margin:0">관심 후보는 매주 월요일 아침 자동으로 다시 고릅니다: 점수 70점 이상, 탈락·위험 신호 없음, 시장마다 최대 4곳씩 상위 12곳. 여기에 ☆를 누르거나 메모를 쓴 회사가 더해집니다.</p>` : ''}
     ${st === 'all' ? `<details class="small"><summary>더 거르기</summary><div class="stack" style="gap:6px;margin-top:6px">
       <label class="f">전략 신호<select id="co-tag"><option value="">전체</option>${TAGS.map(t => `<option ${S.coTag===t?'selected':''}>${t}</option>`).join('')}</select></label>
       <label class="chk"><input type="checkbox" id="co-hide" ${S.coHide?'checked':''}>위험 신호(잦은 적자·차입 부담·희석·현금 전환 약함) 있는 기업 숨기기</label></div></details>` : ''}
@@ -3822,6 +3832,7 @@ document.addEventListener('click', async e => {
   if(act === 'scope'){ S.coFocus = null; S.scope = a.dataset.v; S.coShown = 30; render(); if(S.tab==='analyze') updateEval(); return; }
   if(act === 'map-open'){ S.coFocus = a.dataset.v; S.coOpen = a.dataset.v; render(); const t = document.getElementById('coListTop'); if(t) window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - 130); return; }
   if(act === 'co-sec'){ S.coSec = a.dataset.v; render(); return; }
+  if(act === 'co-min'){ S.coMin = +a.dataset.v || 0; S.coShown = 30; render(); return; }
   if(act === 'co-mkt'){ S.coMkt = a.dataset.v; S.coShown = 30; render(); if(S.tab==='analyze') updateEval(); return; }
   if(act === 'co-more'){ S.coShown += 30; const y = window.scrollY; render(); if(S.tab==='analyze') updateEval(); window.scrollTo(0,y); return; }
   if(act === 'co-open'){ S.coOpen = S.coOpen === a.dataset.v ? null : a.dataset.v; const y = window.scrollY; render(); window.scrollTo(0,y); return; }
