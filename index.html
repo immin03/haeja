@@ -3104,7 +3104,8 @@ const GUIDE = [
     ['어떤 회사들이 들어 있나요?', () => { const m = S2.meta || {}; const c = m.counts || {}; const n = m.total || Object.values(c).reduce((a,b)=>a+b,0) || 221;
       const parts = [['US','미국'],['KR','한국(코스피·코스닥)'],['JP','일본'],['CN','중국 본토'],['HK','홍콩']].filter(([k]) => c[k]).map(([k,l]) => `${l} ${c[k]}`).join(', ');
       return `<p>"기업 → 찾기" 목록에는 5개 시장의 시가총액 상위 대형주 <b>${n}곳</b>이 들어 있다${parts ? ` (${parts})` : ''}. 버핏식 기준을 적용하려면 최근 5개년 연간 재무(매출·이익·현금흐름·부채)가 필요해서, 이 자료를 모을 수 있는 회사만 남겼다.</p>
-      <p>재무는 ${esc(m.generatedAt ? m.generatedAt.replace(/\s*\(.*\)/,'') : '2026-10-12')}에 stockanalysis·roic.ai·기업 공시를 웹으로 조사해 모았고, 가격은 평일 매일 갱신된다. 회사마다 데이터 신뢰도(높음·보통·낮음)를 표시하며, 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다.</p>
+      <p>대상은 시장마다 시가총액 상위 회사다(한국 코스피 100·코스닥 50, 미국 200, 일본 100, 중국 100, 홍콩 50). 매주 토요일 새벽에 순위를 다시 받아 새로 들어온 회사를 넣고, 연간 재무제표(Yahoo Finance)로 같은 점수식을 다시 계산한다. 처음 직접 조사해 넣은 회사(stockanalysis·roic.ai·공시 대조)는 그 재무를 유지한다. 가격은 평일 매일 갱신된다. 마지막 수집: ${esc(m.generatedAt ? m.generatedAt.replace(/\s*\(.*\)/,'') : '–')}.</p>
+      <p>회사마다 데이터 신뢰도(높음·보통·낮음)를 표시하며, 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다. 목록에 없는 회사는 "목록에 없는 종목 바로 분석"으로 같은 기준의 점수를 볼 수 있다.</p>
       <p>이 목록은 "좋은 회사"를 고른 것이 아니라 비교할 수 있는 큰 회사를 모은 것이다. 판정은 목록 안에서 같은 기준으로 매긴다.</p>`; }],
     ['관심 종목은 어떻게 쓰나요?', `<p>사지 않았어도 지켜보고 싶은 회사는 기업 목록이나 기업 화면의 <b>☆</b>를 누르면 "기업 → 관심 종목"에 모인다. 한 번 더 누르면 빠진다.</p>
      <p>관심 종목 화면에서는 현재가·적정 가격·기대 수익과 함께 <b>종합 점수가 1주·1달 전보다 올랐는지 내렸는지</b>를 보여 준다(재무는 그대로 두고 그때 가격으로 다시 계산한 값). 막대는 매수 상한까지 얼마나 가까워졌는지를 뜻하고, 매수 상한에 닿으면 알림이 온다.</p>`],
@@ -3189,7 +3190,7 @@ const GUIDE = [
      <p>품질은 통과했는데 가격만 비싸면 "좋은 회사, 가격 대기"로 분류해 관심 목록에 남긴다. 버크셔가 애플·코카콜라를 지금 가격에 더 사지 않고 보유만 하는 것과 같은 판단이다. 매수 상한에 닿으면 알림이 온다.</p>`],
   ]},
   {g:'점수와 판정', items:[
-    ['점수는 몇 점이면 어떤 뜻인가요?', `<p><b>종합 점수(0~100)</b>는 "이 회사가 그레이엄·버핏·멍거의 기준에 얼마나 가까운가"를 뜻한다. 주가가 오를 확률이 아니다.</p>
+    ['점수는 몇 점이면 어떤 뜻인가요?', () => `<p><b>종합 점수(0~100)</b>는 "이 회사가 그레이엄·버핏·멍거의 기준에 얼마나 가까운가"를 뜻한다. 주가가 오를 확률이 아니다.</p>
      <table class="g-tbl"><thead><tr><th>점수</th><th>뜻</th><th>할 일</th></tr></thead><tbody>
       <tr><td><b>90점 이상</b></td><td>사업의 질과 가격이 함께 기준을 크게 넘는다. 아주 드물다</td><td>안전마진·10년 보유를 확인하고 주력 자리 후보로 검토</td></tr>
       <tr><td><b>75~89점</b></td><td>기준에 가깝다. 품질 70점 이상·10년 보유 통과·안전마진 30%를 채우면 "매수 후보"</td><td>못 채운 조건이 무엇인지 보고, 가격이 조건이면 매수 상한 알림을 기다린다</td></tr>
@@ -3197,7 +3198,8 @@ const GUIDE = [
       <tr><td><b>40~59점</b></td><td>기준과 거리가 있다. 비싸거나, 이익이 불안정하거나, 위험 신호가 있다</td><td>사지 않는다. 이미 갖고 있다면 매도 조건을 점검한다</td></tr>
       <tr><td><b>40점 미만</b></td><td>이 원칙과 맞지 않는 회사다. 대부분 가격에 큰 기대가 이미 들어 있다</td><td>원칙상 대상이 아니다. 산다면 도전 칸(10% 이하)에서만</td></tr>
      </tbody></table>
-     <p><b>얼마나 드문가.</b> 2026-10-12 기준 221곳을 숫자만으로(버핏 근접도) 매기면 90점 이상 3곳, 75~89점 15곳, 60~74점 23곳, 40~59점 63곳, 40점 미만 115곳이다. 큰 회사 대부분이 지금은 비싸다는 뜻이고, 그래서 후보가 적게 나오는 것이 정상이다.</p>
+     ${(() => { const bs = (S2.screen.length ? scoredRows() : []).map(r => r.b).filter(isNum); if(!bs.length) return ''; const c = [bs.filter(b => b >= 90).length, bs.filter(b => b >= 75 && b < 90).length, bs.filter(b => b >= 60 && b < 75).length, bs.filter(b => b >= 40 && b < 60).length, bs.filter(b => b < 40).length];
+       return `<p><b>얼마나 드문가.</b> 지금 목록 ${bs.length}곳을 숫자만으로(버핏 근접도) 매기면 90점 이상 ${c[0]}곳, 75~89점 ${c[1]}곳, 60~74점 ${c[2]}곳, 40~59점 ${c[3]}곳, 40점 미만 ${c[4]}곳이다. 큰 회사 대부분이 지금은 비싸다는 뜻이고, 그래서 후보가 적게 나오는 것이 정상이다.</p>`; })()}
      <p><b>점수가 높아도 매수 후보가 아닌 경우.</b> 탈락 조건(능력 범위 밖, 지배구조 위험)에 걸리거나, 데이터 신뢰도가 낮거나, 10년 보유 테스트를 통과하지 못하면 점수와 관계없이 후보에서 빠진다. 반대로 품질 80점 이상인 회사는 점수가 낮아도 "좋은 회사, 가격 대기"로 남긴다.</p>
      <p><b>세부 점수 읽는 법</b></p>
      <table class="g-tbl"><thead><tr><th>점수</th><th>높을 때</th><th>낮을 때</th></tr></thead><tbody>
@@ -3519,15 +3521,31 @@ let scoredCache = null;
 function scoredRows(){
   if(scoredCache) return scoredCache;
   const st = cfg();
+  const STRAT = new Set(['품질 상위 10%','마법공식 상위 10%','F≥8 저PBR','넷넷','안전마진 30%+']);
   scoredCache = S2.screen.map(r => {
     const sc = scoreRow(r, null, st.reqMOS);
-    const tags = (r.tags||[]).filter(t => t !== '안전마진 30%+');
+    const tags = (r.tags||[]).filter(t => !STRAT.has(t));
     if(r.dataConf === 'low') tags.push('데이터 신뢰도 낮음');
     if(isNum(sc.mos) && sc.mos >= st.reqMOS) tags.push('안전마진 30%+');
+    const nc = r.val?.ncavps; if(isNum(nc) && nc > 0 && isNum(r.px) && r.px < nc*2/3) tags.push('넷넷');
+    const pbr = isNum(r.val?.bps) && r.val.bps > 0 && isNum(r.px) ? r.px/r.val.bps : null;
+    if(isNum(r.fs) && r.fs >= 8 && pbr !== null && pbr <= 1.5) tags.push('F≥8 저PBR');
     const tr = trendScore(autoTrendLinks(r), sc.v);
     const tb = sc.b === null ? null : tr.score === null ? sc.b : Math.round(sc.b*0.8 + tr.score*0.2);
     return {...r, ...sc, tags, trend:tr.score, trendLabels:tr.hits.map(h => h.t.label), trendWarn:tr.warn, tb};
   });
+  /* 시장별 순위 신호: 숫자 품질 상위 10%, 마법공식(이익수익률+자본수익률 순위 합) 상위 10% — screener.py add_ranks와 같은 규칙 */
+  const byM = {}; for(const r of scoredCache) (byM[r.m] ||= []).push(r);
+  for(const rs of Object.values(byM)){
+    const qs = rs.map(r => r.q).filter(isNum).sort((a,b) => b-a); const q10 = qs.length ? qs[Math.max(0, Math.floor(qs.length/10) - 1)] : 101;
+    for(const r of rs) if(isNum(r.q) && r.q >= q10 && r.dataConf !== 'low') r.tags.push('품질 상위 10%');
+    const cand = rs.filter(r => isNum(r.val?.mfEY) && isNum(r.val?.mfROC) && !r.fin_sector && !/utilit/i.test(r.s||''));
+    const rk = new Map(cand.map(r => [r, 0]));
+    [...cand].sort((a,b) => b.val.mfEY - a.val.mfEY).forEach((r,i) => rk.set(r, rk.get(r)+i));
+    [...cand].sort((a,b) => b.val.mfROC - a.val.mfROC).forEach((r,i) => rk.set(r, rk.get(r)+i));
+    const ord = [...cand].sort((a,b) => rk.get(a) - rk.get(b)); const n = ord.length;
+    ord.forEach((r,i) => { r.mf = Math.round(100*(1 - i/Math.max(n-1,1))); if(r.mf >= 90 && r.dataConf !== 'low') r.tags.push('마법공식 상위 10%'); });
+  }
   return scoredCache;
 }
 function screenFor(h){
@@ -3551,7 +3569,7 @@ function viewScreener(){
     <h2>스크리너</h2>
     <div class="card empty" style="text-align:left">
       <b>아직 수집된 데이터가 없습니다.</b>
-      <p class="small" style="margin:8px 0 0">매주 일요일 아침, S&amp;P 500·코스피 상위 200·코스닥 상위 100·중국 CSI 300·홍콩 상장 중국 기업 60개의 재무제표를 자동으로 받아 여기에 점수와 순위를 채웁니다. 첫 수집은 데이터 저장소 연결 후 시작됩니다.</p>
+      <p class="small" style="margin:8px 0 0">매주 토요일 새벽, 5개 시장 시가총액 상위 약 600개 회사의 재무제표를 자동으로 받아 여기에 점수와 순위를 채웁니다.</p>
     </div>`;
   const m = S2.meta || {};
   const counts = Object.entries(m.counts||{}).map(([k,v]) => `${(MKT[k]||{label:k}).label} ${v}`).join(' · ');
