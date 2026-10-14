@@ -402,29 +402,58 @@ body.noscroll{overflow:hidden}
 .gr-next{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;border-top:1px solid var(--line);background:var(--bg)}
 .gr-next .btn{flex:0 0 auto;font-size:13px;padding:6px 12px}
 .gr-pt{display:inline-block;font-size:11px;font-weight:700;color:var(--warn);background:var(--warn-soft);border-radius:999px;padding:1px 7px;margin-left:4px;font-family:var(--font)}
-.gr-hero{margin-top:16px}
-.gr-name{font-size:24px;font-weight:800;letter-spacing:-.03em;margin:2px 0 4px}
-.gr-score{margin-top:14px;display:flex;align-items:baseline;gap:8px}
-.gr-score b{font-size:32px;font-weight:800;letter-spacing:-.03em}
-.gr-ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-top:12px}
-.gr-ladder .gl{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted);min-width:0}
-.gr-ladder .gl i{display:block;height:6px;border-radius:3px;background:var(--line)}
-.gr-ladder .gl.past i{background:var(--c-core, var(--accent));opacity:.55}
-.gr-ladder .gl.cur i{background:var(--c-core, var(--accent))}
-.gr-ladder .gl.cur span{color:var(--ink);font-weight:700}
-.gr-ladder .gl span{word-break:keep-all;line-height:1.3}
-.gr-quote{margin:14px 0 0;padding:12px 14px;border-left:3px solid var(--gold, var(--accent));background:var(--surface);border-radius:0 10px 10px 0;font-size:13px;line-height:1.6}
-.gr-quote span{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
-.ms-list{padding:0 16px}
-.ms-row{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.gr-hero{margin-top:16px;padding:20px 18px 18px}
+.gr-top{display:flex;align-items:center;gap:14px}
+.gr-top .gr-who{flex:1;min-width:0}
+.gr-name{font-size:21px;font-weight:800;letter-spacing:-.03em;margin:1px 0 0;line-height:1.25}
+.gr-desc{margin:2px 0 0;font-size:13px;color:var(--muted);line-height:1.5}
+.gr-sc{text-align:right;flex:0 0 auto;line-height:1}
+.gr-sc b{font-size:30px;font-weight:800;letter-spacing:-.03em}
+.gr-sc span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.gr-track{position:relative;margin:26px 6px 0;height:4px;border-radius:2px;background:var(--line)}
+.gr-track>i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:var(--gold, var(--accent))}
+.gr-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:-9px -6px 0;position:relative}
+.gr-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;min-width:0;color:var(--muted);font-size:11px;line-height:1.3}
+.gr-step:first-child{align-items:flex-start;text-align:left}
+.gr-step:last-child{align-items:flex-end;text-align:right}
+.gr-step>i{width:14px;height:14px;border-radius:50%;background:var(--surface, #fff);border:2px solid var(--line);box-sizing:border-box}
+.gr-step.past>i{background:var(--gold, var(--accent));border-color:var(--gold, var(--accent))}
+.gr-step.cur>i{background:var(--gold, var(--accent));border-color:var(--gold, var(--accent));box-shadow:0 0 0 4px color-mix(in srgb, var(--gold, var(--accent)) 25%, transparent)}
+.gr-step span{word-break:keep-all;max-width:5.5em}
+.gr-step.cur span{color:var(--ink);font-weight:700}
+.gr-step small{font-size:10px;opacity:.8}
+.gr-tip{margin:18px 0 0;padding:10px 12px;border-radius:10px;background:var(--bg);font-size:13px;line-height:1.5}
+.gr-quote{margin:28px 2px 0;padding:0 0 0 12px;border-left:2px solid var(--gold, var(--accent));font-size:13px;line-height:1.65;color:var(--muted)}
+.gr-quote span{display:block;margin-top:4px;font-size:12px}
+.ms-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 2px 8px}
+.ms-h b{font-size:15px;font-weight:800;letter-spacing:-.02em}
+.ms-h b small{font-weight:500;color:var(--muted);font-size:13px;margin-left:6px}
+.ms-h .ms-meter{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.ms-meter i{display:block;width:44px;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ms-meter i i{height:100%;background:var(--accent);width:0}
+.ms-list{padding:2px 16px}
+.ms-row{display:grid;grid-template-columns:18px minmax(0,1fr) auto;column-gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
 .ms-row:last-child{border-bottom:0}
-.ms-ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#FFFFFF}
-.ms-row.done .ms-ck{background:var(--accent);border-color:var(--accent)}
-.ms-row.done .mi-t b{color:var(--muted)}
-.mi-t{display:flex;align-items:center;flex-wrap:wrap;gap:2px}
-.ms-now{color:var(--warn);margin-top:2px}
-.ms-ok{color:var(--accent);font-weight:700}
-.ms-row .btn{font-size:12px;padding:5px 10px;white-space:nowrap}
+.ms-ck{width:18px;height:18px;margin-top:2px;border-radius:50%;border:1.5px solid var(--line);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#FFFFFF}
+.ms-row.done{padding:11px 0;align-items:center}
+.ms-row.done .ms-ck{background:var(--accent);border-color:var(--accent);margin-top:0}
+.ms-row.done .mi-t{color:var(--muted);font-weight:500}
+.mi-t{font-weight:700;font-size:15px;line-height:1.4;letter-spacing:-.01em}
+.ms-why{font-size:13px;color:var(--muted);line-height:1.5;margin-top:3px}
+.ms-now{font-size:12px;color:var(--warn);margin-top:4px}
+.ms-go{all:unset;cursor:pointer;display:inline-block;margin-top:8px;font-size:13px;font-weight:700;color:var(--accent)}
+.ms-go:focus-visible{outline:2px solid var(--accent);border-radius:4px}
+.ms-p{font-size:12px;font-weight:700;color:var(--muted);font-family:var(--font);padding-top:2px}
+.ms-row:not(.done) .ms-p{color:var(--warn)}
+.ms-p em{font-style:normal;color:var(--muted);font-size:16px;margin-left:6px;font-weight:400}
+.ms-row.tap{cursor:pointer}
+.ms-row.tap:active{opacity:.6}
+.ms-done{margin-top:6px}
+.ms-done>summary{list-style:none;cursor:pointer;font-size:13px;color:var(--muted);padding:12px 2px 4px}
+.ms-done>summary::-webkit-details-marker{display:none}
+.ms-done>summary::after{content:" ›";display:inline-block;transition:transform .2s}
+.ms-done[open]>summary::after{transform:rotate(90deg)}
+.gr-foot{margin:26px 2px 0;font-size:12px;color:var(--muted);line-height:1.6}
 .az-form{display:flex;gap:8px}
 .az-form input{flex:1;min-width:0;font:inherit;font-size:16px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
 .az-list{margin-top:8px}
@@ -2938,11 +2967,11 @@ function introHtml(){
 function introDone(){ if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); try{ localStorage.setItem('vn-intro-v3','1'); }catch(_){} }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
-  {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계. 그레이엄은 이것을 투자와 구분했다.'},
-  {n:2, min:20, name:'입문 투자자',   d:'원칙을 알고 기록을 시작한 단계.'},
-  {n:3, min:40, name:'방어적 투자자', d:'큰 실수를 피하고 현금과 비중을 지키는 단계.'},
-  {n:4, min:60, name:'적극적 투자자', d:'좋은 회사를 싼 가격에 골라 집중하는 단계.'},
-  {n:5, min:80, name:'현명한 투자자', d:'원칙대로 사고, 기다리고, 기록하는 단계. 그레이엄이 말한 "현명한 투자자".'},
+  {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계입니다.'},
+  {n:2, min:20, name:'입문 투자자',   d:'원칙을 알고 기록을 시작한 단계입니다.'},
+  {n:3, min:40, name:'방어적 투자자', d:'큰 실수를 피하고 현금과 비중을 지키는 단계입니다.'},
+  {n:4, min:60, name:'적극적 투자자', d:'좋은 회사를 싸게 골라 집중하는 단계입니다.'},
+  {n:5, min:80, name:'현명한 투자자', d:'원칙대로 사고, 기다리고, 기록하는 단계입니다.'},
 ];
 const MASTERS = {graham:{l:'그레이엄', s:'안전마진과 현금'}, buffett:{l:'버핏', s:'좋은 회사에 집중'}, munger:{l:'멍거', s:'실수 피하기'}, habit:{l:'습관', s:'꾸준히 확인하기'}};
 function pfCalc(){
@@ -2969,24 +2998,24 @@ function missions(){
   const mosHit = stocks.filter(r => r.ev && isNum(r.ev.iv) && isNum(r.h.avg) && r.h.avg <= r.ev.iv*(1 - st.reqMOS/100));
   const has = rows.length > 0;
   const M = [
-    {id:'g-cash', m:'graham', p:5, t:'예수금 입력하기', why:'현금이 얼마인지 알아야 비중을 지킬 수 있다.', ok: (st.cashKRW||0) > 0, go:'portfolio', btn:'예수금 넣기'},
-    {id:'g-cashw', m:'graham', p:8, t:'현금 10~20% 지키기', why:'폭락이 와도 더 살 수 있는 사람만 시장을 이용한다.', ok: !!P && P.cashAll >= PLAN.cashLo && P.cashAll <= PLAN.cashHi, now: P ? `지금 ${fmt(P.cashAll,0)}%` : '', go:'portfolio'},
-    {id:'g-lev', m:'graham', p:8, t:'레버리지·인버스 0%', why:'시간이 지날수록 가치가 깎이는 상품은 투자가 아니라 투기다.', ok: has && !rows.some(r => r.h.kind === 'lev'), now: rows.filter(r => r.h.kind === 'lev').map(r => r.h.ticker || r.h.name).join(', '), go:'portfolio'},
-    {id:'g-mos', m:'graham', p:8, t:'안전마진 30% 가격에 산 종목 1개', why:'내재가치보다 충분히 싸게 사면 틀려도 크게 잃지 않는다.', ok: mosHit.length > 0, now: mosHit.map(r => r.h.name).join(', '), go:'companies', btn:'매수 후보 보기'},
-    {id:'b-first', m:'buffett', p:4, t:'보유 종목 등록하기', why:'내가 가진 회사부터 같은 기준으로 본다.', ok: has, go:'portfolio', btn:'종목 추가'},
-    {id:'b-core3', m:'buffett', p:8, t:'주력 3종목 채우기', why:'잘 아는 좋은 회사 세 곳이면 충분하다.', ok: !!P && P.core.length >= PLAN.coreN, now: P ? `${P.core.length}/3` : '0/3', go:'portfolio'},
-    {id:'b-corew', m:'buffett', p:8, t:'주력 비중 70~80%', why:'확신 있는 곳에 크게 건다. 버크셔도 상위 5종목이 약 70%다.', ok: !!P && P.coreW >= PLAN.coreLo && P.coreW <= PLAN.coreHi, now: P ? `지금 ${fmt(P.coreW,0)}%` : '', go:'portfolio'},
+    {id:'g-cash', m:'graham', p:5, t:'예수금 입력하기', why:'현금을 알아야 비중을 지킬 수 있습니다.', ok: (st.cashKRW||0) > 0, go:'portfolio', btn:'예수금 넣기'},
+    {id:'g-cashw', m:'graham', p:8, t:'현금 10~20% 지키기', why:'폭락 때 더 살 수 있어야 시장을 이용합니다.', ok: !!P && P.cashAll >= PLAN.cashLo && P.cashAll <= PLAN.cashHi, now: P ? `지금 ${fmt(P.cashAll,0)}%` : '', go:'portfolio'},
+    {id:'g-lev', m:'graham', p:8, t:'레버리지·인버스 0%', why:'시간이 갈수록 깎이는 상품은 투기입니다.', ok: has && !rows.some(r => r.h.kind === 'lev'), now: rows.filter(r => r.h.kind === 'lev').map(r => r.h.ticker || r.h.name).join(', '), go:'portfolio'},
+    {id:'g-mos', m:'graham', p:8, t:'안전마진 30% 가격에 산 종목 1개', why:'충분히 싸게 사면 틀려도 크게 잃지 않습니다.', ok: mosHit.length > 0, now: mosHit.map(r => r.h.name).join(', '), go:'companies', btn:'매수 후보 보기'},
+    {id:'b-first', m:'buffett', p:4, t:'보유 종목 등록하기', why:'내 회사부터 같은 기준으로 봅니다.', ok: has, go:'portfolio', btn:'종목 추가'},
+    {id:'b-core3', m:'buffett', p:8, t:'주력 3종목 채우기', why:'잘 아는 좋은 회사 세 곳이면 충분합니다.', ok: !!P && P.core.length >= PLAN.coreN, now: P ? `${P.core.length}/3` : '0/3', go:'portfolio'},
+    {id:'b-corew', m:'buffett', p:8, t:'주력 비중 70~80%', why:'확신 있는 곳에 크게. 버크셔도 상위 5종목이 약 70%입니다.', ok: !!P && P.coreW >= PLAN.coreLo && P.coreW <= PLAN.coreHi, now: P ? `지금 ${fmt(P.coreW,0)}%` : '', go:'portfolio'},
     {id:'b-exp', m:'buffett', p:6, t:'도전 칸 10% 이하', why:'검증 안 된 베팅은 잃어도 괜찮은 만큼만.', ok: !!P && P.expW <= PLAN.expMax + 0.5, now: P ? `지금 ${fmt(P.expW,0)}%` : '', go:'portfolio'},
-    {id:'b-hold10', m:'buffett', p:6, t:'모든 보유 종목 10년 보유 테스트 통과', why:'10년 들고 있을 수 없는 주식은 10분도 들고 있지 마라.', ok: cos.length > 0 && cos.every(c => c.qual?.hold10 === true), now: cos.filter(c => c.qual?.hold10 !== true).map(c => c.name).slice(0,3).join(', '), go:'portfolio'},
-    {id:'m-guide', m:'munger', p:3, t:'Q&A 읽기', why:'규칙을 알아야 규칙을 지킬 수 있다.', ok: !!pg.guideAt, go:'guide', btn:'Q&A 열기'},
-    {id:'m-memo', m:'munger', p:7, t:'보유 종목마다 내 메모 쓰기', why:'왜 샀는지 한 문장으로 못 쓰면 능력 범위 밖이다.', ok: cos.length > 0 && cos.every(c => (c.thesis?.memo||'').trim()), now: cos.length ? `${cos.filter(c => (c.thesis?.memo||'').trim()).length}/${cos.length}` : '', go:'portfolio'},
-    {id:'m-sell', m:'munger', p:4, t:'매도 조건 2개 이상 확인', why:'언제 팔지 미리 정해 두면 공포에 팔지 않는다.', ok: cos.length > 0 && cos.every(c => ['sell1','sell2','sell3'].filter(k => (c.thesis?.[k]||'').trim()).length >= 2), go:'portfolio'},
-    {id:'m-journal', m:'munger', p:5, t:'결정 일지 첫 기록', why:'기록하지 않으면 같은 실수를 반복한다.', ok: js.length > 0, go:'journal', btn:'일지 쓰기'},
-    {id:'m-follow', m:'munger', p:6, t:'모델을 따른 결정 80% 이상 (3건 이상)', why:'원칙을 만들고 지키지 않으면 원칙이 없는 것과 같다.', ok: cs.n >= 3 && cs.followed/cs.n >= 0.8, now: cs.n ? `${cs.followed}/${cs.n}건` : '기록 없음', go:'journal'},
+    {id:'b-hold10', m:'buffett', p:6, t:'모든 보유 종목 10년 보유 테스트 통과', why:'10년 못 들고 있을 주식은 10분도 들지 않습니다.', ok: cos.length > 0 && cos.every(c => c.qual?.hold10 === true), now: cos.filter(c => c.qual?.hold10 !== true).map(c => c.name).slice(0,3).join(', '), go:'portfolio'},
+    {id:'m-guide', m:'munger', p:3, t:'Q&A 읽기', why:'규칙을 알아야 지킬 수 있습니다.', ok: !!pg.guideAt, go:'guide', btn:'Q&A 열기'},
+    {id:'m-memo', m:'munger', p:7, t:'보유 종목마다 내 메모 쓰기', why:'왜 샀는지 한 문장으로 못 쓰면 능력 범위 밖입니다.', ok: cos.length > 0 && cos.every(c => (c.thesis?.memo||'').trim()), now: cos.length ? `${cos.filter(c => (c.thesis?.memo||'').trim()).length}/${cos.length}` : '', go:'portfolio'},
+    {id:'m-sell', m:'munger', p:4, t:'매도 조건 2개 이상 확인', why:'팔 조건을 미리 정하면 공포에 팔지 않습니다.', ok: cos.length > 0 && cos.every(c => ['sell1','sell2','sell3'].filter(k => (c.thesis?.[k]||'').trim()).length >= 2), go:'portfolio'},
+    {id:'m-journal', m:'munger', p:5, t:'결정 일지 첫 기록', why:'기록하지 않으면 같은 실수를 반복합니다.', ok: js.length > 0, go:'journal', btn:'일지 쓰기'},
+    {id:'m-follow', m:'munger', p:6, t:'모델을 따른 결정 80% 이상 (3건 이상)', why:'지키지 않는 원칙은 원칙이 아닙니다.', ok: cs.n >= 3 && cs.followed/cs.n >= 0.8, now: cs.n ? `${cs.followed}/${cs.n}건` : '기록 없음', go:'journal'},
     {id:'m-bal', m:'munger', p:5, t:'균형 점검 모두 통과', why:'집중하되 같은 이유로 함께 무너지지 않게.', ok: !!P && P.bal.length > 0 && P.bal.every(b => b.ok), now: P ? `${P.bal.filter(b => b.ok).length}/${P.bal.length}` : '', go:'portfolio'},
-    {id:'h-push', m:'habit', p:3, t:'휴대폰 알림 켜기', why:'중요한 일만 알려 준다. 나머지 시간엔 시장을 잊어도 된다.', ok: typeof pushState !== 'undefined' && pushState === 'on', act:'push', btn:'알림 켜기'},
-    {id:'h-brief', m:'habit', p:4, t:'2주 동안 브리핑 7번 확인', why:'매일 1분, 사실만 확인하고 흥분하지 않는다.', ok: briefN >= 7, now: `${briefN}/7`, go:'briefing', btn:'브리핑 보기'},
-    {id:'h-review', m:'habit', p:2, t:'최근 3개월 안에 점검 기록', why:'분기마다 매도 조건을 대조하는 습관.', ok: js.some(j => (j.date||'') >= d90), go:'journal'},
+    {id:'h-push', m:'habit', p:3, t:'휴대폰 알림 켜기', why:'중요한 일만 알립니다. 나머지 시간엔 잊어도 됩니다.', ok: typeof pushState !== 'undefined' && pushState === 'on', act:'push', btn:'알림 켜기'},
+    {id:'h-brief', m:'habit', p:4, t:'2주 동안 브리핑 7번 확인', why:'매일 1분, 사실만 확인합니다.', ok: briefN >= 7, now: `${briefN}/7`, go:'briefing', btn:'브리핑 보기'},
+    {id:'h-review', m:'habit', p:2, t:'최근 3개월 안에 점검 기록', why:'분기마다 매도 조건을 대조합니다.', ok: js.some(j => (j.date||'') >= d90), go:'journal'},
   ];
   const score = M.reduce((a,x) => a + (x.ok ? x.p : 0), 0);
   const lv = [...LEVELS].reverse().find(l => score >= l.min);
@@ -3014,24 +3043,35 @@ function gradeCard(){
 function viewGrade(){
   const g = missions();
   const groups = Object.entries(MASTERS).map(([k, m]) => ({k, m, xs: g.M.filter(x => x.m === k)}));
-  const mrow = x => `<div class="ms-row${x.ok ? ' done' : ''}">
-      <span class="ms-ck" aria-hidden="true">${x.ok ? '✓' : ''}</span>
-      <div class="ms-body"><div class="mi-t"><b>${esc(x.t)}</b><span class="gr-pt">+${x.p}</span></div><div class="small muted">${esc(x.why)}</div>${!x.ok && x.now ? `<div class="small ms-now">${esc(x.now)}</div>` : ''}</div>
-      ${x.ok ? `<span class="small ms-ok">완료</span>` : missionBtn(x)}
-    </div>`;
+  const goBtn = x => x.act === 'push' ? `<button type="button" class="ms-go" data-al="open">${esc(x.btn)} ›</button>`
+    : `<button type="button" class="ms-go" data-act="go-tab" data-v="${x.go}">${esc(x.btn || '하러 가기')} ›</button>`;
+  const todoRow = x => { const tap = !x.btn && x.go; return `<div class="ms-row${tap ? ' tap' : ''}"${tap ? ` data-act="go-tab" data-v="${x.go}" role="button" tabindex="0"` : ''}><span class="ms-ck" aria-hidden="true"></span>
+      <div><div class="mi-t">${esc(x.t)}</div><div class="ms-why">${esc(x.why)}</div>${x.now ? `<div class="ms-now">${esc(x.now)}</div>` : ''}${x.btn ? goBtn(x) : ''}</div>
+      <span class="ms-p num">+${x.p}${tap ? '<em aria-hidden="true">›</em>' : ''}</span></div>`; };
+  const doneRow = x => `<div class="ms-row done"><span class="ms-ck" aria-hidden="true">✓</span><div class="mi-t">${esc(x.t)}</div><span class="ms-p num">${x.p}</span></div>`;
+  const pos = l => (l.n - 1) / (LEVELS.length - 1) * 100;
+  /* 점수를 사다리 위치로: 등급 구간 안에서 선형 */
+  const nx = g.next, fill = nx ? pos(g.lv) + (g.score - g.lv.min) / (nx.min - g.lv.min) * (pos(nx) - pos(g.lv)) : 100;
+  const top = g.M.filter(x => !x.ok).sort((a,b) => b.p - a.p)[0];
+  const sum = xs => xs.reduce((a,x) => a + x.p, 0);
   return `
   <div class="card gr-hero">
-    <div class="row" style="gap:14px;align-items:center;flex-wrap:nowrap">
-      <span class="gr-badge big lv${g.lv.n}"><small>Lv</small>${g.lv.n}</span>
-      <div style="min-width:0"><span class="eyebrow">나의 투자자 등급</span><div class="gr-name">${esc(g.lv.name)}</div><div class="small">${esc(g.lv.d)}</div></div>
+    <div class="gr-top">
+      <span class="gr-badge lv${g.lv.n}"><small>Lv</small>${g.lv.n}</span>
+      <div class="gr-who"><span class="eyebrow">나의 투자자 등급</span><div class="gr-name">${esc(g.lv.name)}</div></div>
+      <div class="gr-sc"><b class="num">${g.score}</b><span>/ 100점</span></div>
     </div>
-    <div class="gr-score"><b class="num">${g.score}</b><span class="muted">/ 100점 · 미션 ${g.done}/${g.M.length}</span></div>
-    <div class="gr-ladder">${LEVELS.map(l => `<div class="gl${l.n === g.lv.n ? ' cur' : l.n < g.lv.n ? ' past' : ''}"><i></i><span>${esc(l.name)}</span><small class="num">${l.min}+</small></div>`).join('')}</div>
-    ${g.next ? `<p class="small" style="margin:10px 0 0">다음 등급 <b>${esc(g.next.name)}</b>까지 <b>${g.next.min - g.score}점</b>. 점수가 큰 미션부터 하면 빠르다.</p>` : `<p class="small" style="margin:10px 0 0">최고 등급이다. 이제 할 일은 원칙을 계속 지키는 것뿐이다.</p>`}
+    <p class="gr-desc">${esc(g.lv.d)}</p>
+    <div class="gr-track"><i style="width:${Math.max(0, Math.min(100, fill))}%"></i></div>
+    <div class="gr-steps">${LEVELS.map(l => `<div class="gr-step${l.n === g.lv.n ? ' cur' : l.n < g.lv.n ? ' past' : ''}"><i></i><span>${esc(l.name)}</span><small class="num">${l.min}점</small></div>`).join('')}</div>
+    <div class="gr-tip">${nx ? `<b>${esc(nx.name)}</b>까지 <b class="num">${nx.min - g.score}점</b> 남았습니다.${top ? ` 가장 큰 미션은 <b>${esc(top.t)}</b>(+${top.p})입니다.` : ''}` : '최고 등급입니다. 이제 원칙을 계속 지키기만 하면 됩니다.'}</div>
   </div>
+  ${groups.map(({m, xs}) => { const todo = xs.filter(x => !x.ok).sort((a,b) => b.p - a.p), done = xs.filter(x => x.ok); const got = sum(done), all = sum(xs);
+    return `<div class="ms-h"><b>${esc(m.l)}<small>${esc(m.s)}</small></b><span class="ms-meter"><i><i style="width:${all ? got/all*100 : 0}%"></i></i><span class="num">${got}/${all}</span></span></div>
+    ${todo.length ? `<div class="card ms-list">${todo.map(todoRow).join('')}</div>` : ''}
+    ${done.length ? (todo.length ? `<details class="ms-done"><summary>완료한 미션 ${done.length}개</summary><div class="card ms-list">${done.map(doneRow).join('')}</div></details>` : `<div class="card ms-list">${done.map(doneRow).join('')}</div>`) : ''}`; }).join('')}
   <blockquote class="gr-quote">"투자는 철저한 분석을 통해 원금의 안전과 적절한 수익을 약속하는 행위다. 이 요건을 충족하지 않는 행위는 투기다."<span>— 벤저민 그레이엄, 『현명한 투자자』</span></blockquote>
-  ${groups.map(({m, xs}) => `<h3 class="eyebrow guide-h">${esc(m.l)} · ${esc(m.s)} <span class="num">${xs.filter(x => x.ok).reduce((a,x)=>a+x.p,0)}/${xs.reduce((a,x)=>a+x.p,0)}</span></h3><div class="card ms-list">${xs.map(mrow).join('')}</div>`).join('')}
-  <p class="small muted" style="margin-top:14px">미션은 포트폴리오, 결정 일지, 알림 설정을 보고 자동으로 확인한다. 직접 체크할 필요가 없고, 원칙에서 벗어나면 점수도 다시 내려간다. 등급이 오르면 알림이 온다.</p>`;
+  <p class="gr-foot">미션은 포트폴리오·결정 일지·알림 설정을 보고 자동으로 확인합니다. 원칙에서 벗어나면 점수도 내려가고, 등급이 오르면 알림이 옵니다.</p>`;
 }
 /* 등급이 오르면 알림 한 번 */
 async function checkLevelUp(){
