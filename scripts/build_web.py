@@ -6,6 +6,9 @@
 """
 import sys
 
+APP_NAME = "스노우볼 노트"
+APP_SLOGAN = "Inspired by Graham & Buffett"
+
 src, dst = sys.argv[1], sys.argv[2]
 s = open(src, encoding="utf-8").read()
 
@@ -200,6 +203,8 @@ rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left
 # 3) 로컬 저장 안내 문구 제거 (웹에서는 항상 DB)
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
+rep('<div class="brand"><h1>스노우볼 노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + ' · <span id="saveState">불러오는 중</span></span></div></div>')
+s = s.replace('<title>스노우볼 노트</title>', '<title>' + APP_NAME + '</title>')
 HEAD = """<!doctype html>
 <html lang="ko">
 <head>
@@ -212,11 +217,12 @@ HEAD = """<!doctype html>
 <meta name="theme-color" content="#1E6A4C">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="스노우볼 노트">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 </head>
 <body>
 """
-s = HEAD + s.lstrip() + "\n</body>\n</html>\n"
+s = HEAD.replace("스노우볼 노트", APP_NAME) + s.lstrip() + "\n</body>\n</html>\n"
 open(dst, "w", encoding="utf-8").write(s)
 print("wrote", dst, len(s))
