@@ -196,6 +196,22 @@ nav.tabs button{font-size:16px;padding:10px 12px}
 .linkbtn{all:unset;cursor:pointer;color:var(--accent);font-weight:700;text-decoration:underline}
 .linkbtn:focus-visible{outline:2px solid var(--accent)}
 @media (max-width:440px){.slots{grid-template-columns:1fr}.slot{flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 10px}.slot .bar{flex:1 1 100%}}
+.pf-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;margin:14px 0 4px}
+.pf-bar i{display:block;height:100%}
+.pf-list{display:flex;flex-direction:column}
+.pf-row{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.pf-row.static{cursor:default}
+.pf-row:last-child{border-bottom:0}
+.pf-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pf-dot{width:10px;height:10px;border-radius:3px}
+.pf-name{display:flex;flex-direction:column;min-width:0}
+.pf-name b{font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf-ret{display:flex;flex-direction:column;align-items:flex-end}
+.pf-ret b{font-size:17px}
+.pf-open{padding:4px 0 12px}
+.pf-open .card{border-color:var(--accent)}
+.pf-open .hold-head .name,.pf-open .hold-head>div:last-child>.num{display:none}
+details.more>summary{font-size:15px}
 .brand-r{display:flex;align-items:center;gap:8px;margin-left:auto}
 .bell{all:unset;position:relative;cursor:pointer;color:var(--ink);display:flex;padding:6px;border-radius:8px}
 .bell:focus-visible{outline:2px solid var(--accent)}
@@ -970,20 +986,20 @@ function concPlan(rows, total, cashW){
   const won = p => fmtKRW(total*p/100);
   const acts = [];
   const lev = exp.filter(r => r.h.kind === 'lev');
-  if(lev.length) acts.push({lv:'bad', t:`${lev.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(', ')} 정리가 1순위다. 레버리지 상품은 규칙상 비중 0%이고 현재 ${fmt(lev.reduce((a,r)=>a+r.w,0),0)}%(${won(lev.reduce((a,r)=>a+r.w,0))})다.`});
+  if(lev.length) acts.push({lv:'bad', short:`${lev.map(r => r.h.ticker || r.h.name).join(', ')} 정리 1순위 — 레버리지는 원칙상 0% (지금 ${fmt(lev.reduce((a,r)=>a+r.w,0),0)}%)`, t:`${lev.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(', ')} 정리가 1순위다. 레버리지 상품은 규칙상 비중 0%이고 현재 ${fmt(lev.reduce((a,r)=>a+r.w,0),0)}%(${won(lev.reduce((a,r)=>a+r.w,0))})다.`});
   if(expW > PLAN.expMax + 0.5){
     const order = [...exp].sort((a,b) => (a.h.kind==='lev'?0:!earnsMoney(a.c)?1:2) - (b.h.kind==='lev'?0:!earnsMoney(b.c)?1:2) || b.w - a.w);
-    acts.push({lv:'warn', t:`탐험 칸이 ${fmt(expW,0)}%로 상한 ${PLAN.expMax}%보다 ${fmt(expW-PLAN.expMax,0)}%p 많다. 약 ${won(expW-PLAN.expMax)}어치를 줄여 핵심 칸으로 옮기는 것이 목표다. 줄이는 순서: ${order.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(' → ')}. 한 번에 맞출 필요는 없고, 매도 조건에 닿거나 반등할 때마다 나눠 옮긴다.`});
+    acts.push({lv:'warn', short:`탐험 ${fmt(expW,0)}% → 10% 이하로. 줄일 순서: ${order.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(' → ')}`, t:`탐험 칸이 ${fmt(expW,0)}%로 상한 ${PLAN.expMax}%보다 ${fmt(expW-PLAN.expMax,0)}%p 많다. 약 ${won(expW-PLAN.expMax)}어치를 줄여 핵심 칸으로 옮기는 것이 목표다. 줄이는 순서: ${order.map(r => r.h.name.replace(/\s*\(.*\)$/,'')).join(' → ')}. 한 번에 맞출 필요는 없고, 매도 조건에 닿거나 반등할 때마다 나눠 옮긴다.`});
   }
   if(core.length < PLAN.coreN){
-    acts.push({lv:'warn', t:`핵심 자리 ${PLAN.coreN}개 중 ${core.length}개가 차 있다. ${cands.length ? '빈 자리 후보: '+cands.map(x => `${x.c.name}(${x.ev.verdict})`).join(', ')+'.' : '조건을 통과한 후보가 아직 없다. 관심 후보가 매주 월요일 다시 선정된다.'} 매수는 판정이 "매수 후보"이거나 매수 가격 이하일 때만 한다.`});
+    acts.push({lv:'warn', short:`핵심 자리 ${PLAN.coreN - core.length}개 비어 있음. 새 돈은 핵심 칸(매수 후보)으로만`, t:`핵심 자리 ${PLAN.coreN}개 중 ${core.length}개가 차 있다. ${cands.length ? '빈 자리 후보: '+cands.map(x => `${x.c.name}(${x.ev.verdict})`).join(', ')+'.' : '조건을 통과한 후보가 아직 없다. 관심 후보가 매주 월요일 다시 선정된다.'} 매수는 판정이 "매수 후보"이거나 매수 가격 이하일 때만 한다.`});
   } else if(core.length > PLAN.coreN){
     const weakest = [...core].sort((a,b) => (a.ev?.total??0) - (b.ev?.total??0))[0];
     acts.push({lv:'warn', t:`핵심이 ${core.length}개다. 3개로 압축하려면 종합 점수가 가장 낮은 ${weakest.h.name}부터 검토한다.`});
   }
   core.forEach(r => { if(r.w > PLAN.slotMax) acts.push({lv:'warn', t:`${r.h.name} 한 종목이 ${fmt(r.w,0)}%다. 한 종목 상한은 ${PLAN.slotMax}%.`}); });
-  if(coreW < PLAN.coreLo && core.length) acts.push({lv:'none', t:`핵심 비중 ${fmt(coreW,0)}% → 목표 ${PLAN.coreLo}~${PLAN.coreHi}%. 새로 넣는 돈과 탐험 칸 정리금은 핵심 칸으로만 보낸다.`});
-  if(cashAll < PLAN.cashLo) acts.push({lv:'none', t:`현금 ${fmt(cashAll,0)}%. 폭락 때 핵심 종목을 더 살 대기 자금 ${PLAN.cashLo}~${PLAN.cashHi}%를 둔다. 예수금은 설정에서 자동 반영된다.`});
+  if(coreW < PLAN.coreLo && core.length) acts.push({lv:'none', short:`핵심 비중 ${fmt(coreW,0)}% → 70~80%`, t:`핵심 비중 ${fmt(coreW,0)}% → 목표 ${PLAN.coreLo}~${PLAN.coreHi}%. 새로 넣는 돈과 탐험 칸 정리금은 핵심 칸으로만 보낸다.`});
+  if(cashAll < PLAN.cashLo) acts.push({lv:'none', short:`현금 ${fmt(cashAll,0)}% → 10~20% (설정에서 예수금 입력)`, t:`현금 ${fmt(cashAll,0)}%. 폭락 때 핵심 종목을 더 살 대기 자금 ${PLAN.cashLo}~${PLAN.cashHi}%를 둔다. 예수금은 설정에서 자동 반영된다.`});
   core.forEach(r => { if(r.ev && isNum(r.ev.mos) && r.ev.mos < -10) acts.push({lv:'warn', t:`${r.h.name}: 주가가 내재가치보다 ${fmt(-r.ev.mos,0)}% 높다. 매도 조건(내재가치 초과)을 점검할 시점이다.`}); });
   if(!acts.length) acts.push({lv:'good', t:'구조가 목표 안에 있다. 할 일은 매도 조건 점검과 분기 실적 확인뿐이다.'});
   /* 균형 점검 */
@@ -1038,28 +1054,49 @@ function viewPortfolio(){
   const cost = rows.reduce((a,r)=>a+r.calc.cost,0); const pl = invested - cost;
   const cashW = total ? (st.cashKRW||0)/total*100 : 0;
   const checks = portfolioChecks(rows, total, cashW);
+  const P = concPlan(rows, total, cashW);
   const editing = S.editHold;
+  /* 오늘 변동: 전일 종가가 있는 종목만 */
+  let dayNow = 0, dayPrev = 0; rows.forEach(r => { const pc = r.h.prevClose; if(isNum(pc) && pc > 0 && isNum(r.h.price)){ const fx = fxOf(r.h.currency || curOf(r.h.market)); dayNow += r.h.qty*r.h.price*fx; dayPrev += r.h.qty*pc*fx; } });
+  const dayPct = dayPrev ? (dayNow/dayPrev - 1)*100 : null;
+  const short = n => n.replace(/\s*\(.*\)$/,'');
+  const bk = Object.fromEntries(P.R.map(r => [r.h.id, r.bk]));
+  const row = (r, i) => { const b = bk[r.h.id] || {k:'explore'}; const open = S.openHold === r.h.id;
+    return `<button type="button" class="pf-row" data-act="hold-toggle" data-id="${r.h.id}" aria-expanded="${open}">
+      <span class="pf-dot" style="background:${SER(i)}"></span>
+      <span class="pf-name"><b>${esc(short(r.h.name))}</b><span class="small muted">${{core:'핵심',explore:'탐험',cash:'현금성'}[b.k]} · 비중 ${fmt(r.w,0)}%</span></span>
+      <span class="pf-ret"><b class="num ${r.calc.pl>=0?'up':'down'}">${pct(r.calc.plPct)}</b><span class="small muted num">${fmtKRW(r.calc.value)}</span></span>
+    </button>${open ? `<div class="pf-open">${holdCard(r)}</div>` : ''}`; };
+  const acts = P.acts.filter(a => a.lv !== 'good').slice(0,3);
   return `
   
-  <div style="margin-top:16px">${portfolioHero(rows, total, pl, cost, 'top')}</div>
-  <h2>집중 구조 <span class="small muted">핵심 3종목에 70~80%</span></h2>
-  ${concHtml(rows, total, cashW)}
-  <div class="row" style="justify-content:space-between;margin-top:28px;margin-bottom:10px"><h2 style="margin:0">보유 종목</h2><button class="btn primary" data-act="hold-new">종목 추가</button></div>
-  ${editing ? holdForm(editing) : ''}
-  <div class="stack">${rows.length ? rows.map(r => holdCard(r)).join('') : `<div class="card empty">아직 보유 종목이 없습니다. "종목 추가"로 첫 종목을 입력하세요.</div>`}</div>
-  <h2>비중과 수익률</h2>
-  ${portfolioHero(rows, total, pl, cost, 'charts')}
-  ${portfolioCharts(rows, total)}
-  <h2>모델 준수</h2>
-  ${complianceHtml()}
-  <h2>원칙 점검 <span class="small muted">${checks.length}건</span></h2>
-  <details class="card"><summary>${checks.length ? `주의·위반 ${checks.length}건 보기` : '위반 사항 없음'}</summary><div style="margin-top:8px">${checks.length ? checks.map(([s,t]) => `<div class="check"><span class="pill p-${s}">${s==='bad'?'위반':'주의'}</span><span>${esc(t)}</span></div>`).join('') : ''}</div></details>
-  <h2>설정</h2>
-  <details class="card"><summary>환율·현금·할인율·금리</summary>
-    <div class="grid3" style="margin-top:12px">
-      ${[['cashKRW','예수금 (원)'],['reqMOS','요구 안전마진 %'],['fx','USD/KRW'],['fxCNY','CNY/KRW'],['fxHKD','HKD/KRW'],['fxJPY','JPY/KRW'],['discKR','할인율 국내 %'],['discUS','할인율 미국 %'],['discCN','할인율 중국 %'],['discHK','할인율 홍콩 %'],['discJP','할인율 일본 %'],['tgKR','영구성장 국내 %'],['tgUS','영구성장 미국 %'],['tgCN','영구성장 중국 %'],['tgHK','영구성장 홍콩 %'],['tgJP','영구성장 일본 %'],['bondKR','국고채 10년 %'],['bondUS','미 국채 10년 %'],['bondCN','중국 국채 10년 %'],['bondHK','홍콩 기준 금리 %'],['bondJP','일본 국채 10년 %']].map(([k,l]) => `<label class="f">${l}<input type="number" step="any" inputmode="decimal" id="set-${k}" data-set-key="${k}" value="${esc(st[k])}"></label>`).join('')}
+  <div class="card pf-top" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between;align-items:flex-end">
+      <div><span class="eyebrow">총 평가액</span><div class="hero-num num">${fmtKRW(total)}</div>
+        <div class="num small"><b class="${pl>=0?'up':'down'}">${pl>=0?'+':'−'}${fmtKRW(Math.abs(pl))} (${pct(cost?pl/cost*100:null)})</b>${isNum(dayPct) ? ` <span class="muted">· 오늘</span> <b class="${dayPct>=0?'up':'down'}">${pct(dayPct)}</b>` : ''}</div></div>
+      <button class="btn" data-act="hold-new" style="font-size:13px;padding:6px 12px">종목 추가</button>
     </div>
-    <p class="small muted" style="margin:10px 0 0">금리와 환율은 직접 갱신하세요. 해외 종목 손익은 현재 환율로 환산해 매수 시점 환율 차이는 반영하지 않습니다.</p>
+    ${rows.length ? `<div class="pf-bar" role="img" aria-label="비중">${rows.map((r,i) => `<i style="width:${r.w}%;background:${SER(i)}"></i>`).join('')}${cashW>0?`<i style="width:${cashW}%;background:var(--line)"></i>`:''}</div>` : ''}
+    ${editing ? holdForm(editing) : ''}
+    <div class="pf-list">${rows.length ? rows.map(row).join('') : `<div class="empty">아직 보유 종목이 없습니다. "종목 추가"로 첫 종목을 넣으세요.</div>`}${cashW>0?`<div class="pf-row static"><span class="pf-dot" style="background:var(--line)"></span><span class="pf-name"><b>현금</b><span class="small muted">비중 ${fmt(cashW,0)}%</span></span><span class="pf-ret"><span class="small muted num">${fmtKRW(st.cashKRW)}</span></span></div>`:''}</div>
+  </div>
+  ${rows.length ? `<h2>지금 할 일</h2>
+  <div class="card">${acts.length ? `<ol class="acts">${acts.map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':'참고'}</span><span>${esc(a.short || a.t)}</span></li>`).join('')}</ol>` : `<div class="muted">구조가 목표 안에 있다. 매도 조건과 분기 실적만 확인하면 된다.</div>`}
+    <div class="cmp-row" style="margin-top:12px"><span class="small">지금</span><div class="stackbar">${P.coreW>0?`<i style="width:${Math.min(100,P.coreW)}%;background:var(--accent)"></i>`:''}${P.expW>0?`<i style="width:${Math.min(100,P.expW)}%;background:var(--warn)"></i>`:''}${P.cashAll>0?`<i style="width:${Math.min(100,P.cashAll)}%;background:var(--line)"></i>`:''}</div></div>
+    <div class="cmp-row"><span class="small">목표</span><div class="stackbar"><i style="width:75%;background:var(--accent)"></i><i style="width:10%;background:var(--warn)"></i><i style="width:15%;background:var(--line)"></i></div></div>
+    <div class="legend"><span style="--c:var(--accent)">핵심 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--warn)">탐험 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--line)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
+  </div>` : ''}
+  <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">가치 추이 · 균형 점검 · 원칙 점검 · 환율 · 설정</span></summary>
+    <div class="stack" style="margin-top:12px">
+    ${portfolioSeries() ? `<div><h3>가치 추이</h3>${(() => { const ps = portfolioSeries(); return lineChart(ps.points, {ref: ps.cost, refLabel:'매수 원금', fmtV: v => fmtKRW(v), label:'포트폴리오 가치', h:160}); })()}</div>` : ''}
+    <div><h3>균형 점검 <span class="small muted">${P.bal.filter(b=>b.ok).length}/${P.bal.length}</span></h3>${P.bal.map(b => `<div class="check"><span class="pill ${b.ok?'p-good':'p-warn'}">${b.ok?'통과':'확인'}</span><span>${esc(b.t)}${b.why?`<div class="small muted">${esc(b.why)}</div>`:''}</span></div>`).join('')}</div>
+    <div><h3>원칙 점검 <span class="small muted">${checks.length}건</span></h3>${checks.length ? checks.map(([s,t]) => `<div class="check"><span class="pill p-${s}">${s==='bad'?'위반':'주의'}</span><span>${esc(t)}</span></div>`).join('') : '<div class="muted small">위반 사항 없음</div>'}</div>
+    <div><h3>모델 준수</h3>${complianceHtml()}</div>
+    ${portfolioCharts(rows, total)}
+    <div><h3>설정</h3><div class="grid3" style="margin-top:8px">
+      ${[['cashKRW','예수금 (원)'],['reqMOS','요구 안전마진 %'],['fx','USD/KRW'],['fxCNY','CNY/KRW'],['fxHKD','HKD/KRW'],['fxJPY','JPY/KRW'],['discKR','할인율 국내 %'],['discUS','할인율 미국 %'],['discCN','할인율 중국 %'],['discHK','할인율 홍콩 %'],['discJP','할인율 일본 %'],['tgKR','영구성장 국내 %'],['tgUS','영구성장 미국 %'],['tgCN','영구성장 중국 %'],['tgHK','영구성장 홍콩 %'],['tgJP','영구성장 일본 %'],['bondKR','국고채 10년 %'],['bondUS','미 국채 10년 %'],['bondCN','중국 국채 10년 %'],['bondHK','홍콩 기준 금리 %'],['bondJP','일본 국채 10년 %']].map(([k,l]) => `<label class="f">${l}<input type="number" step="any" inputmode="decimal" id="set-${k}" data-set-key="${k}" value="${esc(st[k])}"></label>`).join('')}
+    </div><p class="small muted" style="margin:10px 0 0">환율·금리는 자동으로 갱신된다. 예수금만 직접 넣으면 현금 비중이 계산된다.</p></div>
+    </div>
   </details>`;
 }
 function holdCard({h, calc, c, ev, w}){
@@ -2528,6 +2565,7 @@ document.addEventListener('click', async e => {
   if(act === 'ai-review') aiReview();
   if(act === 'ai-auto'){ const c = cur(); if(c) aiAuto(c); }
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
+  if(act === 'hold-toggle'){ S.openHold = S.openHold === id ? null : id; render(); return; }
   if(act === 'hold-edit'){ S.editHold = {...S.holdings.find(x => x.id === id)}; render(); window.scrollTo(0, $('#h-name').getBoundingClientRect().top + window.scrollY - 120); }
   if(act === 'hold-cancel'){ S.editHold = null; render(); }
   if(act === 'hold-save'){
