@@ -40,7 +40,7 @@ async function enablePush(){
   const msg = document.getElementById('al-msg');
   const say = t => { if(msg) msg.textContent = t; };
   try{
-    if(pushState === 'ios-install'){ say('아이폰은 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 스노우볼 노트 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
+    if(pushState === 'ios-install'){ say('아이폰은 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 가치노트 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
     if(pushState === 'unsupported'){ say('이 브라우저는 푸시 알림을 지원하지 않습니다.'); return; }
     say('권한 요청 중');
     const perm = await Notification.requestPermission();
@@ -52,7 +52,7 @@ async function enablePush(){
     const id = await subId(sub.endpoint);
     await store.set('push_subs', id, { sub: sub.toJSON(), device: (isIOS() ? '아이폰' : /Android/.test(navigator.userAgent) ? '안드로이드' : 'PC') , at: new Date().toISOString() });
     pushState = 'on';
-    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: '이 기기로 스노우볼 노트 알림이 옵니다.', read: false, source: '설정' });
+    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: '이 기기로 가치노트 알림이 옵니다.', read: false, source: '설정' });
     say('');
     render();
   }catch(e){ say('연결하지 못했습니다: ' + (e.message || e)); }

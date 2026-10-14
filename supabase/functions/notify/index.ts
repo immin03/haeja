@@ -35,7 +35,7 @@ Deno.serve(async (req: Request) => {
     const a = alert.data || {};
     const { data: subs } = await sb.from("docs").select("id, data").eq("collection", "push_subs").eq("owner", body.owner);
     webpush.setVapidDetails("mailto:noreply@haeja.app", k.pub, k.priv);
-    const payload = JSON.stringify({ title: a.title || "스노우볼 노트", body: a.body || "", tag: a.tag || body.id, url: "/#alerts" });
+    const payload = JSON.stringify({ title: a.title || "가치노트", body: a.body || "", tag: a.tag || body.id, url: "/#alerts" });
     let sent = 0, gone = 0;
     for (const s of subs || []) {
       try { await webpush.sendNotification(s.data.sub, payload, { TTL: 86400, urgency: a.level === "urgent" ? "high" : "normal" }); sent++; }

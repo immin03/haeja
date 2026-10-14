@@ -1,4 +1,4 @@
-"""스노우볼 노트 아티팩트 HTML → 웹 버전(index.html) 변환.
+"""가치노트 아티팩트 HTML → 웹 버전(index.html) 변환.
 사용: python3 scripts/build_web.py <artifact.html> index.html
 - 저장소를 Supabase로 교체 (로그인한 본인 데이터만)
 - 로그인 화면, 로그아웃 버튼
@@ -6,8 +6,8 @@
 """
 import sys
 
-APP_NAME = "스노우볼 노트"
-APP_SLOGAN = "Inspired by Graham & Buffett"
+APP_NAME = "가치노트"
+APP_SLOGAN = "Inspired by Graham, Buffett & Munger"
 
 src, dst = sys.argv[1], sys.argv[2]
 s = open(src, encoding="utf-8").read()
@@ -203,26 +203,26 @@ rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left
 # 3) 로컬 저장 안내 문구 제거 (웹에서는 항상 DB)
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
-rep('<div class="brand"><h1>스노우볼 노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + ' · <span id="saveState">불러오는 중</span></span></div></div>')
-s = s.replace('<title>스노우볼 노트</title>', '<title>' + APP_NAME + '</title>')
+rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + ' · <span id="saveState">불러오는 중</span></span></div></div>')
+s = s.replace('<title>가치노트</title>', '<title>' + APP_NAME + '</title>')
 HEAD = """<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Ccircle cx='19' cy='15.5' r='7.5' fill='%23FFFFFF'/%3E%3Ccircle cx='9.2' cy='21.5' r='1.9' fill='%23FFFFFF'/%3E%3Ccircle cx='5.6' cy='24.2' r='1.35' fill='%23FFFFFF'/%3E%3Crect x='3' y='27.6' width='26' height='1.4' rx='.7' fill='%23FFFFFF'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E6A4C'/%3E%3Crect x='7' y='5' width='18' height='22' rx='2.2' fill='%23FFFFFF'/%3E%3Crect x='10.5' y='18.5' width='3' height='5' rx='.6' fill='%231E6A4C'/%3E%3Crect x='14.5' y='15' width='3' height='8.5' rx='.6' fill='%231E6A4C'/%3E%3Crect x='18.5' y='11' width='3' height='12.5' rx='.6' fill='%231E6A4C'/%3E%3C/svg%3E">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <meta name="theme-color" content="#1E6A4C">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="스노우볼 노트">
+<meta name="apple-mobile-web-app-title" content="가치노트">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 </head>
 <body>
 """
-s = HEAD.replace("스노우볼 노트", APP_NAME) + s.lstrip() + "\n</body>\n</html>\n"
+s = HEAD.replace("가치노트", APP_NAME) + s.lstrip() + "\n</body>\n</html>\n"
 open(dst, "w", encoding="utf-8").write(s)
 print("wrote", dst, len(s))

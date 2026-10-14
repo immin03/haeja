@@ -1,10 +1,10 @@
-/* 스노우볼 노트 푸시 알림 서비스 워커 */
+/* 가치노트 푸시 알림 서비스 워커 */
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
 self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : '' }; }
-  e.waitUntil(self.registration.showNotification(d.title || '스노우볼 노트', {
+  e.waitUntil(self.registration.showNotification(d.title || '가치노트', {
     body: d.body || '', tag: d.tag || 'haeja', icon: '/icon-192.png', badge: '/badge-72.png', data: { url: d.url || '/#alerts' }
   }));
 });
