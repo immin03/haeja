@@ -14,8 +14,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
+<script>window.__t0=Date.now();window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__installEvt=e;});</script>
+<style>
+#splash{position:fixed;inset:0;z-index:100;background:#0E1A2B;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .45s ease;font-family:"SUIT Variable","SUIT","Pretendard Variable",system-ui,sans-serif}
+#splash.out{opacity:0;pointer-events:none}
+#splash .sp-wm{font-size:44px;font-weight:800;letter-spacing:-.04em;color:#FFFFFF;animation:spIn .7s ease-out both}
+#splash .sp-wm span{color:#C9A45C;font-weight:700}
+#splash .sp-sub{color:#C9A45C;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;animation:spIn .7s .15s ease-out both}
+#splash .sp-ko{color:rgba(255,255,255,.6);font-size:13px;animation:spIn .7s .3s ease-out both}
+#splash .sp-bar{width:120px;height:2px;border-radius:1px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:18px}
+#splash .sp-bar i{display:block;height:100%;width:40%;background:#C9A45C;animation:spBar 1.1s ease-in-out infinite}
+@keyframes spIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes spBar{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+@media (prefers-reduced-motion: reduce){#splash *{animation:none!important}}
+</style>
 </head>
 <body>
+<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
 <title>ValueNote</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -483,10 +498,37 @@ body.noscroll{overflow:hidden}
 .in-score b{font-size:15px}
 .in-score .g b{color:var(--accent)} .in-score .w b{color:var(--warn)} .in-score .n b{color:var(--muted)}
 .in-push{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;padding:14px 4px 0;margin-top:12px;border-top:1px solid var(--line);font-weight:600;cursor:pointer}
+.in-warn{display:flex;flex-direction:column;gap:4px;margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--warn-soft);border-left:3px solid var(--warn)}
+.in-warn b{color:var(--warn);font-size:14px}
+.in-warn span{font-size:14px;line-height:1.6}
+.inv-qs{display:flex;flex-direction:column;gap:14px}
+.inv-q b{display:block;font-size:14px;margin-bottom:6px}
+.inv-opts{display:flex;flex-wrap:wrap;gap:6px}
+.inv-o{all:unset;box-sizing:border-box;cursor:pointer;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:13.5px;font-weight:600;display:flex;flex-direction:column;gap:1px;line-height:1.3}
+.inv-o small{font-size:11px;font-weight:500;color:var(--muted)}
+.inv-o.on{border-color:var(--navy, var(--accent));background:var(--navy, var(--accent));color:#FFFFFF}
+.inv-o.on small{color:rgba(255,255,255,.75)}
+.inv-o:focus-visible{outline:2px solid var(--accent)}
+.intro-card{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow-y:auto}
+.in-badges{display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:center;margin-top:12px;font-size:13px;color:var(--muted)}
+.in-adv{display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:12px;background:var(--bg);margin-bottom:12px}
+.in-adv b{font-size:14px;color:var(--gold, var(--accent))}
+.in-adv span{font-size:13.5px;line-height:1.55;padding-left:12px;position:relative}
+.in-adv span::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;border-radius:50%;background:var(--gold, var(--accent))}
+.in-home{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border-radius:12px;border:1px dashed var(--line);margin-bottom:12px}
+.in-home b{font-size:14px} .in-home>span{font-size:13.5px;line-height:1.55;color:var(--muted)} .in-home>span b{color:var(--ink);font-size:13.5px}
+.in-home .btn{margin-top:6px;align-self:flex-start}
+.in-home.ok{border-style:solid;background:var(--accent-soft)}
+.stag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:7px;white-space:nowrap;letter-spacing:-.01em}
+.stag-div{background:#EEF3FB;color:#355C9A}
+.stag-up{background:#F6EEDC;color:#8E6A1E}
+.stag.mine{box-shadow:inset 0 0 0 1.5px currentColor}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stag-div{background:#17263D;color:#9DBBEA} :root:not([data-theme="light"]) .stag-up{background:#2D2414;color:#E2C27C}}
+:root[data-theme="dark"] .stag-div{background:#17263D;color:#9DBBEA} :root[data-theme="dark"] .stag-up{background:#2D2414;color:#E2C27C}
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">Inspired by Graham, Buffett & Munger</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">On the Shoulders of Giants</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -793,8 +835,8 @@ const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">Inspired by Graham, Buffett &amp; Munger</div>
-      <p>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자 노트</p></div>
+    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
+      <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
     <div class="card stack login-card">
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="current-password"></label>
@@ -880,6 +922,9 @@ async function refreshQuotes(force){
   }catch(e){ setSave('시세 갱신 실패'); }
   finally{ quoteBusy = false; }
 }
+
+function hideSplash(){ const el = document.getElementById('splash'); if(!el || el.dataset.out) return; el.dataset.out = '1'; const wait = Math.max(0, 1800 - (Date.now() - (window.__t0 || 0))); setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, wait); }
+setTimeout(() => { if(typeof hideSplash === 'function') hideSplash(); }, 5000);
 /* ============ 알림함 (웹 버전) ============
    alerts 문서: {at, level: urgent|warn|good|info, title, body, link:{tab, co}, read, push, source}
    새 알림 문서가 생기면 DB 트리거 → notify 함수가 휴대폰으로 푸시를 보낸다. */
@@ -1039,6 +1084,9 @@ function viewAccount(){
     <label class="f" style="margin-top:10px">새 비밀번호 확인<input name="p2" type="password" autocomplete="new-password" minlength="8"></label>
     <div class="row" style="justify-content:space-between;margin-top:12px"><span class="status-line small" id="ac-msg-2"></span><button class="btn primary" type="submit">비밀번호 바꾸기</button></div>
   </form>
+
+  <h3 class="eyebrow guide-h">나의 투자 점검 ${inv().at ? `<span class="muted" style="font-weight:400">· ${esc(inv().at)}</span>` : ''}</h3>
+  <div class="card">${invQHtml(INV_Q.map(x => x.k))}${invAdvice().length ? `<div class="in-adv" style="margin:16px 0 0"><b>맞춤 제안</b>${invAdvice().map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}</div>
 
   <h3 class="eyebrow guide-h">이용</h3>
   <div class="card ac-list">
@@ -2145,6 +2193,7 @@ function companyCard(c, h){
       <div style="min-width:0"><div class="name">${esc(c.name)}</div><div class="small muted">${esc(c.ticker)} · ${(MKT[c.market]||MKT.KR).label}${p.industry ? ' · '+esc(p.industry) : (c.sector ? ' · '+esc(c.sector) : '')}</div></div>
       <div class="row" style="gap:6px;justify-content:flex-end">${yenPill(c.market)}${ev ? `<span class="pill ${scoreCls(ev.total)}">종합 ${ev.total ?? '–'}</span>` : (c.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : '')}</div>
     </div>
+    ${(() => { const bb = styleBadges({c, r:null, p:c.profile || profileFor(c.yf||c.ticker, c.ticker, c), px:c.price}); return bb ? `<div class="row" style="gap:6px">${bb}</div>` : ''; })()}
     ${!h && (c.watchWhy || scopeOf(c)==='내 종목') ? `<div class="small muted">${scopeOf(c)==='내 종목' ? '<span class="pill p-good">내 종목</span> 직접 추가했거나 메모를 쓴 종목' : esc(c.watchWhy)}</div>` : ''}
     ${p.what ? `<p style="margin:0">${esc(p.what)}</p>` : (c.auto?.businessOneLine ? `<p style="margin:0">${esc(c.auto.businessOneLine)}</p>` : `<p class="small muted" style="margin:0">기업 개요는 다음 자동 실행 때 채워집니다.</p>`)}
     ${ev ? `<div class="hold-grid key4"><div><span>판정</span><b class="kv-verdict">${esc(ev.verdict)}</b></div><div><span>안전마진</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>` : ''}
@@ -2173,7 +2222,7 @@ function stageItems(stage){
   return allCompanyRows();
 }
 function filteredStage(stage){
-  const q = (S.coQ||'').trim().toLowerCase(), mk = S.coMkt || 'ALL', so = S.coSort || 'b';
+  const q = (S.coQ||'').trim().toLowerCase(), mk = S.coMkt || 'ALL', so = S.coSort || (inv().style ? 'fit' : 'b');
   let rows = stageItems(stage);
   if(mk !== 'ALL') rows = rows.filter(x => x.m === mk);
   if(q) rows = rows.filter(x => [x.name, x.en, x.code, x.p?.industry, x.c?.sector, x.r?.ind].join(' ').toLowerCase().includes(q));
@@ -2181,7 +2230,12 @@ function filteredStage(stage){
   if(S.coHide && stage === 'all') rows = rows.filter(x => !(x.r?.flags||[]).some(f => f !== '경기순환·이익 변동'));
   const yld = x => { const d = x.p?.dividend; const px = x.c?.price ?? x.px; return d && isNum(d.dps) && d.dps > 0 && isNum(px) ? d.dps/px*100 : (d?.yield ?? -1); };
   const num = v => isNum(v) ? v : -1;
-  const by = {b: x => num(x.b), v: x => num(x.r?.v), q: x => num(x.r?.q), div: yld};
+  const fit = x => { const st = inv().style, t = styleTags(x);
+    if(st === '배당형') return (t.div ? 1000 : 0) + num(x.b) + Math.min(num(yld(x)), 8) * 3;
+    if(st === '성장형' || st === '공격형') return (t.up ? 1000 : 0) + num(x.b) + Math.max(-20, Math.min(num(t.mos), 80)) / 4;
+    if(st === '안정형') return num(x.r?.q) * 2 + num(x.b) + (t.div ? 30 : 0);
+    return num(x.b); };
+  const by = {b: x => num(x.b), v: x => num(x.r?.v), q: x => num(x.r?.q), div: yld, fit};
   if(so === 'name') rows.sort((a,b) => String(a.name).localeCompare(String(b.name), 'ko'));
   else rows.sort((a,b) => (so==='b' && stage==='watch' ? (a.c?.watchRank ?? 99) - (b.c?.watchRank ?? 99) : 0) || by[so](b) - by[so](a));
   return rows;
@@ -2192,11 +2246,11 @@ function funnelHtml(){
   <p class="small muted" style="margin:6px 0 0">${esc(STAGES.find(s => s.k===st).rule)}</p>`;
 }
 function filterBarHtml(){
-  const mk = S.coMkt || 'ALL', so = S.coSort || 'b', st = S.scope || 'held';
+  const mk = S.coMkt || 'ALL', so = S.coSort || (inv().style ? 'fit' : 'b'), st = S.scope || 'held';
   return `<div class="fbar">
     <div class="chips" role="group" aria-label="시장">${[['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국'],['HK','홍콩']].map(([k,l]) => `<button class="chip sm" data-act="co-mkt" data-v="${k}" aria-current="${mk===k}">${l}</button>`).join('')}</div>
     <div class="fbar-row"><input id="co-q" value="${esc(S.coQ||'')}" placeholder="회사명·티커·산업 검색" aria-label="검색">
-      <select id="co-sort" aria-label="정렬">${[['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
+      <select id="co-sort" aria-label="정렬">${[...(inv().style ? [['fit','내 성향 맞춤']] : []),['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
     ${st === 'all' ? `<details class="small"><summary>더 거르기</summary><div class="stack" style="gap:6px;margin-top:6px">
       <label class="f">전략 신호<select id="co-tag"><option value="">전체</option>${TAGS.map(t => `<option ${S.coTag===t?'selected':''}>${t}</option>`).join('')}</select></label>
       <label class="chk"><input type="checkbox" id="co-hide" ${S.coHide?'checked':''}>위험 신호(잦은 적자·차입 부담·희석·현금 전환 약함) 있는 기업 숨기기</label></div></details>` : ''}
@@ -2209,7 +2263,7 @@ function listRowHtml(x){
   const sub = [x.code, (MKT[x.m]||MKT.KR).label, x.p?.industry || x.r?.ind || x.c?.sector].filter(Boolean).join(' · ');
   return `<div class="pick-wrap"><button type="button" class="pick-row" ${act} aria-expanded="${open}">
       <span class="pr-main"><b>${esc(x.name)}</b><span class="small muted">${esc(sub)}</span>${(() => { const ev = x.c ? evaluate(x.c) : null; return miniScores(x.r?.q ?? ev?.qScore, x.r?.v ?? ev?.valScore); })()}
-        <span class="row" style="gap:4px;margin-top:3px">${sc && sc!=='관심' ? `<span class="pill p-good">${esc(sc)}</span>` : ''}${sc==='관심' ? '<span class="pill p-none">관심 후보</span>' : ''}${d && d.verdict==='배당 적합' ? `<span class="pill p-good">배당 ${isNum(d.yield)?fmt(d.yield,1)+'%':''}</span>` : ''}${yenPill(x.m)}${x.c?.dropCheck?.verdict==='구조적 훼손 우려' ? '<span class="pill p-bad">구조적 훼손 우려</span>' : ''}</span></span>
+        <span class="row" style="gap:4px;margin-top:3px">${sc && sc!=='관심' ? `<span class="pill p-good">${esc(sc)}</span>` : ''}${sc==='관심' ? '<span class="pill p-none">관심 후보</span>' : ''}${styleBadges(x)}${yenPill(x.m)}${x.c?.dropCheck?.verdict==='구조적 훼손 우려' ? '<span class="pill p-bad">구조적 훼손 우려</span>' : ''}</span></span>
       <span class="pr-side">${isNum(x.b) ? `<span class="pill ${scoreCls(x.b)}">${x.b}점</span>` : ''}${ev ? `<span class="small muted">${esc(ev.verdict)}</span>` : '<span class="small muted">심사 전</span>'}</span>
     </button>
     ${open ? `<div class="stack" style="gap:8px;padding:4px 6px 12px">
@@ -2467,6 +2521,62 @@ function dropCheckHtml(c){
   </div>`;
 }
 
+/* ===== 투자자 자기 점검 (맞춤 제안용) ===== */
+const INV_Q = [
+  {k:'size', q:'투자 규모는?', o:['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억 원 이상']},
+  {k:'count', q:'지금 보유 종목 수는?', o:['아직 없음','1~3개','4~7개','8~15개','16개 이상']},
+  {k:'markets', q:'어디에 투자하나요? (여러 개 선택)', multi:true, o:['한국 주식','미국 주식','일본·중국·홍콩','ETF·펀드']},
+  {k:'horizon', q:'한 종목을 보통 얼마나 들고 있나요?', o:['몇 주~몇 달','1~3년','5년 이상']},
+  {k:'style', q:'나에게 가까운 성향은?', o:['안정형','배당형','균형형','성장형','공격형'], hint:{'안정형':'원금을 지키는 것이 먼저','배당형':'꾸준한 현금 흐름','균형형':'안정과 성장의 중간','성장형':'오를 여력이 큰 회사','공격형':'큰 수익을 위해 큰 위험도 감수'}},
+  {k:'exp', q:'투자 경험은?', o:['1년 미만','1~5년','5년 이상']},
+];
+const inv = () => cfg().investor || {};
+function saveInv(patch){
+  S.settings = {...cfg(), investor:{...inv(), ...patch, at: today()}};
+  clearTimeout(saveTimers.__prog);
+  saveTimers.__prog = setTimeout(async () => { try{ await store.set('settings','main', S.settings); }catch(_){} saveTimers.__prog = null; }, 600);
+}
+function invQHtml(keys){
+  const v = inv();
+  return `<div class="inv-qs">${INV_Q.filter(x => keys.includes(x.k)).map(x => `<div class="inv-q"><b>${esc(x.q)}</b><div class="inv-opts">${x.o.map(o => { const on = x.multi ? (v[x.k]||[]).includes(o) : v[x.k] === o;
+    return `<button type="button" class="inv-o${on?' on':''}" data-act="inv-pick" data-k="${x.k}" data-v="${esc(o)}" aria-pressed="${on}">${esc(o)}${x.hint && x.hint[o] ? `<small>${esc(x.hint[o])}</small>` : ''}</button>`; }).join('')}</div></div>`).join('')}</div>`;
+}
+/* 점검 결과로 만든 맞춤 제안 (2~4줄) */
+function invAdvice(){
+  const v = inv(), out = [];
+  if(!v.style && !v.count && !v.horizon) return [];
+  if(v.horizon === '몇 주~몇 달') out.push('ValueNote는 1년 이상 보유를 전제로 합니다. 짧은 매매보다 "좋은 회사를 싸게 사서 기다리기"부터 시작해 보세요.');
+  if(['8~15개','16개 이상'].includes(v.count)) out.push('종목이 많은 편입니다. 잘 아는 핵심 3종목에 70~80%를 모으는 것이 첫 목표입니다.');
+  if(v.count === '아직 없음') out.push('처음이라면 관심 후보 중 "매수 후보" 판정이 나온 회사부터 천천히 살펴보세요.');
+  if(v.style === '배당형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 배당 아이콘이 붙은 회사부터 보여 드립니다.');
+  if(v.style === '성장형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 상승 여력 아이콘이 붙은 회사부터 보여 드립니다. 그래도 안전마진 30%는 지킵니다.');
+  if(v.style === '공격형') out.push('큰 수익을 노리는 베팅은 탐험 칸(포트폴리오의 10% 이하) 안에서만 하도록 알려 드립니다.');
+  if(v.style === '안정형') out.push('품질 점수가 높고 부채가 적은 회사부터 보여 드리고, 현금 10~20%를 늘 지키도록 알려 드립니다.');
+  if(v.style === '균형형') out.push('핵심 3종목 70~80%, 현금 10~20%의 기본 구조가 잘 맞습니다.');
+  if((v.markets||[]).includes('ETF·펀드')) out.push('ETF·펀드는 회사가 아니라 점수 대상이 아닙니다. 개별 회사 위주로 보시면 점수가 더 쓸모 있습니다.');
+  if(v.exp === '1년 미만') out.push('처음 3개월은 사기보다 Q&A와 매일 브리핑으로 원칙을 익히는 것을 권합니다.');
+  return out.slice(0, 4);
+}
+/* 후보 아이콘: 배당 지향 / 상승 여력 */
+function styleTags(x){
+  const c = x.c, r = x.r, d = x.p?.dividend;
+  const px = c?.price ?? x.px;
+  const yld = d && isNum(d.dps) && d.dps > 0 && isNum(px) && px > 0 ? d.dps/px*100 : (isNum(d?.yield) ? d.yield : null);
+  let mos = isNum(r?.mos) ? r.mos : null, ev = null;
+  if(mos === null && c && c.kind === 'stock'){ ev = evaluate(c); mos = isNum(ev.mos) ? ev.mos : null; }
+  const val = c?.val || r?.val || {}, fin = c?.fin || r?.fin || {};
+  const div = d?.verdict === '배당 적합' || (isNum(yld) && yld >= 3 && d?.safety !== '위험' && (fin.lossYears||0) === 0);
+  const up = isNum(mos) && (mos >= 30 || (mos >= 0 && isNum(val.revCagr) && val.revCagr >= 10));
+  return {div, up, yld, mos};
+}
+const ICO_DIV = '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><ellipse cx="8" cy="4.5" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 4.5v3.5c0 1.1 2.2 2 5 2s5-.9 5-2V4.5M3 8v3.5c0 1.1 2.2 2 5 2s5-.9 5-2V8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
+const ICO_UP = '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3 12.5 8 7.5l2.5 2.5L14 6.5M10 6.5h4v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function styleBadges(x){
+  const t = styleTags(x), st = inv().style;
+  const mineDiv = st === '배당형' || st === '안정형', mineUp = st === '성장형' || st === '공격형';
+  return (t.div ? `<span class="stag stag-div${mineDiv?' mine':''}" title="배당 지향 후보">${ICO_DIV}배당${isNum(t.yld) ? ' '+fmt(t.yld,1)+'%' : ''}</span>` : '')
+       + (t.up ? `<span class="stag stag-up${mineUp?' mine':''}" title="상승 여력 후보">${ICO_UP}상승 여력</span>` : '');
+}
 /* ===== 포트폴리오 첫 카드: 30일 추이선 + 숫자 올라가는 효과 ===== */
 function sparkHtml(){
   const ps = portfolioSeries(); if(!ps || ps.points.length < 5) return '';
@@ -2496,16 +2606,37 @@ const TAB_SVG = {
   pf:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
   br:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
   co:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.6" cy="10.6" r="5.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15 15 4.6 4.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>'};
+function homeAddHtml(){
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent), standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const mobile = /Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+  if(standalone) return `<div class="in-home ok"><b>홈 화면 앱으로 쓰고 계십니다</b><span>다음부터는 아이콘을 눌러 바로 여세요.</span></div>`;
+  if(window.__installEvt) return `<div class="in-home"><b>홈 화면에 추가하기</b><span>앱처럼 한 번에 열리고 휴대폰 알림도 받을 수 있습니다.</span><button type="button" class="btn primary" data-act="intro-install">홈 화면에 추가</button></div>`;
+  if(ios) return `<div class="in-home"><b>홈 화면에 추가하기</b><span>Safari 아래쪽 <b>공유 버튼(□↑)</b> → <b>"홈 화면에 추가"</b>를 누르세요. 앱처럼 열리고, 아이폰은 이렇게 해야 알림을 받을 수 있습니다.</span></div>`;
+  if(mobile) return `<div class="in-home"><b>홈 화면에 추가하기</b><span>브라우저 메뉴(⋮) → <b>"홈 화면에 추가"</b> 또는 <b>"앱 설치"</b>를 누르세요.</span></div>`;
+  return `<div class="in-home"><b>즐겨찾기에 추가하기</b><span><b>${/Mac/.test(navigator.platform) ? '⌘ + D' : 'Ctrl + D'}</b>를 누르면 즐겨찾기에 저장됩니다. 휴대폰에서도 같은 주소로 열 수 있습니다.</span></div>`;
+}
 const INTRO = [
-  {k:'안녕하세요', t:'안녕하세요, ValueNote입니다', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}반갑습니다.</p><p>ValueNote는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 앱입니다. 주가가 오를지 맞히지 않습니다. 대신 "지금 사도 되는 가격인가", "내 포트폴리오가 원칙에서 벗어나지 않았나"를 알려 드립니다.</p><p class="small muted">1분이면 끝납니다. 언제든 건너뛸 수 있습니다.</p>`},
-  {k:'왜', t:'왜 만들었나요', b:`<p>많은 손실은 정보가 없어서가 아니라 <b>판단이 흔들려서</b> 생깁니다. 테마와 소문에 사고, 급락에 겁먹고 팔고, 한 종목에 몰리는 일이죠.</p><div class="in-list"><div><b>자동</b><span>시세·뉴스·재무 분석·환율은 앱이 매일 채웁니다</span></div><div><b>원칙</b><span>같은 기준으로 모든 회사를 점수로 비교합니다</span></div><div><b>기록</b><span>왜 샀는지, 언제 팔지 미리 적어 두고 지킵니다</span></div></div>`},
-  {k:'원칙', t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
-  {k:'화면', t:'화면은 세 개뿐입니다', b:`<div class="in-tabs"><div><i>${TAB_SVG.pf}</i><span><b>포트폴리오</b>수익률·비중, 그리고 지금 할 일 최대 3개</span></div><div><i>${TAB_SVG.br}</i><span><b>브리핑</b>매일 아침, 내 종목 소식을 한 줄씩</span></div><div><i>${TAB_SVG.co}</i><span><b>기업</b>220여 개 회사 점수, 내 종목 검색·분석</span></div></div><p class="small muted">급등락, 매수 가격 도달 같은 중요한 일은 위의 종 모양 알림으로 옵니다.</p>`},
-  {k:'점수', t:'점수는 이렇게 읽습니다', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div><p><b>매수 가능 가격</b> = 내재가치 × 70%. 이 가격 아래로 내려오면 알려 드립니다.</p>`},
-  {k:'등급', t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 핵심 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 앱이 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
-  {k:'시작', t:'이제 시작해 볼까요', b:`<p>가진 종목부터 넣어 보세요. 수익률과 비중이 바로 계산되고, 내일 아침부터 브리핑이 옵니다. 목록에 없는 종목도 검색해서 같은 기준으로 점수를 볼 수 있습니다(무료 3회).</p><div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div><button type="button" class="in-push" data-act="intro-push"><span>휴대폰 알림 켜기</span><span class="muted">›</span></button>`},
+  {t:'안녕하세요, ValueNote입니다', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}반갑습니다.</p>
+    <p>ValueNote는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 앱입니다.</p>
+    <div class="in-warn"><b>먼저 분명히 말씀드립니다</b><span>이 앱은 단기간에 큰돈을 버는 방법을 알려 주지 않습니다. 급등주를 찾거나 내일 주가를 맞히지 않습니다. 대신 1년, 5년, 10년을 보고 <b>잃지 않는 판단</b>을 쌓도록 돕습니다.</span></div>
+    <p class="small muted">약 1분이면 끝납니다. 언제든 건너뛸 수 있습니다.</p>`},
+  {t:'거인의 어깨 위에서', b:`<p>저 역시 투자를 잘하는 사람이 아니었습니다. 테마와 소문에 사고, 급락에 겁먹고 팔았습니다. 그래서 수십 년 동안 검증된 <b>벤저민 그레이엄, 워런 버핏, 찰리 멍거</b>의 관점을 빌리기로 했습니다.</p>
+    <p>뉴턴이 "더 멀리 보았다면 거인의 어깨 위에 서 있었기 때문"이라고 했듯, ValueNote는 세 거인의 기준으로 회사를 평가하고 <b>멀리 보고 투자</b>할 수 있게 만든 노트입니다.</p>
+    <div class="in-list"><div><b>자동</b><span>시세·뉴스·재무 분석은 앱이 매일 채웁니다</span></div><div><b>원칙</b><span>모든 회사를 같은 기준의 점수로 비교합니다</span></div><div><b>기록</b><span>왜 샀는지, 언제 팔지 미리 적고 지킵니다</span></div></div>`},
+  {t:'먼저, 나의 투자를 점검해 볼까요', b:() => `<p class="small muted" style="margin:0 0 12px">답에 맞춰 후보 정렬과 제안을 바꿔 드립니다. 나중에 계정에서 고칠 수 있습니다.</p>${invQHtml(['size','count','markets'])}`},
+  {t:'투자 방식과 성향', b:() => `${invQHtml(['horizon','style','exp'])}`},
+  {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
+  {t:'화면은 세 개뿐입니다', b:`<div class="in-tabs"><div><i>${TAB_SVG.pf}</i><span><b>포트폴리오</b>수익률·비중, 그리고 지금 할 일 최대 3개</span></div><div><i>${TAB_SVG.br}</i><span><b>브리핑</b>매일 아침, 내 종목 소식을 한 줄씩</span></div><div><i>${TAB_SVG.co}</i><span><b>기업</b>220여 개 회사 점수, 내 종목 검색·분석</span></div></div><p class="small muted">급등락, 매수 가격 도달 같은 중요한 일은 위의 종 모양 알림으로 옵니다.</p>`},
+  {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
+    <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
+    <p><b>매수 가능 가격</b> = 내재가치 × 70%. 이 가격 아래로 오면 알려 드립니다.</p>`},
+  {t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 핵심 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 앱이 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
+  {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(inv().style || '나')}${inv().style ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
+    ${homeAddHtml()}
+    <div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>
+    <button type="button" class="in-push" data-act="intro-push"><span>휴대폰 알림 켜기</span><span class="muted">›</span></button>`; }},
 ];
-const introOn = () => S.loaded.s && S.loaded.h && !prog().introV2 && !S.introClosed;
+const introOn = () => S.loaded.s && S.loaded.h && !prog().introV3 && !S.introClosed;
 function introHtml(){
   if(!introOn() && !S.introForce) return '';
   const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
@@ -2515,7 +2646,7 @@ function introHtml(){
     <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
   </div></div>`;
 }
-function introDone(){ S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today()}); }
+function introDone(){ S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
   {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계. 그레이엄은 이것을 투자와 구분했다.'},
@@ -2627,6 +2758,14 @@ async function checkLevelUp(){
 /* ============ Q&A: 설계와 사용법 ============ */
 const GUIDE = [
   {g:'처음 쓰는 분께', items:[
+    ['이 앱으로 빨리 큰돈을 벌 수 있나요?', `<p><b>아닙니다.</b> ValueNote는 일확천금을 위한 앱이 아니다. 급등주를 찾아 주거나 내일 주가를 맞히지 않는다. 테마를 쫓아 단기간에 큰 수익을 내고 싶다면 이 앱은 맞지 않는다.</p>
+     <p>대신 <b>중장기(1년 이상, 길게는 10년)</b> 관점에서 좋은 회사를 적당한 가격에 사고, 큰 실수를 피하고, 원칙대로 오래 들고 가도록 돕는다. 버핏의 말처럼 투자의 첫째 규칙은 돈을 잃지 않는 것이고, 둘째 규칙은 첫째 규칙을 잊지 않는 것이다.</p>`],
+    ['왜 "거인의 어깨 위에서"인가요?', `<p>뉴턴은 "내가 더 멀리 보았다면 거인들의 어깨 위에 서 있었기 때문"이라고 했다. ValueNote를 만든 사람도 투자를 잘하는 전문가가 아니었다. 테마와 소문에 사고 급락에 겁먹고 팔던 경험에서 출발했다.</p>
+     <p>그래서 내 감이 아니라 수십 년 동안 검증된 세 거인, 그레이엄·버핏·멍거의 관점을 빌리기로 했다. 그들의 기준으로 회사를 평가하고, 그들이 했던 실수까지 규칙으로 만들어, 평범한 개인도 <b>멀리 보고 투자</b>할 수 있게 한 것이 ValueNote다.</p>`],
+    ['배당·상승 여력 아이콘은 무엇인가요?', `<p>투자 성향에 따라 맞는 후보가 다르다. 그래서 회사마다 두 가지 아이콘을 붙인다.</p>
+     <ul><li><b>배당:</b> 배당 판정이 "배당 적합"이거나, 배당수익률 3% 이상이면서 배당 안전도가 위험이 아니고 적자 이력이 없는 회사.</li>
+     <li><b>상승 여력:</b> 주가가 내재가치보다 30% 이상 싸거나, 내재가치보다 싸면서 매출이 연 10% 이상 커지는 회사.</li></ul>
+     <p>처음 점검에서 고른 성향과 맞는 아이콘은 테두리로 강조되고, 기업 목록은 "내 성향 맞춤" 순으로 먼저 보여 준다. 아이콘은 판정을 대신하지 않는다. 매수 후보 조건(품질·10년 보유·안전마진)은 그대로다.</p>`],
     ['ValueNote는 어떤 앱인가요?', `<p>ValueNote(가치노트)는 벤저민 그레이엄, 워런 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
      <p>예측하는 앱이 아니라 판단을 정리하는 앱이다. 주가가 오를지 맞히지 않는다. 대신 가격이 가치보다 충분히 낮은지, 내 포트폴리오가 원칙에서 벗어났는지를 알려 준다.</p>`],
     ['무엇을 직접 넣고, 무엇이 자동인가요?', `<p><b>직접 넣는 것은 세 가지뿐이다.</b> 보유 종목(종목·수량·평균 매수가), 예수금, 그리고 종목별 투자 메모와 매도 조건.</p>
@@ -3398,6 +3537,10 @@ document.addEventListener('click', async e => {
   if(act === 'ai-auto'){ const c = cur(); if(c) aiAuto(c); }
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
   if(act === 'intro-next'){ S.introStep = (S.introStep||0) + 1; render(); return; }
+  if(act === 'inv-pick'){ const k = a.dataset.k, v = a.dataset.v, q = INV_Q.find(x => x.k === k);
+    if(q.multi){ const cur = new Set(inv()[k] || []); cur.has(v) ? cur.delete(v) : cur.add(v); saveInv({[k]: [...cur]}); } else saveInv({[k]: v});
+    const box = document.querySelector('.intro-card'), y = box ? box.scrollTop : 0; S.coSort = null; render(); const b2 = document.querySelector('.intro-card'); if(b2) b2.scrollTop = y; return; }
+  if(act === 'intro-install'){ const ev = window.__installEvt; if(ev){ ev.prompt(); try{ await ev.userChoice; }catch(_){} window.__installEvt = null; render(); } return; }
   if(act === 'intro-prev'){ S.introStep = Math.max(0, (S.introStep||0) - 1); render(); return; }
   if(act === 'intro-push'){ introDone(); if(typeof checkPush === 'function'){ S.tab = 'alerts'; await checkPush(); } render(); window.scrollTo(0,0); return; }
   if(act === 'intro-close'){ introDone(); render(); return; }
@@ -3512,9 +3655,9 @@ function refresh(kind){
 (async function start(){
   try{ let t = localStorage.getItem('ml-tab'); if(t === 'rules' || t === 'validation'){ S.refSub = t; t = 'ref'; } if(t === 'screener' || t === 'analyze') t = 'companies'; if(t) S.tab = t; }catch(_){}
   await store.init();
-  if(store.mode !== 'db'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); return; }
+  if(store.mode !== 'db'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); hideSplash(); return; }
   { const { count } = await store.client.from('docs').select('id', { count: 'exact', head: true });
-    if(count === 0){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); return; } }
+    if(count === 0){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
   setSave('동기화됨');
   const brand = document.querySelector('.brand');
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
@@ -3532,7 +3675,7 @@ function refresh(kind){
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
-  render();
+  render(); hideSplash();
   store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; });
   store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);

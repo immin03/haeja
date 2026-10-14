@@ -7,7 +7,7 @@
 import sys
 
 APP_NAME = "ValueNote"
-APP_SLOGAN = "Inspired by Graham, Buffett & Munger"
+APP_SLOGAN = "On the Shoulders of Giants"
 
 src, dst = sys.argv[1], sys.argv[2]
 s = open(src, encoding="utf-8").read()
@@ -72,8 +72,8 @@ STORE = r"""const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">Inspired by Graham, Buffett &amp; Munger</div>
-      <p>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자 노트</p></div>
+    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
+      <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
     <div class="card stack login-card">
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="current-password"></label>
@@ -160,15 +160,19 @@ async function refreshQuotes(force){
   finally{ quoteBusy = false; }
 }
 """
-s = s[:i] + STORE + open(__file__.replace('build_web.py','web_alerts.js'), encoding='utf-8').read() + open(__file__.replace('build_web.py','web_account.js'), encoding='utf-8').read() + s[j:]
+SPLASH_JS = """
+function hideSplash(){ const el = document.getElementById('splash'); if(!el || el.dataset.out) return; el.dataset.out = '1'; const wait = Math.max(0, 1800 - (Date.now() - (window.__t0 || 0))); setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, wait); }
+setTimeout(() => { if(typeof hideSplash === 'function') hideSplash(); }, 5000);
+"""
+s = s[:i] + STORE + SPLASH_JS + open(__file__.replace('build_web.py','web_alerts.js'), encoding='utf-8').read() + open(__file__.replace('build_web.py','web_account.js'), encoding='utf-8').read() + s[j:]
 
 # 2) 시작 루틴: 로그인 분기, 시세 타이머, 로그아웃 버튼
 rep("""  await store.init();
   setSave(store.mode==='db' ? '동기화됨' : '이 기기에 저장');
   render();""", """  await store.init();
-  if(store.mode !== 'db'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); return; }
+  if(store.mode !== 'db'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); hideSplash(); return; }
   { const { count } = await store.client.from('docs').select('id', { count: 'exact', head: true });
-    if(count === 0){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); return; } }
+    if(count === 0){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
   setSave('동기화됨');
   const brand = document.querySelector('.brand');
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
@@ -186,7 +190,7 @@ rep("""  await store.init();
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
-  render();""")
+  render(); hideSplash();""")
 rep("""  store.sub('holdings', docs => { S.holdings = docs; S.loaded.h = 1; refresh('h'); });""",
     """  store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);
@@ -241,8 +245,23 @@ HEAD = """<!doctype html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
+<script>window.__t0=Date.now();window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__installEvt=e;});</script>
+<style>
+#splash{position:fixed;inset:0;z-index:100;background:#0E1A2B;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .45s ease;font-family:"SUIT Variable","SUIT","Pretendard Variable",system-ui,sans-serif}
+#splash.out{opacity:0;pointer-events:none}
+#splash .sp-wm{font-size:44px;font-weight:800;letter-spacing:-.04em;color:#FFFFFF;animation:spIn .7s ease-out both}
+#splash .sp-wm span{color:#C9A45C;font-weight:700}
+#splash .sp-sub{color:#C9A45C;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;animation:spIn .7s .15s ease-out both}
+#splash .sp-ko{color:rgba(255,255,255,.6);font-size:13px;animation:spIn .7s .3s ease-out both}
+#splash .sp-bar{width:120px;height:2px;border-radius:1px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:18px}
+#splash .sp-bar i{display:block;height:100%;width:40%;background:#C9A45C;animation:spBar 1.1s ease-in-out infinite}
+@keyframes spIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes spBar{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+@media (prefers-reduced-motion: reduce){#splash *{animation:none!important}}
+</style>
 </head>
 <body>
+<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
 """
 s = HEAD.replace("가치노트", APP_NAME) + s.lstrip() + "\n<style>\n" + open(__file__.replace("build_web.py", "theme.css"), encoding="utf-8").read() + "\n</style>\n</body>\n</html>\n"
 open(dst, "w", encoding="utf-8").write(s)

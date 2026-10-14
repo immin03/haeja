@@ -32,6 +32,9 @@ function viewAccount(){
     <div class="row" style="justify-content:space-between;margin-top:12px"><span class="status-line small" id="ac-msg-2"></span><button class="btn primary" type="submit">비밀번호 바꾸기</button></div>
   </form>
 
+  <h3 class="eyebrow guide-h">나의 투자 점검 ${inv().at ? `<span class="muted" style="font-weight:400">· ${esc(inv().at)}</span>` : ''}</h3>
+  <div class="card">${invQHtml(INV_Q.map(x => x.k))}${invAdvice().length ? `<div class="in-adv" style="margin:16px 0 0"><b>맞춤 제안</b>${invAdvice().map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}</div>
+
   <h3 class="eyebrow guide-h">이용</h3>
   <div class="card ac-list">
     <button type="button" class="ac-link" data-al="open"><span>알림 설정</span><span class="muted">›</span></button>
