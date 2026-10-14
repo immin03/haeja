@@ -177,3 +177,27 @@ input,select,textarea{border-radius:10px}
 .guide-q[open] summary::after{content:"";transform:rotate(-135deg);margin-top:9px}
 .guide-a{color:var(--ink)}
 .acct-mail:empty{display:none}
+
+/* 계정 메뉴·계정 화면 */
+.acct-who{padding:10px 10px 12px;border-bottom:1px solid var(--line);margin-bottom:4px;min-width:0}
+.acct-who b{display:block;font-size:15px;letter-spacing:-.02em}
+.acct-who .acct-mail{border:0;padding:0;margin:2px 0 0}
+.acct-sep{height:1px;background:var(--line);margin:4px 0}
+.acct-item[data-acct="logout"]{color:var(--bad)}
+.ac-head{display:flex;align-items:center;gap:14px}
+.ac-head b{font-size:18px;letter-spacing:-.02em}
+.ac-mail{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ac-avatar{width:52px;height:52px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex:0 0 auto}
+.ac-list{display:flex;flex-direction:column}
+.ac-row{display:flex;gap:10px;align-items:flex-end;padding:6px 0}
+.ac-row+.ac-row{border-top:1px solid var(--line);padding-top:12px;margin-top:6px}
+.ac-row .f{flex:1;min-width:0}
+.ac-row .btn{flex:0 0 auto}
+.ac-link{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 2px;border-bottom:1px solid var(--line);cursor:pointer;font-weight:600;font-size:15px}
+.ac-link:last-child{border-bottom:0}
+.ac-link.static{cursor:default;font-weight:500}
+.ac-link:focus-visible{outline:2px solid var(--accent)}
+.ac-list>.ac-link{padding-inline:2px}
+.ac-out{width:100%;color:var(--bad);padding:12px}
+#ac-msg-1:empty,#ac-msg-2:empty{display:none}
+.brand h1{font-size:20px}

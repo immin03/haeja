@@ -423,10 +423,50 @@ body.noscroll{overflow:hidden}
 .g-tbl td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5;word-break:keep-all}
 .g-tbl th:first-child,.g-tbl td:first-child{width:24%}
 .g-steps{margin:0;padding-left:20px} .g-steps li{margin:6px 0}
+.spark{margin:12px 0 2px}
+.spark-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+.spark svg{display:block;width:100%;height:46px;overflow:visible}
+.intro{position:fixed;inset:0;z-index:70;background:rgba(7,12,21,.55);display:flex;align-items:flex-end;justify-content:center;padding:0}
+.intro-card{width:100%;max-width:480px;background:var(--surface);color:var(--ink);border-radius:22px 22px 0 0;padding:22px 22px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(7,12,21,.25);animation:inUp .25s ease-out}
+@media (min-width:560px){.intro{align-items:center}.intro-card{border-radius:22px}}
+@keyframes inUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.intro-dots{display:flex;gap:6px;margin-bottom:14px}
+.intro-dots i{width:6px;height:6px;border-radius:3px;background:var(--line);transition:width .2s}
+.intro-dots i.on{width:20px;background:var(--gold, var(--accent))}
+.intro-t{font-size:22px;margin:0 0 12px;letter-spacing:-.035em}
+.intro-b{font-size:15px;line-height:1.65}
+.intro-b p{margin:12px 0 0}
+.in-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.in-three>div{display:flex;flex-direction:column;gap:2px;padding:12px 10px;border-radius:14px;background:var(--bg);min-width:0}
+.in-three b{font-size:15px;letter-spacing:-.02em} .in-three span:last-child{font-size:12px;color:var(--muted)}
+.in-ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.in-ladder>div{display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--muted);text-align:center}
+.in-ladder i{display:block;height:6px;border-radius:3px;background:var(--line)}
+.in-ladder .past i{background:var(--c-core, var(--accent));opacity:.5} .in-ladder .cur i{background:var(--c-core, var(--accent))} .in-ladder .cur{color:var(--ink);font-weight:700}
+.in-acts{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap} .in-acts .btn{flex:1 1 140px}
+.intro-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+.intro-nav .btn{min-width:120px}
+body.noscroll{overflow:hidden}
+.deep{padding:0;margin-top:16px}
+.deep>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.deep>summary::-webkit-details-marker{display:none}
+.deep>summary>span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.deep>summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;flex:0 0 auto;margin-right:4px}
+.deep[open]>summary::after{transform:rotate(-135deg)}
+.deep-in{padding:0 16px 16px;border-top:1px solid var(--line)}
+.key4{gap:14px 12px}
+.key4>div b{font-size:18px;letter-spacing:-.02em}
+.key4 .kv-verdict{font-size:15px;line-height:1.35}
+.co-more{border-top:1px solid var(--line);padding-top:4px}
+.co-more>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:10px 0 2px;font-weight:600;font-size:14px}
+.co-more>summary::-webkit-details-marker{display:none}
+.co-more>summary::after{content:"";width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px}
+.co-more[open]>summary::after{transform:rotate(-135deg)}
+.linkbtn.muted-link,.intro-nav .linkbtn{color:var(--muted);text-decoration:none;font-weight:600}
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#16243A"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#C9A45C"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#C9A45C"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#C9A45C"/></svg><div class="brand-t"><h1>가치노트</h1><span class="brand-sub">Inspired by Graham, Buffett & Munger</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><div class="brand-t"><h1>가치노트</h1><span class="brand-sub">Inspired by Graham, Buffett & Munger</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -944,6 +984,82 @@ async function scanAlerts(){
       await store.set('alerts', id, { at: now, level: 'warn', title: `${h.name} 내재가치 초과`, body: `주가가 내재가치보다 ${fmt(-ev.mos,0)}% 높습니다. 매도 조건을 점검할 때입니다.`, link: { co: c.id }, read: false, source: '장부 판정' });
   }
 }
+/* ============ 내 계정 (웹 버전) ============
+   이름·이메일·비밀번호 변경, 처음 안내 다시 보기, 로그아웃. Supabase Auth의 updateUser를 쓴다. */
+
+async function loadUser(){ try{ const { data } = await store.client.auth.getUser(); S.user = data?.user || null; }catch(_){ S.user = null; } paintAcctMenu(); }
+const userName = () => (S.user?.user_metadata?.name || '').trim();
+function paintAcctMenu(){
+  const n = document.querySelector('.acct-name'), m = document.querySelector('.acct-mail');
+  if(n) n.textContent = userName() ? userName() + ' 님' : '내 계정';
+  if(m) m.textContent = S.user?.email || '';
+}
+function viewAccount(){
+  const u = S.user, q = (typeof AZ !== 'undefined' && AZ.quota) ? AZ.quota : null;
+  const since = u?.created_at ? String(u.created_at).slice(0,10) : '';
+  return `
+  <h2 class="guide-title">내 계정</h2>
+  <div class="card ac-head">
+    <span class="ac-avatar" aria-hidden="true">${esc((userName() || u?.email || '?').slice(0,1).toUpperCase())}</span>
+    <div style="min-width:0"><b>${esc(userName() || '이름 없음')}</b><div class="small muted ac-mail">${esc(u?.email || '')}</div>${since ? `<div class="small muted">가입 ${esc(since)}</div>` : ''}</div>
+  </div>
+
+  <h3 class="eyebrow guide-h">기본 정보</h3>
+  <div class="card ac-list">
+    <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 최민우" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
+    <form class="ac-row" data-ac="email"><label class="f">이메일<input name="v" type="email" value="${esc(u?.email || '')}" autocomplete="email"></label><button class="btn" type="submit">변경</button></form>
+    <div class="status-line small" id="ac-msg-1"></div>
+  </div>
+
+  <h3 class="eyebrow guide-h">비밀번호</h3>
+  <form class="card ac-list" data-ac="password">
+    <label class="f">새 비밀번호<input name="p1" type="password" autocomplete="new-password" minlength="8" placeholder="8자 이상"></label>
+    <label class="f" style="margin-top:10px">새 비밀번호 확인<input name="p2" type="password" autocomplete="new-password" minlength="8"></label>
+    <div class="row" style="justify-content:space-between;margin-top:12px"><span class="status-line small" id="ac-msg-2"></span><button class="btn primary" type="submit">비밀번호 바꾸기</button></div>
+  </form>
+
+  <h3 class="eyebrow guide-h">이용</h3>
+  <div class="card ac-list">
+    <button type="button" class="ac-link" data-al="open"><span>알림 설정</span><span class="muted">›</span></button>
+    <button type="button" class="ac-link" data-act="go-tab" data-v="grade"><span>내 투자자 등급</span><span class="muted">›</span></button>
+    <button type="button" class="ac-link" data-act="intro-open"><span>처음 안내 다시 보기</span><span class="muted">›</span></button>
+    <div class="ac-link static"><span>목록에 없는 종목 무료 분석</span><span class="muted num">${q ? `${q.left}/${q.limit}회 남음` : '–'}</span></div>
+  </div>
+
+  <div style="margin-top:20px"><button type="button" class="btn ac-out" data-acct="logout">로그아웃</button></div>
+  <p class="small muted" style="margin-top:12px">내 데이터는 이 계정에만 저장되고, 다른 사람은 볼 수 없습니다.</p>`;
+}
+document.addEventListener('submit', async e => {
+  const f = e.target.closest && e.target.closest('form[data-ac]'); if(!f) return;
+  e.preventDefault();
+  const k = f.dataset.ac, btn = f.querySelector('button[type="submit"]');
+  const say = (id, t, ok) => { const el = document.getElementById(id); if(el){ el.textContent = t; el.style.color = ok ? 'var(--accent)' : 'var(--bad)'; } };
+  btn.disabled = true;
+  try{
+    if(k === 'name'){
+      const v = f.v.value.trim();
+      const { data, error } = await store.client.auth.updateUser({ data: { name: v } }); if(error) throw error;
+      S.user = data.user; paintAcctMenu(); say('ac-msg-1', '이름을 저장했습니다.', true);
+    }
+    if(k === 'email'){
+      const v = f.v.value.trim(); if(!v || v === S.user?.email){ say('ac-msg-1', '바꿀 이메일을 입력하세요.'); return; }
+      const { error } = await store.client.auth.updateUser({ email: v }, { emailRedirectTo: location.origin }); if(error) throw error;
+      say('ac-msg-1', `${v}로 확인 메일을 보냈습니다. 메일의 링크를 누르면 바뀝니다.`, true);
+    }
+    if(k === 'password'){
+      const p1 = f.p1.value, p2 = f.p2.value;
+      if(p1.length < 8){ say('ac-msg-2', '8자 이상으로 정하세요.'); return; }
+      if(p1 !== p2){ say('ac-msg-2', '두 비밀번호가 다릅니다.'); return; }
+      const { error } = await store.client.auth.updateUser({ password: p1 }); if(error) throw error;
+      f.reset(); say('ac-msg-2', '비밀번호를 바꿨습니다.', true);
+    }
+  }catch(err){
+    const m = String(err?.message || err);
+    const t = /same|different from the old/i.test(m) ? '지금 비밀번호와 다른 비밀번호를 쓰세요.' : /reauth|recent/i.test(m) ? '보안을 위해 다시 로그인한 뒤 바꿔 주세요.' : /rate|seconds/i.test(m) ? '잠시 후 다시 시도하세요.' : '바꾸지 못했습니다: ' + m;
+    say(k === 'password' ? 'ac-msg-2' : 'ac-msg-1', t);
+  }finally{ btn.disabled = false; }
+});
+document.addEventListener('click', e => { if(e.target.closest('[data-acct="logout"]')) store.logout(); });
 let sampleFn = null;
 
 /* ============ 상태 ============ */
@@ -1054,8 +1170,11 @@ function render(){
   if(S.tab === 'grade') app.innerHTML = viewGrade();
   if(S.tab === 'briefing' && S.loaded.s){ const bd = prog().briefDays || []; if(!bd.includes(today())) saveProg({briefDays: [...bd, today()].slice(-30)}); }
   clearTimeout(S.__lvT); S.__lvT = setTimeout(checkLevelUp, 3000);
+  if(introOn() || S.introForce){ app.insertAdjacentHTML('beforeend', introHtml()); document.body.classList.add('noscroll'); } else if(!S.trBig) document.body.classList.remove('noscroll');
+  if(S.tab === 'portfolio') animateHero();
   if(S.tab === 'dividend') app.innerHTML = viewDividend();
   if(S.tab === 'alerts') app.innerHTML = viewAlerts();
+  if(S.tab === 'account') app.innerHTML = viewAccount();
 }
 const pillFor = (ev) => `<span class="pill p-${ev.cls}">${esc(ev.verdict)}</span>`;
 function companyFor(h){
@@ -1224,10 +1343,11 @@ function viewPortfolio(){
   
   <div class="card pf-top" style="margin-top:16px">
     <div class="row" style="justify-content:space-between;align-items:flex-end">
-      <div><span class="eyebrow">총 평가액</span><div class="hero-num num">${fmtKRW(total)}</div>
+      <div><span class="eyebrow">총 평가액</span><div class="hero-num num" data-v="${Math.round(total)}">${fmtKRW(total)}</div>
         <div class="num small"><b class="${pl>=0?'up':'down'}">${pl>=0?'+':'−'}${fmtKRW(Math.abs(pl))} (${pct(cost?pl/cost*100:null)})</b>${isNum(dayPct) ? ` <span class="muted">· 오늘</span> <b class="${dayPct>=0?'up':'down'}">${pct(dayPct)}</b>` : ''}</div></div>
       <button class="btn" data-act="hold-new" style="font-size:13px;padding:6px 12px">종목 추가</button>
     </div>
+    ${sparkHtml()}
     ${rows.length ? `<div class="pf-bar" role="img" aria-label="비중">${rows.map((r,i) => `<i style="width:${r.w}%;background:${SER(i)}"></i>`).join('')}${cashW>0?`<i style="width:${cashW}%;background:var(--line)"></i>`:''}</div>` : ''}
     ${editing ? holdForm(editing) : ''}
     <div class="pf-list">${rows.length ? rows.map(row).join('') : `<div class="empty">아직 보유 종목이 없습니다. "종목 추가"로 첫 종목을 넣으세요.</div>`}<label class="pf-row static pf-cash"><span class="pf-dot" style="background:var(--c-cash)"></span><span class="pf-name"><b>현금 (예수금)</b><span class="small muted">비중 ${fmt(cashW,0)}%</span></span><span class="pf-ret"><input class="num" type="text" inputmode="numeric" data-cash="1" value="${(st.cashKRW||0).toLocaleString('ko-KR')}" aria-label="예수금 (원)"><span class="small muted">원</span></span></label></div>
@@ -1334,6 +1454,8 @@ function companyForm(c){
     ${c.kind==='stock' ? `<div class="row" style="justify-content:space-between"><span class="small muted" id="autoMsg">${c.auto?.at ? `${esc(c.auto.by||'자동 분석')} · ${esc(c.auto.at)}` : '아직 자동 분석 전입니다'}</span><button class="btn" data-act="ai-auto" ${sampleFn?'':'disabled'}>${c.auto?.at ? '다시 분석' : '자동 분석 실행'}</button></div>` : ''}
   </div>
 
+  <details class="card deep"${S.deepOpen ? ' open' : ''}><summary><span><b>자세한 심사 보기</b><span class="small muted">재무 13개 지표 · 멍거의 질문 · 버크셔 관점 · 트렌드 · 가격 해부 · 뉴스</span></span></summary>
+  <div class="deep-in">
   <h2>1. 기본 정보</h2>
   <div class="card grid2">
     <label class="f">회사명${inp('name', c.name)}</label>
@@ -1411,6 +1533,7 @@ function companyForm(c){
   <h2>최근 뉴스</h2>
   <div class="card">${newsHtml(newsFor(c), 8)}</div>
 
+  </div></details>
   <h2>6. 투자 논리와 매도 조건 <span class="small muted">자동 초안</span></h2>
   <div class="card stack">
     <div id="thesisView">${thesisViewHtml(c)}</div>
@@ -2002,14 +2125,16 @@ function companyCard(c, h){
     </div>
     ${!h && (c.watchWhy || scopeOf(c)==='내 종목') ? `<div class="small muted">${scopeOf(c)==='내 종목' ? '<span class="pill p-good">내 종목</span> 직접 추가했거나 메모를 쓴 종목' : esc(c.watchWhy)}</div>` : ''}
     ${p.what ? `<p style="margin:0">${esc(p.what)}</p>` : (c.auto?.businessOneLine ? `<p style="margin:0">${esc(c.auto.businessOneLine)}</p>` : `<p class="small muted" style="margin:0">기업 개요는 다음 자동 실행 때 채워집니다.</p>`)}
+    ${ev ? `<div class="hold-grid key4"><div><span>판정</span><b class="kv-verdict">${esc(ev.verdict)}</b></div><div><span>안전마진</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>` : ''}
+    ${ev && isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">가치 범위 <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, curOf(c.market))} ~ ${fmtPx(ev.ivNow, curOf(c.market))}</b> · 과거 평균 이익 기준 ~ 최근 이익 유지 시</div>` : ''}
+    <details class="co-more"><summary><span>회사 개요 · 실적 · 주가 차트</span></summary><div class="stack" style="gap:12px;margin-top:12px">
     ${p.model ? `<div><div class="eyebrow">어떻게 돈을 버나</div><p class="small" style="margin:4px 0 0">${esc(p.model)}</p></div>` : ''}
     ${(p.segments||[]).length ? `<div><div class="eyebrow">${c.kind==='lev' ? '지수 상위 구성' : '매출 구성'} <span class="muted" style="text-transform:none;letter-spacing:0">${esc(p.segAsOf||'')}</span></div>${stackBar(p.segments)}</div>` : ''}
     ${hs && (hs.years||[]).length ? `<div class="grid2 hist">${barChart(hs.years, hs.revenue, {title:'매출', unit:hs.unit})}${barChart(hs.years, hs.opIncome, {title:'영업이익', unit:hs.unit})}</div>` : ''}
     ${dropCheckHtml(c)}
     <details><summary class="small">가격 차트${h ? ' · 평균단가 표시' : ''}</summary><div style="margin-top:8px">${priceChart(c.ticker, {ref: avg, refLabel:'평균단가', fmtV: v => fmtPx(v, curOf(c.market)), label: c.name+' 주가'})}</div></details>
     ${(p.customers || p.competitors) ? `<details><summary class="small">고객·경쟁사</summary>${p.customers ? `<p class="small" style="margin:6px 0 0"><b>고객</b> ${esc(p.customers)}</p>` : ''}${p.competitors ? `<p class="small" style="margin:4px 0 0"><b>경쟁사</b> ${esc(p.competitors)}</p>` : ''}</details>` : ''}
-    ${ev ? `<div class="hold-grid"><div><span>판정</span><b style="font-size:13px">${esc(ev.verdict)}</b></div><div><span>안전마진</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>` : ''}
-    ${ev && isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">가치 범위 <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, curOf(c.market))} ~ ${fmtPx(ev.ivNow, curOf(c.market))}</b> · 과거 평균 이익 기준 ~ 최근 이익 유지 시</div>` : ''}
+    </div></details>
     <div class="row" style="justify-content:space-between"><span class="small muted">${p.asOf ? '개요 '+esc(p.asOf) : ''}${(p.sources||[]).filter(safeUrl).slice(0,3).map((u,i) => ` · <a href="${esc(u)}" target="_blank" rel="noopener" style="color:var(--accent)">출처${i+1}</a>`).join('')}</span>${S.tab==='analyze' ? '' : `<button class="btn" data-act="open-co" data-id="${c.id}">심사 보기</button>`}</div>
   </article>`;
 }
@@ -2147,6 +2272,7 @@ async function azRun(sym, name){
   }catch(e){ AZ.msg = '분석하지 못했습니다: ' + (e.message || e); }
   AZ.run = null; AZ.busy = false; azPaint();
 }
+document.addEventListener('toggle', e => { if(e.target.classList && e.target.classList.contains('deep')) S.deepOpen = e.target.open; }, true);
 document.addEventListener('submit', e => {
   if(e.target && e.target.id === 'az-form'){ e.preventDefault(); const q = (document.getElementById('az-q')?.value || '').trim(); if(q) azSearch(q); }
 });
@@ -2319,6 +2445,47 @@ function dropCheckHtml(c){
   </div>`;
 }
 
+/* ===== 포트폴리오 첫 카드: 30일 추이선 + 숫자 올라가는 효과 ===== */
+function sparkHtml(){
+  const ps = portfolioSeries(); if(!ps || ps.points.length < 5) return '';
+  const pts = ps.points.slice(-30), W = 320, H = 46, P = 3;
+  const vs = pts.map(p => p[1]), lo = Math.min(...vs), hi = Math.max(...vs), sp = (hi - lo) || 1;
+  const x = i => P + (W - 2*P) * i / (pts.length - 1), y = v => P + (H - 2*P) * (1 - (v - lo) / sp);
+  const d = pts.map((p,i) => `${i?'L':'M'}${x(i).toFixed(1)},${y(p[1]).toFixed(1)}`).join('');
+  const chg = (vs.at(-1) / vs[0] - 1) * 100;
+  return `<div class="spark"><div class="spark-top"><span class="small muted">최근 ${pts.length}거래일</span><b class="num small ${chg>=0?'up':'down'}">${pct(chg)}</b></div>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="최근 ${pts.length}거래일 평가액 ${pct(chg)}">
+      <defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--gold, #C9A45C)" stop-opacity=".32"/><stop offset="1" stop-color="var(--gold, #C9A45C)" stop-opacity="0"/></linearGradient></defs>
+      <path d="${d}L${x(pts.length-1).toFixed(1)},${H}L${x(0).toFixed(1)},${H}Z" fill="url(#spg)"/>
+      <path d="${d}" fill="none" stroke="var(--gold, #C9A45C)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      <circle cx="${x(pts.length-1).toFixed(1)}" cy="${y(vs.at(-1)).toFixed(1)}" r="2.6" fill="var(--gold, #C9A45C)"/>
+    </svg></div>`;
+}
+function animateHero(){
+  const el = document.querySelector('.pf-top .hero-num[data-v]'); if(!el) return;
+  const to = +el.dataset.v; const from = isNum(S.__heroV) ? S.__heroV : to * 0.94;
+  S.__heroV = to; if(!isFinite(to) || Math.abs(to - from) < 1 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const t0 = performance.now(), dur = 700;
+  const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = fmtKRW(from + (to - from) * e); if(k < 1 && el.isConnected) requestAnimationFrame(step); };
+  el.textContent = fmtKRW(from); requestAnimationFrame(step);
+}
+/* ===== 첫 방문 안내 (3장, 한 번만) ===== */
+const INTRO = [
+  {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>안전마진 30%</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>좋은 사업·10년 보유</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·집중</span></div></div><p>세 기준을 모두 넘은 회사만 "매수 후보"가 됩니다. 시세·뉴스·분석은 자동이고, 직접 넣는 것은 보유 종목·예수금·메모뿐입니다.</p>`},
+  {t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 핵심 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
+  {t:'가진 종목부터 넣어 보세요', b:`<p>보유 종목을 넣으면 수익률·비중이 바로 계산되고, 다음 날 아침부터 브리핑과 알림이 옵니다. 목록에 없는 종목도 검색해서 같은 기준으로 바로 점수를 볼 수 있습니다(무료 3회).</p><div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>`},
+];
+const introOn = () => S.loaded.s && S.loaded.h && !prog().introDone && !S.introClosed;
+function introHtml(){
+  if(!introOn() && !S.introForce) return '';
+  const i = Math.min(S.introStep || 0, INTRO.length - 1), it = INTRO[i];
+  return `<div class="intro" role="dialog" aria-modal="true" aria-label="가치노트 안내"><div class="intro-card">
+    <div class="intro-dots">${INTRO.map((_,k) => `<i class="${k===i?'on':''}"></i>`).join('')}</div>
+    <h2 class="intro-t">${esc(it.t)}</h2><div class="intro-b">${typeof it.b === 'function' ? it.b() : it.b}</div>
+    <div class="intro-nav"><button type="button" class="linkbtn" data-act="intro-close">${i === INTRO.length - 1 ? '닫기' : '건너뛰기'}</button>${i < INTRO.length - 1 ? `<button type="button" class="btn primary" data-act="intro-next">다음</button>` : `<button type="button" class="btn" data-act="intro-close">시작하기</button>`}</div>
+  </div></div>`;
+}
+function introDone(){ S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today()}); }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
   {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계. 그레이엄은 이것을 투자와 구분했다.'},
@@ -2584,7 +2751,7 @@ function viewGuide(){
   <h2 class="guide-title">Q&amp;A</h2>
   ${GUIDE.map((sec, si) => `<h3 class="eyebrow guide-h">${esc(sec.g)}</h3><div class="card guide-list">${sec.items.map(([q, a], qi) => { const k = si+'-'+qi;
     return `<details class="guide-q" data-gq="${k}"${open === k ? ' open' : ''}><summary><span>${esc(q)}</span></summary><div class="guide-a prose">${typeof a === 'function' ? a() : a}</div></details>`; }).join('')}</div>`).join('')}
-  <p class="small muted" style="margin-top:16px">더 자세한 숫자 기준은 "기업 → 기준·검증"에 있다.</p>`;
+  <p class="small muted" style="margin-top:16px">더 자세한 숫자 기준은 "기업 → 기준·검증"에 있다. <button type="button" class="linkbtn" data-act="intro-open">처음 안내 다시 보기</button></p>`;
 }
 
 /* ============ 2단 메뉴 ============ */
@@ -2599,7 +2766,7 @@ function renderNav(){
   const g = groupOf(S.tab);
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === g.k)));
   const sub = document.getElementById('subnav');
-  if(sub && S.tab === 'alerts'){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }
+  if(sub && (S.tab === 'alerts' || S.tab === 'account')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }
   if(sub) sub.innerHTML = g.subs.map(([k,l]) => `<button type="button" data-sub="${k}" aria-pressed="${(TAB_ALIAS[S.tab]||S.tab)===k}">${l}</button>`).join('');
 }
 
@@ -3200,6 +3367,11 @@ document.addEventListener('click', async e => {
   if(act === 'ai-review') aiReview();
   if(act === 'ai-auto'){ const c = cur(); if(c) aiAuto(c); }
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
+  if(act === 'intro-next'){ S.introStep = (S.introStep||0) + 1; render(); return; }
+  if(act === 'intro-close'){ introDone(); render(); return; }
+  if(act === 'intro-open'){ S.introForce = true; S.introStep = 0; render(); return; }
+  if(act === 'intro-add'){ introDone(); S.tab = 'portfolio'; S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); window.scrollTo(0,0); document.getElementById('h-name')?.focus(); return; }
+  if(act === 'intro-search'){ introDone(); S.tab = 'companies'; render(); setTimeout(() => { const q = document.getElementById('az-q'); if(q){ q.scrollIntoView({block:'center'}); q.focus(); } }, 60); return; }
   if(act === 'tr-range'){ S.trRange = a.dataset.v; trRerender(); return; }
   if(act === 'tr-big'){ S.trBig = a.dataset.v === '1'; document.body.classList.toggle('noscroll', !!S.trBig); const y = window.scrollY; render(); window.scrollTo(0,y); return; }
   if(act === 'tr-bench'){ S.trBench = S.trBench === false ? true : false; trRerender(); return; }
@@ -3316,12 +3488,13 @@ function refresh(kind){
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
     const b = document.createElement('div'); b.className = 'acct';
-    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-mail small muted"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
+    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-who"><b class="acct-name">내 계정</b><div class="acct-mail small muted"></div></div><button type="button" role="menuitem" class="acct-item" data-acct-go="account">계정 설정</button><button type="button" role="menuitem" class="acct-item" data-acct-go="grade">내 투자자 등급</button><button type="button" role="menuitem" class="acct-item" data-acct-go="intro">처음 안내 다시 보기</button><div class="acct-sep"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
     const ab = b.querySelector('button'), am = b.querySelector('.acct-menu');
-    try{ store.client.auth.getUser().then(({data}) => { const m = data?.user?.email; if(m) b.querySelector('.acct-mail').textContent = m; }).catch(() => {}); }catch(_){}
+    setTimeout(loadUser, 0);
     ab.onclick = e => { e.stopPropagation(); const open = am.hidden; am.hidden = !open; ab.setAttribute('aria-expanded', String(open)); };
     document.addEventListener('click', e => { if(!b.contains(e.target)){ am.hidden = true; ab.setAttribute('aria-expanded','false'); } });
-    b.querySelector('[data-acct="logout"]').onclick = () => store.logout();
+    b.querySelectorAll('[data-acct-go]').forEach(x => x.onclick = () => { am.hidden = true; ab.setAttribute('aria-expanded','false'); const g = x.dataset.acctGo;
+      if(g === 'intro'){ S.introForce = true; S.introStep = 0; } else S.tab = g; render(); window.scrollTo(0,0); });
     const q = document.createElement('button'); q.type = 'button'; q.className = 'bell help'; q.setAttribute('aria-label', 'Q&A: 사용법과 설계'); q.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
     q.onclick = () => { S.tab = 'guide'; render(); window.scrollTo(0,0); };
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
@@ -3535,6 +3708,30 @@ input,select,textarea{border-radius:10px}
 .guide-q[open] summary::after{content:"";transform:rotate(-135deg);margin-top:9px}
 .guide-a{color:var(--ink)}
 .acct-mail:empty{display:none}
+
+/* 계정 메뉴·계정 화면 */
+.acct-who{padding:10px 10px 12px;border-bottom:1px solid var(--line);margin-bottom:4px;min-width:0}
+.acct-who b{display:block;font-size:15px;letter-spacing:-.02em}
+.acct-who .acct-mail{border:0;padding:0;margin:2px 0 0}
+.acct-sep{height:1px;background:var(--line);margin:4px 0}
+.acct-item[data-acct="logout"]{color:var(--bad)}
+.ac-head{display:flex;align-items:center;gap:14px}
+.ac-head b{font-size:18px;letter-spacing:-.02em}
+.ac-mail{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ac-avatar{width:52px;height:52px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex:0 0 auto}
+.ac-list{display:flex;flex-direction:column}
+.ac-row{display:flex;gap:10px;align-items:flex-end;padding:6px 0}
+.ac-row+.ac-row{border-top:1px solid var(--line);padding-top:12px;margin-top:6px}
+.ac-row .f{flex:1;min-width:0}
+.ac-row .btn{flex:0 0 auto}
+.ac-link{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 2px;border-bottom:1px solid var(--line);cursor:pointer;font-weight:600;font-size:15px}
+.ac-link:last-child{border-bottom:0}
+.ac-link.static{cursor:default;font-weight:500}
+.ac-link:focus-visible{outline:2px solid var(--accent)}
+.ac-list>.ac-link{padding-inline:2px}
+.ac-out{width:100%;color:var(--bad);padding:12px}
+#ac-msg-1:empty,#ac-msg-2:empty{display:none}
+.brand h1{font-size:20px}
 
 </style>
 </body>

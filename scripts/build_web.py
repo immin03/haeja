@@ -158,7 +158,7 @@ async function refreshQuotes(force){
   finally{ quoteBusy = false; }
 }
 """
-s = s[:i] + STORE + open(__file__.replace('build_web.py','web_alerts.js'), encoding='utf-8').read() + s[j:]
+s = s[:i] + STORE + open(__file__.replace('build_web.py','web_alerts.js'), encoding='utf-8').read() + open(__file__.replace('build_web.py','web_account.js'), encoding='utf-8').read() + s[j:]
 
 # 2) 시작 루틴: 로그인 분기, 시세 타이머, 로그아웃 버튼
 rep("""  await store.init();
@@ -172,12 +172,13 @@ rep("""  await store.init();
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
     const b = document.createElement('div'); b.className = 'acct';
-    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-mail small muted"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
+    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-who"><b class="acct-name">내 계정</b><div class="acct-mail small muted"></div></div><button type="button" role="menuitem" class="acct-item" data-acct-go="account">계정 설정</button><button type="button" role="menuitem" class="acct-item" data-acct-go="grade">내 투자자 등급</button><button type="button" role="menuitem" class="acct-item" data-acct-go="intro">처음 안내 다시 보기</button><div class="acct-sep"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
     const ab = b.querySelector('button'), am = b.querySelector('.acct-menu');
-    try{ store.client.auth.getUser().then(({data}) => { const m = data?.user?.email; if(m) b.querySelector('.acct-mail').textContent = m; }).catch(() => {}); }catch(_){}
+    setTimeout(loadUser, 0);
     ab.onclick = e => { e.stopPropagation(); const open = am.hidden; am.hidden = !open; ab.setAttribute('aria-expanded', String(open)); };
     document.addEventListener('click', e => { if(!b.contains(e.target)){ am.hidden = true; ab.setAttribute('aria-expanded','false'); } });
-    b.querySelector('[data-acct="logout"]').onclick = () => store.logout();
+    b.querySelectorAll('[data-acct-go]').forEach(x => x.onclick = () => { am.hidden = true; ab.setAttribute('aria-expanded','false'); const g = x.dataset.acctGo;
+      if(g === 'intro'){ S.introForce = true; S.introStep = 0; } else S.tab = g; render(); window.scrollTo(0,0); });
     const q = document.createElement('button'); q.type = 'button'; q.className = 'bell help'; q.setAttribute('aria-label', 'Q&A: 사용법과 설계'); q.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
     q.onclick = () => { S.tab = 'guide'; render(); window.scrollTo(0,0); };
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
@@ -190,8 +191,8 @@ rep("""  store.sub('holdings', docs => { S.holdings = docs; S.loaded.h = 1; refr
   store.sub('alerts', docs => { S.alerts = docs; const first = !S.alertsLoaded; S.alertsLoaded = true; updateBell(); if(S.tab === 'alerts') refresh('a'); if(first) setTimeout(scanAlerts, 2500); });
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') refreshQuotes(false); });""")
 
-rep("  if(S.tab === 'dividend') app.innerHTML = viewDividend();", "  if(S.tab === 'dividend') app.innerHTML = viewDividend();\n  if(S.tab === 'alerts') app.innerHTML = viewAlerts();")
-rep("  if(sub) sub.innerHTML = g.subs.map(", "  if(sub && S.tab === 'alerts'){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }\n  if(sub) sub.innerHTML = g.subs.map(")
+rep("  if(S.tab === 'dividend') app.innerHTML = viewDividend();", "  if(S.tab === 'dividend') app.innerHTML = viewDividend();\n  if(S.tab === 'alerts') app.innerHTML = viewAlerts();\n  if(S.tab === 'account') app.innerHTML = viewAccount();")
+rep("  if(sub) sub.innerHTML = g.subs.map(", "  if(sub && (S.tab === 'alerts' || S.tab === 'account')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }\n  if(sub) sub.innerHTML = g.subs.map(")
 rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left:auto}
 .bell{all:unset;position:relative;cursor:pointer;color:var(--ink);display:flex;padding:6px;border-radius:8px}
 .bell:focus-visible{outline:2px solid var(--accent)}
@@ -212,7 +213,7 @@ rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
 LOGO = '<svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#16243A"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#C9A45C"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#C9A45C"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#C9A45C"/></svg>'
-rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l">' + LOGO + '<div class="brand-t"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
+rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><div class="brand-t"><h1>' + APP_NAME + '</h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
 rep("function setSave(t){ const el = $('#saveState'); if(el) el.textContent = t; }", "function setSave(t){ const el = $('#saveState'); if(!el) return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }")
 # tab icons (bottom bar on mobile)
 ICONS = {'portfolio':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
