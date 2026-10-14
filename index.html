@@ -525,6 +525,12 @@ body.noscroll{overflow:hidden}
 .stag.mine{box-shadow:inset 0 0 0 1.5px currentColor}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stag-div{background:#17263D;color:#9DBBEA} :root:not([data-theme="light"]) .stag-up{background:#2D2414;color:#E2C27C}}
 :root[data-theme="dark"] .stag-div{background:#17263D;color:#9DBBEA} :root[data-theme="dark"] .stag-up{background:#2D2414;color:#E2C27C}
+.intro.tour{background:transparent;pointer-events:none;align-items:flex-end;padding:0 10px calc(84px + env(safe-area-inset-bottom))}
+.intro.tour .intro-card{pointer-events:auto;min-height:0;border-radius:20px;box-shadow:0 18px 50px rgba(7,12,21,.35),0 0 0 1px var(--line);animation:inUp .25s ease-out}
+@media (min-width:721px){.intro.tour{padding-bottom:24px}}
+body[class*="tour-"] nav.tabs button{transition:background .2s}
+body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav.tabs button[data-tab="briefing"],body.tour-companies nav.tabs button[data-tab="companies"]{background:rgba(201,164,92,.22);border-radius:14px;animation:tourPulse 1.6s ease-in-out infinite}
+@keyframes tourPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,164,92,.0)}50%{box-shadow:0 0 0 6px rgba(201,164,92,.25)}}
 </style>
 
 <header class="top">
@@ -923,7 +929,7 @@ async function refreshQuotes(force){
   finally{ quoteBusy = false; }
 }
 
-function hideSplash(){ const el = document.getElementById('splash'); if(!el || el.dataset.out) return; el.dataset.out = '1'; const wait = Math.max(0, 1800 - (Date.now() - (window.__t0 || 0))); setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, wait); }
+function hideSplash(){ const el = document.getElementById('splash'); if(!el || el.dataset.out) return; el.dataset.out = '1'; const wait = Math.max(0, 3000 - (Date.now() - (window.__t0 || 0))); setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, wait); }
 setTimeout(() => { if(typeof hideSplash === 'function') hideSplash(); }, 5000);
 /* ============ 알림함 (웹 버전) ============
    alerts 문서: {at, level: urgent|warn|good|info, title, body, link:{tab, co}, read, push, source}
@@ -1225,6 +1231,7 @@ function evaluate(c){
 
 /* ============ 렌더: 공통 ============ */
 function render(){
+  { const st = tourStep(); if(st){ S.__tourOn = true; if(S.tab !== st.tab){ S.tab = st.tab; window.scrollTo(0,0); } } else if(S.__tourOn){ S.__tourOn = false; S.tab = 'portfolio'; window.scrollTo(0,0); } }
   renderNav();
   const app = $('#app');
   if(S.tab === 'portfolio') app.innerHTML = viewPortfolio();
@@ -1240,7 +1247,7 @@ function render(){
   if(S.tab === 'grade') app.innerHTML = viewGrade();
   if(S.tab === 'briefing' && S.loaded.s){ const bd = prog().briefDays || []; if(!bd.includes(today())) saveProg({briefDays: [...bd, today()].slice(-30)}); }
   clearTimeout(S.__lvT); S.__lvT = setTimeout(checkLevelUp, 3000);
-  if(introOn() || S.introForce){ app.insertAdjacentHTML('beforeend', introHtml()); document.body.classList.add('noscroll'); } else if(!S.trBig) document.body.classList.remove('noscroll');
+  if(introOn() || S.introForce){ app.insertAdjacentHTML('beforeend', introHtml()); document.body.classList.toggle('noscroll', !tourStep()); } else { document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(!S.trBig) document.body.classList.remove('noscroll'); }
   if(S.tab === 'portfolio') animateHero();
   if(S.tab === 'dividend') app.innerHTML = viewDividend();
   if(S.tab === 'alerts') app.innerHTML = viewAlerts();
@@ -2626,7 +2633,9 @@ const INTRO = [
   {t:'먼저, 나의 투자를 점검해 볼까요', b:() => `<p class="small muted" style="margin:0 0 12px">답에 맞춰 후보 정렬과 제안을 바꿔 드립니다. 나중에 계정에서 고칠 수 있습니다.</p>${invQHtml(['size','count','markets'])}`},
   {t:'투자 방식과 성향', b:() => `${invQHtml(['horizon','style','exp'])}`},
   {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
-  {t:'화면은 세 개뿐입니다', b:`<div class="in-tabs"><div><i>${TAB_SVG.pf}</i><span><b>포트폴리오</b>수익률·비중, 그리고 지금 할 일 최대 3개</span></div><div><i>${TAB_SVG.br}</i><span><b>브리핑</b>매일 아침, 내 종목 소식을 한 줄씩</span></div><div><i>${TAB_SVG.co}</i><span><b>기업</b>220여 개 회사 점수, 내 종목 검색·분석</span></div></div><p class="small muted">급등락, 매수 가격 도달 같은 중요한 일은 위의 종 모양 알림으로 옵니다.</p>`},
+  {tab:'portfolio', t:'① 포트폴리오', b:`<p>지금 보시는 화면입니다. 총 평가액·수익률·30일 추이와 종목별 비중을 한눈에 봅니다.</p><p>아래로 내리면 <b>지금 할 일</b>이 원칙에서 벗어난 부분을 최대 3개만 알려 줍니다. 할 일이 없으면 아무것도 안 하는 것이 정답입니다.</p>`},
+  {tab:'briefing', t:'② 브리핑', b:`<p>매일 아침 내 종목 소식을 <b>한 줄씩</b> 정리합니다. 눌러야 자세한 내용이 열립니다.</p><p>위의 <b>메가트렌드</b>에서는 반도체·방산 같은 산업 사이클을 3개월~5년 차트로 봅니다.</p>`},
+  {tab:'companies', t:'③ 기업', b:`<p>220여 개 회사를 세 거인의 기준 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘으로 내 성향에 맞는 후보를 찾습니다.</p><p>목록에 없는 내 종목은 <b>검색해서 바로 분석</b>할 수 있습니다(무료 3회).</p>`},
   {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
     <p><b>매수 가능 가격</b> = 내재가치 × 70%. 이 가격 아래로 오면 알려 드립니다.</p>`},
@@ -2636,17 +2645,19 @@ const INTRO = [
     <div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>
     <button type="button" class="in-push" data-act="intro-push"><span>휴대폰 알림 켜기</span><span class="muted">›</span></button>`; }},
 ];
+const tourStep = () => { if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null; const it = INTRO[Math.min(S.introStep || 0, INTRO.length - 1)]; return it && it.tab ? it : null; };
 const introOn = () => S.loaded.s && S.loaded.h && !prog().introV3 && !S.introClosed;
 function introHtml(){
   if(!introOn() && !S.introForce) return '';
   const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
-  return `<div class="intro" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
+  document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(it.tab) document.body.classList.add('tour-' + it.tab);
+  return `<div class="intro${it.tab ? ' tour' : ''}" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
     <div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
     <h2 class="intro-t">${esc(it.t)}</h2><div class="intro-b">${typeof it.b === 'function' ? it.b() : it.b}</div>
     <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
   </div></div>`;
 }
-function introDone(){ S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); }
+function introDone(){ if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
   {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계. 그레이엄은 이것을 투자와 구분했다.'},

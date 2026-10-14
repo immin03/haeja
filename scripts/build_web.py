@@ -161,7 +161,7 @@ async function refreshQuotes(force){
 }
 """
 SPLASH_JS = """
-function hideSplash(){ const el = document.getElementById('splash'); if(!el || el.dataset.out) return; el.dataset.out = '1'; const wait = Math.max(0, 1800 - (Date.now() - (window.__t0 || 0))); setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, wait); }
+function hideSplash(){ const el = document.getElementById('splash'); if(!el || el.dataset.out) return; el.dataset.out = '1'; const wait = Math.max(0, 3000 - (Date.now() - (window.__t0 || 0))); setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, wait); }
 setTimeout(() => { if(typeof hideSplash === 'function') hideSplash(); }, 5000);
 """
 s = s[:i] + STORE + SPLASH_JS + open(__file__.replace('build_web.py','web_alerts.js'), encoding='utf-8').read() + open(__file__.replace('build_web.py','web_account.js'), encoding='utf-8').read() + s[j:]
