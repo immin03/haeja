@@ -307,6 +307,12 @@ details.more>summary{font-size:15px}
 .ms{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted)}
 .ms-t{width:44px;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;border:1px solid var(--line)}
 .ms-t i{display:block;height:100%;background:var(--accent)}
+.pf-cash{cursor:text}
+.pf-cash input{width:8em;text-align:right;font:inherit;font-weight:700;padding:4px 8px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink)}
+.pf-cash .pf-ret{flex-direction:row;align-items:center;gap:4px}
+.fx-ro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+@media (min-width:560px){.fx-ro{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.fx-ro>span{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
 </style>
 
 <header class="top">
@@ -1101,7 +1107,7 @@ function viewPortfolio(){
     </div>
     ${rows.length ? `<div class="pf-bar" role="img" aria-label="비중">${rows.map((r,i) => `<i style="width:${r.w}%;background:${SER(i)}"></i>`).join('')}${cashW>0?`<i style="width:${cashW}%;background:var(--line)"></i>`:''}</div>` : ''}
     ${editing ? holdForm(editing) : ''}
-    <div class="pf-list">${rows.length ? rows.map(row).join('') : `<div class="empty">아직 보유 종목이 없습니다. "종목 추가"로 첫 종목을 넣으세요.</div>`}${cashW>0?`<div class="pf-row static"><span class="pf-dot" style="background:var(--line)"></span><span class="pf-name"><b>현금</b><span class="small muted">비중 ${fmt(cashW,0)}%</span></span><span class="pf-ret"><span class="small muted num">${fmtKRW(st.cashKRW)}</span></span></div>`:''}</div>
+    <div class="pf-list">${rows.length ? rows.map(row).join('') : `<div class="empty">아직 보유 종목이 없습니다. "종목 추가"로 첫 종목을 넣으세요.</div>`}<label class="pf-row static pf-cash"><span class="pf-dot" style="background:var(--c-cash)"></span><span class="pf-name"><b>현금 (예수금)</b><span class="small muted">비중 ${fmt(cashW,0)}%</span></span><span class="pf-ret"><input class="num" type="text" inputmode="numeric" data-cash="1" value="${(st.cashKRW||0).toLocaleString('ko-KR')}" aria-label="예수금 (원)"><span class="small muted">원</span></span></label></div>
   </div>
   ${rows.length ? `<h2>지금 할 일</h2>
   <div class="card">${acts.length ? `<ol class="acts">${acts.map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':'참고'}</span><span>${esc(a.short || a.t)}</span></li>`).join('')}</ol>` : `<div class="muted">구조가 목표 안에 있다. 매도 조건과 분기 실적만 확인하면 된다.</div>`}
@@ -1109,16 +1115,15 @@ function viewPortfolio(){
     <div class="cmp-row"><span class="small">목표</span><div class="stackbar"><i style="width:75%;background:var(--c-core)"></i><i style="width:10%;background:var(--c-exp)"></i><i style="width:15%;background:var(--c-cash)"></i></div></div>
     <div class="legend"><span style="--c:var(--c-core)">핵심 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">탐험 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
   </div>` : ''}
-  <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">가치 추이 · 균형 점검 · 원칙 점검 · 환율 · 설정</span></summary>
+  <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">가치 추이 · 균형 점검 · 원칙 점검 · 환율</span></summary>
     <div class="stack" style="margin-top:12px">
     ${portfolioSeries() ? `<div><h3>가치 추이</h3>${(() => { const ps = portfolioSeries(); return lineChart(ps.points, {ref: ps.cost, refLabel:'매수 원금', fmtV: v => fmtKRW(v), label:'포트폴리오 가치', h:160}); })()}</div>` : ''}
     <div><h3>균형 점검 <span class="small muted">${P.bal.filter(b=>b.ok).length}/${P.bal.length}</span></h3>${P.bal.map(b => `<div class="check"><span class="pill ${b.ok?'p-good':'p-warn'}">${b.ok?'통과':'확인'}</span><span>${esc(b.t)}${b.why?`<div class="small muted">${esc(b.why)}</div>`:''}</span></div>`).join('')}</div>
     <div><h3>원칙 점검 <span class="small muted">${checks.length}건</span></h3>${checks.length ? checks.map(([s,t]) => `<div class="check"><span class="pill p-${s}">${s==='bad'?'위반':'주의'}</span><span>${esc(t)}</span></div>`).join('') : '<div class="muted small">위반 사항 없음</div>'}</div>
     <div><h3>모델 준수</h3>${complianceHtml()}</div>
     ${portfolioCharts(rows, total)}
-    <div><h3>설정</h3><div class="grid3" style="margin-top:8px">
-      ${[['cashKRW','예수금 (원)'],['reqMOS','요구 안전마진 %'],['fx','USD/KRW'],['fxCNY','CNY/KRW'],['fxHKD','HKD/KRW'],['fxJPY','JPY/KRW'],['discKR','할인율 국내 %'],['discUS','할인율 미국 %'],['discCN','할인율 중국 %'],['discHK','할인율 홍콩 %'],['discJP','할인율 일본 %'],['tgKR','영구성장 국내 %'],['tgUS','영구성장 미국 %'],['tgCN','영구성장 중국 %'],['tgHK','영구성장 홍콩 %'],['tgJP','영구성장 일본 %'],['bondKR','국고채 10년 %'],['bondUS','미 국채 10년 %'],['bondCN','중국 국채 10년 %'],['bondHK','홍콩 기준 금리 %'],['bondJP','일본 국채 10년 %']].map(([k,l]) => `<label class="f">${l}<input type="number" step="any" inputmode="decimal" id="set-${k}" data-set-key="${k}" value="${esc(st[k])}"></label>`).join('')}
-    </div><p class="small muted" style="margin:10px 0 0">환율·금리는 자동으로 갱신된다. 예수금만 직접 넣으면 현금 비중이 계산된다.</p></div>
+    <div><h3>환율 <span class="small muted">자동 갱신${st.fxAt ? ' · '+esc(st.fxAt) : ''}</span></h3><div class="fx-ro">${[['fx','달러',1],['fxJPY','엔 (100)',100],['fxCNY','위안',1],['fxHKD','홍콩달러',1]].filter(([k]) => isNum(st[k])).map(([k,l,m]) => `<span><span class="small muted">${l}</span><b class="num">${fmt(st[k]*m, st[k]*m >= 100 ? 1 : 2)}원</b></span>`).join('')}</div>
+      <p class="small muted" style="margin:8px 0 0">환율·금리·할인율은 자동으로 관리된다. 직접 넣는 값은 예수금 하나뿐이다.</p></div>
     </div>
   </details>`;
 }
@@ -2653,6 +2658,13 @@ document.addEventListener('input', e => {
   if(el.dataset.fs !== undefined){
     const c = cur(); if(!c) return; const fs = [...(c.fscore||[])]; fs[+el.dataset.fs] = el.checked; for(let i=0;i<9;i++) fs[i] = !!fs[i]; c.fscore = fs; queueSave(c); updateEval(); return;
   }
+  if(el.dataset.cash){
+    const v = parseFloat(el.value.replace(/[^0-9.]/g,'')); if(!isFinite(v)) return;
+    S.settings = {...cfg(), cashKRW: v};
+    clearTimeout(saveTimers.__set); setSave('저장 중');
+    saveTimers.__set = setTimeout(async () => { try{ await store.set('settings','main', S.settings); setSave('저장됨'); }catch(err){ setSave('저장 실패'); } }, 800);
+    return;
+  }
   if(el.dataset.setKey){
     const v = parseFloat(el.value); if(!isFinite(v)) return;
     S.settings = {...cfg(), [el.dataset.setKey]: v}; scoredCache = null;
@@ -2670,6 +2682,7 @@ document.addEventListener('change', e => {
     S2.shown = 40; saveScreenPrefs(); $('#scList').innerHTML = screenListHtml(); return;
   }
   if(el.dataset.setKey) scoredCache = null;
+  if(el.dataset.cash && S.tab==='portfolio'){ const y = window.scrollY; render(); window.scrollTo(0,y); }
   if(el.dataset.setKey && S.tab==='portfolio'){ const y = window.scrollY; render(); window.scrollTo(0,y); }
   if(el.id === 'i-market' || el.id === 'i-kind') updateEval();
   if(el.id === 'j-action'){ const jm = $('#j-model'); if(jm) jm.innerHTML = journalModelHtml($('#j-ticker').value, el.value); const jc = $('#j-check'); if(jc) jc.innerHTML = journalChecklistHtml(el.value); }

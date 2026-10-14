@@ -83,7 +83,7 @@ async function load(col: string) {
 Deno.serve(async (_req: Request) => {
   const today = kstDate();
   try {
-    const [holdings, comps, prices, screen, settings] = await Promise.all(["holdings", "companies", "prices", "screen", "settings"].map(load));
+    const [holdings, comps, prices, screen] = await Promise.all(["holdings", "companies", "prices", "screen"].map(load));
     const owner = (holdings[0] || comps[0] || screen[0])?.owner;
     if (!owner) return Response.json({ ok: false, msg: "데이터 없음" });
     const companies: Record<string, any> = Object.fromEntries(comps.map((r) => [r.id, r.data]));
@@ -124,9 +124,6 @@ Deno.serve(async (_req: Request) => {
       const k = s.split(".")[0].toUpperCase();
       put("prices", k, mergeSeries(pmap[k] || { ticker: k }, hist[s], today));
     }
-    const st = { ...(settings.find((r) => r.id === "main")?.data || {}) };
-    for (const [k, s] of Object.entries(fxSym)) { const p = last(s); if (p) st[k] = Math.round(p[1] * 10000) / 10000; }
-    put("settings", "main", st);
 
     // 스크리너 현재가
     let nScreen = 0;
@@ -138,6 +135,13 @@ Deno.serve(async (_req: Request) => {
       const d = { ...r.data, rows: r.data.rows.map((x: any) => (x.t in px ? (nScreen++, { ...x, px: px[x.t] }) : x)), pxAt: today };
       put("screen", r.id, d);
     }
+
+    // 설정은 쓰기 직전에 다시 읽는다 (그사이 바꾼 예수금을 덮어쓰지 않도록)
+    const fresh = await load("settings");
+    const st = { ...(fresh.find((r) => r.id === "main")?.data || {}) };
+    for (const [k, s] of Object.entries(fxSym)) { const p = last(s); if (p) st[k] = Math.round(p[1] * 10000) / 10000; }
+    st.fxAt = new Date(Date.now() + 9 * 3600e3).toISOString().slice(5, 16).replace("-", "/").replace("T", " ");
+    put("settings", "main", st);
 
     // 알림은 새로 생길 때만 넣는다 (이미 있으면 건드리지 않아 중복 푸시가 없다)
     if (alertRows.length) { const { error } = await sb.from("docs").upsert(alertRows, { onConflict: "collection,id", ignoreDuplicates: true }); if (error) throw error; }
