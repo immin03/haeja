@@ -572,6 +572,34 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 .fin-legend{margin:-4px 0 10px;display:flex;align-items:center;gap:4px;white-space:nowrap}
 @media (max-width:400px){.fin-row{grid-template-columns:minmax(0,1fr) 98px!important}.fin-row .fin-val em{width:14px}.fin-row .lbl b{font-size:13.5px}}
 .fin-legend .auto-dot{margin:0 2px 0 0}
+.pick-line{display:flex;align-items:center;gap:2px;border-bottom:1px solid var(--line)}
+.pick-line .pick-row{border-bottom:0;flex:1;min-width:0}
+.pick-wrap:last-child .pick-line{border-bottom:0}
+.star{all:unset;box-sizing:border-box;cursor:pointer;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;color:var(--muted);flex:0 0 auto;transition:transform .15s,color .15s}
+.star:hover{background:var(--bg)}
+.star.on{color:var(--gold, #C9A45C)}
+.star:active{transform:scale(.88)}
+.star:focus-visible{outline:2px solid var(--accent)}
+.wl-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 14px 12px;box-shadow:0 1px 1px rgba(14,26,43,.03),0 8px 24px rgba(14,26,43,.045)}
+.wl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.wl-name{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.wl-name b{font-size:16px;letter-spacing:-.02em}
+.wl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.wl-grid>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wl-grid span{font-size:11px;color:var(--muted)}
+.wl-grid b{font-size:14px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wl-grid b span{font-size:inherit!important;color:inherit}
+.wl-grid b span.up{color:var(--up)!important} .wl-grid b span.down{color:var(--down)!important}
+.wl-d{font-size:10.5px;color:var(--muted);white-space:nowrap}
+.wl-d span{font-size:10.5px!important}
+.wl-d .up{color:var(--up)!important} .wl-d .down{color:var(--down)!important}
+@media (max-width:400px){.wl-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}}
+.wl-bar{height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:12px}
+.wl-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c-exp, #8C97A8),var(--gold, #C9A45C));border-radius:3px}
+.wl-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.wl-auto{padding:4px 14px}
+.wl-arow{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.wl-arow:last-child{border-bottom:0}
 </style>
 
 <header class="top">
@@ -1287,6 +1315,7 @@ function render(){
   if(S.tab === 'trends') app.innerHTML = viewTrends();
   if(S.tab === 'guide'){ app.innerHTML = viewGuide(); if(!prog().guideAt && S.loaded.s) saveProg({guideAt: today()}); }
   if(S.tab === 'grade') app.innerHTML = viewGrade();
+  if(S.tab === 'watchlist') app.innerHTML = viewWatchlist();
   if(S.tab === 'briefing' && S.loaded.s){ const bd = prog().briefDays || []; if(!bd.includes(today())) saveProg({briefDays: [...bd, today()].slice(-30)}); }
   clearTimeout(S.__lvT); S.__lvT = setTimeout(checkLevelUp, 3000);
   if(introOn() || S.introForce){ app.insertAdjacentHTML('beforeend', introHtml()); document.body.classList.toggle('noscroll', !tourStep()); } else { document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(!S.trBig) document.body.classList.remove('noscroll'); }
@@ -2246,7 +2275,7 @@ function companyCard(c, h){
   return `<article class="card stack co-card">
     <div class="hold-head">
       <div style="min-width:0"><div class="name">${esc(c.name)}</div><div class="small muted">${esc(c.ticker)} · ${(MKT[c.market]||MKT.KR).label}${p.industry ? ' · '+esc(p.industry) : (c.sector ? ' · '+esc(c.sector) : '')}</div></div>
-      <div class="row" style="gap:6px;justify-content:flex-end">${yenPill(c.market)}${ev ? `<span class="pill ${scoreCls(ev.total)}">종합 ${ev.total ?? '–'}</span>` : (c.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : '')}</div>
+      <div class="row" style="gap:6px;justify-content:flex-end;align-items:center">${c.kind === 'stock' ? starBtn(c) : ''}${yenPill(c.market)}${ev ? `<span class="pill ${scoreCls(ev.total)}">종합 ${ev.total ?? '–'}</span>` : (c.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : '')}</div>
     </div>
     ${(() => { const bb = styleBadges({c, r:null, p:c.profile || profileFor(c.yf||c.ticker, c.ticker, c), px:c.price}); return bb ? `<div class="row" style="gap:6px">${bb}</div>` : ''; })()}
     ${!h && (c.watchWhy || scopeOf(c)==='내 종목') ? `<div class="small muted">${scopeOf(c)==='내 종목' ? '<span class="pill p-good">내 종목</span> 직접 추가했거나 메모를 쓴 종목' : esc(c.watchWhy)}</div>` : ''}
@@ -2315,11 +2344,11 @@ function listRowHtml(x){
   const act = x.c ? `data-act="pick" data-id="${x.c.id}"` : `data-act="co-open" data-v="${esc(x.code)}"`;
   const d = x.p?.dividend;
   const sub = [x.code, (MKT[x.m]||MKT.KR).label, x.p?.industry || x.r?.ind || x.c?.sector].filter(Boolean).join(' · ');
-  return `<div class="pick-wrap"><button type="button" class="pick-row" ${act} aria-expanded="${open}">
+  return `<div class="pick-wrap"><div class="pick-line"><button type="button" class="pick-row" ${act} aria-expanded="${open}">
       <span class="pr-main"><b>${esc(x.name)}</b><span class="small muted">${esc(sub)}</span>${(() => { const ev = x.c ? evaluate(x.c) : null; return miniScores(x.r?.q ?? ev?.qScore, x.r?.v ?? ev?.valScore); })()}
         <span class="row" style="gap:4px;margin-top:3px">${sc && sc!=='관심' ? `<span class="pill p-good">${esc(sc)}</span>` : ''}${sc==='관심' ? '<span class="pill p-none">관심 후보</span>' : ''}${styleBadges(x)}${yenPill(x.m)}${x.c?.dropCheck?.verdict==='구조적 훼손 우려' ? '<span class="pill p-bad">구조적 훼손 우려</span>' : ''}</span></span>
       <span class="pr-side">${isNum(x.b) ? `<span class="pill ${scoreCls(x.b)}">${x.b}점</span>` : ''}${ev ? `<span class="small muted">${esc(ev.verdict)}</span>` : '<span class="small muted">심사 전</span>'}</span>
-    </button>
+    </button>${x.c?.kind === 'lev' || x.c?.kind === 'etf' ? '' : starBtn(x.c, x.r?.t || x.c?.yf)}</div>
     ${open ? `<div class="stack" style="gap:8px;padding:4px 6px 12px">
       ${x.p?.what ? `<p class="small" style="margin:0">${esc(x.p.what)}</p>` : '<p class="small muted" style="margin:0">개요는 자동 실행 때 채워집니다.</p>'}
       ${x.p?.model ? `<p class="small" style="margin:0"><b>수익모델</b> ${esc(x.p.model)}</p>` : ''}
@@ -2660,6 +2689,67 @@ function styleBadges(x){
   return (t.div ? `<span class="stag stag-div${mineDiv?' mine':''}" title="배당 지향 후보">${ICO_DIV}배당${isNum(t.yld) ? ' '+fmt(t.yld,1)+'%' : ''}</span>` : '')
        + (t.up ? `<span class="stag stag-up${mineUp?' mine':''}" title="상승 여력 후보">${ICO_UP}상승 여력</span>` : '');
 }
+/* ===== 관심 종목(워치리스트): ☆ 한 번으로 넣고 빼기, 점수 변화 추적 ===== */
+const STAR_SVG = on => `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="${on ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>`;
+function starBtn(c, t){
+  const on = !!c?.pinned;
+  return `<button type="button" class="star${on ? ' on' : ''}" data-act="star" ${c ? `data-id="${c.id}"` : ''} ${t ? `data-t="${esc(t)}"` : ''} aria-pressed="${on}" aria-label="${on ? '관심 종목에서 빼기' : '관심 종목에 넣기'}" title="${on ? '관심 종목에서 빼기' : '관심 종목에 넣기'}">${STAR_SVG(on)}</button>`;
+}
+function companyFromRow(r){
+  const c = {id:uid(), ...newCompany(), pinned:false, name:r.n, ticker:r.code||r.t, yf:r.t, market:grpOf(r.m),
+    sector:r.ind||r.s||'', price:r.px, fin:{...(r.fin||{})}, val:{...(r.val||{})}, fscore:r.fsd||[], finSector:!!r.fin_sector, mf:r.mf ?? null, holdco:!!r.holdco, dataConf:r.dataConf||null,
+    source:`스크리너 자동 수집 (${(S2.meta||{}).generatedAt||''}, 회계연도 ${r.fy||'–'})`};
+  c.ai.filled = [...Object.keys(c.fin), ...Object.keys(c.val)];
+  S.companies.push(c); return c;
+}
+function toggleStar(id, t){
+  let c = id ? S.companies.find(x => x.id === id) : null;
+  if(!c && t) c = S.companies.find(x => (x.yf||'').toUpperCase() === String(t).toUpperCase());
+  if(!c && t){ const r = scoredRows().find(x => x.t === t); if(!r) return; c = companyFromRow(r); }
+  if(!c) return;
+  c.pinned = !c.pinned; c.starAt = c.pinned ? today() : null; queueSave(c);
+  if(typeof setSave === 'function') setSave(c.pinned ? `${c.name}을(를) 관심 종목에 넣었습니다` : `${c.name}을(를) 관심 종목에서 뺐습니다`);
+}
+/* 과거 가격으로 다시 계산한 점수: 재무는 그대로 두고 가격만 그때 값으로 */
+function priceDaysAgo(c, days){
+  const d = (S.prices[normKey(c.ticker)]?.daily || []).filter(p => isNum(p[1])); if(d.length < 2) return null;
+  const tgt = new Date(Date.now() + 9*3600e3 - days*864e5).toISOString().slice(0,10);
+  let v = null; for(const p of d){ if(p[0] <= tgt) v = p; else break; }
+  return v && v[0] < d.at(-1)[0] ? v[1] : null;
+}
+function scoreThen(c, days){ const px = priceDaysAgo(c, days); if(!isNum(px)) return null; const ev = evaluate({...c, price:px}); return {total:ev.total, px}; }
+function dlt(now, then){ if(!isNum(now) || !isNum(then)) return '<span class="muted">–</span>'; const d = Math.round(now - then); return d === 0 ? '<span class="muted">0</span>' : `<span class="${d > 0 ? 'up' : 'down'}">${d > 0 ? '▲' : '▼'}${Math.abs(d)}</span>`; }
+function watchCard(c){
+  const ev = evaluate(c), cur = curOf(c.market), w = scoreThen(c, 7), m = scoreThen(c, 30);
+  const u = upPct(ev.iv, c.price), gap = isNum(ev.buyBelow) && isNum(c.price) && ev.buyBelow > 0 ? (c.price/ev.buyBelow - 1)*100 : null;
+  const prog = isNum(gap) ? (gap <= 0 ? 100 : Math.max(4, Math.min(96, 100 - gap))) : 0;
+  return `<div class="wl-card">
+    <div class="wl-top"><button type="button" class="wl-name" data-act="pick" data-id="${c.id}"><b>${esc(c.name)}</b><span class="small muted">${esc(c.ticker)} · ${(MKT[c.market]||MKT.KR).label}</span></button>${starBtn(c)}</div>
+    <div class="wl-grid">
+      <div><span>현재가</span><b class="num">${fmtPx(c.price, cur)}</b></div>
+      <div><span>적정 가격</span><b class="num">${fmtPx(ev.iv, cur)}</b></div>
+      <div><span>기대 수익</span><b class="num">${upHtml(u)}</b></div>
+      <div><span>종합 점수</span><b class="num">${ev.total ?? '–'}</b><small class="wl-d">1주 ${dlt(ev.total, w?.total)} · 1달 ${dlt(ev.total, m?.total)}</small></div>
+    </div>
+    <div class="wl-bar"><i style="width:${prog}%"></i></div>
+    <div class="wl-foot small"><span class="pill ${ev.cls==='good'?'p-good':ev.cls==='bad'?'p-bad':'p-warn'}">${esc(ev.verdict)}</span><span class="muted">${isNum(gap) ? (gap <= 0 ? '<b class="ok-tag">매수 상한 아래</b>' : `매수 상한 ${fmtPx(ev.buyBelow, cur)}까지 −${fmt(gap, gap < 10 ? 1 : 0)}%`) : '적정 가격 계산 전'}</span></div>
+  </div>`;
+}
+function viewWatchlist(){
+  if(!S.loaded.c) return `<div class="empty">불러오는 중</div>`;
+  const held = new Set(S.holdings.map(h => companyFor(h)?.id).filter(Boolean));
+  const mine = S.companies.filter(c => c.pinned && c.kind === 'stock');
+  const gapOf = c => { const ev = evaluate(c); return isNum(ev.buyBelow) && ev.buyBelow > 0 && isNum(c.price) ? c.price/ev.buyBelow : 9; };
+  mine.sort((a,b) => gapOf(a) - gapOf(b));
+  const auto = S.companies.filter(c => c.watch === true && !c.pinned && !held.has(c.id) && c.kind === 'stock').sort((a,b) => (a.watchRank ?? 99) - (b.watchRank ?? 99));
+  return `<h2 class="guide-title">관심 종목</h2>
+  <p class="small muted" style="margin:-4px 0 12px">사지 않았어도 지켜볼 회사를 담아 두세요. ☆을 누르면 언제든 넣고 뺄 수 있고, 매수 상한까지 내려오면 알림이 옵니다.</p>
+  ${mine.length ? `<div class="stack" style="gap:10px">${mine.map(watchCard).join('')}</div>
+    <p class="small muted" style="margin-top:8px">1주·1달 점수 변화는 재무는 그대로 두고 그때 가격으로 다시 계산한 값입니다. 막대가 오른쪽 끝에 닿으면 매수 상한에 도달한 것입니다.</p>`
+    : `<div class="card empty" style="text-align:left"><b>아직 관심 종목이 없습니다</b><p class="small muted" style="margin:6px 0 12px">기업 목록이나 기업 화면에서 ☆을 누르면 여기에 모입니다.</p><button class="btn primary" data-act="go-tab" data-v="companies">기업 목록 보기</button></div>`}
+  ${auto.length ? `<h3 class="eyebrow guide-h">ValueNote가 고른 후보 <span class="muted" style="font-weight:400">· 매주 월요일 갱신</span></h3>
+    <div class="card wl-auto">${auto.map(c => { const ev = evaluate(c); return `<div class="wl-arow"><button type="button" class="wl-name" data-act="pick" data-id="${c.id}"><b>${esc(c.name)}</b><span class="small muted">${ev.total ?? '–'}점 · ${esc(ev.verdict)} · 기대 수익 ${upHtml(upPct(ev.iv, c.price))}</span></button>${starBtn(c)}</div>`; }).join('')}</div>` : ''}`;
+}
 /* ===== 적정 가격과 기대 수익 ===== */
 const upPct = (iv, px) => isNum(iv) && isNum(px) && px > 0 && iv > 0 ? (iv/px - 1)*100 : null;
 function upHtml(u){ if(!isNum(u)) return '–'; return `<span class="${u >= 0 ? 'up' : 'down'}">${u >= 0 ? '+' : ''}${fmt(u, Math.abs(u) < 10 ? 1 : 0)}%</span>`; }
@@ -2814,7 +2904,7 @@ const INTRO = [
   {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
   {tab:'portfolio', t:'① 포트폴리오', b:`<p>지금 보시는 화면입니다. 총 평가액·수익률·30일 추이와 종목별 비중을 한눈에 봅니다.</p><p>아래로 내리면 <b>지금 할 일</b>이 원칙에서 벗어난 부분을 최대 3개만 알려 줍니다. 할 일이 없으면 아무것도 안 하는 것이 정답입니다.</p>`},
   {tab:'briefing', t:'② 브리핑', b:`<p>매일 아침 내 종목 소식을 <b>한 줄씩</b> 정리합니다. 눌러야 자세한 내용이 열립니다.</p><p>위의 <b>메가트렌드</b>에서는 반도체·방산 같은 산업 사이클을 3개월~5년 차트로 봅니다.</p>`},
-  {tab:'companies', t:'③ 기업', b:`<p>220여 개 회사를 세 거인의 기준 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘으로 내 성향에 맞는 후보를 찾습니다.</p><p>목록에 없는 내 종목은 <b>검색해서 바로 분석</b>할 수 있습니다(무료 3회).</p>`},
+  {tab:'companies', t:'③ 기업', b:`<p>220여 개 회사를 세 거인의 기준 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘으로 내 성향에 맞는 후보를 찾고, <b>☆</b>를 누르면 관심 종목에 담겨 점수 변화와 매수 시점을 지켜볼 수 있습니다.</p><p>목록에 없는 내 종목은 <b>검색해서 바로 분석</b>할 수 있습니다(무료 3회).</p>`},
   {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
     <p><b>적정 가격</b>은 회사의 제값, <b>기대 수익</b>은 지금 가격에서 적정 가격까지의 수익률입니다. 실제 매수는 적정 가격보다 30% 싼 <b>매수 상한</b> 아래에서만 권하고, 그 가격에 오면 알려 드립니다.</p>`},
@@ -2968,6 +3058,8 @@ const GUIDE = [
       return `<p>"기업 → 찾기" 목록에는 5개 시장의 시가총액 상위 대형주 <b>${n}곳</b>이 들어 있다${parts ? ` (${parts})` : ''}. 버핏식 기준을 적용하려면 최근 5개년 연간 재무(매출·이익·현금흐름·부채)가 필요해서, 이 자료를 모을 수 있는 회사만 남겼다.</p>
       <p>재무는 ${esc(m.generatedAt ? m.generatedAt.replace(/\s*\(.*\)/,'') : '2026-10-12')}에 stockanalysis·roic.ai·기업 공시를 웹으로 조사해 모았고, 가격은 평일 매일 갱신된다. 회사마다 데이터 신뢰도(높음·보통·낮음)를 표시하며, 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다.</p>
       <p>이 목록은 "좋은 회사"를 고른 것이 아니라 비교할 수 있는 큰 회사를 모은 것이다. 판정은 목록 안에서 같은 기준으로 매긴다.</p>`; }],
+    ['관심 종목은 어떻게 쓰나요?', `<p>사지 않았어도 지켜보고 싶은 회사는 기업 목록이나 기업 화면의 <b>☆</b>를 누르면 "기업 → 관심 종목"에 모인다. 한 번 더 누르면 빠진다.</p>
+     <p>관심 종목 화면에서는 현재가·적정 가격·기대 수익과 함께 <b>종합 점수가 1주·1달 전보다 올랐는지 내렸는지</b>를 보여 준다(재무는 그대로 두고 그때 가격으로 다시 계산한 값). 막대는 매수 상한까지 얼마나 가까워졌는지를 뜻하고, 매수 상한에 닿으면 알림이 온다.</p>`],
     ['내가 가진 회사가 목록에 없으면요?', `<p><b>바로 분석:</b> "기업 → 찾기"의 "목록에 없는 종목 바로 분석"에서 회사명(한글·영문)이나 티커로 찾아 [분석]을 누르면, 연간 재무제표를 불러와 목록의 회사와 같은 기준으로 품질·저평가·내재가치를 10초 안에 계산한다. 무료로 서로 다른 종목 3개까지 분석할 수 있고, 같은 종목을 다시 분석하는 것과 이미 목록에 있는 회사를 보는 것은 횟수에서 빠지지 않는다.</p><p><b>정성 평가:</b> 해자·경영진·10년 보유 테스트 같은 정성 평가는 다음 날 아침 자동 분석 때 채워진다. 보유 종목으로 등록한 회사도 같은 방식으로 자동 분석된다(하루 최대 12곳, 보유 종목 우선).</p><p>ETF·레버리지 상품은 회사가 아니라서 점수 대신 도전 칸으로 분류된다.</p>`],
     ['하루에 어떻게 쓰면 좋나요?', `<p><b>아침 1분:</b> 브리핑 탭의 헤드라인과 보유 종목 한 줄 요약을 본다. 자세한 내용은 눌러서 펼친다.</p>
      <p><b>포트폴리오 확인:</b> 맨 위 카드에서 수익률과 비중을, 아래 "지금 할 일"에서 비중 조정이 필요한지를 본다. 할 일이 없으면 아무것도 안 하는 것이 정답이다.</p>
@@ -3118,7 +3210,7 @@ function viewGuide(){
 const NAV = [
   {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지'],['fx','환율']]},
   {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['trends','메가트렌드']]},
-  {k:'companies', l:'기업', subs:[['companies','찾기'],['dividend','배당'],['ref','기준·검증']]},
+  {k:'companies', l:'기업', subs:[['companies','찾기'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
 const TAB_ALIAS = {analyze:'companies', screener:'companies'};
 const groupOf = tab => NAV.find(g => g.subs.some(([k]) => k === (TAB_ALIAS[tab] || tab))) || NAV[0];
@@ -3475,7 +3567,7 @@ function screenCard(r, i){
 }
 function importRow(t){
   const r = scoredRows().find(x => x.t === t); if(!r) return;
-  const c = {id:uid(), ...newCompany(), pinned:true, name:r.n, ticker:r.code||r.t, yf:r.t, market:grpOf(r.m),
+  const c = {id:uid(), ...newCompany(), pinned:false, name:r.n, ticker:r.code||r.t, yf:r.t, market:grpOf(r.m),
     sector:r.ind||r.s||'', price:r.px, fin:{...(r.fin||{})}, val:{...(r.val||{})}, fscore:r.fsd||[], finSector:!!r.fin_sector, mf:r.mf ?? null, holdco:!!r.holdco, dataConf:r.dataConf||null,
     source:`스크리너 자동 수집 (${(S2.meta||{}).generatedAt||''}, 회계연도 ${r.fy||'–'})`};
   c.ai.filled = [...Object.keys(c.fin), ...Object.keys(c.val)];
@@ -3727,6 +3819,7 @@ document.addEventListener('click', async e => {
   if(act === 'ai-review') aiReview();
   if(act === 'ai-auto'){ const c = cur(); if(c) aiAuto(c); }
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
+  if(act === 'star'){ toggleStar(a.dataset.id, a.dataset.t); const y = window.scrollY; render(); if(S.tab === 'analyze') updateEval(); window.scrollTo(0,y); return; }
   if(act === 'intro-next'){ S.introStep = (S.introStep||0) + 1; render(); return; }
   if(act === 'inv-pick'){ const k = a.dataset.k, v = a.dataset.v, q = INV_Q.find(x => x.k === k);
     if(q.multi){ const cur = new Set(inv()[k] || []); cur.has(v) ? cur.delete(v) : cur.add(v); saveInv({[k]: [...cur]}); } else saveInv({[k]: v});
