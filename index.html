@@ -828,7 +828,6 @@ function valuationStory(c, ev){
     else if(ev.mos < 0) add(-1, '내재가치보다 비싸다', `${ev.ivSrc} 기준 내재가치 ${fmtPx(ev.iv, curOf(m))}보다 ${fmt(-ev.mos,0)}% 높은 가격이다.`);
   }
   if(isNum(val.ncavps) && val.ncavps > 0 && isNum(px) && px < val.ncavps*2/3) add(1, '청산가치보다 싸다', `순유동자산 ${fmtPx(val.ncavps, curOf(m))}의 2/3보다 낮은 가격이다.`);
-  if(ev.fs >= 8 && isNum(ev.pbr) && ev.pbr <= 1.5) add(1, '재무 개선 중인 저PBR', `F-스코어 ${ev.fs}/9로 싸면서도 재무가 좋아지고 있다.`);
   const pos = out.filter(x => x.sign > 0).length, neg = out.filter(x => x.sign < 0).length;
   const head = !out.length ? '가격을 판단할 데이터가 부족합니다' : pos > neg ? `저평가 근거 ${pos}개 · 고평가 근거 ${neg}개` : neg > pos ? `고평가 근거 ${neg}개 · 저평가 근거 ${pos}개` : `저평가·고평가 근거가 ${pos}개씩 맞섬`;
   return {items: out, pos, neg, head, ig};
@@ -1300,12 +1299,9 @@ function evaluate(c){
   if(c.kind === 'etf') gates.push({ok:false, t:'개별 기업이 아님. 집중 투자 슬롯 대상이 아님'});
   if(q.circle === false) gates.push({ok:false, t:'능력 범위 밖. 사업을 설명할 수 없으면 사지 않음'});
   if(q.governance === 0) gates.push({ok:false, t:'지배구조 위험 최고 단계'});
-  // 5. 공격 전략 신호
+  // 5. 도전 칸 신호: 가치가 드러날 사건(분할·밸류업·자사주 소각 등)이 있을 때만
   const fs = (c.fscore||[]).filter(Boolean).length;
   const agg = [];
-  if(isNum(val.ncavps) && isNum(c.price) && val.ncavps > 0 && c.price < val.ncavps*2/3) agg.push('그레이엄 넷넷');
-  if(isNum(c.mf) ? c.mf >= 90 : (isNum(val.mfEY) && isNum(val.mfROC) && val.mfEY >= 10 && val.mfROC >= 25)) agg.push('마법공식 상위권');
-  if(fs >= 8 && isNum(sc.pbr) && sc.pbr <= 1.5) agg.push('F-스코어 8 이상 저PBR');
   if((c.special||[]).length) agg.push('특수 상황 촉매');
   // 6. 종합 점수: 숫자 근접도(b) 75% + 정성 25%
   const b = sc.b;
@@ -1323,14 +1319,14 @@ function evaluate(c){
   }
   else if((sc.q ?? 0) >= 80 && !sc.flags.filter(f => !WARN_FLAGS.has(f)).length && (qualScore === null || qualScore >= 60)){ v='좋은 회사, 가격 대기'; cls='warn'; }
   else if(total >= 60){ v='근접 · 관찰'; cls='warn'; }
-  else if(agg.length && (sc.q ?? 0) >= 45){ v='공격 슬롯 후보'; cls='warn'; }
+  else if(agg.length && (sc.q ?? 0) >= 45){ v='도전 후보'; cls='warn'; }
   else { v='기준과 거리 있음'; cls='bad'; }
   const t = c.thesis || {};
   const sellN = ['sell1','sell2','sell3'].filter(k => (t[k]||'').trim()).length;
   const memoOk = (t.why||'').trim().length > 0 && sellN >= 2;
   let maxW = 0;
   if(v === '매수 후보' && memoOk) maxW = MAXW[t.conviction||3] ?? 0;
-  else if((v === '공격 슬롯 후보' || v === '좋은 회사, 가격 대기' || v === '근접 · 관찰') && memoOk) maxW = Math.min(15, MAXW[t.conviction||3] ?? 0);
+  else if((v === '도전 후보' || v === '좋은 회사, 가격 대기' || v === '근접 · 관찰') && memoOk) maxW = Math.min(15, MAXW[t.conviction||3] ?? 0);
   return {items, coverage:sc.cov, qScore:sc.q, valScore:sc.v, b, total, qualScore, flags:sc.flags, trend:tr.score, trendHits:tr.hits, trendWarn:tr.warn, mosLo:sc.mosLo, mosHi:sc.mosHi, perAvg:sc.perAvg, dataConf:c.dataConf||null,
     per:sc.per, pbr:sc.pbr, graham:sc.graham, dcf:sc.dcf, iv:sc.iv, ivSrc, ivNorm:sc.ivNorm, ivNow:sc.ivNow, ivBasis:sc.ivBasis, mos:sc.mos, buyBelow, ey, bond:p.bond,
     disc:p.disc, tg:p.tg, gates, agg, fs, verdict:v, cls, memoOk, sellN, maxW};
@@ -1384,7 +1380,7 @@ function portfolioChecks(rows, total, cashW){
     else if(h.kind === 'etf') out.push(['warn', `${h.name}: 지수 ETF는 현금 대용으로만 인정`]);
     else if(!c) out.push(['warn', `${h.name}: 심사 기록 없이 보유 중. 종목 심사부터 작성`]);
     else {
-      if(ev.verdict !== '매수 후보' && ev.verdict !== '공격 슬롯 후보') out.push(['warn', `${h.name}: 심사 결과 "${ev.verdict}" 상태로 보유`]);
+      if(ev.verdict !== '매수 후보' && ev.verdict !== '도전 후보') out.push(['warn', `${h.name}: 심사 결과 "${ev.verdict}" 상태로 보유`]);
       if(!ev.memoOk) out.push(['warn', `${h.name}: 투자 이유와 매도 조건 2개 이상이 필요`]);
       if(c.thesis?.status === '훼손') out.push(['bad', `${h.name}: 투자 논리 훼손. 매도 검토`]);
       if(c.thesis?.reviewDate && c.thesis.reviewDate < today()) out.push(['warn', `${h.name}: 점검일(${c.thesis.reviewDate}) 지남`]);
@@ -1702,18 +1698,10 @@ function companyForm(c){
     <div id="valOut"></div>
   </div>
 
-  <h2>공격 전략 신호</h2>
+  <h2>특수 상황</h2>
   <div class="card stack">
-    <p class="small muted" style="margin:0">버핏 기준을 다 통과하지 못해도 아래 신호가 있으면 위성 슬롯(최대 15%)으로만 담을 수 있습니다.</p>
-    <div class="grid3">
-      <label class="f">주당 순유동자산<span class="small">(유동자산−총부채)÷주식 수</span>${numInp('val.ncavps', c.val?.ncavps)}</label>
-      <label class="f">이익수익률 EBIT/EV %<span class="small">마법공식</span>${numInp('val.mfEY', c.val?.mfEY)}</label>
-      <label class="f">자본수익률 ROC %<span class="small">마법공식</span>${numInp('val.mfROC', c.val?.mfROC)}</label>
-    </div>
-    <details><summary>피오트로스키 F-스코어 <span class="num" id="fsCount"></span></summary>
-      ${FSCORE.map((l,i) => `<label class="chk"><input type="checkbox" data-fs="${i}" ${(c.fscore||[])[i]?'checked':''}>${l}</label>`).join('')}
-    </details>
-    <div><div class="eyebrow" style="margin-bottom:4px">특수 상황 촉매</div>
+    <p class="small muted" style="margin:0">버핏 기준을 다 통과하지 못해도, 가치가 드러날 사건이 분명하면 도전 칸(최대 15%)에만 담을 수 있습니다.</p>
+    <div>
       ${SPECIAL.map(([k,l]) => `<label class="chk"><input type="checkbox" data-arr="special" value="${k}" ${(c.special||[]).includes(k)?'checked':''}>${l}</label>`).join('')}
     </div>
     <div id="aggOut"></div>
@@ -1773,7 +1761,7 @@ function updateEval(){
     if(ev.verdict==='좋은 회사, 가격 대기' && isNum(ev.buyBelow)) next = `매수 상한 <b class="num">${fmtPx(ev.buyBelow,cr)}</b> 이하에서 분할 매수 대기`;
     else if(ev.verdict==='매수 후보') next = ev.memoOk ? `비중 상한 <b>${ev.maxW}%</b>. 주력 슬롯 편입 가능` : '투자 이유와 매도 조건 2개를 써야 비중이 열립니다';
     else if(ev.verdict==='숫자 우수 · 정성 평가 필요') next = '3번 멍거의 질문을 채우면 최종 판정이 나옵니다';
-    else if(ev.verdict==='공격 슬롯 후보' || ev.verdict==='근접 · 관찰') next = ev.memoOk ? `위성 슬롯 최대 ${ev.maxW}%` : '투자 이유와 매도 조건 2개를 쓰면 위성 슬롯(≤15%)이 열립니다';
+    else if(ev.verdict==='도전 후보' || ev.verdict==='근접 · 관찰') next = ev.memoOk ? `도전 칸 최대 ${ev.maxW}%` : '투자 이유와 매도 조건 2개를 쓰면 도전 칸(≤15%)이 열립니다';
     else if(ev.verdict==='데이터 부족') next = `재무 지표 입력률 ${Math.round(ev.coverage*100)}%. 50% 이상 필요합니다`;
     v.innerHTML = `<div class="row" style="justify-content:space-between"><span class="eyebrow">${esc(c.name||'이름 없음')} ${esc(c.ticker||'')}</span>${pillFor(ev)}</div>
       <div class="row" style="align-items:baseline;gap:12px"><div class="vtitle">${esc(ev.verdict)}</div><div class="num muted">종합 ${ev.total ?? '–'}점</div></div>
@@ -1812,7 +1800,7 @@ function updateEval(){
   const to = $('#trendOut');
   if(to) to.innerHTML = ev.trend === null ? '' : `<div class="row"><span class="pill ${ev.trend>=60?'p-good':ev.trend>=35?'p-warn':'p-none'}">트렌드 점수 ${ev.trend}</span><span class="small muted">${esc(ev.trendHits.map(h => h.t.label).join(', '))}</span></div>`;
   const ao = $('#aggOut');
-  if(ao) ao.innerHTML = ev.agg.length ? `<div class="row">${ev.agg.map(a => `<span class="pill p-warn">${esc(a)}</span>`).join('')}</div>` : `<div class="small muted">현재 감지된 공격 신호 없음</div>`;
+  if(ao) ao.innerHTML = ev.agg.length ? `<div class="row">${ev.agg.map(a => `<span class="pill p-warn">${esc(a)}</span>`).join('')}</div>` : `<div class="small muted">해당 없음</div>`;
   const fc = $('#fsCount'); if(fc) fc.textContent = `${ev.fs}/9`;
   // 칩 갱신
   const chip = document.querySelector(`.chip[data-id="${c.id}"]`); if(chip) chip.innerHTML = `<b>${esc(c.name||'이름 없음')}</b><small>${c.example?'예시 · ':''}${esc(ev.verdict)}</small>`;
@@ -1856,7 +1844,7 @@ async function aiReview(){
   const c = cur(); const msg = $('#revMsg'), box = $('#revBox'); const ev = evaluate(c);
   msg.textContent = '검토 중…'; box.className = 'aibox'; box.style.marginTop = '8px'; box.textContent = '';
   const data = {회사:c.name, 티커:c.ticker, 시장:c.market, 업종:c.sector, 주가:c.price, 재무:c.fin, 가치평가입력:c.val, 정성:c.qual, 투자메모:c.thesis,
-    계산결과:{판정:ev.verdict, 숫자품질:ev.qScore, 정성:ev.qualScore, PER:ev.per, PBR:ev.pbr, 내재가치:ev.iv, 안전마진:ev.mos, 공격신호:ev.agg}};
+    계산결과:{판정:ev.verdict, 숫자품질:ev.qScore, 정성:ev.qualScore, PER:ev.per, PBR:ev.pbr, 내재가치:ev.iv, 안전마진:ev.mos, 특수상황:ev.agg}};
   const prompt = `너는 찰리 멍거처럼 생각하는 투자 심사역이다. 아래 종목의 투자 논리를 반대편에서 검토하라. 한국어 ~하다체, 불릿 없이 4개 문단, 각 문단 3~4문장.
 1문단: 이 논리가 틀릴 수 있는 가장 큰 이유.
 2문단: 숫자에서 보이는 약점과 입력되지 않은 위험 지표.
@@ -3133,7 +3121,7 @@ const GUIDE = [
      <li>그레이엄 넘버 √(22.5 × EPS × BPS)와 PER×PBR 22.5 한도.</li>
      <li>이익수익률(1/PER)과 국채 금리 비교: 국채의 2배 이상이면 저평가 근거.</li>
      <li>정상 이익: 한 해 이익이 아니라 여러 해 평균 이익으로 본다(이익이 정점일 때 싸 보이는 함정 방지).</li>
-     <li>재무 안전: 유동비율, 적자 연도, 넷넷(청산가치보다 싼 회사)을 보조 근거로.</li></ul>
+     <li>재무 안전: 유동비율과 적자 연도를 보조 근거로.</li></ul>
      <p><b>그대로 따르지 않은 것.</b> 20년 연속 배당과 유동비율 2 이상은 지금 기준으로 너무 엄격해 애플·알파벳 같은 회사까지 떨어뜨린다. 유동비율은 1.5로 낮췄고, 배당은 필수가 아니라 배당 탭에서 따로 본다.</p>`],
     ['워런 버핏은 무엇을 지향했나', `<p><b>철학.</b> 버핏은 그레이엄에게서 안전마진을 배웠지만, 멍거와 필립 피셔의 영향으로 "싼 회사"에서 "좋은 회사"로 옮겨 갔다. 1989년 주주서한의 말로 요약된다. <b>적당한 회사를 훌륭한 가격에 사는 것보다, 훌륭한 회사를 적당한 가격에 사는 것이 훨씬 낫다.</b></p>
      <ul><li><b>해자:</b> 경쟁자가 넘어오지 못하는 구조. 브랜드, 바꾸기 어려운 서비스(전환비용), 네트워크 효과, 원가 우위, 허가.</li>
@@ -3513,8 +3501,8 @@ function viewValidation(){
 
 /* ============ 스크리너 ============ */
 const MKT_TABS = [['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국 A'],['HK','홍콩']];
-const SORTS = [['tb','근접도 + 트렌드'],['b','버핏 근접도'],['q','숫자 품질'],['v','저평가'],['mos','안전마진'],['mf','마법공식']];
-const TAGS = ['품질 상위 10%','마법공식 상위 10%','F≥8 저PBR','넷넷','안전마진 30%+'];
+const SORTS = [['tb','근접도 + 트렌드'],['b','버핏 근접도'],['q','숫자 품질'],['v','저평가'],['mos','안전마진']];
+const TAGS = ['품질 상위 10%','안전마진 30%+'];
 try{ const sv = JSON.parse(localStorage.getItem('ml-screen')||'null'); if(sv) Object.assign(S2, sv, {shown:40, open:null}); }catch(_){}
 function saveScreenPrefs(){ try{ localStorage.setItem('ml-screen', JSON.stringify({mkt:S2.mkt, sort:S2.sort, hideFlags:S2.hideFlags, tag:S2.tag})); }catch(_){} }
 let scoredCache = null;
@@ -3527,24 +3515,15 @@ function scoredRows(){
     const tags = (r.tags||[]).filter(t => !STRAT.has(t));
     if(r.dataConf === 'low') tags.push('데이터 신뢰도 낮음');
     if(isNum(sc.mos) && sc.mos >= st.reqMOS) tags.push('안전마진 30%+');
-    const nc = r.val?.ncavps; if(isNum(nc) && nc > 0 && isNum(r.px) && r.px < nc*2/3) tags.push('넷넷');
-    const pbr = isNum(r.val?.bps) && r.val.bps > 0 && isNum(r.px) ? r.px/r.val.bps : null;
-    if(isNum(r.fs) && r.fs >= 8 && pbr !== null && pbr <= 1.5) tags.push('F≥8 저PBR');
     const tr = trendScore(autoTrendLinks(r), sc.v);
     const tb = sc.b === null ? null : tr.score === null ? sc.b : Math.round(sc.b*0.8 + tr.score*0.2);
     return {...r, ...sc, tags, trend:tr.score, trendLabels:tr.hits.map(h => h.t.label), trendWarn:tr.warn, tb};
   });
-  /* 시장별 순위 신호: 숫자 품질 상위 10%, 마법공식(이익수익률+자본수익률 순위 합) 상위 10% — screener.py add_ranks와 같은 규칙 */
+  /* 시장별 숫자 품질 상위 10% */
   const byM = {}; for(const r of scoredCache) (byM[r.m] ||= []).push(r);
   for(const rs of Object.values(byM)){
     const qs = rs.map(r => r.q).filter(isNum).sort((a,b) => b-a); const q10 = qs.length ? qs[Math.max(0, Math.floor(qs.length/10) - 1)] : 101;
     for(const r of rs) if(isNum(r.q) && r.q >= q10 && r.dataConf !== 'low') r.tags.push('품질 상위 10%');
-    const cand = rs.filter(r => isNum(r.val?.mfEY) && isNum(r.val?.mfROC) && !r.fin_sector && !/utilit/i.test(r.s||''));
-    const rk = new Map(cand.map(r => [r, 0]));
-    [...cand].sort((a,b) => b.val.mfEY - a.val.mfEY).forEach((r,i) => rk.set(r, rk.get(r)+i));
-    [...cand].sort((a,b) => b.val.mfROC - a.val.mfROC).forEach((r,i) => rk.set(r, rk.get(r)+i));
-    const ord = [...cand].sort((a,b) => rk.get(a) - rk.get(b)); const n = ord.length;
-    ord.forEach((r,i) => { r.mf = Math.round(100*(1 - i/Math.max(n-1,1))); if(r.mf >= 90 && r.dataConf !== 'low') r.tags.push('마법공식 상위 10%'); });
   }
   return scoredCache;
 }
@@ -3606,8 +3585,7 @@ function screenCard(r, i){
       <div class="hold-grid" style="margin-top:10px">
         <div><span>내재가치</span><b class="num">${fmtPx(r.iv, r.cur)}</b></div>
         <div><span>PBR</span><b class="num">${isNum(r.pbr)?fmt(r.pbr,2):'–'}</b></div>
-        <div><span>F-스코어</span><b class="num">${isNum(r.fs)?r.fs+'/9':'–'}</b></div>
-        <div><span>마법공식 백분위</span><b class="num">${isNum(r.mf)?r.mf:'–'}</b></div>
+        <div><span>안전마진</span><b class="num">${isNum(r.mos)?fmt(r.mos,0)+'%':'–'}</b></div>
       </div>
       <div class="small muted" style="margin-top:8px">${esc(r.ind||r.s||'')} · 최근 회계연도 ${esc(r.fy||'–')} · ${r.yrs||'–'}개년 데이터${r.fin_sector?' · 금융업: 일부 지표 제외':''}${r.fcur&&r.fcur!==r.cur?` · 재무 통화 ${esc(r.fcur)}`:''}</div>
       <div class="row" style="justify-content:flex-end;margin-top:8px">${exists ? `<button class="btn" data-act="open-co" data-id="${exists.id}">심사 보기</button>` : `<button class="btn primary" data-act="sc-import" data-t="${esc(r.t)}">심사로 가져오기</button>`}</div>
@@ -3644,7 +3622,7 @@ function importRow(t){
 
 /* ===== 모델 준수: 결정 시점의 모델 판정을 기록하고 따랐는지 본다 ===== */
 const BUY_ACTIONS = ['신규 매수','추가 매수'];
-const MODEL_OK = ['매수 후보','공격 슬롯 후보'];
+const MODEL_OK = ['매수 후보','도전 후보','공격 슬롯 후보'];
 function findCompanyByText(t){
   const k = normKey(t); if(!k) return null;
   return S.companies.find(c => [c.ticker, c.yf, c.name].map(normKey).includes(k)) || S.companies.find(c => normKey(c.name).includes(k) || k.includes(normKey(c.name))) || null;
@@ -3785,7 +3763,7 @@ function viewRules(){
     <div class="rule"><span class="t">저평가</span><span class="th">0~100</span><span class="d">안전마진(가중 2), 이익수익률 ÷ 국채금리, PER×PBR</span></div>
     <div class="rule"><span class="t">버핏 근접도</span><span class="th">0.4 품질 + 0.6 저평가</span><span class="d">위험 신호 감점 후. 스크리너 정렬 기준</span></div>
     <div class="rule"><span class="t">종합 점수</span><span class="th">65 / 20 / 15</span><span class="d">버핏 근접도 65%, 정성 평가 20%, 트렌드 15%. 입력하지 않은 항목은 빼고 나머지로 다시 나눈다</span></div>
-    <div class="rule"><span class="t">판정</span><span class="th">75 / 60</span><span class="d">75점 이상, 품질 70 이상, 10년 보유 테스트 통과: 안전마진 충족 시 매수 후보, 아니면 가격 대기. 품질 80 이상이고 위험 신호가 없으면 점수가 낮아도 가격 대기. 60점 이상: 근접·관찰(위성 슬롯 가능). 그 아래는 기준과 거리 있음</span></div>
+    <div class="rule"><span class="t">판정</span><span class="th">75 / 60</span><span class="d">75점 이상, 품질 70 이상, 10년 보유 테스트 통과: 안전마진 충족 시 매수 후보, 아니면 가격 대기. 품질 80 이상이고 위험 신호가 없으면 점수가 낮아도 가격 대기. 60점 이상: 근접·관찰(도전 칸 가능). 그 아래는 기준과 거리 있음</span></div>
   </div>
 
   <h2>왜 싼가: 가격 해부 공식</h2>
@@ -3794,7 +3772,7 @@ function viewRules(){
     <div class="rule"><span class="t">적자 기업의 필요 매출</span><span class="th">기대 검증</span><span class="d">이익이 없으면 성장률을 풀 수 없다. 대신 정상 순이익률 10%, PER 20배(미국)·15배(그 외)를 가정해 현재가를 설명하려면 매출이 지금의 몇 배가 돼야 하는지 계산한다</span></div>
     <div class="rule"><span class="t">이익수익률 vs 국채</span><span class="th">국채의 2배</span><span class="d">1/PER이 국채 금리의 2배 이상이면 저평가 근거, 국채보다 낮으면 고평가 근거</span></div>
     <div class="rule"><span class="t">그레이엄 한도</span><span class="th">PER×PBR 22.5</span><span class="d">PER 15배·PBR 1.5배 안이면 저평가 근거. 한도의 3배를 넘으면 고평가 근거</span></div>
-    <div class="rule"><span class="t">안전마진·넷넷·F-스코어</span><span class="th">보조 근거</span><span class="d">내재가치 대비 할인, 청산가치 대비 할인, 재무 개선 중인 저PBR을 각각 근거로 센다</span></div>
+    <div class="rule"><span class="t">안전마진</span><span class="th">30%</span><span class="d">내재가치보다 30% 이상 쌀 때만 매수 후보로 올린다</span></div>
   </div>
 
   <h2>트렌드는 이렇게 반영한다</h2>
@@ -3803,14 +3781,8 @@ function viewRules(){
     <p class="small muted">과열 단계 트렌드에 핵심으로 노출됐는데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 매수 후보 판정에는 트렌드와 무관하게 안전마진 조건이 그대로 필요하다.</p>
   </div>
 
-  <h2>공격적이지만 검증된 전략</h2>
+  <h2>도전 칸에 담을 수 있는 경우</h2>
   <div class="stack">
-    <div class="card strat"><div class="row" style="justify-content:space-between"><h3 style="margin:0">마법공식 (그린블랫)</h3><span class="pill p-good">1년 보유와 잘 맞음</span></div>
-      <p class="small" style="margin:0">자본수익률(ROC)이 높고 이익수익률(EBIT/EV)이 높은 회사를 순위로 골라 1년마다 교체한다. 좋은 회사와 싼 가격을 기계적으로 결합한 방식이라 버핏 관점과 가장 가깝다. 저자의 백테스트는 시장을 크게 앞섰지만, 공개 이후 초과수익은 줄었고 수년씩 시장에 뒤지는 구간이 있다.</p></div>
-    <div class="card strat"><div class="row" style="justify-content:space-between"><h3 style="margin:0">피오트로스키 F-스코어</h3><span class="pill p-good">함정 회피</span></div>
-      <p class="small" style="margin:0">저PBR 종목 중 재무가 개선되는 회사(9개 항목 중 8개 이상)만 고른다. 싸지만 망해 가는 가치 함정을 걸러내는 장치로, 원 논문에서 고득점과 저득점의 수익률 차이가 컸다. 국내 중소형 저PBR주에 특히 쓸모가 있다.</p></div>
-    <div class="card strat"><div class="row" style="justify-content:space-between"><h3 style="margin:0">그레이엄 넷넷</h3><span class="pill p-warn">유동성 위험</span></div>
-      <p class="small" style="margin:0">시가총액이 순유동자산의 2/3 미만인 회사. 사업이 나빠도 청산가치보다 싸게 사는 방식이다. 버핏의 초기 파트너십 수익의 원천이었고, 국내 소형주에서 아직 자주 보인다. 거래량이 적고 지배구조 문제가 흔하므로 여러 종목으로 나눠 위성 슬롯에만 쓴다.</p></div>
     <div class="card strat"><div class="row" style="justify-content:space-between"><h3 style="margin:0">특수 상황 (워크아웃)</h3><span class="pill p-warn">촉매 의존</span></div>
       <p class="small" style="margin:0">분할, 지주사 할인 해소, 밸류업 공시, 행동주의 참여, 대규모 자사주 소각처럼 가치가 드러날 날짜나 사건이 있는 경우. 버핏이 파트너십 시절 별도 범주로 운용했다. 국내는 밸류업 정책 이후 기회가 늘었지만, 이벤트가 무산되면 빠르게 정리해야 한다.</p></div>
   </div>
