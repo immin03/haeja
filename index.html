@@ -196,6 +196,16 @@ nav.tabs button{font-size:16px;padding:10px 12px}
 .linkbtn{all:unset;cursor:pointer;color:var(--accent);font-weight:700;text-decoration:underline}
 .linkbtn:focus-visible{outline:2px solid var(--accent)}
 @media (max-width:440px){.slots{grid-template-columns:1fr}.slot{flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 10px}.slot .bar{flex:1 1 100%}}
+.br-head{margin:0;font-size:16px;font-weight:700;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.br-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.br-row{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.br-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.br-main{display:flex;flex-direction:column;min-width:0}
+.br-one{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.br-row[aria-expanded="true"] .br-one{white-space:normal}
+.br-open{padding:4px 0 12px 20px;border-bottom:1px solid var(--line);font-size:14px}
+.br-open p{font-size:14px}
+.br-fx{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%;margin-top:12px;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px}
 .pf-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;margin:14px 0 4px}
 .pf-bar i{display:block;height:100%}
 .pf-list{display:flex;flex-direction:column}
@@ -1527,27 +1537,38 @@ function trendRowsHtml(c){
 }
 const momTxt = m => m >= 2 ? '가속 ▲▲' : m === 1 ? '상승 ▲' : m === 0 ? '보합' : m === -1 ? '둔화 ▼' : '급랭 ▼▼';
 function viewBriefing(){
-  const latest = [...S.briefings].sort((a,b) => (b.id||'').localeCompare(a.id||''))[0];
+  const all = [...S.briefings].sort((a,b) => (b.id||'').localeCompare(a.id||''));
+  const latest = all[0];
   const holds = S.holdings.filter(h => h.kind !== 'etf');
-  const tl = trendList();
-  const holdTrend = key => S.companies.filter(c => (c.trendLinks||{})[key] >= 2 && S.holdings.some(h => companyFor(h)?.id === c.id)).map(c => c.name);
+  const dotCls = imp => imp === '호재' ? 'var(--accent)' : imp === '악재' ? 'var(--bad)' : 'var(--muted)';
+  const short = n => String(n||'').replace(/\s*\(.*\)$/,'');
+  const hrow = x => { const h = holds.find(h => (h.ticker||'').toUpperCase() === String(x.ticker||'').toUpperCase()); const c = h ? companyFor(h) : null;
+    const doc = c ? newsFor(c) : newsFor({ticker:x.ticker, name:x.name}); const open = S.openBrief === x.ticker;
+    return `<button type="button" class="br-row" data-act="brief-toggle" data-v="${esc(x.ticker)}" aria-expanded="${open}">
+      <span class="al-dot" style="background:${dotCls(x.impact)}"></span>
+      <span class="br-main"><b>${esc(short(x.name))}</b><span class="small br-one">${esc(x.oneLine||'')}</span></span>
+      <span class="small muted">${open?'접기':'뉴스'}</span></button>
+      ${open ? `<div class="br-open">${newsHtml(doc, 4)}${c ? `<button class="btn" style="margin-top:8px" data-act="open-co" data-id="${c.id}">종목 분석 보기</button>` : ''}</div>` : ''}`; };
   return `
-  <h2>오늘의 브리핑</h2>
-  ${latest ? `<div class="card stack">
-      <div class="row" style="justify-content:space-between"><span class="eyebrow">${esc(latest.id)}</span><span class="small muted">매일 07:50 자동 갱신</span></div>
-      <h3 style="font-size:17px;margin:0">${esc(latest.headline||'')}</h3>
-      <div class="prose"><p>${esc(latest.summary||'')}</p></div>
-      ${(latest.holdings||[]).length ? `<div>${latest.holdings.map(x => `<div class="check" style="grid-template-columns:auto 1fr"><span class="pill ${impactCls(x.impact)}">${esc(x.name)}</span><span class="small">${esc(x.oneLine)}</span></div>`).join('')}</div>` : ''}
-      ${latest.trendNotes ? `<div class="small muted">${esc(latest.trendNotes)}</div>` : ''}
-    </div>` : `<div class="card empty">첫 브리핑은 내일 아침 07:50에 도착합니다.</div>`}
-
-  ${S.fx ? `<div class="card row" style="justify-content:space-between;margin-top:12px"><span class="small"><b>환율</b> ${esc(S.fx.headline||'')}</span><button class="btn" data-act="go-tab" data-v="fx">자세히</button></div>` : ''}
-  <h2>뉴스 온도</h2>${newsImpactHtml()}
-  <h2>트렌드 온도 <span class="small muted">누르면 자세히</span></h2>${trendGridHtml()}
-  <h2>보유 종목 뉴스</h2>
-  <div class="stack">${holds.length ? holds.map(h => { const c = companyFor(h); const doc = c ? newsFor(c) : newsFor({ticker:h.ticker, name:h.name});
-    return `<details class="card" ${doc?'open':''}><summary><b>${esc(h.name)}</b> <span class="small muted">${doc ? (doc.items||[]).length+'건' : '수집 전'}</span></summary><div style="margin-top:8px">${newsHtml(doc, 6)}</div>
-      ${c?.industry ? `<details style="margin-top:8px"><summary class="small">산업 특징</summary><p class="small" style="margin:6px 0 0">${esc(c.industry)}</p></details>` : ''}</details>`; }).join('') : `<div class="card empty">보유 종목이 없습니다.</div>`}</div>`;
+  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">오늘의 브리핑</h2>${latest ? `<span class="small muted num">${esc(latest.id)}</span>` : ''}</div>
+  ${latest ? `<div class="card stack" style="margin-top:10px;gap:10px">
+      <p class="br-head">${esc(latest.headline||'')}</p>
+      ${(latest.holdings||[]).length ? `<div class="br-list">${latest.holdings.map(hrow).join('')}</div>` : ''}
+      <details><summary class="small">전체 요약 읽기</summary>
+        <div class="prose" style="margin-top:8px"><p>${esc(latest.summary||'')}</p>${latest.trendNotes ? `<p class="small muted">${esc(latest.trendNotes)}</p>` : ''}</div>
+        ${(latest.sources||[]).length ? `<div class="small muted">출처 ${latest.sources.length}곳 · ${latest.sources.slice(0,3).map(u => { try{ return esc(new URL(u).hostname.replace(/^www\./,'')); }catch(_){ return ''; } }).join(', ')}</div>` : ''}
+      </details>
+    </div>` : `<div class="card empty" style="margin-top:10px">첫 브리핑은 내일 아침 07:50에 도착합니다.</div>`}
+  ${S.fx?.headline ? `<button type="button" class="card br-fx" data-act="go-tab" data-v="fx"><span class="small"><b>환율</b> ${esc(S.fx.headline)}</span><span class="small muted">›</span></button>` : ''}
+  <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">뉴스 온도 · 트렌드 · 종목별 뉴스 · 지난 브리핑</span></summary>
+    <div class="stack" style="margin-top:12px">
+      <div><h3>뉴스 온도</h3>${newsImpactHtml()}</div>
+      <div><h3>트렌드 온도</h3>${trendGridHtml()}</div>
+      <div><h3>보유 종목 뉴스</h3>${holds.map(h => { const c = companyFor(h); const doc = c ? newsFor(c) : newsFor({ticker:h.ticker, name:h.name});
+        return `<details style="margin-top:6px"><summary><b>${esc(short(h.name))}</b> <span class="small muted">${doc ? (doc.items||[]).length+'건' : '수집 전'}</span></summary><div style="margin-top:6px">${newsHtml(doc, 8)}</div></details>`; }).join('')}</div>
+      ${all.length > 1 ? `<div><h3>지난 브리핑</h3>${all.slice(1, 8).map(b => `<details style="margin-top:6px"><summary class="small"><span class="num">${esc(b.id)}</span> ${esc(String(b.headline||'').slice(0,40))}${String(b.headline||'').length>40?'…':''}</summary><p class="small" style="margin:6px 0 0">${esc(b.summary||'')}</p></details>`).join('')}</div>` : ''}
+    </div>
+  </details>`;
 }
 function viewTrends(){
   const tl = trendList();
@@ -2565,6 +2586,7 @@ document.addEventListener('click', async e => {
   if(act === 'ai-review') aiReview();
   if(act === 'ai-auto'){ const c = cur(); if(c) aiAuto(c); }
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
+  if(act === 'brief-toggle'){ const v = a.dataset.v; S.openBrief = S.openBrief === v ? null : v; render(); return; }
   if(act === 'hold-toggle'){ S.openHold = S.openHold === id ? null : id; render(); return; }
   if(act === 'hold-edit'){ S.editHold = {...S.holdings.find(x => x.id === id)}; render(); window.scrollTo(0, $('#h-name').getBoundingClientRect().top + window.scrollY - 120); }
   if(act === 'hold-cancel'){ S.editHold = null; render(); }
