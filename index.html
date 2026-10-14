@@ -555,6 +555,12 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 .deep-in{padding:0 10px 14px}
 .deep-in .card{padding:14px 12px;box-shadow:none}
 @media (max-width:440px){.metric{grid-template-columns:minmax(0,1fr) 78px 54px;gap:6px}.metric .lbl b{font-size:13.5px}.metric .lbl span{font-size:11.5px}}
+.key4 small{display:block;font-size:11px;margin-top:1px}
+.buyline{margin-top:2px}
+.ok-tag{color:var(--accent);font-weight:700}
+.hold-grid b span{font-size:inherit!important;font-weight:inherit;display:inline}
+.hold-grid b span.up{color:var(--up)!important} .hold-grid b span.down{color:var(--down)!important}
+.note-line{font-size:11.5px;line-height:1.5}
 </style>
 
 <header class="top">
@@ -1072,7 +1078,7 @@ async function scanAlerts(){
     if(c.kind !== 'stock' || held.has(c.id) || !(c.watch || c.pinned || (c.thesis?.memo||'').trim())) continue;
     const ev = evaluate(c); const id = `buy-${c.id}-${month}`;
     if(ev.verdict === '매수 후보' && isNum(ev.buyBelow) && isNum(c.price) && c.price <= ev.buyBelow && !have.has(id))
-      await store.set('alerts', id, { at: now, level: 'good', title: `${c.name} 매수 가격 도달`, body: `현재가 ${fmtPx(c.price, curOf(c.market))} · 매수가 ${fmtPx(ev.buyBelow, curOf(c.market))} 이하`, link: { co: c.id }, read: false, source: '장부 판정' });
+      await store.set('alerts', id, { at: now, level: 'good', title: `${c.name} 매수 상한 도달`, body: `현재가 ${fmtPx(c.price, curOf(c.market))} · 매수 상한 ${fmtPx(ev.buyBelow, curOf(c.market))} 이하`, link: { co: c.id }, read: false, source: '장부 판정' });
   }
   for(const h of S.holdings){
     const c = companyFor(h); if(!c || h.kind !== 'stock') continue;
@@ -1396,7 +1402,7 @@ function concHtml(rows, total, cashW){
     const r = P.core[i];
     if(r) return `<div class="slot full"><div class="eyebrow">주력 ${i+1}</div><b>${esc(r.h.name.replace(/\s*\(.*\)$/,''))}</b><div class="num slot-w">${fmt(r.w,0)}%</div><div class="bar"><i style="width:${Math.min(100, r.w/PLAN.slotHi*100)}%"></i></div><div class="small muted">목표 ${PLAN.slotLo}~${PLAN.slotHi}%</div></div>`;
     const cd = P.cands[i - P.core.length];
-    return `<div class="slot empty"><div class="eyebrow">주력 ${i+1}</div><b class="muted">빈 자리</b>${cd ? `<div class="small" style="margin-top:6px">후보 <button class="linkbtn" data-act="open-co" data-id="${cd.c.id}">${esc(cd.c.name)}</button></div><div class="small muted">${esc(cd.ev.verdict)}${isNum(cd.ev.buyBelow) ? ' · 매수가 '+fmtPx(cd.ev.buyBelow, curOf(cd.c.market))+' 이하' : ''}</div>` : `<div class="small muted" style="margin-top:6px">조건 통과 후보 없음</div>`}</div>`;
+    return `<div class="slot empty"><div class="eyebrow">주력 ${i+1}</div><b class="muted">빈 자리</b>${cd ? `<div class="small" style="margin-top:6px">후보 <button class="linkbtn" data-act="open-co" data-id="${cd.c.id}">${esc(cd.c.name)}</button></div><div class="small muted">${esc(cd.ev.verdict)}${isNum(cd.ev.buyBelow) ? ' · 매수 상한 '+fmtPx(cd.ev.buyBelow, curOf(cd.c.market))+' 이하' : ''}</div>` : `<div class="small muted" style="margin-top:6px">조건 통과 후보 없음</div>`}</div>`;
   };
   const seg = (w, c) => w > 0 ? `<i style="width:${Math.min(100,w)}%;background:${c}"></i>` : '';
   const nowBar = `${seg(P.coreW,'var(--accent)')}${seg(P.expW,'var(--warn)')}${seg(P.cashAll,'var(--line)')}`;
@@ -1685,7 +1691,7 @@ function updateEval(){
     const flagsHtml = ev.flags.length ? `<div class="gates">${ev.flags.map(g => `<div><span class="pill ${WARN_ONLY.includes(g)?'p-none':'p-warn'}">${WARN_ONLY.includes(g)?'경고':'감점'}</span> ${esc(g)}${WARN_ONLY.includes(g)?'':' (−8점)'}${FLAG_HELP[g]?`<div class="small muted">${FLAG_HELP[g]}</div>`:''}</div>`).join('')}</div>` : '';
     const confHtml = ev.dataConf ? `<div class="gates"><div><span class="pill ${ev.dataConf==='low'?'p-bad':ev.dataConf==='medium'?'p-warn':'p-good'}">데이터 신뢰도 ${ {low:'낮음',medium:'보통',high:'높음'}[ev.dataConf] }</span> ${ev.dataConf==='low'?'신뢰도가 낮은 데이터라 매수 후보로 올리지 않는다. 공시 원문으로 재확인 필요':'매수 전 공시 원문(DART·EDGAR·EDINET) 대조 필수'}</div></div>` : '';
     let next = '';
-    if(ev.verdict==='좋은 회사, 가격 대기' && isNum(ev.buyBelow)) next = `매수 가능 가격 <b class="num">${fmtPx(ev.buyBelow,cr)}</b> 이하에서 분할 매수 대기`;
+    if(ev.verdict==='좋은 회사, 가격 대기' && isNum(ev.buyBelow)) next = `매수 상한 <b class="num">${fmtPx(ev.buyBelow,cr)}</b> 이하에서 분할 매수 대기`;
     else if(ev.verdict==='매수 후보') next = ev.memoOk ? `비중 상한 <b>${ev.maxW}%</b>. 주력 슬롯 편입 가능` : '투자 이유와 매도 조건 2개를 써야 비중이 열립니다';
     else if(ev.verdict==='숫자 우수 · 정성 평가 필요') next = '3번 멍거의 질문을 채우면 최종 판정이 나옵니다';
     else if(ev.verdict==='공격 슬롯 후보' || ev.verdict==='근접 · 관찰') next = ev.memoOk ? `위성 슬롯 최대 ${ev.maxW}%` : '투자 이유와 매도 조건 2개를 쓰면 위성 슬롯(≤15%)이 열립니다';
@@ -1709,7 +1715,8 @@ function updateEval(){
       ${line(ev.ivBasis === 'norm' ? '정상 이익 DCF' : '오너이익 DCF', fmtPx(ev.dcf,cr), ev.ivBasis === 'norm' ? `설비투자가 순이익보다 크고 ROIC가 높아 FCF 대신 다년 평균 EPS로 계산. 할인율 ${ev.disc}%` : `할인율 ${ev.disc}%, 영구성장 ${ev.tg}%`)}
       ${isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? line('가치 범위', `${fmtPx(ev.ivNorm,cr)} ~ ${fmtPx(ev.ivNow,cr)}`, `과거 평균 이익으로 돌아갈 때 ~ 최근 12개월 이익이 계속될 때. 폭이 크면 이익이 사이클 정점이나 바닥일 수 있다`) : ''}
       ${line('내재가치', fmtPx(ev.iv,cr), ev.ivSrc?'기준: '+ev.ivSrc:'EPS·BPS 또는 오너이익·성장률 입력 필요')}
-      ${line('매수 가능 가격', `<b>${fmtPx(ev.buyBelow,cr)}</b>`, `내재가치 × (1 − ${st.reqMOS}%)`)}
+      ${line('기대 수익', upHtml(upPct(ev.iv, ev.price ?? c.price)), '현재가에서 적정 가격(내재가치)까지')}
+      ${line('매수 상한', `<b>${fmtPx(ev.buyBelow,cr)}</b>`, `적정 가격 × (1 − ${st.reqMOS}%). 이 아래에서만 매수 후보`)}
       ${isNum(ev.mosLo)&&isNum(ev.mosHi) ? line('할인율 민감도', `${fmt(ev.mosLo,0)}% ~ ${fmt(ev.mosHi,0)}%`, `할인율 ${ev.disc+1}% ~ ${ev.disc-1}%일 때 안전마진. 폭이 크면 가정에 민감한 종목`) : ''}
       ${isNum(ev.perAvg) ? line('다년 평균 EPS 기준 PER', fmt(ev.perAvg,1)+'배', `최근 PER ${isNum(ev.per)?fmt(ev.per,1):'–'}배와 차이가 크면 이익이 정점이거나 바닥`) : ''}
     </div>`;
@@ -1880,7 +1887,7 @@ function watchHtml(){
   return `<h2>관심 후보</h2><div class="stack">${list.map(({c,ev}) => `<div class="card hold">
     <div class="hold-head"><div style="min-width:0"><div class="name">${esc(c.name)}</div><div class="small muted">${esc(c.ticker)} · ${(MKT[c.market]||MKT.KR).label}${c.sector?' · '+esc(c.sector):''}</div></div>
       <div style="text-align:right"><span class="pill ${scoreCls(ev.total)}" style="font-size:15px">${ev.total ?? '–'}</span><div class="small muted">종합</div></div></div>
-    <div class="hold-grid"><div><span>근접도</span><b class="num">${ev.b ?? '–'}</b></div><div><span>안전마진${gl('안전마진')}</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격${gl('매수 가능 가격')}</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>
+    <div class="hold-grid"><div><span>근접도</span><b class="num">${ev.b ?? '–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>적정 가격${gl('적정 가격')}</span><b class="num">${fmtPx(ev.iv, curOf(c.market))}</b></div><div><span>기대 수익${gl('기대 수익')}</span><b class="num">${upHtml(upPct(ev.iv, c.price))}</b></div></div>
     <div class="row" style="justify-content:space-between">${pillFor(ev)}<button class="btn" data-act="open-co" data-id="${c.id}">심사 보기</button></div></div>`).join('')}</div>`;
 }
 /* ============ 브리핑: 뉴스·산업·트렌드 ============ */
@@ -2232,8 +2239,7 @@ function companyCard(c, h){
     ${(() => { const bb = styleBadges({c, r:null, p:c.profile || profileFor(c.yf||c.ticker, c.ticker, c), px:c.price}); return bb ? `<div class="row" style="gap:6px">${bb}</div>` : ''; })()}
     ${!h && (c.watchWhy || scopeOf(c)==='내 종목') ? `<div class="small muted">${scopeOf(c)==='내 종목' ? '<span class="pill p-good">내 종목</span> 직접 추가했거나 메모를 쓴 종목' : esc(c.watchWhy)}</div>` : ''}
     ${p.what ? `<p style="margin:0">${esc(p.what)}</p>` : (c.auto?.businessOneLine ? `<p style="margin:0">${esc(c.auto.businessOneLine)}</p>` : `<p class="small muted" style="margin:0">기업 개요는 다음 자동 실행 때 채워집니다.</p>`)}
-    ${ev ? `<div class="hold-grid key4"><div><span>판정</span><b class="kv-verdict">${esc(ev.verdict)}</b></div><div><span>안전마진</span><b class="num">${isNum(ev.mos)?fmt(ev.mos,0)+'%':'–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>매수 가능 가격</span><b class="num">${fmtPx(ev.buyBelow, curOf(c.market))}</b></div></div>` : ''}
-    ${ev && isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">가치 범위${gl('가치 범위')} <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, curOf(c.market))} ~ ${fmtPx(ev.ivNow, curOf(c.market))}</b> · 과거 평균 이익 기준 ~ 최근 이익 유지 시</div>` : ''}
+    ${ev ? valueRow(ev, c.price, curOf(c.market)) : ''}
     <details class="co-more"><summary><span>회사 개요 · 실적 · 주가 차트</span></summary><div class="stack" style="gap:12px;margin-top:12px">
     ${p.model ? `<div><div class="eyebrow">어떻게 돈을 버나</div><p class="small" style="margin:4px 0 0">${esc(p.model)}</p></div>` : ''}
     ${(p.segments||[]).length ? `<div><div class="eyebrow">${c.kind==='lev' ? '지수 상위 구성' : '매출 구성'} <span class="muted" style="text-transform:none;letter-spacing:0">${esc(p.segAsOf||'')}</span></div>${stackBar(p.segments)}</div>` : ''}
@@ -2642,6 +2648,21 @@ function styleBadges(x){
   return (t.div ? `<span class="stag stag-div${mineDiv?' mine':''}" title="배당 지향 후보">${ICO_DIV}배당${isNum(t.yld) ? ' '+fmt(t.yld,1)+'%' : ''}</span>` : '')
        + (t.up ? `<span class="stag stag-up${mineUp?' mine':''}" title="상승 여력 후보">${ICO_UP}상승 여력</span>` : '');
 }
+/* ===== 적정 가격과 기대 수익 ===== */
+const upPct = (iv, px) => isNum(iv) && isNum(px) && px > 0 && iv > 0 ? (iv/px - 1)*100 : null;
+function upHtml(u){ if(!isNum(u)) return '–'; return `<span class="${u >= 0 ? 'up' : 'down'}">${u >= 0 ? '+' : ''}${fmt(u, Math.abs(u) < 10 ? 1 : 0)}%</span>`; }
+function valueRow(ev, px, cur){
+  const u = upPct(ev.iv, px);
+  return `<div class="hold-grid key4">
+      <div><span>현재가</span><b class="num">${fmtPx(px, cur)}</b></div>
+      <div><span>적정 가격${gl('적정 가격')}</span><b class="num">${fmtPx(ev.iv, cur)}</b></div>
+      <div><span>기대 수익${gl('기대 수익')}</span><b class="num">${upHtml(u)}</b><small class="muted">적정 가격까지</small></div>
+      <div><span>판정</span><b class="kv-verdict">${esc(ev.verdict)}</b></div>
+    </div>
+    ${isNum(ev.buyBelow) ? `<div class="small muted buyline">매수 상한${gl('매수 상한')} <b class="num" style="color:var(--ink)">${fmtPx(ev.buyBelow, cur)}</b> · ${isNum(px) && px <= ev.buyBelow ? '<span class="ok-tag">지금 가격이 매수 상한 아래</span>' : '이 가격 아래로 오면 매수 조건 충족'}</div>` : ''}
+    ${isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? `<div class="small muted">적정 가격 범위${gl('가치 범위')} <b class="num" style="color:var(--ink)">${fmtPx(ev.ivNorm, cur)} ~ ${fmtPx(ev.ivNow, cur)}</b> · 기대 수익 ${upHtml(upPct(ev.ivNorm, px))} ~ ${upHtml(upPct(ev.ivNow, px))}</div>` : ''}
+    ${isNum(u) && u > 0 ? `<div class="small muted note-line">기대 수익은 가정(이익·성장률·할인율)이 맞을 때 주가가 적정 가격에 닿는다는 뜻입니다. 보장이 아니고, 보통 여러 해가 걸립니다.</div>` : ''}`;
+}
 /* ===== 용어 풀이: 물음표를 누르면 쉬운 설명 ===== */
 const GLOSS = {
   roeAvg:['ROE 5년 평균','자기자본이익률. 주주가 맡긴 돈 100원으로 1년에 몇 원을 버는지다. 15%면 100원으로 15원을 번다. 높고 꾸준할수록 좋은 사업이다.'],
@@ -2664,7 +2685,10 @@ const GLOSS = {
   '오너이익 DCF':['오너이익 DCF','주인이 실제로 가져갈 수 있는 돈(오너이익)이 앞으로 10년 어떻게 늘지 가정하고, 그 돈을 지금 가치로 할인해 더한 값. 버핏식 내재가치 계산법이다.'],
   '정상 이익 DCF':['정상 이익 DCF','공장을 크게 늘리는 회사는 현금흐름이 일시적으로 작아 보인다. 그래서 여러 해 평균 이익을 기준으로 내재가치를 계산한 값이다.'],
   '내재가치':['내재가치','회사가 앞으로 벌 돈을 지금 가치로 환산한 "진짜 값". 주가는 매일 변하지만 내재가치는 천천히 변한다.'],
-  '매수 가능 가격':['매수 가능 가격','내재가치에서 30%를 깎은 가격. 계산이 틀려도 손해가 작도록 남겨 두는 여유(안전마진)를 뺀 값이다.'],
+  '매수 가능 가격':['매수 상한','적정 가격에서 30%를 깎은 가격. 계산이 틀려도 손해가 작도록 여유(안전마진)를 남긴 값이다. 이 가격 아래일 때만 매수 후보가 된다.'],
+  '매수 상한':['매수 상한','적정 가격에서 30%를 깎은 가격. 계산이 틀려도 손해가 작도록 여유(안전마진)를 남긴 값이다. 이 가격 아래일 때만 매수 후보가 된다.'],
+  '적정 가격':['적정 가격','회사가 앞으로 벌 돈을 지금 가치로 환산한 값(내재가치). 세 거인의 기준으로 계산한 "이 회사의 제값"이다. 주가는 길게 보면 이 값을 따라가는 경향이 있지만, 언제 닿을지는 알 수 없다.'],
+  '기대 수익':['기대 수익','주가가 적정 가격까지 가면 얻는 수익률. +100%면 2배다. 가정이 맞을 때의 값이고 보장이 아니며, 보통 여러 해가 걸린다. 마이너스면 지금 가격이 적정 가격보다 비싸다는 뜻이다.'],
   '안전마진':['안전마진','주가가 내재가치보다 몇 % 싼지. 30%면 1만 원짜리를 7천 원에 사는 것이다. 마이너스면 가치보다 비싸다는 뜻이다.'],
   '가치 범위':['가치 범위','과거 평균 이익으로 돌아갈 때와 최근 이익이 계속될 때의 가치. 폭이 넓으면 이익이 사이클의 정점이나 바닥일 수 있다.'],
   '할인율 민감도':['할인율 민감도','할인율(요구 수익률)을 1%p 바꿨을 때 안전마진이 얼마나 변하는지. 폭이 크면 작은 가정 차이에도 가치가 크게 흔들리는 종목이다.'],
@@ -2781,7 +2805,7 @@ const INTRO = [
   {tab:'companies', t:'③ 기업', b:`<p>220여 개 회사를 세 거인의 기준 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘으로 내 성향에 맞는 후보를 찾습니다.</p><p>목록에 없는 내 종목은 <b>검색해서 바로 분석</b>할 수 있습니다(무료 3회).</p>`},
   {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
-    <p><b>매수 가능 가격</b> = 내재가치 × 70%. 이 가격 아래로 오면 알려 드립니다.</p>`},
+    <p><b>적정 가격</b>은 회사의 제값, <b>기대 수익</b>은 지금 가격에서 적정 가격까지의 수익률입니다. 실제 매수는 적정 가격보다 30% 싼 <b>매수 상한</b> 아래에서만 권하고, 그 가격에 오면 알려 드립니다.</p>`},
   {t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 주력 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 앱이 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
   {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(inv().style || '나')}${inv().style ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
     ${homeAddHtml()}
@@ -3006,17 +3030,17 @@ const GUIDE = [
     ['내재가치는 어떻게 계산하나 (예시)', `<p>주당 오너이익이 1,000원, 성장률 5%, 할인율 10%, 영구성장 2%인 회사를 예로 든다.</p>
      <ul><li>앞으로 10년간 오너이익이 매년 5%씩 늘어난다고 보고, 각 해의 돈을 10%로 할인해 지금 가치로 더한다. 약 7,800원.</li>
      <li>10년 뒤부터는 매년 2%씩 영원히 늘어난다고 보고 그 가치를 지금으로 할인한다. 약 8,000원.</li>
-     <li>합치면 내재가치는 약 15,800원이다. 안전마진 30%를 적용한 <b>매수 가능 가격은 약 11,000원</b>이다.</li></ul>
+     <li>합치면 내재가치는 약 15,800원이다. 이것이 <b>적정 가격</b>이다. 안전마진 30%를 적용한 <b>매수 상한은 약 11,100원</b>이다. 지금 주가가 1만 원이면 기대 수익은 약 +58%다.</li></ul>
      <p><b>성장 투자 보정.</b> 공장을 크게 늘리는 회사는 그 투자 때문에 현금흐름이 일시적으로 작아 보인다. 버핏의 오너이익은 유지 투자만 빼므로, 설비투자가 순이익보다 크고 ROIC가 15% 이상인 회사는 현금흐름 대신 여러 해 평균 이익(최근 이익보다 크지 않게)을 기준으로 쓴다.</p>
-     <p><b>가치 범위.</b> 이익이 사이클을 타는 회사는 "과거 평균 이익으로 돌아갈 때"와 "최근 12개월 이익이 계속될 때"의 가치를 함께 보여 준다. 예를 들어 삼성전자는 최근 이익이 5년 평균의 4배여서 범위가 약 6.9만~28만 원으로 넓다. 매수 가능 가격은 보수적인 쪽(평균 이익)으로 정한다. 지금 주가는 슈퍼사이클 이익이 오래 간다는 쪽에 걸려 있다는 뜻이다.</p>`],
+     <p><b>가치 범위.</b> 이익이 사이클을 타는 회사는 "과거 평균 이익으로 돌아갈 때"와 "최근 12개월 이익이 계속될 때"의 가치를 함께 보여 준다. 예를 들어 삼성전자는 최근 이익이 5년 평균의 4배여서 범위가 약 6.9만~28만 원으로 넓다. 매수 상한은 보수적인 쪽(평균 이익)으로 정한다. 지금 주가는 슈퍼사이클 이익이 오래 간다는 쪽에 걸려 있다는 뜻이다.</p>`],
     ['세 사람의 판단이 엇갈리면 어떻게 되나요?', `<p>각자 거부권을 가진다. 멍거의 탈락 조건(능력 범위, 지배구조)에 걸리면 바로 탈락이다. 버핏의 품질 70점과 10년 보유 테스트를 넘어야 하고, 그레이엄의 안전마진 30%까지 채워야 "매수 후보"가 된다.</p>
-     <p>품질은 통과했는데 가격만 비싸면 "좋은 회사, 가격 대기"로 분류해 관심 목록에 남긴다. 버크셔가 애플·코카콜라를 지금 가격에 더 사지 않고 보유만 하는 것과 같은 판단이다. 매수가에 닿으면 알림이 온다.</p>`],
+     <p>품질은 통과했는데 가격만 비싸면 "좋은 회사, 가격 대기"로 분류해 관심 목록에 남긴다. 버크셔가 애플·코카콜라를 지금 가격에 더 사지 않고 보유만 하는 것과 같은 판단이다. 매수 상한에 닿으면 알림이 온다.</p>`],
   ]},
   {g:'점수와 판정', items:[
     ['점수는 몇 점이면 어떤 뜻인가요?', `<p><b>종합 점수(0~100)</b>는 "이 회사가 그레이엄·버핏·멍거의 기준에 얼마나 가까운가"를 뜻한다. 주가가 오를 확률이 아니다.</p>
      <table class="g-tbl"><thead><tr><th>점수</th><th>뜻</th><th>할 일</th></tr></thead><tbody>
       <tr><td><b>90점 이상</b></td><td>사업의 질과 가격이 함께 기준을 크게 넘는다. 아주 드물다</td><td>안전마진·10년 보유를 확인하고 주력 자리 후보로 검토</td></tr>
-      <tr><td><b>75~89점</b></td><td>기준에 가깝다. 품질 70점 이상·10년 보유 통과·안전마진 30%를 채우면 "매수 후보"</td><td>못 채운 조건이 무엇인지 보고, 가격이 조건이면 매수가 알림을 기다린다</td></tr>
+      <tr><td><b>75~89점</b></td><td>기준에 가깝다. 품질 70점 이상·10년 보유 통과·안전마진 30%를 채우면 "매수 후보"</td><td>못 채운 조건이 무엇인지 보고, 가격이 조건이면 매수 상한 알림을 기다린다</td></tr>
       <tr><td><b>60~74점</b></td><td>장점은 분명하지만 가격이나 품질 중 하나가 모자라다 ("근접 · 관찰")</td><td>관심 목록에 두고 분기 실적과 가격을 지켜본다</td></tr>
       <tr><td><b>40~59점</b></td><td>기준과 거리가 있다. 비싸거나, 이익이 불안정하거나, 위험 신호가 있다</td><td>사지 않는다. 이미 갖고 있다면 매도 조건을 점검한다</td></tr>
       <tr><td><b>40점 미만</b></td><td>이 원칙과 맞지 않는 회사다. 대부분 가격에 큰 기대가 이미 들어 있다</td><td>원칙상 대상이 아니다. 산다면 도전 칸(10% 이하)에서만</td></tr>
@@ -3033,8 +3057,8 @@ const GUIDE = [
      <p class="small muted">점수 띠는 판정 규칙(75·60점 기준)과 같은 선으로 나눴다. 90점 이상은 판정이 따로 있지 않고 "특히 드문 경우"라는 설명용 구간이다.</p>`],
     ['버핏 근접도와 종합 점수는 어떻게 계산하나요?', `<p><b>버핏 근접도</b> = 숫자 품질 40% + 저평가 60% − 위험 신호 감점. 버크셔의 실제 매수 62건을 되짚어 보니 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서 가중치를 이렇게 정했다.</p>
      <p><b>종합 점수</b> = 버핏 근접도 65% + 정성 평가 20% + 트렌드 15%. 비어 있는 항목은 빼고 나머지로 다시 나눈다.</p>`],
-    ['판정은 몇 가지이고 각각 무슨 뜻인가요?', `<ul><li><b>매수 후보:</b> 종합 75점 이상, 품질 70 이상, 10년 보유 테스트 통과, 안전마진 충족. 매수가가 함께 표시된다.</li>
-     <li><b>좋은 회사, 가격 대기:</b> 회사는 기준을 넘지만 지금 가격이 비싸다. 매수가에 닿으면 알림이 온다.</li>
+    ['판정은 몇 가지이고 각각 무슨 뜻인가요?', `<ul><li><b>매수 후보:</b> 종합 75점 이상, 품질 70 이상, 10년 보유 테스트 통과, 안전마진 충족. 매수 상한이 함께 표시된다.</li>
+     <li><b>좋은 회사, 가격 대기:</b> 회사는 기준을 넘지만 지금 가격이 비싸다. 매수 상한에 닿으면 알림이 온다.</li>
      <li><b>근접 · 관찰:</b> 60점 이상. 지켜볼 가치는 있지만 주력 자리에 넣을 단계는 아니다.</li>
      <li><b>기준과 거리 있음 / 탈락:</b> 원칙상 사지 않는다.</li></ul>
      <p>자동 수집 데이터의 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다. 사기 전에 공시 원문과 대조하는 것은 필수다.</p>`],
@@ -3060,7 +3084,7 @@ const GUIDE = [
      <p><b>국면</b>은 숫자로만 정한다. 5년 범위의 위쪽 15% 안이면서 6개월 상승이면 고점권, 아래쪽 25% 안이면 바닥권, 그 사이는 6개월·3개월 방향으로 상승·조정·반등·하락을 나눈다.</p>
      <p>트렌드는 종합 점수에 15%만 들어간다. 과열 트렌드에 핵심으로 걸린 회사인데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 트렌드만으로는 매수 후보가 되지 않는다.</p>`],
     ['어떤 알림이 오나요?', `<ul><li><b>급등락:</b> 보유 종목이 하루 5% 이상 움직이면. 7% 이상 하락은 긴급.</li>
-     <li><b>매수 가격 도달:</b> 관심 종목이 매수 후보 판정이고 매수가 아래로 내려오면.</li>
+     <li><b>매수 가격 도달:</b> 관심 종목이 매수 후보 판정이고 매수 상한 아래로 내려오면.</li>
      <li><b>내재가치 초과:</b> 보유 종목 주가가 내재가치를 10% 넘게 웃돌면. 매도 조건을 점검할 때다.</li></ul>
      <p>아이폰은 Safari 공유 버튼 → "홈 화면에 추가" 후 홈 화면 아이콘으로 열어야 푸시를 받을 수 있다.</p>`],
   ]},
@@ -3625,7 +3649,7 @@ function viewRules(){
   <div class="card rule-group">
     <div class="rule"><span class="t">주력 3종목</span><span class="th">합계 70~80%</span><span class="d">"매수 후보"이거나 품질이 증명된 회사. 한 자리 20~35%, 한 종목 최대 40%. 투자 메모와 매도 조건 2개 이상</span></div>
     <div class="rule"><span class="t">도전 칸</span><span class="th">≤ 10%</span><span class="d">레버리지, 적자, 혁신 의존형, 10년 보유 미통과는 자동으로 여기에 들어간다</span></div>
-    <div class="rule"><span class="t">현금</span><span class="th">10~20%</span><span class="d">버핏처럼 기회가 올 때 쓸 탄약. 좋은 회사가 매수 가능 가격에 오면 투입</span></div>
+    <div class="rule"><span class="t">현금</span><span class="th">10~20%</span><span class="d">버핏처럼 기회가 올 때 쓸 탄약. 좋은 회사가 매수 상한 아래로 오면 투입</span></div>
     <div class="rule"><span class="t">매도</span><span class="th">세 가지 경우만</span><span class="d">논리 훼손, 내재가치를 크게 넘는 가격, 더 나은 기회. 주가 하락 자체는 매도 이유가 아니다</span></div>
     <div class="rule"><span class="t">점검</span><span class="th">분기 1회</span><span class="d">실적 발표 후 점검일에 매도 조건을 하나씩 대조하고 일지에 기록</span></div>
   </div>

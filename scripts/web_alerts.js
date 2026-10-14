@@ -115,7 +115,7 @@ async function scanAlerts(){
     if(c.kind !== 'stock' || held.has(c.id) || !(c.watch || c.pinned || (c.thesis?.memo||'').trim())) continue;
     const ev = evaluate(c); const id = `buy-${c.id}-${month}`;
     if(ev.verdict === '매수 후보' && isNum(ev.buyBelow) && isNum(c.price) && c.price <= ev.buyBelow && !have.has(id))
-      await store.set('alerts', id, { at: now, level: 'good', title: `${c.name} 매수 가격 도달`, body: `현재가 ${fmtPx(c.price, curOf(c.market))} · 매수가 ${fmtPx(ev.buyBelow, curOf(c.market))} 이하`, link: { co: c.id }, read: false, source: '장부 판정' });
+      await store.set('alerts', id, { at: now, level: 'good', title: `${c.name} 매수 상한 도달`, body: `현재가 ${fmtPx(c.price, curOf(c.market))} · 매수 상한 ${fmtPx(ev.buyBelow, curOf(c.market))} 이하`, link: { co: c.id }, read: false, source: '장부 판정' });
   }
   for(const h of S.holdings){
     const c = companyFor(h); if(!c || h.kind !== 'stock') continue;
