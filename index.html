@@ -313,6 +313,63 @@ details.more>summary{font-size:15px}
 .fx-ro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
 @media (min-width:560px){.fx-ro{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .fx-ro>span{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.mchart .ch-box{position:relative}
+.mchart svg{width:100%;height:auto;display:block;overflow:visible;touch-action:pan-y}
+.mchart .grid{stroke:var(--line);stroke-width:1}
+.mchart .grid.base100{stroke:var(--muted);stroke-dasharray:2 3;opacity:.6}
+.mchart .axis{fill:var(--muted);font-size:12px;font-family:var(--font)}
+.mchart .mline{fill:none;stroke-linejoin:round;stroke-linecap:round;transition:opacity .15s}
+.mchart .mline.dash{stroke-dasharray:4 4;opacity:.55}
+.mchart .dim{opacity:.12}
+.mchart .mline.on{stroke-width:3.2!important}
+.mchart .guide{stroke:var(--muted);stroke-width:1}
+.mchart .mtip{position:absolute;top:0;width:180px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.12);z-index:2}
+.mt-row{display:grid;grid-template-columns:8px minmax(0,1fr) auto;gap:6px;align-items:center;margin-top:3px}
+.mt-row i,.tr-chip i,.tr-table i{display:inline-block;width:8px;height:8px;border-radius:50%}
+.mt-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr-seg{min-width:220px;flex:0 1 300px}
+.tr-legend{display:flex;flex-wrap:wrap;gap:6px}
+.tr-chip{font:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tr-chip b{font-weight:700}
+.tr-chip.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.tr-chip.off{opacity:.4}
+.tr-chip.off span{text-decoration:line-through}
+.tr-chip i.dash{width:14px;height:0;border-top:2px dashed var(--muted);border-radius:0}
+.tr-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.tr-stats>span{display:flex;flex-direction:column;gap:1px;padding:8px 6px;border-radius:10px;background:var(--bg);min-width:0}
+.tr-stats b{font-size:14px;white-space:nowrap;letter-spacing:-.02em}
+.mchart.has-focus .mline.dash{opacity:.3}
+.tr-table .linkbtn{color:var(--ink);text-decoration:none;font-weight:600}
+.tr-rot{display:none;margin:0}
+@media (max-width:600px) and (orientation:portrait){.tr-rot{display:block}}
+.tr-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tr-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.tr-table th{font-size:12px;color:var(--muted);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tr-table th:first-child,.tr-table td:first-child{text-align:left}
+.tr-table td{text-align:right;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tr-table td:last-child,.tr-table th:last-child{text-align:center}
+.tr-table .linkbtn{display:inline-flex;align-items:center;gap:6px}
+.tr-big{position:fixed;inset:0;z-index:50;background:rgba(7,12,21,.55);display:flex;align-items:stretch;justify-content:center}
+.tr-big-in{background:var(--bg);width:100%;max-width:1100px;overflow-y:auto;padding:16px max(16px,env(safe-area-inset-left)) calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
+.tr-big-head{justify-content:space-between;position:sticky;top:-16px;background:var(--bg);padding:6px 0;z-index:3}
+.tr-big-chart{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+body.noscroll{overflow:hidden}
+.ttile.tt-good{border-color:var(--accent)} .ttile.tt-warn{border-color:var(--warn)} .ttile.tt-bad{border-color:var(--bad)}
+@media (min-width:900px){.tr-big{padding:24px}.tr-big-in{border-radius:16px}}
+.guide-top .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.guide-top .g3>div{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:10px;background:var(--bg);min-width:0}
+.guide-top .g3 b{font-size:15px}
+@media (max-width:420px){.guide-top .g3{grid-template-columns:1fr}}
+.guide-h{margin:20px 0 6px}
+.guide-list{padding:0 16px}
+.guide-q{border-bottom:1px solid var(--line)}
+.guide-q:last-child{border-bottom:0}
+.guide-q summary{list-style:none;cursor:pointer;padding:14px 0;font-weight:700;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.guide-q summary::-webkit-details-marker{display:none}
+.guide-q summary::after{content:"+";color:var(--muted);font-weight:400;font-size:18px;line-height:1}
+.guide-q[open] summary::after{content:"−"}
+.guide-a{padding:0 0 14px;font-size:14px;line-height:1.7;word-break:keep-all}
+.guide-a p{margin:0 0 8px} .guide-a ul{margin:0 0 8px;padding-left:18px} .guide-a li{margin:4px 0}
 </style>
 
 <header class="top">
@@ -931,6 +988,7 @@ function render(){
   if(S.tab === 'fx') app.innerHTML = viewFx();
   if(S.tab === 'ref') app.innerHTML = viewRef();
   if(S.tab === 'trends') app.innerHTML = viewTrends();
+  if(S.tab === 'guide') app.innerHTML = viewGuide();
   if(S.tab === 'dividend') app.innerHTML = viewDividend();
   if(S.tab === 'alerts') app.innerHTML = viewAlerts();
 }
@@ -1588,21 +1646,158 @@ function viewBriefing(){
     </div>
   </details>`;
 }
+/* ===== 메가트렌드 사이클: 수혜 기업 묶음 지수 (trends/series) ===== */
+const TR_RANGES = [['3M','3개월',3],['6M','6개월',6],['1Y','1년',12],['5Y','5년',60]];
+const TCOL_FB = ['#B08A3E','#5C6F8C','#4F7F76','#A8654A','#6B6799','#C2B08A','#7D8C4A','#A35A6B','#3E8AA0','#8E7356','#5B8A5E','#8A5FA0'];
+const TCOL = i => `var(--s${i%12+1}, ${TCOL_FB[i%12]})`;
+function trSeries(key, rg){
+  const sr = S.trendSeries; if(!sr) return null;
+  const R = TR_RANGES.find(r => r[0] === rg) || TR_RANGES[2];
+  const src = rg === '5Y' ? sr.w?.[key] : sr.d?.[key]; if(!src || src.length < 2) return null;
+  const end = new Date(src.at(-1)[0] + 'T00:00:00Z'); end.setUTCMonth(end.getUTCMonth() - R[2]);
+  const from = end.toISOString().slice(0,10);
+  const pts = src.filter(p => p[0] >= from); if(pts.length < 2) return null;
+  const b = pts[0][1]; return pts.map(([d,v]) => [d, Math.round(v/b*1000)/10]);
+}
+/* 기간 수익률과 5년 안의 위치로 사이클 국면을 정한다 */
+function trCycle(key){
+  const sr = S.trendSeries; const w = sr?.w?.[key], d = sr?.d?.[key]; if(!w || w.length < 20) return null;
+  const ret = rg => { const p = trSeries(key, rg); return p ? p.at(-1)[1] - 100 : null; };
+  const vs = w.map(p => p[1]);
+  const lastW = w.at(-1)[1], hi = Math.max(...vs), lo = Math.min(...vs);
+  const pos = hi > lo ? (lastW - lo)/(hi - lo)*100 : 50, dd = (lastW/hi - 1)*100;
+  const r3 = ret('3M'), r6 = ret('6M'), r1 = ret('1Y'), r5 = ret('5Y');
+  let ph, lv;
+  if(pos >= 85 && (r6 ?? 0) > 0){ ph = '고점권'; lv = 'warn'; }
+  else if(pos <= 25){ ph = (r3 ?? 0) > 0 ? '바닥 반등' : '바닥권'; lv = 'good'; }
+  else if((r6 ?? 0) > 0 && (r3 ?? 0) >= 0){ ph = '상승'; lv = 'good'; }
+  else if((r6 ?? 0) > 0){ ph = '상승 후 조정'; lv = 'warn'; }
+  else if((r3 ?? 0) > 0){ ph = '반등 시도'; lv = 'none'; }
+  else { ph = '하락'; lv = 'bad'; }
+  return {r3, r6, r1, r5, pos, dd, ph, lv};
+}
+const trLines = () => trendList().filter(t => S.trendSeries?.w?.[t.key]).map((t, i) => ({key:t.key, label:t.label, color:TCOL(i)}));
+const trShort = s => String(s).replace(/\s*\(.*\)$/,'').replace(/·.*$/,'').trim();
+
+/* 여러 선 차트: lines [{key,label,color,points,dash,w}] */
+const MCH = {};
+function multiChart(lines, opts={}){
+  lines = lines.filter(l => l.points && l.points.length > 1);
+  if(!lines.length) return `<div class="small muted">지수 데이터를 불러오는 중입니다.</div>`;
+  const id = 'mc'+(++chSeq), W = opts.w || Math.max(300, Math.min(560, (window.innerWidth||560) - 72)), H = opts.h || 240, L = 4, R = 46, T = 12, B = 22;
+  const all = lines.flatMap(l => l.points.map(p => p[1]));
+  let lo = Math.min(100, ...all), hi = Math.max(100, ...all); const pad = (hi-lo)*0.06 || 5; lo -= pad; hi += pad;
+  const log = hi/lo > 4; const tv = v => log ? Math.log(v) : v;
+  const y = v => T + (H-T-B)*(1-(tv(v)-tv(lo))/(tv(hi)-tv(lo)));
+  const dates = [...new Set(lines.flatMap(l => l.points.map(p => p[0])))].sort();
+  const di = Object.fromEntries(dates.map((d,i) => [d,i])); const n = dates.length;
+  const x = i => L + (W-L-R)*i/Math.max(1,n-1);
+  let ticks = log ? [25,50,100,150,200,300,400,600,800,1200,1600,2400,3200,4800].filter(t => t>=lo && t<=hi) : niceTicks(lo, hi, 4);
+  if(ticks.length > 6) ticks = ticks.filter((t,i) => t === 100 || i % 2 === 0);
+  const focus = opts.focus;
+  const path = l => l.points.map((p,i) => `${i?'L':'M'}${x(di[p[0]]).toFixed(1)},${y(p[1]).toFixed(1)}`).join('');
+  const mid = Math.floor((n-1)/2);
+  MCH[id] = {lines, dates, di, x, y, W, H, T, B};
+  const order = [...lines].sort((a,b) => (a.key===focus) - (b.key===focus));
+  return `<figure class="mchart${focus?' has-focus':''}" data-mc="${id}" style="margin:0"><div class="ch-box">
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.label||'트렌드 지수 비교')}">
+      ${ticks.map(t => `<line x1="${L}" x2="${W-R}" y1="${y(t).toFixed(1)}" y2="${y(t).toFixed(1)}" class="grid${t===100?' base100':''}"/><text x="${W-R+6}" y="${(y(t)+4).toFixed(1)}" class="axis">${t}</text>`).join('')}
+      ${order.map(l => `<path d="${path(l)}" class="mline${l.dash?' dash':''}${focus && l.key!==focus?' dim':''}${focus===l.key?' on':''}" style="stroke:${l.color};stroke-width:${l.w||2}"/>`).join('')}
+      ${order.filter(l => !l.dash).map(l => { const p = l.points.at(-1); return `<circle cx="${x(di[p[0]]).toFixed(1)}" cy="${y(p[1]).toFixed(1)}" r="3" style="fill:${l.color}" class="${focus && l.key!==focus?'dim':''}"/>`; }).join('')}
+      <text x="${L}" y="${H-6}" class="axis">${esc(dates[0].slice(2))}</text>
+      <text x="${x(mid).toFixed(1)}" y="${H-6}" class="axis" text-anchor="middle">${esc(dates[mid].slice(2))}</text>
+      <text x="${W-R}" y="${H-6}" class="axis" text-anchor="end">${esc(dates.at(-1).slice(2))}</text>
+      <line class="guide" x1="0" x2="0" y1="${T}" y2="${H-B}" style="display:none"/>
+      <rect x="0" y="0" width="${W-R}" height="${H}" fill="transparent"/>
+    </svg><div class="tip mtip" style="display:none"></div></div></figure>`;
+}
+document.addEventListener('pointermove', e => {
+  const fig = e.target.closest && e.target.closest('figure.mchart'); if(!fig) return;
+  const c = MCH[fig.dataset.mc]; const svg = fig.querySelector('svg'); if(!c || !svg) return;
+  const r = svg.getBoundingClientRect(); const sx = (e.clientX - r.left) * c.W / r.width;
+  const n = c.dates.length; let i = Math.round((sx - c.x(0)) / (c.x(n-1) - c.x(0)) * (n-1)); i = Math.max(0, Math.min(n-1, i));
+  const d = c.dates[i], px = c.x(i);
+  const g = svg.querySelector('.guide'); g.setAttribute('x1', px); g.setAttribute('x2', px); g.style.display = '';
+  const vals = c.lines.map(l => { let v = null; for(const p of l.points){ if(p[0] <= d) v = p[1]; else break; } return {l, v}; }).filter(o => o.v !== null).sort((a,b) => b.v - a.v);
+  const tip = fig.querySelector('.tip');
+  tip.innerHTML = `<div class="muted num">${esc(d)}</div>` + vals.slice(0, 8).map(o => `<div class="mt-row"><i style="background:${o.l.color}"></i><span>${esc(o.l.label)}</span><b class="num ${o.v>=100?'up':'down'}">${pct(o.v-100)}</b></div>`).join('');
+  tip.style.display = ''; const left = px / c.W * r.width; tip.style.left = (left > r.width/2 ? Math.max(0, left - 190) : Math.min(left + 12, r.width - 180)) + 'px';
+});
+document.addEventListener('pointerout', e => {
+  const fig = e.target.closest && e.target.closest('figure.mchart'); if(!fig || fig.contains(e.relatedTarget)) return;
+  fig.querySelectorAll('.guide,.tip').forEach(el => el.style.display = 'none');
+});
+
+function trRangeSeg(){
+  const rg = S.trRange || '1Y';
+  return `<div class="seg tr-seg" role="group" aria-label="기간">${TR_RANGES.map(([k,l]) => `<button type="button" data-act="tr-range" data-v="${k}" aria-pressed="${rg===k}">${l}</button>`).join('')}</div>`;
+}
+function trBenchLines(rg){
+  const sr = S.trendSeries || {}; const out = [];
+  [['kospi','var(--muted)'],['spx','var(--ink)']].forEach(([k,c]) => { const p = trSeries(k, rg); if(p) out.push({key:k, label:(sr.bench||{})[k]||k, color:c, points:p, dash:true, w:1.4}); });
+  return out;
+}
+function trCompareChart(h, big){
+  const rg = S.trRange || '1Y'; const hide = S.trHide || {};
+  const lines = trLines().filter(l => !hide[l.key]).map(l => ({...l, label:trShort(l.label), points:trSeries(l.key, rg)}));
+  const bench = S.trBench === false ? [] : trBenchLines(rg);
+  const vw = window.innerWidth || 400;
+  return multiChart([...bench, ...lines], {h, w: big ? Math.max(320, Math.min(1040, vw - 64)) : undefined, focus:S.trFocus, label:'메가트렌드 지수 비교'});
+}
+function trLegend(){
+  const hide = S.trHide || {};
+  return `<div class="tr-legend">${trLines().map(l => { const cy = trCycle(l.key); const r = cy ? cy[{'3M':'r3','6M':'r6','1Y':'r1','5Y':'r5'}[S.trRange||'1Y']] : null;
+    return `<button type="button" class="tr-chip${hide[l.key]?' off':''}${S.trFocus===l.key?' on':''}" data-act="tr-chip" data-v="${l.key}"><i style="background:${l.color}"></i><span>${esc(trShort(l.label))}</span>${isNum(r)?`<b class="num ${r>=0?'up':'down'}">${pct(r)}</b>`:''}</button>`; }).join('')}
+    <button type="button" class="tr-chip bench${S.trBench===false?' off':''}" data-act="tr-bench"><i class="dash"></i><span>코스피·S&amp;P</span></button></div>`;
+}
+function trTable(){
+  const rows = trLines().map(l => ({...l, cy:trCycle(l.key)})).filter(r => r.cy);
+  const k = {'3M':'r3','6M':'r6','1Y':'r1','5Y':'r5'}[S.trRange||'1Y'];
+  rows.sort((a,b) => (b.cy[k] ?? -1e9) - (a.cy[k] ?? -1e9));
+  const c = v => isNum(v) ? `<td class="num ${v>=0?'up':'down'}">${pct(v)}</td>` : '<td class="muted">–</td>';
+  return `<div class="tr-tablewrap"><table class="tr-table"><thead><tr><th>트렌드</th><th>3개월</th><th>6개월</th><th>1년</th><th>5년</th><th>고점 대비</th><th>국면</th></tr></thead><tbody>
+    ${rows.map(r => `<tr><td><button type="button" class="linkbtn" data-act="tr-chip" data-v="${r.key}"><i style="background:${r.color}"></i>${esc(trShort(r.label))}</button></td>${c(r.cy.r3)}${c(r.cy.r6)}${c(r.cy.r1)}${c(r.cy.r5)}<td class="num muted">${fmt(r.cy.dd,0)}%</td><td><span class="pill p-${r.cy.lv}">${r.cy.ph}</span></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+function trOverlay(){
+  if(!S.trBig) return '';
+  return `<div class="tr-big" role="dialog" aria-modal="true" aria-label="메가트렌드 전체 비교">
+    <div class="tr-big-in">
+      <div class="row tr-big-head"><h2 style="margin:0">메가트렌드 전체 비교</h2><button type="button" class="btn" data-act="tr-big" data-v="0" aria-label="닫기">닫기</button></div>
+      <div class="row" style="justify-content:space-between;gap:8px">${trRangeSeg()}<span class="small muted">시작 = 100 · 칩을 누르면 강조, 한 번 더 누르면 숨김</span></div>
+      <div class="tr-big-chart">${trCompareChart(Math.max(240, Math.min(560, (window.innerHeight||800) - 300)), true)}</div>
+      <p class="small muted tr-rot">휴대폰을 가로로 돌리면 더 크게 보입니다.</p>
+      ${trLegend()}
+      ${trTable()}
+    </div></div>`;
+}
+
 function viewTrends(){
-  const tl = trendList();
+  const tl = trendList(); const sr = S.trendSeries; const rg = S.trRange || '1Y';
   const holdTrend = key => S.companies.filter(c => (c.trendLinks||{})[key] >= 2 && S.holdings.some(h => companyFor(h)?.id === c.id)).map(c => c.name);
-  return `
-  <h2>메가트렌드 ${S.trends?.asOf ? `<span class="small muted num">${esc(S.trends.asOf)} 기준</span>` : ''}</h2>
-  <p class="small muted" style="margin:-4px 0 10px">트렌드는 방향을 알려 주지만 가격을 정당화하지는 않습니다. 과열 단계에서는 저평가 근거를 더 엄격하게 확인하세요.</p>
-  <div class="stack">${tl.length ? tl.map(t => { const mine = holdTrend(t.key); return `<div class="card stack" style="gap:8px">
-      <div class="row" style="justify-content:space-between"><b style="font-size:16px">${esc(t.label)}</b><div class="row" style="gap:6px"><span class="pill ${t.stage==='과열'?'p-bad':t.stage==='성장'?'p-good':'p-none'}">${esc(t.stage)}</span><span class="pill ${t.momentum>0?'p-good':t.momentum<0?'p-bad':'p-none'}">${momTxt(t.momentum)}</span></div></div>
-      <p class="small" style="margin:0">${esc(t.summary)}</p>
+  const lines = trLines(); const colOf = Object.fromEntries(lines.map(l => [l.key, l.color]));
+  const card = t => { const mine = holdTrend(t.key); const cy = trCycle(t.key); const pts = trSeries(t.key, rg);
+    const ch = pts ? multiChart([...trBenchLines(rg), {key:t.key, label:trShort(t.label), color:colOf[t.key]||'var(--s1)', points:pts, w:2.4}], {h:170, label:t.label+' 지수'}) : `<div class="small muted">지수 데이터를 불러오는 중입니다.</div>`;
+    return `<div class="card stack tr-card" style="gap:10px">
+      <div class="row" style="justify-content:space-between;align-items:flex-start;gap:8px"><b style="font-size:16px;min-width:0">${esc(t.label)}</b>${cy ? `<span class="pill p-${cy.lv}">${cy.ph}</span>` : ''}</div>
+      ${cy ? `<div class="tr-stats">${[['3개월',cy.r3],['6개월',cy.r6],['1년',cy.r1],['5년',cy.r5]].map(([l,v]) => `<span><span class="small muted">${l}</span><b class="num ${isNum(v)?(v>=0?'up':'down'):''}">${isNum(v)?pct(v):'–'}</b></span>`).join('')}</div>` : ''}
+      ${ch}
+      ${cy ? `<div class="small muted">5년 고점 대비 ${fmt(cy.dd,0)}% · 5년 범위 안 위치 ${fmt(cy.pos,0)}%</div>` : ''}
+      <p class="small" style="margin:0">${esc(t.summary||'')}</p>
       ${mine.length ? `<div class="small"><b>내 보유 종목 연결:</b> ${esc(mine.join(', '))}</div>` : ''}
-      <details><summary class="small">수혜 기업과 리스크</summary>
-        ${['KR','US','CN'].map(k => (t.beneficiaries?.[k]||[]).length ? `<div class="small" style="margin-top:6px"><b>${{KR:'한국',US:'미국',CN:'중국'}[k]}</b> ${esc(t.beneficiaries[k].join(', '))}</div>` : '').join('')}
+      <details><summary class="small">지수 구성 기업과 리스크</summary>
+        ${sr?.used?.[t.key] ? `<div class="small" style="margin-top:6px"><b>지수 구성 (${sr.used[t.key].length}개, 같은 비중)</b> ${esc(sr.used[t.key].join(', '))}</div>` : ''}
         <div class="small" style="margin-top:6px"><b>리스크</b> ${esc(t.risk||'')}</div>
-        <div class="small muted" style="margin-top:6px">${(t.sources||[]).filter(safeUrl).map((u,i) => `<a href="${esc(u)}" target="_blank" rel="noopener" style="color:var(--accent)">출처 ${i+1}</a>`).join(' · ')}</div>
-      </details></div>`; }).join('') : `<div class="card empty">트렌드 데이터가 없습니다.</div>`}</div>`;
+        <div class="small muted" style="margin-top:6px">AI 판단 단계: ${esc(t.stage||'–')} ${(t.sources||[]).filter(safeUrl).map((u,i) => ` · <a href="${esc(u)}" target="_blank" rel="noopener" style="color:var(--accent)">출처 ${i+1}</a>`).join('')}</div>
+      </details></div>`; };
+  return `
+  <h2>메가트렌드 사이클 ${sr?.asOf ? `<span class="small muted num">${esc(sr.asOf)} 기준</span>` : ''}</h2>
+  <p class="small muted" style="margin:-4px 0 10px">트렌드마다 수혜 기업을 같은 비중으로 묶은 지수입니다. 기간 시작을 100으로 맞췄고, 점선은 코스피(회색)와 S&amp;P 500입니다. 하루 등락보다 몇 달~몇 년의 오르내림을 보세요.</p>
+  <div class="row" style="justify-content:space-between;gap:8px;margin-bottom:10px">${trRangeSeg()}<button type="button" class="btn primary" data-act="tr-big" data-v="1">전체 비교 크게 보기</button></div>
+  ${lines.length ? `<div class="card stack" style="gap:10px"><div class="row" style="justify-content:space-between"><h3 style="margin:0">한눈에 비교</h3><span class="small muted">칩을 누르면 강조</span></div>${trCompareChart(240)}${trLegend()}</div>` : ''}
+  <div class="stack" style="margin-top:12px">${tl.length ? tl.map(card).join('') : `<div class="card empty">트렌드 데이터가 없습니다.</div>`}</div>
+  <p class="small muted" style="margin-top:12px">국면은 숫자로만 정합니다. 5년 범위 위쪽 15% 안이면서 6개월 상승이면 고점권, 아래쪽 25% 안이면 바닥권, 그 사이는 6개월·3개월 방향으로 상승·조정·반등·하락을 나눕니다. 트렌드는 방향을 알려 줄 뿐 가격을 정당화하지 않습니다.</p>
+  ${trOverlay()}`;
 }
 
 const VALIDATION = {"asOf": "2026-10-12", "purchases": [{"n": "애플", "t": "AAPL", "y": "2016-Q1", "o": "success", "ret": 1122, "q": 95, "v": 77, "b": 84, "fin": false, "flags": [], "per": 12.0, "ig": 1.0, "hist": 15, "note": "Berkshire's largest-ever gain; heavily trimmed 2023-2025.", "conf": "high", "src": "1차"}, {"n": "뱅크오브아메리카", "t": "BAC", "y": "2011-Q3", "o": "success", "ret": 661, "q": 5, "v": 46, "b": 14, "fin": true, "flags": ["잦은 적자", "주식 희석", "경기순환·이익 변동"], "per": null, "ig": null, "hist": 15, "note": "Warrants exercised 2017 at $7.14; trimmed 2024-2025.", "conf": "medium", "src": "1차"}, {"n": "셰브론", "t": "CVX", "y": "2020-Q4", "o": "success", "ret": 155, "q": 22, "v": 22, "b": 14, "fin": false, "flags": ["차입 부담", "경기순환·이익 변동"], "per": 53.9, "ig": 1.6, "hist": -11.0, "note": "Bought near COVID trough; large dividend stream.", "conf": "medium", "src": "1차"}, {"n": "옥시덴탈", "t": "OXY", "y": "2022-Q1", "o": "mixed", "ret": 20, "q": 11, "v": 26, "b": 0, "fin": false, "flags": ["잦은 적자", "차입 부담", "주식 희석", "경기순환·이익 변동"], "per": 31.6, "ig": 2.9, "hist": -1.8, "note": "Still held (~28%); plus preferred/warrants and 2025 OxyChem purchase.", "conf": "medium", "src": "1차"}, {"n": "이토추", "t": "8001.T", "y": "2019-Q3", "o": "success", "ret": 413, "q": 76, "v": 73, "b": 74, "fin": false, "flags": [], "per": 6.5, "ig": -2.1, "hist": -0.5, "note": "Stake raised toward ~10%; JPY price return excl. dividends.", "conf": "medium", "src": "1차"}, {"n": "미쓰비시상사", "t": "8058.T", "y": "2019-Q3", "o": "success", "ret": 393, "q": 48, "v": 68, "b": 60, "fin": false, "flags": ["경기순환·이익 변동"], "per": 7.5, "ig": -0.7, "hist": -0.5, "note": "Stake raised toward ~10%; JPY price return excl. dividends.", "conf": "medium", "src": "1차"}, {"n": "미쓰이물산", "t": "8031.T", "y": "2019-Q3", "o": "success", "ret": 474, "q": 40, "v": 53, "b": 40, "fin": false, "flags": ["차입 부담", "경기순환·이익 변동"], "per": 7.3, "ig": 1.7, "hist": -3.3, "note": "Stake raised toward ~10%; JPY price return excl. dividends.", "conf": "medium", "src": "1차"}, {"n": "처브", "t": "CB", "y": "2023-Q3", "o": "success", "ret": 66, "q": 67, "v": 39, "b": 50, "fin": true, "flags": [], "per": 16.3, "ig": 4.9, "hist": 7.2, "note": "Confidential buys Q3-2023..Q1-2024; still held.", "conf": "medium", "src": "1차"}, {"n": "베리사인", "t": "VRSN", "y": "2012-Q4", "o": "success", "ret": 606, "q": 59, "v": 14, "b": 16, "fin": false, "flags": ["잦은 적자", "차입 부담"], "per": 50, "ig": 17.9, "hist": 11.4, "note": "Partly sold back to VeriSign in 2025.", "conf": "low", "src": "1차"}, {"n": "도미노피자", "t": "DPZ", "y": "2024-Q3", "o": "failure", "ret": -26, "q": 74, "v": 7, "b": 26, "fin": false, "flags": ["차입 부담"], "per": 28.6, "ig": 14.1, "hist": 5.5, "note": "Down to date; still held as of last known filing.", "conf": "medium", "src": "1차"}, {"n": "풀코프", "t": "POOL", "y": "2024-Q3", "o": "failure", "ret": -54, "q": 89, "v": 31, "b": 54, "fin": false, "flags": [], "per": 26.1, "ig": 11.7, "hist": 14.7, "note": "Down sharply to date.", "conf": "medium", "src": "1차"}, {"n": "컨스텔레이션 브랜즈", "t": "STZ", "y": "2024-Q4", "o": "failure", "ret": -47, "q": 37, "v": 9, "b": 12, "fin": false, "flags": ["잦은 적자", "경기순환·이익 변동"], "per": 24.5, "ig": 11.6, "hist": 4.5, "note": "Exited Q2-2026; return uses current price as exit proxy.", "conf": "medium", "src": "1차"}, {"n": "시리우스XM", "t": "SIRI", "y": "2024-Q3", "o": "mixed", "ret": 6, "q": 73, "v": 94, "b": 86, "fin": false, "flags": [], "per": 7.8, "ig": -7.1, "hist": 3.5, "note": "Flat; position largely came via Liberty SiriusXM tracking stock exchange.", "conf": "medium", "src": "1차"}, {"n": "유나이티드헬스", "t": "UNH", "y": "2025-Q2", "o": "mixed", "ret": 26, "q": 69, "v": 34, "b": 48, "fin": false, "flags": [], "per": 19.3, "ig": 0.8, "hist": -0.8, "note": "Bought after 2025 collapse; modest gain.", "conf": "medium", "src": "1차"}, {"n": "다비타", "t": "DVA", "y": "2011-Q3", "o": "success", "ret": 378, "q": 68, "v": 26, "b": 35, "fin": false, "flags": ["차입 부담"], "per": 19.0, "ig": 6.8, "hist": 3.5, "note": "Berkshire periodically sells back to stay under 45%.", "conf": "medium", "src": "1차"}, {"n": "크래프트(→크래프트하인즈)", "t": "KRFT", "y": "2015-Q3", "o": "failure", "ret": -37, "q": 60, "v": 7, "b": 20, "fin": false, "flags": ["차입 부담"], "per": 35.6, "ig": 7.7, "hist": -26.6, "note": "Buffett later said Berkshire overpaid for Kraft; KHC split pending.", "conf": "low", "src": "1차"}, {"n": "레나", "t": "LEN", "y": "2025-Q1", "o": "failure", "ret": -35, "q": 82, "v": 93, "b": 89, "fin": false, "flags": ["경기순환·이익 변동"], "per": 8.2, "ig": -2.6, "hist": 12.0, "note": "Added in 2026 (shifted to Class B); Millrose spin-off value excluded.", "conf": "medium", "src": "1차"}, {"n": "뉴코어", "t": "NUE", "y": "2025-Q1", "o": "success", "ret": 93, "q": 77, "v": 85, "b": 82, "fin": false, "flags": ["경기순환·이익 변동"], "per": 15.3, "ig": -6.5, "hist": 11.1, "note": "Trimmed 2026 after strong gain.", "conf": "medium", "src": "1차"}, {"n": "델타항공", "t": "DAL", "y": "2026-Q1", "o": "mixed", "ret": 23, "q": 59, "v": 81, "b": 72, "fin": false, "flags": ["경기순환·이익 변동"], "per": 8.7, "ig": 5.1, "hist": 15, "note": "Most recent new buy (Q1-2026 13F), added Q2-2026; too early to judge.", "conf": "medium", "src": "1차"}, {"n": "IBM", "t": "IBM", "y": "2011-Q1", "o": "failure", "ret": -9, "q": 93, "v": 29, "b": 55, "fin": false, "flags": [], "per": 14.7, "ig": 3.8, "hist": 0.4, "note": "Sold 2017-2018 near cost; ~6 years dead money.", "conf": "medium", "src": "1차"}, {"n": "파라마운트", "t": "PARA", "y": "2022-Q1", "o": "failure", "ret": -66, "q": 71, "v": 42, "b": 46, "fin": false, "flags": ["주식 희석"], "per": 5.0, "ig": 7.0, "hist": 1.9, "note": "Exited by 2024 at a large loss; Buffett took responsibility.", "conf": "medium", "src": "1차"}, {"n": "GM", "t": "GM", "y": "2012-Q1", "o": "mixed", "ret": 40, "q": 71, "v": 68, "b": 61, "fin": false, "flags": ["현금 전환 약함", "경기순환·이익 변동"], "per": 5.5, "ig": 7.2, "hist": 10.8, "note": "Sold 2023-2024; modest gain over ~12 years.", "conf": "low", "src": "1차"}, {"n": "테바", "t": "TEVA", "y": "2017-Q4", "o": "failure", "ret": -40, "q": 34, "v": 33, "b": 17, "fin": false, "flags": ["차입 부담", "주식 희석", "경기순환·이익 변동"], "per": 214.3, "ig": -20.6, "hist": -58, "note": "Sold 2020-2021 at a loss.", "conf": "medium", "src": "1차"}, {"n": "HP", "t": "HPQ", "y": "2022-Q2", "o": "failure", "ret": -7, "q": 82, "v": 79, "b": 80, "fin": false, "flags": [], "per": 6.6, "ig": -1.0, "hist": 5.1, "note": "Sold 2023-2024 around cost.", "conf": "medium", "src": "1차"}, {"n": "월마트", "t": "WMT", "y": "2005", "o": "mixed", "ret": 82.0, "cagr": 5.6, "hold": 11.0, "q": 66, "v": 6, "b": 30, "fin": false, "flags": [], "per": 19.6, "ig": 21.5, "hist": 12.1, "note": "Bought in 2005 (19.9M shares, $944M cost at end-2005); built to 56.8M shares/$2,976M cost by end-2013. Sold almost all in Q4 2016; last 1.4M shares sold Q3 2018 (13F). No detailed public rationale from Buffett for the ex", "conf": "high", "src": "2차"}, {"n": "존슨앤드존슨", "t": "JNJ", "y": "2006", "o": "mixed", "ret": 39.0, "cagr": 5.9, "hold": 5.7, "q": 95, "v": 44, "b": 64, "fin": false, "flags": [], "per": 15.7, "ig": 5.9, "hist": 10.1, "note": "Bought 2006-2007 (64.3M shares, $3.94B cost at end-2007). ~90%+ sold during 2012 (Q2 18.7M, Q3 most of remainder). Small residual 327,100 shares exited Q3 2023. Approx. return (start->end price + dividends, no reinvestme", "conf": "high", "src": "2차"}, {"n": "US뱅코프", "t": "USB", "y": "2006", "o": "mixed", "ret": 101.0, "cagr": 4.5, "hold": 16.0, "q": 95, "v": 44, "b": 64, "fin": true, "flags": [], "per": 12.0, "ig": 0.7, "hist": 3.1, "note": "Bought from 2006 (31.0M shares end-2006, 96.1M end-2013, 126.4M in Q1 2022). Sold 2022 (Q2 5%, Q3 35%, Q4 91% of remainder) and exited Q1 2023 (13F). Buffett gave no USB-specific reason; at the 2023 annual meeting he dis", "conf": "medium", "src": "2차"}, {"n": "크래프트푸즈(몬델리즈)", "t": "MDLZ", "y": "2007", "o": "mixed", "ret": 40.0, "cagr": 7.4, "hold": 4.8, "q": 54, "v": 15, "b": 31, "fin": false, "flags": [], "per": 20.6, "ig": 8.1, "hist": -5.2, "note": "Bought 2007 (124.4M shares, $4.15B cost). Buffett publicly criticised Kraft's 2010 Cadbury acquisition financed with Kraft shares (widely reported, Jan 2010). Sold heavily in 2012 (19.2M shares in Q2 2012 alone = 25% of ", "conf": "medium", "src": "2차"}, {"n": "코스트코", "t": "COST", "y": "2000-Q4", "o": "success", "ret": 1101.0, "cagr": 13.2, "hold": 20.0, "q": 57, "v": 1, "b": 15, "fin": false, "flags": ["현금 전환 약함"], "per": 26.2, "ig": 46.9, "hist": 13.2, "note": "Berkshire bought Costco around late 2000/early 2001; Charlie Munger (Costco director) championed it; Berkshire trimmed over the years and still held a small stake in 2020, then sold the entire stake in Q4 2020. Approx. r", "conf": "medium", "src": "2차"}, {"n": "M&T뱅크", "t": "MTB", "y": "1991", "o": "mixed", "ret": 311.0, "cagr": 7.0, "hold": 20.8, "q": 81, "v": 60, "b": 60, "fin": true, "flags": ["주식 희석"], "per": 12.3, "ig": 1.0, "hist": 14.1, "note": "Berkshire invested $40M in M&T convertible preferred in 1991 (Buffalo thrift crisis), converted to common and held ~6.7M shares for ~30 years at a $103M cost basis; Buffett repeatedly praised CEO Bob Wilmers. Sold out ov", "conf": "medium", "src": "2차"}, {"n": "사노피", "t": "SNY", "y": "2007", "o": "mixed", "ret": 44.0, "cagr": 3.5, "hold": 10.7, "q": 67, "v": 70, "b": 61, "fin": false, "flags": ["주식 희석"], "per": 16.0, "ig": 4.6, "hist": 15, "note": "Bought 2007 (17.2M ordinary shares, $1.47B), grew to 22.2M shares ($1.75B cost) by 2013 plus ~4M ADRs from 2013. Sales of the ordinary shares were not disclosed in 13Fs; the 'small remaining stake' was sold in Q3 2018. B", "conf": "low", "src": "2차"}, {"n": "디어", "t": "DE", "y": "2012-Q3", "o": "mixed", "ret": 15.0, "cagr": 7.2, "hold": 2.0, "q": 73, "v": 29, "b": 47, "fin": false, "flags": [], "per": 11.7, "ig": 11.0, "hist": 7.4, "note": "New stake Q3 2012, fully sold (~$360M) Q3 2014 with no explanation from Buffett (crop-price downturn). Berkshire re-bought Deere from Q4 2014 and sold that second stake in Q4 2016. Approx. return (start->end price + divi", "conf": "high", "src": "2차"}, {"n": "엑슨모빌", "t": "XOM", "y": "2013-Q2/Q3", "o": "mixed", "ret": 6.0, "cagr": 6.1, "hold": 1.0, "q": 79, "v": 49, "b": 61, "fin": false, "flags": ["경기순환·이익 변동"], "per": 12.3, "ig": 8.3, "hist": 8.7, "note": "Bought 2013 under confidential treatment (disclosed Feb 2014, 41.1M shares, $3.74B). Sold all in Q4 2014 as oil prices collapsed; Buffett gave no detailed comment. Approx. return (start->end price + dividends, no reinves", "conf": "high", "src": "2차"}, {"n": "디렉TV", "t": "DTV", "y": "2011", "o": "success", "ret": 104.0, "cagr": 22.2, "hold": 3.6, "q": 79, "v": 79, "b": 79, "fin": false, "flags": [], "per": 13.2, "ig": 3.2, "hist": 12.1, "note": "Bought from 2011, 22.2M shares at end-2013; held through the AT&T merger (July 2015), receiving AT&T shares + cash. Approx. return (start->end price + dividends, no reinvestment): 45.73 -> 93.38 + 0.00 div = 2.04x over 3", "conf": "medium", "src": "2차"}, {"n": "비자", "t": "V", "y": "2011-Q3", "o": "success", "ret": 1461.0, "cagr": 20.9, "hold": 14.5, "q": 83, "v": 42, "b": 58, "fin": true, "flags": [], "per": 16.7, "ig": 5.3, "hist": 13.6, "note": "Bought Q3 2011 and held for ~14 years; fully sold in Q1 2026 under the Greg Abel-era portfolio clean-up alongside Mastercard (no public rationale from Buffett). Approx. return (start->end price + dividends, no reinvestme", "conf": "medium", "src": "2차"}, {"n": "마스터카드", "t": "MA", "y": "2011-Q3", "o": "success", "ret": 1603.0, "cagr": 21.6, "hold": 14.5, "q": 63, "v": 25, "b": 40, "fin": true, "flags": ["경기순환·이익 변동"], "per": 22.8, "ig": 9.5, "hist": 13.6, "note": "Bought Q3 2011, trimmed in later years; remaining 3.99M shares sold Q1 2026 together with Visa. Approx. return (start->end price + dividends, no reinvestment): 31.97 -> 524.76 + 19.54 div = 17.03x over 14.5 yrs (21.6%/yr", "conf": "medium", "src": "2차"}, {"n": "필립스66", "t": "PSX", "y": "2012-Q2", "o": "success", "ret": 139.0, "cagr": 68.8, "hold": 1.7, "q": 83, "v": 89, "b": 87, "fin": false, "flags": ["경기순환·이익 변동"], "per": 4.2, "ig": -4.6, "hist": null, "note": "Bought 12.7M shares in Q2 2012 right after the spin-off; 20.7M shares at end-2013. Feb-2014 tax-efficient swap of most of the shares (~$1.4B) for Phillips Specialty Products (now Lubrizol Specialty Products). Berkshire t", "conf": "medium", "src": "2차"}, {"n": "차터커뮤니케이션", "t": "CHTR", "y": "2014-Q2", "o": "mixed", "ret": 57.0, "cagr": 3.9, "hold": 11.8, "q": 13, "v": 20, "b": 1, "fin": false, "flags": ["잦은 적자", "차입 부담"], "per": null, "ig": 18.1, "hist": 4.9, "note": "New position disclosed Aug 2014 (13F as of 2014-06-30). Held through the 2016 TWC/Bright House merger; trimmed repeatedly 2020-2025; final 1,060,882 shares sold in Q1 2026 (position exit). Approx price return 137.96 -> 2", "conf": "medium", "src": "2차"}, {"n": "델타항공(2016)", "t": "DAL", "y": "2016-Q3", "o": "failure", "ret": -23.0, "cagr": -7.1, "hold": 3.6, "q": 77, "v": 81, "b": 79, "fin": false, "flags": ["경기순환·이익 변동"], "per": 6.8, "ig": -2.6, "hist": 3.8, "note": "First stake disclosed in 13F as of 2016-09-30 (~$250M), built up in Q4 2016; entire 71.9M-share position sold in April 2020 at COVID lows (Q2 2020 13F exit). Price ~38.0 -> ~24.8 plus ~$4.44 dividends: roughly -23% total", "conf": "medium", "src": "2차"}, {"n": "사우스웨스트항공", "t": "LUV", "y": "2016-Q4", "o": "failure", "ret": -23.0, "cagr": -7.6, "hold": 3.3, "q": 75, "v": 40, "b": 54, "fin": false, "flags": ["경기순환·이익 변동"], "per": 12.9, "ig": 6.6, "hist": 4.4, "note": "Bought from Q4 2016, grew to ~10% of the company; entire 53.6M-share stake sold in April 2020. Price ~44.6 -> ~32.3 plus ~$1.96 dividends: roughly -23% total return.", "conf": "medium", "src": "2차"}, {"n": "유나이티드항공", "t": "UAL", "y": "2016-Q3", "o": "failure", "ret": -43.0, "cagr": -14.6, "hold": 3.6, "q": 58, "v": 42, "b": 48, "fin": false, "flags": ["경기순환·이익 변동"], "per": 2.5, "ig": 5.7, "hist": 0.5, "note": "First stake disclosed in 13F as of 2016-09-30 (~$250M), increased Q4 2016; entire 22.2M-share stake sold in April 2020. Price 48.11 -> 27.38: about -43%, no dividends.", "conf": "medium", "src": "2차"}, {"n": "아마존", "t": "AMZN", "y": "2019-Q1", "o": "success", "ret": 165.0, "cagr": 14.9, "hold": 7.0, "q": 52, "v": 1, "b": 21, "fin": false, "flags": ["경기순환·이익 변동"], "per": 82.4, "ig": 25.9, "hist": 15, "note": "First bought Q1 2019 (Buffett confirmed May 2019; 13F 2019-03-31). Added in Q2 2022; trimmed Q1 2023 and Q4 2025 (-7.7M); fully exited Q1 2026. Price 83.22 -> 220.17 (split-adj): about +165% over 7 years, no dividends.", "conf": "high", "src": "2차"}, {"n": "크로거", "t": "KR", "y": "2019-Q4", "o": "success", "ret": 159.0, "cagr": 15.1, "hold": 6.8, "q": 59, "v": 31, "b": 42, "fin": false, "flags": [], "per": 7.0, "ig": 12.0, "hist": 3.0, "note": "New position Q4 2019, built to ~60M+ shares through 2020-2021; trimmed from 2021 onward; still held 39.0M shares at 2026-06-30 after selling 11M in Q2 2026. Price ~26.5 -> 61.64 plus ~$7.15 dividends: roughly +159% total", "conf": "high", "src": "2차"}, {"n": "RH", "t": "RH", "y": "2019-Q3", "o": "success", "ret": 104.0, "cagr": 22.6, "hold": 3.5, "q": 29, "v": 38, "b": 18, "fin": false, "flags": ["차입 부담", "현금 전환 약함", "경기순환·이익 변동"], "per": 27.8, "ig": 12.2, "hist": 7.6, "note": "New stake disclosed Nov 2019 (13F as of 2019-09-30); added through 2022 to 2.36M shares; entire stake sold in Q1 2023 per insiderset (a Yahoo/Reuters piece suggests the sale may have been reported a quarter later). Price", "conf": "medium", "src": "2차"}, {"n": "애브비", "t": "ABBV", "y": "2020-Q3", "o": "success", "ret": 62.0, "cagr": 37.9, "hold": 1.5, "q": 88, "v": 85, "b": 86, "fin": false, "flags": [], "per": 17.7, "ig": 0.6, "hist": 9.8, "note": "New position Q3 2020 (21.3M shares), added Q4 2020, reduced through 2021, fully exited Q1 2022. Price ~93.7 -> ~145.3 plus ~$6.38 dividends: roughly +62% total return.", "conf": "high", "src": "2차"}, {"n": "머크", "t": "MRK", "y": "2020-Q3", "o": "failure", "ret": -1.0, "cagr": -0.9, "hold": 1.0, "q": 82, "v": 17, "b": 43, "fin": false, "flags": ["경기순환·이익 변동"], "per": 20.6, "ig": 11.6, "hist": -0.2, "note": "New position Q3 2020 (22.4M shares), added Q4 2020, cut Q1-Q2 2021, fully exited Q3 2021; also received and sold Organon (OGN) shares from the June 2021 spin-off. Spin-adjusted price ~78.7 -> ~76.1 plus ~$1.89 dividends:", "conf": "medium", "src": "2차"}, {"n": "BMS", "t": "BMY", "y": "2020-Q3", "o": "success", "ret": 16.0, "cagr": 10.5, "hold": 1.5, "q": 65, "v": 59, "b": 53, "fin": false, "flags": ["차입 부담", "경기순환·이익 변동"], "per": 29.9, "ig": 5.8, "hist": 12.1, "note": "New position Q3 2020 (30.0M shares), small add Q4 2020, reduced through 2021, fully exited Q1 2022. Price ~60.1 -> ~67.4 plus ~$2.41 dividends: roughly +16% total return.", "conf": "high", "src": "2차"}, {"n": "배릭골드", "t": "GOLD", "y": "2020-Q2", "o": "failure", "ret": 1.0, "cagr": 1.8, "hold": 0.5, "q": 42, "v": 28, "b": 18, "fin": false, "flags": ["잦은 적자", "주식 희석"], "per": 11.0, "ig": 22.9, "hist": 1.9, "note": "New position Q2 2020 (20.9M shares), cut ~43% in Q3 2020, fully exited Q4 2020 - held about two quarters. Price ~24.9 -> ~25.0 (Q4 avg) plus $0.08 dividend: roughly +1%; the Q3 2020 partial sale was at higher prices (~28", "conf": "medium", "src": "2차"}, {"n": "선코어", "t": "SU", "y": "2018-Q4", "o": "failure", "ret": -34.0, "cagr": -16.7, "hold": 2.2, "q": 34, "v": 28, "b": 22, "fin": false, "flags": ["주식 희석", "경기순환·이익 변동"], "per": 16.1, "ig": 7.3, "hist": -0.8, "note": "Second Suncor stake (an earlier 2013-2016 stake was sold by Q3 2016). New position Q4 2018 (~10.8M shares), added 2019 and Q2 2020, cut Q4 2020, fully exited Q1 2021. USD price ~32.5 -> ~19.5 plus ~US$2.09 dividends: rou", "conf": "low", "src": "2차"}, {"n": "액티비전", "t": "ATVI", "y": "2021-Q4", "o": "success", "ret": 42.0, "cagr": 21.9, "hold": 1.8, "q": 84, "v": 25, "b": 49, "fin": false, "flags": ["경기순환·이익 변동"], "per": 19.7, "ig": 11.1, "hist": 5.8, "note": "New 14.66M-share position in Q4 2021, built to 68.4M shares by Q2 2022 (merger-arbitrage after Microsoft's Jan-2022 $95 offer); trimmed from Q3 2022, sold 34.8M in Q2 2023, remaining 14.66M cashed out at $95 when Microso", "conf": "medium", "src": "2차"}, {"n": "씨티그룹", "t": "C", "y": "2022-Q1", "o": "success", "ret": 36.0, "cagr": 10.8, "hold": 3.0, "q": 37, "v": 86, "b": 66, "fin": true, "flags": ["경기순환·이익 변동"], "per": 5.9, "ig": -9.4, "hist": -0.2, "note": "New position of 55.16M shares in Q1 2022 (+89K in Q1 2023). Sold 40.6M shares in Q4 2024 and the final 14.64M in Q1 2025 (full exit). Dividends counted May-2022 to Feb-2025 ex-dates: 5x0.51 + 4x0.53 + 3x0.56 = 6.35. Roug", "conf": "medium", "src": "2차"}, {"n": "앨라이", "t": "ALLY", "y": "2022-Q1", "o": "failure", "ret": -9.0, "cagr": -2.1, "hold": 4.5, "q": 76, "v": 87, "b": 83, "fin": true, "flags": [], "per": 5.7, "ig": -10.0, "hist": 5.8, "note": "Bought 8.97M shares in Q1 2022, built to 30.0M in Q2 2022; small trims (to 29.0M by Q1 2023, 27.0M at 2026-06-30). Still held. Price 47.24 -> 37.59 plus $5.40 dividends (18 x $0.30, Apr-2022..Jul-2026 ex-dates): roughly ", "conf": "medium", "src": "2차"}, {"n": "마켈", "t": "MKL", "y": "2022-Q1", "o": "mixed", "ret": 10.0, "cagr": 5.5, "hold": 1.7, "q": 45, "v": 75, "b": 63, "fin": true, "flags": ["경기순환·이익 변동"], "per": 7.5, "ig": -6.0, "hist": 15, "note": "New 420,293-share position in Q1 2022, 467,611 by Q2 2022, +4,050 in Q1 2023; cut by 312,946 in Q3 2023 and fully exited in Q4 2023 (S&P Global, valuesider). ~+10% price return, no dividends.", "conf": "medium", "src": "2차"}, {"n": "루이지애나퍼시픽", "t": "LPX", "y": "2022-Q3", "o": "mixed", "ret": 23.0, "cagr": 5.3, "hold": 4.0, "q": 80, "v": 91, "b": 87, "fin": false, "flags": ["경기순환·이익 변동"], "per": 4.0, "ig": -3.0, "hist": 9.4, "note": "New 5.80M-share position in Q3 2022 (assignment said 2022), raised to 7.04M in Q4 2022; trimmed 2024 to 5.66M, still held at 2026-06-30. Price 56.73 -> 65.69 plus $4.24 dividends: roughly +23% total return.", "conf": "high", "src": "2차"}, {"n": "TSMC", "t": "TSM", "y": "2022-Q3", "o": "success", "ret": 10.0, "cagr": 20.1, "hold": 0.5, "q": 86, "v": 12, "b": 42, "fin": false, "flags": [], "per": 21.6, "ig": 20.7, "hist": 12.9, "note": "Bought 60.06M ADRs in Q3 2022 (~$4.1B); sold 51.77M in Q4 2022 and the remaining 8.29M in Q1 2023 (Buffett cited geopolitical risk). ADR dividends Dec-2022 0.35337 + Mar-2023 0.35454 (USD). Mostly sold near 70-75, so the", "conf": "medium", "src": "2차"}, {"n": "캐피털원", "t": "COF", "y": "2023-Q1", "o": "success", "ret": 99.0, "cagr": 21.6, "hold": 3.5, "q": 70, "v": 94, "b": 84, "fin": true, "flags": ["경기순환·이익 변동"], "per": 5.8, "ig": -9.9, "hist": 5.6, "note": "New 9.92M-share position in Q1 2023, raised to 12.47M in Q2 2023; trimmed 2024-2025 and cut 58% in Q2 2026 to 3.0M shares (still held at 2026-06-30). Price 104.5 -> 199.3 plus $9.20 dividends: roughly +100% total return.", "conf": "medium", "src": "2차"}, {"n": "에이온", "t": "AON", "y": "2021-Q1", "o": "mixed", "ret": 57.0, "cagr": 9.4, "hold": 5.0, "q": 98, "v": 14, "b": 48, "fin": true, "flags": [], "per": 26.0, "ig": 11.3, "hist": 4.1, "note": "Valuesider/13F show Berkshire's Aon position began in Q1 2021 (4.10M sh, 4.40M by Q2 2021) - NOT 2024 as in the assignment. Small trims 2023, -497K in Q4 2025, fully exited Q1 2026. Price ~220 -> ~332 plus ~$12.42 divide", "conf": "high", "src": "2차"}, {"n": "디아지오", "t": "DEO", "y": "2023-Q1", "o": "failure", "ret": -44.0, "cagr": -17.7, "hold": 3.0, "q": 84, "v": 4, "b": 36, "fin": false, "flags": [], "per": 26.0, "ig": 14.8, "hist": 3.6, "note": "Tiny 227,750-ADR position (~$41M) first reported in the Q1 2023 13F (not 2025 as in the assignment); never added to; fully sold in Q1 2026. Price ~175 -> ~87 plus $10.57 ADR dividends (Aug-2023..Oct-2025): roughly -44% t", "conf": "medium", "src": "2차"}, {"n": "포스코", "t": "PKX", "y": "2006-2007", "o": "mixed", "ret": 77.0, "cagr": 9.1, "hold": 6.5, "q": 92, "v": 100, "b": 97, "fin": false, "flags": ["경기순환·이익 변동"], "per": 3.3, "ig": -19.3, "hist": 15, "note": "Cost $572M ($164/share). Raised to 3,947,554 shares (5.2%) by end-2008 (cost $768M). Reported fully sold in Q2 2014 (exit not confirmed by Berkshire; POSCO said in 2015 that Berkshire still held a substantial amount, so ", "conf": "low", "src": "2차"}, {"n": "BYD", "t": "1211.HK", "y": "2008-Q3", "o": "success", "ret": 2987.0, "cagr": 24.3, "hold": 15.8, "q": 67, "v": 87, "b": 71, "fin": false, "flags": ["현금 전환 약함", "경기순환·이익 변동"], "per": 9.0, "ig": -3.4, "hist": 15, "note": "225M H shares (~10% of BYD) for HK$1.8bn ($230M) in Sept 2008, at Munger's urging. Held untouched until Aug 2022, then sold down in many tranches 2022-2024 (stake <5% after 2024-07-16 sale at HK$246.96) and fully exited ", "conf": "medium", "src": "2차"}, {"n": "스미토모상사", "t": "8053.T", "y": "2019-Q3", "o": "success", "ret": 363.0, "cagr": 24.4, "hold": 7.0, "q": 38, "v": 93, "b": 71, "fin": false, "flags": ["경기순환·이익 변동"], "per": 6.4, "ig": -2.2, "hist": 9.1, "note": "Part of the five Japanese trading-house stakes (~5% each) bought from July 2019 and disclosed 2020-08-31; raised toward ~9-10% in 2023-2025. Still held. Price ~409 -> 1,708 (post-split yen), ~4.2x, plus ~185 yen dividend", "conf": "medium", "src": "2차"}, {"n": "마루베니", "t": "8002.T", "y": "2019-Q3", "o": "success", "ret": 636.0, "cagr": 32.8, "hold": 7.0, "q": 41, "v": 87, "b": 61, "fin": false, "flags": ["차입 부담"], "per": 5.4, "ig": -7.1, "hist": -1.4, "note": "One of the five trading houses bought from July 2019 (~5% disclosed 2020-08-31), later raised toward ~9-10%. Still held. Price ~702 -> 4,702 yen (~6.7x) plus ~462+ yen dividends.", "conf": "medium", "src": "2차"}], "holdings": [{"n": "애플", "t": "AAPL", "w": 22.04, "act": "unchanged", "q": 93, "v": 0, "b": 56, "per": 38.6, "flags": []}, {"n": "아메리칸 익스프레스", "t": "AXP", "w": 17.14, "act": "unchanged", "q": 97, "v": 23, "b": 67, "per": 18.7, "flags": []}, {"n": "알파벳", "t": "GOOGL", "w": 12.62, "act": "added", "q": 95, "v": 5, "b": 59, "per": 17.6, "flags": []}, {"n": "코카콜라", "t": "KO", "w": 10.86, "act": "unchanged", "q": 86, "v": 2, "b": 52, "per": 26.4, "flags": []}, {"n": "뱅크오브아메리카", "t": "BAC", "w": 9.2, "act": "trimmed", "q": 71, "v": 50, "b": 63, "per": 12.5, "flags": []}, {"n": "셰브론", "t": "CVX", "w": 4.67, "act": "unchanged", "q": 62, "v": 8, "b": 40, "per": 20.4, "flags": ["경기순환·이익 변동"]}, {"n": "옥시덴탈", "t": "OXY", "w": 4.3, "act": "unchanged", "q": 61, "v": 48, "b": 56, "per": 9.2, "flags": ["경기순환·이익 변동"]}, {"n": "처브", "t": "CB", "w": 3.9, "act": "unchanged", "q": 80, "v": 56, "b": 70, "per": 12.1, "flags": []}, {"n": "미쓰비시상사", "t": "TYO:8058", "w": 3.83, "act": "added", "q": 59, "v": 39, "b": 43, "per": 19.2, "flags": ["차입 부담"]}, {"n": "무디스", "t": "MCO", "w": 3.73, "act": "unchanged", "q": 92, "v": 1, "b": 56, "per": 29.5, "flags": []}, {"n": "이토추", "t": "TYO:8001", "w": 3.64, "act": "added", "q": 71, "v": 38, "b": 58, "per": 16.6, "flags": []}, {"n": "미쓰이물산", "t": "TYO:8031", "w": 3, "act": "added", "q": 54, "v": 29, "b": 36, "per": 14.6, "flags": ["차입 부담"]}, {"n": "크래프트하인즈", "t": "KHC", "w": 2.57, "act": "unchanged", "q": 35, "v": 77, "b": 52, "per": null, "flags": ["경기순환·이익 변동"]}, {"n": "다비타", "t": "DVA", "w": 2.15, "act": "trimmed", "q": 66, "v": 74, "b": 61, "per": 14.8, "flags": ["차입 부담"]}, {"n": "델타항공", "t": "DAL", "w": 1.79, "act": "added", "q": 61, "v": 55, "b": 59, "per": 16.4, "flags": ["경기순환·이익 변동"]}, {"n": "스미토모상사", "t": "TYO:8053", "w": 1.67, "act": "added", "q": 64, "v": 70, "b": 66, "per": 13.2, "flags": []}, {"n": "마루베니", "t": "TYO:8002", "w": 1.62, "act": "added", "q": 67, "v": 30, "b": 52, "per": 13.4, "flags": []}, {"n": "시리우스XM", "t": "SIRI", "w": 1.23, "act": "unchanged", "q": 31, "v": 63, "b": 36, "per": 10.8, "flags": ["차입 부담", "경기순환·이익 변동"]}, {"n": "베리사인", "t": "VRSN", "w": 0.76, "act": "unchanged", "q": 87, "v": 6, "b": 55, "per": 33.0, "flags": []}, {"n": "크로거", "t": "KR", "w": 0.72, "act": "trimmed", "q": 55, "v": 10, "b": 29, "per": 35.8, "flags": ["차입 부담"]}], "classic": [{"n": "워싱턴포스트", "y": "1973", "o": "success", "per": 10.9, "roe": 12.3, "bond": 6.9, "note": "버핏 추정 가치의 1/4 가격. PER 11배, PBR 1배", "test": "통과에 가까움 (싸고 ROE 보통)"}, {"n": "코카콜라", "y": "1988", "o": "success", "per": 17.2, "roe": 26, "bond": 8.9, "note": "이익수익률 5.8%로 당시 국채 8.9%보다 낮았다. 높은 ROE와 성장에 값을 치름", "test": "이익수익률 기준 탈락, 역DCF로는 통과 가능"}, {"n": "웰스파고", "y": "1990", "o": "success", "per": 5.3, "roe": 21, "bond": 8.5, "note": "세후 이익의 5배 미만, ROE 20% 이상 (1990 주주서한)", "test": "통과 (은행 경로)"}, {"n": "아메리칸 익스프레스", "y": "1994", "o": "success", "per": 8.9, "roe": 19.1, "bond": 7.1, "note": "PER 9배, ROE 19%", "test": "통과"}, {"n": "질레트", "y": "1989", "o": "success", "per": 20.3, "roe": null, "bond": 8.5, "note": "자본이 마이너스(자사주 방어)라 ROE 계산 불가", "test": "데이터상 판정 불가"}, {"n": "무디스", "y": "2000", "o": "success", "per": 21.4, "roe": null, "bond": 6.0, "note": "분사 직후 자본 마이너스, 영업이익률 48%", "test": "ROE 불가, 품질은 높음"}, {"n": "페트로차이나", "y": "2002", "o": "success", "per": 6.5, "roe": 15.6, "bond": 4.6, "note": "버핏 추정 가치 1,000억 달러 대비 시가총액 370억 달러", "test": "통과 (경기순환 경고)"}, {"n": "BNSF 철도", "y": "2007", "o": "success", "per": 15.3, "roe": 19, "bond": 4.8, "note": "PER 15배, ROE 19%", "test": "근접"}, {"n": "코노코필립스", "y": "2006~08", "o": "failure", "per": 6.2, "roe": 27, "bond": 4.7, "note": "유가 정점 부근에서 매수. 버핏이 \"큰 실수\"라고 인정", "test": "숫자상 통과. 경기순환 정점 함정"}, {"n": "테스코", "y": "2006", "o": "failure", "per": 15.7, "roe": 16.6, "bond": 4.8, "note": "ROCE 12.7%, 순이익률 4%. 늦게 판 것을 실수로 인정", "test": "근접. 낮은 마진이 약점"}], "candidates": [{"t": "000270", "n": "기아", "verdict": "unlikely", "size": "시가총액 약 450억 달러, 해외 종목", "quality": "부분 통과", "key": "버핏은 2023년 \"자동차 산업은 너무 어렵다\"고 했고 GM(2023)과 BYD(2025)를 모두 팔았다. 현대차그룹 순환출자 구조도 감점 요인이다."}, {"t": "086280", "n": "현대글로비스", "verdict": "unlikely", "size": "시가총액 약 110억 달러, 해외 종목", "quality": "미달", "key": "매출 약 60%가 계열사에서 나오고 총수 일가 지분이 20%다. 버크셔가 중시하는 \"믿을 수 있는 경영진·소액주주 대우\" 기준과 충돌한다."}, {"t": "DECK", "n": "데커스 아웃도어", "verdict": "unlikely", "size": "시가총액 약 120억~150억 달러", "quality": "부분 통과", "key": "버핏 최악의 거래로 꼽히는 Dexter Shoe(\"경쟁우위가 몇 년 만에 사라졌다\")와 같은 신발업이고, 버크셔 자회사 Brooks의 직접 경쟁사다."}, {"t": "ADBE", "n": "어도비", "verdict": "unlikely (넷 중 가장 가까움)", "size": "시가총액 약 1,000억 달러 이상, 규모 충족", "quality": "부분 통과", "key": "\"기술이 많으면 이해하지 못한다\"는 인수 기준과 IBM 실패가 걸린다. 다만 아벨 체제에서 알파벳을 대거 사 들여 기술주 문턱은 낮아졌다."}], "filing": "2026년 2분기 13F (2026-08-14 제출, 29종목, 2,993억 달러)", "nPurchases": 62};
@@ -1992,11 +2187,101 @@ function dropCheckHtml(c){
   </div>`;
 }
 
+/* ============ Q&A: 설계와 사용법 ============ */
+const GUIDE = [
+  {g:'처음 쓰는 분께', items:[
+    ['가치노트는 어떤 앱인가요?', `<p>벤저민 그레이엄, 워런 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
+     <p>예측하는 앱이 아니라 판단을 정리하는 앱이다. 주가가 오를지 맞히지 않는다. 대신 가격이 가치보다 충분히 낮은지, 내 포트폴리오가 원칙에서 벗어났는지를 알려 준다.</p>`],
+    ['무엇을 직접 넣고, 무엇이 자동인가요?', `<p><b>직접 넣는 것은 세 가지뿐이다.</b> 보유 종목(종목·수량·평균 매수가), 예수금, 그리고 종목별 투자 메모와 매도 조건.</p>
+     <p><b>나머지는 자동이다.</b> 시세는 앱을 열 때와 10분마다, 종가는 평일 하루 두 번(아시아장 마감 후, 미국장 마감 후) 갱신된다. 환율·국채 금리, 아침 브리핑과 뉴스, 메가트렌드 지수, 220여 개 종목 스크리너 가격, 핵심·탐험·현금 분류와 "지금 할 일"도 자동으로 계산된다.</p>`],
+    ['하루에 어떻게 쓰면 좋나요?', `<p><b>아침 1분:</b> 브리핑 탭의 헤드라인과 보유 종목 한 줄 요약을 본다. 자세한 내용은 눌러서 펼친다.</p>
+     <p><b>포트폴리오 확인:</b> 맨 위 카드에서 수익률과 비중을, 아래 "지금 할 일"에서 비중 조정이 필요한지를 본다. 할 일이 없으면 아무것도 안 하는 것이 정답이다.</p>
+     <p><b>알림이 오면:</b> 급등락, 매수 가격 도달, 내재가치 초과 알림만 확인하면 된다. 휴대폰 푸시는 종 모양 → "알림 켜기"로 연결한다.</p>
+     <p><b>분기마다:</b> 실적 발표 뒤 보유 종목의 매도 조건을 하나씩 대조하고 결정 일지에 남긴다.</p>`],
+  ]},
+  {g:'세 사람은 각각 무엇을 맡나요', items:[
+    ['벤저민 그레이엄: 가격과 안전마진', `<p>그레이엄은 "얼마에 사느냐"를 맡는다. 좋은 회사라도 비싸게 사면 나쁜 투자라는 원칙이다.</p>
+     <ul><li><b>안전마진 30% 이상:</b> 내재가치보다 30% 이상 쌀 때만 매수 후보가 된다.</li>
+     <li><b>그레이엄 넘버:</b> √(22.5 × EPS × BPS). PER 15배·PBR 1.5배 한도에서 나온 보조 가치다.</li>
+     <li><b>PER × PBR ≤ 22.5:</b> 이 안이면 저평가 근거, 3배를 넘으면 고평가 근거로 센다.</li>
+     <li><b>이익수익률 vs 국채:</b> 1/PER이 국채 10년 금리의 2배 이상이어야 주식을 들 이유가 있다.</li>
+     <li><b>재무 안전:</b> 유동비율, 적자 연도, 넷넷(청산가치보다 싼 회사) 같은 방어적 기준.</li></ul>`],
+    ['워런 버핏: 사업의 질과 내재가치', `<p>버핏은 "어떤 회사를 사느냐"와 "그 회사가 얼마짜리냐"를 맡는다. 그레이엄식 싼 주식에서 "좋은 회사를 적정 가격에"로 옮겨 간 사람이다.</p>
+     <ul><li><b>숫자 품질 13개 지표:</b> ROE 5년 평균·최저 연도, ROIC, 이익률, FCF 전환율, 차입금, 주식 수 변화 등. 0~100점.</li>
+     <li><b>오너이익 DCF:</b> 주당 오너이익(주식보상비용 차감)을 10년 성장시킨 뒤 영구성장으로 마무리해 내재가치를 낸다. 할인율은 국내·미국 10%, 중국·홍콩 11%, 일본 9%.</li>
+     <li><b>역DCF:</b> 지금 주가가 가정한 10년 성장률을 거꾸로 풀어, 회사의 실제 성장률보다 낮으면 저평가 근거로 본다. 코카콜라(1988)처럼 PER이 높아도 싼 회사를 놓치지 않기 위한 장치다.</li>
+     <li><b>해자와 가격결정력:</b> 브랜드, 전환비용, 네트워크 효과, 원가 우위, 허가. 인플레이션 때 가격을 올릴 수 있는지.</li>
+     <li><b>10년 보유 테스트:</b> 시장이 10년 닫혀도 들고 있을 수 있는가. 통과하지 않으면 숫자가 좋아도 매수 후보가 아니다.</li></ul>`],
+    ['찰리 멍거: 실수 피하기와 집중', `<p>멍거는 "무엇을 하지 말아야 하느냐"를 맡는다. 좋은 결정보다 큰 실수를 피하는 것이 수익을 만든다는 생각이다.</p>
+     <ul><li><b>뒤집어 생각하기:</b> 이 회사를 망가뜨리는 것이 무엇인지 먼저 적는다.</li>
+     <li><b>능력 범위:</b> 돈 버는 방식을 한 문장으로 설명하지 못하면 즉시 탈락.</li>
+     <li><b>위험 신호 감점:</b> 잦은 적자, 차입 부담, 주식 희석, 현금 전환 약함, 이익 정점, 성장 감속은 개당 8점씩 깎는다(최대 3개).</li>
+     <li><b>지배구조 탈락:</b> 쪼개기 상장, 반복 유상증자·CB, 대주주 사익추구 이력은 점수와 무관하게 탈락.</li>
+     <li><b>집중 투자:</b> 확신 있는 소수에 크게 건다. 핵심 3자리에 70~80%를 둔다.</li></ul>`],
+    ['세 사람의 판단이 엇갈리면 어떻게 되나요?', `<p>각자 거부권을 가진다. 멍거의 탈락 조건(능력 범위, 지배구조)에 걸리면 바로 탈락이다. 버핏의 품질 70점과 10년 보유 테스트를 넘어야 하고, 그레이엄의 안전마진 30%까지 채워야 "매수 후보"가 된다.</p>
+     <p>품질은 통과했는데 가격만 비싸면 "좋은 회사, 가격 대기"로 분류해 관심 목록에 남긴다. 버크셔가 애플·코카콜라를 지금 가격에 더 사지 않고 보유만 하는 것과 같은 판단이다.</p>`],
+  ]},
+  {g:'점수와 판정', items:[
+    ['버핏 근접도와 종합 점수는 어떻게 계산하나요?', `<p><b>버핏 근접도</b> = 숫자 품질 40% + 저평가 60% − 위험 신호 감점. 버크셔의 실제 매수 62건을 되짚어 보니 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서 가중치를 이렇게 정했다.</p>
+     <p><b>종합 점수</b> = 버핏 근접도 65% + 정성 평가 20% + 트렌드 15%. 비어 있는 항목은 빼고 나머지로 다시 나눈다.</p>`],
+    ['판정은 몇 가지이고 각각 무슨 뜻인가요?', `<ul><li><b>매수 후보:</b> 종합 75점 이상, 품질 70 이상, 10년 보유 테스트 통과, 안전마진 충족. 매수가가 함께 표시된다.</li>
+     <li><b>좋은 회사, 가격 대기:</b> 회사는 기준을 넘지만 지금 가격이 비싸다. 매수가에 닿으면 알림이 온다.</li>
+     <li><b>근접 · 관찰:</b> 60점 이상. 지켜볼 가치는 있지만 핵심 자리에 넣을 단계는 아니다.</li>
+     <li><b>기준과 거리 있음 / 탈락:</b> 원칙상 사지 않는다.</li></ul>
+     <p>자동 수집 데이터의 신뢰도가 낮으면 점수가 높아도 매수 후보로 올리지 않는다. 사기 전에 공시 원문과 대조하는 것은 필수다.</p>`],
+    ['기술주는 어떻게 평가하나요?', `<p>기술의 미래를 맞히려 하지 않고, 이미 드러난 수익 구조로 나눈다.</p>
+     <ul><li><b>통행료형:</b> 반복 결제, 바꾸기 어려운 서비스. 일반 기업과 같은 기준으로 본다.</li>
+     <li><b>사이클형:</b> 반도체·메모리처럼 경기를 탄다. 감점 없이 경고를 달아 정점 매수를 스스로 점검하게 한다.</li>
+     <li><b>혁신 의존형:</b> 다음 제품이 성공해야 가치가 유지된다. 핵심 자리에 넣지 않고 탐험 칸으로 보낸다.</li></ul>
+     <p>스톡옵션·RSU 같은 주식보상비용은 현금이 나가지 않아도 주주 몫을 희석하므로 오너이익에서 뺀다.</p>`],
+    ['정성 평가는 누가 하나요?', `<p>해자 유형, 가격결정력, 경영진, 10년 보유 테스트, 뒤집어 생각하기는 AI가 공시·뉴스를 근거로 초안을 채우고 근거를 함께 남긴다. 사람은 투자 메모와 매도 조건만 쓰면 된다. 초안이 틀렸다고 생각되면 종목 화면에서 고칠 수 있다.</p>`],
+    ['이 기준은 검증됐나요?', `<p>"기업 → 기준·검증" 화면에 버크셔의 실제 매수 62건(성공·실패 포함)과 고전 사례 10건을 이 앱의 점수로 다시 매긴 결과가 있다. 검증 결과에 맞춰 가중치, 경기순환 처리, 10년 보유 테스트 같은 규칙을 고쳤고 그 이유도 그 화면에 적어 두었다.</p>
+     <p>다만 과거 사례에 맞춘 규칙이 미래에도 통한다는 보장은 없다. 버크셔도 크래프트·IBM·파라마운트에서 손실을 봤다.</p>`],
+  ]},
+  {g:'포트폴리오', items:[
+    ['왜 3종목에 70~80%를 거나요?', `<p>버핏은 "분산은 무지에 대한 보호"라고 했다. 잘 아는 소수의 회사에 집중하는 편이 장기 수익에 유리하다는 생각이다. 버크셔도 상위 5종목이 주식 포트폴리오의 약 70%다.</p>
+     <ul><li><b>핵심 3자리:</b> 합계 70~80%, 한 자리 20~35%, 한 종목 최대 40%. 이익이 증명되고 10년 보유 테스트를 통과한 회사만.</li>
+     <li><b>탐험 칸:</b> 10% 이하. 레버리지 상품, 적자 기업, 혁신 의존형은 자동으로 여기에 들어간다. 0원이 돼도 판단이 흔들리지 않을 금액만.</li>
+     <li><b>현금:</b> 10~20%. 폭락 때 핵심 종목을 더 살 대기 자금이다.</li></ul>`],
+    ['"지금 할 일"은 어떻게 정해지나요?', `<p>지금 비중을 목표 구조와 비교해 차이가 큰 순서로 최대 3개를 보여 준다. 핵심 비중이 모자라면 채울 후보를, 탐험 칸이 넘치면 줄일 종목을, 현금이 부족하면 확보 방법을 제안한다. 같은 업종 두 개나 경기 타는 사업 두 개가 핵심에 함께 있으면 "균형 점검"에서 표시한다.</p>`],
+    ['언제 팔아야 하나요?', `<p>세 가지 경우만 판다. 투자 논리가 훼손됐을 때, 주가가 내재가치를 크게(10% 이상) 넘었을 때, 더 나은 기회가 생겼을 때다. <b>주가가 떨어졌다는 사실 자체는 매도 이유가 아니다.</b> 그래서 종목마다 매도 조건을 미리 두 개 이상 적어 두게 했다.</p>`],
+  ]},
+  {g:'브리핑 · 트렌드 · 알림', items:[
+    ['트렌드 차트는 어떻게 읽나요?', `<p>메가트렌드마다 수혜 기업(한국·미국·중국)을 같은 비중으로 묶은 지수다. 기간 시작을 100으로 맞추고 3개월·6개월·1년·5년으로 바꿔 볼 수 있다. 점선은 코스피와 S&amp;P 500이다.</p>
+     <p><b>국면</b>은 숫자로만 정한다. 5년 범위의 위쪽 15% 안이면서 6개월 상승이면 고점권, 아래쪽 25% 안이면 바닥권, 그 사이는 6개월·3개월 방향으로 상승·조정·반등·하락을 나눈다.</p>
+     <p>트렌드는 종합 점수에 15%만 들어간다. 과열 트렌드에 핵심으로 걸린 회사인데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 트렌드만으로는 매수 후보가 되지 않는다.</p>`],
+    ['어떤 알림이 오나요?', `<ul><li><b>급등락:</b> 보유 종목이 하루 5% 이상 움직이면. 7% 이상 하락은 긴급.</li>
+     <li><b>매수 가격 도달:</b> 관심 종목이 매수 후보 판정이고 매수가 아래로 내려오면.</li>
+     <li><b>내재가치 초과:</b> 보유 종목 주가가 내재가치를 10% 넘게 웃돌면. 매도 조건을 점검할 때다.</li></ul>
+     <p>아이폰은 Safari 공유 버튼 → "홈 화면에 추가" 후 홈 화면 아이콘으로 열어야 푸시를 받을 수 있다.</p>`],
+  ]},
+  {g:'한계와 주의', items:[
+    ['이 앱을 믿고 그대로 사도 되나요?', `<p>아니다. 이 앱은 판단을 정리하는 도구이며 투자 권유가 아니다. 자동으로 모은 재무·시세 데이터에는 오류가 있을 수 있고, 내재가치는 가정(성장률, 할인율)에 따라 크게 달라진다. 사기 전에는 공시 원문을 확인하고, 최종 결정과 책임은 본인에게 있다.</p>`],
+    ['내 정보는 어디에 저장되나요?', `<p>보유 종목·메모·설정은 로그인한 계정에만 저장되고, 데이터베이스 규칙상 본인만 읽고 쓸 수 있다. 다른 사용자는 내 포트폴리오를 볼 수 없다.</p>`],
+  ]},
+];
+function viewGuide(){
+  const open = S.guideOpen ?? '0-0';
+  return `
+  <h2>Q&amp;A <span class="small muted">가치노트는 이렇게 만들었다</span></h2>
+  <div class="card guide-top">
+    <div class="g3">
+      <div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span class="small muted">안전마진 30% · 그레이엄 넘버 · 이익수익률</span></div>
+      <div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span class="small muted">사업의 질 · 오너이익 DCF · 10년 보유</span></div>
+      <div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span class="small muted">뒤집어 생각하기 · 위험 신호 · 집중</span></div>
+    </div>
+    <p class="small" style="margin:12px 0 0">세 사람의 기준을 모두 넘은 회사만 "매수 후보"가 되고, 산 뒤에는 핵심 3자리 70~80% 구조와 매도 조건으로 관리한다. 사용자는 보유 종목, 예수금, 투자 메모만 넣으면 된다.</p>
+  </div>
+  ${GUIDE.map((sec, si) => `<h3 class="eyebrow guide-h">${esc(sec.g)}</h3><div class="card guide-list">${sec.items.map(([q, a], qi) => { const k = si+'-'+qi;
+    return `<details class="guide-q" data-gq="${k}"${open === k ? ' open' : ''}><summary><span>${esc(q)}</span></summary><div class="guide-a prose">${a}</div></details>`; }).join('')}</div>`).join('')}
+  <p class="small muted" style="margin-top:16px">더 자세한 숫자 기준은 "기업 → 기준·검증"에 있다.</p>`;
+}
+
 /* ============ 2단 메뉴 ============ */
 const NAV = [
   {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['fx','환율'],['journal','결정 일지']]},
   {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['trends','메가트렌드']]},
-  {k:'companies', l:'기업', subs:[['companies','찾기'],['dividend','배당'],['ref','기준·검증']]},
+  {k:'companies', l:'기업', subs:[['companies','찾기'],['dividend','배당'],['ref','기준·검증'],['guide','Q&A']]},
 ];
 const TAB_ALIAS = {analyze:'companies', screener:'companies'};
 const groupOf = tab => NAV.find(g => g.subs.some(([k]) => k === (TAB_ALIAS[tab] || tab))) || NAV[0];
@@ -2140,10 +2425,9 @@ function newsImpactHtml(){
 function trendGridHtml(){
   const tl = trendList(); if(!tl.length) return '';
   const held = new Set(S.holdings.map(h => companyFor(h)?.id).filter(Boolean));
-  return `<div class="tgrid">${tl.map(t => { const m = t.momentum ?? 0; const mine = S.companies.some(c => held.has(c.id) && (c.trendLinks||{})[t.key] >= 2);
-    return `<button type="button" class="ttile m${m<0?'n':''}${Math.abs(m)}" data-act="go-tab" data-v="trends" title="${esc(t.summary||'')}">
-      <span class="tt-l">${esc(t.label)}</span><span class="tt-m">${momTxt(m)}</span><span class="tt-s">${esc(t.stage)}${mine ? ' · 내 종목' : ''}</span></button>`; }).join('')}</div>
-  <div class="legend" style="margin-top:6px"><span style="--c:var(--accent)">모멘텀 상승</span><span style="--c:var(--line)">보합</span><span style="--c:var(--bad)">둔화</span></div>`;
+  return `<div class="tgrid">${tl.map(t => { const cy = trCycle(t.key); const mine = S.companies.some(c => held.has(c.id) && (c.trendLinks||{})[t.key] >= 2);
+    return `<button type="button" class="ttile tt-${cy?cy.lv:'none'}" data-act="go-tab" data-v="trends" title="${esc(t.summary||'')}">
+      <span class="tt-l">${esc(trShort(t.label))}</span><span class="tt-m num">${cy && isNum(cy.r6) ? '6개월 '+pct(cy.r6) : '–'}</span><span class="tt-s">${cy ? cy.ph : esc(t.stage||'')}${mine ? ' · 내 종목' : ''}</span></button>`; }).join('')}</div>`;
 }
 
 /* ============ 기업 지도: 품질 × 저평가 ============ */
@@ -2494,9 +2778,9 @@ function viewRules(){
 
   <h2>4단계. 가격과 안전마진</h2>
   <div class="card rule-group">
-    <div class="rule"><span class="t">내재가치</span><span class="th">오너이익 DCF</span><span class="d">주당 오너이익을 10년 성장시킨 뒤 영구성장으로 마무리. 할인율 국내 10%, 미국 9%</span></div>
+    <div class="rule"><span class="t">내재가치</span><span class="th">오너이익 DCF</span><span class="d">주당 오너이익을 10년 성장시킨 뒤 영구성장으로 마무리. 할인율 국내·미국 10%, 중국·홍콩 11%, 일본 9%</span></div>
     <div class="rule"><span class="t">보조 지표</span><span class="th">그레이엄 넘버</span><span class="d">√(22.5 × EPS × BPS). PER 15배, PBR 1.5배 한도에서 나온 공식</span></div>
-    <div class="rule"><span class="t">안전마진</span><span class="th">≥ 30%</span><span class="d">내재가치보다 30% 이상 쌀 때만 산다. 설정에서 조정</span></div>
+    <div class="rule"><span class="t">안전마진</span><span class="th">≥ 30%</span><span class="d">내재가치보다 30% 이상 쌀 때만 산다</span></div>
     <div class="rule"><span class="t">이익수익률</span><span class="th">국채의 2배</span><span class="d">1/PER이 국채 10년 금리보다 충분히 높아야 주식을 들 이유가 있다</span></div>
   </div>
 
@@ -2504,7 +2788,7 @@ function viewRules(){
   <div class="card rule-group">
     <div class="rule"><span class="t">숫자 품질</span><span class="th">0~100</span><span class="d">13개 재무 지표 점수의 가중 평균</span></div>
     <div class="rule"><span class="t">저평가</span><span class="th">0~100</span><span class="d">안전마진(가중 2), 이익수익률 ÷ 국채금리, PER×PBR</span></div>
-    <div class="rule"><span class="t">버핏 근접도</span><span class="th">0.6 품질 + 0.4 저평가</span><span class="d">위험 신호 감점 후. 스크리너 정렬 기준</span></div>
+    <div class="rule"><span class="t">버핏 근접도</span><span class="th">0.4 품질 + 0.6 저평가</span><span class="d">위험 신호 감점 후. 스크리너 정렬 기준</span></div>
     <div class="rule"><span class="t">종합 점수</span><span class="th">65 / 20 / 15</span><span class="d">버핏 근접도 65%, 정성 평가 20%, 트렌드 15%. 입력하지 않은 항목은 빼고 나머지로 다시 나눈다</span></div>
     <div class="rule"><span class="t">판정</span><span class="th">75 / 60</span><span class="d">75점 이상, 품질 70 이상, 10년 보유 테스트 통과: 안전마진 충족 시 매수 후보, 아니면 가격 대기. 품질 80 이상이고 위험 신호가 없으면 점수가 낮아도 가격 대기. 60점 이상: 근접·관찰(위성 슬롯 가능). 그 아래는 기준과 거리 있음</span></div>
   </div>
@@ -2538,16 +2822,17 @@ function viewRules(){
 
   <h2>집중 포트폴리오 구조</h2>
   <div class="card rule-group">
-    <div class="rule"><span class="t">핵심 슬롯</span><span class="th">1~2개 · 각 25~40%</span><span class="d">"매수 후보" 판정 + 투자 메모 + 매도 조건 2개 이상. 확신도 5는 40%, 4는 30%까지</span></div>
-    <div class="rule"><span class="t">위성 슬롯</span><span class="th">0~2개 · 각 ≤15%</span><span class="d">공격 전략 신호가 있는 종목. 매도 조건을 더 엄격하게</span></div>
-    <div class="rule"><span class="t">현금</span><span class="th">10~25%</span><span class="d">버핏처럼 기회가 올 때 쓸 탄약. 좋은 회사가 매수 가능 가격에 오면 투입</span></div>
-    <div class="rule"><span class="t">개별 종목 수</span><span class="th">최대 4개</span><span class="d">시드가 작을수록 종목 수를 줄여 한 종목을 깊이 안다</span></div>
+    <div class="rule"><span class="t">핵심 3자리</span><span class="th">합계 70~80%</span><span class="d">"매수 후보"이거나 품질이 증명된 회사. 한 자리 20~35%, 한 종목 최대 40%. 투자 메모와 매도 조건 2개 이상</span></div>
+    <div class="rule"><span class="t">탐험 칸</span><span class="th">≤ 10%</span><span class="d">레버리지, 적자, 혁신 의존형, 10년 보유 미통과는 자동으로 여기에 들어간다</span></div>
+    <div class="rule"><span class="t">현금</span><span class="th">10~20%</span><span class="d">버핏처럼 기회가 올 때 쓸 탄약. 좋은 회사가 매수 가능 가격에 오면 투입</span></div>
     <div class="rule"><span class="t">매도</span><span class="th">세 가지 경우만</span><span class="d">논리 훼손, 내재가치를 크게 넘는 가격, 더 나은 기회. 주가 하락 자체는 매도 이유가 아니다</span></div>
     <div class="rule"><span class="t">점검</span><span class="th">분기 1회</span><span class="d">실적 발표 후 점검일에 매도 조건을 하나씩 대조하고 일지에 기록</span></div>
   </div>
   <p class="small muted" style="margin-top:16px">이 장부는 판단을 정리하는 도구이며 투자 권유가 아닙니다. 최종 결정과 책임은 본인에게 있습니다.</p>`;
 }
 
+function trRerender(){ const y = window.scrollY, bi = document.querySelector('.tr-big-in'), by = bi ? bi.scrollTop : 0; render(); window.scrollTo(0,y); const b2 = document.querySelector('.tr-big-in'); if(b2) b2.scrollTop = by; }
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && S.trBig){ S.trBig = false; document.body.classList.remove('noscroll'); const y = window.scrollY; render(); window.scrollTo(0,y); } });
 /* ============ 이벤트 ============ */
 document.addEventListener('click', async e => {
   const sb = e.target.closest('#subnav button');
@@ -2604,6 +2889,12 @@ document.addEventListener('click', async e => {
   if(act === 'ai-review') aiReview();
   if(act === 'ai-auto'){ const c = cur(); if(c) aiAuto(c); }
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
+  if(act === 'tr-range'){ S.trRange = a.dataset.v; trRerender(); return; }
+  if(act === 'tr-big'){ S.trBig = a.dataset.v === '1'; document.body.classList.toggle('noscroll', !!S.trBig); const y = window.scrollY; render(); window.scrollTo(0,y); return; }
+  if(act === 'tr-bench'){ S.trBench = S.trBench === false ? true : false; trRerender(); return; }
+  if(act === 'tr-chip'){ const k = a.dataset.v; S.trHide ||= {};
+    if(S.trHide[k]){ delete S.trHide[k]; S.trFocus = k; } else if(S.trFocus === k){ S.trFocus = null; if(a.classList.contains('tr-chip')) S.trHide[k] = true; } else S.trFocus = k;
+    trRerender(); return; }
   if(act === 'brief-toggle'){ const v = a.dataset.v; S.openBrief = S.openBrief === v ? null : v; render(); return; }
   if(act === 'hold-toggle'){ S.openHold = S.openHold === id ? null : id; render(); return; }
   if(act === 'hold-edit'){ S.editHold = {...S.holdings.find(x => x.id === id)}; render(); window.scrollTo(0, $('#h-name').getBoundingClientRect().top + window.scrollY - 120); }
@@ -2714,7 +3005,9 @@ function refresh(kind){
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
     const b = document.createElement('button'); b.className = 'btn'; b.style.cssText = 'font-size:12px;padding:4px 10px'; b.textContent = '로그아웃'; b.onclick = () => store.logout();
-    wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
+    const q = document.createElement('button'); q.type = 'button'; q.className = 'bell help'; q.setAttribute('aria-label', 'Q&A: 사용법과 설계'); q.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
+    q.onclick = () => { S.tab = 'guide'; render(); window.scrollTo(0,0); };
+    wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   render();
@@ -2732,7 +3025,7 @@ function refresh(kind){
   });
   store.sub('news', docs => { S.news = Object.fromEntries(docs.map(d => [d.id, d])); if(['briefing','analyze','companies'].includes(S.tab)) refresh('n'); });
   store.sub('briefing', docs => { S.briefings = docs; if(S.tab === 'briefing') refresh('n'); });
-  store.sub('trends', docs => { S.trends = docs.find(d => d.id === 'current') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener'].includes(S.tab)) refresh('n'); });
+  store.sub('trends', docs => { S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
   store.sub('prices', docs => { S.prices = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['portfolio','companies','fx'].includes(S.tab)) refresh('p'); });
   store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; if(['fx','portfolio'].includes(S.tab)) refresh('x'); });
   store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
@@ -2827,15 +3120,20 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
   --s1:#B08A3E; --s2:#5C6F8C; --s3:#4F7F76; --s4:#A8654A; --s5:#6B6799; --s6:#C2B08A; --series:#5C6F8C;
   --up:#C8483F; --down:#3D6BB3;
   --c-core:#B08A3E; --c-exp:#8C97A8; --c-cash:#E2DCCF;
+  --s7:#7D8C4A; --s8:#A35A6B; --s9:#3E8AA0; --s10:#8E7356; --s11:#5B8A5E; --s12:#8A5FA0;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
   --up:#EE8A7E; --down:#86AEEA;
-  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}}
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546;
+  --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9AD8C; --s11:#94C497; --s12:#BE9AD2;
+}}
 :root[data-theme="dark"]{
   --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
   --up:#EE8A7E; --down:#86AEEA;
-  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546;
+  --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9AD8C; --s11:#94C497; --s12:#BE9AD2;
+}
 .pf-top{
   --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4;
   --up:#EE8A7E; --down:#8DB4EC}
@@ -2847,6 +3145,11 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 /* 상태 배지도 톤 다운 */
 .p-good{background:var(--accent-soft);color:var(--accent)}
 .p-warn{background:var(--gold-soft);color:var(--warn)}
+/* 기간 선택 버튼: 네이비(라이트) / 골드(다크) */
+.seg button[aria-pressed="true"]{background:var(--navy);color:#FFFFFF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}}
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}
+.tr-chip.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
 
 </style>
 </body>

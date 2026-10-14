@@ -79,15 +79,20 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
   --s1:#B08A3E; --s2:#5C6F8C; --s3:#4F7F76; --s4:#A8654A; --s5:#6B6799; --s6:#C2B08A; --series:#5C6F8C;
   --up:#C8483F; --down:#3D6BB3;
   --c-core:#B08A3E; --c-exp:#8C97A8; --c-cash:#E2DCCF;
+  --s7:#7D8C4A; --s8:#A35A6B; --s9:#3E8AA0; --s10:#8E7356; --s11:#5B8A5E; --s12:#8A5FA0;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
   --up:#EE8A7E; --down:#86AEEA;
-  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}}
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546;
+  --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9AD8C; --s11:#94C497; --s12:#BE9AD2;
+}}
 :root[data-theme="dark"]{
   --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
   --up:#EE8A7E; --down:#86AEEA;
-  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546}
+  --c-core:#D8B56E; --c-exp:#6F7C90; --c-cash:#2A3546;
+  --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9AD8C; --s11:#94C497; --s12:#BE9AD2;
+}
 .pf-top{
   --s1:#D8B56E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4;
   --up:#EE8A7E; --down:#8DB4EC}
@@ -99,3 +104,8 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 /* 상태 배지도 톤 다운 */
 .p-good{background:var(--accent-soft);color:var(--accent)}
 .p-warn{background:var(--gold-soft);color:var(--warn)}
+/* 기간 선택 버튼: 네이비(라이트) / 골드(다크) */
+.seg button[aria-pressed="true"]{background:var(--navy);color:#FFFFFF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}}
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}
+.tr-chip.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}

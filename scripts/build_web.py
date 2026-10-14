@@ -172,7 +172,9 @@ rep("""  await store.init();
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
     const b = document.createElement('button'); b.className = 'btn'; b.style.cssText = 'font-size:12px;padding:4px 10px'; b.textContent = '로그아웃'; b.onclick = () => store.logout();
-    wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
+    const q = document.createElement('button'); q.type = 'button'; q.className = 'bell help'; q.setAttribute('aria-label', 'Q&A: 사용법과 설계'); q.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
+    q.onclick = () => { S.tab = 'guide'; render(); window.scrollTo(0,0); };
+    wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   render();""")
