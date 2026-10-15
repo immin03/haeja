@@ -2454,19 +2454,19 @@ function viewColumn(){
 const josaIra = w => { const c = String(w).charCodeAt(String(w).length - 1); return c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28 ? w + '이' : w; };
 function columnDraft(){
   const n = weeklyNote(), fx = S.fx || {}, R = fx.rates || {}, C = fx.chg || {};
-  const head = n.tag === 'fear' ? '겁이 커진 주, 기회를 세어 본 주' : n.tag === 'greed' ? '뜨거운 산업, 차가운 머리' : '아무것도 하지 않아도 되는 주';
+  const head = n.tag === 'fear' ? '겁이 커진 주, 기회를 세어 봅니다' : n.tag === 'greed' ? '뜨거운 산업, 차가운 머리' : '아무것도 하지 않아도 되는 주';
   const sw = S.trendSeries?.w || {};
   const mv = trendList().map(t => { const w = sw[t.key]; const c = trCycle(t.key); return w && w.length >= 2 ? { l: trShort(t.label), ch: (w.at(-1)[1] / w.at(-2)[1] - 1) * 100, ph: c?.ph || t.stage || '', sum: t.summary || '' } : null; })
     .filter(Boolean).sort((a, b) => Math.abs(b.ch) - Math.abs(a.ch));
   const won = v => isNum(v) ? Math.round(v).toLocaleString('ko-KR') + '원' : '–';
-  const readPlain = n.tag === 'fear' ? '회사의 이익이 줄지 않았다면 지금은 겁낼 때가 아니라 살펴볼 때다.'
-    : n.tag === 'greed' ? '뜨거운 산업일수록 좋은 회사인지보다 비싸게 사는 건 아닌지를 먼저 본다.'
-    : '원칙을 바꿀 만한 신호가 없는 주에는 아무것도 하지 않는 게 가장 좋은 결정일 때가 많다.';
+  const readPlain = n.tag === 'fear' ? '회사의 이익이 줄지 않았다면 지금은 겁낼 때가 아니라 살펴볼 때입니다.'
+    : n.tag === 'greed' ? '뜨거운 산업일수록 좋은 회사인지보다 비싸게 사는 것은 아닌지를 먼저 봐야 합니다.'
+    : '원칙을 바꿀 만한 신호가 없는 주에는 아무것도 하지 않는 것이 가장 좋은 결정일 때가 많습니다.';
   const soon = (fx.watch || []).filter(w => w.date >= today()).slice(0, 2);
   const body = [
-    `■ 이번 주 시장\n좋은 회사(버핏 근접도 75점 이상) 중 적정 매수가 아래로 내려온 곳이 ${n.pass}곳, 근처까지 온 곳이 ${n.near}곳이다.${n.hot.length ? ` 5년 범위 꼭대기 근처에 있는 산업은 ${n.hot.join(', ')}이다.` : ''}`,
-    `■ 트렌드는 이렇게 움직였다\n${mv.slice(0, 3).map(x => `${x.l} ${x.ch >= 0 ? '+' : '−'}${fmt(Math.abs(x.ch), 1)}% (${x.ph})`).join('\n') || '이번 주는 큰 움직임이 없었다.'}${mv[0]?.sum ? `\n${mv[0].sum}` : ''}`,
-    `■ 금리·환율\n원/달러 ${won(R.USDKRW?.v)}${isNum(C.USDKRW_1m) ? ` (한 달 ${pct(C.USDKRW_1m)})` : ''}, 100엔 ${won(R.JPYKRW100?.v)}.${soon.length ? `\n다가오는 일정: ${soon.map(w => `${+w.date.slice(5, 7)}/${+w.date.slice(8, 10)} ${w.event.replace(/\s*\(.*\)$/, '')}`).join(', ')}` : ''}`,
+    `■ 이번 주 시장\n좋은 회사(버핏 근접도 75점 이상) 중 적정 매수가 아래로 내려온 곳이 ${n.pass}곳, 근처까지 온 곳이 ${n.near}곳입니다.${n.hot.length ? ` 5년 범위 꼭대기 근처에 있는 산업은 ${n.hot.join(', ')}입니다.` : ''}`,
+    `■ 트렌드는 이렇게 움직였습니다\n${mv.slice(0, 3).map(x => `${x.l} ${x.ch >= 0 ? '+' : '−'}${fmt(Math.abs(x.ch), 1)}% (${x.ph})`).join('\n') || '이번 주는 큰 움직임이 없었습니다.'}${mv[0]?.sum ? `\n${mv[0].sum}` : ''}`,
+    `■ 금리·환율\n원/달러 ${won(R.USDKRW?.v)}${isNum(C.USDKRW_1m) ? ` (한 달 ${pct(C.USDKRW_1m)})` : ''}, 100엔 ${won(R.JPYKRW100?.v)}입니다.${soon.length ? `\n다가오는 일정은 ${soon.map(w => `${+w.date.slice(5, 7)}/${+w.date.slice(8, 10)} ${w.event.replace(/\s*\(.*\)$/, '')}`).join(', ')}입니다.` : ''}`,
     `■ ${josaIra(n.q.who.split(' ').pop())}라면\n"${n.q.q}" (${n.q.src})\n${readPlain}`,
     `■ 이번 주 나는\n(산 것, 판 것, 참은 것을 한두 문장으로)`,
   ].join('\n\n');

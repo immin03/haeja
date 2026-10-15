@@ -266,7 +266,7 @@ const COL = { list: null, edit: null, msg: '' };
 const kstDay = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 async function colLoad(){ const { data } = await sb.from('docs').select('id,data').eq('collection', 'trends').like('id', 'col-%').order('id', { ascending: false }).limit(30);
   COL.list = (data || []).map(r => ({ id: r.id, ...r.data })); if(page() === 'column') render(); }
-const COL_TMPL = '■ 이번 주 시장\n(좋은 회사 중 싸진 곳, 꼭대기 근처 산업)\n\n■ 트렌드는 이렇게 움직였다\n(크게 움직인 산업 2~3개)\n\n■ 금리·환율\n(원/달러, 다가오는 금리 일정)\n\n■ 버핏이라면\n(대가의 한마디와 이번 주에 어떻게 읽을지)\n\n■ 이번 주 나는\n(산 것, 판 것, 참은 것)';
+const COL_TMPL = '■ 이번 주 시장\n(좋은 회사 중 싸진 곳, 꼭대기 근처 산업)\n\n■ 트렌드는 이렇게 움직였습니다\n(크게 움직인 산업 2~3개)\n\n■ 금리·환율\n(원/달러, 다가오는 금리 일정)\n\n■ 버핏이라면\n(대가의 한마디와 이번 주에 어떻게 읽을지)\n\n■ 이번 주 나는\n(산 것, 판 것, 참은 것)';
 function vColumn(){
   if(COL.list === null){ colLoad(); return head('칼럼', '불러오는 중', 'column'); }
   try{ const d = JSON.parse(localStorage.getItem('vn-col-draft') || 'null'); if(d && !COL.edit){ COL.edit = { id: 'col-' + kstDay(), title: d.title || '', body: d.body || '' }; COL.msg = '앱에서 만든 이번 주 초안을 불러왔어요. 마지막 칸을 채우고 발행하세요.'; } localStorage.removeItem('vn-col-draft'); }catch(_){}
