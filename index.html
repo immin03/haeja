@@ -943,6 +943,7 @@ const store = (() => {
     get user(){ return user },
     get client(){ return sb },
     get isDemo(){ return !!user && user.email === DEMO_EMAIL },
+    get isGuest(){ return mode === 'guest' },
     async track(kind, page){
       try{ if(!sb) return;
         /* 로컬 테스트·자동화 브라우저는 집계하지 않는다 */
@@ -958,7 +959,12 @@ const store = (() => {
       sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
       const { data: { session } } = await sb.auth.getSession();
       if(session){ try{ if(localStorage.getItem('vn-noauto') === '1' && !sessionStorage.getItem('vn-live')){ await sb.auth.signOut(); mode = 'login'; this.track('visit'); return; } sessionStorage.setItem('vn-live', '1'); }catch(_){} }
-      if(!session){ mode = 'login'; this.track('visit'); return; }
+      if(!session){
+        /* 로그인 없이 둘러보기: 처음 온 사람은 바로 예시 화면으로. 로그인했던 사람(아이디 저장)이나 ?login·?signup 은 로그인 화면 */
+        let wantLogin = /[?&#](login|signup)/.test(location.search + location.hash);
+        try{ if(!wantLogin && localStorage.getItem('vn-email') && !sessionStorage.getItem('vn-browse')) wantLogin = true; }catch(_){}
+        mode = wantLogin ? 'login' : 'guest'; this.track('visit'); return;
+      }
       user = session.user; mode = 'db'; this.track('visit');
     },
     async login(email, password){
@@ -989,13 +995,13 @@ const store = (() => {
         .subscribe();
     },
     async set(col, id, data){
-      if(this.isDemo) return; /* 체험 계정: 저장하지 않음 (화면 위 안내 띠로 알림) */
+      if(this.isDemo || this.isGuest) return; /* 체험 계정·둘러보기: 저장하지 않음 (화면 위 안내 띠로 알림) */
       const body = { ...data }; delete body.id;
       const { error } = await sb.from('docs').upsert({ owner: user.id, collection: col, id, data: body, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
       if(error){ setSave('저장 실패: ' + error.message); throw error; }
     },
     async del(col, id){
-      if(this.isDemo) return;
+      if(this.isDemo || this.isGuest) return;
       const { error } = await sb.from('docs').delete().eq('collection', col).eq('id', id);
       if(error){ setSave('삭제 실패: ' + error.message); throw error; }
     }
@@ -1024,7 +1030,7 @@ function loginView(){
     <div class="status-line" id="lg-msg"></div>
     </form>
     </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '자동 로그인을 끄면 브라우저를 닫을 때 로그아웃됩니다.'}</p>
-    <div class="lg-demo"><span>먼저 둘러보고 싶다면</span><button type="button" class="btn" data-lg="demo">체험 계정으로 보기</button></div>
+    ${store.isGuest ? `<div class="lg-demo"><button type="button" class="btn" data-guest="back">‹ 둘러보기로 돌아가기</button></div>` : `<div class="lg-demo"><span>가입 전에 먼저 보고 싶다면</span><button type="button" class="btn" data-lg="browse">로그인 없이 둘러보기</button></div>`}
     <div id="lg-terms" class="disc-box small" style="display:none;margin-top:12px"></div>
   </div>`;
 }
@@ -1053,6 +1059,7 @@ document.addEventListener('click', e => {
   const k = b.dataset.lg;
   if(k === 'login' || k === 'signup'){ lgMode = k; const app = document.getElementById('app'); if(app){ app.innerHTML = loginView(); bindLogin(); } }
   if(k === 'terms'){ const t = document.getElementById('lg-terms'); if(t){ t.textContent = typeof DISC_FULL === 'string' ? DISC_FULL : ''; t.style.display = t.style.display === 'none' ? 'block' : 'none'; } }
+  if(k === 'browse'){ try{ sessionStorage.setItem('vn-browse', '1'); }catch(_){} location.href = location.pathname; return; }
   if(k === 'demo'){ const em = document.getElementById('lg-email'), pw = document.getElementById('lg-pw'); lgMode = 'login'; const app = document.getElementById('app'); if(app){ app.innerHTML = loginView(); bindLogin(); }
     document.getElementById('lg-email').value = 'demo@valuenote.app'; document.getElementById('lg-pw').value = 'valuenote'; document.getElementById('lg-go').click(); }
 });
@@ -1529,7 +1536,7 @@ function evaluate(c){
 
 /* ============ 렌더: 공통 ============ */
 /* ============ 가입 직후 기본 정보 (튜토리얼과 별개, 처음 한 번) ============ */
-const invDone = () => !!(inv().done || store.isDemo);
+const invDone = () => !!(inv().done || store.isDemo || store.isGuest);
 function onboardHtml(){
   const v = inv(), ok = v.size && invStyles().length && (v.expect||[]).length;
   const still = S.__onbShown ? ' still' : ''; S.__onbShown = true;
@@ -1548,6 +1555,48 @@ document.addEventListener('click', e => {
   saveInv({ done: today(), expectNote: note }); store.track('onboard'); S.tab = 'portfolio'; S.introStep = 0; try{ localStorage.setItem('ml-tab','portfolio'); }catch(_){} render(); window.scrollTo(0,0);
 });
 document.addEventListener('input', e => { if(e.target && e.target.id === 'onb-note'){ S.__onbNote = e.target.value; } });
+function guestBar(){
+  if(S.guestBarClosed) return '';
+  return `<div class="guest-bar"><div class="gb-t"><b>둘러보는 중</b><span>예시 계좌와 실제 기업 ${(S2.screen||[]).length > 100 ? (S2.screen.length).toLocaleString('ko-KR') + '곳의 ' : ''}점수를 보고 있어요. 가입하면 내 종목을 기록하고 회사별 적정 가격·적정 매수가 심사와 알림을 받을 수 있어요.</span></div>
+    <div class="gb-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="login">로그인</button></div></div>`;
+}
+/* 둘러보기에서 가입이 필요한 동작: 막고 이유를 보여 준다 */
+const GUEST_GATE = {
+  'sc-import':['이 회사의 심사표', '적정 가격, 적정 매수가, 상승 여력과 재무 체크리스트를 볼 수 있어요.'],
+  'star':['관심 종목', '☆로 담아 두면 적정 매수가에 오면 알려 드려요.'],
+  'az-run':['종목 분석', '목록에 없는 종목도 이름으로 검색해 바로 분석할 수 있어요 (3회까지).'],
+  'ai-review':['종목 분석', '회사별 분석과 검토를 받을 수 있어요.'], 'ai-fill':['종목 분석', '재무 숫자를 자동으로 채울 수 있어요.'], 'ai-auto':['종목 분석', '재무 숫자를 자동으로 채울 수 있어요.'],
+  'hold-new':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'], 'hold-edit':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'],
+  'hold-save':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-del':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-analyze':['종목 분석', '보유 종목을 바로 분석할 수 있어요.'],
+  'intro-add':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'intro-push':['알림', '살 만한 가격이 되면 휴대폰과 PC로 알려 드려요.'],
+  'co-new':['회사 추가', '원하는 회사를 직접 추가해 심사할 수 있어요.'], 'co-journal':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'co-del':['내 기록', '내 기록을 관리할 수 있어요.'],
+  'j-save':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-rev':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-del':['결정 일지', '내 기록을 관리할 수 있어요.'],
+};
+function guestGate(key){
+  const [t, d] = GUEST_GATE[key] || ['이 기능', '내 기록이 저장되고 모든 기능을 쓸 수 있어요.'];
+  document.querySelector('.gate')?.remove();
+  document.body.insertAdjacentHTML('beforeend', `<div class="gate" role="dialog" aria-modal="true" aria-label="가입 안내"><div class="gate-card">
+    <div class="eyebrow">가입하면 열려요</div><h3>${esc(t)}</h3><p>${esc(d)}</p>
+    <ul><li>이메일과 비밀번호만 있으면 1분이면 가입해요</li><li>내 종목 기록, 적정 매수가 알림, 결정 일지까지 쓸 수 있어요</li></ul>
+    <div class="gate-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="close">계속 둘러보기</button></div>
+    <button type="button" class="linkbtn" data-guest="login" style="margin-top:10px">이미 계정이 있어요 · 로그인</button></div></div>`);
+  store.track('view', 'gate-' + key);
+}
+function openAuth(m){
+  document.querySelector('.gate')?.remove();
+  lgMode = m === 'login' ? 'login' : 'signup';
+  document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none');
+  const app = document.getElementById('app'); app.innerHTML = loginView(); bindLogin(); window.scrollTo(0, 0);
+  store.track('view', 'auth-' + lgMode);
+}
+document.addEventListener('click', e => {
+  if(!store.isGuest) return;
+  const g = e.target.closest('[data-guest]');
+  if(g){ const k = g.dataset.guest; if(k === 'close') document.querySelector('.gate')?.remove(); else if(k === 'back'){ document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = ''); render(); window.scrollTo(0,0); } else openAuth(k); return; }
+  if(e.target.classList?.contains('gate')){ e.target.remove(); return; }
+  const a = e.target.closest('[data-act]'); if(!a || !(a.dataset.act in GUEST_GATE)) return;
+  e.preventDefault(); e.stopImmediatePropagation(); guestGate(a.dataset.act);
+}, true);
 function demoBar(){ return store.isDemo ? `<div class="demo-bar"><b>체험 계정</b><span>예시 데이터로 만든 계정입니다. 실제 투자 기록이 아니며 바꾼 내용은 저장되지 않습니다.</span><button type="button" class="linkbtn" onclick="store.client.auth.signOut().then(()=>location.href='/?signup')">내 계정 만들기</button></div>` : ''; }
 /* ============ 투자 고지 (면책) ============
    ① 처음 한 번 동의(필수)  ② 모든 화면 하단 한 줄  ③ 종목·알림 화면 추정치 안내 */
@@ -1555,7 +1604,7 @@ const DISC_FULL = 'ValueNote는 공개된 재무 데이터와 사용자가 설�
 const DISC_LINE = '본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다.';
 const DISC_EST = '표시되는 가격·상승 여력은 추정치이며 수익을 보장하지 않습니다.';
 const consentLocal = () => { try{ return localStorage.getItem('vn-consent-v1-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
-const consentOk = () => !!prog().consentV1 || consentLocal() || !!store.user?.user_metadata?.agreed;
+const consentOk = () => store.isGuest || !!prog().consentV1 || consentLocal() || !!store.user?.user_metadata?.agreed;
 function consentHtml(){
   const still = S.__consentShown ? ' still' : ''; S.__consentShown = true;
   return `<div class="intro consent${still}" role="dialog" aria-modal="true" aria-label="이용 전 확인"><div class="intro-card">
@@ -1590,7 +1639,7 @@ function render(){
   { const st = tourStep(); if(st){ S.__tourOn = true; if(S.tab !== st.tab || S.__tourStepAt !== S.introStep){ S.tab = st.tab; S.__tourStepAt = S.introStep; S.__tourScroll = true; window.scrollTo(0,0); } } else if(S.__tourOn){ S.__tourOn = false; S.tab = 'portfolio'; window.scrollTo(0,0); } }
   renderNav();
   /* 화면(탭) 조회 기록: 첫 화면은 visit 으로 이미 남고, 튜토리얼 자동 이동은 세지 않는다 */
-  if(store.mode === 'db' && S.__tv !== S.tab){ const first = S.__tv === undefined; S.__tv = S.tab; if(!first && !S.__tourOn) store.track('view', S.tab); }
+  if((store.mode === 'db' || store.isGuest) && S.__tv !== S.tab){ const first = S.__tv === undefined; S.__tv = S.tab; if(!first && !S.__tourOn) store.track('view', S.tab); }
   const __restore = applyDemo();
   { const st = tourStep(); if(st && st.cur){ S.curId = S.companies.some(c => c.id === st.cur) ? st.cur : (S.holdings[0] && companyFor(S.holdings[0])?.id) || S.curId; } }
   const app = $('#app');
@@ -1618,6 +1667,7 @@ function render(){
   if(S.__tourScroll){ S.__tourScroll = false; const st = tourStep(); if(st && st.anchor){ const el = [...document.querySelectorAll('#app h2, #app h3, #app .eyebrow')].find(x => x.textContent.trim().startsWith(st.anchor)); if(el) requestAnimationFrame(() => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 130)); } }
   app.insertAdjacentHTML('beforeend', discFootHtml());
   if(store.isDemo) app.insertAdjacentHTML('afterbegin', demoBar());
+  if(store.isGuest) app.insertAdjacentHTML('afterbegin', guestBar());
   if(S.loaded.s && !consentOk() && !store.isDemo){ app.insertAdjacentHTML('beforeend', consentHtml()); document.body.classList.add('noscroll'); }
   else if(S.loaded.s && !invDone()){ app.insertAdjacentHTML('beforeend', onboardHtml()); document.body.classList.add('noscroll'); }
   if(__mY){ const b = document.querySelector('.intro.consent .intro-card'); if(b) b.scrollTop = __mY; }
@@ -2957,7 +3007,7 @@ function demoData(){
 }
 /* 튜토리얼 화면 안내 중이면 빈 데이터 자리를 예시로 잠깐 바꿔 그리고, 그린 뒤 원래대로 돌린다 */
 function applyDemo(){
-  if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null;
+  if(!(store.isGuest || (typeof introOn === 'function' && (introOn() || S.introForce)))) return null;
   const needH = !S.holdings.length, needB = !S.briefings.length, needS = !(S2.screen||[]).length, needJ = !(S.journal||[]).length, needA = !(S.alerts||[]).length;
   if(!needH && !needB && !needS && !needJ && !needA) return null;
   const D = demoData(), saved = { holdings:S.holdings, companies:S.companies, prices:S.prices, briefings:S.briefings, screen:S2.screen, scope:S.scope, journal:S.journal, alerts:S.alerts, settings:S.settings };
@@ -3284,7 +3334,7 @@ const INTRO = [
 ];
 const tourStep = () => { if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null; const it = INTRO[Math.min(S.introStep || 0, INTRO.length - 1)]; return it && it.tab ? it : null; };
 const introSeenLocal = () => { try{ return localStorage.getItem('vn-intro-v3-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
-const introOn = () => S.loaded.s && S.loaded.h && consentOk() && invDone() && !prog().introV3 && !introSeenLocal() && !S.introClosed;
+const introOn = () => !store.isGuest && S.loaded.s && S.loaded.h && consentOk() && invDone() && !prog().introV3 && !introSeenLocal() && !S.introClosed;
 function introHtml(){
   if(!introOn() && !S.introForce) return '';
   const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
@@ -3407,6 +3457,7 @@ function viewGrade(){
 }
 /* 등급이 오르면 알림 한 번 */
 async function checkLevelUp(){
+  if(store.isGuest) return;
   if(!S.loaded?.h || !S.loaded?.c) return;
   const g = missions(); const pg = prog();
   if(!pg.lastLevel){ saveProg({lastLevel: g.lv.n}); return; }
@@ -4331,13 +4382,17 @@ function refresh(kind){
 (async function start(){
   try{ let t = localStorage.getItem('ml-tab'); if(t === 'rules' || t === 'validation'){ S.refSub = t; t = 'ref'; } if(t === 'screener' || t === 'analyze') t = 'companies'; if(t) S.tab = t; }catch(_){}
   await store.init();
-  if(store.mode !== 'db'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); hideSplash(); return; }
-  { const { count } = await store.client.from('docs').select('id', { count: 'exact', head: true });
+  if(store.mode !== 'db' && store.mode !== 'guest'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); hideSplash(); return; }
+  if(store.mode === 'db'){ const { count } = await store.client.from('docs').select('id', { count: 'exact', head: true });
     /* 새 사용자는 빈 상태로 바로 시작한다 (튜토리얼은 예시 데이터로 보여 준다). 옛 JSON 가져오기는 ?import 로만 연다 */
     if(count === 0 && location.search.includes('import')){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
-  setSave('동기화됨');
+  setSave(store.isGuest ? '' : '동기화됨');
   const brand = document.querySelector('.brand');
-  if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
+  if(brand && store.isGuest){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
+    wrap.innerHTML = '<button type="button" class="btn gb-login" data-guest="login">로그인</button><button type="button" class="btn gb-join" data-guest="signup">가입</button>';
+    brand.appendChild(wrap);
+    const home = document.querySelector('.brand-t'); if(home){ home.style.cursor = 'pointer'; home.onclick = () => { document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = ''); S.tab = 'portfolio'; render(); window.scrollTo(0,0); }; } }
+  else if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
     const b = document.createElement('div'); b.className = 'acct';
     b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-who"><b class="acct-name">내 계정</b><div class="acct-mail small muted"></div></div><button type="button" role="menuitem" class="acct-item" data-acct-go="account">계정 설정</button><button type="button" role="menuitem" class="acct-item" data-acct-go="grade">내 투자자 등급</button><button type="button" role="menuitem" class="acct-item" data-acct-go="intro">처음 안내 다시 보기</button><a role="menuitem" class="acct-item acct-admin" href="admin.html" style="display:none">관리자 페이지</a><div class="acct-sep"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
@@ -4357,7 +4412,7 @@ function refresh(kind){
   store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; });
   store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);
-  store.sub('alerts', docs => { S.alerts = docs; const first = !S.alertsLoaded; S.alertsLoaded = true; updateBell(); if(S.tab === 'alerts') refresh('a'); if(first){ setTimeout(scanAlerts, 2500); setTimeout(() => checkPush().then(() => { if(S.tab === 'alerts') render(); }), 3000); } });
+  if(!store.isGuest) store.sub('alerts', docs => { S.alerts = docs; const first = !S.alertsLoaded; S.alertsLoaded = true; updateBell(); if(S.tab === 'alerts') refresh('a'); if(first){ setTimeout(scanAlerts, 2500); setTimeout(() => checkPush().then(() => { if(S.tab === 'alerts') render(); }), 3000); } });
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') refreshQuotes(false); });
   store.sub('screen', docs => {
     const meta = docs.find(d => d.id === 'meta');
@@ -4654,6 +4709,22 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .onb textarea{width:100%;box-sizing:border-box;font:inherit;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);color:var(--ink);resize:vertical}
 .demo-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:14px 0 0;padding:10px 14px;border-radius:12px;background:var(--gold-soft);border:1px solid rgba(201,164,92,.45);font-size:13px;line-height:1.5;word-break:keep-all}
 .demo-bar b{color:#8A6A2E}
+.guest-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:14px 0 0;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid rgba(201,164,92,.55);box-shadow:0 6px 20px rgba(14,26,43,.06);word-break:keep-all}
+.guest-bar .gb-t{flex:1 1 320px;display:flex;flex-direction:column;gap:3px;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.guest-bar .gb-t b{color:var(--ink);font-size:14.5px}
+.guest-bar .gb-a{display:flex;gap:8px;flex:0 0 auto}
+.brand .gb-login,.brand .gb-join{font-size:13px;padding:7px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+.brand .gb-join{background:var(--gold);border-color:var(--gold);color:#0E1A2B}
+.gate{position:fixed;inset:0;z-index:80;background:rgba(7,12,21,.55);display:flex;align-items:center;justify-content:center;padding:16px;animation:gateIn .16s ease-out}
+.gate-card{width:100%;max-width:400px;background:var(--surface);color:var(--ink);border-radius:18px;padding:22px 20px 18px;box-shadow:0 20px 60px rgba(7,12,21,.35);word-break:keep-all;text-align:center}
+.gate-card h3{margin:6px 0 6px;font-size:19px}
+.gate-card p{margin:0 0 12px;color:var(--muted);font-size:14px;line-height:1.6}
+.gate-card ul{list-style:none;margin:0 0 16px;padding:12px 14px;background:var(--bg);border-radius:12px;text-align:left;font-size:13.5px;line-height:1.7}
+.gate-card li::before{content:"✓";color:var(--gold);font-weight:800;margin-right:8px}
+.gate-a{display:flex;flex-direction:column;gap:8px}
+.gate-a .btn{width:100%;justify-content:center}
+@keyframes gateIn{from{opacity:0}to{opacity:1}}
+@media (max-width:560px){.guest-bar .gb-a{width:100%}.guest-bar .gb-a .btn{flex:1;justify-content:center}}
 .demo-bar .linkbtn{margin-left:auto;font-size:13px}
 
 /* 튜토리얼: 지금 보고 있는 하위 탭 강조 */
