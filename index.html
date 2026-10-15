@@ -1373,6 +1373,7 @@ function viewAccount(){
   </div>
 
   ${inviteCardHtml()}
+  ${newsletterBox()}
   <h3 class="eyebrow guide-h">기본 정보</h3>
   <div class="card ac-list">
     <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 홍길동" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
@@ -1569,6 +1570,7 @@ const GUEST_GATE = {
   'hold-new':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'], 'hold-edit':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'],
   'hold-save':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-del':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-analyze':['종목 분석', '보유 종목을 바로 분석할 수 있어요.'],
   'intro-add':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'intro-push':['알림', '살 만한 가격이 되면 휴대폰과 PC로 알려 드려요.'],
+  'newsletter':['칼럼 메일 구독', '매주 월요일, 시장·트렌드·금리 정리와 대가의 이야기를 메일로 받아 볼 수 있어요.'],
   'share-pf':['내 투자 카드 공유', '내 포트폴리오 수익률과 투자 성향을 카드 두 장으로 만들어 올릴 수 있어요.'],
   'co-new':['회사 추가', '원하는 회사를 직접 추가해 심사할 수 있어요.'], 'co-journal':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'co-del':['내 기록', '내 기록을 관리할 수 있어요.'],
   'j-save':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-rev':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-del':['결정 일지', '내 기록을 관리할 수 있어요.'],
@@ -1653,6 +1655,7 @@ function render(){
   if(S.tab === 'fx') app.innerHTML = viewFx();
   if(S.tab === 'ref') app.innerHTML = viewRef();
   if(S.tab === 'trends') app.innerHTML = viewTrends();
+  if(S.tab === 'column') app.innerHTML = viewColumn();
   if(S.tab === 'guide'){ app.innerHTML = viewGuide(); if(!prog().guideAt && S.loaded.s) saveProg({guideAt: today()}); }
   if(S.tab === 'grade') app.innerHTML = viewGrade();
   if(S.tab === 'watchlist') app.innerHTML = viewWatchlist();
@@ -2413,9 +2416,69 @@ function weeklyNoteHtml(){
       <div><b>${n.hot.length ? esc(n.hot.slice(0, 2).join(', ')) : '없음'}</b><span>꼭대기 근처<br>산업</span></div>
       ${isNum(n.wk) ? `<div><b class="num">${pct(n.wk)}</b><span>내 포트폴리오<br>이번 주</span></div>` : `<div><b>${n.low.length ? esc(n.low.slice(0, 2).join(', ')) : '없음'}</b><span>바닥권<br>산업</span></div>`}
     </div>
-    ${fresh ? `<details class="wk-col"><summary><span class="eyebrow">운영자 칼럼</span><b>${esc(col.title)}</b></summary><div class="prose wk-body">${esc(col.body || '').split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}</div></details>` : ''}
+    ${fresh ? `<button type="button" class="wk-col" data-act="col-open" data-v="${esc(col.id)}"><span class="eyebrow">이번 주 칼럼</span><b>${esc(col.title)}</b><span class="small muted">읽기 ›</span></button>` : ''}
+    <button type="button" class="linkbtn wk-more" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button>
   </div>`;
 }
+
+/* ============ 칼럼: 블로그처럼 쌓이는 주간 글 (누구나 읽기) ============ */
+function colBodyHtml(t){
+  return String(t || '').split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => /^■\s*/.test(p)
+    ? `<h3>${esc(p.replace(/^■\s*/, '').split('\n')[0])}</h3>${p.split('\n').slice(1).length ? `<p>${p.split('\n').slice(1).map(esc).join('<br>')}</p>` : ''}`
+    : `<p>${p.split('\n').map(esc).join('<br>')}</p>`).join('');
+}
+const colDate = c => { const d = String(c.id || '').slice(4); return d ? `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일` : ''; };
+function newsletterBox(){
+  if(store.isGuest) return `<div class="card nl-box"><div><b>매주 월요일, 칼럼을 메일로 받아 보세요</b><div class="small muted">가입하면 이메일 구독을 켤 수 있어요.</div></div><button type="button" class="btn primary" data-act="nl-toggle">구독하기</button></div>`;
+  if(store.isDemo || store.mode !== 'db') return '';
+  const on = !!prog().newsletter;
+  return `<div class="card nl-box"><div><b>${on ? '칼럼을 메일로 받고 있어요' : '매주 월요일, 칼럼을 메일로 받아 보세요'}</b><div class="small muted">${on ? esc(store.user?.email || '') + '로 보내 드려요. 언제든 끌 수 있어요.' : '새 칼럼이 올라오면 ' + esc(store.user?.email || '가입한 메일') + '로 보내 드려요.'}</div></div>
+    <button type="button" class="btn ${on ? '' : 'primary'}" data-act="nl-toggle">${on ? '구독 끄기' : '구독하기'}</button></div>`;
+}
+function viewColumn(){
+  const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
+  const adminBtn = S.__isAdmin ? `<button type="button" class="btn" data-act="col-draft">이번 주 초안 만들기</button>` : '';
+  if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
+    <article class="card col-art"><div class="eyebrow">ValueNote 칼럼</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))} · ValueNote 운영자</div>
+      <div class="prose col-body">${colBodyHtml(open.body)}</div>
+      <p class="small muted col-disc">개인의 기록과 의견이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
+    ${newsletterBox()}`;
+  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">매주 시장 상황, 트렌드, 금리·환율, 그리고 그레이엄·버핏·멍거 이야기</div></div>${adminBtn}</div>
+    ${newsletterBox()}
+    ${L.length ? `<div class="col-list">${L.map((c, i) => `<button type="button" class="card col-item${i === 0 ? ' first' : ''}" data-act="col-open" data-v="${esc(c.id)}">
+      <span class="small muted">${esc(colDate(c))}${i === 0 ? ' · 최신' : ''}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(String(c.body || '').replace(/■\s*/g, '').replace(/\s+/g, ' ').slice(0, 90))}…</span></button>`).join('')}</div>`
+      : `<div class="card empty" style="margin-top:12px">첫 칼럼을 준비하고 있어요. 그동안 브리핑 화면의 "이번 주 노트"를 확인해 보세요.</div>`}`;
+}
+/* 관리자: 이번 주 숫자로 초안을 만들어 관리자 페이지 칼럼 칸으로 넘긴다 */
+/* 받침이 있으면 '이' (버핏이라면, 그레이엄이라면, 멍거라면) */
+const josaIra = w => { const c = String(w).charCodeAt(String(w).length - 1); return c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28 ? w + '이' : w; };
+function columnDraft(){
+  const n = weeklyNote(), fx = S.fx || {}, R = fx.rates || {}, C = fx.chg || {};
+  const head = n.tag === 'fear' ? '겁이 커진 주, 기회를 세어 본 주' : n.tag === 'greed' ? '뜨거운 산업, 차가운 머리' : '아무것도 하지 않아도 되는 주';
+  const sw = S.trendSeries?.w || {};
+  const mv = trendList().map(t => { const w = sw[t.key]; const c = trCycle(t.key); return w && w.length >= 2 ? { l: trShort(t.label), ch: (w.at(-1)[1] / w.at(-2)[1] - 1) * 100, ph: c?.ph || t.stage || '', sum: t.summary || '' } : null; })
+    .filter(Boolean).sort((a, b) => Math.abs(b.ch) - Math.abs(a.ch));
+  const won = v => isNum(v) ? Math.round(v).toLocaleString('ko-KR') + '원' : '–';
+  const readPlain = n.tag === 'fear' ? '회사의 이익이 줄지 않았다면 지금은 겁낼 때가 아니라 살펴볼 때다.'
+    : n.tag === 'greed' ? '뜨거운 산업일수록 좋은 회사인지보다 비싸게 사는 건 아닌지를 먼저 본다.'
+    : '원칙을 바꿀 만한 신호가 없는 주에는 아무것도 하지 않는 게 가장 좋은 결정일 때가 많다.';
+  const soon = (fx.watch || []).filter(w => w.date >= today()).slice(0, 2);
+  const body = [
+    `■ 이번 주 시장\n좋은 회사(버핏 근접도 75점 이상) 중 적정 매수가 아래로 내려온 곳이 ${n.pass}곳, 근처까지 온 곳이 ${n.near}곳이다.${n.hot.length ? ` 5년 범위 꼭대기 근처에 있는 산업은 ${n.hot.join(', ')}이다.` : ''}`,
+    `■ 트렌드는 이렇게 움직였다\n${mv.slice(0, 3).map(x => `${x.l} ${x.ch >= 0 ? '+' : '−'}${fmt(Math.abs(x.ch), 1)}% (${x.ph})`).join('\n') || '이번 주는 큰 움직임이 없었다.'}${mv[0]?.sum ? `\n${mv[0].sum}` : ''}`,
+    `■ 금리·환율\n원/달러 ${won(R.USDKRW?.v)}${isNum(C.USDKRW_1m) ? ` (한 달 ${pct(C.USDKRW_1m)})` : ''}, 100엔 ${won(R.JPYKRW100?.v)}.${soon.length ? `\n다가오는 일정: ${soon.map(w => `${+w.date.slice(5, 7)}/${+w.date.slice(8, 10)} ${w.event.replace(/\s*\(.*\)$/, '')}`).join(', ')}` : ''}`,
+    `■ ${josaIra(n.q.who.split(' ').pop())}라면\n"${n.q.q}" (${n.q.src})\n${readPlain}`,
+    `■ 이번 주 나는\n(산 것, 판 것, 참은 것을 한두 문장으로)`,
+  ].join('\n\n');
+  return { title: `${weekLabel()} · ${head}`, body };
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if(!a) return; const k = a.dataset.act;
+  if(k === 'col-open'){ S.colOpen = a.dataset.v; S.tab = 'column'; render(); window.scrollTo(0, 0); store.track('view', 'column-read'); }
+  else if(k === 'col-back'){ S.colOpen = null; render(); window.scrollTo(0, 0); }
+  else if(k === 'col-draft'){ try{ localStorage.setItem('vn-col-draft', JSON.stringify(columnDraft())); }catch(_){} window.open('admin.html#column', '_blank'); }
+  else if(k === 'nl-toggle'){ if(store.isGuest){ guestGate('newsletter'); return; } const on = !prog().newsletter; saveProg({ newsletter: on, newsletterAt: new Date().toISOString() }); toastMsg(on ? '구독했어요. 새 칼럼이 올라오면 메일로 보내 드려요.' : '메일 구독을 껐어요.'); render(); }
+});
 
 /* ===== 메가트렌드 사이클: 수혜 기업 묶음 지수 (trends/series) ===== */
 const TR_RANGES = [['3M','3개월',3],['6M','6개월',6],['1Y','1년',12],['5Y','5년',60]];
@@ -4020,7 +4083,7 @@ function viewGuide(){
 /* ============ 2단 메뉴 ============ */
 const NAV = [
   {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지'],['fx','환율']]},
-  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['trends','메가트렌드']]},
+  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['trends','메가트렌드']]},
   {k:'companies', l:'기업', subs:[['companies','찾기'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
 const TAB_ALIAS = {analyze:'companies', screener:'companies'};
@@ -5085,10 +5148,22 @@ input,select,textarea{border-radius:10px}
 .wk-nums>div{background:var(--bg);border-radius:12px;padding:10px 10px 9px;display:flex;flex-direction:column;gap:4px;min-width:0}
 .wk-nums b{font-size:16px;line-height:1.25;word-break:keep-all}
 .wk-nums span{font-size:11.5px;color:var(--muted);line-height:1.35}
-.wk-col{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
-.wk-col summary{cursor:pointer;display:flex;flex-direction:column;gap:2px;list-style:none}
-.wk-col summary::-webkit-details-marker{display:none}
-.wk-body{margin-top:8px;font-size:14px;line-height:1.75}
+.wk-col{all:unset;box-sizing:border-box;cursor:pointer;width:100%;margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--gold-soft);display:flex;flex-direction:column;gap:3px}
+.wk-col b{font-size:15px}
+.wk-more{display:block;margin:10px 0 0 auto;font-size:13px}
+.nl-box{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
+.nl-box>div{flex:1 1 240px;display:flex;flex-direction:column;gap:3px}
+.col-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.col-item{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.col-item b{font-size:16.5px;line-height:1.45;letter-spacing:-.02em}
+.col-item.first{border-color:rgba(201,164,92,.6)}
+.col-ex{color:var(--muted);line-height:1.55}
+.col-art{margin-top:12px;padding:22px 20px}
+.col-art h1{font-size:23px;line-height:1.4;margin:6px 0 6px;letter-spacing:-.03em}
+.col-body{margin-top:16px;font-size:15.5px;line-height:1.85}
+.col-body h3{font-size:16px;margin:22px 0 6px;padding-left:10px;border-left:3px solid var(--gold)}
+.col-body p{margin:0 0 10px}
+.col-disc{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line)}
 @media (max-width:560px){.wk-nums{grid-template-columns:repeat(2,1fr)}}
 .vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#F3EEE3;font-size:13.5px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(7,12,21,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
