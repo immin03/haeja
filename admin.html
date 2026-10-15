@@ -178,7 +178,7 @@ function render(s){
 
   <div class="grid2">
     <div><h2>지금 투자 방식 <span class="muted" style="font-weight:500;font-size:12px">여러 개 선택</span></h2><div class="card">${barsList(s.style||{}, ['안정형','배당형','균형형','성장형','공격형'])}</div></div>
-    <div><h2>투자 규모</h2><div class="card">${barsList(s.size||{}, ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억 원 이상'])}</div></div>
+    <div><h2>투자 규모</h2><div class="card">${barsList(s.size||{}, ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상','2억 원 이상'])}</div></div>
   </div>
   <div class="grid2">
     <div><h2>바꾸고 싶은 방향</h2><div class="card">${barsList(s.goal||{})}</div></div>

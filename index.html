@@ -2936,7 +2936,7 @@ function demoData(){
 }
 /* 튜토리얼 화면 안내 중이면 빈 데이터 자리를 예시로 잠깐 바꿔 그리고, 그린 뒤 원래대로 돌린다 */
 function applyDemo(){
-  if(!(typeof tourStep === 'function' && tourStep())) return null;
+  if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null;
   const needH = !S.holdings.length, needB = !S.briefings.length, needS = !(S2.screen||[]).length, needJ = !(S.journal||[]).length, needA = !(S.alerts||[]).length;
   if(!needH && !needB && !needS && !needJ && !needA) return null;
   const D = demoData(), saved = { holdings:S.holdings, companies:S.companies, prices:S.prices, briefings:S.briefings, screen:S2.screen, scope:S.scope, journal:S.journal, alerts:S.alerts, settings:S.settings };
@@ -2951,7 +2951,7 @@ function applyDemo(){
 /* ===== 투자자 자기 점검 (맞춤 제안용) ===== */
 const INV_Q = [
   {k:'expect', q:'ValueNote에 가장 기대하는 것은? (여러 개 선택)', multi:true, o:['좋은 회사 고르는 기준','적정 매수가·매수 시점 알림','내 포트폴리오 점검','보유 종목 뉴스 요약','투자 원칙·습관 만들기','가치투자 공부']},
-  {k:'size', q:'투자 규모는?', o:['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억 원 이상']},
+  {k:'size', q:'투자 규모는?', o:['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상']},
   {k:'count', q:'지금 보유 종목 수는?', o:['아직 없음','1~3개','4~7개','8~15개','16개 이상']},
   {k:'markets', q:'어느 시장에 투자하나요? (여러 개 선택)', multi:true, o:['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드']},
   {k:'horizon', q:'한 종목을 보통 얼마나 들고 있나요?', o:['몇 주~몇 달','1~3년','5년 이상']},
@@ -3199,7 +3199,7 @@ function sparkHtml(){
 function animateHero(){
   const el = document.querySelector('.pf-top .hero-num[data-v]'); if(!el) return;
   const to = +el.dataset.v; const from = isNum(S.__heroV) ? S.__heroV : to * 0.94;
-  S.__heroV = to; if(!isFinite(to) || Math.abs(to - from) < 1 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  S.__heroV = to; if(!isFinite(to) || Math.abs(to - from) < 1 || matchMedia('(prefers-reduced-motion: reduce)').matches || S.__demoOn || (typeof introOn === 'function' && (introOn() || S.introForce))) return;
   const t0 = performance.now(), dur = 700;
   const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = fmtKRW(from + (to - from) * e); if(k < 1 && el.isConnected) requestAnimationFrame(step); };
   el.textContent = fmtKRW(from); requestAnimationFrame(step);
@@ -3219,45 +3219,46 @@ function homeAddHtml(){
   return `<div class="in-home"><b>즐겨찾기에 추가하기</b><span><b>${/Mac/.test(navigator.platform) ? '⌘ + D' : 'Ctrl + D'}</b>를 누르면 즐겨찾기에 저장됩니다. 휴대폰에서도 같은 주소로 열 수 있습니다.</span></div>`;
 }
 const INTRO = [
-  {t:'안녕하세요, ValueNote입니다', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}반갑습니다.</p>
-    <p>ValueNote는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 앱입니다.</p>
-    <div class="in-warn"><b>먼저 분명히 말씀드립니다</b><span>이 앱은 단기간에 큰돈을 버는 방법을 알려 주지 않습니다. 급등주를 찾거나 내일 주가를 맞히지 않습니다. 대신 1년, 5년, 10년을 보고 <b>잃지 않는 판단</b>을 쌓도록 돕습니다.</span></div>
-    <p class="small muted">약 3분이면 끝납니다. 예시 데이터로 화면을 하나씩 보여 드립니다. 언제든 건너뛸 수 있습니다.</p>`},
-  {t:'거인의 어깨 위에서', b:`<p>개인 투자의 실패는 대부분 기준 없는 판단에서 나옵니다. 테마와 소문에 따른 매수, 급락 때의 공포 매도가 대표적입니다.</p>
-    <p>ValueNote는 수십 년간 검증된 <b>벤저민 그레이엄, 워런 버핏, 찰리 멍거</b>의 기준을 숫자 규칙으로 옮겼습니다. 모든 회사를 같은 기준으로 평가하고, 보유 이후의 비중과 매도 조건까지 관리합니다.</p>
-    <div class="in-list"><div><b>자동</b><span>시세·뉴스·재무 분석은 매일 자동으로 채워집니다</span></div><div><b>원칙</b><span>모든 회사를 같은 기준의 점수로 비교합니다</span></div><div><b>기록</b><span>매수 이유와 매도 조건을 미리 적고 지키게 합니다</span></div></div>`},
-  {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
-  {tab:'portfolio', t:'① 포트폴리오 현황', b:`<p>보유 종목의 총 평가액, 수익률, 30일 추이를 한 화면에 모았습니다. 예시는 주식 약 4,700만 원과 현금 600만 원으로 구성된 <b>약 5,300만 원</b> 포트폴리오입니다.</p>
-    <p>종목은 <b>주력</b>(장기 핵심 보유)과 <b>도전</b>(작은 비중의 시도)으로 자동 분류됩니다. 원칙대로 산 삼성전자·KB금융은 +50% 이상, 테마로 산 카카오는 −40%로, 판단 방식의 차이가 결과로 드러납니다.</p>`},
-  {tab:'portfolio', anchor:'지금 할 일', t:'② 지금 할 일', b:`<p>포트폴리오가 원칙에서 벗어난 부분을 <b>최대 3개</b>만 골라 알려 줍니다.</p>
-    <div class="in-list"><div><b>주력</b><span>상위 3종목에 70~80% 집중</span></div><div><b>도전</b><span>전체의 10% 이하</span></div><div><b>현금</b><span>10~20%를 기회용으로 유지</span></div></div>
-    <p class="small muted">할 일이 없으면 아무것도 하지 않는 것이 정답입니다.</p>`},
-  {tab:'grade', t:'③ 투자자 등급', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div>
-    <p>현금 비중, 주력 집중, 매도 조건, 결정 일지 같은 <b>미션 18개</b>를 자동으로 확인해 등급을 매깁니다. 그레이엄(안전마진)·버핏(집중)·멍거(실수 회피)·습관 네 영역으로 나뉩니다.</p>`; }},
-  {tab:'journal', t:'④ 결정 일지', b:`<p>매수·매도 때마다 <b>이유, 당시의 마음 상태, 매도 조건</b>을 기록하고 나중에 결과와 비교해 복기합니다.</p>
-    <p>예시에서 "남들 따라" 산 카카오는 −40%, "근거 기반"으로 산 KB금융은 +77%입니다. 매수 기록은 공시 원문 대조와 매도 조건 확인을 체크해야 저장됩니다.</p>`},
-  {tab:'fx', t:'⑤ 환율', b:`<p>해외 주식은 주가와 별개로 <b>환율</b>에 따라 원화 수익이 달라집니다.</p><p>원/달러·원/엔 추이, 변동 요인, 금리 결정 일정과 내 해외 자산에 미치는 영향을 정리합니다.</p>`},
-  {tab:'briefing', t:'⑥ 오늘 브리핑', b:`<p>매일 아침 보유 종목의 뉴스를 <b>한 줄씩</b> 정리하고 호재·악재·중립으로 표시합니다. 누르면 자세한 내용과 투자 판단에 미치는 영향이 열립니다.</p>`},
-  {tab:'trends', t:'⑦ 메가트렌드', b:`<p>반도체·AI 데이터센터·방산 같은 <b>산업 사이클</b>을 3개월~5년 차트와 표로 보여 줍니다. 국면(바닥권·상승·조정·고점권)은 숫자로만 판정합니다.</p>
-    <p>트렌드는 종합 점수에 15%만 반영됩니다. 과열 트렌드에 걸린 회사가 저평가 근거 없이 비싸면 <b>"테마 프리미엄"</b> 경고를 띄웁니다.</p>`},
-  {tab:'companies', t:'⑧ 기업 찾기', b:`<p>한국·미국·일본·중국·홍콩의 시가총액 상위 <b>약 600개 회사</b>를 같은 기준의 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘과 정렬로 성향에 맞는 후보를 찾습니다.</p>
-    <p>목록에 없는 종목은 검색해서 바로 분석할 수 있습니다(서로 다른 종목 3회까지).</p>`},
-  {tab:'analyze', cur:'demo-105560', t:'⑨ 종목 심사', b:`<p>회사 하나를 누르면 <b>품질·저평가·버핏 근접도</b> 점수와 판정이 나옵니다.</p>
-    <div class="in-list"><div><b>적정 가격</b><span>회사의 제값(내재가치)</span></div><div><b>적정 매수가</b><span>적정 가격에서 30%를 뺀 가격</span></div><div><b>상승 여력</b><span>지금 가격에서 적정 가격까지의 거리</span></div></div>
-    <p class="small muted">재무 항목마다 통과·근접·미달이 표시되고, 10년 보유 테스트와 매도 조건도 여기서 정합니다.</p>`},
-  {tab:'watchlist', t:'⑩ 관심 종목', b:`<p>☆를 누른 회사가 모입니다. 1주·1달 전 대비 점수 변화와 <b>적정 매수가까지 남은 거리</b>를 막대로 보여 줍니다.</p><p>가격이 적정 매수가 아래로 내려오면 알림이 갑니다.</p>`},
-  {tab:'dividend', t:'⑪ 배당', b:`<p>배당 수익률, 배당 성향, 연속 증가 여부로 <b>꾸준히 현금을 돌려주는 회사</b>를 모아 봅니다. 배당형 성향이라면 여기서 후보를 찾는 것이 빠릅니다.</p>`},
-  {tab:'ref', t:'⑫ 기준·검증', b:`<p>모든 점수의 <b>계산 기준을 공개</b>합니다. 지표별 기준선, 할인율, 안전마진 등을 확인할 수 있습니다.</p><p>점수 체계는 버크셔 해서웨이의 실제 매수 종목으로 사후 검증했습니다.</p>`},
-  {tab:'alerts', t:'⑬ 알림', b:`<p>보유 종목 급등락, <b>적정 매수가 도달</b>, 내재가치 초과처럼 판단이 필요한 순간에만 알립니다.</p><p>오른쪽 위 종 모양에서 "알림 켜기"를 누르면 휴대폰과 PC 브라우저 모두 받을 수 있습니다.</p>`},
-  {tab:'guide', t:'⑭ Q&A', b:`<p>용어, 점수 계산 방식, 사용법은 모두 <b>Q&amp;A</b>에 정리돼 있습니다. 오른쪽 위 <b>?</b> 버튼으로 언제든 열 수 있습니다.</p>`},
-  {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
-    <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
-    <p><b>적정 가격</b>은 회사의 제값, <b>상승 여력</b>은 지금 가격에서 적정 가격까지 남은 거리입니다. 적정 가격보다 30% 싼 <b>적정 매수가</b> 아래로 오면 매수 후보로 보고 알려 드립니다. 모든 값은 추정치이며 수익을 보장하지 않습니다.</p>`},
+  {t:'반가워요, ValueNote예요', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}가입해 주셔서 고마워요.</p>
+    <p>ValueNote는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 노트예요.</p>
+    <div class="in-warn"><b>먼저 솔직하게 말씀드릴게요</b><span>여기서는 내일 오를 종목을 알려 드리지 않아요. 급등주를 찾는 앱도 아니에요. 대신 1년, 5년, 10년 뒤를 보고 크게 잃지 않는 판단을 하도록 옆에서 챙겨 드려요.</span></div>
+    <p class="small muted">3분 정도 걸려요. 예시 화면을 하나씩 넘기면서 보여 드릴게요. 중간에 건너뛰어도 괜찮아요.</p>`},
+  {t:'왜 "거인의 어깨 위에서"일까요', b:`<p>주식으로 손해를 보는 이유는 대부분 비슷해요. 뉴스나 소문을 듣고 급하게 사고, 주가가 크게 떨어지면 무서워서 팔죠.</p>
+    <p>그래서 내 감 대신, 수십 년 동안 투자로 결과를 보여 준 세 사람(그레이엄, 버핏, 멍거)의 기준을 빌려 쓰기로 했어요. 그분들이 회사를 고를 때 보던 숫자를 그대로 규칙으로 만들어 두었어요.</p>
+    <div class="in-list"><div><b>자동</b><span>주가, 뉴스, 회사 실적은 매일 알아서 채워져요</span></div><div><b>같은 잣대</b><span>모든 회사를 같은 기준의 점수로 비교해요</span></div><div><b>기록</b><span>왜 샀는지, 언제 팔지 미리 적어 두게 해요</span></div></div>`},
+  {t:'세 사람이 보는 것', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>제값보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 잘 버는 회사</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>빚 많고 위험한 회사</span></div></div>
+    <p>세 가지를 모두 통과한 회사에만 <b>"매수 후보"</b>가 붙어요. 그래서 후보가 몇 개 안 보여도 정상이에요. 좋은 가격은 자주 오지 않거든요.</p>`},
+  {tab:'portfolio', t:'① 내 포트폴리오', b:`<p>내가 가진 주식이 지금 얼마인지, 얼마나 벌었는지 한눈에 보는 곳이에요. 예시는 주식 약 4,700만 원에 현금 600만 원, 합쳐서 <b>약 5,300만 원</b>짜리 계좌예요.</p>
+    <p>종목 옆의 <b>주력</b>은 오래 들고 갈 중심 종목, <b>도전</b>은 작게 시험해 보는 종목이라는 뜻이에요. 기준을 갖고 산 삼성전자와 KB금융은 50% 넘게 올랐고, 소문 듣고 산 카카오는 40% 떨어졌어요.</p>`},
+  {tab:'portfolio', anchor:'지금 할 일', t:'② 지금 할 일', b:`<p>내 계좌에서 고치면 좋을 점을 <b>많아야 3개</b>만 골라 알려 드려요.</p>
+    <div class="in-list"><div><b>주력</b><span>잘 아는 3종목에 돈의 70~80%를 모아요</span></div><div><b>도전</b><span>시험 삼아 산 종목은 전체의 10% 이하로</span></div><div><b>현금</b><span>10~20%는 쌀 때 사려고 남겨 둬요</span></div></div>
+    <p class="small muted">여기가 비어 있으면 지금은 아무것도 안 해도 된다는 뜻이에요.</p>`},
+  {tab:'grade', t:'③ 나의 투자자 등급', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div>
+    <p>게임처럼 미션 18개를 깰수록 등급이 올라가요. 현금을 남겨 뒀는지, 팔 기준을 적었는지, 일지를 쓰는지 같은 것들을 앱이 알아서 확인해요.</p>`; }},
+  {tab:'journal', t:'④ 결정 일지', b:`<p>살 때와 팔 때마다 <b>왜 그랬는지, 그때 기분이 어땠는지</b>를 짧게 남겨요. 석 달쯤 지나서 다시 읽어 보면 내 습관이 보여요.</p>
+    <p>예시에서 "남들이 사길래" 산 카카오는 −40%, "숫자를 보고" 산 KB금융은 +77%였어요. 같은 사람이라도 어떻게 판단했느냐에 따라 결과가 이렇게 달라요.</p>`},
+  {tab:'fx', t:'⑤ 환율', b:`<p>미국이나 일본 주식은 주가가 그대로여도 <b>환율</b>이 바뀌면 원화로 바꾼 금액이 달라져요. 달러가 싸지면 미국 주식 수익도 그만큼 줄어드는 식이에요.</p><p>여기서 환율 흐름과 다가오는 금리 발표 일정을 확인할 수 있어요.</p>`},
+  {tab:'briefing', t:'⑥ 오늘 브리핑', b:`<p>내가 가진 종목의 소식을 <b>한 줄씩</b> 모아 보여 드려요. 좋은 소식인지 나쁜 소식인지도 같이 표시해요.</p><p>궁금한 줄을 누르면 자세한 내용이 열려요.</p>`},
+  {tab:'trends', t:'⑦ 메가트렌드', b:`<p>반도체, AI 데이터센터, 방산처럼 큰 산업의 흐름을 표와 차트로 보여 드려요. 지금 바닥인지, 오르는 중인지, 너무 올라 꼭대기 근처인지를 숫자로 판정해요.</p>
+    <p>유행하는 산업이라는 이유만으로 비싸게 사지 않도록, 과열된 산업의 비싼 회사에는 <b>"테마 프리미엄"</b> 경고를 붙여요.</p>`},
+  {tab:'companies', t:'⑧ 기업 찾기', b:`<p>한국, 미국, 일본, 중국, 홍콩의 큰 회사 <b>약 600곳</b>을 같은 기준으로 점수 매겨 두었어요. 점수 순, 싼 순, 배당 많은 순으로 정렬해서 볼 수 있어요.</p>
+    <p>내 종목이 목록에 없으면 이름으로 검색해서 바로 분석할 수 있어요. 서로 다른 종목 3개까지 가능해요.</p>`},
+  {tab:'analyze', cur:'demo-105560', t:'⑨ 회사 하나 자세히 보기', b:`<p>회사를 누르면 이런 화면이 나와요. 처음 보는 말이 많을 텐데 세 가지만 알면 돼요.</p>
+    <div class="in-list"><div><b>적정 가격</b><span>이 회사가 벌 돈으로 계산한 "제값"이에요</span></div><div><b>적정 매수가</b><span>제값에서 30%를 깎은 가격이에요. 계산이 좀 틀려도 손해를 덜 보려고 여유를 둔 거예요</span></div><div><b>상승 여력</b><span>지금 가격에서 제값까지 얼마나 남았는지예요</span></div></div>
+    <p class="small muted">아래에는 회사 체력 검사표가 있어요. 항목마다 통과, 아슬아슬, 미달로 표시돼요.</p>`},
+  {tab:'watchlist', t:'⑩ 관심 종목', b:`<p>아직 사지 않았지만 눈여겨보는 회사를 ☆로 담아 두는 곳이에요.</p><p>막대는 적정 매수가까지 얼마나 가까워졌는지를 보여 줘요. 막대가 끝까지 차면, 즉 살 만한 가격이 되면 알림을 보내 드려요.</p>`},
+  {tab:'dividend', t:'⑪ 배당', b:`<p>회사가 번 돈의 일부를 주주에게 나눠 주는 걸 <b>배당</b>이라고 해요. 여기서는 배당을 꾸준히, 그리고 해마다 늘려 온 회사를 모아 보여 드려요.</p><p>주가 차익보다 꼬박꼬박 들어오는 돈을 원한다면 여기부터 보세요.</p>`},
+  {tab:'ref', t:'⑫ 기준·검증', b:`<p>점수를 어떻게 계산하는지 숨기지 않고 모두 적어 두었어요. 어떤 숫자가 몇 점인지 직접 확인할 수 있어요.</p><p>이 기준이 정말 쓸 만한지, 워런 버핏 회사(버크셔 해서웨이)가 실제로 산 종목들로 거꾸로 확인해 봤어요.</p>`},
+  {tab:'alerts', t:'⑬ 알림', b:`<p>매일 들여다보지 않아도 돼요. 가진 종목이 크게 오르내렸을 때, 관심 종목이 살 만한 가격에 왔을 때처럼 <b>꼭 봐야 할 때만</b> 알려 드려요.</p><p>오른쪽 위 종 모양에서 "알림 켜기"를 누르면 휴대폰과 컴퓨터 모두 받을 수 있어요.</p>`},
+  {tab:'guide', t:'⑭ 궁금할 땐 Q&A', b:`<p>모르는 말이 나오거나 점수가 왜 이렇게 나왔는지 궁금하면 여기를 보세요. 자주 묻는 질문을 쉬운 말로 정리해 두었어요.</p><p>오른쪽 위 <b>?</b> 버튼을 누르면 언제든 이 화면으로 올 수 있어요.</p>`},
+  {t:'점수 읽는 법', b:`<div class="in-score"><div class="g"><b>75점 이상</b><span>기준에 가까워요. 가격까지 맞으면 매수 후보</span></div><div class="w"><b>60~74점</b><span>좋은 점은 있지만 한두 가지가 아쉬워요. 지켜보기</span></div><div class="n"><b>60점 미만</b><span>기준과 거리가 있어요. 사지 않기</span></div></div>
+    <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>배당을 꾸준히 주는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>제값보다 충분히 싼 회사</span></div>
+    <p class="small muted">여기 나오는 가격과 점수는 모두 계산으로 얻은 추정치예요. 수익을 약속하지 않아요.</p>`},
   {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(prefStyle() || '나')}${prefStyle() ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
     ${homeAddHtml()}
     <div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>
     <button type="button" class="in-push" data-act="intro-push"><span>알림 켜기 (휴대폰·PC)</span><span class="muted">›</span></button>
-    <p class="small muted" style="margin:14px 0 0">사용법·용어·점수 계산이 궁금하면 언제든 오른쪽 위 <b>?</b> 버튼(Q&amp;A)에서 확인할 수 있습니다.</p>`; }},
+    <p class="small muted" style="margin:14px 0 0">하다가 막히면 오른쪽 위 <b>?</b> 버튼(Q&amp;A)을 눌러 보세요.</p>`; }},
 ];
 const tourStep = () => { if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null; const it = INTRO[Math.min(S.introStep || 0, INTRO.length - 1)]; return it && it.tab ? it : null; };
 const introSeenLocal = () => { try{ return localStorage.getItem('vn-intro-v3-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
@@ -3266,13 +3267,14 @@ function introHtml(){
   if(!introOn() && !S.introForce) return '';
   const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
   document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(it.tab){ document.body.classList.add('tour-' + it.tab); document.body.classList.add('tour-' + groupOf(it.tab).k); }
-  return `<div class="intro${it.tab ? ' tour' : ''}" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
+  const still = S.__introShown ? ' still' : ''; S.__introShown = true;
+  return `<div class="intro${it.tab ? ' tour' : ''}${still}" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
     ${it.tab && S.__demoOn ? `<div class="in-demo">예시 데이터 화면입니다. 내 종목을 넣으면 내 화면으로 바뀝니다.</div>` : ''}<div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
     <h2 class="intro-t">${esc(it.t)}</h2><div class="intro-b">${typeof it.b === 'function' ? it.b() : it.b}</div>
     <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
   </div></div>`;
 }
-function introDone(){ if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); try{ localStorage.setItem('vn-intro-v3-'+(store.user?.id||''),'1'); }catch(_){} }
+function introDone(){ S.__introShown = false; if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); try{ localStorage.setItem('vn-intro-v3-'+(store.user?.id||''),'1'); }catch(_){} }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
   {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계입니다.'},
@@ -4662,6 +4664,8 @@ body[class*="tour-"] nav.subtabs button[aria-pressed="true"]{box-shadow:0 0 0 2p
 .lg-keep{display:flex;gap:16px;font-size:13.5px;color:var(--ink)}
 .lg-keep label{display:flex;align-items:center;gap:6px;cursor:pointer}
 .lg-keep input{width:17px;height:17px;accent-color:var(--navy, #0E1A2B)}
+
+.intro.still .intro-card,.intro.tour.still .intro-card{animation:none!important}
 </style>
 </body>
 </html>
