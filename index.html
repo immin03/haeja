@@ -3509,6 +3509,7 @@ const QZ_R = {
      tip:'혼란장 체크: 지금 팔고 싶다면, 그 회사의 이익이 정말 줄었는지 숫자로 확인하고 결정하세요.', q:'"주식 시장은 인내심 없는 사람의 돈을 인내심 있는 사람에게 옮기는 장치다." — 워런 버핏'},
 };
 const QZ = { open:false, i:0, picks:[], res:null };
+const QZ_L = [['B','장기 투자'], ['G','싸게 사기'], ['M','실수 피하기'], ['T','유행 따라가기'], ['P','감정적 매매']];
 function qzScore(){
   const s = {G:0, B:0, M:0, T:0, P:0};
   QZ.picks.forEach((p, i) => { const w = QZ_Q[i]?.o[p]?.[1] || {}; Object.entries(w).forEach(([k, v]) => s[k] += v); });
@@ -3525,7 +3526,7 @@ function qzHtml(){
       <div class="eyebrow">나의 투자 성향</div>
       <div class="qz-who">${esc(r.who)}</div><h2 class="qz-name">${esc(r.name)}</h2><div class="qz-tag">${esc(r.tag)}</div>
       <p class="qz-d">${esc(r.d)}</p>
-      <div class="qz-ms">${bar('B','버핏 · 장기')}${bar('G','그레이엄 · 가격')}${bar('M','멍거 · 실수 회피')}${bar('T','테마 · 흐름')}${bar('P','감정 · 반응')}</div>
+      <div class="qz-ms">${QZ_L.map(([k, l]) => bar(k, l)).join('')}</div>
       <div class="qz-tip">${esc(r.tip)}</div>
       <blockquote class="qz-q">${esc(r.q)}</blockquote>
       <div class="qz-a">${store.mode === 'db' && !store.isDemo
@@ -3590,7 +3591,7 @@ function cardFoot(ctx, sub){
 }
 function cardBars(ctx, rows, y, gap = 62){
   rows.forEach(([l, v, c]) => {
-    ctx.font = '600 30px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.85)'; ctx.fillText(l, 80, y);
+    ctx.font = '600 32px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.9)'; ctx.fillText(l, 80, y);
     ctx.textAlign = 'right'; ctx.fillStyle = '#F3EEE3'; ctx.font = '800 30px "SUIT Variable", sans-serif'; ctx.fillText(v + '%', CARD_W - 80, y); ctx.textAlign = 'left';
     ctx.fillStyle = 'rgba(243,238,227,.12)'; cardRound(ctx, 400, y - 22, 520, 18, 9); ctx.fill();
     ctx.fillStyle = c; cardRound(ctx, 400, y - 22, Math.max(18, 520 * v / 100), 18, 9); ctx.fill();
@@ -3607,12 +3608,7 @@ function drawTestCard(res){
   ctx.font = '800 108px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText(r.name, 74, 470);
   ctx.font = '500 34px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.8)'; ctx.fillText(r.tag, 80, 545);
   const P = res.pct;
-  let y = cardBars(ctx, [['버핏 · 장기', P.B, QZ_R.B.c], ['그레이엄 · 가격', P.G, QZ_R.G.c], ['멍거 · 실수 회피', P.M, QZ_R.M.c], ['테마 · 흐름', P.T, QZ_R.T.c], ['감정 · 반응', P.P, QZ_R.P.c]], 630, 58);
-  ctx.fillStyle = 'rgba(228,199,141,.12)'; cardRound(ctx, 80, y - 8, CARD_W - 160, 132, 20); ctx.fill();
-  ctx.font = '600 29px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3';
-  cardWrap(ctx, r.tip, 112, y + 44, CARD_W - 224, 44, 2);
-  ctx.font = '500 27px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(228,199,141,.9)';
-  cardWrap(ctx, r.q, 80, y + 175, CARD_W - 160, 40, 2);
+  cardBars(ctx, QZ_L.map(([k, l]) => [l, P[k] || 0, QZ_R[k].c]), 700, 74);
   cardFoot(ctx, '폭락장, 당신은 팔까 살까? 1분 테스트 해 보기');
   return cv;
 }
@@ -3677,17 +3673,16 @@ function drawPfCard(){
   ctx.font = '800 64px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText(h1, 76, 352);
   ctx.font = '800 112px "SUIT Variable", sans-serif'; ctx.fillStyle = col(d.plPct); ctx.fillText(h2, 72, 470);
   ctx.font = '500 30px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.75)';
-  ctx.fillText(`${d.hs.length}종목 · 현금 ${fmt(d.cashW, 0)}% · 버핏 점수 75점 이상 ${d.strong}종목${SHARE.amt ? ' · 총 ' + fmtKRW(d.total) : ''}`, 80, 530);
-  let y = 610; const shown = d.hs.slice(0, 6), maxW = Math.max(...shown.map(r => r.w), 1);
+  ctx.fillText(`${d.hs.length}종목 · 현금 ${fmt(d.cashW, 0)}%${SHARE.amt ? ' · 총 ' + fmtKRW(d.total) : ''}`, 80, 530);
+  let y = 640; const shown = d.hs.slice(0, 5), maxW = Math.max(...shown.map(r => r.w), 1);
   shown.forEach((r, i) => {
     ctx.font = '700 31px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3';
     let t = nm(r, i); while(ctx.measureText(t).width > 300 && t.length > 2) t = t.slice(0, -1); if(t !== nm(r, i)) t += '…';
     ctx.fillText(t, 80, y);
-    ctx.fillStyle = 'rgba(243,238,227,.12)'; cardRound(ctx, 400, y - 20, 380, 16, 8); ctx.fill();
-    ctx.fillStyle = '#E4C78D'; cardRound(ctx, 400, y - 20, Math.max(16, 380 * r.w / maxW), 16, 8); ctx.fill();
-    ctx.font = '600 24px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.6)'; ctx.fillText(fmt(r.w, 0) + '%', 795, y);
+    ctx.fillStyle = 'rgba(243,238,227,.12)'; cardRound(ctx, 420, y - 20, 380, 16, 8); ctx.fill();
+    ctx.fillStyle = '#E4C78D'; cardRound(ctx, 420, y - 20, Math.max(16, 380 * r.w / maxW), 16, 8); ctx.fill();
     ctx.textAlign = 'right'; ctx.font = '800 31px "SUIT Variable", sans-serif'; ctx.fillStyle = col(r.calc.plPct || 0); ctx.fillText(sg(r.calc.plPct || 0), CARD_W - 80, y); ctx.textAlign = 'left';
-    y += 58;
+    y += 64;
   });
   if(d.hs.length > shown.length){ ctx.font = '500 26px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.5)'; ctx.fillText(`외 ${d.hs.length - shown.length}종목`, 80, y - 8); y += 30; }
   const box = (x, w, label, r, i) => { ctx.fillStyle = 'rgba(228,199,141,.12)'; cardRound(ctx, x, y, w, 128, 20); ctx.fill();
@@ -3696,7 +3691,7 @@ function drawPfCard(){
     let t = nm(r, d.hs.indexOf(r)); while(ctx.measureText(t).width > w - 200 && t.length > 2) t = t.slice(0, -1);
     ctx.fillText(t, x + 28, y + 96); ctx.textAlign = 'right'; ctx.fillStyle = col(r.calc.plPct); ctx.fillText(sg(r.calc.plPct), x + w - 28, y + 96); ctx.textAlign = 'left'; };
   y = Math.max(y + 8, 980);
-  box(80, 450, '최고의 한 수', d.best); box(550, 450, '가장 아픈 실수', d.worst && d.worst.calc.plPct < (d.best?.calc.plPct ?? 0) ? d.worst : null);
+  box(80, 450, '잘한 투자', d.best); box(550, 450, '아픈 실수', d.worst && d.worst.calc.plPct < (d.best?.calc.plPct ?? 0) ? d.worst : null);
   cardFoot(ctx, '내 포트폴리오도 버핏 기준으로 채점해 볼까?');
   ctx.font = '500 21px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.4)'; ctx.textAlign = 'right'; ctx.fillText('개인 기록이며 투자 권유가 아닙니다', CARD_W - 80, CARD_H - 70); ctx.textAlign = 'left';
   return cv;
