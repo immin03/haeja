@@ -118,12 +118,17 @@ begin
                (select jsonb_array_elements_text(st.inv -> 'expect') e, count(*) n from st join u on u.id = st.owner
                 where jsonb_typeof(st.inv -> 'expect') = 'array' group by 1) x),
     'style', (select coalesce(jsonb_object_agg(s, n), '{}') from
-              (select st.inv ->> 'style' s, count(*) n from st join u on u.id = st.owner where st.inv ->> 'style' is not null group by 1) x),
+              (select s, count(*) n from st join u on u.id = st.owner,
+                 lateral (select jsonb_array_elements_text(case jsonb_typeof(st.inv -> 'style') when 'array' then st.inv -> 'style' when 'string' then jsonb_build_array(st.inv -> 'style') else '[]'::jsonb end) s) z group by 1) x),
+    'goal', (select coalesce(jsonb_object_agg(s, n), '{}') from
+              (select jsonb_array_elements_text(st.inv -> 'goal') s, count(*) n from st join u on u.id = st.owner where jsonb_typeof(st.inv -> 'goal') = 'array' group by 1) x),
+    'markets', (select coalesce(jsonb_object_agg(s, n), '{}') from
+              (select jsonb_array_elements_text(st.inv -> 'markets') s, count(*) n from st join u on u.id = st.owner where jsonb_typeof(st.inv -> 'markets') = 'array' group by 1) x),
     'size', (select coalesce(jsonb_object_agg(s, n), '{}') from
              (select st.inv ->> 'size' s, count(*) n from st join u on u.id = st.owner where st.inv ->> 'size' is not null group by 1) x),
     'users', (select coalesce(jsonb_agg(x order by x.created_at desc), '[]') from (
        select u.email, u.created_at, u.last_sign_in_at, coalesce(hc.n, 0) holdings,
-              st.inv ->> 'style' style, st.inv ->> 'size' size, st.inv ->> 'exp' exp, st.inv -> 'expect' expect, st.inv ->> 'expectNote' note
+              case jsonb_typeof(st.inv -> 'style') when 'array' then (select string_agg(x, ', ') from jsonb_array_elements_text(st.inv -> 'style') x) else st.inv ->> 'style' end style, st.inv -> 'goal' goal, st.inv ->> 'size' size, st.inv ->> 'exp' exp, st.inv -> 'expect' expect, st.inv ->> 'expectNote' note
        from u left join st on st.owner = u.id left join hc on hc.owner = u.id order by u.created_at desc limit 100) x)
   ) into res;
   return res;

@@ -177,8 +177,12 @@ function render(s){
   <div class="card">${barsList(s.expect||{})}</div>
 
   <div class="grid2">
-    <div><h2>투자 성향</h2><div class="card">${barsList(s.style||{}, ['안정형','배당형','균형형','성장형','공격형'])}</div></div>
+    <div><h2>지금 투자 방식 <span class="muted" style="font-weight:500;font-size:12px">여러 개 선택</span></h2><div class="card">${barsList(s.style||{}, ['안정형','배당형','균형형','성장형','공격형'])}</div></div>
     <div><h2>투자 규모</h2><div class="card">${barsList(s.size||{}, ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억 원 이상'])}</div></div>
+  </div>
+  <div class="grid2">
+    <div><h2>바꾸고 싶은 방향</h2><div class="card">${barsList(s.goal||{})}</div></div>
+    <div><h2>투자 시장</h2><div class="card">${barsList(s.markets||{}, ['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드'])}</div></div>
   </div>
   <div class="grid2">
     <div><h2>유입 경로 (30일)</h2><div class="card">${barsList(refs)}<div class="note">홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다.</div></div></div>
@@ -186,8 +190,8 @@ function render(s){
   </div>
 
   <h2>가입자 목록 <span class="muted" style="font-weight:500;font-size:12px">최근 100명 · 운영·체험 계정 제외</span></h2>
-  <div class="card tbl">${(s.users||[]).length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>최근 로그인</th><th>종목</th><th>성향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody>
-    ${s.users.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="muted nw">${kst(u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('')}
+  <div class="card tbl">${(s.users||[]).length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>최근 로그인</th><th>종목</th><th>지금 방식</th><th>바꾸고 싶은 방향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody>
+    ${s.users.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="muted nw">${kst(u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${(u.goal||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('')}
   </tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
   bindTips();
 }

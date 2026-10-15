@@ -1462,13 +1462,13 @@ function evaluate(c){
 /* ============ 가입 직후 기본 정보 (튜토리얼과 별개, 처음 한 번) ============ */
 const invDone = () => !!(inv().done || store.isDemo);
 function onboardHtml(){
-  const v = inv(), ok = v.size && v.style && (v.expect||[]).length;
+  const v = inv(), ok = v.size && invStyles().length && (v.expect||[]).length;
   const still = S.__onbShown ? ' still' : ''; S.__onbShown = true;
   return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="기본 정보"><div class="intro-card">
     <div class="eyebrow" style="color:var(--gold)">시작 전에 1분</div>
     <h2 class="intro-t">어떤 투자자인지 알려 주세요</h2>
     <p class="small muted" style="margin:0 0 14px">답에 맞춰 후보 정렬과 제안을 바꿔 드립니다. 나중에 계정에서 고칠 수 있습니다.</p>
-    <div class="intro-b">${invQHtml(['expect','size','style','count','markets','horizon','exp'])}
+    <div class="intro-b">${invQHtml(['expect','size','markets','count','style','goal','horizon','exp'])}
       <label class="f" style="margin-top:14px">그 밖에 ValueNote에 바라는 점 <span class="muted">(선택)</span><textarea id="onb-note" rows="2" maxlength="300" placeholder="예: 미국 주식 배당 정보를 더 보고 싶어요">${esc(S.__onbNote ?? v.expectNote ?? '')}</textarea></label></div>
     <div class="intro-nav" style="justify-content:space-between;align-items:center"><span class="small muted">${ok ? '' : '* 기대하는 점·투자 규모·성향은 꼭 골라 주세요'}</span><button type="button" class="btn primary" data-onb="done" ${ok ? '' : 'disabled'}>시작하기</button></div>
   </div></div>`;
@@ -2524,7 +2524,7 @@ function stageItems(stage){
   return allCompanyRows();
 }
 function filteredStage(stage, noMin){
-  const q = (S.coQ||'').trim().toLowerCase(), mk = S.coMkt || 'ALL', so = S.coSort || (inv().style ? 'fit' : 'b');
+  const q = (S.coQ||'').trim().toLowerCase(), mk = S.coMkt || 'ALL', so = S.coSort || (prefStyle() ? 'fit' : 'b');
   let rows = stageItems(stage);
   if(mk !== 'ALL') rows = rows.filter(x => x.m === mk);
   if(q) rows = rows.filter(x => [x.name, x.en, x.code, x.p?.industry, x.c?.sector, x.r?.ind].join(' ').toLowerCase().includes(q));
@@ -2533,7 +2533,7 @@ function filteredStage(stage, noMin){
   if(S.coHide && stage === 'all') rows = rows.filter(x => !(x.r?.flags||[]).some(f => f !== '경기순환·이익 변동'));
   const yld = x => { const d = x.p?.dividend; const px = x.c?.price ?? x.px; return d && isNum(d.dps) && d.dps > 0 && isNum(px) ? d.dps/px*100 : (d?.yield ?? -1); };
   const num = v => isNum(v) ? v : -1;
-  const fit = x => { const st = inv().style, t = styleTags(x);
+  const fit = x => { const st = prefStyle(), t = styleTags(x);
     if(st === '배당형') return (t.div ? 1000 : 0) + num(x.b) + Math.min(num(yld(x)), 8) * 3;
     if(st === '성장형' || st === '공격형') return (t.up ? 1000 : 0) + num(x.b) + Math.max(-20, Math.min(num(t.mos), 80)) / 4;
     if(st === '안정형') return num(x.r?.q) * 2 + num(x.b) + (t.div ? 30 : 0);
@@ -2548,11 +2548,11 @@ function funnelHtml(){
   return `<div class="segx" role="tablist" aria-label="보기">${STAGES.map(x => `<button type="button" role="tab" data-act="scope" data-v="${x.k}" aria-selected="${st===x.k}"><span>${x.l}</span><b class="num">${n[x.k]}</b></button>`).join('')}</div>`;
 }
 function filterBarHtml(){
-  const mk = S.coMkt || 'ALL', so = S.coSort || (inv().style ? 'fit' : 'b'), st = S.scope || 'held';
+  const mk = S.coMkt || 'ALL', so = S.coSort || (prefStyle() ? 'fit' : 'b'), st = S.scope || 'held';
   return `<div class="fbar">
     <div class="chips" role="group" aria-label="시장">${[['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국'],['HK','홍콩']].map(([k,l]) => `<button class="chip sm" data-act="co-mkt" data-v="${k}" aria-current="${mk===k}">${l}</button>`).join('')}</div>
     <div class="fbar-row"><input id="co-q" value="${esc(S.coQ||'')}" placeholder="회사명·티커·산업 검색" aria-label="검색">
-      <select id="co-sort" aria-label="정렬">${[...(inv().style ? [['fit','내 성향 맞춤']] : []),['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
+      <select id="co-sort" aria-label="정렬">${[...(prefStyle() ? [['fit','내 성향 맞춤']] : []),['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
     ${(() => { const base = filteredStage(st, true); const cnt = m => m ? base.filter(x => isNum(x.b) && x.b >= m).length : base.length; const cur = S.coMin || 0;
       return `<div class="minbar" role="group" aria-label="점수로 거르기"><span class="small muted">점수</span>${[[0,'전체'],[60,'60+'],[70,'70+'],[75,'75+'],[90,'90+']].map(([m,l]) => `<button class="chip sm" data-act="co-min" data-v="${m}" aria-current="${cur===m}">${l} <span class="num muted">${cnt(m)}</span></button>`).join('')}</div>`; })()}
     ${st === 'watch' ? `<p class="small muted" style="margin:0">관심 후보는 매주 월요일 아침 자동으로 다시 고릅니다: 점수 70점 이상, 탈락·위험 신호 없음, 시장마다 최대 6곳씩 상위 20곳. 여기에 ☆를 누르거나 메모를 쓴 회사가 더해집니다.</p>` : ''}
@@ -2898,12 +2898,17 @@ const INV_Q = [
   {k:'expect', q:'ValueNote에 가장 기대하는 것은? (여러 개 선택)', multi:true, o:['좋은 회사 고르는 기준','적정 매수가·매수 시점 알림','내 포트폴리오 점검','보유 종목 뉴스 요약','투자 원칙·습관 만들기','가치투자 공부']},
   {k:'size', q:'투자 규모는?', o:['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억 원 이상']},
   {k:'count', q:'지금 보유 종목 수는?', o:['아직 없음','1~3개','4~7개','8~15개','16개 이상']},
-  {k:'markets', q:'어디에 투자하나요? (여러 개 선택)', multi:true, o:['한국 주식','미국 주식','일본·중국·홍콩','ETF·펀드']},
+  {k:'markets', q:'어느 시장에 투자하나요? (여러 개 선택)', multi:true, o:['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드']},
   {k:'horizon', q:'한 종목을 보통 얼마나 들고 있나요?', o:['몇 주~몇 달','1~3년','5년 이상']},
-  {k:'style', q:'나에게 가까운 성향은?', o:['안정형','배당형','균형형','성장형','공격형'], hint:{'안정형':'원금을 지키는 것이 먼저','배당형':'꾸준한 현금 흐름','균형형':'안정과 성장의 중간','성장형':'오를 여력이 큰 회사','공격형':'큰 수익을 위해 큰 위험도 감수'}},
+  {k:'style', q:'지금 나의 투자 방식에 가까운 것은? (여러 개 선택)', multi:true, o:['안정형','배당형','균형형','성장형','공격형'], hint:{'안정형':'원금을 지키는 것이 먼저','배당형':'꾸준한 현금 흐름','균형형':'안정과 성장의 중간','성장형':'오를 여력이 큰 회사','공격형':'큰 수익을 위해 큰 위험도 감수'}},
+  {k:'goal', q:'앞으로 바꾸고 싶은 방향은? (여러 개 선택)', multi:true, o:['더 안정적으로','배당·현금 흐름 늘리기','장기 보유로 바꾸기','종목 수 줄이고 집중','저평가 종목 찾기','감정적 매매 줄이기']},
   {k:'exp', q:'투자 경험은?', o:['1년 미만','1~5년','5년 이상']},
 ];
 const inv = () => cfg().investor || {};
+const invStyles = () => { const v = inv().style; return Array.isArray(v) ? v : (v ? [v] : []); };
+const GOAL_STYLE = {'더 안정적으로':'안정형','배당·현금 흐름 늘리기':'배당형','저평가 종목 찾기':'성장형'};
+function prefStyle(){ const g = (inv().goal || []).map(x => GOAL_STYLE[x]).find(Boolean); if(g) return g;
+  const st = invStyles(); return ['배당형','안정형','성장형','공격형','균형형'].find(x => st.includes(x)) || null; }
 function saveInv(patch){
   S.settings = {...cfg(), investor:{...inv(), ...patch, at: today()}};
   clearTimeout(saveTimers.__prog);
@@ -2917,18 +2922,24 @@ function invQHtml(keys){
 /* 점검 결과로 만든 맞춤 제안 (2~4줄) */
 function invAdvice(){
   const v = inv(), out = [];
-  if(!v.style && !v.count && !v.horizon) return [];
+  const sts = invStyles(), goals = v.goal || [], ps = prefStyle();
+  if(!sts.length && !v.count && !v.horizon && !goals.length) return [];
   if(v.horizon === '몇 주~몇 달') out.push('ValueNote는 1년 이상 보유를 전제로 합니다. 짧은 매매보다 "좋은 회사를 싸게 사서 기다리기"부터 시작해 보세요.');
   if(['8~15개','16개 이상'].includes(v.count)) out.push('종목이 많은 편입니다. 잘 아는 주력 3종목에 70~80%를 모으는 것이 첫 목표입니다.');
   if(v.count === '아직 없음') out.push('처음이라면 관심 후보 중 "매수 후보" 판정이 나온 회사부터 천천히 살펴보세요.');
-  if(v.style === '배당형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 배당 아이콘이 붙은 회사부터 보여 드립니다.');
-  if(v.style === '성장형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 상승 여력 아이콘이 붙은 회사부터 보여 드립니다. 그래도 안전마진 30%는 지킵니다.');
-  if(v.style === '공격형') out.push('큰 수익을 노리는 베팅은 도전 칸(포트폴리오의 10% 이하) 안에서만 하도록 알려 드립니다.');
-  if(v.style === '안정형') out.push('품질 점수가 높고 부채가 적은 회사부터 보여 드리고, 현금 10~20%를 늘 지키도록 알려 드립니다.');
-  if(v.style === '균형형') out.push('주력 3종목 70~80%, 현금 10~20%의 기본 구조가 잘 맞습니다.');
+  if(ps === '배당형') out.push((goals.includes('배당·현금 흐름 늘리기') ? '배당·현금 흐름을 늘리고 싶다고 하셔서 ' : '') + '기업 목록을 "내 성향 맞춤" 순으로 정렬해 배당 아이콘이 붙은 회사부터 보여 드립니다.');
+  if(ps === '성장형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 상승 여력 아이콘이 붙은 회사부터 보여 드립니다. 그래도 안전마진 30%는 지킵니다.');
+  if(sts.includes('공격형')) out.push('큰 수익을 노리는 베팅은 도전 칸(포트폴리오의 10% 이하) 안에서만 하도록 알려 드립니다.');
+  if(ps === '안정형') out.push((goals.includes('더 안정적으로') ? '더 안정적으로 바꾸고 싶다고 하셔서 ' : '') + '품질 점수가 높고 부채가 적은 회사부터 보여 드리고, 현금 10~20%를 늘 지키도록 알려 드립니다.');
+  if(sts.includes('균형형')) out.push('주력 3종목 70~80%, 현금 10~20%의 기본 구조가 잘 맞습니다.');
+  if(goals.includes('종목 수 줄이고 집중')) out.push('주력 3종목에 70~80%를 모으도록 "지금 할 일"에서 줄일 순서를 알려 드립니다.');
+  if(goals.includes('장기 보유로 바꾸기')) out.push('매수 전에 10년 보유 테스트와 매도 조건 3가지를 먼저 적게 해 단기 매매를 줄입니다.');
+  if(goals.includes('감정적 매매 줄이기')) out.push('결정 일지에 매수 때의 마음 상태를 남기고 3개월 뒤 결과와 비교해 복기합니다.');
+  if(goals.includes('저평가 종목 찾기')) out.push('기업 목록에서 저평가 점수와 상승 여력 순으로 후보를 먼저 보여 드립니다.');
+  if(sts.includes('공격형') && goals.includes('더 안정적으로')) out.push('지금은 공격형이지만 안정을 원하시면, 도전 칸을 10% 이하로 줄이는 것부터 시작하세요.');
   if((v.markets||[]).includes('ETF·펀드')) out.push('ETF·펀드는 회사가 아니라 점수 대상이 아닙니다. 개별 회사 위주로 보시면 점수가 더 쓸모 있습니다.');
   if(v.exp === '1년 미만') out.push('처음 3개월은 사기보다 Q&A와 매일 브리핑으로 원칙을 익히는 것을 권합니다.');
-  return out.slice(0, 4);
+  return out.slice(0, 5);
 }
 /* 후보 아이콘: 배당 지향 / 상승 여력 */
 function styleTags(x){
@@ -2945,7 +2956,7 @@ function styleTags(x){
 const ICO_DIV = '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><ellipse cx="8" cy="4.5" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 4.5v3.5c0 1.1 2.2 2 5 2s5-.9 5-2V4.5M3 8v3.5c0 1.1 2.2 2 5 2s5-.9 5-2V8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
 const ICO_UP = '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3 12.5 8 7.5l2.5 2.5L14 6.5M10 6.5h4v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function styleBadges(x){
-  const t = styleTags(x), st = inv().style;
+  const t = styleTags(x), st = prefStyle();
   const mineDiv = st === '배당형' || st === '안정형', mineUp = st === '성장형' || st === '공격형';
   return (t.div ? `<span class="stag stag-div${mineDiv?' mine':''}" title="배당 지향 후보">${ICO_DIV}배당${isNum(t.yld) ? ' '+fmt(t.yld,1)+'%' : ''}</span>` : '')
        + (t.up ? `<span class="stag stag-up${mineUp?' mine':''}" title="상승 여력 후보">${ICO_UP}상승 여력</span>` : '');
@@ -3187,7 +3198,7 @@ const INTRO = [
   {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
     <p><b>적정 가격</b>은 회사의 제값, <b>상승 여력</b>은 지금 가격에서 적정 가격까지 남은 거리입니다. 적정 가격보다 30% 싼 <b>적정 매수가</b> 아래로 오면 매수 후보로 보고 알려 드립니다. 모든 값은 추정치이며 수익을 보장하지 않습니다.</p>`},
-  {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(inv().style || '나')}${inv().style ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
+  {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(prefStyle() || '나')}${prefStyle() ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
     ${homeAddHtml()}
     <div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>
     <button type="button" class="in-push" data-act="intro-push"><span>알림 켜기 (휴대폰·PC)</span><span class="muted">›</span></button>
@@ -4119,7 +4130,7 @@ document.addEventListener('click', async e => {
     if(a.closest('.onb')){
       const box = a.closest('.inv-opts'), now = inv();
       box.querySelectorAll('.inv-o').forEach(o => { const on = q.multi ? (now[k]||[]).includes(o.dataset.v) : now[k] === o.dataset.v; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); });
-      const ok = now.size && now.style && (now.expect||[]).length, btn = document.querySelector('[data-onb="done"]');
+      const ok = now.size && invStyles().length && (now.expect||[]).length, btn = document.querySelector('[data-onb="done"]');
       if(btn){ btn.disabled = !ok; const hint = btn.parentElement.querySelector('.small'); if(hint) hint.textContent = ok ? '' : '* 기대하는 점·투자 규모·성향은 꼭 골라 주세요'; }
       return; }
     const box = document.querySelector('.intro-card'), y = box ? box.scrollTop : 0; S.coSort = null; render(); const b2 = document.querySelector('.intro-card'); if(b2) b2.scrollTop = y; return; }
