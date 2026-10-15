@@ -96,6 +96,12 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .tools input{flex:1;min-width:0;font:inherit;font-size:13px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .qcount{font-size:12px;color:var(--muted);font-weight:500;margin-left:auto}
 .more{display:block;text-align:right;font-size:12px;font-weight:700;color:var(--ink2);margin-top:8px;text-decoration:none}
+.col-ed label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-top:12px}
+.col-ed label:first-child{margin-top:0}
+.col-ed input,.col-ed textarea{display:block;width:100%;margin-top:6px;font:inherit;font-weight:400;font-size:14px;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);line-height:1.6}
+.col-ed textarea{resize:vertical;min-height:220px}
+.col-a{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;align-items:center}
+.col-a .go{width:auto;background:var(--navy-grad);color:var(--ivory);border:0;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;font:inherit;font-weight:700}
 @media (max-width:760px){
   .kpis{grid-template-columns:repeat(2,1fr)}
   .grid2{grid-template-columns:1fr}
@@ -171,6 +177,7 @@ const PAGES = [
   ['survey', '설문 응답'],
   ['users', '가입자'],
   ['traffic', '유입·기기'],
+  ['column', '칼럼'],
 ];
 let DATA = null;
 const page = () => { const h = location.hash.slice(1); return PAGES.some(p => p[0] === h) ? h : 'overview'; };
@@ -254,6 +261,45 @@ function vTraffic(s){
   <div class="note">방문자는 같은 인터넷 연결(IP)에서 들어오면 하루 한 명으로 셉니다. 회사·카페처럼 여러 사람이 한 연결을 쓰면 적게 잡힐 수 있습니다. 운영자 계정이 쓴 연결의 방문은 빠집니다.<br>홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다. 예: <code>${esc(location.origin)}/?ref=threads</code></div>`;
 }
 
+/* ---- 운영자 칼럼: 앱 브리핑의 '이번 주 노트'에 붙는다 (docs: trends / col-YYYY-MM-DD) ---- */
+const COL = { list: null, edit: null, msg: '' };
+const kstDay = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+async function colLoad(){ const { data } = await sb.from('docs').select('id,data').eq('collection', 'trends').like('id', 'col-%').order('id', { ascending: false }).limit(30);
+  COL.list = (data || []).map(r => ({ id: r.id, ...r.data })); if(page() === 'column') render(); }
+const COL_TMPL = '이번 주 시장에서 한 일\n(산 것·판 것이 있으면 이유를 한두 문장으로)\n\n하지 않은 일\n(사고 싶었지만 참은 것, 그 이유)\n\n다음 주에 지켜볼 것\n(숫자 하나, 회사 하나)';
+function vColumn(){
+  if(COL.list === null){ colLoad(); return head('칼럼', '불러오는 중', 'column'); }
+  const e = COL.edit || { id: 'col-' + kstDay(), title: '', body: '' };
+  return `${head('칼럼', '여기에 쓴 글은 앱 브리핑 화면의 "이번 주 노트" 아래에 2주 동안 보여요. 비회원도 읽을 수 있어요.', 'column')}
+  <div class="card col-ed">
+    <label>날짜<input id="c-date" type="date" value="${esc(e.id.slice(4))}"></label>
+    <label>제목<input id="c-title" maxlength="60" value="${esc(e.title)}" placeholder="예: 폭락한 주에 내가 하지 않은 일"></label>
+    <label>본문 <span class="muted" style="font-weight:500">빈 줄로 문단을 나눠요 · 300~600자 권장</span><textarea id="c-body" rows="12" placeholder="${esc(COL_TMPL)}">${esc(e.body)}</textarea></label>
+    <div class="note">특정 종목을 "사세요"로 읽히게 쓰지 마세요. 내 기록과 원칙 중심으로 쓰면 됩니다. <span id="c-len"></span></div>
+    <div class="col-a"><button class="lnk" id="c-tmpl" type="button">틀 채우기</button><button class="lnk" id="c-new" type="button">새 글</button><button class="go" id="c-save" type="button">발행하기</button></div>
+    <div class="msg" id="c-msg" style="color:var(--good)">${esc(COL.msg)}</div>
+  </div>
+  <h2>지난 칼럼</h2>
+  <div class="card tbl">${COL.list.length ? `<table><tbody>${COL.list.map(c => `<tr><td class="muted nw">${esc(c.id.slice(4))}</td><td><b>${esc(c.title)}</b><div class="muted" style="margin-top:2px">${esc(String(c.body || '').slice(0, 80))}…</div></td><td class="nw"><button class="lnk" data-col-edit="${esc(c.id)}">고치기</button> <button class="lnk" data-col-del="${esc(c.id)}">삭제</button></td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 쓴 칼럼이 없습니다.</div>'}</div>`;
+}
+function bindColumn(){
+  const body = $('#c-body'); if(!body) return;
+  const len = () => { $('#c-len').textContent = `· 지금 ${body.value.length}자`; }; body.oninput = len; len();
+  $('#c-tmpl').onclick = () => { if(!body.value.trim()) body.value = COL_TMPL; len(); };
+  $('#c-new').onclick = () => { COL.edit = null; COL.msg = ''; render(); };
+  $('#c-save').onclick = async () => {
+    const title = $('#c-title').value.trim(), text = body.value.trim(), d = $('#c-date').value || kstDay();
+    if(!title || !text){ $('#c-msg').style.color = 'var(--bad)'; $('#c-msg').textContent = '제목과 본문을 써 주세요.'; return; }
+    const { data: { session } } = await sb.auth.getSession();
+    const { error } = await sb.from('docs').upsert({ owner: session.user.id, collection: 'trends', id: 'col-' + d, data: { title, body: text, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+    if(error){ $('#c-msg').style.color = 'var(--bad)'; $('#c-msg').textContent = '발행하지 못했습니다: ' + error.message; return; }
+    COL.edit = null; COL.msg = '발행했습니다. 앱 브리핑 화면에서 확인할 수 있어요.'; COL.list = null; colLoad();
+  };
+  document.querySelectorAll('[data-col-edit]').forEach(b => b.onclick = () => { COL.edit = COL.list.find(c => c.id === b.dataset.colEdit); COL.msg = ''; render(); window.scrollTo(0, 0); });
+  document.querySelectorAll('[data-col-del]').forEach(b => b.onclick = async () => { if(!confirm('이 칼럼을 삭제할까요?')) return;
+    await sb.from('docs').delete().eq('collection', 'trends').eq('id', b.dataset.colDel); COL.list = null; colLoad(); });
+}
+
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
   const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0 };
@@ -261,8 +307,9 @@ function render(s){
   const nav = $('#tabs'); nav.hidden = false;
   nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'traffic' ? vTraffic(s) : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'traffic' ? vTraffic(s) : p === 'column' ? vColumn() : vOverview(s);
   if(p === 'users') bindUsers(s);
+  if(p === 'column') bindColumn();
   bindTips();
 }
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
@@ -289,7 +336,7 @@ $('#reload').onclick = load;
 $('#out').onclick = async () => { await sb.auth.signOut(); load(); };
 window.__render = render;
 load();
-setInterval(() => { if(!document.hidden && !$('#out').hidden && !document.activeElement?.matches('input')) load(); }, 5 * 60 * 1000);
+setInterval(() => { if(!document.hidden && !$('#out').hidden && page() !== 'column' && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>

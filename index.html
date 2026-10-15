@@ -2323,6 +2323,7 @@ function trendRowsHtml(c){
 }
 const momTxt = m => m >= 2 ? '가속 ▲▲' : m === 1 ? '상승 ▲' : m === 0 ? '보합' : m === -1 ? '둔화 ▼' : '급랭 ▼▼';
 function viewBriefing(){
+  const weekly = weeklyNoteHtml();
   const all = [...S.briefings].sort((a,b) => (b.id||'').localeCompare(a.id||''));
   const latest = all[0];
   const holds = S.holdings.filter(h => h.kind !== 'etf');
@@ -2335,7 +2336,7 @@ function viewBriefing(){
       <span class="br-main"><b>${esc(short(x.name))}</b><span class="small br-one">${esc(x.oneLine||'')}</span></span>
       <span class="small muted">${open?'접기':'뉴스'}</span></button>
       ${open ? `<div class="br-open">${newsHtml(doc, 4)}${c ? `<button class="btn" style="margin-top:8px" data-act="open-co" data-id="${c.id}">종목 분석 보기</button>` : ''}</div>` : ''}`; };
-  return `
+  return `${weekly}
   <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">오늘의 브리핑</h2>${latest ? `<span class="small muted num">${esc(latest.id)}</span>` : ''}</div>
   <div class="small muted fresh-line">매일 07:50 분석 · 다음 브리핑 ${nextRun(SCHED.brief)}</div>
   ${latest ? `<div class="card stack" style="margin-top:10px;gap:10px">
@@ -2357,6 +2358,65 @@ function viewBriefing(){
     </div>
   </details>`;
 }
+/* ============ 이번 주 노트: 숫자 요약 + 대가의 한마디 + 운영자 칼럼 ============ */
+/* 인용은 출처를 밝힌 짧은 문장만. 우리말 번역은 ValueNote가 했다. */
+const MASTER_Q = [
+  {tag:'fear', who:'워런 버핏', src:'1986년 주주서한', q:'우리는 남들이 욕심낼 때 두려워하고, 남들이 두려워할 때만 욕심내려 할 뿐이다.'},
+  {tag:'fear', who:'워런 버핏', src:'2008년 주주서한', q:'가격은 당신이 내는 것이고, 가치는 당신이 얻는 것이다.'},
+  {tag:'fear', who:'벤저민 그레이엄', src:'버핏 1993년 주주서한에서 인용', q:'시장은 단기적으로는 투표기, 장기적으로는 저울이다.'},
+  {tag:'fear', who:'벤저민 그레이엄', src:'『현명한 투자자』 8장의 요지', q:'시장은 매일 값을 부르는 변덕스러운 동업자다. 그의 기분을 따를 필요는 없다. 이용하면 된다.'},
+  {tag:'greed', who:'워런 버핏', src:'2001년 주주서한', q:'썰물이 빠져야 누가 벌거벗고 수영했는지 알 수 있다.'},
+  {tag:'greed', who:'워런 버핏', src:'1989년 주주서한', q:'그저 그런 회사를 훌륭한 가격에 사는 것보다, 훌륭한 회사를 적당한 가격에 사는 편이 훨씬 낫다.'},
+  {tag:'greed', who:'벤저민 그레이엄', src:'『현명한 투자자』 20장', q:'건전한 투자의 비밀을 세 단어로 줄이라면, 안전 마진이다.'},
+  {tag:'greed', who:'찰리 멍거', src:'널리 알려진 말', q:'내가 어디서 죽을지 알면, 그곳에는 절대 가지 않겠다.'},
+  {tag:'calm', who:'워런 버핏', src:'1988년 주주서한', q:'우리가 가장 좋아하는 보유 기간은 영원히다.'},
+  {tag:'calm', who:'워런 버핏', src:'1996년 주주서한', q:'10년 동안 가지고 있을 생각이 없는 주식이라면 10분도 갖고 있지 마라.'},
+  {tag:'calm', who:'벤저민 그레이엄', src:'『현명한 투자자』', q:'투자자의 가장 큰 문제, 어쩌면 가장 큰 적은 자기 자신이다.'},
+  {tag:'calm', who:'찰리 멍거', src:'널리 알려진 말', q:'큰돈은 사고파는 데서가 아니라 기다리는 데서 나온다.'},
+  {tag:'calm', who:'찰리 멍거', src:'수학자 야코비의 말을 즐겨 인용', q:'뒤집어 생각하라. 언제나 뒤집어 생각하라.'},
+];
+function weekLabel(d = new Date()){
+  const k = new Date(d.getTime() + 9 * 3600e3); const m = k.getUTCMonth() + 1, day = k.getUTCDate();
+  return `${m}월 ${['첫째','둘째','셋째','넷째','다섯째'][Math.min(4, Math.floor((day - 1) / 7))]} 주`;
+}
+function weekNo(){ return Math.floor((Date.now() + 9 * 3600e3) / (7 * 864e5)); }
+function weeklyNote(){
+  const req = cfg().reqMOS ?? 30;
+  const rows = S2.screen?.length ? scoredRows() : [];
+  const good = rows.filter(r => isNum(r.b) && r.b >= 75 && isNum(r.mos));
+  const pass = good.filter(r => r.mos >= req).length, near = good.filter(r => r.mos >= req - 10 && r.mos < req).length;
+  const cyc = trendList().map(t => ({ t, c: trCycle(t.key) })).filter(x => x.c);
+  const hot = cyc.filter(x => x.c.ph === '고점권').map(x => trShort(x.t.label));
+  const low = cyc.filter(x => /바닥/.test(x.c.ph)).map(x => trShort(x.t.label));
+  /* 내 포트폴리오 1주 변화 (회원·보유 종목이 있을 때) */
+  let wk = null;
+  if(S.holdings.length && !store.isGuest){ let a = 0, b = 0;
+    S.holdings.forEach(h => { const d = (S.prices[normKey(h.ticker)]?.daily || []).filter(p => isNum(p[1])); if(d.length < 6) return; const fx = fxOf(h.currency || curOf(h.market)); a += h.qty * d.at(-1)[1] * fx; b += h.qty * d.at(-6)[1] * fx; });
+    if(b > 0) wk = (a / b - 1) * 100; }
+  const tag = (isNum(wk) && wk <= -3) || near + pass >= 8 ? 'fear' : hot.length >= 2 ? 'greed' : 'calm';
+  const pool = MASTER_Q.filter(x => x.tag === tag), q = pool[weekNo() % pool.length];
+  const read = tag === 'fear' ? `좋은 회사 중 적정 매수가 아래로 내려온 곳이 ${pass}곳, 근처까지 온 곳이 ${near}곳이에요. 회사의 이익이 줄지 않았다면 지금은 겁낼 때가 아니라 살펴볼 때예요.`
+    : tag === 'greed' ? `${hot.slice(0, 2).join('·')} 산업이 5년 범위 꼭대기 근처예요. 이 산업의 회사를 볼 때는 좋은 회사인지보다 비싸게 사는 건 아닌지를 먼저 확인하세요.`
+    : `이번 주는 원칙을 바꿀 만한 신호가 없어요. 이런 주에는 아무것도 하지 않는 게 가장 좋은 결정일 때가 많아요.`;
+  return { pass, near, hot, low, wk, tag, q, read };
+}
+function weeklyNoteHtml(){
+  const n = weeklyNote(), col = (S.columns || [])[0];
+  const fresh = col && (Date.now() - Date.parse(col.at || col.id.slice(4))) < 15 * 864e5;
+  return `<div class="card wk-card">
+    <div class="wk-top"><span class="eyebrow">이번 주 노트</span><span class="small muted">${weekLabel()}</span></div>
+    <blockquote class="wk-q">${esc(n.q.q)}<span>${esc(n.q.who)} · ${esc(n.q.src)}</span></blockquote>
+    <p class="wk-read">${esc(n.read)}</p>
+    <div class="wk-nums">
+      <div><b class="num">${n.pass}</b><span>적정 매수가 아래<br>좋은 회사</span></div>
+      <div><b class="num">${n.near}</b><span>적정 매수가<br>근처</span></div>
+      <div><b>${n.hot.length ? esc(n.hot.slice(0, 2).join(', ')) : '없음'}</b><span>꼭대기 근처<br>산업</span></div>
+      ${isNum(n.wk) ? `<div><b class="num">${pct(n.wk)}</b><span>내 포트폴리오<br>이번 주</span></div>` : `<div><b>${n.low.length ? esc(n.low.slice(0, 2).join(', ')) : '없음'}</b><span>바닥권<br>산업</span></div>`}
+    </div>
+    ${fresh ? `<details class="wk-col"><summary><span class="eyebrow">운영자 칼럼</span><b>${esc(col.title)}</b></summary><div class="prose wk-body">${esc(col.body || '').split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}</div></details>` : ''}
+  </div>`;
+}
+
 /* ===== 메가트렌드 사이클: 수혜 기업 묶음 지수 (trends/series) ===== */
 const TR_RANGES = [['3M','3개월',3],['6M','6개월',6],['1Y','1년',12],['5Y','5년',60]];
 const TCOL_FB = ['#B08A3E','#5C6F8C','#4F7F76','#A8654A','#6B6799','#C2B08A','#7D8C4A','#A35A6B','#3E8AA0','#8E7356','#5B8A5E','#8A5FA0'];
@@ -4739,7 +4799,7 @@ function refresh(kind){
   });
   store.sub('news', docs => { S.news = Object.fromEntries(docs.map(d => [d.id, d])); if(['briefing','analyze','companies'].includes(S.tab)) refresh('n'); });
   store.sub('briefing', docs => { S.briefings = docs; if(S.tab === 'briefing') refresh('n'); });
-  store.sub('trends', docs => { S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
+  store.sub('trends', docs => { S.columns = docs.filter(d => String(d.id).startsWith('col-') && d.title).sort((a, b) => String(b.id).localeCompare(String(a.id))); S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
   store.sub('prices', docs => { S.prices = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['portfolio','companies','fx'].includes(S.tab)) refresh('p'); });
   store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; if(['fx','portfolio'].includes(S.tab)) refresh('x'); });
   store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
@@ -5016,6 +5076,20 @@ input,select,textarea{border-radius:10px}
 .dip-n small{color:var(--muted);font-size:12px}
 .dip-g{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
 .dip-g.in{color:var(--accent)}
+.wk-card{margin-top:16px;border-color:rgba(201,164,92,.55)}
+.wk-top{display:flex;justify-content:space-between;align-items:center}
+.wk-q{margin:12px 0 0;font-size:18px;line-height:1.55;font-weight:700;letter-spacing:-.02em;word-break:keep-all}
+.wk-q span{display:block;margin-top:6px;font-size:12.5px;font-weight:500;color:var(--muted)}
+.wk-read{margin:12px 0 0;font-size:14px;line-height:1.65;color:var(--ink)}
+.wk-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.wk-nums>div{background:var(--bg);border-radius:12px;padding:10px 10px 9px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.wk-nums b{font-size:16px;line-height:1.25;word-break:keep-all}
+.wk-nums span{font-size:11.5px;color:var(--muted);line-height:1.35}
+.wk-col{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.wk-col summary{cursor:pointer;display:flex;flex-direction:column;gap:2px;list-style:none}
+.wk-col summary::-webkit-details-marker{display:none}
+.wk-body{margin-top:8px;font-size:14px;line-height:1.75}
+@media (max-width:560px){.wk-nums{grid-template-columns:repeat(2,1fr)}}
 .vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#F3EEE3;font-size:13.5px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(7,12,21,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
 .brand-t{cursor:pointer;-webkit-tap-highlight-color:transparent}
