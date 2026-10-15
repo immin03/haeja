@@ -23,8 +23,11 @@ Deno.serve(async (req: Request) => {
   PER_MKT = 6; TOTAL = 20; if (body.dry && body.total) TOTAL = +body.total; if (body.dry && body.perMkt) PER_MKT = +body.perMkt;
   try {
     const D = kst();
-    const [screen, settings, comps, holds] = await Promise.all(["screen", "settings", "companies", "holdings"].map(load));
-    const owner = screen.find((r) => r.id === "meta")?.owner; if (!owner) return Response.json({ ok: false, msg: "screen 없음" });
+    const [screen0, settings0, comps0, holds0] = await Promise.all(["screen", "settings", "companies", "holdings"].map(load));
+    const owner = screen0.find((r) => r.id === "meta")?.owner; if (!owner) return Response.json({ ok: false, msg: "screen 없음" });
+    // 관심 후보 자동 선정은 운영자 계정에만 적용 (다른 사용자 데이터는 건드리지 않는다)
+    const mine = (a: { owner: string }[]) => a.filter((r) => r.owner === owner);
+    const screen = mine(screen0), settings = mine(settings0), comps = mine(comps0), holds = mine(holds0);
     const st = settings.find((r) => r.id === "main")?.data || {}; setSettings(st);
     const rows = screen.filter((r) => r.id.startsWith("chunk-")).sort((a, b) => a.id.localeCompare(b.id)).flatMap((r) => r.data?.rows || []);
     const compOf = (r: any) => comps.find((c) => (c.data.yf && c.data.yf === r.t) || nk(c.data.ticker) === nk(r.code || r.t));
@@ -81,7 +84,7 @@ Deno.serve(async (req: Request) => {
     if (added.length || removed.length) {
       const msg = [added.length ? `추가 ${added.slice(0, 4).join(", ")}${added.length > 4 ? ` 외 ${added.length - 4}곳` : ""}` : "", removed.length ? `제외 ${removed.length}곳` : ""].filter(Boolean).join(" · ");
       await sb.from("docs").upsert({ collection: "alerts", id: "watch-" + D, owner, updated_at: now, data: {
-        at: now, level: "info", title: "관심 후보 재선정", body: msg.slice(0, 60), link: { tab: "companies" }, read: false, source: "관심 후보 선정" } }, { onConflict: "collection,id", ignoreDuplicates: true });
+        at: now, level: "info", title: "관심 후보 재선정", body: msg.slice(0, 60), link: { tab: "companies" }, read: false, source: "관심 후보 선정" } }, { onConflict: "owner,collection,id", ignoreDuplicates: true });
     }
     return Response.json({ ok: true, ...summary });
   } catch (e) {

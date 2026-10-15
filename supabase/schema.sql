@@ -7,7 +7,7 @@ create table if not exists public.docs (
   data        jsonb       not null default '{}'::jsonb,
   owner       uuid        not null default auth.uid() references auth.users(id) on delete cascade,
   updated_at  timestamptz not null default now(),
-  primary key (collection, id)
+  primary key (owner, collection, id)
 );
 
 create index if not exists docs_owner_collection on public.docs (owner, collection);

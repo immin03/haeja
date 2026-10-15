@@ -27,20 +27,38 @@ STORE = r"""const store = (() => {
      행 수준 보안(RLS)으로 로그인한 본인 행만 읽고 쓴다. */
   let sb = null, mode = 'init', user = null;
   const timers = {};
+  const DEMO_EMAIL = 'demo@valuenote.app';
+  /* 방문 기록: 기기마다 무작위 방문자 번호 하나, 페이지를 열 때마다 한 줄 */
+  const sid = () => { try{ let v = localStorage.getItem('vn-sid'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,32); localStorage.setItem('vn-sid', v); } return v; }catch(_){ return 'nosid'; } };
+  const device = () => { const u = navigator.userAgent; const os = /iPhone|iPad|iPod/.test(u) ? 'iOS' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : '기타'; return (/Mobi|iPhone|Android/.test(u) ? '모바일' : 'PC') + ' · ' + os; };
+  const refHost = () => { try{ if(!document.referrer) return ''; const h = new URL(document.referrer).hostname; return h === location.hostname ? '' : h; }catch(_){ return ''; } };
   return {
     get mode(){ return mode },
     get user(){ return user },
     get client(){ return sb },
+    get isDemo(){ return !!user && user.email === DEMO_EMAIL },
+    async track(kind){
+      try{ if(!sb) return; const q = new URLSearchParams(location.search);
+        const ref = q.get('utm_source') || q.get('ref') || refHost();
+        await sb.from('events').insert({ kind, sid: sid(), path: location.pathname.slice(0, 200), ref: ref.slice(0, 300), device: device() }); }catch(_){}
+    },
     async init(){
       const C = window.HAEJA_CONFIG || {};
       if(!window.supabase || !C.SUPABASE_URL || !C.SUPABASE_ANON_KEY){ mode = 'noconfig'; return; }
       sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
       const { data: { session } } = await sb.auth.getSession();
-      if(!session){ mode = 'login'; return; }
-      user = session.user; mode = 'db';
+      if(!session){ mode = 'login'; this.track('visit'); return; }
+      user = session.user; mode = 'db'; this.track('visit');
     },
     async login(email, password){
-      return sb.auth.signInWithPassword({ email, password });
+      const r = await sb.auth.signInWithPassword({ email, password });
+      if(!r.error) await this.track('login');
+      return r;
+    },
+    async signup(email, password){
+      const r = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin } });
+      if(!r.error) await this.track('signup');
+      return r;
     },
     async logout(){ await sb.auth.signOut(); location.reload(); },
     sub(col, cb){
@@ -59,11 +77,13 @@ STORE = r"""const store = (() => {
         .subscribe();
     },
     async set(col, id, data){
+      if(this.isDemo) return; /* 체험 계정: 저장하지 않음 (화면 위 안내 띠로 알림) */
       const body = { ...data }; delete body.id;
-      const { error } = await sb.from('docs').upsert({ collection: col, id, data: body, updated_at: new Date().toISOString() });
+      const { error } = await sb.from('docs').upsert({ owner: user.id, collection: col, id, data: body, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
       if(error){ setSave('저장 실패: ' + error.message); throw error; }
     },
     async del(col, id){
+      if(this.isDemo) return;
       const { error } = await sb.from('docs').delete().eq('collection', col).eq('id', id);
       if(error){ setSave('삭제 실패: ' + error.message); throw error; }
     }
@@ -75,22 +95,44 @@ function loginView(){
     <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
       <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
     <div class="card stack login-card">
-    <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email"></label>
-    <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="current-password"></label>
-    <button class="btn primary" id="lg-go">로그인</button>
+    <div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
+    <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></label>
+    <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="${lgMode==='signup'?'new-password':'current-password'}" placeholder="${lgMode==='signup'?'8자 이상':''}"></label>
+    <button class="btn primary" id="lg-go">${lgMode==='signup' ? '무료로 시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
-    </div><p class="small muted" style="text-align:center;margin-top:12px">한 번 로그인하면 이 기기에서는 계속 열립니다.</p>
+    ${lgMode==='signup' ? `<p class="small muted" style="margin:0">가입하면 <button type="button" class="linkbtn" data-lg="terms">투자 고지</button>에 동의한 것으로 봅니다. 이메일 외 다른 정보는 받지 않습니다.</p>` : ''}
+    </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '한 번 로그인하면 이 기기에서는 계속 열립니다.'}</p>
+    <div class="lg-demo"><span>먼저 둘러보고 싶다면</span><button type="button" class="btn" data-lg="demo">체험 계정으로 보기</button></div>
+    <div id="lg-terms" class="disc-box small" style="display:none;margin-top:12px"></div>
   </div>`;
 }
+let lgMode = (location.hash === '#signup' || location.search.includes('signup')) ? 'signup' : 'login';
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-lg]'); if(!b) return;
+  const k = b.dataset.lg;
+  if(k === 'login' || k === 'signup'){ lgMode = k; const app = document.getElementById('app'); if(app){ app.innerHTML = loginView(); bindLogin(); } }
+  if(k === 'terms'){ const t = document.getElementById('lg-terms'); if(t){ t.textContent = typeof DISC_FULL === 'string' ? DISC_FULL : ''; t.style.display = t.style.display === 'none' ? 'block' : 'none'; } }
+  if(k === 'demo'){ const em = document.getElementById('lg-email'), pw = document.getElementById('lg-pw'); lgMode = 'login'; const app = document.getElementById('app'); if(app){ app.innerHTML = loginView(); bindLogin(); }
+    document.getElementById('lg-email').value = 'demo@valuenote.app'; document.getElementById('lg-pw').value = 'valuenote'; document.getElementById('lg-go').click(); }
+});
 function bindLogin(){
   const go = document.getElementById('lg-go'); if(!go) return;
   document.getElementById('lg-pw')?.addEventListener('keydown', e => { if(e.key === 'Enter') go.click(); });
   go.onclick = async () => {
     const email = document.getElementById('lg-email').value.trim(), pw = document.getElementById('lg-pw').value; const msg = document.getElementById('lg-msg');
     if(!email || !pw){ msg.textContent = '이메일과 비밀번호를 입력하세요.'; return; }
+    if(lgMode === 'signup'){
+      if(!/^\S+@\S+\.\S+$/.test(email)){ msg.textContent = '이메일 형식을 확인해 주세요.'; return; }
+      if(pw.length < 8){ msg.textContent = '비밀번호는 8자 이상으로 정해 주세요.'; return; }
+      go.disabled = true; msg.textContent = '가입하는 중';
+      const { data, error } = await store.signup(email, pw);
+      if(error){ go.disabled = false; msg.textContent = /registered|exists/i.test(error.message) ? '이미 가입된 이메일입니다. "로그인"을 눌러 주세요.' : /signups? not allowed|disabled/i.test(error.message) ? '지금은 가입을 받지 않습니다.' : '가입하지 못했습니다: ' + error.message; return; }
+      if(data?.session){ location.reload(); return; }
+      go.disabled = false; msg.textContent = '확인 메일을 보냈습니다. 메일의 링크를 누르면 바로 시작됩니다.'; return;
+    }
     go.disabled = true; msg.textContent = '확인 중';
     const { error } = await store.login(email, pw);
-    if(error){ go.disabled = false; msg.textContent = '로그인하지 못했습니다: ' + (error.message === 'Invalid login credentials' ? '이메일 또는 비밀번호가 틀립니다' : error.message); return; }
+    if(error){ go.disabled = false; msg.textContent = '로그인하지 못했습니다: ' + (error.message === 'Invalid login credentials' ? '이메일 또는 비밀번호가 틀립니다' : /confirm/i.test(error.message) ? '메일함의 확인 링크를 먼저 눌러 주세요' : error.message); return; }
     location.reload();
   };
 }

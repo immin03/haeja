@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>ValueNote 관리자</title>
+<link rel="icon" type="image/png" href="/favicon-64.png?v=4">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<style>
+:root{
+  --bg:#F5F3EE; --surface:#FFFFFF; --ink:#0E1A2B; --ink2:#3B4657; --muted:#6B7484; --line:#E6E1D6;
+  --navy:#0E1A2B; --ivory:#F3EEE3; --gold:#C9A45C;
+  --s-visit:#3E6AA8; --s-sign:#B08A3E; --grid:#ECE8DF;
+  --good:#2D7A5F; --bad:#C0392B;
+  --navy-grad:radial-gradient(130% 160% at 50% -10%,#17283F 0%,#0E1A2B 45%,#0A1322 100%);
+  --gold-grad:linear-gradient(90deg,#B48C47 0%,#E4C78D 50%,#B48C47 100%);
+  --font:"SUIT Variable","SUIT","Pretendard Variable",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --ink2:#C3C9D3; --muted:#8E97A7; --line:#212C3C;
+  --s-visit:#5F8FDB; --s-sign:#B8862E; --grid:#1B2534; --good:#5FC59C; --bad:#F07D70; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --ink2:#C3C9D3; --muted:#8E97A7; --line:#212C3C;
+  --s-visit:#5F8FDB; --s-sign:#B8862E; --grid:#1B2534; --good:#5FC59C; --bad:#F07D70; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);letter-spacing:-.01em;word-break:keep-all;-webkit-font-smoothing:antialiased}
+header{background:var(--navy-grad);color:var(--ivory);position:relative}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-grad);opacity:.45}
+.hd{max-width:1080px;margin:0 auto;padding:16px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.wm{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-.015em}
+.wm i{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.wm small{font-family:var(--font);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#CDAE6E;margin-left:10px;vertical-align:middle}
+.hd .r{display:flex;gap:8px;align-items:center;font-size:12px;color:rgba(243,238,227,.65)}
+button{font:inherit}
+.btn{border:1px solid rgba(255,255,255,.22);background:transparent;color:var(--ivory);border-radius:10px;padding:7px 12px;font-weight:600;cursor:pointer}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
+h2{font-size:15px;font-weight:800;margin:28px 0 10px;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:3px;height:14px;border-radius:2px;background:linear-gradient(180deg,#E4C78D,#B48C47)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 1px 2px rgba(14,26,43,.04),0 8px 24px rgba(14,26,43,.05)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{padding:14px 16px}
+.kpi .l{font-size:12px;color:var(--muted);font-weight:600}
+.kpi .v{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi.hero{background:var(--navy-grad);color:var(--ivory);border:0}
+.kpi.hero .l{color:#CDAE6E}.kpi.hero .s{color:rgba(243,238,227,.6)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chart-t{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:700;margin-bottom:6px}
+.chart-t span{font-weight:500;color:var(--muted);font-size:12px}
+.key{display:inline-flex;align-items:center;gap:6px}
+.key i{width:10px;height:10px;border-radius:3px;display:inline-block}
+svg text{font-family:var(--font);font-size:10.5px;fill:var(--muted)}
+.tip{position:fixed;pointer-events:none;background:var(--navy);color:var(--ivory);font-size:12px;padding:6px 9px;border-radius:8px;white-space:nowrap;opacity:0;transform:translate(-50%,-120%);transition:opacity .08s;z-index:10}
+.funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.fn{padding:12px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.fn .l{font-size:12px;color:var(--muted);font-weight:600}
+.fn .v{font-size:22px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.fn .p{font-size:12px;color:var(--ink2);margin-top:2px}
+.bars .row{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:10px;padding:5px 0;font-size:13px}
+.bars .track{height:10px;background:var(--grid);border-radius:5px;overflow:hidden}
+.bars .fill{height:100%;border-radius:5px;background:var(--s-sign)}
+.bars .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.empty{color:var(--muted);font-size:13px;padding:6px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.tbl{overflow-x:auto;padding:4px 6px}
+.pill{display:inline-block;font-size:11px;padding:2px 7px;border-radius:999px;background:var(--bg);border:1px solid var(--line);margin:1px 2px 1px 0;white-space:nowrap}
+.muted{color:var(--muted)}
+.nw{white-space:nowrap}
+.login{max-width:380px;margin:60px auto}
+.login label{display:block;font-size:13px;color:var(--ink2);margin-top:12px}
+.login input{width:100%;margin-top:6px;font:inherit;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.login .go{width:100%;margin-top:16px;background:var(--navy-grad);color:var(--ivory);border:0;border-radius:10px;padding:12px;font-weight:700;cursor:pointer}
+.msg{font-size:13px;color:var(--bad);margin-top:10px;min-height:18px}
+.note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}
+code{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 5px}
+@media (max-width:760px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .funnel{grid-template-columns:repeat(2,1fr)}
+  .bars .row{grid-template-columns:110px 1fr 32px}
+  .kpi .v{font-size:24px}
+  .wm small{display:none}
+  #asof{display:none}
+}
+</style>
+</head>
+<body>
+<header><div class="hd"><div class="wm">Value<i>Note</i><small>관리자</small></div><div class="r"><span id="asof"></span><button class="btn" id="reload" hidden>새로고침</button><button class="btn" id="out" hidden>로그아웃</button></div></div></header>
+<main id="main"><div class="empty">불러오는 중</div></main>
+<div class="tip" id="tip"></div>
+<script>
+const C = window.HAEJA_CONFIG || {};
+const sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n0 = v => (+v || 0).toLocaleString('ko-KR');
+const pct = (a, b) => b ? Math.round(a / b * 1000) / 10 + '%' : '–';
+const kst = iso => { if(!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return d.toISOString().slice(0,16).replace('T',' ').slice(2); };
+
+function loginView(msg){
+  $('#main').innerHTML = `<div class="card login"><div style="font-weight:800;font-size:17px">관리자 로그인</div>
+    <div class="note" style="margin-top:4px">ValueNote 운영 계정으로 로그인하세요.</div>
+    <label>이메일<input id="em" type="email" autocomplete="email"></label>
+    <label>비밀번호<input id="pw" type="password" autocomplete="current-password"></label>
+    <button class="go" id="go">로그인</button><div class="msg" id="msg">${esc(msg||'')}</div></div>`;
+  $('#pw').addEventListener('keydown', e => { if(e.key === 'Enter') $('#go').click(); });
+  $('#go').onclick = async () => {
+    $('#msg').textContent = '확인 중';
+    const { error } = await sb.auth.signInWithPassword({ email: $('#em').value.trim(), password: $('#pw').value });
+    if(error){ $('#msg').textContent = '로그인하지 못했습니다: ' + error.message; return; }
+    load();
+  };
+}
+
+function kpi(l, v, s, hero){ return `<div class="card kpi${hero?' hero':''}"><div class="l">${l}</div><div class="v">${v}</div>${s?`<div class="s">${s}</div>`:''}</div>`; }
+
+/* 30일 막대 차트 (한 축, 한 지표). 방문자와 가입자는 크기가 달라 두 차트로 나눈다 */
+function barChart(daily, key, color, label){
+  const W = 520, H = 170, L = 30, R = 8, T = 10, B = 24;
+  const vals = daily.map(d => +d[key] || 0), max = Math.max(1, ...vals);
+  const raw = max / 4, mag = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1)))), step = [1,2,2.5,5,10].map(m => m * mag).find(x => x >= raw) || 10 * mag, nice = Math.max(4, step * 4);
+  const iw = W - L - R, ih = H - T - B, bw = iw / vals.length, gap = 2;
+  const y = v => T + ih - (v / nice) * ih;
+  let g = '';
+  for(let i = 0; i <= 4; i++){ const v = nice * i / 4, yy = y(v);
+    g += `<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="var(--grid)" stroke-width="1"/><text x="${L-6}" y="${yy+3.5}" text-anchor="end">${Math.round(v)}</text>`; }
+  let bars = '';
+  daily.forEach((d, i) => {
+    const v = vals[i], x = L + i * bw + gap/2, w = Math.max(1, bw - gap), top = y(v), h = T + ih - top;
+    const r = Math.min(4, w/2, h);
+    const path = h > 0 ? `M${x},${T+ih} V${top+r} Q${x},${top} ${x+r},${top} H${x+w-r} Q${x+w},${top} ${x+w},${top+r} V${T+ih} Z` : '';
+    bars += `<g class="hit" data-tip="${esc(d.d.slice(5).replace('-','/'))} · ${label} ${v}"><rect x="${L + i*bw}" y="${T}" width="${bw}" height="${ih}" fill="transparent"/>${path ? `<path d="${path}" fill="${color}"/>` : ''}</g>`;
+    if(i % 5 === 4 || i === daily.length - 1) bars += `<text x="${x + w/2}" y="${H-6}" text-anchor="middle">${d.d.slice(5).replace('-','/')}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="최근 30일 ${label}">${g}${bars}<line x1="${L}" x2="${W-R}" y1="${T+ih}" y2="${T+ih}" stroke="var(--line)"/></svg>`;
+}
+
+function barsList(obj, order){
+  const ent = (order ? order.filter(k => k in obj).map(k => [k, obj[k]]).concat(Object.entries(obj).filter(([k]) => !order.includes(k))) : Object.entries(obj).sort((a,b) => b[1]-a[1]));
+  if(!ent.length) return '<div class="empty">아직 응답이 없습니다.</div>';
+  const max = Math.max(...ent.map(e => e[1]));
+  return `<div class="bars">${ent.map(([k, v]) => `<div class="row"><span>${esc(k)}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><span class="n">${n0(v)}</span></div>`).join('')}</div>`;
+}
+
+function render(s){
+  const f = s.funnel || {};
+  const steps = [['방문자', f.visitors30, '최근 30일'], ['가입', f.signups30, '방문 대비'], ['기본 정보 완료', f.onboarded, '가입 대비'], ['보유 종목 등록', f.withHoldings, '가입 대비'], ['알림 켬', f.pushOn, '가입 대비']];
+  const base = [null, f.visitors30, s.signups.total, s.signups.total, s.signups.total];
+  const devs = s.devices || {}, refs = Object.fromEntries((s.refs||[]).map(x => [x.r, x.n]));
+  $('#asof').textContent = '기준 ' + kst(s.asOf);
+  $('#main').innerHTML = `
+  <div class="kpis">
+    ${kpi('오늘 방문자', n0(s.visitors.today), `페이지 조회 ${n0(s.pageviews.today)}회`, true)}
+    ${kpi('7일 방문자', n0(s.visitors.d7), `30일 ${n0(s.visitors.d30)}명`)}
+    ${kpi('전체 가입자', n0(s.signups.total), `오늘 +${n0(s.signups.today)} · 7일 +${n0(s.signups.d7)}`)}
+    ${kpi('7일 활동 사용자', n0(s.active7), `체험 계정 로그인 7일 ${n0(s.demoVisits7)}회`)}
+  </div>
+
+  <h2>최근 30일</h2>
+  <div class="grid2">
+    <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-visit)"></i><b style="color:var(--ink)">방문자</b></span><span>하루 고유 방문자 수</span></div>${barChart(s.daily||[], 'v', 'var(--s-visit)', '방문자')}</div>
+    <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-sign)"></i><b style="color:var(--ink)">가입자</b></span><span>하루 신규 가입 수</span></div>${barChart(s.daily||[], 's', 'var(--s-sign)', '가입')}</div>
+  </div>
+
+  <h2>가입 전환</h2>
+  <div class="card"><div class="funnel">${steps.map(([l, v, sub], i) => `<div class="fn"><div class="l">${l}</div><div class="v">${n0(v)}</div><div class="p">${i === 0 ? sub : sub + ' ' + pct(v, base[i])}</div></div>`).join('')}</div></div>
+
+  <h2>가입자가 기대하는 것</h2>
+  <div class="card">${barsList(s.expect||{})}</div>
+
+  <div class="grid2">
+    <div><h2>투자 성향</h2><div class="card">${barsList(s.style||{}, ['안정형','배당형','균형형','성장형','공격형'])}</div></div>
+    <div><h2>투자 규모</h2><div class="card">${barsList(s.size||{}, ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억 원 이상'])}</div></div>
+  </div>
+  <div class="grid2">
+    <div><h2>유입 경로 (30일)</h2><div class="card">${barsList(refs)}<div class="note">홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다.</div></div></div>
+    <div><h2>기기 (30일)</h2><div class="card">${barsList(devs)}</div></div>
+  </div>
+
+  <h2>가입자 목록 <span class="muted" style="font-weight:500;font-size:12px">최근 100명 · 운영·체험 계정 제외</span></h2>
+  <div class="card tbl">${(s.users||[]).length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>최근 로그인</th><th>종목</th><th>성향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody>
+    ${s.users.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="muted nw">${kst(u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('')}
+  </tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+  bindTips();
+}
+
+function bindTips(){
+  const tip = $('#tip');
+  document.querySelectorAll('.hit').forEach(g => {
+    g.addEventListener('mousemove', e => { tip.textContent = g.dataset.tip; tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; tip.style.opacity = 1; });
+    g.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
+    g.addEventListener('touchstart', e => { const t = e.touches[0]; tip.textContent = g.dataset.tip; tip.style.left = t.clientX + 'px'; tip.style.top = t.clientY + 'px'; tip.style.opacity = 1; setTimeout(() => tip.style.opacity = 0, 1500); }, {passive:true});
+  });
+}
+
+async function load(){
+  const { data: { session } } = await sb.auth.getSession();
+  $('#reload').hidden = $('#out').hidden = !session;
+  if(!session){ loginView(); return; }
+  $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
+  const { data, error } = await sb.rpc('admin_stats');
+  if(error){ if(/not admin/.test(error.message)){ await sb.auth.signOut(); loginView('관리자 계정이 아닙니다.'); } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
+  render(data);
+}
+$('#reload').onclick = load;
+$('#out').onclick = async () => { await sb.auth.signOut(); load(); };
+window.__render = render;
+load();
+setInterval(() => { if(!document.hidden && !$('#out').hidden) load(); }, 5 * 60 * 1000);
+</script>
+</body>
+</html>

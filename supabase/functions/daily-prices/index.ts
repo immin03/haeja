@@ -84,16 +84,20 @@ Deno.serve(async (_req: Request) => {
   const today = kstDate();
   try {
     const [holdings, comps, prices, screen] = await Promise.all(["holdings", "companies", "prices", "screen"].map(load));
-    const owner = (holdings[0] || comps[0] || screen[0])?.owner;
-    if (!owner) return Response.json({ ok: false, msg: "데이터 없음" });
-    const companies: Record<string, any> = Object.fromEntries(comps.map((r) => [r.id, r.data]));
+    // 공용 데이터(가격 기록·스크리너)의 주인 = 운영자. 사용자별 데이터(보유·기업·설정·알림)는 각자 주인에게 쓴다.
+    const pub = screen.find((r) => r.id === "meta")?.owner || (holdings[0] || comps[0])?.owner;
+    if (!pub) return Response.json({ ok: false, msg: "데이터 없음" });
+    const owners = [...new Set([...holdings.map((r) => r.owner), ...comps.map((r) => r.owner), pub])];
+    const key = (o: string, id: string) => o + "|" + id;
+    const companies: Record<string, any> = Object.fromEntries(comps.map((r) => [key(r.owner, r.id), r.data]));
+    const compsOf = (o: string) => Object.fromEntries(comps.filter((r) => r.owner === o).map((r) => [r.id, r.data]));
     const heldSym: Record<string, string> = {};
-    for (const h of holdings) if (String(h.data.ticker || "").trim()) heldSym[h.id] = yfSymbol(h.data, companies);
+    for (const h of holdings) if (String(h.data.ticker || "").trim()) heldSym[key(h.owner, h.id)] = yfSymbol(h.data, compsOf(h.owner));
     const compSym: Record<string, string> = {};
     for (const r of comps) {
       const c = r.data;
-      const inScope = c.watch || c.pinned || (c.thesis?.memo || "").trim() || holdings.some((h) => h.data.companyId === r.id);
-      if (inScope && (c.yf || c.ticker)) compSym[r.id] = c.yf || c.ticker;
+      const inScope = c.watch || c.pinned || (c.thesis?.memo || "").trim() || holdings.some((h) => h.owner === r.owner && h.data.companyId === r.id);
+      if (inScope && (c.yf || c.ticker)) compSym[key(r.owner, r.id)] = c.yf || c.ticker;
     }
     const fxSym: Record<string, string> = { fx: "KRW=X", fxJPY: "JPYKRW=X", fxCNY: "CNYKRW=X", fxHKD: "HKDKRW=X" };
     const histSyms = [...new Set([...Object.values(heldSym), ...Object.values(compSym), ...Object.values(fxSym)])];
@@ -102,54 +106,59 @@ Deno.serve(async (_req: Request) => {
     const last = (s: string) => hist[s]?.[hist[s].length - 1];
 
     const rows: any[] = [];
-    const put = (collection: string, id: string, data: any) => rows.push({ collection, id, data, owner, updated_at: new Date().toISOString() });
-    for (const h of holdings) { const p = last(heldSym[h.id]); if (p) put("holdings", h.id, { ...h.data, price: p[1], priceAt: p[0], updatedAt: today }); }
+    const put = (owner: string, collection: string, id: string, data: any) => rows.push({ owner, collection, id, data, updated_at: new Date().toISOString() });
+    for (const h of holdings) { const p = last(heldSym[key(h.owner, h.id)]); if (p) put(h.owner, "holdings", h.id, { ...h.data, price: p[1], priceAt: p[0], updatedAt: today }); }
     // 보유 종목 하루 5% 이상 움직이면 알림 (같은 날 한 번)
     const alertRows: any[] = [];
     for (const h of holdings) {
-      const pts = hist[heldSym[h.id]]; if (!pts || pts.length < 2) continue;
+      const pts = hist[heldSym[key(h.owner, h.id)]]; if (!pts || pts.length < 2) continue;
       const [d1, v1] = pts[pts.length - 1], v0 = pts[pts.length - 2][1];
       const chg = (v1 / v0 - 1) * 100; if (Math.abs(chg) < 5) continue;
       const name = String(h.data.name || h.data.ticker).replace(/\s*\(.*\)$/, "");
       const cur = h.data.currency === "USD" ? "$" + v1.toFixed(2) : Math.round(v1).toLocaleString("ko-KR") + "원";
-      alertRows.push({ collection: "alerts", id: `move-${h.id}-${d1}`, owner, updated_at: new Date().toISOString(), data: {
+      alertRows.push({ collection: "alerts", id: `move-${h.id}-${d1}`, owner: h.owner, updated_at: new Date().toISOString(), data: {
         at: new Date().toISOString(), level: chg <= -7 ? "urgent" : chg < 0 ? "warn" : "info",
         title: `${name} ${chg > 0 ? "+" : ""}${chg.toFixed(1)}%`, body: `${d1} 종가 ${cur}. ${chg < 0 ? "급락 이유와 매도 조건을 확인하세요." : "내재가치 대비 가격을 확인하세요."}`,
         link: { co: h.data.companyId || null, tab: "portfolio" }, read: false, source: "종가 갱신" } });
     }
-    for (const [cid, s] of Object.entries(compSym)) { const p = last(s); if (p) put("companies", cid, { ...companies[cid], price: p[1] }); }
-    const pmap: Record<string, any> = Object.fromEntries(prices.map((r) => [r.id, r.data]));
+    for (const [k, s] of Object.entries(compSym)) { const p = last(s); if (!p) continue; const [o, cid] = k.split("|"); put(o, "companies", cid, { ...companies[k], price: p[1] }); }
+    // 가격 기록은 공용(운영자 소유) 한 벌로 모은다. 모든 사용자가 읽는다.
+    const pmap: Record<string, any> = Object.fromEntries(prices.filter((r) => r.owner === pub).map((r) => [r.id, r.data]));
     for (const s of new Set([...Object.values(heldSym), ...Object.values(compSym)])) {
       if (!hist[s]) continue;
       const k = s.split(".")[0].toUpperCase();
-      put("prices", k, mergeSeries(pmap[k] || { ticker: k }, hist[s], today));
+      put(pub, "prices", k, mergeSeries(pmap[k] || { ticker: k }, hist[s], today));
     }
 
-    // 스크리너 현재가
+    // 스크리너 현재가 (공용)
     let nScreen = 0;
-    const scr = screen.filter((r) => Array.isArray(r.data.rows));
+    const scr = screen.filter((r) => r.owner === pub && Array.isArray(r.data.rows));
     const tickers = [...new Set(scr.flatMap((r) => r.data.rows.map((x: any) => x.t).filter(Boolean)))] as string[];
     const px: Record<string, number> = {};
     await pool(tickers, 10, async (t) => { const p = await chart(t, "5d"); if (p) px[t] = p[p.length - 1][1]; });
     for (const r of scr) {
       const d = { ...r.data, rows: r.data.rows.map((x: any) => (x.t in px ? (nScreen++, { ...x, px: px[x.t] }) : x)), pxAt: today };
-      put("screen", r.id, d);
+      put(pub, "screen", r.id, d);
     }
 
-    // 설정은 쓰기 직전에 다시 읽는다 (그사이 바꾼 예수금을 덮어쓰지 않도록)
+    // 환율: 사용자별 설정에 넣는다. 설정은 쓰기 직전에 다시 읽는다 (그사이 바꾼 예수금을 덮어쓰지 않도록)
     const fresh = await load("settings");
-    const st = { ...(fresh.find((r) => r.id === "main")?.data || {}) };
-    for (const [k, s] of Object.entries(fxSym)) { const p = last(s); if (p) st[k] = Math.round(p[1] * 10000) / 10000; }
-    st.fxAt = new Date(Date.now() + 9 * 3600e3).toISOString().slice(5, 16).replace("-", "/").replace("T", " ");
-    put("settings", "main", st);
+    const fxAt = new Date(Date.now() + 9 * 3600e3).toISOString().slice(5, 16).replace("-", "/").replace("T", " ");
+    for (const o of owners) {
+      const st = { ...(fresh.find((r) => r.owner === o && r.id === "main")?.data || {}) };
+      if (o !== pub && !fresh.some((r) => r.owner === o && r.id === "main")) continue; // 설정이 없는 사용자는 건너뜀
+      for (const [k, s] of Object.entries(fxSym)) { const p = last(s); if (p) st[k] = Math.round(p[1] * 10000) / 10000; }
+      st.fxAt = fxAt;
+      put(o, "settings", "main", st);
+    }
 
     // 알림은 새로 생길 때만 넣는다 (이미 있으면 건드리지 않아 중복 푸시가 없다)
-    if (alertRows.length) { const { error } = await sb.from("docs").upsert(alertRows, { onConflict: "collection,id", ignoreDuplicates: true }); if (error) throw error; }
+    if (alertRows.length) { const { error } = await sb.from("docs").upsert(alertRows, { onConflict: "owner,collection,id", ignoreDuplicates: true }); if (error) throw error; }
     for (let i = 0; i < rows.length; i += 50) {
-      const { error } = await sb.from("docs").upsert(rows.slice(i, i + 50));
+      const { error } = await sb.from("docs").upsert(rows.slice(i, i + 50), { onConflict: "owner,collection,id" });
       if (error) throw error;
     }
-    return Response.json({ ok: true, date: today, writes: rows.length, held: Object.keys(heldSym).length, hist: Object.keys(hist).length, screen: nScreen + "/" + tickers.length, alerts: alertRows.length });
+    return Response.json({ ok: true, date: today, owners: owners.length, writes: rows.length, held: Object.keys(heldSym).length, hist: Object.keys(hist).length, screen: nScreen + "/" + tickers.length, alerts: alertRows.length });
   } catch (e) {
     return Response.json({ ok: false, error: String((e as Error)?.message || e) }, { status: 500 });
   }
