@@ -81,6 +81,21 @@ tr:last-child td{border-bottom:0}
 .msg{font-size:13px;color:var(--bad);margin-top:10px;min-height:18px}
 .note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}
 code{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 5px}
+.tabs{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.tabs .in{max-width:1080px;margin:0 auto;padding:0 12px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs a{display:inline-flex;align-items:center;gap:6px;padding:13px 12px;font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--gold)}
+.tabs a .c{font-size:11px;font-weight:700;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:1px 7px;color:var(--ink2)}
+.ptitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 14px}
+.ptitle h1{font-size:19px;font-weight:800;margin:0}
+.ptitle .sub{font-size:12px;color:var(--muted);margin-top:3px}
+.lnk{font-size:12px;font-weight:700;color:var(--ink2);border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 11px;text-decoration:none;white-space:nowrap;cursor:pointer}
+.lnk:hover{border-color:var(--gold)}
+main>h2:first-of-type,.ptitle+h2{margin-top:8px}
+.tools{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.tools input{flex:1;min-width:0;font:inherit;font-size:13px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.qcount{font-size:12px;color:var(--muted);font-weight:500;margin-left:auto}
+.more{display:block;text-align:right;font-size:12px;font-weight:700;color:var(--ink2);margin-top:8px;text-decoration:none}
 @media (max-width:760px){
   .kpis{grid-template-columns:repeat(2,1fr)}
   .grid2{grid-template-columns:1fr}
@@ -94,6 +109,7 @@ code{font-size:12px;background:var(--bg);border:1px solid var(--line);border-rad
 </head>
 <body>
 <header><div class="hd"><div class="wm">Value<i>Note</i><small>관리자</small></div><div class="r"><span id="asof"></span><a class="btn" href="./" style="text-decoration:none">앱으로</a><button class="btn" id="reload" hidden>새로고침</button><button class="btn" id="out" hidden>로그아웃</button></div></div></header>
+<nav class="tabs" id="tabs" hidden><div class="in"></div></nav>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
 <script>
@@ -150,51 +166,104 @@ function barsList(obj, order){
   return `<div class="bars">${ent.map(([k, v]) => `<div class="row"><span>${esc(k)}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><span class="n">${n0(v)}</span></div>`).join('')}</div>`;
 }
 
-function render(s){
+const PAGES = [
+  ['overview', '개요'],
+  ['survey', '설문 응답'],
+  ['users', '가입자'],
+  ['traffic', '유입·기기'],
+];
+let DATA = null;
+const page = () => { const h = location.hash.slice(1); return PAGES.some(p => p[0] === h) ? h : 'overview'; };
+const SIZE_ORDER = ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상','2억 원 이상'];
+const sum = o => Object.values(o || {}).reduce((a, b) => a + (+b || 0), 0);
+
+function head(title, sub, id){
+  return `<div class="ptitle"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div><a class="lnk" href="#${id}" target="_blank" rel="noopener">새 창으로 열기 ↗</a></div>`;
+}
+function sec(t, note, body){ return `<h2>${t}${note ? ` <span class="qcount">${note}</span>` : ''}</h2><div class="card">${body}</div>`; }
+
+function vOverview(s){
   const f = s.funnel || {};
   const steps = [['방문자', f.visitors30, '최근 30일'], ['가입', f.signups30, '방문 대비'], ['기본 정보 완료', f.onboarded, '가입 대비'], ['보유 종목 등록', f.withHoldings, '가입 대비'], ['알림 켬', f.pushOn, '가입 대비']];
   const base = [null, f.visitors30, s.signups.total, s.signups.total, s.signups.total];
-  const devs = s.devices || {}, refs = Object.fromEntries((s.refs||[]).map(x => [x.r, x.n]));
-  $('#asof').textContent = '기준 ' + kst(s.asOf);
-  $('#main').innerHTML = `
+  const recent = (s.users || []).slice(0, 5);
+  return `${head('개요', '방문, 가입, 활동 현황', 'overview')}
   <div class="kpis">
     ${kpi('오늘 방문자', n0(s.visitors.today), `페이지 조회 ${n0(s.pageviews.today)}회`, true)}
     ${kpi('7일 방문자', n0(s.visitors.d7), `30일 ${n0(s.visitors.d30)}명`)}
     ${kpi('전체 가입자', n0(s.signups.total), `오늘 +${n0(s.signups.today)} · 7일 +${n0(s.signups.d7)}`)}
     ${kpi('7일 활동 사용자', n0(s.active7), `체험 계정 로그인 7일 ${n0(s.demoVisits7)}회`)}
   </div>
-
   <h2>최근 30일</h2>
   <div class="grid2">
     <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-visit)"></i><b style="color:var(--ink)">방문자</b></span><span>하루 고유 방문자 수</span></div>${barChart(s.daily||[], 'v', 'var(--s-visit)', '방문자')}</div>
     <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-sign)"></i><b style="color:var(--ink)">가입자</b></span><span>하루 신규 가입 수</span></div>${barChart(s.daily||[], 's', 'var(--s-sign)', '가입')}</div>
   </div>
-
   <h2>가입 전환</h2>
   <div class="card"><div class="funnel">${steps.map(([l, v, sub], i) => `<div class="fn"><div class="l">${l}</div><div class="v">${n0(v)}</div><div class="p">${i === 0 ? sub : sub + ' ' + pct(v, base[i])}</div></div>`).join('')}</div></div>
+  <h2>최근 가입자</h2>
+  <div class="card tbl">${recent.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>종목</th><th>규모</th></tr></thead><tbody>${recent.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.size||'–')}</td></tr>`).join('')}</tbody></table><a class="more" href="#users">전체 가입자 보기 ›</a>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+}
 
-  <h2>가입자가 기대하는 것</h2>
-  <div class="card">${barsList(s.expect||{})}</div>
-
+function vSurvey(s){
+  const n = (s.funnel || {}).onboarded || 0;
+  const c = o => `응답 ${n0(sum(o))}건`;
+  return `${head('설문 응답', `가입 직후 기본 정보 질문에 답한 사람 ${n0(n)}명 · 여러 개 고르는 질문은 합계가 응답자보다 많습니다`, 'survey')}
+  ${sec('가입자가 기대하는 것', c(s.expect), barsList(s.expect||{}))}
   <div class="grid2">
-    <div><h2>지금 투자 방식 <span class="muted" style="font-weight:500;font-size:12px">여러 개 선택</span></h2><div class="card">${barsList(s.style||{}, ['안정형','배당형','균형형','성장형','공격형'])}</div></div>
-    <div><h2>투자 규모</h2><div class="card">${barsList(s.size||{}, ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상','2억 원 이상'])}</div></div>
+    <div>${sec('지금 투자 방식', c(s.style), barsList(s.style||{}, ['안정형','배당형','균형형','성장형','공격형']))}</div>
+    <div>${sec('바꾸고 싶은 방향', c(s.goal), barsList(s.goal||{}))}</div>
   </div>
   <div class="grid2">
-    <div><h2>바꾸고 싶은 방향</h2><div class="card">${barsList(s.goal||{})}</div></div>
-    <div><h2>투자 시장</h2><div class="card">${barsList(s.markets||{}, ['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드'])}</div></div>
+    <div>${sec('투자 규모', c(s.size), barsList(s.size||{}, SIZE_ORDER))}</div>
+    <div>${sec('투자 시장', c(s.markets), barsList(s.markets||{}, ['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드']))}</div>
   </div>
-  <div class="grid2">
-    <div><h2>유입 경로 (30일)</h2><div class="card"><div class="chart-t"><span>방문자</span></div>${barsList(refs)}<div class="chart-t" style="margin-top:14px"><span>가입자 (처음 들어온 경로 기준)</span></div>${barsList(s.refSignups||{})}<div class="note">홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다.</div></div></div>
-    <div><h2>기기 (30일)</h2><div class="card">${barsList(devs)}</div></div>
-  </div>
+  ${sec('바라는 점 (직접 쓴 의견)', '', (() => { const L = (s.users||[]).filter(u => u.note); return L.length ? `<table><tbody>${L.map(u => `<tr><td>${esc(u.note)}</td><td class="muted nw" style="width:1%">${esc(u.email)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 의견이 없습니다.</div>'; })())}`;
+}
 
-  <h2>가입자 목록 <span class="muted" style="font-weight:500;font-size:12px">최근 100명 · 운영·체험 계정 제외</span></h2>
-  <div class="card tbl">${(s.users||[]).length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>최근 로그인</th><th>종목</th><th>지금 방식</th><th>바꾸고 싶은 방향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody>
-    ${s.users.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="muted nw">${kst(u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${(u.goal||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('')}
-  </tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+function userRows(L){
+  return L.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="muted nw">${kst(u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${(u.goal||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('');
+}
+function vUsers(s){
+  const L = s.users || [];
+  return `${head('가입자', `최근 100명 · 운영·체험 계정 제외`, 'users')}
+  <div class="tools"><input id="q" type="search" placeholder="이메일·응답 내용으로 찾기"><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
+  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>최근 로그인</th><th>종목</th><th>지금 방식</th><th>바꾸고 싶은 방향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody id="ub">${userRows(L)}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+}
+function bindUsers(s){
+  const L = s.users || [], q = $('#q'), ub = $('#ub');
+  if(q && ub) q.oninput = () => { const k = q.value.trim().toLowerCase(); ub.innerHTML = userRows(k ? L.filter(u => JSON.stringify(u).toLowerCase().includes(k)) : L); };
+  const b = $('#csv'); if(b) b.onclick = () => {
+    const cols = ['email','created_at','last_sign_in_at','holdings','style','goal','size','expect','note'];
+    const cell = v => '"' + String(Array.isArray(v) ? v.join(' / ') : (v ?? '')).replace(/"/g, '""') + '"';
+    const csv = '﻿' + ['이메일,가입,최근 로그인,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(u[c])).join(','))].join('\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'valuenote-users-' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
+  };
+}
+
+function vTraffic(s){
+  const refs = Object.fromEntries((s.refs||[]).map(x => [x.r, x.n]));
+  return `${head('유입·기기', '최근 30일 기준', 'traffic')}
+  <div class="grid2">
+    <div>${sec('유입 경로 · 방문자', '', barsList(refs))}</div>
+    <div>${sec('유입 경로 · 가입자', '처음 들어온 경로 기준', barsList(s.refSignups||{}))}</div>
+  </div>
+  ${sec('기기', '', barsList(s.devices||{}))}
+  <div class="note">홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다. 예: <code>${esc(location.origin)}/?ref=threads</code></div>`;
+}
+
+function render(s){
+  if(s) DATA = s; s = DATA; if(!s) return;
+  const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0 };
+  $('#asof').textContent = '기준 ' + kst(s.asOf);
+  const nav = $('#tabs'); nav.hidden = false;
+  nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
+  document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'traffic' ? vTraffic(s) : vOverview(s);
+  if(p === 'users') bindUsers(s);
   bindTips();
 }
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
 
 function bindTips(){
   const tip = $('#tip');
@@ -208,17 +277,17 @@ function bindTips(){
 async function load(){
   const { data: { session } } = await sb.auth.getSession();
   $('#reload').hidden = $('#out').hidden = !session;
-  if(!session){ loginView(); return; }
+  if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
   const { data, error } = await sb.rpc('admin_stats');
-  if(error){ if(/not admin/.test(error.message)){ await sb.auth.signOut(); loginView('관리자 계정이 아닙니다.'); } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
+  if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
 $('#reload').onclick = load;
 $('#out').onclick = async () => { await sb.auth.signOut(); load(); };
 window.__render = render;
 load();
-setInterval(() => { if(!document.hidden && !$('#out').hidden) load(); }, 5 * 60 * 1000);
+setInterval(() => { if(!document.hidden && !$('#out').hidden && !document.activeElement?.matches('input')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
