@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="그레이엄·버핏·멍거의 기준으로 회사를 평가하고, 적정 매수가와 포트폴리오 원칙을 관리하는 가치투자 노트.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ValueNote">
+<meta property="og:title" content="ValueNote · 거인의 어깨 위에서 멀리 보는 투자">
+<meta property="og:description" content="좋은 회사를 적정한 가격에 사서 오래 보유하는 투자. 600여 개 기업을 같은 기준으로 비교하고 적정 매수가에 오면 알려 줍니다.">
+<meta property="og:image" content="/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/favicon-64.png?v=4">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
@@ -954,7 +962,8 @@ const store = (() => {
       return r;
     },
     async signup(email, password){
-      const r = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin } });
+      const at = new Date().toISOString();
+      const r = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin, data: { agreed: at, terms: '2026-10-15', privacy: '2026-10-15', age14: true } } });
       if(!r.error) await this.track('signup');
       return r;
     },
@@ -997,15 +1006,26 @@ function loginView(){
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="${lgMode==='signup'?'new-password':'current-password'}" placeholder="${lgMode==='signup'?'8자 이상':''}"></label>
     ${lgMode==='signup' ? `<label class="f">비밀번호 확인<input id="lg-pw2" type="password" autocomplete="new-password" placeholder="한 번 더 입력"></label>` : ''}
+    ${lgMode==='signup' ? `<div class="lg-agree">
+      <label class="ag-all"><input type="checkbox" id="ag-all"> <b>모두 동의합니다</b></label>
+      <label><input type="checkbox" class="ag" data-k="terms"> <span>[필수] 이용약관 동의</span> <a href="/terms" target="_blank" rel="noopener">보기</a></label>
+      <label><input type="checkbox" class="ag" data-k="privacy"> <span>[필수] 개인정보 수집·이용 동의</span> <a href="/privacy" target="_blank" rel="noopener">보기</a></label>
+      <div class="ag-sum">수집 항목: 이메일, 비밀번호(암호화) · 목적: 회원 식별과 서비스 제공 · 보유 기간: 회원 탈퇴 시까지</div>
+      <label><input type="checkbox" class="ag" data-k="invest"> <span>[필수] 투자 자문이 아닌 정보 도구임을 이해합니다</span> <button type="button" class="linkbtn" data-lg="terms">보기</button></label>
+      <label><input type="checkbox" class="ag" data-k="age"> <span>[필수] 만 14세 이상입니다</span></label>
+    </div>` : ''}
     <button class="btn primary" id="lg-go">${lgMode==='signup' ? '시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
-    ${lgMode==='signup' ? `<p class="small muted" style="margin:0">가입하면 <button type="button" class="linkbtn" data-lg="terms">투자 고지</button>에 동의한 것으로 봅니다. 이메일 외 다른 정보는 받지 않습니다.</p>` : ''}
     </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '한 번 로그인하면 이 기기에서는 계속 열립니다.'}</p>
     <div class="lg-demo"><span>먼저 둘러보고 싶다면</span><button type="button" class="btn" data-lg="demo">체험 계정으로 보기</button></div>
     <div id="lg-terms" class="disc-box small" style="display:none;margin-top:12px"></div>
   </div>`;
 }
 let lgMode = (location.hash === '#signup' || location.search.includes('signup')) ? 'signup' : 'login';
+document.addEventListener('change', e => {
+  if(e.target?.id === 'ag-all') document.querySelectorAll('.lg-agree .ag').forEach(x => x.checked = e.target.checked);
+  else if(e.target?.classList?.contains('ag')){ const all = document.getElementById('ag-all'); if(all) all.checked = [...document.querySelectorAll('.lg-agree .ag')].every(x => x.checked); }
+});
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-lg]'); if(!b) return;
   const k = b.dataset.lg;
@@ -1024,6 +1044,7 @@ function bindLogin(){
       if(!/^\S+@\S+\.\S+$/.test(email)){ msg.textContent = '이메일 형식을 확인해 주세요.'; return; }
       if(pw.length < 8){ msg.textContent = '비밀번호는 8자 이상으로 정해 주세요.'; return; }
       if(pw !== (document.getElementById('lg-pw2')?.value || '')){ msg.textContent = '비밀번호 확인이 일치하지 않습니다.'; return; }
+      if([...document.querySelectorAll('.lg-agree .ag')].some(x => !x.checked)){ msg.textContent = '필수 항목에 모두 동의해 주세요.'; return; }
       go.disabled = true; msg.textContent = '가입하는 중';
       const { data, error } = await store.signup(email, pw);
       if(error){ go.disabled = false; msg.textContent = /registered|exists/i.test(error.message) ? '이미 가입된 이메일입니다. "로그인"을 눌러 주세요.' : /signups? not allowed|disabled/i.test(error.message) ? '지금은 가입을 받지 않습니다.' : '가입하지 못했습니다: ' + error.message; return; }
@@ -1335,6 +1356,7 @@ function viewAccount(){
   </div>
 
   <div style="margin-top:20px"><button type="button" class="btn ac-out" data-acct="logout">로그아웃</button></div>
+  ${store.isDemo ? '' : `<div style="margin-top:8px;text-align:center"><button type="button" class="linkbtn ac-del" data-acdel="1">회원 탈퇴</button><div class="status-line small" id="ac-del-msg"></div></div>`}
   <p class="small muted" style="margin-top:12px">내 데이터는 이 계정에만 저장되고, 다른 사람은 볼 수 없습니다.</p>`;
 }
 document.addEventListener('submit', async e => {
@@ -1368,6 +1390,17 @@ document.addEventListener('submit', async e => {
   }finally{ btn.disabled = false; }
 });
 document.addEventListener('click', e => { if(e.target.closest('[data-acct="logout"]')) store.logout(); });
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-acdel]'); if(!b) return;
+  const m = document.getElementById('ac-del-msg');
+  if(b.dataset.acdel === '1'){ b.dataset.acdel = '2'; b.textContent = '정말 탈퇴합니다 (모든 기록이 즉시 삭제됩니다)'; if(m) m.textContent = '한 번 더 누르면 탈퇴됩니다.'; return; }
+  b.disabled = true; if(m) m.textContent = '삭제하는 중';
+  const { error } = await store.client.rpc('delete_my_account');
+  if(error){ b.disabled = false; if(m) m.textContent = /protected/.test(error.message) ? '이 계정은 탈퇴할 수 없습니다.' : '탈퇴하지 못했습니다: ' + error.message; return; }
+  try{ await store.client.auth.signOut(); }catch(_){}
+  try{ Object.keys(localStorage).filter(k => k.startsWith('vn-') || k === 'ml-tab').forEach(k => localStorage.removeItem(k)); }catch(_){}
+  alert('탈퇴가 완료됐습니다. 그동안 이용해 주셔서 감사합니다.'); location.href = '/';
+});
 let sampleFn = null;
 
 /* ============ 상태 ============ */
@@ -1486,7 +1519,7 @@ const DISC_FULL = 'ValueNote는 공개된 재무 데이터와 사용자가 설�
 const DISC_LINE = '본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다.';
 const DISC_EST = '표시되는 가격·상승 여력은 추정치이며 수익을 보장하지 않습니다.';
 const consentLocal = () => { try{ return localStorage.getItem('vn-consent-v1-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
-const consentOk = () => !!prog().consentV1 || consentLocal();
+const consentOk = () => !!prog().consentV1 || consentLocal() || !!store.user?.user_metadata?.agreed;
 function consentHtml(){
   const still = S.__consentShown ? ' still' : ''; S.__consentShown = true;
   return `<div class="intro consent${still}" role="dialog" aria-modal="true" aria-label="이용 전 확인"><div class="intro-card">
@@ -1498,7 +1531,7 @@ function consentHtml(){
 }
 function discFootHtml(){
   const est = ['analyze','alerts','watchlist','companies'].includes(S.tab);
-  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div></footer>`;
+  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div></footer>`;
 }
 document.addEventListener('change', e => { if(e.target && e.target.id === 'disc-agree'){ const b = document.getElementById('disc-ok'); if(b) b.disabled = !e.target.checked; } });
 document.addEventListener('click', e => {
@@ -2196,7 +2229,7 @@ function viewBriefing(){
         <div class="prose" style="margin-top:8px"><p>${esc(latest.summary||'')}</p>${latest.trendNotes ? `<p class="small muted">${esc(latest.trendNotes)}</p>` : ''}</div>
         ${(latest.sources||[]).length ? `<div class="small muted">출처 ${latest.sources.length}곳 · ${latest.sources.slice(0,3).map(u => { try{ return esc(new URL(u).hostname.replace(/^www\./,'')); }catch(_){ return ''; } }).join(', ')}</div>` : ''}
       </details>
-    </div>` : `<div class="card empty" style="margin-top:10px">첫 브리핑은 내일 아침 07:50에 도착합니다.</div>`}
+    </div>` : `<div class="card empty" style="margin-top:10px">보유 종목 맞춤 브리핑은 준비 중입니다. 지금은 기업 화면의 판정과 메가트렌드에서 시장 흐름을 확인할 수 있습니다.</div>`}
   ${S.fx?.headline ? `<button type="button" class="card br-fx" data-act="go-tab" data-v="fx"><span class="small"><b>환율</b> ${esc(S.fx.headline)}</span><span class="small muted">›</span></button>` : ''}
   <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">뉴스 온도 · 트렌드 · 종목별 뉴스 · 지난 브리핑</span></summary>
     <div class="stack" style="margin-top:12px">
@@ -4591,6 +4624,18 @@ body[class*="tour-"] nav.subtabs button[aria-pressed="true"]{box-shadow:0 0 0 2p
   .intro.tour .intro-nav{margin-top:8px;position:sticky;bottom:-12px;background:var(--surface);padding:6px 0 0}
   .intro.tour .intro-nav .btn{padding:8px 18px}
 }
+
+/* 가입 동의 */
+.lg-agree{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:13.5px}
+.lg-agree label{display:flex;align-items:center;gap:8px;line-height:1.4;cursor:pointer}
+.lg-agree label span{flex:1}
+.lg-agree input{width:18px;height:18px;flex:none;accent-color:var(--navy, #0E1A2B)}
+.lg-agree a,.lg-agree .linkbtn{font-size:12.5px;color:var(--muted)}
+.lg-agree .ag-all{padding-bottom:8px;border-bottom:1px solid var(--line)}
+.ag-sum{font-size:11.5px;color:var(--muted);margin:-4px 0 0 26px;line-height:1.5}
+.disc-links{margin-top:6px}
+.disc-links a{color:var(--muted)}
+.ac-del{color:var(--muted);font-size:13px}
 </style>
 </body>
 </html>

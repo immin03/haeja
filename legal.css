@@ -1,0 +1,25 @@
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}
+:root{--bg:#F5F3EE;--surface:#FFFFFF;--ink:#0E1A2B;--ink2:#3B4657;--muted:#6B7484;--line:#E6E1D6;--accent:#2D7A5F}
+@media (prefers-color-scheme: dark){:root{--bg:#0A0F18;--surface:#111A27;--ink:#ECE7DC;--ink2:#C3C9D3;--muted:#8E97A7;--line:#212C3C;--accent:#5FC59C;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"SUIT Variable","SUIT","Pretendard Variable",system-ui,-apple-system,sans-serif;word-break:keep-all;line-height:1.75;-webkit-font-smoothing:antialiased}
+header{background:radial-gradient(130% 160% at 50% -10%,#17283F 0%,#0E1A2B 45%,#0A1322 100%);position:relative}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,#B48C47,#E4C78D 50%,#B48C47);opacity:.45}
+.hd{max-width:760px;margin:0 auto;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.wm{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:21px;color:#F3EEE3;text-decoration:none}
+.wm i{font-style:italic;background:linear-gradient(90deg,#B48C47,#E4C78D 50%,#B48C47);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.back{color:rgba(243,238,227,.75);font-size:13px;text-decoration:none}
+main{max-width:760px;margin:0 auto;padding:24px 16px 64px;font-size:15px}
+h1{font-size:24px;margin:8px 0 4px;letter-spacing:-.02em}
+h2{font-size:16px;margin:28px 0 8px;letter-spacing:-.01em}
+.meta{color:var(--muted);font-size:13px;margin:0 0 18px}
+p,li{color:var(--ink2)}
+ul,ol{padding-left:20px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;white-space:nowrap}
+tr:last-child th,tr:last-child td{border-bottom:0}
+.note{font-size:13px;color:var(--muted)}
+a{color:var(--accent)}

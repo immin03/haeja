@@ -56,7 +56,8 @@ STORE = r"""const store = (() => {
       return r;
     },
     async signup(email, password){
-      const r = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin } });
+      const at = new Date().toISOString();
+      const r = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin, data: { agreed: at, terms: '2026-10-15', privacy: '2026-10-15', age14: true } } });
       if(!r.error) await this.track('signup');
       return r;
     },
@@ -99,9 +100,16 @@ function loginView(){
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="${lgMode==='signup'?'new-password':'current-password'}" placeholder="${lgMode==='signup'?'8자 이상':''}"></label>
     ${lgMode==='signup' ? `<label class="f">비밀번호 확인<input id="lg-pw2" type="password" autocomplete="new-password" placeholder="한 번 더 입력"></label>` : ''}
+    ${lgMode==='signup' ? `<div class="lg-agree">
+      <label class="ag-all"><input type="checkbox" id="ag-all"> <b>모두 동의합니다</b></label>
+      <label><input type="checkbox" class="ag" data-k="terms"> <span>[필수] 이용약관 동의</span> <a href="/terms" target="_blank" rel="noopener">보기</a></label>
+      <label><input type="checkbox" class="ag" data-k="privacy"> <span>[필수] 개인정보 수집·이용 동의</span> <a href="/privacy" target="_blank" rel="noopener">보기</a></label>
+      <div class="ag-sum">수집 항목: 이메일, 비밀번호(암호화) · 목적: 회원 식별과 서비스 제공 · 보유 기간: 회원 탈퇴 시까지</div>
+      <label><input type="checkbox" class="ag" data-k="invest"> <span>[필수] 투자 자문이 아닌 정보 도구임을 이해합니다</span> <button type="button" class="linkbtn" data-lg="terms">보기</button></label>
+      <label><input type="checkbox" class="ag" data-k="age"> <span>[필수] 만 14세 이상입니다</span></label>
+    </div>` : ''}
     <button class="btn primary" id="lg-go">${lgMode==='signup' ? '시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
-    ${lgMode==='signup' ? `<p class="small muted" style="margin:0">가입하면 <button type="button" class="linkbtn" data-lg="terms">투자 고지</button>에 동의한 것으로 봅니다. 이메일 외 다른 정보는 받지 않습니다.</p>` : ''}
     </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '한 번 로그인하면 이 기기에서는 계속 열립니다.'}</p>
     <div class="lg-demo"><span>먼저 둘러보고 싶다면</span><button type="button" class="btn" data-lg="demo">체험 계정으로 보기</button></div>
     <div id="lg-terms" class="disc-box small" style="display:none;margin-top:12px"></div>
@@ -126,6 +134,7 @@ function bindLogin(){
       if(!/^\S+@\S+\.\S+$/.test(email)){ msg.textContent = '이메일 형식을 확인해 주세요.'; return; }
       if(pw.length < 8){ msg.textContent = '비밀번호는 8자 이상으로 정해 주세요.'; return; }
       if(pw !== (document.getElementById('lg-pw2')?.value || '')){ msg.textContent = '비밀번호 확인이 일치하지 않습니다.'; return; }
+      if([...document.querySelectorAll('.lg-agree .ag')].some(x => !x.checked)){ msg.textContent = '필수 항목에 모두 동의해 주세요.'; return; }
       go.disabled = true; msg.textContent = '가입하는 중';
       const { data, error } = await store.signup(email, pw);
       if(error){ go.disabled = false; msg.textContent = /registered|exists/i.test(error.message) ? '이미 가입된 이메일입니다. "로그인"을 눌러 주세요.' : /signups? not allowed|disabled/i.test(error.message) ? '지금은 가입을 받지 않습니다.' : '가입하지 못했습니다: ' + error.message; return; }
@@ -281,7 +290,6 @@ HEAD = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
 <link rel="icon" type="image/png" href="/favicon-64.png?v=4">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
