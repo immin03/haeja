@@ -1011,7 +1011,7 @@ function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
     <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
-      <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
+      <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p><p class="login-why">종목을 찍어 주지 않습니다. 공개된 기준으로 내 판단을 점검합니다.</p></div>
     <div class="card stack login-card">
     <div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
     <form id="lg-form" class="stack" method="post" action="#" autocomplete="on" style="margin:0">
@@ -1373,6 +1373,7 @@ function viewAccount(){
     <div style="min-width:0"><b>${esc(userName() || '이름 없음')}</b><div class="small muted ac-mail">${esc(u?.email || '')}</div>${since ? `<div class="small muted">가입 ${esc(since)}</div>` : ''}</div>
   </div>
 
+  ${inviteCardHtml()}
   <h3 class="eyebrow guide-h">기본 정보</h3>
   <div class="card ac-list">
     <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 홍길동" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
@@ -1558,7 +1559,8 @@ document.addEventListener('input', e => { if(e.target && e.target.id === 'onb-no
 function guestBar(){
   if(S.guestBarClosed) return '';
   return `<div class="guest-bar"><div class="gb-t"><b>둘러보는 중</b><span>예시 계좌와 실제 기업 ${(S2.screen||[]).length > 100 ? (S2.screen.length).toLocaleString('ko-KR') + '곳의 ' : ''}점수를 보고 있어요. 가입하면 내 종목을 기록하고 회사별 적정 가격·적정 매수가 심사와 알림을 받을 수 있어요.</span></div>
-    <div class="gb-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="login">로그인</button></div></div>`;
+    <div class="gb-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="login">로그인</button></div>
+    <button type="button" class="gb-test" data-qz="open"><span><b>1분 테스트</b> 혼란장에서 나는 어떤 투자자일까?</span><span aria-hidden="true">›</span></button></div>`;
 }
 /* 둘러보기에서 가입이 필요한 동작: 막고 이유를 보여 준다 */
 const GUEST_GATE = {
@@ -3448,10 +3450,12 @@ function viewGrade(){
     <div class="gr-steps">${LEVELS.map(l => `<div class="gr-step${l.n === g.lv.n ? ' cur' : l.n < g.lv.n ? ' past' : ''}"><i></i><span>${esc(l.name)}</span><small class="num">${l.min}점</small></div>`).join('')}</div>
     <div class="gr-tip">${nx ? `<b>${esc(nx.name)}</b>까지 <b class="num">${nx.min - g.score}점</b> 남았습니다.${top ? ` 가장 큰 미션은 <b>${esc(top.t)}</b>(+${top.p})입니다.` : ''}` : '최고 등급입니다. 이제 원칙을 계속 지키기만 하면 됩니다.'}</div>
   </div>
+  ${inviteCardHtml()}
   ${groups.map(({m, xs}) => { const todo = xs.filter(x => !x.ok).sort((a,b) => b.p - a.p), done = xs.filter(x => x.ok); const got = sum(done), all = sum(xs);
     return `<div class="ms-h"><b>${esc(m.l)}<small>${esc(m.s)}</small></b><span class="ms-meter"><i><i style="width:${all ? got/all*100 : 0}%"></i></i><span class="num">${got}/${all}</span></span></div>
     ${todo.length ? `<div class="card ms-list">${todo.map(todoRow).join('')}</div>` : ''}
     ${done.length ? (todo.length ? `<details class="ms-done"><summary>완료한 미션 ${done.length}개</summary><div class="card ms-list">${done.map(doneRow).join('')}</div></details>` : `<div class="card ms-list">${done.map(doneRow).join('')}</div>`) : ''}`; }).join('')}
+  <div class="card qz-entry"><div><div class="eyebrow">1분 테스트</div><b>혼란장에서 나는 어떤 투자자일까?</b><div class="small muted">8문항으로 보는 나의 투자 성향. 결과 카드를 친구와 나눠 보세요.</div></div><button type="button" class="btn" data-qz="open">테스트 하기</button></div>
   <blockquote class="gr-quote">"투자는 철저한 분석을 통해 원금의 안전과 적절한 수익을 약속하는 행위다. 이 요건을 충족하지 않는 행위는 투기다."<span>— 벤저민 그레이엄, 『현명한 투자자』</span></blockquote>
   <p class="gr-foot">미션은 포트폴리오·결정 일지·알림 설정을 보고 자동으로 확인합니다. 원칙에서 벗어나면 점수도 내려가고, 등급이 오르면 알림이 옵니다.</p>`;
 }
@@ -3466,6 +3470,205 @@ async function checkLevelUp(){
     try{ await store.set('alerts', `level-${g.lv.n}`, { at: new Date().toISOString(), level: 'good', title: `${g.lv.name} 등급 달성`, body: `${g.score}점. ${g.next ? `다음 ${g.next.name}까지 ${g.next.min - g.score}점.` : '최고 등급입니다.'}`, link: { tab: 'grade' }, read: false, source: '투자자 등급' }); }catch(_){}
   } else if(g.lv.n < pg.lastLevel) saveProg({lastLevel: g.lv.n});
 }
+
+/* ============ 바이럴: 투자 성향 테스트 · 공유 카드 · 친구 초대 ============ */
+const QZ_Q = [
+  {q:'갖고 있는 주식이 하루 만에 15% 빠졌다. 회사에는 별다른 뉴스가 없다.', o:[
+    ['무서우니 일단 판다', {P:2}], ['이유를 찾아보고, 회사가 멀쩡하면 더 산다', {G:2, B:1}], ['아무것도 안 하고 그대로 둔다', {B:2}], ['반등하면 그때 팔려고 기다린다', {T:1, P:1}]]},
+  {q:'친구가 "이거 다음 주에 두 배 간대"라며 종목을 알려 줬다.', o:[
+    ['늦기 전에 바로 산다', {T:2}], ['회사 이름부터 검색해서 뭘 하는 곳인지 본다', {M:1, G:1}], ['그냥 흘려듣는다', {M:2}], ['소액만 넣어 본다', {T:1, P:1}]]},
+  {q:'내가 즐겨 쓰는 브랜드 회사. 그런데 주가가 1년 이익의 40배다.', o:[
+    ['좋은 회사니까 산다', {T:1, B:1}], ['관심 종목에 담고 가격이 내려오길 기다린다', {G:2, B:1}], ['비싸면 쳐다보지 않는다', {M:1, G:1}], ['일단 사고, 더 오르면 판다', {T:2}]]},
+  {q:'주식을 고를 때 제일 먼저 보는 것은?', o:[
+    ['요즘 뜨는 산업인지', {T:2}], ['이익에 비해 가격이 싼지', {G:2}], ['10년 뒤에도 잘 팔릴 물건인지', {B:2}], ['빚이 많거나 위험한 구석은 없는지', {M:2}]]},
+  {q:'내 계좌가 1년 동안 40% 올랐다.', o:[
+    ['다 팔고 한동안 쉰다', {P:1, M:1}], ['제일 많이 오른 종목을 더 산다', {T:2}], ['너무 비싸진 종목만 조금 줄인다', {G:2}], ['그대로 둔다', {B:2}]]},
+  {q:'시장 전체가 한 달 만에 20% 폭락했다.', o:[
+    ['남겨 둔 현금으로 좋은 회사를 산다', {G:2, B:1}], ['더 떨어지기 전에 정리한다', {P:2}], ['평소대로 지낸다', {B:2}], ['하락에 돈을 거는 상품으로 만회한다', {T:1, P:1}]]},
+  {q:'내 계좌에 담긴 종목 수는?', o:[
+    ['1~3개에 몰빵', {T:1, B:1}], ['잘 아는 회사 4~8개', {B:2}], ['20개 이상으로 넓게', {M:2}], ['그때그때 다르다', {P:1, T:1}]]},
+  {q:'주식을 파는 기준은?', o:[
+    ['목표 수익률에 닿으면', {T:1, G:1}], ['회사가 나빠졌을 때', {B:2, M:1}], ['-10% 손실이 나면', {M:1, P:1}], ['딱히 없다, 그날 기분', {P:2}]]},
+];
+const QZ_R = {
+  G:{name:'바겐 헌터', who:'그레이엄형', tag:'싸게 사는 데 진심인 투자자', c:'#E4C78D',
+     d:'좋은 물건을 할인할 때 사는 사람이에요. 시장이 무너질 때 오히려 눈이 반짝이죠. 다만 싼 데만 집중하면 계속 싼 이유가 있는 회사를 고를 수 있어요.',
+     tip:'혼란장 체크: 싼 이유가 일시적인지, 회사가 망가지는 중인지부터 구분하세요.', q:'"투자의 비결은 가치보다 싸게 사는 것이다." — 벤저민 그레이엄'},
+  B:{name:'장기 보유자', who:'버핏형', tag:'좋은 회사를 오래 들고 가는 투자자', c:'#9FC3A8',
+     d:'흔들려도 잘 버티는 사람이에요. 회사를 고를 때 10년 뒤를 먼저 떠올리죠. 다만 "좋은 회사"라는 이유로 너무 비싸게 사지 않는지는 따로 확인해야 해요.',
+     tip:'혼란장 체크: 지금 같은 장에서는 좋은 회사가 제값 아래로 내려오는 일이 생겨요. 적정 매수가를 미리 정해 두세요.', q:'"10년 들고 있을 주식이 아니면 10분도 들고 있지 마라." — 워런 버핏'},
+  M:{name:'실수 회피자', who:'멍거형', tag:'잃지 않는 게 먼저인 투자자', c:'#A9B8D9',
+     d:'남들이 흥분할 때 한 발 물러서는 사람이에요. 큰 실수를 피하는 건 투자에서 제일 어려운 기술이죠. 다만 너무 조심하면 좋은 기회도 그냥 지나칠 수 있어요.',
+     tip:'혼란장 체크: 피할 회사 목록만큼, 기회가 오면 살 회사 목록도 만들어 두세요.', q:'"어디서 죽을지 알면 그곳에는 절대 가지 않겠다." — 찰리 멍거'},
+  T:{name:'테마 서퍼', who:'모멘텀형', tag:'흐름을 타는 투자자', c:'#E8A07E',
+     d:'뜨는 산업과 이야기에 빠르게 반응하는 사람이에요. 상승장에서는 재미를 보지만, 유행이 바뀌면 가장 크게 다칠 수 있어요. 산 이유가 "오를 것 같아서"라면 위험 신호예요.',
+     tip:'혼란장 체크: 보유 종목마다 이익 대비 가격을 한 번 확인해 보세요. 테마가 꺼지면 남는 건 숫자예요.', q:'"썰물이 빠져야 누가 벌거벗고 수영했는지 알 수 있다." — 워런 버핏'},
+  P:{name:'롤러코스터 탑승자', who:'감정형', tag:'시장 기분을 함께 타는 투자자', c:'#D98C8C',
+     d:'오르면 신나고 떨어지면 무서운, 가장 흔한 투자자예요. 문제는 비쌀 때 사고 쌀 때 팔게 된다는 거죠. 판단 기준을 미리 적어 두기만 해도 결과가 달라져요.',
+     tip:'혼란장 체크: 지금 팔고 싶다면, 그 회사의 이익이 정말 줄었는지 숫자로 확인하고 결정하세요.', q:'"주식 시장은 인내심 없는 사람의 돈을 인내심 있는 사람에게 옮기는 장치다." — 워런 버핏'},
+};
+const QZ = { open:false, i:0, picks:[], res:null };
+function qzScore(){
+  const s = {G:0, B:0, M:0, T:0, P:0};
+  QZ.picks.forEach((p, i) => { const w = QZ_Q[i]?.o[p]?.[1] || {}; Object.entries(w).forEach(([k, v]) => s[k] += v); });
+  const order = ['B','G','M','T','P'];
+  const top = order.reduce((a, k) => s[k] > s[a] ? k : a, 'B');
+  const max = Object.values(s).reduce((a, b) => a + b, 0) || 1;
+  return { k: top, s, pct: Object.fromEntries(order.map(k => [k, Math.round(s[k] / max * 100)])) };
+}
+function qzHtml(){
+  if(QZ.res){ const r = QZ_R[QZ.res.k], P = QZ.res.pct;
+    const bar = (k, l) => `<div class="qz-m"><span>${l}</span><i><i style="width:${P[k]}%;background:${QZ_R[k].c}"></i></i><b class="num">${P[k]}%</b></div>`;
+    return `<div class="qz" role="dialog" aria-modal="true" aria-label="투자 성향 결과"><div class="qz-card">
+      <button type="button" class="qz-x" data-qz="close" aria-label="닫기">×</button>
+      <div class="eyebrow">나의 투자 성향</div>
+      <div class="qz-who">${esc(r.who)}</div><h2 class="qz-name">${esc(r.name)}</h2><div class="qz-tag">${esc(r.tag)}</div>
+      <p class="qz-d">${esc(r.d)}</p>
+      <div class="qz-ms">${bar('B','버핏 · 장기')}${bar('G','그레이엄 · 가격')}${bar('M','멍거 · 실수 회피')}${bar('T','테마 · 흐름')}${bar('P','감정 · 반응')}</div>
+      <div class="qz-tip">${esc(r.tip)}</div>
+      <blockquote class="qz-q">${esc(r.q)}</blockquote>
+      <div class="qz-a"><button type="button" class="btn primary" data-qz="share">결과 카드 공유하기</button>
+        ${store.mode === 'db' ? `<button type="button" class="btn" data-qz="close">닫기</button>` : `<button type="button" class="btn" data-qz="join">내 포트폴리오도 점검받기</button>`}</div>
+      <button type="button" class="linkbtn" data-qz="again" style="margin-top:10px">다시 하기</button>
+    </div></div>`; }
+  const q = QZ_Q[QZ.i];
+  return `<div class="qz" role="dialog" aria-modal="true" aria-label="투자 성향 테스트"><div class="qz-card">
+    <button type="button" class="qz-x" data-qz="close" aria-label="닫기">×</button>
+    <div class="qz-top"><span class="eyebrow">혼란장 투자 성향 테스트</span><span class="small muted num">${QZ.i + 1} / ${QZ_Q.length}</span></div>
+    <div class="qz-bar"><i style="width:${(QZ.i) / QZ_Q.length * 100}%"></i></div>
+    <h3 class="qz-qt">${esc(q.q)}</h3>
+    <div class="qz-os">${q.o.map(([t], j) => `<button type="button" class="qz-o${QZ.picks[QZ.i] === j ? ' on' : ''}" data-qz="pick" data-v="${j}">${esc(t)}</button>`).join('')}</div>
+    ${QZ.i > 0 ? `<button type="button" class="linkbtn" data-qz="prev" style="margin-top:12px">‹ 이전 질문</button>` : `<p class="small muted" style="margin:12px 0 0">8문항, 1분이면 끝나요. 정답은 없어요.</p>`}
+  </div></div>`;
+}
+function qzPaint(){ document.querySelector('.qz')?.remove(); if(!QZ.open) { document.body.classList.remove('noscroll'); return; } document.body.insertAdjacentHTML('beforeend', qzHtml()); document.body.classList.add('noscroll'); }
+function qzOpen(){ QZ.open = true; QZ.i = 0; QZ.picks = []; QZ.res = null; qzPaint(); store.track('view', 'test-start'); }
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-qz]'); if(!b) return;
+  const k = b.dataset.qz;
+  if(k === 'open'){ qzOpen(); return; }
+  if(k === 'close'){ QZ.open = false; qzPaint(); return; }
+  if(k === 'again'){ qzOpen(); return; }
+  if(k === 'prev'){ QZ.i = Math.max(0, QZ.i - 1); qzPaint(); return; }
+  if(k === 'pick'){ QZ.picks[QZ.i] = +b.dataset.v; b.classList.add('on');
+    setTimeout(() => { if(QZ.i < QZ_Q.length - 1){ QZ.i++; } else { QZ.res = qzScore(); store.track('view', 'test-done-' + QZ.res.k); } qzPaint(); }, 160); return; }
+  if(k === 'share'){ const r = QZ_R[QZ.res.k];
+    const res = QZ.res; await shareCard(() => drawTestCard(res), `나는 ${r.who} "${r.name}" 투자자래요. 혼란장에서 나는 어떤 투자자일까?`, inviteUrl('test'), 'test-' + QZ.res.k); return; }
+  if(k === 'join'){ QZ.open = false; qzPaint(); if(typeof openAuth === 'function') openAuth('signup'); return; }
+});
+
+/* ---- 공유 카드 그리기 (1080×1350, 인스타 세로 비율) ---- */
+const CARD_W = 1080, CARD_H = 1350;
+async function cardFonts(){ try{ await Promise.all(['800 60px "SUIT Variable"', '500 30px "SUIT Variable"', 'italic 600 60px Fraunces', '600 60px Fraunces'].map(f => document.fonts.load(f))); }catch(_){} }
+function cardBase(ctx){
+  const g = ctx.createRadialGradient(CARD_W/2, -120, 80, CARD_W/2, 200, 1500);
+  g.addColorStop(0, '#1B2E4A'); g.addColorStop(.5, '#0E1A2B'); g.addColorStop(1, '#09111E');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, CARD_W, CARD_H);
+  const gl = ctx.createLinearGradient(0, 0, CARD_W, 0); gl.addColorStop(0, '#B48C47'); gl.addColorStop(.5, '#E4C78D'); gl.addColorStop(1, '#B48C47');
+  ctx.fillStyle = gl; ctx.fillRect(0, 0, CARD_W, 10);
+  ctx.textBaseline = 'alphabetic';
+  ctx.font = '600 46px Fraunces, Georgia, serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText('Value', 80, 120);
+  const w = ctx.measureText('Value').width; ctx.font = 'italic 600 46px Fraunces, Georgia, serif'; ctx.fillStyle = '#E4C78D'; ctx.fillText('Note', 80 + w, 120);
+  ctx.font = '600 22px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(228,199,141,.75)'; ctx.fillText('ON THE SHOULDERS OF GIANTS', 80, 158);
+}
+function cardWrap(ctx, text, x, y, maxW, lh, maxLines){
+  const words = String(text).split(' '); let line = '', n = 0;
+  for(let i = 0; i < words.length; i++){
+    const t = line ? line + ' ' + words[i] : words[i];
+    if(ctx.measureText(t).width > maxW && line){ ctx.fillText(line, x, y); y += lh; line = words[i]; if(++n >= maxLines - 1){ line = words.slice(i).join(' '); while(ctx.measureText(line + '…').width > maxW && line.length) line = line.slice(0, -1); if(line !== words.slice(i).join(' ')) line += '…'; break; } }
+    else line = t;
+  }
+  ctx.fillText(line, x, y); return y + lh;
+}
+function cardFoot(ctx, sub){
+  ctx.fillStyle = 'rgba(243,238,227,.14)'; ctx.fillRect(80, CARD_H - 170, CARD_W - 160, 2);
+  ctx.font = '700 30px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText(sub, 80, CARD_H - 110);
+  ctx.font = '500 26px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.6)'; ctx.fillText(location.host || 'valuenote', 80, CARD_H - 70);
+}
+function cardBars(ctx, rows, y, gap = 62){
+  rows.forEach(([l, v, c]) => {
+    ctx.font = '600 30px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.85)'; ctx.fillText(l, 80, y);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#F3EEE3'; ctx.font = '800 30px "SUIT Variable", sans-serif'; ctx.fillText(v + '%', CARD_W - 80, y); ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(243,238,227,.12)'; cardRound(ctx, 400, y - 22, 520, 18, 9); ctx.fill();
+    ctx.fillStyle = c; cardRound(ctx, 400, y - 22, Math.max(18, 520 * v / 100), 18, 9); ctx.fill();
+    y += gap;
+  });
+  return y;
+}
+function cardRound(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function drawTestCard(res){
+  const r = QZ_R[res.k], cv = document.createElement('canvas'); cv.width = CARD_W; cv.height = CARD_H; const ctx = cv.getContext('2d');
+  cardBase(ctx);
+  ctx.font = '600 32px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.65)'; ctx.fillText('혼란장 투자 성향 테스트', 80, 280);
+  ctx.font = '700 40px "SUIT Variable", sans-serif'; ctx.fillStyle = r.c; ctx.fillText(r.who, 80, 352);
+  ctx.font = '800 108px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText(r.name, 74, 470);
+  ctx.font = '500 34px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.8)'; ctx.fillText(r.tag, 80, 545);
+  const P = res.pct;
+  let y = cardBars(ctx, [['버핏 · 장기', P.B, QZ_R.B.c], ['그레이엄 · 가격', P.G, QZ_R.G.c], ['멍거 · 실수 회피', P.M, QZ_R.M.c], ['테마 · 흐름', P.T, QZ_R.T.c], ['감정 · 반응', P.P, QZ_R.P.c]], 630, 58);
+  ctx.fillStyle = 'rgba(228,199,141,.12)'; cardRound(ctx, 80, y - 8, CARD_W - 160, 132, 20); ctx.fill();
+  ctx.font = '600 29px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3';
+  cardWrap(ctx, r.tip, 112, y + 44, CARD_W - 224, 44, 2);
+  ctx.font = '500 27px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(228,199,141,.9)';
+  cardWrap(ctx, r.q, 80, y + 175, CARD_W - 160, 40, 2);
+  cardFoot(ctx, '나는 어떤 투자자일까? 1분 테스트');
+  return cv;
+}
+function drawGradeCard(){
+  const g = missions(), cv = document.createElement('canvas'); cv.width = CARD_W; cv.height = CARD_H; const ctx = cv.getContext('2d');
+  cardBase(ctx);
+  ctx.font = '600 32px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.65)'; ctx.fillText('나의 투자자 등급', 80, 280);
+  ctx.font = '800 50px "SUIT Variable", sans-serif'; ctx.fillStyle = '#E4C78D'; ctx.fillText('Lv ' + g.lv.n, 80, 360);
+  ctx.font = '800 112px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText(g.lv.name, 74, 480);
+  ctx.font = '800 64px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.textAlign = 'right'; ctx.fillText(String(g.score), CARD_W - 140, 360);
+  ctx.font = '600 30px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.6)'; ctx.fillText('/100', CARD_W - 80, 360); ctx.textAlign = 'left';
+  ctx.font = '500 32px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.8)'; cardWrap(ctx, g.lv.d, 80, 545, CARD_W - 160, 46, 2);
+  const per = k => { const xs = g.M.filter(x => x.m === k), all = xs.reduce((a, x) => a + x.p, 0), got = xs.filter(x => x.ok).reduce((a, x) => a + x.p, 0); return all ? Math.round(got / all * 100) : 0; };
+  let y = cardBars(ctx, [['그레이엄 · 안전마진', per('graham'), '#E4C78D'], ['버핏 · 집중', per('buffett'), '#9FC3A8'], ['멍거 · 실수 피하기', per('munger'), '#A9B8D9'], ['습관 · 꾸준함', per('habit'), '#D9B3A0']], 690);
+  ctx.font = '600 30px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.7)';
+  ctx.fillText(`미션 ${g.done} / ${g.M.length} 달성`, 80, y + 40);
+  const nxt = g.M.filter(x => !x.ok).sort((a, b) => b.p - a.p)[0];
+  if(nxt){ ctx.fillStyle = 'rgba(228,199,141,.12)'; cardRound(ctx, 80, y + 80, CARD_W - 160, 110, 20); ctx.fill();
+    ctx.font = '600 28px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(228,199,141,.95)'; ctx.fillText('다음 목표', 112, y + 146);
+    ctx.font = '700 30px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; cardWrap(ctx, nxt.t, 260, y + 146, CARD_W - 372, 40, 1); }
+  cardFoot(ctx, '그레이엄·버핏·멍거 기준으로 내 투자 점검하기');
+  return cv;
+}
+async function shareCard(draw, text, url, tag){
+  await cardFonts();
+  const cv = draw();
+  const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+  const file = new File([blob], 'valuenote-card.png', { type: 'image/png' });
+  store.track('view', 'share-' + tag);
+  try{ if(navigator.canShare && navigator.canShare({ files: [file] })){ await navigator.share({ files: [file], text: text + '\n' + url }); return; } }catch(e){ if(e && e.name === 'AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'valuenote-card.png'; a.click();
+  try{ await navigator.clipboard.writeText(text + '\n' + url); toastMsg('카드 이미지를 저장했고, 링크를 복사했어요.'); }catch(_){ toastMsg('카드 이미지를 저장했어요.'); }
+}
+function toastMsg(t){ document.querySelector('.vn-toast')?.remove(); document.body.insertAdjacentHTML('beforeend', `<div class="vn-toast" role="status">${esc(t)}</div>`); setTimeout(() => document.querySelector('.vn-toast')?.remove(), 2600); }
+
+/* ---- 친구 초대 ---- */
+const inviteCode = () => (store.user?.id || '').replace(/-/g, '').slice(0, 8);
+function inviteUrl(src){ const c = inviteCode(); return location.origin + '/?ref=' + (c ? 'inv-' + c : (src || 'share')); }
+const INV = { n: null };
+async function loadInvites(){ if(store.mode !== 'db' || store.isDemo || INV.n !== null) return; try{ const { data } = await store.client.rpc('my_invites'); INV.n = +data || 0; }catch(_){ INV.n = 0; } if(['grade','account'].includes(S.tab)) render(); }
+function inviteCardHtml(){
+  if(store.mode !== 'db' || store.isDemo) return '';
+  loadInvites();
+  return `<div class="card inv-card">
+    <div><div class="eyebrow">친구 초대</div><b>친구가 가입하면 종목 분석이 1회씩 늘어나요</b>
+      <div class="small muted" style="margin-top:4px">초대로 가입한 친구 <b class="num">${INV.n ?? '–'}</b>명 · 추가 분석 <b class="num">+${Math.min(10, INV.n || 0)}</b>회 (최대 +10)</div></div>
+    <div class="inv-a"><button type="button" class="btn primary" data-share="invite">초대 링크 보내기</button><button type="button" class="btn" data-share="grade">내 등급 카드 공유</button></div>
+  </div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-share]'); if(!b) return;
+  const k = b.dataset.share;
+  if(k === 'invite'){ const url = inviteUrl(), text = '좋은 회사를 적당한 가격에. 그레이엄·버핏·멍거 기준으로 내 주식을 점검해 주는 노트예요.';
+    store.track('view', 'share-invite');
+    try{ if(navigator.share){ await navigator.share({ text, url }); return; } }catch(err){ if(err && err.name === 'AbortError') return; }
+    try{ await navigator.clipboard.writeText(text + '\n' + url); toastMsg('초대 링크를 복사했어요. 원하는 곳에 붙여 넣어 보내세요.'); }catch(_){ prompt('이 링크를 복사해 보내세요', url); } return; }
+  if(k === 'grade'){ const g = missions();
+    await shareCard(drawGradeCard, `내 투자자 등급은 Lv${g.lv.n} ${g.lv.name} (${g.score}점). 그레이엄·버핏·멍거 기준으로 점검해 봤어요.`, inviteUrl(), 'grade'); }
+});
 
 /* ============ Q&A: 설계와 사용법 ============ */
 const GUIDE = [
@@ -4409,6 +4612,7 @@ function refresh(kind){
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   render(); hideSplash();
+  if(/[?&]test\b/.test(location.search)) setTimeout(qzOpen, 300);
   store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; });
   store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);
@@ -4651,6 +4855,38 @@ input,select,textarea{border-radius:10px}
 .wordmark.lg .wm-a{color:var(--ink)}
 .login-sub{color:var(--gold);font-size:13px;font-weight:500;letter-spacing:.02em;margin-top:6px}
 .login-brand p{margin:14px 0 0;color:var(--muted);font-size:14px}
+.login-brand p.login-why{margin-top:6px;font-size:13px;color:var(--ink);font-weight:600}
+.gb-test{all:unset;box-sizing:border-box;cursor:pointer;flex:1 1 100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;background:var(--gold-soft);font-size:13.5px;color:var(--ink)}
+.gb-test b{color:#8A6A2E;margin-right:6px}
+.qz{position:fixed;inset:0;z-index:85;background:rgba(7,12,21,.6);display:flex;align-items:center;justify-content:center;padding:16px;animation:gateIn .16s ease-out}
+.qz-card{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--surface);color:var(--ink);border-radius:20px;padding:24px 20px 20px;box-shadow:0 20px 60px rgba(7,12,21,.35);word-break:keep-all}
+.qz-x{all:unset;cursor:pointer;position:absolute;top:10px;right:14px;font-size:26px;line-height:1;color:var(--muted);padding:4px}
+.qz-top{display:flex;justify-content:space-between;align-items:center;padding-right:28px}
+.qz-bar{height:6px;border-radius:3px;background:var(--line);margin:10px 0 18px;overflow:hidden}
+.qz-bar i{display:block;height:100%;background:linear-gradient(90deg,#B48C47,#E4C78D);border-radius:3px;transition:width .2s}
+.qz-qt{font-size:19px;line-height:1.5;margin:0 0 16px}
+.qz-os{display:flex;flex-direction:column;gap:8px}
+.qz-o{all:unset;box-sizing:border-box;cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-size:15px;line-height:1.45;transition:border-color .12s,background .12s}
+.qz-o:hover{border-color:var(--gold)}
+.qz-o.on{border-color:var(--gold);background:var(--gold-soft);font-weight:700}
+.qz-who{font-size:14px;font-weight:700;color:#8A6A2E;margin-top:8px}
+.qz-name{font-size:30px;margin:2px 0 4px;letter-spacing:-.03em}
+.qz-tag{font-size:14px;color:var(--muted)}
+.qz-d{font-size:14.5px;line-height:1.65;margin:14px 0}
+.qz-ms{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:12px;background:var(--bg)}
+.qz-m{display:grid;grid-template-columns:118px 1fr 40px;align-items:center;gap:10px;font-size:13px}
+.qz-m>i{height:8px;border-radius:4px;background:var(--line);overflow:hidden;display:block}
+.qz-m>i>i{display:block;height:100%;border-radius:4px}
+.qz-m b{text-align:right}
+.qz-tip{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid rgba(201,164,92,.5);font-size:13.5px;line-height:1.6}
+.qz-q{margin:12px 0 0;font-size:13px;color:var(--muted);line-height:1.6}
+.qz-a{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.qz-a .btn{width:100%;justify-content:center}
+.qz-card .linkbtn{display:block;margin-left:auto;margin-right:auto}
+.qz-entry,.inv-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
+.qz-entry>div,.inv-card>div:first-child{flex:1 1 260px;display:flex;flex-direction:column;gap:3px}
+.inv-a{display:flex;gap:8px;flex-wrap:wrap}
+.vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#F3EEE3;font-size:13.5px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(7,12,21,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
 .brand-t{cursor:pointer;-webkit-tap-highlight-color:transparent}
 

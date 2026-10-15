@@ -194,6 +194,12 @@ Deno.serve(async (req: Request) => {
     if (!uid) return json({ error: "로그인이 필요합니다." }, 401);
     const { data: urow } = await sb.from("docs").select("data").eq("collection", "usage").eq("id", "analyze").eq("owner", uid).maybeSingle();
     const usage = { used: [] as { sym: string; at: string }[], limit: FREE, ...(urow?.data || {}) };
+    /* 친구 초대 보상: 초대 링크로 가입한 친구 1명당 +1회 (최대 +10) */
+    const baseLimit = +usage.limit || FREE;
+    try {
+      const { data: bonus } = await sb.rpc("invite_count", { p_uid: uid });
+      usage.limit = baseLimit + Math.min(10, +bonus || 0);
+    } catch (_) { /* 보상 조회 실패 시 기본 한도 */ }
     const quota = () => ({ used: usage.used.length, limit: usage.limit, left: Math.max(0, usage.limit - usage.used.length) });
 
     if (body.action === "quota") return json(quota());
@@ -202,7 +208,7 @@ Deno.serve(async (req: Request) => {
       const symbol = String(body.symbol || "").trim().toUpperCase();
       if (!marketOf(symbol)) return json({ error: "지원하지 않는 시장입니다 (한국·미국·일본·중국·홍콩만)." }, 400);
       const again = usage.used.some((u: any) => u.sym === symbol);
-      if (!again && usage.used.length >= usage.limit) return json({ error: "분석 3회를 모두 사용했습니다.", quota: true, ...quota() }, 402);
+      if (!again && usage.used.length >= usage.limit) return json({ error: `분석 ${usage.limit}회를 모두 사용했습니다. 친구를 초대하면 1회씩 늘어나요.`, quota: true, ...quota() }, 402);
       const r = await runOne(symbol, body.name ? String(body.name).slice(0, 60) : undefined);
       if ("error" in r) return json({ ...r, ...quota() }, 422);
       const id = "a-" + symbol.replace(/[^A-Z0-9]/g, "");
@@ -212,7 +218,7 @@ Deno.serve(async (req: Request) => {
       for (const k of ["auto", "berkshire", "profile", "hist", "trendLinks", "industry", "risksText"]) if (prev[k]) (doc as any)[k] = prev[k];
       const { error } = await sb.from("docs").upsert({ collection: "companies", id, owner: uid, data: doc, updated_at: new Date().toISOString() });
       if (error) throw error;
-      if (!again) { usage.used.push({ sym: symbol, at: kst() }); await sb.from("docs").upsert({ collection: "usage", id: "analyze", owner: uid, data: usage, updated_at: new Date().toISOString() }); }
+      if (!again) { usage.used.push({ sym: symbol, at: kst() }); await sb.from("docs").upsert({ collection: "usage", id: "analyze", owner: uid, data: { ...usage, limit: baseLimit }, updated_at: new Date().toISOString() }); }
       return json({ ok: true, id, again, ...quota() });
     }
     return json({ error: "알 수 없는 요청" }, 400);
