@@ -990,7 +990,7 @@ function loginView(){
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="${lgMode==='signup'?'new-password':'current-password'}" placeholder="${lgMode==='signup'?'8자 이상':''}"></label>
     ${lgMode==='signup' ? `<label class="f">비밀번호 확인<input id="lg-pw2" type="password" autocomplete="new-password" placeholder="한 번 더 입력"></label>` : ''}
-    <button class="btn primary" id="lg-go">${lgMode==='signup' ? '무료로 시작하기' : '로그인'}</button>
+    <button class="btn primary" id="lg-go">${lgMode==='signup' ? '시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
     ${lgMode==='signup' ? `<p class="small muted" style="margin:0">가입하면 <button type="button" class="linkbtn" data-lg="terms">투자 고지</button>에 동의한 것으로 봅니다. 이메일 외 다른 정보는 받지 않습니다.</p>` : ''}
     </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '한 번 로그인하면 이 기기에서는 계속 열립니다.'}</p>
@@ -1324,7 +1324,7 @@ function viewAccount(){
     <button type="button" class="ac-link" data-al="open"><span>알림 설정</span><span class="muted">›</span></button>
     <button type="button" class="ac-link" data-act="go-tab" data-v="grade"><span>내 투자자 등급</span><span class="muted">›</span></button>
     <button type="button" class="ac-link" data-act="intro-open"><span>처음 안내 다시 보기</span><span class="muted">›</span></button>
-    <div class="ac-link static"><span>목록에 없는 종목 무료 분석</span><span class="muted num">${q ? `${q.left}/${q.limit}회 남음` : '–'}</span></div>
+    <div class="ac-link static"><span>목록에 없는 종목 분석</span><span class="muted num">${q ? `${q.left}/${q.limit}회 남음` : '–'}</span></div>
   </div>
 
   <div style="margin-top:20px"><button type="button" class="btn ac-out" data-acct="logout">로그아웃</button></div>
@@ -2581,7 +2581,7 @@ function viewCompanies(){
     ${rows.length > shown.length ? `<div class="row" style="justify-content:center;padding:8px 0"><button class="btn" data-act="co-more">더 보기 (${rows.length - shown.length})</button></div>` : ''}</div>
   `;
 }
-/* ============ 목록에 없는 종목: 검색 → 즉시 분석 (웹 전용, 무료 3회) ============ */
+/* ============ 목록에 없는 종목: 검색 → 즉시 분석 (웹 전용, 3회까지) ============ */
 const AZ = { q:'', items:null, busy:false, msg:'', quota:null, run:null };
 const azOn = () => typeof store !== 'undefined' && store.mode === 'db' && store.client && store.client.functions;
 async function azCall(body){
@@ -2605,11 +2605,11 @@ function azHtml(){
     const btn = k?.c ? `<button class="btn" data-act="pick" data-id="${k.c.id}">보기</button>`
       : k?.r ? `<button class="btn" data-act="sc-import" data-t="${esc(k.r.t)}">보기</button>`
       : AZ.run === it.symbol ? `<button class="btn" disabled>분석 중…</button>`
-      : (left === 0 && !usedIt) ? `<button class="btn" disabled>무료 횟수 소진</button>`
+      : (left === 0 && !usedIt) ? `<button class="btn" disabled>3회 모두 사용</button>`
       : `<button class="btn primary" data-act="az-run" data-sym="${esc(it.symbol)}" data-name="${esc(it.name)}">분석</button>`;
     return `<div class="az-row"><div class="az-main"><b>${esc(it.name)}</b><span class="small muted">${esc(it.symbol)} · ${esc(it.exch||'')}${k ? ' · 이미 목록에 있음' : ''}</span></div>${btn}</div>`; };
   return `<div class="card az" id="azBox">
-    <div class="row" style="justify-content:space-between;gap:8px"><b>목록에 없는 종목 바로 분석</b>${q ? `<span class="pill ${left ? 'p-good' : 'p-none'}">무료 ${left}/${q.limit}회 남음</span>` : ''}</div>
+    <div class="row" style="justify-content:space-between;gap:8px"><b>목록에 없는 종목 바로 분석</b>${q ? `<span class="pill ${left ? 'p-good' : 'p-none'}">${left}/${q.limit}회 남음</span>` : ''}</div>
     <p class="small muted" style="margin:2px 0 10px">한국·미국·일본·중국·홍콩 상장사를 같은 기준으로 바로 점수 매깁니다.</p>
     <form id="az-form" class="az-form" autocomplete="off"><input id="az-q" value="${esc(AZ.q)}" placeholder="예: 에코프로, 팔란티어, 7203" aria-label="종목 검색" enterkeyhint="search"><button class="btn primary" type="submit" ${AZ.busy?'disabled':''}>${AZ.busy && !AZ.run ? '찾는 중' : '검색'}</button></form>
     ${AZ.items ? (items.length ? `<div class="az-list">${items.map(row).join('')}</div>` : `<div class="small muted" style="margin-top:8px">찾은 종목이 없습니다. 티커(예: PLTR, 005930, 7203)로도 찾아 보세요.</div>`) : ''}
@@ -2629,10 +2629,10 @@ async function azRun(sym, name){
   try{
     const d = await azCall({action:'run', symbol:sym, name});
     if(isNum(d?.left)) AZ.quota = {used:d.used, limit:d.limit, left:d.left};
-    if(!d?.ok){ AZ.msg = d?.error || '분석하지 못했습니다.'; }
+    if(!d?.ok){ AZ.msg = d?.quota ? '분석은 서로 다른 종목 3개까지 할 수 있습니다. 3회를 모두 사용했습니다.' : (d?.error || '분석하지 못했습니다.'); }
     else {
       (AZ.usedSyms ||= []).push(sym);
-      AZ.msg = d.again ? '다시 계산했습니다. 횟수는 줄지 않았습니다.' : `분석했습니다. 무료 ${AZ.quota?.left ?? ''}회 남았습니다.`;
+      AZ.msg = d.again ? '다시 계산했습니다. 횟수는 줄지 않았습니다.' : `분석했습니다. ${AZ.quota?.left ?? ''}회 남았습니다.`;
       for(let i = 0; i < 20 && !S.companies.some(c => c.id === d.id); i++) await new Promise(r => setTimeout(r, 300));
       if(S.companies.some(c => c.id === d.id)){ AZ.run = null; AZ.busy = false; S.curId = d.id; S.tab = 'analyze'; render(); updateEval(); window.scrollTo(0,0); return; }
     }
@@ -3111,7 +3111,7 @@ const INTRO = [
   {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
   {tab:'portfolio', t:'① 포트폴리오', b:`<p>지금 보시는 화면입니다. 총 평가액·수익률·30일 추이와 종목별 비중을 한눈에 봅니다.</p><p>아래로 내리면 <b>지금 할 일</b>이 원칙에서 벗어난 부분을 최대 3개만 알려 줍니다. 할 일이 없으면 아무것도 안 하는 것이 정답입니다.</p>`},
   {tab:'briefing', t:'② 브리핑', b:`<p>매일 아침 내 종목 소식을 <b>한 줄씩</b> 정리합니다. 눌러야 자세한 내용이 열립니다.</p><p>위의 <b>메가트렌드</b>에서는 반도체·방산 같은 산업 사이클을 3개월~5년 차트로 봅니다.</p>`},
-  {tab:'companies', t:'③ 기업', b:`<p>220여 개 회사를 세 거인의 기준 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘으로 내 성향에 맞는 후보를 찾고, <b>☆</b>를 누르면 관심 종목에 담겨 점수 변화와 매수 시점을 지켜볼 수 있습니다.</p><p>목록에 없는 내 종목은 <b>검색해서 바로 분석</b>할 수 있습니다(무료 3회).</p>`},
+  {tab:'companies', t:'③ 기업', b:`<p>220여 개 회사를 세 거인의 기준 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘으로 내 성향에 맞는 후보를 찾고, <b>☆</b>를 누르면 관심 종목에 담겨 점수 변화와 매수 시점을 지켜볼 수 있습니다.</p><p>목록에 없는 내 종목은 <b>검색해서 바로 분석</b>할 수 있습니다(3회까지).</p>`},
   {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
     <p><b>적정 가격</b>은 회사의 제값, <b>상승 여력</b>은 지금 가격에서 적정 가격까지 남은 거리입니다. 적정 가격보다 30% 싼 <b>적정 매수가</b> 아래로 오면 매수 후보로 보고 알려 드립니다. 모든 값은 추정치이며 수익을 보장하지 않습니다.</p>`},
@@ -3279,7 +3279,7 @@ const GUIDE = [
       <p>이 목록은 "좋은 회사"를 고른 것이 아니라 비교할 수 있는 큰 회사를 모은 것이다. 판정은 목록 안에서 같은 기준으로 매긴다.</p>`; }],
     ['관심 종목은 어떻게 쓰나요?', `<p>사지 않았어도 지켜보고 싶은 회사는 기업 목록이나 기업 화면의 <b>☆</b>를 누르면 "기업 → 관심 종목"에 모인다. 한 번 더 누르면 빠진다.</p>
      <p>관심 종목 화면에서는 현재가·적정 가격·상승 여력과 함께 <b>종합 점수가 1주·1달 전보다 올랐는지 내렸는지</b>를 보여 준다(재무는 그대로 두고 그때 가격으로 다시 계산한 값). 막대는 적정 매수가까지 얼마나 가까워졌는지를 뜻하고, 적정 매수가에 닿으면 알림이 온다.</p>`],
-    ['내가 가진 회사가 목록에 없으면요?', `<p><b>바로 분석:</b> "기업 → 찾기"의 "목록에 없는 종목 바로 분석"에서 회사명(한글·영문)이나 티커로 찾아 [분석]을 누르면, 연간 재무제표를 불러와 목록의 회사와 같은 기준으로 품질·저평가·내재가치를 10초 안에 계산한다. 무료로 서로 다른 종목 3개까지 분석할 수 있고, 같은 종목을 다시 분석하는 것과 이미 목록에 있는 회사를 보는 것은 횟수에서 빠지지 않는다.</p><p><b>정성 평가:</b> 해자·경영진·10년 보유 테스트 같은 정성 평가는 다음 날 아침 자동 분석 때 채워진다. 보유 종목으로 등록한 회사도 같은 방식으로 자동 분석된다(하루 최대 12곳, 보유 종목 우선).</p><p>ETF·레버리지 상품은 회사가 아니라서 점수 대신 도전 칸으로 분류된다.</p>`],
+    ['내가 가진 회사가 목록에 없으면요?', `<p><b>바로 분석:</b> "기업 → 찾기"의 "목록에 없는 종목 바로 분석"에서 회사명(한글·영문)이나 티커로 찾아 [분석]을 누르면, 연간 재무제표를 불러와 목록의 회사와 같은 기준으로 품질·저평가·내재가치를 10초 안에 계산한다. 서로 다른 종목 3개까지 분석할 수 있고, 같은 종목을 다시 분석하는 것과 이미 목록에 있는 회사를 보는 것은 횟수에서 빠지지 않는다.</p><p><b>정성 평가:</b> 해자·경영진·10년 보유 테스트 같은 정성 평가는 다음 날 아침 자동 분석 때 채워진다. 보유 종목으로 등록한 회사도 같은 방식으로 자동 분석된다(하루 최대 12곳, 보유 종목 우선).</p><p>ETF·레버리지 상품은 회사가 아니라서 점수 대신 도전 칸으로 분류된다.</p>`],
     ['하루에 어떻게 쓰면 좋나요?', `<p><b>아침 1분:</b> 브리핑 탭의 헤드라인과 보유 종목 한 줄 요약을 본다. 자세한 내용은 눌러서 펼친다.</p>
      <p><b>포트폴리오 확인:</b> 맨 위 카드에서 수익률과 비중을, 아래 "지금 할 일"에서 비중 조정이 필요한지를 본다. 할 일이 없으면 아무것도 안 하는 것이 정답이다.</p>
      <p><b>알림이 오면:</b> 급등락, 적정 매수가 도달, 내재가치 초과 알림만 확인하면 된다. 휴대폰이든 PC 브라우저든 종 모양 → "알림 켜기"로 연결한다. 기기마다 한 번씩 켠다.</p>
@@ -3747,7 +3747,7 @@ function viewScreener(){
     <label class="chk"><input type="checkbox" id="sc-hide" ${S2.hideFlags?'checked':''}>감점 신호(잦은 적자·차입 부담·희석·현금 전환 약함) 있는 종목 숨기기</label>
   </div>
   <div id="scList" class="stack" style="margin-top:14px">${screenListHtml()}</div>
-  <p class="small muted" style="margin-top:16px">${esc(m.source||'')}. 무료 데이터라 누락이나 오류가 있을 수 있습니다. 후보를 고른 뒤 "심사로 가져오기"에서 공시 원문과 대조하세요.</p>`;
+  <p class="small muted" style="margin-top:16px">${esc(m.source||'')}. 공개 데이터라 누락이나 오류가 있을 수 있습니다. 후보를 고른 뒤 "심사로 가져오기"에서 공시 원문과 대조하세요.</p>`;
 }
 function screenListHtml(){
   const rows = filteredRows();

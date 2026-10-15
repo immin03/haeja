@@ -40,7 +40,7 @@ function viewAccount(){
     <button type="button" class="ac-link" data-al="open"><span>알림 설정</span><span class="muted">›</span></button>
     <button type="button" class="ac-link" data-act="go-tab" data-v="grade"><span>내 투자자 등급</span><span class="muted">›</span></button>
     <button type="button" class="ac-link" data-act="intro-open"><span>처음 안내 다시 보기</span><span class="muted">›</span></button>
-    <div class="ac-link static"><span>목록에 없는 종목 무료 분석</span><span class="muted num">${q ? `${q.left}/${q.limit}회 남음` : '–'}</span></div>
+    <div class="ac-link static"><span>목록에 없는 종목 분석</span><span class="muted num">${q ? `${q.left}/${q.limit}회 남음` : '–'}</span></div>
   </div>
 
   <div style="margin-top:20px"><button type="button" class="btn ac-out" data-acct="logout">로그아웃</button></div>

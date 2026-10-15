@@ -202,7 +202,7 @@ Deno.serve(async (req: Request) => {
       const symbol = String(body.symbol || "").trim().toUpperCase();
       if (!marketOf(symbol)) return json({ error: "지원하지 않는 시장입니다 (한국·미국·일본·중국·홍콩만)." }, 400);
       const again = usage.used.some((u: any) => u.sym === symbol);
-      if (!again && usage.used.length >= usage.limit) return json({ error: "무료 분석 3회를 모두 썼습니다.", quota: true, ...quota() }, 402);
+      if (!again && usage.used.length >= usage.limit) return json({ error: "분석 3회를 모두 사용했습니다.", quota: true, ...quota() }, 402);
       const r = await runOne(symbol, body.name ? String(body.name).slice(0, 60) : undefined);
       if ("error" in r) return json({ ...r, ...quota() }, 422);
       const id = "a-" + symbol.replace(/[^A-Z0-9]/g, "");

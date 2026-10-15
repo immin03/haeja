@@ -99,7 +99,7 @@ function loginView(){
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="${lgMode==='signup'?'new-password':'current-password'}" placeholder="${lgMode==='signup'?'8자 이상':''}"></label>
     ${lgMode==='signup' ? `<label class="f">비밀번호 확인<input id="lg-pw2" type="password" autocomplete="new-password" placeholder="한 번 더 입력"></label>` : ''}
-    <button class="btn primary" id="lg-go">${lgMode==='signup' ? '무료로 시작하기' : '로그인'}</button>
+    <button class="btn primary" id="lg-go">${lgMode==='signup' ? '시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
     ${lgMode==='signup' ? `<p class="small muted" style="margin:0">가입하면 <button type="button" class="linkbtn" data-lg="terms">투자 고지</button>에 동의한 것으로 봅니다. 이메일 외 다른 정보는 받지 않습니다.</p>` : ''}
     </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '한 번 로그인하면 이 기기에서는 계속 열립니다.'}</p>
