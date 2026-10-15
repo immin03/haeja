@@ -98,6 +98,7 @@ function loginView(){
     <div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></label>
     <label class="f">비밀번호<input id="lg-pw" type="password" autocomplete="${lgMode==='signup'?'new-password':'current-password'}" placeholder="${lgMode==='signup'?'8자 이상':''}"></label>
+    ${lgMode==='signup' ? `<label class="f">비밀번호 확인<input id="lg-pw2" type="password" autocomplete="new-password" placeholder="한 번 더 입력"></label>` : ''}
     <button class="btn primary" id="lg-go">${lgMode==='signup' ? '무료로 시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
     ${lgMode==='signup' ? `<p class="small muted" style="margin:0">가입하면 <button type="button" class="linkbtn" data-lg="terms">투자 고지</button>에 동의한 것으로 봅니다. 이메일 외 다른 정보는 받지 않습니다.</p>` : ''}
@@ -117,18 +118,20 @@ document.addEventListener('click', e => {
 });
 function bindLogin(){
   const go = document.getElementById('lg-go'); if(!go) return;
-  document.getElementById('lg-pw')?.addEventListener('keydown', e => { if(e.key === 'Enter') go.click(); });
+  ['lg-pw','lg-pw2'].forEach(id => document.getElementById(id)?.addEventListener('keydown', e => { if(e.key === 'Enter') go.click(); }));
   go.onclick = async () => {
     const email = document.getElementById('lg-email').value.trim(), pw = document.getElementById('lg-pw').value; const msg = document.getElementById('lg-msg');
     if(!email || !pw){ msg.textContent = '이메일과 비밀번호를 입력하세요.'; return; }
     if(lgMode === 'signup'){
       if(!/^\S+@\S+\.\S+$/.test(email)){ msg.textContent = '이메일 형식을 확인해 주세요.'; return; }
       if(pw.length < 8){ msg.textContent = '비밀번호는 8자 이상으로 정해 주세요.'; return; }
+      if(pw !== (document.getElementById('lg-pw2')?.value || '')){ msg.textContent = '비밀번호 확인이 일치하지 않습니다.'; return; }
       go.disabled = true; msg.textContent = '가입하는 중';
       const { data, error } = await store.signup(email, pw);
       if(error){ go.disabled = false; msg.textContent = /registered|exists/i.test(error.message) ? '이미 가입된 이메일입니다. "로그인"을 눌러 주세요.' : /signups? not allowed|disabled/i.test(error.message) ? '지금은 가입을 받지 않습니다.' : '가입하지 못했습니다: ' + error.message; return; }
       if(data?.session){ location.reload(); return; }
-      go.disabled = false; msg.textContent = '확인 메일을 보냈습니다. 메일의 링크를 누르면 바로 시작됩니다.'; return;
+      const r2 = await store.login(email, pw); if(!r2.error){ location.reload(); return; }
+      go.disabled = false; msg.textContent = '가입은 됐지만 바로 로그인하지 못했습니다. "로그인" 탭에서 다시 시도해 주세요.'; return;
     }
     go.disabled = true; msg.textContent = '확인 중';
     const { error } = await store.login(email, pw);
