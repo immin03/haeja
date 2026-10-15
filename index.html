@@ -2438,13 +2438,13 @@ function newsletterBox(){
 }
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
-  const adminBtn = S.__isAdmin ? `<button type="button" class="btn" data-act="col-draft">이번 주 초안 만들기</button>` : '';
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
-    <article class="card col-art"><div class="eyebrow">ValueNote 칼럼</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))} · ValueNote 운영자</div>
+    <article class="card col-art"><div class="eyebrow">ValueNote 칼럼</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))} · ValueNote 주간 칼럼</div>
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
-      <p class="small muted col-disc">개인의 기록과 의견이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
+      ${(open.sources || []).length ? `<div class="small muted col-src">출처 ${open.sources.slice(0, 6).map((u, i) => { try{ return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(new URL(u).hostname.replace(/^www\./, ''))}</a>`; }catch(_){ return ''; } }).filter(Boolean).join(' · ')}</div>` : ''}
+      <p class="small muted col-disc">공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
-  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">매주 시장 상황, 트렌드, 금리·환율, 그리고 그레이엄·버핏·멍거 이야기</div></div>${adminBtn}</div>
+  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">매주 월요일 아침, 시장·트렌드·금리·환율과 그레이엄·버핏·멍거 이야기</div></div></div>
     ${newsletterBox()}
     ${L.length ? `<div class="col-list">${L.map((c, i) => `<button type="button" class="card col-item${i === 0 ? ' first' : ''}" data-act="col-open" data-v="${esc(c.id)}">
       <span class="small muted">${esc(colDate(c))}${i === 0 ? ' · 최신' : ''}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(String(c.body || '').replace(/■\s*/g, '').replace(/\s+/g, ' ').slice(0, 90))}…</span></button>`).join('')}</div>`
@@ -5223,6 +5223,8 @@ input,select,textarea{border-radius:10px}
 .col-body h3{font-size:16px;margin:22px 0 6px;padding-left:10px;border-left:3px solid var(--gold)}
 .col-body p{margin:0 0 10px}
 .col-disc{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.col-src{margin-top:14px;line-height:1.7}
+.col-src a{color:var(--muted)}
 @media (max-width:560px){.wk-nums{grid-template-columns:repeat(2,1fr)}}
 .rt-head,.rt-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 72px 54px;gap:8px;align-items:baseline}
 .rt-head{font-size:11.5px;color:var(--muted);padding:0 0 2px}
