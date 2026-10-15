@@ -483,6 +483,7 @@ body.noscroll{overflow:hidden}
 .disc-foot .linkbtn{font-size:12px}
 .intro.consent{z-index:90}
 .intro.consent .intro-card{min-height:0}
+.intro.still .intro-card{animation:none}
 .disc-box{font-size:14px;line-height:1.7;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;word-break:keep-all}
 .disc-chk{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:14px;line-height:1.5;word-break:keep-all;cursor:pointer}
 .disc-chk input{margin-top:3px;width:18px;height:18px;flex:none;accent-color:var(--accent)}
@@ -1456,7 +1457,8 @@ function evaluate(c){
 const invDone = () => !!(inv().done || store.isDemo);
 function onboardHtml(){
   const v = inv(), ok = v.size && v.style && (v.expect||[]).length;
-  return `<div class="intro consent onb" role="dialog" aria-modal="true" aria-label="기본 정보"><div class="intro-card">
+  const still = S.__onbShown ? ' still' : ''; S.__onbShown = true;
+  return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="기본 정보"><div class="intro-card">
     <div class="eyebrow" style="color:var(--gold)">시작 전에 1분</div>
     <h2 class="intro-t">어떤 투자자인지 알려 주세요</h2>
     <p class="small muted" style="margin:0 0 14px">답에 맞춰 후보 정렬과 제안을 바꿔 드립니다. 나중에 계정에서 고칠 수 있습니다.</p>
@@ -1480,7 +1482,8 @@ const DISC_EST = '표시되는 가격·상승 여력은 추정치이며 수익�
 const consentLocal = () => { try{ return localStorage.getItem('vn-consent-v1') === '1'; }catch(_){ return false; } };
 const consentOk = () => !!prog().consentV1 || consentLocal();
 function consentHtml(){
-  return `<div class="intro consent" role="dialog" aria-modal="true" aria-label="이용 전 확인"><div class="intro-card">
+  const still = S.__consentShown ? ' still' : ''; S.__consentShown = true;
+  return `<div class="intro consent${still}" role="dialog" aria-modal="true" aria-label="이용 전 확인"><div class="intro-card">
     <h2 class="intro-t">이용 전에 확인해 주세요</h2>
     <div class="intro-b"><div class="disc-box">${esc(DISC_FULL)}</div>
       <label class="disc-chk"><input type="checkbox" id="disc-agree"> <span>위 내용을 읽고 이해했으며, 투자 판단의 책임이 본인에게 있음에 동의합니다.</span></label></div>
@@ -1508,6 +1511,7 @@ function discViewHtml(){
   </div></div>`;
 }
 function render(){
+  const __mBox = document.querySelector('.intro.consent .intro-card'), __mY = __mBox ? __mBox.scrollTop : 0;
   { const st = tourStep(); if(st){ S.__tourOn = true; if(S.tab !== st.tab){ S.tab = st.tab; window.scrollTo(0,0); } } else if(S.__tourOn){ S.__tourOn = false; S.tab = 'portfolio'; window.scrollTo(0,0); } }
   renderNav();
   const __restore = applyDemo();
@@ -1536,6 +1540,7 @@ function render(){
   if(store.isDemo) app.insertAdjacentHTML('afterbegin', demoBar());
   if(S.loaded.s && !consentOk() && !store.isDemo){ app.insertAdjacentHTML('beforeend', consentHtml()); document.body.classList.add('noscroll'); }
   else if(S.loaded.s && !invDone()){ app.insertAdjacentHTML('beforeend', onboardHtml()); document.body.classList.add('noscroll'); }
+  if(__mY){ const b = document.querySelector('.intro.consent .intro-card'); if(b) b.scrollTop = __mY; }
   else if(S.discView){ app.insertAdjacentHTML('beforeend', discViewHtml()); document.body.classList.add('noscroll'); }
 }
 const pillFor = (ev) => `<span class="pill p-${ev.cls}">${esc(ev.verdict)}</span>`;
@@ -4044,6 +4049,12 @@ document.addEventListener('click', async e => {
   if(act === 'intro-next'){ S.introStep = (S.introStep||0) + 1; render(); return; }
   if(act === 'inv-pick'){ const k = a.dataset.k, v = a.dataset.v, q = INV_Q.find(x => x.k === k);
     if(q.multi){ const cur = new Set(inv()[k] || []); cur.has(v) ? cur.delete(v) : cur.add(v); saveInv({[k]: [...cur]}); } else saveInv({[k]: v});
+    if(a.closest('.onb')){
+      const box = a.closest('.inv-opts'), now = inv();
+      box.querySelectorAll('.inv-o').forEach(o => { const on = q.multi ? (now[k]||[]).includes(o.dataset.v) : now[k] === o.dataset.v; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); });
+      const ok = now.size && now.style && (now.expect||[]).length, btn = document.querySelector('[data-onb="done"]');
+      if(btn){ btn.disabled = !ok; const hint = btn.parentElement.querySelector('.small'); if(hint) hint.textContent = ok ? '' : '* 기대하는 점·투자 규모·성향은 꼭 골라 주세요'; }
+      return; }
     const box = document.querySelector('.intro-card'), y = box ? box.scrollTop : 0; S.coSort = null; render(); const b2 = document.querySelector('.intro-card'); if(b2) b2.scrollTop = y; return; }
   if(act === 'intro-install'){ const ev = window.__installEvt; if(ev){ ev.prompt(); try{ await ev.userChoice; }catch(_){} window.__installEvt = null; render(); } return; }
   if(act === 'intro-prev'){ S.introStep = Math.max(0, (S.introStep||0) - 1); render(); return; }
