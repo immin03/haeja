@@ -960,9 +960,8 @@ const store = (() => {
       const { data: { session } } = await sb.auth.getSession();
       if(session){ try{ if(localStorage.getItem('vn-noauto') === '1' && !sessionStorage.getItem('vn-live')){ await sb.auth.signOut(); mode = 'login'; this.track('visit'); return; } sessionStorage.setItem('vn-live', '1'); }catch(_){} }
       if(!session){
-        /* 로그인 없이 둘러보기: 처음 온 사람은 바로 예시 화면으로. 로그인했던 사람(아이디 저장)이나 ?login·?signup 은 로그인 화면 */
-        let wantLogin = /[?&#](login|signup)/.test(location.search + location.hash);
-        try{ if(!wantLogin && localStorage.getItem('vn-email') && !sessionStorage.getItem('vn-browse')) wantLogin = true; }catch(_){}
+        /* 로그인 없이 둘러보기: 로그인 안 된 사람은 누구나 바로 둘러보기 화면으로. ?login·?signup 링크만 로그인 화면 */
+        const wantLogin = /[?&#](login|signup)/.test(location.search + location.hash);
         mode = wantLogin ? 'login' : 'guest'; this.track('visit'); return;
       }
       user = session.user; mode = 'db'; this.track('visit');
@@ -1467,7 +1466,7 @@ const pct = (v, d=1) => isNum(v) ? (v>0?'+':'')+fmt(v,d)+'%' : '–';
 const today = () => new Date(Date.now() + 9*3600e3).toISOString().slice(0,10);
 function setPath(o, p, v){ const ks = p.split('.'); let t = o; ks.slice(0,-1).forEach(k => { if(typeof t[k] !== 'object' || t[k] === null) t[k] = {}; t = t[k]; }); t[ks.at(-1)] = v; }
 function getPath(o, p){ return p.split('.').reduce((a,k) => a == null ? undefined : a[k], o); }
-function setSave(t){ const el = $('#saveState'); if(!el) return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }
+function setSave(t){ const el = $('#saveState'); if(!el) return; if(store.isGuest && t === '저장됨') return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }
 
 /* ============ 심사 엔진 ============ */
 function newCompany(){
@@ -1558,13 +1557,12 @@ document.addEventListener('click', e => {
 document.addEventListener('input', e => { if(e.target && e.target.id === 'onb-note'){ S.__onbNote = e.target.value; } });
 function guestBar(){
   if(S.guestBarClosed) return '';
-  return `<div class="guest-bar"><div class="gb-t"><b>둘러보는 중</b><span>예시 계좌와 실제 기업 ${(S2.screen||[]).length > 100 ? (S2.screen.length).toLocaleString('ko-KR') + '곳의 ' : ''}점수를 보고 있어요. 가입하면 내 종목을 기록하고 회사별 적정 가격·적정 매수가 심사와 알림을 받을 수 있어요.</span></div>
+  return `<div class="guest-bar"><div class="gb-t"><b>둘러보는 중</b><span>기업 ${(S2.screen||[]).length > 100 ? (S2.screen.length).toLocaleString('ko-KR') + '곳' : '약 600곳'}의 점수·적정 가격과 메가트렌드는 가입 없이 다 볼 수 있어요. 가입하면 내 포트폴리오 채점, 관심 종목 알림, 결정 일지, 공유 카드를 쓸 수 있어요.</span></div>
     <div class="gb-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="login">로그인</button></div>
     <button type="button" class="gb-test" data-qz="open"><span><b>1분 테스트</b> 혼란장에서 나는 어떤 투자자일까?</span><span aria-hidden="true">›</span></button></div>`;
 }
 /* 둘러보기에서 가입이 필요한 동작: 막고 이유를 보여 준다 */
 const GUEST_GATE = {
-  'sc-import':['이 회사의 심사표', '적정 가격, 적정 매수가, 상승 여력과 재무 체크리스트를 볼 수 있어요.'],
   'star':['관심 종목', '☆로 담아 두면 적정 매수가에 오면 알려 드려요.'],
   'az-run':['종목 분석', '목록에 없는 종목도 이름으로 검색해 바로 분석할 수 있어요 (3회까지).'],
   'ai-review':['종목 분석', '회사별 분석과 검토를 받을 수 있어요.'], 'ai-fill':['종목 분석', '재무 숫자를 자동으로 채울 수 있어요.'], 'ai-auto':['종목 분석', '재무 숫자를 자동으로 채울 수 있어요.'],
@@ -2836,7 +2834,7 @@ function coRowHtml(x){
       ${x.c ? dropCheckHtml(x.c) : ''}
       ${seriesFor(x.code) ? priceChart(x.code, {fmtV: v => fmtPx(v, x.cur), label: x.name+' 주가'}) : ''}
       <div class="row" style="justify-content:space-between"><span class="small muted">${p.asOf ? '개요 '+esc(p.asOf) : ''}${(p.sources||[]).filter(safeUrl).slice(0,2).map((u,i) => ` · <a href="${esc(u)}" target="_blank" rel="noopener" style="color:var(--accent)">출처${i+1}</a>`).join('')}</span>
-        ${x.c ? `<button class="btn" data-act="open-co" data-id="${x.c.id}">심사 보기</button>` : (x.r ? `<button class="btn primary" data-act="sc-import" data-t="${esc(x.r.t)}">심사로 가져오기</button>` : '')}</div>
+        ${x.c ? `<button class="btn" data-act="open-co" data-id="${x.c.id}">심사 보기</button>` : (x.r ? `<button class="btn primary" data-act="sc-import" data-t="${esc(x.r.t)}">${store.isGuest ? '심사표 보기' : '심사로 가져오기'}</button>` : '')}</div>
     </div>` : ''}
   </div>`;
 }
@@ -4276,7 +4274,7 @@ function screenCard(r, i){
         <div><span>안전마진</span><b class="num">${isNum(r.mos)?fmt(r.mos,0)+'%':'–'}</b></div>
       </div>
       <div class="small muted" style="margin-top:8px">${esc(r.ind||r.s||'')} · 최근 회계연도 ${esc(r.fy||'–')} · ${r.yrs||'–'}개년 데이터${r.fin_sector?' · 금융업: 일부 지표 제외':''}${r.fcur&&r.fcur!==r.cur?` · 재무 통화 ${esc(r.fcur)}`:''}</div>
-      <div class="row" style="justify-content:flex-end;margin-top:8px">${exists ? `<button class="btn" data-act="open-co" data-id="${exists.id}">심사 보기</button>` : `<button class="btn primary" data-act="sc-import" data-t="${esc(r.t)}">심사로 가져오기</button>`}</div>
+      <div class="row" style="justify-content:flex-end;margin-top:8px">${exists ? `<button class="btn" data-act="open-co" data-id="${exists.id}">심사 보기</button>` : `<button class="btn primary" data-act="sc-import" data-t="${esc(r.t)}">${store.isGuest ? '심사표 보기' : '심사로 가져오기'}</button>`}</div>
     </div>` : '';
   return `<div class="card stack" style="gap:8px">
     <button type="button" data-act="sc-open" data-t="${esc(r.t)}" aria-expanded="${open}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:8px">
