@@ -1571,6 +1571,7 @@ const GUEST_GATE = {
   'hold-new':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'], 'hold-edit':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'],
   'hold-save':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-del':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-analyze':['종목 분석', '보유 종목을 바로 분석할 수 있어요.'],
   'intro-add':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'intro-push':['알림', '살 만한 가격이 되면 휴대폰과 PC로 알려 드려요.'],
+  'share-pf':['내 투자 카드 공유', '내 포트폴리오 수익률과 투자 성향을 카드 두 장으로 만들어 올릴 수 있어요.'],
   'co-new':['회사 추가', '원하는 회사를 직접 추가해 심사할 수 있어요.'], 'co-journal':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'co-del':['내 기록', '내 기록을 관리할 수 있어요.'],
   'j-save':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-rev':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-del':['결정 일지', '내 기록을 관리할 수 있어요.'],
 };
@@ -1844,7 +1845,7 @@ function viewPortfolio(){
     <div class="row" style="justify-content:space-between;align-items:flex-end">
       <div><span class="eyebrow">총 평가액</span><div class="hero-num num" data-v="${Math.round(total)}">${fmtKRW(total)}</div>
         <div class="num small"><b class="${pl>=0?'up':'down'}">${pl>=0?'+':'−'}${fmtKRW(Math.abs(pl))} (${pct(cost?pl/cost*100:null)})</b>${isNum(dayPct) ? ` <span class="muted">· 오늘</span> <b class="${dayPct>=0?'up':'down'}">${pct(dayPct)}</b>` : ''}</div></div>
-      <button class="btn" data-act="hold-new" style="font-size:13px;padding:6px 12px">종목 추가</button>
+      <div class="row" style="gap:6px"><button class="btn" data-share="pf" style="font-size:13px;padding:6px 12px">공유</button><button class="btn" data-act="hold-new" style="font-size:13px;padding:6px 12px">종목 추가</button></div>
     </div>
     ${freshPortfolio()}
     ${sparkHtml()}
@@ -3527,8 +3528,9 @@ function qzHtml(){
       <div class="qz-ms">${bar('B','버핏 · 장기')}${bar('G','그레이엄 · 가격')}${bar('M','멍거 · 실수 회피')}${bar('T','테마 · 흐름')}${bar('P','감정 · 반응')}</div>
       <div class="qz-tip">${esc(r.tip)}</div>
       <blockquote class="qz-q">${esc(r.q)}</blockquote>
-      <div class="qz-a"><button type="button" class="btn primary" data-qz="share">결과 카드 공유하기</button>
-        ${store.mode === 'db' ? `<button type="button" class="btn" data-qz="close">닫기</button>` : `<button type="button" class="btn" data-qz="join">내 포트폴리오도 점검받기</button>`}</div>
+      <div class="qz-a">${store.mode === 'db' && !store.isDemo
+        ? `<button type="button" class="btn primary" data-share="pf">내 포트폴리오 카드와 함께 공유</button><button type="button" class="btn" data-qz="share">성향 카드만 공유</button>`
+        : `<button type="button" class="btn primary" data-qz="share">결과 카드 공유하기</button><button type="button" class="btn" data-qz="join">내 포트폴리오도 채점받기</button>`}</div>
       <button type="button" class="linkbtn" data-qz="again" style="margin-top:10px">다시 하기</button>
     </div></div>`; }
   const q = QZ_Q[QZ.i];
@@ -3551,7 +3553,8 @@ document.addEventListener('click', async e => {
   if(k === 'again'){ qzOpen(); return; }
   if(k === 'prev'){ QZ.i = Math.max(0, QZ.i - 1); qzPaint(); return; }
   if(k === 'pick'){ QZ.picks[QZ.i] = +b.dataset.v; b.classList.add('on');
-    setTimeout(() => { if(QZ.i < QZ_Q.length - 1){ QZ.i++; } else { QZ.res = qzScore(); store.track('view', 'test-done-' + QZ.res.k); } qzPaint(); }, 160); return; }
+    setTimeout(() => { if(QZ.i < QZ_Q.length - 1){ QZ.i++; } else { QZ.res = qzScore(); store.track('view', 'test-done-' + QZ.res.k);
+      if(store.mode === 'db' && !store.isDemo) saveProg({ qz: { k: QZ.res.k, pct: QZ.res.pct, at: today() } }); } qzPaint(); }, 160); return; }
   if(k === 'share'){ const r = QZ_R[QZ.res.k];
     const res = QZ.res; await shareCard(() => drawTestCard(res), `나는 ${r.who} "${r.name}" 투자자래요. 혼란장에서 나는 어떤 투자자일까?`, inviteUrl('test'), 'test-' + QZ.res.k); return; }
   if(k === 'join'){ QZ.open = false; qzPaint(); if(typeof openAuth === 'function') openAuth('signup'); return; }
@@ -3599,7 +3602,7 @@ function cardRound(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); c
 function drawTestCard(res){
   const r = QZ_R[res.k], cv = document.createElement('canvas'); cv.width = CARD_W; cv.height = CARD_H; const ctx = cv.getContext('2d');
   cardBase(ctx);
-  ctx.font = '600 32px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.65)'; ctx.fillText('혼란장 투자 성향 테스트', 80, 280);
+  ctx.font = '600 32px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.65)'; ctx.fillText('폭락장에서 나는 팔까, 살까?', 80, 280);
   ctx.font = '700 40px "SUIT Variable", sans-serif'; ctx.fillStyle = r.c; ctx.fillText(r.who, 80, 352);
   ctx.font = '800 108px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText(r.name, 74, 470);
   ctx.font = '500 34px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.8)'; ctx.fillText(r.tag, 80, 545);
@@ -3610,7 +3613,7 @@ function drawTestCard(res){
   cardWrap(ctx, r.tip, 112, y + 44, CARD_W - 224, 44, 2);
   ctx.font = '500 27px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(228,199,141,.9)';
   cardWrap(ctx, r.q, 80, y + 175, CARD_W - 160, 40, 2);
-  cardFoot(ctx, '나는 어떤 투자자일까? 1분 테스트');
+  cardFoot(ctx, '폭락장, 당신은 팔까 살까? 1분 테스트 해 보기');
   return cv;
 }
 function drawGradeCard(){
@@ -3645,6 +3648,92 @@ async function shareCard(draw, text, url, tag){
 }
 function toastMsg(t){ document.querySelector('.vn-toast')?.remove(); document.body.insertAdjacentHTML('beforeend', `<div class="vn-toast" role="status">${esc(t)}</div>`); setTimeout(() => document.querySelector('.vn-toast')?.remove(), 2600); }
 
+/* ---- 포트폴리오 카드: 내가 뭘 샀고 얼마 벌었나 ---- */
+const SHARE = { amt: false, names: true };
+function pfShareData(){
+  const { rows, total, cashW } = pfCalc();
+  const hs = rows.filter(r => r.h.kind !== 'cash' && r.calc.cost > 0);
+  const cost = hs.reduce((a, r) => a + r.calc.cost, 0), value = hs.reduce((a, r) => a + r.calc.value, 0);
+  const plPct = cost ? (value / cost - 1) * 100 : 0;
+  const by = [...hs].sort((a, b) => b.w - a.w);
+  const perf = [...hs].filter(r => isNum(r.calc.plPct)).sort((a, b) => b.calc.plPct - a.calc.plPct);
+  const strong = hs.filter(r => r.ev && isNum(r.ev.b) && r.ev.b >= 75).length;
+  return { hs: by, total, cashW, plPct, best: perf[0], worst: perf.length > 1 ? perf[perf.length - 1] : null, strong };
+}
+function pfHook(d){
+  const x = (d.plPct >= 0 ? '+' : '−') + fmt(Math.abs(d.plPct), 1) + '%';
+  if(d.plPct >= 30) return ['원칙대로 샀더니', x];
+  if(d.plPct >= 10) return ['흔들리는 장에서도', x];
+  if(d.plPct >= 0) return ['잃지 않는 투자 중', x];
+  return ['물려도 원칙은 지킨다', x];
+}
+function drawPfCard(){
+  const d = pfShareData(), cv = document.createElement('canvas'); cv.width = CARD_W; cv.height = CARD_H; const ctx = cv.getContext('2d');
+  cardBase(ctx);
+  const nm = (r, i) => SHARE.names ? (r.h.name || r.h.ticker || '종목') : '종목 ' + String.fromCharCode(65 + i);
+  const up = '#FF8A80', dn = '#86AEFF', col = v => v >= 0 ? up : dn, sg = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v), 1) + '%';
+  const [h1, h2] = pfHook(d);
+  ctx.font = '600 32px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.65)'; ctx.fillText('공개합니다, 내 포트폴리오', 80, 268);
+  ctx.font = '800 64px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText(h1, 76, 352);
+  ctx.font = '800 112px "SUIT Variable", sans-serif'; ctx.fillStyle = col(d.plPct); ctx.fillText(h2, 72, 470);
+  ctx.font = '500 30px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.75)';
+  ctx.fillText(`${d.hs.length}종목 · 현금 ${fmt(d.cashW, 0)}% · 버핏 점수 75점 이상 ${d.strong}종목${SHARE.amt ? ' · 총 ' + fmtKRW(d.total) : ''}`, 80, 530);
+  let y = 610; const shown = d.hs.slice(0, 6), maxW = Math.max(...shown.map(r => r.w), 1);
+  shown.forEach((r, i) => {
+    ctx.font = '700 31px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3';
+    let t = nm(r, i); while(ctx.measureText(t).width > 300 && t.length > 2) t = t.slice(0, -1); if(t !== nm(r, i)) t += '…';
+    ctx.fillText(t, 80, y);
+    ctx.fillStyle = 'rgba(243,238,227,.12)'; cardRound(ctx, 400, y - 20, 380, 16, 8); ctx.fill();
+    ctx.fillStyle = '#E4C78D'; cardRound(ctx, 400, y - 20, Math.max(16, 380 * r.w / maxW), 16, 8); ctx.fill();
+    ctx.font = '600 24px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.6)'; ctx.fillText(fmt(r.w, 0) + '%', 795, y);
+    ctx.textAlign = 'right'; ctx.font = '800 31px "SUIT Variable", sans-serif'; ctx.fillStyle = col(r.calc.plPct || 0); ctx.fillText(sg(r.calc.plPct || 0), CARD_W - 80, y); ctx.textAlign = 'left';
+    y += 58;
+  });
+  if(d.hs.length > shown.length){ ctx.font = '500 26px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.5)'; ctx.fillText(`외 ${d.hs.length - shown.length}종목`, 80, y - 8); y += 30; }
+  const box = (x, w, label, r, i) => { ctx.fillStyle = 'rgba(228,199,141,.12)'; cardRound(ctx, x, y, w, 128, 20); ctx.fill();
+    ctx.font = '600 25px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(228,199,141,.95)'; ctx.fillText(label, x + 28, y + 46);
+    if(!r) return; ctx.font = '800 30px "SUIT Variable", sans-serif'; ctx.fillStyle = '#F3EEE3';
+    let t = nm(r, d.hs.indexOf(r)); while(ctx.measureText(t).width > w - 200 && t.length > 2) t = t.slice(0, -1);
+    ctx.fillText(t, x + 28, y + 96); ctx.textAlign = 'right'; ctx.fillStyle = col(r.calc.plPct); ctx.fillText(sg(r.calc.plPct), x + w - 28, y + 96); ctx.textAlign = 'left'; };
+  y = Math.max(y + 8, 980);
+  box(80, 450, '최고의 한 수', d.best); box(550, 450, '가장 아픈 실수', d.worst && d.worst.calc.plPct < (d.best?.calc.plPct ?? 0) ? d.worst : null);
+  cardFoot(ctx, '내 포트폴리오도 버핏 기준으로 채점해 볼까?');
+  ctx.font = '500 21px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(243,238,227,.4)'; ctx.textAlign = 'right'; ctx.fillText('개인 기록이며 투자 권유가 아닙니다', CARD_W - 80, CARD_H - 70); ctx.textAlign = 'left';
+  return cv;
+}
+function savedQz(){ const q = prog().qz; return q && QZ_R[q.k] ? { k: q.k, pct: q.pct || {} } : null; }
+async function pfShareOpen(){
+  await cardFonts();
+  const q = QZ.res || savedQz();
+  document.querySelector('.qz')?.remove();
+  const pf = drawPfCard().toDataURL('image/png'), qc = q ? drawTestCard(q).toDataURL('image/png') : null;
+  document.body.insertAdjacentHTML('beforeend', `<div class="qz" role="dialog" aria-modal="true" aria-label="내 투자 카드 공유"><div class="qz-card sh-card">
+    <button type="button" class="qz-x" data-qz="close" aria-label="닫기">×</button>
+    <div class="eyebrow">내 투자 카드 공유</div><h3 style="margin:6px 0 4px">두 장을 한 번에 올려 보세요</h3>
+    <p class="small muted" style="margin:0 0 12px">나는 어떤 투자자인지, 그래서 실제로 뭘 샀고 얼마 벌었는지. 인스타·스레드에 그대로 올리기 좋은 크기예요.</p>
+    <div class="sh-prev">${qc ? `<img src="${qc}" alt="투자 성향 카드">` : `<button type="button" class="sh-empty" data-qz="open"><b>1분 성향 테스트</b><span>테스트를 하면 첫 장이 만들어져요</span></button>`}<img src="${pf}" alt="포트폴리오 카드"></div>
+    <div class="sh-opts"><label><input type="checkbox" data-shopt="names" ${SHARE.names ? 'checked' : ''}> 종목 이름 보이기</label><label><input type="checkbox" data-shopt="amt" ${SHARE.amt ? 'checked' : ''}> 총 금액 보이기</label></div>
+    <div class="qz-a"><button type="button" class="btn primary" data-share="pf-go">${qc ? '두 장 공유하기' : '포트폴리오 카드 공유하기'}</button></div>
+    <p class="small muted" style="margin:10px 0 0;text-align:center">카드에는 내 초대 링크가 함께 붙어요. 보고 가입한 친구 1명마다 종목 분석이 1회 늘어나요.</p>
+  </div></div>`);
+  document.body.classList.add('noscroll');
+  store.track('view', 'share-open');
+}
+document.addEventListener('change', e => { const o = e.target.closest?.('[data-shopt]'); if(!o) return; SHARE[o.dataset.shopt] = o.checked; pfShareOpen(); });
+async function pfShareGo(){
+  await cardFonts();
+  const q = QZ.res || savedQz(), d = pfShareData(), [h1, h2] = pfHook(d);
+  const cvs = [...(q ? [drawTestCard(q)] : []), drawPfCard()];
+  const files = await Promise.all(cvs.map((cv, i) => new Promise(r => cv.toBlob(b => r(new File([b], `valuenote-${i + 1}.png`, { type: 'image/png' })), 'image/png'))));
+  const who = q ? `나는 ${QZ_R[q.k].who} "${QZ_R[q.k].name}". ` : '';
+  const text = `${who}${h1} ${h2}. 그레이엄·버핏·멍거 기준으로 내 포트폴리오를 채점해 봤어요. 너는 몇 점?`;
+  const url = inviteUrl();
+  store.track('view', 'share-pf' + (q ? '-2' : '-1'));
+  try{ if(navigator.canShare && navigator.canShare({ files })){ await navigator.share({ files, text: text + '\n' + url }); return; } }catch(e){ if(e && e.name === 'AbortError') return; }
+  for(const f of files){ const a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; a.click(); await new Promise(r => setTimeout(r, 300)); }
+  try{ await navigator.clipboard.writeText(text + '\n' + url); toastMsg(`카드 ${files.length}장을 저장했고, 소개 문구와 링크를 복사했어요.`); }catch(_){ toastMsg(`카드 ${files.length}장을 저장했어요.`); }
+}
+
 /* ---- 친구 초대 ---- */
 const inviteCode = () => (store.user?.id || '').replace(/-/g, '').slice(0, 8);
 function inviteUrl(src){ const c = inviteCode(); return location.origin + '/?ref=' + (c ? 'inv-' + c : (src || 'share')); }
@@ -3656,12 +3745,15 @@ function inviteCardHtml(){
   return `<div class="card inv-card">
     <div><div class="eyebrow">친구 초대</div><b>친구가 가입하면 종목 분석이 1회씩 늘어나요</b>
       <div class="small muted" style="margin-top:4px">초대로 가입한 친구 <b class="num">${INV.n ?? '–'}</b>명 · 추가 분석 <b class="num">+${Math.min(10, INV.n || 0)}</b>회 (최대 +10)</div></div>
-    <div class="inv-a"><button type="button" class="btn primary" data-share="invite">초대 링크 보내기</button><button type="button" class="btn" data-share="grade">내 등급 카드 공유</button></div>
+    <div class="inv-a"><button type="button" class="btn primary" data-share="invite">초대 링크 보내기</button><button type="button" class="btn" data-share="pf">내 투자 카드 공유</button></div>
   </div>`;
 }
 document.addEventListener('click', async e => {
   const b = e.target.closest('[data-share]'); if(!b) return;
   const k = b.dataset.share;
+  if((k === 'pf' || k === 'pf-go') && (store.isGuest || store.isDemo)){ if(store.isGuest) guestGate('share-pf'); else toastMsg('체험 계정은 공유 카드를 만들 수 없어요. 내 계정을 만들면 내 포트폴리오로 카드를 만들 수 있어요.'); return; }
+  if(k === 'pf'){ if(!S.holdings.length){ toastMsg('보유 종목을 먼저 등록하면 포트폴리오 카드를 만들 수 있어요.'); return; } pfShareOpen(); return; }
+  if(k === 'pf-go'){ pfShareGo(); return; }
   if(k === 'invite'){ const url = inviteUrl(), text = '좋은 회사를 적당한 가격에. 그레이엄·버핏·멍거 기준으로 내 주식을 점검해 주는 노트예요.';
     store.track('view', 'share-invite');
     try{ if(navigator.share){ await navigator.share({ text, url }); return; } }catch(err){ if(err && err.name === 'AbortError') return; }
@@ -4886,6 +4978,14 @@ input,select,textarea{border-radius:10px}
 .qz-entry,.inv-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
 .qz-entry>div,.inv-card>div:first-child{flex:1 1 260px;display:flex;flex-direction:column;gap:3px}
 .inv-a{display:flex;gap:8px;flex-wrap:wrap}
+.sh-card{max-width:520px}
+.sh-prev{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sh-prev img{width:100%;aspect-ratio:4/5;border-radius:12px;display:block;box-shadow:0 6px 18px rgba(7,12,21,.25)}
+.sh-empty{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:4/5;border-radius:12px;border:1.5px dashed var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:12px;background:var(--gold-soft);font-size:13px}
+.sh-empty b{font-size:15px}
+.sh-opts{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 0;font-size:13.5px}
+.sh-opts label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap;width:auto;margin:0;font-weight:600}
+.sh-opts input{width:18px!important;height:18px;margin:0;flex:0 0 auto;accent-color:var(--gold)}
 .vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#F3EEE3;font-size:13.5px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(7,12,21,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
 .brand-t{cursor:pointer;-webkit-tap-highlight-color:transparent}
