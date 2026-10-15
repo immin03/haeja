@@ -943,11 +943,14 @@ const store = (() => {
     get user(){ return user },
     get client(){ return sb },
     get isDemo(){ return !!user && user.email === DEMO_EMAIL },
-    async track(kind){
-      try{ if(!sb) return; const q = new URLSearchParams(location.search);
+    async track(kind, page){
+      try{ if(!sb) return;
+        /* 로컬 테스트·자동화 브라우저는 집계하지 않는다 */
+        if(/^(localhost|127\.|0\.0\.0\.0|192\.168\.)/.test(location.hostname) || location.protocol === 'file:' || navigator.webdriver) return;
+        const q = new URLSearchParams(location.search);
         let ref = q.get('utm_source') || q.get('ref') || refHost();
         try{ if(ref && !localStorage.getItem('vn-ref')) localStorage.setItem('vn-ref', ref); if(kind !== 'visit') ref = localStorage.getItem('vn-ref') || ref; }catch(_){}
-        await sb.from('events').insert({ kind, sid: sid(), path: location.pathname.slice(0, 200), ref: ref.slice(0, 300), device: device() }); }catch(_){}
+        await sb.from('events').insert({ kind, sid: sid(), path: (page ? '/' + page : location.pathname).slice(0, 200), ref: ref.slice(0, 300), device: device() }); }catch(_){}
     },
     async init(){
       const C = window.HAEJA_CONFIG || {};
@@ -1586,6 +1589,8 @@ function render(){
   const __mBox = document.querySelector('.intro.consent .intro-card'), __mY = __mBox ? __mBox.scrollTop : 0;
   { const st = tourStep(); if(st){ S.__tourOn = true; if(S.tab !== st.tab || S.__tourStepAt !== S.introStep){ S.tab = st.tab; S.__tourStepAt = S.introStep; S.__tourScroll = true; window.scrollTo(0,0); } } else if(S.__tourOn){ S.__tourOn = false; S.tab = 'portfolio'; window.scrollTo(0,0); } }
   renderNav();
+  /* 화면(탭) 조회 기록: 첫 화면은 visit 으로 이미 남고, 튜토리얼 자동 이동은 세지 않는다 */
+  if(store.mode === 'db' && S.__tv !== S.tab){ const first = S.__tv === undefined; S.__tv = S.tab; if(!first && !S.__tourOn) store.track('view', S.tab); }
   const __restore = applyDemo();
   { const st = tourStep(); if(st && st.cur){ S.curId = S.companies.some(c => c.id === st.cur) ? st.cur : (S.holdings[0] && companyFor(S.holdings[0])?.id) || S.curId; } }
   const app = $('#app');

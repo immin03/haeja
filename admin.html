@@ -175,6 +175,7 @@ const PAGES = [
 let DATA = null;
 const page = () => { const h = location.hash.slice(1); return PAGES.some(p => p[0] === h) ? h : 'overview'; };
 const SIZE_ORDER = ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상','2억 원 이상'];
+const PAGE_KO = {portfolio:'포트폴리오 현황', grade:'내 등급', journal:'결정 일지', fx:'환율', briefing:'오늘 브리핑', trends:'메가트렌드', companies:'기업 찾기', analyze:'종목 분석', watchlist:'관심 종목', dividend:'배당', ref:'기준·검증', alerts:'알림', account:'내 계정', guide:'Q&A', '첫 화면':'첫 화면(접속)', 'admin.html':'관리자'};
 const sum = o => Object.values(o || {}).reduce((a, b) => a + (+b || 0), 0);
 
 function head(title, sub, id){
@@ -189,7 +190,7 @@ function vOverview(s){
   const recent = (s.users || []).slice(0, 5);
   return `${head('개요', '방문, 가입, 활동 현황', 'overview')}
   <div class="kpis">
-    ${kpi('오늘 방문자', n0(s.visitors.today), `페이지 조회 ${n0(s.pageviews.today)}회`, true)}
+    ${kpi('오늘 방문자', n0(s.visitors.today), `페이지뷰 ${n0(s.pageviews.today)}회`, true)}
     ${kpi('7일 방문자', n0(s.visitors.d7), `30일 ${n0(s.visitors.d30)}명`)}
     ${kpi('전체 가입자', n0(s.signups.total), `오늘 +${n0(s.signups.today)} · 7일 +${n0(s.signups.d7)}`)}
     ${kpi('7일 활동 사용자', n0(s.active7), `체험 계정 로그인 7일 ${n0(s.demoVisits7)}회`)}
@@ -248,8 +249,9 @@ function vTraffic(s){
     <div>${sec('유입 경로 · 방문자', '', barsList(refs))}</div>
     <div>${sec('유입 경로 · 가입자', '처음 들어온 경로 기준', barsList(s.refSignups||{}))}</div>
   </div>
+  ${sec('많이 본 화면', `페이지뷰 30일 ${n0((s.pageviews||{}).d30)}회`, barsList(Object.fromEntries(Object.entries(s.pages||{}).map(([k, v]) => [PAGE_KO[k] || k, v]))))}
   ${sec('기기', '', barsList(s.devices||{}))}
-  <div class="note">홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다. 예: <code>${esc(location.origin)}/?ref=threads</code></div>`;
+  <div class="note">방문자는 같은 인터넷 연결(IP)에서 들어오면 하루 한 명으로 셉니다. 회사·카페처럼 여러 사람이 한 연결을 쓰면 적게 잡힐 수 있습니다. 운영자 계정이 쓴 연결의 방문은 빠집니다.<br>홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다. 예: <code>${esc(location.origin)}/?ref=threads</code></div>`;
 }
 
 function render(s){
