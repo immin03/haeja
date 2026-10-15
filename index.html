@@ -555,6 +555,12 @@ body.noscroll{overflow:hidden}
 .inv-o small{font-size:11px;font-weight:500;color:var(--muted)}
 .inv-o.on{border-color:var(--navy, var(--accent));background:var(--navy, var(--accent));color:#FFFFFF}
 .inv-o.on small{color:rgba(255,255,255,.75)}
+.inv-o{-webkit-tap-highlight-color:transparent;transition:background .12s,border-color .12s}
+.inv-o.on{box-shadow:0 0 0 1px var(--navy, var(--accent))}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .inv-o.on{background:linear-gradient(90deg,#C99A50,#E4C78D);border-color:#E4C78D;color:#0A1322;box-shadow:none}
+  :root:not([data-theme="light"]) .inv-o.on small{color:rgba(10,19,34,.75)}}
+:root[data-theme="dark"] .inv-o.on{background:linear-gradient(90deg,#C99A50,#E4C78D);border-color:#E4C78D;color:#0A1322;box-shadow:none}
+:root[data-theme="dark"] .inv-o.on small{color:rgba(10,19,34,.75)}
 .inv-o:focus-visible{outline:2px solid var(--accent)}
 .intro-card{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow-y:auto}
 .in-badges{display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:center;margin-top:12px;font-size:13px;color:var(--muted)}
@@ -1305,7 +1311,7 @@ function viewAccount(){
 
   <h3 class="eyebrow guide-h">기본 정보</h3>
   <div class="card ac-list">
-    <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 최민우" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
+    <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 홍길동" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
     <form class="ac-row" data-ac="email"><label class="f">이메일<input name="v" type="email" value="${esc(u?.email || '')}" autocomplete="email"></label><button class="btn" type="submit">변경</button></form>
     <div class="status-line small" id="ac-msg-1"></div>
   </div>
@@ -1512,9 +1518,10 @@ function discViewHtml(){
 }
 function render(){
   const __mBox = document.querySelector('.intro.consent .intro-card'), __mY = __mBox ? __mBox.scrollTop : 0;
-  { const st = tourStep(); if(st){ S.__tourOn = true; if(S.tab !== st.tab){ S.tab = st.tab; window.scrollTo(0,0); } } else if(S.__tourOn){ S.__tourOn = false; S.tab = 'portfolio'; window.scrollTo(0,0); } }
+  { const st = tourStep(); if(st){ S.__tourOn = true; if(S.tab !== st.tab || S.__tourStepAt !== S.introStep){ S.tab = st.tab; S.__tourStepAt = S.introStep; S.__tourScroll = true; window.scrollTo(0,0); } } else if(S.__tourOn){ S.__tourOn = false; S.tab = 'portfolio'; window.scrollTo(0,0); } }
   renderNav();
   const __restore = applyDemo();
+  { const st = tourStep(); if(st && st.cur){ S.curId = S.companies.some(c => c.id === st.cur) ? st.cur : (S.holdings[0] && companyFor(S.holdings[0])?.id) || S.curId; } }
   const app = $('#app');
   if(S.tab === 'portfolio') app.innerHTML = viewPortfolio();
   if(S.tab === 'briefing') app.innerHTML = viewBriefing();
@@ -1535,7 +1542,9 @@ function render(){
   clearTimeout(S.__lvT); S.__lvT = setTimeout(checkLevelUp, 3000);
   if(introOn() || S.introForce){ app.insertAdjacentHTML('beforeend', introHtml()); document.body.classList.toggle('noscroll', !tourStep()); } else { document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(!S.trBig) document.body.classList.remove('noscroll'); }
   if(S.tab === 'portfolio') animateHero();
+  if(S.__tourOn && S.tab === 'analyze') updateEval();
   if(__restore) __restore();
+  if(S.__tourScroll){ S.__tourScroll = false; const st = tourStep(); if(st && st.anchor){ const el = [...document.querySelectorAll('#app h2, #app h3, #app .eyebrow')].find(x => x.textContent.trim().startsWith(st.anchor)); if(el) requestAnimationFrame(() => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 130)); } }
   app.insertAdjacentHTML('beforeend', discFootHtml());
   if(store.isDemo) app.insertAdjacentHTML('afterbegin', demoBar());
   if(S.loaded.s && !consentOk() && !store.isDemo){ app.insertAdjacentHTML('beforeend', consentHtml()); document.body.classList.add('noscroll'); }
@@ -2820,31 +2829,69 @@ function dropCheckHtml(c){
 /* ===== 튜토리얼 예시 데이터: 내 데이터가 비어 있을 때만, 튜토리얼 화면 안내 중에만 잠깐 보여 준다 ===== */
 const DEMO_ROWS = [{"code":"600519","conf":"high","ctrl":54.1,"cur":"CNY","dataConf":"high","en":"Kweichow Moutai","fin":{"capexNi":5.34,"currentRatio":5.59,"epsCagr":11.98,"fcfConv":84.3,"gpm":90.42,"icr":99,"lossYears":0,"ltdNi":0,"npm":47.01,"roeAvg":33.83,"roeMin":27.68,"roic":44.7,"shareChg":-0.31},"fin_sector":false,"fy":null,"ind":"Beverages - Baijiu","m":"CN","mcap":1578853,"n":"구이저우마오타이","px":1263,"s":"Consumer Staples","so":true,"t":"600519.SS","tags":["품질 상위 10%","국유기업","지배주주 54%"],"val":{"bps":200.9868,"eps":65.05,"epsAvg":53.775,"growth":6,"mfEY":7.44,"ncavps":171.0026,"oeps":56.0363,"revCagr":12,"revYoY":[18,15.7,-1.2],"sps":138.5797},"yrs":6},{"code":"0700","conf":"medium","ctrl":null,"cur":"HKD","dataConf":"medium","en":"Tencent Holdings","fin":{"capexNi":23.59,"currentRatio":1.29,"epsCagr":1.05,"fcfConv":93.06,"gpm":56.7,"lossYears":0,"ltdNi":1.56,"npm":29.87,"roeAvg":22.1,"roeMin":15.06,"roic":17.83,"shareChg":-4.09},"fin_sector":false,"fy":null,"ind":"Internet Content & Information","m":"HK","mcap":3823000,"n":"텐센트","px":424.8,"s":"Communication Services","so":false,"t":"0700.HK","tags":[],"val":{"bps":143.9394,"eps":29.8452,"epsAvg":23.2265,"growth":0.5,"mfEY":7.8,"ncavps":-34.6534,"oeps":25.8566,"revCagr":7.6,"revYoY":[9.8,8.4,13.9],"sbcps":2.8485,"sps":99.9194},"yrs":5},{"code":"8001","conf":"high","ctrl":null,"cur":"JPY","dataConf":"high","en":"ITOCHU Corporation","fin":{"capexNi":25.37,"currentRatio":1.35,"epsCagr":3.73,"fcfConv":89.94,"gpm":16.78,"lossYears":0,"ltdNi":3.64,"npm":6.01,"roeAvg":16.65,"roeMin":14.59,"roic":5.15,"shareChg":-5.19},"fin_sector":false,"fy":null,"ind":"Trading company (sogo shosha)","m":"JP","mcap":15069915,"n":"이토추상사","px":2155,"s":"Industrials","so":false,"t":"8001.T","tags":[],"val":{"bps":965.7289,"eps":129.81,"epsAvg":116.304,"growth":1.9,"mfEY":3.78,"ncavps":-485.7085,"oeps":113.7349,"revCagr":4.8,"revYoY":[0.6,4.9,0.7],"sps":2159.435},"yrs":5},{"code":"005930","conf":"high","ctrl":20,"cur":"KRW","dataConf":"high","en":"Samsung Electronics","fin":{"capexNi":135.83,"currentRatio":2.54,"epsCagr":3.4,"fcfConv":41.13,"gpm":57.49,"icr":99,"lossYears":0,"ltdNi":0.02,"npm":30.86,"roeAvg":10.87,"roeMin":4.14,"roic":39.36,"shareChg":-1.32},"fin_sector":false,"fy":null,"ind":"Semiconductors & Consumer Electronics","m":"KR","mcap":1666160,"n":"삼성전자","px":262000,"s":"Technology","so":false,"t":"005930.KS","tags":[],"val":{"bps":71849.1788,"eps":22704.36,"epsAvg":5503.696,"growth":1.7,"mfEY":11.12,"ncavps":24187.4825,"oeps":2319.7053,"revCagr":4.5,"revYoY":[-14.3,16.2,10.9],"sps":73576.7823},"yrs":5},{"code":"105560","conf":"medium","ctrl":null,"cur":"KRW","dataConf":"medium","en":"KB Financial Group","fin":{"epsCagr":8.8,"lossYears":0,"npm":35.45,"roeAvg":8.67,"roeMin":8.03,"shareChg":-7.52},"fin_sector":true,"fy":null,"ind":"Banks","m":"KR","mcap":61430,"n":"KB금융","px":173200,"s":"Financials","so":false,"t":"105560.KS","tags":[],"val":{"bps":168206.7348,"eps":16831.33,"epsAvg":12038.732,"growth":2.2,"revCagr":4.5,"revYoY":[7.8,15.2,5.8],"sps":47507.163},"yrs":5},{"code":"035720","conf":"high","ctrl":null,"cur":"KRW","dataConf":"high","en":"Kakao Corp","fin":{"capexNi":92.26,"currentRatio":1.53,"epsCagr":-22.86,"fcfConv":170.13,"gpm":93.48,"lossYears":1,"ltdNi":0.97,"npm":4.09,"roeAvg":4.49,"roeMin":-10.26,"roic":100.67,"shareChg":0.05},"fin_sector":false,"fy":null,"ind":"Internet Content & Information","m":"KR","mcap":14290000,"n":"카카오","px":32300,"s":"Communication Services","so":false,"t":"035720.KS","tags":[],"val":{"bps":26482.2773,"eps":778.63,"epsAvg":1020.63,"growth":0,"mfEY":26.67,"ncavps":6343.3908,"oeps":1919.7778,"revCagr":8.2,"revYoY":[11.2,4.1,3],"sps":19047.2815},"yrs":5},{"code":"000270","conf":"high","ctrl":36.2,"cur":"KRW","dataConf":"high","en":"Kia Corp","fin":{"capexNi":34.17,"currentRatio":1.51,"epsCagr":13.03,"fcfConv":102.56,"gpm":18.69,"lossYears":0,"ltdNi":0.07,"npm":5.92,"roeAvg":16.13,"roeMin":12.92,"roic":14.63,"shareChg":-2.7},"fin_sector":false,"fy":null,"ind":"Auto Manufacturers","m":"KR","mcap":41510000,"n":"기아","px":106800,"s":"Consumer Discretionary","so":false,"t":"000270.KS","tags":["지배주주 36%"],"val":{"bps":166604.6076,"eps":18178.43,"epsAvg":18362.138,"growth":6.5,"mfEY":40.34,"ncavps":17633.9094,"oeps":20029.2279,"revCagr":13.1,"revYoY":[15.3,7.7,6.2],"sps":307293.1465},"yrs":5},{"code":"AAPL","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"Apple Inc.","fin":{"capexNi":11.04,"currentRatio":0.89,"epsCagr":7.39,"fcfConv":102.88,"gpm":46.91,"lossYears":0,"ltdNi":0.7,"npm":26.92,"roeAvg":165.26,"roeMin":150.07,"roic":89.31,"shareChg":-11.03},"fin_sector":false,"fy":null,"ind":"Consumer Electronics","m":"US","mcap":4912000,"n":"애플","px":336.64,"s":"Technology","so":false,"t":"AAPL","tags":[],"val":{"bps":4.9139,"eps":7.46,"epsAvg":5.7783,"growth":1.6,"mfEY":2.61,"ncavps":-9.167,"oeps":6.8235,"revCagr":3.3,"revYoY":[-2.8,2,6.4],"sbcps":0.7861,"sps":27.7348},"yrs":6},{"code":"GOOGL","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"Alphabet Inc. (Class A)","fin":{"capexNi":52.56,"currentRatio":2.01,"epsCagr":17.82,"fcfConv":77.48,"gpm":59.65,"icr":99,"lossYears":0,"ltdNi":0.45,"npm":32.81,"roeAvg":29.96,"roeMin":23.62,"roic":29.32,"shareChg":-9.76},"fin_sector":false,"fy":null,"ind":"Internet Content & Information","m":"US","mcap":4300000,"n":"알파벳","px":351.66,"s":"Communication Services","so":false,"t":"GOOGL","tags":[],"val":{"bps":33.9546,"eps":10.81,"epsAvg":6.2917,"growth":5.9,"mfEY":3.05,"ncavps":2.1277,"oeps":5.8742,"revCagr":11.8,"revYoY":[8.7,13.9,15.1],"sbcps":1.9133,"sps":32.9383},"yrs":6},{"code":"MSFT","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"Microsoft Corporation","fin":{"capexNi":59.08,"currentRatio":1.23,"epsCagr":16.78,"fcfConv":71.95,"gpm":67.94,"icr":50.88,"lossYears":0,"ltdNi":0.36,"npm":40.31,"roeAvg":37.39,"roeMin":33.28,"roic":29.02,"shareChg":-1.15},"fin_sector":false,"fy":null,"ind":"Software - Infrastructure","m":"US","mcap":3973000,"n":"마이크로소프트","px":535.07,"s":"Technology","so":false,"t":"MSFT","tags":[],"val":{"bps":59.3569,"eps":17.95,"epsAvg":10.9329,"growth":6.8,"mfEY":3.91,"ncavps":-14.5282,"oeps":9.5116,"revCagr":13.7,"revYoY":[15.7,14.9,17.8],"sbcps":1.5704,"sps":44.5242},"yrs":7},{"code":"V","conf":"medium","ctrl":null,"cur":"USD","dataConf":"medium","en":"Visa Inc.","fin":{"capexNi":6.6,"currentRatio":1.08,"epsCagr":16.02,"fcfConv":111.37,"gpm":80.36,"icr":45.09,"lossYears":0,"ltdNi":0.99,"npm":49.63,"roeAvg":43.83,"roeMin":31.95,"roic":47.59,"shareChg":-8.77},"fin_sector":false,"fy":null,"ind":"Credit Services (payment network)","m":"US","mcap":707530,"n":"비자","px":385.45,"s":"Financials","so":false,"t":"V","tags":["품질 상위 10%"],"val":{"bps":19.4805,"eps":10.2,"epsAvg":8.168,"growth":6.8,"mfEY":3.51,"ncavps":-12.3083,"oeps":10.2717,"revCagr":13.5,"revYoY":[11.4,10,11.3],"sbcps":0.4303,"sps":20.555},"yrs":6},{"code":"KO","conf":"high","ctrl":null,"cur":"USD","dataConf":"high","en":"The Coca-Cola Company","fin":{"capexNi":16.51,"currentRatio":1.46,"epsCagr":7.81,"fcfConv":75.47,"gpm":61.63,"icr":9.02,"lossYears":0,"ltdNi":3.21,"npm":27.34,"roeAvg":42.73,"roeMin":40.51,"roic":19.04,"shareChg":-0.62},"fin_sector":false,"fy":null,"ind":"Beverages - Non-Alcoholic","m":"US","mcap":378840,"n":"코카콜라","px":88.05,"s":"Consumer Staples","so":false,"t":"KO","tags":[],"val":{"bps":7.4586,"eps":3.04,"epsAvg":2.3667,"growth":2.8,"mfEY":3.64,"ncavps":-9.1577,"oeps":1.529,"revCagr":5.5,"revYoY":[6.4,2.9,1.9],"sbcps":0.0633,"sps":11.1155},"yrs":6}];
 function demoData(){
+  /* 튜토리얼 예시: 주식 약 4,700만 원 + 현금 600만 원. 원칙대로 산 종목과 테마로 산 종목을 섞어 결과를 비교해 보여 준다 */
   const row = c => DEMO_ROWS.find(r => r.code === c);
-  const mk = (code, qty, avg) => { const r = row(code); if(!r) return null; const m = r.m === 'US' ? 'US' : 'KR';
-    return { h: { id:'demo-h-'+code, name:r.n, ticker:code, market:m, kind:'stock', qty, avg, price:r.px, prevClose: Math.round(r.px*0.99*100)/100, currency: m === 'US' ? 'USD' : 'KRW', companyId:'demo-'+code },
-      c: { id:'demo-'+code, name:r.n, ticker:code, yf:r.t, market:m, kind:'stock', price:r.px, sector:r.ind, fin:r.fin, val:r.val, finSector:!!r.fin_sector, dataConf:r.dataConf, qual:{hold10:true, circle:true, moatStr:2, pricing:2, mgmt:2, governance:2}, thesis:{memo:'', sell1:'예시', sell2:'예시'} } }; };
-  const items = [mk('000270', 30, 98000), mk('KO', 40, 62), mk('105560', 25, 72000), mk('AAPL', 6, 190)].filter(Boolean);
+  const mk = (code, qty, avg, extra) => { const r = row(code); if(!r) return null; const m = r.m === 'US' ? 'US' : 'KR';
+    const x = extra || {};
+    return { h: qty ? { id:'demo-h-'+code, name:r.n, ticker:code, market:m, kind:'stock', qty, avg, price:r.px, prevClose: Math.round(r.px*(x.prev ?? 0.99)*100)/100, currency: m === 'US' ? 'USD' : 'KRW', companyId:'demo-'+code } : null,
+      c: { id:'demo-'+code, name:r.n, ticker:code, yf:r.t, market:m, kind:'stock', price:r.px, sector:r.ind, fin:r.fin, val:r.val, finSector:!!r.fin_sector, dataConf:r.dataConf,
+        pinned: !!x.pin, starAt: x.pin ? today() : null,
+        qual: x.qual || {hold10:true, circle:true, moatStr:2, pricing:2, mgmt:2, governance:2},
+        thesis: {why: x.why || '', memo: x.memo || '', sell1: x.sell1 || '', sell2: x.sell2 || '', status: x.status || '유효'} } }; };
+  const items = [
+    mk('005930', 60, 168000, {why:'메모리 업황 바닥, PBR 1배 미만에서 매수', sell1:'영업이익률이 사이클 정점에서 꺾이면 절반 매도', sell2:'적정 가격을 20% 넘게 웃돌면 비중 축소'}),
+    mk('105560', 50, 98000, {why:'PBR 0.4배, 자사주 소각·배당 확대', sell1:'PBR 1배를 넘으면 절반 매도', sell2:'주주환원 정책이 후퇴하면 재점검'}),
+    mk('000270', 50, 112000, {why:'PER 5배, 순현금, 미국 판매 호조', sell1:'영업이익률 8% 미만이 2분기 이어지면 비중 축소'}),
+    mk('AAPL', 15, 198, {why:'서비스 매출 비중 확대, 자사주 매입', sell1:'서비스 성장률 10% 미만이면 재점검'}),
+    mk('KO', 30, 64, {why:'60년 이상 배당 증가, 경기 방어', sell1:'배당 증가가 멈추면 재점검'}),
+    mk('035720', 120, 54000, {qual:{hold10:null, circle:false}, why:'AI 테마 기대', memo:'매도 조건 없이 산 종목', status:'점검 필요', prev:1.01}),
+    mk('MSFT', 4, 560, {why:'클라우드·AI 인프라 성장', sell1:'애저 성장률 20% 미만이면 재점검', prev:1.004}),
+    mk('V', 0, 0, {pin:true, why:'결제망 해자. 적정 매수가 아래로 오면 편입'}),
+    mk('GOOGL', 0, 0, {pin:true, why:'검색·클라우드 현금흐름. 가격 대기'}),
+  ].filter(Boolean);
+  const held = items.filter(x => x.h);
   const prices = {};
-  items.forEach(({h}, k) => { const pts = []; const end = new Date(); let v = h.price * (0.9 + k*0.02);
+  held.forEach(({h}, k) => { const pts = []; const end = new Date(); let v = h.price * (0.9 + k*0.02);
     for(let i = 59; i >= 0; i--){ const d = new Date(end - i*864e5); if(d.getDay() % 6 === 0) continue; v = v * (1 + Math.sin((i + k*7) / 6) * 0.004 + 0.0012); pts.push([d.toISOString().slice(0,10), Math.round(v*100)/100]); }
     const f = h.price / pts.at(-1)[1]; prices[normKey(h.ticker)] = { daily: pts.map(([d,x]) => [d, Math.round(x*f*100)/100]) }; });
-  const brief = { id: today(), headline: '[예시] 미국 금리 동결 기대에 코스피 1.2% 올라, 보유 4종목 중 3종목 상승',
-    holdings: [ {ticker:'000270', name:'기아', oneLine:'[예시] 3분기 미국 판매 8% 증가, 목표가 상향', impact:'호재'}, {ticker:'KO', name:'코카콜라', oneLine:'[예시] 배당 64년 연속 인상 발표', impact:'호재'}, {ticker:'105560', name:'KB금융', oneLine:'[예시] 자사주 소각 계획 공시', impact:'호재'}, {ticker:'AAPL', name:'애플', oneLine:'[예시] 신제품 수요 둔화 우려로 1.4% 하락', impact:'악재'} ],
-    summary: '예시 브리핑입니다. 실제로는 매일 아침 내 보유 종목의 뉴스와 버핏식 판단에 미치는 영향을 이렇게 정리해 드립니다.' };
-  return { holdings: items.map(x => x.h), companies: items.map(x => x.c), prices, briefings: [brief], screen: DEMO_ROWS };
+  const brief = { id: today(), headline: '[예시] 미국 금리 동결 기대에 코스피 1.2% 상승, 보유 7종목 중 5종목 올라',
+    holdings: [ {ticker:'005930', name:'삼성전자', oneLine:'[예시] HBM 공급 계약 확대, 4분기 메모리 가격 상승 전망', impact:'호재'},
+      {ticker:'105560', name:'KB금융', oneLine:'[예시] 자사주 소각 계획 공시', impact:'호재'},
+      {ticker:'000270', name:'기아', oneLine:'[예시] 3분기 미국 판매 8% 증가', impact:'호재'},
+      {ticker:'AAPL', name:'애플', oneLine:'[예시] 신제품 판매 호조, 서비스 매출 최대', impact:'호재'},
+      {ticker:'KO', name:'코카콜라', oneLine:'[예시] 배당 64년 연속 인상 발표', impact:'호재'},
+      {ticker:'035720', name:'카카오', oneLine:'[예시] 광고 매출 둔화, 목표가 하향', impact:'악재'},
+      {ticker:'MSFT', name:'마이크로소프트', oneLine:'[예시] 데이터센터 투자 확대 발표', impact:'중립'} ],
+    summary: '예시 브리핑입니다. 매일 아침 보유 종목의 뉴스와 버핏식 판단에 미치는 영향을 이렇게 한 줄씩 정리합니다.' };
+  const journal = [
+    {id:'demo-j1', date:'2024-11-04', ticker:'카카오', action:'신규 매수', mind:'남들 따라', companyId:'demo-035720', reason:'[예시] AI 테마로 오른다는 소식에 120주 매수. 이익과 적정 가격은 확인하지 않음.', review:'-40%. 이익 대비 비싼 가격에 테마만 보고 샀다. 매도 조건도 없었다.'},
+    {id:'demo-j2', date:'2025-01-15', ticker:'코카콜라', action:'신규 매수', mind:'근거 기반', companyId:'demo-KO', reason:'[예시] 배당 60년 이상 증가, 적정 가격 대비 25% 할인에서 30주 매수.', review:'+38%. 원칙대로 산 방어 종목이 꾸준히 올랐다.'},
+    {id:'demo-j3', date:'2025-03-12', ticker:'KB금융', action:'신규 매수', mind:'근거 기반', companyId:'demo-105560', reason:'[예시] PBR 0.4배, 안전마진 40%에서 50주 매수.', review:'+77%. 관심이 적을 때 숫자를 보고 산 결과.'},
+    {id:'demo-j4', date:'2025-04-08', ticker:'삼성전자', action:'신규 매수', mind:'근거 기반', companyId:'demo-005930', reason:'[예시] 메모리 업황 바닥, 적정 매수가 아래에서 60주 매수.', review:'+56%. 사이클 정점 신호가 보이면 매도 조건대로 절반 정리.'},
+    {id:'demo-j5', date:'2026-02-18', ticker:'마이크로소프트', action:'신규 매수', mind:'조급함', companyId:'demo-MSFT', reason:'[예시] 신고가 직후 추격 매수 4주.', review:'-4%. 적정 매수가를 확인하지 않고 산 매수.'},
+  ];
+  const now = Date.now(), iso = h => new Date(now - h*3600e3).toISOString();
+  const alerts = [
+    {id:'demo-a1', at:iso(2), level:'good', title:'[예시] 비자 적정 매수가 도달', body:'현재가 $385 · 적정가까지 +32% 상승 여력', link:{co:'demo-V'}, read:false},
+    {id:'demo-a2', at:iso(20), level:'urgent', title:'[예시] 카카오 -7.2%', body:'종가 32,300원. 급락 이유와 매도 조건을 확인하세요.', link:{co:'demo-035720'}, read:false},
+    {id:'demo-a3', at:iso(30), level:'warn', title:'[예시] 삼성전자 내재가치 초과', body:'주가가 내재가치보다 15% 높습니다. 매도 조건을 점검할 때입니다.', link:{co:'demo-005930'}, read:true},
+    {id:'demo-a4', at:iso(52), level:'info', title:'[예시] 아침 브리핑', body:'보유 7종목 중 5종목 상승. 카카오 광고 매출 둔화.', link:{tab:'briefing'}, read:true},
+  ];
+  return { holdings: held.map(x => x.h), companies: items.map(x => x.c), prices, briefings: [brief], screen: DEMO_ROWS, journal, alerts, cash: 6000000 };
 }
 /* 튜토리얼 화면 안내 중이면 빈 데이터 자리를 예시로 잠깐 바꿔 그리고, 그린 뒤 원래대로 돌린다 */
 function applyDemo(){
   if(!(typeof tourStep === 'function' && tourStep())) return null;
-  const needH = !S.holdings.length, needB = !S.briefings.length, needS = !(S2.screen||[]).length;
-  if(!needH && !needB && !needS) return null;
-  const D = demoData(), saved = { holdings:S.holdings, companies:S.companies, prices:S.prices, briefings:S.briefings, screen:S2.screen, scope:S.scope };
-  if(needH){ S.holdings = D.holdings; S.companies = [...S.companies, ...D.companies]; S.prices = {...S.prices, ...D.prices}; }
+  const needH = !S.holdings.length, needB = !S.briefings.length, needS = !(S2.screen||[]).length, needJ = !(S.journal||[]).length, needA = !(S.alerts||[]).length;
+  if(!needH && !needB && !needS && !needJ && !needA) return null;
+  const D = demoData(), saved = { holdings:S.holdings, companies:S.companies, prices:S.prices, briefings:S.briefings, screen:S2.screen, scope:S.scope, journal:S.journal, alerts:S.alerts, settings:S.settings };
+  if(needH){ S.holdings = D.holdings; S.companies = [...S.companies, ...D.companies]; S.prices = {...S.prices, ...D.prices}; if(!(cfg().cashKRW > 0)) S.settings = {...(S.settings||{}), cashKRW: D.cash}; }
   if(needB) S.briefings = D.briefings;
   if(needS){ S2.screen = D.screen; S.scope = 'all'; }
+  if(needJ) S.journal = D.journal;
+  if(needA) S.alerts = D.alerts;
   scoredCache = null; S.__demoOn = true;
-  return () => { S.holdings = saved.holdings; S.companies = saved.companies; S.prices = saved.prices; S.briefings = saved.briefings; S2.screen = saved.screen; S.scope = saved.scope; scoredCache = null; S.__demoOn = false; };
+  return () => { S.holdings = saved.holdings; S.companies = saved.companies; S.prices = saved.prices; S.briefings = saved.briefings; S2.screen = saved.screen; S.scope = saved.scope; S.journal = saved.journal; S.alerts = saved.alerts; S.settings = saved.settings; scoredCache = null; S.__demoOn = false; };
 }
 /* ===== 투자자 자기 점검 (맞춤 제안용) ===== */
 const INV_Q = [
@@ -3109,22 +3156,42 @@ const INTRO = [
   {t:'안녕하세요, ValueNote입니다', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}반갑습니다.</p>
     <p>ValueNote는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 앱입니다.</p>
     <div class="in-warn"><b>먼저 분명히 말씀드립니다</b><span>이 앱은 단기간에 큰돈을 버는 방법을 알려 주지 않습니다. 급등주를 찾거나 내일 주가를 맞히지 않습니다. 대신 1년, 5년, 10년을 보고 <b>잃지 않는 판단</b>을 쌓도록 돕습니다.</span></div>
-    <p class="small muted">약 1분이면 끝납니다. 언제든 건너뛸 수 있습니다.</p>`},
-  {t:'거인의 어깨 위에서', b:`<p>저 역시 투자를 잘하는 사람이 아니었습니다. 테마와 소문에 사고, 급락에 겁먹고 팔았습니다. 그래서 수십 년 동안 검증된 <b>벤저민 그레이엄, 워런 버핏, 찰리 멍거</b>의 관점을 빌리기로 했습니다.</p>
-    <p>뉴턴이 "더 멀리 보았다면 거인의 어깨 위에 서 있었기 때문"이라고 했듯, ValueNote는 세 거인의 기준으로 회사를 평가하고 <b>멀리 보고 투자</b>할 수 있게 만든 노트입니다.</p>
-    <div class="in-list"><div><b>자동</b><span>시세·뉴스·재무 분석은 앱이 매일 채웁니다</span></div><div><b>원칙</b><span>모든 회사를 같은 기준의 점수로 비교합니다</span></div><div><b>기록</b><span>왜 샀는지, 언제 팔지 미리 적고 지킵니다</span></div></div>`},
+    <p class="small muted">약 3분이면 끝납니다. 예시 데이터로 화면을 하나씩 보여 드립니다. 언제든 건너뛸 수 있습니다.</p>`},
+  {t:'거인의 어깨 위에서', b:`<p>개인 투자의 실패는 대부분 기준 없는 판단에서 나옵니다. 테마와 소문에 따른 매수, 급락 때의 공포 매도가 대표적입니다.</p>
+    <p>ValueNote는 수십 년간 검증된 <b>벤저민 그레이엄, 워런 버핏, 찰리 멍거</b>의 기준을 숫자 규칙으로 옮겼습니다. 모든 회사를 같은 기준으로 평가하고, 보유 이후의 비중과 매도 조건까지 관리합니다.</p>
+    <div class="in-list"><div><b>자동</b><span>시세·뉴스·재무 분석은 매일 자동으로 채워집니다</span></div><div><b>원칙</b><span>모든 회사를 같은 기준의 점수로 비교합니다</span></div><div><b>기록</b><span>매수 이유와 매도 조건을 미리 적고 지키게 합니다</span></div></div>`},
   {t:'세 사람의 원칙으로 판단합니다', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>내재가치보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 버는 좋은 사업</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>위험 신호·실수 차단</span></div></div><p>세 기준을 모두 넘은 회사만 <b>"매수 후보"</b>가 됩니다. 그래서 후보는 적게 나오는 것이 정상입니다.</p>`},
-  {tab:'portfolio', t:'① 포트폴리오', b:`<p>지금 보시는 화면입니다. 총 평가액·수익률·30일 추이와 종목별 비중을 한눈에 봅니다.</p><p>아래로 내리면 <b>지금 할 일</b>이 원칙에서 벗어난 부분을 최대 3개만 알려 줍니다. 할 일이 없으면 아무것도 안 하는 것이 정답입니다.</p>`},
-  {tab:'briefing', t:'② 브리핑', b:`<p>매일 아침 내 종목 소식을 <b>한 줄씩</b> 정리합니다. 눌러야 자세한 내용이 열립니다.</p><p>위의 <b>메가트렌드</b>에서는 반도체·방산 같은 산업 사이클을 3개월~5년 차트로 봅니다.</p>`},
-  {tab:'companies', t:'③ 기업', b:`<p>220여 개 회사를 세 거인의 기준 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘으로 내 성향에 맞는 후보를 찾고, <b>☆</b>를 누르면 관심 종목에 담겨 점수 변화와 매수 시점을 지켜볼 수 있습니다.</p><p>목록에 없는 내 종목은 <b>검색해서 바로 분석</b>할 수 있습니다(3회까지).</p>`},
+  {tab:'portfolio', t:'① 포트폴리오 현황', b:`<p>보유 종목의 총 평가액, 수익률, 30일 추이를 한 화면에 모았습니다. 예시는 주식 약 4,700만 원과 현금 600만 원으로 구성된 <b>약 5,300만 원</b> 포트폴리오입니다.</p>
+    <p>종목은 <b>주력</b>(장기 핵심 보유)과 <b>도전</b>(작은 비중의 시도)으로 자동 분류됩니다. 원칙대로 산 삼성전자·KB금융은 +50% 이상, 테마로 산 카카오는 −40%로, 판단 방식의 차이가 결과로 드러납니다.</p>`},
+  {tab:'portfolio', anchor:'지금 할 일', t:'② 지금 할 일', b:`<p>포트폴리오가 원칙에서 벗어난 부분을 <b>최대 3개</b>만 골라 알려 줍니다.</p>
+    <div class="in-list"><div><b>주력</b><span>상위 3종목에 70~80% 집중</span></div><div><b>도전</b><span>전체의 10% 이하</span></div><div><b>현금</b><span>10~20%를 기회용으로 유지</span></div></div>
+    <p class="small muted">할 일이 없으면 아무것도 하지 않는 것이 정답입니다.</p>`},
+  {tab:'grade', t:'③ 투자자 등급', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div>
+    <p>현금 비중, 주력 집중, 매도 조건, 결정 일지 같은 <b>미션 18개</b>를 자동으로 확인해 등급을 매깁니다. 그레이엄(안전마진)·버핏(집중)·멍거(실수 회피)·습관 네 영역으로 나뉩니다.</p>`; }},
+  {tab:'journal', t:'④ 결정 일지', b:`<p>매수·매도 때마다 <b>이유, 당시의 마음 상태, 매도 조건</b>을 기록하고 나중에 결과와 비교해 복기합니다.</p>
+    <p>예시에서 "남들 따라" 산 카카오는 −40%, "근거 기반"으로 산 KB금융은 +77%입니다. 매수 기록은 공시 원문 대조와 매도 조건 확인을 체크해야 저장됩니다.</p>`},
+  {tab:'fx', t:'⑤ 환율', b:`<p>해외 주식은 주가와 별개로 <b>환율</b>에 따라 원화 수익이 달라집니다.</p><p>원/달러·원/엔 추이, 변동 요인, 금리 결정 일정과 내 해외 자산에 미치는 영향을 정리합니다.</p>`},
+  {tab:'briefing', t:'⑥ 오늘 브리핑', b:`<p>매일 아침 보유 종목의 뉴스를 <b>한 줄씩</b> 정리하고 호재·악재·중립으로 표시합니다. 누르면 자세한 내용과 투자 판단에 미치는 영향이 열립니다.</p>`},
+  {tab:'trends', t:'⑦ 메가트렌드', b:`<p>반도체·AI 데이터센터·방산 같은 <b>산업 사이클</b>을 3개월~5년 차트와 표로 보여 줍니다. 국면(바닥권·상승·조정·고점권)은 숫자로만 판정합니다.</p>
+    <p>트렌드는 종합 점수에 15%만 반영됩니다. 과열 트렌드에 걸린 회사가 저평가 근거 없이 비싸면 <b>"테마 프리미엄"</b> 경고를 띄웁니다.</p>`},
+  {tab:'companies', t:'⑧ 기업 찾기', b:`<p>한국·미국·일본·중국·홍콩의 시가총액 상위 <b>약 600개 회사</b>를 같은 기준의 점수로 비교합니다. <b>배당·상승 여력</b> 아이콘과 정렬로 성향에 맞는 후보를 찾습니다.</p>
+    <p>목록에 없는 종목은 검색해서 바로 분석할 수 있습니다(서로 다른 종목 3회까지).</p>`},
+  {tab:'analyze', cur:'demo-105560', t:'⑨ 종목 심사', b:`<p>회사 하나를 누르면 <b>품질·저평가·버핏 근접도</b> 점수와 판정이 나옵니다.</p>
+    <div class="in-list"><div><b>적정 가격</b><span>회사의 제값(내재가치)</span></div><div><b>적정 매수가</b><span>적정 가격에서 30%를 뺀 가격</span></div><div><b>상승 여력</b><span>지금 가격에서 적정 가격까지의 거리</span></div></div>
+    <p class="small muted">재무 항목마다 통과·근접·미달이 표시되고, 10년 보유 테스트와 매도 조건도 여기서 정합니다.</p>`},
+  {tab:'watchlist', t:'⑩ 관심 종목', b:`<p>☆를 누른 회사가 모입니다. 1주·1달 전 대비 점수 변화와 <b>적정 매수가까지 남은 거리</b>를 막대로 보여 줍니다.</p><p>가격이 적정 매수가 아래로 내려오면 알림이 갑니다.</p>`},
+  {tab:'dividend', t:'⑪ 배당', b:`<p>배당 수익률, 배당 성향, 연속 증가 여부로 <b>꾸준히 현금을 돌려주는 회사</b>를 모아 봅니다. 배당형 성향이라면 여기서 후보를 찾는 것이 빠릅니다.</p>`},
+  {tab:'ref', t:'⑫ 기준·검증', b:`<p>모든 점수의 <b>계산 기준을 공개</b>합니다. 지표별 기준선, 할인율, 안전마진 등을 확인할 수 있습니다.</p><p>점수 체계는 버크셔 해서웨이의 실제 매수 종목으로 사후 검증했습니다.</p>`},
+  {tab:'alerts', t:'⑬ 알림', b:`<p>보유 종목 급등락, <b>적정 매수가 도달</b>, 내재가치 초과처럼 판단이 필요한 순간에만 알립니다.</p><p>오른쪽 위 종 모양에서 "알림 켜기"를 누르면 휴대폰과 PC 브라우저 모두 받을 수 있습니다.</p>`},
+  {tab:'guide', t:'⑭ Q&A', b:`<p>용어, 점수 계산 방식, 사용법은 모두 <b>Q&amp;A</b>에 정리돼 있습니다. 오른쪽 위 <b>?</b> 버튼으로 언제든 열 수 있습니다.</p>`},
   {t:'점수와 아이콘 읽는 법', b:`<div class="in-score"><div class="g"><b>75점+</b><span>기준에 가깝다. 안전마진까지 채우면 매수 후보</span></div><div class="w"><b>60~74</b><span>장점은 있지만 하나가 모자라다. 관찰</span></div><div class="n"><b>60 미만</b><span>원칙과 거리가 있다. 사지 않는다</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>꾸준히 배당하는 회사</span><span class="stag stag-up">${ICO_UP}상승 여력</span><span>가치보다 충분히 싼 회사</span></div>
     <p><b>적정 가격</b>은 회사의 제값, <b>상승 여력</b>은 지금 가격에서 적정 가격까지 남은 거리입니다. 적정 가격보다 30% 싼 <b>적정 매수가</b> 아래로 오면 매수 후보로 보고 알려 드립니다. 모든 값은 추정치이며 수익을 보장하지 않습니다.</p>`},
-  {t:'원칙을 지킬수록 등급이 오릅니다', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div><p>현금 비중, 주력 3종목 집중, 매도 조건, 결정 일지 같은 미션 18개를 앱이 자동으로 확인합니다. 지금은 <b>${esc(g.lv.name)} · ${g.score}점</b>입니다.</p>`; }},
   {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(inv().style || '나')}${inv().style ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
     ${homeAddHtml()}
     <div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>
-    <button type="button" class="in-push" data-act="intro-push"><span>알림 켜기 (휴대폰·PC)</span><span class="muted">›</span></button>`; }},
+    <button type="button" class="in-push" data-act="intro-push"><span>알림 켜기 (휴대폰·PC)</span><span class="muted">›</span></button>
+    <p class="small muted" style="margin:14px 0 0">사용법·용어·점수 계산이 궁금하면 언제든 오른쪽 위 <b>?</b> 버튼(Q&amp;A)에서 확인할 수 있습니다.</p>`; }},
 ];
 const tourStep = () => { if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null; const it = INTRO[Math.min(S.introStep || 0, INTRO.length - 1)]; return it && it.tab ? it : null; };
 const introSeenLocal = () => { try{ return localStorage.getItem('vn-intro-v3-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
@@ -3132,9 +3199,9 @@ const introOn = () => S.loaded.s && S.loaded.h && consentOk() && invDone() && !p
 function introHtml(){
   if(!introOn() && !S.introForce) return '';
   const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
-  document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(it.tab) document.body.classList.add('tour-' + it.tab);
+  document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(it.tab){ document.body.classList.add('tour-' + it.tab); document.body.classList.add('tour-' + groupOf(it.tab).k); }
   return `<div class="intro${it.tab ? ' tour' : ''}" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
-    ${it.tab && S.__demoOn ? `<div class="in-demo">예시 데이터로 보여 드립니다. 내 종목을 넣으면 내 화면으로 바뀝니다.</div>` : ''}<div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
+    ${it.tab && S.__demoOn ? `<div class="in-demo">예시 데이터 화면입니다. 내 종목을 넣으면 내 화면으로 바뀝니다.</div>` : ''}<div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
     <h2 class="intro-t">${esc(it.t)}</h2><div class="intro-b">${typeof it.b === 'function' ? it.b() : it.b}</div>
     <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
   </div></div>`;
@@ -3264,8 +3331,8 @@ const GUIDE = [
   {g:'처음 쓰는 분께', items:[
     ['이 앱으로 빨리 큰돈을 벌 수 있나요?', `<p><b>아닙니다.</b> ValueNote는 일확천금을 위한 앱이 아니다. 급등주를 찾아 주거나 내일 주가를 맞히지 않는다. 테마를 쫓아 단기간에 큰 수익을 내고 싶다면 이 앱은 맞지 않는다.</p>
      <p>대신 <b>중장기(1년 이상, 길게는 10년)</b> 관점에서 좋은 회사를 적당한 가격에 사고, 큰 실수를 피하고, 원칙대로 오래 들고 가도록 돕는다. 버핏의 말처럼 투자의 첫째 규칙은 돈을 잃지 않는 것이고, 둘째 규칙은 첫째 규칙을 잊지 않는 것이다.</p>`],
-    ['왜 "거인의 어깨 위에서"인가요?', `<p>뉴턴은 "내가 더 멀리 보았다면 거인들의 어깨 위에 서 있었기 때문"이라고 했다. ValueNote를 만든 사람도 투자를 잘하는 전문가가 아니었다. 테마와 소문에 사고 급락에 겁먹고 팔던 경험에서 출발했다.</p>
-     <p>그래서 내 감이 아니라 수십 년 동안 검증된 세 거인, 그레이엄·버핏·멍거의 관점을 빌리기로 했다. 그들의 기준으로 회사를 평가하고, 그들이 했던 실수까지 규칙으로 만들어, 평범한 개인도 <b>멀리 보고 투자</b>할 수 있게 한 것이 ValueNote다.</p>`],
+    ['왜 "거인의 어깨 위에서"인가요?', `<p>뉴턴은 "내가 더 멀리 보았다면 거인들의 어깨 위에 서 있었기 때문"이라고 했다. 개인 투자자가 흔히 겪는 실패는 테마와 소문에 따른 매수, 급락 때의 공포 매도처럼 기준 없이 내린 판단에서 나온다.</p>
+     <p>ValueNote는 개인의 감 대신 수십 년간 검증된 그레이엄·버핏·멍거의 기준을 숫자 규칙으로 옮겼다. 모든 회사를 같은 기준으로 평가하고, 세 사람이 경계한 실수까지 점검 항목으로 만들어 <b>멀리 보고 투자</b>하는 판단을 돕는다.</p>`],
     ['배당·상승 여력 아이콘은 무엇인가요?', `<p>투자 성향에 따라 맞는 후보가 다르다. 그래서 회사마다 두 가지 아이콘을 붙인다.</p>
      <ul><li><b>배당:</b> 배당 판정이 "배당 적합"이거나, 배당수익률 3% 이상이면서 배당 안전도가 위험이 아니고 적자 이력이 없는 회사.</li>
      <li><b>상승 여력:</b> 주가가 내재가치보다 30% 이상 싸거나, 내재가치보다 싸면서 매출이 연 10% 이상 커지는 회사.</li></ul>
@@ -4495,6 +4562,24 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .demo-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:14px 0 0;padding:10px 14px;border-radius:12px;background:var(--gold-soft);border:1px solid rgba(201,164,92,.45);font-size:13px;line-height:1.5;word-break:keep-all}
 .demo-bar b{color:#8A6A2E}
 .demo-bar .linkbtn{margin-left:auto;font-size:13px}
+
+/* 튜토리얼: 지금 보고 있는 하위 탭 강조 */
+body[class*="tour-"] nav.subtabs button[aria-pressed="true"]{box-shadow:0 0 0 2px rgba(228,199,141,.85)}
+
+/* 튜토리얼 안내 카드: 휴대폰에서는 화면이 보이도록 작게 */
+@media (max-width:720px){
+  .intro.tour{padding:0 8px calc(76px + env(safe-area-inset-bottom))}
+  .intro.tour .intro-card{max-height:44vh;max-height:44dvh;overflow-y:auto;padding:14px 16px 12px;border-radius:16px}
+  .intro.tour .in-demo{font-size:11px;padding:4px 8px;margin-bottom:8px}
+  .intro.tour .intro-top{margin-bottom:6px}
+  .intro.tour .intro-t{font-size:17px;margin:4px 0 6px}
+  .intro.tour .intro-b{font-size:13.5px;line-height:1.55}
+  .intro.tour .intro-b p{margin:0 0 6px}
+  .intro.tour .in-list{gap:4px;margin:6px 0}
+  .intro.tour .in-list>div{padding:6px 10px}
+  .intro.tour .intro-nav{margin-top:8px;position:sticky;bottom:-12px;background:var(--surface);padding:6px 0 0}
+  .intro.tour .intro-nav .btn{padding:8px 18px}
+}
 </style>
 </body>
 </html>

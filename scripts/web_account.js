@@ -20,7 +20,7 @@ function viewAccount(){
 
   <h3 class="eyebrow guide-h">기본 정보</h3>
   <div class="card ac-list">
-    <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 최민우" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
+    <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 홍길동" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
     <form class="ac-row" data-ac="email"><label class="f">이메일<input name="v" type="email" value="${esc(u?.email || '')}" autocomplete="email"></label><button class="btn" type="submit">변경</button></form>
     <div class="status-line small" id="ac-msg-1"></div>
   </div>
