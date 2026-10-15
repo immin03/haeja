@@ -185,7 +185,7 @@ function render(s){
     <div><h2>투자 시장</h2><div class="card">${barsList(s.markets||{}, ['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드'])}</div></div>
   </div>
   <div class="grid2">
-    <div><h2>유입 경로 (30일)</h2><div class="card">${barsList(refs)}<div class="note">홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다.</div></div></div>
+    <div><h2>유입 경로 (30일)</h2><div class="card"><div class="chart-t"><span>방문자</span></div>${barsList(refs)}<div class="chart-t" style="margin-top:14px"><span>가입자 (처음 들어온 경로 기준)</span></div>${barsList(s.refSignups||{})}<div class="note">홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다.</div></div></div>
     <div><h2>기기 (30일)</h2><div class="card">${barsList(devs)}</div></div>
   </div>
 

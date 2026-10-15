@@ -114,6 +114,8 @@ begin
                 (select coalesce(device,'기타') device, count(distinct sid) n from v where d > d0 - 30 group by 1) x),
     'refs', (select coalesce(jsonb_agg(jsonb_build_object('r', r, 'n', n) order by n desc), '[]') from
              (select coalesce(nullif(ref,''),'직접 방문') r, count(distinct sid) n from v where d > d0 - 30 group by 1 order by 2 desc limit 8) x),
+    'refSignups', (select coalesce(jsonb_object_agg(r, n), '{}') from
+             (select coalesce(nullif(ref,''),'직접 방문') r, count(*) n from events where kind = 'signup' and at > now() - interval '31 days' group by 1) x),
     'expect', (select coalesce(jsonb_object_agg(e, n), '{}') from
                (select jsonb_array_elements_text(st.inv -> 'expect') e, count(*) n from st join u on u.id = st.owner
                 where jsonb_typeof(st.inv -> 'expect') = 'array' group by 1) x),
