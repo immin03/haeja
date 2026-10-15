@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" type="image/png" href="/favicon-64.png?v=3">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=4">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ValueNote">
@@ -32,7 +32,7 @@
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
+<div id="splash" aria-hidden="true"><img class="sp-mark" src="/icon-512.png?v=4" alt=""><div class="sp-wm">Value<span>Note</span></div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
 <title>ValueNote</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -657,7 +657,7 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">On the Shoulders of Giants</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><img class="brand-mark" src="/icon-192.png?v=4" alt="" width="34" height="34"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">On the Shoulders of Giants</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -963,7 +963,7 @@ const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
+    <div class="login-brand"><img class="login-mark" src="/icon-192.png?v=4" alt=""><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
       <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
     <div class="card stack login-card">
     <label class="f">이메일<input id="lg-email" type="email" autocomplete="email" inputmode="email"></label>
@@ -4369,6 +4369,45 @@ input,select,textarea{border-radius:10px}
 .brand-sub{letter-spacing:.06em;text-transform:uppercase;font-size:clamp(8.5px,2.3vw,10px)!important;margin-top:3px}
 .wordmark.lg{font-size:44px}
 
+
+/* ===== 톤앤매너: 앱 아이콘과 같은 네이비 그라데이션 · 아이보리 · 골드 광택 ===== */
+:root{
+  --ivory:#F3EEE3;
+  --navy-grad:radial-gradient(130% 160% at 50% -10%,#17283F 0%,#0E1A2B 45%,#0A1322 100%);
+  --gold-grad:linear-gradient(90deg,#B48C47 0%,#E4C78D 50%,#B48C47 100%);
+  --gold-grad-v:linear-gradient(180deg,#E4C78D 0%,#B48C47 100%);
+}
+/* 헤더: 아이콘 배경과 같은 그라데이션 + 아래 골드 헤어라인 */
+header.top{background:var(--navy-grad);position:relative;box-shadow:0 8px 24px rgba(7,12,21,.22)}
+header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-grad);opacity:.45}
+.brand-mark{width:34px;height:34px;border-radius:9px;flex:0 0 auto;display:block;box-shadow:0 0 0 1px rgba(228,199,141,.28),0 4px 10px rgba(0,0,0,.25)}
+.wordmark .wm-a,.brand h1.wordmark{color:var(--ivory)}
+.wordmark .wm-b{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.brand-sub{color:#CDAE6E}
+nav.tabs button{color:rgba(243,238,227,.58)}
+nav.tabs button[aria-selected="true"]{color:var(--ivory);border-color:#D4B577}
+nav.subtabs button[aria-pressed="true"]{background:var(--gold-grad);border-color:transparent;color:#0A1322}
+.bell-n{background:var(--gold-grad);color:#0A1322}
+/* 제목 앞 막대: 더 가늘게, 골드 광택 */
+h2::before{width:3px;height:16px;background:var(--gold-grad-v)}
+/* 주요 버튼: 네이비 그라데이션 + 아이보리 글씨 */
+button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);border-color:#0A1322;color:var(--ivory);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+/* 포트폴리오 맨 위 카드: 아이콘과 같은 빛 */
+.pf-top{background:radial-gradient(120% 140% at 30% -10%,#1B2E49 0%,#0E1A2B 50%,#0A1322 100%);box-shadow:0 12px 32px rgba(10,19,34,.28),inset 0 0 0 1px rgba(228,199,141,.10)}
+.pf-top .hero-num{color:var(--ivory)}
+.pf-top .eyebrow{color:#D4B577}
+/* 첫 화면(스플래시)·로그인 */
+#splash{background:var(--navy-grad)!important}
+#splash .sp-mark{width:88px;height:88px;border-radius:22px;display:block;margin-bottom:10px;box-shadow:0 0 0 1px rgba(228,199,141,.25),0 18px 40px rgba(0,0,0,.4);animation:spIn .7s ease-out both}
+#splash .sp-wm{color:var(--ivory)!important}
+#splash .sp-wm span{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent!important;padding-right:.06em}
+#splash .sp-sub{color:#CDAE6E!important}
+#splash .sp-bar i{background:var(--gold-grad)!important}
+.login-mark{width:64px;height:64px;border-radius:16px;display:block;margin:0 auto 14px;box-shadow:0 10px 24px rgba(10,19,34,.25)}
+.wordmark.lg .wm-a{color:var(--ink)}
+/* 다크 모드: 주요 버튼은 골드 광택 */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.btn.primary{background:var(--gold-grad);border-color:transparent;color:#0A1322}}
+:root[data-theme="dark"] button.btn.primary{background:var(--gold-grad);border-color:transparent;color:#0A1322}
 </style>
 </body>
 </html>
