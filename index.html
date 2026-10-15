@@ -1656,6 +1656,7 @@ function render(){
   if(S.tab === 'ref') app.innerHTML = viewRef();
   if(S.tab === 'trends') app.innerHTML = viewTrends();
   if(S.tab === 'column') app.innerHTML = viewColumn();
+  if(S.tab === 'rates') app.innerHTML = viewRates();
   if(S.tab === 'guide'){ app.innerHTML = viewGuide(); if(!prog().guideAt && S.loaded.s) saveProg({guideAt: today()}); }
   if(S.tab === 'grade') app.innerHTML = viewGrade();
   if(S.tab === 'watchlist') app.innerHTML = viewWatchlist();
@@ -2466,7 +2467,8 @@ function columnDraft(){
   const body = [
     `■ 이번 주 시장\n좋은 회사(버핏 근접도 75점 이상) 중 적정 매수가 아래로 내려온 곳이 ${n.pass}곳, 근처까지 온 곳이 ${n.near}곳입니다.${n.hot.length ? ` 5년 범위 꼭대기 근처에 있는 산업은 ${n.hot.join(', ')}입니다.` : ''}`,
     `■ 트렌드는 이렇게 움직였습니다\n${mv.slice(0, 3).map(x => `${x.l} ${x.ch >= 0 ? '+' : '−'}${fmt(Math.abs(x.ch), 1)}% (${x.ph})`).join('\n') || '이번 주는 큰 움직임이 없었습니다.'}${mv[0]?.sum ? `\n${mv[0].sum}` : ''}`,
-    `■ 금리·환율\n원/달러 ${won(R.USDKRW?.v)}${isNum(C.USDKRW_1m) ? ` (한 달 ${pct(C.USDKRW_1m)})` : ''}, 100엔 ${won(R.JPYKRW100?.v)}입니다.${soon.length ? `\n다가오는 일정은 ${soon.map(w => `${+w.date.slice(5, 7)}/${+w.date.slice(8, 10)} ${w.event.replace(/\s*\(.*\)$/, '')}`).join(', ')}입니다.` : ''}`,
+    `■ 금리\n${['US10Y','KR10Y','JP10Y','FR10Y'].map(k => { const o = rateOf(k); return o ? `${RATE_L[k]} ${fmt(o.v, 2)}% (1년 ${ppt(o.chg1y)})` : null; }).filter(Boolean).join(', ') || '금리 자료를 모으는 중입니다.'}${S.rates?.headline ? `\n${S.rates.headline}` : ''}`,
+    `■ 환율\n원/달러 ${won(R.USDKRW?.v)}${isNum(C.USDKRW_1m) ? ` (한 달 ${pct(C.USDKRW_1m)})` : ''}, 100엔 ${won(R.JPYKRW100?.v)}입니다.${soon.length ? `\n다가오는 일정은 ${soon.map(w => `${+w.date.slice(5, 7)}/${+w.date.slice(8, 10)} ${w.event.replace(/\s*\(.*\)$/, '')}`).join(', ')}입니다.` : ''}`,
     `■ ${josaIra(n.q.who.split(' ').pop())}라면\n"${n.q.q}" (${n.q.src})\n${readPlain}`,
     `■ 이번 주 나는\n(산 것, 판 것, 참은 것을 한두 문장으로)`,
   ].join('\n\n');
@@ -3023,7 +3025,7 @@ const PC = {}; let pcSeq = 0;
 const RANGES = [['1M','1개월'],['3M','3개월'],['1Y','1년'],['5Y','5년']];
 function seriesFor(key){
   const d = S.prices[normKey(key)]; if(d) return {daily:d.daily||[], weekly:d.points||[], monthly:d.monthly||[]};
-  const f = S.fx?.series?.[key]; if(f) return {daily:f.daily||[], weekly:f.points||[], monthly:f.monthly||[]};
+  const f = S.fx?.series?.[key] || S.rates?.series?.[key]; if(f) return {daily:f.daily||[], weekly:f.points||[], monthly:f.monthly||[]};
   return null;
 }
 function rangePoints(s, r){
@@ -3044,6 +3046,63 @@ function pcInner(id){
   if(!avail.some(([r]) => r === p.r) && avail.length) p.r = avail.at(-1)[0] === '5Y' && avail.some(([r]) => r==='1Y') ? '1Y' : avail[0][0];
   const freq = {'1M':'일간','3M':'일간','1Y':'주간','5Y':'월간'}[p.r];
   return `<div class="row" style="justify-content:space-between;margin-bottom:6px"><div class="seg rseg" role="group">${avail.map(([r,l]) => `<button type="button" data-act="ch-range" data-pc="${id}" data-r="${r}" aria-pressed="${p.r===r}">${l}</button>`).join('')}</div><span class="small muted">${freq} 종가</span></div>${lineChart(rangePoints(s, p.r), p.opts)}`;
+}
+
+/* ============ 금리: 주식 가치의 중력 ============ */
+const RATE_L = {
+  USPOL:'미국 기준금리', EUPOL:'유로존 기준금리', KRPOL:'한국 기준금리', JPPOL:'일본 기준금리',
+  US10Y:'미국 10년', US2Y:'미국 2년', KR10Y:'한국 10년', JP10Y:'일본 10년', DE10Y:'독일 10년', FR10Y:'프랑스 10년', IT10Y:'이탈리아 10년', GB10Y:'영국 10년',
+  US10_2:'미국 장단기 차이', FR_DE:'프랑스−독일 차이',
+};
+/* 주간 작업이 적은 최신값(manual)이 자동 수집값(auto)보다 새로우면 그 값을 쓴다 */
+function rateOf(k){
+  const R = S.rates || {}, a = R.auto?.[k], m = R.manual?.[k];
+  if(m && isNum(m.v) && (!a || String(m.date || '') >= String(a.date || ''))) return { ...a, ...m };
+  return a && isNum(a.v) ? a : (m && isNum(m.v) ? m : null);
+}
+const ppt = v => isNum(v) ? (v > 0 ? '+' : v < 0 ? '−' : '') + fmt(Math.abs(v), 2) + '%p' : '–';
+function rateRow(k, note){
+  const o = rateOf(k); if(!o) return '';
+  const d = String(o.date || ''), dd = d ? `${+d.slice(5, 7)}/${+d.slice(8, 10) || 1}` : '';
+  return `<div class="rt-row"><span class="rt-n">${esc(RATE_L[k])}${note ? `<small>${esc(note)}</small>` : ''}</span><b class="num">${fmt(o.v, 2)}%</b>
+    <span class="num rt-c ${isNum(o.chg1y) ? (o.chg1y > 0 ? 'up' : o.chg1y < 0 ? 'down' : '') : ''}">${ppt(o.chg1y)}</span><span class="small muted num rt-d">${esc(dd)}${o.freq === '월간' ? ' 월간' : ''}</span></div>`;
+}
+function rateSensitivity(){
+  const st = cfg(), y = st.bondKR || 4.3; return Math.round((1 - y / (y + 1)) * 100);
+}
+function viewRates(){
+  const R = S.rates;
+  if(!R) return `<h2>금리</h2><div class="card empty">금리 자료는 매일 아침 자동으로 채워집니다.</div>`;
+  const watch = (S.fx?.watch || []).filter(w => w.date >= today() && /금리|금통위|FOMC|일본은행|ECB|통화정책/.test(w.event)).slice(0, 5);
+  const us = rateOf('US10Y'), sens = rateSensitivity();
+  return `
+  <h2>금리 <span class="small muted num">${esc(String(R.autoAt || '').slice(0, 10))} 기준</span></h2>
+  <div class="card stack">
+    ${R.headline ? `<p style="margin:0;font-size:16px"><b>${esc(R.headline)}</b></p>` : (us ? `<p style="margin:0;font-size:16px"><b>미국 10년물 금리 ${fmt(us.v, 2)}%, 1년 전보다 ${ppt(us.chg1y)}</b></p>` : '')}
+    <div class="rt-head"><span></span><span>지금</span><span>1년 변화</span><span>기준일</span></div>
+    <div class="rt-g"><div class="eyebrow">기준금리</div>${['USPOL','EUPOL','KRPOL','JPPOL'].map(k => rateRow(k, k === 'USPOL' ? '상단' : k === 'EUPOL' ? '예금금리' : '')).join('')}</div>
+    <div class="rt-g"><div class="eyebrow">10년 국채 금리</div>${['US10Y','KR10Y','JP10Y','DE10Y','FR10Y','IT10Y','GB10Y'].map(k => rateRow(k)).join('')}</div>
+    <div class="rt-g"><div class="eyebrow">눈여겨볼 차이</div>${rateRow('US10_2', '10년 − 2년')}${rateRow('FR_DE', '10년물 차이')}</div>
+    <p class="small muted" style="margin:0">미국 금리는 매일, 한국·유럽·일본 10년물은 OECD 월간 자료입니다. 주간 칼럼 작업이 최신 값을 확인하면 그 값으로 바뀝니다.</p>
+  </div>
+  <h2>금리가 왜 중요한가</h2>
+  <div class="card stack rt-why">
+    <blockquote class="wk-q" style="margin:0">금리는 금융 자산의 가치에 중력처럼 작용한다. 금리가 높을수록 끌어내리는 힘이 커진다.<span>워런 버핏 · 1999년 포춘 기고의 요지</span></blockquote>
+    <div class="rt-pts">
+      <div><b>1</b><span>예금과 국채가 이자를 많이 주면 주식에 기대하는 수익도 높아집니다. 그래서 같은 이익을 내는 회사라도 금리가 오르면 적정 가격이 내려갑니다.</span></div>
+      <div><b>2</b><span>ValueNote의 적정 가격 계산(그레이엄 공식)에도 채권 금리가 들어갑니다. 금리가 1%p 오르면 적정 가격은 약 <b>${sens}%</b> 낮아집니다.</span></div>
+      <div><b>3</b><span>빚이 많은 회사는 이자 부담이 바로 늘어납니다. 금리가 오를 때는 부채가 적고 현금이 많은 회사가 버티기 쉽습니다.</span></div>
+      <div><b>4</b><span>장단기 금리 차이가 마이너스(역전)이면 경기 둔화 신호로 읽혀 왔습니다. 프랑스−독일 차이가 벌어지면 유럽 재정 불안이 커졌다는 뜻입니다.</span></div>
+    </div>
+  </div>
+  ${(R.issues || []).length ? `<h2>이번 주 금리 이슈 <span class="small muted num">${esc(R.issuesAt || '')}</span></h2>
+  <div class="card stack">${R.issues.map(x => `<div class="rt-issue"><b>${esc(x.title)}</b><p class="small" style="margin:4px 0 0">${esc(x.body)}</p></div>`).join('')}${R.impact ? `<p class="small muted" style="margin:0">${esc(R.impact)}</p>` : ''}</div>` : ''}
+  ${watch.length ? `<h2>다가오는 금리 결정</h2><div class="card stack">${watch.map(w => `<div class="row" style="gap:10px;align-items:baseline"><span class="num small" style="min-width:44px"><b>${+w.date.slice(5, 7)}/${+w.date.slice(8, 10)}</b></span><span class="small">${esc(w.event)}</span></div>`).join('')}</div>` : ''}
+  <h2>추이</h2>
+  <div class="stack">
+    ${[['US10Y','미국 10년 국채'],['US10_2','미국 장단기 차이 (10년 − 2년)'],['KR10Y','한국 10년 국채'],['FR_DE','프랑스 − 독일 10년물 차이']].filter(([k]) => R.series?.[k]).map(([k, l]) => `<div class="card"><h3>${l}</h3>${priceChart(k, {fmtV: v => fmt(v, 2) + '%', label: l})}</div>`).join('')}
+  </div>
+  <p class="small muted" style="margin-top:12px">자료: 미국 연준 경제자료(FRED), OECD. 금리 해설은 매주 갱신합니다.</p>`;
 }
 
 /* ============ 엔화 효과 ============ */
@@ -4082,7 +4141,7 @@ function viewGuide(){
 
 /* ============ 2단 메뉴 ============ */
 const NAV = [
-  {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지'],['fx','환율']]},
+  {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지'],['fx','환율'],['rates','금리']]},
   {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['trends','메가트렌드']]},
   {k:'companies', l:'기업', subs:[['companies','찾기'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
@@ -4864,7 +4923,7 @@ function refresh(kind){
   store.sub('briefing', docs => { S.briefings = docs; if(S.tab === 'briefing') refresh('n'); });
   store.sub('trends', docs => { S.columns = docs.filter(d => String(d.id).startsWith('col-') && d.title).sort((a, b) => String(b.id).localeCompare(String(a.id))); S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
   store.sub('prices', docs => { S.prices = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['portfolio','companies','fx'].includes(S.tab)) refresh('p'); });
-  store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; if(['fx','portfolio'].includes(S.tab)) refresh('x'); });
+  store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; S.rates = docs.find(d => d.id === 'rates') || null; if(['fx','portfolio','rates','column','briefing'].includes(S.tab)) refresh('x'); });
   store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
   store.sub('journal', docs => { S.journal = docs; S.loaded.j = 1; refresh('j'); });
   store.sub('settings', docs => { const m = docs.find(d => d.id==='main'); if(m && !saveTimers.__set && !saveTimers.__prog) S.settings = m; S.loaded.s = 1; refresh('s'); });
@@ -5165,6 +5224,23 @@ input,select,textarea{border-radius:10px}
 .col-body p{margin:0 0 10px}
 .col-disc{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line)}
 @media (max-width:560px){.wk-nums{grid-template-columns:repeat(2,1fr)}}
+.rt-head,.rt-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 72px 54px;gap:8px;align-items:baseline}
+.rt-head{font-size:11.5px;color:var(--muted);padding:0 0 2px}
+.rt-head span:not(:first-child),.rt-row>b,.rt-c,.rt-d{text-align:right}
+.rt-g{display:flex;flex-direction:column;gap:2px}
+.rt-g .eyebrow{margin:6px 0 2px}
+.rt-row{padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.rt-g .rt-row:last-child{border-bottom:0}
+.rt-n{min-width:0}
+.rt-n small{display:block;font-size:11px;color:var(--muted)}
+.rt-row>b{font-size:15px}
+.rt-c{font-size:13px;font-weight:700}
+.rt-d{font-size:11px}
+.rt-pts{display:flex;flex-direction:column;gap:10px}
+.rt-pts>div{display:grid;grid-template-columns:24px 1fr;gap:8px;font-size:14px;line-height:1.6}
+.rt-pts>div>b{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#FFFFFF;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.rt-issue{padding:2px 0 10px;border-bottom:1px solid var(--line)}
+.rt-issue:last-of-type{border-bottom:0}
 .vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#F3EEE3;font-size:13.5px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(7,12,21,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
 .brand-t{cursor:pointer;-webkit-tap-highlight-color:transparent}
