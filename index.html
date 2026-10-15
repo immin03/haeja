@@ -1341,6 +1341,17 @@ function paintAcctMenu(){
   const n = document.querySelector('.acct-name'), m = document.querySelector('.acct-mail');
   if(n) n.textContent = userName() ? userName() + ' 님' : '내 계정';
   if(m) m.textContent = S.user?.email || '';
+  paintAdminLink();
+}
+async function paintAdminLink(){
+  const el = document.querySelector('.acct-admin'), uid = S.user?.id || '';
+  if(!el) return;
+  if(!uid || store.isDemo){ el.style.display = 'none'; return; }
+  if(S.__adminFor !== uid){
+    S.__adminFor = uid; S.__isAdmin = false;
+    try{ const { data } = await store.client.rpc('is_admin'); S.__isAdmin = data === true; }catch(_){}
+  }
+  el.style.display = S.__isAdmin && S.__adminFor === uid ? 'block' : 'none';
 }
 function viewAccount(){
   const u = S.user, q = (typeof AZ !== 'undefined' && AZ.quota) ? AZ.quota : null;
@@ -4324,7 +4335,7 @@ function refresh(kind){
   if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
     const b = document.createElement('div'); b.className = 'acct';
-    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-who"><b class="acct-name">내 계정</b><div class="acct-mail small muted"></div></div><button type="button" role="menuitem" class="acct-item" data-acct-go="account">계정 설정</button><button type="button" role="menuitem" class="acct-item" data-acct-go="grade">내 투자자 등급</button><button type="button" role="menuitem" class="acct-item" data-acct-go="intro">처음 안내 다시 보기</button><div class="acct-sep"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
+    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-who"><b class="acct-name">내 계정</b><div class="acct-mail small muted"></div></div><button type="button" role="menuitem" class="acct-item" data-acct-go="account">계정 설정</button><button type="button" role="menuitem" class="acct-item" data-acct-go="grade">내 투자자 등급</button><button type="button" role="menuitem" class="acct-item" data-acct-go="intro">처음 안내 다시 보기</button><a role="menuitem" class="acct-item acct-admin" href="admin.html" style="display:none">관리자 페이지</a><div class="acct-sep"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
     const ab = b.querySelector('button'), am = b.querySelector('.acct-menu');
     setTimeout(loadUser, 0);
     ab.onclick = e => { e.stopPropagation(); const open = am.hidden; am.hidden = !open; ab.setAttribute('aria-expanded', String(open)); };
