@@ -1154,7 +1154,7 @@ async function checkPush(){
     const reg = await navigator.serviceWorker.register('/sw.js');
     let sub = await reg.pushManager.getSubscription();
     /* 권한은 있는데 구독이 만료된 경우(PC 브라우저에서 종종 생김) 조용히 다시 연결 */
-    let wanted = false; try{ wanted = localStorage.getItem('vn-push') === '1'; }catch(_){}
+    let wanted = false; try{ wanted = localStorage.getItem('vn-push-'+(store.user?.id||'')) === '1'; }catch(_){}
     if(!sub && wanted && Notification.permission === 'granted') sub = await subscribeHere(reg);
     if(sub){ mySubId = await subId(sub.endpoint); await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() }); }
     pushState = sub ? 'on' : 'off';
@@ -1182,7 +1182,7 @@ async function enablePush(){
     const sub = (await reg.pushManager.getSubscription()) || await subscribeHere(reg);
     mySubId = await subId(sub.endpoint);
     await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() });
-    try{ localStorage.setItem('vn-push','1'); }catch(_){}
+    try{ localStorage.setItem('vn-push-'+(store.user?.id||''),'1'); }catch(_){}
     pushState = 'on';
     await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 ValueNote 알림을 받습니다.', read: false, source: '설정' });
     await loadSubs(); say(''); render();
@@ -1193,7 +1193,7 @@ async function disablePush(){
     const reg = await navigator.serviceWorker.getRegistration('/sw.js'); const sub = reg && await reg.pushManager.getSubscription();
     if(sub){ await store.del('push_subs', await subId(sub.endpoint)); await sub.unsubscribe(); }
   }catch(_){}
-  try{ localStorage.removeItem('vn-push'); }catch(_){}
+  try{ localStorage.removeItem('vn-push-'+(store.user?.id||'')); }catch(_){}
   pushState = 'off'; mySubId = null; await loadSubs(); render();
 }
 function pushCard(){
@@ -1470,7 +1470,7 @@ function onboardHtml(){
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-onb]'); if(!b) return;
   const note = (document.getElementById('onb-note')?.value || '').trim().slice(0, 300);
-  saveInv({ done: today(), expectNote: note }); store.track('onboard'); render(); if(S.tab === 'analyze') updateEval();
+  saveInv({ done: today(), expectNote: note }); store.track('onboard'); S.tab = 'portfolio'; S.introStep = 0; try{ localStorage.setItem('ml-tab','portfolio'); }catch(_){} render(); window.scrollTo(0,0);
 });
 document.addEventListener('input', e => { if(e.target && e.target.id === 'onb-note'){ S.__onbNote = e.target.value; } });
 function demoBar(){ return store.isDemo ? `<div class="demo-bar"><b>체험 계정</b><span>예시 데이터로 만든 계정입니다. 실제 투자 기록이 아니며 바꾼 내용은 저장되지 않습니다.</span><button type="button" class="linkbtn" onclick="store.client.auth.signOut().then(()=>location.href='/?signup')">내 계정 만들기</button></div>` : ''; }
@@ -1479,7 +1479,7 @@ function demoBar(){ return store.isDemo ? `<div class="demo-bar"><b>체험 계�
 const DISC_FULL = 'ValueNote는 공개된 재무 데이터와 사용자가 설정한 기준에 따라 수치를 계산해 보여주는 정보 정리 도구입니다. ValueNote는 「자본시장과 금융투자업에 관한 법률」에 따른 투자자문업자 또는 유사투자자문업자가 아니며, 특정 금융투자상품의 매수·매도를 권유하거나 투자 판단을 대신하지 않습니다. 표시되는 적정 가격, 적정 매수가, 상승 여력 등은 과거 데이터와 가정에 기반한 추정치로 미래 수익을 보장하지 않으며, 데이터에는 오류나 지연이 있을 수 있습니다. 모든 투자 판단과 그 결과에 대한 책임은 이용자 본인에게 있습니다.';
 const DISC_LINE = '본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다.';
 const DISC_EST = '표시되는 가격·상승 여력은 추정치이며 수익을 보장하지 않습니다.';
-const consentLocal = () => { try{ return localStorage.getItem('vn-consent-v1') === '1'; }catch(_){ return false; } };
+const consentLocal = () => { try{ return localStorage.getItem('vn-consent-v1-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
 const consentOk = () => !!prog().consentV1 || consentLocal();
 function consentHtml(){
   const still = S.__consentShown ? ' still' : ''; S.__consentShown = true;
@@ -1499,7 +1499,7 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-consent]'); if(!el) return;
   const k = el.dataset.consent;
   if(k === 'ok'){ const c = document.getElementById('disc-agree'); if(!c || !c.checked) return;
-    try{ localStorage.setItem('vn-consent-v1','1'); }catch(_){}
+    try{ localStorage.setItem('vn-consent-v1-'+(store.user?.id||''),'1'); }catch(_){}
     saveProg({consentV1: new Date().toISOString()}); S.discView = false; render(); if(S.tab==='analyze') updateEval(); }
   if(k === 'view'){ S.discView = true; render(); if(S.tab==='analyze') updateEval(); }
   if(k === 'close'){ S.discView = false; render(); if(S.tab==='analyze') updateEval(); }
@@ -1528,14 +1528,14 @@ function render(){
   if(S.tab === 'guide'){ app.innerHTML = viewGuide(); if(!prog().guideAt && S.loaded.s) saveProg({guideAt: today()}); }
   if(S.tab === 'grade') app.innerHTML = viewGrade();
   if(S.tab === 'watchlist') app.innerHTML = viewWatchlist();
+  if(S.tab === 'dividend') app.innerHTML = viewDividend();
+  if(S.tab === 'alerts') app.innerHTML = viewAlerts();
+  if(S.tab === 'account') app.innerHTML = viewAccount();
   if(S.tab === 'briefing' && S.loaded.s){ const bd = prog().briefDays || []; if(!bd.includes(today())) saveProg({briefDays: [...bd, today()].slice(-30)}); }
   clearTimeout(S.__lvT); S.__lvT = setTimeout(checkLevelUp, 3000);
   if(introOn() || S.introForce){ app.insertAdjacentHTML('beforeend', introHtml()); document.body.classList.toggle('noscroll', !tourStep()); } else { document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(!S.trBig) document.body.classList.remove('noscroll'); }
   if(S.tab === 'portfolio') animateHero();
   if(__restore) __restore();
-  if(S.tab === 'dividend') app.innerHTML = viewDividend();
-  if(S.tab === 'alerts') app.innerHTML = viewAlerts();
-  if(S.tab === 'account') app.innerHTML = viewAccount();
   app.insertAdjacentHTML('beforeend', discFootHtml());
   if(store.isDemo) app.insertAdjacentHTML('afterbegin', demoBar());
   if(S.loaded.s && !consentOk() && !store.isDemo){ app.insertAdjacentHTML('beforeend', consentHtml()); document.body.classList.add('noscroll'); }
@@ -3127,7 +3127,7 @@ const INTRO = [
     <button type="button" class="in-push" data-act="intro-push"><span>알림 켜기 (휴대폰·PC)</span><span class="muted">›</span></button>`; }},
 ];
 const tourStep = () => { if(!(typeof introOn === 'function' && (introOn() || S.introForce))) return null; const it = INTRO[Math.min(S.introStep || 0, INTRO.length - 1)]; return it && it.tab ? it : null; };
-const introSeenLocal = () => { try{ return localStorage.getItem('vn-intro-v3') === '1'; }catch(_){ return false; } };
+const introSeenLocal = () => { try{ return localStorage.getItem('vn-intro-v3-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
 const introOn = () => S.loaded.s && S.loaded.h && consentOk() && invDone() && !prog().introV3 && !introSeenLocal() && !S.introClosed;
 function introHtml(){
   if(!introOn() && !S.introForce) return '';
@@ -3139,7 +3139,7 @@ function introHtml(){
     <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
   </div></div>`;
 }
-function introDone(){ if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); try{ localStorage.setItem('vn-intro-v3','1'); }catch(_){} }
+function introDone(){ if(tourStep()) S.tab = 'portfolio'; S.introClosed = true; S.introForce = false; S.introStep = 0; saveProg({introDone: today(), introV2: today(), introV3: today()}); try{ localStorage.setItem('vn-intro-v3-'+(store.user?.id||''),'1'); }catch(_){} }
 /* ============ 나의 투자자 등급: 『현명한 투자자』 미션 ============ */
 const LEVELS = [
   {n:1, min:0,  name:'투기꾼',        d:'가격의 오르내림에 반응하는 단계입니다.'},

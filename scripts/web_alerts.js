@@ -53,7 +53,7 @@ async function checkPush(){
     const reg = await navigator.serviceWorker.register('/sw.js');
     let sub = await reg.pushManager.getSubscription();
     /* 권한은 있는데 구독이 만료된 경우(PC 브라우저에서 종종 생김) 조용히 다시 연결 */
-    let wanted = false; try{ wanted = localStorage.getItem('vn-push') === '1'; }catch(_){}
+    let wanted = false; try{ wanted = localStorage.getItem('vn-push-'+(store.user?.id||'')) === '1'; }catch(_){}
     if(!sub && wanted && Notification.permission === 'granted') sub = await subscribeHere(reg);
     if(sub){ mySubId = await subId(sub.endpoint); await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() }); }
     pushState = sub ? 'on' : 'off';
@@ -81,7 +81,7 @@ async function enablePush(){
     const sub = (await reg.pushManager.getSubscription()) || await subscribeHere(reg);
     mySubId = await subId(sub.endpoint);
     await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() });
-    try{ localStorage.setItem('vn-push','1'); }catch(_){}
+    try{ localStorage.setItem('vn-push-'+(store.user?.id||''),'1'); }catch(_){}
     pushState = 'on';
     await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 ValueNote 알림을 받습니다.', read: false, source: '설정' });
     await loadSubs(); say(''); render();
@@ -92,7 +92,7 @@ async function disablePush(){
     const reg = await navigator.serviceWorker.getRegistration('/sw.js'); const sub = reg && await reg.pushManager.getSubscription();
     if(sub){ await store.del('push_subs', await subId(sub.endpoint)); await sub.unsubscribe(); }
   }catch(_){}
-  try{ localStorage.removeItem('vn-push'); }catch(_){}
+  try{ localStorage.removeItem('vn-push-'+(store.user?.id||'')); }catch(_){}
   pushState = 'off'; mySubId = null; await loadSubs(); render();
 }
 function pushCard(){
