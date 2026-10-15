@@ -75,7 +75,7 @@ function pushCard(){
 function viewAlerts(){
   const list = [...(S.alerts||[])].sort((a,b) => (b.at||'').localeCompare(a.at||'')).slice(0, 60);
   const groups = {}; list.forEach(a => (groups[dayGroup(a.at)] ||= []).push(a));
-  const item = a => { const lv = AL_LV[a.level] || AL_LV.info;
+  const item = a0 => { const a = alView(a0), lv = AL_LV[a.level] || AL_LV.info;
     return `<button type="button" class="al-item ${a.read?'read':''}" data-al="go" data-id="${esc(a.id)}">
       <span class="al-dot" style="background:${lv.c}"></span>
       <span class="al-main"><span class="al-top"><b>${esc(a.title)}</b><span class="small muted">${agoText(a.at)}</span></span>${a.body?`<span class="small al-body">${esc(a.body)}</span>`:''}</span>
@@ -84,7 +84,7 @@ function viewAlerts(){
   <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">알림</h2>${alUnread() ? `<button class="btn" data-al="read-all">모두 읽음</button>` : ''}</div>
   <div style="margin-top:12px">${pushCard()}</div>
   <div class="legend" style="margin-top:12px">${Object.values(AL_LV).map(v => `<span style="--c:${v.c}">${v.l}</span>`).join('')}</div>
-  ${list.length ? ['오늘','어제','이전'].filter(g => groups[g]).map(g => `<h3 class="eyebrow" style="margin:18px 0 6px">${g}</h3><div class="card al-list">${groups[g].map(item).join('')}</div>`).join('') : `<div class="card empty" style="margin-top:12px">아직 알림이 없습니다. 아침 브리핑, 급등락, 매수 가격 도달 같은 일이 생기면 여기에 쌓입니다.</div>`}`;
+  ${list.length ? ['오늘','어제','이전'].filter(g => groups[g]).map(g => `<h3 class="eyebrow" style="margin:18px 0 6px">${g}</h3><div class="card al-list">${groups[g].map(item).join('')}</div>`).join('') : `<div class="card empty" style="margin-top:12px">아직 알림이 없습니다. 아침 브리핑, 급등락, 적정 매수가 도달 같은 일이 생기면 여기에 쌓입니다.</div>`}`;
 }
 async function markRead(ids){
   for(const id of ids){ const a = (S.alerts||[]).find(x => x.id === id); if(a && !a.read){ a.read = true; await store.set('alerts', id, { ...a, read: true }); } }
@@ -106,7 +106,20 @@ document.addEventListener('click', async e => {
     window.scrollTo(0,0);
   }
 });
-/* 화면에서 판단하는 알림: 매수 가격 도달, 내재가치 초과 (한 달에 한 번) */
+/* 적정 매수가 도달 알림 문구. 저장된 옛 알림도 화면에서는 지금 가격 기준으로 다시 그린다. */
+function buyAlertText(c, ev){
+  ev = ev || evaluate(c);
+  const cur = curOf(c.market), u = upPct(ev.iv, c.price);
+  return { title: `${c.name} 적정 매수가 도달`,
+    body: `현재가 ${fmtPx(c.price, cur)} · ` + (isNum(u) ? `적정가까지 +${fmt(u, u < 10 ? 1 : 0)}% 상승 여력` : `적정 매수가 ${fmtPx(ev.buyBelow, cur)} 이하`) };
+}
+function alView(a){
+  if(!/^buy-/.test(a.id || '') || !a.link?.co) return a;
+  const c = (S.companies || []).find(x => x.id === a.link.co);
+  if(!c || !isNum(c.price)) return { ...a, title: (a.title || '').replace('매수 상'+'한 도달', '적정 매수가 도달'), body: (a.body || '').replace('매수 상'+'한', '적정 매수가') };
+  return { ...a, ...buyAlertText(c) };
+}
+/* 화면에서 판단하는 알림: 적정 매수가 도달, 내재가치 초과 (한 달에 한 번) */
 async function scanAlerts(){
   if(!S.loaded.c || !S.loaded.h || !S.alertsLoaded) return;
   const month = today().slice(0,7), have = new Set((S.alerts||[]).map(a => a.id)), now = new Date().toISOString();
@@ -115,7 +128,7 @@ async function scanAlerts(){
     if(c.kind !== 'stock' || held.has(c.id) || !(c.watch || c.pinned || (c.thesis?.memo||'').trim())) continue;
     const ev = evaluate(c); const id = `buy-${c.id}-${month}`;
     if(ev.verdict === '매수 후보' && isNum(ev.buyBelow) && isNum(c.price) && c.price <= ev.buyBelow && !have.has(id))
-      await store.set('alerts', id, { at: now, level: 'good', title: `${c.name} 매수 상한 도달`, body: `현재가 ${fmtPx(c.price, curOf(c.market))} · 매수 상한 ${fmtPx(ev.buyBelow, curOf(c.market))} 이하`, link: { co: c.id }, read: false, source: '장부 판정' });
+      await store.set('alerts', id, { at: now, level: 'good', ...buyAlertText(c, ev), link: { co: c.id }, read: false, source: '장부 판정' });
   }
   for(const h of S.holdings){
     const c = companyFor(h); if(!c || h.kind !== 'stock') continue;
