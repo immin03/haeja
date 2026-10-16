@@ -318,7 +318,8 @@ HEAD = """<!doctype html>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ValueNote">
+<meta name="apple-mobile-web-app-title" content="밸류노트">
+<meta name="application-name" content="밸류노트">
 <link rel="preload" href="/fonts/fraunces-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
