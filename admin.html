@@ -111,6 +111,25 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
   .wm small{display:none}
   #asof{display:none}
 }
+
+.soc-acc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.soc-acc .card{display:flex;flex-direction:column;gap:8px}
+.soc-acc .t{display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.soc-acc .u{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.soc-btn{display:inline-block;text-align:center;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none;background:var(--navy-grad);color:var(--ivory)}
+.soc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.soc-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0 0}
+.st{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.st.ok{color:var(--good);border-color:var(--good)}.st.bad{color:var(--bad);border-color:var(--bad)}.st.run{color:#B08A3E;border-color:#B08A3E}
+.soc-tb img{width:34px;height:42px;border-radius:5px;object-fit:cover;display:block}
+.soc-tb input[type=datetime-local]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.soc-tb .a{display:flex;gap:6px;flex-wrap:wrap}
+.soc-tb .a button{font-size:12px;padding:4px 9px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.soc-flash{padding:12px 14px;border-radius:12px;margin-bottom:12px;font-weight:700}
+.soc-flash.ok{background:rgba(45,122,95,.1);color:var(--good)}.soc-flash.bad{background:rgba(192,57,43,.1);color:var(--bad)}
+@media (max-width:640px){.soc-acc{grid-template-columns:1fr}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}}
+:root[data-theme="dark"] .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}
 </style>
 </head>
 <body>
@@ -178,6 +197,7 @@ const PAGES = [
   ['users', '가입자'],
   ['traffic', '유입·기기'],
   ['column', '칼럼'],
+  ['social', 'SNS 게시'],
 ];
 let DATA = null;
 const page = () => { const h = location.hash.slice(1); return PAGES.some(p => p[0] === h) ? h : 'overview'; };
@@ -301,6 +321,81 @@ function bindColumn(){
     await sb.from('docs').delete().eq('collection', 'trends').eq('id', b.dataset.colDel); COL.list = null; colLoad(); });
 }
 
+/* ===== SNS 게시 (인스타·쓰레드 자동 게시) ===== */
+const FN = C.SUPABASE_URL + '/functions/v1/';
+const SOC = { st: null, posts: null, flash: null, busy: '' };
+(() => { const q = new URLSearchParams(location.search);
+  if(q.get('social_ok')) SOC.flash = ['ok', (q.get('social_ok') === 'instagram' ? '인스타그램' : '쓰레드') + ' 연결이 끝났습니다.'];
+  if(q.get('social_err')) SOC.flash = ['bad', '연결하지 못했습니다: ' + q.get('social_err')];
+  if(q.get('social_ok') || q.get('social_err')) history.replaceState(null, '', location.pathname + '#social'); })();
+async function socLoad(){
+  const site = location.origin;
+  const [st, posts] = await Promise.all([sb.rpc('social_status'), sb.from('social_posts').select('*').order('seq')]);
+  if(st.error){ SOC.st = { error: st.error.message }; SOC.posts = []; render(); return; }
+  if(st.data.site !== site) await sb.rpc('social_admin_set', { p_key: 'site_url', p_value: site });
+  SOC.st = st.data; SOC.posts = posts.data || []; render();
+}
+const kstInput = iso => new Date(Date.parse(iso) + 9*3600e3).toISOString().slice(0, 16);
+const fromKst = v => new Date(v + ':00+09:00').toISOString();
+function chip(status, link, err, label){
+  if(status === 'posted') return `<a class="st ok" href="${esc(link || '#')}" target="_blank" rel="noopener">${label} 완료 ↗</a>`;
+  if(status === 'failed') return `<span class="st bad" title="${esc(err || '')}">${label} 실패</span>`;
+  if(status === 'publishing') return `<span class="st run">${label} 올리는 중</span>`;
+  return `<span class="st">${label} 대기</span>`;
+}
+function vSocial(){
+  if(SOC.posts === null){ socLoad(); return head('SNS 게시', '불러오는 중', 'social'); }
+  if(SOC.st && SOC.st.error) return head('SNS 게시', '', 'social') + `<div class="card">불러오지 못했습니다: ${esc(SOC.st.error)}<div class="note">DB에 SNS 게시 표가 아직 없을 수 있습니다.</div></div>`;
+  const acc = Object.fromEntries((SOC.st.accounts || []).map(a => [a.platform, a]));
+  const card = (p, name) => { const a = acc[p];
+    return `<div class="card"><div class="t"><span>${name}</span>${a ? '<span class="st ok">연결됨</span>' : '<span class="st">연결 전</span>'}</div>
+      ${a ? `<div class="u">@${esc(a.username || '')}</div><div class="muted" style="font-size:12px">토큰 만료 ${kst(a.expires_at)} · 만료 10일 전 자동 갱신</div>` : '<div class="muted" style="font-size:13px">Meta 앱과 시크릿을 넣은 뒤 눌러 주세요.</div>'}
+      <button class="soc-btn${a ? ' ghost' : ''}" data-soc-connect="${p}">${a ? '다시 연결' : name + ' 연결'}</button></div>`; };
+  const paused = SOC.st.paused === true;
+  const done = SOC.posts.filter(p => (!p.to_ig || p.ig_status === 'posted') && (!p.to_threads || p.th_status === 'posted')).length;
+  const rows = SOC.posts.map(p => `<tr>
+    <td><img src="/social/${esc(p.id)}/01.jpg" alt="" loading="lazy"></td>
+    <td class="nw"><b>#${esc(p.id)}</b><div class="muted" style="font-size:12px">${p.to_ig ? '★ 인스타+쓰레드' : '쓰레드'}</div></td>
+    <td>${esc(p.title)}<div class="muted" style="font-size:12px">${p.images.length}장</div></td>
+    <td><input type="datetime-local" value="${kstInput(p.scheduled_at)}" data-soc-time="${esc(p.id)}"></td>
+    <td>${p.to_ig ? chip(p.ig_status, p.ig_permalink, p.ig_error, '인스타') + ' ' : ''}${chip(p.th_status, p.th_permalink, p.th_error, '쓰레드')}${p.paused ? ' <span class="st">보류</span>' : ''}
+      ${p.ig_error || p.th_error ? `<div class="muted" style="font-size:11px;margin-top:4px">${esc(p.ig_error || p.th_error)}</div>` : ''}</td>
+    <td><div class="a">${(!p.to_ig || p.ig_status === 'posted') && p.th_status === 'posted' ? '' : `<button data-soc-now="${esc(p.id)}">지금 올리기</button>`}<button data-soc-hold="${esc(p.id)}">${p.paused ? '재개' : '보류'}</button></div></td></tr>`).join('');
+  return `${head('SNS 게시', `카드뉴스 ${SOC.posts.length}편 중 ${done}편 게시 완료 · 시간이 되면 5분 안에 자동으로 올라가요 (같은 채널은 최소 90분 간격)`, 'social')}
+  ${SOC.flash ? `<div class="soc-flash ${SOC.flash[0]}">${esc(SOC.flash[1])}</div>` : ''}
+  <div class="soc-acc">${card('instagram', '인스타그램')}${card('threads', '쓰레드')}</div>
+  <div class="soc-bar"><button class="soc-btn${paused ? '' : ' ghost'}" id="soc-pause">${paused ? '자동 게시 다시 켜기' : '자동 게시 전체 멈추기'}</button>
+    <button class="soc-btn ghost" id="soc-check">연결 점검</button><span class="muted" id="soc-msg" style="font-size:13px">${esc(SOC.busy)}</span></div>
+  <h2>게시 일정</h2>
+  <div class="card tbl soc-tb"><table><thead><tr><th></th><th>번호</th><th>제목</th><th>예정 (한국시간)</th><th>상태</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function bindSocial(){
+  const msg = t => { const m = $('#soc-msg'); if(m) m.textContent = t; };
+  document.querySelectorAll('[data-soc-connect]').forEach(b => b.onclick = async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    location.href = FN + 'social-oauth?' + new URLSearchParams({ start: b.dataset.socConnect, t: session.access_token, ret: location.origin + location.pathname });
+  });
+  const pz = $('#soc-pause'); if(pz) pz.onclick = async () => { await sb.rpc('social_admin_set', { p_key: 'social_paused', p_value: !(SOC.st.paused === true) }); socLoad(); };
+  const ck = $('#soc-check'); if(ck) ck.onclick = async () => { msg('점검 중…');
+    const { data: { session } } = await sb.auth.getSession();
+    const r = await fetch(FN + 'social-publish', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ action: 'check', t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
+    const part = (n, x) => !x ? `${n} 연결 전` : x.error ? `${n} 오류(${x.error})` : `${n} 정상 · 오늘 ${(x.data && x.data[0] && x.data[0].quota_usage) ?? 0}건 게시`;
+    msg(r.error ? '점검 실패: ' + r.error : [part('인스타', r.instagram), part('쓰레드', r.threads)].join(' / ')); };
+  document.querySelectorAll('[data-soc-time]').forEach(i => i.onchange = async () => {
+    const { error } = await sb.from('social_posts').update({ scheduled_at: fromKst(i.value) }).eq('id', i.dataset.socTime);
+    msg(error ? '시간을 바꾸지 못했습니다: ' + error.message : `#${i.dataset.socTime} 시간을 바꿨습니다.`); });
+  document.querySelectorAll('[data-soc-hold]').forEach(b => b.onclick = async () => {
+    const p = SOC.posts.find(x => x.id === b.dataset.socHold);
+    await sb.from('social_posts').update({ paused: !p.paused }).eq('id', p.id); socLoad(); });
+  document.querySelectorAll('[data-soc-now]').forEach(b => b.onclick = async () => {
+    if(!confirm(`#${b.dataset.socNow}을 지금 바로 올릴까요?`)) return;
+    b.disabled = true; msg(`#${b.dataset.socNow} 올리는 중… (1분 정도 걸려요)`);
+    const { data: { session } } = await sb.auth.getSession();
+    const r = await fetch(FN + 'social-publish', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ action: 'now', id: b.dataset.socNow, t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
+    const errs = [r.error, r.ig && r.ig.error, r.th && r.th.error].filter(Boolean);
+    SOC.busy = errs.length ? '실패: ' + errs.join(' / ') : `#${b.dataset.socNow} 게시를 마쳤습니다.`; socLoad(); });
+}
+
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
   const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0 };
@@ -308,9 +403,10 @@ function render(s){
   const nav = $('#tabs'); nav.hidden = false;
   nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'traffic' ? vTraffic(s) : p === 'column' ? vColumn() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'traffic' ? vTraffic(s) : p === 'column' ? vColumn() : p === 'social' ? vSocial() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'column') bindColumn();
+  if(p === 'social') bindSocial();
   bindTips();
 }
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
@@ -337,7 +433,7 @@ $('#reload').onclick = load;
 $('#out').onclick = async () => { await sb.auth.signOut(); load(); };
 window.__render = render;
 load();
-setInterval(() => { if(!document.hidden && !$('#out').hidden && page() !== 'column' && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
+setInterval(() => { if(!document.hidden && !$('#out').hidden && page() !== 'column' && page() !== 'social' && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>

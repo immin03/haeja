@@ -1,0 +1,100 @@
+// 인스타·쓰레드 계정 연결 (OAuth)
+// 1) 관리자 화면 → GET ?start=instagram|threads&t=<로그인 토큰>&ret=<관리자 페이지 주소>
+//    관리자인지 확인하고 Meta 로그인 화면으로 보낸다.
+// 2) Meta → GET ?code=...&state=...  토큰을 받아 장기 토큰(60일)으로 바꿔 social_accounts에 저장하고 관리자 화면으로 돌려보낸다.
+// 3) Meta 쓰레드 앱의 "제거·삭제 콜백"도 이 주소로 온다(POST). 확인 응답만 준다.
+// verify_jwt = false (Meta가 직접 호출하므로). 관리자 확인은 함수 안에서 한다.
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "npm:@supabase/supabase-js@2.45.4";
+
+const URL_SELF = Deno.env.get("SUPABASE_URL")! + "/functions/v1/social-oauth";
+const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
+const env = (k: string) => Deno.env.get(k) || "";
+
+const CFG = {
+  instagram: {
+    id: () => env("META_IG_APP_ID"), secret: () => env("META_IG_APP_SECRET"),
+    authorize: "https://www.instagram.com/oauth/authorize",
+    scope: "instagram_business_basic,instagram_business_content_publish",
+  },
+  threads: {
+    id: () => env("META_THREADS_APP_ID"), secret: () => env("META_THREADS_APP_SECRET"),
+    authorize: "https://threads.net/oauth/authorize",
+    scope: "threads_basic,threads_content_publish,threads_manage_insights",
+  },
+} as const;
+type P = keyof typeof CFG;
+
+const html = (msg: string, status = 200) => new Response(
+  `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><body style="font-family:sans-serif;padding:32px;line-height:1.6">${msg}</body>`,
+  { status, headers: { "Content-Type": "text/html; charset=utf-8" } });
+const back = (ret: string, q: string) => Response.redirect(ret + (ret.includes("?") ? "&" : "?") + q + "#social", 302);
+
+async function isAdmin(token: string) {
+  const { data } = await sb.auth.getUser(token);
+  const email = data?.user?.email;
+  if (!email) return false;
+  const { data: cfg } = await sb.from("app_config").select("value").eq("key", "admins").maybeSingle();
+  return Array.isArray(cfg?.value) && cfg!.value.includes(email);
+}
+
+async function exchange(p: P, code: string) {
+  const c = CFG[p];
+  const form = new URLSearchParams({ client_id: c.id(), client_secret: c.secret(), grant_type: "authorization_code", redirect_uri: URL_SELF, code });
+  if (p === "instagram") {
+    const r1 = await fetch("https://api.instagram.com/oauth/access_token", { method: "POST", body: form });
+    const s = await r1.json(); if (!s.access_token) throw new Error("단기 토큰 실패: " + JSON.stringify(s));
+    const r2 = await fetch(`https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${encodeURIComponent(c.secret())}&access_token=${encodeURIComponent(s.access_token)}`);
+    const l = await r2.json(); if (!l.access_token) throw new Error("장기 토큰 실패: " + JSON.stringify(l));
+    const me = await (await fetch(`https://graph.instagram.com/v23.0/me?fields=user_id,username&access_token=${encodeURIComponent(l.access_token)}`)).json();
+    if (!me.user_id) throw new Error("계정 조회 실패: " + JSON.stringify(me));
+    return { account_id: String(me.user_id), username: me.username, access_token: l.access_token, expires_in: l.expires_in };
+  }
+  const r1 = await fetch("https://graph.threads.net/oauth/access_token", { method: "POST", body: form });
+  const s = await r1.json(); if (!s.access_token) throw new Error("단기 토큰 실패: " + JSON.stringify(s));
+  const r2 = await fetch(`https://graph.threads.net/access_token?grant_type=th_exchange_token&client_secret=${encodeURIComponent(c.secret())}&access_token=${encodeURIComponent(s.access_token)}`);
+  const l = await r2.json(); if (!l.access_token) throw new Error("장기 토큰 실패: " + JSON.stringify(l));
+  const me = await (await fetch(`https://graph.threads.net/v1.0/me?fields=id,username&access_token=${encodeURIComponent(l.access_token)}`)).json();
+  if (!me.id) throw new Error("계정 조회 실패: " + JSON.stringify(me));
+  return { account_id: String(me.id), username: me.username, access_token: l.access_token, expires_in: l.expires_in };
+}
+
+Deno.serve(async (req: Request) => {
+  const u = new URL(req.url);
+  // 쓰레드 앱 제거·삭제 콜백 (저장하는 사용자 데이터가 없으므로 확인만)
+  if (req.method === "POST") {
+    return new Response(JSON.stringify({ url: "https://haeja.vercel.app/privacy", confirmation_code: "vn-" + Date.now() }), { headers: { "Content-Type": "application/json" } });
+  }
+  try {
+    const start = u.searchParams.get("start") as P | null;
+    if (start) {
+      if (!(start in CFG)) return html("알 수 없는 채널입니다.", 400);
+      const ret = u.searchParams.get("ret") || "";
+      if (!/^https:\/\/[a-z0-9.-]+(:\d+)?\/[^\s#]*$/i.test(ret)) return html("돌아갈 주소가 올바르지 않습니다.", 400);
+      if (!(await isAdmin(u.searchParams.get("t") || ""))) return html("관리자 계정으로 로그인한 상태에서 눌러 주세요.", 403);
+      if (!CFG[start].id() || !CFG[start].secret()) return back(ret, `social_err=${encodeURIComponent((start === "instagram" ? "META_IG_APP_ID / META_IG_APP_SECRET" : "META_THREADS_APP_ID / META_THREADS_APP_SECRET") + " 시크릿이 아직 없습니다.")}`);
+      const nonce = crypto.randomUUID();
+      await sb.from("social_oauth_state").delete().lt("created_at", new Date(Date.now() - 3600e3).toISOString());
+      await sb.from("social_oauth_state").insert({ nonce, platform: start, ret });
+      const q = new URLSearchParams({ client_id: CFG[start].id(), redirect_uri: URL_SELF, scope: CFG[start].scope, response_type: "code", state: nonce });
+      return Response.redirect(CFG[start].authorize + "?" + q, 302);
+    }
+
+    const state = u.searchParams.get("state") || "";
+    const { data: st } = await sb.from("social_oauth_state").select("*").eq("nonce", state).maybeSingle();
+    if (!st) return html("연결 요청이 만료됐습니다. 관리자 화면에서 다시 눌러 주세요.", 400);
+    await sb.from("social_oauth_state").delete().eq("nonce", state);
+    const err = u.searchParams.get("error_description") || u.searchParams.get("error");
+    if (err) return back(st.ret, `social_err=${encodeURIComponent(err)}`);
+    const code = (u.searchParams.get("code") || "").replace(/#_$/, "");
+    const t = await exchange(st.platform as P, code);
+    const { error } = await sb.from("social_accounts").upsert({
+      platform: st.platform, account_id: t.account_id, username: t.username, access_token: t.access_token,
+      expires_at: new Date(Date.now() + (Number(t.expires_in) || 5184000) * 1000).toISOString(), updated_at: new Date().toISOString(),
+    });
+    if (error) throw new Error(error.message);
+    return back(st.ret, `social_ok=${st.platform}`);
+  } catch (e) {
+    return html("연결 중 오류가 났습니다: " + String((e as Error).message || e).replace(/</g, "&lt;"), 500);
+  }
+});
