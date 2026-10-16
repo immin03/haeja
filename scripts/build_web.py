@@ -113,6 +113,7 @@ function loginView(){
     </div>` : ''}
     <button class="btn primary" id="lg-go" type="submit">${lgMode==='signup' ? '시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
+    ${lgMode==='login' ? `<button type="button" class="linkbtn" data-lg="forgot" style="align-self:flex-start;font-size:13px">비밀번호를 잊으셨나요?</button>` : ''}
     </form>
     </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '자동 로그인을 끄면 브라우저를 닫을 때 로그아웃됩니다.'}</p>
     <div class="lg-demo"><span>먼저 둘러보고 싶다면</span><button type="button" class="btn" data-lg="demo">체험 계정으로 보기</button></div>

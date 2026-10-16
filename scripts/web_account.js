@@ -77,3 +77,49 @@ document.addEventListener('submit', async e => {
   }finally{ btn.disabled = false; }
 });
 document.addEventListener('click', e => { if(e.target.closest('[data-acct="logout"]')) store.logout(); });
+
+/* ============ 비밀번호 재설정 ============
+   로그인 화면의 "비밀번호를 잊으셨나요?" → 재설정 메일 → 메일 링크로 돌아오면 새 비밀번호 입력 창을 띄운다. */
+const VN_RECOVERY = /type=recovery/.test(location.hash) || /[?&]reset=1/.test(location.search);
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-lg="forgot"]'); if(!b) return;
+  const em = (document.getElementById('lg-email')?.value || '').trim(), msg = document.getElementById('lg-msg');
+  if(!/^\S+@\S+\.\S+$/.test(em)){ msg.textContent = '위 이메일 칸에 가입한 이메일을 먼저 입력하세요.'; document.getElementById('lg-email')?.focus(); return; }
+  b.disabled = true; msg.textContent = '보내는 중';
+  try{
+    const { error } = await store.client.auth.resetPasswordForEmail(em, { redirectTo: location.origin + '/?reset=1' });
+    msg.textContent = error ? (/rate|seconds/i.test(error.message) ? '잠시 후 다시 시도하세요.' : '보내지 못했습니다: ' + error.message)
+      : `${em}로 비밀번호 재설정 메일을 보냈습니다. 메일의 링크를 누르면 새 비밀번호를 정할 수 있어요.`;
+  }finally{ b.disabled = false; }
+});
+function vnRecoveryPrompt(){
+  if(document.getElementById('vn-rec')) return;
+  const d = document.createElement('div'); d.id = 'vn-rec';
+  d.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(10,19,34,.6);display:flex;align-items:center;justify-content:center;padding:16px';
+  d.innerHTML = `<form class="card stack" style="max-width:380px;width:100%;margin:0" onsubmit="return false">
+    <h3 style="margin:0">새 비밀번호 정하기</h3>
+    <p class="small muted" style="margin:0">8자 이상으로 정해 주세요. 정하면 바로 로그인된 상태로 이어집니다.</p>
+    <label class="f">새 비밀번호<input id="rec-p1" type="password" autocomplete="new-password"></label>
+    <label class="f">한 번 더<input id="rec-p2" type="password" autocomplete="new-password"></label>
+    <button class="btn primary" id="rec-go" type="submit">저장</button><div class="status-line" id="rec-msg"></div></form>`;
+  document.body.appendChild(d);
+  setTimeout(() => document.getElementById('rec-p1')?.focus(), 50);
+  document.getElementById('rec-go').onclick = async () => {
+    const p1 = document.getElementById('rec-p1').value, p2 = document.getElementById('rec-p2').value, m = document.getElementById('rec-msg');
+    if(p1.length < 8){ m.textContent = '8자 이상으로 정해 주세요.'; return; }
+    if(p1 !== p2){ m.textContent = '두 칸이 서로 다릅니다.'; return; }
+    m.textContent = '저장하는 중';
+    const { data, error } = await store.client.auth.updateUser({ password: p1 });
+    if(error){ m.textContent = /same|different/i.test(error.message) ? '예전과 다른 비밀번호를 쓰세요.' : /session|missing|expired/i.test(error.message) ? '링크가 만료됐습니다. 로그인 화면에서 메일을 다시 받아 주세요.' : '저장하지 못했습니다: ' + error.message; return; }
+    try{ if(window.PasswordCredential && navigator.credentials && data?.user?.email) await navigator.credentials.store(new PasswordCredential({ id: data.user.email, password: p1, name: data.user.email })); }catch(_){}
+    history.replaceState(null, '', location.pathname); d.remove(); location.reload();
+  };
+}
+if(VN_RECOVERY){
+  let tries = 0;
+  const wait = setInterval(async () => {
+    tries++;
+    try{ const s = store.client && (await store.client.auth.getSession()).data.session; if(s){ clearInterval(wait); vnRecoveryPrompt(); return; } }catch(_){}
+    if(tries > 40){ clearInterval(wait); }
+  }, 250);
+}
