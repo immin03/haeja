@@ -1657,6 +1657,7 @@ function render(){
   if(S.tab === 'trends') app.innerHTML = viewTrends();
   if(S.tab === 'column') app.innerHTML = viewColumn();
   if(S.tab === 'rates') app.innerHTML = viewRates();
+  if(S.tab === 'radar') app.innerHTML = viewRadar();
   if(S.tab === 'guide'){ app.innerHTML = viewGuide(); if(!prog().guideAt && S.loaded.s) saveProg({guideAt: today()}); }
   if(S.tab === 'grade') app.innerHTML = viewGrade();
   if(S.tab === 'watchlist') app.innerHTML = viewWatchlist();
@@ -2340,7 +2341,7 @@ function viewBriefing(){
       <span class="br-main"><b>${esc(short(x.name))}</b><span class="small br-one">${esc(x.oneLine||'')}</span></span>
       <span class="small muted">${open?'접기':'뉴스'}</span></button>
       ${open ? `<div class="br-open">${newsHtml(doc, 4)}${c ? `<button class="btn" style="margin-top:8px" data-act="open-co" data-id="${c.id}">종목 분석 보기</button>` : ''}</div>` : ''}`; };
-  return `${weekly}
+  return `${radarChip()}${weekly}
   <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">오늘의 브리핑</h2>${latest ? `<span class="small muted num">${esc(latest.id)}</span>` : ''}</div>
   <div class="small muted fresh-line">매일 07:50 분석 · 다음 브리핑 ${nextRun(SCHED.brief)}</div>
   ${latest ? `<div class="card stack" style="margin-top:10px;gap:10px">
@@ -3103,6 +3104,104 @@ function viewRates(){
     ${[['US10Y','미국 10년 국채'],['US10_2','미국 장단기 차이 (10년 − 2년)'],['KR10Y','한국 10년 국채'],['FR_DE','프랑스 − 독일 10년물 차이']].filter(([k]) => R.series?.[k]).map(([k, l]) => `<div class="card"><h3>${l}</h3>${priceChart(k, {fmtV: v => fmt(v, 2) + '%', label: l})}</div>`).join('')}
   </div>
   <p class="small muted" style="margin-top:12px">자료: 미국 연준 경제자료(FRED), OECD. 금리 해설은 매주 갱신합니다.</p>`;
+}
+
+/* ============ 경제 레이더: 위기 신호를 신호등으로 ============ */
+const RD_LV = [
+  {n:'안정', c:'#2D7A5F', s:'큰 위험 신호가 보이지 않습니다.'},
+  {n:'양호', c:'#6FA14E', s:'대체로 괜찮지만 몇 가지 신호를 지켜볼 때입니다.'},
+  {n:'유의', c:'#C9A227', s:'위험 신호가 여러 곳에서 켜지고 있습니다.'},
+  {n:'경계', c:'#DD7A2E', s:'문제가 생길 수 있는 조건이 쌓였습니다.'},
+  {n:'위험', c:'#C0392B', s:'금융 시스템에 스트레스가 커졌습니다.'},
+];
+const RD_DO = [
+  ['원칙대로 투자합니다. 적정 매수가 아래에 있는 좋은 회사를 찾는 데 집중합니다.', '현금은 목표 범위(10~20%) 안에서 유지합니다.'],
+  ['원칙대로 하되 현금 10% 이상은 남겨 둡니다.', '빚이 많은 회사가 있다면 이자보상배율을 한 번 확인합니다.'],
+  ['현금 비중을 목표 상단(20%)에 가깝게 둡니다.', '빚이 많거나 이익이 정점일 수 있는 회사부터 점검합니다.', '새로 살 때는 안전마진이 큰 곳만, 나눠서 삽니다.'],
+  ['레버리지 상품과 빚투는 0으로 둡니다.', '보유 기업마다 "팔 이유가 생겼는지, 주가만 빠졌는지"를 구분해 적어 둡니다.', '매수는 미리 정한 적정 매수가에서만, 나눠서 합니다.'],
+  ['공포에 팔지 않습니다. 미리 정한 매도 조건만 따릅니다.', '남겨 둔 현금으로 적정 매수가 아래 좋은 회사를 나눠 담을 준비를 합니다.', '빚이 많은 회사는 버틸 수 있는지 숫자로 다시 확인합니다.'],
+];
+const RD_IND = {
+  hy:{n:'하이일드 스프레드', g:'금융 스트레스', u:'%', d:'신용도가 낮은 회사가 국채보다 더 내야 하는 이자입니다. 돈줄이 마르면 가장 먼저 뜁니다.', fb:{dotcom:10.5, gfc:21.8, euro:8.0, covid:10.9, hike:5.9}},
+  stress:{n:'금융 스트레스 지수', g:'금융 스트레스', u:'', d:'세인트루이스 연준이 금리·신용·변동성을 묶어 만든 지수입니다. 0이 평균입니다.'},
+  vix:{n:'공포지수 (VIX)', g:'금융 스트레스', u:'', d:'미국 주식의 앞으로 한 달 변동성 예상치입니다. 30을 넘으면 공포 구간입니다.'},
+  rate:{n:'미국 10년물 금리', g:'금리·경기', u:'%', d:'전 세계 자산 가격의 기준입니다. 빠르게 오르면 약한 고리가 먼저 끊어졌습니다.'},
+  curve:{n:'장단기 금리차 (10년 − 3개월)', g:'금리·경기', u:'%p', d:'마이너스(역전)는 침체 1~2년 전 신호였고, 역전이 풀릴 때 실제 침체가 온 경우가 많았습니다.', low:true},
+  sahm:{n:'실업률 침체 신호 (샴 지표)', g:'금리·경기', u:'%p', d:'최근 실업률이 1년 최저보다 0.5%p 넘게 오르면 침체가 시작됐다고 봅니다.'},
+  kospi:{n:'코스피 고점 대비', g:'주식시장', u:'%', d:'최근 1년 최고점에서 얼마나 내려왔는지입니다. −20%를 넘으면 약세장입니다.'},
+  spx:{n:'S&P 500 고점 대비', g:'주식시장', u:'%', d:'미국 대표 지수의 1년 최고점 대비 위치입니다.'},
+  dollar:{n:'달러 강세 (달러 지수)', g:'해외', u:'', d:'달러가 빠르게 강해지면 달러 빚이 많은 나라와 회사가 먼저 힘들어집니다.'},
+  euro:{n:'프랑스 − 독일 국채 금리차', g:'해외', u:'%p', d:'유럽 재정 불안의 온도계입니다. 2011~12년 유럽 재정위기 때 크게 벌어졌습니다.'},
+};
+const RD_CR = {dotcom:'닷컴', gfc:'2008년', euro:'유럽 재정위기', covid:'코로나', hike:'2022년'};
+/* 보수적 판정: 한 지표라도 위험이면 최소 경계, 경계 이상이 둘 이상이면 최소 유의 */
+function rdLevel(R){
+  if(!R || !isNum(R.overall)) return null; const lvs = Object.values(R.ind || {}).map(o => o.lv || 0);
+  let lv = R.overall; if(lvs.some(v => v >= 4)) lv = Math.max(lv, 3); if(lvs.filter(v => v >= 3).length >= 2) lv = Math.max(lv, 2); return lv;
+}
+function radarChip(){
+  const R = S.radar, lv = rdLevel(R); if(lv === null) return '';
+  const L = RD_LV[lv];
+  return `<button type="button" class="rd-chip" data-act="go-tab" data-v="radar"><span class="rd-dot" style="background:${L.c}"></span><span><b>경제 레이더 · ${L.n}</b><span class="small muted"> ${esc(R.headline || L.s)}</span></span><span class="small muted">›</span></button>`;
+}
+function rdVal(k, o){
+  const m = RD_IND[k]; if(!o || !isNum(o.v)) return '–';
+  if(k === 'kospi' || k === 'spx') return `${fmt(o.v, 1)}%`;
+  return `${o.v > 0 && m.u === '%p' ? '+' : ''}${fmt(o.v, 2)}${m.u}`;
+}
+function rdRow(k, o){
+  const m = RD_IND[k], L = RD_LV[o.lv] || RD_LV[0];
+  const pk = Object.keys(o.peaks || {}).length ? o.peaks : (m.fb || {});
+  const ref = Object.keys(RD_CR).filter(c => isNum(pk[c])).map(c => [c, pk[c]]).map(([c, v]) => `${RD_CR[c]} ${fmt(v, k === 'dollar' ? 0 : 1)}${m.u}`).join(' · ');
+  const sub = k === 'kospi' || k === 'spx' ? `지수 ${fmt(o.px, 0)} · 1년 최고 ${fmt(o.hi, 0)}${isNum(o.chg1w) ? ` · 1주 ${pct(o.chg1w)}` : ''}`
+    : `${isNum(o.chg1y) ? `1년 변화 ${o.chg1y > 0 ? '+' : ''}${fmt(o.chg1y, 2)}` : ''}${isNum(o.pct) ? ` · 역대 위치 ${o.pct}/100` : ''}`;
+  return `<details class="rd-row"><summary>
+      <span class="rd-dot" style="background:${L.c}"></span>
+      <span class="rd-n"><b>${esc(m.n)}</b><small>${esc(o.why || '')}</small></span>
+      <span class="rd-v"><b class="num">${rdVal(k, o)}</b><small style="color:${L.c}">${L.n}</small></span>
+    </summary>
+    <div class="rd-more">
+      <div class="small">${esc(m.d)}</div>
+      ${sub ? `<div class="small muted num" style="margin-top:4px">${sub}</div>` : ''}
+      ${ref ? `<div class="small muted" style="margin-top:4px">과거 위기 때 ${Object.keys(o.peaks || {}).length ? '' : '(약) '}${ref}</div>` : ''}
+      ${(o.w5 || []).length > 3 ? `<div style="margin-top:6px">${sparkline(o.w5, 280, 44)}</div>` : ''}
+      <div class="small muted" style="margin-top:2px">기준일 ${esc(o.date || '')}</div>
+    </div></details>`;
+}
+function viewRadar(){
+  const R = S.radar;
+  if(!R || !R.ind) return `<h2>경제 레이더</h2><div class="card empty">레이더 자료는 매일 아침 자동으로 채워집니다.</div>`;
+  const lv = rdLevel(R) ?? 0, L = RD_LV[lv], I = R.ind;
+  const ranked = Object.entries(I).filter(([k]) => RD_IND[k]).sort((a, b) => (b[1].lv || 0) - (a[1].lv || 0));
+  const hot = ranked.filter(([, o]) => o.lv >= 3).map(([k]) => RD_IND[k].n);
+  const autoLine = hot.length ? `${hot.slice(0, 3).join(', ')}에서 경계 이상 신호가 켜져 있습니다.` : L.s;
+  const groups = ['금융 스트레스', '금리·경기', '주식시장', '해외'];
+  const pos = (lv + 0.5) / 5 * 100;
+  return `
+  <div class="row" style="justify-content:space-between;align-items:baseline;margin-top:16px"><h2 style="margin:0">경제 레이더</h2><span class="small muted num">${esc(String(R.autoAt || '').slice(0, 10))} 기준</span></div>
+  <div class="card rd-hero" style="--lc:${L.c}">
+    <div class="rd-top"><span class="rd-big">${L.n}</span><span class="small muted">지표 ${Object.keys(I).length}개 중 경계 이상 ${Object.values(I).filter(o => o.lv >= 3).length}개</span></div>
+    <div class="rd-bar">${RD_LV.map((x, i) => `<i style="background:${x.c};opacity:${i === lv ? 1 : .28}"></i>`).join('')}<b style="left:${pos}%"></b></div>
+    <div class="rd-lbl">${RD_LV.map(x => `<span>${x.n}</span>`).join('')}</div>
+    <p class="rd-out">${esc(R.outlook || autoLine)}</p>
+  </div>
+  <h3 class="eyebrow guide-h">리스크 관리 · 지금 할 일</h3>
+  <div class="card rd-do">${RD_DO[lv].map(t => `<div><span class="rd-dot" style="background:${L.c}"></span><span>${esc(t)}</span></div>`).join('')}</div>
+  ${(R.events || []).length ? `<h3 class="eyebrow guide-h">최근 위험 신호 <span class="muted" style="text-transform:none;letter-spacing:0">${esc(R.eventsAt || '')}</span></h3>
+  <div class="card rd-ev">${R.events.map(e => `<div class="rd-e"><span class="rd-dot" style="background:${(RD_LV[e.level] || RD_LV[2]).c}"></span><div><b>${esc(e.title)}</b>${e.region ? ` <span class="pill">${esc(e.region)}</span>` : ''}<p class="small" style="margin:3px 0 0">${esc(e.body || '')}</p><span class="small muted num">${esc(e.date || '')}</span></div></div>`).join('')}</div>` : ''}
+  ${(R.upcoming || []).length ? `<h3 class="eyebrow guide-h">앞두고 있는 위험 일정</h3>
+  <div class="card stack">${R.upcoming.map(u => `<div class="row" style="gap:10px;align-items:baseline"><b class="num small" style="min-width:44px">${+String(u.date).slice(5, 7)}/${+String(u.date).slice(8, 10)}</b><span class="small"><b>${esc(u.event)}</b>${u.why ? ` <span class="muted">${esc(u.why)}</span>` : ''}</span></div>`).join('')}</div>` : ''}
+  ${groups.map(g => { const rows = ranked.filter(([k]) => RD_IND[k].g === g); return rows.length ? `<h3 class="eyebrow guide-h">${g}</h3><div class="card rd-list">${rows.map(([k, o]) => rdRow(k, o)).join('')}</div>` : ''; }).join('')}
+  <h3 class="eyebrow guide-h">과거 위기는 이렇게 왔습니다</h3>
+  <div class="card tbl rd-hist"><table><thead><tr><th>위기</th><th>직전 미국 기준금리</th><th>무엇이 터졌나</th><th>미국 주가 최대 낙폭</th></tr></thead><tbody>
+    <tr><td><b>닷컴 버블</b><br><small class="muted">2000~2002</small></td><td>6.5%</td><td>이익 없는 기술주 과열 붕괴</td><td class="num">약 −49%</td></tr>
+    <tr><td><b>글로벌 금융위기</b><br><small class="muted">2007~2009</small></td><td>5.25%</td><td>주택담보대출 부실, 대형 투자은행 파산</td><td class="num">약 −57%</td></tr>
+    <tr><td><b>유럽 재정위기</b><br><small class="muted">2010~2012</small></td><td>0~0.25% (유럽 국채금리 급등)</td><td>그리스·이탈리아 등 국가 부채 불안</td><td class="num">약 −19%</td></tr>
+    <tr><td><b>코로나 충격</b><br><small class="muted">2020</small></td><td>1.5~1.75%</td><td>전염병으로 경제 정지</td><td class="num">약 −34%</td></tr>
+    <tr><td><b>금리 급등장</b><br><small class="muted">2022~2023</small></td><td>0% → 4.5%</td><td>물가 급등과 빠른 금리 인상, 미국 지역은행 파산</td><td class="num">약 −25%</td></tr>
+  </tbody></table>
+  <p class="small muted" style="margin:10px 4px 2px">대부분의 큰 위기는 금리가 높아지거나 빠르게 오른 뒤에 왔습니다. 빚이 많은 곳이 먼저 무너졌고, 미리 현금을 남겨 둔 투자자가 기회를 잡았습니다.</p></div>
+  <p class="small muted" style="margin-top:12px">레이더는 미국 연준 경제자료(FRED), 지수 종가, 주간 조사를 바탕으로 매일 자동 계산합니다. 위기를 예측하는 도구가 아니라 조심할 때를 알려 주는 계기판입니다. 신호등이 바뀌는 기준은 지표마다 정해 둔 구간이며, 투자 권유가 아닙니다.</p>`;
 }
 
 /* ============ 엔화 효과 ============ */
@@ -4142,7 +4241,7 @@ function viewGuide(){
 /* ============ 2단 메뉴 ============ */
 const NAV = [
   {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지'],['fx','환율'],['rates','금리']]},
-  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['trends','메가트렌드']]},
+  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['radar','경제 레이더'],['column','칼럼'],['trends','메가트렌드']]},
   {k:'companies', l:'기업', subs:[['companies','찾기'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
 const TAB_ALIAS = {analyze:'companies', screener:'companies'};
@@ -4923,7 +5022,7 @@ function refresh(kind){
   store.sub('briefing', docs => { S.briefings = docs; if(S.tab === 'briefing') refresh('n'); });
   store.sub('trends', docs => { S.columns = docs.filter(d => String(d.id).startsWith('col-') && d.title).sort((a, b) => String(b.id).localeCompare(String(a.id))); S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
   store.sub('prices', docs => { S.prices = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['portfolio','companies','fx'].includes(S.tab)) refresh('p'); });
-  store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; S.rates = docs.find(d => d.id === 'rates') || null; if(['fx','portfolio','rates','column','briefing'].includes(S.tab)) refresh('x'); });
+  store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; S.rates = docs.find(d => d.id === 'rates') || null; S.radar = docs.find(d => d.id === 'radar') || null; if(['fx','portfolio','rates','column','briefing','radar'].includes(S.tab)) refresh('x'); });
   store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
   store.sub('journal', docs => { S.journal = docs; S.loaded.j = 1; refresh('j'); });
   store.sub('settings', docs => { const m = docs.find(d => d.id==='main'); if(m && !saveTimers.__set && !saveTimers.__prog) S.settings = m; S.loaded.s = 1; refresh('s'); });
@@ -5243,6 +5342,34 @@ input,select,textarea{border-radius:10px}
 .rt-pts>div>b{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#FFFFFF;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:2px}
 .rt-issue{padding:2px 0 10px;border-bottom:1px solid var(--line)}
 .rt-issue:last-of-type{border-bottom:0}
+.rd-chip{all:unset;box-sizing:border-box;cursor:pointer;width:100%;margin-top:16px;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.rd-chip>span:nth-child(2){flex:1;min-width:0;font-size:14px;line-height:1.45}
+.rd-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;display:inline-block}
+.rd-hero{margin-top:10px;border-color:var(--lc);box-shadow:0 0 0 1px var(--lc) inset}
+.rd-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.rd-big{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--lc)}
+.rd-bar{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:14px}
+.rd-bar i{height:10px;border-radius:5px;display:block}
+.rd-bar b{position:absolute;top:-5px;width:4px;height:20px;border-radius:2px;background:var(--ink);transform:translateX(-50%)}
+.rd-lbl{display:grid;grid-template-columns:repeat(5,1fr);font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
+.rd-out{margin:14px 0 0;font-size:15px;line-height:1.65;font-weight:600}
+.rd-do{display:flex;flex-direction:column;gap:10px}
+.rd-do>div,.rd-e{display:grid;grid-template-columns:12px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.6}
+.rd-do .rd-dot,.rd-e .rd-dot{margin-top:7px}
+.rd-ev{display:flex;flex-direction:column;gap:12px}
+.rd-list{padding:4px 14px}
+.rd-row{border-bottom:1px solid var(--line)}
+.rd-row:last-child{border-bottom:0}
+.rd-row summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px 0}
+.rd-row summary::-webkit-details-marker{display:none}
+.rd-n{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rd-n b{font-size:14.5px}
+.rd-n small{font-size:12px;color:var(--muted);line-height:1.45}
+.rd-v{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.rd-v b{font-size:15px}
+.rd-v small{font-size:12px;font-weight:700}
+.rd-more{padding:0 0 12px 22px}
+.rd-hist td,.rd-hist th{font-size:12.5px}
 .vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#F3EEE3;font-size:13.5px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(7,12,21,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
 .brand-t{cursor:pointer;-webkit-tap-highlight-color:transparent}
