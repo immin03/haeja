@@ -3147,61 +3147,123 @@ function radarChip(){
 function rdVal(k, o){
   const m = RD_IND[k]; if(!o || !isNum(o.v)) return '–';
   if(k === 'kospi' || k === 'spx') return `${fmt(o.v, 1)}%`;
+  if(k === 'dollar') return fmt(o.v, 1);
   return `${o.v > 0 && m.u === '%p' ? '+' : ''}${fmt(o.v, 2)}${m.u}`;
 }
-function rdRow(k, o){
-  const m = RD_IND[k], L = RD_LV[o.lv] || RD_LV[0];
-  const pk = Object.keys(o.peaks || {}).length ? o.peaks : (m.fb || {});
-  const ref = Object.keys(RD_CR).filter(c => isNum(pk[c])).map(c => [c, pk[c]]).map(([c, v]) => `${RD_CR[c]} ${fmt(v, k === 'dollar' ? 0 : 1)}${m.u}`).join(' · ');
+const RD_ORDER = ['hy','stress','vix','rate','curve','sahm','kospi','spx','dollar','euro'];
+const RD_SHORT = {hy:'하이일드', stress:'금융 스트레스', vix:'공포지수', rate:'10년 금리', curve:'장단기 금리차', sahm:'고용', kospi:'코스피', spx:'S&P 500', dollar:'달러', euro:'프랑스 국채'};
+/* 반원 계기판: 5칸, 바늘은 현재 칸 가운데 */
+function rdGauge(lv){
+  const cx = 130, cy = 136, r = 96, w = 22, seg = Math.PI / 5;
+  const pt = (a, rr) => [cx - rr * Math.cos(a), cy - rr * Math.sin(a)];
+  const arcs = RD_LV.map((x, i) => { const a0 = i * seg + 0.02, a1 = (i + 1) * seg - 0.02, [x0, y0] = pt(a0, r), [x1, y1] = pt(a1, r);
+    return `<path d="M${x0.toFixed(1)},${y0.toFixed(1)} A${r},${r} 0 0 1 ${x1.toFixed(1)},${y1.toFixed(1)}" stroke="${x.c}" stroke-width="${w}" fill="none" stroke-linecap="butt" opacity="${i === lv ? 1 : .22}"><title>${x.n}</title></path>`; }).join('');
+  const na = (lv + 0.5) * seg, [nx, ny] = pt(na, r - 30);
+  const lab = RD_LV.map((x, i) => { const [lx, ly] = pt((i + 0.5) * seg, r + 24); return `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="middle" class="rd-gl${i === lv ? ' on' : ''}">${x.n}</text>`; }).join('');
+  return `<svg viewBox="0 0 260 150" class="rd-gauge" role="img" aria-label="위험 신호등 ${RD_LV[lv].n}">${arcs}${lab}
+    <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="8" fill="var(--ink)"/><circle cx="${cx}" cy="${cy}" r="3" fill="var(--surface)"/></svg>`;
+}
+/* 레이더(거미줄) 차트: 지표마다 위험 단계 0~4 */
+function rdSpider(I, color){
+  const ks = RD_ORDER.filter(k => I[k]); const n = ks.length; if(n < 3) return '';
+  const cx = 200, cy = 150, R = 98, ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+  const P = (i, v) => [cx + Math.cos(ang(i)) * R * v / 4, cy + Math.sin(ang(i)) * R * v / 4];
+  const ring = v => ks.map((_, i) => P(i, v).map(x => x.toFixed(1)).join(',')).join(' ');
+  const rings = [1, 2, 3, 4].map(v => `<polygon points="${ring(v)}" fill="${v === 4 ? 'var(--bg)' : 'none'}" stroke="var(--line)" stroke-width="1"/>`).join('');
+  const spokes = ks.map((_, i) => { const [x, y] = P(i, 4); return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`; }).join('');
+  const poly = ks.map((k, i) => P(i, Math.max(.35, I[k].lv || 0)).map(x => x.toFixed(1)).join(',')).join(' ');
+  const dots = ks.map((k, i) => { const [x, y] = P(i, Math.max(.35, I[k].lv || 0)), L = RD_LV[I[k].lv || 0];
+    return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6" fill="${L.c}" stroke="var(--surface)" stroke-width="2"><title>${RD_SHORT[k]} · ${L.n} · ${rdVal(k, I[k])}</title></circle>`; }).join('');
+  const labels = ks.map((k, i) => { const [x, y] = P(i, 5.05), a = Math.cos(ang(i)); const anc = a > .3 ? 'start' : a < -.3 ? 'end' : 'middle', L = RD_LV[I[k].lv || 0];
+    return `<text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${anc}" class="rd-sl">${RD_SHORT[k]}</text><text x="${x.toFixed(1)}" y="${(y + 17).toFixed(1)}" text-anchor="${anc}" class="rd-sv">${L.n}</text>`; }).join('');
+  return `<svg viewBox="0 0 400 310" class="rd-spider" role="img" aria-label="지표별 위험 단계 레이더 차트">${rings}${spokes}
+    <polygon points="${poly}" fill="${color}" fill-opacity=".18" stroke="${color}" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}
+    ${[1, 2, 3, 4].map(v => `<text x="${cx + 3}" y="${(cy - R * v / 4 + 11).toFixed(1)}" class="rd-ring">${RD_LV[v].n}</text>`).join('')}</svg>`;
+}
+/* 5칸 단계 막대 */
+const rdMeter = lv => `<span class="rd-meter" aria-hidden="true">${RD_LV.map((x, i) => `<i style="background:${i <= lv ? RD_LV[lv].c : 'var(--line)'}"></i>`).join('')}</span>`;
+/* 지금 vs 과거 위기 최고치 (가로 막대 + 위기 눈금) */
+function rdBullet(k, o){
+  const m = RD_IND[k]; const pk = Object.keys(o.peaks || {}).length ? o.peaks : (m.fb || {});
+  const cr = ['gfc', 'covid'].filter(c => isNum(pk[c])); if(!cr.length || !isNum(o.v)) return '';
+  const lo = Math.min(0, o.v, ...cr.map(c => pk[c])), hi = Math.max(o.v, ...cr.map(c => pk[c])) * 1.08, X = v => (v - lo) / (hi - lo) * 100;
+  const L = RD_LV[o.lv || 0];
+  const ticks = cr.map((c, i) => `<span class="rd-tk${i % 2 ? ' dn' : ''}" style="left:${X(pk[c]).toFixed(1)}%"><b>${RD_CR[c]}</b><em class="num">${fmt(pk[c], 1)}</em></span>`).join('');
+  return `<div class="rd-bul"><div class="rd-bul-h"><b>${esc(m.n)}</b><span class="num"><i class="rd-dot" style="background:${L.c};margin-right:5px"></i>지금 <b>${rdVal(k, o)}</b></span></div>
+    <div class="rd-trk">${ticks}<i class="rd-now" style="width:${Math.max(2, X(o.v)).toFixed(1)}%;background:${L.c}"></i></div></div>`;
+}
+/* 1990년 이후 미국 기준금리·10년물과 위기 구간 */
+const RDH = {};
+function rdHistory(R){
+  const ff = R.ff || [], ty = R.ind?.rate?.m || []; if(ff.length < 24) return '';
+  const W = 420, H = 250, L = 30, Rg = 8, T = 40, B = 22, from = '1995-01', toT = Date.now();
+  const f = ff.filter(p => p[0] >= from), t = ty.filter(p => p[0] >= from);
+  const t0 = Date.parse(from + '-01'), X = d => L + (Date.parse(d) - t0) / (toT - t0) * (W - L - Rg);
+  const vmax = Math.ceil(Math.max(...f.map(p => p[1]), ...t.map(p => p[1]))), Y = v => T + (1 - v / vmax) * (H - T - B);
+  const line = pts => pts.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join('');
+  const bands = [['닷컴','2000-03-01','2002-10-01'],['금융위기','2007-10-01','2009-03-01'],['유럽','2011-07-01','2012-06-01'],['코로나','2020-02-15','2020-05-01'],['금리급등','2022-01-01','2022-10-15']];
+  const bh = bands.map(([n, a, b], i) => `<rect x="${X(a).toFixed(1)}" y="${T}" width="${Math.max(3, X(b) - X(a)).toFixed(1)}" height="${H - T - B}" fill="var(--bad)" opacity=".12"/><text x="${((X(a) + X(b)) / 2).toFixed(1)}" y="${T - (i % 2 ? 6 : 20)}" text-anchor="middle" class="rd-bl">${n}</text>`).join('');
+  const grid = Array.from({length: 5}, (_, i) => vmax * i / 4).map(v => `<line x1="${L}" x2="${W - Rg}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="var(--line)"/><text x="${L - 6}" y="${(Y(v) + 3.5).toFixed(1)}" text-anchor="end" class="rd-ax">${fmt(v, 0)}%</text>`).join('');
+  const years = [2000, 2010, 2020].map(y => `<text x="${X(y + '-01-01').toFixed(1)}" y="${H - 6}" text-anchor="middle" class="rd-ax">${y}</text>`).join('');
+  RDH.f = f; RDH.t = t; RDH.X = X; RDH.Y = Y; RDH.W = W;
+  return `<div class="rd-hwrap"><svg viewBox="0 0 ${W} ${H}" class="rd-hist-svg" role="img" aria-label="1995년 이후 미국 기준금리와 10년물 금리, 위기 구간">${bh}${grid}${years}
+    <path d="${line(t)}" fill="none" stroke="var(--c2)" stroke-width="2" stroke-linejoin="round"/>
+    <path d="${line(f)}" fill="none" stroke="var(--c1)" stroke-width="2" stroke-linejoin="round"/>
+    <line class="rd-cross" x1="0" x2="0" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" opacity="0"/>
+    <rect class="rd-hit" x="${L}" y="${T}" width="${W - L - Rg}" height="${H - T - B}" fill="transparent"/></svg><div class="rd-tip" hidden></div></div>
+    <div class="rd-legend"><span><i style="background:var(--c1)"></i>미국 기준금리</span><span><i style="background:var(--c2)"></i>미국 10년물 금리</span><span><i class="band"></i>위기 구간</span></div>`;
+}
+document.addEventListener('pointermove', e => {
+  const hit = e.target.closest?.('.rd-hit'); const wrap = document.querySelector('.rd-hwrap'); if(!wrap) return;
+  const tip = wrap.querySelector('.rd-tip'), cr = wrap.querySelector('.rd-cross');
+  if(!hit){ if(tip && !tip.hidden){ tip.hidden = true; cr.setAttribute('opacity', 0); } return; }
+  const svg = hit.ownerSVGElement, bx = svg.getBoundingClientRect(), x = (e.clientX - bx.left) / bx.width * RDH.W;
+  const near = arr => arr.reduce((a, p) => Math.abs(RDH.X(p[0]) - x) < Math.abs(RDH.X(a[0]) - x) ? p : a, arr[0]);
+  const f = near(RDH.f), t = near(RDH.t); cr.setAttribute('x1', RDH.X(f[0])); cr.setAttribute('x2', RDH.X(f[0])); cr.setAttribute('opacity', 1);
+  tip.hidden = false; tip.innerHTML = `<b>${f[0].slice(0, 7).replace('-', '년 ')}월</b><span><i style="background:var(--c1)"></i>기준금리 ${fmt(f[1], 2)}%</span><span><i style="background:var(--c2)"></i>10년물 ${fmt(t[1], 2)}%</span>`;
+  tip.style.left = Math.min(bx.width - 150, Math.max(0, e.clientX - bx.left + 12)) + 'px';
+});
+function rdTile(k, o){
+  const m = RD_IND[k], L = RD_LV[o.lv || 0];
   const sub = k === 'kospi' || k === 'spx' ? `지수 ${fmt(o.px, 0)} · 1년 최고 ${fmt(o.hi, 0)}${isNum(o.chg1w) ? ` · 1주 ${pct(o.chg1w)}` : ''}`
     : `${isNum(o.chg1y) ? `1년 변화 ${o.chg1y > 0 ? '+' : ''}${fmt(o.chg1y, 2)}` : ''}${isNum(o.pct) ? ` · 역대 위치 ${o.pct}/100` : ''}`;
-  return `<details class="rd-row"><summary>
-      <span class="rd-dot" style="background:${L.c}"></span>
-      <span class="rd-n"><b>${esc(m.n)}</b><small>${esc(o.why || '')}</small></span>
-      <span class="rd-v"><b class="num">${rdVal(k, o)}</b><small style="color:${L.c}">${L.n}</small></span>
+  return `<details class="rd-tile" style="--lc:${L.c}"><summary>
+      <span class="rd-th"><span>${esc(RD_SHORT[k])}</span><span class="rd-st"><i class="rd-dot" style="background:${L.c}"></i>${L.n}</span></span>
+      <b class="rd-tv num">${rdVal(k, o)}</b>
+      ${rdMeter(o.lv || 0)}
+      ${(o.w5 || []).length > 3 ? `<span class="rd-spk">${sparkline(o.w5, 150, 34)}</span>` : '<span class="rd-spk"></span>'}
     </summary>
-    <div class="rd-more">
-      <div class="small">${esc(m.d)}</div>
-      ${sub ? `<div class="small muted num" style="margin-top:4px">${sub}</div>` : ''}
-      ${ref ? `<div class="small muted" style="margin-top:4px">과거 위기 때 ${Object.keys(o.peaks || {}).length ? '' : '(약) '}${ref}</div>` : ''}
-      ${(o.w5 || []).length > 3 ? `<div style="margin-top:6px">${sparkline(o.w5, 280, 44)}</div>` : ''}
-      <div class="small muted" style="margin-top:2px">기준일 ${esc(o.date || '')}</div>
-    </div></details>`;
+    <div class="rd-tmore"><b>${esc(m.n)}</b><p>${esc(o.why || '')}</p><p class="muted">${esc(m.d)}</p>${sub ? `<p class="muted num">${sub}</p>` : ''}<p class="muted">기준일 ${esc(o.date || '')}</p></div></details>`;
 }
+const dday = d => { const n = Math.round((Date.parse(d) - Date.parse(today())) / 864e5); return n === 0 ? 'D-DAY' : n > 0 ? `D-${n}` : `D+${-n}`; };
 function viewRadar(){
   const R = S.radar;
   if(!R || !R.ind) return `<h2>경제 레이더</h2><div class="card empty">레이더 자료는 매일 아침 자동으로 채워집니다.</div>`;
   const lv = rdLevel(R) ?? 0, L = RD_LV[lv], I = R.ind;
-  const ranked = Object.entries(I).filter(([k]) => RD_IND[k]).sort((a, b) => (b[1].lv || 0) - (a[1].lv || 0));
-  const hot = ranked.filter(([, o]) => o.lv >= 3).map(([k]) => RD_IND[k].n);
-  const autoLine = hot.length ? `${hot.slice(0, 3).join(', ')}에서 경계 이상 신호가 켜져 있습니다.` : L.s;
+  const hot = RD_ORDER.filter(k => I[k] && I[k].lv >= 3).map(k => RD_SHORT[k]);
+  const cnt = [0, 1, 2, 3, 4].map(v => Object.values(I).filter(o => (o.lv || 0) === v).length);
   const groups = ['금융 스트레스', '금리·경기', '주식시장', '해외'];
-  const pos = (lv + 0.5) / 5 * 100;
+  const bul = ['vix', 'hy', 'stress', 'sahm'].filter(k => I[k]).map(k => rdBullet(k, I[k])).join('');
   return `
   <div class="row" style="justify-content:space-between;align-items:baseline;margin-top:16px"><h2 style="margin:0">경제 레이더</h2><span class="small muted num">${esc(String(R.autoAt || '').slice(0, 10))} 기준</span></div>
   <div class="card rd-hero" style="--lc:${L.c}">
-    <div class="rd-top"><span class="rd-big">${L.n}</span><span class="small muted">지표 ${Object.keys(I).length}개 중 경계 이상 ${Object.values(I).filter(o => o.lv >= 3).length}개</span></div>
-    <div class="rd-bar">${RD_LV.map((x, i) => `<i style="background:${x.c};opacity:${i === lv ? 1 : .28}"></i>`).join('')}<b style="left:${pos}%"></b></div>
-    <div class="rd-lbl">${RD_LV.map(x => `<span>${x.n}</span>`).join('')}</div>
-    <p class="rd-out">${esc(R.outlook || autoLine)}</p>
+    ${rdGauge(lv)}
+    <div class="rd-big">${L.n}</div>
+    <div class="rd-cnt">${cnt.map((c, i) => c ? `<span><i class="rd-dot" style="background:${RD_LV[i].c}"></i>${RD_LV[i].n} ${c}</span>` : '').join('')}</div>
+    <p class="rd-out">${esc(R.headline || (hot.length ? `${hot.join(', ')}에서 경계 이상 신호` : L.s))}</p>
   </div>
-  <h3 class="eyebrow guide-h">리스크 관리 · 지금 할 일</h3>
-  <div class="card rd-do">${RD_DO[lv].map(t => `<div><span class="rd-dot" style="background:${L.c}"></span><span>${esc(t)}</span></div>`).join('')}</div>
-  ${(R.events || []).length ? `<h3 class="eyebrow guide-h">최근 위험 신호 <span class="muted" style="text-transform:none;letter-spacing:0">${esc(R.eventsAt || '')}</span></h3>
-  <div class="card rd-ev">${R.events.map(e => `<div class="rd-e"><span class="rd-dot" style="background:${(RD_LV[e.level] || RD_LV[2]).c}"></span><div><b>${esc(e.title)}</b>${e.region ? ` <span class="pill">${esc(e.region)}</span>` : ''}<p class="small" style="margin:3px 0 0">${esc(e.body || '')}</p><span class="small muted num">${esc(e.date || '')}</span></div></div>`).join('')}</div>` : ''}
-  ${(R.upcoming || []).length ? `<h3 class="eyebrow guide-h">앞두고 있는 위험 일정</h3>
-  <div class="card stack">${R.upcoming.map(u => `<div class="row" style="gap:10px;align-items:baseline"><b class="num small" style="min-width:44px">${+String(u.date).slice(5, 7)}/${+String(u.date).slice(8, 10)}</b><span class="small"><b>${esc(u.event)}</b>${u.why ? ` <span class="muted">${esc(u.why)}</span>` : ''}</span></div>`).join('')}</div>` : ''}
-  ${groups.map(g => { const rows = ranked.filter(([k]) => RD_IND[k].g === g); return rows.length ? `<h3 class="eyebrow guide-h">${g}</h3><div class="card rd-list">${rows.map(([k, o]) => rdRow(k, o)).join('')}</div>` : ''; }).join('')}
-  <h3 class="eyebrow guide-h">과거 위기는 이렇게 왔습니다</h3>
-  <div class="card tbl rd-hist"><table><thead><tr><th>위기</th><th>직전 미국 기준금리</th><th>무엇이 터졌나</th><th>미국 주가 최대 낙폭</th></tr></thead><tbody>
-    <tr><td><b>닷컴 버블</b><br><small class="muted">2000~2002</small></td><td>6.5%</td><td>이익 없는 기술주 과열 붕괴</td><td class="num">약 −49%</td></tr>
-    <tr><td><b>글로벌 금융위기</b><br><small class="muted">2007~2009</small></td><td>5.25%</td><td>주택담보대출 부실, 대형 투자은행 파산</td><td class="num">약 −57%</td></tr>
-    <tr><td><b>유럽 재정위기</b><br><small class="muted">2010~2012</small></td><td>0~0.25% (유럽 국채금리 급등)</td><td>그리스·이탈리아 등 국가 부채 불안</td><td class="num">약 −19%</td></tr>
-    <tr><td><b>코로나 충격</b><br><small class="muted">2020</small></td><td>1.5~1.75%</td><td>전염병으로 경제 정지</td><td class="num">약 −34%</td></tr>
-    <tr><td><b>금리 급등장</b><br><small class="muted">2022~2023</small></td><td>0% → 4.5%</td><td>물가 급등과 빠른 금리 인상, 미국 지역은행 파산</td><td class="num">약 −25%</td></tr>
-  </tbody></table>
-  <p class="small muted" style="margin:10px 4px 2px">대부분의 큰 위기는 금리가 높아지거나 빠르게 오른 뒤에 왔습니다. 빚이 많은 곳이 먼저 무너졌고, 미리 현금을 남겨 둔 투자자가 기회를 잡았습니다.</p></div>
-  <p class="small muted" style="margin-top:12px">레이더는 미국 연준 경제자료(FRED), 지수 종가, 주간 조사를 바탕으로 매일 자동 계산합니다. 위기를 예측하는 도구가 아니라 조심할 때를 알려 주는 계기판입니다. 신호등이 바뀌는 기준은 지표마다 정해 둔 구간이며, 투자 권유가 아닙니다.</p>`;
+  <div class="card rd-sp-card"><div class="rd-sec-h"><b>지표 10개 한눈에</b><span class="small muted">바깥으로 갈수록 위험</span></div>${rdSpider(I, L.c)}</div>
+  <div class="card rd-do" style="--lc:${L.c}"><div class="rd-sec-h"><b>${L.n} 단계 · 지금 할 일</b></div>${RD_DO[lv].map((t, i) => `<div><span class="rd-no">${i + 1}</span><span>${esc(t)}</span></div>`).join('')}${R.outlook ? `<p class="small muted rd-ol">${esc(R.outlook)}</p>` : ''}</div>
+  ${(R.events || []).length ? `<div class="rd-sec-h out"><b>최근 위험 신호</b><span class="small muted">${esc(R.eventsAt || '')}</span></div>
+  <div class="card rd-tl">${R.events.map(e => { const E = RD_LV[e.level] || RD_LV[2]; return `<div class="rd-ti"><span class="rd-td num">${+String(e.date).slice(5, 7)}/${+String(e.date).slice(8, 10)}</span><span class="rd-tn" style="--d:${8 + (e.level || 2) * 3}px;background:${E.c}"></span><div><div class="rd-tt"><b>${esc(e.title)}</b>${e.region ? `<span class="rd-rg">${esc(e.region)}</span>` : ''}<span class="rd-lvp">${E.n}</span></div><p>${esc(e.body || '')}</p></div></div>`; }).join('')}</div>` : ''}
+  ${(R.upcoming || []).length ? `<div class="rd-sec-h out"><b>다가오는 위험 일정</b></div>
+  <div class="rd-up">${R.upcoming.map(u => `<div class="card rd-uc"><span class="rd-dd num">${dday(u.date)}</span><b>${esc(u.event)}</b><span class="small muted">${+String(u.date).slice(5, 7)}월 ${+String(u.date).slice(8, 10)}일</span>${u.why ? `<span class="small">${esc(u.why)}</span>` : ''}</div>`).join('')}</div>` : ''}
+  ${groups.map(g => { const ks = RD_ORDER.filter(k => I[k] && RD_IND[k].g === g); return ks.length ? `<div class="rd-sec-h out"><b>${g}</b></div><div class="rd-tiles">${ks.map(k => rdTile(k, I[k])).join('')}</div>` : ''; }).join('')}
+  ${bul ? `<div class="rd-sec-h out"><b>지금 vs 과거 위기</b><span class="small muted">눈금은 위기 때 최고치</span></div><div class="card rd-buls">${bul}</div>` : ''}
+  ${R.ff ? `<div class="rd-sec-h out"><b>금리가 높아진 뒤 위기가 왔습니다</b></div><div class="card">${rdHistory(R)}
+    <div class="rd-cr">${[['닷컴 버블','2000~02','6.5%','약 −49%'],['금융위기','2007~09','5.25%','약 −57%'],['유럽 재정위기','2010~12','0~0.25%','약 −19%'],['코로나','2020','1.5~1.75%','약 −34%'],['금리 급등','2022~23','0→4.5%','약 −25%']].map(([n, y, r, d]) => `<div><b>${n}</b><span class="small muted">${y}</span><span class="small">직전 금리 <b class="num">${r}</b></span><span class="rd-dd2 num">${d}</span></div>`).join('')}</div>
+    <p class="small muted" style="margin:8px 2px 0">아래 숫자는 위기 직전 미국 기준금리와 미국 주가의 최대 낙폭입니다.</p></div>` : ''}
+  <p class="small muted" style="margin-top:12px">자료: 미국 연준 경제자료(FRED), 지수 종가, 평일 아침 위험 신호 조사. 위기를 맞히는 도구가 아니라 조심할 때를 알려 주는 계기판이며, 투자 권유가 아닙니다.</p>`;
 }
 
 /* ============ 엔화 효과 ============ */
@@ -5041,18 +5103,18 @@ function refresh(kind){
   --bg:#F5F3EE; --surface:#FFFFFF; --ink:#0E1A2B; --muted:#646E7E; --line:#E6E1D6;
   --accent:#2D7A5F; --accent-soft:#E3F0EA; --warn:#A8761C; --warn-soft:#F7EDD8;
   --bad:#C0392B; --bad-soft:#F8E3E0; --up:#D23C3C; --down:#2E64C8;
-  --r:16px;
+  --r:16px; --c1:#3E6AA8; --c2:#B8862E;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --navy:#070C15; --navy-2:#111B2B; --gold:#D8B56E; --gold-soft:#2A2416;
   --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
   --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E2412;
-  --bad:#F07D70; --bad-soft:#331B18; --up:#FF7171; --down:#78A6FF; color-scheme:dark}}
+  --bad:#F07D70; --bad-soft:#331B18; --up:#FF7171; --down:#78A6FF; --c1:#5F8FDB; color-scheme:dark}}
 :root[data-theme="dark"]{
   --navy:#070C15; --navy-2:#111B2B; --gold:#D8B56E; --gold-soft:#2A2416;
   --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
   --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E2412;
-  --bad:#F07D70; --bad-soft:#331B18; --up:#FF7171; --down:#78A6FF; color-scheme:dark}
+  --bad:#F07D70; --bad-soft:#331B18; --up:#FF7171; --down:#78A6FF; --c1:#5F8FDB; color-scheme:dark}
 
 html,body{margin:0;padding:0}
 body{font-family:var(--font);letter-spacing:-.01em;background:var(--bg)}
@@ -5345,7 +5407,76 @@ input,select,textarea{border-radius:10px}
 .rd-chip{all:unset;box-sizing:border-box;cursor:pointer;width:100%;margin-top:16px;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
 .rd-chip>span:nth-child(2){flex:1;min-width:0;font-size:14px;line-height:1.45}
 .rd-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;display:inline-block}
-.rd-hero{margin-top:10px;border-color:var(--lc);box-shadow:0 0 0 1px var(--lc) inset}
+.rd-hero{margin-top:10px;border-color:var(--lc);box-shadow:0 0 0 1px var(--lc) inset;text-align:center;padding-top:14px}
+.rd-gauge{width:100%;max-width:300px;display:block;margin:0 auto}
+.rd-gl{font-size:10.5px;fill:var(--muted);font-family:var(--font)}
+.rd-gl.on{font-weight:800;fill:var(--ink)}
+.rd-hero .rd-big{font-size:34px;font-weight:800;letter-spacing:-.03em;color:var(--lc);margin-top:-6px}
+.rd-cnt{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 12px;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.rd-cnt span{display:inline-flex;align-items:center;gap:5px}
+.rd-sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.rd-sec-h b{font-size:15px}
+.rd-sec-h.out{margin:22px 2px 8px}
+.rd-sp-card{margin-top:12px}
+.rd-spider{width:100%;max-width:420px;display:block;margin:0 auto}
+.rd-sl{font-size:12.5px;font-weight:700;fill:var(--ink);font-family:var(--font)}
+.rd-sv{font-size:10.5px;font-weight:600;fill:var(--muted);font-family:var(--font)}
+.rd-ring{font-size:9px;fill:var(--muted);font-family:var(--font)}
+.rd-no{width:22px;height:22px;border-radius:50%;background:var(--lc);color:#FFFFFF;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+.rd-ol{margin:4px 0 0;padding-top:10px;border-top:1px solid var(--line);line-height:1.6}
+.rd-tl{display:flex;flex-direction:column;gap:0;padding:6px 14px}
+.rd-ti{display:grid;grid-template-columns:40px 22px 1fr;gap:8px;align-items:start;padding:10px 0;position:relative}
+.rd-ti:not(:last-child)::after{content:"";position:absolute;left:50px;top:30px;bottom:-10px;width:2px;background:var(--line)}
+.rd-td{font-size:12px;color:var(--muted);padding-top:2px}
+.rd-tn{width:var(--d);height:var(--d);border-radius:50%;justify-self:center;margin-top:3px;box-shadow:0 0 0 3px var(--surface)}
+.rd-tt{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.rd-tt b{font-size:14.5px}
+.rd-rg{font-size:11px;padding:1px 7px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.rd-lvp{font-size:11.5px;font-weight:700;color:var(--muted)}
+.rd-ti p{margin:3px 0 0;font-size:13px;line-height:1.55;color:var(--ink)}
+.rd-up{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.rd-uc{flex:0 0 150px;display:flex;flex-direction:column;gap:4px;padding:12px}
+.rd-uc b{font-size:14px;line-height:1.35}
+.rd-dd{align-self:flex-start;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--navy);color:#FFFFFF}
+.rd-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.rd-tile{background:var(--surface);border:1px solid var(--line);border-radius:16px;border-top:3px solid var(--lc)}
+.rd-tile summary{list-style:none;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:12px 12px 10px}
+.rd-tile summary::-webkit-details-marker{display:none}
+.rd-th{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.rd-st{display:inline-flex;align-items:center;gap:4px;color:var(--ink);font-size:11.5px}
+.rd-tv{font-size:22px;letter-spacing:-.02em}
+.rd-meter{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.rd-meter i{height:5px;border-radius:3px;display:block}
+.rd-spk svg{width:100%;height:34px;display:block}
+.rd-tmore{padding:0 12px 12px;font-size:12.5px;line-height:1.55}
+.rd-tmore p{margin:4px 0 0}
+.rd-tile[open]{grid-column:1/-1}
+.rd-buls{display:flex;flex-direction:column;gap:22px;padding-top:22px}
+.rd-bul-h{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;margin-bottom:36px}
+.rd-trk{position:relative;height:12px;border-radius:6px;background:var(--bg);border:1px solid var(--line)}
+.rd-now{position:absolute;left:0;top:0;bottom:0;border-radius:6px;display:block}
+.rd-tk{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);opacity:.75}
+.rd-tk b,.rd-tk em{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;font-style:normal;font-size:10.5px}
+.rd-tk b{bottom:100%;margin-bottom:12px;font-weight:700;color:var(--ink)}
+.rd-tk em{bottom:100%;margin-bottom:0;color:var(--muted)}
+.rd-tk.dn b{top:100%;bottom:auto;margin:2px 0 0}
+.rd-tk.dn em{top:100%;bottom:auto;margin:15px 0 0}
+.rd-buls .rd-bul{padding-bottom:22px}
+.rd-hwrap{position:relative}
+.rd-hist-svg{width:100%;display:block}
+.rd-ax{font-size:10.5px;fill:var(--muted);font-family:var(--font)}
+.rd-bl{font-size:10.5px;fill:var(--bad);font-weight:700;font-family:var(--font)}
+.rd-tip[hidden]{display:none}
+.rd-tip{position:absolute;top:6px;background:var(--navy);color:#F3EEE3;border-radius:10px;padding:8px 10px;font-size:12px;display:flex;flex-direction:column;gap:2px;pointer-events:none;min-width:130px}
+.rd-tip span{display:flex;align-items:center;gap:6px}
+.rd-tip i,.rd-legend i{width:10px;height:3px;border-radius:2px;display:inline-block}
+.rd-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-top:6px}
+.rd-legend span{display:inline-flex;align-items:center;gap:6px}
+.rd-legend i.band{height:10px;width:12px;background:var(--bad);opacity:.18}
+.rd-cr{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px}
+.rd-cr>div{background:var(--bg);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:2px}
+.rd-cr b{font-size:13px}
+.rd-dd2{font-size:16px;font-weight:800;color:var(--bad)}
 .rd-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .rd-big{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--lc)}
 .rd-bar{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:14px}
@@ -5354,7 +5485,8 @@ input,select,textarea{border-radius:10px}
 .rd-lbl{display:grid;grid-template-columns:repeat(5,1fr);font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
 .rd-out{margin:14px 0 0;font-size:15px;line-height:1.65;font-weight:600}
 .rd-do{display:flex;flex-direction:column;gap:10px}
-.rd-do>div,.rd-e{display:grid;grid-template-columns:12px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.6}
+.rd-do>div,.rd-e{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.6}
+.rd-do>div.rd-sec-h{display:flex;margin-bottom:2px}
 .rd-do .rd-dot,.rd-e .rd-dot{margin-top:7px}
 .rd-ev{display:flex;flex-direction:column;gap:12px}
 .rd-list{padding:4px 14px}

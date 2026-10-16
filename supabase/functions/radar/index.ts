@@ -101,7 +101,8 @@ Deno.serve(async (_req: Request) => {
     if (overall !== null) { if (lvs.some((v) => v >= 4)) overall = Math.max(overall, 3); if (lvs.filter((v) => v >= 3).length >= 2) overall = Math.max(overall, 2); }
     const { data: old } = await sb.from("docs").select("data").eq("owner", owner).eq("collection", "fx").eq("id", "radar").maybeSingle();
     const hist = [...(((old?.data as any)?.hist) || []).filter((h: any) => h.d !== new Date().toISOString().slice(0, 10)), { d: new Date().toISOString().slice(0, 10), s: score, o: overall }].slice(-400);
-    const data = { ...(old?.data || {}), ind, score, overall, hist, autoAt: new Date().toISOString(), fails };
+    const ffp = await fred("FEDFUNDS", "1990-01-01"); // 과거 위기 비교용 미국 기준금리(월평균)
+    const data = { ...(old?.data || {}), ind, score, overall, hist, ...(ffp ? { ff: monthly(ffp) } : {}), autoAt: new Date().toISOString(), fails };
     const { error } = await sb.from("docs").upsert({ owner, collection: "fx", id: "radar", data, updated_at: new Date().toISOString() }, { onConflict: "owner,collection,id" });
     if (error) throw error;
     return Response.json({ ok: true, score, overall, got: Object.keys(ind), fails });
