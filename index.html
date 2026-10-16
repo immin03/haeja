@@ -5195,7 +5195,8 @@ function refresh(kind){
   const y = window.scrollY; render(); if(S.tab==='analyze') updateEval(); window.scrollTo(0,y);
 }
 (async function start(){
-  try{ let t = localStorage.getItem('ml-tab'); if(t === 'rules' || t === 'validation'){ S.refSub = t; t = 'ref'; } if(t === 'screener' || t === 'analyze') t = 'companies'; if(t) S.tab = t; }catch(_){}
+  /* 앱을 열거나 새로고침하면 항상 포트폴리오 › 현황에서 시작한다(마지막 탭 복원 안 함). */
+  S.tab = 'portfolio'; try{ localStorage.removeItem('ml-tab'); }catch(_){}
   await store.init();
   if(store.mode !== 'db' && store.mode !== 'guest'){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = loginView(); bindLogin(); hideSplash(); return; }
   if(store.mode === 'db'){ const { count } = await store.client.from('docs').select('id', { count: 'exact', head: true });
