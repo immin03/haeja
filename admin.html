@@ -355,12 +355,12 @@ function vSocial(){
   const done = SOC.posts.filter(p => (!p.to_ig || p.ig_status === 'posted') && (!p.to_threads || p.th_status === 'posted')).length;
   const rows = SOC.posts.map(p => `<tr>
     <td><img src="${esc((p.images && p.images[0]) || '')}" alt="" loading="lazy"></td>
-    <td class="nw"><b>#${esc(p.id)}</b><div class="muted" style="font-size:12px">${p.to_ig ? '★ 인스타+쓰레드' : '쓰레드'}</div></td>
+    <td class="nw"><b>${/^D/.test(p.id) ? '오늘 이슈' : '#' + esc(p.id)}</b><div class="muted" style="font-size:12px">${p.to_ig ? '★ 인스타+쓰레드' : '쓰레드'}</div></td>
     <td>${esc(p.title)}<div class="muted" style="font-size:12px">${p.images.length}장</div></td>
     <td><input type="datetime-local" value="${kstInput(p.scheduled_at)}" data-soc-time="${esc(p.id)}"></td>
-    <td>${p.to_ig ? chip(p.ig_status, p.ig_permalink, p.ig_error, '인스타') + ' ' : ''}${chip(p.th_status, p.th_permalink, p.th_error, '쓰레드')}${p.paused ? ' <span class="st">보류</span>' : ''}
+    <td>${p.to_ig ? chip(p.ig_status, p.ig_permalink, p.ig_error, '인스타') + ' ' : ''}${chip(p.th_status, p.th_permalink, p.th_error, '쓰레드')}${p.paused ? ' <span class="st">보류</span>' : ''}${p.approved === false ? ' <span class="st run">승인 대기</span>' : ''}
       ${p.ig_error || p.th_error ? `<div class="muted" style="font-size:11px;margin-top:4px">${esc(p.ig_error || p.th_error)}</div>` : ''}</td>
-    <td><div class="a">${(!p.to_ig || p.ig_status === 'posted') && p.th_status === 'posted' ? '' : `<button data-soc-now="${esc(p.id)}">지금 올리기</button>`}<button data-soc-hold="${esc(p.id)}">${p.paused ? '재개' : '보류'}</button></div></td></tr>`).join('');
+    <td><div class="a">${p.approved === false ? `<button data-soc-ok="${esc(p.id)}" style="background:var(--ink);color:var(--surface);border-color:var(--ink)">승인</button>` : ''}${(!p.to_ig || p.ig_status === 'posted') && p.th_status === 'posted' ? '' : `<button data-soc-now="${esc(p.id)}">지금 올리기</button>`}<button data-soc-hold="${esc(p.id)}">${p.paused ? '재개' : '보류'}</button></div></td></tr>`).join('');
   return `${head('SNS 게시', `카드뉴스 ${SOC.posts.length}편 중 ${done}편 게시 완료 · 시간이 되면 5분 안에 자동으로 올라가요 (같은 채널은 최소 90분 간격)`, 'social')}
   ${SOC.flash ? `<div class="soc-flash ${SOC.flash[0]}">${esc(SOC.flash[1])}</div>` : ''}
   <div class="soc-acc">${card('instagram', '인스타그램')}${card('threads', '쓰레드')}</div>
@@ -384,6 +384,8 @@ function bindSocial(){
   document.querySelectorAll('[data-soc-time]').forEach(i => i.onchange = async () => {
     const { error } = await sb.from('social_posts').update({ scheduled_at: fromKst(i.value) }).eq('id', i.dataset.socTime);
     msg(error ? '시간을 바꾸지 못했습니다: ' + error.message : `#${i.dataset.socTime} 시간을 바꿨습니다.`); });
+  document.querySelectorAll('[data-soc-ok]').forEach(b => b.onclick = async () => {
+    await sb.from('social_posts').update({ approved: true }).eq('id', b.dataset.socOk); SOC.busy = `#${b.dataset.socOk} 승인했습니다. 시간이 되면 올라갑니다.`; socLoad(); });
   document.querySelectorAll('[data-soc-hold]').forEach(b => b.onclick = async () => {
     const p = SOC.posts.find(x => x.id === b.dataset.socHold);
     await sb.from('social_posts').update({ paused: !p.paused }).eq('id', p.id); socLoad(); });
