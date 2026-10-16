@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="그레이엄·버핏·멍거의 기준으로 회사를 평가하고, 적정 매수가와 포트폴리오 원칙을 관리하는 가치투자 노트.">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="ValueNote">
-<meta property="og:title" content="ValueNote · 거인의 어깨 위에서 멀리 보는 투자">
+<meta property="og:site_name" content="밸류노트 ValueNote">
+<meta property="og:title" content="밸류노트 ValueNote · 거인의 어깨 위에서 멀리 보는 투자">
 <meta property="og:description" content="좋은 회사를 적정한 가격에 사서 오래 보유하는 투자. 600여 개 기업을 같은 기준으로 비교하고 적정 매수가에 오면 알려 줍니다.">
 <meta property="og:image" content="/og.png">
 <meta property="og:image:width" content="1200">
@@ -41,8 +41,8 @@
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
-<title>ValueNote</title>
+<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-name">밸류노트</div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
+<title>밸류노트 ValueNote</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -673,7 +673,7 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark" aria-label="ValueNote 홈으로"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">On the Shoulders of Giants</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark" aria-label="ValueNote 홈으로"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub"><b class="ko-name">밸류노트</b> · On the Shoulders of Giants</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -1010,7 +1010,7 @@ const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
+    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub"><b class="ko-name">밸류노트</b> · On the Shoulders of Giants</div>
       <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p><p class="login-why">종목을 찍어 주지 않습니다. 공개된 기준으로 내 판단을 점검합니다.</p></div>
     <div class="card stack login-card">
     ${kakaoBtnHtml()}<div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
@@ -1197,7 +1197,7 @@ const isMobile = () => /iPhone|iPad|iPod|Android/.test(navigator.userAgent);
 function blockedHelp(){
   const u = navigator.userAgent;
   if(/Firefox\//.test(u)) return '주소창 왼쪽 자물쇠 → 연결 보안 → 알림 권한에서 "차단 해제" 후 새로고침하세요.';
-  if(/Safari\//.test(u) && !/Chrome\//.test(u)) return isMobile() ? '설정 앱 → 알림 → ValueNote에서 알림을 허용하세요.' : 'Safari 메뉴 → 설정 → 웹사이트 → 알림에서 이 사이트를 "허용"으로 바꾸세요.';
+  if(/Safari\//.test(u) && !/Chrome\//.test(u)) return isMobile() ? '설정 앱 → 알림 → 밸류노트에서 알림을 허용하세요.' : 'Safari 메뉴 → 설정 → 웹사이트 → 알림에서 이 사이트를 "허용"으로 바꾸세요.';
   return '주소창 왼쪽 사이트 정보 아이콘 → 알림 → "허용"으로 바꾼 뒤 새로고침하세요.';
 }
 let mySubId = null;
@@ -1233,7 +1233,7 @@ async function enablePush(){
   const msg = document.getElementById('al-msg');
   const say = t => { if(msg) msg.textContent = t; };
   try{
-    if(pushState === 'ios-install'){ say('아이폰·아이패드는 Safari 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 ValueNote 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
+    if(pushState === 'ios-install'){ say('아이폰·아이패드는 Safari 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 밸류노트 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
     if(pushState === 'unsupported'){ say('이 브라우저는 알림을 지원하지 않습니다. Chrome, Edge, Safari, Firefox 최신 버전에서 열어 주세요.'); return; }
     say('브라우저에서 알림 허용을 눌러 주세요');
     const perm = await Notification.requestPermission();
@@ -1244,7 +1244,7 @@ async function enablePush(){
     await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() });
     try{ localStorage.setItem('vn-push-'+(store.user?.id||''),'1'); }catch(_){}
     pushState = 'on';
-    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 ValueNote 알림을 받습니다.', read: false, source: '설정' });
+    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 밸류노트 알림을 받습니다.', read: false, source: '설정' });
     await loadSubs(); say(''); render();
   }catch(e){ say('연결하지 못했습니다: ' + (e.message || e)); }
 }
@@ -1622,7 +1622,7 @@ function onboardHtml(){
     <h2 class="intro-t">어떤 투자자인지 알려 주세요</h2>
     <p class="small muted" style="margin:0 0 14px">답에 맞춰 후보 정렬과 제안을 바꿔 드립니다. 나중에 계정에서 고칠 수 있습니다.</p>
     <div class="intro-b">${invQHtml(['expect','size','markets','count','style','goal','horizon','exp'])}
-      <label class="f" style="margin-top:14px">그 밖에 ValueNote에 바라는 점 <span class="muted">(선택)</span><textarea id="onb-note" rows="2" maxlength="300" placeholder="예: 미국 주식 배당 정보를 더 보고 싶어요">${esc(S.__onbNote ?? v.expectNote ?? '')}</textarea></label></div>
+      <label class="f" style="margin-top:14px">그 밖에 밸류노트에 바라는 점 <span class="muted">(선택)</span><textarea id="onb-note" rows="2" maxlength="300" placeholder="예: 미국 주식 배당 정보를 더 보고 싶어요">${esc(S.__onbNote ?? v.expectNote ?? '')}</textarea></label></div>
     <div class="intro-nav" style="justify-content:space-between;align-items:center"><span class="small muted">${ok ? '' : '* 기대하는 점·투자 규모·성향은 꼭 골라 주세요'}</span><button type="button" class="btn primary" data-onb="done" ${ok ? '' : 'disabled'}>시작하기</button></div>
   </div></div>`;
 }
@@ -1679,7 +1679,7 @@ document.addEventListener('click', e => {
 function demoBar(){ return store.isDemo ? `<div class="demo-bar"><b>체험 계정</b><span>예시 데이터로 만든 계정입니다. 실제 투자 기록이 아니며 바꾼 내용은 저장되지 않습니다.</span><button type="button" class="linkbtn" onclick="store.client.auth.signOut().then(()=>location.href='/?signup')">내 계정 만들기</button></div>` : ''; }
 /* ============ 투자 고지 (면책) ============
    ① 처음 한 번 동의(필수)  ② 모든 화면 하단 한 줄  ③ 종목·알림 화면 추정치 안내 */
-const DISC_FULL = 'ValueNote는 공개된 재무 데이터와 사용자가 설정한 기준에 따라 수치를 계산해 보여주는 정보 정리 도구입니다. ValueNote는 「자본시장과 금융투자업에 관한 법률」에 따른 투자자문업자 또는 유사투자자문업자가 아니며, 특정 금융투자상품의 매수·매도를 권유하거나 투자 판단을 대신하지 않습니다. 표시되는 적정 가격, 적정 매수가, 상승 여력 등은 과거 데이터와 가정에 기반한 추정치로 미래 수익을 보장하지 않으며, 데이터에는 오류나 지연이 있을 수 있습니다. 모든 투자 판단과 그 결과에 대한 책임은 이용자 본인에게 있습니다.';
+const DISC_FULL = '밸류노트(ValueNote)는 공개된 재무 데이터와 사용자가 설정한 기준에 따라 수치를 계산해 보여주는 정보 정리 도구입니다. ValueNote는 「자본시장과 금융투자업에 관한 법률」에 따른 투자자문업자 또는 유사투자자문업자가 아니며, 특정 금융투자상품의 매수·매도를 권유하거나 투자 판단을 대신하지 않습니다. 표시되는 적정 가격, 적정 매수가, 상승 여력 등은 과거 데이터와 가정에 기반한 추정치로 미래 수익을 보장하지 않으며, 데이터에는 오류나 지연이 있을 수 있습니다. 모든 투자 판단과 그 결과에 대한 책임은 이용자 본인에게 있습니다.';
 const DISC_LINE = '본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다.';
 const DISC_EST = '표시되는 가격·상승 여력은 추정치이며 수익을 보장하지 않습니다.';
 const consentLocal = () => { try{ return localStorage.getItem('vn-consent-v1-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
@@ -2517,7 +2517,7 @@ function newsletterBox(){
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
-    <article class="card col-art"><div class="eyebrow">ValueNote 칼럼</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))} · ValueNote 주간 칼럼</div>
+    <article class="card col-art"><div class="eyebrow">밸류노트 칼럼</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))} · 밸류노트 주간 칼럼</div>
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
       ${(open.sources || []).length ? `<div class="small muted col-src">출처 ${open.sources.slice(0, 6).map((u, i) => { try{ return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(new URL(u).hostname.replace(/^www\./, ''))}</a>`; }catch(_){ return ''; } }).filter(Boolean).join(' · ')}</div>` : ''}
       <p class="small muted col-disc">공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
@@ -3591,7 +3591,7 @@ function applyDemo(){
 }
 /* ===== 투자자 자기 점검 (맞춤 제안용) ===== */
 const INV_Q = [
-  {k:'expect', q:'ValueNote에 가장 기대하는 것은? (여러 개 선택)', multi:true, o:['좋은 회사 고르는 기준','적정 매수가·매수 시점 알림','내 포트폴리오 점검','보유 종목 뉴스 요약','투자 원칙·습관 만들기','가치투자 공부']},
+  {k:'expect', q:'밸류노트에 가장 기대하는 것은? (여러 개 선택)', multi:true, o:['좋은 회사 고르는 기준','적정 매수가·매수 시점 알림','내 포트폴리오 점검','보유 종목 뉴스 요약','투자 원칙·습관 만들기','가치투자 공부']},
   {k:'size', q:'투자 규모는?', o:['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상']},
   {k:'count', q:'지금 보유 종목 수는?', o:['아직 없음','1~3개','4~7개','8~15개','16개 이상']},
   {k:'markets', q:'어느 시장에 투자하나요? (여러 개 선택)', multi:true, o:['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드']},
@@ -3715,7 +3715,7 @@ function viewWatchlist(){
   ${mine.length ? `<div class="stack" style="gap:10px">${mine.map(watchCard).join('')}</div>
     <p class="small muted" style="margin-top:8px">1주·1달 점수 변화는 재무는 그대로 두고 그때 가격으로 다시 계산한 값입니다. 막대가 오른쪽 끝에 닿으면 적정 매수가에 도달한 것입니다.</p>`
     : `<div class="card empty" style="text-align:left"><b>아직 관심 종목이 없습니다</b><p class="small muted" style="margin:6px 0 12px">기업 목록이나 기업 화면에서 ☆을 누르면 여기에 모입니다.</p><button class="btn primary" data-act="go-tab" data-v="companies">기업 목록 보기</button></div>`}
-  ${auto.length ? `<h3 class="eyebrow guide-h">ValueNote가 고른 후보 <span class="muted" style="font-weight:400">· 매주 월요일 갱신</span></h3>
+  ${auto.length ? `<h3 class="eyebrow guide-h">밸류노트가 고른 후보 <span class="muted" style="font-weight:400">· 매주 월요일 갱신</span></h3>
     <div class="card wl-auto">${auto.map(c => { const ev = evaluate(c); return `<div class="wl-arow"><button type="button" class="wl-name" data-act="pick" data-id="${c.id}"><b>${esc(c.name)}</b><span class="small muted">${ev.total ?? '–'}점 · ${esc(ev.verdict)} · 상승 여력 ${upHtml(upPct(ev.iv, c.price))}</span></button>${starBtn(c)}</div>`; }).join('')}</div>` : ''}`;
 }
 /* ===== 적정 가격과 상승 여력 ===== */
@@ -3818,7 +3818,7 @@ function freshPortfolio(){
       <div><b>종가·가격 기록</b><span>아시아장 평일 16:10, 미국장 화~토 06:40 · 다음 ${nextRun(SCHED.close)}</span></div>
       <div><b>아침 브리핑·뉴스·분석</b><span>매일 07:50 · 다음 ${nextRun(SCHED.brief)}</span></div>
       <div><b>메가트렌드 지수</b><span>화~토 07:20(미국장 마감 후) · 다음 ${nextRun(SCHED.trend)}</span></div>
-      <p class="small muted" style="margin:6px 0 0">ValueNote는 실시간 시세 앱이 아닙니다. 장중 몇 분의 차이보다 몇 년의 가치를 봅니다.</p>
+      <p class="small muted" style="margin:6px 0 0">밸류노트는 실시간 시세 앱이 아닙니다. 장중 몇 분의 차이보다 몇 년의 가치를 봅니다.</p>
     </div></details>`;
 }
 /* ===== 포트폴리오 첫 카드: 30일 추이선 + 숫자 올라가는 효과 ===== */
@@ -3860,8 +3860,8 @@ function homeAddHtml(){
   return `<div class="in-home"><b>즐겨찾기에 추가하기</b><span><b>${/Mac/.test(navigator.platform) ? '⌘ + D' : 'Ctrl + D'}</b>를 누르면 즐겨찾기에 저장됩니다. 휴대폰에서도 같은 주소로 열 수 있습니다.</span></div>`;
 }
 const INTRO = [
-  {t:'반가워요, ValueNote예요', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}가입해 주셔서 고마워요.</p>
-    <p>ValueNote는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 노트예요.</p>
+  {t:'반가워요, 밸류노트예요', b:() => `<p class="in-lead">${typeof userName === 'function' && userName() ? esc(userName()) + ' 님, ' : ''}가입해 주셔서 고마워요.</p>
+    <p>밸류노트(ValueNote)는 <b>좋은 회사를 적당한 가격에 사서 오래 들고 가는 투자</b>를 돕는 노트예요.</p>
     <div class="in-warn"><b>먼저 솔직하게 말씀드릴게요</b><span>여기서는 내일 오를 종목을 알려 드리지 않아요. 급등주를 찾는 앱도 아니에요. 대신 1년, 5년, 10년 뒤를 보고 크게 잃지 않는 판단을 하도록 옆에서 챙겨 드려요.</span></div>
     <p class="small muted">3분 정도 걸려요. 예시 화면을 하나씩 넘기면서 보여 드릴게요. 중간에 건너뛰어도 괜찮아요.</p>`},
   {t:'왜 "거인의 어깨 위에서"일까요', b:`<p>주식으로 손해를 보는 이유는 대부분 비슷해요. 뉴스나 소문을 듣고 급하게 사고, 주가가 크게 떨어지면 무서워서 팔죠.</p>
@@ -3910,7 +3910,7 @@ function introHtml(){
   const n = INTRO.length, i = Math.min(S.introStep || 0, n - 1), it = INTRO[i];
   document.body.className = document.body.className.replace(/\btour-\S+/g, '').trim(); if(it.tab){ document.body.classList.add('tour-' + it.tab); document.body.classList.add('tour-' + groupOf(it.tab).k); }
   const still = S.__introShown ? ' still' : ''; S.__introShown = true;
-  return `<div class="intro${it.tab ? ' tour' : ''}${still}" role="dialog" aria-modal="true" aria-label="ValueNote 안내"><div class="intro-card">
+  return `<div class="intro${it.tab ? ' tour' : ''}${still}" role="dialog" aria-modal="true" aria-label="밸류노트 안내"><div class="intro-card">
     ${it.tab && S.__demoOn ? `<div class="in-demo">예시 데이터 화면입니다. 내 종목을 넣으면 내 화면으로 바뀝니다.</div>` : ''}<div class="intro-top"><div class="intro-prog"><i style="width:${(i+1)/n*100}%"></i></div><span class="small muted num">${i+1} / ${n}</span></div>
     <h2 class="intro-t">${esc(it.t)}</h2><div class="intro-b">${typeof it.b === 'function' ? it.b() : it.b}</div>
     <div class="intro-nav">${i === 0 ? `<button type="button" class="linkbtn" data-act="intro-close">건너뛰기</button>` : `<button type="button" class="linkbtn" data-act="intro-prev">이전</button>`}${i < n - 1 ? `<button type="button" class="btn primary" data-act="intro-next">${i === 0 ? '시작하기' : '다음'}</button>` : `<button type="button" class="btn" data-act="intro-close">둘러보기</button>`}</div>
@@ -4335,7 +4335,7 @@ const GUIDE = [
      <ul><li><b>배당:</b> 배당 판정이 "배당 적합"이거나, 배당수익률 3% 이상이면서 배당 안전도가 위험이 아니고 적자 이력이 없는 회사.</li>
      <li><b>상승 여력:</b> 주가가 내재가치보다 30% 이상 싸거나, 내재가치보다 싸면서 매출이 연 10% 이상 커지는 회사.</li></ul>
      <p>처음 점검에서 고른 성향과 맞는 아이콘은 테두리로 강조되고, 기업 목록은 "내 성향 맞춤" 순으로 먼저 보여 준다. 아이콘은 판정을 대신하지 않는다. 매수 후보 조건(품질·10년 보유·안전마진)은 그대로다.</p>`],
-    ['ValueNote는 어떤 앱인가요?', `<p>ValueNote(가치노트)는 벤저민 그레이엄, 워런 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
+    ['밸류노트는 어떤 앱인가요?', `<p>밸류노트(ValueNote)는 벤저민 그레이엄, 워런 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
      <p>예측하는 앱이 아니라 판단을 정리하는 앱이다. 주가가 오를지 맞히지 않는다. 대신 가격이 가치보다 충분히 낮은지, 내 포트폴리오가 원칙에서 벗어났는지를 알려 준다.</p>`],
     ['무엇을 직접 넣고, 무엇이 자동인가요?', `<p><b>직접 넣는 것은 세 가지뿐이다.</b> 보유 종목(종목·수량·평균 매수가), 예수금, 그리고 종목별 투자 메모와 매도 조건.</p>
      <p><b>나머지는 자동이다.</b> 시세는 앱을 열 때와 10분마다, 종가는 평일 하루 두 번(아시아장 마감 후, 미국장 마감 후) 갱신된다. 환율·국채 금리, 아침 브리핑과 뉴스, 메가트렌드 지수, 220여 개 종목 스크리너 가격, 주력·도전·현금 분류와 "지금 할 일"도 자동으로 계산된다.</p>`],
@@ -5947,6 +5947,10 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 .smap .q-lab{pointer-events:none;paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round;font-weight:600}
 /* 카드 안 버튼 묶음 */
 .row > .btn + .btn{margin-left:0}
+
+/* 한글 앱 이름 노출 */
+.brand-sub .ko-name,.login-sub .ko-name{font-weight:800;letter-spacing:.02em;text-transform:none}
+#splash .sp-name{color:#fff;font-size:17px;font-weight:700;letter-spacing:.12em;margin-top:-2px;animation:spIn .7s .1s ease-out both}
 </style>
 </body>
 </html>

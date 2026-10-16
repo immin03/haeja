@@ -70,7 +70,7 @@ const CSS = `@font-face{font-family:SUIT;src:url(data:font/woff2;base64,${fs.rea
 body{font-family:SUIT,sans-serif;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
 .s{position:relative;width:1080px;height:1350px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#17283F 0%,#0E1B2E 55%,#0A1322 100%);color:#F3EEE3}
 .top{position:absolute;left:84px;right:84px;top:64px;display:flex;justify-content:space-between;align-items:center;z-index:5}
-.wm{font-weight:700;font-size:30px;letter-spacing:-.02em}.wm i{font-style:normal;color:#E2C489}.pg{color:#8F9AAB;font-size:26px}
+.wm{font-weight:700;font-size:30px;letter-spacing:-.02em}.wm .ko{font-weight:600;font-size:24px;color:#8F9AAB;margin-left:14px;letter-spacing:.04em}.cta .wm .ko{color:#7A8394}.wm i{font-style:normal;color:#E2C489}.pg{color:#8F9AAB;font-size:26px}
 em{font-style:normal;color:#E2C489}
 .hook .body,.cta .body{position:absolute;left:84px;right:84px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center}
 .k{color:#E2C489;font-size:34px;font-weight:700;margin-bottom:34px}
@@ -90,9 +90,9 @@ em{font-style:normal;color:#E2C489}
 .handle{margin-top:28px;font-size:30px;color:#7A8394;font-weight:600}
 .disc{position:absolute;left:84px;right:84px;bottom:60px;font-size:22px;color:#7A8394;line-height:1.5}`;
 function cardHtml(c, i, n) {
-  const top = `<div class="top"><span class="wm">Value<i>Note</i></span><span class="pg">${i + 1} / ${n}</span></div>`;
+  const top = `<div class="top"><span class="wm">Value<i>Note</i><b class="ko">밸류노트</b></span><span class="pg">${i + 1} / ${n}</span></div>`;
   if (c.kind === 'hook') return `<section class="s hook">${top}<div class="body">${c.k ? `<div class="k">${esc(c.k)}</div>` : ''}<h1>${br(c.t)}</h1>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}${c.chips ? `<div class="chips">${c.chips.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : ''}</div>${i === 0 ? '<div class="swipe">넘겨서 보기 →</div>' : ''}</section>`;
-  if (c.kind === 'cta') return `<section class="s cta">${top}<div class="body"><h2>${br(c.t)}</h2>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}<div class="btn">프로필 링크에서 무료로 써 보기</div><div class="handle">${HANDLE}</div></div><div class="disc">${esc(DISC)}</div></section>`;
+  if (c.kind === 'cta') return `<section class="s cta">${top}<div class="body"><h2>${br(c.t)}</h2>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}<div class="btn">프로필 링크에서 무료로 써 보기</div><div class="handle">밸류노트 · ${HANDLE}</div></div><div class="disc">${esc(DISC)}</div></section>`;
   const sc = 680 / 390, headH = c.s ? 300 : 230, src = 'data:image/png;base64,' + fs.readFileSync(c.img).toString('base64');
   return `<section class="s shot">${top}<div class="head"><h2>${br(c.t)}</h2>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}</div>
     <div class="phone" style="top:${140 + headH}px"><div class="screen" style="height:${(c.h || 600) * sc}px"><img src="${src}" style="margin-top:${-(c.y || 0) * sc}px"></div></div></section>`;
@@ -142,7 +142,7 @@ function cardHtml(c, i, n) {
   lines.push('');
   if (fresh.length) lines.push(`어제와 비교하면 좋은 회사 ${fresh.length}곳이 적정 매수가 아래로 새로 들어왔습니다.`, `시장별로는 ${byMkt.map(([k, v]) => `${k} ${v}곳`).join(', ')}입니다.` + (bySec.length ? ` 업종은 ${bySec.map(([k, v]) => `${k} ${v}곳`).join(', ')}이 많습니다.` : ''));
   else lines.push(`지금 적정 매수가 아래에 있는 좋은 회사는 ${d.pass.length}곳, 근처까지 온 곳은 ${d.near}곳입니다.`);
-  lines.push('', '어떤 회사인지는 ValueNote에서 로그인 없이 확인할 수 있습니다.');
+  lines.push('', '어떤 회사인지는 밸류노트에서 로그인 없이 확인할 수 있습니다.');
   const caption = lines.join('\n').slice(0, 430);
 
   const item = { id: 'D' + tag, seq: Number(tag), title: `${md} 시장 브리핑`, scheduled_at: `${ymd}T08:30:00+09:00`, caption,

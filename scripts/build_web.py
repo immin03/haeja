@@ -95,7 +95,7 @@ STORE = r"""const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
+    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub"><b class="ko-name">밸류노트</b> · On the Shoulders of Giants</div>
       <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
     <div class="card stack login-card">
     ${kakaoBtnHtml()}<div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
@@ -307,7 +307,7 @@ ICONS = {'portfolio':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidde
 for k, lab in [('portfolio','포트폴리오'),('briefing','브리핑'),('companies','기업')]:
     sel = 'true' if k == 'portfolio' else 'false'
     rep(f'<button role="tab" data-tab="{k}" aria-selected="{sel}">{lab}</button>', f'<button role="tab" data-tab="{k}" aria-selected="{sel}"><span class="tab-ic">{ICONS[k]}</span><span class="tab-l">{lab}</span></button>')
-s = s.replace('<title>가치노트</title>', '<title>' + APP_NAME + '</title>')
+s = s.replace('<title>가치노트</title>', '<title>' + "밸류노트 " + APP_NAME + '</title>')
 HEAD = """<!doctype html>
 <html lang="ko">
 <head>
@@ -342,7 +342,7 @@ HEAD = """<!doctype html>
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
+<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-name">밸류노트</div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
 """
 s = HEAD.replace("가치노트", APP_NAME) + s.lstrip() + "\n<style>\n" + open(__file__.replace("build_web.py", "theme.css"), encoding="utf-8").read() + "\n</style>\n</body>\n</html>\n"
 open(dst, "w", encoding="utf-8").write(s)
