@@ -354,7 +354,7 @@ function vSocial(){
   const paused = SOC.st.paused === true;
   const done = SOC.posts.filter(p => (!p.to_ig || p.ig_status === 'posted') && (!p.to_threads || p.th_status === 'posted')).length;
   const rows = SOC.posts.map(p => `<tr>
-    <td><img src="/social/${esc(p.id)}/01.jpg" alt="" loading="lazy"></td>
+    <td><img src="${esc((p.images && p.images[0]) || '')}" alt="" loading="lazy"></td>
     <td class="nw"><b>#${esc(p.id)}</b><div class="muted" style="font-size:12px">${p.to_ig ? '★ 인스타+쓰레드' : '쓰레드'}</div></td>
     <td>${esc(p.title)}<div class="muted" style="font-size:12px">${p.images.length}장</div></td>
     <td><input type="datetime-local" value="${kstInput(p.scheduled_at)}" data-soc-time="${esc(p.id)}"></td>
