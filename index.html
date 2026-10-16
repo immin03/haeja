@@ -1912,7 +1912,7 @@ function viewPortfolio(){
     return `<button type="button" class="pf-row" data-act="hold-toggle" data-id="${r.h.id}" aria-expanded="${open}">
       <span class="pf-dot" style="background:${SER(i)}"></span>
       <span class="pf-name"><b>${esc(short(r.h.name))}</b><span class="small muted">${{core:'주력',explore:'도전',cash:'현금성'}[b.k]} · 비중 ${fmt(r.w,0)}%</span></span>
-      <span class="pf-ret"><b class="num ${Math.abs(r.calc.plPct||0)<0.05?'muted':r.calc.pl>0?'up':'down'}">${pct(r.calc.plPct)}</b><span class="small muted num">${fmtKRW(r.calc.value)}</span></span>
+      <span class="pf-ret"><b class="num ${Math.abs(r.calc.plPct||0)<0.05?'muted':r.calc.pl>0?'up':'down'}">${pct(r.calc.plPct)}</b><span class="small muted num">${(() => { const pl = r.calc.pl, flat = Math.abs(r.calc.plPct||0) < 0.05; return isNum(pl) ? `<span class="${flat?'':pl>0?'up':'down'}">${pl>0?'+':pl<0?'−':''}${fmtKRW(Math.abs(pl))}</span> · ` : ''; })()}${fmtKRW(r.calc.value)}</span></span>
     </button>${open ? `<div class="pf-open">${holdCard(r)}</div>` : ''}`; };
   const acts = P.acts.filter(a => a.lv !== 'good').slice(0,3);
   return `
