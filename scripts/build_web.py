@@ -98,7 +98,7 @@ function loginView(){
     <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub">On the Shoulders of Giants</div>
       <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
     <div class="card stack login-card">
-    <div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
+    ${kakaoBtnHtml()}<div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
     <form id="lg-form" class="stack" method="post" action="#" autocomplete="on" style="margin:0">
     <label class="f">이메일<input id="lg-email" name="email" type="email" autocomplete="username" inputmode="email" placeholder="you@example.com" value="${esc(lgSavedEmail())}"></label>
     <label class="f">비밀번호<input id="lg-pw" name="password" type="password" autocomplete="${lgMode==='signup'?'new-password':'current-password'}" placeholder="${lgMode==='signup'?'8자 이상':''}"></label>

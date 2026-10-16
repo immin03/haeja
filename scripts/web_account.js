@@ -123,3 +123,31 @@ if(VN_RECOVERY){
     if(tries > 40){ clearInterval(wait); }
   }, 250);
 }
+
+/* ============ 카카오 로그인 + 소셜 가입자 동의 ============
+   config.js의 KAKAO가 true일 때만 버튼이 보인다. 카카오로 처음 들어온 사람은 약관·개인정보·14세·투자 고지를 한 화면에서 받는다. */
+const kakaoOn = () => !!(window.HAEJA_CONFIG || {}).KAKAO;
+const KAKAO_SVG = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>';
+function kakaoBtnHtml(){
+  if(!kakaoOn()) return '';
+  return `<button type="button" class="btn kakao-btn" data-lg="kakao">${KAKAO_SVG}<span>카카오로 3초 만에 시작하기</span></button><div class="lg-or"><span>또는 이메일로</span></div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-lg="kakao"]'); if(!b) return;
+  b.disabled = true;
+  try{ localStorage.setItem('vn-remember', '1'); localStorage.setItem('vn-noauto', '0'); sessionStorage.setItem('vn-live', '1'); }catch(_){}
+  const { error } = await store.client.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo: location.origin + '/' } });
+  if(error){ b.disabled = false; const m = document.getElementById('lg-msg'); if(m) m.textContent = '카카오 로그인을 시작하지 못했습니다: ' + error.message; }
+});
+const needSignupAgree = () => !!store.user && !store.isDemo && ((store.user.app_metadata || {}).provider || 'email') !== 'email' && !(store.user.user_metadata || {}).agreed;
+function oauthAgreeHtml(){
+  return `<div class="ca-list"><div class="ca-t">처음 오셨네요. 아래 항목에 동의해 주세요.</div>
+    <label><input type="checkbox" class="ca-req"> <span>[필수] 이용약관 동의</span> <a href="/terms" target="_blank" rel="noopener">보기</a></label>
+    <label><input type="checkbox" class="ca-req"> <span>[필수] 개인정보 수집·이용 동의</span> <a href="/privacy" target="_blank" rel="noopener">보기</a></label>
+    <label><input type="checkbox" class="ca-req"> <span>[필수] 만 14세 이상입니다</span></label></div>`;
+}
+async function oauthAgreeSave(){
+  const at = new Date().toISOString();
+  await store.client.auth.updateUser({ data: { agreed: at, terms: '2026-10-15', privacy: '2026-10-15', age14: true } });
+  await store.track('signup');
+}
