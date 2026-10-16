@@ -1967,7 +1967,7 @@ function holdCard({h, calc, c, ev, w}){
     ${c && (c.profile?.what || c.auto?.businessOneLine) ? `<div class="small"><span class="muted">${esc(c.profile?.industry||c.sector||'')}</span> ${divPill(c)}<div style="margin-top:2px">${esc((c.profile?.what||c.auto.businessOneLine).split(/(?<=다\.)\s/)[0])}</div></div>` : ''}
     <details><summary class="small">가격 차트 · 평균단가 ${fmtPx(h.avg,h.currency)}</summary><div style="margin-top:8px">${priceChart(h.ticker, {ref:h.avg, refLabel:'평균단가', fmtV: v => fmtPx(v, h.currency), label: h.name+' 주가'})}</div></details>
     <div class="row" style="justify-content:space-between">
-      <div class="row">${c ? `${pillFor(ev)} <span class="small num">종합 ${ev.total ?? '–'}점</span> <span class="small muted">논리: ${esc(c.thesis?.status||'유효')}</span>` : `<span class="pill p-none">심사 기록 없음</span>`}${(() => { const r = h.kind==='stock' ? screenFor(h) : null; return r && isNum(r.b) ? `<span class="pill ${scoreCls(r.b)}">근접도 ${r.b}</span>` : ''; })()}</div>
+      <div class="row">${c ? `${pillFor(ev)} <span class="small num">종합 ${ev.total ?? '–'}점</span> <span class="small muted">논리: ${esc(c.thesis?.status||'유효')}</span>` : `<span class="pill p-none">심사 기록 없음</span>`}</div>
       <div class="row">
         ${c ? `<button class="btn" data-act="open-co" data-id="${c.id}">심사 보기</button>` : (h.kind==='stock' ? `<button class="btn" data-act="hold-analyze" data-id="${h.id}">심사 시작</button>` : '')}
         <button class="btn" data-act="hold-edit" data-id="${h.id}">수정</button>
@@ -2840,6 +2840,12 @@ const STAGES = [
   {k:'held',  l:'보유', rule:'내가 실제로 산 종목'},
 ];
 function rowFor(c){ const r = scoredRows().find(r => normKey(r.code||r.t)===normKey(c.ticker) || r.t===c.yf) || null; return {key:c.ticker, name:c.name, code:c.ticker, m:grpOf(c.market||'KR'), c, r, b:r?.b ?? null, p:profileFor(c.yf||c.ticker, c.ticker, c)}; }
+// 목록에 표시·정렬·필터하는 점수는 상세 화면과 같은 '종합 점수'로 통일한다.
+// 심사 기록이 없으면 정성·트렌드가 비어 종합 = 근접도와 같다.
+function rowScore(x){
+  if(x._s === undefined){ const ev = x.c && x.c.kind === 'stock' ? evaluate(x.c) : null; x._s = isNum(ev?.total) ? ev.total : (isNum(x.b) ? x.b : null); }
+  return x._s;
+}
 function stageItems(stage){
   if(stage === 'held') return S.holdings.map(h => companyFor(h)).filter(Boolean).map(rowFor);
   if(stage === 'watch') return S.companies.filter(c => ['관심','내 종목'].includes(scopeOf(c))).map(rowFor);
@@ -2851,16 +2857,16 @@ function filteredStage(stage, noMin){
   if(mk !== 'ALL') rows = rows.filter(x => x.m === mk);
   if(q) rows = rows.filter(x => [x.name, x.en, x.code, x.p?.industry, x.c?.sector, x.r?.ind].join(' ').toLowerCase().includes(q));
   if(S.coTag) rows = rows.filter(x => (x.r?.tags||[]).includes(S.coTag));
-  if(S.coMin && !noMin) rows = rows.filter(x => isNum(x.b) && x.b >= S.coMin);
+  if(S.coMin && !noMin) rows = rows.filter(x => isNum(rowScore(x)) && rowScore(x) >= S.coMin);
   if(S.coHide && stage === 'all') rows = rows.filter(x => !(x.r?.flags||[]).some(f => f !== '경기순환·이익 변동'));
   const yld = x => { const d = x.p?.dividend; const px = x.c?.price ?? x.px; return d && isNum(d.dps) && d.dps > 0 && isNum(px) ? d.dps/px*100 : (d?.yield ?? -1); };
   const num = v => isNum(v) ? v : -1;
   const fit = x => { const st = prefStyle(), t = styleTags(x);
-    if(st === '배당형') return (t.div ? 1000 : 0) + num(x.b) + Math.min(num(yld(x)), 8) * 3;
-    if(st === '성장형' || st === '공격형') return (t.up ? 1000 : 0) + num(x.b) + Math.max(-20, Math.min(num(t.mos), 80)) / 4;
-    if(st === '안정형') return num(x.r?.q) * 2 + num(x.b) + (t.div ? 30 : 0);
-    return num(x.b); };
-  const by = {b: x => num(x.b), v: x => num(x.r?.v), q: x => num(x.r?.q), div: yld, fit};
+    if(st === '배당형') return (t.div ? 1000 : 0) + num(rowScore(x)) + Math.min(num(yld(x)), 8) * 3;
+    if(st === '성장형' || st === '공격형') return (t.up ? 1000 : 0) + num(rowScore(x)) + Math.max(-20, Math.min(num(t.mos), 80)) / 4;
+    if(st === '안정형') return num(x.r?.q) * 2 + num(rowScore(x)) + (t.div ? 30 : 0);
+    return num(rowScore(x)); };
+  const by = {b: x => num(rowScore(x)), v: x => num(x.r?.v), q: x => num(x.r?.q), div: yld, fit};
   if(so === 'name') rows.sort((a,b) => String(a.name).localeCompare(String(b.name), 'ko'));
   else rows.sort((a,b) => (so==='b' && stage==='watch' ? (a.c?.watchRank ?? 99) - (b.c?.watchRank ?? 99) : 0) || by[so](b) - by[so](a));
   return rows;
@@ -2875,7 +2881,7 @@ function filterBarHtml(){
     <div class="chips" role="group" aria-label="시장">${[['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국'],['HK','홍콩']].map(([k,l]) => `<button class="chip sm" data-act="co-mkt" data-v="${k}" aria-current="${mk===k}">${l}</button>`).join('')}</div>
     <div class="fbar-row"><input id="co-q" value="${esc(S.coQ||'')}" placeholder="회사명·티커·산업 검색" aria-label="검색">
       <select id="co-sort" aria-label="정렬">${[...(prefStyle() ? [['fit','내 성향 맞춤']] : []),['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
-    ${(() => { const base = filteredStage(st, true); const cnt = m => m ? base.filter(x => isNum(x.b) && x.b >= m).length : base.length; const cur = S.coMin || 0;
+    ${(() => { const base = filteredStage(st, true); const cnt = m => m ? base.filter(x => isNum(rowScore(x)) && rowScore(x) >= m).length : base.length; const cur = S.coMin || 0;
       return `<div class="minbar" role="group" aria-label="점수로 거르기"><span class="small muted">점수</span>${[[0,'전체'],[60,'60+'],[70,'70+'],[75,'75+'],[90,'90+']].map(([m,l]) => `<button class="chip sm" data-act="co-min" data-v="${m}" aria-current="${cur===m}">${l} <span class="num muted">${cnt(m)}</span></button>`).join('')}</div>`; })()}
     ${st === 'watch' ? `<p class="small muted" style="margin:0">관심 후보는 매주 월요일 아침 자동으로 다시 고릅니다: 점수 70점 이상, 탈락·위험 신호 없음, 시장마다 최대 6곳씩 상위 20곳. 여기에 ☆를 누르거나 메모를 쓴 회사가 더해집니다.</p>` : ''}
     ${st === 'all' ? `<details class="small"><summary>더 거르기</summary><div class="stack" style="gap:6px;margin-top:6px">
@@ -2891,7 +2897,7 @@ function listRowHtml(x){
   return `<div class="pick-wrap"><div class="pick-line"><button type="button" class="pick-row" ${act} aria-expanded="${open}">
       <span class="pr-main"><b>${esc(x.name)}</b><span class="small muted">${esc(sub)}</span>${(() => { const ev = x.c ? evaluate(x.c) : null; return miniScores(x.r?.q ?? ev?.qScore, x.r?.v ?? ev?.valScore); })()}
         <span class="row" style="gap:4px;margin-top:3px">${sc && sc!=='관심' ? `<span class="pill p-good">${esc(sc)}</span>` : ''}${sc==='관심' ? '<span class="pill p-none">관심 후보</span>' : ''}${styleBadges(x)}${yenPill(x.m)}${x.c?.dropCheck?.verdict==='구조적 훼손 우려' ? '<span class="pill p-bad">구조적 훼손 우려</span>' : ''}</span></span>
-      <span class="pr-side">${isNum(x.b) ? `<span class="pill ${scoreCls(x.b)}">${x.b}점</span>` : ''}${ev ? `<span class="small muted">${esc(ev.verdict)}</span>` : '<span class="small muted">심사 전</span>'}</span>
+      <span class="pr-side">${isNum(rowScore(x)) ? `<span class="pill ${scoreCls(rowScore(x))}">${rowScore(x)}점</span>` : ''}${ev ? `<span class="small muted">${esc(ev.verdict)}</span>` : '<span class="small muted">심사 전</span>'}</span>
     </button>${x.c?.kind === 'lev' || x.c?.kind === 'etf' ? '' : starBtn(x.c, x.r?.t || x.c?.yf)}</div>
     ${open ? `<div class="stack" style="gap:8px;padding:4px 6px 12px">
       ${x.p?.what ? `<p class="small" style="margin:0">${esc(x.p.what)}</p>` : '<p class="small muted" style="margin:0">개요는 자동 실행 때 채워집니다.</p>'}
