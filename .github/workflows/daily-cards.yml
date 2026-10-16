@@ -1,0 +1,33 @@
+# 매일 아침 이슈 카드뉴스 생성 → social/daily 에 커밋 (Vercel 배포 → Supabase가 게시 대기열로 가져감)
+name: daily-cards
+on:
+  schedule:
+    - cron: '40 22 * * *'   # 매일 07:40 KST
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: daily-cards
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 브라우저 준비
+        run: |
+          npm i --no-save playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: 카드 만들기
+        run: node scripts/daily_cards.js
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"
+          git config user.email "bot@valuenote.co.kr"
+          git add social/daily
+          git diff --cached --quiet && exit 0
+          git commit -m "일일 이슈 카드 $(TZ=Asia/Seoul date +%F)"
+          git pull --rebase origin main
+          git push
