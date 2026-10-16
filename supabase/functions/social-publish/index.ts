@@ -11,6 +11,7 @@ const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/v1.0";
 const GAP_MIN = 90;
+const DISC = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.";
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 type Acc = { platform: string; account_id: string; username: string; access_token: string; expires_at: string };
@@ -65,7 +66,8 @@ async function postInstagram(a: Acc, p: any, site: string) {
   const kids: string[] = [];
   for (const image_url of urls) kids.push((await call(`${IG}/${a.account_id}/media`, { image_url, is_carousel_item: "true", access_token: a.access_token })).id);
   for (const k of kids) await waitReady(`${IG}/${k}`, "status_code", a.access_token);
-  const caption = p.caption + "\n\n" + (p.hashtags || []).map((h: string) => "#" + h).join(" ");
+  const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" ");
+  const caption = p.caption + (tags ? "\n\n" + tags : "") + "\n\n" + DISC;
   const c = await call(`${IG}/${a.account_id}/media`, { media_type: "CAROUSEL", children: kids.join(","), caption, access_token: a.access_token });
   await waitReady(`${IG}/${c.id}`, "status_code", a.access_token);
   const pub = await call(`${IG}/${a.account_id}/media_publish`, { creation_id: c.id, access_token: a.access_token });
@@ -78,13 +80,24 @@ async function postThreads(a: Acc, p: any, site: string) {
   const kids: string[] = [];
   for (const image_url of urls) kids.push((await call(`${TH}/${a.account_id}/threads`, { media_type: "IMAGE", image_url, is_carousel_item: "true", access_token: a.access_token })).id);
   for (const k of kids) await waitReady(`${TH}/${k}`, "status", a.access_token);
-  const params: Record<string, string> = { media_type: "CAROUSEL", children: kids.join(","), text: p.caption, access_token: a.access_token };
+  const params: Record<string, string> = { media_type: "CAROUSEL", children: kids.join(","), text: (p.caption + "\n\n" + DISC).slice(0, 500), access_token: a.access_token };
   if (p.threads_tag) params.topic_tag = p.threads_tag;
   const c = await call(`${TH}/${a.account_id}/threads`, params);
   await waitReady(`${TH}/${c.id}`, "status", a.access_token);
   const pub = await call(`${TH}/${a.account_id}/threads_publish`, { creation_id: c.id, access_token: a.access_token });
   const link = await call(`${TH}/${pub.id}`, { fields: "permalink", access_token: a.access_token }, "GET").catch(() => ({}));
   return { id: pub.id, permalink: link.permalink || null };
+}
+
+// 인스타 게시 직후 관리자 휴대폰으로 알림: 음악 추가 안내
+async function remind(p: any, link: string | null) {
+  const owner = await cfg("publisher"); if (!owner) return;
+  const id = "sns-" + p.id + "-" + Date.now();
+  await sb.from("docs").insert({ owner, collection: "alerts", id, data: {
+    at: new Date().toISOString(), level: "info", source: "SNS 게시", read: false,
+    title: `인스타 #${p.id} 게시 완료 · 음악을 붙여 주세요`,
+    body: `${p.title}${p.music ? " · 추천: " + p.music : ""}. 게시물 ··· → 수정 → 음악 추가.`,
+    link: link ? { url: link } : {} } });
 }
 
 // 한 채널에 한 편 게시. 상태를 먼저 'publishing'으로 잡아 중복 게시를 막는다.
@@ -96,6 +109,7 @@ async function publish(ch: "ig" | "th", p: any, acc: Record<string, Acc>, site: 
   try {
     const r = ch === "ig" ? await postInstagram(a, p, site) : await postThreads(a, p, site);
     await sb.from("social_posts").update({ [`${ch}_status`]: "posted", [`${ch}_media_id`]: r.id, [`${ch}_permalink`]: r.permalink, [`${ch}_at`]: new Date().toISOString() }).eq("id", p.id);
+    if (ch === "ig") await remind(p, r.permalink).catch(e => console.error("remind", e));
     return { posted: r };
   } catch (e) {
     const msg = String((e as Error).message || e).slice(0, 500);
