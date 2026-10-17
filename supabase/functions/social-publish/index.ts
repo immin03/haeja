@@ -13,6 +13,10 @@ const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { sta
 const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/v1.0";
 const GAP_MIN = 90;
 const DISC = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.";
+// 모든 게시물 본문 끝에 붙는 고정 안내 (해시태그·고지문 앞)
+const CTA = "▶ 현명한 투자를 위한 가치투자 가이드, 밸류노트\n600여 개 기업의 점수와 적정 주가를 프로필 링크에서 확인하세요.";
+const igCaption = (p: any) => { const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" "); return p.caption + "\n\n" + CTA + (tags ? "\n\n" + tags : "") + "\n\n" + DISC; };
+const thText = (p: any) => { const tail = "\n\n" + CTA + "\n\n" + DISC; return String(p.caption).slice(0, 500 - tail.length) + tail; };
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 type Acc = { platform: string; account_id: string; username: string; access_token: string; expires_at: string };
@@ -67,8 +71,7 @@ async function postInstagram(a: Acc, p: any, site: string) {
   const kids: string[] = [];
   for (const image_url of urls) kids.push((await call(`${IG}/${a.account_id}/media`, { image_url, is_carousel_item: "true", access_token: a.access_token })).id);
   for (const k of kids) await waitReady(`${IG}/${k}`, "status_code", a.access_token);
-  const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" ");
-  const caption = p.caption + (tags ? "\n\n" + tags : "") + "\n\n" + DISC;
+  const caption = igCaption(p);
   const c = await call(`${IG}/${a.account_id}/media`, { media_type: "CAROUSEL", children: kids.join(","), caption, access_token: a.access_token });
   await waitReady(`${IG}/${c.id}`, "status_code", a.access_token);
   const pub = await call(`${IG}/${a.account_id}/media_publish`, { creation_id: c.id, access_token: a.access_token });
@@ -81,7 +84,7 @@ async function postThreads(a: Acc, p: any, site: string) {
   const kids: string[] = [];
   for (const image_url of urls) kids.push((await call(`${TH}/${a.account_id}/threads`, { media_type: "IMAGE", image_url, is_carousel_item: "true", access_token: a.access_token })).id);
   for (const k of kids) await waitReady(`${TH}/${k}`, "status", a.access_token);
-  const params: Record<string, string> = { media_type: "CAROUSEL", children: kids.join(","), text: (p.caption + "\n\n" + DISC).slice(0, 500), access_token: a.access_token };
+  const params: Record<string, string> = { media_type: "CAROUSEL", children: kids.join(","), text: thText(p), access_token: a.access_token };
   if (p.threads_tag) params.topic_tag = p.threads_tag;
   const c = await call(`${TH}/${a.account_id}/threads`, params);
   await waitReady(`${TH}/${c.id}`, "status", a.access_token);
@@ -93,14 +96,13 @@ async function postThreads(a: Acc, p: any, site: string) {
 // 릴스: 영상 컨테이너만 만든다 (처리에 1~3분 걸려 다음 실행에서 게시)
 async function startReel(ch: "ig" | "th", a: Acc, p: any, site: string) {
   if (ch === "ig") {
-    const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" ");
     const params: Record<string, string> = { media_type: "REELS", video_url: site + p.video, share_to_feed: "true",
-      caption: p.caption + (tags ? "\n\n" + tags : "") + "\n\n" + DISC, access_token: a.access_token };
+      caption: igCaption(p), access_token: a.access_token };
     if (p.cover) params.cover_url = site + p.cover;
     return (await call(`${IG}/${a.account_id}/media`, params)).id as string;
   }
   const params: Record<string, string> = { media_type: "VIDEO", video_url: site + p.video,
-    text: (p.caption + "\n\n" + DISC).slice(0, 500), access_token: a.access_token };
+    text: thText(p), access_token: a.access_token };
   if (p.threads_tag) params.topic_tag = p.threads_tag;
   return (await call(`${TH}/${a.account_id}/threads`, params)).id as string;
 }
