@@ -15,7 +15,10 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
 const OUT = path.join(ROOT, 'social', 'company');
 const SUIT = path.join(ROOT, 'fonts', 'SUIT-Variable.woff2');
 const HANDLE = '@value.note.korea';
-const POST_TIME = '21:00';
+// 하루 3편: a = 21:00 오늘의 기업(유명 회사), b = 11:00 저평가 기업 분석, rank = 15:30 저평가·고평가 TOP 10
+const MODE = process.argv[3] || 'a';
+const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'] }[MODE];
+const POST_TIME = SLOT[2];
 const DISC = '*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.';
 const cfgSrc = fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8');
 const URL0 = cfgSrc.match(/SUPABASE_URL:\s*'([^']+)'/)[1];
@@ -69,6 +72,7 @@ const FAMOUS = {
 };
 function pick(rows, state) {
   const used = new Set(state.used || []);
+  if (MODE === 'b') return pickUnder(rows, used);
   const all = rows.map((r) => ({ r, sc: scoreRow(r, null, 30) }))
     .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
     // 적정가와 비슷하거나 조금 다른 회사는 이야기가 약하다: 1.5배 이상 비싸거나 25% 이상 싼 회사만
@@ -83,6 +87,29 @@ function pick(rows, state) {
     if (c) return c;
   }
   return null;
+}
+
+// 저평가 슬롯: 앱의 '저평가' 목록과 같은 기준(25% 이상 싸고, 품질 50점 이상, 감점 없음) 중 품질 높은 순
+function underList(rows, mkt) {
+  return rows.map((r) => ({ r, sc: scoreRow(r, null, 30) })).filter((x) => {
+    const { r, sc } = x; if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low' || !isNum(sc.q)) return false;
+    if (mkt && mkt !== 'ALL' && !mkt.split(',').includes(grpOf(r.m))) return false;
+    const R = r.px / sc.iv, pen = (sc.flags || []).filter((f) => !WARN_FLAGS.has(f)).length; x.R = R;
+    return R <= 0.75 && sc.q >= 50 && !pen;
+  });
+}
+function overList(rows, mkt) {
+  return rows.map((r) => ({ r, sc: scoreRow(r, null, 30) })).filter((x) => {
+    const { r, sc } = x; if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low' || !isNum(sc.q)) return false;
+    if (mkt && mkt !== 'ALL' && !mkt.split(',').includes(grpOf(r.m))) return false;
+    const R = r.px / sc.iv; x.R = R; return R >= 1.5 && R <= 10 && sc.q >= 60;
+  });
+}
+function pickUnder(rows, used) {
+  const L = underList(rows, 'ALL').filter((x) => !used.has(x.r.t)).sort((a, b) => b.sc.q - a.sc.q);
+  if (L.length) return L[0];
+  // 다 쓰면 기준을 조금 넓힌다 (감점 신호가 있어도 25% 이상 싼 회사)
+  return rows.map((r) => ({ r, sc: scoreRow(r, null, 30) })).filter((x) => !used.has(x.r.t) && isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv <= 0.75 && x.r.dataConf !== 'low').sort((a, b) => b.sc.q - a.sc.q)[0] || null;
 }
 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -152,6 +179,15 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .lk{margin-top:28px;font-size:28px;color:#8F9AAB}
 .wmk{position:absolute;left:0;right:0;bottom:120px;text-align:center;font-size:26px;letter-spacing:.5em;color:#5E6B80;font-weight:700}
 .disc{bottom:60px}
+.rlist{position:absolute;left:84px;right:84px;top:170px;height:560px;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.rlist-full{height:auto;bottom:220px;justify-content:center}
+.rk{display:flex;align-items:center;gap:24px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:26px;padding:28px 30px}
+.rn{flex:0 0 56px;font-size:44px;font-weight:900;color:#E2C489;text-align:center}
+.rnm{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.rnm b{font-size:42px;font-weight:800;letter-spacing:-.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rnm small,.rv small{font-size:24px;color:#8F9AAB;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rv{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;max-width:52%}.rv b{font-size:34px;font-weight:900}
+.rv b.pos{color:#7FD1A8}.rv b.neg{color:#F08C78}
+.rk.hide .rnm b{filter:blur(9px)}
 `;
 
 // ---------- 분석: 적정 주가 → 계산 방법 → 차이가 나는 이유 ----------
@@ -241,7 +277,7 @@ function cards(x, a) {
   const GOLD = '#E2C489', RED = '#F08C78', GREEN = '#7FD1A8', GRAY = '#8F9AAB';
   const out = [];
   // 1. 표지: 질문형 제목 + 지금 주가 vs 적정 주가 막대
-  out.push(`<div class="cover"><div class="k">오늘의 기업 분석 · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1></div>
+  out.push(`<div class="cover"><div class="k">${MODE === 'b' ? '저평가 기업 분석' : '오늘의 기업 분석'} · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1></div>
     <div class="vis vis-low">${bars([{ l: '지금 주가', v: r.px, t: M(r.px), c: over ? RED : '#F3EEE3' }, { l: '적정 주가', v: sc.iv, t: M(sc.iv), c: GOLD }])}
     <div class="gap ${over ? 'neg' : 'pos'}">${esc(gapText(R))}</div></div>`);
   // 2. 시장의 기대 vs 실제 성장 (두 번째 장도 표지만큼 강하게)
@@ -282,12 +318,12 @@ function cards(x, a) {
   out.push(`<div class="quote"><div class="ql">${quote.split('\n').map((l) => `<span>${esc(l)}</span>`).join('')}</div><div class="qs">— 밸류노트의 해석 · 투자 판단은 본인의 몫입니다</div></div>`);
   // 7. 체크리스트 (저장 유도)
   const chk = over ? ['이익이 평균 이상으로 유지되는가', '그 이익이 현금으로 들어오는가', '주가가 적정가에 다가오는가']
-    : ['이익이 더 줄어들지 않는가', '새로운 감점 신호가 생기지 않는가', '주가가 적정가로 돌아오는가'];
+    : ['이익이 꾸준히 유지되는가', '새로운 감점 신호가 생기지 않는가', '주가가 적정가로 돌아오는가'];
   out.push(`<div class="vis"><div class="chk">${chk.map((c, i) => `<div><span class="cb">${i + 1}</span>${esc(c)}</div>`).join('')}</div></div>`
     + frame(a.alt ? '05' : '04', '다음 실적에서\n이 세 가지를 보세요', '저장해 두고 다음 실적 때 꺼내 보세요.', ''));
   // 8. 마무리: 팔로우 + 프로필 링크, 첫 장으로 돌아가는 질문
   out.push(`<div class="outro"><div class="be">VALUE INVESTING GUIDE</div><div class="logo">Value<i>Note</i></div><h2>현명한 투자를 위한<br>가치투자 가이드</h2>
-    <p>매일 밤 9시, 한 기업의 적정 주가를 계산합니다.<br>내일은 어떤 회사일까요?</p>
+    <p>${MODE === 'b' ? '매일 600여 개 기업의 적정 주가를 계산합니다.<br>다음 저평가 기업은 어디일까요?' : '매일 밤 9시, 한 기업의 적정 주가를 계산합니다.<br>내일은 어떤 회사일까요?'}</p>
     <div class="fbtn"><span>밸류노트 팔로우하기</span><b>→</b></div><div class="lk">600여 개 기업 점수와 적정 주가 · 프로필 링크</div></div><div class="disc">${esc(DISC)}</div>`);
   return out.map((html) => ({ cls: '', html: html.replace(/\*\*(.+?)\*\*/g, '<em>$1</em>') }));
 }
@@ -306,20 +342,61 @@ function caption(x, a) {
   return L.join('\n').replace(/\n{3,}/g, '\n\n');
 }
 
+// ---------- 순위 카드: 저평가·고평가 TOP 10 (1~3위는 앱에서 공개) ----------
+const RANK_ROTA = [['under', 'ALL', '5개 시장'], ['over', 'US', '미국'], ['under', 'KR', '한국'], ['over', 'KR', '한국'], ['under', 'JP,HK,CN', '일본·중국·홍콩'], ['over', 'JP', '일본']];
+function rankCards(L, side, label) {
+  const under = side === 'under', top = L.slice(0, 10);
+  const row = (x, i, hide) => `<div class="rk${hide ? ' hide' : ''}"><span class="rn">${i + 1}</span><span class="rnm"><b>${hide ? '●●●●●' : esc(x.r.n)}</b><small>${esc(MKT[grpOf(x.r.m)])} · ${esc(x.r.ind || x.r.s || '')}</small></span>
+    <span class="rv"><b class="${under ? 'pos' : 'neg'}">${esc(gapText(x.R))}</b><small>${hide ? '밸류노트에서 공개' : `현재 ${money(x.r.px, x.r.cur || 'KRW')} · 적정 ${money(x.sc.iv, x.r.cur || 'KRW')}`}</small></span></div>`;
+  const out = [];
+  const h1 = under ? `지금 가장\n**저평가된**\n${label} 기업 TOP ${top.length}` : `좋은 회사지만\n**가장 비싼**\n${label} 기업 TOP ${top.length}`;
+  out.push(`<div class="cover"><div class="k">밸류노트 순위 · ${esc(label)}</div><h1>${br(h1)}</h1>
+    <div class="sub" style="margin-top:40px">${under ? '현재가가 계산한 적정 주가보다 25% 이상 낮고,<br>숫자 품질 50점 이상 · 감점 신호 없는 회사' : '현재가가 적정 주가의 1.5배 이상인 회사 중<br>숫자 품질이 높은 순서'}</div></div>`);
+  out.push(`<div class="rlist">${top.slice(0, 3).map((x, i) => row(x, i, true)).join('')}</div>`
+    + frame('TOP 3', '1~3위는\n밸류노트에서 공개합니다', '프로필 링크 → 기업 → 저평가·고평가', '600여 개 기업을 매일 다시 계산해 순위를 바꿉니다.'));
+  for (const [a0, b0] of [[3, 7], [7, 10]]) {
+    const part = top.slice(a0, b0); if (!part.length) continue;
+    out.push(`<div class="rlist rlist-full">${part.map((x, i) => row(x, a0 + i, false)).join('')}</div>`);
+  }
+  out.push(`<div class="vis"><div class="steps">${[['적정 주가 계산', '과거 평균 이익·주주 이익과 자산 가치', '600여 곳'], ['현재가와 비교', under ? '적정 주가보다 25% 이상 낮은 회사' : '적정 주가의 1.5배 이상', '매일'], ['품질 거르기', under ? '숫자 품질 50점 이상, 감점 신호 없음' : '숫자 품질 60점 이상', '13개 지표']].map((m, i) => `<div><span class="n">${i + 1}</span><span class="tx">${m[0]}<small>${m[1]}</small></span><b>${m[2]}</b></div>`).join('')}</div></div>`
+    + frame('기준', '이렇게 골랐습니다', under ? '싸다고 다 좋은 회사는 아닙니다.' : '좋은 회사도 비싸게 사면 수익이 줄어듭니다.', '저장해 두고 다음 주 순위와 비교해 보세요.'));
+  out.push(`<div class="outro"><div class="be">VALUE INVESTING GUIDE</div><div class="logo">Value<i>Note</i></div><h2>현명한 투자를 위한<br>가치투자 가이드</h2>
+    <p>매일 600여 개 기업의 적정 주가를 계산합니다.<br>내 종목은 몇 위일까요?</p>
+    <div class="fbtn"><span>밸류노트 팔로우하기</span><b>→</b></div><div class="lk">전체 순위와 1~3위 · 프로필 링크</div></div><div class="disc">${esc(DISC)}</div>`);
+  return out.map((html) => ({ cls: '', html: html.replace(/\*\*(.+?)\*\*/g, '<em>$1</em>') }));
+}
+function rankCaption(L, side, label) {
+  const under = side === 'under', top = L.slice(0, 10);
+  const lines = [under ? `지금 가장 저평가된 ${label} 기업 TOP ${top.length}입니다.` : `좋은 회사지만 가장 비싼 ${label} 기업 TOP ${top.length}입니다.`, '',
+    under ? '현재가가 밸류노트가 계산한 적정 주가보다 25% 이상 낮고, 숫자 품질 50점 이상에 감점 신호가 없는 회사만 골랐습니다.' : '현재가가 적정 주가의 1.5배 이상인 회사 중 숫자 품질이 높은 순서입니다. 좋은 회사도 비싸게 사면 수익이 줄어듭니다.', '',
+    ...top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · ${gapText(x.R)}`), '',
+    '1~3위는 밸류노트 앱의 저평가·고평가 화면에서 볼 수 있습니다.'];
+  return lines.join('\n');
+}
+
 const state0 = path.join(OUT, 'state.json');
 const state = fs.existsSync(state0) ? JSON.parse(fs.readFileSync(state0, 'utf8')) : { used: [] };
 const qPath = path.join(OUT, 'queue.json');
 const queue = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, 'utf8')) : [];
-if (queue.some((q) => q.id === 'C' + tag)) { console.log('이미 생성됨', tag); process.exit(0); }
+const ID = SLOT[0] + tag + SLOT[1], DIRN = SLOT[0] === 'K' ? 'k' + tag : tag + SLOT[1];
+if (queue.some((q) => q.id === ID)) { console.log('이미 생성됨', ID); process.exit(0); }
 
 setSettings({});
 const rows = await load();
 if (rows.length < 300) throw new Error('rows too few');
-const x = pick(rows, state);
-if (!x) throw new Error('고를 회사가 없음');
-const a = analyze(x);
-const C = cards(x, a);
-const dir = path.join(OUT, tag); fs.mkdirSync(dir, { recursive: true });
+let x = null, a = null, C, RK = null;
+if (MODE === 'rank') {
+  const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-18')) / 864e5);
+  const [side, mkt, label] = RANK_ROTA[((day % RANK_ROTA.length) + RANK_ROTA.length) % RANK_ROTA.length];
+  const L = (side === 'under' ? underList(rows, mkt).sort((p, q) => p.R - q.R) : overList(rows, mkt).sort((p, q) => q.sc.q - p.sc.q || q.R - p.R));
+  if (L.length < 6) throw new Error('순위 후보 부족 ' + L.length);
+  RK = { L, side, label }; C = rankCards(L, side, label);
+} else {
+  x = pick(rows, state);
+  if (!x) throw new Error('고를 회사가 없음');
+  a = analyze(x); C = cards(x, a);
+}
+const dir = path.join(OUT, DIRN); fs.mkdirSync(dir, { recursive: true });
 const b = await chromium.launch(); const pg = await b.newPage({ viewport: { width: 1080, height: 1350 } });
 const images = [];
 for (let i = 0; i < C.length; i++) {
@@ -329,14 +406,20 @@ for (let i = 0; i < C.length; i++) {
   await pg.evaluate(() => document.fonts.ready);
   const fn = String(i + 1).padStart(2, '0') + '.jpg';
   await pg.screenshot({ path: path.join(dir, fn), type: 'jpeg', quality: 92 });
-  images.push(`/social/company/${tag}/${fn}`);
+  images.push(`/social/company/${DIRN}/${fn}`);
 }
 await b.close();
 
-const name = x.r.n.replace(/\s+/g, '');
-const item = { id: 'C' + tag, seq: Number(tag), title: `오늘의 기업 · ${x.r.n}`, scheduled_at: `${ymd}T${POST_TIME}:00+09:00`, caption: caption(x, a),
-  hashtags: [name, name + '주가', '가치투자', '주식공부', '밸류노트'], threads_tag: '주식', images, to_ig: true, approved: true };
-fs.writeFileSync(qPath, JSON.stringify([...queue.filter((q) => q.id !== item.id).slice(-6), item], null, 1));
-fs.writeFileSync(state0, JSON.stringify({ used: [...(state.used || []), x.r.t] }, null, 1));
-for (const f of fs.readdirSync(OUT)) if (/^\d{8}$/.test(f) && f < new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10).replace(/-/g, '')) fs.rmSync(path.join(OUT, f), { recursive: true });
-console.log(JSON.stringify({ id: item.id, n: x.r.n, m: x.r.m, angle: a.k, b: x.sc.b, q: x.sc.q, v: x.sc.v }));
+let item;
+if (RK) {
+  item = { id: ID, seq: Number(tag), title: `${RK.side === 'under' ? '저평가' : '고평가'} TOP 10 · ${RK.label}`, scheduled_at: `${ymd}T${POST_TIME}:00+09:00`, caption: rankCaption(RK.L, RK.side, RK.label),
+    hashtags: [RK.side === 'under' ? '저평가주' : '고평가주', '저평가주식', '가치투자', '주식공부', '밸류노트'], threads_tag: '주식', images, to_ig: true, approved: true };
+} else {
+  const name = x.r.n.replace(/\s+/g, '');
+  item = { id: ID, seq: Number(tag), title: `${MODE === 'b' ? '저평가 기업' : '오늘의 기업'} · ${x.r.n}`, scheduled_at: `${ymd}T${POST_TIME}:00+09:00`, caption: caption(x, a),
+    hashtags: [name, name + '주가', MODE === 'b' ? '저평가주' : '가치투자', '주식공부', '밸류노트'], threads_tag: '주식', images, to_ig: true, approved: true };
+  fs.writeFileSync(state0, JSON.stringify({ used: [...(state.used || []), x.r.t] }, null, 1));
+}
+fs.writeFileSync(qPath, JSON.stringify([...queue.filter((q) => q.id !== item.id).slice(-14), item], null, 1));
+for (const f of fs.readdirSync(OUT)) if (/^k?\d{8}b?$/.test(f) && f.replace(/\D/g, '') < new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10).replace(/-/g, '')) fs.rmSync(path.join(OUT, f), { recursive: true });
+console.log(JSON.stringify({ id: item.id, title: item.title }));

@@ -1,4 +1,4 @@
-# 매일 저녁 '오늘의 기업' 카드뉴스 생성 → social/company 커밋 (Vercel 배포 → Supabase가 매시 25·28분에 가져가 21:00 게시)
+# 매일 저녁 카드뉴스 3편 생성 (오늘 21:00 기업, 내일 11:00 저평가 기업, 내일 15:30 순위) → social/company 커밋 (Vercel 배포 → Supabase가 매시 25·28분에 가져가 21:00 게시)
 name: company-cards
 on:
   schedule:
@@ -21,7 +21,11 @@ jobs:
           npm i --no-save playwright@1.56.0
           npx playwright install --with-deps chromium
       - name: 카드 만들기
-        run: node scripts/company_cards.mjs
+        run: |
+          node scripts/company_cards.mjs                      # 오늘 21:00 오늘의 기업
+          T=$(TZ=Asia/Seoul date -d tomorrow +%F)
+          node scripts/company_cards.mjs $T b                 # 내일 11:00 저평가 기업 분석
+          node scripts/company_cards.mjs $T rank              # 내일 15:30 저평가·고평가 TOP 10
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"
