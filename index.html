@@ -1659,12 +1659,8 @@ function guestHero(){
       <div><b>적정 매수가</b><span>얼마에 사면<br>안전한지</span></div>
       <div><b>알림</b><span>그 가격에 오면<br>바로 알려 줌</span></div>
     </div>
-    <div class="gh-cta">
-      ${kakaoOn() ? `<button type="button" class="btn kakao-btn" data-lg="kakao">${KAKAO_SVG}<span>카카오로 3초 만에 시작하기</span></button>` : ''}
-      <button type="button" class="btn ${kakaoOn() ? '' : 'primary'}" data-guest="signup">이메일로 가입하기</button>
-    </div>
     <button type="button" class="gb-test" data-qz="open"><span><b>1분 테스트</b> 폭락장에서 나는 어떤 투자자일까?</span><span aria-hidden="true">›</span></button>
-    <div class="gh-note">가입하면 내 종목 점수·적정 매수가 알림·결정 일지를 쓸 수 있어요. 아래는 <b>예시 계정</b>의 포트폴리오입니다.</div>
+    <div class="gh-note">아래는 <b>예시 계정</b>의 포트폴리오입니다. 아래 메뉴의 브리핑·기업도 가입 없이 둘러볼 수 있어요.</div>
   </section>`;
 }
 document.addEventListener('submit', e => {
@@ -1688,6 +1684,8 @@ const GUEST_GATE = {
   'hold-new':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'], 'hold-edit':['내 포트폴리오', '내 종목을 기록하면 수익률, 비중, 지금 할 일을 정리해 드려요.'],
   'hold-save':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-del':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'hold-analyze':['종목 분석', '보유 종목을 바로 분석할 수 있어요.'],
   'intro-add':['내 포트폴리오', '내 종목을 기록할 수 있어요.'], 'intro-push':['알림', '살 만한 가격이 되면 휴대폰과 PC로 알려 드려요.'],
+  'deep':['자세한 심사', '재무 13개 지표, 멍거의 질문, 버크셔 관점, 가격 해부, 뉴스까지 회사마다 정리돼 있어요.'],
+  'nudge':['둘러보신 기능, 내 종목으로', '내 종목 점수와 적정 매수가, 그 가격에 오면 오는 알림까지 바로 쓸 수 있어요.'],
   'newsletter':['칼럼 메일 구독', '매주 월요일, 시장·트렌드·금리 정리와 대가의 이야기를 메일로 받아 볼 수 있어요.'],
   'share-pf':['내 투자 카드 공유', '내 포트폴리오 수익률과 투자 성향을 카드 두 장으로 만들어 올릴 수 있어요.'],
   'co-new':['회사 추가', '원하는 회사를 직접 추가해 심사할 수 있어요.'], 'co-journal':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'co-del':['내 기록', '내 기록을 관리할 수 있어요.'],
@@ -1722,6 +1720,24 @@ document.addEventListener('click', async e => {
   saveProg({ setupV1: today(), setupPush: pushState === 'on', setupHome: isStandalone() });
   S.setupClosed = true; store.track('view', 'setup-' + k); document.body.classList.remove('noscroll'); render();
 });
+/* 비회원이 1분 넘게 둘러보면 한 번 가입 안내 (하루 한 번, 다른 창이 떠 있으면 미룸) */
+let __nudgeT = null;
+function guestNudgeArm(){
+  if(__nudgeT || !store.isGuest) return;
+  try{ const t = +localStorage.getItem('vn-nudge') || 0; if(Date.now() - t < 864e5) return; }catch(_){}
+  const fire = () => {
+    if(!store.isGuest) return;
+    if(document.querySelector('.gate, .qz, .intro')){ __nudgeT = setTimeout(fire, 15000); return; }
+    try{ localStorage.setItem('vn-nudge', String(Date.now())); }catch(_){}
+    document.body.insertAdjacentHTML('beforeend', `<div class="gate g-nudge" role="dialog" aria-modal="true" aria-label="가입 안내"><div class="gate-card">
+      <div class="eyebrow">가입하면 열려요</div><h3>이제 내 종목으로 써 보세요</h3>
+      <ul><li><b>내 종목 점수</b> · 보유·관심 종목을 같은 기준으로 채점</li><li><b>적정 매수가 알림</b> · 그 가격에 오면 휴대폰·PC로</li><li><b>전체 기업 목록</b> · 5개 시장 600+ 기업 점수순</li><li><b>자세한 심사</b> · 재무 13개 지표, 멍거의 질문, 버크셔 관점</li></ul>
+      <div class="gate-a" style="flex-direction:column">${kakaoOn() ? `<button type="button" class="btn kakao-btn" data-lg="kakao">${KAKAO_SVG}<span>카카오로 3초 만에 시작하기</span></button>` : ''}<button type="button" class="btn ${kakaoOn() ? '' : 'primary'}" data-guest="signup">이메일로 가입하기</button></div>
+      <button type="button" class="linkbtn" data-guest="close" style="margin-top:10px">조금 더 둘러볼게요</button></div></div>`);
+    store.track('view', 'gate-nudge');
+  };
+  __nudgeT = setTimeout(fire, 60000);
+}
 function guestGate(key){
   const [t, d] = GUEST_GATE[key] || ['이 기능', '내 기록이 저장되고 모든 기능을 쓸 수 있어요.'];
   document.querySelector('.gate')?.remove();
@@ -1744,6 +1760,7 @@ document.addEventListener('click', e => {
   const g = e.target.closest('[data-guest]');
   if(g){ const k = g.dataset.guest; if(k === 'close') document.querySelector('.gate')?.remove(); else if(k === 'back'){ document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = ''); render(); window.scrollTo(0,0); } else openAuth(k); return; }
   if(e.target.classList?.contains('gate')){ e.target.remove(); return; }
+  if(e.target.closest('details.g-lock summary')){ e.preventDefault(); e.stopImmediatePropagation(); guestGate('deep'); return; }
   const a = e.target.closest('[data-act]'); if(!a || !(a.dataset.act in GUEST_GATE)) return;
   e.preventDefault(); e.stopImmediatePropagation(); guestGate(a.dataset.act);
 }, true);
@@ -1822,6 +1839,7 @@ function render(){
   app.insertAdjacentHTML('beforeend', discFootHtml());
   if(store.isDemo) app.insertAdjacentHTML('afterbegin', demoBar());
   if(store.isGuest) app.insertAdjacentHTML('afterbegin', guestBar());
+  if(store.isGuest){ document.querySelectorAll('#app details.deep').forEach(d => { d.classList.add('g-lock'); d.open = false; const sm = d.querySelector('summary'); if(sm && !sm.querySelector('.lock-pill')) sm.insertAdjacentHTML('beforeend', '<span class="lock-pill">가입 후 열림</span>'); }); guestNudgeArm(); }
   if(inApp() && isIOS() && !S.extClosed) app.insertAdjacentHTML('afterbegin', `<div class="ext-bar"><span><b>Safari에서 열면 더 편해요</b> 로그인 유지·알림·홈 화면 추가가 돼요</span><a class="btn" href="x-safari-https://${location.host}${location.pathname}${location.search}">Safari로 열기</a><button type="button" class="ext-x" aria-label="닫기" onclick="S.extClosed=true;this.parentNode.remove()">×</button></div>`);
   if(S.loaded.s && !consentOk() && !store.isDemo){ app.insertAdjacentHTML('beforeend', consentHtml()); document.body.classList.add('noscroll'); }
   else if(S.loaded.s && !invDone()){ app.insertAdjacentHTML('beforeend', onboardHtml()); document.body.classList.add('noscroll'); }
@@ -3015,7 +3033,8 @@ function viewCompanies(){
   const st = S.scope || 'held';
   let rows = filteredStage(st);
   if(S.coFocus){ const i = rows.findIndex(x => normKey(x.code) === normKey(S.coFocus)); if(i > 0) rows = [rows[i], ...rows.slice(0,i), ...rows.slice(i+1)]; }
-  const shown = rows.slice(0, S.coShown || 30);
+  const gLim = store.isGuest && !(S.coQ||'').trim() && rows.length > 10;
+  const shown = rows.slice(0, gLim ? 10 : (S.coShown || 30));
   return `<div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">기업</h2><button class="btn" data-act="co-new">직접 추가</button></div>
   <div class="card stack" style="margin-top:10px;gap:10px">${funnelHtml()}${filterBarHtml()}</div>
   ${(S.coQ||'').trim() && !rows.length && azOn() ? `<div class="notice" style="margin-top:10px">"${esc(S.coQ)}"은 목록에 없습니다. 아래에서 검색해 바로 분석할 수 있습니다.</div>` : ''}
@@ -3023,7 +3042,10 @@ function viewCompanies(){
   ${st !== 'held' ? `<div style="margin-top:12px">${scoreMapHtml(rows)}</div>` : ''}
   <div class="small muted" style="margin-top:12px" id="coListTop">${rows.length}개${rows.length > shown.length ? ` 중 ${shown.length}개` : ''}</div>
   <div class="card pick-list" style="margin-top:6px">${shown.map(listRowHtml).join('') || '<div class="empty">조건에 맞는 기업이 없습니다.</div>'}
-    ${rows.length > shown.length ? `<div class="row" style="justify-content:center;padding:8px 0"><button class="btn" data-act="co-more">더 보기 (${rows.length - shown.length})</button></div>` : ''}</div>
+    ${gLim ? `<div class="g-more"><div class="g-blur" aria-hidden="true">${rows.slice(10, 13).map(listRowHtml).join('')}</div>
+      <div class="g-more-c"><b>나머지 ${(rows.length - 10).toLocaleString('ko-KR')}개 기업</b><span>가입하면 5개 시장 전체를 점수순으로 보고, 관심 종목은 적정 매수가에 오면 알림을 받아요.</span>
+      <button type="button" class="btn primary" data-guest="signup">가입하고 전체 보기</button></div></div>`
+    : rows.length > shown.length ? `<div class="row" style="justify-content:center;padding:8px 0"><button class="btn" data-act="co-more">더 보기 (${rows.length - shown.length})</button></div>` : ''}</div>
   `;
 }
 /* ============ 목록에 없는 종목: 검색 → 즉시 분석 (웹 전용, 3회까지) ============ */
@@ -5967,6 +5989,15 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .ext-bar span{flex:1} .ext-bar b{color:#E4C78D;margin-right:4px}
 .ext-bar .btn{flex:0 0 auto;background:#E4C78D;color:#0A1322;border:0;font-weight:800;padding:8px 12px;text-decoration:none}
 .ext-x{all:unset;cursor:pointer;font-size:20px;line-height:1;padding:0 4px;color:rgba(243,238,227,.7)}
+.g-more{position:relative}
+.g-blur{filter:blur(5px);opacity:.55;pointer-events:none;user-select:none;max-height:220px;overflow:hidden}
+.g-more-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0),var(--surface) 45%);word-break:keep-all}
+.g-more-c b{font-size:16px} .g-more-c span{font-size:13.5px;line-height:1.55;color:var(--muted);max-width:320px}
+.g-more-c .btn{margin-top:6px}
+details.g-lock summary{position:relative}
+.lock-pill{margin-left:auto;flex:0 0 auto;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--ink);white-space:nowrap}
+.g-nudge .gate-card ul li b{color:var(--ink)}
+.g-nudge .gate-a .btn{width:100%;justify-content:center}
 .guest-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:14px 0 0;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid rgba(201,164,92,.55);box-shadow:0 6px 20px rgba(14,26,43,.06);word-break:keep-all}
 .guest-bar .gb-t{flex:1 1 320px;display:flex;flex-direction:column;gap:3px;font-size:13.5px;line-height:1.55;color:var(--muted)}
 .guest-bar .gb-t b{color:var(--ink);font-size:14.5px}
