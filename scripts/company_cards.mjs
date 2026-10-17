@@ -189,7 +189,9 @@ function gapText(R) {
   if (R >= 1.5) return `적정가의 ${n0(R, 1)}배`;
   if (R > 1.05) return `적정가보다 ${n0((R - 1) * 100)}% 높음`;
   if (R >= 0.95) return '적정가와 비슷';
-  return `적정가보다 ${n0((1 - R) * 100)}% 낮음`;
+  if (R <= 0.5) return `적정가의 ${n0(R * 100)}% 수준`;
+  const d = 1 - R, fr = [[2, '2분의 1'], [3, '3분의 1'], [4, '4분의 1'], [5, '5분의 1']].find(([k]) => Math.abs(d - 1 / k) <= 0.025);
+  return fr ? `적정가보다 ${fr[1]} 싸다` : `적정가보다 ${n0(d * 100)}% 싸다`;
 }
 
 function cards(x, a) {
@@ -224,7 +226,7 @@ function cards(x, a) {
 
 function caption(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
-  const L = [a.ratio === null ? `${r.n}의 적정 주가는 얼마일까요?` : `${r.n}의 적정 주가는 ${money(sc.iv, r.cur || 'KRW')}? 지금 주가는 ${money(r.px, r.cur || 'KRW')}, ${gapText(a.ratio).replace(/음$/, '습니다').replace(/배$/, '배입니다').replace(/비슷$/, '비슷합니다')}.`, ''];
+  const L = [a.ratio === null ? `${r.n}의 적정 주가는 얼마일까요?` : `${r.n}의 적정 주가는 ${money(sc.iv, r.cur || 'KRW')}? 지금 주가는 ${money(r.px, r.cur || 'KRW')}, ${gapText(a.ratio).replace(/높음$/, '높습니다').replace(/싸다$/, '쌉니다').replace(/수준$/, '수준입니다').replace(/배$/, '배입니다').replace(/비슷$/, '비슷합니다')}.`, ''];
   if (isNum(sc.iv)) L.push(`밸류노트가 계산한 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다.`);
   L.push('');
   for (const c of a.cap) L.push(c, '');
