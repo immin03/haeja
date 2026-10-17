@@ -109,6 +109,11 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .mos{font-size:64px;font-weight:900;letter-spacing:-.03em}.pos{color:#7FD1A8}.neg{color:#F08C78}
 .rows div{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid rgba(255,255,255,.1);padding:26px 0;font-size:38px;font-weight:600}.rows div:first-child{border-top:0}.rows b{font-size:44px;font-weight:800}
 .rows small{display:block;font-size:26px;color:#8F9AAB;font-weight:500;margin-top:4px}
+.lead{font-size:44px;line-height:1.5;font-weight:700;color:#F3EEE3}
+.steps>div{display:flex;align-items:center;gap:26px;border-top:2px solid rgba(255,255,255,.1);padding:30px 0}.steps>div:first-child{border-top:0}
+.steps .n{flex:0 0 64px;height:64px;border-radius:50%;background:#E2C489;color:#0A1322;font-weight:900;font-size:32px;display:flex;align-items:center;justify-content:center}
+.steps .tx{flex:1;font-size:38px;font-weight:700}.steps small{display:block;font-size:27px;color:#8F9AAB;font-weight:500;margin-top:6px;line-height:1.4}.steps b{font-size:42px;font-weight:800;color:#E2C489;text-align:right}
+.alt{margin-top:26px;border-left:6px solid #E2C489;padding:10px 0 10px 34px}
 .flags{margin-top:30px;display:flex;flex-wrap:wrap;gap:14px}.flag{border-radius:999px;padding:12px 24px;font-size:30px;font-weight:700;background:rgba(240,140,120,.16);color:#F5B3A5}.flag.w{background:rgba(255,255,255,.1);color:#C7CEDA}
 .cta{background:#F3EEE3;color:#0A1322}.cta .wm{color:#0A1322}.cta .wm i{color:#A8823F}.cta .wm .ko,.cta .pg{color:#7A8394}
 .cta h2{font-size:76px;margin-bottom:0}.cta em{color:#A8823F}.cta .sub{color:#3A4558}
@@ -116,49 +121,107 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .handle{margin-top:28px;font-size:30px;color:#7A8394;font-weight:600}
 .disc{position:absolute;left:84px;right:84px;bottom:60px;font-size:22px;color:#7A8394;line-height:1.5}`;
 
+// ---------- 분석: 적정 주가 → 계산 방법 → 차이가 나는 이유 ----------
+const DISC_R = { KR: 10, US: 10, CN: 11, HK: 11, JP: 9 };
+function analyze(x) {
+  const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {}, val = r.val || {}, g = grpOf(r.m);
+  const M = (v) => money(v, cur);
+  const pens = (sc.flags || []).filter((fl) => !WARN_FLAGS.has(fl)), warns = (sc.flags || []).filter((fl) => WARN_FLAGS.has(fl));
+  const ratio = isNum(sc.iv) && sc.iv > 0 && isNum(r.px) ? r.px / sc.iv : null;
+  const o = { pens, warns, ratio, method: [], why: [], alt: null, verdict: '', cap: [] };
+  // 1) 결론
+  if (ratio === null) o.verdict = '적정 가격을 계산할 이익 자료가 부족합니다.';
+  else if (ratio >= 2) o.verdict = `현재가는 계산한 적정 가격의 **${n0(ratio, 1)}배**입니다.`;
+  else if (ratio > 1.05) o.verdict = `현재가가 적정 가격보다 **${n0((ratio - 1) * 100)}%** 높습니다.`;
+  else if (ratio >= 0.95) o.verdict = '현재가가 적정 가격과 **거의 같습니다**.';
+  else o.verdict = `현재가가 적정 가격보다 **${n0((1 - ratio) * 100)}%** 낮습니다.`;
+  // 2) 계산 방법
+  const disc = DISC_R[g] ?? 10;
+  if (isNum(sc.dcf)) {
+    const oe = isNum(val.oeps) ? (isNum(val.sbcps) ? val.oeps - val.sbcps : val.oeps) : null;
+    const base = sc.ivBasis === 'norm' ? Math.min(val.epsAvg, isNum(val.eps) && val.eps > 0 ? val.eps : Infinity) : oe;
+    o.method.push(sc.ivBasis === 'norm'
+      ? ['기준 이익', `주당 ${M(base)}`, `최근 ${r.yrs || 5}년 평균 주당순이익. 호황·불황을 고르게 반영`]
+      : ['기준 이익', `주당 ${M(base)}`, '실제로 남은 현금(주주 이익). 주식 보상 비용은 뺌']);
+    o.method.push(['성장 가정', `연 ${n0(val.growth, 1)}%`, '앞으로 10년, 과거 성장률을 보수적으로 반영']);
+    o.method.push(['할인율', `연 ${disc}%`, '이 정도는 벌어야 한다는 기대 수익률']);
+    o.methodNote = '10년 동안 벌 이익과 그 이후 가치를 오늘 돈으로 바꿔 더했습니다 (현금흐름 할인).';
+    o.cap.push(`계산은 이렇게 했습니다. ${sc.ivBasis === 'norm' ? `최근 ${r.yrs || 5}년 평균 주당순이익 ${M(base)}` : `주당 주주 이익(현금 기준) ${M(base)}`}을 기준으로, 앞으로 10년간 연 ${n0(val.growth, 1)}% 성장한다고 보고 연 ${disc}%의 기대 수익률로 할인했습니다.`);
+  } else if (isNum(sc.graham)) {
+    o.method.push(['주당순이익', M(val.eps), '최근 1년']);
+    o.method.push(['주당순자산', M(val.bps), '회사가 가진 순자산을 주식 수로 나눈 값']);
+    o.method.push(['공식', '√(22.5 × 이익 × 자산)', '그레이엄이 쓴 적정 가격 공식']);
+    o.methodNote = r.fin_sector ? '은행·보험은 현금흐름 계산이 맞지 않아 이익과 자산으로 봅니다.' : '현금 기준 이익이 마이너스라 이익과 자산으로 계산했습니다.';
+    o.cap.push(`계산은 그레이엄 공식으로 했습니다. 주당순이익 ${M(val.eps)}과 주당순자산 ${M(val.bps)}을 곱해 22.5배 한 값의 제곱근입니다. ${o.methodNote}`);
+  }
+  // 3) 차이가 나는 이유
+  if (isNum(sc.ig) && isNum(sc.hist)) {
+    const need = sc.ig >= 80 ? '80% 이상' : sc.ig <= -30 ? '-30% 이하' : `${n0(sc.ig, 1)}%`;
+    if (sc.ig > sc.hist + 2) {
+      o.why.push(`지금 주가가 맞으려면 앞으로 10년간 이익이 **매년 ${need}** 늘어야 합니다.`);
+      o.why.push(`지난 몇 년 실제 성장은 연 ${n0(sc.hist, 1)}%였습니다.`);
+      o.cap.push(`지금 주가가 맞으려면 앞으로 10년간 이익이 매년 ${need}씩 늘어야 합니다. 지난 몇 년 실제 성장은 연 ${n0(sc.hist, 1)}%였습니다.`);
+    } else {
+      o.why.push(sc.ig < 0 ? `지금 주가는 앞으로 이익이 **매년 ${n0(-sc.ig, 1)}%씩 줄어든다**고 가정한 수준입니다.` : `지금 주가는 앞으로 이익이 **매년 ${need}** 늘어난다는 정도만 가정합니다.`);
+      o.why.push(`지난 몇 년 실제 성장(연 ${n0(sc.hist, 1)}%)보다 ${sc.ig < sc.hist - 2 ? '낮은 기대입니다' : '크게 높지 않습니다'}.`);
+      o.cap.push(`지금 주가는 ${sc.ig < 0 ? `이익이 매년 ${n0(-sc.ig, 1)}%씩 줄어든다고` : `이익이 매년 ${need} 늘어나는 정도만`} 가정합니다. 지난 몇 년 실제 성장은 연 ${n0(sc.hist, 1)}%였습니다.`);
+    }
+  }
+  if (ratio !== null && ratio < 1 && pens.length) {
+    o.why.push(`다만 싼 데는 이유가 있을 수 있습니다. 감점 신호: **${pens.join(', ')}**.`);
+    o.cap.push(`다만 싼 데는 이유가 있을 수 있습니다. ${pens.join(', ')} 신호가 있어 이 부분을 먼저 확인해야 합니다.`);
+  }
+  // 최근 이익이 평균과 크게 다를 때: 반대 시나리오
+  if (sc.ivBasis === 'norm' && isNum(sc.ivNow) && isNum(val.eps) && isNum(val.epsAvg) && val.eps > val.epsAvg * 1.5) {
+    o.alt = { t: `다만 최근 1년 이익(주당 ${M(val.eps)})은 평균의 ${n0(val.eps / val.epsAvg, 1)}배입니다.`,
+      s: `이 이익이 계속된다면 적정 가격은 **${M(sc.ivNow)}**입니다. 결국 질문은 하나입니다. 지금 이익이 한때의 호황인가, 새로운 수준인가.` };
+    o.cap.push(`다만 최근 1년 주당순이익 ${M(val.eps)}은 평균의 ${n0(val.eps / val.epsAvg, 1)}배입니다. 이 이익이 계속된다면 적정 가격은 ${M(sc.ivNow)}입니다. 결국 핵심은 지금 이익이 한때의 호황인지, 새로운 수준인지입니다.`);
+  }
+  return o;
+}
+
 function cards(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {}, g = grpOf(r.m);
   const code = r.code || r.t;
-  const pens = (sc.flags || []).filter((fl) => !WARN_FLAGS.has(fl)), warns = (sc.flags || []).filter((fl) => WARN_FLAGS.has(fl));
   const out = [];
-  out.push({ cls: '', html: `<div class="body"><div class="k">오늘의 기업 · ${MKT[g]}</div><h1>${br(a.t)}</h1><div class="sub">${br(a.s)}</div><div class="meta">${esc(code)}${r.ind ? ' · ' + esc(r.ind) : ''}</div></div><div class="swipe">넘겨서 보기 →</div>` });
-  const bar = (l, v, note) => `<div class="bar"><div class="l">${l}<span>${v}점</span></div><div class="track"><i style="width:${v}%"></i></div>${note ? `<div class="note">${note}</div>` : ''}</div>`;
-  out.push({ cls: '', html: `<div class="body"><h2>점수는 이렇게 나왔습니다</h2><div class="big"><b>${sc.b}</b><span>버핏 근접도<br>70점 이상이 기준</span></div>
-    ${bar('숫자 품질', sc.q, '돈을 잘 벌고, 빚이 적고, 이익이 꾸준한가')}${bar('저평가', sc.v, '지금 가격이 적정 가격보다 얼마나 싼가')}</div>` });
-  if (isNum(sc.iv) && isNum(r.px)) {
-    const ratio = sc.iv > 0 ? r.px / sc.iv : null;
-    const line = isNum(sc.mos) ? (sc.mos >= 0 ? `적정 가격보다 <span class="mos pos">${n0(sc.mos)}%</span> 낮습니다` : ratio && ratio >= 2 ? `적정 가격의 <span class="mos neg">${n0(ratio, 1)}배</span>입니다` : `적정 가격보다 <span class="mos neg">${n0(-sc.mos)}%</span> 높습니다`) : '';
-    out.push({ cls: '', html: `<div class="body"><h2>가격은 어디쯤일까</h2><div class="px"><div><div class="t">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="t">적정 가격</div><div class="v">${money(sc.iv, cur)}</div></div></div>
-      <div class="sub" style="margin-top:0;font-size:44px;color:#F3EEE3;font-weight:700">${line}</div><div class="note" style="margin-top:34px">적정 가격은 과거 평균 이익·주주 이익과 자산 가치로 계산했습니다. 미래를 보장하지 않습니다.</div></div>` });
+  out.push({ cls: '', html: `<div class="body"><div class="k">오늘의 기업 분석 · ${MKT[g]}</div><h1>${br(r.n + '의\n적정 주가는\n얼마일까?')}</h1>
+    <div class="sub">지금 주가 ${money(r.px, cur)}.${isNum(sc.iv) ? `<br>밸류노트 계산은 <em>${money(sc.iv, cur)}</em>입니다.` : ''}</div><div class="meta">${esc(code)}${r.ind ? ' · ' + esc(r.ind) : ''}</div></div><div class="swipe">넘겨서 보기 →</div>` });
+  if (isNum(sc.iv)) {
+    out.push({ cls: '', html: `<div class="body"><h2>결론부터</h2><div class="px"><div><div class="t">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="t">적정 주가</div><div class="v" style="color:#E2C489">${money(sc.iv, cur)}</div></div></div>
+      <div class="lead">${br(a.verdict)}</div><div class="note" style="margin-top:30px">밸류노트 종합 점수 ${sc.b}점 · 품질 ${sc.q}점 · 저평가 ${sc.v}점</div></div>` });
+  }
+  if (a.method.length) {
+    out.push({ cls: '', html: `<div class="body"><h2>어떻게 계산했나</h2><div class="steps">${a.method.map((m, i) => `<div><span class="n">${i + 1}</span><span class="tx">${m[0]}<small>${esc(m[2])}</small></span><b>${esc(m[1])}</b></div>`).join('')}</div>
+      <div class="note" style="margin-top:34px">${esc(a.methodNote)}</div></div>` });
+  }
+  if (a.why.length || a.alt) {
+    out.push({ cls: '', html: `<div class="body"><h2>왜 이런 차이가 날까</h2>${a.why.map((w) => `<div class="lead" style="margin-bottom:26px">${br(w)}</div>`).join('')}
+      ${a.alt ? `<div class="alt"><div class="lead" style="font-size:38px">${br(a.alt.t)}</div><div class="note" style="font-size:34px">${br(a.alt.s)}</div></div>` : ''}</div>` });
   }
   const rows = [
     ['5년 평균 ROE', isNum(f.roeAvg) ? n0(f.roeAvg, 1) + '%' : null, '자기자본으로 1년에 버는 비율'],
     ['현금 전환율', !r.fin_sector && isNum(f.fcfConv) ? n0(f.fcfConv) + '%' : null, '이익 중 실제로 들어온 현금'],
     ['장기부채 ÷ 순이익', !r.fin_sector && isNum(f.ltdNi) ? (f.ltdNi < 0.05 ? '거의 없음' : n0(f.ltdNi, 1) + '배') : null, '이익으로 빚을 갚는 데 걸리는 해'],
     ['PER', isNum(sc.per) ? n0(sc.per, 1) + '배' : null, '그레이엄 기준 15배 이하'],
-    ['PBR', isNum(sc.pbr) ? n0(sc.pbr, 2) + '배' : null, ''],
-  ].filter((m) => m[1]).slice(0, 4);
-  out.push({ cls: '', html: `<div class="body"><h2>근거가 된 숫자</h2><div class="rows">${rows.map((m) => `<div><span>${m[0]}${m[2] ? `<small>${m[2]}</small>` : ''}</span><b>${m[1]}</b></div>`).join('')}</div>
-    ${pens.length || warns.length ? `<div class="flags">${pens.map((fl) => `<span class="flag">감점 · ${esc(fl)}</span>`).join('')}${warns.map((fl) => `<span class="flag w">경고 · ${esc(fl)}</span>`).join('')}</div>` : ''}</div>` });
-  out.push({ cls: 'cta', html: `<div class="body"><h2>내 종목은<br>**몇 점일까요?**</h2><div class="sub">${josa(esc(r.n), '을', '를')} 포함해 600여 개 기업의<br>점수와 적정 가격을 같은 기준으로 봅니다.</div><div class="btn">프로필 링크에서 확인하기</div><div class="handle">밸류노트 · ${HANDLE}</div></div><div class="disc">${esc(DISC)}</div>` });
+  ].filter((m) => m[1]);
+  out.push({ cls: '', html: `<div class="body"><h2>회사 체력은 어떨까</h2><div class="rows">${rows.map((m) => `<div><span>${m[0]}<small>${m[2]}</small></span><b>${m[1]}</b></div>`).join('')}</div>
+    ${a.pens.length || a.warns.length ? `<div class="flags">${a.pens.map((fl) => `<span class="flag">감점 · ${esc(fl)}</span>`).join('')}${a.warns.map((fl) => `<span class="flag w">경고 · ${esc(fl)}</span>`).join('')}</div>` : ''}</div>` });
+  out.push({ cls: 'cta', html: `<div class="body"><h2>내 종목의<br>**적정 주가는?**</h2><div class="sub">${josa(esc(r.n), '을', '를')} 포함해 600여 개 기업을<br>같은 방법으로 계산해 두었습니다.</div><div class="btn">프로필 링크에서 확인하기</div><div class="handle">밸류노트 · ${HANDLE}</div></div><div class="disc">${esc(DISC)}</div>` });
   return out.map((c) => ({ ...c, html: c.html.replace(/\*\*(.+?)\*\*/g, '<em>$1</em>') }));
 }
 
 function caption(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
-  const pens = (sc.flags || []).filter((fl) => !WARN_FLAGS.has(fl));
-  const L = [`오늘의 기업은 ${r.n}입니다.`, ''];
-  L.push(`밸류노트 점수는 ${sc.b}점입니다. 숫자 품질 ${sc.q}점, 저평가 ${sc.v}점입니다.`);
-  if (isNum(f.roeAvg)) L.push(`5년 평균 ROE는 ${n0(f.roeAvg, 1)}%입니다.`);
-  if (isNum(sc.iv) && isNum(r.px)) L.push(`현재가 ${money(r.px, cur)}, 계산한 적정 가격은 ${money(sc.iv, cur)}입니다.`);
-  if (pens.length) L.push(`감점 신호는 ${pens.join(', ')}입니다.`);
+  const L = [`${r.n}의 적정 주가는 얼마일까요?`, ''];
+  if (isNum(sc.iv)) L.push(`밸류노트 계산은 ${money(sc.iv, cur)}입니다. 지금 주가는 ${money(r.px, cur)}이고, ${a.verdict.replace(/\*\*/g, '')}`);
   L.push('');
-  if (a.k === 'pricey') L.push('회사는 좋지만 지금 가격은 비싼 편입니다. 좋은 회사를 언제 사느냐가 수익을 가릅니다.');
-  else if (a.k === 'pass') L.push('품질과 가격이 함께 기준을 넘은 경우는 600여 곳 중 많지 않습니다. 사업 내용과 감점 신호를 함께 확인해 보세요.');
-  else if (a.k === 'over') L.push('지금 주가에는 과거 이익으로 설명되지 않는 기대가 들어 있습니다. 그 기대가 맞을지가 앞으로의 수익을 가릅니다.');
-  else if (a.k === 'trap') L.push('싸다는 것만으로는 부족합니다. 이익이 꾸준하지 않으면 싼 가격이 계속될 수 있습니다.');
-  L.push('', `전체 근거는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.`);
-  return L.join('\n');
+  for (const c of a.cap) L.push(c, '');
+  const q = [];
+  if (isNum(f.roeAvg)) q.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
+  if (!r.fin_sector && isNum(f.fcfConv)) q.push(`현금 전환율 ${n0(f.fcfConv)}%`);
+  L.push(`회사 체력은 ${q.length ? q.join(', ') + '이고, ' : ''}밸류노트 종합 점수는 ${sc.b}점(품질 ${sc.q}, 저평가 ${sc.v})입니다.${a.pens.length ? ` 감점 신호는 ${a.pens.join(', ')}입니다.` : ''}`);
+  L.push('', `기업별 전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.`);
+  return L.join('\n').replace(/\n{3,}/g, '\n\n');
 }
 
 const state0 = path.join(OUT, 'state.json');
@@ -172,7 +235,7 @@ const rows = await load();
 if (rows.length < 300) throw new Error('rows too few');
 const x = pick(rows, state);
 if (!x) throw new Error('고를 회사가 없음');
-const a = angle(x.r, x.sc);
+const a = analyze(x);
 const C = cards(x, a);
 const dir = path.join(OUT, tag); fs.mkdirSync(dir, { recursive: true });
 const b = await chromium.launch(); const pg = await b.newPage({ viewport: { width: 1080, height: 1350 } });
