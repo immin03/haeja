@@ -110,7 +110,7 @@ def make_spec(key, chg, closes, now, info=None):
     if days >= 2:
         if fwd is not None:
             scenes.append({"type": "compare", "l": {"label": f"최근 10년\n이만큼 {word} 날", "v": f"{days}번", "tone": "gold"},
-                           "r": {"label": "그 1년 뒤\n평균", "v": f"{fwd:+.0f}%", "tone": "good" if fwd > 0 else "loss"},
+                           "r": {"label": "그 1년 뒤\n평균", "v": f"{fwd:+.0f}%", "sub": "과거 평균 · 미래 보장 아님", "tone": "good" if fwd > 0 else "loss"},
                            "cap": [f"최근 10년 이런 날은 {days}번", f"1년 뒤 평균 {fwd:+.0f}%"]})
         else:
             scenes.append({"type": "compare", "l": {"label": "최근 10년", "v": f"{days}번", "tone": "gold"},
