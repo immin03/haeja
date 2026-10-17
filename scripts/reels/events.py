@@ -7,7 +7,7 @@ GitHub Actions에서 3시간마다 실행. 조건에 걸리면 events/E*.json �
 
 테스트: python3 events.py --fake KS11 -4.2   (가짜 변동으로 대본만 만들어 본다)
 """
-import os, sys, json, math, datetime as dt, urllib.request
+import os, sys, json, math, time, datetime as dt, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -37,9 +37,14 @@ def history(sym):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (valuenote)"})
     j = json.load(urllib.request.urlopen(req, timeout=30))["chart"]["result"][0]
     closes = [c for c in j["indicators"]["quote"][0]["close"] if c is not None]
-    live = j["meta"].get("regularMarketPrice")
+    m = j["meta"]; live = m.get("regularMarketPrice")
     if live and abs(live - closes[-1]) / closes[-1] > 1e-6: closes.append(live)
-    return closes
+    t = m.get("regularMarketTime") or j["timestamp"][-1]
+    off = dt.timedelta(seconds=m.get("gmtoffset", 0))
+    day = (dt.datetime.fromtimestamp(t, dt.timezone.utc) + off).date()          # 거래소 기준 날짜
+    end = (m.get("currentTradingPeriod") or {}).get("regular", {}).get("end", 0)
+    live_now = time.time() < end                                                # 장중이면 True
+    return closes, {"day": day, "age_h": (time.time() - t) / 3600, "live": live_now}
 
 
 def stats(closes, kind, chg):
@@ -65,10 +70,11 @@ def pass_count():
 def man(v): return f"{round(v):,}만"
 
 
-def make_spec(key, chg, closes, now):
+def make_spec(key, chg, closes, now, info=None):
     sym, name, th, kind = SYMS[key]
     up = chg > 0
-    md = f"{now.month}월 {now.day}일"
+    day = (info or {}).get("day") or now.date()
+    md = f"{day.month}월 {day.day}일" + (" 장중" if (info or {}).get("live") else "")
     when = now + dt.timedelta(minutes=60)
     if 1 <= when.hour < 7: when = when.replace(hour=7, minute=30)
     days, fwd, nf = stats(closes[:-1], kind, chg)
@@ -114,14 +120,14 @@ def make_spec(key, chg, closes, now):
     note = f"밸류노트 기준 통과 기업 {n}개" if n else None
     scenes.append({"type": "statement", "l1": st[0], "l2": st[1], "tone": "loss" if (kind == "rate" and up) else "gold", **({"note": note} if note else {})})
     scenes.append({"type": "cta"})
-    head = f"{name}{josa(name, '이', '가')} 하루에 " + (f"{chg:+.2f}%p" if kind == "rate" else f"{chg:+.1f}%") + (" 올랐습니다." if up else " 내렸습니다." if kind != "idx" else " 빠졌습니다.")
+    head = f"{md} {name}{josa(name, '이', '가')} 하루에 " + (f"{chg:+.2f}%p" if kind == "rate" else f"{chg:+.1f}%") + (" 올랐습니다." if up else " 내렸습니다." if kind != "idx" else " 빠졌습니다.")
     lines = [head]
     if kind == "idx": lines.append(f"1,000만 원이었다면 하루 만에 {man(abs(diff))} 원이 {'늘었습니다' if up else '사라졌습니다'}.")
     if days >= 2:
         lines.append(f"최근 10년 동안 이만큼 {word} 날은 {days}번이었습니다." + (f"\n그 1년 뒤 지수는 평균 {fwd:+.0f}%였습니다. (과거 평균이며 앞으로를 보장하지 않습니다)" if fwd is not None else ""))
     lines.append(f"{st[0]} {st[1].rstrip('.')}.")
     if note: lines.append(f"지금 {note.replace('밸류노트 ', '밸류노트 ')}입니다.")
-    return {"id": f"E{now:%y%m%d%H}{key}", "title": f"{md} {name} " + (f"{chg:+.2f}%p" if kind == "rate" else f"{chg:+.1f}%"),
+    return {"id": f"E{day:%y%m%d}{key}", "title": f"{md} {name} " + (f"{chg:+.2f}%p" if kind == "rate" else f"{chg:+.1f}%"),
             "scheduled_at": when.isoformat(timespec="minutes"), "mood": "tense", "event": key,
             "caption": "\n\n".join(lines), "hashtags": [name.replace(" ", "").replace("·", ""), "오늘의시장", "주식뉴스", "주식공부", "밸류노트"],
             "threads_tag": "주식뉴스", "scenes": scenes}
@@ -132,27 +138,31 @@ def main():
     state = json.load(open(STATE)) if os.path.exists(STATE) else {}
     today = now.date().isoformat()
     st = state.get(today, {"keys": []})
+    seen = {k for v in state.values() for k in v.get("seen", [])}
     fake = None
     if "--fake" in sys.argv:
         i = sys.argv.index("--fake"); fake = (sys.argv[i + 1], float(sys.argv[i + 2]))
     made = []
     for key, (sym, name, th, kind) in SYMS.items():
         if len(st["keys"]) >= MAX_PER_DAY: break
-        if key in st["keys"] and not fake: continue
         if fake and key != fake[0]: continue
-        try: closes = history(sym)
+        try: closes, info = history(sym)
         except Exception as e:
             print("데이터 실패", key, e); continue
         chg = (closes[-1] - closes[-2]) if kind == "rate" else (closes[-1] / closes[-2] - 1) * 100
         if fake:
             chg = fake[1]
             closes = closes[:-1] + [closes[-2] + chg if kind == "rate" else closes[-2] * (1 + chg / 100)]
-        print(f"{name}: {chg:+.2f}{'%p' if kind == 'rate' else '%'} (기준 ±{th})")
+            info["age_h"] = 0
+        print(f"{name}: {chg:+.2f}{'%p' if kind == 'rate' else '%'} (기준 ±{th}) · {info['day']} · {info['age_h']:.0f}시간 전")
         if abs(chg) < th: continue
-        spec = make_spec(key, chg, closes, now)
+        tag = f"{key}@{info['day']}"
+        if not fake and (tag in seen or info["age_h"] > 20):   # 이미 다룬 변동이거나 오래된 데이터(주말·휴장)면 건너뜀
+            print("  건너뜀:", "이미 게시" if tag in seen else "오래된 데이터"); continue
+        spec = make_spec(key, chg, closes, now, info)
         os.makedirs(EVDIR, exist_ok=True)
         json.dump(spec, open(os.path.join(EVDIR, spec["id"] + ".json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-        st["keys"].append(key); made.append(spec["id"])
+        st["keys"].append(key); st.setdefault("seen", []).append(tag); made.append(spec["id"])
         print("  → 릴스 대본 생성", spec["id"], spec["scheduled_at"])
     if not fake:
         state = {k: v for k, v in state.items() if k >= (now.date() - dt.timedelta(days=7)).isoformat()}
