@@ -43,7 +43,7 @@ const SUIT = path.join(__dirname, '..', '..', 'fonts', 'SUIT-Variable.woff2');
   for (const t of ['portfolio', 'companies', 'briefing', 'radar', 'trends', 'alerts', 'journal']) { await go(t); await shot(t); }
   await go('portfolio'); await clickText('내 등급'); await p.evaluate(() => window.scrollTo(0, 0)); await shot('level');
   await go('companies');
-  await p.locator('.co-card, .card').filter({ hasText: '매수 후보' }).first().click().catch(() => {});
+  await p.locator('.co-card, .card').filter({ hasText: '기준 통과' }).first().click().catch(() => {});
   await p.waitForTimeout(2000); await p.evaluate(() => window.scrollTo(0, 0)); await shot('company');
   await b.close();
 })().catch(e => { console.error(e); process.exit(1); });

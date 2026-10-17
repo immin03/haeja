@@ -222,6 +222,12 @@ function vOverview(s){
     ${kpi('전체 가입자', n0(s.signups.total), `오늘 +${n0(s.signups.today)} · 7일 +${n0(s.signups.d7)}`)}
     ${kpi('7일 활동 사용자', n0(s.active7), `체험 계정 로그인 7일 ${n0(s.demoVisits7)}회`)}
   </div>
+  <div class="kpis">
+    ${kpi('7일 재방문 회원', n0((s.retention||{}).returning7), `7일 동안 이틀 이상 들어온 회원 · 7일 접속 ${n0((s.retention||{}).active7)}명`)}
+    ${kpi('알림 켠 회원', n0((s.retention||{}).push), '적정 매수가 알림을 받을 수 있는 회원')}
+    ${kpi('홈 화면 앱 사용', n0((s.retention||{}).pwa), '홈 화면 아이콘으로 연 적 있는 회원')}
+    ${kpi('인스타 유입 방문', n0(((s.refs||[]).find(r => r.r === 'ig')||{}).n), `가입 ${n0((s.refSignups||{}).ig)}명 · 최근 30일`)}
+  </div>
   <h2>최근 30일</h2>
   <div class="grid2">
     <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-visit)"></i><b style="color:var(--ink)">방문자</b></span><span>하루 고유 방문자 수</span></div>${barChart(s.daily||[], 'v', 'var(--s-visit)', '방문자')}</div>
@@ -250,19 +256,20 @@ function vSurvey(s){
 }
 
 function userRows(L){
-  return L.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="muted nw">${kst(u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${(u.goal||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('');
+  const SRC = { ig:'인스타', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북' };
+  return L.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(SRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${u.push ? '켬' : '–'}${u.pwa ? ' · 앱' : ''}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${(u.goal||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('');
 }
 function vUsers(s){
   const L = s.users || [];
   return `${head('가입자', `최근 100명 · 운영·체험 계정 제외`, 'users')}
   <div class="tools"><input id="q" type="search" placeholder="이메일·응답 내용으로 찾기"><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
-  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>최근 로그인</th><th>종목</th><th>지금 방식</th><th>바꾸고 싶은 방향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody id="ub">${userRows(L)}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>30일 방문</th><th>최근 방문</th><th>알림·앱</th><th>종목</th><th>지금 방식</th><th>바꾸고 싶은 방향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody id="ub">${userRows(L)}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
 }
 function bindUsers(s){
   const L = s.users || [], q = $('#q'), ub = $('#ub');
   if(q && ub) q.oninput = () => { const k = q.value.trim().toLowerCase(); ub.innerHTML = userRows(k ? L.filter(u => JSON.stringify(u).toLowerCase().includes(k)) : L); };
   const b = $('#csv'); if(b) b.onclick = () => {
-    const cols = ['email','created_at','last_sign_in_at','holdings','style','goal','size','expect','note'];
+    const cols = ['email','created_at','src','days30','last_seen','push','pwa','holdings','style','goal','size','expect','note'];
     const cell = v => '"' + String(Array.isArray(v) ? v.join(' / ') : (v ?? '')).replace(/"/g, '""') + '"';
     const csv = '﻿' + ['이메일,가입,최근 로그인,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(u[c])).join(','))].join('\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'valuenote-users-' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
