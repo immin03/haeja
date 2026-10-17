@@ -3094,7 +3094,12 @@ function viewValue(){
   const side = S.vlSide || 'under', mkt = S.vlMkt || 'ALL';
   if(!(S2.screen || []).length) return `<div class="card empty" style="margin-top:16px">기업 데이터를 불러오는 중입니다…</div>`;
   const rows = valueRows(side, mkt), all = { under: valueRows('under', mkt).length, over: valueRows('over', mkt).length };
-  const lim = store.isGuest ? 10 : (S.vlShown || 30), shown = rows.slice(0, lim);
+  const G = store.isGuest, lim = G ? 8 : (S.vlShown || 30), shown = rows.slice(0, lim);
+  /* 둘러보기: TOP 3는 이름을 가리고, 4~8위 5곳만 공개. 나머지는 가입 후 */
+  const lock = ({ r, R }, i) => `<button type="button" class="vl-row vl-lock" data-guest="signup">
+      <span class="vl-rank">${i + 1}</span>
+      <span class="vl-name"><b>●●●●●</b><small>${esc(MKT[grpOf(r.m)]?.label || '')} · ${esc(r.ind || r.s || '')}</small></span>
+      <span class="vl-num"><b class="${side === 'under' ? 'vl-up' : 'vl-dn'}">${vlGap(R)}</b><small>가입하면 회사 이름 공개</small></span></button>`;
   const row = ({ r, R }, i) => `<button type="button" class="vl-row" data-act="vl-open" data-v="${esc(r.code || r.t)}" data-n="${esc(r.n)}">
       <span class="vl-rank">${i + 1}</span>
       <span class="vl-name"><b>${esc(r.n)}</b><small>${esc(MKT[grpOf(r.m)]?.label || '')} · ${esc(r.ind || r.s || '')}</small></span>
@@ -3104,10 +3109,10 @@ function viewValue(){
     <div class="vl-side">${[['under','저평가', all.under],['over','고평가', all.over]].map(([k, l, c]) => `<button type="button" class="${side === k ? 'on' : ''}" data-act="vl-side" data-v="${k}">${l} <span>${c}</span></button>`).join('')}</div>
     <div class="vl-mkt">${VL_MKT.map(([k, l]) => `<button type="button" class="${mkt === k ? 'on' : ''}" data-act="vl-mkt" data-v="${k}">${l}</button>`).join('')}</div>
     <div class="small muted" style="margin:6px 2px 10px">${side === 'under' ? '현재가가 적정 주가보다 25% 이상 낮은 회사 · 숫자 품질 50점 이상, 감점 신호 없는 회사만' : '현재가가 적정 주가의 1.5배 이상인 회사 중 숫자 품질이 높은 순 (좋은 회사지만 비싼 경우). 10배를 넘는 회사는 이익이 일시적으로 작아 비교가 왜곡될 수 있어 뺐습니다'}</div>
-    <div class="card vl-list">${shown.map(row).join('') || '<div class="empty">조건에 맞는 기업이 없습니다.</div>'}
+    <div class="card vl-list">${G && shown.length > 3 ? `<div class="vl-top3">${shown.slice(0, 3).map(lock).join('')}<button type="button" class="btn primary vl-top3-btn" data-guest="signup">1초 만에 가입하고 TOP 3 보기</button></div>${shown.slice(3).map((x, i) => row(x, i + 3)).join('')}` : (shown.map(row).join('') || '<div class="empty">조건에 맞는 기업이 없습니다.</div>')}
       ${store.isGuest && rows.length > lim ? `<div class="g-more"><div class="g-blur" aria-hidden="true">${rows.slice(lim, lim + 3).map((x, i) => row(x, lim + i)).join('')}</div>
         <div class="g-more-c"><b>나머지 ${rows.length - lim}개 기업</b><span>가입하면 전체 순위를 보고, 관심 종목은 적정 매수가에 오면 알림을 받아요.</span>
-        <button type="button" class="btn primary" data-guest="signup">가입하고 전체 보기</button></div></div>`
+        <button type="button" class="btn primary" data-guest="signup">1초 만에 가입하고 전체 보기</button></div></div>`
       : rows.length > shown.length ? `<div class="row" style="justify-content:center;padding:8px 0"><button class="btn" data-act="vl-more">더 보기 (${rows.length - shown.length})</button></div>` : ''}</div>
     <p class="small muted" style="margin-top:10px">적정 주가는 과거 평균 이익·주주 이익과 자산 가치로 계산한 값이며 미래를 보장하지 않습니다. 특정 종목의 매수·매도를 권하지 않습니다.</p>`;
 }
@@ -6084,6 +6089,9 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .vl-name{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.vl-name b{font-size:15px}
 .vl-name small,.vl-num small{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vl-num{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right}.vl-num b{font-size:14px}
+.vl-top3{position:relative;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:2px}
+.vl-lock .vl-name b{filter:blur(5px);user-select:none;letter-spacing:2px}
+.vl-top3-btn{display:block;margin:10px auto 0}
 .vl-up{color:#2E8B62}.vl-dn{color:#C2493A}
 .g-more{position:relative}
 .g-blur{filter:blur(5px);opacity:.55;pointer-events:none;user-select:none;max-height:220px;overflow:hidden}
