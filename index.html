@@ -1337,6 +1337,9 @@ async function scanAlerts(){
   for(const c of S.companies){
     if(c.kind !== 'stock' || held.has(c.id) || !(c.watch || c.pinned || (c.thesis?.memo||'').trim())) continue;
     const ev = evaluate(c); const id = `buy-${c.id}-${month}`;
+    /* 서버가 종가로 확인할 수 있게 적정 매수가를 회사 문서에 적어 둔다 (화면을 열지 않아도 알림이 가도록) */
+    const bv = ev.verdict === '기준 통과' && isNum(ev.buyBelow) ? Math.round(ev.buyBelow * 100) / 100 : null;
+    if((c.buyAt?.v ?? null) !== bv && !store.isDemo && !store.isGuest){ c.buyAt = bv === null ? null : { v: bv, at: today() }; await store.set('companies', c.id, c); }
     if(ev.verdict === '기준 통과' && isNum(ev.buyBelow) && isNum(c.price) && c.price <= ev.buyBelow && !have.has(id))
       await store.set('alerts', id, { at: now, level: 'good', ...buyAlertText(c, ev), link: { co: c.id }, read: false, source: '장부 판정' });
   }
@@ -3048,6 +3051,7 @@ function azHtml(){
     <form id="az-form" class="az-form" autocomplete="off"><input id="az-q" value="${esc(AZ.q)}" placeholder="예: 에코프로, 팔란티어, 7203" aria-label="종목 검색" enterkeyhint="search"><button class="btn primary" type="submit" ${AZ.busy?'disabled':''}>${AZ.busy && !AZ.run ? '찾는 중' : '검색'}</button></form>
     ${AZ.items ? (items.length ? `<div class="az-list">${items.map(row).join('')}</div>` : `<div class="small muted" style="margin-top:8px">찾은 종목이 없습니다. 티커(예: PLTR, 005930, 7203)로도 찾아 보세요.</div>`) : ''}
     <div class="status-line small" id="az-msg">${esc(AZ.msg)}</div>
+    ${store.mode === 'db' && !store.isDemo && !store.isGuest ? `<div class="az-inv${q && !left ? ' empty' : ''}"><span>${q && !left ? '<b>분석을 모두 썼어요.</b> ' : ''}친구가 가입하면 분석이 <b>1회씩</b> 늘어나요 (최대 +10)</span><button type="button" class="btn ${q && !left ? 'primary' : ''}" data-share="invite">초대 링크 보내기</button></div>` : ''}
     
   </div>`;
 }
@@ -4369,7 +4373,7 @@ function inviteCardHtml(){
   return `<div class="card inv-card">
     <div><div class="eyebrow">친구 초대</div><b>친구가 가입하면 종목 분석이 1회씩 늘어나요</b>
       <div class="small muted" style="margin-top:4px">초대로 가입한 친구 <b class="num">${INV.n ?? '–'}</b>명 · 추가 분석 <b class="num">+${Math.min(10, INV.n || 0)}</b>회 (최대 +10)</div></div>
-    <div class="inv-a"><button type="button" class="btn primary" data-share="invite">초대 링크 보내기</button><button type="button" class="btn" data-share="pf">내 투자 카드 공유</button></div>
+    <div class="inv-a"><button type="button" class="btn primary" data-share="invite">초대 링크 보내기</button></div>
   </div>`;
 }
 document.addEventListener('click', async e => {
@@ -5948,6 +5952,9 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .su-warn{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:rgba(232,160,126,.14);border:1px solid rgba(232,160,126,.45);display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.55}
 .su-warn .btn{align-self:flex-start;margin-top:4px}
 .su .gate-a{margin-top:6px}
+.az-inv{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:13px;line-height:1.5;color:var(--muted)}
+.az-inv .btn{flex:0 0 auto}
+.az-inv.empty{background:var(--accent-soft);color:var(--ink)}
 .guest-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:14px 0 0;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid rgba(201,164,92,.55);box-shadow:0 6px 20px rgba(14,26,43,.06);word-break:keep-all}
 .guest-bar .gb-t{flex:1 1 320px;display:flex;flex-direction:column;gap:3px;font-size:13.5px;line-height:1.55;color:var(--muted)}
 .guest-bar .gb-t b{color:var(--ink);font-size:14.5px}

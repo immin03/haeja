@@ -122,6 +122,23 @@ Deno.serve(async (_req: Request) => {
         link: { co: h.data.companyId || null, tab: "portfolio" }, read: false, source: "종가 갱신" } });
     }
     for (const [k, s] of Object.entries(compSym)) { const p = last(s); if (!p) continue; const [o, cid] = k.split("|"); put(o, "companies", cid, { ...companies[k], price: p[1] }); }
+    // 관심 종목이 적정 매수가 아래로 내려오면 알림 (화면을 열지 않아도). 적정 매수가(buyAt)는 화면이 판정할 때 회사 문서에 적어 둔다.
+    // 알림 번호는 화면과 같은 buy-<회사>-<월> 이라 한 달에 한 번만 간다.
+    const month = today.slice(0, 7);
+    for (const [k, s] of Object.entries(compSym)) {
+      const c = companies[k], ba = c?.buyAt; if (!ba || typeof ba.v !== "number") continue;
+      const [o, cid] = k.split("|");
+      if (holdings.some((h) => h.owner === o && h.data.companyId === cid)) continue;
+      const p = last(s); if (!p || p[1] > ba.v) continue;
+      const name = String(c.name || c.ticker).replace(/\s*\(.*\)$/, "");
+      const ys = String(c.yf || c.ticker || "");
+      const cur = c.currency || (/\.(KS|KQ)$|^\d{6}$/.test(ys) ? "KRW" : /\.T$/.test(ys) ? "JPY" : /\.HK$/.test(ys) ? "HKD" : /\.(SS|SZ)$/.test(ys) ? "CNY" : "USD");
+      const f = (v: number) => cur === "USD" ? "$" + v.toFixed(2) : cur === "KRW" ? Math.round(v).toLocaleString("ko-KR") + "원" : v.toLocaleString("ko-KR") + " " + cur;
+      alertRows.push({ collection: "alerts", id: `buy-${cid}-${month}`, owner: o, updated_at: new Date().toISOString(), data: {
+        at: new Date().toISOString(), level: "good", title: `${name} 적정 매수가 도달`,
+        body: `${p[0]} 종가 ${f(p[1])}, 적정 매수가 ${f(ba.v)} 아래로 내려왔습니다. 판단 근거와 매도 조건을 다시 확인하세요.`,
+        link: { co: cid }, read: false, source: "종가 갱신" } });
+    }
     // 가격 기록은 공용(운영자 소유) 한 벌로 모은다. 모든 사용자가 읽는다.
     const pmap: Record<string, any> = Object.fromEntries(prices.filter((r) => r.owner === pub).map((r) => [r.id, r.data]));
     for (const s of new Set([...Object.values(heldSym), ...Object.values(compSym)])) {

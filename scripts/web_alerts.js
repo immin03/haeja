@@ -172,6 +172,9 @@ async function scanAlerts(){
   for(const c of S.companies){
     if(c.kind !== 'stock' || held.has(c.id) || !(c.watch || c.pinned || (c.thesis?.memo||'').trim())) continue;
     const ev = evaluate(c); const id = `buy-${c.id}-${month}`;
+    /* 서버가 종가로 확인할 수 있게 적정 매수가를 회사 문서에 적어 둔다 (화면을 열지 않아도 알림이 가도록) */
+    const bv = ev.verdict === '기준 통과' && isNum(ev.buyBelow) ? Math.round(ev.buyBelow * 100) / 100 : null;
+    if((c.buyAt?.v ?? null) !== bv && !store.isDemo && !store.isGuest){ c.buyAt = bv === null ? null : { v: bv, at: today() }; await store.set('companies', c.id, c); }
     if(ev.verdict === '기준 통과' && isNum(ev.buyBelow) && isNum(c.price) && c.price <= ev.buyBelow && !have.has(id))
       await store.set('alerts', id, { at: now, level: 'good', ...buyAlertText(c, ev), link: { co: c.id }, read: false, source: '장부 판정' });
   }
