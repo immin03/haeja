@@ -70,7 +70,9 @@ const FAMOUS = {
 function pick(rows, state) {
   const used = new Set(state.used || []);
   const all = rows.map((r) => ({ r, sc: scoreRow(r, null, 30) }))
-    .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t));
+    .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
+    // 적정가와 비슷하거나 조금 다른 회사는 이야기가 약하다: 1.5배 이상 비싸거나 25% 이상 싼 회사만
+    .filter((x) => { const R = isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) ? x.r.px / x.sc.iv : null; return R !== null && (R >= 1.5 || R <= 0.75); });
   const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-17')) / 864e5);
   for (let i = 0; i < ROTA.length; i++) {
     const m = ROTA[(day + i) % ROTA.length];
