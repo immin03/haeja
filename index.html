@@ -2597,10 +2597,26 @@ function weeklyNoteHtml(){
 }
 
 /* ============ 칼럼: 블로그처럼 쌓이는 주간 글 (누구나 읽기) ============ */
+const colInline = t => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 function colBodyHtml(t){
-  return String(t || '').split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => /^■\s*/.test(p)
-    ? `<h3>${esc(p.replace(/^■\s*/, '').split('\n')[0])}</h3>${p.split('\n').slice(1).length ? `<p>${p.split('\n').slice(1).map(esc).join('<br>')}</p>` : ''}`
-    : `<p>${p.split('\n').map(esc).join('<br>')}</p>`).join('');
+  return String(t || '').split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => {
+    const img = p.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
+    if(img) return `<figure class="col-fig"><img src="${esc(img[2])}" alt="${esc(img[1])}" loading="lazy">${img[1] ? `<figcaption>${esc(img[1])}</figcaption>` : ''}</figure>`;
+    if(/^>\s*/.test(p)) return `<blockquote class="col-q">${p.split('\n').map(l => colInline(l.replace(/^>\s*/, ''))).join('<br>')}</blockquote>`;
+    if(/^■\s*/.test(p)) return `<h3>${colInline(p.replace(/^■\s*/, '').split('\n')[0])}</h3>${p.split('\n').slice(1).length ? `<p>${p.split('\n').slice(1).map(colInline).join('<br>')}</p>` : ''}`;
+    return `<p>${p.split('\n').map(colInline).join('<br>')}</p>`; }).join('');
+}
+/* 칼럼 연재: weekly(주간 시장) · giants(거장의 투자). 조회·추천은 column_stats 표 */
+const COL_SERIES = { weekly: '주간 시장', giants: '거장의 투자' };
+const colSeries = c => c.series || 'weekly';
+const COLST = { m: null, busy: false };
+async function colStatsLoad(){ if(COLST.busy || COLST.m || !store.client) return; COLST.busy = true; try{ const { data } = await store.client.rpc('column_stats_all'); COLST.m = data || {}; }catch(_){ COLST.m = {}; } COLST.busy = false; if(S.tab === 'column') render(); }
+const colLikedKey = id => 'vn-like-' + id;
+const colLiked = id => { try{ return localStorage.getItem(colLikedKey(id)) === '1'; }catch(_){ return false; } };
+function colStatHtml(c){ const st = (COLST.m || {})[c.id] || {}; return `<span class="col-stat">조회 ${(st.v || 0).toLocaleString('ko-KR')} · 추천 ${(st.l || 0).toLocaleString('ko-KR')}</span>`; }
+async function colView(id){
+  try{ const k = 'vn-view-' + id + '-' + today(); if(localStorage.getItem(k)) return; localStorage.setItem(k, '1'); }catch(_){}
+  try{ await store.client.rpc('column_view', { p_id: id }); if(COLST.m){ const st = COLST.m[id] ||= { v: 0, l: 0 }; st.v++; if(S.tab === 'column') render(); } }catch(_){}
 }
 const colDate = c => { const d = String(c.id || '').slice(4); return d ? `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일` : ''; };
 function newsletterBox(){
@@ -2613,16 +2629,18 @@ function newsletterBox(){
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
-    <article class="card col-art"><div class="eyebrow">밸류노트 칼럼</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))} · 밸류노트 주간 칼럼</div>
+    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'giants' ? '연재 · 거장의 투자' : '밸류노트 주간 칼럼'}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''} · ${colStatHtml(open)}</div>
+      ${open.cover ? `<figure class="col-fig col-cover"><img src="${esc(open.cover)}" alt=""></figure>` : ''}
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
+      <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
       ${(open.sources || []).length ? `<div class="small muted col-src">출처 ${open.sources.slice(0, 6).map((u, i) => { try{ return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(new URL(u).hostname.replace(/^www\./, ''))}</a>`; }catch(_){ return ''; } }).filter(Boolean).join(' · ')}</div>` : ''}
       <p class="small muted col-disc">공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
-  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">매주 월요일 아침, 시장·트렌드·금리·환율과 그레이엄·버핏·멍거 이야기</div></div></div>
+  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">주간 시장: 매주 월요일 시장·금리·환율 정리 · 거장의 투자: 버핏·그레이엄·멍거의 실제 매매와 생각</div></div></div>
     ${newsletterBox()}
-    ${L.length ? `<div class="col-list">${L.map((c, i) => `<button type="button" class="card col-item${i === 0 ? ' first' : ''}" data-act="col-open" data-v="${esc(c.id)}">
-      <span class="small muted">${esc(colDate(c))}${i === 0 ? ' · 최신' : ''}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(String(c.body || '').replace(/■\s*/g, '').replace(/\s+/g, ' ').slice(0, 90))}…</span></button>`).join('')}</div>`
-      : `<div class="card empty" style="margin-top:12px">첫 칼럼을 준비하고 있어요. 그동안 브리핑 화면의 "이번 주 노트"를 확인해 보세요.</div>`}`;
+    <div class="col-tabs">${[['all','전체'], ...Object.entries(COL_SERIES)].map(([k, l]) => `<button type="button" class="${(S.colSer || 'all') === k ? 'on' : ''}" data-act="col-ser" data-v="${k}">${l}</button>`).join('')}</div>
+    ${(() => { colStatsLoad(); const LL = L.filter(c => (S.colSer || 'all') === 'all' || colSeries(c) === S.colSer); return LL.length ? `<div class="col-list">${LL.map((c, i) => `<button type="button" class="card col-item${i === 0 ? ' first' : ''}${c.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(c.id)}">
+      ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted"><span class="col-ser">${esc(COL_SERIES[colSeries(c)])}</span> ${esc(colDate(c))}${i === 0 ? ' · 최신' : ''} · ${colStatHtml(c)}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(String(c.body || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*]/g, '').replace(/\s+/g, ' ').trim().slice(0, 90))}…</span></button>`).join('')}</div>` : `<div class="card empty" style="margin-top:12px">${L.length ? '이 연재의 첫 글을 준비하고 있어요.' : '첫 칼럼을 준비하고 있어요. 그동안 브리핑 화면의 "이번 주 노트"를 확인해 보세요.'}</div>`; })()}`;
 }
 /* 관리자: 이번 주 숫자로 초안을 만들어 관리자 페이지 칼럼 칸으로 넘긴다 */
 /* 받침이 있으면 '이' (버핏이라면, 그레이엄이라면, 멍거라면) */
@@ -2650,7 +2668,9 @@ function columnDraft(){
 }
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-act]'); if(!a) return; const k = a.dataset.act;
-  if(k === 'col-open'){ S.colOpen = a.dataset.v; S.tab = 'column'; render(); window.scrollTo(0, 0); store.track('view', 'column-read'); }
+  if(k === 'col-open'){ S.colOpen = a.dataset.v; S.tab = 'column'; colStatsLoad(); colView(a.dataset.v); render(); window.scrollTo(0, 0); store.track('view', 'column-read'); }
+  else if(k === 'col-ser'){ S.colSer = a.dataset.v; render(); }
+  else if(k === 'col-like'){ const id = a.dataset.v, on = !colLiked(id); try{ localStorage.setItem(colLikedKey(id), on ? '1' : '0'); }catch(_){} const st = ((COLST.m ||= {})[id] ||= { v: 0, l: 0 }); st.l = Math.max(0, st.l + (on ? 1 : -1)); render(); store.client?.rpc('column_like', { p_id: id, p_on: on }).then(() => {}, () => {}); }
   else if(k === 'col-back'){ S.colOpen = null; render(); window.scrollTo(0, 0); }
   else if(k === 'col-draft'){ try{ localStorage.setItem('vn-col-draft', JSON.stringify(columnDraft())); }catch(_){} window.open('admin.html#column', '_blank'); }
   else if(k === 'nl-toggle'){ if(store.isGuest){ guestGate('newsletter'); return; } const on = !prog().newsletter; saveProg({ newsletter: on, newsletterAt: new Date().toISOString() }); toastMsg(on ? '구독했어요. 새 칼럼이 올라오면 메일로 보내 드려요.' : '메일 구독을 껐어요.'); render(); }
@@ -6013,6 +6033,19 @@ details.g-lock summary{position:relative}
 .lock-pill{margin-left:auto;flex:0 0 auto;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--ink);white-space:nowrap}
 .g-nudge .gate-card ul li b{color:var(--ink)}
 .g-nudge .gate-a .btn{width:100%;justify-content:center}
+.col-tabs{display:flex;gap:6px;margin:12px 0 4px;flex-wrap:wrap}
+.col-tabs button{all:unset;cursor:pointer;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.col-tabs button.on{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.col-ser{display:inline-block;font-weight:700;color:var(--accent);margin-right:2px}
+.col-stat{white-space:nowrap}
+.col-item.has-cover{display:grid;grid-template-columns:96px 1fr;column-gap:12px;align-items:start}
+.col-item.has-cover .col-thumb{grid-row:span 3;width:96px;height:96px;object-fit:cover;border-radius:10px}
+.col-fig{margin:18px 0;text-align:center}
+.col-fig img{max-width:100%;border-radius:12px;display:block;margin:0 auto}
+.col-fig figcaption{margin-top:8px;font-size:12.5px;color:var(--muted)}
+.col-cover{margin-top:14px}
+.col-q{margin:16px 0;padding:12px 16px;border-left:3px solid var(--accent);background:var(--bg);border-radius:0 10px 10px 0;font-size:15px;line-height:1.7}
+.col-like{display:flex;align-items:center;gap:10px;margin:22px 0 4px;padding-top:16px;border-top:1px solid var(--line)}
 .guest-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:14px 0 0;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid rgba(201,164,92,.55);box-shadow:0 6px 20px rgba(14,26,43,.06);word-break:keep-all}
 .guest-bar .gb-t{flex:1 1 320px;display:flex;flex-direction:column;gap:3px;font-size:13.5px;line-height:1.55;color:var(--muted)}
 .guest-bar .gb-t b{color:var(--ink);font-size:14.5px}
