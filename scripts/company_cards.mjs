@@ -180,12 +180,23 @@ function analyze(x) {
   return o;
 }
 
+// 첫 장 문구: 질문 대신 결론을 숫자로 던진다
+function hook(r, sc, a) {
+  const R = a.ratio;
+  if (R === null) return `${r.n}의\n적정 주가는\n얼마일까?`;
+  if (R >= 1.5) return `${r.n},\n지금 주가는\n적정가의 **${n0(R, 1)}배**`;
+  if (R > 1.05) return `${r.n},\n적정가보다\n**${n0((R - 1) * 100)}% 비싸다**`;
+  if (R >= 0.95) return `${r.n},\n지금 주가가\n**딱 적정가**`;
+  if (R > 0.5) return `${r.n},\n적정 주가는\n지금보다 **${n0((1 / R - 1) * 100)}% 높다**`;
+  return `${r.n},\n적정 주가는\n지금의 **${n0(1 / R, 1)}배**`;
+}
+
 function cards(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {}, g = grpOf(r.m);
   const code = r.code || r.t;
   const out = [];
-  out.push({ cls: '', html: `<div class="body"><div class="k">오늘의 기업 분석 · ${MKT[g]}</div><h1>${br(r.n + '의\n적정 주가는\n얼마일까?')}</h1>
-    <div class="sub">지금 주가 ${money(r.px, cur)}.${isNum(sc.iv) ? `<br>밸류노트 계산은 <em>${money(sc.iv, cur)}</em>입니다.` : ''}</div><div class="meta">${esc(code)}${r.ind ? ' · ' + esc(r.ind) : ''}</div></div><div class="swipe">넘겨서 보기 →</div>` });
+  out.push({ cls: '', html: `<div class="body"><div class="k">오늘의 기업 분석 · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1>
+    <div class="sub">${isNum(sc.iv) ? `적정 주가 <em>${money(sc.iv, cur)}</em><br>지금 주가 ${money(r.px, cur)}` : `지금 주가 ${money(r.px, cur)}`}</div><div class="meta">${esc(code)}${r.ind ? ' · ' + esc(r.ind) : ''}</div></div><div class="swipe">넘겨서 보기 →</div>` });
   if (isNum(sc.iv)) {
     out.push({ cls: '', html: `<div class="body"><h2>결론부터</h2><div class="px"><div><div class="t">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="t">적정 주가</div><div class="v" style="color:#E2C489">${money(sc.iv, cur)}</div></div></div>
       <div class="lead">${br(a.verdict)}</div><div class="note" style="margin-top:30px">밸류노트 종합 점수 ${sc.b}점 · 품질 ${sc.q}점 · 저평가 ${sc.v}점</div></div>` });
@@ -212,7 +223,8 @@ function cards(x, a) {
 
 function caption(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
-  const L = [`${r.n}의 적정 주가는 얼마일까요?`, ''];
+  const h = hook(r, sc, a).replace(/\*\*/g, '').replace(/\n/g, ' ');
+  const L = [a.ratio === null ? h : h + (/(배|가)$/.test(h) ? '입니다.' : '.'), ''];
   if (isNum(sc.iv)) L.push(`밸류노트 계산은 ${money(sc.iv, cur)}입니다. 지금 주가는 ${money(r.px, cur)}이고, ${a.verdict.replace(/\*\*/g, '')}`);
   L.push('');
   for (const c of a.cap) L.push(c, '');
