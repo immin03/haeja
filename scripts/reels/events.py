@@ -161,6 +161,7 @@ def main():
         json.dump(state, open(STATE, "w"), ensure_ascii=False)
     # 7일 지난 이벤트 대본·영상 정리
     for f in os.listdir(EVDIR) if os.path.isdir(EVDIR) else []:
+        if not f.endswith(".json"): continue
         sp = json.load(open(os.path.join(EVDIR, f), encoding="utf-8"))
         if dt.datetime.fromisoformat(sp["scheduled_at"]) < now - dt.timedelta(days=7):
             os.remove(os.path.join(EVDIR, f))
