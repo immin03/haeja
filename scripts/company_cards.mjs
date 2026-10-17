@@ -225,7 +225,7 @@ function caption(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
   const h = hook(r, sc, a).replace(/\*\*/g, '').replace(/\n/g, ' ');
   const L = [a.ratio === null ? h : h + (/(배|가)$/.test(h) ? '입니다.' : '.'), ''];
-  if (isNum(sc.iv)) L.push(`밸류노트 계산은 ${money(sc.iv, cur)}입니다. 지금 주가는 ${money(r.px, cur)}이고, ${a.verdict.replace(/\*\*/g, '')}`);
+  if (isNum(sc.iv)) L.push(`밸류노트가 계산한 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다.`);
   L.push('');
   for (const c of a.cap) L.push(c, '');
   const q = [];
