@@ -172,7 +172,7 @@ async function scanAlerts(){
   for(const c of S.companies){
     if(c.kind !== 'stock' || held.has(c.id) || !(c.watch || c.pinned || (c.thesis?.memo||'').trim())) continue;
     const ev = evaluate(c); const id = `buy-${c.id}-${month}`;
-    if(ev.verdict === '매수 후보' && isNum(ev.buyBelow) && isNum(c.price) && c.price <= ev.buyBelow && !have.has(id))
+    if(ev.verdict === '기준 통과' && isNum(ev.buyBelow) && isNum(c.price) && c.price <= ev.buyBelow && !have.has(id))
       await store.set('alerts', id, { at: now, level: 'good', ...buyAlertText(c, ev), link: { co: c.id }, read: false, source: '장부 판정' });
   }
   for(const h of S.holdings){
