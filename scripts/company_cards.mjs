@@ -94,7 +94,7 @@ body{font-family:SUIT,sans-serif;word-break:keep-all;overflow-wrap:break-word;-w
 em{font-style:normal;color:#E2C489}
 .body{position:absolute;left:84px;right:84px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center}
 .k{color:#E2C489;font-size:34px;font-weight:700;margin-bottom:30px}
-h1{font-size:104px;line-height:1.2;font-weight:800;letter-spacing:-.045em}
+h1{font-size:92px;line-height:1.2;font-weight:800;letter-spacing:-.045em}
 h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-bottom:56px}
 .sub{margin-top:44px;font-size:40px;line-height:1.55;color:#C7CEDA;font-weight:500}
 .meta{margin-top:34px;font-size:30px;color:#8F9AAB;font-weight:600}
@@ -180,12 +180,15 @@ function analyze(x) {
   return o;
 }
 
-// 첫 장 문구: 배수 대신 직관적인 한마디 (아래 줄에 적정 주가·지금 주가 숫자)
-const VERDICT = [[2, '한참 비싸다', '한참 비쌉니다'], [1.3, '비싸다', '비쌉니다'], [1.05, '조금 비싸다', '조금 비쌉니다'], [0.95, '제값이다', '제값입니다'], [0.7, '싸다', '쌉니다'], [0, '한참 싸다', '한참 쌉니다']];
-const verdictOf = (R) => VERDICT.find((v) => R >= v[0]);
+// 첫 장 문구: 질문 대신 결론을 숫자로 던진다
 function hook(r, sc, a) {
-  if (a.ratio === null) return `${r.n}의\n적정 주가는\n얼마일까?`;
-  return `${r.n} 주가,\n**${verdictOf(a.ratio)[1]}**`;
+  const R = a.ratio;
+  if (R === null) return `${r.n}의\n적정 주가는\n얼마일까?`;
+  if (R >= 1.5) return `${r.n},\n지금 주가는\n적정가의 **${n0(R, 1)}배**`;
+  if (R > 1.05) return `${r.n},\n적정가보다\n**${n0((R - 1) * 100)}% 비싸다**`;
+  if (R >= 0.95) return `${r.n},\n지금 주가가\n**딱 적정가**`;
+  if (R > 0.5) return `${r.n},\n적정 주가는\n지금보다 **${n0((1 / R - 1) * 100)}% 높다**`;
+  return `${r.n},\n적정 주가는\n지금의 **${n0(1 / R, 1)}배**`;
 }
 
 function cards(x, a) {
@@ -220,7 +223,8 @@ function cards(x, a) {
 
 function caption(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
-  const L = [a.ratio === null ? `${r.n}의 적정 주가는 얼마일까요?` : `${r.n} 주가, 밸류노트 계산으로는 ${verdictOf(a.ratio)[2]}.`, ''];
+  const h = hook(r, sc, a).replace(/\*\*/g, '').replace(/\n/g, ' ');
+  const L = [a.ratio === null ? h : h + (/(배|가)$/.test(h) ? '입니다.' : '.'), ''];
   if (isNum(sc.iv)) L.push(`밸류노트가 계산한 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다.`);
   L.push('');
   for (const c of a.cap) L.push(c, '');
