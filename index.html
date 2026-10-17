@@ -1743,6 +1743,16 @@ function guestNudgeArm(){
   };
   __nudgeT = setTimeout(fire, 60000);
 }
+/* 이탈 분석용: 머문 시간(15초·60초), 스크롤(50%·90%), 주요 버튼 클릭을 세션당 한 번씩 남긴다 → 관리자 funnel_report */
+(function(){
+  const once = new Set();
+  const hit = k => { if(once.has(k) || !store.track) return; once.add(k); store.track('engage', k); };
+  setTimeout(() => { if(!document.hidden) hit('t15'); }, 15000);
+  setTimeout(() => { if(!document.hidden) hit('t60'); }, 60000);
+  addEventListener('scroll', () => { const h = document.documentElement.scrollHeight, d = (scrollY + innerHeight) / (h || 1); if(h > innerHeight * 1.3){ if(d > .5) hit('s50'); if(d > .9) hit('s90'); } }, { passive: true });
+  document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('[data-act],[data-guest],[data-qz]'); if(!a) return;
+    const k = a.dataset.guest ? 'g-' + a.dataset.guest : a.dataset.qz ? 'qz-' + a.dataset.qz : 'a-' + a.dataset.act + (a.dataset.act === 'go-tab' ? '-' + a.dataset.v : ''); hit(k.slice(0, 40)); }, true);
+})();
 function guestGate(key){
   const [t, d] = GUEST_GATE[key] || ['이 기능', '내 기록이 저장되고 모든 기능을 쓸 수 있어요.'];
   document.querySelector('.gate')?.remove();
