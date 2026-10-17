@@ -395,8 +395,78 @@ def s_cta(img, u, sc, L, T):
         arrow(d, cx + 245 + 8 * math.sin(u * 8), cy, mix(GOLD, NAVY, pb), 1.1)
     return img
 
+# 앱 화면: 휴대폰 틀 안에서 스크롤 → 강조 박스 + 설명
+_shots = {}
+def shot(name):
+    if name not in _shots: _shots[name] = Image.open(os.path.join(HERE, "screens", name + ".png")).convert("RGB")
+    return _shots[name]
+
+PX0, PY0, PW, PH = 170, 370, 740, 950   # 휴대폰 바깥 틀
+_boxes = {}
+def find_box(name, q, min_w=500):
+    """캡처 때 저장한 블록 위치에서 q 글자를 포함하는 가장 작은 블록"""
+    if name not in _boxes: _boxes[name] = json.load(open(os.path.join(HERE, "screens", name + ".json"), encoding="utf-8"))
+    hits = [x["b"] for x in _boxes[name] if q in x["t"] and x["b"][2] - x["b"][0] >= min_w]
+    if not hits: raise ValueError(f"화면 {name}에서 '{q}'를 찾지 못했습니다")
+    return min(hits, key=lambda b: (b[2] - b[0]) * (b[3] - b[1]))
+
+def resolve_stops(sc, view, height):
+    out = []
+    for st in sc.get("stops") or [{"y": 0}]:
+        st = dict(st)
+        if st.get("find"):
+            b = find_box(sc["shot"], st["find"], st.get("min_w", 500))
+            st["box"] = [b[0] + 6, b[1], b[2] - 6, b[3]]
+        if st.get("box") and "y" not in st: st["y"] = st["box"][1] - view * .22
+        st["y"] = clamp(st.get("y", 0), 0, max(0, height - view))
+        out.append(st)
+    return out
+
+def s_screen(img, u, sc, L, T):
+    im = shot(sc["shot"]); pad = 14; iw = PW - pad * 2; ih = PH - pad * 2
+    k = iw / im.width; view = ih / k
+    if "_stops" not in sc: sc["_stops"] = resolve_stops(sc, view, im.height)
+    stops = sc["_stops"]
+    V = (L[-1][0] + L[-1][1] - L[0][0]) if L else 3
+    span = max(.8, V / len(stops))
+    idx = min(len(stops) - 1, int(max(0, u - .1) / span)); t0 = .1 + idx * span
+    prev_y = stops[idx - 1]["y"] if idx else 0
+    yv = lerp(prev_y, stops[idx]["y"], prog(u, t0, t0 + min(.7, span * .35), ease_io))
+    yv = clamp(yv, 0, max(0, im.height - view))
+    enter = prog(u, 0, .45)
+    oy = int((1 - enter) * 120)
+    d = ImageDraw.Draw(img)
+    # 그림자 + 틀
+    sh = Image.new("RGBA", (PW + 80, PH + 80), (0, 0, 0, 0))
+    ImageDraw.Draw(sh).rounded_rectangle([40, 50, PW + 40, PH + 50], 64, fill=(0, 0, 0, 150))
+    sh = sh.filter(ImageFilter.GaussianBlur(22))
+    img.paste(sh, (PX0 - 40, PY0 - 40 + oy), sh)
+    d.rounded_rectangle([PX0, PY0 + oy, PX0 + PW, PY0 + PH + oy], 60, fill=(16, 22, 34), outline=(70, 86, 112), width=3)
+    crop = im.crop((0, int(yv), im.width, int(yv + view))).resize((iw, ih), Image.LANCZOS)
+    m = Image.new("L", (iw, ih), 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, iw - 1, ih - 1], 48, fill=255)
+    sx, sy = PX0 + pad, PY0 + pad + oy
+    st = stops[idx]; hp = prog(u, t0 + min(.7, span * .35), t0 + min(.7, span * .35) + .35)
+    if st.get("box") and hp > 0:
+        x0, y0, x1, y1 = st["box"]
+        bx = [x0 * k, max(4, (y0 - yv) * k), x1 * k, min(ih - 4, (y1 - yv) * k)]
+        dim = Image.new("RGBA", (iw, ih), (6, 12, 24, int(150 * hp)))
+        ImageDraw.Draw(dim).rounded_rectangle(bx, 18, fill=(0, 0, 0, 0))
+        crop = crop.convert("RGBA"); crop.alpha_composite(dim); crop = crop.convert("RGB")
+    img.paste(crop, (sx, sy), m)
+    d = ImageDraw.Draw(img)
+    if st.get("box") and hp > 0:
+        x0, y0, x1, y1 = st["box"]
+        bx = [sx + x0 * k - 6, sy + max(4, (y0 - yv) * k) - 6, sx + x1 * k + 6, sy + min(ih - 4, (y1 - yv) * k) + 6]
+        d.rounded_rectangle(bx, 22, outline=mix(NAVY, GOLD, hp), width=6)
+    d.rounded_rectangle([PX0 + PW - 190, PY0 + PH - 70 + oy, PX0 + PW - 30, PY0 + PH - 26 + oy], 22, fill=(11, 27, 51))
+    d.text((PX0 + PW - 110, PY0 + PH - 48 + oy), "예시 계정 화면", font=F("SemiBold", 24), fill=GOLD, anchor="mm")
+    lab = st.get("label") or sc.get("title")
+    if lab:
+        appear(img, u, t0 + .05, lab, fit_font(lab, "Heavy", 60, 980), IVORY, (W / 2, 320), dur=.35, popin=True)
+    return img
+
 DRAW = {"hook": s_hook, "line": s_line, "run": s_run, "compare": s_compare, "bars": s_bars,
-        "list": s_list, "statement": s_statement, "cta": s_cta}
+        "list": s_list, "statement": s_statement, "cta": s_cta, "screen": s_screen}
 NO_CAPTION = {"statement", "cta", "list"}
 
 # ── 타임라인 ─────────────────────────────────────────────────
@@ -453,7 +523,7 @@ def frame(T, scenes, total):
     if sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
-    if sc["type"] != "cta": d.text((W / 2, 250), "밸류노트", font=F("SemiBold", 36), fill=GOLD, anchor="mm")
+    if sc["type"] not in ("cta", "screen"): d.text((W / 2, 250), "밸류노트", font=F("SemiBold", 36), fill=GOLD, anchor="mm")
     d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(112, 124, 148), anchor="mm")
     for x in scenes[1:]:
         q = (T - (x["start"] - .12)) / .3

@@ -2,7 +2,7 @@
 
 ## 구조
 - `specs/R*.json` 정기 편성 대본. 새 릴스는 여기에 JSON 하나만 추가하고 푸시하면 GitHub Actions(reels)가 렌더한다.
-- `events.py` 3시간마다 지수·환율·금리 급변을 감지해 `events/E*.json` 대본을 규칙으로 만든다 (하루 최대 2편, AI 사용 없음).
+- `events.py` (지금은 꺼 둠) 3시간마다 지수·환율·금리 급변을 감지해 `events/E*.json` 대본을 규칙으로 만든다 (하루 최대 2편, AI 사용 없음).
 - `engine.py` 대본 → 1080x1920 영상 (Supertonic 한국어 음성, 합성 배경음악·효과음, 모션, 노래방식 자막).
 - `build.py` 바뀐 대본만 렌더 → `social/reels/<id>/reel.mp4, cover.jpg` + `social/reels/queue.json`.
 - Supabase `social_reels_fetch/import`(매시 15·18분)가 queue.json을 게시 대기열에 넣고, `social-publish`가 인스타 릴스·쓰레드 영상으로 올린다.
@@ -19,3 +19,10 @@ pip install sherpa-onnx==1.13.8 soundfile scipy numpy pillow   # ffmpeg 필요
 python3 scripts/reels/engine.py scripts/reels/specs/R01.json out/R01            # 영상
 python3 scripts/reels/engine.py scripts/reels/specs/R01.json out/R01 stills 1.5,6,12   # 정지 화면
 ```
+
+## 앱 화면 장면 (screen)
+- `capture.js` 가 체험 계정으로 앱 화면 전체를 캡처하고(`screens/<이름>.png`), 블록별 글자·위치를 `screens/<이름>.json` 에 저장한다.
+  화면: portfolio, companies, company(기업 상세), briefing, radar, trends, alerts, journal, level
+- 대본: `{"type":"screen","shot":"company","stops":[{"find":"현재가","label":"적정 가격까지 계산"}]}`
+  `find` 글자가 들어 있는 블록을 찾아 스크롤하고 금색 박스로 강조한다. 맞지 않으면 `"box":[x0,y0,x1,y1]`(이미지 픽셀)로 직접 준다.
+- 앱 디자인이 바뀌면 `node scripts/reels/capture.js` 로 다시 캡처한다.
