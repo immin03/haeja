@@ -1,0 +1,31 @@
+# 매일 기업별 공개 페이지(/c/…)·sitemap.xml 재생성 → 커밋 (Vercel 배포)
+name: company-pages
+on:
+  schedule:
+    - cron: '10 23 * * *'   # 매일 08:10 KST
+  workflow_dispatch: {}
+  push:
+    paths: ['scripts/build_pages.mjs', 'supabase/functions/watch-select/scoring.js']
+permissions:
+  contents: write
+concurrency: company-pages
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 페이지 만들기
+        run: node scripts/build_pages.mjs
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"
+          git config user.email "bot@valuenote.co.kr"
+          git add c sitemap.xml robots.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "기업 공개 페이지 갱신 $(TZ=Asia/Seoul date +%F)"
+          git pull --rebase origin main
+          git push

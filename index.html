@@ -5407,6 +5407,8 @@ function refresh(kind){
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
+  /* 기업 공개 페이지(/c/…)에서 넘어오면 그 회사를 검색해 펼친다: ?co=코드&q=이름 */
+  { const u = new URLSearchParams(location.search); if(u.get('co')){ S.tab = 'companies'; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = u.get('q') || ''; S.coOpen = u.get('co'); S.coShown = 30; store.track('view', 'from-company-page'); history.replaceState(null, '', location.pathname); setTimeout(() => { const t = document.getElementById('coListTop'); if(t) window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - 130); }, 600); } }
   render(); hideSplash();
   if(/[?&]test\b/.test(location.search)) setTimeout(qzOpen, 300);
   store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; });
