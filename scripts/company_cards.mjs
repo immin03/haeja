@@ -121,7 +121,38 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .cta h2{font-size:76px;margin-bottom:0}.cta em{color:#A8823F}.cta .sub{color:#3A4558}
 .btn{margin-top:56px;display:inline-flex;align-self:flex-start;background:#0A1322;color:#F3EEE3;border-radius:999px;padding:26px 40px;font-size:34px;font-weight:700}
 .handle{margin-top:28px;font-size:30px;color:#7A8394;font-weight:600}
-.disc{position:absolute;left:84px;right:84px;bottom:60px;font-size:22px;color:#7A8394;line-height:1.5}`;
+.disc{position:absolute;left:84px;right:84px;bottom:60px;font-size:22px;color:#7A8394;line-height:1.5}
+.top .pgs{display:flex;gap:4px;font-size:22px;color:#5E6B80;font-weight:700;letter-spacing:.02em}.top .pgs>*{padding:4px 8px;border:2px solid transparent;border-radius:999px}.top .pgs b{color:#F3EEE3;border-color:#F3EEE3}
+.cover{position:absolute;left:84px;right:84px;top:190px}.cover h1{font-size:88px;line-height:1.18}
+.vis{position:absolute;left:84px;right:84px;top:170px;height:560px;display:flex;flex-direction:column;justify-content:center}
+.vis-low{top:650px;height:420px}
+.txt{position:absolute;left:84px;right:84px;top:760px}
+.txt .no{color:#E8A07E;font-size:32px;font-weight:800;letter-spacing:.06em;margin-bottom:18px}
+.txt h3{font-size:64px;line-height:1.22;font-weight:800;letter-spacing:-.04em}
+.txt .acc{margin-top:22px;font-size:38px;font-weight:700;color:#E8A07E;line-height:1.4}
+.txt .bd{margin-top:18px;font-size:32px;line-height:1.55;color:#AEB8C8}
+.bars2{display:flex;flex-direction:column;gap:40px}
+.b2l{font-size:32px;color:#C7CEDA;font-weight:600;margin-bottom:14px}.b2t{height:56px;border-radius:16px;background:rgba(255,255,255,.07);overflow:hidden}.b2t i{display:block;height:100%;border-radius:16px}
+.b2v{font-size:46px;font-weight:900;margin-top:12px;letter-spacing:-.02em}
+.bars2.b3{gap:22px}.b3 .b2l{font-size:28px;margin-bottom:10px}.b3 .b2t{height:44px}.b3 .b2v{font-size:38px;margin-top:8px}
+.gap{margin-top:30px;font-size:48px;font-weight:900}.gap.neg{color:#F08C78}.gap.pos{color:#7FD1A8}
+.vis .steps>div{padding:26px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.grid div{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:26px;padding:32px 30px}
+.grid span{display:block;font-size:28px;color:#8F9AAB;font-weight:600}.grid b{display:block;font-size:60px;font-weight:900;margin-top:8px;letter-spacing:-.03em}
+.quote{position:absolute;left:84px;right:84px;top:0;bottom:250px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.ql span{display:inline-block;font-size:70px;line-height:1.5;font-weight:800;letter-spacing:-.04em;border-bottom:5px solid #E8A07E;margin:6px 0}.ql{display:flex;flex-direction:column;align-items:center}
+.qs{margin-top:40px;font-size:28px;color:#8F9AAB}
+.chk{display:flex;flex-direction:column;gap:26px}.chk div{display:flex;align-items:center;gap:28px;font-size:44px;font-weight:700;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:26px;padding:34px 32px}
+.cb{flex:0 0 64px;height:64px;border-radius:16px;border:4px solid #E2C489;color:#E2C489;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900}
+.outro{position:absolute;left:84px;right:84px;top:0;bottom:200px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.outro .be{font-size:26px;letter-spacing:.4em;color:#8F9AAB;font-weight:600}.outro .logo{font-size:120px;font-weight:800;letter-spacing:-.03em;margin:18px 0 26px}.outro .logo i{font-style:italic;color:#E2C489}
+.outro h2{font-size:64px;line-height:1.3;margin-bottom:24px}.outro p{font-size:34px;line-height:1.6;color:#AEB8C8}
+.fbtn{margin-top:50px;width:720px;display:flex;justify-content:space-between;align-items:center;border:3px solid #F3EEE3;border-radius:999px;padding:30px 30px 30px 50px;font-size:36px;font-weight:800}
+.fbtn b{width:72px;height:72px;border-radius:50%;background:#F3EEE3;color:#0A1322;display:flex;align-items:center;justify-content:center;font-size:40px}
+.lk{margin-top:28px;font-size:28px;color:#8F9AAB}
+.wmk{position:absolute;left:0;right:0;bottom:120px;text-align:center;font-size:26px;letter-spacing:.5em;color:#5E6B80;font-weight:700}
+.disc{bottom:60px}
+`;
 
 // ---------- 분석: 적정 주가 → 계산 방법 → 차이가 나는 이유 ----------
 const DISC_R = { KR: 10, US: 10, CN: 11, HK: 11, JP: 9 };
@@ -196,34 +227,69 @@ function gapText(R) {
   return fr ? `적정가보다 ${fr[1]} 싸다` : `적정가보다 ${n0(d * 100)}% 싸다`;
 }
 
+// ---------- 8장 구성: 장마다 위쪽은 큰 그래픽, 아래쪽은 번호 · 결론 제목 · 강조 한 줄 · 설명 2줄 ----------
+function frame(no, title, accent, body) {
+  return `<div class="txt">${no ? `<div class="no">${no}</div>` : ''}<h3>${br(title)}</h3>${accent ? `<div class="acc">${br(accent)}</div>` : ''}${body ? `<p class="bd">${br(body)}</p>` : ''}</div>`;
+}
+function bars(items, unit) {
+  const mx = Math.max(...items.map((x) => x.v)) || 1;
+  return `<div class="bars2${items.length > 2 ? ' b3' : ''}">${items.map((x) => `<div class="b2"><div class="b2l">${esc(x.l)}</div><div class="b2t"><i style="width:${Math.max(3, x.v / mx * 100)}%;background:${x.c}"></i></div><div class="b2v" style="color:${x.c}">${esc(x.t)}</div></div>`).join('')}</div>`;
+}
 function cards(x, a) {
-  const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {}, g = grpOf(r.m);
-  const code = r.code || r.t;
+  const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {}, val = r.val || {}, g = grpOf(r.m);
+  const M = (v) => money(v, cur), code = r.code || r.t, R = a.ratio, over = R !== null && R > 1;
+  const GOLD = '#E2C489', RED = '#F08C78', GREEN = '#7FD1A8', GRAY = '#8F9AAB';
   const out = [];
-  out.push({ cls: '', html: `<div class="body"><div class="k">오늘의 기업 분석 · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1>
-    <div class="sub">지금 주가 ${money(r.px, cur)}${a.ratio !== null ? `<br><em>${gapText(a.ratio)}</em>` : ''}</div><div class="meta">${esc(code)}${r.ind ? ' · ' + esc(r.ind) : ''}</div></div><div class="swipe">넘겨서 보기 →</div>` });
-  if (isNum(sc.iv)) {
-    out.push({ cls: '', html: `<div class="body"><h2>결론부터</h2><div class="px"><div><div class="t">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="t">적정 주가</div><div class="v" style="color:#E2C489">${money(sc.iv, cur)}</div></div></div>
-      <div class="lead">${br(a.verdict)}</div><div class="note" style="margin-top:30px">밸류노트 종합 점수 ${sc.b}점 · 품질 ${sc.q}점 · 저평가 ${sc.v}점</div></div>` });
+  // 1. 표지: 질문형 제목 + 지금 주가 vs 적정 주가 막대
+  out.push(`<div class="cover"><div class="k">오늘의 기업 분석 · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1></div>
+    <div class="vis vis-low">${bars([{ l: '지금 주가', v: r.px, t: M(r.px), c: over ? RED : '#F3EEE3' }, { l: '적정 주가', v: sc.iv, t: M(sc.iv), c: GOLD }])}
+    <div class="gap ${over ? 'neg' : 'pos'}">${esc(gapText(R))}</div></div>`);
+  // 2. 시장의 기대 vs 실제 성장 (두 번째 장도 표지만큼 강하게)
+  if (isNum(sc.ig) && isNum(sc.hist)) {
+    const need = Math.max(Math.min(sc.ig, 80), -30);
+    const hi = need > sc.hist + 2;
+    out.push(`<div class="vis">${bars([{ l: '지금 주가가 가정한 성장', v: Math.max(Math.abs(need), 0.5), t: `연 ${n0(need, 1)}%`, c: hi ? RED : GREEN }, { l: '지난 몇 년 실제 성장', v: Math.max(Math.abs(sc.hist), 0.5), t: `연 ${n0(sc.hist, 1)}%`, c: GOLD }])}</div>`
+      + frame('01', hi ? `지금 주가에는\n연 ${n0(need, 1)}% 성장이 들어 있다` : need < 0 ? `지금 주가는\n이익 감소를 가정한다` : `지금 주가는\n낮은 성장만 가정한다`,
+        hi ? `실제 성장은 연 ${n0(sc.hist, 1)}%였습니다.` : `실제 성장은 연 ${n0(sc.hist, 1)}%였습니다.`,
+        '앞으로 10년 이익이 얼마나 늘어야 지금 주가가 맞는지 거꾸로 계산했습니다.'));
   }
+  // 3. 계산 방법
   if (a.method.length) {
-    out.push({ cls: '', html: `<div class="body"><h2>어떻게 계산했나</h2><div class="steps">${a.method.map((m, i) => `<div><span class="n">${i + 1}</span><span class="tx">${m[0]}<small>${esc(m[2])}</small></span><b>${esc(m[1])}</b></div>`).join('')}</div>
-      <div class="note" style="margin-top:34px">${esc(a.methodNote)}</div></div>` });
+    out.push(`<div class="vis"><div class="steps">${a.method.map((m, i) => `<div><span class="n">${i + 1}</span><span class="tx">${esc(m[0])}<small>${esc(m[2])}</small></span><b>${esc(m[1])}</b></div>`).join('')}</div></div>`
+      + frame('02', `적정 주가 ${M(sc.iv)},\n이렇게 계산했다`, a.methodNote.replace(/\.$/, '') + '.', ''));
   }
-  if (a.why.length || a.alt) {
-    out.push({ cls: '', html: `<div class="body"><h2>왜 이런 차이가 날까</h2>${a.why.map((w) => `<div class="lead" style="margin-bottom:26px">${br(w)}</div>`).join('')}
-      ${a.alt ? `<div class="alt"><div class="lead" style="font-size:38px">${br(a.alt.t)}</div><div class="note" style="font-size:34px">${br(a.alt.s)}</div></div>` : ''}</div>` });
+  // 4. 반대 시나리오 (최근 이익이 평균과 크게 다를 때)
+  if (a.alt) {
+    out.push(`<div class="vis">${bars([{ l: '평균 이익 기준 적정가', v: sc.iv, t: M(sc.iv), c: GOLD }, { l: '최근 이익 기준 적정가', v: sc.ivNow, t: M(sc.ivNow), c: GREEN }, { l: '지금 주가', v: r.px, t: M(r.px), c: '#F3EEE3' }])}</div>`
+      + frame('03', `하지만, 최근 이익은\n평균의 ${n0(val.eps / val.epsAvg, 1)}배`, `이 이익이 계속되면 적정가는 ${M(sc.ivNow)}.`, '어느 이익을 기준으로 보느냐에 따라 답이 달라집니다.'));
   }
-  const rows = [
-    ['5년 평균 ROE', isNum(f.roeAvg) ? n0(f.roeAvg, 1) + '%' : null, '자기자본으로 1년에 버는 비율'],
-    ['현금 전환율', !r.fin_sector && isNum(f.fcfConv) ? n0(f.fcfConv) + '%' : null, '이익 중 실제로 들어온 현금'],
-    ['장기부채 ÷ 순이익', !r.fin_sector && isNum(f.ltdNi) ? (f.ltdNi < 0.05 ? '거의 없음' : n0(f.ltdNi, 1) + '배') : null, '이익으로 빚을 갚는 데 걸리는 해'],
-    ['PER', isNum(sc.per) ? n0(sc.per, 1) + '배' : null, '그레이엄 기준 15배 이하'],
-  ].filter((m) => m[1]);
-  out.push({ cls: '', html: `<div class="body"><h2>회사 체력은 어떨까</h2><div class="rows">${rows.map((m) => `<div><span>${m[0]}<small>${m[2]}</small></span><b>${m[1]}</b></div>`).join('')}</div>
-    ${a.pens.length || a.warns.length ? `<div class="flags">${a.pens.map((fl) => `<span class="flag">감점 · ${esc(fl)}</span>`).join('')}${a.warns.map((fl) => `<span class="flag w">경고 · ${esc(fl)}</span>`).join('')}</div>` : ''}</div>` });
-  out.push({ cls: 'cta', html: `<div class="body"><h2>내 종목의<br>**적정 주가는?**</h2><div class="sub">${josa(esc(r.n), '을', '를')} 포함해 600여 개 기업을<br>같은 방법으로 계산해 두었습니다.</div><div class="btn">프로필 링크에서 확인하기</div><div class="handle">밸류노트 · ${HANDLE}</div></div><div class="disc">${esc(DISC)}</div>` });
-  return out.map((c) => ({ ...c, html: c.html.replace(/\*\*(.+?)\*\*/g, '<em>$1</em>') }));
+  // 5. 회사 체력
+  const mets = [
+    ['5년 평균 ROE', isNum(f.roeAvg) ? n0(f.roeAvg, 1) + '%' : null],
+    ['현금 전환율', !r.fin_sector && isNum(f.fcfConv) ? n0(f.fcfConv) + '%' : null],
+    ['장기부채 ÷ 순이익', !r.fin_sector && isNum(f.ltdNi) ? (f.ltdNi < 0.05 ? '거의 없음' : n0(f.ltdNi, 1) + '배') : null],
+    ['PER', isNum(sc.per) ? n0(sc.per, 1) + '배' : null],
+    ['PBR', isNum(sc.pbr) ? n0(sc.pbr, 2) + '배' : null],
+  ].filter((m) => m[1]).slice(0, 4);
+  const qT = sc.q >= 80 ? '회사 체력은 상위권' : sc.q >= 60 ? '회사 체력은 중간 이상' : '회사 체력은 약한 편';
+  out.push(`<div class="vis"><div class="grid">${mets.map((m) => `<div><span>${m[0]}</span><b>${m[1]}</b></div>`).join('')}</div>
+    ${a.pens.length || a.warns.length ? `<div class="flags">${a.pens.map((fl) => `<span class="flag">감점 · ${esc(fl)}</span>`).join('')}${a.warns.map((fl) => `<span class="flag w">경고 · ${esc(fl)}</span>`).join('')}</div>` : ''}</div>`
+    + frame(a.alt ? '04' : '03', `${qT}\n(품질 ${sc.q}점)`, `밸류노트 종합 ${sc.b}점 · 저평가 ${sc.v}점`, '돈을 잘 버는지, 빚이 적은지, 이익이 현금으로 들어오는지 봅니다.'));
+  // 6. 핵심 한 문장 (밑줄 강조)
+  const quote = a.alt ? '핵심은 하나.\n지금 이익이 한때의 호황인가,\n새로운 수준인가.'
+    : over ? '좋은 회사와\n좋은 가격은\n다른 이야기입니다.'
+    : a.pens.length ? '싼 가격에는\n이유가 있는지부터\n확인해야 합니다.' : '시장이 놓친 기회인지,\n싼 이유가 있는지\n숫자로 확인할 차례입니다.';
+  out.push(`<div class="quote"><div class="ql">${quote.split('\n').map((l) => `<span>${esc(l)}</span>`).join('')}</div><div class="qs">— 밸류노트의 해석 · 투자 판단은 본인의 몫입니다</div></div>`);
+  // 7. 체크리스트 (저장 유도)
+  const chk = over ? ['이익이 평균 이상으로 유지되는가', '그 이익이 현금으로 들어오는가', '주가가 적정가에 다가오는가']
+    : ['이익이 더 줄어들지 않는가', '새로운 감점 신호가 생기지 않는가', '주가가 적정가로 돌아오는가'];
+  out.push(`<div class="vis"><div class="chk">${chk.map((c, i) => `<div><span class="cb">${i + 1}</span>${esc(c)}</div>`).join('')}</div></div>`
+    + frame(a.alt ? '05' : '04', '다음 실적에서\n이 세 가지를 보세요', '저장해 두고 다음 실적 때 꺼내 보세요.', ''));
+  // 8. 마무리: 팔로우 + 프로필 링크, 첫 장으로 돌아가는 질문
+  out.push(`<div class="outro"><div class="be">VALUE INVESTING GUIDE</div><div class="logo">Value<i>Note</i></div><h2>현명한 투자를 위한<br>가치투자 가이드</h2>
+    <p>매일 밤 9시, 한 기업의 적정 주가를 계산합니다.<br>내일은 어떤 회사일까요?</p>
+    <div class="fbtn"><span>밸류노트 팔로우하기</span><b>→</b></div><div class="lk">600여 개 기업 점수와 적정 주가 · 프로필 링크</div></div><div class="disc">${esc(DISC)}</div>`);
+  return out.map((html) => ({ cls: '', html: html.replace(/\*\*(.+?)\*\*/g, '<em>$1</em>') }));
 }
 
 function caption(x, a) {
@@ -257,7 +323,8 @@ const dir = path.join(OUT, tag); fs.mkdirSync(dir, { recursive: true });
 const b = await chromium.launch(); const pg = await b.newPage({ viewport: { width: 1080, height: 1350 } });
 const images = [];
 for (let i = 0; i < C.length; i++) {
-  const top = `<div class="top"><span class="wm">Value<i>Note</i><b class="ko">밸류노트</b></span><span class="pg">${i + 1} / ${C.length}</span></div>`;
+  const pgs = C.map((_, k) => k === i ? `<b>${String(k + 1).padStart(2, '0')}</b>` : `<span>${String(k + 1).padStart(2, '0')}</span>`).join('');
+  const top = `<div class="top"><span class="wm">Value<i>Note</i><b class="ko">밸류노트</b></span><span class="pgs">${pgs}</span></div>${i > 0 && i < C.length - 1 ? '<div class="wmk">VALUENOTE</div>' : ''}${i === 0 ? '<div class="swipe">넘겨서 보기 →</div>' : ''}`;
   await pg.setContent(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>${CSS}</style></head><body><section class="s ${C[i].cls}">${top}${C[i].html}</section></body></html>`);
   await pg.evaluate(() => document.fonts.ready);
   const fn = String(i + 1).padStart(2, '0') + '.jpg';
