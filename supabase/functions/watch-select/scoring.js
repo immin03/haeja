@@ -39,8 +39,11 @@ function dcfValue(oeps, growth, disc, tg){
   return s + (e*(1+t)/(r-t))/Math.pow(1+r,10);
 }
 /* 품질(q)·저평가(v)·버핏 근접도(b). row = {m, px, fin, val, fin_sector} */
-const WARN_FLAGS = new Set(['경기순환·이익 변동','지주회사','주식보상 큼','혁신 의존']);
-const FIN_SKIP = new Set(['gpm','fcfConv','capexNi','ltdNi','icr','currentRatio','roic']);
+const WARN_FLAGS = new Set(['경기순환·이익 변동','지주회사','주식보상 큼','혁신 의존','중국 본토 규제']);
+/* 국가·정책 위험: 숫자에 안 보이는 위험을 점수에 반영한다. 국유기업은 감점 신호(-8), 중국 본토(A주)는 규제 위험 할인(-6) */
+const CN_RISK = 6;
+/* 은행·보험은 매출 정의가 달라 순이익률(npm)로 품질을 볼 수 없다 (중국 은행 순이익률 50%대가 품질로 잘못 읽히던 문제). ROE·이익 안정성으로만 본다 */
+const FIN_SKIP = new Set(['gpm','fcfConv','capexNi','ltdNi','icr','currentRatio','roic','npm']);
 const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|marine|homebuild|residential construction|chemical|mining|metal|commodit|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선/i;
 /* 품질(q)·저평가(v)·버핏 근접도(b). row = {m, px, fin, val, fin_sector, s, ind, sector} — screener.py score_row와 동일 */
 function scoreRow(row, p, reqMOS){
@@ -95,6 +98,8 @@ function scoreRow(row, p, reqMOS){
   const yoy = val.revYoY || [];
   if(yoy.length >= 3 && yoy[0] > yoy[1] && yoy[1] > yoy[2] && yoy[2] <= 0) flags.push('성장 감속');
   if(row.holdco) flags.push('지주회사');
+  if((row.tags||[]).includes('국유기업')) flags.push('국유기업·정책 위험');
+  if(row.m === 'CN') flags.push('중국 본토 규제');
   if(isNum(val.sbcps) && isNum(val.oeps) && val.oeps > 0 && val.sbcps > val.oeps*0.25) flags.push('주식보상 큼');
   if(row.revModel === '사이클형' && !flags.includes('경기순환·이익 변동')) flags.push('경기순환·이익 변동');
   if(row.revModel === '혁신 의존형') flags.push('혁신 의존');
@@ -102,7 +107,7 @@ function scoreRow(row, p, reqMOS){
   /* 경기순환 표시는 경고만 한다. 버크셔 역검증에서 감점이 성공 사례(NUE, 일본 상사)를 깎고 실패를 거르지 못했다 */
   const penal = flags.filter(f => !WARN_FLAGS.has(f)).length;
   /* 가중치 0.4 품질 + 0.6 저평가: 버크셔 매수 62건 역검증에서 저평가 점수만 이후 수익률과 양(+)의 상관을 보였다 */
-  if(q !== null && cov >= 0.5){ const base2 = 0.4*q + 0.6*(v ?? 40); b = Math.max(0, Math.min(100, Math.round(base2 - 8*Math.min(penal,3)))); }
+  if(q !== null && cov >= 0.5){ const base2 = 0.4*q + 0.6*(v ?? 40); b = Math.max(0, Math.min(100, Math.round(base2 - 8*Math.min(penal,3) - (row.m === 'CN' ? CN_RISK : 0)))); }
   let mosLo = null, mosHi = null;
   if(dcf !== null && px){ const dHi = dcfValue(ivBase, val.growth, p.disc+1, p.tg), dLo = dcfValue(ivBase, val.growth, p.disc-1, p.tg); mosLo = dHi ? (1 - px/dHi)*100 : null; mosHi = dLo ? (1 - px/dLo)*100 : null; }
   const perAvg = px && isNum(epsAvg) && epsAvg > 0 ? px/epsAvg : null;

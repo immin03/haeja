@@ -742,8 +742,11 @@ function dcfValue(oeps, growth, disc, tg){
   return s + (e*(1+t)/(r-t))/Math.pow(1+r,10);
 }
 /* 품질(q)·저평가(v)·버핏 근접도(b). row = {m, px, fin, val, fin_sector} */
-const WARN_FLAGS = new Set(['경기순환·이익 변동','지주회사','주식보상 큼','혁신 의존']);
-const FIN_SKIP = new Set(['gpm','fcfConv','capexNi','ltdNi','icr','currentRatio','roic']);
+const WARN_FLAGS = new Set(['경기순환·이익 변동','지주회사','주식보상 큼','혁신 의존','중국 본토 규제']);
+/* 국가·정책 위험: 숫자에 안 보이는 위험을 점수에 반영한다. 국유기업은 감점 신호(-8), 중국 본토(A주)는 규제 위험 할인(-6) */
+const CN_RISK = 6;
+/* 은행·보험은 매출 정의가 달라 순이익률(npm)로 품질을 볼 수 없다 (중국 은행 순이익률 50%대가 품질로 잘못 읽히던 문제). ROE·이익 안정성으로만 본다 */
+const FIN_SKIP = new Set(['gpm','fcfConv','capexNi','ltdNi','icr','currentRatio','roic','npm']);
 const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|marine|homebuild|residential construction|chemical|mining|metal|commodit|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선/i;
 /* 품질(q)·저평가(v)·버핏 근접도(b). row = {m, px, fin, val, fin_sector, s, ind, sector} — screener.py score_row와 동일 */
 function scoreRow(row, p, reqMOS){
@@ -798,6 +801,8 @@ function scoreRow(row, p, reqMOS){
   const yoy = val.revYoY || [];
   if(yoy.length >= 3 && yoy[0] > yoy[1] && yoy[1] > yoy[2] && yoy[2] <= 0) flags.push('성장 감속');
   if(row.holdco) flags.push('지주회사');
+  if((row.tags||[]).includes('국유기업')) flags.push('국유기업·정책 위험');
+  if(row.m === 'CN') flags.push('중국 본토 규제');
   if(isNum(val.sbcps) && isNum(val.oeps) && val.oeps > 0 && val.sbcps > val.oeps*0.25) flags.push('주식보상 큼');
   if(row.revModel === '사이클형' && !flags.includes('경기순환·이익 변동')) flags.push('경기순환·이익 변동');
   if(row.revModel === '혁신 의존형') flags.push('혁신 의존');
@@ -805,7 +810,7 @@ function scoreRow(row, p, reqMOS){
   /* 경기순환 표시는 경고만 한다. 버크셔 역검증에서 감점이 성공 사례(NUE, 일본 상사)를 깎고 실패를 거르지 못했다 */
   const penal = flags.filter(f => !WARN_FLAGS.has(f)).length;
   /* 가중치 0.4 품질 + 0.6 저평가: 버크셔 매수 62건 역검증에서 저평가 점수만 이후 수익률과 양(+)의 상관을 보였다 */
-  if(q !== null && cov >= 0.5){ const base2 = 0.4*q + 0.6*(v ?? 40); b = Math.max(0, Math.min(100, Math.round(base2 - 8*Math.min(penal,3)))); }
+  if(q !== null && cov >= 0.5){ const base2 = 0.4*q + 0.6*(v ?? 40); b = Math.max(0, Math.min(100, Math.round(base2 - 8*Math.min(penal,3) - (row.m === 'CN' ? CN_RISK : 0)))); }
   let mosLo = null, mosHi = null;
   if(dcf !== null && px){ const dHi = dcfValue(ivBase, val.growth, p.disc+1, p.tg), dLo = dcfValue(ivBase, val.growth, p.disc-1, p.tg); mosLo = dHi ? (1 - px/dHi)*100 : null; mosHi = dLo ? (1 - px/dLo)*100 : null; }
   const perAvg = px && isNum(epsAvg) && epsAvg > 0 ? px/epsAvg : null;
@@ -1569,7 +1574,7 @@ function newCompany(){
 function evaluate(c){
   const m = c.market || 'KR', st = cfg(), ts = thSet(m), p = paramsFor(m);
   const fin = c.fin || {}, val = c.val || {}, q = c.qual || {};
-  const sc = scoreRow({m, px:c.price, fin, val, fin_sector:!!c.finSector, sector:c.sector, holdco:!!c.holdco, revModel:c.qual?.revModel}, p, st.reqMOS);
+  const sc = scoreRow({m, px:c.price, fin, val, fin_sector:!!c.finSector, sector:c.sector, holdco:!!c.holdco, revModel:c.qual?.revModel, tags: c.tags || screenTags(c)}, p, st.reqMOS);
   // 1. 지표별 상태 (연속 점수 → 통과/근접/미달)
   const items = {};
   FIN.forEach(f => {
@@ -2269,7 +2274,7 @@ function updateEval(){
     const bar = (l, s, note='') => `<div><span class="eyebrow">${l}${gl(l)}</span><div class="num" style="font-weight:700">${s===null||s===undefined?'–':s+'점'}</div><div class="bar"><i style="width:${s||0}%"></i></div>${note?`<div class="small muted">${note}</div>`:''}</div>`;
     const gatesHtml = ev.gates.length ? `<div class="gates">${ev.gates.map(g => `<div><span class="pill p-bad">탈락 사유</span> ${esc(g.t)}</div>`).join('')}</div>` : '';
     const WARN_ONLY = [...WARN_FLAGS];
-    const FLAG_HELP = {'이익 정점 가능':'최근 EPS가 가용 연수 평균의 1.5배 이상. 정점 이익에 낮은 PER이 붙은 함정일 수 있다','성장 감속':'매출 성장률이 3년 연속 둔화하고 최근 0 이하. 해자 침식 신호','지주회사':'지주회사·순환출자 구조. PBR과 EV가 왜곡될 수 있어 순자산가치 할인으로 따로 봐야 한다','경기순환·이익 변동':'업종 또는 ROE 변동성. 정점 매수 여부를 스스로 점검','주식보상 큼':'주식보상비용이 오너이익의 25%를 넘는다. 내재가치는 이미 이 비용을 빼고 계산했다','혁신 의존':'꾸준한 이익보다 미래 기술·제품 성공에 기대는 사업. 주력 칸이 아니라 도전 칸으로 분류된다'};
+    const FLAG_HELP = {'국유기업·정책 위험':'정부가 최대주주인 회사. 정책 목적(대출·가격 통제·배당 지시)이 주주 이익보다 앞설 수 있어 감점한다','중국 본토 규제':'중국 본토 상장(A주). 규제·자본 통제·지정학 위험을 숫자로 볼 수 없어 종합 점수에서 6점을 할인한다','이익 정점 가능':'최근 EPS가 가용 연수 평균의 1.5배 이상. 정점 이익에 낮은 PER이 붙은 함정일 수 있다','성장 감속':'매출 성장률이 3년 연속 둔화하고 최근 0 이하. 해자 침식 신호','지주회사':'지주회사·순환출자 구조. PBR과 EV가 왜곡될 수 있어 순자산가치 할인으로 따로 봐야 한다','경기순환·이익 변동':'업종 또는 ROE 변동성. 정점 매수 여부를 스스로 점검','주식보상 큼':'주식보상비용이 오너이익의 25%를 넘는다. 내재가치는 이미 이 비용을 빼고 계산했다','혁신 의존':'꾸준한 이익보다 미래 기술·제품 성공에 기대는 사업. 주력 칸이 아니라 도전 칸으로 분류된다'};
     const flagsHtml = ev.flags.length ? `<div class="gates">${ev.flags.map(g => `<div><span class="pill ${WARN_ONLY.includes(g)?'p-none':'p-warn'}">${WARN_ONLY.includes(g)?'경고':'감점'}</span> ${esc(g)}${WARN_ONLY.includes(g)?'':' (−8점)'}${FLAG_HELP[g]?`<div class="small muted">${FLAG_HELP[g]}</div>`:''}</div>`).join('')}</div>` : '';
     const confHtml = ev.dataConf ? `<div class="gates"><div><span class="pill ${ev.dataConf==='low'?'p-bad':ev.dataConf==='medium'?'p-warn':'p-good'}">데이터 신뢰도 ${ {low:'낮음',medium:'보통',high:'높음'}[ev.dataConf] }</span> ${ev.dataConf==='low'?'신뢰도가 낮은 데이터라 기준 통과로 올리지 않는다. 공시 원문으로 재확인 필요':'매수 전 공시 원문(DART·EDGAR·EDINET) 대조 필수'}</div></div>` : '';
     let next = '';
@@ -2957,7 +2962,7 @@ function companyCard(c, h){
 /* ============ 기업: 찾기(목록) + 상세(개요·심사) 한 곳으로 ============ */
 const STAGES = [
   {k:'all',   l:'전체', rule:'스크리너가 모은 5개 시장(한·미·일·중·홍콩) 대형 우량주. 매주 갱신'},
-  {k:'watch', l:'관심 후보', rule:'점수 70+ · 탈락/위험 없음 · 시장당 6곳 · 상위 20 (+ 직접 고른 내 종목). 매주 월요일 재선정'},
+  {k:'watch', l:'관심 후보', rule:'점수 70+ · 탈락/위험 없음 · 시장당 6곳 · 업종당 5곳 · 상위 20 (+ 직접 고른 내 종목). 매주 월요일 재선정'},
   {k:'held',  l:'보유', rule:'내가 실제로 산 종목'},
 ];
 function rowFor(c){ const r = scoredRows().find(r => normKey(r.code||r.t)===normKey(c.ticker) || r.t===c.yf) || null; return {key:c.ticker, name:c.name, code:c.ticker, m:grpOf(c.market||'KR'), c, r, b:r?.b ?? null, p:profileFor(c.yf||c.ticker, c.ticker, c)}; }
@@ -4857,6 +4862,13 @@ const TAGS = ['품질 상위 10%','안전마진 30%+'];
 try{ const sv = JSON.parse(localStorage.getItem('ml-screen')||'null'); if(sv) Object.assign(S2, sv, {shown:40, open:null}); }catch(_){}
 function saveScreenPrefs(){ try{ localStorage.setItem('ml-screen', JSON.stringify({mkt:S2.mkt, sort:S2.sort, hideFlags:S2.hideFlags, tag:S2.tag})); }catch(_){} }
 let scoredCache = null;
+/* 회사 문서에는 국유기업 같은 표시가 없어서 스크리너 행에서 가져온다 */
+let __tagMap = null, __tagN = -1;
+function screenTags(c){
+  const L = S2.screen || [];
+  if(!__tagMap || __tagN !== L.length){ __tagMap = new Map(); __tagN = L.length; for(const r of L){ if(r.tags && r.tags.length){ if(r.t) __tagMap.set(r.t, r.tags); if(r.code) __tagMap.set(String(r.code).toUpperCase(), r.tags); } } }
+  return __tagMap.get(c.yf) || __tagMap.get(String(c.ticker||'').toUpperCase()) || [];
+}
 function scoredRows(){
   if(scoredCache) return scoredCache;
   const st = cfg();
@@ -5069,6 +5081,9 @@ function viewRules(){
     <div class="rule"><span class="t">이익 정점 가능</span><span class="th">−8점</span><span class="d">최근 EPS가 가용 연수 평균의 1.5배 이상이면서 매출 성장이 10% 이하. 정점 이익에 낮은 PER이 붙은 함정(코노코필립스 2008형). 다년 평균 EPS 기준 PER을 함께 본다</span></div>
     <div class="rule"><span class="t">성장 감속</span><span class="th">−8점</span><span class="d">매출 성장률이 3년 연속 둔화하고 최근 0 이하. 숫자는 아직 좋아 보여도 해자가 침식 중일 수 있다(HP·IBM형)</span></div>
     <div class="rule"><span class="t">지주회사·경기순환</span><span class="th">경고만</span><span class="d">감점 없이 표시. 지주회사는 PBR·EV가 왜곡되므로 순자산가치 할인으로 따로 보고, 경기순환은 정점 매수 여부를 스스로 점검</span></div>
+    <div class="rule"><span class="t">국유기업·정책 위험</span><span class="th">감점 신호 1개</span><span class="d">정부가 최대주주인 회사는 대출·가격·배당이 정책 목적에 묶일 수 있다. 장부상 싸 보여도 그 할인은 오래 지속된다. 감점 신호로 세고 관심 후보에서 뺀다</span></div>
+    <div class="rule"><span class="t">중국 본토 규제 할인</span><span class="th">−6점</span><span class="d">중국 본토(A주)는 규제·자본 통제·지정학 위험을 재무 숫자로 볼 수 없다. 버핏도 TSMC를 지정학 위험으로 몇 달 만에 팔았다. 종합 점수에서 6점을 뺀다</span></div>
+    <div class="rule"><span class="t">금융업 품질</span><span class="th">순이익률 제외</span><span class="d">은행·보험은 매출 구조가 달라 순이익률이 품질을 말해 주지 않는다(중국 은행 50%대). ROE와 이익 안정성으로만 본다</span></div>
     <div class="rule"><span class="t">데이터 신뢰도</span><span class="th">낮음 → 기준 통과 제외</span><span class="d">자동 수집 데이터의 신뢰도가 낮으면 점수가 높아도 기준 통과로 올리지 않는다. 매수 전 공시 원문 대조는 체크리스트 필수 항목</span></div>
     <div class="rule"><span class="t">주식보상비용</span><span class="th">오너이익에서 차감</span><span class="d">스톡옵션·RSU는 현금 지출이 없어도 주주 몫을 희석한다. 기술주의 현금흐름은 이 비용만큼 부풀려 보이므로 내재가치 계산 전에 뺀다. 오너이익의 25%를 넘으면 경고</span></div>
     <div class="rule"><span class="t">수익 구조 유형</span><span class="th">통행료형 · 사이클형 · 혁신 의존형</span><span class="d">기술의 미래를 맞히는 대신 이미 드러난 수익 구조로 본다. 통행료형(반복 결제, 바꾸기 어려운 서비스)은 그대로, 사이클형은 경기순환 경고, 혁신 의존형은 도전 칸으로 보낸다</span></div>

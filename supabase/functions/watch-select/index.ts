@@ -9,8 +9,8 @@ import { scoreRow, grpOf, WARN_FLAGS, setSettings } from "./scoring.js";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
-const MIN_B = 70; let PER_MKT = 6, TOTAL = 20;
-const rule = () => `기준: ${MIN_B}점 이상, 탈락·감점 없음, 데이터 신뢰도 양호, 시장당 최대 ${PER_MKT}곳, 상위 ${TOTAL}곳`;
+const MIN_B = 70, SEC_MAX = 5; let PER_MKT = 6, TOTAL = 20;
+const rule = () => `기준: ${MIN_B}점 이상, 탈락·감점 없음, 데이터 신뢰도 양호, 시장당 최대 ${PER_MKT}곳, 업종당 최대 ${SEC_MAX}곳, 상위 ${TOTAL}곳`;
 const nk = (s: unknown) => String(s || "").toUpperCase().replace(/\.(KS|KQ|T|HK|SS|SZ)$/, "").replace(/^0+(?=\d{4}$)/, "");
 
 async function load(col: string) {
@@ -51,7 +51,10 @@ Deno.serve(async (req: Request) => {
     }
     cands.sort((a, b) => b.sc.b - a.sc.b);
     const per: Record<string, number> = {}; const pick: any[] = [];
-    for (const x of cands) { const g = grpOf(x.r.m); if ((per[g] || 0) >= PER_MKT) continue; per[g] = (per[g] || 0) + 1; pick.push(x); if (pick.length >= TOTAL) break; }
+    // 한 업종이 목록을 채우지 않게 업종당 최대 5곳 (은행·보험이 몰리던 문제)
+    const sec = (r: any) => /financ|bank|insur|금융|은행|보험/i.test(String(r.s || "") + " " + String(r.ind || "")) ? "금융" : String(r.s || "기타");
+    const perSec: Record<string, number> = {};
+    for (const x of cands) { const g = grpOf(x.r.m), k = sec(x.r); if ((per[g] || 0) >= PER_MKT || (perSec[k] || 0) >= SEC_MAX) continue; per[g] = (per[g] || 0) + 1; perSec[k] = (perSec[k] || 0) + 1; pick.push(x); if (pick.length >= TOTAL) break; }
 
     const writes: any[] = []; const now = new Date().toISOString();
     const added: string[] = [], kept: string[] = [], removed: string[] = [];
