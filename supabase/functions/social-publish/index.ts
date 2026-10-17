@@ -1,5 +1,6 @@
-// 인스타·쓰레드 카드뉴스 자동 게시
-// - {} (5분마다 cron)      : 토큰 갱신 → 시간이 된 글을 채널별로 1편씩 게시
+// 인스타·쓰레드 카드뉴스·릴스 자동 게시
+// - {} (5분마다 cron)      : 토큰 갱신 → 처리 중인 영상 마무리 → 시간이 된 글을 채널별로 1편씩 게시
+//                            릴스(영상)는 컨테이너를 만들고 'processing'으로 둔 뒤, 다음 실행 때 처리가 끝났으면 게시
 //                            같은 채널은 최소 90분 간격(연결이 늦어 밀린 글이 한꺼번에 올라가지 않게)
 // - {action:"now", id, t}  : (관리자) 해당 글을 지금 바로 게시
 // - {action:"check", t}    : (관리자) 두 계정 연결 상태와 게시 한도 확인
@@ -89,6 +90,50 @@ async function postThreads(a: Acc, p: any, site: string) {
   return { id: pub.id, permalink: link.permalink || null };
 }
 
+// 릴스: 영상 컨테이너만 만든다 (처리에 1~3분 걸려 다음 실행에서 게시)
+async function startReel(ch: "ig" | "th", a: Acc, p: any, site: string) {
+  if (ch === "ig") {
+    const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" ");
+    const params: Record<string, string> = { media_type: "REELS", video_url: site + p.video, share_to_feed: "true",
+      caption: p.caption + (tags ? "\n\n" + tags : "") + "\n\n" + DISC, access_token: a.access_token };
+    if (p.cover) params.cover_url = site + p.cover;
+    return (await call(`${IG}/${a.account_id}/media`, params)).id as string;
+  }
+  const params: Record<string, string> = { media_type: "VIDEO", video_url: site + p.video,
+    text: (p.caption + "\n\n" + DISC).slice(0, 500), access_token: a.access_token };
+  if (p.threads_tag) params.topic_tag = p.threads_tag;
+  return (await call(`${TH}/${a.account_id}/threads`, params)).id as string;
+}
+
+// 처리 중인 영상 컨테이너를 확인해, 끝났으면 게시
+async function finishReels(acc: Record<string, Acc>) {
+  const out: unknown[] = [];
+  for (const ch of ["ig", "th"] as const) {
+    const a = acc[ch === "ig" ? "instagram" : "threads"]; if (!a) continue;
+    const { data: rows } = await sb.from("social_posts").select("*").eq(`${ch}_status`, "processing");
+    for (const p of rows || []) {
+      const cid = p[`${ch}_container`]; const base = ch === "ig" ? IG : TH; const field = ch === "ig" ? "status_code" : "status";
+      try {
+        const st = (await call(`${base}/${cid}`, { fields: field, access_token: a.access_token }, "GET"))[field];
+        if (st === "ERROR" || st === "EXPIRED") throw new Error("영상 처리 실패 (" + st + ")");
+        if (st !== "FINISHED") {
+          if (Date.now() - new Date(p[`${ch}_at`]).getTime() > 40 * 60e3) throw new Error("영상 처리 시간이 40분을 넘었습니다");
+          continue;
+        }
+        const pub = await call(ch === "ig" ? `${IG}/${a.account_id}/media_publish` : `${TH}/${a.account_id}/threads_publish`, { creation_id: cid, access_token: a.access_token });
+        const link = await call(`${base}/${pub.id}`, { fields: "permalink", access_token: a.access_token }, "GET").catch(() => ({}));
+        await sb.from("social_posts").update({ [`${ch}_status`]: "posted", [`${ch}_media_id`]: pub.id, [`${ch}_permalink`]: link.permalink || null, [`${ch}_at`]: new Date().toISOString() }).eq("id", p.id);
+        out.push({ ch, id: p.id, posted: pub.id });
+      } catch (e) {
+        const msg = String((e as Error).message || e).slice(0, 500);
+        await sb.from("social_posts").update({ [`${ch}_status`]: "failed", [`${ch}_error`]: msg, [`${ch}_at`]: new Date().toISOString() }).eq("id", p.id);
+        out.push({ ch, id: p.id, error: msg });
+      }
+    }
+  }
+  return out;
+}
+
 // 인스타 게시 직후 관리자 휴대폰으로 알림: 음악 추가 안내
 async function remind(p: any, link: string | null) {
   const owner = await cfg("publisher"); if (!owner) return;
@@ -107,6 +152,11 @@ async function publish(ch: "ig" | "th", p: any, acc: Record<string, Acc>, site: 
     .eq("id", p.id).in(`${ch}_status`, ["pending", "failed"]).select("id");
   if (!lock?.length) return { skipped: "locked" };
   try {
+    if (p.kind === "reel") {
+      const cid = await startReel(ch, a, p, site);
+      await sb.from("social_posts").update({ [`${ch}_status`]: "processing", [`${ch}_container`]: cid, [`${ch}_at`]: new Date().toISOString() }).eq("id", p.id);
+      return { processing: cid };
+    }
     const r = ch === "ig" ? await postInstagram(a, p, site) : await postThreads(a, p, site);
     await sb.from("social_posts").update({ [`${ch}_status`]: "posted", [`${ch}_media_id`]: r.id, [`${ch}_permalink`]: r.permalink, [`${ch}_at`]: new Date().toISOString() }).eq("id", p.id);
     if (ch === "ig") await remind(p, r.permalink).catch(e => console.error("remind", e));
@@ -150,11 +200,13 @@ Deno.serve(async (req: Request) => {
 
     // 정기 실행
     await refresh(acc);
-    if (!site || (await cfg("social_paused")) === true) return json({ idle: !site ? "no site" : "paused" });
+    const res: Record<string, unknown> = { finished: await finishReels(acc) };
+    if (!site || (await cfg("social_paused")) === true) return json({ ...res, idle: !site ? "no site" : "paused" });
     const now = new Date().toISOString();
-    const res: Record<string, unknown> = {};
     for (const ch of ["ig", "th"] as const) {
       if (!acc[ch === "ig" ? "instagram" : "threads"]) continue;
+      const { count: busy } = await sb.from("social_posts").select("id", { count: "exact", head: true }).eq(`${ch}_status`, "processing");
+      if (busy) continue;
       if (Date.now() - (await lastAt(ch)) < GAP_MIN * 60e3) continue;
       const { data: due } = await sb.from("social_posts").select("*")
         .eq(ch === "ig" ? "to_ig" : "to_threads", true).eq(`${ch}_status`, "pending")

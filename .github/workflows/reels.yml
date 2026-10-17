@@ -1,0 +1,46 @@
+# 릴스 자동 생성: 3시간마다 시장 급변을 확인해 릴스 대본을 만들고, 바뀐 대본을 영상으로 렌더해 커밋한다.
+# 커밋 → Vercel 배포 → Supabase가 매시 15분에 social/reels/queue.json 을 읽어 게시 대기열에 넣는다.
+# 정기 편성 대본(scripts/reels/specs)을 바꿔 푸시해도 바로 렌더된다.
+name: reels
+on:
+  schedule:
+    - cron: '50 */3 * * *'   # 3시간마다 (KST 08:50, 11:50, 14:50, 17:50, 20:50, 23:50, 02:50, 05:50)
+  push:
+    branches: [main]
+    paths: ['scripts/reels/specs/**', 'scripts/reels/engine.py']
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: reels
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 도구 설치
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q sherpa-onnx==1.13.8 soundfile scipy numpy pillow
+      - name: 음성 모델 캐시
+        uses: actions/cache@v4
+        with:
+          path: scripts/reels/.cache
+          key: tts-supertonic-3-int8-2026-05-11
+      - name: 시장 급변 확인
+        if: github.event_name != 'push'
+        run: python3 scripts/reels/events.py
+      - name: 영상 만들기
+        run: python3 scripts/reels/build.py
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"
+          git config user.email "bot@valuenote.co.kr"
+          git add -A social/reels scripts/reels/events
+          git diff --cached --quiet && exit 0
+          git commit -m "릴스 $(TZ=Asia/Seoul date '+%F %H:%M')"
+          git pull --rebase origin main
+          git push
