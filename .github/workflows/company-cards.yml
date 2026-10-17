@@ -1,0 +1,33 @@
+# 매일 저녁 '오늘의 기업' 카드뉴스 생성 → social/company 커밋 (Vercel 배포 → Supabase가 매시 25·28분에 가져가 21:00 게시)
+name: company-cards
+on:
+  schedule:
+    - cron: '20 10 * * *'   # 매일 19:20 KST
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: company-cards
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 브라우저 준비
+        run: |
+          npm i --no-save playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: 카드 만들기
+        run: node scripts/company_cards.mjs
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"
+          git config user.email "bot@valuenote.co.kr"
+          git add social/company
+          git diff --cached --quiet && exit 0
+          git commit -m "오늘의 기업 카드 $(TZ=Asia/Seoul date +%F)"
+          git pull --rebase origin main
+          git push

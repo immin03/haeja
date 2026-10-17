@@ -92,7 +92,7 @@ em{font-style:normal;color:#E2C489}
 function cardHtml(c, i, n) {
   const top = `<div class="top"><span class="wm">Value<i>Note</i><b class="ko">밸류노트</b></span><span class="pg">${i + 1} / ${n}</span></div>`;
   if (c.kind === 'hook') return `<section class="s hook">${top}<div class="body">${c.k ? `<div class="k">${esc(c.k)}</div>` : ''}<h1>${br(c.t)}</h1>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}${c.chips ? `<div class="chips">${c.chips.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : ''}</div>${i === 0 ? '<div class="swipe">넘겨서 보기 →</div>' : ''}</section>`;
-  if (c.kind === 'cta') return `<section class="s cta">${top}<div class="body"><h2>${br(c.t)}</h2>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}<div class="btn">프로필 링크에서 무료로 써 보기</div><div class="handle">밸류노트 · ${HANDLE}</div></div><div class="disc">${esc(DISC)}</div></section>`;
+  if (c.kind === 'cta') return `<section class="s cta">${top}<div class="body"><h2>${br(c.t)}</h2>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}<div class="btn">프로필 링크에서 확인하기</div><div class="handle">밸류노트 · ${HANDLE}</div></div><div class="disc">${esc(DISC)}</div></section>`;
   const sc = 680 / 390, headH = c.s ? 300 : 230, src = 'data:image/png;base64,' + fs.readFileSync(c.img).toString('base64');
   return `<section class="s shot">${top}<div class="head"><h2>${br(c.t)}</h2>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}</div>
     <div class="phone" style="top:${140 + headH}px"><div class="screen" style="height:${(c.h || 600) * sc}px"><img src="${src}" style="margin-top:${-(c.y || 0) * sc}px"></div></div></section>`;

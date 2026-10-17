@@ -159,7 +159,7 @@ async function publish(ch: "ig" | "th", p: any, acc: Record<string, Acc>, site: 
     }
     const r = ch === "ig" ? await postInstagram(a, p, site) : await postThreads(a, p, site);
     await sb.from("social_posts").update({ [`${ch}_status`]: "posted", [`${ch}_media_id`]: r.id, [`${ch}_permalink`]: r.permalink, [`${ch}_at`]: new Date().toISOString() }).eq("id", p.id);
-    if (ch === "ig") await remind(p, r.permalink).catch(e => console.error("remind", e));
+    if (ch === "ig" && p.music) await remind(p, r.permalink).catch(e => console.error("remind", e));
     return { posted: r };
   } catch (e) {
     const msg = String((e as Error).message || e).slice(0, 500);
