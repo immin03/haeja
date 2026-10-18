@@ -29,8 +29,11 @@ id 규칙: `b` + yymmdd + 요일 글자(m·w·f). 예: b261019m. 처음 두 편�
 ```
 npm i --no-save --no-package-lock satori@0.10.14 @resvg/resvg-js@2.6.2 pretendard@1.3.9
 node scripts/blog/kit.mjs naver/<id> /tmp/jobs.json      # 사진
+python3 scripts/blog/chart.py naver/<id>/NN.png /tmp/spec.json   # 실제 데이터 선 그래프 (형식은 chart.py 맨 위)
 node scripts/blog/naver_page.mjs naver/<id>              # 페이지·zip
 ```
+그래프 데이터는 Supabase REST(anon 키, config.js)로 공개 읽기: trends/series(d: kospi·spx·트렌드), fx/rates(series.*.daily), fx/current(series.USDKRW·JPYKRW100).
+월요일에는 그래프 2~4장을 blog/weekly-<yyyymmdd>/ 에 복사해 사이트 칼럼 본문에도 넣는다(예: col-2026-10-15).
 사진은 열어서 확인한다(글자가 넘치거나 겹치면 문장을 줄여 다시 만든다).
 
 ## 칼럼 소개 릴스
