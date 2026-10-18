@@ -4,6 +4,7 @@
 //                            같은 채널은 최소 90분 간격(연결이 늦어 밀린 글이 한꺼번에 올라가지 않게)
 // - {action:"now", id, t}  : (관리자) 해당 글을 지금 바로 게시
 // - {action:"check", t}    : (관리자) 두 계정 연결 상태와 게시 한도 확인
+// - app_config: social_paused(전체) / instagram_paused / threads_paused(채널별) 가 true면 정기 게시를 건너뜀 (수동 '지금 올리기'는 그대로 동작)
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
@@ -207,6 +208,7 @@ Deno.serve(async (req: Request) => {
     const now = new Date().toISOString();
     for (const ch of ["ig", "th"] as const) {
       if (!acc[ch === "ig" ? "instagram" : "threads"]) continue;
+      if ((await cfg(ch === "ig" ? "instagram_paused" : "threads_paused")) === true) { res[ch] = { idle: "paused" }; continue; }
       const { count: busy } = await sb.from("social_posts").select("id", { count: "exact", head: true }).eq(`${ch}_status`, "processing");
       if (busy) continue;
       if (Date.now() - (await lastAt(ch)) < GAP_MIN * 60e3) continue;

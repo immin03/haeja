@@ -72,3 +72,23 @@ grant execute on function public.social_admin_set(text, jsonb) to authenticated;
 -- 5분마다 게시 함수 실행
 select cron.unschedule('haeja-social') where exists (select 1 from cron.job where jobname = 'haeja-social');
 select cron.schedule('haeja-social', '*/5 * * * *', $$select public._fn_call('social-publish', '{}')$$);
+
+-- 2026-10-19: 채널별 자동 게시 멈춤 (instagram_paused / threads_paused)
+create or replace function public.social_status() returns jsonb
+language plpgsql stable security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'not admin'; end if;
+  return jsonb_build_object(
+    'accounts', coalesce((select jsonb_agg(jsonb_build_object('platform',platform,'username',username,'expires_at',expires_at,'updated_at',updated_at)) from social_accounts), '[]'::jsonb),
+    'paused', coalesce((select value from app_config where key='social_paused'), 'false'::jsonb),
+    'instagram_paused', coalesce((select value from app_config where key='instagram_paused'), 'false'::jsonb),
+    'threads_paused', coalesce((select value from app_config where key='threads_paused'), 'false'::jsonb),
+    'site', (select value #>> '{}' from app_config where key='site_url'));
+end $$;
+create or replace function public.social_admin_set(p_key text, p_value jsonb) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'not admin'; end if;
+  if p_key not in ('social_paused','instagram_paused','threads_paused','site_url') then raise exception 'bad key'; end if;
+  insert into app_config(key, value) values (p_key, p_value) on conflict (key) do update set value = excluded.value;
+end $$;

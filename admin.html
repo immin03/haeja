@@ -112,22 +112,60 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
   #asof{display:none}
 }
 
-.soc-acc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.soc-acc .card{display:flex;flex-direction:column;gap:8px}
-.soc-acc .t{display:flex;justify-content:space-between;align-items:center;font-weight:800}
-.soc-acc .u{font-size:20px;font-weight:800;letter-spacing:-.02em}
-.soc-btn{display:inline-block;text-align:center;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none;background:var(--navy-grad);color:var(--ivory)}
+/* SNS 게시 탭 */
+.soc-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.soc-kpis .kpi{padding:12px 14px}
+.soc-kpis .kpi .v{font-size:24px}
+.soc-kpis .kpi.warn .v{color:var(--bad)}
+.soc-acc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.soc-acc .card{display:flex;align-items:center;gap:12px;padding:12px 14px;min-width:0}
+.soc-acc .ic{width:38px;height:38px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;font-weight:800;font-size:15px;color:#FFFFFF;background:var(--navy-grad)}
+.soc-acc .ic.th{background:#1F1F1F}
+.soc-acc .b{flex:1;min-width:0}
+.soc-acc .t{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px}
+.soc-acc .u{font-size:13px;color:var(--ink2);margin-top:1px;overflow:hidden;text-overflow:ellipsis}
+.soc-acc .u small{display:block;font-size:11.5px;margin:1px 0 0}
+.soc-acc .u small{color:var(--muted);font-weight:500}
+.soc-acc .ac{display:flex;gap:6px;flex:0 0 auto}
+.soc-btn{display:inline-block;text-align:center;border:0;border-radius:10px;padding:8px 12px;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;background:var(--navy-grad);color:var(--ivory);white-space:nowrap}
 .soc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.soc-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0 0}
-.st{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
-.st.ok{color:var(--good);border-color:var(--good)}.st.bad{color:var(--bad);border-color:var(--bad)}.st.run{color:#B08A3E;border-color:#B08A3E}
-.soc-tb img{width:34px;height:42px;border-radius:5px;object-fit:cover;display:block}
-.soc-tb input[type=datetime-local]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
-.soc-tb .a{display:flex;gap:6px;flex-wrap:wrap}
-.soc-tb .a button{font-size:12px;padding:4px 9px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.soc-btn.ghost.on{color:var(--bad);border-color:var(--bad);background:rgba(192,57,43,.06)}
+.soc-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 0}
+.soc-bar .msg{font-size:12px;color:var(--muted);margin-left:auto}
+.st{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface);white-space:nowrap;text-decoration:none;line-height:1.5}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.75}
+.st.ok{color:var(--good);border-color:transparent;background:rgba(45,122,95,.1)}
+.st.bad{color:var(--bad);border-color:transparent;background:rgba(192,57,43,.1);cursor:help}
+.st.run{color:#B08A3E;border-color:transparent;background:rgba(176,138,62,.12)}
+.st.off{color:var(--muted);border-style:dashed}
+.st.none{color:var(--muted);border-color:transparent;background:transparent}.st.none::before{display:none}
+.soc-alert{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:12px;margin-bottom:12px;background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.25);font-size:13px;line-height:1.55}
+.soc-alert b{color:var(--bad)}
+.soc-alert .soc-btn{margin-left:auto;flex:0 0 auto}
+.soc-sec{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.soc-sec h2{margin:22px 0 8px}
+.soc-sec .n{font-size:12px;font-weight:600;color:var(--muted)}
+.soc-tb table{table-layout:fixed}
+.soc-tb th:nth-child(1){width:46px}.soc-tb th:nth-child(2){width:auto}.soc-tb th:nth-child(3){width:196px}.soc-tb th:nth-child(4){width:104px}.soc-tb th:nth-child(5){width:104px}.soc-tb th:nth-child(6){width:168px}
+.soc-tb td{vertical-align:middle;padding:8px 10px}
+.soc-tb .th{width:36px;height:46px;border-radius:6px;object-fit:cover;display:block;background:var(--grid)}
+.soc-tb .ttl{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.soc-tb .meta{font-size:11.5px;color:var(--muted);margin-top:2px;display:flex;gap:6px;align-items:center;white-space:nowrap}
+.soc-tb .kind{font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:5px;background:var(--bg);border:1px solid var(--line);color:var(--ink2)}
+.soc-tb .kind.reel{color:#B08A3E;border-color:rgba(176,138,62,.5)}
+.soc-tb input[type=datetime-local]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.soc-tb .when{font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--ink2);white-space:nowrap}
+.soc-tb .a{display:flex;gap:5px;justify-content:flex-end;flex-wrap:nowrap}
+.soc-tb .a button{font-size:12px;padding:4px 9px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;white-space:nowrap}
+.soc-tb .a button.pri{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.soc-tb .a button:disabled{opacity:.5;cursor:default}
+.soc-tb tr.hold td{opacity:.55}.soc-tb tr.hold td:last-child{opacity:1}
+.soc-tb details summary{cursor:pointer;font-size:12px;color:var(--muted);padding:8px 10px;list-style:none;display:flex;align-items:center;gap:6px}
+.soc-tb details summary::before{content:"▸";font-size:11px}
+.soc-tb details[open] summary::before{content:"▾"}
 .soc-flash{padding:12px 14px;border-radius:12px;margin-bottom:12px;font-weight:700}
 .soc-flash.ok{background:rgba(45,122,95,.1);color:var(--good)}.soc-flash.bad{background:rgba(192,57,43,.1);color:var(--bad)}
-@media (max-width:640px){.soc-acc{grid-template-columns:1fr}}
+@media (max-width:760px){.soc-acc{grid-template-columns:1fr}.soc-kpis{grid-template-columns:repeat(2,1fr)}.soc-tb table{table-layout:auto;min-width:720px}.soc-alert{flex-wrap:wrap}.soc-alert .soc-btn{margin-left:0}.soc-sec .n{display:none}.soc-acc .u small{display:none}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}}
 :root[data-theme="dark"] .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}
 </style>
@@ -371,36 +409,82 @@ async function socLoad(){
 const kstInput = iso => new Date(Date.parse(iso) + 9*3600e3).toISOString().slice(0, 16);
 const fromKst = v => new Date(v + ':00+09:00').toISOString();
 function chip(status, link, err, label){
-  if(status === 'posted') return `<a class="st ok" href="${esc(link || '#')}" target="_blank" rel="noopener">${label} 완료 ↗</a>`;
+  if(status === 'posted') return `<a class="st ok" href="${esc(link || '#')}" target="_blank" rel="noopener">${label} 완료</a>`;
   if(status === 'failed') return `<span class="st bad" title="${esc(err || '')}">${label} 실패</span>`;
-  if(status === 'publishing') return `<span class="st run">${label} 올리는 중</span>`;
+  if(status === 'publishing' || status === 'processing') return `<span class="st run" title="올리는 중 · 영상은 처리에 몇 분 걸립니다">${label} 처리 중</span>`;
   return `<span class="st">${label} 대기</span>`;
+}
+const THREADS_CHECKPOINT = /checkpoint/i;
+function socRow(p, scope){
+  const img = (p.images && p.images[0]) || p.cover || '';
+  const num = /^[A-Z]/.test(p.id) ? p.id : '#' + p.id;
+  const kind = p.kind === 'reel' ? '<span class="kind reel">릴스</span>' : `<span class="kind">카드 ${(p.images || []).length}장</span>`;
+  const ch = p.to_ig && p.to_threads ? '인스타 + 쓰레드' : p.to_ig ? '인스타만' : p.to_threads ? '쓰레드만' : '채널 없음';
+  const igDone = !p.to_ig || p.ig_status === 'posted', thDone = !p.to_threads || p.th_status === 'posted';
+  const allDone = igDone && thDone;
+  const failed = (p.to_ig && p.ig_status === 'failed') || (p.to_threads && p.th_status === 'failed');
+  const when = scope === 'done'
+    ? `<span class="when">${kst(p.ig_at || p.th_at || p.scheduled_at)}</span>`
+    : `<input type="datetime-local" value="${kstInput(p.scheduled_at)}" data-soc-time="${esc(p.id)}">`;
+  const igCell = p.to_ig ? chip(p.ig_status, p.ig_permalink, p.ig_error, '인스타') : '<span class="st none">–</span>';
+  const thCell = p.to_threads ? chip(p.th_status, p.th_permalink, p.th_error, '쓰레드') : '<span class="st none">–</span>';
+  const acts = [];
+  if(p.approved === false) acts.push(`<button class="pri" data-soc-ok="${esc(p.id)}">승인</button>`);
+  else if(!allDone) acts.push(`<button data-soc-now="${esc(p.id)}"${failed ? ' class="pri"' : ''}>${failed ? '다시 올리기' : '지금 올리기'}</button>`);
+  if(!allDone) acts.push(`<button data-soc-hold="${esc(p.id)}">${p.paused ? '재개' : '보류'}</button>`);
+  return `<tr${p.paused && !allDone ? ' class="hold"' : ''}>
+    <td><img class="th" src="${esc(img)}" alt="" loading="lazy"></td>
+    <td><div class="ttl" title="${esc(p.title)}">${esc(p.title)}</div><div class="meta"><span>${esc(num)}</span>${kind}<span>${ch}</span>${p.approved === false ? '<span class="st run">승인 대기</span>' : ''}${p.paused && !allDone ? '<span class="st off">보류</span>' : ''}</div></td>
+    <td>${when}</td>
+    <td>${igCell}</td>
+    <td>${thCell}</td>
+    <td><div class="a">${acts.join('')}</div></td></tr>`;
+}
+function socTable(rows, scope, empty){
+  if(!rows.length) return `<div class="empty" style="padding:10px 12px">${empty}</div>`;
+  return `<table><thead><tr><th></th><th>게시물</th><th>${scope === 'done' ? '게시 시각 (한국시간)' : '예정 (한국시간)'}</th><th>인스타</th><th>쓰레드</th><th></th></tr></thead><tbody>${rows.map(p => socRow(p, scope)).join('')}</tbody></table>`;
 }
 function vSocial(){
   if(SOC.posts === null){ socLoad(); return head('SNS 게시', '불러오는 중', 'social'); }
   if(SOC.st && SOC.st.error) return head('SNS 게시', '', 'social') + `<div class="card">불러오지 못했습니다: ${esc(SOC.st.error)}<div class="note">DB에 SNS 게시 표가 아직 없을 수 있습니다.</div></div>`;
-  const acc = Object.fromEntries((SOC.st.accounts || []).map(a => [a.platform, a]));
-  const card = (p, name) => { const a = acc[p];
-    return `<div class="card"><div class="t"><span>${name}</span>${a ? '<span class="st ok">연결됨</span>' : '<span class="st">연결 전</span>'}</div>
-      ${a ? `<div class="u">@${esc(a.username || '')}</div><div class="muted" style="font-size:12px">토큰 만료 ${kst(a.expires_at)} · 만료 10일 전 자동 갱신</div>` : '<div class="muted" style="font-size:13px">Meta 앱과 시크릿을 넣은 뒤 눌러 주세요.</div>'}
-      <button class="soc-btn${a ? ' ghost' : ''}" data-soc-connect="${p}">${a ? '다시 연결' : name + ' 연결'}</button></div>`; };
-  const paused = SOC.st.paused === true;
-  const done = SOC.posts.filter(p => (!p.to_ig || p.ig_status === 'posted') && (!p.to_threads || p.th_status === 'posted')).length;
-  const rows = SOC.posts.map(p => `<tr>
-    <td><img src="${esc((p.images && p.images[0]) || '')}" alt="" loading="lazy"></td>
-    <td class="nw"><b>${/^D/.test(p.id) ? '오늘 이슈' : '#' + esc(p.id)}</b><div class="muted" style="font-size:12px">${p.to_ig ? '★ 인스타+쓰레드' : '쓰레드'}</div></td>
-    <td>${esc(p.title)}<div class="muted" style="font-size:12px">${p.images.length}장</div></td>
-    <td><input type="datetime-local" value="${kstInput(p.scheduled_at)}" data-soc-time="${esc(p.id)}"></td>
-    <td>${p.to_ig ? chip(p.ig_status, p.ig_permalink, p.ig_error, '인스타') + ' ' : ''}${chip(p.th_status, p.th_permalink, p.th_error, '쓰레드')}${p.paused ? ' <span class="st">보류</span>' : ''}${p.approved === false ? ' <span class="st run">승인 대기</span>' : ''}
-      ${p.ig_error || p.th_error ? `<div class="muted" style="font-size:11px;margin-top:4px">${esc(p.ig_error || p.th_error)}</div>` : ''}</td>
-    <td><div class="a">${p.approved === false ? `<button data-soc-ok="${esc(p.id)}" style="background:var(--ink);color:var(--surface);border-color:var(--ink)">승인</button>` : ''}${(!p.to_ig || p.ig_status === 'posted') && p.th_status === 'posted' ? '' : `<button data-soc-now="${esc(p.id)}">지금 올리기</button>`}<button data-soc-hold="${esc(p.id)}">${p.paused ? '재개' : '보류'}</button></div></td></tr>`).join('');
-  return `${head('SNS 게시', `카드뉴스 ${SOC.posts.length}편 중 ${done}편 게시 완료 · 시간이 되면 5분 안에 자동으로 올라가요 (같은 채널은 최소 90분 간격)`, 'social')}
+  const st = SOC.st, acc = Object.fromEntries((st.accounts || []).map(a => [a.platform, a]));
+  const paused = st.paused === true, igPaused = st.instagram_paused === true, thPaused = st.threads_paused === true;
+  const P = SOC.posts;
+  const isDone = p => (!p.to_ig || p.ig_status === 'posted') && (!p.to_threads || p.th_status === 'posted');
+  const isFail = p => !isDone(p) && ((p.to_ig && p.ig_status === 'failed') || (p.to_threads && p.th_status === 'failed'));
+  const isHold = p => !isDone(p) && !isFail(p) && (p.paused || p.approved === false);
+  const done = P.filter(isDone).sort((a, b) => (b.ig_at || b.th_at || b.scheduled_at).localeCompare(a.ig_at || a.th_at || a.scheduled_at));
+  const failed = P.filter(isFail).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
+  const hold = P.filter(isHold).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
+  const queue = P.filter(p => !isDone(p) && !isFail(p) && !isHold(p)).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
+  const nowIso = new Date().toISOString();
+  const next = queue.find(p => p.scheduled_at > nowIso) || queue[0];
+  const thCheckpoint = failed.some(p => THREADS_CHECKPOINT.test(p.th_error || ''));
+  const card = (p, name, cls) => { const a = acc[p]; const chPaused = p === 'instagram' ? igPaused : thPaused;
+    return `<div class="card"><div class="ic ${cls}">${p === 'instagram' ? 'IG' : '@'}</div>
+      <div class="b"><div class="t">${name}${a ? (chPaused ? '<span class="st off">자동 게시 멈춤</span>' : '<span class="st ok">연결됨</span>') : '<span class="st">연결 전</span>'}</div>
+      ${a ? `<div class="u">@${esc(a.username || '')}<small>토큰 만료 ${kst(a.expires_at)} · 10일 전 자동 갱신</small></div>` : '<div class="u muted">Meta 앱과 시크릿을 넣은 뒤 연결해 주세요.</div>'}</div>
+      <div class="ac">${a ? `<button class="soc-btn ghost${chPaused ? ' on' : ''}" data-soc-chpause="${p}">${chPaused ? '다시 켜기' : '멈추기'}</button>` : ''}<button class="soc-btn${a ? ' ghost' : ''}" data-soc-connect="${p}">${a ? '다시 연결' : '연결'}</button></div></div>`; };
+  return `${head('SNS 게시', `시간이 되면 5분 안에 자동으로 올라갑니다 · 같은 채널은 최소 90분 간격`, 'social')}
   ${SOC.flash ? `<div class="soc-flash ${SOC.flash[0]}">${esc(SOC.flash[1])}</div>` : ''}
-  <div class="soc-acc">${card('instagram', '인스타그램')}${card('threads', '쓰레드')}</div>
+  ${paused ? `<div class="soc-alert"><div><b>자동 게시가 전체 멈춤 상태입니다.</b> 예정 시간이 지나도 올라가지 않습니다. 아래 "자동 게시 다시 켜기"를 누르면 재개됩니다.</div></div>` : ''}
+  ${thCheckpoint ? `<div class="soc-alert"><div><b>쓰레드 계정에 확인 절차가 걸려 있어 ${failed.length}편이 올라가지 못했습니다.</b><br>threads.com에 로그인해 확인 절차를 마친 뒤, 쓰레드 카드의 "다시 연결"을 누르고 아래 "다시 올리기"로 되올리면 됩니다.</div><a class="soc-btn" href="https://www.threads.com/" target="_blank" rel="noopener">threads.com 열기</a></div>` : ''}
+  <div class="soc-kpis">
+    <div class="card kpi"><div class="l">게시 완료</div><div class="v">${done.length}</div><div class="s">전체 ${P.length}편</div></div>
+    <div class="card kpi"><div class="l">예정</div><div class="v">${queue.length}</div><div class="s">${next ? '다음 ' + kst(next.scheduled_at) : '예정 없음'}</div></div>
+    <div class="card kpi${failed.length ? ' warn' : ''}"><div class="l">실패</div><div class="v">${failed.length}</div><div class="s">${failed.length ? '다시 올리기 필요' : '없음'}</div></div>
+    <div class="card kpi"><div class="l">보류 · 승인 대기</div><div class="v">${hold.length}</div><div class="s">자동 게시 제외</div></div>
+  </div>
+  <div class="soc-acc">${card('instagram', '인스타그램', 'ig')}${card('threads', '쓰레드', 'th')}</div>
   <div class="soc-bar"><button class="soc-btn${paused ? '' : ' ghost'}" id="soc-pause">${paused ? '자동 게시 다시 켜기' : '자동 게시 전체 멈추기'}</button>
-    <button class="soc-btn ghost" id="soc-check">연결 점검</button><span class="muted" id="soc-msg" style="font-size:13px">${esc(SOC.busy)}</span></div>
-  <h2>게시 일정</h2>
-  <div class="card tbl soc-tb"><table><thead><tr><th></th><th>번호</th><th>제목</th><th>예정 (한국시간)</th><th>상태</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    <button class="soc-btn ghost" id="soc-check">연결 점검</button><span class="msg" id="soc-msg">${esc(SOC.busy)}</span></div>
+  ${failed.length ? `<div class="soc-sec"><h2>실패 · 조치 필요</h2><span class="n">실패 사유는 배지에 마우스를 올리면 보입니다</span></div><div class="card tbl soc-tb">${socTable(failed, 'queue', '')}</div>` : ''}
+  <div class="soc-sec"><h2>예정</h2><span class="n">시간순 · 예정 시간은 바로 고칠 수 있습니다</span></div>
+  <div class="card tbl soc-tb">${socTable(queue, 'queue', '예정된 게시물이 없습니다.')}</div>
+  <div class="soc-sec"><h2>보류 · 승인 대기</h2><span class="n">재개하거나 승인하면 예정으로 돌아갑니다</span></div>
+  <div class="card tbl soc-tb">${socTable(hold, 'queue', '보류 중인 게시물이 없습니다.')}</div>
+  <div class="soc-sec"><h2>게시 완료</h2><span class="n">최근 순</span></div>
+  <div class="card tbl soc-tb"><details${done.length <= 5 ? ' open' : ''}><summary>${done.length}편 보기</summary>${socTable(done, 'done', '아직 올라간 게시물이 없습니다.')}</details></div>`;
 }
 function bindSocial(){
   const msg = t => { const m = $('#soc-msg'); if(m) m.textContent = t; };
@@ -409,6 +493,10 @@ function bindSocial(){
     location.href = FN + 'social-oauth?' + new URLSearchParams({ start: b.dataset.socConnect, t: session.access_token, ret: location.origin + location.pathname });
   });
   const pz = $('#soc-pause'); if(pz) pz.onclick = async () => { await sb.rpc('social_admin_set', { p_key: 'social_paused', p_value: !(SOC.st.paused === true) }); socLoad(); };
+  document.querySelectorAll('[data-soc-chpause]').forEach(b => b.onclick = async () => {
+    const k = b.dataset.socChpause + '_paused';
+    const { error } = await sb.rpc('social_admin_set', { p_key: k, p_value: !(SOC.st[k] === true) });
+    if(error) msg('바꾸지 못했습니다: ' + error.message + ' (DB 함수 갱신이 필요할 수 있습니다)'); socLoad(); });
   const ck = $('#soc-check'); if(ck) ck.onclick = async () => { msg('점검 중…');
     const { data: { session } } = await sb.auth.getSession();
     const r = await fetch(FN + 'social-publish', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ action: 'check', t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
@@ -416,19 +504,20 @@ function bindSocial(){
     msg(r.error ? '점검 실패: ' + r.error : [part('인스타', r.instagram), part('쓰레드', r.threads)].join(' / ')); };
   document.querySelectorAll('[data-soc-time]').forEach(i => i.onchange = async () => {
     const { error } = await sb.from('social_posts').update({ scheduled_at: fromKst(i.value) }).eq('id', i.dataset.socTime);
-    msg(error ? '시간을 바꾸지 못했습니다: ' + error.message : `#${i.dataset.socTime} 시간을 바꿨습니다.`); });
+    msg(error ? '시간을 바꾸지 못했습니다: ' + error.message : `${i.dataset.socTime} 시간을 바꿨습니다.`); });
   document.querySelectorAll('[data-soc-ok]').forEach(b => b.onclick = async () => {
-    await sb.from('social_posts').update({ approved: true }).eq('id', b.dataset.socOk); SOC.busy = `#${b.dataset.socOk} 승인했습니다. 시간이 되면 올라갑니다.`; socLoad(); });
+    await sb.from('social_posts').update({ approved: true }).eq('id', b.dataset.socOk); SOC.busy = `${b.dataset.socOk} 승인했습니다. 시간이 되면 올라갑니다.`; socLoad(); });
   document.querySelectorAll('[data-soc-hold]').forEach(b => b.onclick = async () => {
     const p = SOC.posts.find(x => x.id === b.dataset.socHold);
     await sb.from('social_posts').update({ paused: !p.paused }).eq('id', p.id); socLoad(); });
   document.querySelectorAll('[data-soc-now]').forEach(b => b.onclick = async () => {
-    if(!confirm(`#${b.dataset.socNow}을 지금 바로 올릴까요?`)) return;
+    if(!confirm(`${b.dataset.socNow} 을(를) 지금 바로 올릴까요? (아직 안 올라간 채널에만 올라갑니다)`)) return;
     b.disabled = true; msg(`#${b.dataset.socNow} 올리는 중… (1분 정도 걸려요)`);
     const { data: { session } } = await sb.auth.getSession();
     const r = await fetch(FN + 'social-publish', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ action: 'now', id: b.dataset.socNow, t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
     const errs = [r.error, r.ig && r.ig.error, r.th && r.th.error].filter(Boolean);
-    SOC.busy = errs.length ? '실패: ' + errs.join(' / ') : `#${b.dataset.socNow} 게시를 마쳤습니다.`; socLoad(); });
+    const proc = (r.ig && r.ig.processing) || (r.th && r.th.processing);
+    SOC.busy = errs.length ? '실패: ' + errs.join(' / ') : proc ? `${b.dataset.socNow} 영상 처리 중입니다. 몇 분 안에 자동으로 올라갑니다.` : `${b.dataset.socNow} 게시를 마쳤습니다.`; socLoad(); });
 }
 
 function render(s){
