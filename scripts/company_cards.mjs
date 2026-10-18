@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { scoreRow, grpOf, WARN_FLAGS, setSettings } from '../supabase/functions/watch-select/scoring.js';
+import { makeVN } from './vnscore.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PW || 'playwright');
@@ -47,8 +48,18 @@ async function load() {
   const r = await fetch(`${URL0}/rest/v1/docs?collection=eq.screen&select=id,data`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } });
   if (!r.ok) throw new Error('screen ' + r.status);
   const docs = await r.json();
+  await loadVN();
   return docs.filter((d) => d.id.startsWith('chunk-')).sort((a, b) => a.id.localeCompare(b.id)).flatMap((d) => d.data?.rows || []);
 }
+// 밸류노트 점수(앱과 같은 값): 숫자 65% + 밸류노트 공용 정성 평가 20% + 트렌드 15%
+let VN = null;
+async function loadVN() {
+  const h = { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } };
+  const tr = (await (await fetch(`${URL0}/rest/v1/docs?collection=eq.trends&id=eq.current&select=data`, h)).json())[0]?.data;
+  const pf = Object.fromEntries((await (await fetch(`${URL0}/rest/v1/docs?collection=eq.profiles&select=id,data`, h)).json()).map((d) => [d.id, d.data]));
+  VN = makeVN(tr, pf);
+}
+function score(r) { const sc = scoreRow(r, null, 30); const v = VN ? VN(r, sc) : { total: sc.b, qual: null, qualDone: false }; return { ...sc, bNum: sc.b, b: v.total, qualScore: v.qual, qualDone: v.qualDone }; }
 
 // 점수 모양으로 이야기 각도를 정한다
 function angle(r, sc) {
@@ -75,7 +86,7 @@ function pick(rows, state) {
   const used = new Set(state.used || []);
   if (MODE === 'b' || MODE === 'rb') return pickUnder(rows, used);
   if (MODE === 'am') { const L = overList(rows, 'ALL').filter((x) => !used.has(x.r.t)).sort((p, q) => q.sc.q - p.sc.q); return L[0] || null; }
-  const all = rows.map((r) => ({ r, sc: scoreRow(r, null, 30) }))
+  const all = rows.map((r) => ({ r, sc: score(r) }))
     .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
     // 적정가와 비슷하거나 조금 다른 회사는 이야기가 약하다: 1.5배 이상 비싸거나 25% 이상 싼 회사만
     .filter((x) => { const R = isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) ? x.r.px / x.sc.iv : null; return R !== null && (R >= 1.5 || R <= 0.75); });
@@ -93,7 +104,7 @@ function pick(rows, state) {
 
 // 저평가 슬롯: 앱의 '저평가' 목록과 같은 기준(25% 이상 싸고, 품질 50점 이상, 감점 없음) 중 품질 높은 순
 function underList(rows, mkt) {
-  return rows.map((r) => ({ r, sc: scoreRow(r, null, 30) })).filter((x) => {
+  return rows.map((r) => ({ r, sc: score(r) })).filter((x) => {
     const { r, sc } = x; if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low' || !isNum(sc.q)) return false;
     if (mkt && mkt !== 'ALL' && !mkt.split(',').includes(grpOf(r.m))) return false;
     const R = r.px / sc.iv, pen = (sc.flags || []).filter((f) => !WARN_FLAGS.has(f)).length; x.R = R;
@@ -101,7 +112,7 @@ function underList(rows, mkt) {
   });
 }
 function overList(rows, mkt) {
-  return rows.map((r) => ({ r, sc: scoreRow(r, null, 30) })).filter((x) => {
+  return rows.map((r) => ({ r, sc: score(r) })).filter((x) => {
     const { r, sc } = x; if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low' || !isNum(sc.q)) return false;
     if (mkt && mkt !== 'ALL' && !mkt.split(',').includes(grpOf(r.m))) return false;
     const R = r.px / sc.iv; x.R = R; return R >= 1.5 && R <= 10 && sc.q >= 60;
@@ -111,7 +122,7 @@ function pickUnder(rows, used) {
   const L = underList(rows, 'ALL').filter((x) => !used.has(x.r.t)).sort((a, b) => b.sc.q - a.sc.q);
   if (L.length) return L[0];
   // 다 쓰면 기준을 조금 넓힌다 (감점 신호가 있어도 25% 이상 싼 회사)
-  return rows.map((r) => ({ r, sc: scoreRow(r, null, 30) })).filter((x) => !used.has(x.r.t) && isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv <= 0.75 && x.r.dataConf !== 'low').sort((a, b) => b.sc.q - a.sc.q)[0] || null;
+  return rows.map((r) => ({ r, sc: score(r) })).filter((x) => !used.has(x.r.t) && isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv <= 0.75 && x.r.dataConf !== 'low').sort((a, b) => b.sc.q - a.sc.q)[0] || null;
 }
 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

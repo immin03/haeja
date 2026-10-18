@@ -1604,11 +1604,7 @@ function evaluate(c){
     items[f.k] = {state: s===null ? 'none' : s >= 0.7 ? 'pass' : s >= 0.4 ? 'near' : 'fail', s, th};
   });
   // 2. 정성
-  const qv = k => isNum(q[k]) ? q[k] : null;
-  let qualIn = 0, qualSum = 0;
-  [['moatStr',35],['pricing',20],['mgmt',25],['governance',20]].forEach(([k,w]) => { if(qv(k) !== null){ qualIn += w; qualSum += qv(k)/3*w; } });
-  let qualScore = qualIn ? Math.round(qualSum/qualIn*100) : null;
-  if(qualScore !== null && q.hold10 === false) qualScore = Math.max(0, qualScore - 15);
+  const qualScore = qualScoreOf(q);
   // 3. 가격
   const ivSrc = sc.dcf ? (sc.ivBasis === 'norm' ? '정상 이익 DCF (다년 평균 EPS, 성장 투자 보정)' : '오너이익 DCF') : sc.graham ? '그레이엄 넘버' : null;
   const buyBelow = isNum(sc.iv) ? sc.iv*(1 - st.reqMOS/100) : null;
@@ -1626,8 +1622,9 @@ function evaluate(c){
   // 6. 밸류노트 점수 (하나만 쓴다)
   const b = sc.b;
   const tr = trendScore(c.trendLinks, sc.v);
-  // 점수는 하나만 쓴다: 밸류노트 점수 = 숫자 품질 40% + 저평가 60% − 위험 신호. 정성 평가·트렌드는 점수에 섞지 않고 따로 보여 준다
-  const total = b;
+  // 점수는 하나만 쓴다(밸류노트 점수). 목록에 있는 회사는 목록과 똑같은 값을 쓴다
+  const row = (S2.screen || []).length ? scoredRows().find(r => (c.yf && r.t === c.yf) || normKey(r.code || r.t) === normKey(c.ticker)) : null;
+  const total = row && isNum(row.b) ? row.b : vnTotal(b, qualScore, tr.score);
   const mosOk = isNum(sc.mos) && sc.mos >= st.reqMOS;
   let v, cls;
   if(gates.length){ v='탈락'; cls='bad'; }
@@ -2278,7 +2275,7 @@ function companyForm(c){
     <div id="trendOut"></div>
     ${c.industry ? `<p class="small" style="margin:0"><b>산업 특징:</b> ${esc(c.industry)}</p>` : ''}
     ${c.risksText ? `<p class="small" style="margin:0"><b>핵심 리스크:</b> ${esc(c.risksText)}</p>` : ''}
-    <p class="small muted" style="margin:0">트렌드는 참고 정보로만 보여 주고 밸류노트 점수에는 넣지 않습니다. 트렌드만으로는 기준 통과가 되지 않습니다.</p>
+    <p class="small muted" style="margin:0">트렌드는 밸류노트 점수의 15%만 반영하고, 트렌드만으로는 기준 통과가 되지 않습니다.</p>
     <details><summary class="small">직접 고치기</summary>
       <div id="trendRows" style="margin-top:8px">${trendRowsHtml(c)}</div>
       <label class="f">산업 특징<textarea data-path="industry" id="i-industry">${esc(c.industry)}</textarea></label>
@@ -2363,7 +2360,7 @@ function updateEval(){
     v.innerHTML = `<div class="row" style="justify-content:space-between"><span class="eyebrow">${esc(c.name||'이름 없음')} ${esc(c.ticker||'')}</span>${pillFor(ev)}</div>
       <div class="row" style="align-items:baseline;gap:12px"><div class="vtitle">${esc(ev.verdict)}</div><div class="num muted">밸류노트 점수 ${ev.total ?? '–'}점</div></div>
       ${next?`<div class="small">${next}</div>`:''}
-      <div class="bars">${bar('숫자 품질', ev.qScore)}${bar('저평가', ev.valScore, isNum(ev.mos)?`안전마진 ${fmt(ev.mos,0)}%`:'')}${bar('정성 평가 (참고)', ev.qualScore, ev.qualScore===null?'미입력':'점수 미반영')}${bar('트렌드 (참고)', ev.trend, ev.trend===null?'미연결':'점수 미반영')}</div>
+      <div class="bars">${bar('숫자 품질', ev.qScore)}${bar('저평가', ev.valScore, isNum(ev.mos)?`안전마진 ${fmt(ev.mos,0)}%`:'')}${bar('정성 평가', ev.qualScore, ev.qualScore===null?'정성 평가 전':'')}${bar('트렌드', ev.trend, ev.trend===null?'미연결':'')}</div>
 
       ${ev.trendWarn ? `<div class="gates"><div><span class="pill p-warn">테마 프리미엄</span> ${esc(ev.trendWarn)}</div></div>` : ''}
       ${gatesHtml}${flagsHtml}${confHtml}`;
@@ -2462,6 +2459,17 @@ async function aiReview(){
 const MOAT_LABEL = Object.fromEntries(MOATS);
 const LV = ['없음','약함','보통','강함'], GV = ['위험','우려','보통','양호'];
 // 정성 평가는 사용자마다 따로 두지 않는다: 밸류노트가 조사한 공용 평가(profiles.qual)를 먼저 쓰고, 없으면 이 기업의 자동 분석 결과를 쓴다
+// 밸류노트 점수 = 숫자(품질 40%·저평가 60% − 위험 신호) 65% + 정성 평가 20% + 트렌드 15%. 정성 평가는 밸류노트가 조사한 공용 평가(모든 사용자 동일).
+// 정성 평가 전인 회사는 비어 있는 항목을 빼고 나머지로 다시 나눈다(정성 평가 전 표시).
+function qualScoreOf(q){
+  if(!q) return null; const qv = k => isNum(q[k]) ? q[k] : null; let qualIn = 0, qualSum = 0;
+  [['moatStr',35],['pricing',20],['mgmt',25],['governance',20]].forEach(([k,w]) => { if(qv(k) !== null){ qualIn += w; qualSum += qv(k)/3*w; } });
+  let s = qualIn ? Math.round(qualSum/qualIn*100) : null; if(s !== null && q.hold10 === false) s = Math.max(0, s - 15); return s;
+}
+function vnTotal(b, qs, ts){
+  if(!isNum(b)) return null; const parts = [[b,0.65],[qs,0.20],[ts,0.15]].filter(([x]) => isNum(x));
+  return Math.round(parts.reduce((a,[x,w]) => a + x*w, 0) / parts.reduce((a,[,w]) => a + w, 0));
+}
 const hasQual = q => !!q && (q.circle != null || (q.moats||[]).length > 0 || [q.moatStr, q.pricing, q.mgmt, q.governance].some(isNum) || q.hold10 != null);
 function qualOf(c){
   const sp = c ? profileFor(c.yf || c.ticker, c.ticker) : null;
@@ -2473,7 +2481,7 @@ function qualViewHtml(c){
   const row = (label, val, reason) => `<div class="qv"><div class="qv-top"><b>${label}</b><span class="qv-val">${val}</span></div>${reason?`<div class="small muted">${esc(reason)}</div>`:''}</div>`;
   const pill = (v, arr, good=2) => isNum(v) ? `<span class="pill ${v>=good?'p-good':v===1?'p-warn':'p-bad'}">${arr[v]}</span>` : `<span class="pill p-none">미분석</span>`;
   const yesno = v => v===true ? '<span class="pill p-good">예</span>' : v===false ? '<span class="pill p-bad">아니오</span>' : '<span class="pill p-none">미분석</span>';
-  return `<p class="small muted" style="margin:0 0 6px">밸류노트 정성 평가${QO.at ? ` · ${esc(QO.at)} 기준` : ''} · 참고용이며 점수에는 반영하지 않습니다</p>${QO.one ? `<p style="margin:0 0 6px"><b>사업 한 줄:</b> ${esc(QO.one)}</p>` : ''}
+  return `<p class="small muted" style="margin:0 0 6px">밸류노트 정성 평가${QO.at ? ` · ${esc(QO.at)} 기준` : ''} · 모든 사용자에게 같은 평가이며 밸류노트 점수의 20%입니다</p>${QO.one ? `<p style="margin:0 0 6px"><b>사업 한 줄:</b> ${esc(QO.one)}</p>` : ''}
     ${row('이해하기 쉬운 사업인가', yesno(q.circle), r.circle)}
     ${row('해자 유형', (q.moats||[]).length ? q.moats.map(m => `<span class="pill p-none">${esc(MOAT_LABEL[m]||m)}</span>`).join(' ') : '<span class="pill p-none">없음</span>', r.moatTypes)}
     ${row('해자의 강도', pill(q.moatStr, LV), r.moatStr)}
@@ -4013,8 +4021,8 @@ const GLOSS = {
   '숫자 품질':['숫자 품질','ROE·이익률·현금흐름·부채 등 13개 재무 지표로 매긴 사업의 질(0~100점).'],
   '저평가':['저평가 점수','안전마진, 시장이 가정한 성장률, 이익수익률, PER×PBR로 매긴 "지금 가격이 싼 정도"(0~100점).'],
   '정성 평가':['정성 평가','해자, 가격결정력, 경영진, 지배구조, 10년 보유 테스트처럼 숫자로 안 보이는 부분의 점수.'],
-  '트렌드':['트렌드 점수','회사가 커지는 산업에 얼마나 걸려 있는지. 참고용으로만 보여 주고 밸류노트 점수에는 넣지 않는다.'],
-  '밸류노트 점수':['밸류노트 점수','숫자 품질 40% + 저평가 60%에서 위험 신호를 뺀 점수. 모든 기업에 같은 공식을 쓰는 하나뿐인 점수다.'],
+  '트렌드':['트렌드 점수','회사가 커지는 산업에 얼마나 걸려 있는지. 밸류노트 점수에 15% 반영한다.'],
+  '밸류노트 점수':['밸류노트 점수','숫자(품질 40%·저평가 60% − 위험 신호) 65% + 정성 평가 20% + 트렌드 15%. 정성 평가는 밸류노트가 조사해 모든 사용자에게 같다.'],
 };
 const glKey = k => GLOSS[k] ? k : null;
 function gl(k){ if(!GLOSS[k]) return ''; return `<button type="button" class="gl" data-gl="${esc(k)}" aria-label="${esc(GLOSS[k][0])} 설명">?</button>`; }
@@ -4662,8 +4670,8 @@ const GUIDE = [
       <li><b>숫자 품질 (버핏):</b> 13개 재무 지표를 0~100점으로. 시장별 기준이 다르다(예: ROE 미국 15%, 한국 12%).</li>
       <li><b>저평가 (그레이엄 + 버핏):</b> 안전마진(가중 2), 역DCF 성장률 차이(가중 2), 이익수익률 ÷ 국채 금리, PER×PBR을 0~100점으로.</li>
       <li><b>위험 신호 (멍거):</b> 해당하는 개수만큼 감점. 경기순환·지주회사·주식보상·혁신 의존은 감점 없이 경고만.</li>
-      <li><b>밸류노트 점수:</b> 품질 40% + 저평가 60% − 감점. 점수는 이것 하나만 쓴다.</li>
-      <li><b>정성 평가·트렌드:</b> 밸류노트가 조사해 참고 정보로 보여 주고, 점수에는 섞지 않는다(기업마다 조사 범위가 달라 섞으면 점수끼리 비교가 안 되기 때문).</li>
+      <li><b>숫자 부분:</b> 품질 40% + 저평가 60% − 감점.</li>
+      <li><b>밸류노트 점수:</b> 숫자 부분 65% + 정성 평가 20% + 트렌드 15%. 점수는 이것 하나만 쓴다. 정성 평가는 밸류노트가 조사해 모든 사용자에게 같고, 아직 조사 전인 회사는 '정성 평가 전'으로 표시한다.</li>
       <li><b>판정:</b> 75점 이상 + 품질 70 이상 + 10년 보유 통과 + 안전마진 30% → 기준 통과. 가격만 비싸면 "좋은 회사, 가격 대기".</li>
       <li><b>포트폴리오 (멍거):</b> 주력 3종목에 넣을지, 도전 칸으로 보낼지 자동 분류.</li>
      </ol>`],
@@ -4693,11 +4701,11 @@ const GUIDE = [
       <tr><td><b>숫자 품질</b></td><td>80+: 최상위 사업(버크셔 보유 상위 종목 수준). 70+: 기준 통과 최소 조건</td><td>50 미만: 이익·현금흐름·부채 중 약점이 크다</td></tr>
       <tr><td><b>저평가</b></td><td>70+: 내재가치보다 확실히 싸다. 50~69: 적정 가격 근처</td><td>40 미만: 비싸다. 과열 트렌드와 겹치면 "테마 프리미엄" 경고</td></tr>
       <tr><td><b>정성 평가</b></td><td>60+: 해자·경영진·지배구조가 기준을 넘는다</td><td>비어 있으면 아직 자동 분석 전이다(다음 날 아침 채워짐)</td></tr>
-      <tr><td><b>트렌드</b></td><td>60+: 커지는 시장에 핵심으로 걸려 있다</td><td>점수에는 넣지 않는 참고 정보다. 트렌드만으로는 후보가 되지 않는다</td></tr>
+      <tr><td><b>트렌드</b></td><td>60+: 커지는 시장에 핵심으로 걸려 있다</td><td>밸류노트 점수에 15%만 반영된다. 트렌드만으로는 후보가 되지 않는다</td></tr>
      </tbody></table>
      <p class="small muted">점수 띠는 판정 규칙(75·60점 기준)과 같은 선으로 나눴다. 90점 이상은 판정이 따로 있지 않고 "특히 드문 경우"라는 설명용 구간이다.</p>`],
-    ['밸류노트 점수는 어떻게 계산하나요?', `<p><b>밸류노트 점수</b> = 숫자 품질 40% + 저평가 60% − 위험 신호 감점. 버크셔의 실제 매수 62건을 되짚어 보니 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서 가중치를 이렇게 정했다.</p>
-     <p>점수는 이것 하나만 쓴다. 해자·경영진 같은 정성 평가와 트렌드는 밸류노트가 조사해 참고 정보로 따로 보여 주고, 점수에는 섞지 않는다.</p>`],
+    ['밸류노트 점수는 어떻게 계산하나요?', `<p><b>숫자 부분</b> = 숫자 품질 40% + 저평가 60% − 위험 신호 감점. 버크셔의 실제 매수 62건을 되짚어 보니 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서 가중치를 이렇게 정했다.</p>
+     <p><b>밸류노트 점수</b> = 숫자 부분 65% + 정성 평가 20% + 트렌드 15%. 점수는 이것 하나만 쓴다. 해자·가격결정력·경영진·지배구조 같은 정성 평가는 밸류노트가 조사해 모든 사용자에게 같은 값이다. 조사 전인 회사는 숫자와 트렌드로만 계산하고 '정성 평가 전'으로 표시한다.</p>`],
     ['판정은 몇 가지이고 각각 무슨 뜻인가요?', `<ul><li><b>기준 통과:</b> 75점 이상, 품질 70 이상, 10년 보유 테스트 통과, 안전마진 충족. 적정 매수가가 함께 표시된다.</li>
      <li><b>좋은 회사, 가격 대기:</b> 회사는 기준을 넘지만 지금 가격이 비싸다. 적정 매수가에 닿으면 알림이 온다.</li>
      <li><b>근접 · 관찰:</b> 60점 이상. 지켜볼 가치는 있지만 주력 자리에 넣을 단계는 아니다.</li>
@@ -4726,7 +4734,7 @@ const GUIDE = [
   {g:'브리핑 · 트렌드 · 알림', items:[
     ['트렌드 차트는 어떻게 읽나요?', `<p>메가트렌드마다 수혜 기업(한국·미국·중국)을 같은 비중으로 묶은 지수다. 기간 시작을 100으로 맞추고 3개월·6개월·1년·5년으로 바꿔 볼 수 있다. 점선은 코스피와 S&amp;P 500이다.</p>
      <p><b>국면</b>은 숫자로만 정한다. 5년 범위의 위쪽 15% 안이면서 6개월 상승이면 고점권, 아래쪽 25% 안이면 바닥권, 그 사이는 6개월·3개월 방향으로 상승·조정·반등·하락을 나눈다.</p>
-     <p>트렌드는 밸류노트 점수에 넣지 않고 참고로만 보여 준다. 과열 트렌드에 핵심으로 걸린 회사인데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 트렌드만으로는 기준 통과가 되지 않는다.</p>`],
+     <p>트렌드는 밸류노트 점수에 15%만 들어간다. 과열 트렌드에 핵심으로 걸린 회사인데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 트렌드만으로는 기준 통과가 되지 않는다.</p>`],
     ['어떤 알림이 오나요?', `<ul><li><b>급등락:</b> 보유 종목이 하루 5% 이상 움직이면. 7% 이상 하락은 긴급.</li>
      <li><b>적정 매수가 도달:</b> 관심 종목이 기준 통과 판정이고 적정 매수가 아래로 내려오면.</li>
      <li><b>내재가치 초과:</b> 보유 종목 주가가 내재가치를 10% 넘게 웃돌면. 매도 조건을 점검할 때다.</li></ul>
@@ -5024,9 +5032,11 @@ function scoredRows(){
     const tags = (r.tags||[]).filter(t => !STRAT.has(t));
     if(r.dataConf === 'low') tags.push('데이터 신뢰도 낮음');
     if(isNum(sc.mos) && sc.mos >= st.reqMOS) tags.push('안전마진 30%+');
-    const tr = trendScore(autoTrendLinks(r), sc.v);
+    const prf = (S.profiles || {})[normKey(r.t)];
+    const tr = trendScore(prf?.trendLinks && Object.keys(prf.trendLinks).length ? prf.trendLinks : autoTrendLinks(r), sc.v);
     const tb = sc.b === null ? null : tr.score === null ? sc.b : Math.round(sc.b*0.8 + tr.score*0.2);
-    return {...r, ...sc, tags, trend:tr.score, trendLabels:tr.hits.map(h => h.t.label), trendWarn:tr.warn, tb};
+    const pq = prf?.qual, qs = hasQual(pq) ? qualScoreOf(pq) : null;
+    return {...r, ...sc, bNum: sc.b, b: vnTotal(sc.b, qs, tr.score), qualScore: qs, qualDone: qs !== null, tags, trend:tr.score, trendLabels:tr.hits.map(h => h.t.label), trendWarn:tr.warn, tb};
   });
   /* 시장별 숫자 품질 상위 10% */
   const byM = {}; for(const r of scoredCache) (byM[r.m] ||= []).push(r);
@@ -5273,8 +5283,8 @@ function viewRules(){
   <div class="card rule-group">
     <div class="rule"><span class="t">숫자 품질</span><span class="th">0~100</span><span class="d">13개 재무 지표 점수의 가중 평균</span></div>
     <div class="rule"><span class="t">저평가</span><span class="th">0~100</span><span class="d">안전마진(가중 2), 이익수익률 ÷ 국채금리, PER×PBR</span></div>
-    <div class="rule"><span class="t">밸류노트 점수</span><span class="th">0.4 품질 + 0.6 저평가</span><span class="d">위험 신호 감점 후. 모든 화면·콘텐츠에서 쓰는 하나뿐인 점수</span></div>
-    <div class="rule"><span class="t">정성 평가·트렌드</span><span class="th">참고</span><span class="d">밸류노트가 조사해 따로 보여 준다. 점수에는 섞지 않는다</span></div>
+    <div class="rule"><span class="t">숫자 부분</span><span class="th">0.4 품질 + 0.6 저평가</span><span class="d">위험 신호 감점 후</span></div>
+    <div class="rule"><span class="t">밸류노트 점수</span><span class="th">65 / 20 / 15</span><span class="d">숫자 65%, 정성 평가 20%, 트렌드 15%. 모든 화면·콘텐츠에서 쓰는 하나뿐인 점수. 정성 평가는 밸류노트 공용 평가</span></div>
     <div class="rule"><span class="t">판정</span><span class="th">75 / 60</span><span class="d">75점 이상, 품질 70 이상, 10년 보유 테스트 통과: 안전마진 충족 시 기준 통과, 아니면 가격 대기. 품질 80 이상이고 위험 신호가 없으면 점수가 낮아도 가격 대기. 60점 이상: 근접·관찰(도전 칸 가능). 그 아래는 기준과 거리 있음</span></div>
   </div>
 
@@ -5289,7 +5299,7 @@ function viewRules(){
 
   <h2>트렌드는 이렇게 반영한다</h2>
   <div class="card prose">
-    <p>버핏은 트렌드 자체에 돈을 내지 않았다. 다만 해자가 있는 회사가 커지는 시장에 있으면 성장 가정이 현실이 될 확률이 높아진다. 그래서 트렌드 점수는 노출 강도(무관~핵심)와 모멘텀(급랭~가속)을 곱해 0~100점으로 만들고, 점수에는 섞지 않고 참고로 보여 준다.</p>
+    <p>버핏은 트렌드 자체에 돈을 내지 않았다. 다만 해자가 있는 회사가 커지는 시장에 있으면 성장 가정이 현실이 될 확률이 높아진다. 그래서 트렌드 점수는 노출 강도(무관~핵심)와 모멘텀(급랭~가속)을 곱해 0~100점으로 만들고, 밸류노트 점수에 15%만 반영한다.</p>
     <p class="small muted">과열 단계 트렌드에 핵심으로 노출됐는데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 기준 통과 판정에는 트렌드와 무관하게 안전마진 조건이 그대로 필요하다.</p>
   </div>
 
@@ -5559,7 +5569,7 @@ function refresh(kind){
   store.sub('trends', docs => { S.columns = docs.filter(d => String(d.id).startsWith('col-') && d.title).sort((a, b) => String(b.id).localeCompare(String(a.id))); S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
   store.sub('prices', docs => { S.prices = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['portfolio','companies','fx'].includes(S.tab)) refresh('p'); });
   store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; S.rates = docs.find(d => d.id === 'rates') || null; S.radar = docs.find(d => d.id === 'radar') || null; if(['fx','portfolio','rates','column','briefing','radar'].includes(S.tab)) refresh('x'); });
-  store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
+  store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); scoredCache = null; if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
   store.sub('journal', docs => { S.journal = docs; S.loaded.j = 1; refresh('j'); });
   store.sub('settings', docs => { const m = docs.find(d => d.id==='main'); if(m && !saveTimers.__set && !saveTimers.__prog) S.settings = m; S.loaded.s = 1; refresh('s'); });
   try{ sampleFn = window.claude && window.claude.use ? await window.claude.use('sample') : null; }catch(_){ sampleFn = null; }

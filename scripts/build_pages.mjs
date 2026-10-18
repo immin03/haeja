@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { scoreRow, grpOf, WARN_FLAGS, setSettings } from '../supabase/functions/watch-select/scoring.js';
+import { makeVN } from './vnscore.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const SITE = 'https://www.valuenote.co.kr';
@@ -38,8 +39,18 @@ async function load() {
   const docs = await r.json();
   const meta = docs.find((d) => d.id === 'meta')?.data || {};
   const rows = docs.filter((d) => d.id.startsWith('chunk-')).sort((a, b) => a.id.localeCompare(b.id)).flatMap((d) => d.data?.rows || []);
+  await loadVN();
   return { meta, rows };
 }
+// 밸류노트 점수(앱과 같은 값): 숫자 65% + 밸류노트 공용 정성 평가 20% + 트렌드 15%
+let VN = null;
+async function loadVN() {
+  const h = { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } };
+  const tr = (await (await fetch(`${URL0}/rest/v1/docs?collection=eq.trends&id=eq.current&select=data`, h)).json())[0]?.data;
+  const pf = Object.fromEntries((await (await fetch(`${URL0}/rest/v1/docs?collection=eq.profiles&select=id,data`, h)).json()).map((d) => [d.id, d.data]));
+  VN = makeVN(tr, pf);
+}
+function score(r) { const sc = scoreRow(r, null, 30); const v = VN ? VN(r, sc) : { total: sc.b, qual: null, qualDone: false }; return { ...sc, bNum: sc.b, b: v.total, qualScore: v.qual, qualDone: v.qualDone }; }
 
 function summary(r, sc) {
   const out = [];
@@ -178,7 +189,7 @@ function companyPage(x, peers, date) {
   const hasIv = isNum(sc.iv) && sc.iv > 0;
   // 검색어 '○○ 적정주가'에 맞춘 제목
   const title = `${r.n} 적정주가 ${hasIv ? money(sc.iv, cur) + ' · ' : ''}가치투자 점수 ${isNum(b) ? b + '점' : ''} | 밸류노트`;
-  const desc = `${r.n}(${code}) 적정주가와 밸류노트 점수 ${isNum(b) ? b + '점' : '계산 불가'}(숫자 품질 ${sc.q ?? '–'}점, 저평가 ${sc.v ?? '–'}점).` +
+  const desc = `${r.n}(${code}) 적정주가와 밸류노트 점수 ${isNum(b) ? b + '점' : '계산 불가'}(숫자 품질 ${sc.q ?? '–'}점, 저평가 ${sc.v ?? '–'}점${isNum(sc.qualScore) ? `, 정성 평가 ${sc.qualScore}점` : ''}).` +
     (hasIv && isNum(r.px) ? ` 현재가 ${money(r.px, cur)}, 적정 가격 ${money(sc.iv, cur)}.` : '') +
     (isNum(sc.per) ? ` PER ${n0(sc.per, 1)}배` : '') + (isNum(f.roeAvg) ? `, 5년 평균 ROE ${n0(f.roeAvg, 1)}%.` : '.') + ` 그레이엄·버핏 기준으로 매일 계산합니다.`;
   const sum = summary(r, sc);
@@ -212,7 +223,7 @@ function companyPage(x, peers, date) {
   return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)}</div>
 <section class="card hero"><h1>${esc(r.n)} 적정주가와 가치투자 점수</h1><div class="sub">${esc(code)} · ${MKT[g]}${r.en ? ' · ' + esc(r.en) : ''}${r.ind ? ' · ' + esc(r.ind) : ''}</div>
-<div class="score"><b>${isNum(b) ? b : '–'}</b><span>밸류노트 점수 (100점 만점, 70점 이상이 기준)</span></div>
+<div class="score"><b>${isNum(b) ? b : '–'}</b><span>밸류노트 점수 (100점 만점 · 숫자 65%·정성 평가 20%·트렌드 15%${sc.qualDone ? '' : ' · 정성 평가 전'})</span></div>
 <div class="bars"><div><div class="lab">숫자 품질</div><div class="val">${sc.q ?? '–'}점</div><div class="bar"><i style="width:${sc.q || 0}%"></i></div></div>
 <div><div class="lab">저평가</div><div class="val">${sc.v ?? '–'}점</div><div class="bar"><i style="width:${sc.v || 0}%"></i></div></div></div>
 <div class="share"><button type="button" data-sh="c" data-u="${url}" data-t="${esc(shareText)}">이 점수 공유하기</button></div></section>
@@ -270,8 +281,8 @@ function marketPage(m, list, date) {
 <div class="share"><button type="button" data-sh="m" data-u="${url}" data-t="${esc(shareText)}">이 순위 공유하기</button></div></section>
 <section class="card list"><h2>안전마진 30% 이상 · 품질 60점 이상 (${bar.length}곳)</h2>${bar.length ? `<table><tr><th>회사</th><th style="text-align:right">적정가 대비</th></tr>${bar.map((x, i) => i < 3 && bar.length > 5
     // 앱 첫 화면과 같이 할인율 1~3위는 가입하면 보이게 둔다(가입 동기)
-    ? `<tr><td><a href="/?signup&utm_source=c-${MSLUG[m]}-gate" style="color:var(--gold)">${i + 1}위 · 가입하고 보기 ›</a><div class="s">품질 ${x.sc.q}점 · 종합 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`
-    : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">품질 ${x.sc.q}점 · 종합 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`).join('')}</table>` : '<p class="note">오늘은 이 기준을 통과한 회사가 없습니다. 좋은 회사의 가격이 내려올 때까지 기다리는 날입니다.</p>'}
+    ? `<tr><td><a href="/?signup&utm_source=c-${MSLUG[m]}-gate" style="color:var(--gold)">${i + 1}위 · 가입하고 보기 ›</a><div class="s">품질 ${x.sc.q}점 · 점수 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`
+    : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">품질 ${x.sc.q}점 · 점수 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`).join('')}</table>` : '<p class="note">오늘은 이 기준을 통과한 회사가 없습니다. 좋은 회사의 가격이 내려올 때까지 기다리는 날입니다.</p>'}
 <p class="note" style="margin-top:8px">감점 신호(잦은 적자·과도한 빚·잦은 증자 등)가 있는 회사는 뺐습니다. 숫자로 거른 목록일 뿐, 매수 권유가 아닙니다.</p></section>
 <section class="card list"><h2>밸류노트 점수 순위</h2>${rankTable(sorted)}</section>
 <a class="cta" href="/?utm_source=c-${MSLUG[m]}">관심 종목이 적정 가격에 오면 알림 받기<small>가입은 이메일만으로 10초</small></a>
@@ -342,7 +353,7 @@ const { meta, rows } = await load();
 if (rows.length < 300) throw new Error('rows too few: ' + rows.length);
 setSettings({});
 const seen = new Set();
-const all = rows.map((r) => ({ r, sc: scoreRow(r, null, 30), slug: slug(r) })).filter((x) => x.slug && !seen.has(x.slug) && seen.add(x.slug));
+const all = rows.map((r) => ({ r, sc: score(r), slug: slug(r) })).filter((x) => x.slug && !seen.has(x.slug) && seen.add(x.slug));
 // 시장 순위 페이지 주소(/c/kr 등)와 겹치는 기업 주소가 생기면 멈춘다
 for (const s of Object.values(MSLUG)) if (seen.has(s)) throw new Error('slug clash: ' + s);
 const date = meta.generatedAt || new Date().toISOString().slice(0, 10);
