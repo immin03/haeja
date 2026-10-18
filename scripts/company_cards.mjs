@@ -89,7 +89,7 @@ function pick(rows, state) {
   const all = rows.map((r) => ({ r, sc: score(r) }))
     .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
     // 적정 주가와 비슷하거나 조금 다른 회사는 이야기가 약하다: 1.5배 이상 비싸거나 25% 이상 싼 회사만
-    .filter((x) => { const R = isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) ? x.r.px / x.sc.iv : null; return R !== null && (R >= 1.5 || R <= 0.75); });
+    .filter((x) => { const R = isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) ? x.r.px / x.sc.iv : null; return R !== null && ((R >= 1.5 && R <= 5) || (R <= 0.75 && R >= 0.25)); }); // 너무 극단적인 값(+400% 초과, 상승 여력 300% 초과)은 믿기 어려워 보여 제외
   const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-17')) / 864e5);
   for (let i = 0; i < ROTA.length; i++) {
     const m = ROTA[(day + i) % ROTA.length];
@@ -108,14 +108,14 @@ function underList(rows, mkt) {
     const { r, sc } = x; if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low' || !isNum(sc.q)) return false;
     if (mkt && mkt !== 'ALL' && !mkt.split(',').includes(grpOf(r.m))) return false;
     const R = r.px / sc.iv, pen = (sc.flags || []).filter((f) => !WARN_FLAGS.has(f)).length; x.R = R;
-    return R <= 0.75 && sc.q >= 50 && !pen;
+    return R <= 0.75 && R >= 0.25 && sc.q >= 50 && !pen;
   });
 }
 function overList(rows, mkt) {
   return rows.map((r) => ({ r, sc: score(r) })).filter((x) => {
     const { r, sc } = x; if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low' || !isNum(sc.q)) return false;
     if (mkt && mkt !== 'ALL' && !mkt.split(',').includes(grpOf(r.m))) return false;
-    const R = r.px / sc.iv; x.R = R; return R >= 1.5 && R <= 10 && sc.q >= 60;
+    const R = r.px / sc.iv; x.R = R; return R >= 1.5 && R <= 5 && sc.q >= 60;
   });
 }
 function pickUnder(rows, used) {
