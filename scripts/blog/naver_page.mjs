@@ -3,7 +3,10 @@
 //   naver/<글 id>/post.json 을 읽어 naver/<글 id>.html 과 naver/<글 id>/photos.zip 을 만든다.
 // post.json = { "title": "...", "tags": ["..."], "blocks": [
 //     {"h": "소제목"}, {"p": "문단. **굵게** 가능"}, {"img": "01.png", "cap": "사진 설명"},
-//     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"} ] }
+//     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"},
+//     {"summary": ["핵심 1", "핵심 2", "핵심 3"]}  (글 첫머리 요약 상자),
+//     {"table": {"head": ["항목", "값"], "rows": [["코스피", "−16.2%"], ...]}},
+//     {"sources": [["자료 이름", "https://..."], ...]} ] }
 // 이 페이지는 검색에서 빠지도록 noindex 를 단다(사이트 칼럼과 겹치는 글이 검색되지 않게).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -26,9 +29,12 @@ const body = post.blocks.map((b) => {
   if (b.quote) return `<blockquote><p>"${esc(b.quote)}"</p>${b.src ? `<p>— ${esc(b.src)}</p>` : ''}</blockquote>`;
   if (b.link) return `<p><a href="${esc(b.link)}">${esc(b.text || b.link)}</a></p>`;
   if (b.note) return `<p><span style="color:#888888;font-size:13px">${esc(b.note)}</span></p>`;
+  if (b.summary) return `<blockquote><p><b>3줄 요약</b></p>${b.summary.map((x) => `<p>· ${inline(x)}</p>`).join('')}</blockquote>`;
+  if (b.table) return `<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr>${b.table.head.map((x) => `<th style="background:#F3EEE3">${esc(x)}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((x) => `<td>${inline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  if (b.sources) return `<p><b>참고한 자료</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
   return '';
 }).join('\n<p><br></p>\n');
-const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.note || '').join('\n\n');
+const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? '3줄 요약\n' + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.note || '').join('\n\n');
 const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
 const imgs = post.blocks.filter((b) => b.img).map((b) => b.img);
 
@@ -54,7 +60,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 .ttl{font-size:20px;font-weight:800}
 .steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
 #art{border:1px dashed var(--line);border-radius:12px;padding:14px}#art img{max-width:100%;height:auto;border-radius:8px}
-#art blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA}
+#art blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
 </style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 붙여넣기</div><main>
