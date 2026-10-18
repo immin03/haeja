@@ -12,6 +12,7 @@
 //   compare  { title, l:{label, value}, r:{label, value}, note } 두 숫자 비교
 //   list     { title, items:[문장, ...] }                         요점 3~5개
 //   quote    { quote, who, src }                                 거장 인용 (실제 출처가 있는 말만)
+//   banner   { hook, sub, button }                               글 끝 밸류노트 배너 (1080×560, 링크를 걸어 쓴다)
 // 용어는 claude/glossary.md 기준: 밸류노트 점수, 재무 점수, 가격 점수, 적정 주가, 적정 매수가, 저평가/고평가.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -185,6 +186,16 @@ const T = {
 };
 
 // ── 실행 ───────────────────────────────────────────
+// 글 끝 배너: 가로로 긴 카드. 크기는 실행부에서 1080×560
+T.banner = (o) => h('div', { width: 1080, height: 560, flexDirection: 'column', justifyContent: 'space-between', padding: '52px 64px', background: `linear-gradient(120deg,${C.navy2} 0%,${C.navy} 55%,#0A1322 100%)`, color: C.ink, fontFamily: 'P', border: `6px solid ${C.gold2}` },
+  h('div', { alignItems: 'baseline', fontSize: 34, fontWeight: 900 }, 'Value', h('span', { color: C.gold }, 'Note'), h('span', { fontSize: 24, color: C.gold2, marginLeft: 14, fontWeight: 700 }, '밸류노트')),
+  h('div', { flexDirection: 'column' },
+    String(o.hook).split('\n').map((ln) => t(ln, { fontSize: o.hook.length > 26 ? 50 : 58, fontWeight: 900, lineHeight: 1.25, wordBreak: 'keep-all', letterSpacing: -1.5 })),
+    o.sub ? t(o.sub, { fontSize: 28, color: C.mute, marginTop: 16, fontWeight: 600, wordBreak: 'keep-all', lineHeight: 1.4 }) : null),
+  h('div', { justifyContent: 'space-between', alignItems: 'center' },
+    h('div', { background: `linear-gradient(90deg,${C.gold2},${C.gold})`, color: '#0A1322', fontSize: 34, fontWeight: 900, padding: '18px 36px', borderRadius: 999 }, o.button || '밸류노트에서 확인하기 ›'),
+    t('valuenote.co.kr', { fontSize: 26, color: C.dim, fontWeight: 800 })));
+
 const [outDir, jobFile] = process.argv.slice(2);
 if (!outDir || !jobFile) { console.error('사용법: node scripts/blog/kit.mjs <출력폴더> <작업.json>'); process.exit(1); }
 const jobs = JSON.parse(fs.readFileSync(jobFile, 'utf8'));
@@ -194,7 +205,8 @@ for (const j of jobs) {
   try {
     const fn = T[j.kind]; if (!fn) throw new Error('없는 kind: ' + j.kind);
     const el = await fn(j);
-    const svg = await satori(el, { width: 1080, height: 1080, fonts });
+    const H = j.kind === 'banner' ? 560 : 1080;
+    const svg = await satori(el, { width: 1080, height: H, fonts });
     const png = new Resvg(svg, { fitTo: { mode: 'width', value: 1080 } }).render().asPng();
     const out = path.join(outDir, j.file);
     fs.writeFileSync(out, png);

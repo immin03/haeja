@@ -3,6 +3,7 @@
 //   naver/<글 id>/post.json 을 읽어 naver/<글 id>.html 과 naver/<글 id>/photos.zip 을 만든다.
 // post.json = { "title": "...", "tags": ["..."], "blocks": [
 //     {"h": "소제목"}, {"p": "문단. **굵게** 가능"}, {"img": "01.png", "cap": "사진 설명"},
+//     {"img": "banner.png", "href": "https://..."} (링크 걸린 배너, 설명 없음),
 //     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"},
 //     {"summary": ["핵심 1", "핵심 2", "핵심 3"]}  (글 첫머리 요약 상자),
 //     {"table": {"head": ["항목", "값"], "rows": [["코스피", "−16.2%"], ...]}},
@@ -25,6 +26,7 @@ const imgUrl = (f) => `${SITE}/naver/${id}/${f}`;
 const body = post.blocks.map((b) => {
   if (b.h) return `<p><b>■ ${inline(b.h)}</b></p>`;
   if (b.p) return `<p>${inline(b.p)}</p>`;
+  if (b.img && b.href) return `<p><a href="${esc(b.href)}"><img src="${imgUrl(b.img)}" alt="${esc(b.cap || '')}" width="720"></a></p>`;
   if (b.img) return `<p><img src="${imgUrl(b.img)}" alt="${esc(b.cap || '')}" width="720"></p>${b.cap ? `<p><span style="color:#888888;font-size:13px">${esc(b.cap)}</span></p>` : ''}`;
   if (b.quote) return `<blockquote><p>"${esc(b.quote)}"</p>${b.src ? `<p>— ${esc(b.src)}</p>` : ''}</blockquote>`;
   if (b.link) return `<p><a href="${esc(b.link)}">${esc(b.text || b.link)}</a></p>`;
