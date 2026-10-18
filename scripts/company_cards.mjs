@@ -17,7 +17,8 @@ const SUIT = path.join(ROOT, 'fonts', 'SUIT-Variable.woff2');
 const HANDLE = '@value.note.korea';
 // 하루 3편: a = 21:00 오늘의 기업(유명 회사), b = 11:00 저평가 기업 분석, rank = 15:30 저평가·고평가 TOP 10
 const MODE = process.argv[3] || 'a';
-const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'] }[MODE];
+// reel1 = 12:30 기업 릴스 대본, reel2 = 18:00 순위 릴스 대본 (이미 그 시간에 잡힌 릴스가 없을 때만), am = 08:30 기능 카드가 끝난 뒤 채우는 '좋은 회사, 비싼 가격' 분석
+const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'], am: ['C', 'm', '08:30'], reel1: ['A', '1', '12:30'], reel2: ['A', '2', '18:00'] }[MODE];
 const POST_TIME = SLOT[2];
 const DISC = '*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.';
 const cfgSrc = fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8');
@@ -73,6 +74,7 @@ const FAMOUS = {
 function pick(rows, state) {
   const used = new Set(state.used || []);
   if (MODE === 'b') return pickUnder(rows, used);
+  if (MODE === 'am') { const L = overList(rows, 'ALL').filter((x) => !used.has(x.r.t)).sort((p, q) => q.sc.q - p.sc.q); return L[0] || null; }
   const all = rows.map((r) => ({ r, sc: scoreRow(r, null, 30) }))
     .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
     // 적정가와 비슷하거나 조금 다른 회사는 이야기가 약하다: 1.5배 이상 비싸거나 25% 이상 싼 회사만
@@ -277,7 +279,7 @@ function cards(x, a) {
   const GOLD = '#E2C489', RED = '#F08C78', GREEN = '#7FD1A8', GRAY = '#8F9AAB';
   const out = [];
   // 1. 표지: 질문형 제목 + 지금 주가 vs 적정 주가 막대
-  out.push(`<div class="cover"><div class="k">${MODE === 'b' ? '저평가 기업 분석' : '오늘의 기업 분석'} · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1></div>
+  out.push(`<div class="cover"><div class="k">${MODE === 'b' ? '저평가 기업 분석' : MODE === 'am' ? '좋은 회사, 비싼 가격' : '오늘의 기업 분석'} · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1></div>
     <div class="vis vis-low">${bars([{ l: '지금 주가', v: r.px, t: M(r.px), c: over ? RED : '#F3EEE3' }, { l: '적정 주가', v: sc.iv, t: M(sc.iv), c: GOLD }])}
     <div class="gap ${over ? 'neg' : 'pos'}">${esc(gapText(R))}</div></div>`);
   // 2. 시장의 기대 vs 실제 성장 (두 번째 장도 표지만큼 강하게)
@@ -374,10 +376,82 @@ function rankCaption(L, side, label) {
   return lines.join('\n');
 }
 
+// ---------- 릴스 대본 자동 생성 (영상은 reels 워크플로가 렌더) ----------
+const SPECS = path.join(ROOT, 'scripts', 'reels', 'specs');
+const DIG = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+function sino(n) { n = Math.round(n); if (n === 0) return '영'; const u = ['', '십', '백', '천']; let s = '', d = String(n).split('').reverse();
+  d.forEach((c, i) => { const k = +c; if (!k) return; s = ((k === 1 && i > 0) ? '' : DIG[k]) + u[i] + s; }); return s; }
+const sayRatio = (R) => { const [a, b] = R.toFixed(1).split('.'); return b === '0' ? `${sino(+a)} 배` : `${sino(+a)} 점 ${DIG[+b]} 배`; };
+function sayMoney(v, cur) {
+  if (!isNum(v)) return '';
+  if (cur === 'KRW') { const w = Math.round(v), man = Math.floor(w / 10000), cheon = Math.floor((w % 10000) / 1000), baek = Math.floor((w % 1000) / 100); return (man ? `${man}만 ` : '') + (cheon ? `${cheon}천 ` : '') + (baek ? `${baek}백 ` : '') + '원'; }
+  const unit = { USD: '달러', JPY: '엔', HKD: '홍콩달러', CNY: '위안' }[cur] || '';
+  return `${Math.round(v)} ${unit}`;
+}
+function reelCompany(x, a) {
+  const { r, sc } = x, cur = r.cur || 'KRW', R = a.ratio, over = R > 1;
+  const scenes = [];
+  if (over) scenes.push({ type: 'hook', top: `${r.n} 지금 주가는`, num: { to: +R.toFixed(1), fmt: 'int', dec: 1, suffix: '배' }, tone: 'loss', label: '적정 주가 대비',
+    lines: [{ cap: [`${r.n} 지금 주가는`, `적정 주가의 ${R.toFixed(1)}배`], say: `${r.n} 지금 주가는 적정 주가의 ${sayRatio(R)}입니다.` }] });
+  else scenes.push({ type: 'hook', top: `${r.n} 지금 주가는`, num: { to: Math.round((1 - R) * 100), fmt: 'int', suffix: '%' }, tone: 'good', label: '적정 주가보다 쌉니다',
+    lines: [{ cap: [`${r.n} 지금 주가는`, `적정 주가보다 ${Math.round((1 - R) * 100)}% 쌉니다`] }] });
+  scenes.push({ type: 'compare', title: '지금 주가 vs 적정 주가', l: { label: '지금 주가', v: money(r.px, cur), tone: over ? 'loss' : 'ivory' }, r: { label: '적정 주가', v: money(sc.iv, cur), tone: 'gold' },
+    lines: [{ cap: [`지금 주가 ${money(r.px, cur)}`, `적정 주가 ${money(sc.iv, cur)}`], say: `지금 주가는 ${sayMoney(r.px, cur)}, 적정 주가는 ${sayMoney(sc.iv, cur)}입니다.` }] });
+  if (isNum(sc.ig) && isNum(sc.hist)) {
+    const need = +Math.max(Math.min(sc.ig, 80), -30).toFixed(1), hi = need > sc.hist + 2;
+    scenes.push({ type: 'bars', title: '주가에 들어 있는 기대', items: [{ label: '주가가 가정한 성장', v: Math.max(Math.abs(need), .5), text: `연 ${need}%`, tone: hi ? 'loss' : 'good' }, { label: '지난 몇 년 실제 성장', v: Math.max(Math.abs(sc.hist), .5), text: `연 ${+sc.hist.toFixed(1)}%`, tone: 'gold' }],
+      lines: [{ cap: [hi ? `주가엔 연 ${need}% 성장이 들어 있고` : need < 0 ? '주가는 이익 감소를 가정하고' : `주가는 연 ${need}% 성장만 가정하고`, `실제 성장은 연 ${+sc.hist.toFixed(1)}%였습니다`] }] });
+  }
+  const st = a.alt ? ['지금 이익이 호황인가', '새로운 수준인가'] : over ? ['좋은 회사와 좋은 가격은', '다른 이야기입니다'] : a.pens.length ? ['싼 데는 이유가 있는지', '먼저 확인하세요'] : ['시장이 놓친 기회인지', '숫자로 확인하세요'];
+  scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold' });
+  scenes.push({ type: 'cta' });
+  const name = r.n.replace(/\s+/g, '');
+  return { title: `${r.n} 적정 주가`, mood: over ? 'tense' : 'calm', scenes, hashtags: [name, name + '주가', '적정주가', '가치투자', '밸류노트'],
+    caption: `${r.n}의 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다. ${gapText(R).replace(/싸다$/, '쌉니다').replace(/배$/, '배입니다').replace(/수준$/, '수준입니다').replace(/높음$/, '높습니다')}.\n\n` + a.cap.join('\n\n') + `\n\n전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` };
+}
+function reelRank(L, side, label) {
+  const under = side === 'under', top = L.slice(0, 5), R1 = top[0].R;
+  const g = (x) => gapText(x.R).replace(' 수준', '');
+  const scenes = [];
+  if (under) scenes.push({ type: 'hook', top: '적정 주가보다', num: { to: Math.round((1 - R1) * 100), fmt: 'int', suffix: '%' }, tone: 'good', label: '싸게 거래되는 회사',
+    lines: [{ cap: [`적정 주가보다 ${Math.round((1 - R1) * 100)}% 싸게`, '거래되는 회사가 있습니다'] }] });
+  else scenes.push({ type: 'hook', top: '좋은 회사인데', num: { to: +top[0].R.toFixed(1), fmt: 'int', dec: 1, suffix: '배' }, tone: 'loss', label: '적정 주가 대비',
+    lines: [{ cap: ['좋은 회사인데', `적정 주가의 ${top[0].R.toFixed(1)}배`], say: `좋은 회사인데 적정 주가의 ${sayRatio(top[0].R)}에 거래되는 회사가 있습니다.` }] });
+  scenes.push({ type: 'list', title: `${under ? '지금 저평가' : '좋지만 비싼'} TOP 5 · ${label}`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · ${g(x)}` : `${i + 1}위 ${x.r.n} · ${g(x)}`),
+    say: `일위부터 삼위는 밸류노트에서 공개합니다. 사위 ${top[3].r.n}, 오위 ${top[4].r.n}.` });
+  scenes.push({ type: 'statement', l1: '1~3위는', l2: '밸류노트에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에서 확인하세요.' });
+  scenes.push({ type: 'cta' });
+  return { title: `${under ? '저평가' : '고평가'} TOP 5 · ${label}`, mood: 'calm', scenes, hashtags: [under ? '저평가주' : '고평가주', '저평가주식', '적정주가', '가치투자', '밸류노트'],
+    caption: `${under ? `지금 적정 주가보다 가장 싸게 거래되는 ${label} 기업 TOP 5입니다.` : `좋은 회사지만 적정 주가보다 가장 비싼 ${label} 기업 TOP 5입니다.`}\n\n` + top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · ${gapText(x.R)}`).join('\n') + '\n\n1~3위와 전체 순위는 밸류노트 저평가·고평가 화면에서 볼 수 있습니다.' };
+}
+
 const state0 = path.join(OUT, 'state.json');
 const state = fs.existsSync(state0) ? JSON.parse(fs.readFileSync(state0, 'utf8')) : { used: [] };
 const qPath = path.join(OUT, 'queue.json');
 const queue = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, 'utf8')) : [];
+if (MODE === 'reel1' || MODE === 'reel2') {
+  const when = `${ymd}T${POST_TIME}:00+09:00`;
+  const taken = fs.readdirSync(SPECS).filter((f) => f.endsWith('.json')).some((f) => { try { return JSON.parse(fs.readFileSync(path.join(SPECS, f), 'utf8')).scheduled_at === when; } catch (_) { return false; } });
+  if (taken) { console.log('이미 릴스 있음', when); process.exit(0); }
+  setSettings({});
+  const rows = await load(); if (rows.length < 300) throw new Error('rows too few');
+  let spec;
+  if (MODE === 'reel1') {
+    const used = new Set(state.reelUsed || []);
+    const x0 = pick(rows, { used: [...used] }); if (!x0) throw new Error('릴스 회사 없음');
+    spec = reelCompany(x0, analyze(x0)); state.reelUsed = [...used, x0.r.t];
+    fs.writeFileSync(path.join(OUT, 'state.json'), JSON.stringify(state, null, 1));
+  } else {
+    const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-18')) / 864e5) + 3;
+    const [side, mkt, label] = RANK_ROTA[((day % RANK_ROTA.length) + RANK_ROTA.length) % RANK_ROTA.length];
+    const L = side === 'under' ? underList(rows, mkt).sort((p, q) => p.R - q.R) : overList(rows, mkt).sort((p, q) => q.sc.q - p.sc.q || q.R - p.R);
+    if (L.length < 5) throw new Error('순위 후보 부족');
+    spec = reelRank(L, side, label);
+  }
+  const id = 'A' + tag.slice(2) + SLOT[1];
+  fs.writeFileSync(path.join(SPECS, id + '.json'), JSON.stringify({ id, scheduled_at: when, threads_tag: '주식', ...spec }, null, 1));
+  console.log(JSON.stringify({ id, title: spec.title })); process.exit(0);
+}
 const ID = SLOT[0] + tag + SLOT[1], DIRN = SLOT[0] === 'K' ? 'k' + tag : tag + SLOT[1];
 if (queue.some((q) => q.id === ID)) { console.log('이미 생성됨', ID); process.exit(0); }
 
@@ -416,9 +490,9 @@ if (RK) {
     hashtags: [RK.side === 'under' ? '저평가주' : '고평가주', '저평가주식', '가치투자', '주식공부', '밸류노트'], threads_tag: '주식', images, to_ig: true, approved: true };
 } else {
   const name = x.r.n.replace(/\s+/g, '');
-  item = { id: ID, seq: Number(tag), title: `${MODE === 'b' ? '저평가 기업' : '오늘의 기업'} · ${x.r.n}`, scheduled_at: `${ymd}T${POST_TIME}:00+09:00`, caption: caption(x, a),
+  item = { id: ID, seq: Number(tag), title: `${MODE === 'b' ? '저평가 기업' : MODE === 'am' ? '좋은 회사, 비싼 가격' : '오늘의 기업'} · ${x.r.n}`, scheduled_at: `${ymd}T${POST_TIME}:00+09:00`, caption: caption(x, a),
     hashtags: [name, name + '주가', MODE === 'b' ? '저평가주' : '가치투자', '주식공부', '밸류노트'], threads_tag: '주식', images, to_ig: true, approved: true };
-  fs.writeFileSync(state0, JSON.stringify({ used: [...(state.used || []), x.r.t] }, null, 1));
+  fs.writeFileSync(state0, JSON.stringify({ ...state, used: [...(state.used || []), x.r.t] }, null, 1));
 }
 fs.writeFileSync(qPath, JSON.stringify([...queue.filter((q) => q.id !== item.id).slice(-14), item], null, 1));
 for (const f of fs.readdirSync(OUT)) if (/^k?\d{8}b?$/.test(f) && f.replace(/\D/g, '') < new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10).replace(/-/g, '')) fs.rmSync(path.join(OUT, f), { recursive: true });

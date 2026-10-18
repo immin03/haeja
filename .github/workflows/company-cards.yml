@@ -26,11 +26,14 @@ jobs:
           T=$(TZ=Asia/Seoul date -d tomorrow +%F)
           node scripts/company_cards.mjs $T b                 # 내일 11:00 저평가 기업 분석
           node scripts/company_cards.mjs $T rank              # 내일 15:30 저평가·고평가 TOP 10
+          node scripts/company_cards.mjs $T reel1             # 내일 12:30 릴스가 비어 있으면 기업 릴스 대본
+          node scripts/company_cards.mjs $T reel2             # 내일 18:00 릴스가 비어 있으면 순위 릴스 대본
+          if [[ "$T" > "2026-11-14" ]]; then node scripts/company_cards.mjs $T am; fi   # 기능 카드가 끝난 뒤 08:30 채우기
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"
           git config user.email "bot@valuenote.co.kr"
-          git add social/company
+          git add social/company scripts/reels/specs
           git diff --cached --quiet && exit 0
           git commit -m "오늘의 기업 카드 $(TZ=Asia/Seoul date +%F)"
           git pull --rebase origin main
