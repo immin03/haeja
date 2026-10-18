@@ -64,16 +64,24 @@ def stats(closes, kind, chg):
 
 
 
+_RATES = None
+def rates_doc():
+    """금리·물가 자료: Supabase rates 함수가 매일 FRED에서 받아 둔 fx/rates 문서 (GitHub 서버에서는 FRED가 응답하지 않는다)"""
+    global _RATES
+    if _RATES is None:
+        import re
+        cfg = open(os.path.join(ROOT, "config.js"), encoding="utf-8").read()
+        url = re.search(r"SUPABASE_URL:\s*'([^']+)'", cfg).group(1); key = re.search(r"SUPABASE_ANON_KEY:\s*'([^']+)'", cfg).group(1)
+        req = urllib.request.Request(f"{url}/rest/v1/docs?collection=eq.fx&id=eq.rates&select=data", headers={"apikey": key, "Authorization": "Bearer " + key})
+        _RATES = json.load(urllib.request.urlopen(req, timeout=30))[0]["data"]
+    return _RATES
+
+
 def fred(series):
-    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}&cosd=2023-01-01"
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (valuenote)"})
-    rows = urllib.request.urlopen(req, timeout=30).read().decode().strip().split("\n")[1:]
-    out = []
-    for r in rows:
-        d_, v = (r.split(",") + [""])[:2]
-        try: out.append((d_.strip(), float(v)))
-        except ValueError: pass
-    return out
+    d = rates_doc()
+    if series == "DFEDTARU": return [tuple(x) for x in d["series"]["USPOL"]["daily"]]
+    if series == "CPIAUCSL": return [tuple(x) for x in (d.get("cpi") or {}).get("monthly", [])]
+    raise KeyError(series)
 
 
 def nsay(v, dec):  # 5.09 → "오 점 영 구" 대신 숫자 그대로 두면 korean.py가 읽는다. 소수 둘째 자리 0은 지운다
@@ -201,6 +209,7 @@ def main():
     today = now.date().isoformat()
     st = state.get(today, {"keys": []})
     perm = state.get("_perm", [])
+    was_seeded = bool(state.get("_seeded"))
     seen = {k for kk, v in state.items() if not kk.startswith("_") for k in v.get("seen", [])} | set(perm)
     fake = None
     if "--fake" in sys.argv:
@@ -241,8 +250,10 @@ def main():
             st.setdefault("seen", []).append(tag); print("  표시만:", tag); continue
         put(tag, make_spec(key, chg, closes, now, info))
     if not fake:
-        state = {k: v for k, v in state.items() if k not in ("_perm", "_last") and k >= (now.date() - dt.timedelta(days=7)).isoformat()}
-        state[today] = st; state["_perm"] = perm[-60:]; state["_last"] = {"at": now.isoformat(timespec="minutes"), "log": LOG[-30:]}
+        state = {k: v for k, v in state.items() if not k.startswith("_") and k >= (now.date() - dt.timedelta(days=7)).isoformat()}
+        state[today] = st; state["_perm"] = perm[-60:]
+        if "--seed" in sys.argv or was_seeded: state["_seeded"] = True
+        state["_last"] = {"at": now.isoformat(timespec="minutes"), "log": LOG[-30:]}
         os.makedirs(os.path.dirname(STATE), exist_ok=True)
         json.dump(state, open(STATE, "w"), ensure_ascii=False)
     # 7일 지난 이벤트 대본·영상 정리

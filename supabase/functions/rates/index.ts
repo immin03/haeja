@@ -2,6 +2,7 @@
 // 미국 연준 경제자료(FRED)의 공개 CSV에서 주요 금리를 받아 fx/rates 문서에 저장한다.
 // - 일간: 미국 10년·2년 국채, 미국 기준금리 상단, 유로 예금금리
 // - 월간(OECD): 한국·일본·독일·프랑스·이탈리아·영국 10년 국채, 한국 기준금리
+// - 월간: 미국 소비자물가 지수(CPIAUCSL) → data.cpi (이슈 릴스용)
 // 주간 칼럼 작업이 쓰는 해설(headline, issues, impact, manual 최신값)은 건드리지 않고 그대로 둔다.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -63,6 +64,9 @@ Deno.serve(async (_req: Request) => {
       series[k] = { daily: [], points: [], monthly: p };
       auto[k] = { v: p.at(-1)![1], date: p.at(-1)![0], chg1m: chg(p, 31), chg1y: chg(p, 366), freq: "월간" };
     }));
+    // 미국 소비자물가 지수(월간, 계절조정). 화면의 금리 목록에는 넣지 않고 이슈 릴스(events.py)가 1년 전 대비 상승률을 계산하는 데만 쓴다
+    const cpiPts = await fred("CPIAUCSL", from5);
+    const cpi = cpiPts ? { monthly: cpiPts.slice(-30), at: new Date().toISOString() } : null; if (!cpiPts) fails.push("USCPI");
     if (series.US10Y && series.US2Y) { // 장단기 금리차 (10년 − 2년)
       const m2 = new Map(series.US2Y.daily.concat(series.US2Y.points).map((p) => [p[0], p[1]]));
       const sp = (arr: Pt[]) => arr.filter((p) => m2.has(p[0])).map((p) => [p[0], r2(p[1] - m2.get(p[0])!)] as Pt);
@@ -76,7 +80,7 @@ Deno.serve(async (_req: Request) => {
       const d = sp.at(-1); if (d) auto.FR_DE = { v: d[1], date: d[0], chg1m: chg(sp, 31), chg1y: chg(sp, 366), freq: "월간" };
     }
     const { data: old } = await sb.from("docs").select("data").eq("owner", owner).eq("collection", "fx").eq("id", "rates").maybeSingle();
-    const data = { ...(old?.data || {}), series: { ...((old?.data as any)?.series || {}), ...series }, auto: { ...((old?.data as any)?.auto || {}), ...auto }, autoAt: new Date().toISOString(), fails };
+    const data = { ...(old?.data || {}), ...(cpi ? { cpi } : {}), series: { ...((old?.data as any)?.series || {}), ...series }, auto: { ...((old?.data as any)?.auto || {}), ...auto }, autoAt: new Date().toISOString(), fails };
     const { error } = await sb.from("docs").upsert({ owner, collection: "fx", id: "rates", data, updated_at: new Date().toISOString() }, { onConflict: "owner,collection,id" });
     if (error) throw error;
     return new Response(JSON.stringify({ ok: true, got: Object.keys(auto), fails }), { headers: { "Content-Type": "application/json" } });

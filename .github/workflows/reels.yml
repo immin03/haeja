@@ -34,7 +34,7 @@ jobs:
       - name: 이슈 확인 (기준금리 결정·물가 발표·지수·환율·국채 금리 급변 → 하루 1편까지 릴스 대본)
         run: |
           # 처음 켤 때는 이미 지난 발표를 다루지 않도록 표시만 한다
-          grep -q '_perm' social/reels/events_state.json 2>/dev/null && python3 scripts/reels/events.py || python3 scripts/reels/events.py --seed
+          grep -q '_seeded' social/reels/events_state.json 2>/dev/null && python3 scripts/reels/events.py || python3 scripts/reels/events.py --seed
       - name: 영상 만들기 (음성 검수 포함)
         run: python3 scripts/reels/build.py || touch /tmp/voicefail
       - name: 커밋
