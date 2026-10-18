@@ -15,17 +15,17 @@ export function companyCard(row, date) {
   const [name, b, q, v, m, mos, ind] = row;
   const nameSize = name.length > 28 ? 46 : name.length > 14 ? 58 : name.length > 9 ? 70 : 84;
   const gap = mos == null ? null : mos >= 0
-    ? h('div', { fontSize: 32, fontWeight: 800, color: '#7FD3A8' }, `적정 가격보다 ${mos}% 낮은 가격`)
-    : h('div', { fontSize: 32, fontWeight: 800, color: '#F0A397' }, `적정 가격보다 ${-mos}% 높은 가격`);
+    ? h('div', { fontSize: 32, fontWeight: 800, color: '#7FD3A8' }, `적정 주가보다 ${mos}% 저평가`)
+    : h('div', { fontSize: 32, fontWeight: 800, color: '#F0A397' }, `적정 주가보다 ${-mos}% 고평가`);
   return h('div', { width: 1200, height: 630, flexDirection: 'column', justifyContent: 'space-between', padding: '56px 72px', background: 'linear-gradient(150deg,#1A2C46 0%,#0E1A2B 60%,#0A1322 100%)', color: '#F3EEE3', fontFamily: 'P' },
     h('div', { justifyContent: 'space-between', alignItems: 'center' },
       h('div', { alignItems: 'baseline', fontSize: 40, fontWeight: 900, letterSpacing: -1 }, 'Value', h('span', { color: '#E4C78D' }, 'Note'), h('span', { fontSize: 26, color: '#C99A50', marginLeft: 16, fontWeight: 700 }, '밸류노트')),
-      h('div', { fontSize: 24, color: '#AEB8C8', fontWeight: 700 }, `${MKT[m] || ''} · 가치투자 점수`)),
+      h('div', { fontSize: 24, color: '#AEB8C8', fontWeight: 700 }, `${MKT[m] || ''} · 밸류노트 점수`)),
     h('div', { alignItems: 'center', justifyContent: 'space-between' },
       h('div', { flexDirection: 'column', width: 700 },
         h('div', { fontSize: nameSize, fontWeight: 900, letterSpacing: -2, lineHeight: 1.12, wordBreak: 'keep-all', flexWrap: 'wrap' }, name),
         ind ? h('div', { fontSize: 24, color: '#8E9AAD', marginTop: 10, fontWeight: 700 }, String(ind).slice(0, 48)) : null,
-        h('div', { marginTop: 34, gap: 48 }, bar('숫자 품질', q), bar('저평가', v))),
+        h('div', { marginTop: 34, gap: 48 }, bar('재무 점수', q), bar('가격 점수', v))),
       h('div', { width: 300, height: 300, borderRadius: 300, border: '10px solid #C99A50', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(228,199,141,.08)' },
         h('div', { fontSize: 128, fontWeight: 900, color: '#E4C78D', lineHeight: 1 }, b == null ? '–' : String(b)),
         h('div', { fontSize: 26, color: '#AEB8C8', fontWeight: 700, marginTop: 6 }, '/ 100점'))),
