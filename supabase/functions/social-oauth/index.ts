@@ -88,6 +88,9 @@ Deno.serve(async (req: Request) => {
     if (err) return back(st.ret, `social_err=${encodeURIComponent(err)}`);
     const code = (u.searchParams.get("code") || "").replace(/#_$/, "");
     const t = await exchange(st.platform as P, code);
+    // 다른 계정(개인 계정 등)으로 로그인돼 있으면 저장하지 않는다: 게시물이 엉뚱한 계정에 올라가는 것을 막는다
+    const want = env(st.platform === "instagram" ? "IG_EXPECT_USERNAME" : "TH_EXPECT_USERNAME") || "value.note.korea";
+    if (t.username && t.username.toLowerCase() !== want.toLowerCase()) return back(st.ret, `social_err=${encodeURIComponent(`@${t.username} 계정으로 로그인돼 있습니다. @${want} 계정으로 다시 로그인한 뒤 연결해 주세요. 기존 연결은 그대로 유지됩니다.`)}`);
     const { error } = await sb.from("social_accounts").upsert({
       platform: st.platform, account_id: t.account_id, username: t.username, access_token: t.access_token,
       expires_at: new Date(Date.now() + (Number(t.expires_in) || 5184000) * 1000).toISOString(), updated_at: new Date().toISOString(),
