@@ -410,11 +410,12 @@ const pct1 = (v) => +Math.abs(v).toFixed(1);
 function reelCompany(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', R = a.ratio, over = R > 1;
   const scenes = [];
-  if (over) scenes.push({ type: 'hook', top: `${r.n} 지금 주가는`, num: { to: Math.round((R - 1) * 100), fmt: 'pct' }, tone: 'loss', label: '적정 주가보다 고평가',
-    lines: [{ cap: [`${r.n}의 지금 주가는`, `적정 주가보다 +${Math.round((R - 1) * 100)}% 고평가돼 있습니다`] }] });
-  else scenes.push({ type: 'hook', top: `${r.n} 상승 여력`, num: { to: Math.round((1 / R - 1) * 100), fmt: 'pct' }, tone: 'good', label: '적정 주가까지',
-    lines: [{ cap: [`${r.n}의 지금 주가는`, fracText(R) ? `${fracText(R)}입니다` : `적정 주가보다 ${Math.round((1 - R) * 100)}% 저평가돼 있습니다`] },
-      { cap: ['적정 주가까지', `상승 여력이 +${Math.round((1 / R - 1) * 100)}%입니다`] }] });
+  // 첫 2초 후킹: 아는 회사 이름 + 질문, 다음 줄에 숫자로 답 (README 대본 규칙 11)
+  const pctOver = Math.round((R - 1) * 100), up = Math.round((1 / R - 1) * 100);
+  if (over) scenes.push({ type: 'hook', top: r.n, num: { to: pctOver, fmt: 'pct' }, tone: 'loss', label: '적정 주가보다 고평가',
+    lines: [{ cap: [`${r.n},`, '지금 사도 될까요?'] }, { cap: ['적정 주가보다', `+${pctOver}% 고평가돼 있습니다`] }] });
+  else scenes.push({ type: 'hook', top: r.n, num: { to: up, fmt: 'pct' }, tone: 'good', label: '적정 주가까지 상승 여력',
+    lines: [{ cap: [`${r.n},`, '지금 사도 될까요?'] }, { cap: ['적정 주가까지', `상승 여력이 +${up}%입니다`] }] });
   scenes.push(FAIR);
   scenes.push({ type: 'compare', title: '지금 주가 vs 적정 주가', l: { label: '지금 주가', v: money(r.px, cur), tone: over ? 'loss' : 'ivory' }, r: { label: '적정 주가', v: money(sc.iv, cur), tone: 'gold' },
     lines: [{ cap: [`지금 주가는 ${money(r.px, cur)}이고,`, `적정 주가는 ${money(sc.iv, cur)}입니다`], say: `지금 주가는 ${sayMoney(r.px, cur)}이고, 적정 주가는 ${sayMoney(sc.iv, cur)}입니다.` }] });
@@ -439,10 +440,11 @@ function reelRank(L, side, label) {
   const under = side === 'under', top = L.slice(0, 5), R1 = top[0].R;
   const g = (x) => gapText(x.R).replace('적정 주가보다 ', '').replace('적정 주가의 ', '');
   const scenes = [];
-  if (under) scenes.push({ type: 'hook', top: `${label} 저평가 1위`, num: { to: Math.round((1 / R1 - 1) * 100), fmt: 'pct' }, tone: 'good', label: '상승 여력',
-    lines: [{ cap: ['적정 주가까지 상승 여력이', `+${Math.round((1 / R1 - 1) * 100)}%인 회사가 있습니다`] }] });
-  else scenes.push({ type: 'hook', top: '좋은 회사인데', num: { to: Math.round((R1 - 1) * 100), fmt: 'pct' }, tone: 'loss', label: '적정 주가보다 고평가',
-    lines: [{ cap: ['좋은 회사인데도', `적정 주가보다 +${Math.round((R1 - 1) * 100)}% 고평가된 회사가 있습니다`] }] });
+  const u1 = Math.round((1 / R1 - 1) * 100), o1 = Math.round((R1 - 1) * 100);
+  if (under) scenes.push({ type: 'hook', top: `${label} 저평가 TOP 5`, num: { to: u1, fmt: 'pct' }, tone: 'good', label: '1위의 상승 여력',
+    lines: [{ cap: [`${label}에서 지금`, '가장 저평가된 회사 5곳'] }, { cap: ['1위는 적정 주가까지', `상승 여력이 +${u1}%입니다`] }] });
+  else scenes.push({ type: 'hook', top: `${label} 고평가 TOP 5`, num: { to: o1, fmt: 'pct' }, tone: 'loss', label: '1위의 고평가',
+    lines: [{ cap: ['좋은 회사인데', '가장 고평가된 5곳'] }, { cap: ['1위는 적정 주가보다', `+${o1}% 고평가돼 있습니다`] }] });
   scenes.push(FAIR);
   scenes.push({ type: 'list', title: `${under ? '지금 저평가' : '좋지만 고평가'} TOP 5 · ${label}`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · ${g(x)}` : `${i + 1}위 ${x.r.n} · ${g(x)}`),
     say: `사위는 ${top[3].r.n}, 오위는 ${top[4].r.n}입니다.` });
