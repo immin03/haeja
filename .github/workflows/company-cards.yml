@@ -30,7 +30,6 @@ jobs:
           node scripts/company_cards.mjs $T rr                # 내일 15:30 저평가·고평가 TOP 5
           node scripts/company_cards.mjs $T reel1             # 내일 12:30 릴스가 비어 있으면 기업 릴스
           node scripts/company_cards.mjs $T reel2             # 내일 18:00 릴스가 비어 있으면 순위 릴스
-          if [ "$(TZ=Asia/Seoul date -d tomorrow +%u)" = 3 ]; then node scripts/reels/rates_reel.mjs $T; fi   # 수요일 19:30 이번 주 금리
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"

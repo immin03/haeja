@@ -5,6 +5,7 @@ name: reels
 on:
   schedule:
     - cron: '50 21 * * *'    # 매일 06:50 KST (바뀐 대본 렌더·대기열 갱신)
+    - cron: '40 0,3,6,9,12,15,18 * * *'   # 3시간마다 이슈 확인 (09:40·12:40·15:40·18:40·21:40·00:40·03:40 KST)
   push:
     branches: [main]
     paths: ['scripts/reels/specs/**', 'scripts/reels/engine.py', 'scripts/reels/tts.py', 'scripts/reels/verify.py', 'scripts/reels/korean.py']
@@ -30,9 +31,10 @@ jobs:
         with:
           path: scripts/reels/.cache
           key: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
-      - name: 시장 급변 확인 (트랙 레코드가 쌓일 때까지 꺼 둠. 다시 켜려면 아래 if를 지운다)
-        if: false
-        run: python3 scripts/reels/events.py
+      - name: 이슈 확인 (기준금리 결정·물가 발표·지수·환율·국채 금리 급변 → 하루 1편까지 릴스 대본)
+        run: |
+          # 처음 켤 때는 이미 지난 발표를 다루지 않도록 표시만 한다
+          grep -q '_perm' social/reels/events_state.json 2>/dev/null && python3 scripts/reels/events.py || python3 scripts/reels/events.py --seed
       - name: 영상 만들기 (음성 검수 포함)
         run: python3 scripts/reels/build.py || touch /tmp/voicefail
       - name: 커밋
