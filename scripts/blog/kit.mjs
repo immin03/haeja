@@ -100,7 +100,7 @@ const T = {
       h('div', { width: 330, height: 330, borderRadius: 330, border: `12px solid ${C.gold2}`, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: 36, background: 'rgba(228,199,141,.08)' },
         t(b == null ? '–' : b, { fontSize: 150, fontWeight: 900, color: C.gold, lineHeight: 1 }), t('/ 100점', { fontSize: 30, color: C.mute, fontWeight: 700, marginTop: 6 })),
       h('div', { gap: 60, marginTop: 44 }, bar('재무 점수', q), bar('가격 점수', v)),
-      mos == null ? null : t(mos >= 0 ? `적정 주가보다 ${mos}% 저평가` : `적정 주가보다 ${-mos}% 고평가`, { fontSize: 36, fontWeight: 800, color: mos >= 0 ? C.up : C.down, marginTop: 40 })),
+      mos == null ? null : t(mos >= 0 ? `지금 주가는 적정 주가보다 ${mos}% 저평가돼 있습니다` : `지금 주가는 적정 주가보다 ${-mos}% 고평가돼 있습니다`, { fontSize: 36, fontWeight: 800, color: mos >= 0 ? C.up : C.down, marginTop: 40 })),
       `${date} 종가 기준 · 투자 교육용 정보`);
   },
 
@@ -110,7 +110,7 @@ const T = {
     const vals = [['지금 주가', px, C.ink], ['적정 주가', iv, C.gold], ['적정 매수가', buy, C.gold2]].filter((x) => isNum(x[1]));
     const max = Math.max(...vals.map((x) => x[1]));
     const ratio = isNum(px) && isNum(iv) && iv > 0 ? px / iv : null;
-    const verdict = ratio == null ? '' : ratio >= 2 ? `지금 주가는 적정 주가의 ${n0(ratio, 1)}배로 고평가` : sc.mos >= 0 ? `지금 주가는 적정 주가보다 ${n0(sc.mos)}% 저평가` : `지금 주가는 적정 주가보다 ${n0(-sc.mos)}% 고평가`;
+    const verdict = ratio == null ? '' : ratio >= 2 ? `지금 주가는 적정 주가의 ${n0(ratio, 1)}배로 고평가돼 있습니다` : sc.mos >= 0 ? `지금 주가는 적정 주가보다 ${n0(sc.mos)}% 저평가돼 있습니다` : `지금 주가는 적정 주가보다 ${n0(-sc.mos)}% 고평가돼 있습니다`;
     return frame(h('div', { flexDirection: 'column' },
       eyebrow(card[0]), title('지금 주가와 적정 주가', 60),
       h('div', { flexDirection: 'column', marginTop: 56, gap: 40 }, vals.map(([label, v, col]) => h('div', { flexDirection: 'column' },
@@ -148,10 +148,10 @@ const T = {
     const bar = list.filter(([, x]) => isNum(x.sc.mos) && x.sc.mos >= 30 && isNum(x.sc.q) && x.sc.q >= 60 && !(x.sc.flags || []).some((fl) => !WARN_FLAGS.has(fl))).sort((a, b) => b[1].sc.mos - a[1].sc.mos);
     const show = bar.slice(3, 8);
     return frame(h('div', { flexDirection: 'column' },
-      eyebrow(`${MKT_LONG[m]} ${list.length}곳 중`), title(`적정 주가보다 30% 이상 저평가된 좋은 회사 ${bar.length}곳`, 56),
+      eyebrow(`${MKT_LONG[m]} ${list.length}곳 중`), title(`적정 주가보다 30% 이상 저평가된 좋은 회사는 ${bar.length}곳입니다`, 52),
       t('재무 점수 60점 이상이면서 지금 주가가 적정 주가보다 30% 이상 낮은 회사입니다.', { fontSize: 26, color: C.dim, marginTop: 18, fontWeight: 500, wordBreak: 'keep-all', lineHeight: 1.45 }),
       h('div', { flexDirection: 'column', marginTop: 34 },
-        h('div', { justifyContent: 'space-between', padding: '16px 0', fontSize: 30, fontWeight: 800, color: C.gold }, t('1~3위', {}), t('밸류노트에서 공개', {})),
+        h('div', { justifyContent: 'space-between', padding: '16px 0', fontSize: 30, fontWeight: 800, color: C.gold }, t('1~3위', {}), t('밸류노트에서 볼 수 있습니다', {})),
         show.map(([, x], i) => h('div', { justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', borderTop: `2px solid ${C.line}` },
           h('div', { alignItems: 'baseline' }, t(`${i + 4}`, { fontSize: 30, color: C.dim, width: 56, fontWeight: 800 }), t(x.card[0], { fontSize: 34, fontWeight: 800 })),
           t(`${n0(x.sc.mos)}% 저평가`, { fontSize: 32, fontWeight: 900, color: C.up }))))),
