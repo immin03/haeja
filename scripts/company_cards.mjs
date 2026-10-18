@@ -18,7 +18,7 @@ const HANDLE = '@value.note.korea';
 // 하루 3편: a = 21:00 오늘의 기업(유명 회사), b = 11:00 저평가 기업 분석, rank = 15:30 저평가·고평가 TOP 10
 const MODE = process.argv[3] || 'a';
 // reel1 = 12:30 기업 릴스 대본, reel2 = 18:00 순위 릴스 대본 (이미 그 시간에 잡힌 릴스가 없을 때만), am = 08:30 기능 카드가 끝난 뒤 채우는 '좋은 회사, 비싼 가격' 분석
-const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'], am: ['C', 'm', '08:30'], reel1: ['A', '1', '12:30'], reel2: ['A', '2', '18:00'] }[MODE];
+const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'], am: ['C', 'm', '08:30'], reel1: ['A', '1', '12:30'], reel2: ['A', '2', '18:00'], ra: ['A', 'a', '21:00'], rb: ['A', 'b', '11:00'] }[MODE];
 const POST_TIME = SLOT[2];
 const DISC = '*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.';
 const cfgSrc = fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8');
@@ -73,7 +73,7 @@ const FAMOUS = {
 };
 function pick(rows, state) {
   const used = new Set(state.used || []);
-  if (MODE === 'b') return pickUnder(rows, used);
+  if (MODE === 'b' || MODE === 'rb') return pickUnder(rows, used);
   if (MODE === 'am') { const L = overList(rows, 'ALL').filter((x) => !used.has(x.r.t)).sort((p, q) => q.sc.q - p.sc.q); return L[0] || null; }
   const all = rows.map((r) => ({ r, sc: scoreRow(r, null, 30) }))
     .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
@@ -442,17 +442,21 @@ const state0 = path.join(OUT, 'state.json');
 const state = fs.existsSync(state0) ? JSON.parse(fs.readFileSync(state0, 'utf8')) : { used: [] };
 const qPath = path.join(OUT, 'queue.json');
 const queue = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, 'utf8')) : [];
-if (MODE === 'reel1' || MODE === 'reel2') {
+if (MODE === 'reel1' || MODE === 'reel2' || MODE === 'ra' || MODE === 'rb') {
   const when = `${ymd}T${POST_TIME}:00+09:00`;
   const taken = fs.readdirSync(SPECS).filter((f) => f.endsWith('.json')).some((f) => { try { return JSON.parse(fs.readFileSync(path.join(SPECS, f), 'utf8')).scheduled_at === when; } catch (_) { return false; } });
   if (taken) { console.log('이미 릴스 있음', when); process.exit(0); }
   setSettings({});
   const rows = await load(); if (rows.length < 300) throw new Error('rows too few');
   let spec;
-  if (MODE === 'reel1') {
-    const used = new Set(state.reelUsed || []);
+  if (MODE !== 'reel2') {
+    // 기업 릴스(11:00 저평가·21:00 오늘의 기업·12:30 예비): 카드와 릴스가 같은 회사를 겹쳐 쓰지 않게 한 목록을 같이 쓴다
+    const used = new Set([...(state.used || []), ...(state.reelUsed || [])]);
     const x0 = pick(rows, { used: [...used] }); if (!x0) throw new Error('릴스 회사 없음');
-    spec = reelCompany(x0, analyze(x0)); state.reelUsed = [...used, x0.r.t];
+    spec = reelCompany(x0, analyze(x0));
+    if (MODE === 'ra') spec.title = `오늘의 기업 · ${x0.r.n}`;
+    if (MODE === 'rb') spec.title = `저평가 기업 · ${x0.r.n}`;
+    state.reelUsed = [...(state.reelUsed || []), x0.r.t]; state.used = [...(state.used || []), x0.r.t];
     fs.writeFileSync(path.join(OUT, 'state.json'), JSON.stringify(state, null, 1));
   } else {
     const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-18')) / 864e5) + 3;

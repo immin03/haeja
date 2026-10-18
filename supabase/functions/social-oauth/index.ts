@@ -15,7 +15,7 @@ const CFG = {
   instagram: {
     id: () => env("META_IG_APP_ID"), secret: () => env("META_IG_APP_SECRET"),
     authorize: "https://www.instagram.com/oauth/authorize",
-    scope: "instagram_business_basic,instagram_business_content_publish",
+    scope: "instagram_business_basic,instagram_business_content_publish,instagram_business_manage_insights",
   },
   threads: {
     id: () => env("META_THREADS_APP_ID"), secret: () => env("META_THREADS_APP_SECRET"),

@@ -10,6 +10,9 @@ WORDS = [("ValueNote", "밸유 노트"), ("밸류노트", "밸유 노트"), ("�
          ("ROE", "알오이"), ("DAY", "데이"), ("S&P", "에스앤피"), ("KOSPI", "코스피"), ("vs", "대"), ("bp", "베이시스 포인트")]
 
 
+ABC = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ", ["에이", "비", "씨", "디", "이", "에프", "지", "에이치", "아이", "제이", "케이", "엘", "엠", "엔", "오", "피", "큐", "알", "에스", "티", "유", "브이", "더블유", "엑스", "와이", "제트"]))
+
+
 def _group(n):  # 0~9999
     out = ""
     for unit, v in (("천", 1000), ("백", 100), ("십", 10), ("", 1)):
@@ -45,6 +48,7 @@ def sign(s):
 def to_speech(text):
     t = text
     for a, b in WORDS: t = t.replace(a, b)
+    t = re.sub(r"(?<![A-Za-z])([A-Z]{1,5})(?![a-z])", lambda m: "".join(ABC[c] for c in m[1]), t)  # DB손해보험 → 디비손해보험
     t = t.replace("→", ", ").replace("·", ", ").replace("×", "").replace("\n", " ")
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)\s*%p", lambda m: sign(m[1]) + num(m[2]) + " 퍼센트 포인트", t)
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)\s*%", lambda m: sign(m[1]) + num(m[2]) + " 퍼센트", t)

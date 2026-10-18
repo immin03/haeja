@@ -1672,9 +1672,12 @@ function ghResult(){
     <button type="button" class="btn primary gh-res-go" data-act="vl-open" data-v="${esc(r.code || r.t)}" data-n="${esc(r.n)}">왜 이 점수인지 보기 ›</button></div>`;
 }
 function ghIgToday(){
-  if(S.igToday === undefined){ S.igToday = null; fetch('/social/company/queue.json', { cache: 'no-store' }).then(x => x.json()).then(q => {
-    const now = Date.now(), it = q.filter(x => /^C\d{8}$/.test(x.id) && Date.parse(x.scheduled_at) <= now).sort((a, b) => b.scheduled_at.localeCompare(a.scheduled_at))[0];
-    if(it){ S.igToday = (it.title.split('·')[1] || '').trim(); if(S.tab === 'portfolio') render(); } }).catch(() => {}); }
+  if(S.igToday === undefined){ S.igToday = null;
+    const get = (u) => fetch(u, { cache: 'no-store' }).then(x => x.json()).catch(() => []);
+    Promise.all([get('/social/company/queue.json'), get('/social/reels/queue.json')]).then(([c, r]) => {
+      const now = Date.now(), it = [...c.filter(x => /^C\d{8}b?$/.test(x.id)), ...r.filter(x => /^A\d{6}[ab]$/.test(x.id))]
+        .filter(x => Date.parse(x.scheduled_at) <= now).sort((a, b) => b.scheduled_at.localeCompare(a.scheduled_at))[0];
+      if(it){ S.igToday = (it.title.split('·')[1] || '').trim(); if(S.tab === 'portfolio') render(); } }); }
   const r = S.igToday && ghRow(S.igToday); if(!r) return '';
   const R = isNum(r.iv) && r.iv > 0 && isNum(r.px) ? r.px / r.iv : null;
   return `<button type="button" class="gh-ig" data-act="gh-pick" data-v="${esc(r.n)}"><span><small>인스타에서 본 오늘의 기업</small><b>${esc(r.n)}</b></span><span class="gh-ig-v">${ghGap(R)} ›</span></button>`;

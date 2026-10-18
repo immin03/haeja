@@ -389,6 +389,7 @@ def s_cta(img, u, sc, L, T):
         img.paste(Image.new("RGB", (W, H), (255, 244, 210)), (0, 0), Image.fromarray(np.minimum(np.asarray(sh), np.asarray(m))))
     d = ImageDraw.Draw(img); ul = prog(u, .45, .95) * 300
     d.line([(W / 2 - ul / 2, 650), (W / 2 + ul / 2, 650)], fill=GOLD, width=6)
+    if pw > .3: d.text((W / 2, 708), "밸 류 노 트", font=F("SemiBold", 40), fill=mix(NAVY, (170, 180, 200), prog(u, .35, .8)), anchor="mm")
     l1, l2 = sc.get("l1", "더 현명한 투자를"), sc.get("l2", "시작하세요")
     appear(img, u, V * .42, l1, fit_font(l1, "Heavy", 92, 980), IVORY, (W / 2, 850), dur=.45, rise=50)
     appear(img, u, V * .62, l2, fit_font(l2, "Heavy", 92, 980), IVORY, (W / 2, 975), dur=.45, rise=50)
@@ -528,6 +529,11 @@ def caption(img, u, L):
             rev -= len(line)
         return
 
+def logo(d, y):
+    """상단 로고: 영문 ValueNote, 그 아래 한글 밸류노트"""
+    d.text((W / 2, y), "ValueNote", font=F("ExtraBold", 46), fill=GOLD, anchor="mm")
+    d.text((W / 2, y + 44), "밸 류 노 트", font=F("Medium", 26), fill=(156, 166, 188), anchor="mm")
+
 def camera(img, u, s):
     """장면 내내 천천히 다가가는 카메라 + 새 문장이 나올 때마다 살짝 튀는 박자. 화면이 멈춰 있는 순간을 없앤다"""
     z = 1 + .045 * ease_io(clamp(u / max(s["dur"], .1)))
@@ -552,7 +558,7 @@ def frame(T, scenes, total):
     if sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
-    if sc["type"] not in ("cta", "screen"): d.text((W / 2, 250), "밸류노트", font=F("SemiBold", 36), fill=GOLD, anchor="mm")
+    if sc["type"] not in ("cta", "screen"): logo(d, 236)
     d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(112, 124, 148), anchor="mm")
     for x in scenes[1:]:
         q = (T - (x["start"] - .12)) / .3
