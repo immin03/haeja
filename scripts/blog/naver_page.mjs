@@ -1,7 +1,7 @@
 // 네이버 블로그 붙여넣기용 페이지 만들기
 // 사용: node scripts/blog/naver_page.mjs naver/<글 id>
 //   naver/<글 id>/post.json 을 읽어 naver/<글 id>.html 과 naver/<글 id>/photos.zip 을 만든다.
-// post.json = { "title": "...", "tags": ["..."], "blocks": [
+// post.json = { "title": "...", "tags": ["..."], "order": 1 (선택: 첫 글 묶음의 올리는 순서), "blocks": [
 //     {"h": "소제목"}, {"p": "문단. **굵게** 가능"}, {"img": "01.png", "cap": "사진 설명"},
 //     {"img": "banner.png", "href": "https://..."} (링크 걸린 배너, 설명 없음),
 //     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"},
@@ -96,9 +96,9 @@ console.log(`✓ ${dir}.html · 사진 ${imgs.length}장 · ${zip}`);
 // 블로그 글 목록 페이지(naver/index.html): 관리자 페이지 위 '블로그 글'에서 연다. 최신 글이 위
 const root = path.dirname(dir);
 const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d, 'post.json')))
-  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
-  .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || b.d.localeCompare(a.d));
-const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwf])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '월 · 주간 시장', w: '수 · 기업 분석', f: '금 · 가치투자 공부' }[m[4]]}` : '첫 글'; };
+  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, order: pj.order, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
+  .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || ((a.order ?? 99) - (b.order ?? 99)) || b.d.localeCompare(a.d));
+const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwf])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '월 · 주간 시장', w: '수 · 기업 분석', f: '금 · 가치투자 공부' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
 fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>블로그 글 목록 · 밸류노트</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800}.top span{color:#E4C78D}main{max-width:760px;margin:0 auto;padding:16px}a.it{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #E7E2D8;border-radius:14px;padding:12px;margin:10px 0;text-decoration:none;color:inherit}a.it img{width:84px;height:84px;border-radius:10px;flex-shrink:0}a.it b{display:block}a.it small{color:#6B7584}.n{color:#6B7584;font-size:14px}</style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 글</div><main>

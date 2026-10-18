@@ -54,7 +54,10 @@ function frame(body, foot = '') {
     h('div', { justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 22, color: C.dim, fontWeight: 700 },
       t(foot || '투자 교육용 정보 · 매수·매도 권유가 아닙니다', {}), t('valuenote.co.kr', {})));
 }
-const title = (s, size = 54) => h('div', { fontSize: size, fontWeight: 900, letterSpacing: -1.5, lineHeight: 1.22, wordBreak: 'keep-all', whiteSpace: 'pre-wrap' }, s);
+// 줄바꿈(\n)이 있으면 줄마다 따로 그린다 (satori가 \n을 공백처럼 다뤄 어색하게 끊기는 것을 막음)
+const title = (s, size = 54) => String(s).includes('\n')
+  ? h('div', { flexDirection: 'column', fontSize: size, fontWeight: 900, letterSpacing: -1.5, lineHeight: 1.22 }, String(s).split('\n').map((l) => h('div', { wordBreak: 'keep-all' }, l)))
+  : h('div', { fontSize: size, fontWeight: 900, letterSpacing: -1.5, lineHeight: 1.22, wordBreak: 'keep-all', whiteSpace: 'pre-wrap' }, s);
 const eyebrow = (s) => t(s, { fontSize: 28, color: C.gold, fontWeight: 800, marginBottom: 22 });
 
 // ── 데이터 (기업 카드용) ─────────────────────────────
