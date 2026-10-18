@@ -21,6 +21,7 @@ const MODE = process.argv[3] || 'a';
 // reel1 = 12:30 기업 릴스 대본, reel2 = 18:00 순위 릴스 대본 (이미 그 시간에 잡힌 릴스가 없을 때만), am = 08:30 기능 카드가 끝난 뒤 채우는 '좋은 회사, 비싼 가격' 분석
 const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'], am: ['C', 'm', '08:30'], reel1: ['A', '1', '12:30'], reel2: ['A', '2', '18:00'], ra: ['A', 'a', '21:00'], rb: ['A', 'b', '11:00'], rr: ['A', 'r', '15:30'], rm: ['A', 'm', '08:30'] }[MODE];
 const POST_TIME = SLOT[2];
+const REEL = ['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE);
 const DISC = '*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.';
 const cfgSrc = fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8');
 const URL0 = cfgSrc.match(/SUPABASE_URL:\s*'([^']+)'/)[1];
@@ -85,11 +86,12 @@ const FAMOUS = {
 function pick(rows, state) {
   const used = new Set(state.used || []);
   if (MODE === 'b' || MODE === 'rb') return pickUnder(rows, used);
-  if (MODE === 'am' || MODE === 'rm') { const L = overList(rows, 'ALL').filter((x) => !used.has(x.r.t)).sort((p, q) => q.sc.q - p.sc.q); return L[0] || null; }
+  if (MODE === 'am' || MODE === 'rm') { const L = overList(rows, 'ALL').filter((x) => !used.has(x.r.t) && (!REEL || (expect(x.r, x.sc)?.d > 3))).sort((p, q) => q.sc.q - p.sc.q); return L[0] || null; }
   const all = rows.map((r) => ({ r, sc: score(r) }))
     .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
     // 적정 주가와 비슷하거나 조금 다른 회사는 이야기가 약하다: 1.5배 이상 비싸거나 25% 이상 싼 회사만
-    .filter((x) => { const R = isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) ? x.r.px / x.sc.iv : null; return R !== null && ((R >= 1.5 && R <= 5) || (R <= 0.75 && R >= 0.25)); }); // 너무 극단적인 값(+400% 초과, 상승 여력 300% 초과)은 믿기 어려워 보여 제외
+    .filter((x) => { const R = isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) ? x.r.px / x.sc.iv : null; return R !== null && ((R >= 1.5 && R <= 5) || (R <= 0.75 && R >= 0.25)); })
+    .filter((x) => !REEL || (expect(x.r, x.sc) && Math.abs(expect(x.r, x.sc).d) > 3)); // 너무 극단적인 값(+400% 초과, 상승 여력 300% 초과)은 믿기 어려워 보여 제외
   const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-17')) / 864e5);
   for (let i = 0; i < ROTA.length; i++) {
     const m = ROTA[(day + i) % ROTA.length];
@@ -119,7 +121,7 @@ function overList(rows, mkt) {
   });
 }
 function pickUnder(rows, used) {
-  const L = underList(rows, 'ALL').filter((x) => !used.has(x.r.t)).sort((a, b) => b.sc.q - a.sc.q);
+  const L = underList(rows, 'ALL').filter((x) => !used.has(x.r.t) && (!REEL || (expect(x.r, x.sc)?.d < -3))).sort((a, b) => b.sc.q - a.sc.q);
   if (L.length) return L[0];
   // 다 쓰면 기준을 조금 넓힌다 (감점 신호가 있어도 25% 이상 싼 회사)
   return rows.map((r) => ({ r, sc: score(r) })).filter((x) => !used.has(x.r.t) && isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv <= 0.75 && x.r.dataConf !== 'low').sort((a, b) => b.sc.q - a.sc.q)[0] || null;
@@ -421,54 +423,76 @@ const METHOD_CAP = (g) => g
 const LIMIT_CAP = '이 계산이 늘 맞지는 않습니다. 세계 1위라는 프리미엄이나 앞으로의 신사업 가치는 계산에 넣지 않기 때문입니다. 실제로 버크셔 해서웨이도 2025년부터 이 방식으로는 비싸 보이는 알파벳(구글) 주식을 사들였습니다. 숫자는 판단의 출발점으로 봐 주세요.';
 const pct1 = (v) => +Math.abs(v).toFixed(1);
 // 대본 규칙(scripts/reels/README.md): 한 줄 = 완결된 한 문장, 자막과 음성은 같은 문장, 낯선 말은 처음 나올 때 뜻을 말한다.
-function reelCompany(x, a) {
-  const { r, sc } = x, cur = r.cur || 'KRW', R = a.ratio, over = R > 1;
-  const scenes = [];
-  // 첫 2초 후킹: 아는 회사 이름 + 질문, 다음 줄에 숫자로 답 (README 대본 규칙 11)
-  const pctOver = Math.round((R - 1) * 100), up = Math.round((1 / R - 1) * 100);
-  const gm = !isNum(sc.dcf), who = gm ? '그레이엄의' : '버핏의';
-  if (over) scenes.push({ type: 'hook', top: r.n, num: { to: pctOver, fmt: 'pct' }, tone: 'loss', label: '적정 주가보다 고평가',
-    lines: [{ cap: [`${r.n},`, '버핏이라면 지금 살까요?'] }, { cap: [`${who} 계산으로는`, `+${pctOver}% 고평가돼 있습니다`] }] });
-  else scenes.push({ type: 'hook', top: r.n, num: { to: up, fmt: 'pct' }, tone: 'good', label: '적정 주가까지 상승 여력',
-    lines: [{ cap: [`${r.n},`, '버핏이라면 지금 살까요?'] }, { cap: [`${who} 계산으로는`, `상승 여력이 +${up}%입니다`] }] });
-  scenes.push(gm ? FAIR_G : FAIR_B);
-  scenes.push({ type: 'compare', title: '지금 주가 vs 적정 주가', l: { label: '지금 주가', v: money(r.px, cur), tone: over ? 'loss' : 'ivory' }, r: { label: '적정 주가', v: money(sc.iv, cur), tone: 'gold' },
-    lines: [{ cap: [`지금 주가는 ${money(r.px, cur)}이고,`, `적정 주가는 ${money(sc.iv, cur)}입니다`], say: `지금 주가는 ${sayMoney(r.px, cur)}이고, 적정 주가는 ${sayMoney(sc.iv, cur)}입니다.` }] });
-  if (false && isNum(sc.ig) && isNum(sc.hist)) { // 30초 상한 때문에 뺌(목표 20초)
-    const need = +Math.max(Math.min(sc.ig, 80), -30).toFixed(1), hi = need > sc.hist + 2, h = sc.hist;
-    const real = h >= 0 ? `실제로는 매년 ${pct1(h)}%씩 늘었습니다` : `실제로는 매년 ${pct1(h)}%씩 줄었습니다`;
-    const l1 = hi ? ['지금 주가가 맞으려면', `이익이 매년 ${need}%씩 늘어야 합니다`] : need < 0 ? ['지금 주가는 이익이', '줄어든다고 보는 가격입니다'] : ['지금 주가는 이익이', `매년 ${need}%만 늘어도 맞는 가격입니다`];
-    scenes.push({ type: 'bars', title: '지금 주가에 담긴 기대', items: [{ label: '지금 주가가 맞으려면 필요한 이익 성장', v: Math.max(Math.abs(need), .5), text: `연 ${need}%`, tone: hi ? 'loss' : 'good' }, { label: '지난 몇 년 실제 이익 성장', v: Math.max(Math.abs(h), .5), text: `연 ${+h.toFixed(1)}%`, tone: 'gold' }],
-      lines: [{ cap: l1 }, { cap: ['그런데 지난 몇 년 동안', real] }] });
-  }
-  const st = a.alt ? ['지금 이익이 반짝 호황인지', '오래갈 수준인지', '지금 이익이 반짝 호황인지, 오래갈 수준인지가 관건입니다.']
-    : over ? ['버핏은 좋은 회사도', '적당한 가격에 삽니다', '버핏은 좋은 회사도, 적당한 가격일 때 삽니다.']
-    : a.pens.length ? ['싼 데는 이유가 있는지', '먼저 확인하세요', '싼 데는 이유가 있는지, 먼저 확인하세요.']
-    : ['시장이 놓친 기회인지', '숫자로 확인하세요', '시장이 놓친 기회인지, 숫자로 확인하세요.'];
-  if (a.alt) scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', say: st[2] });
-  scenes.push(over ? LIMIT_OVER : LIMIT_UNDER);
-  scenes.push({ type: 'cta' });
+// ---------- 2026-10-18 방식 변경: 점수·고평가 %·상승 여력을 릴스에 박지 않는다 ----------
+// 트랙 레코드(2027-04 공개 검증)가 쌓이기 전까지는 '판정' 대신 '지금 주가에 담긴 기대'와 '실제 실적'을 나란히 보여 주고 판단은 보는 사람에게 넘긴다.
+// 기대 = 지금 주가가 맞으려면 앞으로 10년간 필요한 이익 성장률(역DCF, scoring.js ig). 실제 = 지난 몇 년 주당순이익 연평균 성장률(fin.epsCagr, 상한 없이 그대로).
+const GROW_CAP = (g) => Math.max(Math.min(g, 80), -30);
+function expect(r, sc) {
+  const ig = sc.ig, eps = r.fin?.epsCagr;
+  if (!isNum(ig) || !isNum(eps)) return null;
+  const e = +GROW_CAP(ig).toFixed(1), h = +eps.toFixed(1), d = e - h;
+  const yrs = Math.max(3, (r.yrs || 6) - 1);
+  if (h <= 0 || h > 100) return null;
+  return { e, h, d, yrs, k: d > 3 ? 'ahead' : d < -3 ? 'behind' : 'match', disc: DISC_R[grpOf(r.m)] ?? 10 };
+}
+const realWord = (v) => v >= 0 ? `매년 ${pct1(v)}%씩 늘었습니다` : `매년 ${pct1(v)}%씩 줄었습니다`;
+const sayPct = (v) => { const a = pct1(v), [i, f] = String(a).split('.'); return f ? `${sino(+i)} 점 ${f.split('').map((c) => DIG[+c]).join(' ')} 퍼센트` : `${sino(+i)} 퍼센트`; };
+const CTA_SCORE = { type: 'cta', l1: '버핏 기준 점수는', l2: '밸류노트에서', say: '버핏 기준으로 본 점수와 적정 주가는, 밸류노트에서 확인하세요.' };
+const NOT_ADVICE = '기대가 실제보다 높다고 꼭 비싼 것도, 낮다고 꼭 싼 것도 아닙니다. 판단은 각자의 몫이며 밸류노트의 의견이나 매수·매도 추천이 아닙니다.';
+function reelCompany(x) {
+  const { r, sc } = x, cur = r.cur || 'KRW', X = expect(r, sc);
+  if (!X) throw new Error('기대·실제 성장률 없음 ' + r.n);
+  const { e, h, yrs, k } = X, scenes = [];
+  // 1) 첫 2초: 아는 이름 + 궁금증, 둘째 줄에 숫자로 답 (README 대본 규칙 11)
+  const q = k === 'ahead' ? [`${r.n} 주가에는`, '큰 기대가 숨어 있습니다'] : k === 'behind' ? [`${r.n},`, '시장은 왜 이렇게 볼까요?'] : [`${r.n} 주가에`, '숨은 숫자가 있습니다'];
+  const ans = e < 0 ? ['지금 주가는 이익이', `매년 ${pct1(e)}%씩 줄어든다고 봅니다`]
+    : k === 'behind' ? ['지금 주가는 이익이', `매년 ${pct1(e)}%만 늘어도 맞는 가격입니다`] : ['지금 주가가 맞으려면', `이익이 매년 ${pct1(e)}% 늘어야 합니다`];
+  const ansSay = e < 0 ? `지금 주가는 이익이, 매년 ${sayPct(e)}씩 줄어든다고 봅니다.`
+    : k === 'behind' ? `지금 주가는 이익이, 매년 ${sayPct(e)}만 늘어도 맞는 가격입니다.` : `지금 주가가 맞으려면, 이익이 매년 ${sayPct(e)} 늘어야 합니다.`;
+  scenes.push({ type: 'hook', top: r.n, num: { to: e, fmt: 'pct', dec: Number.isInteger(e) ? 0 : 1 }, tone: k === 'ahead' ? 'loss' : 'gold', label: '주가에 담긴 이익 성장 기대 (매년)',
+    lines: [{ cap: q }, { cap: ans, say: ansSay }] });
+  // 2) 기대 vs 실제 막대
+  scenes.push({ type: 'bars', title: '주가에 담긴 기대 vs 실제',
+    items: [{ label: '지금 주가에 담긴 기대 (앞으로 10년)', v: Math.max(Math.abs(e), .5), text: `연 ${e}%`, tone: k === 'ahead' ? 'loss' : 'gold' },
+            { label: `지난 ${yrs}년 실제 이익 성장`, v: Math.max(Math.abs(h), .5), text: `연 ${h}%`, tone: h >= 0 ? 'good' : 'loss' }],
+    lines: [{ cap: [`지난 ${yrs}년 동안 실제로는`, realWord(h)], say: `지난 ${sino(yrs)} 년 동안 실제로는, 매년 ${sayPct(h)}씩 ${h >= 0 ? '늘었습니다' : '줄었습니다'}.` }] });
+  // 3) 판단은 보는 사람에게
+  const st = k === 'ahead' ? ['이 기대, 이뤄질까요?', '판단은 당신의 몫입니다', '이 기대가 이뤄질까요? 판단은 당신의 몫입니다.']
+    : k === 'behind' ? ['시장이 너무 비관적일까요?', '아니면 이유가 있을까요?', '시장이 너무 비관적일까요? 아니면 이유가 있을까요?']
+    : ['기대와 실적이', '비슷한 수준입니다', '주가에 담긴 기대와 실제 실적이 비슷한 수준입니다.'];
+  scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', note: '지금 주가에서 필요한 성장률을 거꾸로 계산했습니다', say: st[2] });
+  scenes.push(CTA_SCORE);
   const name = r.n.replace(/\s+/g, '');
-  return { title: `${r.n} 적정 주가`, mood: over ? 'tense' : 'calm', scenes, hashtags: [name, name + '주가', '적정 주가', '가치투자', '밸류노트'],
-    caption: `${r.n}의 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다. ${gapSentence(R)}.\n\n` + METHOD_CAP(gm) + ' 현재가가 적정 주가보다 낮으면 저평가, 높으면 고평가입니다.\n\n' + a.cap.join('\n\n') + '\n\n' + LIMIT_CAP + `\n\n전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` };
+  const cap = (e >= 0 ? `${r.n}의 지금 주가(${money(r.px, cur)})가 맞으려면 앞으로 10년간 이익이 매년 ${pct1(e)}%씩 늘어야 합니다.` : `${r.n}의 지금 주가(${money(r.px, cur)})는 앞으로 10년간 이익이 매년 ${pct1(e)}%씩 줄어든다고 보는 가격입니다.`)
+    + ` 지난 ${yrs}년 동안 주당순이익은 실제로 ${realWord(h)}.\n\n`
+    + `이 숫자는 지금 주가를 거꾸로 계산해, 시장이 이 회사에 어떤 성장을 기대하고 있는지 꺼낸 것입니다. 주주에게 남는 현금을 연 ${X.disc}%로 할인하는 버핏의 계산법을 거꾸로 적용했습니다.\n\n`
+    + (k === 'ahead' ? '기대가 실제보다 높다는 것은 앞으로 실적이 지금보다 훨씬 빨라져야 지금 주가가 설명된다는 뜻입니다. 1등 프리미엄이나 신사업처럼 숫자에 아직 잡히지 않은 가치가 있을 수도 있습니다.\n\n'
+      : k === 'behind' ? '기대가 실제보다 낮다는 것은 시장이 앞으로 실적이 꺾일 것으로 본다는 뜻입니다. 시장이 지나치게 비관적일 수도 있고, 숫자에 아직 드러나지 않은 이유가 있을 수도 있습니다.\n\n' : '')
+    + NOT_ADVICE + `\n\n버핏·그레이엄 기준으로 본 점수와 적정 주가는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.`;
+  return { title: `${r.n} 주가에 담긴 기대`, mood: k === 'ahead' ? 'tense' : 'calm', scenes, hashtags: [name, name + '주가', '주식공부', '가치투자', '밸류노트'], caption: cap };
+}
+// 순위 릴스: 기대가 실적보다 가장 앞선 곳 / 시장이 실적보다 가장 낮게 보는 곳. 1~3위 이름은 앱에서 공개
+function rankByExpect(L, side) {
+  return L.map((x) => ({ ...x, X: expect(x.r, x.sc) })).filter((x) => x.X && (side === 'under' ? x.X.d < -3 : x.X.d > 3))
+    .sort((p, q) => side === 'under' ? p.X.d - q.X.d : q.X.d - p.X.d);
 }
 function reelRank(L, side, label) {
-  const under = side === 'under', top = L.slice(0, 5), R1 = top[0].R;
-  const g = (x) => gapText(x.R).replace('적정 주가보다 ', '').replace('적정 주가의 ', '');
+  const under = side === 'under', top = L.slice(0, 5), X1 = top[0].X;
+  const it = (x) => `${x.r.n} · 기대 ${x.X.e}% · 실제 ${x.X.h}%`;
   const scenes = [];
-  const u1 = Math.round((1 / R1 - 1) * 100), o1 = Math.round((R1 - 1) * 100);
-  if (under) scenes.push({ type: 'hook', top: `${label} 저평가 TOP 5`, num: { to: u1, fmt: 'pct' }, tone: 'good', label: '1위의 상승 여력',
-    lines: [{ cap: [`버핏 방식으로 본 ${label}의`, '가장 저평가된 회사 5곳'] }, { cap: ['1위는 적정 주가까지', `상승 여력이 +${u1}%입니다`] }] });
-  else scenes.push({ type: 'hook', top: `${label} 고평가 TOP 5`, num: { to: o1, fmt: 'pct' }, tone: 'loss', label: '1위의 고평가',
-    lines: [{ cap: ['좋은 회사지만 버핏 방식으로는', '가장 고평가된 5곳'] }, { cap: ['1위는 적정 주가보다', `+${o1}% 고평가돼 있습니다`] }] });
-  scenes.push(FAIR_BG);
-  scenes.push({ type: 'list', title: `${under ? '지금 저평가' : '좋지만 고평가'} TOP 5 · ${label}`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · ${g(x)}` : `${i + 1}위 ${x.r.n} · ${g(x)}`),
+  if (under) scenes.push({ type: 'hook', top: `${label} TOP 5`, num: { to: X1.e, fmt: 'pct', dec: 1 }, tone: 'gold', label: '1위 주가에 담긴 이익 성장 기대 (매년)',
+    lines: [{ cap: ['실적에 비해 시장이', '가장 낮게 보는 회사 5곳'] }, { cap: X1.e >= 0 ? ['1위는 이익이 매년', `${pct1(X1.e)}%만 늘어도 되는 가격입니다`] : ['1위는 이익이 매년', `${pct1(X1.e)}%씩 줄어든다고 보는 가격입니다`],
+      say: X1.e >= 0 ? `일위는 이익이 매년, ${sayPct(X1.e)}만 늘어도 되는 가격입니다.` : `일위는 이익이 매년, ${sayPct(X1.e)}씩 줄어든다고 보는 가격입니다.` }] });
+  else scenes.push({ type: 'hook', top: `${label} TOP 5`, num: { to: X1.e, fmt: 'pct', dec: 1 }, tone: 'loss', label: '1위 주가에 담긴 이익 성장 기대 (매년)',
+    lines: [{ cap: ['실적보다 기대가', '가장 앞서 있는 회사 5곳'] }, { cap: ['1위는 이익이 매년', `${pct1(X1.e)}% 늘어야 지금 주가가 맞습니다`], say: `일위는 이익이 매년, ${sayPct(X1.e)} 늘어야 지금 주가가 맞습니다.` }] });
+  scenes.push({ type: 'list', title: `${label} · 주가에 담긴 기대와 실제`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · 기대 ${x.X.e}% · 실제 ${x.X.h}%` : `${i + 1}위 ${it(x)}`),
     say: `네 번째는 ${top[3].r.n}, 다섯 번째는 ${top[4].r.n}입니다.` });
-  scenes.push(under ? LIMIT_UNDER : LIMIT_OVER);
-  scenes.push({ type: 'statement', l1: '1~3위는', l2: '프로필 링크에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에 있습니다.' });
-  scenes.push({ type: 'cta' });
-  return { title: `${under ? '저평가' : '고평가'} TOP 5 · ${label}`, mood: 'calm', scenes, hashtags: [under ? '저평가주' : '고평가주', '저평가주식', '적정 주가', '가치투자', '밸류노트'],
-    caption: `${under ? `지금 가장 저평가된 ${label} 기업 TOP 5입니다.` : `좋은 회사지만 가장 고평가된 ${label} 기업 TOP 5입니다.`}\n\n적정 주가는 워런 버핏이 설명한 계산법(앞으로 주주에게 남을 현금을 연 10%로 할인)으로 구한 1주당 가치이고, 은행·보험은 벤저민 그레이엄의 공식으로 계산합니다. 밸류노트의 의견이나 매수·매도 추천이 아닙니다. 현재가가 적정 주가보다 낮으면 저평가, 높으면 고평가입니다.\n\n` + top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · ${gapText(x.R)}`).join('\n') + '\n\n' + LIMIT_CAP + '\n\n1~3위와 전체 순위는 밸류노트 저평가·고평가 화면에서 볼 수 있습니다.' };
+  scenes.push({ type: 'statement', l1: under ? '시장이 너무 비관적일까요?' : '이 기대, 이뤄질까요?', l2: under ? '아니면 이유가 있을까요?' : '판단은 당신의 몫입니다', tone: 'gold', note: '기대는 앞으로 10년 매년, 실제는 지난 몇 년 매년 이익 성장률',
+    say: under ? '시장이 너무 비관적일까요? 아니면 이유가 있을까요?' : '이 기대가 이뤄질까요? 판단은 당신의 몫입니다.' });
+  scenes.push({ type: 'cta', l1: '1~3위는', l2: '밸류노트에서', say: '일위부터 삼위는, 프로필 링크의 밸류노트에서 확인하세요.' });
+  return { title: `${under ? '시장이 낮게 보는' : '기대가 앞선'} TOP 5 · ${label}`, mood: 'calm', scenes, hashtags: ['주식공부', '미국주식', '가치투자', '주식투자', '밸류노트'].map((h) => label === '한국' && h === '미국주식' ? '한국주식' : h),
+    caption: `${under ? `실적에 비해 시장이 가장 낮게 보는 ${label} 회사 TOP 5입니다.` : `실적보다 주가에 담긴 기대가 가장 앞서 있는 ${label} 회사 TOP 5입니다.`}\n\n기대는 지금 주가가 맞으려면 앞으로 10년간 필요한 이익 성장률(매년)이고, 실제는 지난 몇 년 동안 주당순이익이 실제로 늘어난 속도(매년)입니다. 주주에게 남는 현금을 할인하는 버핏의 계산법을 거꾸로 적용해 구했습니다.\n\n`
+      + top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · 기대 연 ${x.X.e}% · 실제 연 ${x.X.h}%`).join('\n') + '\n\n' + NOT_ADVICE + '\n\n1~3위와 버핏 기준 점수는 밸류노트에서 볼 수 있습니다.' };
 }
 
 const state0 = path.join(OUT, 'state.json');
@@ -476,8 +500,8 @@ const state = fs.existsSync(state0) ? JSON.parse(fs.readFileSync(state0, 'utf8')
 const qPath = path.join(OUT, 'queue.json');
 const queue = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, 'utf8')) : [];
 if (['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE)) {
-  const when = `${ymd}T${POST_TIME}:00+09:00`;
-  const taken = fs.readdirSync(SPECS).filter((f) => f.endsWith('.json')).some((f) => { try { return JSON.parse(fs.readFileSync(path.join(SPECS, f), 'utf8')).scheduled_at === when; } catch (_) { return false; } });
+  const when = process.env.REEL_AT || `${ymd}T${POST_TIME}:00+09:00`;
+  const taken = !process.env.REEL_ID && fs.readdirSync(SPECS).filter((f) => f.endsWith('.json')).some((f) => { try { return JSON.parse(fs.readFileSync(path.join(SPECS, f), 'utf8')).scheduled_at === when; } catch (_) { return false; } });
   if (taken) { console.log('이미 릴스 있음', when); process.exit(0); }
   setSettings({});
   const rows = await load(); if (rows.length < 300) throw new Error('rows too few');
@@ -488,20 +512,20 @@ if (['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE)) {
     // REEL_T=<티커>: 같은 회사로 대본만 다시 만들 때 (예: 문구 규칙이 바뀐 뒤 다시 만들기)
     const forced = process.env.REEL_T ? rows.find((r) => r.t === process.env.REEL_T) : null;
     const x0 = forced ? { r: forced, sc: score(forced) } : pick(rows, { used: [...used] }); if (!x0) throw new Error('릴스 회사 없음');
-    spec = reelCompany(x0, analyze(x0));
+    spec = reelCompany(x0);
     if (MODE === 'ra') spec.title = `오늘의 기업 · ${x0.r.n}`;
-    if (MODE === 'rb') spec.title = `저평가 기업 · ${x0.r.n}`;
-    if (MODE === 'rm') spec.title = `좋은 회사, 고평가 · ${x0.r.n}`;
+    if (MODE === 'rb') spec.title = `시장이 낮게 보는 기업 · ${x0.r.n}`;
+    if (MODE === 'rm') spec.title = `기대가 앞선 기업 · ${x0.r.n}`;
     if (!forced) { state.reelUsed = [...(state.reelUsed || []), x0.r.t]; state.used = [...(state.used || []), x0.r.t]; }
     fs.writeFileSync(path.join(OUT, 'state.json'), JSON.stringify(state, null, 1));
   } else {
     const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-18')) / 864e5) + (MODE === 'rr' ? 0 : 3);
     const [side, mkt, label] = RANK_ROTA[((day % RANK_ROTA.length) + RANK_ROTA.length) % RANK_ROTA.length];
-    const L = side === 'under' ? underList(rows, mkt).sort((p, q) => p.R - q.R) : overList(rows, mkt).sort((p, q) => q.R - p.R);
+    const L = rankByExpect(side === 'under' ? underList(rows, mkt) : overList(rows, mkt), side);
     if (L.length < 5) throw new Error('순위 후보 부족');
     spec = reelRank(L, side, label);
   }
-  const id = 'A' + tag.slice(2) + SLOT[1];
+  const id = process.env.REEL_ID || ('A' + tag.slice(2) + SLOT[1]);
   fs.writeFileSync(path.join(SPECS, id + '.json'), JSON.stringify({ id, scheduled_at: when, threads_tag: '주식', ...spec }, null, 1));
   console.log(JSON.stringify({ id, title: spec.title })); process.exit(0);
 }
