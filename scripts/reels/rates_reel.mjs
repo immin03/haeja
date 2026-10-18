@@ -46,18 +46,20 @@ scenes.push({ type: 'hook', top: '미국 10년 국채 금리', num: { to: v, fmt
     { cap: ['미국 10년 국채 금리는', `지금 ${f2(v)}%입니다`], say: `미국 십 년 국채 금리는, 지금 ${sayNum(v)} 퍼센트입니다.` }] });
 // 2) 흐름 + 쉬운 원리
 scenes.push({ type: 'line', series: [{ name: '미국 10년 국채', v: vs }], x: xs, fmt: { fmt: 'pct', dec: 2, plus: false }, end: `${f2(v)}%`, end_tone: up1y ? 'loss' : 'gold',
-  lines: [{ cap: ['안전한 국채가 이만큼 주면', '주식에 바라는 수익도 커집니다'] },
+  lines: [{ cap: ['국채 이자가 높아지면', '주식에 바라는 수익도 높아집니다'] },
     { cap: ['그래서 같은 회사라도', '적정 주가는 낮아집니다'] }] });
 // 3) 1년 변화 또는 다가오는 일정
 const fresh = d.issuesAt && (Date.parse(ymd) - Date.parse(d.issuesAt)) / 864e5 <= 9;
 const ev = fresh ? (d.issues || []).find((x) => /금통위|FOMC|연준|기준금리/.test(x.title || '')) : null;
+// 처음 보는 사람도 알게 풀어 쓴다
+const plain = (t) => t.replace(/한은\s*금통위/, '한국은행 금리 결정').replace(/FOMC|연준\s*회의/, '미국 금리 결정');
 const evDay = ev ? +(ev.title.match(/^(\d{1,2})일/) || [])[1] : NaN;
 // 아직 오지 않은 일정만 (게시일보다 뒤, 2주 안)
-if (ev && evDay > +ymd.slice(8) && evDay - +ymd.slice(8) <= 9 && ev.title.length <= 14) scenes.push({ type: 'statement', l1: '이번 주 관심 일정', l2: ev.title, tone: 'gold', note: '기준금리 결정은 대출·예금 금리와 주가에 함께 영향을 줍니다',
-  say: `이번 주 관심 일정은, ${ev.title}입니다.` });
+if (ev && evDay > +ymd.slice(8) && evDay - +ymd.slice(8) <= 9 && plain(ev.title).length <= 16) scenes.push({ type: 'statement', l1: '이번 주 관심 일정', l2: plain(ev.title), tone: 'gold', note: '기준금리 결정은 대출·예금 금리와 주가에 함께 영향을 줍니다',
+  say: `이번 주 관심 일정은, ${plain(ev.title)}입니다.` });
 else if (y1 !== null) scenes.push({ type: 'statement', l1: '1년 전과 비교하면', l2: `${f2(Math.abs(y1))}%p ${y1 >= 0 ? '높아졌습니다' : '낮아졌습니다'}`, tone: 'gold', note: '퍼센트포인트(%p)는 금리 숫자 자체의 차이입니다',
   say: `1년 전과 비교하면, ${sayNum(y1)} 퍼센트포인트 ${y1 >= 0 ? '높아졌습니다' : '낮아졌습니다'}.` });
-scenes.push({ type: 'cta', l1: '금리 흐름은', l2: '경제 레이더에서', say: '금리 흐름과 위험 신호는, 밸류노트 경제 레이더에서 확인하세요.' });
+scenes.push({ type: 'cta', l1: '금리 흐름은', l2: '경제 레이더에서', say: '금리 흐름은, 밸류노트 경제 레이더에서 확인하세요.' });
 
 const kr = d.auto.KR10Y, upol = d.auto.USPOL;
 const mm = (s) => `${+s.slice(5, 7)}월`;
