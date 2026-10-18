@@ -69,7 +69,7 @@ function angle(r, sc) {
   if (b >= 70 && !pens.length) return { k: 'pass', t: `${r.n},\n버핏 기준 **${b}점**`, s: '품질과 가격이 함께\n기준(70점)을 넘은 드문 경우입니다.' };
   if (q >= 80 && v < 35) return { k: 'pricey', t: `${r.n},\n품질 **${q}점**인데\n종합은 ${b}점`, s: '좋은 회사와 좋은 가격은\n다른 이야기입니다.' };
   const ratio = isNum(sc.iv) && sc.iv > 0 && isNum(r.px) ? r.px / sc.iv : null;
-  if (ratio && ratio >= 1.5) return { k: 'over', t: `${r.n},\n지금 가격은\n적정 주가의 **${n0(ratio, 1)}배**`, s: `재무 점수은 ${q}점.\n그런데 왜 종합은 ${b}점일까요?` };
+  if (ratio && ratio >= 1.5) return { k: 'over', t: `${r.n},\n지금 가격은\n적정 주가의 **${n0(ratio, 1)}배**`, s: `재무 점수는 ${q}점.\n그런데 왜 종합은 ${b}점일까요?` };
   if (v >= 60 && q < 50) return { k: 'trap', t: `${r.n},\n싸 보이는데\n왜 **${b}점**일까`, s: '가격 점수는 높지만\n이익의 질이 따라오지 못합니다.' };
   if (pens.length) return { k: 'flag', t: `${r.n},\n감점 신호 **${pens.length}개**`, s: `${pens.join(', ')}.\n신호 하나에 8점씩 깎입니다.` };
   return { k: 'plain', t: `${r.n}의\n버핏 점수는 **${b}점**`, s: `재무 점수 ${q}점, 저평가 ${v}점.\n어디서 점수가 갈렸는지 보겠습니다.` };
@@ -258,8 +258,8 @@ function analyze(x) {
   // 최근 이익이 평균과 크게 다를 때: 반대 시나리오
   if (sc.ivBasis === 'norm' && isNum(sc.ivNow) && isNum(val.eps) && isNum(val.epsAvg) && val.eps > val.epsAvg * 1.5) {
     o.alt = { t: `다만 최근 1년 이익(주당 ${M(val.eps)})은 평균의 ${n0(val.eps / val.epsAvg, 1)}배입니다.`,
-      s: `이 이익이 계속된다면 적정 주가은 **${M(sc.ivNow)}**입니다. 결국 질문은 하나입니다. 지금 이익이 한때의 호황인가, 새로운 수준인가.` };
-    o.cap.push(`다만 최근 1년 주당순이익 ${M(val.eps)}은 평균의 ${n0(val.eps / val.epsAvg, 1)}배입니다. 이 이익이 계속된다면 적정 주가은 ${M(sc.ivNow)}입니다. 결국 핵심은 지금 이익이 한때의 호황인지, 새로운 수준인지입니다.`);
+      s: `이 이익이 계속된다면 적정 주가는 **${M(sc.ivNow)}**입니다. 결국 질문은 하나입니다. 지금 이익이 한때의 호황인가, 새로운 수준인가.` };
+    o.cap.push(`다만 최근 1년 주당순이익 ${M(val.eps)}은 평균의 ${n0(val.eps / val.epsAvg, 1)}배입니다. 이 이익이 계속된다면 적정 주가는 ${M(sc.ivNow)}입니다. 결국 핵심은 지금 이익이 한때의 호황인지, 새로운 수준인지입니다.`);
   }
   return o;
 }

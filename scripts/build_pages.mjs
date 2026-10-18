@@ -60,7 +60,7 @@ function summary(r, sc) {
     if (isNum(f.roeAvg)) bits.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
     if (isNum(f.fcfConv)) bits.push(`이익의 ${n0(f.fcfConv)}%가 현금으로 들어옴`);
     if (isNum(f.ltdNi)) bits.push(`장기부채는 순이익의 ${n0(f.ltdNi, 1)}배`);
-    out.push(`재무 점수은 ${sc.q}점입니다${bits.length ? ' (' + bits.join(', ') + ')' : ''}.`);
+    out.push(`재무 점수는 ${sc.q}점입니다${bits.length ? ' (' + bits.join(', ') + ')' : ''}.`);
   }
   if (isNum(sc.v)) {
     let s = `가격 점수는 ${sc.v}점입니다.`;
@@ -161,8 +161,8 @@ function faqItems(x, date) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
   const out = [];
   if (isNum(sc.iv) && sc.iv > 0) {
-    let a = `밸류노트가 과거 평균 이익·주주 이익과 자산 가치로 계산한 ${r.n} 적정 주가은 ${money(sc.iv, cur)}입니다.`;
-    if (isNum(r.px)) a += isNum(sc.mos) && r.px / sc.iv < 2 ? ` ${date} 기준 현재가 ${money(r.px, cur)}는 적정 주가보다 ${gapTxt(sc.mos)} 수준입니다.` : ` ${date} 기준 현재가 ${money(r.px, cur)}는 적정 주가의 ${n0(r.px / sc.iv, 1)}배입니다.`;
+    let a = `그레이엄·버핏·멍거의 방식으로 과거 평균 이익·주주 이익과 자산 가치를 바탕으로 계산한 ${r.n}의 적정 주가는 ${money(sc.iv, cur)}입니다.`;
+    if (isNum(r.px)) a += isNum(sc.mos) && r.px / sc.iv < 2 ? ` ${date} 기준 현재가(${money(r.px, cur)})는 적정 주가보다 ${gapTxt(sc.mos)} 수준입니다.` : ` ${date} 기준 현재가(${money(r.px, cur)})는 적정 주가의 ${n0(r.px / sc.iv, 1)}배입니다.`;
     a += ' 공식에 따른 추정치이며 미래 주가를 보장하지 않습니다.';
     out.push([`${r.n} 적정 주가는 얼마인가요?`, a]);
   }
@@ -177,7 +177,7 @@ function faqItems(x, date) {
   if (isNum(sc.pbr)) bits.push(`PBR ${n0(sc.pbr, 2)}배`);
   if (isNum(f.roeAvg)) bits.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
   if (bits.length) out.push([`${r.n} PER·PBR·ROE는?`, `${date} 기준 ${bits.join(', ')}입니다. PER은 낮을수록 이익 대비 싸고, ROE는 꾸준히 높을수록 자본을 잘 굴리는 회사입니다. 한 해 숫자보다 여러 해 평균을 보는 것이 안전합니다.`]);
-  out.push(['밸류노트 점수는 어떻게 계산하나요?', '그레이엄·버핏·멍거의 기준을 숫자로 옮겼습니다. ROE·이익률·현금흐름 등 13개 지표로 본 재무 점수 40%, 적정 주가 대비 할인율로 본 저평가 60%를 합치고, 잦은 적자·과도한 빚·잦은 증자 같은 위험 신호는 감점합니다. 버크셔 해서웨이의 실제 매수 62건으로 검증한 공식입니다.']);
+  out.push(['밸류노트 점수는 어떻게 계산하나요?', '밸류노트 점수는 숫자 점수 65%, 정성 평가 20%, 트렌드 15%를 합친 값입니다. 숫자 점수는 ROE·이익률·현금흐름 등 13개 지표로 본 재무 점수 40%와 적정 주가 대비 할인율로 본 저평가 점수 60%로 계산하고, 잦은 적자·과도한 빚·잦은 증자 같은 위험 신호는 감점합니다. 정성 평가는 그레이엄·버핏·멍거의 질문으로 사업 자체를 따져 본 결과이며, 모든 사용자에게 같은 값을 보여 줍니다. 이 방식은 버크셔 해서웨이의 실제 매수 62건으로 검증했습니다.']);
   return out;
 }
 
@@ -229,7 +229,7 @@ function companyPage(x, peers, date) {
 <div><div class="lab">저평가</div><div class="val">${sc.v ?? '–'}점</div><div class="bar"><i style="width:${sc.v || 0}%"></i></div></div></div>
 <div class="share"><button type="button" data-sh="c" data-u="${url}" data-t="${esc(shareText)}">이 점수 공유하기</button></div></section>
 ${isNum(r.px) ? `<section class="card"><h2>가격</h2><div class="price"><div><div class="k">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="k">적정 주가</div><div class="v">${money(sc.iv, cur)}</div></div><div><div class="k">안전마진</div><div class="v ${isNum(sc.mos) ? (sc.mos >= 0 ? 'pos' : 'neg') : ''}">${isNum(sc.mos) ? (sc.mos > 0 ? '+' : '') + n0(sc.mos) + '%' : '–'}</div></div></div>
-<p class="note" style="margin-top:10px">적정 주가은 과거 평균 이익·주주 이익과 자산 가치로 계산한 값입니다. ${r.fin_sector ? '금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다. ' : ''}미래를 보장하지 않습니다.</p>
+<p class="note" style="margin-top:10px">적정 주가는 과거 평균 이익·주주 이익과 자산 가치로 계산한 값입니다. ${r.fin_sector ? '금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다. ' : ''}미래를 보장하지 않습니다.</p>
 ${hasIv ? `<a class="alert" href="${alertLink}"><b>${esc(josa(r.n, '이', '가'))} 적정 매수가에 오면 알려 드릴까요?</b><span>알림 받기 ›</span></a>` : ''}</section>` : ''}
 ${sum.length ? `<section class="card"><h2>한 줄씩 읽기</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}</section>` : ''}
 ${pens.length || warns.length ? `<section class="card"><h2>감점·경고 신호</h2>${pens.map((fl) => `<div class="flag"><span class="pill p-pen">감점 −8</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}${warns.map((fl) => `<div class="flag"><span class="pill ${fl === '중국 본토 규제' ? 'p-pen' : 'p-warn'}">${fl === '중국 본토 규제' ? '할인 −6' : '경고'}</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}</section>` : ''}
