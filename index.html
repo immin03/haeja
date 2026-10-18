@@ -2689,20 +2689,20 @@ function weeklyNoteHtml(){
   /* 칼럼을 맨 위에 크게. 숫자 요약은 한 줄로 줄였다 */
   const hero = col ? `<button type="button" class="card wk-hero${col.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(col.id)}">
       ${col.cover ? `<img class="wk-hero-img" src="${esc(col.cover)}" alt="" loading="lazy">` : ''}
-      <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(COL_SERIES[colSeries(col)] || '')}</span><b>${esc(col.title)}</b>${ex ? `<span class="small muted wk-hero-ex">${esc(ex)}…</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
+      <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(COL_SERIES[colSeries(col)] || '')}</span><b>${esc(col.title)}</b>${ex ? `<span class="small muted wk-hero-ex">${esc(ex)}${/[.!?다요]$/.test(ex) ? '' : '…'}</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
     </button>` : '';
-  const chip = (v, l, cls = '') => `<span class="wk-chip"><b class="${cls}">${v}</b>${l}</span>`;
+  /* 숫자 세 칸: 숫자 + 완전한 문장 라벨. 누르면 해당 화면으로 */
+  const tile = (n, l, cls, tab) => `<button type="button" class="wk-tile" data-act="go-tab" data-v="${tab}"><b class="num ${cls}">${n}</b><span>${l}</span></button>`;
+  const ind = n.hot.length ? `<span class="wk-ind"><b>꼭대기 근처 산업</b> ${esc(n.hot.slice(0, 3).join(', '))}</span>` : n.low.length ? `<span class="wk-ind"><b>바닥권 산업</b> ${esc(n.low.slice(0, 3).join(', '))}</span>` : '';
   return `${hero}
   <div class="card wk-card">
-    <div class="wk-top"><span class="eyebrow">이번 주 노트</span><span class="small muted">${weekLabel()}</span></div>
-    <blockquote class="wk-q">${esc(n.q.q)}<span>${esc(n.q.who)} · ${esc(n.q.src)}</span></blockquote>
-    <div class="wk-chips">
-      ${chip(n.pass, '적정 매수가 아래', 'num')}${chip(n.near, '근처', 'num')}
-      ${n.hot.length ? chip(esc(n.hot.slice(0, 2).join('·')), '꼭대기 근처') : n.low.length ? chip(esc(n.low.slice(0, 2).join('·')), '바닥권') : ''}
-      ${isNum(n.wk) ? chip(pct(n.wk), '내 포트폴리오 이번 주', 'num ' + (n.wk < 0 ? 'bad' : 'good')) : ''}
+    <div class="wk-top"><span class="eyebrow">이번 주 노트 · ${weekLabel()}</span><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button></div>
+    <div class="wk-tiles">
+      ${tile(n.pass + '곳', '좋은 회사 중<br>적정 매수가 아래로 내려온 곳', n.pass > 0 ? 'good' : '', 'value')}
+      ${tile(n.near + '곳', '좋은 회사 중<br>적정 매수가에 가까워진 곳', '', 'value')}
+      ${isNum(n.wk) ? tile(pct(n.wk), '내 포트폴리오<br>이번 주 수익률', n.wk < 0 ? 'bad' : n.wk > 0 ? 'good' : '', 'portfolio') : tile('–', '내 포트폴리오<br>이번 주 수익률 (보유 종목 등록 후)', '', 'portfolio')}
     </div>
-    <div class="wk-foot"><button type="button" class="linkbtn" data-act="wk-read">왜 이 숫자가 중요할까 ›</button><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button></div>
-    ${S.wkRead ? `<p class="wk-read">${esc(n.read)}</p>` : ''}
+    ${ind ? `<div class="wk-ind-row">${ind}<button type="button" class="linkbtn small" data-act="go-tab" data-v="trends">메가트렌드 ›</button></div>` : ''}
   </div>`;
 }
 
@@ -2778,7 +2778,6 @@ function columnDraft(){
 }
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-act]'); if(!a) return; const k = a.dataset.act;
-  if(k === 'wk-read'){ S.wkRead = !S.wkRead; render(); return; }
   if(k === 'col-open'){ S.colOpen = a.dataset.v; S.tab = 'column'; colStatsLoad(); colView(a.dataset.v); render(); window.scrollTo(0, 0); store.track('view', 'column-read'); }
   else if(k === 'col-ser'){ S.colSer = a.dataset.v; render(); }
   else if(k === 'col-like'){ const id = a.dataset.v, on = !colLiked(id); try{ localStorage.setItem(colLikedKey(id), on ? '1' : '0'); }catch(_){} const st = ((COLST.m ||= {})[id] ||= { v: 0, l: 0 }); st.l = Math.max(0, st.l + (on ? 1 : -1)); render(); store.client?.rpc('column_like', { p_id: id, p_on: on }).then(() => {}, () => {}); }
@@ -5881,7 +5880,7 @@ input,select,textarea{border-radius:10px}
 .dip-n small{color:var(--muted);font-size:12px}
 .dip-g{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
 .dip-g.in{color:var(--accent)}
-.wk-hero{all:unset;box-sizing:border-box;display:block;cursor:pointer;margin-top:16px;padding:0;overflow:hidden;background:var(--navy-grad,var(--navy));color:var(--ivory);border:1px solid var(--navy);border-radius:var(--r,16px);box-shadow:0 8px 24px rgba(11,27,51,.18)}
+.wk-hero{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;margin-top:16px;padding:0;overflow:hidden;background:var(--navy-grad,var(--navy));color:var(--ivory);border:1px solid var(--navy);border-radius:var(--r,16px);box-shadow:0 8px 24px rgba(11,27,51,.18)}
 .wk-hero-img{display:block;width:100%;height:150px;object-fit:cover}
 .wk-hero-body{display:flex;flex-direction:column;gap:6px;padding:18px 20px 16px}
 .wk-hero .eyebrow{color:var(--gold)}
@@ -5889,14 +5888,19 @@ input,select,textarea{border-radius:10px}
 .wk-hero-ex{color:rgba(246,241,232,.72)!important;line-height:1.5}
 .wk-hero-cta{margin-top:4px;font-size:13.5px;font-weight:700;color:var(--gold)}
 .wk-card{margin-top:12px;border-color:rgba(201,164,92,.55)}
-.wk-top{display:flex;justify-content:space-between;align-items:center}
-.wk-q{margin:10px 0 0;font-size:16.5px;line-height:1.5;font-weight:700;letter-spacing:-.02em;word-break:keep-all}
+.wk-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.wk-top .linkbtn{font-size:13px}
+.wk-q{margin:10px 0 0;font-size:16px;line-height:1.5;font-weight:700;letter-spacing:-.02em;word-break:keep-all}
 .wk-q span{display:block;margin-top:5px;font-size:12px;font-weight:500;color:var(--muted)}
-.wk-read{margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--ink)}
-.wk-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.wk-chip{display:inline-flex;align-items:baseline;gap:5px;background:var(--bg);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--muted);white-space:nowrap}
-.wk-chip b{font-size:14px;color:var(--ink)}
-.wk-chip b.bad{color:var(--bad)}.wk-chip b.good{color:var(--accent)}
+.wk-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.wk-tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0;padding:12px 12px 11px;border-radius:12px;background:var(--bg);text-align:left}
+.wk-tile:hover{background:var(--gold-soft)}
+.wk-tile b{font-size:22px;line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+.wk-tile b.bad{color:var(--bad)}.wk-tile b.good{color:var(--accent)}
+.wk-tile span{font-size:12.5px;line-height:1.4;color:var(--muted);word-break:keep-all}
+.wk-ind-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--muted)}
+.wk-ind b{color:var(--ink);font-weight:600;margin-right:4px}
+@media (max-width:560px){.wk-tiles{grid-template-columns:1fr 1fr}.wk-tiles .wk-tile:last-child{grid-column:1/-1}}
 .qf{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .qf textarea{width:100%;box-sizing:border-box}
 .wk-foot{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13px}
