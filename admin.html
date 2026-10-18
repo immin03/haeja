@@ -31,7 +31,7 @@ html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);letter-spacing:-.01em;word-break:keep-all;-webkit-font-smoothing:antialiased}
 header{background:var(--navy-grad);color:var(--ivory);position:relative}
 header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-grad);opacity:.45}
-.hd{max-width:1080px;margin:0 auto;padding:16px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.hd{max-width:1080px;margin:0 auto;padding:16px;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
 .wm{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-.015em}
 .wm i{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
 .wm small{font-family:var(--font);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#CDAE6E;margin-left:10px;vertical-align:middle}
@@ -47,6 +47,24 @@ h2::before{content:"";width:3px;height:14px;border-radius:2px;background:linear-
 .kpi .l{font-size:12px;color:var(--muted);font-weight:600}
 .kpi .v{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-top:4px;font-variant-numeric:tabular-nums}
 .kpi .s{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi .d{display:inline-block;font-size:11.5px;font-weight:700;margin-left:8px;vertical-align:middle;padding:1px 6px;border-radius:999px}
+.kpi .d.up{color:var(--good);background:rgba(45,122,95,.1)}.kpi .d.dn{color:var(--bad);background:rgba(192,57,43,.1)}.kpi .d.eq{color:var(--muted);background:var(--bg)}
+.kpi.hero .d.up{color:#8FE0BC;background:rgba(143,224,188,.15)}.kpi.hero .d.dn{color:#F7A59A;background:rgba(247,165,154,.15)}.kpi.hero .d.eq{color:rgba(243,238,227,.7);background:rgba(255,255,255,.08)}
+.todo{display:flex;flex-direction:column;gap:6px}
+.todo a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line);text-decoration:none;color:var(--ink);font-size:13px}
+.todo a:hover{border-color:var(--gold)}
+.todo a .i{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.todo a .i.bad{background:var(--bad)}.todo a .i.warn{background:#B08A3E}.todo a .i.info{background:var(--s-visit)}
+.todo a b{font-weight:700}.todo a span.g{color:var(--muted);margin-left:auto;white-space:nowrap;font-size:12px}
+.todo .ok{padding:10px 12px;font-size:13px;color:var(--good);font-weight:700}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.chip{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tabs a .c.hot{background:rgba(192,57,43,.1);border-color:transparent;color:var(--bad)}
+.tabs a .c.warm{background:rgba(176,138,62,.14);border-color:transparent;color:#8F6D2A}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--ivory);font-size:13px;font-weight:600;padding:10px 16px;border-radius:12px;opacity:0;transition:.2s;z-index:20;pointer-events:none;box-shadow:0 8px 24px rgba(14,26,43,.25)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.bad{background:var(--bad)}
 .kpi.hero{background:var(--navy-grad);color:var(--ivory);border:0}
 .kpi.hero .l{color:#CDAE6E}.kpi.hero .s{color:rgba(243,238,227,.6)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -110,6 +128,8 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
   .kpi .v{font-size:24px}
   .wm small{display:none}
   #asof{display:none}
+  .hd{padding:12px 14px}.hd .r{gap:6px}.btn{padding:6px 9px;font-size:12px}
+  .todo a span.g{display:none}
 }
 
 /* SNS 게시 탭 */
@@ -183,6 +203,20 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 const n0 = v => (+v || 0).toLocaleString('ko-KR');
 const pct = (a, b) => b ? Math.round(a / b * 1000) / 10 + '%' : '–';
 const kst = iso => { if(!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return d.toISOString().slice(0,16).replace('T',' ').slice(2); };
+const kstDate = iso => { if(!iso) return '–'; return new Date(Date.parse(iso) + 9*3600e3).toISOString().slice(0,10); };
+let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
+  el.textContent = t; el.classList.toggle('bad', !!bad); el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2600); }
+/* 운영 현황 (SNS 실패·정성 의견 대기·토큰 만료): 개요 '할 일'과 탭 배지에 쓴다 */
+const OPS = { posts: [], status: null, qual: [], loaded: false };
+async function opsLoad(){
+  const [po, st, qf] = await Promise.all([
+    sb.from('social_posts').select('id,title,kind,to_ig,to_threads,ig_status,th_status,ig_error,th_error,paused,approved,scheduled_at').order('scheduled_at'),
+    sb.rpc('social_status'), sb.rpc('admin_qual_feedback')]);
+  OPS.posts = po.data || []; OPS.status = st.error ? null : st.data; OPS.qual = qf.error ? [] : (qf.data || []); OPS.loaded = true;
+}
+const refName = r => { r = String(r || ''); if(/^ig/.test(r) || /instagram/.test(r)) return '인스타그램'; if(/threads/.test(r)) return '쓰레드'; if(/facebook|fb\.me/.test(r)) return '페이스북';
+  if(/kauth\.kakao/.test(r)) return '카카오 로그인 경유'; if(/kakao/.test(r)) return '카카오'; if(/naver/.test(r)) return '네이버'; if(/google|bing|duckduckgo|yahoo/.test(r)) return '검색 (' + r.replace(/^www\./, '').replace(/\.com$/, '') + ')'; if(/^(직접|direct)/.test(r)) return '직접 방문'; return r.replace(/^www\./, ''); };
+const groupRefs = o => { const out = {}; Object.entries(o || {}).forEach(([k, v]) => { const n = refName(k); out[n] = (out[n] || 0) + (+v || 0); }); return out; };
 
 function loginView(msg){
   $('#main').innerHTML = `<div class="card login"><div style="font-weight:800;font-size:17px">관리자 로그인</div>
@@ -199,7 +233,11 @@ function loginView(msg){
   };
 }
 
-function kpi(l, v, s, hero){ return `<div class="card kpi${hero?' hero':''}"><div class="l">${l}</div><div class="v">${v}</div>${s?`<div class="s">${s}</div>`:''}</div>`; }
+function kpi(l, v, s, hero, delta){ return `<div class="card kpi${hero?' hero':''}"><div class="l">${l}</div><div class="v">${v}${delta || ''}</div>${s?`<div class="s">${s}</div>`:''}</div>`; }
+/* 최근 7일 vs 그 전 7일 */
+function delta7(daily, key){ const d = (daily || []).slice(); if(d.length < 14) return ''; const cur = d.slice(-7).reduce((a, x) => a + (+x[key] || 0), 0), prev = d.slice(-14, -7).reduce((a, x) => a + (+x[key] || 0), 0);
+  if(!prev && !cur) return ''; const diff = cur - prev; const cls = diff > 0 ? 'up' : diff < 0 ? 'dn' : 'eq'; const txt = prev ? (diff > 0 ? '+' : '') + Math.round(diff / prev * 100) + '%' : '신규';
+  return `<span class="d ${cls}" title="최근 7일 ${cur} · 그 전 7일 ${prev}">${txt}</span>`; }
 
 /* 30일 막대 차트 (한 축, 한 지표). 방문자와 가입자는 크기가 달라 두 차트로 나눈다 */
 function barChart(daily, key, color, label){
@@ -250,24 +288,54 @@ function head(title, sub, id){
 }
 function sec(t, note, body){ return `<h2>${t}${note ? ` <span class="qcount">${note}</span>` : ''}</h2><div class="card">${body}</div>`; }
 
+/* 개요 '운영 할 일': 지금 손을 대야 하는 것만 모은다 */
+function todoList(){
+  if(!OPS.loaded) return '<div class="empty">불러오는 중</div>';
+  const L = [];
+  const P = OPS.posts, isDone = p => (!p.to_ig || p.ig_status === 'posted') && (!p.to_threads || p.th_status === 'posted');
+  const failed = P.filter(p => !isDone(p) && ((p.to_ig && p.ig_status === 'failed') || (p.to_threads && p.th_status === 'failed')));
+  const approve = P.filter(p => !isDone(p) && p.approved === false);
+  const nowIso = new Date().toISOString();
+  const overdue = P.filter(p => !isDone(p) && p.approved !== false && !p.paused && p.scheduled_at < new Date(Date.now() - 2 * 3600e3).toISOString() && ['pending','failed'].includes(p.ig_status) && ['pending','failed'].includes(p.th_status));
+  if(failed.length){ const cp = failed.some(p => /checkpoint/i.test(p.th_error || '')); L.push(['bad', `SNS 게시 실패 <b>${failed.length}편</b>${cp ? ' · 쓰레드 계정 확인 절차 필요 (threads.com 로그인)' : ''}`, '#social', '다시 올리기']); }
+  if(approve.length) L.push(['warn', `SNS 승인 대기 <b>${approve.length}편</b>`, '#social', '승인하기']);
+  if(overdue.length && !failed.length) L.push(['warn', `예정 시간이 2시간 넘게 지났는데 안 올라간 글 <b>${overdue.length}편</b>`, '#social', '확인']);
+  const st = OPS.status || {};
+  if(st.paused === true) L.push(['warn', 'SNS 자동 게시가 <b>전체 멈춤</b> 상태입니다', '#social', '다시 켜기']);
+  ['instagram','threads'].forEach(ch => { if(st[ch + '_paused'] === true) L.push(['info', `${ch === 'instagram' ? '인스타그램' : '쓰레드'} 자동 게시만 <b>멈춤</b> 상태입니다`, '#social', '다시 켜기']); });
+  (st.accounts || []).forEach(a => { const d = Math.floor((Date.parse(a.expires_at) - Date.now()) / 864e5); if(d <= 12) L.push([d <= 3 ? 'bad' : 'warn', `${a.platform === 'instagram' ? '인스타그램' : '쓰레드'} 토큰 만료 <b>D-${Math.max(0, d)}</b>${d > 10 ? ' · 10일 전 자동 갱신 예정' : ' · 자동 갱신이 안 됐으면 다시 연결'}`, '#social', '연결 점검']); });
+  if(!(st.accounts || []).some(a => a.platform === 'instagram')) L.push(['warn', '인스타그램이 <b>연결되지 않았습니다</b>', '#social', '연결']);
+  if(!(st.accounts || []).some(a => a.platform === 'threads')) L.push(['warn', '쓰레드가 <b>연결되지 않았습니다</b>', '#social', '연결']);
+  const qOpen = OPS.qual.filter(f => f.status !== 'done').length;
+  if(qOpen) L.push(['info', `정성 평가 의견 <b>${qOpen}건</b> 검토 대기`, '#qual', '답변하기']);
+  const monday = (() => { const d = new Date(Date.now() + 9 * 3600e3); const w = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - w); return d.toISOString().slice(0, 10); })();
+  const kstNow = new Date(Date.now() + 9 * 3600e3), dow = (kstNow.getUTCDay() + 6) % 7, hh = kstNow.getUTCHours();
+  if(COL.list !== null && !COL.list.some(c => c.id === 'col-' + monday) && (dow > 0 || hh >= 9)) L.push(['warn', `이번 주(${monday}) 칼럼이 <b>아직 없습니다</b> · 월 08:40 자동 작성이 안 된 것 같습니다`, '#column', '쓰기']);
+  if(!L.length) return '<div class="ok">✓ 지금 손댈 일이 없습니다. 자동 게시·칼럼·알림 모두 정상입니다.</div>';
+  return `<div class="todo">${L.map(([c, t, h, g]) => `<a href="${h}"><span class="i ${c}"></span><span>${t}</span><span class="g">${g} ›</span></a>`).join('')}</div>`;
+}
 function vOverview(s){
   const f = s.funnel || {};
   const steps = [['방문자', f.visitors30, '최근 30일'], ['가입', f.signups30, '방문 대비'], ['기본 정보 완료', f.onboarded, '가입 대비'], ['보유 종목 등록', f.withHoldings, '가입 대비'], ['알림 켬', f.pushOn, '가입 대비']];
   const base = [null, f.visitors30, s.signups.total, s.signups.total, s.signups.total];
   const recent = (s.users || []).slice(0, 5);
+  const SRC = { ig:'인스타', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북' };
+  const refsG = groupRefs(Object.fromEntries((s.refs||[]).map(x => [x.r, x.n]))), refSG = groupRefs(s.refSignups||{});
   return `${head('개요', '방문, 가입, 활동 현황', 'overview')}
   <div class="kpis">
     ${kpi('오늘 방문자', n0(s.visitors.today), `페이지뷰 ${n0(s.pageviews.today)}회 · 운영자·로봇 ${n0((s.bots||{}).today)} 제외`, true)}
-    ${kpi('7일 방문자', n0(s.visitors.d7), `30일 ${n0(s.visitors.d30)}명`)}
-    ${kpi('전체 가입자', n0(s.signups.total), `오늘 +${n0(s.signups.today)} · 7일 +${n0(s.signups.d7)}`)}
+    ${kpi('7일 방문자', n0(s.visitors.d7), `30일 ${n0(s.visitors.d30)}명 · 배지는 그 전 7일 대비`, false, delta7(s.daily, 'v'))}
+    ${kpi('전체 가입자', n0(s.signups.total), `오늘 +${n0(s.signups.today)} · 7일 +${n0(s.signups.d7)}`, false, delta7(s.daily, 's'))}
     ${kpi('7일 활동 사용자', n0(s.active7), `체험 계정 로그인 7일 ${n0(s.demoVisits7)}회`)}
   </div>
   <div class="kpis">
     ${kpi('7일 재방문 회원', n0((s.retention||{}).returning7), `7일 동안 이틀 이상 들어온 회원 · 7일 접속 ${n0((s.retention||{}).active7)}명`)}
     ${kpi('알림 켠 회원', n0((s.retention||{}).push), '적정 매수가 알림을 받을 수 있는 회원')}
     ${kpi('홈 화면 앱 사용', n0((s.retention||{}).pwa), '홈 화면 아이콘으로 연 적 있는 회원')}
-    ${kpi('인스타 유입 방문', n0(((s.refs||[]).find(r => r.r === 'ig')||{}).n), `가입 ${n0((s.refSignups||{}).ig)}명 · 최근 30일`)}
+    ${kpi('인스타·쓰레드 유입 방문', n0((refsG['인스타그램']||0) + (refsG['쓰레드']||0)), `가입 ${n0((refSG['인스타그램']||0) + (refSG['쓰레드']||0))}명 · 최근 30일`)}
   </div>
+  <h2>운영 할 일</h2>
+  <div class="card">${todoList()}</div>
   <h2>최근 30일</h2>
   <div class="grid2">
     <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-visit)"></i><b style="color:var(--ink)">방문자</b></span><span>하루 고유 방문자 수</span></div>${barChart(s.daily||[], 'v', 'var(--s-visit)', '방문자')}</div>
@@ -276,7 +344,7 @@ function vOverview(s){
   <h2>가입 전환</h2>
   <div class="card"><div class="funnel">${steps.map(([l, v, sub], i) => `<div class="fn"><div class="l">${l}</div><div class="v">${n0(v)}</div><div class="p">${i === 0 ? sub : sub + ' ' + pct(v, base[i])}</div></div>`).join('')}</div></div>
   <h2>최근 가입자</h2>
-  <div class="card tbl">${recent.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>종목</th><th>규모</th></tr></thead><tbody>${recent.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td>${n0(u.holdings)}</td><td>${esc(u.size||'–')}</td></tr>`).join('')}</tbody></table><a class="more" href="#users">전체 가입자 보기 ›</a>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+  <div class="card tbl">${recent.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>최근 방문</th><th>종목</th><th>규모</th><th>설문</th></tr></thead><tbody>${recent.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(SRC[u.src] || u.src || '직접')}</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td class="nw">${esc(u.size||'–')}</td><td class="nw">${u.style || u.size || (u.expect||[]).length ? '완료' : '<span class="muted">–</span>'}</td></tr>`).join('')}</tbody></table><a class="more" href="#users">전체 가입자 보기 ›</a>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
 }
 
 function vSurvey(s){
@@ -295,35 +363,54 @@ function vSurvey(s){
   ${sec('바라는 점 (직접 쓴 의견)', '', (() => { const L = (s.users||[]).filter(u => u.note); return L.length ? `<table><tbody>${L.map(u => `<tr><td>${esc(u.note)}</td><td class="muted nw" style="width:1%">${esc(u.email)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 의견이 없습니다.</div>'; })())}`;
 }
 
+const USRC = { ig:'인스타', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북' };
+const surveyDone = u => !!(u.style || u.size || (u.expect||[]).length || (u.goal||[]).length);
 function userRows(L){
-  const SRC = { ig:'인스타', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북' };
-  return L.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(SRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${u.push ? '켬' : '–'}${u.pwa ? ' · 앱' : ''}</td><td>${n0(u.holdings)}</td><td>${esc(u.style||'–')}</td><td>${(u.goal||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.size||'–')}</td><td>${(u.expect||[]).map(e => `<span class="pill">${esc(e)}</span>`).join('') || '–'}</td><td>${esc(u.note||'')}</td></tr>`).join('');
+  if(!L.length) return '<tr><td colspan="9" class="empty">조건에 맞는 가입자가 없습니다.</td></tr>';
+  return L.map(u => { const pills = [...(u.goal||[]), ...(u.expect||[])];
+    return `<tr><td class="nw">${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(USRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${u.push ? '켬' : '–'}${u.pwa ? ' · 앱' : ''}</td><td>${n0(u.holdings)}</td><td class="nw">${esc(u.style||'–')}<div class="muted" style="font-size:12px">${esc(u.size||'')}</div></td>
+      <td style="min-width:260px">${surveyDone(u) ? pills.map(e => `<span class="pill">${esc(e)}</span>`).join('') + (u.note ? `<div style="margin-top:4px;font-size:12.5px">“${esc(u.note)}”</div>` : '') : '<span class="muted">설문 전</span>'}</td></tr>`; }).join('');
 }
+const UF = { k: '', f: 'all' };
+function userFilter(L){ const k = UF.k.toLowerCase();
+  return L.filter(u => UF.f === 'all' || (UF.f === 'survey' && surveyDone(u)) || (UF.f === 'push' && u.push) || (UF.f === 'hold' && +u.holdings > 0) || (UF.f === 'active' && +u.days30 >= 2))
+          .filter(u => !k || JSON.stringify(u).toLowerCase().includes(k)); }
 function vUsers(s){
   const L = s.users || [];
+  const chip = (id, t, n) => `<button class="chip" type="button" data-uf="${id}" aria-pressed="${UF.f === id}">${t} <span class="muted" style="font-weight:500">${n}</span></button>`;
   return `${head('가입자', `최근 100명 · 운영·체험 계정 제외`, 'users')}
-  <div class="tools"><input id="q" type="search" placeholder="이메일·응답 내용으로 찾기"><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
-  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>30일 방문</th><th>최근 방문</th><th>알림·앱</th><th>종목</th><th>지금 방식</th><th>바꾸고 싶은 방향</th><th>규모</th><th>기대하는 것</th><th>바라는 점</th></tr></thead><tbody id="ub">${userRows(L)}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+  <div class="tools"><input id="q" type="search" placeholder="이메일·응답 내용으로 찾기" value="${esc(UF.k)}"><span class="qcount" id="ucount"></span><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
+  <div class="chips">${chip('all', '전체', L.length)}${chip('survey', '설문 완료', L.filter(surveyDone).length)}${chip('hold', '종목 등록', L.filter(u => +u.holdings > 0).length)}${chip('push', '알림 켬', L.filter(u => u.push).length)}${chip('active', '30일 2회 이상 방문', L.filter(u => +u.days30 >= 2).length)}</div>
+  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>30일 방문</th><th>최근 방문</th><th>알림·앱</th><th>종목</th><th>방식 · 규모</th><th>설문 (방향 · 기대 · 의견)</th></tr></thead><tbody id="ub">${userRows(userFilter(L))}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
 }
 function bindUsers(s){
   const L = s.users || [], q = $('#q'), ub = $('#ub');
-  if(q && ub) q.oninput = () => { const k = q.value.trim().toLowerCase(); ub.innerHTML = userRows(k ? L.filter(u => JSON.stringify(u).toLowerCase().includes(k)) : L); };
+  const draw = () => { if(!ub) return; const R = userFilter(L); ub.innerHTML = userRows(R); const c = $('#ucount'); if(c) c.textContent = R.length === L.length ? '' : `${n0(R.length)}명`; };
+  if(q) q.oninput = () => { UF.k = q.value.trim(); draw(); };
+  document.querySelectorAll('[data-uf]').forEach(b => b.onclick = () => { UF.f = b.dataset.uf; document.querySelectorAll('[data-uf]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+  draw();
   const b = $('#csv'); if(b) b.onclick = () => {
     const cols = ['email','created_at','src','days30','last_seen','push','pwa','holdings','style','goal','size','expect','note'];
     const cell = v => '"' + String(Array.isArray(v) ? v.join(' / ') : (v ?? '')).replace(/"/g, '""') + '"';
-    const csv = '﻿' + ['이메일,가입,최근 로그인,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(u[c])).join(','))].join('\n');
+    const csv = '﻿' + ['이메일,가입,유입,30일 방문일수,최근 방문,알림,홈화면 앱,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(u[c])).join(','))].join('\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'valuenote-users-' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
   };
 }
 
 function vTraffic(s){
-  const refs = Object.fromEntries((s.refs||[]).map(x => [x.r, x.n]));
+  const refs = groupRefs(Object.fromEntries((s.refs||[]).map(x => [x.r, x.n])));
+  const pages = {}, comp = {}; Object.entries(s.pages||{}).forEach(([k, v]) => { const m = /^c\/([^/]+)$/.exec(k); if(m && !/^(kr|us|jp|hk|cn)$/.test(m[1])) comp[m[1].toUpperCase()] = v; else if(m) pages['시장 순위 · ' + m[1].toUpperCase()] = v; else pages[PAGE_KO[k] || k] = v; });
+  const compSum = sum(comp); if(compSum) pages['기업 공개 페이지 (전체)'] = compSum;
+  const compTop = Object.fromEntries(Object.entries(comp).sort((a, b) => b[1] - a[1]).slice(0, 12));
   return `${head('유입·기기', '최근 30일 기준', 'traffic')}
   <div class="grid2">
-    <div>${sec('유입 경로 · 방문자', '', barsList(refs))}</div>
-    <div>${sec('유입 경로 · 가입자', '처음 들어온 경로 기준', barsList(s.refSignups||{}))}</div>
+    <div>${sec('유입 경로 · 방문자', '같은 서비스는 묶어서 셉니다', barsList(refs))}</div>
+    <div>${sec('유입 경로 · 가입자', '처음 들어온 경로 기준', barsList(groupRefs(s.refSignups||{})))}</div>
   </div>
-  ${sec('많이 본 화면', `페이지뷰 30일 ${n0((s.pageviews||{}).d30)}회`, barsList(Object.fromEntries(Object.entries(s.pages||{}).map(([k, v]) => [PAGE_KO[k] || k, v]))))}
+  <div class="grid2">
+    <div>${sec('많이 본 화면', `페이지뷰 30일 ${n0((s.pageviews||{}).d30)}회`, barsList(pages))}</div>
+    <div>${sec('많이 본 기업 페이지', compSum ? `${n0(Object.keys(comp).length)}곳 · 상위 12` : '', compSum ? barsList(compTop) : '<div class="empty">아직 기업 페이지 방문이 없습니다.</div>')}</div>
+  </div>
   ${sec('기기', '', barsList(s.devices||{}))}
   <div class="note">방문자는 같은 인터넷 연결(IP)에서 들어오면 하루 한 명으로 셉니다. 회사·카페처럼 여러 사람이 한 연결을 쓰면 적게 잡힐 수 있습니다. 운영자 계정이 쓴 연결의 방문은 빠집니다.<br>홍보 링크 끝에 <code>?ref=instagram</code>처럼 붙이면 경로별로 따로 집계됩니다. 예: <code>${esc(location.origin)}/?ref=threads</code></div>`;
 }
@@ -357,7 +444,8 @@ function vLanding(){
 function bindLanding(){ document.querySelectorAll('[data-ld-days]').forEach(b => b.onclick = () => { LD.days = +b.dataset.ldDays; LD.data = null; render(); }); }
 
 /* ---- 운영자 칼럼: 앱 브리핑의 '이번 주 노트'에 붙는다 (docs: trends / col-YYYY-MM-DD) ---- */
-const COL = { list: null, edit: null, msg: '' };
+const COL = { list: null, edit: null, msg: '', dirty: false };
+window.addEventListener('beforeunload', e => { if(COL.dirty && page() === 'column'){ e.preventDefault(); e.returnValue = ''; } });
 const kstDay = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 async function colLoad(){ const { data } = await sb.from('docs').select('id,data').eq('collection', 'trends').like('id', 'col-%').order('id', { ascending: false }).limit(30);
   COL.list = (data || []).map(r => ({ id: r.id, ...r.data })); if(page() === 'column') render(); }
@@ -379,44 +467,49 @@ function vColumn(){
   <div class="card tbl">${COL.list.length ? `<table><tbody>${COL.list.map(c => `<tr><td class="muted nw">${esc(c.id.slice(4))}</td><td><b>${esc(c.title)}</b>${c.auto && !c.edited ? ' <span class="pill">자동</span>' : c.edited ? ' <span class="pill">수정됨</span>' : ''}<div class="muted" style="margin-top:2px">${esc(String(c.body || '').slice(0, 80))}…</div></td><td class="nw"><button class="lnk" data-col-edit="${esc(c.id)}">고치기</button> <button class="lnk" data-col-del="${esc(c.id)}">삭제</button></td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 쓴 칼럼이 없습니다.</div>'}</div>`;
 }
 /* ---- 정성 평가 의견: 사용자가 남긴 의견을 읽고 답한다. 점수는 여기서 바꾸지 않는다 ---- */
-const QF = { list: null, msg: '' };
+const QF = { list: null, msg: '', onlyOpen: true };
 async function qfLoad(){ const { data, error } = await sb.rpc('admin_qual_feedback'); QF.list = error ? [] : (data || []); if(error) QF.msg = '불러오지 못했습니다: ' + error.message; if(page() === 'qual') render(); }
 function vQual(){
   if(QF.list === null){ qfLoad(); return head('정성 의견', '불러오는 중', 'qual'); }
-  const L = QF.list, open = L.filter(f => f.status !== 'done');
+  const all = QF.list, open = all.filter(f => f.status !== 'done');
+  const L = QF.onlyOpen ? open : all;
   const snap = s => s && Object.keys(s).length ? ['moatStr','pricing','mgmt','governance'].filter(k => s[k] != null).map(k => `${({moatStr:'해자',pricing:'가격결정력',mgmt:'경영진',governance:'지배구조'})[k]} ${s[k]}`).concat(s.hold10 != null ? ['10년 ' + (s.hold10 ? '예' : '아니오')] : []).join(' · ') : '';
   return `${head('정성 의견', `사용자가 정성 평가에 남긴 의견 ${n0(L.length)}건 · 검토 대기 ${n0(open.length)}건. 의견은 점수를 바꾸지 않습니다. 다시 조사할 때 참고하고, 답변을 남기면 사용자 화면에 보입니다.`, 'qual')}
   ${QF.msg ? `<div class="msg" style="color:var(--bad)">${esc(QF.msg)}</div>` : ''}
+  <div class="chips"><button class="chip" type="button" data-qf-only="1" aria-pressed="${!!QF.onlyOpen}">검토 대기만 <span class="muted" style="font-weight:500">${open.length}</span></button><button class="chip" type="button" data-qf-only="0" aria-pressed="${!QF.onlyOpen}">전체 <span class="muted" style="font-weight:500">${all.length}</span></button></div>
   <div class="card tbl">${L.length ? `<table><tbody>${L.map((f, i) => `<tr>
     <td class="muted nw">${esc(String(f.at || '').slice(0, 10))}<br><span class="pill">${f.status === 'done' ? '완료' : f.status === 'seen' ? '확인' : '새 의견'}</span></td>
     <td><b>${esc(f.name || f.ticker || '')}</b> <span class="muted">${esc(f.ticker || '')} · ${esc(f.market || '')} · ${f.shared ? '공용 평가' : '정성 평가 전'}${f.qualAt ? ' · ' + esc(f.qualAt) : ''}</span>
       <div style="margin-top:4px;white-space:pre-wrap">${esc(f.text || '')}</div>
       ${snap(f.snapshot) ? `<div class="muted" style="margin-top:4px;font-size:12px">의견 당시 평가: ${esc(snap(f.snapshot))}</div>` : ''}
       <div class="muted" style="margin-top:4px;font-size:12px">${esc(f.email || '')}</div>
-      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><input data-qf-reply="${i}" maxlength="300" placeholder="사용자에게 보일 짧은 답변 (선택)" value="${esc(f.reply || '')}" style="flex:1;min-width:220px">
-        <button class="lnk" type="button" data-qf-set="${i}" data-st="seen">확인</button><button class="go" type="button" data-qf-set="${i}" data-st="done">검토 완료</button></div></td></tr>`).join('')}</tbody></table>` : '<div class="muted" style="padding:14px">아직 남긴 의견이 없습니다.</div>'}</div>`;
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><input data-qf-reply="${all.indexOf(f)}" maxlength="300" placeholder="사용자에게 보일 짧은 답변 (선택)" value="${esc(f.reply || '')}" style="flex:1;min-width:220px">
+        ${f.status === 'done' ? '' : `<button class="lnk" type="button" data-qf-set="${all.indexOf(f)}" data-st="seen">확인</button>`}<button class="go" type="button" data-qf-set="${all.indexOf(f)}" data-st="done">${f.status === 'done' ? '답변 저장' : '검토 완료'}</button></div></td></tr>`).join('')}</tbody></table>` : `<div class="muted" style="padding:14px">${QF.onlyOpen ? '검토 대기 중인 의견이 없습니다.' : '아직 남긴 의견이 없습니다.'}</div>`}</div>`;
 }
 function bindQual(){
+  document.querySelectorAll('[data-qf-only]').forEach(b => b.onclick = () => { QF.onlyOpen = b.dataset.qfOnly === '1'; render(); });
   document.querySelectorAll('[data-qf-set]').forEach(b => b.onclick = async () => {
     const f = QF.list[+b.dataset.qfSet]; const reply = (document.querySelector(`[data-qf-reply="${b.dataset.qfSet}"]`) || {}).value || '';
     const { error } = await sb.rpc('admin_qual_feedback_set', { p_owner: f.owner, p_id: f.id, p_status: b.dataset.st, p_reply: reply });
-    QF.msg = error ? '저장하지 못했습니다: ' + error.message : ''; QF.list = null; qfLoad();
+    QF.msg = error ? '저장하지 못했습니다: ' + error.message : ''; if(!error) toast(b.dataset.st === 'done' ? '검토 완료로 표시했습니다' : '확인으로 표시했습니다');
+    QF.list = null; qfLoad(); opsLoad().then(() => { if(page() === 'overview') render(); });
   });
 }
 function bindColumn(){
   const body = $('#c-body'); if(!body) return;
   const len = () => { $('#c-len').textContent = `· 지금 ${body.value.length}자`; }; body.oninput = len; len();
   $('#c-tmpl').onclick = () => { if(!body.value.trim()) body.value = COL_TMPL; len(); };
-  $('#c-new').onclick = () => { COL.edit = null; COL.msg = ''; render(); };
+  $('#c-new').onclick = () => { if(COL.dirty && !confirm('쓰던 내용이 지워집니다. 새 글을 시작할까요?')) return; COL.dirty = false; COL.edit = null; COL.msg = ''; render(); };
   $('#c-save').onclick = async () => {
     const title = $('#c-title').value.trim(), text = body.value.trim(), d = $('#c-date').value || kstDay();
     if(!title || !text){ $('#c-msg').style.color = 'var(--bad)'; $('#c-msg').textContent = '제목과 본문을 써 주세요.'; return; }
     const { data: { session } } = await sb.auth.getSession();
     const { error } = await sb.from('docs').upsert({ owner: session.user.id, collection: 'trends', id: 'col-' + d, data: { ...(COL.edit || {}), title, body: text, at: new Date().toISOString(), edited: true }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
     if(error){ $('#c-msg').style.color = 'var(--bad)'; $('#c-msg').textContent = '발행하지 못했습니다: ' + error.message; return; }
-    COL.edit = null; COL.msg = '발행했습니다. 앱 브리핑 화면에서 확인할 수 있어요.'; COL.list = null; colLoad();
+    COL.dirty = false; COL.edit = null; COL.msg = '발행했습니다. 앱 브리핑 화면에서 확인할 수 있어요.'; COL.list = null; colLoad(); toast('칼럼을 발행했습니다');
   };
-  document.querySelectorAll('[data-col-edit]').forEach(b => b.onclick = () => { COL.edit = COL.list.find(c => c.id === b.dataset.colEdit); COL.msg = ''; render(); window.scrollTo(0, 0); });
+  [body, $('#c-title')].forEach(el => el.addEventListener('input', () => { COL.dirty = true; }));
+  document.querySelectorAll('[data-col-edit]').forEach(b => b.onclick = () => { if(COL.dirty && !confirm('쓰던 내용이 지워집니다. 다른 글을 열까요?')) return; COL.dirty = false; COL.edit = COL.list.find(c => c.id === b.dataset.colEdit); COL.msg = ''; render(); window.scrollTo(0, 0); });
   document.querySelectorAll('[data-col-del]').forEach(b => b.onclick = async () => { if(!confirm('이 칼럼을 삭제할까요?')) return;
     await sb.from('docs').delete().eq('collection', 'trends').eq('id', b.dataset.colDel); COL.list = null; colLoad(); });
 }
@@ -429,7 +522,7 @@ const SOC = { st: null, posts: null, flash: null, busy: '' };
   if(q.get('social_err')) SOC.flash = ['bad', '연결하지 못했습니다: ' + q.get('social_err')];
   if(q.get('social_ok') || q.get('social_err')) history.replaceState(null, '', location.pathname + '#social'); })();
 async function socLoad(){
-  const site = location.origin;
+  const site = location.origin; opsLoad().catch(() => {});
   const [st, posts] = await Promise.all([sb.rpc('social_status'), sb.from('social_posts').select('*').order('seq')]);
   if(st.error){ SOC.st = { error: st.error.message }; SOC.posts = []; render(); return; }
   if(st.data.site !== site) await sb.rpc('social_admin_set', { p_key: 'site_url', p_value: site });
@@ -533,12 +626,12 @@ function bindSocial(){
     msg(r.error ? '점검 실패: ' + r.error : [part('인스타', r.instagram), part('쓰레드', r.threads)].join(' / ')); };
   document.querySelectorAll('[data-soc-time]').forEach(i => i.onchange = async () => {
     const { error } = await sb.from('social_posts').update({ scheduled_at: fromKst(i.value) }).eq('id', i.dataset.socTime);
-    msg(error ? '시간을 바꾸지 못했습니다: ' + error.message : `${i.dataset.socTime} 시간을 바꿨습니다.`); });
+    if(error) toast('시간을 바꾸지 못했습니다: ' + error.message, true); else { toast(`${i.dataset.socTime} 예정 시간을 바꿨습니다`); const p = SOC.posts.find(x => x.id === i.dataset.socTime); if(p) p.scheduled_at = fromKst(i.value); } });
   document.querySelectorAll('[data-soc-ok]').forEach(b => b.onclick = async () => {
     await sb.from('social_posts').update({ approved: true }).eq('id', b.dataset.socOk); SOC.busy = `${b.dataset.socOk} 승인했습니다. 시간이 되면 올라갑니다.`; socLoad(); });
   document.querySelectorAll('[data-soc-hold]').forEach(b => b.onclick = async () => {
     const p = SOC.posts.find(x => x.id === b.dataset.socHold);
-    await sb.from('social_posts').update({ paused: !p.paused }).eq('id', p.id); socLoad(); });
+    const { error } = await sb.from('social_posts').update({ paused: !p.paused }).eq('id', p.id); if(error) toast('바꾸지 못했습니다: ' + error.message, true); else toast(p.paused ? `${p.id} 다시 예정에 넣었습니다` : `${p.id} 보류했습니다`); socLoad(); });
   document.querySelectorAll('[data-soc-now]').forEach(b => b.onclick = async () => {
     if(!confirm(`${b.dataset.socNow} 을(를) 지금 바로 올릴까요? (아직 안 올라간 채널에만 올라갑니다)`)) return;
     b.disabled = true; msg(`#${b.dataset.socNow} 올리는 중… (1분 정도 걸려요)`);
@@ -546,15 +639,20 @@ function bindSocial(){
     const r = await fetch(FN + 'social-publish', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ action: 'now', id: b.dataset.socNow, t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
     const errs = [r.error, r.ig && r.ig.error, r.th && r.th.error].filter(Boolean);
     const proc = (r.ig && r.ig.processing) || (r.th && r.th.processing);
-    SOC.busy = errs.length ? '실패: ' + errs.join(' / ') : proc ? `${b.dataset.socNow} 영상 처리 중입니다. 몇 분 안에 자동으로 올라갑니다.` : `${b.dataset.socNow} 게시를 마쳤습니다.`; socLoad(); });
+    SOC.busy = errs.length ? '실패: ' + errs.join(' / ') : proc ? `${b.dataset.socNow} 영상 처리 중입니다. 몇 분 안에 자동으로 올라갑니다.` : `${b.dataset.socNow} 게시를 마쳤습니다.`; toast(SOC.busy, !!errs.length); socLoad(); });
 }
 
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
-  const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0 };
+  const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0 }, hot = {};
+  if(OPS.loaded){ const isDone = x => (!x.to_ig || x.ig_status === 'posted') && (!x.to_threads || x.th_status === 'posted');
+    const nf = OPS.posts.filter(x => !isDone(x) && ((x.to_ig && x.ig_status === 'failed') || (x.to_threads && x.th_status === 'failed'))).length;
+    const na = OPS.posts.filter(x => !isDone(x) && x.approved === false).length;
+    if(nf) hot.social = [nf, 'hot', nf + '편 실패']; else if(na) hot.social = [na, 'warm', na + '편 승인 대기'];
+    const nq = OPS.qual.filter(f => f.status !== 'done').length; if(nq) hot.qual = [nq, 'warm', nq + '건 검토 대기']; }
   $('#asof').textContent = '기준 ' + kst(s.asOf);
   const nav = $('#tabs'); nav.hidden = false;
-  nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
+  nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
   $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : vOverview(s);
   if(p === 'users') bindUsers(s);
@@ -580,7 +678,7 @@ async function load(){
   $('#reload').hidden = $('#out').hidden = !session;
   if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
-  const { data, error } = await sb.rpc('admin_stats');
+  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null]);
   if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
