@@ -2686,23 +2686,28 @@ function weeklyNoteHtml(){
   const n = weeklyNote(), col = (S.columns || [])[0];
   const fresh = col && (Date.now() - Date.parse(col.at || col.id.slice(4))) < 15 * 864e5;
   const ex = col ? String(col.body || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*#]/g, '').replace(/\s+/g, ' ').trim().slice(0, 90).replace(/^(.{30,}?[.다요!?])\s.*$/, '$1').slice(0, 70) : '';
-  /* 칼럼을 맨 위에 크게. 숫자 요약은 한 줄로 줄였다 */
-  const hero = col ? `<button type="button" class="card wk-hero${col.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(col.id)}">
-      ${col.cover ? `<img class="wk-hero-img" src="${esc(col.cover)}" alt="" loading="lazy">` : ''}
-      <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(COL_SERIES[colSeries(col)] || '')}</span><b>${esc(col.title)}</b>${ex ? `<span class="small muted wk-hero-ex">${esc(ex)}${/[.!?다요]$/.test(ex) ? '' : '…'}</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
-    </button>` : '';
-  /* 숫자 세 칸: 숫자 + 완전한 문장 라벨. 누르면 해당 화면으로 */
-  const tile = (n, l, cls, tab) => `<button type="button" class="wk-tile" data-act="go-tab" data-v="${tab}"><b class="num ${cls}">${n}</b><span>${l}</span></button>`;
-  const ind = n.hot.length ? `<span class="wk-ind"><b>꼭대기 근처 산업</b> ${esc(n.hot.slice(0, 3).join(', '))}</span>` : n.low.length ? `<span class="wk-ind"><b>바닥권 산업</b> ${esc(n.low.slice(0, 3).join(', '))}</span>` : '';
-  return `${hero}
+  const series = col ? (COL_SERIES[colSeries(col)] || '') : '';
+  /* 칼럼: 표지 그림이 있으면 그림이 곧 제목이다. 그림을 자르지 않고 크게 보여 주고, 아래에 제목 한 줄과 '읽기'만 */
+  const hero = !col ? '' : col.cover
+    ? `<button type="button" class="wk-hero has-cover" data-act="col-open" data-v="${esc(col.id)}">
+        <img class="wk-hero-img" src="${esc(col.cover)}" alt="${esc(col.title)}" loading="lazy">
+        <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(series)}</span><b>${esc(col.title)}</b>${ex ? `<span class="wk-hero-ex">${esc(ex)}${/[.!?다요]$/.test(ex) ? '' : '…'}</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
+      </button>`
+    : `<button type="button" class="wk-hero" data-act="col-open" data-v="${esc(col.id)}">
+        <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(series)}</span><b>${esc(col.title)}</b>${ex ? `<span class="wk-hero-ex">${esc(ex)}${/[.!?다요]$/.test(ex) ? '' : '…'}</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
+      </button>`;
+  const more = col ? `<div class="wk-more-row"><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button></div>` : '';
+  /* 이번 주 숫자: 줄마다 문장 하나와 숫자 하나. 누르면 해당 화면으로 */
+  const line = (label, val, cls, tab) => `<button type="button" class="wk-line" data-act="go-tab" data-v="${tab}"><span>${label}</span><b class="num ${cls}">${val}</b><i>›</i></button>`;
+  const lines = [
+    line('적정 매수가 아래로 내려온 좋은 회사', n.pass + '곳', n.pass > 0 ? 'good' : '', 'value'),
+    isNum(n.wk) ? line('내 포트폴리오 이번 주', pct(n.wk), n.wk < 0 ? 'bad' : n.wk > 0 ? 'good' : '', 'portfolio') : '',
+    n.hot.length ? line('꼭대기 근처 산업', esc(n.hot.slice(0, 2).join(', ')), 'txt', 'trends') : n.low.length ? line('바닥권 산업', esc(n.low.slice(0, 2).join(', ')), 'txt', 'trends') : ''
+  ].filter(Boolean).join('');
+  return `${hero}${more}
   <div class="card wk-card">
-    <div class="wk-top"><span class="eyebrow">이번 주 노트 · ${weekLabel()}</span><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button></div>
-    <div class="wk-tiles">
-      ${tile(n.pass + '곳', '좋은 회사 중<br>적정 매수가 아래로 내려온 곳', n.pass > 0 ? 'good' : '', 'value')}
-      ${tile(n.near + '곳', '좋은 회사 중<br>적정 매수가에 가까워진 곳', '', 'value')}
-      ${isNum(n.wk) ? tile(pct(n.wk), '내 포트폴리오<br>이번 주 수익률', n.wk < 0 ? 'bad' : n.wk > 0 ? 'good' : '', 'portfolio') : tile('–', '내 포트폴리오<br>이번 주 수익률 (보유 종목 등록 후)', '', 'portfolio')}
-    </div>
-    ${ind ? `<div class="wk-ind-row">${ind}<button type="button" class="linkbtn small" data-act="go-tab" data-v="trends">메가트렌드 ›</button></div>` : ''}
+    <div class="wk-top"><span class="eyebrow">이번 주 숫자 · ${weekLabel()}</span></div>
+    <div class="wk-lines">${lines}</div>
   </div>`;
 }
 
@@ -5880,27 +5885,34 @@ input,select,textarea{border-radius:10px}
 .dip-n small{color:var(--muted);font-size:12px}
 .dip-g{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
 .dip-g.in{color:var(--accent)}
-.wk-hero{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;margin-top:16px;padding:0;overflow:hidden;background:var(--navy-grad,var(--navy));color:var(--ivory);border:1px solid var(--navy);border-radius:var(--r,16px);box-shadow:0 8px 24px rgba(11,27,51,.18)}
-.wk-hero-img{display:block;width:100%;height:150px;object-fit:cover}
-.wk-hero-body{display:flex;flex-direction:column;gap:6px;padding:18px 20px 16px}
+.wk-hero{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;margin-top:16px;overflow:hidden;background:var(--navy-grad,var(--navy));color:var(--ivory);border-radius:var(--r,16px);box-shadow:0 8px 24px rgba(11,27,51,.18)}
+.wk-hero-img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--navy)}
+.wk-hero-body{display:flex;flex-direction:column;gap:5px;padding:16px 18px 15px}
 .wk-hero .eyebrow{color:var(--gold)}
-.wk-hero b{font-size:21px;line-height:1.35;letter-spacing:-.02em;word-break:keep-all}
-.wk-hero-ex{color:rgba(246,241,232,.72)!important;line-height:1.5}
+.wk-hero b{font-size:19px;line-height:1.35;letter-spacing:-.02em;word-break:keep-all}
+.wk-hero:not(.has-cover) b{font-size:21px}
+.wk-hero-ex{font-size:13.5px;color:rgba(246,241,232,.72);line-height:1.5}
+.wk-hero.has-cover .wk-hero-ex{display:none}
 .wk-hero-cta{margin-top:4px;font-size:13.5px;font-weight:700;color:var(--gold)}
-.wk-card{margin-top:12px;border-color:rgba(201,164,92,.55)}
+@media (min-width:641px){
+  .wk-hero.has-cover{display:grid;grid-template-columns:300px 1fr;align-items:stretch}
+  .wk-hero.has-cover .wk-hero-img{width:300px;height:300px;aspect-ratio:auto}
+  .wk-hero.has-cover .wk-hero-body{justify-content:center;padding:22px 26px}
+  .wk-hero.has-cover b{font-size:22px}
+  .wk-hero.has-cover .wk-hero-ex{display:block}
+}
+.wk-more-row{display:flex;justify-content:flex-end;margin-top:6px}.wk-more-row .linkbtn{font-size:13px}
+.wk-card{margin-top:12px;border-color:rgba(201,164,92,.55);padding-bottom:6px}
 .wk-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.wk-top .linkbtn{font-size:13px}
 .wk-q{margin:10px 0 0;font-size:16px;line-height:1.5;font-weight:700;letter-spacing:-.02em;word-break:keep-all}
 .wk-q span{display:block;margin-top:5px;font-size:12px;font-weight:500;color:var(--muted)}
-.wk-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.wk-tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0;padding:12px 12px 11px;border-radius:12px;background:var(--bg);text-align:left}
-.wk-tile:hover{background:var(--gold-soft)}
-.wk-tile b{font-size:22px;line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
-.wk-tile b.bad{color:var(--bad)}.wk-tile b.good{color:var(--accent)}
-.wk-tile span{font-size:12.5px;line-height:1.4;color:var(--muted);word-break:keep-all}
-.wk-ind-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--muted)}
-.wk-ind b{color:var(--ink);font-weight:600;margin-right:4px}
-@media (max-width:560px){.wk-tiles{grid-template-columns:1fr 1fr}.wk-tiles .wk-tile:last-child{grid-column:1/-1}}
+.wk-lines{display:flex;flex-direction:column;margin-top:6px}
+.wk-line{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.wk-line:first-child{border-top:0}
+.wk-line span{flex:1;min-width:0;font-size:14.5px;color:var(--ink);word-break:keep-all}
+.wk-line b{font-size:18px;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
+.wk-line b.bad{color:var(--bad)}.wk-line b.good{color:var(--accent)}.wk-line b.txt{font-size:14.5px;font-weight:600;color:var(--muted)}
+.wk-line i{font-style:normal;color:var(--muted);font-size:16px}
 .qf{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .qf textarea{width:100%;box-sizing:border-box}
 .wk-foot{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13px}
@@ -6247,6 +6259,14 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .vl-rank{flex:0 0 22px;font-weight:700;color:var(--muted);font-size:13px}
 .vl-name{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.vl-name b{font-size:15px}
 .vl-name small,.vl-num small{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vl-name b{word-break:keep-all;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:640px){
+  .vl-row{flex-wrap:wrap;row-gap:4px;padding:12px 0 11px}
+  .vl-name{flex:1 1 60%}.vl-name b{font-size:16px;white-space:normal}
+  .vl-num{flex:1 1 100%;align-items:flex-start;text-align:left;padding-left:32px;gap:1px}
+  .vl-num small{align-self:flex-start;white-space:normal}
+  .vl-num b{font-size:15px}
+}
 .vl-num{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right}.vl-num b{font-size:14px}
 .vl-top3{position:relative;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:2px}
 .vl-lock .vl-name b{filter:blur(5px);user-select:none;letter-spacing:2px}
