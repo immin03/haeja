@@ -39,10 +39,9 @@ def _engine():
     return _tts
 
 
-def speak(text, speed=1.15):
-    """text(한글 발음) → 44.1kHz mono float 배열 (앞뒤 무음 정리)"""
+def _gen(text, speed, steps):
     import sherpa_onnx as so
-    g = so.GenerationConfig(); g.sid = VOICE_ID; g.num_steps = 8; g.speed = speed; g.extra["lang"] = "ko"
+    g = so.GenerationConfig(); g.sid = VOICE_ID; g.num_steps = steps; g.speed = speed; g.extra["lang"] = "ko"
     a = _engine().generate(text, g)
     x = np.asarray(a.samples, dtype=np.float32)
     if a.sample_rate != SR:
@@ -51,3 +50,30 @@ def speak(text, speed=1.15):
     idx = np.where(np.abs(x) > 0.012)[0]
     if len(idx): x = x[max(0, idx[0] - int(.06 * SR)): idx[-1] + int(.12 * SR)]
     return x
+
+
+def clauses(text, maxlen=22):
+    """긴 문장을 마침표·물음표, 길면 쉼표에서 나눈다 (한 번에 길게 읽히면 음절을 빼먹는다)"""
+    import re
+    out = []
+    for s in re.findall(r"[^.?!]+[.?!]?", text):
+        s = s.strip()
+        if not s: continue
+        if len(s) <= maxlen: out.append(s); continue
+        parts = re.findall(r"[^,]+,?", s); cur = ""
+        for p in parts:
+            p = p.strip()
+            if cur and len(cur) + len(p) > maxlen: out.append(cur); cur = p
+            else: cur = (cur + " " + p).strip()
+        if cur: out.append(cur)
+    return out or [text]
+
+
+def speak(text, speed=1.15, steps=8, chunk=True):
+    """text(한글 발음) → 44.1kHz mono float 배열. 절 단위로 나눠 읽고 짧은 쉼을 넣어 잇는다"""
+    if not chunk: return _gen(text, speed, steps)
+    segs = []
+    for c in clauses(text):
+        segs.append(_gen(c, speed, steps))
+        segs.append(np.zeros(int((.12 if c.endswith(",") else .2) * SR), dtype=np.float32))
+    return np.concatenate(segs[:-1]) if segs else np.zeros(1, dtype=np.float32)

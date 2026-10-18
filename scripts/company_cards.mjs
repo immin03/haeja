@@ -390,27 +390,36 @@ function sayMoney(v, cur) {
   const unit = { USD: '달러', JPY: '엔', HKD: '홍콩달러', CNY: '위안' }[cur] || '';
   return `${Math.round(v)} ${unit}`;
 }
+const FAIR = { type: 'statement', l1: '적정 주가란?', l2: '회사의 1주당 가치', tone: 'gold', note: '회사가 앞으로 벌어들일 돈으로 계산합니다',
+  say: '적정 주가는, 회사가 앞으로 벌어들일 돈으로 계산한 한 주당 가치입니다.' };
+const pct1 = (v) => +Math.abs(v).toFixed(1);
+// 대본 규칙(scripts/reels/README.md): 한 줄 = 완결된 한 문장, 자막과 음성은 같은 문장, 낯선 말은 처음 나올 때 뜻을 말한다.
 function reelCompany(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', R = a.ratio, over = R > 1;
   const scenes = [];
   if (over) scenes.push({ type: 'hook', top: `${r.n} 지금 주가는`, num: { to: +R.toFixed(1), fmt: 'int', dec: 1, suffix: '배' }, tone: 'loss', label: '적정 주가 대비',
-    lines: [{ cap: [`${r.n} 지금 주가는`, `적정 주가의 ${R.toFixed(1)}배`], say: `${r.n} 지금 주가는 적정 주가의 ${sayRatio(R)}입니다.` }] });
+    lines: [{ cap: [`${r.n}의 지금 주가는`, `적정 주가의 ${R.toFixed(1)}배입니다`], say: `${r.n}의 지금 주가는 적정 주가의 ${sayRatio(R)}입니다.` }] });
   else scenes.push({ type: 'hook', top: `${r.n} 지금 주가는`, num: { to: Math.round((1 - R) * 100), fmt: 'int', suffix: '%' }, tone: 'good', label: '적정 주가보다 쌉니다',
-    lines: [{ cap: [`${r.n} 지금 주가는`, `적정 주가보다 ${Math.round((1 - R) * 100)}% 쌉니다`] }] });
+    lines: [{ cap: [`${r.n}의 지금 주가는`, `적정 주가보다 ${Math.round((1 - R) * 100)}% 쌉니다`] }] });
+  scenes.push(FAIR);
   scenes.push({ type: 'compare', title: '지금 주가 vs 적정 주가', l: { label: '지금 주가', v: money(r.px, cur), tone: over ? 'loss' : 'ivory' }, r: { label: '적정 주가', v: money(sc.iv, cur), tone: 'gold' },
-    lines: [{ cap: [`지금 주가 ${money(r.px, cur)}`, `적정 주가 ${money(sc.iv, cur)}`], say: `지금 주가는 ${sayMoney(r.px, cur)}, 적정 주가는 ${sayMoney(sc.iv, cur)}입니다.` },
-      { cap: ['적정 주가란?', '회사가 앞으로 벌 돈으로 계산한 1주당 가치'], say: '적정 주가는 회사가 앞으로 벌 돈으로 계산한 한 주당 가치입니다.' }] });
+    lines: [{ cap: [`지금 주가는 ${money(r.px, cur)}이고,`, `적정 주가는 ${money(sc.iv, cur)}입니다`], say: `지금 주가는 ${sayMoney(r.px, cur)}이고, 적정 주가는 ${sayMoney(sc.iv, cur)}입니다.` }] });
   if (isNum(sc.ig) && isNum(sc.hist)) {
-    const need = +Math.max(Math.min(sc.ig, 80), -30).toFixed(1), hi = need > sc.hist + 2;
-    scenes.push({ type: 'bars', title: '주가에 들어 있는 기대', items: [{ label: '지금 주가가 맞으려면 필요한 성장', v: Math.max(Math.abs(need), .5), text: `연 ${need}%`, tone: hi ? 'loss' : 'good' }, { label: '지난 몇 년 실제 성장', v: Math.max(Math.abs(sc.hist), .5), text: `연 ${+sc.hist.toFixed(1)}%`, tone: 'gold' }],
-      lines: [{ cap: [hi ? `지금 주가가 맞으려면 매년 ${need}% 성장해야 하는데` : need < 0 ? '지금 주가는 이익이 줄어든다고 보고 있는데' : `지금 주가는 매년 ${need}% 성장만 기대하는데`, `실제 성장은 연 ${+sc.hist.toFixed(1)}%였습니다`] }] });
+    const need = +Math.max(Math.min(sc.ig, 80), -30).toFixed(1), hi = need > sc.hist + 2, h = sc.hist;
+    const real = h >= 0 ? `실제로는 매년 ${pct1(h)}%씩 늘었습니다` : `실제로는 매년 ${pct1(h)}%씩 줄었습니다`;
+    const l1 = hi ? ['지금 주가가 맞으려면', `이익이 매년 ${need}%씩 늘어야 합니다`] : need < 0 ? ['지금 주가는 이익이', '줄어든다고 보는 가격입니다'] : ['지금 주가는 이익이', `매년 ${need}%만 늘어도 맞는 가격입니다`];
+    scenes.push({ type: 'bars', title: '지금 주가에 담긴 기대', items: [{ label: '지금 주가가 맞으려면 필요한 이익 성장', v: Math.max(Math.abs(need), .5), text: `연 ${need}%`, tone: hi ? 'loss' : 'good' }, { label: '지난 몇 년 실제 이익 성장', v: Math.max(Math.abs(h), .5), text: `연 ${+h.toFixed(1)}%`, tone: 'gold' }],
+      lines: [{ cap: l1 }, { cap: ['그런데 지난 몇 년 동안', real] }] });
   }
-  const st = a.alt ? ['지금 이익이 호황인가', '새로운 수준인가'] : over ? ['좋은 회사와 좋은 가격은', '다른 이야기입니다'] : a.pens.length ? ['싼 데는 이유가 있는지', '먼저 확인하세요'] : ['시장이 놓친 기회인지', '숫자로 확인하세요'];
-  scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold' });
+  const st = a.alt ? ['지금 이익이 반짝 호황인지', '오래갈 수준인지', '지금 이익이 반짝 호황인지, 오래갈 수준인지가 관건입니다.']
+    : over ? ['좋은 회사도 비싸게 사면', '수익이 줄어듭니다', '좋은 회사도 비싸게 사면, 수익이 줄어듭니다.']
+    : a.pens.length ? ['싼 데는 이유가 있는지', '먼저 확인하세요', '싼 데는 이유가 있는지, 먼저 확인하세요.']
+    : ['시장이 놓친 기회인지', '숫자로 확인하세요', '시장이 놓친 기회인지, 숫자로 확인하세요.'];
+  scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', say: st[2] });
   scenes.push({ type: 'cta' });
   const name = r.n.replace(/\s+/g, '');
   return { title: `${r.n} 적정 주가`, mood: over ? 'tense' : 'calm', scenes, hashtags: [name, name + '주가', '적정주가', '가치투자', '밸류노트'],
-    caption: `${r.n}의 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다. ${gapText(R).replace(/싸다$/, '쌉니다').replace(/배$/, '배입니다').replace(/수준$/, '수준입니다').replace(/높음$/, '높습니다')}.\n\n` + a.cap.join('\n\n') + `\n\n적정 주가는 회사가 앞으로 벌어들일 이익과 현금을 바탕으로 밸류노트가 계산한 1주당 가치입니다. 지금 주가가 이보다 낮으면 싸게, 높으면 비싸게 거래되고 있다는 뜻입니다.\n\n전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` };
+    caption: `${r.n}의 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다. ${gapText(R).replace(/싸다$/, '쌉니다').replace(/배$/, '배입니다').replace(/수준$/, '수준입니다').replace(/높음$/, '높습니다')}.\n\n적정 주가는 회사가 앞으로 벌어들일 이익과 현금을 바탕으로 밸류노트가 계산한 1주당 가치입니다. 지금 주가가 이보다 낮으면 싸게, 높으면 비싸게 거래되고 있다는 뜻입니다.\n\n` + a.cap.join('\n\n') + `\n\n전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` };
 }
 function reelRank(L, side, label) {
   const under = side === 'under', top = L.slice(0, 5), R1 = top[0].R;
@@ -419,13 +428,14 @@ function reelRank(L, side, label) {
   if (under) scenes.push({ type: 'hook', top: '적정 주가보다', num: { to: Math.round((1 - R1) * 100), fmt: 'int', suffix: '%' }, tone: 'good', label: '싸게 거래되는 회사',
     lines: [{ cap: [`적정 주가보다 ${Math.round((1 - R1) * 100)}% 싸게`, '거래되는 회사가 있습니다'] }] });
   else scenes.push({ type: 'hook', top: '좋은 회사인데', num: { to: +top[0].R.toFixed(1), fmt: 'int', dec: 1, suffix: '배' }, tone: 'loss', label: '적정 주가 대비',
-    lines: [{ cap: ['좋은 회사인데', `적정 주가의 ${top[0].R.toFixed(1)}배`], say: `좋은 회사인데 적정 주가의 ${sayRatio(top[0].R)}에 거래되는 회사가 있습니다.` }] });
+    lines: [{ cap: ['좋은 회사인데도', `적정 주가의 ${top[0].R.toFixed(1)}배에 거래되는 회사가 있습니다`], say: `좋은 회사인데도, 적정 주가의 ${sayRatio(top[0].R)}에 거래되는 회사가 있습니다.` }] });
+  scenes.push(FAIR);
   scenes.push({ type: 'list', title: `${under ? '지금 저평가' : '좋지만 비싼'} TOP 5 · ${label}`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · ${g(x)}` : `${i + 1}위 ${x.r.n} · ${g(x)}`),
-    say: `일위부터 삼위는 밸류노트에서 공개합니다. 사위 ${top[3].r.n}, 오위 ${top[4].r.n}.` });
-  scenes.push({ type: 'statement', l1: '1~3위는', l2: '밸류노트에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에서 확인하세요.' });
+    say: `${label} 기업 가운데 ${under ? '적정 주가보다 가장 싼' : '좋은 회사지만 가장 비싼'} 다섯 곳입니다. 사위는 ${top[3].r.n}, 오위는 ${top[4].r.n}입니다.` });
+  scenes.push({ type: 'statement', l1: '1~3위는', l2: '프로필 링크에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에서 확인할 수 있습니다.' });
   scenes.push({ type: 'cta' });
   return { title: `${under ? '저평가' : '고평가'} TOP 5 · ${label}`, mood: 'calm', scenes, hashtags: [under ? '저평가주' : '고평가주', '저평가주식', '적정주가', '가치투자', '밸류노트'],
-    caption: `${under ? `지금 적정 주가보다 가장 싸게 거래되는 ${label} 기업 TOP 5입니다.` : `좋은 회사지만 적정 주가보다 가장 비싼 ${label} 기업 TOP 5입니다.`}\n\n` + top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · ${gapText(x.R)}`).join('\n') + '\n\n적정 주가는 회사가 앞으로 벌어들일 이익과 현금을 바탕으로 밸류노트가 계산한 1주당 가치입니다. 지금 주가가 이보다 낮으면 싸게, 높으면 비싸게 거래되고 있다는 뜻입니다.\n\n1~3위와 전체 순위는 밸류노트 저평가·고평가 화면에서 볼 수 있습니다.' };
+    caption: `${under ? `지금 적정 주가보다 가장 싸게 거래되는 ${label} 기업 TOP 5입니다.` : `좋은 회사지만 적정 주가보다 가장 비싸게 거래되는 ${label} 기업 TOP 5입니다.`}\n\n적정 주가는 회사가 앞으로 벌어들일 이익과 현금을 바탕으로 밸류노트가 계산한 1주당 가치입니다. 지금 주가가 이보다 낮으면 싸게, 높으면 비싸게 거래되고 있다는 뜻입니다.\n\n` + top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · ${gapText(x.R)}`).join('\n') + '\n\n1~3위와 전체 순위는 밸류노트 저평가·고평가 화면에서 볼 수 있습니다.' };
 }
 
 const state0 = path.join(OUT, 'state.json');

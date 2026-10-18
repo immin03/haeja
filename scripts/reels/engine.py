@@ -473,7 +473,7 @@ NO_CAPTION = {"statement", "cta", "list"}
 def plan(spec, speak):
     """각 장면의 음성을 만들고 시작·끝 시간을 정한다"""
     t = 0.0; scenes = []
-    speed = spec.get("speed", 1.18)
+    speed = spec.get("speed", 1.1)
     for sc in spec["scenes"]:
         lines = sc.get("lines") or [{"cap": sc.get("cap"), "say": sc.get("say")}]
         if sc["type"] == "cta" and not lines[0].get("say") and not lines[0].get("cap"):
@@ -482,7 +482,13 @@ def plan(spec, speak):
         for ln in lines:
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
             if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
-            a = speak(to_speech(txt), ln.get("speed", speed))
+            if VERIFY:
+                import verify
+                if ln.get("cap") and verify.score(" ".join(ln["cap"]), txt) < .8:
+                    LINT.append(f"자막과 음성이 다름: {ln['cap']} ↔ {txt}")
+                a = verify.speak_checked(to_speech(txt), ln.get("speed", speed), speak, SR, VLOG)
+            else:
+                a = speak(to_speech(txt), ln.get("speed", speed))
             L.append([u, len(a) / SR, ln.get("cap")]); vo.append((u, a))
             u += len(a) / SR + .12
         dur = u + {"hook": .1, "cta": .8}.get(sc["type"], .2)
@@ -618,16 +624,30 @@ def build_audio(scenes, total, mood, path):
     voice = voice / (np.max(np.abs(voice)) + 1e-9) * .92
     env = signal.lfilter([1 - .9995], [1, -.9995], np.abs(voice))
     env = np.convolve(env, np.ones(2205) / 2205, "same"); env = np.clip(env / (env.max() + 1e-9) * 2.5, 0, 1)
-    mm = music / (np.max(np.abs(music)) + 1e-9) * .42 * (1 - .55 * env)[:, None]
+    mm = music / (np.max(np.abs(music)) + 1e-9) * .34 * (1 - .7 * env)[:, None]
     out = np.tanh((mm + (voice + fx * .8)[:, None]) * 1.1) / np.tanh(1.1)
     import soundfile as sf
     sf.write(path, (out / np.max(np.abs(out)) * .95).astype(np.float32), SR, subtype="PCM_16")
 
 # ── 실행 ─────────────────────────────────────────────────────
+VERIFY = os.environ.get("REELS_VERIFY", "1") != "0"
+VLOG, LINT = [], []
+
 def render(spec, outdir, stills=None):
     from tts import speak
     os.makedirs(outdir, exist_ok=True)
+    VLOG.clear(); LINT.clear()
     scenes, total = plan(spec, speak)
+    if VERIFY:
+        import verify
+        for w in LINT: print("  ⚠", w)
+        for v in VLOG:
+            mark = "OK" if v["score"] >= verify.PASS else ("△" if v["score"] >= verify.FLOOR else "✗")
+            print(f"  음성 {mark} {v['score']:.2f} (시도 {v['tries']}) {v['text']}")
+            if v["score"] < verify.PASS: print(f"        들린 말: {v['heard']}")
+        bad = [v for v in VLOG if v["score"] < verify.FLOOR]
+        json.dump({"lines": VLOG, "lint": LINT}, open(os.path.join(outdir, "voice_check.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        if bad: raise RuntimeError(f"{spec['id']}: 음성 검수 실패 {len(bad)}줄 — 대본을 고쳐야 합니다")
     if stills is not None:
         for ts in stills: frame(ts, scenes, total).save(os.path.join(outdir, f"still_{ts:.1f}.png"))
         return total

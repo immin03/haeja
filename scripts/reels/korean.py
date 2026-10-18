@@ -5,7 +5,8 @@ import re
 
 D = "영일이삼사오육칠팔구"
 NATIVE = {1: "한", 2: "두", 3: "세", 4: "네", 5: "다섯", 6: "여섯", 7: "일곱", 8: "여덟", 9: "아홉", 10: "열"}
-WORDS = [("ValueNote", "밸류 노트"), ("밸류노트", "밸류 노트"), ("ETF", "이티에프"), ("PER", "퍼"), ("PBR", "피비알"),
+WORDS = [("ValueNote", "밸유 노트"), ("밸류노트", "밸유 노트"), ("밸류 노트", "밸유 노트"),  # TTS가 "밸류 노트"는 "벨류"로 뭉갠다(음성 인식 검수로 확인)
+        ("AI", "에이아이"), ("ETF", "이티에프"), ("PER", "피이알"), ("PBR", "피비알"),
          ("ROE", "알오이"), ("DAY", "데이"), ("S&P", "에스앤피"), ("KOSPI", "코스피"), ("vs", "대"), ("bp", "베이시스 포인트")]
 
 
@@ -49,6 +50,7 @@ def to_speech(text):
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)\s*%", lambda m: sign(m[1]) + num(m[2]) + " 퍼센트", t)
     t = re.sub(r"(\d+)\s*배", lambda m: (NATIVE[int(m[1])] if int(m[1]) in NATIVE else sino(m[1])) + " 배", t)
     t = re.sub(r"(\d+(?:\.\d+)?)\s*배", lambda m: num(m[1]) + " 배", t)
+    t = re.sub(r"(\d+)\s*(주당)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)
     t = re.sub(r"(\d+)\s*(달|개|가지|번)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)", lambda m: sign(m[1]) + num(m[2]), t)
     return re.sub(r"\s+", " ", t).strip()

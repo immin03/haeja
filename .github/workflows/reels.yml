@@ -7,7 +7,7 @@ on:
     - cron: '50 21 * * *'    # 매일 06:50 KST (바뀐 대본 렌더·대기열 갱신)
   push:
     branches: [main]
-    paths: ['scripts/reels/specs/**', 'scripts/reels/engine.py']
+    paths: ['scripts/reels/specs/**', 'scripts/reels/engine.py', 'scripts/reels/tts.py', 'scripts/reels/verify.py', 'scripts/reels/korean.py']
   workflow_dispatch: {}
 permissions:
   contents: write
@@ -15,7 +15,7 @@ concurrency: reels
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 170
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,12 +29,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: scripts/reels/.cache
-          key: tts-supertonic-3-int8-2026-05-11
+          key: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
       - name: 시장 급변 확인 (트랙 레코드가 쌓일 때까지 꺼 둠. 다시 켜려면 아래 if를 지운다)
         if: false
         run: python3 scripts/reels/events.py
-      - name: 영상 만들기
-        run: python3 scripts/reels/build.py
+      - name: 영상 만들기 (음성 검수 포함)
+        run: python3 scripts/reels/build.py || touch /tmp/voicefail
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"
@@ -44,3 +44,6 @@ jobs:
           git commit -m "릴스 $(TZ=Asia/Seoul date '+%F %H:%M')"
           git pull --rebase origin main
           git push
+      - name: 음성 검수 결과
+        run: |
+          if [ -f /tmp/voicefail ]; then echo '음성 검수에 실패한 릴스가 있습니다. 위 로그의 ✗ 줄을 확인하세요.'; exit 1; fi

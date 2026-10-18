@@ -28,7 +28,7 @@ def digest(spec):
 def main(only=None):
     import engine
     now = dt.datetime.now(dt.timezone.utc)
-    queue = []
+    queue = []; failed = []
     for f, sp in specs():
         d = os.path.join(OUT, sp["id"]); h = digest(sp)
         mark = os.path.join(d, "spec.sha")
@@ -36,7 +36,10 @@ def main(only=None):
         when = dt.datetime.fromisoformat(sp["scheduled_at"])
         if (only and sp["id"] in only) or (not only and stale and when > now - dt.timedelta(hours=6)):
             print("렌더:", sp["id"], sp["title"])
-            sec = engine.render(sp, d)
+            try:
+                sec = engine.render(sp, d)
+            except RuntimeError as e:
+                print("  ✗", e); failed.append(sp["id"]); continue
             open(mark, "w").write(h)
             print(f"  {sec:.1f}초")
         if not os.path.exists(os.path.join(d, "reel.mp4")): continue
@@ -51,6 +54,8 @@ def main(only=None):
     os.makedirs(OUT, exist_ok=True)
     json.dump(queue, open(os.path.join(OUT, "queue.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("대기열", len(queue), "편")
+    if failed:
+        print("음성 검수 실패(게시 대기열에서 뺌):", ", ".join(failed)); sys.exit(1)
 
 
 if __name__ == "__main__":
