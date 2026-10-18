@@ -127,6 +127,7 @@ td.n{text-align:right;font-weight:700;white-space:nowrap}
 .mlinks{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0}.mlinks a{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px}.mlinks a small{display:block;font-weight:500;color:var(--muted);font-size:12px}
 article.col h1{font-size:25px}article.col h3{font-size:17px;margin:22px 0 8px}article.col p{margin:0 0 14px}article.col figure{margin:14px 0}article.col img{max-width:100%;border-radius:12px}article.col figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}article.col blockquote{margin:14px 0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA;border-radius:0 10px 10px 0}
 .src{font-size:12.5px;color:var(--muted);word-break:break-all}.src a{color:var(--muted)}
+main .names{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14.5px;line-height:1.5}main .names a{text-decoration:none;color:#3A4352}
 footer{max-width:760px;margin:0 auto;padding:0 16px 40px;font-size:12px;color:var(--muted)}
 footer nav{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px}footer nav a{text-decoration:none;font-weight:600}
 @media(max-width:520px){h1{font-size:22px}.score b{font-size:48px}.price .v{font-size:15px}}`;
@@ -246,46 +247,57 @@ const MKT_LONG = { KR: '국내 주식(코스피·코스닥)', US: '미국 주식
 // 품질이 기준 이상이고 적정 주가보다 30% 이상 싼 회사 (사실 기준 필터. 추천 아님)
 const isBargain = (x) => isNum(x.sc.mos) && x.sc.mos >= 30 && isNum(x.sc.q) && x.sc.q >= 60 && !(x.sc.flags || []).some((fl) => !WARN_FLAGS.has(fl));
 
+// 순위는 앞부분만 공개하고(1~3위는 가입 후, 4위부터 몇 곳만), 나머지 회사는 점수 없이 가나다순 이름 목록으로만 연결한다
+const byName = (list) => [...list].sort((a, b) => String(a.r.n).localeCompare(String(b.r.n), 'ko'));
+const nameList = (list) => `<div class="names">${byName(list).map((x) => `<a href="/c/${x.slug}">${esc(x.r.n)}</a>`).join('')}</div>`;
+const appValue = (m, src) => `/?tab=value&mkt=${m}&utm_source=${src}`;
+const lockRow = (i, m, sub, right) => `<tr><td><a href="${appValue(m, 'c-' + MSLUG[m] + '-gate')}" style="color:var(--gold)">${i + 1}위 · 밸류노트에 가입하면 볼 수 있습니다 ›</a><div class="s">${sub}</div></td><td class="n pos">${right}</td></tr>`;
+const SHOW_TO = 8; // 4~8위만 이름 공개
+
 function indexPage(all, date) {
   const url = `${SITE}/c/`;
-  const by = Object.fromEntries(MKT_ORDER.map((m) => [m, all.filter((x) => grpOf(x.r.m) === m).sort((a, b) => (b.sc.b ?? -1) - (a.sc.b ?? -1))]));
-  const title = `기업 점수 ${all.length}곳 · 그레이엄·버핏 기준 가치투자 순위 | 밸류노트`;
-  const desc = `국내·미국·일본·홍콩·중국 ${all.length}개 기업의 적정 주가와 가치투자 점수를 같은 기준(재무 점수·저평가·감점 신호)으로 매일 계산합니다. 저평가 우량주를 시장별로 확인하세요.`;
+  const by = Object.fromEntries(MKT_ORDER.map((m) => [m, all.filter((x) => grpOf(x.r.m) === m)]));
+  const title = `기업 ${all.length}곳의 적정 주가와 밸류노트 점수 · 그레이엄·버핏 기준 | 밸류노트`;
+  const desc = `국내·미국·일본·홍콩·중국 ${all.length}개 기업의 적정 주가와 밸류노트 점수를 같은 기준(재무 점수·가격 점수·감점 신호)으로 매일 계산합니다. 회사 이름을 눌러 확인하세요.`;
   const ld = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, url, dateModified: date, inLanguage: 'ko-KR' };
   return head({ title, desc, url, ld, type: 'website' }) + `<main>
-<h1>기업 점수 ${all.length}곳</h1><p class="sub">그레이엄·버핏·멍거의 기준을 숫자로 옮겨, 5개 시장의 기업을 같은 잣대로 매일 다시 계산합니다. 70점 이상이 기준입니다.</p>
-<div class="mlinks">${MKT_ORDER.map((m) => `<a href="/c/${MSLUG[m]}">${MKT[m]} 순위<small>${by[m].length}곳 · 저평가 기준 통과 ${by[m].filter(isBargain).length}곳</small></a>`).join('')}<a href="/blog/">칼럼<small>매주 시장·거장의 투자</small></a></div>
-${MKT_ORDER.map((m) => `<section class="card list" id="${m}"><h2><a href="/c/${MSLUG[m]}" style="text-decoration:none">${MKT[m]} ›</a></h2>${rankTable(by[m])}</section>`).join('')}
-<a class="cta" href="/?utm_source=c-index">내 종목 점수 확인하기<small>포트폴리오를 넣으면 같은 기준으로 채점합니다</small></a>
+<h1>기업 ${all.length}곳의 적정 주가와 점수</h1><p class="sub">그레이엄·버핏·멍거의 기준을 숫자로 옮겨, 5개 시장의 기업을 같은 잣대로 매일 다시 계산합니다. 회사 이름을 누르면 적정 주가와 점수를 볼 수 있습니다.</p>
+<div class="mlinks">${MKT_ORDER.map((m) => `<a href="/c/${MSLUG[m]}">${MKT[m]} 저평가 순위<small>${by[m].length}곳 중 기준 통과 ${by[m].filter(isBargain).length}곳</small></a>`).join('')}<a href="/blog/">칼럼<small>매주 시장·거장의 투자</small></a></div>
+${MKT_ORDER.map((m) => `<section class="card list" id="${m}"><h2>${MKT[m]} ${by[m].length}곳 <span class="note">(가나다순)</span></h2>${nameList(by[m])}</section>`).join('')}
+<a class="cta" href="${appValue('ALL', 'c-index')}">밸류노트에서 저평가 순위 전체 보기<small>가입은 이메일만으로 10초 · 관심 종목 적정 매수가 알림</small></a>
 </main>${FOOT(date)}${TRACK('/c/')}</body></html>`;
 }
 
 function marketPage(m, list, date) {
   const url = `${SITE}/c/${MSLUG[m]}`;
-  const sorted = [...list].sort((a, b) => (b.sc.b ?? -1) - (a.sc.b ?? -1));
-  const bar = sorted.filter(isBargain).sort((a, b) => b.sc.mos - a.sc.mos);
-  const top = sorted.filter((x) => isNum(x.sc.b));
-  const title = `${MKT_LONG[m]} 저평가 우량주 순위 ${list.length}곳 · 적정 주가 | 밸류노트`;
-  const desc = `${MKT_LONG[m]} ${list.length}곳의 적정 주가와 가치투자 점수를 매일 계산한 순위입니다. 품질 60점 이상이면서 적정 주가보다 30% 이상 싼 회사는 ${bar.length}곳입니다(${date} 기준).`;
+  const sorted = [...list].sort((a, b) => (b.sc.b ?? -1) - (a.sc.b ?? -1)).filter((x) => isNum(x.sc.b));
+  const bar = list.filter(isBargain).sort((a, b) => b.sc.mos - a.sc.mos);
+  const title = `${MKT_LONG[m]} 저평가 우량주 순위 · 적정 주가 ${list.length}곳 | 밸류노트`;
+  const desc = `${MKT_LONG[m]} ${list.length}곳의 적정 주가와 밸류노트 점수를 매일 계산합니다. 재무 점수 60점 이상이면서 적정 주가보다 30% 이상 저평가된 회사는 ${bar.length}곳입니다(${date} 기준).`;
   const ld = { '@context': 'https://schema.org', '@graph': [
     { '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: '밸류노트', item: SITE + '/' },
       { '@type': 'ListItem', position: 2, name: '기업 점수', item: SITE + '/c/' },
       { '@type': 'ListItem', position: 3, name: `${MKT[m]} 순위`, item: url }] },
-    { '@type': 'ItemList', name: title, numberOfItems: Math.min(20, top.length), itemListElement: top.slice(0, 20).map((x, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/c/${x.slug}`, name: x.r.n })) },
   ] };
-  const shareText = `${MKT_LONG[m]} 가치투자 점수 순위. 적정 주가보다 30% 이상 싼 우량주 ${bar.length}곳`;
+  const shareText = `${MKT_LONG[m]} 중 적정 주가보다 30% 이상 저평가된 좋은 회사는 ${bar.length}곳입니다`;
+  const barRows = bar.slice(0, SHOW_TO).map((x, i) => i < 3
+    ? lockRow(i, m, `재무 점수 ${x.sc.q}점`, `${n0(x.sc.mos)}% 저평가`)
+    : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">재무 점수 ${x.sc.q}점 · 밸류노트 점수 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 저평가</td></tr>`).join('');
+  const topRows = sorted.slice(0, SHOW_TO + 2).map((x, i) => i < 3
+    ? lockRow(i, m, esc(x.r.ind || x.r.s || ''), `${x.sc.b}점`)
+    : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">${esc(x.r.ind || x.r.s || '')}</div></td><td class="n">${x.sc.b}점</td></tr>`).join('');
   return head({ title, desc, url, ld, type: 'website' }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › ${MKT[m]}</div>
-<section class="card hero"><h1>${MKT_LONG[m]} 저평가 우량주 순위</h1><p class="sub" style="margin-top:6px">${list.length}곳을 그레이엄·버핏 기준으로 매일 다시 계산합니다. 점수 70점 이상이 기준이고, 적정 주가보다 30% 이상 낮으면 안전마진이 있다고 봅니다.</p>
+<section class="card hero"><h1>${MKT_LONG[m]} 저평가 우량주 순위</h1><p class="sub" style="margin-top:6px">${list.length}곳을 그레이엄·버핏 기준으로 매일 다시 계산합니다. 적정 주가보다 30% 이상 낮으면 저평가가 크다고 봅니다.</p>
 <div class="share"><button type="button" data-sh="m" data-u="${url}" data-t="${esc(shareText)}">이 순위 공유하기</button></div></section>
-<section class="card list"><h2>안전마진 30% 이상 · 품질 60점 이상 (${bar.length}곳)</h2>${bar.length ? `<table><tr><th>회사</th><th style="text-align:right">적정 주가 대비</th></tr>${bar.map((x, i) => i < 3 && bar.length > 5
-    // 앱 첫 화면과 같이 할인율 1~3위는 가입하면 보이게 둔다(가입 동기)
-    ? `<tr><td><a href="/?signup&utm_source=c-${MSLUG[m]}-gate" style="color:var(--gold)">${i + 1}위 · 가입하고 보기 ›</a><div class="s">품질 ${x.sc.q}점 · 점수 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`
-    : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">품질 ${x.sc.q}점 · 점수 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`).join('')}</table>` : '<p class="note">오늘은 이 기준을 통과한 회사가 없습니다. 좋은 회사의 가격이 내려올 때까지 기다리는 날입니다.</p>'}
-<p class="note" style="margin-top:8px">감점 신호(잦은 적자·과도한 빚·잦은 증자 등)가 있는 회사는 뺐습니다. 숫자로 거른 목록일 뿐, 매수 권유가 아닙니다.</p></section>
-<section class="card list"><h2>밸류노트 점수 순위</h2>${rankTable(sorted)}</section>
-<a class="cta" href="/?utm_source=c-${MSLUG[m]}">관심 종목이 적정 주가에 오면 알림 받기<small>가입은 이메일만으로 10초</small></a>
+<section class="card list"><h2>적정 주가보다 30% 이상 저평가된 좋은 회사는 ${bar.length}곳입니다</h2>${bar.length ? `<table><tr><th>회사</th><th style="text-align:right">적정 주가 대비</th></tr>${barRows}</table>
+${bar.length > SHOW_TO ? `<a class="alert" href="${appValue(m, 'c-' + MSLUG[m] + '-more')}"><b>나머지 ${bar.length - SHOW_TO}곳과 1~3위는 밸류노트에서 볼 수 있습니다</b><span>전체 보기 ›</span></a>` : ''}` : '<p class="note">오늘은 이 기준을 통과한 회사가 없습니다. 좋은 회사의 가격이 내려올 때까지 기다리는 날입니다.</p>'}
+<p class="note" style="margin-top:8px">재무 점수 60점 이상이고 감점 신호(잦은 적자·과도한 빚·잦은 증자 등)가 없는 회사만 넣었습니다. 숫자로 거른 목록이며 매수 권유가 아닙니다.</p></section>
+<section class="card list"><h2>밸류노트 점수 상위 ${Math.min(sorted.length, SHOW_TO + 2)}곳</h2><table><tr><th>회사</th><th style="text-align:right">점수</th></tr>${topRows}</table>
+<a class="alert" href="${appValue(m, 'c-' + MSLUG[m] + '-rank')}"><b>전체 순위와 1~3위는 밸류노트에서 볼 수 있습니다</b><span>전체 보기 ›</span></a></section>
+<section class="card list"><h2>${MKT[m]} 기업 ${list.length}곳 <span class="note">(가나다순 · 이름을 누르면 적정 주가를 볼 수 있습니다)</span></h2>${nameList(list)}</section>
+<a class="cta" href="${appValue(m, 'c-' + MSLUG[m])}">관심 종목이 적정 매수가에 오면 알림 받기<small>가입은 이메일만으로 10초</small></a>
 <div class="mlinks">${MKT_ORDER.filter((k) => k !== m).map((k) => `<a href="/c/${MSLUG[k]}">${MKT[k]} 순위</a>`).join('')}</div>
 </main>${FOOT(date)}${SHARE_JS}${TRACK('/c/' + MSLUG[m])}</body></html>`;
 }
