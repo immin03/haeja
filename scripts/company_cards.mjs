@@ -430,7 +430,8 @@ const GROW_CAP = (g) => Math.max(Math.min(g, 80), -30);
 function expect(r, sc) {
   const ig = sc.ig, eps = r.fin?.epsCagr;
   if (!isNum(ig) || !isNum(eps)) return null;
-  const e = +GROW_CAP(ig).toFixed(1), h = +eps.toFixed(1), d = e - h;
+  const rd = (v) => Math.abs(v) >= 10 ? Math.round(v) : +v.toFixed(1);
+  const e = rd(GROW_CAP(ig)), h = rd(eps), d = e - h;
   const yrs = Math.max(3, (r.yrs || 6) - 1);
   if (h <= 0 || h > 100) return null;
   return { e, h, d, yrs, k: d > 3 ? 'ahead' : d < -3 ? 'behind' : 'match', disc: DISC_R[grpOf(r.m)] ?? 10 };
@@ -457,7 +458,7 @@ function reelCompany(x) {
             { label: `지난 ${yrs}년 실제 이익 성장`, v: Math.max(Math.abs(h), .5), text: `연 ${h}%`, tone: h >= 0 ? 'good' : 'loss' }],
     lines: [{ cap: [`지난 ${yrs}년 동안 실제로는`, realWord(h)], say: `지난 ${sino(yrs)} 년 동안 실제로는, 매년 ${sayPct(h)}씩 ${h >= 0 ? '늘었습니다' : '줄었습니다'}.` }] });
   // 3) 판단은 보는 사람에게
-  const st = k === 'ahead' ? ['이 기대, 이뤄질까요?', '판단은 당신의 몫입니다', '이 기대가 이뤄질까요? 판단은 당신의 몫입니다.']
+  const st = k === 'ahead' ? ['이 기대, 이뤄질까요?', '당신의 생각은 어떤가요?', '이 기대가 이뤄질까요? 당신의 생각은 어떤가요?']
     : k === 'behind' ? ['시장이 너무 비관적일까요?', '아니면 이유가 있을까요?', '시장이 너무 비관적일까요? 아니면 이유가 있을까요?']
     : ['기대와 실적이', '비슷한 수준입니다', '주가에 담긴 기대와 실제 실적이 비슷한 수준입니다.'];
   scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', note: '지금 주가에서 필요한 성장률을 거꾸로 계산했습니다', say: st[2] });
@@ -481,14 +482,14 @@ function reelRank(L, side, label) {
   const it = (x) => `${x.r.n} · 기대 ${x.X.e}% · 실제 ${x.X.h}%`;
   const scenes = [];
   if (under) scenes.push({ type: 'hook', top: `${label} TOP 5`, num: { to: X1.e, fmt: 'pct', dec: 1 }, tone: 'gold', label: '1위 주가에 담긴 이익 성장 기대 (매년)',
-    lines: [{ cap: ['실적에 비해 시장이', '가장 낮게 보는 회사 5곳'] }, { cap: X1.e >= 0 ? ['1위는 이익이 매년', `${pct1(X1.e)}%만 늘어도 되는 가격입니다`] : ['1위는 이익이 매년', `${pct1(X1.e)}%씩 줄어든다고 보는 가격입니다`],
-      say: X1.e >= 0 ? `일위는 이익이 매년, ${sayPct(X1.e)}만 늘어도 되는 가격입니다.` : `일위는 이익이 매년, ${sayPct(X1.e)}씩 줄어든다고 보는 가격입니다.` }] });
+    lines: [{ cap: ['실적에 비해 시장이', '가장 낮게 보는 회사 5곳'] }, { cap: X1.e >= 0 ? ['첫 번째 회사는 이익이', `매년 ${pct1(X1.e)}%만 늘어도 되는 가격입니다`] : ['첫 번째 회사는 이익이', `매년 ${pct1(X1.e)}%씩 줄어든다고 보는 가격입니다`],
+      say: X1.e >= 0 ? `첫 번째 회사는 이익이, 매년 ${sayPct(X1.e)}만 늘어도 되는 가격입니다.` : `첫 번째 회사는 이익이, 매년 ${sayPct(X1.e)}씩 줄어든다고 보는 가격입니다.` }] });
   else scenes.push({ type: 'hook', top: `${label} TOP 5`, num: { to: X1.e, fmt: 'pct', dec: 1 }, tone: 'loss', label: '1위 주가에 담긴 이익 성장 기대 (매년)',
-    lines: [{ cap: ['실적보다 기대가', '가장 앞서 있는 회사 5곳'] }, { cap: ['1위는 이익이 매년', `${pct1(X1.e)}% 늘어야 지금 주가가 맞습니다`], say: `일위는 이익이 매년, ${sayPct(X1.e)} 늘어야 지금 주가가 맞습니다.` }] });
+    lines: [{ cap: ['실적보다 기대가', '가장 앞서 있는 회사 5곳'] }, { cap: ['첫 번째 회사는 이익이', `매년 ${pct1(X1.e)}% 늘어야 합니다`], say: `첫 번째 회사는 이익이, 매년 ${sayPct(X1.e)} 늘어야 합니다.` }] });
   scenes.push({ type: 'list', title: `${label} · 주가에 담긴 기대와 실제`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · 기대 ${x.X.e}% · 실제 ${x.X.h}%` : `${i + 1}위 ${it(x)}`),
     say: `네 번째는 ${top[3].r.n}, 다섯 번째는 ${top[4].r.n}입니다.` });
-  scenes.push({ type: 'statement', l1: under ? '시장이 너무 비관적일까요?' : '이 기대, 이뤄질까요?', l2: under ? '아니면 이유가 있을까요?' : '판단은 당신의 몫입니다', tone: 'gold', note: '기대는 앞으로 10년 매년, 실제는 지난 몇 년 매년 이익 성장률',
-    say: under ? '시장이 너무 비관적일까요? 아니면 이유가 있을까요?' : '이 기대가 이뤄질까요? 판단은 당신의 몫입니다.' });
+  scenes.push({ type: 'statement', l1: under ? '시장이 너무 비관적일까요?' : '이 기대, 이뤄질까요?', l2: under ? '아니면 이유가 있을까요?' : '당신의 생각은 어떤가요?', tone: 'gold', note: '기대는 앞으로 10년 매년, 실제는 지난 몇 년 매년 이익 성장률',
+    say: under ? '시장이 너무 비관적일까요? 아니면 이유가 있을까요?' : '이 기대가 이뤄질까요? 당신의 생각은 어떤가요?' });
   scenes.push({ type: 'cta', l1: '1~3위는', l2: '밸류노트에서', say: '일위부터 삼위는, 프로필 링크의 밸류노트에서 확인하세요.' });
   return { title: `${under ? '시장이 낮게 보는' : '기대가 앞선'} TOP 5 · ${label}`, mood: 'calm', scenes, hashtags: ['주식공부', '미국주식', '가치투자', '주식투자', '밸류노트'].map((h) => label === '한국' && h === '미국주식' ? '한국주식' : h),
     caption: `${under ? `실적에 비해 시장이 가장 낮게 보는 ${label} 회사 TOP 5입니다.` : `실적보다 주가에 담긴 기대가 가장 앞서 있는 ${label} 회사 TOP 5입니다.`}\n\n기대는 지금 주가가 맞으려면 앞으로 10년간 필요한 이익 성장률(매년)이고, 실제는 지난 몇 년 동안 주당순이익이 실제로 늘어난 속도(매년)입니다. 주주에게 남는 현금을 할인하는 버핏의 계산법을 거꾸로 적용해 구했습니다.\n\n`
