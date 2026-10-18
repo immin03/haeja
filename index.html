@@ -985,13 +985,15 @@ const store = (() => {
       if(!window.supabase || !C.SUPABASE_URL || !C.SUPABASE_ANON_KEY){ mode = 'noconfig'; return; }
       sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
       const { data: { session } } = await sb.auth.getSession();
-      if(session){ try{ if(localStorage.getItem('vn-noauto') === '1' && !sessionStorage.getItem('vn-live')){ await sb.auth.signOut(); mode = 'login'; this.track('visit'); return; } sessionStorage.setItem('vn-live', '1'); }catch(_){} }
+      if(session){ try{ if(localStorage.getItem('vn-noauto') === '1' && !sessionStorage.getItem('vn-live')){ await sb.auth.signOut({ scope: 'local' }); mode = 'login'; this.track('visit'); return; } sessionStorage.setItem('vn-live', '1'); }catch(_){} }
       if(!session){
         /* 로그인 없이 둘러보기: 로그인 안 된 사람은 누구나 바로 둘러보기 화면으로. ?login·?signup 링크만 로그인 화면 */
         const wantLogin = /[?&#](login|signup)/.test(location.search + location.hash);
         mode = wantLogin ? 'login' : 'guest'; this.track('visit'); return;
       }
       user = session.user; mode = 'db'; this.track('visit');
+      /* 다른 곳에서 로그아웃돼 이 기기 세션이 끊기면, 저장이 조용히 실패하지 않도록 로그인 화면으로 */
+      sb.auth.onAuthStateChange((ev, s2) => { if(ev === 'SIGNED_OUT' || (ev === 'TOKEN_REFRESHED' && !s2)) this.expired(); });
     },
     async login(email, password){
       const r = await sb.auth.signInWithPassword({ email, password });
@@ -1004,7 +1006,13 @@ const store = (() => {
       if(!r.error) await this.track('signup');
       return r;
     },
-    async logout(){ await sb.auth.signOut(); location.reload(); },
+    expired(){
+      if(mode !== 'db' || this._exp) return; this._exp = true;
+      alert('로그인이 만료됐습니다. 다시 로그인해 주세요.');
+      location.href = '/?login';
+    },
+    async live(){ const { data: { session } } = await sb.auth.getSession(); if(!session){ this.expired(); throw new Error('로그인이 만료됐습니다'); } },
+    async logout(){ this._exp = true; await sb.auth.signOut({ scope: 'local' }); location.reload(); },
     sub(col, cb){
       const load = async () => {
         const rows = []; let from = 0;
@@ -1022,12 +1030,14 @@ const store = (() => {
     },
     async set(col, id, data){
       if(this.isDemo || this.isGuest) return; /* 체험 계정·둘러보기: 저장하지 않음 (화면 위 안내 띠로 알림) */
+      await this.live();
       const body = { ...data }; delete body.id;
       const { error } = await sb.from('docs').upsert({ owner: user.id, collection: col, id, data: body, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
-      if(error){ setSave('저장 실패: ' + error.message); throw error; }
+      if(error){ if(/JWT|permission denied|row-level/i.test(error.message)){ this.expired(); throw error; } setSave('저장 실패: ' + error.message); throw error; }
     },
     async del(col, id){
       if(this.isDemo || this.isGuest) return;
+      await this.live();
       const { error } = await sb.from('docs').delete().eq('collection', col).eq('id', id);
       if(error){ setSave('삭제 실패: ' + error.message); throw error; }
     }
@@ -1546,7 +1556,7 @@ document.addEventListener('click', async e => {
   b.disabled = true; if(m) m.textContent = '삭제하는 중';
   const { error } = await store.client.rpc('delete_my_account');
   if(error){ b.disabled = false; if(m) m.textContent = /protected/.test(error.message) ? '이 계정은 탈퇴할 수 없습니다.' : '탈퇴하지 못했습니다: ' + error.message; return; }
-  try{ await store.client.auth.signOut(); }catch(_){}
+  store._exp = true; try{ await store.client.auth.signOut({ scope: 'local' }); }catch(_){}
   try{ Object.keys(localStorage).filter(k => k.startsWith('vn-') || k === 'ml-tab').forEach(k => localStorage.removeItem(k)); }catch(_){}
   alert('탈퇴가 완료됐습니다. 그동안 이용해 주셔서 감사합니다.'); location.href = '/';
 });

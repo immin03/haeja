@@ -439,7 +439,7 @@ async function load(){
   render(data);
 }
 $('#reload').onclick = load;
-$('#out').onclick = async () => { await sb.auth.signOut(); load(); };
+$('#out').onclick = async () => { await sb.auth.signOut({ scope: 'local' }); load(); };
 window.__render = render;
 load();
 setInterval(() => { if(!document.hidden && !$('#out').hidden && page() !== 'column' && page() !== 'social' && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
