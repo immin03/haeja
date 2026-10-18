@@ -60,18 +60,18 @@ function summary(r, sc) {
     if (isNum(f.roeAvg)) bits.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
     if (isNum(f.fcfConv)) bits.push(`이익의 ${n0(f.fcfConv)}%가 현금으로 들어옴`);
     if (isNum(f.ltdNi)) bits.push(`장기부채는 순이익의 ${n0(f.ltdNi, 1)}배`);
-    out.push(`숫자 품질은 ${sc.q}점입니다${bits.length ? ' (' + bits.join(', ') + ')' : ''}.`);
+    out.push(`재무 점수은 ${sc.q}점입니다${bits.length ? ' (' + bits.join(', ') + ')' : ''}.`);
   }
   if (isNum(sc.v)) {
-    let s = `저평가 점수는 ${sc.v}점입니다.`;
-    if (isNum(sc.iv) && sc.iv > 0 && isNum(r.px) && r.px / sc.iv >= 2) s += ` 현재가가 계산한 적정 가격의 ${n0(r.px / sc.iv, 1)}배입니다.`;
+    let s = `가격 점수는 ${sc.v}점입니다.`;
+    if (isNum(sc.iv) && sc.iv > 0 && isNum(r.px) && r.px / sc.iv >= 2) s += ` 현재가가 계산한 적정 주가의 ${n0(r.px / sc.iv, 1)}배입니다.`;
     else if (isNum(sc.mos) && isNum(sc.iv)) s += sc.mos >= 0
-      ? ` 현재가가 계산한 적정 가격보다 ${n0(sc.mos)}% 낮습니다.`
-      : ` 현재가가 계산한 적정 가격보다 ${n0(-sc.mos)}% 높습니다.`;
+      ? ` 현재가가 계산한 적정 주가보다 ${n0(sc.mos)}% 낮습니다.`
+      : ` 현재가가 계산한 적정 주가보다 ${n0(-sc.mos)}% 높습니다.`;
     out.push(s);
   }
   if (isNum(sc.q) && isNum(sc.v)) {
-    if (sc.q >= 80 && sc.v < 30) out.push('회사는 좋지만 지금 가격은 비싼 편이라, 적정 가격 근처로 내려올 때를 기다리는 유형입니다.');
+    if (sc.q >= 80 && sc.v < 30) out.push('회사는 좋지만 지금 가격은 비싼 편이라, 적정 주가 근처로 내려올 때를 기다리는 유형입니다.');
     else if (sc.q >= 70 && sc.v >= 60 && !(sc.flags || []).some((fl) => !WARN_FLAGS.has(fl))) out.push('품질과 가격이 함께 기준에 가까운 드문 경우입니다. 감점 신호와 사업 내용을 함께 확인해 보세요.');
     else if (sc.q < 50 && sc.v >= 60) out.push('숫자로는 싸 보이지만 이익의 질이 낮아, 싼 데에는 이유가 있을 수 있습니다.');
   }
@@ -160,23 +160,23 @@ function faqItems(x, date) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
   const out = [];
   if (isNum(sc.iv) && sc.iv > 0) {
-    let a = `밸류노트가 과거 평균 이익·주주 이익과 자산 가치로 계산한 ${r.n} 적정 가격은 ${money(sc.iv, cur)}입니다.`;
-    if (isNum(r.px)) a += isNum(sc.mos) && r.px / sc.iv < 2 ? ` ${date} 기준 현재가 ${money(r.px, cur)}는 적정 가격보다 ${gapTxt(sc.mos)} 수준입니다.` : ` ${date} 기준 현재가 ${money(r.px, cur)}는 적정 가격의 ${n0(r.px / sc.iv, 1)}배입니다.`;
+    let a = `밸류노트가 과거 평균 이익·주주 이익과 자산 가치로 계산한 ${r.n} 적정 주가은 ${money(sc.iv, cur)}입니다.`;
+    if (isNum(r.px)) a += isNum(sc.mos) && r.px / sc.iv < 2 ? ` ${date} 기준 현재가 ${money(r.px, cur)}는 적정 주가보다 ${gapTxt(sc.mos)} 수준입니다.` : ` ${date} 기준 현재가 ${money(r.px, cur)}는 적정 주가의 ${n0(r.px / sc.iv, 1)}배입니다.`;
     a += ' 공식에 따른 추정치이며 미래 주가를 보장하지 않습니다.';
     out.push([`${r.n} 적정 주가는 얼마인가요?`, a]);
   }
   if (isNum(sc.v)) {
     const ok = isNum(sc.mos) && sc.mos >= 30;
-    out.push([`${r.n} 지금 저평가인가요?`, `저평가 점수는 100점 만점에 ${sc.v}점입니다. ` + (ok
-      ? `현재가가 적정 가격보다 30% 이상 낮아, 그레이엄이 말한 안전마진 30% 기준을 충족합니다. 다만 싼 데에는 이유가 있을 수 있으니 품질 점수(${sc.q ?? '–'}점)와 감점 신호를 함께 보세요.`
-      : `밸류노트는 적정 가격보다 30% 이상 낮을 때를 안전마진 기준으로 봅니다. 지금은 그 기준에 들어오지 않았습니다.`)]);
+    out.push([`${r.n} 지금 저평가인가요?`, `가격 점수는 100점 만점에 ${sc.v}점입니다. ` + (ok
+      ? `현재가가 적정 주가보다 30% 이상 낮아, 그레이엄이 말한 안전마진 30% 기준을 충족합니다. 다만 싼 데에는 이유가 있을 수 있으니 재무 점수(${sc.q ?? '–'}점)와 감점 신호를 함께 보세요.`
+      : `밸류노트는 적정 주가보다 30% 이상 낮을 때를 안전마진 기준으로 봅니다. 지금은 그 기준에 들어오지 않았습니다.`)]);
   }
   const bits = [];
   if (isNum(sc.per)) bits.push(`PER ${n0(sc.per, 1)}배`);
   if (isNum(sc.pbr)) bits.push(`PBR ${n0(sc.pbr, 2)}배`);
   if (isNum(f.roeAvg)) bits.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
   if (bits.length) out.push([`${r.n} PER·PBR·ROE는?`, `${date} 기준 ${bits.join(', ')}입니다. PER은 낮을수록 이익 대비 싸고, ROE는 꾸준히 높을수록 자본을 잘 굴리는 회사입니다. 한 해 숫자보다 여러 해 평균을 보는 것이 안전합니다.`]);
-  out.push(['밸류노트 점수는 어떻게 계산하나요?', '그레이엄·버핏·멍거의 기준을 숫자로 옮겼습니다. ROE·이익률·현금흐름 등 13개 지표로 본 숫자 품질 40%, 적정 가격 대비 할인율로 본 저평가 60%를 합치고, 잦은 적자·과도한 빚·잦은 증자 같은 위험 신호는 감점합니다. 버크셔 해서웨이의 실제 매수 62건으로 검증한 공식입니다.']);
+  out.push(['밸류노트 점수는 어떻게 계산하나요?', '그레이엄·버핏·멍거의 기준을 숫자로 옮겼습니다. ROE·이익률·현금흐름 등 13개 지표로 본 재무 점수 40%, 적정 주가 대비 할인율로 본 저평가 60%를 합치고, 잦은 적자·과도한 빚·잦은 증자 같은 위험 신호는 감점합니다. 버크셔 해서웨이의 실제 매수 62건으로 검증한 공식입니다.']);
   return out;
 }
 
@@ -187,10 +187,10 @@ function companyPage(x, peers, date) {
   const pens = (sc.flags || []).filter((fl) => !WARN_FLAGS.has(fl)), warns = (sc.flags || []).filter((fl) => WARN_FLAGS.has(fl));
   const b = sc.b;
   const hasIv = isNum(sc.iv) && sc.iv > 0;
-  // 검색어 '○○ 적정주가'에 맞춘 제목
-  const title = `${r.n} 적정주가 ${hasIv ? money(sc.iv, cur) + ' · ' : ''}가치투자 점수 ${isNum(b) ? b + '점' : ''} | 밸류노트`;
-  const desc = `${r.n}(${code}) 적정주가와 밸류노트 점수 ${isNum(b) ? b + '점' : '계산 불가'}(숫자 품질 ${sc.q ?? '–'}점, 저평가 ${sc.v ?? '–'}점${isNum(sc.qualScore) ? `, 정성 평가 ${sc.qualScore}점` : ''}).` +
-    (hasIv && isNum(r.px) ? ` 현재가 ${money(r.px, cur)}, 적정 가격 ${money(sc.iv, cur)}.` : '') +
+  // 검색어 '○○ 적정 주가'에 맞춘 제목
+  const title = `${r.n} 적정 주가 ${hasIv ? money(sc.iv, cur) + ' · ' : ''}가치투자 점수 ${isNum(b) ? b + '점' : ''} | 밸류노트`;
+  const desc = `${r.n}(${code}) 적정 주가와 밸류노트 점수 ${isNum(b) ? b + '점' : '계산 불가'}(재무 점수 ${sc.q ?? '–'}점, 저평가 ${sc.v ?? '–'}점${isNum(sc.qualScore) ? `, 정성 평가 ${sc.qualScore}점` : ''}).` +
+    (hasIv && isNum(r.px) ? ` 현재가 ${money(r.px, cur)}, 적정 주가 ${money(sc.iv, cur)}.` : '') +
     (isNum(sc.per) ? ` PER ${n0(sc.per, 1)}배` : '') + (isNum(f.roeAvg) ? `, 5년 평균 ROE ${n0(f.roeAvg, 1)}%.` : '.') + ` 그레이엄·버핏 기준으로 매일 계산합니다.`;
   const sum = summary(r, sc);
   const faq = faqItems(x, date);
@@ -219,21 +219,21 @@ function companyPage(x, peers, date) {
   ] };
   const appLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&utm_source=c`;
   const alertLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&utm_source=c-alert`;
-  const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasIv && isNum(sc.mos) && isNum(r.px) && r.px / sc.iv < 2 ? ` · 적정가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·버핏 기준으로 본 숫자';
+  const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasIv && isNum(sc.mos) && isNum(r.px) && r.px / sc.iv < 2 ? ` · 적정 주가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·버핏 기준으로 본 숫자';
   return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)}</div>
-<section class="card hero"><h1>${esc(r.n)} 적정주가와 가치투자 점수</h1><div class="sub">${esc(code)} · ${MKT[g]}${r.en ? ' · ' + esc(r.en) : ''}${r.ind ? ' · ' + esc(r.ind) : ''}</div>
+<section class="card hero"><h1>${esc(r.n)} 적정 주가와 가치투자 점수</h1><div class="sub">${esc(code)} · ${MKT[g]}${r.en ? ' · ' + esc(r.en) : ''}${r.ind ? ' · ' + esc(r.ind) : ''}</div>
 <div class="score"><b>${isNum(b) ? b : '–'}</b><span>밸류노트 점수 (100점 만점 · 숫자 65%·정성 평가 20%·트렌드 15%${sc.qualDone ? '' : ' · 정성 평가 전'})</span></div>
-<div class="bars"><div><div class="lab">숫자 품질</div><div class="val">${sc.q ?? '–'}점</div><div class="bar"><i style="width:${sc.q || 0}%"></i></div></div>
+<div class="bars"><div><div class="lab">재무 점수</div><div class="val">${sc.q ?? '–'}점</div><div class="bar"><i style="width:${sc.q || 0}%"></i></div></div>
 <div><div class="lab">저평가</div><div class="val">${sc.v ?? '–'}점</div><div class="bar"><i style="width:${sc.v || 0}%"></i></div></div></div>
 <div class="share"><button type="button" data-sh="c" data-u="${url}" data-t="${esc(shareText)}">이 점수 공유하기</button></div></section>
-${isNum(r.px) ? `<section class="card"><h2>가격</h2><div class="price"><div><div class="k">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="k">적정 가격</div><div class="v">${money(sc.iv, cur)}</div></div><div><div class="k">안전마진</div><div class="v ${isNum(sc.mos) ? (sc.mos >= 0 ? 'pos' : 'neg') : ''}">${isNum(sc.mos) ? (sc.mos > 0 ? '+' : '') + n0(sc.mos) + '%' : '–'}</div></div></div>
-<p class="note" style="margin-top:10px">적정 가격은 과거 평균 이익·주주 이익과 자산 가치로 계산한 값입니다. ${r.fin_sector ? '금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다. ' : ''}미래를 보장하지 않습니다.</p>
+${isNum(r.px) ? `<section class="card"><h2>가격</h2><div class="price"><div><div class="k">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="k">적정 주가</div><div class="v">${money(sc.iv, cur)}</div></div><div><div class="k">안전마진</div><div class="v ${isNum(sc.mos) ? (sc.mos >= 0 ? 'pos' : 'neg') : ''}">${isNum(sc.mos) ? (sc.mos > 0 ? '+' : '') + n0(sc.mos) + '%' : '–'}</div></div></div>
+<p class="note" style="margin-top:10px">적정 주가은 과거 평균 이익·주주 이익과 자산 가치로 계산한 값입니다. ${r.fin_sector ? '금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다. ' : ''}미래를 보장하지 않습니다.</p>
 ${hasIv ? `<a class="alert" href="${alertLink}"><b>${esc(josa(r.n, '이', '가'))} 적정 매수가에 오면 알려 드릴까요?</b><span>알림 받기 ›</span></a>` : ''}</section>` : ''}
 ${sum.length ? `<section class="card"><h2>한 줄씩 읽기</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}</section>` : ''}
 ${pens.length || warns.length ? `<section class="card"><h2>감점·경고 신호</h2>${pens.map((fl) => `<div class="flag"><span class="pill p-pen">감점 −8</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}${warns.map((fl) => `<div class="flag"><span class="pill ${fl === '중국 본토 규제' ? 'p-pen' : 'p-warn'}">${fl === '중국 본토 규제' ? '할인 −6' : '경고'}</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}</section>` : ''}
 ${rowsM.length ? `<section class="card"><h2>핵심 숫자</h2><table>${rowsM.map((m) => `<tr><td>${m[0]}${m[2] ? `<div class="note">${m[2]}</div>` : ''}</td><td class="n">${m[1]}</td></tr>`).join('')}</table></section>` : ''}
-<a class="cta" href="${appLink}">밸류노트에서 ${esc(r.n)} 자세히 보기<small>적정 가격 알림 · 내 포트폴리오 점수 · 멍거의 질문 체크</small></a>
+<a class="cta" href="${appLink}">밸류노트에서 ${esc(r.n)} 자세히 보기<small>적정 주가 알림 · 내 포트폴리오 점수 · 멍거의 질문 체크</small></a>
 <section class="card faq"><h2>자주 묻는 질문</h2>${faq.map(([q, a], i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</section>
 ${peers.length ? `<section class="card peers"><h2>같은 업종의 다른 회사</h2>${peers.map((p) => `<a href="/c/${p.slug}"><span>${esc(p.r.n)} <span class="note">${MKT[grpOf(p.r.m)]}</span></span><b>${p.sc.b ?? '–'}점</b></a>`).join('')}</section>` : ''}
 </main>${FOOT(date)}${SHARE_JS}${TRACK('/c/' + x.slug)}</body></html>`;
@@ -243,14 +243,14 @@ ${peers.length ? `<section class="card peers"><h2>같은 업종의 다른 회사
 const rankTable = (list) => `<table><tr><th>#</th><th>회사</th><th style="text-align:right">점수</th></tr>${list.map((x, i) => `<tr><td class="s">${i + 1}</td><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">${esc(x.r.ind || x.r.s || '')}</div></td><td class="n">${x.sc.b ?? '–'}</td></tr>`).join('')}</table>`;
 const MSLUG = { KR: 'kr', US: 'us', JP: 'jp', HK: 'hk', CN: 'cn' };
 const MKT_LONG = { KR: '국내 주식(코스피·코스닥)', US: '미국 주식', JP: '일본 주식', HK: '홍콩 주식', CN: '중국 A주' };
-// 품질이 기준 이상이고 적정 가격보다 30% 이상 싼 회사 (사실 기준 필터. 추천 아님)
+// 품질이 기준 이상이고 적정 주가보다 30% 이상 싼 회사 (사실 기준 필터. 추천 아님)
 const isBargain = (x) => isNum(x.sc.mos) && x.sc.mos >= 30 && isNum(x.sc.q) && x.sc.q >= 60 && !(x.sc.flags || []).some((fl) => !WARN_FLAGS.has(fl));
 
 function indexPage(all, date) {
   const url = `${SITE}/c/`;
   const by = Object.fromEntries(MKT_ORDER.map((m) => [m, all.filter((x) => grpOf(x.r.m) === m).sort((a, b) => (b.sc.b ?? -1) - (a.sc.b ?? -1))]));
   const title = `기업 점수 ${all.length}곳 · 그레이엄·버핏 기준 가치투자 순위 | 밸류노트`;
-  const desc = `국내·미국·일본·홍콩·중국 ${all.length}개 기업의 적정주가와 가치투자 점수를 같은 기준(숫자 품질·저평가·감점 신호)으로 매일 계산합니다. 저평가 우량주를 시장별로 확인하세요.`;
+  const desc = `국내·미국·일본·홍콩·중국 ${all.length}개 기업의 적정 주가와 가치투자 점수를 같은 기준(재무 점수·저평가·감점 신호)으로 매일 계산합니다. 저평가 우량주를 시장별로 확인하세요.`;
   const ld = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, url, dateModified: date, inLanguage: 'ko-KR' };
   return head({ title, desc, url, ld, type: 'website' }) + `<main>
 <h1>기업 점수 ${all.length}곳</h1><p class="sub">그레이엄·버핏·멍거의 기준을 숫자로 옮겨, 5개 시장의 기업을 같은 잣대로 매일 다시 계산합니다. 70점 이상이 기준입니다.</p>
@@ -265,8 +265,8 @@ function marketPage(m, list, date) {
   const sorted = [...list].sort((a, b) => (b.sc.b ?? -1) - (a.sc.b ?? -1));
   const bar = sorted.filter(isBargain).sort((a, b) => b.sc.mos - a.sc.mos);
   const top = sorted.filter((x) => isNum(x.sc.b));
-  const title = `${MKT_LONG[m]} 저평가 우량주 순위 ${list.length}곳 · 적정주가 | 밸류노트`;
-  const desc = `${MKT_LONG[m]} ${list.length}곳의 적정주가와 가치투자 점수를 매일 계산한 순위입니다. 품질 60점 이상이면서 적정 가격보다 30% 이상 싼 회사는 ${bar.length}곳입니다(${date} 기준).`;
+  const title = `${MKT_LONG[m]} 저평가 우량주 순위 ${list.length}곳 · 적정 주가 | 밸류노트`;
+  const desc = `${MKT_LONG[m]} ${list.length}곳의 적정 주가와 가치투자 점수를 매일 계산한 순위입니다. 품질 60점 이상이면서 적정 주가보다 30% 이상 싼 회사는 ${bar.length}곳입니다(${date} 기준).`;
   const ld = { '@context': 'https://schema.org', '@graph': [
     { '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: '밸류노트', item: SITE + '/' },
@@ -274,18 +274,18 @@ function marketPage(m, list, date) {
       { '@type': 'ListItem', position: 3, name: `${MKT[m]} 순위`, item: url }] },
     { '@type': 'ItemList', name: title, numberOfItems: Math.min(20, top.length), itemListElement: top.slice(0, 20).map((x, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/c/${x.slug}`, name: x.r.n })) },
   ] };
-  const shareText = `${MKT_LONG[m]} 가치투자 점수 순위. 적정 가격보다 30% 이상 싼 우량주 ${bar.length}곳`;
+  const shareText = `${MKT_LONG[m]} 가치투자 점수 순위. 적정 주가보다 30% 이상 싼 우량주 ${bar.length}곳`;
   return head({ title, desc, url, ld, type: 'website' }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › ${MKT[m]}</div>
-<section class="card hero"><h1>${MKT_LONG[m]} 저평가 우량주 순위</h1><p class="sub" style="margin-top:6px">${list.length}곳을 그레이엄·버핏 기준으로 매일 다시 계산합니다. 점수 70점 이상이 기준이고, 적정 가격보다 30% 이상 낮으면 안전마진이 있다고 봅니다.</p>
+<section class="card hero"><h1>${MKT_LONG[m]} 저평가 우량주 순위</h1><p class="sub" style="margin-top:6px">${list.length}곳을 그레이엄·버핏 기준으로 매일 다시 계산합니다. 점수 70점 이상이 기준이고, 적정 주가보다 30% 이상 낮으면 안전마진이 있다고 봅니다.</p>
 <div class="share"><button type="button" data-sh="m" data-u="${url}" data-t="${esc(shareText)}">이 순위 공유하기</button></div></section>
-<section class="card list"><h2>안전마진 30% 이상 · 품질 60점 이상 (${bar.length}곳)</h2>${bar.length ? `<table><tr><th>회사</th><th style="text-align:right">적정가 대비</th></tr>${bar.map((x, i) => i < 3 && bar.length > 5
+<section class="card list"><h2>안전마진 30% 이상 · 품질 60점 이상 (${bar.length}곳)</h2>${bar.length ? `<table><tr><th>회사</th><th style="text-align:right">적정 주가 대비</th></tr>${bar.map((x, i) => i < 3 && bar.length > 5
     // 앱 첫 화면과 같이 할인율 1~3위는 가입하면 보이게 둔다(가입 동기)
     ? `<tr><td><a href="/?signup&utm_source=c-${MSLUG[m]}-gate" style="color:var(--gold)">${i + 1}위 · 가입하고 보기 ›</a><div class="s">품질 ${x.sc.q}점 · 점수 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`
     : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">품질 ${x.sc.q}점 · 점수 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`).join('')}</table>` : '<p class="note">오늘은 이 기준을 통과한 회사가 없습니다. 좋은 회사의 가격이 내려올 때까지 기다리는 날입니다.</p>'}
 <p class="note" style="margin-top:8px">감점 신호(잦은 적자·과도한 빚·잦은 증자 등)가 있는 회사는 뺐습니다. 숫자로 거른 목록일 뿐, 매수 권유가 아닙니다.</p></section>
 <section class="card list"><h2>밸류노트 점수 순위</h2>${rankTable(sorted)}</section>
-<a class="cta" href="/?utm_source=c-${MSLUG[m]}">관심 종목이 적정 가격에 오면 알림 받기<small>가입은 이메일만으로 10초</small></a>
+<a class="cta" href="/?utm_source=c-${MSLUG[m]}">관심 종목이 적정 주가에 오면 알림 받기<small>가입은 이메일만으로 10초</small></a>
 <div class="mlinks">${MKT_ORDER.filter((k) => k !== m).map((k) => `<a href="/c/${MSLUG[k]}">${MKT[k]} 순위</a>`).join('')}</div>
 </main>${FOOT(date)}${SHARE_JS}${TRACK('/c/' + MSLUG[m])}</body></html>`;
 }
