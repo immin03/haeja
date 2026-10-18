@@ -27,5 +27,17 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/ig",
+      "destination": "/?utm_source=ig-bio",
+      "permanent": false
+    },
+    {
+      "source": "/th",
+      "destination": "/?utm_source=threads-bio",
+      "permanent": false
+    }
   ]
 }
