@@ -403,8 +403,22 @@ function sayMoney(v, cur) {
   const unit = { USD: '달러', JPY: '엔', HKD: '홍콩달러', CNY: '위안' }[cur] || '';
   return `${Math.round(v)} ${unit}`;
 }
-const FAIR = { type: 'statement', l1: '적정 주가란?', l2: '회사의 1주당 가치', tone: 'gold', note: '회사가 앞으로 벌어들일 돈으로 계산합니다',
-  say: '적정 주가는, 회사가 앞으로 벌 돈으로 계산한 한 주당 가치입니다.' };
+// 적정 주가는 밸류노트의 의견이 아니라 버핏·그레이엄이 쓴 계산법을 그대로 적용한 값임을 밝힌다 (사장님 지시 2026-10-18)
+const FAIR_B = { type: 'statement', l1: '버핏의 계산법', l2: '앞으로 남을 현금의 가치', tone: 'gold', note: '주주에게 남는 현금(오너 이익)을 연 10%로 할인',
+  say: '버핏은 앞으로 남을 현금을, 지금 가치로 바꿔 계산합니다.' };
+const FAIR_G = { type: 'statement', l1: '그레이엄의 계산법', l2: '이익과 자산으로 계산', tone: 'gold', note: '은행·보험처럼 현금 계산이 맞지 않는 회사에 씁니다',
+  say: '버핏의 스승 그레이엄은, 이익과 자산으로 계산합니다.' };
+const FAIR_BG = { type: 'statement', l1: '버핏·그레이엄의 계산법', l2: '앞으로 남을 이익의 가치', tone: 'gold', note: '밸류노트의 의견이 아니라 그들의 계산 방식입니다',
+  say: '버핏과 그레이엄의 방식으로 계산했습니다.' };
+// 계산이 늘 맞지는 않는다는 점도 밝힌다: 버크셔도 이 방식으로는 비싸 보이는 알파벳을 2025년부터 샀다 (2025년 3분기 13F 공시)
+const LIMIT_OVER = { type: 'statement', l1: '물론 늘 맞지는 않습니다', l2: '버크셔도 구글을 샀습니다', tone: 'ivory', note: '1등 프리미엄은 계산에 넣지 않습니다',
+  say: '물론 늘 맞지는 않습니다. 버크셔도 비싸 보이던 구글을 샀습니다.' };
+const LIMIT_UNDER = { type: 'statement', l1: '물론 늘 맞지는 않습니다', l2: '싼 데는 이유가 있을 수 있습니다', tone: 'ivory', note: '숫자는 출발점일 뿐입니다',
+  say: '물론 늘 맞지는 않습니다. 싼 데는 이유가 있을 수 있습니다.' };
+const METHOD_CAP = (g) => g
+  ? '적정 주가는 벤저민 그레이엄의 계산법(이익과 자산을 함께 보는 그레이엄 공식)으로 계산한 1주당 가치입니다. 은행·보험처럼 현금흐름 계산이 맞지 않는 회사에 씁니다. 밸류노트의 의견이나 매수·매도 추천이 아닙니다.'
+  : '적정 주가는 워런 버핏이 설명한 계산법으로 구한 1주당 가치입니다. 앞으로 주주에게 남을 현금(오너 이익)을 연 10%로 할인해 지금 가치로 바꿉니다. 밸류노트의 의견이나 매수·매도 추천이 아닙니다.';
+const LIMIT_CAP = '이 계산이 늘 맞지는 않습니다. 세계 1위라는 프리미엄이나 앞으로의 신사업 가치는 계산에 넣지 않기 때문입니다. 실제로 버크셔 해서웨이도 2025년부터 이 방식으로는 비싸 보이는 알파벳(구글) 주식을 사들였습니다. 숫자는 판단의 출발점으로 봐 주세요.';
 const pct1 = (v) => +Math.abs(v).toFixed(1);
 // 대본 규칙(scripts/reels/README.md): 한 줄 = 완결된 한 문장, 자막과 음성은 같은 문장, 낯선 말은 처음 나올 때 뜻을 말한다.
 function reelCompany(x, a) {
@@ -412,11 +426,12 @@ function reelCompany(x, a) {
   const scenes = [];
   // 첫 2초 후킹: 아는 회사 이름 + 질문, 다음 줄에 숫자로 답 (README 대본 규칙 11)
   const pctOver = Math.round((R - 1) * 100), up = Math.round((1 / R - 1) * 100);
+  const gm = !isNum(sc.dcf), who = gm ? '그레이엄의' : '버핏의';
   if (over) scenes.push({ type: 'hook', top: r.n, num: { to: pctOver, fmt: 'pct' }, tone: 'loss', label: '적정 주가보다 고평가',
-    lines: [{ cap: [`${r.n},`, '지금 사도 될까요?'] }, { cap: ['적정 주가보다', `+${pctOver}% 고평가돼 있습니다`] }] });
+    lines: [{ cap: [`${r.n},`, '버핏이라면 지금 살까요?'] }, { cap: [`${who} 계산으로는`, `+${pctOver}% 고평가돼 있습니다`] }] });
   else scenes.push({ type: 'hook', top: r.n, num: { to: up, fmt: 'pct' }, tone: 'good', label: '적정 주가까지 상승 여력',
-    lines: [{ cap: [`${r.n},`, '지금 사도 될까요?'] }, { cap: ['적정 주가까지', `상승 여력이 +${up}%입니다`] }] });
-  scenes.push(FAIR);
+    lines: [{ cap: [`${r.n},`, '버핏이라면 지금 살까요?'] }, { cap: [`${who} 계산으로는`, `상승 여력이 +${up}%입니다`] }] });
+  scenes.push(gm ? FAIR_G : FAIR_B);
   scenes.push({ type: 'compare', title: '지금 주가 vs 적정 주가', l: { label: '지금 주가', v: money(r.px, cur), tone: over ? 'loss' : 'ivory' }, r: { label: '적정 주가', v: money(sc.iv, cur), tone: 'gold' },
     lines: [{ cap: [`지금 주가는 ${money(r.px, cur)}이고,`, `적정 주가는 ${money(sc.iv, cur)}입니다`], say: `지금 주가는 ${sayMoney(r.px, cur)}이고, 적정 주가는 ${sayMoney(sc.iv, cur)}입니다.` }] });
   if (false && isNum(sc.ig) && isNum(sc.hist)) { // 30초 상한 때문에 뺌(목표 20초)
@@ -427,14 +442,15 @@ function reelCompany(x, a) {
       lines: [{ cap: l1 }, { cap: ['그런데 지난 몇 년 동안', real] }] });
   }
   const st = a.alt ? ['지금 이익이 반짝 호황인지', '오래갈 수준인지', '지금 이익이 반짝 호황인지, 오래갈 수준인지가 관건입니다.']
-    : over ? ['좋은 회사도 비싸게 사면', '수익이 줄어듭니다', '좋은 회사도 비싸게 사면, 수익이 줄어듭니다.']
+    : over ? ['버핏은 좋은 회사도', '적당한 가격에 삽니다', '버핏은 좋은 회사도, 적당한 가격일 때 삽니다.']
     : a.pens.length ? ['싼 데는 이유가 있는지', '먼저 확인하세요', '싼 데는 이유가 있는지, 먼저 확인하세요.']
     : ['시장이 놓친 기회인지', '숫자로 확인하세요', '시장이 놓친 기회인지, 숫자로 확인하세요.'];
-  scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', say: st[2] });
+  if (a.alt) scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', say: st[2] });
+  scenes.push(over ? LIMIT_OVER : LIMIT_UNDER);
   scenes.push({ type: 'cta' });
   const name = r.n.replace(/\s+/g, '');
   return { title: `${r.n} 적정 주가`, mood: over ? 'tense' : 'calm', scenes, hashtags: [name, name + '주가', '적정 주가', '가치투자', '밸류노트'],
-    caption: `${r.n}의 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다. ${gapSentence(R)}.\n\n적정 주가는 회사가 앞으로 벌어들일 이익과 현금을 바탕으로 밸류노트가 계산한 1주당 가치입니다. 현재가가 이보다 낮으면 저평가, 높으면 고평가입니다.\n\n` + a.cap.join('\n\n') + `\n\n전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` };
+    caption: `${r.n}의 적정 주가는 ${money(sc.iv, cur)}, 지금 주가는 ${money(r.px, cur)}입니다. ${gapSentence(R)}.\n\n` + METHOD_CAP(gm) + ' 현재가가 적정 주가보다 낮으면 저평가, 높으면 고평가입니다.\n\n' + a.cap.join('\n\n') + '\n\n' + LIMIT_CAP + `\n\n전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` };
 }
 function reelRank(L, side, label) {
   const under = side === 'under', top = L.slice(0, 5), R1 = top[0].R;
@@ -442,16 +458,17 @@ function reelRank(L, side, label) {
   const scenes = [];
   const u1 = Math.round((1 / R1 - 1) * 100), o1 = Math.round((R1 - 1) * 100);
   if (under) scenes.push({ type: 'hook', top: `${label} 저평가 TOP 5`, num: { to: u1, fmt: 'pct' }, tone: 'good', label: '1위의 상승 여력',
-    lines: [{ cap: [`${label}에서 지금`, '가장 저평가된 회사 5곳'] }, { cap: ['1위는 적정 주가까지', `상승 여력이 +${u1}%입니다`] }] });
+    lines: [{ cap: [`버핏 방식으로 본 ${label}의`, '가장 저평가된 회사 5곳'] }, { cap: ['1위는 적정 주가까지', `상승 여력이 +${u1}%입니다`] }] });
   else scenes.push({ type: 'hook', top: `${label} 고평가 TOP 5`, num: { to: o1, fmt: 'pct' }, tone: 'loss', label: '1위의 고평가',
-    lines: [{ cap: ['좋은 회사인데', '가장 고평가된 5곳'] }, { cap: ['1위는 적정 주가보다', `+${o1}% 고평가돼 있습니다`] }] });
-  scenes.push(FAIR);
+    lines: [{ cap: ['좋은 회사지만 버핏 방식으로는', '가장 고평가된 5곳'] }, { cap: ['1위는 적정 주가보다', `+${o1}% 고평가돼 있습니다`] }] });
+  scenes.push(FAIR_BG);
   scenes.push({ type: 'list', title: `${under ? '지금 저평가' : '좋지만 고평가'} TOP 5 · ${label}`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · ${g(x)}` : `${i + 1}위 ${x.r.n} · ${g(x)}`),
     say: `사위는 ${top[3].r.n}, 오위는 ${top[4].r.n}입니다.` });
-  scenes.push({ type: 'statement', l1: '1~3위는', l2: '프로필 링크에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에서 확인할 수 있습니다.' });
+  scenes.push(under ? LIMIT_UNDER : LIMIT_OVER);
+  scenes.push({ type: 'statement', l1: '1~3위는', l2: '프로필 링크에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에 있습니다.' });
   scenes.push({ type: 'cta' });
   return { title: `${under ? '저평가' : '고평가'} TOP 5 · ${label}`, mood: 'calm', scenes, hashtags: [under ? '저평가주' : '고평가주', '저평가주식', '적정 주가', '가치투자', '밸류노트'],
-    caption: `${under ? `지금 가장 저평가된 ${label} 기업 TOP 5입니다.` : `좋은 회사지만 가장 고평가된 ${label} 기업 TOP 5입니다.`}\n\n적정 주가는 회사가 앞으로 벌어들일 이익과 현금을 바탕으로 밸류노트가 계산한 1주당 가치입니다. 현재가가 이보다 낮으면 저평가, 높으면 고평가입니다.\n\n` + top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · ${gapText(x.R)}`).join('\n') + '\n\n1~3위와 전체 순위는 밸류노트 저평가·고평가 화면에서 볼 수 있습니다.' };
+    caption: `${under ? `지금 가장 저평가된 ${label} 기업 TOP 5입니다.` : `좋은 회사지만 가장 고평가된 ${label} 기업 TOP 5입니다.`}\n\n적정 주가는 워런 버핏이 설명한 계산법(앞으로 주주에게 남을 현금을 연 10%로 할인)으로 구한 1주당 가치이고, 은행·보험은 벤저민 그레이엄의 공식으로 계산합니다. 밸류노트의 의견이나 매수·매도 추천이 아닙니다. 현재가가 적정 주가보다 낮으면 저평가, 높으면 고평가입니다.\n\n` + top.slice(3).map((x, i) => `${i + 4}위 ${x.r.n} · ${gapText(x.R)}`).join('\n') + '\n\n' + LIMIT_CAP + '\n\n1~3위와 전체 순위는 밸류노트 저평가·고평가 화면에서 볼 수 있습니다.' };
 }
 
 const state0 = path.join(OUT, 'state.json');
@@ -468,12 +485,14 @@ if (['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE)) {
   if (MODE !== 'reel2' && MODE !== 'rr') {
     // 기업 릴스(11:00 저평가·21:00 오늘의 기업·12:30 예비): 카드와 릴스가 같은 회사를 겹쳐 쓰지 않게 한 목록을 같이 쓴다
     const used = new Set([...(state.used || []), ...(state.reelUsed || [])]);
-    const x0 = pick(rows, { used: [...used] }); if (!x0) throw new Error('릴스 회사 없음');
+    // REEL_T=<티커>: 같은 회사로 대본만 다시 만들 때 (예: 문구 규칙이 바뀐 뒤 다시 만들기)
+    const forced = process.env.REEL_T ? rows.find((r) => r.t === process.env.REEL_T) : null;
+    const x0 = forced ? { r: forced, sc: score(forced) } : pick(rows, { used: [...used] }); if (!x0) throw new Error('릴스 회사 없음');
     spec = reelCompany(x0, analyze(x0));
     if (MODE === 'ra') spec.title = `오늘의 기업 · ${x0.r.n}`;
     if (MODE === 'rb') spec.title = `저평가 기업 · ${x0.r.n}`;
     if (MODE === 'rm') spec.title = `좋은 회사, 고평가 · ${x0.r.n}`;
-    state.reelUsed = [...(state.reelUsed || []), x0.r.t]; state.used = [...(state.used || []), x0.r.t];
+    if (!forced) { state.reelUsed = [...(state.reelUsed || []), x0.r.t]; state.used = [...(state.used || []), x0.r.t]; }
     fs.writeFileSync(path.join(OUT, 'state.json'), JSON.stringify(state, null, 1));
   } else {
     const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-18')) / 864e5) + (MODE === 'rr' ? 0 : 3);
