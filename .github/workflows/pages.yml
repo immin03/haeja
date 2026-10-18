@@ -1,4 +1,5 @@
-# 매일 기업별 공개 페이지(/c/…)·sitemap.xml 재생성 → 커밋 (Vercel 배포)
+# 매일 기업별 공개 페이지(/c/…)·시장 순위·칼럼(/blog/)·rss.xml·sitemap.xml 재생성 → 커밋 (Vercel 배포)
+# 커밋 뒤 바뀐 주소를 네이버·빙에 IndexNow 로 알린다
 name: company-pages
 on:
   schedule:
@@ -24,8 +25,16 @@ jobs:
         run: |
           git config user.name "valuenote-bot"
           git config user.email "bot@valuenote.co.kr"
-          git add c sitemap.xml robots.txt
+          git add c blog rss.xml sitemap.xml robots.txt
           git diff --cached --quiet && exit 0
           git commit -m "기업 공개 페이지 갱신 $(TZ=Asia/Seoul date +%F)"
           git pull --rebase origin main
           git push
+          echo "pushed=1" >> "$GITHUB_OUTPUT"
+        id: commit
+      - name: 검색엔진에 바뀐 주소 알리기 (IndexNow)
+        if: steps.commit.outputs.pushed == '1'
+        run: |
+          sleep 90   # Vercel 배포가 끝난 뒤 알린다
+          git show HEAD~1:c/scores.json > /tmp/prev_scores.json 2>/dev/null || echo '{}' > /tmp/prev_scores.json
+          INDEXNOW=1 PREV_SCORES=/tmp/prev_scores.json node scripts/build_pages.mjs
