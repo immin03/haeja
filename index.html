@@ -29,8 +29,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
+<script>/* 처음 들어온 비회원은 소개 페이지(/start)부터. 로그인 기록·이전 방문 기록이 있거나, 특정 화면 링크·홈 화면 앱·로봇이면 그대로 앱 */
+(function(){try{var q=location.search,u=navigator.userAgent;if(!/^\/(index\.html)?$/.test(location.pathname)||location.hash)return;
+if(/[?&](login|signup|tab|co|test|import|staff|from|nostart)\b/.test(q))return;
+if(navigator.webdriver||/bot|crawl|spider|slurp|yeti|headless|lighthouse|preview|facebookexternalhit/i.test(u))return;
+if(matchMedia('(display-mode: standalone)').matches||navigator.standalone===true)return;
+if(localStorage.getItem('vn-start')||localStorage.getItem('vn-sid'))return;
+for(var i=0;i<localStorage.length;i++){if(/^sb-.*-auth-token$/.test(localStorage.key(i)))return;}
+window.__toStart=1;location.replace('/start'+q);}catch(e){}})();</script>
 <script>/* 인스타·쓰레드·카톡 앱 안 브라우저로 들어오면 휴대폰 기본 브라우저로 바로 넘긴다 (안드로이드·카톡). 아이폰은 화면 위 안내 띠로 Safari 열기 */
-(function(){var u=navigator.userAgent;if(!/Instagram|FBAN|FBAV|Barcelona|Threads|KAKAOTALK|NAVER\(|Line\//.test(u))return;
+(function(){var u=navigator.userAgent;if(window.__toStart||!/Instagram|FBAN|FBAV|Barcelona|Threads|KAKAOTALK|NAVER\(|Line\//.test(u))return;
 try{if(sessionStorage.getItem('vn-ext'))return;sessionStorage.setItem('vn-ext','1');}catch(e){}
 var url=location.href;
 if(/KAKAOTALK/.test(u)){location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(url);return;}
@@ -984,6 +992,8 @@ const store = (() => {
         try{ if(ref && !localStorage.getItem('vn-ref')) localStorage.setItem('vn-ref', ref); if(kind !== 'visit') ref = localStorage.getItem('vn-ref') || ref; }catch(_){}
         await sb.from('events').insert({ kind, sid: sid(), path: (page ? '/' + page : location.pathname).slice(0, 200), ref: ref.slice(0, 300), device: device() }); }catch(_){}
     },
+    /* 소개 페이지(/start)에서 버튼으로 넘어오면 이미 방문으로 셌으므로 '소개→앱' 이동으로만 남긴다 */
+    entry(){ try{ const u = new URLSearchParams(location.search); if(u.get('from') === 'start'){ u.delete('from'); history.replaceState(null, '', location.pathname + (u.toString() ? '?' + u.toString().replace(/=(&|$)/g, '$1') : '') + location.hash); return ['view', 'start-enter']; } }catch(_){} return ['visit']; },
     async init(){
       const C = window.HAEJA_CONFIG || {};
       if(!window.supabase || !C.SUPABASE_URL || !C.SUPABASE_ANON_KEY){ mode = 'noconfig'; return; }
@@ -993,9 +1003,9 @@ const store = (() => {
       if(!session){
         /* 로그인 없이 둘러보기: 로그인 안 된 사람은 누구나 바로 둘러보기 화면으로. ?login·?signup 링크만 로그인 화면 */
         const wantLogin = /[?&#](login|signup)/.test(location.search + location.hash);
-        mode = wantLogin ? 'login' : 'guest'; this.track('visit'); return;
+        mode = wantLogin ? 'login' : 'guest'; this.track(...this.entry()); return;
       }
-      user = session.user; mode = 'db'; this.track('visit');
+      user = session.user; mode = 'db'; this.track(...this.entry());
       if(user.email !== DEMO_EMAIL) sb.rpc('is_admin').then(({ data }) => { try{ if(data === true) localStorage.setItem('vn-staff', '1'); }catch(_){} }).catch(() => {});
       /* 다른 곳에서 로그아웃돼 이 기기 세션이 끊기면, 저장이 조용히 실패하지 않도록 로그인 화면으로 */
       sb.auth.onAuthStateChange((ev, s2) => { if(ev === 'SIGNED_OUT' || (ev === 'TOKEN_REFRESHED' && !s2)) this.expired(); });
@@ -1767,8 +1777,23 @@ document.addEventListener('submit', e => {
   S.tab = 'companies'; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = q; S.coShown = 30; try{ localStorage.setItem('ml-tab','companies'); }catch(_){}
   store.track('view', 'hero-search'); render(); window.scrollTo(0, 0);
 });
+function guestHome(){
+  return `<section class="g-hero g-home">
+    <div class="gh-eyebrow">내 포트폴리오 · 현황</div>
+    <h1>아직 담긴 종목이 없습니다</h1>
+    <p class="gh-sub">보유 종목을 넣으면 종목마다 <b>밸류노트 점수와 적정 주가</b>를 계산하고, 내 계좌 전체가 적정 주가 기준으로 얼마인지 바로 보여 드립니다.</p>
+    <div class="gh-cta">${kakaoOn() ? `<button type="button" class="btn kakao-btn" data-lg="kakao">${KAKAO_SVG}<span>카카오로 3초 만에 시작하기</span></button>` : ''}<button type="button" class="btn primary" data-guest="signup">이메일로 가입하고 내 종목 넣기</button></div>
+    <div class="gh-or"><span>가입 전에 점수부터 보고 싶다면</span></div>
+    <form id="gh-form" class="gh-form" autocomplete="off"><input id="gh-q" placeholder="종목 이름 (예: 삼성전자, 애플)" aria-label="종목 검색" enterkeyhint="search"><button class="btn primary" type="submit">점수 보기</button></form>
+    <div class="gh-chips">${GH_CHIPS.map(c => `<button type="button" class="${S.ghPick === c ? 'on' : ''}" data-act="gh-pick" data-v="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+    <div id="gh-res">${ghResult()}</div>
+    ${ghIgToday()}
+    ${ghTop5()}
+    <div class="gh-links"><button type="button" class="linkbtn" data-guest="login">이미 계정이 있어요 · 로그인</button><a class="linkbtn" href="/start" data-ev="start-again">밸류노트 3분 소개 보기 ›</a></div>
+  </section>`;
+}
 function guestBar(){
-  if(S.tab === 'portfolio') return guestHero();
+  if(S.tab === 'portfolio') return guestHome();
   if(S.guestBarClosed) return '';
   return `<div class="guest-bar"><div class="gb-t"><b>둘러보는 중</b><span>기업 ${(S2.screen||[]).length > 100 ? (S2.screen.length).toLocaleString('ko-KR') + '곳' : '약 600곳'}의 점수·적정 주가와 메가트렌드는 가입 없이 다 볼 수 있어요. 가입하면 내 포트폴리오 채점, 관심 종목 알림, 결정 일지, 공유 카드를 쓸 수 있어요.</span></div>
     <div class="gb-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="login">로그인</button></div>
@@ -1948,9 +1973,6 @@ function render(){
   app.insertAdjacentHTML('beforeend', discFootHtml());
   if(store.isDemo) app.insertAdjacentHTML('afterbegin', demoBar());
   if(store.isGuest) app.insertAdjacentHTML('afterbegin', guestBar());
-  if(store.isGuest && S.tab === 'portfolio'){ /* 예시 계정 화면임을 카드마다 표시하고, 맨 아래에 내 종목 계산 유도 */
-    document.querySelectorAll('#app > div.card').forEach(c => { c.classList.add('g-ex'); if(!c.querySelector(':scope > .ex-tag')) c.insertAdjacentHTML('afterbegin', '<span class="ex-tag">예시 · 홍길동</span>'); });
-    const ft = app.querySelector('.disc-foot'); if(ft && !app.querySelector('.gh-mine.end')) ft.insertAdjacentHTML('beforebegin', ghMine('end')); }
   if(store.isGuest){ document.querySelectorAll('#app details.deep').forEach(d => { d.classList.add('g-lock'); d.open = false; const sm = d.querySelector('summary'); if(sm && !sm.querySelector('.lock-pill')) sm.insertAdjacentHTML('beforeend', '<span class="lock-pill">가입 후 열림</span>'); }); guestNudgeArm(); }
   if(inApp() && isIOS() && !S.extClosed) app.insertAdjacentHTML('afterbegin', `<div class="ext-bar"><span><b>Safari에서 열면 더 편해요</b> 로그인 유지·알림·홈 화면 추가가 돼요</span><a class="btn" href="x-safari-https://${location.host}${location.pathname}${location.search}">Safari로 열기</a><button type="button" class="ext-x" aria-label="닫기" onclick="S.extClosed=true;this.parentNode.remove()">×</button></div>`);
   if(S.loaded.s && !consentOk() && !store.isDemo){ app.insertAdjacentHTML('beforeend', consentHtml()); document.body.classList.add('noscroll'); }
@@ -3886,8 +3908,11 @@ function demoData(){
 }
 /* 튜토리얼 화면 안내 중이면 빈 데이터 자리를 예시로 잠깐 바꿔 그리고, 그린 뒤 원래대로 돌린다 */
 function applyDemo(){
-  if(!(store.isGuest || (typeof introOn === 'function' && (introOn() || S.introForce)))) return null;
-  const needH = !S.holdings.length, needB = !S.briefings.length, needS = !(S2.screen||[]).length, needJ = !(S.journal||[]).length, needA = !(S.alerts||[]).length;
+  const tour = typeof introOn === 'function' && (introOn() || S.introForce);
+  if(!(store.isGuest || tour)) return null;
+  /* 둘러보기(비회원)는 예시 포트폴리오·일지·알림을 보여 주지 않는다. 예시는 소개 페이지(/start)에만 둔다 */
+  const G = store.isGuest && !tour;
+  const needH = !G && !S.holdings.length, needB = !G && !S.briefings.length, needS = !(S2.screen||[]).length, needJ = !G && !(S.journal||[]).length, needA = !G && !(S.alerts||[]).length;
   if(!needH && !needB && !needS && !needJ && !needA) return null;
   const D = demoData(), saved = { holdings:S.holdings, companies:S.companies, prices:S.prices, briefings:S.briefings, screen:S2.screen, scope:S.scope, journal:S.journal, alerts:S.alerts, settings:S.settings };
   if(needH){ S.holdings = D.holdings; S.companies = [...S.companies, ...D.companies]; S.prices = {...S.prices, ...D.prices}; if(!(cfg().cashKRW > 0)) S.settings = {...(S.settings||{}), cashKRW: D.cash}; }
@@ -6283,6 +6308,11 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .gh-cta .btn.primary:not(.kakao-btn){background:#F3EEE3;color:#0A1322;border-color:#F3EEE3}
 .g-hero .gb-test{background:rgba(228,199,141,.12);border:1px solid rgba(228,199,141,.35);color:#F3EEE3}
 .g-hero .gb-test b{color:#E4C78D}
+.g-home h1{font-size:26px!important}
+.g-home .gh-cta{display:flex;flex-direction:column;gap:8px;margin:4px 0 0}.g-home .gh-cta .btn{width:100%;min-height:48px;font-weight:800}
+.g-home .gh-cta button.btn.primary{background:linear-gradient(90deg,#C99A50,#E4C78D);border:0;color:#0A1322}
+.gh-or{display:flex;align-items:center;gap:10px;margin:20px 0 10px;font-size:12.5px;color:rgba(243,238,227,.6)}.gh-or::before,.gh-or::after{content:"";flex:1;height:1px;background:rgba(228,199,141,.25)}
+.gh-links{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:16px}.g-home .gh-links .linkbtn{color:rgba(243,238,227,.78);font-size:13px;text-decoration:none}
 .g-hero .gh-note{margin-top:12px;font-size:12.5px;line-height:1.55;color:rgba(243,238,227,.6)}
 .g-hero .gh-note b{color:rgba(243,238,227,.85)}
 @media (min-width:700px){.g-hero{padding:34px 32px 26px}.g-hero h1{font-size:38px}.gh-cta{flex-direction:row}.gh-cta .btn{flex:1}}

@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>밸류노트 · 주식 사기 전에, 점수부터</title>
+<meta name="description" content="소문과 테마 대신 버핏·그레이엄·멍거의 기준으로. 밸류노트는 5개 시장 600+ 기업의 점수와 적정 주가를 매일 같은 공식으로 계산합니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="밸류노트 ValueNote">
+<meta property="og:title" content="밸류노트 · 주식 사기 전에, 점수부터 확인하세요">
+<meta property="og:description" content="버핏·그레이엄·멍거의 기준으로 600+ 기업의 점수와 적정 주가를 매일 계산합니다.">
+<meta property="og:image" content="https://www.valuenote.co.kr/og.png">
+<meta property="og:url" content="https://www.valuenote.co.kr/start">
+<meta property="og:locale" content="ko_KR">
+<link rel="canonical" href="https://www.valuenote.co.kr/start">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=4">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
+<meta name="theme-color" content="#0A1730">
+<link rel="preload" href="/fonts/fraunces-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<script>/* 인스타·쓰레드·카톡 앱 안 브라우저로 들어오면 휴대폰 기본 브라우저로 넘긴다 (안드로이드·카톡) */
+(function(){var u=navigator.userAgent;if(!/Instagram|FBAN|FBAV|Barcelona|Threads|KAKAOTALK|NAVER\(|Line\//.test(u))return;
+try{if(sessionStorage.getItem('vn-ext'))return;sessionStorage.setItem('vn-ext','1');}catch(e){}
+var url=location.href;
+if(/KAKAOTALK/.test(u)){location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(url);return;}
+if(/Android/.test(u)){location.href='intent://'+location.host+location.pathname+location.search+location.hash+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent(url)+';end';}
+})();
+/* 로그인한 사람은 소개 페이지가 필요 없다 → 바로 앱 */
+(function(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k)){location.replace('/'+location.search);return;}}localStorage.setItem('vn-start','1');}catch(e){}})();</script>
+<style>
+:root{
+  --navy:#0A1730; --navy2:#0E2342; --navy3:#13305A; --gold:#E4C78D; --gold2:#C99A50;
+  --ivory:#F7F2E8; --paper:#FBF8F2; --ink:#14213A; --muted:#5D6779; --line:#E6DFD1;
+  --good:#1F8A5B; --bad:#C2483D; --warn:#C98A12;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"SUIT Variable","SUIT",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+.wm{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.02em;font-variation-settings:"opsz" 144}
+.wm i{font-style:italic;color:var(--gold)}
+
+/* 머리 */
+.top{position:absolute;left:0;right:0;top:0;z-index:5}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:16px}
+.top .wm{font-size:22px;color:#fff;text-decoration:none}
+.top .wm small{display:block;font-family:"SUIT Variable",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.02em;color:rgba(247,242,232,.62);margin-top:-2px}
+.top .login{font-size:13.5px;font-weight:700;color:var(--ivory);text-decoration:none;border:1px solid rgba(228,199,141,.42);border-radius:999px;padding:7px 14px}
+
+/* 첫 화면 */
+.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(228,199,141,.22) 0,rgba(228,199,141,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:92px 0 40px;position:relative;overflow:hidden}
+.eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--gold2)}
+.hero .eyebrow{color:var(--gold)}
+.hero h1{margin:10px 0 12px;font-size:34px;line-height:1.26;font-weight:850;letter-spacing:-.02em;color:#fff}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .sub{margin:0 0 20px;font-size:16px;color:rgba(247,242,232,.84)}
+.hero .sub b{color:#fff}
+.sform{display:flex;gap:8px}
+.sform input{flex:1;min-width:0;height:50px;border-radius:14px;border:1px solid rgba(228,199,141,.38);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:16px;padding:0 16px;outline:none}
+.sform input::placeholder{color:rgba(247,242,232,.5)}
+.sform input:focus{border-color:var(--gold);background:rgba(255,255,255,.12)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:50px;padding:0 20px;border-radius:14px;border:0;font-weight:800;font-size:15.5px;text-decoration:none;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy)}
+.btn.navy{background:var(--navy);color:var(--ivory)}
+.btn.line{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips button{height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(228,199,141,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:13.5px;font-weight:700}
+.chips button.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.chips button.ig{border-color:var(--gold)}
+.chips button.ig small{color:var(--gold);font-weight:800;margin-right:4px}
+.chips button.ig.on small{color:var(--navy)}
+#res{margin-top:14px}
+.res{background:#fff;color:var(--ink);border-radius:18px;padding:18px;box-shadow:0 18px 40px rgba(4,9,20,.35);animation:up .35s ease-out}
+.res-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.res-h b{font-size:19px}
+.res-h span{font-size:12.5px;color:var(--muted);text-align:right}
+.res-g{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:center;margin-top:12px}
+.big{font-size:52px;font-weight:900;line-height:1;letter-spacing:-.03em}
+.big i{font-style:normal;font-size:16px;color:var(--muted);font-weight:700;margin-left:3px}
+.big small{display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:0;margin-bottom:6px}
+.mbar{font-size:12.5px;font-weight:700;color:var(--muted)}
+.mbar+.mbar{margin-top:9px}
+.mbar div{display:flex;justify-content:space-between}
+.mbar div b{color:var(--ink)}
+.trk{height:8px;border-radius:5px;background:#EFE9DD;margin-top:4px;overflow:hidden}
+.trk i{display:block;height:100%;border-radius:5px;background:var(--navy3);transform-origin:left;animation:grow .7s ease-out both}
+.trk.g i{background:var(--gold2)}
+.res-say{margin:14px 0 0;padding:11px 13px;border-radius:12px;background:#F6F1E6;font-size:14px;font-weight:600}
+.res a.more{display:block;margin-top:12px;text-align:center;font-size:14px;font-weight:800;color:var(--navy);text-decoration:none}
+.res-miss{background:rgba(255,255,255,.08);border:1px dashed rgba(228,199,141,.4);border-radius:14px;padding:14px;font-size:14px;color:rgba(247,242,232,.85)}
+.hero .scroll{display:flex;align-items:center;gap:8px;margin-top:26px;font-size:13.5px;font-weight:700;color:rgba(247,242,232,.7);text-decoration:none}
+.hero .scroll span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+
+/* 이야기 단락 */
+section.st{padding:56px 0}
+section.st+section.st{border-top:1px solid var(--line)}
+.st h2{margin:8px 0 14px;font-size:27px;line-height:1.34;font-weight:850;letter-spacing:-.02em}
+.st p{margin:0 0 14px;font-size:16.5px;color:#2B3650}
+.st p.lead{font-size:17.5px;color:var(--ink);font-weight:600}
+.st .note{font-size:13px;color:var(--muted);line-height:1.6}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* 01 말풍선 */
+.bubbles{display:flex;flex-direction:column;gap:10px;margin:6px 0 22px}
+.bub{align-self:flex-start;max-width:86%;background:#fff;border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:12px 16px;font-size:16px;font-weight:700;box-shadow:0 4px 14px rgba(20,33,58,.05)}
+.bub small{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:2px}
+.bub:nth-child(2){align-self:flex-end;border-radius:18px 18px 6px 18px}
+.reveal.in .bub{animation:pop .45s ease-out both}
+.reveal.in .bub:nth-child(2){animation-delay:.18s}.reveal.in .bub:nth-child(3){animation-delay:.36s}
+
+/* 02 세 가지 질문 */
+.qs{display:grid;gap:10px;margin:6px 0 20px}
+.q{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.q .n{width:44px;height:44px;border-radius:50%;background:var(--navy);color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px}
+.q b{display:block;font-size:16.5px}
+.q span{display:block;font-size:14.5px;color:var(--muted);margin-top:2px}
+.quote{margin:4px 0 0;padding:16px 18px;border-left:3px solid var(--gold2);background:#fff;border-radius:0 14px 14px 0;font-size:16px;font-weight:700}
+.quote small{display:block;margin-top:4px;font-size:12.5px;color:var(--muted);font-weight:600}
+
+/* 03 점수 카드 */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 16px}
+.sc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-decoration:none;color:inherit}
+.sc .nm{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-weight:800;font-size:15px}
+.sc .nm span{font-size:11.5px;color:var(--muted);font-weight:700}
+.sc .bs{font-size:36px;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin:6px 0 8px}
+.sc .bs i{font-style:normal;font-size:13px;color:var(--muted);font-weight:700;margin-left:2px}
+.sc .mbar{font-size:11.5px}
+.sc .trk{height:6px}
+.lesson{background:var(--navy);color:var(--ivory);border-radius:16px;padding:16px 18px;font-size:15.5px;font-weight:600;margin:0 0 14px}
+.lesson b{color:var(--gold)}
+
+/* 04 검증 */
+.vs{display:grid;gap:12px;margin:10px 0 16px}
+.vrow{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.vrow .vh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.vrow .vh b{font-size:16px}
+.vrow .vh span{font-size:12.5px;color:var(--muted);font-weight:700}
+.vrow .pct{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-top:6px}
+.vrow .pct small{font-size:14px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:0}
+.vrow.good .pct{color:var(--good)}.vrow.bad .pct{color:var(--bad)}
+.dots{display:flex;gap:5px;margin-top:10px}
+.dots i{flex:1;height:10px;border-radius:3px;background:#E9E3D6}
+.vrow.good .dots i.f{background:var(--bad)}.vrow.bad .dots i.f{background:var(--bad)}
+.dots i.h{background:linear-gradient(90deg,var(--bad) 50%,#E9E3D6 50%)}
+.dots i.s{background:linear-gradient(90deg,var(--bad) 70%,#E9E3D6 70%)}
+.vlegend{font-size:12.5px;color:var(--muted);margin-top:8px}
+.vlegend i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--bad);vertical-align:-1px;margin-right:4px}
+
+/* 05 예시 포트폴리오 */
+.pf{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 14px 34px rgba(20,33,58,.08);margin:8px 0 16px}
+.pf-h{background:linear-gradient(160deg,var(--navy2),var(--navy));color:var(--ivory);padding:16px 18px}
+.pf-h .ex{display:inline-block;font-size:11px;font-weight:800;background:var(--gold);color:var(--navy);border-radius:6px;padding:2px 7px;margin-bottom:6px}
+.pf-h b{display:block;font-size:15px}
+.pf-h .tot{font-size:26px;font-weight:900;color:#fff;margin-top:2px}
+.pf-h .tot small{font-size:14px;color:#7FD3A8;margin-left:6px}
+.pf-bar{display:flex;height:9px;border-radius:5px;overflow:hidden;margin-top:12px;gap:2px}
+.pf-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:12px 18px;border-top:1px solid #F0EBE0}
+.pf-row b{font-size:15px}
+.pf-row .w{font-size:12.5px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:28px;border-radius:8px;font-size:14px;font-weight:900}
+.pill.hi{background:#E3F2EA;color:var(--good)}.pill.mid{background:#FBF0D9;color:#9A6A0B}.pill.lo{background:#F8E3E0;color:var(--bad)}
+.tag{font-size:12px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.tag.u{background:#E3F2EA;color:var(--good)}.tag.o{background:#F8E3E0;color:var(--bad)}.tag.n{background:#EEF0F4;color:var(--muted)}
+.pf-chk{background:#FBF8F2;padding:14px 18px;border-top:1px solid #F0EBE0;display:grid;gap:8px}
+.pf-chk div{display:flex;gap:10px;font-size:14px;font-weight:600}
+.pf-chk .ic{flex:0 0 22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:12px;font-weight:900}
+.ic.ok{background:var(--good)}.ic.wn{background:var(--warn)}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 16px}
+.feats div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
+.feats b{display:block;font-size:14px}
+.feats span{display:block;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px}
+
+/* 06 레이더 */
+.lights{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0 8px}
+.lights div{text-align:center;font-size:12px;font-weight:800;color:var(--muted)}
+.lights i{display:block;height:44px;border-radius:12px;margin-bottom:6px}
+.l1 i{background:#1F8A5B}.l2 i{background:#79B35A}.l3 i{background:#E0B43A}.l4 i{background:#E07A2E}.l5 i{background:#C2483D}
+.reveal.in .lights i{animation:pop .4s ease-out both}
+.reveal.in .lights div:nth-child(2) i{animation-delay:.08s}.reveal.in .lights div:nth-child(3) i{animation-delay:.16s}.reveal.in .lights div:nth-child(4) i{animation-delay:.24s}.reveal.in .lights div:nth-child(5) i{animation-delay:.32s}
+
+/* 마지막 */
+.end{background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);padding:56px 0 44px;text-align:center}
+.end h2{margin:8px 0 12px;font-size:28px;line-height:1.34;font-weight:850;color:#fff}
+.end p{margin:0 auto 22px;max-width:440px;font-size:16px;color:rgba(247,242,232,.84)}
+.end .acts{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
+.end .acts .btn{width:100%}
+.end .acts .btn.ghost{background:transparent;border:1px solid rgba(228,199,141,.45);color:var(--ivory)}
+.end .small{margin-top:14px;font-size:13px;color:rgba(247,242,232,.6)}
+footer{background:var(--navy);color:rgba(247,242,232,.55);font-size:12px;line-height:1.6;padding:20px 0 110px;border-top:1px solid rgba(255,255,255,.06)}
+footer a{color:rgba(247,242,232,.75)}
+
+/* 아래 고정 버튼 */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(251,248,242,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s ease}
+.sticky.on{transform:none}
+.sticky .in{max-width:640px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.sticky .t{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.35;color:var(--muted)}
+.sticky .t b{display:block;color:var(--ink);font-size:14px}
+.sticky .btn{height:46px;padding:0 18px}
+
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(6px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media (min-width:700px){.hero{padding:110px 0 56px}.hero h1{font-size:44px}.st h2{font-size:31px}.cards{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:360px){.hero h1{font-size:30px}.big{font-size:44px}.cards{gap:8px}.sc{padding:12px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="wm" href="/start" aria-label="밸류노트">Value<i>Note</i><small>밸류노트</small></a>
+  <a class="login" href="/?login&amp;from=start" data-ev="login">로그인</a>
+</div></header>
+
+<section class="hero" data-sec="s0">
+  <div class="wrap">
+    <div class="eyebrow">밸류노트 · 거인의 어깨 위에서</div>
+    <h1>주식 사기 전에,<br><em>점수부터</em> 확인하세요</h1>
+    <p class="sub">버핏·그레이엄·멍거가 회사를 고르던 기준으로 5개 시장 <b>600+ 기업</b>의 점수와 적정 주가를 매일 계산합니다.</p>
+    <form class="sform" id="sform" autocomplete="off"><input id="sq" placeholder="종목 이름 (예: 삼성전자, 애플)" aria-label="종목 검색" enterkeyhint="search"><button class="btn gold" type="submit">점수 보기</button></form>
+    <div class="chips" id="chips"></div>
+    <div id="res"></div>
+    <a class="scroll" href="#s1" data-ev="scroll-cue"><span>↓</span> 밸류노트는 왜 다를까요? 3분이면 읽습니다</a>
+  </div>
+</section>
+
+<section class="st" id="s1" data-sec="s1"><div class="wrap reveal">
+  <div class="eyebrow">01 · 우리가 주식을 사는 방식</div>
+  <h2>대부분은 이렇게 삽니다</h2>
+  <div class="bubbles">
+    <div class="bub"><small>지인에게 들은 말</small>"이거 곧 오른대"</div>
+    <div class="bub"><small>뉴스와 유튜브</small>"요즘은 AI가 대세래"</div>
+    <div class="bub"><small>막연한 느낌</small>"회사가 좋잖아, 망하겠어?"</div>
+  </div>
+  <p class="lead">소문을 듣고, 뉴스에 나온 테마를 따라, 이름을 아는 좋은 회사라서 삽니다.</p>
+  <p>그리고 주가가 흔들리면 같은 이유로 팝니다. 살 때도 팔 때도 나만의 기준이 없기 때문입니다. 오를 때는 더 살까 조급하고, 떨어질 때는 무서워서 손을 놓게 됩니다.</p>
+</div></section>
+
+<section class="st" id="s2" data-sec="s2"><div class="wrap reveal">
+  <div class="eyebrow">02 · 대가들의 방식</div>
+  <h2>버핏과 멍거는 이렇게 사지 않았습니다</h2>
+  <p>워런 버핏과 찰리 멍거는 60년 동안 주식을 사기 전에 늘 같은 세 가지를 물었습니다.</p>
+  <div class="qs">
+    <div class="q"><span class="n">1</span><div><b>좋은 사업인가</b><span>번 돈을 다시 잘 불리는지, 빚에 기대지 않는지 숫자로 확인합니다.</span></div></div>
+    <div class="q"><span class="n">2</span><div><b>적정한 가격인가</b><span>지금 주가에 담긴 기대가 실제 실적으로 설명되는지 따져 봅니다.</span></div></div>
+    <div class="q"><span class="n">3</span><div><b>10년 뒤에도 괜찮은가</b><span>경쟁과 기술 변화를 버티고 이 사업이 더 커질지 묻습니다.</span></div></div>
+  </div>
+  <div class="quote">"가격은 당신이 내는 것이고, 가치는 당신이 얻는 것입니다."<small>워런 버핏</small></div>
+</div></section>
+
+<section class="st" id="s3" data-sec="s3"><div class="wrap reveal">
+  <div class="eyebrow">03 · 같은 기준, 600+ 기업</div>
+  <h2>밸류노트는 그 질문을<br>숫자 규칙으로 옮겼습니다</h2>
+  <p>재무 13개 지표로 사업의 질을, 버핏식 역계산으로 가격을 따져 100점으로 매깁니다. 국내·미국·일본·홍콩·중국 600+ 기업을 매일 같은 공식으로 계산합니다. 유명한 회사들은 지금 이렇습니다.</p>
+  <div class="cards" id="cards"></div>
+  <div class="lesson" id="lesson"><b>좋은 회사와 좋은 투자는 다릅니다.</b> 재무 점수가 최상위인 회사도 지금 가격에 기대가 너무 많이 담겨 있으면 밸류노트 점수는 낮아집니다.</div>
+  <p class="note">점수는 버핏·그레이엄·멍거의 방식으로 계산한 결과이며 늘 맞지는 않습니다. 실제로 버크셔 해서웨이는 이 방식으로는 비싸 보이던 알파벳(구글)을 사들였습니다. <span id="asof"></span></p>
+</div></section>
+
+<section class="st" id="s4" data-sec="s4"><div class="wrap reveal">
+  <div class="eyebrow">04 · 이 기준, 정말 통했을까</div>
+  <h2>버크셔가 실제로 산 62건에<br>거꾸로 적용해 봤습니다</h2>
+  <p>2000년 이후 버크셔 해서웨이가 실제로 산 62건을, 산 시점의 재무와 가격으로 다시 채점했습니다. 그리고 이후 어떻게 됐는지 비교했습니다.</p>
+  <div class="vs">
+    <div class="vrow good"><div class="vh"><b>60점 이상이던 매수</b><span>27건</span></div>
+      <div class="pct">15%<small>실패 · 27건 중 4건</small></div>
+      <div class="dots"><i class="f"></i><i class="h"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="vrow bad"><div class="vh"><b>60점 미만이던 매수</b><span>35건</span></div>
+      <div class="pct">37%<small>실패 · 35건 중 13건</small></div>
+      <div class="dots"><i class="f"></i><i class="f"></i><i class="f"></i><i class="s"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  </div>
+  <div class="vlegend"><i></i>칸 하나가 10건 중 1건입니다</div>
+  <p class="lead" style="margin-top:16px">60점이 넘었던 매수는 실패가 절반 아래로 줄었습니다.</p>
+  <p>점수가 큰 수익을 낼 회사를 골라 준 것은 아닙니다. 대신 <b>피해야 할 매수를 거르는 데</b> 분명히 도움이 됐습니다. 소문과 테마로 사는 실수를 줄이는 것, 밸류노트가 하려는 일이 바로 이것입니다.</p>
+  <p class="note">실패는 산 가격 대비 배당을 포함한 연평균 수익률이 3%에 못 미친 경우입니다. 과거 데이터로 다시 계산한 결과이며 미래 수익을 보장하지 않습니다. 2026년 10월의 점수를 그대로 기록해 두었고, 2027년 4월에 그 뒤의 실제 결과를 공개합니다.</p>
+</div></section>
+
+<section class="st" id="s5" data-sec="s5"><div class="wrap reveal">
+  <div class="eyebrow">05 · 내 포트폴리오에서는</div>
+  <h2>홍길동님의 포트폴리오로<br>보여 드릴게요</h2>
+  <p>홍길동은 예시로 만든 가상의 투자자입니다. 종목만 넣으면 밸류노트가 같은 기준으로 계속 점검합니다.</p>
+  <div class="pf" id="pf"></div>
+  <div class="feats">
+    <div><b>종목마다 점수</b><span>적정 주가와<br>저평가·고평가</span></div>
+    <div><b>가격 알림</b><span>적정 매수가에 오면<br>휴대폰·PC로</span></div>
+    <div><b>결정 일지</b><span>왜 샀는지 남기고<br>나중에 복기</span></div>
+  </div>
+  <p>주가는 매일 흔들려도 기준은 흔들리지 않게, 내 종목을 같은 잣대로 계속 점검하고 조금씩 조정할 수 있도록 돕습니다.</p>
+</div></section>
+
+<section class="st" id="s6" data-sec="s6"><div class="wrap reveal">
+  <div class="eyebrow">06 · 흔들리는 장에서도</div>
+  <h2>시장이 흔들릴 때<br>기준을 붙잡아 줍니다</h2>
+  <div class="lights"><div class="l1"><i></i>안정</div><div class="l2"><i></i>양호</div><div class="l3"><i></i>유의</div><div class="l4"><i></i>경계</div><div class="l5"><i></i>위험</div></div>
+  <p>경제 레이더는 금리, 신용, 변동성 같은 10개 지표로 지금 시장의 위험을 신호등으로 보여 줍니다. 2008년 금융위기와 코로나 때의 숫자와도 나란히 비교합니다.</p>
+  <p>좋은 회사를 공포 때문에 헐값에 팔지 않도록, 매주 칼럼과 알림으로 기준을 다시 확인하게 합니다.</p>
+</div></section>
+
+<section class="end" id="s7" data-sec="s7"><div class="wrap reveal">
+  <div class="eyebrow" style="color:var(--gold)">거인의 어깨 위에서</div>
+  <h2>이제 내 종목으로<br>확인해 보세요</h2>
+  <p>보유 종목을 넣는 순간 종목마다 점수와 적정 주가가 계산되고, 내 계좌가 적정 주가 기준으로 얼마인지 보여 드립니다.</p>
+  <div class="acts">
+    <a class="btn gold" href="/?from=start" data-ev="cta-end">밸류노트 바로가기</a>
+    <a class="btn ghost" href="/?signup&amp;from=start" data-ev="cta-end-signup">이메일로 1분 만에 가입하기</a>
+  </div>
+  <div class="small">이미 계정이 있다면 <a href="/?login&amp;from=start" data-ev="login-end">로그인</a></div>
+</div></section>
+
+<footer><div class="wrap">본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다. 표시되는 점수·적정 주가는 과거 데이터와 가정에 기반한 추정치로 수익을 보장하지 않습니다.<br><a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a> · © ValueNote</div></footer>
+
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b>내 종목은 몇 점일까요?</b>가입 없이 먼저 둘러볼 수 있어요</div><a class="btn gold" href="/?from=start" data-ev="cta-sticky">밸류노트 바로가기</a></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" defer></script>
+<script src="/config.js" defer></script>
+<script>
+(function(){
+'use strict';
+var $ = function(s){ return document.querySelector(s); };
+var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+var MK = {KR:'한국', US:'미국', JP:'일본', HK:'홍콩', CN:'중국'};
+/* 받침에 따라 은/는 */
+var jo = function(w, a, b){ var c = String(w).charCodeAt(String(w).length - 1); if(c < 0xAC00 || c > 0xD7A3) return w + b; return w + ((c - 0xAC00) % 28 ? a : b); };
+
+/* ---------- 방문 기록: 앱과 같은 방문자 번호(vn-sid)·유입 경로(vn-ref)를 써서 소개 → 앱 → 가입을 이어서 본다 ---------- */
+var sb = null, queue = [], once = {};
+function sid(){ try{ var v = localStorage.getItem('vn-sid'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,32); localStorage.setItem('vn-sid', v); } return v; }catch(_){ return 'nosid'; } }
+function device(){ var u = navigator.userAgent; var os = /iPhone|iPad|iPod/.test(u) ? 'iOS' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : '기타'; return (/Mobi|iPhone|Android/.test(u) ? '모바일' : 'PC') + ' · ' + os; }
+function skip(){
+  try{ var sf = new URLSearchParams(location.search).get('staff'); if(sf === '1') localStorage.setItem('vn-staff','1'); if(sf === '0') localStorage.removeItem('vn-staff'); if(localStorage.getItem('vn-staff') === '1') return true; }catch(_){}
+  return /^(localhost|127\.|0\.0\.0\.0|192\.168\.)/.test(location.hostname) || location.protocol === 'file:' || navigator.webdriver || /bot|crawl|spider|slurp|yeti|headless|lighthouse|preview|facebookexternalhit/i.test(navigator.userAgent);
+}
+function refOf(){
+  var q = new URLSearchParams(location.search), ua = navigator.userAgent;
+  var app = /Instagram/.test(ua) ? 'ig' : /Barcelona|Threads/.test(ua) ? 'threads' : /KAKAOTALK/.test(ua) ? 'kakaotalk' : /FBAN|FBAV/.test(ua) ? 'facebook' : /NAVER\(/.test(ua) ? 'naver-app' : '';
+  var host = ''; try{ if(document.referrer){ var h = new URL(document.referrer).hostname; if(h !== location.hostname) host = h; } }catch(_){}
+  var r = q.get('utm_source') || q.get('ref') || app || host; if(/kakao\.com$/.test(r)) r = '';
+  try{ if(r && !localStorage.getItem('vn-ref')) localStorage.setItem('vn-ref', r); }catch(_){}
+  return r;
+}
+var REF = refOf(), SKIP = skip();
+function send(kind, path){
+  if(SKIP) return;
+  var row = { kind: kind, sid: sid(), path: path.slice(0, 200), ref: (kind === 'visit' ? REF : (function(){ try{ return localStorage.getItem('vn-ref') || REF; }catch(_){ return REF; } })()).slice(0, 300), device: device() };
+  if(!sb){ queue.push(row); return; }
+  sb.from('events').insert(row).then(function(){}, function(){});
+}
+function hit(k){ if(once[k]) return; once[k] = 1; send('engage', '/start:' + k); }
+window.addEventListener('load', function(){
+  var C = window.HAEJA_CONFIG || {};
+  if(window.supabase && C.SUPABASE_URL){ sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false } }); var q = queue; queue = []; q.forEach(function(r){ sb.from('events').insert(r).then(function(){}, function(){}); }); }
+});
+send('visit', '/start');
+setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
+setTimeout(function(){ if(!document.hidden) hit('t60'); }, 60000);
+document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
+
+/* ---------- 단락이 보이면: 등장 효과 + 도달 기록 ---------- */
+var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting) return; var t = en.target;
+  if(t.classList.contains('reveal')){ t.classList.add('in'); io.unobserve(t); }
+  if(t.dataset.sec){ hit(t.dataset.sec); io.unobserve(t); } }); }, { threshold: .2 }) : null;
+document.querySelectorAll('.reveal,[data-sec]').forEach(function(el){ if(io) io.observe(el); else el.classList.add('in'); });
+
+/* 첫 화면을 지나면 아래 버튼을 띄운다 (마지막 단락에서는 숨김) */
+var sticky = $('#sticky'), hero = $('.hero'), end = $('#s7');
+function stk(){ var hb = hero.getBoundingClientRect().bottom, et = end.getBoundingClientRect().top; sticky.classList.toggle('on', hb < 0 && et > innerHeight * .85); }
+addEventListener('scroll', stk, { passive: true }); stk();
+/* 빠르게 훑고 지나간 단락도 보이게: 화면 위로 지나간 단락은 바로 표시 */
+addEventListener('scroll', function(){ document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ if(el.getBoundingClientRect().top < innerHeight * .9) el.classList.add('in'); }); }, { passive: true });
+
+/* ---------- 점수 데이터: 공개 기업 페이지가 매일 만드는 점수표 ---------- */
+var FALLBACK = { date:'', c:{ 'aapl':['애플',36,91,0,'US'], 'ko':['코카콜라',35,86,1,'US'], '000270-ks':['기아',76,85,100,'KR'], '005930-ks':['삼성전자',47,71,23,'KR'],
+  '005830-ks':['DB손해보험',79,92,98,'KR'], '086280-ks':['현대글로비스',73,83,90,'KR'], 'tsla':['테슬라',26,51,0,'US'], '035720-ks':['카카오',25,56,4,'KR'] } };
+var D = FALLBACK, byName = {};
+function idx(){ byName = {}; Object.keys(D.c).forEach(function(s){ var r = D.c[s]; if(r && r[0]) byName[r[0].replace(/\s/g,'').toLowerCase()] = s; }); }
+function row(slug){ var r = D.c[slug]; return r ? { slug: slug, n: r[0], b: r[1], q: r[2], v: r[3], m: r[4] } : null; }
+function find(q){ q = (q || '').replace(/\s/g,'').toLowerCase(); if(!q) return null; if(byName[q]) return row(byName[q]); if(D.c[q]) return row(q);
+  var best = null; Object.keys(byName).forEach(function(k){ if(!best && (k.indexOf(q) === 0 || (q.length >= 2 && k.indexOf(q) >= 0))) best = byName[k]; }); return best ? row(best) : null; }
+var num = function(v){ return typeof v === 'number' && isFinite(v); };
+function band(b){ return !num(b) ? '' : b >= 70 ? 'hi' : b >= 50 ? 'mid' : 'lo'; }
+function say(r){
+  if(!num(r.b)) return '아직 점수를 계산하지 못한 회사입니다.';
+  if(num(r.q) && num(r.v) && r.q >= 80 && r.v < 30) return '재무는 최상위권이지만, 지금 주가에는 이미 큰 기대가 담겨 있습니다.';
+  if(num(r.q) && num(r.v) && r.q < 60 && r.v >= 60) return '가격은 낮아 보이지만, 사업의 질에서 점검할 부분이 남아 있습니다.';
+  if(r.b >= 70) return '재무와 가격 모두 버핏·그레이엄의 기준에 가까운 편입니다.';
+  if(r.b >= 50) return '기준에 일부 가깝지만, 재무나 가격 중 한쪽이 아쉽습니다.';
+  return '재무나 가격이 버핏·그레이엄의 기준과 거리가 있습니다.';
+}
+function bars(r){ return '<div class="mbar"><div><span>재무 점수</span><b>' + (num(r.q) ? r.q : '–') + '</b></div><div class="trk"><i style="width:' + (num(r.q) ? r.q : 0) + '%"></i></div></div>' +
+  '<div class="mbar"><div><span>가격 점수</span><b>' + (num(r.v) ? r.v : '–') + '</b></div><div class="trk g"><i style="width:' + (num(r.v) ? Math.max(2, r.v) : 0) + '%"></i></div></div>'; }
+var pick = null;
+function showRes(r, q){
+  var box = $('#res');
+  if(!r){ box.innerHTML = '<div class="res-miss">' + esc(jo(q, '은', '는')) + ' 기본 목록 600+ 기업에서 찾지 못했습니다. 가입하면 목록에 없는 종목도 이름으로 바로 분석할 수 있어요 (3회까지).</div>'; return; }
+  pick = r.n; chips();
+  box.innerHTML = '<div class="res"><div class="res-h"><b>' + esc(r.n) + '</b><span>' + esc(MK[r.m] || '') + ' · 밸류노트 점수</span></div>' +
+    '<div class="res-g"><div class="big"><small>100점 만점</small>' + (num(r.b) ? r.b : '–') + '<i>점</i></div><div>' + bars(r) + '</div></div>' +
+    '<p class="res-say">' + esc(say(r)) + '</p><a class="more" href="/c/' + encodeURIComponent(r.slug) + '" data-ev="res-more">왜 이 점수인지 보기 ›</a></div>';
+}
+var CHIPS = ['삼성전자','SK하이닉스','기아','애플','테슬라','엔비디아'], IG = null;
+function chips(){ var L = (IG && CHIPS.indexOf(IG) < 0 ? [IG] : []).concat(CHIPS);
+  $('#chips').innerHTML = L.map(function(n){ var ig = n === IG; return '<button type="button" class="' + (ig ? 'ig ' : '') + (pick === n ? 'on' : '') + '" data-pick="' + esc(n) + '">' + (ig ? '<small>인스타 오늘의 기업</small>' : '') + esc(n) + '</button>'; }).join(''); }
+$('#chips').addEventListener('click', function(e){ var b = e.target.closest('[data-pick]'); if(!b) return; var r = find(b.dataset.pick); showRes(r, b.dataset.pick); hit('chip'); });
+$('#sform').addEventListener('submit', function(e){ e.preventDefault(); var q = $('#sq').value.trim(); if(!q) return; showRes(find(q), q); hit('search'); $('#sq').blur(); });
+
+function cards(){
+  var L = ['aapl','ko','000270-ks','005930-ks'].map(row).filter(Boolean);
+  $('#cards').innerHTML = L.map(function(r){ return '<a class="sc" href="/c/' + encodeURIComponent(r.slug) + '" data-ev="card-' + esc(r.slug) + '"><div class="nm">' + esc(r.n) + '<span>' + esc(MK[r.m] || '') + '</span></div><div class="bs">' + (num(r.b) ? r.b : '–') + '<i>점</i></div>' + bars(r) + '</a>'; }).join('');
+  var a = row('aapl'), k = row('ko');
+  if(a && k && num(a.q) && num(k.q) && a.q >= 80 && k.q >= 80 && a.b < 50 && k.b < 50)
+    $('#lesson').innerHTML = '<b>좋은 회사와 좋은 투자는 다릅니다.</b> 애플과 코카콜라는 재무 점수가 ' + Math.min(a.q, k.q) + '점 이상인 최상위 회사입니다. 하지만 지금 가격에 기대가 많이 담겨 있어 밸류노트 점수는 ' + Math.max(a.b, k.b) + '점 이하입니다.';
+  if(D.date) $('#asof').textContent = '(' + D.date.replace(/-/g, '.') + ' 기준)';
+}
+function pf(){
+  /* 예시 포트폴리오: 비중은 고정, 점수는 실제 계산값 */
+  var H = [['005830-ks',30],['086280-ks',24],['000270-ks',20],['tsla',10],['035720-ks',9]], cash = 7;
+  var C = ['#E4C78D','#C99A50','#7FA6D9','#9AA4B5','#C9CED8','rgba(255,255,255,.22)'];
+  var rows = H.map(function(h){ var r = row(h[0]) || { n: h[0], b: null }; r.w = h[1]; return r; });
+  var top3 = rows.slice(0,3).reduce(function(a, r){ return a + r.w; }, 0), low = rows.filter(function(r){ return num(r.b) && r.b < 40; });
+  var tag = function(r){ return !num(r.v) ? '<span class="tag n">–</span>' : r.v >= 70 ? '<span class="tag u">저평가</span>' : r.v < 30 ? '<span class="tag o">고평가</span>' : '<span class="tag n">적정 근처</span>'; };
+  $('#pf').innerHTML = '<div class="pf-h"><span class="ex">예시 · 홍길동</span><b>포트폴리오 현황</b><div class="tot">5,320만 원<small>+12.4%</small></div>' +
+    '<div class="pf-bar">' + rows.map(function(r, i){ return '<i style="flex:' + r.w + ';background:' + C[i] + '"></i>'; }).join('') + '<i style="flex:' + cash + ';background:' + C[5] + '"></i></div></div>' +
+    rows.map(function(r){ return '<div class="pf-row"><div><b>' + esc(r.n) + '</b><div class="w">비중 ' + r.w + '%</div></div>' + tag(r) + '<span class="pill ' + band(r.b) + '">' + (num(r.b) ? r.b : '–') + '</span></div>'; }).join('') +
+    '<div class="pf-chk"><div><span class="ic ok">✓</span><span>상위 3종목 비중 ' + top3 + '% · 버핏식 집중 원칙 안에 있습니다</span></div>' +
+    (low.length ? '<div><span class="ic wn">!</span><span>' + esc(jo(low.map(function(r){ return r.n; }).join('·'), '은', '는')) + ' 점수가 40점 미만입니다 · 처음 산 이유가 아직 유효한지 다시 점검해 보세요</span></div>' : '') +
+    '<div><span class="ic ok">✓</span><span>현금 ' + cash + '% · 좋은 회사가 적정 매수가에 오면 바로 알림이 옵니다</span></div></div>';
+}
+function render(){ idx(); chips(); cards(); pf(); }
+render();
+fetch('/c/scores.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c && Object.keys(j.c).length > 100){ D = j; render(); if(pick) showRes(find(pick), pick); } }).catch(function(){});
+/* 인스타 릴스에서 본 오늘의 기업을 칩 맨 앞에 */
+fetch('/social/reels/queue.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(L){ var now = Date.now();
+  var it = (L || []).filter(function(x){ return /^A\d{6}[a-z]$/.test(x.id) && Date.parse(x.scheduled_at) <= now && /·/.test(x.title || ''); }).sort(function(a, b){ return b.scheduled_at.localeCompare(a.scheduled_at); })[0];
+  if(!it) return; var n = (it.title.split('·')[1] || '').trim(); if(n && find(n) && /^오늘의 기업|기업 ·|낮게 보는|앞선 기업/.test(it.title) && !/TOP/.test(it.title)){ IG = find(n).n; chips(); } }).catch(function(){});
+})();
+</script>
+</body>
+</html>
