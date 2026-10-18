@@ -2668,18 +2668,24 @@ function weeklyNote(){
 function weeklyNoteHtml(){
   const n = weeklyNote(), col = (S.columns || [])[0];
   const fresh = col && (Date.now() - Date.parse(col.at || col.id.slice(4))) < 15 * 864e5;
-  return `<div class="card wk-card">
+  const ex = col ? String(col.body || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*#]/g, '').replace(/\s+/g, ' ').trim().slice(0, 90).replace(/^(.{30,}?[.다요!?])\s.*$/, '$1').slice(0, 70) : '';
+  /* 칼럼을 맨 위에 크게. 숫자 요약은 한 줄로 줄였다 */
+  const hero = col ? `<button type="button" class="card wk-hero${col.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(col.id)}">
+      ${col.cover ? `<img class="wk-hero-img" src="${esc(col.cover)}" alt="" loading="lazy">` : ''}
+      <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(COL_SERIES[colSeries(col)] || '')}</span><b>${esc(col.title)}</b>${ex ? `<span class="small muted wk-hero-ex">${esc(ex)}…</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
+    </button>` : '';
+  const chip = (v, l, cls = '') => `<span class="wk-chip"><b class="${cls}">${v}</b>${l}</span>`;
+  return `${hero}
+  <div class="card wk-card">
     <div class="wk-top"><span class="eyebrow">이번 주 노트</span><span class="small muted">${weekLabel()}</span></div>
     <blockquote class="wk-q">${esc(n.q.q)}<span>${esc(n.q.who)} · ${esc(n.q.src)}</span></blockquote>
-    <p class="wk-read">${esc(n.read)}</p>
-    <div class="wk-nums">
-      <div><b class="num">${n.pass}</b><span>적정 매수가 아래<br>좋은 회사</span></div>
-      <div><b class="num">${n.near}</b><span>적정 매수가<br>근처</span></div>
-      <div><b>${n.hot.length ? esc(n.hot.slice(0, 2).join(', ')) : '없음'}</b><span>꼭대기 근처<br>산업</span></div>
-      ${isNum(n.wk) ? `<div><b class="num">${pct(n.wk)}</b><span>내 포트폴리오<br>이번 주</span></div>` : `<div><b>${n.low.length ? esc(n.low.slice(0, 2).join(', ')) : '없음'}</b><span>바닥권<br>산업</span></div>`}
+    <div class="wk-chips">
+      ${chip(n.pass, '적정 매수가 아래', 'num')}${chip(n.near, '근처', 'num')}
+      ${n.hot.length ? chip(esc(n.hot.slice(0, 2).join('·')), '꼭대기 근처') : n.low.length ? chip(esc(n.low.slice(0, 2).join('·')), '바닥권') : ''}
+      ${isNum(n.wk) ? chip(pct(n.wk), '내 포트폴리오 이번 주', 'num ' + (n.wk < 0 ? 'bad' : 'good')) : ''}
     </div>
-    ${fresh ? `<button type="button" class="wk-col" data-act="col-open" data-v="${esc(col.id)}"><span class="eyebrow">이번 주 칼럼</span><b>${esc(col.title)}</b><span class="small muted">읽기 ›</span></button>` : ''}
-    <button type="button" class="linkbtn wk-more" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button>
+    <div class="wk-foot"><button type="button" class="linkbtn" data-act="wk-read">왜 이 숫자가 중요할까 ›</button><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button></div>
+    ${S.wkRead ? `<p class="wk-read">${esc(n.read)}</p>` : ''}
   </div>`;
 }
 
@@ -2755,6 +2761,7 @@ function columnDraft(){
 }
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-act]'); if(!a) return; const k = a.dataset.act;
+  if(k === 'wk-read'){ S.wkRead = !S.wkRead; render(); return; }
   if(k === 'col-open'){ S.colOpen = a.dataset.v; S.tab = 'column'; colStatsLoad(); colView(a.dataset.v); render(); window.scrollTo(0, 0); store.track('view', 'column-read'); }
   else if(k === 'col-ser'){ S.colSer = a.dataset.v; render(); }
   else if(k === 'col-like'){ const id = a.dataset.v, on = !colLiked(id); try{ localStorage.setItem(colLikedKey(id), on ? '1' : '0'); }catch(_){} const st = ((COLST.m ||= {})[id] ||= { v: 0, l: 0 }); st.l = Math.max(0, st.l + (on ? 1 : -1)); render(); store.client?.rpc('column_like', { p_id: id, p_on: on }).then(() => {}, () => {}); }
@@ -4126,8 +4133,8 @@ const INTRO = [
   {tab:'journal', t:'④ 결정 일지', b:`<p>살 때와 팔 때마다 <b>왜 그랬는지, 그때 기분이 어땠는지</b>를 짧게 남겨요. 석 달쯤 지나서 다시 읽어 보면 내 습관이 보여요.</p>
     <p>예시에서 "남들이 사길래" 산 카카오는 −43%, 아무도 관심 없을 때 "숫자를 보고" 산 JB금융지주는 +79%였어요. 같은 사람이라도 어떻게 판단했느냐에 따라 결과가 이렇게 달라요.</p>
     <p class="small muted">룰루레몬(−75%)은 회사는 지금도 좋지만 이익의 40배라는 비싼 값에 산 사례예요. 좋은 회사도 비싸게 사면 크게 잃을 수 있어요. 자세한 설명은 Q&amp;A에 있어요.</p>`},
-  {tab:'fx', t:'⑤ 환율', b:`<p>해외 주식 수익은 결국 원화로 따져야 해요. 원/달러, 원/엔 흐름과 그 배경, 다가오는 금리 결정 일정을 정리하고, <b>내 해외 자산이 환율로 얼마나 영향을 받는지</b>도 같이 보여 드려요.</p>`},
-  {tab:'briefing', t:'⑥ 오늘 브리핑', b:`<p>내가 가진 종목의 소식을 <b>한 줄씩</b> 모아 보여 드려요. 좋은 소식인지 나쁜 소식인지도 같이 표시해요.</p><p>궁금한 줄을 누르면 자세한 내용이 열려요.</p>`},
+  {tab:'briefing', t:'⑤ 오늘 브리핑', b:`<p>내가 가진 종목의 소식을 <b>한 줄씩</b> 모아 보여 드려요. 좋은 소식인지 나쁜 소식인지도 같이 표시해요.</p><p>궁금한 줄을 누르면 자세한 내용이 열려요.</p>`},
+  {tab:'fx', t:'⑥ 환율', b:`<p>해외 주식 수익은 결국 원화로 따져야 해요. 원/달러, 원/엔 흐름과 그 배경, 다가오는 금리 결정 일정을 정리하고, <b>내 해외 자산이 환율로 얼마나 영향을 받는지</b>도 같이 보여 드려요.</p>`},
   {tab:'trends', t:'⑦ 메가트렌드', b:`<p>반도체, AI 데이터센터, 방산 같은 산업 사이클을 수혜 기업 지수로 묶어 3개월~5년 단위로 보여 드려요. 바닥권·상승·조정·고점권 국면은 감이 아니라 가격 위치와 추세로 판정해요.</p>
     <p>유행하는 산업이라는 이유만으로 비싸게 사지 않도록, 과열된 산업의 비싼 회사에는 <b>"테마 프리미엄"</b> 경고를 붙여요.</p>`},
   {tab:'companies', t:'⑧ 기업 찾기', b:`<p>한국, 미국, 일본, 중국, 홍콩의 큰 회사 <b>약 600곳</b>을 같은 기준으로 점수 매겨 두었어요. 점수 순, 싼 순, 배당 많은 순으로 정렬해서 볼 수 있어요.</p>
@@ -4748,8 +4755,8 @@ function viewGuide(){
 
 /* ============ 2단 메뉴 ============ */
 const NAV = [
-  {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지'],['fx','환율'],['rates','금리']]},
-  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['radar','경제 레이더'],['column','칼럼'],['trends','메가트렌드']]},
+  {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지']]},
+  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['radar','경제 레이더'],['trends','메가트렌드'],['fx','환율'],['rates','금리']]},
   {k:'companies', l:'기업', subs:[['companies','찾기'],['value','저평가·고평가'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
 const TAB_ALIAS = {analyze:'companies', screener:'companies'};
@@ -5835,18 +5842,23 @@ input,select,textarea{border-radius:10px}
 .dip-n small{color:var(--muted);font-size:12px}
 .dip-g{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
 .dip-g.in{color:var(--accent)}
-.wk-card{margin-top:16px;border-color:rgba(201,164,92,.55)}
+.wk-hero{all:unset;box-sizing:border-box;display:block;cursor:pointer;margin-top:16px;padding:0;overflow:hidden;background:var(--navy-grad,var(--navy));color:var(--ivory);border:1px solid var(--navy);border-radius:var(--r,16px);box-shadow:0 8px 24px rgba(11,27,51,.18)}
+.wk-hero-img{display:block;width:100%;height:150px;object-fit:cover}
+.wk-hero-body{display:flex;flex-direction:column;gap:6px;padding:18px 20px 16px}
+.wk-hero .eyebrow{color:var(--gold)}
+.wk-hero b{font-size:21px;line-height:1.35;letter-spacing:-.02em;word-break:keep-all}
+.wk-hero-ex{color:rgba(246,241,232,.72)!important;line-height:1.5}
+.wk-hero-cta{margin-top:4px;font-size:13.5px;font-weight:700;color:var(--gold)}
+.wk-card{margin-top:12px;border-color:rgba(201,164,92,.55)}
 .wk-top{display:flex;justify-content:space-between;align-items:center}
-.wk-q{margin:12px 0 0;font-size:18px;line-height:1.55;font-weight:700;letter-spacing:-.02em;word-break:keep-all}
-.wk-q span{display:block;margin-top:6px;font-size:12.5px;font-weight:500;color:var(--muted)}
-.wk-read{margin:12px 0 0;font-size:14px;line-height:1.65;color:var(--ink)}
-.wk-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
-.wk-nums>div{background:var(--bg);border-radius:12px;padding:10px 10px 9px;display:flex;flex-direction:column;gap:4px;min-width:0}
-.wk-nums b{font-size:16px;line-height:1.25;word-break:keep-all}
-.wk-nums span{font-size:11.5px;color:var(--muted);line-height:1.35}
-.wk-col{all:unset;box-sizing:border-box;cursor:pointer;width:100%;margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--gold-soft);display:flex;flex-direction:column;gap:3px}
-.wk-col b{font-size:15px}
-.wk-more{display:block;margin:10px 0 0 auto;font-size:13px}
+.wk-q{margin:10px 0 0;font-size:16.5px;line-height:1.5;font-weight:700;letter-spacing:-.02em;word-break:keep-all}
+.wk-q span{display:block;margin-top:5px;font-size:12px;font-weight:500;color:var(--muted)}
+.wk-read{margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--ink)}
+.wk-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.wk-chip{display:inline-flex;align-items:baseline;gap:5px;background:var(--bg);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--muted);white-space:nowrap}
+.wk-chip b{font-size:14px;color:var(--ink)}
+.wk-chip b.bad{color:var(--bad)}.wk-chip b.good{color:var(--accent)}
+.wk-foot{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13px}
 .nl-box{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
 .nl-box>div{flex:1 1 240px;display:flex;flex-direction:column;gap:3px}
 .col-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
@@ -5862,7 +5874,6 @@ input,select,textarea{border-radius:10px}
 .col-disc{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line)}
 .col-src{margin-top:14px;line-height:1.7}
 .col-src a{color:var(--muted)}
-@media (max-width:560px){.wk-nums{grid-template-columns:repeat(2,1fr)}}
 .rt-head,.rt-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 72px 54px;gap:8px;align-items:baseline}
 .rt-head{font-size:11.5px;color:var(--muted);padding:0 0 2px}
 .rt-head span:not(:first-child),.rt-row>b,.rt-c,.rt-d{text-align:right}
