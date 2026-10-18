@@ -31,7 +31,7 @@
 <script src="config.js"></script>
 <script>/* 처음 들어온 비회원은 소개 페이지(/start)부터. 로그인 기록·이전 방문 기록이 있거나, 특정 화면 링크·홈 화면 앱·로봇이면 그대로 앱 */
 (function(){try{var q=location.search,u=navigator.userAgent;if(!/^\/(index\.html)?$/.test(location.pathname)||location.hash)return;
-if(/[?&](login|signup|tab|co|test|import|staff|from|nostart)\b/.test(q))return;
+if(/[?&](login|signup|tab|co|test|import|staff|from|nostart|kakao)\b/.test(q))return;
 if(navigator.webdriver||/bot|crawl|spider|slurp|yeti|headless|lighthouse|preview|facebookexternalhit/i.test(u))return;
 if(matchMedia('(display-mode: standalone)').matches||navigator.standalone===true)return;
 if(localStorage.getItem('vn-start')||localStorage.getItem('vn-sid'))return;
@@ -1520,10 +1520,15 @@ function kakaoBtnHtml(){
 document.addEventListener('click', async e => {
   const b = e.target.closest('[data-lg="kakao"]'); if(!b) return;
   b.disabled = true;
-  try{ localStorage.setItem('vn-remember', '1'); localStorage.setItem('vn-noauto', '0'); sessionStorage.setItem('vn-live', '1'); }catch(_){}
-  const { error } = await store.client.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo: location.origin + '/' } });
+  const error = await kakaoGo();
   if(error){ b.disabled = false; const m = document.getElementById('lg-msg'); if(m) m.textContent = '카카오 로그인을 시작하지 못했습니다: ' + error.message; }
 });
+async function kakaoGo(){
+  try{ localStorage.setItem('vn-remember', '1'); localStorage.setItem('vn-noauto', '0'); sessionStorage.setItem('vn-live', '1'); }catch(_){}
+  store.track('view', 'kakao-start');
+  const { error } = await store.client.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo: location.origin + '/' } });
+  return error;
+}
 const needSignupAgree = () => !!store.user && !store.isDemo && ((store.user.app_metadata || {}).provider || 'email') !== 'email' && !(store.user.user_metadata || {}).agreed;
 function oauthAgreeHtml(){
   return `<div class="ca-list"><div class="ca-t">처음 오셨네요. 아래 항목에 동의해 주세요.</div>
@@ -5654,6 +5659,9 @@ function refresh(kind){
   { const u = new URLSearchParams(location.search); if(u.get('tab') === 'value'){ S.tab = 'value'; S.vlSide = u.get('side') === 'over' ? 'over' : 'under'; const m = (u.get('mkt') || '').toUpperCase(); if(VL_MKT.some(([k]) => k === m)) S.vlMkt = m; store.track('view', 'from-link-value'); history.replaceState(null, '', location.pathname); } }
   /* 기업 공개 페이지(/c/…)에서 넘어오면 그 회사를 검색해 펼친다: ?co=코드&q=이름 */
   { const u = new URLSearchParams(location.search); if(u.get('co')){ S.tab = 'companies'; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = u.get('q') || ''; S.coOpen = u.get('co'); S.coShown = 30; store.track('view', 'from-company-page'); history.replaceState(null, '', location.pathname); setTimeout(() => { const t = document.getElementById('coListTop'); if(t) window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - 130); }, 600); } }
+  /* 소개 페이지의 "카카오로 3초 만에 시작하기": 비회원이면 바로 카카오 로그인으로 */
+  { const u = new URLSearchParams(location.search); if(u.get('kakao') === '1'){ u.delete('kakao'); history.replaceState(null, '', location.pathname + (u.toString() ? '?' + u : ''));
+      if(store.isGuest && kakaoOn()){ kakaoGo().then(err => { if(err){ hideSplash(); openAuth('signup'); } }); return; } } }
   render(); hideSplash();
   if(/[?&]test\b/.test(location.search)) setTimeout(qzOpen, 300);
   store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; });

@@ -32,7 +32,7 @@ if(/Android/.test(u)){location.href='intent://'+location.host+location.pathname+
 :root{
   --navy:#0A1730; --navy2:#0E2342; --navy3:#13305A; --gold:#E4C78D; --gold2:#C99A50;
   --ivory:#F7F2E8; --paper:#FBF8F2; --ink:#14213A; --muted:#5D6779; --line:#E6DFD1;
-  --good:#1F8A5B; --bad:#C2483D; --warn:#C98A12;
+  --good:#1F8A5B; --bad:#C2483D; --warn:#C98A12; --up:#D2373A; --down:#2C62C9;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -134,6 +134,7 @@ section.st+section.st{border-top:1px solid var(--line)}
 .lesson b{color:var(--gold)}
 
 /* 04 검증 */
+.xbig{display:flex;align-items:center;gap:16px;background:var(--navy);color:var(--ivory);border-radius:18px;padding:18px 20px;margin:12px 0 4px}.xbig b{font-size:60px;font-weight:900;line-height:1;color:var(--gold);letter-spacing:-.04em}.xbig b i{font-style:normal;font-size:24px;margin-left:2px}.xbig span{font-size:15.5px;font-weight:700;line-height:1.5}
 .vs{display:grid;gap:12px;margin:10px 0 16px}
 .vrow{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
 .vrow .vh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
@@ -151,24 +152,42 @@ section.st+section.st{border-top:1px solid var(--line)}
 .vlegend i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--bad);vertical-align:-1px;margin-right:4px}
 
 /* 05 예시 포트폴리오 */
-.pf{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 14px 34px rgba(20,33,58,.08);margin:8px 0 16px}
-.pf-h{background:linear-gradient(160deg,var(--navy2),var(--navy));color:var(--ivory);padding:16px 18px}
-.pf-h .ex{display:inline-block;font-size:11px;font-weight:800;background:var(--gold);color:var(--navy);border-radius:6px;padding:2px 7px;margin-bottom:6px}
-.pf-h b{display:block;font-size:15px}
-.pf-h .tot{font-size:26px;font-weight:900;color:#fff;margin-top:2px}
-.pf-h .tot small{font-size:14px;color:#7FD3A8;margin-left:6px}
-.pf-bar{display:flex;height:9px;border-radius:5px;overflow:hidden;margin-top:12px;gap:2px}
-.pf-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:12px 18px;border-top:1px solid #F0EBE0}
-.pf-row b{font-size:15px}
-.pf-row .w{font-size:12.5px;color:var(--muted)}
-.pill{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:28px;border-radius:8px;font-size:14px;font-weight:900}
+.pf{background:#F3EFE6;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 14px 34px rgba(20,33,58,.08);margin:8px 0 16px;padding:0 0 4px}
+.pf-h{background:linear-gradient(160deg,var(--navy2),var(--navy));color:var(--ivory);padding:16px 18px 16px;border-radius:22px 22px 18px 18px}
+.pf-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pf-h .ex{font-size:11px;font-weight:800;background:var(--gold);color:var(--navy);border-radius:6px;padding:2px 7px}
+.pf-lb{font-size:11.5px;font-weight:700;color:rgba(247,242,232,.6)}
+.pf-h small{display:block;font-size:12px;font-weight:700;color:var(--gold)}
+.pf-h .tot{font-size:30px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.2}
+.pf-h .pl{font-size:14px;font-weight:800;margin-top:2px}
+.pf-h .pl.up{color:#FF8A8A}.pf-h .pl.down{color:#8DB3FF}
+.pf-bar{display:flex;height:9px;border-radius:5px;overflow:hidden;margin-top:14px;gap:2px}
+.pf-lg{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:8px;font-size:11.5px;color:rgba(247,242,232,.75)}
+.pf-lg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:0}
+.hc{background:#fff;border:1px solid #ECE6DA;border-radius:16px;margin:8px 10px 0;padding:14px}
+.hc-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.hc-h b{display:block;font-size:16px}
+.hc-h span{font-size:12px;color:var(--muted)}
+.hc-r{text-align:right;display:flex;flex-direction:column;align-items:flex-end}
+.hc-r b{font-size:15.5px;font-variant-numeric:tabular-nums}
+.hc-r span{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.up{color:var(--up)!important}.down{color:var(--down)!important}
+.spk{display:block;margin-bottom:2px}
+.hc-g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #F1ECE2}
+.hc-g span{display:block;font-size:11px;color:var(--muted)}
+.hc-g b{font-size:13px;font-variant-numeric:tabular-nums}
+.hc-f{display:flex;align-items:center;gap:8px;margin-top:10px}
+.hc-sl{font-size:12px;color:var(--muted);font-weight:700;margin-right:auto}
+.pill{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:28px;border-radius:8px;font-size:14px;font-weight:900}
 .pill.hi{background:#E3F2EA;color:var(--good)}.pill.mid{background:#FBF0D9;color:#9A6A0B}.pill.lo{background:#F8E3E0;color:var(--bad)}
-.tag{font-size:12px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.tag{font-size:12px;font-weight:800;padding:4px 8px;border-radius:6px;white-space:nowrap}
 .tag.u{background:#E3F2EA;color:var(--good)}.tag.o{background:#F8E3E0;color:var(--bad)}.tag.n{background:#EEF0F4;color:var(--muted)}
-.pf-chk{background:#FBF8F2;padding:14px 18px;border-top:1px solid #F0EBE0;display:grid;gap:8px}
-.pf-chk div{display:flex;gap:10px;font-size:14px;font-weight:600}
+.pf-chk{background:#fff;border:1px solid #ECE6DA;border-radius:16px;margin:8px 10px 0;padding:14px;display:grid;gap:8px}
+.pf-ct{font-size:12.5px;font-weight:800;color:var(--gold2)}
+.pf-chk div:not(.pf-ct){display:flex;gap:10px;font-size:14px;font-weight:600}
 .pf-chk .ic{flex:0 0 22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:12px;font-weight:900}
 .ic.ok{background:var(--good)}.ic.wn{background:var(--warn)}
+.pf-note{margin:8px 14px 8px!important;font-size:12px!important;color:var(--muted)!important}
 .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 16px}
 .feats div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
 .feats b{display:block;font-size:14px}
@@ -188,6 +207,7 @@ section.st+section.st{border-top:1px solid var(--line)}
 .end p{margin:0 auto 22px;max-width:440px;font-size:16px;color:rgba(247,242,232,.84)}
 .end .acts{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
 .end .acts .btn{width:100%}
+.btn.kakao{background:#FEE500;color:#191600}
 .end .acts .btn.ghost{background:transparent;border:1px solid rgba(228,199,141,.45);color:var(--ivory)}
 .end .small{margin-top:14px;font-size:13px;color:rgba(247,242,232,.6)}
 footer{background:var(--navy);color:rgba(247,242,232,.55);font-size:12px;line-height:1.6;padding:20px 0 110px;border-top:1px solid rgba(255,255,255,.06)}
@@ -198,6 +218,7 @@ footer a{color:rgba(247,242,232,.75)}
 .sticky.on{transform:none}
 .sticky .in{max-width:640px;margin:0 auto;display:flex;gap:8px;align-items:center}
 .sticky .t{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.35;color:var(--muted)}
+.sticky .t a{color:var(--muted);text-decoration:none}
 .sticky .t b{display:block;color:var(--ink);font-size:14px}
 .sticky .btn{height:46px;padding:0 18px}
 
@@ -265,6 +286,7 @@ footer a{color:rgba(247,242,232,.75)}
   <div class="eyebrow">04 · 이 기준, 정말 통했을까</div>
   <h2>버크셔가 실제로 산 62건에<br>거꾸로 적용해 봤습니다</h2>
   <p>2000년 이후 버크셔 해서웨이가 실제로 산 62건을, 산 시점의 재무와 가격으로 다시 채점했습니다. 그리고 이후 어떻게 됐는지 비교했습니다.</p>
+  <div class="xbig"><b>2.5<i>배</i></b><span>60점 미만에서 산 경우,<br>실패할 확률이 이만큼 높았습니다</span></div>
   <div class="vs">
     <div class="vrow good"><div class="vh"><b>60점 이상이던 매수</b><span>27건</span></div>
       <div class="pct">15%<small>실패 · 27건 중 4건</small></div>
@@ -274,7 +296,7 @@ footer a{color:rgba(247,242,232,.75)}
       <div class="dots"><i class="f"></i><i class="f"></i><i class="f"></i><i class="s"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
   </div>
   <div class="vlegend"><i></i>칸 하나가 10건 중 1건입니다</div>
-  <p class="lead" style="margin-top:16px">60점이 넘었던 매수는 실패가 절반 아래로 줄었습니다.</p>
+  <p class="lead" style="margin-top:16px">10번 사면 1~2번 실패하느냐, 4번 가까이 실패하느냐의 차이입니다.</p>
   <p>점수가 큰 수익을 낼 회사를 골라 준 것은 아닙니다. 대신 <b>피해야 할 매수를 거르는 데</b> 분명히 도움이 됐습니다. 소문과 테마로 사는 실수를 줄이는 것, 밸류노트가 하려는 일이 바로 이것입니다.</p>
   <p class="note">실패는 산 가격 대비 배당을 포함한 연평균 수익률이 3%에 못 미친 경우입니다. 과거 데이터로 다시 계산한 결과이며 미래 수익을 보장하지 않습니다. 2026년 10월의 점수를 그대로 기록해 두었고, 2027년 4월에 그 뒤의 실제 결과를 공개합니다.</p>
 </div></section>
@@ -305,15 +327,15 @@ footer a{color:rgba(247,242,232,.75)}
   <h2>이제 내 종목으로<br>확인해 보세요</h2>
   <p>보유 종목을 넣는 순간 종목마다 점수와 적정 주가가 계산되고, 내 계좌가 적정 주가 기준으로 얼마인지 보여 드립니다.</p>
   <div class="acts">
-    <a class="btn gold" href="/?from=start" data-ev="cta-end">밸류노트 바로가기</a>
-    <a class="btn ghost" href="/?signup&amp;from=start" data-ev="cta-end-signup">이메일로 1분 만에 가입하기</a>
+    <a class="btn kakao" href="/?kakao=1&amp;from=start" data-ev="cta-kakao"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 3초 만에 시작하기</a>
+    <a class="btn ghost" href="/?from=start" data-ev="cta-end">가입 전에 밸류노트 둘러보기</a>
   </div>
-  <div class="small">이미 계정이 있다면 <a href="/?login&amp;from=start" data-ev="login-end">로그인</a></div>
+  <div class="small">이미 계정이 있다면 <a href="/?login&amp;from=start" data-ev="login-end">로그인</a> · <a href="/?signup&amp;from=start" data-ev="cta-end-signup">이메일로 가입</a></div>
 </div></section>
 
 <footer><div class="wrap">본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다. 표시되는 점수·적정 주가는 과거 데이터와 가정에 기반한 추정치로 수익을 보장하지 않습니다.<br><a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a> · © ValueNote</div></footer>
 
-<div class="sticky" id="sticky"><div class="in"><div class="t"><b>내 종목은 몇 점일까요?</b>가입 없이 먼저 둘러볼 수 있어요</div><a class="btn gold" href="/?from=start" data-ev="cta-sticky">밸류노트 바로가기</a></div></div>
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b>내 종목은 몇 점일까요?</b><a href="/?from=start" data-ev="cta-sticky">가입 전에 둘러보기 ›</a></div><a class="btn kakao" href="/?kakao=1&amp;from=start" data-ev="cta-sticky-kakao">카카오로 3초 시작</a></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" defer></script>
 <script src="/config.js" defer></script>
@@ -416,18 +438,42 @@ function cards(){
   if(D.date) $('#asof').textContent = '(' + D.date.replace(/-/g, '.') + ' 기준)';
 }
 function pf(){
-  /* 예시 포트폴리오: 비중은 고정, 점수는 실제 계산값 */
-  var H = [['005830-ks',30],['086280-ks',24],['000270-ks',20],['tsla',10],['035720-ks',9]], cash = 7;
+  /* 예시 포트폴리오: 수량·단가·현재가는 예시, 점수·저평가/고평가는 실제 계산값. 앱 현황 화면과 같은 구성 */
+  var FX = 1400;
+  var H = [
+    { s:'005830-ks', t:'005830', m:'국내', q:80,  avg:98000,  px:185900, cur:'KRW', sp:[3,4,4,5,6,6,7,8,8,9] },
+    { s:'086280-ks', t:'086280', m:'국내', q:70,  avg:152000, px:178600, cur:'KRW', sp:[5,4,5,6,5,6,7,6,7,8] },
+    { s:'000270-ks', t:'000270', m:'국내', q:100, avg:98500,  px:106800, cur:'KRW', sp:[6,5,6,5,6,7,6,7,7,8] },
+    { s:'tsla',      t:'TSLA',   m:'미국', q:12,  avg:410,    px:367.16, cur:'USD', sp:[9,8,9,7,8,6,7,6,5,6] },
+    { s:'035720-ks', t:'035720', m:'국내', q:150, avg:48000,  px:32300,  cur:'KRW', sp:[9,8,7,8,6,5,6,4,4,3] } ], cash = 3500000;
+  var won = function(v){ return Math.round(v).toLocaleString('ko-KR') + '원'; };
+  var man = function(v){ var m = Math.round(v / 10000); return m >= 10000 ? (Math.floor(m / 10000) + '억 ' + (m % 10000 ? (m % 10000).toLocaleString('ko-KR') + '만' : '')).trim() + ' 원' : m.toLocaleString('ko-KR') + '만 원'; };
+  var pxf = function(h, v){ return h.cur === 'USD' ? '$' + v.toFixed(2) : Math.round(v).toLocaleString('ko-KR') + '원'; };
+  var sgn = function(v, f){ return (v > 0 ? '+' : v < 0 ? '−' : '') + f(Math.abs(v)); };
+  var spark = function(a, up){ var w = 64, h = 22, mx = Math.max.apply(null, a), mn = Math.min.apply(null, a);
+    var pts = a.map(function(v, i){ return (i * w / (a.length - 1)).toFixed(1) + ',' + (h - 2 - (v - mn) / ((mx - mn) || 1) * (h - 4)).toFixed(1); }).join(' ');
+    return '<svg class="spk" viewBox="0 0 ' + w + ' ' + h + '" width="' + w + '" height="' + h + '" aria-hidden="true"><polyline points="' + pts + '" fill="none" stroke="' + (up ? 'var(--up)' : 'var(--down)') + '" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'; };
+  var rows = H.map(function(h){ var r = row(h.s) || { n: h.s, b: null }; var k = h.cur === 'USD' ? FX : 1;
+    r.h = h; r.val = h.q * h.px * k; r.cost = h.q * h.avg * k; r.pl = r.val - r.cost; r.plp = r.pl / r.cost * 100; return r; });
+  var val = rows.reduce(function(a, r){ return a + r.val; }, 0), cost = rows.reduce(function(a, r){ return a + r.cost; }, 0), tot = val + cash, pl = val - cost;
+  rows.forEach(function(r){ r.w = r.val / tot * 100; });
+  var top3 = Math.round(rows.slice(0,3).reduce(function(a, r){ return a + r.w; }, 0)), low = rows.filter(function(r){ return num(r.b) && r.b < 40; });
   var C = ['#E4C78D','#C99A50','#7FA6D9','#9AA4B5','#C9CED8','rgba(255,255,255,.22)'];
-  var rows = H.map(function(h){ var r = row(h[0]) || { n: h[0], b: null }; r.w = h[1]; return r; });
-  var top3 = rows.slice(0,3).reduce(function(a, r){ return a + r.w; }, 0), low = rows.filter(function(r){ return num(r.b) && r.b < 40; });
-  var tag = function(r){ return !num(r.v) ? '<span class="tag n">–</span>' : r.v >= 70 ? '<span class="tag u">저평가</span>' : r.v < 30 ? '<span class="tag o">고평가</span>' : '<span class="tag n">적정 근처</span>'; };
-  $('#pf').innerHTML = '<div class="pf-h"><span class="ex">예시 · 홍길동</span><b>포트폴리오 현황</b><div class="tot">5,320만 원<small>+12.4%</small></div>' +
-    '<div class="pf-bar">' + rows.map(function(r, i){ return '<i style="flex:' + r.w + ';background:' + C[i] + '"></i>'; }).join('') + '<i style="flex:' + cash + ';background:' + C[5] + '"></i></div></div>' +
-    rows.map(function(r){ return '<div class="pf-row"><div><b>' + esc(r.n) + '</b><div class="w">비중 ' + r.w + '%</div></div>' + tag(r) + '<span class="pill ' + band(r.b) + '">' + (num(r.b) ? r.b : '–') + '</span></div>'; }).join('') +
-    '<div class="pf-chk"><div><span class="ic ok">✓</span><span>상위 3종목 비중 ' + top3 + '% · 버핏식 집중 원칙 안에 있습니다</span></div>' +
+  var tag = function(r){ return !num(r.v) ? '' : r.v >= 70 ? '<span class="tag u">저평가</span>' : r.v < 30 ? '<span class="tag o">고평가</span>' : '<span class="tag n">적정 주가 근처</span>'; };
+  $('#pf').innerHTML = '<div class="pf-h"><div class="pf-top"><span class="ex">예시 · 홍길동</span><span class="pf-lb">포트폴리오 › 현황</span></div>' +
+      '<small>총 평가액</small><div class="tot">' + man(tot) + '</div>' +
+      '<div class="pl ' + (pl >= 0 ? 'up' : 'down') + '">' + sgn(pl, function(v){ return man(v); }) + ' (' + sgn(pl / cost * 100, function(v){ return v.toFixed(1) + '%'; }) + ')</div>' +
+      '<div class="pf-bar">' + rows.map(function(r, i){ return '<i style="flex:' + r.w.toFixed(1) + ';background:' + C[i] + '"></i>'; }).join('') + '<i style="flex:' + (cash / tot * 100).toFixed(1) + ';background:' + C[5] + '"></i></div>' +
+      '<div class="pf-lg">' + rows.map(function(r, i){ return '<span><i style="background:' + C[i] + '"></i>' + esc(r.n) + ' ' + Math.round(r.w) + '%</span>'; }).join('') + '<span><i style="background:' + C[5] + '"></i>현금 ' + Math.round(cash / tot * 100) + '%</span></div></div>' +
+    rows.map(function(r){ var h = r.h, up = r.pl >= 0;
+      return '<div class="hc"><div class="hc-h"><div><b>' + esc(r.n) + '</b><span>' + esc(h.t) + ' · ' + h.m + '</span></div>' +
+        '<div class="hc-r">' + spark(h.sp, up) + '<b>' + won(r.val) + '</b><span class="' + (up ? 'up' : 'down') + '">' + sgn(r.pl, won) + ' (' + sgn(r.plp, function(v){ return v.toFixed(1) + '%'; }) + ')</span></div></div>' +
+        '<div class="hc-g"><div><span>수량</span><b>' + h.q.toLocaleString('ko-KR') + '</b></div><div><span>평균단가</span><b>' + pxf(h, h.avg) + '</b></div><div><span>현재가</span><b>' + pxf(h, h.px) + '</b></div><div><span>비중</span><b>' + r.w.toFixed(1) + '%</b></div></div>' +
+        '<div class="hc-f"><span class="pill ' + band(r.b) + '">' + (num(r.b) ? r.b : '–') + '</span><span class="hc-sl">밸류노트 점수</span>' + tag(r) + '</div></div>'; }).join('') +
+    '<div class="pf-chk"><div class="pf-ct">밸류노트가 매일 점검하는 것</div><div><span class="ic ok">✓</span><span>상위 3종목 비중 ' + top3 + '% · 버핏식 집중 원칙 안에 있습니다</span></div>' +
     (low.length ? '<div><span class="ic wn">!</span><span>' + esc(jo(low.map(function(r){ return r.n; }).join('·'), '은', '는')) + ' 점수가 40점 미만입니다 · 처음 산 이유가 아직 유효한지 다시 점검해 보세요</span></div>' : '') +
-    '<div><span class="ic ok">✓</span><span>현금 ' + cash + '% · 좋은 회사가 적정 매수가에 오면 바로 알림이 옵니다</span></div></div>';
+    '<div><span class="ic ok">✓</span><span>현금 ' + Math.round(cash / tot * 100) + '% · 좋은 회사가 적정 매수가에 오면 바로 알림이 옵니다</span></div></div>' +
+    '<p class="pf-note">수량·단가·현재가는 예시입니다. 점수와 저평가·고평가는 실제 계산값입니다.</p>';
 }
 function render(){ idx(); chips(); cards(); pf(); }
 render();

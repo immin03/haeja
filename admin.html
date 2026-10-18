@@ -419,7 +419,7 @@ function vTraffic(s){
 const LD = { days: 14, data: null, busy: false };
 async function ldLoad(){ LD.busy = true; const { data, error } = await sb.rpc('admin_landing', { p_days: LD.days }); LD.busy = false; LD.data = error ? { error: error.message } : data; if(page() === 'landing') render(); }
 const LD_SEC = [['s0','첫 화면 (점수 검색)'],['s1','01 우리가 사는 방식'],['s2','02 대가들의 방식'],['s3','03 유명 기업 점수'],['s4','04 버크셔 62건 검증'],['s5','05 예시 포트폴리오'],['s6','06 경제 레이더'],['s7','마지막 · 가입 안내']];
-const LD_ACT = {search:'종목 검색', chip:'종목 칩 누름', 'res-more':'점수 이유 보기', 'scroll-cue':'"3분이면 읽습니다" 누름', 'cta-sticky':'아래 고정 버튼', 'cta-end':'밸류노트 바로가기 (마지막)', 'cta-end-signup':'가입하기 (마지막)', login:'로그인 (위)', 'login-end':'로그인 (아래)', t15:'15초 이상 머묾', t60:'1분 이상 머묾'};
+const LD_ACT = {search:'종목 검색', chip:'종목 칩 누름', 'res-more':'점수 이유 보기', 'scroll-cue':'"3분이면 읽습니다" 누름', 'cta-sticky':'둘러보기 (아래 고정)', 'cta-end':'둘러보기 (마지막)', 'cta-end-signup':'이메일 가입 (마지막)', 'cta-kakao':'카카오로 시작 (마지막)', 'cta-sticky-kakao':'카카오로 시작 (아래 고정)', login:'로그인 (위)', 'login-end':'로그인 (아래)', t15:'15초 이상 머묾', t60:'1분 이상 머묾'};
 function vLanding(){
   if(!LD.data){ if(!LD.busy) ldLoad(); return head('소개 페이지', '불러오는 중', 'landing'); }
   const L = LD.data; if(L.error) return head('소개 페이지', '', 'landing') + `<div class="card">불러오지 못했습니다: ${esc(L.error)}</div>`;
