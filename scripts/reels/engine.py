@@ -632,12 +632,15 @@ def build_audio(scenes, total, mood, path):
 # ── 실행 ─────────────────────────────────────────────────────
 VERIFY = os.environ.get("REELS_VERIFY", "1") != "0"
 VLOG, LINT = [], []
+MAX_SEC = 30  # 릴스 길이 상한 (목표 20초 안팎)
 
 def render(spec, outdir, stills=None):
     from tts import speak
     os.makedirs(outdir, exist_ok=True)
     VLOG.clear(); LINT.clear()
     scenes, total = plan(spec, speak)
+    if total > MAX_SEC and not spec.get("allow_long"):
+        raise RuntimeError(f"{spec['id']}: {total:.1f}초 — 최대 {MAX_SEC}초를 넘습니다. 대본을 줄여야 합니다(목표 20초 안팎)")
     if VERIFY:
         import verify
         for w in LINT: print("  ⚠", w)

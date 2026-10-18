@@ -226,7 +226,7 @@ function analyze(x) {
     o.cap.push(`계산은 그레이엄 공식으로 했습니다. 주당순이익 ${M(val.eps)}과 주당순자산 ${M(val.bps)}을 곱해 22.5배 한 값의 제곱근입니다. ${o.methodNote}`);
   }
   // 3) 차이가 나는 이유
-  if (isNum(sc.ig) && isNum(sc.hist)) {
+  if (false && isNum(sc.ig) && isNum(sc.hist)) { // 30초 상한 때문에 뺌(목표 20초)
     const need = sc.ig >= 80 ? '80% 이상' : sc.ig <= -30 ? '-30% 이하' : `${n0(sc.ig, 1)}%`;
     if (sc.ig > sc.hist + 2) {
       o.why.push(`지금 주가가 맞으려면 앞으로 10년간 이익이 **매년 ${need}** 늘어야 합니다.`);
@@ -283,7 +283,7 @@ function cards(x, a) {
     <div class="vis vis-low">${bars([{ l: '지금 주가', v: r.px, t: M(r.px), c: over ? RED : '#F3EEE3' }, { l: '적정 주가', v: sc.iv, t: M(sc.iv), c: GOLD }])}
     <div class="gap ${over ? 'neg' : 'pos'}">${esc(gapText(R))}</div></div>`);
   // 2. 시장의 기대 vs 실제 성장 (두 번째 장도 표지만큼 강하게)
-  if (isNum(sc.ig) && isNum(sc.hist)) {
+  if (false && isNum(sc.ig) && isNum(sc.hist)) { // 30초 상한 때문에 뺌(목표 20초)
     const need = Math.max(Math.min(sc.ig, 80), -30);
     const hi = need > sc.hist + 2;
     out.push(`<div class="vis">${bars([{ l: '지금 주가가 가정한 성장', v: Math.max(Math.abs(need), 0.5), t: `연 ${n0(need, 1)}%`, c: hi ? RED : GREEN }, { l: '지난 몇 년 실제 성장', v: Math.max(Math.abs(sc.hist), 0.5), t: `연 ${n0(sc.hist, 1)}%`, c: GOLD }])}</div>`
@@ -391,7 +391,7 @@ function sayMoney(v, cur) {
   return `${Math.round(v)} ${unit}`;
 }
 const FAIR = { type: 'statement', l1: '적정 주가란?', l2: '회사의 1주당 가치', tone: 'gold', note: '회사가 앞으로 벌어들일 돈으로 계산합니다',
-  say: '적정 주가는, 회사가 앞으로 벌어들일 돈으로 계산한 한 주당 가치입니다.' };
+  say: '적정 주가는, 회사가 앞으로 벌 돈으로 계산한 한 주당 가치입니다.' };
 const pct1 = (v) => +Math.abs(v).toFixed(1);
 // 대본 규칙(scripts/reels/README.md): 한 줄 = 완결된 한 문장, 자막과 음성은 같은 문장, 낯선 말은 처음 나올 때 뜻을 말한다.
 function reelCompany(x, a) {
@@ -404,7 +404,7 @@ function reelCompany(x, a) {
   scenes.push(FAIR);
   scenes.push({ type: 'compare', title: '지금 주가 vs 적정 주가', l: { label: '지금 주가', v: money(r.px, cur), tone: over ? 'loss' : 'ivory' }, r: { label: '적정 주가', v: money(sc.iv, cur), tone: 'gold' },
     lines: [{ cap: [`지금 주가는 ${money(r.px, cur)}이고,`, `적정 주가는 ${money(sc.iv, cur)}입니다`], say: `지금 주가는 ${sayMoney(r.px, cur)}이고, 적정 주가는 ${sayMoney(sc.iv, cur)}입니다.` }] });
-  if (isNum(sc.ig) && isNum(sc.hist)) {
+  if (false && isNum(sc.ig) && isNum(sc.hist)) { // 30초 상한 때문에 뺌(목표 20초)
     const need = +Math.max(Math.min(sc.ig, 80), -30).toFixed(1), hi = need > sc.hist + 2, h = sc.hist;
     const real = h >= 0 ? `실제로는 매년 ${pct1(h)}%씩 늘었습니다` : `실제로는 매년 ${pct1(h)}%씩 줄었습니다`;
     const l1 = hi ? ['지금 주가가 맞으려면', `이익이 매년 ${need}%씩 늘어야 합니다`] : need < 0 ? ['지금 주가는 이익이', '줄어든다고 보는 가격입니다'] : ['지금 주가는 이익이', `매년 ${need}%만 늘어도 맞는 가격입니다`];
@@ -431,7 +431,7 @@ function reelRank(L, side, label) {
     lines: [{ cap: ['좋은 회사인데도', `적정 주가의 ${top[0].R.toFixed(1)}배에 거래되는 회사가 있습니다`], say: `좋은 회사인데도, 적정 주가의 ${sayRatio(top[0].R)}에 거래되는 회사가 있습니다.` }] });
   scenes.push(FAIR);
   scenes.push({ type: 'list', title: `${under ? '지금 저평가' : '좋지만 비싼'} TOP 5 · ${label}`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · ${g(x)}` : `${i + 1}위 ${x.r.n} · ${g(x)}`),
-    say: `${label} 기업 가운데 ${under ? '적정 주가보다 가장 싼' : '좋은 회사지만 가장 비싼'} 다섯 곳입니다. 사위는 ${top[3].r.n}, 오위는 ${top[4].r.n}입니다.` });
+    say: `사위는 ${top[3].r.n}, 오위는 ${top[4].r.n}입니다.` });
   scenes.push({ type: 'statement', l1: '1~3위는', l2: '프로필 링크에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에서 확인할 수 있습니다.' });
   scenes.push({ type: 'cta' });
   return { title: `${under ? '저평가' : '고평가'} TOP 5 · ${label}`, mood: 'calm', scenes, hashtags: [under ? '저평가주' : '고평가주', '저평가주식', '적정주가', '가치투자', '밸류노트'],
