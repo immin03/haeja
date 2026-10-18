@@ -33,7 +33,7 @@ jobs:
           echo "pushed=1" >> "$GITHUB_OUTPUT"
         id: commit
       - name: 검색엔진에 바뀐 주소 알리기 (IndexNow)
-        if: steps.commit.outputs.pushed == '1'
+        if: steps.commit.outputs.pushed == '1' || github.event_name == 'workflow_dispatch'
         run: |
           sleep 90   # Vercel 배포가 끝난 뒤 알린다
           git show HEAD~1:c/scores.json > /tmp/prev_scores.json 2>/dev/null || echo '{}' > /tmp/prev_scores.json
