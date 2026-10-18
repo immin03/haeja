@@ -4,7 +4,8 @@
 <style>
 :root{--navy:#0E1A2B;--gold:#C99A50;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
-.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800}.top span{color:#E4C78D}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4C78D}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#E4C78D}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #E4C78D;color:#7A5A22;font-weight:800;border-radius:10px;padding:6px 12px}
 main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
 h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
@@ -18,13 +19,15 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
-</style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 붙여넣기</div><main>
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
 <li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
 <li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
 <li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">주간 시장 정리</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">코스피는 왜 일주일 만에 16%나 급락했을까, 그리고 금리는 왜 내려갔을까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 8장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
 <div id="art"><p><img src="https://www.valuenote.co.kr/naver/a2/01.png" alt="코스피 급락 원인: 일주일 16% 떨어진 이유 (2026년 10월 셋째 주)" width="720"></p><p><span style="color:#888888;font-size:13px">코스피 급락 원인: 일주일 16% 떨어진 이유 (2026년 10월 셋째 주)</span></p>

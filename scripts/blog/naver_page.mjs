@@ -1,7 +1,7 @@
 // 네이버 블로그 붙여넣기용 페이지 만들기
 // 사용: node scripts/blog/naver_page.mjs naver/<글 id>
 //   naver/<글 id>/post.json 을 읽어 naver/<글 id>.html 과 naver/<글 id>/photos.zip 을 만든다.
-// post.json = { "title": "...", "tags": ["..."], "order": 1 (선택: 첫 글 묶음의 올리는 순서), "posted": "2026-10-18" (선택: 블로그에 올린 날), "blocks": [
+// post.json = { "title": "...", "tags": ["..."], "category": "거장의 투자" (선택: 블로그 카테고리. 없으면 요일로 정함), "order": 1 (선택: 첫 글 묶음의 올리는 순서), "posted": "2026-10-18" (선택: 블로그에 올린 날), "blocks": [
 //     {"h": "소제목"}, {"p": "문단. **굵게** 가능"}, {"img": "01.png", "cap": "사진 설명"},
 //     {"img": "banner.png", "href": "https://..."} (링크 걸린 배너, 설명 없음),
 //     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"},
@@ -21,6 +21,10 @@ const post = JSON.parse(fs.readFileSync(path.join(dir, 'post.json'), 'utf8'));
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const inline = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 const imgUrl = (f) => `${SITE}/naver/${id}/${f}`;
+// 블로그 카테고리: post.json 의 category, 없으면 요일로 정한다 (월 주간 시장 정리 · 수 기업 분석 · 금 거장의 투자)
+const CAT_BY_DAY = { m: '주간 시장 정리', w: '기업 분석', f: '거장의 투자' };
+const catOf = (d, pj) => pj.category || CAT_BY_DAY[(String(d).match(/^b\d{6}([mwf])/) || [])[1]] || '';
+const category = catOf(id, post);
 
 // 네이버 편집기가 잘 받아들이는 단순한 태그만 쓴다 (p, b, img, blockquote, a)
 const body = post.blocks.map((b) => {
@@ -51,7 +55,8 @@ const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta n
 <style>
 :root{--navy:#0E1A2B;--gold:#C99A50;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
-.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800}.top span{color:#E4C78D}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4C78D}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#E4C78D}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #E4C78D;color:#7A5A22;font-weight:800;border-radius:10px;padding:6px 12px}
 main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
 h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
@@ -65,13 +70,15 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
-</style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 붙여넣기</div><main>
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
 <li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
 <li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
 <li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+${category ? `<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">${esc(category)}</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>` : ''}
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">${esc(post.title)}</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 ${imgs.length}장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
 <div id="art">${body}</div></section>
@@ -96,7 +103,7 @@ console.log(`✓ ${dir}.html · 사진 ${imgs.length}장 · ${zip}`);
 // 블로그 글 목록 페이지(naver/index.html): 관리자 페이지 위 '블로그 글'에서 연다. 최신 글이 위
 const root = path.dirname(dir);
 const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d, 'post.json')))
-  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
+  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, cat: catOf(d, pj), order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
   .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || ((a.order ?? 99) - (b.order ?? 99)) || b.d.localeCompare(a.d));
 const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwf])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '월 · 주간 시장', w: '수 · 기업 분석', f: '금 · 가치투자 공부' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
 // 올린 글 표시: post.json 의 posted(날짜) + 관리자 로그인 시 docs(collection=naver, id=posted)에 저장한 표시를 합친다
@@ -105,15 +112,16 @@ fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
-<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800}.top span{color:#E4C78D}main{max-width:760px;margin:0 auto;padding:16px}
+<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4C78D}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}main{max-width:760px;margin:0 auto;padding:16px}
+.cat{font-style:normal;display:inline-block;background:#FBF5EA;border:1px solid #E4C78D;color:#7A5A22;font-weight:800;border-radius:8px;padding:1px 7px;margin-right:4px;font-size:12px}
 .it{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #E7E2D8;border-radius:14px;padding:12px;margin:10px 0}.it a{display:flex;gap:14px;align-items:center;flex:1;min-width:0;text-decoration:none;color:inherit}.it img{width:84px;height:84px;border-radius:10px;flex-shrink:0}.it b{display:block}.it small{color:#6B7584}
 .ck{font:inherit;font-size:14px;font-weight:800;border:1px solid #E7E2D8;background:#fff;color:#6B7584;border-radius:10px;padding:8px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0}.ck:hover{border-color:#C99A50;color:#0E1A2B}
 .it.done{background:#F1EEE6}.it.done img{opacity:.45}.it.done b{color:#6B7584}.it.done .ck{background:#2E8B62;border-color:#2E8B62;color:#fff}
-h3{font-size:15px;color:#6B7584;margin:26px 0 4px}.n{color:#6B7584;font-size:14px}#who{font-size:13px;color:#6B7584}</style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 글</div><main>
+h3{font-size:15px;color:#6B7584;margin:26px 0 4px}.n{color:#6B7584;font-size:14px}#who{font-size:13px;color:#6B7584}</style></head><body><div class="top"><a class="bk" href="/admin">‹ 관리자</a><b>Value<span>Note</span> · 네이버 블로그 글</b></div><main>
 <p class="n">월·수·금 아침에 새 글이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>
 <p id="who"></p>
 <h3>올릴 글</h3><div id="todo"></div><h3>올린 글</h3><div id="done"></div>
-<div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${esc(L(x))} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
+<div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${x.cat ? `<em class="cat">${esc(x.cat)}</em> ` : ''}${esc(L(x))} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
 </main>
 <script>
 const BAKED = ${JSON.stringify(baked)};
