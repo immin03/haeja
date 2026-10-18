@@ -973,6 +973,8 @@ const store = (() => {
     async track(kind, page){
       try{ if(!sb) return;
         /* 로컬 테스트·자동화 브라우저는 집계하지 않는다 */
+        /* 운영자 기기는 집계하지 않는다: 관리자 로그인 한 번, 또는 ?staff=1 로 한 번 연 브라우저(인스타·쓰레드 앱 안 브라우저 포함) */
+        try{ const sf = new URLSearchParams(location.search).get('staff'); if(sf === '1') localStorage.setItem('vn-staff', '1'); if(sf === '0') localStorage.removeItem('vn-staff'); if(localStorage.getItem('vn-staff') === '1') return; }catch(_){}
         if(/^(localhost|127\.|0\.0\.0\.0|192\.168\.)/.test(location.hostname) || location.protocol === 'file:' || navigator.webdriver || /bot|crawl|spider|slurp|yeti|headless|lighthouse|preview|facebookexternalhit/i.test(navigator.userAgent)) return;
         const q = new URLSearchParams(location.search);
         const ua = navigator.userAgent;
@@ -994,6 +996,7 @@ const store = (() => {
         mode = wantLogin ? 'login' : 'guest'; this.track('visit'); return;
       }
       user = session.user; mode = 'db'; this.track('visit');
+      if(user.email !== DEMO_EMAIL) sb.rpc('is_admin').then(({ data }) => { try{ if(data === true) localStorage.setItem('vn-staff', '1'); }catch(_){} }).catch(() => {});
       /* 다른 곳에서 로그아웃돼 이 기기 세션이 끊기면, 저장이 조용히 실패하지 않도록 로그인 화면으로 */
       sb.auth.onAuthStateChange((ev, s2) => { if(ev === 'SIGNED_OUT' || (ev === 'TOKEN_REFRESHED' && !s2)) this.expired(); });
     },
@@ -1696,6 +1699,12 @@ const GH_CHIPS = ['삼성전자', '애플', '엔비디아', 'SK하이닉스', '�
 function ghGap(R){
   return gapLong(R);
 }
+function ghGap2(R){
+  if(!isNum(R) || R <= 0) return '';
+  if(R < 0.95) return `<b>${fmt((1 - R) * 100, 0)}% 저평가</b><small>상승 여력 +${fmt((1 / R - 1) * 100, 0)}%</small>`;
+  if(R <= 1.05) return '<b>적정 주가 수준</b>';
+  return `<b class="dn">+${fmt((R - 1) * 100, 0)}% 고평가</b><small>적정 주가 대비</small>`;
+}
 function ghRow(n){ return (S2.screen || []).length ? scoredRows().find(r => r.n === n) : null; }
 function ghResult(){
   const r = S.ghPick && ghRow(S.ghPick); if(!r) return '';
@@ -1714,16 +1723,21 @@ function ghIgToday(){
       if(it){ S.igToday = (it.title.split('·')[1] || '').trim(); if(S.tab === 'portfolio') render(); } }); }
   const r = S.igToday && ghRow(S.igToday); if(!r) return '';
   const R = isNum(r.iv) && r.iv > 0 && isNum(r.px) ? r.px / r.iv : null;
-  return `<button type="button" class="gh-ig" data-act="gh-pick" data-v="${esc(r.n)}"><span><small>인스타에서 본 오늘의 기업</small><b>${esc(r.n)}</b></span><span class="gh-ig-v">${ghGap(R)} ›</span></button>`;
+  return `<button type="button" class="gh-ig" data-act="gh-pick" data-v="${esc(r.n)}"><span><small>인스타에서 본 오늘의 기업</small><b>${esc(r.n)}</b></span><span class="gh-ig-v">${ghGap2(R)}</span><span class="gh-ar" aria-hidden="true">›</span></button>`;
 }
 function ghTop5(){
   if(!(S2.screen || []).length || typeof valueRows !== 'function') return '';
   const L = valueRows('under', 'ALL').slice(0, 5); if(L.length < 5) return '';
   return `<div class="gh-top"><div class="gh-top-h"><b>지금 저평가 TOP 5</b><span>현재가가 적정 주가보다 25% 이상 낮은 회사</span></div>
     ${L.map(({ r, R }, i) => i < 3
-      ? `<button type="button" class="gh-tr lock" data-guest="signup"><span class="n">${i + 1}</span><span class="nm"><b>●●●●●</b><small>${esc(MKT[grpOf(r.m)]?.label || '')}</small></span><span class="g">${ghGap(R)}</span></button>`
-      : `<button type="button" class="gh-tr" data-act="gh-pick" data-v="${esc(r.n)}"><span class="n">${i + 1}</span><span class="nm"><b>${esc(r.n)}</b><small>${esc(MKT[grpOf(r.m)]?.label || '')}</small></span><span class="g">${ghGap(R)}</span></button>`).join('')}
+      ? `<button type="button" class="gh-tr lock" data-guest="signup"><span class="n">${i + 1}</span><span class="nm"><i class="ph" aria-label="가입 후 공개"></i><small>${esc(MKT[grpOf(r.m)]?.label || '')}</small></span><span class="g">${ghGap2(R)}</span></button>`
+      : `<button type="button" class="gh-tr" data-act="gh-pick" data-v="${esc(r.n)}"><span class="n">${i + 1}</span><span class="nm"><b>${esc(r.n)}</b><small>${esc(MKT[grpOf(r.m)]?.label || '')}</small></span><span class="g">${ghGap2(R)}</span></button>`).join('')}
     <div class="gh-top-f"><button type="button" class="btn primary" data-guest="signup">가입하고 1~3위 보기</button><button type="button" class="btn ghost" data-act="go-tab" data-v="value">전체 순위 ›</button></div></div>`;
+}
+/* 예시 포트폴리오 사이사이: "내 종목을 넣으면 바로 계산해 준다"로 가입 유도 */
+function ghMine(at){
+  if(at === 'top') return `<div class="gh-mine"><b>내 종목은 지금 얼마짜리일까요?</b><p>보유 종목만 넣으면 종목마다 적정 주가와 밸류노트 점수를 바로 계산하고, 내 계좌 전체가 적정 주가 기준으로 얼마인지 보여 드립니다.</p><button type="button" class="btn primary" data-guest="signup">내 종목으로 계산하기</button></div>`;
+  return `<div class="gh-mine end"><b>이제 내 계좌로 확인해 보세요</b><p>홍길동의 예시처럼, 내 종목도 고평가인지 저평가인지 바로 알려 드립니다. 이메일만 있으면 1분이면 끝납니다.</p><button type="button" class="btn primary" data-guest="signup">내 종목으로 계산하기</button></div>`;
 }
 function guestHero(){
   const n = '600+';
@@ -1741,7 +1755,8 @@ function guestHero(){
       <div><b>적정 매수가</b><span>적정 주가 대비<br>안전마진 30%</span></div>
       <div><b>가격 알림</b><span>적정 매수가 도달 시<br>즉시 통지</span></div>
     </div>
-    <div class="gh-note">아래는 <b>예시 계정</b>의 포트폴리오입니다. 아래 메뉴의 브리핑·기업도 가입 없이 둘러볼 수 있어요.</div>
+    ${ghMine('top')}
+    <div class="gh-ex-div"><span>예시</span><p>아래는 <b>홍길동</b>이라는 가상 투자자의 예시 포트폴리오입니다. 실제 사람의 계좌가 아닙니다.</p></div>
   </section>`;
 }
 document.addEventListener('submit', e => {
@@ -1933,6 +1948,9 @@ function render(){
   app.insertAdjacentHTML('beforeend', discFootHtml());
   if(store.isDemo) app.insertAdjacentHTML('afterbegin', demoBar());
   if(store.isGuest) app.insertAdjacentHTML('afterbegin', guestBar());
+  if(store.isGuest && S.tab === 'portfolio'){ /* 예시 계정 화면임을 카드마다 표시하고, 맨 아래에 내 종목 계산 유도 */
+    document.querySelectorAll('#app > div.card').forEach(c => { c.classList.add('g-ex'); if(!c.querySelector(':scope > .ex-tag')) c.insertAdjacentHTML('afterbegin', '<span class="ex-tag">예시 · 홍길동</span>'); });
+    const ft = app.querySelector('.disc-foot'); if(ft && !app.querySelector('.gh-mine.end')) ft.insertAdjacentHTML('beforebegin', ghMine('end')); }
   if(store.isGuest){ document.querySelectorAll('#app details.deep').forEach(d => { d.classList.add('g-lock'); d.open = false; const sm = d.querySelector('summary'); if(sm && !sm.querySelector('.lock-pill')) sm.insertAdjacentHTML('beforeend', '<span class="lock-pill">가입 후 열림</span>'); }); guestNudgeArm(); }
   if(inApp() && isIOS() && !S.extClosed) app.insertAdjacentHTML('afterbegin', `<div class="ext-bar"><span><b>Safari에서 열면 더 편해요</b> 로그인 유지·알림·홈 화면 추가가 돼요</span><a class="btn" href="x-safari-https://${location.host}${location.pathname}${location.search}">Safari로 열기</a><button type="button" class="ext-x" aria-label="닫기" onclick="S.extClosed=true;this.parentNode.remove()">×</button></div>`);
   if(S.loaded.s && !consentOk() && !store.isDemo){ app.insertAdjacentHTML('beforeend', consentHtml()); document.body.classList.add('noscroll'); }
@@ -6219,12 +6237,29 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .gh-res-v{font-size:17px;font-weight:800;color:#E4C78D;margin-bottom:12px}.gh-res-v.dn{color:#F2A08E}.gh-res-v.up{color:#8FD9B4}
 .g-hero button.btn.gh-res-go{width:100%;background:linear-gradient(90deg,#C99A50,#E4C78D);border:0;color:#0A1322;font-weight:800}
 .gh-ig{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;margin-bottom:14px;border-radius:12px;background:rgba(228,199,141,.12);border:1px solid rgba(228,199,141,.35)}
-.gh-ig small{display:block;font-size:11.5px;color:#E4C78D}.gh-ig b{font-size:15px}.gh-ig-v{font-size:13.5px;font-weight:700;color:#F3EEE3;white-space:nowrap}
+.gh-ig>span:first-child{flex:1;min-width:0}.gh-ig small{display:block;font-size:11.5px;color:#E4C78D}.gh-ig>span:first-child b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gh-ig-v,.gh-tr .g{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:1px;text-align:right;white-space:nowrap}
+.gh-ig-v b,.gh-tr .g b{font-size:14.5px;font-weight:800;color:#8FD9B4;font-variant-numeric:tabular-nums}.gh-ig-v b.dn,.gh-tr .g b.dn{color:#F2A08E}
+.gh-ig-v small,.gh-tr .g small{font-size:11.5px;font-weight:600;color:rgba(243,238,227,.6);margin:0;font-variant-numeric:tabular-nums}
+.gh-ar{flex:0 0 auto;color:#E4C78D;font-size:18px;line-height:1}
+.gh-mine{margin:0 0 14px;padding:16px;border-radius:14px;background:linear-gradient(135deg,rgba(228,199,141,.2),rgba(228,199,141,.06));border:1px solid rgba(228,199,141,.5)}
+.gh-mine b{display:block;font-size:16.5px;color:#F3EEE3;margin-bottom:6px}.gh-mine p{margin:0 0 12px;font-size:13.5px;line-height:1.6;color:rgba(243,238,227,.8);word-break:keep-all}
+.gh-mine .btn.primary{width:100%;justify-content:center;padding:13px;font-size:15px;font-weight:800;background:linear-gradient(90deg,#C99A50,#E4C78D);border:0;color:#0A1322}
+.gh-mine.end{margin:18px 0 8px;background:linear-gradient(135deg,#13233B,#0E1A2B);color:#F3EEE3}
+.gh-ex-div{display:flex;gap:10px;align-items:flex-start;margin:4px 0 0;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.05);border:1px dashed rgba(228,199,141,.45)}
+.gh-ex-div span{flex:0 0 auto;font-size:11.5px;font-weight:800;color:#0A1322;background:#E4C78D;border-radius:999px;padding:3px 9px}
+.gh-ex-div p{margin:0;font-size:13px;line-height:1.55;color:rgba(243,238,227,.78);word-break:keep-all}.gh-ex-div b{color:#fff}
+.card.g-ex{position:relative}
+.card.g-ex>.ex-tag{float:right;position:relative;z-index:2;margin:-6px -6px 6px 10px;font-size:10.5px;font-weight:800;letter-spacing:.02em;color:#8A6A2E;background:rgba(228,199,141,.22);border:1px solid rgba(201,154,80,.45);border-radius:999px;padding:2px 8px;pointer-events:none}
 .gh-top{margin:0 0 16px;padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
 .gh-top-h{margin-bottom:6px}.gh-top-h b{font-size:15.5px;color:#E4C78D}.gh-top-h span{display:block;font-size:12px;color:rgba(243,238,227,.6);margin-top:2px}
-.gh-tr{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08)}
-.gh-tr .n{flex:0 0 18px;font-weight:800;color:#E4C78D;font-size:13px}.gh-tr .nm{flex:1;min-width:0}.gh-tr .nm b{font-size:14.5px}.gh-tr .nm small{margin-left:6px;font-size:11.5px;color:rgba(243,238,227,.55)}
-.gh-tr .g{font-size:13px;font-weight:700;color:#8FD9B4;white-space:nowrap}.gh-tr.lock .nm b{filter:blur(4px);letter-spacing:2px}
+.gh-tr{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)}
+.gh-tr .n{flex:0 0 20px;font-weight:800;color:#E4C78D;font-size:15px;text-align:center;font-variant-numeric:tabular-nums}
+.gh-tr .nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.gh-tr .nm b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gh-tr .nm small{font-size:11.5px;color:rgba(243,238,227,.55);white-space:nowrap}
+.gh-tr .ph{display:block;width:76px;height:14px;border-radius:7px;background:linear-gradient(90deg,rgba(243,238,227,.32),rgba(243,238,227,.14));filter:blur(2.5px)}
+.gh-tr.lock .nm small::after{content:' · 가입 후 공개';color:#E4C78D}
 .gh-top-f{display:flex;gap:8px;margin-top:10px}.gh-top-f .btn{flex:1;font-size:13.5px}.g-hero .gh-top-f button.btn.primary{background:linear-gradient(90deg,#C99A50,#E4C78D);border:0;color:#0A1322;font-weight:800}
 .g-hero .gh-top-f .btn.ghost{flex:0 0 auto;background:transparent;border:1px solid rgba(228,199,141,.4);color:#F3EEE3}
 .g-hero{margin:14px 0 4px;padding:26px 20px 20px;border-radius:20px;background:linear-gradient(160deg,#0E2342 0%,#0A1730 70%);color:#F3EEE3;box-shadow:0 14px 40px rgba(7,12,21,.25);word-break:keep-all;position:relative;overflow:hidden}
