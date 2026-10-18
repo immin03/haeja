@@ -339,7 +339,7 @@ function caption(x, a) {
   const q = [];
   if (isNum(f.roeAvg)) q.push(`5년 평균 ROE(주주 돈 100원으로 1년에 번 이익) ${n0(f.roeAvg, 1)}%`);
   if (!r.fin_sector && isNum(f.fcfConv)) q.push(`현금 전환율(이익 중 실제 현금으로 들어온 비율) ${n0(f.fcfConv)}%`);
-  L.push(`회사 체력은 ${q.length ? q.join(', ') + '이고, ' : ''}밸류노트 종합 점수는 100점 만점에 ${sc.b}점입니다.${a.pens.length ? ` 감점 신호는 ${a.pens.join(', ')}입니다.` : ''}`);
+  L.push(`회사 체력은 ${q.length ? q.join(', ') + '이고, ' : ''}밸류노트 점수는 100점 만점에 ${sc.b}점입니다.${a.pens.length ? ` 감점 신호는 ${a.pens.join(', ')}입니다.` : ''}`);
   L.push('', '적정 주가는 회사가 앞으로 벌어들일 이익과 현금을 바탕으로 밸류노트가 계산한 1주당 가치입니다. 지금 주가가 이보다 낮으면 싸게, 높으면 비싸게 거래되고 있다는 뜻입니다.');
   L.push('', `기업별 전체 계산은 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.`);
   return L.join('\n').replace(/\n{3,}/g, '\n\n');

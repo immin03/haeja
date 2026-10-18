@@ -212,7 +212,7 @@ function companyPage(x, peers, date) {
   return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)}</div>
 <section class="card hero"><h1>${esc(r.n)} 적정주가와 가치투자 점수</h1><div class="sub">${esc(code)} · ${MKT[g]}${r.en ? ' · ' + esc(r.en) : ''}${r.ind ? ' · ' + esc(r.ind) : ''}</div>
-<div class="score"><b>${isNum(b) ? b : '–'}</b><span>버핏 근접도 (100점 만점, 70점 이상이 기준)</span></div>
+<div class="score"><b>${isNum(b) ? b : '–'}</b><span>밸류노트 점수 (100점 만점, 70점 이상이 기준)</span></div>
 <div class="bars"><div><div class="lab">숫자 품질</div><div class="val">${sc.q ?? '–'}점</div><div class="bar"><i style="width:${sc.q || 0}%"></i></div></div>
 <div><div class="lab">저평가</div><div class="val">${sc.v ?? '–'}점</div><div class="bar"><i style="width:${sc.v || 0}%"></i></div></div></div>
 <div class="share"><button type="button" data-sh="c" data-u="${url}" data-t="${esc(shareText)}">이 점수 공유하기</button></div></section>
@@ -273,7 +273,7 @@ function marketPage(m, list, date) {
     ? `<tr><td><a href="/?signup&utm_source=c-${MSLUG[m]}-gate" style="color:var(--gold)">${i + 1}위 · 가입하고 보기 ›</a><div class="s">품질 ${x.sc.q}점 · 종합 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`
     : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">품질 ${x.sc.q}점 · 종합 ${x.sc.b ?? '–'}점</div></td><td class="n pos">${n0(x.sc.mos)}% 낮음</td></tr>`).join('')}</table>` : '<p class="note">오늘은 이 기준을 통과한 회사가 없습니다. 좋은 회사의 가격이 내려올 때까지 기다리는 날입니다.</p>'}
 <p class="note" style="margin-top:8px">감점 신호(잦은 적자·과도한 빚·잦은 증자 등)가 있는 회사는 뺐습니다. 숫자로 거른 목록일 뿐, 매수 권유가 아닙니다.</p></section>
-<section class="card list"><h2>종합 점수 순위</h2>${rankTable(sorted)}</section>
+<section class="card list"><h2>밸류노트 점수 순위</h2>${rankTable(sorted)}</section>
 <a class="cta" href="/?utm_source=c-${MSLUG[m]}">관심 종목이 적정 가격에 오면 알림 받기<small>가입은 이메일만으로 10초</small></a>
 <div class="mlinks">${MKT_ORDER.filter((k) => k !== m).map((k) => `<a href="/c/${MSLUG[k]}">${MKT[k]} 순위</a>`).join('')}</div>
 </main>${FOOT(date)}${SHARE_JS}${TRACK('/c/' + MSLUG[m])}</body></html>`;

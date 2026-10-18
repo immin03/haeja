@@ -1622,11 +1622,11 @@ function evaluate(c){
   const fs = (c.fscore||[]).filter(Boolean).length;
   const agg = [];
   if((c.special||[]).length) agg.push('특수 상황 촉매');
-  // 6. 종합 점수: 숫자 근접도(b) 75% + 정성 25%
+  // 6. 밸류노트 점수 (하나만 쓴다)
   const b = sc.b;
   const tr = trendScore(c.trendLinks, sc.v);
-  const parts = [[b,0.65],[qualScore,0.20],[tr.score,0.15]].filter(([x]) => isNum(x));
-  const total = b === null ? null : Math.round(parts.reduce((a,[x,w])=>a+x*w,0)/parts.reduce((a,[,w])=>a+w,0));
+  // 점수는 하나만 쓴다: 밸류노트 점수 = 숫자 품질 40% + 저평가 60% − 위험 신호. 정성 평가·트렌드는 점수에 섞지 않고 따로 보여 준다
+  const total = b;
   const mosOk = isNum(sc.mos) && sc.mos >= st.reqMOS;
   let v, cls;
   if(gates.length){ v='탈락'; cls='bad'; }
@@ -1688,7 +1688,7 @@ function ghResult(){
   const r = S.ghPick && ghRow(S.ghPick); if(!r) return '';
   const R = isNum(r.iv) && r.iv > 0 && isNum(r.px) ? r.px / r.iv : null;
   return `<div class="gh-res"><div class="gh-res-h"><b>${esc(r.n)}</b><span>${esc(MKT[grpOf(r.m)]?.label || '')} · ${esc(r.ind || r.s || '')}</span></div>
-    <div class="gh-res-g"><div><small>종합 점수</small><b>${isNum(r.b) ? r.b : '–'}<i>/100</i></b></div><div><small>적정 주가</small><b>${fmtPx(r.iv, r.cur)}</b></div><div><small>지금 주가</small><b>${fmtPx(r.px, r.cur)}</b></div></div>
+    <div class="gh-res-g"><div><small>밸류노트 점수</small><b>${isNum(r.b) ? r.b : '–'}<i>/100</i></b></div><div><small>적정 주가</small><b>${fmtPx(r.iv, r.cur)}</b></div><div><small>지금 주가</small><b>${fmtPx(r.px, r.cur)}</b></div></div>
     ${R !== null ? `<div class="gh-res-v ${R > 1.05 ? 'dn' : R < 0.95 ? 'up' : ''}">${ghGap(R)}</div>` : ''}
     <button type="button" class="btn primary gh-res-go" data-act="vl-open" data-v="${esc(r.code || r.t)}" data-n="${esc(r.n)}">왜 이 점수인지 보기 ›</button></div>`;
 }
@@ -1955,7 +1955,7 @@ function dipCard(dayPct){
     <h3>${rough ? `오늘 계좌가 ${pct(dayPct)} 움직였어요. 팔 이유가 생긴 건지, 살 기회가 생긴 건지부터 보세요.` : `좋은 회사 ${fell.length}곳이 오늘 3% 넘게 내렸어요.`}</h3>
     ${list.length ? `<div class="small muted" style="margin:8px 0 6px">적정 매수가 근처까지 내려온 좋은 회사 ${near.length}곳</div>
     <div class="dip-list">${list.map(({ r, gap, day }) => `<button type="button" class="dip-row" data-act="sc-import" data-t="${esc(r.t)}">
-      <span class="dip-n"><b>${esc(r.n)}</b><small>버핏 근접도 ${r.b}${isNum(day) ? ` · 오늘 ${pct(day)}` : ''}</small></span>
+      <span class="dip-n"><b>${esc(r.n)}</b><small>밸류노트 점수 ${r.b}${isNum(day) ? ` · 오늘 ${pct(day)}` : ''}</small></span>
       <span class="dip-g ${gap <= 0 ? 'in' : ''}">${gap <= 0 ? '적정 매수가 아래' : `매수가까지 −${fmt(gap, 0)}%`}</span></button>`).join('')}</div>` : ''}
     <p class="small muted" style="margin:10px 0 0">하루 등락은 소음일 때가 많아요. 회사의 이익이 줄었는지만 확인하면 됩니다.</p>
   </div>`;
@@ -2044,7 +2044,7 @@ function concPlan(rows, total, cashW){
     acts.push({lv:'warn', short:`주력 자리 ${PLAN.coreN - core.length}개 비어 있음. 새 돈은 주력 칸(기준 통과)으로만`, t:`주력 자리 ${PLAN.coreN}개 중 ${core.length}개가 차 있다. ${cands.length ? '빈 자리 후보: '+cands.map(x => `${x.c.name}(${x.ev.verdict})`).join(', ')+'.' : '조건을 통과한 후보가 아직 없다. 관심 후보가 매주 월요일 다시 선정된다.'} 매수는 판정이 "기준 통과"이거나 매수 가격 이하일 때만 한다.`});
   } else if(core.length > PLAN.coreN){
     const weakest = [...core].sort((a,b) => (a.ev?.total??0) - (b.ev?.total??0))[0];
-    acts.push({lv:'warn', t:`주력이 ${core.length}개다. 3개로 압축하려면 종합 점수가 가장 낮은 ${weakest.h.name}부터 검토한다.`});
+    acts.push({lv:'warn', t:`주력이 ${core.length}개다. 3개로 압축하려면 밸류노트 점수가 가장 낮은 ${weakest.h.name}부터 검토한다.`});
   }
   core.forEach(r => { if(r.w > PLAN.slotMax) acts.push({lv:'warn', t:`${r.h.name} 한 종목이 ${fmt(r.w,0)}%다. 한 종목 상한은 ${PLAN.slotMax}%.`}); });
   if(coreW < PLAN.coreLo && core.length) acts.push({lv:'none', short:`주력 비중 ${fmt(coreW,0)}% → 70~80%`, t:`주력 비중 ${fmt(coreW,0)}% → 목표 ${PLAN.coreLo}~${PLAN.coreHi}%. 새로 넣는 돈과 도전 칸 정리금은 주력 칸으로만 보낸다.`});
@@ -2169,7 +2169,7 @@ function holdCard({h, calc, c, ev, w}){
     ${c && (c.profile?.what || c.auto?.businessOneLine) ? `<div class="small"><span class="muted">${esc(c.profile?.industry||c.sector||'')}</span> ${divPill(c)}<div style="margin-top:2px">${esc((c.profile?.what||c.auto.businessOneLine).split(/(?<=다\.)\s/)[0])}</div></div>` : ''}
     <details><summary class="small">가격 차트 · 평균단가 ${fmtPx(h.avg,h.currency)}</summary><div style="margin-top:8px">${priceChart(h.ticker, {ref:h.avg, refLabel:'평균단가', fmtV: v => fmtPx(v, h.currency), label: h.name+' 주가'})}</div></details>
     <div class="row" style="justify-content:space-between">
-      <div class="row">${c ? `${pillFor(ev)} <span class="small num">종합 ${ev.total ?? '–'}점</span> <span class="small muted">논리: ${esc(c.thesis?.status||'유효')}</span>` : `<span class="pill p-none">심사 기록 없음</span>`}</div>
+      <div class="row">${c ? `${pillFor(ev)} <span class="small num">점수 ${ev.total ?? '–'}점</span> <span class="small muted">논리: ${esc(c.thesis?.status||'유효')}</span>` : `<span class="pill p-none">심사 기록 없음</span>`}</div>
       <div class="row">
         ${c ? `<button class="btn" data-act="open-co" data-id="${c.id}">심사 보기</button>` : (h.kind==='stock' ? `<button class="btn" data-act="hold-analyze" data-id="${h.id}">심사 시작</button>` : '')}
         <button class="btn" data-act="hold-edit" data-id="${h.id}">수정</button>
@@ -2201,7 +2201,7 @@ function holdForm(h){
 
 /* ============ 종목 심사 ============ */
 function cur(){ return S.companies.find(c => c.id === S.curId) || null; }
-const SCOPE_RULE = '심사 대상: 보유 종목 + 관심 후보(스크리너 근접도 70점 이상, 탈락·감점 신호·구조적 훼손 없음, 시장당 최대 6곳, 상위 20곳, 매주 월요일 재선정) + 직접 추가했거나 메모를 쓴 내 종목.';
+const SCOPE_RULE = '심사 대상: 보유 종목 + 관심 후보(밸류노트 점수 70점 이상, 탈락·감점 신호·구조적 훼손 없음, 시장당 최대 6곳, 상위 20곳, 매주 월요일 재선정) + 직접 추가했거나 메모를 쓴 내 종목.';
 function scopeOf(c){
   if(S.holdings.some(h => companyFor(h)?.id === c.id)) return '보유';
   if(c.pinned || (c.thesis?.memo||'').trim()) return '내 종목';
@@ -2277,7 +2277,7 @@ function companyForm(c){
     <div id="trendOut"></div>
     ${c.industry ? `<p class="small" style="margin:0"><b>산업 특징:</b> ${esc(c.industry)}</p>` : ''}
     ${c.risksText ? `<p class="small" style="margin:0"><b>핵심 리스크:</b> ${esc(c.risksText)}</p>` : ''}
-    <p class="small muted" style="margin:0">트렌드 점수는 종합 점수의 15%만 반영하고, 저평가 근거 없이 트렌드만으로는 기준 통과가 되지 않습니다.</p>
+    <p class="small muted" style="margin:0">트렌드는 참고 정보로만 보여 주고 밸류노트 점수에는 넣지 않습니다. 트렌드만으로는 기준 통과가 되지 않습니다.</p>
     <details><summary class="small">직접 고치기</summary>
       <div id="trendRows" style="margin-top:8px">${trendRowsHtml(c)}</div>
       <label class="f">산업 특징<textarea data-path="industry" id="i-industry">${esc(c.industry)}</textarea></label>
@@ -2350,7 +2350,7 @@ function updateEval(){
     const bar = (l, s, note='') => `<div><span class="eyebrow">${l}${gl(l)}</span><div class="num" style="font-weight:700">${s===null||s===undefined?'–':s+'점'}</div><div class="bar"><i style="width:${s||0}%"></i></div>${note?`<div class="small muted">${note}</div>`:''}</div>`;
     const gatesHtml = ev.gates.length ? `<div class="gates">${ev.gates.map(g => `<div><span class="pill p-bad">탈락 사유</span> ${esc(g.t)}</div>`).join('')}</div>` : '';
     const WARN_ONLY = [...WARN_FLAGS];
-    const FLAG_HELP = {'국유기업·정책 위험':'정부가 최대주주인 회사. 정책 목적(대출·가격 통제·배당 지시)이 주주 이익보다 앞설 수 있어 감점한다','중국 본토 규제':'중국 본토 상장(A주). 규제·자본 통제·지정학 위험을 숫자로 볼 수 없어 종합 점수에서 6점을 할인한다','이익 정점 가능':'최근 EPS가 가용 연수 평균의 1.5배 이상. 정점 이익에 낮은 PER이 붙은 함정일 수 있다','성장 감속':'매출 성장률이 3년 연속 둔화하고 최근 0 이하. 해자 침식 신호','지주회사':'지주회사·순환출자 구조. PBR과 EV가 왜곡될 수 있어 순자산가치 할인으로 따로 봐야 한다','경기순환·이익 변동':'업종 또는 ROE 변동성. 정점 매수 여부를 스스로 점검','주식보상 큼':'주식보상비용이 오너이익의 25%를 넘는다. 내재가치는 이미 이 비용을 빼고 계산했다','혁신 의존':'꾸준한 이익보다 미래 기술·제품 성공에 기대는 사업. 주력 칸이 아니라 도전 칸으로 분류된다'};
+    const FLAG_HELP = {'국유기업·정책 위험':'정부가 최대주주인 회사. 정책 목적(대출·가격 통제·배당 지시)이 주주 이익보다 앞설 수 있어 감점한다','중국 본토 규제':'중국 본토 상장(A주). 규제·자본 통제·지정학 위험을 숫자로 볼 수 없어 밸류노트 점수에서 6점을 할인한다','이익 정점 가능':'최근 EPS가 가용 연수 평균의 1.5배 이상. 정점 이익에 낮은 PER이 붙은 함정일 수 있다','성장 감속':'매출 성장률이 3년 연속 둔화하고 최근 0 이하. 해자 침식 신호','지주회사':'지주회사·순환출자 구조. PBR과 EV가 왜곡될 수 있어 순자산가치 할인으로 따로 봐야 한다','경기순환·이익 변동':'업종 또는 ROE 변동성. 정점 매수 여부를 스스로 점검','주식보상 큼':'주식보상비용이 오너이익의 25%를 넘는다. 내재가치는 이미 이 비용을 빼고 계산했다','혁신 의존':'꾸준한 이익보다 미래 기술·제품 성공에 기대는 사업. 주력 칸이 아니라 도전 칸으로 분류된다'};
     const flagsHtml = ev.flags.length ? `<div class="gates">${ev.flags.map(g => `<div><span class="pill ${WARN_ONLY.includes(g)?'p-none':'p-warn'}">${WARN_ONLY.includes(g)?'경고':'감점'}</span> ${esc(g)}${WARN_ONLY.includes(g)?'':' (−8점)'}${FLAG_HELP[g]?`<div class="small muted">${FLAG_HELP[g]}</div>`:''}</div>`).join('')}</div>` : '';
     const confHtml = ev.dataConf ? `<div class="gates"><div><span class="pill ${ev.dataConf==='low'?'p-bad':ev.dataConf==='medium'?'p-warn':'p-good'}">데이터 신뢰도 ${ {low:'낮음',medium:'보통',high:'높음'}[ev.dataConf] }</span> ${ev.dataConf==='low'?'신뢰도가 낮은 데이터라 기준 통과로 올리지 않는다. 공시 원문으로 재확인 필요':'매수 전 공시 원문(DART·EDGAR·EDINET) 대조 필수'}</div></div>` : '';
     let next = '';
@@ -2360,9 +2360,9 @@ function updateEval(){
     else if(ev.verdict==='도전 후보' || ev.verdict==='근접 · 관찰') next = ev.memoOk ? `도전 칸 최대 ${ev.maxW}%` : '투자 이유와 매도 조건 2개를 쓰면 도전 칸(≤15%)이 열립니다';
     else if(ev.verdict==='데이터 부족') next = `재무 지표 입력률 ${Math.round(ev.coverage*100)}%. 50% 이상 필요합니다`;
     v.innerHTML = `<div class="row" style="justify-content:space-between"><span class="eyebrow">${esc(c.name||'이름 없음')} ${esc(c.ticker||'')}</span>${pillFor(ev)}</div>
-      <div class="row" style="align-items:baseline;gap:12px"><div class="vtitle">${esc(ev.verdict)}</div><div class="num muted">종합 ${ev.total ?? '–'}점</div></div>
+      <div class="row" style="align-items:baseline;gap:12px"><div class="vtitle">${esc(ev.verdict)}</div><div class="num muted">밸류노트 점수 ${ev.total ?? '–'}점</div></div>
       ${next?`<div class="small">${next}</div>`:''}
-      <div class="bars">${bar('숫자 품질', ev.qScore)}${bar('저평가', ev.valScore, isNum(ev.mos)?`안전마진 ${fmt(ev.mos,0)}%`:'')}${bar('정성 평가', ev.qualScore, ev.qualScore===null?'미입력':'')}${bar('트렌드', ev.trend, ev.trend===null?'미연결':'')}<div><span class="eyebrow">버핏 근접도${gl('버핏 근접도')}</span><div class="num" style="font-weight:700">${ev.b ?? '–'}점</div><div class="small muted">숫자+가격</div></div></div>
+      <div class="bars">${bar('숫자 품질', ev.qScore)}${bar('저평가', ev.valScore, isNum(ev.mos)?`안전마진 ${fmt(ev.mos,0)}%`:'')}${bar('정성 평가 (참고)', ev.qualScore, ev.qualScore===null?'미입력':'점수 미반영')}${bar('트렌드 (참고)', ev.trend, ev.trend===null?'미연결':'점수 미반영')}</div>
 
       ${ev.trendWarn ? `<div class="gates"><div><span class="pill p-warn">테마 프리미엄</span> ${esc(ev.trendWarn)}</div></div>` : ''}
       ${gatesHtml}${flagsHtml}${confHtml}`;
@@ -2549,8 +2549,8 @@ function watchHtml(){
   if(!list.length) return '';
   return `<h2>관심 후보</h2><div class="stack">${list.map(({c,ev}) => `<div class="card hold">
     <div class="hold-head"><div style="min-width:0"><div class="name">${esc(c.name)}</div><div class="small muted">${esc(c.ticker)} · ${(MKT[c.market]||MKT.KR).label}${c.sector?' · '+esc(c.sector):''}</div></div>
-      <div style="text-align:right"><span class="pill ${scoreCls(ev.total)}" style="font-size:15px">${ev.total ?? '–'}</span><div class="small muted">종합</div></div></div>
-    <div class="hold-grid"><div><span>근접도</span><b class="num">${ev.b ?? '–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>적정 가격${gl('적정 가격')}</span><b class="num">${fmtPx(ev.iv, curOf(c.market))}</b></div><div><span>상승 여력${gl('상승 여력')}</span><b class="num">${upHtml(upPct(ev.iv, c.price))}</b></div></div>
+      <div style="text-align:right"><span class="pill ${scoreCls(ev.total)}" style="font-size:15px">${ev.total ?? '–'}</span><div class="small muted">점수</div></div></div>
+    <div class="hold-grid"><div><span>점수</span><b class="num">${ev.b ?? '–'}</b></div><div><span>현재가</span><b class="num">${fmtPx(c.price, curOf(c.market))}</b></div><div><span>적정 가격${gl('적정 가격')}</span><b class="num">${fmtPx(ev.iv, curOf(c.market))}</b></div><div><span>상승 여력${gl('상승 여력')}</span><b class="num">${upHtml(upPct(ev.iv, c.price))}</b></div></div>
     <div class="row" style="justify-content:space-between">${pillFor(ev)}<button class="btn" data-act="open-co" data-id="${c.id}">심사 보기</button></div></div>`).join('')}</div>`;
 }
 /* ============ 브리핑: 뉴스·산업·트렌드 ============ */
@@ -2733,7 +2733,7 @@ function columnDraft(){
     : '원칙을 바꿀 만한 신호가 없는 주에는 아무것도 하지 않는 것이 가장 좋은 결정일 때가 많습니다.';
   const soon = (fx.watch || []).filter(w => w.date >= today()).slice(0, 2);
   const body = [
-    `■ 이번 주 시장\n좋은 회사(버핏 근접도 75점 이상) 중 적정 매수가 아래로 내려온 곳이 ${n.pass}곳, 근처까지 온 곳이 ${n.near}곳입니다.${n.hot.length ? ` 5년 범위 꼭대기 근처에 있는 산업은 ${n.hot.join(', ')}입니다.` : ''}`,
+    `■ 이번 주 시장\n좋은 회사(밸류노트 점수 75점 이상) 중 적정 매수가 아래로 내려온 곳이 ${n.pass}곳, 근처까지 온 곳이 ${n.near}곳입니다.${n.hot.length ? ` 5년 범위 꼭대기 근처에 있는 산업은 ${n.hot.join(', ')}입니다.` : ''}`,
     `■ 트렌드는 이렇게 움직였습니다\n${mv.slice(0, 3).map(x => `${x.l} ${x.ch >= 0 ? '+' : '−'}${fmt(Math.abs(x.ch), 1)}% (${x.ph})`).join('\n') || '이번 주는 큰 움직임이 없었습니다.'}${mv[0]?.sum ? `\n${mv[0].sum}` : ''}`,
     `■ 금리\n${['US10Y','KR10Y','JP10Y','FR10Y'].map(k => { const o = rateOf(k); return o ? `${RATE_L[k]} ${fmt(o.v, 2)}% (1년 ${ppt(o.chg1y)})` : null; }).filter(Boolean).join(', ') || '금리 자료를 모으는 중입니다.'}${S.rates?.headline ? `\n${S.rates.headline}` : ''}`,
     `■ 환율\n원/달러 ${won(R.USDKRW?.v)}${isNum(C.USDKRW_1m) ? ` (한 달 ${pct(C.USDKRW_1m)})` : ''}, 100엔 ${won(R.JPYKRW100?.v)}입니다.${soon.length ? `\n다가오는 일정은 ${soon.map(w => `${+w.date.slice(5, 7)}/${+w.date.slice(8, 10)} ${w.event.replace(/\s*\(.*\)$/, '')}`).join(', ')}입니다.` : ''}`,
@@ -3038,7 +3038,7 @@ function companyCard(c, h){
   return `<article class="card stack co-card">
     <div class="hold-head">
       <div style="min-width:0"><div class="name">${esc(c.name)}</div><div class="small muted">${esc(c.ticker)} · ${(MKT[c.market]||MKT.KR).label}${p.industry ? ' · '+esc(p.industry) : (c.sector ? ' · '+esc(c.sector) : '')}</div></div>
-      <div class="row" style="gap:6px;justify-content:flex-end;align-items:center">${c.kind === 'stock' ? starBtn(c) : ''}${yenPill(c.market)}${ev ? `<span class="pill ${scoreCls(ev.total)}">종합 ${ev.total ?? '–'}</span>` : (c.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : '')}</div>
+      <div class="row" style="gap:6px;justify-content:flex-end;align-items:center">${c.kind === 'stock' ? starBtn(c) : ''}${yenPill(c.market)}${ev ? `<span class="pill ${scoreCls(ev.total)}">점수 ${ev.total ?? '–'}</span>` : (c.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : '')}</div>
     </div>
     ${(() => { const bb = styleBadges({c, r:null, p:c.profile || profileFor(c.yf||c.ticker, c.ticker, c), px:c.price}); return bb ? `<div class="row" style="gap:6px">${bb}</div>` : ''; })()}
     ${!h && (c.watchWhy || scopeOf(c)==='내 종목') ? `<div class="small muted">${scopeOf(c)==='내 종목' ? '<span class="pill p-good">내 종목</span> 직접 추가했거나 메모를 쓴 종목' : esc(c.watchWhy)}</div>` : ''}
@@ -3290,7 +3290,7 @@ function allCompaniesHtml(){
   return `<div class="stack" style="margin-top:12px">
     <div class="chips" role="group">${[['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국'],['HK','홍콩']].map(([k,l]) => `<button class="chip" data-act="co-mkt" data-v="${k}" aria-current="${mk===k}"><b>${l}</b></button>`).join('')}</div>
     <label class="f">검색<input id="co-q" value="${esc(S.coQ||'')}" placeholder="회사명, 티커, 산업"></label>
-    <div class="small muted">${rows.length}개 중 ${shown.length}개 · 근접도 순</div>
+    <div class="small muted">${rows.length}개 중 ${shown.length}개 · 점수 순</div>
     <div id="coList" class="stack">${shown.map(x => coRowHtml(x)).join('')}</div>
     ${rows.length > shown.length ? `<button class="btn" data-act="co-more" style="align-self:center">더 보기</button>` : ''}
   </div>`;
@@ -3300,7 +3300,7 @@ function coRowHtml(x){
   return `<div class="card stack" style="gap:8px">
     <button type="button" data-act="co-open" data-v="${esc(x.code)}" aria-expanded="${open}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px">
       <div class="hold-head"><div style="min-width:0"><div class="name">${esc(x.name)}</div><div class="small muted">${esc(x.code)} · ${(MKT[x.m]||MKT.KR).label}${p.industry ? ' · '+esc(p.industry) : (x.ind ? ' · '+esc(x.ind) : '')}</div></div>
-        <div class="row" style="gap:6px;justify-content:flex-end">${yenPill(x.m)}${isNum(x.b) ? `<span class="pill ${scoreCls(x.b)}">근접도 ${x.b}</span>` : ''}</div></div>
+        <div class="row" style="gap:6px;justify-content:flex-end">${yenPill(x.m)}${isNum(x.b) ? `<span class="pill ${scoreCls(x.b)}">점수 ${x.b}</span>` : ''}</div></div>
       ${p.what ? `<div class="small">${esc(p.what)}</div>` : '<div class="small muted">개요는 자동 실행 때 채워집니다.</div>'}
     </button>
     ${open ? `<div class="stack" style="gap:8px;border-top:1px solid var(--line);padding-top:8px">
@@ -3718,7 +3718,7 @@ function yenSectionHtml(){
     ${hbars([{label:'최고 회복', v:y.upHi},{label:'평균 회복', v:y.up},{label:'10% 더 약세', v:down10}], {fmtV: v => pct(v)})}
     <p class="small" style="margin:0">일본 주식을 원화로 사서 들고 있으면 주가와 별개로 엔화 가치 변화가 수익에 더해진다. 지금처럼 엔화가 역사적으로 싼 구간에서 사면, 엔화가 평균 쪽으로 돌아올 때 같은 주가에서도 원화 기준 수익이 늘어난다. 다만 엔화가 바닥이라는 보장은 없고(840원대가 바닥이 아닐 수 있다는 전망도 있다) 시점도 알 수 없다.</p>
     <p class="small muted" style="margin:0">엔화가 강해지면 수출 비중이 큰 일본 기업(자동차·전자·기계)은 엔화 환산 이익이 줄어 주가가 눌릴 수 있어 환차익이 일부 상쇄된다. 은행·보험·통신·내수 소비처럼 국내 매출 중심 기업이 엔화 회복의 덕을 더 온전히 받는다. 환헤지형 ETF로 사면 이 효과는 없다.</p>
-    ${jp.length ? `<div><div class="eyebrow">스크리너의 일본 기업 (근접도 순)</div>${jp.map(r => { const p = profileFor(r.t, r.code); const d = p?.dividend; return `<div class="check" style="grid-template-columns:minmax(0,1fr) auto"><div style="min-width:0"><b>${esc(r.n)}</b> <span class="small muted">${esc(r.code||r.t)}${p?.industry?' · '+esc(p.industry):''}</span>${d ? `<div class="small muted">배당 ${esc(d.verdict)}${isNum(d.yield)&&d.yield>0?' '+fmt(d.yield,1)+'%':''}</div>` : ''}</div><span class="pill ${scoreCls(r.b)}">근접도 ${r.b ?? '–'}</span></div>`; }).join('')}</div>` : ''}
+    ${jp.length ? `<div><div class="eyebrow">스크리너의 일본 기업 (점수 순)</div>${jp.map(r => { const p = profileFor(r.t, r.code); const d = p?.dividend; return `<div class="check" style="grid-template-columns:minmax(0,1fr) auto"><div style="min-width:0"><b>${esc(r.n)}</b> <span class="small muted">${esc(r.code||r.t)}${p?.industry?' · '+esc(p.industry):''}</span>${d ? `<div class="small muted">배당 ${esc(d.verdict)}${isNum(d.yield)&&d.yield>0?' '+fmt(d.yield,1)+'%':''}</div>` : ''}</div><span class="pill ${scoreCls(r.b)}">점수 ${r.b ?? '–'}</span></div>`; }).join('')}</div>` : ''}
   </div>`;
 }
 
@@ -3936,7 +3936,7 @@ function watchCard(c){
       <div><span>현재가</span><b class="num">${fmtPx(c.price, cur)}</b></div>
       <div><span>적정 가격</span><b class="num">${fmtPx(ev.iv, cur)}</b></div>
       <div><span>상승 여력</span><b class="num">${upHtml(u)}</b></div>
-      <div><span>종합 점수</span><b class="num">${ev.total ?? '–'}</b><small class="wl-d">1주 ${dlt(ev.total, w?.total)} · 1달 ${dlt(ev.total, m?.total)}</small></div>
+      <div><span>밸류노트 점수</span><b class="num">${ev.total ?? '–'}</b><small class="wl-d">1주 ${dlt(ev.total, w?.total)} · 1달 ${dlt(ev.total, m?.total)}</small></div>
     </div>
     <div class="wl-bar"><i style="width:${prog}%"></i></div>
     <div class="wl-foot small"><span class="pill ${ev.cls==='good'?'p-good':ev.cls==='bad'?'p-bad':'p-warn'}">${esc(ev.verdict)}</span><span class="muted">${isNum(gap) ? (gap <= 0 ? '<b class="ok-tag">적정 매수가 아래</b>' : `적정 매수가 ${fmtPx(ev.buyBelow, cur)}까지 −${fmt(gap, gap < 10 ? 1 : 0)}%`) : '적정 가격 계산 전'}</span></div>
@@ -4005,8 +4005,8 @@ const GLOSS = {
   '숫자 품질':['숫자 품질','ROE·이익률·현금흐름·부채 등 13개 재무 지표로 매긴 사업의 질(0~100점).'],
   '저평가':['저평가 점수','안전마진, 시장이 가정한 성장률, 이익수익률, PER×PBR로 매긴 "지금 가격이 싼 정도"(0~100점).'],
   '정성 평가':['정성 평가','해자, 가격결정력, 경영진, 지배구조, 10년 보유 테스트처럼 숫자로 안 보이는 부분의 점수.'],
-  '트렌드':['트렌드 점수','회사가 커지는 산업에 얼마나 걸려 있는지. 종합 점수에 15%만 반영한다.'],
-  '버핏 근접도':['버핏 근접도','숫자 품질 40% + 저평가 60%에서 위험 신호를 뺀 점수. 버핏의 기준에 숫자로 얼마나 가까운지다.'],
+  '트렌드':['트렌드 점수','회사가 커지는 산업에 얼마나 걸려 있는지. 참고용으로만 보여 주고 밸류노트 점수에는 넣지 않는다.'],
+  '밸류노트 점수':['밸류노트 점수','숫자 품질 40% + 저평가 60%에서 위험 신호를 뺀 점수. 모든 기업에 같은 공식을 쓰는 하나뿐인 점수다.'],
 };
 const glKey = k => GLOSS[k] ? k : null;
 function gl(k){ if(!GLOSS[k]) return ''; return `<button type="button" class="gl" data-gl="${esc(k)}" aria-label="${esc(GLOSS[k][0])} 설명">?</button>`; }
@@ -4587,7 +4587,7 @@ const GUIDE = [
       <p>회사마다 데이터 신뢰도(높음·보통·낮음)를 표시하며, 신뢰도가 낮으면 점수가 높아도 기준 통과로 올리지 않는다. 목록에 없는 회사는 "목록에 없는 종목 바로 분석"으로 같은 기준의 점수를 볼 수 있다.</p>
       <p>이 목록은 "좋은 회사"를 고른 것이 아니라 비교할 수 있는 큰 회사를 모은 것이다. 판정은 목록 안에서 같은 기준으로 매긴다.</p>`; }],
     ['관심 종목은 어떻게 쓰나요?', `<p>사지 않았어도 지켜보고 싶은 회사는 기업 목록이나 기업 화면의 <b>☆</b>를 누르면 "기업 → 관심 종목"에 모인다. 한 번 더 누르면 빠진다.</p>
-     <p>관심 종목 화면에서는 현재가·적정 가격·상승 여력과 함께 <b>종합 점수가 1주·1달 전보다 올랐는지 내렸는지</b>를 보여 준다(재무는 그대로 두고 그때 가격으로 다시 계산한 값). 막대는 적정 매수가까지 얼마나 가까워졌는지를 뜻하고, 적정 매수가에 닿으면 알림이 온다.</p>`],
+     <p>관심 종목 화면에서는 현재가·적정 가격·상승 여력과 함께 <b>밸류노트 점수가 1주·1달 전보다 올랐는지 내렸는지</b>를 보여 준다(재무는 그대로 두고 그때 가격으로 다시 계산한 값). 막대는 적정 매수가까지 얼마나 가까워졌는지를 뜻하고, 적정 매수가에 닿으면 알림이 온다.</p>`],
     ['내가 가진 회사가 목록에 없으면요?', `<p><b>바로 분석:</b> "기업 → 찾기"의 "목록에 없는 종목 바로 분석"에서 회사명(한글·영문)이나 티커로 찾아 [분석]을 누르면, 연간 재무제표를 불러와 목록의 회사와 같은 기준으로 품질·저평가·내재가치를 10초 안에 계산한다. 서로 다른 종목 3개까지 분석할 수 있고, 같은 종목을 다시 분석하는 것과 이미 목록에 있는 회사를 보는 것은 횟수에서 빠지지 않는다.</p><p><b>정성 평가:</b> 해자·경영진·10년 보유 테스트 같은 정성 평가는 다음 날 아침 자동 분석 때 채워진다. 보유 종목으로 등록한 회사도 같은 방식으로 자동 분석된다(하루 최대 12곳, 보유 종목 우선).</p><p>ETF·레버리지 상품은 회사가 아니라서 점수 대신 도전 칸으로 분류된다.</p>`],
     ['하루에 어떻게 쓰면 좋나요?', `<p><b>아침 1분:</b> 브리핑 탭의 헤드라인과 보유 종목 한 줄 요약을 본다. 자세한 내용은 눌러서 펼친다.</p>
      <p><b>포트폴리오 확인:</b> 맨 위 카드에서 수익률과 비중을, 아래 "지금 할 일"에서 비중 조정이 필요한지를 본다. 할 일이 없으면 아무것도 안 하는 것이 정답이다.</p>
@@ -4648,15 +4648,15 @@ const GUIDE = [
      <p><b>세 가지 장점으로 정리하면</b></p>
      <ul><li><b>실수가 겹치지 않는다.</b> 가격, 사업, 행동을 각각 다른 기준이 지켜서 한 기준의 사각지대를 다른 기준이 메운다.</li>
      <li><b>점수로 비교할 수 있다.</b> 필터 하나라도 걸리면 탈락시키는 대신 감점 방식으로 바꿔, 기준에 "얼마나 가까운지" 순위를 낼 수 있다. 그래서 220여 개 회사를 한 줄로 세울 수 있다.</li>
-     <li><b>실제 기록으로 고쳤다.</b> 버크셔의 실제 매수 62건(성공·실패 포함)과 고전 사례 10건에 이 공식을 다시 돌려 봤다. 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서, 버핏 근접도를 품질 40% + 저평가 60%로 정했다. 경기순환 업종 감점은 성공 사례(뉴코어, 일본 상사)만 깎아서 경고로 바꿨다.</li></ul>`],
+     <li><b>실제 기록으로 고쳤다.</b> 버크셔의 실제 매수 62건(성공·실패 포함)과 고전 사례 10건에 이 공식을 다시 돌려 봤다. 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서, 밸류노트 점수를 품질 40% + 저평가 60%로 정했다. 경기순환 업종 감점은 성공 사례(뉴코어, 일본 상사)만 깎아서 경고로 바꿨다.</li></ul>`],
     ['한 회사를 심사하는 순서', `<ol class="g-steps">
       <li><b>탈락 관문 (멍거):</b> 능력 범위 밖이거나 지배구조 위험이 있으면 점수를 보지 않고 탈락.</li>
       <li><b>숫자 품질 (버핏):</b> 13개 재무 지표를 0~100점으로. 시장별 기준이 다르다(예: ROE 미국 15%, 한국 12%).</li>
       <li><b>저평가 (그레이엄 + 버핏):</b> 안전마진(가중 2), 역DCF 성장률 차이(가중 2), 이익수익률 ÷ 국채 금리, PER×PBR을 0~100점으로.</li>
       <li><b>위험 신호 (멍거):</b> 해당하는 개수만큼 감점. 경기순환·지주회사·주식보상·혁신 의존은 감점 없이 경고만.</li>
-      <li><b>버핏 근접도:</b> 품질 40% + 저평가 60% − 감점.</li>
-      <li><b>종합 점수:</b> 근접도 65% + 정성 평가 20% + 트렌드 15%.</li>
-      <li><b>판정:</b> 종합 75점 이상 + 품질 70 이상 + 10년 보유 통과 + 안전마진 30% → 기준 통과. 가격만 비싸면 "좋은 회사, 가격 대기".</li>
+      <li><b>밸류노트 점수:</b> 품질 40% + 저평가 60% − 감점. 점수는 이것 하나만 쓴다.</li>
+      <li><b>정성 평가·트렌드:</b> 밸류노트가 조사해 참고 정보로 보여 주고, 점수에는 섞지 않는다(기업마다 조사 범위가 달라 섞으면 점수끼리 비교가 안 되기 때문).</li>
+      <li><b>판정:</b> 75점 이상 + 품질 70 이상 + 10년 보유 통과 + 안전마진 30% → 기준 통과. 가격만 비싸면 "좋은 회사, 가격 대기".</li>
       <li><b>포트폴리오 (멍거):</b> 주력 3종목에 넣을지, 도전 칸으로 보낼지 자동 분류.</li>
      </ol>`],
     ['내재가치는 어떻게 계산하나 (예시)', `<p>주당 오너이익이 1,000원, 성장률 5%, 할인율 10%, 영구성장 2%인 회사를 예로 든다.</p>
@@ -4669,7 +4669,7 @@ const GUIDE = [
      <p>품질은 통과했는데 가격만 비싸면 "좋은 회사, 가격 대기"로 분류해 관심 목록에 남긴다. 버크셔가 애플·코카콜라를 지금 가격에 더 사지 않고 보유만 하는 것과 같은 판단이다. 적정 매수가에 닿으면 알림이 온다.</p>`],
   ]},
   {g:'점수와 판정', items:[
-    ['점수는 몇 점이면 어떤 뜻인가요?', () => `<p><b>종합 점수(0~100)</b>는 "이 회사가 그레이엄·버핏·멍거의 기준에 얼마나 가까운가"를 뜻한다. 주가가 오를 확률이 아니다.</p>
+    ['점수는 몇 점이면 어떤 뜻인가요?', () => `<p><b>밸류노트 점수(0~100)</b>는 "이 회사가 그레이엄·버핏·멍거의 기준에 얼마나 가까운가"를 뜻한다. 주가가 오를 확률이 아니다.</p>
      <table class="g-tbl"><thead><tr><th>점수</th><th>뜻</th><th>할 일</th></tr></thead><tbody>
       <tr><td><b>90점 이상</b></td><td>사업의 질과 가격이 함께 기준을 크게 넘는다. 아주 드물다</td><td>안전마진·10년 보유를 확인하고 주력 자리 후보로 검토</td></tr>
       <tr><td><b>75~89점</b></td><td>기준에 가깝다. 품질 70점 이상·10년 보유 통과·안전마진 30%를 채우면 "기준 통과"</td><td>못 채운 조건이 무엇인지 보고, 가격이 조건이면 적정 매수가 알림을 기다린다</td></tr>
@@ -4678,19 +4678,19 @@ const GUIDE = [
       <tr><td><b>40점 미만</b></td><td>이 원칙과 맞지 않는 회사다. 대부분 가격에 큰 기대가 이미 들어 있다</td><td>원칙상 대상이 아니다. 산다면 도전 칸(10% 이하)에서만</td></tr>
      </tbody></table>
      ${(() => { const bs = (S2.screen.length ? scoredRows() : []).map(r => r.b).filter(isNum); if(!bs.length) return ''; const c = [bs.filter(b => b >= 90).length, bs.filter(b => b >= 75 && b < 90).length, bs.filter(b => b >= 60 && b < 75).length, bs.filter(b => b >= 40 && b < 60).length, bs.filter(b => b < 40).length];
-       return `<p><b>얼마나 드문가.</b> 지금 목록 ${bs.length}곳을 숫자만으로(버핏 근접도) 매기면 90점 이상 ${c[0]}곳, 75~89점 ${c[1]}곳, 60~74점 ${c[2]}곳, 40~59점 ${c[3]}곳, 40점 미만 ${c[4]}곳이다. 큰 회사 대부분이 지금은 비싸다는 뜻이고, 그래서 후보가 적게 나오는 것이 정상이다.</p>`; })()}
+       return `<p><b>얼마나 드문가.</b> 지금 목록 ${bs.length}곳을 숫자만으로(밸류노트 점수) 매기면 90점 이상 ${c[0]}곳, 75~89점 ${c[1]}곳, 60~74점 ${c[2]}곳, 40~59점 ${c[3]}곳, 40점 미만 ${c[4]}곳이다. 큰 회사 대부분이 지금은 비싸다는 뜻이고, 그래서 후보가 적게 나오는 것이 정상이다.</p>`; })()}
      <p><b>점수가 높아도 기준 통과가 아닌 경우.</b> 탈락 조건(능력 범위 밖, 지배구조 위험)에 걸리거나, 데이터 신뢰도가 낮거나, 10년 보유 테스트를 통과하지 못하면 점수와 관계없이 후보에서 빠진다. 반대로 품질 80점 이상인 회사는 점수가 낮아도 "좋은 회사, 가격 대기"로 남긴다.</p>
      <p><b>세부 점수 읽는 법</b></p>
      <table class="g-tbl"><thead><tr><th>점수</th><th>높을 때</th><th>낮을 때</th></tr></thead><tbody>
       <tr><td><b>숫자 품질</b></td><td>80+: 최상위 사업(버크셔 보유 상위 종목 수준). 70+: 기준 통과 최소 조건</td><td>50 미만: 이익·현금흐름·부채 중 약점이 크다</td></tr>
       <tr><td><b>저평가</b></td><td>70+: 내재가치보다 확실히 싸다. 50~69: 적정 가격 근처</td><td>40 미만: 비싸다. 과열 트렌드와 겹치면 "테마 프리미엄" 경고</td></tr>
       <tr><td><b>정성 평가</b></td><td>60+: 해자·경영진·지배구조가 기준을 넘는다</td><td>비어 있으면 아직 자동 분석 전이다(다음 날 아침 채워짐)</td></tr>
-      <tr><td><b>트렌드</b></td><td>60+: 커지는 시장에 핵심으로 걸려 있다</td><td>종합 점수에 15%만 반영된다. 트렌드만으로는 후보가 되지 않는다</td></tr>
+      <tr><td><b>트렌드</b></td><td>60+: 커지는 시장에 핵심으로 걸려 있다</td><td>점수에는 넣지 않는 참고 정보다. 트렌드만으로는 후보가 되지 않는다</td></tr>
      </tbody></table>
      <p class="small muted">점수 띠는 판정 규칙(75·60점 기준)과 같은 선으로 나눴다. 90점 이상은 판정이 따로 있지 않고 "특히 드문 경우"라는 설명용 구간이다.</p>`],
-    ['버핏 근접도와 종합 점수는 어떻게 계산하나요?', `<p><b>버핏 근접도</b> = 숫자 품질 40% + 저평가 60% − 위험 신호 감점. 버크셔의 실제 매수 62건을 되짚어 보니 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서 가중치를 이렇게 정했다.</p>
-     <p><b>종합 점수</b> = 버핏 근접도 65% + 정성 평가 20% + 트렌드 15%. 비어 있는 항목은 빼고 나머지로 다시 나눈다.</p>`],
-    ['판정은 몇 가지이고 각각 무슨 뜻인가요?', `<ul><li><b>기준 통과:</b> 종합 75점 이상, 품질 70 이상, 10년 보유 테스트 통과, 안전마진 충족. 적정 매수가가 함께 표시된다.</li>
+    ['밸류노트 점수는 어떻게 계산하나요?', `<p><b>밸류노트 점수</b> = 숫자 품질 40% + 저평가 60% − 위험 신호 감점. 버크셔의 실제 매수 62건을 되짚어 보니 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로) 저평가 점수만 수익률과 같이 움직여서 가중치를 이렇게 정했다.</p>
+     <p>점수는 이것 하나만 쓴다. 해자·경영진 같은 정성 평가와 트렌드는 밸류노트가 조사해 참고 정보로 따로 보여 주고, 점수에는 섞지 않는다.</p>`],
+    ['판정은 몇 가지이고 각각 무슨 뜻인가요?', `<ul><li><b>기준 통과:</b> 75점 이상, 품질 70 이상, 10년 보유 테스트 통과, 안전마진 충족. 적정 매수가가 함께 표시된다.</li>
      <li><b>좋은 회사, 가격 대기:</b> 회사는 기준을 넘지만 지금 가격이 비싸다. 적정 매수가에 닿으면 알림이 온다.</li>
      <li><b>근접 · 관찰:</b> 60점 이상. 지켜볼 가치는 있지만 주력 자리에 넣을 단계는 아니다.</li>
      <li><b>기준과 거리 있음 / 탈락:</b> 원칙상 사지 않는다.</li></ul>
@@ -4718,7 +4718,7 @@ const GUIDE = [
   {g:'브리핑 · 트렌드 · 알림', items:[
     ['트렌드 차트는 어떻게 읽나요?', `<p>메가트렌드마다 수혜 기업(한국·미국·중국)을 같은 비중으로 묶은 지수다. 기간 시작을 100으로 맞추고 3개월·6개월·1년·5년으로 바꿔 볼 수 있다. 점선은 코스피와 S&amp;P 500이다.</p>
      <p><b>국면</b>은 숫자로만 정한다. 5년 범위의 위쪽 15% 안이면서 6개월 상승이면 고점권, 아래쪽 25% 안이면 바닥권, 그 사이는 6개월·3개월 방향으로 상승·조정·반등·하락을 나눈다.</p>
-     <p>트렌드는 종합 점수에 15%만 들어간다. 과열 트렌드에 핵심으로 걸린 회사인데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 트렌드만으로는 기준 통과가 되지 않는다.</p>`],
+     <p>트렌드는 밸류노트 점수에 넣지 않고 참고로만 보여 준다. 과열 트렌드에 핵심으로 걸린 회사인데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 트렌드만으로는 기준 통과가 되지 않는다.</p>`],
     ['어떤 알림이 오나요?', `<ul><li><b>급등락:</b> 보유 종목이 하루 5% 이상 움직이면. 7% 이상 하락은 긴급.</li>
      <li><b>적정 매수가 도달:</b> 관심 종목이 기준 통과 판정이고 적정 매수가 아래로 내려오면.</li>
      <li><b>내재가치 초과:</b> 보유 종목 주가가 내재가치를 10% 넘게 웃돌면. 매도 조건을 점검할 때다.</li></ul>
@@ -4964,7 +4964,7 @@ function viewValidation(){
 
   <h2>그래서 바꾼 것</h2>
   <div class="card rule-group">
-    <div class="rule"><span class="t">근접도 가중치 변경: 품질 40 + 저평가 60</span><span class="th">2차 검증</span><span class="d">62건에서 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로), 저평가 점수만 양(+)의 상관을 보였다. 1차 24건의 결과가 새 38건에서도 반복돼 가중치를 옮겼다. 품질 70점 이상은 기준 통과 조건으로 계속 요구한다.</span></div>
+    <div class="rule"><span class="t">점수 가중치 변경: 품질 40 + 저평가 60</span><span class="th">2차 검증</span><span class="d">62건에서 품질 점수는 이후 수익률과 상관이 없었고(버크셔는 이미 좋은 회사만 고르므로), 저평가 점수만 양(+)의 상관을 보였다. 1차 24건의 결과가 새 38건에서도 반복돼 가중치를 옮겼다. 품질 70점 이상은 기준 통과 조건으로 계속 요구한다.</span></div>
     <div class="rule"><span class="t">역DCF 성장률 비교를 저평가 점수의 핵심으로</span><span class="th">가중치 2</span><span class="d">코카콜라(1988)는 이익수익률이 당시 국채보다 낮아 기존 공식으로는 탈락이었다. 시장이 가정한 성장률과 실제 성장률을 비교하는 방식이 버핏의 실제 판단에 더 가깝다.</span></div>
     <div class="rule"><span class="t">은행·보험 전용 평가</span><span class="th">ROE ÷ 할인율 vs PBR</span><span class="d">FCF·유동비율이 의미 없는 금융사(웰스파고, AXP, 처브, BAC)를 데이터 부족으로 빼지 않고 ROE와 PBR로 평가한다.</span></div>
     <div class="rule"><span class="t">경기순환 업종은 경고만</span><span class="th">감점 없음</span><span class="d">감점을 넣었더니 성공 사례(뉴코어, 일본 상사)만 깎이고 실패는 걸러지지 않았다. 대신 경고 표시를 달아 정점 매수(코노코필립스 2008)를 스스로 점검하게 한다.</span></div>
@@ -4995,7 +4995,7 @@ function viewValidation(){
 
 /* ============ 스크리너 ============ */
 const MKT_TABS = [['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국 A'],['HK','홍콩']];
-const SORTS = [['tb','근접도 + 트렌드'],['b','버핏 근접도'],['q','숫자 품질'],['v','저평가'],['mos','안전마진']];
+const SORTS = [['tb','점수 + 트렌드'],['b','밸류노트 점수'],['q','숫자 품질'],['v','저평가'],['mos','안전마진']];
 const TAGS = ['품질 상위 10%','안전마진 30%+'];
 try{ const sv = JSON.parse(localStorage.getItem('ml-screen')||'null'); if(sv) Object.assign(S2, sv, {shown:40, open:null}); }catch(_){}
 function saveScreenPrefs(){ try{ localStorage.setItem('ml-screen', JSON.stringify({mkt:S2.mkt, sort:S2.sort, hideFlags:S2.hideFlags, tag:S2.tag})); }catch(_){} }
@@ -5095,7 +5095,7 @@ function screenCard(r, i){
     <button type="button" data-act="sc-open" data-t="${esc(r.t)}" aria-expanded="${open}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:8px">
       <div class="hold-head">
         <div style="min-width:0"><div class="name">${esc(r.n)}</div><div class="small muted">${esc(r.code||r.t)} · ${(MKT[r.m]||{label:r.m}).label}${r.s?' · '+esc(r.s):''}</div></div>
-        <div style="text-align:right"><span class="pill ${scoreCls(r.b)}" style="font-size:15px">${isNum(r.b)?r.b:'–'}</span><div class="small muted" style="margin-top:2px">근접도</div></div>
+        <div style="text-align:right"><span class="pill ${scoreCls(r.b)}" style="font-size:15px">${isNum(r.b)?r.b:'–'}</span><div class="small muted" style="margin-top:2px">점수</div></div>
       </div>
       <div class="hold-grid">
         <div><span>품질 / 저평가</span><b class="num">${r.q ?? '–'} / ${r.v ?? '–'}</b></div>
@@ -5162,7 +5162,7 @@ let jDraft = null;
 function journalModelHtml(ticker, action){
   const co = findCompanyByText(ticker); if(!co) return `<div class="small muted">종목명이나 티커를 쓰면 이 시점의 모델 판정이 함께 저장됩니다.</div>`;
   const m = modelSnapshot(co); const ok = BUY_ACTIONS.includes(action) ? MODEL_OK.includes(m.verdict) : null;
-  return `<div class="check" style="grid-template-columns:auto 1fr"><span class="pill ${ok===null?'p-none':ok?'p-good':'p-bad'}">모델 판정</span><div class="small"><b>${esc(co.name)}</b> · ${esc(m.verdict)}${isNum(m.total)?` · 종합 ${m.total}점`:''}${isNum(m.mos)?` · 안전마진 ${m.mos}%`:''}${m.flags.length?` · ${esc(m.flags.join(', '))}`:''}${ok===false?`<div style="color:var(--bad)">모델은 지금 이 종목을 기준 통과로 보지 않습니다. 그래도 사는 이유를 아래에 적어 두세요. 나중에 복기의 재료가 됩니다.</div>`:''}</div></div>`;
+  return `<div class="check" style="grid-template-columns:auto 1fr"><span class="pill ${ok===null?'p-none':ok?'p-good':'p-bad'}">모델 판정</span><div class="small"><b>${esc(co.name)}</b> · ${esc(m.verdict)}${isNum(m.total)?` · 점수 ${m.total}점`:''}${isNum(m.mos)?` · 안전마진 ${m.mos}%`:''}${m.flags.length?` · ${esc(m.flags.join(', '))}`:''}${ok===false?`<div style="color:var(--bad)">모델은 지금 이 종목을 기준 통과로 보지 않습니다. 그래도 사는 이유를 아래에 적어 두세요. 나중에 복기의 재료가 됩니다.</div>`:''}</div></div>`;
 }
 function journalChecklistHtml(action){
   if(!BUY_ACTIONS.includes(action)) return '';
@@ -5220,7 +5220,7 @@ function viewRules(){
     <div class="rule"><span class="t">성장 감속</span><span class="th">−8점</span><span class="d">매출 성장률이 3년 연속 둔화하고 최근 0 이하. 숫자는 아직 좋아 보여도 해자가 침식 중일 수 있다(HP·IBM형)</span></div>
     <div class="rule"><span class="t">지주회사·경기순환</span><span class="th">경고만</span><span class="d">감점 없이 표시. 지주회사는 PBR·EV가 왜곡되므로 순자산가치 할인으로 따로 보고, 경기순환은 정점 매수 여부를 스스로 점검</span></div>
     <div class="rule"><span class="t">국유기업·정책 위험</span><span class="th">감점 신호 1개</span><span class="d">정부가 최대주주인 회사는 대출·가격·배당이 정책 목적에 묶일 수 있다. 장부상 싸 보여도 그 할인은 오래 지속된다. 감점 신호로 세고 관심 후보에서 뺀다</span></div>
-    <div class="rule"><span class="t">중국 본토 규제 할인</span><span class="th">−6점</span><span class="d">중국 본토(A주)는 규제·자본 통제·지정학 위험을 재무 숫자로 볼 수 없다. 버핏도 TSMC를 지정학 위험으로 몇 달 만에 팔았다. 종합 점수에서 6점을 뺀다</span></div>
+    <div class="rule"><span class="t">중국 본토 규제 할인</span><span class="th">−6점</span><span class="d">중국 본토(A주)는 규제·자본 통제·지정학 위험을 재무 숫자로 볼 수 없다. 버핏도 TSMC를 지정학 위험으로 몇 달 만에 팔았다. 밸류노트 점수에서 6점을 뺀다</span></div>
     <div class="rule"><span class="t">금융업 품질</span><span class="th">순이익률 제외</span><span class="d">은행·보험은 매출 구조가 달라 순이익률이 품질을 말해 주지 않는다(중국 은행 50%대). ROE와 이익 안정성으로만 본다</span></div>
     <div class="rule"><span class="t">데이터 신뢰도</span><span class="th">낮음 → 기준 통과 제외</span><span class="d">자동 수집 데이터의 신뢰도가 낮으면 점수가 높아도 기준 통과로 올리지 않는다. 매수 전 공시 원문 대조는 체크리스트 필수 항목</span></div>
     <div class="rule"><span class="t">주식보상비용</span><span class="th">오너이익에서 차감</span><span class="d">스톡옵션·RSU는 현금 지출이 없어도 주주 몫을 희석한다. 기술주의 현금흐름은 이 비용만큼 부풀려 보이므로 내재가치 계산 전에 뺀다. 오너이익의 25%를 넘으면 경고</span></div>
@@ -5265,8 +5265,8 @@ function viewRules(){
   <div class="card rule-group">
     <div class="rule"><span class="t">숫자 품질</span><span class="th">0~100</span><span class="d">13개 재무 지표 점수의 가중 평균</span></div>
     <div class="rule"><span class="t">저평가</span><span class="th">0~100</span><span class="d">안전마진(가중 2), 이익수익률 ÷ 국채금리, PER×PBR</span></div>
-    <div class="rule"><span class="t">버핏 근접도</span><span class="th">0.4 품질 + 0.6 저평가</span><span class="d">위험 신호 감점 후. 스크리너 정렬 기준</span></div>
-    <div class="rule"><span class="t">종합 점수</span><span class="th">65 / 20 / 15</span><span class="d">버핏 근접도 65%, 정성 평가 20%, 트렌드 15%. 입력하지 않은 항목은 빼고 나머지로 다시 나눈다</span></div>
+    <div class="rule"><span class="t">밸류노트 점수</span><span class="th">0.4 품질 + 0.6 저평가</span><span class="d">위험 신호 감점 후. 모든 화면·콘텐츠에서 쓰는 하나뿐인 점수</span></div>
+    <div class="rule"><span class="t">정성 평가·트렌드</span><span class="th">참고</span><span class="d">밸류노트가 조사해 따로 보여 준다. 점수에는 섞지 않는다</span></div>
     <div class="rule"><span class="t">판정</span><span class="th">75 / 60</span><span class="d">75점 이상, 품질 70 이상, 10년 보유 테스트 통과: 안전마진 충족 시 기준 통과, 아니면 가격 대기. 품질 80 이상이고 위험 신호가 없으면 점수가 낮아도 가격 대기. 60점 이상: 근접·관찰(도전 칸 가능). 그 아래는 기준과 거리 있음</span></div>
   </div>
 
@@ -5281,7 +5281,7 @@ function viewRules(){
 
   <h2>트렌드는 이렇게 반영한다</h2>
   <div class="card prose">
-    <p>버핏은 트렌드 자체에 돈을 내지 않았다. 다만 해자가 있는 회사가 커지는 시장에 있으면 성장 가정이 현실이 될 확률이 높아진다. 그래서 트렌드 점수는 노출 강도(무관~핵심)와 모멘텀(급랭~가속)을 곱해 0~100점으로 만들고, 종합 점수에 15%만 반영한다.</p>
+    <p>버핏은 트렌드 자체에 돈을 내지 않았다. 다만 해자가 있는 회사가 커지는 시장에 있으면 성장 가정이 현실이 될 확률이 높아진다. 그래서 트렌드 점수는 노출 강도(무관~핵심)와 모멘텀(급랭~가속)을 곱해 0~100점으로 만들고, 점수에는 섞지 않고 참고로 보여 준다.</p>
     <p class="small muted">과열 단계 트렌드에 핵심으로 노출됐는데 저평가 점수가 40점 미만이면 "테마 프리미엄" 경고를 띄운다. 기준 통과 판정에는 트렌드와 무관하게 안전마진 조건이 그대로 필요하다.</p>
   </div>
 
