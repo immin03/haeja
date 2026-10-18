@@ -973,7 +973,7 @@ const store = (() => {
     async track(kind, page){
       try{ if(!sb) return;
         /* 로컬 테스트·자동화 브라우저는 집계하지 않는다 */
-        if(/^(localhost|127\.|0\.0\.0\.0|192\.168\.)/.test(location.hostname) || location.protocol === 'file:' || navigator.webdriver) return;
+        if(/^(localhost|127\.|0\.0\.0\.0|192\.168\.)/.test(location.hostname) || location.protocol === 'file:' || navigator.webdriver || /bot|crawl|spider|slurp|yeti|headless|lighthouse|preview|facebookexternalhit/i.test(navigator.userAgent)) return;
         const q = new URLSearchParams(location.search);
         const ua = navigator.userAgent;
         const app = /Instagram/.test(ua) ? 'ig' : /Barcelona|Threads/.test(ua) ? 'threads' : /KAKAOTALK/.test(ua) ? 'kakaotalk' : /FBAN|FBAV/.test(ua) ? 'facebook' : /NAVER\(/.test(ua) ? 'naver-app' : '';

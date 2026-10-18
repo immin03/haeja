@@ -217,7 +217,7 @@ function vOverview(s){
   const recent = (s.users || []).slice(0, 5);
   return `${head('개요', '방문, 가입, 활동 현황', 'overview')}
   <div class="kpis">
-    ${kpi('오늘 방문자', n0(s.visitors.today), `페이지뷰 ${n0(s.pageviews.today)}회`, true)}
+    ${kpi('오늘 방문자', n0(s.visitors.today), `페이지뷰 ${n0(s.pageviews.today)}회 · 운영자·로봇 ${n0((s.bots||{}).today)} 제외`, true)}
     ${kpi('7일 방문자', n0(s.visitors.d7), `30일 ${n0(s.visitors.d30)}명`)}
     ${kpi('전체 가입자', n0(s.signups.total), `오늘 +${n0(s.signups.today)} · 7일 +${n0(s.signups.d7)}`)}
     ${kpi('7일 활동 사용자', n0(s.active7), `체험 계정 로그인 7일 ${n0(s.demoVisits7)}회`)}
