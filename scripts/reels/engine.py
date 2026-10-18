@@ -77,6 +77,8 @@ _base[_dots] = _base[_dots] * 0.55 + np.array(GRID, np.float32) * 0.45 + 6
 BG = Image.fromarray(np.clip(_base, 0, 255).astype(np.uint8))
 del _yy, _xx, _base, _g, _dots
 GR = 520
+_rng = np.random.default_rng(7)
+DUST = [(float(_rng.uniform(0, W)), float(_rng.uniform(0, H)), float(_rng.uniform(18, 46)), float(_rng.uniform(2, 5)), float(_rng.uniform(0, 6.28))) for _ in range(26)]
 _gy, _gx = np.mgrid[-GR:GR, -GR:GR]
 GLOW = Image.fromarray((np.clip(1 - np.sqrt(_gx ** 2 + _gy ** 2) / GR, 0, 1) ** 2.2 * 70).astype(np.uint8), "L")
 
@@ -86,7 +88,13 @@ def background(t, warm=0.0):
     layer = Image.new("RGB", (W, H), mix(GOLD_D, LOSS, warm))
     mask = Image.new("L", (W, H), 0)
     mask.paste(GLOW, (int(W * .5 + 260 * math.sin(t * .5)) - GR, int(H * .38 + 140 * math.cos(t * .35)) - GR))
-    return Image.composite(layer, img, mask)
+    out = Image.composite(layer, img, mask)
+    d = ImageDraw.Draw(out)
+    for (x0, y0, sp, r, ph) in DUST:  # 천천히 떠오르는 먼지 입자: 화면이 멈춰 보이지 않게
+        y = (y0 - t * sp) % (H + 80) - 40; x = x0 + 18 * math.sin(t * .6 + ph)
+        a_ = .35 + .35 * math.sin(t * 1.3 + ph)
+        d.ellipse([x - r, y - r, x + r, y + r], fill=mix(NAVY, GOLD, a_ * .55))
+    return out
 
 # ── 텍스트·도형 헬퍼 ───────────────────────────────────────────
 _tc = {}
@@ -512,12 +520,26 @@ def caption(img, u, L):
         img.paste(bar, (int(W / 2 - bar.width / 2), y0 - 48 + int((1 - fade) * 16)), bar)
         d = ImageDraw.Draw(img)
         for li, line in enumerate(cap):
-            y = y0 + li * 74 + int((1 - fade) * 16); x0 = W / 2 - d.textlength(line, font=font) / 2
+            rp = prog(u, a + li * .18, a + li * .18 + .3)
+            y = y0 + li * 74 + int((1 - fade) * 16) + int((1 - rp) * 22); x0 = W / 2 - d.textlength(line, font=font) / 2
             d.text((x0, y), line, font=font, fill=mix(NAVY, DIM, fade), anchor="lm")
             k = int(clamp(rev, 0, len(line)))
             if k > 0: d.text((x0, y), line[:k], font=font, fill=IVORY, anchor="lm")
             rev -= len(line)
         return
+
+def camera(img, u, s):
+    """장면 내내 천천히 다가가는 카메라 + 새 문장이 나올 때마다 살짝 튀는 박자. 화면이 멈춰 있는 순간을 없앤다"""
+    z = 1 + .045 * ease_io(clamp(u / max(s["dur"], .1)))
+    for (a, v, cap) in s["L"]:
+        if u >= a: z += .018 * math.exp(-(u - a) * 5)
+    dx = 10 * math.sin(u * .7); dy = 8 * math.cos(u * .5)
+    if z < 1.001 and abs(dx) < .5: return img
+    w, h = int(W * z), int(H * z)
+    big = img.resize((w, h), Image.BILINEAR)
+    x0 = int((w - W) / 2 + dx); y0 = int((h - H) / 2 + dy)
+    x0 = max(0, min(w - W, x0)); y0 = max(0, min(h - H, y0))
+    return big.crop((x0, y0, x0 + W, y0 + H))
 
 def frame(T, scenes, total):
     s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
@@ -526,6 +548,7 @@ def frame(T, scenes, total):
     if sc["type"] == "hook": warm = prog(u, .85, 1.15) * (1 - prog(u, 2.0, s["dur"]))
     img = background(T, warm)
     img = DRAW[sc["type"]](img, u, sc, s["L"], T)
+    img = camera(img, u, s)
     if sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
