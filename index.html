@@ -1594,7 +1594,7 @@ function newCompany(){
 }
 function evaluate(c){
   const m = c.market || 'KR', st = cfg(), ts = thSet(m), p = paramsFor(m);
-  const fin = c.fin || {}, val = c.val || {}, q = c.qual || {};
+  const fin = c.fin || {}, val = c.val || {}, q = qualOf(c).q || {};
   const sc = scoreRow({m, px:c.price, fin, val, fin_sector:!!c.finSector, sector:c.sector, holdco:!!c.holdco, revModel:c.qual?.revModel, tags: c.tags || screenTags(c)}, p, st.reqMOS);
   // 1. 지표별 상태 (연속 점수 → 통과/근접/미달)
   const items = {};
@@ -2258,14 +2258,14 @@ function companyForm(c){
   <h2>멍거의 질문</h2>
   <div class="card stack">
     <div id="qualView">${qualViewHtml(c)}</div>
-    <details><summary class="small">직접 고치기</summary><div style="margin-top:8px">
+    ${S.__isAdmin ? '' : '<!--'}<details><summary class="small">직접 고치기 (관리자)</summary><div style="margin-top:8px">
     <div class="qrow"><div><b>능력 범위 안인가</b><div class="small muted">이 회사가 어떻게 돈을 버는지 한 문장으로 설명할 수 있는가</div></div>${yn('qual.circle', c.qual?.circle)}</div>
     <div class="qrow" style="grid-template-columns:1fr"><div><b>해자 유형</b><div class="small muted">해당하는 것을 모두 고르세요</div></div>
       <div class="row">${MOATS.map(([k,l]) => `<label class="chk"><input type="checkbox" data-arr="qual.moats" value="${k}" ${(c.qual?.moats||[]).includes(k)?'checked':''}>${l}</label>`).join('')}</div></div>
     ${QUAL.map(q => `<div class="qrow"><div><b>${q.label}</b><div class="small muted">${q.d}</div></div>${seg('qual.'+q.k, c.qual?.[q.k], q.k==='governance'?['위험','우려','보통','양호']:['없음','약함','보통','강함'])}</div>`).join('')}
     <div class="qrow"><div><b>10년간 시장이 닫혀도 보유할 수 있나</b><div class="small muted">아니라면 투자가 아니라 시세 베팅</div></div>${yn('qual.hold10', c.qual?.hold10)}</div>
     <label class="f" style="margin-top:10px">뒤집어 생각하기: 무엇이 이 회사를 망가뜨리나<textarea data-path="qual.inversion" id="i-inversion">${esc(c.qual?.inversion)}</textarea></label>
-  </div></details>
+  </div></details>${S.__isAdmin ? '' : '-->'}
   </div>
 
   <h2>버크셔 관점 점검 <span class="small muted">자동</span></h2>
@@ -2460,12 +2460,19 @@ async function aiReview(){
 /* ============ 자동 분석 ============ */
 const MOAT_LABEL = Object.fromEntries(MOATS);
 const LV = ['없음','약함','보통','강함'], GV = ['위험','우려','보통','양호'];
+// 정성 평가는 사용자마다 따로 두지 않는다: 밸류노트가 조사한 공용 평가(profiles.qual)를 먼저 쓰고, 없으면 이 기업의 자동 분석 결과를 쓴다
+const hasQual = q => !!q && (q.circle != null || (q.moats||[]).length > 0 || [q.moatStr, q.pricing, q.mgmt, q.governance].some(isNum) || q.hold10 != null);
+function qualOf(c){
+  const sp = c ? profileFor(c.yf || c.ticker, c.ticker) : null;
+  if(sp && hasQual(sp.qual)) return { q: sp.qual, r: sp.qualWhy || {}, one: sp.qualLine || c.auto?.businessOneLine || '', at: sp.qualAt || '', shared: true };
+  return { q: c?.qual || {}, r: c?.auto?.reasons || {}, one: c?.auto?.businessOneLine || '', at: c?.auto?.at || '', shared: false };
+}
 function qualViewHtml(c){
-  const q = c.qual || {}, r = c.auto?.reasons || {};
+  const QO = qualOf(c), q = QO.q, r = QO.r;
   const row = (label, val, reason) => `<div class="qv"><div class="qv-top"><b>${label}</b><span class="qv-val">${val}</span></div>${reason?`<div class="small muted">${esc(reason)}</div>`:''}</div>`;
   const pill = (v, arr, good=2) => isNum(v) ? `<span class="pill ${v>=good?'p-good':v===1?'p-warn':'p-bad'}">${arr[v]}</span>` : `<span class="pill p-none">미분석</span>`;
   const yesno = v => v===true ? '<span class="pill p-good">예</span>' : v===false ? '<span class="pill p-bad">아니오</span>' : '<span class="pill p-none">미분석</span>';
-  return `${c.auto?.businessOneLine ? `<p style="margin:0 0 6px"><b>사업 한 줄:</b> ${esc(c.auto.businessOneLine)}</p>` : ''}
+  return `<p class="small muted" style="margin:0 0 6px">밸류노트 정성 평가${QO.at ? ` · ${esc(QO.at)} 기준` : ''} · 참고용이며 점수에는 반영하지 않습니다</p>${QO.one ? `<p style="margin:0 0 6px"><b>사업 한 줄:</b> ${esc(QO.one)}</p>` : ''}
     ${row('이해하기 쉬운 사업인가', yesno(q.circle), r.circle)}
     ${row('해자 유형', (q.moats||[]).length ? q.moats.map(m => `<span class="pill p-none">${esc(MOAT_LABEL[m]||m)}</span>`).join(' ') : '<span class="pill p-none">없음</span>', r.moatTypes)}
     ${row('해자의 강도', pill(q.moatStr, LV), r.moatStr)}
