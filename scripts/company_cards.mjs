@@ -463,7 +463,7 @@ function reelRank(L, side, label) {
     lines: [{ cap: ['좋은 회사지만 버핏 방식으로는', '가장 고평가된 5곳'] }, { cap: ['1위는 적정 주가보다', `+${o1}% 고평가돼 있습니다`] }] });
   scenes.push(FAIR_BG);
   scenes.push({ type: 'list', title: `${under ? '지금 저평가' : '좋지만 고평가'} TOP 5 · ${label}`, items: top.map((x, i) => i < 3 ? `${i + 1}위 ●●●●● · ${g(x)}` : `${i + 1}위 ${x.r.n} · ${g(x)}`),
-    say: `사위는 ${top[3].r.n}, 오위는 ${top[4].r.n}입니다.` });
+    say: `네 번째는 ${top[3].r.n}, 다섯 번째는 ${top[4].r.n}입니다.` });
   scenes.push(under ? LIMIT_UNDER : LIMIT_OVER);
   scenes.push({ type: 'statement', l1: '1~3위는', l2: '프로필 링크에서', tone: 'gold', say: '일위부터 삼위는 프로필 링크에 있습니다.' });
   scenes.push({ type: 'cta' });
