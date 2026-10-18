@@ -189,13 +189,19 @@ def check_cpi(now, seen):
     return tag, wrap(f"E{now:%y%m%d}CPI", f"미국 {obs.month}월 물가 {yoy}%", scenes, cap, ["미국물가", "CPI", "금리"], now)
 
 
+LOG = []
+_print = print
+def print(*a, **k):  # 실행 기록을 state 파일에도 남긴다 (Actions 로그를 못 볼 때 확인용)
+    LOG.append(" ".join(str(x) for x in a)); _print(*a, **k)
+
+
 def main():
     now = dt.datetime.now(KST)
     state = json.load(open(STATE)) if os.path.exists(STATE) else {}
     today = now.date().isoformat()
     st = state.get(today, {"keys": []})
     perm = state.get("_perm", [])
-    seen = {k for kk, v in state.items() if kk != "_perm" for k in v.get("seen", [])} | set(perm)
+    seen = {k for kk, v in state.items() if not kk.startswith("_") for k in v.get("seen", [])} | set(perm)
     fake = None
     if "--fake" in sys.argv:
         i = sys.argv.index("--fake"); fake = (sys.argv[i + 1], float(sys.argv[i + 2]))
@@ -235,8 +241,8 @@ def main():
             st.setdefault("seen", []).append(tag); print("  표시만:", tag); continue
         put(tag, make_spec(key, chg, closes, now, info))
     if not fake:
-        state = {k: v for k, v in state.items() if k != "_perm" and k >= (now.date() - dt.timedelta(days=7)).isoformat()}
-        state[today] = st; state["_perm"] = perm[-60:]
+        state = {k: v for k, v in state.items() if k not in ("_perm", "_last") and k >= (now.date() - dt.timedelta(days=7)).isoformat()}
+        state[today] = st; state["_perm"] = perm[-60:]; state["_last"] = {"at": now.isoformat(timespec="minutes"), "log": LOG[-30:]}
         os.makedirs(os.path.dirname(STATE), exist_ok=True)
         json.dump(state, open(STATE, "w"), ensure_ascii=False)
     # 7일 지난 이벤트 대본·영상 정리
