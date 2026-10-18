@@ -57,20 +57,22 @@ Deno.serve(async (req: Request) => {
     for (const x of cands) { const g = grpOf(x.r.m), k = sec(x.r); if ((per[g] || 0) >= PER_MKT || (perSec[k] || 0) >= SEC_MAX) continue; per[g] = (per[g] || 0) + 1; perSec[k] = (perSec[k] || 0) + 1; pick.push(x); if (pick.length >= TOTAL) break; }
 
     const writes: any[] = []; const now = new Date().toISOString();
-    const added: string[] = [], kept: string[] = [], removed: string[] = [];
+    const added: string[] = [], kept: string[] = [], removed: string[] = [], addedIds: string[] = [];
     const pickIds = new Set<string>();
     pick.forEach((x, i) => {
       const r = x.r, rank = i + 1;
-      const w = { watch: true, watchAt: D, watchRank: rank, watchWhy: `스크리너 근접도 ${x.sc.b}점 · 전체 ${rank}위 (${rule()})` };
+      const w = { watch: true, watchAt: D, watchRank: rank, watchWhy: `점수 ${x.sc.b}점 · 관심 후보 ${rank}위 (${rule()})` };
       if (x.c) {
-        pickIds.add(x.c.id); (x.c.data.watch === true ? kept : added).push(r.n);
-        writes.push({ collection: "companies", id: x.c.id, owner, updated_at: now, data: { ...x.c.data, ...w, watchOut: null } });
+        const isNew = x.c.data.watch !== true;
+        pickIds.add(x.c.id); if (isNew) { added.push(r.n); addedIds.push(x.c.id); } else kept.push(r.n);
+        // watchSince: 관심 후보에 처음 들어온 날 (화면에서 "새로 추가" 표시에 쓴다)
+        writes.push({ collection: "companies", id: x.c.id, owner, updated_at: now, data: { ...x.c.data, ...w, watchSince: isNew ? D : (x.c.data.watchSince ?? null), watchOut: null } });
       } else {
-        const id = "w-" + String(r.code || r.t).replace(/[^A-Za-z0-9]/g, "").toUpperCase(); pickIds.add(id); added.push(r.n);
+        const id = "w-" + String(r.code || r.t).replace(/[^A-Za-z0-9]/g, "").toUpperCase(); pickIds.add(id); added.push(r.n); addedIds.push(id);
         writes.push({ collection: "companies", id, owner, updated_at: now, data: {
           name: r.n, ticker: r.code || r.t, yf: r.t, market: grpOf(r.m), kind: "stock", sector: r.ind || r.s || "", price: r.px,
           fin: r.fin || {}, val: r.val || {}, finSector: !!r.fin_sector, holdco: !!r.holdco, dataConf: r.dataConf || null,
-          qual: {}, thesis: { memo: "" }, pinned: false, source: `스크리너 자동 수집 ${D}`, createdAt: D, ...w } });
+          qual: {}, thesis: { memo: "" }, pinned: false, source: `스크리너 자동 수집 ${D}`, createdAt: D, watchSince: D, ...w } });
       }
     });
     for (const c of comps) {
@@ -85,9 +87,16 @@ Deno.serve(async (req: Request) => {
 
     for (let i = 0; i < writes.length; i += 20) { const { error } = await sb.from("docs").upsert(writes.slice(i, i + 20)); if (error) throw error; }
     if (added.length || removed.length) {
-      const msg = [added.length ? `추가 ${added.slice(0, 4).join(", ")}${added.length > 4 ? ` 외 ${added.length - 4}곳` : ""}` : "", removed.length ? `제외 ${removed.length}곳` : ""].filter(Boolean).join(" · ");
+      // 처음 보는 사람도 알 수 있게: 무엇이(회사 이름) 왜(점수 70점 이상) 들어왔는지 문장으로 쓰고,
+      // 누르면 그 회사(1곳) 또는 관심 후보 목록(여러 곳)으로 바로 간다.
+      const ga = (w: string) => { const ch = w.charCodeAt(w.length - 1); return ch >= 0xac00 && ch <= 0xd7a3 ? ((ch - 0xac00) % 28 ? "이" : "가") : "이(가)"; };
+      const names = added.slice(0, 3).join(", ") + (added.length > 3 ? ` 등 ${added.length}곳` : "");
+      const title = added.length === 1 ? `${added[0]}, 관심 후보에 새로 추가` : added.length ? `관심 후보 ${added.length}곳 새로 추가` : `관심 후보 ${removed.length}곳 제외`;
+      const text = (added.length ? `${names}${added.length > 3 ? "이" : ga(names)} 이번 주 기준(점수 70점 이상, 위험 신호 없음)을 통과해 관심 후보에 들어왔습니다.` : "")
+        + (removed.length ? ` 기준에서 벗어난 ${removed.length}곳은 관심 후보에서 빠졌습니다.` : "");
+      const link = added.length === 1 ? { co: addedIds[0] } : { tab: "companies", scope: "watch" };
       await sb.from("docs").upsert({ collection: "alerts", id: "watch-" + D, owner, updated_at: now, data: {
-        at: now, level: "info", title: "관심 후보 재선정", body: msg.slice(0, 60), link: { tab: "companies" }, read: false, source: "관심 후보 선정" } }, { onConflict: "owner,collection,id", ignoreDuplicates: true });
+        at: now, level: "info", title, body: text.trim().slice(0, 120), link, read: false, source: "관심 후보 선정" } }, { onConflict: "owner,collection,id", ignoreDuplicates: true });
     }
     return Response.json({ ok: true, ...summary });
   } catch (e) {
