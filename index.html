@@ -1770,7 +1770,7 @@ document.addEventListener('submit', e => {
 function guestBar(){
   if(S.tab === 'portfolio') return guestHero();
   if(S.guestBarClosed) return '';
-  return `<div class="guest-bar"><div class="gb-t"><b>둘러보는 중</b><span>기업 ${(S2.screen||[]).length > 100 ? (S2.screen.length).toLocaleString('ko-KR') + '곳' : '약 600곳'}의 점수·적정 주가과 메가트렌드는 가입 없이 다 볼 수 있어요. 가입하면 내 포트폴리오 채점, 관심 종목 알림, 결정 일지, 공유 카드를 쓸 수 있어요.</span></div>
+  return `<div class="guest-bar"><div class="gb-t"><b>둘러보는 중</b><span>기업 ${(S2.screen||[]).length > 100 ? (S2.screen.length).toLocaleString('ko-KR') + '곳' : '약 600곳'}의 점수·적정 주가와 메가트렌드는 가입 없이 다 볼 수 있어요. 가입하면 내 포트폴리오 채점, 관심 종목 알림, 결정 일지, 공유 카드를 쓸 수 있어요.</span></div>
     <div class="gb-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="login">로그인</button></div>
     <button type="button" class="gb-test" data-qz="open"><span><b>1분 테스트</b> 혼란장에서 나는 어떤 투자자일까?</span><span aria-hidden="true">›</span></button></div>`;
 }
