@@ -20,6 +20,13 @@
   list      항목이 차례로 등장       : title, items[]
   statement 큰 결론 문장            : l1, l2, fx(melt|none), sub[왼쪽, 오른쪽] 또는 note
   cta       마지막 장 (고정 문구)
+
+썸네일(cover.jpg)
+  영상 프레임을 그대로 잡지 않고 따로 그린다. 틀(남색·금색·로고)은 같지만 시리즈마다 그림이 다르다.
+    F(기능)       → 앱 화면(screen) 장면      G(가이드) → 목록(list)·막대(bars) 장면
+    A(기업)       → 막대(bars)·비교(compare)  M(금리)   → 선 차트(line)       R(교육) → 큰 숫자(hook)
+  맞는 장면이 없으면 큰 숫자(hook)로 간다. "cover": "bars" 처럼 장면 종류나 장면 번호(0부터)로 직접 고를 수 있고,
+  "tag": "오늘의 기업" 처럼 시리즈 표시를 바꿀 수 있다(기본은 제목의 " · " 앞부분).
 """
 import math, os, sys, json, subprocess
 import numpy as np
@@ -568,6 +575,76 @@ def frame(T, scenes, total):
             img.paste(Image.new("RGB", (W, H), GOLD), (0, 0), ov)
     return img
 
+# ── 썸네일(cover.jpg): 시리즈별로 다른 그림, 같은 틀 ────────────
+COVER_V = 2   # 썸네일 방식이 바뀌면 올린다 → build.py 가 아직 안 올라간 릴스의 썸네일만 다시 만든다
+COVER_PREF = {"F": ["screen", "list", "bars", "compare"], "G": ["list", "bars", "compare"],
+              "A": ["bars", "compare", "list"], "M": ["line", "bars"], "E": ["line", "bars"], "R": []}
+SERIES_TAG = {"F": "밸류노트 사용법", "G": "쉬운 가이드", "A": "오늘의 기업", "M": "이번 주 금리", "E": "시장 속보", "R": "투자 교육"}
+# 인스타 프로필 격자는 세로 4:5 로 가운데를 잘라 보여 준다(1080x1920 중 y 285~1635). 썸네일 요소는 모두 그 안에 둔다.
+
+def series_tag(spec):
+    if spec.get("tag"): return spec["tag"]
+    if " · " in spec.get("title", ""): return spec["title"].split(" · ")[0]
+    return SERIES_TAG.get(spec["id"][:1], "밸류노트")
+
+def pick_cover(spec, scenes):
+    c = spec.get("cover"); types = [s["sc"]["type"] for s in scenes]
+    if isinstance(c, int) and 0 <= c < len(scenes): return scenes[c]
+    if isinstance(c, str) and c in types: return scenes[types.index(c)]
+    for ty in COVER_PREF.get(spec["id"][:1], []):
+        if ty in types: return scenes[types.index(ty)]
+    return scenes[0]
+
+def settled_at(s):
+    """장면 안의 요소가 모두 나타난 뒤, 전환 직전의 시각"""
+    ty = s["sc"]["type"]
+    if ty == "hook": return min(2.3, s["dur"] - .1)
+    return max(.5, s["dur"] - .15)
+
+def cover(spec, scenes):
+    s = pick_cover(spec, scenes); sc = s["sc"]; u = settled_at(s); T = s["start"] + u
+    img = background(T, 0.0)
+    img = DRAW[sc["type"]](img, u, sc, s["L"], T)
+    y0 = 1500
+    if sc["type"] == "screen":   # 앱 화면은 제목이 격자에서 잘리지 않게 60px 내리고(점 무늬 주기와 같음), 훅 문장 대신 제목만 쓴다
+        shifted = background(T, 0.0); shifted.paste(img.crop((0, 0, W, H - 60)), (0, 60)); img = shifted; y0 = 1470
+    else:
+        logo(ImageDraw.Draw(img), 316)
+        first = scenes[0]["sc"]; lines = first.get("lines") or [{"cap": first.get("cap")}]
+        cap = lines[0].get("cap")
+        if cap and sc["type"] not in NO_CAPTION: caption(img, .95, [[0, 1.0, cap]])  # 훅 문장을 다 드러난 상태로
+    tag = series_tag(spec); font = F("SemiBold", 34); tw = font.getlength(tag)
+    x0 = W / 2 - tw / 2 - 30
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle([x0, y0, x0 + tw + 60, y0 + 66], 33, fill=(18, 36, 64), outline=GOLD_D, width=2)
+    d.text((W / 2, y0 + 33), tag, font=font, fill=GOLD, anchor="mm")
+    d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(112, 124, 148), anchor="mm")
+    return img
+
+def plan_estimate(spec):
+    """음성을 만들지 않고 글자 수로 길이를 어림한 타임라인 (썸네일만 다시 만들 때)"""
+    t = 0.0; scenes = []; speed = spec.get("speed", 1.1)
+    for sc in spec["scenes"]:
+        lines = sc.get("lines") or [{"cap": sc.get("cap"), "say": sc.get("say")}]
+        if sc["type"] == "cta" and not lines[0].get("say") and not lines[0].get("cap"): lines = [{"cap": None, "say": CTA_SAY}]
+        L = []; u = .1
+        for ln in lines:
+            txt = ln.get("say") or " ".join(ln.get("cap") or [])
+            if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
+            v = max(.8, len(txt.replace(" ", "")) * .17 / ln.get("speed", speed))
+            L.append([u, v, ln.get("cap")]); u += v + .12
+        dur = u + {"hook": .1, "cta": .8}.get(sc["type"], .2)
+        if sc["type"] == "hook": dur = max(dur, 2.6)
+        if sc["type"] == "statement": dur = max(dur, 2.5)
+        scenes.append({"sc": sc, "start": t, "dur": dur, "L": L, "vo": []}); t += dur
+    return scenes, t
+
+def render_cover(spec, outdir):
+    os.makedirs(outdir, exist_ok=True)
+    scenes, _ = plan_estimate(spec)
+    cover(spec, scenes).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
+
 # ── 오디오: 직접 합성한 배경음악·효과음 + 내레이션 (저작권 없음) ──
 def note(n): return 440.0 * 2 ** ((n - 69) / 12)
 MOODS = {"tense": [[57, 60, 64, 67, 71], [53, 57, 60, 64, 67], [48, 55, 59, 64, 67], [55, 59, 62, 64, 67]],
@@ -689,12 +766,11 @@ def render(spec, outdir, stills=None):
            "-i", wav, "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-preset", "medium",
            "-crf", "22", "-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-shortest", "-movflags", "+faststart", out]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
-    cover_t = scenes[0]["start"] + min(1.6, scenes[0]["dur"] - .1)
     for i in range(int(total * FPS)):
-        im = frame(i / FPS, scenes, total)
-        if abs(i / FPS - cover_t) < .5 / FPS: im.save(os.path.join(outdir, "cover.jpg"), quality=88)
-        p.stdin.write(im.tobytes())
+        p.stdin.write(frame(i / FPS, scenes, total).tobytes())
     p.stdin.close(); p.wait(); os.remove(wav)
+    cover(spec, scenes).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     return total
 
 if __name__ == "__main__":
@@ -702,5 +778,7 @@ if __name__ == "__main__":
     out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "out", spec["id"])
     if len(sys.argv) > 3 and sys.argv[3] == "stills":
         print(render(spec, out, [float(x) for x in sys.argv[4].split(",")]))
+    elif len(sys.argv) > 3 and sys.argv[3] == "cover":   # 썸네일만 (음성 없이)
+        render_cover(spec, out); print("썸네일 →", os.path.join(out, "cover.jpg"))
     else:
         print("길이", round(render(spec, out), 1), "초 →", out)

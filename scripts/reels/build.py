@@ -43,6 +43,9 @@ def main(only=None):
             open(mark, "w").write(h)
             print(f"  {sec:.1f}초")
         if not os.path.exists(os.path.join(d, "reel.mp4")): continue
+        cv = os.path.join(d, "cover.v")   # 썸네일 방식이 바뀌었으면, 아직 올라가지 않은 릴스의 썸네일만 다시 그린다
+        if when > now and (not os.path.exists(cv) or open(cv).read().strip() != str(engine.COVER_V)):
+            print("썸네일:", sp["id"]); engine.render_cover(sp, d)
         if when < now - dt.timedelta(days=3): continue
         queue.append({
             "id": sp["id"], "seq": int(when.timestamp() // 60), "title": sp["title"],

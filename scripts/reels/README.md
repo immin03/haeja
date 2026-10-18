@@ -24,7 +24,15 @@
 pip install sherpa-onnx==1.13.8 soundfile scipy numpy pillow   # ffmpeg 필요
 python3 scripts/reels/engine.py scripts/reels/specs/R01.json out/R01            # 영상
 python3 scripts/reels/engine.py scripts/reels/specs/R01.json out/R01 stills 1.5,6,12   # 정지 화면
+python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover          # 썸네일만 (음성 없이, 1초)
 ```
+
+## 썸네일 (cover.jpg, 2026-10-18 개편)
+- 영상 첫 장면을 그대로 잡지 않고 따로 그린다. 틀(남색·금색·로고·하단 훅 문장·시리즈 표시)은 같고 가운데 그림이 시리즈마다 다르다.
+  - 기능 소개(F) → 앱 화면, 기업(A) → 기대·실제 막대, 금리(M) → 선 차트, 쉬운 가이드(G) → 목록, 교육(R) → 큰 숫자
+  - 프로필 격자는 세로 4:5로 가운데를 잘라 보여 주므로 요소는 모두 y 285~1635 안에 둔다.
+- 대본에 `"cover": "bars"`(장면 종류) 또는 `"cover": 2`(장면 번호)를 쓰면 직접 고를 수 있고, `"tag": "..."`로 시리즈 표시를 바꿀 수 있다.
+- `engine.COVER_V`를 올리면 `build.py`가 아직 올라가지 않은 릴스의 썸네일만 다시 그린다(영상은 그대로).
 
 ## 앱 화면 장면 (screen)
 - `capture.js` 가 체험 계정으로 앱 화면 전체를 캡처하고(`screens/<이름>.png`), 블록별 글자·위치를 `screens/<이름>.json` 에 저장한다.
