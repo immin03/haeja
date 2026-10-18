@@ -1,4 +1,4 @@
-# 매일 저녁: 오늘 21:00 기업 릴스·내일 11:00 저평가 기업 릴스 대본, 내일 15:30 순위 카드뉴스 생성 후 릴스 렌더 실행 → social/company 커밋 (Vercel 배포 → Supabase가 매시 25·28분에 가져가 21:00 게시)
+# 매일 저녁: 자동 릴스 대본(오늘 21:00, 내일 08:30·11:00·15:30, 빈 12:30·18:00) 생성 후 릴스 렌더 실행 → social/company 커밋 (Vercel 배포 → Supabase가 매시 25·28분에 가져가 21:00 게시)
 name: company-cards
 on:
   schedule:
@@ -21,15 +21,15 @@ jobs:
         run: |
           npm i --no-save playwright@1.56.0
           npx playwright install --with-deps chromium
-      - name: 카드 만들기
+      - name: 릴스 대본 만들기 (카드뉴스는 쓰지 않는다: 모든 콘텐츠를 릴스로)
         run: |
-          node scripts/company_cards.mjs $(TZ=Asia/Seoul date +%F) ra   # 오늘 21:00 오늘의 기업 릴스 대본
+          node scripts/company_cards.mjs $(TZ=Asia/Seoul date +%F) ra   # 오늘 21:00 오늘의 기업 (이미 있으면 건너뜀)
           T=$(TZ=Asia/Seoul date -d tomorrow +%F)
-          node scripts/company_cards.mjs $T rb                # 내일 11:00 저평가 기업 릴스 대본
-          node scripts/company_cards.mjs $T rank              # 내일 15:30 저평가·고평가 TOP 10
-          node scripts/company_cards.mjs $T reel1             # 내일 12:30 릴스가 비어 있으면 기업 릴스 대본
-          node scripts/company_cards.mjs $T reel2             # 내일 18:00 릴스가 비어 있으면 순위 릴스 대본
-          if [[ "$T" > "2026-11-14" ]]; then node scripts/company_cards.mjs $T am; fi   # 기능 카드가 끝난 뒤 08:30 채우기
+          node scripts/company_cards.mjs $T rm                # 내일 08:30 좋은 회사, 고평가
+          node scripts/company_cards.mjs $T rb                # 내일 11:00 저평가 기업
+          node scripts/company_cards.mjs $T rr                # 내일 15:30 저평가·고평가 TOP 5
+          node scripts/company_cards.mjs $T reel1             # 내일 12:30 릴스가 비어 있으면 기업 릴스
+          node scripts/company_cards.mjs $T reel2             # 내일 18:00 릴스가 비어 있으면 순위 릴스
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"

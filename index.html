@@ -3966,8 +3966,8 @@ function viewWatchlist(){
 /* ===== 적정 주가과 저평가 ===== */
 const upPct = (iv, px) => isNum(iv) && isNum(px) && px > 0 && iv > 0 ? (iv/px - 1)*100 : null;
 // 저평가·고평가 표준 문구 (R = 현재가 ÷ 적정 주가). 모든 화면·콘텐츠에서 이 표현만 쓴다
-function gapShort(R){ if(!isNum(R) || R <= 0) return '–'; if(R < 0.95) return `${fmt((1 - R) * 100, 0)}% 저평가`; if(R <= 1.05) return '적정 주가 수준'; if(R < 2) return `${fmt((R - 1) * 100, 0)}% 고평가`; return `${fmt(R, 1)}배 고평가`; }
-function gapLong(R){ if(!isNum(R) || R <= 0) return ''; if(R < 0.95) return `적정 주가보다 ${fmt((1 - R) * 100, 0)}% 저평가`; if(R <= 1.05) return '적정 주가 수준'; if(R < 2) return `적정 주가보다 ${fmt((R - 1) * 100, 0)}% 고평가`; return `적정 주가의 ${fmt(R, 1)}배로 고평가`; }
+function gapShort(R){ if(!isNum(R) || R <= 0) return '–'; if(R < 0.95) return `${fmt((1 - R) * 100, 0)}% 저평가`; if(R <= 1.05) return '적정 주가 수준'; return `+${fmt((R - 1) * 100, 0)}% 고평가`; }
+function gapLong(R){ if(!isNum(R) || R <= 0) return ''; if(R < 0.95) return `적정 주가보다 ${fmt((1 - R) * 100, 0)}% 저평가 · 상승 여력 +${fmt((1 / R - 1) * 100, 0)}%`; if(R <= 1.05) return '적정 주가 수준'; return `적정 주가보다 +${fmt((R - 1) * 100, 0)}% 고평가`; }
 function upHtml(u){ if(!isNum(u)) return '–'; const R = 100 / (100 + u); return `<span class="${R < 1 ? 'up' : 'down'}">${gapShort(R)}</span>`; }
 function valueRow(ev, px, cur){
   const u = upPct(ev.iv, px);
