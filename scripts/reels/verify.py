@@ -41,10 +41,20 @@ def hear(x, sr):
     return s.result.text
 
 
+# 소리는 같고 받아 적는 글자만 다른 말
+HOMO = [("같이", "가치"), ("메수", "매수")]
+# 음성 인식기가 잘 모르는 외국 인명: 이 말이 든 줄은 기준을 조금 낮춘다(소리가 맞아도 엉뚱하게 받아 적는다)
+NAMES = re.compile("버핏|그레이엄|멍거|버크셔|해서웨이|워런")
+
+LETTERS = {"A": "에이", "B": "비", "C": "씨", "D": "디", "E": "이"}
+
+
 def _norm(t):
     from korean import to_speech
+    t = re.sub(r"\b([A-Ea-e])\b", lambda m: LETTERS[m[1].upper()], t)  # 인식기가 '에이'를 'A'로 적는 경우
     t = re.sub(r"[^가-힣]", "", to_speech(t))
     for x in ("배류", "밸류"): t = t.replace(x, "밸유")  # 브랜드명은 받아 적는 방식만 다르다
+    for a, b in HOMO: t = t.replace(a, b)
     return t
 
 
@@ -59,11 +69,12 @@ TRIES = [(1.0, 8, True), (1.0, 16, True), (.94, 16, True), (.9, 32, True), (1.0,
 
 def speak_checked(text, speed, speak, sr, log):
     best = None
+    pass_, floor = (PASS - .05, FLOOR - .1) if NAMES.search(text) else (PASS, FLOOR)
     for k, (m, steps, chunk) in enumerate(TRIES):
         a = speak(text, speed * m, steps=steps, chunk=chunk)
         h = hear(a, sr); r = score(text, h)
         if best is None or r > best[0]: best = (r, a, h)
-        if r >= PASS: break
+        if r >= pass_: break
     r, a, h = best
-    log.append({"text": text, "heard": h, "score": round(r, 3), "tries": k + 1})
+    log.append({"text": text, "heard": h, "score": round(r, 3), "tries": k + 1, "pass": pass_, "floor": floor})
     return a

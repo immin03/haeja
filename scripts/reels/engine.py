@@ -645,10 +645,10 @@ def render(spec, outdir, stills=None):
         import verify
         for w in LINT: print("  ⚠", w)
         for v in VLOG:
-            mark = "OK" if v["score"] >= verify.PASS else ("△" if v["score"] >= verify.FLOOR else "✗")
+            mark = "OK" if v["score"] >= v["pass"] else ("△" if v["score"] >= v["floor"] else "✗")
             print(f"  음성 {mark} {v['score']:.2f} (시도 {v['tries']}) {v['text']}")
-            if v["score"] < verify.PASS: print(f"        들린 말: {v['heard']}")
-        bad = [v for v in VLOG if v["score"] < verify.FLOOR]
+            if v["score"] < v["pass"]: print(f"        들린 말: {v['heard']}")
+        bad = [v for v in VLOG if v["score"] < v["floor"]]
         json.dump({"lines": VLOG, "lint": LINT}, open(os.path.join(outdir, "voice_check.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         if bad: raise RuntimeError(f"{spec['id']}: 음성 검수 실패 {len(bad)}줄 — 대본을 고쳐야 합니다")
     if stills is not None:
