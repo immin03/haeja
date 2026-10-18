@@ -3137,14 +3137,14 @@ function listRowHtml(x){
   return `<div class="pick-wrap"><div class="pick-line"><button type="button" class="pick-row" ${act} aria-expanded="${open}">
       <span class="pr-main"><b>${esc(x.name)}</b><span class="small muted">${esc(sub)}</span>${(() => { const ev = x.c ? evaluate(x.c) : null; return miniScores(x.r?.q ?? ev?.qScore, x.r?.v ?? ev?.valScore); })()}
         <span class="row" style="gap:4px;margin-top:3px">${sc && sc!=='관심' ? `<span class="pill p-good">${esc(sc)}</span>` : ''}${sc==='관심' ? '<span class="pill p-none">관심 후보</span>' : ''}${styleBadges(x)}${yenPill(x.m)}${x.c?.dropCheck?.verdict==='구조적 훼손 우려' ? '<span class="pill p-bad">구조적 훼손 우려</span>' : ''}</span></span>
-      <span class="pr-side">${isNum(rowScore(x)) ? `<span class="pill ${scoreCls(rowScore(x))}">${rowScore(x)}점</span>` : ''}${ev ? `<span class="small muted">${esc(ev.verdict)}</span>` : '<span class="small muted">심사 전</span>'}</span>
+      <span class="pr-side">${isNum(rowScore(x)) ? `<span class="pill ${scoreCls(rowScore(x))}">${rowScore(x)}점</span>` : ''}${ev ? `<span class="small muted">${esc(ev.verdict)}</span>` : rowVerdict(x.r) ? `<span class="small muted">${esc(rowVerdict(x.r))}</span>` : '<span class="small muted">점수 계산 전</span>'}</span>
     </button>${x.c?.kind === 'lev' || x.c?.kind === 'etf' ? '' : starBtn(x.c, x.r?.t || x.c?.yf)}</div>
     ${open ? `<div class="stack" style="gap:8px;padding:4px 6px 12px">
       ${x.p?.what ? `<p class="small" style="margin:0">${esc(x.p.what)}</p>` : '<p class="small muted" style="margin:0">개요는 자동 실행 때 채워집니다.</p>'}
       ${x.p?.model ? `<p class="small" style="margin:0"><b>수익모델</b> ${esc(x.p.model)}</p>` : ''}
       ${x.r ? `<div class="hold-grid"><div><span>품질 / 저평가</span><b class="num">${x.r.q ?? '–'} / ${x.r.v ?? '–'}</b></div><div><span>저평가·고평가</span><b class="num">${isNum(x.r.mos)?gapShort(1 - x.r.mos/100):'–'}</b></div><div><span>PER</span><b class="num">${isNum(x.r.per)?fmt(x.r.per,1):'–'}</b></div><div><span>ROE 평균</span><b class="num">${isNum(x.r.fin?.roeAvg)?fmt(x.r.fin.roeAvg,1)+'%':'–'}</b></div></div>` : ''}
       ${(x.r?.tags||[]).length || (x.r?.flags||[]).length ? `<div class="row" style="gap:4px">${(x.r.tags||[]).map(t => `<span class="pill p-good">${esc(t)}</span>`).join('')}${(x.r.flags||[]).map(t => `<span class="pill p-bad">${esc(t)}</span>`).join('')}</div>` : ''}
-      ${x.r ? `<div class="row" style="justify-content:flex-end"><button class="btn primary" data-act="sc-import" data-t="${esc(x.r.t)}">자세히 심사하기</button></div>` : ''}
+      ${x.r ? `<div class="row" style="justify-content:flex-end"><button class="btn primary" data-act="sc-import" data-t="${esc(x.r.t)}">내 목록에 넣고 자세히 보기</button></div>` : ''}
     </div>` : ''}</div>`;
 }
 function viewCompanies(){
@@ -3767,7 +3767,7 @@ async function loadDemoAn(){
   if(DEMO_AN || !store.client || !store.client.rpc) return;
   try{ const { data, error } = await store.client.rpc('demo_analyses'); if(error) return; DEMO_AN = data || {};
     if(store.isDemo) S.companies = S.companies.map(withDemoAn);
-    scoredCache = null; const a = document.activeElement; if(!(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName))) render(); }catch(_){}
+    scoredCache = null; rowVerdictCache.clear(); const a = document.activeElement; if(!(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName))) render(); }catch(_){}
 }
 function demoData(){
   /* 튜토리얼 예시: 주식 약 4,700만 원 + 현금 600만 원. 원칙대로 산 종목과 테마로 산 종목을 섞어 결과를 비교해 보여 준다 */
@@ -3838,8 +3838,8 @@ function applyDemo(){
   if(needS){ S2.screen = D.screen; S.scope = 'all'; }
   if(needJ) S.journal = D.journal;
   if(needA) S.alerts = D.alerts;
-  scoredCache = null; S.__demoOn = true;
-  return () => { S.holdings = saved.holdings; S.companies = saved.companies; S.prices = saved.prices; S.briefings = saved.briefings; S2.screen = saved.screen; S.scope = saved.scope; S.journal = saved.journal; S.alerts = saved.alerts; S.settings = saved.settings; scoredCache = null; S.__demoOn = false; };
+  scoredCache = null; rowVerdictCache.clear(); S.__demoOn = true;
+  return () => { S.holdings = saved.holdings; S.companies = saved.companies; S.prices = saved.prices; S.briefings = saved.briefings; S2.screen = saved.screen; S.scope = saved.scope; S.journal = saved.journal; S.alerts = saved.alerts; S.settings = saved.settings; scoredCache = null; rowVerdictCache.clear(); S.__demoOn = false; };
 }
 /* ===== 투자자 자기 점검 (맞춤 제안용) ===== */
 const INV_Q = [
@@ -5127,11 +5127,23 @@ function screenCard(r, i){
     ${detail}
   </div>`;
 }
-function importRow(t){
-  const r = scoredRows().find(x => x.t === t); if(!r) return;
-  const c = {id:uid(), ...newCompany(), pinned:false, name:r.n, ticker:r.code||r.t, yf:r.t, market:grpOf(r.m),
+function rowCompany(r){
+  return {id:'tmp', ...newCompany(), pinned:false, name:r.n, ticker:r.code||r.t, yf:r.t, market:grpOf(r.m),
     sector:r.ind||r.s||'', price:r.px, fin:{...(r.fin||{})}, val:{...(r.val||{})}, fscore:r.fsd||[], finSector:!!r.fin_sector, mf:r.mf ?? null, holdco:!!r.holdco, dataConf:r.dataConf||null,
     source:`스크리너 자동 수집 (${(S2.meta||{}).generatedAt||''}, 회계연도 ${r.fy||'–'})`};
+}
+/* 목록의 모든 회사는 내 목록에 넣기 전에도 같은 기준으로 판정을 보여 준다 ("심사 전" 대신) */
+const rowVerdictCache = new Map();
+function rowVerdict(r){
+  if(!r) return '';
+  const k = r.t + '|' + (r.px ?? '') + '|' + (cfg().reqMOS ?? '');
+  if(rowVerdictCache.has(k)) return rowVerdictCache.get(k);
+  let v = ''; try{ v = evaluate(rowCompany(r)).verdict || ''; }catch(_){ v = ''; }
+  rowVerdictCache.set(k, v); return v;
+}
+function importRow(t){
+  const r = scoredRows().find(x => x.t === t); if(!r) return;
+  const c = {...rowCompany(r), id:uid()};
   c.ai.filled = [...Object.keys(c.fin), ...Object.keys(c.val)];
   S.companies.push(c); S.curId = c.id; queueSave(c);
   S.tab = 'analyze'; render(); updateEval(); window.scrollTo(0,0);
@@ -5481,7 +5493,7 @@ document.addEventListener('input', e => {
   }
   if(el.dataset.setKey){
     const v = parseFloat(el.value); if(!isFinite(v)) return;
-    S.settings = {...cfg(), [el.dataset.setKey]: v}; scoredCache = null;
+    S.settings = {...cfg(), [el.dataset.setKey]: v}; scoredCache = null; rowVerdictCache.clear();
     clearTimeout(saveTimers.__set); setSave('저장 중');
     saveTimers.__set = setTimeout(async () => { try{ await store.set('settings','main', S.settings); setSave('저장됨'); }catch(err){ setSave('저장 실패'); } saveTimers.__set = null; }, 800);
   }
@@ -5495,7 +5507,7 @@ document.addEventListener('change', e => {
     if(el.id==='sc-sort') S2.sort = el.value; if(el.id==='sc-tag') S2.tag = el.value; if(el.id==='sc-hide') S2.hideFlags = el.checked;
     S2.shown = 40; saveScreenPrefs(); $('#scList').innerHTML = screenListHtml(); return;
   }
-  if(el.dataset.setKey) scoredCache = null;
+  if(el.dataset.setKey){ scoredCache = null; rowVerdictCache.clear(); }
   if(el.dataset.cash && S.tab==='portfolio'){ const y = window.scrollY; render(); window.scrollTo(0,y); }
   if(el.dataset.setKey && S.tab==='portfolio'){ const y = window.scrollY; render(); window.scrollTo(0,y); }
   if(el.id === 'i-market' || el.id === 'i-kind') updateEval();
@@ -5560,15 +5572,15 @@ function refresh(kind){
     const meta = docs.find(d => d.id === 'meta');
     const chunks = docs.filter(d => d.id.startsWith('chunk-')).sort((a,b) => a.id.localeCompare(b.id));
     const n = meta?.chunks ?? chunks.length;
-    S2.meta = meta || null; S2.screen = chunks.slice(0, n).flatMap(c => c.rows || []); S2.loaded = true; scoredCache = null;
+    S2.meta = meta || null; S2.screen = chunks.slice(0, n).flatMap(c => c.rows || []); S2.loaded = true; scoredCache = null; rowVerdictCache.clear();
     if(['screener','portfolio','companies','dividend','fx'].includes(S.tab)) refresh('s');
   });
   store.sub('news', docs => { S.news = Object.fromEntries(docs.map(d => [d.id, d])); if(['briefing','analyze','companies'].includes(S.tab)) refresh('n'); });
   store.sub('briefing', docs => { S.briefings = docs; if(S.tab === 'briefing') refresh('n'); });
-  store.sub('trends', docs => { S.columns = docs.filter(d => String(d.id).startsWith('col-') && d.title).sort((a, b) => String(b.id).localeCompare(String(a.id))); S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
+  store.sub('trends', docs => { S.columns = docs.filter(d => String(d.id).startsWith('col-') && d.title).sort((a, b) => String(b.id).localeCompare(String(a.id))); S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; rowVerdictCache.clear(); if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
   store.sub('prices', docs => { S.prices = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['portfolio','companies','fx'].includes(S.tab)) refresh('p'); });
   store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; S.rates = docs.find(d => d.id === 'rates') || null; S.radar = docs.find(d => d.id === 'radar') || null; if(['fx','portfolio','rates','column','briefing','radar'].includes(S.tab)) refresh('x'); });
-  store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); scoredCache = null; if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
+  store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); scoredCache = null; rowVerdictCache.clear(); if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
   store.sub('journal', docs => { S.journal = docs; S.loaded.j = 1; refresh('j'); });
   store.sub('settings', docs => { const m = docs.find(d => d.id==='main'); if(m && !saveTimers.__set && !saveTimers.__prog) S.settings = m; S.loaded.s = 1; refresh('s'); });
   try{ sampleFn = window.claude && window.claude.use ? await window.claude.use('sample') : null; }catch(_){ sampleFn = null; }
