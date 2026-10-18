@@ -1,7 +1,7 @@
 // 네이버 블로그 붙여넣기용 페이지 만들기
 // 사용: node scripts/blog/naver_page.mjs naver/<글 id>
 //   naver/<글 id>/post.json 을 읽어 naver/<글 id>.html 과 naver/<글 id>/photos.zip 을 만든다.
-// post.json = { "title": "...", "tags": ["..."], "order": 1 (선택: 첫 글 묶음의 올리는 순서), "blocks": [
+// post.json = { "title": "...", "tags": ["..."], "order": 1 (선택: 첫 글 묶음의 올리는 순서), "posted": "2026-10-18" (선택: 블로그에 올린 날), "blocks": [
 //     {"h": "소제목"}, {"p": "문단. **굵게** 가능"}, {"img": "01.png", "cap": "사진 설명"},
 //     {"img": "banner.png", "href": "https://..."} (링크 걸린 배너, 설명 없음),
 //     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"},
@@ -96,12 +96,59 @@ console.log(`✓ ${dir}.html · 사진 ${imgs.length}장 · ${zip}`);
 // 블로그 글 목록 페이지(naver/index.html): 관리자 페이지 위 '블로그 글'에서 연다. 최신 글이 위
 const root = path.dirname(dir);
 const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d, 'post.json')))
-  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, order: pj.order, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
+  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
   .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || ((a.order ?? 99) - (b.order ?? 99)) || b.d.localeCompare(a.d));
 const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwf])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '월 · 주간 시장', w: '수 · 기업 분석', f: '금 · 가치투자 공부' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
+// 올린 글 표시: post.json 의 posted(날짜) + 관리자 로그인 시 docs(collection=naver, id=posted)에 저장한 표시를 합친다
+const baked = Object.fromEntries(list.filter((x) => x.posted).map((x) => [x.d, x.posted]));
 fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>블로그 글 목록 · 밸류노트</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
-<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800}.top span{color:#E4C78D}main{max-width:760px;margin:0 auto;padding:16px}a.it{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #E7E2D8;border-radius:14px;padding:12px;margin:10px 0;text-decoration:none;color:inherit}a.it img{width:84px;height:84px;border-radius:10px;flex-shrink:0}a.it b{display:block}a.it small{color:#6B7584}.n{color:#6B7584;font-size:14px}</style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 글</div><main>
-<p class="n">월·수·금 아침에 새 글이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)</p>
-${list.map((x) => `<a class="it" href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${esc(L(x))} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a>`).join('')}
-</main></body></html>`);
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800}.top span{color:#E4C78D}main{max-width:760px;margin:0 auto;padding:16px}
+.it{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #E7E2D8;border-radius:14px;padding:12px;margin:10px 0}.it a{display:flex;gap:14px;align-items:center;flex:1;min-width:0;text-decoration:none;color:inherit}.it img{width:84px;height:84px;border-radius:10px;flex-shrink:0}.it b{display:block}.it small{color:#6B7584}
+.ck{font:inherit;font-size:14px;font-weight:800;border:1px solid #E7E2D8;background:#fff;color:#6B7584;border-radius:10px;padding:8px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0}.ck:hover{border-color:#C99A50;color:#0E1A2B}
+.it.done{background:#F1EEE6}.it.done img{opacity:.45}.it.done b{color:#6B7584}.it.done .ck{background:#2E8B62;border-color:#2E8B62;color:#fff}
+h3{font-size:15px;color:#6B7584;margin:26px 0 4px}.n{color:#6B7584;font-size:14px}#who{font-size:13px;color:#6B7584}</style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 글</div><main>
+<p class="n">월·수·금 아침에 새 글이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>
+<p id="who"></p>
+<h3>올릴 글</h3><div id="todo"></div><h3>올린 글</h3><div id="done"></div>
+<div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${esc(L(x))} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
+</main>
+<script>
+const BAKED = ${JSON.stringify(baked)};
+let POSTED = { ...BAKED }, sb = null, uid = null;
+const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+function render() {
+  const items = [...document.querySelectorAll('#src .it, #todo .it, #done .it')];
+  const todo = document.getElementById('todo'), done = document.getElementById('done');
+  items.forEach((el) => { const id = el.dataset.id, at = POSTED[id]; el.classList.toggle('done', !!at); el.querySelector('.ck').textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') : '올렸어요'; });
+  items.filter((el) => !POSTED[el.dataset.id]).forEach((el) => todo.appendChild(el));
+  items.filter((el) => POSTED[el.dataset.id]).sort((a, b) => POSTED[b.dataset.id].localeCompare(POSTED[a.dataset.id])).forEach((el) => done.appendChild(el));
+  if (!todo.children.length) todo.innerHTML = '<p class="n">올릴 글을 모두 올렸습니다.</p>';
+}
+async function save() {
+  if (!sb || !uid) return;
+  await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { posted: POSTED, cleared: Object.keys(BAKED).filter((k) => !POSTED[k]), at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+}
+document.addEventListener('click', async (ev) => {
+  const b = ev.target.closest('.ck'); if (!b) return;
+  if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+  const id = b.closest('.it').dataset.id;
+  if (POSTED[id]) { if (!confirm('올림 표시를 지울까요?')) return; delete POSTED[id]; } else POSTED[id] = today();
+  render(); await save();
+});
+(async () => {
+  render();
+  try {
+    const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+    const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+    document.getElementById('who').textContent = uid ? '' : '로그인하지 않은 상태입니다. 올림 표시는 로그인 후 저장됩니다.';
+    if (!uid) return;
+    const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle();
+    POSTED = { ...BAKED, ...(data?.data?.posted || {}) };
+    for (const k of (data?.data?.cleared || [])) delete POSTED[k];
+    render();
+  } catch (e) { console.warn(e); }
+})();
+</script></body></html>`);
