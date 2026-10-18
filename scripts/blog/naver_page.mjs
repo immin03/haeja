@@ -22,8 +22,8 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const inline = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 const imgUrl = (f) => `${SITE}/naver/${id}/${f}`;
 // 블로그 카테고리: post.json 의 category, 없으면 요일로 정한다 (월 주간 시장 정리 · 수 기업 분석 · 금 거장의 투자)
-const CAT_BY_DAY = { m: '주간 시장 정리', w: '기업 분석', f: '거장의 투자' };
-const catOf = (d, pj) => pj.category || CAT_BY_DAY[(String(d).match(/^b\d{6}([mwf])/) || [])[1]] || '';
+const CAT_BY_DAY = { m: '주간 시장 정리', w: '기업 분석', f: '거장의 투자', x: '주간 시장 정리' };
+const catOf = (d, pj) => pj.category || CAT_BY_DAY[(String(d).match(/^b\d{6}([mwfx])/) || [])[1]] || '';
 const category = catOf(id, post);
 
 // 네이버 편집기가 잘 받아들이는 단순한 태그만 쓴다 (p, b, img, blockquote, a)
@@ -105,7 +105,7 @@ const root = path.dirname(dir);
 const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d, 'post.json')))
   .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, cat: catOf(d, pj), order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
   .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || ((a.order ?? 99) - (b.order ?? 99)) || b.d.localeCompare(a.d));
-const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwf])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '월 · 주간 시장', w: '수 · 기업 분석', f: '금 · 가치투자 공부' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
+const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwfx])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '월 · 주간 시장', w: '수 · 기업 분석', f: '금 · 가치투자 공부', x: '시장 이슈 (수시)' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
 // 올린 글 표시: post.json 의 posted(날짜) + 관리자 로그인 시 docs(collection=naver, id=posted)에 저장한 표시를 합친다
 const baked = Object.fromEntries(list.filter((x) => x.posted).map((x) => [x.d, x.posted]));
 fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>블로그 글 목록 · 밸류노트</title>
