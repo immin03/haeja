@@ -92,3 +92,16 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
 </script></body></html>`;
 fs.writeFileSync(`${dir}.html`, html);
 console.log(`✓ ${dir}.html · 사진 ${imgs.length}장 · ${zip}`);
+
+// 블로그 글 목록 페이지(naver/index.html): 관리자 페이지 위 '블로그 글'에서 연다. 최신 글이 위
+const root = path.dirname(dir);
+const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d, 'post.json')))
+  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
+  .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || b.d.localeCompare(a.d));
+const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwf])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '월 · 주간 시장', w: '수 · 기업 분석', f: '금 · 가치투자 공부' }[m[4]]}` : '첫 글'; };
+fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>블로그 글 목록 · 밸류노트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800}.top span{color:#E4C78D}main{max-width:760px;margin:0 auto;padding:16px}a.it{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #E7E2D8;border-radius:14px;padding:12px;margin:10px 0;text-decoration:none;color:inherit}a.it img{width:84px;height:84px;border-radius:10px;flex-shrink:0}a.it b{display:block}a.it small{color:#6B7584}.n{color:#6B7584;font-size:14px}</style></head><body><div class="top">Value<span>Note</span> · 네이버 블로그 글</div><main>
+<p class="n">월·수·금 아침에 새 글이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)</p>
+${list.map((x) => `<a class="it" href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${esc(L(x))} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a>`).join('')}
+</main></body></html>`);
