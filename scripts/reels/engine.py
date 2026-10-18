@@ -336,10 +336,10 @@ def s_list(img, u, sc, L, T):
         y = y0 + k * gap; x = 140 + (1 - p) * -60
         d = ImageDraw.Draw(img)
         d.rounded_rectangle([x, y - 46, x + 800, y + 46], 24, fill=mix(NAVY, (24, 46, 82), p), outline=mix(NAVY, GOLD_D, p), width=2)
-        if " " in it and len(it.split(" ", 1)[0]) <= 2:
+        if " " in it and len(it.split(" ", 1)[0]) <= 3:
             k_, rest = it.split(" ", 1)
             d.ellipse([x + 22, y - 32, x + 86, y + 32], fill=mix(NAVY, GOLD, p))
-            d.text((x + 54, y), k_, font=F("Heavy", 40), fill=NAVY, anchor="mm")
+            d.text((x + 54, y), k_, font=F("Heavy", 40 if len(k_) <= 2 else 30), fill=NAVY, anchor="mm")
             d.text((x + 112, y), rest, font=fit_font(rest, "Bold", 46, 660), fill=mix(NAVY, IVORY, p), anchor="lm")
         else:
             d.text((x + 36, y), it, font=fit_font(it, "Bold", 46, 740), fill=mix(NAVY, IVORY, p), anchor="lm")
