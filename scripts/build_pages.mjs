@@ -388,7 +388,7 @@ if (process.env.INDEXNOW === '1') {
   const list = [...new Set([`${SITE}/`, `${SITE}/c/`, ...MKT_ORDER.map((m) => `${SITE}/c/${MSLUG[m]}`), `${SITE}/blog/`, ...cols.slice(0, 3).map((c) => `${SITE}/blog/${c.id}`), ...changed])].slice(0, 9000);
   const body = JSON.stringify({ host: 'www.valuenote.co.kr', key: INDEXNOW_KEY, keyLocation: `${SITE}/${INDEXNOW_KEY}.txt`, urlList: list });
   for (const ep of ['https://searchadvisor.naver.com/indexnow', 'https://api.indexnow.org/indexnow']) {
-    try { const r = await fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }, body }); console.log(`indexnow ${ep} → ${r.status} (${list.length} urls)`); }
-    catch (e) { console.log(`indexnow ${ep} 실패: ${e.message}`); }
+    try { const r = await fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }, body }); console.log(`::notice::IndexNow ${ep} → ${r.status} (${list.length}개 주소)`); }
+    catch (e) { console.log(`::warning::IndexNow ${ep} 실패: ${e.message}`); }
   }
 }
