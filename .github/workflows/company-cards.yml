@@ -21,7 +21,7 @@ jobs:
         run: |
           npm i --no-save playwright@1.56.0
           npx playwright install --with-deps chromium
-      - name: 릴스 대본 만들기 (카드뉴스는 쓰지 않는다: 모든 콘텐츠를 릴스로)
+      - name: 릴스 대본 만들기 (카드뉴스 없이 모든 콘텐츠를 릴스로)
         run: |
           node scripts/company_cards.mjs $(TZ=Asia/Seoul date +%F) ra   # 오늘 21:00 오늘의 기업 (이미 있으면 건너뜀)
           T=$(TZ=Asia/Seoul date -d tomorrow +%F)
