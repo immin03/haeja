@@ -105,9 +105,14 @@ for (const dir of dirs) {
   if (media.some((b) => !b.src)) E.push(`출처(src)가 없는 실사 사진·영상: ${media.filter((b) => !b.src).map((b) => b.img || b.video).join(', ')}`);
   if (!p.blocks.some((b) => b.video)) W.push('영상(video)이 없습니다 — 짧은 실사 영상 1개를 권장합니다');
   const coNames = Object.values(vnData().c || {}).map((r) => r && r[0]).filter((n) => n && n.length >= 2);
-  for (const b of media) { const hit = coNames.find((n) => strip(b.cap || '').includes(n)); if (hit) E.push(`실사 사진·영상 설명에 회사 이름("${hit}")이 있습니다 — 무료 소재는 그 회사가 아니므로 "자동차 조립 라인"처럼 일반 설명으로`); }
+  for (const b of media) { const hit = coNames.find((n) => strip(b.cap || b.alt || '').includes(n)); if (hit) E.push(`실사 사진·영상 설명(alt)에 회사 이름("${hit}")이 있습니다 — 무료 소재는 그 회사가 아니므로 "자동차 조립 라인"처럼 일반 설명으로`); }
   for (let i = 1; i < p.blocks.length; i++) { const a = p.blocks[i - 1], b = p.blocks[i]; if (a.img && b.img && !a.href && !b.href && a.kind !== 'photo' && b.kind !== 'photo' && i > 1) W.push(`디자인 사진 두 장이 붙어 있습니다: ${a.img}, ${b.img}`); }
   if (imgs.length < 5 || imgs.length > 8) W.push(`사진 ${imgs.length}장 (5~7장)`);
+  // 사진 설명 (2026-10-19 결정): 사진 밑 설명 문장은 AI 같아 보인다. 실사 사진·영상·표지는 설명 없음, 데이터 이미지는 짧은 명사로
+  for (const b of p.blocks.filter((x) => (x.img || x.video) && !x.href)) {
+    if (b.cap && (b.video || ['photo', 'cover'].includes(b.kind))) E.push(`${b.img || b.video}: 실사 사진·영상·표지에는 설명(cap)을 달지 않습니다 (alt 만)`);
+    else if (b.cap && (/[다요]\.?$|[.:?!]/.test(b.cap.trim()) || b.cap.length > 30)) E.push(`${b.img}: 설명은 30자 이내의 명사로 끝냅니다 — "${b.cap}"`);
+  }
   if (imgs.length && imgs.every((b) => b.kind === imgs[0].kind)) W.push('사진 종류가 한 가지뿐입니다');
   // 정답 먼저: 소제목 바로 아래 블록은 문단, 첫 문장은 70자 이내로 그 단락의 답을 말한다
   const leads = [];

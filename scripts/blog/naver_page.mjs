@@ -9,6 +9,7 @@
 //     {"table": {"head": ["항목", "값"], "rows": [["코스피", "−16.2%"], ...]}},
 //     {"sources": [["자료 이름", "https://..."], ...]},
 //     {"video": "v1.mp4", "cap": "영상 설명"} (짧은 무료 실사 영상. 붙여넣기 본문에는 들어가지 않고, 그 자리에 '여기에 영상 올리기' 표시가 보인다) ] }
+//   사진 블록 설명(cap)은 사진 아래 작은 글씨로 보인다: 데이터 이미지만 짧은 명사로 단다. 실사 사진·영상·표지는 cap 없이 alt(보이지 않는 대체 글)만.
 //   사진 블록은 kind(cover·photo·chart·app·data·card·banner)와 실사 사진이면 src(출처 id)를 단다. 사진 파일은 .png/.jpg 모두 된다.
 // 이 페이지는 검색에서 빠지도록 noindex 를 단다(사이트 칼럼과 겹치는 글이 검색되지 않게).
 import fs from 'node:fs';
@@ -37,8 +38,8 @@ const blockHtml = (b) => {
   if (b.h) return `<p><span style="font-size:19px"><b><span style="color:#C99A50">■</span> ${inline(b.h)}</b></span></p>`;
   if (b.p && /^— Editor:/.test(b.p)) return `<p style="text-align:right"><b>${inline(b.p)}</b></p>`;
   if (b.p) return `<p>${inline(b.p)}</p>`;
-  if (b.img && b.href) return `<p><a href="${esc(b.href)}"><img src="${imgUrl(b.img)}" alt="${esc(b.cap || '')}" width="720"></a></p>`;
-  if (b.img) return `<p><img src="${imgUrl(b.img)}" alt="${esc(b.cap || '')}" width="720"></p>${b.cap ? `<p><span style="color:#888888;font-size:13px">${esc(b.cap)}</span></p>` : ''}`;
+  if (b.img && b.href) return `<p><a href="${esc(b.href)}"><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></a></p>`;
+  if (b.img) return `<p><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></p>${b.cap ? `<p><span style="color:#888888;font-size:13px">${esc(b.cap)}</span></p>` : ''}`;
   if (b.quote) return `<blockquote><p>"${esc(b.quote)}"</p>${b.src ? `<p>— ${esc(b.src)}</p>` : ''}</blockquote>`;
   if (b.link) return `<p><a href="${esc(b.link)}">${esc(b.text || b.link)}</a></p>`;
   if (b.note) return `<p><span style="color:#888888;font-size:13px">${esc(b.note)}</span></p>`;
@@ -55,7 +56,7 @@ const body = post.blocks.map((b, i) => {
   const gap = b.h ? BLANK + BLANK : prev.h ? '' : BLANK;
   return gap + '\n' + html;
 }).join('\n');
-const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? '3줄 요약\n' + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.video ? '' : b.note || '').filter((x, i, a) => x !== '' || !a[i - 1]).join('\n\n');
+const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.alt || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? '3줄 요약\n' + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.video ? '' : b.note || '').filter((x, i, a) => x !== '' || !a[i - 1]).join('\n\n');
 const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
 const imgs = post.blocks.filter((b) => b.img).map((b) => b.img);
 const vids = post.blocks.filter((b) => b.video).map((b) => b.video);
