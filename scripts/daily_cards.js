@@ -119,7 +119,7 @@ function cardHtml(c, i, n) {
     { kind: 'hook', k: `${md} 아침 시장 브리핑`, t: head ? head.replace(/,\s*/, ',\n') : '오늘 시장,\n무엇이 바뀌었을까요?', s: R.level ? `지금 경기 신호는 **${R.level}**입니다.\n${R.levelNote}` : '' },
     { kind: 'shot', t: `경제 레이더 · ${R.level || '확인 중'}`, s: `지표 ${R.n}개 중 경고 이상 ${R.warn}개`, img: path.join(dir, '_radar.png'), y: 105, h: 580 },
     fresh.length
-      ? { kind: 'hook', k: '어제와 비교하면', t: `적정 매수가 아래로\n**새로 들어온 좋은 회사 ${fresh.length}곳**`, s: '버핏 근접도 75점 이상 회사 중, 어제는 비쌌고 오늘은 30% 안전마진이 생긴 곳입니다.', chips: [...byMkt.map(([k, v]) => `${k} ${v}`), ...bySec.map(([k, v]) => `${k} ${v}`)] }
+      ? { kind: 'hook', k: '어제와 비교하면', t: `적정 매수가 아래로\n**새로 들어온 좋은 회사 ${fresh.length}곳**`, s: '밸류노트 점수 75점 이상 회사 중, 어제는 비쌌고 오늘은 적정 주가보다 30% 이상 싸진 곳입니다.', chips: [...byMkt.map(([k, v]) => `${k} ${v}`), ...bySec.map(([k, v]) => `${k} ${v}`)] }
       : { kind: 'hook', k: '좋은 회사의 가격', t: `적정 매수가 아래\n좋은 회사 **${d.pass.length}곳**`, s: `근처까지 온 곳은 ${d.near}곳입니다.${left ? `\n어제보다 ${left}곳이 다시 비싸졌습니다.` : ''}` },
     { kind: 'shot', t: `적정 매수가 아래 ${d.pass.length}곳, 근처 ${d.near}곳`, s: '5개 시장 620개 기업을 매일 같은 기준으로 다시 봅니다.', img: path.join(dir, '_briefing.png'), y: 105, h: 580 },
     { kind: 'cta', t: '어떤 회사인지는\n**앱에서 확인**하세요', s: '종목 이름과 적정 가격, 점수 근거까지\n로그인 없이 볼 수 있습니다.' },
