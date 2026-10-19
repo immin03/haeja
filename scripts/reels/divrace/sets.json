@@ -1,0 +1,43 @@
+{
+ "_note": "은퇴 배당 비교 시리즈 후보. 밸류노트 기업 목록(c/scores.json)에 있는 배당·은행주만. money = 만 원(30000=3억, 50000=5억). 결과가 밋밋하면(div_race.mjs interest) 자동으로 건너뛴다.",
+ "sets": [
+  {"key": "kr-banks", "theme": "은행주", "money": 50000, "items": [
+   {"sym": "105560.KS", "name": "KB금융", "cur": "KRW"}, {"sym": "055550.KS", "name": "신한지주", "cur": "KRW"},
+   {"sym": "086790.KS", "name": "하나금융", "cur": "KRW"}, {"sym": "316140.KS", "name": "우리금융", "cur": "KRW"}]},
+  {"key": "world-banks", "theme": "나라별 1등 은행", "money": 50000, "items": [
+   {"sym": "105560.KS", "name": "KB금융", "cur": "KRW"}, {"sym": "JPM", "name": "JP모건", "say": "제이피모건", "cur": "USD"},
+   {"sym": "8306.T", "name": "미쓰비시UFJ", "say": "미쓰비시 유에프제이", "cur": "JPY"}, {"sym": "601398.SS", "name": "공상은행", "cur": "CNY"}]},
+  {"key": "kr-insurers", "theme": "보험주", "money": 50000, "items": [
+   {"sym": "000810.KS", "name": "삼성화재", "cur": "KRW"}, {"sym": "005830.KS", "name": "DB손해보험", "cur": "KRW"},
+   {"sym": "8766.T", "name": "도쿄해상", "cur": "JPY"}, {"sym": "CB", "name": "처브", "cur": "USD"}]},
+  {"key": "telecom", "theme": "통신주", "money": 30000, "items": [
+   {"sym": "017670.KS", "name": "SK텔레콤", "cur": "KRW"}, {"sym": "030200.KS", "name": "KT", "say": "케이티", "cur": "KRW"},
+   {"sym": "9433.T", "name": "KDDI", "say": "케이디디아이", "cur": "JPY"}, {"sym": "0941.HK", "name": "차이나모바일", "cur": "HKD"}]},
+  {"key": "jp-banks", "theme": "일본 은행주", "money": 30000, "items": [
+   {"sym": "8306.T", "name": "미쓰비시UFJ", "say": "미쓰비시 유에프제이", "cur": "JPY"}, {"sym": "8316.T", "name": "미쓰이스미토모", "cur": "JPY"},
+   {"sym": "8411.T", "name": "미즈호", "cur": "JPY"}]},
+  {"key": "cn-banks", "theme": "중국 4대 은행", "money": 30000, "items": [
+   {"sym": "601398.SS", "name": "공상은행", "cur": "CNY"}, {"sym": "601939.SS", "name": "건설은행", "cur": "CNY"},
+   {"sym": "601288.SS", "name": "농업은행", "cur": "CNY"}, {"sym": "601988.SS", "name": "중국은행", "cur": "CNY"}]},
+  {"key": "us-banks", "theme": "미국 은행주", "money": 50000, "items": [
+   {"sym": "JPM", "name": "JP모건", "say": "제이피모건", "cur": "USD"}, {"sym": "BAC", "name": "뱅크오브아메리카", "cur": "USD"},
+   {"sym": "WFC", "name": "웰스파고", "cur": "USD"}, {"sym": "C", "name": "씨티그룹", "cur": "USD"}]},
+  {"key": "kr-brokers", "theme": "증권주", "money": 30000, "items": [
+   {"sym": "016360.KS", "name": "삼성증권", "cur": "KRW"}, {"sym": "039490.KS", "name": "키움증권", "cur": "KRW"},
+   {"sym": "071050.KS", "name": "한국금융지주", "cur": "KRW"}, {"sym": "005940.KS", "name": "NH투자증권", "cur": "KRW"}]},
+  {"key": "kr-regional", "theme": "지방 금융지주", "money": 30000, "items": [
+   {"sym": "105560.KS", "name": "KB금융", "cur": "KRW"}, {"sym": "175330.KS", "name": "JB금융", "cur": "KRW"},
+   {"sym": "138930.KS", "name": "BNK금융", "cur": "KRW"}, {"sym": "024110.KS", "name": "기업은행", "cur": "KRW"}]},
+  {"key": "tobacco", "theme": "담배주", "money": 30000, "items": [
+   {"sym": "033780.KS", "name": "KT&G", "say": "케이티앤지", "cur": "KRW"}, {"sym": "PM", "name": "필립모리스", "cur": "USD"}]},
+  {"key": "oil", "theme": "정유·석유주", "money": 30000, "items": [
+   {"sym": "XOM", "name": "엑슨모빌", "cur": "USD"}, {"sym": "CVX", "name": "셰브론", "cur": "USD"},
+   {"sym": "601857.SS", "name": "페트로차이나", "cur": "CNY"}]},
+  {"key": "kr-telecom", "theme": "국내 통신 3사", "money": 30000, "items": [
+   {"sym": "017670.KS", "name": "SK텔레콤", "cur": "KRW"}, {"sym": "030200.KS", "name": "KT", "say": "케이티", "cur": "KRW"},
+   {"sym": "032640.KS", "name": "LG유플러스", "cur": "KRW"}]},
+  {"key": "jp-telecom", "theme": "일본 통신주", "money": 30000, "items": [
+   {"sym": "9432.T", "name": "NTT", "say": "엔티티", "cur": "JPY"}, {"sym": "9433.T", "name": "KDDI", "say": "케이디디아이", "cur": "JPY"},
+   {"sym": "9434.T", "name": "소프트뱅크", "cur": "JPY"}]}
+ ]
+}

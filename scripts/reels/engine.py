@@ -19,6 +19,10 @@
   bars      가로 막대 비교          : title, items[{label,v,text,tone}]
   list      항목이 차례로 등장       : title, items[]
   statement 큰 결론 문장            : l1, l2, fx(melt|none), sub[왼쪽, 오른쪽] 또는 note
+  race      여러 계열(2~4개)이 시간을 따라 함께 달리는 선 차트 + 위쪽 계열별 현황 카드 (은퇴 배당 비교, 2026-10-20)
+            : x["2021.10", ...] 월 라벨, money(만 원, 처음 넣은 돈), series[{name, inc[], val[], cum[]}] (만 원 단위:
+              inc = 그때 배당 수준으로 매달 받는 돈, val = 그때 평가 금액, cum = 그때까지 받은 배당 합계),
+              events[{i, text}] 차트가 i번째 달을 지날 때 잠깐 뜨는 말풍선, ylab "매달 받는 배당"
   cta       마지막 장 (고정 문구)
 
 썸네일(cover.jpg)
@@ -537,8 +541,88 @@ def s_screen(img, u, sc, L, T):
         appear(img, u, t0 + .05, lab, fit_font(lab, "Heavy", 60, 980), IVORY, (W / 2, 320), dur=.35, popin=True)
     return img
 
+# 은퇴 배당 비교: 여러 회사가 같은 시간을 함께 달리는 차트 (위: 원금·받은 돈 카드, 가운데: 매달 받는 배당 선)
+RACE_COLS = [GOLD, (96, 196, 150), (112, 164, 240), (186, 146, 238)]
+RX0, RX1, RY0, RY1 = 150, 790, 720, 1250
+
+def won_short(v):
+    """만 원 단위 → 카드용 짧은 금액: 1.53억 → '1.5억', 6,903만 → '6,903만'"""
+    if abs(v) >= 10000:
+        x = v / 10000
+        return (f"{x:.1f}" if x < 100 else f"{x:.0f}") + "억"
+    return f"{round(v):,}만"
+
+def s_race(img, u, sc, L, T):
+    ser = sc["series"][:4]; n = len(sc["x"]); k_ = len(ser)
+    cols = [RACE_COLS[i] for i in range(k_)]
+    a0 = .2; end = max(1.5, (L[-1][0] + L[-1][1]) * sc.get("pace", .86))
+    upto = prog(u, a0, end, ease_io) * (n - 1)
+    i_now = min(n - 1, int(round(upto)))
+    d = ImageDraw.Draw(img)
+    # 맨 위: 은퇴 N년 차 + 날짜
+    yr = min(int(upto // 12) + 1, max(1, math.ceil((n - 1) / 12)))
+    d.text((90, 372), f"은퇴 {yr}년 차", font=F("Heavy", 66), fill=IVORY, anchor="lm")
+    d.text((990, 378), sc["x"][i_now], font=F("SemiBold", 40), fill=GRAY, anchor="rm")
+    # 계열별 카드: 이름 / 원금(평가 금액) / 받은 돈
+    cw = 900 / k_
+    for j, s_ in enumerate(ser):
+        x = 90 + j * cw; a = prog(u, .05 + j * .06, .35 + j * .06)
+        nf = fit_font(s_["name"], "ExtraBold", 38, cw - 16)
+        d.text((x, 458), s_["name"], font=nf, fill=mix(NAVY, cols[j], a), anchor="lm")
+        v = value_at(s_["val"], upto); c = value_at(s_["cum"], upto)
+        d.text((x, 516), "원금 " + won_short(v), font=fit_font("원금 " + won_short(v), "Heavy", 46 if k_ <= 3 else 40, cw - 12), fill=mix(NAVY, IVORY, a), anchor="lm")
+        d.text((x, 568), "받은 돈 " + won_short(c), font=fit_font("받은 돈 " + won_short(c), "Medium", 32 if k_ <= 3 else 29, cw - 12), fill=mix(NAVY, GRAY, a), anchor="lm")
+    # 차트 틀: 0부터, 깔끔한 눈금
+    top_ = max(max(s_["inc"]) for s_ in ser); bot_ = min(min(s_["inc"]) for s_ in ser)
+    step = next(st for st in (10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000) if (top_ - bot_ * .9) / st <= 4)
+    lo = max(0, math.floor(bot_ * .9 / step) * step); hi = top_ + (top_ - lo) * .1
+    ymap = lambda v: RY1 - (v - lo) / (hi - lo) * (RY1 - RY0)
+    ga = prog(u, 0, .3)
+    g = lo + step
+    while g < hi:
+        y = ymap(g)
+        for x in range(RX0, RX1 + 120, 26): d.line([(x, y), (x + 12, y)], fill=mix(NAVY, GRID, ga), width=2)
+        d.text((RX0 - 16, y), won_short(g), font=F("Medium", 28), fill=mix(NAVY, GRAY, ga), anchor="rm")
+        g += step
+    d.line([(RX0, RY1), (RX1 + 120, RY1)], fill=mix(NAVY, GRID, ga), width=3)
+    xs = [RX0 + i * (RX1 - RX0) / (n - 1) for i in range(n)]
+    for i, lb in enumerate(sc["x"]):  # 해마다 1월 아래 연도
+        if lb.endswith(".01") or (i == 0 and int(lb[5:]) <= 7):
+            d.text((xs[i], RY1 + 40), lb[:4], font=F("Medium", 28), fill=mix(NAVY, GRAY, ga), anchor="mm")
+    busy = any(a0 + (end - a0) * ev["i"] / (n - 1) - .2 <= u < a0 + (end - a0) * ev["i"] / (n - 1) + 1.8 for ev in sc.get("events", []))
+    if sc.get("ylab") and not busy: d.text((RX0 - 16, RY0 - 56), sc["ylab"], font=F("SemiBold", 30), fill=mix(NAVY, GRAY, ga), anchor="lm")
+    pts = [[(xs[i], ymap(v)) for i, v in enumerate(s_["inc"])] for s_ in ser]
+    segs = [partial(p, upto) for p in pts]
+    order = list(range(k_))[::-1]  # 첫 계열(금색)을 맨 위에
+    glow_lines(img, [(segs[j], cols[j], 10 if j == 0 else 8) for j in order])
+    d = ImageDraw.Draw(img); ring = (u * 1.6) % 1
+    # 끝 숫자: 겹치지 않게 위아래로 벌린다
+    tags = sorted([(segs[j][-1][1], j) for j in range(k_)])
+    ys_ = []
+    for y, j in tags:
+        y = max(RY0 - 10, min(RY1 - 20, y))
+        if ys_ and y - ys_[-1][0] < 58: y = ys_[-1][0] + 58
+        ys_.append((y, j))
+    for y, j in ys_:
+        p = segs[j][-1]; dot(d, p, cols[j], 13 if j == 0 else 11, ring if j == 0 else 0)
+        val = "월 " + won_short(value_at(ser[j]["inc"], upto))
+        d.text((p[0] + 26, y), val, font=F("Heavy", 44) if j == 0 else F("ExtraBold", 40), fill=cols[j], anchor="lm")
+    for ev in sc.get("events", []):  # 말풍선: 그 달을 지날 때 1.6초
+        t_ev = a0 + (end - a0) * ev["i"] / (n - 1)
+        if t_ev <= u < t_ev + 1.6 and upto >= ev["i"]:
+            q = prog(u, t_ev, t_ev + .3); f_ = fit_font(ev["text"], "Heavy", 50, 860)
+            tw = f_.getlength(ev["text"]); cy = 662
+            col = cols[ev.get("j", 0)]
+            sc2 = max(.01, back((u - t_ev) / .3))
+            pill = Image.new("RGBA", (int(tw + 64), 92), (0, 0, 0, 0))
+            ImageDraw.Draw(pill).rounded_rectangle([0, 0, pill.width - 1, 91], 46, fill=col + (235,))
+            ImageDraw.Draw(pill).text((pill.width / 2, 46), ev["text"], font=f_, fill=NAVY, anchor="mm")
+            pill = pill.resize((max(1, int(pill.width * sc2)), max(1, int(92 * sc2))), Image.BICUBIC)
+            img.paste(pill, (int(W / 2 - pill.width / 2), int(cy - pill.height / 2)), pill)
+    return img
+
 DRAW = {"hook": s_hook, "line": s_line, "run": s_run, "compare": s_compare, "bars": s_bars,
-        "list": s_list, "who": s_who, "statement": s_statement, "cta": s_cta, "screen": s_screen}
+        "list": s_list, "race": s_race, "who": s_who, "statement": s_statement, "cta": s_cta, "screen": s_screen}
 NO_CAPTION = {"statement", "cta", "list"}
 
 # ── 타임라인 ─────────────────────────────────────────────────
@@ -699,8 +783,8 @@ def frame(T, scenes, total):
 # ── 썸네일(cover.jpg): 시리즈별로 다른 그림, 같은 틀 ────────────
 COVER_V = 2   # 썸네일 방식이 바뀌면 올린다 → build.py 가 아직 안 올라간 릴스의 썸네일만 다시 만든다
 COVER_PREF = {"F": ["screen", "list", "bars", "compare"], "G": ["list", "bars", "compare"],
-              "A": ["bars", "compare", "list"], "M": ["line", "bars"], "E": ["line", "bars"], "R": []}
-SERIES_TAG = {"F": "밸류노트 사용법", "G": "쉬운 가이드", "A": "오늘의 기업", "M": "이번 주 금리", "E": "시장 속보", "R": "투자 교육"}
+              "A": ["bars", "compare", "list"], "M": ["line", "bars"], "E": ["line", "bars"], "R": [], "D": ["race"]}
+SERIES_TAG = {"F": "밸류노트 사용법", "G": "쉬운 가이드", "A": "오늘의 기업", "M": "이번 주 금리", "E": "시장 속보", "R": "투자 교육", "D": "은퇴 배당 비교"}
 # 인스타 프로필 격자는 세로 4:5 로 가운데를 잘라 보여 준다(1080x1920 중 y 285~1635). 썸네일 요소는 모두 그 안에 둔다.
 
 def series_tag(spec):

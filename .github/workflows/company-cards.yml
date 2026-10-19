@@ -32,13 +32,15 @@ jobs:
           # 하루 4편 (2026-10-19): 08:30 매크로·기업 / 12:30 기능 소개(월·수·금·일)·순위 TOP 10(화·목·토) / 18:00 쉬운 팁·상식(수: 비교 대본 우선) / 21:00 기업
           if [ "$W" = 2 ] || [ "$W" = 4 ] || [ "$W" = 6 ]; then node scripts/company_cards.mjs $T rr; fi   # 12:30 순위 (그 칸에 미리 쓴 릴스가 있으면 건너뜀)
           if [ "$W" = 3 ]; then node scripts/reels/lib_pick.mjs compare $T 18:00; fi
+          # 토 18:00 은퇴 배당 비교 (2026-10-20): 실제 주가·배당으로 계산, 결과가 밋밋한 묶음은 건너뜀. 실패해도 그 칸은 아래 순위로 채워짐
+          if [ "$W" = 6 ]; then node scripts/reels/div_race.mjs pick $T 18:00 || true; fi
           node scripts/company_cards.mjs $T reel1             # 12:30이 비어 있으면 기업
           node scripts/company_cards.mjs $T reel2             # 18:00이 비어 있으면 순위
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"
           git config user.email "bot@valuenote.co.kr"
-          git add social/company scripts/reels/specs scripts/reels/macro scripts/reels/compare social/reels/low_*.txt 2>/dev/null || git add social/company scripts/reels/specs scripts/reels/macro scripts/reels/compare
+          git add social/company scripts/reels/specs scripts/reels/macro scripts/reels/compare scripts/reels/divrace social/reels/low_*.txt 2>/dev/null || git add social/company scripts/reels/specs scripts/reels/macro scripts/reels/compare scripts/reels/divrace
           git diff --cached --quiet && exit 0
           git commit -m "오늘의 기업 카드 $(TZ=Asia/Seoul date +%F)"
           git pull --rebase origin main

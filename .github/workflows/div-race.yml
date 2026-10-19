@@ -1,0 +1,27 @@
+# 은퇴 배당 비교 릴스 후보 점검: 모든 묶음을 실제 주가·배당으로 계산해 재미 판정(scan.json)을 남긴다.
+# 대본은 company-cards(금요일 19:20)가 토요일 18:00 칸에 div_race.mjs pick 으로 만든다. 이 작업은 손으로 점검할 때만.
+name: div-race
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: div-race
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/reels/div_race.mjs scan
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"
+          git config user.email "bot@valuenote.co.kr"
+          git add scripts/reels/divrace
+          git diff --cached --quiet && exit 0
+          git commit -m "은퇴 배당 비교 후보 점검 $(TZ=Asia/Seoul date +%F)"
+          git pull --rebase origin main
+          git push
