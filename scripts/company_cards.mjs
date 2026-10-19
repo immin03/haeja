@@ -480,7 +480,7 @@ function reelCompany(x) {
 // 2026-10-19 운영자 지시: '주가에 담긴 기대' 형식은 쓰지 않는다(무엇을 말하려는지 분명하지 않다). 모든 기업 릴스는 '무슨 회사인지'부터 말한다.
 const FORMATS = ['intro', 'price', 'dividend'];
 const NOT_ADVICE2 = ''; // 고지문은 게시할 때 캡션 맨 끝에 * 한 줄로 자동으로 붙는다 (social-publish)
-const CTA_BUFFETT = { type: 'cta', l1: '버핏 기준 점수는', l2: '밸류노트에서', say: '버핏 기준으로 본 점수와 적정 주가는, 밸류노트에서 확인하세요.' };
+const CTA_BUFFETT = { type: 'cta', l1: '지금 가격이 적당한지는', l2: '밸류노트에서', say: '지금 가격이 적당한지는, 밸류노트에서 확인하세요.' };
 // 프로필 문장(~다체)을 ~합니다체로: 이다→입니다, 받침 없음+다→입니다, ㄴ다→ㅂ니다, 그 밖의 받침+다→습니다
 function hapnida(t) {
   t = String(t || '').trim().replace(/\.$/, '');
@@ -534,7 +534,7 @@ function reelIntro(x) {
   const what = hapnida(p.what), rows = chunks(what);
   const numLine = useRoe ? [['주주 돈 100원으로', `매년 평균 ${k}원을 벌었습니다`], `주주 돈 백 원으로, 매년 평균 ${sino(k)} 원을 벌었습니다.`, `주주 돈 100원으로 1년에 번 이익 (최근 ${yrs}년 평균)`]
     : [['물건을 100원어치 팔면', `${k}원이 이익으로 남습니다`], `물건을 백 원어치 팔면, ${sino(k)} 원이 이익으로 남습니다.`, '매출 100원당 순이익'];
-  const scenes = [{ type: 'hook', top: r.n, num: { to: k, fmt: 'int', suffix: '원' }, tone: 'gold', label: numLine[2],
+  const scenes = [{ type: 'hook', top: `${r.n},\n무엇으로 돈을 벌까?`, num: { to: k, fmt: 'int', suffix: '원' }, tone: 'gold', label: numLine[2],
     lines: [{ cap: [`${r.n},`, '무엇으로 돈을 벌까요?'] }, { cap: numLine[0], say: numLine[1] }] }];
   scenes.push(whoScene(r));
   const seg = (p.segments || []).filter((s_) => isNum(s_.share)).slice(0, 3);
@@ -557,7 +557,7 @@ function reelPrice(x) {
   const pc = (Math.pow(mult, 1 / yrsP) - 1) * 100, eps = r.fin?.epsCagr;
   const step = Math.max(1, Math.floor((pts.length - 1) / 6)), sel = []; for (let i = 0; i < pts.length; i += step) sel.push(pts[i]); if (sel[sel.length - 1] !== pts[pts.length - 1]) sel.push(pts[pts.length - 1]);
   const up = mult >= 1;
-  const scenes = [{ type: 'hook', top: `${r.n} 5년`, num: { to: Math.round(money), fmt: 'won' }, tone: up ? 'gold' : 'loss', label: '5년 전 1,000만 원어치 샀다면 지금',
+  const scenes = [{ type: 'hook', top: '5년 전 1,000만 원,\n지금 얼마일까?', num: { to: Math.round(money), fmt: 'won' }, tone: up ? 'gold' : 'loss', label: `${r.n}에 넣었다면 지금`,
     lines: [{ cap: [`5년 전 ${r.n} 주식을`, '1,000만 원어치 샀다면?'], say: `오 년 전 ${r.n} 주식을, 천만 원어치 샀다면?` },
             { cap: ['지금은', `${man(money)} 원이 됐습니다`], say: `지금은, ${sayMan(money)}이 됐습니다.` }] },
     { type: 'line', series: [{ name: r.n, v: sel.map((p_) => +p_[1].toFixed(2)) }], x: sel.map((p_) => `${p_[0].slice(2, 4)}.${+p_[0].slice(5, 7)}`), fmt: { fmt: 'int' }, end: `${chgPct >= 0 ? '+' : ''}${chgPct}%`, end_tone: up ? 'gold' : 'loss',
@@ -579,7 +579,7 @@ function reelPrice(x) {
 
 function reelDividend(x) {
   const { r } = x, d = PF[r.t].dividend, y = +d.yield.toFixed(1), pay = Math.round(d.payout), per = Math.round(10 * y) ;
-  const scenes = [{ type: 'hook', top: r.n, num: { to: y, fmt: 'pct', dec: 1, plus: false }, tone: 'gold', label: '배당 수익률 (주가 대비 1년 배당)',
+  const scenes = [{ type: 'hook', top: `${r.n},\n배당은 얼마나 줄까?`, num: { to: y, fmt: 'pct', dec: 1, plus: false }, tone: 'gold', label: `1,000만 원이면 1년에 약 ${per}만 원`,
     lines: [{ cap: [`${r.n},`, '배당은 얼마나 줄까요?'] }, { cap: ['1,000만 원어치 갖고 있으면', `1년에 약 ${per}만 원입니다`], say: `천만 원어치 갖고 있으면, 일 년에 약 ${sino(per)}만 원입니다.` }] }];
   { const w = whoScene(r); if (w) scenes.push(w); }
   scenes.push({ type: 'bars', title: '번 돈 중 배당으로 주는 몫', items: [{ label: '배당으로 준 돈', v: pay, text: `${pay}%`, tone: 'gold' }, { label: '회사에 남긴 돈', v: 100 - pay, text: `${100 - pay}%`, tone: 'gray' }],
@@ -618,8 +618,8 @@ function reelRank2(rows, kind, mkt, label) {
   const tn = josa(nm(top), '은', '는');
   const a = roe ? [`1위 ${tn}`, `매년 평균 ${top.v}원을 벌었습니다`] : [`1위 ${tn}`, `주가 대비 매년 ${top.v}%를 줍니다`];
   const aSay = roe ? `일위 ${tn}, 매년 평균 ${sino(top.v)} 원을 벌었습니다.` : `일위 ${tn}, 주가 대비 매년 ${String(top.v).replace('.', ' 점 ')} 퍼센트를 줍니다.`;
-  const scenes = [{ type: 'hook', top: `${label} TOP ${N}`, num: roe ? { to: top.v, fmt: 'int', suffix: '원' } : { to: top.v, fmt: 'pct', dec: 1, plus: false }, tone: 'gold',
-    label: roe ? '주주 돈 100원으로 1년에 번 이익 (평균)' : '배당 수익률 (주가 대비 1년 배당)', lines: [{ cap: q }, { cap: a, say: aSay }] }];
+  const scenes = [{ type: 'hook', top: roe ? `주주 돈 100원으로\n가장 많이 버는 ${label} 회사는?` : `배당을 꾸준히 늘리며\n많이 주는 ${label} 회사는?`, num: roe ? { to: top.v, fmt: 'int', suffix: '원' } : { to: top.v, fmt: 'pct', dec: 1, plus: false }, tone: 'gold',
+    label: roe ? `1위 ${nm(top)} · 주주 돈 100원당 1년 이익` : `1위 ${nm(top)} · 배당 수익률`, lines: [{ cap: q }, { cap: a, say: aSay }] }];
   const it = (x, i) => `${i + 1}위 ${nm(x)} · ${x.t}`;
   scenes.push({ type: 'list', title: `${label} · 1~5위`, items: L.slice(0, 5).map(it), say: `이위부터 오위는, ${L.slice(1, 5).map(nm).join(', ')}입니다.` });
   if (N > 5) scenes.push({ type: 'list', title: `${label} · 6~${N}위`, items: L.slice(5).map((x, i) => it(x, i + 5)), say: `육위부터는, ${L.slice(5).map(nm).join(', ')}입니다.` });

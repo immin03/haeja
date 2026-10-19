@@ -7,7 +7,7 @@
  "scenes": [
   {
    "type": "hook",
-   "top": "DB손해보험",
+   "top": "DB손해보험,\n배당은 얼마나 줄까?",
    "num": {
     "to": 4.1,
     "fmt": "pct",
@@ -15,7 +15,7 @@
     "plus": false
    },
    "tone": "gold",
-   "label": "배당 수익률 (주가 대비 1년 배당)",
+   "label": "1,000만 원이면 1년에 약 41만 원",
    "lines": [
     {
      "cap": [

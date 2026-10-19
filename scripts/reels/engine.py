@@ -195,7 +195,12 @@ def legend(img, names, cols, a):
 def s_hook(img, u, sc, L, T):
     num = sc["num"]; impact = 0.85
     col_end = TONE.get(sc.get("tone", "loss"), LOSS)
-    if sc.get("top"): appear(img, u, .1, sc["top"], fit_font(sc["top"], "Bold", 66, 900), GRAY, (W / 2, 610))
+    # 2026-10-19: 첫 화면은 질문이 주인공이다. top을 큰 흰 글씨(최대 두 줄)로 맨 먼저 띄우고, 숫자는 그 답으로 아래에 둔다
+    if sc.get("top"):
+        rows = sc["top"].split("\n")[:2]
+        for k, row in enumerate(rows):
+            y = (560 if len(rows) == 1 else 470 + k * 108)
+            appear(img, u, .05 + k * .12, row, fit_font(row, "Heavy", 92, 960), IVORY, (W / 2, y), dur=.3, rise=30)
     p = prog(u, .25, impact, ease_io)
     v = lerp(num.get("from", 0), num["to"], p)
     s = fmt_num(round(v, num.get("dec", 0)), num)

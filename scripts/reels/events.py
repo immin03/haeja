@@ -118,7 +118,7 @@ def make_spec(key, chg, closes, now, info=None):
     scenes = []
     if kind == "rate":
         word = "올랐습니다" if up else "내렸습니다"
-        scenes.append({"type": "hook", "top": "미국 10년 국채 금리", "num": {"to": round(cur, 2), "fmt": "pct", "dec": 2, "plus": False},
+        scenes.append({"type": "hook", "top": f"미국 금리가 하루 만에\n{'뛰었습니다' if up else '내렸습니다'}, 무슨 뜻일까?", "num": {"to": round(cur, 2), "fmt": "pct", "dec": 2, "plus": False},
                        "tone": "loss" if up else "gold", "label": f"{md} · 하루 {chg:+.2f}%p",
                        "lines": [{"cap": ["미국 국채 금리가", f"하루에 {abs(chg):.2f}%p {word}"], "say": f"미국 국채 금리가, 하루에 {nsay(chg, 2)} 퍼센트포인트 {word}."},
                                  {"cap": ["지금 미국 10년 국채 금리는", f"{cur:.2f}%입니다"], "say": f"지금 미국 십 년 국채 금리는, {nsay(cur, 2)} 퍼센트입니다."}]})
@@ -129,7 +129,7 @@ def make_spec(key, chg, closes, now, info=None):
         return wrap(f"E{day:%y%m%d}{key}", f"{md} 미국 10년 국채 금리 {chg:+.2f}%p", scenes, cap, ["금리", "미국국채"], now)
     if kind == "fx":
         word = "올랐습니다" if up else "내렸습니다"
-        scenes.append({"type": "hook", "top": "원·달러 환율 하루", "num": {"to": round(chg, 1), "fmt": "pct", "dec": 1}, "tone": "gold", "label": f"{md} · {cur:,.1f}원",
+        scenes.append({"type": "hook", "top": f"환율이 하루 만에 {abs(chg):.1f}%,\n내 계좌는?", "num": {"to": round(chg, 1), "fmt": "pct", "dec": 1}, "tone": "gold", "label": f"{md} · {cur:,.1f}원",
                        "lines": [{"cap": ["원·달러 환율이 하루에", f"{abs(chg):.1f}% {word}"]}, {"cap": ["지금 1달러는", f"{cur:,.0f}원입니다"]}]})
         m = ("환율이 오르면", "달러 자산은 원화로 늘어납니다", "수출 기업에는 도움, 수입 원가가 큰 기업에는 부담") if up else ("환율이 내리면", "달러 자산은 원화로 줄어듭니다", "수입 원가가 큰 기업에는 도움, 수출 기업에는 부담")
         scenes.append({"type": "statement", "l1": m[0], "l2": m[1], "tone": "gold", "note": m[2], "say": f"{m[0]}, {m[1]}."})
@@ -139,7 +139,7 @@ def make_spec(key, chg, closes, now, info=None):
         return wrap(f"E{day:%y%m%d}{key}", f"{md} 원·달러 환율 {chg:+.1f}%", scenes, cap, ["환율", "원달러환율"], now)
     # 지수
     word = "올랐습니다" if up else "빠졌습니다"
-    scenes.append({"type": "hook", "top": f"{name} 하루", "num": {"to": round(chg, 1), "fmt": "pct", "dec": 1}, "tone": "gold" if up else "loss", "label": md,
+    scenes.append({"type": "hook", "top": f"{name} 하루 {chg:+.1f}%,\n지금 무엇을 봐야 할까?", "num": {"to": round(chg, 1), "fmt": "pct", "dec": 1}, "tone": "gold" if up else "loss", "label": md,
                    "lines": [{"cap": [f"{name}{josa(name, '이', '가')} 하루에", f"{abs(chg):.1f}% {word}"]}, {"cap": ["이럴 때", "무엇을 봐야 할까요?"]}]})
     if days >= 2:
         scenes.append({"type": "statement", "l1": "최근 10년 동안", "l2": f"이런 날은 {days}번이었습니다", "tone": "ivory", "say": f"최근 10년 동안, 이런 날은 {days}번이었습니다."})
@@ -166,7 +166,7 @@ def check_fomc(now, seen):
     chg = new - old; up = chg > 0; word = "올렸습니다" if up else "내렸습니다"
     md = f"{day.month}월 {day.day}일"
     m = RATE_UP if up else RATE_DN
-    scenes = [{"type": "hook", "top": "미국 기준금리", "num": {"to": new, "fmt": "pct", "dec": 2, "plus": False}, "tone": "loss" if up else "gold", "label": f"{md} 결정 · {chg:+.2f}%p",
+    scenes = [{"type": "hook", "top": f"미국이 기준금리를\n{'올렸습니다' if up else '내렸습니다'}, 내 주식은?", "num": {"to": new, "fmt": "pct", "dec": 2, "plus": False}, "tone": "loss" if up else "gold", "label": f"{md} 결정 · {chg:+.2f}%p",
                "lines": [{"cap": ["미국이 기준금리를", f"{abs(chg):.2f}%p {word}"], "say": f"미국이 기준금리를, {nsay(chg, 2)} 퍼센트포인트 {word}."},
                          {"cap": ["기준금리 상단은", f"{new:.2f}%가 됐습니다"], "say": f"기준금리 상단은, {nsay(new, 2)} 퍼센트가 됐습니다."}]},
               {"type": "statement", "l1": m[0], "l2": m[1], "tone": "gold", "note": m[2], "say": f"{m[0]}, {m[1]}."}, CTA_RADAR]
@@ -218,7 +218,7 @@ def check_cpi(now, seen):
     yoy, prev = round(yoy, 1), round(prev, 1)
     hot = yoy > prev
     m = ("물가가 오르면", "금리를 내리기 어려워집니다") if yoy >= prev else ("물가가 내려오면", "금리를 내릴 여유가 생깁니다")
-    scenes = [{"type": "hook", "top": "미국 소비자물가", "num": {"to": yoy, "fmt": "pct", "dec": 1, "plus": False}, "tone": "loss" if hot else "gold", "label": f"{obs.month}월 · 1년 전 대비",
+    scenes = [{"type": "hook", "top": "미국 물가가 발표됐습니다,\n금리는 어떻게 될까?", "num": {"to": yoy, "fmt": "pct", "dec": 1, "plus": False}, "tone": "loss" if hot else "gold", "label": f"{obs.month}월 · 1년 전 대비",
                "lines": [{"cap": [f"미국 {obs.month}월 물가가", f"1년 전보다 {yoy}% 올랐습니다"]}, {"cap": ["바로 전 달에는", f"{prev}%였습니다"]}]},
               {"type": "statement", "l1": m[0], "l2": m[1], "tone": "gold", "note": "미국의 물가 목표는 2%입니다", "say": f"{m[0]}, {m[1]}."},
               {"type": "statement", "l1": "금리가 높으면", "l2": "같은 회사도 적정 주가가 낮아집니다", "tone": "ivory", "say": "금리가 높으면, 같은 회사라도 적정 주가가 낮아집니다."},

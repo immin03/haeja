@@ -28,7 +28,7 @@ const nk = (n) => ['', '한', '두', '세', '네', '다섯', '여섯', '일곱',
 const day0 = Date.parse(ymd), wk = (d.upcoming || []).filter((e) => { const t = Date.parse(e.date); return t >= day0 && t < day0 + 7 * 864e5; }).slice(0, 3);
 const md = (s) => `${+s.slice(5, 7)}/${+s.slice(8, 10)}`;
 const ov = typeof d.overall === 'number' ? d.overall : 2;
-const scenes = [{ type: 'hook', top: '이번 주 경제 레이더', num: { to: on.length, fmt: 'int', suffix: '개' }, tone: on.length >= 3 ? 'loss' : 'gold', label: `켜진 경고 신호 (${all.length}개 중)`,
+const scenes = [{ type: 'hook', top: '이번 주 시장,\n위험 신호는 몇 개?', num: { to: on.length, fmt: 'int', suffix: '개' }, tone: on.length >= 3 ? 'loss' : 'gold', label: `켜진 경고 신호 (${all.length}개 중)`,
   lines: [{ cap: ['이번 주 시장의 위험 신호,', '몇 개나 켜져 있을까요?'] }, { cap: [`${all.length}개 신호 중`, `${on.length}개가 경고 단계입니다`], say: `${all.length}개 신호 중, ${nk(on.length)} 개가 경고 단계입니다.` }] }];
 if (on.length) scenes.push({ type: 'list', title: '경고가 켜진 신호', items: on.slice(0, 5).map(([k, v]) => `${NAME[k]} · ${LV[v.lv]} · ${fmtV(k, v.v)}`), say: on.slice(0, 5).map(([k]) => NAME[k]).join(', ') + '입니다.' });
 if (calm.length) scenes.push({ type: 'statement', l1: '반대로', l2: `${josa(calm.map(([k]) => NAME[k]).slice(0, 2).join('·'), '은', '는')} 안정입니다`, tone: 'ivory', note: '신호 하나보다 여러 신호를 함께 봐야 합니다',
