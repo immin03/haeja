@@ -233,7 +233,15 @@ function companyPage(x, peers, date) {
   const alertLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&watch=${encodeURIComponent(r.t || code)}&utm_source=c-alert`;
   /* 아래 고정 바: 광고·검색으로 들어온 사람이 "이 회사 알림"을 이유로 바로 가입하게 한다. 가입 직후 앱이 이 회사를 관심 종목에 담는다 */
   const wq = `co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&watch=${encodeURIComponent(r.t || code)}`;
-  const wbar = hasIv && isNum(r.px) ? `<div class="wbar" id="wbar"><div class="in"><div class="t"><span>${esc(r.n)} 적정 주가</span><b>${money(sc.iv, cur)}</b><span>이 가격에 오면 알려 드려요</span></div><div style="text-align:center"><a class="k" href="/?kakao=1&${wq}&utm_source=c-wbar"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 알림</a><a class="e" href="/?signup&${wq}&utm_source=c-wbar-email">이메일로 가입</a></div></div></div>
+  /* 앱 알림은 적정 매수가(적정 주가의 70%, 안전마진 30%)에 닿을 때 온다. 지금 가격에서 30% 안쪽일 때만 알림을 권하고,
+     이미 그 아래면 '지금 적정 매수가 아래', 너무 먼 회사(예: 적정 주가의 4배)는 알림 대신 내 종목 채점을 권한다 */
+  const buy = hasIv && sc.iv > 0 ? sc.iv * 0.7 : null;
+  const below = isNum(buy) && isNum(r.px) && r.px <= buy;
+  const near = isNum(buy) && isNum(r.px) && !below && r.px / buy < 1.4;
+  const wtxt = below ? `<span>${esc(r.n)} 적정 매수가 ${money(buy, cur)}</span><b>지금 그 아래입니다</b><span>관심 종목에 담아 두고 지켜보세요</span>`
+    : near ? `<span>${esc(r.n)} 적정 매수가</span><b>${money(buy, cur)}</b><span>이 가격에 오면 알려 드려요</span>`
+    : `<b>내 종목은 몇 점일까요?</b><span>보유 종목을 같은 기준으로 채점해 드려요</span>`;
+  const wbar = hasIv && isNum(r.px) ? `<div class="wbar" id="wbar"><div class="in"><div class="t">${wtxt}</div><div style="text-align:center"><a class="k" href="/?kakao=1&${wq}&utm_source=${below ? 'c-wbar-below' : near ? 'c-wbar' : 'c-wbar-score'}"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>${below ? '카카오로 담기' : near ? '카카오로 알림' : '카카오로 3초'}</a><a class="e" href="/?signup&${wq}&utm_source=c-wbar-email">이메일로 가입</a></div></div></div>
 <script>(function(){var b=document.getElementById('wbar');if(!b)return;document.body.classList.add('has-wbar');function f(){b.classList.toggle('on',scrollY>innerHeight*.35)}addEventListener('scroll',f,{passive:true});f();})();</script>` : '';
   const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasIv && isNum(sc.mos) && isNum(r.px) && r.px / sc.iv < 2 ? ` · 적정 주가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·버핏 기준으로 본 숫자';
   return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main>
@@ -246,7 +254,7 @@ function companyPage(x, peers, date) {
 ${isNum(r.px) ? `<section class="card"><h2>가격</h2><div class="price"><div><div class="k">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="k">적정 주가</div><div class="v">${money(sc.iv, cur)}</div></div><div><div class="k">안전마진</div><div class="v ${isNum(sc.mos) ? (sc.mos >= 0 ? 'pos' : 'neg') : ''}">${isNum(sc.mos) ? (sc.mos > 0 ? '+' : '') + n0(sc.mos) + '%' : '–'}</div></div></div>
 <p class="note" style="margin-top:10px">적정 주가는 과거 평균 이익·주주 이익과 자산 가치로 계산한 값입니다. ${r.fin_sector ? '금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다. ' : ''}미래를 보장하지 않습니다.</p>
 ${(sc.cyc || (sc.flags || []).includes('경기순환·이익 변동')) && hasIv ? `<p class="note cyc"><b>이 계산이 틀릴 수 있는 경우</b> 이익이 해마다 크게 오르내리는 업종이라, 지금 같은 좋은 해의 이익이 계속된다고 보지 않고 보수적으로 계산했습니다. 호황이 일시적이지 않고 구조적으로 길게 이어진다면, 이 적정 주가는 가치를 낮게 잡은 것이 됩니다.${isNum(sc.per) && sc.per > 0 ? ` 최근 이익만 보면 PER은 ${n0(sc.per, 1)}배입니다.` : ''}</p>` : ''}
-${hasIv ? `<a class="alert" href="${alertLink}"><b>${esc(josa(r.n, '이', '가'))} 적정 매수가에 오면 알려 드릴까요?</b><span>알림 받기 ›</span></a>` : ''}</section>` : ''}
+${near ? `<a class="alert" href="${alertLink}"><b>${esc(josa(r.n, '이', '가'))} 적정 매수가 ${money(buy, cur)}에 오면 알려 드릴까요?</b><span>알림 받기 ›</span></a>` : below ? `<a class="alert" href="${alertLink.replace('c-alert', 'c-alert-below')}"><b>지금 적정 매수가(${money(buy, cur)}) 아래입니다. 관심 종목에 담아 둘까요?</b><span>담기 ›</span></a>` : ''}</section>` : ''}
 ${sum.length ? `<section class="card"><h2>한 줄씩 읽기</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}</section>` : ''}
 ${pens.length || warns.length ? `<section class="card"><h2>감점·경고 신호</h2>${pens.map((fl) => `<div class="flag"><span class="pill p-pen">감점 −8</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}${warns.map((fl) => `<div class="flag"><span class="pill ${fl === '중국 본토 규제' ? 'p-pen' : 'p-warn'}">${fl === '중국 본토 규제' ? '할인 −6' : '경고'}</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}</section>` : ''}
 ${rowsM.length ? `<section class="card"><h2>핵심 숫자</h2><table>${rowsM.map((m) => `<tr><td>${m[0]}${m[2] ? `<div class="note">${m[2]}</div>` : ''}</td><td class="n">${m[1]}</td></tr>`).join('')}</table></section>` : ''}

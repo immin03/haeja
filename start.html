@@ -370,7 +370,7 @@ var FALLBACK = { date:'', c:{ 'aapl':['애플',36,91,0,'US'], 'ko':['코카콜�
   '005830-ks':['DB손해보험',79,92,98,'KR'], '086280-ks':['현대글로비스',73,83,90,'KR'], 'tsla':['테슬라',26,51,0,'US'], '035720-ks':['카카오',25,56,4,'KR'] } };
 var D = FALLBACK, byName = {};
 function idx(){ byName = {}; Object.keys(D.c).forEach(function(s){ var r = D.c[s]; if(r && r[0]) byName[r[0].replace(/\s/g,'').toLowerCase()] = s; }); }
-function row(slug){ var r = D.c[slug]; return r ? { slug: slug, n: r[0], b: r[1], q: r[2], v: r[3], m: r[4] } : null; }
+function row(slug){ var r = D.c[slug]; return r ? { slug: slug, n: r[0], b: r[1], q: r[2], v: r[3], m: r[4], mos: r[5] } : null; }
 function find(q){ q = (q || '').replace(/\s/g,'').toLowerCase(); if(!q) return null; if(byName[q]) return row(byName[q]); if(D.c[q]) return row(q);
   var best = null; Object.keys(byName).forEach(function(k){ if(!best && (k.indexOf(q) === 0 || (q.length >= 2 && k.indexOf(q) >= 0))) best = byName[k]; }); return best ? row(best) : null; }
 var num = function(v){ return typeof v === 'number' && isFinite(v); };
@@ -394,14 +394,17 @@ function showRes(r, q){
   var box = $('#res');
   if(!r){ box.innerHTML = '<div class="res-miss">' + esc(jo(q, '은', '는')) + ' 기본 목록 600+ 기업에서 찾지 못했습니다. 가입하면 목록에 없는 종목도 이름으로 바로 분석할 수 있어요 (3회까지).</div>'; return; }
   pick = r.n; chips();
+  /* 앱 알림은 적정 매수가(적정 주가의 70%)에서 온다. 안전마진(mos)이 30% 이상이면 이미 그 아래, 2~30%면 알림이 의미 있는 거리,
+     그보다 비싸면 알림 대신 내 종목 채점을 권한다 (적정 주가의 4배인 회사에 알림을 권하면 말이 안 돼 보인다) */
+  var below = num(r.mos) && r.mos >= 30, near = num(r.mos) && r.mos > 2 && !below;
   box.innerHTML = '<div class="res"><div class="res-h"><b>' + esc(r.n) + '</b><span>' + esc(MK[r.m] || '') + ' · 밸류노트 점수</span></div>' +
     '<div class="res-g"><div class="big"><small>100점 만점</small>' + (num(r.b) ? r.b : '–') + '<i>점</i></div><div>' + bars(r) + '</div></div>' +
     '<p class="res-say">' + esc(say(r)) + '</p>' +
-    '<a class="btn kakao res-k" href="' + wantUrl(r, 'start-res') + '" data-ev="res-kakao">' + KSVG + esc(r.n) + ' 적정 매수가 알림 받기</a>' +
+    '<a class="btn kakao res-k" href="' + wantUrl(r, below ? 'start-res-below' : near ? 'start-res' : 'start-res-score') + '" data-ev="res-kakao">' + KSVG + (below ? esc(r.n) + ' 관심 종목에 담기' : near ? esc(r.n) + ' 적정 매수가 알림 받기' : '내 종목 점수도 확인하기') + '</a>' +
     '<a class="more" href="#s1" data-ev="res-more">이 점수는 어떻게 나왔을까요? ↓</a></div>';
   /* 아래 고정 버튼도 방금 본 종목으로 */
   var st = document.querySelector('#sticky .t b'), sk = document.querySelector('#sticky a.btn.kakao');
-  if(st) st.textContent = r.n + ' 알림 받기'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 3초'; }
+  if(st) st.textContent = below ? r.n + ' 지금 적정 매수가 아래' : near ? r.n + ' 알림 받기' : '내 종목은 몇 점일까요?'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 3초'; }
 }
 var CHIPS = ['삼성전자','SK하이닉스','기아','애플','테슬라','엔비디아'], IG = null;
 function chips(){ var L = (IG && CHIPS.indexOf(IG) < 0 ? [IG] : []).concat(CHIPS);

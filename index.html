@@ -6049,7 +6049,7 @@ function refresh(kind){
   { const u = new URLSearchParams(location.search); const w = u.get('watch');
     if(w){ try{ localStorage.setItem('vn-want', JSON.stringify({ t: w, co: u.get('co') || '', q: u.get('q') || '', at: Date.now() })); }catch(_){}
       store.track('view', 'want-' + (u.get('utm_source') || 'c'));
-      if(store.isGuest && u.get('kakao') !== '1'){ const nm = u.get('q') || '이 회사'; const ch = nm.charCodeAt(nm.length - 1), eul = ch >= 0xAC00 && ch <= 0xD7A3 ? ((ch - 0xAC00) % 28 ? '을' : '를') : '을(를)'; GUEST_GATE.watch = [`${nm} 알림 받기`, `가입하면 ${nm}${eul} 관심 종목에 담아 두고, 적정 매수가에 오면 휴대폰·PC로 알려 드려요.`];
+      if(store.isGuest && u.get('kakao') !== '1'){ const nm = u.get('q') || '이 회사'; const ch = nm.charCodeAt(nm.length - 1), eul = ch >= 0xAC00 && ch <= 0xD7A3 ? ((ch - 0xAC00) % 28 ? '을' : '를') : '을(를)'; GUEST_GATE.watch = /below/.test(u.get('utm_source') || '') ? [`${nm} 관심 종목에 담기`, `가입하면 ${nm}${eul} 관심 종목에 담아 두고, 점수와 적정 매수가가 바뀌는 것을 매일 볼 수 있어요.`] : [`${nm} 알림 받기`, `가입하면 ${nm}${eul} 관심 종목에 담아 두고, 적정 매수가에 오면 휴대폰·PC로 알려 드려요.`];
         if(/[?&]signup\b/.test(location.search)) setTimeout(() => openAuth('signup'), 400); else setTimeout(() => guestGate('watch'), 900); } } }
   /* 기업 공개 페이지(/c/…)에서 넘어오면 그 회사를 검색해 펼친다: ?co=코드&q=이름 */
   { const u = new URLSearchParams(location.search); if(u.get('co')){ S.tab = 'companies'; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = u.get('q') || ''; S.coOpen = u.get('co'); S.coShown = 30; store.track('view', 'from-company-page'); history.replaceState(null, '', location.pathname); setTimeout(() => { const t = document.getElementById('coListTop'); if(t) window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - 130); }, 600); } }
