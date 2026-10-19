@@ -221,23 +221,35 @@ function analyze(x) {
   else o.verdict = `현재가가 적정 주가보다 **${n0((1 - ratio) * 100)}%** 낮습니다.`;
   // 2) 계산 방법
   const disc = DISC_R[g] ?? 10;
-  if (isNum(sc.dcf)) {
-    const oe = isNum(val.oeps) ? (isNum(val.sbcps) ? val.oeps - val.sbcps : val.oeps) : null;
-    const base = sc.ivBasis === 'norm' ? Math.min(val.epsAvg, isNum(val.eps) && val.eps > 0 ? val.eps : Infinity) : oe;
+  if (isNum(sc.finIv)) {
+    o.method.push(['주당순자산', M(val.bps), '회사가 가진 순자산을 주식 수로 나눈 값']);
+    o.method.push(['ROE', `연 ${n0(sc.roeFin, 1)}%`, '자기자본으로 1년에 버는 이익률 (최근 여러 해 평균)']);
+    o.method.push(['할인율', `연 ${disc}%`, '이 정도는 벌어야 한다는 기대 수익률']);
+    o.methodNote = '은행·보험은 순자산이 얼마나 돈을 버는지로 봅니다. ROE가 기대 수익률보다 낮으면 순자산보다 싸야 적정 가격입니다.';
+    o.cap.push(`계산은 금융사 방식으로 했습니다. 주당순자산 ${M(val.bps)}에, ROE ${n0(sc.roeFin, 1)}%가 기대 수익률 ${disc}%를 얼마나 넘는지를 곱했습니다.`);
+  } else if (isNum(sc.dcf) && sc.ivBasis === 'cyc') {
+    o.method.push(['기준 이익', `주당 ${M(sc.E)}`, '평균 이익과 최근 이익 중 작은 값']);
+    o.method.push(['성장 가정', '없음', '경기를 타는 업종이라 호황기 성장을 이어 붙이지 않음']);
+    o.method.push(['상한', `이익의 ${sc.capX}배`, '성장 없이 연 10% 기대 수익일 때의 가격']);
+    o.methodNote = '경기를 타는 회사는 호황기 이익이 계속된다고 보면 적정 주가가 부풀려집니다. 그래서 보수적으로 계산했습니다.';
+    o.cap.push(`계산은 이렇게 했습니다. 경기를 타는 업종이라 평균 이익과 최근 이익 중 작은 값(주당 ${M(sc.E)})을 기준으로, 성장 없이 그 ${sc.capX}배까지만 인정했습니다.`);
+  } else if (isNum(sc.dcf)) {
+    const base = sc.ivBase;
     o.method.push(sc.ivBasis === 'norm'
       ? ['기준 이익', `주당 ${M(base)}`, `최근 ${r.yrs || 5}년 평균 주당순이익. 호황·불황을 고르게 반영`]
       : ['기준 이익', `주당 ${M(base)}`, '실제로 남은 현금(주주 이익). 주식 보상 비용은 뺌']);
-    o.method.push(['성장 가정', `연 ${n0(val.growth, 1)}%`, '앞으로 10년, 과거 성장률을 보수적으로 반영']);
+    o.method.push(['성장 가정', `연 ${n0(sc.gUse, 1)}%`, '5년 유지 후 10년차까지 차츰 줄임']);
     o.method.push(['할인율', `연 ${disc}%`, '이 정도는 벌어야 한다는 기대 수익률']);
     o.methodNote = '10년 동안 벌 이익과 그 이후 가치를 오늘 돈으로 바꿔 더했습니다 (현금흐름 할인).';
-    o.cap.push(`계산은 이렇게 했습니다. ${sc.ivBasis === 'norm' ? `최근 ${r.yrs || 5}년 평균 주당순이익 ${M(base)}` : `주당 주주 이익(현금 기준) ${M(base)}`}을 기준으로, 앞으로 10년간 연 ${n0(val.growth, 1)}% 성장한다고 보고 연 ${disc}%의 기대 수익률로 할인했습니다.`);
-  } else if (isNum(sc.graham)) {
+    o.cap.push(`계산은 이렇게 했습니다. ${sc.ivBasis === 'norm' ? `최근 ${r.yrs || 5}년 평균 주당순이익 ${M(base)}` : `주당 주주 이익(현금 기준) ${M(base)}`}을 기준으로, 앞으로 5년간 연 ${n0(sc.gUse, 1)}% 성장하고 그 뒤 성장이 줄어든다고 보고 연 ${disc}%의 기대 수익률로 할인했습니다.`);
+  } else if (isNum(sc.iv)) {
     o.method.push(['주당순이익', M(val.eps), '최근 1년']);
     o.method.push(['주당순자산', M(val.bps), '회사가 가진 순자산을 주식 수로 나눈 값']);
     o.method.push(['공식', '√(22.5 × 이익 × 자산)', '그레이엄이 쓴 적정 주가 공식']);
-    o.methodNote = r.fin_sector ? '은행·보험은 현금흐름 계산이 맞지 않아 이익과 자산으로 봅니다.' : '현금 기준 이익이 마이너스라 이익과 자산으로 계산했습니다.';
+    o.methodNote = '현금 기준 이익이 마이너스라 이익과 자산으로 계산했습니다.';
     o.cap.push(`계산은 그레이엄 공식으로 했습니다. 주당순이익 ${M(val.eps)}과 주당순자산 ${M(val.bps)}을 곱해 22.5배 한 값의 제곱근입니다. ${o.methodNote}`);
   }
+  if (r.holdco && isNum(sc.iv)) o.cap.push('지주회사라 자회사 이익이 함께 잡히므로 30%를 할인했습니다.');
   // 3) 차이가 나는 이유
   if (false && isNum(sc.ig) && isNum(sc.hist)) { // 30초 상한 때문에 뺌(목표 20초)
     const need = sc.ig >= 80 ? '80% 이상' : sc.ig <= -30 ? '-30% 이하' : `${n0(sc.ig, 1)}%`;

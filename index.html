@@ -779,19 +779,24 @@ function metricScore(k, v, ts){
   if(v>=bad) return 0; if(v>=th) return 0.7*(bad-v)/(bad-th); if(v<=great) return 1; return 0.7+0.3*(th-v)/(th-great);
 }
 function lin(v, lo, mid, hi){ if(!isNum(v)) return null; if(v<=lo) return 0; if(v<=mid) return 0.7*(v-lo)/(mid-lo); if(v>=hi) return 1; return 0.7+0.3*(v-mid)/(hi-mid); }
+/* 10년 DCF. 성장률은 1~5년차만 그대로 쓰고 6~10년차에 영구 성장률까지 줄인다 (높은 성장이 10년 내내 간다고 가정하지 않는다) */
 function dcfValue(oeps, growth, disc, tg){
   if(!isNum(oeps) || !isNum(growth) || oeps <= 0 || disc <= tg) return null;
-  const r = disc/100, t = tg/100, g = Math.max(Math.min(growth,20),-10)/100; let s = 0, e = oeps;
-  for(let y=1;y<=10;y++){ e *= (1+g); s += e/Math.pow(1+r,y); }
+  const r = disc/100, t = tg/100, g0 = Math.max(Math.min(growth,20),-10)/100; let s = 0, e = oeps;
+  for(let y=1;y<=10;y++){ const g = y <= 5 ? g0 : g0 + (t - g0)*(y - 5)/5; e *= (1+g); s += e/Math.pow(1+r,y); }
   return s + (e*(1+t)/(r-t))/Math.pow(1+r,10);
 }
+/* 적정 주가 상한(정상 이익의 몇 배까지): 기본 25배(그레이엄의 성장주 상한), 품질 60점 미만 15배, 경기순환·이익 정점 10배(성장 없이 기대수익 10%), 금융사 12배 */
+const IV_CAP = { base: 25, lowQ: 15, cyc: 10, fin: 12 };
+/* 지주회사 할인: 자회사 가치를 연결 이익으로 이중으로 세지 않도록 30% 깎는다 */
+const HOLDCO_DISC = 0.30;
 /* 품질(q)·저평가(v)·버핏 근접도(b). row = {m, px, fin, val, fin_sector} */
 const WARN_FLAGS = new Set(['경기순환·이익 변동','지주회사','주식보상 큼','혁신 의존','중국 본토 규제']);
 /* 국가·정책 위험: 숫자에 안 보이는 위험을 점수에 반영한다. 국유기업은 감점 신호(-8), 중국 본토(A주)는 규제 위험 할인(-6) */
 const CN_RISK = 6;
 /* 은행·보험은 매출 정의가 달라 순이익률(npm)로 품질을 볼 수 없다 (중국 은행 순이익률 50%대가 품질로 잘못 읽히던 문제). ROE·이익 안정성으로만 본다 */
 const FIN_SKIP = new Set(['gpm','fcfConv','capexNi','ltdNi','icr','currentRatio','roic','npm']);
-const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|marine|homebuild|residential construction|chemical|mining|metal|commodit|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선/i;
+const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|marine|homebuild|residential construction|chemical|mining|metal|commodit|capital markets|brokerage|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선|증권/i;
 /* 품질(q)·저평가(v)·버핏 근접도(b). row = {m, px, fin, val, fin_sector, s, ind, sector} — screener.py score_row와 동일 */
 function scoreRow(row, p, reqMOS){
   p = p || paramsFor(row.m); reqMOS = reqMOS ?? cfg().reqMOS; const ts = thSet(row.m);
@@ -808,24 +813,56 @@ function scoreRow(row, p, reqMOS){
      버핏의 오너이익은 유지 투자만 뺀다. 이런 회사는 그레이엄식 정상 이익(다년 평균 EPS, 최근 EPS보다 크지 않게)을 기준으로 삼는다 */
   const eAvg = val.epsAvg;
   const normEps = isNum(eAvg) && eAvg > 0 ? (isNum(eps) && eps > 0 ? Math.min(eAvg, eps) : eAvg) : null;
+  /* ===== 적정 주가 (2026-10-19 개편: 정상 이익 기준으로 보수화) =====
+     1) 데이터 이상(통화·단위가 섞인 종목)은 계산하지 않는다
+     2) 경기순환·이익 정점 회사는 호황기 이익과 성장률을 10년 동안 이어 붙이지 않는다: 정상 이익, 성장률 = 영구 성장률, 10배 상한
+     3) 금융사는 그레이엄 넘버 대신 자기자본 수익력(ROE)으로 본다
+     4) 모든 회사에 정상 이익 대비 배수 상한을 두고, 지주회사는 30% 할인한다 */
+  const sectorText = [row.s, row.ind, row.sector].filter(Boolean).join(' ');
+  const yoy0 = val.revYoY || []; const lastYoY = yoy0.length ? yoy0[yoy0.length-1] : null;
+  /* 경기순환 판정: 업종·사업 모델로만 한다. ROE가 들쭉날쭉한 것(보험사 평가손익, 낮은 기저에서 크는 성장주)은 경고만 하고 적정 주가는 건드리지 않는다 */
+  const cycInd = CYC_RE.test(sectorText) || row.revModel === '사이클형';
+  const roeSwing = isNum(fin.roeMin) && isNum(fin.roeAvg) && fin.roeAvg > 0 && fin.roeMin < fin.roeAvg*0.4;
+  const peak = isNum(eps) && isNum(eAvg) && eAvg > 0 && eps > eAvg*1.5 && (lastYoY === null || lastYoY <= 10);
+  /* 데이터 이상: PER 2.5 미만, 최근 이익이 평균의 20배 초과·5% 미만, ADR인데 PER 100 초과(ADR 1주 = 원주 여러 주 환산 누락) */
+  const isAdr = /\bADR\b|DRC\b/.test(String(row.n || '') + ' ' + String(row.en || ''));
+  const suspect = (per !== null && per < 2.5) || (isAdr && per !== null && per > 100) || (isNum(eps) && isNum(eAvg) && eps > 0 && eAvg > 0 && (eps/eAvg > 20 || eps/eAvg < 0.05));
+  const cycAdj = cycInd || peak;
+  const gUse = cycAdj ? p.tg : val.growth;
   const growthCapex = !row.fin_sector && isNum(oe) && normEps !== null && oe < normEps*0.6 && isNum(fin.capexNi) && fin.capexNi > 100 && isNum(fin.roic) && fin.roic >= 15;
-  const ivBase = growthCapex ? normEps : oe;
-  const dcf = row.fin_sector ? null : dcfValue(ivBase, val.growth, p.disc, p.tg);
-  const iv = dcf ?? graham; const mos = iv && px ? (1 - px/iv)*100 : null;
-  /* 가치 범위: 과거 평균 이익으로 돌아갈 때 ~ 최근 12개월 이익이 유지될 때 (같은 성장률·할인율) */
-  const ivNorm = row.fin_sector ? null : dcfValue(normEps, val.growth, p.disc, p.tg);
-  const ivNow = row.fin_sector ? null : dcfValue(isNum(eps) && eps > 0 ? eps : null, val.growth, p.disc, p.tg);
-  /* 역DCF: 현재가가 가정한 성장률 vs 회사가 보여 준 성장률 */
+  /* 오너이익(현금)이 최근 이익의 1.3배를 넘으면 일시적 현금 유입으로 보고 이익 쪽으로 낮춘다 */
+  const earnTop = Math.max(isNum(eps) && eps > 0 ? eps : 0, isNum(eAvg) && eAvg > 0 ? eAvg : 0) || null;
+  let ivBase = growthCapex ? normEps : oe;
+  if(isNum(ivBase) && earnTop) ivBase = Math.min(ivBase, earnTop*1.3);
+  if(cycAdj && normEps !== null) ivBase = isNum(ivBase) && ivBase > 0 ? Math.min(ivBase, normEps) : normEps;
+  /* 배수 상한의 기준 이익: 경기순환은 정상 이익(평균과 최근 중 작은 값), 나머지는 최근 이익 (고성장 회사가 과거 낮은 이익에 묶이지 않게) */
+  const E = cycAdj ? (normEps ?? (isNum(eps) && eps > 0 ? eps : null)) : (isNum(eps) && eps > 0 ? eps : normEps);
+  const capX = row.fin_sector ? IV_CAP.fin : cycAdj ? IV_CAP.cyc : (q !== null && q < 60 ? IV_CAP.lowQ : IV_CAP.base);
+  const finish = raw => { if(!isNum(raw) || raw <= 0 || suspect) return null; let v = E ? Math.min(raw, capX*E) : raw; if(row.holdco) v *= 1 - HOLDCO_DISC; return v; };
+  /* 금융사: 정당 PBR = (ROE − g) ÷ (할인율 − g). ROE는 최근 여러 해 평균 */
+  const roeFin = isNum(fin.roeAvg) ? fin.roeAvg : null;
+  const finIv = row.fin_sector && isNum(bps) && bps > 0 && isNum(roeFin) && p.disc > p.tg ? bps * Math.max(0.3, Math.min(2.0, (roeFin - p.tg)/(p.disc - p.tg))) : null;
+  const dcf = row.fin_sector ? null : finish(dcfValue(ivBase, gUse, p.disc, p.tg));
+  const iv = row.fin_sector ? (finish(finIv) ?? finish(graham)) : (dcf ?? finish(graham));
+  const mos = iv && px ? (1 - px/iv)*100 : null;
+  const ivSrc = suspect ? null : row.fin_sector ? (finIv ? '자기자본 수익력 (ROE 기준 적정 PBR)' : '그레이엄 넘버')
+    : dcf ? (cycAdj ? '경기순환 보정 (정상 이익 × 최대 10배)' : growthCapex ? '정상 이익 DCF (다년 평균 EPS, 성장 투자 보정)' : '오너이익 DCF') : (iv ? '그레이엄 넘버' : null);
+  /* 가치 범위: 과거 평균 이익으로 돌아갈 때 ~ 최근 12개월 이익이 유지될 때 (같은 성장률·할인율·상한) */
+  const ivNorm = row.fin_sector ? null : finish(dcfValue(normEps, gUse, p.disc, p.tg));
+  const ivNow = row.fin_sector || cycAdj ? null : finish(dcfValue(isNum(eps) && eps > 0 ? eps : null, gUse, p.disc, p.tg));
+  /* 역DCF: 현재가가 가정한 성장률 vs 회사가 보여 준 성장률. 경기순환 회사의 과거 성장은 호황기 성장이라 영구 성장률+1%p까지만 인정 */
   const histArr = [val.revCagr, fin.epsCagr].filter(isNum);
-  const hist = histArr.length ? Math.min(Math.min(...histArr), 15) : null;
+  const hist = histArr.length ? Math.min(Math.min(...histArr), cycAdj ? p.tg + 1 : 15) : null;
   const base = !row.fin_sector && isNum(ivBase) && ivBase > 0 ? ivBase : (isNum(eps) && eps > 0 ? eps : null);
-  const igo = base ? impliedGrowth(px, base, p.disc, p.tg) : null;
+  const igo = base && !suspect ? impliedGrowth(px, base, p.disc, p.tg) : null;
   const ig = igo ? igo.g : null;
+  /* 이익수익률·PER×PBR은 경기순환 회사면 정상 이익 기준 PER로 본다 */
+  const perV = cycAdj && normEps && px ? px/normEps : per;
   const parts = [];
   if(mos !== null) parts.push([lin(mos,-50,reqMOS,60),2]);
   if(ig !== null && hist !== null) parts.push([lin(hist - ig, -10, 3, 10), 2]);
-  if(per) parts.push([lin((100/per)/p.bond,0.5,2,3.5),1]);
-  if(per && pbr) parts.push([lin(-(per*pbr),-60,-22.5,-10),1]);
+  if(perV && !suspect) parts.push([lin((100/perV)/p.bond,0.5,2,3.5),1]);
+  if(perV && pbr && !suspect) parts.push([lin(-(perV*pbr),-60,-22.5,-10),1]);
   if(row.fin_sector && pbr && isNum(fin.roeAvg)) parts.push([lin((fin.roeAvg/p.disc)/pbr, 0.5, 1.2, 2), 2]);
   if(!per && px && isNum(val.sps) && val.sps > 0){ const fairPE = grpOf(row.m)==='US' ? 20 : 15; parts.push([lin(-(px/(fairPE*0.10)/val.sps),-20,-3,-1),1]); }
   const pp = parts.filter(x => x[0] !== null);
@@ -835,12 +872,11 @@ function scoreRow(row, p, reqMOS){
   if((isNum(fin.ltdNi) && fin.ltdNi > 8) || (isNum(fin.icr) && fin.icr < 3 && (!isNum(fin.ltdNi) || fin.ltdNi > 0))) flags.push('차입 부담');
   if((fin.shareChg||0) > 10) flags.push('주식 희석');
   if(isNum(fin.fcfConv) && fin.fcfConv < 30) flags.push('현금 전환 약함');
-  const sectorText = [row.s, row.ind, row.sector].filter(Boolean).join(' ');
-  if(CYC_RE.test(sectorText) || (isNum(fin.roeMin) && isNum(fin.roeAvg) && fin.roeAvg > 0 && fin.roeMin < fin.roeAvg*0.4)) flags.push('경기순환·이익 변동');
+  if(cycInd || roeSwing) flags.push('경기순환·이익 변동');
   /* 이익 정점 경고(실러식): 최근 EPS가 가용 연수 평균의 1.5배 이상이면서 매출 성장 10% 이하 */
   const epsAvg = val.epsAvg;
-  const yoy0 = val.revYoY || []; const lastYoY = yoy0.length ? yoy0[yoy0.length-1] : null;
-  if(isNum(eps) && isNum(epsAvg) && epsAvg > 0 && eps > epsAvg*1.5 && (lastYoY === null || lastYoY <= 10)) flags.push('이익 정점 가능');
+  if(peak) flags.push('이익 정점 가능');
+  if(suspect) flags.push('데이터 확인 필요');
   /* 성장 감속: 매출 YoY 3년 연속 둔화 + 최근 0 이하 */
   const yoy = val.revYoY || [];
   if(yoy.length >= 3 && yoy[0] > yoy[1] && yoy[1] > yoy[2] && yoy[2] <= 0) flags.push('성장 감속');
@@ -848,17 +884,17 @@ function scoreRow(row, p, reqMOS){
   if((row.tags||[]).includes('국유기업')) flags.push('국유기업·정책 위험');
   if(row.m === 'CN') flags.push('중국 본토 규제');
   if(isNum(val.sbcps) && isNum(val.oeps) && val.oeps > 0 && val.sbcps > val.oeps*0.25) flags.push('주식보상 큼');
-  if(row.revModel === '사이클형' && !flags.includes('경기순환·이익 변동')) flags.push('경기순환·이익 변동');
   if(row.revModel === '혁신 의존형') flags.push('혁신 의존');
   let b = null;
   /* 경기순환 표시는 경고만 한다. 버크셔 역검증에서 감점이 성공 사례(NUE, 일본 상사)를 깎고 실패를 거르지 못했다 */
   const penal = flags.filter(f => !WARN_FLAGS.has(f)).length;
   /* 가중치 0.4 품질 + 0.6 저평가: 버크셔 매수 62건 역검증에서 가격 점수만 이후 수익률과 양(+)의 상관을 보였다 */
-  if(q !== null && cov >= 0.5){ const base2 = 0.4*q + 0.6*(v ?? 40); b = Math.max(0, Math.min(100, Math.round(base2 - 8*Math.min(penal,3) - (row.m === 'CN' ? CN_RISK : 0)))); }
+  /* 데이터 이상 종목은 점수를 매기지 않는다 (통화·단위가 섞여 저평가로 잘못 보이던 문제) */
+  if(q !== null && cov >= 0.5 && !suspect){ const base2 = 0.4*q + 0.6*(v ?? 40); b = Math.max(0, Math.min(100, Math.round(base2 - 8*Math.min(penal,3) - (row.m === 'CN' ? CN_RISK : 0)))); }
   let mosLo = null, mosHi = null;
-  if(dcf !== null && px){ const dHi = dcfValue(ivBase, val.growth, p.disc+1, p.tg), dLo = dcfValue(ivBase, val.growth, p.disc-1, p.tg); mosLo = dHi ? (1 - px/dHi)*100 : null; mosHi = dLo ? (1 - px/dLo)*100 : null; }
+  if(dcf !== null && px){ const dHi = finish(dcfValue(ivBase, gUse, p.disc+1, p.tg)), dLo = finish(dcfValue(ivBase, gUse, p.disc-1, p.tg)); mosLo = dHi ? (1 - px/dHi)*100 : null; mosHi = dLo ? (1 - px/dLo)*100 : null; }
   const perAvg = px && isNum(epsAvg) && epsAvg > 0 ? px/epsAvg : null;
-  return {q, v, b, cov:Math.round(cov*100)/100, per, pbr, graham, dcf, iv, mos, flags, ig, hist, mosLo, mosHi, perAvg, ivBasis: growthCapex ? 'norm' : 'oe', ivNorm, ivNow};
+  return {q, v, b, cov:Math.round(cov*100)/100, per, pbr, graham, dcf, iv, mos, flags, ig, hist, mosLo, mosHi, perAvg, ivBasis: cycAdj ? 'cyc' : growthCapex ? 'norm' : 'oe', ivSrc, ivNorm, ivNow, cyc: cycAdj, suspect, ivBase, gUse, capX, E, finIv: row.fin_sector ? finIv : null, roeFin: row.fin_sector ? roeFin : null};
 }
 /* ===== 가격 해부: 역DCF와 저평가·고평가 근거 ===== */
 function dcfRaw(base, g, disc, tg){
@@ -889,7 +925,9 @@ function valuationStory(c, ev){
   if(ig){
     const gTxt = ig.over ? '연 80% 이상' : ig.under ? '연 −30% 이하' : `연 ${fmt(ig.g,1)}%`;
     const msg = `현재가는 ${baseLabel}이 앞으로 10년간 ${gTxt}씩 늘어난다는 가정과 같다. ${histTxt}.`;
-    if(ig.under || (isNum(capG) && ig.g <= capG - 3)) add(1, '시장 기대가 낮다', msg+' 회사가 해 온 것보다 낮은 성장을 가격에 반영하고 있어 저평가 근거가 된다.');
+    /* 경기순환 회사: 과거 성장은 호황기 성장이라 시장이 낮게 보는 것을 곧바로 저평가 근거로 쓰지 않는다 */
+    if(ev.ivBasis === 'cyc' && (ig.under || (isNum(capG) && ig.g <= capG - 3))) add(0, '시장은 이익이 줄어든다고 본다', msg+' 경기를 타는 업종이라 과거 성장은 호황기 성장일 수 있다. 시장은 지금 이익이 고점이라고 보고 있으며, 이 계산도 같은 이유로 성장을 빼고 적정 주가를 냈다.');
+    else if(ig.under || (isNum(capG) && ig.g <= capG - 3)) add(1, '시장 기대가 낮다', msg+' 회사가 해 온 것보다 낮은 성장을 가격에 반영하고 있어 저평가 근거가 된다.');
     else if(ig.over || (isNum(capG) && ig.g >= capG + 5)) add(-1, '시장 기대가 높다', msg+' 이 성장을 10년 내내 이어 가야 지금 가격이 맞는다.');
     else add(0, '기대가 실적과 비슷하다', msg);
   } else if(isNum(px)) {
@@ -902,7 +940,8 @@ function valuationStory(c, ev){
     add(-1, '이익 없이 기대만 반영', detail);
   }
   if(isNum(ev.ey)){
-    if(ev.ey >= ev.bond*2) add(1, '이익수익률이 국채의 2배 이상', `이익수익률 ${fmt(ev.ey,1)}% vs 국채 ${fmt(ev.bond,1)}%. 채권 대신 이 회사를 살 이유가 충분하다.`);
+    if(ev.ey >= ev.bond*2 && ev.ivBasis === 'cyc') add(0, '이익수익률은 높지만 고점 이익 기준', `이익수익률 ${fmt(ev.ey,1)}% vs 국채 ${fmt(ev.bond,1)}%. 다만 경기를 타는 회사의 이익수익률은 이익이 정점일 때 가장 높아 보인다.`);
+    else if(ev.ey >= ev.bond*2) add(1, '이익수익률이 국채의 2배 이상', `이익수익률 ${fmt(ev.ey,1)}% vs 국채 ${fmt(ev.bond,1)}%. 채권 대신 이 회사를 살 이유가 충분하다.`);
     else if(ev.ey < ev.bond) add(-1, '이익수익률이 국채보다 낮다', `이익수익률 ${fmt(ev.ey,1)}% vs 국채 ${fmt(ev.bond,1)}%. 이익 기준으로는 무위험 채권보다 비싸다.`);
     else add(0, '이익수익률은 국채보다 약간 높다', `이익수익률 ${fmt(ev.ey,1)}% vs 국채 ${fmt(ev.bond,1)}%.`);
   }
@@ -1658,7 +1697,7 @@ function evaluate(c){
   /* 정성 평가는 밸류노트가 매긴 공용 값만 점수·판정에 쓴다. 사용자 쪽 자동 분석 결과는 참고용으로만 보여 준다 */
   const QO = qualOf(c), q = QO.shared ? (QO.q || {}) : {};
   const fin = c.fin || {}, val = c.val || {};
-  const sc = scoreRow({m, px:c.price, fin, val, fin_sector:!!c.finSector, sector:c.sector, holdco:!!c.holdco, revModel:c.qual?.revModel, tags: c.tags || screenTags(c)}, p, st.reqMOS);
+  const sc = scoreRow({m, n:c.name, px:c.price, fin, val, fin_sector:!!c.finSector, sector:c.sector, ind:c.profile?.industry || '', holdco:!!c.holdco, revModel:c.qual?.revModel, tags: c.tags || screenTags(c)}, p, st.reqMOS);
   // 1. 지표별 상태 (연속 점수 → 통과/근접/미달)
   const items = {};
   FIN.forEach(f => {
@@ -1668,7 +1707,7 @@ function evaluate(c){
   // 2. 정성
   const qualScore = qualScoreOf(q);
   // 3. 가격
-  const ivSrc = sc.dcf ? (sc.ivBasis === 'norm' ? '정상 이익 DCF (다년 평균 EPS, 성장 투자 보정)' : '오너이익 DCF') : sc.graham ? '그레이엄 넘버' : null;
+  const ivSrc = sc.ivSrc || null;
   const buyBelow = isNum(sc.iv) ? sc.iv*(1 - st.reqMOS/100) : null;
   const ey = sc.per ? 100/sc.per : null;
   // 4. 탈락 조건 (최소한만)
@@ -1708,7 +1747,8 @@ function evaluate(c){
   else if((v === '도전 후보' || v === '좋은 회사, 가격 대기' || v === '근접 · 관찰') && memoOk) maxW = Math.min(15, MAXW[t.conviction||3] ?? 0);
   return {items, coverage:sc.cov, qScore:sc.q, valScore:sc.v, b, total, qualScore, flags:sc.flags, trend:tr.score, trendHits:tr.hits, trendWarn:tr.warn, mosLo:sc.mosLo, mosHi:sc.mosHi, perAvg:sc.perAvg, dataConf:c.dataConf||null,
     per:sc.per, pbr:sc.pbr, graham:sc.graham, dcf:sc.dcf, iv:sc.iv, ivSrc, ivNorm:sc.ivNorm, ivNow:sc.ivNow, ivBasis:sc.ivBasis, mos:sc.mos, buyBelow, ey, bond:p.bond,
-    disc:p.disc, tg:p.tg, gates, agg, fs, verdict:v, cls, memoOk, sellN, maxW};
+    disc:p.disc, tg:p.tg, gates, agg, fs, verdict:v, cls, memoOk, sellN, maxW,
+    finIv:sc.finIv, roeFin:sc.roeFin, E:sc.E, capX:sc.capX, gUse:sc.gUse, holdco:!!c.holdco, suspect:sc.suspect};
 }
 
 /* ============ 렌더: 공통 ============ */
@@ -2504,7 +2544,9 @@ function updateEval(){
       ${line('PBR', isNum(ev.pbr)?fmt(ev.pbr,2)+'배':'–', 'PER×PBR 22.5 이하: '+(isNum(ev.per)&&isNum(ev.pbr)?fmt(ev.per*ev.pbr,1):'–'))}
       ${line('이익수익률 vs 국채', isNum(ev.ey)?fmt(ev.ey,1)+'% / '+fmt(ev.bond,1)+'%':'–', '이익수익률이 국채의 2배 이상이면 유리')}
       ${line('그레이엄 넘버', fmtPx(ev.graham,cr), '√(22.5×EPS×BPS)')}
-      ${line(ev.ivBasis === 'norm' ? '정상 이익 DCF' : '오너이익 DCF', fmtPx(ev.dcf,cr), ev.ivBasis === 'norm' ? `설비투자가 순이익보다 크고 ROIC가 높아 FCF 대신 다년 평균 EPS로 계산. 할인율 ${ev.disc}%` : `할인율 ${ev.disc}%, 영구성장 ${ev.tg}%`)}
+      ${ev.finIv ? line('자기자본 수익력', fmtPx(ev.finIv,cr), `금융사 전용. 주당순자산 × (ROE ${fmt(ev.roeFin,1)}% − ${ev.tg}%) ÷ (할인율 ${ev.disc}% − ${ev.tg}%)`) : ''}
+      ${!ev.finIv && isNum(ev.dcf) ? line(ev.ivBasis === 'cyc' ? '경기순환 보정' : ev.ivBasis === 'norm' ? '정상 이익 DCF' : '오너이익 DCF', fmtPx(ev.dcf,cr), ev.ivBasis === 'cyc' ? `경기를 타는 업종이거나 이익이 정점일 수 있어, 평균·최근 이익 중 작은 값(${fmtPx(ev.E,cr)})을 성장 없이 보고 최대 ${ev.capX}배까지만 인정` : ev.ivBasis === 'norm' ? `설비투자가 순이익보다 크고 ROIC가 높아 FCF 대신 다년 평균 EPS로 계산. 할인율 ${ev.disc}%` : `성장률 ${fmt(ev.gUse,1)}%는 5년만 유지하고 10년차까지 영구성장 ${ev.tg}%로 줄임. 할인율 ${ev.disc}%. 최근 이익의 ${ev.capX}배 상한`) : ''}
+      ${ev.holdco ? line('지주회사 할인', '−30%', '자회사 가치를 연결 이익으로 두 번 세지 않도록 적정 주가에서 뺌') : ''}
       ${isNum(ev.ivNorm) && isNum(ev.ivNow) && Math.abs(ev.ivNow/ev.ivNorm - 1) > 0.25 ? line('가치 범위', `${fmtPx(ev.ivNorm,cr)} ~ ${fmtPx(ev.ivNow,cr)}`, `과거 평균 이익으로 돌아갈 때 ~ 최근 12개월 이익이 계속될 때. 폭이 크면 이익이 사이클 정점이나 바닥일 수 있다`) : ''}
       ${line('적정 주가', fmtPx(ev.iv,cr), ev.ivSrc?'기준: '+ev.ivSrc:'EPS·BPS 또는 오너이익·성장률 입력 필요')}
       ${line('저평가·고평가', upHtml(upPct(ev.iv, ev.price ?? c.price)), '현재가와 적정 주가의 차이')}
@@ -4289,6 +4331,8 @@ const GLOSS = {
   '그레이엄 넘버':['그레이엄 넘버','√(22.5 × EPS × BPS). PER 15배, PBR 1.5배를 넘지 않는 가격의 상한이다. 그레이엄식으로 "이 이상은 비싸다"는 선.'],
   '오너이익 DCF':['오너이익 DCF','주인이 실제로 가져갈 수 있는 돈(오너이익)이 앞으로 10년 어떻게 늘지 가정하고, 그 돈을 지금 가치로 할인해 더한 값. 버핏식 적정 주가 계산법이다.'],
   '정상 이익 DCF':['정상 이익 DCF','공장을 크게 늘리는 회사는 현금흐름이 일시적으로 작아 보인다. 그래서 여러 해 평균 이익을 기준으로 적정 주가를 계산한 값이다.'],
+  '경기순환 보정':['경기순환 보정','자동차·철강·해운처럼 경기를 타는 회사는 호황기 이익이 계속된다고 보면 적정 주가가 부풀려진다. 그래서 평균 이익과 최근 이익 중 작은 값을 성장 없이 보고, 그 10배까지만 적정 주가로 인정한다.'],
+  '자기자본 수익력':['자기자본 수익력','은행·보험 같은 금융사의 적정 주가. 자기자본으로 버는 이익률(ROE)이 기대수익(할인율)보다 높으면 순자산보다 비싸도 되고, 낮으면 순자산보다 싸야 적정하다.'],
   '매수 가능 가격':['적정 매수가','적정 주가에서 30%를 깎은 가격. 계산이 틀려도 손해가 작도록 여유(안전마진)를 남긴 값이다. 이 가격 아래일 때만 기준 통과가 된다.'],
   '적정 매수가':['적정 매수가','적정 주가에서 30%를 깎은 가격. 계산이 틀려도 손해가 작도록 여유(안전마진)를 남긴 값이다. 이 가격 아래일 때만 기준 통과가 된다.'],
   '적정 주가':['적정 주가','회사가 앞으로 벌 돈을 지금 가치로 환산한 1주당 값. 그레이엄·버핏의 방식으로 계산한 "이 회사 주식 한 주의 제값"이다. 현재가가 이보다 낮으면 저평가, 높으면 고평가.'],
@@ -4916,10 +4960,14 @@ const GUIDE = [
      <li><b>능력 범위와 10년 보유:</b> 이해하는 사업만 사고, 10년 들고 있을 생각이 없으면 10분도 들지 않는다.</li></ul>
      <p><b>ValueNote에 넣은 것.</b></p>
      <ul><li><b>재무 점수 13개 지표</b>(0~100점): ROE 5년 평균·최저 연도, ROIC, 매출총이익률, 순이익률, EPS 성장, 적자 연도, FCF ÷ 순이익, 설비투자 ÷ 순이익, 장기차입금 ÷ 순이익, 이자보상배율, 유동비율, 주식 수 변화.</li>
-     <li><b>오너이익 DCF:</b> 주당 오너이익을 10년 성장시킨 뒤 영구성장으로 마무리해 적정 주가를 낸다. 성장률은 과거 이익·매출 성장률 중 낮은 값의 절반(0~8%)으로 보수적으로 잡는다. 스톡옵션 같은 주식보상비용은 오너이익에서 뺀다.</li>
+     <li><b>오너이익 DCF:</b> 주당 오너이익을 10년 성장시킨 뒤 영구성장으로 마무리해 적정 주가를 낸다. 성장률은 과거 이익·매출 성장률 중 낮은 값의 절반(0~8%)으로 잡고, 그 성장도 5년만 유지한 뒤 10년차까지 영구성장률로 줄인다. 스톡옵션 같은 주식보상비용은 오너이익에서 뺀다.</li>
+     <li><b>배수 상한:</b> 어떤 계산이 나와도 적정 주가는 최근 이익의 25배(품질 60점 미만은 15배)를 넘지 않는다. 그레이엄이 성장주에도 25배 이상은 주지 말라고 한 한도다.</li>
+     <li><b>경기순환 보정:</b> 자동차·철강·화학·해운·조선·건설·증권처럼 경기를 타는 업종, 또는 최근 이익이 평균보다 크게 튄 회사는 호황기 이익과 성장률을 10년 동안 이어 붙이지 않는다. 평균과 최근 이익 중 작은 값을 성장 없이 보고, 최대 10배까지만 인정한다.</li>
+     <li><b>지주회사 할인:</b> 자회사 이익이 연결로 함께 잡히므로 적정 주가에서 30%를 뺀다.</li>
      <li><b>역DCF:</b> 지금 주가가 가정한 10년 성장률을 거꾸로 풀어, 회사가 실제로 보여 준 성장률보다 낮으면 저평가 근거로 본다. PER이 높아도 싼 회사(코카콜라 1988형)를 놓치지 않기 위해서다.</li>
      <li><b>정성 평가:</b> 해자 유형·강도, 가격결정력, 경영진, 지배구조, 10년 보유 테스트. AI가 공시·뉴스로 근거와 함께 채운다.</li>
-     <li><b>은행·보험 전용 평가:</b> FCF가 의미 없는 금융사는 ROE ÷ 할인율과 PBR을 비교한다.</li></ul>
+     <li><b>은행·보험 전용 평가:</b> FCF가 의미 없는 금융사는 주당순자산 × (ROE − 영구성장) ÷ (할인율 − 영구성장)으로 적정 주가를 낸다. ROE가 할인율보다 낮은 은행은 순자산보다 싸야 적정 가격이다.</li>
+     <li><b>데이터 확인:</b> 통화·주식 수가 섞여 PER이 비현실적으로 나오는 종목(PER 2.5배 미만 등)은 점수와 적정 주가를 계산하지 않는다.</li></ul>
      <p><b>그대로 따르지 않은 것.</b> 회사를 통째로 사는 인수, 보험 플로트 활용, 경영진을 직접 만나 판단하는 일은 개인이 따라 할 수 없어 뺐다.</p>`],
     ['찰리 멍거는 무엇을 지향했나', `<p><b>철학.</b> 멍거는 버핏의 50년 동업자다. 버핏을 "싼 주식"에서 "좋은 회사"로 이끌었고, 투자 실패의 대부분이 숫자가 아니라 사람의 심리에서 나온다고 봤다.</p>
      <ul><li><b>뒤집어 생각하기:</b> 어떻게 성공할지보다 무엇이 실패하게 만드는지를 먼저 묻는다.</li>
@@ -4955,9 +5003,10 @@ const GUIDE = [
       <li><b>포트폴리오 (멍거):</b> 주력 3종목에 넣을지, 도전 칸으로 보낼지 자동 분류.</li>
      </ol>`],
     ['적정 주가는 어떻게 계산하나 (예시)', `<p>주당 오너이익이 1,000원, 성장률 5%, 할인율 10%, 영구성장 2%인 회사를 예로 든다.</p>
-     <ul><li>앞으로 10년간 오너이익이 매년 5%씩 늘어난다고 보고, 각 해의 돈을 10%로 할인해 지금 가치로 더한다. 약 7,800원.</li>
-     <li>10년 뒤부터는 매년 2%씩 영원히 늘어난다고 보고 그 가치를 지금으로 할인한다. 약 8,000원.</li>
-     <li>합치면 적정 주가는 약 15,800원이다. 이것이 <b>적정 주가</b>이다. 안전마진 30%를 적용한 <b>적정 매수가는 약 11,100원</b>이다. 지금 주가가 1만 원이면 저평가은 약 +58%다.</li></ul>
+     <ul><li>앞으로 5년간 오너이익이 매년 5%씩 늘고, 6~10년차에는 성장률이 2%까지 차츰 줄어든다고 본다. 각 해의 돈을 10%로 할인해 지금 가치로 더한다. 약 7,700원.</li>
+     <li>10년 뒤부터는 매년 2%씩 영원히 늘어난다고 보고 그 가치를 지금으로 할인한다. 약 7,300원.</li>
+     <li>합치면 적정 주가는 약 15,000원이다. 이것이 <b>적정 주가</b>이다. 안전마진 30%를 적용한 <b>적정 매수가는 약 10,500원</b>이다. 지금 주가가 1만 원이면 적정 주가보다 약 33% 싸다.</li></ul>
+     <p><b>경기순환 보정.</b> 자동차·철강·해운처럼 경기를 타는 회사는 같은 계산을 하면 호황기 이익이 10년 동안 늘어난다고 가정하게 된다. 그래서 이런 회사는 평균 이익과 최근 이익 중 작은 값을 성장 없이 보고, 그 이익의 10배까지만 적정 주가로 인정한다. 주당 이익 1,000원이면 적정 주가는 최대 1만 원이다.</p>
      <p><b>성장 투자 보정.</b> 공장을 크게 늘리는 회사는 그 투자 때문에 현금흐름이 일시적으로 작아 보인다. 버핏의 오너이익은 유지 투자만 빼므로, 설비투자가 순이익보다 크고 ROIC가 15% 이상인 회사는 현금흐름 대신 여러 해 평균 이익(최근 이익보다 크지 않게)을 기준으로 쓴다.</p>
      <p><b>가치 범위.</b> 이익이 사이클을 타는 회사는 "과거 평균 이익으로 돌아갈 때"와 "최근 12개월 이익이 계속될 때"의 가치를 함께 보여 준다. 예를 들어 삼성전자는 최근 이익이 5년 평균의 4배여서 범위가 약 6.9만~28만 원으로 넓다. 적정 매수가는 보수적인 쪽(평균 이익)으로 정한다. 지금 주가는 슈퍼사이클 이익이 오래 간다는 쪽에 걸려 있다는 뜻이다.</p>`],
     ['세 사람의 판단이 엇갈리면 어떻게 되나요?', `<p>각자 거부권을 가진다. 멍거의 탈락 조건(능력 범위, 지배구조)에 걸리면 바로 탈락이다. 버핏의 품질 70점과 10년 보유 테스트를 넘어야 하고, 그레이엄의 안전마진 30%까지 채워야 "기준 통과"가 된다.</p>
@@ -5564,7 +5613,10 @@ function viewRules(){
 
   <h2>4단계. 가격과 안전마진</h2>
   <div class="card rule-group">
-    <div class="rule"><span class="t">적정 주가</span><span class="th">오너이익 DCF</span><span class="d">주당 오너이익을 10년 성장시킨 뒤 영구성장으로 마무리. 할인율 국내·미국 10%, 중국·홍콩 11%, 일본 9%</span></div>
+    <div class="rule"><span class="t">적정 주가</span><span class="th">오너이익 DCF</span><span class="d">주당 오너이익을 5년 성장, 이후 5년간 영구성장률로 줄인 뒤 마무리. 할인율 국내·미국 10%, 중국·홍콩 11%, 일본 9%</span></div>
+    <div class="rule"><span class="t">배수 상한</span><span class="th">최근 이익 × 25배</span><span class="d">품질 60점 미만은 15배. 경기순환 업종·이익 정점 회사는 정상 이익 × 10배(성장 없음)</span></div>
+    <div class="rule"><span class="t">금융사</span><span class="th">ROE 기준 적정 PBR</span><span class="d">주당순자산 × (ROE − 영구성장) ÷ (할인율 − 영구성장), 이익의 12배 상한</span></div>
+    <div class="rule"><span class="t">지주회사</span><span class="th">−30%</span><span class="d">자회사 이익이 연결로 함께 잡혀 두 번 세지 않도록 할인</span></div>
     <div class="rule"><span class="t">보조 지표</span><span class="th">그레이엄 넘버</span><span class="d">√(22.5 × EPS × BPS). PER 15배, PBR 1.5배 한도에서 나온 공식</span></div>
     <div class="rule"><span class="t">안전마진</span><span class="th">≥ 30%</span><span class="d">적정 주가보다 30% 이상 쌀 때만 산다</span></div>
     <div class="rule"><span class="t">이익수익률</span><span class="th">국채의 2배</span><span class="d">1/PER이 국채 10년 금리보다 충분히 높아야 주식을 들 이유가 있다</span></div>
