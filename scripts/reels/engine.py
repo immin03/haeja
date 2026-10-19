@@ -70,7 +70,7 @@ def fmt_won(v):  # v: 만 원 단위
 def fmt_num(v, f):
     fmt = f.get("fmt", "int"); dec = f.get("dec", 0); suf = f.get("suffix", "")
     if fmt == "won": return fmt_won(v)
-    s = f"{v:,.{dec}f}"
+    s = f"{v:.{dec}f}" if f.get("year") else f"{v:,.{dec}f}"  # 연도는 쉼표 없이 (1,988년 → 1988년)
     if fmt == "pct": return (("+" if v > 0 and f.get("plus", True) else "") + s + "%")
     return ("+" if f.get("sign") and v > 0 else "") + s + suf
 
