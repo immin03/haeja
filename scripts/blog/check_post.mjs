@@ -12,7 +12,8 @@
 // post.json 추가 필드:
 //   img 블록의 "kind": "cover"(실사 사진 표지) | "photo"(무료 실사 사진) | "chart"(실제 데이터 그래프) | "app"(실제 앱 화면) | "data"(밸류노트 점수·적정 주가 계산 카드) | "card"(글자·인용 카드, 1장까지) | "banner"
 //   실사 사진·영상·표지에는 "src": "mixkit:<번호>" 또는 "pexels:<번호>" (scripts/blog/media/lib/index.json 의 id)
-//   {"video": "v1.mp4", "cap": "...", "src": "mixkit:<번호>"} 영상 블록
+//   img 블록의 "kind": "gif" = 움직이는 실사 사진 (2026-10-19부터 영상 대신. scripts/blog/to_gif.sh)
+//   {"video": ...} 영상 블록은 예전 형식 — 새 글에서는 오류
 //   "facts": [{"t": "확인한 사실(숫자 포함)", "src": "출처 URL 또는 'VN'(밸류노트 데이터)"}, ...]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -101,16 +102,18 @@ for (const dir of dirs) {
   if (K('photo').length < 2) E.push(`실사 사진(photo) ${K('photo').length}장 — 2장 이상 필요 (scripts/blog/media/lib)`);
   if (K('card').length > 1) E.push(`글자 카드(card) ${K('card').length}장 — 1장까지 (나머지는 실사 사진·그래프·앱 화면으로)`);
   if (K('data').length > 2) W.push(`점수·계산 카드(data) ${K('data').length}장 — 2장까지 권장`);
-  const media = [...imgs.filter((b) => b.kind === 'photo'), ...p.blocks.filter((b) => b.video)];
+  const media = [...imgs.filter((b) => b.kind === 'photo' || b.kind === 'gif'), ...p.blocks.filter((b) => b.video)];
   if (media.some((b) => !b.src)) E.push(`출처(src)가 없는 실사 사진·영상: ${media.filter((b) => !b.src).map((b) => b.img || b.video).join(', ')}`);
-  if (!p.blocks.some((b) => b.video)) W.push('영상(video)이 없습니다 — 짧은 실사 영상 1개를 권장합니다');
+  if (p.blocks.some((b) => b.video)) E.push('영상(video) 블록 대신 GIF(kind gif)를 씁니다 — bash scripts/blog/to_gif.sh <mp4> naver/<id>/g1.gif');
+  if (!K('gif').length) W.push('움직이는 사진(gif)이 없습니다 — 짧은 실사 GIF 1개를 권장합니다');
   const coNames = Object.values(vnData().c || {}).map((r) => r && r[0]).filter((n) => n && n.length >= 2);
   for (const b of media) { const hit = coNames.find((n) => strip(b.cap || b.alt || '').includes(n)); if (hit) E.push(`실사 사진·영상 설명(alt)에 회사 이름("${hit}")이 있습니다 — 무료 소재는 그 회사가 아니므로 "자동차 조립 라인"처럼 일반 설명으로`); }
-  for (let i = 1; i < p.blocks.length; i++) { const a = p.blocks[i - 1], b = p.blocks[i]; if (a.img && b.img && !a.href && !b.href && a.kind !== 'photo' && b.kind !== 'photo' && i > 1) W.push(`디자인 사진 두 장이 붙어 있습니다: ${a.img}, ${b.img}`); }
-  if (imgs.length < 5 || imgs.length > 8) W.push(`사진 ${imgs.length}장 (5~7장)`);
+  for (let i = 1; i < p.blocks.length; i++) { const a = p.blocks[i - 1], b = p.blocks[i]; if (a.img && b.img && !a.href && !b.href && !['photo', 'gif'].includes(a.kind) && !['photo', 'gif'].includes(b.kind) && i > 1) W.push(`디자인 사진 두 장이 붙어 있습니다: ${a.img}, ${b.img}`); }
+  const stills = imgs.filter((b) => b.kind !== 'gif').length;
+  if (stills < 5 || stills > 8) W.push(`사진 ${stills}장 (GIF 빼고 5~7장)`);
   // 사진 설명 (2026-10-19 결정): 사진 밑 설명 문장은 AI 같아 보인다. 실사 사진·영상·표지는 설명 없음, 데이터 이미지는 짧은 명사로
   for (const b of p.blocks.filter((x) => (x.img || x.video) && !x.href)) {
-    if (b.cap && (b.video || ['photo', 'cover'].includes(b.kind))) E.push(`${b.img || b.video}: 실사 사진·영상·표지에는 설명(cap)을 달지 않습니다 (alt 만)`);
+    if (b.cap && (b.video || ['photo', 'gif', 'cover'].includes(b.kind))) E.push(`${b.img || b.video}: 실사 사진·GIF·표지에는 설명(cap)을 달지 않습니다 (alt 만)`);
     else if (b.cap && (/[다요]\.?$|[.:?!]/.test(b.cap.trim()) || b.cap.length > 30)) E.push(`${b.img}: 설명은 30자 이내의 명사로 끝냅니다 — "${b.cap}"`);
   }
   if (imgs.length && imgs.every((b) => b.kind === imgs[0].kind)) W.push('사진 종류가 한 가지뿐입니다');
@@ -171,7 +174,7 @@ for (const dir of dirs) {
   if (tagMiss.length) W.push(`본문에 없는 태그(표기 변형이면 괜찮음): ${tagMiss.join(', ')}`);
 
   console.log(`\n[${id}] ${p.title}`);
-  console.log(`  본문 ${len}자 · 사진 ${imgs.length}장(실사 ${K('photo').length} · 원본 데이터 ${orig.length} · 카드 ${K('card').length}) · 영상 ${p.blocks.filter((b) => b.video).length} · 소제목 ${hs.length} · 뼈대 ${s}`);
+  console.log(`  본문 ${len}자 · 사진 ${imgs.length}장(실사 ${K('photo').length} · 원본 데이터 ${orig.length} · 카드 ${K('card').length}) · GIF ${K('gif').length} · 소제목 ${hs.length} · 뼈대 ${s}`);
   for (const l of leads) console.log('  리드  ' + l);
   for (const e of E) console.log('  ✗ ' + e);
   for (const w of W) console.log('  ! ' + w);
