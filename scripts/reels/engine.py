@@ -28,6 +28,7 @@
   맞는 장면이 없으면 큰 숫자(hook)로 간다. "cover": "bars" 처럼 장면 종류나 장면 번호(0부터)로 직접 고를 수 있고,
   "tag": "오늘의 기업" 처럼 시리즈 표시를 바꿀 수 있다(기본은 제목의 " · " 앞부분).
 """
+import re
 import math, os, sys, json, subprocess
 import numpy as np
 from scipy import signal
@@ -349,13 +350,54 @@ def s_list(img, u, sc, L, T):
         y = y0 + k * gap; x = 140 + (1 - p) * -60
         d = ImageDraw.Draw(img)
         d.rounded_rectangle([x, y - 46, x + 800, y + 46], 24, fill=mix(NAVY, (24, 46, 82), p), outline=mix(NAVY, GOLD_D, p), width=2)
-        if " " in it and len(it.split(" ", 1)[0]) <= 3:
+        # 동그라미 배지는 순위·번호(1위, 2, ①)일 때만. 문장 첫 낱말(예: '파는')이 배지로 들어가지 않게 한다
+        if " " in it and re.fullmatch(r"\d{1,2}(위|\.)?|[①-⑩]", it.split(" ", 1)[0]):
             k_, rest = it.split(" ", 1)
             d.ellipse([x + 22, y - 32, x + 86, y + 32], fill=mix(NAVY, GOLD, p))
             d.text((x + 54, y), k_, font=F("Heavy", 40 if len(k_) <= 2 else 30), fill=NAVY, anchor="mm")
             d.text((x + 112, y), rest, font=fit_font(rest, "Bold", 46, 660), fill=mix(NAVY, IVORY, p), anchor="lm")
         else:
             d.text((x + 36, y), it, font=fit_font(it, "Bold", 46, 740), fill=mix(NAVY, IVORY, p), anchor="lm")
+    return img
+
+def wrap_words(s, font, maxw):
+    """단어 단위로 줄을 나눈다 (한국어 keep-all: 낱말 중간에서 끊지 않는다)"""
+    out, cur = [], ""
+    for w_ in s.split():
+        nx = (cur + " " + w_).strip()
+        if cur and font.getlength(nx) > maxw: out.append(cur); cur = w_
+        else: cur = nx
+    if cur: out.append(cur)
+    return out
+
+def s_who(img, u, sc, L, T):
+    """회사 소개: 업종 꼬리표 → 회사 이름 → 한 문장 설명(카드 하나) → 핵심 사실 칩"""
+    Y = 130  # 화면 가운데 쪽으로
+    if sc.get("tag"): appear(img, u, .0, sc["tag"], F("Bold", 44), GOLD, (W / 2, 430 + Y), dur=.3)
+    appear(img, u, .08, sc["name"], fit_font(sc["name"], "Heavy", 112, 960), IVORY, (W / 2, 540 + Y), dur=.35)
+    d = ImageDraw.Draw(img)
+    wl = prog(u, .3, .7) * 220
+    d.line([(W / 2 - wl / 2, 624 + Y), (W / 2 + wl / 2, 624 + Y)], fill=GOLD, width=5)
+    # 줄바꿈(\n)을 넣으면 그 자리에서 끊는다 (의미 단위). 없으면 낱말 단위로 자동
+    def rows_for(f_, mw): return [r for part in sc["text"].split("\n") for r in wrap_words(part, f_, mw)]
+    f = F("Bold", 54); rows = rows_for(f, 800)
+    if len(rows) > 3: f = F("Bold", 46); rows = rows_for(f, 820)
+    lh = int(f.size * 1.5); top = 690 + Y; h = lh * len(rows) + 70
+    p = prog(u, .45, .85)
+    if p > 0:
+        d.rounded_rectangle([110, top, W - 110, top + h], 32, fill=mix(NAVY, (24, 46, 82), p), outline=mix(NAVY, GOLD_D, p), width=2)
+        for i, r in enumerate(rows):
+            pop(img, r, f, mix(NAVY, IVORY, p), (W / 2, top + 35 + lh * i + lh / 2), alpha=p)
+    facts = sc.get("facts", [])
+    if facts:
+        y = top + h + 80; fs = F("Bold", 38)
+        ws = [fs.getlength(x) + 56 for x in facts]; gap = 20; x0 = W / 2 - (sum(ws) + gap * (len(ws) - 1)) / 2
+        for i, (x, w_) in enumerate(zip(facts, ws)):
+            q = prog(u, .9 + i * .18, 1.25 + i * .18)
+            if q <= 0: x0 += w_ + gap; continue
+            d.rounded_rectangle([x0, y - 34, x0 + w_, y + 34], 34, outline=mix(NAVY, GOLD, q), width=2)
+            pop(img, x, fs, mix(NAVY, GOLD, q), (x0 + w_ / 2, y), alpha=q)
+            x0 += w_ + gap
     return img
 
 DRIPS = [(-300, 0.0, 26), (-190, 0.25, 20), (-60, 0.1, 30), (40, 0.4, 22), (150, 0.15, 28), (260, 0.3, 20)]
@@ -489,7 +531,7 @@ def s_screen(img, u, sc, L, T):
     return img
 
 DRAW = {"hook": s_hook, "line": s_line, "run": s_run, "compare": s_compare, "bars": s_bars,
-        "list": s_list, "statement": s_statement, "cta": s_cta, "screen": s_screen}
+        "list": s_list, "who": s_who, "statement": s_statement, "cta": s_cta, "screen": s_screen}
 NO_CAPTION = {"statement", "cta", "list"}
 
 # ── 타임라인 ─────────────────────────────────────────────────

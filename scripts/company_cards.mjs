@@ -525,7 +525,9 @@ function sayWhat(t) {
 function whoScene(r) {
   const p = PF[r.t]; if (!p?.what) return null; const what = hapnida(p.what);
   // 괄호 속 영문 약어(HBM 등)는 음성이 뭉개므로 읽지 않는다
-  return { type: 'list', title: p.industry ? `${r.n} · ${p.industry}` : r.n, items: chunks(what), say: sayWhat(what) };
+  // 회사 소개는 한 문장을 한 카드에 (목록처럼 잘게 자르지 않는다). 아래에 상장 시장 칩
+  const MK = { KR: '한국 상장', US: '미국 상장', JP: '일본 상장', HK: '홍콩 상장', CN: '중국 상장' };
+  return { type: 'who', name: r.n, tag: p.industry || '', text: what, facts: MK[r.m] ? [MK[r.m]] : [], say: sayWhat(what) };
 }
 function reelIntro(x) {
   const { r } = x, p = PF[r.t], yrs = Math.max(3, r.yrs || 5);
