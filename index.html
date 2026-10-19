@@ -2776,6 +2776,8 @@ function weeklyNoteHtml(){
 
 /* ============ 칼럼: 블로그처럼 쌓이는 주간 글 (누구나 읽기) ============ */
 const colInline = t => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+// 칼럼 필명: data.author 가 'ValueNote'·빈 값이 아니면 제목 아래에 표시 (예: 'Editor: Luciano')
+function colByline(c){ const a = String(c?.author || '').trim(); return a && !/^(valuenote|밸류노트)$/i.test(a) ? a : ''; }
 function colBodyHtml(t){
   return String(t || '').split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => {
     const img = p.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
@@ -2807,12 +2809,12 @@ function newsletterBox(){
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
-    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'giants' ? '연재 · 거장의 투자' : '밸류노트 주간 칼럼'}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''} · ${colStatHtml(open)}</div>
+    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'giants' ? '연재 · 거장의 투자' : '밸류노트 주간 칼럼'}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''} · ${colStatHtml(open)}</div>${colByline(open) ? `<div class="col-by">${esc(colByline(open))}</div>` : ''}
       ${open.cover ? `<figure class="col-fig col-cover"><img src="${esc(open.cover)}" alt=""></figure>` : ''}
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
       <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
       ${(open.sources || []).length ? `<div class="small muted col-src">출처 ${open.sources.slice(0, 6).map((u, i) => { try{ return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(new URL(u).hostname.replace(/^www\./, ''))}</a>`; }catch(_){ return ''; } }).filter(Boolean).join(' · ')}</div>` : ''}
-      <p class="small muted col-disc">공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
+      <p class="small muted col-disc">${colByline(open) ? '밸류노트 데이터와 AI 도구로 초안을 만들고 에디터가 검수한 글입니다. ' : ''}공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
   return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">주간 시장: 매주 월요일 시장·금리·환율 정리 · 거장의 투자: 버핏·그레이엄·멍거의 실제 매매와 생각</div></div></div>
     ${newsletterBox()}
@@ -6007,7 +6009,7 @@ input,select,textarea{border-radius:10px}
 .col-body{margin-top:16px;font-size:15.5px;line-height:1.85}
 .col-body h3{font-size:16px;margin:22px 0 6px;padding-left:10px;border-left:3px solid var(--gold)}
 .col-body p{margin:0 0 10px}
-.col-disc{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.col-disc{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line)}.col-by{margin-top:8px;font-size:14px;font-weight:700;color:var(--gold,#C99A50);letter-spacing:.2px}
 .col-src{margin-top:14px;line-height:1.7}
 .col-src a{color:var(--muted)}
 .rt-head,.rt-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 72px 54px;gap:8px;align-items:baseline}

@@ -313,6 +313,7 @@ function colBodyHtml(t) {
     return `<p>${p.split('\n').map(colInline).join('<br>')}</p>`;
   }).join('\n');
 }
+const colBy = (c) => { const a = String(c.author || '').trim(); return a && !/^(valuenote|밸류노트)$/i.test(a) ? a : ''; };
 const COL_SERIES = { weekly: '주간 시장', giants: '거장의 투자' };
 const colDateK = (c) => { const d = new Date(c.at || c.id.slice(4, 14)); return isNaN(d) ? '' : `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`; };
 const plain = (t) => String(t || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/\*\*/g, '').replace(/^[■>]\s*/gm, '').replace(/\s+/g, ' ').trim();
@@ -328,9 +329,10 @@ function colPage(c, cols) {
   const others = cols.filter((o) => o.id !== c.id).slice(0, 5);
   return head({ title: `${c.title} | 밸류노트 칼럼`, desc, url, ld, img: colImage(c), src: 'blog', rss: true }) + `<main><article class="card col">
 <div class="crumb"><a href="/blog/">칼럼</a> › ${esc(ser)}</div>
-<h1>${esc(c.title)}</h1>${c.sub ? `<p class="sub">${esc(c.sub)}</p>` : ''}<p class="note">${esc(colDateK(c))} · 밸류노트</p>
+<h1>${esc(c.title)}</h1>${c.sub ? `<p class="sub">${esc(c.sub)}</p>` : ''}<p class="note">${esc(colDateK(c))} · ${esc(colBy(c) || '밸류노트')}</p>
 ${colBodyHtml(c.body)}
 ${(c.sources || []).length ? `<div class="src"><b>참고한 자료</b><br>${c.sources.map((s) => `<a href="${esc(s)}" rel="nofollow noopener" target="_blank">${esc(s.replace(/^https?:\/\//, '').slice(0, 70))}</a>`).join('<br>')}</div>` : ''}
+${colBy(c) ? `<p class="note" style="margin-top:14px">밸류노트 데이터와 AI 도구로 초안을 만들고 에디터가 검수한 글입니다.</p>` : ''}
 <div class="share" style="margin-top:16px"><button type="button" data-sh="blog" data-u="${url}" data-t="${esc(c.title)}" style="color:var(--ink);border-color:var(--line);background:var(--bg)">이 글 공유하기</button></div>
 </article>
 <a class="cta" href="/?utm_source=blog">매주 월요일, 칼럼을 메일로 받기<small>밸류노트에 가입하고 구독을 켜세요 · 600+ 기업 점수도 함께</small></a>
