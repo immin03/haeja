@@ -2275,9 +2275,10 @@ function concPlan(rows, total, cashW){
     if(buyable.length) acts.push({lv:'none', short:`대기 자금 ${fmt(cashAll,0)}%. 기준 통과 종목(${buyable.map(x => x.c.name).join(', ')})에 나눠 쓸 때`, t:`대기 자금이 ${fmt(cashAll,0)}%로 목표 ${PLAN.cashHi}%보다 많고, 기준을 통과한 후보가 있다: ${buyable.map(x => x.c.name).join(', ')}. 한 번에 넣지 말고 적정 매수가 이하에서 나눠 산다.`});
     else acts.push({lv:'none', short:`대기 자금 ${fmt(cashAll,0)}%. 살 만한 기업이 없을 때는 단기채로 기다려도 된다`, t:`대기 자금이 ${fmt(cashAll,0)}%로 목표보다 많지만, 지금 기준을 통과한 후보가 없다. 싼 기업이 없을 때 대기 자금이 늘어나는 것은 정상이다. 버크셔도 이런 시기에는 돈을 만기 1년 미만 국채에 두고 기다린다. 이자를 받도록 단기채·MMF로 옮겨 두는 것만 확인한다.`});
   }
-  const GP = grahamPhase();
-  if(GP && GP.phase === 'hot' && cashAll < PLAN.cashHi - 0.5) acts.push({lv:'none', short:`미국 강세장 과열 신호 ${GP.on}/${GP.known || 5}. 대기 자금 ${fmt(cashAll,0)}% → 20%에 가깝게`, t:`경제 레이더의 미국 시장 국면이 강세장 과열이다(그레이엄의 강세장 특성 ${GP.on}/${GP.known || 5}). 대기 자금 ${fmt(cashAll,0)}%를 목표 상단 ${PLAN.cashHi}%에 가깝게 둔다. 매매 시점을 맞추려는 것이 아니라 하락장에서 살 돈을 미리 남겨 두는 것이다.`});
-  if(GP && GP.phase === 'bear' && cashAll > PLAN.cashLo) acts.push({lv:'none', short:`약세장. 대기 자금 ${fmt(cashAll,0)}%로 기준 통과 기업을 나눠 살 때`, t:`S&P 500이 고점 대비 20% 넘게 빠진 약세장이다. 그레이엄이 말한 모두가 파는 구간이다. 대기 자금 ${fmt(cashAll,0)}%로 적정 매수가 아래 기업을 나눠 산다.`});
+  const MK = mkt(), ph = MK?.us?.phase, kph = MK?.kr?.phase;
+  if(ph === 'late' && cashAll < PLAN.cashHi - 0.5) acts.push({lv:'none', short:`미국 강세장 후기(과열도 ${MK.us.heat}). 대기 자금 ${fmt(cashAll,0)}% → 20%에 가깝게`, t:`경제 레이더의 미국 시장 국면이 강세장 후기다(과열도 ${MK.us.heat}/100). 대기 자금 ${fmt(cashAll,0)}%를 목표 상단 ${PLAN.cashHi}%에 가깝게 둔다. 시점을 맞추려는 것이 아니라 하락장에서 살 돈을 미리 남겨 두는 것이다.`});
+  const bearM = [ph === 'bear' || ph === 'panic' ? '미국' : '', kph === 'bear' || kph === 'panic' ? '한국' : ''].filter(Boolean);
+  if(bearM.length && cashAll > PLAN.cashLo) acts.push({lv:'none', short:`${bearM.join('·')} 약세장. 대기 자금 ${fmt(cashAll,0)}%로 기준 통과 기업을 나눠 살 때`, t:`${bearM.join('·')} 시장이 고점 대비 20% 넘게 빠진 약세장이다. 모두가 파는 구간이다. 대기 자금 ${fmt(cashAll,0)}%로 그 시장의 적정 매수가 아래 기업을 나눠 산다.`});
   const hedgeW = exp.filter(r => r.h.kind === 'hedge').reduce((a,r) => a + r.w, 0);
   if(hedgeW > 0) acts.push({lv:'none', short:`금·장기채 ${fmt(hedgeW,0)}%는 대기 자금으로 치지 않음`, t:`금·장기채 ${fmt(hedgeW,0)}%는 대기 자금으로 보지 않는다. 금은 이익을 만들지 않고, 장기채는 금리가 오르면 값이 크게 떨어져 폭락장에서 꺼내 쓸 돈이 줄 수 있다. 기다리는 돈은 단기채에 둔다.`});
   core.forEach(r => { if(r.ev && isNum(r.ev.mos) && r.ev.mos < -10) acts.push({lv:'warn', t:`${r.h.name}: 주가가 적정 주가보다 ${fmt(-r.ev.mos,0)}% 높다. 매도 조건(적정 주가 초과)을 점검할 시점이다.`}); });
@@ -3921,7 +3922,7 @@ function rdLevel(R){
 function radarChip(){
   const R = S.radar, lv = rdLevel(R); if(lv === null) return '';
   const L = RD_LV[lv];
-  return `<button type="button" class="rd-chip" data-act="go-tab" data-v="radar"><span class="rd-dot" style="background:${L.c}"></span><span><b>경제 레이더 · ${L.n}${grahamPhase() ? ' · ' + GR_PH[grahamPhase().phase].n : ''}</b><span class="small muted"> ${esc(R.headline || L.s)}</span></span><span class="small muted">›</span></button>`;
+  return `<button type="button" class="rd-chip" data-act="go-tab" data-v="radar"><span class="rd-dot" style="background:${L.c}"></span><span><b>경제 레이더 · ${L.n}${mkt() ? ' · ' + MK_PH[mkt().us.phase].n : ''}</b><span class="small muted"> ${esc(R.headline || L.s)}</span></span><span class="small muted">›</span></button>`;
 }
 function rdVal(k, o){
   const m = RD_IND[k]; if(!o || !isNum(o.v)) return '–';
@@ -4014,47 +4015,64 @@ function rdTile(k, o){
     </summary>
     <div class="rd-tmore"><b>${esc(m.n)}</b><p>${esc(o.why || '')}</p><p class="muted">${esc(m.d)}</p>${sub ? `<p class="muted num">${sub}</p>` : ''}<p class="muted">기준일 ${esc(o.date || '')}</p></div></details>`;
 }
-/* ============ 시장 국면: 그레이엄 『현명한 투자자』의 강세장 공통 특성 5가지 ============ */
-const GR_PH = {
-  hot:{n:'강세장 · 과열', c:'#C0392B', s:'그레이엄이 꼽은 강세장 특성이 여럿 켜져 있습니다. 모두가 사는 구간입니다.',
-    do:['대기 자금(현금·단기채)을 목표 상단인 20%에 맞춥니다.', '새로 살 때는 적정 매수가 아래에 있는 기업만, 나눠서 삽니다.', '적정 주가를 넘은 보유 종목은 매도 조건을 점검합니다.']},
-  bull:{n:'강세장', c:'#C9A227', s:'주가가 고점 근처에 있지만 과열 특성은 많지 않습니다.',
-    do:['원칙대로 투자합니다. 대기 자금은 10~20% 안에서 유지합니다.', '적정 매수가 아래로 내려온 기업이 있는지만 확인합니다.']},
-  correction:{n:'조정', c:'#6FA14E', s:'고점에서 10% 넘게 내려왔습니다. 아직 약세장은 아닙니다.',
+/* ============ 시장 국면 (강세장·약세장) ============
+ * 그레이엄 『현명한 투자자』 8장의 강세장 특성을 출발점으로, 지금 쓰는 지표로 다시 짰다.
+ * 국면 = 추세(고점 대비 낙폭·200일 평균선·직전 약세장 바닥 이후 경과), 과열도 = 밸류에이션·투기·쏠림 신호 평균(0~100) */
+const MK_PH = {
+  panic:{n:'약세장 · 공포', c:'#1F6E8C', s:'고점에서 20% 넘게 빠졌고 공포가 큽니다. 역사적으로 좋은 회사를 싸게 살 수 있던 구간입니다.',
+    do:['공포에 팔지 않습니다. 미리 정한 매도 조건만 따릅니다.', '대기 자금으로 기준을 통과한 기업을 3~4번에 나눠 삽니다.', '빚이 많은 회사는 버틸 수 있는지 숫자로 다시 확인합니다.']},
+  bear:{n:'약세장', c:'#2D7A5F', s:'고점에서 20% 넘게 빠졌습니다. 모두가 파는 구간입니다.',
+    do:['공포에 팔지 않습니다. 미리 정한 매도 조건만 따릅니다.', '적정 매수가 아래로 내려온 기업을 대기 자금으로 나눠 삽니다.', '빚이 많은 회사는 버틸 수 있는지 숫자로 다시 확인합니다.']},
+  correction:{n:'조정', c:'#6FA14E', s:'고점에서 10% 넘게 내려왔거나 200일 평균선 아래로 꺾였습니다. 아직 약세장은 아닙니다.',
     do:['미리 정한 적정 매수가에 닿은 기업이 있는지 확인합니다.', '살 때는 한 번에 넣지 않고 나눠 삽니다.']},
-  bear:{n:'약세장', c:'#2D7A5F', s:'고점에서 20% 넘게 빠졌습니다. 그레이엄이 말한 "모두가 파는" 구간입니다.',
-    do:['공포에 팔지 않습니다. 미리 정한 매도 조건만 따릅니다.', '남겨 둔 대기 자금으로 기준을 통과한 기업을 나눠 삽니다.', '빚이 많은 회사는 버틸 수 있는지 숫자로 다시 확인합니다.']},
+  early:{n:'강세장 초기', c:'#4F7F76', s:'약세장 바닥에서 올라와 200일 평균선 위에 섰습니다. 회복 초입입니다.',
+    do:['기준을 통과한 기업이 아직 적정 매수가 근처라면 이때가 담을 때입니다.', '대기 자금은 목표 하단(10%)까지 써도 됩니다.']},
+  bull:{n:'강세장', c:'#C9A227', s:'상승 추세가 이어지고 있고 과열 신호는 아직 많지 않습니다.',
+    do:['원칙대로 투자합니다. 대기 자금은 10~20% 안에서 유지합니다.', '적정 매수가 아래로 내려온 기업이 있는지만 확인합니다.']},
+  late:{n:'강세장 후기 · 과열', c:'#C0392B', s:'상승이 오래됐고 비싼 가격·빚투·쏠림 신호가 함께 켜져 있습니다. 모두가 사는 구간입니다.',
+    do:['대기 자금(현금·단기채)을 목표 상단인 20%에 맞춥니다.', '새로 살 때는 적정 매수가 아래에 있는 기업만, 나눠서 삽니다.', '적정 주가를 넘은 보유 종목은 매도 조건을 점검합니다.']},
 };
-const GR_IT = {
-  level:{n:'역사적으로 높은 주가', d:'S&P 500이 최근 4년 평균보다 30% 넘게 높으면 켜집니다.'},
-  per:{n:'높은 PER', d:'경기 조정 PER(10년 평균 이익 기준)이 25배를 넘으면 켜집니다. 1871년 이후 중간값은 16배 안팎입니다.'},
-  div:{n:'채권보다 낮은 배당수익률', d:'S&P 500 배당수익률이 미국 10년 국채 금리보다 낮으면 켜집니다. 주식을 들고 받는 돈이 채권 이자보다 적다는 뜻입니다.'},
-  margin:{n:'빚내서 하는 투자 급증', d:'증권사 고객 신용 대출이 1년 새 25% 넘게 늘면 켜집니다. 미국 연준 분기 자료라 2~3개월 늦게 반영됩니다.'},
-  ipo:{n:'신규 상장 열기', d:'최근 상장한 기업들의 주가가 S&P 500보다 1년간 20%p 넘게 더 오르면 켜집니다. 부실한 회사도 쉽게 상장되는 분위기를 보는 대용 지표입니다.'},
+const MK_SIG = {
+  cape:{n:'경기 조정 PER', g:'val', u:'배', d:'10년 평균 이익으로 계산한 S&P 500 PER(실러 PER)입니다. 1871년 이후 몇 % 시점보다 비싼지로 과열도를 매깁니다.'},
+  erp:{n:'주식 위험 프리미엄', g:'val', u:'%p', d:'주식 이익수익률(1÷PER)에서 물가연동 국채 실질금리를 뺀 값입니다. 1%p에 가까울수록 채권 대신 주식을 들 이유가 줄어듭니다. 그레이엄의 "채권보다 낮은 배당수익률"을 지금 방식으로 본 것입니다.'},
+  stretch:{n:'200일 평균선과의 거리', g:'val', u:'%', d:'주가가 200일 평균선보다 20% 넘게 위면 단기간에 너무 많이 오른 것으로 봅니다.'},
+  margin:{n:'빚투 증가율', g:'spec', u:'%', d:'증권사 고객 신용 대출의 1년 증가율입니다. 40%를 넘으면 2000년·2007년·2021년 고점과 비슷한 수준입니다. 미국 연준 분기 자료라 2~3개월 늦습니다.'},
+  ipo:{n:'신규 상장 열기', g:'spec', u:'%p', d:'최근 상장한 기업들의 주가가 S&P 500보다 1년간 얼마나 더 올랐는지입니다. 부실한 회사도 쉽게 상장되는 분위기를 봅니다.'},
+  credit:{n:'신용 시장 안일함', g:'spec', u:'%', d:'하이일드 스프레드가 3%대 초반이면 신용이 낮은 회사에도 돈이 싸게 풀리는 상태입니다.'},
+  calm:{n:'공포지수 안일함', g:'spec', u:'', d:'VIX가 12~14 아래로 내려가면 시장이 위험을 거의 걱정하지 않는 상태입니다.'},
+  conc:{n:'대형주 쏠림', g:'conc', u:'%p', d:'시가총액 가중 S&P 500과 동일 가중 S&P 500의 1년 수익률 차이입니다. 벌어질수록 소수 대형주가 지수를 끌고 있다는 뜻이고, 2000년 닷컴 고점 직전에도 크게 벌어졌습니다.'},
 };
+const MK_G = {val:'가격', spec:'투기 심리', conc:'쏠림'};
 const grMonth = d => d ? `${String(d).slice(0, 4)}년 ${+String(d).slice(5, 7)}월` : '';
-function grahamPhase(){ const G = S.radar?.graham; return G && GR_PH[G.phase] ? G : null; }
-function grahamHtml(R){
-  const G = grahamPhase(); if(!G) return '';
-  const P = GR_PH[G.phase], I = R.ind || {};
-  const dot = on => `<span class="mph-dot ${on === true ? 'on' : on === false ? 'off' : 'na'}" aria-hidden="true"></span>`;
-  const items = (G.items || []).map(x => { const m = GR_IT[x.k]; if(!m) return '';
-    return `<details class="mph-it"><summary>${dot(x.on)}<span class="mph-n">${m.n}</span><span class="mph-v">${x.on === null || x.on === undefined ? '자료 없음' : x.on ? '켜짐' : '꺼짐'}</span></summary>
-      <div class="small mph-more">${x.why ? `<p>${esc(x.why)}${x.date ? ` <span class="muted">(${esc(x.date)})</span>` : ''}</p>` : ''}<p class="muted">${esc(m.d)}</p></div></details>`; }).join('');
-  const dd = (k, l) => isNum(I[k]?.v) ? `<span>${l} 고점 대비 <b class="num">${fmt(I[k].v, 1)}%</b></span>` : '';
-  const cyc = G.trough && isNum(G.rise) ? `<p class="small" style="margin:10px 0 0;word-break:keep-all">S&P 500은 지난 약세장 바닥(${grMonth(G.trough.d)})보다 <b class="num">${G.rise >= 0 ? '+' : ''}${fmt(G.rise, 0)}%</b> 올라 있습니다. 그레이엄이 정리한 1897~1949년 강세장은 바닥에서 고점까지 대부분 50~100% 올랐고, 그 뒤 하락은 대부분 40~50%였습니다. 100% 오른 뒤 50% 빠지면 제자리입니다.</p>` : '';
-  const kv = I.kospi?.v, kp = !isNum(kv) ? null : kv <= -20 ? 'bear' : kv <= -10 ? 'correction' : 'bull';
-  const kr = kp ? `<div class="mph-kr" style="--kc:${GR_PH[kp].c}"><span class="eyebrow">한국 (코스피)</span><b>${kp === 'bull' ? '강세장' : GR_PH[kp].n}</b><span class="small">고점 대비 <b class="num">${fmt(kv, 1)}%</b>${kp === 'bear' ? '. 미국과 달리 이미 약세장 구간입니다. 기준을 통과한 국내 기업이 적정 매수가 아래에 있는지 먼저 봅니다.' : kp === 'correction' ? '. 조정 구간입니다.' : '. 고점 근처입니다.'}</span><span class="small muted">한국은 PER·신용 대출 자료를 아직 넣지 않아 고점 대비 낙폭으로만 판정합니다.</span></div>` : '';
+function mkt(){ const M = S.radar?.mkt; return M && M.us && MK_PH[M.us.phase] ? M : null; }
+const heatC = h => h >= 65 ? '#C0392B' : h >= 45 ? '#C9A227' : h >= 25 ? '#6FA14E' : '#2D7A5F';
+const heatW = h => h >= 65 ? '과열' : h >= 45 ? '뜨거운 편' : h >= 25 ? '보통' : '차가움';
+function mkBlock(T, label, heat){
+  const P = MK_PH[T.phase]; if(!P) return '';
+  const line = [`고점 대비 <b class="num">${fmt(T.dd, 1)}%</b>`, `200일 평균선 ${T.above ? '위' : '아래'} <b class="num">${T.gap200 >= 0 ? '+' : ''}${fmt(T.gap200, 1)}%</b>`, T.trough && isNum(T.rise) && T.phase !== 'bear' && T.phase !== 'panic' ? `약세장 바닥(${grMonth(T.trough.d)}) 대비 <b class="num">${T.rise >= 0 ? '+' : ''}${fmt(T.rise, 0)}%</b>` : ''].filter(Boolean).join(' · ');
+  return `<div class="mph-mk" style="--kc:${P.c}"><span class="eyebrow">${label}</span><b class="mph-ph">${P.n}</b><span class="small mph-ln">${line}</span>${isNum(heat) ? `<div class="mph-heat"><span class="small">과열도</span><span class="mph-bar"><i style="width:${heat}%;background:${heatC(heat)}"></i></span><b class="num" style="color:${heatC(heat)}">${heat}</b><span class="small muted">${heatW(heat)}</span></div>` : ''}</div>`;
+}
+function marketHtml(R){
+  const M = mkt(); if(!M) return '';
+  const warm = M.us.phase === 'bull' && isNum(M.us.heat) && M.us.heat >= 45;
+  const hotN = (M.sig || []).filter(x => isNum(x.heat) && x.heat >= 65).map(x => MK_SIG[x.k]?.n).filter(Boolean);
+  const P = warm ? {...MK_PH.bull, s:`상승 추세가 이어지고 있고, ${hotN.slice(0, 3).join('·')} 신호가 뜨겁습니다. 과열도가 강세장 후기 문턱(65)에 가깝습니다.`, do:['대기 자금은 10~20% 안에서 상단 쪽으로 둡니다.', '새로 살 때는 적정 매수가 아래, 안전마진이 큰 기업만 나눠 삽니다.', '적정 주가를 넘은 보유 종목은 매도 조건을 점검합니다.']} : MK_PH[M.us.phase];
+  const sigs = Object.keys(MK_G).map(g => { const xs = (M.sig || []).filter(x => MK_SIG[x.k] && MK_SIG[x.k].g === g); if(!xs.length) return '';
+    return `<div class="mph-g"><span class="eyebrow">${MK_G[g]}</span>${xs.map(x => { const m = MK_SIG[x.k], h = x.heat;
+      return `<details class="mph-it"><summary><span class="mph-n">${m.n}</span><span class="mph-sv num">${isNum(x.v) ? (x.v > 0 && m.u === '%p' ? '+' : '') + fmt(x.v, 1) + m.u : '–'}</span><span class="mph-bar sm"><i style="width:${isNum(h) ? h : 0}%;background:${isNum(h) ? heatC(h) : 'var(--line)'}"></i></span></summary>
+        <div class="small mph-more">${x.why ? `<p>${esc(x.why)}${x.date ? ` <span class="muted">(${esc(x.date)})</span>` : ''}</p>` : '<p class="muted">자료를 받지 못했습니다.</p>'}<p class="muted">${esc(m.d)}</p></div></details>`; }).join('')}</div>`; }).join('');
   return `<div class="card mph-card" style="--gc:${P.c}">
-    <div class="rd-sec-h"><b>시장 국면</b><span class="small muted">그레이엄 『현명한 투자자』 기준</span></div>
-    <div class="mph-top"><div><span class="eyebrow">미국 (S&P 500)</span><div class="mph-ph">${P.n}</div><div class="small mph-dd">${dd('spx', 'S&P 500')}</div></div>
-      <div class="mph-cnt"><b class="num">${G.on}<span class="small muted"> / ${G.known || 5}</span></b><span class="small muted">강세장 특성</span></div></div>
-    <p class="small" style="margin:8px 0 0;word-break:keep-all">${esc(P.s)}</p>
-    <div class="mph-list">${items}</div>
-    ${cyc}
-    ${kr}
-    <div class="mph-do"><b class="small">지금 할 일</b>${P.do.map((t, i) => `<div><span class="mph-no">${i + 1}</span><span>${esc(t)}</span></div>`).join('')}</div>
-    <p class="small muted" style="margin:10px 0 0;word-break:keep-all">국면은 고점 대비 낙폭(−10% 조정, −20% 약세장)과 강세장 특성 5가지 중 켜진 수(3개 이상이면 과열)로 정합니다. 그레이엄도 주기의 길이와 폭이 늘 달라 매매 시점을 맞추기는 어렵다고 했습니다. 사고팔 신호가 아니라 대기 자금을 얼마나 둘지 정하는 기준으로 씁니다.</p>
+    <div class="rd-sec-h"><b>시장 국면</b><span class="small muted">강세장 · 약세장</span></div>
+    ${mkBlock(M.us, '미국 · S&P 500', M.us.heat)}
+    ${M.kr ? mkBlock(M.kr, '한국 · 코스피', null) : ''}
+    <p class="small" style="margin:10px 0 0;word-break:keep-all">${esc(P.s)}</p>
+    <details class="mph-sigs"><summary><span>과열도 신호 ${(M.sig || []).length}개</span><span class="small muted">막대가 길수록 뜨거움 ›</span></summary>${sigs}</details>
+    <div class="mph-do"><b class="small">지금 할 일 (미국 기준)</b>${P.do.map((t, i) => `<div><span class="mph-no">${i + 1}</span><span>${esc(t)}</span></div>`).join('')}</div>
+    ${M.kr && MK_PH[M.kr.phase] && M.kr.phase !== M.us.phase ? `<p class="small" style="margin:10px 0 0;word-break:keep-all"><b>한국은 ${MK_PH[M.kr.phase].n}입니다.</b> ${esc(MK_PH[M.kr.phase].do[1] || MK_PH[M.kr.phase].do[0])}</p>` : ''}
+    <details class="mph-how small"><summary>판단 기준</summary>
+      <p>국면은 가격 흐름으로 정합니다. 1년 고점보다 20% 넘게 빠지면 약세장, 10% 넘게 빠지거나 200일 평균선 아래로 꺾이면 조정입니다. 약세장 바닥 뒤 15개월 안에 200일 평균선 위로 올라서면 강세장 초기, 그 뒤는 강세장이며, 과열도가 65 이상이면 강세장 후기로 봅니다. 약세장에서 과열도가 35 이하이고 공포지수가 30 이상이면 공포 구간입니다.</p>
+      <p>과열도는 가격·투기 심리·쏠림 신호 8개를 0~100으로 바꿔 평균한 값입니다. 출발점은 그레이엄이 『현명한 투자자』에서 꼽은 강세장의 공통 특성(높은 주가, 높은 PER, 채권 수익률보다 낮은 배당수익률, 신용 거래 투기, 부실한 신규 상장)이고, 이를 실러 PER·주식 위험 프리미엄·신용 대출 증가율 같은 지금의 지표로 바꾸고 신용 스프레드·공포지수·대형주 쏠림을 더했습니다.</p>
+      <p>한국은 PER·신용 대출 자료를 아직 넣지 않아 가격 흐름으로만 판단합니다. 그레이엄도 주기의 길이와 폭이 늘 달라 매매 시점을 맞추기는 어렵다고 했습니다. 국면은 사고팔 신호가 아니라 대기 자금을 얼마나 둘지 정하는 기준입니다.</p></details>
   </div>`;
 }
 const dday = d => { const n = Math.round((Date.parse(d) - Date.parse(today())) / 864e5); return n === 0 ? 'D-DAY' : n > 0 ? `D-${n}` : `D+${-n}`; };
@@ -4121,7 +4139,7 @@ function viewRadar(){
     <div class="rd-cnt">${cnt.map((c, i) => c ? `<span><i class="rd-dot" style="background:${RD_LV[i].c}"></i>${RD_LV[i].n} ${c}</span>` : '').join('')}</div>
     <p class="rd-out">${esc(R.headline || (hot.length ? `${hot.join(', ')}에서 경계 이상 신호` : L.s))}</p>
   </div>
-  ${grahamHtml(R)}
+  ${marketHtml(R)}
   <div class="card rd-sp-card"><div class="rd-sec-h"><b>지표 10개 한눈에</b><span class="small muted">바깥으로 갈수록 위험</span></div>${rdSpider(I, L.c)}</div>
   <div class="card rd-do" style="--lc:${L.c}"><div class="rd-sec-h"><b>${L.n} 단계 · 지금 할 일</b></div>${RD_DO[lv].map((t, i) => `<div><span class="rd-no">${i + 1}</span><span>${esc(t)}</span></div>`).join('')}${R.outlook ? `<p class="small muted rd-ol">${esc(R.outlook)}</p>` : ''}</div>
   ${(R.events || []).length ? `<div class="rd-sec-h out"><b>최근 위험 신호</b><span class="small muted">${esc(R.eventsAt || '')}</span></div>
@@ -6878,7 +6896,8 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 .ty{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;line-height:1;padding:4px 8px 4px 6px;border-radius:7px;color:var(--ty);background:color-mix(in srgb,var(--ty) 15%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 30%,transparent);white-space:nowrap;word-break:keep-all}
 .ty svg{width:13px;height:13px;flex:none}
 .ty-act{font-size:12px;font-weight:700;white-space:nowrap;color:var(--ty);background:none;box-shadow:none}
-.mph-card{border-top:3px solid var(--gc)}.mph-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:6px}.mph-ph{font-size:26px;font-weight:800;color:var(--gc);word-break:keep-all}.mph-dd{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}.mph-cnt{text-align:right;display:flex;flex-direction:column;align-items:flex-end;flex:none}.mph-cnt b{font-size:28px;line-height:1;color:var(--gc)}.mph-list{margin-top:10px;border-top:1px solid var(--line)}.mph-it{border-bottom:1px solid var(--line)}.mph-it summary{display:flex;align-items:center;gap:10px;padding:10px 2px;cursor:pointer;list-style:none}.mph-it summary::-webkit-details-marker{display:none}.mph-n{flex:1;word-break:keep-all}.mph-v{font-size:13px;color:var(--muted)}.mph-dot{width:10px;height:10px;border-radius:50%;flex:none}.mph-dot.on{background:#C0392B}.mph-dot.off{background:transparent;box-shadow:inset 0 0 0 2px var(--line)}.mph-dot.na{background:var(--line)}.mph-more{padding:0 2px 10px 20px}.mph-more p{margin:4px 0;word-break:keep-all}.mph-kr{margin-top:12px;padding:10px 12px;border-radius:10px;border-left:3px solid var(--kc);background:color-mix(in srgb,var(--kc) 8%,transparent);display:flex;flex-direction:column;gap:3px;word-break:keep-all}.mph-kr>b{font-size:17px;color:var(--kc)}.mph-do{margin-top:14px;display:grid;gap:8px}.mph-do>div{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.6;word-break:keep-all}.mph-no{width:22px;height:22px;border-radius:50%;background:var(--gc);color:#FFFFFF;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}.blog-box{display:flex;align-items:center;gap:12px;margin-top:12px;text-decoration:none;color:inherit}.blog-box>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:2px;word-break:keep-all}.blog-ic{width:36px;height:36px;border-radius:10px;background:#03C75A;color:#FFFFFF;display:grid;place-items:center;font-weight:900;font-size:18px;flex:none}.col-blog{display:block;margin-top:14px;color:var(--accent);text-decoration:none;word-break:keep-all}.wk-more-row{gap:16px}
+.mph-card{border-top:3px solid var(--gc)}.mph-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:6px}.mph-ph{font-size:26px;font-weight:800;color:var(--gc);word-break:keep-all}.mph-dd{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}.mph-cnt{text-align:right;display:flex;flex-direction:column;align-items:flex-end;flex:none}.mph-cnt b{font-size:28px;line-height:1;color:var(--gc)}.mph-list{margin-top:10px;border-top:1px solid var(--line)}.mph-it{border-bottom:1px solid var(--line)}.mph-it summary{display:flex;align-items:center;gap:10px;padding:10px 2px;cursor:pointer;list-style:none}.mph-it summary::-webkit-details-marker{display:none}.mph-n{flex:1;word-break:keep-all}.mph-v{font-size:13px;color:var(--muted)}.mph-dot{width:10px;height:10px;border-radius:50%;flex:none}.mph-dot.on{background:#C0392B}.mph-dot.off{background:transparent;box-shadow:inset 0 0 0 2px var(--line)}.mph-dot.na{background:var(--line)}.mph-more{padding:0 2px 10px 20px}.mph-more p{margin:4px 0;word-break:keep-all}.mph-mk{margin-top:10px;padding:10px 12px;border-radius:10px;border-left:3px solid var(--kc);background:color-mix(in srgb,var(--kc) 8%,transparent);display:flex;flex-direction:column;gap:4px;word-break:keep-all}.mph-mk .mph-ph{font-size:22px;color:var(--kc)}.mph-ln{line-height:1.6}.mph-heat{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;margin-top:4px}.mph-bar{display:block;height:8px;border-radius:4px;background:var(--line);overflow:hidden}.mph-bar i{display:block;height:100%;border-radius:4px}.mph-bar.sm{width:56px;height:6px;flex:none}.mph-sigs{margin-top:12px;border-top:1px solid var(--line)}.mph-sigs>summary{display:flex;justify-content:space-between;padding:10px 2px;cursor:pointer;list-style:none;font-weight:600}.mph-sigs>summary::-webkit-details-marker{display:none}.mph-g{margin-top:6px}.mph-sv{font-size:13px;min-width:56px;text-align:right}.mph-how{margin-top:10px;color:var(--muted)}.mph-how summary{cursor:pointer}.mph-how p{margin:6px 0;word-break:keep-all}
+.mph-kr{margin-top:12px;padding:10px 12px;border-radius:10px;border-left:3px solid var(--kc);background:color-mix(in srgb,var(--kc) 8%,transparent);display:flex;flex-direction:column;gap:3px;word-break:keep-all}.mph-kr>b{font-size:17px;color:var(--kc)}.mph-do{margin-top:14px;display:grid;gap:8px}.mph-do>div{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.6;word-break:keep-all}.mph-no{width:22px;height:22px;border-radius:50%;background:var(--gc);color:#FFFFFF;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}.blog-box{display:flex;align-items:center;gap:12px;margin-top:12px;text-decoration:none;color:inherit}.blog-box>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:2px;word-break:keep-all}.blog-ic{width:36px;height:36px;border-radius:10px;background:#03C75A;color:#FFFFFF;display:grid;place-items:center;font-weight:900;font-size:18px;flex:none}.col-blog{display:block;margin-top:14px;color:var(--accent);text-decoration:none;word-break:keep-all}.wk-more-row{gap:16px}
 .ty-value{--ty:#8F6E2C} .ty-growth{--ty:#6A5BB8} .ty-watch{--ty:#4F6680} .ty-spec{--ty:#C24A3C} .ty-index{--ty:#4F7F76} .ty-reserve{--ty:#3F6E9A} .ty-hedge{--ty:#9A7A3F} .ty-unknown{--ty:#7A8494}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ty-value{--ty:#E4C78D} :root:not([data-theme="light"]) .ty-growth{--ty:#B9AEF0} :root:not([data-theme="light"]) .ty-watch{--ty:#A9B9CF} :root:not([data-theme="light"]) .ty-spec{--ty:#F48A7B} :root:not([data-theme="light"]) .ty-index{--ty:#8FC3B7} :root:not([data-theme="light"]) .ty-reserve{--ty:#9CC1E6} :root:not([data-theme="light"]) .ty-hedge{--ty:#E2C48A} :root:not([data-theme="light"]) .ty-unknown{--ty:#9AA4B4}}
 :root[data-theme="dark"] .ty-value,.pf-top .ty-value{--ty:#E4C78D}
