@@ -48,7 +48,7 @@ if sp.get("eyebrow"):
 fig.text(0.067, y, sp["title"], color=C["ink"], fontsize=31, fontweight="black", va="top", linespacing=1.25)
 nl = sp["title"].count("\n") + 1
 
-ax = fig.add_axes([0.1, 0.2, 0.78, 0.68 - 0.06 * nl - (0.045 if sp.get("eyebrow") else 0)])
+ax = fig.add_axes([0.1, 0.2, 0.78, 0.65 - 0.06 * nl - (0.045 if sp.get("eyebrow") else 0)])
 ax.set_facecolor(C["bg"])
 for s in ax.spines.values():
     s.set_visible(False)
@@ -74,7 +74,7 @@ for s in sp["series"]:
 # 끝값 이름표: 그래프 오른쪽 바깥에, 겹치지 않게 위아래로 벌려 놓는다
 x0, x1 = ax.get_xlim()
 ax.set_xlim(x0, x1 + (x1 - x0) * 0.30)
-lo, hi = ax.get_ylim(); gap = (hi - lo) * 0.075
+lo, hi = ax.get_ylim(); gap = (hi - lo) * 0.1
 ends.sort(key=lambda e: e[0])
 placed = []
 for v, name, val, col, xe in ends:
