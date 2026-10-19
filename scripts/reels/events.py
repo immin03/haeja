@@ -174,6 +174,37 @@ def check_fomc(now, seen):
     return tag, wrap(f"E{day:%y%m%d}FOMC", f"{md} 미국 기준금리 {chg:+.2f}%p", scenes, cap, ["미국금리", "기준금리", "금리"], now)
 
 
+def radar_doc():
+    import re
+    cfg = open(os.path.join(ROOT, "config.js"), encoding="utf-8").read()
+    url = re.search(r"SUPABASE_URL:\s*'([^']+)'", cfg).group(1); key = re.search(r"SUPABASE_ANON_KEY:\s*'([^']+)'", cfg).group(1)
+    req = urllib.request.Request(f"{url}/rest/v1/docs?collection=eq.fx&id=eq.radar&select=data", headers={"apikey": key, "Authorization": "Bearer " + key})
+    return json.load(urllib.request.urlopen(req, timeout=30))[0]["data"]
+
+
+RNAME = {"hy": "회사채 금리차", "stress": "금융 스트레스", "vix": "공포지수", "curve": "장단기 금리차", "rate": "미국 10년 금리", "sahm": "실업률 신호", "dollar": "달러 흐름", "kospi": "코스피", "spx": "S&P 500", "euro": "프랑스 국채 금리차"}
+OVN = ["안정", "대체로 안정", "주의", "경계", "위험"]
+
+
+def check_radar(now, seen):
+    """경제 레이더 종합 단계(0~4)가 바뀐 날 → 신호등 릴스. 이틀 이상 지난 변화는 다루지 않는다"""
+    d = radar_doc(); h = [x for x in d.get("hist", []) if isinstance(x.get("o"), int)]
+    if len(h) < 2 or h[-1]["o"] == h[-2]["o"]: return None
+    day = h[-1]["d"]; tag = f"RADAR@{day}"
+    if tag in seen or (now.date() - dt.date.fromisoformat(day)).days > 2: return None
+    new, old = h[-1]["o"], h[-2]["o"]; up = new > old
+    on = sorted([(k, v) for k, v in d.get("ind", {}).items() if k in RNAME and (v.get("lv") or 0) >= 3], key=lambda x: -x[1]["lv"])
+    scenes = [{"type": "statement", "l1": "경제 레이더 신호등이", "l2": f"'{OVN[old]}'에서 '{OVN[new]}'로", "tone": "loss" if up else "gold", "note": "위기 신호 10개를 모아 매일 계산합니다",
+               "say": f"경제 레이더 신호등이, {OVN[old]}에서 {OVN[new]}{'으' if OVN[new][-1] in '험의' else ''}로 바뀌었습니다."}]
+    if on: scenes.append({"type": "list", "title": "경고가 켜진 신호", "items": [f"{RNAME[k]} · {'위험' if v['lv'] >= 4 else '주의'}" for k, v in on[:5]], "say": ", ".join(RNAME[k] for k, _ in on[:5]) + "에 경고가 켜져 있습니다."})
+    scenes.append({"type": "statement", "l1": "신호는 예측이 아니라", "l2": "미리 살피라는 경고입니다", "tone": "ivory", "say": "신호는 예측이 아니라, 미리 살피라는 경고입니다."})
+    scenes.append(CTA_RADAR)
+    cap = (f"밸류노트 경제 레이더의 종합 단계가 '{OVN[old]}'에서 '{OVN[new]}'(으)로 {'올라갔습니다' if up else '내려왔습니다'}.\n\n"
+           + ("\n".join(f"· {RNAME[k]}: {v.get('why', '')}" for k, v in on) + "\n\n" if on else "")
+           + "경제 레이더는 회사채 금리차, 금융 스트레스, 공포지수, 장단기 금리차, 미국 10년 금리, 실업률 신호, 달러 흐름, 주가 하락 폭 등을 과거 위기 때 수치와 비교해 신호등으로 보여 줍니다. 신호는 시장을 예측하지 않으며, 위험을 미리 살피기 위한 도구입니다.")
+    return tag, wrap(f"E{now:%y%m%d}RADAR", f"경제 레이더 {OVN[old]} → {OVN[new]}", scenes, cap, ["경제레이더", "경제위기", "금리"], now)
+
+
 def check_cpi(now, seen):
     """미국 소비자물가(CPIAUCSL) 새 달 자료가 올라오면 → 물가 릴스 (1년 전 대비 상승률)"""
     pts = fred("CPIAUCSL")
@@ -219,10 +250,10 @@ def main():
         os.makedirs(EVDIR, exist_ok=True)
         json.dump(spec, open(os.path.join(EVDIR, spec["id"] + ".json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         st["keys"].append(spec["id"]); st.setdefault("seen", []).append(tag); made.append(spec["id"])
-        if tag.startswith(("CPI@", "FOMC@")): perm.append(tag)
+        if tag.startswith(("CPI@", "FOMC@", "RADAR@")): perm.append(tag)
         print("  → 릴스 대본 생성", spec["id"], spec["scheduled_at"])
-    # 1) 미국 기준금리 결정, 2) 미국 물가 발표 (가장 중요한 이슈부터)
-    for chk in (check_fomc, check_cpi):
+    # 1) 경제 레이더 종합 단계 변화, 2) 미국 기준금리 결정, 3) 미국 물가 발표 (가장 중요한 이슈부터)
+    for chk in (check_radar, check_fomc, check_cpi):
         if fake or len(st["keys"]) >= MAX_PER_DAY: break
         try: r = chk(now, seen)
         except Exception as e:

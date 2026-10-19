@@ -19,9 +19,9 @@ const HANDLE = '@value.note.korea';
 // 하루 3편: a = 21:00 오늘의 기업(유명 회사), b = 11:00 저평가 기업 분석, rank = 15:30 저평가·고평가 TOP 10
 const MODE = process.argv[3] || 'a';
 // reel1 = 12:30 기업 릴스 대본, reel2 = 18:00 순위 릴스 대본 (이미 그 시간에 잡힌 릴스가 없을 때만), am = 08:30 기능 카드가 끝난 뒤 채우는 '좋은 회사, 비싼 가격' 분석
-const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'], am: ['C', 'm', '08:30'], reel1: ['A', '1', '12:30'], reel2: ['A', '2', '18:00'], ra: ['A', 'a', '21:00'], rb: ['A', 'b', '11:00'], rr: ['A', 'r', '15:30'], rm: ['A', 'm', '08:30'] }[MODE];
+const SLOT = { a: ['C', '', '21:00'], b: ['C', 'b', '11:00'], rank: ['K', '', '15:30'], am: ['C', 'm', '08:30'], reel1: ['A', '1', '12:30'], reel2: ['A', '2', '18:00'], ra: ['A', 'a', '21:00'], rb: ['A', 'b', '11:00'], rr: ['A', 'r', '15:30'], rm: ['A', 'm', '08:30'], rc: ['A', 'c', '15:30'] }[MODE];
 const POST_TIME = SLOT[2];
-const REEL = ['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE);
+const REEL = ['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm', 'rc'].includes(MODE);
 const DISC = '*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.';
 const cfgSrc = fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8');
 const URL0 = cfgSrc.match(/SUPABASE_URL:\s*'([^']+)'/)[1];
@@ -659,7 +659,7 @@ const state0 = path.join(OUT, 'state.json');
 const state = fs.existsSync(state0) ? JSON.parse(fs.readFileSync(state0, 'utf8')) : { used: [] };
 const qPath = path.join(OUT, 'queue.json');
 const queue = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, 'utf8')) : [];
-if (['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE)) {
+if (REEL) {
   const when = process.env.REEL_AT || `${ymd}T${POST_TIME}:00+09:00`;
   const taken = !process.env.REEL_ID && fs.readdirSync(SPECS).filter((f) => f.endsWith('.json')).some((f) => { try { return JSON.parse(fs.readFileSync(path.join(SPECS, f), 'utf8')).scheduled_at === when; } catch (_) { return false; } });
   if (taken) { console.log('이미 릴스 있음', when); process.exit(0); }
@@ -672,7 +672,7 @@ if (['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE)) {
     // REEL_T=<티커>: 같은 회사로 대본만 다시 만들 때 (예: 문구 규칙이 바뀐 뒤 다시 만들기)
     const forced = process.env.REEL_T ? rows.find((r) => r.t === process.env.REEL_T) : null;
     const x0 = forced ? { r: forced, sc: score(forced) } : pick(rows, { used: [...used] }); if (!x0) throw new Error('릴스 회사 없음');
-    spec = await reelAny(x0, { rm: 0, rb: 1, ra: 2, reel1: 3 }[MODE] ?? 0);
+    spec = await reelAny(x0, { rm: 0, rb: 1, ra: 2, rc: 3, reel1: 4 }[MODE] ?? 0);
     if (spec.format === 'expect') {
       if (MODE === 'ra') spec.title = `오늘의 기업 · ${x0.r.n}`;
       if (MODE === 'rb') spec.title = `시장이 낮게 보는 기업 · ${x0.r.n}`;

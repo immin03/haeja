@@ -24,17 +24,22 @@ jobs:
       - name: 릴스 대본 만들기 (카드뉴스 없이 모든 콘텐츠를 릴스로)
         run: |
           node scripts/company_cards.mjs $(TZ=Asia/Seoul date +%F) ra   # 오늘 21:00 오늘의 기업 (이미 있으면 건너뜀)
-          T=$(TZ=Asia/Seoul date -d tomorrow +%F)
-          node scripts/company_cards.mjs $T rm                # 내일 08:30 좋은 회사, 고평가
-          node scripts/company_cards.mjs $T rb                # 내일 11:00 저평가 기업
-          node scripts/company_cards.mjs $T rr                # 내일 15:30 저평가·고평가 TOP 5
+          T=$(TZ=Asia/Seoul date -d tomorrow +%F); W=$(TZ=Asia/Seoul date -d tomorrow +%u)   # 1=월 … 7=일
+          # 08:30 — 월: 이번 주 경제 레이더, 화·목·토: 위기 교과서(미리 쓴 대본), 그 밖의 날(또는 대본이 떨어지면): 기업
+          if [ "$W" = 1 ]; then node scripts/reels/radar_reel.mjs $T || true; fi
+          if [ "$W" = 2 ] || [ "$W" = 4 ] || [ "$W" = 6 ]; then node scripts/reels/lib_pick.mjs macro $T 08:30; fi
+          node scripts/company_cards.mjs $T rm                # 08:30 칸이 비어 있으면 기업
+          node scripts/company_cards.mjs $T rb                # 11:00 기업
+          # 15:30 — 월·목·토: 사실 순위 TOP 10, 수: 비교·상식(미리 쓴 대본, 없으면 순위), 화·금·일: 기업
+          if [ "$W" = 3 ]; then node scripts/reels/lib_pick.mjs compare $T 15:30; fi
+          if [ "$W" = 2 ] || [ "$W" = 5 ] || [ "$W" = 7 ]; then node scripts/company_cards.mjs $T rc; else node scripts/company_cards.mjs $T rr; fi
           node scripts/company_cards.mjs $T reel1             # 내일 12:30 릴스가 비어 있으면 기업 릴스
           node scripts/company_cards.mjs $T reel2             # 내일 18:00 릴스가 비어 있으면 순위 릴스
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"
           git config user.email "bot@valuenote.co.kr"
-          git add social/company scripts/reels/specs
+          git add social/company scripts/reels/specs scripts/reels/macro scripts/reels/compare social/reels/low_*.txt 2>/dev/null || git add social/company scripts/reels/specs scripts/reels/macro scripts/reels/compare
           git diff --cached --quiet && exit 0
           git commit -m "오늘의 기업 카드 $(TZ=Asia/Seoul date +%F)"
           git pull --rebase origin main
