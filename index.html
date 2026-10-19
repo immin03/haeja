@@ -1998,7 +1998,12 @@ function dayChgOf(...keys){
   for(const k of keys){ if(!k) continue; const d = (S.prices[normKey(k)]?.daily || []).filter(p => isNum(p[1])); if(d.length >= 2 && d[d.length - 2][1] > 0) return (d[d.length - 1][1] / d[d.length - 2][1] - 1) * 100; }
   return null;
 }
-function dipCard(dayPct){
+/* 내 계좌 하루 변동을 어느 종목이 만들었는지: 원화 기준 기여도 */
+function dayMovers(rows){
+  return (rows||[]).map(r => { const h = r.h, pc = h.prevClose; if(!(isNum(pc) && pc > 0 && isNum(h.price))) return null;
+    const fx = fxOf(h.currency || curOf(h.market)); return { r, krw: h.qty*(h.price - pc)*fx, pct: (h.price/pc - 1)*100 }; }).filter(Boolean);
+}
+function dipCard(dayPct, rows){
   const req = cfg().reqMOS ?? 30;
   /* 좋은 회사(근접도 75+) 중 적정 매수가 위 10% 이내 또는 그 아래로 내려온 곳 */
   const near = (S2.screen?.length ? scoredRows() : []).filter(r => isNum(r.b) && r.b >= 75 && isNum(r.mos) && r.mos >= req - 10)
@@ -2009,9 +2014,17 @@ function dipCard(dayPct){
   if(!rough && !fell.length) return '';
   const list = (fell.length ? fell : near).slice(0, 3);
   return `<div class="card dip-card">
-    <div class="eyebrow">${rough ? '시장이 흔들린 날' : '오늘 크게 내린 좋은 회사'}</div>
-    <h3>${rough ? `오늘 계좌가 ${pct(dayPct)} 움직였어요. 팔 이유가 생긴 건지, 살 기회가 생긴 건지부터 보세요.` : `좋은 회사 ${fell.length}곳이 오늘 3% 넘게 내렸어요.`}</h3>
-    ${list.length ? `<div class="small muted" style="margin:8px 0 6px">적정 매수가 근처까지 내려온 좋은 회사 ${near.length}곳</div>
+    <div class="eyebrow">${rough ? '내 계좌가 크게 내린 날' : '오늘 크게 내린 좋은 회사'}</div>
+    <h3>${rough ? `내 보유 종목 평가액이 오늘 ${pct(dayPct)} 움직였어요.` : `좋은 회사 ${fell.length}곳이 오늘 3% 넘게 내렸어요.`}</h3>
+    ${rough ? (() => {
+      const mv = dayMovers(rows), drop = mv.filter(m => m.krw < 0).sort((a,b) => a.krw - b.krw), lossAll = drop.reduce((a,m) => a + m.krw, 0);
+      const top = drop.slice(0, 2); if(!top.length) return '';
+      const nm = n => n.replace(/\s*\(.*\)$/,'');
+      const tys = top.map(m => stockType(m.r)), share = lossAll ? Math.round(top.reduce((a,m) => a + m.krw, 0) / lossAll * 100) : 0;
+      const allBad = tys.every(t => t.k === 'spec' || t.k === 'growth' || t.k === 'watch' || t.k === 'unknown');
+      return `<p style="margin:6px 0 0;font-size:14px;line-height:1.6;word-break:keep-all">하락분의 ${share}%는 ${top.map((m,i) => `<b>${esc(nm(m.r.h.name))}</b>(${tys[i].name}, 오늘 ${pct(m.pct)})`).join(', ')}에서 나왔어요. ${allBad ? '가치주가 아닌 종목이 계좌를 흔들고 있어요. 비중을 줄일 순서는 아래 "지금 할 일"에 있습니다.' : '팔 이유가 생긴 건지, 살 기회가 생긴 건지부터 보세요.'}</p>`;
+    })() : ''}
+    ${list.length ? `<div class="small muted" style="margin:${rough ? 14 : 8}px 0 6px">${rough ? '지금 적정 매수가 근처에 있는 좋은 회사' : '적정 매수가 근처까지 내려온 좋은 회사'} ${near.length}곳</div>
     <div class="dip-list">${list.map(({ r, gap, day }) => `<button type="button" class="dip-row" data-act="sc-import" data-t="${esc(r.t)}">
       <span class="dip-n"><b>${esc(r.n)}</b><small>밸류노트 점수 ${r.b}${isNum(day) ? ` · 오늘 ${pct(day)}` : ''}</small></span>
       <span class="dip-g ${gap <= 0 ? 'in' : ''}">${gap <= 0 ? '적정 매수가 아래' : `매수가까지 −${fmt(gap, 0)}%`}</span></button>`).join('')}</div>` : ''}
@@ -2211,7 +2224,7 @@ function viewPortfolio(){
     ${editing ? holdForm(editing) : ''}
     <div class="pf-list">${rows.length ? rows.map(row).join('') : `<div class="empty">아직 보유 종목이 없습니다. "종목 추가"로 첫 종목을 넣으세요.</div>`}<label class="pf-row static pf-cash"><span class="pf-dot" style="background:var(--c-cash)"></span><span class="pf-name"><b>현금 (예수금)</b><span class="small muted">비중 ${fmt(cashW,0)}%</span></span><span class="pf-ret"><input class="num" type="text" inputmode="numeric" data-cash="1" value="${(st.cashKRW||0).toLocaleString('ko-KR')}" aria-label="예수금 (원)"><span class="small muted">원</span></span></label></div>
   </div>
-  ${dipCard(dayPct)}
+  ${dipCard(dayPct, rows)}
   ${gradeCard()}
   ${rows.length ? `<h2>지금 할 일</h2>
   <div class="card">${acts.length ? `<ol class="acts">${acts.map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':'참고'}</span><span>${esc(a.short || a.t)}</span></li>`).join('')}</ol>` : `<div class="muted">구조가 목표 안에 있다. 매도 조건과 분기 실적만 확인하면 된다.</div>`}
