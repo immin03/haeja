@@ -887,7 +887,7 @@ def build_audio(scenes, total, mood, path):
 # ── 실행 ─────────────────────────────────────────────────────
 VERIFY = os.environ.get("REELS_VERIFY", "1") != "0"
 VLOG, LINT = [], []
-MAX_SEC = 30  # 릴스 길이 상한 (목표 20초 안팎)
+MAX_SEC = 40  # 2026-10-19 운영자: 유익하면 40초까지
 
 def render(spec, outdir, stills=None):
     from tts import speak
