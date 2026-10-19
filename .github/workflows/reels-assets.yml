@@ -1,0 +1,23 @@
+# 릴스용 무료 영상 소스·효과음 후보 받기 (manifest.json 을 바꾸면 실행)
+name: reels-assets
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/reels/assets/manifest.json', 'scripts/reels/assets/fetch.py']
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: python3 scripts/reels/assets/fetch.py
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          git add scripts/reels/assets
+          git diff --cached --quiet || git commit -m "릴스 소스: 무료 영상·효과음 받기"
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
