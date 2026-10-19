@@ -414,6 +414,22 @@ const R0 = (v) => (isNum(v) ? Math.round(v) : null);
 const scores = Object.fromEntries(all.map((x) => [x.slug, [x.r.n, R0(x.sc.b), R0(x.sc.q), R0(x.sc.v), grpOf(x.r.m),
   isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv < 2 ? R0(x.sc.mos) : null, x.r.ind || x.r.s || '']]));
 fs.writeFileSync(path.join(dir, 'scores.json'), JSON.stringify({ date, c: scores }));
+// 소개 페이지 마지막 '지금 적정 매수가 아래' 순위: 앱 저평가 순위(valueRows 'under')와 같은 기준·같은 순서
+//  현재가 ≤ 적정 주가의 75%, 재무 점수 50점 이상, 감점 신호 없음, 데이터 신뢰도 낮음 제외 → 가장 많이 싼 순
+const vt = {};
+for (const x of all) {
+  const { r, sc } = x;
+  if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low') continue;
+  const R = r.px / sc.iv, pen = (sc.flags || []).filter((fl) => !WARN_FLAGS.has(fl)).length;
+  if (!(R <= 0.75 && isNum(sc.q) && sc.q >= 50 && !pen)) continue;
+  (vt[grpOf(r.m)] = vt[grpOf(r.m)] || []).push({ R, b: R0(sc.b), ind: r.ind || r.s || '', n: r.n });
+}
+const valueTop = {};
+for (const [m, L] of Object.entries(vt)) { L.sort((a, b) => a.R - b.R);
+  valueTop[m] = { n: L.length, top: L.slice(0, 5).map((y) => ({ b: y.b, ind: y.ind, low: Math.round((1 - y.R) * 100), up: Math.round((1 / y.R - 1) * 100) })) }; }
+fs.writeFileSync(path.join(dir, 'value-top.json'), JSON.stringify({ date, m: valueTop }));
+// 확인용(이름 포함)은 저장하지 않는다: 이름은 가입 후에만 보인다
+if (process.env.VT_DEBUG) console.log(JSON.stringify(Object.fromEntries(Object.entries(vt).map(([m, L]) => [m, L.slice(0, 5).map((y) => y.n + ' ' + Math.round((1 - y.R) * 100) + '%')]))));
 
 // 칼럼 정적 페이지·RSS (blog/ 아래 이미지 폴더는 건드리지 않는다)
 const cols = await loadColumns();
