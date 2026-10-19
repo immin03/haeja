@@ -319,7 +319,8 @@ def s_compare(img, u, sc, L, T):
 def s_bars(img, u, sc, L, T):
     items = sc["items"]; mx = max(abs(i["v"]) for i in items) or 1
     if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 68, 960), IVORY, (W / 2, 410), dur=.35)
-    gap = min(170, 560 / max(1, len(items))); y0 = 640 + (560 - gap * len(items)) / 2
+    n_ = max(1, len(items)); area = 560 if n_ <= 4 else 840  # 항목이 많으면 아래로 더 넓게 써서 이름표와 막대가 겹치지 않게
+    gap = min(170, area / n_); y0 = (640 if n_ <= 4 else 560) + (area - gap * n_) / 2
     step = min(.45, max(.2, L[0][1] * .7 / len(items)))
     for k, it in enumerate(items):
         t0 = .25 + k * step; p = prog(u, t0, t0 + .55)
