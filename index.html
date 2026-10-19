@@ -65,7 +65,7 @@ if(/Android/.test(u)){location.href='intent://'+location.host+location.pathname+
 <title>밸류노트 ValueNote · 적정 주가와 가치투자 점수, 그레이엄·버핏 기준</title>
 <link rel="canonical" href="https://www.valuenote.co.kr/">
 <link rel="alternate" type="application/rss+xml" title="밸류노트 칼럼" href="https://www.valuenote.co.kr/rss.xml">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"밸류노트","alternateName":["ValueNote","가치노트"],"url":"https://www.valuenote.co.kr/","inLanguage":"ko-KR"},{"@type":"Organization","name":"밸류노트","alternateName":"ValueNote","url":"https://www.valuenote.co.kr/","logo":"https://www.valuenote.co.kr/icon-512.png","sameAs":["https://www.instagram.com/value.note.korea/"]},{"@type":"WebApplication","name":"밸류노트 ValueNote","url":"https://www.valuenote.co.kr/","applicationCategory":"FinanceApplication","operatingSystem":"Web, iOS, Android","inLanguage":"ko-KR","description":"그레이엄·버핏·멍거의 기준으로 5개 시장 600여 개 기업의 가치투자 점수와 적정 주가를 매일 계산하고, 적정 매수가에 오면 알려 주는 가치투자 노트.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"밸류노트","alternateName":["ValueNote","가치노트"],"url":"https://www.valuenote.co.kr/","inLanguage":"ko-KR"},{"@type":"Organization","name":"밸류노트","alternateName":"ValueNote","url":"https://www.valuenote.co.kr/","logo":"https://www.valuenote.co.kr/icon-512.png","sameAs":["https://www.instagram.com/value.note.korea/","https://blog.naver.com/valuenote_korea"]},{"@type":"WebApplication","name":"밸류노트 ValueNote","url":"https://www.valuenote.co.kr/","applicationCategory":"FinanceApplication","operatingSystem":"Web, iOS, Android","inLanguage":"ko-KR","description":"그레이엄·버핏·멍거의 기준으로 5개 시장 600여 개 기업의 가치투자 점수와 적정 주가를 매일 계산하고, 적정 매수가에 오면 알려 주는 가치투자 노트.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -2025,7 +2025,7 @@ function consentHtml(){
 }
 function discFootHtml(){
   const est = ['analyze','alerts','watchlist','companies'].includes(S.tab);
-  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div></footer>`;
+  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div></footer>`;
 }
 document.addEventListener('change', e => { if(e.target && e.target.classList && e.target.classList.contains('ca-req')){ const b = document.getElementById('disc-ok'); if(b) b.disabled = ![...document.querySelectorAll('.ca-req')].every(x => x.checked); } });
 document.addEventListener('click', e => {
@@ -2275,6 +2275,9 @@ function concPlan(rows, total, cashW){
     if(buyable.length) acts.push({lv:'none', short:`대기 자금 ${fmt(cashAll,0)}%. 기준 통과 종목(${buyable.map(x => x.c.name).join(', ')})에 나눠 쓸 때`, t:`대기 자금이 ${fmt(cashAll,0)}%로 목표 ${PLAN.cashHi}%보다 많고, 기준을 통과한 후보가 있다: ${buyable.map(x => x.c.name).join(', ')}. 한 번에 넣지 말고 적정 매수가 이하에서 나눠 산다.`});
     else acts.push({lv:'none', short:`대기 자금 ${fmt(cashAll,0)}%. 살 만한 기업이 없을 때는 단기채로 기다려도 된다`, t:`대기 자금이 ${fmt(cashAll,0)}%로 목표보다 많지만, 지금 기준을 통과한 후보가 없다. 싼 기업이 없을 때 대기 자금이 늘어나는 것은 정상이다. 버크셔도 이런 시기에는 돈을 만기 1년 미만 국채에 두고 기다린다. 이자를 받도록 단기채·MMF로 옮겨 두는 것만 확인한다.`});
   }
+  const GP = grahamPhase();
+  if(GP && GP.phase === 'hot' && cashAll < PLAN.cashHi - 0.5) acts.push({lv:'none', short:`미국 강세장 과열 신호 ${GP.on}/${GP.known || 5}. 대기 자금 ${fmt(cashAll,0)}% → 20%에 가깝게`, t:`경제 레이더의 미국 시장 국면이 강세장 과열이다(그레이엄의 강세장 특성 ${GP.on}/${GP.known || 5}). 대기 자금 ${fmt(cashAll,0)}%를 목표 상단 ${PLAN.cashHi}%에 가깝게 둔다. 매매 시점을 맞추려는 것이 아니라 하락장에서 살 돈을 미리 남겨 두는 것이다.`});
+  if(GP && GP.phase === 'bear' && cashAll > PLAN.cashLo) acts.push({lv:'none', short:`약세장. 대기 자금 ${fmt(cashAll,0)}%로 기준 통과 기업을 나눠 살 때`, t:`S&P 500이 고점 대비 20% 넘게 빠진 약세장이다. 그레이엄이 말한 모두가 파는 구간이다. 대기 자금 ${fmt(cashAll,0)}%로 적정 매수가 아래 기업을 나눠 산다.`});
   const hedgeW = exp.filter(r => r.h.kind === 'hedge').reduce((a,r) => a + r.w, 0);
   if(hedgeW > 0) acts.push({lv:'none', short:`금·장기채 ${fmt(hedgeW,0)}%는 대기 자금으로 치지 않음`, t:`금·장기채 ${fmt(hedgeW,0)}%는 대기 자금으로 보지 않는다. 금은 이익을 만들지 않고, 장기채는 금리가 오르면 값이 크게 떨어져 폭락장에서 꺼내 쓸 돈이 줄 수 있다. 기다리는 돈은 단기채에 둔다.`});
   core.forEach(r => { if(r.ev && isNum(r.ev.mos) && r.ev.mos < -10) acts.push({lv:'warn', t:`${r.h.name}: 주가가 적정 주가보다 ${fmt(-r.ev.mos,0)}% 높다. 매도 조건(적정 주가 초과)을 점검할 시점이다.`}); });
@@ -2931,7 +2934,7 @@ function weeklyNoteHtml(){
     : `<button type="button" class="wk-hero" data-act="col-open" data-v="${esc(col.id)}">
         <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(series)}</span><b>${esc(col.title)}</b>${ex ? `<span class="wk-hero-ex">${esc(ex)}${/[.!?다요]$/.test(ex) ? '' : '…'}</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
       </button>`;
-  const more = col ? `<div class="wk-more-row"><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button></div>` : '';
+  const more = col ? `<div class="wk-more-row"><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button><a class="linkbtn" href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그 ›</a></div>` : '';
   /* 이번 주 숫자: 줄마다 문장 하나와 숫자 하나. 누르면 해당 화면으로 */
   const line = (label, val, cls, tab) => `<button type="button" class="wk-line" data-act="go-tab" data-v="${tab}"><span>${label}</span><b class="num ${cls}">${val}</b><i>›</i></button>`;
   const lines = [
@@ -2978,6 +2981,8 @@ function newsletterBox(){
   return `<div class="card nl-box"><div><b>${on ? '칼럼을 메일로 받고 있어요' : '매주 월요일, 칼럼을 메일로 받아 보세요'}</b><div class="small muted">${on ? esc(store.user?.email || '') + '로 보내 드려요. 언제든 끌 수 있어요.' : '새 칼럼이 올라오면 ' + esc(store.user?.email || '가입한 메일') + '로 보내 드려요.'}</div></div>
     <button type="button" class="btn ${on ? '' : 'primary'}" data-act="nl-toggle">${on ? '구독 끄기' : '구독하기'}</button></div>`;
 }
+const BLOG_URL = 'https://blog.naver.com/valuenote_korea';
+const blogBox = () => `<a class="card blog-box" href="${BLOG_URL}" target="_blank" rel="noopener"><span class="blog-ic" aria-hidden="true">N</span><span><b>밸류노트 블로그</b><span class="small muted">기업 이야기, 거장의 투자, 밸류노트 사용법을 매일 올립니다</span></span><span class="small muted">바로가기 ›</span></a>`;
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
@@ -2986,10 +2991,12 @@ function viewColumn(){
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
       <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
       ${(open.sources || []).length ? `<div class="small muted col-src">출처 ${open.sources.slice(0, 6).map((u, i) => { try{ return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(new URL(u).hostname.replace(/^www\./, ''))}</a>`; }catch(_){ return ''; } }).filter(Boolean).join(' · ')}</div>` : ''}
+      <a class="col-blog small" href="${BLOG_URL}" target="_blank" rel="noopener">더 많은 글은 밸류노트 네이버 블로그에서 읽을 수 있습니다 ›</a>
       <p class="small muted col-disc">${colByline(open) ? '밸류노트 데이터와 AI 도구로 초안을 만들고 에디터가 검수한 글입니다. ' : ''}공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
   return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">주간 시장: 매주 월요일 시장·금리·환율 정리 · 거장의 투자: 버핏·그레이엄·멍거의 실제 매매와 생각</div></div></div>
     ${newsletterBox()}
+    ${blogBox()}
     <div class="col-tabs">${[['all','전체'], ...Object.entries(COL_SERIES)].map(([k, l]) => `<button type="button" class="${(S.colSer || 'all') === k ? 'on' : ''}" data-act="col-ser" data-v="${k}">${l}</button>`).join('')}</div>
     ${(() => { colStatsLoad(); const LL = L.filter(c => (S.colSer || 'all') === 'all' || colSeries(c) === S.colSer); return LL.length ? `<div class="col-list">${LL.map((c, i) => `<button type="button" class="card col-item${i === 0 ? ' first' : ''}${c.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(c.id)}">
       ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted"><span class="col-ser">${esc(COL_SERIES[colSeries(c)])}</span> ${esc(colDate(c))}${i === 0 ? ' · 최신' : ''} · ${colStatHtml(c)}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(String(c.body || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*]/g, '').replace(/\s+/g, ' ').trim().slice(0, 90))}…</span></button>`).join('')}</div>` : `<div class="card empty" style="margin-top:12px">${L.length ? '이 연재의 첫 글을 준비하고 있어요.' : '첫 칼럼을 준비하고 있어요. 그동안 브리핑 화면의 "이번 주 노트"를 확인해 보세요.'}</div>`; })()}`;
@@ -3914,7 +3921,7 @@ function rdLevel(R){
 function radarChip(){
   const R = S.radar, lv = rdLevel(R); if(lv === null) return '';
   const L = RD_LV[lv];
-  return `<button type="button" class="rd-chip" data-act="go-tab" data-v="radar"><span class="rd-dot" style="background:${L.c}"></span><span><b>경제 레이더 · ${L.n}</b><span class="small muted"> ${esc(R.headline || L.s)}</span></span><span class="small muted">›</span></button>`;
+  return `<button type="button" class="rd-chip" data-act="go-tab" data-v="radar"><span class="rd-dot" style="background:${L.c}"></span><span><b>경제 레이더 · ${L.n}${grahamPhase() ? ' · ' + GR_PH[grahamPhase().phase].n : ''}</b><span class="small muted"> ${esc(R.headline || L.s)}</span></span><span class="small muted">›</span></button>`;
 }
 function rdVal(k, o){
   const m = RD_IND[k]; if(!o || !isNum(o.v)) return '–';
@@ -4007,6 +4014,49 @@ function rdTile(k, o){
     </summary>
     <div class="rd-tmore"><b>${esc(m.n)}</b><p>${esc(o.why || '')}</p><p class="muted">${esc(m.d)}</p>${sub ? `<p class="muted num">${sub}</p>` : ''}<p class="muted">기준일 ${esc(o.date || '')}</p></div></details>`;
 }
+/* ============ 시장 국면: 그레이엄 『현명한 투자자』의 강세장 공통 특성 5가지 ============ */
+const GR_PH = {
+  hot:{n:'강세장 · 과열', c:'#C0392B', s:'그레이엄이 꼽은 강세장 특성이 여럿 켜져 있습니다. 모두가 사는 구간입니다.',
+    do:['대기 자금(현금·단기채)을 목표 상단인 20%에 맞춥니다.', '새로 살 때는 적정 매수가 아래에 있는 기업만, 나눠서 삽니다.', '적정 주가를 넘은 보유 종목은 매도 조건을 점검합니다.']},
+  bull:{n:'강세장', c:'#C9A227', s:'주가가 고점 근처에 있지만 과열 특성은 많지 않습니다.',
+    do:['원칙대로 투자합니다. 대기 자금은 10~20% 안에서 유지합니다.', '적정 매수가 아래로 내려온 기업이 있는지만 확인합니다.']},
+  correction:{n:'조정', c:'#6FA14E', s:'고점에서 10% 넘게 내려왔습니다. 아직 약세장은 아닙니다.',
+    do:['미리 정한 적정 매수가에 닿은 기업이 있는지 확인합니다.', '살 때는 한 번에 넣지 않고 나눠 삽니다.']},
+  bear:{n:'약세장', c:'#2D7A5F', s:'고점에서 20% 넘게 빠졌습니다. 그레이엄이 말한 "모두가 파는" 구간입니다.',
+    do:['공포에 팔지 않습니다. 미리 정한 매도 조건만 따릅니다.', '남겨 둔 대기 자금으로 기준을 통과한 기업을 나눠 삽니다.', '빚이 많은 회사는 버틸 수 있는지 숫자로 다시 확인합니다.']},
+};
+const GR_IT = {
+  level:{n:'역사적으로 높은 주가', d:'S&P 500이 최근 4년 평균보다 30% 넘게 높으면 켜집니다.'},
+  per:{n:'높은 PER', d:'경기 조정 PER(10년 평균 이익 기준)이 25배를 넘으면 켜집니다. 1871년 이후 중간값은 16배 안팎입니다.'},
+  div:{n:'채권보다 낮은 배당수익률', d:'S&P 500 배당수익률이 미국 10년 국채 금리보다 낮으면 켜집니다. 주식을 들고 받는 돈이 채권 이자보다 적다는 뜻입니다.'},
+  margin:{n:'빚내서 하는 투자 급증', d:'증권사 고객 신용 대출이 1년 새 25% 넘게 늘면 켜집니다. 미국 연준 분기 자료라 2~3개월 늦게 반영됩니다.'},
+  ipo:{n:'신규 상장 열기', d:'최근 상장한 기업들의 주가가 S&P 500보다 1년간 20%p 넘게 더 오르면 켜집니다. 부실한 회사도 쉽게 상장되는 분위기를 보는 대용 지표입니다.'},
+};
+const grMonth = d => d ? `${String(d).slice(0, 4)}년 ${+String(d).slice(5, 7)}월` : '';
+function grahamPhase(){ const G = S.radar?.graham; return G && GR_PH[G.phase] ? G : null; }
+function grahamHtml(R){
+  const G = grahamPhase(); if(!G) return '';
+  const P = GR_PH[G.phase], I = R.ind || {};
+  const dot = on => `<span class="mph-dot ${on === true ? 'on' : on === false ? 'off' : 'na'}" aria-hidden="true"></span>`;
+  const items = (G.items || []).map(x => { const m = GR_IT[x.k]; if(!m) return '';
+    return `<details class="mph-it"><summary>${dot(x.on)}<span class="mph-n">${m.n}</span><span class="mph-v">${x.on === null || x.on === undefined ? '자료 없음' : x.on ? '켜짐' : '꺼짐'}</span></summary>
+      <div class="small mph-more">${x.why ? `<p>${esc(x.why)}${x.date ? ` <span class="muted">(${esc(x.date)})</span>` : ''}</p>` : ''}<p class="muted">${esc(m.d)}</p></div></details>`; }).join('');
+  const dd = (k, l) => isNum(I[k]?.v) ? `<span>${l} 고점 대비 <b class="num">${fmt(I[k].v, 1)}%</b></span>` : '';
+  const cyc = G.trough && isNum(G.rise) ? `<p class="small" style="margin:10px 0 0;word-break:keep-all">S&P 500은 지난 약세장 바닥(${grMonth(G.trough.d)})보다 <b class="num">${G.rise >= 0 ? '+' : ''}${fmt(G.rise, 0)}%</b> 올라 있습니다. 그레이엄이 정리한 1897~1949년 강세장은 바닥에서 고점까지 대부분 50~100% 올랐고, 그 뒤 하락은 대부분 40~50%였습니다. 100% 오른 뒤 50% 빠지면 제자리입니다.</p>` : '';
+  const kv = I.kospi?.v, kp = !isNum(kv) ? null : kv <= -20 ? 'bear' : kv <= -10 ? 'correction' : 'bull';
+  const kr = kp ? `<div class="mph-kr" style="--kc:${GR_PH[kp].c}"><span class="eyebrow">한국 (코스피)</span><b>${kp === 'bull' ? '강세장' : GR_PH[kp].n}</b><span class="small">고점 대비 <b class="num">${fmt(kv, 1)}%</b>${kp === 'bear' ? '. 미국과 달리 이미 약세장 구간입니다. 기준을 통과한 국내 기업이 적정 매수가 아래에 있는지 먼저 봅니다.' : kp === 'correction' ? '. 조정 구간입니다.' : '. 고점 근처입니다.'}</span><span class="small muted">한국은 PER·신용 대출 자료를 아직 넣지 않아 고점 대비 낙폭으로만 판정합니다.</span></div>` : '';
+  return `<div class="card mph-card" style="--gc:${P.c}">
+    <div class="rd-sec-h"><b>시장 국면</b><span class="small muted">그레이엄 『현명한 투자자』 기준</span></div>
+    <div class="mph-top"><div><span class="eyebrow">미국 (S&P 500)</span><div class="mph-ph">${P.n}</div><div class="small mph-dd">${dd('spx', 'S&P 500')}</div></div>
+      <div class="mph-cnt"><b class="num">${G.on}<span class="small muted"> / ${G.known || 5}</span></b><span class="small muted">강세장 특성</span></div></div>
+    <p class="small" style="margin:8px 0 0;word-break:keep-all">${esc(P.s)}</p>
+    <div class="mph-list">${items}</div>
+    ${cyc}
+    ${kr}
+    <div class="mph-do"><b class="small">지금 할 일</b>${P.do.map((t, i) => `<div><span class="mph-no">${i + 1}</span><span>${esc(t)}</span></div>`).join('')}</div>
+    <p class="small muted" style="margin:10px 0 0;word-break:keep-all">국면은 고점 대비 낙폭(−10% 조정, −20% 약세장)과 강세장 특성 5가지 중 켜진 수(3개 이상이면 과열)로 정합니다. 그레이엄도 주기의 길이와 폭이 늘 달라 매매 시점을 맞추기는 어렵다고 했습니다. 사고팔 신호가 아니라 대기 자금을 얼마나 둘지 정하는 기준으로 씁니다.</p>
+  </div>`;
+}
 const dday = d => { const n = Math.round((Date.parse(d) - Date.parse(today())) / 864e5); return n === 0 ? 'D-DAY' : n > 0 ? `D-${n}` : `D+${-n}`; };
 /* ============ 다가오는 주요 일정 (경제 일정 + 내 종목 실적 발표) + 하루 전 알림 ============ */
 const WD = ['일','월','화','수','목','금','토'];
@@ -4071,6 +4121,7 @@ function viewRadar(){
     <div class="rd-cnt">${cnt.map((c, i) => c ? `<span><i class="rd-dot" style="background:${RD_LV[i].c}"></i>${RD_LV[i].n} ${c}</span>` : '').join('')}</div>
     <p class="rd-out">${esc(R.headline || (hot.length ? `${hot.join(', ')}에서 경계 이상 신호` : L.s))}</p>
   </div>
+  ${grahamHtml(R)}
   <div class="card rd-sp-card"><div class="rd-sec-h"><b>지표 10개 한눈에</b><span class="small muted">바깥으로 갈수록 위험</span></div>${rdSpider(I, L.c)}</div>
   <div class="card rd-do" style="--lc:${L.c}"><div class="rd-sec-h"><b>${L.n} 단계 · 지금 할 일</b></div>${RD_DO[lv].map((t, i) => `<div><span class="rd-no">${i + 1}</span><span>${esc(t)}</span></div>`).join('')}${R.outlook ? `<p class="small muted rd-ol">${esc(R.outlook)}</p>` : ''}</div>
   ${(R.events || []).length ? `<div class="rd-sec-h out"><b>최근 위험 신호</b><span class="small muted">${esc(R.eventsAt || '')}</span></div>
@@ -6827,6 +6878,7 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 .ty{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;line-height:1;padding:4px 8px 4px 6px;border-radius:7px;color:var(--ty);background:color-mix(in srgb,var(--ty) 15%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 30%,transparent);white-space:nowrap;word-break:keep-all}
 .ty svg{width:13px;height:13px;flex:none}
 .ty-act{font-size:12px;font-weight:700;white-space:nowrap;color:var(--ty);background:none;box-shadow:none}
+.mph-card{border-top:3px solid var(--gc)}.mph-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:6px}.mph-ph{font-size:26px;font-weight:800;color:var(--gc);word-break:keep-all}.mph-dd{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}.mph-cnt{text-align:right;display:flex;flex-direction:column;align-items:flex-end;flex:none}.mph-cnt b{font-size:28px;line-height:1;color:var(--gc)}.mph-list{margin-top:10px;border-top:1px solid var(--line)}.mph-it{border-bottom:1px solid var(--line)}.mph-it summary{display:flex;align-items:center;gap:10px;padding:10px 2px;cursor:pointer;list-style:none}.mph-it summary::-webkit-details-marker{display:none}.mph-n{flex:1;word-break:keep-all}.mph-v{font-size:13px;color:var(--muted)}.mph-dot{width:10px;height:10px;border-radius:50%;flex:none}.mph-dot.on{background:#C0392B}.mph-dot.off{background:transparent;box-shadow:inset 0 0 0 2px var(--line)}.mph-dot.na{background:var(--line)}.mph-more{padding:0 2px 10px 20px}.mph-more p{margin:4px 0;word-break:keep-all}.mph-kr{margin-top:12px;padding:10px 12px;border-radius:10px;border-left:3px solid var(--kc);background:color-mix(in srgb,var(--kc) 8%,transparent);display:flex;flex-direction:column;gap:3px;word-break:keep-all}.mph-kr>b{font-size:17px;color:var(--kc)}.mph-do{margin-top:14px;display:grid;gap:8px}.mph-do>div{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.6;word-break:keep-all}.mph-no{width:22px;height:22px;border-radius:50%;background:var(--gc);color:#FFFFFF;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}.blog-box{display:flex;align-items:center;gap:12px;margin-top:12px;text-decoration:none;color:inherit}.blog-box>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:2px;word-break:keep-all}.blog-ic{width:36px;height:36px;border-radius:10px;background:#03C75A;color:#FFFFFF;display:grid;place-items:center;font-weight:900;font-size:18px;flex:none}.col-blog{display:block;margin-top:14px;color:var(--accent);text-decoration:none;word-break:keep-all}.wk-more-row{gap:16px}
 .ty-value{--ty:#8F6E2C} .ty-growth{--ty:#6A5BB8} .ty-watch{--ty:#4F6680} .ty-spec{--ty:#C24A3C} .ty-index{--ty:#4F7F76} .ty-reserve{--ty:#3F6E9A} .ty-hedge{--ty:#9A7A3F} .ty-unknown{--ty:#7A8494}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ty-value{--ty:#E4C78D} :root:not([data-theme="light"]) .ty-growth{--ty:#B9AEF0} :root:not([data-theme="light"]) .ty-watch{--ty:#A9B9CF} :root:not([data-theme="light"]) .ty-spec{--ty:#F48A7B} :root:not([data-theme="light"]) .ty-index{--ty:#8FC3B7} :root:not([data-theme="light"]) .ty-reserve{--ty:#9CC1E6} :root:not([data-theme="light"]) .ty-hedge{--ty:#E2C48A} :root:not([data-theme="light"]) .ty-unknown{--ty:#9AA4B4}}
 :root[data-theme="dark"] .ty-value,.pf-top .ty-value{--ty:#E4C78D}

@@ -18,15 +18,74 @@ async function fred(id: string, from: string): Promise<Pt[] | null> {
   } catch (_) { return null; }
 }
 /* 지수 일간 종가 (야후) */
-async function yahoo(sym: string, range = "2y"): Promise<Pt[] | null> {
+async function yahoo(sym: string, range = "2y", interval = "1d"): Promise<Pt[] | null> {
   try {
-    const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=${range}&interval=1d`, { headers: { "User-Agent": "Mozilla/5.0 (valuenote)" } });
+    const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=${range}&interval=${interval}`, { headers: { "User-Agent": "Mozilla/5.0 (valuenote)" } });
     const res = (await r.json())?.chart?.result?.[0];
     const ts: number[] = res?.timestamp || [], cl: (number | null)[] = res?.indicators?.quote?.[0]?.close || [];
     const off = (res?.meta?.gmtoffset ?? 0) * 1000;
     const pts = ts.map((t, i) => [new Date(t * 1000 + off).toISOString().slice(0, 10), cl[i]] as [string, number | null]).filter((p): p is Pt => typeof p[1] === "number" && isFinite(p[1]) && p[1] > 0);
     return pts.length > 30 ? pts : null;
   } catch (_) { return null; }
+}
+/* multpl.com 월별 표 (Shiller PER, S&P 500 배당수익률): 최신이 앞 */
+async function multpl(path: string): Promise<Pt[] | null> {
+  try {
+    const r = await fetch(`https://www.multpl.com/${path}/table/by-month`, { headers: { "User-Agent": "Mozilla/5.0 (valuenote)" } });
+    if (!r.ok) return null;
+    const html = await r.text(); const out: Pt[] = [];
+    for (const m of html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)) {
+      const tds = [...m[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((x) => x[1].replace(/<[^>]+>/g, "").replace(/&[#\w]+;/g, " ").trim());
+      if (tds.length < 2) continue;
+      const t = Date.parse(tds[0]); const v = Number((tds[1].match(/-?\d+(\.\d+)?/) || [])[0]);
+      if (isFinite(t) && isFinite(v)) out.push([new Date(t).toISOString().slice(0, 10), v]);
+    }
+    return out.length > 24 ? out : null;
+  } catch (_) { return null; }
+}
+/* 그레이엄 『현명한 투자자』의 강세장 공통 특성 5가지를 숫자로 점검하고 시장 국면을 판정한다 */
+async function graham(ind: Record<string, any>, dgs10: number | null) {
+  const items: any[] = [];
+  const [spxW, cape, dy, mg, ipo, spy] = await Promise.all([
+    yahoo("^GSPC", "10y", "1wk"), multpl("shiller-pe"), multpl("s-p-500-dividend-yield"),
+    fred("BOGZ1FL663067003Q", "1990-01-01"), yahoo("IPO", "2y"), yahoo("SPY", "2y"),
+  ]);
+  // 1) 역사적으로 높은 주가 수준: 4년(208주) 평균보다 얼마나 위인가
+  if (spxW && spxW.length > 210) {
+    const last = spxW.at(-1)!, avg = spxW.slice(-208).reduce((a, p) => a + p[1], 0) / 208, gap = r2((last[1] / avg - 1) * 100);
+    items.push({ k: "level", on: gap >= 30, v: gap, ref: 30, date: last[0], why: `S&P 500이 최근 4년 평균보다 ${gap}% 높습니다` });
+  } else items.push({ k: "level", on: null });
+  // 2) 높은 PER: 경기 조정 PER(10년 평균 이익 기준)
+  if (cape) {
+    const v = cape[0][1], pc = Math.round(cape.filter((p) => p[1] <= v).length / cape.length * 100);
+    items.push({ k: "per", on: v >= 25, v: r2(v), ref: 25, date: cape[0][0], pct: pc, why: `경기 조정 PER ${r2(v)}배로 1871년 이후 상위 ${100 - pc}% 수준입니다` });
+  } else items.push({ k: "per", on: null });
+  // 3) 채권 수익률보다 낮은 배당수익률
+  if (dy && dgs10 !== null) {
+    const v = dy[0][1];
+    items.push({ k: "div", on: v < dgs10, v: r2(v), ref: r2(dgs10), date: dy[0][0], why: `배당수익률 ${r2(v)}%가 10년 국채 ${r2(dgs10)}%보다 ${v < dgs10 ? "낮습니다" : "높습니다"}` });
+  } else items.push({ k: "div", on: null });
+  // 4) 신용 거래 투기: 증권사 고객 신용 대출 1년 증가율 (분기)
+  if (mg && mg.length > 5) {
+    const last = mg.at(-1)!, b = before(mg, 360); const yoy = b ? r2((last[1] / b[1] - 1) * 100) : null;
+    items.push({ k: "margin", on: yoy !== null ? yoy >= 25 : null, v: yoy, ref: 25, date: last[0], why: yoy === null ? "" : `빚내서 하는 주식 투자(신용 대출)가 1년 새 ${yoy}% ${yoy >= 0 ? "늘었습니다" : "줄었습니다"}` });
+  } else items.push({ k: "margin", on: null });
+  // 5) 부실한 신규 상장 성행: 최근 상장주 ETF(IPO)가 S&P 500보다 1년간 얼마나 더 올랐나
+  if (ipo && spy) {
+    const r1 = (p: Pt[]) => { const b = before(p, 365); return b ? (p.at(-1)![1] / b[1] - 1) * 100 : null; };
+    const a = r1(ipo), c = r1(spy);
+    if (a !== null && c !== null) { const ex = r2(a - c); items.push({ k: "ipo", on: ex >= 20, v: ex, ref: 20, date: ipo.at(-1)![0], why: `최근 상장한 기업 주가가 S&P 500보다 1년간 ${Math.abs(ex)}%p ${ex >= 0 ? "더 올랐습니다" : "덜 올랐습니다"}` }); }
+    else items.push({ k: "ipo", on: null });
+  } else items.push({ k: "ipo", on: null });
+  const on = items.filter((x) => x.on === true).length, known = items.filter((x) => x.on !== null).length;
+  // 지난 약세장 바닥: 직전 고점에서 20% 넘게 빠진 구간 중 가장 최근의 최저점
+  let trough: Pt | null = null;
+  if (spxW) { let pk = spxW[0][1], cur: Pt | null = null;
+    for (const p of spxW) { if (p[1] > pk) { pk = p[1]; if (cur) { trough = cur; cur = null; } } else if (p[1] / pk - 1 <= -0.2 && (!cur || p[1] < cur[1])) cur = p; }
+    if (cur) trough = cur; }
+  const dd = ind.spx?.v as number | undefined;
+  const phase = typeof dd !== "number" ? null : dd <= -20 ? "bear" : dd <= -10 ? "correction" : on >= 3 ? "hot" : "bull";
+  return { phase, on, known, items, trough: trough ? { d: trough[0], v: r2(trough[1]) } : null, rise: trough && spxW ? r2((spxW.at(-1)![1] / trough[1] - 1) * 100) : null, at: new Date().toISOString() };
 }
 const monthly = (pts: Pt[]) => { const m = new Map<string, Pt>(); for (const p of pts) m.set(p[0].slice(0, 7), [p[0], r2(p[1])]); return [...m.values()]; };
 const weekly = (pts: Pt[]) => { const m = new Map<string, Pt>(); for (const p of pts) { const d = new Date(p[0]); const k = new Date(d.getTime() - ((d.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10); m.set(k, [p[0], r2(p[1])]); } return [...m.values()]; };
@@ -102,10 +161,11 @@ Deno.serve(async (_req: Request) => {
     const { data: old } = await sb.from("docs").select("data").eq("owner", owner).eq("collection", "fx").eq("id", "radar").maybeSingle();
     const hist = [...(((old?.data as any)?.hist) || []).filter((h: any) => h.d !== new Date().toISOString().slice(0, 10)), { d: new Date().toISOString().slice(0, 10), s: score, o: overall }].slice(-400);
     const ffp = await fred("FEDFUNDS", "1990-01-01"); // 과거 위기 비교용 미국 기준금리(월평균)
-    const data = { ...(old?.data || {}), ind, score, overall, hist, ...(ffp ? { ff: monthly(ffp) } : {}), autoAt: new Date().toISOString(), fails };
+    let gr: any = null; try { gr = await graham(ind, typeof (ind.rate as any)?.v === "number" ? (ind.rate as any).v : null); } catch (_) { fails.push("graham"); } // 그레이엄 강세장·약세장 판정
+    const data = { ...(old?.data || {}), ind, score, overall, hist, ...(ffp ? { ff: monthly(ffp) } : {}), ...(gr ? { graham: gr } : {}), autoAt: new Date().toISOString(), fails };
     const { error } = await sb.from("docs").upsert({ owner, collection: "fx", id: "radar", data, updated_at: new Date().toISOString() }, { onConflict: "owner,collection,id" });
     if (error) throw error;
-    return Response.json({ ok: true, score, overall, got: Object.keys(ind), fails });
+    return Response.json({ ok: true, score, overall, got: Object.keys(ind), fails, graham: gr ? { phase: gr.phase, on: gr.on, known: gr.known, items: gr.items.map((x: any) => [x.k, x.on, x.v]) } : null });
   } catch (e) {
     return Response.json({ error: String((e as Error)?.message || e) }, { status: 500 });
   }
