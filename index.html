@@ -2160,6 +2160,8 @@ function portfolioChecks(rows, total, cashW){
   rows.forEach(({h, calc, c, ev, w}) => {
     if(h.kind === 'lev') out.push(['bad', `${h.name}: 레버리지 상품. 원칙상 비중 0%. 정리 시점을 결정 일지에 기록`]);
     else if(h.kind === 'etf') out.push(['warn', `${h.name}: 지수 ETF는 현금 대용으로만 인정`]);
+    else if(h.kind === 'bond') {}
+    else if(h.kind === 'hedge') out.push(['warn', `${h.name}: 금·장기채는 기업 이익이 쌓이지 않는 자산. 대기 자금은 단기채로 두는 것이 원칙`]);
     else if(!c) out.push(['warn', `${h.name}: 심사 기록 없이 보유 중. 종목 심사부터 작성`]);
     else {
       if(ev.verdict !== '기준 통과' && ev.verdict !== '도전 후보') out.push(['warn', `${h.name}: 심사 결과 "${ev.verdict}" 상태로 보유`]);
@@ -2171,17 +2173,22 @@ function portfolioChecks(rows, total, cashW){
     if(isNum(calc.plPct) && calc.plPct <= -30 && h.kind === 'stock') out.push(['warn', `${h.name}: ${fmt(calc.plPct,1)}% 손실. 물타기 전에 논리부터 다시 쓰기`]);
   });
   if(stocks.length > 4) out.push(['warn', `개별 종목 ${stocks.length}개. 집중 원칙은 최대 4개`]);
-  if(total > 0 && cashW < 10) out.push(['warn', `현금 비중 ${fmt(cashW,1)}%. 기회 대기 자금 10~25% 권장`]);
+  const resW = cashW + rows.filter(r => r.h.kind === 'bond' || r.h.kind === 'etf').reduce((a,r) => a + r.w, 0);
+  if(total > 0 && resW < 10) out.push(['warn', `현금·단기채 비중 ${fmt(resW,1)}%. 대기 자금 10~20% 권장`]);
   return out;
 }
 /* ============ 집중 구조: 주력 3종목 70~80% · 도전 ≤10% · 현금 10~20% (자동 분류) ============ */
 const PLAN = {coreN:3, coreLo:70, coreHi:80, slotLo:20, slotHi:35, slotMax:40, expMax:10, cashLo:10, cashHi:20};
+/* 기업이 아닌 보유 자산: 지수 ETF, 단기채·MMF(대기 자금), 금·장기채 */
+const NON_STOCK = new Set(['etf','bond','hedge','lev']);
 function earnsMoney(c){ const v = c?.val || {}, f = c?.fin || {}; return isNum(v.eps) && v.eps > 0 && !((f.lossYears||0) >= 2); }
 /* 보유 종목을 주력/도전/현금성으로 자동 분류한다. 사용자가 고르지 않는다 */
 function autoBucket(r){
   const {h, c, ev} = r;
   if(h.kind === 'lev') return {k:'explore', why:'레버리지 상품: 매일 재조정돼 오래 들고 있으면 가치가 깎인다'};
   if(h.kind === 'etf') return {k:'cash', why:'지수 ETF: 현금 대용으로 본다'};
+  if(h.kind === 'bond') return {k:'cash', why:'단기 국채·MMF: 쌀 때 쓸 대기 자금이다. 버크셔도 기다리는 돈을 만기 1년 미만 국채에 둔다'};
+  if(h.kind === 'hedge') return {k:'explore', why:'금·장기채: 이익을 만들지 않거나 금리 방향에 기대는 자산이다. 버핏과 멍거는 금을 사지 않았다'};
   if(!c || !ev) return {k:'explore', why:'심사 기록이 없어 주력으로 인정하지 않는다'};
   if(ev.gates.length) return {k:'explore', why:'탈락 사유: '+ev.gates[0].t};
   if(c.qual?.revModel === '혁신 의존형') return {k:'explore', why:'혁신 의존형: 아직 꾸준한 이익이 증명되지 않은 미래 기대 사업'};
@@ -2197,13 +2204,17 @@ const TY_ICON = {
   watch:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
   spec:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
   index:'<path d="m12 2 10 5-10 5L2 7l10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
+  reserve:'<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/>',
+  hedge:'<path d="M3 18h18"/><path d="M5 18l2-6h10l2 6"/><path d="M8 12l1.5-4h5L16 12"/>',
   unknown:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>'
 };
-const TY_NAME = {value:'가치주', growth:'성장주', watch:'관찰주', spec:'투기주', index:'지수형', unknown:'미분석'};
+const TY_NAME = {value:'가치주', growth:'성장주', watch:'관찰주', spec:'투기주', index:'지수형', reserve:'대기 자금', hedge:'금·장기채', unknown:'미분석'};
 function stockType(r){
   const {h, c, ev} = r; const b = autoBucket(r);
   const t = (k, act) => ({k, name:TY_NAME[k], act, why:b.why, bucket:b.k});
   if(h.kind === 'etf') return t('index', '현금 대용');
+  if(h.kind === 'bond') return t('reserve', '쌀 때 쓸 돈');
+  if(h.kind === 'hedge') return t('hedge', '10% 이내로');
   if(h.kind === 'lev') return t('spec', '정리 1순위');
   if(!c || !ev) return t('unknown', '분석 필요');
   if(b.k === 'core') return t('value', isNum(ev.mos) && ev.mos < -10 ? '고평가 · 매도 점검' : '유지');
@@ -2257,7 +2268,15 @@ function concPlan(rows, total, cashW){
   }
   core.forEach(r => { if(r.w > PLAN.slotMax) acts.push({lv:'warn', t:`${r.h.name} 한 종목이 ${fmt(r.w,0)}%다. 한 종목 상한은 ${PLAN.slotMax}%.`}); });
   if(coreW < PLAN.coreLo && core.length) acts.push({lv:'none', short:`주력 비중 ${fmt(coreW,0)}% → 70~80%`, t:`주력 비중 ${fmt(coreW,0)}% → 목표 ${PLAN.coreLo}~${PLAN.coreHi}%. 새로 넣는 돈과 도전 칸 정리금은 주력 칸으로만 보낸다.`});
-  if(cashAll < PLAN.cashLo) acts.push({lv:'none', short:`현금 ${fmt(cashAll,0)}% → 10~20% (설정에서 예수금 입력)`, t:`현금 ${fmt(cashAll,0)}%. 폭락 때 주력 종목을 더 살 대기 자금 ${PLAN.cashLo}~${PLAN.cashHi}%를 둔다. 예수금은 설정에서 자동 반영된다.`});
+  if(cashAll < PLAN.cashLo) acts.push({lv:'none', short:`대기 자금 ${fmt(cashAll,0)}% → 10~20% (예수금이나 단기채로)`, t:`대기 자금(현금·단기채) ${fmt(cashAll,0)}%. 폭락 때 주력 종목을 더 살 돈 ${PLAN.cashLo}~${PLAN.cashHi}%를 둔다. 오래 기다릴 돈은 만기 1년 미만 국채나 MMF에 두면 이자를 받으며 기다릴 수 있다.`});
+  /* 대기 자금이 목표보다 많을 때: 살 기업이 있으면 나눠 쓰고, 없으면 기다리는 것이 맞다(버크셔 방식) */
+  if(cashAll > PLAN.cashHi + 0.5){
+    const buyable = (cands.length ? cands : coreCandidates(core, PLAN.coreN)).filter(x => x.ev.verdict === '기준 통과');
+    if(buyable.length) acts.push({lv:'none', short:`대기 자금 ${fmt(cashAll,0)}%. 기준 통과 종목(${buyable.map(x => x.c.name).join(', ')})에 나눠 쓸 때`, t:`대기 자금이 ${fmt(cashAll,0)}%로 목표 ${PLAN.cashHi}%보다 많고, 기준을 통과한 후보가 있다: ${buyable.map(x => x.c.name).join(', ')}. 한 번에 넣지 말고 적정 매수가 이하에서 나눠 산다.`});
+    else acts.push({lv:'none', short:`대기 자금 ${fmt(cashAll,0)}%. 살 만한 기업이 없을 때는 단기채로 기다려도 된다`, t:`대기 자금이 ${fmt(cashAll,0)}%로 목표보다 많지만, 지금 기준을 통과한 후보가 없다. 싼 기업이 없을 때 대기 자금이 늘어나는 것은 정상이다. 버크셔도 이런 시기에는 돈을 만기 1년 미만 국채에 두고 기다린다. 이자를 받도록 단기채·MMF로 옮겨 두는 것만 확인한다.`});
+  }
+  const hedgeW = exp.filter(r => r.h.kind === 'hedge').reduce((a,r) => a + r.w, 0);
+  if(hedgeW > 0) acts.push({lv:'none', short:`금·장기채 ${fmt(hedgeW,0)}%는 대기 자금으로 치지 않음`, t:`금·장기채 ${fmt(hedgeW,0)}%는 대기 자금으로 보지 않는다. 금은 이익을 만들지 않고, 장기채는 금리가 오르면 값이 크게 떨어져 폭락장에서 꺼내 쓸 돈이 줄 수 있다. 기다리는 돈은 단기채에 둔다.`});
   core.forEach(r => { if(r.ev && isNum(r.ev.mos) && r.ev.mos < -10) acts.push({lv:'warn', t:`${r.h.name}: 주가가 적정 주가보다 ${fmt(-r.ev.mos,0)}% 높다. 매도 조건(적정 주가 초과)을 점검할 시점이다.`}); });
   if(!acts.length) acts.push({lv:'good', t:'구조가 목표 안에 있다. 할 일은 매도 조건 점검과 분기 실적 확인뿐이다.'});
   /* 균형 점검 */
@@ -2292,12 +2311,12 @@ function concHtml(rows, total, cashW){
     <div>
       <div class="cmp-row"><span class="small">지금</span><div class="stackbar">${nowBar}</div></div>
       <div class="cmp-row"><span class="small">목표</span><div class="stackbar">${tgtBar}</div></div>
-      <div class="legend"><span style="--c:var(--accent)">가치주 ${fmt(P.coreW,0)}% (목표 ${PLAN.coreLo}~${PLAN.coreHi})</span><span style="--c:var(--warn)">그 외 주식 ${fmt(P.expW,0)}% (≤${PLAN.expMax})</span><span style="--c:var(--line)">현금 ${fmt(P.cashAll,0)}% (${PLAN.cashLo}~${PLAN.cashHi})</span></div>
+      <div class="legend"><span style="--c:var(--accent)">가치주 ${fmt(P.coreW,0)}% (목표 ${PLAN.coreLo}~${PLAN.coreHi})</span><span style="--c:var(--warn)">그 외 주식 ${fmt(P.expW,0)}% (≤${PLAN.expMax})</span><span style="--c:var(--line)">대기 자금 ${fmt(P.cashAll,0)}% (${PLAN.cashLo}~${PLAN.cashHi})</span></div>
     </div>
   </div>
   <h2>지금 할 일 <span class="small muted">자동 판단</span></h2>
   <div class="card"><ol class="acts">${P.acts.slice(0,5).map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':a.lv==='good'?'유지':'참고'}</span><span>${esc(a.t)}</span></li>`).join('')}</ol>
-    <p class="small muted" style="margin:8px 0 0">분류는 자동이다. 이익이 증명되고 10년 보유 테스트를 통과한 회사만 가치주(주력 자리)다. 혁신 의존형은 성장주, 이익은 내지만 기준에 못 미치면 관찰주, 레버리지·적자 기업은 투기주로 분류해 비중을 10% 이하로 둔다.</p></div>
+    <p class="small muted" style="margin:8px 0 0">분류는 자동이다. 이익이 증명되고 10년 보유 테스트를 통과한 회사만 가치주(주력 자리)다. 혁신 의존형은 성장주, 이익은 내지만 기준에 못 미치면 관찰주, 레버리지·적자 기업은 투기주로 분류해 비중을 10% 이하로 둔다. 예수금과 단기채·MMF는 대기 자금이다. 그레이엄은 채권을 포트폴리오의 한 축으로 두었고, 버핏은 쌀 때 쓸 돈을 만기 1년 미만 국채에 넣어 둔다. 금·장기채는 대기 자금으로 치지 않는다.</p></div>
   <h2>균형 점검 <span class="small muted">${ok}/${P.bal.length} 통과</span></h2>
   <div class="card">${P.bal.map(b => `<div class="check"><span class="pill ${b.ok?'p-good':'p-warn'}">${b.ok?'통과':'확인'}</span><span>${esc(b.t)}${b.why?`<div class="small muted">${esc(b.why)}</div>`:''}</span></div>`).join('')}</div>`;
 }
@@ -2346,7 +2365,7 @@ function viewPortfolio(){
   <div class="card">${acts.length ? `<ol class="acts">${acts.map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':'참고'}</span><span>${esc(a.short || a.t)}</span></li>`).join('')}</ol>` : `<div class="muted">구조가 목표 안에 있다. 매도 조건과 분기 실적만 확인하면 된다.</div>`}
     <div class="cmp-row" style="margin-top:12px"><span class="small">지금</span><div class="stackbar">${P.coreW>0?`<i style="width:${Math.min(100,P.coreW)}%;background:var(--c-core)"></i>`:''}${P.expW>0?`<i style="width:${Math.min(100,P.expW)}%;background:var(--c-exp)"></i>`:''}${P.cashAll>0?`<i style="width:${Math.min(100,P.cashAll)}%;background:var(--c-cash)"></i>`:''}</div></div>
     <div class="cmp-row"><span class="small">목표</span><div class="stackbar"><i style="width:75%;background:var(--c-core)"></i><i style="width:10%;background:var(--c-exp)"></i><i style="width:15%;background:var(--c-cash)"></i></div></div>
-    <div class="legend"><span style="--c:var(--c-core)">가치주 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">그 외 주식 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
+    <div class="legend"><span style="--c:var(--c-core)">가치주 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">그 외 주식 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">대기 자금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
   </div>` : ''}
   <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">가치 추이 · 균형 점검 · 원칙 점검 · 환율</span></summary>
     <div class="stack" style="margin-top:12px">
@@ -2361,7 +2380,7 @@ function viewPortfolio(){
   </details>`;
 }
 function holdCard({h, calc, c, ev, w}){
-  const kindPill = h.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : h.kind==='etf' ? '<span class="pill p-none">ETF</span>' : '';
+  const kindPill = h.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : h.kind==='etf' ? '<span class="pill p-none">ETF</span>' : h.kind==='bond' ? '<span class="pill p-none">단기채</span>' : h.kind==='hedge' ? '<span class="pill p-warn">금·장기채</span>' : '';
   const bk = autoBucket({h, c, ev}); const role = typeBadge(stockType({h, c, ev}));
   const sellSig = h.kind==='stock' && ev && isNum(ev.mos) && ev.mos < -10 ? `<span class="pill p-warn">적정 주가 ${fmt(-ev.mos,0)}% 초과</span>` : '';
   return `<div class="card hold">
@@ -2394,7 +2413,7 @@ function holdForm(h){
       <label class="f">종목명<input id="h-name" value="${esc(h.name)}"></label>
       <label class="f">티커·코드<input id="h-ticker" value="${esc(h.ticker)}"></label>
       <label class="f">시장<select id="h-market">${[['KR','국내 (원)'],['US','미국 (USD)'],['JP','일본 (엔)'],['CN','중국 A주 (위안)'],['HK','홍콩 (HKD)']].map(([k,l]) => `<option value="${k}" ${(h.market||'KR')===k?'selected':''}>${l}</option>`).join('')}</select></label>
-      <label class="f">종류<select id="h-kind"><option value="stock" ${h.kind==='stock'?'selected':''}>개별 기업</option><option value="etf" ${h.kind==='etf'?'selected':''}>지수 ETF</option><option value="lev" ${h.kind==='lev'?'selected':''}>레버리지·인버스</option></select></label>
+      <label class="f">종류<select id="h-kind"><option value="stock" ${h.kind==='stock'?'selected':''}>개별 기업</option><option value="etf" ${h.kind==='etf'?'selected':''}>지수 ETF</option><option value="bond" ${h.kind==='bond'?'selected':''}>단기채·MMF (대기 자금)</option><option value="hedge" ${h.kind==='hedge'?'selected':''}>금·장기채</option><option value="lev" ${h.kind==='lev'?'selected':''}>레버리지·인버스</option></select></label>
       <label class="f">수량<input id="h-qty" type="number" step="any" inputmode="decimal" value="${esc(h.qty)}"></label>
       <label class="f">평균단가<input id="h-avg" type="number" step="any" inputmode="decimal" value="${esc(h.avg)}"></label>
       <label class="f">현재가<input id="h-price" type="number" step="any" inputmode="decimal" value="${esc(h.price)}"></label>
@@ -2824,7 +2843,7 @@ function viewBriefing(){
   const weekly = weeklyNoteHtml();
   const all = [...S.briefings].sort((a,b) => (b.id||'').localeCompare(a.id||''));
   const latest = all[0];
-  const holds = S.holdings.filter(h => h.kind !== 'etf');
+  const holds = S.holdings.filter(h => h.kind !== 'etf' && h.kind !== 'bond' && h.kind !== 'hedge');
   const dotCls = imp => imp === '호재' ? 'var(--accent)' : imp === '악재' ? 'var(--bad)' : 'var(--muted)';
   const short = n => String(n||'').replace(/\s*\(.*\)$/,'');
   const hrow = x => { const h = holds.find(h => (h.ticker||'').toUpperCase() === String(x.ticker||'').toUpperCase()); const c = h ? companyFor(h) : null;
@@ -4492,7 +4511,7 @@ const INTRO = [
   {tab:'portfolio', t:'① 내 포트폴리오', b:`<p>평가액, 수익률, 30일 추이, 종목별 비중을 한 화면에 모았어요. 예시는 주식 약 4,600만 원에 현금 700만 원, 합쳐서 <b>약 5,300만 원</b>짜리 계좌예요.</p>
     <p>종목 옆 표시는 그 종목의 성격이에요. <b>가치주</b>는 오래 들고 갈 종목, <b>성장주·관찰주</b>는 비중을 줄여 둘 종목, <b>투기주</b>는 정리할 종목이에요. 남들이 지루하다고 외면할 때 숫자를 보고 산 DB손해보험, JB금융지주, 영원무역은 80% 안팎 올랐고, 유행을 따라 산 카카오와 룰루레몬은 40~75% 떨어졌어요.</p>`},
   {tab:'portfolio', anchor:'지금 할 일', t:'② 지금 할 일', b:`<p>내 계좌에서 고치면 좋을 점을 <b>많아야 3개</b>만 골라 알려 드려요.</p>
-    <div class="in-list"><div><b>가치주</b><span>잘 아는 3종목에 돈의 70~80%를 모아요</span></div><div><b>그 외</b><span>성장주·관찰주·투기주는 합쳐서 10% 이하로</span></div><div><b>현금</b><span>10~20%는 쌀 때 사려고 남겨 둬요</span></div></div>
+    <div class="in-list"><div><b>가치주</b><span>잘 아는 3종목에 돈의 70~80%를 모아요</span></div><div><b>그 외</b><span>성장주·관찰주·투기주는 합쳐서 10% 이하로</span></div><div><b>대기 자금</b><span>10~20%는 현금이나 단기 국채로 남겨 뒀다가 쌀 때 사요</span></div></div>
     <p class="small muted">여기가 비어 있으면 지금은 아무것도 안 해도 된다는 뜻이에요.</p>`},
   {tab:'grade', t:'③ 나의 투자자 등급', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div>
     <p>수익률이 아니라 <b>원칙을 얼마나 지키는지</b>로 매기는 등급이에요. 현금 비중, 주력 집중도, 매도 조건 기록, 일지 작성 같은 미션 18개를 앱이 자동으로 점검해요.</p>`; }},
@@ -4562,7 +4581,7 @@ function saveProg(patch){
 }
 function missions(){
   const {st, rows, P} = pfCalc(); const pg = prog();
-  const stocks = rows.filter(r => r.h.kind !== 'lev' && r.h.kind !== 'etf' && r.h.kind !== 'cash');
+  const stocks = rows.filter(r => !NON_STOCK.has(r.h.kind) && r.h.kind !== 'cash');
   const cos = stocks.map(r => r.c).filter(Boolean);
   const js = S.journal || []; const cs = complianceStats();
   const d90 = new Date(Date.now() - 92*864e5).toISOString().slice(0,10), d14 = new Date(Date.now() - 14*864e5).toISOString().slice(0,10);
@@ -4571,7 +4590,7 @@ function missions(){
   const has = rows.length > 0;
   const M = [
     {id:'g-cash', m:'graham', p:5, t:'예수금 입력하기', why:'현금을 알아야 비중을 지킬 수 있습니다.', ok: (st.cashKRW||0) > 0, go:'portfolio', btn:'예수금 넣기'},
-    {id:'g-cashw', m:'graham', p:8, t:'현금 10~20% 지키기', why:'폭락 때 더 살 수 있어야 시장을 이용합니다.', ok: !!P && P.cashAll >= PLAN.cashLo && P.cashAll <= PLAN.cashHi, now: P ? `지금 ${fmt(P.cashAll,0)}%` : '', go:'portfolio'},
+    {id:'g-cashw', m:'graham', p:8, t:'대기 자금 10~20% 지키기', why:'폭락 때 더 살 수 있어야 시장을 이용합니다. 현금이나 단기 국채로 둡니다.', ok: !!P && P.cashAll >= PLAN.cashLo && P.cashAll <= PLAN.cashHi, now: P ? `지금 ${fmt(P.cashAll,0)}%` : '', go:'portfolio'},
     {id:'g-lev', m:'graham', p:8, t:'레버리지·인버스 0%', why:'시간이 갈수록 깎이는 상품은 투기입니다.', ok: has && !rows.some(r => r.h.kind === 'lev'), now: rows.filter(r => r.h.kind === 'lev').map(r => r.h.ticker || r.h.name).join(', '), go:'portfolio'},
     {id:'g-mos', m:'graham', p:8, t:'안전마진 30% 가격에 산 종목 1개', why:'충분히 싸게 사면 틀려도 크게 잃지 않습니다.', ok: mosHit.length > 0, now: mosHit.map(r => r.h.name).join(', '), go:'companies', btn:'기준 통과 보기'},
     {id:'b-first', m:'buffett', p:4, t:'보유 종목 등록하기', why:'내 회사부터 같은 기준으로 봅니다.', ok: has, go:'portfolio', btn:'종목 추가'},
@@ -5258,7 +5277,7 @@ function portfolioHero(rows, total, pl, cost, part='all'){
 /* ============ 브리핑 시각화 ============ */
 function newsImpactHtml(){
   const cut = new Date(Date.now() - 7*864e5 + 9*3600e3).toISOString().slice(0,10);
-  const rows = S.holdings.filter(h => h.kind !== 'etf').map(h => { const c = companyFor(h); const doc = c ? newsFor(c) : newsFor({ticker:h.ticker, name:h.name});
+  const rows = S.holdings.filter(h => h.kind !== 'etf' && h.kind !== 'bond' && h.kind !== 'hedge').map(h => { const c = companyFor(h); const doc = c ? newsFor(c) : newsFor({ticker:h.ticker, name:h.name});
     const it = (doc?.items||[]).filter(x => (x.date||'') >= cut); const n = k => it.filter(x => (x.impact||'중립') === k).length;
     return {name: h.name.replace(/\s*\(.*\)$/,''), g:n('호재'), b:n('악재'), z:n('중립')}; });
   const T = rows.reduce((a,r) => ({g:a.g+r.g, b:a.b+r.b, z:a.z+r.z}), {g:0,b:0,z:0});
@@ -6808,13 +6827,15 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 .ty{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;line-height:1;padding:4px 8px 4px 6px;border-radius:7px;color:var(--ty);background:color-mix(in srgb,var(--ty) 15%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 30%,transparent);white-space:nowrap;word-break:keep-all}
 .ty svg{width:13px;height:13px;flex:none}
 .ty-act{font-size:12px;font-weight:700;white-space:nowrap;color:var(--ty);background:none;box-shadow:none}
-.ty-value{--ty:#8F6E2C} .ty-growth{--ty:#6A5BB8} .ty-watch{--ty:#4F6680} .ty-spec{--ty:#C24A3C} .ty-index{--ty:#4F7F76} .ty-unknown{--ty:#7A8494}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ty-value{--ty:#E4C78D} :root:not([data-theme="light"]) .ty-growth{--ty:#B9AEF0} :root:not([data-theme="light"]) .ty-watch{--ty:#A9B9CF} :root:not([data-theme="light"]) .ty-spec{--ty:#F48A7B} :root:not([data-theme="light"]) .ty-index{--ty:#8FC3B7} :root:not([data-theme="light"]) .ty-unknown{--ty:#9AA4B4}}
+.ty-value{--ty:#8F6E2C} .ty-growth{--ty:#6A5BB8} .ty-watch{--ty:#4F6680} .ty-spec{--ty:#C24A3C} .ty-index{--ty:#4F7F76} .ty-reserve{--ty:#3F6E9A} .ty-hedge{--ty:#9A7A3F} .ty-unknown{--ty:#7A8494}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ty-value{--ty:#E4C78D} :root:not([data-theme="light"]) .ty-growth{--ty:#B9AEF0} :root:not([data-theme="light"]) .ty-watch{--ty:#A9B9CF} :root:not([data-theme="light"]) .ty-spec{--ty:#F48A7B} :root:not([data-theme="light"]) .ty-index{--ty:#8FC3B7} :root:not([data-theme="light"]) .ty-reserve{--ty:#9CC1E6} :root:not([data-theme="light"]) .ty-hedge{--ty:#E2C48A} :root:not([data-theme="light"]) .ty-unknown{--ty:#9AA4B4}}
 :root[data-theme="dark"] .ty-value,.pf-top .ty-value{--ty:#E4C78D}
 :root[data-theme="dark"] .ty-growth,.pf-top .ty-growth{--ty:#B9AEF0}
 :root[data-theme="dark"] .ty-watch,.pf-top .ty-watch{--ty:#A9B9CF}
 :root[data-theme="dark"] .ty-spec,.pf-top .ty-spec{--ty:#F48A7B}
 :root[data-theme="dark"] .ty-index,.pf-top .ty-index{--ty:#8FC3B7}
+:root[data-theme="dark"] .ty-reserve,.pf-top .ty-reserve{--ty:#9CC1E6}
+:root[data-theme="dark"] .ty-hedge,.pf-top .ty-hedge{--ty:#E2C48A}
 :root[data-theme="dark"] .ty-unknown,.pf-top .ty-unknown{--ty:#9AA4B4}
 .pf-top .ty.ty-spec{background:color-mix(in srgb,var(--ty) 20%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 45%,transparent)}
 </style>
