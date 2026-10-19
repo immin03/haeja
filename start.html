@@ -384,9 +384,16 @@ document.addEventListener('click', function(e){ var a = e.target.closest && e.ta
 
 /* ---------- 단락이 보이면: 등장 효과 + 도달 기록 ---------- */
 var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting) return; var t = en.target;
-  if(t.classList.contains('reveal')){ t.classList.add('in'); io.unobserve(t); }
-  if(t.dataset.sec){ hit(t.dataset.sec); io.unobserve(t); } }); }, { threshold: .2 }) : null;
-document.querySelectorAll('.reveal,[data-sec]').forEach(function(el){ if(io) io.observe(el); else el.classList.add('in'); });
+  if(t.classList.contains('reveal')){ t.classList.add('in'); io.unobserve(t); } }); }, { threshold: .2 }) : null;
+document.querySelectorAll('.reveal').forEach(function(el){ if(io) io.observe(el); else el.classList.add('in'); });
+/* 도달 기록은 등장 효과와 따로: 단락 윗부분이 화면 위쪽 절반까지 올라와야 '읽음'으로 센다.
+   (예전 기준 20%는 첫 화면 아래에 살짝 걸친 01 단락까지 열자마자 잡혀 실제보다 많이 보였다) */
+var rio = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting) return;
+  hit(en.target.dataset.sec); rio.unobserve(en.target); }); }, { rootMargin: '0px 0px -50% 0px', threshold: 0 }) : null;
+document.querySelectorAll('[data-sec]').forEach(function(el){ if(rio) rio.observe(el); });
+/* 아래로 내리기 시작했는지 (화면 높이의 1/4 이상) · 검색창을 눌렀는지 */
+addEventListener('scroll', function sc(){ if(scrollY > innerHeight * .25){ hit('scroll'); removeEventListener('scroll', sc); } }, { passive: true });
+$('#sq').addEventListener('focus', function(){ hit('search-focus'); });
 
 /* 첫 화면을 지나면 아래 버튼을 띄운다 (마지막 단락에서는 숨김) */
 var sticky = $('#sticky'), hero = $('.hero'), end = $('#s7');
