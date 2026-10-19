@@ -36,10 +36,20 @@ const isMobile = () => /iPhone|iPad|iPod|Android/.test(navigator.userAgent);
 function blockedHelp(){
   const u = navigator.userAgent;
   if(/Firefox\//.test(u)) return '주소창 왼쪽 자물쇠 → 연결 보안 → 알림 권한에서 "차단 해제" 후 새로고침하세요.';
-  if(/Safari\//.test(u) && !/Chrome\//.test(u)) return isMobile() ? '설정 앱 → 알림 → ValueNote에서 알림을 허용하세요.' : 'Safari 메뉴 → 설정 → 웹사이트 → 알림에서 이 사이트를 "허용"으로 바꾸세요.';
+  if(/Safari\//.test(u) && !/Chrome\//.test(u)) return isMobile() ? '설정 앱 → 알림 → 밸류노트에서 알림을 허용하세요.' : 'Safari 메뉴 → 설정 → 웹사이트 → 알림에서 이 사이트를 "허용"으로 바꾸세요.';
   return '주소창 왼쪽 사이트 정보 아이콘 → 알림 → "허용"으로 바꾼 뒤 새로고침하세요.';
 }
 let mySubId = null;
+/* 브라우저마다 고정 키. 같은 브라우저에서 구독 주소가 바뀌어도 기기 목록에 한 줄만 남게 한다. */
+function devKey(){ try{ let v = localStorage.getItem('vn-dev'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,24); localStorage.setItem('vn-dev', v); } return v; }catch(_){ return ''; } }
+async function saveSubHere(sub){
+  mySubId = await subId(sub.endpoint);
+  const dev = devKey();
+  await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), dev, at: new Date().toISOString() });
+  /* 같은 브라우저에서 예전에 등록된 구독은 지운다 */
+  await loadSubs();
+  for(const d of (S.pushSubs || [])) if(dev && d.dev === dev && d.id !== mySubId){ try{ await store.del('push_subs', d.id); }catch(_){} }
+}
 async function loadSubs(){
   try{
     const { data } = await store.client.from('docs').select('id,data').eq('collection','push_subs');
@@ -55,7 +65,7 @@ async function checkPush(){
     /* 권한은 있는데 구독이 만료된 경우(PC 브라우저에서 종종 생김) 조용히 다시 연결 */
     let wanted = false; try{ wanted = localStorage.getItem('vn-push-'+(store.user?.id||'')) === '1'; }catch(_){}
     if(!sub && wanted && Notification.permission === 'granted') sub = await subscribeHere(reg);
-    if(sub){ mySubId = await subId(sub.endpoint); await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() }); }
+    if(sub) await saveSubHere(sub);
     pushState = sub ? 'on' : 'off';
   }catch(_){ pushState = 'unsupported'; }
   await loadSubs();
@@ -72,18 +82,17 @@ async function enablePush(){
   const msg = document.getElementById('al-msg');
   const say = t => { if(msg) msg.textContent = t; };
   try{
-    if(pushState === 'ios-install'){ say('아이폰·아이패드는 Safari 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 ValueNote 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
+    if(pushState === 'ios-install'){ say('아이폰·아이패드는 Safari 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 밸류노트 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
     if(pushState === 'unsupported'){ say('이 브라우저는 알림을 지원하지 않습니다. Chrome, Edge, Safari, Firefox 최신 버전에서 열어 주세요.'); return; }
     say('브라우저에서 알림 허용을 눌러 주세요');
     const perm = await Notification.requestPermission();
     if(perm !== 'granted'){ pushState = perm === 'denied' ? 'denied' : 'off'; say(perm === 'denied' ? blockedHelp() : '알림이 허용되지 않았습니다. 다시 눌러 허용해 주세요.'); return; }
     const reg = await navigator.serviceWorker.register('/sw.js');
     const sub = (await reg.pushManager.getSubscription()) || await subscribeHere(reg);
-    mySubId = await subId(sub.endpoint);
-    await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() });
+    await saveSubHere(sub);
     try{ localStorage.setItem('vn-push-'+(store.user?.id||''),'1'); }catch(_){}
     pushState = 'on';
-    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 ValueNote 알림을 받습니다.', read: false, source: '설정' });
+    await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 밸류노트 알림을 받습니다.', read: false, source: '설정' });
     await loadSubs(); say(''); render();
   }catch(e){ say('연결하지 못했습니다: ' + (e.message || e)); }
 }
@@ -93,7 +102,7 @@ async function disablePush(){
     if(sub){ await store.del('push_subs', await subId(sub.endpoint)); await sub.unsubscribe(); }
   }catch(_){}
   try{ localStorage.removeItem('vn-push-'+(store.user?.id||'')); }catch(_){}
-  pushState = 'off'; mySubId = null; await loadSubs(); render();
+  pushState = 'off'; mySubId = null; S.alPushOpen = false; await loadSubs(); render();
 }
 function pushCard(){
   const on = pushState === 'on', here = devName();
@@ -105,12 +114,24 @@ function pushCard(){
     'ios-install': '아이폰·아이패드는 Safari 공유 버튼 → "홈 화면에 추가" 후, 홈 화면 아이콘으로 열면 알림을 켤 수 있습니다.'
   }[pushState];
   const subs = [...(S.pushSubs || [])].sort((a,b) => (b.id === mySubId) - (a.id === mySubId) || (b.at||'').localeCompare(a.at||''));
-  const devs = subs.length ? `<div class="al-devs"><div class="eyebrow">알림 받는 기기 ${subs.length}대</div>${subs.map(d => `<div class="al-dev"><span>${esc(d.device || '기기')}${d.id === mySubId ? ' <span class="pill p-good">이 기기</span>' : ''}</span>${d.id === mySubId ? '' : `<button type="button" class="linkbtn" data-dev-del="${esc(d.id)}">해제</button>`}</div>`).join('')}</div>` : '';
-  const tip = on && !isMobile() ? `<div class="small muted" style="margin-top:6px">알림이 안 보이면 컴퓨터 설정(Windows: 설정 → 시스템 → 알림, Mac: 시스템 설정 → 알림)에서 브라우저 알림을 켜 주세요.</div>` : '';
+  const when = iso => { const t = Date.parse(iso || ''); if(!t) return ''; const d = new Date(t + 9*3600e3); return `${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 연결`; };
+  const devs = subs.length ? `<div class="al-devs"><div class="eyebrow">알림 받는 기기 ${subs.length}대</div>${subs.map(d => `<div class="al-dev"><span>${esc(d.device || '기기')}${d.id === mySubId ? ' <span class="pill p-good">이 기기</span>' : ` <span class="small muted">${when(d.at)}</span>`}</span>${d.id === mySubId ? '' : `<button type="button" class="linkbtn" data-dev-del="${esc(d.id)}">해제</button>`}</div>`).join('')}</div>` : '';
+  const tip = on && !isMobile() ? `<div class="small muted" style="margin-top:10px">알림이 안 보이면 컴퓨터 설정(Windows: 설정 → 시스템 → 알림, Mac: 시스템 설정 → 알림)에서 브라우저 알림을 켜 주세요.</div>` : '';
+  /* 켜진 뒤에는 한 줄로 접어 둔다. 기기 관리·끄기는 펼쳐서 */
+  if(on){
+    const open = !!S.alPushOpen;
+    return `<div class="card al-push al-push-on">
+    <button type="button" class="al-push-bar" data-al="push-toggle" aria-expanded="${open}">
+      <span><b>알림</b> <span class="pill p-good">켜짐</span> <span class="small muted">기기 ${subs.length || 1}대</span></span>
+      <span class="small al-push-more">${open ? '접기' : '관리'} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
+  </div>`;
+  }
   return `<div class="card al-push"><div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap;gap:12px">
-    <div style="min-width:0;flex:1"><b>알림 받기</b> <span class="pill ${on?'p-good':'p-none'}">${on?'켜짐':'꺼짐'}</span><div class="small muted">${txt}</div><div class="status-line" id="al-msg"></div></div>
-    ${on ? `<button class="btn" data-al="push-off">끄기</button>` : (pushState==='off'||pushState==='ios-install') ? `<button class="btn primary" data-al="push-on">알림 켜기</button>` : ''}
-  </div>${tip}${devs}</div>`;
+    <div style="min-width:0;flex:1"><b>알림 받기</b> <span class="pill p-none">꺼짐</span><div class="small muted">${txt}</div><div class="status-line" id="al-msg"></div></div>
+    ${(pushState==='off'||pushState==='ios-install') ? `<button class="btn primary" data-al="push-on">알림 켜기</button>` : ''}
+  </div>${devs}</div>`;
 }
 document.addEventListener('click', async e => {
   const el = e.target.closest('[data-dev-del]'); if(!el) return;
@@ -141,13 +162,14 @@ document.addEventListener('click', async e => {
   if(k === 'open'){ S.tab = 'alerts'; await checkPush(); render(); window.scrollTo(0,0); }
   if(k === 'push-on') enablePush();
   if(k === 'push-off') disablePush();
+  if(k === 'push-toggle'){ S.alPushOpen = !S.alPushOpen; render(); }
   if(k === 'read-all'){ await markRead((S.alerts||[]).filter(a => !a.read).map(a => a.id)); render(); }
   if(k === 'go'){
     const a = (S.alerts||[]).find(x => x.id === el.dataset.id); if(!a) return;
     await markRead([a.id]);
     const l = a.link || {};
     if(l.co){ S.curId = l.co; S.tab = 'analyze'; render(); updateEval(); }
-    else { S.tab = l.tab || 'portfolio'; render(); }
+    else { S.tab = l.tab || 'portfolio'; if(l.scope){ S.scope = l.scope; S.coFocus = null; S.coQ = ''; S.coMkt = 'ALL'; S.coMin = 0; S.coShown = 30; } render(); }
     window.scrollTo(0,0);
   }
 });
@@ -156,7 +178,7 @@ function buyAlertText(c, ev){
   ev = ev || evaluate(c);
   const cur = curOf(c.market), u = upPct(ev.iv, c.price);
   return { title: `${c.name} 적정 매수가 도달`,
-    body: `현재가 ${fmtPx(c.price, cur)} · ` + (isNum(u) ? `적정가까지 +${fmt(u, u < 10 ? 1 : 0)}% 상승 여력` : `적정 매수가 ${fmtPx(ev.buyBelow, cur)} 이하`) };
+    body: `현재가 ${fmtPx(c.price, cur)} · ` + (isNum(u) ? `${gapLong(100 / (100 + u))}` : `적정 매수가 ${fmtPx(ev.buyBelow, cur)} 이하`) };
 }
 function alView(a){
   if(!/^buy-/.test(a.id || '') || !a.link?.co) return a;
@@ -164,7 +186,7 @@ function alView(a){
   if(!c || !isNum(c.price)) return { ...a, title: (a.title || '').replace('매수 상'+'한 도달', '적정 매수가 도달'), body: (a.body || '').replace('매수 상'+'한', '적정 매수가') };
   return { ...a, ...buyAlertText(c) };
 }
-/* 화면에서 판단하는 알림: 적정 매수가 도달, 내재가치 초과 (한 달에 한 번) */
+/* 화면에서 판단하는 알림: 적정 매수가 도달, 적정 주가 초과 (한 달에 한 번) */
 async function scanAlerts(){
   if(!S.loaded.c || !S.loaded.h || !S.alertsLoaded) return;
   const month = today().slice(0,7), have = new Set((S.alerts||[]).map(a => a.id)), now = new Date().toISOString();
@@ -182,6 +204,6 @@ async function scanAlerts(){
     const c = companyFor(h); if(!c || h.kind !== 'stock') continue;
     const ev = evaluate(c); const id = `sell-${h.id}-${month}`;
     if(isNum(ev.mos) && ev.mos < -10 && !have.has(id))
-      await store.set('alerts', id, { at: now, level: 'warn', title: `${h.name} 내재가치 초과`, body: `주가가 내재가치보다 ${fmt(-ev.mos,0)}% 높습니다. 매도 조건을 점검할 때입니다.`, link: { co: c.id }, read: false, source: '장부 판정' });
+      await store.set('alerts', id, { at: now, level: 'warn', title: `${h.name} 적정 주가 초과`, body: `주가가 적정 주가보다 ${fmt(-ev.mos,0)}% 높습니다. 매도 조건을 점검할 때입니다.`, link: { co: c.id }, read: false, source: '장부 판정' });
   }
 }

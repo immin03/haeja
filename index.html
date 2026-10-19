@@ -534,7 +534,13 @@ body.noscroll{overflow:hidden}
 .spark-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
 .spark svg{display:block;width:100%;height:46px;overflow:visible}
 .al-devs{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
-.al-dev{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:14px}
+.al-dev{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:14px;gap:8px}
+.al-push-on{padding-top:12px;padding-bottom:12px}
+.al-push-bar{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer}
+.al-push-bar:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+.al-push-more{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-weight:600}
+.al-push-more svg{transition:transform .2s}
+.al-push-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .disc-foot{margin:28px 0 8px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;line-height:1.6;color:var(--muted);text-align:center;word-break:keep-all}
 .disc-foot .linkbtn{font-size:12px}
 .intro.consent{z-index:90}
@@ -1345,6 +1351,16 @@ function blockedHelp(){
   return '주소창 왼쪽 사이트 정보 아이콘 → 알림 → "허용"으로 바꾼 뒤 새로고침하세요.';
 }
 let mySubId = null;
+/* 브라우저마다 고정 키. 같은 브라우저에서 구독 주소가 바뀌어도 기기 목록에 한 줄만 남게 한다. */
+function devKey(){ try{ let v = localStorage.getItem('vn-dev'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,24); localStorage.setItem('vn-dev', v); } return v; }catch(_){ return ''; } }
+async function saveSubHere(sub){
+  mySubId = await subId(sub.endpoint);
+  const dev = devKey();
+  await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), dev, at: new Date().toISOString() });
+  /* 같은 브라우저에서 예전에 등록된 구독은 지운다 */
+  await loadSubs();
+  for(const d of (S.pushSubs || [])) if(dev && d.dev === dev && d.id !== mySubId){ try{ await store.del('push_subs', d.id); }catch(_){} }
+}
 async function loadSubs(){
   try{
     const { data } = await store.client.from('docs').select('id,data').eq('collection','push_subs');
@@ -1360,7 +1376,7 @@ async function checkPush(){
     /* 권한은 있는데 구독이 만료된 경우(PC 브라우저에서 종종 생김) 조용히 다시 연결 */
     let wanted = false; try{ wanted = localStorage.getItem('vn-push-'+(store.user?.id||'')) === '1'; }catch(_){}
     if(!sub && wanted && Notification.permission === 'granted') sub = await subscribeHere(reg);
-    if(sub){ mySubId = await subId(sub.endpoint); await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() }); }
+    if(sub) await saveSubHere(sub);
     pushState = sub ? 'on' : 'off';
   }catch(_){ pushState = 'unsupported'; }
   await loadSubs();
@@ -1384,8 +1400,7 @@ async function enablePush(){
     if(perm !== 'granted'){ pushState = perm === 'denied' ? 'denied' : 'off'; say(perm === 'denied' ? blockedHelp() : '알림이 허용되지 않았습니다. 다시 눌러 허용해 주세요.'); return; }
     const reg = await navigator.serviceWorker.register('/sw.js');
     const sub = (await reg.pushManager.getSubscription()) || await subscribeHere(reg);
-    mySubId = await subId(sub.endpoint);
-    await store.set('push_subs', mySubId, { sub: sub.toJSON(), device: devName(), at: new Date().toISOString() });
+    await saveSubHere(sub);
     try{ localStorage.setItem('vn-push-'+(store.user?.id||''),'1'); }catch(_){}
     pushState = 'on';
     await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 밸류노트 알림을 받습니다.', read: false, source: '설정' });
@@ -1398,7 +1413,7 @@ async function disablePush(){
     if(sub){ await store.del('push_subs', await subId(sub.endpoint)); await sub.unsubscribe(); }
   }catch(_){}
   try{ localStorage.removeItem('vn-push-'+(store.user?.id||'')); }catch(_){}
-  pushState = 'off'; mySubId = null; await loadSubs(); render();
+  pushState = 'off'; mySubId = null; S.alPushOpen = false; await loadSubs(); render();
 }
 function pushCard(){
   const on = pushState === 'on', here = devName();
@@ -1410,12 +1425,24 @@ function pushCard(){
     'ios-install': '아이폰·아이패드는 Safari 공유 버튼 → "홈 화면에 추가" 후, 홈 화면 아이콘으로 열면 알림을 켤 수 있습니다.'
   }[pushState];
   const subs = [...(S.pushSubs || [])].sort((a,b) => (b.id === mySubId) - (a.id === mySubId) || (b.at||'').localeCompare(a.at||''));
-  const devs = subs.length ? `<div class="al-devs"><div class="eyebrow">알림 받는 기기 ${subs.length}대</div>${subs.map(d => `<div class="al-dev"><span>${esc(d.device || '기기')}${d.id === mySubId ? ' <span class="pill p-good">이 기기</span>' : ''}</span>${d.id === mySubId ? '' : `<button type="button" class="linkbtn" data-dev-del="${esc(d.id)}">해제</button>`}</div>`).join('')}</div>` : '';
-  const tip = on && !isMobile() ? `<div class="small muted" style="margin-top:6px">알림이 안 보이면 컴퓨터 설정(Windows: 설정 → 시스템 → 알림, Mac: 시스템 설정 → 알림)에서 브라우저 알림을 켜 주세요.</div>` : '';
+  const when = iso => { const t = Date.parse(iso || ''); if(!t) return ''; const d = new Date(t + 9*3600e3); return `${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 연결`; };
+  const devs = subs.length ? `<div class="al-devs"><div class="eyebrow">알림 받는 기기 ${subs.length}대</div>${subs.map(d => `<div class="al-dev"><span>${esc(d.device || '기기')}${d.id === mySubId ? ' <span class="pill p-good">이 기기</span>' : ` <span class="small muted">${when(d.at)}</span>`}</span>${d.id === mySubId ? '' : `<button type="button" class="linkbtn" data-dev-del="${esc(d.id)}">해제</button>`}</div>`).join('')}</div>` : '';
+  const tip = on && !isMobile() ? `<div class="small muted" style="margin-top:10px">알림이 안 보이면 컴퓨터 설정(Windows: 설정 → 시스템 → 알림, Mac: 시스템 설정 → 알림)에서 브라우저 알림을 켜 주세요.</div>` : '';
+  /* 켜진 뒤에는 한 줄로 접어 둔다. 기기 관리·끄기는 펼쳐서 */
+  if(on){
+    const open = !!S.alPushOpen;
+    return `<div class="card al-push al-push-on">
+    <button type="button" class="al-push-bar" data-al="push-toggle" aria-expanded="${open}">
+      <span><b>알림</b> <span class="pill p-good">켜짐</span> <span class="small muted">기기 ${subs.length || 1}대</span></span>
+      <span class="small al-push-more">${open ? '접기' : '관리'} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
+  </div>`;
+  }
   return `<div class="card al-push"><div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap;gap:12px">
-    <div style="min-width:0;flex:1"><b>알림 받기</b> <span class="pill ${on?'p-good':'p-none'}">${on?'켜짐':'꺼짐'}</span><div class="small muted">${txt}</div><div class="status-line" id="al-msg"></div></div>
-    ${on ? `<button class="btn" data-al="push-off">끄기</button>` : (pushState==='off'||pushState==='ios-install') ? `<button class="btn primary" data-al="push-on">알림 켜기</button>` : ''}
-  </div>${tip}${devs}</div>`;
+    <div style="min-width:0;flex:1"><b>알림 받기</b> <span class="pill p-none">꺼짐</span><div class="small muted">${txt}</div><div class="status-line" id="al-msg"></div></div>
+    ${(pushState==='off'||pushState==='ios-install') ? `<button class="btn primary" data-al="push-on">알림 켜기</button>` : ''}
+  </div>${devs}</div>`;
 }
 document.addEventListener('click', async e => {
   const el = e.target.closest('[data-dev-del]'); if(!el) return;
@@ -1446,6 +1473,7 @@ document.addEventListener('click', async e => {
   if(k === 'open'){ S.tab = 'alerts'; await checkPush(); render(); window.scrollTo(0,0); }
   if(k === 'push-on') enablePush();
   if(k === 'push-off') disablePush();
+  if(k === 'push-toggle'){ S.alPushOpen = !S.alPushOpen; render(); }
   if(k === 'read-all'){ await markRead((S.alerts||[]).filter(a => !a.read).map(a => a.id)); render(); }
   if(k === 'go'){
     const a = (S.alerts||[]).find(x => x.id === el.dataset.id); if(!a) return;
