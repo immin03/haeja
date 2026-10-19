@@ -133,13 +133,12 @@ section.st+section.st{border-top:1px solid var(--line)}
 .lesson b{color:var(--gold)}
 
 /* 03 하이닉스 카드 */
-.hx{display:block;margin:0 0 14px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff;text-decoration:none;color:inherit}
-.hx-h{display:flex;justify-content:space-between;align-items:center;font-size:15.5px}.hx-h span{font-weight:800;color:var(--gold2);font-size:18px}
+.hx{margin:0 0 14px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.hx-h{font-size:15.5px}
 .hx-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 10px}
 .hx-g div{background:#F6F1E6;border-radius:12px;padding:10px 12px}
 .hx-g small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
 .hx-g b{display:block;font-size:21px;font-weight:900;letter-spacing:-.02em;margin:2px 0}
-.hx-g em{display:block;font-style:normal;font-size:11.5px;color:var(--muted);line-height:1.4}
 .hx p{margin:0!important;font-size:14px!important;color:#2B3650!important;line-height:1.6}
 
 /* 04 검증 */
@@ -243,14 +242,14 @@ footer a{color:rgba(247,242,232,.75)}
   <h2>유명한 회사들은<br>지금 몇 점일까요</h2>
   <div class="cards" id="cards"></div>
   <div class="lesson" id="lesson"><b>좋은 회사와 좋은 투자는 다릅니다.</b> 재무가 최상위여도 가격에 기대가 너무 많이 담기면 점수는 낮아집니다.</div>
-  <a class="hx" href="/c/000660-ks" data-ev="hx-more">
-    <div class="hx-h"><b>요즘 가장 많이 찾는 SK하이닉스</b><span>›</span></div>
+  <div class="hx">
+    <div class="hx-h"><b>요즘 많이 찾는 SK하이닉스는?</b></div>
     <div class="hx-g">
-      <div><small>버핏식 적정 주가</small><b id="hx-iv">295,282원</b><em>좋고 나쁜 해를 평균한 이익 기준</em></div>
-      <div><small>최근 이익만 보면</small><b id="hx-per">PER 5.6배</b><em>1년 이익의 몇 배 가격인지</em></div>
+      <div><small>지금 주가</small><b id="hx-px">1,277,000원</b></div>
+      <div><small>버핏식 적정 주가</small><b id="hx-iv">295,282원</b></div>
     </div>
-    <p>반도체는 호황과 불황이 반복돼 보수적으로 계산합니다. AI 메모리 호황이 구조적으로 길게 이어진다면 이 계산은 가치를 낮게 잡은 것입니다. 두 숫자를 다 보고 판단하세요.</p>
-  </a>
+    <p>호황이 계속된다고 가정하지 않고 보수적으로 계산한 값입니다. AI 호황이 길게 이어지면 더 높게 볼 수도 있습니다.</p>
+  </div>
   <p class="note">점수는 버핏·그레이엄·멍거의 방식으로 계산한 결과이며 늘 맞지는 않습니다. 실제로 버크셔 해서웨이는 이 방식으로는 비싸 보이던 알파벳(구글)을 사들였습니다. <span id="asof"></span></p>
 </div></section>
 
@@ -399,7 +398,7 @@ function showRes(r, q){
     '<div class="res-g"><div class="big"><small>100점 만점</small>' + (num(r.b) ? r.b : '–') + '<i>점</i></div><div>' + bars(r) + '</div></div>' +
     '<p class="res-say">' + esc(say(r)) + '</p>' +
     '<a class="btn kakao res-k" href="' + wantUrl(r, 'start-res') + '" data-ev="res-kakao">' + KSVG + esc(r.n) + ' 적정 매수가 알림 받기</a>' +
-    '<a class="more" href="/c/' + encodeURIComponent(r.slug) + '" data-ev="res-more">왜 이 점수인지 보기 ›</a></div>';
+    '<a class="more" href="#s1" data-ev="res-more">이 점수는 어떻게 나왔을까요? ↓</a></div>';
   /* 아래 고정 버튼도 방금 본 종목으로 */
   var st = document.querySelector('#sticky .t b'), sk = document.querySelector('#sticky a.btn.kakao');
   if(st) st.textContent = r.n + ' 알림 받기'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 3초'; }
@@ -412,7 +411,7 @@ $('#sform').addEventListener('submit', function(e){ e.preventDefault(); var q = 
 
 function cards(){
   var L = ['aapl','ko','000270-ks','005930-ks'].map(row).filter(Boolean);
-  $('#cards').innerHTML = L.map(function(r){ return '<a class="sc" href="/c/' + encodeURIComponent(r.slug) + '" data-ev="card-' + esc(r.slug) + '"><div class="nm">' + esc(r.n) + '<span>' + esc(MK[r.m] || '') + '</span></div><div class="bs">' + (num(r.b) ? r.b : '–') + '<i>점</i></div>' + bars(r) + '</a>'; }).join('');
+  $('#cards').innerHTML = L.map(function(r){ return '<div class="sc"><div class="nm">' + esc(r.n) + '<span>' + esc(MK[r.m] || '') + '</span></div><div class="bs">' + (num(r.b) ? r.b : '–') + '<i>점</i></div>' + bars(r) + '</div>'; }).join('');
   var a = row('aapl'), k = row('ko');
   if(a && k && num(a.q) && num(k.q) && a.q >= 80 && k.q >= 80 && a.b < 50 && k.b < 50)
     $('#lesson').innerHTML = '<b>좋은 회사와 좋은 투자는 다릅니다.</b> 애플과 코카콜라는 재무 점수가 ' + Math.min(a.q, k.q) + '점 이상인 최상위 회사입니다. 하지만 지금 가격에 기대가 많이 담겨 있어 밸류노트 점수는 ' + Math.max(a.b, k.b) + '점 이하입니다.';
@@ -421,8 +420,8 @@ function cards(){
 function render(){ idx(); chips(); cards(); }
 fetch('/c/000660-ks', { cache: 'no-cache' }).then(function(r){ return r.text(); }).then(function(h){
   var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
-  var iv = /적정 주가 ([\d,]+)원/.exec(d), per = /PER ([\d.]+)배/.exec(d);
-  if(iv) $('#hx-iv').textContent = iv[1] + '원'; if(per) $('#hx-per').textContent = 'PER ' + per[1] + '배'; }).catch(function(){});
+  var iv = /적정 주가 ([\d,]+)원/.exec(d), px = /현재가 ([\d,]+)원/.exec(d);
+  if(iv) $('#hx-iv').textContent = iv[1] + '원'; if(px) $('#hx-px').textContent = px[1] + '원'; }).catch(function(){});
 render();
 fetch('/c/scores.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c && Object.keys(j.c).length > 100){ D = j; render(); if(pick) showRes(find(pick), pick); } }).catch(function(){});
 /* 인스타 릴스에서 본 오늘의 기업을 칩 맨 앞에 */
