@@ -40,6 +40,6 @@ const caption = `이번 주 밸류노트 경제 레이더 종합 단계는 '${OV
   + (calm.length ? `안정 단계: ${calm.map(([k]) => NAME[k]).join(', ')}\n\n` : '')
   + (d.outlook ? String(d.outlook).trim() + '\n\n' : '')
   + (wk.length ? '이번 주 관심 일정\n' + wk.map((e) => `· ${md(e.date)} ${e.event}: ${e.why}`).join('\n') + '\n\n' : '')
-  + '경제 레이더는 과거 위기(닷컴 버블, 금융위기, 유럽 재정위기, 코로나, 2022년 금리 인상) 때의 수치와 비교해 지금 위치를 신호등으로 보여 줍니다. 신호는 위험을 미리 살피는 도구이며 시장을 예측하지 않습니다. 이 글은 시장 정보이며 특정 종목의 매수·매도 권유가 아닙니다.';
+  + '경제 레이더는 과거 위기(닷컴 버블, 금융위기, 유럽 재정위기, 코로나, 2022년 금리 인상) 때의 수치와 비교해 지금 위치를 신호등으로 보여 줍니다. 신호는 위험을 미리 살피는 도구이며 시장을 예측하지 않습니다.';
 fs.writeFileSync(path.join(SPECS, id + '.json'), JSON.stringify({ id, scheduled_at: when, threads_tag: '경제', title: `이번 주 경제 레이더 · 경고 ${on.length}개`, mood: on.length >= 3 ? 'tense' : 'calm', scenes, hashtags: ['경제레이더', '금리', '주식시장', '경제공부', '밸류노트'], caption }, null, 1));
 console.log(JSON.stringify({ id, on: on.map(([k]) => k), wk: wk.length }));

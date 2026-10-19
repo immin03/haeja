@@ -479,7 +479,7 @@ function reelCompany(x) {
 // 원칙은 같다(README 규칙 13): 점수·고평가 %·상승 여력·적정 주가 금액은 쓰지 않는다. 사실 + 쉬운 질문 + 밸류노트에서 확인.
 // 2026-10-19 운영자 지시: '주가에 담긴 기대' 형식은 쓰지 않는다(무엇을 말하려는지 분명하지 않다). 모든 기업 릴스는 '무슨 회사인지'부터 말한다.
 const FORMATS = ['intro', 'price', 'dividend'];
-const NOT_ADVICE2 = '이 글은 회사에 대한 정보이며 밸류노트의 의견이나 매수·매도 추천이 아닙니다.';
+const NOT_ADVICE2 = ''; // 고지문은 게시할 때 캡션 맨 끝에 * 한 줄로 자동으로 붙는다 (social-publish)
 const CTA_BUFFETT = { type: 'cta', l1: '버핏 기준 점수는', l2: '밸류노트에서', say: '버핏 기준으로 본 점수와 적정 주가는, 밸류노트에서 확인하세요.' };
 // 프로필 문장(~다체)을 ~합니다체로: 이다→입니다, 받침 없음+다→입니다, ㄴ다→ㅂ니다, 그 밖의 받침+다→습니다
 function hapnida(t) {
@@ -539,7 +539,7 @@ function reelIntro(x) {
   return { title: `무엇으로 돈을 벌까 · ${r.n}`, mood: 'calm', scenes, hashtags: [name, name + '주가', '기업분석', '주식공부', '밸류노트'],
     caption: `${r.n}, 무엇으로 돈을 버는 회사일까요?\n\n${what} ${String(p.model || '').split(/(?<=다\.)\s+/).filter(Boolean).map(hapnida).join(' ')}\n\n${useRoe ? `최근 ${yrs}년 동안 주주 돈 100원으로 매년 평균 ${k}원` : `매출 100원당 약 ${k}원`}${useRoe ? `의 이익을 냈습니다(평균 ROE ${r.fin.roeAvg.toFixed(1)}%).` : `의 이익을 냈습니다.`}`
       + (seg.length >= 2 ? `\n\n매출 구성: ${seg.map((s_) => `${s_.name} ${Math.round(s_.share)}%`).join(', ')}${p.segAsOf ? ` (${p.segAsOf})` : ''}.` : '')
-      + `\n\n버핏은 회사를 볼 때 "이 사업이 10년 뒤에도 돈을 벌고 있을까"를 먼저 묻습니다. 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 버핏 기준 점수와 정성 평가를 볼 수 있습니다.\n\n` + NOT_ADVICE2 };
+      + `\n\n버핏은 회사를 볼 때 "이 사업이 10년 뒤에도 돈을 벌고 있을까"를 먼저 묻습니다. 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 버핏 기준 점수와 정성 평가를 볼 수 있습니다.` + NOT_ADVICE2 };
 }
 const s_short = (t) => String(t).split(/[·,(]/)[0].trim().slice(0, 12);
 
@@ -567,7 +567,7 @@ function reelPrice(x) {
   return { title: `5년 주가 · ${r.n}`, mood: up ? 'calm' : 'tense', scenes, hashtags: [name, name + '주가', '주가흐름', '주식공부', '밸류노트'],
     caption: `5년 전 ${r.n} 주식을 1,000만 원어치 샀다면 지금은 약 ${man(money)} 원입니다(배당 제외, ${pts[0][0].replace('-', '년 ')}월~${pts[pts.length - 1][0].replace('-', '년 ')}월 월말 종가 기준). 주가는 매년 평균 ${pc.toFixed(1)}% ${pc >= 0 ? '올랐습니다' : '내렸습니다'}.`
       + (isNum(eps) ? ` 같은 기간 주당순이익은 매년 ${eps.toFixed(1)}%씩 ${eps >= 0 ? '늘었습니다' : '줄었습니다'}.\n\n길게 보면 주가는 이익을 따라갑니다. 주가가 이익보다 훨씬 빨리 오른 회사는 앞으로의 실적이 그 기대를 채워야 하고, 이익이 주가보다 빨리 늘어난 회사는 시장이 아직 반영하지 않은 것일 수도, 이유가 있는 것일 수도 있습니다.` : '')
-      + `\n\n과거 주가는 앞으로의 수익을 보장하지 않습니다. 버핏 기준 점수와 적정 주가는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.\n\n` + NOT_ADVICE2 };
+      + `\n\n버핏 기준 점수와 적정 주가는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` + NOT_ADVICE2 };
 }
 
 function reelDividend(x) {
@@ -585,7 +585,7 @@ function reelDividend(x) {
   return { title: `배당 · ${r.n}`, mood: 'calm', scenes, hashtags: [name, name + '배당', '배당주', '주식공부', '밸류노트'],
     caption: `${r.n}의 배당 수익률은 지금 주가 기준 약 ${y}%입니다. 1,000만 원어치를 갖고 있으면 1년에 약 ${per}만 원(세전)을 배당으로 받는 셈입니다.`
       + (d.years >= 5 ? ` 확인된 기간 동안 ${d.years}년 연속 배당을 늘렸습니다.` : '') + ` 번 돈 중 배당으로 주는 비율(배당성향)은 약 ${pay}%입니다.\n\n배당은 높이보다 오래 줄 수 있는지가 중요합니다. 번 돈보다 많이 주거나 이익이 흔들리면 배당은 줄어들 수 있습니다. 배당 수익률은 주가와 배당이 바뀌면 함께 달라집니다.\n\n`
-      + `밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 배당 적합 판정과 버핏 기준 점수를 볼 수 있습니다.\n\n` + NOT_ADVICE2 };
+      + `밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 배당 적합 판정과 버핏 기준 점수를 볼 수 있습니다.` + NOT_ADVICE2 };
 }
 async function reelAny(x, slotIdx) {
   x.px5 = await price5(x.r.t);
@@ -624,7 +624,7 @@ function reelRank2(rows, kind, mkt, label) {
     caption: (roe ? `주주 돈 100원으로 1년에 이익을 가장 많이 낸 ${label} 회사 TOP ${N}입니다(최근 몇 년 평균 ROE, 적자 낸 해가 없고 가장 나쁜 해에도 8원 이상 번 회사만).` : `배당을 3년 이상 꾸준히 늘리고, 번 돈의 70% 이하만 배당으로 주는 ${label} 회사 중 배당 수익률이 높은 TOP ${N}입니다.`)
       + '\n\n' + L.map((x, i) => `${i + 1}위 ${nm(x)} · ${roe ? `주주 돈 100원당 ${x.v}원` : `배당 수익률 ${x.t}`}`).join('\n')
       + '\n\n' + (roe ? '돈을 잘 버는 회사라도 이미 비싸게 거래되고 있을 수 있습니다. 좋은 회사와 좋은 가격은 따로 봐야 합니다.' : '배당 수익률은 주가와 배당에 따라 바뀝니다. 높이보다 오래 줄 수 있는지가 중요합니다.')
-      + ' 각 회사의 버핏 기준 점수와 적정 주가는 밸류노트에서 볼 수 있습니다.\n\n' + NOT_ADVICE2 };
+      + ' 각 회사의 버핏 기준 점수와 적정 주가는 밸류노트에서 볼 수 있습니다.' };
 }
 // (옛) 순위 릴스: 기대가 실적보다 가장 앞선 곳 — 2026-10-19부터 쓰지 않음 / 시장이 실적보다 가장 낮게 보는 곳. 1~3위 이름은 앱에서 공개
 function rankByExpect(L, side) {

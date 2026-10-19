@@ -89,7 +89,7 @@ def nsay(v, dec):  # 5.09 → "오 점 영 구" 대신 숫자 그대로 두면 k
     return s_.rstrip("0").rstrip(".") if "." in s_ else s_
 
 
-NOT_ADVICE = "이 글은 시장 흐름에 대한 정보이며 특정 종목의 매수·매도 권유가 아닙니다."
+NOT_ADVICE = ""  # 고지문은 게시할 때 * 한 줄로 자동으로 붙는다
 RATE_UP = ("금리가 오르면", "같은 회사도 적정 주가가 낮아집니다", "국채 이자가 높아지면 주식에 바라는 수익도 높아집니다")
 RATE_DN = ("금리가 내리면", "먼 미래 이익의 가치가 커집니다", "이익이 먼 미래에 몰린 성장주일수록 영향이 큽니다")
 RATE_WHY = "금리가 주가에 중요한 이유는 간단합니다. 위험이 거의 없는 국채가 높은 이자를 주면, 투자자는 주식에도 그보다 높은 수익을 바랍니다. 그래서 회사가 앞으로 벌 돈의 지금 가치가 줄어들고, 같은 회사라도 적정 주가가 낮아집니다. 금리가 내리면 반대입니다."
@@ -104,7 +104,7 @@ def when_from(now):
 
 def wrap(id_, title, scenes, caption, tags, now, mood="tense"):
     return {"id": id_, "title": title, "scheduled_at": when_from(now).isoformat(timespec="minutes"), "mood": mood, "event": id_,
-            "caption": caption + "\n\n" + NOT_ADVICE, "hashtags": tags + ["주식공부", "밸류노트"], "threads_tag": "주식뉴스", "scenes": scenes}
+            "caption": caption, "hashtags": tags + ["주식공부", "밸류노트"], "threads_tag": "주식뉴스", "scenes": scenes}
 
 
 def make_spec(key, chg, closes, now, info=None):

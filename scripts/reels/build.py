@@ -22,7 +22,8 @@ def specs():
 def digest(spec):
     keep = {k: spec[k] for k in ("scenes", "mood", "speed") if k in spec}
     src = open(os.path.join(HERE, "engine.py"), "rb").read()
-    return hashlib.sha1(json.dumps(keep, ensure_ascii=False, sort_keys=True).encode() + src[:0]).hexdigest()[:12]
+    ENGINE_VER = b"2026-10-19-caption-hint"  # 모든 릴스에 영향을 주는 화면 변경 때만 올린다 (앞으로 6시간 안팎~ 이후 릴스 전부 다시 렌더)
+    return hashlib.sha1(json.dumps(keep, ensure_ascii=False, sort_keys=True).encode() + ENGINE_VER + src[:0]).hexdigest()[:12]
 
 
 def main(only=None):

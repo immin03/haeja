@@ -410,6 +410,7 @@ def s_cta(img, u, sc, L, T):
         d.rounded_rectangle([cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2], 60, fill=mix(NAVY, GOLD, pb))
         d.text((cx - 30, cy), "프로필 링크에서 시작", font=F("ExtraBold", 48), fill=mix(GOLD, NAVY, pb), anchor="mm")
         arrow(d, cx + 245 + 8 * math.sin(u * 8), cy, mix(GOLD, NAVY, pb), 1.1)
+        if pb > .3: d.text((cx, cy + 128), "자세한 내용은 캡션을 확인하세요", font=F("SemiBold", 40), fill=mix(NAVY, (200, 208, 222), min(1, (pb - .3) / .5)), anchor="mm")
     return img
 
 # 앱 화면: 휴대폰 틀 안에서 스크롤 → 강조 박스 + 설명
