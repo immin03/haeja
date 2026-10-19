@@ -30,6 +30,48 @@ const FIXED = [/에디터 Luciano입니다\.?$/, /^안녕하세요, 밸류노트
 const BANNED = ['적정가 ', '적정가는', '적정가가', '적정 가격', '내재가치', '품질 점수', '저평가 점수', '무료', '유료', '매수 후보', '싸다', '비싸다'];
 const SLOP = ['결론적으로', '종합적으로', '요약하자면', '다양한 측면', '라고 할 수 있습니다', '매우 중요합니다', '필수적입니다', '살펴보았습니다', '알아보았습니다', '도움이 되셨길', '도움이 되셨으면', '시사하는 바가 큽니다', '주목할 만합니다', '눈여겨볼 필요가', '것은 분명합니다'];
 
+// ── 밸류노트 숫자 대조 ─────────────────────────────
+// c/scores.json: slug → [이름, 밸류노트 점수, 재무 점수, 가격 점수, 시장, 저평가%, 업종]. 적정 주가는 c/<slug>.html 제목에서 읽는다.
+const SITE = path.resolve(ROOT, '..', 'c');
+let VN = null;
+function vnData() {
+  if (VN) return VN;
+  try { VN = JSON.parse(fs.readFileSync(path.join(SITE, 'scores.json'), 'utf8')); } catch (_) { VN = { c: {} }; }
+  return VN;
+}
+function fairOf(slug) {
+  try { const t = (fs.readFileSync(path.join(SITE, slug + '.html'), 'utf8').match(/<title>[^<]*적정 주가 ([^ ·<]+)/) || [])[1]; return t || null; } catch (_) { return null; }
+}
+const numOf = (s) => { const v = parseFloat(String(s).replace(/[^\d.]/g, '')); return isFinite(v) ? v : null; };
+function checkVN(p) {
+  const out = [], C = vnData().c || {};
+  const names = Object.entries(C).filter(([, r]) => r && r[0] && r[0].length >= 2).map(([slug, r]) => ({ slug, n: r[0], b: r[1], q: r[2], v: r[3] }));
+  const blocks = p.blocks.flatMap((b) => [b.h, b.p, b.cap, ...(b.summary || []), ...(b.table ? b.table.rows.map((r) => r.join(' ')) : [])]).filter(Boolean).map(strip);
+  const seen = new Set();
+  for (const txt of blocks) for (const sen of sentences(txt)) {
+    const hits = names.filter((x) => sen.includes(x.n)); if (!hits.length) continue;
+    // 문장에 회사가 하나만 나올 때만 대조 (여러 회사를 나열한 문장은 짝을 정확히 알 수 없다)
+    if (hits.length > 1 && !hits.every((h) => hits.some((o) => o !== h && o.n.includes(h.n)))) continue;
+    const x = hits.sort((a, b) => b.n.length - a.n.length)[0];
+    const dated = /\d+월\s*\d+일/.test(sen);
+    const pairs = [['밸류노트 점수', x.b], ['재무 점수', x.q], ['가격 점수', x.v]];
+    for (const [label, cur] of pairs) {
+      const m = sen.match(new RegExp(label + '(?:는|은|가|이)?\\s*(?:100점 만점에\\s*)?(\\d{1,3})점'));
+      if (!m || cur == null) continue;
+      const said = +m[1], d = Math.abs(said - cur), key = x.slug + label + said; if (seen.has(key)) continue; seen.add(key);
+      if (d >= 3) out.push({ err: !dated, msg: `${x.n} ${label} ${said}점 — 지금 계산은 ${cur}점${dated ? ' (날짜를 밝힌 문장이라 경고만)' : ''}` });
+      else if (d > 0) out.push({ err: false, msg: `${x.n} ${label} ${said}점 — 지금 ${cur}점 (작은 차이)` });
+    }
+    const fm = sen.match(/적정 주가(?:는|은|가|이)?\s*(?:약\s*)?((?:HK\$|\$)?[\d,]+(?:\.\d+)?(?:원|엔|위안)?)/);
+    if (fm) {
+      const said = numOf(fm[1]), curS = fairOf(x.slug), cur = curS ? numOf(curS) : null, key = x.slug + 'iv' + said;
+      if (said && cur && !seen.has(key)) { seen.add(key); const r = Math.abs(said / cur - 1);
+        if (r > 0.03) out.push({ err: !dated, msg: `${x.n} 적정 주가 ${fm[1]} — 지금 계산은 ${curS}${dated ? ' (날짜를 밝힌 문장이라 경고만)' : ''}` }); }
+    }
+  }
+  return out;
+}
+
 const all = fs.readdirSync(ROOT).filter((d) => fs.existsSync(path.join(ROOT, d, 'post.json'))).map((d) => ({ id: d, p: load(path.join(ROOT, d)) }));
 let bad = 0;
 for (const dir of dirs) {
@@ -96,6 +138,11 @@ for (const dir of dirs) {
   if (miss.length) E.push(`facts 에 없는 제목·요약·소제목 숫자: ${miss.join(', ')}`);
   const bodyMiss = [...new Set(nums(p.blocks.map((b) => b.p || '').join(' ')))].filter((n) => n.replace(/\D/g, '').length >= 2 && !F.includes(n) && !/^(19|20)\d\d$/.test(n));
   if (bodyMiss.length) W.push(`facts 에 없는 본문 숫자 ${bodyMiss.length}개: ${bodyMiss.slice(0, 12).join(', ')}${bodyMiss.length > 12 ? ' …' : ''}`);
+  // 밸류노트 숫자 대조 (2026-10-19 적정 주가 공식 개편 뒤 도입): 글 속 회사 점수·적정 주가가 지금 계산값(c/scores.json, c/<slug>.html)과 같은지
+  for (const m of checkVN(p)) (m.err ? E : W).push(m.msg);
+  // 개편 전 공식으로 낸 버크셔 62건 검증 수치는 재검증 전까지 새 글에 쓰지 않는다
+  if (/62\s*건/.test(T) && /(15|37)\s*%/.test(T) && !/재검증|다시 검증/.test(T)) E.push('버크셔 62건 검증 수치(실패율 15%·37%)는 10/12 공식 기준이라 재검증 전까지 쓰지 않습니다 (claude/valuation-method.md)');
+
   // 태그 (README 태그 규칙의 본문 일치 점검)
   const TT = T.replace(/\s/g, '');
   const tagMiss = (p.tags || []).filter((t) => !TT.includes(t) && !Array.from({ length: Math.max(0, t.length - 3) }, (_, k) => k + 2).some((i) => TT.includes(t.slice(0, i)) && TT.includes(t.slice(i))));
