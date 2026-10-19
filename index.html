@@ -3906,6 +3906,53 @@ function rdTile(k, o){
     <div class="rd-tmore"><b>${esc(m.n)}</b><p>${esc(o.why || '')}</p><p class="muted">${esc(m.d)}</p>${sub ? `<p class="muted num">${sub}</p>` : ''}<p class="muted">기준일 ${esc(o.date || '')}</p></div></details>`;
 }
 const dday = d => { const n = Math.round((Date.parse(d) - Date.parse(today())) / 864e5); return n === 0 ? 'D-DAY' : n > 0 ? `D-${n}` : `D+${-n}`; };
+/* ============ 다가오는 주요 일정 (경제 일정 + 내 종목 실적 발표) + 하루 전 알림 ============ */
+const WD = ['일','월','화','수','목','금','토'];
+function myEarnings(){
+  const E = S.earn?.items || {}; if(!Object.keys(E).length) return [];
+  const held = new Set((S.holdings || []).map(h => h.companyId).filter(Boolean));
+  const out = new Map();
+  for(const c of (S.companies || [])){
+    if(c.kind && c.kind !== 'stock') continue;
+    if(!(held.has(c.id) || c.watch === true || c.pinned || (c.thesis?.memo || '').trim())) continue;
+    const sym = String(c.yf || c.ticker || '').toUpperCase(), e = E[sym]; if(!e) continue;
+    out.set(sym, { date: e.date, event: `${c.name} 실적 발표`, why: held.has(c.id) ? '보유 종목' + (e.est ? ' · 예정일' : '') : '관심 종목' + (e.est ? ' · 예정일' : ''), mine: true });
+  }
+  return [...out.values()];
+}
+function hasMyStocks(){
+  const held = new Set((S.holdings || []).map(h => h.companyId).filter(Boolean));
+  return (S.companies || []).some(c => held.has(c.id) || c.watch === true || c.pinned || (c.thesis?.memo || '').trim());
+}
+function calHtml(R){
+  const t = today(), lim = new Date(Date.parse(t) + 30 * 864e5).toISOString().slice(0, 10);
+  const macro = (R.upcoming || []).filter(u => u.date >= t).map(u => ({ ...u, mine: false }));
+  const earn = store.isGuest ? [] : myEarnings().filter(u => u.date >= t && u.date <= lim);
+  const list = [...macro, ...earn].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 7);
+  if(!list.length) return '';
+  const row = u => { const d = new Date(u.date + 'T00:00:00Z'), n = Math.round((Date.parse(u.date) - Date.parse(t)) / 864e5);
+    return `<div class="cal-r${n <= 1 ? ' soon' : ''}"><div class="cal-d num"><b>${d.getUTCMonth() + 1}/${d.getUTCDate()}</b><span>${WD[d.getUTCDay()]}</span></div>
+      <div class="cal-m"><div class="cal-t"><b>${esc(u.event)}</b><span class="cal-tag${u.mine ? ' mine' : ''}">${u.mine ? '내 종목' : '경제'}</span></div>${u.why ? `<span class="small muted">${esc(u.why)}</span>` : ''}</div>
+      <span class="cal-dd num">${n === 0 ? '오늘' : n === 1 ? '내일' : 'D-' + n}</span></div>`; };
+  const on = cfg().calAlert === true;
+  let foot;
+  if(store.isGuest) foot = `<div class="cal-f"><span class="small">가입하면 일정 하루 전 저녁에 알림을 받을 수 있습니다.</span><button type="button" class="btn primary" data-guest="signup">가입하고 알림 받기</button></div>`;
+  else if(store.isDemo) foot = `<div class="cal-f"><span class="small muted">체험 계정에서는 알림을 켤 수 없습니다.</span></div>`;
+  else foot = `<div class="cal-f"><span class="small">${on ? `<b>하루 전 알림 켜짐</b><span class="muted"> · 전날 저녁 6시에 알려 드립니다${pushState === 'on' ? '' : '. 휴대폰·PC 알림도 받으려면 알림 탭에서 이 기기 알림을 켜 주세요'}.</span>` : '<b>하루 전 알림 받기</b><span class="muted"> · 중요한 경제 일정과 내 종목 실적 발표를 전날 저녁에 알려 드립니다.</span>'}</span>
+    <button type="button" class="cal-sw${on ? ' on' : ''}" data-cal="toggle" role="switch" aria-checked="${on}" aria-label="일정 알림"><i></i></button></div>
+    ${hasMyStocks() ? '' : `<button type="button" class="cal-hint" data-act="go-tab" data-v="companies"><span class="small">관심 종목을 등록하면 실적 발표일도 함께 알려 드립니다</span><span class="small muted">종목 찾기 ›</span></button>`}
+    <div class="status-line small" id="cal-msg"></div>`;
+  return `<div class="rd-sec-h out"><b>다가오는 주요 일정</b><span class="small muted">30일 이내</span></div>
+  <div class="card cal-card">${list.map(row).join('')}${foot}</div>`;
+}
+document.addEventListener('click', async e => {
+  const el = e.target.closest('[data-cal="toggle"]'); if(!el || store.isGuest || store.isDemo) return;
+  const on = !(cfg().calAlert === true);
+  S.settings = { ...cfg(), calAlert: on }; render();
+  try{ await store.set('settings', 'main', S.settings); }catch(_){ const m = document.getElementById('cal-msg'); if(m) m.textContent = '저장하지 못했습니다. 다시 눌러 주세요.'; return; }
+  if(on && pushState === 'off' && 'Notification' in window && Notification.permission !== 'denied'){ try{ await enablePush(); }catch(_){} render(); }
+});
+
 function viewRadar(){
   const R = S.radar;
   if(!R || !R.ind) return `<h2>경제 레이더</h2><div class="card empty">레이더 자료는 매일 아침 자동으로 채워집니다.</div>`;
@@ -3926,8 +3973,7 @@ function viewRadar(){
   <div class="card rd-do" style="--lc:${L.c}"><div class="rd-sec-h"><b>${L.n} 단계 · 지금 할 일</b></div>${RD_DO[lv].map((t, i) => `<div><span class="rd-no">${i + 1}</span><span>${esc(t)}</span></div>`).join('')}${R.outlook ? `<p class="small muted rd-ol">${esc(R.outlook)}</p>` : ''}</div>
   ${(R.events || []).length ? `<div class="rd-sec-h out"><b>최근 위험 신호</b><span class="small muted">${esc(R.eventsAt || '')}</span></div>
   <div class="card rd-tl">${R.events.map(e => { const E = RD_LV[e.level] || RD_LV[2]; return `<div class="rd-ti"><span class="rd-td num">${+String(e.date).slice(5, 7)}/${+String(e.date).slice(8, 10)}</span><span class="rd-tn" style="--d:${8 + (e.level || 2) * 3}px;background:${E.c}"></span><div><div class="rd-tt"><b>${esc(e.title)}</b>${e.region ? `<span class="rd-rg">${esc(e.region)}</span>` : ''}<span class="rd-lvp">${E.n}</span></div><p>${esc(e.body || '')}</p></div></div>`; }).join('')}</div>` : ''}
-  ${(R.upcoming || []).length ? `<div class="rd-sec-h out"><b>다가오는 위험 일정</b></div>
-  <div class="rd-up">${R.upcoming.map(u => `<div class="card rd-uc"><span class="rd-dd num">${dday(u.date)}</span><b>${esc(u.event)}</b><span class="small muted">${+String(u.date).slice(5, 7)}월 ${+String(u.date).slice(8, 10)}일</span>${u.why ? `<span class="small">${esc(u.why)}</span>` : ''}</div>`).join('')}</div>` : ''}
+  ${calHtml(R)}
   ${groups.map(g => { const ks = RD_ORDER.filter(k => I[k] && RD_IND[k].g === g); return ks.length ? `<div class="rd-sec-h out"><b>${g}</b></div><div class="rd-tiles">${ks.map(k => rdTile(k, I[k])).join('')}</div>` : ''; }).join('')}
   ${bul ? `<div class="rd-sec-h out"><b>지금 vs 과거 위기</b><span class="small muted">눈금은 위기 때 최고치</span></div><div class="card rd-buls">${bul}</div>` : ''}
   ${R.ff ? `<div class="rd-sec-h out"><b>금리가 높아진 뒤 위기가 왔습니다</b></div><div class="card">${rdHistory(R)}
@@ -5828,7 +5874,7 @@ function refresh(kind){
   store.sub('briefing', docs => { S.briefings = docs; if(S.tab === 'briefing') refresh('n'); });
   store.sub('trends', docs => { S.columns = docs.filter(d => String(d.id).startsWith('col-') && d.title).sort((a, b) => String(b.id).localeCompare(String(a.id))); S.trends = docs.find(d => d.id === 'current') || null; S.trendSeries = docs.find(d => d.id === 'series') || null; trendIndex = null; scoredCache = null; rowVerdictCache.clear(); if(['briefing','analyze','screener','trends'].includes(S.tab)) refresh('n'); });
   store.sub('prices', docs => { S.prices = Object.fromEntries(docs.map(d => [normKey(d.id), d])); if(['portfolio','companies','fx'].includes(S.tab)) refresh('p'); });
-  store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; S.rates = docs.find(d => d.id === 'rates') || null; S.radar = docs.find(d => d.id === 'radar') || null; if(['fx','portfolio','rates','column','briefing','radar'].includes(S.tab)) refresh('x'); });
+  store.sub('fx', docs => { S.fx = docs.find(d => d.id === 'current') || null; S.rates = docs.find(d => d.id === 'rates') || null; S.radar = docs.find(d => d.id === 'radar') || null; S.earn = docs.find(d => d.id === 'earnings') || null; if(['fx','portfolio','rates','column','briefing','radar'].includes(S.tab)) refresh('x'); });
   store.sub('profiles', docs => { S.profiles = Object.fromEntries(docs.map(d => [normKey(d.id), d])); scoredCache = null; rowVerdictCache.clear(); if(['companies','dividend','screener','fx'].includes(S.tab)) refresh('p'); });
   store.sub('journal', docs => { S.journal = docs; S.loaded.j = 1; refresh('j'); });
   store.sub('settings', docs => { const m = docs.find(d => d.id==='main'); if(m && !saveTimers.__set && !saveTimers.__prog) S.settings = m; S.loaded.s = 1; refresh('s'); });
@@ -6270,6 +6316,23 @@ input,select,textarea{border-radius:10px}
 .rd-rg{font-size:11px;padding:1px 7px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
 .rd-lvp{font-size:11.5px;font-weight:700;color:var(--muted)}
 .rd-ti p{margin:3px 0 0;font-size:13px;line-height:1.55;color:var(--ink)}
+.cal-card{padding:4px 14px}
+.cal-r{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.cal-d{display:flex;flex-direction:column;align-items:center;line-height:1.15}
+.cal-d b{font-size:15px}.cal-d span{font-size:11px;color:var(--muted)}
+.cal-m{min-width:0;display:flex;flex-direction:column;gap:2px;word-break:keep-all}
+.cal-t{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.cal-t b{font-size:14px;line-height:1.35}
+.cal-tag{font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--gold-soft);color:var(--warn)}
+.cal-tag.mine{background:var(--accent-soft);color:var(--accent)}
+.cal-dd{font-size:12px;font-weight:800;color:var(--muted);white-space:nowrap}
+.cal-r.soon .cal-dd{color:#FFFFFF;background:var(--navy);padding:2px 8px;border-radius:999px}
+.cal-f{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 10px;word-break:keep-all}
+.cal-sw{flex:0 0 auto;width:46px;height:28px;border-radius:999px;border:0;background:var(--line);position:relative;cursor:pointer;transition:background .2s}
+.cal-sw i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.cal-sw.on{background:var(--accent)}.cal-sw.on i{transform:translateX(18px)}
+.cal-hint{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;margin:0 0 10px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;background:transparent;color:var(--ink);cursor:pointer;text-align:left;font:inherit}
+.cal-card #cal-msg:empty{display:none}
+.cal-f .btn,.cal-hint .muted{white-space:nowrap;flex:0 0 auto}
 .rd-up{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .rd-uc{flex:0 0 150px;display:flex;flex-direction:column;gap:4px;padding:12px}
 .rd-uc b{font-size:14px;line-height:1.35}
