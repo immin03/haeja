@@ -610,12 +610,77 @@ def camera(img, u, s):
     x0 = max(0, min(w - W, x0)); y0 = max(0, min(h - H, y0))
     return big.crop((x0, y0, x0 + W, y0 + H))
 
+# ── 실제 영상 배경(B-roll): 첫 장면(후킹) 뒤에 주제에 맞는 무료 영상을 어둡게 깐다 ──
+# 소스: assets/broll/<주제>_<번호>.mp4 (Mixkit 무료 라이선스, assets/fetch.py 로 받음)
+BROLL_DIR = os.path.join(HERE, "assets", "broll")
+BROLL_RULES = [  # (주제, 대본 제목·해시태그·캡션 앞부분에서 찾는 말) — 위에서부터 먼저 맞는 것
+    ("traffic", r"보험|자동차|사고"), ("crypto", r"비트코인|코인|암호화폐"),
+    ("chip", r"반도체|하이닉스|HBM|KLA|엔비디아|TSMC|칩"), ("datacenter", r"AI|데이터센터|인공지능"),
+    ("storm", r"폭락|위기|공포|침체|버블|파산|무너|급락|역전"), ("gold", r"(^|[^가-힣])금(값|$|[^가-힣리융요액])"),
+    ("city", r"금리|국채|환율|연준|FOMC|물가|CPI|경제 레이더|기준금리"), ("news", r"뉴스|브리핑|칼럼"),
+    ("phone", r"알림|앱|화면|계좌|설정|등급|사용법"), ("time", r"복리|장기|10년|오래|기다"),
+    ("money", r"1억|1,000만|돈|배당|수익"), ("market", r".")]
+_BR = {"key": None, "frames": None}
+
+def broll_key(spec):
+    k = spec.get("broll")
+    if k == "none": return None
+    if not os.path.isdir(BROLL_DIR): return None
+    have = sorted(f[:-4] for f in os.listdir(BROLL_DIR) if f.endswith(".mp4"))
+    if k: cands = [h for h in have if h.split("_")[0] == k] or ([k] if k in have else [])
+    else:
+        txt = " ".join([spec.get("title", ""), " ".join(spec.get("hashtags", [])), spec.get("caption", "")[:160]])
+        cands = []
+        for key, pat in BROLL_RULES:
+            if re.search(pat, txt): cands = [h for h in have if h.split("_")[0] == key]
+            if cands: break
+    if not cands: return None
+    return cands[sum(map(ord, spec.get("id", ""))) % len(cands)]  # 같은 주제 안에서 릴스마다 다른 클립
+
+def broll_load(name, secs):
+    """클립을 540x960으로 풀어 메모리에 (배경이라 어둡게 깔리므로 이 정도면 충분)"""
+    path = os.path.join(BROLL_DIR, name + ".mp4")
+    raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", path, "-t", f"{min(6, secs + .5):.2f}", "-vf", "scale=540:960,fps=30",
+                          "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+    n = len(raw) // (540 * 960 * 3)
+    return np.frombuffer(raw[:n * 540 * 960 * 3], np.uint8).reshape(n, 960, 540, 3) if n else None
+
+def broll_setup(spec, scenes):
+    _BR["key"] = _BR["frames"] = None
+    first = scenes[0]
+    if first["sc"]["type"] != "hook": return
+    k = broll_key(spec)
+    if not k: return
+    try: _BR["frames"] = broll_load(k, first["dur"]); _BR["key"] = k
+    except Exception as e: print("  영상 배경 실패", k, e)
+
+_NAVYF = None
+def broll_bg(img, T, dur):
+    """후킹 장면 배경: 실제 영상(어둡게·남색 톤) 위에 기존 배경을 겹친다. 끝 0.4초 동안 기존 배경으로 넘어간다"""
+    global _NAVYF
+    fr = _BR["frames"]
+    if fr is None: return img
+    i = min(len(fr) - 1, int(T * 30))
+    v = Image.fromarray(fr[i]).resize((W, H), Image.BILINEAR)
+    a = np.asarray(v, np.float32)
+    gray = a.mean(2, keepdims=True); a = a * .55 + gray * .45  # 색을 빼서 브랜드 색(남색·금색)이 튀게
+    if _NAVYF is None:
+        yy = np.linspace(0, 1, H)[:, None, None]
+        # 위·아래는 더 어둡게(글자 자리), 가운데는 영상이 보이게
+        _NAVYF = (.24 + .34 * np.abs(yy - .5) * 2).astype(np.float32)
+    k = (1 - prog(T, dur - .45, dur)) * .70  # 영상 비중
+    base = np.asarray(img, np.float32)
+    tint = a * (1 - _NAVYF) + np.array(NAVY, np.float32) * _NAVYF
+    out = base * (1 - k) + tint * k
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+
 def frame(T, scenes, total):
     s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
     sc = s["sc"]; u = T - s["start"]
     warm = 0.0
     if sc["type"] == "hook": warm = prog(u, .85, 1.15) * (1 - prog(u, 2.0, s["dur"]))
     img = background(T, warm)
+    if s is scenes[0] and sc["type"] == "hook": img = broll_bg(img, u, s["dur"])
     img = DRAW[sc["type"]](img, u, sc, s["L"], T)
     img = camera(img, u, s)
     if sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
@@ -756,29 +821,57 @@ def build_audio(scenes, total, mood, path):
     def addfx(at, sig):
         i = int(at * SR)
         if 0 <= i < n: m = min(len(sig), n - i); fx[i:i + m] += sig[:m]
+    # 실제 효과음(assets/sfx, Mixkit 무료) 이 있으면 그것을, 없으면 직접 합성한 소리를 쓴다
+    SFX = {}
+    for nm in ("whoosh", "alt_whoosh", "impact", "light", "item", "cta", "coins", "ui"):
+        fp = os.path.join(HERE, "assets", "sfx", nm + ".wav")
+        if os.path.exists(fp):
+            import soundfile as _sf
+            a_, sr_ = _sf.read(fp, dtype="float32")
+            if sr_ == SR: SFX[nm] = a_ if a_.ndim == 1 else a_.mean(1)
+    PEAK = {"whoosh": .70, "alt_whoosh": .42, "impact": .28}
     s = np.arange(int(SR * .7)) / SR
     impact = .7 * np.sin(2 * np.pi * (70 - 40 * s) * s) * np.exp(-s * 6) + .15 * rng.standard_normal(len(s)) * np.exp(-s * 30)
     def tick(f):
         s_ = np.arange(int(SR * .05)) / SR; return .15 * np.sin(2 * np.pi * f * s_) * np.exp(-s_ * 80)
-    for x_ in scenes[1:]:
-        m = int(SR * .4); w = signal.lfilter(*signal.butter(2, 1800 / (SR / 2), "low"), rng.standard_normal(m))
-        addfx(x_["start"] - .15, .35 * w * np.sin(np.linspace(0, np.pi, m)) ** 2)
+    for j, x_ in enumerate(scenes[1:]):
+        if "whoosh" in SFX:
+            nm = "whoosh" if j % 2 == 0 or "alt_whoosh" not in SFX else "alt_whoosh"
+            addfx(x_["start"] - PEAK[nm], .42 * SFX[nm])
+        else:
+            m = int(SR * .4); w = signal.lfilter(*signal.butter(2, 1800 / (SR / 2), "low"), rng.standard_normal(m))
+            addfx(x_["start"] - .15, .35 * w * np.sin(np.linspace(0, np.pi, m)) ** 2)
     for x_ in scenes:
         st, ty, Lx, sc = x_["start"], x_["sc"]["type"], x_["L"], x_["sc"]
         if ty == "hook":
-            addfx(st + .85, impact)
+            if "impact" in SFX: addfx(st + .85 - PEAK["impact"], .75 * SFX["impact"])
+            else: addfx(st + .85, impact)
             for k in range(9): addfx(st + .3 + k * .065, tick(900 + 70 * k))
+            if "coins" in SFX and sc.get("num", {}).get("fmt") == "won": addfx(st + 1.05, .3 * SFX["coins"])
         elif ty == "run":
             days = sc.get("days", 20); end = Lx[1][0] - .1 if len(Lx) > 1 else Lx[0][1]
             for k in range(days): addfx(st + .15 + (end - .15) * k / days, tick(1300 if k % 2 == 0 else 1000))
             if len(Lx) > 1: addfx(st + Lx[1][0] + Lx[1][1] * .55, impact * .9)
-        elif ty == "compare": addfx(st + .55, impact * .45)
-        elif ty == "statement": addfx(st + min(.55, Lx[0][1] * .35), impact * .7)
+        elif ty == "compare":
+            addfx(st + .55 - (PEAK["impact"] if "impact" in SFX else 0), (.35 * SFX["impact"]) if "impact" in SFX else impact * .45)
+        elif ty == "statement":
+            at = st + min(.55, Lx[0][1] * .35)
+            if "impact" in SFX: addfx(at - PEAK["impact"], .4 * SFX["impact"]); addfx(at, .35 * SFX.get("light", np.zeros(1)))
+            else: addfx(at, impact * .7)
         elif ty in ("bars", "list"):
-            for k in range(len(sc["items"])): addfx(st + .25 + k * .3, tick(1100))
+            n_ = len(sc["items"]); span = Lx[0][1] * .9 if ty == "list" else None
+            for k in range(n_):
+                at = st + (.15 + span * k / n_ if ty == "list" else .25 + k * min(.45, max(.2, Lx[0][1] * .7 / n_)))
+                addfx(at, .4 * SFX["item"] if "item" in SFX else tick(1100))
+        elif ty == "who":
+            if "light" in SFX: addfx(st + .08, .45 * SFX["light"]); addfx(st + .45, .3 * SFX.get("item", np.zeros(1)))
+        elif ty == "screen":
+            if "ui" in SFX: addfx(st + .5, .35 * SFX["ui"])
         elif ty == "cta":
-            s2 = np.arange(int(SR * 1.6)) / SR
-            addfx(st + .1, sum(.07 * np.sin(2 * np.pi * note(k) * s2) * np.exp(-s2 * 3) for k in (76, 79, 84)))
+            if "cta" in SFX: addfx(st + .1, .32 * SFX["cta"])
+            else:
+                s2 = np.arange(int(SR * 1.6)) / SR
+                addfx(st + .1, sum(.07 * np.sin(2 * np.pi * note(k) * s2) * np.exp(-s2 * 3) for k in (76, 79, 84)))
     voice = np.zeros(n)
     for x_ in scenes:
         for at, a in x_["vo"]:
@@ -801,6 +894,8 @@ def render(spec, outdir, stills=None):
     os.makedirs(outdir, exist_ok=True)
     VLOG.clear(); LINT.clear()
     scenes, total = plan(spec, speak)
+    broll_setup(spec, scenes)
+    if _BR["key"]: print("  영상 배경:", _BR["key"])
     if total > MAX_SEC and not spec.get("allow_long"):
         raise RuntimeError(f"{spec['id']}: {total:.1f}초 — 최대 {MAX_SEC}초를 넘습니다. 대본을 줄여야 합니다(목표 20초 안팎)")
     if VERIFY:
