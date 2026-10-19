@@ -27,8 +27,12 @@ const catOf = (d, pj) => pj.category || CAT_BY_DAY[(String(d).match(/^b\d{6}([mw
 const category = catOf(id, post);
 
 // 네이버 편집기가 잘 받아들이는 단순한 태그만 쓴다 (p, b, img, blockquote, a)
-const body = post.blocks.map((b) => {
-  if (b.h) return `<p><b>■ ${inline(b.h)}</b></p>`;
+// 간격 규칙: 네이버는 문단 여백이 없고 빈 줄(<p><br></p>)로만 간격이 생긴다.
+//   소제목 위 = 빈 줄 2개(새 단락이 시작된다는 느낌), 소제목 아래 = 빈 줄 없음(소제목이 아래 글에 붙는다),
+//   그 밖의 블록 사이 = 빈 줄 1개.
+const BLANK = '<p><br></p>';
+const blockHtml = (b) => {
+  if (b.h) return `<p><span style="font-size:19px"><b><span style="color:#C99A50">■</span> ${inline(b.h)}</b></span></p>`;
   if (b.p) return `<p>${inline(b.p)}</p>`;
   if (b.img && b.href) return `<p><a href="${esc(b.href)}"><img src="${imgUrl(b.img)}" alt="${esc(b.cap || '')}" width="720"></a></p>`;
   if (b.img) return `<p><img src="${imgUrl(b.img)}" alt="${esc(b.cap || '')}" width="720"></p>${b.cap ? `<p><span style="color:#888888;font-size:13px">${esc(b.cap)}</span></p>` : ''}`;
@@ -39,7 +43,14 @@ const body = post.blocks.map((b) => {
   if (b.table) return `<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr>${b.table.head.map((x) => `<th style="background:#F3EEE3">${esc(x)}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((x) => `<td>${inline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
   if (b.sources) return `<p><b>참고한 자료</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
   return '';
-}).join('\n<p><br></p>\n');
+};
+const body = post.blocks.map((b, i) => {
+  const html = blockHtml(b);
+  if (i === 0) return html;
+  const prev = post.blocks[i - 1];
+  const gap = b.h ? BLANK + BLANK : prev.h ? '' : BLANK;
+  return gap + '\n' + html;
+}).join('\n');
 const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? '3줄 요약\n' + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.note || '').join('\n\n');
 const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
 const imgs = post.blocks.filter((b) => b.img).map((b) => b.img);
@@ -66,8 +77,9 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 .btn.ok{background:#2E8B62}
 .ttl{font-size:20px;font-weight:800}
 .steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
-#art{border:1px dashed var(--line);border-radius:12px;padding:14px}#art img{max-width:100%;height:auto;border-radius:8px}
-#art blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
