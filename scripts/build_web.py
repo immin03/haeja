@@ -223,7 +223,7 @@ async function refreshQuotes(force){
     if(qe || !q) throw qe || new Error('no data');
     for(const h of hs){
       const x = q[yfSymbol(h)];
-      if(x && isNum(x.price) && x.price !== h.price) await store.set('holdings', h.id, { ...h, price: x.price, prevClose: x.prev ?? null, priceAt: x.time, updatedAt: today() });
+      if(x && isNum(x.price) && (x.price !== h.price || (isNum(x.prev) && x.prev !== h.prevClose) || (x.time && x.time !== h.priceAt))) await store.set('holdings', h.id, { ...h, price: x.price, prevClose: x.prev ?? null, priceAt: x.time, updatedAt: today() });
     }
     const upd = {};
     if(isNum(q['KRW=X']?.price)) upd.fx = q['KRW=X'].price;

@@ -107,7 +107,8 @@ Deno.serve(async (_req: Request) => {
 
     const rows: any[] = [];
     const put = (owner: string, collection: string, id: string, data: any) => rows.push({ owner, collection, id, data, updated_at: new Date().toISOString() });
-    for (const h of holdings) { const p = last(heldSym[key(h.owner, h.id)]); if (p) put(h.owner, "holdings", h.id, { ...h.data, price: p[1], priceAt: p[0], updatedAt: today }); }
+    // 종가와 직전 거래일 종가를 함께 저장한다. 직전 종가를 그대로 두면 며칠 전 값과 비교돼 하루 변동이 크게 틀어진다
+    for (const h of holdings) { const pts = hist[heldSym[key(h.owner, h.id)]]; const p = pts?.[pts.length - 1]; if (p) put(h.owner, "holdings", h.id, { ...h.data, price: p[1], prevClose: pts.length >= 2 ? pts[pts.length - 2][1] : (h.data.prevClose ?? null), priceAt: p[0], updatedAt: today }); }
     // 보유 종목 하루 5% 이상 움직이면 알림 (같은 날 한 번)
     const alertRows: any[] = [];
     for (const h of holdings) {

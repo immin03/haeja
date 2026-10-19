@@ -1194,7 +1194,7 @@ async function refreshQuotes(force){
     if(qe || !q) throw qe || new Error('no data');
     for(const h of hs){
       const x = q[yfSymbol(h)];
-      if(x && isNum(x.price) && x.price !== h.price) await store.set('holdings', h.id, { ...h, price: x.price, prevClose: x.prev ?? null, priceAt: x.time, updatedAt: today() });
+      if(x && isNum(x.price) && (x.price !== h.price || (isNum(x.prev) && x.prev !== h.prevClose) || (x.time && x.time !== h.priceAt))) await store.set('holdings', h.id, { ...h, price: x.price, prevClose: x.prev ?? null, priceAt: x.time, updatedAt: today() });
     }
     const upd = {};
     if(isNum(q['KRW=X']?.price)) upd.fx = q['KRW=X'].price;
@@ -1998,6 +1998,18 @@ function dayChgOf(...keys){
   for(const k of keys){ if(!k) continue; const d = (S.prices[normKey(k)]?.daily || []).filter(p => isNum(p[1])); if(d.length >= 2 && d[d.length - 2][1] > 0) return (d[d.length - 1][1] / d[d.length - 2][1] - 1) * 100; }
   return null;
 }
+/* 시세 날짜(한국 시간). priceAt은 ISO 시각이거나 'YYYY-MM-DD' */
+const kstDate = v => { if(!v) return ''; if(/^\d{4}-\d{2}-\d{2}$/.test(v)) return v; const t = Date.parse(v); return isNaN(t) ? '' : new Date(t + 9*3600e3).toISOString().slice(0,10); };
+const mdOf = d => d ? `${+d.slice(5,7)}/${+d.slice(8,10)}` : '';
+/* 하루 변동을 "오늘"이라고 불러도 되는지: 모든 시세가 오늘 날짜면 오늘, 아니면 날짜나 "최근 거래일" */
+function dayLabel(hs){
+  const ds = [...new Set((hs||[]).filter(h => isNum(h.prevClose) && h.prevClose > 0).map(h => kstDate(h.priceAt)).filter(Boolean))].sort();
+  if(!ds.length) return '최근 거래일';
+  if(ds.every(d => d === today())) return '오늘';
+  if(ds.length === 1) return mdOf(ds[0]);
+  return '최근 거래일';
+}
+const dayTag = h => { const d = kstDate(h.priceAt); return !d || d === today() ? '오늘' : mdOf(d); };
 /* 내 계좌 하루 변동을 어느 종목이 만들었는지: 원화 기준 기여도 */
 function dayMovers(rows){
   return (rows||[]).map(r => { const h = r.h, pc = h.prevClose; if(!(isNum(pc) && pc > 0 && isNum(h.price))) return null;
@@ -2015,14 +2027,14 @@ function dipCard(dayPct, rows){
   const list = (fell.length ? fell : near).slice(0, 3);
   return `<div class="card dip-card">
     <div class="eyebrow">${rough ? '내 계좌가 크게 내린 날' : '오늘 크게 내린 좋은 회사'}</div>
-    <h3>${rough ? `내 보유 종목 평가액이 오늘 ${pct(dayPct)} 움직였어요.` : `좋은 회사 ${fell.length}곳이 오늘 3% 넘게 내렸어요.`}</h3>
+    <h3>${rough ? (() => { const L = dayLabel((rows||[]).map(r => r.h)); return L === '오늘' ? `내 보유 종목 평가액이 오늘 ${pct(dayPct)} 움직였어요.` : L === '최근 거래일' ? `내 보유 종목 평가액이 최근 거래일 기준 ${pct(dayPct)} 움직였어요.` : `내 보유 종목 평가액이 ${L} 거래일에 ${pct(dayPct)} 움직였어요.`; })() : `좋은 회사 ${fell.length}곳이 오늘 3% 넘게 내렸어요.`}</h3>
     ${rough ? (() => {
       const mv = dayMovers(rows), drop = mv.filter(m => m.krw < 0).sort((a,b) => a.krw - b.krw), lossAll = drop.reduce((a,m) => a + m.krw, 0);
       const top = drop.slice(0, 2); if(!top.length) return '';
       const nm = n => n.replace(/\s*\(.*\)$/,'');
       const tys = top.map(m => stockType(m.r)), share = lossAll ? Math.round(top.reduce((a,m) => a + m.krw, 0) / lossAll * 100) : 0;
       const allBad = tys.every(t => t.k === 'spec' || t.k === 'growth' || t.k === 'watch' || t.k === 'unknown');
-      return `<p style="margin:6px 0 0;font-size:14px;line-height:1.6;word-break:keep-all">하락분의 ${share}%는 ${top.map((m,i) => `<b>${esc(nm(m.r.h.name))}</b>(${tys[i].name}, 오늘 ${pct(m.pct)})`).join(', ')}에서 나왔어요. ${allBad ? '가치주가 아닌 종목이 계좌를 흔들고 있어요. 비중을 줄일 순서는 아래 "지금 할 일"에 있습니다.' : '팔 이유가 생긴 건지, 살 기회가 생긴 건지부터 보세요.'}</p>`;
+      return `<p style="margin:6px 0 0;font-size:14px;line-height:1.6;word-break:keep-all">하락분의 ${share}%는 ${top.map((m,i) => `<b>${esc(nm(m.r.h.name))}</b>(${tys[i].name}, ${dayTag(m.r.h)} ${pct(m.pct)})`).join(', ')}에서 나왔어요. ${allBad ? '가치주가 아닌 종목이 계좌를 흔들고 있어요. 비중을 줄일 순서는 아래 "지금 할 일"에 있습니다.' : '팔 이유가 생긴 건지, 살 기회가 생긴 건지부터 보세요.'}</p>`;
     })() : ''}
     ${list.length ? `<div class="small muted" style="margin:${rough ? 14 : 8}px 0 6px">${rough ? '지금 적정 매수가 근처에 있는 좋은 회사' : '적정 매수가 근처까지 내려온 좋은 회사'} ${near.length}곳</div>
     <div class="dip-list">${list.map(({ r, gap, day }) => `<button type="button" class="dip-row" data-act="sc-import" data-t="${esc(r.t)}">
@@ -2215,7 +2227,7 @@ function viewPortfolio(){
   <div class="card pf-top" style="margin-top:16px">
     <div class="row" style="justify-content:space-between;align-items:flex-end">
       <div><span class="eyebrow">총 평가액</span><div class="hero-num num" data-v="${Math.round(total)}">${fmtKRW(total)}</div>
-        <div class="num small"><b class="${pl>=0?'up':'down'}">${pl>=0?'+':'−'}${fmtKRW(Math.abs(pl))} (${pct(cost?pl/cost*100:null)})</b>${isNum(dayPct) ? ` <span class="muted day-chg">· 오늘 ${pct(dayPct)}</span>` : ''}</div></div>
+        <div class="num small"><b class="${pl>=0?'up':'down'}">${pl>=0?'+':'−'}${fmtKRW(Math.abs(pl))} (${pct(cost?pl/cost*100:null)})</b>${isNum(dayPct) ? ` <span class="muted day-chg">· ${(() => { const L = dayLabel(rows.map(r => r.h)); return L === '오늘' || L === '최근 거래일' ? L : L + ' 거래일'; })()} ${pct(dayPct)}</span>` : ''}</div></div>
       <div class="row" style="gap:6px"><button class="btn" data-share="pf" style="font-size:13px;padding:6px 12px">공유</button><button class="btn" data-act="hold-new" style="font-size:13px;padding:6px 12px">종목 추가</button></div>
     </div>
     ${freshPortfolio()}
