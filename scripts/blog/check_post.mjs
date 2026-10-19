@@ -10,7 +10,9 @@
 //  5. 사실 표: post.json "facts" 에 제목·요약·소제목의 모든 숫자의 출처가 있어야 한다
 //  6. 금지어·AI 상투어·제목 형식·태그·필명·고지 문구
 // post.json 추가 필드:
-//   img 블록의 "kind": "cover" | "chart"(실제 데이터 그래프) | "app"(실제 앱 화면) | "data"(밸류노트 점수·적정 주가 계산 카드) | "card"(글자·인용 카드) | "banner"
+//   img 블록의 "kind": "cover"(실사 사진 표지) | "photo"(무료 실사 사진) | "chart"(실제 데이터 그래프) | "app"(실제 앱 화면) | "data"(밸류노트 점수·적정 주가 계산 카드) | "card"(글자·인용 카드, 1장까지) | "banner"
+//   실사 사진·영상·표지에는 "src": "mixkit:<번호>" 또는 "pexels:<번호>" (scripts/blog/media/lib/index.json 의 id)
+//   {"video": "v1.mp4", "cap": "...", "src": "mixkit:<번호>"} 영상 블록
 //   "facts": [{"t": "확인한 사실(숫자 포함)", "src": "출처 URL 또는 'VN'(밸류노트 데이터)"}, ...]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -88,9 +90,23 @@ for (const dir of dirs) {
   // 사진
   const imgs = p.blocks.filter((b) => b.img && !b.href);
   const orig = imgs.filter((b) => ['chart', 'app', 'data'].includes(b.kind));
+  const K = (k) => imgs.filter((b) => b.kind === k);
   if (imgs.some((b) => !b.kind)) E.push(`kind 가 없는 사진: ${imgs.filter((b) => !b.kind).map((b) => b.img).join(', ')}`);
   if (orig.length < 2) E.push(`원본 데이터 사진(chart·app·data) ${orig.length}장 — 2장 이상 필요`);
   if (!imgs.some((b) => b.kind === 'chart' || b.kind === 'app')) E.push('실제 데이터 그래프(chart) 또는 앱 화면(app)이 한 장도 없습니다');
+  // 실사 사진·영상 (2026-10-19 결정: 카드 디자인이 많을수록 AI 글처럼 보인다)
+  const cover = p.blocks[0];
+  if (!cover?.img || cover.kind !== 'cover') E.push('첫 블록이 표지 사진(kind cover)이 아닙니다');
+  else if (!cover.src) E.push('표지가 실사 사진 표지(kit photocover)가 아닙니다 — 표지에 쓴 사진의 src 를 다세요');
+  if (K('photo').length < 2) E.push(`실사 사진(photo) ${K('photo').length}장 — 2장 이상 필요 (scripts/blog/media/lib)`);
+  if (K('card').length > 1) E.push(`글자 카드(card) ${K('card').length}장 — 1장까지 (나머지는 실사 사진·그래프·앱 화면으로)`);
+  if (K('data').length > 2) W.push(`점수·계산 카드(data) ${K('data').length}장 — 2장까지 권장`);
+  const media = [...imgs.filter((b) => b.kind === 'photo'), ...p.blocks.filter((b) => b.video)];
+  if (media.some((b) => !b.src)) E.push(`출처(src)가 없는 실사 사진·영상: ${media.filter((b) => !b.src).map((b) => b.img || b.video).join(', ')}`);
+  if (!p.blocks.some((b) => b.video)) W.push('영상(video)이 없습니다 — 짧은 실사 영상 1개를 권장합니다');
+  const coNames = Object.values(vnData().c || {}).map((r) => r && r[0]).filter((n) => n && n.length >= 2);
+  for (const b of media) { const hit = coNames.find((n) => strip(b.cap || '').includes(n)); if (hit) E.push(`실사 사진·영상 설명에 회사 이름("${hit}")이 있습니다 — 무료 소재는 그 회사가 아니므로 "자동차 조립 라인"처럼 일반 설명으로`); }
+  for (let i = 1; i < p.blocks.length; i++) { const a = p.blocks[i - 1], b = p.blocks[i]; if (a.img && b.img && !a.href && !b.href && a.kind !== 'photo' && b.kind !== 'photo' && i > 1) W.push(`디자인 사진 두 장이 붙어 있습니다: ${a.img}, ${b.img}`); }
   if (imgs.length < 5 || imgs.length > 8) W.push(`사진 ${imgs.length}장 (5~7장)`);
   if (imgs.length && imgs.every((b) => b.kind === imgs[0].kind)) W.push('사진 종류가 한 가지뿐입니다');
   // 정답 먼저: 소제목 바로 아래 블록은 문단, 첫 문장은 70자 이내로 그 단락의 답을 말한다
@@ -150,7 +166,7 @@ for (const dir of dirs) {
   if (tagMiss.length) W.push(`본문에 없는 태그(표기 변형이면 괜찮음): ${tagMiss.join(', ')}`);
 
   console.log(`\n[${id}] ${p.title}`);
-  console.log(`  본문 ${len}자 · 사진 ${imgs.length}장(원본 데이터 ${orig.length}) · 소제목 ${hs.length} · 뼈대 ${s}`);
+  console.log(`  본문 ${len}자 · 사진 ${imgs.length}장(실사 ${K('photo').length} · 원본 데이터 ${orig.length} · 카드 ${K('card').length}) · 영상 ${p.blocks.filter((b) => b.video).length} · 소제목 ${hs.length} · 뼈대 ${s}`);
   for (const l of leads) console.log('  리드  ' + l);
   for (const e of E) console.log('  ✗ ' + e);
   for (const w of W) console.log('  ! ' + w);

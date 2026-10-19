@@ -7,7 +7,9 @@
 //     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"},
 //     {"summary": ["핵심 1", "핵심 2", "핵심 3"]}  (글 첫머리 요약 상자),
 //     {"table": {"head": ["항목", "값"], "rows": [["코스피", "−16.2%"], ...]}},
-//     {"sources": [["자료 이름", "https://..."], ...]} ] }
+//     {"sources": [["자료 이름", "https://..."], ...]},
+//     {"video": "v1.mp4", "cap": "영상 설명"} (짧은 무료 실사 영상. 붙여넣기 본문에는 들어가지 않고, 그 자리에 '여기에 영상 올리기' 표시가 보인다) ] }
+//   사진 블록은 kind(cover·photo·chart·app·data·card·banner)와 실사 사진이면 src(출처 id)를 단다. 사진 파일은 .png/.jpg 모두 된다.
 // 이 페이지는 검색에서 빠지도록 noindex 를 단다(사이트 칼럼과 겹치는 글이 검색되지 않게).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -42,6 +44,7 @@ const blockHtml = (b) => {
   if (b.note) return `<p><span style="color:#888888;font-size:13px">${esc(b.note)}</span></p>`;
   if (b.summary) return `<blockquote><p><b>3줄 요약</b></p>${b.summary.map((x) => `<p>· ${inline(x)}</p>`).join('')}</blockquote>`;
   if (b.table) return `<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr>${b.table.head.map((x) => `<th style="background:#F3EEE3">${esc(x)}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((x) => `<td>${inline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  if (b.video) return `<div data-skip="1" style="border:2px dashed #C99A50;background:#FBF5EA;border-radius:10px;padding:12px 14px;margin:4px 0;font-size:14px;color:#7A5A22"><b>▶ 여기에 동영상 올리기</b> · ${esc(b.video)} — 아래 '영상' 칸에서 받아, 네이버 편집기 위 [동영상] 버튼으로 이 자리에 넣으세요.${b.cap ? `<br>영상 설명(영상 아래에 붙여 넣기): ${esc(b.cap)}` : ''}</div>`;
   if (b.sources) return `<p><b>참고한 자료</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
   return '';
 };
@@ -52,9 +55,10 @@ const body = post.blocks.map((b, i) => {
   const gap = b.h ? BLANK + BLANK : prev.h ? '' : BLANK;
   return gap + '\n' + html;
 }).join('\n');
-const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? '3줄 요약\n' + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.note || '').join('\n\n');
+const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? '3줄 요약\n' + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.video ? '' : b.note || '').filter((x, i, a) => x !== '' || !a[i - 1]).join('\n\n');
 const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
 const imgs = post.blocks.filter((b) => b.img).map((b) => b.img);
+const vids = post.blocks.filter((b) => b.video).map((b) => b.video);
 
 // 사진 한꺼번에 받기 (zip)
 const zip = path.join(dir, 'photos.zip');
@@ -89,6 +93,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
 <li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
 <li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+${vids.length ? `<li>본문의 <b>▶ 여기에 동영상 올리기</b> 자리에, 아래 <b>영상</b> 칸에서 받은 파일을 편집기 [동영상] 버튼으로 넣는다. (영상이 있는 글이 머무는 시간이 길다)</li>` : ''}
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
 ${category ? `<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">${esc(category)}</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>` : ''}
@@ -97,8 +102,9 @@ ${category ? `<section class="card"><h2>카테고리</h2><div class="row"><span 
 <div id="art">${body}</div></section>
 <section class="card"><h2>태그</h2><div class="row"><div id="tags">${esc(tags)}</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/${id}/photos.zip" download>사진 모두 받기</a></div>
-<div class="ph">${imgs.map((f, i) => `<a href="${imgUrl(f)}" download="valuenote-${id}-${i + 1}.png"><img src="${imgUrl(f)}" alt="사진 ${i + 1}" loading="lazy"></a>`).join('')}</div>
+<div class="ph">${imgs.map((f, i) => `<a href="${imgUrl(f)}" download="valuenote-${id}-${i + 1}.${f.split('.').pop()}"><img src="${imgUrl(f)}" alt="사진 ${i + 1}" loading="lazy"></a>`).join('')}</div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+${vids.length ? `<section class="card"><h2>영상 (${vids.length}개 · 소리 없음 · 무료 라이선스)</h2>${vids.map((f) => `<div class="row" style="align-items:center;margin:8px 0"><video src="${imgUrl(f)}" muted loop playsinline autoplay style="width:220px;border-radius:8px"></video><a class="btn" href="${imgUrl(f)}" download="valuenote-${id}-${f}">영상 받기</a></div>`).join('')}</section>` : ''}
 </main>
 <script>
 const PLAIN = ${JSON.stringify(plain).replace(/</g, '\\u003c')};
@@ -106,8 +112,9 @@ function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add
 function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
 document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
 document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
-  try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([art.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
-  catch(e) { selectCopy(art); }
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
+  catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
 </script></body></html>`;
 fs.writeFileSync(`${dir}.html`, html);

@@ -13,6 +13,8 @@
 //   list     { title, items:[문장, ...] }                         요점 3~5개
 //   quote    { quote, who, src }                                 거장 인용 (실제 출처가 있는 말만)
 //   banner   { hook, sub, button }                               글 끝 밸류노트 배너 (1080×560, 링크를 걸어 쓴다)
+//   photocover { photo, eyebrow, title, date }                   실사 사진 표지 (photo = 사진 파일 경로, 1080×1080). 2026-10-19부터 표지는 이것을 쓴다
+//   photo    { photo, w?, h? }                                   실사 사진을 그대로 다듬어 저장 (기본 1280×720 JPG 복사는 cp 로 해도 된다)
 // 용어는 claude/glossary.md 기준: 밸류노트 점수, 재무 점수, 가격 점수, 적정 주가, 적정 매수가, 저평가/고평가.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -84,7 +86,17 @@ async function company(slug) {
 }
 
 // ── 템플릿 ─────────────────────────────────────────
+const dataUri = (f) => 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(f)).toString('base64');
 const T = {
+  // 실사 사진 표지: 사진을 꽉 채우고 아래쪽만 어둡게 깔아 제목을 올린다 (카드 느낌을 줄이고 블로그 사진처럼 보이게)
+  photocover: (o) => h('div', { width: 1080, height: 1080, position: 'relative', fontFamily: 'P', color: '#FFFFFF', background: C.navy },
+    { type: 'img', props: { src: dataUri(o.photo), width: 1080, height: 1080, style: { position: 'absolute', left: 0, top: 0, width: 1080, height: 1080, objectFit: 'cover' } } },
+    h('div', { position: 'absolute', left: 0, top: 0, width: 1080, height: 1080, background: 'linear-gradient(180deg,rgba(10,19,34,.10) 0%,rgba(10,19,34,.05) 40%,rgba(10,19,34,.78) 72%,rgba(10,19,34,.92) 100%)' }),
+    h('div', { position: 'absolute', left: 64, top: 56, alignItems: 'baseline', fontSize: 30, fontWeight: 900, letterSpacing: -1, textShadow: '0 2px 8px rgba(0,0,0,.45)' }, 'Value', h('span', { color: C.gold }, 'Note'), h('span', { fontSize: 22, color: C.gold, marginLeft: 12, fontWeight: 700 }, '밸류노트')),
+    h('div', { position: 'absolute', left: 64, right: 64, bottom: 64, flexDirection: 'column' },
+      o.eyebrow ? t(o.eyebrow, { fontSize: 28, color: C.gold, fontWeight: 800, marginBottom: 18 }) : null,
+      title(o.title, o.title.length > 28 ? 58 : 68),
+      o.date ? t(o.date, { fontSize: 24, color: '#D6DCE6', marginTop: 22, fontWeight: 700 }) : null)),
   cover: (o) => frame(h('div', { flexDirection: 'column' },
     o.eyebrow ? eyebrow(o.eyebrow) : null, title(o.title, o.title.length > 28 ? 60 : 72),
     o.sub ? t(o.sub, { fontSize: 32, color: C.mute, marginTop: 28, lineHeight: 1.45, fontWeight: 500, wordBreak: 'keep-all' }) : null,
@@ -206,7 +218,8 @@ fs.mkdirSync(outDir, { recursive: true });
 let bad = 0;
 for (const j of jobs) {
   try {
-    const fn = T[j.kind]; if (!fn) throw new Error('없는 kind: ' + j.kind);
+    const fn = T[j.kind]; if (!fn && j.kind !== 'photo') throw new Error('없는 kind: ' + j.kind);
+    if (j.kind === 'photo') { const { execFileSync } = await import('node:child_process'); const out = path.join(outDir, j.file); execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', j.photo, '-vf', `scale=${j.w || 1280}:${j.h || 720}:force_original_aspect_ratio=increase,crop=${j.w || 1280}:${j.h || 720}`, '-q:v', '3', out]); console.log('✓', out); continue; }
     const el = await fn(j);
     const H = j.kind === 'banner' ? 560 : 1080;
     const svg = await satori(el, { width: 1080, height: H, fonts });
