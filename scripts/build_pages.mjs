@@ -124,6 +124,17 @@ td.n{text-align:right;font-weight:700;white-space:nowrap}
 .faq details p{margin:8px 0 0;color:#3A4352}
 .alert{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:12px 14px;border-radius:12px;background:#FBF5EA;border:1px solid #EFE1C6;text-decoration:none}
 .alert b{color:var(--ink);font-size:14.5px}.alert span{white-space:nowrap;font-weight:800;color:var(--gold);font-size:14px}
+.note.cyc{margin-top:8px;padding:10px 12px;border-radius:10px;background:#F4F1EA;color:var(--ink)}.note.cyc b{display:block;font-size:13px;margin-bottom:2px}
+.wbar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#0E1A2B;box-shadow:0 -8px 24px rgba(14,26,43,.18);transform:translateY(110%);transition:transform .3s ease}
+.wbar.on{transform:none}
+.wbar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.wbar .t{flex:1;min-width:0;line-height:1.35}
+.wbar .t b{display:block;color:#fff;font-size:18px;font-weight:900;letter-spacing:-.01em;white-space:nowrap}
+.wbar .t span{display:block;color:#AEB8C8;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wbar .t span:last-child{color:var(--gold2)}
+.wbar a.k{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 15px;border-radius:12px;background:#FEE500;color:#191600;font-weight:800;font-size:14.5px;text-decoration:none;white-space:nowrap}
+.wbar a.e{display:block;color:#AEB8C8;font-size:11.5px;text-decoration:none;margin-top:2px}
+body.has-wbar footer{padding-bottom:90px}
 .mlinks{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0}.mlinks a{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px}.mlinks a small{display:block;font-weight:500;color:var(--muted);font-size:12px}
 article.col h1{font-size:25px}article.col h3{font-size:17px;margin:22px 0 8px}article.col p{margin:0 0 14px}article.col figure{margin:14px 0}article.col img{max-width:100%;border-radius:12px}article.col figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}article.col blockquote{margin:14px 0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA;border-radius:0 10px 10px 0}
 .src{font-size:12.5px;color:var(--muted);word-break:break-all}.src a{color:var(--muted)}
@@ -219,7 +230,11 @@ function companyPage(x, peers, date) {
     { '@type': 'WebPage', name: title, url, dateModified: date, inLanguage: 'ko-KR', about: { '@type': 'Corporation', name: r.n, ...(r.en ? { alternateName: r.en } : {}), tickerSymbol: String(r.t || code) } },
   ] };
   const appLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&utm_source=c`;
-  const alertLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&utm_source=c-alert`;
+  const alertLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&watch=${encodeURIComponent(r.t || code)}&utm_source=c-alert`;
+  /* 아래 고정 바: 광고·검색으로 들어온 사람이 "이 회사 알림"을 이유로 바로 가입하게 한다. 가입 직후 앱이 이 회사를 관심 종목에 담는다 */
+  const wq = `co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&watch=${encodeURIComponent(r.t || code)}`;
+  const wbar = hasIv && isNum(r.px) ? `<div class="wbar" id="wbar"><div class="in"><div class="t"><span>${esc(r.n)} 적정 주가</span><b>${money(sc.iv, cur)}</b><span>이 가격에 오면 알려 드려요</span></div><div style="text-align:center"><a class="k" href="/?kakao=1&${wq}&utm_source=c-wbar"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 알림</a><a class="e" href="/?signup&${wq}&utm_source=c-wbar-email">이메일로 가입</a></div></div></div>
+<script>(function(){var b=document.getElementById('wbar');if(!b)return;document.body.classList.add('has-wbar');function f(){b.classList.toggle('on',scrollY>innerHeight*.35)}addEventListener('scroll',f,{passive:true});f();})();</script>` : '';
   const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasIv && isNum(sc.mos) && isNum(r.px) && r.px / sc.iv < 2 ? ` · 적정 주가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·버핏 기준으로 본 숫자';
   return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)}</div>
@@ -230,6 +245,7 @@ function companyPage(x, peers, date) {
 <div class="share"><button type="button" data-sh="c" data-u="${url}" data-t="${esc(shareText)}">이 점수 공유하기</button></div></section>
 ${isNum(r.px) ? `<section class="card"><h2>가격</h2><div class="price"><div><div class="k">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="k">적정 주가</div><div class="v">${money(sc.iv, cur)}</div></div><div><div class="k">안전마진</div><div class="v ${isNum(sc.mos) ? (sc.mos >= 0 ? 'pos' : 'neg') : ''}">${isNum(sc.mos) ? (sc.mos > 0 ? '+' : '') + n0(sc.mos) + '%' : '–'}</div></div></div>
 <p class="note" style="margin-top:10px">적정 주가는 과거 평균 이익·주주 이익과 자산 가치로 계산한 값입니다. ${r.fin_sector ? '금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다. ' : ''}미래를 보장하지 않습니다.</p>
+${(sc.cyc || (sc.flags || []).includes('경기순환·이익 변동')) && hasIv ? `<p class="note cyc"><b>이 계산이 틀릴 수 있는 경우</b> 이익이 해마다 크게 오르내리는 업종이라, 지금 같은 좋은 해의 이익이 계속된다고 보지 않고 보수적으로 계산했습니다. 호황이 일시적이지 않고 구조적으로 길게 이어진다면, 이 적정 주가는 가치를 낮게 잡은 것이 됩니다.${isNum(sc.per) && sc.per > 0 ? ` 최근 이익만 보면 PER은 ${n0(sc.per, 1)}배입니다.` : ''}</p>` : ''}
 ${hasIv ? `<a class="alert" href="${alertLink}"><b>${esc(josa(r.n, '이', '가'))} 적정 매수가에 오면 알려 드릴까요?</b><span>알림 받기 ›</span></a>` : ''}</section>` : ''}
 ${sum.length ? `<section class="card"><h2>한 줄씩 읽기</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}</section>` : ''}
 ${pens.length || warns.length ? `<section class="card"><h2>감점·경고 신호</h2>${pens.map((fl) => `<div class="flag"><span class="pill p-pen">감점 −8</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}${warns.map((fl) => `<div class="flag"><span class="pill ${fl === '중국 본토 규제' ? 'p-pen' : 'p-warn'}">${fl === '중국 본토 규제' ? '할인 −6' : '경고'}</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}</section>` : ''}
@@ -237,7 +253,7 @@ ${rowsM.length ? `<section class="card"><h2>핵심 숫자</h2><table>${rowsM.map
 <a class="cta" href="${appLink}">밸류노트에서 ${esc(r.n)} 자세히 보기<small>적정 주가 알림 · 내 포트폴리오 점수 · 멍거의 질문 체크</small></a>
 <section class="card faq"><h2>자주 묻는 질문</h2>${faq.map(([q, a], i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</section>
 ${peers.length ? `<section class="card peers"><h2>같은 업종의 다른 회사</h2>${peers.map((p) => `<a href="/c/${p.slug}"><span>${esc(p.r.n)} <span class="note">${MKT[grpOf(p.r.m)]}</span></span><b>${p.sc.b ?? '–'}점</b></a>`).join('')}</section>` : ''}
-</main>${FOOT(date)}${SHARE_JS}${TRACK('/c/' + x.slug)}</body></html>`;
+</main>${FOOT(date)}${wbar}${SHARE_JS}${TRACK('/c/' + x.slug)}</body></html>`;
 }
 
 // 시장 순위 표 (기업 점수 전체·시장별 페이지 공통)

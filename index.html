@@ -1986,7 +1986,7 @@ function guestGate(key){
   document.body.insertAdjacentHTML('beforeend', `<div class="gate" role="dialog" aria-modal="true" aria-label="가입 안내"><div class="gate-card">
     <div class="eyebrow">가입하면 열려요</div><h3>${esc(t)}</h3><p>${esc(d)}</p>
     <ul><li>이메일과 비밀번호만 있으면 1분이면 가입해요</li><li>내 종목 기록, 적정 매수가 알림, 결정 일지까지 쓸 수 있어요</li></ul>
-    <div class="gate-a"><button type="button" class="btn primary" data-guest="signup">가입하고 시작하기</button><button type="button" class="btn" data-guest="close">계속 둘러보기</button></div>
+    <div class="gate-a" style="flex-direction:column">${kakaoOn() ? `<button type="button" class="btn kakao-btn" data-lg="kakao">${KAKAO_SVG}<span>카카오로 3초 만에 시작하기</span></button>` : ''}<button type="button" class="btn primary" data-guest="signup">이메일로 가입하기</button><button type="button" class="btn" data-guest="close">계속 둘러보기</button></div>
     <button type="button" class="linkbtn" data-guest="login" style="margin-top:10px">이미 계정이 있어요 · 로그인</button></div></div>`);
   store.track('view', 'gate-' + key);
 }
@@ -4373,6 +4373,16 @@ function companyFromRow(r){
   c.ai.filled = [...Object.keys(c.fin), ...Object.keys(c.val)];
   S.companies.push(c); return c;
 }
+/* 가입·로그인 직후: 기업 페이지에서 누른 회사를 관심 종목에 담고 그 회사를 연다 (3일 안의 의도만) */
+function wantApply(){
+  if(store.isGuest || store.isDemo || !S.loaded.c || !(S2.screen || []).length) return;
+  let w = null; try{ w = JSON.parse(localStorage.getItem('vn-want') || 'null'); localStorage.removeItem('vn-want'); }catch(_){}
+  if(!w || !w.t || Date.now() - (w.at || 0) > 3 * 864e5) return;
+  const c = S.companies.find(x => (x.yf || '').toUpperCase() === String(w.t).toUpperCase());
+  if(!(c && c.pinned)) toggleStar(c ? c.id : null, w.t);
+  store.track('view', 'want-watch');
+  S.tab = 'companies'; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = w.q || ''; S.coOpen = w.co || null; S.coShown = 30; render();
+}
 function toggleStar(id, t){
   let c = id ? S.companies.find(x => x.id === id) : null;
   if(!c && t) c = S.companies.find(x => (x.yf||'').toUpperCase() === String(t).toUpperCase());
@@ -6035,6 +6045,12 @@ function refresh(kind){
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   /* 블로그·공개 페이지 배너에서 넘어오면 저평가·고평가 화면을 바로 연다: ?tab=value&mkt=KR */
   { const u = new URLSearchParams(location.search); if(u.get('tab') === 'value'){ S.tab = 'value'; S.vlSide = u.get('side') === 'over' ? 'over' : 'under'; const m = (u.get('mkt') || '').toUpperCase(); if(VL_MKT.some(([k]) => k === m)) S.vlMkt = m; store.track('view', 'from-link-value'); history.replaceState(null, '', location.pathname); } }
+  /* 기업 공개 페이지의 알림 버튼(?watch=티커): 가입 뒤 그 회사를 관심 종목에 담도록 기억해 둔다 (카카오 왕복으로 주소가 사라져도 남게) */
+  { const u = new URLSearchParams(location.search); const w = u.get('watch');
+    if(w){ try{ localStorage.setItem('vn-want', JSON.stringify({ t: w, co: u.get('co') || '', q: u.get('q') || '', at: Date.now() })); }catch(_){}
+      store.track('view', 'want-' + (u.get('utm_source') || 'c'));
+      if(store.isGuest && u.get('kakao') !== '1'){ const nm = u.get('q') || '이 회사'; const ch = nm.charCodeAt(nm.length - 1), eul = ch >= 0xAC00 && ch <= 0xD7A3 ? ((ch - 0xAC00) % 28 ? '을' : '를') : '을(를)'; GUEST_GATE.watch = [`${nm} 알림 받기`, `가입하면 ${nm}${eul} 관심 종목에 담아 두고, 적정 매수가에 오면 휴대폰·PC로 알려 드려요.`];
+        if(/[?&]signup\b/.test(location.search)) setTimeout(() => openAuth('signup'), 400); else setTimeout(() => guestGate('watch'), 900); } } }
   /* 기업 공개 페이지(/c/…)에서 넘어오면 그 회사를 검색해 펼친다: ?co=코드&q=이름 */
   { const u = new URLSearchParams(location.search); if(u.get('co')){ S.tab = 'companies'; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = u.get('q') || ''; S.coOpen = u.get('co'); S.coShown = 30; store.track('view', 'from-company-page'); history.replaceState(null, '', location.pathname); setTimeout(() => { const t = document.getElementById('coListTop'); if(t) window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - 130); }, 600); } }
   /* 소개 페이지의 "카카오로 3초 만에 시작하기": 비회원이면 바로 카카오 로그인으로 */
@@ -6042,7 +6058,7 @@ function refresh(kind){
       if(store.isGuest && kakaoOn()){ kakaoGo().then(err => { if(err){ hideSplash(); openAuth('signup'); } }); return; } } }
   render(); hideSplash();
   if(/[?&]test\b/.test(location.search)) setTimeout(qzOpen, 300);
-  store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; });
+  store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; wantApply(); });
   if(!store.isGuest) store.sub('qual_feedback', docs => { S.qualFb = docs; if(S.tab === 'analyze') updateEval(); });
   store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);
@@ -6052,7 +6068,7 @@ function refresh(kind){
     const meta = docs.find(d => d.id === 'meta');
     const chunks = docs.filter(d => d.id.startsWith('chunk-')).sort((a,b) => a.id.localeCompare(b.id));
     const n = meta?.chunks ?? chunks.length;
-    S2.meta = meta || null; S2.screen = chunks.slice(0, n).flatMap(c => c.rows || []); S2.loaded = true; scoredCache = null; rowVerdictCache.clear();
+    S2.meta = meta || null; S2.screen = chunks.slice(0, n).flatMap(c => c.rows || []); S2.loaded = true; scoredCache = null; rowVerdictCache.clear(); setTimeout(wantApply, 0);
     if(['screener','portfolio','companies','dividend','fx'].includes(S.tab)) refresh('s');
   });
   store.sub('news', docs => { S.news = Object.fromEntries(docs.map(d => [d.id, d])); if(['briefing','analyze','companies'].includes(S.tab)) refresh('n'); });

@@ -89,6 +89,7 @@ button{font:inherit;cursor:pointer}
 .trk i{display:block;height:100%;border-radius:5px;background:var(--navy3);transform-origin:left;animation:grow .7s ease-out both}
 .trk.g i{background:var(--gold2)}
 .res-say{margin:14px 0 0;padding:11px 13px;border-radius:12px;background:#F6F1E6;font-size:14px;font-weight:600}
+.res a.res-k{display:flex;width:100%;margin-top:12px;height:48px;font-size:15px}
 .res a.more{display:block;margin-top:12px;text-align:center;font-size:14px;font-weight:800;color:var(--navy);text-decoration:none}
 .res-miss{background:rgba(255,255,255,.08);border:1px dashed rgba(228,199,141,.4);border-radius:14px;padding:14px;font-size:14px;color:rgba(247,242,232,.85)}
 .hero .scroll{display:flex;align-items:center;gap:8px;margin-top:26px;font-size:13.5px;font-weight:700;color:rgba(247,242,232,.7);text-decoration:none}
@@ -131,6 +132,16 @@ section.st+section.st{border-top:1px solid var(--line)}
 .lesson{background:var(--navy);color:var(--ivory);border-radius:16px;padding:16px 18px;font-size:15.5px;font-weight:600;margin:0 0 14px}
 .lesson b{color:var(--gold)}
 
+/* 03 하이닉스 카드 */
+.hx{display:block;margin:0 0 14px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff;text-decoration:none;color:inherit}
+.hx-h{display:flex;justify-content:space-between;align-items:center;font-size:15.5px}.hx-h span{font-weight:800;color:var(--gold2);font-size:18px}
+.hx-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 10px}
+.hx-g div{background:#F6F1E6;border-radius:12px;padding:10px 12px}
+.hx-g small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.hx-g b{display:block;font-size:21px;font-weight:900;letter-spacing:-.02em;margin:2px 0}
+.hx-g em{display:block;font-style:normal;font-size:11.5px;color:var(--muted);line-height:1.4}
+.hx p{margin:0!important;font-size:14px!important;color:#2B3650!important;line-height:1.6}
+
 /* 04 검증 */
 .hl{color:var(--bad);font-size:1.25em}
 .vs{display:grid;gap:12px;margin:10px 0 16px}
@@ -155,6 +166,7 @@ section.st+section.st{border-top:1px solid var(--line)}
 .feats div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
 .feats b{display:block;font-size:14.5px}
 .feats span{display:block;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px}
+.feats .t-v{color:#8F6E2C}.feats .t-w{color:#4F6680}.feats .t-s{color:#C24A3C}
 
 /* 마지막 */
 .end{background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);padding:56px 0 44px;text-align:center}
@@ -231,6 +243,14 @@ footer a{color:rgba(247,242,232,.75)}
   <h2>유명한 회사들은<br>지금 몇 점일까요</h2>
   <div class="cards" id="cards"></div>
   <div class="lesson" id="lesson"><b>좋은 회사와 좋은 투자는 다릅니다.</b> 재무가 최상위여도 가격에 기대가 너무 많이 담기면 점수는 낮아집니다.</div>
+  <a class="hx" href="/c/000660-ks" data-ev="hx-more">
+    <div class="hx-h"><b>요즘 가장 많이 찾는 SK하이닉스</b><span>›</span></div>
+    <div class="hx-g">
+      <div><small>버핏식 적정 주가</small><b id="hx-iv">295,282원</b><em>좋고 나쁜 해를 평균한 이익 기준</em></div>
+      <div><small>최근 이익만 보면</small><b id="hx-per">PER 5.6배</b><em>1년 이익의 몇 배 가격인지</em></div>
+    </div>
+    <p>반도체는 호황과 불황이 반복돼 보수적으로 계산합니다. AI 메모리 호황이 구조적으로 길게 이어진다면 이 계산은 가치를 낮게 잡은 것입니다. 두 숫자를 다 보고 판단하세요.</p>
+  </a>
   <p class="note">점수는 버핏·그레이엄·멍거의 방식으로 계산한 결과이며 늘 맞지는 않습니다. 실제로 버크셔 해서웨이는 이 방식으로는 비싸 보이던 알파벳(구글)을 사들였습니다. <span id="asof"></span></p>
 </div></section>
 
@@ -251,20 +271,20 @@ footer a{color:rgba(247,242,232,.75)}
 
 <section class="st shotsec" id="s5" data-sec="s5"><div class="wrap reveal">
   <div class="eyebrow">05 · 내 포트폴리오</div>
-  <h2>종목만 넣으면,<br>매일 같은 기준으로 점검합니다</h2>
-  <figure class="phone"><span class="ptag">실제 앱 화면 · 예시 계정</span><img src="/start-img/portfolio.webp" width="780" height="1716" loading="lazy" decoding="async" alt="밸류노트 포트폴리오 현황 화면: 총 평가액, 최근 30거래일 추이, 종목별 비중과 수익률"></figure>
+  <h2>종목만 넣으면,<br>유지할지 정리할지 알려 줍니다</h2>
+  <figure class="phone"><span class="ptag">실제 앱 화면 · 예시 계정</span><img src="/start-img/portfolio.webp?v=2" width="780" height="1647" loading="lazy" decoding="async" alt="밸류노트 포트폴리오 현황 화면: 종목마다 가치주·관찰주·투기주 표시와 유지·비중 줄이기·정리 1순위 안내, 지금 할 일"></figure>
   <div class="feats">
-    <div><b>적정 주가</b><span>저평가·고평가</span></div>
-    <div><b>가격 알림</b><span>적정 매수가에 오면</span></div>
-    <div><b>결정 일지</b><span>왜 샀는지 기록</span></div>
+    <div><b class="t-v">가치주</b><span>오래 들고 갈 종목</span></div>
+    <div><b class="t-w">관찰주</b><span>비중을 줄일 종목</span></div>
+    <div><b class="t-s">투기주</b><span>정리할 종목</span></div>
   </div>
 </div></section>
 
 <section class="st shotsec" id="s6" data-sec="s6"><div class="wrap reveal">
   <div class="eyebrow">06 · 경제 레이더</div>
   <h2>시장이 흔들릴 때,<br>지금 위험이 어느 정도인지</h2>
-  <figure class="phone"><span class="ptag">실제 앱 화면</span><img src="/start-img/radar.webp" width="780" height="1659" loading="lazy" decoding="async" alt="밸류노트 경제 레이더 화면: 안정부터 위험까지 5단계 게이지와 금리·신용·변동성 등 10개 지표"></figure>
-  <p class="lead">금리·신용·변동성 10개 지표를 2008년 금융위기, 코로나 때와 나란히 비교합니다.</p>
+  <figure class="phone"><span class="ptag">실제 앱 화면</span><img src="/start-img/radar.webp?v=2" width="780" height="1006" loading="lazy" decoding="async" alt="밸류노트 경제 레이더 화면: 안정부터 위험까지 5단계 게이지와 오늘의 판단"></figure>
+  <p class="lead">금리·신용·변동성 10개 지표로 매일 아침 위험 단계를 알려 줍니다.</p>
 </div></section>
 
 <section class="end" id="s7" data-sec="s7"><div class="wrap reveal">
@@ -366,6 +386,10 @@ function say(r){
 }
 function bars(r){ return '<div class="mbar"><div><span>재무 점수</span><b>' + (num(r.q) ? r.q : '–') + '</b></div><div class="trk"><i style="width:' + (num(r.q) ? r.q : 0) + '%"></i></div></div>' +
   '<div class="mbar"><div><span>가격 점수</span><b>' + (num(r.v) ? r.v : '–') + '</b></div><div class="trk g"><i style="width:' + (num(r.v) ? Math.max(2, r.v) : 0) + '%"></i></div></div>'; }
+var KSVG = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>';
+/* 가입 뒤 이 종목을 관심 종목에 담도록 앱에 넘긴다 (slug '000660-ks' → 티커 '000660.KS') */
+function wantUrl(r, src){ var t = r.slug.replace(/-([a-z]+)$/, '.$1').toUpperCase(), co = r.slug.split('-')[0].toUpperCase();
+  return '/?kakao=1&co=' + encodeURIComponent(co) + '&q=' + encodeURIComponent(r.n) + '&watch=' + encodeURIComponent(t) + '&utm_source=' + src; }
 var pick = null;
 function showRes(r, q){
   var box = $('#res');
@@ -373,7 +397,12 @@ function showRes(r, q){
   pick = r.n; chips();
   box.innerHTML = '<div class="res"><div class="res-h"><b>' + esc(r.n) + '</b><span>' + esc(MK[r.m] || '') + ' · 밸류노트 점수</span></div>' +
     '<div class="res-g"><div class="big"><small>100점 만점</small>' + (num(r.b) ? r.b : '–') + '<i>점</i></div><div>' + bars(r) + '</div></div>' +
-    '<p class="res-say">' + esc(say(r)) + '</p><a class="more" href="/c/' + encodeURIComponent(r.slug) + '" data-ev="res-more">왜 이 점수인지 보기 ›</a></div>';
+    '<p class="res-say">' + esc(say(r)) + '</p>' +
+    '<a class="btn kakao res-k" href="' + wantUrl(r, 'start-res') + '" data-ev="res-kakao">' + KSVG + esc(r.n) + ' 적정 매수가 알림 받기</a>' +
+    '<a class="more" href="/c/' + encodeURIComponent(r.slug) + '" data-ev="res-more">왜 이 점수인지 보기 ›</a></div>';
+  /* 아래 고정 버튼도 방금 본 종목으로 */
+  var st = document.querySelector('#sticky .t b'), sk = document.querySelector('#sticky a.btn.kakao');
+  if(st) st.textContent = r.n + ' 알림 받기'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 3초'; }
 }
 var CHIPS = ['삼성전자','SK하이닉스','기아','애플','테슬라','엔비디아'], IG = null;
 function chips(){ var L = (IG && CHIPS.indexOf(IG) < 0 ? [IG] : []).concat(CHIPS);
@@ -390,6 +419,10 @@ function cards(){
   if(D.date) $('#asof').textContent = '(' + D.date.replace(/-/g, '.') + ' 기준)';
 }
 function render(){ idx(); chips(); cards(); }
+fetch('/c/000660-ks', { cache: 'no-cache' }).then(function(r){ return r.text(); }).then(function(h){
+  var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
+  var iv = /적정 주가 ([\d,]+)원/.exec(d), per = /PER ([\d.]+)배/.exec(d);
+  if(iv) $('#hx-iv').textContent = iv[1] + '원'; if(per) $('#hx-per').textContent = 'PER ' + per[1] + '배'; }).catch(function(){});
 render();
 fetch('/c/scores.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c && Object.keys(j.c).length > 100){ D = j; render(); if(pick) showRes(find(pick), pick); } }).catch(function(){});
 /* 인스타 릴스에서 본 오늘의 기업을 칩 맨 앞에 */
