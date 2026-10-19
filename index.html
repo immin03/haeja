@@ -2061,6 +2061,28 @@ function autoBucket(r){
   if(isNum(ev.qScore) && ev.qScore < 60) return {k:'explore', why:`재무 점수 ${ev.qScore}점 (주력 기준 60점)`};
   return {k:'core', why:`이익이 증명된 사업 · 품질 ${ev.qScore ?? '–'}점 · ${ev.verdict}`};
 }
+/* 종목 성격 분류: 볼 때마다 "유지할지, 줄일지, 정리할지"가 바로 보이게 한다. autoBucket 결과를 더 잘게 나눈 이름이다 */
+const TY_ICON = {
+  value:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+  growth:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  watch:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  spec:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  index:'<path d="m12 2 10 5-10 5L2 7l10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
+  unknown:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>'
+};
+const TY_NAME = {value:'가치주', growth:'성장주', watch:'관찰주', spec:'투기주', index:'지수형', unknown:'미분석'};
+function stockType(r){
+  const {h, c, ev} = r; const b = autoBucket(r);
+  const t = (k, act) => ({k, name:TY_NAME[k], act, why:b.why, bucket:b.k});
+  if(h.kind === 'etf') return t('index', '현금 대용');
+  if(h.kind === 'lev') return t('spec', '정리 1순위');
+  if(!c || !ev) return t('unknown', '분석 필요');
+  if(b.k === 'core') return t('value', isNum(ev.mos) && ev.mos < -10 ? '고평가 · 매도 점검' : '유지');
+  if(!earnsMoney(c)) return t('spec', '정리 대상');
+  if(c.qual?.revModel === '혁신 의존형') return t('growth', '10% 이내로');
+  return t('watch', '비중 줄이기');
+}
+const typeBadge = (ty, withAct=true) => `<span class="ty ty-${ty.k}" title="${esc(ty.why)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TY_ICON[ty.k]}</svg>${ty.name}</span>${withAct ? `<span class="ty-act ty-${ty.k}">${esc(ty.act)}</span>` : ''}`;
 const IND_MAP = [[/보험|insurance/i,'보험'],[/은행|bank/i,'은행'],[/자동차|auto/i,'자동차'],[/반도체|semiconductor/i,'반도체'],[/소프트웨어|software/i,'소프트웨어'],[/통신|telecom/i,'통신'],[/석유|정유|oil|gas|에너지|energy/i,'에너지'],[/물류|해운|logistics|shipping|freight|trucking/i,'물류'],[/의류|신발|apparel|footwear|textile/i,'의류'],[/결제|payment|credit services/i,'결제'],[/우주|항공|aerospace|space/i,'우주항공'],[/가전|appliance/i,'가전']];
 const indOf = c => { const t = [c?.profile?.industry, c?.sector].filter(Boolean).join(' '); if(!t) return ''; const m = IND_MAP.find(([re]) => re.test(t)); return m ? m[1] : t.trim(); };
 /* 빈 주력 자리를 채울 후보: 관심 후보·내 종목 중 주력 조건을 통과하고 기존 주력과 업종이 겹치지 않는 회사 */
@@ -2141,12 +2163,12 @@ function concHtml(rows, total, cashW){
     <div>
       <div class="cmp-row"><span class="small">지금</span><div class="stackbar">${nowBar}</div></div>
       <div class="cmp-row"><span class="small">목표</span><div class="stackbar">${tgtBar}</div></div>
-      <div class="legend"><span style="--c:var(--accent)">주력 ${fmt(P.coreW,0)}% (목표 ${PLAN.coreLo}~${PLAN.coreHi})</span><span style="--c:var(--warn)">도전 ${fmt(P.expW,0)}% (≤${PLAN.expMax})</span><span style="--c:var(--line)">현금 ${fmt(P.cashAll,0)}% (${PLAN.cashLo}~${PLAN.cashHi})</span></div>
+      <div class="legend"><span style="--c:var(--accent)">가치주 ${fmt(P.coreW,0)}% (목표 ${PLAN.coreLo}~${PLAN.coreHi})</span><span style="--c:var(--warn)">그 외 주식 ${fmt(P.expW,0)}% (≤${PLAN.expMax})</span><span style="--c:var(--line)">현금 ${fmt(P.cashAll,0)}% (${PLAN.cashLo}~${PLAN.cashHi})</span></div>
     </div>
   </div>
   <h2>지금 할 일 <span class="small muted">자동 판단</span></h2>
   <div class="card"><ol class="acts">${P.acts.slice(0,5).map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':a.lv==='good'?'유지':'참고'}</span><span>${esc(a.t)}</span></li>`).join('')}</ol>
-    <p class="small muted" style="margin:8px 0 0">분류는 자동이다. 이익이 증명되고 10년 보유 테스트를 통과한 회사만 주력, 레버리지·적자·혁신 의존·10년 미통과는 도전 칸으로 간다.</p></div>
+    <p class="small muted" style="margin:8px 0 0">분류는 자동이다. 이익이 증명되고 10년 보유 테스트를 통과한 회사만 가치주(주력 자리)다. 혁신 의존형은 성장주, 이익은 내지만 기준에 못 미치면 관찰주, 레버리지·적자 기업은 투기주로 분류해 비중을 10% 이하로 둔다.</p></div>
   <h2>균형 점검 <span class="small muted">${ok}/${P.bal.length} 통과</span></h2>
   <div class="card">${P.bal.map(b => `<div class="check"><span class="pill ${b.ok?'p-good':'p-warn'}">${b.ok?'통과':'확인'}</span><span>${esc(b.t)}${b.why?`<div class="small muted">${esc(b.why)}</div>`:''}</span></div>`).join('')}</div>`;
 }
@@ -2171,7 +2193,7 @@ function viewPortfolio(){
   const row = (r, i) => { const b = bk[r.h.id] || {k:'explore'}; const open = S.openHold === r.h.id;
     return `<button type="button" class="pf-row" data-act="hold-toggle" data-id="${r.h.id}" aria-expanded="${open}">
       <span class="pf-dot" style="background:${SER(i)}"></span>
-      <span class="pf-name"><b>${esc(short(r.h.name))}</b><span class="small muted">${{core:'주력',explore:'도전',cash:'현금성'}[b.k]} · 비중 ${fmt(r.w,0)}%</span></span>
+      <span class="pf-name"><b>${esc(short(r.h.name))}</b><span class="pf-sub">${typeBadge(stockType(r))}<span class="small muted">· 비중 ${fmt(r.w,0)}%</span></span></span>
       <span class="pf-ret"><b class="num ${Math.abs(r.calc.plPct||0)<0.05?'muted':r.calc.pl>0?'up':'down'}">${pct(r.calc.plPct)}</b><span class="small muted num">${(() => { const pl = r.calc.pl, flat = Math.abs(r.calc.plPct||0) < 0.05; return isNum(pl) ? `<span class="${flat?'':pl>0?'up':'down'}">${pl>0?'+':pl<0?'−':''}${fmtKRW(Math.abs(pl))}</span> · ` : ''; })()}${fmtKRW(r.calc.value)}</span></span>
     </button>${open ? `<div class="pf-open">${holdCard(r)}</div>` : ''}`; };
   const acts = P.acts.filter(a => a.lv !== 'good').slice(0,3);
@@ -2195,7 +2217,7 @@ function viewPortfolio(){
   <div class="card">${acts.length ? `<ol class="acts">${acts.map(a => `<li><span class="pill p-${a.lv}">${a.lv==='bad'?'우선':a.lv==='warn'?'조정':'참고'}</span><span>${esc(a.short || a.t)}</span></li>`).join('')}</ol>` : `<div class="muted">구조가 목표 안에 있다. 매도 조건과 분기 실적만 확인하면 된다.</div>`}
     <div class="cmp-row" style="margin-top:12px"><span class="small">지금</span><div class="stackbar">${P.coreW>0?`<i style="width:${Math.min(100,P.coreW)}%;background:var(--c-core)"></i>`:''}${P.expW>0?`<i style="width:${Math.min(100,P.expW)}%;background:var(--c-exp)"></i>`:''}${P.cashAll>0?`<i style="width:${Math.min(100,P.cashAll)}%;background:var(--c-cash)"></i>`:''}</div></div>
     <div class="cmp-row"><span class="small">목표</span><div class="stackbar"><i style="width:75%;background:var(--c-core)"></i><i style="width:10%;background:var(--c-exp)"></i><i style="width:15%;background:var(--c-cash)"></i></div></div>
-    <div class="legend"><span style="--c:var(--c-core)">주력 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">도전 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
+    <div class="legend"><span style="--c:var(--c-core)">가치주 ${fmt(P.coreW,0)}% → 70~80%</span><span style="--c:var(--c-exp)">그 외 주식 ${fmt(P.expW,0)}% → 10% 이하</span><span style="--c:var(--c-cash)">현금 ${fmt(P.cashAll,0)}% → 10~20%</span></div>
   </div>` : ''}
   <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">가치 추이 · 균형 점검 · 원칙 점검 · 환율</span></summary>
     <div class="stack" style="margin-top:12px">
@@ -2211,7 +2233,7 @@ function viewPortfolio(){
 }
 function holdCard({h, calc, c, ev, w}){
   const kindPill = h.kind==='lev' ? '<span class="pill p-bad">레버리지</span>' : h.kind==='etf' ? '<span class="pill p-none">ETF</span>' : '';
-  const bk = autoBucket({h, c, ev}); const role = `<span class="pill ${bk.k==='core'?'p-good':bk.k==='explore'?'p-warn':'p-none'}" title="${esc(bk.why)}">${{core:'주력',explore:'도전',cash:'현금성'}[bk.k]}</span>`;
+  const bk = autoBucket({h, c, ev}); const role = typeBadge(stockType({h, c, ev}));
   const sellSig = h.kind==='stock' && ev && isNum(ev.mos) && ev.mos < -10 ? `<span class="pill p-warn">적정 주가 ${fmt(-ev.mos,0)}% 초과</span>` : '';
   return `<div class="card hold">
     <div class="hold-head">
@@ -4215,9 +4237,9 @@ const INTRO = [
   {t:'세 사람이 보는 것', b:`<div class="in-three"><div><span class="eyebrow">그레이엄</span><b>얼마에 사나</b><span>제값보다 30% 싸게</span></div><div><span class="eyebrow">버핏</span><b>무엇을 사나</b><span>오래 돈 잘 버는 회사</span></div><div><span class="eyebrow">멍거</span><b>무엇을 피하나</b><span>빚 많고 위험한 회사</span></div></div>
     <p>세 가지를 모두 통과한 회사에만 <b>"기준 통과"</b>가 붙어요. 그래서 후보가 몇 개 안 보여도 정상이에요. 좋은 가격은 자주 오지 않거든요.</p>`},
   {tab:'portfolio', t:'① 내 포트폴리오', b:`<p>평가액, 수익률, 30일 추이, 종목별 비중을 한 화면에 모았어요. 예시는 주식 약 4,600만 원에 현금 700만 원, 합쳐서 <b>약 5,300만 원</b>짜리 계좌예요.</p>
-    <p>종목 옆의 <b>주력</b>은 오래 들고 갈 중심 종목, <b>도전</b>은 작게 시험해 보는 종목이라는 뜻이에요. 남들이 지루하다고 외면할 때 숫자를 보고 산 DB손해보험, JB금융지주, 영원무역은 80% 안팎 올랐고, 유행을 따라 산 카카오와 룰루레몬은 40~75% 떨어졌어요.</p>`},
+    <p>종목 옆 표시는 그 종목의 성격이에요. <b>가치주</b>는 오래 들고 갈 종목, <b>성장주·관찰주</b>는 비중을 줄여 둘 종목, <b>투기주</b>는 정리할 종목이에요. 남들이 지루하다고 외면할 때 숫자를 보고 산 DB손해보험, JB금융지주, 영원무역은 80% 안팎 올랐고, 유행을 따라 산 카카오와 룰루레몬은 40~75% 떨어졌어요.</p>`},
   {tab:'portfolio', anchor:'지금 할 일', t:'② 지금 할 일', b:`<p>내 계좌에서 고치면 좋을 점을 <b>많아야 3개</b>만 골라 알려 드려요.</p>
-    <div class="in-list"><div><b>주력</b><span>잘 아는 3종목에 돈의 70~80%를 모아요</span></div><div><b>도전</b><span>시험 삼아 산 종목은 전체의 10% 이하로</span></div><div><b>현금</b><span>10~20%는 쌀 때 사려고 남겨 둬요</span></div></div>
+    <div class="in-list"><div><b>가치주</b><span>잘 아는 3종목에 돈의 70~80%를 모아요</span></div><div><b>그 외</b><span>성장주·관찰주·투기주는 합쳐서 10% 이하로</span></div><div><b>현금</b><span>10~20%는 쌀 때 사려고 남겨 둬요</span></div></div>
     <p class="small muted">여기가 비어 있으면 지금은 아무것도 안 해도 된다는 뜻이에요.</p>`},
   {tab:'grade', t:'③ 나의 투자자 등급', b:() => { const g = missions(); return `<div class="in-ladder">${LEVELS.map(l => `<div class="${l.n===g.lv.n?'cur':l.n<g.lv.n?'past':''}"><i></i><span>${esc(l.name)}</span></div>`).join('')}</div>
     <p>수익률이 아니라 <b>원칙을 얼마나 지키는지</b>로 매기는 등급이에요. 현금 비중, 주력 집중도, 매도 조건 기록, 일지 작성 같은 미션 18개를 앱이 자동으로 점검해요.</p>`; }},
@@ -6499,6 +6521,21 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 /* 한글 앱 이름 노출 */
 .brand-sub .ko-name,.login-sub .ko-name{font-weight:800;letter-spacing:.02em;text-transform:none}
 #splash .sp-name{color:#fff;font-size:17px;font-weight:700;letter-spacing:.12em;margin-top:-2px;animation:spIn .7s .1s ease-out both}
+
+/* ===== 종목 성격 배지 (가치주·성장주·관찰주·투기주·지수형·미분석) ===== */
+.pf-sub{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap;min-width:0}
+.ty{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;line-height:1;padding:4px 8px 4px 6px;border-radius:7px;color:var(--ty);background:color-mix(in srgb,var(--ty) 15%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 30%,transparent);white-space:nowrap;word-break:keep-all}
+.ty svg{width:13px;height:13px;flex:none}
+.ty-act{font-size:12px;font-weight:700;white-space:nowrap;color:var(--ty);background:none;box-shadow:none}
+.ty-value{--ty:#8F6E2C} .ty-growth{--ty:#6A5BB8} .ty-watch{--ty:#4F6680} .ty-spec{--ty:#C24A3C} .ty-index{--ty:#4F7F76} .ty-unknown{--ty:#7A8494}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ty-value{--ty:#E4C78D} :root:not([data-theme="light"]) .ty-growth{--ty:#B9AEF0} :root:not([data-theme="light"]) .ty-watch{--ty:#A9B9CF} :root:not([data-theme="light"]) .ty-spec{--ty:#F48A7B} :root:not([data-theme="light"]) .ty-index{--ty:#8FC3B7} :root:not([data-theme="light"]) .ty-unknown{--ty:#9AA4B4}}
+:root[data-theme="dark"] .ty-value,.pf-top .ty-value{--ty:#E4C78D}
+:root[data-theme="dark"] .ty-growth,.pf-top .ty-growth{--ty:#B9AEF0}
+:root[data-theme="dark"] .ty-watch,.pf-top .ty-watch{--ty:#A9B9CF}
+:root[data-theme="dark"] .ty-spec,.pf-top .ty-spec{--ty:#F48A7B}
+:root[data-theme="dark"] .ty-index,.pf-top .ty-index{--ty:#8FC3B7}
+:root[data-theme="dark"] .ty-unknown,.pf-top .ty-unknown{--ty:#9AA4B4}
+.pf-top .ty.ty-spec{background:color-mix(in srgb,var(--ty) 20%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 45%,transparent)}
 </style>
 </body>
 </html>
