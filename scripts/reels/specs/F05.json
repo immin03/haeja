@@ -18,10 +18,9 @@
    "top": "주식 앱을 자주 열수록\n수익이 줄어든다?",
    "num": {
     "to": 6.5,
-    "fmt": "pct",
+    "fmt": "int",
     "dec": 1,
-    "plus": false,
-    "suffix": "p"
+    "suffix": "%p"
    },
    "tone": "loss",
    "label": "가장 자주 사고판 투자자 · 1년 수익 차이",
