@@ -516,9 +516,16 @@ async function price5(t) {
 const man = (v) => { const n = Math.round(v); return n >= 10000 ? `${Math.floor(n / 10000)}억` + (n % 10000 ? ` ${(n % 10000).toLocaleString('ko-KR')}만` : '') : `${n.toLocaleString('ko-KR')}만`; };
 const sayMan = (v) => { const n = Math.round(v), ok_ = n >= 10000 ? `${Math.floor(n / 10000)}억 ` + (n % 10000 ? `${n % 10000}만` : '') : `${n}만`; return ok_.trim() + ' 원'; };
 
+// 회사 소개 음성: 괄호 속 약어는 빼고, 길면 첫 마디까지만 ("…기업으로 …에 강점이 있습니다" → "…기업입니다"). 화면에는 전체 문장이 나온다
+function sayWhat(t) {
+  t = t.replace(/\s*\([^)]*\)/g, '');
+  if (t.length > 40) { const m = t.match(/^(.{14,}?)(?:으로|이며|이고)\s/); if (m) return m[1] + '입니다.'; }
+  return t;
+}
 function whoScene(r) {
   const p = PF[r.t]; if (!p?.what) return null; const what = hapnida(p.what);
-  return { type: 'list', title: p.industry ? `${r.n} · ${p.industry}` : r.n, items: chunks(what), say: what };
+  // 괄호 속 영문 약어(HBM 등)는 음성이 뭉개므로 읽지 않는다
+  return { type: 'list', title: p.industry ? `${r.n} · ${p.industry}` : r.n, items: chunks(what), say: sayWhat(what) };
 }
 function reelIntro(x) {
   const { r } = x, p = PF[r.t], yrs = Math.max(3, r.yrs || 5);
@@ -554,7 +561,7 @@ function reelPrice(x) {
     lines: [{ cap: [`5년 전 ${r.n} 주식을`, '1,000만 원어치 샀다면?'], say: `오 년 전 ${r.n} 주식을, 천만 원어치 샀다면?` },
             { cap: ['지금은', `${man(money)} 원이 됐습니다`], say: `지금은, ${sayMan(money)}이 됐습니다.` }] },
     { type: 'line', series: [{ name: r.n, v: sel.map((p_) => +p_[1].toFixed(2)) }], x: sel.map((p_) => `${p_[0].slice(2, 4)}.${+p_[0].slice(5, 7)}`), fmt: { fmt: 'int' }, end: `${chgPct >= 0 ? '+' : ''}${chgPct}%`, end_tone: up ? 'gold' : 'loss',
-      lines: [{ cap: ['같은 5년 동안', '주가는 매년 ' + Math.abs(Math.round(pc)) + '%씩 ' + (pc >= 0 ? '올랐습니다' : '내렸습니다')], say: `같은 오 년 동안, 주가는 매년 ${sino(Math.abs(Math.round(pc)))} 퍼센트씩 ${pc >= 0 ? '올랐습니다' : '내렸습니다'}.` }] }];
+      lines: [{ cap: ['같은 5년 동안', '주가는 매년 평균 ' + Math.abs(Math.round(pc)) + '% ' + (pc >= 0 ? '올랐습니다' : '내렸습니다')], say: `같은 오 년 동안, 주가는 매년 평균 ${sino(Math.abs(Math.round(pc)))} 퍼센트 ${pc >= 0 ? '올랐습니다' : '내렸습니다'}.` }] }];
   { const w = whoScene(r); if (w) scenes.splice(1, 0, w); }
   if (isNum(eps)) {
     const e = Math.round(eps);
