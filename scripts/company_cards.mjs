@@ -548,7 +548,9 @@ function whoScene(r) {
   // 괄호 속 영문 약어(HBM 등)는 음성이 뭉개므로 읽지 않는다
   // 회사 소개는 한 문장을 한 카드에 (목록처럼 잘게 자르지 않는다). 아래에 상장 시장 칩
   const MK = { KR: '한국 상장', US: '미국 상장', JP: '일본 상장', HK: '홍콩 상장', CN: '중국 상장' };
-  return { type: 'who', name: r.n, tag: p.industry || '', text: what, facts: MK[r.m] ? [MK[r.m]] : [], say: sayWhat(what) };
+  // 2026-10-19 운영자 지시: 주어 없이 "…세계 2위 회사입니다"로 시작하지 않는다 → "SK하이닉스는 …"
+  const nm = r.n.replace(/\s*ADR$/i, ''), subj = (t) => t.startsWith(nm) ? t : `${josa(nm, '은', '는')} ${t}`;
+  return { type: 'who', name: r.n, tag: p.industry || '', text: subj(what), facts: MK[r.m] ? [MK[r.m]] : [], say: subj(sayWhat(what)) };
 }
 function reelIntro(x) {
   const { r } = x, p = PF[r.t], yrs = Math.max(3, r.yrs || 5);
@@ -634,17 +636,17 @@ function ratioWords(R) { // R = 현재가 ÷ 적정 주가
 }
 function methodScene(sc, r) {
   if (isNum(sc.finIv)) return { type: 'statement', l1: '은행·보험사는', l2: '순자산이 얼마나 버는지로', tone: 'gold', note: `ROE ${n0(sc.roeFin, 1)}%가 기대 수익률을 얼마나 넘는지로 계산했습니다`,
-    lines: [{ cap: ['은행과 보험사는', '가진 자산이 얼마나 버는지로 계산합니다'] }] };
+    lines: [{ cap: ['은행과 보험사의 적정 주가는', '가진 자산이 얼마나 버는지로 계산합니다'] }] };
   if (sc.ivBasis === 'cyc') return { type: 'statement', l1: '가장 좋은 해가 아니라', l2: '좋고 나쁜 해의 평균으로', tone: 'gold', note: '경기를 타는 업종이라 호황 이익이 계속된다고 보지 않습니다',
-    lines: [{ cap: ['경기를 타는 회사라', '가장 좋은 해가 아니라 평균 이익으로 계산합니다'], say: '경기를 타는 회사라, 가장 좋은 해가 아니라 평균 이익으로 계산합니다.' }] };
+    lines: [{ cap: ['경기를 타는 회사라 적정 주가는', '좋은 해가 아니라 평균 이익으로 계산합니다'], say: '경기를 타는 회사라 적정 주가는, 좋은 해가 아니라 평균 이익으로 계산합니다.' }] };
   if (sc.ivBasis === 'dur') return { type: 'statement', l1: '꾸준히 성장해 온 회사라', l2: '성장을 덜 깎았습니다', tone: 'gold', note: `과거 성장의 75%인 연 ${n0(sc.gUse, 1)}%를 5년 동안 인정했습니다`,
-    lines: [{ cap: ['적자 없이 꾸준히 큰 회사라', '과거 성장의 75%를 인정했습니다'] }] };
+    lines: [{ cap: ['적자 없이 꾸준히 큰 회사라', '적정 주가에 과거 성장의 75%를 넣었습니다'] }] };
   if (sc.ivBasis === 'norm') return { type: 'statement', l1: '한 해 이익이 아니라', l2: `${r.yrs || 5}년 평균 이익으로`, tone: 'gold', note: '좋은 해와 나쁜 해를 고르게 반영했습니다',
-    lines: [{ cap: ['버핏처럼 한 해가 아니라', `${r.yrs || 5}년 평균 이익으로 계산합니다`] }] };
+    lines: [{ cap: ['적정 주가는 한 해가 아니라', `${r.yrs || 5}년 평균 이익으로 계산합니다`] }] };
   if (isNum(sc.dcf)) return { type: 'statement', l1: '앞으로 10년 벌 돈을', l2: '오늘 가치로 바꿨습니다', tone: 'gold', note: '버핏이 쓰는 현금흐름 할인 방식입니다',
-    lines: [{ cap: ['버핏처럼 앞으로 10년 벌 돈을', '오늘 가치로 바꿔 더했습니다'] }] };
+    lines: [{ cap: ['적정 주가는 앞으로 10년 벌 돈을', '오늘 가치로 바꿔 더한 값입니다'] }] };
   return { type: 'statement', l1: '그레이엄의 공식으로', l2: '이익과 자산을 함께 봅니다', tone: 'gold', note: '현금 기준 이익이 마이너스라 이익과 자산으로 계산했습니다',
-    lines: [{ cap: ['버핏의 스승 그레이엄처럼', '이익과 자산으로 계산했습니다'] }] };
+    lines: [{ cap: ['적정 주가는 그레이엄의 공식처럼', '이익과 자산으로 계산했습니다'] }] };
 }
 function reelValue(x) {
   const { r, sc } = x, cur = r.cur || 'KRW', a = analyze(x), R = a.ratio, nm = r.n.replace(/\s*ADR$/i, '');
@@ -653,7 +655,7 @@ function reelValue(x) {
   const scenes = [{ type: 'hook', top: `버핏 기준으로 보면\n${josa(nm, '은', '는')} 얼마?`,
     num: { to: +(+sc.iv).toFixed(cur === 'KRW' || cur === 'JPY' ? 0 : 2), fmt: 'int', dec: cur === 'KRW' || cur === 'JPY' ? 0 : 2, suffix: cur === 'KRW' ? '원' : ' ' + (UNIT[cur] || '') }, tone: 'gold',
     label: `버핏 기준 적정 주가 · ${date} 기준`,
-    lines: [{ cap: ['버핏의 기준으로 계산한 적정 주가는', `${capPrice(sc.iv, cur)}입니다`], say: `버핏의 기준으로 계산한 적정 주가는, ${sayPrice(sc.iv, cur)}입니다.` },
+    lines: [{ cap: [`버핏의 기준으로 계산한 ${nm}의`, `적정 주가는 ${capPrice(sc.iv, cur)}입니다`], say: `버핏의 기준으로 계산한 ${nm}의 적정 주가는, ${sayPrice(sc.iv, cur)}입니다.` },
             { cap: [W[0], W[1]], say: W[2] }] },
     { type: 'compare', title: `${nm}, 두 개의 가격`,
       l: { label: '지금 주가', v: capPrice(r.px, cur), sub: `${date} 종가`, tone: R > 1.05 ? 'loss' : 'gold' },
