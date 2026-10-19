@@ -29,12 +29,11 @@ jobs:
           if [ "$W" = 1 ]; then node scripts/reels/radar_reel.mjs $T || true; fi
           if [ "$W" = 2 ] || [ "$W" = 4 ] || [ "$W" = 6 ]; then node scripts/reels/lib_pick.mjs macro $T 08:30; fi
           node scripts/company_cards.mjs $T rm                # 08:30 칸이 비어 있으면 기업
-          node scripts/company_cards.mjs $T rb                # 11:00 기업
-          # 15:30 — 월·목·토: 사실 순위 TOP 10, 수: 비교·상식(미리 쓴 대본, 없으면 순위), 화·금·일: 기업
-          if [ "$W" = 3 ]; then node scripts/reels/lib_pick.mjs compare $T 15:30; fi
-          if [ "$W" = 2 ] || [ "$W" = 5 ] || [ "$W" = 7 ]; then node scripts/company_cards.mjs $T rc; else node scripts/company_cards.mjs $T rr; fi
-          node scripts/company_cards.mjs $T reel1             # 내일 12:30 릴스가 비어 있으면 기업 릴스
-          node scripts/company_cards.mjs $T reel2             # 내일 18:00 릴스가 비어 있으면 순위 릴스
+          # 하루 4편 (2026-10-19): 08:30 매크로·기업 / 12:30 기능 소개(월·수·금·일)·순위 TOP 10(화·목·토) / 18:00 쉬운 팁·상식(수: 비교 대본 우선) / 21:00 기업
+          if [ "$W" = 2 ] || [ "$W" = 4 ] || [ "$W" = 6 ]; then node scripts/company_cards.mjs $T rr; fi   # 12:30 순위 (그 칸에 미리 쓴 릴스가 있으면 건너뜀)
+          if [ "$W" = 3 ]; then node scripts/reels/lib_pick.mjs compare $T 18:00; fi
+          node scripts/company_cards.mjs $T reel1             # 12:30이 비어 있으면 기업
+          node scripts/company_cards.mjs $T reel2             # 18:00이 비어 있으면 순위
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"
