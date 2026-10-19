@@ -233,6 +233,12 @@ function analyze(x) {
     o.method.push(['상한', `이익의 ${sc.capX}배`, '성장 없이 연 10% 기대 수익일 때의 가격']);
     o.methodNote = '경기를 타는 회사는 호황기 이익이 계속된다고 보면 적정 주가가 부풀려집니다. 그래서 보수적으로 계산했습니다.';
     o.cap.push(`계산은 이렇게 했습니다. 경기를 타는 업종이라 평균 이익과 최근 이익 중 작은 값(주당 ${M(sc.E)})을 기준으로, 성장 없이 그 ${sc.capX}배까지만 인정했습니다.`);
+  } else if (isNum(sc.dcf) && sc.ivBasis === 'dur') {
+    o.method.push(['기준 이익', `주당 ${M(sc.ivBase)}`, '최근 1년 이익 (꾸준히 성장해 온 회사)']);
+    o.method.push(['성장 가정', `연 ${n0(sc.gUse, 1)}%`, '과거 성장의 75%, 5년 유지 후 차츰 줄임']);
+    o.method.push(['할인율', `연 ${disc}%`, '이 정도는 벌어야 한다는 기대 수익률']);
+    o.methodNote = '적자 없이 높은 수익성과 꾸준한 성장을 보여 준 회사라, 일반 회사보다 성장을 덜 깎았습니다.';
+    o.cap.push(`계산은 이렇게 했습니다. 적자 없이 꾸준히 성장해 온 회사라 최근 1년 주당 이익 ${M(sc.ivBase)}을 기준으로, 과거 성장의 75%인 연 ${n0(sc.gUse, 1)}%를 5년 동안 이어 간 뒤 차츰 줄어든다고 보고 연 ${disc}%의 기대 수익률로 할인했습니다.`);
   } else if (isNum(sc.dcf)) {
     const base = sc.ivBase;
     o.method.push(sc.ivBasis === 'norm'

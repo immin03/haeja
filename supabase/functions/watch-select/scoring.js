@@ -74,14 +74,26 @@ function scoreRow(row, p, reqMOS){
   /* 데이터 이상: PER 2.5 미만, 최근 이익이 평균의 20배 초과·5% 미만, ADR인데 PER 100 초과(ADR 1주 = 원주 여러 주 환산 누락) */
   const isAdr = /\bADR\b|DRC\b/.test(String(row.n || '') + ' ' + String(row.en || ''));
   const suspect = (per !== null && per < 2.5) || (isAdr && per !== null && per > 100) || (isNum(eps) && isNum(eAvg) && eps > 0 && eAvg > 0 && (eps/eAvg > 20 || eps/eAvg < 0.05));
-  const cycAdj = cycInd || peak;
-  const gUse = cycAdj ? p.tg : val.growth;
+  /* 꾸준한 우량주(경기순환 판정의 거울): 재무 점수 75+, 가장 나쁜 해 ROE 12%+(미국)·10%+(그 외), 적자 없음, 이익·매출 모두 성장,
+     현금 전환 60%+, 경기순환 업종·ROE 급변 아님, 최근 성장이 꺾이지 않음. 증거가 있는 만큼 믿는다는 같은 원칙으로, 경기순환주의 성장·이익을 깎은 만큼
+     이런 회사는 덜 깎는다: 성장률은 과거(이익·매출 중 낮은 값)의 75%, 최대 12% (일반 50%, 최대 8%), 기준 이익은 현금 이익과 최근 이익 중 큰 값 */
+  const durable = !row.fin_sector && !cycInd && !roeSwing && q !== null && q >= 75 && (fin.lossYears||0) === 0
+    && isNum(fin.roeMin) && fin.roeMin >= (ts === 'US' ? 12 : 10)
+    && isNum(fin.epsCagr) && fin.epsCagr > 0 && isNum(val.revCagr) && val.revCagr > 0 && (!isNum(fin.fcfConv) || fin.fcfConv >= 60)
+    /* 성장 꺾임 확인(이익 정점 확인의 거울): 최근 3년 매출이 한 해도 줄지 않았고, 고성장 회사(연 8%+)는 최근 1년 성장이 연평균의 절반 이상 */
+    && yoy0.length > 0 && yoy0.every(x => !isNum(x) || x >= 0) && (val.revCagr < 8 || (isNum(lastYoY) && lastYoY >= val.revCagr*0.5));
+  /* 이익 정점: 꾸준한 우량주는 평균에 일시적 감소 해가 섞여 최근 이익이 높아 보이는 경우라 경고만 하고 보정하지 않는다 */
+  const cycAdj = cycInd || (peak && !durable);
+  const gDur = durable ? Math.max(0, Math.min(Math.min(fin.epsCagr, val.revCagr)*0.75, 12)) : null;
+  const gUse = cycAdj ? p.tg : durable ? Math.max(gDur, isNum(val.growth) ? val.growth : 0) : val.growth;
   const growthCapex = !row.fin_sector && isNum(oe) && normEps !== null && oe < normEps*0.6 && isNum(fin.capexNi) && fin.capexNi > 100 && isNum(fin.roic) && fin.roic >= 15;
   /* 오너이익(현금)이 최근 이익의 1.3배를 넘으면 일시적 현금 유입으로 보고 이익 쪽으로 낮춘다 */
   const earnTop = Math.max(isNum(eps) && eps > 0 ? eps : 0, isNum(eAvg) && eAvg > 0 ? eAvg : 0) || null;
   let ivBase = growthCapex ? normEps : oe;
   if(isNum(ivBase) && earnTop) ivBase = Math.min(ivBase, earnTop*1.3);
   if(cycAdj && normEps !== null) ivBase = isNum(ivBase) && ivBase > 0 ? Math.min(ivBase, normEps) : normEps;
+  /* 꾸준한 우량주는 현금 이익과 최근 이익 중 큰 값 (일시적 세금·인수 대금·성장 투자로 현금이 이익보다 늦을 때). 경기순환주의 '작은 값'과 대칭 */
+  if(durable && isNum(eps) && eps > 0) ivBase = Math.max(isNum(ivBase) && ivBase > 0 ? ivBase : 0, eps);
   /* 배수 상한의 기준 이익: 경기순환은 정상 이익(평균과 최근 중 작은 값), 나머지는 최근 이익 (고성장 회사가 과거 낮은 이익에 묶이지 않게) */
   const E = cycAdj ? (normEps ?? (isNum(eps) && eps > 0 ? eps : null)) : (isNum(eps) && eps > 0 ? eps : normEps);
   const capX = row.fin_sector ? IV_CAP.fin : cycAdj ? IV_CAP.cyc : (q !== null && q < 60 ? IV_CAP.lowQ : IV_CAP.base);
@@ -93,7 +105,7 @@ function scoreRow(row, p, reqMOS){
   const iv = row.fin_sector ? (finish(finIv) ?? finish(graham)) : (dcf ?? finish(graham));
   const mos = iv && px ? (1 - px/iv)*100 : null;
   const ivSrc = suspect ? null : row.fin_sector ? (finIv ? '자기자본 수익력 (ROE 기준 적정 PBR)' : '그레이엄 넘버')
-    : dcf ? (cycAdj ? '경기순환 보정 (정상 이익 × 최대 10배)' : growthCapex ? '정상 이익 DCF (다년 평균 EPS, 성장 투자 보정)' : '오너이익 DCF') : (iv ? '그레이엄 넘버' : null);
+    : dcf ? (cycAdj ? '경기순환 보정 (정상 이익 × 최대 10배)' : durable ? '꾸준한 우량주 DCF (최근 이익, 과거 성장의 75%)' : growthCapex ? '정상 이익 DCF (다년 평균 EPS, 성장 투자 보정)' : '오너이익 DCF') : (iv ? '그레이엄 넘버' : null);
   /* 가치 범위: 과거 평균 이익으로 돌아갈 때 ~ 최근 12개월 이익이 유지될 때 (같은 성장률·할인율·상한) */
   const ivNorm = row.fin_sector ? null : finish(dcfValue(normEps, gUse, p.disc, p.tg));
   const ivNow = row.fin_sector || cycAdj ? null : finish(dcfValue(isNum(eps) && eps > 0 ? eps : null, gUse, p.disc, p.tg));
@@ -141,7 +153,7 @@ function scoreRow(row, p, reqMOS){
   let mosLo = null, mosHi = null;
   if(dcf !== null && px){ const dHi = finish(dcfValue(ivBase, gUse, p.disc+1, p.tg)), dLo = finish(dcfValue(ivBase, gUse, p.disc-1, p.tg)); mosLo = dHi ? (1 - px/dHi)*100 : null; mosHi = dLo ? (1 - px/dLo)*100 : null; }
   const perAvg = px && isNum(epsAvg) && epsAvg > 0 ? px/epsAvg : null;
-  return {q, v, b, cov:Math.round(cov*100)/100, per, pbr, graham, dcf, iv, mos, flags, ig, hist, mosLo, mosHi, perAvg, ivBasis: cycAdj ? 'cyc' : growthCapex ? 'norm' : 'oe', ivSrc, ivNorm, ivNow, cyc: cycAdj, suspect, ivBase, gUse, capX, E, finIv: row.fin_sector ? finIv : null, roeFin: row.fin_sector ? roeFin : null};
+  return {q, v, b, cov:Math.round(cov*100)/100, per, pbr, graham, dcf, iv, mos, flags, ig, hist, mosLo, mosHi, perAvg, ivBasis: cycAdj ? 'cyc' : durable ? 'dur' : growthCapex ? 'norm' : 'oe', ivSrc, ivNorm, ivNow, cyc: cycAdj, suspect, ivBase, gUse, capX, E, finIv: row.fin_sector ? finIv : null, roeFin: row.fin_sector ? roeFin : null};
 }
 function dcfRaw(base, g, disc, tg){
   const r = disc/100, t = tg/100; let s = 0, e = base;
