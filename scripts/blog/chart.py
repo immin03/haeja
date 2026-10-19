@@ -90,8 +90,17 @@ if sp.get("highlight"):
                 fontsize=15, fontweight="bold", ha="right", va="bottom")
 if sp.get("rebase"):
     ax.axhline(100, color=C["mute"], lw=1.2, ls=(0, (4, 4)), alpha=0.7)
-ax.xaxis.set_major_formatter(mdates.DateFormatter("%-m/%-d"))
-ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=4, maxticks=7))
+_span = (x1 - x0) if isinstance(x1 - x0, float) else (mdates.date2num(x1) - mdates.date2num(x0))
+if _span > 730:  # 2년 넘는 그래프는 연도로 (월/일로 쓰면 "1/1" 만 반복된다)
+    _yrs = max(1, round(_span / 365 / 6))
+    ax.xaxis.set_major_locator(mdates.YearLocator(_yrs))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+elif _span > 200:
+    ax.xaxis.set_major_locator(mdates.MonthLocator(bymonth=[1, 4, 7, 10]))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%y.%-m"))
+else:
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%-m/%-d"))
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=4, maxticks=7))
 _last = max(mdates.date2num(e[4]) for e in ends)
 ax.set_xticks([t for t in ax.get_xticks() if t <= _last + 0.5])
 ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:,.{max(0, dec - 1) if unit != '%' else dec}f}{unit if unit == '%' else ''}"))
