@@ -324,40 +324,47 @@ def s_compare(img, u, sc, L, T):
 
 def s_bars(img, u, sc, L, T):
     items = sc["items"]; mx = max(abs(i["v"]) for i in items) or 1
-    if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 68, 960), IVORY, (W / 2, 410), dur=.35)
-    n_ = max(1, len(items)); area = 560 if n_ <= 4 else 720  # 항목이 많으면 더 넓게 써서 이름표와 막대가 겹치지 않게 (자막 위까지만)
-    gap = min(170, area / n_); y0 = (640 if n_ <= 4 else 520) + (area - gap * n_) / 2
-    step = min(.45, max(.2, L[0][1] * .7 / len(items)))
+    n_ = max(1, len(items))
+    gap = 190 if n_ <= 3 else 165 if n_ <= 4 else min(150, 760 / n_)
+    big = n_ <= 4
+    lf, vf, bh = (48, 64, 54) if big else (42, 56, 46)
+    y0 = 900 - (n_ - 1) * gap / 2  # 막대 묶음을 화면 가운데에
+    if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 76, 960), IVORY, (W / 2, max(400, y0 - 200)), dur=.35)
+    step = min(.45, max(.2, L[0][1] * .7 / n_))
     for k, it in enumerate(items):
         t0 = .25 + k * step; p = prog(u, t0, t0 + .55)
         y = y0 + k * gap; col = TONE.get(it.get("tone", "gold"), GOLD)
         d = ImageDraw.Draw(img)
-        d.text((140, y - 34), it["label"], font=fit_font(it["label"], "SemiBold", 38, 800), fill=mix(NAVY, IVORY, prog(u, t0 - .1, t0 + .2)), anchor="lm")
-        wmax = 640; w = wmax * abs(it["v"]) / mx * p
-        d.rounded_rectangle([140, y, 140 + max(16, w), y + 44], 22, fill=mix(NAVY, col, min(1, p * 2)))
+        d.text((120, y - bh / 2 - 34), it["label"], font=fit_font(it["label"], "SemiBold", lf, 840), fill=mix(NAVY, IVORY, prog(u, t0 - .1, t0 + .2)), anchor="lm")
+        wmax = 620; w = wmax * abs(it["v"]) / mx * p
+        d.rounded_rectangle([120, y - bh / 2, 120 + max(18, w), y + bh / 2], int(bh / 2), fill=mix(NAVY, col, min(1, p * 2)))
         if p > .05:
-            d.text((140 + max(16, w) + 22, y + 22), it.get("text", f"{it['v']:g}"), font=F("Heavy", 54), fill=col, anchor="lm")
+            d.text((120 + max(18, w) + 24, y), it.get("text", f"{it['v']:g}"), font=F("Heavy", vf), fill=col, anchor="lm")
     return img
 
 def s_list(img, u, sc, L, T):
-    items = sc["items"]
-    if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 68, 960), IVORY, (W / 2, 410), dur=.35)
-    span = L[0][1] * .9; gap = 118; y0 = 600
+    """목록: 큰 카드, 화면 가운데에 모아 둔다 (위에 몰리고 아래가 비지 않게)"""
+    items = sc["items"]; n_ = max(1, len(items))
+    big = n_ <= 5
+    gap, hh, fs = (150, 60, 54) if big else (124, 50, 46)
+    y0 = 880 - (n_ - 1) * gap / 2
+    if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 76, 960), IVORY, (W / 2, max(400, y0 - 170)), dur=.35)
+    span = L[0][1] * .9
     for k, it in enumerate(items):
-        t0 = .15 + span * k / max(1, len(items))
+        t0 = .15 + span * k / n_
         p = prog(u, t0, t0 + .35)
         if p <= 0: continue
-        y = y0 + k * gap; x = 140 + (1 - p) * -60
+        y = y0 + k * gap; x = 110 + (1 - p) * -60
         d = ImageDraw.Draw(img)
-        d.rounded_rectangle([x, y - 46, x + 800, y + 46], 24, fill=mix(NAVY, (24, 46, 82), p), outline=mix(NAVY, GOLD_D, p), width=2)
+        d.rounded_rectangle([x, y - hh, x + 860, y + hh], 28, fill=mix(NAVY, (24, 46, 82), p), outline=mix(NAVY, GOLD_D, p), width=2)
         # 동그라미 배지는 순위·번호(1위, 2, ①)일 때만. 문장 첫 낱말(예: '파는')이 배지로 들어가지 않게 한다
         if " " in it and re.fullmatch(r"\d{1,2}(위|\.)?|[①-⑩]", it.split(" ", 1)[0]):
-            k_, rest = it.split(" ", 1)
-            d.ellipse([x + 22, y - 32, x + 86, y + 32], fill=mix(NAVY, GOLD, p))
-            d.text((x + 54, y), k_, font=F("Heavy", 40 if len(k_) <= 2 else 30), fill=NAVY, anchor="mm")
-            d.text((x + 112, y), rest, font=fit_font(rest, "Bold", 46, 660), fill=mix(NAVY, IVORY, p), anchor="lm")
+            k_, rest = it.split(" ", 1); r_ = hh - 12
+            d.ellipse([x + 26, y - r_, x + 26 + 2 * r_, y + r_], fill=mix(NAVY, GOLD, p))
+            d.text((x + 26 + r_, y), k_, font=F("Heavy", 44 if len(k_) <= 2 else 32), fill=NAVY, anchor="mm")
+            d.text((x + 52 + 2 * r_, y), rest, font=fit_font(rest, "Bold", fs, 860 - 80 - 2 * r_), fill=mix(NAVY, IVORY, p), anchor="lm")
         else:
-            d.text((x + 36, y), it, font=fit_font(it, "Bold", 46, 740), fill=mix(NAVY, IVORY, p), anchor="lm")
+            d.text((x + 40, y), it, font=fit_font(it, "Bold", fs, 790), fill=mix(NAVY, IVORY, p), anchor="lm")
     return img
 
 def wrap_words(s, font, maxw):
