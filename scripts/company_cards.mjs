@@ -86,12 +86,12 @@ const FAMOUS = {
 function pick(rows, state) {
   const used = new Set(state.used || []);
   if (MODE === 'b' || MODE === 'rb') return pickUnder(rows, used);
-  if (MODE === 'am' || MODE === 'rm') { const L = overList(rows, 'ALL').filter((x) => !used.has(x.r.t) && (!REEL || (expect(x.r, x.sc)?.d > 3))).sort((p, q) => q.sc.q - p.sc.q); return L[0] || null; }
+  if (MODE === 'am' || MODE === 'rm') { const L = overList(rows, 'ALL').filter((x) => !used.has(x.r.t) && (!REEL || !!PF[x.r.t]?.what)).sort((p, q) => q.sc.q - p.sc.q); return L[0] || null; }
   const all = rows.map((r) => ({ r, sc: score(r) }))
     .filter((x) => isNum(x.sc.b) && isNum(x.sc.q) && isNum(x.sc.v) && x.r.dataConf !== 'low' && !used.has(x.r.t))
     // 적정 주가와 비슷하거나 조금 다른 회사는 이야기가 약하다: 1.5배 이상 비싸거나 25% 이상 싼 회사만
     .filter((x) => { const R = isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) ? x.r.px / x.sc.iv : null; return R !== null && ((R >= 1.5 && R <= 5) || (R <= 0.75 && R >= 0.25)); })
-    .filter((x) => !REEL || (expect(x.r, x.sc) && Math.abs(expect(x.r, x.sc).d) > 3)); // 너무 극단적인 값(+400% 초과, 상승 여력 300% 초과)은 믿기 어려워 보여 제외
+    .filter((x) => !REEL || !!PF[x.r.t]?.what); // 너무 극단적인 값(+400% 초과, 상승 여력 300% 초과)은 믿기 어려워 보여 제외
   const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-17')) / 864e5);
   for (let i = 0; i < ROTA.length; i++) {
     const m = ROTA[(day + i) % ROTA.length];
@@ -121,7 +121,7 @@ function overList(rows, mkt) {
   });
 }
 function pickUnder(rows, used) {
-  const L = underList(rows, 'ALL').filter((x) => !used.has(x.r.t) && (!REEL || (expect(x.r, x.sc)?.d < -3))).sort((a, b) => b.sc.q - a.sc.q);
+  const L = underList(rows, 'ALL').filter((x) => !used.has(x.r.t) && (!REEL || !!PF[x.r.t]?.what)).sort((a, b) => b.sc.q - a.sc.q);
   if (L.length) return L[0];
   // 다 쓰면 기준을 조금 넓힌다 (감점 신호가 있어도 25% 이상 싼 회사)
   return rows.map((r) => ({ r, sc: score(r) })).filter((x) => !used.has(x.r.t) && isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv <= 0.75 && x.r.dataConf !== 'low').sort((a, b) => b.sc.q - a.sc.q)[0] || null;
@@ -361,6 +361,8 @@ function caption(x, a) {
 }
 
 // ---------- 순위 카드: 저평가·고평가 TOP 10 (1~3위는 앱에서 공개) ----------
+// 2026-10-19: 순위 릴스도 '기대' 대신 사실 순위로. [종류, 시장, 이름]
+const RANK2_ROTA = [['roe', 'US', '미국'], ['div', 'KR', '한국'], ['roe', 'KR', '한국'], ['div', 'US', '미국'], ['roe', 'JP,HK,CN', '일본·중국·홍콩'], ['div', 'ALL', '5개 시장']];
 const RANK_ROTA = [['under', 'ALL', '5개 시장'], ['over', 'US', '미국'], ['under', 'KR', '한국'], ['over', 'KR', '한국'], ['under', 'JP,HK,CN', '일본·중국·홍콩'], ['over', 'JP', '일본']];
 function rankCards(L, side, label) {
   const under = side === 'under', top = L.slice(0, 10);
@@ -475,7 +477,8 @@ function reelCompany(x) {
 // ---------- 2026-10-19: 기업 릴스 형식 4가지를 돌려 쓴다 (같은 틀이 반복되면 재미가 없다) ----------
 // intro: 무엇으로 돈을 버는 회사인가 (프로필) · price: 5년 주가 여정 vs 이익 · dividend: 배당 · expect: 주가에 담긴 기대 vs 실제
 // 원칙은 같다(README 규칙 13): 점수·고평가 %·상승 여력·적정 주가 금액은 쓰지 않는다. 사실 + 쉬운 질문 + 밸류노트에서 확인.
-const FORMATS = ['intro', 'price', 'dividend', 'expect'];
+// 2026-10-19 운영자 지시: '주가에 담긴 기대' 형식은 쓰지 않는다(무엇을 말하려는지 분명하지 않다). 모든 기업 릴스는 '무슨 회사인지'부터 말한다.
+const FORMATS = ['intro', 'price', 'dividend'];
 const NOT_ADVICE2 = '이 글은 회사에 대한 정보이며 밸류노트의 의견이나 매수·매도 추천이 아닙니다.';
 const CTA_BUFFETT = { type: 'cta', l1: '버핏 기준 점수는', l2: '밸류노트에서', say: '버핏 기준으로 본 점수와 적정 주가는, 밸류노트에서 확인하세요.' };
 // 프로필 문장(~다체)을 ~합니다체로: 이다→입니다, 받침 없음+다→입니다, ㄴ다→ㅂ니다, 그 밖의 받침+다→습니다
@@ -498,7 +501,7 @@ function pickFormat(x, slotIdx) {
   if (process.env.REEL_FMT) return process.env.REEL_FMT;
   const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-19')) / 864e5);
   for (let k = 0; k < FORMATS.length; k++) { const f = FORMATS[(day + slotIdx + k) % FORMATS.length]; if (ok[f](x.r, x)) return f; }
-  return 'expect';
+  return 'intro';
 }
 // 5년 월말 주가 (야후). GitHub Actions에서는 바로 받고, 막힌 곳에서는 PX_CACHE/<티커>.json 을 쓴다
 async function price5(t) {
@@ -513,6 +516,10 @@ async function price5(t) {
 const man = (v) => { const n = Math.round(v); return n >= 10000 ? `${Math.floor(n / 10000)}억` + (n % 10000 ? ` ${(n % 10000).toLocaleString('ko-KR')}만` : '') : `${n.toLocaleString('ko-KR')}만`; };
 const sayMan = (v) => { const n = Math.round(v), ok_ = n >= 10000 ? `${Math.floor(n / 10000)}억 ` + (n % 10000 ? `${n % 10000}만` : '') : `${n}만`; return ok_.trim() + ' 원'; };
 
+function whoScene(r) {
+  const p = PF[r.t]; if (!p?.what) return null; const what = hapnida(p.what);
+  return { type: 'list', title: p.industry ? `${r.n} · ${p.industry}` : r.n, items: chunks(what), say: what };
+}
 function reelIntro(x) {
   const { r } = x, p = PF[r.t], yrs = Math.max(3, r.yrs || 5);
   // 자사주 매입으로 자본이 작아진 회사는 ROE가 100%를 넘어 이상해 보인다 → 그럴 땐 매출 대비 순이익률
@@ -522,7 +529,7 @@ function reelIntro(x) {
     : [['물건을 100원어치 팔면', `${k}원이 이익으로 남습니다`], `물건을 백 원어치 팔면, ${sino(k)} 원이 이익으로 남습니다.`, '매출 100원당 순이익'];
   const scenes = [{ type: 'hook', top: r.n, num: { to: k, fmt: 'int', suffix: '원' }, tone: 'gold', label: numLine[2],
     lines: [{ cap: [`${r.n},`, '무엇으로 돈을 벌까요?'] }, { cap: numLine[0], say: numLine[1] }] }];
-  scenes.push({ type: 'list', title: p.industry || r.n, items: rows, say: what });
+  scenes.push(whoScene(r));
   const seg = (p.segments || []).filter((s_) => isNum(s_.share)).slice(0, 3);
   if (seg.length >= 2 && seg[0].share < 98) scenes.push({ type: 'bars', title: '매출은 어디서 나올까', items: seg.map((s_, i) => ({ label: s_.name, v: s_.share, text: `${Math.round(s_.share)}%`, tone: i ? 'gray' : 'gold' })),
     lines: [{ cap: ['매출의 ' + Math.round(seg[0].share) + '%는', `${s_short(seg[0].name)}에서 나옵니다`] }] });
@@ -548,12 +555,12 @@ function reelPrice(x) {
             { cap: ['지금은', `${man(money)} 원이 됐습니다`], say: `지금은, ${sayMan(money)}이 됐습니다.` }] },
     { type: 'line', series: [{ name: r.n, v: sel.map((p_) => +p_[1].toFixed(2)) }], x: sel.map((p_) => `${p_[0].slice(2, 4)}.${+p_[0].slice(5, 7)}`), fmt: { fmt: 'int' }, end: `${chgPct >= 0 ? '+' : ''}${chgPct}%`, end_tone: up ? 'gold' : 'loss',
       lines: [{ cap: ['같은 5년 동안', '주가는 매년 ' + Math.abs(Math.round(pc)) + '%씩 ' + (pc >= 0 ? '올랐습니다' : '내렸습니다')], say: `같은 오 년 동안, 주가는 매년 ${sino(Math.abs(Math.round(pc)))} 퍼센트씩 ${pc >= 0 ? '올랐습니다' : '내렸습니다'}.` }] }];
+  { const w = whoScene(r); if (w) scenes.splice(1, 0, w); }
   if (isNum(eps)) {
-    const e = Math.round(eps), yE = Math.max(3, (r.yrs || 6) - 1);
-    scenes.push({ type: 'bars', title: '주가 vs 이익, 누가 더 빨랐나', items: [{ label: '주가 (매년)', v: Math.max(Math.abs(pc), .5), text: `연 ${Math.round(pc)}%`, tone: 'gold' }, { label: `이익 (지난 ${yE}년, 매년)`, v: Math.max(Math.abs(eps), .5), text: `연 ${e}%`, tone: eps >= 0 ? 'good' : 'loss' }],
-      lines: [{ cap: ['그동안 이익은', `매년 ${Math.abs(e)}%씩 ${eps >= 0 ? '늘었습니다' : '줄었습니다'}`], say: `그동안 이익은, 매년 ${sino(Math.abs(e))} 퍼센트씩 ${eps >= 0 ? '늘었습니다' : '줄었습니다'}.` }] });
-    const st = pc > eps + 3 ? ['주가가 이익보다', '빨리 달렸습니다', '이 차이를 앞으로 실적이 메울까요?'] : pc < eps - 3 ? ['이익이 주가보다', '빨리 늘었습니다', '시장이 아직 못 따라온 걸까요?'] : ['주가는 이익을', '따라왔습니다', '결국 주가는 이익을 따라갑니다'];
-    scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', note: st[2], say: `${st[0]} ${st[1]}. ${st[2]}${/[?.]$/.test(st[2]) ? '' : '.'}` });
+    const e = Math.round(eps);
+    const st = pc > eps + 3 ? ['주가가 이익보다', '빨리 달렸습니다'] : pc < eps - 3 ? ['이익이 주가보다', '빨리 늘었습니다'] : ['주가는 이익을', '따라왔습니다'];
+    scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'gold', note: `같은 기간 이익은 매년 ${e}% ${eps >= 0 ? '증가' : '감소'}`,
+      say: `같은 기간 이익은 매년 ${sino(Math.abs(e))} 퍼센트씩 ${eps >= 0 ? '늘었습니다' : '줄었습니다'}. ${st[0]} ${st[1]}.` });
   }
   scenes.push(CTA_BUFFETT);
   const name = r.n.replace(/\s+/g, '');
@@ -567,11 +574,12 @@ function reelDividend(x) {
   const { r } = x, d = PF[r.t].dividend, y = +d.yield.toFixed(1), pay = Math.round(d.payout), per = Math.round(10 * y) ;
   const scenes = [{ type: 'hook', top: r.n, num: { to: y, fmt: 'pct', dec: 1, plus: false }, tone: 'gold', label: '배당 수익률 (주가 대비 1년 배당)',
     lines: [{ cap: [`${r.n},`, '배당은 얼마나 줄까요?'] }, { cap: ['1,000만 원어치 갖고 있으면', `1년에 약 ${per}만 원입니다`], say: `천만 원어치 갖고 있으면, 일 년에 약 ${sino(per)}만 원입니다.` }] }];
-  if (d.years >= 5) scenes.push({ type: 'statement', l1: `${d.years}년 연속`, l2: '배당을 늘렸습니다', tone: 'gold', say: `${sino(d.years)} 년 연속, 배당을 늘렸습니다.` });
+  { const w = whoScene(r); if (w) scenes.push(w); }
   scenes.push({ type: 'bars', title: '번 돈 중 배당으로 주는 몫', items: [{ label: '배당으로 준 돈', v: pay, text: `${pay}%`, tone: 'gold' }, { label: '회사에 남긴 돈', v: 100 - pay, text: `${100 - pay}%`, tone: 'gray' }],
     lines: [{ cap: ['번 돈 100원 중', `${pay}원을 배당으로 줍니다`], say: `번 돈 백 원 중, ${sino(pay)} 원을 배당으로 줍니다.` }] });
   const st = pay <= 60 ? ['번 돈에 비해', '무리하지 않는 배당입니다'] : ['번 돈의 대부분을', '배당으로 쓰고 있습니다'];
-  scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'ivory', note: '배당은 높이보다 오래 줄 수 있는지가 중요합니다', say: `${st[0]}, ${st[1]}.` });
+  scenes.push({ type: 'statement', l1: st[0], l2: st[1], tone: 'ivory', note: d.years >= 5 ? `${d.years}년 연속 배당을 늘렸습니다` : '배당은 높이보다 오래 줄 수 있는지가 중요합니다',
+    say: `${st[0]}, ${st[1]}.` + (d.years >= 5 ? ` ${sino(d.years)} 년 연속 배당을 늘렸습니다.` : '') });
   scenes.push({ type: 'cta', l1: '오래 줄 배당주는', l2: '밸류노트에서', say: '오래 줄 수 있는 배당주는, 밸류노트에서 확인하세요.' });
   const name = r.n.replace(/\s+/g, '');
   return { title: `배당 · ${r.n}`, mood: 'calm', scenes, hashtags: [name, name + '배당', '배당주', '주식공부', '밸류노트'],
@@ -582,11 +590,43 @@ function reelDividend(x) {
 async function reelAny(x, slotIdx) {
   x.px5 = await price5(x.r.t);
   const f = pickFormat(x, slotIdx);
-  const spec = f === 'intro' ? reelIntro(x) : f === 'price' ? reelPrice(x) : f === 'dividend' ? reelDividend(x) : reelCompany(x);
+  const spec = f === 'price' ? reelPrice(x) : f === 'dividend' ? reelDividend(x) : reelIntro(x);
   spec.format = f; return spec;
 }
 
-// 순위 릴스: 기대가 실적보다 가장 앞선 곳 / 시장이 실적보다 가장 낮게 보는 곳. 1~3위 이름은 앱에서 공개
+
+// 사실 순위: roe = 최근 몇 년 평균으로 주주 돈 100원당 이익을 가장 많이 낸 회사(시가총액 상위·적자 해 없음·자사주로 자본이 비정상인 곳 제외)
+//           div = 배당 수익률 높은 회사(배당성향 70% 이하·3년 이상 배당 증가, 무리한 배당 제외)
+function reelRank2(rows, kind, mkt, label) {
+  const inM = (r) => mkt === 'ALL' || mkt.split(',').includes(grpOf(r.m));
+  let L;
+  if (kind === 'roe') L = rows.filter((r) => inM(r) && r.dataConf !== 'low' && PF[r.t]?.what && isNum(r.fin?.roeAvg) && r.fin.roeAvg <= 50 && isNum(r.fin?.roeMin) && r.fin.roeMin >= 8 && !(r.fin.lossYears > 0))
+    .sort((a, b) => b.fin.roeAvg - a.fin.roeAvg).slice(0, 10).map((r) => ({ r, v: Math.round(r.fin.roeAvg), t: `${Math.round(r.fin.roeAvg)}원` }));
+  else L = rows.filter((r) => { const d = PF[r.t]?.dividend; return inM(r) && r.dataConf !== 'low' && d && isNum(d.yield) && isNum(d.payout) && d.payout > 0 && d.payout <= 70 && d.years >= 3 && d.yield < 15; })
+    .sort((a, b) => PF[b.t].dividend.yield - PF[a.t].dividend.yield).slice(0, 10).map((r) => ({ r, v: +PF[r.t].dividend.yield.toFixed(1), t: `${PF[r.t].dividend.yield.toFixed(1)}%` }));
+  if (L.length < 5) throw new Error('순위 후보 부족 ' + kind + ' ' + mkt);
+  const N = L.length, nm = (x) => x.r.n.replace(/\s*ADR$/i, '');
+  const roe = kind === 'roe', top = L[0];
+  const q = roe ? ['주주 돈 100원으로', '가장 많이 버는 회사는?'] : ['배당을 꾸준히 늘리면서', '많이 주는 회사는?'];
+  const tn = josa(nm(top), '은', '는');
+  const a = roe ? [`1위 ${tn}`, `매년 평균 ${top.v}원을 벌었습니다`] : [`1위 ${tn}`, `주가 대비 매년 ${top.v}%를 줍니다`];
+  const aSay = roe ? `일위 ${tn}, 매년 평균 ${sino(top.v)} 원을 벌었습니다.` : `일위 ${tn}, 주가 대비 매년 ${String(top.v).replace('.', ' 점 ')} 퍼센트를 줍니다.`;
+  const scenes = [{ type: 'hook', top: `${label} TOP ${N}`, num: roe ? { to: top.v, fmt: 'int', suffix: '원' } : { to: top.v, fmt: 'pct', dec: 1, plus: false }, tone: 'gold',
+    label: roe ? '주주 돈 100원으로 1년에 번 이익 (평균)' : '배당 수익률 (주가 대비 1년 배당)', lines: [{ cap: q }, { cap: a, say: aSay }] }];
+  const it = (x, i) => `${i + 1}위 ${nm(x)} · ${x.t}`;
+  scenes.push({ type: 'list', title: `${label} · 1~5위`, items: L.slice(0, 5).map(it), say: `이위부터 오위는, ${L.slice(1, 5).map(nm).join(', ')}입니다.` });
+  if (N > 5) scenes.push({ type: 'list', title: `${label} · 6~${N}위`, items: L.slice(5).map((x, i) => it(x, i + 5)), say: `육위부터는, ${L.slice(5).map(nm).join(', ')}입니다.` });
+  scenes.push({ type: 'statement', l1: roe ? '돈을 잘 버는 회사도' : '배당이 높은 회사도', l2: '가격은 따로 봐야 합니다', tone: 'gold', note: roe ? '좋은 회사와 좋은 가격은 다른 이야기입니다' : '배당은 높이보다 오래 줄 수 있는지가 중요합니다',
+    say: `${roe ? '돈을 잘 버는 회사도' : '배당이 높은 회사도'}, 가격은 따로 봐야 합니다.` });
+  scenes.push({ type: 'cta', l1: '지금 가격이 적당한지는', l2: '밸류노트에서', say: '지금 가격이 적당한지는, 밸류노트에서 확인하세요.' });
+  return { title: roe ? `돈 잘 버는 회사 TOP ${N} · ${label}` : `배당 꾸준한 회사 TOP ${N} · ${label}`, mood: 'calm', scenes,
+    hashtags: roe ? ['우량주', 'ROE', '주식공부', '가치투자', '밸류노트'] : ['배당주', '고배당주', '배당투자', '주식공부', '밸류노트'],
+    caption: (roe ? `주주 돈 100원으로 1년에 이익을 가장 많이 낸 ${label} 회사 TOP ${N}입니다(최근 몇 년 평균 ROE, 적자 낸 해가 없고 가장 나쁜 해에도 8원 이상 번 회사만).` : `배당을 3년 이상 꾸준히 늘리고, 번 돈의 70% 이하만 배당으로 주는 ${label} 회사 중 배당 수익률이 높은 TOP ${N}입니다.`)
+      + '\n\n' + L.map((x, i) => `${i + 1}위 ${nm(x)} · ${roe ? `주주 돈 100원당 ${x.v}원` : `배당 수익률 ${x.t}`}`).join('\n')
+      + '\n\n' + (roe ? '돈을 잘 버는 회사라도 이미 비싸게 거래되고 있을 수 있습니다. 좋은 회사와 좋은 가격은 따로 봐야 합니다.' : '배당 수익률은 주가와 배당에 따라 바뀝니다. 높이보다 오래 줄 수 있는지가 중요합니다.')
+      + ' 각 회사의 버핏 기준 점수와 적정 주가는 밸류노트에서 볼 수 있습니다.\n\n' + NOT_ADVICE2 };
+}
+// (옛) 순위 릴스: 기대가 실적보다 가장 앞선 곳 — 2026-10-19부터 쓰지 않음 / 시장이 실적보다 가장 낮게 보는 곳. 1~3위 이름은 앱에서 공개
 function rankByExpect(L, side) {
   return L.map((x) => ({ ...x, X: expect(x.r, x.sc) })).filter((x) => x.X && (side === 'under' ? x.X.d < -3 : x.X.d > 3))
     .sort((p, q) => side === 'under' ? p.X.d - q.X.d : q.X.d - p.X.d);
@@ -641,11 +681,9 @@ if (['reel1', 'reel2', 'ra', 'rb', 'rr', 'rm'].includes(MODE)) {
     if (!forced) { state.reelUsed = [...(state.reelUsed || []), x0.r.t]; state.used = [...(state.used || []), x0.r.t]; }
     fs.writeFileSync(path.join(OUT, 'state.json'), JSON.stringify(state, null, 1));
   } else {
-    const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-18')) / 864e5) + (MODE === 'rr' ? 0 : 3);
-    const [side, mkt, label] = RANK_ROTA[((day % RANK_ROTA.length) + RANK_ROTA.length) % RANK_ROTA.length];
-    const L = rankByExpect(side === 'under' ? underList(rows, mkt) : overList(rows, mkt), side);
-    if (L.length < 5) throw new Error('순위 후보 부족');
-    spec = reelRank(L, side, label); // 후보가 10곳 미만이면 있는 만큼(5~9곳)
+    const day = Math.round((Date.parse(ymd) - Date.parse('2026-10-19')) / 864e5) + (MODE === 'rr' ? 0 : 3);
+    const [kind, mkt, label] = RANK2_ROTA[((day % RANK2_ROTA.length) + RANK2_ROTA.length) % RANK2_ROTA.length];
+    spec = reelRank2(rows, kind, mkt, label);
   }
   const id = process.env.REEL_ID || ('A' + tag.slice(2) + SLOT[1]);
   fs.writeFileSync(path.join(SPECS, id + '.json'), JSON.stringify({ id, scheduled_at: when, threads_tag: '주식', ...spec }, null, 1));
