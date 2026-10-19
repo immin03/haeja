@@ -167,6 +167,23 @@ section.st+section.st{border-top:1px solid var(--line)}
 .feats span{display:block;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px}
 .feats .t-v{color:#8F6E2C}.feats .t-w{color:#4F6680}.feats .t-s{color:#C24A3C}
 
+/* 마지막: 적정 매수가 아래 순위 (이름은 가입 후 공개) */
+.end h2 em{font-style:normal;color:var(--gold)}
+#s7 h2{font-size:24px}
+.rk-tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:4px 0 14px}
+.rk-tabs button{height:34px;padding:0 13px;border-radius:999px;border:1px solid rgba(228,199,141,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:13.5px;font-weight:700}
+.rk-tabs button small{opacity:.7;margin-left:3px;font-weight:700}
+.rk-tabs button.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.rk{max-width:440px;margin:0 auto 20px;display:grid;gap:8px;text-align:left}
+.rk a{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-decoration:none;color:inherit}
+.rk .n{font-weight:900;font-size:17px;color:var(--gold);text-align:center}
+.rk .ph{display:block;height:15px;width:var(--w,64%);border-radius:5px;background:linear-gradient(90deg,rgba(255,255,255,.28),rgba(255,255,255,.12));filter:blur(.6px)}
+.rk .in2 small{display:block;margin-top:6px;font-size:12.5px;color:rgba(247,242,232,.7);font-weight:600}
+.rk .r{text-align:right;line-height:1.25}
+.rk .r b{display:block;font-size:20px;font-weight:900;color:#fff}.rk .r b i{font-style:normal;font-size:12px;color:rgba(247,242,232,.6);margin-left:1px}
+.rk .r span{font-size:12px;font-weight:800;color:#7FD3A6}
+.rk .lock{font-size:12px;color:rgba(247,242,232,.55);text-align:center;margin-top:2px}
+
 /* 마지막 */
 .end{background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);padding:56px 0 44px;text-align:center}
 .end h2{margin:8px 0 12px;font-size:28px;line-height:1.34;font-weight:850;color:#fff}
@@ -279,22 +296,15 @@ footer a{color:rgba(247,242,232,.75)}
   </div>
 </div></section>
 
-<section class="st shotsec" id="s6" data-sec="s6"><div class="wrap reveal">
-  <div class="eyebrow">06 · 경제 레이더</div>
-  <h2>시장이 흔들릴 때,<br>지금 위험이 어느 정도인지</h2>
-  <figure class="phone"><span class="ptag">실제 앱 화면</span><img src="/start-img/radar.webp?v=2" width="780" height="1006" loading="lazy" decoding="async" alt="밸류노트 경제 레이더 화면: 안정부터 위험까지 5단계 게이지와 오늘의 판단"></figure>
-  <p class="lead">금리·신용·변동성 10개 지표로 매일 아침 위험 단계를 알려 줍니다.</p>
-</div></section>
-
 <section class="end" id="s7" data-sec="s7"><div class="wrap reveal">
-  <div class="eyebrow" style="color:var(--gold)">거인의 어깨 위에서</div>
-  <h2>이제 내 종목으로<br>확인해 보세요</h2>
-  <p>보유 종목을 넣으면 종목마다 점수와 적정 주가가 바로 계산됩니다.</p>
+  <div class="eyebrow" style="color:var(--gold)">06 · 지금 적정 매수가 아래</div>
+  <h2>적정 주가보다 30% 이상 싼 회사<br>지금 <em id="rk-n">14곳</em></h2>
+  <div class="rk-tabs" id="rk-tabs" role="tablist"></div>
+  <div class="rk" id="rk"></div>
   <div class="acts">
-    <a class="btn kakao" href="/?kakao=1&amp;from=start" data-ev="cta-kakao"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 3초 만에 시작하기</a>
-    <a class="btn ghost" href="/?from=start" data-ev="cta-end">가입 전에 밸류노트 둘러보기</a>
+    <a class="btn kakao" href="/?kakao=1&amp;from=start&amp;vt=KR" data-ev="cta-kakao" id="rk-k"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 3초 만에 회사 이름 보기</a>
   </div>
-  <div class="small">이미 계정이 있다면 <a href="/?login&amp;from=start" data-ev="login-end">로그인</a> · <a href="/?signup&amp;from=start" data-ev="cta-end-signup">이메일로 가입</a></div>
+  <div class="small"><a href="/?signup&amp;from=start" data-ev="cta-end-signup">이메일로 가입</a> · <a href="/?login&amp;from=start" data-ev="login-end">로그인</a> · <a href="/?from=start" data-ev="cta-end">가입 전에 둘러보기</a></div>
 </div></section>
 
 <footer><div class="wrap">본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다. 표시되는 점수·적정 주가는 과거 데이터와 가정에 기반한 추정치로 수익을 보장하지 않습니다.<br><a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a> · © ValueNote</div></footer>
@@ -420,7 +430,25 @@ function cards(){
     $('#lesson').innerHTML = '<b>좋은 회사와 좋은 투자는 다릅니다.</b> 애플과 코카콜라는 재무 점수가 ' + Math.min(a.q, k.q) + '점 이상인 최상위 회사입니다. 하지만 지금 가격에 기대가 많이 담겨 있어 밸류노트 점수는 ' + Math.max(a.b, k.b) + '점 이하입니다.';
   if(D.date) $('#asof').textContent = '(' + D.date.replace(/-/g, '.') + ' 기준)';
 }
-function render(){ idx(); chips(); cards(); }
+/* 지금 적정 매수가 아래(적정 주가보다 30% 이상 낮은) 회사: 시장별 점수순 5곳, 이름은 가린다 */
+var IND = [[/game|gaming/i,'게임'],[/medical|health/i,'의료기기·헬스케어'],[/insurance|보험/i,'보험'],[/bank|은행/i,'은행'],[/auto/i,'자동차'],[/footwear|apparel|textile|luxury|의류|신발/i,'의류·신발'],
+  [/semiconductor|반도체/i,'반도체'],[/software/i,'소프트웨어'],[/telecom|통신/i,'통신'],[/oil|gas|energy|정유|에너지/i,'에너지'],[/chemical|화학/i,'화학'],[/steel|철강/i,'철강'],
+  [/drug|pharma|제약|biotech/i,'제약·바이오'],[/food|식품/i,'식품'],[/beverage|음료/i,'음료'],[/retail|유통/i,'유통'],[/construction|engineering|건설|주택/i,'건설'],[/shipping|marine|해운/i,'해운'],
+  [/utilit|전력/i,'전력'],[/real estate|부동산/i,'부동산'],[/capital markets|brokerage|증권/i,'증권'],[/asset management/i,'자산운용'],[/aerospace|defense/i,'항공·방산'],[/electrical|electronic|가전/i,'전기·전자'],
+  [/machinery|기계/i,'기계'],[/tobacco/i,'담배'],[/entertainment|leisure|travel|여가|오락/i,'여가·여행'],[/internet|interactive/i,'인터넷'],[/household|생활/i,'생활용품'],[/aluminum|metal|알루미늄|금속/i,'금속']];
+function ind(t){ t = String(t || ''); for(var i = 0; i < IND.length; i++) if(IND[i][0].test(t)) return IND[i][1]; return t.split(/,| 및 /)[0] || '기타'; }
+var RK = {}, RKM = 'KR', RKN = {KR:'한국', US:'미국', JP:'일본', HK:'홍콩', CN:'중국'};
+function rkBuild(){ RK = {}; Object.keys(D.c).forEach(function(k){ var r = D.c[k]; if(!r || !num(r[5]) || r[5] < 30 || !num(r[1])) return; (RK[r[4]] = RK[r[4]] || []).push({ b: r[1], mos: r[5], ind: ind(r[6]) }); });
+  Object.keys(RK).forEach(function(m){ RK[m].sort(function(a, b){ return b.b - a.b; }); }); if(!RK[RKM]) RKM = Object.keys(RK).sort(function(a, b){ return RK[b].length - RK[a].length; })[0] || 'KR'; }
+function rk(){
+  var L = RK[RKM] || [], W = [58, 72, 50, 66, 54];
+  $('#rk-tabs').innerHTML = ['KR','US','JP','HK','CN'].filter(function(m){ return RK[m]; }).map(function(m){ return '<button type="button" role="tab" data-rk="' + m + '" class="' + (m === RKM ? 'on' : '') + '" aria-selected="' + (m === RKM) + '">' + RKN[m] + '<small>' + RK[m].length + '</small></button>'; }).join('');
+  $('#rk-n').textContent = (RKN[RKM] || '') + ' ' + L.length + '곳'; var kb = $('#rk-k'); if(kb) kb.href = '/?kakao=1&from=start&vt=' + RKM;
+  $('#rk').innerHTML = L.slice(0, 5).map(function(x, i){ return '<a href="/?kakao=1&from=start&tab=value" data-ev="rk-row"><span class="n">' + (i + 1) + '</span><span class="in2"><i class="ph" style="--w:' + W[i] + '%" aria-label="가입 후 공개"></i><small>' + esc(x.ind) + '</small></span><span class="r"><b>' + x.b + '<i>점</i></b><span>적정 주가보다 ' + Math.round(x.mos) + '% 낮음</span></span></a>'; }).join('') +
+    '<div class="lock">회사 이름은 가입하면 바로 보입니다</div>';
+}
+$('#rk-tabs').addEventListener('click', function(e){ var b = e.target.closest('[data-rk]'); if(!b) return; RKM = b.dataset.rk; rk(); hit('rk-' + RKM); });
+function render(){ idx(); chips(); cards(); rkBuild(); rk(); }
 fetch('/c/000660-ks', { cache: 'no-cache' }).then(function(r){ return r.text(); }).then(function(h){
   var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
   var iv = /적정 주가 ([\d,]+)원/.exec(d), px = /현재가 ([\d,]+)원/.exec(d);

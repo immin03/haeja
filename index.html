@@ -4376,6 +4376,8 @@ function companyFromRow(r){
 /* 가입·로그인 직후: 기업 페이지에서 누른 회사를 관심 종목에 담고 그 회사를 연다 (3일 안의 의도만) */
 function wantApply(){
   if(store.isGuest || store.isDemo || !S.loaded.c || !(S2.screen || []).length) return;
+  let vt = null; try{ vt = JSON.parse(localStorage.getItem('vn-want-tab') || 'null'); localStorage.removeItem('vn-want-tab'); }catch(_){}
+  if(vt && Date.now() - (vt.at || 0) < 3 * 864e5){ S.tab = 'value'; S.vlSide = 'under'; if(VL_MKT.some(([k]) => k === vt.m)) S.vlMkt = vt.m; store.track('view', 'want-value'); render(); window.scrollTo(0, 0); }
   let w = null; try{ w = JSON.parse(localStorage.getItem('vn-want') || 'null'); localStorage.removeItem('vn-want'); }catch(_){}
   if(!w || !w.t || Date.now() - (w.at || 0) > 3 * 864e5) return;
   const c = S.companies.find(x => (x.yf || '').toUpperCase() === String(w.t).toUpperCase());
@@ -6045,6 +6047,9 @@ function refresh(kind){
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   /* 블로그·공개 페이지 배너에서 넘어오면 저평가·고평가 화면을 바로 연다: ?tab=value&mkt=KR */
   { const u = new URLSearchParams(location.search); if(u.get('tab') === 'value'){ S.tab = 'value'; S.vlSide = u.get('side') === 'over' ? 'over' : 'under'; const m = (u.get('mkt') || '').toUpperCase(); if(VL_MKT.some(([k]) => k === m)) S.vlMkt = m; store.track('view', 'from-link-value'); history.replaceState(null, '', location.pathname); } }
+  /* 소개 페이지 마지막 순위(?vt=시장): 가입 뒤 저평가 순위 화면을 그 시장으로 연다 */
+  { const u = new URLSearchParams(location.search); const vt = (u.get('vt') || '').toUpperCase();
+    if(vt){ try{ localStorage.setItem('vn-want-tab', JSON.stringify({ m: vt, at: Date.now() })); }catch(_){} } }
   /* 기업 공개 페이지의 알림 버튼(?watch=티커): 가입 뒤 그 회사를 관심 종목에 담도록 기억해 둔다 (카카오 왕복으로 주소가 사라져도 남게) */
   { const u = new URLSearchParams(location.search); const w = u.get('watch');
     if(w){ try{ localStorage.setItem('vn-want', JSON.stringify({ t: w, co: u.get('co') || '', q: u.get('q') || '', at: Date.now() })); }catch(_){}
