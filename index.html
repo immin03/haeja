@@ -29,6 +29,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
+<script>/* 소개 페이지에서 크롬·Safari로 넘어오면 같은 방문자로 이어서 센다 (?vsid=…&vref=…) */
+(function(){try{var p=new URLSearchParams(location.search),v=p.get('vsid'),r=p.get('vref');if(v&&/^[0-9a-z]{8,40}$/i.test(v))localStorage.setItem('vn-sid',v);if(r&&!localStorage.getItem('vn-ref'))localStorage.setItem('vn-ref',r.slice(0,100));if(v||r){p.delete('vsid');p.delete('vref');history.replaceState(null,'',location.pathname+(p.toString()?'?'+p:'')+location.hash);}}catch(e){}})();</script>
 <script>/* 처음 들어온 비회원은 소개 페이지(/start)부터. 로그인 기록·이전 방문 기록이 있거나, 특정 화면 링크·홈 화면 앱·로봇이면 그대로 앱 */
 (function(){try{var q=location.search,u=navigator.userAgent;if(!/^\/(index\.html)?$/.test(location.pathname)||location.hash)return;
 if(/[?&](login|signup|tab|co|test|import|staff|from|nostart|kakao)\b/.test(q))return;

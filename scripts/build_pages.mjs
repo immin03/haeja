@@ -422,13 +422,13 @@ for (const x of all) {
   if (!isNum(sc.iv) || sc.iv <= 0 || !isNum(r.px) || r.dataConf === 'low') continue;
   const R = r.px / sc.iv, pen = (sc.flags || []).filter((fl) => !WARN_FLAGS.has(fl)).length;
   if (!(R <= 0.75 && isNum(sc.q) && sc.q >= 50 && !pen)) continue;
-  (vt[grpOf(r.m)] = vt[grpOf(r.m)] || []).push({ R, b: R0(sc.b), ind: r.ind || r.s || '', n: r.n });
+  (vt[grpOf(r.m)] = vt[grpOf(r.m)] || []).push({ R, b: R0(sc.b), ind: r.ind || r.s || '', n: r.n, slug: x.slug });
 }
 const valueTop = {};
 for (const [m, L] of Object.entries(vt)) { L.sort((a, b) => a.R - b.R);
-  valueTop[m] = { n: L.length, top: L.slice(0, 5).map((y) => ({ b: y.b, ind: y.ind, low: Math.round((1 - y.R) * 100), up: Math.round((1 / y.R - 1) * 100) })) }; }
+  valueTop[m] = { n: L.length, top: L.slice(0, 5).map((y, i) => Object.assign({ b: y.b, ind: y.ind, low: Math.round((1 - y.R) * 100), up: Math.round((1 / y.R - 1) * 100) }, i === 0 ? { n: y.n, s: y.slug } : {})) }; }
 fs.writeFileSync(path.join(dir, 'value-top.json'), JSON.stringify({ date, m: valueTop }));
-// 확인용(이름 포함)은 저장하지 않는다: 이름은 가입 후에만 보인다
+// 이름은 시장별 1위만 소개 첫 화면 맛보기로 공개하고, 2위부터는 가입 후에만 보인다
 if (process.env.VT_DEBUG) console.log(JSON.stringify(Object.fromEntries(Object.entries(vt).map(([m, L]) => [m, L.slice(0, 5).map((y) => y.n + ' ' + Math.round((1 - y.R) * 100) + '%')]))));
 
 // 칼럼 정적 페이지·RSS (blog/ 아래 이미지 폴더는 건드리지 않는다)
