@@ -70,7 +70,10 @@ async function simulate(set, today) {
     const ttm = (day) => {
       const two = d.dv.filter((e) => e[0] > minusYear(minusYear(day)) && e[0] <= day);
       const freq = Math.max(1, Math.round(two.length / 2));
-      return two.slice(-freq).reduce((s, e) => s + e[1], 0);
+      const byFreq = two.slice(-freq).reduce((s, e) => s + e[1], 0);
+      const win = (days) => { const from = new Date(Date.parse(day) - days * 864e5).toISOString().slice(0, 10); return d.dv.filter((e) => e[0] > from && e[0] <= day).reduce((s, e) => s + e[1], 0); };
+      const c = [byFreq, win(365), win(350)].sort((a, b) => a - b);
+      return c[1]; // 세 방법의 중간값 (지급 횟수를 바꾼 해·지급일이 밀린 해에도 한쪽으로 튀지 않게)
     };
     const inc = [], val = [], cum = [], x = [];
     months.forEach((ym, i) => {
