@@ -148,9 +148,9 @@ section.st+section.st{border-top:1px solid var(--line)}
 @media (max-width:360px){.bk-big{font-size:32px}}
 .reveal.in .bk{animation:pop .5s ease-out both}
 .qs3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 18px}
-.qs3 div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 8px;text-align:center}
-.qs3 .n{display:flex;align-items:center;justify-content:center;width:40px;height:40px;margin:0 auto 10px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-weight:900;font-size:17px}
-.qs3 b{font-size:15px;line-height:1.4}
+.qs3 div{display:flex;flex-direction:column;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 6px 16px;text-align:center}
+.qs3 .n{display:flex;align-items:center;justify-content:center;flex:none;width:36px;height:36px;margin:0 0 12px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-weight:900;font-size:17px}
+.qs3 b{display:flex;align-items:center;justify-content:center;min-height:2.8em;font-size:15px;line-height:1.4;word-break:keep-all}
 .reveal.in .qs3 div{animation:pop .45s ease-out both}.reveal.in .qs3 div:nth-child(2){animation-delay:.12s}.reveal.in .qs3 div:nth-child(3){animation-delay:.24s}
 
 /* 03 점수 카드 */
@@ -314,8 +314,8 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
   </div>
   <p class="lead">그들은 주식을 사기 전에 늘 세 가지를 물었습니다.</p>
   <div class="qs3">
-    <div><span class="n">1</span><b>좋은 사업인가</b></div>
-    <div><span class="n">2</span><b>적정한 가격인가</b></div>
+    <div><span class="n">1</span><b>좋은<br>사업인가</b></div>
+    <div><span class="n">2</span><b>적정한<br>가격인가</b></div>
     <div><span class="n">3</span><b>10년 뒤에도<br>괜찮은가</b></div>
   </div>
   <div class="lesson">이 방식은 느려 보이지만, 가장 큰 결과를 남겼습니다.<br><b>밸류노트는 모든 기능을 이 방식으로 설계하고, 모든 기업을 이 방식으로 평가합니다.</b></div>
