@@ -52,7 +52,7 @@ const minusYear = (d) => `${Number(d.slice(0, 4)) - 1}${d.slice(4)}`;
 
 async function simulate(set, today) {
   const startYm = addMonths(today.slice(0, 7), -12 * YEARS);
-  const p1 = Math.floor(Date.parse(addMonths(startYm, -14) + '-01') / 1000), p2 = Math.floor(Date.now() / 1000) + 86400;
+  const p1 = Math.floor(Date.parse(addMonths(startYm, -26) + '-01') / 1000), p2 = Math.floor(Date.now() / 1000) + 86400;
   const money = set.money; // 만 원
   const months = [];
   for (let ym = startYm; ym <= today.slice(0, 7); ym = addMonths(ym, 1)) months.push(ym);
@@ -66,14 +66,8 @@ async function simulate(set, today) {
     if (!first || first[0] > monthEnd(startYm)) throw new Error(`${it.sym}: ${startYm} 주가 없음`);
     const buy = first[0], p0 = first[1];
     const shares = (money * 1e4) / (p0 * rate(buy));
-    // 1년 배당 = 최근 '1년에 주는 횟수'만큼의 배당 합 (지급일이 며칠 밀려 1년 창에 5번·3번 잡히는 들쭉날쭉을 없앤다)
-    const ttm = (day) => {
-      const past = d.dv.filter((e) => e[0] <= day);
-      const two = past.filter((e) => e[0] > minusYear(minusYear(day))).length;
-      const freq = Math.max(1, Math.min(12, Math.round(two / 2) || past.filter((e) => e[0] > minusYear(day)).length));
-      const recent = past.filter((e) => e[0] > minusYear(minusYear(day)));
-      return recent.slice(-freq).reduce((s, e) => s + e[1], 0);
-    };
+    // 1년 배당 = 최근 355일 동안 받은 배당 합 (지급일이 며칠 밀려 5번 잡히는 것을 줄이려 1년보다 조금 짧게)
+    const ttm = (day) => { const from = new Date(Date.parse(day) - 355 * 864e5).toISOString().slice(0, 10); return d.dv.filter((e) => e[0] > from && e[0] <= day).reduce((s, e) => s + e[1], 0); };
     const inc = [], val = [], cum = [], x = [];
     months.forEach((ym, i) => {
       const day = i === 0 ? buy : (i === months.length - 1 ? today : monthEnd(ym));
@@ -82,6 +76,9 @@ async function simulate(set, today) {
       val.push(shares * at(d.px, day) * rate(day) / 1e4);
       cum.push(d.dv.filter((e) => e[0] > buy && e[0] <= day).reduce((s, e) => s + shares * e[1] * rate(e[0]), 0) / 1e4);
     });
+    // 매달 받는 배당: 한두 달 튀는 값(지급일이 창 경계에 걸린 달)을 3개월 중앙값으로 다듬는다
+    const med = inc.map((_, i) => { const w = inc.slice(Math.max(0, i - 1), i + 2).slice().sort((a, b) => a - b); return w[Math.floor(w.length / 2)]; });
+    inc.splice(0, inc.length, ...med);
     const yStart = ttm(buy) / p0, last = at(d.px, today), yEnd = ttm(today) / last;
     const nDiv = d.dv.filter((e) => e[0] > buy).length;
     out.push({ ...it, buy, x, inc, val, cum, yStart, yEnd, growth: ttm(buy) > 0 ? ttm(today) / ttm(buy) : null, priceRet: last / p0 - 1, nDiv });
