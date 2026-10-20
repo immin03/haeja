@@ -1320,6 +1320,14 @@ function bellHtml(){
     <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 15.4A1 1 0 0 0 5.2 17h13.6a1 1 0 0 0 .9-1.6L18 12.6V9a6 6 0 0 0-6-6zm0 19a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22z" fill="currentColor"/></svg>
     ${n ? `<span class="bell-n num">${n > 9 ? '9+' : n}</span>` : ''}</button>`;
 }
+/* 앱을 켜 둔 채 오래 있다가 돌아오면(5분 이상) 새로 불러온다. 홈 화면 앱은 메모리에 남아 지난 화면·데이터를 그대로 보여 주기 때문 */
+(() => { let hidAt = 0;
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden){ hidAt = Date.now(); return; }
+    const el = document.activeElement, typing = el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) && el.value;
+    if(hidAt && Date.now() - hidAt > 5*60e3 && !typing) location.reload();
+  });
+})();
 function updateBell(){ const b = document.getElementById('bellSlot'); if(b) b.innerHTML = bellHtml(); }
 function agoText(iso){
   const t = Date.parse(iso); if(!t) return '';
