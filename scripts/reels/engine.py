@@ -1017,7 +1017,7 @@ def build_audio(scenes, total, mood, path):
 # ── 실행 ─────────────────────────────────────────────────────
 VERIFY = os.environ.get("REELS_VERIFY", "1") != "0"
 VLOG, LINT = [], []
-MAX_SEC = 40  # 2026-10-19 운영자: 유익하면 40초까지
+MAX_SEC = 60  # 2026-10-20 운영자: 정말 좋은 내용이면 50~60초도 괜찮다 (이전 40초)
 
 def render(spec, outdir, stills=None):
     from tts import speak
@@ -1027,7 +1027,7 @@ def render(spec, outdir, stills=None):
     broll_setup(spec, scenes)
     if _BR["key"]: print("  영상 배경:", _BR["key"])
     if total > MAX_SEC and not spec.get("allow_long"):
-        raise RuntimeError(f"{spec['id']}: {total:.1f}초 — 최대 {MAX_SEC}초를 넘습니다. 대본을 줄여야 합니다(목표 20초 안팎)")
+        raise RuntimeError(f"{spec['id']}: {total:.1f}초 — 최대 {MAX_SEC}초를 넘습니다. 이야기에 꼭 필요한 문장만 남기세요")
     if VERIFY:
         import verify
         for w in LINT: print("  ⚠", w)
