@@ -121,12 +121,12 @@ const ro = (w) => w + (batchim(w) && !/[ㄹ]$/.test(w) && !w.endsWith('일') ? '
 function won(v) { // 만 원 → "1억 5,300만 원" / "418만 원"
   v = Math.round(v);
   if (Math.abs(v) >= 10000) {
-    const e = Math.floor(v / 10000), m = Math.round((v % 10000) / 100) * 100;
+    const unit = v >= 100000 ? 1000 : 100; const r_ = Math.round(v / unit) * unit; const e = Math.floor(r_ / 10000), m = r_ % 10000; // 10억 이상은 1,000만 원 단위(막대 21.1억과 같게)
     return `${e}억` + (m ? ` ${m.toLocaleString('en-US')}만` : '') + ' 원';
   }
   return `${v.toLocaleString('en-US')}만 원`;
 }
-const wonBar = (v) => (Math.abs(v) >= 10000 ? `${(Math.round(v / 1000) / 10).toFixed(1).replace(/\.0$/, '')}억 원` : `${Math.round(v).toLocaleString('en-US')}만 원`);
+const wonBar = (v) => (Math.abs(v) >= 100000 ? `${(Math.round(v / 1000) / 10).toFixed(1).replace(/\.0$/, '')}억 원` : Math.abs(v) >= 10000 ? `${(Math.round(v / 100) / 100).toFixed(2).replace(/0$/, '').replace(/\.$/, '')}억 원` : `${Math.round(v).toLocaleString('en-US')}만 원`);
 const eok = (money) => `${money / 10000}억`;
 const pct = (x) => (Math.round(x * 1000) / 10).toFixed(1).replace(/\.0$/, '');
 const times = (x) => (Math.round(x * 10) / 10).toFixed(1).replace(/\.0$/, '');
