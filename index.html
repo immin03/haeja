@@ -1812,9 +1812,9 @@ const VN_TYPES = {
     ic:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 18 10 12l3.5 3.5L20 9M15 9h5v5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     rules:['적정 주가보다 30% 이상 싼 가격에서만 삽니다 (안전마진)','잘 아는 3~5개 회사에 모으고 오래 들고 갑니다','이익이 꾸준히 늘고 빚이 적은 회사만 봅니다'],
     cta:'이 기준에 맞는 회사 보기'},
-  income:{k:'income', n:'안전 배당형', st:'배당형', one:'매달 꾸준한 현금을 받고 싶다', ex:'예: 매달 배당 200만 원',
+  income:{k:'income', n:'안전 배당형', st:'배당형', one:'매달 꾸준한 현금을 받고 싶다', ex:'예: 20년 뒤 매달 배당 300만 원',
     ic:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><ellipse cx="12" cy="7" rx="7" ry="3" fill="none" stroke="#FFFFFF" stroke-width="2"/><path d="M5 7v5c0 1.7 3.1 3 7 3s7-1.3 7-3V7M5 12v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5" fill="none" stroke="#FFFFFF" stroke-width="2"/></svg>',
-    rules:['배당을 많이 주는 회사보다 오래, 꾸준히 늘려 온 회사를 먼저 봅니다','이익보다 많이 나눠 주는 회사는 거릅니다','한 회사·한 업종에 몰지 않고 나눠 담습니다'],
+    rules:['매달 같은 날, 같은 금액으로 배당을 오래 꾸준히 늘려 온 회사를 삽니다','목표에 닿기 전까지 받은 배당은 쓰지 않고 다시 사는 데 씁니다','이익보다 많이 나눠 주는 회사는 거르고, 한 회사·한 업종에 몰지 않습니다'],
     cta:'배당 기준에 맞는 회사 보기'},
   bold:{k:'bold', n:'공격 도전형', st:'공격형', one:'위험을 감수하더라도 큰 수익을 노리고 싶다', ex:'예: 1년에 2배를 노리는 종목',
     ic:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13 2 5 13.5h6L10 22l9-12h-6z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/></svg>',
@@ -1822,11 +1822,13 @@ const VN_TYPES = {
     cta:'버팀목이 될 회사 보기'},
 };
 const ONB_AMT = [[1000,'1천만 원'],[3000,'3천만 원'],[5000,'5천만 원'],[10000,'1억 원'],[30000,'3억 원'],[50000,'5억 원']];
-const ONB_MULT = [2,3,5,10], ONB_YRS = [5,10,20], ONB_MON = [50,100,200,300,500];
+const ONB_MULT = [2,3,5,10], ONB_YRS = [5,10,20], ONB_MON = [50,100,200,300,500], ONB_IY = [10,15,20,25,30];
+const ONB_IAMT = [[0,'아직 없음'],[500,'500만 원'],[1000,'1천만 원'],[3000,'3천만 원'],[5000,'5천만 원'],[10000,'1억 원']];
+const ACC_R = 0.08; /* 적립 기간 연 수익 가정: 배당 4% + 배당·주가 성장 4% */
 const DIV_YLD = 0.04, DIV_TAX = 0.154, IDX_R = 0.10;
 const invType = () => VN_TYPES[inv().type] || null;
 const invDone = () => !!(store.isDemo || store.isGuest || (!S.onbForce && inv().done && inv().type));
-const onbPlan = () => ({ amt:10000, mult:3, yrs:10, mon:200, ...(inv().plan || {}), ...(S.onbDraft || {}) });
+const onbPlan = () => ({ amt:10000, mult:3, yrs:10, mon:300, iamt:1000, iy:20, ...(inv().plan || {}), ...(S.onbDraft || {}) });
 /* 만 원 단위 금액을 읽기 쉬운 말로 */
 function manTxt(n){
   if(!isFinite(n)) return '–';
@@ -1846,12 +1848,22 @@ function onbCalc(k, p){
       note:lvl, cmp:`연 10%(미국 지수 평균)라면 ${p.yrs}년 뒤 ${manTxt(idx)}이 됩니다.`, share:`${manTxt(p.amt)} → ${p.yrs}년 뒤 ${manTxt(p.amt * p.mult)}` };
   }
   if(k === 'income'){
-    const need = p.mon * 12 / (1 - DIV_TAX) / DIV_YLD, now = p.amt * DIV_YLD * (1 - DIV_TAX) / 12;
-    const yrs = need > p.amt ? Math.ceil(Math.log(need / p.amt) / Math.log(1.08)) : 0;
-    return { lab:`세후 매달 ${manTxt(p.mon)}을 받으려면 필요한 투자금`, big:manTxt(need),
-      sub:`배당수익률 4%, 배당소득세 15.4%로 계산했습니다. 지금 ${manTxt(p.amt)}이면 매달 약 ${manTxt(now)}을 받습니다.`,
-      note: yrs ? `배당을 다시 넣어 연 8%씩 불린다고 가정하면 목표까지 약 ${yrs}년이 걸립니다.` : '지금 투자금으로 이미 목표에 닿습니다. 배당이 끊기지 않을 회사를 고르는 것이 핵심입니다.',
-      cmp:'', share:`세후 매달 ${manTxt(p.mon)} 받기` };
+    /* 목표: iy년 뒤 세후 월 배당 mon → 그때 필요한 자산 C → 지금 iamt에서 매달 P씩 적립(배당 재투자) */
+    const mi = Math.pow(1 + ACC_R, 1 / 12) - 1, A = p.iamt || 0, C = p.mon * 12 / (1 - DIV_TAX) / DIV_YLD;
+    const pmt = y => { const g = Math.pow(1 + mi, y * 12); return Math.max(0, (C - A * g) * mi / (g - 1)); };
+    const fv = (y, P) => { const g = Math.pow(1 + mi, y * 12); return A * g + P * (g - 1) / mi; };
+    const P = Math.ceil(pmt(p.iy)), mDiv = v => v * DIV_YLD * (1 - DIV_TAX) / 12;
+    const ts = [...new Set([Math.round(p.iy / 4), Math.round(p.iy / 2), Math.round(p.iy * 3 / 4), p.iy])].filter(t => t > 0);
+    const road = ts.map(t => ({ t, v: t === p.iy ? p.mon : mDiv(fv(t, P)) }));
+    const start = A ? `지금 ${manTxt(A)}에서 시작해` : '0원에서 시작해';
+    if(P <= 0) return { lab:`${p.iy}년 뒤 세후 매달 ${manTxt(p.mon)} 배당`, big:'추가 적립 없이', sub:`${start} 받은 배당을 다시 사는 데만 써도 목표에 닿습니다.`,
+      note:'배당이 끊기지 않을 회사를 고르는 것이 핵심입니다.', cmp:'', road, target:p.mon, share:`${p.iy}년 뒤 월 ${manTxt(p.mon)} 배당` };
+    const y2 = p.iy + 5, y3 = p.iy + 10;
+    return { lab:`${p.iy}년 뒤 세후 매달 ${manTxt(p.mon)} 배당을 받으려면`, big:'매달 ' + manTxt(P),
+      sub:`${start} 매달 ${manTxt(P)}씩 배당주를 사 모으고, 받은 배당은 쓰지 않고 다시 사는 데 씁니다.`,
+      note:`매달 ${manTxt(P)}이 부담된다면 기간을 늘리면 됩니다. ${y2}년이면 매달 ${manTxt(Math.ceil(pmt(y2)))}, ${y3}년이면 매달 ${manTxt(Math.ceil(pmt(y3)))}씩 모으면 같은 배당에 닿습니다.`,
+      cmp:'', road, target:p.mon, asm:'연 8%(배당 4% + 배당·주가 성장 4%)로 불어나고, 목표 시점 배당수익률 4%, 배당소득세 15.4%를 가정했습니다.',
+      share:`${p.iy}년 뒤 월 ${manTxt(p.mon)} 배당 → 매달 ${manTxt(P)} 적립`, card:`${A ? '지금 ' + manTxt(A) + '에서' : '0원에서'} 시작하는 적립식 배당 투자` };
   }
   return { lab:'도전 칸에 쓸 금액 (전체의 10%)', big:manTxt(p.amt * 0.1),
     sub:`나머지 ${manTxt(p.amt * 0.9)}은 기준을 통과한 회사와 현금으로 지킵니다.`,
@@ -1875,11 +1887,13 @@ function onboardHtml(){
   } else if(step === 1){
     const amtQ = T.k === 'income' ? '지금 투자금은 얼마인가요?' : T.k === 'bold' ? '전체 투자금은 얼마인가요?' : '지금 투자금은 얼마인가요?';
     body = `${onbHead(1)}<div class="eyebrow" style="color:var(--gold)">${esc(T.n)}</div>
-      <h2 class="intro-t">${T.k === 'value' ? '몇 년 안에 몇 배를 원하세요?' : T.k === 'income' ? '매달 얼마를 받고 싶으세요?' : '얼마로 도전하실 건가요?'}</h2>
+      <h2 class="intro-t">${T.k === 'value' ? '몇 년 안에 몇 배를 원하세요?' : T.k === 'income' ? '매달 얼마의 배당을 받고 싶으세요?' : '얼마로 도전하실 건가요?'}</h2>
       <p class="small muted" style="margin:0 0 14px">대략 골라도 괜찮습니다. 나중에 언제든 바꿀 수 있습니다.</p>
       <div class="inv-qs">
-        ${T.k === 'income' ? `<div class="inv-q"><b>세후 매달 받고 싶은 배당</b>${onbChips('mon', ONB_MON.map(v => [v, manTxt(v)]), p.mon, '월 배당')}</div>` : ''}
-        <div class="inv-q"><b>${amtQ}</b>${onbChips('amt', ONB_AMT, p.amt, '투자금')}</div>
+        ${T.k === 'income' ? `<div class="inv-q"><b>세후 매달 받고 싶은 배당</b>${onbChips('mon', ONB_MON.map(v => [v, manTxt(v)]), p.mon, '월 배당')}</div>
+          <div class="inv-q"><b>언제부터 받고 싶으세요?</b>${onbChips('iy', ONB_IY.map(v => [v, v + '년 뒤']), p.iy, '목표 시점')}</div>
+          <div class="inv-q"><b>지금 모아 둔 투자금</b>${onbChips('iamt', ONB_IAMT, p.iamt, '지금 투자금')}<small class="muted" style="display:block;margin-top:6px">적어도 괜찮습니다. 매달 얼마씩 모으면 되는지 계산해 드립니다.</small></div>`
+          : `<div class="inv-q"><b>${amtQ}</b>${onbChips('amt', ONB_AMT, p.amt, '투자금')}</div>`}
         ${T.k === 'value' ? `<div class="inv-q"><b>목표</b>${onbChips('mult', ONB_MULT.map(v => [v, v + '배']), p.mult, '목표 배수')}</div>
           <div class="inv-q"><b>기간</b>${onbChips('yrs', ONB_YRS.map(v => [v, v + '년']), p.yrs, '기간')}</div>` : ''}
       </div>
@@ -1891,17 +1905,18 @@ function onboardHtml(){
         <div class="onb-res-lab">${esc(R.lab)}</div><div class="onb-res-big num">${esc(R.big)}</div>
         <p class="onb-res-sub">${esc(R.sub)}</p>
       </div>
+      ${R.road ? `<div class="onb-road"><b>이렇게 늘어납니다 <span class="muted">(세후 월 배당)</span></b>${R.road.map(x => `<div class="onb-road-r${x.t === R.road[R.road.length - 1].t ? ' goal' : ''}"><span>${x.t}년 뒤</span><i><em style="width:${Math.max(4, Math.min(100, x.v / R.target * 100)).toFixed(0)}%"></em></i><b class="num">월 ${esc(manTxt(x.v))}</b></div>`).join('')}</div>` : ''}
       <p class="onb-note">${esc(R.note)}${R.cmp ? ' ' + esc(R.cmp) : ''}</p>
-      <div class="onb-rules"><b>이 유형이 지킬 원칙 3가지</b>${T.rules.map((r, i) => `<div><i class="num">${i + 1}</i><span>${esc(r)}</span></div>`).join('')}</div>
+      <div class="onb-rules"><b>${T.k === 'income' ? '이렇게 모아 가세요' : '이 유형이 지킬 원칙 3가지'}</b>${T.rules.map((r, i) => `<div><i class="num">${i + 1}</i><span>${esc(r)}</span></div>`).join('')}</div>
       <button type="button" class="btn primary onb-cta" data-onb="done">${esc(T.cta)}</button>
       <div class="onb-sub-acts"><button type="button" class="btn" data-onb-share>결과 카드 공유하기</button><button type="button" class="linkbtn" data-onb-step="1">‹ 목표 바꾸기</button></div>
-      <p class="small muted onb-disc">계산 예시이며 수익을 약속하지 않습니다. 회사 목록은 모든 이용자에게 같은 기준(워렌 버핏·그레이엄 방식)으로 계산한 결과이며 개별 종목 추천이 아닙니다.</p>`;
+      <p class="small muted onb-disc">${R.asm ? esc(R.asm) + ' ' : ''}계산 예시이며 수익을 약속하지 않습니다. 회사 목록은 모든 이용자에게 같은 기준(워렌 버핏·그레이엄 방식)으로 계산한 결과이며 개별 종목 추천이 아닙니다.</p>`;
   }
   return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="나의 투자 유형"><div class="intro-card">${body}</div></div>`;
 }
 function onbSave(extra){
   const T = VN_TYPES[S.onbType || inv().type]; if(!T) return;
-  const p = onbPlan(), plan = T.k === 'value' ? {amt:p.amt, mult:p.mult, yrs:p.yrs} : T.k === 'income' ? {amt:p.amt, mon:p.mon} : {amt:p.amt};
+  const p = onbPlan(), plan = T.k === 'value' ? {amt:p.amt, mult:p.mult, yrs:p.yrs} : T.k === 'income' ? {iamt:p.iamt, mon:p.mon, iy:p.iy} : {amt:p.amt};
   saveInv({ type:T.k, style:[T.n], plan, ...(extra || {}) });
 }
 function onbRerender(){ render(); const c2 = document.querySelector('.onb .intro-card'); if(c2) c2.scrollTop = 0; }
@@ -1945,18 +1960,19 @@ async function onbShare(){
     if(icon) ctx.drawImage(icon, (W - 132) / 2, 150, 132, 132);
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
     ctx.fillStyle = '#C9A45C'; ctx.font = `700 34px ${F}`; ctx.fillText('나의 투자 유형', W / 2, 380);
-    ctx.fillStyle = '#FFFFFF'; ctx.font = `800 120px ${F}`; ctx.fillText(T.n, W / 2, 530);
+    const fit = (txt, w, px, y) => { let sz = px; do { ctx.font = `${w} ${sz}px ${F}`; sz -= 4; } while(ctx.measureText(txt).width > W - 260 && sz > 40); ctx.fillText(txt, W / 2, y); };
+    ctx.fillStyle = '#FFFFFF'; fit(T.n, 800, 120, 530);
     ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.font = `500 40px ${F}`; ctx.fillText(T.one, W / 2, 610);
     /* 결과 박스 */
     ctx.fillStyle = 'rgba(255,255,255,.06)'; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(110, 690, W - 220, 470, 36) : ctx.rect(110, 690, W - 220, 470); ctx.fill();
     ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = `600 38px ${F}`; onbWrap(ctx, R.lab, W - 300).forEach((l, i) => ctx.fillText(l, W / 2, 790 + i * 50));
-    ctx.fillStyle = '#C9A45C'; ctx.font = `800 150px ${F}`; ctx.fillText(R.big, W / 2, 1000);
-    ctx.fillStyle = '#FFFFFF'; ctx.font = `600 40px ${F}`; ctx.fillText(R.share, W / 2, 1090);
+    ctx.fillStyle = '#C9A45C'; fit(R.big, 800, 150, 1000);
+    ctx.fillStyle = '#FFFFFF'; fit(R.card || R.share, 600, 40, 1090);
     /* 원칙 */
-    ctx.textAlign = 'left'; let y = 1290;
-    ctx.fillStyle = '#C9A45C'; ctx.font = `700 34px ${F}`; ctx.fillText('지킬 원칙', 130, y - 20); y += 50;
-    T.rules.forEach((r, i) => { ctx.fillStyle = '#C9A45C'; ctx.font = `800 38px ${F}`; ctx.fillText(String(i + 1), 130, y);
-      ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.font = `500 38px ${F}`; const L = onbWrap(ctx, r, W - 330); L.forEach((l, j) => ctx.fillText(l, 190, y + j * 52)); y += L.length * 52 + 30; });
+    ctx.textAlign = 'left'; let y = 1270;
+    ctx.fillStyle = '#C9A45C'; ctx.font = `700 34px ${F}`; ctx.fillText(T.k === 'income' ? '이렇게 모아 가세요' : '지킬 원칙', 130, y - 20); y += 50;
+    T.rules.forEach((r, i) => { ctx.fillStyle = '#C9A45C'; ctx.font = `800 36px ${F}`; ctx.fillText(String(i + 1), 130, y);
+      ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.font = `500 36px ${F}`; const L = onbWrap(ctx, r, W - 330); L.forEach((l, j) => ctx.fillText(l, 190, y + j * 48)); y += L.length * 48 + 26; });
     ctx.textAlign = 'center';
     ctx.fillStyle = '#FFFFFF'; ctx.font = `700 44px ${F}`; ctx.fillText('나에게 맞는 투자 유형 찾기', W / 2, 1720);
     ctx.fillStyle = '#C9A45C'; ctx.font = `700 40px ${F}`; ctx.fillText('밸류노트 · valuenote.co.kr', W / 2, 1782);
@@ -1964,7 +1980,7 @@ async function onbShare(){
     const blob = await new Promise(res => cv.toBlob(res, 'image/png'));
     const file = new File([blob], 'valuenote-type.png', {type:'image/png'});
     const url = 'https://www.valuenote.co.kr/start?utm_source=share&utm_campaign=type_' + T.k;
-    const text = `나는 ${T.n} 투자자. ${R.share} → ${R.lab} ${R.big}. 내 투자 유형도 찾아보세요`;
+    const text = `나는 ${T.n} 투자자. ${R.share}. 나에게 맞는 투자 유형도 찾아보세요`;
     store.track('engage', 'onb-share-' + T.k);
     if(navigator.canShare && navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file], text, url}); }catch(_){} }
     else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'valuenote-type.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
@@ -6988,6 +7004,11 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .onb-res-sub{font-size:13px;line-height:1.55;color:rgba(255,255,255,.85);margin:0}
 @keyframes onbPop{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
 .onb-note{font-size:14px;line-height:1.6;margin:14px 0 0}
+.onb-road{margin:16px 0 0;display:flex;flex-direction:column;gap:8px}.onb-road>b{font-size:13px;color:var(--muted);font-weight:700}
+.onb-road-r{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:10px;font-size:13.5px}.onb-road-r>span{color:var(--muted)}
+.onb-road-r i{height:10px;border-radius:6px;background:var(--line);overflow:hidden}.onb-road-r em{display:block;height:100%;border-radius:6px;background:var(--navy);animation:onbGrow .6s ease-out}
+.onb-road-r.goal em{background:var(--gold)}.onb-road-r.goal b{color:var(--gold)}
+@keyframes onbGrow{from{width:0}}
 .onb-rules{margin:14px 0 0;display:flex;flex-direction:column;gap:8px}.onb-rules>b{font-size:13px;color:var(--muted);font-weight:700}
 .onb-rules div{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5}.onb-rules i{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-style:normal;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
 .onb-cta{width:100%;margin-top:18px;padding:14px;font-size:16px;font-weight:700;border-radius:12px}
