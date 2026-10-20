@@ -83,8 +83,8 @@ async function simulate(set, today) {
       val.push(shares * at(d.px, day) * rate(day) / 1e4);
       cum.push(d.dv.filter((e) => e[0] > buy && e[0] <= day).reduce((s, e) => s + shares * e[1] * rate(e[0]), 0) / 1e4);
     });
-    // 매달 받는 배당: 한두 달 튀는 값(지급일이 창 경계에 걸린 달)을 3개월 중앙값으로 다듬는다
-    const med = inc.map((_, i) => { const w = inc.slice(Math.max(0, i - 1), i + 2).slice().sort((a, b) => a - b); return w[Math.floor(w.length / 2)]; });
+    // 매달 받는 배당: 한두 달 튀는 값(지급일이 창 경계에 걸린 달)을 5개월 중앙값으로 다듬는다 (야후 기록에서 배당 한 번이 빠지거나 겹친 달)
+    const med = inc.map((_, i) => { const w = inc.slice(Math.max(0, i - 2), i + 3).slice().sort((a, b) => a - b); return w[Math.floor(w.length / 2)]; });
     inc.splice(0, inc.length, ...med);
     const yStart = ttm(buy) / p0, last = at(d.px, today), yEnd = ttm(today) / last;
     const nDiv = d.dv.filter((e) => e[0] > buy).length;

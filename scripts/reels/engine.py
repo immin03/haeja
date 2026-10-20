@@ -814,7 +814,7 @@ def cover(spec, scenes):
     if sc["type"] == "screen":   # 앱 화면은 제목이 격자에서 잘리지 않게 60px 내리고(점 무늬 주기와 같음), 훅 문장 대신 제목만 쓴다
         shifted = background(T, 0.0); shifted.paste(img.crop((0, 0, W, H - 60)), (0, 60)); img = shifted; y0 = 1470
     else:
-        logo(ImageDraw.Draw(img), 316)
+        if sc["type"] != "race": logo(ImageDraw.Draw(img), 316)  # race는 맨 위에 '은퇴 N년 차' 제목이 있어 로고를 겹치지 않게 뺀다
         first = scenes[0]["sc"]; lines = first.get("lines") or [{"cap": first.get("cap")}]
         cap = lines[0].get("cap")
         if cap and sc["type"] not in NO_CAPTION: caption(img, .95, [[0, 1.0, cap]])  # 훅 문장을 다 드러난 상태로
