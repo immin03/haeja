@@ -1723,7 +1723,7 @@ const pct = (v, d=1) => isNum(v) ? (v>0?'+':'')+fmt(v,d)+'%' : '–';
 const today = () => new Date(Date.now() + 9*3600e3).toISOString().slice(0,10);
 function setPath(o, p, v){ const ks = p.split('.'); let t = o; ks.slice(0,-1).forEach(k => { if(typeof t[k] !== 'object' || t[k] === null) t[k] = {}; t = t[k]; }); t[ks.at(-1)] = v; }
 function getPath(o, p){ return p.split('.').reduce((a,k) => a == null ? undefined : a[k], o); }
-function setSave(t){ const el = $('#saveState'); if(!el) return; if(store.isGuest && t === '저장됨') return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }
+function setSave(t){ const el = $('#saveState'); if(!el) return; if(store.isGuest && t === '저장됨') return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : t.length > 12 ? 3500 : 1400); }
 
 /* ============ 심사 엔진 ============ */
 function newCompany(){
@@ -5545,6 +5545,16 @@ function fillFromScreen(c, sr){
   c.ai = {...(c.ai||{}), filled:[...Object.keys(c.fin), ...Object.keys(c.val)]};
   return c;
 }
+/* 보유 종목을 등록하면 바로 심사한다: 600+ 기업 목록에 있으면 숫자를 채운 심사 기록을 만들어 연결 (분석 횟수 차감 없음) */
+async function autoReview(h, hid){
+  if(!h || (h.kind && h.kind !== 'stock') || store.isGuest || store.isDemo) return null;
+  const have = companyFor(h); if(have){ if(h.companyId !== have.id) await store.set('holdings', hid, {...h, companyId: have.id}); return have; }
+  const sr = screenFor(h); if(!sr) return null;
+  const c = fillFromScreen({id:uid(), ...newCompany(), name:h.name || sr.n, ticker:h.ticker, market:h.market, kind:'stock'}, sr);
+  S.companies.push(c); queueSave(c);
+  await store.set('holdings', hid, {...h, ticker: h.ticker || sr.code || sr.t, market: mktKR(sr.m) || h.market, companyId: c.id});
+  return c;
+}
 /* 예전에 티커 없이 등록해 숫자가 비어 있는 보유 종목·심사 기록을 바로잡는다 (한 번만, 본인 데이터만) */
 let healDone = false;
 async function healLinks(){
@@ -5560,6 +5570,7 @@ async function healLinks(){
     const sr = screenFor(c); if(!sr) continue;
     fillFromScreen(c, sr); queueSave(c);
   }
+  for(const h of S.holdings || []){ if((h.kind || 'stock') !== 'stock' || companyFor(h)) continue; try{ await autoReview(h, h.id); }catch(_){} }
 }
 function filteredRows(){
   let rows = scoredRows();
@@ -5920,6 +5931,8 @@ document.addEventListener('click', async e => {
   if(act === 'open-co'){ S.curId = id; S.tab = 'analyze'; render(); updateEval(); window.scrollTo(0,0); }
   if(act === 'hold-analyze'){
     const h = S.holdings.find(x => x.id === id); const sr = screenFor(h);
+    /* 기본 목록에 없는 종목: 빈 심사 기록 대신 '목록에 없는 종목 바로 분석'으로 보내 재무제표까지 계산한다 */
+    if(!sr && azOn() && h.kind === 'stock'){ S.tab = 'companies'; render(); window.scrollTo(0,0); azSearch((h.ticker || h.name || '').trim()); setTimeout(() => document.getElementById('azBox')?.scrollIntoView({block:'center'}), 80); return; }
     const c = {id:uid(), ...newCompany(), name:h.name, ticker:h.ticker, market:h.market, price:h.price, kind:h.kind};
     if(sr) fillFromScreen(c, sr);
     S.companies.push(c); S.curId = c.id; queueSave(c);
@@ -5967,7 +5980,9 @@ document.addEventListener('click', async e => {
     if(!body.name){ $('#h-msg').textContent = '종목명을 입력하세요.'; return; }
     if(!body.ticker && body.kind === 'stock'){ const sr = screenFor(body); if(sr){ body.ticker = sr.code || sr.t; body.market = mktKR(sr.m) || body.market; body.currency = curOf(body.market); } }
     const hid = h.id || uid(); delete body.id;
-    try{ await store.set('holdings', hid, body); S.editHold = null; setSave('저장됨'); render(); }catch(err){ $('#h-msg').textContent = '저장하지 못했습니다: '+(err.code||err.message); }
+    try{ await store.set('holdings', hid, body); S.editHold = null;
+      let c = null; try{ c = await autoReview(body, hid); }catch(_){}
+      setSave(c ? `저장하고 심사까지 마쳤습니다 · ${evaluate(c).verdict}` : body.kind === 'stock' && !companyFor(body) ? '저장됨 · 기본 목록에 없는 종목은 "심사 시작"으로 분석할 수 있습니다' : '저장됨'); render(); }catch(err){ $('#h-msg').textContent = '저장하지 못했습니다: '+(err.code||err.message); }
   }
   if(act === 'hold-del'){
     if(a.dataset.confirm !== '1'){ a.dataset.confirm = '1'; a.textContent = '한 번 더 누르면 삭제'; return; }
