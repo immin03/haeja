@@ -172,7 +172,7 @@ function faqItems(x, date) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {};
   const out = [];
   if (isNum(sc.iv) && sc.iv > 0) {
-    let a = `그레이엄·버핏·멍거의 방식으로 과거 평균 이익·주주 이익과 자산 가치를 바탕으로 계산한 ${r.n}의 적정 주가는 ${money(sc.iv, cur)}입니다.`;
+    let a = `그레이엄·워렌 버핏·찰리 멍거의 방식으로 과거 평균 이익·주주 이익과 자산 가치를 바탕으로 계산한 ${r.n}의 적정 주가는 ${money(sc.iv, cur)}입니다.`;
     if (isNum(r.px)) a += isNum(sc.mos) && r.px / sc.iv < 2 ? ` ${date} 기준 현재가(${money(r.px, cur)})는 적정 주가보다 ${gapTxt(sc.mos)} 수준입니다.` : ` ${date} 기준 현재가(${money(r.px, cur)})는 적정 주가의 ${n0(r.px / sc.iv, 1)}배입니다.`;
     a += ' 공식에 따른 추정치이며 미래 주가를 보장하지 않습니다.';
     out.push([`${r.n} 적정 주가는 얼마인가요?`, a]);
@@ -188,7 +188,7 @@ function faqItems(x, date) {
   if (isNum(sc.pbr)) bits.push(`PBR ${n0(sc.pbr, 2)}배`);
   if (isNum(f.roeAvg)) bits.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
   if (bits.length) out.push([`${r.n} PER·PBR·ROE는?`, `${date} 기준 ${bits.join(', ')}입니다. PER은 낮을수록 이익 대비 싸고, ROE는 꾸준히 높을수록 자본을 잘 굴리는 회사입니다. 한 해 숫자보다 여러 해 평균을 보는 것이 안전합니다.`]);
-  out.push(['밸류노트 점수는 어떻게 계산하나요?', '밸류노트 점수는 숫자 점수 65%, 정성 평가 20%, 트렌드 15%를 합친 값입니다. 숫자 점수는 ROE·이익률·현금흐름 등 13개 지표로 본 재무 점수 40%와 적정 주가 대비 할인율로 본 저평가 점수 60%로 계산하고, 잦은 적자·과도한 빚·잦은 증자 같은 위험 신호는 감점합니다. 정성 평가는 그레이엄·버핏·멍거의 질문으로 사업 자체를 따져 본 결과이며, 모든 사용자에게 같은 값을 보여 줍니다. 이 방식은 버크셔 해서웨이의 실제 매수 62건으로 검증했습니다.']);
+  out.push(['밸류노트 점수는 어떻게 계산하나요?', '밸류노트 점수는 숫자 점수 65%, 정성 평가 20%, 트렌드 15%를 합친 값입니다. 숫자 점수는 ROE·이익률·현금흐름 등 13개 지표로 본 재무 점수 40%와 적정 주가 대비 할인율로 본 저평가 점수 60%로 계산하고, 잦은 적자·과도한 빚·잦은 증자 같은 위험 신호는 감점합니다. 정성 평가는 그레이엄·워렌 버핏·찰리 멍거의 질문으로 사업 자체를 따져 본 결과이며, 모든 사용자에게 같은 값을 보여 줍니다. 이 방식은 버크셔 해서웨이의 실제 매수 62건으로 검증했습니다.']);
   return out;
 }
 
@@ -203,7 +203,7 @@ function companyPage(x, peers, date) {
   const title = `${r.n} 적정 주가 ${hasIv ? money(sc.iv, cur) + ' · ' : ''}가치투자 점수 ${isNum(b) ? b + '점' : ''} | 밸류노트`;
   const desc = `${r.n}(${code}) 적정 주가와 밸류노트 점수 ${isNum(b) ? b + '점' : '계산 불가'}(재무 점수 ${sc.q ?? '–'}점, 저평가 ${sc.v ?? '–'}점${isNum(sc.qualScore) ? `, 정성 평가 ${sc.qualScore}점` : ''}).` +
     (hasIv && isNum(r.px) ? ` 현재가 ${money(r.px, cur)}, 적정 주가 ${money(sc.iv, cur)}.` : '') +
-    (isNum(sc.per) ? ` PER ${n0(sc.per, 1)}배` : '') + (isNum(f.roeAvg) ? `, 5년 평균 ROE ${n0(f.roeAvg, 1)}%.` : '.') + ` 그레이엄·버핏 기준으로 매일 계산합니다.`;
+    (isNum(sc.per) ? ` PER ${n0(sc.per, 1)}배` : '') + (isNum(f.roeAvg) ? `, 5년 평균 ROE ${n0(f.roeAvg, 1)}%.` : '.') + ` 그레이엄·워렌 버핏 기준으로 매일 계산합니다.`;
   const sum = summary(r, sc);
   const faq = faqItems(x, date);
   const rowsM = [
@@ -243,7 +243,7 @@ function companyPage(x, peers, date) {
     : `<b>내 종목은 몇 점일까요?</b><span>보유 종목을 같은 기준으로 채점해 드려요</span>`;
   const wbar = hasIv && isNum(r.px) ? `<div class="wbar" id="wbar"><div class="in"><div class="t">${wtxt}</div><div style="text-align:center"><a class="k" href="/?kakao=1&${wq}&utm_source=${below ? 'c-wbar-below' : near ? 'c-wbar' : 'c-wbar-score'}"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>${below ? '카카오로 담기' : near ? '카카오로 알림' : '카카오로 3초'}</a><a class="e" href="/?signup&${wq}&utm_source=c-wbar-email">이메일로 가입</a></div></div></div>
 <script>(function(){var b=document.getElementById('wbar');if(!b)return;document.body.classList.add('has-wbar');function f(){b.classList.toggle('on',scrollY>innerHeight*.35)}addEventListener('scroll',f,{passive:true});f();})();</script>` : '';
-  const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasIv && isNum(sc.mos) && isNum(r.px) && r.px / sc.iv < 2 ? ` · 적정 주가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·버핏 기준으로 본 숫자';
+  const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasIv && isNum(sc.mos) && isNum(r.px) && r.px / sc.iv < 2 ? ` · 적정 주가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·워렌 버핏 기준으로 본 숫자';
   return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)}</div>
 <section class="card hero"><h1>${esc(r.n)} 적정 주가와 가치투자 점수</h1><div class="sub">${esc(code)} · ${MKT[g]}${r.en ? ' · ' + esc(r.en) : ''}${r.ind ? ' · ' + esc(r.ind) : ''}</div>
@@ -258,7 +258,7 @@ ${near ? `<a class="alert" href="${alertLink}"><b>${esc(josa(r.n, '이', '가'))
 ${sum.length ? `<section class="card"><h2>한 줄씩 읽기</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}</section>` : ''}
 ${pens.length || warns.length ? `<section class="card"><h2>감점·경고 신호</h2>${pens.map((fl) => `<div class="flag"><span class="pill p-pen">감점 −8</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}${warns.map((fl) => `<div class="flag"><span class="pill ${fl === '중국 본토 규제' ? 'p-pen' : 'p-warn'}">${fl === '중국 본토 규제' ? '할인 −6' : '경고'}</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}</section>` : ''}
 ${rowsM.length ? `<section class="card"><h2>핵심 숫자</h2><table>${rowsM.map((m) => `<tr><td>${m[0]}${m[2] ? `<div class="note">${m[2]}</div>` : ''}</td><td class="n">${m[1]}</td></tr>`).join('')}</table></section>` : ''}
-<a class="cta" href="${appLink}">밸류노트에서 ${esc(r.n)} 자세히 보기<small>적정 주가 알림 · 내 포트폴리오 점수 · 멍거의 질문 체크</small></a>
+<a class="cta" href="${appLink}">밸류노트에서 ${esc(r.n)} 자세히 보기<small>적정 주가 알림 · 내 포트폴리오 점수 · 찰리 멍거의 질문 체크</small></a>
 <section class="card faq"><h2>자주 묻는 질문</h2>${faq.map(([q, a], i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</section>
 ${peers.length ? `<section class="card peers"><h2>같은 업종의 다른 회사</h2>${peers.map((p) => `<a href="/c/${p.slug}"><span>${esc(p.r.n)} <span class="note">${MKT[grpOf(p.r.m)]}</span></span><b>${p.sc.b ?? '–'}점</b></a>`).join('')}</section>` : ''}
 </main>${FOOT(date)}${wbar}${SHARE_JS}${TRACK('/c/' + x.slug)}</body></html>`;
@@ -281,11 +281,11 @@ const SHOW_TO = 8; // 4~8위만 이름 공개
 function indexPage(all, date) {
   const url = `${SITE}/c/`;
   const by = Object.fromEntries(MKT_ORDER.map((m) => [m, all.filter((x) => grpOf(x.r.m) === m)]));
-  const title = `기업 ${all.length}곳의 적정 주가와 밸류노트 점수 · 그레이엄·버핏 기준 | 밸류노트`;
+  const title = `기업 ${all.length}곳의 적정 주가와 밸류노트 점수 · 그레이엄·워렌 버핏 기준 | 밸류노트`;
   const desc = `국내·미국·일본·홍콩·중국 ${all.length}개 기업의 적정 주가와 밸류노트 점수를 같은 기준(재무 점수·가격 점수·감점 신호)으로 매일 계산합니다. 회사 이름을 눌러 확인하세요.`;
   const ld = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, url, dateModified: date, inLanguage: 'ko-KR' };
   return head({ title, desc, url, ld, type: 'website' }) + `<main>
-<h1>기업 ${all.length}곳의 적정 주가와 점수</h1><p class="sub">그레이엄·버핏·멍거의 기준을 숫자로 옮겨, 5개 시장의 기업을 같은 잣대로 매일 다시 계산합니다. 회사 이름을 누르면 적정 주가와 점수를 볼 수 있습니다.</p>
+<h1>기업 ${all.length}곳의 적정 주가와 점수</h1><p class="sub">그레이엄·워렌 버핏·찰리 멍거의 기준을 숫자로 옮겨, 5개 시장의 기업을 같은 잣대로 매일 다시 계산합니다. 회사 이름을 누르면 적정 주가와 점수를 볼 수 있습니다.</p>
 <div class="mlinks">${MKT_ORDER.map((m) => `<a href="/c/${MSLUG[m]}">${MKT[m]} 저평가 순위<small>${by[m].length}곳 중 기준 통과 ${by[m].filter(isBargain).length}곳</small></a>`).join('')}<a href="/blog/">칼럼<small>매주 시장·거장의 투자</small></a></div>
 ${MKT_ORDER.map((m) => `<section class="card list" id="${m}"><h2>${MKT[m]} ${by[m].length}곳 <span class="note">(가나다순)</span></h2>${nameList(by[m])}</section>`).join('')}
 <a class="cta" href="${appValue('ALL', 'c-index')}">밸류노트에서 저평가 순위 전체 보기<small>가입은 이메일만으로 10초 · 관심 종목 적정 매수가 알림</small></a>
@@ -313,7 +313,7 @@ function marketPage(m, list, date) {
     : `<tr><td><a href="/c/${x.slug}">${esc(x.r.n)}</a><div class="s">${esc(x.r.ind || x.r.s || '')}</div></td><td class="n">${x.sc.b}점</td></tr>`).join('');
   return head({ title, desc, url, ld, type: 'website' }) + `<main>
 <div class="crumb"><a href="/c/">기업 점수</a> › ${MKT[m]}</div>
-<section class="card hero"><h1>${MKT_LONG[m]} 저평가 우량주 순위</h1><p class="sub" style="margin-top:6px">${list.length}곳을 그레이엄·버핏 기준으로 매일 다시 계산합니다. 적정 주가보다 30% 이상 낮으면 저평가가 크다고 봅니다.</p>
+<section class="card hero"><h1>${MKT_LONG[m]} 저평가 우량주 순위</h1><p class="sub" style="margin-top:6px">${list.length}곳을 그레이엄·워렌 버핏 기준으로 매일 다시 계산합니다. 적정 주가보다 30% 이상 낮으면 저평가가 크다고 봅니다.</p>
 <div class="share"><button type="button" data-sh="m" data-u="${url}" data-t="${esc(shareText)}">이 순위 공유하기</button></div></section>
 <section class="card list"><h2>적정 주가보다 30% 이상 저평가된 좋은 회사는 ${bar.length}곳입니다</h2>${bar.length ? `<table><tr><th>회사</th><th style="text-align:right">적정 주가 대비</th></tr>${barRows}</table>
 ${bar.length > SHOW_TO ? `<a class="alert" href="${appValue(m, 'c-' + MSLUG[m] + '-more')}"><b>나머지 ${bar.length - SHOW_TO}곳과 1~3위는 밸류노트에서 볼 수 있습니다</b><span>전체 보기 ›</span></a>` : ''}` : '<p class="note">오늘은 이 기준을 통과한 회사가 없습니다. 좋은 회사의 가격이 내려올 때까지 기다리는 날입니다.</p>'}
@@ -366,7 +366,7 @@ ${others.length ? `<section class="card peers"><h2>다른 칼럼</h2>${others.ma
 function blogIndex(cols, date) {
   const url = `${SITE}/blog/`;
   const title = '밸류노트 칼럼 · 주간 시장과 거장의 투자';
-  const desc = '매주 시장·금리·환율 흐름과 버핏·그레이엄·멍거의 투자를 숫자로 정리하는 밸류노트 칼럼입니다.';
+  const desc = '매주 시장·금리·환율 흐름과 워렌 버핏·그레이엄·찰리 멍거의 투자를 숫자로 정리하는 밸류노트 칼럼입니다.';
   return head({ title, desc, url, type: 'website', src: 'blog', rss: true, ld: { '@context': 'https://schema.org', '@type': 'Blog', name: title, url, inLanguage: 'ko-KR' } }) + `<main>
 <h1>칼럼</h1><p class="sub">${esc(desc)}</p>
 <section class="card peers">${cols.map((c) => `<a href="/blog/${c.id}"><span><b style="color:var(--ink)">${esc(c.title)}</b><span class="note" style="display:block">${esc(COL_SERIES[c.series || 'weekly'])} · ${esc(colDateK(c))}</span></span></a>`).join('')}</section>

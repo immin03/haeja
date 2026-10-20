@@ -67,13 +67,13 @@ function score(r) { const sc = scoreRow(r, null, 30); const v = VN ? VN(r, sc) :
 function angle(r, sc) {
   const pens = (sc.flags || []).filter((f) => !WARN_FLAGS.has(f));
   const { q, v, b } = sc;
-  if (b >= 70 && !pens.length) return { k: 'pass', t: `${r.n},\n버핏 기준 **${b}점**`, s: '품질과 가격이 함께\n기준(70점)을 넘은 드문 경우입니다.' };
+  if (b >= 70 && !pens.length) return { k: 'pass', t: `${r.n},\n워렌 버핏 기준 **${b}점**`, s: '품질과 가격이 함께\n기준(70점)을 넘은 드문 경우입니다.' };
   if (q >= 80 && v < 35) return { k: 'pricey', t: `${r.n},\n품질 **${q}점**인데\n종합은 ${b}점`, s: '좋은 회사와 좋은 가격은\n다른 이야기입니다.' };
   const ratio = isNum(sc.iv) && sc.iv > 0 && isNum(r.px) ? r.px / sc.iv : null;
   if (ratio && ratio >= 1.5) return { k: 'over', t: `${r.n},\n지금 가격은\n적정 주가의 **${n0(ratio, 1)}배**`, s: `재무 점수는 ${q}점.\n그런데 왜 종합은 ${b}점일까요?` };
   if (v >= 60 && q < 50) return { k: 'trap', t: `${r.n},\n싸 보이는데\n왜 **${b}점**일까`, s: '가격 점수는 높지만\n이익의 질이 따라오지 못합니다.' };
   if (pens.length) return { k: 'flag', t: `${r.n},\n감점 신호 **${pens.length}개**`, s: `${pens.join(', ')}.\n신호 하나에 8점씩 깎입니다.` };
-  return { k: 'plain', t: `${r.n}의\n버핏 점수는 **${b}점**`, s: `재무 점수 ${q}점, 저평가 ${v}점.\n어디서 점수가 갈렸는지 보겠습니다.` };
+  return { k: 'plain', t: `${r.n}의\n워렌 버핏 점수는 **${b}점**`, s: `재무 점수 ${q}점, 저평가 ${v}점.\n어디서 점수가 갈렸는지 보겠습니다.` };
 }
 
 // 먼저 많이 아는 회사부터 (시장별 순서). 다 쓰면 점수가 극단적인 회사로 넘어간다.
@@ -426,13 +426,13 @@ function sayMoney(v, cur) {
   const unit = { USD: '달러', JPY: '엔', HKD: '홍콩달러', CNY: '위안' }[cur] || '';
   return `${Math.round(v)} ${unit}`;
 }
-// 적정 주가는 밸류노트의 의견이 아니라 버핏·그레이엄이 쓴 계산법을 그대로 적용한 값임을 밝힌다 (사장님 지시 2026-10-18)
-const FAIR_B = { type: 'statement', l1: '버핏의 계산법', l2: '앞으로 남을 현금의 가치', tone: 'gold', note: '주주에게 남는 현금(오너 이익)을 연 10%로 할인',
-  say: '버핏은 앞으로 남을 현금을, 지금 가치로 바꿔 계산합니다.' };
+// 적정 주가는 밸류노트의 의견이 아니라 워렌 버핏·그레이엄이 쓴 계산법을 그대로 적용한 값임을 밝힌다 (사장님 지시 2026-10-18)
+const FAIR_B = { type: 'statement', l1: '워렌 버핏의 계산법', l2: '앞으로 남을 현금의 가치', tone: 'gold', note: '주주에게 남는 현금(오너 이익)을 연 10%로 할인',
+  say: '워렌 버핏은 앞으로 남을 현금을, 지금 가치로 바꿔 계산합니다.' };
 const FAIR_G = { type: 'statement', l1: '그레이엄의 계산법', l2: '이익과 자산으로 계산', tone: 'gold', note: '은행·보험처럼 현금 계산이 맞지 않는 회사에 씁니다',
-  say: '버핏의 스승 그레이엄은, 회사의 이익과 자산으로 계산합니다.' };
-const FAIR_BG = { type: 'statement', l1: '버핏·그레이엄의 계산법', l2: '앞으로 남을 이익의 가치', tone: 'gold', note: '밸류노트의 의견이 아니라 그들의 계산 방식입니다',
-  say: '버핏과 그레이엄의 방식으로 계산했습니다.' };
+  say: '워렌 버핏의 스승 그레이엄은, 회사의 이익과 자산으로 계산합니다.' };
+const FAIR_BG = { type: 'statement', l1: '워렌 버핏·그레이엄의 계산법', l2: '앞으로 남을 이익의 가치', tone: 'gold', note: '밸류노트의 의견이 아니라 그들의 계산 방식입니다',
+  say: '워렌 버핏과 그레이엄의 방식으로 계산했습니다.' };
 // 계산이 늘 맞지는 않는다는 점도 밝힌다: 버크셔도 이 방식으로는 비싸 보이는 알파벳을 2025년부터 샀다 (2025년 3분기 13F 공시)
 const LIMIT_OVER = { type: 'statement', l1: '물론 늘 맞지는 않습니다', l2: '버크셔도 구글을 샀습니다', tone: 'ivory', note: '1등 프리미엄은 계산에 넣지 않습니다',
   say: '물론 늘 맞지는 않습니다. 버크셔도 비싸 보이던 구글을 샀습니다.' };
@@ -440,7 +440,7 @@ const LIMIT_UNDER = { type: 'statement', l1: '물론 늘 맞지는 않습니다'
   say: '물론 늘 맞지는 않습니다. 싼 데는 이유가 있을 수 있습니다.' };
 const METHOD_CAP = (g) => g
   ? '적정 주가는 벤저민 그레이엄의 계산법(이익과 자산을 함께 보는 그레이엄 공식)으로 계산한 1주당 가치입니다. 은행·보험처럼 현금흐름 계산이 맞지 않는 회사에 씁니다. 밸류노트의 의견이나 매수·매도 추천이 아닙니다.'
-  : '적정 주가는 워런 버핏이 설명한 계산법으로 구한 1주당 가치입니다. 앞으로 주주에게 남을 현금(오너 이익)을 연 10%로 할인해 지금 가치로 바꿉니다. 밸류노트의 의견이나 매수·매도 추천이 아닙니다.';
+  : '적정 주가는 워렌 버핏이 설명한 계산법으로 구한 1주당 가치입니다. 앞으로 주주에게 남을 현금(오너 이익)을 연 10%로 할인해 지금 가치로 바꿉니다. 밸류노트의 의견이나 매수·매도 추천이 아닙니다.';
 const LIMIT_CAP = '이 계산이 늘 맞지는 않습니다. 세계 1위라는 프리미엄이나 앞으로의 신사업 가치는 계산에 넣지 않기 때문입니다. 실제로 버크셔 해서웨이도 2025년부터 이 방식으로는 비싸 보이는 알파벳(구글) 주식을 사들였습니다. 숫자는 판단의 출발점으로 봐 주세요.';
 const pct1 = (v) => +Math.abs(v).toFixed(1);
 // 대본 규칙(scripts/reels/README.md): 한 줄 = 완결된 한 문장, 자막과 음성은 같은 문장, 낯선 말은 처음 나올 때 뜻을 말한다.
@@ -459,7 +459,7 @@ function expect(r, sc) {
 }
 const realWord = (v) => v >= 0 ? `매년 ${pct1(v)}%씩 늘었습니다` : `매년 ${pct1(v)}%씩 줄었습니다`;
 const sayPct = (v) => { const a = pct1(v), [i, f] = String(a).split('.'); return f ? `${sino(+i)} 점 ${f.split('').map((c) => DIG[+c]).join(' ')} 퍼센트` : `${sino(+i)} 퍼센트`; };
-const CTA_SCORE = { type: 'cta', l1: '버핏 기준 점수는', l2: '밸류노트에서', say: '버핏 기준으로 본 점수와 적정 주가는, 밸류노트에서 확인하세요.' };
+const CTA_SCORE = { type: 'cta', l1: '워렌 버핏 기준 점수는', l2: '밸류노트에서', say: '워렌 버핏 기준으로 본 점수와 적정 주가는, 밸류노트에서 확인하세요.' };
 const NOT_ADVICE = '기대가 실제보다 높다고 꼭 비싼 것도, 낮다고 꼭 싼 것도 아닙니다. 판단은 각자의 몫이며 밸류노트의 의견이나 매수·매도 추천이 아닙니다.';
 function reelCompany(x) {
   const { r, sc } = x, cur = r.cur || 'KRW', X = expect(r, sc);
@@ -487,17 +487,17 @@ function reelCompany(x) {
   const name = r.n.replace(/\s+/g, '');
   const cap = (e >= 0 ? `${r.n}의 지금 주가(${money(r.px, cur)})가 맞으려면 앞으로 10년간 이익이 매년 ${pct1(e)}%씩 늘어야 합니다.` : `${r.n}의 지금 주가(${money(r.px, cur)})는 앞으로 10년간 이익이 매년 ${pct1(e)}%씩 줄어든다고 보는 가격입니다.`)
     + ` 지난 ${yrs}년 동안 주당순이익은 실제로 ${realWord(h)}.\n\n`
-    + `이 숫자는 지금 주가를 거꾸로 계산해, 시장이 이 회사에 어떤 성장을 기대하고 있는지 꺼낸 것입니다. 주주에게 남는 현금을 연 ${X.disc}%로 할인하는 버핏의 계산법을 거꾸로 적용했습니다.\n\n`
+    + `이 숫자는 지금 주가를 거꾸로 계산해, 시장이 이 회사에 어떤 성장을 기대하고 있는지 꺼낸 것입니다. 주주에게 남는 현금을 연 ${X.disc}%로 할인하는 워렌 버핏의 계산법을 거꾸로 적용했습니다.\n\n`
     + (k === 'ahead' ? '기대가 실제보다 높다는 것은 앞으로 실적이 지금보다 훨씬 빨라져야 지금 주가가 설명된다는 뜻입니다. 1등 프리미엄이나 신사업처럼 숫자에 아직 잡히지 않은 가치가 있을 수도 있습니다.\n\n'
       : k === 'behind' ? '기대가 실제보다 낮다는 것은 시장이 앞으로 실적이 꺾일 것으로 본다는 뜻입니다. 시장이 지나치게 비관적일 수도 있고, 숫자에 아직 드러나지 않은 이유가 있을 수도 있습니다.\n\n' : '')
-    + NOT_ADVICE + `\n\n버핏·그레이엄 기준으로 본 점수와 적정 주가는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.`;
+    + NOT_ADVICE + `\n\n워렌 버핏·그레이엄 기준으로 본 점수와 적정 주가는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.`;
   return { title: `${r.n} 주가에 담긴 기대`, mood: k === 'ahead' ? 'tense' : 'calm', scenes, hashtags: [name, name + '주가', '주식공부', '가치투자', '밸류노트'], caption: cap };
 }
 // ---------- 2026-10-19: 기업 릴스 형식 4가지를 돌려 쓴다 (같은 틀이 반복되면 재미가 없다) ----------
 // intro: 무엇으로 돈을 버는 회사인가 (프로필) · price: 5년 주가 여정 vs 이익 · dividend: 배당 · expect: 주가에 담긴 기대 vs 실제
 // 원칙은 같다(README 규칙 13): 점수·고평가 %·상승 여력·적정 주가 금액은 쓰지 않는다. 사실 + 쉬운 질문 + 밸류노트에서 확인.
 // 2026-10-19 운영자 지시: '주가에 담긴 기대' 형식은 쓰지 않는다(무엇을 말하려는지 분명하지 않다). 모든 기업 릴스는 '무슨 회사인지'부터 말한다.
-const FORMATS = ['value']; // 2026-10-19 운영자: 결론형(버핏 기준 적정 주가)을 기본으로. 조건이 안 맞으면 intro·price로
+const FORMATS = ['value']; // 2026-10-19 운영자: 결론형(워렌 버핏 기준 적정 주가)을 기본으로. 조건이 안 맞으면 intro·price로
 const FALLBACK = ['price', 'intro']; // dividend(배당 여력) 형식은 2026-10-19 중단: 정보가 평이해 끝까지 볼 이유가 약함
 const NOT_ADVICE2 = ''; // 고지문은 게시할 때 캡션 맨 끝에 * 한 줄로 자동으로 붙는다 (social-publish)
 const CTA_BUFFETT = { type: 'cta', l1: '지금 가격이 적당한지는', l2: '밸류노트에서', say: '지금 가격이 적당한지는, 밸류노트에서 확인하세요.' };
@@ -565,13 +565,13 @@ function reelIntro(x) {
   const seg = (p.segments || []).filter((s_) => isNum(s_.share)).slice(0, 3);
   if (seg.length >= 2 && seg[0].share < 98) scenes.push({ type: 'bars', title: '매출은 어디서 나올까', items: seg.map((s_, i) => ({ label: s_.name, v: s_.share, text: `${Math.round(s_.share)}%`, tone: i ? 'gray' : 'gold' })),
     lines: [{ cap: ['매출의 ' + Math.round(seg[0].share) + '%는', `${s_short(seg[0].name)}에서 나옵니다`] }] });
-  scenes.push({ type: 'statement', l1: '이 사업, 10년 뒤에도', l2: '돈을 벌고 있을까요?', tone: 'gold', note: '버핏이 회사를 볼 때 가장 먼저 묻는 질문입니다', say: '이 사업, 십 년 뒤에도 돈을 벌고 있을까요?' });
+  scenes.push({ type: 'statement', l1: '이 사업, 10년 뒤에도', l2: '돈을 벌고 있을까요?', tone: 'gold', note: '워렌 버핏이 회사를 볼 때 가장 먼저 묻는 질문입니다', say: '이 사업, 십 년 뒤에도 돈을 벌고 있을까요?' });
   scenes.push(CTA_BUFFETT);
   const name = r.n.replace(/\s+/g, '');
   return { title: `무엇으로 돈을 벌까 · ${r.n}`, mood: 'calm', scenes, hashtags: [name, name + '주가', '기업분석', '주식공부', '밸류노트'],
     caption: `${r.n}, 무엇으로 돈을 버는 회사일까요?\n\n${what} ${String(p.model || '').split(/(?<=다\.)\s+/).filter(Boolean).map(hapnida).join(' ')}\n\n${useRoe ? `최근 ${yrs}년 동안 주주 돈 100원으로 매년 평균 ${k}원` : `매출 100원당 약 ${k}원`}${useRoe ? `의 이익을 냈습니다(평균 ROE ${r.fin.roeAvg.toFixed(1)}%).` : `의 이익을 냈습니다.`}`
       + (seg.length >= 2 ? `\n\n매출 구성: ${seg.map((s_) => `${s_.name} ${Math.round(s_.share)}%`).join(', ')}${p.segAsOf ? ` (${p.segAsOf})` : ''}.` : '')
-      + `\n\n버핏은 회사를 볼 때 "이 사업이 10년 뒤에도 돈을 벌고 있을까"를 먼저 묻습니다. 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 버핏 기준 점수와 정성 평가를 볼 수 있습니다.` + NOT_ADVICE2 };
+      + `\n\n워렌 버핏은 회사를 볼 때 "이 사업이 10년 뒤에도 돈을 벌고 있을까"를 먼저 묻습니다. 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 워렌 버핏 기준 점수와 정성 평가를 볼 수 있습니다.` + NOT_ADVICE2 };
 }
 const s_short = (t) => String(t).split(/[·,(]/)[0].trim().slice(0, 12);
 
@@ -599,7 +599,7 @@ function reelPrice(x) {
   return { title: `5년 주가 · ${r.n}`, mood: up ? 'calm' : 'tense', scenes, hashtags: [name, name + '주가', '주가흐름', '주식공부', '밸류노트'],
     caption: `5년 전 ${r.n} 주식을 1,000만 원어치 샀다면 지금은 약 ${man(money)} 원입니다(배당 제외, ${pts[0][0].replace('-', '년 ')}월~${pts[pts.length - 1][0].replace('-', '년 ')}월 월말 종가 기준). 주가는 매년 평균 ${pc.toFixed(1)}% ${pc >= 0 ? '올랐습니다' : '내렸습니다'}.`
       + (isNum(eps) ? ` 같은 기간 주당순이익은 매년 ${eps.toFixed(1)}%씩 ${eps >= 0 ? '늘었습니다' : '줄었습니다'}.\n\n길게 보면 주가는 이익을 따라갑니다. 주가가 이익보다 훨씬 빨리 오른 회사는 앞으로의 실적이 그 기대를 채워야 하고, 이익이 주가보다 빨리 늘어난 회사는 시장이 아직 반영하지 않은 것일 수도, 이유가 있는 것일 수도 있습니다.` : '')
-      + `\n\n버핏 기준 점수와 적정 주가는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` + NOT_ADVICE2 };
+      + `\n\n워렌 버핏 기준 점수와 적정 주가는 밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 볼 수 있습니다.` + NOT_ADVICE2 };
 }
 
 function reelDividend(x) {
@@ -617,11 +617,11 @@ function reelDividend(x) {
   return { title: `배당 · ${r.n}`, mood: 'calm', scenes, hashtags: [name, name + '배당', '배당주', '주식공부', '밸류노트'],
     caption: `${r.n}의 배당 수익률은 지금 주가 기준 약 ${y}%입니다. 1,000만 원어치를 갖고 있으면 1년에 약 ${per}만 원(세전)을 배당으로 받는 셈입니다.`
       + (d.years >= 5 ? ` 확인된 기간 동안 ${d.years}년 연속 배당을 늘렸습니다.` : '') + ` 번 돈 중 배당으로 주는 비율(배당성향)은 약 ${pay}%입니다.\n\n배당은 높이보다 오래 줄 수 있는지가 중요합니다. 번 돈보다 많이 주거나 이익이 흔들리면 배당은 줄어들 수 있습니다. 배당 수익률은 주가와 배당이 바뀌면 함께 달라집니다.\n\n`
-      + `밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 배당 적합 판정과 버핏 기준 점수를 볼 수 있습니다.` + NOT_ADVICE2 };
+      + `밸류노트 기업 페이지(valuenote.co.kr/c/${slug(r)})에서 배당 적합 판정과 워렌 버핏 기준 점수를 볼 수 있습니다.` + NOT_ADVICE2 };
 }
 // ---------- 2026-10-19 운영자 지시: 결론형 기업 릴스 (기본 형식) ----------
-// "버핏 기준으로 계산하면 적정 주가는 얼마" 결론을 먼저 → 지금 주가와 비교 → 무슨 회사인지 → 왜 그렇게 나오는지(계산 원리 하나) → 이 계산이 틀릴 수 있는 이유 → 자세한 분석은 밸류노트에서.
-// 적정 주가는 밸류노트의 의견이 아니라 버핏·그레이엄 방식의 계산 결과라고 말하고, 이 방식이 늘 맞지는 않는다는 점을 함께 말한다.
+// "워렌 버핏 기준으로 계산하면 적정 주가는 얼마" 결론을 먼저 → 지금 주가와 비교 → 무슨 회사인지 → 왜 그렇게 나오는지(계산 원리 하나) → 이 계산이 틀릴 수 있는 이유 → 자세한 분석은 밸류노트에서.
+// 적정 주가는 밸류노트의 의견이 아니라 워렌 버핏·그레이엄 방식의 계산 결과라고 말하고, 이 방식이 늘 맞지는 않는다는 점을 함께 말한다.
 const UNIT = { KRW: '원', USD: '달러', JPY: '엔', HKD: '홍콩달러', CNY: '위안' };
 function sayPrice(v, cur) {
   if (cur === 'KRW') { const w = Math.round(v), ok_ = w >= 10000 ? `${Math.floor(w / 10000)}만` + (Math.floor((w % 10000) / 1000) ? ` ${Math.floor((w % 10000) / 1000)}천` : '') : `${w}`; return ok_ + ' 원'; }
@@ -643,7 +643,7 @@ function methodScene(sc, r) {
     lines: [{ cap: ['적자 없이 꾸준히 큰 회사라', '적정 주가에 과거 성장의 75%를 넣었습니다'] }] };
   if (sc.ivBasis === 'norm') return { type: 'statement', l1: '한 해 이익이 아니라', l2: `${r.yrs || 5}년 평균 이익으로`, tone: 'gold', note: '좋은 해와 나쁜 해를 고르게 반영했습니다',
     lines: [{ cap: ['적정 주가는 한 해가 아니라', `${r.yrs || 5}년 평균 이익으로 계산합니다`] }] };
-  if (isNum(sc.dcf)) return { type: 'statement', l1: '앞으로 10년 벌 돈을', l2: '오늘 가치로 바꿨습니다', tone: 'gold', note: '버핏이 쓰는 현금흐름 할인 방식입니다',
+  if (isNum(sc.dcf)) return { type: 'statement', l1: '앞으로 10년 벌 돈을', l2: '오늘 가치로 바꿨습니다', tone: 'gold', note: '워렌 버핏이 쓰는 현금흐름 할인 방식입니다',
     lines: [{ cap: ['적정 주가는 앞으로 10년 벌 돈을', '오늘 가치로 바꿔 더한 값입니다'] }] };
   return { type: 'statement', l1: '그레이엄의 공식으로', l2: '이익과 자산을 함께 봅니다', tone: 'gold', note: '현금 기준 이익이 마이너스라 이익과 자산으로 계산했습니다',
     lines: [{ cap: ['적정 주가는 그레이엄의 공식처럼', '이익과 자산으로 계산했습니다'] }] };
@@ -652,14 +652,14 @@ function reelValue(x) {
   const { r, sc } = x, cur = r.cur || 'KRW', a = analyze(x), R = a.ratio, nm = r.n.replace(/\s*ADR$/i, '');
   const W = ratioWords(R), dk = PX_AT ? new Date(Date.parse(PX_AT) + 9 * 3600e3 - (r.m === 'US' ? 864e5 / 2 : 0)).toISOString().slice(0, 10) : ymd;
   const date = `${+dk.slice(5, 7)}월 ${+dk.slice(8, 10)}일`;
-  const scenes = [{ type: 'hook', top: `버핏 기준으로 보면\n${josa(nm, '은', '는')} 얼마?`,
+  const scenes = [{ type: 'hook', top: `워렌 버핏 기준으로 보면\n${josa(nm, '은', '는')} 얼마?`,
     num: { to: +(+sc.iv).toFixed(cur === 'KRW' || cur === 'JPY' ? 0 : 2), fmt: 'int', dec: cur === 'KRW' || cur === 'JPY' ? 0 : 2, suffix: cur === 'KRW' ? '원' : ' ' + (UNIT[cur] || '') }, tone: 'gold',
-    label: `버핏 기준 적정 주가 · ${date} 기준`,
-    lines: [{ cap: [`버핏의 기준으로 계산한 ${nm}의`, `적정 주가는 ${capPrice(sc.iv, cur)}입니다`], say: `버핏의 기준으로 계산한 ${nm}의 적정 주가는, ${sayPrice(sc.iv, cur)}입니다.` },
+    label: `워렌 버핏 기준 적정 주가 · ${date} 기준`,
+    lines: [{ cap: [`워렌 버핏의 기준으로 계산한 ${nm}의`, `적정 주가는 ${capPrice(sc.iv, cur)}입니다`], say: `워렌 버핏의 기준으로 계산한 ${nm}의 적정 주가는, ${sayPrice(sc.iv, cur)}입니다.` },
             { cap: [W[0], W[1]], say: W[2] }] },
     { type: 'compare', title: `${nm}, 두 개의 가격`,
       l: { label: '지금 주가', v: capPrice(r.px, cur), sub: `${date} 종가`, tone: R > 1.05 ? 'loss' : 'gold' },
-      r: { label: '버핏 기준 적정 주가', v: capPrice(sc.iv, cur), sub: W[3], tone: R < 0.95 ? 'good' : 'gold' },
+      r: { label: '워렌 버핏 기준 적정 주가', v: capPrice(sc.iv, cur), sub: W[3], tone: R < 0.95 ? 'good' : 'gold' },
       lines: [{ cap: R > 1.05 ? ['시장은 왜', '이보다 비싸게 사고 있을까요?'] : R < 0.95 ? ['시장은 왜', '이보다 싸게 팔고 있을까요?'] : ['그렇다면', '지금 사도 될까요?'] }] }];
   const w = whoScene(r); if (w) scenes.push(w);
   scenes.push(methodScene(sc, r));
@@ -676,13 +676,13 @@ function reelValue(x) {
   scenes.push({ type: 'statement', l1: caveat.l1, l2: caveat.l2, tone: 'ivory', note: caveat.note, lines: [{ cap: caveat.cap }] });
   scenes.push({ type: 'cta', l1: '자세한 계산은', l2: `밸류노트 ${nm} 분석에서`, say: `자세한 계산은, 밸류노트 ${nm} 분석에서 확인하세요.` });
   const name = nm.replace(/\s+/g, '');
-  const caption = `워런 버핏·벤저민 그레이엄의 기준으로 계산한 ${nm}의 적정 주가는 ${money(sc.iv, cur)}입니다. ${date} 종가 ${josa(money(r.px, cur), '은', '는')} ${W[3].replace(/^적정 주가/, '이 적정 주가')}${/배$/.test(W[3]) ? '입니다' : ' 수준입니다'}.\n\n`
+  const caption = `워렌 버핏·벤저민 그레이엄의 기준으로 계산한 ${nm}의 적정 주가는 ${money(sc.iv, cur)}입니다. ${date} 종가 ${josa(money(r.px, cur), '은', '는')} ${W[3].replace(/^적정 주가/, '이 적정 주가')}${/배$/.test(W[3]) ? '입니다' : ' 수준입니다'}.\n\n`
     + (PF[r.t]?.what ? hapnida(PF[r.t].what) + '\n\n' : '')
     + a.cap.join(' ') + '\n\n'
-    + '이 계산은 밸류노트의 의견이 아니라 버핏·그레이엄이 쓴 방식을 같은 공식으로 적용한 결과이고, 늘 맞는 것은 아닙니다. 시장이 더 큰 성장을 믿거나, 반대로 아직 드러나지 않은 위험을 보고 있을 수도 있습니다.\n\n'
+    + '이 계산은 밸류노트의 의견이 아니라 워렌 버핏·그레이엄이 쓴 방식을 같은 공식으로 적용한 결과이고, 늘 맞는 것은 아닙니다. 시장이 더 큰 성장을 믿거나, 반대로 아직 드러나지 않은 위험을 보고 있을 수도 있습니다.\n\n'
     + `재무 점수, 적정 주가 계산 과정, 위험 신호는 밸류노트 ${nm} 분석(valuenote.co.kr/c/${slug(r)})에서 자세히 볼 수 있습니다.`;
-  return { title: `버핏 기준 적정 주가 · ${nm}`, mood: R > 1.05 ? 'tense' : 'calm', cover: 0, tag: '버핏 기준 적정 주가', scenes,
-    hashtags: [name, name + '주가', '적정주가', '워런버핏', '가치투자', '밸류노트'], caption };
+  return { title: `워렌 버핏 기준 적정 주가 · ${nm}`, mood: R > 1.05 ? 'tense' : 'calm', cover: 0, tag: '워렌 버핏 기준 적정 주가', scenes,
+    hashtags: [name, name + '주가', '적정주가', '워렌버핏', '가치투자', '밸류노트'], caption };
 }
 ok.value = (r, x) => isNum(x.sc?.iv) && x.sc.iv > 0 && isNum(r.px) && r.px > 0 && r.dataConf !== 'low' && !!PF[r.t]?.what;
 
@@ -723,7 +723,7 @@ function reelRank2(rows, kind, mkt, label) {
     caption: (roe ? `주주 돈 100원으로 1년에 이익을 가장 많이 낸 ${label} 회사 TOP ${N}입니다(최근 몇 년 평균 ROE, 적자 낸 해가 없고 가장 나쁜 해에도 8원 이상 번 회사만).` : `배당을 3년 이상 꾸준히 늘리고, 번 돈의 70% 이하만 배당으로 주는 ${label} 회사 중 배당 수익률이 높은 TOP ${N}입니다.`)
       + '\n\n' + L.map((x, i) => `${i + 1}위 ${nm(x)} · ${roe ? `주주 돈 100원당 ${x.v}원` : `배당 수익률 ${x.t}`}`).join('\n')
       + '\n\n' + (roe ? '돈을 잘 버는 회사라도 이미 비싸게 거래되고 있을 수 있습니다. 좋은 회사와 좋은 가격은 따로 봐야 합니다.' : '배당 수익률은 주가와 배당에 따라 바뀝니다. 높이보다 오래 줄 수 있는지가 중요합니다.')
-      + ' 각 회사의 버핏 기준 점수와 적정 주가는 밸류노트에서 볼 수 있습니다.' };
+      + ' 각 회사의 워렌 버핏 기준 점수와 적정 주가는 밸류노트에서 볼 수 있습니다.' };
 }
 // (옛) 순위 릴스: 기대가 실적보다 가장 앞선 곳 — 2026-10-19부터 쓰지 않음 / 시장이 실적보다 가장 낮게 보는 곳. 1~3위 이름은 앱에서 공개
 function rankByExpect(L, side) {
@@ -750,8 +750,8 @@ function reelRank(L, side, label) {
     say: under ? '시장이 너무 비관적일까요? 아니면 이유가 있을까요?' : '이 기대가 이뤄질까요? 당신의 생각은 어떤가요?' });
   scenes.push({ type: 'cta', l1: '1~3위는', l2: '밸류노트에서', say: '일위부터 삼위는, 프로필 링크의 밸류노트에서 확인하세요.' });
   return { title: `${under ? '시장이 낮게 보는' : '기대가 앞선'} TOP ${N} · ${label}`, mood: 'calm', scenes, hashtags: ['주식공부', '미국주식', '가치투자', '주식투자', '밸류노트'].map((h) => label === '한국' && h === '미국주식' ? '한국주식' : h),
-    caption: `${under ? `실적에 비해 시장이 가장 낮게 보는 ${label} 회사 TOP ${N}입니다.` : `실적보다 주가에 담긴 기대가 가장 앞서 있는 ${label} 회사 TOP ${N}입니다.`}\n\n기대는 지금 주가가 맞으려면 앞으로 10년간 필요한 이익 성장률(매년)이고, 실제는 지난 몇 년 동안 주당순이익이 실제로 늘어난 속도(매년)입니다. 주주에게 남는 현금을 할인하는 버핏의 계산법을 거꾸로 적용해 구했습니다.\n\n`
-      + top.slice(3).map((x, i) => `${i + 4}위 ${nm(x)} · 기대 연 ${x.X.e}% · 실제 연 ${x.X.h}%`).join('\n') + '\n\n' + NOT_ADVICE + '\n\n1~3위와 버핏 기준 점수는 밸류노트에서 볼 수 있습니다.' };
+    caption: `${under ? `실적에 비해 시장이 가장 낮게 보는 ${label} 회사 TOP ${N}입니다.` : `실적보다 주가에 담긴 기대가 가장 앞서 있는 ${label} 회사 TOP ${N}입니다.`}\n\n기대는 지금 주가가 맞으려면 앞으로 10년간 필요한 이익 성장률(매년)이고, 실제는 지난 몇 년 동안 주당순이익이 실제로 늘어난 속도(매년)입니다. 주주에게 남는 현금을 할인하는 워렌 버핏의 계산법을 거꾸로 적용해 구했습니다.\n\n`
+      + top.slice(3).map((x, i) => `${i + 4}위 ${nm(x)} · 기대 연 ${x.X.e}% · 실제 연 ${x.X.h}%`).join('\n') + '\n\n' + NOT_ADVICE + '\n\n1~3위와 워렌 버핏 기준 점수는 밸류노트에서 볼 수 있습니다.' };
 }
 
 const state0 = path.join(OUT, 'state.json');
