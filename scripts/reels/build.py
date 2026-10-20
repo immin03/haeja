@@ -39,7 +39,7 @@ def main(only=None):
             print("렌더:", sp["id"], sp["title"])
             try:
                 sec = engine.render(sp, d)
-            except RuntimeError as e:
+            except Exception as e:   # 한 편이 실패해도(앱 화면 글자 못 찾음 등) 나머지 릴스는 계속 렌더한다
                 print("  ✗", e); failed.append(sp["id"]); continue
             open(mark, "w").write(h)
             print(f"  {sec:.1f}초")
