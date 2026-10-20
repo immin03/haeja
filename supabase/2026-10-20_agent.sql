@@ -34,7 +34,7 @@ begin
              where at >= tp and (uid is null or not (uid = any(staff)))
                and (vk is null or vk not in (select vk from sv))
                and (sid is null or sid not in (select sid from ss))),
-       src as (select who, cur, min(case when ref like 'ig%' then 'instagram' when ref like '%facebook%' then 'facebook(광고)'
+       src as (select who, cur, min(case when ref like 'ad-%' then 'ad' when ref like 'ig%' then 'instagram' when ref like '%facebook%' then 'facebook(광고)'
                                       when ref like 'naver%' then 'naver-blog' when ref like 'c%' then 'company-page'
                                       when coalesce(ref, '') = '' then '(직접)' else 'other' end) s
                from e where kind = 'visit' group by who, cur),
@@ -42,6 +42,7 @@ begin
        su as (select distinct on (s.who) s.who, s.at, s.uid from e s where s.kind = 'signup' order by s.who, s.at),
        sus as (select su.*, (select src.s from src where src.who = su.who order by src.cur desc limit 1) s,
                       exists(select 1 from e x where x.who = su.who and x.path like '/start%') via_start from su),
+       adv as (select who, min(ref) ad from e where cur and kind = 'visit' and ref like 'ad-%' group by who),
        nu as (select id, created_at from auth.users where not (id = any(staff))),
        act as (select uid, (at at time zone 'Asia/Seoul')::date d from events where uid is not null and not (uid = any(staff)) group by 1, 2),
        rp as (select p.id, p.title, p.scheduled_at, p.ig_at, p.ig_insights i from social_posts p
@@ -86,6 +87,20 @@ begin
     'topViews', coalesce((select jsonb_object_agg(path, u) from (select path, count(distinct who) u from e
         where cur and kind = 'view' and path not like '/start%' group by path order by 2 desc limit 8) x), '{}'::jsonb),
     -- 7) 블로그: 네이버 블로그에서 들어온 사람과 올린 글 수
+    -- 8) 광고: 홍보 링크 ?ref=ad-<릴스 id> 별로 방문 → 랜딩 다음 단계(s1) → 가입. spend = 사장님이 알려 준 광고비(원)
+    'ads', jsonb_build_object(
+        'byAd', coalesce((select jsonb_object_agg(ad, jsonb_build_object('visitors', v, 'reachedS1', s1, 'signups', sg,
+                   'spendKrw', (select sum((x->>'krw')::numeric) from docs d, jsonb_array_elements(d.data -> 'entries') x
+                                where d.collection = 'agent' and d.id = 'ad-spend' and d.owner = public.publisher_id()
+                                  and x->>'ref' = ad and (x->>'date')::date >= (t0 at time zone 'Asia/Seoul')::date))) from (
+            select a.ad, count(*) v,
+                   count(*) filter (where exists (select 1 from e x where x.who = a.who and x.path = '/start:s1')) s1,
+                   count(*) filter (where exists (select 1 from sus where sus.who = a.who and sus.at >= t0)) sg
+            from adv a group by a.ad) q), '{}'::jsonb),
+        'untaggedFacebook', (select count(*) from src where cur and s = 'facebook(광고)'),
+        'spendTotalKrw', (select sum((x->>'krw')::numeric) from docs d, jsonb_array_elements(d.data -> 'entries') x
+                          where d.collection = 'agent' and d.id = 'ad-spend' and d.owner = public.publisher_id()
+                            and (x->>'date')::date >= (t0 at time zone 'Asia/Seoul')::date)),
     'blog', jsonb_build_object('visitors', (select count(*) from src where cur and s = 'naver-blog'),
         'posted', (select count(*) from docs, jsonb_each_text(data -> 'posted') p where collection = 'naver' and p.value::date >= (t0 at time zone 'Asia/Seoul')::date))
   ) into res;
