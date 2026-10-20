@@ -249,6 +249,9 @@ footer a{color:rgba(247,242,232,.75)}
 /* 아래 고정 버튼 */
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(251,248,242,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s ease}
 .sticky.on{transform:none}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.sticky .btn svg{margin-right:6px;flex:none}
+.mid-k{display:flex;width:100%;justify-content:center;margin:12px 0 0}
 .sticky .in{max-width:640px;margin:0 auto;display:flex;gap:8px;align-items:center}
 .sticky .t{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.35;color:var(--muted)}
 .sticky .t a{color:var(--muted);text-decoration:none}
@@ -333,6 +336,7 @@ footer a{color:rgba(247,242,232,.75)}
     <p>호황이 계속된다고 가정하지 않고 보수적으로 계산한 값입니다. AI 호황이 길게 이어지면 더 높게 볼 수도 있습니다.</p>
   </div>
   <p class="note">점수는 늘 맞지는 않습니다. 버크셔도 이 방식으로는 비싸 보이던 알파벳을 샀습니다. <span id="asof"></span></p>
+  <a class="btn kakao mid-k" href="/?kakao=1&amp;from=start&amp;utm_source=start-s3" data-ev="cta-s3-kakao"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>내 종목도 이렇게 확인하기 · 카카오 1초</a>
 </div></section>
 
 <section class="st" id="s4" data-sec="s4"><div class="wrap reveal">
@@ -359,6 +363,7 @@ footer a{color:rgba(247,242,232,.75)}
     <div><b class="t-w">관찰주</b><span>비중을 줄일 종목</span></div>
     <div><b class="t-s">투기주</b><span>정리할 종목</span></div>
   </div>
+  <a class="btn kakao mid-k" href="/?kakao=1&amp;from=start&amp;utm_source=start-pf" data-ev="cta-pf-kakao"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>내 포트폴리오 채점하기 · 카카오 1초</a>
 </div></section>
 
 <section class="end" id="s7" data-sec="s7"><div class="wrap reveal">
@@ -384,17 +389,15 @@ footer a{color:rgba(247,242,232,.75)}
     <p class="fin-a" id="fin-a">이제 <b>밸류노트</b>와 함께<br>현명한 투자자가 되세요.</p>
   </div>
   <div class="acts">
-    <a class="btn kakao" href="/?kakao=1&amp;from=start&amp;vt=KR" data-ev="cta-kakao" id="rk-k"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 3초 만에 회사 이름 보기</a>
+    <a class="btn kakao" href="/?kakao=1&amp;from=start&amp;vt=KR" data-ev="cta-kakao" id="rk-k"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 만에 회사 이름 보기</a>
   </div>
   <div class="small"><a href="/?signup&amp;from=start" data-ev="cta-end-signup">이메일로 가입</a> · <a href="/?login&amp;from=start" data-ev="login-end">로그인</a></div>
 </div></section>
 
 <footer><div class="wrap">본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다. 표시되는 점수·적정 주가는 과거 데이터와 가정에 기반한 추정치로 수익을 보장하지 않습니다.<br><a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a> · © ValueNote</div></footer>
 
-<div class="sticky" id="sticky"><div class="in"><div class="t"><b>내 종목은 몇 점일까요?</b><span>버핏 기준으로 바로 채점합니다</span></div><a class="btn kakao" href="/?kakao=1&amp;from=start" data-ev="cta-sticky-kakao">카카오로 3초 시작</a></div></div>
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b>내 종목은 몇 점일까요?</b><span>가입하고 바로 확인하세요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=start" data-ev="cta-sticky-kakao"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입</a></div></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" defer></script>
-<script src="/config.js" defer></script>
 <script>
 (function(){
 'use strict';
@@ -405,7 +408,8 @@ var MK = {KR:'한국', US:'미국', JP:'일본', HK:'홍콩', CN:'중국'};
 var jo = function(w, a, b){ var c = String(w).charCodeAt(String(w).length - 1); if(c < 0xAC00 || c > 0xD7A3) return w + b; return w + ((c - 0xAC00) % 28 ? a : b); };
 
 /* ---------- 방문 기록: 앱과 같은 방문자 번호(vn-sid)·유입 경로(vn-ref)를 써서 소개 → 앱 → 가입을 이어서 본다 ---------- */
-var sb = null, queue = [], once = {};
+var EV_URL = 'https://msjbrwyzkiueqnzjeicm.supabase.co/rest/v1/events', once = {}, T0 = Date.now();
+var EV_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zamJyd3l6a2l1ZXFuemplaWNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTk0NTcsImV4cCI6MjEwNzQzNTQ1N30.RIq2MRW8bwHQUO_dPeIarujjWcYD_dXn06icr1Mpmuw'; /* 공개 키(anon): 방문 기록 추가만 가능 */
 function sid(){ try{ var v = localStorage.getItem('vn-sid'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,32); localStorage.setItem('vn-sid', v); } return v; }catch(_){ return 'nosid'; } }
 function device(){ var u = navigator.userAgent; var os = /iPhone|iPad|iPod/.test(u) ? 'iOS' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : '기타'; return (/Mobi|iPhone|Android/.test(u) ? '모바일' : 'PC') + ' · ' + os; }
 function skip(){
@@ -424,14 +428,13 @@ var REF = refOf(), SKIP = skip();
 function send(kind, path){
   if(SKIP) return;
   var row = { kind: kind, sid: sid(), path: path.slice(0, 200), ref: (kind === 'visit' ? REF : (function(){ try{ return localStorage.getItem('vn-ref') || REF; }catch(_){ return REF; } })()).slice(0, 300), device: device() };
-  if(!sb){ queue.push(row); return; }
-  sb.from('events').insert(row).then(function(){}, function(){});
+  /* 페이지를 여는 순간 바로 저장한다. 예전에는 Supabase 라이브러리가 다 받아진 뒤에야 저장해서, 그 전에 나간 사람은 집계되지 않았다 */
+  try{ fetch(EV_URL, { method: 'POST', keepalive: true, headers: { 'apikey': EV_KEY, 'Authorization': 'Bearer ' + EV_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify(row) }).catch(function(){}); }catch(_){}
 }
 function hit(k){ if(once[k]) return; once[k] = 1; send('engage', '/start:' + k); }
-window.addEventListener('load', function(){
-  var C = window.HAEJA_CONFIG || {};
-  if(window.supabase && C.SUPABASE_URL){ sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false } }); var q = queue; queue = []; q.forEach(function(r){ sb.from('events').insert(r).then(function(){}, function(){}); }); }
-});
+/* 나가는 순간 몇 초 만에 나갔는지 기록 (out-3 = 3초 안, out-10, out-30, out-60, out-60p) */
+function outHit(){ var t = (Date.now() - T0) / 1000; hit(t < 3 ? 'out-3' : t < 10 ? 'out-10' : t < 30 ? 'out-30' : t < 60 ? 'out-60' : 'out-60p'); }
+addEventListener('pagehide', outHit); document.addEventListener('visibilitychange', function(){ if(document.hidden) outHit(); });
 send('visit', '/start');
 setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
 setTimeout(function(){ if(!document.hidden) hit('t60'); }, 60000);
@@ -454,9 +457,9 @@ $('#sopen').addEventListener('click', function(){ this.hidden = true; $('#sform'
 addEventListener('load', function(){ setTimeout(function(){ try{ var p = performance.getEntriesByType('paint').filter(function(e){ return e.name === 'first-contentful-paint'; })[0];
   var t = p ? p.startTime : performance.now(); hit(t < 1000 ? 'fcp-1' : t < 3000 ? 'fcp-3' : t < 6000 ? 'fcp-6' : 'fcp-9'); }catch(_){} }, 0); });
 
-/* 첫 화면을 지나면 아래 버튼을 띄운다 (마지막 단락에서는 숨김) */
+/* 아래 가입 버튼은 처음부터 계속 띄운다 (마지막 가입 단락에서만 숨김, 2026-10-20) */
 var sticky = $('#sticky'), hero = $('.hero'), end = $('#s8');
-function stk(){ var hb = hero.getBoundingClientRect().bottom, et = end.getBoundingClientRect().top; sticky.classList.toggle('on', hb < 0 && et > innerHeight * .85); }
+function stk(){ var hb = hero.getBoundingClientRect().bottom, et = end.getBoundingClientRect().top; sticky.classList.toggle('on', et > innerHeight * .85); }
 addEventListener('scroll', stk, { passive: true }); stk();
 /* 빠르게 훑고 지나간 단락도 보이게: 화면 위로 지나간 단락은 바로 표시 */
 addEventListener('scroll', function(){ document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ if(el.getBoundingClientRect().top < innerHeight * .9) el.classList.add('in'); }); }, { passive: true });
@@ -500,7 +503,7 @@ function showRes(r, q){
     '<a class="more" href="#s1" data-ev="res-more">이 점수는 어떻게 나왔을까요? ↓</a></div>';
   /* 아래 고정 버튼도 방금 본 종목으로 */
   var st = document.querySelector('#sticky .t b'), sk = document.querySelector('#sticky a.btn.kakao');
-  if(st) st.textContent = below ? r.n + ' 지금 적정 매수가 아래' : near ? r.n + ' 알림 받기' : '내 종목은 몇 점일까요?'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 3초'; }
+  if(st) st.textContent = below ? r.n + ' 지금 적정 매수가 아래' : near ? r.n + ' 알림 받기' : '내 종목은 몇 점일까요?'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 1초 가입'; }
 }
 var CHIPS = ['삼성전자','SK하이닉스','기아','애플','테슬라','엔비디아'], IG = null;
 function chips(){ var fn = FEAT && row(FEAT) ? row(FEAT).n : null; var L = (IG && CHIPS.indexOf(IG) < 0 && IG !== fn ? [IG] : []).concat(CHIPS).filter(function(n){ return n !== fn; });
