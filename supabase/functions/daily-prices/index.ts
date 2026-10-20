@@ -1,4 +1,4 @@
-// 매일 종가 갱신 (pg_cron이 평일 16:10, 06:40 KST에 호출)
+// 매일 종가 갱신 (pg_cron, 한국 시간 평일 15:50 한국·일본 마감 / 17:20 중화권 마감 / 화~토 06:40 미국 마감)
 // 1) 보유 종목·내 종목/관심 후보 현재가  2) 가격 기록(일·주·월)  3) 스크리너 전 종목 px  4) 환율
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -80,8 +80,10 @@ async function load(col: string) {
   return data as { id: string; data: any; owner: string }[];
 }
 
-Deno.serve(async (_req: Request) => {
+Deno.serve(async (req: Request) => {
   const today = kstDate();
+  const opt = await req.json().catch(() => ({})); // {dry:true, now:"ISO"} 이면 저장 없이 알림 미리보기만
+  const dry = !!opt.dry;
   try {
     const [holdings, comps, prices, screen] = await Promise.all(["holdings", "companies", "prices", "screen"].map(load));
     // 공용 데이터(가격 기록·스크리너)의 주인 = 운영자. 사용자별 데이터(보유·기업·설정·알림)는 각자 주인에게 쓴다.
@@ -109,18 +111,55 @@ Deno.serve(async (_req: Request) => {
     const put = (owner: string, collection: string, id: string, data: any) => rows.push({ owner, collection, id, data, updated_at: new Date().toISOString() });
     // 종가와 직전 거래일 종가를 함께 저장한다. 직전 종가를 그대로 두면 며칠 전 값과 비교돼 하루 변동이 크게 틀어진다
     for (const h of holdings) { const pts = hist[heldSym[key(h.owner, h.id)]]; const p = pts?.[pts.length - 1]; if (p) put(h.owner, "holdings", h.id, { ...h.data, price: p[1], prevClose: pts.length >= 2 ? pts[pts.length - 2][1] : (h.data.prevClose ?? null), priceAt: p[0], updatedAt: today }); }
-    // 보유 종목 하루 5% 이상 움직이면 알림 (같은 날 한 번)
+    // 장 마감 알림: 시장마다 "실제로 마감된 거래일"만 다룬다. 장중 값을 종가로 부르지 않는다.
+    // 한 사용자·한 시장·한 거래일에 마감 요약 1건(close-<시장>-<거래일>), -7% 이하 급락만 따로 1건.
+    // 마감 후 3시간 안의 실행에서만 만든다(늦게 돌거나 휴장일이면 만들지 않는다).
     const alertRows: any[] = [];
+    const nowMs = dry && opt.now ? Date.parse(opt.now) : Date.now();
+    const grpOf = (sym: string) => /\.(KS|KQ)$/.test(sym) ? "KR" : /\.T$/.test(sym) ? "JP" : /\.(HK|SS|SZ)$/.test(sym) ? "CNHK" : "US";
+    const idxOf: Record<string, [string, string][]> = { KR: [["^KS11", "코스피"], ["^KQ11", "코스닥"]], JP: [["^N225", "닛케이"]], CNHK: [["000001.SS", "상하이"], ["^HSI", "항셍"]], US: [["^GSPC", "S&P500"], ["^IXIC", "나스닥"]] };
+    const nameOf: Record<string, string> = { KR: "한국장", JP: "일본장", CNHK: "중화권", US: "미국장" };
+    for (const g of Object.values(idxOf)) for (const [s] of g) if (!hist[s]) { const p = await chart(s, "1mo"); if (p) hist[s] = p; }
+    const wk = ["일", "월", "화", "수", "목", "금", "토"];
+    const md = (d: string) => { const x = new Date(d + "T12:00:00Z"); return `${x.getUTCMonth() + 1}/${x.getUTCDate()}(${wk[x.getUTCDay()]})`; };
+    const nyOff = (d: string) => { const f = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", timeZoneName: "shortOffset" }).formatToParts(new Date(d + "T17:00:00Z")).find((x) => x.type === "timeZoneName")?.value || "GMT-5"; const h = Number(f.replace("GMT", "")) || -5; return (h < 0 ? "-" : "+") + String(Math.abs(h)).padStart(2, "0") + ":00"; };
+    // 거래일 d(현지 날짜)의 마감 시각(UTC ms). 한국·일본 15:30, 상하이 15:00(한국 16:00), 홍콩 16:00(한국 17:00), 미국 16:00 뉴욕 시간
+    const closeMs = (g: string, d: string, sym = "") => g === "US" ? Date.parse(`${d}T16:00:00${nyOff(d)}`) : g === "CNHK" ? Date.parse(`${d}T${/\.HK$|HSI/.test(sym) ? "16:00" : "15:00"}:00+08:00`) : Date.parse(`${d}T15:30:00+09:00`);
+    const kstLabel = (ms: number) => { const x = new Date(ms + 9 * 3600e3); return `${x.getUTCMonth() + 1}/${x.getUTCDate()}(${wk[x.getUTCDay()]}) ${String(x.getUTCHours()).padStart(2, "0")}:${String(x.getUTCMinutes()).padStart(2, "0")}`; };
+    const closedPt = (g: string, sym: string, pts?: Pt[]) => { // 마감된 마지막 거래일 [d, 종가, 직전 종가]
+      if (!pts || pts.length < 2) return null;
+      let i = pts.length - 1; if (closeMs(g, pts[i][0], sym) > nowMs) i--;
+      return i >= 1 ? { d: pts[i][0], v: pts[i][1], v0: pts[i - 1][1] } : null;
+    };
+    const pct = (v: number, v0: number) => (v / v0 - 1) * 100;
+    const sg = (x: number) => (x > 0 ? "+" : "") + x.toFixed(1) + "%";
+    const money = (cur: string, v: number) => cur === "USD" ? "$" + v.toFixed(2) : cur === "KRW" ? Math.round(v).toLocaleString("ko-KR") + "원" : v.toLocaleString("ko-KR") + " " + cur;
+    const byOwnerGrp: Record<string, { name: string; chg: number; d: string; v: number; h: any; sym: string }[]> = {};
     for (const h of holdings) {
-      const pts = hist[heldSym[key(h.owner, h.id)]]; if (!pts || pts.length < 2) continue;
-      const [d1, v1] = pts[pts.length - 1], v0 = pts[pts.length - 2][1];
-      const chg = (v1 / v0 - 1) * 100; if (Math.abs(chg) < 5) continue;
+      const sym = heldSym[key(h.owner, h.id)]; if (!sym) continue;
+      const g = grpOf(sym), c = closedPt(g, sym, hist[sym]); if (!c) continue;
+      if (nowMs - closeMs(g, c.d, sym) > 3 * 3600e3) continue; // 이번 실행에서 막 마감된 시장만
       const name = String(h.data.name || h.data.ticker).replace(/\s*\(.*\)$/, "");
-      const cur = h.data.currency === "USD" ? "$" + v1.toFixed(2) : Math.round(v1).toLocaleString("ko-KR") + "원";
-      alertRows.push({ collection: "alerts", id: `move-${h.id}-${d1}`, owner: h.owner, updated_at: new Date().toISOString(), data: {
-        at: new Date().toISOString(), level: chg <= -7 ? "urgent" : chg < 0 ? "warn" : "info",
-        title: `${name} ${chg > 0 ? "+" : ""}${chg.toFixed(1)}%`, body: `${d1} 종가 ${cur}. ${chg < 0 ? "급락 이유와 매도 조건을 확인하세요." : "내재가치 대비 가격을 확인하세요."}`,
-        link: { co: h.data.companyId || null, tab: "portfolio" }, read: false, source: "종가 갱신" } });
+      (byOwnerGrp[h.owner + "|" + g] ||= []).push({ name, chg: pct(c.v, c.v0), d: c.d, v: c.v, h, sym });
+    }
+    for (const [k, list] of Object.entries(byOwnerGrp)) {
+      const [o, g] = k.split("|"); const d = list[0].d, cm = closeMs(g, d, list[0].sym);
+      const idx = idxOf[g].map(([s, n]) => { const c = closedPt(g, s, hist[s]); return c && c.d === d ? `${n} ${sg(pct(c.v, c.v0))}` : null; }).filter(Boolean).join(", ");
+      const mv = [...list].sort((a, b) => Math.abs(b.chg) - Math.abs(a.chg));
+      const top = mv.slice(0, 3).map((x) => `${x.name} ${sg(x.chg)}`).join(", ") + (mv.length > 3 ? ` 외 ${mv.length - 3}종목` : "");
+      const worst = Math.min(...list.map((x) => x.chg)), big = list.some((x) => Math.abs(x.chg) >= 5);
+      const when = g === "US" ? `현지 ${md(d)} 16:00, 한국 시간 ${kstLabel(cm)} 마감` : g === "KR" ? `${md(d)} 15:30 마감` : `한국 시간 ${kstLabel(cm)} 마감`;
+      alertRows.push({ collection: "alerts", id: `close-${g.toLowerCase()}-${d}`, owner: o, updated_at: new Date().toISOString(), data: {
+        at: new Date().toISOString(), level: worst <= -7 ? "urgent" : worst <= -5 ? "warn" : "info",
+        title: `${nameOf[g]} 마감 · ${md(d)}`, body: `${idx ? idx + ". " : ""}보유 ${top}. ${when} 기준.`,
+        link: { tab: "portfolio" }, read: false, push: big, source: "장 마감", market: g, tradeDate: d } });
+      for (const x of list) if (x.chg <= -7) {
+        const cur = x.h.data.currency || (g === "KR" ? "KRW" : g === "US" ? "USD" : g === "JP" ? "JPY" : /\.HK$/.test(x.sym) ? "HKD" : "CNY");
+        alertRows.push({ collection: "alerts", id: `move-${x.h.id}-${d}`, owner: o, updated_at: new Date().toISOString(), data: {
+          at: new Date().toISOString(), level: "urgent", title: `${x.name} ${sg(x.chg)}`,
+          body: `${nameOf[g]} ${md(d)} 종가 ${money(cur, x.v)}. 급락 이유와 매도 조건을 확인하세요.`,
+          link: { co: x.h.data.companyId || null, tab: "portfolio" }, read: false, source: "장 마감", market: g, tradeDate: d } });
+      }
     }
     for (const [k, s] of Object.entries(compSym)) { const p = last(s); if (!p) continue; const [o, cid] = k.split("|"); put(o, "companies", cid, { ...companies[k], price: p[1] }); }
     // 관심 종목이 적정 매수가 아래로 내려오면 알림 (화면을 열지 않아도). 적정 매수가(buyAt)는 화면이 판정할 때 회사 문서에 적어 둔다.
@@ -137,9 +176,10 @@ Deno.serve(async (_req: Request) => {
       const f = (v: number) => cur === "USD" ? "$" + v.toFixed(2) : cur === "KRW" ? Math.round(v).toLocaleString("ko-KR") + "원" : v.toLocaleString("ko-KR") + " " + cur;
       alertRows.push({ collection: "alerts", id: `buy-${cid}-${month}`, owner: o, updated_at: new Date().toISOString(), data: {
         at: new Date().toISOString(), level: "good", title: `${name} 적정 매수가 도달`,
-        body: `${p[0]} 종가 ${f(p[1])}, 적정 매수가 ${f(ba.v)} 아래로 내려왔습니다. 판단 근거와 매도 조건을 다시 확인하세요.`,
+        body: `${md(p[0])} 기준 ${f(p[1])}, 적정 매수가 ${f(ba.v)} 아래로 내려왔습니다. 판단 근거와 매도 조건을 다시 확인하세요.`,
         link: { co: cid }, read: false, source: "종가 갱신" } });
     }
+    if (dry) return Response.json({ ok: true, dry: true, alerts: alertRows.map((r) => ({ owner: r.owner.slice(0, 8), id: r.id, ...r.data })) });
     // 가격 기록은 공용(운영자 소유) 한 벌로 모은다. 모든 사용자가 읽는다.
     const pmap: Record<string, any> = Object.fromEntries(prices.filter((r) => r.owner === pub).map((r) => [r.id, r.data]));
     for (const s of new Set([...Object.values(heldSym), ...Object.values(compSym)])) {

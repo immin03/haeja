@@ -2932,8 +2932,8 @@ function viewBriefing(){
       <span class="small muted">${open?'접기':'뉴스'}</span></button>
       ${open ? `<div class="br-open">${newsHtml(doc, 4)}${c ? `<button class="btn" style="margin-top:8px" data-act="open-co" data-id="${c.id}">종목 분석 보기</button>` : ''}</div>` : ''}`; };
   return `${radarChip()}${weekly}
-  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">오늘의 브리핑</h2>${latest ? `<span class="small muted num">${esc(latest.id)}</span>` : ''}</div>
-  <div class="small muted fresh-line">매일 07:50 분석 · 다음 브리핑 ${nextRun(SCHED.brief)}</div>
+  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">${latest && latest.id !== today() ? '지난 브리핑' : '개장 브리핑'}</h2>${latest ? `<span class="small muted num">${esc(latest.asOf || latest.id)}</span>` : ''}</div>
+  <div class="small muted fresh-line">${latest?.sessions ? esc(Object.values(latest.sessions).join(' · ')) + ' · ' : ''}매일 09:30 무렵 · 다음 브리핑 ${nextRun(SCHED.brief)}</div>
   ${latest ? `<div class="card stack" style="margin-top:10px;gap:10px">
       <p class="br-head">${esc(latest.headline||'')}</p>
       ${(latest.holdings||[]).length ? `<div class="br-list">${latest.holdings.map(hrow).join('')}</div>` : ''}
@@ -4345,7 +4345,7 @@ function demoData(){
     {id:'demo-a1', at:iso(2), level:'good', title:'[예시] 한국금융지주 적정 매수가 도달', body:'현재가 145,800원 · 적정 주가보다 28% 저평가', link:{co:'demo-071050'}, read:false},
     {id:'demo-a2', at:iso(20), level:'urgent', title:'[예시] 카카오 -7.2%', body:'종가 31,000원. 급락 이유와 매도 조건을 확인하세요.', link:{co:'demo-035720'}, read:false},
     {id:'demo-a3', at:iso(30), level:'warn', title:'[예시] 룰루레몬 매도 조건 도달', body:'매출 성장률이 정해 둔 매도 조건(5% 미만)에 닿았습니다.', link:{co:'demo-LULU'}, read:true},
-    {id:'demo-a4', at:iso(52), level:'info', title:'[예시] 아침 브리핑', body:'보유 9종목 중 6종목 상승. 금융주 강세.', link:{tab:'briefing'}, read:true},
+    {id:'demo-a4', at:iso(52), level:'info', title:'[예시] 개장 브리핑', body:'보유 9종목 중 6종목 상승. 금융주 강세.', link:{tab:'briefing'}, read:true},
   ];
   return { holdings: held.map(x => x.h), companies: items.map(x => x.c), prices, briefings: [brief], screen: DEMO_ROWS, journal, alerts, cash: 7000000 };
 }
@@ -4583,8 +4583,8 @@ document.addEventListener('click', e => {
 window.addEventListener('scroll', () => { if(document.querySelector('.gl-pop')) glClose(); }, {passive:true});
 /* ===== 갱신 시각: 마지막 업데이트와 다음 갱신 (모두 한국 시간) ===== */
 const SCHED = {
-  close: [{h:16,m:10,d:[1,2,3,4,5], l:'아시아장 종가'}, {h:6,m:40,d:[2,3,4,5,6], l:'미국장 종가'}],
-  brief: [{h:7,m:50,d:[0,1,2,3,4,5,6], l:'아침 브리핑'}],
+  close: [{h:15,m:50,d:[1,2,3,4,5], l:'한국장 마감'}, {h:17,m:20,d:[1,2,3,4,5], l:'중화권 마감'}, {h:6,m:40,d:[2,3,4,5,6], l:'미국장 마감'}],
+  brief: [{h:9,m:30,d:[0,1,2,3,4,5,6], l:'개장 브리핑'}],
   trend: [{h:7,m:20,d:[2,3,4,5,6], l:'트렌드 지수'}],
 };
 const kstNow = () => new Date(Date.now() + 9*3600e3);
@@ -4609,8 +4609,8 @@ function freshPortfolio(){
   return `<details class="fresh"><summary><span class="fresh-dot"></span>${last} · ${nxt}<span class="fresh-i">갱신 일정</span></summary>
     <div class="fresh-list">
       <div><b>현재가·환율</b><span>${every ? '앱을 열 때와 열어 둔 동안 10분마다. 거래소 사정에 따라 최대 20분 늦을 수 있습니다' : '하루 두 번 종가 갱신'}</span></div>
-      <div><b>종가·가격 기록</b><span>아시아장 평일 16:10, 미국장 화~토 06:40 · 다음 ${nextRun(SCHED.close)}</span></div>
-      <div><b>아침 브리핑·뉴스·분석</b><span>매일 07:50 · 다음 ${nextRun(SCHED.brief)}</span></div>
+      <div><b>종가·가격 기록</b><span>한국·일본장 평일 15:50, 중화권 17:20, 미국장 화~토 06:40(한국 시간, 미국 마감 05:00~06:00 직후) · 다음 ${nextRun(SCHED.close)}</span></div>
+      <div><b>개장 브리핑·뉴스·분석</b><span>매일 09:30 무렵(한국장 개장 30분 뒤) · 다음 ${nextRun(SCHED.brief)}</span></div>
       <div><b>메가트렌드 지수</b><span>화~토 07:20(미국장 마감 후) · 다음 ${nextRun(SCHED.trend)}</span></div>
       <p class="small muted" style="margin:6px 0 0">밸류노트는 실시간 시세 앱이 아닙니다. 장중 몇 분의 차이보다 몇 년의 가치를 봅니다.</p>
     </div></details>`;
@@ -5132,7 +5132,7 @@ const GUIDE = [
     ['밸류노트는 어떤 앱인가요?', `<p>밸류노트(ValueNote)는 벤저민 그레이엄, 워렌 버핏, 찰리 멍거의 가치 투자 원칙을 숫자 규칙으로 옮긴 개인 투자 노트다. 회사를 사기 전에 "좋은 회사인가, 지금 싼가, 내가 이해하고 오래 들고 있을 수 있는가"를 같은 기준으로 점검하고, 산 뒤에는 비중과 매도 조건을 지키게 돕는다.</p>
      <p>예측하는 앱이 아니라 판단을 정리하는 앱이다. 주가가 오를지 맞히지 않는다. 대신 가격이 가치보다 충분히 낮은지, 내 포트폴리오가 원칙에서 벗어났는지를 알려 준다.</p>`],
     ['무엇을 직접 넣고, 무엇이 자동인가요?', `<p><b>직접 넣는 것은 세 가지뿐이다.</b> 보유 종목(종목·수량·평균 매수가), 예수금, 그리고 종목별 투자 메모와 매도 조건.</p>
-     <p><b>나머지는 자동이다.</b> 시세는 앱을 열 때와 10분마다, 종가는 평일 하루 두 번(아시아장 마감 후, 미국장 마감 후) 갱신된다. 환율·국채 금리, 아침 브리핑과 뉴스, 메가트렌드 지수, 220여 개 종목 스크리너 가격, 주력·도전·현금 분류와 "지금 할 일"도 자동으로 계산된다.</p>`],
+     <p><b>나머지는 자동이다.</b> 시세는 앱을 열 때와 10분마다, 종가는 장마다 마감 직후(한국장 15:50, 중화권 17:20, 미국장 한국 시간 06:40) 갱신된다. 환율·국채 금리, 아침 브리핑과 뉴스, 메가트렌드 지수, 220여 개 종목 스크리너 가격, 주력·도전·현금 분류와 "지금 할 일"도 자동으로 계산된다.</p>`],
     ['투자자 등급은 무엇인가요?', `<p>그레이엄의 『현명한 투자자』를 따라, 원칙을 얼마나 지키고 있는지를 0~100점으로 매긴 등급이다. 투기꾼 → 입문 투자자 → 방어적 투자자 → 적극적 투자자 → 현명한 투자자의 5단계다.</p>
      <p>점수는 18개 미션으로 정해진다. 그레이엄(현금·안전마진·레버리지 0%), 워렌 버핏(주력 3종목·10년 보유), 찰리 멍거(내 메모·매도 조건·결정 일지·균형), 습관(알림·브리핑·분기 점검)으로 나뉜다. 포트폴리오와 일지를 보고 자동으로 확인하므로 직접 체크할 필요가 없다. 원칙에서 벗어나면 점수도 내려간다. "포트폴리오 → 내 등급"에서 남은 미션을 볼 수 있다.</p>`],
     ['어떤 회사들이 들어 있나요?', () => { const m = S2.meta || {}; const c = m.counts || {}; const n = m.total || Object.values(c).reduce((a,b)=>a+b,0) || 221;
