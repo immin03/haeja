@@ -66,8 +66,12 @@ async function simulate(set, today) {
     if (!first || first[0] > monthEnd(startYm)) throw new Error(`${it.sym}: ${startYm} 주가 없음`);
     const buy = first[0], p0 = first[1];
     const shares = (money * 1e4) / (p0 * rate(buy));
-    // 1년 배당 = 최근 355일 동안 받은 배당 합 (지급일이 며칠 밀려 5번 잡히는 것을 줄이려 1년보다 조금 짧게)
-    const ttm = (day) => { const from = new Date(Date.parse(day) - 355 * 864e5).toISOString().slice(0, 10); return d.dv.filter((e) => e[0] > from && e[0] <= day).reduce((s, e) => s + e[1], 0); };
+    // 1년 배당 = 최근 '1년에 주는 횟수'만큼의 배당 합. 횟수는 지난 2년 지급 수 ÷ 2 (지급일이 며칠 밀려 1년 창에 5번·3번 잡히는 것을 막는다)
+    const ttm = (day) => {
+      const two = d.dv.filter((e) => e[0] > minusYear(minusYear(day)) && e[0] <= day);
+      const freq = Math.max(1, Math.round(two.length / 2));
+      return two.slice(-freq).reduce((s, e) => s + e[1], 0);
+    };
     const inc = [], val = [], cum = [], x = [];
     months.forEach((ym, i) => {
       const day = i === 0 ? buy : (i === months.length - 1 ? today : monthEnd(ym));
