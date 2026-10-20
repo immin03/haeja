@@ -1577,8 +1577,10 @@ function viewAccount(){
     <div class="row" style="justify-content:space-between;margin-top:12px"><span class="status-line small" id="ac-msg-2"></span><button class="btn primary" type="submit">비밀번호 바꾸기</button></div>
   </form>
 
-  <h3 class="eyebrow guide-h">나의 투자 점검 ${inv().at ? `<span class="muted" style="font-weight:400">· ${esc(inv().at)}</span>` : ''}</h3>
-  <div class="card">${invQHtml(INV_Q.map(x => x.k))}${invAdvice().length ? `<div class="in-adv" style="margin:16px 0 0"><b>맞춤 제안</b>${invAdvice().map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}</div>
+  <h3 class="eyebrow guide-h">나의 투자 유형 ${inv().at ? `<span class="muted" style="font-weight:400">· ${esc(inv().at)}</span>` : ''}</h3>
+  <div class="card">${invTypeCardHtml()}
+    <details class="onb-more"><summary>더 자세히 알려 주기 <span class="muted">(선택)</span></summary>${invQHtml(INV_Q.map(x => x.k).filter(k => k !== 'style'))}</details>
+    ${invAdvice().length ? `<div class="in-adv" style="margin:16px 0 0"><b>맞춤 제안</b>${invAdvice().map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}</div>
 
   <h3 class="eyebrow guide-h">이용</h3>
   <div class="card ac-list">
@@ -1804,26 +1806,179 @@ function evaluate(c){
 }
 
 /* ============ 렌더: 공통 ============ */
-/* ============ 가입 직후 기본 정보 (튜토리얼과 별개, 처음 한 번) ============ */
-const invDone = () => !!(inv().done || store.isDemo || store.isGuest);
-function onboardHtml(){
-  const v = inv(), ok = v.size && invStyles().length && (v.expect||[]).length;
-  const still = S.__onbShown ? ' still' : ''; S.__onbShown = true;
-  return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="기본 정보"><div class="intro-card">
-    <div class="eyebrow" style="color:var(--gold)">시작 전에 1분</div>
-    <h2 class="intro-t">어떤 투자자인지 알려 주세요</h2>
-    <p class="small muted" style="margin:0 0 14px">답에 맞춰 후보 정렬과 제안을 바꿔 드립니다. 나중에 계정에서 고칠 수 있습니다.</p>
-    <div class="intro-b">${invQHtml(['expect','size','markets','count','style','goal','horizon','exp'])}
-      <label class="f" style="margin-top:14px">그 밖에 밸류노트에 바라는 점 <span class="muted">(선택)</span><textarea id="onb-note" rows="2" maxlength="300" placeholder="예: 미국 주식 배당 정보를 더 보고 싶어요">${esc(S.__onbNote ?? v.expectNote ?? '')}</textarea></label></div>
-    <div class="intro-nav" style="justify-content:space-between;align-items:center"><span class="small muted">${ok ? '' : '* 기대하는 점·투자 규모·성향은 꼭 골라 주세요'}</span><button type="button" class="btn primary" data-onb="done" ${ok ? '' : 'disabled'}>시작하기</button></div>
-  </div></div>`;
+/* ============ 가입 직후: 나의 투자 유형 (유형 1개 → 목표 숫자 → 결과 카드, 30초) ============ */
+const VN_TYPES = {
+  value:{k:'value', n:'가치 성장형', st:'성장형', one:'지금 자산을 몇 배로 키우고 싶다', ex:'예: 1억 원을 10년 뒤 3억 원으로',
+    ic:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 18 10 12l3.5 3.5L20 9M15 9h5v5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    rules:['적정 주가보다 30% 이상 싼 가격에서만 삽니다 (안전마진)','잘 아는 3~5개 회사에 모으고 오래 들고 갑니다','이익이 꾸준히 늘고 빚이 적은 회사만 봅니다'],
+    cta:'이 기준에 맞는 회사 보기'},
+  income:{k:'income', n:'안전 배당형', st:'배당형', one:'매달 꾸준한 현금을 받고 싶다', ex:'예: 매달 배당 200만 원',
+    ic:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><ellipse cx="12" cy="7" rx="7" ry="3" fill="none" stroke="#FFFFFF" stroke-width="2"/><path d="M5 7v5c0 1.7 3.1 3 7 3s7-1.3 7-3V7M5 12v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5" fill="none" stroke="#FFFFFF" stroke-width="2"/></svg>',
+    rules:['배당을 많이 주는 회사보다 오래, 꾸준히 늘려 온 회사를 먼저 봅니다','이익보다 많이 나눠 주는 회사는 거릅니다','한 회사·한 업종에 몰지 않고 나눠 담습니다'],
+    cta:'배당 기준에 맞는 회사 보기'},
+  bold:{k:'bold', n:'공격 도전형', st:'공격형', one:'위험을 감수하더라도 큰 수익을 노리고 싶다', ex:'예: 1년에 2배를 노리는 종목',
+    ic:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13 2 5 13.5h6L10 22l9-12h-6z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/></svg>',
+    rules:['큰 수익을 노리는 베팅은 전체의 10% 안에서만 합니다','레버리지 상품은 오래 들고 있으면 횡보장에서도 가치가 줄어듭니다','나머지 90%는 기준을 통과한 회사로 버팀목을 만듭니다'],
+    cta:'버팀목이 될 회사 보기'},
+};
+const ONB_AMT = [[1000,'1천만 원'],[3000,'3천만 원'],[5000,'5천만 원'],[10000,'1억 원'],[30000,'3억 원'],[50000,'5억 원']];
+const ONB_MULT = [2,3,5,10], ONB_YRS = [5,10,20], ONB_MON = [50,100,200,300,500];
+const DIV_YLD = 0.04, DIV_TAX = 0.154, IDX_R = 0.10;
+const invType = () => VN_TYPES[inv().type] || null;
+const invDone = () => !!(store.isDemo || store.isGuest || (!S.onbForce && inv().done && inv().type));
+const onbPlan = () => ({ amt:10000, mult:3, yrs:10, mon:200, ...(inv().plan || {}), ...(S.onbDraft || {}) });
+/* 만 원 단위 금액을 읽기 쉬운 말로 */
+function manTxt(n){
+  if(!isFinite(n)) return '–';
+  if(n >= 10000){ const e = n / 10000; return (e >= 100 ? Math.round(e).toLocaleString() : (Math.round(e * 10) / 10).toString()) + '억 원'; }
+  if(n >= 100) return Math.round(n).toLocaleString() + '만 원';
+  return (Math.round(n * 10) / 10).toString() + '만 원';
 }
+/* 유형별 계산 결과: 큰 숫자 하나 + 풀어 쓴 설명 */
+function onbCalc(k, p){
+  if(k === 'value'){
+    const r = Math.pow(p.mult, 1 / p.yrs) - 1, pct = Math.round(r * 1000) / 10, idx = p.amt * Math.pow(1 + IDX_R, p.yrs);
+    const lvl = r <= 0.08 ? '시장 평균보다 낮은 목표입니다. 좋은 회사를 오래 들고 있으면 충분히 노려 볼 수 있습니다.'
+      : r <= 0.12 ? '미국 S&P 500 장기 평균(연 약 10%)과 비슷한 목표입니다. 좋은 회사를 제값보다 싸게 사서 오래 들고 가는 것이 핵심입니다.'
+      : r <= 0.20 ? '워렌 버핏의 장기 성적(연 약 20%)에 가까운 목표입니다. 종목을 3~5개로 좁히고 안전마진 30%를 꼭 지켜야 합니다.'
+      : '워렌 버핏의 장기 성적(연 약 20%)보다 높은 목표입니다. 기간을 늘리거나 배수를 낮추는 것이 현실적입니다.';
+    return { lab:'매년 필요한 수익률', big:'연 ' + pct + '%', sub:`${manTxt(p.amt)}을 ${p.yrs}년 뒤 ${manTxt(p.amt * p.mult)}으로 만들려면 매년 ${pct}%씩 불어나야 합니다.`,
+      note:lvl, cmp:`연 10%(미국 지수 평균)라면 ${p.yrs}년 뒤 ${manTxt(idx)}이 됩니다.`, share:`${manTxt(p.amt)} → ${p.yrs}년 뒤 ${manTxt(p.amt * p.mult)}` };
+  }
+  if(k === 'income'){
+    const need = p.mon * 12 / (1 - DIV_TAX) / DIV_YLD, now = p.amt * DIV_YLD * (1 - DIV_TAX) / 12;
+    const yrs = need > p.amt ? Math.ceil(Math.log(need / p.amt) / Math.log(1.08)) : 0;
+    return { lab:`세후 매달 ${manTxt(p.mon)}을 받으려면 필요한 투자금`, big:manTxt(need),
+      sub:`배당수익률 4%, 배당소득세 15.4%로 계산했습니다. 지금 ${manTxt(p.amt)}이면 매달 약 ${manTxt(now)}을 받습니다.`,
+      note: yrs ? `배당을 다시 넣어 연 8%씩 불린다고 가정하면 목표까지 약 ${yrs}년이 걸립니다.` : '지금 투자금으로 이미 목표에 닿습니다. 배당이 끊기지 않을 회사를 고르는 것이 핵심입니다.',
+      cmp:'', share:`세후 매달 ${manTxt(p.mon)} 받기` };
+  }
+  return { lab:'도전 칸에 쓸 금액 (전체의 10%)', big:manTxt(p.amt * 0.1),
+    sub:`나머지 ${manTxt(p.amt * 0.9)}은 기준을 통과한 회사와 현금으로 지킵니다.`,
+    note:'도전 칸이 모두 0원이 되더라도 전체 손실은 10%에서 멈춥니다. 큰 수익을 노리면서도 다시 일어설 수 있는 구조입니다.',
+    cmp:'', share:`${manTxt(p.amt)} 중 ${manTxt(p.amt * 0.1)}만 도전` };
+}
+const onbChips = (key, list, val, lab) => `<div class="onb-chips" role="group" aria-label="${esc(lab)}">${list.map(([v, l]) => `<button type="button" class="inv-o${v === val ? ' on' : ''}" data-onb-set="${key}" data-v="${v}" aria-pressed="${v === val}">${esc(l)}</button>`).join('')}</div>`;
+function onbHead(step){
+  return `<div class="onb-prog" aria-label="${step + 1} / 3 단계">${[0,1,2].map(i => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div>`;
+}
+function onboardHtml(){
+  const still = S.__onbShown ? ' still' : ''; S.__onbShown = true;
+  const T = VN_TYPES[S.onbType || inv().type], step = T ? (S.onbStep ?? 0) : 0, p = onbPlan();
+  let body = '';
+  if(step === 0){
+    body = `${onbHead(0)}<div class="eyebrow" style="color:var(--gold)">나의 투자 유형</div>
+      <h2 class="intro-t">어떤 투자를 원하세요?</h2>
+      <p class="small muted" style="margin:0 0 14px">하나만 고르면 목표에 맞는 길을 계산해 드립니다.</p>
+      <div class="onb-types">${Object.values(VN_TYPES).map(t => `<button type="button" class="onb-type${(S.onbType || inv().type) === t.k ? ' on' : ''}" data-onb-type="${t.k}">
+        <span class="onb-ic">${t.ic}</span><span class="onb-tx"><b>${esc(t.n)}</b><span>${esc(t.one)}</span><small>${esc(t.ex)}</small></span><span class="onb-go" aria-hidden="true">›</span></button>`).join('')}</div>`;
+  } else if(step === 1){
+    const amtQ = T.k === 'income' ? '지금 투자금은 얼마인가요?' : T.k === 'bold' ? '전체 투자금은 얼마인가요?' : '지금 투자금은 얼마인가요?';
+    body = `${onbHead(1)}<div class="eyebrow" style="color:var(--gold)">${esc(T.n)}</div>
+      <h2 class="intro-t">${T.k === 'value' ? '몇 년 안에 몇 배를 원하세요?' : T.k === 'income' ? '매달 얼마를 받고 싶으세요?' : '얼마로 도전하실 건가요?'}</h2>
+      <p class="small muted" style="margin:0 0 14px">대략 골라도 괜찮습니다. 나중에 언제든 바꿀 수 있습니다.</p>
+      <div class="inv-qs">
+        ${T.k === 'income' ? `<div class="inv-q"><b>세후 매달 받고 싶은 배당</b>${onbChips('mon', ONB_MON.map(v => [v, manTxt(v)]), p.mon, '월 배당')}</div>` : ''}
+        <div class="inv-q"><b>${amtQ}</b>${onbChips('amt', ONB_AMT, p.amt, '투자금')}</div>
+        ${T.k === 'value' ? `<div class="inv-q"><b>목표</b>${onbChips('mult', ONB_MULT.map(v => [v, v + '배']), p.mult, '목표 배수')}</div>
+          <div class="inv-q"><b>기간</b>${onbChips('yrs', ONB_YRS.map(v => [v, v + '년']), p.yrs, '기간')}</div>` : ''}
+      </div>
+      <div class="intro-nav"><button type="button" class="linkbtn" data-onb-step="0">‹ 유형 다시 고르기</button><button type="button" class="btn primary" data-onb-step="2">결과 보기</button></div>`;
+  } else {
+    const R = onbCalc(T.k, p);
+    body = `${onbHead(2)}<div class="onb-res">
+        <div class="onb-res-top"><span class="onb-ic">${T.ic}</span><div><small>나의 투자 유형</small><b>${esc(T.n)}</b></div></div>
+        <div class="onb-res-lab">${esc(R.lab)}</div><div class="onb-res-big num">${esc(R.big)}</div>
+        <p class="onb-res-sub">${esc(R.sub)}</p>
+      </div>
+      <p class="onb-note">${esc(R.note)}${R.cmp ? ' ' + esc(R.cmp) : ''}</p>
+      <div class="onb-rules"><b>이 유형이 지킬 원칙 3가지</b>${T.rules.map((r, i) => `<div><i class="num">${i + 1}</i><span>${esc(r)}</span></div>`).join('')}</div>
+      <button type="button" class="btn primary onb-cta" data-onb="done">${esc(T.cta)}</button>
+      <div class="onb-sub-acts"><button type="button" class="btn" data-onb-share>결과 카드 공유하기</button><button type="button" class="linkbtn" data-onb-step="1">‹ 목표 바꾸기</button></div>
+      <p class="small muted onb-disc">계산 예시이며 수익을 약속하지 않습니다. 회사 목록은 모든 이용자에게 같은 기준(워렌 버핏·그레이엄 방식)으로 계산한 결과이며 개별 종목 추천이 아닙니다.</p>`;
+  }
+  return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="나의 투자 유형"><div class="intro-card">${body}</div></div>`;
+}
+function onbSave(extra){
+  const T = VN_TYPES[S.onbType || inv().type]; if(!T) return;
+  const p = onbPlan(), plan = T.k === 'value' ? {amt:p.amt, mult:p.mult, yrs:p.yrs} : T.k === 'income' ? {amt:p.amt, mon:p.mon} : {amt:p.amt};
+  saveInv({ type:T.k, style:[T.n], plan, ...(extra || {}) });
+}
+function onbRerender(){ render(); const c2 = document.querySelector('.onb .intro-card'); if(c2) c2.scrollTop = 0; }
 document.addEventListener('click', e => {
+  const t = e.target.closest('[data-onb-type]');
+  if(t){ S.onbType = t.dataset.onbType; S.onbStep = 1; store.track('engage', 'onb-type-' + S.onbType); onbRerender(); return; }
+  const s = e.target.closest('[data-onb-set]');
+  if(s){ S.onbDraft = {...(S.onbDraft || {}), [s.dataset.onbSet]: +s.dataset.v};
+    s.parentElement.querySelectorAll('.inv-o').forEach(o => { const on = o === s; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); }); return; }
+  const st = e.target.closest('[data-onb-step]');
+  if(st){ S.onbStep = +st.dataset.onbStep; if(S.onbStep === 2){ onbSave(); store.track('engage', 'onb-result'); } onbRerender(); return; }
+  if(e.target.closest('[data-onb-share]')){ onbShare(); return; }
   const b = e.target.closest('[data-onb]'); if(!b) return;
-  const note = (document.getElementById('onb-note')?.value || '').trim().slice(0, 300);
-  saveInv({ done: today(), expectNote: note }); store.track('onboard'); S.tab = 'portfolio'; S.introStep = 0; try{ localStorage.setItem('ml-tab','portfolio'); }catch(_){} render(); window.scrollTo(0,0);
+  const T = VN_TYPES[S.onbType || inv().type]; if(!T) return;
+  const first = !inv().done;
+  onbSave({ done: inv().done || today() }); if(first) store.track('onboard');
+  S.onbForce = false; S.onbStep = 0; S.onbType = null; S.onbDraft = null; S.__onbShown = false;
+  /* 긴 안내를 띄우지 않고 고른 유형의 회사 목록으로 바로 간다 (안내는 오른쪽 위 ? 에서 언제든) */
+  if(first && typeof introDone === 'function') introDone();
+  S.coSort = null; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = '';
+  S.tab = T.k === 'income' ? 'dividend' : 'companies';
+  try{ localStorage.setItem('ml-tab', S.tab); }catch(_){}
+  render(); window.scrollTo(0, 0);
 });
-document.addEventListener('input', e => { if(e.target && e.target.id === 'onb-note'){ S.__onbNote = e.target.value; } });
+/* 결과 카드 이미지 (1080×1920, 인스타 스토리 크기) */
+function onbWrap(ctx, text, maxW){
+  const out = []; let line = '';
+  for(const w of String(text).split(' ')){ const tryL = line ? line + ' ' + w : w; if(ctx.measureText(tryL).width > maxW && line){ out.push(line); line = w; } else line = tryL; }
+  if(line) out.push(line); return out;
+}
+async function onbShare(){
+  const T = VN_TYPES[S.onbType || inv().type]; if(!T) return;
+  const R = onbCalc(T.k, onbPlan()), W = 1080, H = 1920, F = '"SUIT Variable","SUIT","Pretendard",sans-serif';
+  const btn = document.querySelector('[data-onb-share]'); if(btn){ btn.disabled = true; btn.textContent = '카드 만드는 중…'; }
+  try{
+    try{ await document.fonts.ready; }catch(_){}
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#0E1A2B'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(201,164,92,.35)'; ctx.lineWidth = 2; ctx.strokeRect(56, 56, W - 112, H - 112);
+    const icon = await new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = '/icon-512.png'; });
+    if(icon) ctx.drawImage(icon, (W - 132) / 2, 150, 132, 132);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#C9A45C'; ctx.font = `700 34px ${F}`; ctx.fillText('나의 투자 유형', W / 2, 380);
+    ctx.fillStyle = '#FFFFFF'; ctx.font = `800 120px ${F}`; ctx.fillText(T.n, W / 2, 530);
+    ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.font = `500 40px ${F}`; ctx.fillText(T.one, W / 2, 610);
+    /* 결과 박스 */
+    ctx.fillStyle = 'rgba(255,255,255,.06)'; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(110, 690, W - 220, 470, 36) : ctx.rect(110, 690, W - 220, 470); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = `600 38px ${F}`; onbWrap(ctx, R.lab, W - 300).forEach((l, i) => ctx.fillText(l, W / 2, 790 + i * 50));
+    ctx.fillStyle = '#C9A45C'; ctx.font = `800 150px ${F}`; ctx.fillText(R.big, W / 2, 1000);
+    ctx.fillStyle = '#FFFFFF'; ctx.font = `600 40px ${F}`; ctx.fillText(R.share, W / 2, 1090);
+    /* 원칙 */
+    ctx.textAlign = 'left'; let y = 1290;
+    ctx.fillStyle = '#C9A45C'; ctx.font = `700 34px ${F}`; ctx.fillText('지킬 원칙', 130, y - 20); y += 50;
+    T.rules.forEach((r, i) => { ctx.fillStyle = '#C9A45C'; ctx.font = `800 38px ${F}`; ctx.fillText(String(i + 1), 130, y);
+      ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.font = `500 38px ${F}`; const L = onbWrap(ctx, r, W - 330); L.forEach((l, j) => ctx.fillText(l, 190, y + j * 52)); y += L.length * 52 + 30; });
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#FFFFFF'; ctx.font = `700 44px ${F}`; ctx.fillText('나에게 맞는 투자 유형 찾기', W / 2, 1720);
+    ctx.fillStyle = '#C9A45C'; ctx.font = `700 40px ${F}`; ctx.fillText('밸류노트 · valuenote.co.kr', W / 2, 1782);
+    ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.font = `500 24px ${F}`; ctx.fillText('*계산 예시이며 수익을 약속하지 않습니다.', W / 2, 1836);
+    const blob = await new Promise(res => cv.toBlob(res, 'image/png'));
+    const file = new File([blob], 'valuenote-type.png', {type:'image/png'});
+    const url = 'https://www.valuenote.co.kr/start?utm_source=share&utm_campaign=type_' + T.k;
+    const text = `나는 ${T.n} 투자자. ${R.share} → ${R.lab} ${R.big}. 내 투자 유형도 찾아보세요`;
+    store.track('engage', 'onb-share-' + T.k);
+    if(navigator.canShare && navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file], text, url}); }catch(_){} }
+    else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'valuenote-type.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+  }catch(_){}
+  if(btn){ btn.disabled = false; btn.textContent = '결과 카드 공유하기'; }
+}
+/* 계정 화면용 요약 */
+function invTypeCardHtml(){
+  const T = invType();
+  if(!T) return `<div class="row" style="justify-content:space-between;align-items:center;gap:12px"><span class="small muted">아직 투자 유형을 고르지 않았습니다.</span><button type="button" class="btn primary" data-act="onb-redo">유형 고르기</button></div>`;
+  const R = onbCalc(T.k, onbPlan());
+  return `<div class="onb-mini"><span class="onb-ic">${T.ic}</span><div><b>${esc(T.n)}</b><span>${esc(R.lab)} <b class="num">${esc(R.big)}</b></span></div></div>
+    <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px"><button type="button" class="btn" data-act="onb-redo">유형·목표 바꾸기</button></div>`;
+}
 const inApp = () => /Instagram|FBAN|FBAV|KAKAOTALK|Barcelona|Threads|NAVER\(|; wv\)/.test(navigator.userAgent);
 /* 둘러보기 첫 화면: ① 결론형 제목 ② 인기 종목 한 번 누르면 바로 점수 ③ 인스타에서 본 오늘의 기업 ④ 지금 저평가 TOP 5 (1~3위 가림) */
 const GH_CHIPS = ['삼성전자', '애플', '엔비디아', 'SK하이닉스', '테슬라', '현대차'];
@@ -4390,7 +4545,7 @@ const INV_Q = [
 const inv = () => cfg().investor || {};
 const invStyles = () => { const v = inv().style; return Array.isArray(v) ? v : (v ? [v] : []); };
 const GOAL_STYLE = {'더 안정적으로':'안정형','배당·현금 흐름 늘리기':'배당형','저평가 종목 찾기':'성장형'};
-function prefStyle(){ const g = (inv().goal || []).map(x => GOAL_STYLE[x]).find(Boolean); if(g) return g;
+function prefStyle(){ const ty = VN_TYPES[inv().type]; if(ty) return ty.st; const g = (inv().goal || []).map(x => GOAL_STYLE[x]).find(Boolean); if(g) return g;
   const st = invStyles(); return ['배당형','안정형','성장형','공격형','균형형'].find(x => st.includes(x)) || null; }
 function saveInv(patch){
   S.settings = {...cfg(), investor:{...inv(), ...patch, at: today()}};
@@ -4412,7 +4567,7 @@ function invAdvice(){
   if(v.count === '아직 없음') out.push('처음이라면 관심 후보 중 "기준 통과" 판정이 나온 회사부터 천천히 살펴보세요.');
   if(ps === '배당형') out.push((goals.includes('배당·현금 흐름 늘리기') ? '배당·현금 흐름을 늘리고 싶다고 하셔서 ' : '') + '기업 목록을 "내 성향 맞춤" 순으로 정렬해 배당 아이콘이 붙은 회사부터 보여 드립니다.');
   if(ps === '성장형') out.push('기업 목록을 "내 성향 맞춤" 순으로 정렬해 저평가 아이콘이 붙은 회사부터 보여 드립니다. 그래도 안전마진 30%는 지킵니다.');
-  if(sts.includes('공격형')) out.push('큰 수익을 노리는 베팅은 도전 칸(포트폴리오의 10% 이하) 안에서만 하도록 알려 드립니다.');
+  if(sts.includes('공격형') || inv().type === 'bold') out.push('큰 수익을 노리는 베팅은 도전 칸(포트폴리오의 10% 이하) 안에서만 하도록 알려 드립니다.');
   if(ps === '안정형') out.push((goals.includes('더 안정적으로') ? '더 안정적으로 바꾸고 싶다고 하셔서 ' : '') + '재무 점수가 높고 부채가 적은 회사부터 보여 드리고, 현금 10~20%를 늘 지키도록 알려 드립니다.');
   if(sts.includes('균형형')) out.push('주력 3종목 70~80%, 현금 10~20%의 기본 구조가 잘 맞습니다.');
   if(goals.includes('종목 수 줄이고 집중')) out.push('주력 3종목에 70~80%를 모으도록 "지금 할 일"에서 줄일 순서를 알려 드립니다.');
@@ -4700,7 +4855,7 @@ const INTRO = [
   {t:'점수 읽는 법', b:`<div class="in-score"><div class="g"><b>75점 이상</b><span>기준에 가까워요. 가격까지 맞으면 기준 통과</span></div><div class="w"><b>60~74점</b><span>좋은 점은 있지만 한두 가지가 아쉬워요. 지켜보기</span></div><div class="n"><b>60점 미만</b><span>기준과 거리가 있어요. 사지 않기</span></div></div>
     <div class="in-badges"><span class="stag stag-div">${ICO_DIV}배당</span><span>배당을 꾸준히 주는 회사</span><span class="stag stag-up">${ICO_UP}저평가</span><span>제값보다 충분히 싼 회사</span></div>
     <p class="small muted">여기 나오는 가격과 점수는 모두 계산으로 얻은 추정치예요. 수익을 약속하지 않아요.</p>`},
-  {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(prefStyle() || '나')}${prefStyle() ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
+  {t:'이제 시작해 볼까요', b:() => { const adv = invAdvice(); return `${adv.length ? `<div class="in-adv"><b>${esc(invType()?.n || prefStyle() || '나')}${invType() || prefStyle() ? ' 투자자' : ''}에게 맞춘 첫 제안</b>${adv.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
     ${homeAddHtml()}
     <div class="in-acts"><button type="button" class="btn primary" data-act="intro-add">보유 종목 추가</button><button type="button" class="btn" data-act="intro-search">종목 검색해 보기</button></div>
     <button type="button" class="in-push" data-act="intro-push"><span>알림 켜기 (휴대폰·PC)</span><span class="muted">›</span></button>
@@ -6041,6 +6196,7 @@ document.addEventListener('click', async e => {
   if(act === 'intro-prev'){ S.introStep = Math.max(0, (S.introStep||0) - 1); render(); return; }
   if(act === 'intro-push'){ introDone(); if(typeof checkPush === 'function'){ S.tab = 'alerts'; await checkPush(); } render(); window.scrollTo(0,0); return; }
   if(act === 'intro-close'){ introDone(); render(); return; }
+  if(act === 'onb-redo'){ S.onbForce = true; S.onbType = inv().type || null; S.onbStep = 0; S.onbDraft = null; S.__onbShown = false; render(); return; }
   if(act === 'intro-open'){ S.introForce = true; S.introStep = 0; render(); return; }
   if(act === 'intro-add'){ introDone(); S.tab = 'portfolio'; S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); window.scrollTo(0,0); document.getElementById('h-name')?.focus(); return; }
   if(act === 'intro-search'){ introDone(); S.tab = 'companies'; render(); setTimeout(() => { const q = document.getElementById('az-q'); if(q){ q.scrollIntoView({block:'center'}); q.focus(); } }, 60); return; }
@@ -6816,6 +6972,29 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .lg-tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(14,26,43,.12)}
 .lg-demo{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;font-size:14px;color:var(--muted)}
 .onb textarea{width:100%;box-sizing:border-box;font:inherit;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);color:var(--ink);resize:vertical}
+.onb .intro-card{word-break:keep-all}
+.onb-prog{display:flex;gap:6px;margin:0 0 16px}.onb-prog i{flex:1;height:4px;border-radius:4px;background:var(--line)}.onb-prog i.on{background:var(--gold)}
+.onb-types{display:flex;flex-direction:column;gap:10px}
+.onb-type{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--bg);transition:border-color .15s,transform .1s}
+.onb-type:active{transform:scale(.985)}.onb-type.on,.onb-type:hover{border-color:var(--gold)}
+.onb-ic{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;border:1.5px solid var(--gold)}
+.onb-tx{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}.onb-tx b{font-size:17px;font-weight:800;color:var(--ink)}.onb-tx span{font-size:14px;color:var(--ink)}.onb-tx small{font-size:12px;color:var(--muted)}
+.onb-go{font-size:22px;color:var(--gold);flex:0 0 auto}
+.onb-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.onb-chips .inv-o{padding:10px 14px;font-size:14.5px}
+.onb-res{background:var(--navy);color:#FFFFFF;border-radius:18px;padding:20px 18px;text-align:center}
+.onb-res-top{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;text-align:left}.onb-res-top small{display:block;font-size:12px;color:var(--gold);font-weight:700}.onb-res-top b{font-size:20px;font-weight:800}
+.onb-res-lab{font-size:13.5px;color:rgba(255,255,255,.75)}
+.onb-res-big{font-size:40px;font-weight:800;color:var(--gold);line-height:1.15;margin:4px 0 8px;animation:onbPop .45s ease-out}
+.onb-res-sub{font-size:13px;line-height:1.55;color:rgba(255,255,255,.85);margin:0}
+@keyframes onbPop{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+.onb-note{font-size:14px;line-height:1.6;margin:14px 0 0}
+.onb-rules{margin:14px 0 0;display:flex;flex-direction:column;gap:8px}.onb-rules>b{font-size:13px;color:var(--muted);font-weight:700}
+.onb-rules div{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5}.onb-rules i{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-style:normal;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.onb-cta{width:100%;margin-top:18px;padding:14px;font-size:16px;font-weight:700;border-radius:12px}
+.onb-sub-acts{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.onb-disc{margin:14px 0 0;font-size:11.5px;line-height:1.5}
+.onb-mini{display:flex;align-items:center;gap:12px}.onb-mini>div{display:flex;flex-direction:column;gap:2px}.onb-mini>div>b{font-size:16px}.onb-mini span{font-size:13.5px;color:var(--muted)}.onb-mini span b{color:var(--ink)}
+.onb-more{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.onb-more summary{cursor:pointer;font-size:14px;font-weight:600;margin-bottom:10px}
 .demo-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:14px 0 0;padding:10px 14px;border-radius:12px;background:var(--gold-soft);border:1px solid rgba(201,164,92,.45);font-size:13px;line-height:1.5;word-break:keep-all}
 .demo-bar b{color:#8A6A2E}
 .gh-chips{display:flex;gap:6px;flex-wrap:wrap;margin:-6px 0 12px}

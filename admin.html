@@ -354,7 +354,7 @@ function vSurvey(s){
   return `${head('설문 응답', `가입 직후 기본 정보 질문에 답한 사람 ${n0(n)}명 · 여러 개 고르는 질문은 합계가 응답자보다 많습니다`, 'survey')}
   ${sec('가입자가 기대하는 것', c(s.expect), barsList(s.expect||{}))}
   <div class="grid2">
-    <div>${sec('지금 투자 방식', c(s.style), barsList(s.style||{}, ['안정형','배당형','균형형','성장형','공격형']))}</div>
+    <div>${sec('투자 유형', c(s.style), barsList(s.style||{}, ['가치 성장형','안전 배당형','공격 도전형','안정형','배당형','균형형','성장형','공격형']))}</div>
     <div>${sec('바꾸고 싶은 방향', c(s.goal), barsList(s.goal||{}))}</div>
   </div>
   <div class="grid2">
