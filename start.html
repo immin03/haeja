@@ -182,6 +182,7 @@ section.st+section.st{border-top:1px solid var(--line)}
 /* 마지막: 적정 매수가 아래 순위 (이름은 가입 후 공개) */
 .end h2 em{font-style:normal;color:var(--gold)}
 #s7 h2{font-size:24px}
+#s7{padding-bottom:28px}
 .rk-tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:4px 0 14px}
 .rk-tabs button{height:34px;padding:0 13px;border-radius:999px;border:1px solid rgba(228,199,141,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:13.5px;font-weight:700}
 .rk-tabs button small{opacity:.7;margin-left:3px;font-weight:700}
@@ -218,6 +219,8 @@ section.st+section.st{border-top:1px solid var(--line)}
 .end .fin .fin-a{margin-top:12px;font-size:18px;line-height:1.5;font-weight:700;color:rgba(247,242,232,.88)}
 .fin-a b{color:var(--gold)}
 .reveal.in .fin{animation:pop .5s ease-out .2s both}
+.end2{border-top:1px solid rgba(228,199,141,.14);padding-top:44px}
+.end .h2s{font-size:22px;margin-bottom:18px}
 .end .small{margin-top:14px;font-size:13px;color:rgba(247,242,232,.6)}
 footer{background:var(--navy);color:rgba(247,242,232,.55);font-size:12px;line-height:1.6;padding:20px 0 110px;border-top:1px solid rgba(255,255,255,.06)}
 footer a{color:rgba(247,242,232,.75)}
@@ -339,6 +342,11 @@ footer a{color:rgba(247,242,232,.75)}
   <h2>적정 주가보다 25% 이상 싼 회사<br>지금 <em id="rk-n">한국 14곳</em></h2>
   <div class="rk-tabs" id="rk-tabs" role="tablist"></div>
   <div class="rk" id="rk"></div>
+</div></section>
+
+<section class="end end2" id="s8" data-sec="s8"><div class="wrap reveal">
+  <div class="eyebrow" style="color:var(--gold)">07 · 보조 기능</div>
+  <h2 class="h2s">투자 판단을 돕는 기능도<br>함께 드립니다</h2>
   <div class="gets">
     <div><i style="background:#C99A50"><svg viewBox="0 0 24 24"><path d="M4 19h16M7 16V9m5 7V5m5 11v-4"/></svg></i><b>저평가 순위 전체</b><span>5개 시장 매일</span></div>
     <div><i style="background:#C24A3C"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i><b>적정 매수가 알림</b><span>휴대폰·PC로</span></div>
@@ -419,7 +427,7 @@ addEventListener('scroll', function sc(){ if(scrollY > innerHeight * .25){ hit('
 $('#sq').addEventListener('focus', function(){ hit('search-focus'); });
 
 /* 첫 화면을 지나면 아래 버튼을 띄운다 (마지막 단락에서는 숨김) */
-var sticky = $('#sticky'), hero = $('.hero'), end = $('#s7');
+var sticky = $('#sticky'), hero = $('.hero'), end = $('#s8');
 function stk(){ var hb = hero.getBoundingClientRect().bottom, et = end.getBoundingClientRect().top; sticky.classList.toggle('on', hb < 0 && et > innerHeight * .85); }
 addEventListener('scroll', stk, { passive: true }); stk();
 /* 빠르게 훑고 지나간 단락도 보이게: 화면 위로 지나간 단락은 바로 표시 */
