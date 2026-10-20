@@ -36,6 +36,13 @@
 - 탈락 예: E261020KS11("코스피 장중 -3.3%, 10년간 52번, 기준을 보세요") — 사실 나열 + 뻔한 교훈, 전(轉)이 없음. G02(배당 화면 기능 목록). 틀로 찍은 기업 적정 주가 릴스(A*).
 - 전날 밤 품질 점검(20:48)은 고쳐서 기준에 닿지 않는 릴스를 게시 대기열에서 멈춘다(social_posts.paused = true).
 
+## 성과 피드백 (2026-10-20, 릴스를 쓰거나 점검하는 모든 작업이 먼저 읽는다)
+릴스 실제 성과(조회수·도달·평균 시청 초·저장·공유)는 3시간마다 `social_posts.ig_insights`에 쌓이고, 밸류노트 비서가 매일 밤 무엇이 통했는지 정리한다.
+- 대본을 쓰거나 점검하기 전에 Supabase에서 읽는다: `select data from docs where collection='agent' and id='reels-learn' and owner=publisher_id();` (`works` = 잘 된 패턴, `fails` = 안 된 패턴, `try` = 다음에 시험할 것, 각각 근거 릴스 id·숫자 포함)
+- 필요하면 원자료: `select public.agent_snapshot(14) -> 'reels';`
+- 품질 관문(위 5가지)이 먼저다. 성과 피드백은 같은 기준을 통과한 후보 가운데 무엇을 고를지, 훅·첫 2초·길이를 어떻게 다듬을지 정하는 데 쓴다. 조회수만 보고 자극적인 소재로 기울지 않는다.
+- 게시 후 48시간이 안 된 릴스, 도달 300 미만 릴스는 판단 근거로 쓰지 않는다(표본이 작다).
+
 ## 로컬 미리보기
 ```
 pip install sherpa-onnx==1.13.8 soundfile scipy numpy pillow   # ffmpeg 필요
