@@ -271,6 +271,7 @@ const PAGES = [
   ['overview', '개요'],
   ['survey', '설문 응답'],
   ['users', '가입자'],
+  ['stocks', '회원 종목'],
   ['traffic', '유입·기기'],
   ['landing', '소개 페이지'],
   ['column', '칼럼'],
@@ -368,7 +369,7 @@ const surveyDone = u => !!(u.style || u.size || (u.expect||[]).length || (u.goal
 function userRows(L){
   if(!L.length) return '<tr><td colspan="9" class="empty">조건에 맞는 가입자가 없습니다.</td></tr>';
   return L.map(u => { const pills = [...(u.goal||[]), ...(u.expect||[])];
-    return `<tr><td class="nw">${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(USRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${u.push ? '켬' : '–'}${u.pwa ? ' · 앱' : ''}</td><td>${n0(u.holdings)}</td><td class="nw">${esc(u.style||'–')}<div class="muted" style="font-size:12px">${esc(u.size||'')}</div></td>
+    return `<tr><td class="nw">${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(USRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${u.push ? '켬' : '–'}${u.pwa ? ' · 앱' : ''}</td><td>${+u.holdings > 0 ? `<a class="lnk" href="#stocks" data-sk-go="${esc(u.email)}">${n0(u.holdings)}</a>` : n0(u.holdings)}</td><td class="nw">${esc(u.style||'–')}<div class="muted" style="font-size:12px">${esc(u.size||'')}</div></td>
       <td style="min-width:260px">${surveyDone(u) ? pills.map(e => `<span class="pill">${esc(e)}</span>`).join('') + (u.note ? `<div style="margin-top:4px;font-size:12.5px">“${esc(u.note)}”</div>` : '') : '<span class="muted">설문 전</span>'}</td></tr>`; }).join('');
 }
 const UF = { k: '', f: 'all' };
@@ -385,7 +386,7 @@ function vUsers(s){
 }
 function bindUsers(s){
   const L = s.users || [], q = $('#q'), ub = $('#ub');
-  const draw = () => { if(!ub) return; const R = userFilter(L); ub.innerHTML = userRows(R); const c = $('#ucount'); if(c) c.textContent = R.length === L.length ? '' : `${n0(R.length)}명`; };
+  const draw = () => { if(!ub) return; const R = userFilter(L); ub.innerHTML = userRows(R); ub.querySelectorAll('[data-sk-go]').forEach(a => a.onclick = () => { SK.k = a.dataset.skGo; SK.f = 'all'; }); const c = $('#ucount'); if(c) c.textContent = R.length === L.length ? '' : `${n0(R.length)}명`; };
   if(q) q.oninput = () => { UF.k = q.value.trim(); draw(); };
   document.querySelectorAll('[data-uf]').forEach(b => b.onclick = () => { UF.f = b.dataset.uf; document.querySelectorAll('[data-uf]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
   draw();
@@ -395,6 +396,59 @@ function bindUsers(s){
     const csv = '﻿' + ['이메일,가입,유입,30일 방문일수,최근 방문,알림,홈화면 앱,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(u[c])).join(','))].join('\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'valuenote-users-' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
   };
+}
+
+/* ---- 회원 종목: 회원이 보유로 등록하거나 직접 분석한 종목 (운영·체험 계정 제외) ---- */
+const SK = { list: null, err: '', k: '', f: 'all' };
+const MKT = { KR:'한국', US:'미국', JP:'일본', HK:'홍콩', CN:'중국' };
+async function skLoad(){ const { data, error } = await sb.rpc('admin_user_stocks'); SK.err = error ? error.message : ''; SK.list = error ? [] : skMerge(data || []); if(page() === 'stocks' || page() === 'overview') render(); }
+const skKey = x => String(x.ticker || x.name || '').toLowerCase().replace(/\s+/g, '');
+/* 같은 회원이 같은 종목을 보유+분석으로 둘 다 올린 경우 한 줄로 합친다 */
+function skMerge(rows){
+  const m = new Map();
+  rows.forEach(r => { const k = r.owner + '|' + String(r.name || '').toLowerCase().replace(/\s+/g, ''); const o = m.get(k);
+    if(!o){ m.set(k, { ...r, hold: r.kind === 'hold', ana: !!r.analyzed }); return; }
+    if(r.kind === 'hold'){ o.hold = true; o.qty = r.qty; o.avg = r.avg; o.cur = r.cur; }
+    if(r.analyzed) o.ana = true; if(!o.ticker && r.ticker) o.ticker = r.ticker; if(r.at > o.at) o.at = r.at; });
+  return [...m.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+}
+function skFilter(L){ const k = SK.k.toLowerCase();
+  return L.filter(x => SK.f === 'all' || (SK.f === 'hold' && x.hold) || (SK.f === 'ana' && x.ana) || (SK.f === 'noana' && x.hold && !x.ana))
+          .filter(x => !k || [x.name, x.ticker, x.email, MKT[x.market] || x.market].join(' ').toLowerCase().includes(k)); }
+const skNum = (v, cur) => v == null ? '' : (cur === 'KRW' || !cur ? n0(Math.round(v)) : (+v).toLocaleString('ko-KR', { maximumFractionDigits: 2 }));
+function skRows(L){
+  if(!L.length) return '<tr><td colspan="6" class="empty">조건에 맞는 종목이 없습니다.</td></tr>';
+  return L.map(x => `<tr><td><b>${esc(x.name || x.ticker || '–')}</b>${x.ticker ? ` <span class="muted">${esc(x.ticker)}</span>` : ''}</td>
+    <td class="nw">${esc(MKT[x.market] || x.market || '–')}</td>
+    <td class="nw">${x.hold ? '<span class="pill">보유</span>' : ''}${x.ana ? '<span class="pill">분석함</span>' : '<span class="pill" style="color:var(--muted)">분석 전</span>'}</td>
+    <td class="nw">${x.qty != null ? `${skNum(x.qty)}주` : '<span class="muted">–</span>'}${x.avg != null ? `<div class="muted" style="font-size:12px">평단 ${skNum(x.avg, x.cur)}${x.cur && x.cur !== 'KRW' ? ' ' + esc(x.cur) : '원'}</div>` : ''}</td>
+    <td class="nw"><button class="lnk" type="button" data-sk-u="${esc(x.email || '')}">${esc(x.email || '(알 수 없음)')}</button></td>
+    <td class="muted nw">${kst(x.at)}</td></tr>`).join('');
+}
+function vStocks(){
+  if(SK.list === null) return `${head('회원 종목', '', 'stocks')}<div class="empty">불러오는 중</div>`;
+  const L = SK.list, top = {}, who = {};
+  L.forEach(x => { const k = skKey(x); who[k] = who[k] || { name: x.name || x.ticker, s: new Set() }; who[k].s.add(x.owner); });
+  Object.values(who).forEach(v => top[v.name] = (top[v.name] || 0) + v.s.size);
+  const topList = Object.fromEntries(Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 15));
+  const members = new Set(L.map(x => x.owner)).size;
+  const chip = (id, t, n) => `<button class="chip" type="button" data-skf="${id}" aria-pressed="${SK.f === id}">${t} <span class="muted" style="font-weight:500">${n}</span></button>`;
+  return `${head('회원 종목', `회원 ${n0(members)}명 · 종목 ${n0(Object.keys(who).length)}개 · 운영·체험 계정 제외`, 'stocks')}
+  ${SK.err ? `<div class="card">불러오지 못했습니다: ${esc(SK.err)}</div>` : ''}
+  ${sec('많이 등록한 종목', '등록한 회원 수 · 상위 15', Object.keys(topList).length ? barsList(topList) : '<div class="empty">아직 회원이 등록한 종목이 없습니다.</div>')}
+  <h2>전체 목록</h2>
+  <div class="tools"><input id="skq" type="search" placeholder="종목명·티커·이메일로 찾기" value="${esc(SK.k)}"><span class="qcount" id="skcount"></span></div>
+  <div class="chips">${chip('all', '전체', L.length)}${chip('hold', '보유 등록', L.filter(x => x.hold).length)}${chip('ana', '분석함', L.filter(x => x.ana).length)}${chip('noana', '보유했지만 분석 전', L.filter(x => x.hold && !x.ana).length)}</div>
+  <div class="card tbl">${L.length ? `<table><thead><tr><th>종목</th><th>시장</th><th>구분</th><th>수량 · 평단</th><th>회원</th><th>최근 수정</th></tr></thead><tbody id="skb"></tbody></table>` : '<div class="empty">아직 회원이 등록한 종목이 없습니다.</div>'}</div>
+  <div class="note">보유는 포트폴리오에 올린 종목, 분석함은 회원이 직접 분석을 돌린 종목입니다. 같은 회원이 같은 종목을 두 방식으로 올리면 한 줄로 합쳐 보여 줍니다. 이메일을 누르면 그 회원의 종목만 봅니다.</div>`;
+}
+function bindStocks(){
+  const q = $('#skq'), b = $('#skb'); if(!SK.list) return;
+  const draw = () => { if(!b) return; const R = skFilter(SK.list); b.innerHTML = skRows(R); const c = $('#skcount'); if(c) c.textContent = R.length === SK.list.length ? '' : `${n0(R.length)}개`;
+    b.querySelectorAll('[data-sk-u]').forEach(x => x.onclick = () => { SK.k = x.dataset.skU; if(q) q.value = SK.k; draw(); }); };
+  if(q) q.oninput = () => { SK.k = q.value.trim(); draw(); };
+  document.querySelectorAll('[data-skf]').forEach(x => x.onclick = () => { SK.f = x.dataset.skf; document.querySelectorAll('[data-skf]').forEach(y => y.setAttribute('aria-pressed', y === x)); draw(); });
+  draw();
 }
 
 function vTraffic(s){
@@ -644,7 +698,7 @@ function bindSocial(){
 
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
-  const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0 }, hot = {};
+  const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0, stocks: SK.list ? SK.list.length : null }, hot = {};
   if(OPS.loaded){ const isDone = x => (!x.to_ig || x.ig_status === 'posted') && (!x.to_threads || x.th_status === 'posted');
     const nf = OPS.posts.filter(x => !isDone(x) && ((x.to_ig && x.ig_status === 'failed') || (x.to_threads && x.th_status === 'failed'))).length;
     const na = OPS.posts.filter(x => !isDone(x) && x.approved === false).length;
@@ -654,8 +708,9 @@ function render(s){
   const nav = $('#tabs'); nav.hidden = false;
   nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : vOverview(s);
   if(p === 'users') bindUsers(s);
+  if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
   if(p === 'column') bindColumn();
   if(p === 'qual') bindQual();
@@ -678,7 +733,7 @@ async function load(){
   $('#reload').hidden = $('#out').hidden = !session;
   if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
-  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null]);
+  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null]);
   if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
