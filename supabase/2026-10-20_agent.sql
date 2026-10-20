@@ -34,7 +34,7 @@ begin
              where at >= tp and (uid is null or not (uid = any(staff)))
                and (vk is null or vk not in (select vk from sv))
                and (sid is null or sid not in (select sid from ss))),
-       src as (select who, cur, min(case when ref like 'ad-%' then 'ad' when ref like 'ig%' then 'instagram' when ref like '%facebook%' then 'facebook(광고)'
+       src as (select who, cur, min(case when ref like 'ad-%' then 'ad' when ref like 'ig%' then 'instagram(프로필 링크·광고)' when ref like '%facebook%' then 'facebook(링크 공유)'
                                       when ref like 'naver%' then 'naver-blog' when ref like 'c%' then 'company-page'
                                       when coalesce(ref, '') = '' then '(직접)' else 'other' end) s
                from e where kind = 'visit' group by who, cur),
@@ -97,7 +97,7 @@ begin
                    count(*) filter (where exists (select 1 from e x where x.who = a.who and x.path = '/start:s1')) s1,
                    count(*) filter (where exists (select 1 from sus where sus.who = a.who and sus.at >= t0)) sg
             from adv a group by a.ad) q), '{}'::jsonb),
-        'untaggedFacebook', (select count(*) from src where cur and s = 'facebook(광고)'),
+        'untaggedFacebook', (select count(*) from src where cur and s = 'facebook(링크 공유)'),
         'spendTotalKrw', (select sum((x->>'krw')::numeric) from docs d, jsonb_array_elements(d.data -> 'entries') x
                           where d.collection = 'agent' and d.id = 'ad-spend' and d.owner = public.publisher_id()
                             and (x->>'date')::date >= (t0 at time zone 'Asia/Seoul')::date)),
