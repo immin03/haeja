@@ -18,14 +18,11 @@
 <meta name="theme-color" content="#0A1730">
 <link rel="preload" href="/fonts/fraunces-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
-<script>/* 인스타·쓰레드·카톡 앱 안 브라우저로 들어오면 휴대폰 기본 브라우저로 넘긴다 (안드로이드·카톡) */
-(function(){var u=navigator.userAgent;if(!/Instagram|FBAN|FBAV|Barcelona|Threads|KAKAOTALK|NAVER\(|Line\//.test(u))return;
-try{if(sessionStorage.getItem('vn-ext'))return;sessionStorage.setItem('vn-ext','1');}catch(e){}
-var url=location.href;
-if(/KAKAOTALK/.test(u)){location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(url);return;}
-if(/Android/.test(u)){location.href='intent://'+location.host+location.pathname+location.search+location.hash+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent(url)+';end';}
-})();
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css"></noscript>
+<script>/* 인스타·카톡 앱 안 브라우저에서도 소개는 그대로 읽게 둔다. 바깥 브라우저로 넘기는 일은 가입 버튼을 눌러 앱(/)으로 갈 때 앱이 한다.
+   (처음 보는 화면에서 바로 다른 앱으로 튕기면 대부분 뒤로 가기를 누른다) */
 /* 로그인한 사람은 소개 페이지가 필요 없다 → 바로 앱 */
 (function(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k)){location.replace('/'+location.search);return;}}localStorage.setItem('vn-start','1');}catch(e){}})();</script>
 <style>
@@ -51,7 +48,7 @@ button{font:inherit;cursor:pointer}
 .top .login{font-size:13.5px;font-weight:700;color:var(--ivory);text-decoration:none;border:1px solid rgba(228,199,141,.42);border-radius:999px;padding:7px 14px}
 
 /* 첫 화면 */
-.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(228,199,141,.22) 0,rgba(228,199,141,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:92px 0 40px;position:relative;overflow:hidden}
+.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(228,199,141,.22) 0,rgba(228,199,141,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:74px 0 26px;position:relative;overflow:hidden}
 .eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--gold2)}
 .hero .eyebrow{color:var(--gold)}
 .hero h1{margin:10px 0 12px;font-size:34px;line-height:1.26;font-weight:850;letter-spacing:-.02em;color:#fff}
@@ -94,6 +91,30 @@ button{font:inherit;cursor:pointer}
 .res-miss{background:rgba(255,255,255,.08);border:1px dashed rgba(228,199,141,.4);border-radius:14px;padding:14px;font-size:14px;color:rgba(247,242,232,.85)}
 .hero .scroll{display:flex;align-items:center;gap:8px;margin-top:26px;font-size:13.5px;font-weight:700;color:rgba(247,242,232,.7);text-decoration:none}
 .hero .scroll span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+/* 광고·릴스에서 본 회사: 답을 먼저 보여 준다 */
+.hero.feat h1{font-size:30px;margin:8px 0 14px}
+.fc{background:#fff;color:var(--ink);border-radius:18px;padding:16px 16px 14px;box-shadow:0 18px 40px rgba(4,9,20,.35);animation:up .4s ease-out}
+.fc-g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fc-g div{background:#F6F1E6;border-radius:12px;padding:10px 12px}
+.fc-g div.iv{background:var(--navy);color:var(--ivory)}
+.fc-g small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.fc-g div.iv small{color:rgba(247,242,232,.7)}
+.fc-g b{display:block;font-size:20px;font-weight:900;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums}
+.fc-g div.iv b{color:var(--gold)}
+.fc-gap{margin:12px 0 4px;font-size:17px;font-weight:850;line-height:1.4}
+.fc-gap em{font-style:normal;color:var(--bad);white-space:nowrap}.fc-gap em.ok{color:var(--good)}
+.fc-sc{font-size:13px;font-weight:700;color:var(--muted)}
+.fc-sc b{color:var(--ink)}
+.fc-note{margin:8px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted)}
+.fc-go{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:12px;height:48px;border-radius:14px;background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy);font-weight:850;font-size:15px;text-decoration:none}
+.fc-go span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+.hero .others{margin:18px 0 0;font-size:13px;font-weight:700;color:rgba(247,242,232,.7)}
+.hero .others+.chips{margin-top:8px}
+.sopen{background:none;border:0;padding:0;margin-top:12px;font-size:13.5px;font-weight:700;color:rgba(247,242,232,.75);text-decoration:underline;text-underline-offset:3px}
+.hero.feat .sform{margin-top:10px}
+.hero.feat .sform[hidden]{display:none}
+.hero.feat .scroll{display:none}
+@media (max-width:360px){.hero.feat h1{font-size:27px}.fc-g b{font-size:17px}}
 
 /* 이야기 단락 */
 section.st{padding:56px 0}
@@ -239,7 +260,7 @@ footer a{color:rgba(247,242,232,.75)}
 @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
-@media (min-width:700px){.hero{padding:110px 0 56px}.hero h1{font-size:44px}.st h2{font-size:31px}.cards{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:700px){.hero{padding:104px 0 48px}.hero.feat h1{font-size:40px}.hero h1{font-size:44px}.st h2{font-size:31px}.cards{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:360px){.hero h1{font-size:30px}.big{font-size:44px}.cards{gap:8px}.sc{padding:12px}}
 </style>
 </head>
@@ -252,10 +273,13 @@ footer a{color:rgba(247,242,232,.75)}
 <section class="hero" data-sec="s0">
   <div class="wrap">
     <div class="eyebrow">밸류노트 · 거인의 어깨 위에서</div>
-    <h1>주식 사기 전에,<br><em>점수부터</em> 확인하세요</h1>
-    <p class="sub">워렌 버핏·그레이엄·찰리 멍거의 기준으로 <b>600+ 기업</b>의 점수와 적정 주가를 매일 계산합니다.</p>
-    <form class="sform" id="sform" autocomplete="off"><input id="sq" placeholder="종목 이름 (예: 삼성전자, 애플)" aria-label="종목 검색" enterkeyhint="search"><button class="btn gold" type="submit">점수 보기</button></form>
+    <h1 id="h1">주식 사기 전에,<br><em>점수부터</em> 확인하세요</h1>
+    <p class="sub" id="sub">워렌 버핏·그레이엄·찰리 멍거의 기준으로 <b>600+ 기업</b>의 점수와 적정 주가를 매일 계산합니다.</p>
+    <div id="fc"></div>
+    <p class="others" id="others" hidden>다른 회사도 눌러 보세요</p>
     <div class="chips" id="chips"></div>
+    <button type="button" class="sopen" id="sopen" hidden>찾는 회사가 없나요? 직접 검색</button>
+    <form class="sform" id="sform" autocomplete="off"><input id="sq" placeholder="종목 이름 (예: 삼성전자, 애플)" aria-label="종목 검색" enterkeyhint="search"><button class="btn gold" type="submit">점수 보기</button></form>
     <div id="res"></div>
     <a class="scroll" href="#s1" data-ev="scroll-cue"><span>↓</span> 밸류노트는 왜 다를까요? 1분이면 봅니다</a>
   </div>
@@ -263,7 +287,7 @@ footer a{color:rgba(247,242,232,.75)}
 
 <section class="st" id="s1" data-sec="s1"><div class="wrap reveal">
   <div class="eyebrow">01 · 우리가 주식을 사는 방식</div>
-  <h2>대부분은 이렇게 삽니다</h2>
+  <h2 id="s1h">대부분은 이렇게 삽니다</h2>
   <div class="bubbles">
     <div class="bub"><small>지인에게 들은 말</small>"이거 곧 오른대"</div>
     <div class="bub"><small>뉴스와 유튜브</small>"요즘은 AI가 대세래"</div>
@@ -300,7 +324,7 @@ footer a{color:rgba(247,242,232,.75)}
   <h2>유명한 회사들은<br>지금 몇 점일까요</h2>
   <div class="cards" id="cards"></div>
   <div class="lesson" id="lesson"><b>좋은 회사와 좋은 투자는 다릅니다.</b> 재무가 최상위여도 가격에 기대가 너무 많이 담기면 점수는 낮아집니다.</div>
-  <div class="hx">
+  <div class="hx" id="hx">
     <div class="hx-h"><b>요즘 많이 찾는 SK하이닉스는?</b></div>
     <div class="hx-g">
       <div><small>지금 주가</small><b id="hx-px">1,277,000원</b></div>
@@ -357,7 +381,7 @@ footer a{color:rgba(247,242,232,.75)}
   </div>
   <div class="fin">
     <p class="fin-q">언제까지 기준 없이<br>투자하실 건가요?</p>
-    <p class="fin-a">이제 <b>밸류노트</b>와 함께<br>현명한 투자자가 되세요.</p>
+    <p class="fin-a" id="fin-a">이제 <b>밸류노트</b>와 함께<br>현명한 투자자가 되세요.</p>
   </div>
   <div class="acts">
     <a class="btn kakao" href="/?kakao=1&amp;from=start&amp;vt=KR" data-ev="cta-kakao" id="rk-k"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 3초 만에 회사 이름 보기</a>
@@ -425,6 +449,10 @@ document.querySelectorAll('[data-sec]').forEach(function(el){ if(rio) rio.observ
 /* 아래로 내리기 시작했는지 (화면 높이의 1/4 이상) · 검색창을 눌렀는지 */
 addEventListener('scroll', function sc(){ if(scrollY > innerHeight * .25){ hit('scroll'); removeEventListener('scroll', sc); } }, { passive: true });
 $('#sq').addEventListener('focus', function(){ hit('search-focus'); });
+$('#sopen').addEventListener('click', function(){ this.hidden = true; $('#sform').hidden = false; $('#sq').focus(); hit('search-open'); });
+/* 첫 화면이 실제로 그려지기까지 걸린 시간 (인스타 앱 안 브라우저가 느려 못 보고 나가는지 가려낸다) */
+addEventListener('load', function(){ setTimeout(function(){ try{ var p = performance.getEntriesByType('paint').filter(function(e){ return e.name === 'first-contentful-paint'; })[0];
+  var t = p ? p.startTime : performance.now(); hit(t < 1000 ? 'fcp-1' : t < 3000 ? 'fcp-3' : t < 6000 ? 'fcp-6' : 'fcp-9'); }catch(_){} }, 0); });
 
 /* 첫 화면을 지나면 아래 버튼을 띄운다 (마지막 단락에서는 숨김) */
 var sticky = $('#sticky'), hero = $('.hero'), end = $('#s8');
@@ -435,7 +463,7 @@ addEventListener('scroll', function(){ document.querySelectorAll('.reveal:not(.i
 
 /* ---------- 점수 데이터: 공개 기업 페이지가 매일 만드는 점수표 ---------- */
 var FALLBACK = { date:'', c:{ 'aapl':['애플',36,91,0,'US'], 'ko':['코카콜라',35,86,1,'US'], '000270-ks':['기아',76,85,100,'KR'], '005930-ks':['삼성전자',47,71,23,'KR'],
-  '005830-ks':['DB손해보험',79,92,98,'KR'], '086280-ks':['현대글로비스',73,83,90,'KR'], 'tsla':['테슬라',26,51,0,'US'], '035720-ks':['카카오',25,56,4,'KR'] } };
+  '005830-ks':['DB손해보험',79,92,98,'KR'], '086280-ks':['현대글로비스',73,83,90,'KR'], 'tsla':['테슬라',26,51,0,'US'], '035720-ks':['카카오',25,56,4,'KR'], '000660-ks':['SK하이닉스',47,67,30,'KR'], 'googl':['알파벳',47,94,15,'US'] } };
 var D = FALLBACK, byName = {};
 function idx(){ byName = {}; Object.keys(D.c).forEach(function(s){ var r = D.c[s]; if(r && r[0]) byName[r[0].replace(/\s/g,'').toLowerCase()] = s; }); }
 function row(slug){ var r = D.c[slug]; return r ? { slug: slug, n: r[0], b: r[1], q: r[2], v: r[3], m: r[4], mos: r[5] } : null; }
@@ -475,7 +503,7 @@ function showRes(r, q){
   if(st) st.textContent = below ? r.n + ' 지금 적정 매수가 아래' : near ? r.n + ' 알림 받기' : '내 종목은 몇 점일까요?'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 3초'; }
 }
 var CHIPS = ['삼성전자','SK하이닉스','기아','애플','테슬라','엔비디아'], IG = null;
-function chips(){ var L = (IG && CHIPS.indexOf(IG) < 0 ? [IG] : []).concat(CHIPS);
+function chips(){ var fn = FEAT && row(FEAT) ? row(FEAT).n : null; var L = (IG && CHIPS.indexOf(IG) < 0 && IG !== fn ? [IG] : []).concat(CHIPS).filter(function(n){ return n !== fn; });
   $('#chips').innerHTML = L.map(function(n){ var ig = n === IG; return '<button type="button" class="' + (ig ? 'ig ' : '') + (pick === n ? 'on' : '') + '" data-pick="' + esc(n) + '">' + (ig ? '<small>인스타 오늘의 기업</small>' : '') + esc(n) + '</button>'; }).join(''); }
 $('#chips').addEventListener('click', function(e){ var b = e.target.closest('[data-pick]'); if(!b) return; var r = find(b.dataset.pick); showRes(r, b.dataset.pick); hit('chip'); });
 $('#sform').addEventListener('submit', function(e){ e.preventDefault(); var q = $('#sq').value.trim(); if(!q) return; showRes(find(q), q); hit('search'); $('#sq').blur(); });
@@ -509,16 +537,66 @@ function rk(){
 }
 $('#rk-tabs').addEventListener('click', function(e){ var b = e.target.closest('[data-rk]'); if(!b) return; RKM = b.dataset.rk; rk(); hit('rk-' + RKM); });
 function render(){ idx(); chips(); cards(); }
+
+/* ---------- 첫 화면 주인공: 광고·릴스에서 보고 들어온 회사의 '답'을 먼저 보여 준다 ----------
+   1) 링크에 ?c=000660-ks 가 있으면 그 회사 (광고 도착 주소를 회사별로 달 때)
+   2) 지금 돌리는 유료 광고의 회사 (AD: 광고를 바꾸면 여기만 바꾸면 된다)
+   3) 없으면 가장 최근에 올라간 기업 릴스의 회사 */
+var AD = { slug: '000660-ks', until: '2026-11-10' };
+var FEAT = null, FEATD = null;
+function featSlug(){
+  var q = new URLSearchParams(location.search).get('c'); if(q && /^[0-9a-z.-]{1,20}$/i.test(q)) return q.toLowerCase();
+  if(AD && AD.slug && Date.now() < Date.parse(AD.until + 'T23:59:59+09:00')) return AD.slug;
+  return null;
+}
+var won = function(s){ return Number(String(s).replace(/[^\d.]/g, '')); };
+function feat(slug){
+  if(!slug || FEAT === slug) return; FEAT = slug; var r = row(slug); if(!r) { FEAT = null; return; }
+  pick = r.n; hit('v-feat');
+  var hero = $('.hero'); hero.classList.add('feat');
+  var fromIg = /^ig|instagram/i.test(REF || ''); 
+  hero.querySelector('.eyebrow').textContent = fromIg ? '인스타에서 보신 그 회사' : '워렌 버핏 기준 적정 주가';
+  $('#h1').innerHTML = '<em>' + esc(r.n) + '</em>,<br>워렌 버핏 기준으로 보면?';
+  $('#sub').hidden = true; $('#others').hidden = false; $('#sopen').hidden = false; $('#sform').hidden = true;
+  if(slug === '000660-ks' && $('#hx')) $('#hx').hidden = true;
+  $('#s1h').innerHTML = '숫자를 보기 전에,<br>대부분은 이렇게 삽니다';
+  $('#fin-a').innerHTML = '방금 본 <b>' + esc(r.n) + '</b>처럼 600+ 기업을 매일 같은 기준으로.<br>이제 <b>밸류노트</b>와 함께<br>현명한 투자자가 되세요.';
+  chips(); fcard(r);
+  fetch('/c/' + slug, { cache: 'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
+    var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
+    var px = /현재가 ([$₩]?[\d,.]+)(원?)/.exec(d), iv = /적정 주가 ([$₩]?[\d,.]+)(원?)/.exec(d);
+    if(px && iv){ FEATD = { px: px[1] + px[2], iv: iv[1] + iv[2], pn: won(px[1]), vn: won(iv[1]) }; fcard(row(slug) || r); }
+  }).catch(function(){});
+}
+function fcard(r){
+  var d = FEATD, gap = '';
+  if(d && d.pn > 0 && d.vn > 0){
+    var x = d.pn / d.vn;
+    gap = x >= 1.5 ? '지금 주가는 이 기준 적정 주가의 <em>약 ' + (Math.round(x * 10) / 10) + '배</em>입니다.'
+        : x > 1.02 ? '적정 주가보다 <em>' + Math.round((x - 1) * 100) + '% 비싸게</em> 거래되고 있습니다.'
+        : x < .98 ? '적정 주가보다 <em class="ok">' + Math.round((1 - x) * 100) + '% 싸게</em> 거래되고 있습니다.'
+        : '지금 주가가 적정 주가와 거의 같습니다.';
+  }
+  var note = r.slug === '000660-ks' ? 'AI 호황이 길게 이어진다고 가정하지 않은, 보수적인 계산입니다. 호황이 길어지면 더 높게 볼 수도 있습니다.'
+    : '워렌 버핏·그레이엄의 방식으로 계산한 값이며, 이 방식이 늘 맞지는 않습니다.';
+  $('#fc').innerHTML = '<div class="fc">' +
+    (d ? '<div class="fc-g"><div><small>지금 주가</small><b>' + esc(d.px) + '</b></div><div class="iv"><small>워렌 버핏식 적정 주가</small><b>' + esc(d.iv) + '</b></div></div>' +
+         '<p class="fc-gap">' + gap + '</p>' : '') +
+    '<div class="fc-sc">밸류노트 점수 <b>' + (num(r.b) ? r.b + '점' : '–') + '</b> · 재무 ' + (num(r.q) ? r.q : '–') + ' · 가격 ' + (num(r.v) ? r.v : '–') + '</div>' +
+    '<p class="fc-note">' + esc(note) + '</p>' +
+    '<a class="fc-go" href="#s1" data-ev="feat-more">왜 이렇게 나올까요? 1분이면 봅니다 <span>↓</span></a></div>';
+}
 fetch('/c/000660-ks', { cache: 'no-cache' }).then(function(r){ return r.text(); }).then(function(h){
   var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
   var iv = /적정 주가 ([\d,]+)원/.exec(d), px = /현재가 ([\d,]+)원/.exec(d);
   if(iv) $('#hx-iv').textContent = iv[1] + '원'; if(px) $('#hx-px').textContent = px[1] + '원'; }).catch(function(){});
 render();
-fetch('/c/scores.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c && Object.keys(j.c).length > 100){ D = j; render(); if(pick) showRes(find(pick), pick); } }).catch(function(){});
+(function(){ var f = featSlug(); if(f) feat(f); else hit('v-plain'); })();
+fetch('/c/scores.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c && Object.keys(j.c).length > 100){ D = j; render(); if(FEAT) fcard(row(FEAT)); else if(pick) showRes(find(pick), pick); } }).catch(function(){});
 /* 인스타 릴스에서 본 오늘의 기업을 칩 맨 앞에 */
 fetch('/social/reels/queue.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(L){ var now = Date.now();
   var it = (L || []).filter(function(x){ return /^A\d{6}[a-z]$/.test(x.id) && Date.parse(x.scheduled_at) <= now && /·/.test(x.title || ''); }).sort(function(a, b){ return b.scheduled_at.localeCompare(a.scheduled_at); })[0];
-  if(!it) return; var n = (it.title.split('·')[1] || '').trim(); if(n && find(n) && /^오늘의 기업|기업 ·|낮게 보는|앞선 기업/.test(it.title) && !/TOP/.test(it.title)){ IG = find(n).n; chips(); } }).catch(function(){});
+  if(!it) return; var n = (it.title.split('·')[1] || '').trim(); if(n && find(n) && /^오늘의 기업|기업 ·|낮게 보는|앞선 기업|적정 주가/.test(it.title) && !/TOP/.test(it.title)){ IG = find(n).n; if(!FEAT && !pick) feat(find(n).slug); else chips(); } }).catch(function(){});
 })();
 </script>
 </body>
