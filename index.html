@@ -1368,8 +1368,8 @@ async function loadSubs(){
   }catch(_){}
 }
 async function checkPush(){
-  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)){ pushState = isIOS() && !isStandalone() ? 'ios-install' : 'unsupported'; await loadSubs(); return; }
-  if(Notification.permission === 'denied'){ pushState = 'denied'; await loadSubs(); return; }
+  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)){ pushState = isIOS() && !isStandalone() ? 'ios-install' : 'unsupported'; S.pushChecked = true; await loadSubs(); return; }
+  if(Notification.permission === 'denied'){ pushState = 'denied'; S.pushChecked = true; await loadSubs(); return; }
   try{
     const reg = await navigator.serviceWorker.register('/sw.js');
     let sub = await reg.pushManager.getSubscription();
@@ -1379,6 +1379,7 @@ async function checkPush(){
     if(sub) await saveSubHere(sub);
     pushState = sub ? 'on' : 'off';
   }catch(_){ pushState = 'unsupported'; }
+  S.pushChecked = true;
   await loadSubs();
 }
 function b64ToU8(b64){ const p = '='.repeat((4 - b64.length % 4) % 4); const s = atob((b64 + p).replace(/-/g,'+').replace(/_/g,'/')); return Uint8Array.from(s, c => c.charCodeAt(0)); }
@@ -1434,9 +1435,9 @@ function pushCard(){
     return `<div class="card al-push al-push-on">
     <button type="button" class="al-push-bar" data-al="push-toggle" aria-expanded="${open}">
       <span><b>알림</b> <span class="pill p-good">켜짐</span> <span class="small muted">기기 ${subs.length || 1}대</span></span>
-      <span class="small al-push-more">${open ? '접기' : '관리'} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="small al-push-more">${open ? '접기' : '알림 종류 · 기기'} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </button>
-    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
+    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${pushPrefsHtml()}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
   </div>`;
   }
   return `<div class="card al-push"><div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap;gap:12px">
@@ -1479,6 +1480,7 @@ document.addEventListener('click', async e => {
     const a = (S.alerts||[]).find(x => x.id === el.dataset.id); if(!a) return;
     await markRead([a.id]);
     const l = a.link || {};
+    if(a.url && /^\/\?/.test(a.url)){ location.href = a.url; return; }
     if(l.co){ S.curId = l.co; S.tab = 'analyze'; render(); updateEval(); }
     else { S.tab = l.tab || 'portfolio'; if(l.scope){ S.scope = l.scope; S.coFocus = null; S.coQ = ''; S.coMkt = 'ALL'; S.coMin = 0; S.coShown = 30; } render(); }
     window.scrollTo(0,0);
@@ -1923,25 +1925,44 @@ const GUEST_GATE = {
   'co-new':['회사 추가', '원하는 회사를 직접 추가해 심사할 수 있어요.'], 'co-journal':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'co-del':['내 기록', '내 기록을 관리할 수 있어요.'],
   'j-save':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-rev':['결정 일지', '사고판 이유를 남기고 나중에 복기할 수 있어요.'], 'j-del':['결정 일지', '내 기록을 관리할 수 있어요.'],
 };
-const setupOn = () => store.mode === 'db' && !store.isGuest && !store.isDemo && S.loaded.s && consentOk() && invDone() && !prog().setupV1 && !S.setupClosed;
+const setupBase = () => store.mode === 'db' && !store.isGuest && !store.isDemo && S.loaded.s && consentOk() && invDone() && !S.setupClosed;
+/* 두 번째 안내: 첫 안내에서 알림을 안 켰고 이 기기 알림이 꺼진 게 확인됐을 때 한 번 더 (3일 뒤, 또는 아이폰을 홈 화면 앱으로 처음 열었을 때) */
+const setupAgain = () => { const g = prog(); if(!g.setupV1 || g.setupV2 || g.setupPush || !S.pushChecked || pushState !== 'off') return false;
+  return (isIOS() && isStandalone()) || (Date.now() - Date.parse(g.setupV1 + 'T00:00:00+09:00')) / 864e5 >= 3; };
+const setupOn = () => setupBase() && (!prog().setupV1 || setupAgain());
+/* 알림 상태를 화면 그리기 전에 바로 짐작한다 (checkPush 는 비동기라 첫 화면에서는 아직 모름) */
+function pushGuess(){
+  if(S.pushChecked) return pushState;
+  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return isIOS() && !isStandalone() ? 'ios-install' : 'unsupported';
+  if(Notification.permission === 'denied') return 'denied';
+  return pushState;
+}
 function setupHtml(){
   const ua = navigator.userAgent, android = /Android/.test(ua);
   const inapp = inApp() ? `<div class="su-warn"><b>지금은 앱 안의 브라우저로 열려 있어요</b><span>알림과 홈 화면 추가는 ${android ? '크롬' : '사파리'}에서만 됩니다. ${android
       ? `<a class="btn" href="intent://${location.host}/#Intent;scheme=https;package=com.android.chrome;end">크롬으로 열기</a>`
       : '오른쪽 위 <b>··· → 외부 브라우저로 열기</b>(또는 Safari로 열기)를 누른 뒤 같은 계정으로 로그인하세요.'}</span></div>` : '';
-  const ps = pushState;
+  const ps = pushGuess(), again = !!prog().setupV1, iosFirst = ps === 'ios-install';
   const push = ps === 'on' ? `<div class="su-ok">✓ 이 기기에 알림이 켜져 있어요</div>`
-    : ps === 'ios-install' ? `<div class="small muted">아이폰은 아래 ②번으로 홈 화면에 추가한 뒤, 홈 화면 아이콘으로 열어서 켤 수 있어요.</div>`
+    : ps === 'ios-install' ? `<div class="small muted">위 ①번으로 홈 화면에 추가한 뒤, 홈 화면의 밸류노트 아이콘으로 열면 여기서 켤 수 있어요.</div>`
     : ps === 'denied' ? `<div class="small muted">${esc(blockedHelp())}</div>`
     : ps === 'unsupported' ? `<div class="small muted">이 브라우저는 알림을 지원하지 않아요. 크롬·사파리·엣지에서 열어 주세요.</div>`
-    : `<button type="button" class="btn primary" data-setup="push">알림 켜기</button>`;
+    : `<button type="button" class="btn primary su-big" data-setup="push">알림 켜기</button>`;
+  /* 받게 될 알림을 휴대폰 알림 모양 그대로 미리 보여 준다 */
+  const pv = (t, b, w) => `<div class="su-pv"><img src="/icon-192.png?v=4" alt=""><div><div class="su-pv-h"><b>밸류노트</b><span>${w}</span></div><b>${t}</b><span>${b}</span></div></div>`;
+  const preview = `<div class="su-pvs" aria-label="알림 예시">
+      ${pv('최근 보신 SK하이닉스, 지금은 이렇습니다', '버핏 기준 적정 주가보다 높은 가격에 거래되고 있습니다. 점수와 근거를 확인해 보세요.', '오전 8:40')}
+      ${pv('새로 싸진 회사 · ○○은행', '오늘 처음으로 적정 주가보다 31% 쌉니다. 종합 75점, 확인해 보실래요?', '어제')}
+      ${pv('새 칼럼 · 버크셔는 왜 알파벳을 샀을까', '거장의 투자가 올라왔습니다. 5분이면 읽을 수 있습니다.', '월요일')}</div>`;
+  const stepPush = n => `<div class="su-step"><span class="su-n">${n}</span><div><b>알림 켜기</b><span>하루 최대 두 번, 내가 본 회사와 새로 싸진 회사, 새 칼럼만 골라서 보내 드려요.</span>${push}<div class="status-line small" id="al-msg"></div></div></div>`;
+  const stepHome = n => `<div class="su-step"><span class="su-n">${n}</span><div><b>${isMobile() ? '홈 화면에 추가' : '즐겨찾기에 추가'}</b><span>${isMobile() ? '앱처럼 아이콘 한 번에 열려요.' : '다음에 주소를 칠 필요 없이 바로 열려요.'}</span>${homeAddHtml().replace('class="in-home', 'class="in-home su-home')}</div></div>`;
   return `<div class="gate su" role="dialog" aria-modal="true" aria-label="시작 설정"><div class="gate-card su-card">
-    <div class="eyebrow">가입 완료 · 마지막 2단계</div><h3>놓치지 않게 설정해 두세요</h3>
-    <p>좋은 회사가 적정 매수가에 오는 날은 자주 오지 않아요. 그날 바로 알 수 있게 해 두면 차트를 볼 필요가 없어요.</p>
+    <div class="eyebrow">${again ? '30초면 끝나요' : '가입 완료 · 마지막 2단계'}</div><h3>${again ? '관심 회사 소식, 놓치지 마세요' : '이런 소식을 먼저 알려 드릴게요'}</h3>
+    <p>${again ? '보셨던 회사의 가격이 크게 바뀌거나 새로 싸진 회사가 생겨도 지금은 알 수 없어요.' : '좋은 회사가 적정 가격에 오는 날은 자주 오지 않아요. 차트를 매일 볼 필요 없이, 의미 있는 날에만 알려 드려요.'}</p>
+    ${preview}
     ${inapp}
-    <div class="su-step"><span class="su-n">1</span><div><b>알림 켜기</b><span>관심 종목이 적정 매수가에 오면 휴대폰·PC로 알려 드려요.</span>${push}<div class="status-line small" id="al-msg"></div></div></div>
-    <div class="su-step"><span class="su-n">2</span><div><b>홈 화면에 추가</b><span>앱처럼 아이콘 한 번에 열려요.</span>${homeAddHtml().replace('class="in-home', 'class="in-home su-home')}</div></div>
-    <div class="gate-a"><button type="button" class="btn primary" data-setup="done">시작하기</button></div>
+    ${iosFirst ? stepHome(1) + stepPush(2) : stepPush(1) + stepHome(2)}
+    <div class="gate-a"><button type="button" class="btn ${ps === 'on' ? 'primary' : ''}" data-setup="done">${ps === 'on' ? '시작하기' : '설정 끝'}</button></div>
     <button type="button" class="linkbtn" data-setup="later" style="margin-top:10px">나중에 할게요</button>
   </div></div>`;
 }
@@ -1949,8 +1970,58 @@ document.addEventListener('click', async e => {
   const b = e.target.closest('[data-setup]'); if(!b) return;
   const k = b.dataset.setup;
   if(k === 'push'){ store.track('view', 'setup-push'); b.disabled = true; await enablePush(); if(pushState === 'on') render(); else b.disabled = false; return; }
-  saveProg({ setupV1: today(), setupPush: pushState === 'on', setupHome: isStandalone() });
+  saveProg(prog().setupV1 ? { setupV2: today(), setupPush: pushState === 'on', setupHome: isStandalone() } : { setupV1: today(), setupPush: pushState === 'on', setupHome: isStandalone() });
   S.setupClosed = true; store.track('view', 'setup-' + k); document.body.classList.remove('noscroll'); render();
+});
+/* ============ 관심 회사 기록 → 맞춤 푸시 ============
+   회사 화면(심사)이나 전체 기업 목록에서 회사를 펼치면 interests 에 남긴다 (하루 한 번).
+   서버 push-digest 가 매일 아침 이 목록을 보고 '최근 보신 회사' 근황·큰 변화를 골라 보낸다. */
+const jo = (w, a, b) => { w = String(w || ''); const c = w.charCodeAt(w.length - 1); if(c < 0xAC00 || c > 0xD7A3) return w + b; return w + ((c - 0xAC00) % 28 ? a : b); };
+function noteInterestFromView(){
+  if(store.mode !== 'db' || store.isGuest || store.isDemo) return;
+  let it = null;
+  if(S.tab === 'analyze'){ const c = cur(); if(c && c.kind === 'stock' && !c.example && (c.ticker || c.yf)) it = { t: c.yf || c.ticker, code: c.ticker || c.yf, name: c.name, m: c.market || '' }; }
+  else if(S.tab === 'companies' && S.coOpen){ const r = (S2.screen || []).find(r => normKey(r.code || r.t) === normKey(S.coOpen)); if(r) it = { t: r.t, code: r.code || r.t, name: r.n, m: grpOf(r.m) }; }
+  if(!it || !it.name) return;
+  const slug = String(it.t).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); if(!slug) return;
+  if(S.__intLast === slug) return; S.__intLast = slug;
+  const k = 'vn-int-' + slug + '-' + today();
+  let fresh = true; try{ if(localStorage.getItem(k)) fresh = false; else localStorage.setItem(k, '1'); }catch(_){}
+  if(fresh){ const old = (S.interests || []).find(x => x.id === slug) || {};
+    const d = { ...old, id: undefined, slug, t: it.t, code: it.code, name: it.name, m: it.m, n: (old.n || 0) + 1, first: old.first || new Date().toISOString(), last: new Date().toISOString() }; delete d.id;
+    store.set('interests', slug, d).catch(() => {}); }
+  interestPushNudge(it.name);
+}
+/* 회사를 본 그 순간, 알림이 꺼져 있으면 그 회사 이름으로 한 번 권한다 (하루 한 번, 모두 세 번까지) */
+function interestPushNudge(name){
+  if(!S.pushChecked || pushState !== 'off' || document.querySelector('.gate, .intro, .pn-bar')) return;
+  let n = 0; try{ const v = JSON.parse(localStorage.getItem('vn-pn') || '{}'); if(v.d === today() || (v.n || 0) >= 3) return; n = v.n || 0; localStorage.setItem('vn-pn', JSON.stringify({ d: today(), n: n + 1 })); }catch(_){ return; }
+  setTimeout(() => {
+    if(document.querySelector('.gate, .intro, .pn-bar')) return;
+    document.body.insertAdjacentHTML('beforeend', `<div class="pn-bar" role="dialog" aria-label="알림 안내"><div class="pn-in">
+      <div class="pn-t"><b>${esc(jo(name, '이', '가'))} 싸지면 알려 드릴까요?</b><span>가격이 크게 바뀌거나 적정 주가에 가까워지면 바로 알려 드려요.</span></div>
+      <div class="pn-a"><button type="button" class="btn primary" data-pn="on">알림 받기</button><button type="button" class="linkbtn" data-pn="no">괜찮아요</button></div>
+      <div class="status-line small" id="al-msg"></div></div></div>`);
+    store.track('view', 'pn-nudge');
+  }, 1800);
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-pn]'); if(!b) return;
+  if(b.dataset.pn === 'no'){ document.querySelector('.pn-bar')?.remove(); store.track('view', 'pn-no'); return; }
+  b.disabled = true; store.track('view', 'pn-on'); await enablePush();
+  if(pushState === 'on'){ saveProg({ setupPush: true }); document.querySelector('.pn-bar')?.remove(); toastMsg('알림을 켰어요. 의미 있는 날에만 알려 드릴게요.'); } else b.disabled = false;
+});
+/* 알림 종류 고르기 (알림 탭) */
+const PUSH_KINDS = [['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
+const pushPrefs = () => ({ interest: true, value: true, column: true, ...((S.pushPrefs || []).find(d => d.id === 'main') || {}) });
+function pushPrefsHtml(){
+  const P = pushPrefs();
+  return `<div class="al-kinds"><div class="eyebrow">받을 알림</div>${PUSH_KINDS.map(([k, t, d]) => `<label class="al-kind"><input type="checkbox" data-pk="${k}" ${P[k] ? 'checked' : ''}><span><b>${t}</b><span class="small muted">${d}</span></span></label>`).join('')}<div class="small muted">보유 종목 급등락·적정 매수가 도달 알림은 늘 켜져 있어요. 하루 최대 두 번까지만 보내요.</div></div>`;
+}
+document.addEventListener('change', e => {
+  const el = e.target.closest && e.target.closest('[data-pk]'); if(!el) return;
+  const P = { ...pushPrefs(), [el.dataset.pk]: el.checked }; delete P.id;
+  S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
 });
 /* 비회원이 1분 넘게 둘러보면 한 번 가입 안내 (하루 한 번, 다른 창이 떠 있으면 미룸) */
 let __nudgeT = null;
@@ -2089,6 +2160,7 @@ function render(){
   else if(setupOn()){ app.insertAdjacentHTML('beforeend', setupHtml()); document.body.classList.add('noscroll'); }
   if(__mY){ const b = document.querySelector('.intro.consent .intro-card'); if(b) b.scrollTop = __mY; }
   else if(S.discView){ app.insertAdjacentHTML('beforeend', discViewHtml()); document.body.classList.add('noscroll'); }
+  try{ noteInterestFromView(); }catch(_){}
 }
 const pillFor = (ev) => `<span class="pill p-${ev.cls}">${esc(ev.verdict)}</span>`;
 function companyFor(h){
@@ -6100,6 +6172,9 @@ function refresh(kind){
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
+  /* 맞춤 푸시의 칼럼 알림: ?col=ID 로 그 칼럼을 바로 연다 */
+  { const u = new URLSearchParams(location.search); const c = u.get('col'); if(c){ S.colOpen = c; S.tab = 'column'; try{ colStatsLoad(); colView(c); }catch(_){} store.track('view', 'from-push-col'); history.replaceState(null, '', location.pathname); } }
+  { const u = new URLSearchParams(location.search); if(u.get('from') === 'push'){ store.track('view', 'from-push'); } }
   /* 블로그·공개 페이지 배너에서 넘어오면 저평가·고평가 화면을 바로 연다: ?tab=value&mkt=KR */
   { const u = new URLSearchParams(location.search); if(u.get('tab') === 'value'){ S.tab = 'value'; S.vlSide = u.get('side') === 'over' ? 'over' : 'under'; const m = (u.get('mkt') || '').toUpperCase(); if(VL_MKT.some(([k]) => k === m)) S.vlMkt = m; store.track('view', 'from-link-value'); history.replaceState(null, '', location.pathname); } }
   /* 소개 페이지 마지막 순위(?vt=시장): 가입 뒤 저평가 순위 화면을 그 시장으로 연다 */
@@ -6122,6 +6197,7 @@ function refresh(kind){
   if(!store.isGuest) store.sub('qual_feedback', docs => { S.qualFb = docs; if(S.tab === 'analyze') updateEval(); });
   store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); healLinks(); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);
+  if(!store.isGuest && !store.isDemo){ store.sub('interests', docs => { S.interests = docs; }); store.sub('push_prefs', docs => { S.pushPrefs = docs; }); }
   if(!store.isGuest) store.sub('alerts', docs => { S.alerts = docs; const first = !S.alertsLoaded; S.alertsLoaded = true; updateBell(); if(S.tab === 'alerts') refresh('a'); if(first){ setTimeout(scanAlerts, 2500); setTimeout(() => checkPush().then(() => { if(S.tab === 'alerts') render(); }), 3000); } });
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') refreshQuotes(false); });
   store.sub('screen', docs => {
@@ -6803,6 +6879,25 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .su-step .btn{align-self:flex-start}
 .su-n{flex:0 0 28px;height:28px;border-radius:50%;background:#0E2342;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
 .su-ok{font-size:13.5px;font-weight:700;color:var(--accent)}
+.su-pvs{display:flex;flex-direction:column;gap:6px;margin:2px 0 12px}
+.su-pv{display:flex;gap:10px;align-items:flex-start;padding:8px 11px;border-radius:14px;background:var(--card,#fff);border:1px solid var(--line);box-shadow:0 6px 18px rgba(10,23,48,.08)}
+.su-pv img{width:26px;height:26px;border-radius:7px;flex:0 0 26px;margin-top:2px}
+.su-pv>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.su-pv-h{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)} .su-pv-h b{font-size:11.5px;color:var(--muted);font-weight:700}
+.su-pv>div>b{font-size:13px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .su-pv>div>span{font-size:12px;line-height:1.4;color:var(--muted);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.su-pv:nth-child(2){opacity:.92} .su-pv:nth-child(3){opacity:.84}
+.su .btn.su-big{padding:12px 22px;font-size:15px}
+.pn-bar{position:fixed;left:0;right:0;bottom:calc(72px + env(safe-area-inset-bottom));z-index:60;padding:0 12px;animation:pnUp .35s ease-out both}
+.pn-in{max-width:520px;margin:0 auto;background:#0E2342;color:#F7F2E8;border-radius:16px;padding:14px 16px;box-shadow:0 14px 36px rgba(10,23,48,.35);display:flex;flex-direction:column;gap:10px}
+.pn-t b{display:block;font-size:15px;color:#fff} .pn-t span{font-size:13px;color:rgba(247,242,232,.78);line-height:1.5}
+.pn-a{display:flex;gap:12px;align-items:center} .pn-a .linkbtn{color:rgba(247,242,232,.7)}
+.pn-in .status-line{color:#E4C78D} .pn-in .status-line:empty{display:none}
+.pn-a .btn.primary{background:linear-gradient(90deg,#C99A50,#E4C78D);color:#0A1730;border:0}
+@media (min-width:721px){.pn-bar{bottom:20px}}
+@keyframes pnUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.al-kinds{margin:12px 0 4px;display:flex;flex-direction:column;gap:8px}
+.al-kind{display:flex;gap:10px;align-items:flex-start;cursor:pointer} .al-kind input{margin-top:3px;width:18px;height:18px;accent-color:var(--accent)}
+.al-kind>span{display:flex;flex-direction:column} .al-kind b{font-size:14px}
 .su-home{margin:0;border-style:solid}
 .su-warn{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:rgba(232,160,126,.14);border:1px solid rgba(232,160,126,.45);display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.55}
 .su-warn .btn{align-self:flex-start;margin-top:4px}

@@ -57,8 +57,8 @@ async function loadSubs(){
   }catch(_){}
 }
 async function checkPush(){
-  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)){ pushState = isIOS() && !isStandalone() ? 'ios-install' : 'unsupported'; await loadSubs(); return; }
-  if(Notification.permission === 'denied'){ pushState = 'denied'; await loadSubs(); return; }
+  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)){ pushState = isIOS() && !isStandalone() ? 'ios-install' : 'unsupported'; S.pushChecked = true; await loadSubs(); return; }
+  if(Notification.permission === 'denied'){ pushState = 'denied'; S.pushChecked = true; await loadSubs(); return; }
   try{
     const reg = await navigator.serviceWorker.register('/sw.js');
     let sub = await reg.pushManager.getSubscription();
@@ -68,6 +68,7 @@ async function checkPush(){
     if(sub) await saveSubHere(sub);
     pushState = sub ? 'on' : 'off';
   }catch(_){ pushState = 'unsupported'; }
+  S.pushChecked = true;
   await loadSubs();
 }
 function b64ToU8(b64){ const p = '='.repeat((4 - b64.length % 4) % 4); const s = atob((b64 + p).replace(/-/g,'+').replace(/_/g,'/')); return Uint8Array.from(s, c => c.charCodeAt(0)); }
@@ -123,9 +124,9 @@ function pushCard(){
     return `<div class="card al-push al-push-on">
     <button type="button" class="al-push-bar" data-al="push-toggle" aria-expanded="${open}">
       <span><b>알림</b> <span class="pill p-good">켜짐</span> <span class="small muted">기기 ${subs.length || 1}대</span></span>
-      <span class="small al-push-more">${open ? '접기' : '관리'} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="small al-push-more">${open ? '접기' : '알림 종류 · 기기'} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </button>
-    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
+    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${typeof pushPrefsHtml === 'function' ? pushPrefsHtml() : ''}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
   </div>`;
   }
   return `<div class="card al-push"><div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap;gap:12px">
@@ -168,6 +169,7 @@ document.addEventListener('click', async e => {
     const a = (S.alerts||[]).find(x => x.id === el.dataset.id); if(!a) return;
     await markRead([a.id]);
     const l = a.link || {};
+    if(a.url && /^\/\?/.test(a.url)){ location.href = a.url; return; }
     if(l.co){ S.curId = l.co; S.tab = 'analyze'; render(); updateEval(); }
     else { S.tab = l.tab || 'portfolio'; if(l.scope){ S.scope = l.scope; S.coFocus = null; S.coQ = ''; S.coMkt = 'ALL'; S.coMin = 0; S.coShown = 30; } render(); }
     window.scrollTo(0,0);
