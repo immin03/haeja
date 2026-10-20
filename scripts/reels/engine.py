@@ -781,6 +781,7 @@ def frame(T, scenes, total):
     return img
 
 # ── 썸네일(cover.jpg): 시리즈별로 다른 그림, 같은 틀 ────────────
+COVER_STYLE = "box"  # "title" = 제목이 주인공인 새 썸네일 (2026-10-20 시범: 대본에 "cover_style": "title")
 COVER_V = 2   # 썸네일 방식이 바뀌면 올린다 → build.py 가 아직 안 올라간 릴스의 썸네일만 다시 만든다
 COVER_PREF = {"F": ["screen", "list", "bars", "compare"], "G": ["list", "bars", "compare"],
               "A": ["bars", "compare", "list"], "M": ["line", "bars"], "E": ["line", "bars"], "R": [], "D": ["race"]}
@@ -844,10 +845,55 @@ def plan_estimate(spec):
         scenes.append({"sc": sc, "start": t, "dur": dur, "L": L, "vo": []}); t += dur
     return scenes, t
 
+def cover_title(spec, scenes):
+    """2026-10-20 운영자 요청: 제목이 주인공인 썸네일. 큰 제목(최대 3줄) → 답이 되는 숫자는 작게 → 시리즈 표시.
+    배경은 그 릴스의 실사 영상 한 장면을 어둡게(격자에서 게시물마다 달라 보이게). 요소는 y 285~1635(4:5 격자) 안."""
+    first = scenes[0]["sc"]
+    title = spec.get("cover_title") or first.get("top") or spec.get("title", "")
+    rows = [r for r in title.split("\n") if r][:3]
+    img = background(1.0, 0.0)
+    k = broll_key(spec)
+    if k:
+        try:
+            fr = broll_load(k, 2.0)
+            if fr is not None:
+                v = Image.fromarray(fr[min(len(fr) - 1, 45)]).resize((W, H), Image.BILINEAR)
+                a = np.asarray(v, np.float32); g = a.mean(2, keepdims=True); a = a * .5 + g * .5
+                yy = np.linspace(0, 1, H)[:, None, None]
+                dark = (.50 + .32 * np.clip((.62 - yy) / .30, 0, 1) ** 1.2 + .18 * np.clip((yy - .80) / .20, 0, 1)).astype(np.float32)  # 위(제목)는 짙게, 가운데는 사진이 보이게, 끊김 없이
+                out = a * (1 - dark) + np.array(NAVY, np.float32) * dark
+                img = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+        except Exception as e: print("  썸네일 배경 실패", k, e)
+    d = ImageDraw.Draw(img)
+    logo(d, 330)
+    size = 132 if len(rows) <= 2 else 116
+    font = F("Heavy", size)
+    while size > 84 and max(font.getlength(r) for r in rows) > 980: size -= 6; font = F("Heavy", size)
+    lh = int(size * 1.22); y0 = 470 + lh // 2 + (0 if len(rows) == 3 else lh // 3)
+    for i, r in enumerate(rows):
+        y = y0 + i * lh
+        d.text((W / 2 + 4, y + 5), r, font=font, fill=(4, 10, 22), anchor="mm")  # 그림자: 사진 위에서도 읽히게
+        d.text((W / 2, y), r, font=font, fill=IVORY, anchor="mm")
+    yb = y0 + (len(rows) - 1) * lh + int(size * .75) + 40
+    d.line([(W / 2 - 70, yb), (W / 2 + 70, yb)], fill=GOLD, width=6)
+    num = first.get("num") if first.get("type") == "hook" else None
+    if num and not spec.get("cover_hide_num"):
+        s = fmt_num(num["to"], num)
+        nf = fit_font(s, "Heavy", 150, 900)
+        d.text((W / 2, yb + 140), s, font=nf, fill=TONE.get(first.get("tone", "gold"), GOLD), anchor="mm")
+        lab = spec.get("cover_label") or first.get("label")
+        if lab: d.text((W / 2, yb + 250), lab, font=fit_font(lab, "SemiBold", 40, 900), fill=(196, 204, 220), anchor="mm")
+    tag = series_tag(spec); tf = F("SemiBold", 34); tw = tf.getlength(tag); x0 = W / 2 - tw / 2 - 30; ty = 1520
+    d.rounded_rectangle([x0, ty, x0 + tw + 60, ty + 66], 33, fill=(18, 36, 64), outline=GOLD_D, width=2)
+    d.text((W / 2, ty + 33), tag, font=tf, fill=GOLD, anchor="mm")
+    d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(150, 160, 180), anchor="mm")
+    return img
+
 def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
     scenes, _ = plan_estimate(spec)
-    cover(spec, scenes).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    im = cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)
+    im.save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
 
 # ── 오디오: 직접 합성한 배경음악·효과음 + 내레이션 (저작권 없음) ──
@@ -1004,7 +1050,7 @@ def render(spec, outdir, stills=None):
     for i in range(int(total * FPS)):
         p.stdin.write(frame(i / FPS, scenes, total).tobytes())
     p.stdin.close(); p.wait(); os.remove(wav)
-    cover(spec, scenes).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    (cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     return total
 
