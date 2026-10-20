@@ -2093,8 +2093,10 @@ function render(){
 const pillFor = (ev) => `<span class="pill p-${ev.cls}">${esc(ev.verdict)}</span>`;
 function companyFor(h){
   if(h.companyId) { const c = S.companies.find(x => x.id === h.companyId); if(c) return c; }
-  const t = (h.ticker||'').trim().toUpperCase(); if(!t) return null;
-  return S.companies.find(x => (x.ticker||'').trim().toUpperCase() === t || (x.yf||'').toUpperCase() === t) || null;
+  const t = (h.ticker||'').trim().toUpperCase();
+  if(t){ const c = S.companies.find(x => (x.ticker||'').trim().toUpperCase() === t || (x.yf||'').toUpperCase() === t); if(c) return c; }
+  const sr = screenFor(h); if(sr){ const c = S.companies.find(x => (x.yf||'').toUpperCase() === sr.t.toUpperCase()); if(c) return c; }
+  const k = nmKey(h.name); return k ? (S.companies.find(x => nmKey(x.name) === k && (x.market || 'KR') === (h.market || 'KR')) || null) : null;
 }
 
 /* ============ 흔들린 날: 하루 변동을 기회로 바꿔 보여 준다 ============ */
@@ -2414,7 +2416,7 @@ function holdForm(h){
   return `<div class="card stack" style="margin-bottom:12px;border-color:var(--accent)">
     <h3>${h.id ? '보유 종목 수정' : '보유 종목 추가'}</h3>
     <div class="grid2">
-      <label class="f">종목명<input id="h-name" value="${esc(h.name)}"></label>
+      <label class="f">종목명<input id="h-name" list="h-list" autocomplete="off" oninput="holdNameInput(this)" placeholder="예: 삼성전자" value="${esc(h.name)}"><datalist id="h-list">${(S2.screen||[]).map(r => `<option value="${esc(r.n)}">${esc(r.code || r.t)}</option>`).join('')}</datalist></label>
       <label class="f">티커·코드<input id="h-ticker" value="${esc(h.ticker)}"></label>
       <label class="f">시장<select id="h-market">${[['KR','국내 (원)'],['US','미국 (USD)'],['JP','일본 (엔)'],['CN','중국 A주 (위안)'],['HK','홍콩 (HKD)']].map(([k,l]) => `<option value="${k}" ${(h.market||'KR')===k?'selected':''}>${l}</option>`).join('')}</select></label>
       <label class="f">종류<select id="h-kind"><option value="stock" ${h.kind==='stock'?'selected':''}>개별 기업</option><option value="etf" ${h.kind==='etf'?'selected':''}>지수 ETF</option><option value="bond" ${h.kind==='bond'?'selected':''}>단기채·MMF (대기 자금)</option><option value="hedge" ${h.kind==='hedge'?'selected':''}>금·장기채</option><option value="lev" ${h.kind==='lev'?'selected':''}>레버리지·인버스</option></select></label>
@@ -5518,9 +5520,46 @@ function scoredRows(){
   }
   return scoredCache;
 }
+/* 종목명 비교용: 대소문자·공백·괄호 표기 차이를 없앤다 (예: "Sk 하이닉스" = "SK하이닉스") */
+const nmKey = v => String(v || '').toLowerCase().replace(/[\s·.,()\-]/g, '').replace(/(주식회사|inc|corp|co|ltd)$/g, '');
+const mktKR = m => (m === 'KOSPI' || m === 'KOSDAQ') ? 'KR' : m;
 function screenFor(h){
-  const t = (h.ticker||'').trim().toUpperCase(); if(!t) return null;
-  return scoredRows().find(r => r.t.toUpperCase() === t || (r.code||'').toUpperCase() === t) || null;
+  const rows = scoredRows(); if(!h || !rows.length) return null;
+  const t = (h.ticker||'').trim().toUpperCase();
+  if(t){ const r = rows.find(r => r.t.toUpperCase() === t || (r.code||'').toUpperCase() === t); if(r) return r; }
+  /* 티커 없이 종목명만 넣은 경우: 이름이 정확히 같은 기업을 찾는다 (같은 시장 우선) */
+  const k = nmKey(h.name); if(!k) return null;
+  const hit = rows.filter(r => nmKey(r.n) === k || nmKey(r.en) === k);
+  return hit.find(r => mktKR(r.m) === (h.market || 'KR')) || hit[0] || null;
+}
+/* 보유 종목 입력: 종목명이 목록의 기업과 같으면 티커·시장을 바로 채운다 */
+function holdNameInput(el){
+  const tk = document.getElementById('h-ticker'), mk = document.getElementById('h-market'); if(!tk) return;
+  const sr = screenFor({name: el.value, market: mk?.value});
+  if(sr && nmKey(sr.n) === nmKey(el.value) || sr && nmKey(sr.en) === nmKey(el.value)){ tk.value = sr.code || sr.t; if(mk) mk.value = mktKR(sr.m) || mk.value; }
+}
+window.holdNameInput = holdNameInput;
+/* 스크리너 데이터(600+ 기업)로 심사 기록의 숫자를 채운다 */
+function fillFromScreen(c, sr){
+  Object.assign(c, {yf:sr.t, ticker:c.ticker || sr.code || sr.t, market:mktKR(sr.m) || c.market, sector:sr.ind||sr.s||'', price:sr.px, fin:{...(sr.fin||{})}, val:{...(sr.val||{})}, fscore:sr.fsd||[], finSector:!!sr.fin_sector, mf:sr.mf ?? null, source:`스크리너 자동 수집 (${(S2.meta||{}).generatedAt||''}, 회계연도 ${sr.fy||'–'})`});
+  c.ai = {...(c.ai||{}), filled:[...Object.keys(c.fin), ...Object.keys(c.val)]};
+  return c;
+}
+/* 예전에 티커 없이 등록해 숫자가 비어 있는 보유 종목·심사 기록을 바로잡는다 (한 번만, 본인 데이터만) */
+let healDone = false;
+async function healLinks(){
+  if(healDone || store.isGuest || store.isDemo || !S.loaded.c || !S.loaded.h || !(S2.screen || []).length) return;
+  healDone = true;
+  for(const h of S.holdings || []){
+    if(h.kind && h.kind !== 'stock') continue;
+    const sr = (h.ticker||'').trim() ? null : screenFor(h); if(!sr) continue;
+    try{ await store.set('holdings', h.id, {...h, ticker: sr.code || sr.t, market: mktKR(sr.m) || h.market, currency: curOf(mktKR(sr.m) || h.market)}); }catch(_){}
+  }
+  for(const c of S.companies || []){
+    if(c.example || c.kind !== 'stock' || c.yf || Object.keys(c.fin || {}).length) continue;
+    const sr = screenFor(c); if(!sr) continue;
+    fillFromScreen(c, sr); queueSave(c);
+  }
 }
 function filteredRows(){
   let rows = scoredRows();
@@ -5882,9 +5921,9 @@ document.addEventListener('click', async e => {
   if(act === 'hold-analyze'){
     const h = S.holdings.find(x => x.id === id); const sr = screenFor(h);
     const c = {id:uid(), ...newCompany(), name:h.name, ticker:h.ticker, market:h.market, price:h.price, kind:h.kind};
-    if(sr){ Object.assign(c, {yf:sr.t, sector:sr.ind||sr.s||'', price:sr.px, fin:{...(sr.fin||{})}, val:{...(sr.val||{})}, fscore:sr.fsd||[], finSector:!!sr.fin_sector, mf:sr.mf ?? null, source:`스크리너 자동 수집 (${(S2.meta||{}).generatedAt||''}, 회계연도 ${sr.fy||'–'})`}); c.ai.filled = [...Object.keys(c.fin), ...Object.keys(c.val)]; }
+    if(sr) fillFromScreen(c, sr);
     S.companies.push(c); S.curId = c.id; queueSave(c);
-    await store.set('holdings', h.id, {...h, companyId:c.id});
+    await store.set('holdings', h.id, {...h, ...(sr && !(h.ticker||'').trim() ? {ticker: sr.code || sr.t, market: mktKR(sr.m) || h.market} : {}), companyId:c.id});
     S.tab = 'analyze'; render(); updateEval(); window.scrollTo(0,0);
     if(c.kind === 'stock') aiAuto(c);
   }
@@ -5926,6 +5965,7 @@ document.addEventListener('click', async e => {
     const body = {...h, name:$('#h-name').value.trim(), ticker:$('#h-ticker').value.trim(), market, currency: curOf(market), kind:$('#h-kind').value,
       qty:n($('#h-qty').value), avg:n($('#h-avg').value), price:n($('#h-price').value), companyId:$('#h-company').value || null, updatedAt:today()};
     if(!body.name){ $('#h-msg').textContent = '종목명을 입력하세요.'; return; }
+    if(!body.ticker && body.kind === 'stock'){ const sr = screenFor(body); if(sr){ body.ticker = sr.code || sr.t; body.market = mktKR(sr.m) || body.market; body.currency = curOf(body.market); } }
     const hid = h.id || uid(); delete body.id;
     try{ await store.set('holdings', hid, body); S.editHold = null; setSave('저장됨'); render(); }catch(err){ $('#h-msg').textContent = '저장하지 못했습니다: '+(err.code||err.message); }
   }
@@ -6063,9 +6103,9 @@ function refresh(kind){
       if(store.isGuest && kakaoOn()){ kakaoGo().then(err => { if(err){ hideSplash(); openAuth('signup'); } }); return; } } }
   render(); hideSplash();
   if(/[?&]test\b/.test(location.search)) setTimeout(qzOpen, 300);
-  store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; wantApply(); });
+  store.sub('companies', docs => { mergeCompanies(docs); S.loaded.c = 1; refresh('c'); first = false; wantApply(); healLinks(); });
   if(!store.isGuest) store.sub('qual_feedback', docs => { S.qualFb = docs; if(S.tab === 'analyze') updateEval(); });
-  store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
+  store.sub('holdings', docs => { const firstLoad = !S.loaded.h; S.holdings = docs; S.loaded.h = 1; refresh('h'); healLinks(); if(firstLoad) setTimeout(() => refreshQuotes(false), 1500); });
   setInterval(() => refreshQuotes(false), QUOTE_EVERY);
   if(!store.isGuest) store.sub('alerts', docs => { S.alerts = docs; const first = !S.alertsLoaded; S.alertsLoaded = true; updateBell(); if(S.tab === 'alerts') refresh('a'); if(first){ setTimeout(scanAlerts, 2500); setTimeout(() => checkPush().then(() => { if(S.tab === 'alerts') render(); }), 3000); } });
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') refreshQuotes(false); });
@@ -6073,7 +6113,7 @@ function refresh(kind){
     const meta = docs.find(d => d.id === 'meta');
     const chunks = docs.filter(d => d.id.startsWith('chunk-')).sort((a,b) => a.id.localeCompare(b.id));
     const n = meta?.chunks ?? chunks.length;
-    S2.meta = meta || null; S2.screen = chunks.slice(0, n).flatMap(c => c.rows || []); S2.loaded = true; scoredCache = null; rowVerdictCache.clear(); setTimeout(wantApply, 0);
+    S2.meta = meta || null; S2.screen = chunks.slice(0, n).flatMap(c => c.rows || []); S2.loaded = true; scoredCache = null; rowVerdictCache.clear(); setTimeout(wantApply, 0); setTimeout(healLinks, 0);
     if(['screener','portfolio','companies','dividend','fx'].includes(S.tab)) refresh('s');
   });
   store.sub('news', docs => { S.news = Object.fromEntries(docs.map(d => [d.id, d])); if(['briefing','analyze','companies'].includes(S.tab)) refresh('n'); });
