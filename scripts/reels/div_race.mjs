@@ -66,7 +66,14 @@ async function simulate(set, today) {
     if (!first || first[0] > monthEnd(startYm)) throw new Error(`${it.sym}: ${startYm} 주가 없음`);
     const buy = first[0], p0 = first[1];
     const shares = (money * 1e4) / (p0 * rate(buy));
-    const ttm = (day) => d.dv.filter((e) => e[0] > minusYear(day) && e[0] <= day).reduce((s, e) => s + e[1], 0);
+    // 1년 배당 = 최근 '1년에 주는 횟수'만큼의 배당 합 (지급일이 며칠 밀려 1년 창에 5번·3번 잡히는 들쭉날쭉을 없앤다)
+    const ttm = (day) => {
+      const past = d.dv.filter((e) => e[0] <= day);
+      const two = past.filter((e) => e[0] > minusYear(minusYear(day))).length;
+      const freq = Math.max(1, Math.min(12, Math.round(two / 2) || past.filter((e) => e[0] > minusYear(day)).length));
+      const recent = past.filter((e) => e[0] > minusYear(minusYear(day)));
+      return recent.slice(-freq).reduce((s, e) => s + e[1], 0);
+    };
     const inc = [], val = [], cum = [], x = [];
     months.forEach((ym, i) => {
       const day = i === 0 ? buy : (i === months.length - 1 ? today : monthEnd(ym));
@@ -86,11 +93,11 @@ async function simulate(set, today) {
 function judge(S) {
   const f = (k) => S.map((s) => s[k][s[k].length - 1]);
   const inc = f('inc'), val = f('val'), cum = f('cum');
-  const bad = S.filter((s) => s.nDiv < 3 || !(s.yEnd > 0.003 && s.yEnd < 0.2) || !(s.yStart > 0.003 && s.yStart < 0.25)).map((s) => s.name);
+  const bad = S.filter((s) => s.nDiv < 3 || (s.growth && (s.growth < 0.5 || s.growth > 6)) || !(s.yEnd > 0.003 && s.yEnd < 0.2) || !(s.yStart > 0.003 && s.yStart < 0.25)).map((s) => s.name);
   const r = (a) => Math.max(...a) / Math.max(1e-9, Math.min(...a));
   const iMax = inc.indexOf(Math.max(...inc)), vMax = val.indexOf(Math.max(...val));
   const incR = r(inc), valR = r(val), cumR = r(cum), reversal = iMax !== vMax;
-  const interest = !bad.length && (incR >= 1.7 || valR >= 1.5 || (reversal && incR >= 1.3 && valR >= 1.3));
+  const interest = !bad.length && (incR >= 1.7 || (valR >= 1.5 && incR >= 1.3) || (reversal && incR >= 1.4 && valR >= 1.3));
   const score = Math.round((Math.max(incR - 1, valR - 1, (cumR - 1) * 0.6) + (reversal ? 0.3 : 0)) * 100) / 100;
   return { incR: +incR.toFixed(2), valR: +valR.toFixed(2), cumR: +cumR.toFixed(2), reversal, interest, score, bad };
 }
@@ -115,6 +122,7 @@ function won(v) { // 만 원 → "1억 5,300만 원" / "418만 원"
   }
   return `${v.toLocaleString('en-US')}만 원`;
 }
+const wonBar = (v) => (Math.abs(v) >= 10000 ? `${(Math.round(v / 1000) / 10).toFixed(1).replace(/\.0$/, '')}억 원` : `${Math.round(v).toLocaleString('en-US')}만 원`);
 const eok = (money) => `${money / 10000}억`;
 const pct = (x) => (Math.round(x * 1000) / 10).toFixed(1).replace(/\.0$/, '');
 const times = (x) => (Math.round(x * 10) / 10).toFixed(1).replace(/\.0$/, '');
@@ -146,7 +154,7 @@ function buildSpec(R, id, when) {
       ln([`${N}년 전 ${M} 원을`, `${R.theme}에 넣었다면?`]),
       ln([`${jo(A.name, '은', '는')} 지금`, `매달 ${won(last(A, 'inc'))}을 줍니다`], `${jo(sayName(A), '은', '는')} 지금 매달 ${won(last(A, 'inc'))}을 줍니다`)] });
 
-  const raceLines = [ln([`은퇴자는 회사마다 ${M} 원씩`, '넣고 배당은 생활비로 씁니다'])];
+  const raceLines = [ln([`회사마다 ${M} 원씩 넣고`, '배당은 생활비로 썼습니다'])];
   const gA = A.growth;
   let twist = null;
   if (cross > 0) twist = ln([`처음엔 ${jo(L0.name, '이', '가')} 가장 많았지만`, `${jo(A.name, '이', '가')} 앞질렀습니다`], `처음엔 ${jo(sayName(L0), '이', '가')} 가장 많았지만 ${jo(sayName(A), '이', '가')} 앞질렀습니다`);
@@ -157,14 +165,14 @@ function buildSpec(R, id, when) {
     series: order.map((s) => ({ name: s.name, inc: s.inc.map((v) => +v.toFixed(1)), val: s.val.map((v) => Math.round(v)), cum: s.cum.map((v) => Math.round(v)) })), lines: raceLines });
 
   const tone = (s, k) => (s === order[0] ? 'gold' : (k === 'val' && last(s, 'val') < R.money ? 'loss' : 'gray'));
-  scenes.push({ type: 'bars', title: `${N}년 동안 받은 배당`, items: [...S].sort((a, b) => last(b, 'cum') - last(a, 'cum')).map((s) => ({ label: s.name, v: Math.round(last(s, 'cum')), text: won(last(s, 'cum')), tone: tone(s, 'cum') })),
+  if (C !== A || V !== A) scenes.push({ type: 'bars', title: `${N}년 동안 받은 배당`, items: [...S].sort((a, b) => last(b, 'cum') - last(a, 'cum')).map((s) => ({ label: s.name, v: Math.round(last(s, 'cum')), text: wonBar(last(s, 'cum')), tone: tone(s, 'cum') })),
     lines: [ln([`${N}년 동안 가장 많이 받은 곳은`, `${C.name}, ${won(last(C, 'cum'))}입니다`], `${N}년 동안 가장 많이 받은 곳은 ${sayName(C)}, ${won(last(C, 'cum'))}입니다`)] });
 
   const valLines = V === A
     ? [ln([`${jo(A.name, '은', '는')} 원금도 1등으로`, `${jo(won(last(A, 'val')), '이', '가')} 됐습니다`], `${jo(sayName(A), '은', '는')} 원금도 1등으로 ${jo(won(last(A, 'val')), '이', '가')} 됐습니다`)]
     : [ln([`원금은 ${jo(V.name, '이', '가')}`, `${ro(won(last(V, 'val')))} 가장 많습니다`], `원금은 ${jo(sayName(V), '이', '가')} ${ro(won(last(V, 'val')))} 가장 많습니다`),
        ln(['배당이 가장 많은 회사가', '원금까지 이기지는 않았습니다'])];
-  scenes.push({ type: 'bars', title: `${M} 원은 지금 얼마일까`, items: [...S].sort((a, b) => last(b, 'val') - last(a, 'val')).map((s) => ({ label: s.name, v: Math.round(last(s, 'val')), text: won(last(s, 'val')), tone: tone(s, 'val') })), lines: valLines });
+  scenes.push({ type: 'bars', title: `${M} 원은 지금 얼마일까`, items: [...S].sort((a, b) => last(b, 'val') - last(a, 'val')).map((s) => ({ label: s.name, v: Math.round(last(s, 'val')), text: wonBar(last(s, 'val')), tone: tone(s, 'val') })), lines: valLines });
 
   // 전: 차이를 만든 원리 하나 (처음 산 가격 = 배당수익률 / 배당이 자라는 속도)
   const yTop = [...S].sort((a, b) => b.yStart - a.yStart)[0];
@@ -175,9 +183,9 @@ function buildSpec(R, id, when) {
     scenes.push({ type: 'compare', title: `${N}년 전 배당수익률`, l: { label: A.name, v: pct(A.yStart) + '%', sub: '1년 배당 나누기 주가', tone: 'gold' }, r: { label: Z.name, v: pct(Z.yStart) + '%', sub: '1년 배당 나누기 주가', tone: 'gray' },
       lines: [ln(['배당수익률은 1년 배당을', '주가로 나눈 값입니다']), ln(['같은 회사도 싸게 살수록', '매달 받는 돈이 커집니다'])] });
   } else {
-    scenes.push({ type: 'statement', l1: '차이를 만든 건', l2: '배당이 자라는 속도', tone: 'gold', say: '차이를 만든 것은 배당이 자라는 속도였습니다.' });
+    scenes.push({ type: 'statement', l1: '차이를 만든 건', l2: '배당이 늘어난 속도', tone: 'gold', say: '차이를 만든 것은 배당이 늘어난 속도였습니다.' });
     scenes.push({ type: 'compare', title: `${N}년 동안 1주당 배당`, l: { label: A.name, v: times(gA) + '배', sub: `${N}년 전보다`, tone: 'gold' }, r: { label: Z.name, v: times(Z.growth || 1) + '배', sub: `${N}년 전보다`, tone: 'gray' },
-      lines: [ln(['처음 배당수익률이 낮아도', '배당이 자라면 결과가 바뀝니다']), ln(['그래서 배당이 자랄 회사를', '적정한 가격에 사야 합니다'])] });
+      lines: [A.yStart < Z.yStart ? ln(['처음 배당수익률이 낮아도', '배당이 자라면 결과가 바뀝니다']) : ln(['같은 돈을 넣어도 배당이 늘면', '매달 받는 돈이 계속 커집니다']), ln(['그래서 배당이 자랄 회사를', '적정한 가격에 사야 합니다'])] });
   }
   scenes.push({ type: 'cta', l1: '배당주의 적정 주가는', l2: '밸류노트에서', lines: [{ say: '배당주의 적정 주가는 밸류노트에서 확인하세요.' }] });
 
@@ -194,7 +202,7 @@ function buildSpec(R, id, when) {
     V === A ? `${jo(A.name, '은', '는')} 매달 받는 배당도, 원금도 가장 많이 불었습니다.` : `매달 받는 배당은 ${A.name}, 원금을 가장 키운 건 ${jo(V.name, '이었', '였')}습니다.`,
     byPrice
       ? `차이를 만든 건 처음 산 가격이었습니다. ${A.name}의 ${N}년 전 배당수익률(1년 배당 ÷ 주가)은 ${pct(A.yStart)}%, ${jo(Z.name, '은', '는')} ${pct(Z.yStart)}%였습니다. 같은 회사도 싸게 살수록 매달 받는 돈이 커집니다.`
-      : `차이를 만든 건 배당이 자라는 속도였습니다. ${A.name}의 1주당 배당은 ${N}년 동안 ${times(gA)}배, ${jo(Z.name, '은', '는')} ${times(Z.growth || 1)}배가 됐습니다.`,
+      : `차이를 만든 건 배당이 늘어난 속도였습니다. ${A.name}의 1주당 배당은 ${N}년 동안 ${times(gA)}배, ${jo(Z.name, '은', '는')} ${times(Z.growth || 1)}배가 됐습니다.`,
     '밸류노트는 버핏·그레이엄 방식으로 배당주의 적정 주가를 계산하고, 적정 매수가에 오면 알려 드립니다. 은퇴 계좌에 담을 배당주가 지금 적당한 가격인지 프로필 링크에서 확인하세요.',
     `※ ${S[0].buy} 매수 가정, 실제 주가·배당 기록으로 계산한 시뮬레이션입니다. 세전 기준, 배당 재투자 없음, 해외 주식은 그때 환율로 원화 환산. 매달 받는 배당은 그 시점 1년 배당 ÷ 12입니다.`,
   ].join('\n\n');
@@ -236,7 +244,9 @@ if (cmd === 'scan') {
   let made = null;
   for (const set of cand) {
     try {
-      const R = await simulate(set, kst());
+      const cached = path.join(DIR, 'data', set.key + '.json');
+      const R = process.env.DIVRACE_CACHE && fs.existsSync(cached) ? { ...JSON.parse(fs.readFileSync(cached, 'utf8')), ...judge(JSON.parse(fs.readFileSync(cached, 'utf8')).series) } : await simulate(set, kst());  // DIVRACE_CACHE=1: 점검 때 받아 둔 기록으로 (로컬 미리보기)
+      R.series = R.series.map((x) => ({ ...x, ...set.items.find((i) => i.sym === x.sym) }));
       if (cmd === 'pick' && !R.interest) { console.log('밋밋해서 건너뜀', set.key, R.score); continue; }
       const spec = buildSpec(R, id, when);
       fs.writeFileSync(path.join(SPECS, id + '.json'), JSON.stringify(spec, null, 1));
