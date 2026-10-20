@@ -50,6 +50,24 @@ TONE = {"loss": LOSS, "gold": GOLD, "good": GAIN, "gray": GRAY, "ivory": IVORY}
 DISC_VIDEO = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다"
 CTA_SAY = "밸류 노트. 더 현명한 투자를 시작하세요."
 
+# ── 댓글 키워드 → DM 정리본 (2026-10-21 운영자 요청) ──
+# 대본에 "dm": {"keyword": "이자", ...} 가 있으면 마지막 장면에 "댓글에 '이자' 남기면 정리본 DM" 버튼과 안내 음성을 붙인다.
+_BAT = {"0": 1, "1": 1, "2": 0, "3": 1, "4": 0, "5": 0, "6": 1, "7": 1, "8": 1, "9": 0}
+def josa(w, a, b):
+    """받침이 있으면 a(을), 없으면 b(를)"""
+    c = str(w).strip()[-1:]
+    if "가" <= c <= "힣": return a if (ord(c) - 0xAC00) % 28 else b
+    if c in _BAT: return a if _BAT[c] else b
+    return b
+def dm_kw(spec):
+    d = spec.get("dm") or {}
+    return str(d.get("keyword") or "").strip()
+def cta_lines(spec, sc, lines):
+    kw = dm_kw(spec)
+    if sc["type"] != "cta" or not kw: return lines
+    sc["_dm"] = kw
+    return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
+
 _fc = {}
 def F(w, s):
     if (w, s) not in _fc: _fc[(w, s)] = ImageFont.truetype(os.path.join(HERE, "fonts", f"SUIT-{w}.ttf"), s)
@@ -459,6 +477,21 @@ def s_cta(img, u, sc, L, T):
     l1, l2 = sc.get("l1", "더 현명한 투자를"), sc.get("l2", "시작하세요")
     appear(img, u, V * .42, l1, fit_font(l1, "Heavy", 92, 980), IVORY, (W / 2, 850), dur=.45, rise=50)
     appear(img, u, V * .62, l2, fit_font(l2, "Heavy", 92, 980), IVORY, (W / 2, 975), dur=.45, rise=50)
+    kw = sc.get("_dm")
+    if kw:   # 댓글 키워드 버튼: 안내 음성이 시작될 때 나타난다
+        tb = L[1][0] if len(L) > 1 else V * .85; pb = prog(u, tb, tb + .4)
+        if pb > 0:
+            pulse = .5 + .5 * math.sin((u - tb) * 7); bw, bh = 920, 132; cx, cy = W / 2, 1170 + (1 - pb) * 40
+            if pb >= 1:
+                g = int(10 + pulse * 14)
+                d.rounded_rectangle([cx - bw / 2 - g, cy - bh / 2 - g, cx + bw / 2 + g, cy + bh / 2 + g], 76, outline=mix(NAVY, GOLD_D, .6 - pulse * .4), width=3)
+            d.rounded_rectangle([cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2], 66, fill=mix(NAVY, GOLD, pb))
+            t1 = f"댓글에 '{kw}' 남기면 정리본 DM"
+            d.text((cx, cy), t1, font=fit_font(t1, "ExtraBold", 50, bw - 90), fill=mix(GOLD, NAVY, pb), anchor="mm")
+            if pb > .6:
+                t2 = "핵심 숫자와 내 종목 점검법을 보내 드립니다"
+                appear(img, u, tb + .25, t2, fit_font(t2, "SemiBold", 38, 960), (196, 204, 220), (W / 2, 1300), dur=.4, rise=20)
+        return img
     tb = V * .85; pb = prog(u, tb, tb + .4)
     if pb > 0:
         pulse = .5 + .5 * math.sin((u - tb) * 7); bw, bh = 640, 120; cx, cy = W / 2, 1160 + (1 - pb) * 40
@@ -634,6 +667,7 @@ def plan(spec, speak):
         lines = sc.get("lines") or [{"cap": sc.get("cap"), "say": sc.get("say")}]
         if sc["type"] == "cta" and not lines[0].get("say") and not lines[0].get("cap"):
             lines = [{"cap": None, "say": CTA_SAY}]
+        lines = cta_lines(spec, sc, lines)
         L = []; u = .1; vo = []
         for ln in lines:
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
@@ -833,6 +867,7 @@ def plan_estimate(spec):
     for sc in spec["scenes"]:
         lines = sc.get("lines") or [{"cap": sc.get("cap"), "say": sc.get("say")}]
         if sc["type"] == "cta" and not lines[0].get("say") and not lines[0].get("cap"): lines = [{"cap": None, "say": CTA_SAY}]
+        lines = cta_lines(spec, sc, lines)
         L = []; u = .1
         for ln in lines:
             txt = ln.get("say") or " ".join(ln.get("cap") or [])

@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name "valuenote-bot"
           git config user.email "bot@valuenote.co.kr"
-          git add -A social/reels scripts/reels/events
+          git add -A social/reels scripts/reels/events g
           git diff --cached --quiet && exit 0
           git commit -m "릴스 $(TZ=Asia/Seoul date '+%F %H:%M')"
           git pull --rebase origin main

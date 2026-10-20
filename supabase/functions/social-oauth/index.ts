@@ -15,7 +15,8 @@ const CFG = {
   instagram: {
     id: () => env("META_IG_APP_ID"), secret: () => env("META_IG_APP_SECRET"),
     authorize: "https://www.instagram.com/oauth/authorize",
-    scope: "instagram_business_basic,instagram_business_content_publish,instagram_business_manage_insights",
+    // 2026-10-21: 댓글 → 자동 DM(ig-dm)을 위해 댓글·메시지 권한 추가 (다시 연결해야 적용)
+    scope: "instagram_business_basic,instagram_business_content_publish,instagram_business_manage_insights,instagram_business_manage_comments,instagram_business_manage_messages",
   },
   threads: {
     id: () => env("META_THREADS_APP_ID"), secret: () => env("META_THREADS_APP_SECRET"),
@@ -96,6 +97,11 @@ Deno.serve(async (req: Request) => {
       expires_at: new Date(Date.now() + (Number(t.expires_in) || 5184000) * 1000).toISOString(), updated_at: new Date().toISOString(),
     });
     if (error) throw new Error(error.message);
+    // 인스타: 댓글·메시지 웹훅을 이 계정에 구독 (권한이 아직 없으면 조용히 넘어간다)
+    if (st.platform === "instagram") {
+      await fetch(`https://graph.instagram.com/v23.0/${t.account_id}/subscribed_apps?subscribed_fields=comments,messages,messaging_postbacks&access_token=${encodeURIComponent(t.access_token)}`, { method: "POST" })
+        .then(r => r.json()).then(j => console.log("subscribed_apps", JSON.stringify(j))).catch(e => console.error("subscribed_apps", e));
+    }
     return back(st.ret, `social_ok=${st.platform}`);
   } catch (e) {
     return html("연결 중 오류가 났습니다: " + String((e as Error).message || e).replace(/</g, "&lt;"), 500);

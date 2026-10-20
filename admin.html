@@ -494,7 +494,7 @@ function vTraffic(s){
 
 /* ---- 소개 페이지(/start): 처음 온 비회원이 어디까지 읽고, 앱으로 넘어가고, 가입했는지 ---- */
 const LD = { days: 14, data: null, busy: false };
-async function ldLoad(){ LD.busy = true; const { data, error } = await sb.rpc('admin_landing', { p_days: LD.days }); LD.busy = false; LD.data = error ? { error: error.message } : data; if(page() === 'landing') render(); }
+async function ldLoad(){ LD.busy = true; const [{ data, error }, gq] = await Promise.all([sb.rpc('admin_landing', { p_days: LD.days }), sb.rpc('admin_guides', { p_days: LD.days })]); LD.g = gq.error ? null : gq.data; LD.busy = false; LD.data = error ? { error: error.message } : data; if(page() === 'landing') render(); }
 const LD_SEC = [['s0','첫 화면'],['s1','01 우리가 사는 방식'],['s2','02 대가들의 방식'],['s3','03 유명 기업 점수'],['s4','04 워렌 버핏 62건 검증'],['s5','05 포트폴리오 (실제 화면)'],['s7','06 오늘의 저평가 순위'],['s8','07 보조 기능 · 가입']];
 const LD_ACT = {search:'종목 검색', chip:'종목 칩 누름', 'res-more':'"이 점수는 어떻게" 누름', 'scroll-cue':'"3분이면 읽습니다" 누름', 'cta-sticky':'둘러보기 (아래 고정)', 'cta-end':'둘러보기 (마지막)', 'cta-end-signup':'이메일 가입 (마지막)', 'cta-kakao':'카카오로 시작 (마지막)', 'cta-sticky-kakao':'카카오로 시작 (아래 고정)', login:'로그인 (위)', 'login-end':'로그인 (아래)', scroll:'아래로 스크롤 시작', 'search-focus':'검색창 누름', t15:'15초 이상 머묾', t60:'1분 이상 머묾', 'res-kakao':'검색 결과 · 카카오로 알림 받기', 'hx-more':'SK하이닉스 카드 누름', 'rk-row':'순위 줄 누름 (카카오)', 'res-kakao':'검색 결과 · 카카오 가입', 'feat-more':'첫 화면 회사 카드 · "왜 이렇게" 누름', 'search-open':'"직접 검색" 펼침', 'v-feat':'첫 화면 · 회사 카드형으로 봄', 'v-plain':'첫 화면 · 검색형으로 봄', 'fcp-1':'화면 뜸 · 1초 안', 'fcp-3':'화면 뜸 · 1~3초', 'fcp-6':'화면 뜸 · 3~6초', 'fcp-9':'화면 뜸 · 6초 넘게', t5:'5초 이상 머묾', 'go-ext':'가입 버튼 → 크롬·Safari로 넘김', 'go-ext-fail':'Safari 열기 실패 → 인스타 안에서 진행', 'rk-1':'첫 화면 1위 회사 누름', 'cta-hero-kakao':'첫 화면 · 카카오 가입', 'cta-hero-email':'첫 화면 · 이메일 가입', 'out-3':'3초 안에 나감', 'out-10':'3~10초에 나감', 'out-30':'10~30초에 나감', 'out-60':'30~60초에 나감', 'out-60p':'1분 넘게 보고 나감'};
 function vLanding(){
@@ -516,6 +516,10 @@ function vLanding(){
     <div>${sec('누른 것·머문 시간', '방문당 한 번씩', barsList(acts))}</div>
     <div>${sec('유입 경로별', '', (L.refs||[]).length ? `<table><thead><tr><th>경로</th><th>방문</th><th>앱 이동</th><th>가입</th></tr></thead><tbody>${L.refs.map(r => `<tr><td>${esc(r.r)}</td><td>${n0(r.n)}</td><td>${n0(r.e)} <span class="muted">${pct(r.e, r.n)}</span></td><td>${n0(r.s)} <span class="muted">${pct(r.s, r.n)}</span></td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 방문이 없습니다.</div>')}</div>
   </div>
+  ${(() => { const G = LD.g; if(!G) return ''; const dm = G.dm || {};
+    const rows = (G.guides || []).filter(r => r.id !== 'hub' || r.views);
+    return sec('댓글 DM 정리본', `릴스 댓글 → DM → 정리본(/g) → 이메일 → 가입 · 모은 이메일 누적 ${n0(G.leads_total)}개 (최근 ${G.days}일 ${n0(G.leads_period)}개) · 자동 DM 보냄 ${n0(dm.sent||0)} / 요청 ${n0(dm.asked||0)}${dm.failed ? ' / 실패 ' + n0(dm.failed) : ''}`,
+      rows.length ? `<table><thead><tr><th>정리본</th><th>열람</th><th>이메일</th><th>카카오</th><th>가입</th></tr></thead><tbody>${rows.map(r => `<tr><td><a class="lnk" href="/g/${esc(r.id === 'hub' ? '' : r.id)}?staff=1" target="_blank" rel="noopener">${esc(r.id === 'hub' ? '모음 페이지' : r.id)}</a></td><td>${n0(r.views)}</td><td>${n0(r.leads)} <span class="muted">${pct(r.unlocks, r.views)}</span></td><td>${n0(r.kakao)}</td><td>${n0(r.signups)}</td></tr>`).join('')}</tbody></table>` : '<div class="muted" style="font-size:13px">아직 정리본 방문이 없습니다.</div>'); })()}
   <div class="note">이전에 사이트에 온 적 없고 로그인하지 않은 사람이 첫 주소(/)나 인스타 프로필 링크로 들어오면 소개 페이지가 먼저 열립니다. 한 번 본 기기는 다음부터 바로 앱으로 갑니다. 가입은 소개 페이지를 본 그 브라우저에서 가입한 경우만 셉니다(안드로이드 인스타 앱 → 크롬처럼 브라우저가 바뀌면 크롬 쪽 방문으로 잡힙니다). 운영자 기기와 로봇은 빠집니다.</div>`;
 }
 function bindLanding(){ document.querySelectorAll('[data-ld-days]').forEach(b => b.onclick = () => { LD.days = +b.dataset.ldDays; LD.data = null; render(); }); }

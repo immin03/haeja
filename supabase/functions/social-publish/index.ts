@@ -17,7 +17,8 @@ const DISC = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 �
 // 모든 게시물 본문 끝에 붙는 고정 안내 (해시태그·고지문 앞)
 const CTA = "▶ 현명한 투자를 위한 가치투자 가이드, 밸류노트\n600여 개 기업의 점수와 적정 주가를 프로필 링크에서 확인하세요.";
 const igCaption = (p: any) => { const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" "); return p.caption + "\n\n" + CTA + (tags ? "\n\n" + tags : "") + "\n\n" + DISC; };
-const thText = (p: any) => { const tail = "\n\n" + CTA + "\n\n" + DISC; return String(p.caption).slice(0, 500 - tail.length) + tail; };
+// 쓰레드에는 댓글 → DM 자동 발송이 없으므로 인스타용 댓글 안내 줄은 뺀다
+const thText = (p: any) => { const tail = "\n\n" + CTA + "\n\n" + DISC; const body = String(p.caption).split("\n\n").filter((x: string) => !x.startsWith("💬 댓글에")).join("\n\n"); return body.slice(0, 500 - tail.length) + tail; };
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 type Acc = { platform: string; account_id: string; username: string; access_token: string; expires_at: string };

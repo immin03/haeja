@@ -12,6 +12,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 OUT = os.path.join(ROOT, "social", "reels")
 sys.path.insert(0, HERE)
+import guide  # noqa: E402  댓글 → DM 정리본 페이지
 
 
 def specs():
@@ -21,6 +22,7 @@ def specs():
 
 def digest(spec):
     keep = {k: spec[k] for k in ("scenes", "mood", "speed") if k in spec}
+    if (spec.get("dm") or {}).get("keyword"): keep["dm"] = spec["dm"]["keyword"]   # 키워드가 바뀌면 마지막 장면을 다시 그린다
     src = open(os.path.join(HERE, "engine.py"), "rb").read()
     ENGINE_VER = b"2026-10-19-broll-sfx2"  # 모든 릴스에 영향을 주는 화면 변경 때만 올린다 (앞으로 6시간 안팎~ 이후 릴스 전부 다시 렌더)
     return hashlib.sha1(json.dumps(keep, ensure_ascii=False, sort_keys=True).encode() + ENGINE_VER + src[:0]).hexdigest()[:12]
@@ -50,11 +52,13 @@ def main(only=None):
         if when < now - dt.timedelta(days=3): continue
         queue.append({
             "id": sp["id"], "seq": int(when.timestamp() // 60), "title": sp["title"],
-            "scheduled_at": sp["scheduled_at"], "caption": sp["caption"], "hashtags": sp.get("hashtags", []),
+            "scheduled_at": sp["scheduled_at"], "caption": guide.short_caption(sp), "hashtags": sp.get("hashtags", []),
+            "dm_keyword": (sp.get("dm") or {}).get("keyword"), "dm_guide": ("/g/" + sp["id"]) if (sp.get("dm") or {}).get("keyword") else None,
             "threads_tag": sp.get("threads_tag"), "kind": "reel",
             "video": f"/social/reels/{sp['id']}/reel.mp4", "cover": f"/social/reels/{sp['id']}/cover.jpg",
             "to_ig": True, "to_threads": True, "approved": sp.get("approved", True)})
     queue.sort(key=lambda x: x["scheduled_at"])
+    print("정리본", guide.build(list(specs()), ROOT, now), "편")
     os.makedirs(OUT, exist_ok=True)
     json.dump(queue, open(os.path.join(OUT, "queue.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("대기열", len(queue), "편")
