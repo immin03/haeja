@@ -1,5 +1,7 @@
 """이슈 감지 → 릴스 대본 자동 생성 (사람·AI 없이 규칙으로 작성, 토큰 0)
 GitHub Actions에서 3시간마다 실행. 조건에 걸리면 events/E*.json 을 쓰고 build.py가 영상으로 만든다.
+2026-10-20 운영자 결정: 규칙으로 만든 급변 릴스는 스토리가 없어(예: "코스피 -3.3%, 10년간 52번") 자동 게시하지 않는다.
+대본은 approved=false 로 대기열에 들어가 게시되지 않고, 관리자에게 '소재 감지' 알림만 간다.
 고정 편성 사이에 '유기적으로' 끼워 넣는다: 감지 1시간 뒤 게시(인스타 90분 간격 규칙 때문에 더 밀릴 수 있음).
 게시 대기열에 들어가면 관리자 알림이 가고, 관리자 → SNS 게시에서 멈출 수 있다.
 
@@ -104,7 +106,8 @@ def when_from(now):
 
 def wrap(id_, title, scenes, caption, tags, now, mood="tense"):
     return {"id": id_, "title": title, "scheduled_at": when_from(now).isoformat(timespec="minutes"), "mood": mood, "event": id_,
-            "caption": caption, "hashtags": tags + ["주식공부", "밸류노트"], "threads_tag": "주식뉴스", "scenes": scenes}
+            "caption": caption, "hashtags": tags + ["주식공부", "밸류노트"], "threads_tag": "주식뉴스", "scenes": scenes,
+            "approved": False}  # 2026-10-20: 자동 게시 안 함. 감지 알림 + 소재 메모로만 쓰고, 기승전결이 서는 경우만 사람이 다시 써서 올린다
 
 
 def make_spec(key, chg, closes, now, info=None):
