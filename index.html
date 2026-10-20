@@ -1313,7 +1313,7 @@ setTimeout(() => { if(typeof hideSplash === 'function') hideSplash(); }, 3500);
    alerts 문서: {at, level: urgent|warn|good|info, title, body, link:{tab, co}, read, push, source}
    새 알림 문서가 생기면 DB 트리거 → notify 함수가 알림을 켠 모든 기기(휴대폰·PC 브라우저)로 푸시를 보낸다. */
 const AL_LV = {urgent:{c:'var(--bad)', l:'긴급'}, warn:{c:'var(--warn)', l:'확인'}, good:{c:'var(--accent)', l:'기회'}, info:{c:'var(--muted)', l:'소식'}};
-const alUnread = () => (S.alerts||[]).filter(a => !a.read).length;
+const alUnread = () => (S.alerts||[]).filter(a => !a.read && !a.merged).length;
 function bellHtml(){
   const n = alUnread();
   return `<button type="button" class="bell" data-al="open" aria-label="알림 ${n}개 안 읽음">
@@ -1451,7 +1451,7 @@ document.addEventListener('click', async e => {
   await loadSubs(); render();
 });
 function viewAlerts(){
-  const list = [...(S.alerts||[])].sort((a,b) => (b.at||'').localeCompare(a.at||'')).slice(0, 60);
+  const list = [...(S.alerts||[])].filter(a => !a.merged).sort((a,b) => (b.at||'').localeCompare(a.at||'')).slice(0, 60);
   const groups = {}; list.forEach(a => (groups[dayGroup(a.at)] ||= []).push(a));
   const item = a0 => { const a = alView(a0), lv = AL_LV[a.level] || AL_LV.info;
     return `<button type="button" class="al-item ${a.read?'read':''}" data-al="go" data-id="${esc(a.id)}">
@@ -2932,7 +2932,7 @@ function viewBriefing(){
       <span class="small muted">${open?'접기':'뉴스'}</span></button>
       ${open ? `<div class="br-open">${newsHtml(doc, 4)}${c ? `<button class="btn" style="margin-top:8px" data-act="open-co" data-id="${c.id}">종목 분석 보기</button>` : ''}</div>` : ''}`; };
   return `${radarChip()}${weekly}
-  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">${latest && latest.id !== today() ? '지난 브리핑' : '개장 브리핑'}</h2>${latest ? `<span class="small muted num">${esc(latest.asOf || latest.id)}</span>` : ''}</div>
+  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">${!latest ? '개장 브리핑' : latest.kind === 'recap' ? '마감 정리' : latest.kind === 'weekend' ? '주말 브리핑' : latest.id !== today() ? '지난 브리핑' : '개장 브리핑'}</h2>${latest ? `<span class="small muted num">${esc(latest.asOf || latest.id)}</span>` : ''}</div>
   <div class="small muted fresh-line">${latest?.sessions ? esc(Object.values(latest.sessions).join(' · ')) + ' · ' : ''}매일 09:30 무렵 · 다음 브리핑 ${nextRun(SCHED.brief)}</div>
   ${latest ? `<div class="card stack" style="margin-top:10px;gap:10px">
       <p class="br-head">${esc(latest.headline||'')}</p>
