@@ -564,7 +564,7 @@ function feat(slug){
   chips(); fcard(r);
   fetch('/c/' + slug, { cache: 'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
     var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
-    var px = /현재가 ([$₩]?[\d,.]+)(원?)/.exec(d), iv = /적정 주가 ([$₩]?[\d,.]+)(원?)/.exec(d);
+    var px = /현재가 ([$₩]?[\d,.]*\d)(원?)/.exec(d), iv = /적정 주가 ([$₩]?[\d,.]*\d)(원?)/.exec(d);
     if(px && iv){ FEATD = { px: px[1] + px[2], iv: iv[1] + iv[2], pn: won(px[1]), vn: won(iv[1]) }; fcard(row(slug) || r); }
   }).catch(function(){});
 }
