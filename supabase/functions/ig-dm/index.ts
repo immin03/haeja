@@ -4,7 +4,7 @@
 // 광고: 인스타 앱 '홍보하기'로 돌린 릴스는 같은 게시물이라 광고 댓글에도 똑같이 동작한다.
 //
 // Meta 앱 설정 (운영자가 한 번):
-//   웹훅 콜백 URL = https://<프로젝트>.supabase.co/functions/v1/ig-dm , 확인 토큰 = 비밀값 IG_WEBHOOK_VERIFY
+//   웹훅 콜백 URL = https://<프로젝트>.supabase.co/functions/v1/ig-dm , 확인 토큰 = 비밀값 IG_WEBHOOK_VERIFY 또는 app_config.ig_webhook_verify
 //   구독 필드 = comments, messages, messaging_postbacks
 //   권한 = instagram_business_manage_comments, instagram_business_manage_messages (일반 사용자에게 보내려면 고급 접근 심사 필요)
 // 켜기: app_config.ig_dm_enabled = true (심사 전에는 false → 앱 역할이 있는 계정만 테스트 가능하도록 ig_dm_testers 목록 사용)
@@ -107,7 +107,8 @@ async function onMessage(m: any, a: any, site: string) {
 Deno.serve(async (req: Request) => {
   const u = new URL(req.url);
   if (req.method === "GET") {   // 웹훅 확인
-    const ok = u.searchParams.get("hub.mode") === "subscribe" && u.searchParams.get("hub.verify_token") === Deno.env.get("IG_WEBHOOK_VERIFY");
+    const want = Deno.env.get("IG_WEBHOOK_VERIFY") || String((await cfg("ig_webhook_verify")) || "");   // 확인 토큰: 비밀값 또는 app_config
+    const ok = !!want && u.searchParams.get("hub.mode") === "subscribe" && u.searchParams.get("hub.verify_token") === want;
     return new Response(ok ? (u.searchParams.get("hub.challenge") || "") : "forbidden", { status: ok ? 200 : 403 });
   }
   const raw = await req.text();
