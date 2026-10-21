@@ -14,7 +14,10 @@ REPO = os.environ.get("GITHUB_REPOSITORY", "immin03/haeja")
 
 def sh(cmd, **kw):
     print("$", " ".join(cmd)[:160], flush=True)
-    return subprocess.run(cmd, check=True, **kw)
+    r = subprocess.run(cmd, capture_output=True, text=True, **kw)
+    print(r.stdout[-3000:], r.stderr[-3000:], flush=True)
+    if r.returncode: raise RuntimeError(f"명령 실패({r.returncode}): {' '.join(cmd)[:120]}\n{r.stderr[-1500:]}")
+    return r
 
 
 def rerender_ids():
@@ -67,7 +70,10 @@ def main(only):
             json.dump(meta, open(meta_p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
             done.append(sid)
         except Exception as e:
+            import traceback
             print("  ✗ 실패:", sid, e, flush=True)
+            os.makedirs(os.path.join(OUT, sid), exist_ok=True)
+            open(os.path.join(OUT, sid, "build_error.txt"), "w", encoding="utf-8").write(now.isoformat() + "\n" + traceback.format_exc()[-3000:])
     # 검수 대기열: 메타가 있는 롱폼 전부 (최근 30일)
     queue = []
     for m in sorted(glob.glob(os.path.join(OUT, "*", "meta.json"))):
