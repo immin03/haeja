@@ -24,7 +24,7 @@ def digest(spec):
     keep = {k: spec[k] for k in ("scenes", "mood", "speed") if k in spec}
     if (spec.get("dm") or {}).get("keyword"): keep["dm"] = spec["dm"]["keyword"]   # 키워드가 바뀌면 마지막 장면을 다시 그린다
     src = open(os.path.join(HERE, "engine.py"), "rb").read()
-    ENGINE_VER = b"2026-10-19-broll-sfx2"  # 모든 릴스에 영향을 주는 화면 변경 때만 올린다 (앞으로 6시간 안팎~ 이후 릴스 전부 다시 렌더)
+    ENGINE_VER = b"2026-10-21-voice-gunseok"  # 모든 릴스에 영향을 주는 화면 변경 때만 올린다 (앞으로 6시간 안팎~ 이후 릴스 전부 다시 렌더)
     return hashlib.sha1(json.dumps(keep, ensure_ascii=False, sort_keys=True).encode() + ENGINE_VER + src[:0]).hexdigest()[:12]
 
 

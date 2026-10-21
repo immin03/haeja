@@ -1,5 +1,6 @@
-"""한국어 음성 합성 (Supertonic 3, sherpa-onnx). 인터넷 API 없이 로컬에서 돈다.
-모델은 처음 실행할 때 GitHub 릴리스에서 받아 .cache 에 둔다 (약 130MB).
+"""한국어 음성 합성.
+기본: 타입캐스트 성우 '건석' (2026-10-21 운영자 결정, 릴스·유튜브 공통). TYPECAST_API_KEY 가 있으면 사용한다.
+예비: 키가 없거나 호출이 실패하면 로컬 Supertonic 3 (sherpa-onnx) 로 만든다.
 """
 import os, tarfile, urllib.request
 import numpy as np
@@ -69,8 +70,63 @@ def clauses(text, maxlen=22):
     return out or [text]
 
 
+# ── 타입캐스트 ────────────────────────────────────────────────
+TC_VOICE = os.environ.get("TYPECAST_VOICE_ID", "tc_6731b2e0855f351b98d30c48")  # 건석 (중년 남성, 해설·다큐)
+TC_MODEL = "ssfm-v30"
+TC_BASE_SPEED = 1.1  # 대본의 speed 1.1 = 타입캐스트 기본 속도
+TC_CACHE = os.path.join(CACHE, "typecast")
+
+
+def _typecast(text, speed):
+    """타입캐스트로 읽어 44.1kHz mono float 배열을 돌려준다. 같은 문장은 캐시를 쓴다 (크레딧 절약)"""
+    import hashlib, json, subprocess, urllib.request, urllib.error
+    tempo = round(min(1.3, max(.85, speed / TC_BASE_SPEED)), 2)
+    key = hashlib.sha1(f"{TC_VOICE}|{TC_MODEL}|{tempo}|{text}".encode()).hexdigest()[:20]
+    os.makedirs(TC_CACHE, exist_ok=True)
+    mp3 = os.path.join(TC_CACHE, key + ".mp3")
+    if not os.path.exists(mp3):
+        body = {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
+                "prompt": {"emotion_type": "normal"},
+                "output": {"audio_format": "mp3", "audio_tempo": tempo}}
+        req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST",
+                                     data=json.dumps(body).encode(),
+                                     headers={"X-API-KEY": os.environ["TYPECAST_API_KEY"],
+                                              "Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=90) as r:
+            open(mp3, "wb").write(r.read())
+        _log_usage(len(text))
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", mp3, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
+                         capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, dtype=np.float32).copy()
+    idx = np.where(np.abs(x) > 0.012)[0]
+    if len(idx): x = x[max(0, idx[0] - int(.06 * SR)): idx[-1] + int(.12 * SR)]
+    return x
+
+
+def _log_usage(n):
+    """이번 달 타입캐스트 사용 글자 수를 기록한다 (관리자 알림용: 15만 자 넘으면 경고)"""
+    import json, datetime
+    p = os.path.join(HERE, "..", "..", "social", "typecast_usage.json")
+    try: u = json.load(open(p))
+    except Exception: u = {}
+    m = datetime.date.today().strftime("%Y-%m")
+    u[m] = u.get(m, 0) + n
+    json.dump(u, open(p, "w"), ensure_ascii=False, indent=1)
+    if u[m] > 150000: print(f"⚠ 타입캐스트 이번 달 사용량 {u[m]:,}자 — 라이트 한도 20만 자에 가깝습니다")
+
+
 def speak(text, speed=1.15, steps=8, chunk=True):
-    """text(한글 발음) → 44.1kHz mono float 배열. 절 단위로 나눠 읽고 짧은 쉼을 넣어 잇는다"""
+    """text(한글 발음) → 44.1kHz mono float 배열.
+    타입캐스트: 문장 단위로 한 번에 읽는다. 로컬 예비: 절 단위로 나눠 읽고 짧은 쉼을 넣어 잇는다"""
+    if os.environ.get("TYPECAST_API_KEY"):
+        # 목소리가 섞이면 안 되므로 로컬 음성으로 몰래 바꾸지 않는다: 두 번 실패하면 이 릴스는 실패 처리
+        import time
+        for i in range(3):
+            try:
+                return _typecast(text, speed)
+            except Exception as e:
+                err = e; print(f"타입캐스트 호출 실패({i + 1}/3):", str(e)[:200]); time.sleep(3 * (i + 1))
+        raise RuntimeError(f"타입캐스트 음성 생성 실패: {err}")
     if not chunk: return _gen(text, speed, steps)
     segs = []
     for c in clauses(text):

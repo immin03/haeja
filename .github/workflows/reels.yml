@@ -36,12 +36,14 @@ jobs:
           # 처음 켤 때는 이미 지난 발표를 다루지 않도록 표시만 한다
           grep -q '_seeded' social/reels/events_state.json 2>/dev/null && python3 scripts/reels/events.py || python3 scripts/reels/events.py --seed
       - name: 영상 만들기 (음성 검수 포함)
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
         run: python3 scripts/reels/build.py || touch /tmp/voicefail
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"
           git config user.email "bot@valuenote.co.kr"
-          git add -A social/reels scripts/reels/events g
+          git add -A social/reels scripts/reels/events g social/typecast_usage.json 2>/dev/null || git add -A social/reels scripts/reels/events g
           git diff --cached --quiet && exit 0
           git commit -m "릴스 $(TZ=Asia/Seoul date '+%F %H:%M')"
           git pull --rebase origin main
