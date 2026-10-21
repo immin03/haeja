@@ -328,9 +328,9 @@ def plan_beats(typ, dur, lines, ncut=99):
     if typ == "phone":  # 앱 화면: 실사 컷 없이 앱의 여러 화면을 번갈아, 각 화면은 스크롤하며
         beats = []; edges = [0] + [l[0] for l in lines[1:]] + [dur]; t = 0.0; k = 0
         while t < dur - .05:
-            t1 = min(dur, t + MAX_BEAT); nxt = [e for e in edges if t + 1.2 < e <= t1]
+            t1 = min(dur, t + 2.0); nxt = [e for e in edges if t + 1.0 < e <= t1]
             if nxt: t1 = nxt[-1]
-            if dur - t1 < .8: t1 = dur
+            if dur - t1 < .5: t1 = dur
             beats.append((t, t1, "phone", k)); k += 1; t = t1
         return beats
     if typ == "broll":  # 챕터 제목 카드: 제목은 3초만, 그 뒤로는 실사 컷과 숫자 카드가 문장마다 바뀐다
@@ -341,7 +341,7 @@ def plan_beats(typ, dur, lines, ncut=99):
             n = max(1, math.ceil((end - a) / MAX_BEAT)); L = (end - a) / n; num = key_number(txt)
             for j in range(n):
                 t0, t1 = a + j * L, a + (j + 1) * L
-                if num and (j == 1 or ncut <= 0): beats.append((t0, t1, "stat", txt, num))
+                if num and (j == 1 or (ncut <= 0 and j == 0)): beats.append((t0, t1, "stat", txt, num))
                 elif ncut > 0: beats.append((t0, t1, "cut", txt)); ncut -= 1
                 else: beats.append((t0, t1, "cam", "pc" if c % 2 else "wide"))
                 c += 1
@@ -349,11 +349,11 @@ def plan_beats(typ, dur, lines, ncut=99):
     beats = [(0, lines[0][0], "cam", "wide")]; k = 0; spent = {"cut": 0, "stat": 0}; alt = ["pc", "wide", "pt", "wide", "pb", "wide"]
     for idx, (a, d_, txt) in enumerate(lines):
         end = lines[idx + 1][0] if idx + 1 < len(lines) else dur
-        n = max(1, math.ceil((end - a) / MAX_BEAT)); L = (end - a) / n; num = key_number(txt)
+        n = max(1, math.ceil((end - a) / MAX_BEAT)); L = (end - a) / n; num = key_number(txt); stat_done = False
         for j in range(n):
             t0, t1 = a + j * L, a + (j + 1) * L; kind = None
             if j >= 1:  # 문장의 첫 비트는 항상 그래픽 (차례로 나타나는 항목이 보이게)
-                if num and spent["stat"] + L <= dur * .25 and (j % 2 == 1 or ncut <= 0): kind = ("stat", txt, num)
+                if num and not stat_done and spent["stat"] + L <= dur * .25 and (j % 2 == 1 or ncut <= 0): kind = ("stat", txt, num); stat_done = True
                 elif ncut > 0 and spent["cut"] + L <= dur * .4: kind = ("cut", txt); ncut -= 1
             if kind: beats.append((t0, t1) + kind); spent[kind[0]] += L
             else: beats.append((t0, t1, "cam", alt[k % len(alt)])); k += 1
@@ -639,7 +639,7 @@ def make_music(n, seed=7):
     return (m / (np.abs(m).max() + 1e-9)).astype(np.float32)
 
 
-MUSIC_LEVEL = .11   # 목소리 대비 음악 크기 (말할 때는 더 줄인다)
+MUSIC_LEVEL = .085   # 목소리 대비 음악 크기 (말할 때는 더 줄인다)
 
 
 def main():
