@@ -89,9 +89,10 @@ h2{font-size:19px;margin:30px 0 12px;font-weight:850;letter-spacing:-.01em}
 .toc b{display:block;font-size:13px;margin-bottom:4px}.toc a{display:block;font-size:14.5px;text-decoration:none;padding:3px 0;color:var(--ink)}
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 8px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
 table{border-collapse:collapse;width:100%;font-size:14px;min-width:100%}
-th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
-td:first-child,th:first-child{white-space:normal;min-width:96px}
-td:last-child{white-space:normal;min-width:110px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;word-break:keep-all}
+th{white-space:nowrap}
+td{min-width:84px}
+td:first-child{min-width:92px}
 th{background:var(--navy);color:#fff;font-weight:700;font-size:13px;white-space:nowrap}
 tr:last-child td{border-bottom:0}
 .src{font-size:12px;color:var(--muted);margin:2px 0 14px}
@@ -179,7 +180,9 @@ def top():
 def table_html(t):
     if not t or not t.get("rows"): return ""
     head = "".join(f"<th>{html.escape(str(h))}</th>" for h in t.get("head", []))
-    rows = "".join("<tr>" + "".join(f"<td>{html.escape(str(c))}</td>" for c in r) + "</tr>" for r in t["rows"])
+    n = max(len(r) for r in t["rows"])
+    wide = [max((len(str(r[i])) for r in t["rows"] if i < len(r)), default=0) > 16 for i in range(n)]   # 글이 긴 칸은 넓게
+    rows = "".join("<tr>" + "".join(f'<td{" style=\"min-width:170px\"" if wide[i] else ""}>{html.escape(str(c))}</td>' for i, c in enumerate(r)) + "</tr>" for r in t["rows"])
     return f'<div class="tw"><table>{"<thead><tr>" + head + "</tr></thead>" if head else ""}<tbody>{rows}</tbody></table></div>'
 
 SUBSCRIBE = (
