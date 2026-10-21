@@ -444,7 +444,6 @@ def _pex(path_q, key):
 def load_pools(spec):
     """장면마다 원고의 q 검색어로 Pexels 사진·영상을 받아 둔다 (무료, 출처 표기 불필요). 같은 소스는 영상 전체에서 한 번만 쓴다"""
     key = os.environ.get("PEXELS_API_KEY", "")
-    if not key: return
     import urllib.parse
     cache = os.path.join(ROOT, "scripts", "youtube", "long", ".cache"); os.makedirs(cache, exist_ok=True)
     seen = set()
@@ -452,6 +451,7 @@ def load_pools(spec):
         pool = []
         for qi, q in enumerate(sc.get("q", [])):
             qq = urllib.parse.quote(q)
+            if not key: break
             try:  # 사진 2장 (천천히 확대·이동하며 보여 준다)
                 for ph in _pex(f"v1/search?query={qq}&per_page=4&orientation=landscape", key).get("photos", [])[:2]:
                     if ph["id"] in seen: continue
@@ -471,6 +471,7 @@ def load_pools(spec):
                         open(pth, "wb").write(urllib.request.urlopen(urllib.request.Request(fs_[0]["link"], headers={"User-Agent": "Mozilla/5.0"}), timeout=120).read())
                     seen.add(v["id"]); pool.append(("video", pth, float(v["duration"]))); break
             except Exception as e: print("  Pexels 영상 실패:", q, str(e)[:80])
+        if len(pool) < 3: pool += mixkit_pool(sc.get("q", []), seen, 3 - len(pool))
         # 사진과 영상을 번갈아
         ph_ = [x for x in pool if x[0] == "photo"]; vd_ = [x for x in pool if x[0] == "video"]; mix_ = []
         while ph_ or vd_:
@@ -479,6 +480,39 @@ def load_pools(spec):
             if ph_: mix_.append(ph_.pop(0))
         POOLS[k] = mix_
     print("  장면별 실사 소스:", {k: len(v) for k, v in POOLS.items()})
+
+
+def mixkit_pool(queries, seen, need):
+    """Pexels 키가 없거나 결과가 모자랄 때: Mixkit 태그 페이지에서 그 장면 검색어에 맞는 영상 (무료, 출처 표기 불필요)"""
+    cache = os.path.join(ROOT, "scripts", "youtube", "long", ".cache")
+    man = json.load(open(os.path.join(ROOT, "scripts", "reels", "assets", "manifest.json")))
+    generic = {str(v) for vs in man["video"].values() for v in vs}  # 릴스 공용 영상(이미 여러 번 쓴 것)은 빼고
+    out = []
+    for q in queries:
+        words = [w for w in re.split(r"\s+", q.lower()) if len(w) > 2]
+        for slug in ["-".join(words)] + words[::-1]:
+            try:
+                page = urllib.request.urlopen(urllib.request.Request(f"https://mixkit.co/free-stock-video/{slug}/", headers={"User-Agent": "Mozilla/5.0"}), timeout=30).read().decode("utf-8", "ignore")
+            except Exception: continue
+            ids = []
+            for vid in re.findall(r"/free-stock-video/[a-z0-9-]+-(\d+)/", page):
+                if vid not in ids and vid not in generic and ("mk" + vid) not in seen: ids.append(vid)
+            got = 0
+            for vid in ids[:4]:
+                pth = os.path.join(cache, f"mk_{vid}.mp4")
+                if not os.path.exists(pth) or os.path.getsize(pth) < 10000:
+                    for qual in ("1080", "720"):
+                        try:
+                            open(pth, "wb").write(urllib.request.urlopen(urllib.request.Request(f"https://assets.mixkit.co/videos/{vid}/{vid}-{qual}.mp4", headers={"User-Agent": "Mozilla/5.0"}), timeout=90).read()); break
+                        except Exception: pass
+                if os.path.exists(pth) and os.path.getsize(pth) > 10000:
+                    try: d = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", pth], capture_output=True, text=True).stdout.strip())
+                    except Exception: continue
+                    seen.add("mk" + vid); out.append(("video", pth, d)); got += 1
+                    if got >= 1: break
+            if got: break
+        if len(out) >= need: break
+    return out
 
 
 def photo_frames(pth, n, seed):
