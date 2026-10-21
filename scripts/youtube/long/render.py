@@ -129,11 +129,21 @@ def chrome(img, chapter, src, asof, u, frac=None):
     d.text((W - 72 - d.textlength("*투자 권유가 아닌 교육용 정보입니다", font=F("Medium", 20)), H - 50), "*투자 권유가 아닌 교육용 정보입니다", font=F("Medium", 20), fill=DIM)
 
 
-def subtitle(img, text, u_in):
+def subtitle(img, text, u_in, dur=None):
+    """아래 자막. 두 줄을 넘는 긴 문장은 말하는 속도에 맞춰 두 줄씩 넘긴다 (잘리지 않게)"""
     if not text: return
     d = AD(img); f = F("Bold", 44)
-    lines = wrap(d, text, f, 1500)[:2]
-    a = clamp(u_in / .18)
+    allL = wrap(d, text, f, 1500)
+    pages = [allL[i:i + 2] for i in range(0, len(allL), 2)]
+    if len(pages) > 1 and dur:
+        tot = sum(len("".join(pg)) for pg in pages); acc = 0; pi = 0
+        for pi, pg in enumerate(pages):
+            acc += len("".join(pg))
+            if u_in < dur * acc / tot: break
+        lines = pages[pi]; start = dur * (acc - len("".join(pages[pi]))) / tot
+        a = clamp((u_in - start) / .18) if pi else clamp(u_in / .18)
+    else:
+        lines = allL[:2]; a = clamp(u_in / .18)
     y0 = H - 128 - (len(lines) - 1) * 58
     for i, l in enumerate(lines):
         tw = d.textlength(l, font=f); x = (W - tw) / 2; y = y0 + i * 58
@@ -257,10 +267,20 @@ def draw_scene(sc, V, u, dur, lines_t, frame_bg):
         px0, py0, pw, ph = 230, 120, 420, 860
         d.rounded_rectangle([px0 - 14, py0 - 14, px0 + pw + 14, py0 + ph + 14], 56, fill=(14, 18, 26), outline=(70, 82, 104), width=3)
         if shot is not None:
-            sc_w = pw; s = SHOTS_S.get(v["img"])
-            if s is None: s = SHOTS_S[v["img"]] = shot.resize((sc_w, int(shot.height * sc_w / shot.width)), Image.LANCZOS)
-            maxoff = max(0, s.height - ph); off = int(maxoff * clamp((u - 1.5) / max(1, dur - 3)) * .55)  # 천천히 아래로 훑는다
-            crop = s.crop((0, off, sc_w, off + ph))
+            def scr(key, f):  # 앱 화면 key 를 f(0~1) 위치까지 스크롤한 휴대폰 화면
+                sh_ = SHOTS.get(key) or shot; s_ = SHOTS_S.get(key)
+                if s_ is None: s_ = SHOTS_S[key] = sh_.resize((pw, int(sh_.height * pw / sh_.width)), Image.LANCZOS)
+                off = int(max(0, s_.height - ph) * clamp(f)); c = s_.crop((0, off, pw, off + ph))
+                if c.height < ph: c2 = Image.new("RGB", (pw, ph), (246, 244, 239)); c2.paste(c, (0, 0)); c = c2
+                return c
+            if PHONE:  # 비트마다 다른 화면/위치. 비트 안에서는 계속 스크롤, 화면이 바뀔 때는 위로 밀려 올라온다
+                (k0, a0, b0), (k1, a1, b1), q, tr = PHONE
+                cur_ = scr(k1, a1 + (b1 - a1) * q)
+                if tr < 1:
+                    prev_ = scr(k0, b0); e = ease(tr); dy = int(ph * e)
+                    crop = Image.new("RGB", (pw, ph)); crop.paste(prev_, (0, -dy)); crop.paste(cur_, (0, ph - dy))
+                else: crop = cur_
+            else: crop = scr(v["img"], clamp((u - 1.5) / max(1, dur - 3)) * .55)
             mask = Image.new("L", (pw, ph), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, pw, ph], 44, fill=255)
             img.paste(crop, (px0, py0), mask); d = AD(img)
         a = prog(u, .2, .8)
@@ -305,6 +325,14 @@ def key_number(txt):
 def plan_beats(typ, dur, lines):
     """문장마다 화면이 바뀌게: 그래픽(구도 교대) → 숫자 카드 / 실사 컷. 한 비트는 최대 2.4초"""
     if typ == "end" or not lines: return [(0, dur, "cam", "wide")]
+    if typ == "phone":  # 앱 화면: 실사 컷 없이 앱의 여러 화면을 번갈아, 각 화면은 스크롤하며
+        beats = []; edges = [0] + [l[0] for l in lines[1:]] + [dur]; t = 0.0; k = 0
+        while t < dur - .05:
+            t1 = min(dur, t + MAX_BEAT); nxt = [e for e in edges if t + 1.2 < e <= t1]
+            if nxt: t1 = nxt[-1]
+            if dur - t1 < .8: t1 = dur
+            beats.append((t, t1, "phone", k)); k += 1; t = t1
+        return beats
     if typ == "broll":  # 챕터 제목 카드: 제목은 3초만, 그 뒤로는 실사 컷과 숫자 카드가 문장마다 바뀐다
         T = min(3.2, dur); beats = [(0, T, "cam", "wide")]; c = 0
         for idx, (a, d_, txt) in enumerate(lines):
@@ -323,7 +351,7 @@ def plan_beats(typ, dur, lines):
             t0, t1 = a + j * L, a + (j + 1) * L; kind = None
             if j >= 1:  # 문장의 첫 비트는 항상 그래픽 (차례로 나타나는 항목이 보이게)
                 if num and spent["stat"] + L <= dur * .25 and (j % 2 == 1 or not CUTS): kind = ("stat", txt, num)
-                elif CUTS and spent["cut"] + L <= dur * .4: kind = ("cut", txt)
+                elif (CUTS or POOLS) and spent["cut"] + L <= dur * .4: kind = ("cut", txt)
             if kind: beats.append((t0, t1) + kind); spent[kind[0]] += L
             else: beats.append((t0, t1, "cam", alt[k % len(alt)])); k += 1
     return beats
@@ -353,6 +381,15 @@ def cam(img, f0, f1, p, drift):
 
 
 CUTS = []          # (경로, 길이초)
+PHONE = None       # 앱 화면 장면의 현재 상태 ((이전 화면), (지금 화면), 스크롤 진행, 전환 진행)
+
+
+def phone_views(img):
+    """같은 화면이 반복되지 않게: 회사 상세를 위→아래로 나눠 보여 주고, 사이사이 다른 탭 화면"""
+    seq = [(img, 0, .18), (img + ":list", 0, .5), (img, .2, .42), (img + ":value", 0, .5), (img, .44, .66),
+           (img + ":brief", 0, .5), (img, .68, .9), (img + ":port", 0, .5), (img, .9, 1.0)]
+    seq = [x for x in seq if x[0] in SHOTS and SHOTS[x[0]] is not None]
+    return seq or [(img, 0, 1)]
 _cut_i = [0]
 
 
@@ -395,8 +432,79 @@ def load_cuts(queries):
     print(f"  실사 컷 소스 {len(CUTS)}개")
 
 
-def cut_frames(n):
-    pth, d = CUTS[_cut_i[0] % len(CUTS)]; _cut_i[0] += 1
+POOLS = {}         # 장면 번호 → 그 장면 내용에 맞는 실사 소스 [(종류, 경로, 길이)]
+USED = set()
+
+
+def _pex(path_q, key):
+    req = urllib.request.Request("https://api.pexels.com/" + path_q, headers={"Authorization": key, "User-Agent": "Mozilla/5.0"})
+    return json.loads(urllib.request.urlopen(req, timeout=30).read())
+
+
+def load_pools(spec):
+    """장면마다 원고의 q 검색어로 Pexels 사진·영상을 받아 둔다 (무료, 출처 표기 불필요). 같은 소스는 영상 전체에서 한 번만 쓴다"""
+    key = os.environ.get("PEXELS_API_KEY", "")
+    if not key: return
+    import urllib.parse
+    cache = os.path.join(ROOT, "scripts", "youtube", "long", ".cache"); os.makedirs(cache, exist_ok=True)
+    seen = set()
+    for k, sc in enumerate(spec["scenes"]):
+        pool = []
+        for qi, q in enumerate(sc.get("q", [])):
+            qq = urllib.parse.quote(q)
+            try:  # 사진 2장 (천천히 확대·이동하며 보여 준다)
+                for ph in _pex(f"v1/search?query={qq}&per_page=4&orientation=landscape", key).get("photos", [])[:2]:
+                    if ph["id"] in seen: continue
+                    pth = os.path.join(cache, f"pexp_{ph['id']}.jpg")
+                    if not os.path.exists(pth) or os.path.getsize(pth) < 5000:
+                        open(pth, "wb").write(urllib.request.urlopen(urllib.request.Request(ph["src"]["large2x"], headers={"User-Agent": "Mozilla/5.0"}), timeout=60).read())
+                    seen.add(ph["id"]); pool.append(("photo", pth, 0))
+            except Exception as e: print("  Pexels 사진 실패:", q, str(e)[:80])
+            if qi > 1: continue
+            try:  # 영상 1개 (검색어 앞의 두 개만)
+                for v in _pex(f"videos/search?query={qq}&per_page=3&orientation=landscape&size=medium", key).get("videos", [])[:2]:
+                    if v["id"] in seen: continue
+                    fs_ = sorted([f for f in v["video_files"] if f.get("file_type") == "video/mp4" and 1280 <= (f.get("width") or 0) <= 1920], key=lambda f: f["width"])
+                    if not fs_ or v.get("duration", 0) < 4: continue
+                    pth = os.path.join(cache, f"pex_{v['id']}.mp4")
+                    if not os.path.exists(pth) or os.path.getsize(pth) < 10000:
+                        open(pth, "wb").write(urllib.request.urlopen(urllib.request.Request(fs_[0]["link"], headers={"User-Agent": "Mozilla/5.0"}), timeout=120).read())
+                    seen.add(v["id"]); pool.append(("video", pth, float(v["duration"]))); break
+            except Exception as e: print("  Pexels 영상 실패:", q, str(e)[:80])
+        # 사진과 영상을 번갈아
+        ph_ = [x for x in pool if x[0] == "photo"]; vd_ = [x for x in pool if x[0] == "video"]; mix_ = []
+        while ph_ or vd_:
+            if vd_: mix_.append(vd_.pop(0))
+            if ph_: mix_.append(ph_.pop(0))
+            if ph_: mix_.append(ph_.pop(0))
+        POOLS[k] = mix_
+    print("  장면별 실사 소스:", {k: len(v) for k, v in POOLS.items()})
+
+
+def photo_frames(pth, n, seed):
+    """사진을 천천히 확대하며 한쪽으로 흐르게 (켄 번즈)"""
+    im = Image.open(pth).convert("RGB"); r = max(W / im.width, H / im.height) * 1.18
+    im = im.resize((int(im.width * r), int(im.height * r)), Image.LANCZOS)
+    dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, 1)]; dx, dy = dirs[seed % len(dirs)]; zin = seed % 2 == 0
+    out = []; kk = min(im.width / W, im.height / H)
+    for i in range(n):
+        t = i / max(1, n - 1); z = (1.0 + .08 * t) if zin else (1.08 - .08 * t)
+        w, h = W * kk / z, H * kk / z
+        cx = im.width / 2 + dx * (im.width - w) / 2 * (t - .5) * 1.6; cy = im.height / 2 + dy * (im.height - h) / 2 * (t - .5) * 1.6
+        l = min(max(cx - w / 2, 0), im.width - w); tp = min(max(cy - h / 2, 0), im.height - h)
+        out.append(np.asarray(im.resize((W, H), Image.BILINEAR, box=(l, tp, l + w, tp + h))))
+    return out
+
+
+def cut_frames(n, scene=None):
+    """이 장면 내용에 맞는 소스 중 아직 안 쓴 것 → 다른 장면의 안 쓴 것 → 예비 영상 순서로"""
+    cand = [x for x in POOLS.get(scene, []) if x[1] not in USED] or [x for k in sorted(POOLS, key=lambda k: abs(k - (scene or 0))) for x in POOLS[k] if x[1] not in USED]
+    _cut_i[0] += 1
+    if cand:
+        kind, pth, d = cand[0]; USED.add(pth)
+        if kind == "photo": return photo_frames(pth, n, _cut_i[0])
+    else:
+        pth, d = CUTS[_cut_i[0] % len(CUTS)]
     st = (d - n / FPS - .2) * ((_cut_i[0] * 0.37) % 1) if d > n / FPS + .5 else 0
     raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{max(0, st):.2f}", "-i", pth, "-frames:v", str(n), "-vf",
                           f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
@@ -445,8 +553,49 @@ def pace(a):
     return np.frombuffer(out, np.float32).copy()
 
 
+def make_music(n, seed=7):
+    """잔잔한 배경음악을 직접 만든다 (저작권 걱정 없음): 일렉트릭 피아노 화음 + 부드러운 베이스 + 아주 작은 하이햇, 84BPM.
+    16마디마다 진행을 바꿔 10분 내내 같은 반복으로 들리지 않게 한다."""
+    from scipy import signal
+    rng = np.random.default_rng(seed); L = np.zeros(n, np.float32); R = np.zeros(n, np.float32)
+    bpm = 84; beat = 60 / bpm; bar = 4 * beat
+    note = lambda k: 440 * 2 ** ((k - 69) / 12)
+    def add(at, x, gl=1.0, gr=1.0):
+        i = int(at * SR)
+        if i >= n or i < 0: return
+        m = min(len(x), n - i); L[i:i + m] += x[:m] * gl; R[i:i + m] += x[:m] * gr
+    def ep(f, dur, amp):  # 일렉트릭 피아노 비슷한 소리
+        t = np.arange(int(SR * dur)) / SR
+        x = np.sin(2 * np.pi * f * t + .8 * np.exp(-t * 3) * np.sin(2 * np.pi * f * 2 * t)) + .25 * np.sin(2 * np.pi * f * 3 * t) * np.exp(-t * 4)
+        return (amp * x * np.minimum(1, t / .008) * np.exp(-t * 1.1)).astype(np.float32)
+    def bass(f, dur):
+        t = np.arange(int(SR * dur)) / SR
+        return (.22 * np.sin(2 * np.pi * f * t) * np.minimum(1, t / .02) * np.exp(-t * 1.3)).astype(np.float32)
+    hatsrc = signal.lfilter(*signal.butter(2, 8000 / (SR / 2), "high"), rng.standard_normal(int(SR * .05))).astype(np.float32)
+    hat = lambda a: a * hatsrc * np.exp(-np.arange(len(hatsrc)) / SR * 70).astype(np.float32)
+    progs = [[[57, 60, 64, 67], [53, 57, 60, 64], [48, 52, 55, 59], [55, 59, 62, 64]],     # Am7 Fmaj7 Cmaj7 G6
+             [[50, 53, 57, 60], [55, 59, 62, 65], [48, 52, 55, 59], [57, 60, 64, 67]],     # Dm7 G7 Cmaj7 Am7
+             [[53, 57, 60, 64], [52, 55, 59, 62], [50, 53, 57, 60], [55, 59, 62, 64]]]     # Fmaj7 Em7 Dm7 G6
+    t0, bi = 0.0, 0; total = n / SR
+    while t0 < total:
+        ch = progs[(bi // 16) % 3][bi % 4]
+        for j, k in enumerate(ch): add(t0 + j * .018, ep(note(k), 3.2, .07), 1 - .2 * (j % 2), .8 + .2 * (j % 2))
+        for j, k in enumerate(ch[1:3]): add(t0 + 2.5 * beat + j * .02, ep(note(k + 12), 1.6, .035), .8, 1)  # 가벼운 장식음
+        add(t0, bass(note(ch[0] - 24), 2.0)); add(t0 + 2 * beat, bass(note(ch[0] - 24), 1.4))
+        if (bi // 8) % 2 == 1 or bi >= 16:
+            for b_ in range(8): add(t0 + b_ * beat / 2, hat(.05 if b_ % 2 else .08), .7, 1)
+        t0 += bar; bi += 1
+    fi = int(SR * 2); L[:fi] *= np.linspace(0, 1, fi); R[:fi] *= np.linspace(0, 1, fi)
+    fo = int(SR * 3); L[-fo:] *= np.linspace(1, 0, fo); R[-fo:] *= np.linspace(1, 0, fo)
+    m = np.stack([L, R], 1); m = signal.lfilter(*signal.butter(2, 5000 / (SR / 2), "low"), m, axis=0)
+    return (m / (np.abs(m).max() + 1e-9)).astype(np.float32)
+
+
+MUSIC_LEVEL = .11   # 목소리 대비 음악 크기 (말할 때는 더 줄인다)
+
+
 def main():
-    global BG, LOGO, ICON
+    global BG, LOGO, ICON, PHONE
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
     spec = json.load(open(spec_path, encoding="utf-8"))
     data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8"))
@@ -462,6 +611,9 @@ def main():
         if img:
             p = os.path.join(out, "shot_" + img.replace(":", "_") + ".png")
             SHOTS[img] = Image.open(p).convert("RGB") if os.path.exists(p) else None
+            for k in ("list", "value", "brief", "port"):  # 밸류노트 소개 장면에서 번갈아 보여 줄 앱 화면
+                q = p.replace(".png", "_" + k + ".png")
+                if os.path.exists(q): SHOTS[img + ":" + k] = Image.open(q).convert("RGB")
 
     # 1) 음성 (문장마다) → 장면 길이
     if not fake: from tts import speak
@@ -485,13 +637,22 @@ def main():
     for st, a in audio:
         i = int(st * SR); mix[i:i + len(a)] += a[: len(mix) - i]
     if np.abs(mix).max() > 0: mix = mix / np.abs(mix).max() * .9
+    # 배경음악: 말하는 동안 자동으로 낮춘다(덕킹)
+    from scipy import signal as _sg
+    env = np.convolve(np.abs(mix), np.ones(int(SR * .25)) / (SR * .25), "same"); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)
+    env = _sg.lfilter([.0005], [1, -.9995], env)  # 천천히 오르내리게
+    env = np.clip(env / (env.max() + 1e-9), 0, 1)
+    mus = make_music(len(mix)) * (MUSIC_LEVEL * (1 - .45 * env))[:, None]
+    st_ = np.stack([mix, mix], 1) + mus
+    st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", wav], input=mix.tobytes(), check=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
     # 3) 영상
     tmp = os.path.join(out, "video_noaudio.mp4")
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                             "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p", "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
     load_cuts(spec.get("broll_q", ["stock market screen", "computer chip", "data center", "city night"]))
+    load_pools(spec)
     prev_last = None
     for k, s in enumerate(timeline):
         sc = s["sc"]; n = int(round(s["dur"] * FPS))
@@ -502,21 +663,26 @@ def main():
         for i in range(n):
             u = i / FPS
             while bi + 1 < len(beats) and u >= beats[bi + 1][0]:
-                bi += 1; b = beats[bi]; from_img = shown if b[2] != "cam" or beats[bi - 1][2] != "cam" else None
-                if b[2] == "cut": cutbuf = cut_frames(int(math.ceil((b[1] - b[0]) * FPS)) + 2)
+                bi += 1; b = beats[bi]; from_img = shown if b[2] not in ("cam", "phone") or beats[bi - 1][2] not in ("cam", "phone") else None
+                if b[2] == "cut": cutbuf = cut_frames(int(math.ceil((b[1] - b[0]) * FPS)) + 2, k)
                 elif b[2] == "cam": prevf, curf = curf, b[3]
+                elif b[2] == "phone": prevf = curf = "wide"
             b = beats[bi]; bu = u - b[0]; bl = b[1] - b[0]
             if b[2] in ("cut", "stat"):
                 if b[2] == "cut": img = Image.fromarray(cutbuf[min(int(bu * FPS), len(cutbuf) - 1)]); shade(img)
                 else: img = stat_card(b[3], b[4], bu, bl)
             else:
+                if b[2] == "phone":
+                    vs_ = phone_views(sc["v"]["img"]); cv = vs_[b[3] % len(vs_)]; pv = vs_[(b[3] - 1) % len(vs_)]
+                    PHONE = (pv, cv, clamp(bu / max(bl, .1)), 1.0 if b[3] == 0 else clamp(bu / .5))
+                else: PHONE = None
                 img = draw_scene(sc, V, u, s["dur"], s["lines"], frames_bg[i] if frames_bg is not None else None)
-                img = cam(img, prevf, curf, bu / .45, clamp(bu / max(bl, .1)))
+                if b[2] == "cam": img = cam(img, prevf, curf, bu / .45, clamp(bu / max(bl, .1)))
             if from_img is not None and bu < .2: img = Image.blend(from_img, img, bu / .2)
             shown = img.copy()
             chrome(img, chapter if sc["v"]["type"] != "end" else "", src, asof, u, (s["start"] + u) / total)
             cur = next((l for l in reversed(s["lines"]) if u >= l[0] - .05), None)
-            if cur and u <= cur[0] + cur[1] + .3 : subtitle(img, cur[2], u - cur[0])
+            if cur and u <= cur[0] + cur[1] + .3 : subtitle(img, cur[2], u - cur[0], cur[1])
             fr = np.asarray(img)
             if prev_last is not None and i < 10:  # 장면 사이 부드러운 페이드 (0.4초)
                 a = (i + 1) / 11; fr = (prev_last * (1 - a) + fr * a).astype(np.uint8)
