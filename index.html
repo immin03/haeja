@@ -1870,76 +1870,101 @@ function onbCalc(k, p){
     note:'도전 칸이 모두 0원이 되더라도 전체 손실은 10%에서 멈춥니다. 큰 수익을 노리면서도 다시 일어설 수 있는 구조입니다.',
     cmp:'', share:`${manTxt(p.amt)} 중 ${manTxt(p.amt * 0.1)}만 도전` };
 }
-const onbChips = (key, list, val, lab) => `<div class="onb-chips" role="group" aria-label="${esc(lab)}">${list.map(([v, l]) => `<button type="button" class="inv-o${v === val ? ' on' : ''}" data-onb-set="${key}" data-v="${v}" aria-pressed="${v === val}">${esc(l)}</button>`).join('')}</div>`;
-function onbHead(step){
-  return `<div class="onb-prog" aria-label="${step + 1} / 3 단계">${[0,1,2].map(i => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div>`;
-}
 function onboardHtml(){
   const still = S.__onbShown ? ' still' : ''; S.__onbShown = true;
-  const T = VN_TYPES[S.onbType || inv().type], step = T ? (S.onbStep ?? 0) : 0, p = onbPlan();
-  let body = '';
-  if(step === 0){
-    body = `${onbHead(0)}<div class="eyebrow" style="color:var(--gold)">나의 투자 유형</div>
-      <h2 class="intro-t">어떤 투자를 원하세요?</h2>
-      <p class="small muted" style="margin:0 0 14px">하나만 고르면 목표에 맞는 길을 계산해 드립니다.</p>
-      <div class="onb-types">${Object.values(VN_TYPES).map(t => `<button type="button" class="onb-type${(S.onbType || inv().type) === t.k ? ' on' : ''}" data-onb-type="${t.k}">
-        <span class="onb-ic">${t.ic}</span><span class="onb-tx"><b>${esc(t.n)}</b><span>${esc(t.one)}</span><small>${esc(t.ex)}</small></span><span class="onb-go" aria-hidden="true">›</span></button>`).join('')}</div>`;
-  } else if(step === 1){
-    const amtQ = T.k === 'income' ? '지금 투자금은 얼마인가요?' : T.k === 'bold' ? '전체 투자금은 얼마인가요?' : '지금 투자금은 얼마인가요?';
-    body = `${onbHead(1)}<div class="eyebrow" style="color:var(--gold)">${esc(T.n)}</div>
-      <h2 class="intro-t">${T.k === 'value' ? '몇 년 안에 몇 배를 원하세요?' : T.k === 'income' ? '매달 얼마의 배당을 받고 싶으세요?' : '얼마로 도전하실 건가요?'}</h2>
-      <p class="small muted" style="margin:0 0 14px">대략 골라도 괜찮습니다. 나중에 언제든 바꿀 수 있습니다.</p>
-      <div class="inv-qs">
-        ${T.k === 'income' ? `<div class="inv-q"><b>세후 매달 받고 싶은 배당</b>${onbChips('mon', ONB_MON.map(v => [v, manTxt(v)]), p.mon, '월 배당')}</div>
-          <div class="inv-q"><b>언제부터 받고 싶으세요?</b>${onbChips('iy', ONB_IY.map(v => [v, v + '년 뒤']), p.iy, '목표 시점')}</div>
-          <div class="inv-q"><b>지금 모아 둔 투자금</b>${onbChips('iamt', ONB_IAMT, p.iamt, '지금 투자금')}<small class="muted" style="display:block;margin-top:6px">적어도 괜찮습니다. 매달 얼마씩 모으면 되는지 계산해 드립니다.</small></div>`
-          : `<div class="inv-q"><b>${amtQ}</b>${onbChips('amt', ONB_AMT, p.amt, '투자금')}</div>`}
-        ${T.k === 'value' ? `<div class="inv-q"><b>목표</b>${onbChips('mult', ONB_MULT.map(v => [v, v + '배']), p.mult, '목표 배수')}</div>
-          <div class="inv-q"><b>기간</b>${onbChips('yrs', ONB_YRS.map(v => [v, v + '년']), p.yrs, '기간')}</div>` : ''}
-      </div>
-      <div class="intro-nav"><button type="button" class="linkbtn" data-onb-step="0">‹ 유형 다시 고르기</button><button type="button" class="btn primary" data-onb-step="2">결과 보기</button></div>`;
-  } else {
-    const R = onbCalc(T.k, p);
-    body = `${onbHead(2)}<div class="onb-res">
-        <div class="onb-res-top"><span class="onb-ic">${T.ic}</span><div><small>나의 투자 유형</small><b>${esc(T.n)}</b></div></div>
-        <div class="onb-res-lab">${esc(R.lab)}</div><div class="onb-res-big num">${esc(R.big)}</div>
-        <p class="onb-res-sub">${esc(R.sub)}</p>
-      </div>
-      ${R.road ? `<div class="onb-road"><b>이렇게 늘어납니다 <span class="muted">(세후 월 배당)</span></b>${R.road.map(x => `<div class="onb-road-r${x.t === R.road[R.road.length - 1].t ? ' goal' : ''}"><span>${x.t}년 뒤</span><i><em style="width:${Math.max(4, Math.min(100, x.v / R.target * 100)).toFixed(0)}%"></em></i><b class="num">월 ${esc(manTxt(x.v))}</b></div>`).join('')}</div>` : ''}
-      <p class="onb-note">${esc(R.note)}${R.cmp ? ' ' + esc(R.cmp) : ''}</p>
-      <div class="onb-rules"><b>${T.k === 'income' ? '이렇게 모아 가세요' : '이 유형이 지킬 원칙 3가지'}</b>${T.rules.map((r, i) => `<div><i class="num">${i + 1}</i><span>${esc(r)}</span></div>`).join('')}</div>
-      <button type="button" class="btn primary onb-cta" data-onb="done">${esc(T.cta)}</button>
-      <div class="onb-sub-acts"><button type="button" class="btn" data-onb-share>결과 카드 공유하기</button><button type="button" class="linkbtn" data-onb-step="1">‹ 목표 바꾸기</button></div>
-      <p class="small muted onb-disc">${R.asm ? esc(R.asm) + ' ' : ''}계산 예시이며 수익을 약속하지 않습니다. 회사 목록은 모든 이용자에게 같은 기준(워렌 버핏·그레이엄 방식)으로 계산한 결과이며 개별 종목 추천이 아닙니다.</p>`;
-  }
-  return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="나의 투자 유형"><div class="intro-card">${body}</div></div>`;
+  return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="나의 투자 유형"><div class="intro-card">
+    <div class="eyebrow" style="color:var(--gold)">시작 전에 한 번만</div>
+    <h2 class="intro-t">어떤 투자를 원하세요?</h2>
+    <p class="small muted" style="margin:0 0 14px">하나만 누르면 끝입니다. 고른 유형에 맞춘 투자 가이드를 바로 만들어 드립니다.</p>
+    ${onbTypesHtml(inv().type, 'data-onb-type')}
+  </div></div>`;
 }
-function onbSave(extra){
-  const T = VN_TYPES[S.onbType || inv().type]; if(!T) return;
-  const p = onbPlan(), plan = T.k === 'value' ? {amt:p.amt, mult:p.mult, yrs:p.yrs} : T.k === 'income' ? {iamt:p.iamt, mon:p.mon, iy:p.iy} : {amt:p.amt};
-  saveInv({ type:T.k, style:[T.n], plan, ...(extra || {}) });
-}
-function onbRerender(){ render(); const c2 = document.querySelector('.onb .intro-card'); if(c2) c2.scrollTop = 0; }
-document.addEventListener('click', e => {
-  const t = e.target.closest('[data-onb-type]');
-  if(t){ S.onbType = t.dataset.onbType; S.onbStep = 1; store.track('engage', 'onb-type-' + S.onbType); onbRerender(); return; }
-  const s = e.target.closest('[data-onb-set]');
-  if(s){ S.onbDraft = {...(S.onbDraft || {}), [s.dataset.onbSet]: +s.dataset.v};
-    s.parentElement.querySelectorAll('.inv-o').forEach(o => { const on = o === s; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); }); return; }
-  const st = e.target.closest('[data-onb-step]');
-  if(st){ S.onbStep = +st.dataset.onbStep; if(S.onbStep === 2){ onbSave(); store.track('engage', 'onb-result'); } onbRerender(); return; }
-  if(e.target.closest('[data-onb-share]')){ onbShare(); return; }
-  const b = e.target.closest('[data-onb]'); if(!b) return;
-  const T = VN_TYPES[S.onbType || inv().type]; if(!T) return;
+const onbTypesHtml = (cur, attr) => `<div class="onb-types">${Object.values(VN_TYPES).map(t => `<button type="button" class="onb-type${cur === t.k ? ' on' : ''}" ${attr}="${t.k}" aria-pressed="${cur === t.k}">
+  <span class="onb-ic">${t.ic}</span><span class="onb-tx"><b>${esc(t.n)}</b><span>${esc(t.one)}</span><small>${esc(t.ex)}</small></span><span class="onb-go" aria-hidden="true">›</span></button>`).join('')}</div>`;
+function setInvType(k){
+  const T = VN_TYPES[k]; if(!T) return;
   const first = !inv().done;
-  onbSave({ done: inv().done || today() }); if(first) store.track('onboard');
-  S.onbForce = false; S.onbStep = 0; S.onbType = null; S.onbDraft = null; S.__onbShown = false;
-  /* 긴 안내를 띄우지 않고 고른 유형의 회사 목록으로 바로 간다 (안내는 오른쪽 위 ? 에서 언제든) */
+  saveInv({ type:T.k, style:[T.n], done: inv().done || today() });
+  store.track('engage', 'onb-type-' + T.k); if(first) store.track('onboard');
+  return first;
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-onb-type]'); if(!t) return;
+  const first = setInvType(t.dataset.onbType);
+  S.onbForce = false; S.__onbShown = false;
+  /* 긴 안내 대신 고른 유형의 가이드 페이지로 바로 간다 (안내는 오른쪽 위 ? 에서 언제든) */
   if(first && typeof introDone === 'function') introDone();
-  S.coSort = null; S.scope = 'all'; S.coMkt = 'ALL'; S.coMin = 0; S.coQ = '';
-  S.tab = T.k === 'income' ? 'dividend' : 'companies';
-  try{ localStorage.setItem('ml-tab', S.tab); }catch(_){}
+  S.tab = 'myguide'; try{ localStorage.setItem('ml-tab', 'myguide'); }catch(_){}
   render(); window.scrollTo(0, 0);
+});
+/* ============ 나의 투자 가이드 (가입 후 세부 목표 → 계산 → 이 유형 기준에 맞는 회사) ============ */
+const mgChips = (key, list, val, lab) => `<div class="onb-chips" role="group" aria-label="${esc(lab)}">${list.map(([v, l]) => `<button type="button" class="inv-o${v === val ? ' on' : ''}" data-mg-set="${key}" data-v="${v}" aria-pressed="${v === val}">${esc(l)}</button>`).join('')}</div>`;
+/* 유형별 후보: 밸류노트 점수로 이미 걸러 둔 회사 중 이 유형의 기준에 맞는 곳 */
+function mgPicks(k){
+  const num = v => isNum(v) ? v : -1, div = dividendRows();
+  if(k === 'income'){
+    return div.filter(x => x.d.verdict === '배당 적합' && num(rowScore(x)) >= 60)
+      .sort((a, b) => num(rowScore(b)) - num(rowScore(a)) || num(b.y) - num(a.y)).slice(0, 8)
+      .map(x => ({ x, side:`배당 ${isNum(x.y) ? fmt(x.y, 1) + '%' : '–'}`, sub: isNum(x.d.years) ? x.d.years + '년 연속 배당' : '배당 적합' }));
+  }
+  const yld = new Map(div.map(x => [normKey(x.code), x]));
+  const und = allCompanyRows().filter(x => x.r && isNum(x.r.iv) && x.r.iv > 0 && isNum(x.r.px) && x.r.dataConf !== 'low' && !(x.r.flags || []).some(f => !WARN_FLAGS.has(f)))
+    .map(x => ({ x, R: x.r.px / x.r.iv })).filter(o => o.R <= 0.75);
+  const gap = R => '적정 주가보다 ' + Math.round((1 - R) * 100) + '% 낮음';
+  if(k === 'value'){
+    return und.filter(o => num(o.x.r.q) >= 60).sort((a, b) => num(rowScore(b.x)) - num(rowScore(a.x)) || a.R - b.R).slice(0, 8)
+      .map(o => ({ x:o.x, side:`${num(rowScore(o.x)) >= 0 ? rowScore(o.x) + '점' : ''}`, sub:gap(o.R) }));
+  }
+  /* 공격 도전형: 가장 많이 싼 순. 배당이 없거나 낮은(주가 회복으로만 버는) 회사를 앞에 */
+  const low = x => { const d = yld.get(normKey(x.code)); return !!d && (d.d.verdict === '무배당' || d.d.verdict === '배당 부적합' || !(num(d.y) >= 2)); };
+  return und.filter(o => num(o.x.r.q) >= 40).sort((a, b) => (low(b.x) - low(a.x)) || a.R - b.R).slice(0, 8)
+    .map(o => { const d = yld.get(normKey(o.x.code)); return { x:o.x, side:'-' + Math.round((1 - o.R) * 100) + '%', sub: low(o.x) ? '배당 거의 없음' : (d && isNum(d.y) ? `배당 ${fmt(d.y, 1)}%` : (o.x.ind || '')) }; });
+}
+function viewMyGuide(){
+  const T = invType();
+  const head = `<div style="margin-top:16px"><h2 style="margin:0">나의 투자 가이드</h2><div class="small muted" style="margin-top:4px">유형과 목표를 고르면, 밸류노트가 점수를 매긴 600여 개 회사 중 이 기준에 맞는 곳을 함께 보여 드립니다.</div></div>`;
+  if(!T) return `${head}<div class="card" style="margin-top:12px">${onbTypesHtml(null, 'data-mg-type')}</div>`;
+  const p = onbPlan(), R = onbCalc(T.k, p);
+  const goal = T.k === 'value' ? `<div class="inv-q"><b>지금 투자금</b>${mgChips('amt', ONB_AMT, p.amt, '투자금')}</div>
+      <div class="inv-q"><b>목표</b>${mgChips('mult', ONB_MULT.map(v => [v, v + '배']), p.mult, '목표 배수')}</div>
+      <div class="inv-q"><b>기간</b>${mgChips('yrs', ONB_YRS.map(v => [v, v + '년']), p.yrs, '기간')}</div>`
+    : T.k === 'income' ? `<div class="inv-q"><b>세후 매달 받고 싶은 배당</b>${mgChips('mon', ONB_MON.map(v => [v, manTxt(v)]), p.mon, '월 배당')}</div>
+      <div class="inv-q"><b>언제부터 받고 싶으세요?</b>${mgChips('iy', ONB_IY.map(v => [v, v + '년 뒤']), p.iy, '목표 시점')}</div>
+      <div class="inv-q"><b>지금 모아 둔 투자금</b>${mgChips('iamt', ONB_IAMT, p.iamt, '지금 투자금')}</div>`
+    : `<div class="inv-q"><b>전체 투자금</b>${mgChips('amt', ONB_AMT, p.amt, '투자금')}</div>`;
+  const picks = (S2.screen || []).length ? mgPicks(T.k) : null;
+  const listT = T.k === 'income' ? '모아 갈 배당주 후보' : T.k === 'value' ? '지금 싸게 살 수 있는 우량주 후보' : '도전 칸 후보 (가장 많이 싼 회사)';
+  const listD = T.k === 'income' ? '배당 적합 판정(수익률 3% 이상, 배당성향 20~70%, 5년 이상 삭감 없음) + 종합 60점 이상, 점수 높은 순'
+    : T.k === 'value' ? '적정 주가보다 25% 이상 싸고 재무 점수 60점 이상, 감점 신호 없는 회사 중 종합 점수 높은 순'
+    : '적정 주가보다 25% 이상 싼 회사 중 배당이 거의 없는 회사를 먼저, 그다음 많이 싼 순. 반드시 도전 칸(전체 10%) 안에서만';
+  const all = T.k === 'income' ? `<button type="button" class="btn" data-mg-all="dividend">배당 회사 전체 보기</button>` : `<button type="button" class="btn" data-mg-all="value">저평가 회사 전체 보기</button>`;
+  return `${head}
+  <div class="mg-types" role="group" aria-label="투자 유형">${Object.values(VN_TYPES).map(t => `<button type="button" class="${t.k === T.k ? 'on' : ''}" data-mg-type="${t.k}" aria-pressed="${t.k === T.k}">${esc(t.n)}</button>`).join('')}</div>
+  <div class="card mg-goal"><div class="eyebrow">나의 목표</div><div class="inv-qs" style="margin-top:8px">${goal}</div></div>
+  <div class="onb-res" style="margin-top:12px">
+    <div class="onb-res-top"><span class="onb-ic">${T.ic}</span><div><small>${esc(T.n)}</small><b>나의 투자 길</b></div></div>
+    <div class="onb-res-lab">${esc(R.lab)}</div><div class="onb-res-big num">${esc(R.big)}</div><p class="onb-res-sub">${esc(R.sub)}</p>
+  </div>
+  <div class="card" style="margin-top:12px">
+    ${R.road ? `<div class="onb-road" style="margin:0 0 4px"><b>이렇게 늘어납니다 <span class="muted">(세후 월 배당)</span></b>${R.road.map((x, i) => `<div class="onb-road-r${i === R.road.length - 1 ? ' goal' : ''}"><span>${x.t}년 뒤</span><i><em style="width:${Math.max(4, Math.min(100, x.v / R.target * 100)).toFixed(0)}%"></em></i><b class="num">월 ${esc(manTxt(x.v))}</b></div>`).join('')}</div>` : ''}
+    <p class="onb-note" style="${R.road ? '' : 'margin-top:0'}">${esc(R.note)}${R.cmp ? ' ' + esc(R.cmp) : ''}</p>
+    <div class="onb-rules"><b>${T.k === 'income' ? '이렇게 모아 가세요' : '이 유형이 지킬 원칙 3가지'}</b>${T.rules.map((r, i) => `<div><i class="num">${i + 1}</i><span>${esc(r)}</span></div>`).join('')}</div>
+  </div>
+  <h3 class="eyebrow guide-h">${esc(listT)}</h3>
+  <div class="card vl-list mg-list">${picks === null ? '<div class="empty">기업 데이터를 불러오는 중입니다…</div>' : picks.length ? picks.map(({ x, side, sub }, i) => `<button type="button" class="vl-row" data-act="vl-open" data-v="${esc(x.code)}" data-n="${esc(x.name)}">
+      <span class="vl-rank">${i + 1}</span><span class="vl-name"><b>${esc(x.name)}</b><small>${esc((MKT[x.m] || MKT.KR).label)} · ${esc(sub)}</small></span>
+      <span class="vl-num"><b class="vl-up">${esc(side)}</b>${isNum(rowScore(x)) && T.k !== 'value' ? `<small>종합 ${rowScore(x)}점</small>` : ''}</span></button>`).join('') : '<div class="empty">지금은 이 기준을 통과한 회사가 없습니다. 기다리는 것도 이 유형의 원칙입니다.</div>'}
+    <div class="row" style="justify-content:space-between;align-items:center;padding:10px 4px 2px"><span class="small muted" style="flex:1;margin-right:10px">${esc(listD)}</span>${all}</div></div>
+  <div class="mg-share"><div><b>결과 카드로 공유하기</b><span>나의 투자 유형과 목표를 인스타 스토리 크기 이미지로 만듭니다.</span></div><button type="button" class="btn primary" data-onb-share>공유하기</button></div>
+  <p class="small muted" style="margin-top:12px">${R.asm ? esc(R.asm) + ' ' : ''}계산 예시이며 수익을 약속하지 않습니다. 회사 목록은 모든 이용자에게 같은 기준(워렌 버핏·그레이엄 방식)으로 계산한 결과이며, 특정 종목의 매수·매도 권유가 아닙니다.</p>`;
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-mg-type]');
+  if(t){ setInvType(t.dataset.mgType); const y = window.scrollY; render(); window.scrollTo(0, y); return; }
+  const s = e.target.closest('[data-mg-set]');
+  if(s){ saveInv({ plan: {...(inv().plan || {}), [s.dataset.mgSet]: +s.dataset.v} }); store.track('engage', 'mg-goal'); const y = window.scrollY; render(); window.scrollTo(0, y); return; }
+  const a = e.target.closest('[data-mg-all]');
+  if(a){ if(a.dataset.mgAll === 'dividend'){ S.tab = 'dividend'; S.dvV = '배당 적합'; } else { S.tab = 'value'; S.vlSide = 'under'; } render(); window.scrollTo(0, 0); }
 });
 /* 결과 카드 이미지 (1080×1920, 인스타 스토리 크기) */
 function onbWrap(ctx, text, maxW){
@@ -1950,7 +1975,7 @@ function onbWrap(ctx, text, maxW){
 async function onbShare(){
   const T = VN_TYPES[S.onbType || inv().type]; if(!T) return;
   const R = onbCalc(T.k, onbPlan()), W = 1080, H = 1920, F = '"SUIT Variable","SUIT","Pretendard",sans-serif';
-  const btn = document.querySelector('[data-onb-share]'); if(btn){ btn.disabled = true; btn.textContent = '카드 만드는 중…'; }
+  const btn = document.querySelector('[data-onb-share]'), btnT = btn ? btn.textContent : ''; if(btn){ btn.disabled = true; btn.textContent = '만드는 중…'; }
   try{
     try{ await document.fonts.ready; }catch(_){}
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
@@ -1985,7 +2010,7 @@ async function onbShare(){
     if(navigator.canShare && navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file], text, url}); }catch(_){} }
     else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'valuenote-type.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
   }catch(_){}
-  if(btn){ btn.disabled = false; btn.textContent = '결과 카드 공유하기'; }
+  if(btn){ btn.disabled = false; btn.textContent = btnT; }
 }
 /* 계정 화면용 요약 */
 function invTypeCardHtml(){
@@ -1993,7 +2018,7 @@ function invTypeCardHtml(){
   if(!T) return `<div class="row" style="justify-content:space-between;align-items:center;gap:12px"><span class="small muted">아직 투자 유형을 고르지 않았습니다.</span><button type="button" class="btn primary" data-act="onb-redo">유형 고르기</button></div>`;
   const R = onbCalc(T.k, onbPlan());
   return `<div class="onb-mini"><span class="onb-ic">${T.ic}</span><div><b>${esc(T.n)}</b><span>${esc(R.lab)} <b class="num">${esc(R.big)}</b></span></div></div>
-    <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px"><button type="button" class="btn" data-act="onb-redo">유형·목표 바꾸기</button></div>`;
+    <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px"><button type="button" class="btn primary" data-act="onb-redo">나의 투자 가이드 보기</button></div>`;
 }
 const inApp = () => /Instagram|FBAN|FBAV|KAKAOTALK|Barcelona|Threads|NAVER\(|; wv\)/.test(navigator.userAgent);
 /* 둘러보기 첫 화면: ① 결론형 제목 ② 인기 종목 한 번 누르면 바로 점수 ③ 인스타에서 본 오늘의 기업 ④ 지금 저평가 TOP 5 (1~3위 가림) */
@@ -2322,6 +2347,7 @@ function render(){
   if(S.tab === 'watchlist') app.innerHTML = viewWatchlist();
   if(S.tab === 'dividend') app.innerHTML = viewDividend();
   if(S.tab === 'value') app.innerHTML = viewValue();
+  if(S.tab === 'myguide') app.innerHTML = viewMyGuide();
   if(S.tab === 'alerts') app.innerHTML = viewAlerts();
   if(S.tab === 'account') app.innerHTML = viewAccount();
   if(S.tab === 'briefing' && S.loaded.s){ const bd = prog().briefDays || []; if(!bd.includes(today())) saveProg({briefDays: [...bd, today()].slice(-30)}); }
@@ -5482,7 +5508,7 @@ function viewGuide(){
 
 /* ============ 2단 메뉴 ============ */
 const NAV = [
-  {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['grade','내 등급'],['journal','결정 일지']]},
+  {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['myguide','나의 가이드'],['grade','내 등급'],['journal','결정 일지']]},
   {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['radar','경제 레이더'],['trends','메가트렌드'],['fx','환율'],['rates','금리']]},
   {k:'companies', l:'기업', subs:[['companies','찾기'],['value','저평가·고평가'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
@@ -6212,7 +6238,7 @@ document.addEventListener('click', async e => {
   if(act === 'intro-prev'){ S.introStep = Math.max(0, (S.introStep||0) - 1); render(); return; }
   if(act === 'intro-push'){ introDone(); if(typeof checkPush === 'function'){ S.tab = 'alerts'; await checkPush(); } render(); window.scrollTo(0,0); return; }
   if(act === 'intro-close'){ introDone(); render(); return; }
-  if(act === 'onb-redo'){ S.onbForce = true; S.onbType = inv().type || null; S.onbStep = 0; S.onbDraft = null; S.__onbShown = false; render(); return; }
+  if(act === 'onb-redo'){ S.tab = 'myguide'; render(); window.scrollTo(0, 0); return; }
   if(act === 'intro-open'){ S.introForce = true; S.introStep = 0; render(); return; }
   if(act === 'intro-add'){ introDone(); S.tab = 'portfolio'; S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); window.scrollTo(0,0); document.getElementById('h-name')?.focus(); return; }
   if(act === 'intro-search'){ introDone(); S.tab = 'companies'; render(); setTimeout(() => { const q = document.getElementById('az-q'); if(q){ q.scrollIntoView({block:'center'}); q.focus(); } }, 60); return; }
@@ -7015,6 +7041,12 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .onb-sub-acts{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
 .onb-disc{margin:14px 0 0;font-size:11.5px;line-height:1.5}
 .onb-mini{display:flex;align-items:center;gap:12px}.onb-mini>div{display:flex;flex-direction:column;gap:2px}.onb-mini>div>b{font-size:16px}.onb-mini span{font-size:13.5px;color:var(--muted)}.onb-mini span b{color:var(--ink)}
+.mg-types{display:flex;gap:6px;margin:14px 0 10px}.mg-types button{all:unset;box-sizing:border-box;cursor:pointer;flex:1;text-align:center;padding:10px 4px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:14px;font-weight:700;color:var(--muted);word-break:keep-all}
+.mg-types button.on{background:var(--navy);border-color:var(--navy);color:#FFFFFF}
+.mg-goal .inv-q>b{font-size:14px}
+.mg-list .vl-row{flex-wrap:nowrap!important;padding:12px 0!important}.mg-list .vl-name{flex:1 1 auto!important}.mg-list .vl-num{flex:0 0 auto!important;display:flex;flex-direction:column;align-items:flex-end!important;text-align:right!important;padding-left:0!important}.mg-list .vl-num small{white-space:nowrap!important}
+.mg-share{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:14px;padding:16px;border-radius:16px;border:1px solid var(--gold);background:var(--gold-soft)}
+.mg-share>div{display:flex;flex-direction:column;gap:2px;word-break:keep-all}.mg-share b{font-size:15px}.mg-share span{font-size:12.5px;color:var(--muted)}.mg-share .btn{flex:0 0 auto}
 .onb-more{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.onb-more summary{cursor:pointer;font-size:14px;font-weight:600;margin-bottom:10px}
 .demo-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:14px 0 0;padding:10px 14px;border-radius:12px;background:var(--gold-soft);border:1px solid rgba(201,164,92,.45);font-size:13px;line-height:1.5;word-break:keep-all}
 .demo-bar b{color:#8A6A2E}
