@@ -116,8 +116,9 @@ def broll_frames(cat, n):
 
 
 # ── 공통 요소 ────────────────────────────────────────────────
-def chrome(img, chapter, src, asof, u):
+def chrome(img, chapter, src, asof, u, frac=None):
     d = AD(img)
+    if frac is not None: d.rectangle([0, 0, W, 5], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * frac), 5], fill=GOLD)
     img.paste(LOGO_S, (56, 40), LOGO_S)
     if chapter:
         f = F("SemiBold", 26); tw = d.textlength(chapter, font=f)
@@ -139,6 +140,8 @@ def subtitle(img, text, u_in):
         pad = 16
         d.rounded_rectangle([x - pad, y - 6, x + tw + pad, y + 54], 12, fill=(6, 14, 28, int(190 * a)))
         d.text((x, y), l, font=f, fill=(*IVORY, int(255 * a)))
+        for m in re.finditer(r"[+\-−]?\d[\d,.]*(?:\s?억(?:\s?\d[\d,]*\s?천?만?)?|\s?만|\s?천)?\s?(?:원|%p|%|배|점|년|분기|곳|개)?", l):  # 숫자는 금색으로
+            tx = x + d.textlength(l[:m.start()], font=f); d.text((tx, y), m.group().rstrip(), font=f, fill=(*GOLD_L, int(255 * a)))
 
 
 def count_text(target, p):
@@ -335,7 +338,7 @@ def main():
         for i in range(n):
             u = i / FPS
             img = draw_scene(sc, V, u, s["dur"], s["lines"], frames_bg[i] if frames_bg is not None else None)
-            chrome(img, chapter if sc["v"]["type"] != "end" else "", src, asof, u)
+            chrome(img, chapter if sc["v"]["type"] != "end" else "", src, asof, u, (s["start"] + u) / total)
             cur = next((l for l in reversed(s["lines"]) if u >= l[0] - .05), None)
             if cur and u <= cur[0] + cur[1] + .3: subtitle(img, cur[2], u - cur[0])
             fr = np.asarray(img)
@@ -372,7 +375,7 @@ def main():
                       "*본 영상은 투자 교육용 정보이며, 특정 종목의 매수·매도 권유가 아닙니다. 적정 주가는 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 결과이며, 이 방식이 늘 맞지는 않습니다."])
     meta = {"id": spec["id"], "kind": "long", "title": fill(spec["title"], V)[:100], "description": desc, "tags": spec.get("tags", []),
             "scheduled_at": spec["scheduled_at"], "duration": round(total, 1), "data": data["raw"], "data_asof": data["raw"]["asof_iso"],
-            "events": spec.get("events", []), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company")}
+            "events": spec.get("events", []), "pinned_comment": fill(spec.get("pinned_comment", ""), V), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company")}
     json.dump(meta, open(os.path.join(out, "meta.json"), "w"), ensure_ascii=False, indent=1)
     print(f"완료: {total / 60:.1f}분 → {out}")
 

@@ -26,7 +26,13 @@ const x1 = (v) => (Math.round(v * 10) / 10).toFixed(1).replace(/\.0$/, '') + '�
 const pct = (v) => Math.round(v * 100) + '%';
 const vs = (a, b) => { const r = a / b; return r < 1 ? `약 ${Math.round(r * 100)}%` : `약 ${x1(r)}`; };
 
-export async function companyData(code) {
+// 1,443,000,000 → "14억 4천만 원" (천만 단위 반올림)
+export function eokman(n) {
+  const c = Math.round(n / 1e7); const eok = Math.floor(c / 10), r = c % 10;
+  return (eok ? eok + '억 ' : '') + (r ? r + '천만 ' : '') + '원';
+}
+
+export async function companyData(code, spec = {}) {
   const docs = await (await fetch(`${U}/rest/v1/docs?collection=eq.screen&select=id,data`, H)).json();
   const meta = docs.find((d) => d.id === 'meta')?.data || {};
   const rows = docs.filter((d) => d.id.startsWith('chunk-')).flatMap((d) => d.data?.rows || []);
@@ -49,13 +55,18 @@ export async function companyData(code) {
   const vn = makeVN(tr, pf)(r, sc);
   const d = new Date(new Date(asofIso).getTime() + 9 * 3600e3);
   const asof = `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`;
+  const hm = d.getUTCHours() * 60 + d.getUTCMinutes(), wd = d.getUTCDay();
+  const intraday = String(asofIso).length > 10 && wd >= 1 && wd <= 5 && hm >= 9 * 60 && hm < 15 * 60 + 30 && (r.m === 'KR' || /\.K[SQ]$/.test(r.t));
+  const px_label = intraday ? `${asof} 장중 주가` : `${asof} 종가`;
+  const bt = spec.backtest; let btv = {};
+  if (bt) { const mult = (r.px + (bt.div_per_share || 0)) / bt.then_px; btv = { bt_won: eokman(1e8 * mult), bt_mult: x1(mult), bt_asof: asof }; }
   const normal = iv / 10;                 // 적정 주가에 쓰인 정상 이익(주당)
   const need = px / 10 / E;               // 지금 주가가 맞으려면 필요한 정상 이익 비율
   const v30 = E * 0.3 * 10, v100 = E * 10;
   return {
     raw: { code, ticker: r.t, name: r.n, px, iv, eps: E, score: vn.total, q: sc.q, v: sc.v, asof_iso: asofIso, ivSrc: sc.ivSrc },
     vars: {
-      asof, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: comma(px), px_short: won(px), iv: comma(iv), iv_short: won(iv),
+      asof, px_label, ...btv, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: comma(px), px_short: won(px), iv: comma(iv), iv_short: won(iv),
       mult: x1(px / iv), per_now: x1(px / E), per_avg: x1(px / normal), eps: won(E),
       need: pct(need), iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
       v30: won(v30), v30_vs: vs(v30, px), v100: won(v100), v100_vs: vs(v100, px),
@@ -70,7 +81,7 @@ export function fill(s, vars) {
 if (process.argv[2]) {
   const specPath = process.argv[2];
   const spec = JSON.parse(fs.readFileSync(specPath, 'utf8'));
-  const data = await companyData(spec.company);
+  const data = await companyData(spec.company, spec);
   const out = specPath.replace(/\.json$/, '.data.json');
   fs.writeFileSync(out, JSON.stringify(data, null, 1));
   console.log(JSON.stringify(data.vars, null, 1));

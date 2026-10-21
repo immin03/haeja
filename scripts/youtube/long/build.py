@@ -80,7 +80,7 @@ def main(only):
         meta = json.load(open(m, encoding="utf-8"))
         if "video_url" not in meta: continue
         if dt.datetime.fromisoformat(meta["scheduled_at"]) < now - dt.timedelta(days=30): continue
-        queue.append({k: meta.get(k) for k in ("id", "kind", "title", "description", "tags", "scheduled_at", "duration", "video_url", "thumb", "data", "data_asof", "events", "rendered_at", "company")})
+        queue.append({k: meta.get(k) for k in ("id", "kind", "title", "description", "tags", "scheduled_at", "duration", "video_url", "thumb", "data", "data_asof", "events", "rendered_at", "company", "pinned_comment")})
     queue.sort(key=lambda x: x["scheduled_at"])
     os.makedirs(OUT, exist_ok=True)
     json.dump(queue, open(os.path.join(OUT, "queue.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
