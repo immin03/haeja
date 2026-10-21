@@ -130,6 +130,9 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .more{margin-top:26px}.more a{display:block;text-decoration:none;border-bottom:1px solid var(--line);padding:12px 0;font-weight:700;font-size:15px}
 .more a small{display:block;font-weight:600;color:var(--muted);font-size:12.5px}
 .disc{margin-top:30px;font-size:11.5px;color:var(--muted)}
+.qf{width:100%;height:48px;border:1px solid var(--line);border-radius:12px;padding:0 14px;font:inherit;font-size:16px;margin:18px 0 12px;background:var(--card)}
+.qf:focus{outline:none;border-color:var(--gold2)}
+.list .pin{display:inline-block;margin-left:6px;font-size:11.5px;font-weight:800;color:#FFFFFF;background:var(--navy);border-radius:8px;padding:2px 8px}
 .list a.card{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:10px}
 .list .kw{display:inline-block;font-size:12px;font-weight:800;color:var(--navy);background:var(--gold);border-radius:8px;padding:2px 8px;margin-bottom:6px}
 .list .t{display:block;font-size:16.5px;font-weight:800;line-height:1.45}
@@ -159,7 +162,7 @@ var done=false;try{done=localStorage.getItem('vn-lead')==='1';}catch(_){}
 if(done&&box)box.classList.add('done');
 ev('/g/'+G+':view');
 var deep=false;window.addEventListener('scroll',function(){if(deep)return;var h=document.documentElement;if(h.scrollTop+innerHeight>h.scrollHeight*.8){deep=true;ev('/g/'+G+':read80');}},{passive:true});
-document.querySelectorAll('a[data-out]').forEach(function(a){a.href=a.href.replace('utm_source=dm','utm_source=dm-'+G);a.addEventListener('click',function(){ev('/g/'+G+':'+a.dataset.out);});});
+document.querySelectorAll('a[data-out]').forEach(function(a){a.href=a.href.replace('utm_source=ig-dm','utm_source=ig-dm&utm_content='+G);a.addEventListener('click',function(){ev('/g/'+G+':'+a.dataset.out);});});
 var f=document.getElementById('ef');if(!f)return;
 f.addEventListener('submit',function(e){e.preventDefault();
   var m=document.getElementById('em').value.trim(),er=document.getElementById('er'),b=f.querySelector('button');
@@ -175,7 +178,7 @@ f.addEventListener('submit',function(e){e.preventDefault();
 </script>"""
 
 def top():
-    return ('<header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=dm" data-out="logo">Value<i>Note</i><small>밸류노트</small></a>')
+    return ('<header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=ig-dm" data-out="logo">Value<i>Note</i><small>밸류노트</small></a>')
 
 def table_html(t):
     if not t or not t.get("rows"): return ""
@@ -202,7 +205,8 @@ def page(sp, others):
     pts = [p for p in dm.get("points", []) if p]; chk = [c for c in dm.get("check", []) if c]
     secs = [x for x in dm.get("sections", []) if x.get("h")]; faq = [x for x in dm.get("faq", []) if x.get("q")]
     url = f"{SITE}/g/{gid}"
-    desc = (ps[0] if ps else title)[:140]
+    intro = dm.get("intro") or ps[:2]   # 캡션 앞부분 대신 정리본용 도입부(dm.intro)를 쓸 수 있다
+    desc = (intro[0] if intro else title)[:140]
     tags = [f"핵심 {len(pts)}줄" if pts else "", f"깊이 보기 {len(secs)}편" if secs else "전체 숫자",
             f"내 종목 점검 {len(chk)}단계" if chk else "", f"자주 묻는 질문 {len(faq)}개" if faq else ""]
     out = [HEAD.format(title=html.escape(title + " · 밸류노트 정리본"), desc=html.escape(desc), og=f"{SITE}/social/reels/{gid}/cover.jpg",
@@ -221,7 +225,7 @@ def page(sp, others):
     if len(toc) > 3:
         out.append('<nav class="toc"><b>목차</b>' + "".join(f'<a href="#{a}">{html.escape(t)}</a>' for a, t in toc) + '</nav>')
     if secs:
-        out.append('<div class="body lead" style="margin-top:20px">' + "".join(para_html(p) for p in ps[:2]) + '</div>')
+        out.append('<div class="body lead" style="margin-top:20px">' + "".join(para_html(p) for p in intro) + '</div>')
     else:
         out.append('<h2 id="s-reel">릴스 내용 전체</h2><div class="body">' + "".join(para_html(p) for p in ps) + '</div>')
     for i, x in enumerate(secs):
@@ -236,12 +240,12 @@ def page(sp, others):
         out.append('<h2 id="s-faq">자주 묻는 질문</h2>' + "".join(f'<details><summary>{html.escape(f["q"])}</summary><p>{html.escape(f["a"])}</p></details>' for f in faq))
     out.append('<section class="cta"><h3>내 종목도 같은 기준으로 확인해 보세요</h3>'
                '<p>밸류노트는 600여 개 기업의 점수와 적정 주가를 워렌 버핏·그레이엄·찰리 멍거의 방식으로 매일 계산합니다. 내 종목을 넣으면 같은 기준으로 바로 채점합니다.</p>'
-               '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=dm" data-out="kakao">카카오로 1초 만에 시작하기</a>'
-               '<a class="btn line" href="/start?utm_source=dm" data-out="start">밸류노트 먼저 둘러보기</a></div></section>')
+               '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=ig-dm" data-out="kakao">카카오로 1초 만에 시작하기</a>'
+               '<a class="btn line" href="/start?utm_source=ig-dm" data-out="start">밸류노트 먼저 둘러보기</a></div></section>')
     out.append(SUBSCRIBE)
     if others:
         out.append('<div class="more"><h2>다른 정리본</h2>' + "".join(
-            f'<a href="/g/{o["id"]}">{html.escape(o["title"])}<small>댓글 키워드 \'{html.escape(o["keyword"])}\'</small></a>' for o in others[:4]) + '</div>')
+            f'<a href="/g/{o.get("slug") or o["id"]}">{html.escape(o["title"])}<small>댓글 키워드 \'{html.escape(o["keyword"])}\'</small></a>' for o in others[:4]) + '</div>')
     if dm.get("sources"):
         out.append('<div class="srcs"><b>참고한 자료</b>' + "".join(
             f'<a href="{html.escape(x["url"])}" target="_blank" rel="noopener">{html.escape(x["t"])}</a>' for x in dm["sources"] if x.get("url")) + '</div>')
@@ -254,14 +258,18 @@ def index_page(items):
                        og=f"{SITE}/og.png", url=f"{SITE}/g", css=CSS)]
     out.append(top() + '<span class="eyebrow">밸류노트 정리본</span><h1>릴스에서 보신 내용,<br>여기 정리해 두었습니다</h1>'
                '<p class="sub">댓글에 남기신 키워드를 찾아 눌러 주세요. 가장 최근 릴스가 맨 위에 있습니다.</p></div></header><main class="wrap list">')
+    out.append('<input id="q" class="qf" type="search" placeholder="댓글에 남긴 키워드로 찾기 (예: 하이닉스)" aria-label="키워드로 찾기">')
     for o in items:
-        out.append(f'<a class="card" href="/g/{o["id"]}?utm_source=dm"><span class="kw">댓글 키워드 \'{html.escape(o["keyword"])}\'</span>'
+        out.append(f'<a class="card" data-k="{html.escape(o["keyword"] + " " + o["title"])}" href="/g/{o.get("slug") or o["id"]}"><span class="kw">댓글 키워드 \'{html.escape(o["keyword"])}\'</span>{"<span class=\"pin\">지금 많이 보는 정리본</span>" if o.get("pinned") else ""}'
                    f'<span class="t">{html.escape(o["title"])}</span><span class="d">{o["date"]}</span></a>')
     out.append('<section class="cta"><h3>내 종목도 같은 기준으로</h3><p>밸류노트는 600여 개 기업의 점수와 적정 주가를 매일 계산합니다.</p>'
-               '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=dm-hub" data-out="kakao">카카오로 1초 만에 시작하기</a></div></section>' + SUBSCRIBE)
+               '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=ig-dm" data-out="kakao">카카오로 1초 만에 시작하기</a></div></section>' + SUBSCRIBE)
     out.append(f'<p class="disc">{DISC}</p></main>')
+    out.append("<script>(function(){var q=document.getElementById('q');if(!q)return;q.addEventListener('input',function(){var v=q.value.replace(/\\s/g,'').toLowerCase();document.querySelectorAll('a.card').forEach(function(a){a.style.display=!v||a.dataset.k.replace(/\\s/g,'').toLowerCase().indexOf(v)>=0?'':'none';});});})();</script>")
     out.append(JS % {"sb": SB, "key": EV_KEY, "gid": "hub"} + "</body></html>")
     return "".join(out)
+
+PIN = ["N261020c"]   # 광고를 돌리는 동안 모음 맨 위에 고정할 정리본 (광고가 끝나면 빼기)
 
 def build(specs, root, now=None):
     """specs: [(path, spec)]. 이미 게시됐거나 오늘 게시될 정리본만 모음·다른 정리본 목록에 보인다(예정 릴스 내용이 미리 노출되지 않게)."""
@@ -281,12 +289,15 @@ def build(specs, root, now=None):
         when = dt.datetime.fromisoformat(sp["scheduled_at"])
         items.append({"id": sp["id"], "keyword": dm["keyword"], "title": clean_title(sp), "at": sp["scheduled_at"],
                       "date": when.astimezone(dt.timezone(dt.timedelta(hours=9))).strftime("%Y년 %-m월 %-d일"), "_sp": sp, "_when": when,
-                      "_rank": max(when, ref.get(sp["id"], when))})
-    items.sort(key=lambda x: x["_rank"], reverse=True)
+                      "_rank": max(when, ref.get(sp["id"], when)), "slug": dm.get("slug"), "pinned": sp["id"] in PIN})
+    items.sort(key=lambda x: (x["pinned"], x["_rank"]), reverse=True)
     live = [o for o in items if o["_when"] <= now + dt.timedelta(hours=3)]
     for o in items:
         others = [x for x in live if x["id"] != o["id"]]
-        open(os.path.join(d, o["id"] + ".html"), "w", encoding="utf-8").write(page(o["_sp"], others))
+        h = page(o["_sp"], others)
+        open(os.path.join(d, o["id"] + ".html"), "w", encoding="utf-8").write(h)
+        if o.get("slug"):   # 짧은 주소: /g/hynix 처럼 (내용은 같고 정식 주소는 /g/<id>)
+            open(os.path.join(d, o["slug"] + ".html"), "w", encoding="utf-8").write(h)
     open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(index_page(live))
     json.dump([{k: v for k, v in o.items() if not k.startswith("_")} for o in items],
               open(os.path.join(d, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
