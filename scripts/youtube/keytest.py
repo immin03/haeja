@@ -7,15 +7,11 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples")
 os.makedirs(OUT, exist_ok=True)
 report = {"run_at": datetime.datetime.utcnow().isoformat() + "Z"}
 
-SAMPLE = (
-    "SK하이닉스는 메모리 반도체를 만드는 세계 2위 회사입니다. "
-    "SK하이닉스의 올해 매출은 크게 늘었습니다. "
-    "그런데 이 매출은 반도체를 더 많이 팔아서 늘어난 것이 아닙니다. "
-    "반도체 가격이 올라서 늘어난 것입니다. "
-    "가격은 언젠가 다시 내려옵니다. "
-    "그래서 워렌 버핏의 기준으로 계산하면, SK하이닉스의 적정 주가는 지금 주가보다 낮게 나옵니다. "
-    "오늘은 그 이유를 숫자로 하나씩 살펴보겠습니다."
-)
+SAMPLE = ("미국은 이 년 넘게 단기 금리가, 장기 금리보다 높았습니다. "
+          "대출 이자가 늘면, 사람들은 돈을 덜 쓰고 경기가 식습니다.")  # 2026-10-22 릴스 성우 비교 (장단기 금리 릴스 대본)
+# (이름, 감정, 빠르기): 릴스용 — 톤은 낮게, 더 경쾌하고 빠르게
+TRY = [("Sungho", None, 1.0), ("Sungho", None, 1.18), ("Sungho", "toneup", 1.18), ("Doyoon", "toneup", 1.15), ("Sanghyun", "toneup", 1.15),
+       ("Byunghun", "toneup", 1.15), ("Wonwoo", "toneup", 1.15), ("Kangil", "toneup", 1.15), ("Jungseok", "toneup", 1.15)]
 
 
 def call(url, method="GET", headers=None, body=None, raw=False):
@@ -72,25 +68,25 @@ if st == 200 and isinstance(voices, list):
         return str(v.get("gender", "")).lower()
 
     # 2차 후보: 션과 결이 비슷하면서 개성 있는 남성 해설·다큐 목소리 6개
-    WANT = []  # 성우는 성호로 확정 — 샘플 생성 생략
     by = {(v.get("voice_name") or {}).get("eng"): v for v in voices}
-    picks = [by[n] for n in WANT if n in by]
     report["picks"] = []
-    for i, v in enumerate(picks, 1):
-        vid = v.get("voice_id") or v.get("id")
-        body = {"text": SAMPLE, "model": "ssfm-v30", "voice_id": vid, "language": "kor",
-                "output": {"audio_format": "mp3"}}
+    for i, (nm, emo, tempo) in enumerate(TRY, 1):
+        v = by.get(nm)
+        if not v: report["picks"].append({"no": i, "name": nm, "error": "없음"}); continue
+        vid = v.get("voice_id")
+        body = {"text": SAMPLE, "model": "ssfm-v30", "voice_id": vid, "language": "kor", "output": {"audio_format": "mp3", "audio_tempo": tempo}}
+        if emo: body["prompt"] = {"emotion_preset": emo, "emotion_intensity": 1.2}
         st, audio = call("https://api.typecast.ai/v1/text-to-speech", "POST", th, body, raw=True)
-        if st != 200:
-            body.pop("language")
+        note = ""
+        if st != 200 and emo:  # 감정 지정이 거절되면 감정 없이
+            body.pop("prompt"); note = "감정 지정 거절됨"
             st, audio = call("https://api.typecast.ai/v1/text-to-speech", "POST", th, body, raw=True)
         fn = None
         if st == 200 and isinstance(audio, (bytes, bytearray)):
-            fn = f"voice-{i}-{gender(v)}-{(v.get('voice_name') or {}).get('eng', 'x').lower()}.mp3"
+            fn = f"reel-{i}-{nm.lower()}-{emo or 'normal'}-x{tempo}.mp3"
             open(os.path.join(OUT, fn), "wb").write(audio)
-        report["picks"].append({"no": i, "voice_id": vid, "name": v.get("voice_name") or v.get("name"),
-                                "gender": gender(v), "age": v.get("age"), "use_cases": v.get("use_cases"),
-                                "status": st, "file": fn, "error": None if st == 200 else audio})
+        report["picks"].append({"no": i, "name": (v.get("voice_name") or {}), "age": v.get("age"), "use_cases": v.get("use_cases"),
+                                "emotion": emo, "tempo": tempo, "status": st, "file": fn, "note": note, "error": None if st == 200 else str(audio)[:300]})
 else:
     report["typecast_error"] = voices
 
