@@ -265,18 +265,47 @@ def page(sp, others):
     out.append(JS % {"sb": SB, "key": EV_KEY, "gid": gid} + "</body></html>")
     return "".join(out)
 
+HUB_CSS = """
+.hub h1{font-size:27px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px}
+.chip{border:1.5px solid var(--navy);background:var(--card);color:var(--navy);border-radius:999px;padding:9px 16px;font-size:16px;font-weight:850;text-decoration:none;line-height:1}
+.chip.on{background:var(--navy);color:#fff}
+.chip.hot{background:linear-gradient(90deg,var(--gold2),var(--gold));border-color:transparent;color:var(--navy)}
+.feat{display:block;text-decoration:none;margin:16px 0 14px;border-radius:20px;padding:20px 18px;color:var(--ivory);
+ background:radial-gradient(120% 90% at 100% 0%,rgba(228,199,141,.28) 0,rgba(228,199,141,0) 60%),linear-gradient(160deg,var(--navy3),var(--navy));box-shadow:0 10px 26px rgba(10,23,48,.18)}
+.feat .badge{display:inline-block;font-size:12px;font-weight:850;color:var(--navy);background:var(--gold);border-radius:8px;padding:3px 9px}
+.feat .kwl{display:block;margin-top:14px;font-size:13px;color:rgba(247,242,232,.7);font-weight:700}
+.feat .kwb{display:block;font-size:40px;font-weight:900;letter-spacing:-.02em;color:#fff;line-height:1.15;margin-top:2px}
+.feat .t{display:block;margin-top:10px;font-size:17px;font-weight:800;line-height:1.45;color:var(--ivory)}
+.feat .go{display:flex;align-items:center;justify-content:center;margin-top:16px;height:50px;border-radius:13px;background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy);font-weight:850;font-size:16px}
+.list a.card{display:flex;gap:14px;align-items:center}
+.list a.card .k{flex:none;min-width:86px;text-align:center;font-size:20px;font-weight:900;color:var(--navy);background:rgba(228,199,141,.35);border-radius:12px;padding:12px 8px;line-height:1.2;word-break:keep-all}
+.list a.card .b{min-width:0}
+.list a.card .kl{display:block;font-size:11.5px;font-weight:800;color:var(--gold2);margin-bottom:2px}
+.sect{font-size:14px;font-weight:850;color:var(--muted);margin:20px 0 10px}
+"""
+
 def index_page(items):
-    out = [HEAD.format(title="밸류노트 정리본 모음", desc="릴스에서 다 못 한 숫자와 내 종목 점검법을 정리한 밸류노트 정리본입니다.",
-                       og=f"{SITE}/og.png", url=f"{SITE}/g", css=CSS)]
-    out.append(top() + '<span class="eyebrow">밸류노트 정리본</span><h1>릴스에서 보신 내용,<br>여기 정리해 두었습니다</h1>'
-               '<p class="sub">댓글에 남기신 키워드를 찾아 눌러 주세요. 가장 최근 릴스가 맨 위에 있습니다.</p></div></header><main class="wrap list">')
-    out.append('<input id="q" class="qf" type="search" placeholder="댓글에 남긴 키워드로 찾기 (예: 하이닉스)" aria-label="키워드로 찾기">')
-    for o in items:
-        out.append(f'<a class="card" data-k="{html.escape(o["keyword"] + " " + o["title"])}" href="/g/{o.get("slug") or o["id"]}"><span class="kw">댓글 키워드 \'{html.escape(o["keyword"])}\'</span>{"<span class=\"pin\">지금 많이 보는 정리본</span>" if o.get("pinned") else ""}'
-                   f'<span class="t">{html.escape(o["title"])}</span><span class="d">{o["date"]}</span></a>')
+    out = [HEAD.format(title="밸류노트 정리본 모음", desc="릴스 댓글에 남긴 키워드를 누르면 그 릴스의 정리본이 열립니다.",
+                       og=f"{SITE}/og.png", url=f"{SITE}/g", css=CSS + HUB_CSS)]
+    out.append(top() + '<div class="hub"><span class="eyebrow">밸류노트 정리본</span><h1>댓글에 남긴 키워드를<br>눌러 주세요</h1>'
+               '<p class="sub">릴스에서 다 못 한 숫자와 원인, 내 종목 점검법까지 키워드별로 정리해 두었습니다.</p></div></div></header><main class="wrap list">')
+    pins = [o for o in items if o.get("pinned")]; rest = [o for o in items if not o.get("pinned")]
+    href = lambda o: f'/g/{o.get("slug") or o["id"]}'
+    out.append('<div class="chips">' + "".join(
+        f'<a class="chip{" hot" if o.get("pinned") else ""}" href="{href(o)}" data-k="{html.escape(o["keyword"])}">{html.escape(o["keyword"])}</a>' for o in pins + rest) + '</div>')
+    for o in pins:
+        out.append(f'<a class="feat card-x" data-k="{html.escape(o["keyword"] + " " + o["title"])}" href="{href(o)}"><span class="badge">지금 가장 많이 찾는 정리본</span>'
+                   f'<span class="kwl">댓글 키워드</span><span class="kwb">{html.escape(o["keyword"])}</span>'
+                   f'<span class="t">{html.escape(o["title"])}</span><span class="go">정리본 바로 보기</span></a>')
+    out.append('<input id="q" class="qf" type="search" placeholder="키워드로 찾기 (예: 이자, 매매, 환율)" aria-label="키워드로 찾기">')
+    if rest: out.append('<div class="sect">최근 릴스 정리본</div>')
+    for o in rest:
+        out.append(f'<a class="card" data-k="{html.escape(o["keyword"] + " " + o["title"])}" href="{href(o)}"><span class="k">{html.escape(o["keyword"])}</span>'
+                   f'<span class="b"><span class="kl">댓글 키워드</span><span class="t">{html.escape(o["title"])}</span><span class="d">{o["date"]}</span></span></a>')
     out.append(subscribe() + CTA)
     out.append(f'<p class="disc">{DISC}</p></main>')
-    out.append("<script>(function(){var q=document.getElementById('q');if(!q)return;q.addEventListener('input',function(){var v=q.value.replace(/\\s/g,'').toLowerCase();document.querySelectorAll('a.card').forEach(function(a){a.style.display=!v||a.dataset.k.replace(/\\s/g,'').toLowerCase().indexOf(v)>=0?'':'none';});});})();</script>")
+    out.append("<script>(function(){var q=document.getElementById('q');if(!q)return;q.addEventListener('input',function(){var v=q.value.replace(/\\s/g,'').toLowerCase();document.querySelectorAll('a.card,a.card-x').forEach(function(a){a.style.display=!v||a.dataset.k.replace(/\\s/g,'').toLowerCase().indexOf(v)>=0?'':'none';});});})();</script>")
     out.append(JS % {"sb": SB, "key": EV_KEY, "gid": "hub"} + "</body></html>")
     return "".join(out)
 
