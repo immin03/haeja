@@ -1,0 +1,192 @@
+{
+ "run_at": "2026-10-21T07:08:33.266309Z",
+ "naver_keys_present": true,
+ "naver_trend": {
+  "status": 200,
+  "sample": {
+   "삼성전자": {
+    "period": "2026-10-20",
+    "ratio": 72.96111
+   },
+   "SK하이닉스": {
+    "period": "2026-10-20",
+    "ratio": 32.94157
+   }
+  }
+ },
+ "naver_news": {
+  "status": 200,
+  "sample": [
+   "반도체 강세에 코스피 3%대 반등…매수 사이드카 발동",
+   "코스피, 외인 6600억 '사자'에 3.3%대 반등…5735.66 마감[마감시황]"
+  ]
+ },
+ "naver_cafe": {
+  "status": 200,
+  "sample": [
+   "적정<b>주가</b> 삼성전자 7만원??? <b>sk하이닉스</b> 20만원??",
+   "<b>하이닉스 주가</b> 어떻게 보시나요?"
+  ]
+ },
+ "naver_blog": {
+  "status": 200,
+  "sample": [
+   "&quot;<b>SK하이닉스 주가</b>, 실적 발표 앞두고&quot;…변수는 '이것'",
+   "&quot;주주들만 손해라고?&quot; 솔리다임 중복상장 때문에 <b>SK하이닉스 주가</b> 하...."
+  ]
+ },
+ "naver_kin": {
+  "status": 200,
+  "sample": [
+   "삼성전자. <b>SK하이닉스</b> 배당금 밭으려연 보유 기간.",
+   "<b>sk하이닉스</b> 하루에 몇주 몇원씩 사준다는 말인가요?"
+  ]
+ },
+ "typecast_key_present": true,
+ "typecast_voices": {
+  "status": 200,
+  "count": 608
+ },
+ "picks": [
+  {
+   "no": 1,
+   "voice_id": "tc_66bc600762cab997910b107b",
+   "name": {
+    "eng": "Robert",
+    "kor": "로버트"
+   },
+   "gender": "male",
+   "age": "elder",
+   "use_cases": [
+    "Documentary",
+    "Audiobook/Storytelling",
+    "News Reporter",
+    "Announcer",
+    "Radio/Podcast",
+    "Ads/Promotion",
+    "E-learning/Explainer",
+    "Voicemail/Voice Assistant",
+    "Game",
+    "Anime",
+    "TikTok/Reels/Shorts",
+    "Conversational"
+   ],
+   "status": 200,
+   "file": "voice-1-male.mp3",
+   "error": null
+  },
+  {
+   "no": 2,
+   "voice_id": "tc_673eb45cdc1073aef51e6b90",
+   "name": {
+    "eng": "Dean",
+    "kor": "딘"
+   },
+   "gender": "male",
+   "age": "elder",
+   "use_cases": [
+    "Announcer",
+    "News Reporter",
+    "Documentary",
+    "Ads/Promotion",
+    "Audiobook/Storytelling",
+    "E-learning/Explainer"
+   ],
+   "status": 200,
+   "file": "voice-2-male.mp3",
+   "error": null
+  },
+  {
+   "no": 3,
+   "voice_id": "tc_67358772bcde863931cb6f40",
+   "name": {
+    "eng": "Chase",
+    "kor": "체이스"
+   },
+   "gender": "male",
+   "age": "young_adult",
+   "use_cases": [
+    "Radio/Podcast",
+    "Conversational",
+    "E-learning/Explainer",
+    "TikTok/Reels/Shorts",
+    "Audiobook/Storytelling",
+    "Documentary",
+    "Anime",
+    "Ads/Promotion",
+    "Voicemail/Voice Assistant",
+    "News Reporter"
+   ],
+   "status": 200,
+   "file": "voice-3-male.mp3",
+   "error": null
+  },
+  {
+   "no": 4,
+   "voice_id": "tc_630494521f5003bebbfdafef",
+   "name": {
+    "eng": "Rachel",
+    "kor": "레이첼"
+   },
+   "gender": "female",
+   "age": "young_adult",
+   "use_cases": [
+    "Conversational",
+    "Documentary",
+    "Audiobook/Storytelling",
+    "News Reporter",
+    "Announcer",
+    "Radio/Podcast",
+    "Ads/Promotion",
+    "E-learning/Explainer",
+    "Voicemail/Voice Assistant",
+    "TikTok/Reels/Shorts"
+   ],
+   "status": 200,
+   "file": "voice-4-female.mp3",
+   "error": null
+  },
+  {
+   "no": 5,
+   "voice_id": "tc_67a440ec1e05bd5665857efd",
+   "name": {
+    "eng": "Margot",
+    "kor": "마고"
+   },
+   "gender": "female",
+   "age": "middle_age",
+   "use_cases": [
+    "Documentary",
+    "Audiobook/Storytelling",
+    "E-learning/Explainer",
+    "Voicemail/Voice Assistant",
+    "News Reporter",
+    "Announcer"
+   ],
+   "status": 200,
+   "file": "voice-5-female.mp3",
+   "error": null
+  },
+  {
+   "no": 6,
+   "voice_id": "tc_673eb42eef5b688d8cadd086",
+   "name": {
+    "eng": "Shana",
+    "kor": "샤나"
+   },
+   "gender": "female",
+   "age": "middle_age",
+   "use_cases": [
+    "News Reporter",
+    "Announcer",
+    "Documentary",
+    "Ads/Promotion",
+    "E-learning/Explainer",
+    "Audiobook/Storytelling"
+   ],
+   "status": 200,
+   "file": "voice-6-female.mp3",
+   "error": null
+  }
+ ]
+}
