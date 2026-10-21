@@ -1,7 +1,7 @@
 // 과거 시점 밸류노트 점수: 회사 IR 연간 숫자로 그때의 스크리너 행을 다시 만들고, 지금과 같은 scoreRow 로 채점한다.
 // screen-build/index.ts 의 compute() 와 같은 식을 쓴다 (5개 연도 창, EBIT = 세전이익 + 이자비용, 투하자본 = 자기자본 + 차입금).
 // 사용: node scripts/research/vn_then.mjs <now.json> <in1.json> [in2.json ...] > out.json
-//   in.json = { ticker, fy: { FY2015: {revenue, gross, ni, eps, equity, bps, ocf, capex, debt, ltDebt, interest, pretax, tax, curAssets, curLiab, shares, dps}, ... },
+//   in.json = { ticker, asOf?: [{date, years:[...]}] (없으면 일본 상사용 기본값), sbc?(주식보상, 백만), fy: { FY2015: {revenue, gross, ni, eps, equity, bps, ocf, capex, debt, ltDebt, interest, pretax, tax, curAssets, curLiab, shares, dps}, ... },
 //               prices: { "2019-07-31": {close}, "2020-08-28": {close} } }  (금액은 백만 엔, 주당 값은 엔)
 import fs from 'node:fs';
 import { scoreRow, setSettings } from '../../supabase/functions/watch-select/scoring.js';
@@ -22,7 +22,7 @@ function rowAt(base, fy, years, px) {
   const invcap = Y.map((o) => (isNum(o.equity) && isNum(o.debt) ? o.equity + o.debt : null));
   const fcf = Y.map((o) => (isNum(o.ocf) && isNum(o.capex) ? o.ocf - Math.abs(o.capex) : null));
   const capex = Y.map((o) => (isNum(o.capex) ? -Math.abs(o.capex) : null));
-  const ca = s('curAssets'), cl = s('curLiab');
+  const ca = s('curAssets'), cl = s('curLiab'); const sbc = s('sbc');
   const f = {};
   const roes = []; for (let i = 0; i < Y.length; i++) { if (ni[i] === null || eq[i] === null) continue; const prev = i > 0 && eq[i - 1] !== null ? eq[i - 1] : null; const b = prev !== null ? (eq[i] + prev) / 2 : eq[i]; if (b > 0) roes.push(ni[i] / b * 100); }
   if (roes.length) { f.roeAvg = rnd(roes.reduce((a, b) => a + b, 0) / roes.length); f.roeMin = rnd(Math.min(...roes)); }
@@ -49,6 +49,7 @@ function rowAt(base, fy, years, px) {
     if (last(eq)) val.bps = rnd(last(eq) * k / shares, 4);
     const f3 = fcfN.slice(-3); if (f3.length) val.oeps = rnd(f3.reduce((a, b) => a + b, 0) / f3.length * k / shares, 4);
     if (last(rev)) val.sps = rnd(last(rev) * k / shares, 4);
+    const s3 = nz(sbc).slice(-3); if (s3.length && f3.length && val.oeps > 0) { const fa = f3.reduce((a, b) => a + b, 0) / f3.length; if (fa > 0) val.sbcps = rnd(val.oeps * (s3.reduce((a, b) => a + b, 0) / s3.length / fa), 4); }
   }
   if (revCagr !== null) val.revCagr = rnd(revCagr, 1);
   const gs = [f.epsCagr, revCagr].filter((g) => g !== null && g !== undefined);
@@ -64,7 +65,8 @@ for (const p of process.argv.slice(3)) {
   const d = JSON.parse(fs.readFileSync(p, 'utf8'));
   const base = { ...now[d.ticker].row }; delete base.fin; delete base.val;
   const res = {};
-  for (const [date, yrs] of [['2019-07-31', ['FY2015', 'FY2016', 'FY2017', 'FY2018', 'FY2019']], ['2020-08-28', ['FY2016', 'FY2017', 'FY2018', 'FY2019', 'FY2020']]]) {
+  const plan = d.asOf ? d.asOf.map((a) => [a.date, a.years]) : [['2019-07-31', ['FY2015', 'FY2016', 'FY2017', 'FY2018', 'FY2019']], ['2020-08-28', ['FY2016', 'FY2017', 'FY2018', 'FY2019', 'FY2020']]];
+  for (const [date, yrs] of plan) {
     const px = d.prices?.[date]?.close; if (!isNum(px)) { res[date] = { error: 'no price' }; continue; }
     const r = rowAt(base, d.fy, yrs, px); const sc = scoreRow(r, null, 30);
     res[date] = { px, q: sc.q, v: sc.v, b: sc.b, iv: sc.iv && rnd(sc.iv, 0), per: rnd(px / r.val.eps, 1), pbr: rnd(px / r.val.bps, 2), flags: sc.flags, fin: r.fin, val: r.val };

@@ -1,3 +1,4 @@
+// 사용: node scripts/research/vn_now.mjs <out.json> [티커,티커,...]
 // 오늘 데이터로 밸류노트 점수를 다시 계산해 사이트 값과 맞는지 확인한다 (일본 상사 시점 비교용 하네스)
 import fs from 'node:fs';
 import { scoreRow, setSettings } from '../../supabase/functions/watch-select/scoring.js';
@@ -11,7 +12,7 @@ const rows = (await get('collection=eq.screen&select=id,data')).filter((d) => d.
 const tr = (await get('collection=eq.trends&id=eq.current&select=data'))[0]?.data;
 const pf = Object.fromEntries((await get('collection=eq.profiles&select=id,data')).map((d) => [d.id, d.data]));
 const VN = makeVN(tr, pf);
-const T = ['8001.T', '8053.T', '8002.T', '8058.T', '8031.T'];
+const T = (process.argv[3] ? process.argv[3].split(',') : ['8001.T', '8053.T', '8002.T', '8058.T', '8031.T']);
 const out = {};
 for (const t of T) {
   const r = rows.find((x) => x.t === t); const sc = scoreRow(r, null, 30); const v = VN(r, sc);
