@@ -25,6 +25,24 @@ def F(w, s):
     return _fc[(w, s)]
 
 
+class AD:
+    """ImageDraw 대신 쓴다: RGB 화면 위에서도 글자 투명도(페이드)가 먹게 한다 (ImageDraw는 글자 알파를 무시함)"""
+    def __init__(self, img): self.img = img; self.d = ImageDraw.Draw(img, "RGBA")
+    def __getattr__(self, k): return getattr(self.d, k)
+    def text(self, xy, s, font=None, fill=None, **kw):
+        if fill is not None and len(fill) == 4:
+            a = fill[3]
+            if a <= 3: return
+            if a < 250:
+                l, t, r, b = [int(math.floor(v)) if i < 2 else int(math.ceil(v)) + 1 for i, v in enumerate(self.d.textbbox(xy, s, font=font, **kw))]
+                if r <= l or b <= t: return
+                m = Image.new("L", (r - l, b - t), 0); ImageDraw.Draw(m).text((xy[0] - l, xy[1] - t), s, font=font, fill=255, **kw)
+                m = m.point(lambda v: v * a // 255)
+                self.img.paste(Image.new("RGB", m.size, fill[:3]), (l, t), m); return
+            fill = fill[:3]
+        self.d.text(xy, s, font=font, fill=fill, **kw)
+
+
 def clamp(x, a=0.0, b=1.0): return max(a, min(b, x))
 def ease(t): t = clamp(t); return 1 - (1 - t) ** 3
 def prog(u, a, b): return ease((u - a) / max(1e-6, b - a))
@@ -99,7 +117,7 @@ def broll_frames(cat, n):
 
 # ── 공통 요소 ────────────────────────────────────────────────
 def chrome(img, chapter, src, asof, u):
-    d = ImageDraw.Draw(img, "RGBA")
+    d = AD(img)
     img.paste(LOGO_S, (56, 40), LOGO_S)
     if chapter:
         f = F("SemiBold", 26); tw = d.textlength(chapter, font=f)
@@ -112,7 +130,7 @@ def chrome(img, chapter, src, asof, u):
 
 def subtitle(img, text, u_in):
     if not text: return
-    d = ImageDraw.Draw(img, "RGBA"); f = F("Bold", 44)
+    d = AD(img); f = F("Bold", 44)
     lines = wrap(d, text, f, 1500)[:2]
     a = clamp(u_in / .18)
     y0 = H - 128 - (len(lines) - 1) * 58
@@ -140,7 +158,7 @@ def draw_scene(sc, V, u, dur, lines_t, frame_bg):
     if typ != "broll":  # 배경의 금빛 번짐이 아주 천천히 움직인다 (미리 흐리게 만든 조각을 붙인다)
         cx = int(W * .5 + 140 * math.sin(u * .15)) - GLOW.width // 2; cy = int(-GLOW.height * .35 + 30 * math.sin(u * .5))
         img.paste(GLOW_RGB, (cx, cy), GLOW)
-    d = ImageDraw.Draw(img, "RGBA")
+    d = AD(img)
     T = lambda k: fill(v.get(k, ""), V)
     nth = lambda i: lines_t[min(i, len(lines_t) - 1)][0] if lines_t else 0  # i번째 문장이 시작하는 시각
 
@@ -241,7 +259,7 @@ def draw_scene(sc, V, u, dur, lines_t, frame_bg):
             maxoff = max(0, s.height - ph); off = int(maxoff * clamp((u - 1.5) / max(1, dur - 3)) * .55)  # 천천히 아래로 훑는다
             crop = s.crop((0, off, sc_w, off + ph))
             mask = Image.new("L", (pw, ph), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, pw, ph], 44, fill=255)
-            img.paste(crop, (px0, py0), mask); d = ImageDraw.Draw(img, "RGBA")
+            img.paste(crop, (px0, py0), mask); d = AD(img)
         a = prog(u, .2, .8)
         d.text((780, 200 + 16 * (1 - a)), T("title"), font=F("Heavy", 60), fill=(*IVORY, int(255 * a)))
         nl = len(lines_t)
@@ -249,7 +267,7 @@ def draw_scene(sc, V, u, dur, lines_t, frame_bg):
             t0 = nth(min(nl - 1, 4 + i)) - .2 if nl > 4 else 1 + i * .6; p = prog(u, t0, t0 + .6); y = 360 + i * 130
             bt = fill(b, V)
             d.rounded_rectangle([780 + 40 * (1 - p), y, 1700, y + 104], 20, fill=(255, 255, 255, int(16 * p)), outline=(*GOLD, int(120 * p)), width=2)
-            d.text((820 + 40 * (1 - p), y + 26), count_text(bt, prog(u, t0, t0 + 1.4)), font=F("ExtraBold", 46), fill=(*GOLD_L, int(255 * p)))
+            d.text((820 + 40 * (1 - p), y + 26), bt, font=F("ExtraBold", 46), fill=(*GOLD_L, int(255 * p)))
 
     elif typ == "end":
         p = prog(u, .2, 1.0)

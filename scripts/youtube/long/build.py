@@ -52,7 +52,7 @@ def main(only):
             for sc in spec["scenes"]:
                 img = sc["v"].get("img", "")
                 if img.startswith("capture:"):
-                    try: sh(["node", os.path.join(HERE, "capture_co.js"), data["raw"]["name"], os.path.join(OUT, sid, "shot_" + img.replace(":", "_") + ".png")])
+                    try: sh(["node", os.path.join(HERE, "capture_co.js"), data["raw"]["name"], os.path.join(OUT, sid, "shot_" + img.replace(":", "_") + ".png"), data["raw"]["code"]])
                     except Exception as e: print("앱 화면 캡처 실패(빈 화면으로 진행):", e)
             sh([sys.executable, os.path.join(HERE, "render.py"), f])
             meta = json.load(open(meta_p, encoding="utf-8"))
