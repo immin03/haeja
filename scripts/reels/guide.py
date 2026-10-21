@@ -250,7 +250,7 @@ def index_page(items):
     out = [HEAD.format(title="밸류노트 정리본 모음", desc="릴스에서 다 못 한 숫자와 내 종목 점검법을 정리한 밸류노트 정리본입니다.",
                        og=f"{SITE}/og.png", url=f"{SITE}/g", css=CSS)]
     out.append(top() + '<span class="eyebrow">밸류노트 정리본</span><h1>릴스에서 보신 내용,<br>여기 정리해 두었습니다</h1>'
-               '<p class="sub">가장 최근 릴스가 맨 위에 있습니다. 보신 릴스를 눌러 주세요.</p></div></header><main class="wrap list">')
+               '<p class="sub">댓글에 남기신 키워드를 찾아 눌러 주세요. 가장 최근 릴스가 맨 위에 있습니다.</p></div></header><main class="wrap list">')
     for o in items:
         out.append(f'<a class="card" href="/g/{o["id"]}?utm_source=dm"><span class="kw">댓글 키워드 \'{html.escape(o["keyword"])}\'</span>'
                    f'<span class="t">{html.escape(o["title"])}</span><span class="d">{o["date"]}</span></a>')
@@ -264,15 +264,22 @@ def build(specs, root, now=None):
     """specs: [(path, spec)]. 이미 게시됐거나 오늘 게시될 정리본만 모음·다른 정리본 목록에 보인다(예정 릴스 내용이 미리 노출되지 않게)."""
     now = now or dt.datetime.now(dt.timezone.utc)
     d = os.path.join(root, "g"); os.makedirs(d, exist_ok=True)
-    items = []
+    items = []; ref = {}
+    specs = list(specs)
+    for _, sp in specs:   # 후속 릴스가 다른 릴스 정리본을 쓰면, 모음에서 그 정리본을 후속 릴스 날짜로 위로 올린다
+        g_ = (sp.get("dm") or {}).get("guide")
+        if g_ and sp.get("approved") is not False:
+            w_ = dt.datetime.fromisoformat(sp["scheduled_at"])
+            if w_ <= now + dt.timedelta(hours=3): ref[g_] = max(ref.get(g_, w_), w_)
     for _, sp in specs:
         dm = sp.get("dm") or {}
         if not dm.get("keyword") or sp.get("approved") is False: continue
         if dm.get("guide"): continue   # 다른 릴스의 정리본을 그대로 쓰는 릴스(예: 같은 회사 후속 릴스)는 페이지를 따로 만들지 않는다
         when = dt.datetime.fromisoformat(sp["scheduled_at"])
         items.append({"id": sp["id"], "keyword": dm["keyword"], "title": clean_title(sp), "at": sp["scheduled_at"],
-                      "date": when.astimezone(dt.timezone(dt.timedelta(hours=9))).strftime("%Y년 %-m월 %-d일"), "_sp": sp, "_when": when})
-    items.sort(key=lambda x: x["_when"], reverse=True)
+                      "date": when.astimezone(dt.timezone(dt.timedelta(hours=9))).strftime("%Y년 %-m월 %-d일"), "_sp": sp, "_when": when,
+                      "_rank": max(when, ref.get(sp["id"], when))})
+    items.sort(key=lambda x: x["_rank"], reverse=True)
     live = [o for o in items if o["_when"] <= now + dt.timedelta(hours=3)]
     for o in items:
         others = [x for x in live if x["id"] != o["id"]]
