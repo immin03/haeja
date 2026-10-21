@@ -337,12 +337,9 @@ def stat_card(text, num, u, L):
     a = ease(u / .5); f = F("Heavy", 200)
     while d.textlength(num, font=f) > 1640 and f.size > 90: f = F("Heavy", f.size - 10)
     sv = count_text(num, clamp(u / .9)) if re.search(r"\d", num) else num
-    tw = d.textlength(num, font=f); x = W / 2 - tw / 2; y = H / 2 - 190 + 40 * (1 - a)
+    tw = d.textlength(num, font=f); x = W / 2 - tw / 2; y = H / 2 - 170 + 40 * (1 - a)
     d.text((x, y), sv, font=f, fill=(*GOLD_L, int(255 * a)))
     d.rectangle([W / 2 - 160 * a, y + f.size + 62, W / 2 + 160 * a, y + f.size + 68], fill=(*GOLD, int(255 * a)))
-    fs = F("Bold", 50); ls = wrap(d, text, fs, 1500)[:3]; b = ease((u - .25) / .5)
-    for i, l in enumerate(ls):
-        d.text((W / 2 - d.textlength(l, font=fs) / 2, y + f.size + 108 + i * 68 + 16 * (1 - b)), l, font=fs, fill=(*IVORY, int(235 * b)))
     return img
 
 
@@ -408,6 +405,12 @@ def cut_frames(n):
     return [fr[min(i, len(fr) - 1)] for i in range(n)]
 
 
+def shade(img):
+    """실사 컷: 자막이 잘 보이게 아래쪽을 어둡게 (문장은 화면에 다시 쓰지 않는다: 아래 자막 하나만)"""
+    d = AD(img); d.rectangle([0, 0, W, H], fill=(6, 14, 28, 70))
+    for k in range(12): d.rectangle([0, H - 330 + k * 28, W, H], fill=(6, 14, 28, 14))
+
+
 def kinetic(img, text, u, L):
     """실사 컷 위 큰 글자: 단어가 차례로 떠오르고 숫자는 금색"""
     d = AD(img); d.rectangle([0, 0, W, H], fill=(6, 14, 28, 120))
@@ -427,6 +430,19 @@ def kinetic(img, text, u, L):
 SHOTS = {}
 SHOTS_S = {}
 ICON = ICON_S = None
+
+
+VOICE_SPEED = 1.15   # 원음 대비 말 빠르기 (2026-10-21 운영자: "느려서 지루하다")
+VOICE_PITCH = 1.04   # 톤 살짝 위로 (약 0.7반음)
+GAP = .22            # 문장 사이 쉼(초)
+
+
+def pace(a):
+    """속도와 톤을 함께 조정: asetrate로 톤을 올리고(그만큼 빨라짐) 나머지 속도는 atempo로"""
+    out = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-af",
+                          f"asetrate={int(SR * VOICE_PITCH)},aresample={SR},atempo={VOICE_SPEED / VOICE_PITCH:.4f}", "-f", "f32le", "-"],
+                         input=np.asarray(a, np.float32).tobytes(), capture_output=True, check=True).stdout
+    return np.frombuffer(out, np.float32).copy()
 
 
 def main():
@@ -457,11 +473,11 @@ def main():
                 try: lines.append(fill(l[1:], V))
                 except KeyError: print("  선택 문장 생략:", l[:40])
             else: lines.append(fill(l, V))
-        lt = []; u = .5
+        lt = []; u = .35
         for l in lines:
-            a = np.zeros(int(len(l) / 8.0 * SR), np.float32) if fake else speak(to_speech(l), 1.1)
-            lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + .32
-        dur = u + .5
+            a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else pace(speak(to_speech(l), 1.1))
+            lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + GAP
+        dur = u + .4
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
     total = t
     # 2) 음성 합치기
@@ -491,7 +507,7 @@ def main():
                 elif b[2] == "cam": prevf, curf = curf, b[3]
             b = beats[bi]; bu = u - b[0]; bl = b[1] - b[0]
             if b[2] in ("cut", "stat"):
-                if b[2] == "cut": img = Image.fromarray(cutbuf[min(int(bu * FPS), len(cutbuf) - 1)]); kinetic(img, b[3], bu, bl)
+                if b[2] == "cut": img = Image.fromarray(cutbuf[min(int(bu * FPS), len(cutbuf) - 1)]); shade(img)
                 else: img = stat_card(b[3], b[4], bu, bl)
             else:
                 img = draw_scene(sc, V, u, s["dur"], s["lines"], frames_bg[i] if frames_bg is not None else None)
@@ -500,7 +516,7 @@ def main():
             shown = img.copy()
             chrome(img, chapter if sc["v"]["type"] != "end" else "", src, asof, u, (s["start"] + u) / total)
             cur = next((l for l in reversed(s["lines"]) if u >= l[0] - .05), None)
-            if cur and u <= cur[0] + cur[1] + .3 and b[2] not in ("cut", "stat"): subtitle(img, cur[2], u - cur[0])
+            if cur and u <= cur[0] + cur[1] + .3 : subtitle(img, cur[2], u - cur[0])
             fr = np.asarray(img)
             if prev_last is not None and i < 10:  # 장면 사이 부드러운 페이드 (0.4초)
                 a = (i + 1) / 11; fr = (prev_last * (1 - a) + fr * a).astype(np.uint8)
