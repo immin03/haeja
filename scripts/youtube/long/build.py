@@ -42,7 +42,8 @@ def main(only):
         spec = json.load(open(f, encoding="utf-8")); sid = spec["id"]
         when = dt.datetime.fromisoformat(spec["scheduled_at"])
         meta_p = os.path.join(OUT, sid, "meta.json")
-        need = (sid in only) if only else (sid in again or (not os.path.exists(meta_p) and now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)))
+        if "--all-upcoming" in only: need = now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)
+        else: need = (sid in only) if only else (sid in again or (not os.path.exists(meta_p) and now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)))
         if not need: continue
         print("렌더:", sid, spec["title"], flush=True)
         try:
