@@ -674,7 +674,7 @@ function ytItem(y){
   }
   const dur = y.duration ? `${Math.floor(y.duration / 60)}분 ${Math.round(y.duration % 60)}초` : '';
   return `<div class="card yt-item${short ? ' short' : ''}">
-    <div><video controls preload="none" poster="${esc(y.thumb || '')}" src="${esc(y.video_url || '')}"></video></div>
+    <div><video controls preload="metadata" playsinline poster="${esc(y.thumb || '')}" src="${esc(/github\.com\/.+\/releases\/download\//.test(y.video_url || '') ? FN + 'yt-video?u=' + encodeURIComponent(y.video_url) : (y.video_url || ''))}"></video></div>
     <div><div class="k"><span class="kind${short ? ' reel' : ''}">${short ? '쇼츠' : '롱폼'}</span><span class="st ${st[0]}">${st[1]}</span>${dur ? `<span class="st none">${dur}</span>` : ''}</div>
       <h3>${esc(y.title || y.id)}</h3>
       <div class="m">게시 예정 ${kst(y.scheduled_at)} · 렌더 ${kst(y.rendered_at)}${y.data_asof ? ` · 숫자 기준 ${kstDate(y.data_asof)}` : ''}${y.px ? `<br>주가 ${won0(y.px)} · 적정 주가 ${won0(y.iv)}${y.score != null ? ` · 점수 ${y.score}점` : ''}` : ''}</div>
