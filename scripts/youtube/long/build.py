@@ -55,7 +55,8 @@ def main(only):
                 if img.startswith("capture:"):
                     try: sh(["node", os.path.join(HERE, "capture_co.js"), data["raw"]["name"], os.path.join(OUT, sid, "shot_" + img.replace(":", "_") + ".png"), data["raw"]["code"]])
                     except Exception as e: print("앱 화면 캡처 실패(빈 화면으로 진행):", e)
-            sh([sys.executable, os.path.join(HERE, "render.py"), f])
+            renderer = "render2.py" if spec.get("format") == 2 else "render.py"  # v2: 머니스웨거식 샷 리스트 원고
+            sh([sys.executable, os.path.join(HERE, renderer), f])
             meta = json.load(open(meta_p, encoding="utf-8"))
             stamp = now.strftime("%y%m%d%H%M"); tag = "yt-" + sid; name = f"{sid}-{stamp}.mp4"
             vid = os.path.join(OUT, sid, "video.mp4"); up = os.path.join(OUT, sid, name); os.replace(vid, up)
