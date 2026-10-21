@@ -72,7 +72,7 @@ if st == 200 and isinstance(voices, list):
         return str(v.get("gender", "")).lower()
 
     # 2차 후보: 션과 결이 비슷하면서 개성 있는 남성 해설·다큐 목소리 6개
-    WANT = ["Landon", "Cole", "Dylan", "Bruce", "Gunseok", "Sungho"]
+    WANT = []  # 성우는 성호로 확정 — 샘플 생성 생략
     by = {(v.get("voice_name") or {}).get("eng"): v for v in voices}
     picks = [by[n] for n in WANT if n in by]
     report["picks"] = []
@@ -93,6 +93,16 @@ if st == 200 and isinstance(voices, list):
                                 "status": st, "file": fn, "error": None if st == 200 else audio})
 else:
     report["typecast_error"] = voices
+
+# ── 릴스 엔진 음성 점검 ──
+import sys, traceback
+sys.path.insert(0, os.path.join(os.path.dirname(OUT), "..", "reels"))
+try:
+    import tts
+    a = tts.speak("SK하이닉스는 메모리 반도체를 만드는 세계 2위 회사입니다.", 1.1)
+    report["engine_tts"] = {"ok": True, "sec": round(len(a) / tts.SR, 2), "voice": tts.TC_VOICE}
+except Exception:
+    report["engine_tts"] = {"ok": False, "error": traceback.format_exc()[-1500:]}
 
 json.dump(report, open(os.path.join(OUT, "report.json"), "w"), ensure_ascii=False, indent=1)
 print(json.dumps(report, ensure_ascii=False, indent=1)[:4000])

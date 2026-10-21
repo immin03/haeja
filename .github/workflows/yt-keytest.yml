@@ -3,7 +3,7 @@ name: yt-keytest
 on:
   push:
     branches: [main]
-    paths: ['scripts/youtube/keytest.py']
+    paths: ['scripts/youtube/keytest.py', 'scripts/reels/tts.py']
   workflow_dispatch: {}
 permissions:
   contents: write
@@ -13,6 +13,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy scipy
       - name: 키 점검·샘플 생성
         env:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}

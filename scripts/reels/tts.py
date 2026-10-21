@@ -85,15 +85,28 @@ def _typecast(text, speed):
     os.makedirs(TC_CACHE, exist_ok=True)
     mp3 = os.path.join(TC_CACHE, key + ".mp3")
     if not os.path.exists(mp3):
-        body = {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
-                "prompt": {"emotion_type": "normal"},
-                "output": {"audio_format": "mp3", "audio_tempo": tempo}}
-        req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST",
-                                     data=json.dumps(body).encode(),
-                                     headers={"X-API-KEY": os.environ["TYPECAST_API_KEY"],
-                                              "Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=90) as r:
-            open(mp3, "wb").write(r.read())
+        # 요청 형식이 거절되면 단순한 형식으로 한 번 더 (키 점검 때 통과한 형식이 마지막)
+        bodies = [
+            {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
+             "output": {"audio_format": "mp3", "audio_tempo": tempo}},
+            {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
+             "output": {"audio_format": "mp3"}},
+        ]
+        last = None
+        for body in bodies:
+            req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST",
+                                         data=json.dumps(body).encode(),
+                                         headers={"X-API-KEY": os.environ["TYPECAST_API_KEY"],
+                                                  "Content-Type": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=90) as r:
+                    open(mp3, "wb").write(r.read())
+                break
+            except urllib.error.HTTPError as e:
+                last = f"HTTP {e.code}: {e.read().decode(errors='replace')[:300]}"
+                if e.code not in (400, 422): raise RuntimeError(last)
+        else:
+            raise RuntimeError(last)
         _log_usage(len(text))
     raw = subprocess.run(["ffmpeg", "-v", "error", "-i", mp3, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
                          capture_output=True, check=True).stdout
