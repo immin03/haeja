@@ -1,5 +1,5 @@
 {
- "run_at": "2026-10-21T07:08:33.266309Z",
+ "run_at": "2026-10-21T07:10:41.885812Z",
  "naver_keys_present": true,
  "naver_trend": {
   "status": 200,
@@ -17,8 +17,8 @@
  "naver_news": {
   "status": 200,
   "sample": [
-   "반도체 강세에 코스피 3%대 반등…매수 사이드카 발동",
-   "코스피, 외인 6600억 '사자'에 3.3%대 반등…5735.66 마감[마감시황]"
+   "[집중취재] 솔리다임 미국 상장 논란…<b>하이닉스</b> 주<b>주가</b>치 누가 지키나",
+   "염승환 &quot;코스피가 못나서가 아니다...지금은 뭘 해도 안돼&quot; [fn 인사이트..."
   ]
  },
  "naver_cafe": {
@@ -50,13 +50,84 @@
  "picks": [
   {
    "no": 1,
-   "voice_id": "tc_66bc600762cab997910b107b",
+   "voice_id": "tc_6304945aa2fc5265848f300e",
    "name": {
-    "eng": "Robert",
-    "kor": "로버트"
+    "eng": "Sean",
+    "kor": "션"
    },
    "gender": "male",
-   "age": "elder",
+   "age": "young_adult",
+   "use_cases": [
+    "Documentary",
+    "Audiobook/Storytelling",
+    "News Reporter",
+    "Announcer",
+    "Radio/Podcast",
+    "Ads/Promotion",
+    "E-learning/Explainer",
+    "Voicemail/Voice Assistant",
+    "TikTok/Reels/Shorts"
+   ],
+   "status": 200,
+   "file": "voice-1-male-sean.mp3",
+   "error": null
+  },
+  {
+   "no": 2,
+   "voice_id": "tc_6322940059d649937b97f326",
+   "name": {
+    "eng": "Rex",
+    "kor": "렉스"
+   },
+   "gender": "male",
+   "age": "middle_age",
+   "use_cases": [
+    "Documentary",
+    "Audiobook/Storytelling",
+    "News Reporter",
+    "Announcer",
+    "Radio/Podcast",
+    "Ads/Promotion",
+    "E-learning/Explainer",
+    "Voicemail/Voice Assistant",
+    "TikTok/Reels/Shorts"
+   ],
+   "status": 200,
+   "file": "voice-2-male-rex.mp3",
+   "error": null
+  },
+  {
+   "no": 3,
+   "voice_id": "tc_629fe969a31b8f569a9b1f15",
+   "name": {
+    "eng": "Tyson",
+    "kor": "타이슨"
+   },
+   "gender": "male",
+   "age": "young_adult",
+   "use_cases": [
+    "Documentary",
+    "Audiobook/Storytelling",
+    "News Reporter",
+    "Announcer",
+    "Radio/Podcast",
+    "E-learning/Explainer",
+    "Voicemail/Voice Assistant",
+    "TikTok/Reels/Shorts"
+   ],
+   "status": 200,
+   "file": "voice-3-male-tyson.mp3",
+   "error": null
+  },
+  {
+   "no": 4,
+   "voice_id": "tc_62df8e33e435e7a9350f3099",
+   "name": {
+    "eng": "Mia",
+    "kor": "미아"
+   },
+   "gender": "female",
+   "age": "young_adult",
    "use_cases": [
     "Documentary",
     "Audiobook/Storytelling",
@@ -68,61 +139,14 @@
     "Voicemail/Voice Assistant",
     "Game",
     "Anime",
-    "TikTok/Reels/Shorts",
-    "Conversational"
+    "TikTok/Reels/Shorts"
    ],
    "status": 200,
-   "file": "voice-1-male.mp3",
+   "file": "voice-4-female-mia.mp3",
    "error": null
   },
   {
-   "no": 2,
-   "voice_id": "tc_673eb45cdc1073aef51e6b90",
-   "name": {
-    "eng": "Dean",
-    "kor": "딘"
-   },
-   "gender": "male",
-   "age": "elder",
-   "use_cases": [
-    "Announcer",
-    "News Reporter",
-    "Documentary",
-    "Ads/Promotion",
-    "Audiobook/Storytelling",
-    "E-learning/Explainer"
-   ],
-   "status": 200,
-   "file": "voice-2-male.mp3",
-   "error": null
-  },
-  {
-   "no": 3,
-   "voice_id": "tc_67358772bcde863931cb6f40",
-   "name": {
-    "eng": "Chase",
-    "kor": "체이스"
-   },
-   "gender": "male",
-   "age": "young_adult",
-   "use_cases": [
-    "Radio/Podcast",
-    "Conversational",
-    "E-learning/Explainer",
-    "TikTok/Reels/Shorts",
-    "Audiobook/Storytelling",
-    "Documentary",
-    "Anime",
-    "Ads/Promotion",
-    "Voicemail/Voice Assistant",
-    "News Reporter"
-   ],
-   "status": 200,
-   "file": "voice-3-male.mp3",
-   "error": null
-  },
-  {
-   "no": 4,
+   "no": 5,
    "voice_id": "tc_630494521f5003bebbfdafef",
    "name": {
     "eng": "Rachel",
@@ -143,11 +167,11 @@
     "TikTok/Reels/Shorts"
    ],
    "status": 200,
-   "file": "voice-4-female.mp3",
+   "file": "voice-5-female-rachel.mp3",
    "error": null
   },
   {
-   "no": 5,
+   "no": 6,
    "voice_id": "tc_67a440ec1e05bd5665857efd",
    "name": {
     "eng": "Margot",
@@ -164,28 +188,7 @@
     "Announcer"
    ],
    "status": 200,
-   "file": "voice-5-female.mp3",
-   "error": null
-  },
-  {
-   "no": 6,
-   "voice_id": "tc_673eb42eef5b688d8cadd086",
-   "name": {
-    "eng": "Shana",
-    "kor": "샤나"
-   },
-   "gender": "female",
-   "age": "middle_age",
-   "use_cases": [
-    "News Reporter",
-    "Announcer",
-    "Documentary",
-    "Ads/Promotion",
-    "E-learning/Explainer",
-    "Audiobook/Storytelling"
-   ],
-   "status": 200,
-   "file": "voice-6-female.mp3",
+   "file": "voice-6-female-margot.mp3",
    "error": null
   }
  ]
