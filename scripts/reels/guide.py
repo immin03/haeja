@@ -1,7 +1,7 @@
 """댓글 → DM → 정리본 페이지 (2026-10-21 운영자 요청)
 
 릴스 대본에 "dm" 블록이 있으면
-- /g/<릴스 id>.html : 정리본 페이지 (이메일을 넣으면 전체 내용이 열린다 → 카카오 1초 가입으로 이어짐)
+- /g/<릴스 id>.html : 정리본 페이지 (전체 공개, 끝에서 '새 정리본 받기' 이메일 등록 → 카카오 1초 가입으로 이어짐)
 - /g/index.html     : 정리본 모음 (자동 DM 도구가 릴스마다 링크를 못 바꿀 때 보내는 공용 링크, 최신순)
 - /g/index.json     : 자동 DM 함수(ig-dm)와 관리자 화면이 읽는 목록
 을 만든다. 이메일은 Supabase leads 테이블에 쌓인다(익명은 추가만 가능, 읽기 불가).
@@ -80,10 +80,35 @@ h2{font-size:19px;margin:30px 0 12px;font-weight:850;letter-spacing:-.01em}
 .check{counter-reset:c;list-style:none;margin:0;padding:0}
 .check li{position:relative;padding:0 0 14px 34px;font-size:15.5px}
 .check li:before{counter-increment:c;content:counter(c);position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:7px;background:var(--gold);color:var(--navy);font-weight:850;font-size:12.5px;display:flex;align-items:center;justify-content:center}
-.lock{position:relative}
-.locked .rest{max-height:240px;overflow:hidden;filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
-.gate{display:none}
-.locked .gate{display:block;position:relative;margin-top:-90px;padding-top:90px;background:linear-gradient(180deg,rgba(251,248,242,0),var(--paper) 90px)}
+.sum{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 6px;margin:4px 0 8px}
+.sum .points li{border:0;background:transparent;padding:4px 0 10px 38px;font-weight:650}
+.sum .points li b{left:0;top:5px}
+.sum .lbl{font-size:12.5px;font-weight:800;color:var(--gold2);letter-spacing:.04em;margin-bottom:8px}
+.toc{margin:18px 0 0;padding:14px 16px;border-left:3px solid var(--gold);background:rgba(228,199,141,.12);border-radius:0 12px 12px 0}
+.toc b{display:block;font-size:13px;margin-bottom:4px}.toc a{display:block;font-size:14.5px;text-decoration:none;padding:3px 0;color:var(--ink)}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 8px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:100%}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+td:first-child,th:first-child{white-space:normal;min-width:96px}
+td:last-child{white-space:normal;min-width:110px}
+th{background:var(--navy);color:#fff;font-weight:700;font-size:13px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.src{font-size:12px;color:var(--muted);margin:2px 0 14px}
+.warn{background:#FFF6E6;border:1px solid #F0D9A8;border-radius:14px;padding:14px 16px;margin-top:22px}
+.warn b{display:block;margin-bottom:4px;font-size:15px}.warn p{margin:0;font-size:15px}
+details{border-bottom:1px solid var(--line);padding:12px 0}
+summary{font-weight:800;font-size:15.5px;cursor:pointer;list-style:none;position:relative;padding-right:26px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";position:absolute;right:2px;top:-2px;font-size:20px;color:var(--gold2)}
+details[open] summary:after{content:"−"}
+details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
+.gbox{margin-top:30px}
+.gbox ul{margin:0 0 14px;padding-left:18px;font-size:14px;color:rgba(247,242,232,.86)}
+.gbox li{margin:3px 0}
+.ok{display:none;font-size:15px;font-weight:700;color:var(--gold)}
+.done .ef,.done .agree{display:none}.done .ok{display:block}
+.srcs{margin-top:26px;font-size:12.5px;color:var(--muted)}.srcs b{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}
+.srcs a{display:block;color:var(--muted);text-decoration:none;padding:2px 0}
 .gbox{background:var(--navy);color:var(--ivory);border-radius:18px;padding:20px 18px}
 .gbox h3{margin:0 0 6px;font-size:18px;color:#fff}
 .gbox p{margin:0 0 14px;font-size:14px;color:rgba(247,242,232,.78)}
@@ -127,23 +152,22 @@ var q=new URLSearchParams(location.search),src=q.get('utm_source')||(/Instagram/
 try{if(src&&!localStorage.getItem('vn-ref'))localStorage.setItem('vn-ref',src);}catch(_){}
 var bot=/bot|crawl|spider|headless|preview|facebookexternalhit/i.test(navigator.userAgent)||navigator.webdriver;try{if(q.get('staff')==='1')localStorage.setItem('vn-staff','1');if(localStorage.getItem('vn-staff')==='1')bot=true;}catch(_){}
 function ev(path){if(bot)return;try{fetch(SB+'/rest/v1/events',{method:'POST',keepalive:true,headers:{apikey:K,Authorization:'Bearer '+K,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({kind:'engage',sid:sid(),path:path.slice(0,200),ref:src.slice(0,300),device:/Mobi|iPhone|Android/.test(navigator.userAgent)?'모바일':'PC'})}).catch(function(){});}catch(_){}}
-var root=document.getElementById('lock');
-function open_(){if(root)root.classList.remove('locked');}
+var box=document.getElementById('gbox');
 var done=false;try{done=localStorage.getItem('vn-lead')==='1';}catch(_){}
-if(done)open_();
-ev('/g/'+G+(done?':view-open':':view'));
+if(done&&box)box.classList.add('done');
+ev('/g/'+G+':view');
+var deep=false;window.addEventListener('scroll',function(){if(deep)return;var h=document.documentElement;if(h.scrollTop+innerHeight>h.scrollHeight*.8){deep=true;ev('/g/'+G+':read80');}},{passive:true});
 document.querySelectorAll('a[data-out]').forEach(function(a){a.href=a.href.replace('utm_source=dm','utm_source=dm-'+G);a.addEventListener('click',function(){ev('/g/'+G+':'+a.dataset.out);});});
 var f=document.getElementById('ef');if(!f)return;
 f.addEventListener('submit',function(e){e.preventDefault();
   var m=document.getElementById('em').value.trim(),er=document.getElementById('er'),b=f.querySelector('button');
   if(!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(m)){er.textContent='이메일 주소를 다시 확인해 주세요.';return;}
-  er.textContent='';b.disabled=true;b.textContent='여는 중…';
+  er.textContent='';b.disabled=true;b.textContent='등록 중…';
   fetch(SB+'/rest/v1/leads',{method:'POST',headers:{apikey:K,Authorization:'Bearer '+K,'Content-Type':'application/json',Prefer:'return=minimal'},
     body:JSON.stringify({email:m.toLowerCase().slice(0,200),guide:G,src:src.slice(0,79),sid:sid()})})
-  .then(function(r){if(r.ok||r.status===409){try{localStorage.setItem('vn-lead','1');localStorage.setItem('vn-email',m);}catch(_){}ev('/g/'+G+':unlock');open_();
-    var t=document.getElementById('full');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
+  .then(function(r){if(r.ok||r.status===409){try{localStorage.setItem('vn-lead','1');}catch(_){}ev('/g/'+G+':subscribe');if(box)box.classList.add('done');}
     else{throw 0;}})
-  .catch(function(){b.disabled=false;b.textContent='정리본 열기';er.textContent='잠시 연결이 불안정합니다. 한 번 더 눌러 주세요.';});
+  .catch(function(){b.disabled=false;b.textContent='새 정리본 받기';er.textContent='잠시 연결이 불안정합니다. 한 번 더 눌러 주세요.';});
 });
 })();
 </script>"""
@@ -151,38 +175,72 @@ f.addEventListener('submit',function(e){e.preventDefault();
 def top():
     return ('<header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=dm" data-out="logo">Value<i>Note</i><small>밸류노트</small></a>')
 
+def table_html(t):
+    if not t or not t.get("rows"): return ""
+    head = "".join(f"<th>{html.escape(str(h))}</th>" for h in t.get("head", []))
+    rows = "".join("<tr>" + "".join(f"<td>{html.escape(str(c))}</td>" for c in r) + "</tr>" for r in t["rows"])
+    return f'<div class="tw"><table>{"<thead><tr>" + head + "</tr></thead>" if head else ""}<tbody>{rows}</tbody></table></div>'
+
+SUBSCRIBE = (
+    '<section class="gbox" id="gbox"><h3>이런 정리본, 앞으로도 계속 받아 보세요</h3>'
+    '<p>릴스 한 편으로는 다 담지 못하는 숫자와 원인, 그리고 내 종목에 바로 적용하는 법을 정리본으로 만들고 있습니다. 새 정리본이 나오면 메일로 보내 드립니다.</p>'
+    '<ul><li>화제의 기업 분석: 주가 뒤에 숨은 원인까지 숫자로</li><li>시장 신호 해설: 금리·환율·공포지수가 지금 어느 단계인지</li>'
+    '<li>워렌 버핏·찰리 멍거의 원칙을 내 종목에 적용하는 법</li></ul>'
+    '<form class="ef" id="ef" novalidate><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="이메일 주소" aria-label="이메일 주소">'
+    '<button class="btn gold" type="submit">새 정리본 받기</button></form><div class="err" id="er"></div>'
+    '<span class="agree">일주일에 한두 통, 정리본과 주간 칼럼만 보내 드립니다. 메일 아래 링크로 언제든 그만 받을 수 있습니다. '
+    '<a href="/privacy" target="_blank">개인정보 처리방침</a></span>'
+    '<p class="ok">등록했습니다. 다음 정리본부터 메일로 보내 드리겠습니다.</p></section>')
+
 def page(sp, others):
     dm = sp["dm"]; gid = sp["id"]; kw = dm["keyword"]
     title = clean_title(sp); ps = paragraphs(sp.get("caption"))
     pts = [p for p in dm.get("points", []) if p]; chk = [c for c in dm.get("check", []) if c]
+    secs = [x for x in dm.get("sections", []) if x.get("h")]; faq = [x for x in dm.get("faq", []) if x.get("q")]
     url = f"{SITE}/g/{gid}"
     desc = (ps[0] if ps else title)[:140]
-    tags = [f"핵심 정리 {len(pts)}가지" if pts else "", "전체 숫자", f"내 종목 점검법 {len(chk)}단계" if chk else ""]
+    tags = [f"핵심 {len(pts)}줄" if pts else "", f"깊이 보기 {len(secs)}편" if secs else "전체 숫자",
+            f"내 종목 점검 {len(chk)}단계" if chk else "", f"자주 묻는 질문 {len(faq)}개" if faq else ""]
     out = [HEAD.format(title=html.escape(title + " · 밸류노트 정리본"), desc=html.escape(desc), og=f"{SITE}/social/reels/{gid}/cover.jpg",
                        url=url, css=CSS)]
     out.append(top() + f'<span class="eyebrow">밸류노트 정리본 · 댓글 키워드 \'{html.escape(kw)}\'</span>'
-               f'<h1>{html.escape(title)}</h1><p class="sub">릴스에서 다 못 한 숫자와, 내 종목에 바로 적용하는 방법까지 정리했습니다.</p>'
+               f'<h1>{html.escape(title)}</h1><p class="sub">릴스에서 다 못 한 숫자와 원인, 내 종목에 바로 적용하는 방법까지 정리했습니다.</p>'
                '<div class="inside">' + "".join(f"<span>{t}</span>" for t in tags if t) + '</div></div></header>')
-    out.append('<main class="wrap"><div class="lead">' + "".join(para_html(p) for p in ps[:2]) + '</div>')
-    out.append('<div id="lock" class="lock locked"><div class="rest" id="full">')
+    out.append('<main class="wrap">')
     if pts:
-        out.append('<h2>핵심 정리</h2><ol class="points">' + "".join(f"<li><b>{i + 1}</b>{html.escape(p)}</li>" for i, p in enumerate(pts)) + '</ol>')
-    out.append('<h2>전체 내용</h2><div class="body">' + "".join(para_html(p) for p in ps[2:]) + '</div>')
+        out.append('<div class="sum"><div class="lbl">한눈에 보기</div><ol class="points">' + "".join(f"<li><b>{i + 1}</b>{html.escape(p)}</li>" for i, p in enumerate(pts)) + '</ol><div style="height:10px"></div></div>')
+    # 깊이 보기(sections)가 있으면 캡션은 앞 두 문단만 도입부로 쓴다(같은 내용을 두 번 읽지 않게, 숫자가 엇갈리지 않게)
+    toc = ([] if secs else [("s-reel", "릴스 내용 전체")]) + [(f"s{i}", x["h"]) for i, x in enumerate(secs)]
+    if dm.get("wrong"): toc.append(("s-wrong", "이 분석이 틀릴 수 있는 경우"))
+    if chk: toc.append(("s-check", "내 종목에 적용하는 법"))
+    if faq: toc.append(("s-faq", "자주 묻는 질문"))
+    if len(toc) > 3:
+        out.append('<nav class="toc"><b>목차</b>' + "".join(f'<a href="#{a}">{html.escape(t)}</a>' for a, t in toc) + '</nav>')
+    if secs:
+        out.append('<div class="body lead" style="margin-top:20px">' + "".join(para_html(p) for p in ps[:2]) + '</div>')
+    else:
+        out.append('<h2 id="s-reel">릴스 내용 전체</h2><div class="body">' + "".join(para_html(p) for p in ps) + '</div>')
+    for i, x in enumerate(secs):
+        out.append(f'<h2 id="s{i}">{html.escape(x["h"])}</h2><div class="body">' + "".join(para_html(p) for p in x.get("p", [])) + '</div>')
+        out.append(table_html(x.get("table")))
+        if x.get("note"): out.append(f'<p class="src">{html.escape(x["note"])}</p>')
+    if dm.get("wrong"):
+        out.append(f'<div class="warn" id="s-wrong"><b>이 분석이 틀릴 수 있는 경우</b><p>{html.escape(dm["wrong"])}</p></div>')
     if chk:
-        out.append('<h2>내 종목에 적용하는 법</h2><ol class="check">' + "".join(f"<li>{html.escape(c)}</li>" for c in chk) + '</ol>')
+        out.append('<h2 id="s-check">내 종목에 적용하는 법</h2><ol class="check">' + "".join(f"<li>{html.escape(c)}</li>" for c in chk) + '</ol>')
+    if faq:
+        out.append('<h2 id="s-faq">자주 묻는 질문</h2>' + "".join(f'<details><summary>{html.escape(f["q"])}</summary><p>{html.escape(f["a"])}</p></details>' for f in faq))
     out.append('<section class="cta"><h3>내 종목도 같은 기준으로 확인해 보세요</h3>'
                '<p>밸류노트는 600여 개 기업의 점수와 적정 주가를 워렌 버핏·그레이엄·찰리 멍거의 방식으로 매일 계산합니다. 내 종목을 넣으면 같은 기준으로 바로 채점합니다.</p>'
                '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=dm" data-out="kakao">카카오로 1초 만에 시작하기</a>'
                '<a class="btn line" href="/start?utm_source=dm" data-out="start">밸류노트 먼저 둘러보기</a></div></section>')
+    out.append(SUBSCRIBE)
     if others:
         out.append('<div class="more"><h2>다른 정리본</h2>' + "".join(
             f'<a href="/g/{o["id"]}">{html.escape(o["title"])}<small>댓글 키워드 \'{html.escape(o["keyword"])}\'</small></a>' for o in others[:4]) + '</div>')
-    out.append('</div><div class="gate"><div class="gbox"><h3>이메일을 넣으면 바로 열립니다</h3>'
-               '<p>핵심 정리와 전체 숫자, 내 종목 점검법이 이 아래에 있습니다. 새 정리본이 나오면 같은 메일로 알려 드립니다.</p>'
-               '<form class="ef" id="ef" novalidate><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="이메일 주소" aria-label="이메일 주소">'
-               '<button class="btn gold" type="submit">정리본 열기</button></form><div class="err" id="er"></div>'
-               '<span class="agree">입력한 이메일은 정리본 제공과 새 정리본·칼럼 안내에만 쓰며, 언제든 수신을 거부할 수 있습니다. '
-               '<a href="/privacy" target="_blank">개인정보 처리방침</a></span></div></div></div>')
+    if dm.get("sources"):
+        out.append('<div class="srcs"><b>참고한 자료</b>' + "".join(
+            f'<a href="{html.escape(x["url"])}" target="_blank" rel="noopener">{html.escape(x["t"])}</a>' for x in dm["sources"] if x.get("url")) + '</div>')
     out.append(f'<p class="disc">{DISC}</p></main>')
     out.append(JS % {"sb": SB, "key": EV_KEY, "gid": gid} + "</body></html>")
     return "".join(out)
@@ -196,7 +254,7 @@ def index_page(items):
         out.append(f'<a class="card" href="/g/{o["id"]}?utm_source=dm"><span class="kw">댓글 키워드 \'{html.escape(o["keyword"])}\'</span>'
                    f'<span class="t">{html.escape(o["title"])}</span><span class="d">{o["date"]}</span></a>')
     out.append('<section class="cta"><h3>내 종목도 같은 기준으로</h3><p>밸류노트는 600여 개 기업의 점수와 적정 주가를 매일 계산합니다.</p>'
-               '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=dm-hub" data-out="kakao">카카오로 1초 만에 시작하기</a></div></section>')
+               '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=dm-hub" data-out="kakao">카카오로 1초 만에 시작하기</a></div></section>' + SUBSCRIBE)
     out.append(f'<p class="disc">{DISC}</p></main>')
     out.append(JS % {"sb": SB, "key": EV_KEY, "gid": "hub"} + "</body></html>")
     return "".join(out)

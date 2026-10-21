@@ -30,10 +30,35 @@ h2{font-size:19px;margin:30px 0 12px;font-weight:850;letter-spacing:-.01em}
 .check{counter-reset:c;list-style:none;margin:0;padding:0}
 .check li{position:relative;padding:0 0 14px 34px;font-size:15.5px}
 .check li:before{counter-increment:c;content:counter(c);position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:7px;background:var(--gold);color:var(--navy);font-weight:850;font-size:12.5px;display:flex;align-items:center;justify-content:center}
-.lock{position:relative}
-.locked .rest{max-height:240px;overflow:hidden;filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
-.gate{display:none}
-.locked .gate{display:block;position:relative;margin-top:-90px;padding-top:90px;background:linear-gradient(180deg,rgba(251,248,242,0),var(--paper) 90px)}
+.sum{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 6px;margin:4px 0 8px}
+.sum .points li{border:0;background:transparent;padding:4px 0 10px 38px;font-weight:650}
+.sum .points li b{left:0;top:5px}
+.sum .lbl{font-size:12.5px;font-weight:800;color:var(--gold2);letter-spacing:.04em;margin-bottom:8px}
+.toc{margin:18px 0 0;padding:14px 16px;border-left:3px solid var(--gold);background:rgba(228,199,141,.12);border-radius:0 12px 12px 0}
+.toc b{display:block;font-size:13px;margin-bottom:4px}.toc a{display:block;font-size:14.5px;text-decoration:none;padding:3px 0;color:var(--ink)}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 8px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:100%}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+td:first-child,th:first-child{white-space:normal;min-width:96px}
+td:last-child{white-space:normal;min-width:110px}
+th{background:var(--navy);color:#fff;font-weight:700;font-size:13px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.src{font-size:12px;color:var(--muted);margin:2px 0 14px}
+.warn{background:#FFF6E6;border:1px solid #F0D9A8;border-radius:14px;padding:14px 16px;margin-top:22px}
+.warn b{display:block;margin-bottom:4px;font-size:15px}.warn p{margin:0;font-size:15px}
+details{border-bottom:1px solid var(--line);padding:12px 0}
+summary{font-weight:800;font-size:15.5px;cursor:pointer;list-style:none;position:relative;padding-right:26px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";position:absolute;right:2px;top:-2px;font-size:20px;color:var(--gold2)}
+details[open] summary:after{content:"−"}
+details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
+.gbox{margin-top:30px}
+.gbox ul{margin:0 0 14px;padding-left:18px;font-size:14px;color:rgba(247,242,232,.86)}
+.gbox li{margin:3px 0}
+.ok{display:none;font-size:15px;font-weight:700;color:var(--gold)}
+.done .ef,.done .agree{display:none}.done .ok{display:block}
+.srcs{margin-top:26px;font-size:12.5px;color:var(--muted)}.srcs b{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}
+.srcs a{display:block;color:var(--muted);text-decoration:none;padding:2px 0}
 .gbox{background:var(--navy);color:var(--ivory);border-radius:18px;padding:20px 18px}
 .gbox h3{margin:0 0 6px;font-size:18px;color:#fff}
 .gbox p{margin:0 0 14px;font-size:14px;color:rgba(247,242,232,.78)}
@@ -56,7 +81,7 @@ h2{font-size:19px;margin:30px 0 12px;font-weight:850;letter-spacing:-.01em}
 .list a.card{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:10px}
 .list .kw{display:inline-block;font-size:12px;font-weight:800;color:var(--navy);background:var(--gold);border-radius:8px;padding:2px 8px;margin-bottom:6px}
 .list .t{display:block;font-size:16.5px;font-weight:800;line-height:1.45}
-.list .d{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}</style></head><body><header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=dm" data-out="logo">Value<i>Note</i><small>밸류노트</small></a><span class="eyebrow">밸류노트 정리본 · 댓글 키워드 '이자'</span><h1>매출이 늘었는데 게티이미지는 왜 무너졌을까</h1><p class="sub">릴스에서 다 못 한 숫자와, 내 종목에 바로 적용하는 방법까지 정리했습니다.</p><div class="inside"><span>핵심 정리 3가지</span><span>전체 숫자</span><span>내 종목 점검법 3단계</span></div></div></header><main class="wrap"><div class="lead"><p>게티이미지 파산, 정말 AI 때문일까요?</p><p>세계 최대 사진 회사 가운데 하나인 게티이미지가 10월 12일 미리 채권자 동의를 받아 둔 챕터 11(사전 조율형 파산 보호)을 신청했습니다. 2022년 7월 상장한 주식은 99% 넘게 빠졌고, 9월 28일 12센트로 마감한 뒤 상장폐지 절차에 들어갔습니다. 흔히 AI 이미지 때문이라고 말하지만, 숫자는 다른 이야기를 합니다.</p></div><div id="lock" class="lock locked"><div class="rest" id="full"><h2>핵심 정리</h2><ol class="points"><li><b>1</b>게티이미지의 2025년 매출은 4.5% 늘었지만, 영업이익은 1억 8,080만 달러에서 8,390만 달러로 절반 아래로 줄었습니다.</li><li><b>2</b>이익을 깎은 것은 AI가 아니라 소송 손실(1억 50만 달러)과 셔터스톡 합병 비용이었습니다.</li><li><b>3</b>연 9.75% 채권을 연 14% 채권으로 바꾸면서 이자가 늘어, 영업이익을 이자로 나눈 이자보상배율이 약 1.4배에서 약 0.5배로 떨어졌습니다.</li></ol><h2>전체 내용</h2><div class="body"><p>사업은 오히려 커지고 있었습니다. 2025년 매출은 9억 8,130만 달러로 1년 전보다 4.5% 늘었고, 감가상각 등을 빼기 전 이익(조정 EBITDA)도 3억 2,090만 달러로 6.9% 늘었습니다.</p><p>그런데 영업이익은 1억 8,080만 달러에서 8,390만 달러로 절반 아래로 줄었습니다. 회사가 밝힌 이유는 두 가지였습니다. 워렌트(신주인수권) 보유자들과의 소송 손실이 2,050만 달러에서 1억 50만 달러로 커졌고, 셔터스톡 합병 비용이 4,190만 달러 늘었습니다. 이익을 깎은 것은 AI가 아니라 소송과 합병이었습니다.</p><p>같은 해 이자 부담은 오히려 커졌습니다. 게티이미지는 2027년 만기 연 9.75% 채권 약 2억 9,470만 달러를 2028년 만기 연 14% 채권으로 바꿨습니다. 갚을 날을 1년 미루는 대신 이자를 더 내기로 한 것입니다. 1년 이자는 1억 3,140만 달러에서 1억 5,620만 달러로 늘었습니다.</p><p>영업이익을 이자로 나눈 이자보상배율은 2024년 약 1.4배에서 2025년 약 0.5배로 떨어졌습니다. 번 돈으로 이자의 절반밖에 낼 수 없었다는 뜻입니다. 2026년 상반기에는 소송 배상금과 이자로 1억 1,090만 달러를 냈고, 7월 7일에는 영국 경쟁당국이 내건 조건을 받아들이지 않기로 하면서 셔터스톡 합병도 무산됐습니다. 6월 말 현금은 5,160만 달러, 갚아야 할 돈은 약 20억 달러였습니다.</p><p>AI와의 경쟁은 분명 부담이었습니다. 하지만 회사를 무너뜨린 직접적인 원인은 번 돈보다 큰 이자였습니다. 사업이 버텨도 이자를 감당하지 못하면 소송 하나, 합병 무산 하나에도 주주는 모든 것을 잃을 수 있습니다.</p><p>밸류노트 기업 상세 화면은 모든 회사의 이자보상배율과 빚 부담을 함께 보여 드립니다. 지금 들고 있는 회사가 번 돈으로 이자를 감당하고 있는지 프로필 링크에서 확인해 보세요.</p></div><h2>내 종목에 적용하는 법</h2><ol class="check"><li>밸류노트에서 가진 회사를 열고 기업 상세 화면의 이자보상배율과 빚 부담을 확인합니다.</li><li>이자보상배율이 1배보다 낮으면 번 돈으로 이자를 다 내지 못한다는 뜻입니다. 이런 회사는 비중부터 다시 따져 봅니다.</li><li>배율이 해마다 낮아지고 있는지, 빚을 더 비싼 이자로 갈아탄 적이 있는지도 함께 봅니다.</li></ol><section class="cta"><h3>내 종목도 같은 기준으로 확인해 보세요</h3><p>밸류노트는 600여 개 기업의 점수와 적정 주가를 워렌 버핏·그레이엄·찰리 멍거의 방식으로 매일 계산합니다. 내 종목을 넣으면 같은 기준으로 바로 채점합니다.</p><div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=dm" data-out="kakao">카카오로 1초 만에 시작하기</a><a class="btn line" href="/start?utm_source=dm" data-out="start">밸류노트 먼저 둘러보기</a></div></section><div class="more"><h2>다른 정리본</h2><a href="/g/N261020c">SK하이닉스, AI가 잘 돼도 위험한 이유<small>댓글 키워드 '하이닉스'</small></a></div></div><div class="gate"><div class="gbox"><h3>이메일을 넣으면 바로 열립니다</h3><p>핵심 정리와 전체 숫자, 내 종목 점검법이 이 아래에 있습니다. 새 정리본이 나오면 같은 메일로 알려 드립니다.</p><form class="ef" id="ef" novalidate><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="이메일 주소" aria-label="이메일 주소"><button class="btn gold" type="submit">정리본 열기</button></form><div class="err" id="er"></div><span class="agree">입력한 이메일은 정리본 제공과 새 정리본·칼럼 안내에만 쓰며, 언제든 수신을 거부할 수 있습니다. <a href="/privacy" target="_blank">개인정보 처리방침</a></span></div></div></div><p class="disc">*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 적정 주가는 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 결과이며, 이 방식이 늘 맞지는 않습니다.</p></main><script>
+.list .d{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}</style></head><body><header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=dm" data-out="logo">Value<i>Note</i><small>밸류노트</small></a><span class="eyebrow">밸류노트 정리본 · 댓글 키워드 '이자'</span><h1>매출이 늘었는데 게티이미지는 왜 무너졌을까</h1><p class="sub">릴스에서 다 못 한 숫자와 원인, 내 종목에 바로 적용하는 방법까지 정리했습니다.</p><div class="inside"><span>핵심 3줄</span><span>전체 숫자</span><span>내 종목 점검 3단계</span></div></div></header><main class="wrap"><div class="sum"><div class="lbl">한눈에 보기</div><ol class="points"><li><b>1</b>게티이미지의 2025년 매출은 4.5% 늘었지만, 영업이익은 1억 8,080만 달러에서 8,390만 달러로 절반 아래로 줄었습니다.</li><li><b>2</b>이익을 깎은 것은 AI가 아니라 소송 손실(1억 50만 달러)과 셔터스톡 합병 비용이었습니다.</li><li><b>3</b>연 9.75% 채권을 연 14% 채권으로 바꾸면서 이자가 늘어, 영업이익을 이자로 나눈 이자보상배율이 약 1.4배에서 약 0.5배로 떨어졌습니다.</li></ol><div style="height:10px"></div></div><h2 id="s-reel">릴스 내용 전체</h2><div class="body"><p>게티이미지 파산, 정말 AI 때문일까요?</p><p>세계 최대 사진 회사 가운데 하나인 게티이미지가 10월 12일 미리 채권자 동의를 받아 둔 챕터 11(사전 조율형 파산 보호)을 신청했습니다. 2022년 7월 상장한 주식은 99% 넘게 빠졌고, 9월 28일 12센트로 마감한 뒤 상장폐지 절차에 들어갔습니다. 흔히 AI 이미지 때문이라고 말하지만, 숫자는 다른 이야기를 합니다.</p><p>사업은 오히려 커지고 있었습니다. 2025년 매출은 9억 8,130만 달러로 1년 전보다 4.5% 늘었고, 감가상각 등을 빼기 전 이익(조정 EBITDA)도 3억 2,090만 달러로 6.9% 늘었습니다.</p><p>그런데 영업이익은 1억 8,080만 달러에서 8,390만 달러로 절반 아래로 줄었습니다. 회사가 밝힌 이유는 두 가지였습니다. 워렌트(신주인수권) 보유자들과의 소송 손실이 2,050만 달러에서 1억 50만 달러로 커졌고, 셔터스톡 합병 비용이 4,190만 달러 늘었습니다. 이익을 깎은 것은 AI가 아니라 소송과 합병이었습니다.</p><p>같은 해 이자 부담은 오히려 커졌습니다. 게티이미지는 2027년 만기 연 9.75% 채권 약 2억 9,470만 달러를 2028년 만기 연 14% 채권으로 바꿨습니다. 갚을 날을 1년 미루는 대신 이자를 더 내기로 한 것입니다. 1년 이자는 1억 3,140만 달러에서 1억 5,620만 달러로 늘었습니다.</p><p>영업이익을 이자로 나눈 이자보상배율은 2024년 약 1.4배에서 2025년 약 0.5배로 떨어졌습니다. 번 돈으로 이자의 절반밖에 낼 수 없었다는 뜻입니다. 2026년 상반기에는 소송 배상금과 이자로 1억 1,090만 달러를 냈고, 7월 7일에는 영국 경쟁당국이 내건 조건을 받아들이지 않기로 하면서 셔터스톡 합병도 무산됐습니다. 6월 말 현금은 5,160만 달러, 갚아야 할 돈은 약 20억 달러였습니다.</p><p>AI와의 경쟁은 분명 부담이었습니다. 하지만 회사를 무너뜨린 직접적인 원인은 번 돈보다 큰 이자였습니다. 사업이 버텨도 이자를 감당하지 못하면 소송 하나, 합병 무산 하나에도 주주는 모든 것을 잃을 수 있습니다.</p><p>밸류노트 기업 상세 화면은 모든 회사의 이자보상배율과 빚 부담을 함께 보여 드립니다. 지금 들고 있는 회사가 번 돈으로 이자를 감당하고 있는지 프로필 링크에서 확인해 보세요.</p></div><h2 id="s-check">내 종목에 적용하는 법</h2><ol class="check"><li>밸류노트에서 가진 회사를 열고 기업 상세 화면의 이자보상배율과 빚 부담을 확인합니다.</li><li>이자보상배율이 1배보다 낮으면 번 돈으로 이자를 다 내지 못한다는 뜻입니다. 이런 회사는 비중부터 다시 따져 봅니다.</li><li>배율이 해마다 낮아지고 있는지, 빚을 더 비싼 이자로 갈아탄 적이 있는지도 함께 봅니다.</li></ol><section class="cta"><h3>내 종목도 같은 기준으로 확인해 보세요</h3><p>밸류노트는 600여 개 기업의 점수와 적정 주가를 워렌 버핏·그레이엄·찰리 멍거의 방식으로 매일 계산합니다. 내 종목을 넣으면 같은 기준으로 바로 채점합니다.</p><div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=dm" data-out="kakao">카카오로 1초 만에 시작하기</a><a class="btn line" href="/start?utm_source=dm" data-out="start">밸류노트 먼저 둘러보기</a></div></section><section class="gbox" id="gbox"><h3>이런 정리본, 앞으로도 계속 받아 보세요</h3><p>릴스 한 편으로는 다 담지 못하는 숫자와 원인, 그리고 내 종목에 바로 적용하는 법을 정리본으로 만들고 있습니다. 새 정리본이 나오면 메일로 보내 드립니다.</p><ul><li>화제의 기업 분석: 주가 뒤에 숨은 원인까지 숫자로</li><li>시장 신호 해설: 금리·환율·공포지수가 지금 어느 단계인지</li><li>워렌 버핏·찰리 멍거의 원칙을 내 종목에 적용하는 법</li></ul><form class="ef" id="ef" novalidate><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="이메일 주소" aria-label="이메일 주소"><button class="btn gold" type="submit">새 정리본 받기</button></form><div class="err" id="er"></div><span class="agree">일주일에 한두 통, 정리본과 주간 칼럼만 보내 드립니다. 메일 아래 링크로 언제든 그만 받을 수 있습니다. <a href="/privacy" target="_blank">개인정보 처리방침</a></span><p class="ok">등록했습니다. 다음 정리본부터 메일로 보내 드리겠습니다.</p></section><div class="more"><h2>다른 정리본</h2><a href="/g/F05">자주 사고판 사람이 덜 번 진짜 이유<small>댓글 키워드 '매매'</small></a><a href="/g/N261020c">SK하이닉스, AI가 잘 돼도 위험한 이유<small>댓글 키워드 '하이닉스'</small></a></div><p class="disc">*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 적정 주가는 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 결과이며, 이 방식이 늘 맞지는 않습니다.</p></main><script>
 (function(){
 var SB='https://msjbrwyzkiueqnzjeicm.supabase.co',K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zamJyd3l6a2l1ZXFuemplaWNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTk0NTcsImV4cCI6MjEwNzQzNTQ1N30.RIq2MRW8bwHQUO_dPeIarujjWcYD_dXn06icr1Mpmuw',G='N261021g';
 function sid(){try{var v=localStorage.getItem('vn-sid');if(!v){v=(crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now()).replace(/-/g,'').slice(0,32);localStorage.setItem('vn-sid',v);}return v;}catch(_){return 'nosid';}}
@@ -64,23 +89,22 @@ var q=new URLSearchParams(location.search),src=q.get('utm_source')||(/Instagram/
 try{if(src&&!localStorage.getItem('vn-ref'))localStorage.setItem('vn-ref',src);}catch(_){}
 var bot=/bot|crawl|spider|headless|preview|facebookexternalhit/i.test(navigator.userAgent)||navigator.webdriver;try{if(q.get('staff')==='1')localStorage.setItem('vn-staff','1');if(localStorage.getItem('vn-staff')==='1')bot=true;}catch(_){}
 function ev(path){if(bot)return;try{fetch(SB+'/rest/v1/events',{method:'POST',keepalive:true,headers:{apikey:K,Authorization:'Bearer '+K,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({kind:'engage',sid:sid(),path:path.slice(0,200),ref:src.slice(0,300),device:/Mobi|iPhone|Android/.test(navigator.userAgent)?'모바일':'PC'})}).catch(function(){});}catch(_){}}
-var root=document.getElementById('lock');
-function open_(){if(root)root.classList.remove('locked');}
+var box=document.getElementById('gbox');
 var done=false;try{done=localStorage.getItem('vn-lead')==='1';}catch(_){}
-if(done)open_();
-ev('/g/'+G+(done?':view-open':':view'));
+if(done&&box)box.classList.add('done');
+ev('/g/'+G+':view');
+var deep=false;window.addEventListener('scroll',function(){if(deep)return;var h=document.documentElement;if(h.scrollTop+innerHeight>h.scrollHeight*.8){deep=true;ev('/g/'+G+':read80');}},{passive:true});
 document.querySelectorAll('a[data-out]').forEach(function(a){a.href=a.href.replace('utm_source=dm','utm_source=dm-'+G);a.addEventListener('click',function(){ev('/g/'+G+':'+a.dataset.out);});});
 var f=document.getElementById('ef');if(!f)return;
 f.addEventListener('submit',function(e){e.preventDefault();
   var m=document.getElementById('em').value.trim(),er=document.getElementById('er'),b=f.querySelector('button');
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)){er.textContent='이메일 주소를 다시 확인해 주세요.';return;}
-  er.textContent='';b.disabled=true;b.textContent='여는 중…';
+  er.textContent='';b.disabled=true;b.textContent='등록 중…';
   fetch(SB+'/rest/v1/leads',{method:'POST',headers:{apikey:K,Authorization:'Bearer '+K,'Content-Type':'application/json',Prefer:'return=minimal'},
     body:JSON.stringify({email:m.toLowerCase().slice(0,200),guide:G,src:src.slice(0,79),sid:sid()})})
-  .then(function(r){if(r.ok||r.status===409){try{localStorage.setItem('vn-lead','1');localStorage.setItem('vn-email',m);}catch(_){}ev('/g/'+G+':unlock');open_();
-    var t=document.getElementById('full');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
+  .then(function(r){if(r.ok||r.status===409){try{localStorage.setItem('vn-lead','1');}catch(_){}ev('/g/'+G+':subscribe');if(box)box.classList.add('done');}
     else{throw 0;}})
-  .catch(function(){b.disabled=false;b.textContent='정리본 열기';er.textContent='잠시 연결이 불안정합니다. 한 번 더 눌러 주세요.';});
+  .catch(function(){b.disabled=false;b.textContent='새 정리본 받기';er.textContent='잠시 연결이 불안정합니다. 한 번 더 눌러 주세요.';});
 });
 })();
 </script></body></html>
