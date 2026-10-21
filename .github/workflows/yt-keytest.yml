@@ -1,0 +1,27 @@
+# 유튜브 준비: 네이버·타입캐스트 키 점검과 성우 샘플 만들기 (keytest.py 를 바꾸면 실행)
+name: yt-keytest
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/youtube/keytest.py']
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: 키 점검·샘플 생성
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+        run: python3 scripts/youtube/keytest.py
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          git add scripts/youtube/samples
+          git diff --cached --quiet || git commit -m "유튜브: 키 점검 결과와 성우 샘플"
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
