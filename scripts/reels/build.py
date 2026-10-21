@@ -53,7 +53,7 @@ def main(only=None):
         queue.append({
             "id": sp["id"], "seq": int(when.timestamp() // 60), "title": sp["title"],
             "scheduled_at": sp["scheduled_at"], "caption": guide.short_caption(sp), "hashtags": sp.get("hashtags", []),
-            "dm_keyword": (sp.get("dm") or {}).get("keyword"), "dm_guide": ("/g/" + sp["id"]) if (sp.get("dm") or {}).get("keyword") else None,
+            "dm_keyword": (sp.get("dm") or {}).get("keyword"), "dm_guide": ("/g/" + ((sp.get("dm") or {}).get("guide") or sp["id"])) if (sp.get("dm") or {}).get("keyword") else None,
             "threads_tag": sp.get("threads_tag"), "kind": "reel",
             "video": f"/social/reels/{sp['id']}/reel.mp4", "cover": f"/social/reels/{sp['id']}/cover.jpg",
             "to_ig": True, "to_threads": True, "approved": sp.get("approved", True)})

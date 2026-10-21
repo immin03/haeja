@@ -11,7 +11,8 @@
     "keyword": "이자",                       # 댓글 키워드 (짧은 한 단어, 영상 마지막 장면·캡션·자동 DM이 모두 이 말을 쓴다)
     "title": "게티이미지는 왜 무너졌을까",     # 정리본 제목 (없으면 릴스 제목)
     "points": ["…", "…", "…"],              # 핵심 정리 3줄 (완결된 문장)
-    "check": ["…", "…", "…"]                # 내 종목에 적용하는 법 (밸류노트에서 실제로 할 수 있는 순서)
+    "check": ["…", "…", "…"],               # 내 종목에 적용하는 법 (밸류노트에서 실제로 할 수 있는 순서)
+    "guide": "N261020c"                      # (선택) 다른 릴스의 정리본을 그대로 쓸 때 그 릴스 id. 이때 points·check는 쓰지 않는다
   }
 정리본 본문은 대본의 caption 전체를 쓴다. 인스타 캡션은 build.py가 앞 두 문단 + 댓글 안내로 줄인다.
 """
@@ -267,6 +268,7 @@ def build(specs, root, now=None):
     for _, sp in specs:
         dm = sp.get("dm") or {}
         if not dm.get("keyword") or sp.get("approved") is False: continue
+        if dm.get("guide"): continue   # 다른 릴스의 정리본을 그대로 쓰는 릴스(예: 같은 회사 후속 릴스)는 페이지를 따로 만들지 않는다
         when = dt.datetime.fromisoformat(sp["scheduled_at"])
         items.append({"id": sp["id"], "keyword": dm["keyword"], "title": clean_title(sp), "at": sp["scheduled_at"],
                       "date": when.astimezone(dt.timezone(dt.timedelta(hours=9))).strftime("%Y년 %-m월 %-d일"), "_sp": sp, "_when": when})
