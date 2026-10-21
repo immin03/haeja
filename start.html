@@ -210,6 +210,36 @@ section.st+section.st{border-top:1px solid var(--line)}
 .vrow.good .dots i.f{background:var(--bad)}.vrow.bad .dots i.f{background:var(--bad)}
 .dots i.h{background:linear-gradient(90deg,var(--bad) 50%,#E9E3D6 50%)}
 .dots i.s{background:linear-gradient(90deg,var(--bad) 70%,#E9E3D6 70%)}
+/* 04 그때 샀다면 */
+.bt{background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);border-radius:18px;padding:20px 18px 16px;margin:6px 0 20px;box-shadow:0 18px 40px rgba(10,23,48,.18)}
+.bt-top small{font-size:12.5px;font-weight:700;color:rgba(247,242,232,.7)}
+.bt-big{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:1.1;color:var(--gold);margin:6px 0 8px;font-variant-numeric:tabular-nums}
+.st .bt-top p{margin:0 0 6px;font-size:14.5px;font-weight:600;color:rgba(247,242,232,.85)}
+.bt-top p b{color:#fff}
+.bars3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end;height:190px;margin-top:10px;padding-top:6px;border-top:1px solid rgba(247,242,232,.15)}
+.b3{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;text-align:center}
+.b3 b{font-size:15px;font-weight:850;margin-bottom:6px;color:rgba(247,242,232,.9)}
+.b3 i{display:block;width:62%;height:var(--h);min-height:6px;border-radius:8px 8px 3px 3px;background:rgba(247,242,232,.28);transform-origin:bottom;transform:scaleY(0)}
+.b3.g b{color:var(--gold);font-size:18px}
+.b3.g i{background:linear-gradient(180deg,var(--gold),var(--gold2))}
+.b3 small{display:block;margin-top:8px;font-size:11.5px;line-height:1.35;font-weight:700;color:rgba(247,242,232,.7)}
+.reveal.in .b3 i{animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both}
+.reveal.in .b3:nth-child(2) i{animation-delay:.15s}.reveal.in .b3.g i{animation-delay:.35s;animation-duration:1.5s}
+@keyframes rise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.bt-list{display:grid;gap:8px;margin:6px 0 16px}
+.bt-list div{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.bt-list .sc{font-weight:900;font-size:15px;color:var(--navy);background:var(--gold);border-radius:999px;text-align:center;padding:3px 0}
+.bt-list b{font-size:16px}
+.bt-list em{font-style:normal;font-weight:850;font-size:15px;color:var(--good);text-align:right}
+.reveal.in .bt-list div{animation:pop .45s ease-out both}.reveal.in .bt-list div:nth-child(2){animation-delay:.1s}.reveal.in .bt-list div:nth-child(3){animation-delay:.2s}
+.bt-all{margin:14px 0 12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.bt-all summary{font-weight:800;font-size:14.5px;cursor:pointer}
+.bt-all table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+.bt-all th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:4px 0;border-bottom:1px solid var(--line)}
+.bt-all td{padding:7px 0;border-bottom:1px solid #F1ECE2}
+.bt-all td:nth-child(2),.bt-all th:nth-child(2){text-align:center}.bt-all td:nth-child(3),.bt-all th:nth-child(3){text-align:right}
+@media (max-width:380px){.bt-big{font-size:34px}.bt-list div{grid-template-columns:50px 1fr;row-gap:2px}.bt-list em{grid-column:2;text-align:left;font-size:14.5px}}
+@media (prefers-reduced-motion:reduce){.reveal.in .b3 i{animation:none;transform:none}}
 /* 05·06 실제 앱 화면 */
 .phone{position:relative;margin:24px auto 18px;max-width:330px;border-radius:30px;padding:8px;background:var(--navy);box-shadow:0 24px 50px rgba(10,23,48,.22)}
 .phone img{display:block;width:100%;height:auto;border-radius:23px}
@@ -364,18 +394,43 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
 </div></section>
 
 <section class="st" id="s4" data-sec="s4"><div class="wrap reveal">
-  <div class="eyebrow">04 · 이 기준, 정말 통했을까</div>
-  <h2>워렌 버핏이 실제로 산 62건에<br>거꾸로 적용해 봤습니다</h2>
-  <div class="vs">
-    <div class="vrow good"><div class="vh"><b>60점 이상이던 매수</b><span>27건</span></div>
-      <div class="pct">15%<small>실패 · 27건 중 4건</small></div>
-      <div class="dots"><i class="f"></i><i class="h"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-    <div class="vrow bad"><div class="vh"><b>60점 미만이던 매수</b><span>35건</span></div>
-      <div class="pct">37%<small>실패 · 35건 중 13건</small></div>
-      <div class="dots"><i class="f"></i><i class="f"></i><i class="f"></i><i class="s"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="eyebrow">04 · 밸류노트 점수대로 샀다면</div>
+  <h2>4년 전 <span class="g2">70점 이상</span>에<br>1억 원을 넣었다면</h2>
+  <div class="bt">
+    <div class="bt-top"><small>2022년 10월 20일 → 2026년 10월 20일<br>배당 포함 · 원화 기준</small>
+      <div class="bt-big"><span id="bt-n" data-to="7.45">7.45</span>억 원</div>
+      <p>같은 1억 원을 코스피에 넣었다면 <b style="white-space:nowrap">2억 5천만 원</b>입니다.</p></div>
+    <div class="bars3" aria-hidden="true">
+      <div class="b3"><b>2.5억</b><i style="--h:33%"></i><small>코스피</small></div>
+      <div class="b3"><b>2.5억</b><i style="--h:34%"></i><small>70점 미만<br>9곳 평균</small></div>
+      <div class="b3 g"><b>7.5억</b><i style="--h:100%"></i><small>70점 이상<br>3곳 평균</small></div>
+    </div>
   </div>
-  <p class="lead">점수가 낮을 때 산 경우, 실패할 확률이 <b class="hl">2.5배</b> 높았습니다.</p>
-  <p class="note">실패는 배당 포함 연평균 수익률 3% 미만입니다. 2000년 이후 매수를 산 시점의 숫자로 다시 채점한 과거 결과이며(10월 19일 새 기준으로 재검증 중), 미래 수익을 보장하지 않습니다.</p>
+  <p class="lead">그때 70점을 넘었던 회사는 세 곳이었습니다.</p>
+  <div class="bt-list">
+    <div><span class="sc">92점</span><b>메타</b><em>1억 → 4억 9천만 원</em></div>
+    <div><span class="sc">89점</span><b>KB금융</b><em>1억 → 3억 8천만 원</em></div>
+    <div><span class="sc">73점</span><b>SK하이닉스</b><em>1억 → 13억 6천만 원</em></div>
+  </div>
+  <div class="lesson">세 곳 모두 코스피보다 많이 벌었습니다. 70점이 안 되던 9곳 가운데 코스피를 이긴 곳은 3곳뿐이었습니다.<br><b>그래서 밸류노트는 지금 70점을 넘는 회사를 매일 찾아 알려 드립니다.</b></div>
+  <details class="bt-all"><summary>12곳 전체 결과 보기</summary>
+    <table><thead><tr><th>회사</th><th>그때 점수</th><th>1억 원이 지금</th></tr></thead><tbody>
+    <tr><td>메타</td><td>92점</td><td>4억 9천만 원</td></tr>
+    <tr><td>KB금융</td><td>89점</td><td>3억 8천만 원</td></tr>
+    <tr><td>SK하이닉스</td><td>73점</td><td>13억 6천만 원</td></tr>
+    <tr><td>소니그룹</td><td>69점</td><td>1억 9천만 원</td></tr>
+    <tr><td>미쓰비시UFJ</td><td>65점</td><td>4억 5천만 원</td></tr>
+    <tr><td>마이크로소프트</td><td>63점</td><td>2억 1천만 원</td></tr>
+    <tr><td>토요타</td><td>58점</td><td>1억 5천만 원</td></tr>
+    <tr><td>삼성전자</td><td>49점</td><td>3억 9천만 원</td></tr>
+    <tr><td>애플</td><td>47점</td><td>2억 2천만 원</td></tr>
+    <tr><td>알파벳</td><td>47점</td><td>3억 2천만 원</td></tr>
+    <tr><td>닌텐도</td><td>42점</td><td>1억 3천만 원</td></tr>
+    <tr><td>현대차</td><td>22점</td><td>2억 1천만 원</td></tr>
+    </tbody></table>
+  </details>
+  <p class="note">한국·미국·일본에서 많이 아는 회사 12곳을 결과를 보기 전에 먼저 정하고 모두 계산했습니다. 그때 점수는 지금 밸류노트 공식에 2022년 10월 20일까지 나온 결산 자료와 그날 종가만 넣어 다시 계산한 값입니다. 해외 주식은 그날 환율로 사고 배당은 현지 통화로 모았다가 2026년 10월 20일 환율로 바꾼 세전 금액이며, 수수료와 코스피 배당은 넣지 않았습니다. 12곳은 예시이며, 과거 수익률은 미래 수익을 보장하지 않습니다.</p>
+  <a class="btn kakao mid-k" href="/?kakao=1&amp;from=start&amp;utm_source=start-s4" data-ev="cta-s4-kakao" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>지금 70점 넘는 회사 보기 · 카카오 1초</a>
 </div></section>
 
 <section class="st shotsec" id="s5" data-sec="s5"><div class="wrap reveal">
@@ -472,6 +527,11 @@ document.addEventListener('click', function(e){
   setTimeout(function(){ document.removeEventListener('visibilitychange', onh); if(!gone){ hit('go-ext-fail'); location.href = url; } }, 1500);
 }, false);
 
+/* 04: 금액이 올라가는 숫자 */
+(function(){ var el = document.getElementById('bt-n'); if(!el) return; var to = parseFloat(el.dataset.to); var done = false;
+  function run(){ if(done) return; done = true; var t0 = null; function step(t){ if(!t0) t0 = t; var p = Math.min(1, (t - t0) / 1600); var e = 1 - Math.pow(1 - p, 3); el.textContent = (1 + (to - 1) * e).toFixed(2); if(p < 1) requestAnimationFrame(step); } el.textContent = '1.00'; requestAnimationFrame(step); }
+  if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var o = new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ run(); o.disconnect(); } }); }, { threshold: .4 }); o.observe(el); })();
 /* ---------- 단락이 보이면: 등장 효과 + 도달 기록 ---------- */
 var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting) return; var t = en.target;
   if(t.classList.contains('reveal')){ t.classList.add('in'); io.unobserve(t); } }); }, { threshold: .2 }) : null;
