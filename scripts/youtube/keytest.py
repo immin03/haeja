@@ -71,8 +71,8 @@ if st == 200 and isinstance(voices, list):
     def gender(v):
         return str(v.get("gender", "")).lower()
 
-    # 뉴스·다큐·해설에 맞는 청년·중년 목소리 6개 (남 3, 여 3)
-    WANT = ["Sean", "Rex", "Tyson", "Mia", "Rachel", "Margot"]
+    # 2차 후보: 션과 결이 비슷하면서 개성 있는 남성 해설·다큐 목소리 6개
+    WANT = ["Landon", "Cole", "Dylan", "Bruce", "Gunseok", "Sungho"]
     by = {(v.get("voice_name") or {}).get("eng"): v for v in voices}
     picks = [by[n] for n in WANT if n in by]
     report["picks"] = []
