@@ -1,5 +1,5 @@
 """한국어 음성 합성.
-기본: 타입캐스트 성우 '건석' (2026-10-21 운영자 결정, 릴스·유튜브 공통). TYPECAST_API_KEY 가 있으면 사용한다.
+기본: 타입캐스트 성우 '성호' (2026-10-21 운영자 결정, 건석에서 변경, 릴스·유튜브 공통). TYPECAST_API_KEY 가 있으면 사용한다.
 예비: 키가 없거나 호출이 실패하면 로컬 Supertonic 3 (sherpa-onnx) 로 만든다.
 """
 import os, tarfile, urllib.request
@@ -71,7 +71,7 @@ def clauses(text, maxlen=22):
 
 
 # ── 타입캐스트 ────────────────────────────────────────────────
-TC_VOICE = os.environ.get("TYPECAST_VOICE_ID", "tc_6731b2e0855f351b98d30c48")  # 건석 (중년 남성, 해설·다큐)
+TC_VOICE = os.environ.get("TYPECAST_VOICE_ID", "tc_5fe06471a9f79e8f959be96f")  # 성호 (중년 남성, 다큐·스토리텔링)
 TC_MODEL = "ssfm-v30"
 TC_BASE_SPEED = 1.1  # 대본의 speed 1.1 = 타입캐스트 기본 속도
 TC_CACHE = os.path.join(CACHE, "typecast")
