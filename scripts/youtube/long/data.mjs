@@ -51,7 +51,7 @@ export async function companyData(code, spec = {}) {
   let hi = {};
   try {
     const j = await (await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(r.t)}?range=1y&interval=1d`, { headers: { 'User-Agent': 'Mozilla/5.0' } })).json();
-    const res = j.chart.result[0], cl = res.indicators.quote[0].close; let k = -1, mx = 0;
+    const res = j.chart.result[0], cl = res.indicators.quote[0].high || res.indicators.quote[0].close; let k = -1, mx = 0;  // 장중 최고가 (앱의 52주 범위와 같은 기준)
     cl.forEach((v, i) => { if (v != null && v > mx) { mx = v; k = i; } });
     if (mx > 0) { const hd = new Date(res.timestamp[k] * 1000 + 9 * 3600e3); hi = { hi52: comma(mx), hi52_short: won(mx), hi52_when: `${hd.getUTCFullYear()}년 ${hd.getUTCMonth() + 1}월`, from_hi: Math.round((1 - r.px / mx) * 100) + '%' }; }
   } catch (e) { console.error('1년 최고가 실패:', String(e).slice(0, 120)); }
