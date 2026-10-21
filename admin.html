@@ -184,6 +184,22 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .soc-tb details summary{cursor:pointer;font-size:12px;color:var(--muted);padding:8px 10px;list-style:none;display:flex;align-items:center;gap:6px}
 .soc-tb details summary::before{content:"▸";font-size:11px}
 .soc-tb details[open] summary::before{content:"▾"}
+/* 유튜브 검수 */
+.yt-note{padding:12px 14px;border-radius:12px;background:rgba(176,138,62,.1);color:var(--ink);font-size:13.5px;line-height:1.6;margin-bottom:14px}
+.yt-item{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;padding:16px;margin-bottom:14px}
+.yt-item.short{grid-template-columns:260px minmax(0,1fr)}
+.yt-item video{width:100%;border-radius:12px;background:#000;display:block}
+.yt-item.short video{aspect-ratio:9/16;object-fit:cover}
+.yt-item .k{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.yt-item h3{margin:0 0 6px;font-size:16.5px;line-height:1.45;word-break:keep-all}
+.yt-item .m{font-size:12.5px;color:var(--muted);line-height:1.6}
+.yt-item .why{margin:8px 0;padding:8px 10px;border-radius:10px;background:rgba(192,57,43,.08);color:var(--bad);font-size:13px;font-weight:700}
+.yt-item .nt{margin:8px 0;padding:8px 10px;border-radius:10px;background:var(--surface);font-size:13px}
+.yt-item details{margin-top:8px;font-size:13px}.yt-item details pre{white-space:pre-wrap;word-break:keep-all;font-family:inherit;font-size:12.5px;line-height:1.6;background:var(--surface);padding:10px;border-radius:10px;max-height:260px;overflow:auto}
+.yt-item .ac{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.yt-item .ac .soc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.yt-item .ac .soc-btn.ok{background:#2D7A5F}
+@media (max-width:760px){.yt-item,.yt-item.short{grid-template-columns:1fr}.yt-item.short video{max-width:260px}}
 .soc-flash{padding:12px 14px;border-radius:12px;margin-bottom:12px;font-weight:700}
 .soc-flash.ok{background:rgba(45,122,95,.1);color:var(--good)}.soc-flash.bad{background:rgba(192,57,43,.1);color:var(--bad)}
 @media (max-width:760px){.soc-acc{grid-template-columns:1fr}.soc-kpis{grid-template-columns:repeat(2,1fr)}.soc-tb table{table-layout:auto;min-width:720px}.soc-alert{flex-wrap:wrap}.soc-alert .soc-btn{margin-left:0}.soc-sec .n{display:none}.soc-acc .u small{display:none}}
@@ -279,6 +295,7 @@ const PAGES = [
   ['column', '칼럼'],
   ['qual', '정성 의견'],
   ['social', 'SNS 게시'],
+  ['youtube', '유튜브 검수'],
 ];
 let DATA = null;
 const page = () => { const h = location.hash.slice(1); return PAGES.some(p => p[0] === h) ? h : 'overview'; };
@@ -635,6 +652,67 @@ function bindColumn(){
 
 /* ===== SNS 게시 (인스타·쓰레드 자동 게시) ===== */
 const FN = C.SUPABASE_URL + '/functions/v1/';
+
+/* 유튜브 검수: 렌더된 롱폼·쇼츠를 보고 승인한 것만 올린다. 승인 순간에도 숫자가 오래됐는지 DB가 다시 확인한다 */
+const YT = { list: null, msg: '' };
+const YT_ST = { review: ['run', '검수 대기'], stale: ['bad', '숫자 오래됨 · 다시 만드는 중'], rerendering: ['run', '다시 만드는 중'], changes: ['bad', '수정 요청'], approved: ['ok', '승인됨'], hold: ['off', '보류'], uploaded: ['ok', '올림 완료'] };
+async function ytLoad(){ const { data, error } = await sb.rpc('yt_admin_list'); YT.list = error ? [] : (data || []); YT.err = error ? error.message : ''; render(); }
+const won0 = v => v == null ? '–' : Math.round(+v).toLocaleString('ko-KR') + '원';
+function ytItem(y){
+  const st = YT_ST[y.status] || ['', y.status], short = y.kind === 'short';
+  const acts = [];
+  if(['review', 'changes', 'hold'].includes(y.status)) acts.push(`<button class="soc-btn ok" data-yt-set="approved" data-id="${esc(y.id)}">승인</button>`);
+  if(y.status === 'approved'){
+    acts.push(`<a class="soc-btn" href="${esc(y.video_url)}" download>영상 다운로드</a>`, `<a class="soc-btn ghost" href="${esc(y.thumb)}" download>썸네일 받기</a>`,
+      `<button class="soc-btn ghost" data-yt-copy="title" data-id="${esc(y.id)}">제목 복사</button>`, `<button class="soc-btn ghost" data-yt-copy="description" data-id="${esc(y.id)}">설명 복사</button>`,
+      `<button class="soc-btn ghost" data-yt-copy="tags" data-id="${esc(y.id)}">태그 복사</button>`, `<button class="soc-btn ok" data-yt-set="uploaded" data-id="${esc(y.id)}">유튜브에 올렸어요</button>`);
+  }
+  if(!['uploaded', 'stale'].includes(y.status)){
+    acts.push(`<button class="soc-btn ghost" data-yt-set="changes" data-id="${esc(y.id)}">수정 요청</button>`);
+    if(y.status !== 'hold') acts.push(`<button class="soc-btn ghost" data-yt-set="hold" data-id="${esc(y.id)}">보류</button>`);
+    if(!short) acts.push(`<button class="soc-btn ghost" data-yt-set="stale" data-id="${esc(y.id)}">최신 숫자로 다시 만들기</button>`);
+  }
+  const dur = y.duration ? `${Math.floor(y.duration / 60)}분 ${Math.round(y.duration % 60)}초` : '';
+  return `<div class="card yt-item${short ? ' short' : ''}">
+    <div><video controls preload="none" poster="${esc(y.thumb || '')}" src="${esc(y.video_url || '')}"></video></div>
+    <div><div class="k"><span class="kind${short ? ' reel' : ''}">${short ? '쇼츠' : '롱폼'}</span><span class="st ${st[0]}">${st[1]}</span>${dur ? `<span class="st none">${dur}</span>` : ''}</div>
+      <h3>${esc(y.title || y.id)}</h3>
+      <div class="m">게시 예정 ${kst(y.scheduled_at)} · 렌더 ${kst(y.rendered_at)}${y.data_asof ? ` · 숫자 기준 ${kstDate(y.data_asof)}` : ''}${y.px ? `<br>주가 ${won0(y.px)} · 적정 주가 ${won0(y.iv)}${y.score != null ? ` · 점수 ${y.score}점` : ''}` : ''}</div>
+      ${y.stale_reason ? `<div class="why">${esc(y.stale_reason)}${/원고 수정/.test(y.stale_reason) ? ' · 원고를 고쳐 다시 만들어 올리겠습니다' : ' · 1시간 안에 최신 숫자로 다시 만들어 올라옵니다'}</div>` : ''}
+      ${y.note ? `<div class="nt"><b>수정 요청 메모</b><br>${esc(y.note)}</div>` : ''}
+      <details><summary>설명·태그 보기</summary><pre>${esc(y.description || '')}</pre><div class="m">${esc((y.tags || []).join(', '))}</div></details>
+      <div class="ac">${acts.join('')}</div></div></div>`;
+}
+function vYoutube(){
+  if(YT.list === null){ ytLoad(); return head('유튜브 검수', '불러오는 중', 'youtube'); }
+  if(YT.err) return head('유튜브 검수', '', 'youtube') + `<div class="card">불러오지 못했습니다: ${esc(YT.err)}</div>`;
+  const L = YT.list, by = k => L.filter(y => k.includes(y.status)).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
+  const wait = by(['review', 'changes', 'stale', 'rerendering']), ok = by(['approved']), hold = by(['hold']), done = by(['uploaded']).reverse();
+  return `${head('유튜브 검수', '올리기 전에 영상·제목·설명을 보고 승인합니다. 승인한 것만 올라갑니다.', 'youtube')}
+  <div class="yt-note"><b>구글 API 심사 전입니다.</b> 승인하면 다운로드·복사 버튼이 열립니다. 유튜브 스튜디오에 직접 올린 뒤 "유튜브에 올렸어요"를 눌러 주세요. 심사가 끝나면 승인한 영상이 예약 시각에 자동으로 올라갑니다.<br>
+  롱폼의 주가·적정 주가·점수는 렌더할 때의 최신 값입니다. 렌더 후 24시간이 지나거나, 주가가 5% 넘게 움직이거나, 실적 발표 같은 일정이 지나가면 자동으로 다시 만들어집니다.</div>
+  ${YT.msg ? `<div class="soc-flash ok">${esc(YT.msg)}</div>` : ''}
+  <div class="soc-sec"><h2>검수 대기</h2><span class="n">${wait.length}편</span></div>${wait.length ? wait.map(ytItem).join('') : '<div class="card empty" style="padding:14px">검수할 영상이 없습니다.</div>'}
+  <div class="soc-sec"><h2>승인됨 · 올리기 대기</h2><span class="n">${ok.length}편</span></div>${ok.length ? ok.map(ytItem).join('') : '<div class="card empty" style="padding:14px">승인한 영상이 없습니다.</div>'}
+  ${hold.length ? `<div class="soc-sec"><h2>보류</h2></div>${hold.map(ytItem).join('')}` : ''}
+  <div class="soc-sec"><h2>올림 완료</h2><span class="n">${done.length}편</span></div><div class="card" style="padding:12px 14px">${done.length ? done.map(y => `<div class="m" style="padding:4px 0">${kst(y.uploaded_at)} · ${esc(y.title)}</div>`).join('') : '<div class="empty">아직 없습니다.</div>'}</div>`;
+}
+function bindYoutube(){
+  document.querySelectorAll('[data-yt-set]').forEach(b => b.onclick = async () => {
+    const id = b.dataset.id, st = b.dataset.ytSet; let note = null;
+    if(st === 'changes'){ note = prompt('어디를 고칠까요? (예: 2분 10초 자막 오타, 결론을 더 짧게)'); if(note === null) return; }
+    if(st === 'stale' && !confirm('최신 숫자로 다시 만들까요? 1시간 안에 새 영상이 올라옵니다.')) return;
+    b.disabled = true;
+    const { data, error } = await sb.rpc('yt_admin_set', { p_id: id, p_status: st, p_note: note });
+    if(error) toast('바꾸지 못했습니다: ' + error.message, true);
+    else if(data && data.ok === false) toast('승인하지 않았습니다: ' + data.reason + '. 새로 만든 뒤 다시 확인해 주세요.', true);
+    else toast({ approved: '승인했습니다. 다운로드·복사 버튼이 열렸습니다.', changes: '수정 요청을 남겼습니다.', hold: '보류했습니다.', stale: '다시 만들기를 요청했습니다.', uploaded: '올림 완료로 표시했습니다.' }[st] || '바꿨습니다.');
+    ytLoad(); });
+  document.querySelectorAll('[data-yt-copy]').forEach(b => b.onclick = async () => {
+    const y = YT.list.find(x => x.id === b.dataset.id); const k = b.dataset.ytCopy;
+    const t = k === 'tags' ? (y.tags || []).join(', ') : (y[k] || '');
+    try { await navigator.clipboard.writeText(t); toast({ title: '제목', description: '설명', tags: '태그' }[k] + '을 복사했습니다'); } catch(_) { prompt('복사해 주세요', t); } });
+}
 const SOC = { st: null, posts: null, flash: null, busy: '' };
 (() => { const q = new URLSearchParams(location.search);
   if(q.get('social_ok')) SOC.flash = ['ok', ({ instagram: '인스타그램', threads: '쓰레드', youtube: '유튜브' }[q.get('social_ok')] || '채널') + ' 연결이 끝났습니다.'];
@@ -777,7 +855,7 @@ function render(s){
   const nav = $('#tabs'); nav.hidden = false;
   nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
@@ -785,6 +863,7 @@ function render(s){
   if(p === 'column') bindColumn();
   if(p === 'qual') bindQual();
   if(p === 'social') bindSocial();
+  if(p === 'youtube') bindYoutube();
   bindTips();
 }
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
