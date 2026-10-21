@@ -56,7 +56,7 @@ def main(only=None):
             "dm_keyword": (sp.get("dm") or {}).get("keyword"), "dm_guide": ("/g/" + ((sp.get("dm") or {}).get("guide") or sp["id"])) if (sp.get("dm") or {}).get("keyword") else None,
             "threads_tag": sp.get("threads_tag"), "kind": "reel",
             "video": f"/social/reels/{sp['id']}/reel.mp4", "cover": f"/social/reels/{sp['id']}/cover.jpg",
-            "to_ig": True, "to_threads": True, "approved": sp.get("approved", True)})
+            "to_ig": True, "to_threads": True, "approved": sp.get("approved", True) and not os.path.exists(os.path.join(d, "needs_listen.txt"))})
     queue.sort(key=lambda x: x["scheduled_at"])
     print("정리본", guide.build(list(specs()), ROOT, now), "편")
     os.makedirs(OUT, exist_ok=True)

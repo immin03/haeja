@@ -707,6 +707,13 @@ def caption(img, u, L):
             d.text((x0, y), line, font=font, fill=mix(NAVY, DIM, fade), anchor="lm")
             k = int(clamp(rev, 0, len(line)))
             if k > 0: d.text((x0, y), line[:k], font=font, fill=IVORY, anchor="lm")
+            # 숫자(금액·%·배·점)는 드러나는 순간 금색으로 바뀌고 밑줄이 그어진다: 핵심 숫자에 눈이 가게
+            for m in re.finditer(r"[+\-−]?\d[\d,.]*\s?(?:억|만|천)?\s?(?:원|%|%p|배|점|년|개|곳|달러)?", line):
+                if k < m.end(): continue
+                tx = x0 + d.textlength(line[:m.start()], font=font); tw = d.textlength(m.group().rstrip(), font=font)
+                d.text((tx, y), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
+                gw = tw * clamp((rev - m.end() + 1) / 4)
+                d.rectangle([tx, y + 34, tx + gw, y + 38], fill=GOLD)
             rev -= len(line)
         return
 
@@ -995,6 +1002,14 @@ def build_audio(scenes, total, mood, path):
             a_, sr_ = _sf.read(fp, dtype="float32")
             if sr_ == SR: SFX[nm] = a_ if a_.ndim == 1 else a_.mean(1)
     PEAK = {"whoosh": .70, "alt_whoosh": .42, "impact": .28}
+    # 2026-10-21 운영자: 장면 전환 소리가 거슬린다 → 높은 쉭 소리를 걷어 내고(저역 통과) 앞뒤를 부드럽게, 크기도 낮춘다
+    def soften(a, cut=1600):
+        b_, a_ = signal.butter(2, cut / (SR / 2), "low"); y = signal.lfilter(b_, a_, a)
+        env = np.sin(np.linspace(0, np.pi, len(y))) ** 1.5
+        return (y * env).astype(np.float32)
+    for nm in ("whoosh", "alt_whoosh"):
+        if nm in SFX: SFX[nm] = soften(SFX[nm])
+    if "impact" in SFX: SFX["impact"] = soften(SFX["impact"], 900)
     s = np.arange(int(SR * .7)) / SR
     impact = .7 * np.sin(2 * np.pi * (70 - 40 * s) * s) * np.exp(-s * 6) + .15 * rng.standard_normal(len(s)) * np.exp(-s * 30)
     def tick(f):
@@ -1002,32 +1017,32 @@ def build_audio(scenes, total, mood, path):
     for j, x_ in enumerate(scenes[1:]):
         if "whoosh" in SFX:
             nm = "whoosh" if j % 2 == 0 or "alt_whoosh" not in SFX else "alt_whoosh"
-            addfx(x_["start"] - PEAK[nm], .42 * SFX[nm])
+            addfx(x_["start"] - PEAK[nm], .2 * SFX[nm])
         else:
             m = int(SR * .4); w = signal.lfilter(*signal.butter(2, 1800 / (SR / 2), "low"), rng.standard_normal(m))
             addfx(x_["start"] - .15, .35 * w * np.sin(np.linspace(0, np.pi, m)) ** 2)
     for x_ in scenes:
         st, ty, Lx, sc = x_["start"], x_["sc"]["type"], x_["L"], x_["sc"]
         if ty == "hook":
-            if "impact" in SFX: addfx(st + .85 - PEAK["impact"], .75 * SFX["impact"])
+            if "impact" in SFX: addfx(st + .85 - PEAK["impact"], .4 * SFX["impact"])
             else: addfx(st + .85, impact)
-            for k in range(9): addfx(st + .3 + k * .065, tick(900 + 70 * k))
+            for k in range(9): addfx(st + .3 + k * .065, .5 * tick(900 + 70 * k))
             if "coins" in SFX and sc.get("num", {}).get("fmt") == "won": addfx(st + 1.05, .3 * SFX["coins"])
         elif ty == "run":
             days = sc.get("days", 20); end = Lx[1][0] - .1 if len(Lx) > 1 else Lx[0][1]
             for k in range(days): addfx(st + .15 + (end - .15) * k / days, tick(1300 if k % 2 == 0 else 1000))
             if len(Lx) > 1: addfx(st + Lx[1][0] + Lx[1][1] * .55, impact * .9)
         elif ty == "compare":
-            addfx(st + .55 - (PEAK["impact"] if "impact" in SFX else 0), (.35 * SFX["impact"]) if "impact" in SFX else impact * .45)
+            addfx(st + .55 - (PEAK["impact"] if "impact" in SFX else 0), (.22 * SFX["impact"]) if "impact" in SFX else impact * .3)
         elif ty == "statement":
             at = st + min(.55, Lx[0][1] * .35)
-            if "impact" in SFX: addfx(at - PEAK["impact"], .4 * SFX["impact"]); addfx(at, .35 * SFX.get("light", np.zeros(1)))
+            if "impact" in SFX: addfx(at - PEAK["impact"], .22 * SFX["impact"]); addfx(at, .25 * SFX.get("light", np.zeros(1)))
             else: addfx(at, impact * .7)
         elif ty in ("bars", "list"):
             n_ = len(sc["items"]); span = Lx[0][1] * .9 if ty == "list" else None
             for k in range(n_):
                 at = st + (.15 + span * k / n_ if ty == "list" else .25 + k * min(.45, max(.2, Lx[0][1] * .7 / n_)))
-                addfx(at, .4 * SFX["item"] if "item" in SFX else tick(1100))
+                addfx(at, .25 * SFX["item"] if "item" in SFX else .6 * tick(1100))
         elif ty == "who":
             if "light" in SFX: addfx(st + .08, .45 * SFX["light"]); addfx(st + .45, .3 * SFX.get("item", np.zeros(1)))
         elif ty == "screen":
@@ -1072,7 +1087,14 @@ def render(spec, outdir, stills=None):
             if v["score"] < v["pass"]: print(f"        들린 말: {v['heard']}")
         bad = [v for v in VLOG if v["score"] < v["floor"]]
         json.dump({"lines": VLOG, "lint": LINT}, open(os.path.join(outdir, "voice_check.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-        if bad: raise RuntimeError(f"{spec['id']}: 음성 검수 실패 {len(bad)}줄 — 대본을 고쳐야 합니다")
+        mark = os.path.join(outdir, "needs_listen.txt")
+        if bad and os.environ.get("TYPECAST_API_KEY"):
+            # 타입캐스트는 음절을 빼먹지 않는다: 남은 차이는 대개 받아쓰기 쪽 오차라 영상은 만들고, 사람이 들어 보고 승인하게 한다
+            open(mark, "w", encoding="utf-8").write("\n".join(f"{v['text']} → 들린 말: {v['heard']}" for v in bad))
+            print(f"  △ 받아쓰기 차이 {len(bad)}줄 → 관리자 승인 대기로 올립니다")
+        else:
+            if os.path.exists(mark): os.remove(mark)
+            if bad: raise RuntimeError(f"{spec['id']}: 음성 검수 실패 {len(bad)}줄 — 대본을 고쳐야 합니다")
     if stills is not None:
         for ts in stills: frame(ts, scenes, total).save(os.path.join(outdir, f"still_{ts:.1f}.png"))
         return total
