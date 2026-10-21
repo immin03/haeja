@@ -432,6 +432,7 @@ def load_cuts(queries):
     print(f"  실사 컷 소스 {len(CUTS)}개")
 
 
+MEDIA_LOG = []     # 검수용: 실제로 쓴 실사 소스 [장면, 종류, 파일]
 POOLS = {}         # 장면 번호 → 그 장면 내용에 맞는 실사 소스 [(종류, 경로, 길이)]
 USED = set()
 
@@ -535,10 +536,10 @@ def cut_frames(n, scene=None):
     cand = [x for x in POOLS.get(scene, []) if x[1] not in USED] or [x for k in sorted(POOLS, key=lambda k: abs(k - (scene or 0))) for x in POOLS[k] if x[1] not in USED]
     _cut_i[0] += 1
     if cand:
-        kind, pth, d = cand[0]; USED.add(pth)
+        kind, pth, d = cand[0]; USED.add(pth); MEDIA_LOG.append([scene, kind, os.path.basename(pth)])
         if kind == "photo": return photo_frames(pth, n, _cut_i[0])
     else:
-        pth, d = CUTS[_cut_i[0] % len(CUTS)]
+        pth, d = CUTS[_cut_i[0] % len(CUTS)]; MEDIA_LOG.append([scene, "fallback", os.path.basename(pth)])
     st = (d - n / FPS - .2) * ((_cut_i[0] * 0.37) % 1) if d > n / FPS + .5 else 0
     raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{max(0, st):.2f}", "-i", pth, "-frames:v", str(n), "-vf",
                           f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
@@ -751,7 +752,8 @@ def main():
                       "*본 영상은 투자 교육용 정보이며, 특정 종목의 매수·매도 권유가 아닙니다. 적정 주가는 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 결과이며, 이 방식이 늘 맞지는 않습니다."])
     meta = {"id": spec["id"], "kind": "long", "title": fill(spec["title"], V)[:100], "description": desc, "tags": spec.get("tags", []),
             "scheduled_at": spec["scheduled_at"], "duration": round(total, 1), "data": data["raw"], "data_asof": data["raw"]["asof_iso"],
-            "events": spec.get("events", []), "pinned_comment": fill(spec.get("pinned_comment", ""), V), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company")}
+            "events": spec.get("events", []), "pinned_comment": fill(spec.get("pinned_comment", ""), V), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
+            "qa": {"media": MEDIA_LOG, "lines": [[round(x["start"] + a, 2), round(d_, 2), l, to_speech(l)] for x in timeline for (a, d_, l) in x["lines"]]}}
     json.dump(meta, open(os.path.join(out, "meta.json"), "w"), ensure_ascii=False, indent=1)
     print(f"완료: {total / 60:.1f}분 → {out}")
 
