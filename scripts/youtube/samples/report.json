@@ -1,5 +1,5 @@
 {
- "run_at": "2026-10-21T07:16:21.385886Z",
+ "run_at": "2026-10-21T07:48:07.401528Z",
  "naver_keys_present": true,
  "naver_trend": {
   "status": 200,
@@ -17,8 +17,8 @@
  "naver_news": {
   "status": 200,
   "sample": [
-   "[오늘의 증권] 한국투자증권·메리츠증권·신한투자증권·교보증권·NH투...",
-   "AI 서버 실적 기대에 반도체주 반등···코스피 5730선 회복 마감"
+   "“하닉 400만원 간다길래 심장 뛰었죠”…‘87층’ 진입 후 물타기 한 조...",
+   "흔들리는 증시에도 서학개미, 반도체·韓증시 레버리지 '사자'"
   ]
  },
  "naver_cafe": {
@@ -47,140 +47,10 @@
   "status": 200,
   "count": 608
  },
- "picks": [
-  {
-   "no": 1,
-   "voice_id": "tc_6633457fb5267dbd4808a2dd",
-   "name": {
-    "eng": "Landon",
-    "kor": "랜던"
-   },
-   "gender": "male",
-   "age": "young_adult",
-   "use_cases": [
-    "Documentary",
-    "Audiobook/Storytelling",
-    "News Reporter",
-    "Announcer",
-    "Radio/Podcast",
-    "Ads/Promotion",
-    "E-learning/Explainer",
-    "Voicemail/Voice Assistant",
-    "TikTok/Reels/Shorts"
-   ],
-   "status": 200,
-   "file": "voice-1-male-landon.mp3",
-   "error": null
-  },
-  {
-   "no": 2,
-   "voice_id": "tc_63b66515af8bf60c80b87642",
-   "name": {
-    "eng": "Cole",
-    "kor": "콜"
-   },
-   "gender": "male",
-   "age": "young_adult",
-   "use_cases": [
-    "Documentary",
-    "Audiobook/Storytelling",
-    "News Reporter",
-    "Announcer",
-    "Ads/Promotion",
-    "E-learning/Explainer",
-    "Voicemail/Voice Assistant",
-    "TikTok/Reels/Shorts"
-   ],
-   "status": 200,
-   "file": "voice-2-male-cole.mp3",
-   "error": null
-  },
-  {
-   "no": 3,
-   "voice_id": "tc_672c5f5ce59fac2a48faeaee",
-   "name": {
-    "eng": "Dylan",
-    "kor": "딜런"
-   },
-   "gender": "male",
-   "age": "young_adult",
-   "use_cases": [
-    "Conversational",
-    "TikTok/Reels/Shorts",
-    "Radio/Podcast",
-    "Ads/Promotion",
-    "E-learning/Explainer",
-    "Voicemail/Voice Assistant",
-    "Documentary",
-    "Audiobook/Storytelling",
-    "News Reporter",
-    "Game"
-   ],
-   "status": 200,
-   "file": "voice-3-male-dylan.mp3",
-   "error": null
-  },
-  {
-   "no": 4,
-   "voice_id": "tc_672c5f873e4ac3afd2c02019",
-   "name": {
-    "eng": "Bruce",
-    "kor": "브루스"
-   },
-   "gender": "male",
-   "age": "middle_age",
-   "use_cases": [
-    "Conversational",
-    "TikTok/Reels/Shorts",
-    "E-learning/Explainer",
-    "Radio/Podcast",
-    "Documentary",
-    "Voicemail/Voice Assistant",
-    "Ads/Promotion",
-    "Audiobook/Storytelling",
-    "News Reporter",
-    "Game"
-   ],
-   "status": 200,
-   "file": "voice-4-male-bruce.mp3",
-   "error": null
-  },
-  {
-   "no": 5,
-   "voice_id": "tc_6731b2e0855f351b98d30c48",
-   "name": {
-    "eng": "Gunseok",
-    "kor": "건석"
-   },
-   "gender": "male",
-   "age": "middle_age",
-   "use_cases": [
-    "E-learning/Explainer",
-    "Documentary",
-    "Audiobook/Storytelling",
-    "Conversational"
-   ],
-   "status": 200,
-   "file": "voice-5-male-gunseok.mp3",
-   "error": null
-  },
-  {
-   "no": 6,
-   "voice_id": "tc_5fe06471a9f79e8f959be96f",
-   "name": {
-    "eng": "Sungho",
-    "kor": "성호"
-   },
-   "gender": "male",
-   "age": "middle_age",
-   "use_cases": [
-    "Documentary",
-    "Audiobook/Storytelling",
-    "E-learning/Explainer"
-   ],
-   "status": 200,
-   "file": "voice-6-male-sungho.mp3",
-   "error": null
-  }
- ]
+ "picks": [],
+ "engine_tts": {
+  "ok": true,
+  "sec": 4.76,
+  "voice": "tc_5fe06471a9f79e8f959be96f"
+ }
 }
