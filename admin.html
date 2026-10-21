@@ -274,6 +274,7 @@ const PAGES = [
   ['stocks', '회원 종목'],
   ['traffic', '유입·기기'],
   ['landing', '소개 페이지'],
+  ['dm', '댓글 DM 유입'],
   ['column', '칼럼'],
   ['qual', '정성 의견'],
   ['social', 'SNS 게시'],
@@ -524,6 +525,42 @@ function vLanding(){
 }
 function bindLanding(){ document.querySelectorAll('[data-ld-days]').forEach(b => b.onclick = () => { LD.days = +b.dataset.ldDays; LD.data = null; render(); }); }
 
+/* ---- 댓글 DM 유입: 릴스 댓글 → DM 링크 → 정리본(/g) → 끝까지 읽음 → 가입·새 정리본 받기 ---- */
+const DMV = { days: 14, data: null, busy: false, titles: {} };
+const DM_REF = { 'ig-dm': '인스타 DM 링크', 'dm': '정리본 안 링크', 'dm-hub': '정리본 모음', 'ig': '인스타 앱(태그 없음)', '직접': '직접 방문', 'direct': '직접 방문' };
+async function dmLoad(){
+  DMV.busy = true;
+  const [r, t] = await Promise.all([sb.rpc('admin_dm', { p_days: DMV.days }), fetch('/g/index.json', { cache: 'no-cache' }).then(x => x.json()).catch(() => [])]);
+  DMV.titles = Object.fromEntries((t || []).map(x => [x.id, x.title + " · '" + x.keyword + "'"])); DMV.titles.hub = '정리본 모음 페이지';
+  DMV.busy = false; DMV.data = r.error ? { error: r.error.message } : r.data; if(page() === 'dm') render();
+}
+function vDm(){
+  if(!DMV.data){ if(!DMV.busy) dmLoad(); return head('댓글 DM 유입', '불러오는 중', 'dm'); }
+  const D = DMV.data; if(D.error) return head('댓글 DM 유입', '', 'dm') + `<div class="card">불러오지 못했습니다: ${esc(D.error)}</div>`;
+  const F = D.funnel || {}, base = F.views || 0, dm = D.dm || {};
+  const steps = [['정리본 방문', F.views, '댓글 DM 등으로 들어온 사람'], ['끝까지 읽음', F.reads, '방문 대비'], ['밸류노트로 이동', F.clicks, '방문 대비'], ['가입', F.signups, '방문 대비']];
+  const rows = (D.guides || []).map(g => `<tr><td><a class="lnk" href="/g/${esc(g.id === 'hub' ? '' : g.id)}?staff=1" target="_blank" rel="noopener">${esc(DMV.titles[g.id] || g.id)}</a></td><td>${n0(g.n)}</td><td>${n0(g.rd)} <span class="muted">${pct(g.rd, g.n)}</span></td><td>${n0(g.c)}</td><td>${n0(g.sb)}</td><td>${n0(g.s)}</td></tr>`).join('');
+  const refs = (D.refs || []).map(r => `<tr><td>${esc(DM_REF[r.r] || r.r)}</td><td>${n0(r.n)}</td><td>${n0(r.rd)} <span class="muted">${pct(r.rd, r.n)}</span></td><td>${n0(r.c)}</td><td>${n0(r.s)} <span class="muted">${pct(r.s, r.n)}</span></td></tr>`).join('');
+  return `${head('댓글 DM 유입', `릴스 댓글 → DM 링크 → 정리본(/g) → 밸류노트 · 최근 ${D.days}일`, 'dm')}
+  <div class="tools"><span class="muted" style="font-size:13px">기간</span>${[7,14,30].map(d => `<button class="lnk" type="button" data-dm-days="${d}"${d === DMV.days ? ' aria-current="true" style="font-weight:800"' : ''}>${d}일</button>`).join('')}<a class="lnk" href="/g?staff=1" target="_blank" rel="noopener">정리본 모음 열기 ↗</a></div>
+  <div class="card"><div class="funnel" style="grid-template-columns:repeat(4,1fr)">${steps.map(([l, v, sub], i) => `<div class="fn"><div class="l">${l}</div><div class="v">${n0(v)}</div><div class="p">${i === 0 ? sub : sub + ' ' + pct(v, base)}</div></div>`).join('')}</div></div>
+  <div class="grid2">
+    <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-visit)"></i><b style="color:var(--ink)">방문</b></span><span>하루 정리본 방문</span></div>${barChart(D.daily||[], 'v', 'var(--s-visit)', '방문')}</div>
+    <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-sign)"></i><b style="color:var(--ink)">이메일</b></span><span>하루 '새 정리본 받기' 등록</span></div>${barChart(D.daily||[], 'sb', 'var(--s-sign)', '이메일')}</div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="fn"><div class="l">모은 이메일</div><div class="v">${n0((D.leads||{}).total)}</div><div class="p">누적 · 최근 ${D.days}일 ${n0((D.leads||{}).period)}개</div></div></div>
+    <div class="card"><div class="fn"><div class="l">다음 날 다시 옴</div><div class="v">${n0(F.returned)}</div><div class="p">방문 대비 ${pct(F.returned, base)} · 정리본을 본 다음 날 이후 사이트에 다시 온 사람</div></div></div>
+  </div>
+  ${sec('정리본별', '첫 방문 기준 · 같은 사람이 여러 편을 보면 처음 본 정리본에 셉니다', rows ? `<table><thead><tr><th>정리본</th><th>방문</th><th>끝까지</th><th>이동</th><th>이메일</th><th>가입</th></tr></thead><tbody>${rows}</tbody></table>` : '<div class="muted" style="font-size:13px">아직 방문이 없습니다.</div>')}
+  <div class="grid2">
+    <div>${sec('들어온 경로', '', refs ? `<table><thead><tr><th>경로</th><th>방문</th><th>끝까지</th><th>이동</th><th>가입</th></tr></thead><tbody>${refs}</tbody></table>` : '<div class="muted" style="font-size:13px">아직 없습니다.</div>')}</div>
+    <div>${sec('기기', '', barsList(D.devices||{}))}</div>
+  </div>
+  <div class="note">ManyChat이 보내는 DM 수는 여기 잡히지 않습니다(ManyChat 화면에서 확인). 자체 자동 DM(메타 심사 후)이 켜지면 보낸 DM ${n0(dm.sent||0)}건 / 요청 ${n0(dm.asked||0)}건이 함께 잡힙니다. '끝까지 읽음'은 페이지의 80%까지 내려간 방문입니다. 가입은 정리본을 본 그 브라우저에서 가입한 경우만 셉니다.</div>`;
+}
+function bindDm(){ document.querySelectorAll('[data-dm-days]').forEach(b => b.onclick = () => { DMV.days = +b.dataset.dmDays; DMV.data = null; render(); }); }
+
 /* ---- 운영자 칼럼: 앱 브리핑의 '이번 주 노트'에 붙는다 (docs: trends / col-YYYY-MM-DD) ---- */
 const COL = { list: null, edit: null, msg: '', dirty: false };
 window.addEventListener('beforeunload', e => { if(COL.dirty && page() === 'column'){ e.preventDefault(); e.returnValue = ''; } });
@@ -735,10 +772,11 @@ function render(s){
   const nav = $('#tabs'); nav.hidden = false;
   nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
+  if(p === 'dm') bindDm();
   if(p === 'column') bindColumn();
   if(p === 'qual') bindQual();
   if(p === 'social') bindSocial();
