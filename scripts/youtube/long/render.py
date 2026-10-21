@@ -285,6 +285,9 @@ def draw_scene(sc, V, u, dur, lines_t, frame_bg):
             img.paste(crop, (px0, py0), mask); d = AD(img)
         a = prog(u, .2, .8)
         d.text((780, 200 + 16 * (1 - a)), T("title"), font=F("Heavy", 60), fill=(*IVORY, int(255 * a)))
+        if PHONE:  # 지금 휴대폰에 보이는 화면 이름 (화면이 바뀔 때마다 같이 바뀐다)
+            key_ = PHONE[1][0]; lab = {"list": "기업 목록 · 매일 채점", "value": "적정 주가보다 싼 기업", "brief": "오늘의 브리핑", "port": "내 포트폴리오"}.get(key_.split(":")[-1], "SK하이닉스 상세 화면")
+            q_ = clamp(PHONE[3] / .6); d.text((784, 286 + 10 * (1 - q_)), "▸ " + lab, font=F("Bold", 38), fill=(*GOLD_L, int(230 * q_)))
         nl = len(lines_t)
         for i, b in enumerate(v.get("bullets", [])):
             t0 = nth(min(nl - 1, 4 + i)) - .2 if nl > 4 else 1 + i * .6; p = prog(u, t0, t0 + .6); y = 360 + i * 130
