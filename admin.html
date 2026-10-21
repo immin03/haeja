@@ -137,10 +137,11 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .soc-kpis .kpi{padding:12px 14px}
 .soc-kpis .kpi .v{font-size:24px}
 .soc-kpis .kpi.warn .v{color:var(--bad)}
-.soc-acc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.soc-acc{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:10px}
 .soc-acc .card{display:flex;align-items:center;gap:12px;padding:12px 14px;min-width:0}
 .soc-acc .ic{width:38px;height:38px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;font-weight:800;font-size:15px;color:#FFFFFF;background:var(--navy-grad)}
 .soc-acc .ic.th{background:#1F1F1F}
+.soc-acc .ic.yt{background:#C4302B}
 .soc-acc .b{flex:1;min-width:0}
 .soc-acc .t{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px}
 .soc-acc .u{font-size:13px;color:var(--ink2);margin-top:1px;overflow:hidden;text-overflow:ellipsis}
@@ -636,7 +637,7 @@ function bindColumn(){
 const FN = C.SUPABASE_URL + '/functions/v1/';
 const SOC = { st: null, posts: null, flash: null, busy: '' };
 (() => { const q = new URLSearchParams(location.search);
-  if(q.get('social_ok')) SOC.flash = ['ok', (q.get('social_ok') === 'instagram' ? '인스타그램' : '쓰레드') + ' 연결이 끝났습니다.'];
+  if(q.get('social_ok')) SOC.flash = ['ok', ({ instagram: '인스타그램', threads: '쓰레드', youtube: '유튜브' }[q.get('social_ok')] || '채널') + ' 연결이 끝났습니다.'];
   if(q.get('social_err')) SOC.flash = ['bad', '연결하지 못했습니다: ' + q.get('social_err')];
   if(q.get('social_ok') || q.get('social_err')) history.replaceState(null, '', location.pathname + '#social'); })();
 async function socLoad(){
@@ -705,6 +706,10 @@ function vSocial(){
       <div class="b"><div class="t">${name}${a ? (chPaused ? '<span class="st off">자동 게시 멈춤</span>' : '<span class="st ok">연결됨</span>') : '<span class="st">연결 전</span>'}</div>
       ${a ? `<div class="u">@${esc(a.username || '')}<small>토큰 만료 ${kst(a.expires_at)} · 10일 전 자동 갱신</small></div>` : '<div class="u muted">Meta 앱과 시크릿을 넣은 뒤 연결해 주세요.</div>'}</div>
       <div class="ac">${a ? `<button class="soc-btn ghost${chPaused ? ' on' : ''}" data-soc-chpause="${p}">${chPaused ? '다시 켜기' : '멈추기'}</button>` : ''}<button class="soc-btn${a ? ' ghost' : ''}" data-soc-connect="${p}">${a ? '다시 연결' : '연결'}</button></div></div>`; };
+  const ytCard = y => `<div class="card"><div class="ic yt">▶</div>
+      <div class="b"><div class="t">유튜브${y && y.has_refresh ? '<span class="st ok">연결됨</span>' : '<span class="st">연결 전</span>'}</div>
+      ${y ? `<div class="u">${esc(y.handle || y.channel_title || '')}<small>연결 ${kst(y.updated_at)} · 토큰 자동 갱신</small></div>` : '<div class="u muted">채널 계정으로 로그인해 허용하면 연결됩니다.</div>'}</div>
+      <div class="ac"><button class="soc-btn${y ? ' ghost' : ''}" data-soc-connect="youtube">${y ? '다시 연결' : '연결'}</button></div></div>`;
   return `${head('SNS 게시', `시간이 되면 5분 안에 자동으로 올라갑니다 · 같은 채널은 최소 90분 간격`, 'social')}
   ${SOC.flash ? `<div class="soc-flash ${SOC.flash[0]}">${esc(SOC.flash[1])}</div>` : ''}
   ${paused ? `<div class="soc-alert"><div><b>자동 게시가 전체 멈춤 상태입니다.</b> 예정 시간이 지나도 올라가지 않습니다. 아래 "자동 게시 다시 켜기"를 누르면 재개됩니다.</div></div>` : ''}
@@ -715,7 +720,7 @@ function vSocial(){
     <div class="card kpi${failed.length ? ' warn' : ''}"><div class="l">실패</div><div class="v">${failed.length}</div><div class="s">${failed.length ? '다시 올리기 필요' : '없음'}</div></div>
     <div class="card kpi"><div class="l">보류 · 승인 대기</div><div class="v">${hold.length}</div><div class="s">자동 게시 제외</div></div>
   </div>
-  <div class="soc-acc">${card('instagram', '인스타그램', 'ig')}${card('threads', '쓰레드', 'th')}</div>
+  <div class="soc-acc">${card('instagram', '인스타그램', 'ig')}${card('threads', '쓰레드', 'th')}${ytCard(st.youtube)}</div>
   <div class="soc-bar"><button class="soc-btn${paused ? '' : ' ghost'}" id="soc-pause">${paused ? '자동 게시 다시 켜기' : '자동 게시 전체 멈추기'}</button>
     <button class="soc-btn ghost" id="soc-check">연결 점검</button><span class="msg" id="soc-msg">${esc(SOC.busy)}</span></div>
   ${failed.length ? `<div class="soc-sec"><h2>실패 · 조치 필요</h2><span class="n">실패 사유는 배지에 마우스를 올리면 보입니다</span></div><div class="card tbl soc-tb">${socTable(failed, 'queue', '')}</div>` : ''}

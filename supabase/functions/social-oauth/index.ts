@@ -1,4 +1,5 @@
-// 인스타·쓰레드 계정 연결 (OAuth)
+// 인스타·쓰레드·유튜브 계정 연결 (OAuth)
+// 유튜브(2026-10-21): ?start=youtube → 구글 로그인(오프라인 접근) → 갱신 토큰을 youtube_account 에 저장
 // 1) 관리자 화면 → GET ?start=instagram|threads&t=<로그인 토큰>&ret=<관리자 페이지 주소>
 //    관리자인지 확인하고 Meta 로그인 화면으로 보낸다.
 // 2) Meta → GET ?code=...&state=...  토큰을 받아 장기 토큰(60일)으로 바꿔 social_accounts에 저장하고 관리자 화면으로 돌려보낸다.
@@ -23,8 +24,32 @@ const CFG = {
     authorize: "https://threads.net/oauth/authorize",
     scope: "threads_basic,threads_content_publish,threads_manage_insights",
   },
+  youtube: {
+    id: () => env("YOUTUBE_CLIENT_ID"), secret: () => env("YOUTUBE_CLIENT_SECRET"),
+    authorize: "https://accounts.google.com/o/oauth2/v2/auth",
+    // 업로드 · 댓글(고정 댓글) · 채널 분석
+    scope: "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/yt-analytics.readonly",
+  },
 } as const;
 type P = keyof typeof CFG;
+
+async function youtubeConnect(code: string) {
+  const form = new URLSearchParams({ client_id: CFG.youtube.id(), client_secret: CFG.youtube.secret(), grant_type: "authorization_code", redirect_uri: URL_SELF, code });
+  const t = await (await fetch("https://oauth2.googleapis.com/token", { method: "POST", body: form })).json();
+  if (!t.access_token) throw new Error("구글 토큰 실패: " + JSON.stringify(t));
+  const ch = await (await fetch("https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true", { headers: { Authorization: "Bearer " + t.access_token } })).json();
+  const c = ch.items?.[0];
+  if (!c) throw new Error("이 구글 계정에 유튜브 채널이 없습니다. 밸류노트 채널을 만든 계정으로 로그인해 주세요.");
+  const { data: old } = await sb.from("youtube_account").select("refresh_token").eq("id", 1).maybeSingle();
+  const refresh = t.refresh_token || old?.refresh_token;
+  if (!refresh) throw new Error("갱신 토큰을 받지 못했습니다. myaccount.google.com/permissions 에서 ValueNote 접근을 삭제한 뒤 다시 연결해 주세요.");
+  const { error } = await sb.from("youtube_account").upsert({
+    id: 1, channel_id: c.id, channel_title: c.snippet?.title, handle: c.snippet?.customUrl || null,
+    refresh_token: refresh, access_token: t.access_token, scopes: t.scope || null,
+    expires_at: new Date(Date.now() + (Number(t.expires_in) || 3600) * 1000).toISOString(), updated_at: new Date().toISOString(),
+  });
+  if (error) throw new Error(error.message);
+}
 
 const html = (msg: string, status = 200) => new Response(
   `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><body style="font-family:sans-serif;padding:32px;line-height:1.6">${msg}</body>`,
@@ -73,11 +98,12 @@ Deno.serve(async (req: Request) => {
       const ret = u.searchParams.get("ret") || "";
       if (!/^https:\/\/[a-z0-9.-]+(:\d+)?\/[^\s#]*$/i.test(ret)) return html("돌아갈 주소가 올바르지 않습니다.", 400);
       if (!(await isAdmin(u.searchParams.get("t") || ""))) return html("관리자 계정으로 로그인한 상태에서 눌러 주세요.", 403);
-      if (!CFG[start].id() || !CFG[start].secret()) return back(ret, `social_err=${encodeURIComponent((start === "instagram" ? "META_IG_APP_ID / META_IG_APP_SECRET" : "META_THREADS_APP_ID / META_THREADS_APP_SECRET") + " 시크릿이 아직 없습니다.")}`);
+      if (!CFG[start].id() || !CFG[start].secret()) return back(ret, `social_err=${encodeURIComponent((start === "instagram" ? "META_IG_APP_ID / META_IG_APP_SECRET" : start === "threads" ? "META_THREADS_APP_ID / META_THREADS_APP_SECRET" : "YOUTUBE_CLIENT_ID / YOUTUBE_CLIENT_SECRET") + " 시크릿이 아직 없습니다.")}`);
       const nonce = crypto.randomUUID();
       await sb.from("social_oauth_state").delete().lt("created_at", new Date(Date.now() - 3600e3).toISOString());
       await sb.from("social_oauth_state").insert({ nonce, platform: start, ret });
       const q = new URLSearchParams({ client_id: CFG[start].id(), redirect_uri: URL_SELF, scope: CFG[start].scope, response_type: "code", state: nonce });
+      if (start === "youtube") { q.set("access_type", "offline"); q.set("prompt", "consent"); q.set("include_granted_scopes", "true"); }
       return Response.redirect(CFG[start].authorize + "?" + q, 302);
     }
 
@@ -88,6 +114,7 @@ Deno.serve(async (req: Request) => {
     const err = u.searchParams.get("error_description") || u.searchParams.get("error");
     if (err) return back(st.ret, `social_err=${encodeURIComponent(err)}`);
     const code = (u.searchParams.get("code") || "").replace(/#_$/, "");
+    if (st.platform === "youtube") { await youtubeConnect(code); return back(st.ret, "social_ok=youtube"); }
     const t = await exchange(st.platform as P, code);
     // 다른 계정(개인 계정 등)으로 로그인돼 있으면 저장하지 않는다: 게시물이 엉뚱한 계정에 올라가는 것을 막는다
     const want = env(st.platform === "instagram" ? "IG_EXPECT_USERNAME" : "TH_EXPECT_USERNAME") || "value.note.korea";
