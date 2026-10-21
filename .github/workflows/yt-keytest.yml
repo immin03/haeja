@@ -13,6 +13,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy scipy
       - name: 키 점검·샘플 생성
         env:
@@ -20,6 +21,11 @@ jobs:
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
         run: python3 scripts/youtube/keytest.py
+      - name: 샘플을 릴리스에도 올리기
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release view voice-samples >/dev/null 2>&1 || gh release create voice-samples --title "성우 샘플" --notes "비교용" --prerelease
+          ls scripts/youtube/samples/*.mp3 scripts/youtube/samples/report.json | xargs gh release upload voice-samples --clobber
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
