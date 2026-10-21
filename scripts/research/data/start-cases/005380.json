@@ -1,0 +1,145 @@
+{
+ "ticker": "005380.KS",
+ "cur": "KRW",
+ "asOf": [
+  {
+   "date": "2022-10-20",
+   "years": [
+    "FY2017",
+    "FY2018",
+    "FY2019",
+    "FY2020",
+    "FY2021"
+   ]
+  }
+ ],
+ "note": "주식 수 보통주+우선주, 이자비용 자리는 손익계산서 금융비용",
+ "fy": {
+  "FY2017": {
+   "revenue": 96376079,
+   "gross": 17577907,
+   "ni": 4032824,
+   "eps": 14993,
+   "equity": 69103484,
+   "ocf": 3922421,
+   "capex": 4518126,
+   "debt": 72000530,
+   "ltDebt": 48942329,
+   "cash": 8821529,
+   "interest": 1120386,
+   "pretax": 4438550,
+   "tax": -107850,
+   "curAssets": 73975914,
+   "curLiab": 43160709,
+   "shares": 268653132,
+   "dps": 4000
+  },
+  "FY2018": {
+   "revenue": 96812609,
+   "gross": 15142130,
+   "ni": 1508084,
+   "eps": 5632,
+   "equity": 67973969,
+   "ocf": 3764265,
+   "capex": 4859197,
+   "debt": 73296141,
+   "ltDebt": 46941364,
+   "cash": 9113625,
+   "interest": 600867,
+   "pretax": 2529582,
+   "tax": 884563,
+   "curAssets": 73008101,
+   "curLiab": 49438414,
+   "shares": 265156712,
+   "dps": 4000
+  },
+  "FY2019": {
+   "revenue": 105746422,
+   "gross": 17655013,
+   "ni": 2980049,
+   "eps": 11310,
+   "equity": 70065802,
+   "ocf": 419784,
+   "capex": 5303396,
+   "debt": 81372153,
+   "ltDebt": 53022902,
+   "cash": 8681971,
+   "interest": 475218,
+   "pretax": 4163766,
+   "tax": 978120,
+   "curAssets": 76082873,
+   "curLiab": 53314096,
+   "shares": 261906463,
+   "dps": 4000
+  },
+  "FY2020": {
+   "revenue": 103997601,
+   "gross": 18481670,
+   "ni": 1424436,
+   "eps": 5454,
+   "equity": 69480633,
+   "ocf": -409807,
+   "capex": 6389450,
+   "debt": 91406760,
+   "ltDebt": 61522085,
+   "cash": 9862136,
+   "interest": 955991,
+   "pretax": 2093256,
+   "tax": 168703,
+   "curAssets": 83686357,
+   "curLiab": 59459528,
+   "shares": 260258503,
+   "dps": 3000
+  },
+  "FY2021": {
+   "revenue": 117610626,
+   "gross": 21930495,
+   "ni": 4942356,
+   "eps": 18979,
+   "equity": 74986122,
+   "ocf": -1176416,
+   "capex": 5861327,
+   "debt": 107793278,
+   "ltDebt": 74126540,
+   "cash": 12795554,
+   "interest": 548410,
+   "pretax": 7959562,
+   "tax": 2266485,
+   "curAssets": 88565366,
+   "curLiab": 64236787,
+   "shares": 258922055,
+   "dps": 5000
+  }
+ },
+ "split": 1,
+ "prices": {
+  "2022-10-20": {
+   "close": 168500
+  },
+  "latest": {
+   "date": "2026-10-20",
+   "close": 310000
+  }
+ },
+ "divs": [
+  6000,
+  1500,
+  1500,
+  8400,
+  2000,
+  2000,
+  2000,
+  6000,
+  2500,
+  2500,
+  2500,
+  2500,
+  2500,
+  2500
+ ],
+ "src": [
+  "https://www.hyundai.com/content/dam/hyundai/ww/en/images/company/ir/financial-statements/hyundai-motor-company-annual-2021-consolidated-final.pdf",
+  "https://koreadividend.kr/KR7005380001",
+  "https://finance.yahoo.com/quote/005380.KS/history/"
+ ]
+}
