@@ -45,6 +45,7 @@ jobs:
       - name: 렌더
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/youtube/long/build.py ${{ steps.pick.outputs.ids }}
       - name: 커밋

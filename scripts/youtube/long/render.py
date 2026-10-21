@@ -284,6 +284,146 @@ def draw_scene(sc, V, u, dur, lines_t, frame_bg):
     return img
 
 
+# ── 화면이 2.5초 넘게 같은 모습으로 머물지 않게: 문장마다 '비트'를 바꾼다 (2026-10-21 운영자 요청) ──
+# cam = 그래픽을 다른 구도로 클로즈업(천천히 밀고 들어감) / cut = 실사 영상 위에 지금 문장을 큰 글자로 / 그 사이 0.45초 부드러운 카메라 이동
+FRAMES = {"wide": (1.0, .5, .5), "pc": (1.07, .5, .5), "pt": (1.07, .5, .47), "pb": (1.07, .5, .53)}
+MAX_BEAT = 2.4
+_TOK = r"\d[\d,.]*\s*(?:조|억|만|천)*"
+NUM_RE = re.compile(r"(?:약\s*)?" + _TOK + r"(?:\s+" + _TOK + r")*\s*(?:원|%|배|점)?")
+
+
+def key_number(txt):
+    """문장에서 가장 눈에 띄는 숫자 (금액·%·배 우선, 그다음 점수). '100점 만점'·연도는 빼고, 없으면 None"""
+    c = []
+    for m in NUM_RE.finditer(txt):
+        v = m.group(0).strip()
+        if txt[m.end():m.end() + 3].strip().startswith("만점") or not re.search(r"[조억만천원%배점]$", v): continue
+        c.append((2 if re.search(r"[원%배]$", v) else 1, len(v), -m.start(), v))
+    return max(c)[3] if c else None
+
+
+def plan_beats(typ, dur, lines):
+    """문장마다 화면이 바뀌게: 그래픽(구도 교대) → 숫자 카드 / 실사 컷. 한 비트는 최대 2.4초"""
+    if typ == "end" or not lines: return [(0, dur, "cam", "wide")]
+    if typ == "broll":  # 챕터 제목 카드: 제목은 3초만, 그 뒤로는 실사 컷과 숫자 카드가 문장마다 바뀐다
+        T = min(3.2, dur); beats = [(0, T, "cam", "wide")]; c = 0
+        for idx, (a, d_, txt) in enumerate(lines):
+            end = lines[idx + 1][0] if idx + 1 < len(lines) else dur; a = max(a, T)
+            if end - a < .3: continue
+            n = max(1, math.ceil((end - a) / MAX_BEAT)); L = (end - a) / n; num = key_number(txt)
+            for j in range(n):
+                t0, t1 = a + j * L, a + (j + 1) * L
+                beats.append((t0, t1, "stat", txt, num) if (num and j == 1) or not CUTS and num else (t0, t1, "cut", txt) if CUTS else (t0, t1, "cam", "pc" if c % 2 else "wide")); c += 1
+        return beats
+    beats = [(0, lines[0][0], "cam", "wide")]; k = 0; spent = {"cut": 0, "stat": 0}; alt = ["pc", "wide", "pt", "wide", "pb", "wide"]
+    for idx, (a, d_, txt) in enumerate(lines):
+        end = lines[idx + 1][0] if idx + 1 < len(lines) else dur
+        n = max(1, math.ceil((end - a) / MAX_BEAT)); L = (end - a) / n; num = key_number(txt)
+        for j in range(n):
+            t0, t1 = a + j * L, a + (j + 1) * L; kind = None
+            if j >= 1:  # 문장의 첫 비트는 항상 그래픽 (차례로 나타나는 항목이 보이게)
+                if num and spent["stat"] + L <= dur * .25 and (j % 2 == 1 or not CUTS): kind = ("stat", txt, num)
+                elif CUTS and spent["cut"] + L <= dur * .4: kind = ("cut", txt)
+            if kind: beats.append((t0, t1) + kind); spent[kind[0]] += L
+            else: beats.append((t0, t1, "cam", alt[k % len(alt)])); k += 1
+    return beats
+
+
+def stat_card(text, num, u, L):
+    """숫자 카드: 큰 금색 숫자가 올라가며 나타나고, 아래에 지금 문장"""
+    img = BG.copy(); d = AD(img)
+    for gx in range(0, W, 96): d.line([gx, 0, gx, H], fill=(255, 255, 255, 10))
+    for gy in range(0, H, 96): d.line([0, gy, W, gy], fill=(255, 255, 255, 10))
+    a = ease(u / .5); f = F("Heavy", 200)
+    while d.textlength(num, font=f) > 1640 and f.size > 90: f = F("Heavy", f.size - 10)
+    sv = count_text(num, clamp(u / .9)) if re.search(r"\d", num) else num
+    tw = d.textlength(num, font=f); x = W / 2 - tw / 2; y = H / 2 - 190 + 40 * (1 - a)
+    d.text((x, y), sv, font=f, fill=(*GOLD_L, int(255 * a)))
+    d.rectangle([W / 2 - 160 * a, y + f.size + 62, W / 2 + 160 * a, y + f.size + 68], fill=(*GOLD, int(255 * a)))
+    fs = F("Bold", 50); ls = wrap(d, text, fs, 1500)[:3]; b = ease((u - .25) / .5)
+    for i, l in enumerate(ls):
+        d.text((W / 2 - d.textlength(l, font=fs) / 2, y + f.size + 108 + i * 68 + 16 * (1 - b)), l, font=fs, fill=(*IVORY, int(235 * b)))
+    return img
+
+
+def cam(img, f0, f1, p, drift):
+    """f0 → f1 구도로 p(0~1) 만큼 이동한 화면. drift: 비트 안에서 천천히 더 다가간다"""
+    z0, x0, y0 = FRAMES[f0]; z1, x1, y1 = FRAMES[f1]; e = ease(p)
+    z = (z0 + (z1 - z0) * e) * (1 + .02 * drift); cx = x0 + (x1 - x0) * e; cy = y0 + (y1 - y0) * e
+    if z < 1.003: return img
+    w, h = W / z, H / z; l = min(max(cx * W - w / 2, 0), W - w); t = min(max(cy * H - h / 2, 0), H - h)
+    return img.resize((W, H), Image.BILINEAR, box=(l, t, l + w, t + h))
+
+
+CUTS = []          # (경로, 길이초)
+_cut_i = [0]
+
+
+def load_cuts(queries):
+    cache = os.path.join(ROOT, "scripts", "youtube", "long", ".cache"); os.makedirs(cache, exist_ok=True)
+    key = os.environ.get("PEXELS_API_KEY", ""); got = []
+    if key:
+        import urllib.parse
+        for q in queries:
+            try:
+                req = urllib.request.Request(f"https://api.pexels.com/videos/search?query={urllib.parse.quote(q)}&per_page=3&orientation=landscape&size=medium",
+                                             headers={"Authorization": key, "User-Agent": "Mozilla/5.0"})
+                for v in json.loads(urllib.request.urlopen(req, timeout=30).read()).get("videos", [])[:2]:
+                    fs_ = sorted([f for f in v["video_files"] if f.get("file_type") == "video/mp4" and 1280 <= (f.get("width") or 0) <= 1920], key=lambda f: -f["width"])
+                    if not fs_: continue
+                    pth = os.path.join(cache, f"pex_{v['id']}.mp4")
+                    if not os.path.exists(pth) or os.path.getsize(pth) < 10000:
+                        open(pth, "wb").write(urllib.request.urlopen(urllib.request.Request(fs_[0]["link"], headers={"User-Agent": "Mozilla/5.0"}), timeout=90).read())
+                    got.append(pth)
+            except Exception as e: print("  Pexels 실패:", q, str(e)[:80])
+    if len(got) < 4:  # 예비: Mixkit (릴스와 같은 무료 소스)
+        man = json.load(open(os.path.join(ROOT, "scripts", "reels", "assets", "manifest.json")))
+        for cat in ("chip", "datacenter", "market", "money", "city", "time", "news"):
+            for vid in man["video"].get(cat, [])[:2]:
+                pth = os.path.join(cache, f"{vid}.mp4")
+                if not os.path.exists(pth) or os.path.getsize(pth) < 10000:
+                    try:
+                        req = urllib.request.Request(f"https://assets.mixkit.co/videos/{vid}/{vid}-1080.mp4", headers={"User-Agent": "Mozilla/5.0"})
+                        open(pth, "wb").write(urllib.request.urlopen(req, timeout=60).read())
+                    except Exception: continue
+                if os.path.exists(pth) and os.path.getsize(pth) > 10000: got.append(pth)
+    if len(got) < 4:  # 마지막 예비: 저장소에 있는 릴스용 세로 영상 (가운데를 잘라 쓴다)
+        bd = os.path.join(ROOT, "scripts", "reels", "assets", "broll")
+        got += [os.path.join(bd, f) for f in sorted(os.listdir(bd)) if f.split("_")[0] in ("chip", "datacenter", "market", "money", "city")] if os.path.isdir(bd) else []
+    for pth in got:
+        try:
+            d = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", pth], capture_output=True, text=True).stdout.strip())
+            if d > 3: CUTS.append((pth, d))
+        except Exception: pass
+    print(f"  실사 컷 소스 {len(CUTS)}개")
+
+
+def cut_frames(n):
+    pth, d = CUTS[_cut_i[0] % len(CUTS)]; _cut_i[0] += 1
+    st = (d - n / FPS - .2) * ((_cut_i[0] * 0.37) % 1) if d > n / FPS + .5 else 0
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{max(0, st):.2f}", "-i", pth, "-frames:v", str(n), "-vf",
+                          f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
+                         capture_output=True).stdout
+    fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3) if raw else np.zeros((1, H, W, 3), np.uint8)
+    return [fr[min(i, len(fr) - 1)] for i in range(n)]
+
+
+def kinetic(img, text, u, L):
+    """실사 컷 위 큰 글자: 단어가 차례로 떠오르고 숫자는 금색"""
+    d = AD(img); d.rectangle([0, 0, W, H], fill=(6, 14, 28, 120))
+    f = F("Heavy", 92); lines = wrap(d, text, f, 1560)
+    while len(lines) > 3 and f.size > 50: f = F("Heavy", f.size - 6); lines = wrap(d, text, f, 1560)
+    words = sum(len(l.split(" ")) for l in lines); shown = words * clamp(u / max(.6, L * .55)); k = 0
+    lh = f.size + 22; y0 = H / 2 - len(lines) * lh / 2 - 20
+    for li, l in enumerate(lines):
+        x = W / 2 - d.textlength(l, font=f) / 2; y = y0 + li * lh
+        for w_ in l.split(" "):
+            a = clamp(shown - k); k += 1
+            if a > 0:
+                col = GOLD_L if re.search(r"\d", w_) else IVORY
+                d.text((x, y + 18 * (1 - ease(a))), w_, font=f, fill=(*col, int(255 * a)))
+            x += d.textlength(w_ + " ", font=f)
+
 SHOTS = {}
 SHOTS_S = {}
 ICON = ICON_S = None
@@ -335,18 +475,32 @@ def main():
     tmp = os.path.join(out, "video_noaudio.mp4")
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                             "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p", "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
+    load_cuts(spec.get("broll_q", ["stock market screen", "computer chip", "data center", "city night"]))
     prev_last = None
     for k, s in enumerate(timeline):
         sc = s["sc"]; n = int(round(s["dur"] * FPS))
         frames_bg = broll_frames(sc["v"].get("clip", "market"), n) if sc["v"]["type"] == "broll" else None
         chapter = next((x["sc"].get("chapter") for x in reversed(timeline[:k + 1]) if x["sc"].get("chapter")), "")
         src = fill(sc["v"].get("src", ""), V); asof = V.get("asof") if sc["v"]["type"] not in ("broll", "end") else ""
+        beats = plan_beats(sc["v"]["type"], s["dur"], s["lines"]); bi = -1; cutbuf = None; prevf = "wide"; curf = "wide"; shown = None; from_img = None
         for i in range(n):
             u = i / FPS
-            img = draw_scene(sc, V, u, s["dur"], s["lines"], frames_bg[i] if frames_bg is not None else None)
+            while bi + 1 < len(beats) and u >= beats[bi + 1][0]:
+                bi += 1; b = beats[bi]; from_img = shown if b[2] != "cam" or beats[bi - 1][2] != "cam" else None
+                if b[2] == "cut": cutbuf = cut_frames(int(math.ceil((b[1] - b[0]) * FPS)) + 2)
+                elif b[2] == "cam": prevf, curf = curf, b[3]
+            b = beats[bi]; bu = u - b[0]; bl = b[1] - b[0]
+            if b[2] in ("cut", "stat"):
+                if b[2] == "cut": img = Image.fromarray(cutbuf[min(int(bu * FPS), len(cutbuf) - 1)]); kinetic(img, b[3], bu, bl)
+                else: img = stat_card(b[3], b[4], bu, bl)
+            else:
+                img = draw_scene(sc, V, u, s["dur"], s["lines"], frames_bg[i] if frames_bg is not None else None)
+                img = cam(img, prevf, curf, bu / .45, clamp(bu / max(bl, .1)))
+            if from_img is not None and bu < .2: img = Image.blend(from_img, img, bu / .2)
+            shown = img.copy()
             chrome(img, chapter if sc["v"]["type"] != "end" else "", src, asof, u, (s["start"] + u) / total)
             cur = next((l for l in reversed(s["lines"]) if u >= l[0] - .05), None)
-            if cur and u <= cur[0] + cur[1] + .3: subtitle(img, cur[2], u - cur[0])
+            if cur and u <= cur[0] + cur[1] + .3 and b[2] not in ("cut", "stat"): subtitle(img, cur[2], u - cur[0])
             fr = np.asarray(img)
             if prev_last is not None and i < 10:  # 장면 사이 부드러운 페이드 (0.4초)
                 a = (i + 1) / 11; fr = (prev_last * (1 - a) + fr * a).astype(np.uint8)
