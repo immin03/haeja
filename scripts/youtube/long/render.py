@@ -311,7 +311,13 @@ def main():
     if not fake: from tts import speak
     timeline = []; t = 0.0; audio = []
     for sc in spec["scenes"]:
-        lines = [fill(l, V) for l in sc["lines"]]; lt = []; u = .5
+        lines = []
+        for l in sc["lines"]:  # "?"로 시작하는 문장은 값이 없으면 뺀다
+            if l.startswith("?"):
+                try: lines.append(fill(l[1:], V))
+                except KeyError: print("  선택 문장 생략:", l[:40])
+            else: lines.append(fill(l, V))
+        lt = []; u = .5
         for l in lines:
             a = np.zeros(int(len(l) / 8.0 * SR), np.float32) if fake else speak(to_speech(l), 1.1)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + .32

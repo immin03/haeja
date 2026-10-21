@@ -47,6 +47,14 @@ export async function companyData(code, spec = {}) {
     const live = res.meta.regularMarketPrice || cl[i];
     if (live > 0) { r.px = live; asofIso = new Date((res.meta.regularMarketTime || ts[i]) * 1000).toISOString(); }
   } catch (e) { console.error('야후 가격 실패, 스크리너 가격 사용:', String(e).slice(0, 120)); }
+  // 최근 1년 최고가 (원고에서 "?"로 시작하는 문장에만 쓴다: 못 받으면 그 문장을 뺀다)
+  let hi = {};
+  try {
+    const j = await (await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(r.t)}?range=1y&interval=1d`, { headers: { 'User-Agent': 'Mozilla/5.0' } })).json();
+    const res = j.chart.result[0], cl = res.indicators.quote[0].close; let k = -1, mx = 0;
+    cl.forEach((v, i) => { if (v != null && v > mx) { mx = v; k = i; } });
+    if (mx > 0) { const hd = new Date(res.timestamp[k] * 1000 + 9 * 3600e3); hi = { hi52: comma(mx), hi52_short: won(mx), hi52_when: `${hd.getUTCFullYear()}년 ${hd.getUTCMonth() + 1}월`, from_hi: Math.round((1 - r.px / mx) * 100) + '%' }; }
+  } catch (e) { console.error('1년 최고가 실패:', String(e).slice(0, 120)); }
   const sc = scoreRow(r, null, 30);
   const px = r.px, iv = sc.iv, E = sc.E;
   // 앱과 같은 종합 점수 (숫자 65% + 정성 20% + 트렌드 15%)
@@ -66,7 +74,7 @@ export async function companyData(code, spec = {}) {
   return {
     raw: { code, ticker: r.t, name: r.n, px, iv, eps: E, score: vn.total, q: sc.q, v: sc.v, asof_iso: asofIso, ivSrc: sc.ivSrc },
     vars: {
-      asof, px_label, ...btv, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: comma(px), px_short: won(px), iv: comma(iv), iv_short: won(iv),
+      asof, px_label, ...btv, ...hi, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: comma(px), px_short: won(px), iv: comma(iv), iv_short: won(iv),
       mult: x1(px / iv), per_now: x1(px / E), per_avg: x1(px / normal), eps: won(E),
       need: pct(need), iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
       v30: won(v30), v30_vs: vs(v30, px), v100: won(v100), v100_vs: vs(v100, px),
