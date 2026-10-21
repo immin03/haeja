@@ -70,6 +70,9 @@ TRIES = [(1.0, 8, True), (1.0, 16, True), (.94, 16, True), (.9, 32, True), (1.0,
 def speak_checked(text, speed, speak, sr, log):
     best = None
     pass_, floor = (PASS - .05, FLOOR - .1) if NAMES.search(text) else (PASS, FLOOR)
+    if os.environ.get("TYPECAST_API_KEY"):
+        # 타입캐스트는 음절을 빼먹지 않는다: 남는 차이는 대부분 받아쓰기(음성 인식) 쪽 오차라 기준을 한 단계 낮춘다
+        pass_, floor = pass_ - .05, floor - .1
     for k, (m, steps, chunk) in enumerate(TRIES):
         a = speak(text, speed * m, steps=steps, chunk=chunk)
         h = hear(a, sr); r = score(text, h)

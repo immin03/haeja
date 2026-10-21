@@ -46,9 +46,15 @@ def sign(s):
     return {"+": "플러스 ", "-": "마이너스 ", "−": "마이너스 "}.get(s, "")
 
 
+# 타입캐스트(사람 성우형 엔진)는 '밸유 노트'처럼 예전 음성용으로 비튼 표기를 그대로 읽어 버린다 → 원래 표기로 둔다
+TC_KEEP = {"ValueNote": "밸류노트", "밸류노트": "밸류노트", "밸류 노트": "밸류노트", "D램": "디램", "낸드플래시": "낸드플래시", "램리서치": "램리서치"}
+
+
 def to_speech(text):
+    import os
     t = text
-    for a, b in WORDS: t = t.replace(a, b)
+    tc = bool(os.environ.get("TYPECAST_API_KEY"))
+    for a, b in WORDS: t = t.replace(a, TC_KEEP.get(a, b) if tc else b)
     t = re.sub(r"(?<![A-Za-z])([A-Z]{1,5})(?![a-z])", lambda m: "".join(ABC[c] for c in m[1]), t)  # DB손해보험 → 디비손해보험
     t = t.replace("→", ", ").replace("·", ", ").replace("×", "").replace("\n", " ")
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)\s*%p", lambda m: sign(m[1]) + num(m[2]) + " 퍼센트 포인트", t)
