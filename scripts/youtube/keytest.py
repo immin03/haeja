@@ -71,10 +71,10 @@ if st == 200 and isinstance(voices, list):
     def gender(v):
         return str(v.get("gender", "")).lower()
 
-    picks = []
-    for g in ("male", "female"):
-        cand = sorted([v for v in voices if gender(v) == g], key=score, reverse=True)
-        picks += cand[:3]
+    # 뉴스·다큐·해설에 맞는 청년·중년 목소리 6개 (남 3, 여 3)
+    WANT = ["Sean", "Rex", "Tyson", "Mia", "Rachel", "Margot"]
+    by = {(v.get("voice_name") or {}).get("eng"): v for v in voices}
+    picks = [by[n] for n in WANT if n in by]
     report["picks"] = []
     for i, v in enumerate(picks, 1):
         vid = v.get("voice_id") or v.get("id")
@@ -86,7 +86,7 @@ if st == 200 and isinstance(voices, list):
             st, audio = call("https://api.typecast.ai/v1/text-to-speech", "POST", th, body, raw=True)
         fn = None
         if st == 200 and isinstance(audio, (bytes, bytearray)):
-            fn = f"voice-{i}-{gender(v)}.mp3"
+            fn = f"voice-{i}-{gender(v)}-{(v.get('voice_name') or {}).get('eng', 'x').lower()}.mp3"
             open(os.path.join(OUT, fn), "wb").write(audio)
         report["picks"].append({"no": i, "voice_id": vid, "name": v.get("voice_name") or v.get("name"),
                                 "gender": gender(v), "age": v.get("age"), "use_cases": v.get("use_cases"),
