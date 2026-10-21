@@ -162,6 +162,19 @@ for (const dir of dirs) {
   if (miss.length) E.push(`facts 에 없는 제목·요약·소제목 숫자: ${miss.join(', ')}`);
   const bodyMiss = [...new Set(nums(p.blocks.map((b) => b.p || '').join(' ')))].filter((n) => n.replace(/\D/g, '').length >= 2 && !F.includes(n) && !/^(19|20)\d\d$/.test(n));
   if (bodyMiss.length) W.push(`facts 에 없는 본문 숫자 ${bodyMiss.length}개: ${bodyMiss.slice(0, 12).join(', ')}${bodyMiss.length > 12 ? ' …' : ''}`);
+
+  // 시점 불일치 (2026-10-21): 지금 점수·적정 주가로 과거 매수·과거 주가를 평가하는 문장
+  {
+    const paras = (p.blocks || []).map((b) => b.p || '').filter(Boolean);
+    for (const t of paras) {
+      const pastBuy = /(19\d\d|20[01]\d|202[0-5])년[^.]*(샀|매수|사들|투자)/.test(t) || /년 전[^.]*(샀|매수|사들|투자)/.test(t);
+      const score = /\d+점/.test(t) || /적정 주가/.test(t);
+      const timed = /당시|그때 점수|그 시점|지금 계산한|지금 기준|기준일|지금 점수|지금은|지금 적정|지금 고평가|지금 저평가|지금 주가|지금 코카콜라|지금 기준으로/.test(t);
+      if (pastBuy && score && !timed) W.push(`시점 확인: 과거 매수 이야기에 점수·적정 주가가 나오는데 '매수 당시/지금 계산한' 같은 시점 표시가 없습니다 → ${t.slice(0, 50)}…`);
+      if (/(월말|거래일|\d년 동안|개월)[^.]*적정 (주가|매수가)[^.]*(아래|넘|낮았|위)/.test(t) && !/지금 계산한|지금 기준|과거 그 시점|지금의 이익/.test(t))
+        W.push(`시점 확인: 과거 주가를 지금 적정 주가와 비교하는 문장입니다. '지금 계산한 적정 주가'임을 밝히고 과거 저평가·고평가로 결론 내리지 마세요 → ${t.slice(0, 50)}…`);
+    }
+  }
   // 밸류노트 숫자 대조 (2026-10-19 적정 주가 공식 개편 뒤 도입): 글 속 회사 점수·적정 주가가 지금 계산값(c/scores.json, c/<slug>.html)과 같은지
   for (const m of checkVN(p)) (m.err ? E : W).push(m.msg);
   // 개편 전 공식으로 낸 버크셔 62건 검증 수치는 재검증 전까지 새 글에 쓰지 않는다
