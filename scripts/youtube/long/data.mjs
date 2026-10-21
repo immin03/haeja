@@ -67,7 +67,7 @@ export async function companyData(code, spec = {}) {
   const intraday = String(asofIso).length > 10 && wd >= 1 && wd <= 5 && hm >= 9 * 60 && hm < 15 * 60 + 30 && (r.m === 'KR' || /\.K[SQ]$/.test(r.t));
   const px_label = intraday ? `${asof} 장중 주가` : `${asof} 종가`;
   const bt = spec.backtest; let btv = {};
-  if (bt) { const mult = (r.px + (bt.div_per_share || 0)) / bt.then_px; btv = { bt_won: eokman(1e8 * mult), bt_mult: x1(mult), bt_asof: asof }; }
+  if (bt) { const mult = (r.px + (bt.div_per_share || 0)) / bt.then_px; btv = { bt_won: eokman(1e8 * mult), bt_mult: x1(mult), bt_asof: asof, bt_rise: Math.floor(r.px / bt.then_px) + '배' }; }
   const normal = iv / 10;                 // 적정 주가에 쓰인 정상 이익(주당)
   const need = px / 10 / E;               // 지금 주가가 맞으려면 필요한 정상 이익 비율
   const v30 = E * 0.3 * 10, v100 = E * 10;
