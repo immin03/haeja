@@ -322,7 +322,7 @@ def key_number(txt):
     return max(c)[3] if c else None
 
 
-def plan_beats(typ, dur, lines):
+def plan_beats(typ, dur, lines, ncut=99):
     """문장마다 화면이 바뀌게: 그래픽(구도 교대) → 숫자 카드 / 실사 컷. 한 비트는 최대 2.4초"""
     if typ == "end" or not lines: return [(0, dur, "cam", "wide")]
     if typ == "phone":  # 앱 화면: 실사 컷 없이 앱의 여러 화면을 번갈아, 각 화면은 스크롤하며
@@ -341,7 +341,10 @@ def plan_beats(typ, dur, lines):
             n = max(1, math.ceil((end - a) / MAX_BEAT)); L = (end - a) / n; num = key_number(txt)
             for j in range(n):
                 t0, t1 = a + j * L, a + (j + 1) * L
-                beats.append((t0, t1, "stat", txt, num) if (num and j == 1) or not CUTS and num else (t0, t1, "cut", txt) if CUTS else (t0, t1, "cam", "pc" if c % 2 else "wide")); c += 1
+                if num and (j == 1 or ncut <= 0): beats.append((t0, t1, "stat", txt, num))
+                elif ncut > 0: beats.append((t0, t1, "cut", txt)); ncut -= 1
+                else: beats.append((t0, t1, "cam", "pc" if c % 2 else "wide"))
+                c += 1
         return beats
     beats = [(0, lines[0][0], "cam", "wide")]; k = 0; spent = {"cut": 0, "stat": 0}; alt = ["pc", "wide", "pt", "wide", "pb", "wide"]
     for idx, (a, d_, txt) in enumerate(lines):
@@ -350,8 +353,8 @@ def plan_beats(typ, dur, lines):
         for j in range(n):
             t0, t1 = a + j * L, a + (j + 1) * L; kind = None
             if j >= 1:  # 문장의 첫 비트는 항상 그래픽 (차례로 나타나는 항목이 보이게)
-                if num and spent["stat"] + L <= dur * .25 and (j % 2 == 1 or not CUTS): kind = ("stat", txt, num)
-                elif (CUTS or POOLS) and spent["cut"] + L <= dur * .4: kind = ("cut", txt)
+                if num and spent["stat"] + L <= dur * .25 and (j % 2 == 1 or ncut <= 0): kind = ("stat", txt, num)
+                elif ncut > 0 and spent["cut"] + L <= dur * .4: kind = ("cut", txt); ncut -= 1
             if kind: beats.append((t0, t1) + kind); spent[kind[0]] += L
             else: beats.append((t0, t1, "cam", alt[k % len(alt)])); k += 1
     return beats
@@ -450,6 +453,15 @@ def load_pools(spec):
     seen = set()
     for k, sc in enumerate(spec["scenes"]):
         pool = []
+        lib = os.path.join(ROOT, "scripts", "blog", "media", "lib")
+        for f in sc.get("lib", []):  # 원고에 장면별로 골라 둔 무료 소재 (저장소 소재 창고: Mixkit 라이선스)
+            pth = os.path.join(lib, f)
+            if not os.path.exists(pth): continue
+            if f.endswith(".mp4"):
+                try: d = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", pth], capture_output=True, text=True).stdout.strip())
+                except Exception: continue
+                pool.append(("video", pth, d))
+            else: pool.append(("photo", pth, 0))
         for qi, q in enumerate(sc.get("q", [])):
             qq = urllib.parse.quote(q)
             if not key: break
@@ -473,8 +485,9 @@ def load_pools(spec):
                     seen.add(v["id"]); pool.append(("video", pth, float(v["duration"]))); break
             except Exception as e: print("  Pexels 영상 실패:", q, str(e)[:80])
         if len(pool) < 3: pool += mixkit_pool(sc.get("q", []), seen, 3 - len(pool))
-        # 사진과 영상을 번갈아
-        ph_ = [x for x in pool if x[0] == "photo"]; vd_ = [x for x in pool if x[0] == "video"]; mix_ = []
+        # 골라 둔 순서를 지키되, Pexels 사진·영상이 있으면 번갈아 섞는다
+        picked = [x for x in pool if os.path.dirname(x[1]) == lib]; pool = [x for x in pool if os.path.dirname(x[1]) != lib]
+        ph_ = [x for x in pool if x[0] == "photo"]; vd_ = [x for x in pool if x[0] == "video"]; mix_ = list(picked)
         while ph_ or vd_:
             if vd_: mix_.append(vd_.pop(0))
             if ph_: mix_.append(ph_.pop(0))
@@ -533,13 +546,13 @@ def photo_frames(pth, n, seed):
 
 def cut_frames(n, scene=None):
     """이 장면 내용에 맞는 소스 중 아직 안 쓴 것 → 다른 장면의 안 쓴 것 → 예비 영상 순서로"""
-    cand = [x for x in POOLS.get(scene, []) if x[1] not in USED] or [x for k in sorted(POOLS, key=lambda k: abs(k - (scene or 0))) for x in POOLS[k] if x[1] not in USED]
+    cand = [x for x in POOLS.get(scene, []) if x[1] not in USED]  # 이 장면 것만 (다른 장면 소재를 끌어오면 내용과 안 맞는다)
     _cut_i[0] += 1
     if cand:
         kind, pth, d = cand[0]; USED.add(pth); MEDIA_LOG.append([scene, kind, os.path.basename(pth)])
         if kind == "photo": return photo_frames(pth, n, _cut_i[0])
     else:
-        pth, d = CUTS[_cut_i[0] % len(CUTS)]; MEDIA_LOG.append([scene, "fallback", os.path.basename(pth)])
+        return None  # 이 장면에 맞는 새 소스가 없으면 실사 컷을 쓰지 않는다 (같은 영상 반복 금지)
     st = (d - n / FPS - .2) * ((_cut_i[0] * 0.37) % 1) if d > n / FPS + .5 else 0
     raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{max(0, st):.2f}", "-i", pth, "-frames:v", str(n), "-vf",
                           f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
@@ -694,12 +707,16 @@ def main():
         frames_bg = broll_frames(sc["v"].get("clip", "market"), n) if sc["v"]["type"] == "broll" else None
         chapter = next((x["sc"].get("chapter") for x in reversed(timeline[:k + 1]) if x["sc"].get("chapter")), "")
         src = fill(sc["v"].get("src", ""), V); asof = V.get("asof") if sc["v"]["type"] not in ("broll", "end") else ""
-        beats = plan_beats(sc["v"]["type"], s["dur"], s["lines"]); bi = -1; cutbuf = None; prevf = "wide"; curf = "wide"; shown = None; from_img = None
+        beats = plan_beats(sc["v"]["type"], s["dur"], s["lines"], len(POOLS.get(k, []))); bi = -1; cutbuf = None; prevf = "wide"; curf = "wide"; shown = None; from_img = None
         for i in range(n):
             u = i / FPS
             while bi + 1 < len(beats) and u >= beats[bi + 1][0]:
                 bi += 1; b = beats[bi]; from_img = shown if b[2] not in ("cam", "phone") or beats[bi - 1][2] not in ("cam", "phone") else None
-                if b[2] == "cut": cutbuf = cut_frames(int(math.ceil((b[1] - b[0]) * FPS)) + 2, k)
+                if b[2] == "cut":
+                    cutbuf = cut_frames(int(math.ceil((b[1] - b[0]) * FPS)) + 2, k)
+                    if cutbuf is None:  # 새 소스가 없으면 그래픽 구도 이동으로 대신
+                        alt_ = ["pc", "pt", "pb"][bi % 3] if curf == "wide" else "wide"
+                        b = beats[bi] = (b[0], b[1], "cam", alt_); prevf, curf = curf, alt_; from_img = None
                 elif b[2] == "cam": prevf, curf = curf, b[3]
                 elif b[2] == "phone": prevf = curf = "wide"
             b = beats[bi]; bu = u - b[0]; bl = b[1] - b[0]
