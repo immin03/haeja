@@ -1377,7 +1377,19 @@ async function loadSubs(){
     S.pushSubs = (data || []).map(r => ({ id: r.id, ...r.data }));
   }catch(_){}
 }
-async function checkPush(){
+/* 관리자 가입자 목록용: 기기마다 알림 권한 상태(on·off·denied·ios-install·unsupported)를 남긴다. 바뀌었거나 하루 지났을 때만 저장 */
+async function reportPushState(){
+  try{
+    if(!store.user?.id || store.isGuest || store.isDemo || !pushState) return;
+    const dev = devKey(); if(!dev) return;
+    const day = new Date(Date.now() + 9*3600e3).toISOString().slice(0,10), key = 'vn-pst-' + store.user.id, mark = pushState + '|' + day;
+    if(localStorage.getItem(key) === mark) return;
+    await store.set('push_status', 'dev-' + dev, { state: pushState, device: devName(), at: new Date().toISOString() });
+    localStorage.setItem(key, mark);
+  }catch(_){}
+}
+async function checkPush(){ await checkPush0(); reportPushState(); }
+async function checkPush0(){
   if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)){ pushState = isIOS() && !isStandalone() ? 'ios-install' : 'unsupported'; S.pushChecked = true; await loadSubs(); return; }
   if(Notification.permission === 'denied'){ pushState = 'denied'; S.pushChecked = true; await loadSubs(); return; }
   try{
@@ -1408,14 +1420,14 @@ async function enablePush(){
     if(pushState === 'unsupported'){ say('이 브라우저는 알림을 지원하지 않습니다. Chrome, Edge, Safari, Firefox 최신 버전에서 열어 주세요.'); return; }
     say('브라우저에서 알림 허용을 눌러 주세요');
     const perm = await Notification.requestPermission();
-    if(perm !== 'granted'){ pushState = perm === 'denied' ? 'denied' : 'off'; say(perm === 'denied' ? blockedHelp() : '알림이 허용되지 않았습니다. 다시 눌러 허용해 주세요.'); return; }
+    if(perm !== 'granted'){ pushState = perm === 'denied' ? 'denied' : 'off'; reportPushState(); say(perm === 'denied' ? blockedHelp() : '알림이 허용되지 않았습니다. 다시 눌러 허용해 주세요.'); return; }
     const reg = await navigator.serviceWorker.register('/sw.js');
     const sub = (await reg.pushManager.getSubscription()) || await subscribeHere(reg);
     await saveSubHere(sub);
     try{ localStorage.setItem('vn-push-'+(store.user?.id||''),'1'); }catch(_){}
     pushState = 'on';
     await store.set('alerts', 'test-' + Date.now(), { at: new Date().toISOString(), level: 'good', title: '알림이 연결됐습니다', body: devName() + '에서 밸류노트 알림을 받습니다.', read: false, source: '설정' });
-    await loadSubs(); say(''); render();
+    await loadSubs(); say(''); render(); reportPushState();
   }catch(e){ say('연결하지 못했습니다: ' + (e.message || e)); }
 }
 async function disablePush(){
@@ -1424,7 +1436,7 @@ async function disablePush(){
     if(sub){ await store.del('push_subs', await subId(sub.endpoint)); await sub.unsubscribe(); }
   }catch(_){}
   try{ localStorage.removeItem('vn-push-'+(store.user?.id||'')); }catch(_){}
-  pushState = 'off'; mySubId = null; S.alPushOpen = false; await loadSubs(); render();
+  pushState = 'off'; mySubId = null; S.alPushOpen = false; await loadSubs(); render(); reportPushState();
 }
 function pushCard(){
   const on = pushState === 'on', here = devName();

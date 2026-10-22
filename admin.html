@@ -364,7 +364,7 @@ function vOverview(s){
   <h2>가입 전환</h2>
   <div class="card"><div class="funnel">${steps.map(([l, v, sub], i) => `<div class="fn"><div class="l">${l}</div><div class="v">${n0(v)}</div><div class="p">${i === 0 ? sub : sub + ' ' + pct(v, base[i])}</div></div>`).join('')}</div></div>
   <h2>최근 가입자</h2>
-  <div class="card tbl">${recent.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>최근 방문</th><th>종목</th><th>규모</th><th>설문</th></tr></thead><tbody>${recent.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(SRC[u.src] || u.src || '직접')}</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td>${n0(u.holdings)}</td><td class="nw">${esc(u.size||'–')}</td><td class="nw">${u.style || u.size || (u.expect||[]).length ? '완료' : '<span class="muted">–</span>'}</td></tr>`).join('')}</tbody></table><a class="more" href="#users">전체 가입자 보기 ›</a>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+  <div class="card tbl">${recent.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>최근 방문</th><th>알림</th><th>종목</th><th>규모</th><th>설문</th></tr></thead><tbody>${recent.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(SRC[u.src] || USRC[u.src] || u.src || '직접')}</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${pushCell(u)}</td><td>${n0(u.holdings)}</td><td class="nw">${esc(u.size||'–')}</td><td class="nw">${u.style || u.size || (u.expect||[]).length ? '완료' : '<span class="muted">–</span>'}</td></tr>`).join('')}</tbody></table><a class="more" href="#users">전체 가입자 보기 ›</a>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
 }
 
 function vSurvey(s){
@@ -383,25 +383,38 @@ function vSurvey(s){
   ${sec('바라는 점 (직접 쓴 의견)', '', (() => { const L = (s.users||[]).filter(u => u.note); return L.length ? `<table><tbody>${L.map(u => `<tr><td>${esc(u.note)}</td><td class="muted nw" style="width:1%">${esc(u.email)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 의견이 없습니다.</div>'; })())}`;
 }
 
-const USRC = { ig:'인스타', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북' };
+const USRC = { ig:'인스타', ad:'광고', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북', naver:'네이버', youtube:'유튜브' };
+/* 알림 설정 상태: 켬(기기 수·끈 종류) / 차단 / 아이폰 홈 화면 필요 / 미지원 / "나중에" 누름 / 안 켬 */
+const PUSH_KIND_T = { interest:'본 회사 소식', value:'새로 싸진 회사', column:'새 칼럼' };
+function pushInfo(u){
+  const st = u.push_status || [], has = k => st.some(x => x.state === k);
+  if(+u.push > 0){ const off = Object.keys(PUSH_KIND_T).filter(k => u.push_prefs && u.push_prefs[k] === false).map(k => PUSH_KIND_T[k]);
+    return { k:'on', t:'켬', c:'var(--good)', sub: `기기 ${n0(u.push)}대${off.length ? ' · ' + off.join('·') + ' 끔' : ''}`, tip: (u.push_devices||[]).join(', ') }; }
+  if(has('denied')) return { k:'denied', t:'차단', c:'var(--bad)', sub: '브라우저에서 거부', tip: st.filter(x => x.state === 'denied').map(x => x.device).join(', ') };
+  if(has('ios-install')) return { k:'ios', t:'안 켬', c:'#B08A3E', sub: '아이폰 홈 화면 추가 필요', tip: '' };
+  if(u.pn_no) return { k:'later', t:'안 켬', c:'#B08A3E', sub: '"나중에" 누름', tip: '' };
+  if(st.length && st.every(x => x.state === 'unsupported')) return { k:'unsup', t:'불가', c:'var(--muted)', sub: '알림 미지원 브라우저', tip: st.map(x => x.device).join(', ') };
+  return { k:'off', t:'안 켬', c:'var(--muted)', sub: st.length ? '' : '기록 없음', tip: '' };
+}
+const pushCell = u => { const p = pushInfo(u); return `<span title="${esc(p.tip)}"><b style="color:${p.c}">${p.t}</b>${u.pwa ? ' <span class="pill">앱</span>' : ''}${p.sub ? `<div class="muted" style="font-size:12px">${esc(p.sub)}</div>` : ''}</span>`; };
 const surveyDone = u => !!(u.style || u.size || (u.expect||[]).length || (u.goal||[]).length);
 function userRows(L){
   if(!L.length) return '<tr><td colspan="9" class="empty">조건에 맞는 가입자가 없습니다.</td></tr>';
   return L.map(u => { const pills = [...(u.goal||[]), ...(u.expect||[])];
-    return `<tr><td class="nw">${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(USRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${u.push ? '켬' : '–'}${u.pwa ? ' · 앱' : ''}</td><td>${+u.holdings > 0 ? `<a class="lnk" href="#stocks" data-sk-go="${esc(u.email)}">${n0(u.holdings)}</a>` : n0(u.holdings)}</td><td class="nw">${esc(u.style||'–')}<div class="muted" style="font-size:12px">${esc(u.size||'')}</div></td>
+    return `<tr><td class="nw">${esc(u.email)}</td><td class="nw">${pushCell(u)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(USRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td>${+u.holdings > 0 ? `<a class="lnk" href="#stocks" data-sk-go="${esc(u.email)}">${n0(u.holdings)}</a>` : n0(u.holdings)}</td><td class="nw">${esc(u.style||'–')}<div class="muted" style="font-size:12px">${esc(u.size||'')}</div></td>
       <td style="min-width:260px">${surveyDone(u) ? pills.map(e => `<span class="pill">${esc(e)}</span>`).join('') + (u.note ? `<div style="margin-top:4px;font-size:12.5px">“${esc(u.note)}”</div>` : '') : '<span class="muted">설문 전</span>'}</td></tr>`; }).join('');
 }
 const UF = { k: '', f: 'all' };
 function userFilter(L){ const k = UF.k.toLowerCase();
-  return L.filter(u => UF.f === 'all' || (UF.f === 'survey' && surveyDone(u)) || (UF.f === 'push' && u.push) || (UF.f === 'hold' && +u.holdings > 0) || (UF.f === 'active' && +u.days30 >= 2))
+  return L.filter(u => UF.f === 'all' || (UF.f === 'survey' && surveyDone(u)) || (UF.f === 'push' && +u.push > 0) || (UF.f === 'nopush' && !(+u.push > 0)) || (UF.f === 'denied' && pushInfo(u).k === 'denied') || (UF.f === 'hold' && +u.holdings > 0) || (UF.f === 'active' && +u.days30 >= 2))
           .filter(u => !k || JSON.stringify(u).toLowerCase().includes(k)); }
 function vUsers(s){
   const L = s.users || [];
   const chip = (id, t, n) => `<button class="chip" type="button" data-uf="${id}" aria-pressed="${UF.f === id}">${t} <span class="muted" style="font-weight:500">${n}</span></button>`;
   return `${head('가입자', `최근 100명 · 운영·체험 계정 제외`, 'users')}
   <div class="tools"><input id="q" type="search" placeholder="이메일·응답 내용으로 찾기" value="${esc(UF.k)}"><span class="qcount" id="ucount"></span><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
-  <div class="chips">${chip('all', '전체', L.length)}${chip('survey', '설문 완료', L.filter(surveyDone).length)}${chip('hold', '종목 등록', L.filter(u => +u.holdings > 0).length)}${chip('push', '알림 켬', L.filter(u => u.push).length)}${chip('active', '30일 2회 이상 방문', L.filter(u => +u.days30 >= 2).length)}</div>
-  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>30일 방문</th><th>최근 방문</th><th>알림·앱</th><th>종목</th><th>방식 · 규모</th><th>설문 (방향 · 기대 · 의견)</th></tr></thead><tbody id="ub">${userRows(userFilter(L))}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+  <div class="chips">${chip('all', '전체', L.length)}${chip('survey', '설문 완료', L.filter(surveyDone).length)}${chip('hold', '종목 등록', L.filter(u => +u.holdings > 0).length)}${chip('push', '알림 켬', L.filter(u => +u.push > 0).length)}${chip('nopush', '알림 안 켬', L.filter(u => !(+u.push > 0)).length)}${chip('denied', '알림 차단', L.filter(u => pushInfo(u).k === 'denied').length)}${chip('active', '30일 2회 이상 방문', L.filter(u => +u.days30 >= 2).length)}</div>
+  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>알림 설정</th><th>가입</th><th>유입</th><th>30일 방문</th><th>최근 방문</th><th>종목</th><th>방식 · 규모</th><th>설문 (방향 · 기대 · 의견)</th></tr></thead><tbody id="ub">${userRows(userFilter(L))}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
 }
 function bindUsers(s){
   const L = s.users || [], q = $('#q'), ub = $('#ub');
@@ -411,8 +424,9 @@ function bindUsers(s){
   draw();
   const b = $('#csv'); if(b) b.onclick = () => {
     const cols = ['email','created_at','src','days30','last_seen','push','pwa','holdings','style','goal','size','expect','note'];
+    const val = (u, c) => c === 'push' ? (p => p.t + (p.sub ? ' (' + p.sub + ')' : ''))(pushInfo(u)) : c === 'pwa' ? (u.pwa ? '예' : '') : u[c];
     const cell = v => '"' + String(Array.isArray(v) ? v.join(' / ') : (v ?? '')).replace(/"/g, '""') + '"';
-    const csv = '﻿' + ['이메일,가입,유입,30일 방문일수,최근 방문,알림,홈화면 앱,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(u[c])).join(','))].join('\n');
+    const csv = '﻿' + ['이메일,가입,유입,30일 방문일수,최근 방문,알림,홈화면 앱,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(val(u, c))).join(','))].join('\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'valuenote-users-' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
   };
 }
