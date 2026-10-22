@@ -68,7 +68,8 @@ def cta_lines(spec, sc, lines):
     if not kw:  # 정리본이 없는 릴스는 팔로우로 마무리 (2026-10-22 운영자: 모든 릴스에 정리본을 붙이지 않는다)
         yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
         sc["_follow"] = "yt" if yt else True
-        return list(lines) + [{"cap": None, "say": ("밸류노트를 구독하고, 매일 조금 더 현명한 투자 습관을 길러 보세요." if yt else "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요.")}]
+        if yt: return list(lines) + [{"cap": None, "say": spec.get("full_say", "풀버전은 화면 아래 링크를 눌러 바로 보실 수 있어요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
+        return list(lines) + [{"cap": None, "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
     sc["_dm"] = kw
     return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
 
@@ -489,9 +490,17 @@ def s_cta(img, u, sc, L, T):
                 g = int(10 + pulse * 14)
                 d.rounded_rectangle([cx - bw / 2 - g, cy - bh / 2 - g, cx + bw / 2 + g, cy + bh / 2 + g], 76, outline=mix(NAVY, GOLD_D, .6 - pulse * .4), width=3)
             d.rounded_rectangle([cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2], 66, fill=mix(NAVY, GOLD, pb))
-            t1 = "+ 밸류노트 구독" if sc.get("_follow") == "yt" else "+ 밸류노트 팔로우"
-            d.text((cx, cy), t1, font=fit_font(t1, "ExtraBold", 54, bw - 90), fill=mix(GOLD, NAVY, pb), anchor="mm")
-            if pb > .6:
+            yt = sc.get("_follow") == "yt"
+            t1 = "▶  풀버전 보기" if yt else "+ 밸류노트 팔로우"
+            if yt:
+                t1 = "풀버전 보기"; tx0 = cx + 24 - d.textlength(t1, font=fit_font(t1, "ExtraBold", 58, bw - 160)) / 2 - 62
+                d.polygon([(tx0, cy - 22), (tx0, cy + 22), (tx0 + 36, cy)], fill=mix(GOLD, NAVY, pb))
+            d.text((cx + (24 if yt else 0), cy), t1, font=fit_font(t1, "ExtraBold", 58, bw - 160), fill=mix(GOLD, NAVY, pb), anchor="mm")
+            if yt and pb > .6:   # 화면 아래 '관련 동영상' 링크 쪽으로 내려가는 화살표
+                for k in range(3):
+                    ph_ = ((u - tb) * 1.6 + k / 3) % 1; ay = 1310 + ph_ * 220; aa = math.sin(ph_ * math.pi)
+                    ImageDraw.Draw(img).line([(W / 2 - 46, ay), (W / 2, ay + 40), (W / 2 + 46, ay)], fill=mix(NAVY, GOLD, aa), width=10, joint="curve")
+            if pb > .6 and not yt:
                 t2 = "매일 조금 더 현명한 투자 습관"
                 appear(img, u, tb + .25, t2, fit_font(t2, "SemiBold", 38, 960), (196, 204, 220), (W / 2, 1300), dur=.4, rise=20)
         return img

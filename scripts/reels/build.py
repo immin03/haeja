@@ -50,6 +50,7 @@ def main(only=None):
         if when > now and (not os.path.exists(cv) or open(cv).read().strip() != str(engine.COVER_V)):
             print("썸네일:", sp["id"]); engine.render_cover(sp, d)
         if when < now - dt.timedelta(days=3): continue
+        if sp.get("platform") == "youtube": continue   # 유튜브 쇼츠는 인스타·스레드 대기열에 넣지 않는다 (2026-10-22 운영자: 채널별 콘텐츠 구분)
         queue.append({
             "id": sp["id"], "seq": int(when.timestamp() // 60), "title": sp["title"],
             "scheduled_at": sp["scheduled_at"], "caption": guide.short_caption(sp), "hashtags": sp.get("hashtags", []),
