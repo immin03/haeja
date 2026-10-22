@@ -85,7 +85,7 @@ export async function companyData(code, spec = {}) {
   if (US) {
     const mc = (r.mcap || 0) * 1e6 * (px / px0);
     usv = { mcap: usdBig(mc) };
-    if (spec.ipo_px) { const g = px / spec.ipo_px - 1; usv.ipo_vs = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; usv.ipo_word = g >= 0 ? '위' : '아래'; usv.ipo_abs = Math.abs(Math.round(g * 100)) + '%'; }
+    if (spec.ipo_px) { const g = px / spec.ipo_px - 1; usv.ipo_vs = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; usv.ipo_word = g >= 0 ? '높은' : '낮은'; usv.ipo_abs = Math.abs(Math.round(g * 100)) + '%'; }
     for (const [k, c] of Object.entries(spec.mcap_calc || {})) usv[k] = c.fmt === 'usd' ? usdBig(mc / c.div) : '약 ' + Math.round(mc / c.div) + '배';
     if (spec.px_ref) for (const [k, ref] of Object.entries(spec.px_ref)) { const g = px / ref - 1; usv[k] = (g >= 0 ? '+' : '-') + Math.abs(g * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
   }
