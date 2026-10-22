@@ -350,14 +350,15 @@ def draw(sc, V, u, lines, theme, media):
             d.text((258 - d.textlength(num, font=fn) / 2, y + 22), num, font=fn, fill=A(NAVY if i == v.get("star", 0) else WHITE, a))
             d.text((320, y + 24 + 12 * (1 - a)), fill(s, V), font=fitF(d, fill(s, V), "Bold", 42, W - 200 - 320 - 30), fill=A(t["ink"], a))
     elif typ == "card":  # 인물·회사 카드
-        a0 = pop(u, at_time(v.get("at"), lines)); x0_, y0, x1_ = 420, 210, W - 420
-        rows = v.get("rows", []); y1 = y0 + 240 + 90 * len(rows)
+        a0 = pop(u, at_time(v.get("at"), lines)); x0_, y0, x1_ = 380, 200, W - 380
+        rows = v.get("rows", []); kk = fill(v.get("kicker", ""), V); ky = 64 if kk else 0  # 개념 이름(예: 경기순환주)을 크게
+        y1 = y0 + 250 + ky + 90 * len(rows)
         d.rounded_rectangle([x0_, y0 + 20 * (1 - a0), x1_, y1 + 20 * (1 - a0)], 22, fill=A(t["card"], a0), outline=A(t["line"], a0), width=2)
         d.rectangle([x0_, y0 + 20 * (1 - a0), x1_, y0 + 14 + 20 * (1 - a0)], fill=A(GOLD, a0))
-        if v.get("kicker"): d.text((x0_ + 60, y0 + 50), fill(v["kicker"], V), font=F("SemiBold", 32), fill=A(t["muted"], a0))
-        d.text((x0_ + 60, y0 + 100), fill(v["title"], V), font=fitF(d, fill(v["title"], V), "Heavy", 72, x1_ - x0_ - 120), fill=A(t["ink"], a0))
+        if kk: chip(d, x0_ + 56, y0 + 48 + 20 * (1 - a0), kk, fitF(d, kk, "Heavy", 56, x1_ - x0_ - 160), "navy", a0, pad=(26, 12), r=12)
+        d.text((x0_ + 60, y0 + 100 + ky + 20 * (1 - a0)), fill(v["title"], V), font=fitF(d, fill(v["title"], V), "Heavy", 64, x1_ - x0_ - 120), fill=A(t["ink"], a0))
         for i, r in enumerate(rows):
-            s, at = (r if isinstance(r, list) else [r, None])[:2]; a = pop(u, at_time(at, lines)); y = y0 + 230 + i * 90
+            s, at = (r if isinstance(r, list) else [r, None])[:2]; a = pop(u, at_time(at, lines)); y = y0 + 230 + ky + i * 90
             d.ellipse([x0_ + 64, y + 22, x0_ + 80, y + 38], fill=A(GOLD, a)); d.text((x0_ + 110, y + 6 + 10 * (1 - a)), fill(s, V), font=fitF(d, fill(s, V), "Bold", 42, x1_ - x0_ - 160), fill=A(t["ink"], a))
     elif typ == "twocol":
         title_line(d, t, T("title"), tA)
@@ -389,20 +390,29 @@ def draw(sc, V, u, lines, theme, media):
     elif typ == "end":
         p = pop(u, .2, 1.0); ic = R.ICON_S; img.paste(ic.convert("RGB"), (W // 2 - 110, 180 + int(20 * (1 - p))), ic)
         center_text(d, 450, T("title"), fitF(d, T("title"), "Heavy", 72, 1500), A(IVORY, p)); center_text(d, 550, T("sub"), fitF(d, T("sub"), "SemiBold", 44, 1500), A(GOLD_L, p))
-        # 구독 · 좋아요 · 알림 설정 (말에 맞춰 차례로)
-        btns = [("구독", (204, 0, 0), WHITE), ("좋아요", WHITE, NAVY), ("알림 설정", GOLD, NAVY)]
-        fb = F("Heavy", 42); bws = [d.textlength(b[0], font=fb) + 90 for b in btns]; gap = 36; x = W / 2 - (sum(bws) + gap * 2) / 2
-        for i, (lab, bg, fg) in enumerate(btns):
-            q = pop(u, at_time(v["btn_at"][i], lines) if v.get("btn_at") else 1.0 + i * .35, .5)
+        # 구독 · 좋아요 · 알림 설정: 세 개가 함께 (0.12초 간격으로) 나타난다
+        btns = [("구독", (220, 30, 30), WHITE, "play"), ("좋아요", WHITE, NAVY, "heart"), ("알림 설정", GOLD, NAVY, "bell")]
+        fb = F("Heavy", 40); bw_, bh_, gap = 330, 100, 34; x = W / 2 - (3 * bw_ + 2 * gap) / 2; t0 = at_time(v.get("btn_at", [None])[0], lines) if v.get("btn_at") else .8
+        for i, (lab, bg, fg, ic) in enumerate(btns):
+            q = pop(u, t0 + i * .12, .45)
             if q > 0:
-                y = 670 + 20 * (1 - q); d.rounded_rectangle([x, y, x + bws[i], y + 88], 44, fill=A(bg, q))
-                d.text((x + bws[i] / 2 - d.textlength(lab, font=fb) / 2, y + 18), lab, font=fb, fill=A(fg, q))
-            x += bws[i] + gap
+                y = 680 + 24 * (1 - q)
+                d.rounded_rectangle([x + 4, y + 8, x + bw_ + 4, y + bh_ + 8], 50, fill=(0, 0, 0, int(70 * q)))   # 그림자
+                d.rounded_rectangle([x, y, x + bw_, y + bh_], 50, fill=A(bg, q))
+                tw = d.textlength(lab, font=fb); cx = x + bw_ / 2 - (tw + 54) / 2; cy = y + bh_ / 2
+                if ic == "play": d.polygon([(cx + 6, cy - 15), (cx + 6, cy + 15), (cx + 32, cy)], fill=A(fg, q))
+                elif ic == "heart":
+                    d.ellipse([cx, cy - 14, cx + 20, cy + 4], fill=A(RED, q)); d.ellipse([cx + 16, cy - 14, cx + 36, cy + 4], fill=A(RED, q)); d.polygon([(cx + 1, cy - 1), (cx + 35, cy - 1), (cx + 18, cy + 18)], fill=A(RED, q))
+                else:
+                    d.pieslice([cx + 2, cy - 18, cx + 34, cy + 14], 180, 360, fill=A(fg, q)); d.rectangle([cx + 2, cy - 2, cx + 34, cy + 10], fill=A(fg, q))
+                    d.rectangle([cx - 2, cy + 8, cx + 38, cy + 13], fill=A(fg, q)); d.ellipse([cx + 13, cy + 12, cx + 23, cy + 21], fill=A(fg, q))
+                d.text((cx + 54, cy - fb.size / 2 - 6), lab, font=fb, fill=A(fg, q))
+            x += bw_ + gap
     return img
 
 
 # ── 안전 영역: 로고·장 제목(위)과 자막(아래)을 그래픽이 가리지 않게 ──
-SAFE = (110, 152, 1810, 868)   # 왼쪽, 위, 오른쪽, 아래 (천천히 다가가는 3% 확대까지 감안한 값)
+SAFE = (110, 152, 1810, 900)   # 왼쪽, 위, 오른쪽, 아래 (천천히 다가가는 3% 확대까지 감안한 값)
 
 
 def safe_fit(sc, s, V, theme):
@@ -441,7 +451,28 @@ _ss = {}
 
 def draw_phone(img, d, v, u, lines, V, theme):
     """앱 화면: 문장마다 지정한 화면·위치로. 화면이 바뀌면 아래에서 밀려 올라오고, 머무는 동안 천천히 스크롤"""
-    t = TH[theme]; px0, py0, pw, ph = 250, 120, 400, 800
+    t = TH[theme]
+    if v.get("layout") == "trio":  # 첫 소개·마무리: 앱 화면 세 개가 나란히, 각자 천천히 스크롤
+        a = pop(u, .1); f = fitF(d, fill(v.get("title", ""), V), "Heavy", 64, 1500); center_text(d, 150, fill(v.get("title", ""), V), f, A(t["ink"], a))
+        if v.get("sub"): center_text(d, 232, fill(v["sub"], V), F("Bold", 36), A(t["acc"], pop(u, .3)))
+        pw, ph, gap = 300, 540, 90; x = W / 2 - (3 * pw + 2 * gap) / 2; end_ = lines[-1][0] + lines[-1][1] + .4
+        for i, it in enumerate(v["trio"][:3]):
+            ta = at_time(it.get("at"), lines); p = pop(u, ta, .5)
+            if p > 0:
+                py = 310 + int(40 * (1 - p)); sh = SHOTS.get(it["key"]) or SHOTS.get(v["img"])
+                d.rounded_rectangle([x - 14, py - 14, x + pw + 14, py + ph + 14], 50, fill=(16, 20, 28, int(255 * p)), outline=(70, 82, 104, int(255 * p)), width=3)
+                if sh is not None:
+                    key = (it["key"], pw); s_ = _ss.get(key)
+                    if s_ is None: s_ = _ss[key] = sh.resize((pw, int(sh.height * pw / sh.width)), Image.LANCZOS)
+                    q = clamp((u - ta) / max(1.0, end_ - ta)); off = int(max(0, s_.height - ph) * .55 * ease(q))
+                    c = s_.crop((0, off, pw, off + ph))
+                    if c.height < ph: c2 = Image.new("RGB", (pw, ph), (246, 244, 239)); c2.paste(c, (0, 0)); c = c2
+                    m = Image.new("L", (pw, ph), 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, pw, ph], 38, fill=int(255 * p)); img.paste(c, (int(x), py), m)
+                lb = fill(it.get("label", ""), V); fl = F("ExtraBold", 30); lw = d.textlength(lb, font=fl) + 44
+                chip(d, x + pw / 2 - lw / 2, py + ph - 30, lb, fl, "gold" if i == 0 else "navy", p)
+            x += pw + gap
+        return
+    px0, py0, pw, ph = 250, 120, 400, 800
     views = v["views"]; tv = [at_time(x.get("at"), lines) for x in views]
     k = max([i for i, tt in enumerate(tv) if u >= tt] or [0]); nxt = tv[k + 1] if k + 1 < len(tv) else (lines[-1][0] + lines[-1][1] + .4)
     d.rounded_rectangle([px0 - 16, py0 - 16, px0 + pw + 16, py0 + ph + 16], 60, fill=(16, 20, 28), outline=(70, 82, 104), width=3)
@@ -503,7 +534,9 @@ def media_source(v, n_frames, seed):
 def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
     d = AD(img); t = TH[theme]
     lg = logo_dark if theme == "light" else logo_light
-    img.paste(lg, (60, 46), lg)
+    img.paste(lg, (60, 42), lg)
+    kf = F("Bold", 24); ks = "밸류노트"; kx = 60 + lg.width / 2 - (d.textlength(ks, font=kf) + 3 * 6) / 2
+    for ch in ks: d.text((kx, 42 + lg.height + 6), ch, font=kf, fill=A(t["ink"] if theme == "light" else IVORY, .8)); kx += d.textlength(ch, font=kf) + 6
     d.rectangle([0, 0, W, 6], fill=(220, 220, 214) if theme == "light" else (20, 36, 62)); d.rectangle([0, 0, int(W * frac), 6], fill=GOLD)
     if chapter:
         f = F("SemiBold", 28); tw = d.textlength(chapter, font=f)
@@ -514,25 +547,91 @@ def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
     s = "*투자 권유가 아닌 교육용 정보입니다"; f = F("Medium", 22); d.text((W - 60 - d.textlength(s, font=f), H - 46), s, font=f, fill=A(t["muted"], 1))
 
 
+def sub_pages(d, text, f, maxw=1480):
+    """자막을 한 줄짜리 묶음으로: 쉼표·마침표에서 먼저 끊고, 그래도 길면 단어 단위로 (2026-10-22 운영자: 한 줄씩)"""
+    parts = [p.strip() for p in re.split(r"(?<=[,.?!])\s+", text) if p.strip()]
+    out = []
+    for p in parts:
+        for l in wrap(d, p, f, maxw):
+            if out and len(l) < 9 and d.textlength(out[-1] + " " + l, font=f) <= maxw: out[-1] += " " + l
+            else: out.append(l)
+    i = 0
+    while i < len(out) - 1:  # 너무 짧은 줄은 다음 줄과 합친다 (한 줄에 들어가면)
+        if len(out[i]) < 9 and d.textlength(out[i] + " " + out[i + 1], font=f) <= maxw: out[i] += " " + out.pop(i + 1)
+        else: i += 1
+    return out
+
+
 def subtitle2(img, text, u_in, dur):
-    """아래 자막 (밝은/어두운 배경 모두 읽히게 어두운 띠 위 흰 글씨). 긴 문장은 두 줄씩 넘긴다"""
+    """아래 자막: 어두운 띠 위 흰 글씨, 한 번에 한 줄. 말하는 길이에 맞춰 다음 줄로 넘어간다"""
     if not text: return
-    d = AD(img); f = F("Bold", 42); allL = wrap(d, text, f, 1460); pages = [allL[i:i + 2] for i in range(0, len(allL), 2)]
-    pi, start = 0, 0.0
-    if len(pages) > 1:
-        tot = sum(len("".join(p)) for p in pages); acc = 0
-        for pi, pg in enumerate(pages):
-            acc += len("".join(pg))
-            if u_in < dur * acc / tot: break
-        start = dur * (acc - len("".join(pages[pi]))) / tot
-    lines_ = pages[pi]; a = clamp((u_in - start) / .15)
-    y0 = H - 124 - (len(lines_) - 1) * 56
-    for i, l in enumerate(lines_):
-        tw = d.textlength(l, font=f); x = (W - tw) / 2; y = y0 + i * 56
-        d.rounded_rectangle([x - 18, y - 6, x + tw + 18, y + 52], 10, fill=(8, 14, 26, int(200 * a)))
-        d.text((x, y), l, font=f, fill=(255, 255, 255, int(255 * a)))
-        for m in re.finditer(r"[+\-−]?\d[\d,.]*(?:\s?(?:조|억|만|천))*(?:\s?\d[\d,]*\s?(?:억|만|천))*\s?(?:원|%p|%|배|점|년|분기|곳|개)?", l):
-            tx = x + d.textlength(l[:m.start()], font=f); d.text((tx, y), m.group().rstrip(), font=f, fill=(*GOLD_L, int(255 * a)))
+    d = AD(img); f = F("Bold", 44); pages = sub_pages(d, text, f)
+    tot = sum(len(p) for p in pages); acc = 0; pi = 0; start = 0.0
+    for pi, pg in enumerate(pages):
+        if u_in < dur * (acc + len(pg)) / tot or pi == len(pages) - 1: start = dur * acc / tot; break
+        acc += len(pg)
+    l = pages[pi]; a = clamp((u_in - start) / .12) if pi else clamp(u_in / .15 + .3)
+    tw = d.textlength(l, font=f); x = (W - tw) / 2; y = H - 128
+    d.rounded_rectangle([x - 20, y - 8, x + tw + 20, y + 56], 12, fill=(8, 14, 26, int(205 * a)))
+    d.text((x, y), l, font=f, fill=(255, 255, 255, int(255 * a)))
+    for m in re.finditer(r"[+\-−]?\d[\d,.]*(?:\s?(?:조|억|만|천))*(?:\s?\d[\d,]*\s?(?:억|만|천))*\s?(?:원|%p|%|배|점|년|분기|곳|개)?", l):
+        tx = x + d.textlength(l[:m.start()], font=f); d.text((tx, y), m.group().rstrip(), font=f, fill=(*GOLD_L, int(255 * a)))
+
+
+def make_theme(n, seed=11):
+    """밸류노트 시그니처 배경음악 (직접 합성, 저작권 걱정 없음) — 118BPM 딥하우스: 4박 킥, 2·4박 클랩, 엇박 하이햇,
+    엇박 베이스, 오르간 코드, 그리고 2마디짜리 고정 멜로디(훅). 훅은 밸류노트 영상마다 같아서 '이 음악 = 밸류노트'가 되게 한다."""
+    from scipy import signal
+    rng = np.random.default_rng(seed); L = np.zeros(n, np.float32); Rr = np.zeros(n, np.float32); K = np.zeros(n, np.float32)
+    bpm = 118; b = 60 / bpm; bar = 4 * b; nt = lambda k: 440 * 2 ** ((k - 69) / 12)
+    def add(at, x, gl=1.0, gr=1.0, kick=False):
+        i = int(at * SR)
+        if i >= n or i < 0: return
+        m = min(len(x), n - i)
+        if kick: K[i:i + m] += x[:m]
+        else: L[i:i + m] += x[:m] * gl; Rr[i:i + m] += x[:m] * gr
+    tt = lambda d: np.arange(int(SR * d)) / SR
+    t = tt(.32); kick = (np.sin(2 * np.pi * (45 * t + 75 / 18 * (1 - np.exp(-18 * t)))) * np.exp(-t * 9) + .3 * np.exp(-t * 300) * rng.standard_normal(len(t))).astype(np.float32) * .9
+    nz = lambda d: rng.standard_normal(int(SR * d)).astype(np.float32)
+    bp = signal.butter(2, [900 / (SR / 2), 3200 / (SR / 2)], "band"); hp = signal.butter(2, 7000 / (SR / 2), "high")
+    clap = np.zeros(int(SR * .25), np.float32)
+    for k in range(3): seg = signal.lfilter(*bp, nz(.25)) * np.exp(-tt(.25) * (60 if k < 2 else 18)); clap[int(k * .011 * SR):] += seg[: len(clap) - int(k * .011 * SR)]
+    clap = (clap / np.abs(clap).max() * .35).astype(np.float32)
+    ohat = (signal.lfilter(*hp, nz(.14)) * np.exp(-tt(.14) * 22) * .16).astype(np.float32)
+    chat = (signal.lfilter(*hp, nz(.04)) * np.exp(-tt(.04) * 90) * .07).astype(np.float32)
+    def bass(f, d=.2):
+        t = tt(d); x = sum(np.sin(2 * np.pi * f * h * t) / h for h in (1, 2, 3)) * np.minimum(1, t / .005) * np.exp(-t * 7)
+        return (signal.lfilter(*signal.butter(2, 600 / (SR / 2)), x) * .45).astype(np.float32)
+    def organ(fs, d=.22):
+        t = tt(d); x = sum(np.sin(2 * np.pi * f * t) + .5 * np.sin(2 * np.pi * 2 * f * t) + .25 * np.sin(2 * np.pi * 3 * f * t) for f in fs)
+        return (x / len(fs) * np.minimum(1, t / .004) * np.exp(-t * 9) * .16).astype(np.float32)
+    def pluck(f, d=.35):
+        t = tt(d); x = signal.square(2 * np.pi * f * t, .3) * .6 + np.sin(2 * np.pi * f * t)
+        x = signal.lfilter(*signal.butter(2, 2600 / (SR / 2)), x) * np.minimum(1, t / .003) * np.exp(-t * 8)
+        return (x * .13).astype(np.float32)
+    prog = [(57, [57, 60, 64]), (53, [53, 57, 60]), (48, [55, 60, 64]), (55, [55, 59, 62])]   # Am  F  C  G
+    hook = [(0, 69), (1, 72), (2, 76), (2.5, 74), (3, 72), (4, 67), (5, 69), (6, 72), (7, 69)]  # 8분음표 위치, 2마디 (A-C-E-D-C | G-A-C-A)
+    t0, bi = 0.0, 0; total = n / SR
+    while t0 < total:
+        root, ch = prog[bi % 4]; sec = (bi // 16) % 4   # 16마디마다 편성을 바꾼다 (같은 반복으로 안 들리게)
+        for k in range(4):
+            add(t0 + k * b, kick, kick=True)
+            if k in (1, 3) and bi >= 2: add(t0 + k * b, clap, .9, 1)
+            add(t0 + k * b + b / 2, ohat, .8, 1)
+            for q in (0, 1, 3): add(t0 + k * b + q * b / 4, chat, 1, .8)
+            add(t0 + k * b + b / 2, bass(nt(root - 24)))
+            if k in (1, 3) or (k == 2 and sec % 2): add(t0 + k * b + b / 2 + b / 4, organ([nt(x) for x in ch]), 1, .85)
+        if sec != 2 and bi % 2 == 0:    # 훅: 3번째 구간(16마디)은 쉬어 간다
+            for pos, k in hook: add(t0 + pos * b / 2, pluck(nt(k)), .85, 1)
+        t0 += bar; bi += 1
+    # 킥에 맞춰 나머지를 살짝 눌러 펌핑감 (사이드체인)
+    env = np.ones(n, np.float32); per = int(b * SR); dip = (1 - .55 * np.exp(-np.arange(per) / SR * 9)).astype(np.float32)
+    for i in range(0, n, per): env[i:i + per] = dip[: n - i] if n - i < per else dip
+    L = L * env + K; Rr = Rr * env + K
+    m = np.stack([L, Rr], 1); m = signal.lfilter(*signal.butter(2, 9000 / (SR / 2), "low"), m, axis=0)
+    fi = int(SR * 1.5); m[:fi] *= np.linspace(0, 1, fi)[:, None]; fo = int(SR * 3); m[-fo:] *= np.linspace(1, 0, fo)[:, None]
+    m = np.tanh(m / (np.abs(m).max() + 1e-9) * 1.4) / np.tanh(1.4)
+    return m.astype(np.float32)
 
 
 def make_thumb(spec, V, out):
@@ -572,7 +671,8 @@ def main():
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
     R.BG = R.bg_gradient(); R.LOGO = Image.open(os.path.join(HERE, "assets", "logo.png")).convert("RGBA")
     R.ICON = Image.open(os.path.join(HERE, "assets", "icon.png")).convert("RGBA"); R.ICON_S = R.ICON.resize((220, 220), Image.LANCZOS)
-    logo_light = R.LOGO.resize((int(R.LOGO.width * .42), int(R.LOGO.height * .42)), Image.LANCZOS)
+    wm = R.LOGO.crop((0, 0, R.LOGO.width, 120))  # 로고 이미지의 작은 한글은 잘라 내고, 아래에 '밸류노트'를 크게 직접 쓴다
+    logo_light = wm.resize((int(wm.width * .42), int(wm.height * .42)), Image.LANCZOS)
     # 밝은 배경용 로고: 밝은 글자를 네이비로
     arr = np.asarray(logo_light).copy(); lum = arr[..., :3].mean(-1); m = (lum > 200) & (arr[..., 3] > 0); arr[m, :3] = NAVY; logo_dark = Image.fromarray(arr)
     for sc in spec["scenes"]:
@@ -608,7 +708,8 @@ def main():
     from scipy import signal as _sg
     env = np.convolve(np.abs(mix), np.ones(int(SR * .25)) / (SR * .25), "same"); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)
     env = _sg.lfilter([.0005], [1, -.9995], env); env = np.clip(env / (env.max() + 1e-9), 0, 1)
-    mus = R.make_music(len(mix)) * (R.MUSIC_LEVEL * (1 - .45 * env))[:, None]
+    MUS_LEVEL, MUS_DUCK = .19, .62   # 2026-10-22 운영자: 음악이 안 들린다 → 말 없는 곳은 또렷하게, 말할 때는 62% 낮춘다
+    mus = make_theme(len(mix)) * (MUS_LEVEL * (1 - MUS_DUCK * env))[:, None]
     st_ = np.stack([mix, mix], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
