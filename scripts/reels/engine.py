@@ -826,6 +826,17 @@ def broll_bg(img, T, dur):
     out = base * (1 - k) + tint * k
     return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
 
+YT_BANNER = None   # 유튜브 쇼츠: 영상 내내 위에 고정되는 제목 띠 (2026-10-22 운영자: 조회수 높은 쇼츠의 검은 띠 + 두 줄 제목)
+
+
+def draw_banner(img):
+    if not YT_BANNER: return
+    d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 330], fill=(8, 10, 16))
+    l1, l2 = (list(YT_BANNER) + ["", ""])[:2]
+    if l1: d.text((W / 2, 128), l1, font=fit_font(l1, "Heavy", 84, 980), fill=IVORY, anchor="mm")
+    if l2: d.text((W / 2, 236), l2, font=fit_font(l2, "Heavy", 96, 1000), fill=GOLD, anchor="mm")
+
+
 def frame(T, scenes, total):
     s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
     sc = s["sc"]; u = T - s["start"]
@@ -837,8 +848,9 @@ def frame(T, scenes, total):
     img = camera(img, u, s)
     if sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
     d = ImageDraw.Draw(img)
+    if YT_BANNER: draw_banner(img); d = ImageDraw.Draw(img)
+    elif sc["type"] not in ("cta", "screen"): logo(d, 236)
     d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
-    if sc["type"] not in ("cta", "screen"): logo(d, 236)
     d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(112, 124, 148), anchor="mm")
     for x in scenes[1:]:
         q = (T - (x["start"] - .12)) / .3
@@ -960,8 +972,13 @@ def cover_title(spec, scenes):
 
 def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
+    global YT_BANNER
+    YT_BANNER = spec.get("banner") if spec.get("platform") == "youtube" else None
     scenes, _ = plan_estimate(spec)
-    im = cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)
+    if YT_BANNER:   # 유튜브 쇼츠 표지: 제목 띠 + 첫 장면의 큰 숫자가 터진 순간
+        broll_setup(spec, scenes); im = frame(min(1.6, scenes[0]["dur"] - .1), scenes, sum(x["dur"] for x in scenes)).convert("RGB")
+    else:
+        im = cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)
     im.save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
 
@@ -1099,6 +1116,8 @@ VLOG, LINT = [], []
 MAX_SEC = 60  # 2026-10-20 운영자: 정말 좋은 내용이면 50~60초도 괜찮다 (이전 40초)
 
 def render(spec, outdir, stills=None):
+    global YT_BANNER
+    YT_BANNER = spec.get("banner") if spec.get("platform") == "youtube" else None
     from tts import speak
     os.makedirs(outdir, exist_ok=True)
     VLOG.clear(); LINT.clear()
