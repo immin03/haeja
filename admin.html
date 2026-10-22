@@ -562,7 +562,8 @@ const DMV = { days: 14, data: null, busy: false, titles: {} };
 const DM_REF = { 'ig-dm': '인스타 DM 링크', 'dm': '정리본 안 링크', 'dm-hub': '정리본 모음', 'ig': '인스타 앱(태그 없음)', '직접': '직접 방문', 'direct': '직접 방문' };
 async function dmLoad(){
   DMV.busy = true;
-  const [r, t] = await Promise.all([sb.rpc('admin_dm', { p_days: DMV.days }), fetch('/g/index.json', { cache: 'no-cache' }).then(x => x.json()).catch(() => [])]);
+  const [r, t, lq] = await Promise.all([sb.rpc('admin_dm', { p_days: DMV.days }), fetch('/g/index.json', { cache: 'no-cache' }).then(x => x.json()).catch(() => []), sb.rpc('admin_leads')]);
+  DMV.leads = lq.error ? { error: lq.error.message } : (lq.data || []);
   DMV.titles = Object.fromEntries((t || []).map(x => [x.id, x.title + " · '" + x.keyword + "'"])); DMV.titles.hub = '정리본 모음 페이지';
   DMV.busy = false; DMV.data = r.error ? { error: r.error.message } : r.data; if(page() === 'dm') render();
 }
@@ -585,13 +586,26 @@ function vDm(){
     <div class="card"><div class="fn"><div class="l">다음 날 다시 옴</div><div class="v">${n0(F.returned)}</div><div class="p">방문 대비 ${pct(F.returned, base)} · 정리본을 본 다음 날 이후 사이트에 다시 온 사람</div></div></div>
   </div>
   ${sec('정리본별', '첫 방문 기준 · 같은 사람이 여러 편을 보면 처음 본 정리본에 셉니다', rows ? `<table><thead><tr><th>정리본</th><th>방문</th><th>끝까지</th><th>이동</th><th>이메일</th><th>가입</th></tr></thead><tbody>${rows}</tbody></table>` : '<div class="muted" style="font-size:13px">아직 방문이 없습니다.</div>')}
+  ${(() => { const L = DMV.leads; if(!L) return '';
+    if(L.error) return sec('구독자 목록', '', `<div class="muted" style="font-size:13px">불러오지 못했습니다: ${esc(L.error)}</div>`);
+    const nm = L.filter(x => x.member).length;
+    return sec('구독자 목록', `'새 정리본 받기'로 이메일을 남긴 사람 ${n0(L.length)}명 · 이미 가입 ${n0(nm)}명 · 최신순`,
+      L.length ? `<div class="tools" style="margin:0 0 8px"><button class="lnk" type="button" id="lead-csv">CSV 내려받기</button><button class="lnk" type="button" id="lead-copy">이메일 전체 복사</button></div><div class="tbl"><table><thead><tr><th>날짜</th><th>이메일</th><th>정리본</th><th>경로</th><th>가입</th></tr></thead><tbody>${L.map(x => `<tr><td class="muted nw">${esc(kst(x.at))}</td><td>${esc(x.email)}</td><td>${esc(DMV.titles[x.guide] || x.guide || '')}</td><td class="muted">${esc(DM_REF[x.src] || x.src || '')}</td><td>${x.member ? '<span class="pill">가입</span>' : '<span class="muted">-</span>'}</td></tr>`).join('')}</tbody></table></div>` : '<div class="muted" style="font-size:13px">아직 구독자가 없습니다.</div>'); })()}
   <div class="grid2">
     <div>${sec('들어온 경로', '', refs ? `<table><thead><tr><th>경로</th><th>방문</th><th>끝까지</th><th>이동</th><th>가입</th></tr></thead><tbody>${refs}</tbody></table>` : '<div class="muted" style="font-size:13px">아직 없습니다.</div>')}</div>
     <div>${sec('기기', '', barsList(D.devices||{}))}</div>
   </div>
   <div class="note">ManyChat이 보내는 DM 수는 여기 잡히지 않습니다(ManyChat 화면에서 확인). 자체 자동 DM(메타 심사 후)이 켜지면 보낸 DM ${n0(dm.sent||0)}건 / 요청 ${n0(dm.asked||0)}건이 함께 잡힙니다. '끝까지 읽음'은 페이지의 80%까지 내려간 방문입니다. 가입은 정리본을 본 그 브라우저에서 가입한 경우만 셉니다.</div>`;
 }
-function bindDm(){ document.querySelectorAll('[data-dm-days]').forEach(b => b.onclick = () => { DMV.days = +b.dataset.dmDays; DMV.data = null; render(); }); }
+function bindDm(){ document.querySelectorAll('[data-dm-days]').forEach(b => b.onclick = () => { DMV.days = +b.dataset.dmDays; DMV.data = null; render(); });
+  const L = Array.isArray(DMV.leads) ? DMV.leads : [];
+  const csvB = $('#lead-csv'); if(csvB) csvB.onclick = () => {
+    const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const rows = [['날짜','이메일','정리본','경로','가입']].concat(L.map(x => [kst(x.at), x.email, DMV.titles[x.guide] || x.guide || '', DM_REF[x.src] || x.src || '', x.member ? '가입' : '']));
+    const blob = new Blob(['\ufeff' + rows.map(r => r.map(q).join(',')).join('\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'valuenote-subscribers-' + kstDay() + '.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };
+  const cpB = $('#lead-copy'); if(cpB) cpB.onclick = () => { navigator.clipboard.writeText(L.map(x => x.email).join('\n')).then(() => toast('이메일 ' + L.length + '개를 복사했습니다')).catch(() => toast('복사하지 못했습니다')); };
+}
 
 /* ---- 운영자 칼럼: 앱 브리핑의 '이번 주 노트'에 붙는다 (docs: trends / col-YYYY-MM-DD) ---- */
 const COL = { list: null, edit: null, msg: '', dirty: false };
