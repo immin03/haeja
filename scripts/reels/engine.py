@@ -193,6 +193,7 @@ def arrow(d, x, y, col, s=1.0):
     d.polygon([(x + 28 * s, y), (x + 8 * s, y - 16 * s), (x + 8 * s, y + 16 * s)], fill=col)
 
 def shake(img, t, t0, dur=0.3, k=16):
+    if YT: return img
     if t0 <= t < t0 + dur:
         a = (1 - (t - t0) / dur) * k
         return img.transform(img.size, Image.AFFINE, (1, 0, a * math.sin(t * 90), 0, 1, a * math.cos(t * 70)), fillcolor=NAVY)
@@ -681,9 +682,198 @@ def s_race(img, u, sc, L, T):
             img.paste(pill, (int(W / 2 - pill.width / 2), int(cy - pill.height / 2)), pill)
     return img
 
+# ── 유튜브 쇼츠 전용 장면 (2026-10-22 운영자 검수: "깔끔하게, 모션만 적절히") ──────────────
+# 원칙: 글자는 흔들리지 않는다(카메라·흔들림 없음) · 모든 요소는 화면 가운데 정렬 · 위 제목 띠(0~330) 아래부터 자막(1330) 위까지만 쓴다
+#       · 요소는 그 말을 하는 순간에 채워진다(막대가 자라고, 평균선이 그어지고, 식의 칸이 하나씩 찬다)
+YT = False
+YT_TITLE_Y, YT_CAP_Y = 452, 1330
+
+def y_at(L, i, frac=0.0):
+    """i번째 음성 줄의 시작(+그 줄 길이의 frac) 시각. 줄이 없으면 마지막 줄 끝"""
+    if not L: return .1
+    if i >= len(L): return L[-1][0] + L[-1][1]
+    return L[i][0] + L[i][1] * frac
+
+def y_fade(img, u, t0, s, font, fill, center, dur=.35, rise=18):
+    p = prog(u, t0, t0 + dur)
+    pop(img, s, font, fill, center, alpha=p, dy=int((1 - p) * rise))
+    return p
+
+def y_title(img, u, s, t0=.05):
+    if not s: return
+    y_fade(img, u, t0, s, fit_font(s, "Heavy", 70, 940), IVORY, (W / 2, YT_TITLE_Y))
+    w = prog(u, t0 + .2, t0 + .6) * 120
+    ImageDraw.Draw(img).line([(W / 2 - w / 2, YT_TITLE_Y + 58), (W / 2 + w / 2, YT_TITLE_Y + 58)], fill=GOLD, width=5)
+
+def y_hook(img, u, sc, L, T):
+    num = sc["num"]; col_end = TONE.get(sc.get("tone", "loss"), LOSS)
+    rows = (sc.get("top") or "").split("\n")[:2] if sc.get("top") else []
+    for k, row in enumerate(rows):
+        y_fade(img, u, .05 + k * .1, row, fit_font(row, "Heavy", 80, 960), IVORY, (W / 2, 540 + k * 100 - (len(rows) - 1) * 50))
+    p = prog(u, .3, 1.0, ease_io)
+    v = lerp(num.get("from", 0), num["to"], p)
+    s = fmt_num(round(v, num.get("dec", 0)), num)
+    big = fit_font(fmt_num(num["to"], num), "Heavy", num.get("size", 230), 960)
+    pop(img, s, big, mix(IVORY, col_end, p), (W / 2, 820), alpha=prog(u, .25, .45))
+    if sc.get("label"):
+        t1 = max(1.1, y_at(L, 1) if len(L) > 1 else 1.1)
+        y_fade(img, u, t1, sc["label"], fit_font(sc["label"], "ExtraBold", 60, 940), GOLD, (W / 2, 1050))
+        w = prog(u, t1 + .2, t1 + .6) * 420
+        ImageDraw.Draw(img).line([(W / 2 - w / 2, 1108), (W / 2 + w / 2, 1108)], fill=GOLD, width=4)
+    return img
+
+def y_bars(img, u, sc, L, T):
+    """세로 막대(연도별 이익 등) + 선택: 점선 평균선. avg{value, label, line(그어지는 음성 줄 번호)}"""
+    y_title(img, u, sc.get("title"))
+    items = sc["items"]; n_ = len(items); avg = sc.get("avg")
+    vals = [it["v"] for it in items] + ([avg["value"]] if avg else [])
+    lo, hi = min(0, min(vals)), max(0, max(vals))
+    X0, X1, TOP, BOT = 150, 930, 660 if avg else 620, 1090
+    span = (hi - lo) or 1; hi_ = hi + span * .16; lo_ = lo - (span * .14 if lo < 0 else 0)
+    ymap = lambda v: BOT - (v - lo_) / (hi_ - lo_) * (BOT - TOP)
+    y0 = ymap(0); d = ImageDraw.Draw(img)
+    cw = (X1 - X0) / n_; bw = min(150, cw * .58)
+    d.line([(X0 - 20, y0), (X1 + 20, y0)], fill=GRID, width=3)
+    t_end = y_at(L, 1) - .2 if (len(L) > 1 and sc.get("split", True)) else y_at(L, 0, .85)
+    t_end = max(t_end, .9); step = (t_end - .35) / max(1, n_)
+    lf = F("SemiBold", 38 if n_ > 3 else 42); vf = F("Heavy", 48 if n_ > 3 else 60)
+    for k, it in enumerate(items):
+        t0 = it.get("at") if it.get("at") is not None else .3 + k * step
+        if isinstance(t0, list): t0 = y_at(L, *t0)
+        p = prog(u, t0, t0 + .55, ease_io)
+        cx = X0 + cw * (k + .5); col = TONE.get(it.get("tone", "gold"), GOLD)
+        for j, ln in enumerate(it["label"].split("\n")):
+            c_ = mix(NAVY, IVORY if j == 0 else GRAY, prog(u, .1, .45))   # 축 이름은 처음부터: 빈 화면이 없게
+            d.text((cx, max(y0, BOT) + 46 + j * 44), ln, font=lf if j == 0 else F("Medium", 32), fill=c_, anchor="mm")
+        if p <= 0: continue
+        yv = lerp(y0, ymap(it["v"]), p)
+        top, bot = (yv, y0) if it["v"] >= 0 else (y0, yv)
+        if bot - top > 2: d.rounded_rectangle([cx - bw / 2, top, cx + bw / 2, bot], 12, fill=mix(NAVY, col, min(1, p * 1.6)))
+        txt = it.get("text", f"{it['v']:g}")
+        vy = (top - 38) if it["v"] >= 0 else (bot + 38)
+        pop(img, txt, fit_font(txt, "Heavy", vf.size, cw - 6), col, (cx, vy), alpha=prog(u, t0 + .3, t0 + .6))
+    if avg:
+        ta = y_at(L, avg.get("line", len(L) - 1), avg.get("frac", 0.0))
+        q = prog(u, ta, ta + .9, ease_io)
+        if q > 0:
+            ya = ymap(avg["value"]); xe = lerp(X0 - 20, X1 + 20, q)
+            x = X0 - 20
+            while x < xe:
+                d.line([(x, ya), (min(xe, x + 22), ya)], fill=GOLD, width=6); x += 36
+            lab = avg.get("label", f"평균 {avg['value']:g}")
+            a_ = prog(u, ta + .3, ta + .7)   # 범례: 제목 아래 '- - 여러 해 평균 17.3조' (막대 숫자와 겹치지 않게)
+            if a_ > 0:
+                f_ = F("ExtraBold", 44); tw = f_.getlength(lab); lx = W / 2 - (tw + 90) / 2; ly = 572
+                for x in (lx, lx + 36): d.line([(x, ly), (x + 22, ly)], fill=mix(NAVY, GOLD, a_), width=6)
+                d.text((lx + 90, ly), lab, font=f_, fill=mix(NAVY, GOLD, a_), anchor="lm")
+    return img
+
+def y_compare(img, u, sc, L, T):
+    """좌우 카드: 왼쪽은 첫 줄, 오른쪽은 둘째 줄 음성이 시작될 때 나타난다"""
+    y_title(img, u, sc.get("title"))
+    sides = [sc["l"], sc["r"]]; d = ImageDraw.Draw(img)
+    for i, sd in enumerate(sides):
+        t0 = .25 if i == 0 else max(.9, y_at(L, 1) if len(L) > 1 else y_at(L, 0, .55))
+        p = prog(u, t0, t0 + .45, ease_io)
+        if p <= 0: continue
+        col = TONE.get(sd.get("tone", "gray" if i == 0 else "loss"), GRAY)
+        cx = 290 + i * 500; off = int((1 - p) * 24)
+        d.rounded_rectangle([cx - 215, 590 + off, cx + 215, 1130 + off], 36, outline=mix(NAVY, col, p), width=4, fill=mix(NAVY, NAVY2, p))
+        lines = sd.get("label", "").split("\n")
+        for j, ln in enumerate(lines):
+            d.text((cx, 680 + off + (j - (len(lines) - 1) / 2) * 50), ln, font=fit_font(ln, "Bold", 44, 390), fill=mix(NAVY, IVORY, p), anchor="mm")
+        pop(img, sd["v"], fit_font(sd["v"], "Heavy", 150, 400), col, (cx, 880 + off), alpha=p)
+        if sd.get("sub"): d.text((cx, 1060 + off), sd["sub"], font=fit_font(sd["sub"], "SemiBold", 36, 390), fill=mix(NAVY, GRAY, p), anchor="mm")
+    return img
+
+def y_statement(img, u, sc, L, T):
+    V = L[0][1] if L else 2.0
+    l1, l2 = sc["l1"], sc["l2"]
+    y_fade(img, u, .05, l1, fit_font(l1, "ExtraBold", 72, 960), IVORY, (W / 2, 700))
+    t2 = sc.get("t2") or min(.9, V * .35); tone = TONE.get(sc.get("tone", "gold"), GOLD)
+    p = prog(u, t2, t2 + .45, ease_io)
+    pop(img, l2, fit_font(l2, "Heavy", 112, 980), tone, (W / 2, 860), scale=.94 + .06 * p, alpha=p)
+    wl = prog(u, t2 + .35, t2 + .8) * 420
+    ImageDraw.Draw(img).line([(W / 2 - wl / 2, 950), (W / 2 + wl / 2, 950)], fill=tone, width=6)
+    if sc.get("note"):
+        for j, ln in enumerate(sc["note"].split("\n")):
+            y_fade(img, u, t2 + .8 + j * .15, ln, fit_font(ln, "SemiBold", 44, 960), GRAY, (W / 2, 1060 + j * 62))
+    return img
+
+def y_box(img, u, t0, y, label, value, col, filled=False, h=200):
+    p = prog(u, t0, t0 + .45, ease_io)
+    if p <= 0: return
+    d = ImageDraw.Draw(img); off = int((1 - p) * 20)
+    fill = mix(NAVY, (52, 44, 22) if filled else NAVY2, p)
+    d.rounded_rectangle([150, y - h / 2 + off, W - 150, y + h / 2 + off], 32, fill=fill, outline=mix(NAVY, col, p), width=4)
+    d.text((W / 2, y - 50 + off), label, font=fit_font(label, "Bold", 40, 720), fill=mix(NAVY, GRAY if not filled else GOLD, p), anchor="mm")
+    pop(img, value, fit_font(value, "Heavy", 96, 720), mix(NAVY, col, p), (W / 2, y + 30 + off), alpha=p)
+
+def y_equation(img, u, sc, L, T):
+    """식: [a] × 10 = [b]. a = 첫 줄, 곱하기 = 둘째 줄, b = 둘째 줄 후반(또는 셋째 줄) 음성에 맞춰 찬다"""
+    y_title(img, u, sc.get("title"))
+    a, b = sc["a"], sc["b"]
+    ta = y_at(L, 0, .15); top = y_at(L, 1) if len(L) > 1 else y_at(L, 0, .5)
+    tb = y_at(L, 2) if len(L) > 2 else top + .9
+    y_box(img, u, ta, 650, a["label"], a["v"], IVORY)
+    op = sc.get("op", "× 10")
+    y_fade(img, u, top, op, F("Heavy", 84), GOLD, (W / 2, 820), rise=10)
+    y_box(img, u, tb, 990, b["label"], b["v"], GOLD, filled=True)
+    if sc.get("note"):
+        y_fade(img, u, tb + .6, sc["note"], fit_font(sc["note"], "SemiBold", 40, 900), GRAY, (W / 2, 1150))
+    return img
+
+YDRAW = {"hook": y_hook, "bars": y_bars, "compare": y_compare, "statement": y_statement, "equation": y_equation}
+
+def y_caption(img, u, L):
+    """쇼츠 자막: 흔들림 없이 제자리에서 나타났다 바뀐다. 숫자는 금색"""
+    for i, (a, v, cap) in enumerate(L):
+        if not cap: continue
+        nxt = L[i + 1][0] if i + 1 < len(L) else 999
+        if not (a - .05 <= u < nxt - .02): continue
+        d = ImageDraw.Draw(img); font = F("Bold", 52)
+        maxw = max(d.textlength(l, font=font) for l in cap)
+        if maxw > 880: font = F("Bold", int(52 * 880 / maxw)); maxw = 880
+        fade = prog(u, a - .05, a + .1); lh = 72
+        y0 = YT_CAP_Y - (len(cap) - 1) * lh / 2
+        bar = Image.new("RGBA", (int(maxw + 64), len(cap) * lh + 28), (6, 12, 26, int(170 * fade)))
+        img.paste(bar, (int(W / 2 - bar.width / 2), int(y0 - lh / 2 - 14)), bar)
+        d = ImageDraw.Draw(img)
+        for li, line in enumerate(cap):
+            y = y0 + li * lh; x0 = W / 2 - d.textlength(line, font=font) / 2
+            d.text((x0, y), line, font=font, fill=mix(NAVY, IVORY, fade), anchor="lm")
+            for m in re.finditer(r"[+\-−]?\d[\d,.]*\s?(?:조|억|만|천)?\s?(?:원|%|%p|배|점|년|개|곳|달러)?", line):
+                tx = x0 + d.textlength(line[:m.start()], font=font)
+                d.text((tx, y), m.group().rstrip(), font=font, fill=mix(NAVY, GOLD, fade), anchor="lm")
+        return
+
+def y_voice(txt, speak):
+    """롱폼과 같은 목소리: 성호 기본 속도(1.1)로 받아 롱폼과 똑같이 톤 1.04·빠르기 1.24 로 맞춘다.
+    말이 늘어지거나(초당 5.5음절 미만) 뭉개지면(받아쓰기 일치 0.72 미만) 캐시를 버리고 다시 받는다. 속도는 바꾸지 않는다."""
+    say = to_speech(txt); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
+    for k in range(3):
+        raw = speak(say, 1.1, fresh=k > 0)
+        out = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-af",
+                              f"asetrate={int(SR * 1.04)},aresample={SR},atempo={1.24 / 1.04:.4f}", "-f", "f32le", "-"],
+                             input=np.asarray(raw, np.float32).tobytes(), capture_output=True, check=True).stdout
+        a = np.frombuffer(out, np.float32).copy(); rate = syl / max(.1, len(a) / SR)
+        try:
+            import verify; heard = verify.hear(a, SR); sc = verify.score(txt, heard)
+        except Exception: heard, sc = "", 1.0
+        need = .62 if re.search("버핏|그레이엄|PER|HBM|SK", txt) else .72
+        bad = (syl >= 10 and not (5.5 <= rate <= 8.3)) or sc < need
+        cost = abs(rate - 6.7) / 6.7 + max(0, .85 - sc)
+        if best is None or cost < best[0]: best = (cost, a, rate, sc, heard, k + 1, need)
+        if not bad: break
+        print(f"  음성 다시 받기({k + 1}/3): 속도 {rate:.1f}음절/초, 인식 {sc:.2f} · {txt[:30]}", flush=True)
+    _, a, rate, sc, heard, tries, need = best
+    VLOG.append({"text": txt, "score": round(sc, 3), "pass": need, "floor": .5, "tries": tries, "heard": heard, "rate": round(rate, 2)})
+    return a
+
 DRAW = {"hook": s_hook, "line": s_line, "run": s_run, "compare": s_compare, "bars": s_bars,
         "list": s_list, "race": s_race, "who": s_who, "statement": s_statement, "cta": s_cta, "screen": s_screen}
 NO_CAPTION = {"statement", "cta", "list"}
+DRAW["equation"] = y_equation
 
 # ── 타임라인 ─────────────────────────────────────────────────
 def plan(spec, speak):
@@ -699,7 +889,9 @@ def plan(spec, speak):
         for ln in lines:
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
             if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
-            if VERIFY:
+            if YT:
+                a = y_voice(txt, speak)
+            elif VERIFY:
                 import verify
                 if ln.get("cap") and verify.score(" ".join(ln["cap"]), txt) < .8:
                     LINT.append(f"자막과 음성이 다름: {ln['cap']} ↔ {txt}")
@@ -751,6 +943,7 @@ def logo(d, y):
 
 def camera(img, u, s):
     """장면 내내 천천히 다가가는 카메라 + 새 문장이 나올 때마다 살짝 튀는 박자. 화면이 멈춰 있는 순간을 없앤다"""
+    if YT: return img
     z = 1 + .045 * ease_io(clamp(u / max(s["dur"], .1)))
     for (a, v, cap) in s["L"]:
         if u >= a: z += .018 * math.exp(-(u - a) * 5)
@@ -844,13 +1037,14 @@ def frame(T, scenes, total):
     if sc["type"] == "hook": warm = prog(u, .85, 1.15) * (1 - prog(u, 2.0, s["dur"]))
     img = background(T, warm)
     if s is scenes[0] and sc["type"] == "hook": img = broll_bg(img, u, s["dur"])
-    img = DRAW[sc["type"]](img, u, sc, s["L"], T)
+    img = (YDRAW if YT and sc["type"] in YDRAW else DRAW)[sc["type"]](img, u, sc, s["L"], T)
     img = camera(img, u, s)
-    if sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
+    if sc["type"] not in NO_CAPTION: (y_caption if YT else caption)(img, u, s["L"])
     d = ImageDraw.Draw(img)
     if YT_BANNER: draw_banner(img); d = ImageDraw.Draw(img)
     elif sc["type"] not in ("cta", "screen"): logo(d, 236)
     d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+    if YT: return img   # 쇼츠: 고지문은 설명란에, 장면 사이 금색 휩쓸기 없이 깔끔하게 넘어간다
     d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(112, 124, 148), anchor="mm")
     for x in scenes[1:]:
         q = (T - (x["start"] - .12)) / .3
@@ -972,8 +1166,9 @@ def cover_title(spec, scenes):
 
 def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
-    global YT_BANNER
-    YT_BANNER = spec.get("banner") if spec.get("platform") == "youtube" else None
+    global YT_BANNER, YT
+    YT = spec.get("platform") == "youtube"
+    YT_BANNER = spec.get("banner") if YT else None
     scenes, _ = plan_estimate(spec)
     if YT_BANNER:   # 유튜브 쇼츠 표지: 제목 띠 + 첫 장면의 큰 숫자가 터진 순간
         broll_setup(spec, scenes); im = frame(min(1.6, scenes[0]["dur"] - .1), scenes, sum(x["dur"] for x in scenes)).convert("RGB")
@@ -1116,8 +1311,9 @@ VLOG, LINT = [], []
 MAX_SEC = 60  # 2026-10-20 운영자: 정말 좋은 내용이면 50~60초도 괜찮다 (이전 40초)
 
 def render(spec, outdir, stills=None):
-    global YT_BANNER
-    YT_BANNER = spec.get("banner") if spec.get("platform") == "youtube" else None
+    global YT_BANNER, YT
+    YT = spec.get("platform") == "youtube"
+    YT_BANNER = spec.get("banner") if YT else None
     from tts import speak
     os.makedirs(outdir, exist_ok=True)
     VLOG.clear(); LINT.clear()
