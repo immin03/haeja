@@ -57,6 +57,7 @@ def background(theme):
 
 
 # ── 시간: "2:29만" → 장면 안의 초 ──
+CHAPS = []  # 장 제목 목록 (목차 화면·진행 표시용)
 CV = {}  # 원고 빈칸 값 (at 의 단어에도 {iv_short} 같은 빈칸을 쓸 수 있게)
 
 
@@ -138,8 +139,17 @@ def draw(sc, V, u, lines, theme, media):
             s = T("text"); f2 = F("ExtraBold", 58)
             for i, l in enumerate(wrap(d, s, f2, 1500)[:2]): center_text(d, H / 2 + 170 + i * 76, l, f2, A(IVORY, pop(u, .4)))
         else:
-            k = T("kicker"); f0 = F("Bold", 36)
+            k = T("kicker"); f0 = F("Bold", 36); ci = CHAPS.index(T("text")) if T("text") in CHAPS else -1
+            if ci >= 0: k = f"{ci + 1} / {len(CHAPS)}"
             if k: center_text(d, H / 2 - 150, k, f0, A(GOLD_L, a))
+            if ci >= 0:  # 진행 표시: 지나온 장 · 지금 장 · 남은 장
+                n_ = len(CHAPS); sx = W / 2 - (n_ - 1) * 34
+                for j in range(n_):
+                    cx_ = sx + j * 68; cy_ = H / 2 + 190; r_ = 13 if j == ci else 9
+                    if j < ci: d.ellipse([cx_ - r_, cy_ - r_, cx_ + r_, cy_ + r_], fill=A((150, 162, 182), a))
+                    elif j == ci: d.ellipse([cx_ - r_, cy_ - r_, cx_ + r_, cy_ + r_], fill=A(GOLD, a))
+                    else: d.ellipse([cx_ - r_, cy_ - r_, cx_ + r_, cy_ + r_], outline=A((150, 162, 182), a), width=2)
+                    if j < n_ - 1: d.line([cx_ + r_ + 6, cy_, cx_ + 68 - 15, cy_], fill=A((90, 104, 130), a), width=2)
             f = F("Heavy", 96); s = T("text")
             while d.textlength(s, font=f) > 1600: f = F("Heavy", f.size - 6)
             center_text(d, H / 2 - 80 + 30 * (1 - a), s, f, A(IVORY, a))
@@ -303,6 +313,33 @@ def draw(sc, V, u, lines, theme, media):
         if v.get("note"):
             b = pop(u, at_time(v.get("note_at"), lines)); s = fill(v["note"], V); f = F("SemiBold", 30)
             center_text(d, 900, s, f, A(t["muted"], b))
+    elif typ == "agenda":  # 오늘 볼 내용 (장 제목이 하나씩)
+        a = pop(u, .1); center_text(d, 150, T("title", "오늘 볼 내용"), F("Heavy", 64), A(IVORY, a))
+        items = CHAPS or v.get("items", []); y0 = 290; fi = F("ExtraBold", 44)
+        for j, it in enumerate(items):
+            p = pop(u, .5 + .32 * j, .4)
+            if p <= 0: continue
+            y = y0 + j * 84 + 14 * (1 - p); x = 560
+            d.ellipse([x, y + 4, x + 56, y + 60], fill=A(GOLD, p)); nn = str(j + 1); fn = F("Heavy", 34)
+            d.text((x + 28 - d.textlength(nn, font=fn) / 2, y + 10), nn, font=fn, fill=A(NAVY, p))
+            d.text((x + 86, y + 4), it, font=fi, fill=A(IVORY, p))
+    elif typ == "icongrid" and v.get("groups"):  # 전체 기업을 점 하나씩, 시장별 색으로
+        title_line(d, t, T("title"), tA)
+        groups = v["groups"]; n = sum(g[1] for g in groups); cols = v.get("cols", 45); cell = 1400 / cols; gx = W / 2 - cols * cell / 2; gy = v.get("y", 270)
+        rows = math.ceil(n / cols); fillp = clamp((u - at_time(v.get("at"), lines)) / v.get("fill_sec", 2.4)); colors = []
+        for g in groups: colors += [tuple(g[2])] * g[1]
+        rr = cell * .36
+        for k in range(int(n * fillp)):
+            r_, c_ = divmod(k, cols); x = gx + c_ * cell + cell / 2; y = gy + r_ * cell + cell / 2
+            d.ellipse([x - rr, y - rr, x + rr, y + rr], fill=A(colors[k], 1))
+        fl = F("Bold", 34); x = 0; items_ = [(fill(g[0], V) + f" {g[1]}", tuple(g[2])) for g in groups]
+        tw = sum(d.textlength(s_, font=fl) + 70 for s_, _ in items_); x = W / 2 - tw / 2; ly = gy + rows * cell + 34
+        for j, (s_, c) in enumerate(items_):
+            p = pop(u, at_time(v.get("at"), lines) + v.get("fill_sec", 2.4) * sum(g[1] for g in groups[:j + 1]) / n, .3)
+            d.ellipse([x, ly + 10, x + 24, ly + 34], fill=A(c, p)); d.text((x + 34, ly), s_, font=fl, fill=A(t["ink"], p)); x += d.textlength(s_, font=fl) + 70
+        if v.get("label"):
+            b = pop(u, at_time(v.get("label_at", v.get("at")), lines)); s_ = fill(v["label"], V); f = F("ExtraBold", 40)
+            chip(d, W / 2 - d.textlength(s_, font=f) / 2 - 22, ly + 66, s_, f, "navy", b)
     elif typ == "icongrid":
         title_line(d, t, T("title"), tA)
         n, cols = v.get("n", 60), v.get("cols", 15); rows = math.ceil(n / cols); cell = min(130 if n <= 20 else 90, 1400 / cols); gx = W / 2 - cols * cell / 2; gy = v.get("y", 300)
@@ -346,6 +383,13 @@ def draw(sc, V, u, lines, theme, media):
             dim = fon and focus.get("row") != i
             al = a * (1 - .7 * fb if dim else 1)
             d.rounded_rectangle([x0_, yy, x0_ + sum(cw), yy + 104], 14, fill=A(GOLD if hl else t["card"], al * (.25 if hl else 1)), outline=A(GOLD_D if hl else t["line"], al), width=3 if hl else 1)
+            for tg in v.get("tags", []):  # 행 옆 표시 (예: 지금 SK하이닉스 47점)
+                if tg["row"] == i:
+                    pb = pop(u, at_time(tg.get("at"), lines))
+                    if pb > 0:
+                        st_ = fill(tg["text"], V); ft = fitF(d, st_, "ExtraBold", 34, 1840 - (x0_ + sum(cw) + 40) - 60)
+                        tx = x0_ + sum(cw) + 30 + 20 * (1 - pb); d.polygon([(tx, yy + 52), (tx + 18, yy + 36), (tx + 18, yy + 68)], fill=A(GOLD if tg.get("kind") == "gold" else NAVY, pb))
+                        chip(d, tx + 18, yy + 26, st_, ft, tg.get("kind", "navy"), pb, pad=(18, 10))
             for j, c in enumerate(cells):
                 s = fill(c, V); f = fitF(d, s, "ExtraBold" if j else "Bold", 42, cw[j] - 40)
                 d.text((x0_ + sum(cw[:j]) + 24, yy + 28), s, font=f, fill=A(GOLD_D if hl and theme == "light" else (GOLD_L if hl else t["ink"]), al))
@@ -586,11 +630,11 @@ def subtitle2(img, text, u_in, dur):
 
 
 def make_theme(n, seed=11):
-    """밸류노트 시그니처 배경음악 v2 (직접 합성, 저작권 걱정 없음) — 116BPM 차분한 딥하우스 (2026-10-22 운영자: 더 차분하게, 베이스는 더 강하게, 중독성 있게).
-    굵은 서브 베이스가 엇박으로 굴러가고, 따뜻한 일렉트릭 피아노 코드, 단순한 4음 훅이 2마디마다 돌아온다. 훅은 영상마다 같다."""
+    """밸류노트 시그니처 배경음악 v3 (직접 합성, 저작권 걱정 없음) — 122BPM 묵직한 베이스 하우스 (2026-10-22 운영자: 피아노 빼고, 무게감 있는 베이스, 따다단 리듬).
+    주인공은 끊어 치는 베이스 리프(16분음표 '따-다단-단따-단단-따'): 2마디 패턴이 계속 돌아서 귀에 남는다. 그 아래 서브 베이스, 굵은 킥, 클랩, 하이햇."""
     from scipy import signal
     rng = np.random.default_rng(seed); L = np.zeros(n, np.float32); Rr = np.zeros(n, np.float32); K = np.zeros(n, np.float32)
-    bpm = 116; b = 60 / bpm; bar = 4 * b; nt = lambda k: 440 * 2 ** ((k - 69) / 12)
+    bpm = 122; b = 60 / bpm; bar = 4 * b; s16 = b / 4; nt = lambda k: 440 * 2 ** ((k - 69) / 12)
     def add(at, x, gl=1.0, gr=1.0, kick=False):
         i = int(at * SR)
         if i >= n or i < 0: return
@@ -598,49 +642,51 @@ def make_theme(n, seed=11):
         if kick: K[i:i + m] += x[:m]
         else: L[i:i + m] += x[:m] * gl; Rr[i:i + m] += x[:m] * gr
     tt = lambda d: np.arange(int(SR * d)) / SR
-    t = tt(.35); kick = (np.sin(2 * np.pi * (42 * t + 70 / 16 * (1 - np.exp(-16 * t)))) * np.exp(-t * 7.5)).astype(np.float32) * .95
+    t = tt(.4); kick = (np.sin(2 * np.pi * (40 * t + 90 / 20 * (1 - np.exp(-20 * t)))) * np.exp(-t * 6.5) + .25 * np.exp(-t * 250) * rng.standard_normal(len(t))).astype(np.float32)
+    kick = np.tanh(kick * 1.6).astype(np.float32) * .95
     nz = lambda d: rng.standard_normal(int(SR * d)).astype(np.float32)
-    bp = signal.butter(2, [800 / (SR / 2), 2600 / (SR / 2)], "band"); hp = signal.butter(2, 6500 / (SR / 2), "high")
-    clap = np.zeros(int(SR * .3), np.float32)
-    for k in range(3): seg = signal.lfilter(*bp, nz(.3)) * np.exp(-tt(.3) * (60 if k < 2 else 14)); clap[int(k * .012 * SR):] += seg[: len(clap) - int(k * .012 * SR)]
-    clap = (clap / np.abs(clap).max() * .24).astype(np.float32)
-    ohat = (signal.lfilter(*hp, nz(.12)) * np.exp(-tt(.12) * 26) * .09).astype(np.float32)
-    shk = (signal.lfilter(*hp, nz(.05)) * np.exp(-tt(.05) * 70) * .04).astype(np.float32)
-    def bass(f, d):
-        t = tt(d); env = np.minimum(1, t / .006) * np.minimum(1, (d - t) / .03) * np.exp(-t * 2.2)
-        x = np.sin(2 * np.pi * f * t) * .9 + .35 * np.tanh(2.5 * np.sin(2 * np.pi * f * t))   # 굵은 서브 + 살짝 찌그러진 배음
-        return (signal.lfilter(*signal.butter(2, 380 / (SR / 2)), x * env) * .72).astype(np.float32)
-    def keys(fs, d, amp=.1):
-        t = tt(d); x = sum(np.sin(2 * np.pi * f * t + .7 * np.exp(-t * 3) * np.sin(2 * np.pi * 2 * f * t)) for f in fs)
-        return (x / len(fs) * np.minimum(1, t / .01) * np.exp(-t * 2.4) * amp).astype(np.float32)
-    def pluck(f, d=.45):
-        t = tt(d); x = np.sin(2 * np.pi * f * t + .9 * np.exp(-t * 6) * np.sin(2 * np.pi * f * 3 * t)) + .3 * signal.square(2 * np.pi * f * t, .25)
-        x = signal.lfilter(*signal.butter(2, 1900 / (SR / 2)), x) * np.minimum(1, t / .004) * np.exp(-t * 5.5)
-        return (x * .14).astype(np.float32)
-    prog = [(45, [57, 60, 64, 67]), (41, [57, 60, 64, 65]), (43, [55, 59, 62, 67]), (40, [55, 59, 64, 67])]   # Am7  Fmaj7  G6  Em7
-    groove = [(.5, .32), (1.5, .3), (1.75, .2), (2.5, .32), (3.5, .45)]                                     # 엇박으로 굴러가는 베이스 (박, 길이)
-    hook = [(0, 76), (1, 72), (2, 74), (3, 76), (5, 69), (6, 67), (7, 69)]                                   # 8분음표 위치: E-C-D-E | A-G-A
+    bp = signal.butter(2, [900 / (SR / 2), 3000 / (SR / 2)], "band"); hp = signal.butter(2, 7000 / (SR / 2), "high")
+    clap = np.zeros(int(SR * .25), np.float32)
+    for k in range(3): seg = signal.lfilter(*bp, nz(.25)) * np.exp(-tt(.25) * (60 if k < 2 else 16)); clap[int(k * .011 * SR):] += seg[: len(clap) - int(k * .011 * SR)]
+    clap = (clap / np.abs(clap).max() * .3).astype(np.float32)
+    ohat = (signal.lfilter(*hp, nz(.13)) * np.exp(-tt(.13) * 24) * .12).astype(np.float32)
+    chat = (signal.lfilter(*hp, nz(.035)) * np.exp(-tt(.035) * 100) * .06).astype(np.float32)
+    def riff(f, d):   # 끊어 치는 묵직한 베이스: 톱니+사각파를 낮게 거르고, 필터가 열렸다 닫힌다
+        t = tt(d); x = .6 * signal.sawtooth(2 * np.pi * f * t) + .5 * signal.square(2 * np.pi * f * t, .5) + .8 * np.sin(2 * np.pi * f * t)
+        y = np.zeros_like(x); zi = None
+        cut = 200 + 1300 * np.exp(-t * 18)
+        for a in range(0, len(x), 256):
+            bb, aa = signal.butter(2, min(.99, cut[a] / (SR / 2))); seg, zi = signal.lfilter(bb, aa, x[a:a + 256], zi=zi if zi is not None else signal.lfilter_zi(bb, aa) * 0); y[a:a + 256] = seg
+        return (np.tanh(1.8 * y) * np.minimum(1, t / .003) * np.minimum(1, (d - t) / .01) * .55).astype(np.float32)
+    def sub(f, d):
+        t = tt(d); return (np.sin(2 * np.pi * f * t) * np.minimum(1, t / .01) * np.minimum(1, (d - t) / .02) * .5).astype(np.float32)
+    def stab(fs, d=.16):
+        t = tt(d); x = sum(signal.sawtooth(2 * np.pi * f * t) for f in fs); x = signal.lfilter(*signal.butter(2, 1500 / (SR / 2)), x)
+        return (x / len(fs) * np.exp(-t * 14) * .1).astype(np.float32)
+    # 2마디 리프 (16분음표 위치, 반음 차이): 1마디 '따 · 다단 · 단따 · 단단 · 따', 2마디는 끝을 올려 대답
+    patA = [(0, 0), (3, 0), (4, 0), (6, 12), (7, 0), (10, 0), (11, 3), (14, 5)]
+    patB = [(0, 0), (3, 0), (4, 0), (6, 12), (7, 0), (10, 7), (12, 5), (14, 3)]
+    roots = [33, 33, 29, 31]   # A1 A1 F1 G1 (4마디 진행)
     t0, bi = 0.0, 0; total = n / SR
     while t0 < total:
-        root, ch = prog[bi % 4]; sec = (bi // 16) % 4
+        root = roots[bi % 4]; sec = (bi // 8) % 4
         for k in range(4):
             add(t0 + k * b, kick, kick=True)
-            if k in (1, 3) and bi >= 2: add(t0 + k * b, clap, .9, 1)
+            if k in (1, 3) and bi >= 1: add(t0 + k * b, clap, .9, 1)
             add(t0 + k * b + b / 2, ohat, .8, 1)
-            for q in (1, 3): add(t0 + k * b + q * b / 4, shk, 1, .7)
-        for pos, d in groove: add(t0 + pos * b, bass(nt(root - 12 if root < 40 else root - 12), d * b * 1.6))
-        add(t0, keys([nt(x) for x in ch], bar * .9, .09), .9, 1); add(t0 + 2.5 * b, keys([nt(x) for x in ch[1:]], b * 1.2, .06), 1, .9)
-        if sec != 2 and bi % 2 == 0:
-            for pos, k in hook: add(t0 + pos * b / 2, pluck(nt(k)), .85, 1)
-            if bi % 4 == 2:  # 메아리 (훅이 귀에 남도록)
-                for pos, k in hook[:4]: add(t0 + pos * b / 2 + 3 * b / 4, pluck(nt(k)) * .35, 1, .7)
+            for q in (1, 3): add(t0 + k * b + q * s16, chat, 1, .8)
+        for pos, iv in (patA if bi % 2 == 0 else patB):
+            add(t0 + pos * s16, riff(nt(root + 12 + iv), s16 * 1.6))
+        add(t0, sub(nt(root), b * 1.8)); add(t0 + 2 * b, sub(nt(root), b * 1.8))
+        if sec in (1, 3):   # 8마디마다 코드 끊어 치기가 들어왔다 빠진다 (반복이 지루하지 않게)
+            for k in (1, 3): add(t0 + k * b + b * .75, stab([nt(root + 36 + x) for x in (0, 3, 7, 10)]), 1, .85)
         t0 += bar; bi += 1
-    env = np.ones(n, np.float32); per = int(b * SR); dip = (1 - .45 * np.exp(-np.arange(per) / SR * 8)).astype(np.float32)
+    env = np.ones(n, np.float32); per = int(b * SR); dip = (1 - .55 * np.exp(-np.arange(per) / SR * 9)).astype(np.float32)
     for i in range(0, n, per): env[i:i + per] = dip[: min(per, n - i)]
     L = L * env + K; Rr = Rr * env + K
-    m = np.stack([L, Rr], 1); m = signal.lfilter(*signal.butter(2, 7500 / (SR / 2), "low"), m, axis=0)
-    fi = int(SR * 1.0); m[:fi] *= np.linspace(0, 1, fi)[:, None]; fo = int(SR * 3); m[-fo:] *= np.linspace(1, 0, fo)[:, None]
-    m = np.tanh(m / (np.abs(m).max() + 1e-9) * 1.3) / np.tanh(1.3)
+    m = np.stack([L, Rr], 1); m = signal.lfilter(*signal.butter(2, 10000 / (SR / 2), "low"), m, axis=0)
+    fi = int(SR * .8); m[:fi] *= np.linspace(0, 1, fi)[:, None]; fo = int(SR * 3); m[-fo:] *= np.linspace(1, 0, fo)[:, None]
+    m = np.tanh(m / (np.abs(m).max() + 1e-9) * 1.5) / np.tanh(1.5)
     return m.astype(np.float32)
 
 
@@ -707,6 +753,7 @@ def main():
     logo_light = wm.resize((int(wm.width * .42), int(wm.height * .42)), Image.LANCZOS)
     # 밝은 배경용 로고: 밝은 글자를 네이비로
     arr = np.asarray(logo_light).copy(); lum = arr[..., :3].mean(-1); m = (lum > 200) & (arr[..., 3] > 0); arr[m, :3] = NAVY; logo_dark = Image.fromarray(arr)
+    CHAPS[:] = [sc["chapter"] for sc in spec["scenes"] if sc.get("chapter")][1:]  # 첫 장(도입)은 목차에서 뺀다
     for sc in spec["scenes"]:
         img = sc["v"].get("img")
         if img:
@@ -752,7 +799,7 @@ def main():
     if "--stills" in sys.argv:  # 검수용: 장면마다 마지막 문장을 말하는 순간 한 장씩
         sd = os.path.join(out, "stills"); os.makedirs(sd, exist_ok=True); chapter = ""
         for k, s in enumerate(timeline):
-            sc = s["sc"]; typ = sc["v"]["type"]; theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media") else "light")
+            sc = s["sc"]; typ = sc["v"]["type"]; theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light")
             if sc.get("chapter"): chapter = sc["chapter"]
             fit = safe_fit(sc, s, V, theme); media = media_source(sc["v"], int(s["dur"] * FPS) + 2, k) if typ == "media" else None
             lt = s["lines"][-1]; u = min(s["dur"] - .05, lt[0] + lt[1] * .9)
@@ -777,7 +824,7 @@ def main():
     prev_last = None; chapter = ""
     for k, s in enumerate(timeline):
         sc = s["sc"]; n = int(round(s["dur"] * FPS)); typ = sc["v"]["type"]
-        theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media") else "light")
+        theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light")
         if sc.get("chapter"): chapter = sc["chapter"]
         media = media_source(sc["v"], n + 2, k) if typ == "media" else None
         fit = safe_fit(sc, s, V, theme)
