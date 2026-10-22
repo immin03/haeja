@@ -148,6 +148,7 @@ HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta property="og:type" content="article"><meta property="og:site_name" content="밸류노트 ValueNote">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}">
 <meta property="og:image" content="{og}"><meta property="og:url" content="{url}"><link rel="canonical" href="{url}">
+<meta name="robots" content="{robots}">{ld}
 <link rel="icon" type="image/png" href="/favicon-64.png?v=4"><meta name="theme-color" content="#0A1730">
 <style>@font-face{{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}}@font-face{{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
@@ -219,7 +220,7 @@ CTA = ('<section class="cta"><h3>내 종목도 같은 기준으로 확인해 보
 def slug_of(o):
     return (o.get("slug") or o["id"]).lower() if isinstance(o, dict) and "id" in o else o
 
-def page(sp, others, cols=()):
+def page(sp, others, cols=(), live=True):
     dm = sp["dm"]; gid = sp["id"]; kw = dm["keyword"]; sl = (dm.get("slug") or gid).lower()
     title = clean_title(sp); ps = paragraphs(sp.get("caption"))
     pts = [p for p in dm.get("points", []) if p]; chk = [c for c in dm.get("check", []) if c]
@@ -229,8 +230,18 @@ def page(sp, others, cols=()):
     desc = (intro[0] if intro else title)[:140]
     tags = [f"핵심 {len(pts)}줄" if pts else "", f"깊이 보기 {len(secs)}편" if secs else "전체 숫자",
             f"내 종목 점검 {len(chk)}단계" if chk else "", f"자주 묻는 질문 {len(faq)}개" if faq else ""]
-    out = [HEAD.format(title=html.escape(title + " | 밸류노트 칼럼"), desc=html.escape(desc), og=f"{SITE}/social/reels/{gid}/cover.jpg",
-                       url=url, css=CSS)]
+    og = f"{SITE}/social/reels/{gid}/cover.jpg"
+    # 검색엔진용 구조화 데이터(기사 + 자주 묻는 질문). 게시 전(예약) 정리본은 noindex로 두었다가 게시 후 빌드에서 풀린다
+    ld = [{"@context": "https://schema.org", "@type": "Article", "headline": title, "description": desc, "image": [og],
+           "datePublished": sp["scheduled_at"], "dateModified": sp["scheduled_at"], "inLanguage": "ko-KR", "mainEntityOfPage": url,
+           "author": {"@type": "Person", "name": "Luciano"},
+           "publisher": {"@type": "Organization", "name": "밸류노트", "logo": {"@type": "ImageObject", "url": f"{SITE}/icon-512.png"}}}]
+    if faq:
+        ld.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f.get("a", "")}} for f in faq]})
+    ld_html = "".join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False).replace("<", "\\u003c") + "</script>" for x in ld)
+    out = [HEAD.format(title=html.escape(title + " | 밸류노트 칼럼"), desc=html.escape(desc), og=og, url=url, css=CSS,
+                       robots="index,follow,max-image-preview:large" if live else "noindex,follow", ld=ld_html)]
     out.append(top() + '<a class="crumb" href="/blog/" data-out="blog">칼럼 › 이슈 분석</a>'
                f'<span class="eyebrow">이슈 분석 · 댓글 키워드 \'{html.escape(kw)}\'</span>'
                f'<h1>{html.escape(title)}</h1><p class="sub">릴스에서 다 못 한 숫자와 원인, 내 종목에 바로 적용하는 방법까지 정리했습니다.</p>'
@@ -295,7 +306,8 @@ HUB_CSS = """
 
 def index_page(items):
     out = [HEAD.format(title="밸류노트 정리본 모음", desc="릴스 댓글에 남긴 키워드를 누르면 그 릴스의 정리본이 열립니다.",
-                       og=f"{SITE}/og.png", url=f"{SITE}/g", css=CSS + HUB_CSS)]
+                       og=f"{SITE}/og.png", url=f"{SITE}/g", css=CSS + HUB_CSS,
+                       robots="noindex,follow", ld="")]   # DM 입구용 모음: 칼럼 목록(/blog/)과 겹쳐 검색에서는 뺀다
     out.append(top() + '<div class="hub"><span class="eyebrow">밸류노트 정리본</span><h1>댓글에 남긴 키워드를<br>눌러 주세요</h1>'
                '<p class="sub">릴스에서 다 못 한 숫자와 원인, 내 종목 점검법까지 키워드별로 정리해 두었습니다.</p></div></div></header><main class="wrap list">')
     pins = [o for o in items if o.get("pinned")]; rest = [o for o in items if not o.get("pinned")]
@@ -352,7 +364,7 @@ def build(specs, root, now=None):
     for o in items:
         sl = slug_of(o); now_slugs.add(sl)
         others = [x for x in live if x["id"] != o["id"]]
-        open(os.path.join(bdir, sl + ".html"), "w", encoding="utf-8").write(page(o["_sp"], others, cols))
+        open(os.path.join(bdir, sl + ".html"), "w", encoding="utf-8").write(page(o["_sp"], others, cols, live=o in live))
         stub = ('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
                 f'<link rel="canonical" href="{SITE}/blog/{sl}"><meta http-equiv="refresh" content="0; url=/blog/{sl}">'
                 f'<script>location.replace("/blog/{sl}"+location.search+location.hash)</script></head>'

@@ -194,10 +194,10 @@ const OG_FN = `${URL0}/functions/v1/og`;
 const ogUrl = (slug, date) => `${OG_FN}?c=${encodeURIComponent(slug)}&d=${encodeURIComponent(date)}`;
 const ldJson = (ld) => `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`;
 
-function head({ title, desc, url, ld, img, type = 'article', src = 'c', rss = false }) {
+function head({ title, desc, url, ld, img, type = 'article', src = 'c', rss = false, canonical }) {
   const image = img || `${SITE}/og.png`;
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${url}"><meta name="robots" content="index,follow,max-image-preview:large">
+<title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${canonical || url}"><meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="${type}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="밸류노트 ValueNote"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="${esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(image)}">
 <link rel="icon" type="image/png" href="/favicon-64.png?v=4"><meta name="theme-color" content="#0E1A2B"><link rel="preload" href="/fonts/SUIT-Variable.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/c/c.css">${rss ? `<link rel="alternate" type="application/rss+xml" title="밸류노트 칼럼" href="${SITE}/rss.xml">` : ''}
 ${ld ? ldJson(ld) : ''}</head><body>
@@ -451,6 +451,8 @@ const colDateK = (c) => { const d = new Date(c.at || c.id.slice(4, 14)); return 
 const plain = (t) => String(t || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/\*\*/g, '').replace(/^[■>]\s*/gm, '').replace(/\s+/g, ' ').trim();
 const colImage = (c) => c.cover || (String(c.body || '').match(/!\[[^\]]*\]\((https?:[^)\s]+)\)/) || [])[1] || `${SITE}/og.png`;
 
+// 같은 주제를 이슈 분석(blog/<slug>)으로 더 자세히 다룬 칼럼은 검색 대표 주소를 그쪽으로 넘긴다(중복 노출 방지)
+const COL_CANON = { 'col-2026-10-20x': 'getty' };
 function colPage(c, cols) {
   const url = `${SITE}/blog/${c.id}`;
   const ser = COL_SERIES[c.series || 'weekly'];
@@ -459,7 +461,7 @@ function colPage(c, cols) {
   const ld = { '@context': 'https://schema.org', '@type': 'Article', headline: c.title, description: desc, datePublished: iso, dateModified: iso, image: [colImage(c)], inLanguage: 'ko-KR', mainEntityOfPage: url,
     author: { '@type': 'Organization', name: '밸류노트', url: SITE }, publisher: { '@type': 'Organization', name: '밸류노트', logo: { '@type': 'ImageObject', url: `${SITE}/icon-512.png` } } };
   const others = cols.filter((o) => o.id !== c.id).slice(0, 5);
-  return head({ title: `${c.title} | 밸류노트 칼럼`, desc, url, ld, img: colImage(c), src: 'blog', rss: true }) + `<main><article class="card col">
+  return head({ title: `${c.title} | 밸류노트 칼럼`, desc, url, ld, img: colImage(c), src: 'blog', rss: true, canonical: COL_CANON[c.id] && `${SITE}/blog/${COL_CANON[c.id]}` }) + `<main><article class="card col">
 <div class="crumb"><a href="/blog/">칼럼</a> › ${esc(ser)}</div>
 <h1>${esc(c.title)}</h1>${c.sub ? `<p class="sub">${esc(c.sub)}</p>` : ''}<p class="note">${esc(colDateK(c))} · ${esc(colBy(c) || '밸류노트')}</p>
 ${colBodyHtml(c.body)}
@@ -565,7 +567,7 @@ fs.writeFileSync(path.join(ROOT, 'rss.xml'), rss(cols, issues));
 fs.writeFileSync(path.join(bdir, 'columns.json'), JSON.stringify(cols.slice(0, 6).map((c) => ({ id: c.id, title: c.title, series: COL_SERIES[c.series || 'weekly'], date: colDateK(c) }))));
 
 const sm = [[`${SITE}/`, date, '1.0'], [`${SITE}/c/`, date, '0.9'], ...MKT_ORDER.map((m) => [`${SITE}/c/${MSLUG[m]}`, date, '0.9']),
-  [`${SITE}/blog/`, (cols[0]?.at || date).slice(0, 10), '0.8'], ...cols.map((c) => [`${SITE}/blog/${c.id}`, (c.at || c.id.slice(4, 14)).slice(0, 10), '0.7']),
+  [`${SITE}/blog/`, (cols[0]?.at || date).slice(0, 10), '0.8'], ...cols.filter((c) => !COL_CANON[c.id]).map((c) => [`${SITE}/blog/${c.id}`, (c.at || c.id.slice(4, 14)).slice(0, 10), '0.7']),
   ...issues.map((x) => [`${SITE}/blog/${x.slug}`, String(x.at || date).slice(0, 10), '0.7']),
   ...all.map((x) => [`${SITE}/c/${x.slug}`, date, '0.6'])];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sm.map(([u, d, p]) => `<url><loc>${u}</loc><lastmod>${d}</lastmod><priority>${p}</priority></url>`).join('\n')}\n</urlset>\n`);
