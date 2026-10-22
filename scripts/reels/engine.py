@@ -882,7 +882,7 @@ def y_voice(txt, speak):
         try:
             import verify; heard = verify.hear(a, SR); sc = verify.score(txt, heard)
         except Exception: heard, sc = "", 1.0
-        need = .62 if re.search("버핏|그레이엄|PER|HBM|SK", txt) else .72
+        need = .72 if re.search("버핏|그레이엄|PER|HBM|SK", txt) else .82   # 쇼츠는 더 엄격하게: 뭉개진 발음은 다시 받는다
         bad = (syl >= 10 and not (5.5 <= rate <= 8.3)) or sc < need
         cost = abs(rate - 6.7) / 6.7 + max(0, .85 - sc)
         if best is None or cost < best[0]: best = (cost, a, rate, sc, heard, k + 1, need)
