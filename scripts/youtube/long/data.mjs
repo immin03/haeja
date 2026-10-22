@@ -24,6 +24,13 @@ export function won(n) {
 const comma = (n) => Math.round(n).toLocaleString('ko-KR') + '원';
 const x1 = (v) => (Math.round(v * 10) / 10).toFixed(1).replace(/\.0$/, '') + '배';
 const pct = (v) => Math.round(v * 100) + '%';
+// 미국 종목 (2026-10-23 스페이스X 편): 달러 표기. 153.94 → "153.9달러", 2.13e12 → "2.1조 달러", 4.26e11 → "4,300억 달러"
+export const usd = (n) => (n >= 100 ? (Math.round(n * 10) / 10).toFixed(1).replace(/\.0$/, '') : (Math.round(n * 100) / 100).toFixed(2).replace(/0$/, '').replace(/\.0?$/, '')) + '달러';
+export function usdBig(v) {
+  if (v >= 1e12) return (Math.round(v / 1e11) / 10).toFixed(1).replace(/\.0$/, '') + '조 달러';
+  if (v >= 1e11) return (Math.round(v / 1e10) * 100).toLocaleString('ko-KR') + '억 달러';
+  return Math.round(v / 1e8).toLocaleString('ko-KR') + '억 달러';
+}
 const vs = (a, b) => { const r = a / b; return r < 1 ? `약 ${Math.round(r * 100)}%` : `약 ${x1(r)}`; };
 
 // 1,443,000,000 → "14억 4천만 원" (천만 단위 반올림)
@@ -38,6 +45,8 @@ export async function companyData(code, spec = {}) {
   const rows = docs.filter((d) => d.id.startsWith('chunk-')).flatMap((d) => d.data?.rows || []);
   const r = rows.find((x) => x.code === code || x.t === code);
   if (!r) throw new Error('회사 데이터 없음: ' + code);
+  const US = r.cur === 'USD', px0 = r.px;   // px0: 스크리너 가격 (시가총액 환산용)
+  const money = US ? usd : won, money2 = US ? usd : comma;
   // 가격은 렌더하는 순간 야후에서 다시 받는다 (실패하면 매일 갱신되는 스크리너 가격과 그 날짜)
   let asofIso = (docs.find((d) => d.id.startsWith('chunk-') && (d.data?.rows || []).includes(r))?.data?.pxAt) || meta.generatedAt || new Date().toISOString();
   try {
@@ -53,7 +62,7 @@ export async function companyData(code, spec = {}) {
     const j = await (await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(r.t)}?range=1y&interval=1d`, { headers: { 'User-Agent': 'Mozilla/5.0' } })).json();
     const res = j.chart.result[0], cl = res.indicators.quote[0].high || res.indicators.quote[0].close; let k = -1, mx = 0;  // 장중 최고가 (앱의 52주 범위와 같은 기준)
     cl.forEach((v, i) => { if (v != null && v > mx) { mx = v; k = i; } });
-    if (mx > 0) { const hd = new Date(res.timestamp[k] * 1000 + 9 * 3600e3); hi = { hi52: comma(mx), hi52_short: won(mx), hi52_when: `${hd.getUTCFullYear()}년 ${hd.getUTCMonth() + 1}월`, from_hi: Math.round((1 - r.px / mx) * 100) + '%' }; }
+    if (mx > 0) { const hd = new Date(res.timestamp[k] * 1000 + 9 * 3600e3); hi = { hi52: money2(mx), hi52_short: money(mx), hi52_when: `${hd.getUTCFullYear()}년 ${hd.getUTCMonth() + 1}월`, from_hi: Math.round((1 - r.px / mx) * 100) + '%' }; }
   } catch (e) { console.error('1년 최고가 실패:', String(e).slice(0, 120)); }
   const sc = scoreRow(r, null, 30);
   const px = r.px, iv = sc.iv, E = sc.E;
@@ -61,13 +70,25 @@ export async function companyData(code, spec = {}) {
   const tr = (await (await fetch(`${U}/rest/v1/docs?collection=eq.trends&id=eq.current&select=data`, H)).json())[0]?.data;
   const pf = Object.fromEntries((await (await fetch(`${U}/rest/v1/docs?collection=eq.profiles&select=id,data`, H)).json()).map((d) => [d.id, d.data]));
   const vn = makeVN(tr, pf)(r, sc);
-  const d = new Date(new Date(asofIso).getTime() + 9 * 3600e3);
+  // 미국 종목은 뉴욕 날짜로 (한국 시각으로 바꾸면 종가 날짜가 하루 밀린다)
+  const d = new Date(new Date(asofIso).getTime() + (US ? -4 : 9) * 3600e3);
   const asof = `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`;
   const hm = d.getUTCHours() * 60 + d.getUTCMinutes(), wd = d.getUTCDay();
   // 장중 여부는 '지금(렌더 시각)' 기준: 장이 끝난 뒤 받은 마지막 체결가(야후는 15:20으로 찍힘)는 종가로 부른다
   const nk = new Date(Date.now() + 9 * 3600e3), nhm = nk.getUTCHours() * 60 + nk.getUTCMinutes(), sameDay = nk.toISOString().slice(0, 10) === d.toISOString().slice(0, 10);
   const intraday = String(asofIso).length > 10 && sameDay && wd >= 1 && wd <= 5 && nhm >= 9 * 60 && nhm < 15 * 60 + 30 && (r.m === 'KR' || /\.K[SQ]$/.test(r.t));
-  const px_label = intraday ? `${asof} 장중 주가` : `${asof} 종가`;
+  const ne = new Date(Date.now() - 4 * 3600e3), ehm = ne.getUTCHours() * 60 + ne.getUTCMinutes();
+  const usIntra = US && ne.toISOString().slice(0, 10) === d.toISOString().slice(0, 10) && ne.getUTCDay() >= 1 && ne.getUTCDay() <= 5 && ehm >= 9 * 60 + 30 && ehm < 16 * 60;
+  const px_label = (intraday || usIntra) ? `${asof} 장중 주가` : `${asof} 종가`;
+  // 미국 종목 추가 값: 시가총액, 공모가 대비, 원고가 정한 나눗셈 (spec.mcap_calc = {이름: {div, fmt: 'x'|'usd'}})
+  let usv = {};
+  if (US) {
+    const mc = (r.mcap || 0) * 1e6 * (px / px0);
+    usv = { mcap: usdBig(mc) };
+    if (spec.ipo_px) { const g = px / spec.ipo_px - 1; usv.ipo_vs = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; usv.ipo_word = g >= 0 ? '위' : '아래'; usv.ipo_abs = Math.abs(Math.round(g * 100)) + '%'; }
+    for (const [k, c] of Object.entries(spec.mcap_calc || {})) usv[k] = c.fmt === 'usd' ? usdBig(mc / c.div) : '약 ' + Math.round(mc / c.div) + '배';
+    if (spec.px_ref) for (const [k, ref] of Object.entries(spec.px_ref)) { const g = px / ref - 1; usv[k] = (g >= 0 ? '+' : '-') + Math.abs(g * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
+  }
   const bt = spec.backtest; let btv = {};
   if (bt) { const mult = (r.px + (bt.div_per_share || 0)) / bt.then_px; btv = { bt_won: eokman(1e8 * mult), bt_mult: x1(mult), bt_asof: asof, bt_rise: Math.floor(r.px / bt.then_px) + '배' }; }
   const normal = iv / 10;                 // 적정 주가에 쓰인 정상 이익(주당)
@@ -76,7 +97,7 @@ export async function companyData(code, spec = {}) {
   return {
     raw: { code, ticker: r.t, name: r.n, px, iv, eps: E, score: vn.total, q: sc.q, v: sc.v, asof_iso: asofIso, ivSrc: sc.ivSrc },
     vars: {
-      asof, px_label, ...btv, ...hi, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: comma(px), px_short: won(px), iv: comma(iv), iv_short: won(iv), iv_man: Math.floor(iv / 1e4) + '만 원',
+      asof, px_label, ...btv, ...hi, ...usv, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: money2(px), px_short: money(px), iv: iv ? money2(iv) : '', iv_short: iv ? money(iv) : '', iv_man: Math.floor(iv / 1e4) + '만 원',
       mult: x1(px / iv), per_now: x1(px / E), per_avg: x1(px / normal), eps: won(E),
       need: pct(need), iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
       v30: won(v30), v30_vs: vs(v30, px), v100: won(v100), v100_vs: vs(v100, px),
