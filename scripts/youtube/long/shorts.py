@@ -39,8 +39,8 @@ def frame_png(hook, cta, path):
         while d.textlength(l, font=f) > W - 100: f = F("Heavy", f.size - 4)
         d.text((W / 2, y), l, font=f, fill=GOLD if i else IVORY, anchor="ma", stroke_width=3, stroke_fill=(0, 0, 0)); y += f.size + 26
     d.rounded_rectangle([60, VID_Y - 10, W - 60, VID_Y - 4], 3, fill=GOLD)
-    f = F("ExtraBold", 44); d.text((W / 2, H - 230), cta, font=f, fill=IVORY, anchor="mm")
-    f2 = F("Bold", 34); d.text((W / 2, H - 165), "밸류노트 ValueNote", font=f2, fill=GOLD, anchor="mm")
+    f = F("ExtraBold", 44); d.text((W / 2, VID_Y + VID_H + 300), cta, font=f, fill=IVORY, anchor="mm")   # 쇼츠 화면 아래쪽(제목·채널 표시)에 가리지 않게
+    f2 = F("Bold", 34); d.text((W / 2, VID_Y + VID_H + 362), "밸류노트 ValueNote", font=f2, fill=GOLD, anchor="mm")
     im.save(path)
 
 
