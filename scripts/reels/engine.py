@@ -676,9 +676,9 @@ def plan(spec, speak):
                 import verify
                 if ln.get("cap") and verify.score(" ".join(ln["cap"]), txt) < .8:
                     LINT.append(f"자막과 음성이 다름: {ln['cap']} ↔ {txt}")
-                a = verify.speak_checked(to_speech(txt), ln.get("speed", speed), speak, SR, VLOG)
+                a = verify.speak_checked(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO, speak, SR, VLOG)
             else:
-                a = speak(to_speech(txt), ln.get("speed", speed))
+                a = speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
             L.append([u, len(a) / SR, ln.get("cap")]); vo.append((u, a))
             u += len(a) / SR + .12
         dur = u + {"hook": .1, "cta": .8}.get(sc["type"], .2)
@@ -1063,6 +1063,8 @@ def build_audio(scenes, total, mood, path):
     out = np.tanh((mm + (voice + fx * .8)[:, None]) * 1.1) / np.tanh(1.1)
     import soundfile as sf
     sf.write(path, (out / np.max(np.abs(out)) * .95).astype(np.float32), SR, subtype="PCM_16")
+
+REEL_TEMPO = 1.15  # 2026-10-22 운영자: 릴스는 성호를 15% 빠르게 (느리고 지루하다는 검수)
 
 # ── 실행 ─────────────────────────────────────────────────────
 VERIFY = os.environ.get("REELS_VERIFY", "1") != "0"
