@@ -64,7 +64,10 @@ def dm_kw(spec):
     return str(d.get("keyword") or "").strip()
 def cta_lines(spec, sc, lines):
     kw = dm_kw(spec)
-    if sc["type"] != "cta" or not kw: return lines
+    if sc["type"] != "cta": return lines
+    if not kw:  # 정리본이 없는 릴스는 팔로우로 마무리 (2026-10-22 운영자: 모든 릴스에 정리본을 붙이지 않는다)
+        sc["_follow"] = True
+        return list(lines) + [{"cap": None, "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
     sc["_dm"] = kw
     return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
 
@@ -477,6 +480,20 @@ def s_cta(img, u, sc, L, T):
     l1, l2 = sc.get("l1", "더 현명한 투자를"), sc.get("l2", "시작하세요")
     appear(img, u, V * .42, l1, fit_font(l1, "Heavy", 92, 980), IVORY, (W / 2, 850), dur=.45, rise=50)
     appear(img, u, V * .62, l2, fit_font(l2, "Heavy", 92, 980), IVORY, (W / 2, 975), dur=.45, rise=50)
+    if sc.get("_follow"):  # 팔로우 버튼: 안내 음성이 시작될 때 나타난다
+        tb = L[-1][0] if len(L) > 1 else V * .85; pb = prog(u, tb, tb + .4)
+        if pb > 0:
+            pulse = .5 + .5 * math.sin((u - tb) * 7); bw, bh = 760, 132; cx, cy = W / 2, 1170 + (1 - pb) * 40
+            if pb >= 1:
+                g = int(10 + pulse * 14)
+                d.rounded_rectangle([cx - bw / 2 - g, cy - bh / 2 - g, cx + bw / 2 + g, cy + bh / 2 + g], 76, outline=mix(NAVY, GOLD_D, .6 - pulse * .4), width=3)
+            d.rounded_rectangle([cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2], 66, fill=mix(NAVY, GOLD, pb))
+            t1 = "+ 밸류노트 팔로우"
+            d.text((cx, cy), t1, font=fit_font(t1, "ExtraBold", 54, bw - 90), fill=mix(GOLD, NAVY, pb), anchor="mm")
+            if pb > .6:
+                t2 = "매일 조금 더 현명한 투자 습관"
+                appear(img, u, tb + .25, t2, fit_font(t2, "SemiBold", 38, 960), (196, 204, 220), (W / 2, 1300), dur=.4, rise=20)
+        return img
     kw = sc.get("_dm")
     if kw:   # 댓글 키워드 버튼: 안내 음성이 시작될 때 나타난다
         tb = L[1][0] if len(L) > 1 else V * .85; pb = prog(u, tb, tb + .4)
