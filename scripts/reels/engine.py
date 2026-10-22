@@ -1155,7 +1155,7 @@ def render(spec, outdir, stills=None):
     for i in range(int(total * FPS)):
         p.stdin.write(frame(i / FPS, scenes, total).tobytes())
     p.stdin.close(); p.wait(); os.remove(wav)
-    (cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total).convert("RGB") if YT_BANNER else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     return total
 
