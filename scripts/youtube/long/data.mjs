@@ -64,7 +64,9 @@ export async function companyData(code, spec = {}) {
   const d = new Date(new Date(asofIso).getTime() + 9 * 3600e3);
   const asof = `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`;
   const hm = d.getUTCHours() * 60 + d.getUTCMinutes(), wd = d.getUTCDay();
-  const intraday = String(asofIso).length > 10 && wd >= 1 && wd <= 5 && hm >= 9 * 60 && hm < 15 * 60 + 30 && (r.m === 'KR' || /\.K[SQ]$/.test(r.t));
+  // 장중 여부는 '지금(렌더 시각)' 기준: 장이 끝난 뒤 받은 마지막 체결가(야후는 15:20으로 찍힘)는 종가로 부른다
+  const nk = new Date(Date.now() + 9 * 3600e3), nhm = nk.getUTCHours() * 60 + nk.getUTCMinutes(), sameDay = nk.toISOString().slice(0, 10) === d.toISOString().slice(0, 10);
+  const intraday = String(asofIso).length > 10 && sameDay && wd >= 1 && wd <= 5 && nhm >= 9 * 60 && nhm < 15 * 60 + 30 && (r.m === 'KR' || /\.K[SQ]$/.test(r.t));
   const px_label = intraday ? `${asof} 장중 주가` : `${asof} 종가`;
   const bt = spec.backtest; let btv = {};
   if (bt) { const mult = (r.px + (bt.div_per_share || 0)) / bt.then_px; btv = { bt_won: eokman(1e8 * mult), bt_mult: x1(mult), bt_asof: asof, bt_rise: Math.floor(r.px / bt.then_px) + '배' }; }
