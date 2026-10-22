@@ -10,7 +10,7 @@
 """
 import json, math, os, re, subprocess, sys, datetime as dt
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -80,6 +80,13 @@ def pop(u, t, dur=.35):
 def A(c, a): return (*c[:3], int(255 * clamp(a)))
 
 
+def fitF(d, s, w, size, maxw, minsize=24):
+    """글자가 칸(maxw) 밖으로 나가지 않게 글꼴을 줄인다"""
+    f = F(w, size)
+    while size > minsize and max([d.textlength(x, font=f) for x in str(s).split("\n")] or [0]) > maxw: size -= 2; f = F(w, size)
+    return f
+
+
 def center_text(d, y, s, font, fill_):
     d.text((W / 2 - d.textlength(s, font=font) / 2, y), s, font=font, fill=fill_)
 
@@ -102,8 +109,9 @@ def dashed_box(d, box, col, a, r=14):
         d.line([x0, y, x0, min(y + seg, y1 - r)], fill=A(col, a), width=2); d.line([x1, y, x1, min(y + seg, y1 - r)], fill=A(col, a), width=2)
 
 
-def title_line(d, t, text, a, y=110, size=50):
+def title_line(d, t, text, a, y=150, size=50):
     if not text: return
+    size = fitF(d, text, "ExtraBold", size, W - 280).size
     d.text((140, y + 14 * (1 - a)), text, font=F("ExtraBold", size), fill=A(t["ink"], a))
     d.rectangle([140, y + size + 22, 140 + 90 * a, y + size + 27], fill=A(t["acc"], a))
 
@@ -127,7 +135,7 @@ def draw(sc, V, u, lines, theme, media):
             d.arc([cx - rr, cy - rr, cx + rr, cy + rr], start=ang, end=ang + 80, fill=A(GOLD, a), width=6)  # 천천히 도는 호
             f = F("Heavy", 300); center_text(d, H / 2 - 230 + 30 * (1 - a), "?", f, A(GOLD, a))
             s = T("text"); f2 = F("ExtraBold", 58)
-            for i, l in enumerate(wrap(d, s, f2, 1500)[:2]): center_text(d, H / 2 + 130 + i * 76, l, f2, A(IVORY, pop(u, .4)))
+            for i, l in enumerate(wrap(d, s, f2, 1500)[:2]): center_text(d, H / 2 + 170 + i * 76, l, f2, A(IVORY, pop(u, .4)))
         else:
             k = T("kicker"); f0 = F("Bold", 36)
             if k: center_text(d, H / 2 - 150, k, f0, A(GOLD_L, a))
@@ -197,7 +205,7 @@ def draw(sc, V, u, lines, theme, media):
         for i, it in enumerate(items):
             lab, val = fill(it[0], V), float(it[1]); p = pop(u, at_time(it[2] if len(it) > 2 else None, lines), .7)
             y = 300 + i * 130; on = cur and cur.get("i") == i
-            d.text((160, y + 14), lab, font=F("Bold", 42), fill=A(t["ink"], p))
+            d.text((160, y + 14), lab, font=fitF(d, lab, "Bold", 42, 420), fill=A(t["ink"], p))
             col = GOLD if on else (NAVY if theme == "light" else (120, 146, 190))
             if cur and not on: col = tuple(int(c * .45 + 235 * .55) for c in col)
             ww = 1000 * val / mx * p; d.rounded_rectangle([600, y, 600 + max(8, ww), y + 76], 10, fill=A(col, min(1, p * 3)))
@@ -331,7 +339,7 @@ def draw(sc, V, u, lines, theme, media):
             al = a * (1 - .7 * fb if dim else 1)
             d.rounded_rectangle([x0_, yy, x0_ + sum(cw), yy + 104], 14, fill=A(GOLD if hl else t["card"], al * (.25 if hl else 1)), outline=A(GOLD_D if hl else t["line"], al), width=3 if hl else 1)
             for j, c in enumerate(cells):
-                s = fill(c, V); f = F("ExtraBold" if j else "Bold", 42)
+                s = fill(c, V); f = fitF(d, s, "ExtraBold" if j else "Bold", 42, cw[j] - 40)
                 d.text((x0_ + sum(cw[:j]) + 24, yy + 28), s, font=f, fill=A(GOLD_D if hl and theme == "light" else (GOLD_L if hl else t["ink"]), al))
     elif typ == "checklist":
         title_line(d, t, T("title"), tA)
@@ -340,17 +348,17 @@ def draw(sc, V, u, lines, theme, media):
             d.rounded_rectangle([200, y + 12 * (1 - a), W - 200, y + 96 + 12 * (1 - a)], 16, fill=A(t["card"], a), outline=A(t["line"], a), width=2)
             num = f"{i + 1}"; fn = F("Heavy", 44); d.ellipse([230, y + 20, 286, y + 76], fill=A(GOLD if i == v.get("star", 0) else NAVY, a))
             d.text((258 - d.textlength(num, font=fn) / 2, y + 22), num, font=fn, fill=A(NAVY if i == v.get("star", 0) else WHITE, a))
-            d.text((320, y + 24 + 12 * (1 - a)), fill(s, V), font=F("Bold", 42), fill=A(t["ink"], a))
+            d.text((320, y + 24 + 12 * (1 - a)), fill(s, V), font=fitF(d, fill(s, V), "Bold", 42, W - 200 - 320 - 30), fill=A(t["ink"], a))
     elif typ == "card":  # 인물·회사 카드
         a0 = pop(u, at_time(v.get("at"), lines)); x0_, y0, x1_ = 420, 210, W - 420
         rows = v.get("rows", []); y1 = y0 + 240 + 90 * len(rows)
         d.rounded_rectangle([x0_, y0 + 20 * (1 - a0), x1_, y1 + 20 * (1 - a0)], 22, fill=A(t["card"], a0), outline=A(t["line"], a0), width=2)
         d.rectangle([x0_, y0 + 20 * (1 - a0), x1_, y0 + 14 + 20 * (1 - a0)], fill=A(GOLD, a0))
         if v.get("kicker"): d.text((x0_ + 60, y0 + 50), fill(v["kicker"], V), font=F("SemiBold", 32), fill=A(t["muted"], a0))
-        d.text((x0_ + 60, y0 + 100), fill(v["title"], V), font=F("Heavy", 72), fill=A(t["ink"], a0))
+        d.text((x0_ + 60, y0 + 100), fill(v["title"], V), font=fitF(d, fill(v["title"], V), "Heavy", 72, x1_ - x0_ - 120), fill=A(t["ink"], a0))
         for i, r in enumerate(rows):
             s, at = (r if isinstance(r, list) else [r, None])[:2]; a = pop(u, at_time(at, lines)); y = y0 + 230 + i * 90
-            d.ellipse([x0_ + 64, y + 22, x0_ + 80, y + 38], fill=A(GOLD, a)); d.text((x0_ + 110, y + 6 + 10 * (1 - a)), fill(s, V), font=F("Bold", 42), fill=A(t["ink"], a))
+            d.ellipse([x0_ + 64, y + 22, x0_ + 80, y + 38], fill=A(GOLD, a)); d.text((x0_ + 110, y + 6 + 10 * (1 - a)), fill(s, V), font=fitF(d, fill(s, V), "Bold", 42, x1_ - x0_ - 160), fill=A(t["ink"], a))
     elif typ == "twocol":
         title_line(d, t, T("title"), tA)
         for k, side in enumerate((v["left"], v["right"])):
@@ -358,30 +366,73 @@ def draw(sc, V, u, lines, theme, media):
             d.rounded_rectangle([x0_, 260 + 20 * (1 - a0), x1_, 860 + 20 * (1 - a0)], 20, fill=A(t["card"], a0), outline=A(t["line"], a0), width=2)
             hc = GOLD if side.get("gold") else NAVY
             d.rounded_rectangle([x0_, 260 + 20 * (1 - a0), x1_, 360 + 20 * (1 - a0)], 20, fill=A(hc, a0)); d.rectangle([x0_, 330 + 20 * (1 - a0), x1_, 360 + 20 * (1 - a0)], fill=A(hc, a0))
-            d.text((x0_ + 40, 282 + 20 * (1 - a0)), fill(side["title"], V), font=F("Heavy", 48), fill=A(NAVY if side.get("gold") else WHITE, a0))
+            d.text((x0_ + 40, 282 + 20 * (1 - a0)), fill(side["title"], V), font=fitF(d, fill(side["title"], V), "Heavy", 48, 650), fill=A(NAVY if side.get("gold") else WHITE, a0))
             for i, it in enumerate(side.get("items", [])):
                 s, at = (it if isinstance(it, list) else [it, side.get("at")])[:2]; a = pop(u, at_time(at, lines)); y = 400 + i * 96
-                d.text((x0_ + 50, y + 10 * (1 - a)), fill(s, V), font=F("Bold", 44), fill=A(t["ink"], a))
+                d.text((x0_ + 50, y + 10 * (1 - a)), fill(s, V), font=fitF(d, fill(s, V), "Bold", 44, 630), fill=A(t["ink"], a))
                 if i < len(side["items"]) - 1: d.line([x0_ + 40, y + 76, x1_ - 40, y + 76], fill=A(t["line"], a), width=1)
     elif typ == "phone":
         draw_phone(img, d, v, u, lines, V, theme)
     elif typ == "media":
-        for i, c in enumerate(v.get("chips", [])):  # 실사 위에 핵심 숫자가 하나씩 쌓인다
-            a = pop(u, at_time(c.get("at"), lines)); f1 = F("Heavy", 64); f2 = F("SemiBold", 30)
-            x = 160 + i * 400; y = 730
-            if a <= 0: continue
-            d.rounded_rectangle([x, y + 16 * (1 - a), x + 360, y + 170 + 16 * (1 - a)], 16, fill=(10, 18, 32, int(200 * a)), outline=(255, 255, 255, int(60 * a)), width=2)
-            d.text((x + 30, y + 22 + 16 * (1 - a)), fill(c["v"], V), font=f1, fill=A(GOLD_L, a)); d.text((x + 32, y + 112 + 16 * (1 - a)), fill(c.get("l", ""), V), font=f2, fill=A(IVORY, a))
+        x = 160; y = 600  # 실사 위에 핵심 숫자가 하나씩 쌓인다 (자막 띠 위, 칩 폭은 글자에 맞춘다)
+        for i, c in enumerate(v.get("chips", [])):
+            a = pop(u, at_time(c.get("at"), lines)); s1, s2 = fill(c["v"], V), fill(c.get("l", ""), V)
+            f1 = fitF(d, s1, "Heavy", 64, 720); f2 = fitF(d, s2, "SemiBold", 32, 720)
+            cw_ = max(300, d.textlength(s1, font=f1), d.textlength(s2, font=f2)) + 64
+            if a > 0:
+                d.rounded_rectangle([x, y + 16 * (1 - a), x + cw_, y + 180 + 16 * (1 - a)], 16, fill=(10, 18, 32, int(205 * a)), outline=(255, 255, 255, int(60 * a)), width=2)
+                d.text((x + 32, y + 24 + 16 * (1 - a)), s1, font=f1, fill=A(GOLD_L, a)); d.text((x + 32, y + 118 + 16 * (1 - a)), s2, font=f2, fill=A(IVORY, a))
+            x += cw_ + 28
         if v.get("caption"):
-            a = pop(u, at_time(v.get("caption_at"), lines)); s = fill(v["caption"], V); f = F("Heavy", 80)
+            a = pop(u, at_time(v.get("caption_at"), lines)); s = fill(v["caption"], V); f = fitF(d, s, "Heavy", 80, W - 320)
             d.text((160, 200 + 20 * (1 - a)), s, font=f, fill=A(WHITE, a))
     elif typ == "end":
-        p = pop(u, .2, 1.0); ic = R.ICON_S; img.paste(ic.convert("RGB"), (W // 2 - 110, 210 + int(20 * (1 - p))), ic)
-        center_text(d, 480, T("title"), F("Heavy", 72), A(IVORY, p)); center_text(d, 580, T("sub"), F("SemiBold", 44), A(GOLD_L, p))
-        q = pop(u, 1.2, 1.9); bw = 360; x = W / 2 - bw / 2; sc_ = 1 + .04 * math.sin(u * 3) * q
-        d.rounded_rectangle([x - 10 * sc_, 680, x + bw + 10 * sc_, 770], 45, fill=(204, 0, 0, int(255 * q)))
-        center_text(d, 698, "구독하기", F("Heavy", 46), A(WHITE, q))
+        p = pop(u, .2, 1.0); ic = R.ICON_S; img.paste(ic.convert("RGB"), (W // 2 - 110, 180 + int(20 * (1 - p))), ic)
+        center_text(d, 450, T("title"), fitF(d, T("title"), "Heavy", 72, 1500), A(IVORY, p)); center_text(d, 550, T("sub"), fitF(d, T("sub"), "SemiBold", 44, 1500), A(GOLD_L, p))
+        # 구독 · 좋아요 · 알림 설정 (말에 맞춰 차례로)
+        btns = [("구독", (204, 0, 0), WHITE), ("좋아요", WHITE, NAVY), ("알림 설정", GOLD, NAVY)]
+        fb = F("Heavy", 42); bws = [d.textlength(b[0], font=fb) + 90 for b in btns]; gap = 36; x = W / 2 - (sum(bws) + gap * 2) / 2
+        for i, (lab, bg, fg) in enumerate(btns):
+            q = pop(u, at_time(v["btn_at"][i], lines) if v.get("btn_at") else 1.0 + i * .35, .5)
+            if q > 0:
+                y = 670 + 20 * (1 - q); d.rounded_rectangle([x, y, x + bws[i], y + 88], 44, fill=A(bg, q))
+                d.text((x + bws[i] / 2 - d.textlength(lab, font=fb) / 2, y + 18), lab, font=fb, fill=A(fg, q))
+            x += bws[i] + gap
     return img
+
+
+# ── 안전 영역: 로고·장 제목(위)과 자막(아래)을 그래픽이 가리지 않게 ──
+SAFE = (110, 152, 1810, 868)   # 왼쪽, 위, 오른쪽, 아래 (천천히 다가가는 3% 확대까지 감안한 값)
+
+
+def safe_fit(sc, s, V, theme):
+    """장면 전체에서 그래픽이 차지하는 영역을 재고, 안전 영역을 벗어나면 줄이고 옮길 방법을 돌려준다 (없으면 None)"""
+    typ = sc["v"]["type"]
+    if typ in ("media", "end"): return None
+    bg = np.asarray(background(theme)).astype(np.int16); box = None
+    for u in list(np.arange(0, s["dur"], .5)) + [s["dur"]]:
+        im = np.asarray(draw(sc, V, u, s["lines"], theme, None)).astype(np.int16)
+        m = np.abs(im - bg).max(-1) > 12; ys, xs = np.where(m.any(1))[0], np.where(m.any(0))[0]
+        if not len(ys): continue
+        b = (xs[0], ys[0], xs[-1] + 1, ys[-1] + 1)
+        box = b if box is None else (min(box[0], b[0]), min(box[1], b[1]), max(box[2], b[2]), max(box[3], b[3]))
+    if box is None: return None
+    x0, y0, x1, y1 = box; L, T_, Rr, B = SAFE
+    if x0 >= L and y0 >= T_ and x1 <= Rr and y1 <= B: return None
+    x0, y0, x1, y1 = max(0, x0 - 8), max(0, y0 - 8), min(W, x1 + 8), min(H, y1 + 24)  # 나타날 때 살짝 내려오는 움직임 몫
+    k = min(1.0, (Rr - L) / (x1 - x0), (B - T_) / (y1 - y0))
+    nw, nh = (x1 - x0) * k, (y1 - y0) * k
+    nx = min(max((x0 + x1) / 2 - nw / 2, L), Rr - nw); ny = min(max((y0 + y1) / 2 - nh / 2, T_), B - nh)
+    return {"box": (int(x0), int(y0), int(x1), int(y1)), "size": (max(1, int(nw)), max(1, int(nh))), "at": (int(nx), int(ny)), "k": round(k, 3)}
+
+
+def apply_fit(img, fit, theme):
+    if not fit: return img
+    bgi = background(theme); bga = np.asarray(bgi).astype(np.int16)
+    m = Image.fromarray(((np.abs(np.asarray(img).astype(np.int16) - bga).max(-1) > 6) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5))
+    c = img.crop(fit["box"]).resize(fit["size"], Image.LANCZOS); mc = m.crop(fit["box"]).resize(fit["size"], Image.BILINEAR)
+    bgi.paste(c, fit["at"], mc)
+    return bgi
 
 
 SHOTS = {}
@@ -415,14 +466,14 @@ def draw_phone(img, d, v, u, lines, V, theme):
     mask = Image.new("L", (pw, ph), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, pw, ph], 46, fill=255)
     img.paste(crop, (px0, py0), mask)
     a = pop(u, .1)
-    d.text((800, 170), fill(v.get("title", ""), V), font=F("Heavy", 62), fill=A(t["ink"], a))
+    d.text((800, 170), fill(v.get("title", ""), V), font=fitF(d, fill(v.get("title", ""), V), "Heavy", 62, 1760 - 800), fill=A(t["ink"], a))
     lab = fill(vw.get("label", ""), V)
     if lab: d.text((804, 262), lab, font=F("Bold", 40), fill=A(t["acc"], clamp((u - tv[k]) / .5)))
     for i, b in enumerate(v.get("bullets", [])):
         s, at = (b if isinstance(b, list) else [b, None])[:2]; p = pop(u, at_time(at, lines)); y = 380 + i * 130
         if p <= 0: continue
         d.rounded_rectangle([800 + 30 * (1 - p), y, 1720, y + 104], 18, fill=A(t["card"], p), outline=A(GOLD_D, p), width=2)
-        d.text((838 + 30 * (1 - p), y + 26), fill(s, V), font=F("ExtraBold", 46), fill=A(t["ink"], p))
+        d.text((838 + 30 * (1 - p), y + 26), fill(s, V), font=fitF(d, fill(s, V), "ExtraBold", 46, 1720 - 838 - 36), fill=A(t["ink"], p))
 
 
 # ── 실사 (원고가 지정한 파일만) ──
@@ -475,7 +526,7 @@ def subtitle2(img, text, u_in, dur):
             if u_in < dur * acc / tot: break
         start = dur * (acc - len("".join(pages[pi]))) / tot
     lines_ = pages[pi]; a = clamp((u_in - start) / .15)
-    y0 = H - 150 - (len(lines_) - 1) * 56
+    y0 = H - 124 - (len(lines_) - 1) * 56
     for i, l in enumerate(lines_):
         tw = d.textlength(l, font=f); x = (W - tw) / 2; y = y0 + i * 56
         d.rounded_rectangle([x - 18, y - 6, x + tw + 18, y + 52], 10, fill=(8, 14, 26, int(200 * a)))
@@ -530,6 +581,21 @@ def main():
     st_ = np.stack([mix, mix], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
+    if "--stills" in sys.argv:  # 검수용: 장면마다 마지막 문장을 말하는 순간 한 장씩
+        sd = os.path.join(out, "stills"); os.makedirs(sd, exist_ok=True); chapter = ""
+        for k, s in enumerate(timeline):
+            sc = s["sc"]; typ = sc["v"]["type"]; theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media") else "light")
+            if sc.get("chapter"): chapter = sc["chapter"]
+            fit = safe_fit(sc, s, V, theme); media = media_source(sc["v"], int(s["dur"] * FPS) + 2, k) if typ == "media" else None
+            lt = s["lines"][-1]; u = min(s["dur"] - .05, lt[0] + lt[1] * .9)
+            img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
+            if typ not in ("media", "end"):
+                z = 1.03; cw, ch = W / z, H / z; img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+            chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", fill(sc.get("src", sc["v"].get("src", "")), V), V.get("asof"), .5, logo_dark, logo_light)
+            if typ != "end": subtitle2(img, lt[2], lt[1] * .9, lt[1])
+            img.save(os.path.join(sd, f"{k:02d}_{typ}.jpg"), quality=80)
+            print(k, typ, fit and fit["k"])
+        return
     # 2) 영상
     tmp = os.path.join(out, "video_noaudio.mp4")
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
@@ -540,10 +606,12 @@ def main():
         theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media") else "light")
         if sc.get("chapter"): chapter = sc["chapter"]
         media = media_source(sc["v"], n + 2, k) if typ == "media" else None
+        fit = safe_fit(sc, s, V, theme)
+        if fit: print(f"  안전 영역 맞춤: 장면 {k + 1} {typ} ×{fit['k']}", flush=True)
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
         for i in range(n):
             u = i / FPS
-            img = draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media)
+            img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
             if typ not in ("media", "end"):  # 그래픽 화면은 장면 내내 아주 천천히 다가간다 (멈춘 화면처럼 보이지 않게)
                 z = 1 + .03 * (u / max(1.0, s["dur"])); cw, ch = W / z, H / z
                 img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
