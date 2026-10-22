@@ -122,6 +122,9 @@ def draw(sc, V, u, lines, theme, media):
     if typ in ("title", "question"):
         a = pop(u, .1, .5)
         if typ == "question":
+            cx, cy = W / 2, H / 2 - 90; rr = 230; ang = (u * 45) % 360
+            d.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], outline=(255, 255, 255, int(28 * a)), width=2)
+            d.arc([cx - rr, cy - rr, cx + rr, cy + rr], start=ang, end=ang + 80, fill=A(GOLD, a), width=6)  # 천천히 도는 호
             f = F("Heavy", 300); center_text(d, H / 2 - 230 + 30 * (1 - a), "?", f, A(GOLD, a))
             s = T("text"); f2 = F("ExtraBold", 58)
             for i, l in enumerate(wrap(d, s, f2, 1500)[:2]): center_text(d, H / 2 + 130 + i * 76, l, f2, A(IVORY, pop(u, .4)))
@@ -541,6 +544,9 @@ def main():
         for i in range(n):
             u = i / FPS
             img = draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media)
+            if typ not in ("media", "end"):  # 그래픽 화면은 장면 내내 아주 천천히 다가간다 (멈춘 화면처럼 보이지 않게)
+                z = 1 + .03 * (u / max(1.0, s["dur"])); cw, ch = W / z, H / z
+                img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", src, asof, (s["start"] + u) / total, logo_dark, logo_light)
             cur = next((l for l in reversed(s["lines"]) if u >= l[0] - .05), None)
             if cur and u <= cur[0] + cur[1] + .25 and typ != "end": subtitle2(img, cur[2], u - cur[0], cur[1])
