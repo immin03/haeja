@@ -66,8 +66,9 @@ def cta_lines(spec, sc, lines):
     kw = dm_kw(spec)
     if sc["type"] != "cta": return lines
     if not kw:  # 정리본이 없는 릴스는 팔로우로 마무리 (2026-10-22 운영자: 모든 릴스에 정리본을 붙이지 않는다)
-        sc["_follow"] = True
-        return list(lines) + [{"cap": None, "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
+        yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
+        sc["_follow"] = "yt" if yt else True
+        return list(lines) + [{"cap": None, "say": ("밸류노트를 구독하고, 매일 조금 더 현명한 투자 습관을 길러 보세요." if yt else "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요.")}]
     sc["_dm"] = kw
     return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
 
@@ -488,7 +489,7 @@ def s_cta(img, u, sc, L, T):
                 g = int(10 + pulse * 14)
                 d.rounded_rectangle([cx - bw / 2 - g, cy - bh / 2 - g, cx + bw / 2 + g, cy + bh / 2 + g], 76, outline=mix(NAVY, GOLD_D, .6 - pulse * .4), width=3)
             d.rounded_rectangle([cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2], 66, fill=mix(NAVY, GOLD, pb))
-            t1 = "+ 밸류노트 팔로우"
+            t1 = "+ 밸류노트 구독" if sc.get("_follow") == "yt" else "+ 밸류노트 팔로우"
             d.text((cx, cy), t1, font=fit_font(t1, "ExtraBold", 54, bw - 90), fill=mix(GOLD, NAVY, pb), anchor="mm")
             if pb > .6:
                 t2 = "매일 조금 더 현명한 투자 습관"
