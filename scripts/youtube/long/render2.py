@@ -629,12 +629,16 @@ def subtitle2(img, text, u_in, dur):
         tx = x + d.textlength(l[:m.start()], font=f); d.text((tx, y), m.group().rstrip(), font=f, fill=(*GOLD_L, int(255 * a)))
 
 
-def make_theme(n, seed=11):
-    """밸류노트 시그니처 배경음악 v3 (직접 합성, 저작권 걱정 없음) — 122BPM 묵직한 베이스 하우스 (2026-10-22 운영자: 피아노 빼고, 무게감 있는 베이스, 따다단 리듬).
-    주인공은 끊어 치는 베이스 리프(16분음표 '따-다단-단따-단단-따'): 2마디 패턴이 계속 돌아서 귀에 남는다. 그 아래 서브 베이스, 굵은 킥, 클랩, 하이햇."""
+THEME_MIX = {'bass': 0.7, 'pad': 3.8, 'stab': 3.4, 'hat': 2.5, 'lead': 3.4, 'vox': 2.6, 'clap': 2.8, 'sub': 1.3}  # 예시 플레이리스트와 대역별 음량을 맞춘 값 (20~120Hz가 가장 크고, 고음은 은은하게)
+
+
+def make_theme(n, seed=11, mix=None):
+    """밸류노트 시그니처 배경음악 v4 — 120BPM 여름 딥하우스 (운영자 예시 플레이리스트 'Summer Vibe in Athens'를 분석해 맞춤):
+    저음(20~120Hz)이 가장 크고, 중음은 따뜻한 패드·코드가 채우며, 고음은 셰이커·하이햇이 은은하게. C#단조(C#m-A-E-B), 아주 약한 '우-' 보컬 패드."""
     from scipy import signal
+    mix = mix or THEME_MIX
     rng = np.random.default_rng(seed); L = np.zeros(n, np.float32); Rr = np.zeros(n, np.float32); K = np.zeros(n, np.float32)
-    bpm = 122; b = 60 / bpm; bar = 4 * b; s16 = b / 4; nt = lambda k: 440 * 2 ** ((k - 69) / 12)
+    bpm = 120; b = 60 / bpm; bar = 4 * b; s16 = b / 4; nt = lambda k: 440 * 2 ** ((k - 69) / 12)
     def add(at, x, gl=1.0, gr=1.0, kick=False):
         i = int(at * SR)
         if i >= n or i < 0: return
@@ -642,51 +646,58 @@ def make_theme(n, seed=11):
         if kick: K[i:i + m] += x[:m]
         else: L[i:i + m] += x[:m] * gl; Rr[i:i + m] += x[:m] * gr
     tt = lambda d: np.arange(int(SR * d)) / SR
-    t = tt(.4); kick = (np.sin(2 * np.pi * (40 * t + 90 / 20 * (1 - np.exp(-20 * t)))) * np.exp(-t * 6.5) + .25 * np.exp(-t * 250) * rng.standard_normal(len(t))).astype(np.float32)
-    kick = np.tanh(kick * 1.6).astype(np.float32) * .95
     nz = lambda d: rng.standard_normal(int(SR * d)).astype(np.float32)
-    bp = signal.butter(2, [900 / (SR / 2), 3000 / (SR / 2)], "band"); hp = signal.butter(2, 7000 / (SR / 2), "high")
+    t = tt(.32); kick = (np.sin(2 * np.pi * (48 * t + 70 / 22 * (1 - np.exp(-22 * t)))) * np.exp(-t * 9) + .15 * np.exp(-t * 300) * rng.standard_normal(len(t))).astype(np.float32) * .8
+    bp = signal.butter(2, [1000 / (SR / 2), 3500 / (SR / 2)], "band"); hp = signal.butter(2, 6000 / (SR / 2), "high")
     clap = np.zeros(int(SR * .25), np.float32)
-    for k in range(3): seg = signal.lfilter(*bp, nz(.25)) * np.exp(-tt(.25) * (60 if k < 2 else 16)); clap[int(k * .011 * SR):] += seg[: len(clap) - int(k * .011 * SR)]
-    clap = (clap / np.abs(clap).max() * .3).astype(np.float32)
-    ohat = (signal.lfilter(*hp, nz(.13)) * np.exp(-tt(.13) * 24) * .12).astype(np.float32)
-    chat = (signal.lfilter(*hp, nz(.035)) * np.exp(-tt(.035) * 100) * .06).astype(np.float32)
-    def riff(f, d):   # 끊어 치는 묵직한 베이스: 톱니+사각파를 낮게 거르고, 필터가 열렸다 닫힌다
-        t = tt(d); x = .6 * signal.sawtooth(2 * np.pi * f * t) + .5 * signal.square(2 * np.pi * f * t, .5) + .8 * np.sin(2 * np.pi * f * t)
-        y = np.zeros_like(x); zi = None
-        cut = 200 + 1300 * np.exp(-t * 18)
-        for a in range(0, len(x), 256):
-            bb, aa = signal.butter(2, min(.99, cut[a] / (SR / 2))); seg, zi = signal.lfilter(bb, aa, x[a:a + 256], zi=zi if zi is not None else signal.lfilter_zi(bb, aa) * 0); y[a:a + 256] = seg
-        return (np.tanh(1.8 * y) * np.minimum(1, t / .003) * np.minimum(1, (d - t) / .01) * .55).astype(np.float32)
-    def sub(f, d):
-        t = tt(d); return (np.sin(2 * np.pi * f * t) * np.minimum(1, t / .01) * np.minimum(1, (d - t) / .02) * .5).astype(np.float32)
-    def stab(fs, d=.16):
-        t = tt(d); x = sum(signal.sawtooth(2 * np.pi * f * t) for f in fs); x = signal.lfilter(*signal.butter(2, 1500 / (SR / 2)), x)
-        return (x / len(fs) * np.exp(-t * 14) * .1).astype(np.float32)
-    # 2마디 리프 (16분음표 위치, 반음 차이): 1마디 '따 · 다단 · 단따 · 단단 · 따', 2마디는 끝을 올려 대답
-    patA = [(0, 0), (3, 0), (4, 0), (6, 12), (7, 0), (10, 0), (11, 3), (14, 5)]
-    patB = [(0, 0), (3, 0), (4, 0), (6, 12), (7, 0), (10, 7), (12, 5), (14, 3)]
-    roots = [33, 33, 29, 31]   # A1 A1 F1 G1 (4마디 진행)
+    for k in range(3): seg = signal.lfilter(*bp, nz(.25)) * np.exp(-tt(.25) * (55 if k < 2 else 15)); clap[int(k * .011 * SR):] += seg[: len(clap) - int(k * .011 * SR)]
+    clap = (clap / np.abs(clap).max() * .30 * mix.get("clap", 1)).astype(np.float32)
+    ohat = (signal.lfilter(*hp, nz(.16)) * np.exp(-tt(.16) * 18) * .22 * mix.get("hat", 1)).astype(np.float32)
+    shaker = (signal.lfilter(*signal.butter(2, [5000 / (SR / 2), 10500 / (SR / 2)], "band"), nz(.06)) * np.minimum(1, tt(.06) / .015) * np.exp(-tt(.06) * 45) * .16 * mix.get("hat", 1)).astype(np.float32)
+    def bass(f, d):   # 둥글고 굵은 베이스 (서브 + 약간의 배음)
+        t = tt(d); env = np.minimum(1, t / .008) * np.minimum(1, (d - t) / .03) * (0.6 + .4 * np.exp(-t * 4))
+        x = mix.get("sub", .9) * np.sin(np.pi * f * t) + np.sin(2 * np.pi * f * t) + .25 * np.sin(2 * np.pi * 2 * f * t)
+        return (x * env * .55 * mix.get("bass", 1)).astype(np.float32)
+    def pad(fs, d):   # 따뜻한 패드 (톱니 여러 개를 살짝 어긋나게, 저역통과)
+        t = tt(d); x = sum(signal.sawtooth(2 * np.pi * f * (1 + dt) * t + ph) for f in fs for dt, ph in ((-.005, 0), (.005, 1.3), (0, 2.1)))
+        x = signal.lfilter(*signal.butter(2, 2400 / (SR / 2)), x); env = np.minimum(1, t / .25) * np.minimum(1, (d - t) / .35)
+        return (x / (len(fs) * 3) * env * .32 * mix.get("pad", 1)).astype(np.float32)
+    def chord_stab(fs, d=.28):   # 부드러운 코드 끊어 치기 (오르간+톱니)
+        t = tt(d); x = sum(np.sin(2 * np.pi * f * t) + .4 * signal.sawtooth(2 * np.pi * f * t) for f in fs)
+        x = signal.lfilter(*signal.butter(2, 3000 / (SR / 2)), x)
+        return (x / len(fs) * np.minimum(1, t / .005) * np.exp(-t * 7) * .22 * mix.get("stab", 1)).astype(np.float32)
+    def pluck(f, d=.4):   # 맑은 플럭(마림바 비슷)
+        t = tt(d); x = np.sin(2 * np.pi * f * t) + .5 * np.sin(2 * np.pi * 2 * f * t) * np.exp(-t * 10) + .25 * np.sin(2 * np.pi * 4 * f * t) * np.exp(-t * 18)
+        return (x * np.minimum(1, t / .002) * np.exp(-t * 6) * .16 * mix.get("lead", 1)).astype(np.float32)
+    def vox(f, d):    # 아주 약한 '우-' 보컬 느낌 (포먼트 필터를 거친 톱니)
+        t = tt(d); x = signal.sawtooth(2 * np.pi * f * t * (1 + .004 * np.sin(2 * np.pi * 5 * t)))
+        y = sum(g * signal.lfilter(*signal.butter(2, [fc * .88 / (SR / 2), fc * 1.12 / (SR / 2)], "band"), x) for fc, g in ((350, 1), (800, .5), (2400, .2)))
+        env = np.minimum(1, t / .2) * np.minimum(1, (d - t) / .3)
+        return (y * env * .5 * mix.get("vox", 1)).astype(np.float32)
+    prog = [(49, [61, 64, 68, 71]), (45, [61, 64, 69, 73]), (52, [59, 64, 68, 71]), (47, [59, 63, 66, 71])]  # C#m7  A(add9)  E  B
+    bassline = [(.5, .4), (1.5, .4), (2.5, .4), (3.25, .2), (3.5, .45)]    # 엇박 베이스
+    hook = [(0, 80), (1.5, 76), (3, 73), (4, 75), (6, 76), (7, 73)]          # 8분음표 위치: G#-E-C#-D#-E-C# (2마디)
     t0, bi = 0.0, 0; total = n / SR
     while t0 < total:
-        root = roots[bi % 4]; sec = (bi // 8) % 4
+        root, ch = prog[bi % 4]; sec = (bi // 8) % 4
         for k in range(4):
             add(t0 + k * b, kick, kick=True)
-            if k in (1, 3) and bi >= 1: add(t0 + k * b, clap, .9, 1)
-            add(t0 + k * b + b / 2, ohat, .8, 1)
-            for q in (1, 3): add(t0 + k * b + q * s16, chat, 1, .8)
-        for pos, iv in (patA if bi % 2 == 0 else patB):
-            add(t0 + pos * s16, riff(nt(root + 12 + iv), s16 * 1.6))
-        add(t0, sub(nt(root), b * 1.8)); add(t0 + 2 * b, sub(nt(root), b * 1.8))
-        if sec in (1, 3):   # 8마디마다 코드 끊어 치기가 들어왔다 빠진다 (반복이 지루하지 않게)
-            for k in (1, 3): add(t0 + k * b + b * .75, stab([nt(root + 36 + x) for x in (0, 3, 7, 10)]), 1, .85)
+            if k in (1, 3) and bi >= 2: add(t0 + k * b, clap, .9, 1)
+            add(t0 + k * b + b / 2, ohat, .75, 1)
+            for q in range(4): add(t0 + k * b + q * s16 + (.012 if q % 2 else 0), shaker * (1 if q % 2 else .5), 1, .75)
+        for pos, d in bassline: add(t0 + pos * b, bass(nt(root - 12 if root > 47 else root), d * b * 1.5))
+        add(t0, pad([nt(x) for x in ch], bar), .85, 1)
+        for k in (0.5, 1.75, 2.5, 3.75): add(t0 + k * b, chord_stab([nt(x + 12) for x in ch[:3]]), 1, .8)
+        if sec != 0 and bi % 2 == 0:
+            for pos, kk in hook: add(t0 + pos * b / 2, pluck(nt(kk)), .9, 1); add(t0 + pos * b / 2 + .75 * b, pluck(nt(kk)) * .3, 1, .6)
+        if sec in (2, 3) and bi % 4 == 0: add(t0, vox(nt(ch[0] + 12), bar * 3.8), 1, 1)
         t0 += bar; bi += 1
-    env = np.ones(n, np.float32); per = int(b * SR); dip = (1 - .55 * np.exp(-np.arange(per) / SR * 9)).astype(np.float32)
+    env = np.ones(n, np.float32); per = int(b * SR); dip = (1 - .45 * np.exp(-np.arange(per) / SR * 8)).astype(np.float32)
     for i in range(0, n, per): env[i:i + per] = dip[: min(per, n - i)]
     L = L * env + K; Rr = Rr * env + K
-    m = np.stack([L, Rr], 1); m = signal.lfilter(*signal.butter(2, 10000 / (SR / 2), "low"), m, axis=0)
+    m = np.stack([L, Rr], 1); m = signal.lfilter(*signal.butter(2, 13000 / (SR / 2), "low"), m, axis=0)
     fi = int(SR * .8); m[:fi] *= np.linspace(0, 1, fi)[:, None]; fo = int(SR * 3); m[-fo:] *= np.linspace(1, 0, fo)[:, None]
-    m = np.tanh(m / (np.abs(m).max() + 1e-9) * 1.5) / np.tanh(1.5)
+    m = np.tanh(m / (np.percentile(np.abs(m), 99.7) + 1e-9) * 1.1) / np.tanh(1.1)
     return m.astype(np.float32)
 
 
