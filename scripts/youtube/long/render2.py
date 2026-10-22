@@ -740,16 +740,38 @@ def make_thumb(spec, V, out):
     th = im.convert("RGBA")
     sh = Image.new("RGBA", (TW, TH_)); g = ImageDraw.Draw(sh)   # 글자 쪽(왼쪽 아래)만 어둡게: 사진은 살리고 글자는 또렷하게
     for k in range(TW):
-        a = int((60 if tv.get("pos", "top") == "top" else 170) * max(0, 1 - k / (TW * .75)) ** 1.3); g.line([k, 0, k, TH_], fill=(0, 0, 0, a))
+        a = int((40 if tv.get("pos", "top") in ("top", "center") else 170) * max(0, 1 - k / (TW * .75)) ** 1.3); g.line([k, 0, k, TH_], fill=(0, 0, 0, a))
     th = Image.alpha_composite(th, sh); sh2 = Image.new("RGBA", (TW, TH_)); g2 = ImageDraw.Draw(sh2)
-    for y in range(TH_ // 2, TH_): g2.line([0, y, TW, y], fill=(0, 0, 0, int((25 if tv.get("pos", "top") == "top" else 120) * (y - TH_ / 2) / (TH_ / 2))))
+    for y in range(TH_ // 2, TH_): g2.line([0, y, TW, y], fill=(0, 0, 0, int((20 if tv.get("pos", "top") in ("top", "center") else 120) * (y - TH_ / 2) / (TH_ / 2))))
     th = Image.alpha_composite(th, sh2); d = ImageDraw.Draw(th)
     l1, l2 = fill(tv["l1"], V), fill(tv["l2"], V); maxw = TW - 120
     f1 = F("Heavy", 112)
     while d.textlength(l1, font=f1) > maxw: f1 = F("Heavy", f1.size - 4)
     f2 = F("Heavy", 190)
     while d.textlength(l2, font=f2) > maxw: f2 = F("Heavy", f2.size - 6)
-    pos = tv.get("pos", "top")   # 2026-10-22 운영자: 테두리 없이 그림자만, 글자는 위쪽 (예시: '얼마 벌고 얼마 쓸까')
+    pos = tv.get("pos", "top")   # 2026-10-22 운영자: 테두리 없이 그림자만 (예시: '얼마 벌고 얼마 쓸까'). center = 회사 로고 + 두 줄을 가운데에
+    if pos == "center":
+        f1 = F("Heavy", tv.get("s1", 78)); f2 = F("Heavy", tv.get("s2", 138))
+        co = tv.get("co_logo") and os.path.join(HERE, "assets", tv["co_logo"]); card = None
+        if co and os.path.exists(co):
+            cl = Image.open(co).convert("RGBA"); sc2 = 70 / cl.height; cl = cl.resize((int(cl.width * sc2), 70), Image.LANCZOS)
+            card = Image.new("RGBA", (cl.width + 64, cl.height + 34), (0, 0, 0, 0)); ImageDraw.Draw(card).rounded_rectangle([0, 0, card.width - 1, card.height - 1], 22, fill=(255, 255, 255, 245))
+            card.alpha_composite(cl, (32, 17))
+        hh = (card.height + 34 if card else 0) + f1.size + 18 + f2.size; y0 = (TH_ - hh) // 2 - 6
+        vg = Image.new("RGBA", (TW, TH_)); gv = ImageDraw.Draw(vg)   # 가운데를 살짝 어둡게
+        for r_ in range(0, 520, 4): gv.ellipse([TW / 2 - 700 + r_, TH_ / 2 - 380 + r_ * .55, TW / 2 + 700 - r_, TH_ / 2 + 380 - r_ * .55], fill=(0, 0, 0, 3))
+        th = Image.alpha_composite(th, vg.filter(ImageFilter.GaussianBlur(30)))
+        if card:
+            shd = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(shd).rounded_rectangle([(TW - card.width) // 2 + 4, y0 + 8, (TW + card.width) // 2 + 4, y0 + card.height + 8], 22, fill=(0, 0, 0, 120))
+            th = Image.alpha_composite(th, shd.filter(ImageFilter.GaussianBlur(10))); th.alpha_composite(card, ((TW - card.width) // 2, y0)); y0 += card.height + 34
+        for (txt, f, col) in ((l1, f1, WHITE), (l2, f2, YEL)):
+            tw_ = ImageDraw.Draw(th).textlength(txt, font=f); x_ = (TW - tw_) / 2
+            for blur, off, alpha in ((14, 6, 160), (4, 3, 170)):
+                sd_ = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sd_).text((x_ + off, y0 + off), txt, font=f, fill=(0, 0, 0, alpha))
+                th = Image.alpha_composite(th, sd_.filter(ImageFilter.GaussianBlur(blur)))
+            ImageDraw.Draw(th).text((x_, y0), txt, font=f, fill=col); y0 += f.size + 18
+        lg = R.LOGO.resize((int(R.LOGO.width * .26), int(R.LOGO.height * .26)), Image.LANCZOS); th.alpha_composite(lg, (TW - lg.width - 32, TH_ - lg.height - 26))
+        th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92); return
     if pos == "top": y1 = 46; y2 = y1 + f1.size + 14
     else: y2 = TH_ - 70 - f2.size; y1 = y2 - f1.size - 18
     if pos == "top":   # 위쪽을 살짝 어둡게 (사진은 살리고 글자는 또렷하게)
