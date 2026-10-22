@@ -213,6 +213,8 @@ def subscribe(pos="main"):
             '<a href="/privacy" target="_blank">개인정보 처리방침</a></span>'
             '<p class="ok">등록했습니다. 다음 정리본부터 메일로 보내 드리겠습니다.</p></section>')
 
+YT_JS = '<script src="/yt.js?v=1" defer></script>'   # 유튜브 영상·채널 연결 (자리표시 data-yt 를 채운다)
+
 CTA = ('<section class="cta"><h3>내 종목도 같은 기준으로 확인해 보세요</h3>'
        '<p>밸류노트는 600여 개 기업의 점수와 적정 주가를 워렌 버핏·그레이엄·찰리 멍거의 방식으로 매일 계산합니다. 내 종목을 넣으면 같은 기준으로 바로 채점합니다.</p>'
        '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=ig-dm" data-out="kakao">카카오로 1초 만에 시작하기</a></div></section>')
@@ -249,6 +251,8 @@ def page(sp, others, cols=(), live=True):
     out.append('<main class="wrap">')
     if pts:
         out.append('<div class="sum"><div class="lbl">한눈에 보기</div><ol class="points">' + "".join(f"<li><b>{i + 1}</b>{html.escape(p)}</li>" for i, p in enumerate(pts)) + '</ol><div style="height:10px"></div></div>')
+    if dm.get("company"):   # 같은 회사 유튜브 롱폼이 올라가 있으면 요약 바로 아래에서 재생 (없으면 /yt.js 가 아무것도 안 보여 줌)
+        out.append(f'<div data-yt="co:{html.escape(str(dm["company"]))}" data-yt-src="blog-{html.escape(sl)}-top"></div>')
     # 깊이 보기(sections)가 있으면 캡션은 앞 두 문단만 도입부로 쓴다(같은 내용을 두 번 읽지 않게, 숫자가 엇갈리지 않게)
     toc = ([] if secs else [("s-reel", "릴스 내용 전체")]) + [(f"s{i}", x["h"]) for i, x in enumerate(secs)]
     if dm.get("wrong"): toc.append(("s-wrong", "이 분석이 틀릴 수 있는 경우"))
@@ -271,6 +275,7 @@ def page(sp, others, cols=(), live=True):
     if faq:
         out.append('<h2 id="s-faq">자주 묻는 질문</h2>' + "".join(f'<details><summary>{html.escape(f["q"])}</summary><p>{html.escape(f["a"])}</p></details>' for f in faq))
     out.append(subscribe() + CTA)
+    out.append(f'<div data-yt="channel" data-yt-src="blog-{html.escape(sl)}-ch"></div>')   # 유튜브 채널 구독 띠
     more = [(f'/blog/{slug_of(o)}', o["title"], f"이슈 분석 · 댓글 키워드 '{o['keyword']}'") for o in others[:3]] + \
            [(f'/blog/{c["id"]}', c["title"], f'{c.get("series") or "칼럼"} · {c.get("date") or ""}') for c in list(cols)[:3]]
     if more:
@@ -281,7 +286,7 @@ def page(sp, others, cols=(), live=True):
             f'<a href="{html.escape(x["url"])}" target="_blank" rel="noopener">{html.escape(x["t"])}</a>' for x in dm["sources"] if x.get("url")) + '</div>')
     out.append(subscribe("foot"))
     out.append(f'<p class="disc">{DISC}</p></main>')
-    out.append(JS % {"sb": SB, "key": EV_KEY, "gid": gid} + "</body></html>")
+    out.append(JS % {"sb": SB, "key": EV_KEY, "gid": gid} + YT_JS + "</body></html>")
     return "".join(out)
 
 HUB_CSS = """
@@ -318,15 +323,17 @@ def index_page(items):
         out.append(f'<a class="feat card-x" data-k="{html.escape(o["keyword"] + " " + o["title"])}" href="{href(o)}"><span class="badge">지금 가장 많이 찾는 정리본</span>'
                    f'<span class="kwl">댓글 키워드</span><span class="kwb">{html.escape(o["keyword"])}</span>'
                    f'<span class="t">{html.escape(o["title"])}</span><span class="go">정리본 바로 보기</span></a>')
+    out.append('<div data-yt="latest" data-yt-src="g-hub"></div>')   # 정리본 모음: 최신 유튜브 롱폼
     out.append('<input id="q" class="qf" type="search" placeholder="키워드로 찾기 (예: 이자, 매매, 환율)" aria-label="키워드로 찾기">')
     if rest: out.append('<div class="sect">최근 릴스 정리본</div>')
     for o in rest:
         out.append(f'<a class="card" data-k="{html.escape(o["keyword"] + " " + o["title"])}" href="{href(o)}"><span class="k">{html.escape(o["keyword"])}</span>'
                    f'<span class="b"><span class="kl">댓글 키워드</span><span class="t">{html.escape(o["title"])}</span><span class="d">{o["date"]}</span></span></a>')
     out.append(subscribe() + CTA)
+    out.append('<div data-yt="channel" data-yt-src="g-hub-ch"></div>')
     out.append(f'<p class="disc">{DISC}</p></main>')
     out.append("<script>(function(){var q=document.getElementById('q');if(!q)return;q.addEventListener('input',function(){var v=q.value.replace(/\\s/g,'').toLowerCase();document.querySelectorAll('a.card,a.card-x').forEach(function(a){a.style.display=!v||a.dataset.k.replace(/\\s/g,'').toLowerCase().indexOf(v)>=0?'':'none';});});})();</script>")
-    out.append(JS % {"sb": SB, "key": EV_KEY, "gid": "hub"} + "</body></html>")
+    out.append(JS % {"sb": SB, "key": EV_KEY, "gid": "hub"} + YT_JS + "</body></html>")
     return "".join(out)
 
 PIN = ["N261020c"]   # 광고를 돌리는 동안 모음 맨 위에 고정할 정리본 (광고가 끝나면 빼기)

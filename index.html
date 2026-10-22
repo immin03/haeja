@@ -67,7 +67,7 @@ if(/Android/.test(u)){location.href='intent://'+location.host+location.pathname+
 <title>밸류노트 ValueNote · 적정 주가와 가치투자 점수, 그레이엄·워렌 버핏 기준</title>
 <link rel="canonical" href="https://www.valuenote.co.kr/">
 <link rel="alternate" type="application/rss+xml" title="밸류노트 칼럼" href="https://www.valuenote.co.kr/rss.xml">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"밸류노트","alternateName":["ValueNote","가치노트"],"url":"https://www.valuenote.co.kr/","inLanguage":"ko-KR"},{"@type":"Organization","name":"밸류노트","alternateName":"ValueNote","url":"https://www.valuenote.co.kr/","logo":"https://www.valuenote.co.kr/icon-512.png","sameAs":["https://www.instagram.com/value.note.korea/","https://blog.naver.com/valuenote_korea"]},{"@type":"WebApplication","name":"밸류노트 ValueNote","url":"https://www.valuenote.co.kr/","applicationCategory":"FinanceApplication","operatingSystem":"Web, iOS, Android","inLanguage":"ko-KR","description":"그레이엄·워렌 버핏·찰리 멍거의 기준으로 5개 시장 600여 개 기업의 가치투자 점수와 적정 주가를 매일 계산하고, 적정 매수가에 오면 알려 주는 가치투자 노트.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"밸류노트","alternateName":["ValueNote","가치노트"],"url":"https://www.valuenote.co.kr/","inLanguage":"ko-KR"},{"@type":"Organization","name":"밸류노트","alternateName":"ValueNote","url":"https://www.valuenote.co.kr/","logo":"https://www.valuenote.co.kr/icon-512.png","sameAs":["https://www.instagram.com/value.note.korea/","https://blog.naver.com/valuenote_korea","https://www.youtube.com/@valuenote_korea"]},{"@type":"WebApplication","name":"밸류노트 ValueNote","url":"https://www.valuenote.co.kr/","applicationCategory":"FinanceApplication","operatingSystem":"Web, iOS, Android","inLanguage":"ko-KR","description":"그레이엄·워렌 버핏·찰리 멍거의 기준으로 5개 시장 600여 개 기업의 가치투자 점수와 적정 주가를 매일 계산하고, 적정 매수가에 오면 알려 주는 가치투자 노트.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -2314,7 +2314,7 @@ function consentHtml(){
 }
 function discFootHtml(){
   const est = ['analyze','alerts','watchlist','companies'].includes(S.tab);
-  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div></footer>`;
+  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a> · <a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div></footer>`;
 }
 document.addEventListener('change', e => { if(e.target && e.target.classList && e.target.classList.contains('ca-req')){ const b = document.getElementById('disc-ok'); if(b) b.disabled = ![...document.querySelectorAll('.ca-req')].every(x => x.checked); } });
 document.addEventListener('click', e => {
@@ -3228,7 +3228,7 @@ function weeklyNoteHtml(){
     : `<button type="button" class="wk-hero" data-act="col-open" data-v="${esc(col.id)}">
         <span class="wk-hero-body"><span class="eyebrow">${fresh ? '이번 주 칼럼' : '최근 칼럼'} · ${esc(series)}</span><b>${esc(col.title)}</b>${ex ? `<span class="wk-hero-ex">${esc(ex)}${/[.!?다요]$/.test(ex) ? '' : '…'}</span>` : ''}<span class="wk-hero-cta">읽기 ›</span></span>
       </button>`;
-  const more = col ? `<div class="wk-more-row"><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button><a class="linkbtn" href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그 ›</a></div>` : '';
+  const more = col ? `<div class="wk-more-row"><button type="button" class="linkbtn" data-act="go-tab" data-v="column">지난 칼럼 모두 보기 ›</button><a class="linkbtn" href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그 ›</a><a class="linkbtn" href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브 ›</a></div><div data-yt="latest" data-yt-src="app-home"></div>` : '';
   /* 이번 주 숫자: 줄마다 문장 하나와 숫자 하나. 누르면 해당 화면으로 */
   const line = (label, val, cls, tab) => `<button type="button" class="wk-line" data-act="go-tab" data-v="${tab}"><span>${label}</span><b class="num ${cls}">${val}</b><i>›</i></button>`;
   const lines = [
@@ -3290,10 +3290,12 @@ function viewColumn(){
       <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
       ${(open.sources || []).length ? `<div class="small muted col-src">출처 ${open.sources.slice(0, 6).map((u, i) => { try{ return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(new URL(u).hostname.replace(/^www\./, ''))}</a>`; }catch(_){ return ''; } }).filter(Boolean).join(' · ')}</div>` : ''}
       <a class="col-blog small" href="${BLOG_URL}" target="_blank" rel="noopener">더 많은 글은 밸류노트 네이버 블로그에서 읽을 수 있습니다 ›</a>
+      <div data-yt="channel" data-yt-src="app-col-art"></div>
       <p class="small muted col-disc">${colByline(open) ? '밸류노트 에디터 Luciano가 작성한 글입니다. ' : ''}공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
   return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">이슈 분석: 화제의 기업을 숫자로 파고듭니다 · 주간 시장: 매주 월요일 시장·금리·환율 정리 · 거장의 투자: 워렌 버핏·그레이엄·찰리 멍거의 실제 매매와 생각</div></div></div>
     ${newsletterBox()}
+    <div data-yt="latest" data-yt-src="app-column"></div>
     ${blogBox()}
     <div class="col-tabs">${[['all','전체'], ['issue','이슈 분석'], ...Object.entries(COL_SERIES)].map(([k, l]) => `<button type="button" class="${(S.colSer || 'all') === k ? 'on' : ''}" data-act="col-ser" data-v="${k}">${l}</button>`).join('')}</div>
     ${(() => { issuesLoad(); const IL = ISS.L || [], ser = S.colSer || 'all';
@@ -4009,7 +4011,7 @@ function stockChartBlock(o){
     ${pos !== null ? `<div class="rng52"><div class="small muted" style="margin-bottom:8px">52주 범위 <span class="num">· 지금은 최저와 최고 사이 ${fmt(pos,0)}% 지점</span></div><div class="bar">${ivPos !== null ? `<i class="iv" style="left:${ivPos.toFixed(1)}%" title="적정 주가"></i>` : ''}<i style="left:${pos.toFixed(1)}%"></i></div>
       <div class="lab small num"><span><span class="muted">최저</span> <b>${f(lo)}</b>${d.loAt ? ` <span class="muted">${esc(d.loAt.slice(2, 7).replace('-', '.'))}</span>` : ''}</span><span>${d.hiAt ? `<span class="muted">${esc(d.hiAt.slice(2, 7).replace('-', '.'))}</span> ` : ''}<b>${f(hi)}</b> <span class="muted">최고</span></span></div></div>` : ''}
     <div class="rets">${rets}</div>
-  </div>`;
+  </div>${o.compact ? '' : `<div data-yt="co:${esc(String(k))}" data-yt-src="app-detail" data-yt-label="${esc(o.name || '')}, 영상으로 보기"></div>`}`;
 }
 function priceChart(key, opts={}){
   const s = seriesFor(key); if(!s) return `<div class="small muted">가격 기록이 쌓이면 차트가 표시됩니다.</div>`;
@@ -7342,5 +7344,6 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 :root[data-theme="dark"] .ty-unknown,.pf-top .ty-unknown{--ty:#9AA4B4}
 .pf-top .ty.ty-spec{background:color-mix(in srgb,var(--ty) 20%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 45%,transparent)}
 </style>
+<script src="/yt.js?v=1" defer></script>
 </body>
 </html>

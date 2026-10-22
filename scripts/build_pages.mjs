@@ -203,8 +203,10 @@ function head({ title, desc, url, ld, img, type = 'article', src = 'c', rss = fa
 ${ld ? ldJson(ld) : ''}</head><body>
 <header class="top"><div class="in"><a class="brand" href="/">Value<i>Note</i></a><a class="go" href="/?utm_source=${esc(src)}">밸류노트 열기</a></div></header>`;
 }
-const FOOT_NAV = `<nav><a href="/c/">기업 점수 전체</a><a href="/c/kr">국내</a><a href="/c/us">미국</a><a href="/c/jp">일본</a><a href="/c/hk">홍콩</a><a href="/c/cn">중국 A</a><a href="/blog/">칼럼 · 이슈 분석</a></nav>`;
-const FOOT = (date, what = '공개 재무 자료(Yahoo Finance 연간 재무, 네이버 증권)로 매일 자동 계산한 결과입니다.') => `<footer>${FOOT_NAV}${what} 데이터 기준 ${esc(date)}. 투자 판단의 참고 자료이며 특정 종목의 매수·매도를 권하지 않습니다. © 밸류노트</footer>`;
+const FOOT_NAV = `<nav><a href="/c/">기업 점수 전체</a><a href="/c/kr">국내</a><a href="/c/us">미국</a><a href="/c/jp">일본</a><a href="/c/hk">홍콩</a><a href="/c/cn">중국 A</a><a href="/blog/">칼럼 · 이슈 분석</a><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a><a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a></nav>`;
+// 유튜브 영상·채널 자리표시(data-yt)를 채운다. 영상 목록은 Supabase yt_public() → 새 롱폼이 올라가면 다시 빌드하지 않아도 붙는다
+const YT_JS = '<script src="/yt.js?v=1" defer></script>';
+const FOOT = (date, what = '공개 재무 자료(Yahoo Finance 연간 재무, 네이버 증권)로 매일 자동 계산한 결과입니다.') => `<footer>${FOOT_NAV}${what} 데이터 기준 ${esc(date)}. 투자 판단의 참고 자료이며 특정 종목의 매수·매도를 권하지 않습니다. © 밸류노트</footer>${YT_JS}`;
 
 // 공유 버튼: 휴대폰은 공유 시트, PC는 링크 복사. 공유 링크에는 유입 경로 표시를 붙인다
 const SHARE_JS = `<script>document.querySelectorAll('[data-sh]').forEach(function(b){b.onclick=async function(){var u=b.dataset.u+(b.dataset.u.indexOf('?')<0?'?':'&')+'utm_source=share-'+b.dataset.sh,t=b.dataset.t;try{if(navigator.share){await navigator.share({title:document.title,text:t,url:u});return}}catch(e){if(e&&e.name==='AbortError')return}try{await navigator.clipboard.writeText(t+'\\n'+u);b.textContent='링크를 복사했어요'}catch(e){prompt('이 링크를 복사해 보내세요',u)}}})</script>`;
@@ -358,6 +360,7 @@ ${joinBtns(wq, 'c-end')}<p class="hs">워렌 버핏·찰리 멍거의 기준으�
   return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main class="lp">
 <div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)} <span class="note">· ${esc(code)}${r.ind ? ' · ' + esc(r.ind) : ''}</span></div>
 ${hero.replace('data-t=""', `data-t="${esc(shareText)}"`)}
+<div data-yt="co:${esc(String(code))}" data-yt-src="c-${esc(x.slug)}" data-yt-label="${esc(r.n)}, 영상으로 보기"></div>
 ${proof}
 ${lockSec}
 ${sum.length || pens.length || warns.length ? `<section class="card"><h2>숫자로 읽는 ${esc(r.n)}</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}
@@ -469,7 +472,9 @@ ${(c.sources || []).length ? `<div class="src"><b>참고한 자료</b><br>${c.so
 ${colBy(c) ? `<p class="note" style="margin-top:14px">밸류노트 에디터 Luciano가 작성한 글입니다.</p>` : ''}
 <div class="share" style="margin-top:16px"><button type="button" data-sh="blog" data-u="${url}" data-t="${esc(c.title)}" style="color:var(--ink);border-color:var(--line);background:var(--bg)">이 글 공유하기</button></div>
 </article>
+<div data-yt="latest" data-yt-src="blog-col"></div>
 <a class="cta" href="/?utm_source=blog">매주 월요일, 칼럼을 메일로 받기<small>밸류노트에 가입하고 구독을 켜세요 · 600+ 기업 점수도 함께</small></a>
+<div data-yt="channel" data-yt-src="blog-col-ch"></div>
 ${others.length ? `<section class="card peers"><h2>다른 칼럼</h2>${others.map((o) => `<a href="/blog/${o.id}"><span>${esc(o.title)}</span><span class="note">${esc(colDateK(o))}</span></a>`).join('')}</section>` : ''}
 </main>${FOOT(iso.slice(0, 10), '투자 교육용 칼럼입니다.')}${SHARE_JS}${TRACK('/blog/' + c.id)}</body></html>`;
 }
@@ -480,12 +485,14 @@ function blogIndex(cols, date, issues = []) {
   const issueRow = (x) => `<a href="/blog/${esc(x.slug)}"><span><b style="color:var(--ink)">${esc(x.title)}</b><span class="note" style="display:block">이슈 분석 · ${esc(x.date || '')}</span></span></a>`;
   return head({ title, desc, url, type: 'website', src: 'blog', rss: true, ld: { '@context': 'https://schema.org', '@type': 'Blog', name: title, url, inLanguage: 'ko-KR' } }) + `<main>
 <h1>칼럼</h1><p class="sub">${esc(desc)}</p>
+<div data-yt="latest" data-yt-src="blog-index"></div>
 <h2 style="margin:18px 0 8px">이슈 분석</h2><p class="note" style="margin:0 0 8px">릴스에서 다 못 한 숫자와 원인, 내 종목 점검법까지 정리한 글입니다.</p>
 <section class="card peers" id="issues">${issues.map(issueRow).join('') || '<p class="note">곧 올라옵니다.</p>'}</section>
 <script>fetch('/blog/issues.json',{cache:'no-cache'}).then(function(r){return r.json()}).then(function(L){if(!L||!L.length)return;var e=function(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};document.getElementById('issues').innerHTML=L.map(function(x){return '<a href="/blog/'+e(x.slug)+'"><span><b style="color:var(--ink)">'+e(x.title)+'</b><span class="note" style="display:block">이슈 분석 · '+e(x.date||'')+'</span></span></a>'}).join('')}).catch(function(){});</script>
 <h2 style="margin:22px 0 8px">주간 시장 · 거장의 투자</h2>
 <section class="card peers">${cols.map((c) => `<a href="/blog/${c.id}"><span><b style="color:var(--ink)">${esc(c.title)}</b><span class="note" style="display:block">${esc(COL_SERIES[c.series || 'weekly'])} · ${esc(colDateK(c))}</span></span></a>`).join('')}</section>
 <a class="cta" href="/?utm_source=blog-index">밸류노트 열기<small>600+ 기업 점수 · 적정 매수가 알림</small></a>
+<div data-yt="channel" data-yt-src="blog-index-ch"></div>
 </main>${FOOT(date, '투자 교육용 칼럼입니다.')}${TRACK('/blog/')}</body></html>`;
 }
 const xmlEsc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));

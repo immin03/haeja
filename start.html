@@ -113,6 +113,10 @@ button{font:inherit;cursor:pointer}
 #sbox .chips{margin:0 0 10px}
 .fcl{background:rgba(255,255,255,.07);border:1px solid rgba(228,199,141,.28);border-radius:14px;padding:9px 13px;margin-top:8px;font-size:14px;font-weight:600;line-height:1.5;color:rgba(247,242,232,.88)}
 .fcl b{color:#fff}.fcl em{font-style:normal;color:#FF8E84;font-weight:850;white-space:nowrap}.fcl em.ok{color:#7FD3A6}
+.fcv{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:13.5px;font-weight:800;color:var(--gold);text-decoration:none}
+.fcv i{width:20px;height:14px;border-radius:4px;background:#FF0000;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.fcv i:after{content:"";border-style:solid;border-width:4px 0 4px 6px;border-color:transparent transparent transparent #FFFFFF;margin-left:1px}
+#hxv{margin:0 0 14px}
 .fcl small{display:block;margin-top:4px;font-size:12px;color:rgba(247,242,232,.6);font-weight:600}
 .fc{background:#fff;color:var(--ink);border-radius:18px;padding:16px 16px 14px;box-shadow:0 18px 40px rgba(4,9,20,.35);animation:up .4s ease-out}
 .fc-g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -330,6 +334,7 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
   <div class="wrap">
     <div class="eyebrow" id="eb">워렌 버핏·그레이엄 기준 · 매일 계산</div>
     <div id="fc"></div>
+    <a class="fcv" id="fcv" href="#hxv" hidden></a>
     <h1 id="h1">지금 적정 주가보다<br><em>싸게</em> 팔리는 회사는?</h1>
     <div class="rk-tabs" id="rk-tabs" role="tablist"></div>
     <div class="rk" id="rk"></div>
@@ -391,6 +396,7 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
     </div>
     <p>호황이 계속된다고 가정하지 않고 보수적으로 계산한 값입니다. AI 호황이 길게 이어지면 더 높게 볼 수도 있습니다.</p>
   </div>
+  <div id="hxv" data-yt="co:000660" data-yt-src="start-hynix" data-yt-label="SK하이닉스, 왜 29만 원인지 영상으로 보기" data-yt-compact></div>
   <p class="note">점수는 늘 맞지는 않습니다. 버크셔는 이 방식으로 지금 고평가로 나오는 알파벳을 올해도 더 샀습니다. <span id="asof"></span></p>
   <a class="btn kakao mid-k" href="/?kakao=1&amp;from=start&amp;utm_source=start-s3" data-ev="cta-s3-kakao" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>내 종목도 이렇게 확인하기 · 카카오 1초</a>
 </div></section>
@@ -468,7 +474,7 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
   <div class="small"><a href="/?signup&amp;from=start" data-ev="cta-end-signup" data-out>이메일로 가입</a> · <a href="/?login&amp;from=start" data-ev="login-end">로그인</a></div>
 </div></section>
 
-<footer><div class="wrap">본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다. 표시되는 점수·적정 주가는 과거 데이터와 가정에 기반한 추정치로 수익을 보장하지 않습니다.<br><a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a> · © ValueNote</div></footer>
+<footer><div class="wrap">본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다. 표시되는 점수·적정 주가는 과거 데이터와 가정에 기반한 추정치로 수익을 보장하지 않습니다.<br><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a><br><a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a> · © ValueNote</div></footer>
 
 <div class="sticky" id="sticky"><div class="in"><div class="t"><b>저평가 회사 전체 보기</b><span>가입하고 바로 확인하세요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=start" data-ev="cta-sticky-kakao" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입</a></div></div>
 
@@ -684,6 +690,21 @@ fetch('/c/000660-ks', { cache: 'no-cache' }).then(function(r){ return r.text(); 
   if(iv) $('#hx-iv').textContent = iv[1] + '원'; if(px) $('#hx-px').textContent = px[1] + '원'; }).catch(function(){});
 render();
 (function(){ var f = featSlug(); if(f) feat(f); else hit('v-plain'); })();
+/* 광고 주인공 회사의 유튜브 롱폼이 있으면 첫 화면에 한 줄 링크 → 03 섹션의 영상 카드로 내려가 바로 재생 (가입 버튼은 그대로 위에) */
+window.addEventListener('load', function(){
+  if(!FEAT || !window.VNYT) return;
+  var co = FEAT.split('-')[0];
+  VNYT.load().then(function(d){
+    var v = (d.videos || []).filter(function(x){ return x.kind === 'long' && String(x.company || '').toLowerCase() === co; })[0], a = $('#fcv'), box = $('#hxv');
+    if(!v || !a || !box) return;
+    if(box.getAttribute('data-yt') !== 'co:' + co){ box.removeAttribute('data-yt-done'); box.setAttribute('data-yt', 'co:' + co); box.setAttribute('data-yt-label', (row(FEAT) || {}).n ? row(FEAT).n + ', 영상으로 보기' : '영상으로 보기'); VNYT.mount(); }
+    a.innerHTML = '<i aria-hidden="true"></i>왜 이 가격인지 ' + Math.max(1, Math.round((v.dur || 0) / 60)) + '분 영상으로 보기 ›';
+    a.hidden = false;
+    a.addEventListener('click', function(e){ e.preventDefault(); hit('yt-hero');
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function(){ var b = box.querySelector('.vnyt-frame'); if(b) b.click(); }, 650); });
+  });
+});
 fetch('/c/scores.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c && Object.keys(j.c).length > 100){ D = j; render(); if(FEAT) fcard(row(FEAT)); else if(pick) showRes(find(pick), pick); } }).catch(function(){});
 /* 인스타 릴스에서 본 오늘의 기업을 칩 맨 앞에 */
 fetch('/social/reels/queue.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(L){ var now = Date.now();
@@ -691,5 +712,6 @@ fetch('/social/reels/queue.json', { cache: 'no-cache' }).then(function(r){ retur
   if(!it) return; var n = (it.title.split('·')[1] || '').trim(); if(n && find(n) && /^오늘의 기업|기업 ·|낮게 보는|앞선 기업|적정 주가/.test(it.title) && !/TOP/.test(it.title)){ IG = find(n).n; if(!FEAT) feat(find(n).slug); else chips(); } }).catch(function(){});
 })();
 </script>
+<script src="/yt.js?v=1" defer></script>
 </body>
 </html>
