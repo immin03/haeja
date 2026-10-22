@@ -29,7 +29,7 @@ const bodyLen = (p) => p.blocks.reduce((n, b) => n + strip(b.p || '').length + s
 const sig = (p) => p.blocks.map((b) => b.h ? 'H' : b.summary ? 'S' : b.table ? 'T' : b.quote ? 'Q' : b.note ? 'N' : b.img ? 'I' : 'P').join('');
 const nums = (s) => (strip(s).match(/\d[\d,.]*/g) || []).map((x) => x.replace(/[.,]$/, '')).filter((x) => x.replace(/[,.]/g, '').length >= 1);
 // 같은 문장으로 보지 않는 고정 문장
-const FIXED = [/에디터 Luciano입니다\.?$/, /^안녕하세요, 밸류노트 에디터 Luciano입니다\.?$/, /^— Editor: Luciano$/, /이 글은 투자 교육용 정보이며/, /밸류노트 데이터와 AI 도구로 초안을 만들고/, /미래 주가를 보장하지 않습니다/];
+const FIXED = [/에디터 Luciano입니다\.?$/, /^안녕하세요, 밸류노트 에디터 Luciano입니다\.?$/, /^— Editor: Luciano$/, /이 글은 투자 교육용 정보이며/, /밸류노트 에디터 Luciano가 작성했습니다/, /미래 주가를 보장하지 않습니다/];
 const BANNED = ['적정가 ', '적정가는', '적정가가', '적정 가격', '내재가치', '품질 점수', '저평가 점수', '무료', '유료', '매수 후보', '싸다', '비싸다'];
 const SLOP = ['결론적으로', '종합적으로', '요약하자면', '다양한 측면', '라고 할 수 있습니다', '매우 중요합니다', '필수적입니다', '살펴보았습니다', '알아보았습니다', '도움이 되셨길', '도움이 되셨으면', '시사하는 바가 큽니다', '주목할 만합니다', '눈여겨볼 필요가', '것은 분명합니다'];
 
@@ -149,7 +149,8 @@ for (const dir of dirs) {
   // 필명·고지·출처 목록
   if (!p.blocks.some((b) => b.p === '— Editor: Luciano')) E.push('"— Editor: Luciano" 줄이 없습니다');
   const note = p.blocks.find((b) => b.note);
-  if (!note || !/에디터 Luciano가 검수했습니다/.test(note.note)) E.push('고지에 검수 문장이 없습니다');
+  if (!note || !/에디터 Luciano가 작성했습니다/.test(note.note)) E.push('고지에 작성자 문장(에디터 Luciano가 작성했습니다)이 없습니다');
+  if (note && /AI ?(도구|로 (초안|작성|만))/.test(note.note)) E.push('고지에 AI 언급이 있습니다');
   if (p.blocks.some((b) => b.sources)) E.push('참고 자료 목록(sources) 블록은 넣지 않습니다');
   if (!p.blocks.some((b) => b.img && b.href)) E.push('끝맺음 배너(href)가 없습니다');
   // 사실 표: 제목·요약·소제목의 숫자는 모두 facts 에 있어야 한다

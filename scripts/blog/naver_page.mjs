@@ -27,7 +27,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const inline = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 const imgUrl = (f) => `${SITE}/naver/${id}/${f}`;
 // 블로그 카테고리: post.json 의 category, 없으면 id 끝 글자로 정한다 (m 주간 시장 정리 · w 기업 분석 · f 거장의 투자)
-const CAT_BY_DAY = { m: '주간 시장 정리', w: '기업 분석', f: '거장의 투자', x: '주간 시장 정리' };
+const CAT_BY_DAY = { m: '주간 시장 정리', w: '기업 분석', f: '거장의 투자', x: '주간 시장 정리' }; // x 글이 한 회사 이야기면 post.json category 에 '기업 분석'을 적는다
 const catOf = (d, pj) => pj.category || CAT_BY_DAY[(String(d).match(/^b\d{6}([mwfx])/) || [])[1]] || '';
 const category = catOf(id, post);
 
