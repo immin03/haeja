@@ -1,6 +1,6 @@
 // 미리 써 둔 릴스(날짜 없는 대본)를 정해진 칸에 하나씩 꺼내 쓴다 (company-cards 워크플로가 전날 저녁 실행)
 // 사용: node scripts/reels/lib_pick.mjs <macro|compare> YYYY-MM-DD HH:MM
-//   macro   = 위기 교과서 (화·목·토 08:30)    compare = 비교·상식 (수 15:30)
+//   macro   = 위기 교과서 (화·목 18:00)    compare = 비교·상식 (수 18:00)  — 2026-10-22 하루 최대 3편 편성
 // 그 시각에 이미 릴스가 있으면 건너뛴다. 꺼낸 대본은 <dir>/used/ 로 옮긴다. 남은 편수가 2편 이하면 관리자 알림을 남긴다.
 import fs from 'node:fs';
 import path from 'node:path';

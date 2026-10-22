@@ -26,8 +26,8 @@ jobs:
           # 2026-10-20 운영자 결정: 틀로 찍어 내는 릴스(오늘의 기업·순위 TOP 10·빈 칸 채우기·이번 주 경제 레이더)는 만들지 않는다.
           # 기승전결이 서는 대본만 올린다. 빈 칸은 비워 둔다. 남은 자동 편성은 미리 써 둔 대본과 결과가 극적인 비교뿐.
           T=$(TZ=Asia/Seoul date -d tomorrow +%F); W=$(TZ=Asia/Seoul date -d tomorrow +%u)   # 1=월 … 7=일
-          # 08:30 화·목·토: 위기 교과서(미리 쓴 대본). 대본이 떨어지면 그 칸은 비운다
-          if [ "$W" = 2 ] || [ "$W" = 4 ] || [ "$W" = 6 ]; then node scripts/reels/lib_pick.mjs macro $T 08:30 || true; fi
+          # 2026-10-22 하루 최대 3편(12:30·18:00·21:00). 18:00 화·목: 위기 교과서(미리 쓴 대본). 대본이 떨어지면 그 칸은 비운다
+          if [ "$W" = 2 ] || [ "$W" = 4 ]; then node scripts/reels/lib_pick.mjs macro $T 18:00 || true; fi
           # 수 18:00 비교 대본(창고에 있을 때만), 토 18:00 은퇴 배당 비교(결과가 밋밋하면 건너뜀)
           if [ "$W" = 3 ]; then node scripts/reels/lib_pick.mjs compare $T 18:00 || true; fi
           if [ "$W" = 6 ]; then node scripts/reels/div_race.mjs pick $T 18:00 || true; fi
