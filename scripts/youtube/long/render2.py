@@ -750,7 +750,8 @@ def make_thumb(spec, V, out):
     f2 = F("Heavy", 190)
     while d.textlength(l2, font=f2) > maxw: f2 = F("Heavy", f2.size - 6)
     pos = tv.get("pos", "top")   # 2026-10-22 운영자: 테두리 없이 그림자만 (예시: '얼마 벌고 얼마 쓸까'). center = 회사 로고 + 두 줄을 가운데에
-    if pos == "center":
+    if pos in ("center", "left"):
+        LX = 72; YEL = tuple(tv.get("accent", (242, 196, 104)))   # 2026-10-22: 노랑 대신 은은한 골드, 왼쪽 정렬
         f1 = F("Heavy", tv.get("s1", 78)); f2 = F("Heavy", tv.get("s2", 138))
         co = tv.get("co_logo") and os.path.join(HERE, "assets", tv["co_logo"]); card = None
         if co and os.path.exists(co):
@@ -762,10 +763,11 @@ def make_thumb(spec, V, out):
         for r_ in range(0, 520, 4): gv.ellipse([TW / 2 - 700 + r_, TH_ / 2 - 380 + r_ * .55, TW / 2 + 700 - r_, TH_ / 2 + 380 - r_ * .55], fill=(0, 0, 0, 3))
         th = Image.alpha_composite(th, vg.filter(ImageFilter.GaussianBlur(30)))
         if card:
-            shd = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(shd).rounded_rectangle([(TW - card.width) // 2 + 4, y0 + 8, (TW + card.width) // 2 + 4, y0 + card.height + 8], 22, fill=(0, 0, 0, 120))
-            th = Image.alpha_composite(th, shd.filter(ImageFilter.GaussianBlur(10))); th.alpha_composite(card, ((TW - card.width) // 2, y0)); y0 += card.height + 34
+            shd = Image.new("RGBA", (TW, TH_)); sx0 = (TW - card.width) // 2 if pos == "center" else LX; ImageDraw.Draw(shd).rounded_rectangle([sx0 + 4, y0 + 8, sx0 + card.width + 4, y0 + card.height + 8], 22, fill=(0, 0, 0, 120))
+            cx0 = (TW - card.width) // 2 if pos == "center" else LX
+            th = Image.alpha_composite(th, shd.filter(ImageFilter.GaussianBlur(10))); th.alpha_composite(card, (cx0, y0)); y0 += card.height + 34
         for (txt, f, col) in ((l1, f1, WHITE), (l2, f2, YEL)):
-            tw_ = ImageDraw.Draw(th).textlength(txt, font=f); x_ = (TW - tw_) / 2
+            tw_ = ImageDraw.Draw(th).textlength(txt, font=f); x_ = (TW - tw_) / 2 if pos == "center" else LX
             for blur, off, alpha in ((14, 6, 160), (4, 3, 170)):
                 sd_ = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sd_).text((x_ + off, y0 + off), txt, font=f, fill=(0, 0, 0, alpha))
                 th = Image.alpha_composite(th, sd_.filter(ImageFilter.GaussianBlur(blur)))
