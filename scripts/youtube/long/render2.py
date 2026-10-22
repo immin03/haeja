@@ -535,6 +535,37 @@ def subtitle2(img, text, u_in, dur):
             tx = x + d.textlength(l[:m.start()], font=f); d.text((tx, y), m.group().rstrip(), font=f, fill=(*GOLD_L, int(255 * a)))
 
 
+def make_thumb(spec, V, out):
+    """썸네일 (2026-10-22 운영자: 머니스웨거처럼 단순·직관·자극적으로) — 관련 사진 한 장 + 굵은 두 줄(흰색 + 노란색 질문)"""
+    tv = spec["thumb"]; TW, TH_ = 1280, 720; YEL = (255, 206, 46)
+    ph = tv.get("photo") and os.path.join(ROOT, "scripts", "blog", "media", "lib", tv["photo"])
+    if ph and os.path.exists(ph):
+        im = Image.open(ph).convert("RGB"); sc_ = max(TW / im.width, TH_ / im.height)
+        im = im.resize((int(im.width * sc_) + 1, int(im.height * sc_) + 1), Image.LANCZOS)
+        fx = tv.get("focus_x", .5); x0 = int((im.width - TW) * fx); im = im.crop((x0, (im.height - TH_) // 2, x0 + TW, (im.height - TH_) // 2 + TH_))
+    else:
+        im = background("dark").resize((TW, TH_))
+    th = im.convert("RGBA")
+    sh = Image.new("RGBA", (TW, TH_)); g = ImageDraw.Draw(sh)   # 글자 쪽(왼쪽 아래)만 어둡게: 사진은 살리고 글자는 또렷하게
+    for k in range(TW):
+        a = int(170 * max(0, 1 - k / (TW * .75)) ** 1.3); g.line([k, 0, k, TH_], fill=(0, 0, 0, a))
+    th = Image.alpha_composite(th, sh); sh2 = Image.new("RGBA", (TW, TH_)); g2 = ImageDraw.Draw(sh2)
+    for y in range(TH_ // 2, TH_): g2.line([0, y, TW, y], fill=(0, 0, 0, int(120 * (y - TH_ / 2) / (TH_ / 2))))
+    th = Image.alpha_composite(th, sh2); d = ImageDraw.Draw(th)
+    l1, l2 = fill(tv["l1"], V), fill(tv["l2"], V); maxw = TW - 120
+    f1 = F("Heavy", 112)
+    while d.textlength(l1, font=f1) > maxw: f1 = F("Heavy", f1.size - 4)
+    f2 = F("Heavy", 190)
+    while d.textlength(l2, font=f2) > maxw: f2 = F("Heavy", f2.size - 6)
+    y2 = TH_ - 70 - f2.size; y1 = y2 - f1.size - 18
+    for (txt, f, y, col) in ((l1, f1, y1, WHITE), (l2, f2, y2, YEL)):
+        sd_ = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sd_).text((64 + 6, y + 8), txt, font=f, fill=(0, 0, 0, 200))
+        th = Image.alpha_composite(th, sd_.filter(ImageFilter.GaussianBlur(6))); d = ImageDraw.Draw(th)
+        d.text((64, y), txt, font=f, fill=col, stroke_width=max(4, f.size // 22), stroke_fill=(0, 0, 0))
+    lg = R.LOGO.resize((int(R.LOGO.width * .36), int(R.LOGO.height * .36)), Image.LANCZOS); th.alpha_composite(lg, (TW - lg.width - 40, 36))
+    th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92)
+
+
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
     spec = json.load(open(spec_path, encoding="utf-8")); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
@@ -595,6 +626,7 @@ def main():
             if typ != "end": subtitle2(img, lt[2], lt[1] * .9, lt[1])
             img.save(os.path.join(sd, f"{k:02d}_{typ}.jpg"), quality=80)
             print(k, typ, fit and fit["k"])
+        make_thumb(spec, V, sd)
         return
     # 2) 영상
     tmp = os.path.join(out, "video_noaudio.mp4")
@@ -627,18 +659,7 @@ def main():
     enc.stdin.close(); enc.wait()
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-i", wav, "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest", os.path.join(out, "video.mp4")], check=True)
     os.remove(tmp)
-    # 3) 썸네일: 왼쪽 큰 숫자, 오른쪽 물음
-    tv = spec["thumb"]; th = background("dark").resize((1280, 720)).convert("RGBA"); d = AD(th)
-    d.text((70, 70), fill(tv.get("top", ""), V), font=F("ExtraBold", 52), fill=GOLD_L)
-    y = 170
-    for l in fill(tv["main"], V).split("\n"):
-        f = F("Heavy", 120)
-        while d.textlength(l, font=f) > 1140: f = F("Heavy", f.size - 4)
-        d.text((70, y), l, font=f, fill=IVORY); y += f.size + 16
-    d.rectangle([70, y + 10, 290, y + 18], fill=GOLD)
-    d.text((70, y + 44), fill(tv.get("sub", ""), V), font=F("Bold", 46), fill=IVORY)
-    lg = R.LOGO.resize((int(R.LOGO.width * .5), int(R.LOGO.height * .5))); th.alpha_composite(lg, (1280 - lg.width - 50, 720 - lg.height - 40))
-    th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92)
+    make_thumb(spec, V, out)
     # 4) 설명·메타
     chapters = []
     for s in timeline:

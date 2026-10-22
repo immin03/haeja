@@ -74,7 +74,7 @@ export async function companyData(code, spec = {}) {
   return {
     raw: { code, ticker: r.t, name: r.n, px, iv, eps: E, score: vn.total, q: sc.q, v: sc.v, asof_iso: asofIso, ivSrc: sc.ivSrc },
     vars: {
-      asof, px_label, ...btv, ...hi, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: comma(px), px_short: won(px), iv: comma(iv), iv_short: won(iv),
+      asof, px_label, ...btv, ...hi, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: comma(px), px_short: won(px), iv: comma(iv), iv_short: won(iv), iv_man: Math.floor(iv / 1e4) + '만 원',
       mult: x1(px / iv), per_now: x1(px / E), per_avg: x1(px / normal), eps: won(E),
       need: pct(need), iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
       v30: won(v30), v30_vs: vs(v30, px), v100: won(v100), v100_vs: vs(v100, px),
