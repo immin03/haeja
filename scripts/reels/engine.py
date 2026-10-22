@@ -68,7 +68,7 @@ def cta_lines(spec, sc, lines):
     if not kw:  # 정리본이 없는 릴스는 팔로우로 마무리 (2026-10-22 운영자: 모든 릴스에 정리본을 붙이지 않는다)
         yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
         sc["_follow"] = "yt" if yt else True
-        if yt: return list(lines) + [{"cap": None, "say": spec.get("full_say", "풀버전은 화면 아래 링크를 눌러 바로 보실 수 있어요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
+        if yt: return list(lines) + [{"cap": spec.get("full_cap", ["풀버전은 화면 아래 링크를", "눌러 바로 보실 수 있어요"]), "say": spec.get("full_say", "풀버전은 화면 아래 링크를 눌러 바로 보실 수 있어요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
         return list(lines) + [{"cap": None, "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
     sc["_dm"] = kw
     return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
@@ -499,7 +499,7 @@ def s_cta(img, u, sc, L, T):
             d.text((cx + (24 if yt else 0), cy), t1, font=fit_font(t1, "ExtraBold", 58, bw - 160), fill=mix(GOLD, NAVY, pb), anchor="mm")
             if yt and pb > .6:   # 화면 아래 '관련 동영상' 링크 쪽으로 내려가는 화살표
                 for k in range(3):
-                    ph_ = ((u - tb) * 1.6 + k / 3) % 1; ay = 1310 + ph_ * 220; aa = math.sin(ph_ * math.pi)
+                    ph_ = ((u - tb) * 1.6 + k / 3) % 1; ay = (1440 + ph_ * 120) if YT else (1310 + ph_ * 220); aa = math.sin(ph_ * math.pi)
                     ImageDraw.Draw(img).line([(W / 2 - 46, ay), (W / 2, ay + 40), (W / 2 + 46, ay)], fill=mix(NAVY, GOLD, aa), width=10, joint="curve")
             if pb > .6 and not yt:
                 t2 = "매일 조금 더 현명한 투자 습관"
@@ -688,6 +688,26 @@ def s_race(img, u, sc, L, T):
 YT = False
 YT_TITLE_Y, YT_CAP_Y = 452, 1330
 
+def join_fracs(parts):
+    """한 번에 읽은 문장 안에서 각 자막 조각이 차지하는 시간 비율 (음절 수 + 쉼표·마침표 쉼)"""
+    w = [len(re.sub(r"[^가-힣]", "", to_speech(p["say"]))) + 2.5 * len(re.findall(r"[,.?!]", p["say"])) for p in parts]
+    tot = sum(w) or 1; out = []; acc = 0
+    for x in w: out.append((acc / tot, (acc + x) / tot)); acc += x
+    return out
+
+def y_row(img, u, t0, row, size, fill, center):
+    """'2018년 → 2019년' 같은 줄: 글꼴의 > 모양 대신 진짜 화살표를 그린다"""
+    if "→" not in row: return y_fade(img, u, t0, row, fit_font(row, "Heavy", size, 960), fill, center)
+    a, b = [x.strip() for x in row.split("→", 1)]; f = F("Heavy", size); gap = size * 1.5
+    wa, wb = f.getlength(a), f.getlength(b); x0 = center[0] - (wa + gap + wb) / 2
+    p = y_fade(img, u, t0, a, f, fill, (x0 + wa / 2, center[1]))
+    y_fade(img, u, t0, b, f, fill, (x0 + wa + gap + wb / 2, center[1]))
+    if p > 0:
+        d = ImageDraw.Draw(img); ax = x0 + wa + gap / 2; cy = center[1] + 4; s_ = size / 80
+        d.line([(ax - 34 * s_, cy), (ax + 18 * s_, cy)], fill=mix(NAVY, GOLD, p), width=int(8 * s_))
+        d.polygon([(ax + 36 * s_, cy), (ax + 12 * s_, cy - 20 * s_), (ax + 12 * s_, cy + 20 * s_)], fill=mix(NAVY, GOLD, p))
+    return p
+
 def y_at(L, i, frac=0.0):
     """i번째 음성 줄의 시작(+그 줄 길이의 frac) 시각. 줄이 없으면 마지막 줄 끝"""
     if not L: return .1
@@ -709,14 +729,15 @@ def y_hook(img, u, sc, L, T):
     num = sc["num"]; col_end = TONE.get(sc.get("tone", "loss"), LOSS)
     rows = (sc.get("top") or "").split("\n")[:2] if sc.get("top") else []
     for k, row in enumerate(rows):
-        y_fade(img, u, .05 + k * .1, row, fit_font(row, "Heavy", 80, 960), IVORY, (W / 2, 540 + k * 100 - (len(rows) - 1) * 50))
+        y_row(img, u, .05 + k * .1, row, 80, IVORY, (W / 2, 540 + k * 100 - (len(rows) - 1) * 50))
     p = prog(u, .3, 1.0, ease_io)
     v = lerp(num.get("from", 0), num["to"], p)
     s = fmt_num(round(v, num.get("dec", 0)), num)
     big = fit_font(fmt_num(num["to"], num), "Heavy", num.get("size", 230), 960)
     pop(img, s, big, mix(IVORY, col_end, p), (W / 2, 820), alpha=prog(u, .25, .45))
     if sc.get("label"):
-        t1 = max(1.1, y_at(L, 1) if len(L) > 1 else 1.1)
+        li = sc.get("label_line", 1)
+        t1 = max(1.1, y_at(L, li) if len(L) > li else 1.1)
         y_fade(img, u, t1, sc["label"], fit_font(sc["label"], "ExtraBold", 60, 940), GOLD, (W / 2, 1050))
         w = prog(u, t1 + .2, t1 + .6) * 420
         ImageDraw.Draw(img).line([(W / 2 - w / 2, 1108), (W / 2 + w / 2, 1108)], fill=GOLD, width=4)
@@ -773,7 +794,9 @@ def y_compare(img, u, sc, L, T):
     y_title(img, u, sc.get("title"))
     sides = [sc["l"], sc["r"]]; d = ImageDraw.Draw(img)
     for i, sd in enumerate(sides):
-        t0 = .25 if i == 0 else max(.9, y_at(L, 1) if len(L) > 1 else y_at(L, 0, .55))
+        key = "l_line" if i == 0 else "r_line"
+        if sc.get(key) is not None: t0 = y_at(L, sc[key], .05)
+        else: t0 = .25 if i == 0 else max(.9, y_at(L, 1) if len(L) > 1 else y_at(L, 0, .55))
         p = prog(u, t0, t0 + .45, ease_io)
         if p <= 0: continue
         col = TONE.get(sd.get("tone", "gray" if i == 0 else "loss"), GRAY)
@@ -826,26 +849,25 @@ def y_equation(img, u, sc, L, T):
 YDRAW = {"hook": y_hook, "bars": y_bars, "compare": y_compare, "statement": y_statement, "equation": y_equation}
 
 def y_caption(img, u, L):
-    """쇼츠 자막: 흔들림 없이 제자리에서 나타났다 바뀐다. 숫자는 금색"""
-    for i, (a, v, cap) in enumerate(L):
-        if not cap: continue
-        nxt = L[i + 1][0] if i + 1 < len(L) else 999
-        if not (a - .05 <= u < nxt - .02): continue
-        d = ImageDraw.Draw(img); font = F("Bold", 52)
-        maxw = max(d.textlength(l, font=font) for l in cap)
-        if maxw > 880: font = F("Bold", int(52 * 880 / maxw)); maxw = 880
-        fade = prog(u, a - .05, a + .1); lh = 72
-        y0 = YT_CAP_Y - (len(cap) - 1) * lh / 2
-        bar = Image.new("RGBA", (int(maxw + 64), len(cap) * lh + 28), (6, 12, 26, int(170 * fade)))
-        img.paste(bar, (int(W / 2 - bar.width / 2), int(y0 - lh / 2 - 14)), bar)
-        d = ImageDraw.Draw(img)
-        for li, line in enumerate(cap):
-            y = y0 + li * lh; x0 = W / 2 - d.textlength(line, font=font) / 2
-            d.text((x0, y), line, font=font, fill=mix(NAVY, IVORY, fade), anchor="lm")
-            for m in re.finditer(r"[+\-−]?\d[\d,.]*\s?(?:조|억|만|천)?\s?(?:원|%|%p|배|점|년|개|곳|달러)?", line):
-                tx = x0 + d.textlength(line[:m.start()], font=font)
-                d.text((tx, y), m.group().rstrip(), font=font, fill=mix(NAVY, GOLD, fade), anchor="lm")
-        return
+    """쇼츠 자막: 장면 처음부터 끝까지 끊기지 않고 늘 떠 있다. 다음 문장이 시작되는 순간 바로 바뀐다(깜빡임 없음). 숫자는 금색"""
+    caps = [(a, cap) for (a, v, cap) in L if cap]
+    if not caps: return
+    cap = caps[0][1]
+    for a, c in caps:
+        if u >= a - .05: cap = c
+    d = ImageDraw.Draw(img); font = F("Bold", 52)
+    maxw = max(d.textlength(l, font=font) for l in cap)
+    if maxw > 900: font = F("Bold", int(52 * 900 / maxw)); maxw = 900
+    lh = 72; y0 = YT_CAP_Y - (len(cap) - 1) * lh / 2
+    bar = Image.new("RGBA", (int(maxw + 64), len(cap) * lh + 28), (6, 12, 26, 170))
+    img.paste(bar, (int(W / 2 - bar.width / 2), int(y0 - lh / 2 - 14)), bar)
+    d = ImageDraw.Draw(img)
+    for li, line in enumerate(cap):
+        y = y0 + li * lh; x0 = W / 2 - d.textlength(line, font=font) / 2
+        d.text((x0, y), line, font=font, fill=IVORY, anchor="lm")
+        for m in re.finditer(r"[+\-−]?\d[\d,.]*\s?(?:조|억|만|천)?\s?(?:원|%|%p|배|점|년|개|곳|달러)?", line):
+            tx = x0 + d.textlength(line[:m.start()], font=font)
+            d.text((tx, y), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
 
 def y_voice(txt, speak):
     """롱폼과 같은 목소리: 성호 기본 속도(1.1)로 받아 롱폼과 똑같이 톤 1.04·빠르기 1.24 로 맞춘다.
@@ -887,6 +909,12 @@ def plan(spec, speak):
         lines = cta_lines(spec, sc, lines)
         L = []; u = .1; vo = []
         for ln in lines:
+            if ln.get("join"):   # 한 문장을 한 번에 읽고(끊김 없이) 자막만 문장 조각별로 넘긴다
+                txt = " ".join(p["say"] for p in ln["join"])
+                a = y_voice(txt, speak) if YT else speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
+                d_ = len(a) / SR
+                for (f0, f1), p in zip(join_fracs(ln["join"]), ln["join"]): L.append([u + d_ * f0, d_ * (f1 - f0), p.get("cap")])
+                vo.append((u, a)); u += d_ + .12; continue
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
             if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
             if YT:
@@ -1039,7 +1067,8 @@ def frame(T, scenes, total):
     if s is scenes[0] and sc["type"] == "hook": img = broll_bg(img, u, s["dur"])
     img = (YDRAW if YT and sc["type"] in YDRAW else DRAW)[sc["type"]](img, u, sc, s["L"], T)
     img = camera(img, u, s)
-    if sc["type"] not in NO_CAPTION: (y_caption if YT else caption)(img, u, s["L"])
+    if YT: y_caption(img, u, s["L"])   # 쇼츠: 모든 장면에 자막이 계속 나온다
+    elif sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
     d = ImageDraw.Draw(img)
     if YT_BANNER: draw_banner(img); d = ImageDraw.Draw(img)
     elif sc["type"] not in ("cta", "screen"): logo(d, 236)
@@ -1110,6 +1139,10 @@ def plan_estimate(spec):
         lines = cta_lines(spec, sc, lines)
         L = []; u = .1
         for ln in lines:
+            if ln.get("join"):
+                v = max(.8, len(" ".join(p["say"] for p in ln["join"]).replace(" ", "")) * .17 / ln.get("speed", speed))
+                for (f0, f1), p in zip(join_fracs(ln["join"]), ln["join"]): L.append([u + v * f0, v * (f1 - f0), p.get("cap")])
+                u += v + .12; continue
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
             if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
             v = max(.8, len(txt.replace(" ", "")) * .17 / ln.get("speed", speed))
