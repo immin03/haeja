@@ -5,7 +5,7 @@
 // kind 목록
 //   cover    { eyebrow, title, sub, date }                       글 첫 장(제목 카드)
 //   company  { slug }                                            기업 밸류노트 점수 카드 (예: "000270-ks")
-//   price    { slug }                                            지금 주가 · 적정 주가 · 적정 매수가 비교
+//   price    { slug, date? }                                    지금 주가 · 적정 주가 · 적정 매수가 비교
 //   metrics  { slug }                                            핵심 재무 숫자 표 (뜻 풀이 포함)
 //   market   { market: "KR"|"US"|"JP"|"HK"|"CN" }                시장별 저평가 기업 수 + 4~8위 (1~3위는 사이트에서)
 //   stats    { title, items:[{label, value, note?, tone?:"up"|"down"|"gold"}] }  숫자 2~4개
@@ -133,7 +133,7 @@ const T = {
         h('div', { marginTop: 14, height: 34, borderRadius: 10, background: 'rgba(255,255,255,.08)', width: 936 }, h('div', { width: Math.max(8, Math.round(936 * v / max)), height: 34, borderRadius: 10, background: col, opacity: label === '지금 주가' ? 0.85 : 1 }))))),
       verdict ? t(verdict, { fontSize: 38, fontWeight: 900, marginTop: 56, color: ratio != null && ratio <= 1 ? C.up : C.down }) : null,
       t('적정 매수가는 적정 주가의 70%입니다. 계산이 틀려도 버틸 여유(안전마진)를 30% 두는 그레이엄의 원칙입니다.', { fontSize: 26, color: C.dim, marginTop: 22, lineHeight: 1.5, fontWeight: 500, wordBreak: 'keep-all' })),
-      `${date} 종가 기준 · 공식에 따른 추정치이며 미래 주가를 보장하지 않습니다`);
+      `${o.date || date} 종가 기준 · 공식에 따른 추정치이며 미래 주가를 보장하지 않습니다`);
   },
 
   async metrics(o) {
