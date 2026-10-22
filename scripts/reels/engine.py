@@ -69,7 +69,7 @@ def cta_lines(spec, sc, lines):
         yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
         sc["_follow"] = "yt" if yt else True
         if yt: return list(lines) + [{"cap": spec.get("full_cap", ["풀버전은 화면 아래 링크를", "눌러 바로 보실 수 있어요"]), "say": spec.get("full_say", "풀버전은 화면 아래 링크를 눌러 바로 보실 수 있어요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
-        return list(lines) + [{"cap": None, "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
+        return list(lines) + [{"cap": ["밸류노트를 팔로우하고,", "매일 조금 더 현명한 투자 습관을 길러 보세요"], "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
     sc["_dm"] = kw
     return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
 
@@ -501,7 +501,7 @@ def s_cta(img, u, sc, L, T):
                 for k in range(3):
                     ph_ = ((u - tb) * 1.6 + k / 3) % 1; ay = (1440 + ph_ * 120) if YT else (1310 + ph_ * 220); aa = math.sin(ph_ * math.pi)
                     ImageDraw.Draw(img).line([(W / 2 - 46, ay), (W / 2, ay + 40), (W / 2 + 46, ay)], fill=mix(NAVY, GOLD, aa), width=10, joint="curve")
-            if pb > .6 and not yt:
+            if pb > .6 and not yt and not YT:
                 t2 = "매일 조금 더 현명한 투자 습관"
                 appear(img, u, tb + .25, t2, fit_font(t2, "SemiBold", 38, 960), (196, 204, 220), (W / 2, 1300), dur=.4, rise=20)
         return img
@@ -1200,10 +1200,10 @@ def cover_title(spec, scenes):
 def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
     global YT_BANNER, YT
-    YT = spec.get("platform") == "youtube"
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     scenes, _ = plan_estimate(spec)
-    if YT_BANNER:   # 유튜브 쇼츠 표지: 제목 띠 + 첫 장면의 큰 숫자가 터진 순간
+    if YT_BANNER and spec.get("platform") == "youtube":   # 유튜브 쇼츠 표지: 제목 띠 + 첫 장면의 큰 숫자가 터진 순간
         broll_setup(spec, scenes); im = frame(min(1.6, scenes[0]["dur"] - .1), scenes, sum(x["dur"] for x in scenes)).convert("RGB")
     else:
         im = cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)
@@ -1345,7 +1345,7 @@ MAX_SEC = 60  # 2026-10-20 운영자: 정말 좋은 내용이면 50~60초도 괜
 
 def render(spec, outdir, stills=None):
     global YT_BANNER, YT
-    YT = spec.get("platform") == "youtube"
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     from tts import speak
     os.makedirs(outdir, exist_ok=True)
@@ -1384,7 +1384,7 @@ def render(spec, outdir, stills=None):
     for i in range(int(total * FPS)):
         p.stdin.write(frame(i / FPS, scenes, total).tobytes())
     p.stdin.close(); p.wait(); os.remove(wav)
-    (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total).convert("RGB") if YT_BANNER else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     return total
 
