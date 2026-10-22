@@ -138,6 +138,50 @@ body.has-wbar footer{padding-bottom:90px}
 .mlinks{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0}.mlinks a{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px}.mlinks a small{display:block;font-weight:500;color:var(--muted);font-size:12px}
 article.col h1{font-size:25px}article.col h3{font-size:17px;margin:22px 0 8px}article.col p{margin:0 0 14px}article.col figure{margin:14px 0}article.col img{max-width:100%;border-radius:12px}article.col figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}article.col blockquote{margin:14px 0;padding:10px 14px;border-left:3px solid var(--gold);background:#FBF5EA;border-radius:0 10px 10px 0}
 .src{font-size:12.5px;color:var(--muted);word-break:break-all}.src a{color:var(--muted)}
+/* 기업 페이지 랜딩형 */
+main.lp .crumb .note{font-size:12px}
+.hero2{background:radial-gradient(120% 80% at 100% 0,rgba(201,154,80,.22),transparent 55%),linear-gradient(165deg,#1A2D47,var(--navy));color:#F3EEE3;border-radius:20px;padding:22px 18px 18px;margin:8px 0 12px}
+.hero2 .eyebrow{display:inline-block;font-size:12px;font-weight:700;color:var(--gold2);border:1px solid rgba(228,199,141,.4);border-radius:999px;padding:3px 10px;margin-bottom:12px}
+.hero2 h1{font-size:27px;line-height:1.32;color:#fff;margin:0 0 10px;letter-spacing:-.5px}.hero2 h1 em{font-style:normal;color:var(--gold2)}
+.verdict{font-size:16px;color:#D5DCE7;margin:0 0 6px}.verdict b{font-weight:900}.hot{color:#FF9B8A}.cool{color:#7FD8AE}
+.ruler{margin:20px 2px 6px}.ruler .up,.ruler .dn{position:relative;height:38px}
+.ruler .m{position:absolute;bottom:0;white-space:nowrap;font-weight:800;font-size:15px;color:#fff;line-height:1.25}.ruler .dn .m{top:0;bottom:auto}
+.ruler .m small{display:block;font-size:11.5px;font-weight:700;color:#AEB8C8}.ruler .m.l{transform:translateX(-6px)}.ruler .m.r{transform:translateX(calc(-100% + 6px));text-align:right}
+.ruler .dn .m{color:var(--gold2)}.ruler .dn .m.sm{color:#D5DCE7;font-size:13px}
+.track{position:relative;height:10px;border-radius:9px;background:rgba(255,255,255,.12);margin:6px 0}
+.track .gap{position:absolute;top:0;bottom:0;border-radius:9px;transform-origin:left;animation:grow 1s .2s ease-out both}.gap.hot{background:linear-gradient(90deg,rgba(255,155,138,.35),#FF9B8A)}.gap.cool{background:linear-gradient(90deg,#7FD8AE,rgba(127,216,174,.35))}
+.track .dot{position:absolute;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:3px solid #16263D}.dot.px{background:#fff}.dot.iv{background:var(--gold2)}.dot.b{background:#AEB8C8;width:12px;height:12px;margin:-6px 0 0 -6px}
+@keyframes grow{from{transform:scaleX(0)}to{transform:none}}
+.room{font-size:13px;line-height:1.6;color:#C9D1DD;background:rgba(255,255,255,.06);border-radius:12px;padding:11px 13px;margin:14px 0 0}.room b{display:block;color:#fff;font-size:13px;margin-bottom:2px}
+.meter{margin:16px 0 4px}.meter .mh{display:flex;align-items:baseline;gap:8px}.meter .mh b{font-size:40px;line-height:1;font-weight:900;color:var(--gold2)}.meter .mh span{font-size:13px;color:#AEB8C8;font-weight:700}
+.mbar{position:relative;height:8px;border-radius:9px;background:rgba(255,255,255,.12);margin:10px 0 6px}.mbar i{display:block;height:100%;border-radius:9px;background:var(--gold2);animation:grow 1s .3s ease-out both;transform-origin:left}
+.mbar u{position:absolute;top:-4px;bottom:-4px;width:2px;background:#fff;opacity:.8}.meter .mt{font-size:12.5px;color:#AEB8C8}
+.how summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--muted);list-style:none}.how summary::-webkit-details-marker{display:none}.how summary:after{content:" +"}.how[open] summary:after{content:" −"}.how p{margin-top:6px}
+.join{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.join a.k{display:flex;align-items:center;justify-content:center;gap:8px;height:54px;border-radius:14px;background:#FEE500;color:#191600;font-weight:900;font-size:16.5px;text-decoration:none;box-shadow:0 6px 18px rgba(254,229,0,.18)}
+.join a.e{text-align:center;font-size:13.5px;font-weight:700;color:#AEB8C8;text-decoration:none;padding:4px}
+.hs{text-align:center;font-size:12.5px;color:#AEB8C8;margin:2px 0 0}
+.hero2 .share{margin-top:12px}.hero2 .share button{background:transparent;border-color:rgba(255,255,255,.18);color:#AEB8C8;font-weight:600;font-size:13px;padding:8px}
+.kick{font-size:12.5px;font-weight:800;color:var(--gold);letter-spacing:.02em;margin-bottom:4px}
+.proof h2,.lock h2{font-size:20px;line-height:1.4}
+.proof .big{background:var(--navy);color:#fff;border-radius:14px;padding:16px;text-align:center;margin:12px 0}.proof .big span{display:block;font-size:12.5px;color:#AEB8C8;font-weight:700}.proof .big b{display:block;font-size:34px;font-weight:900;color:var(--gold2);line-height:1.25;margin:4px 0}
+.proof .ex{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0}
+.proof .ex a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg)}.proof .ex .sc{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:var(--gold);border-radius:999px;padding:1px 8px;margin-right:6px}.proof .ex b{font-size:14.5px}.proof .ex em{display:block;font-style:normal;font-weight:800;color:var(--good);font-size:14px;margin-top:2px}
+.proof .note{line-height:1.6}
+.lock .lk{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 0}
+.lock .lk a{position:relative;display:flex;min-height:150px;border-radius:14px;overflow:hidden;background:var(--bg);border:1px solid var(--line);text-decoration:none}
+.lock .blur{position:absolute;inset:12px;filter:blur(3px);opacity:.55}.lock .blur i{display:block;height:9px;border-radius:9px;background:#C9BFAE;margin-bottom:9px}.lock .blur i:nth-child(1){width:70%}.lock .blur i:nth-child(2){width:90%;background:var(--gold2)}.lock .blur i:nth-child(3){width:50%}
+.lock .lt{position:relative;flex:1;padding:12px;display:flex;flex-direction:column;gap:3px;background:linear-gradient(180deg,rgba(246,243,236,.2),rgba(246,243,236,.96) 45%)}
+.lock .ic{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--navy)}
+.lock .lt b{font-size:14.5px;line-height:1.35;margin-top:auto;padding-top:14px}.lock .lt small{font-size:12px;color:var(--muted);line-height:1.45}
+.lock .join a.e{color:var(--muted)}
+.bars2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.bars2 span{font-size:12.5px;color:var(--muted);display:block}.bars2 b{font-size:18px}.bars2 .bar{background:#EEE8DC}.bars2 .bar i{background:var(--gold)}
+.nums summary{list-style:none;cursor:pointer}.nums summary::-webkit-details-marker{display:none}.nums summary h2{margin:0;display:flex;justify-content:space-between}.nums summary h2:after{content:"+";color:var(--muted)}.nums[open] summary h2:after{content:"−"}.nums table{margin-top:10px}
+.endc{background:linear-gradient(165deg,#1A2D47,var(--navy));color:#F3EEE3;border-radius:20px;padding:24px 18px 18px;margin:16px 0}
+.endc h2{font-size:22px;line-height:1.4;color:#fff;margin:0 0 14px}
+.endc ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}.endc li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid rgba(255,255,255,.1);padding-top:8px;font-size:14px}.endc li:first-child{border-top:0;padding-top:0}.endc li b{color:var(--gold2)}.endc li span{color:#C9D1DD;text-align:right}
+@media(max-width:520px){.hero2 h1{font-size:23.5px}.proof .big b{font-size:30px}.lock .lk a{min-height:140px}}
+@media(prefers-reduced-motion:reduce){.track .gap,.mbar i{animation:none}}
 main .names{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14.5px;line-height:1.5}main .names a{text-decoration:none;color:#3A4352}
 footer{max-width:760px;margin:0 auto;padding:0 16px 40px;font-size:12px;color:var(--muted)}
 footer nav{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px}footer nav a{text-decoration:none;font-weight:600}
@@ -192,6 +236,18 @@ function faqItems(x, date) {
   return out;
 }
 
+// 4년 전 점수 백테스트(소개 페이지 /start 04번과 같은 숫자): slug → [2022-10-20 점수, 1억 원이 2026-10-20에 된 금액]
+const BT = { 'meta': ['메타', 92, '4억 9천만 원'], '105560-ks': ['KB금융', 89, '3억 8천만 원'], '000660-ks': ['SK하이닉스', 73, '13억 6천만 원'],
+  '6758-t': ['소니그룹', 69, '1억 9천만 원'], '8306-t': ['미쓰비시UFJ', 65, '4억 5천만 원'], 'msft': ['마이크로소프트', 63, '2억 1천만 원'],
+  '7203-t': ['토요타', 58, '1억 5천만 원'], '005930-ks': ['삼성전자', 49, '3억 9천만 원'], 'aapl': ['애플', 47, '2억 2천만 원'],
+  'googl': ['알파벳', 47, '3억 2천만 원'], '7974-t': ['닌텐도', 42, '1억 3천만 원'], '005380-ks': ['현대차', 22, '2억 1천만 원'] };
+const BT_NOTE = '한국·미국·일본에서 많이 아는 회사 12곳을 결과를 보기 전에 먼저 정하고 모두 계산했습니다. 그때 점수는 지금 밸류노트 공식에 2022년 10월 20일까지 나온 결산 자료와 그날 종가만 넣어 다시 계산한 값입니다. 배당 포함·원화 기준 세전 금액이며 수수료는 넣지 않았습니다. 과거 수익률은 미래 수익을 보장하지 않습니다.';
+let HI70 = 0, TOTAL = 0; // 지금 70점 이상인 회사 수 / 전체 회사 수 (빌드 때 채운다)
+const KAKAO_SVG = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>';
+const LOCK_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#FFFFFF" d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zm-7-2a2 2 0 0 1 4 0v2h-4V7z"/></svg>';
+// 가입 버튼 한 쌍(카카오 + 이메일). src 로 어느 자리 버튼인지 관리자 통계에서 구분한다
+const joinBtns = (wq, src, ktxt = '카카오로 3초 만에 시작') => `<div class="join"><a class="k" href="/?kakao=1&${wq}&utm_source=${src}">${KAKAO_SVG}${ktxt}</a><a class="e" href="/?signup&${wq}&utm_source=${src}-email">이메일로 가입</a></div>`;
+
 function companyPage(x, peers, date) {
   const { r, sc } = x, g = grpOf(r.m), cur = r.cur || 'KRW', f = r.fin || {};
   const url = `${SITE}/c/${x.slug}`;
@@ -199,10 +255,11 @@ function companyPage(x, peers, date) {
   const pens = (sc.flags || []).filter((fl) => !WARN_FLAGS.has(fl)), warns = (sc.flags || []).filter((fl) => WARN_FLAGS.has(fl));
   const b = sc.b;
   const hasIv = isNum(sc.iv) && sc.iv > 0;
-  // 검색어 '○○ 적정 주가'에 맞춘 제목
+  const hasPx = hasIv && isNum(r.px);
+  // 검색어 '○○ 적정 주가'에 맞춘 제목 (검색 결과·공유 미리보기용, 그대로 둔다)
   const title = `${r.n} 적정 주가 ${hasIv ? money(sc.iv, cur) + ' · ' : ''}가치투자 점수 ${isNum(b) ? b + '점' : ''} | 밸류노트`;
   const desc = `${r.n}(${code}) 적정 주가와 밸류노트 점수 ${isNum(b) ? b + '점' : '계산 불가'}(재무 점수 ${sc.q ?? '–'}점, 저평가 ${sc.v ?? '–'}점${isNum(sc.qualScore) ? `, 정성 평가 ${sc.qualScore}점` : ''}).` +
-    (hasIv && isNum(r.px) ? ` 현재가 ${money(r.px, cur)}, 적정 주가 ${money(sc.iv, cur)}.` : '') +
+    (hasPx ? ` 현재가 ${money(r.px, cur)}, 적정 주가 ${money(sc.iv, cur)}.` : '') +
     (isNum(sc.per) ? ` PER ${n0(sc.per, 1)}배` : '') + (isNum(f.roeAvg) ? `, 5년 평균 ROE ${n0(f.roeAvg, 1)}%.` : '.') + ` 그레이엄·워렌 버핏 기준으로 매일 계산합니다.`;
   const sum = summary(r, sc);
   const faq = faqItems(x, date);
@@ -229,36 +286,87 @@ function companyPage(x, peers, date) {
     { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
     { '@type': 'WebPage', name: title, url, dateModified: date, inLanguage: 'ko-KR', about: { '@type': 'Corporation', name: r.n, ...(r.en ? { alternateName: r.en } : {}), tickerSymbol: String(r.t || code) } },
   ] };
-  const appLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&utm_source=c`;
-  const alertLink = `/?co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&watch=${encodeURIComponent(r.t || code)}&utm_source=c-alert`;
-  /* 아래 고정 바: 광고·검색으로 들어온 사람이 "이 회사 알림"을 이유로 바로 가입하게 한다. 가입 직후 앱이 이 회사를 관심 종목에 담는다 */
+  // 가입 직후 앱이 이 회사를 관심 종목에 담는다
   const wq = `co=${encodeURIComponent(code)}&q=${encodeURIComponent(r.n)}&watch=${encodeURIComponent(r.t || code)}`;
-  /* 앱 알림은 적정 매수가(적정 주가의 70%, 안전마진 30%)에 닿을 때 온다. 지금 가격에서 30% 안쪽일 때만 알림을 권하고,
-     이미 그 아래면 '지금 적정 매수가 아래', 너무 먼 회사(예: 적정 주가의 4배)는 알림 대신 내 종목 채점을 권한다 */
-  const buy = hasIv && sc.iv > 0 ? sc.iv * 0.7 : null;
+  /* 적정 매수가(적정 주가의 70%) 알림은 현재가가 30% 안쪽일 때만 권한다. 너무 먼 회사는 알림 대신 내 종목 채점을 권한다 */
+  const buy = hasIv ? sc.iv * 0.7 : null;
   const below = isNum(buy) && isNum(r.px) && r.px <= buy;
   const near = isNum(buy) && isNum(r.px) && !below && r.px / buy < 1.4;
+  const R = hasPx ? r.px / sc.iv : null;
+  const cyc = hasIv && (sc.cyc || (sc.flags || []).includes('경기순환·이익 변동'));
+
+  // ① 첫 화면: 결론 한 줄(구체 숫자) → 가격 자 → 가입 버튼
+  const h1 = hasIv ? `${esc(r.n)} 적정 주가,<br>워렌 버핏 기준으로는 <em>${money(sc.iv, cur)}</em>` : `${esc(r.n)} 가치투자 점수 <em>${isNum(b) ? b + '점' : '–'}</em>`;
+  const verdict = !hasPx ? ''
+    : R >= 2 ? `지금 주가 ${josa(money(r.px, cur), '은', '는')} 적정 주가의 <b class="hot">${n0(R, 1)}배</b>입니다.`
+    : R > 1 ? `지금 주가 ${josa(money(r.px, cur), '은', '는')} 적정 주가보다 <b class="hot">${n0((R - 1) * 100)}% 고평가</b>돼 있습니다.`
+    : `지금 주가 ${josa(money(r.px, cur), '은', '는')} 적정 주가보다 <b class="cool">${n0((1 - R) * 100)}% 저평가</b>돼 있습니다. 적정 주가까지 상승 여력은 <b class="cool">+${n0((1 / R - 1) * 100)}%</b>입니다.`;
+  let ruler = '';
+  if (hasPx) {
+    const max = Math.max(r.px, sc.iv) * 1.06, pos = (v) => Math.max(2, Math.min(98, (v / max) * 100));
+    const pP = pos(r.px), pI = pos(sc.iv), pB = pos(buy), side = (p) => (p < 50 ? 'l' : 'r');
+    const lo = Math.min(pP, pI), hi = Math.max(pP, pI);
+    ruler = `<div class="ruler" aria-hidden="true"><div class="up"><span class="m ${side(pP)}" style="left:${pP}%"><small>지금 주가</small>${money(r.px, cur)}</span></div>
+<div class="track"><i class="gap ${R > 1 ? 'hot' : 'cool'}" style="left:${lo}%;width:${hi - lo}%"></i>${near || below ? `<i class="dot b" style="left:${pB}%"></i>` : ''}<i class="dot iv" style="left:${pI}%"></i><i class="dot px" style="left:${pP}%"></i></div>
+<div class="dn">${near || below ? `<span class="m r sm" style="left:${pB}%"><small>적정 매수가</small>${money(buy, cur)}</span><span class="m ${side(pI)}" style="left:${pI}%"><small>적정 주가</small>${money(sc.iv, cur)}</span>` : `<span class="m ${side(pI)}" style="left:${pI}%"><small>적정 주가</small>${money(sc.iv, cur)}</span>`}</div></div>`;
+  }
+  const heroBtnTxt = below ? '카카오로 3초 만에 관심 종목 담기' : near ? `카카오로 ${money(buy, cur)} 알림 받기` : '카카오로 3초 만에 내 종목 채점받기';
+  const heroSub = below ? '지금 적정 매수가 아래입니다. 담아 두면 관심 종목에서 매일 점수를 확인할 수 있습니다.'
+    : near ? '적정 매수가에 닿는 날 휴대폰으로 바로 알려 드립니다.'
+    : `밸류노트는 ${TOTAL}개 회사를 같은 기준으로 매일 계산합니다.`;
+  const meter = isNum(b) ? `<div class="meter"><div class="mh"><b>${b}</b><span>/ 100 · 밸류노트 점수</span></div><div class="mbar"><i style="width:${b}%"></i><u style="left:70%"></u></div><div class="mt">흰 선이 70점입니다. 지금 ${TOTAL}개 회사 중 70점을 넘는 회사는 ${HI70}곳입니다.</div></div>` : '';
+  const hero = `<section class="hero2"><div class="eyebrow">워렌 버핏·벤저민 그레이엄 기준 · ${esc(date)} 계산</div>
+<h1>${h1}</h1>${verdict ? `<p class="verdict">${verdict}</p>` : ''}${ruler}
+${cyc ? `<p class="room"><b>이 계산이 틀릴 수 있는 경우</b>좋은 해의 이익이 계속된다고 보지 않고 보수적으로 계산했습니다. 호황이 길게 이어지면 적정 주가는 더 높아질 수 있습니다.</p>` : ''}
+${meter}
+<div id="heroJoin">${joinBtns(wq, below ? 'c-hero-below' : near ? 'c-hero-alert' : 'c-hero', heroBtnTxt)}<p class="hs">${heroSub}</p></div>
+<div class="share"><button type="button" data-sh="c" data-u="${url}" data-t="">이 점수 공유하기</button></div></section>`;
+
+  // ② 증거: 그때 그 점수였을 때 샀다면
+  const bt = BT[x.slug];
+  const ex = ['000660-ks', 'meta', '105560-ks'];
+  const proof = `<section class="card proof"><div class="kick">밸류노트 점수대로 샀다면</div>
+${bt ? `<h2>4년 전 ${esc(josa(r.n, '은', '는'))} ${bt[1]}점이었습니다</h2><div class="big"><span>2022년 10월 1억 원</span><b>${bt[2]}</b><span>2026년 10월 · 배당 포함</span></div>
+<p>지금 ${esc(r.n)} 점수는 ${isNum(b) ? b + '점' : '–'}입니다. 같은 기준으로 매일 다시 계산하기 때문에, 점수가 다시 올라오는 날도 바로 알 수 있습니다.</p>`
+  : `<h2>4년 전 70점 이상이던 회사에 1억 원을 넣었다면</h2><div class="big"><span>2022년 10월 1억 원</span><b>평균 7억 4,500만 원</b><span>같은 돈을 코스피에 넣었다면 2억 5천만 원</span></div>`}
+<div class="ex">${ex.filter((s) => s !== x.slug).slice(0, bt ? 2 : 3).map((s) => `<a href="/c/${s}"><span class="sc">${BT[s][1]}점</span><b>${BT[s][0]}</b><em>1억 → ${BT[s][2]}</em></a>`).join('')}</div>
+<p>그때 70점을 넘었던 세 곳은 모두 코스피보다 많이 벌었습니다. 70점이 안 되던 아홉 곳 가운데 코스피를 이긴 곳은 세 곳뿐이었습니다.</p><details class="how"><summary>어떻게 계산했나요?</summary><p class="note">${BT_NOTE} 점수가 늘 맞지는 않습니다. 버크셔 해서웨이는 이 방식으로 고평가로 나오는 알파벳을 올해도 더 샀습니다.</p></details></section>`;
+
+  // ③ 가입하면 보이는 것(잠금 미리보기). 가짜 숫자는 넣지 않고 모양만 흐리게 보여 준다
+  const locks = [
+    ['찰리 멍거의 질문 체크', `${esc(r.n)}의 사업을 10년 뒤에도 괜찮은지 질문으로 따져 본 정성 평가`],
+    ['주가 차트와 적정 주가', '지금 가격이 적정 주가 위·아래 어디에 있는지 한눈에'],
+    near || below ? ['적정 매수가 알림', `${money(buy, cur)}에 닿는 날 휴대폰으로 알림`] : ['저평가 순위 전체', '5개 시장에서 적정 주가보다 싼 회사 순위, 매일 갱신'],
+    ['내 포트폴리오 채점', '가진 종목을 넣으면 가치주·관찰주·투기주로 나눠 유지·정리 판단'],
+  ];
+  const lockSec = `<section class="card lock"><div class="kick">가입하면 바로 열립니다</div><h2>${esc(r.n)}, 여기서부터는 밸류노트 안에서 볼 수 있습니다</h2>
+<div class="lk">${locks.map(([t, d], i) => `<a href="/?kakao=1&${wq}&utm_source=c-lock"><div class="blur b${i}"><i></i><i></i><i></i></div><div class="lt"><span class="ic">${LOCK_SVG}</span><b>${t}</b><small>${d}</small></div></a>`).join('')}</div>
+${joinBtns(wq, 'c-lock')}</section>`;
+
+  // ④ 마지막 가입 블록
+  const endSec = `<section class="endc" id="endJoin"><h2>${esc(r.n)}만이 아닙니다.<br>내가 가진 종목은 몇 점일까요?</h2>
+<ul><li><b>${TOTAL}개 회사</b><span>5개 시장을 매일 같은 기준으로 계산</span></li><li><b>적정 매수가 알림</b><span>싸지는 날 휴대폰·PC로</span></li><li><b>유지·정리 판단</b><span>내 종목을 넣으면 바로</span></li></ul>
+${joinBtns(wq, 'c-end')}<p class="hs">워렌 버핏·찰리 멍거의 기준으로 주식을 평가해 현명한 투자를 돕습니다.</p></section>`;
+
+  /* 아래 고정 바: 첫 화면 가입 버튼이 화면에서 사라지면 나타나고, 마지막 가입 블록이 보이면 숨는다 */
   const wtxt = below ? `<span>${esc(r.n)} 적정 매수가 ${money(buy, cur)}</span><b>지금 그 아래입니다</b><span>관심 종목에 담아 두고 지켜보세요</span>`
     : near ? `<span>${esc(r.n)} 적정 매수가</span><b>${money(buy, cur)}</b><span>이 가격에 오면 알려 드려요</span>`
     : `<b>내 종목은 몇 점일까요?</b><span>보유 종목을 같은 기준으로 채점해 드려요</span>`;
-  const wbar = hasIv && isNum(r.px) ? `<div class="wbar" id="wbar"><div class="in"><div class="t">${wtxt}</div><div style="text-align:center"><a class="k" href="/?kakao=1&${wq}&utm_source=${below ? 'c-wbar-below' : near ? 'c-wbar' : 'c-wbar-score'}"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>${below ? '카카오로 담기' : near ? '카카오로 알림' : '카카오로 3초'}</a><a class="e" href="/?signup&${wq}&utm_source=c-wbar-email">이메일로 가입</a></div></div></div>
-<script>(function(){var b=document.getElementById('wbar');if(!b)return;document.body.classList.add('has-wbar');function f(){b.classList.toggle('on',scrollY>innerHeight*.35)}addEventListener('scroll',f,{passive:true});f();})();</script>` : '';
-  const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasIv && isNum(sc.mos) && isNum(r.px) && r.px / sc.iv < 2 ? ` · 적정 주가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·워렌 버핏 기준으로 본 숫자';
-  return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main>
-<div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)}</div>
-<section class="card hero"><h1>${esc(r.n)} 적정 주가와 가치투자 점수</h1><div class="sub">${esc(code)} · ${MKT[g]}${r.en ? ' · ' + esc(r.en) : ''}${r.ind ? ' · ' + esc(r.ind) : ''}</div>
-<div class="score"><b>${isNum(b) ? b : '–'}</b><span>밸류노트 점수 (100점 만점 · 숫자 65%·정성 평가 20%·트렌드 15%${sc.qualDone ? '' : ' · 정성 평가 전'})</span></div>
-<div class="bars"><div><div class="lab">재무 점수</div><div class="val">${sc.q ?? '–'}점</div><div class="bar"><i style="width:${sc.q || 0}%"></i></div></div>
-<div><div class="lab">저평가</div><div class="val">${sc.v ?? '–'}점</div><div class="bar"><i style="width:${sc.v || 0}%"></i></div></div></div>
-<div class="share"><button type="button" data-sh="c" data-u="${url}" data-t="${esc(shareText)}">이 점수 공유하기</button></div></section>
-${isNum(r.px) ? `<section class="card"><h2>가격</h2><div class="price"><div><div class="k">현재가</div><div class="v">${money(r.px, cur)}</div></div><div><div class="k">적정 주가</div><div class="v">${money(sc.iv, cur)}</div></div><div><div class="k">안전마진</div><div class="v ${isNum(sc.mos) ? (sc.mos >= 0 ? 'pos' : 'neg') : ''}">${isNum(sc.mos) ? (sc.mos > 0 ? '+' : '') + n0(sc.mos) + '%' : '–'}</div></div></div>
-<p class="note" style="margin-top:10px">적정 주가는 과거 평균 이익·주주 이익과 자산 가치로 계산한 값입니다. ${r.fin_sector ? '금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다. ' : ''}미래를 보장하지 않습니다.</p>
-${(sc.cyc || (sc.flags || []).includes('경기순환·이익 변동')) && hasIv ? `<p class="note cyc"><b>이 계산이 틀릴 수 있는 경우</b> 이익이 해마다 크게 오르내리는 업종이라, 지금 같은 좋은 해의 이익이 계속된다고 보지 않고 보수적으로 계산했습니다. 호황이 일시적이지 않고 구조적으로 길게 이어진다면, 이 적정 주가는 가치를 낮게 잡은 것이 됩니다.${isNum(sc.per) && sc.per > 0 ? ` 최근 이익만 보면 PER은 ${n0(sc.per, 1)}배입니다.` : ''}</p>` : ''}
-${near ? `<a class="alert" href="${alertLink}"><b>${esc(josa(r.n, '이', '가'))} 적정 매수가 ${money(buy, cur)}에 오면 알려 드릴까요?</b><span>알림 받기 ›</span></a>` : below ? `<a class="alert" href="${alertLink.replace('c-alert', 'c-alert-below')}"><b>지금 적정 매수가(${money(buy, cur)}) 아래입니다. 관심 종목에 담아 둘까요?</b><span>담기 ›</span></a>` : ''}</section>` : ''}
-${sum.length ? `<section class="card"><h2>한 줄씩 읽기</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}</section>` : ''}
-${pens.length || warns.length ? `<section class="card"><h2>감점·경고 신호</h2>${pens.map((fl) => `<div class="flag"><span class="pill p-pen">감점 −8</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}${warns.map((fl) => `<div class="flag"><span class="pill ${fl === '중국 본토 규제' ? 'p-pen' : 'p-warn'}">${fl === '중국 본토 규제' ? '할인 −6' : '경고'}</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}</section>` : ''}
-${rowsM.length ? `<section class="card"><h2>핵심 숫자</h2><table>${rowsM.map((m) => `<tr><td>${m[0]}${m[2] ? `<div class="note">${m[2]}</div>` : ''}</td><td class="n">${m[1]}</td></tr>`).join('')}</table></section>` : ''}
-<a class="cta" href="${appLink}">밸류노트에서 ${esc(r.n)} 자세히 보기<small>적정 주가 알림 · 내 포트폴리오 점수 · 찰리 멍거의 질문 체크</small></a>
+  const wbar = hasPx ? `<div class="wbar" id="wbar"><div class="in"><div class="t">${wtxt}</div><div style="text-align:center"><a class="k" href="/?kakao=1&${wq}&utm_source=${below ? 'c-wbar-below' : near ? 'c-wbar' : 'c-wbar-score'}">${KAKAO_SVG.replace(/18/g, '17')}${below ? '카카오로 담기' : near ? '카카오로 알림' : '카카오로 3초'}</a><a class="e" href="/?signup&${wq}&utm_source=c-wbar-email">이메일로 가입</a></div></div></div>
+<script>(function(){var b=document.getElementById('wbar');if(!b)return;document.body.classList.add('has-wbar');var h=document.getElementById('heroJoin'),e=document.getElementById('endJoin'),hv=true,ev=false;function u(){b.classList.toggle('on',!hv&&!ev)}if(!('IntersectionObserver'in window)){addEventListener('scroll',function(){hv=scrollY<innerHeight*.6;u()},{passive:true});return}new IntersectionObserver(function(a){hv=a[0].isIntersecting;u()}).observe(h);new IntersectionObserver(function(a){ev=a[0].isIntersecting;u()}).observe(e)})();</script>` : '';
+  const shareText = `${r.n} 밸류노트 점수 ${isNum(b) ? b + '점' : '–'}` + (hasPx && R < 2 && isNum(sc.mos) ? ` · 적정 주가보다 ${gapTxt(sc.mos)} 가격` : '') + '. 그레이엄·워렌 버핏 기준으로 본 숫자';
+  return head({ title, desc, url, ld, img: ogUrl(x.slug, date) }) + `<main class="lp">
+<div class="crumb"><a href="/c/">기업 점수</a> › <a href="/c/${MSLUG[g]}">${MKT[g]}</a> › ${esc(r.n)} <span class="note">· ${esc(code)}${r.ind ? ' · ' + esc(r.ind) : ''}</span></div>
+${hero.replace('data-t=""', `data-t="${esc(shareText)}"`)}
+${proof}
+${lockSec}
+${sum.length || pens.length || warns.length ? `<section class="card"><h2>숫자로 읽는 ${esc(r.n)}</h2>${sum.map((s) => `<p>${esc(s)}</p>`).join('')}
+${cyc ? `<p class="note cyc"><b>이 계산이 틀릴 수 있는 경우</b> 이익이 해마다 크게 오르내리는 업종이라, 지금 같은 좋은 해의 이익이 계속된다고 보지 않고 보수적으로 계산했습니다. 호황이 일시적이지 않고 구조적으로 길게 이어진다면, 이 적정 주가는 가치를 낮게 잡은 것이 됩니다.${isNum(sc.per) && sc.per > 0 ? ` 최근 이익만 보면 PER은 ${n0(sc.per, 1)}배입니다.` : ''}</p>` : ''}
+${pens.map((fl) => `<div class="flag"><span class="pill p-pen">감점 −8</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}${warns.map((fl) => `<div class="flag"><span class="pill ${fl === '중국 본토 규제' ? 'p-pen' : 'p-warn'}">${fl === '중국 본토 규제' ? '할인 −6' : '경고'}</span><b>${esc(fl)}</b>${FLAG_HELP[fl] ? `<div class="h">${esc(FLAG_HELP[fl])}</div>` : ''}</div>`).join('')}
+<div class="bars2"><div><span>재무 점수</span><b>${sc.q ?? '–'}점</b><div class="bar"><i style="width:${sc.q || 0}%"></i></div></div><div><span>저평가 점수</span><b>${sc.v ?? '–'}점</b><div class="bar"><i style="width:${sc.v || 0}%"></i></div></div></div>
+<p class="note">밸류노트 점수는 숫자 65%·정성 평가 20%·트렌드 15%를 합친 값입니다${sc.qualDone ? '' : '(이 회사는 정성 평가 전)'}. 적정 주가는 과거 평균 이익·주주 이익과 자산 가치로 계산한 값이며 미래를 보장하지 않습니다.${r.fin_sector ? ' 금융업은 현금흐름 할인 대신 자산·이익 기준을 씁니다.' : ''}</p></section>` : ''}
+${rowsM.length ? `<section class="card"><details class="nums"><summary><h2>핵심 숫자 ${rowsM.length}개 모두 보기</h2></summary><table>${rowsM.map((m) => `<tr><td>${m[0]}${m[2] ? `<div class="note">${m[2]}</div>` : ''}</td><td class="n">${m[1]}</td></tr>`).join('')}</table></details></section>` : ''}
+${endSec}
 <section class="card faq"><h2>자주 묻는 질문</h2>${faq.map(([q, a], i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</section>
 ${peers.length ? `<section class="card peers"><h2>같은 업종의 다른 회사</h2>${peers.map((p) => `<a href="/c/${p.slug}"><span>${esc(p.r.n)} <span class="note">${MKT[grpOf(p.r.m)]}</span></span><b>${p.sc.b ?? '–'}점</b></a>`).join('')}</section>` : ''}
 </main>${FOOT(date)}${wbar}${SHARE_JS}${TRACK('/c/' + x.slug)}</body></html>`;
@@ -413,6 +521,7 @@ try { prev = JSON.parse(fs.readFileSync(process.env.PREV_SCORES || path.join(dir
 fs.rmSync(dir, { recursive: true, force: true });
 fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(path.join(dir, 'c.css'), CSS);
+HI70 = all.filter((x) => isNum(x.sc.b) && x.sc.b >= 70).length; TOTAL = all.length;
 for (const x of all) {
   const key = x.r.ind || x.r.s;
   const peers = all.filter((y) => y !== x && (y.r.ind || y.r.s) === key && isNum(y.sc.b)).sort((a, b) => b.sc.b - a.sc.b).slice(0, 6);
