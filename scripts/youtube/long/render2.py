@@ -774,6 +774,7 @@ def make_thumb(spec, V, out):
         wm = R.LOGO.crop((0, 0, R.LOGO.width, 120)); lg = wm.resize((int(wm.width * .34), int(wm.height * .34)), Image.LANCZOS)   # 밸류노트 로고: 오른쪽 위, 한글은 크게 따로
         dl = ImageDraw.Draw(th); kf = F("Bold", 24); ks = "밸류노트"; kw = sum(dl.textlength(ch, font=kf) for ch in ks) + 6 * (len(ks) - 1)
         lx = TW - lg.width - 36; ly = 30; th.alpha_composite(lg, (lx, ly)); kx = lx + lg.width / 2 - kw / 2; ky = ly + lg.height + 6
+        if not tv.get("kr_label", False): th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92); return   # 2026-10-22 운영자: 한글 '밸류노트'는 빼는 게 깔끔
         for blur, al in ((6, 160),):
             sdk = Image.new("RGBA", (TW, TH_)); dk = ImageDraw.Draw(sdk); xx = kx
             for ch in ks: dk.text((xx + 2, ky + 2), ch, font=kf, fill=(0, 0, 0, al)); xx += dl.textlength(ch, font=kf) + 6
