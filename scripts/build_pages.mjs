@@ -159,7 +159,7 @@ function head({ title, desc, url, ld, img, type = 'article', src = 'c', rss = fa
 ${ld ? ldJson(ld) : ''}</head><body>
 <header class="top"><div class="in"><a class="brand" href="/">Value<i>Note</i></a><a class="go" href="/?utm_source=${esc(src)}">밸류노트 열기</a></div></header>`;
 }
-const FOOT_NAV = `<nav><a href="/c/">기업 점수 전체</a><a href="/c/kr">국내</a><a href="/c/us">미국</a><a href="/c/jp">일본</a><a href="/c/hk">홍콩</a><a href="/c/cn">중국 A</a><a href="/blog/">칼럼</a></nav>`;
+const FOOT_NAV = `<nav><a href="/c/">기업 점수 전체</a><a href="/c/kr">국내</a><a href="/c/us">미국</a><a href="/c/jp">일본</a><a href="/c/hk">홍콩</a><a href="/c/cn">중국 A</a><a href="/blog/">칼럼 · 이슈 분석</a></nav>`;
 const FOOT = (date, what = '공개 재무 자료(Yahoo Finance 연간 재무, 네이버 증권)로 매일 자동 계산한 결과입니다.') => `<footer>${FOOT_NAV}${what} 데이터 기준 ${esc(date)}. 투자 판단의 참고 자료이며 특정 종목의 매수·매도를 권하지 않습니다. © 밸류노트</footer>`;
 
 // 공유 버튼: 휴대폰은 공유 시트, PC는 링크 복사. 공유 링크에는 유입 경로 표시를 붙인다
@@ -363,21 +363,32 @@ ${colBy(c) ? `<p class="note" style="margin-top:14px">밸류노트 데이터와 
 ${others.length ? `<section class="card peers"><h2>다른 칼럼</h2>${others.map((o) => `<a href="/blog/${o.id}"><span>${esc(o.title)}</span><span class="note">${esc(colDateK(o))}</span></a>`).join('')}</section>` : ''}
 </main>${FOOT(iso.slice(0, 10), '투자 교육용 칼럼입니다.')}${SHARE_JS}${TRACK('/blog/' + c.id)}</body></html>`;
 }
-function blogIndex(cols, date) {
+function blogIndex(cols, date, issues = []) {
   const url = `${SITE}/blog/`;
-  const title = '밸류노트 칼럼 · 주간 시장과 거장의 투자';
-  const desc = '매주 시장·금리·환율 흐름과 워렌 버핏·그레이엄·찰리 멍거의 투자를 숫자로 정리하는 밸류노트 칼럼입니다.';
+  const title = '밸류노트 칼럼 · 이슈 분석, 주간 시장, 거장의 투자';
+  const desc = '화제의 기업을 숫자로 파고드는 이슈 분석, 매주 시장·금리·환율 흐름, 워렌 버핏·그레이엄·찰리 멍거의 투자를 정리하는 밸류노트 칼럼입니다.';
+  const issueRow = (x) => `<a href="/blog/${esc(x.slug)}"><span><b style="color:var(--ink)">${esc(x.title)}</b><span class="note" style="display:block">이슈 분석 · ${esc(x.date || '')}</span></span></a>`;
   return head({ title, desc, url, type: 'website', src: 'blog', rss: true, ld: { '@context': 'https://schema.org', '@type': 'Blog', name: title, url, inLanguage: 'ko-KR' } }) + `<main>
 <h1>칼럼</h1><p class="sub">${esc(desc)}</p>
+<h2 style="margin:18px 0 8px">이슈 분석</h2><p class="note" style="margin:0 0 8px">릴스에서 다 못 한 숫자와 원인, 내 종목 점검법까지 정리한 글입니다.</p>
+<section class="card peers" id="issues">${issues.map(issueRow).join('') || '<p class="note">곧 올라옵니다.</p>'}</section>
+<script>fetch('/blog/issues.json',{cache:'no-cache'}).then(function(r){return r.json()}).then(function(L){if(!L||!L.length)return;var e=function(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};document.getElementById('issues').innerHTML=L.map(function(x){return '<a href="/blog/'+e(x.slug)+'"><span><b style="color:var(--ink)">'+e(x.title)+'</b><span class="note" style="display:block">이슈 분석 · '+e(x.date||'')+'</span></span></a>'}).join('')}).catch(function(){});</script>
+<h2 style="margin:22px 0 8px">주간 시장 · 거장의 투자</h2>
 <section class="card peers">${cols.map((c) => `<a href="/blog/${c.id}"><span><b style="color:var(--ink)">${esc(c.title)}</b><span class="note" style="display:block">${esc(COL_SERIES[c.series || 'weekly'])} · ${esc(colDateK(c))}</span></span></a>`).join('')}</section>
 <a class="cta" href="/?utm_source=blog-index">밸류노트 열기<small>600+ 기업 점수 · 적정 매수가 알림</small></a>
 </main>${FOOT(date, '투자 교육용 칼럼입니다.')}${TRACK('/blog/')}</body></html>`;
 }
 const xmlEsc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
-function rss(cols) {
+function rss(cols, issues = []) {
+  const iss = issues.map((x) => { const u = `${SITE}/blog/${x.slug}`; const d = new Date(x.at);
+    return `<item><title>${xmlEsc(x.title)}</title><link>${u}</link><guid isPermaLink="true">${u}</guid><pubDate>${(isNaN(d) ? new Date() : d).toUTCString()}</pubDate><description>${xmlEsc(x.desc || '')}</description></item>`; });
   const items = cols.map((c) => { const u = `${SITE}/blog/${c.id}`; const d = new Date(c.at || c.id.slice(4, 14));
-    return `<item><title>${xmlEsc(c.title)}</title><link>${u}</link><guid isPermaLink="true">${u}</guid><pubDate>${(isNaN(d) ? new Date() : d).toUTCString()}</pubDate><description>${xmlEsc((c.sub ? c.sub + ' · ' : '') + plain(c.body).slice(0, 300))}</description></item>`; }).join('\n');
+    return `<item><title>${xmlEsc(c.title)}</title><link>${u}</link><guid isPermaLink="true">${u}</guid><pubDate>${(isNaN(d) ? new Date() : d).toUTCString()}</pubDate><description>${xmlEsc((c.sub ? c.sub + ' · ' : '') + plain(c.body).slice(0, 300))}</description></item>`; }).concat(iss).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>밸류노트 칼럼</title><link>${SITE}/blog/</link><description>가치투자 칼럼 · 주간 시장과 거장의 투자</description><language>ko</language>\n${items}\n</channel></rss>\n`;
+}
+// 이슈 분석(릴스 정리본): scripts/reels/guide.py 가 blog/<slug>.html 과 blog/issues.json 을 쓴다. 여기서는 목록·RSS·사이트맵에만 넣는다
+function loadIssues() {
+  try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'blog', 'issues.json'), 'utf8')).filter((x) => x.slug && x.title); } catch (_) { return []; }
 }
 async function loadColumns() {
   try {
@@ -433,15 +444,20 @@ if (process.env.VT_DEBUG) console.log(JSON.stringify(Object.fromEntries(Object.e
 
 // 칼럼 정적 페이지·RSS (blog/ 아래 이미지 폴더는 건드리지 않는다)
 const cols = await loadColumns();
+const issues = loadIssues();
 const bdir = path.join(ROOT, 'blog');
 fs.mkdirSync(bdir, { recursive: true });
-for (const f of fs.readdirSync(bdir)) if (f.endsWith('.html')) fs.rmSync(path.join(bdir, f));
+// 칼럼 글(col-*)만 지우고 다시 쓴다. 이슈 분석 글(blog/<slug>.html)은 guide.py 담당이라 건드리지 않는다
+for (const f of fs.readdirSync(bdir)) if (/^col-.*\.html$/.test(f)) fs.rmSync(path.join(bdir, f));
 for (const c of cols) fs.writeFileSync(path.join(bdir, c.id + '.html'), colPage(c, cols));
-fs.writeFileSync(path.join(bdir, 'index.html'), blogIndex(cols, date));
-fs.writeFileSync(path.join(ROOT, 'rss.xml'), rss(cols));
+fs.writeFileSync(path.join(bdir, 'index.html'), blogIndex(cols, date, issues));
+fs.writeFileSync(path.join(ROOT, 'rss.xml'), rss(cols, issues));
+// 이슈 분석 글(guide.py)이 '다른 칼럼'에 쓰는 목록
+fs.writeFileSync(path.join(bdir, 'columns.json'), JSON.stringify(cols.slice(0, 6).map((c) => ({ id: c.id, title: c.title, series: COL_SERIES[c.series || 'weekly'], date: colDateK(c) }))));
 
 const sm = [[`${SITE}/`, date, '1.0'], [`${SITE}/c/`, date, '0.9'], ...MKT_ORDER.map((m) => [`${SITE}/c/${MSLUG[m]}`, date, '0.9']),
   [`${SITE}/blog/`, (cols[0]?.at || date).slice(0, 10), '0.8'], ...cols.map((c) => [`${SITE}/blog/${c.id}`, (c.at || c.id.slice(4, 14)).slice(0, 10), '0.7']),
+  ...issues.map((x) => [`${SITE}/blog/${x.slug}`, String(x.at || date).slice(0, 10), '0.7']),
   ...all.map((x) => [`${SITE}/c/${x.slug}`, date, '0.6'])];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sm.map(([u, d, p]) => `<url><loc>${u}</loc><lastmod>${d}</lastmod><priority>${p}</priority></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${SITE}/sitemap.xml\n`);
@@ -450,7 +466,7 @@ console.log(`pages ${all.length} · markets ${MKT_ORDER.length} · columns ${col
 // 네이버·빙 등 검색엔진에 바뀐 주소만 바로 알린다(IndexNow). GitHub Actions 에서만 INDEXNOW=1 로 켠다
 if (process.env.INDEXNOW === '1') {
   const changed = all.filter((x) => { const o = prev[x.slug]; const n = scores[x.slug]; return !o || o[1] !== n[1] || o[0] !== n[0]; }).map((x) => `${SITE}/c/${x.slug}`);
-  const list = [...new Set([`${SITE}/`, `${SITE}/c/`, ...MKT_ORDER.map((m) => `${SITE}/c/${MSLUG[m]}`), `${SITE}/blog/`, ...cols.slice(0, 3).map((c) => `${SITE}/blog/${c.id}`), ...changed])].slice(0, 9000);
+  const list = [...new Set([`${SITE}/`, `${SITE}/c/`, ...MKT_ORDER.map((m) => `${SITE}/c/${MSLUG[m]}`), `${SITE}/blog/`, ...cols.slice(0, 3).map((c) => `${SITE}/blog/${c.id}`), ...issues.slice(0, 3).map((x) => `${SITE}/blog/${x.slug}`), ...changed])].slice(0, 9000);
   const body = JSON.stringify({ host: 'www.valuenote.co.kr', key: INDEXNOW_KEY, keyLocation: `${SITE}/${INDEXNOW_KEY}.txt`, urlList: list });
   for (const ep of ['https://searchadvisor.naver.com/indexnow', 'https://api.indexnow.org/indexnow']) {
     try { const r = await fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }, body }); console.log(`::notice::IndexNow ${ep} → ${r.status} (${list.length}개 주소)`); }

@@ -3246,6 +3246,10 @@ function colBodyHtml(t){
 /* 칼럼 연재: weekly(주간 시장) · giants(거장의 투자). 조회·추천은 column_stats 표 */
 const COL_SERIES = { weekly: '주간 시장', giants: '거장의 투자' };
 const colSeries = c => c.series || 'weekly';
+/* 이슈 분석: 릴스 정리본을 칼럼의 한 갈래로 (blog/issues.json, 글은 /blog/<slug>) */
+const ISS = { L: null, busy: false };
+async function issuesLoad(){ if(ISS.busy || ISS.L) return; ISS.busy = true; try{ const r = await fetch('/blog/issues.json', { cache: 'no-cache' }); ISS.L = r.ok ? await r.json() : []; }catch(_){ ISS.L = []; } ISS.busy = false; if(S.tab === 'column') render(); }
+const issueItem = x => `<a class="card col-item" href="/blog/${esc(x.slug)}?utm_source=app-column"><span class="small muted"><span class="col-ser">이슈 분석</span> ${esc(x.date || '')}</span><b>${esc(x.title)}</b><span class="small col-ex">${esc(x.desc || '')}</span></a>`;
 const COLST = { m: null, busy: false };
 async function colStatsLoad(){ if(COLST.busy || COLST.m || !store.client) return; COLST.busy = true; try{ const { data } = await store.client.rpc('column_stats_all'); COLST.m = data || {}; }catch(_){ COLST.m = {}; } COLST.busy = false; if(S.tab === 'column') render(); }
 const colLikedKey = id => 'vn-like-' + id;
@@ -3276,10 +3280,13 @@ function viewColumn(){
       <a class="col-blog small" href="${BLOG_URL}" target="_blank" rel="noopener">더 많은 글은 밸류노트 네이버 블로그에서 읽을 수 있습니다 ›</a>
       <p class="small muted col-disc">${colByline(open) ? '밸류노트 데이터와 AI 도구로 초안을 만들고 에디터가 검수한 글입니다. ' : ''}공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
-  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">주간 시장: 매주 월요일 시장·금리·환율 정리 · 거장의 투자: 워렌 버핏·그레이엄·찰리 멍거의 실제 매매와 생각</div></div></div>
+  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">이슈 분석: 화제의 기업을 숫자로 파고듭니다 · 주간 시장: 매주 월요일 시장·금리·환율 정리 · 거장의 투자: 워렌 버핏·그레이엄·찰리 멍거의 실제 매매와 생각</div></div></div>
     ${newsletterBox()}
     ${blogBox()}
-    <div class="col-tabs">${[['all','전체'], ...Object.entries(COL_SERIES)].map(([k, l]) => `<button type="button" class="${(S.colSer || 'all') === k ? 'on' : ''}" data-act="col-ser" data-v="${k}">${l}</button>`).join('')}</div>
+    <div class="col-tabs">${[['all','전체'], ['issue','이슈 분석'], ...Object.entries(COL_SERIES)].map(([k, l]) => `<button type="button" class="${(S.colSer || 'all') === k ? 'on' : ''}" data-act="col-ser" data-v="${k}">${l}</button>`).join('')}</div>
+    ${(() => { issuesLoad(); const IL = ISS.L || [], ser = S.colSer || 'all';
+      if(ser === 'issue') return IL.length ? `<div class="col-list">${IL.map(issueItem).join('')}</div>` : `<div class="card small muted">${ISS.L ? '아직 이슈 분석 글이 없습니다.' : '불러오는 중'}</div>`;
+      return ser === 'all' && IL.length ? `<div class="small muted" style="margin:14px 0 6px;font-weight:700">이슈 분석</div><div class="col-list">${IL.slice(0, 3).map(issueItem).join('')}</div><div class="small muted" style="margin:14px 0 6px;font-weight:700">주간 시장 · 거장의 투자</div>` : ''; })()}
     ${(() => { colStatsLoad(); const LL = L.filter(c => (S.colSer || 'all') === 'all' || colSeries(c) === S.colSer); return LL.length ? `<div class="col-list">${LL.map((c, i) => `<button type="button" class="card col-item${i === 0 ? ' first' : ''}${c.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(c.id)}">
       ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted"><span class="col-ser">${esc(COL_SERIES[colSeries(c)])}</span> ${esc(colDate(c))}${i === 0 ? ' · 최신' : ''} · ${colStatHtml(c)}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(String(c.body || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*]/g, '').replace(/\s+/g, ' ').trim().slice(0, 90))}…</span></button>`).join('')}</div>` : `<div class="card empty" style="margin-top:12px">${L.length ? '이 연재의 첫 글을 준비하고 있어요.' : '첫 칼럼을 준비하고 있어요. 그동안 브리핑 화면의 "이번 주 노트"를 확인해 보세요.'}</div>`; })()}`;
 }

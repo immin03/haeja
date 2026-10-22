@@ -111,6 +111,8 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .gbox li{margin:3px 0}
 .ok{display:none;font-size:15px;font-weight:700;color:var(--gold)}
 .done .ef,.done .agree{display:none}.done .ok{display:block}
+.crumb{display:block;width:max-content;margin-top:18px;font-size:13px;font-weight:700;color:rgba(247,242,232,.72);text-decoration:none}
+.crumb+.eyebrow{margin-top:10px}
 .srcs{margin-top:26px;font-size:12.5px;color:var(--muted)}.srcs b{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}
 .srcs a{display:block;color:var(--muted);text-decoration:none;padding:2px 0}
 .gbox{background:var(--navy);color:var(--ivory);border-radius:18px;padding:20px 18px}
@@ -214,19 +216,23 @@ CTA = ('<section class="cta"><h3>내 종목도 같은 기준으로 확인해 보
        '<p>밸류노트는 600여 개 기업의 점수와 적정 주가를 워렌 버핏·그레이엄·찰리 멍거의 방식으로 매일 계산합니다. 내 종목을 넣으면 같은 기준으로 바로 채점합니다.</p>'
        '<div class="row"><a class="btn kakao" href="/?kakao=1&amp;from=guide&amp;utm_source=ig-dm" data-out="kakao">카카오로 1초 만에 시작하기</a></div></section>')
 
-def page(sp, others):
-    dm = sp["dm"]; gid = sp["id"]; kw = dm["keyword"]
+def slug_of(o):
+    return (o.get("slug") or o["id"]).lower() if isinstance(o, dict) and "id" in o else o
+
+def page(sp, others, cols=()):
+    dm = sp["dm"]; gid = sp["id"]; kw = dm["keyword"]; sl = (dm.get("slug") or gid).lower()
     title = clean_title(sp); ps = paragraphs(sp.get("caption"))
     pts = [p for p in dm.get("points", []) if p]; chk = [c for c in dm.get("check", []) if c]
     secs = [x for x in dm.get("sections", []) if x.get("h")]; faq = [x for x in dm.get("faq", []) if x.get("q")]
-    url = f"{SITE}/g/{gid}"
+    url = f"{SITE}/blog/{sl}"
     intro = dm.get("intro") or ps[:2]   # 캡션 앞부분 대신 정리본용 도입부(dm.intro)를 쓸 수 있다
     desc = (intro[0] if intro else title)[:140]
     tags = [f"핵심 {len(pts)}줄" if pts else "", f"깊이 보기 {len(secs)}편" if secs else "전체 숫자",
             f"내 종목 점검 {len(chk)}단계" if chk else "", f"자주 묻는 질문 {len(faq)}개" if faq else ""]
-    out = [HEAD.format(title=html.escape(title + " · 밸류노트 정리본"), desc=html.escape(desc), og=f"{SITE}/social/reels/{gid}/cover.jpg",
+    out = [HEAD.format(title=html.escape(title + " | 밸류노트 칼럼"), desc=html.escape(desc), og=f"{SITE}/social/reels/{gid}/cover.jpg",
                        url=url, css=CSS)]
-    out.append(top() + f'<span class="eyebrow">밸류노트 정리본 · 댓글 키워드 \'{html.escape(kw)}\'</span>'
+    out.append(top() + '<a class="crumb" href="/blog/" data-out="blog">칼럼 › 이슈 분석</a>'
+               f'<span class="eyebrow">이슈 분석 · 댓글 키워드 \'{html.escape(kw)}\'</span>'
                f'<h1>{html.escape(title)}</h1><p class="sub">릴스에서 다 못 한 숫자와 원인, 내 종목에 바로 적용하는 방법까지 정리했습니다.</p>'
                '<div class="inside">' + "".join(f"<span>{t}</span>" for t in tags if t) + '</div></div></header>')
     out.append('<main class="wrap">')
@@ -254,9 +260,11 @@ def page(sp, others):
     if faq:
         out.append('<h2 id="s-faq">자주 묻는 질문</h2>' + "".join(f'<details><summary>{html.escape(f["q"])}</summary><p>{html.escape(f["a"])}</p></details>' for f in faq))
     out.append(subscribe() + CTA)
-    if others:
-        out.append('<div class="more"><h2>다른 정리본</h2>' + "".join(
-            f'<a href="/g/{o.get("slug") or o["id"]}">{html.escape(o["title"])}<small>댓글 키워드 \'{html.escape(o["keyword"])}\'</small></a>' for o in others[:4]) + '</div>')
+    more = [(f'/blog/{slug_of(o)}', o["title"], f"이슈 분석 · 댓글 키워드 '{o['keyword']}'") for o in others[:3]] + \
+           [(f'/blog/{c["id"]}', c["title"], f'{c.get("series") or "칼럼"} · {c.get("date") or ""}') for c in list(cols)[:3]]
+    if more:
+        out.append('<div class="more"><h2>다른 칼럼</h2>' + "".join(
+            f'<a href="{u}">{html.escape(t)}<small>{html.escape(m)}</small></a>' for u, t, m in more) + '<a href="/blog/" data-out="blog-all">칼럼 전체 보기 ›</a></div>')
     if dm.get("sources"):
         out.append('<div class="srcs"><b>참고한 자료</b>' + "".join(
             f'<a href="{html.escape(x["url"])}" target="_blank" rel="noopener">{html.escape(x["t"])}</a>' for x in dm["sources"] if x.get("url")) + '</div>')
@@ -291,7 +299,7 @@ def index_page(items):
     out.append(top() + '<div class="hub"><span class="eyebrow">밸류노트 정리본</span><h1>댓글에 남긴 키워드를<br>눌러 주세요</h1>'
                '<p class="sub">릴스에서 다 못 한 숫자와 원인, 내 종목 점검법까지 키워드별로 정리해 두었습니다.</p></div></div></header><main class="wrap list">')
     pins = [o for o in items if o.get("pinned")]; rest = [o for o in items if not o.get("pinned")]
-    href = lambda o: f'/g/{o.get("slug") or o["id"]}'
+    href = lambda o: f'/blog/{slug_of(o)}'
     out.append('<div class="chips">' + "".join(
         f'<a class="chip{" hot" if o.get("pinned") else ""}" href="{href(o)}" data-k="{html.escape(o["keyword"])}">{html.escape(o["keyword"])}</a>' for o in pins + rest) + '</div>')
     for o in pins:
@@ -332,13 +340,32 @@ def build(specs, root, now=None):
                       "_rank": max(when, ref.get(sp["id"], when)), "slug": dm.get("slug"), "pinned": sp["id"] in PIN})
     items.sort(key=lambda x: (x["pinned"], x["_rank"]), reverse=True)
     live = [o for o in items if o["_when"] <= now + dt.timedelta(hours=3)]
+    # 칼럼(build_pages.mjs가 매일 쓰는 blog/columns.json)과 한 곳에서 읽히게: 정리본 = 칼럼의 '이슈 분석'
+    bdir = os.path.join(root, "blog"); os.makedirs(bdir, exist_ok=True)
+    try: cols = json.load(open(os.path.join(bdir, "columns.json"), encoding="utf-8"))
+    except Exception: cols = []
+    try: prev = {x["slug"] for x in json.load(open(os.path.join(bdir, "issues.json"), encoding="utf-8"))}
+    except Exception: prev = set()
+    for f in os.listdir(d):   # /g/<id>, /g/<slug> 는 칼럼 글로 넘겨 주는 짧은 입구만 남긴다
+        if f.endswith(".html") and f != "index.html": os.remove(os.path.join(d, f))
+    now_slugs = set()
     for o in items:
+        sl = slug_of(o); now_slugs.add(sl)
         others = [x for x in live if x["id"] != o["id"]]
-        h = page(o["_sp"], others)
-        open(os.path.join(d, o["id"] + ".html"), "w", encoding="utf-8").write(h)
-        if o.get("slug"):   # 짧은 주소: /g/hynix 처럼 (내용은 같고 정식 주소는 /g/<id>)
-            open(os.path.join(d, o["slug"] + ".html"), "w", encoding="utf-8").write(h)
+        open(os.path.join(bdir, sl + ".html"), "w", encoding="utf-8").write(page(o["_sp"], others, cols))
+        stub = ('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
+                f'<link rel="canonical" href="{SITE}/blog/{sl}"><meta http-equiv="refresh" content="0; url=/blog/{sl}">'
+                f'<script>location.replace("/blog/{sl}"+location.search+location.hash)</script></head>'
+                f'<body><a href="/blog/{sl}">칼럼으로 이동</a></body></html>')
+        for name in {o["id"], sl}:
+            open(os.path.join(d, name + ".html"), "w", encoding="utf-8").write(stub)
+    for sl in prev - now_slugs:   # 내린 정리본(예: 매매)은 칼럼에서도 지운다
+        fp = os.path.join(bdir, sl + ".html")
+        if os.path.exists(fp): os.remove(fp)
     open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(index_page(live))
     json.dump([{k: v for k, v in o.items() if not k.startswith("_")} for o in items],
               open(os.path.join(d, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    json.dump([{"slug": slug_of(o), "id": o["id"], "title": o["title"], "keyword": o["keyword"], "at": o["at"], "date": o["date"],
+                "pinned": o["pinned"], "desc": (o["_sp"]["dm"].get("intro") or paragraphs(o["_sp"].get("caption")))[0][:160]} for o in live],
+              open(os.path.join(bdir, "issues.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     return len(items)
