@@ -755,9 +755,9 @@ def make_thumb(spec, V, out):
         f1 = F("Heavy", tv.get("s1", 78)); f2 = F("Heavy", tv.get("s2", 138))
         co = tv.get("co_logo") and os.path.join(HERE, "assets", tv["co_logo"]); card = None
         if co and os.path.exists(co):
-            cl = Image.open(co).convert("RGBA"); sc2 = 70 / cl.height; cl = cl.resize((int(cl.width * sc2), 70), Image.LANCZOS)
-            card = Image.new("RGBA", (cl.width + 64, cl.height + 34), (0, 0, 0, 0)); ImageDraw.Draw(card).rounded_rectangle([0, 0, card.width - 1, card.height - 1], 22, fill=(255, 255, 255, 245))
-            card.alpha_composite(cl, (32, 17))
+            lh = tv.get("logo_h", 100); cl = Image.open(co).convert("RGBA"); sc2 = lh / cl.height; cl = cl.resize((int(cl.width * sc2), lh), Image.LANCZOS)
+            card = Image.new("RGBA", (cl.width + 72, cl.height + 40), (0, 0, 0, 0)); ImageDraw.Draw(card).rounded_rectangle([0, 0, card.width - 1, card.height - 1], 24, fill=(255, 255, 255, 245))
+            card.alpha_composite(cl, (36, 20))
         hh = (card.height + 34 if card else 0) + f1.size + 18 + f2.size; y0 = (TH_ - hh) // 2 - 6
         vg = Image.new("RGBA", (TW, TH_)); gv = ImageDraw.Draw(vg)   # 가운데를 살짝 어둡게
         for r_ in range(0, 520, 4): gv.ellipse([TW / 2 - 700 + r_, TH_ / 2 - 380 + r_ * .55, TW / 2 + 700 - r_, TH_ / 2 + 380 - r_ * .55], fill=(0, 0, 0, 3))
