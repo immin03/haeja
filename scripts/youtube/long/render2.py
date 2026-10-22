@@ -690,6 +690,21 @@ def make_theme(n, seed=11):
     return m.astype(np.float32)
 
 
+def load_theme(n):
+    """운영자가 직접 만든 밸류노트 테마곡(assets/theme.mp3, 저작권 없음)을 영상 길이만큼 이어 붙인다.
+    곡 앞뒤 무음은 잘라 내고, 반복할 때는 3초 동안 겹쳐서 자연스럽게 넘어간다. 파일이 없으면 합성 테마를 쓴다."""
+    p = os.path.join(HERE, "assets", "theme.mp3")
+    if not os.path.exists(p): return make_theme(n)
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", p, "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, np.float32).reshape(-1, 2).copy(); lv = np.abs(x).max(1)
+    idx = np.where(lv > .01)[0]; x = x[idx[0]: idx[-1] + 1] if len(idx) else x
+    xf = int(SR * 3); out = x.copy(); fade = np.linspace(0, 1, xf, dtype=np.float32)[:, None]
+    while len(out) < n:
+        out[-xf:] = out[-xf:] * (1 - fade) + x[:xf] * fade; out = np.concatenate([out, x[xf:]])
+    out = out[:n]; fi = int(SR * .8); out[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)[:, None]; fo = int(SR * 3); out[-fo:] *= np.linspace(1, 0, fo, dtype=np.float32)[:, None]
+    return (out / (np.abs(out).max() + 1e-9)).astype(np.float32)
+
+
 VOICE_LOG = []
 
 
@@ -792,7 +807,7 @@ def main():
     first = int(timeline[0]["start"] * SR + timeline[0]["lines"][0][0] * SR); last = int(timeline[-1]["start"] * SR)
     boost[:first] = 1.5; boost[last:] = 1.5
     boost = np.convolve(boost, np.ones(int(SR * 1.2)) / (SR * 1.2), "same").astype(np.float32)
-    mus = make_theme(len(mix)) * (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:, None]
+    mus = load_theme(len(mix)) * (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:, None]
     st_ = np.stack([mix, mix], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
