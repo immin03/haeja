@@ -17,6 +17,7 @@ sys.path.insert(0, HERE)
 import render as R  # noqa: E402  (글꼴·자막·음성 속도·배경음악·사진 움직임을 함께 쓴다)
 from render import F, AD, clamp, ease, fill, wrap, count_text, W, H, FPS, SR, ROOT  # noqa: E402
 from korean import to_speech  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 
 # 색
 NAVY = (11, 27, 51); NAVY2 = (24, 46, 82); GOLD = (214, 172, 82); GOLD_D = (168, 120, 34); GOLD_L = (228, 199, 141)
@@ -147,7 +148,7 @@ def draw(sc, V, u, lines, theme, media):
             if sub: center_text(d, H / 2 + 90, sub, F("SemiBold", 40), A((180, 190, 206), pop(u, .4)))
     elif typ == "stat":
         a = pop(u, at_time(v.get("at"), lines))
-        if v.get("kicker"): center_text(d, 250, T("kicker"), F("Bold", 40), A(t["muted"], a))
+        if v.get("kicker"): center_text(d, 250, T("kicker"), F("Bold", 40), A(t["muted"], pop(u, .1)))  # 설명 줄은 처음부터 (빈 화면 방지)
         s = T("value"); f = F("Heavy", 210)
         while d.textlength(s, font=f) > 1700: f = F("Heavy", f.size - 10)
         sv = val_num(s, clamp((u - at_time(v.get("at"), lines)) / .9)) if v.get("count", True) else s
@@ -168,7 +169,7 @@ def draw(sc, V, u, lines, theme, media):
         hl = [h for h in v.get("hl", []) if u >= at_time(h.get("at"), lines)]
         cur_hl = hl[-1] if hl else None
         for i, it in enumerate(items):
-            lab, val = fill(str(it[0]), V), float(it[1]); ta = at_time(it[2] if len(it) > 2 else None, lines)
+            lab, val = fill(str(it[0]), V), float(it[1]); ta = at_time(it[2], lines) if len(it) > 2 and it[2] is not None else .35 + .25 * i
             p = pop(u, ta, .6); x = x0 + i * gap
             hh = (val * scale_ if val >= 0 else val * neg_scale) * p
             on = cur_hl and cur_hl.get("i") == i
@@ -203,7 +204,7 @@ def draw(sc, V, u, lines, theme, media):
         items = v["items"]; mx = max(float(x[1]) for x in items)
         hl = [h for h in v.get("hl", []) if u >= at_time(h.get("at"), lines)]; cur = hl[-1] if hl else None
         for i, it in enumerate(items):
-            lab, val = fill(it[0], V), float(it[1]); p = pop(u, at_time(it[2] if len(it) > 2 else None, lines), .7)
+            lab, val = fill(it[0], V), float(it[1]); p = pop(u, at_time(it[2], lines) if len(it) > 2 and it[2] is not None else .35 + .25 * i, .8)  # 시점이 없으면 위에서부터 차례로 자란다
             y = 300 + i * 130; on = cur and cur.get("i") == i
             d.text((160, y + 14), lab, font=fitF(d, lab, "Bold", 42, 420), fill=A(t["ink"], p))
             col = GOLD if on else (NAVY if theme == "light" else (120, 146, 190))
@@ -250,6 +251,13 @@ def draw(sc, V, u, lines, theme, media):
                 fg = WHITE if kind == "navy" else NAVY
                 d.text((x + w_ / 2 - d.textlength(s, font=f) / 2, y + hgt / 2 - f.size / 2 - 8 + 10 * (1 - a)), val_num(s, clamp((u - at_time(b_.get("at"), lines)) / .7)), font=f, fill=A(fg, a))
             if b_.get("label"): d.text((x + w_ / 2 - d.textlength(fill(b_["label"], V), font=F("SemiBold", 30)) / 2, y + hgt + 22), fill(b_["label"], V), font=F("SemiBold", 30), fill=A(t["muted"], tA))
+            for j, it in enumerate(b_.get("items", [])):  # 상자 아래로 구성 요소가 말에 맞춰 하나씩 쌓인다
+                st_, at_ = (it if isinstance(it, list) else [it, None])[:2]; pa = pop(u, at_time(at_, lines) if at_ else .4 + .3 * j, .4)
+                if pa <= 0: continue
+                st_ = fill(st_, V); fi_ = fitF(d, st_, "Bold", 40, w_ - 60); iw = d.textlength(st_, font=fi_) + 60; iy = y + hgt + 80 + j * 76 + 14 * (1 - pa)
+                d.rounded_rectangle([x + w_ / 2 - iw / 2, iy, x + w_ / 2 + iw / 2, iy + 60], 30, fill=A(t["card"], pa), outline=A(GOLD_D if j == len(b_["items"]) - 1 and b_.get("last_gold") else t["line"], pa), width=2)
+                d.ellipse([x + w_ / 2 - iw / 2 + 18, iy + 25, x + w_ / 2 - iw / 2 + 28, iy + 35], fill=A(GOLD, pa))
+                d.text((x + w_ / 2 - iw / 2 + 40, iy + 6), st_, font=fi_, fill=A(t["ink"], pa))
             x += w_
             if i < n - 1:
                 o = ops[i] if i < len(ops) else "="; fo = F("Heavy", 80); d.text((x + opw / 2 - d.textlength(o, font=fo) / 2, y + hgt / 2 - 52), o, font=fo, fill=A(t["ink"], tA)); x += opw
@@ -544,7 +552,6 @@ def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
         d.text((W - 72 - tw - 18, 54), chapter, font=f, fill=A(t["ink"], .85))
     foot = " · ".join([x for x in [src, (f"데이터 {asof} 기준" if asof else "")] if x])
     if foot: d.text((60, H - 46), foot, font=F("Medium", 22), fill=A(t["muted"], 1))
-    s = "*투자 권유가 아닌 교육용 정보입니다"; f = F("Medium", 22); d.text((W - 60 - d.textlength(s, font=f), H - 46), s, font=f, fill=A(t["muted"], 1))
 
 
 def sub_pages(d, text, f, maxw=1480):
@@ -579,11 +586,11 @@ def subtitle2(img, text, u_in, dur):
 
 
 def make_theme(n, seed=11):
-    """밸류노트 시그니처 배경음악 (직접 합성, 저작권 걱정 없음) — 118BPM 딥하우스: 4박 킥, 2·4박 클랩, 엇박 하이햇,
-    엇박 베이스, 오르간 코드, 그리고 2마디짜리 고정 멜로디(훅). 훅은 밸류노트 영상마다 같아서 '이 음악 = 밸류노트'가 되게 한다."""
+    """밸류노트 시그니처 배경음악 v2 (직접 합성, 저작권 걱정 없음) — 116BPM 차분한 딥하우스 (2026-10-22 운영자: 더 차분하게, 베이스는 더 강하게, 중독성 있게).
+    굵은 서브 베이스가 엇박으로 굴러가고, 따뜻한 일렉트릭 피아노 코드, 단순한 4음 훅이 2마디마다 돌아온다. 훅은 영상마다 같다."""
     from scipy import signal
     rng = np.random.default_rng(seed); L = np.zeros(n, np.float32); Rr = np.zeros(n, np.float32); K = np.zeros(n, np.float32)
-    bpm = 118; b = 60 / bpm; bar = 4 * b; nt = lambda k: 440 * 2 ** ((k - 69) / 12)
+    bpm = 116; b = 60 / bpm; bar = 4 * b; nt = lambda k: 440 * 2 ** ((k - 69) / 12)
     def add(at, x, gl=1.0, gr=1.0, kick=False):
         i = int(at * SR)
         if i >= n or i < 0: return
@@ -591,47 +598,69 @@ def make_theme(n, seed=11):
         if kick: K[i:i + m] += x[:m]
         else: L[i:i + m] += x[:m] * gl; Rr[i:i + m] += x[:m] * gr
     tt = lambda d: np.arange(int(SR * d)) / SR
-    t = tt(.32); kick = (np.sin(2 * np.pi * (45 * t + 75 / 18 * (1 - np.exp(-18 * t)))) * np.exp(-t * 9) + .3 * np.exp(-t * 300) * rng.standard_normal(len(t))).astype(np.float32) * .9
+    t = tt(.35); kick = (np.sin(2 * np.pi * (42 * t + 70 / 16 * (1 - np.exp(-16 * t)))) * np.exp(-t * 7.5)).astype(np.float32) * .95
     nz = lambda d: rng.standard_normal(int(SR * d)).astype(np.float32)
-    bp = signal.butter(2, [900 / (SR / 2), 3200 / (SR / 2)], "band"); hp = signal.butter(2, 7000 / (SR / 2), "high")
-    clap = np.zeros(int(SR * .25), np.float32)
-    for k in range(3): seg = signal.lfilter(*bp, nz(.25)) * np.exp(-tt(.25) * (60 if k < 2 else 18)); clap[int(k * .011 * SR):] += seg[: len(clap) - int(k * .011 * SR)]
-    clap = (clap / np.abs(clap).max() * .35).astype(np.float32)
-    ohat = (signal.lfilter(*hp, nz(.14)) * np.exp(-tt(.14) * 22) * .16).astype(np.float32)
-    chat = (signal.lfilter(*hp, nz(.04)) * np.exp(-tt(.04) * 90) * .07).astype(np.float32)
-    def bass(f, d=.2):
-        t = tt(d); x = sum(np.sin(2 * np.pi * f * h * t) / h for h in (1, 2, 3)) * np.minimum(1, t / .005) * np.exp(-t * 7)
-        return (signal.lfilter(*signal.butter(2, 600 / (SR / 2)), x) * .45).astype(np.float32)
-    def organ(fs, d=.22):
-        t = tt(d); x = sum(np.sin(2 * np.pi * f * t) + .5 * np.sin(2 * np.pi * 2 * f * t) + .25 * np.sin(2 * np.pi * 3 * f * t) for f in fs)
-        return (x / len(fs) * np.minimum(1, t / .004) * np.exp(-t * 9) * .16).astype(np.float32)
-    def pluck(f, d=.35):
-        t = tt(d); x = signal.square(2 * np.pi * f * t, .3) * .6 + np.sin(2 * np.pi * f * t)
-        x = signal.lfilter(*signal.butter(2, 2600 / (SR / 2)), x) * np.minimum(1, t / .003) * np.exp(-t * 8)
-        return (x * .13).astype(np.float32)
-    prog = [(57, [57, 60, 64]), (53, [53, 57, 60]), (48, [55, 60, 64]), (55, [55, 59, 62])]   # Am  F  C  G
-    hook = [(0, 69), (1, 72), (2, 76), (2.5, 74), (3, 72), (4, 67), (5, 69), (6, 72), (7, 69)]  # 8분음표 위치, 2마디 (A-C-E-D-C | G-A-C-A)
+    bp = signal.butter(2, [800 / (SR / 2), 2600 / (SR / 2)], "band"); hp = signal.butter(2, 6500 / (SR / 2), "high")
+    clap = np.zeros(int(SR * .3), np.float32)
+    for k in range(3): seg = signal.lfilter(*bp, nz(.3)) * np.exp(-tt(.3) * (60 if k < 2 else 14)); clap[int(k * .012 * SR):] += seg[: len(clap) - int(k * .012 * SR)]
+    clap = (clap / np.abs(clap).max() * .24).astype(np.float32)
+    ohat = (signal.lfilter(*hp, nz(.12)) * np.exp(-tt(.12) * 26) * .09).astype(np.float32)
+    shk = (signal.lfilter(*hp, nz(.05)) * np.exp(-tt(.05) * 70) * .04).astype(np.float32)
+    def bass(f, d):
+        t = tt(d); env = np.minimum(1, t / .006) * np.minimum(1, (d - t) / .03) * np.exp(-t * 2.2)
+        x = np.sin(2 * np.pi * f * t) * .9 + .35 * np.tanh(2.5 * np.sin(2 * np.pi * f * t))   # 굵은 서브 + 살짝 찌그러진 배음
+        return (signal.lfilter(*signal.butter(2, 380 / (SR / 2)), x * env) * .72).astype(np.float32)
+    def keys(fs, d, amp=.1):
+        t = tt(d); x = sum(np.sin(2 * np.pi * f * t + .7 * np.exp(-t * 3) * np.sin(2 * np.pi * 2 * f * t)) for f in fs)
+        return (x / len(fs) * np.minimum(1, t / .01) * np.exp(-t * 2.4) * amp).astype(np.float32)
+    def pluck(f, d=.45):
+        t = tt(d); x = np.sin(2 * np.pi * f * t + .9 * np.exp(-t * 6) * np.sin(2 * np.pi * f * 3 * t)) + .3 * signal.square(2 * np.pi * f * t, .25)
+        x = signal.lfilter(*signal.butter(2, 1900 / (SR / 2)), x) * np.minimum(1, t / .004) * np.exp(-t * 5.5)
+        return (x * .14).astype(np.float32)
+    prog = [(45, [57, 60, 64, 67]), (41, [57, 60, 64, 65]), (43, [55, 59, 62, 67]), (40, [55, 59, 64, 67])]   # Am7  Fmaj7  G6  Em7
+    groove = [(.5, .32), (1.5, .3), (1.75, .2), (2.5, .32), (3.5, .45)]                                     # 엇박으로 굴러가는 베이스 (박, 길이)
+    hook = [(0, 76), (1, 72), (2, 74), (3, 76), (5, 69), (6, 67), (7, 69)]                                   # 8분음표 위치: E-C-D-E | A-G-A
     t0, bi = 0.0, 0; total = n / SR
     while t0 < total:
-        root, ch = prog[bi % 4]; sec = (bi // 16) % 4   # 16마디마다 편성을 바꾼다 (같은 반복으로 안 들리게)
+        root, ch = prog[bi % 4]; sec = (bi // 16) % 4
         for k in range(4):
             add(t0 + k * b, kick, kick=True)
             if k in (1, 3) and bi >= 2: add(t0 + k * b, clap, .9, 1)
             add(t0 + k * b + b / 2, ohat, .8, 1)
-            for q in (0, 1, 3): add(t0 + k * b + q * b / 4, chat, 1, .8)
-            add(t0 + k * b + b / 2, bass(nt(root - 24)))
-            if k in (1, 3) or (k == 2 and sec % 2): add(t0 + k * b + b / 2 + b / 4, organ([nt(x) for x in ch]), 1, .85)
-        if sec != 2 and bi % 2 == 0:    # 훅: 3번째 구간(16마디)은 쉬어 간다
+            for q in (1, 3): add(t0 + k * b + q * b / 4, shk, 1, .7)
+        for pos, d in groove: add(t0 + pos * b, bass(nt(root - 12 if root < 40 else root - 12), d * b * 1.6))
+        add(t0, keys([nt(x) for x in ch], bar * .9, .09), .9, 1); add(t0 + 2.5 * b, keys([nt(x) for x in ch[1:]], b * 1.2, .06), 1, .9)
+        if sec != 2 and bi % 2 == 0:
             for pos, k in hook: add(t0 + pos * b / 2, pluck(nt(k)), .85, 1)
+            if bi % 4 == 2:  # 메아리 (훅이 귀에 남도록)
+                for pos, k in hook[:4]: add(t0 + pos * b / 2 + 3 * b / 4, pluck(nt(k)) * .35, 1, .7)
         t0 += bar; bi += 1
-    # 킥에 맞춰 나머지를 살짝 눌러 펌핑감 (사이드체인)
-    env = np.ones(n, np.float32); per = int(b * SR); dip = (1 - .55 * np.exp(-np.arange(per) / SR * 9)).astype(np.float32)
-    for i in range(0, n, per): env[i:i + per] = dip[: n - i] if n - i < per else dip
+    env = np.ones(n, np.float32); per = int(b * SR); dip = (1 - .45 * np.exp(-np.arange(per) / SR * 8)).astype(np.float32)
+    for i in range(0, n, per): env[i:i + per] = dip[: min(per, n - i)]
     L = L * env + K; Rr = Rr * env + K
-    m = np.stack([L, Rr], 1); m = signal.lfilter(*signal.butter(2, 9000 / (SR / 2), "low"), m, axis=0)
-    fi = int(SR * 1.5); m[:fi] *= np.linspace(0, 1, fi)[:, None]; fo = int(SR * 3); m[-fo:] *= np.linspace(1, 0, fo)[:, None]
-    m = np.tanh(m / (np.abs(m).max() + 1e-9) * 1.4) / np.tanh(1.4)
+    m = np.stack([L, Rr], 1); m = signal.lfilter(*signal.butter(2, 7500 / (SR / 2), "low"), m, axis=0)
+    fi = int(SR * 1.0); m[:fi] *= np.linspace(0, 1, fi)[:, None]; fo = int(SR * 3); m[-fo:] *= np.linspace(1, 0, fo)[:, None]
+    m = np.tanh(m / (np.abs(m).max() + 1e-9) * 1.3) / np.tanh(1.3)
     return m.astype(np.float32)
+
+
+def clean_voice(l, speak):
+    """성우 음성에 가끔 섞이는 이상한 소리(늘어진 소리·괴물 소리·덜 녹음된 소리)를 걸러 낸다 (2026-10-22 운영자 검수).
+    1) 말 속도가 평소(초당 약 6.7음절)보다 크게 느리거나 빠르면  2) 음성 인식으로 다시 받아 적었을 때 원고와 많이 다르면
+    캐시를 버리고 다시 받는다. 세 번까지 받아 가장 정상인 것을 쓴다."""
+    say = to_speech(l); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
+    for k in range(3):
+        a = R.pace(speak(say, 1.1, fresh=k > 0)); rate = syl / max(.1, len(a) / SR)
+        bad_rate = syl >= 10 and not (5.5 <= rate <= 8.3)
+        try:
+            import verify; sc = verify.score(l, verify.hear(a, SR))
+        except Exception: sc = 1.0
+        bad = bad_rate or sc < (.62 if re.search("버핏|그레이엄|멍거|버크셔|CXMT|HBM|PER", l) else .72); cost = abs(rate - 6.7) / 6.7 + max(0, .85 - sc)
+        if best is None or cost < best[0]: best = (cost, a, rate, sc)
+        if not bad: break
+        print(f"  음성 다시 받기({k + 1}/3): 속도 {rate:.1f}음절/초, 인식 {sc:.2f} · {l[:30]}", flush=True)
+    VOICE_LOG.append([l[:40], round(best[2], 2), round(best[3], 2)])
+    return best[1]
 
 
 def make_thumb(spec, V, out):
@@ -696,7 +725,7 @@ def main():
         if not lines: print("  문장이 없어 장면 생략:", sc["v"]["type"]); continue
         lt = []; u = .25
         for l in lines:
-            a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else R.pace(speak(to_speech(l), 1.1))
+            a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
@@ -709,7 +738,11 @@ def main():
     env = np.convolve(np.abs(mix), np.ones(int(SR * .25)) / (SR * .25), "same"); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)
     env = _sg.lfilter([.0005], [1, -.9995], env); env = np.clip(env / (env.max() + 1e-9), 0, 1)
     MUS_LEVEL, MUS_DUCK = .19, .62   # 2026-10-22 운영자: 음악이 안 들린다 → 말 없는 곳은 또렷하게, 말할 때는 62% 낮춘다
-    mus = make_theme(len(mix)) * (MUS_LEVEL * (1 - MUS_DUCK * env))[:, None]
+    boost = np.ones(len(mix), np.float32)   # 시작(첫 말 전)과 끝 화면에서는 음악을 더 크게, 사이는 부드럽게 이어 준다
+    first = int(timeline[0]["start"] * SR + timeline[0]["lines"][0][0] * SR); last = int(timeline[-1]["start"] * SR)
+    boost[:first] = 1.5; boost[last:] = 1.5
+    boost = np.convolve(boost, np.ones(int(SR * 1.2)) / (SR * 1.2), "same").astype(np.float32)
+    mus = make_theme(len(mix)) * (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:, None]
     st_ = np.stack([mix, mix], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
@@ -726,6 +759,11 @@ def main():
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", fill(sc.get("src", sc["v"].get("src", "")), V), V.get("asof"), .5, logo_dark, logo_light)
             if typ != "end": subtitle2(img, lt[2], lt[1] * .9, lt[1])
             img.save(os.path.join(sd, f"{k:02d}_{typ}.jpg"), quality=80)
+            if typ not in ("media", "end"):  # 빈 화면 점검: 문장마다 시작 0.4초 뒤에 그래픽이 있는지
+                bga = np.asarray(background(theme)).astype(np.int16)
+                for li, (t_, d_, txt) in enumerate(s["lines"]):
+                    im_ = np.asarray(draw(sc, V, t_ + .4, s["lines"], theme, None)).astype(np.int16)
+                    if (np.abs(im_ - bga).max(-1) > 12).mean() < .004: print(f"  ⚠ 빈 화면: 장면 {k} 문장 {li} · {txt[:30]}")
             print(k, typ, fit and fit["k"])
         make_thumb(spec, V, sd)
         return
@@ -776,7 +814,7 @@ def main():
             "events": spec.get("events", []), "pinned_comment": fill(spec.get("pinned_comment", ""), V), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
             "qa": {"media": [[k, "lib", s["sc"]["v"].get("lib")] for k, s in enumerate(timeline) if s["sc"]["v"]["type"] == "media"],
                    "lines": [[round(x["start"] + a, 2), round(d_, 2), l, to_speech(l)] for x in timeline for (a, d_, l) in x["lines"]],
-                   "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline]}}
+                   "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG}}
     json.dump(meta, open(os.path.join(out, "meta.json"), "w"), ensure_ascii=False, indent=1)
     print(f"완료: {total / 60:.1f}분 → {out}")
 

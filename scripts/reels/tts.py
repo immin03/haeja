@@ -77,13 +77,14 @@ TC_BASE_SPEED = 1.1  # 대본의 speed 1.1 = 타입캐스트 기본 속도
 TC_CACHE = os.path.join(CACHE, "typecast")
 
 
-def _typecast(text, speed):
+def _typecast(text, speed, fresh=False):
     """타입캐스트로 읽어 44.1kHz mono float 배열을 돌려준다. 같은 문장은 캐시를 쓴다 (크레딧 절약)"""
     import hashlib, json, subprocess, urllib.request, urllib.error
     tempo = round(min(1.3, max(.85, speed / TC_BASE_SPEED)), 2)
     key = hashlib.sha1(f"{TC_VOICE}|{TC_MODEL}|{tempo}|{text}".encode()).hexdigest()[:20]
     os.makedirs(TC_CACHE, exist_ok=True)
     mp3 = os.path.join(TC_CACHE, key + ".mp3")
+    if fresh and os.path.exists(mp3): os.remove(mp3)   # 이상한 소리가 섞인 결과는 버리고 다시 받는다
     if not os.path.exists(mp3):
         # 요청 형식이 거절되면 단순한 형식으로 한 번 더 (키 점검 때 통과한 형식이 마지막)
         bodies = [
@@ -128,7 +129,7 @@ def _log_usage(n):
     if u[m] > 150000: print(f"⚠ 타입캐스트 이번 달 사용량 {u[m]:,}자 — 라이트 한도 20만 자에 가깝습니다")
 
 
-def speak(text, speed=1.15, steps=8, chunk=True):
+def speak(text, speed=1.15, steps=8, chunk=True, fresh=False):
     """text(한글 발음) → 44.1kHz mono float 배열.
     타입캐스트: 문장 단위로 한 번에 읽는다. 로컬 예비: 절 단위로 나눠 읽고 짧은 쉼을 넣어 잇는다"""
     if os.environ.get("TYPECAST_API_KEY"):
@@ -136,7 +137,7 @@ def speak(text, speed=1.15, steps=8, chunk=True):
         import time
         for i in range(3):
             try:
-                return _typecast(text, speed)
+                return _typecast(text, speed, fresh)
             except Exception as e:
                 err = e; print(f"타입캐스트 호출 실패({i + 1}/3):", str(e)[:200]); time.sleep(3 * (i + 1))
         raise RuntimeError(f"타입캐스트 음성 생성 실패: {err}")

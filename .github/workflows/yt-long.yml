@@ -30,7 +30,7 @@ jobs:
       - name: 도구 설치
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
-          pip install -q numpy scipy pillow soundfile
+          pip install -q numpy scipy pillow soundfile sherpa-onnx==1.13.8
           npm i --no-save playwright@1.47.2 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1 || true
       - name: 대상 고르기
         id: pick
