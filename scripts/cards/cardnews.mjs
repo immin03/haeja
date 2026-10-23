@@ -4,10 +4,11 @@
 //        → social/cards/<id>/01.jpg … 와 social/cards/<id>/post.json (게시 행에 들어갈 제목·캡션·해시태그)
 // 장 종류 (spec.slides[].kind)
 //   cover    { photo, eyebrow, l1, l2, sub }        실사 사진 표지. l2는 금색 큰 줄
-//   text     { eyebrow, title, body:[문단], big? }  설명 한 장 (big = 가운데 큰 숫자·문장)
+//   text     { eyebrow, title, body:[문단], big?, small? }  설명 한 장 (big = 가운데 큰 숫자·문장, small = 아래 작은 각주)
 //   criteria { eyebrow, title, rows:[{label, sub, value}], note }  기준 표 (번호 원 + 이름 + 값)
 //   cards    { eyebrow, title, items:[{name, tag, rows:[[이름, 값]], badge}] }  회사 카드 (세로로 쌓음, 2~4개)
 //   compare  { eyebrow, title, a, b, rows:[{name, a, b}], note }   두 숫자 막대 비교 (예: PER vs 평균 이익 PER)
+//   table    { eyebrow, title, cols, rows, widths, hl, tags?, compact?, dimRows?, note }  표 (tags = 회사 이름 옆 업종, compact = 9~12줄, dimRows = 탈락 예시 줄 번호)
 //   grid     { l1, l2, pill, cols, compact?, tiles:[{name, tag, big, bigLabel, chip, note, tone, num?}], notes }  한 장 요약 (기본 형식, 2026-10-23). compact = 타일 10~12개(4열)용 작은 글씨, num = 번호 원 글자(예: '✕')
 //   end      { title, body, cta, checks?:[[이름, 설명]], checkHead?, checkNote? }  마지막 장 (체크표 선택) + 밸류노트 워드마크
 // 공통: spec.foot = 출처·기준일 한 줄 (모든 장 아래), 고지문은 마지막 장에만 작게.
@@ -78,7 +79,8 @@ const K = {
     eyebrow(s.eyebrow), bigTitle(s.title, s.size || 66),
     s.big ? h('div', { marginTop: 44, padding: '34px 40px', borderRadius: 28, background: C.card, border: `2px solid ${C.gold2}`, flexDirection: 'column' },
       String(s.big).split('\n').map((l, k) => t(l, { fontSize: k ? 34 : 46, fontWeight: k ? 600 : 900, color: k ? C.mute : C.gold, lineHeight: 1.4, marginTop: k ? 10 : 0 }))) : null,
-    (s.body || []).map((p) => para(p)))),
+    (s.body || []).map((p) => para(p)),
+    s.small ? t(s.small, { fontSize: 25, color: C.dim, fontWeight: 500, lineHeight: 1.45, marginTop: 30 }) : null)),
 
   criteria: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column' },
     eyebrow(s.eyebrow), bigTitle(s.title, s.size || 62),
@@ -133,13 +135,17 @@ const K = {
   // 표: cols = [제목, ...], rows = [[이름, 값, ...]], widths = 각 칸 비율, hl = 강조할 칸 번호
   table: (s, sp, i, n) => {
     const tw = W - 128, ws = s.widths || s.cols.map(() => 1), sum = ws.reduce((a, b) => a + b, 0);
-    const cell = (v, k, head) => t(v, { width: Math.floor(tw * ws[k] / sum), fontSize: head ? 25 : (k === 0 ? 36 : 33), fontWeight: head ? 700 : 900, color: head ? C.dim : (k === s.hl ? C.up : C.ink), justifyContent: k ? 'flex-end' : 'flex-start', letterSpacing: -0.5 });
+    const cz = s.compact ? 0.84 : 1;  // compact: 9~12줄용
+    const cell = (v, k, head, dim) => t(v, { width: Math.floor(tw * ws[k] / sum), fontSize: Math.round((head ? 25 : (k === 0 ? 36 : 33)) * (head ? 1 : cz)), fontWeight: head ? 700 : 900, color: head ? C.dim : dim && k ? C.down : (k === s.hl ? C.up : C.ink), justifyContent: k ? 'flex-end' : 'flex-start', letterSpacing: -0.5 });
+    const first = (v, j) => (s.tags && s.tags[j])
+      ? h('div', { width: Math.floor(tw * ws[0] / sum), alignItems: 'baseline', gap: 10 }, t(v, { fontSize: Math.round(36 * cz), fontWeight: 900, color: C.ink, letterSpacing: -0.5 }), t(s.tags[j], { fontSize: Math.round(23 * cz), fontWeight: 600, color: C.dim }))
+      : cell(v, 0, false);
     return shell(sp, i, n, h('div', { flexDirection: 'column' },
       eyebrow(s.eyebrow), bigTitle(s.title, s.size || 58),
       h('div', { flexDirection: 'column', marginTop: 34, background: C.card, borderRadius: 26, padding: '14px 28px', border: `1px solid ${C.line}` },
         h('div', { padding: '16px 8px', borderBottom: `2px solid ${C.line}` }, s.cols.map((c, k) => cell(c, k, true))),
-        s.rows.map((r, j) => h('div', { padding: '20px 8px', alignItems: 'center', borderBottom: j < s.rows.length - 1 ? `1px solid ${C.line}` : 'none' }, r.map((v, k) => cell(v, k, false))))),
-      s.note ? para(s.note, { fontSize: 28, marginTop: 28 }) : null));
+        s.rows.map((r, j) => h('div', { padding: s.compact ? '13px 8px' : '20px 8px', alignItems: 'center', borderBottom: j < s.rows.length - 1 ? `1px solid ${C.line}` : 'none', ...((s.dimRows || []).includes(j) ? { background: 'rgba(240,163,151,.10)' } : {}) }, r.map((v, k) => k === 0 ? first(v, j) : cell(v, k, false, (s.dimRows || []).includes(j)))))),
+      s.note ? para(s.note, { fontSize: s.compact ? 24 : 28, marginTop: s.compact ? 20 : 28 }) : null));
   },
 
   compare: (s, sp, i, n) => {
