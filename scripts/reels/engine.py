@@ -686,7 +686,7 @@ def s_race(img, u, sc, L, T):
 # 원칙: 글자는 흔들리지 않는다(카메라·흔들림 없음) · 모든 요소는 화면 가운데 정렬 · 위 제목 띠(0~330) 아래부터 자막(1330) 위까지만 쓴다
 #       · 요소는 그 말을 하는 순간에 채워진다(막대가 자라고, 평균선이 그어지고, 식의 칸이 하나씩 찬다)
 YT = False
-YT_TITLE_Y, YT_CAP_Y = 452, 1330
+YT_TITLE_Y, YT_CAP_Y, YT_CAP_X = 520, 1330, 510   # 자막은 오른쪽 좋아요·댓글·저장 버튼을 피해 살짝 왼쪽, 폭 800 이내
 
 def join_fracs(parts):
     """한 번에 읽은 문장 안에서 각 자막 조각이 차지하는 시간 비율 (음절 수 + 쉼표·마침표 쉼)"""
@@ -729,18 +729,18 @@ def y_hook(img, u, sc, L, T):
     num = sc["num"]; col_end = TONE.get(sc.get("tone", "loss"), LOSS)
     rows = (sc.get("top") or "").split("\n")[:2] if sc.get("top") else []
     for k, row in enumerate(rows):
-        y_row(img, u, .05 + k * .1, row, 80, IVORY, (W / 2, 540 + k * 100 - (len(rows) - 1) * 50))
+        y_row(img, u, .05 + k * .1, row, 80, IVORY, (W / 2, 650 + k * 96 - (len(rows) - 1) * 96))
     p = prog(u, .3, 1.0, ease_io)
     v = lerp(num.get("from", 0), num["to"], p)
     s = fmt_num(round(v, num.get("dec", 0)), num)
     big = fit_font(fmt_num(num["to"], num), "Heavy", num.get("size", 230), 960)
-    pop(img, s, big, mix(IVORY, col_end, p), (W / 2, 820), alpha=prog(u, .25, .45))
+    pop(img, s, big, mix(IVORY, col_end, p), (W / 2, 830), alpha=prog(u, .25, .45))
     if sc.get("label"):
         li = sc.get("label_line", 1)
         t1 = max(1.1, y_at(L, li) if len(L) > li else 1.1)
-        y_fade(img, u, t1, sc["label"], fit_font(sc["label"], "ExtraBold", 60, 940), GOLD, (W / 2, 1050))
+        y_fade(img, u, t1, sc["label"], fit_font(sc["label"], "ExtraBold", 60, 940), GOLD, (W / 2, 1040))
         w = prog(u, t1 + .2, t1 + .6) * 420
-        ImageDraw.Draw(img).line([(W / 2 - w / 2, 1108), (W / 2 + w / 2, 1108)], fill=GOLD, width=4)
+        ImageDraw.Draw(img).line([(W / 2 - w / 2, 1098), (W / 2 + w / 2, 1098)], fill=GOLD, width=4)
     return img
 
 def y_bars(img, u, sc, L, T):
@@ -749,7 +749,7 @@ def y_bars(img, u, sc, L, T):
     items = sc["items"]; n_ = len(items); avg = sc.get("avg")
     vals = [it["v"] for it in items] + ([avg["value"]] if avg else [])
     lo, hi = min(0, min(vals)), max(0, max(vals))
-    X0, X1, TOP, BOT = 150, 930, 660 if avg else 620, 1090
+    X0, X1, TOP, BOT = 150, 930, 720 if avg else 680, 1100
     span = (hi - lo) or 1; hi_ = hi + span * .16; lo_ = lo - (span * .14 if lo < 0 else 0)
     ymap = lambda v: BOT - (v - lo_) / (hi_ - lo_) * (BOT - TOP)
     y0 = ymap(0); d = ImageDraw.Draw(img)
@@ -784,7 +784,7 @@ def y_bars(img, u, sc, L, T):
             lab = avg.get("label", f"평균 {avg['value']:g}")
             a_ = prog(u, ta + .3, ta + .7)   # 범례: 제목 아래 '- - 여러 해 평균 17.3조' (막대 숫자와 겹치지 않게)
             if a_ > 0:
-                f_ = F("ExtraBold", 44); tw = f_.getlength(lab); lx = W / 2 - (tw + 90) / 2; ly = 572
+                f_ = F("ExtraBold", 44); tw = f_.getlength(lab); lx = W / 2 - (tw + 90) / 2; ly = 630
                 for x in (lx, lx + 36): d.line([(x, ly), (x + 22, ly)], fill=mix(NAVY, GOLD, a_), width=6)
                 d.text((lx + 90, ly), lab, font=f_, fill=mix(NAVY, GOLD, a_), anchor="lm")
     return img
@@ -800,8 +800,8 @@ def y_compare(img, u, sc, L, T):
         p = prog(u, t0, t0 + .45, ease_io)
         if p <= 0: continue
         col = TONE.get(sd.get("tone", "gray" if i == 0 else "loss"), GRAY)
-        cx = 290 + i * 500; off = int((1 - p) * 24)
-        d.rounded_rectangle([cx - 215, 590 + off, cx + 215, 1130 + off], 36, outline=mix(NAVY, col, p), width=4, fill=mix(NAVY, NAVY2, p))
+        cx = 290 + i * 500; off = int((1 - p) * 24) + 50
+        d.rounded_rectangle([cx - 215, 590 + off, cx + 215, 1120 + off], 36, outline=mix(NAVY, col, p), width=4, fill=mix(NAVY, NAVY2, p))
         lines = sd.get("label", "").split("\n")
         for j, ln in enumerate(lines):
             d.text((cx, 680 + off + (j - (len(lines) - 1) / 2) * 50), ln, font=fit_font(ln, "Bold", 44, 390), fill=mix(NAVY, IVORY, p), anchor="mm")
@@ -812,15 +812,15 @@ def y_compare(img, u, sc, L, T):
 def y_statement(img, u, sc, L, T):
     V = L[0][1] if L else 2.0
     l1, l2 = sc["l1"], sc["l2"]
-    y_fade(img, u, .05, l1, fit_font(l1, "ExtraBold", 72, 960), IVORY, (W / 2, 700))
+    y_fade(img, u, .05, l1, fit_font(l1, "ExtraBold", 72, 960), IVORY, (W / 2, 740))
     t2 = sc.get("t2") or min(.9, V * .35); tone = TONE.get(sc.get("tone", "gold"), GOLD)
     p = prog(u, t2, t2 + .45, ease_io)
-    pop(img, l2, fit_font(l2, "Heavy", 112, 980), tone, (W / 2, 860), scale=.94 + .06 * p, alpha=p)
+    pop(img, l2, fit_font(l2, "Heavy", 112, 980), tone, (W / 2, 900), scale=.94 + .06 * p, alpha=p)
     wl = prog(u, t2 + .35, t2 + .8) * 420
-    ImageDraw.Draw(img).line([(W / 2 - wl / 2, 950), (W / 2 + wl / 2, 950)], fill=tone, width=6)
+    ImageDraw.Draw(img).line([(W / 2 - wl / 2, 990), (W / 2 + wl / 2, 990)], fill=tone, width=6)
     if sc.get("note"):
         for j, ln in enumerate(sc["note"].split("\n")):
-            y_fade(img, u, t2 + .8 + j * .15, ln, fit_font(ln, "SemiBold", 44, 960), GRAY, (W / 2, 1060 + j * 62))
+            y_fade(img, u, t2 + .8 + j * .15, ln, fit_font(ln, "SemiBold", 44, 960), GRAY, (W / 2, 1090 + j * 62))
     return img
 
 def y_box(img, u, t0, y, label, value, col, filled=False, h=200):
@@ -838,12 +838,12 @@ def y_equation(img, u, sc, L, T):
     a, b = sc["a"], sc["b"]
     ta = y_at(L, 0, .15); top = y_at(L, 1) if len(L) > 1 else y_at(L, 0, .5)
     tb = y_at(L, 2) if len(L) > 2 else top + .9
-    y_box(img, u, ta, 650, a["label"], a["v"], IVORY)
+    y_box(img, u, ta, 710, a["label"], a["v"], IVORY)
     op = sc.get("op", "× 10")
-    y_fade(img, u, top, op, F("Heavy", 84), GOLD, (W / 2, 820), rise=10)
-    y_box(img, u, tb, 990, b["label"], b["v"], GOLD, filled=True)
+    y_fade(img, u, top, op, F("Heavy", 84), GOLD, (W / 2, 872), rise=10)
+    y_box(img, u, tb, 1035, b["label"], b["v"], GOLD, filled=True)
     if sc.get("note"):
-        y_fade(img, u, tb + .6, sc["note"], fit_font(sc["note"], "SemiBold", 40, 900), GRAY, (W / 2, 1150))
+        y_fade(img, u, tb + .6, sc["note"], fit_font(sc["note"], "SemiBold", 40, 900), GRAY, (W / 2, 1186))
     return img
 
 YDRAW = {"hook": y_hook, "bars": y_bars, "compare": y_compare, "statement": y_statement, "equation": y_equation}
@@ -857,13 +857,13 @@ def y_caption(img, u, L):
         if u >= a - .05: cap = c
     d = ImageDraw.Draw(img); font = F("Bold", 52)
     maxw = max(d.textlength(l, font=font) for l in cap)
-    if maxw > 900: font = F("Bold", int(52 * 900 / maxw)); maxw = 900
+    if maxw > 800: font = F("Bold", int(52 * 800 / maxw)); maxw = 800
     lh = 72; y0 = YT_CAP_Y - (len(cap) - 1) * lh / 2
     bar = Image.new("RGBA", (int(maxw + 64), len(cap) * lh + 28), (6, 12, 26, 170))
-    img.paste(bar, (int(W / 2 - bar.width / 2), int(y0 - lh / 2 - 14)), bar)
+    img.paste(bar, (int(YT_CAP_X - bar.width / 2), int(y0 - lh / 2 - 14)), bar)
     d = ImageDraw.Draw(img)
     for li, line in enumerate(cap):
-        y = y0 + li * lh; x0 = W / 2 - d.textlength(line, font=font) / 2
+        y = y0 + li * lh; x0 = YT_CAP_X - d.textlength(line, font=font) / 2
         d.text((x0, y), line, font=font, fill=IVORY, anchor="lm")
         for m in re.finditer(r"[+\-−]?\d[\d,.]*\s?(?:조|억|만|천)?\s?(?:원|%|%p|배|점|년|개|곳|달러)?", line):
             tx = x0 + d.textlength(line[:m.start()], font=font)
@@ -1052,10 +1052,11 @@ YT_BANNER = None   # 유튜브 쇼츠: 영상 내내 위에 고정되는 제목 
 
 def draw_banner(img):
     if not YT_BANNER: return
-    d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 330], fill=(8, 10, 16))
+    # 2026-10-23 운영자: 유튜브 앱에서 위쪽 뒤로가기·검색 아이콘과 겹치지 않게 조금 아래로, 글자는 더 크게
+    d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 400], fill=(8, 10, 16))
     l1, l2 = (list(YT_BANNER) + ["", ""])[:2]
-    if l1: d.text((W / 2, 128), l1, font=fit_font(l1, "Heavy", 84, 980), fill=IVORY, anchor="mm")
-    if l2: d.text((W / 2, 236), l2, font=fit_font(l2, "Heavy", 96, 1000), fill=GOLD, anchor="mm")
+    if l1: d.text((W / 2, 196), l1, font=fit_font(l1, "Heavy", 94, 1000), fill=IVORY, anchor="mm")
+    if l2: d.text((W / 2, 318), l2, font=fit_font(l2, "Heavy", 110, 1010), fill=GOLD, anchor="mm")
 
 
 def frame(T, scenes, total):
