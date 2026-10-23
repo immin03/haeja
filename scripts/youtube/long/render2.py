@@ -14,6 +14,8 @@ from PIL import Image, ImageDraw, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+from brand import paste_logo  # noqa: E402  (2026-10-23 확정 로고)
 import render as R  # noqa: E402  (글꼴·자막·음성 속도·배경음악·사진 움직임을 함께 쓴다)
 from render import F, AD, clamp, ease, fill, wrap, count_text, W, H, FPS, SR, ROOT  # noqa: E402
 from korean import to_speech  # noqa: E402
@@ -714,18 +716,8 @@ def media_source(v, n_frames, seed):
 
 def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
     d = AD(img); t = TH[theme]
-    lg = logo_dark if theme == "light" else logo_light
-    kf = F("Bold", 26); ks = "밸류노트"; kx0 = 60 + lg.width / 2 - (sum(d.textlength(ch, font=kf) for ch in ks) + 3 * 7) / 2; ky = 42 + lg.height + 8
-    if theme == "dark":   # 2026-10-23 운영자: 로고가 실사 위에서 잘 안 보인다 → 은은한 그림자로 또렷하게
-        if "logo_shadow" not in _bg:
-            sh = Image.new("RGBA", (520, 240)); sh.paste((0, 0, 0, 255), (60, 42), lg.getchannel("A")); sd_ = ImageDraw.Draw(sh); kx = kx0
-            for ch in ks: sd_.text((kx, ky), ch, font=kf, fill=(0, 0, 0, 255)); kx += sd_.textlength(ch, font=kf) + 7
-            al = sh.getchannel("A").filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(9)).point(lambda q: int(q * .7))
-            _bg["logo_shadow"] = al
-        img.paste((0, 0, 0), (0, 0), _bg["logo_shadow"]); d = AD(img)
-    img.paste(lg, (60, 42), lg)
-    kx = kx0
-    for ch in ks: d.text((kx, ky), ch, font=kf, fill=A(t["ink"] if theme == "light" else IVORY, 1)); kx += d.textlength(ch, font=kf) + 7
+    paste_logo(img, 60, 40, 36, "light" if theme == "light" else "dark")   # 2026-10-23 확정 로고 (scripts/brand.py)
+    d = AD(img)
     d.rectangle([0, 0, W, 6], fill=(220, 220, 214) if theme == "light" else (20, 36, 62)); d.rectangle([0, 0, int(W * frac), 6], fill=GOLD)
     if chapter:
         f = F("SemiBold", 28); tw = d.textlength(chapter, font=f)
@@ -913,16 +905,7 @@ def make_thumb(spec, V, out):
                 sd_ = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sd_).text((x_ + off, y0 + off), txt, font=f, fill=(0, 0, 0, alpha))
                 th = Image.alpha_composite(th, sd_.filter(ImageFilter.GaussianBlur(blur)))
             ImageDraw.Draw(th).text((x_, y0), txt, font=f, fill=col); y0 += f.size + 18
-        wm = R.LOGO.crop((0, 0, R.LOGO.width, 120)); lg = wm.resize((int(wm.width * .34), int(wm.height * .34)), Image.LANCZOS)   # 밸류노트 로고: 오른쪽 위, 한글은 크게 따로
-        dl = ImageDraw.Draw(th); kf = F("Bold", 24); ks = "밸류노트"; kw = sum(dl.textlength(ch, font=kf) for ch in ks) + 6 * (len(ks) - 1)
-        lx = TW - lg.width - 36; ly = 30; th.alpha_composite(lg, (lx, ly)); kx = lx + lg.width / 2 - kw / 2; ky = ly + lg.height + 6
-        if not tv.get("kr_label", False): th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92); return   # 2026-10-22 운영자: 한글 '밸류노트'는 빼는 게 깔끔
-        for blur, al in ((6, 160),):
-            sdk = Image.new("RGBA", (TW, TH_)); dk = ImageDraw.Draw(sdk); xx = kx
-            for ch in ks: dk.text((xx + 2, ky + 2), ch, font=kf, fill=(0, 0, 0, al)); xx += dl.textlength(ch, font=kf) + 6
-            th = Image.alpha_composite(th, sdk.filter(ImageFilter.GaussianBlur(blur)))
-        dl = ImageDraw.Draw(th); xx = kx
-        for ch in ks: dl.text((xx, ky), ch, font=kf, fill=(246, 241, 232)); xx += dl.textlength(ch, font=kf) + 6
+        paste_logo(th, TW - 40, 32, 32, "dark", align="right")   # 2026-10-23 확정 로고 (오른쪽 위)
         th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92); return
     if pos == "top": y1 = 46; y2 = y1 + f1.size + 14
     else: y2 = TH_ - 70 - f2.size; y1 = y2 - f1.size - 18
@@ -940,7 +923,7 @@ def make_thumb(spec, V, out):
         cl = Image.open(co).convert("RGBA"); sc2 = min(300 / cl.width, 110 / cl.height); cl = cl.resize((int(cl.width * sc2), int(cl.height * sc2)), Image.LANCZOS)
         card = Image.new("RGBA", (cl.width + 56, cl.height + 40), (0, 0, 0, 0)); ImageDraw.Draw(card).rounded_rectangle([0, 0, card.width - 1, card.height - 1], 18, fill=(255, 255, 255, 235))
         card.alpha_composite(cl, (28, 20)); th.alpha_composite(card, (TW - card.width - 40, TH_ - card.height - 40))
-    lg = R.LOGO.resize((int(R.LOGO.width * .3), int(R.LOGO.height * .3)), Image.LANCZOS); th.alpha_composite(lg, (TW - lg.width - 36, 30))
+    paste_logo(th, TW - 40, 32, 32, "dark", align="right")
     th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92)
 
 

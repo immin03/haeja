@@ -85,7 +85,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 SUIT,Pretenda
 a{color:inherit}
 .top{background:var(--navy);color:#F3EEE3}
 .top .in{max-width:760px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.2px}.brand i{color:var(--gold2);font-style:italic}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}.wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important}
 .top .go{background:linear-gradient(90deg,#C99A50,#E4C78D);color:#0A1322;font-weight:800;text-decoration:none;padding:8px 14px;border-radius:999px;font-size:14px;white-space:nowrap}
 main{max-width:760px;margin:0 auto;padding:18px 16px 40px}
 .crumb{font-size:13px;color:var(--muted);margin-bottom:10px}.crumb a{text-decoration:none}
@@ -201,7 +201,7 @@ function head({ title, desc, url, ld, img, type = 'article', src = 'c', rss = fa
 <meta property="og:type" content="${type}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="밸류노트 ValueNote"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="${esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(image)}">
 <link rel="icon" type="image/png" href="/favicon-64.png?v=4"><meta name="theme-color" content="#0E1A2B"><link rel="preload" href="/fonts/SUIT-Variable.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/c/c.css">${rss ? `<link rel="alternate" type="application/rss+xml" title="밸류노트 칼럼" href="${SITE}/rss.xml">` : ''}
 ${ld ? ldJson(ld) : ''}</head><body>
-<header class="top"><div class="in"><a class="brand" href="/">Value<i>Note</i></a><a class="go" href="/?utm_source=${esc(src)}">밸류노트 열기</a></div></header>`;
+<header class="top"><div class="in"><a class="wm" href="/" style="font-size:19px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><a class="go" href="/?utm_source=${esc(src)}">밸류노트 열기</a></div></header>`;
 }
 const FOOT_NAV = `<nav><a href="/c/">기업 점수 전체</a><a href="/c/kr">국내</a><a href="/c/us">미국</a><a href="/c/jp">일본</a><a href="/c/hk">홍콩</a><a href="/c/cn">중국 A</a><a href="/blog/">칼럼 · 이슈 분석</a><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a><a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a></nav>`;
 // 유튜브 영상·채널 자리표시(data-yt)를 채운다. 영상 목록은 Supabase yt_public() → 새 롱폼이 올라가면 다시 빌드하지 않아도 붙는다

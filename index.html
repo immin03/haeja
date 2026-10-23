@@ -23,8 +23,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="밸류노트">
 <meta name="application-name" content="밸류노트">
-<link rel="preload" href="/fonts/fraunces-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
+<link rel="preload" href="/fonts/montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -728,7 +728,7 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark" aria-label="ValueNote 홈으로"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub"><b class="ko-name">밸류노트</b> · On the Shoulders of Giants</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark vn" aria-label="ValueNote 밸류노트 홈으로"><span class="vn-en"><span class="wm-a">Value</span><span class="wm-b">Note</span></span><span class="vn-ko">밸류노트</span></h1></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -1144,7 +1144,7 @@ const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub"><b class="ko-name">밸류노트</b> · On the Shoulders of Giants</div>
+    <div class="login-brand"><div class="wordmark lg vn"><span class="vn-en"><span class="wm-a">Value</span><span class="wm-b">Note</span></span><span class="vn-ko">밸류노트</span></div><div class="login-sub">On the Shoulders of Giants</div>
       <p>그레이엄·워렌 버핏·찰리 멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p><p class="login-why">종목을 찍어 주지 않습니다. 공개된 기준으로 내 판단을 점검합니다.</p></div>
     <div class="card stack login-card">
     ${kakaoBtnHtml()}<div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
@@ -5152,7 +5152,7 @@ document.addEventListener('click', async e => {
 
 /* ---- 공유 카드 그리기 (1080×1350, 인스타 세로 비율) ---- */
 const CARD_W = 1080, CARD_H = 1350;
-async function cardFonts(){ try{ await Promise.all(['800 60px "SUIT Variable"', '500 30px "SUIT Variable"', 'italic 600 60px Fraunces', '600 60px Fraunces'].map(f => document.fonts.load(f))); }catch(_){} }
+async function cardFonts(){ try{ await Promise.all(['800 60px "SUIT Variable"', '500 30px "SUIT Variable"', '800 60px Montserrat'].map(f => document.fonts.load(f))); }catch(_){} }
 function cardBase(ctx){
   const g = ctx.createRadialGradient(CARD_W/2, -120, 80, CARD_W/2, 200, 1500);
   g.addColorStop(0, '#1B2E4A'); g.addColorStop(.5, '#0E1A2B'); g.addColorStop(1, '#09111E');
@@ -5160,9 +5160,12 @@ function cardBase(ctx){
   const gl = ctx.createLinearGradient(0, 0, CARD_W, 0); gl.addColorStop(0, '#B48C47'); gl.addColorStop(.5, '#E4C78D'); gl.addColorStop(1, '#B48C47');
   ctx.fillStyle = gl; ctx.fillRect(0, 0, CARD_W, 10);
   ctx.textBaseline = 'alphabetic';
-  ctx.font = '600 46px Fraunces, Georgia, serif'; ctx.fillStyle = '#F3EEE3'; ctx.fillText('Value', 80, 120);
-  const w = ctx.measureText('Value').width; ctx.font = 'italic 600 46px Fraunces, Georgia, serif'; ctx.fillStyle = '#E4C78D'; ctx.fillText('Note', 80 + w, 120);
-  ctx.font = '600 22px "SUIT Variable", sans-serif'; ctx.fillStyle = 'rgba(228,199,141,.75)'; ctx.fillText('ON THE SHOULDERS OF GIANTS', 80, 158);
+  // 2026-10-23 확정 로고: Montserrat ExtraBold 'Value'(흰색)+'Note'(아이보리 베이지), 얇은 금색 줄, 가운데 '밸류노트'
+  ctx.font = '800 44px Montserrat, "SUIT Variable", sans-serif'; ctx.fillStyle = '#FFFFFF'; ctx.fillText('Value', 80, 118);
+  const w = ctx.measureText('Value').width; ctx.fillStyle = '#E2CFA6'; ctx.fillText('Note', 80 + w, 118);
+  const wt = w + ctx.measureText('Note').width; ctx.fillStyle = '#CEB480'; ctx.fillRect(80, 128, wt, 1.5);
+  ctx.font = '700 22px "SUIT Variable", sans-serif'; ctx.fillStyle = '#E2CFA6'; ctx.textAlign = 'center';
+  if('letterSpacing' in ctx) ctx.letterSpacing = '8px'; ctx.fillText('밸류노트', 80 + wt / 2 + 4, 160); if('letterSpacing' in ctx) ctx.letterSpacing = '0px'; ctx.textAlign = 'left';
 }
 function cardWrap(ctx, text, x, y, maxW, lh, maxLines){
   const words = String(text).split(' '); let line = '', n = 0;
@@ -7343,6 +7346,18 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 :root[data-theme="dark"] .ty-hedge,.pf-top .ty-hedge{--ty:#E2C48A}
 :root[data-theme="dark"] .ty-unknown,.pf-top .ty-unknown{--ty:#9AA4B4}
 .pf-top .ty.ty-spec{background:color-mix(in srgb,var(--ty) 20%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ty) 45%,transparent)}
+
+/* ── 2026-10-23 확정 로고: Montserrat ExtraBold + 얇은 금색 줄 + 가운데 '밸류노트' (scripts/brand.py와 같은 모양) ── */
+.wordmark,#splash .sp-wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;font-variation-settings:normal!important}
+.wordmark .wm-b,#splash .sp-wm span{font-style:normal!important;font-weight:800!important;background:none!important;-webkit-text-fill-color:currentColor;color:#E2CFA6!important;padding-right:0}
+.wordmark .wm-a,.brand h1.wordmark .wm-a,#splash .sp-wm{color:#FFFFFF!important}
+.wordmark.vn{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
+.wordmark.vn .vn-en{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
+.wordmark.vn .vn-ko{display:block;margin-top:.32em;font-family:"SUIT Variable",SUIT,sans-serif;font-weight:700;font-size:.5em;letter-spacing:.22em;padding-left:.22em;color:#E2CFA6}
+.brand h1.wordmark.vn{font-size:22px}
+.wordmark.lg.vn .wm-a{color:#0B1B33!important}.wordmark.lg.vn .wm-b,.wordmark.lg.vn .vn-ko{color:#9C7634!important}.wordmark.lg.vn .vn-en{border-color:#C4A668}
+#splash .sp-wm{display:inline-block;padding-bottom:.18em;border-bottom:1.5px solid #CEB480;font-size:44px!important}
+#splash .sp-name{color:#E2CFA6!important;font-size:21px!important;font-weight:700!important;letter-spacing:.24em!important;margin-top:10px!important;padding-left:.24em}
 </style>
 <script src="/yt.js?v=1" defer></script>
 </body>

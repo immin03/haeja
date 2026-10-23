@@ -131,6 +131,10 @@ function pickUnder(rows, used) {
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const br = (s) => esc(s).replace(/\n/g, '<br>').replace(/\*\*(.+?)\*\*/g, '<em>$1</em>');
 const CSS = `@font-face{font-family:SUIT;src:url(data:font/woff2;base64,${fs.readFileSync(SUIT).toString('base64')}) format('woff2');font-weight:100 900}
+@font-face{font-family:VNM;src:url(data:font/ttf;base64,${fs.readFileSync(new URL('./reels/fonts/Montserrat-ExtraBold.ttf', import.meta.url)).toString('base64')}) format('truetype');font-weight:800}
+.wm{display:inline-flex!important;flex-direction:column;align-items:center;line-height:1}.wm .e{font-family:VNM,SUIT,sans-serif;font-weight:800;font-size:30px;letter-spacing:-.01em;padding-bottom:6px;border-bottom:1px solid #CEB480;color:#fff}.wm i{font-style:normal;color:#E2CFA6!important}.wm .ko{margin:9px 0 0!important;font-weight:700!important;font-size:15px!important;letter-spacing:.24em!important;padding-left:.24em;color:#E2CFA6!important}
+.cta .wm .e{color:#0A1322;border-color:#C4A668}.cta .wm i,.cta .wm .ko{color:#9C7634!important}
+.logo{display:inline-flex;flex-direction:column;align-items:center;font-family:VNM,SUIT,sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;line-height:1}.logo .e{padding-bottom:.18em;border-bottom:2px solid #CEB480}.logo i{font-style:normal!important;color:#E2CFA6!important}.logo small{display:block;margin-top:.3em;font-family:SUIT,sans-serif;font-weight:700;font-size:.42em;letter-spacing:.24em;padding-left:.24em;color:#E2CFA6}
 *{box-sizing:border-box;margin:0;padding:0}html,body{width:1080px;height:1350px}
 body{font-family:SUIT,sans-serif;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
 .s{position:relative;width:1080px;height:1350px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#17283F 0%,#0E1B2E 55%,#0A1322 100%);color:#F3EEE3}
@@ -358,7 +362,7 @@ function cards(x, a) {
   out.push(`<div class="vis"><div class="chk">${chk.map((c, i) => `<div><span class="cb">${i + 1}</span>${esc(c)}</div>`).join('')}</div></div>`
     + frame(a.alt ? '05' : '04', '다음 실적에서\n이 세 가지를 보세요', '저장해 두고 다음 실적 때 꺼내 보세요.', ''));
   // 8. 마무리: 팔로우 + 프로필 링크, 첫 장으로 돌아가는 질문
-  out.push(`<div class="outro"><div class="be">VALUE INVESTING GUIDE</div><div class="logo">Value<i>Note</i></div><h2>현명한 투자를 위한<br>가치투자 가이드</h2>
+  out.push(`<div class="outro"><div class="be">VALUE INVESTING GUIDE</div><div class="logo"><span class="e">Value<i>Note</i></span><small>밸류노트</small></div><h2>현명한 투자를 위한<br>가치투자 가이드</h2>
     <p>${MODE === 'b' ? '매일 600여 개 기업의 적정 주가를 계산합니다.<br>다음 저평가 기업은 어디일까요?' : '매일 밤 9시, 한 기업의 적정 주가를 계산합니다.<br>내일은 어떤 회사일까요?'}</p>
     <div class="fbtn"><span>밸류노트 팔로우하기</span><b>→</b></div><div class="lk">600여 개 기업 점수와 적정 주가 · 프로필 링크</div></div><div class="disc">${esc(DISC)}</div>`);
   return out.map((html) => ({ cls: '', html: html.replace(/\*\*(.+?)\*\*/g, '<em>$1</em>') }));
@@ -399,7 +403,7 @@ function rankCards(L, side, label) {
   }
   out.push(`<div class="vis"><div class="steps">${[['적정 주가 계산', '과거 평균 이익·주주 이익과 자산 가치', '600여 곳'], ['현재가와 비교', under ? '적정 주가보다 25% 이상 낮은 회사' : '적정 주가의 1.5배 이상', '매일'], ['품질 거르기', under ? '재무 점수 50점 이상, 감점 신호 없음' : '재무 점수 60점 이상', '13개 지표']].map((m, i) => `<div><span class="n">${i + 1}</span><span class="tx">${m[0]}<small>${m[1]}</small></span><b>${m[2]}</b></div>`).join('')}</div></div>`
     + frame('기준', '이렇게 골랐습니다', under ? '싸다고 다 좋은 회사는 아닙니다.' : '좋은 회사도 비싸게 사면 수익이 줄어듭니다.', '저장해 두고 다음 주 순위와 비교해 보세요.'));
-  out.push(`<div class="outro"><div class="be">VALUE INVESTING GUIDE</div><div class="logo">Value<i>Note</i></div><h2>현명한 투자를 위한<br>가치투자 가이드</h2>
+  out.push(`<div class="outro"><div class="be">VALUE INVESTING GUIDE</div><div class="logo"><span class="e">Value<i>Note</i></span><small>밸류노트</small></div><h2>현명한 투자를 위한<br>가치투자 가이드</h2>
     <p>매일 600여 개 기업의 적정 주가를 계산합니다.<br>내 종목은 몇 위일까요?</p>
     <div class="fbtn"><span>밸류노트 팔로우하기</span><b>→</b></div><div class="lk">전체 순위와 1~3위 · 프로필 링크</div></div><div class="disc">${esc(DISC)}</div>`);
   return out.map((html) => ({ cls: '', html: html.replace(/\*\*(.+?)\*\*/g, '<em>$1</em>') }));
@@ -811,7 +815,7 @@ const b = await chromium.launch(); const pg = await b.newPage({ viewport: { widt
 const images = [];
 for (let i = 0; i < C.length; i++) {
   const pgs = C.map((_, k) => k === i ? `<b>${String(k + 1).padStart(2, '0')}</b>` : `<span>${String(k + 1).padStart(2, '0')}</span>`).join('');
-  const top = `<div class="top"><span class="wm">Value<i>Note</i><b class="ko">밸류노트</b></span><span class="pgs">${pgs}</span></div>${i > 0 && i < C.length - 1 ? '<div class="wmk">VALUENOTE</div>' : ''}${i === 0 ? '<div class="swipe">넘겨서 보기 →</div>' : ''}`;
+  const top = `<div class="top"><span class="wm"><span class="e">Value<i>Note</i></span><b class="ko">밸류노트</b></span><span class="pgs">${pgs}</span></div>${i > 0 && i < C.length - 1 ? '<div class="wmk">VALUENOTE</div>' : ''}${i === 0 ? '<div class="swipe">넘겨서 보기 →</div>' : ''}`;
   await pg.setContent(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>${CSS}</style></head><body><section class="s ${C[i].cls}">${top}${C[i].html}</section></body></html>`);
   await pg.evaluate(() => document.fonts.ready);
   const fn = String(i + 1).padStart(2, '0') + '.jpg';

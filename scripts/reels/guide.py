@@ -140,7 +140,12 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .list a.card{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:10px}
 .list .kw{display:inline-block;font-size:12px;font-weight:800;color:var(--navy);background:var(--gold);border-radius:8px;padding:2px 8px;margin-bottom:6px}
 .list .t{display:block;font-size:16.5px;font-weight:800;line-height:1.45}
-.list .d{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}"""
+.list .d{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
+.wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
+.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important}
+"""
 
 HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -185,7 +190,7 @@ boxes.forEach(function(bx){var f=bx.querySelector('form');if(!f)return;
 </script>"""
 
 def top():
-    return ('<header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=ig-dm" data-out="logo">Value<i>Note</i><small>밸류노트</small></a>')
+    return ('<header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=ig-dm" data-out="logo"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>')
 
 def table_html(t):
     if not t or not t.get("rows"): return ""

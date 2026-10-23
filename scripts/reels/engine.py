@@ -32,6 +32,9 @@
   맞는 장면이 없으면 큰 숫자(hook)로 간다. "cover": "bars" 처럼 장면 종류나 장면 번호(0부터)로 직접 고를 수 있고,
   "tag": "오늘의 기업" 처럼 시리즈 표시를 바꿀 수 있다(기본은 제목의 " · " 앞부분).
 """
+import sys as _bsys, os as _bos
+_bsys.path.insert(0, _bos.path.join(_bos.path.dirname(_bos.path.abspath(__file__)), ".."))
+from brand import paste_logo, logo_image  # noqa: E402  (2026-10-23 확정 로고)
 import re
 import math, os, sys, json, subprocess
 import numpy as np
@@ -472,16 +475,18 @@ def s_statement(img, u, sc, L, T):
 def s_cta(img, u, sc, L, T):
     V = L[0][1]
     pw = prog(u, .1, .55)
-    pop(img, "ValueNote", F("Heavy", 120), GOLD, (W / 2, 560), scale=.85 + .15 * back((u - .1) / .5), alpha=pw)
-    if pw > .5:
-        sx = lerp(-200, W + 200, prog(u, .6, 1.4, ease_io))
-        sh = Image.new("L", (W, H), 0); ImageDraw.Draw(sh).polygon([(sx - 40, 470), (sx + 30, 470), (sx - 10, 650), (sx - 80, 650)], fill=150)
-        wm = text_img("ValueNote", F("Heavy", 120), GOLD).getchannel("A")
-        m = Image.new("L", (W, H), 0); m.paste(wm, (int(W / 2 - wm.width / 2), int(560 - wm.height / 2)))
-        img.paste(Image.new("RGB", (W, H), (255, 244, 210)), (0, 0), Image.fromarray(np.minimum(np.asarray(sh), np.asarray(m))))
-    d = ImageDraw.Draw(img); ul = prog(u, .45, .95) * 300
-    d.line([(W / 2 - ul / 2, 650), (W / 2 + ul / 2, 650)], fill=GOLD, width=6)
-    if pw > .3: d.text((W / 2, 708), "밸 류 노 트", font=F("SemiBold", 40), fill=mix(NAVY, (170, 180, 200), prog(u, .35, .8)), anchor="mm")
+    # 2026-10-23 확정 로고 (scripts/brand.py): 커지며 나타나고, 빛이 한 번 스쳐 지나간다
+    lg, pad, _ = logo_image(112, "dark")
+    if pw > 0:
+        k = .85 + .15 * back((u - .1) / .5); big = lg.resize((max(1, int(lg.width * k)), max(1, int(lg.height * k))), Image.LANCZOS)
+        if pw < 1: big.putalpha(big.getchannel("A").point(lambda q: int(q * pw)))
+        x0, y0 = int(W / 2 - big.width / 2), int(600 - big.height / 2); img.paste(big, (x0, y0), big)
+        if pw > .5:
+            sx = lerp(-200, W + 200, prog(u, .6, 1.4, ease_io))
+            sh = Image.new("L", (W, H), 0); ImageDraw.Draw(sh).polygon([(sx - 40, y0), (sx + 30, y0), (sx - 10, y0 + big.height), (sx - 80, y0 + big.height)], fill=150)
+            m = Image.new("L", (W, H), 0); m.paste(big.getchannel("A").point(lambda q: 255 if q > 200 else 0), (x0, y0))
+            img.paste(Image.new("RGB", (W, H), (255, 244, 210)), (0, 0), Image.fromarray(np.minimum(np.asarray(sh), np.asarray(m))))
+    d = ImageDraw.Draw(img)
     l1, l2 = sc.get("l1", "더 현명한 투자를"), sc.get("l2", "시작하세요")
     appear(img, u, V * .42, l1, fit_font(l1, "Heavy", 92, 980), IVORY, (W / 2, 850), dur=.45, rise=50)
     appear(img, u, V * .62, l2, fit_font(l2, "Heavy", 92, 980), IVORY, (W / 2, 975), dur=.45, rise=50)
@@ -967,9 +972,8 @@ def caption(img, u, L):
         return
 
 def logo(d, y):
-    """상단 로고: 영문 ValueNote, 그 아래 한글 밸류노트"""
-    d.text((W / 2, y), "ValueNote", font=F("ExtraBold", 46), fill=GOLD, anchor="mm")
-    d.text((W / 2, y + 44), "밸 류 노 트", font=F("Medium", 26), fill=(156, 166, 188), anchor="mm")
+    """상단 로고 (2026-10-23 확정: scripts/brand.py) — y는 예전처럼 영문 글자의 가운데 높이"""
+    paste_logo(d._image, W / 2, y - 17, 44, "dark", align="center")
 
 def camera(img, u, s):
     """(STILL = False 일 때만) 장면 내내 천천히 다가가는 카메라 + 새 문장마다 살짝 튀는 박자. 2026-10-23부터 끔: 글자가 흔들려 읽기 어렵다"""

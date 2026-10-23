@@ -28,6 +28,11 @@ const satori = typeof _sm.default === 'function' ? _sm.default : (_sm.default?.d
 const { Resvg } = req('@resvg/resvg-js');
 const FONT_DIR = path.join(path.dirname(req.resolve('pretendard/package.json')), 'dist/web/static/woff-subset');
 const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900]].map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FONT_DIR, `Pretendard-${w}.subset.woff`)), weight: n, style: 'normal' }));
+// 2026-10-23 확정 로고: Montserrat ExtraBold 'Value'+'Note'(아이보리 베이지), 얇은 금색 줄, 가운데 '밸류노트' (scripts/brand.py와 같은 모양)
+fonts.push({ name: 'M', data: fs.readFileSync(new URL('../reels/fonts/Montserrat-ExtraBold.ttf', import.meta.url)), weight: 800, style: 'normal' });
+const VNL = (size, st = {}) => h('div', { flexDirection: 'column', alignItems: 'center', ...st },
+  h('div', { fontFamily: 'M', fontSize: size, fontWeight: 800, letterSpacing: -0.3, color: '#FFFFFF', lineHeight: 1, paddingBottom: Math.round(size * .2), borderBottom: '1.5px solid #CEB480' }, 'Value', h('span', { color: '#E2CFA6' }, 'Note')),
+  h('div', { fontFamily: 'P', fontSize: Math.round(size * .5), fontWeight: 700, letterSpacing: Math.round(size * .11), paddingLeft: Math.round(size * .11), marginTop: Math.round(size * .3), color: '#E2CFA6', lineHeight: 1 }, '밸류노트'));
 
 const SITE = 'https://www.valuenote.co.kr';
 const C = { navy: '#0E1A2B', navy2: '#1A2C46', ink: '#F3EEE3', mute: '#AEB8C8', dim: '#8E9AAD', gold: '#E4C78D', gold2: '#C99A50', up: '#7FD3A8', down: '#F0A397', line: 'rgba(255,255,255,.12)' };
@@ -50,7 +55,7 @@ const t = (text, style) => h('div', style, String(text));
 function frame(body, foot = '') {
   return h('div', { width: 1080, height: 1080, flexDirection: 'column', justifyContent: 'space-between', padding: '64px 72px', background: `linear-gradient(155deg,${C.navy2} 0%,${C.navy} 58%,#0A1322 100%)`, color: C.ink, fontFamily: 'P' },
     h('div', { justifyContent: 'space-between', alignItems: 'center' },
-      h('div', { alignItems: 'baseline', fontSize: 34, fontWeight: 900, letterSpacing: -1 }, 'Value', h('span', { color: C.gold }, 'Note'), h('span', { fontSize: 24, color: C.gold2, marginLeft: 14, fontWeight: 700 }, '밸류노트')),
+      VNL(36),
       h('div', { width: 64, height: 4, borderRadius: 4, background: C.gold2 })),
     h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' }, body),
     h('div', { justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 22, color: C.dim, fontWeight: 700 },
@@ -92,7 +97,7 @@ const T = {
   photocover: (o) => h('div', { width: 1080, height: 1080, position: 'relative', fontFamily: 'P', color: '#FFFFFF', background: C.navy },
     { type: 'img', props: { src: dataUri(o.photo), width: 1080, height: 1080, style: { position: 'absolute', left: 0, top: 0, width: 1080, height: 1080, objectFit: 'cover' } } },
     h('div', { position: 'absolute', left: 0, top: 0, width: 1080, height: 1080, background: 'linear-gradient(180deg,rgba(10,19,34,.10) 0%,rgba(10,19,34,.05) 40%,rgba(10,19,34,.78) 72%,rgba(10,19,34,.92) 100%)' }),
-    h('div', { position: 'absolute', left: 64, top: 56, alignItems: 'baseline', fontSize: 30, fontWeight: 900, letterSpacing: -1, textShadow: '0 2px 8px rgba(0,0,0,.45)' }, 'Value', h('span', { color: C.gold }, 'Note'), h('span', { fontSize: 22, color: C.gold, marginLeft: 12, fontWeight: 700 }, '밸류노트')),
+    VNL(34, { position: 'absolute', left: 64, top: 56, textShadow: '0 2px 8px rgba(0,0,0,.55)' }),
     h('div', { position: 'absolute', left: 64, right: 64, bottom: 64, flexDirection: 'column' },
       o.eyebrow ? t(o.eyebrow, { fontSize: 28, color: C.gold, fontWeight: 800, marginBottom: 18 }) : null,
       title(o.title, o.title.length > 28 ? 58 : 68),
@@ -203,7 +208,7 @@ const T = {
 // ── 실행 ───────────────────────────────────────────
 // 글 끝 배너: 가로로 긴 카드. 크기는 실행부에서 1080×560
 T.banner = (o) => h('div', { width: 1080, height: 560, flexDirection: 'column', justifyContent: 'space-between', padding: '52px 64px', background: `linear-gradient(120deg,${C.navy2} 0%,${C.navy} 55%,#0A1322 100%)`, color: C.ink, fontFamily: 'P', border: `6px solid ${C.gold2}` },
-  h('div', { alignItems: 'baseline', fontSize: 34, fontWeight: 900 }, 'Value', h('span', { color: C.gold }, 'Note'), h('span', { fontSize: 24, color: C.gold2, marginLeft: 14, fontWeight: 700 }, '밸류노트')),
+  h('div', {}, VNL(36)),
   h('div', { flexDirection: 'column' },
     String(o.hook).split('\n').map((ln) => t(ln, { fontSize: o.hook.length > 26 ? 50 : 58, fontWeight: 900, lineHeight: 1.25, wordBreak: 'keep-all', letterSpacing: -1.5 })),
     o.sub ? t(o.sub, { fontSize: 28, color: C.mute, marginTop: 16, fontWeight: 600, wordBreak: 'keep-all', lineHeight: 1.4 }) : null),

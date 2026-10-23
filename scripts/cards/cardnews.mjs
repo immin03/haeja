@@ -12,7 +12,7 @@
 //   grid     { l1, l2, pill, cols, compact?, tiles:[{name, tag, big, bigLabel, chip, note, tone, num?}], notes }  한 장 요약 (기본 형식, 2026-10-23). compact = 타일 10~12개(4열)용 작은 글씨, num = 번호 원 글자(예: '✕')
 //   end      { title, body, cta, checks?:[[이름, 설명]], checkHead?, checkNote? }  마지막 장 (체크표 선택) + 밸류노트 워드마크
 // 공통: spec.foot = 출처·기준일 한 줄 (모든 장 아래), 고지문은 마지막 장에만 작게.
-// 디자인 규칙: 글꼴 Pretendard, 원 안 숫자는 #FFFFFF, 밸류노트 로고는 사이트 og.png 워드마크를 잘라 쓴다. 인물 사진은 재사용 허락된 것만(README).
+// 디자인 규칙: 글꼴 Pretendard, 원 안 숫자는 #FFFFFF, 밸류노트 로고는 brand/logo-dark.png (2026-10-23 확정). 인물 사진은 재사용 허락된 것만(README).
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -33,20 +33,10 @@ const t = (text, style) => h('div', { wordBreak: 'keep-all', ...style }, String(
 const img = (src, style) => ({ type: 'img', props: { src, style } });
 const uri = (f, mime = 'image/jpeg') => `data:${mime};base64,` + fs.readFileSync(f).toString('base64');
 
-// 워드마크: og.png 가운데 'ValueNote' 부분을 잘라 쓴다 (새로 그리지 않는다)
-const MARK = path.join(ROOT, 'social', 'cards', '_mark.png');
-if (!fs.existsSync(MARK)) {
-  fs.mkdirSync(path.dirname(MARK), { recursive: true });
-  // 어두운 바탕을 투명하게 바꿔 사진 위에서도 상자가 보이지 않게 한다
-  execFileSync('python3', ['-c', `from PIL import Image
-im = Image.open('${path.join(ROOT, 'og.png')}').convert('RGB').crop((278,175,922,305)); px = im.load(); out = Image.new('RGBA', im.size)
-for y in range(im.size[1]):
-    for x in range(im.size[0]):
-        r, g, b = px[x, y]; a = max(0, min(255, int((max(r, g, b) - 48) * 1.9)))
-        out.putpixel((x, y), (r, g, b, a))
-out.save('${MARK}')`]);
-}
-const mark = (w = 190) => img(uri(MARK, 'image/png'), { width: w, height: Math.round(w * 130 / 644) });
+// 워드마크: 2026-10-23 확정 로고 (brand/logo-dark.png = scripts/brand.py로 만든 투명 로고)
+const MARK = path.join(ROOT, 'brand', 'logo-dark.png');
+const MARK_R = (() => { const b = fs.readFileSync(MARK); return b.readUInt32BE(20) / b.readUInt32BE(16); })();   // PNG 머리에서 높이÷너비
+const mark = (w = 190) => img(uri(MARK, 'image/png'), { width: w, height: Math.round(w * MARK_R) });
 
 function shell(spec, i, n, body, { light = false } = {}) {
   return h('div', { width: W, height: H, flexDirection: 'column', background: C.navy, color: C.ink, fontFamily: 'P', position: 'relative' },

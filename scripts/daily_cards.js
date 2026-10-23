@@ -66,6 +66,10 @@ async function capture(p, dir) {
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const br = s => esc(s).replace(/\n/g, '<br>').replace(/\*\*(.+?)\*\*/g, '<em>$1</em>');
 const CSS = `@font-face{font-family:SUIT;src:url(data:font/woff2;base64,${fs.readFileSync(SUIT).toString('base64')}) format('woff2');font-weight:100 900}
+@font-face{font-family:VNM;src:url(data:font/ttf;base64,${fs.readFileSync(require('path').join(__dirname, 'reels', 'fonts', 'Montserrat-ExtraBold.ttf')).toString('base64')}) format('truetype');font-weight:800}
+.wm{display:inline-flex!important;flex-direction:column;align-items:center;line-height:1}.wm .e{font-family:VNM,SUIT,sans-serif;font-weight:800;font-size:30px;letter-spacing:-.01em;padding-bottom:6px;border-bottom:1px solid #CEB480;color:#fff}.wm i{font-style:normal;color:#E2CFA6!important}.wm .ko{margin:9px 0 0!important;font-weight:700!important;font-size:15px!important;letter-spacing:.24em!important;padding-left:.24em;color:#E2CFA6!important}
+.cta .wm .e{color:#0A1322;border-color:#C4A668}.cta .wm i,.cta .wm .ko{color:#9C7634!important}
+.logo{display:inline-flex;flex-direction:column;align-items:center;font-family:VNM,SUIT,sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;line-height:1}.logo .e{padding-bottom:.18em;border-bottom:2px solid #CEB480}.logo i{font-style:normal!important;color:#E2CFA6!important}.logo small{display:block;margin-top:.3em;font-family:SUIT,sans-serif;font-weight:700;font-size:.42em;letter-spacing:.24em;padding-left:.24em;color:#E2CFA6}
 *{box-sizing:border-box;margin:0;padding:0}html,body{width:1080px;height:1350px}
 body{font-family:SUIT,sans-serif;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
 .s{position:relative;width:1080px;height:1350px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#17283F 0%,#0E1B2E 55%,#0A1322 100%);color:#F3EEE3}
@@ -90,7 +94,7 @@ em{font-style:normal;color:#E2C489}
 .handle{margin-top:28px;font-size:30px;color:#7A8394;font-weight:600}
 .disc{position:absolute;left:84px;right:84px;bottom:60px;font-size:22px;color:#7A8394;line-height:1.5}`;
 function cardHtml(c, i, n) {
-  const top = `<div class="top"><span class="wm">Value<i>Note</i><b class="ko">밸류노트</b></span><span class="pg">${i + 1} / ${n}</span></div>`;
+  const top = `<div class="top"><span class="wm"><span class="e">Value<i>Note</i></span><b class="ko">밸류노트</b></span><span class="pg">${i + 1} / ${n}</span></div>`;
   if (c.kind === 'hook') return `<section class="s hook">${top}<div class="body">${c.k ? `<div class="k">${esc(c.k)}</div>` : ''}<h1>${br(c.t)}</h1>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}${c.chips ? `<div class="chips">${c.chips.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : ''}</div>${i === 0 ? '<div class="swipe">넘겨서 보기 →</div>' : ''}</section>`;
   if (c.kind === 'cta') return `<section class="s cta">${top}<div class="body"><h2>${br(c.t)}</h2>${c.s ? `<div class="sub">${br(c.s)}</div>` : ''}<div class="btn">프로필 링크에서 확인하기</div><div class="handle">밸류노트 · ${HANDLE}</div></div><div class="disc">${esc(DISC)}</div></section>`;
   const sc = 680 / 390, headH = c.s ? 300 : 230, src = 'data:image/png;base64,' + fs.readFileSync(c.img).toString('base64');

@@ -4,6 +4,9 @@ shorts.json: [{"id": "S1", "from": 0, "to": 2, "hook": ["SK하이닉스", "적�
   from/to = 롱폼 장면 번호(meta.qa.scenes). 화면: 위 훅 두 줄 → 가운데 롱폼 화면(아래 자막 띠는 잘라 냄) → 그 아래 큰 자막 → 맨 아래 안내.
 """
 import json, os, re, subprocess, sys
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", ".."))
+from brand import paste_logo  # noqa: E402
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
@@ -40,7 +43,7 @@ def frame_png(hook, cta, path):
         d.text((W / 2, y), l, font=f, fill=GOLD if i else IVORY, anchor="ma", stroke_width=3, stroke_fill=(0, 0, 0)); y += f.size + 26
     d.rounded_rectangle([60, VID_Y - 10, W - 60, VID_Y - 4], 3, fill=GOLD)
     f = F("ExtraBold", 44); d.text((W / 2, VID_Y + VID_H + 300), cta, font=f, fill=IVORY, anchor="mm")   # 쇼츠 화면 아래쪽(제목·채널 표시)에 가리지 않게
-    f2 = F("Bold", 34); d.text((W / 2, VID_Y + VID_H + 362), "밸류노트 ValueNote", font=f2, fill=GOLD, anchor="mm")
+    paste_logo(im, W / 2, VID_Y + VID_H + 340, 40, "dark", align="center")   # 2026-10-23 확정 로고
     im.save(path)
 
 
