@@ -26,10 +26,15 @@ const post = JSON.parse(fs.readFileSync(path.join(dir, 'post.json'), 'utf8'));
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const inline = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 const imgUrl = (f) => `${SITE}/naver/${id}/${f}`;
-// 블로그 카테고리: post.json 의 category, 없으면 id 끝 글자로 정한다 (m 주간 시장 정리 · w 기업 분석 · f 거장의 투자)
-const CAT_BY_DAY = { m: '주간 시장 정리', w: '기업 분석', f: '거장의 투자', x: '주간 시장 정리' }; // x 글이 한 회사 이야기면 post.json category 에 '기업 분석'을 적는다
+// 블로그 카테고리: post.json 의 category, 없으면 id 끝 글자로 정한다 (m 주간 시장 정리 · w 기업 분석 · f 투자 상식)
+// 카테고리는 아래 다섯 개만 쓴다 (2026-10-23 '투자 상식' 추가). f 글은 내용으로 정해 post.json 에 꼭 적는다:
+//   워렌 버핏·찰리 멍거 등이 실제로 무엇을 왜 샀는지 → 거장의 투자 / 밸류노트 기능 안내 → 밸류노트 사용법 /
+//   레버리지 ETF·PER 함정·배당률 착각처럼 특정 인물·회사가 아닌 투자 원리·상품 구조·흔한 실수 → 투자 상식
+const CATS = ['거장의 투자', '기업 분석', '주간 시장 정리', '투자 상식', '밸류노트 사용법'];
+const CAT_BY_DAY = { m: '주간 시장 정리', w: '기업 분석', f: '투자 상식', x: '주간 시장 정리' }; // x 글이 한 회사 이야기면 post.json category 에 '기업 분석'을 적는다
 const catOf = (d, pj) => pj.category || CAT_BY_DAY[(String(d).match(/^b\d{6}([mwfx])/) || [])[1]] || '';
 const category = catOf(id, post);
+if (category && !CATS.includes(category)) console.warn(`⚠ 블로그 카테고리 '${category}'는 정해진 다섯 개(${CATS.join(' · ')})에 없습니다`);
 
 // 네이버 편집기가 잘 받아들이는 단순한 태그만 쓴다 (p, b, img, blockquote, a)
 // 간격 규칙: 네이버는 문단 여백이 없고 빈 줄(<p><br></p>)로만 간격이 생긴다.
