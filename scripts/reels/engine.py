@@ -192,8 +192,10 @@ def arrow(d, x, y, col, s=1.0):
     d.line([(x - 22 * s, y), (x + 18 * s, y)], fill=col, width=int(6 * s))
     d.polygon([(x + 28 * s, y), (x + 8 * s, y - 16 * s), (x + 8 * s, y + 16 * s)], fill=col)
 
+STILL = True   # 2026-10-23 운영자: "릴스에서 자꾸 화면이 움직여 글자나 그림이" → 글자·그림은 나타난 뒤 제자리에 멈춘다 (카메라 이동·확대·흔들림 끔. 배경 입자만 천천히 움직인다)
+
 def shake(img, t, t0, dur=0.3, k=16):
-    if YT: return img
+    if YT or STILL: return img
     if t0 <= t < t0 + dur:
         a = (1 - (t - t0) / dur) * k
         return img.transform(img.size, Image.AFFINE, (1, 0, a * math.sin(t * 90), 0, 1, a * math.cos(t * 70)), fillcolor=NAVY)
@@ -970,8 +972,8 @@ def logo(d, y):
     d.text((W / 2, y + 44), "밸 류 노 트", font=F("Medium", 26), fill=(156, 166, 188), anchor="mm")
 
 def camera(img, u, s):
-    """장면 내내 천천히 다가가는 카메라 + 새 문장이 나올 때마다 살짝 튀는 박자. 화면이 멈춰 있는 순간을 없앤다"""
-    if YT: return img
+    """(STILL = False 일 때만) 장면 내내 천천히 다가가는 카메라 + 새 문장마다 살짝 튀는 박자. 2026-10-23부터 끔: 글자가 흔들려 읽기 어렵다"""
+    if YT or STILL: return img
     z = 1 + .045 * ease_io(clamp(u / max(s["dur"], .1)))
     for (a, v, cap) in s["L"]:
         if u >= a: z += .018 * math.exp(-(u - a) * 5)
