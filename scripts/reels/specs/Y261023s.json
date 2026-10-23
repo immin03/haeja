@@ -1,0 +1,235 @@
+{
+ "id": "Y261023s",
+ "title": "스페이스X 매출의 절반, 로켓이 아니었다",
+ "scheduled_at": "2026-10-23T21:00:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "tense",
+ "broll": "rocket",
+ "threads_tag": "주식",
+ "hashtags": [
+  "스페이스X",
+  "SpaceX",
+  "AI데이터센터",
+  "미국주식",
+  "밸류노트"
+ ],
+ "banner": [
+  "스페이스X 매출의 절반,",
+  "로켓이 아니었다"
+ ],
+ "caption": "스페이스X 3분기 매출 145억 8천만 달러 가운데 로켓 발사는 12%뿐이었습니다. 절반이 넘는 75억 6천만 달러는 AI 사업, 그중에서도 주로 AI 컴퓨터를 빌려주고 번 돈이었습니다. 앤트로픽은 한 달에 12억 5천만 달러, 구글은 9억 2천만 달러를 냅니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "스페이스X 3분기 매출 중 로켓 발사",
+   "num": {
+    "to": 12,
+    "suffix": "%"
+   },
+   "tone": "loss",
+   "label": "나머지는 어디서 벌었을까?",
+   "label_line": 1,
+   "lines": [
+    {
+     "join": [
+      {
+       "cap": [
+        "스페이스X 3분기 매출에서"
+       ],
+       "say": "스페이스X 3분기 매출에서"
+      },
+      {
+       "cap": [
+        "로켓 발사는 12%뿐이었습니다"
+       ],
+       "say": "로켓 발사는 12%뿐이었습니다"
+      }
+     ]
+    },
+    {
+     "cap": [
+      "그럼 나머지는",
+      "대체 어디서 벌었을까요?"
+     ],
+     "say": "그럼 나머지는, 대체 어디서 벌었을까요?"
+    }
+   ]
+  },
+  {
+   "type": "bars",
+   "title": "3분기 매출 (억 달러)",
+   "items": [
+    {
+     "label": "로켓 발사",
+     "v": 17.7,
+     "text": "17.7억",
+     "tone": "gray",
+     "at": [
+      0,
+      0.05
+     ]
+    },
+    {
+     "label": "스타링크",
+     "v": 52.5,
+     "text": "52.5억",
+     "tone": "gray",
+     "at": [
+      0,
+      0.4
+     ]
+    },
+    {
+     "label": "AI 사업",
+     "v": 75.6,
+     "text": "75.6억",
+     "tone": "gold",
+     "at": [
+      1,
+      0.2
+     ]
+    }
+   ],
+   "lines": [
+    {
+     "cap": [
+      "로켓 17억, 스타링크 52억 달러"
+     ],
+     "say": "로켓 17억, 스타링크 52억 달러."
+    },
+    {
+     "cap": [
+      "그리고 1등은 AI 사업,",
+      "75억 6천만 달러였어요"
+     ],
+     "say": "그리고 1등은 AI 사업, 75억 6천만 달러였어요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "정체는",
+   "l2": "초대형 컴퓨터 렌털",
+   "tone": "gold",
+   "note": "멤피스 AI 데이터센터 '콜로서스'",
+   "lines": [
+    {
+     "cap": [
+      "비결은 의외로 단순해요.",
+      "AI 컴퓨터를 빌려줬거든요"
+     ],
+     "say": "비결은 의외로 단순해요. AI 컴퓨터를 빌려줬거든요."
+    },
+    {
+     "cap": [
+      "로켓 회사가 차린 가게가",
+      "알고 보니 초대형 컴퓨터 렌털 가게였던 거죠"
+     ],
+     "say": "로켓 회사가 차린 가게가, 알고 보니 초대형 컴퓨터 렌털 가게였던 거죠."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "한 달 사용료",
+   "l": {
+    "label": "앤트로픽",
+    "v": "12.5억 달러",
+    "tone": "gold",
+    "sub": "클로드 개발사"
+   },
+   "r": {
+    "label": "구글",
+    "v": "9.2억 달러",
+    "tone": "gold",
+    "sub": "10월부터"
+   },
+   "lines": [
+    {
+     "cap": [
+      "클로드를 만드는 앤트로픽이",
+      "한 달에 12억 5천만 달러,"
+     ],
+     "say": "클로드를 만드는 앤트로픽이 한 달에 12억 5천만 달러,"
+    },
+    {
+     "cap": [
+      "구글이 9억 2천만 달러를 냅니다"
+     ],
+     "say": "구글이 9억 2천만 달러를 냅니다."
+    },
+    {
+     "cap": [
+      "두 회사만 합쳐도 1년에 약 260억 달러,",
+      "작년 스페이스X 전체 매출보다 많아요"
+     ],
+     "say": "두 회사만 합쳐도 1년에 약 260억 달러, 작년 스페이스X 전체 매출보다 많아요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "그런데 약점도 있다",
+   "l": {
+    "label": "앤트로픽 계약",
+    "v": "90일",
+    "tone": "loss",
+    "sub": "통보하면 해지"
+   },
+   "r": {
+    "label": "임대료",
+    "v": "시세 따라",
+    "tone": "loss",
+    "sub": "칩 넘치면 하락"
+   },
+   "lines": [
+    {
+     "cap": [
+      "다만 앤트로픽 계약은",
+      "90일 전에 알리면 끝낼 수 있고"
+     ],
+     "say": "다만 앤트로픽 계약은, 90일 전에 알리면 끝낼 수 있고,"
+    },
+    {
+     "cap": [
+      "AI 칩이 넘쳐나는 순간",
+      "임대료도 내려갈 수 있어요"
+     ],
+     "say": "AI 칩이 넘쳐나는 순간, 임대료도 내려갈 수 있어요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "우주 회사가",
+   "l2": "땅 위에서 더 번다",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "우주 회사가",
+      "땅 위 데이터센터에서 더 버는 회사가 된 겁니다"
+     ],
+     "say": "우주 회사가, 땅 위 데이터센터에서 더 버는 회사가 된 겁니다."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "In SpaceX's third-quarter revenue,",
+  "rocket launches were just 12%",
+  "So where did the rest come from?",
+  "Rockets $1.77B, Starlink $5.25B",
+  "And number one was AI, at $7.56 billion",
+  "The secret is surprisingly simple. It rented out AI computers",
+  "The rocket company's side shop turned out to be a giant computer rental business",
+  "Anthropic, the maker of Claude, pays $1.25 billion a month,",
+  "and Google pays $920 million",
+  "Together that's about $26 billion a year, more than SpaceX's entire revenue last year",
+  "But either side can end the Anthropic deal with 90 days' notice,",
+  "and once AI chips are plentiful, rents could fall",
+  "A space company now earns more from data centers on the ground"
+ ],
+ "title_en": "Half of SpaceX's revenue isn't from rockets #SpaceX"
+}

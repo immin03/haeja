@@ -1,0 +1,215 @@
+{
+ "id": "Y261024s",
+ "title": "실적은 역대급인데, 스페이스X는 왜 하루에 9% 빠졌을까",
+ "scheduled_at": "2026-10-24T19:00:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "tense",
+ "broll": "market",
+ "threads_tag": "주식",
+ "hashtags": [
+  "스페이스X",
+  "SpaceX",
+  "보호예수",
+  "미국주식",
+  "밸류노트"
+ ],
+ "banner": [
+  "실적은 역대급인데",
+  "스페이스X는 왜 9% 빠졌나"
+ ],
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "caption": "10월 22일 나스닥은 2.6% 내렸지만 스페이스X는 9.1% 빠졌습니다. 장이 약했던 데다, 실적 발표 이틀 뒤 스페이스X 직원과 초기 투자자들이 갖고 있던 스페이스X 주식 최대 13억 주의 보호예수가 풀렸기 때문입니다. 10월 20일 종가 기준 약 1,900억 달러, 우리 돈 약 250조 원어치입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "10월 22일 스페이스X 주가",
+   "num": {
+    "to": -9.1,
+    "dec": 1,
+    "suffix": "%"
+   },
+   "tone": "loss",
+   "label": "매출 161% 늘어난 바로 그 주에",
+   "label_line": 1,
+   "lines": [
+    {
+     "join": [
+      {
+       "cap": [
+        "매출이 161% 늘었다고 발표한 지"
+       ],
+       "say": "매출이 161% 늘었다고 발표한 지"
+      },
+      {
+       "cap": [
+        "이틀 만에, 스페이스X가 9% 넘게 빠졌습니다"
+       ],
+       "say": "이틀 만에, 스페이스X가 9% 넘게 빠졌습니다."
+      }
+     ]
+    },
+    {
+     "cap": [
+      "도대체 무슨 일이 있었던 걸까요?"
+     ],
+     "say": "도대체 무슨 일이 있었던 걸까요?"
+    }
+   ]
+  },
+  {
+   "type": "bars",
+   "title": "10월 22일 하루 등락",
+   "items": [
+    {
+     "label": "나스닥",
+     "v": -2.6,
+     "text": "-2.6%",
+     "tone": "gray",
+     "at": [
+      0,
+      0.1
+     ]
+    },
+    {
+     "label": "스페이스X",
+     "v": -9.1,
+     "text": "-9.1%",
+     "tone": "loss",
+     "at": [
+      1,
+      0.3
+     ]
+    }
+   ],
+   "lines": [
+    {
+     "cap": [
+      "그날 나스닥도 2.6% 빠졌어요.",
+      "장이 약했던 건 맞죠"
+     ],
+     "say": "그날 나스닥도 2.6% 빠졌어요. 장이 약했던 건 맞죠."
+    },
+    {
+     "cap": [
+      "그런데 스페이스X는",
+      "나스닥보다 세 배 넘게 빠졌습니다"
+     ],
+     "say": "그런데 스페이스X는, 나스닥보다 세 배 넘게 빠졌습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "그날 겹친 일",
+   "l2": "보호예수 해제",
+   "tone": "loss",
+   "note": "상장 전 주주의 매도 금지 기간이 끝남",
+   "lines": [
+    {
+     "cap": [
+      "상장 전부터 주식을 가진 직원과 투자자는",
+      "한동안 주식을 팔 수 없게 묶여 있어요"
+     ],
+     "say": "상장 전부터 주식을 가진 직원과 투자자는, 한동안 주식을 팔 수 없게 묶여 있어요."
+    },
+    {
+     "cap": [
+      "이걸 보호예수라고 하는데,",
+      "바로 그날 풀렸거든요"
+     ],
+     "say": "이걸 보호예수라고 하는데, 바로 그날 풀렸거든요."
+    }
+   ]
+  },
+  {
+   "type": "hook",
+   "top": "10월 22일 팔 수 있게 된 스페이스X 주식",
+   "num": {
+    "to": 13,
+    "suffix": "억 주"
+   },
+   "tone": "loss",
+   "label": "약 1,900억 달러 · 우리 돈 약 250조 원",
+   "label_line": 1,
+   "lines": [
+    {
+     "cap": [
+      "풀린 스페이스X 주식은 최대 13억 주"
+     ],
+     "say": "풀린 스페이스X 주식은 최대 13억 주."
+    },
+    {
+     "cap": [
+      "우리 돈으로 약 250조 원어치가",
+      "한꺼번에 팔 수 있는 상태가 된 거예요"
+     ],
+     "say": "우리 돈으로 약 250조 원어치가, 한꺼번에 팔 수 있는 상태가 된 거예요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "시장에서 사고팔 수 있는 주식 (추정)",
+   "l": {
+    "label": "상장 때",
+    "v": "약 5%",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "12월 초",
+    "v": "약 3분의 1",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "상장 때 시장에서 사고팔 수 있던 주식은",
+      "전체의 5% 정도였는데"
+     ],
+     "say": "상장 때 시장에서 사고팔 수 있던 주식은, 전체의 5% 정도였는데,"
+    },
+    {
+     "cap": [
+      "12월 초면 3분의 1 정도로",
+      "늘어난다는 추정이 나와요"
+     ],
+     "say": "12월 초면, 3분의 1 정도로 늘어난다는 추정이 나와요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "12월 물량, 얼마나 부담일까?",
+   "l2": "풀버전에서 계산해 봤습니다",
+   "lines": [
+    {
+     "cap": [
+      "12월에 풀리는 물량이 주가에 얼마나 부담일지",
+      "풀버전에서 계산해 봤습니다"
+     ],
+     "say": "12월에 풀리는 물량이 주가에 얼마나 부담일지, 풀버전에서 계산해 봤습니다."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "Two days after reporting 161% revenue growth,",
+  "SpaceX fell more than 9%",
+  "So what happened?",
+  "The Nasdaq fell 2.6% that day. The market was weak",
+  "But SpaceX fell more than three times as much",
+  "Employees and investors who held shares before the IPO can't sell for a while",
+  "That's called a lock-up, and it ended that very day",
+  "Up to 1.3 billion SpaceX shares were unlocked",
+  "About 250 trillion won, or $190 billion, became sellable at once",
+  "At the IPO, about 5% of shares could trade",
+  "By early December, estimates say that rises to about a third",
+  "How much pressure will the December unlock add? We did the math in the full video",
+  "Tap the link below"
+ ],
+ "title_en": "Record revenue, so why did SpaceX drop 9% in a day? #SpaceX"
+}

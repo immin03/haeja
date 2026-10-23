@@ -1,0 +1,211 @@
+{
+ "id": "Y261026s",
+ "title": "버는 돈 88억, 쓰는 돈 196억 달러, 스페이스X의 빚",
+ "scheduled_at": "2026-10-26T19:00:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "tense",
+ "broll": "datacenter",
+ "threads_tag": "주식",
+ "hashtags": [
+  "스페이스X",
+  "SpaceX",
+  "AI투자",
+  "미국주식",
+  "밸류노트"
+ ],
+ "banner": [
+  "버는 돈 88억, 쓰는 돈 196억",
+  "스페이스X의 빚"
+ ],
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "caption": "스페이스X는 3분기에 현금에 가까운 이익(조정 EBITDA) 88억 달러를 벌었지만, 데이터센터와 위성에 196억 달러를 썼습니다. 4분기엔 350억~400억 달러를 쓸 계획입니다. 차이는 빚으로 메웁니다. 6월 첫 회사채로 250억 달러를 빌렸고, 엔비디아 칩 구매 자금 400억 달러도 협의 중입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "스페이스X 3분기 순이익",
+   "num": {
+    "to": 44,
+    "suffix": "억 달러"
+   },
+   "tone": "good",
+   "label": "그런데 진짜 봐야 할 숫자는 따로 있다",
+   "label_line": 1,
+   "lines": [
+    {
+     "cap": [
+      "스페이스X는 3분기에",
+      "44억 달러 흑자를 냈어요"
+     ],
+     "say": "스페이스X는 3분기에, 44억 달러 흑자를 냈어요."
+    },
+    {
+     "cap": [
+      "그런데 진짜 봐야 할 숫자는",
+      "따로 있습니다"
+     ],
+     "say": "그런데 진짜 봐야 할 숫자는, 따로 있습니다."
+    }
+   ]
+  },
+  {
+   "type": "bars",
+   "title": "벌어들인 돈 vs 쓰는 돈 (억 달러)",
+   "items": [
+    {
+     "label": "3분기\n번 돈",
+     "v": 88,
+     "text": "88억",
+     "tone": "good",
+     "at": [
+      0,
+      0.3
+     ]
+    },
+    {
+     "label": "3분기\n쓴 돈",
+     "v": 196,
+     "text": "196억",
+     "tone": "loss",
+     "at": [
+      0,
+      0.75
+     ]
+    },
+    {
+     "label": "4분기\n쓸 돈",
+     "v": 375,
+     "text": "350~400억",
+     "tone": "loss",
+     "at": [
+      1,
+      0.3
+     ]
+    }
+   ],
+   "lines": [
+    {
+     "cap": [
+      "현금에 가까운 이익은 88억 달러인데,",
+      "데이터센터와 위성에 196억 달러를 썼어요"
+     ],
+     "say": "현금에 가까운 이익은 88억 달러인데, 데이터센터와 위성에 196억 달러를 썼어요."
+    },
+    {
+     "cap": [
+      "4분기엔 350억에서",
+      "400억 달러를 쓴다고 했고요"
+     ],
+     "say": "4분기엔 350억에서 400억 달러를 쓴다고 했고요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "말 그대로",
+   "l2": "돈을 로켓처럼 쏘아 올리는 중",
+   "tone": "loss",
+   "lines": [
+    {
+     "cap": [
+      "말 그대로,",
+      "돈을 로켓처럼 쏘아 올리고 있는 셈이죠"
+     ],
+     "say": "말 그대로, 돈을 로켓처럼 쏘아 올리고 있는 셈이죠."
+    },
+    {
+     "cap": [
+      "버는 돈보다 쓰는 돈이 훨씬 많으니",
+      "차이는 빌려서 메울 수밖에 없어요"
+     ],
+     "say": "버는 돈보다 쓰는 돈이 훨씬 많으니, 차이는 빌려서 메울 수밖에 없어요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "늘어나는 빚",
+   "l": {
+    "label": "6월 첫 회사채",
+    "v": "250억 달러",
+    "tone": "loss"
+   },
+   "r": {
+    "label": "칩 구매 자금 협의",
+    "v": "400억 달러",
+    "tone": "loss",
+    "sub": "엔비디아 칩"
+   },
+   "lines": [
+    {
+     "cap": [
+      "6월엔 처음으로 회사채를 찍어",
+      "250억 달러를 빌렸고"
+     ],
+     "say": "6월엔 처음으로 회사채를 찍어, 250억 달러를 빌렸고,"
+    },
+    {
+     "cap": [
+      "엔비디아 칩을 살 400억 달러도",
+      "은행들과 협의 중이에요"
+     ],
+     "say": "엔비디아 칩을 살 400억 달러도, 은행들과 협의 중이에요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "채권 시장의 경고",
+   "l2": "부도 보험료 최고치",
+   "tone": "loss",
+   "note": "스페이스X 5년물 CDS, 10월 들어 여러 차례",
+   "lines": [
+    {
+     "cap": [
+      "채권 시장도 이걸 보고 있어요"
+     ],
+     "say": "채권 시장도 이걸 보고 있어요."
+    },
+    {
+     "cap": [
+      "스페이스X가 돈을 못 갚을 위험에 대비하는 보험료가",
+      "10월 들어 여러 번 최고치를 찍었거든요"
+     ],
+     "say": "스페이스X가 돈을 못 갚을 위험에 대비하는 보험료가, 10월 들어 여러 번 최고치를 찍었거든요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "흑자는 진짜일까?",
+   "l2": "풀버전에서 뜯어봤습니다",
+   "lines": [
+    {
+     "cap": [
+      "이번 흑자가 얼마나 단단한지",
+      "풀버전에서 뜯어봤습니다"
+     ],
+     "say": "이번 흑자가 얼마나 단단한지, 풀버전에서 뜯어봤습니다."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "SpaceX posted a $4.4 billion profit in the third quarter",
+  "But the number that really matters is elsewhere",
+  "Its cash-like earnings were $8.8 billion, but it spent $19.6 billion on data centers and satellites",
+  "And it plans to spend $35 to $40 billion in the fourth quarter",
+  "It's literally launching money like a rocket",
+  "Spending far more than it earns, it has to borrow the difference",
+  "In June it issued its first bonds, borrowing $25 billion,",
+  "and it's in talks with banks for $40 billion to buy Nvidia chips",
+  "The bond market is watching",
+  "The insurance premium against a SpaceX default hit record highs several times in October",
+  "How solid is this profit? We took it apart in the full video",
+  "Tap the link below"
+ ],
+ "title_en": "Earns $8.8B, spends $19.6B: SpaceX's growing debt #SpaceX"
+}

@@ -1,0 +1,203 @@
+{
+ "id": "Y261025s",
+ "title": "스페이스X 시가총액 2조 달러, 이게 맞으려면 얼마나 벌어야 할까",
+ "scheduled_at": "2026-10-25T19:00:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "tense",
+ "broll": "space",
+ "threads_tag": "주식",
+ "hashtags": [
+  "스페이스X",
+  "SpaceX",
+  "시가총액",
+  "미국주식",
+  "밸류노트"
+ ],
+ "banner": [
+  "스페이스X 2조 달러,",
+  "얼마나 벌어야 맞을까?"
+ ],
+ "caption": "10월 22일 종가 기준 스페이스X 시가총액은 약 2조 달러입니다. 회사가 제시한 내년 1분기 매출로 1년을 채워도 연 1,400억 달러 수준이라, 시가총액은 매출의 약 14배입니다. 이익의 25배를 쳐 줘도 1년에 약 780억 달러를 벌어야 하고, 순이익률 20%로 잡으면 필요한 매출은 애플의 1년 매출과 비슷합니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "스페이스X 시가총액 · 10월 22일 종가",
+   "num": {
+    "to": 2,
+    "suffix": "조 달러"
+   },
+   "tone": "gold",
+   "label": "우리 돈 약 2,590조 원",
+   "label_line": 1,
+   "lines": [
+    {
+     "cap": [
+      "스페이스X 시가총액은 약 2조 달러,",
+      "우리 돈 2,590조 원이에요"
+     ],
+     "say": "스페이스X 시가총액은 약 2조 달러, 우리 돈 2,590조 원이에요."
+    },
+    {
+     "cap": [
+      "이 가격이 맞으려면,",
+      "얼마나 벌어야 할까요?"
+     ],
+     "say": "이 가격이 맞으려면, 얼마나 벌어야 할까요?"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "title": "회사가 제시한 매출로 계산하면",
+   "a": {
+    "label": "내년 1분기 매출 전망",
+    "v": "330억~370억 달러"
+   },
+   "op": "× 4",
+   "b": {
+    "label": "1년 매출",
+    "v": "약 1,400억 달러"
+   },
+   "note": "시장 예상(220억 달러)보다 높은 전망",
+   "lines": [
+    {
+     "cap": [
+      "회사는 내년 1분기 매출을",
+      "330억에서 370억 달러로 제시했어요"
+     ],
+     "say": "회사는 내년 1분기 매출을, 330억에서 370억 달러로 제시했어요."
+    },
+    {
+     "cap": [
+      "중간값으로 1년을 채우면",
+      "약 1,400억 달러죠"
+     ],
+     "say": "중간값으로 1년을 채우면, 약 1,400억 달러죠."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "그래도 시가총액은",
+   "l2": "매출의 14배",
+   "tone": "loss",
+   "note": "이익이 아니라 매출의 배수",
+   "lines": [
+    {
+     "cap": [
+      "그래도 시가총액은 매출의 약 14배예요"
+     ],
+     "say": "그래도 시가총액은 매출의 약 14배예요."
+    },
+    {
+     "cap": [
+      "이익이 아니라,",
+      "매출의 14배입니다"
+     ],
+     "say": "이익이 아니라, 매출의 14배입니다."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "거꾸로 계산하면 (이익의 25배)",
+   "l": {
+    "label": "필요한 순이익",
+    "v": "약 780억 달러",
+    "tone": "loss",
+    "sub": "1년"
+   },
+   "r": {
+    "label": "필요한 매출",
+    "v": "애플 1년 매출",
+    "tone": "loss",
+    "sub": "순이익률 20% 가정"
+   },
+   "lines": [
+    {
+     "cap": [
+      "이익의 25배라는 후한 값을 쳐 줘도",
+      "1년에 약 780억 달러를 벌어야 하고"
+     ],
+     "say": "이익의 25배라는 후한 값을 쳐 줘도, 1년에 약 780억 달러를 벌어야 하고,"
+    },
+    {
+     "cap": [
+      "필요한 매출은",
+      "애플의 1년 매출과 비슷해요"
+     ],
+     "say": "필요한 매출은, 애플의 1년 매출과 비슷해요."
+    },
+    {
+     "cap": [
+      "그것도 아이폰 하나 없이요"
+     ],
+     "say": "그것도 아이폰 하나 없이요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "증권사 목표 주가",
+   "l": {
+    "label": "가장 낮은 목표",
+    "v": "100달러",
+    "tone": "loss",
+    "sub": "DZ은행"
+   },
+   "r": {
+    "label": "가장 높은 목표",
+    "v": "500달러",
+    "tone": "good",
+    "sub": "JP모건"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그래서 증권사 목표 주가도",
+      "100달러부터 500달러까지 갈려요"
+     ],
+     "say": "그래서 증권사 목표 주가도, 100달러부터 500달러까지 갈려요."
+    },
+    {
+     "cap": [
+      "같은 회사를 보고 낸 숫자라고는",
+      "믿기 어려울 정도죠"
+     ],
+     "say": "같은 회사를 보고 낸 숫자라고는, 믿기 어려울 정도죠."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "지금 주가는",
+   "l2": "'매출 3배'에 건 돈",
+   "tone": "loss",
+   "lines": [
+    {
+     "cap": [
+      "결국 지금 주가는 회사 전망보다",
+      "매출이 3배 더 커진다는 데 건 돈이에요"
+     ],
+     "say": "결국 지금 주가는, 회사 전망보다 매출이 3배 더 커진다는 데 건 돈이에요."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "SpaceX's market value is about $2 trillion, or 2,590 trillion won",
+  "How much would it need to earn to justify that?",
+  "The company guided next year's first-quarter revenue at $33 to $37 billion",
+  "Using the midpoint for a full year, that's about $140 billion",
+  "Even so, the market value is about 14 times revenue",
+  "Not earnings, but 14 times revenue",
+  "Even at a generous 25 times earnings, it would need to earn about $78 billion a year,",
+  "and revenue on the scale of Apple's annual sales",
+  "And without a single iPhone",
+  "So analyst price targets range from $100 to $500",
+  "It's hard to believe they describe the same company",
+  "In the end, today's price is a bet that revenue grows three times beyond the company's own outlook"
+ ],
+ "title_en": "SpaceX at $2 trillion: how much would it need to earn? #SpaceX"
+}
