@@ -71,3 +71,20 @@ if __name__ == "__main__":   # 확인용: python3 scripts/brand.py out.png
     out = Image.new("RGB", (1200, 420), (11, 27, 51)); paste_logo(out, 60, 50, 46); paste_logo(out, 600, 50, 80, align="center")
     lt = Image.new("RGB", (1200, 200), (246, 244, 238)); paste_logo(lt, 60, 50, 46, "light")
     full = Image.new("RGB", (1200, 620)); full.paste(out, (0, 0)); full.paste(lt, (0, 420)); full.save(sys.argv[1] if len(sys.argv) > 1 else "brand_test.png")
+
+
+def v_icon(n=1080, mono=False):
+    """작은 원·앱 아이콘용 마크 (2026-10-23 확정): 네이비 바탕에 흰 V(Montserrat ExtraBold) + 그 아래 금선.
+    mono=True면 투명 바탕에 흰색만 (안드로이드 알림 배지)"""
+    import numpy as np
+    if mono: im = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    else:
+        yy, xx = np.mgrid[0:n, 0:n]; r = np.sqrt(((xx - n * .5) / n) ** 2 + (yy / n * .9) ** 2)
+        k = np.clip(1 - r * 1.25, 0, 1)[..., None]
+        im = Image.fromarray((np.array([11, 20, 36], np.float32) * (1 - k) + np.array([27, 44, 72], np.float32) * k).astype(np.uint8)).convert("RGBA")
+    d = ImageDraw.Draw(im); f = ImageFont.truetype(EN_FONT, int(n * .58))
+    bb = d.textbbox((0, 0), "V", font=f); w = bb[2] - bb[0]; h = bb[3] - bb[1]
+    d.text((n / 2 - w / 2 - bb[0], n * .45 - h / 2 - bb[1]), "V", font=f, fill=(255, 255, 255, 255))
+    lw = w * .92; ly = n * .45 + h / 2 + n * .075; lh = max(2, round(n * .016))
+    d.rectangle([n / 2 - lw / 2, ly, n / 2 + lw / 2, ly + lh], fill=(255, 255, 255, 255) if mono else (206, 180, 128, 255))
+    return im

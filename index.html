@@ -16,9 +16,9 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" href="/favicon-64.png?v=4">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=5">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=5">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="밸류노트">
@@ -2167,7 +2167,7 @@ function setupHtml(){
     : ps === 'unsupported' ? `<div class="small muted">이 브라우저는 알림을 지원하지 않아요. 크롬·사파리·엣지에서 열어 주세요.</div>`
     : `<button type="button" class="btn primary su-big" data-setup="push">알림 켜기</button>`;
   /* 받게 될 알림을 휴대폰 알림 모양 그대로 미리 보여 준다 */
-  const pv = (t, b, w) => `<div class="su-pv"><img src="/icon-192.png?v=4" alt=""><div><div class="su-pv-h"><b>밸류노트</b><span>${w}</span></div><b>${t}</b><span>${b}</span></div></div>`;
+  const pv = (t, b, w) => `<div class="su-pv"><img src="/icon-192.png?v=5" alt=""><div><div class="su-pv-h"><b>밸류노트</b><span>${w}</span></div><b>${t}</b><span>${b}</span></div></div>`;
   const preview = `<div class="su-pvs" aria-label="알림 예시">
       ${pv('최근 보신 SK하이닉스, 지금은 이렇습니다', '버핏 기준 적정 주가보다 높은 가격에 거래되고 있습니다. 점수와 근거를 확인해 보세요.', '오전 8:40')}
       ${pv('새로 싸진 회사 · ○○은행', '오늘 처음으로 적정 주가보다 31% 쌉니다. 종합 75점, 확인해 보실래요?', '어제')}

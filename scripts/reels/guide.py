@@ -154,7 +154,7 @@ HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}">
 <meta property="og:image" content="{og}"><meta property="og:url" content="{url}"><link rel="canonical" href="{url}">
 <meta name="robots" content="{robots}">{ld}
-<link rel="icon" type="image/png" href="/favicon-64.png?v=4"><meta name="theme-color" content="#0A1730">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=5"><meta name="theme-color" content="#0A1730">
 <style>@font-face{{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}}@font-face{{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>{css}</style></head><body>"""
