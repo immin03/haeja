@@ -28,7 +28,7 @@ const pct = (v) => Math.round(v * 100) + '%';
 export const usd = (n) => (n >= 100 ? (Math.round(n * 10) / 10).toFixed(1).replace(/\.0$/, '') : (Math.round(n * 100) / 100).toFixed(2).replace(/0$/, '').replace(/\.0?$/, '')) + '달러';
 export function usdBig(v) {
   if (v >= 1e12) return (Math.round(v / 1e11) / 10).toFixed(1).replace(/\.0$/, '') + '조 달러';
-  if (v >= 1e11) return (Math.round(v / 1e10) * 100).toLocaleString('ko-KR') + '억 달러';
+  if (v >= 1e11) return (Math.round(v / 5e9) * 50).toLocaleString('ko-KR') + '억 달러';
   return Math.round(v / 1e8).toLocaleString('ko-KR') + '억 달러';
 }
 const vs = (a, b) => { const r = a / b; return r < 1 ? `약 ${Math.round(r * 100)}%` : `약 ${x1(r)}`; };
@@ -84,10 +84,12 @@ export async function companyData(code, spec = {}) {
   let usv = {};
   if (US) {
     const mc = spec.shares ? px * spec.shares : (r.mcap || 0) * 1e6 * (px / px0);   // 스크리너 시가총액이 가격보다 늦게 갱신될 때가 있어 주식 수를 원고에 적는다
-    usv = { mcap: usdBig(mc) };
+    // 원화 환산 (spec.fx: 원고에 적은 기준 환율). 100조 이상은 10조 단위로 반올림
+    const krw = (v) => { const j = v * (spec.fx || 0) / 1e12; return j >= 100 ? (Math.round(j / 10) * 10).toLocaleString('ko-KR') + '조 원' : Math.round(j) + '조 원'; };
+    usv = { mcap: usdBig(mc), ...(spec.fx ? { mcap_krw: krw(mc) } : {}) };
     if (spec.ipo_px) { const g = px / spec.ipo_px - 1; usv.ipo_vs = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; usv.ipo_word = g >= 0 ? '높은' : '낮은'; usv.ipo_abs = Math.abs(Math.round(g * 100)) + '%'; }
     for (const [k, c] of Object.entries(spec.mcap_calc || {})) usv[k] = c.fmt === 'usd' ? usdBig(mc / c.div) : '약 ' + Math.round(mc / c.div) + '배';
-    for (const [k, n] of Object.entries(spec.px_mult || {})) usv[k] = usdBig(px * n);   // 예: 풀리는 주식 수 × 지금 주가
+    for (const [k, n] of Object.entries(spec.px_mult || {})) { usv[k] = usdBig(px * n); if (spec.fx) usv[k + '_krw'] = krw(px * n); }   // 예: 풀리는 주식 수 × 지금 주가
     if (spec.px_ref) for (const [k, ref] of Object.entries(spec.px_ref)) { const g = px / ref - 1; usv[k] = (g >= 0 ? '+' : '-') + Math.abs(g * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
   }
   const bt = spec.backtest; let btv = {};
