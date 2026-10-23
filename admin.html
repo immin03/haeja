@@ -198,6 +198,15 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .yt-item details{margin-top:8px;font-size:13px}.yt-item details pre{white-space:pre-wrap;word-break:keep-all;font-family:inherit;font-size:12.5px;line-height:1.6;background:var(--surface);padding:10px;border-radius:10px;max-height:260px;overflow:auto}
 .yt-item .ac{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .yt-item .ac .soc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.yt-plan{padding:16px;margin-bottom:14px}
+.yt-plan .k{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.yt-plan h3{margin:0 0 6px;font-size:16.5px;line-height:1.45;word-break:keep-all}
+.yt-plan .m,.yt-plan li{font-size:13px;color:var(--muted);line-height:1.6;word-break:keep-all}
+.yt-plan .m b{color:var(--ink)}
+.yt-plan details{margin:8px 0;font-size:13px}
+.yt-plan .nt{margin:8px 0;padding:8px 10px;border-radius:10px;background:var(--surface);font-size:13px}
+.yt-plan .ac{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.yt-plan .ac .soc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .yt-item .ac .soc-btn.ok{background:#2D7A5F}
 @media (max-width:760px){.yt-item,.yt-item.short{grid-template-columns:1fr}.yt-item.short video{max-width:260px}}
 .soc-flash{padding:12px 14px;border-radius:12px;margin-bottom:12px;font-weight:700}
@@ -684,7 +693,25 @@ const FN = C.SUPABASE_URL + '/functions/v1/';
 /* 유튜브 검수: 렌더된 롱폼·쇼츠를 보고 승인한 것만 올린다. 승인 순간에도 숫자가 오래됐는지 DB가 다시 확인한다 */
 const YT = { list: null, msg: '' };
 const YT_ST = { review: ['run', '검수 대기'], stale: ['bad', '숫자 오래됨 · 다시 만드는 중'], rerendering: ['run', '다시 만드는 중'], changes: ['bad', '수정 요청'], approved: ['ok', '승인됨'], hold: ['off', '보류'], uploaded: ['ok', '올림 완료'] };
-async function ytLoad(){ const { data, error } = await sb.rpc('yt_admin_list'); YT.list = error ? [] : (data || []); YT.err = error ? error.message : ''; render(); }
+async function ytLoad(){ const [r, pl] = await Promise.all([sb.rpc('yt_admin_list'), sb.rpc('yt_plan_list')]); const { data, error } = r; YT.list = error ? [] : (data || []); YT.err = error ? error.message : ''; YT.plans = pl.error ? [] : (pl.data || []); render(); }
+/* 롱폼 기획안 (2026-10-23 운영자): 롱폼은 원고를 쓰기 전에 기획안을 먼저 승인받는다. 승인하면 제작 작업이 원고를 쓰고 렌더링해 아래 '검수 대기'로 올린다. 반려하면 다음 후보로 바꾼다 */
+const YTP_ST = { proposed: ['run', '승인 대기'], approved: ['ok', '승인 · 제작 대기'], producing: ['ok', '원고·렌더 중'], done: ['ok', '검수 탭으로 넘어감'], rejected: ['off', '반려'] };
+function ytPlanItem(p){
+  const st = YTP_ST[p.status] || ['', p.status];
+  const li = a => (a || []).map(x => `<li>${esc(x)}</li>`).join('');
+  const acts = p.status === 'proposed' ? `<button class="soc-btn ok" data-ytp-set="approved" data-id="${esc(p.id)}">승인 · 제작 시작</button><button class="soc-btn ghost" data-ytp-set="rejected" data-id="${esc(p.id)}">반려 · 다른 주제로</button>`
+    : p.status === 'approved' ? `<button class="soc-btn ghost" data-ytp-set="proposed" data-id="${esc(p.id)}">승인 취소</button>` : '';
+  return `<div class="card yt-plan">
+    <div class="k">${p.rank ? `<span class="kind">${esc(String(p.rank))}순위</span>` : ''}${p.series ? `<span class="st none">${esc(p.series)}</span>` : ''}<span class="st ${st[0]}">${st[1]}</span>${p.minutes ? `<span class="st none">약 ${esc(String(p.minutes))}분</span>` : ''}</div>
+    <h3>${esc(p.title || p.id)}</h3>
+    ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b></div>` : ''}
+    ${p.message ? `<div class="m" style="margin-top:6px"><b>한 문장</b> ${esc(p.message)}</div>` : ''}
+    ${(p.why_now || []).length ? `<div class="m" style="margin-top:6px"><b>왜 지금</b><ul style="margin:4px 0 0 18px;padding:0">${li(p.why_now)}</ul></div>` : ''}
+    <details${p.status === 'proposed' ? ' open' : ''}><summary>목차 ${(p.outline || []).length}장</summary><ol style="margin:6px 0 0 18px;padding:0">${li(p.outline)}</ol></details>
+    <div class="m">게시 희망 ${p.target_at ? kst(p.target_at) : '승인 후 가장 빠른 편성'}${p.company ? ` · 데이터 회사 ${esc(p.company)}` : ''}${p.made_at ? ` · 기획 ${kst(p.made_at)}` : ''}</div>
+    ${p.owner_note ? `<div class="nt"><b>메모</b><br>${esc(p.owner_note)}</div>` : ''}
+    ${acts ? `<div class="ac">${acts}</div>` : ''}</div>`;
+}
 const won0 = v => v == null ? '–' : Math.round(+v).toLocaleString('ko-KR') + '원';
 function ytItem(y){
   const st = YT_ST[y.status] || ['', y.status], short = y.kind === 'short';
@@ -720,12 +747,27 @@ function vYoutube(){
   <div class="yt-note"><b>구글 API 심사 전입니다.</b> 승인하면 다운로드·복사 버튼이 열립니다. 유튜브 스튜디오에 직접 올린 뒤 "유튜브에 올렸어요"를 눌러 주세요. 심사가 끝나면 승인한 영상이 예약 시각에 자동으로 올라갑니다.<br>
   롱폼의 주가·적정 주가·점수는 렌더할 때의 최신 값입니다. 렌더 후 24시간이 지나거나, 주가가 5% 넘게 움직이거나, 실적 발표 같은 일정이 지나가면 자동으로 다시 만들어집니다.</div>
   ${YT.msg ? `<div class="soc-flash ok">${esc(YT.msg)}</div>` : ''}
+  ${(() => { const P = YT.plans || [], open = P.filter(p => ['proposed', 'approved', 'producing'].includes(p.status)), past = P.filter(p => ['done', 'rejected'].includes(p.status));
+    return `<div class="soc-sec"><h2>롱폼 기획안</h2><span class="n">승인 대기 ${P.filter(p => p.status === 'proposed').length}편</span></div>
+    <div class="yt-note">롱폼은 원고를 쓰기 전에 기획안부터 확인합니다. 지금 가장 관심이 큰 회사·이슈 순서로 올라옵니다. <b>승인</b>하면 원고를 쓰고 렌더링해 아래 '검수 대기'로 올리고, <b>반려</b>하면 다음 후보로 바꿉니다.</div>
+    ${open.length ? open.map(ytPlanItem).join('') : '<div class="card empty" style="padding:14px">검토할 기획안이 없습니다. 다음 기획 작업이 후보를 올립니다.</div>'}
+    ${past.length ? `<details class="card" style="padding:10px 14px"><summary>지난 기획안 ${past.length}편</summary>${past.map(p => `<div class="m" style="padding:4px 0">${esc((YTP_ST[p.status] || ['', p.status])[1])} · ${esc(p.title || p.id)}${p.owner_note ? ` · ${esc(p.owner_note)}` : ''}</div>`).join('')}</details>` : ''}`; })()}
   <div class="soc-sec"><h2>검수 대기</h2><span class="n">${wait.length}편</span></div>${wait.length ? wait.map(ytItem).join('') : '<div class="card empty" style="padding:14px">검수할 영상이 없습니다.</div>'}
   <div class="soc-sec"><h2>승인됨 · 올리기 대기</h2><span class="n">${ok.length}편</span></div>${ok.length ? ok.map(ytItem).join('') : '<div class="card empty" style="padding:14px">승인한 영상이 없습니다.</div>'}
   ${hold.length ? `<div class="soc-sec"><h2>보류</h2></div>${hold.map(ytItem).join('')}` : ''}
   <div class="soc-sec"><h2>올림 완료</h2><span class="n">${done.length}편</span></div><div class="card" style="padding:12px 14px">${done.length ? done.map(y => `<div class="m" style="padding:4px 0">${kst(y.uploaded_at)} · ${esc(y.title)}</div>`).join('') : '<div class="empty">아직 없습니다.</div>'}</div>`;
 }
 function bindYoutube(){
+  document.querySelectorAll('[data-ytp-set]').forEach(b => b.onclick = async () => {
+    const id = b.dataset.id, st = b.dataset.ytpSet; let note = null;
+    if(st === 'rejected'){ note = prompt('반려 이유가 있으면 적어 주세요 (예: 이 회사는 다음 달에, 관심이 더 큰 주제로). 비워도 됩니다.'); if(note === null) return; }
+    if(st === 'approved' && !confirm('이 기획안으로 원고를 쓰고 렌더링할까요? 완성본은 검수 대기에 올라옵니다.')) return;
+    b.disabled = true;
+    const { data, error } = await sb.rpc('yt_plan_set', { p_id: id, p_status: st, p_note: note || null });
+    if(error) toast('바꾸지 못했습니다: ' + error.message, true);
+    else if(data && data.ok === false) toast(data.reason, true);
+    else toast({ approved: '승인했습니다. 제작 작업이 원고를 쓰고 렌더링합니다.', rejected: '반려했습니다. 다음 후보로 바꿉니다.', proposed: '승인을 취소했습니다.' }[st] || '바꿨습니다.');
+    ytLoad(); });
   document.querySelectorAll('[data-yt-set]').forEach(b => b.onclick = async () => {
     const id = b.dataset.id, st = b.dataset.ytSet; let note = null;
     if(st === 'changes'){ note = prompt('어디를 고칠까요? (예: 2분 10초 자막 오타, 결론을 더 짧게)'); if(note === null) return; }
