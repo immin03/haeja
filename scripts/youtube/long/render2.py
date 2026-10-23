@@ -663,6 +663,24 @@ def draw_phone(img, d, v, u, lines, V, theme):
         d.text((838 + 30 * (1 - p), y + 26), fill(s, V), font=fitF(d, fill(s, V), "ExtraBold", 46, 1720 - 838 - 36), fill=A(t["ink"], p))
 
 
+class LazyPhoto:
+    """R.photo_frames와 같은 켄 번즈 움직임을, 필요한 프레임만 그때 만든다 (긴 장면에서 메모리가 넘치지 않게)"""
+    def __init__(self, pth, n, seed):
+        im = Image.open(pth).convert("RGB"); r = max(W / im.width, H / im.height) * 1.18
+        self.im = im.resize((int(im.width * r), int(im.height * r)), Image.LANCZOS); self.n = n
+        dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, 1)]; self.dx, self.dy = dirs[seed % len(dirs)]; self.zin = seed % 2 == 0
+        self.kk = min(self.im.width / W, self.im.height / H)
+
+    def __len__(self): return self.n
+
+    def __getitem__(self, i):
+        im = self.im; t = i / max(1, self.n - 1); z = (1.0 + .08 * t) if self.zin else (1.08 - .08 * t)
+        w, h = W * self.kk / z, H * self.kk / z
+        cx = im.width / 2 + self.dx * (im.width - w) / 2 * (t - .5) * 1.6; cy = im.height / 2 + self.dy * (im.height - h) / 2 * (t - .5) * 1.6
+        l = min(max(cx - w / 2, 0), im.width - w); tp = min(max(cy - h / 2, 0), im.height - h)
+        return np.asarray(im.resize((W, H), Image.BILINEAR, box=(l, tp, l + w, tp + h)))
+
+
 # ── 실사 (원고가 지정한 파일만) ──
 def media_source(v, n_frames, seed):
     lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); f = v.get("lib")
