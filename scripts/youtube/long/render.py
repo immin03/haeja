@@ -15,8 +15,8 @@ sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 from korean import to_speech  # noqa: E402
 
 W, H, FPS, SR = 1920, 1080, 24, 44100
-NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (214, 172, 82); GOLD_L = (228, 199, 141)
-IVORY = (246, 241, 232); GRAY = (150, 162, 182); DIM = (88, 104, 132); LOSS = (232, 104, 80); GAIN = (98, 196, 140)
+NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (214, 186, 129); GOLD_L = (228, 206, 161)
+IVORY = (246, 241, 232); GRAY = (150, 162, 182); DIM = (88, 104, 132); LOSS = (232, 71, 71); GAIN = (98, 196, 140)
 _fc = {}
 
 
@@ -84,7 +84,7 @@ GLOW = GLOW_RGB = None
 def make_glow():
     g = Image.new("L", (1400, 900), 0); ImageDraw.Draw(g).ellipse([150, 100, 1250, 800], fill=40)
     g = g.resize((175, 112)).filter(ImageFilter.GaussianBlur(14)).resize((1400, 900), Image.BILINEAR)
-    return g, Image.new("RGB", g.size, (214, 172, 82))
+    return g, Image.new("RGB", g.size, (214, 186, 129))
 
 
 # ── 무료 영상(Mixkit) ────────────────────────────────────────
@@ -302,7 +302,7 @@ def draw_scene(sc, V, u, dur, lines_t, frame_bg):
         f = F("SemiBold", 44); t = T("sub"); d.text((W / 2 - d.textlength(t, font=f) / 2, 580), t, font=f, fill=(*GOLD_L, int(255 * p)))
         q = prog(u, 1.2, 1.9); bw = 360; x = W / 2 - bw / 2
         sc_ = 1 + .04 * math.sin(u * 3) * q
-        d.rounded_rectangle([x - 10 * sc_, 680, x + bw + 10 * sc_, 770], 45, fill=(204, 0, 0, int(255 * q)))
+        d.rounded_rectangle([x - 10 * sc_, 680, x + bw + 10 * sc_, 770], 45, fill=(2044545, int(255 * q)))
         d.text((W / 2 - d.textlength("구독하기", font=F("Heavy", 46)) / 2, 698), "구독하기", font=F("Heavy", 46), fill=(255, 255, 255, int(255 * q)))
     return img
 

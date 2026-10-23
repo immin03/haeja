@@ -37,7 +37,7 @@ const category = catOf(id, post);
 //   그 밖의 블록 사이 = 빈 줄 1개.
 const BLANK = '<p><br></p>';
 const blockHtml = (b) => {
-  if (b.h) return `<p><span style="font-size:19px"><b><span style="color:#C99A50">■</span> ${inline(b.h)}</b></span></p>`;
+  if (b.h) return `<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> ${inline(b.h)}</b></span></p>`;
   if (b.p && /^— Editor:/.test(b.p)) return `<p style="text-align:right"><b>${inline(b.p)}</b></p>`;
   if (b.p) return `<p>${inline(b.p)}</p>`;
   if (b.img && b.href) return `<p><a href="${esc(b.href)}"><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></a></p>`;
@@ -47,7 +47,7 @@ const blockHtml = (b) => {
   if (b.note) return `<p><span style="color:#888888;font-size:13px">${esc(b.note)}</span></p>`;
   if (b.summary) return `<blockquote><p><b>3줄 요약</b></p>${b.summary.map((x) => `<p>· ${inline(x)}</p>`).join('')}</blockquote>`;
   if (b.table) return `<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr>${b.table.head.map((x) => `<th style="background:#F3EEE3">${esc(x)}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((x) => `<td>${inline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-  if (b.video) return `<div data-skip="1" style="border:2px dashed #C99A50;background:#FBF5EA;border-radius:10px;padding:12px 14px;margin:4px 0;font-size:14px;color:#7A5A22"><b>▶ 여기에 동영상 올리기</b> · ${esc(b.video)} — 아래 '영상' 칸에서 받아, 네이버 편집기 위 [동영상] 버튼으로 이 자리에 넣으세요.${b.cap ? `<br>영상 설명(영상 아래에 붙여 넣기): ${esc(b.cap)}` : ''}</div>`;
+  if (b.video) return `<div data-skip="1" style="border:2px dashed #C9AF7A;background:#FBF5EA;border-radius:10px;padding:12px 14px;margin:4px 0;font-size:14px;color:#7A6947"><b>▶ 여기에 동영상 올리기</b> · ${esc(b.video)} — 아래 '영상' 칸에서 받아, 네이버 편집기 위 [동영상] 버튼으로 이 자리에 넣으세요.${b.cap ? `<br>영상 설명(영상 아래에 붙여 넣기): ${esc(b.cap)}` : ''}</div>`;
   if (b.sources) return `<p><b>참고한 자료</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
   return '';
 };
@@ -72,16 +72,16 @@ const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta n
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · ${esc(post.title)}</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
-:root{--navy:#0E1A2B;--gold:#C99A50;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
-.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4C78D}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#E4C78D}
-.cat{display:inline-block;background:#FBF5EA;border:1px solid #E4C78D;color:#7A5A22;font-weight:800;border-radius:10px;padding:6px 12px}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4CEA1}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#E4CEA1}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #E4CEA1;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
 main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
 h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 .row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
 .btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
-.btn.gold{background:linear-gradient(90deg,#C99A50,#E4C78D);color:#0A1322}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#E4CEA1);color:#0A1322}
 .btn.ok{background:#2E8B62}
 .ttl{font-size:20px;font-weight:800}
 .steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
@@ -136,10 +136,10 @@ fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
-<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4C78D}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}main{max-width:760px;margin:0 auto;padding:16px}
-.cat{font-style:normal;display:inline-block;background:#FBF5EA;border:1px solid #E4C78D;color:#7A5A22;font-weight:800;border-radius:8px;padding:1px 7px;margin-right:4px;font-size:12px}
+<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4CEA1}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}main{max-width:760px;margin:0 auto;padding:16px}
+.cat{font-style:normal;display:inline-block;background:#FBF5EA;border:1px solid #E4CEA1;color:#7A6947;font-weight:800;border-radius:8px;padding:1px 7px;margin-right:4px;font-size:12px}
 .it{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #E7E2D8;border-radius:14px;padding:12px;margin:10px 0}.it a{display:flex;gap:14px;align-items:center;flex:1;min-width:0;text-decoration:none;color:inherit}.it img{width:84px;height:84px;border-radius:10px;flex-shrink:0}.it b{display:block}.it small{color:#6B7584}
-.ck{font:inherit;font-size:14px;font-weight:800;border:1px solid #E7E2D8;background:#fff;color:#6B7584;border-radius:10px;padding:8px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0}.ck:hover{border-color:#C99A50;color:#0E1A2B}
+.ck{font:inherit;font-size:14px;font-weight:800;border:1px solid #E7E2D8;background:#fff;color:#6B7584;border-radius:10px;padding:8px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0}.ck:hover{border-color:#C9AF7A;color:#0E1A2B}
 .it.done{background:#F1EEE6}.it.done img{opacity:.45}.it.done b{color:#6B7584}.it.done .ck{background:#2E8B62;border-color:#2E8B62;color:#fff}
 h3{font-size:15px;color:#6B7584;margin:26px 0 4px}.n{color:#6B7584;font-size:14px}#who{font-size:13px;color:#6B7584}</style></head><body><div class="top"><a class="bk" href="/admin">‹ 관리자</a><b>Value<span>Note</span> · 네이버 블로그 글</b></div><main>
 <p class="n">월·수·금 아침에 새 글이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>

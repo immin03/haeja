@@ -22,9 +22,9 @@ from korean import to_speech  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 
 # 색
-NAVY = (11, 27, 51); NAVY2 = (24, 46, 82); GOLD = (214, 172, 82); GOLD_D = (168, 120, 34); GOLD_L = (228, 199, 141)
+NAVY = (11, 27, 51); NAVY2 = (24, 46, 82); GOLD = (214, 186, 129); GOLD_D = (168, 144, 97); GOLD_L = (228, 206, 161)
 PAPER = (244, 243, 239); GRID = (228, 226, 220); INK = (24, 32, 46); MUTED = (120, 128, 140); LINE = (200, 204, 212)
-IVORY = (246, 241, 232); RED = (214, 82, 62); WHITE = (255, 255, 255)
+IVORY = (246, 241, 232); RED = (214, 53, 53); WHITE = (255, 255, 255)
 TH = {"light": {"bg": PAPER, "ink": INK, "muted": MUTED, "acc": GOLD_D, "card": WHITE, "line": LINE},
       "dark": {"bg": NAVY, "ink": IVORY, "muted": (150, 162, 182), "acc": GOLD_L, "card": NAVY2, "line": (60, 80, 112)}}
 MONO = None
@@ -220,7 +220,7 @@ def draw(sc, V, u, lines, theme, media):
             y = 300 + i * 130; on = cur and cur.get("i") == i
             d.text((160, y + 14), lab, font=fitF(d, lab, "Bold", 42, 420), fill=A(t["ink"], p))
             col = GOLD if on else (NAVY if theme == "light" else (120, 146, 190))
-            if v.get("neg"): col = RED if (len(it) > 4 and it[4]) else ((150, 60, 50) if theme == "dark" else (226, 150, 138))
+            if v.get("neg"): col = RED if (len(it) > 4 and it[4]) else ((150, 44, 44) if theme == "dark" else (226, 129, 129))
             if cur and not on: col = tuple(int(c * .45 + 235 * .55) for c in col)
             ww = 1000 * val / mx * p; d.rounded_rectangle([600, y, 600 + max(8, ww), y + 76], 10, fill=A(col, min(1, p * 3)))
             d.text((620 + ww, y + 12), (fill(it[3], V) if len(it) > 3 else f"{val:g}{v.get('suffix', '')}"), font=F("ExtraBold", 46), fill=A(RED if v.get("neg") else t["ink"], p))
@@ -858,7 +858,7 @@ def clean_voice(l, speak):
 
 def make_thumb(spec, V, out):
     """썸네일 (2026-10-22 운영자: 머니스웨거처럼 단순·직관·자극적으로) — 관련 사진 한 장 + 굵은 두 줄(흰색 + 노란색 질문)"""
-    tv = spec["thumb"]; TW, TH_ = 1280, 720; YEL = (255, 206, 46)
+    tv = spec["thumb"]; TW, TH_ = 1280, 720; YEL = (255, 219, 148)
     ph = tv.get("photo") and os.path.join(ROOT, "scripts", "blog", "media", "lib", tv["photo"])
     if ph and os.path.exists(ph):
         im = Image.open(ph).convert("RGB"); sc_ = max(TW / im.width, TH_ / im.height)
@@ -880,7 +880,7 @@ def make_thumb(spec, V, out):
     while d.textlength(l2, font=f2) > maxw: f2 = F("Heavy", f2.size - 6)
     pos = tv.get("pos", "top")   # 2026-10-22 운영자: 테두리 없이 그림자만 (예시: '얼마 벌고 얼마 쓸까'). center = 회사 로고 + 두 줄을 가운데에
     if pos in ("center", "left"):
-        LX = 72; YEL = tuple(tv.get("accent", (242, 196, 104)))   # 2026-10-22: 노랑 대신 은은한 골드, 왼쪽 정렬
+        LX = 72; YEL = tuple(tv.get("accent", (242, 212, 151)))   # 2026-10-22: 노랑 대신 은은한 골드, 왼쪽 정렬
         f1 = F("Heavy", tv.get("s1", 78)); f2 = F("Heavy", tv.get("s2", 138))
         co = tv.get("co_logo") and os.path.join(HERE, "assets", tv["co_logo"]); card = None
         if co and os.path.exists(co):
@@ -898,7 +898,7 @@ def make_thumb(spec, V, out):
         if bdg:
             dd = ImageDraw.Draw(th); bw = dd.textlength(bdg, font=fbg) + 52; bx = (TW - bw) / 2 if pos == "center" else LX; bh = fbg.size + 30
             sdb = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sdb).rounded_rectangle([bx + 3, y0 + 5, bx + bw + 3, y0 + bh + 5], 12, fill=(0, 0, 0, 150)); th = Image.alpha_composite(th, sdb.filter(ImageFilter.GaussianBlur(6)))
-            dd = ImageDraw.Draw(th); dd.rounded_rectangle([bx, y0, bx + bw, y0 + bh], 12, fill=(214, 172, 82)); dd.text((bx + 26, y0 + 10), bdg, font=fbg, fill=(11, 27, 51)); y0 += bh + 28
+            dd = ImageDraw.Draw(th); dd.rounded_rectangle([bx, y0, bx + bw, y0 + bh], 12, fill=(214, 186, 129)); dd.text((bx + 26, y0 + 10), bdg, font=fbg, fill=(11, 27, 51)); y0 += bh + 28
         for (txt, f, col) in ((l1, f1, WHITE), (l2, f2, YEL)):
             tw_ = ImageDraw.Draw(th).textlength(txt, font=f); x_ = (TW - tw_) / 2 if pos == "center" else LX
             for blur, off, alpha in ((14, 6, 160), (4, 3, 170)):

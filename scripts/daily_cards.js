@@ -74,21 +74,21 @@ const CSS = `@font-face{font-family:SUIT;src:url(data:font/woff2;base64,${fs.rea
 body{font-family:SUIT,sans-serif;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
 .s{position:relative;width:1080px;height:1350px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#17283F 0%,#0E1B2E 55%,#0A1322 100%);color:#F3EEE3}
 .top{position:absolute;left:84px;right:84px;top:64px;display:flex;justify-content:space-between;align-items:center;z-index:5}
-.wm{font-weight:700;font-size:30px;letter-spacing:-.02em}.wm .ko{font-weight:600;font-size:24px;color:#8F9AAB;margin-left:14px;letter-spacing:.04em}.cta .wm .ko{color:#7A8394}.wm i{font-style:normal;color:#E2C489}.pg{color:#8F9AAB;font-size:26px}
-em{font-style:normal;color:#E2C489}
+.wm{font-weight:700;font-size:30px;letter-spacing:-.02em}.wm .ko{font-weight:600;font-size:24px;color:#8F9AAB;margin-left:14px;letter-spacing:.04em}.cta .wm .ko{color:#7A8394}.wm i{font-style:normal;color:#E2CC9F}.pg{color:#8F9AAB;font-size:26px}
+em{font-style:normal;color:#E2CC9F}
 .hook .body,.cta .body{position:absolute;left:84px;right:84px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center}
-.k{color:#E2C489;font-size:34px;font-weight:700;margin-bottom:34px}
+.k{color:#E2CC9F;font-size:34px;font-weight:700;margin-bottom:34px}
 .hook h1{font-size:84px;line-height:1.22;font-weight:800;letter-spacing:-.045em}
 .hook .sub{margin-top:44px;font-size:40px;line-height:1.55;color:#C7CEDA;font-weight:500}
-.swipe{position:absolute;left:84px;bottom:64px;font-size:28px;color:#E2C489;font-weight:700}
-.chips{margin-top:40px;display:flex;flex-wrap:wrap;gap:16px}.chip{border:2px solid rgba(226,196,137,.5);border-radius:999px;padding:14px 26px;font-size:32px;font-weight:700;color:#F3EEE3}
+.swipe{position:absolute;left:84px;bottom:64px;font-size:28px;color:#E2CC9F;font-weight:700}
+.chips{margin-top:40px;display:flex;flex-wrap:wrap;gap:16px}.chip{border:2px solid rgba(226,204,159,.5);border-radius:999px;padding:14px 26px;font-size:32px;font-weight:700;color:#F3EEE3}
 .shot .head{position:absolute;left:84px;right:84px;top:140px;z-index:4}
 .shot h2{font-size:58px;line-height:1.25;font-weight:800;letter-spacing:-.04em}
 .shot .sub{margin-top:18px;font-size:34px;line-height:1.5;color:#C7CEDA;font-weight:500}
 .phone{position:absolute;left:50%;transform:translateX(-50%);width:720px;border-radius:72px;background:#05080F;padding:20px;box-shadow:0 0 0 2px #2A3A52,0 40px 90px rgba(0,0,0,.55)}
 .screen{position:relative;width:680px;border-radius:54px;overflow:hidden;background:#fff}.screen img{display:block;width:680px}
-.cta{background:#F3EEE3;color:#0A1322}.cta .wm{color:#0A1322}.cta .wm i{color:#A8823F}.cta .pg{color:#7A8394}
-.cta h2{font-size:76px;line-height:1.25;font-weight:800;letter-spacing:-.04em}.cta em{color:#A8823F}
+.cta{background:#F3EEE3;color:#0A1322}.cta .wm{color:#0A1322}.cta .wm i{color:#A89265}.cta .pg{color:#7A8394}
+.cta h2{font-size:76px;line-height:1.25;font-weight:800;letter-spacing:-.04em}.cta em{color:#A89265}
 .cta .sub{margin-top:36px;font-size:38px;line-height:1.55;color:#3A4558;font-weight:500}
 .btn{margin-top:56px;display:inline-flex;align-self:flex-start;background:#0A1322;color:#F3EEE3;border-radius:999px;padding:26px 40px;font-size:34px;font-weight:700}
 .handle{margin-top:28px;font-size:30px;color:#7A8394;font-weight:600}

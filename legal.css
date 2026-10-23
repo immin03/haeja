@@ -6,10 +6,10 @@
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"SUIT Variable","SUIT","Pretendard Variable",system-ui,-apple-system,sans-serif;word-break:keep-all;line-height:1.75;-webkit-font-smoothing:antialiased}
 header{background:radial-gradient(130% 160% at 50% -10%,#17283F 0%,#0E1A2B 45%,#0A1322 100%);position:relative}
-header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,#B48C47,#E4C78D 50%,#B48C47);opacity:.45}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,#B49C6D,#E4CEA1 50%,#B49C6D);opacity:.45}
 .hd{max-width:760px;margin:0 auto;padding:16px;display:flex;justify-content:space-between;align-items:center}
 .wm{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:21px;color:#F3EEE3;text-decoration:none}
-.wm i{font-style:italic;background:linear-gradient(90deg,#B48C47,#E4C78D 50%,#B48C47);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.wm i{font-style:italic;background:linear-gradient(90deg,#B49C6D,#E4CEA1 50%,#B49C6D);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
 .back{color:rgba(243,238,227,.75);font-size:13px;text-decoration:none}
 main{max-width:760px;margin:0 auto;padding:24px 16px 64px;font-size:15px}
 h1{font-size:24px;margin:8px 0 4px;letter-spacing:-.02em}

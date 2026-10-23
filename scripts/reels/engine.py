@@ -46,8 +46,8 @@ sys.path.insert(0, HERE)
 from korean import to_speech  # noqa: E402
 
 W, H, FPS, SR = 1080, 1920, 30, 44100
-NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (214, 172, 82); GOLD_D = (150, 118, 52)
-IVORY = (246, 241, 232); GRAY = (140, 152, 172); DIM = (78, 94, 122); LOSS = (232, 104, 80)
+NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (214, 186, 129); GOLD_D = (150, 129, 88)
+IVORY = (246, 241, 232); GRAY = (140, 152, 172); DIM = (78, 94, 122); LOSS = (232, 71, 71)
 GAIN = (96, 196, 150); GRID = (38, 58, 92)
 TONE = {"loss": LOSS, "gold": GOLD, "good": GAIN, "gray": GRAY, "ivory": IVORY}
 DISC_VIDEO = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다"
@@ -379,7 +379,7 @@ def s_list(img, u, sc, L, T):
     """목록: 큰 카드, 화면 가운데에 모아 둔다 (위에 몰리고 아래가 비지 않게)"""
     items = sc["items"]; n_ = max(1, len(items))
     big = n_ <= 5
-    gap, hh, fs = (150, 60, 54) if big else (124, 50, 46)
+    gap, hh, fs = (150, 48, 48) if big else (124, 41, 41)
     y0 = 880 - (n_ - 1) * gap / 2
     if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 76, 960), IVORY, (W / 2, max(400, y0 - 170)), dur=.35)
     span = L[0][1] * .9
@@ -834,7 +834,7 @@ def y_box(img, u, t0, y, label, value, col, filled=False, h=200):
     p = prog(u, t0, t0 + .45, ease_io)
     if p <= 0: return
     d = ImageDraw.Draw(img); off = int((1 - p) * 20)
-    fill = mix(NAVY, (52, 44, 22) if filled else NAVY2, p)
+    fill = mix(NAVY, (52, 45, 32) if filled else NAVY2, p)
     d.rounded_rectangle([150, y - h / 2 + off, W - 150, y + h / 2 + off], 32, fill=fill, outline=mix(NAVY, col, p), width=4)
     d.text((W / 2, y - 50 + off), label, font=fit_font(label, "Bold", 40, 720), fill=mix(NAVY, GRAY if not filled else GOLD, p), anchor="mm")
     pop(img, value, fit_font(value, "Heavy", 96, 720), mix(NAVY, col, p), (W / 2, y + 30 + off), alpha=p)
