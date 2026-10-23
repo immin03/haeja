@@ -430,15 +430,21 @@ def draw(sc, V, u, lines, theme, media):
     elif typ == "phone":
         draw_phone(img, d, v, u, lines, V, theme)
     elif typ == "media":
-        x = 160; y = 600  # 실사 위에 핵심 숫자가 하나씩 쌓인다 (자막 띠 위, 칩 폭은 글자에 맞춘다)
-        for i, c in enumerate(v.get("chips", [])):
-            a = pop(u, at_time(c.get("at"), lines)); s1, s2 = fill(c["v"], V), fill(c.get("l", ""), V)
-            f1 = fitF(d, s1, "Heavy", 64, 720); f2 = fitF(d, s2, "SemiBold", 32, 720)
-            cw_ = max(300, d.textlength(s1, font=f1), d.textlength(s2, font=f2)) + 64
-            if a > 0:
-                d.rounded_rectangle([x, y + 16 * (1 - a), x + cw_, y + 180 + 16 * (1 - a)], 16, fill=(10, 18, 32, int(205 * a)), outline=(255, 255, 255, int(60 * a)), width=2)
-                d.text((x + 32, y + 24 + 16 * (1 - a)), s1, font=f1, fill=A(GOLD_L, a)); d.text((x + 32, y + 118 + 16 * (1 - a)), s2, font=f2, fill=A(IVORY, a))
-            x += cw_ + 28
+        chips = v.get("chips", [])   # 2026-10-23 운영자: 숫자 카드는 화면 가운데에 같은 크기로 나란히
+        if chips:
+            ss = [(fill(c["v"], V), fill(c.get("l", ""), V)) for c in chips]
+            f1 = F("Heavy", 92); f2 = F("SemiBold", 36)
+            cw_ = max(380, max(max(d.textlength(a_, font=f1), d.textlength(b_, font=f2)) for a_, b_ in ss) + 96); cw_ = min(cw_, (W - 240 - 32 * (len(ss) - 1)) / len(ss))
+            ch_ = 230; gap = 32; x = (W - (cw_ * len(ss) + gap * (len(ss) - 1))) / 2; y = 400
+            for c, (s1, s2) in zip(chips, ss):
+                a = pop(u, at_time(c.get("at"), lines)); g1 = fitF(d, s1, "Heavy", 92, cw_ - 64); g2 = fitF(d, s2, "SemiBold", 36, cw_ - 48)
+                if a > 0:
+                    yy = y + 18 * (1 - a)
+                    d.rounded_rectangle([x + 6, yy + 10, x + cw_ + 6, yy + ch_ + 10], 22, fill=(0, 0, 0, int(90 * a)))
+                    d.rounded_rectangle([x, yy, x + cw_, yy + ch_], 22, fill=(10, 18, 32, int(215 * a)), outline=A(GOLD, a * .55), width=2)
+                    d.text((x + cw_ / 2 - d.textlength(s1, font=g1) / 2, yy + 34), s1, font=g1, fill=A(GOLD_L, a))
+                    d.text((x + cw_ / 2 - d.textlength(s2, font=g2) / 2, yy + 34 + g1.size + 30), s2, font=g2, fill=A(IVORY, a))
+                x += cw_ + gap
         if v.get("caption"):
             a = pop(u, at_time(v.get("caption_at"), lines)); s = fill(v["caption"], V); f = fitF(d, s, "Heavy", 80, W - 320)
             d.text((160, 200 + 20 * (1 - a)), s, font=f, fill=A(WHITE, a))
@@ -568,7 +574,7 @@ def backdrop_source(v, n_frames, seed):
     return media_source({"lib": v["backdrop"], "dim": v.get("bd_dim", .64)}, n_frames, seed + 500)
 
 # ── 안전 영역: 로고·장 제목(위)과 자막(아래)을 그래픽이 가리지 않게 ──
-SAFE = (110, 152, 1810, 900)   # 왼쪽, 위, 오른쪽, 아래 (천천히 다가가는 3% 확대까지 감안한 값)
+SAFE = (110, 152, 1810, 870)   # 왼쪽, 위, 오른쪽, 아래 (천천히 다가가는 3% 확대까지 감안한 값)
 
 
 def safe_fit(sc, s, V, theme):
@@ -709,9 +715,17 @@ def media_source(v, n_frames, seed):
 def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
     d = AD(img); t = TH[theme]
     lg = logo_dark if theme == "light" else logo_light
+    kf = F("Bold", 26); ks = "밸류노트"; kx0 = 60 + lg.width / 2 - (sum(d.textlength(ch, font=kf) for ch in ks) + 3 * 7) / 2; ky = 42 + lg.height + 8
+    if theme == "dark":   # 2026-10-23 운영자: 로고가 실사 위에서 잘 안 보인다 → 은은한 그림자로 또렷하게
+        if "logo_shadow" not in _bg:
+            sh = Image.new("RGBA", (520, 240)); sh.paste((0, 0, 0, 255), (60, 42), lg.getchannel("A")); sd_ = ImageDraw.Draw(sh); kx = kx0
+            for ch in ks: sd_.text((kx, ky), ch, font=kf, fill=(0, 0, 0, 255)); kx += sd_.textlength(ch, font=kf) + 7
+            al = sh.getchannel("A").filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(9)).point(lambda q: int(q * .7))
+            _bg["logo_shadow"] = al
+        img.paste((0, 0, 0), (0, 0), _bg["logo_shadow"]); d = AD(img)
     img.paste(lg, (60, 42), lg)
-    kf = F("Bold", 24); ks = "밸류노트"; kx = 60 + lg.width / 2 - (d.textlength(ks, font=kf) + 3 * 6) / 2
-    for ch in ks: d.text((kx, 42 + lg.height + 6), ch, font=kf, fill=A(t["ink"] if theme == "light" else IVORY, .8)); kx += d.textlength(ch, font=kf) + 6
+    kx = kx0
+    for ch in ks: d.text((kx, ky), ch, font=kf, fill=A(t["ink"] if theme == "light" else IVORY, 1)); kx += d.textlength(ch, font=kf) + 7
     d.rectangle([0, 0, W, 6], fill=(220, 220, 214) if theme == "light" else (20, 36, 62)); d.rectangle([0, 0, int(W * frac), 6], fill=GOLD)
     if chapter:
         f = F("SemiBold", 28); tw = d.textlength(chapter, font=f)
@@ -745,7 +759,7 @@ def subtitle2(img, text, u_in, dur):
         if u_in < dur * (acc + len(pg)) / tot or pi == len(pages) - 1: start = dur * acc / tot; break
         acc += len(pg)
     l = pages[pi]; a = clamp((u_in - start) / .12) if pi else clamp(u_in / .15 + .3)
-    tw = d.textlength(l, font=f); x = (W - tw) / 2; y = H - 128
+    tw = d.textlength(l, font=f); x = (W - tw) / 2; y = H - 160   # 2026-10-23 운영자: 자막을 살짝 위로
     d.rounded_rectangle([x - 20, y - 8, x + tw + 20, y + 56], 12, fill=(8, 14, 26, int(205 * a)))
     d.text((x, y), l, font=f, fill=(255, 255, 255, int(255 * a)))
     for m in re.finditer(r"[+\-−]?\d[\d,.]*(?:\s?(?:조|억|만|천))*(?:\s?\d[\d,]*\s?(?:억|만|천))*\s?(?:원|%p|%|배|점|년|분기|곳|개)?", l):
