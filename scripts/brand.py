@@ -2,7 +2,7 @@
 
 모양: 'Value'(흰색) + 'Note'(아이보리 베이지) — Montserrat ExtraBold
       그 아래 얇은 금색 줄, 그 아래 가운데 '밸류노트'(SUIT Bold, 영문의 약 0.5배, 자간 넓게)
-밝은 배경에서는 Value = 네이비, Note·줄·한글 = 짙은 금색.
+밝은 배경에서는 Value = 네이비, Note·줄·한글 = 금빛을 조금 뺀 아이보리(#AE9260).
 사용: from brand import logo_image, paste_logo
       paste_logo(img, x, y, size=46, theme="dark", align="left")   # size = 영문 글자 크기(px)
 """
@@ -16,7 +16,7 @@ KO_FONT = os.path.join(FONTS, "SUIT-Bold.ttf")
 
 COLORS = {
     "dark": {"value": (255, 255, 255), "note": (226, 207, 166), "line": (206, 180, 128), "ko": (226, 207, 166)},
-    "light": {"value": (11, 27, 51), "note": (160, 122, 52), "line": (196, 166, 104), "ko": (140, 106, 44)},
+    "light": {"value": (11, 27, 51), "note": (174, 146, 96), "line": (192, 168, 124), "ko": (158, 132, 86)},   # 2026-10-23: 금빛에서 조금 빠진 아이보리
 }
 _cache = {}
 

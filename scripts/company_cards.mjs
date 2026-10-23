@@ -133,7 +133,7 @@ const br = (s) => esc(s).replace(/\n/g, '<br>').replace(/\*\*(.+?)\*\*/g, '<em>$
 const CSS = `@font-face{font-family:SUIT;src:url(data:font/woff2;base64,${fs.readFileSync(SUIT).toString('base64')}) format('woff2');font-weight:100 900}
 @font-face{font-family:VNM;src:url(data:font/ttf;base64,${fs.readFileSync(new URL('./reels/fonts/Montserrat-ExtraBold.ttf', import.meta.url)).toString('base64')}) format('truetype');font-weight:800}
 .wm{display:inline-flex!important;flex-direction:column;align-items:center;line-height:1}.wm .e{font-family:VNM,SUIT,sans-serif;font-weight:800;font-size:30px;letter-spacing:-.01em;padding-bottom:6px;border-bottom:1px solid #CEB480;color:#fff}.wm i{font-style:normal;color:#E2CFA6!important}.wm .ko{margin:9px 0 0!important;font-weight:700!important;font-size:15px!important;letter-spacing:.24em!important;padding-left:.24em;color:#E2CFA6!important}
-.cta .wm .e{color:#0A1322;border-color:#C4A668}.cta .wm i,.cta .wm .ko{color:#9C7634!important}
+.cta .wm .e{color:#0A1322;border-color:#C0A87C}.cta .wm i,.cta .wm .ko{color:#AE9260!important}
 .logo{display:inline-flex;flex-direction:column;align-items:center;font-family:VNM,SUIT,sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;line-height:1}.logo .e{padding-bottom:.18em;border-bottom:2px solid #CEB480}.logo i{font-style:normal!important;color:#E2CFA6!important}.logo small{display:block;margin-top:.3em;font-family:SUIT,sans-serif;font-weight:700;font-size:.42em;letter-spacing:.24em;padding-left:.24em;color:#E2CFA6}
 *{box-sizing:border-box;margin:0;padding:0}html,body{width:1080px;height:1350px}
 body{font-family:SUIT,sans-serif;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
