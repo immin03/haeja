@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 # 색
 NAVY = (11, 27, 51); NAVY2 = (24, 46, 82); GOLD = (224, 200, 150); GOLD_D = (168, 144, 97); GOLD_L = (234, 219, 185)
 PAPER = (244, 243, 239); GRID = (228, 226, 220); INK = (24, 32, 46); MUTED = (120, 128, 140); LINE = (200, 204, 212)
-IVORY = (246, 241, 232); RED = (214, 53, 53); WHITE = (255, 255, 255)
+IVORY = (246, 241, 232); RED = (255, 77, 109); WHITE = (255, 255, 255)
 TH = {"light": {"bg": PAPER, "ink": INK, "muted": MUTED, "acc": GOLD_D, "card": WHITE, "line": LINE},
       "dark": {"bg": NAVY, "ink": IVORY, "muted": (150, 162, 182), "acc": GOLD_L, "card": NAVY2, "line": (60, 80, 112)}}
 MONO = None
@@ -220,7 +220,7 @@ def draw(sc, V, u, lines, theme, media):
             y = 300 + i * 130; on = cur and cur.get("i") == i
             d.text((160, y + 14), lab, font=fitF(d, lab, "Bold", 42, 420), fill=A(t["ink"], p))
             col = GOLD if on else (NAVY if theme == "light" else (120, 146, 190))
-            if v.get("neg"): col = RED if (len(it) > 4 and it[4]) else ((150, 44, 44) if theme == "dark" else (226, 129, 129))
+            if v.get("neg"): col = RED if (len(it) > 4 and it[4]) else ((170, 61, 79) if theme == "dark" else (254, 151, 168))
             if cur and not on: col = tuple(int(c * .45 + 235 * .55) for c in col)
             ww = 1000 * val / mx * p; d.rounded_rectangle([600, y, 600 + max(8, ww), y + 76], 10, fill=A(col, min(1, p * 3)))
             d.text((620 + ww, y + 12), (fill(it[3], V) if len(it) > 3 else f"{val:g}{v.get('suffix', '')}"), font=F("ExtraBold", 46), fill=A(RED if v.get("neg") else t["ink"], p))

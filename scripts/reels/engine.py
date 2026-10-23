@@ -47,7 +47,7 @@ from korean import to_speech  # noqa: E402
 
 W, H, FPS, SR = 1080, 1920, 30, 44100
 NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (224, 200, 150); GOLD_D = (150, 129, 88)
-IVORY = (246, 241, 232); GRAY = (140, 152, 172); DIM = (78, 94, 122); LOSS = (232, 71, 71)
+IVORY = (246, 241, 232); GRAY = (140, 152, 172); DIM = (78, 94, 122); LOSS = (255, 77, 109)
 GAIN = (96, 196, 150); GRID = (38, 58, 92)
 TONE = {"loss": LOSS, "gold": GOLD, "good": GAIN, "gray": GRAY, "ivory": IVORY}
 DISC_VIDEO = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다"
@@ -379,7 +379,7 @@ def s_list(img, u, sc, L, T):
     """목록: 큰 카드, 화면 가운데에 모아 둔다 (위에 몰리고 아래가 비지 않게)"""
     items = sc["items"]; n_ = max(1, len(items))
     big = n_ <= 5
-    gap, hh, fs = (150, 48, 48) if big else (124, 41, 41)
+    gap, hh, fs = (192, 84, 102) if big else (161, 71, 86)
     y0 = 880 - (n_ - 1) * gap / 2
     if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 76, 960), IVORY, (W / 2, max(400, y0 - 170)), dur=.35)
     span = L[0][1] * .9
@@ -460,7 +460,7 @@ def s_statement(img, u, sc, L, T):
                 d.ellipse([cx - w * .8, y0 + Lh - w * .9, cx + w * .8, y0 + Lh + w * .7], fill=LOSS)
     else:
         wl = prog(u, t2 + .3, t2 + .8) * 420
-        d.line([(W / 2 - wl / 2, 990), (W / 2 + wl / 2, 990)], fill=tone, width=6)
+        d.line([(W / 2 - wl / 2, 990), (W / 2 + wl / 2, 990)], fill=GOLD if tone == LOSS else tone, width=6)   # 2026-10-23: 핑크레드 강조 아래 밑줄은 아이보리
     ys = 1300 if fx == "melt" else 1120
     if sc.get("sub"):
         a, b = sc["sub"]

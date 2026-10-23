@@ -16,7 +16,7 @@ export function companyCard(row, date) {
   const nameSize = name.length > 28 ? 46 : name.length > 14 ? 58 : name.length > 9 ? 70 : 84;
   const gap = mos == null ? null : mos >= 0
     ? h('div', { fontSize: 32, fontWeight: 800, color: '#7FD3A8' }, `적정 주가보다 ${mos}% 저평가`)
-    : h('div', { fontSize: 32, fontWeight: 800, color: '#F08D8D' }, `적정 주가보다 ${-mos}% 고평가`);
+    : h('div', { fontSize: 32, fontWeight: 800, color: '#FF9BAC' }, `적정 주가보다 ${-mos}% 고평가`);
   return h('div', { width: 1200, height: 630, flexDirection: 'column', justifyContent: 'space-between', padding: '56px 72px', background: 'linear-gradient(150deg,#1A2C46 0%,#0E1A2B 60%,#0A1322 100%)', color: '#F3EEE3', fontFamily: 'P' },
     h('div', { justifyContent: 'space-between', alignItems: 'center' },
       h('div', { alignItems: 'baseline', fontSize: 40, fontWeight: 900, letterSpacing: -1 }, 'Value', h('span', { color: '#EADBB9' }, 'Note'), h('span', { fontSize: 26, color: '#C9AF7A', marginLeft: 16, fontWeight: 700 }, '밸류노트')),

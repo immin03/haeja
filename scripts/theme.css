@@ -4,19 +4,19 @@
   --navy:#0E1A2B; --navy-2:#16243A; --gold:#C9B180; --gold-soft:#F4ECDC;
   --bg:#F5F3EE; --surface:#FFFFFF; --ink:#0E1A2B; --muted:#646E7E; --line:#E6E1D6;
   --accent:#2D7A5F; --accent-soft:#E3F0EA; --warn:#A8761C; --warn-soft:#F7EDD8;
-  --bad:#C02A2A; --bad-soft:#F8E3E0; --up:#D23434; --down:#2E64C8;
+  --bad:#D8415A; --bad-soft:#F8E3E0; --up:#EC4C66; --down:#2E64C8;
   --r:16px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --navy:#070C15; --navy-2:#111B2B; --gold:#D8BF8E; --gold-soft:#2A251C;
   --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
   --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E281C;
-  --bad:#F06666; --bad-soft:#331616; --up:#FF6767; --down:#78A6FF; color-scheme:dark}}
+  --bad:#FF788F; --bad-soft:#3D1D23; --up:#FF748B; --down:#78A6FF; color-scheme:dark}}
 :root[data-theme="dark"]{
   --navy:#070C15; --navy-2:#111B2B; --gold:#D8BF8E; --gold-soft:#2A251C;
   --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
   --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E281C;
-  --bad:#F06666; --bad-soft:#331616; --up:#FF6767; --down:#78A6FF; color-scheme:dark}
+  --bad:#FF788F; --bad-soft:#3D1D23; --up:#FF748B; --down:#78A6FF; color-scheme:dark}
 
 html,body{margin:0;padding:0}
 body{font-family:var(--font);letter-spacing:-.01em;background:var(--bg)}
@@ -54,8 +54,8 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 /* 포트폴리오 맨 위 카드: 네이비 그라데이션 */
 .pf-top{
   --ink:#F3EFE6; --muted:#A3ADBE; --line:rgba(255,255,255,.12); --surface:#1A2940; --bg:#13203A;
-  --up:#FF7474; --down:#86B6FF; --accent:#66CFA4; --accent-soft:rgba(102,207,164,.14);
-  --warn:#E9BC64; --warn-soft:rgba(233,204,145,.14); --bad:#FF7474; --bad-soft:rgba(255,116,116,.14);
+  --up:#FF7F94; --down:#86B6FF; --accent:#66CFA4; --accent-soft:rgba(102,207,164,.14);
+  --warn:#E9BC64; --warn-soft:rgba(233,204,145,.14); --bad:#FF7F94; --bad-soft:rgba(255,127,148,.14);
   background:linear-gradient(160deg,#16243A 0%,#0E1A2B 70%);border:0;color:var(--ink);
   box-shadow:0 10px 30px rgba(14,26,43,.25)}
 .pf-top .eyebrow{color:var(--gold)}
@@ -76,26 +76,26 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 
 /* ===== 톤 맞춘 데이터 색: 골드·슬레이트·세이지·코퍼·더스티 바이올렛·샌드 ===== */
 :root{
-  --s1:#B09868; --s2:#5C6F8C; --s3:#4F7F76; --s4:#A84343; --s5:#6B6799; --s6:#C2B292; --series:#5C6F8C;
-  --up:#C83737; --down:#3D6BB3;
+  --s1:#B09868; --s2:#5C6F8C; --s3:#4F7F76; --s4:#BE5567; --s5:#6B6799; --s6:#C2B292; --series:#5C6F8C;
+  --up:#E14D66; --down:#3D6BB3;
   --c-core:#B09868; --c-exp:#8C97A8; --c-cash:#E2DCCF;
-  --s7:#7D8C4A; --s8:#A35353; --s9:#3E8AA0; --s10:#8E8064; --s11:#5B8A5E; --s12:#8A5FA0;
+  --s7:#7D8C4A; --s8:#B86472; --s9:#3E8AA0; --s10:#8E8064; --s11:#5B8A5E; --s12:#8A5FA0;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --s1:#D8BF8E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
-  --up:#EE7474; --down:#86AEEA;
+  --up:#FF869A; --down:#86AEEA;
   --c-core:#D8BF8E; --c-exp:#6F7C90; --c-cash:#2A3546;
   --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9B895; --s11:#94C497; --s12:#BE9AD2;
 }}
 :root[data-theme="dark"]{
   --s1:#D8BF8E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
-  --up:#EE7474; --down:#86AEEA;
+  --up:#FF869A; --down:#86AEEA;
   --c-core:#D8BF8E; --c-exp:#6F7C90; --c-cash:#2A3546;
   --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9B895; --s11:#94C497; --s12:#BE9AD2;
 }
 .pf-top{
   --s1:#D8BF8E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4;
-  --up:#EE7474; --down:#8DB4EC}
+  --up:#FF869A; --down:#8DB4EC}
 .pf-top .pf-bar{gap:3px;height:8px}
 .pf-top .pf-bar i{border-radius:4px}
 .pf-dot{border-radius:50%;width:9px;height:9px}

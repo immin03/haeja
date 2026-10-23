@@ -155,7 +155,7 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .note{font-size:30px;line-height:1.55;color:#C7CEDA;margin-top:20px}
 .px{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:46px}.px>div{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:28px;padding:34px 30px}
 .px .t{font-size:30px;color:#8F9AAB;font-weight:600}.px .v{font-size:58px;font-weight:800;margin-top:10px;letter-spacing:-.03em}
-.mos{font-size:64px;font-weight:900;letter-spacing:-.03em}.pos{color:#7FD1A8}.neg{color:#F06E6E}
+.mos{font-size:64px;font-weight:900;letter-spacing:-.03em}.pos{color:#7FD1A8}.neg{color:#FF7F95}
 .rows div{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid rgba(255,255,255,.1);padding:26px 0;font-size:38px;font-weight:600}.rows div:first-child{border-top:0}.rows b{font-size:44px;font-weight:800}
 .rows small{display:block;font-size:26px;color:#8F9AAB;font-weight:500;margin-top:4px}
 .lead{font-size:44px;line-height:1.5;font-weight:700;color:#F3EEE3}
@@ -163,7 +163,7 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .steps .n{flex:0 0 64px;height:64px;border-radius:50%;background:#E2CC9F;color:#0A1322;font-weight:900;font-size:32px;display:flex;align-items:center;justify-content:center}
 .steps .tx{flex:1;font-size:38px;font-weight:700}.steps small{display:block;font-size:27px;color:#8F9AAB;font-weight:500;margin-top:6px;line-height:1.4}.steps b{font-size:42px;font-weight:800;color:#E2CC9F;text-align:right}
 .alt{margin-top:26px;border-left:6px solid #E2CC9F;padding:10px 0 10px 34px}
-.flags{margin-top:30px;display:flex;flex-wrap:wrap;gap:14px}.flag{border-radius:999px;padding:12px 24px;font-size:30px;font-weight:700;background:rgba(240,110,110,.16);color:#F59B9B}.flag.w{background:rgba(255,255,255,.1);color:#C7CEDA}
+.flags{margin-top:30px;display:flex;flex-wrap:wrap;gap:14px}.flag{border-radius:999px;padding:12px 24px;font-size:30px;font-weight:700;background:rgba(255,127,149,.16);color:#FFA5B4}.flag.w{background:rgba(255,255,255,.1);color:#C7CEDA}
 .cta{background:#F3EEE3;color:#0A1322}.cta .wm{color:#0A1322}.cta .wm i{color:#A89265}.cta .wm .ko,.cta .pg{color:#7A8394}
 .cta h2{font-size:76px;margin-bottom:0}.cta em{color:#A89265}.cta .sub{color:#3A4558}
 .btn{margin-top:56px;display:inline-flex;align-self:flex-start;background:#0A1322;color:#F3EEE3;border-radius:999px;padding:26px 40px;font-size:34px;font-weight:700}
@@ -174,20 +174,20 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .vis{position:absolute;left:84px;right:84px;top:170px;height:560px;display:flex;flex-direction:column;justify-content:center}
 .vis-low{top:650px;height:420px}
 .txt{position:absolute;left:84px;right:84px;top:760px}
-.txt .no{color:#E87575;font-size:32px;font-weight:800;letter-spacing:.06em;margin-bottom:18px}
+.txt .no{color:#FF899D;font-size:32px;font-weight:800;letter-spacing:.06em;margin-bottom:18px}
 .txt h3{font-size:64px;line-height:1.22;font-weight:800;letter-spacing:-.04em}
-.txt .acc{margin-top:22px;font-size:38px;font-weight:700;color:#E87575;line-height:1.4}
+.txt .acc{margin-top:22px;font-size:38px;font-weight:700;color:#FF899D;line-height:1.4}
 .txt .bd{margin-top:18px;font-size:32px;line-height:1.55;color:#AEB8C8}
 .bars2{display:flex;flex-direction:column;gap:40px}
 .b2l{font-size:32px;color:#C7CEDA;font-weight:600;margin-bottom:14px}.b2t{height:56px;border-radius:16px;background:rgba(255,255,255,.07);overflow:hidden}.b2t i{display:block;height:100%;border-radius:16px}
 .b2v{font-size:46px;font-weight:900;margin-top:12px;letter-spacing:-.02em}
 .bars2.b3{gap:22px}.b3 .b2l{font-size:28px;margin-bottom:10px}.b3 .b2t{height:44px}.b3 .b2v{font-size:38px;margin-top:8px}
-.gap{margin-top:30px;font-size:48px;font-weight:900}.gap.neg{color:#F06E6E}.gap.pos{color:#7FD1A8}
+.gap{margin-top:30px;font-size:48px;font-weight:900}.gap.neg{color:#FF7F95}.gap.pos{color:#7FD1A8}
 .vis .steps>div{padding:26px 0}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.grid div{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:26px;padding:32px 30px}
 .grid span{display:block;font-size:28px;color:#8F9AAB;font-weight:600}.grid b{display:block;font-size:60px;font-weight:900;margin-top:8px;letter-spacing:-.03em}
 .quote{position:absolute;left:84px;right:84px;top:0;bottom:250px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.ql span{display:inline-block;font-size:70px;line-height:1.5;font-weight:800;letter-spacing:-.04em;border-bottom:5px solid #E87575;margin:6px 0}.ql{display:flex;flex-direction:column;align-items:center}
+.ql span{display:inline-block;font-size:70px;line-height:1.5;font-weight:800;letter-spacing:-.04em;border-bottom:5px solid #FF899D;margin:6px 0}.ql{display:flex;flex-direction:column;align-items:center}
 .qs{margin-top:40px;font-size:28px;color:#8F9AAB}
 .chk{display:flex;flex-direction:column;gap:26px}.chk div{display:flex;align-items:center;gap:28px;font-size:44px;font-weight:700;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:26px;padding:34px 32px}
 .cb{flex:0 0 64px;height:64px;border-radius:16px;border:4px solid #E2CC9F;color:#E2CC9F;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900}
@@ -206,7 +206,7 @@ h2{font-size:60px;line-height:1.25;font-weight:800;letter-spacing:-.04em;margin-
 .rnm{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.rnm b{font-size:42px;font-weight:800;letter-spacing:-.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rnm small,.rv small{font-size:24px;color:#8F9AAB;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rv{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;max-width:52%}.rv b{font-size:34px;font-weight:900}
-.rv b.pos{color:#7FD1A8}.rv b.neg{color:#F06E6E}
+.rv b.pos{color:#7FD1A8}.rv b.neg{color:#FF7F95}
 .rk.hide .rnm b{filter:blur(9px)}
 `;
 
@@ -314,7 +314,7 @@ function bars(items, unit) {
 function cards(x, a) {
   const { r, sc } = x, cur = r.cur || 'KRW', f = r.fin || {}, val = r.val || {}, g = grpOf(r.m);
   const M = (v) => money(v, cur), code = r.code || r.t, R = a.ratio, over = R !== null && R > 1;
-  const GOLD = '#E2CC9F', RED = '#F06E6E', GREEN = '#7FD1A8', GRAY = '#8F9AAB';
+  const GOLD = '#E2CC9F', RED = '#FF7F95', GREEN = '#7FD1A8', GRAY = '#8F9AAB';
   const out = [];
   // 1. 표지: 질문형 제목 + 지금 주가 vs 적정 주가 막대
   out.push(`<div class="cover"><div class="k">${MODE === 'b' ? '저평가 기업 분석' : MODE === 'am' ? '좋은 회사, 비싼 가격' : '오늘의 기업 분석'} · ${MKT[g]}</div><h1>${br(hook(r, sc, a))}</h1></div>

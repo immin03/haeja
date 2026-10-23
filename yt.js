@@ -19,7 +19,7 @@
   + '.vnyt *{box-sizing:border-box}'
   + '.vnyt-card{background:linear-gradient(165deg,var(--yn2),var(--yn) 70%);border-radius:18px;overflow:hidden;color:var(--yi);box-shadow:0 10px 26px rgba(10,23,48,.16)}'
   + '.vnyt-top{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;font-size:12.5px;font-weight:800;color:var(--yg);letter-spacing:.02em}'
-  + '.vnyt-top .vnyt-dot{width:7px;height:7px;border-radius:50%;background:#FF3838;flex:none}'
+  + '.vnyt-top .vnyt-dot{width:7px;height:7px;border-radius:50%;background:#FF4D6A;flex:none}'
   + '.vnyt-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;cursor:pointer;display:block;border:0;padding:0}'
   + '.vnyt-frame img,.vnyt-frame iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;display:block}'
   + '.vnyt-play{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:14px;background:#FF0000;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:transform .15s}'

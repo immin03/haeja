@@ -35,7 +35,7 @@ const VNL = (size, st = {}) => h('div', { flexDirection: 'column', alignItems: '
   h('div', { fontFamily: 'P', fontSize: Math.round(size * .5), fontWeight: 700, letterSpacing: Math.round(size * .11), paddingLeft: Math.round(size * .11), marginTop: Math.round(size * .3), color: '#EADBB9', lineHeight: 1 }, '밸류노트'));
 
 const SITE = 'https://www.valuenote.co.kr';
-const C = { navy: '#0E1A2B', navy2: '#1A2C46', ink: '#F3EEE3', mute: '#AEB8C8', dim: '#8E9AAD', gold: '#EADBB9', gold2: '#C9AF7A', up: '#7FD3A8', down: '#F08D8D', line: 'rgba(255,255,255,.12)' };
+const C = { navy: '#0E1A2B', navy2: '#1A2C46', ink: '#F3EEE3', mute: '#AEB8C8', dim: '#8E9AAD', gold: '#EADBB9', gold2: '#C9AF7A', up: '#7FD3A8', down: '#FF9BAC', line: 'rgba(255,255,255,.12)' };
 const MKT = { KR: '국내', US: '미국', JP: '일본', HK: '홍콩', CN: '중국 A' };
 const MKT_LONG = { KR: '국내 주식', US: '미국 주식', JP: '일본 주식', HK: '홍콩 주식', CN: '중국 A주' };
 const isNum = (v) => typeof v === 'number' && isFinite(v);

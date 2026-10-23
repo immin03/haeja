@@ -127,7 +127,7 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .btn.line{background:transparent;border:1px solid var(--line);color:var(--ink);width:100%}
 .agree{display:block;margin-top:10px;font-size:12px;color:rgba(247,242,232,.6);line-height:1.55}
 .agree a{color:rgba(247,242,232,.85)}
-.err{color:#FFA0A0;font-size:13px;margin-top:8px;min-height:1px}
+.err{color:#FFA7B6;font-size:13px;margin-top:8px;min-height:1px}
 .cta{margin-top:30px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 18px}
 .cta h3{margin:0 0 6px;font-size:18px}.cta p{margin:0 0 14px;color:var(--muted);font-size:14.5px}
 .cta .row{display:grid;gap:8px}

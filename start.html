@@ -35,7 +35,7 @@
 :root{
   --navy:#0A1730; --navy2:#0E2342; --navy3:#13305A; --gold:#EADBB9; --gold2:#C9AF7A;
   --ivory:#F7F2E8; --paper:#FBF8F2; --ink:#14213A; --muted:#5D6779; --line:#E6DFD1;
-  --good:#1F8A5B; --bad:#C23535; --warn:#C98A12; --up:#D22F2F; --down:#2C62C9;
+  --good:#1F8A5B; --bad:#DB4B63; --warn:#C98A12; --up:#EC4762; --down:#2C62C9;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -118,7 +118,7 @@ button{font:inherit;cursor:pointer}
 #sbox{margin-top:14px}
 #sbox .chips{margin:0 0 10px}
 .fcl{background:rgba(255,255,255,.07);border:1px solid rgba(234,219,185,.28);border-radius:14px;padding:9px 13px;margin-top:8px;font-size:14px;font-weight:600;line-height:1.5;color:rgba(247,242,232,.88)}
-.fcl b{color:#fff}.fcl em{font-style:normal;color:#FF7A7A;font-weight:850;white-space:nowrap}.fcl em.ok{color:#7FD3A6}
+.fcl b{color:#fff}.fcl em{font-style:normal;color:#FF8498;font-weight:850;white-space:nowrap}.fcl em.ok{color:#7FD3A6}
 .fcv{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:13.5px;font-weight:800;color:var(--gold);text-decoration:none}
 .fcv i{width:20px;height:14px;border-radius:4px;background:#FF0000;display:inline-flex;align-items:center;justify-content:center;flex:none}
 .fcv i:after{content:"";border-style:solid;border-width:4px 0 4px 6px;border-color:transparent transparent transparent #FFFFFF;margin-left:1px}
@@ -259,7 +259,7 @@ section.st+section.st{border-top:1px solid var(--line)}
 .feats div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
 .feats b{display:block;font-size:14.5px}
 .feats span{display:block;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px}
-.feats .t-v{color:#8F7B53}.feats .t-w{color:#4F6680}.feats .t-s{color:#C23434}
+.feats .t-v{color:#8F7B53}.feats .t-w{color:#4F6680}.feats .t-s{color:#DB4A62}
 
 /* 마지막: 적정 매수가 아래 순위 (이름은 가입 후 공개) */
 .end h2 em{font-style:normal;color:var(--gold)}
@@ -464,7 +464,7 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
   <h2 class="h2s">투자 판단을 돕는 기능도<br>함께 드립니다</h2>
   <div class="gets">
     <div><i style="background:#C9AF7A"><svg viewBox="0 0 24 24"><path d="M4 19h16M7 16V9m5 7V5m5 11v-4"/></svg></i><b>저평가 순위 전체</b><span>5개 시장 매일</span></div>
-    <div><i style="background:#C23434"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i><b>적정 매수가 알림</b><span>휴대폰·PC로</span></div>
+    <div><i style="background:#DB4A62"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i><b>적정 매수가 알림</b><span>휴대폰·PC로</span></div>
     <div><i style="background:#1F8A5B"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></i><b>내 종목 채점</b><span>유지·정리 판단</span></div>
     <div><i style="background:#E07A2E"><svg viewBox="0 0 24 24"><path d="M3 15a9 9 0 0 1 18 0"/><path d="m12 15 4-5"/></svg></i><b>경제 레이더</b><span>평일 아침 갱신</span></div>
     <div><i style="background:#3F6E9A"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><b>주간 칼럼 메일</b><span>매주 월요일</span></div>

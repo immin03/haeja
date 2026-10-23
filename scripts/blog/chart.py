@@ -30,7 +30,7 @@ plt.rcParams["font.family"] = "Pretendard"
 plt.rcParams["axes.unicode_minus"] = False
 
 C = {"bg": "#0E1A2B", "bg2": "#1A2C46", "ink": "#F3EEE3", "mute": "#AEB8C8", "dim": "#8E9AAD",
-     "gold": "#EADBB9", "gold2": "#C9AF7A", "up": "#7FD3A8", "down": "#F08D8D", "grid": "#2A3B55"}
+     "gold": "#EADBB9", "gold2": "#C9AF7A", "up": "#7FD3A8", "down": "#FF9BAC", "grid": "#2A3B55"}
 
 out, specf = sys.argv[1], sys.argv[2]
 sp = json.load(open(specf, encoding="utf-8"))

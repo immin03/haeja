@@ -27,7 +27,7 @@ const FONT_DIR = path.join(path.dirname(req.resolve('pretendard/package.json')),
 const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900]].map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FONT_DIR, `Pretendard-${w}.subset.woff`)), weight: n, style: 'normal' }));
 
 const W = 1080, H = 1350;
-const C = { navy: '#0D1828', navy2: '#16253B', card: '#1B2B44', ink: '#F4EFE4', mute: '#B3BDCB', dim: '#8693A7', gold: '#EADBB9', gold2: '#C9AF7A', up: '#7FD3A8', down: '#F08D8D', line: 'rgba(255,255,255,.12)' };
+const C = { navy: '#0D1828', navy2: '#16253B', card: '#1B2B44', ink: '#F4EFE4', mute: '#B3BDCB', dim: '#8693A7', gold: '#EADBB9', gold2: '#C9AF7A', up: '#7FD3A8', down: '#FF9BAC', line: 'rgba(255,255,255,.12)' };
 const h = (type, style, ...children) => ({ type, props: { style: { display: 'flex', ...style }, children: children.flat().filter((c) => c !== null && c !== undefined && c !== false && c !== '') } });
 const t = (text, style) => h('div', { wordBreak: 'keep-all', ...style }, String(text));
 const img = (src, style) => ({ type: 'img', props: { src, style } });
@@ -95,7 +95,7 @@ const K = {
   // 한 장 요약 그리드 (2026-10-23 운영자: "엄청 간단하고 직관적으로") — 밝은 바탕, 큰 제목, 타일마다 큰 숫자 하나
   // { l1, l2(강조색), l3?, pill, cols(2|3), tiles:[{name, tag, big, bigLabel, chip, note, tone:'red'|'green'|'navy'}], notes:[작은 주석] }
   grid: (s, sp, i, n) => {
-    const P = { bg: '#FBF8F1', ink: '#0F1E36', red: '#D83030', green: '#16794D', gold: '#B89E6B', chip: '#FCE5B7', line: '#E6DECD' };
+    const P = { bg: '#FBF8F1', ink: '#0F1E36', red: '#F34965', green: '#16794D', gold: '#B89E6B', chip: '#FCE5B7', line: '#E6DECD' };
     const cols = s.cols || 3, gap = 18, tw = Math.floor((W - 72 - gap * (cols - 1)) / cols);
     const tone = (t) => t === 'green' ? P.green : t === 'navy' ? P.ink : P.red;
     const c = s.compact ? 0.78 : 1, z = (v) => Math.round(v * c);  // compact: 타일 10~12개용 작은 글씨
@@ -134,7 +134,7 @@ const K = {
       eyebrow(s.eyebrow), bigTitle(s.title, s.size || 58),
       h('div', { flexDirection: 'column', marginTop: 34, background: C.card, borderRadius: 26, padding: '14px 28px', border: `1px solid ${C.line}` },
         h('div', { padding: '16px 8px', borderBottom: `2px solid ${C.line}` }, s.cols.map((c, k) => cell(c, k, true))),
-        s.rows.map((r, j) => h('div', { padding: s.compact ? '13px 8px' : '20px 8px', alignItems: 'center', borderBottom: j < s.rows.length - 1 ? `1px solid ${C.line}` : 'none', ...((s.dimRows || []).includes(j) ? { background: 'rgba(240,141,141,.10)' } : {}) }, r.map((v, k) => k === 0 ? first(v, j) : cell(v, k, false, (s.dimRows || []).includes(j)))))),
+        s.rows.map((r, j) => h('div', { padding: s.compact ? '13px 8px' : '20px 8px', alignItems: 'center', borderBottom: j < s.rows.length - 1 ? `1px solid ${C.line}` : 'none', ...((s.dimRows || []).includes(j) ? { background: 'rgba(255,155,172,.10)' } : {}) }, r.map((v, k) => k === 0 ? first(v, j) : cell(v, k, false, (s.dimRows || []).includes(j)))))),
       s.note ? para(s.note, { fontSize: s.compact ? 24 : 28, marginTop: s.compact ? 20 : 28 }) : null));
   },
 
