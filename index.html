@@ -728,7 +728,7 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark vn" aria-label="ValueNote 밸류노트 홈으로"><span class="vn-en"><span class="wm-a">Value</span><span class="wm-b">Note</span></span><span class="vn-ko">밸류노트</span></h1></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark vn solo" aria-label="ValueNote 밸류노트 홈으로"><span class="vn-en"><span class="wm-a">Value</span><span class="wm-b">Note</span></span><span class="vn-ko">밸류노트</span></h1></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -7354,10 +7354,12 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 .wordmark.vn{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
 .wordmark.vn .vn-en{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
 .wordmark.vn .vn-ko{display:block;margin-top:.32em;font-family:"SUIT Variable",SUIT,sans-serif;font-weight:700;font-size:.5em;letter-spacing:.22em;padding-left:.22em;color:#E2CFA6}
-.brand h1.wordmark.vn{font-size:22px}
+.brand h1.wordmark.vn{font-size:24px}
+.wordmark.vn.solo .vn-ko{display:none}.wordmark.vn.solo .vn-en{border:0;padding:0}
 .wordmark.lg.vn .wm-a{color:#0B1B33!important}.wordmark.lg.vn .wm-b,.wordmark.lg.vn .vn-ko{color:#AE9260!important}.wordmark.lg.vn .vn-en{border-color:#C0A87C}
-#splash .sp-wm{display:inline-block;padding-bottom:.18em;border-bottom:1.5px solid #CEB480;font-size:44px!important}
-#splash .sp-name{color:#E2CFA6!important;font-size:21px!important;font-weight:700!important;letter-spacing:.24em!important;margin-top:10px!important;padding-left:.24em}
+#splash .sp-wm{display:inline-block;line-height:1!important;padding-bottom:9px;border-bottom:1.5px solid #CEB480;font-size:44px!important}
+#splash .sp-name{color:#E2CFA6!important;font-size:22px!important;font-weight:700!important;letter-spacing:.24em!important;line-height:1!important;margin-top:-4px!important;padding-left:.24em}
+#splash .sp-sub{margin-top:14px}
 </style>
 <script src="/yt.js?v=1" defer></script>
 </body>

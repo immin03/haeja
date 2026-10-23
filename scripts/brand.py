@@ -21,10 +21,11 @@ COLORS = {
 _cache = {}
 
 
-def logo_image(size=46, theme="dark", shadow=None, ko=True):
+def logo_image(size=46, theme="dark", shadow=None, ko=True, line=None):
     """투명 배경 로고 이미지와 (왼쪽 위 여백 pad)를 돌려준다. shadow 기본값: 어두운 테마에서만 은은한 그림자"""
     if shadow is None: shadow = theme == "dark"
-    key = (size, theme, shadow, ko)
+    if line is None: line = ko   # 한글이 없는 단독 로고(solo)는 줄도 뺀다
+    key = (size, theme, shadow, ko, line)
     if key in _cache: return _cache[key]
     c = COLORS[theme]; fe = ImageFont.truetype(EN_FONT, size); fk = ImageFont.truetype(KO_FONT, max(12, round(size * .5)))
     tmp = ImageDraw.Draw(Image.new("L", (1, 1)))
@@ -33,14 +34,14 @@ def logo_image(size=46, theme="dark", shadow=None, ko=True):
     sp = size * .2; kch = list("밸류노트"); kws = [tmp.textlength(ch, font=fk) for ch in kch]; kw = sum(kws) + sp * (len(kch) - 1)
     lw = max(1, round(size / 40)); ly = bot + round(size * .2); ky = ly + lw + round(size * .16)
     kb = tmp.textbbox((0, 0), "밸류노트", font=fk)
-    W_ = int(max(wt, kw)) + 2; H_ = int((ky + kb[3]) if ko else (ly + lw)) + 2
+    W_ = int(max(wt, kw) if ko else wt) + 2; H_ = int((ky + kb[3]) if ko else ((ly + lw) if line else bot)) + 2
     pad = int(size * .45) if shadow else 2
     im = Image.new("RGBA", (W_ + 2 * pad, H_ - top + 2 * pad), (0, 0, 0, 0))
-    ox, oy = pad + (W_ - wt) / 2 if kw > wt else pad, pad - top
+    ox, oy = (pad + (W_ - wt) / 2 if (ko and kw > wt) else pad), pad - top
 
     def draw(d, mono=None):
         d.text((ox, oy), "Value", font=fe, fill=mono or c["value"]); d.text((ox + wv, oy), "Note", font=fe, fill=mono or c["note"])
-        d.rectangle([ox, oy + ly, ox + wt, oy + ly + lw - 1], fill=mono or c["line"])
+        if line: d.rectangle([ox, oy + ly, ox + wt, oy + ly + lw - 1], fill=mono or c["line"])
         if ko:
             x = ox + wt / 2 - kw / 2
             for ch, w in zip(kch, kws): d.text((x, oy + ky), ch, font=fk, fill=mono or c["ko"]); x += w + sp
@@ -53,9 +54,9 @@ def logo_image(size=46, theme="dark", shadow=None, ko=True):
     return _cache[key]
 
 
-def paste_logo(img, x, y, size=46, theme="dark", align="left", shadow=None, ko=True):
+def paste_logo(img, x, y, size=46, theme="dark", align="left", shadow=None, ko=True, line=None):
     """img 위 (x, y)에 로고를 붙인다. align='left'면 x가 'V'의 왼쪽, 'center'면 로고 가운데, 'right'면 오른쪽 끝. (너비, 높이)를 돌려준다"""
-    im, pad, off = logo_image(size, theme, shadow, ko)
+    im, pad, off = logo_image(size, theme, shadow, ko, line)
     w = im.width - 2 * pad
     if align == "center": x0 = x - w / 2
     elif align == "right": x0 = x - w

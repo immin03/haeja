@@ -29,3 +29,5 @@ a{color:var(--accent)}
 .wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
 .wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}
 .wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important;vertical-align:baseline!important}
+.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+

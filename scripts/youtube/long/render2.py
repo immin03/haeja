@@ -905,7 +905,7 @@ def make_thumb(spec, V, out):
                 sd_ = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sd_).text((x_ + off, y0 + off), txt, font=f, fill=(0, 0, 0, alpha))
                 th = Image.alpha_composite(th, sd_.filter(ImageFilter.GaussianBlur(blur)))
             ImageDraw.Draw(th).text((x_, y0), txt, font=f, fill=col); y0 += f.size + 18
-        paste_logo(th, TW - 40, 32, 32, "dark", align="right")   # 2026-10-23 확정 로고 (오른쪽 위)
+        paste_logo(th, TW - 40, 34, 34, "dark", align="right", ko=False)   # 썸네일은 ValueNote 단독   # 2026-10-23 확정 로고 (오른쪽 위)
         th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92); return
     if pos == "top": y1 = 46; y2 = y1 + f1.size + 14
     else: y2 = TH_ - 70 - f2.size; y1 = y2 - f1.size - 18
@@ -923,7 +923,7 @@ def make_thumb(spec, V, out):
         cl = Image.open(co).convert("RGBA"); sc2 = min(300 / cl.width, 110 / cl.height); cl = cl.resize((int(cl.width * sc2), int(cl.height * sc2)), Image.LANCZOS)
         card = Image.new("RGBA", (cl.width + 56, cl.height + 40), (0, 0, 0, 0)); ImageDraw.Draw(card).rounded_rectangle([0, 0, card.width - 1, card.height - 1], 18, fill=(255, 255, 255, 235))
         card.alpha_composite(cl, (28, 20)); th.alpha_composite(card, (TW - card.width - 40, TH_ - card.height - 40))
-    paste_logo(th, TW - 40, 32, 32, "dark", align="right")
+    paste_logo(th, TW - 40, 34, 34, "dark", align="right", ko=False)   # 썸네일은 ValueNote 단독
     th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92)
 
 

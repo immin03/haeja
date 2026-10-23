@@ -144,7 +144,7 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
 .wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
 .wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}
-.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 """
 
 HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
@@ -190,7 +190,7 @@ boxes.forEach(function(bx){var f=bx.querySelector('form');if(!f)return;
 </script>"""
 
 def top():
-    return ('<header class="hero"><div class="wrap"><a class="wm" href="/start?utm_source=ig-dm" data-out="logo"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>')
+    return ('<header class="hero"><div class="wrap"><a class="wm solo" href="/start?utm_source=ig-dm" data-out="logo"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>')
 
 def table_html(t):
     if not t or not t.get("rows"): return ""

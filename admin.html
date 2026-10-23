@@ -12,7 +12,7 @@
 .wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;font-variation-settings:normal!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
 .wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
 .wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}
-.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important;vertical-align:baseline!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important;vertical-align:baseline!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 .adm-tag{font-size:11px;letter-spacing:.14em;color:#CDB78A;margin-left:12px;align-self:center}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -224,7 +224,7 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 </style>
 </head>
 <body>
-<header><div class="hd"><div style="display:flex;align-items:center"><a class="wm" href="/" title="ValueNote 홈으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><a class="btn" href="/naver/" style="text-decoration:none">블로그 글</a><a class="btn" href="./" style="text-decoration:none">앱으로</a><button class="btn" id="reload" hidden>새로고침</button><button class="btn" id="out" hidden>로그아웃</button></div></div></header>
+<header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="/" title="ValueNote 홈으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><a class="btn" href="/naver/" style="text-decoration:none">블로그 글</a><a class="btn" href="./" style="text-decoration:none">앱으로</a><button class="btn" id="reload" hidden>새로고침</button><button class="btn" id="out" hidden>로그아웃</button></div></div></header>
 <nav class="tabs" id="tabs" hidden><div class="in"></div></nav>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
