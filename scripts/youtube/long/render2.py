@@ -218,9 +218,10 @@ def draw(sc, V, u, lines, theme, media):
             y = 300 + i * 130; on = cur and cur.get("i") == i
             d.text((160, y + 14), lab, font=fitF(d, lab, "Bold", 42, 420), fill=A(t["ink"], p))
             col = GOLD if on else (NAVY if theme == "light" else (120, 146, 190))
+            if v.get("neg"): col = RED if (len(it) > 4 and it[4]) else ((150, 60, 50) if theme == "dark" else (226, 150, 138))
             if cur and not on: col = tuple(int(c * .45 + 235 * .55) for c in col)
             ww = 1000 * val / mx * p; d.rounded_rectangle([600, y, 600 + max(8, ww), y + 76], 10, fill=A(col, min(1, p * 3)))
-            d.text((620 + ww, y + 12), f"{val:g}{v.get('suffix', '')}", font=F("ExtraBold", 46), fill=A(t["ink"], p))
+            d.text((620 + ww, y + 12), (fill(it[3], V) if len(it) > 3 else f"{val:g}{v.get('suffix', '')}"), font=F("ExtraBold", 46), fill=A(RED if v.get("neg") else t["ink"], p))
         if cur and cur.get("note"):
             b = pop(u, at_time(cur.get("at"), lines)); y = 300 + cur["i"] * 130
             chip(d, 1300, y + 2, fill(cur["note"], V), F("ExtraBold", 36), "navy", b)
@@ -316,10 +317,12 @@ def draw(sc, V, u, lines, theme, media):
     elif typ == "agenda":  # 오늘 볼 내용 (장 제목이 하나씩)
         a = pop(u, .1); center_text(d, 150, T("title", "오늘 볼 내용"), F("Heavy", 64), A(IVORY, a))
         items = CHAPS or v.get("items", []); y0 = 290; fi = F("ExtraBold", 44)
+        two = len(items) > 7   # 장이 많으면 두 줄로 (2026-10-23: 10장이 화면 아래로 넘쳤다)
         for j, it in enumerate(items):
             p = pop(u, .5 + .32 * j, .4)
             if p <= 0: continue
-            y = y0 + j * 84 + 14 * (1 - p); x = 560
+            if two: half = (len(items) + 1) // 2; col, row = divmod(j, half); y = y0 + row * 100 + 14 * (1 - p); x = 200 + col * 820; fi = F("ExtraBold", 40)
+            else: y = y0 + j * 84 + 14 * (1 - p); x = 560
             d.ellipse([x, y + 4, x + 56, y + 60], fill=A(GOLD, p)); nn = str(j + 1); fn = F("Heavy", 34)
             d.text((x + 28 - d.textlength(nn, font=fn) / 2, y + 10), nn, font=fn, fill=A(NAVY, p))
             d.text((x + 86, y + 4), it, font=fi, fill=A(IVORY, p))
@@ -439,6 +442,8 @@ def draw(sc, V, u, lines, theme, media):
         if v.get("caption"):
             a = pop(u, at_time(v.get("caption_at"), lines)); s = fill(v["caption"], V); f = fitF(d, s, "Heavy", 80, W - 320)
             d.text((160, 200 + 20 * (1 - a)), s, font=f, fill=A(WHITE, a))
+    elif typ == "end" and v.get("next"):
+        draw_end2(img, d, v, u, lines, V)
     elif typ == "end":
         p = pop(u, .2, 1.0); ic = R.ICON_S; img.paste(ic.convert("RGB"), (W // 2 - 110, 180 + int(20 * (1 - p))), ic)
         center_text(d, 450, T("title"), fitF(d, T("title"), "Heavy", 72, 1500), A(IVORY, p)); center_text(d, 550, T("sub"), fitF(d, T("sub"), "SemiBold", 44, 1500), A(GOLD_L, p))
@@ -462,6 +467,105 @@ def draw(sc, V, u, lines, theme, media):
             x += bw_ + gap
     return img
 
+
+
+NEXT_IMG = {}
+
+
+def _cursor(d, x, y, a, press=0.0):
+    """마우스 화살표 (누를 때 살짝 작아진다)"""
+    k = 1 - .12 * press
+    pts = [(0, 0), (0, 46), (12, 35), (21, 56), (30, 52), (21, 32), (37, 32)]
+    sh = [(x + 4 + px * k, y + 5 + py * k) for px, py in pts]; d.polygon(sh, fill=(0, 0, 0, int(110 * a)))
+    P = [(x + px * k, y + py * k) for px, py in pts]; d.polygon(P, fill=A(WHITE, a), outline=A(NAVY, a)); d.line(P + [P[0]], fill=A(NAVY, a), width=3)
+
+
+def draw_end2(img, d, v, u, lines, V):
+    """끝 화면 v2 (2026-10-23 운영자: 마지막이 단조롭다) — 왼쪽: 구독·좋아요·알림을 커서가 차례로 누르는 모션, 오른쪽: 다음 영상 카드"""
+    p = pop(u, .15, .9); ic = R.ICON_S.resize((150, 150), Image.LANCZOS)
+    LX = 520   # 왼쪽 칸 가운데
+    img.paste(ic.convert("RGB"), (LX - 75, 170 + int(16 * (1 - p))), ic)
+    ft = fitF(d, fill(v["title"], V), "Heavy", 66, 820); s_ = fill(v["title"], V); d.text((LX - d.textlength(s_, font=ft) / 2, 350), s_, font=ft, fill=A(IVORY, p))
+    fs = fitF(d, fill(v.get("sub", ""), V), "SemiBold", 40, 820); s_ = fill(v.get("sub", ""), V); d.text((LX - d.textlength(s_, font=fs) / 2, 440), s_, font=fs, fill=A(GOLD_L, p))
+    ba = v.get("btn_at", []); ts = [at_time(ba[k_], lines) if k_ < len(ba) else 1.0 + k_ for k_ in range(3)]
+    bw_, bh_, gap = 250, 92, 24; x0 = LX - (3 * bw_ + 2 * gap) / 2; y0 = 560
+    fb = F("Heavy", 36); centers = []
+    for i_ in range(3):
+        bx = x0 + i_ * (bw_ + gap); centers.append((bx + bw_ / 2, y0 + bh_ / 2))
+        q = pop(u, ts[0] - .9 + i_ * .12, .45)
+        if q <= 0: continue
+        click = ts[i_] + .55; done = u >= click; pr = clamp(1 - abs(u - click) / .18)   # 누르는 순간 살짝 눌림
+        sc_ = 1 - .06 * pr + (.08 * math.sin(min(1, (u - click) / .35) * math.pi) if done and u - click < .35 else 0)
+        w2, h2 = bw_ * sc_, bh_ * sc_; cx, cy = bx + bw_ / 2, y0 + bh_ / 2 + 20 * (1 - q)
+        if i_ == 0: bg, fg, lab = ((90, 90, 96), WHITE, "구독중") if done else ((220, 30, 30), WHITE, "구독")
+        elif i_ == 1: bg, fg, lab = (WHITE, NAVY, "좋아요")
+        else: bg, fg, lab = ((GOLD, NAVY, "알림 설정") if not done else (GOLD_L, NAVY, "알림 켜짐"))
+        d.rounded_rectangle([cx - w2 / 2 + 4, cy - h2 / 2 + 8, cx + w2 / 2 + 4, cy + h2 / 2 + 8], 46, fill=(0, 0, 0, int(70 * q)))
+        d.rounded_rectangle([cx - w2 / 2, cy - h2 / 2, cx + w2 / 2, cy + h2 / 2], 46, fill=A(bg, q))
+        tw = d.textlength(lab, font=fb); ix = cx - (tw + 48) / 2; iy = cy
+        if i_ == 0:
+            if done: d.line([(ix + 4, iy), (ix + 14, iy + 11), (ix + 34, iy - 12)], fill=A(fg, q), width=6)
+            else: d.polygon([(ix + 6, iy - 14), (ix + 6, iy + 14), (ix + 30, iy)], fill=A(fg, q))
+        elif i_ == 1:
+            hk = 1 + (.45 * math.sin(min(1, (u - click) / .5) * math.pi) if done and u - click < .5 else 0); hc = RED if done else (200, 200, 205)
+            hx, hy, r_ = ix + 17, iy - 2, 9 * hk
+            d.ellipse([hx - 2 * r_, hy - r_ * 1.3, hx, hy + r_ * .7], fill=A(hc, q)); d.ellipse([hx, hy - r_ * 1.3, hx + 2 * r_, hy + r_ * .7], fill=A(hc, q))
+            d.polygon([(hx - 2 * r_ + 1, hy - r_ * .1), (hx + 2 * r_ - 1, hy - r_ * .1), (hx, hy + 2 * r_)], fill=A(hc, q))
+            if done and u - click < .6:   # 하트 주변으로 퍼지는 점
+                e = (u - click) / .6
+                for k_ in range(8):
+                    ang = k_ * math.pi / 4; rr = 22 + 40 * e; d.ellipse([hx + rr * math.cos(ang) - 4, hy + rr * math.sin(ang) - 4, hx + rr * math.cos(ang) + 4, hy + rr * math.sin(ang) + 4], fill=A(RED, q * (1 - e)))
+        else:
+            wig = 10 * math.sin((u - click) * 26) * max(0, 1 - (u - click) / .8) if done else 0   # 알림: 종이 흔들린다
+            bxc = ix + 18 + wig * .6
+            d.pieslice([bxc - 16, iy - 18, bxc + 16, iy + 14], 180, 360, fill=A(fg, q)); d.rectangle([bxc - 16, iy - 2, bxc + 16, iy + 10], fill=A(fg, q))
+            d.rectangle([bxc - 20, iy + 8, bxc + 20, iy + 13], fill=A(fg, q)); d.ellipse([bxc - 5, iy + 12, bxc + 5, iy + 21], fill=A(fg, q))
+            if done and u - click < .9:
+                e = (u - click) / .9
+                for sgn in (-1, 1): d.arc([bxc - 30 - 8 * e, iy - 28 - 8 * e, bxc + 30 + 8 * e, iy + 22 + 8 * e], 200 if sgn < 0 else 300, 240 if sgn < 0 else 340, fill=A(NAVY, q * (1 - e)), width=4)
+        d.text((ix + 48, cy - fb.size / 2 - 6), lab, font=fb, fill=A(fg, q))
+        if done and u - click < .45:   # 눌린 자리에서 퍼지는 원
+            e = (u - click) / .45; R_ = 30 + 90 * e
+            d.ellipse([cx - R_, cy - R_, cx + R_, cy + R_], outline=(255, 255, 255, int(150 * (1 - e))), width=4)
+    # 커서: 오른쪽 아래에서 들어와 버튼을 차례로 누르고, 마지막엔 다음 영상 쪽으로
+    if u >= ts[0] - .5:
+        path = [(1000, 1000, ts[0] - .5)] + [(centers[k_][0] + 30, centers[k_][1] + 10, ts[k_] + .45) for k_ in range(3)] + [(1440, 560, ts[2] + 1.6)]
+        cx_, cy_ = path[0][0], path[0][1]
+        for (ax, ay, at_), (bx2, by2, bt) in zip(path, path[1:]):
+            if u >= bt: cx_, cy_ = bx2, by2
+            elif u >= at_: e = ease(clamp((u - at_) / max(.2, bt - at_ - .1))); cx_, cy_ = ax + (bx2 - ax) * e, ay + (by2 - ay) * e; break
+            else: break
+        press = max([clamp(1 - abs(u - (ts[k_] + .55)) / .15) for k_ in range(3)] + [0])
+        _cursor(d, cx_, cy_, clamp((u - ts[0] + .5) / .3), press)
+    # 다음 영상 카드
+    nx = v["next"]; q2 = pop(u, at_time(nx.get("at"), lines), .7)
+    if q2 > 0:
+        key = nx["thumb"]
+        if key not in NEXT_IMG:
+            pth = os.path.join(ROOT, key.lstrip("/"))
+            NEXT_IMG[key] = Image.open(pth).convert("RGB").resize((736, 414), Image.LANCZOS) if os.path.exists(pth) else Image.new("RGB", (736, 414), NAVY2)
+        X0, Y0 = 1060, 250 + int(30 * (1 - q2))
+        chip(d, X0, Y0 - 70, fill(nx.get("label", "다음 영상"), V), F("ExtraBold", 32), "gold", q2)
+        d.rounded_rectangle([X0 - 10, Y0 - 10, X0 + 746, Y0 + 424], 22, fill=A(GOLD, q2 * .9))
+        th = NEXT_IMG[key].copy()
+        if q2 < 1: th = Image.blend(Image.new("RGB", th.size, NAVY), th, q2)
+        img.paste(th, (X0, Y0))
+        ft2 = F("Bold", 34)
+        for li, ln in enumerate(wrap(d, fill(nx.get("title", ""), V), ft2, 740)[:2]): d.text((X0, Y0 + 446 + li * 46), ln, font=ft2, fill=A(IVORY, q2))
+
+
+def on_backdrop(img, bd, theme):
+    """그래픽(배경과 다른 부분)만 실사 배경 위로 옮긴다 (2026-10-23 운영자: 흰 판 + 그래프만 반복돼 단조롭다)"""
+    key = "bga_" + theme
+    if key not in _bg: _bg[key] = np.asarray(background(theme)).astype(np.int16)
+    diff = np.abs(np.asarray(img).astype(np.int16) - _bg[key]).max(-1)
+    mask = Image.fromarray(np.clip((diff - 4) * 14, 0, 255).astype(np.uint8))   # 글자 가장자리는 부드럽게
+    out = bd.copy(); out.paste(img, (0, 0), mask); return out
+
+
+def backdrop_source(v, n_frames, seed):
+    if not v.get("backdrop"): return None
+    return media_source({"lib": v["backdrop"], "dim": v.get("bd_dim", .64)}, n_frames, seed + 500)
 
 # ── 안전 영역: 로고·장 제목(위)과 자막(아래)을 그래픽이 가리지 않게 ──
 SAFE = (110, 152, 1810, 900)   # 왼쪽, 위, 오른쪽, 아래 (천천히 다가가는 3% 확대까지 감안한 값)
@@ -565,13 +669,14 @@ def media_source(v, n_frames, seed):
     pth = os.path.join(lib, f) if f else None
     if not pth or not os.path.exists(pth): return lambda u: background("dark")
     if f.endswith(".jpg") or f.endswith(".png"):
-        frames = R.photo_frames(pth, n_frames, seed)
+        frames = LazyPhoto(pth, n_frames, seed)   # 2026-10-23: 긴 장면에서 모든 프레임을 미리 만들면 메모리가 넘친다 → 그때그때 만든다
     else:
         dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", pth], capture_output=True, text=True).stdout.strip() or 0)
-        raw = subprocess.run(["ffmpeg", "-v", "error", "-stream_loop", "-1", "-ss", "0", "-i", pth, "-frames:v", str(n_frames), "-vf",
+        cap = min(n_frames, 240)   # 영상은 최대 8초만 풀어 두고, 더 길면 앞뒤로 왕복 재생
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-stream_loop", "-1", "-ss", "0", "-i", pth, "-frames:v", str(cap), "-vf",
                               f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"], capture_output=True).stdout
         fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3) if raw else np.zeros((1, H, W, 3), np.uint8)
-        frames = [fr[min(i, len(fr) - 1)] for i in range(n_frames)]
+        L_ = len(fr); frames = [fr[(i % (2 * L_ - 1)) if (i % (2 * L_ - 1)) < L_ else (2 * L_ - 2 - i % (2 * L_ - 1))] for i in range(n_frames)] if L_ > 1 else [fr[0]] * n_frames
     dark = v.get("dim", .35)
 
     def get(u):
@@ -858,11 +963,13 @@ def main():
     if "--stills" in sys.argv:  # 검수용: 장면마다 마지막 문장을 말하는 순간 한 장씩
         sd = os.path.join(out, "stills"); os.makedirs(sd, exist_ok=True); chapter = ""
         for k, s in enumerate(timeline):
-            sc = s["sc"]; typ = sc["v"]["type"]; theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light")
+            sc = s["sc"]; typ = sc["v"]["type"]; theme = "dark" if sc["v"].get("backdrop") else (sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light"))
             if sc.get("chapter"): chapter = sc["chapter"]
             fit = safe_fit(sc, s, V, theme); media = media_source(sc["v"], int(s["dur"] * FPS) + 2, k) if typ == "media" else None
+            bdf = backdrop_source(sc["v"], int(s["dur"] * FPS) + 2, k)
             lt = s["lines"][-1]; u = min(s["dur"] - .05, lt[0] + lt[1] * .9)
             img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
+            if bdf: img = on_backdrop(img, bdf(u), theme)
             if typ not in ("media", "end"):
                 z = 1.03; cw, ch = W / z, H / z; img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", fill(sc.get("src", sc["v"].get("src", "")), V), V.get("asof"), .5, logo_dark, logo_light)
@@ -883,15 +990,17 @@ def main():
     prev_last = None; chapter = ""
     for k, s in enumerate(timeline):
         sc = s["sc"]; n = int(round(s["dur"] * FPS)); typ = sc["v"]["type"]
-        theme = sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light")
+        theme = "dark" if sc["v"].get("backdrop") else (sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light"))
         if sc.get("chapter"): chapter = sc["chapter"]
         media = media_source(sc["v"], n + 2, k) if typ == "media" else None
+        bdf = backdrop_source(sc["v"], n + 2, k)
         fit = safe_fit(sc, s, V, theme)
         if fit: print(f"  안전 영역 맞춤: 장면 {k + 1} {typ} ×{fit['k']}", flush=True)
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
         for i in range(n):
             u = i / FPS
             img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
+            if bdf: img = on_backdrop(img, bdf(u), theme)
             if typ not in ("media", "end"):  # 그래픽 화면은 장면 내내 아주 천천히 다가간다 (멈춘 화면처럼 보이지 않게)
                 z = 1 + .03 * (u / max(1.0, s["dur"])); cw, ch = W / z, H / z
                 img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
@@ -921,7 +1030,7 @@ def main():
     meta = {"id": spec["id"], "kind": "long", "title": fill(spec["title"], V)[:100], "description": desc, "tags": spec.get("tags", []),
             "scheduled_at": spec["scheduled_at"], "duration": round(total, 1), "data": data["raw"], "data_asof": data["raw"]["asof_iso"],
             "events": spec.get("events", []), "pinned_comment": fill(spec.get("pinned_comment", ""), V), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
-            "qa": {"media": [[k, "lib", s["sc"]["v"].get("lib")] for k, s in enumerate(timeline) if s["sc"]["v"]["type"] == "media"],
+            "qa": {"media": [[k, "lib", s["sc"]["v"].get("lib")] for k, s in enumerate(timeline) if s["sc"]["v"]["type"] == "media"] + [[k, "lib", s["sc"]["v"]["backdrop"]] for k, s in enumerate(timeline) if s["sc"]["v"].get("backdrop")],
                    "lines": [[round(x["start"] + a, 2), round(d_, 2), l, to_speech(l)] for x in timeline for (a, d_, l) in x["lines"]],
                    "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG}}
     json.dump(meta, open(os.path.join(out, "meta.json"), "w"), ensure_ascii=False, indent=1)

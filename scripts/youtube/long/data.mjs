@@ -83,10 +83,11 @@ export async function companyData(code, spec = {}) {
   // 미국 종목 추가 값: 시가총액, 공모가 대비, 원고가 정한 나눗셈 (spec.mcap_calc = {이름: {div, fmt: 'x'|'usd'}})
   let usv = {};
   if (US) {
-    const mc = (r.mcap || 0) * 1e6 * (px / px0);
+    const mc = spec.shares ? px * spec.shares : (r.mcap || 0) * 1e6 * (px / px0);   // 스크리너 시가총액이 가격보다 늦게 갱신될 때가 있어 주식 수를 원고에 적는다
     usv = { mcap: usdBig(mc) };
     if (spec.ipo_px) { const g = px / spec.ipo_px - 1; usv.ipo_vs = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; usv.ipo_word = g >= 0 ? '높은' : '낮은'; usv.ipo_abs = Math.abs(Math.round(g * 100)) + '%'; }
     for (const [k, c] of Object.entries(spec.mcap_calc || {})) usv[k] = c.fmt === 'usd' ? usdBig(mc / c.div) : '약 ' + Math.round(mc / c.div) + '배';
+    for (const [k, n] of Object.entries(spec.px_mult || {})) usv[k] = usdBig(px * n);   // 예: 풀리는 주식 수 × 지금 주가
     if (spec.px_ref) for (const [k, ref] of Object.entries(spec.px_ref)) { const g = px / ref - 1; usv[k] = (g >= 0 ? '+' : '-') + Math.abs(g * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
   }
   const bt = spec.backtest; let btv = {};
