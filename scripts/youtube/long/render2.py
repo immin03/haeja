@@ -894,7 +894,8 @@ def make_thumb(spec, V, out):
         if co and os.path.exists(co):
             lh = tv.get("logo_h", 100); cl = Image.open(co).convert("RGBA"); sc2 = lh / cl.height; cl = cl.resize((int(cl.width * sc2), lh), Image.LANCZOS)
             card = cl   # 투명 배경 로고는 카드 없이 사진 위에 바로 (2026-10-22 운영자)
-        hh = (card.height + 34 if card else 0) + f1.size + 18 + f2.size; y0 = (TH_ - hh) // 2 - 6
+        bdg = tv.get("badge"); fbg = F("ExtraBold", tv.get("badge_s", 38))   # 2026-10-23 운영자: '주가 전망 심층분석' 같은 작은 배지
+        hh = (card.height + 34 if card else 0) + (fbg.size + 58 if bdg else 0) + f1.size + 18 + f2.size; y0 = (TH_ - hh) // 2 - 6
         vg = Image.new("RGBA", (TW, TH_)); gv = ImageDraw.Draw(vg)   # 가운데를 살짝 어둡게
         for r_ in range(0, 520, 4): gv.ellipse([TW / 2 - 700 + r_, TH_ / 2 - 380 + r_ * .55, TW / 2 + 700 - r_, TH_ / 2 + 380 - r_ * .55], fill=(0, 0, 0, 3))
         th = Image.alpha_composite(th, vg.filter(ImageFilter.GaussianBlur(30)))
@@ -902,6 +903,10 @@ def make_thumb(spec, V, out):
             shd = Image.new("RGBA", (TW, TH_)); sx0 = (TW - card.width) // 2 if pos == "center" else LX; sh_a = card.getchannel("A").point(lambda v: int(v * .55)); shd.paste((0, 0, 0, 255), (sx0 + 3, y0 + 4), sh_a)   # 로고 모양 그대로 은은한 그림자
             cx0 = (TW - card.width) // 2 if pos == "center" else LX
             th = Image.alpha_composite(th, shd.filter(ImageFilter.GaussianBlur(6))); th.alpha_composite(card, (cx0, y0)); y0 += card.height + 30
+        if bdg:
+            dd = ImageDraw.Draw(th); bw = dd.textlength(bdg, font=fbg) + 52; bx = (TW - bw) / 2 if pos == "center" else LX; bh = fbg.size + 30
+            sdb = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sdb).rounded_rectangle([bx + 3, y0 + 5, bx + bw + 3, y0 + bh + 5], 12, fill=(0, 0, 0, 150)); th = Image.alpha_composite(th, sdb.filter(ImageFilter.GaussianBlur(6)))
+            dd = ImageDraw.Draw(th); dd.rounded_rectangle([bx, y0, bx + bw, y0 + bh], 12, fill=(214, 172, 82)); dd.text((bx + 26, y0 + 10), bdg, font=fbg, fill=(11, 27, 51)); y0 += bh + 28
         for (txt, f, col) in ((l1, f1, WHITE), (l2, f2, YEL)):
             tw_ = ImageDraw.Draw(th).textlength(txt, font=f); x_ = (TW - tw_) / 2 if pos == "center" else LX
             for blur, off, alpha in ((14, 6, 160), (4, 3, 170)):
