@@ -1346,6 +1346,19 @@ VERIFY = os.environ.get("REELS_VERIFY", "1") != "0"
 VLOG, LINT = [], []
 MAX_SEC = 60  # 2026-10-20 운영자: 정말 좋은 내용이면 50~60초도 괜찮다 (이전 40초)
 
+def write_subs(spec, scenes, total, outdir):
+    """유튜브 쇼츠 자막 파일 (2026-10-23 운영자): 한국어 subs_ko.srt, 영어 subs_en.srt(대본의 subs_en, 자막 순서대로).
+    관리자 유튜브 검수 카드에서 내려받아 유튜브 스튜디오 → 자막 → 언어 추가에 올린다."""
+    ents = [(x["start"] + a, cap) for x in scenes for (a, v, cap) in x["L"] if cap]
+    def ts(t):
+        t = max(0, t); return f"{int(t // 3600):02d}:{int(t % 3600 // 60):02d}:{int(t % 60):02d},{int(round((t % 1) * 1000)) % 1000:03d}"
+    langs = [("ko", [" ".join(c) for _, c in ents])]
+    if len(spec.get("subs_en") or []) == len(ents): langs.append(("en", spec["subs_en"]))
+    elif spec.get("subs_en"): print(f"  ⚠ 영어 자막 수({len(spec['subs_en'])})가 자막 수({len(ents)})와 달라 영어 자막을 만들지 않았습니다")
+    for lang, texts in langs:
+        out = [f"{k + 1}\n{ts(t0)} --> {ts(ents[k + 1][0] - .02 if k + 1 < len(ents) else total)}\n{texts[k]}\n" for k, (t0, _) in enumerate(ents)]
+        open(os.path.join(outdir, f"subs_{lang}.srt"), "w", encoding="utf-8").write("\n".join(out))
+
 def render(spec, outdir, stills=None):
     global YT_BANNER, YT
     YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
@@ -1389,6 +1402,7 @@ def render(spec, outdir, stills=None):
     p.stdin.close(); p.wait(); os.remove(wav)
     (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
+    if spec.get("platform") == "youtube": write_subs(spec, scenes, total, outdir)
     return total
 
 if __name__ == "__main__":
