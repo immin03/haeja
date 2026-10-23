@@ -31,11 +31,11 @@ const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900
 // 2026-10-23 확정 로고: Montserrat ExtraBold 'Value'+'Note'(아이보리 베이지), 얇은 금색 줄, 가운데 '밸류노트' (scripts/brand.py와 같은 모양)
 fonts.push({ name: 'M', data: fs.readFileSync(new URL('../reels/fonts/Montserrat-ExtraBold.ttf', import.meta.url)), weight: 800, style: 'normal' });
 const VNL = (size, st = {}) => h('div', { flexDirection: 'column', alignItems: 'center', ...st },
-  h('div', { fontFamily: 'M', fontSize: size, fontWeight: 800, letterSpacing: -0.3, color: '#FFFFFF', lineHeight: 1, paddingBottom: Math.round(size * .2), borderBottom: '1.5px solid #CEB480' }, 'Value', h('span', { color: '#E2CFA6' }, 'Note')),
-  h('div', { fontFamily: 'P', fontSize: Math.round(size * .5), fontWeight: 700, letterSpacing: Math.round(size * .11), paddingLeft: Math.round(size * .11), marginTop: Math.round(size * .3), color: '#E2CFA6', lineHeight: 1 }, '밸류노트'));
+  h('div', { fontFamily: 'M', fontSize: size, fontWeight: 800, letterSpacing: -0.3, color: '#FFFFFF', lineHeight: 1, paddingBottom: Math.round(size * .2), borderBottom: '1.5px solid #D8C294' }, 'Value', h('span', { color: '#EADBB9' }, 'Note')),
+  h('div', { fontFamily: 'P', fontSize: Math.round(size * .5), fontWeight: 700, letterSpacing: Math.round(size * .11), paddingLeft: Math.round(size * .11), marginTop: Math.round(size * .3), color: '#EADBB9', lineHeight: 1 }, '밸류노트'));
 
 const SITE = 'https://www.valuenote.co.kr';
-const C = { navy: '#0E1A2B', navy2: '#1A2C46', ink: '#F3EEE3', mute: '#AEB8C8', dim: '#8E9AAD', gold: '#E4CEA1', gold2: '#C9AF7A', up: '#7FD3A8', down: '#F08D8D', line: 'rgba(255,255,255,.12)' };
+const C = { navy: '#0E1A2B', navy2: '#1A2C46', ink: '#F3EEE3', mute: '#AEB8C8', dim: '#8E9AAD', gold: '#EADBB9', gold2: '#C9AF7A', up: '#7FD3A8', down: '#F08D8D', line: 'rgba(255,255,255,.12)' };
 const MKT = { KR: '국내', US: '미국', JP: '일본', HK: '홍콩', CN: '중국 A' };
 const MKT_LONG = { KR: '국내 주식', US: '미국 주식', JP: '일본 주식', HK: '홍콩 주식', CN: '중국 A주' };
 const isNum = (v) => typeof v === 'number' && isFinite(v);
@@ -117,7 +117,7 @@ const T = {
     return frame(h('div', { flexDirection: 'column', alignItems: 'center' },
       t(`${MKT[m] || ''} · 밸류노트 점수`, { fontSize: 28, color: C.gold, fontWeight: 800 }),
       h('div', { fontSize: name.length > 12 ? 60 : 84, fontWeight: 900, marginTop: 14, letterSpacing: -2, textAlign: 'center', wordBreak: 'keep-all' }, name),
-      h('div', { width: 330, height: 330, borderRadius: 330, border: `12px solid ${C.gold2}`, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: 36, background: 'rgba(228,206,161,.08)' },
+      h('div', { width: 330, height: 330, borderRadius: 330, border: `12px solid ${C.gold2}`, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: 36, background: 'rgba(234,219,185,.08)' },
         t(b == null ? '–' : b, { fontSize: 150, fontWeight: 900, color: C.gold, lineHeight: 1 }), t('/ 100점', { fontSize: 30, color: C.mute, fontWeight: 700, marginTop: 6 })),
       h('div', { gap: 60, marginTop: 44 }, bar('재무 점수', q), bar('가격 점수', v)),
       mos == null ? null : t(mos >= 0 ? `지금 주가는 적정 주가보다 ${mos}% 저평가돼 있습니다` : `지금 주가는 적정 주가보다 ${-mos}% 고평가돼 있습니다`, { fontSize: 36, fontWeight: 800, color: mos >= 0 ? C.up : C.down, marginTop: 40 })),
@@ -187,7 +187,7 @@ const T = {
 
   compare: (o) => frame(h('div', { flexDirection: 'column' },
     o.eyebrow ? eyebrow(o.eyebrow) : null, title(o.title, 56),
-    h('div', { gap: 28, marginTop: 56 }, [o.l, o.r].map((x, i) => h('div', { flexDirection: 'column', width: 454, padding: '40px 32px', borderRadius: 24, background: i ? 'rgba(228,206,161,.10)' : 'rgba(255,255,255,.06)', border: `2px solid ${i ? C.gold2 : C.line}`, alignItems: 'center' },
+    h('div', { gap: 28, marginTop: 56 }, [o.l, o.r].map((x, i) => h('div', { flexDirection: 'column', width: 454, padding: '40px 32px', borderRadius: 24, background: i ? 'rgba(234,219,185,.10)' : 'rgba(255,255,255,.06)', border: `2px solid ${i ? C.gold2 : C.line}`, alignItems: 'center' },
       t(x.label, { fontSize: 30, color: C.mute, fontWeight: 700, textAlign: 'center' }), t(x.value, { fontSize: 70, fontWeight: 900, marginTop: 16, color: i ? C.gold : C.ink })))),
     o.note ? t(o.note, { fontSize: 32, fontWeight: 700, marginTop: 44, lineHeight: 1.45, wordBreak: 'keep-all' }) : null), o.foot),
 

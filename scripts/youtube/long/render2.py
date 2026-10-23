@@ -22,7 +22,7 @@ from korean import to_speech  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 
 # 색
-NAVY = (11, 27, 51); NAVY2 = (24, 46, 82); GOLD = (214, 186, 129); GOLD_D = (168, 144, 97); GOLD_L = (228, 206, 161)
+NAVY = (11, 27, 51); NAVY2 = (24, 46, 82); GOLD = (224, 200, 150); GOLD_D = (168, 144, 97); GOLD_L = (234, 219, 185)
 PAPER = (244, 243, 239); GRID = (228, 226, 220); INK = (24, 32, 46); MUTED = (120, 128, 140); LINE = (200, 204, 212)
 IVORY = (246, 241, 232); RED = (214, 53, 53); WHITE = (255, 255, 255)
 TH = {"light": {"bg": PAPER, "ink": INK, "muted": MUTED, "acc": GOLD_D, "card": WHITE, "line": LINE},
@@ -898,7 +898,7 @@ def make_thumb(spec, V, out):
         if bdg:
             dd = ImageDraw.Draw(th); bw = dd.textlength(bdg, font=fbg) + 52; bx = (TW - bw) / 2 if pos == "center" else LX; bh = fbg.size + 30
             sdb = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sdb).rounded_rectangle([bx + 3, y0 + 5, bx + bw + 3, y0 + bh + 5], 12, fill=(0, 0, 0, 150)); th = Image.alpha_composite(th, sdb.filter(ImageFilter.GaussianBlur(6)))
-            dd = ImageDraw.Draw(th); dd.rounded_rectangle([bx, y0, bx + bw, y0 + bh], 12, fill=(214, 186, 129)); dd.text((bx + 26, y0 + 10), bdg, font=fbg, fill=(11, 27, 51)); y0 += bh + 28
+            dd = ImageDraw.Draw(th); dd.rounded_rectangle([bx, y0, bx + bw, y0 + bh], 12, fill=(224, 200, 150)); dd.text((bx + 26, y0 + 10), bdg, font=fbg, fill=(11, 27, 51)); y0 += bh + 28
         for (txt, f, col) in ((l1, f1, WHITE), (l2, f2, YEL)):
             tw_ = ImageDraw.Draw(th).textlength(txt, font=f); x_ = (TW - tw_) / 2 if pos == "center" else LX
             for blur, off, alpha in ((14, 6, 160), (4, 3, 170)):

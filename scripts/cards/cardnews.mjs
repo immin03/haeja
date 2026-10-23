@@ -27,7 +27,7 @@ const FONT_DIR = path.join(path.dirname(req.resolve('pretendard/package.json')),
 const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900]].map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FONT_DIR, `Pretendard-${w}.subset.woff`)), weight: n, style: 'normal' }));
 
 const W = 1080, H = 1350;
-const C = { navy: '#0D1828', navy2: '#16253B', card: '#1B2B44', ink: '#F4EFE4', mute: '#B3BDCB', dim: '#8693A7', gold: '#E4CEA1', gold2: '#C9AF7A', up: '#7FD3A8', down: '#F08D8D', line: 'rgba(255,255,255,.12)' };
+const C = { navy: '#0D1828', navy2: '#16253B', card: '#1B2B44', ink: '#F4EFE4', mute: '#B3BDCB', dim: '#8693A7', gold: '#EADBB9', gold2: '#C9AF7A', up: '#7FD3A8', down: '#F08D8D', line: 'rgba(255,255,255,.12)' };
 const h = (type, style, ...children) => ({ type, props: { style: { display: 'flex', ...style }, children: children.flat().filter((c) => c !== null && c !== undefined && c !== false && c !== '') } });
 const t = (text, style) => h('div', { wordBreak: 'keep-all', ...style }, String(text));
 const img = (src, style) => ({ type: 'img', props: { src, style } });
@@ -40,7 +40,7 @@ const mark = (w = 190) => img(uri(MARK, 'image/png'), { width: w, height: Math.r
 
 function shell(spec, i, n, body, { light = false } = {}) {
   return h('div', { width: W, height: H, flexDirection: 'column', background: C.navy, color: C.ink, fontFamily: 'P', position: 'relative' },
-    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'radial-gradient(circle at 85% 0%, rgba(228,206,161,.10), rgba(13,24,40,0) 55%)' }),
+    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'radial-gradient(circle at 85% 0%, rgba(234,219,185,.10), rgba(13,24,40,0) 55%)' }),
     h('div', { justifyContent: 'space-between', alignItems: 'center', padding: '56px 64px 0 64px' },
       mark(), h('div', { fontSize: 26, fontWeight: 800, color: C.mute, background: 'rgba(255,255,255,.08)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
     h('div', { flexDirection: 'column', flexGrow: 1, padding: '40px 64px 0 64px' }, body),

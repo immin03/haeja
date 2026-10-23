@@ -74,14 +74,14 @@ const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta n
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
-.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4CEA1}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#E4CEA1}
-.cat{display:inline-block;background:#FBF5EA;border:1px solid #E4CEA1;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
 main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
 h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 .row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
 .btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
-.btn.gold{background:linear-gradient(90deg,#C9AF7A,#E4CEA1);color:#0A1322}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
 .btn.ok{background:#2E8B62}
 .ttl{font-size:20px;font-weight:800}
 .steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
@@ -136,8 +136,8 @@ fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
-<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#E4CEA1}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}main{max-width:760px;margin:0 auto;padding:16px}
-.cat{font-style:normal;display:inline-block;background:#FBF5EA;border:1px solid #E4CEA1;color:#7A6947;font-weight:800;border-radius:8px;padding:1px 7px;margin-right:4px;font-size:12px}
+<style>body{margin:0;background:#F6F3EC;color:#1B2433;font:16px/1.6 "SUIT Variable",SUIT,Pretendard,-apple-system,sans-serif;word-break:keep-all}.top{background:#0E1A2B;color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}main{max-width:760px;margin:0 auto;padding:16px}
+.cat{font-style:normal;display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:8px;padding:1px 7px;margin-right:4px;font-size:12px}
 .it{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #E7E2D8;border-radius:14px;padding:12px;margin:10px 0}.it a{display:flex;gap:14px;align-items:center;flex:1;min-width:0;text-decoration:none;color:inherit}.it img{width:84px;height:84px;border-radius:10px;flex-shrink:0}.it b{display:block}.it small{color:#6B7584}
 .ck{font:inherit;font-size:14px;font-weight:800;border:1px solid #E7E2D8;background:#fff;color:#6B7584;border-radius:10px;padding:8px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0}.ck:hover{border-color:#C9AF7A;color:#0E1A2B}
 .it.done{background:#F1EEE6}.it.done img{opacity:.45}.it.done b{color:#6B7584}.it.done .ck{background:#2E8B62;border-color:#2E8B62;color:#fff}

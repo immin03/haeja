@@ -58,19 +58,19 @@ def para_html(p):
         return "<ul>" + "".join(f"<li>{html.escape(l[2:])}</li>" for l in lines) + "</ul>"
     return "<p>" + "<br>".join(html.escape(l) for l in lines) + "</p>"
 
-CSS = """:root{--navy:#0A1730;--navy2:#0E2342;--navy3:#13305A;--gold:#E4CEA1;--gold2:#C9AF7A;--ivory:#F7F2E8;--paper:#FBF8F2;--ink:#14213A;--muted:#5D6779;--line:#E6DFD1;--card:#fff}
+CSS = """:root{--navy:#0A1730;--navy2:#0E2342;--navy3:#13305A;--gold:#EADBB9;--gold2:#C9AF7A;--ivory:#F7F2E8;--paper:#FBF8F2;--ink:#14213A;--muted:#5D6779;--line:#E6DFD1;--card:#fff}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"SUIT Variable","SUIT",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}button{font:inherit;cursor:pointer}
 .wrap{max-width:640px;margin:0 auto;padding:0 16px}
 .wm{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.02em;font-size:22px;color:#fff;text-decoration:none;line-height:1.1}
 .wm i{font-style:italic;color:var(--gold)}.wm small{display:block;font-family:"SUIT Variable",sans-serif;font-size:10.5px;font-weight:600;color:rgba(247,242,232,.62)}
-.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(228,206,161,.2) 0,rgba(228,206,161,0) 55%),linear-gradient(170deg,var(--navy2),var(--navy) 75%);color:var(--ivory);padding:18px 0 30px}
-.eyebrow{display:inline-block;margin-top:26px;font-size:12.5px;font-weight:800;letter-spacing:.06em;color:var(--gold);border:1px solid rgba(228,206,161,.4);border-radius:999px;padding:4px 12px}
+.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(234,219,185,.2) 0,rgba(234,219,185,0) 55%),linear-gradient(170deg,var(--navy2),var(--navy) 75%);color:var(--ivory);padding:18px 0 30px}
+.eyebrow{display:inline-block;margin-top:26px;font-size:12.5px;font-weight:800;letter-spacing:.06em;color:var(--gold);border:1px solid rgba(234,219,185,.4);border-radius:999px;padding:4px 12px}
 h1{margin:12px 0 10px;font-size:28px;line-height:1.3;font-weight:850;letter-spacing:-.02em;color:#fff}
 .hero p.sub{margin:0;color:rgba(247,242,232,.82);font-size:15.5px}
 .inside{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.inside span{font-size:13px;font-weight:700;color:var(--gold);background:rgba(228,206,161,.1);border-radius:10px;padding:6px 10px}
+.inside span{font-size:13px;font-weight:700;color:var(--gold);background:rgba(234,219,185,.1);border-radius:10px;padding:6px 10px}
 main{padding:22px 0 40px}
 .lead p,.body p{margin:0 0 14px;font-size:16.5px}
 .body ul{margin:0 0 14px;padding-left:20px}.body li{margin:4px 0;font-size:16px}
@@ -85,7 +85,7 @@ h2{font-size:19px;margin:30px 0 12px;font-weight:850;letter-spacing:-.01em}
 .sum .points li{border:0;background:transparent;padding:4px 0 10px 38px;font-weight:650}
 .sum .points li b{left:0;top:5px}
 .sum .lbl{font-size:12.5px;font-weight:800;color:var(--gold2);letter-spacing:.04em;margin-bottom:8px}
-.toc{margin:18px 0 0;padding:14px 16px;border-left:3px solid var(--gold);background:rgba(228,206,161,.12);border-radius:0 12px 12px 0}
+.toc{margin:18px 0 0;padding:14px 16px;border-left:3px solid var(--gold);background:rgba(234,219,185,.12);border-radius:0 12px 12px 0}
 .toc b{display:block;font-size:13px;margin-bottom:4px}.toc a{display:block;font-size:14.5px;text-decoration:none;padding:3px 0;color:var(--ink)}
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 8px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
 table{border-collapse:collapse;width:100%;font-size:14px;min-width:100%}
@@ -119,7 +119,7 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .gbox h3{margin:0 0 6px;font-size:18px;color:#fff}
 .gbox p{margin:0 0 14px;font-size:14px;color:rgba(247,242,232,.78)}
 .ef{display:flex;gap:8px}
-.ef input{flex:1;min-width:0;height:50px;border-radius:13px;border:1px solid rgba(228,206,161,.4);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:16px;padding:0 14px;outline:none}
+.ef input{flex:1;min-width:0;height:50px;border-radius:13px;border:1px solid rgba(234,219,185,.4);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:16px;padding:0 14px;outline:none}
 .ef input::placeholder{color:rgba(247,242,232,.5)}.ef input:focus{border-color:var(--gold)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:50px;padding:0 18px;border-radius:13px;border:0;font-weight:800;font-size:15.5px;text-decoration:none;white-space:nowrap}
 .btn.gold{background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy)}
@@ -142,9 +142,9 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .list .t{display:block;font-size:16.5px;font-weight:800;line-height:1.45}
 .list .d{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
 .wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
-.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
-.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}
-.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #D8C294;white-space:nowrap}
+.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#EADBB9;color:#EADBB9!important;padding-right:0!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 """
 
 HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
@@ -301,14 +301,14 @@ HUB_CSS = """
 .chip.on{background:var(--navy);color:#fff}
 .chip.hot{background:linear-gradient(90deg,var(--gold2),var(--gold));border-color:transparent;color:var(--navy)}
 .feat{display:block;text-decoration:none;margin:16px 0 14px;border-radius:20px;padding:20px 18px;color:var(--ivory);
- background:radial-gradient(120% 90% at 100% 0%,rgba(228,206,161,.28) 0,rgba(228,206,161,0) 60%),linear-gradient(160deg,var(--navy3),var(--navy));box-shadow:0 10px 26px rgba(10,23,48,.18)}
+ background:radial-gradient(120% 90% at 100% 0%,rgba(234,219,185,.28) 0,rgba(234,219,185,0) 60%),linear-gradient(160deg,var(--navy3),var(--navy));box-shadow:0 10px 26px rgba(10,23,48,.18)}
 .feat .badge{display:inline-block;font-size:12px;font-weight:850;color:var(--navy);background:var(--gold);border-radius:8px;padding:3px 9px}
 .feat .kwl{display:block;margin-top:14px;font-size:13px;color:rgba(247,242,232,.7);font-weight:700}
 .feat .kwb{display:block;font-size:40px;font-weight:900;letter-spacing:-.02em;color:#fff;line-height:1.15;margin-top:2px}
 .feat .t{display:block;margin-top:10px;font-size:17px;font-weight:800;line-height:1.45;color:var(--ivory)}
 .feat .go{display:flex;align-items:center;justify-content:center;margin-top:16px;height:50px;border-radius:13px;background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy);font-weight:850;font-size:16px}
 .list a.card{display:flex;gap:14px;align-items:center}
-.list a.card .k{flex:none;min-width:86px;text-align:center;font-size:20px;font-weight:900;color:var(--navy);background:rgba(228,206,161,.35);border-radius:12px;padding:12px 8px;line-height:1.2;word-break:keep-all}
+.list a.card .k{flex:none;min-width:86px;text-align:center;font-size:20px;font-weight:900;color:var(--navy);background:rgba(234,219,185,.35);border-radius:12px;padding:12px 8px;line-height:1.2;word-break:keep-all}
 .list a.card .b{min-width:0}
 .list a.card .kl{display:block;font-size:11.5px;font-weight:800;color:var(--gold2);margin-bottom:2px}
 .sect{font-size:14px;font-weight:850;color:var(--muted);margin:20px 0 10px}

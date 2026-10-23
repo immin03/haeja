@@ -20,9 +20,9 @@
 <style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
 /* 2026-10-23 확정 로고: Montserrat ExtraBold + 얇은 금색 줄 + 가운데 '밸류노트' */
 .wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;font-variation-settings:normal!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
-.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}
-.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}
-.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important;vertical-align:baseline!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #D8C294;white-space:nowrap}
+.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#EADBB9;color:#EADBB9!important;padding-right:0!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important;vertical-align:baseline!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 </style>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css" media="print" onload="this.media='all'">
@@ -33,7 +33,7 @@
 (function(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k)){location.replace('/'+location.search);return;}}localStorage.setItem('vn-start','1');}catch(e){}})();</script>
 <style>
 :root{
-  --navy:#0A1730; --navy2:#0E2342; --navy3:#13305A; --gold:#E4CEA1; --gold2:#C9AF7A;
+  --navy:#0A1730; --navy2:#0E2342; --navy3:#13305A; --gold:#EADBB9; --gold2:#C9AF7A;
   --ivory:#F7F2E8; --paper:#FBF8F2; --ink:#14213A; --muted:#5D6779; --line:#E6DFD1;
   --good:#1F8A5B; --bad:#C23535; --warn:#C98A12; --up:#D22F2F; --down:#2C62C9;
 }
@@ -51,10 +51,10 @@ button{font:inherit;cursor:pointer}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:16px}
 .top .wm{font-size:22px;color:#fff;text-decoration:none}
 .top .wm small{display:block;font-family:"SUIT Variable",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.02em;color:rgba(247,242,232,.62);margin-top:-2px}
-.top .login{font-size:13.5px;font-weight:700;color:var(--ivory);text-decoration:none;border:1px solid rgba(228,206,161,.42);border-radius:999px;padding:7px 14px}
+.top .login{font-size:13.5px;font-weight:700;color:var(--ivory);text-decoration:none;border:1px solid rgba(234,219,185,.42);border-radius:999px;padding:7px 14px}
 
 /* 첫 화면 */
-.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(228,206,161,.22) 0,rgba(228,206,161,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:70px 0 26px;position:relative;overflow:hidden}
+.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(234,219,185,.22) 0,rgba(234,219,185,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:70px 0 26px;position:relative;overflow:hidden}
 .eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--gold2)}
 .hero .eyebrow{color:var(--gold)}
 .hero h1{margin:10px 0 12px;font-size:34px;line-height:1.26;font-weight:850;letter-spacing:-.02em;color:#fff}
@@ -62,7 +62,7 @@ button{font:inherit;cursor:pointer}
 .hero .sub{margin:0 0 20px;font-size:16px;color:rgba(247,242,232,.84)}
 .hero .sub b{color:#fff}
 .sform{display:flex;gap:8px}
-.sform input{flex:1;min-width:0;height:50px;border-radius:14px;border:1px solid rgba(228,206,161,.38);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:16px;padding:0 16px;outline:none}
+.sform input{flex:1;min-width:0;height:50px;border-radius:14px;border:1px solid rgba(234,219,185,.38);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:16px;padding:0 16px;outline:none}
 .sform input::placeholder{color:rgba(247,242,232,.5)}
 .sform input:focus{border-color:var(--gold);background:rgba(255,255,255,.12)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:50px;padding:0 20px;border-radius:14px;border:0;font-weight:800;font-size:15.5px;text-decoration:none;white-space:nowrap}
@@ -70,7 +70,7 @@ button{font:inherit;cursor:pointer}
 .btn.navy{background:var(--navy);color:var(--ivory)}
 .btn.line{background:transparent;border:1px solid var(--line);color:var(--ink)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chips button{height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(228,206,161,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:13.5px;font-weight:700}
+.chips button{height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(234,219,185,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:13.5px;font-weight:700}
 .chips button.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
 .chips button.ig{border-color:var(--gold)}
 .chips button.ig small{color:var(--gold);font-weight:800;margin-right:4px}
@@ -94,7 +94,7 @@ button{font:inherit;cursor:pointer}
 .res-say{margin:14px 0 0;padding:11px 13px;border-radius:12px;background:#F6F1E6;font-size:14px;font-weight:600}
 .res a.res-k{display:flex;width:100%;margin-top:12px;height:48px;font-size:15px}
 .res a.more{display:block;margin-top:12px;text-align:center;font-size:14px;font-weight:800;color:var(--navy);text-decoration:none}
-.res-miss{background:rgba(255,255,255,.08);border:1px dashed rgba(228,206,161,.4);border-radius:14px;padding:14px;font-size:14px;color:rgba(247,242,232,.85)}
+.res-miss{background:rgba(255,255,255,.08);border:1px dashed rgba(234,219,185,.4);border-radius:14px;padding:14px;font-size:14px;color:rgba(247,242,232,.85)}
 .hero .scroll{display:flex;align-items:center;gap:8px;margin-top:26px;font-size:13.5px;font-weight:700;color:rgba(247,242,232,.7);text-decoration:none}
 .hero .scroll span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
 /* 광고·릴스에서 본 회사: 답을 먼저 보여 준다 */
@@ -117,7 +117,7 @@ button{font:inherit;cursor:pointer}
 .hsm .sopen{margin:0;color:rgba(247,242,232,.8);font-size:13.5px}
 #sbox{margin-top:14px}
 #sbox .chips{margin:0 0 10px}
-.fcl{background:rgba(255,255,255,.07);border:1px solid rgba(228,206,161,.28);border-radius:14px;padding:9px 13px;margin-top:8px;font-size:14px;font-weight:600;line-height:1.5;color:rgba(247,242,232,.88)}
+.fcl{background:rgba(255,255,255,.07);border:1px solid rgba(234,219,185,.28);border-radius:14px;padding:9px 13px;margin-top:8px;font-size:14px;font-weight:600;line-height:1.5;color:rgba(247,242,232,.88)}
 .fcl b{color:#fff}.fcl em{font-style:normal;color:#FF7A7A;font-weight:850;white-space:nowrap}.fcl em.ok{color:#7FD3A6}
 .fcv{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:13.5px;font-weight:800;color:var(--gold);text-decoration:none}
 .fcv i{width:20px;height:14px;border-radius:4px;background:#FF0000;display:inline-flex;align-items:center;justify-content:center;flex:none}
@@ -266,7 +266,7 @@ section.st+section.st{border-top:1px solid var(--line)}
 #s7 h2{font-size:24px}
 #s7{padding-bottom:28px}
 .rk-tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:4px 0 14px}
-.rk-tabs button{height:34px;padding:0 13px;border-radius:999px;border:1px solid rgba(228,206,161,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:13.5px;font-weight:700}
+.rk-tabs button{height:34px;padding:0 13px;border-radius:999px;border:1px solid rgba(234,219,185,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:13.5px;font-weight:700}
 .rk-tabs button small{opacity:.7;margin-left:3px;font-weight:700}
 .rk-tabs button.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
 .rk{max-width:440px;margin:0 auto 20px;display:grid;gap:8px;text-align:left}
@@ -296,14 +296,14 @@ section.st+section.st{border-top:1px solid var(--line)}
 .end .acts{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
 .end .acts .btn{width:100%}
 .btn.kakao{background:#FEE500;color:#191600}
-.end .acts .btn.ghost{background:transparent;border:1px solid rgba(228,206,161,.45);color:var(--ivory)}
-.fin{margin:34px auto 26px;padding-top:30px;border-top:1px solid rgba(228,206,161,.28);max-width:440px}
+.end .acts .btn.ghost{background:transparent;border:1px solid rgba(234,219,185,.45);color:var(--ivory)}
+.fin{margin:34px auto 26px;padding-top:30px;border-top:1px solid rgba(234,219,185,.28);max-width:440px}
 .end .fin p{margin:0;max-width:none}
 .end .fin .fin-q{font-size:27px;line-height:1.36;font-weight:850;color:#fff;letter-spacing:-.02em}
 .end .fin .fin-a{margin-top:12px;font-size:18px;line-height:1.5;font-weight:700;color:rgba(247,242,232,.88)}
 .fin-a b{color:var(--gold)}
 .reveal.in .fin{animation:pop .5s ease-out .2s both}
-.end2{border-top:1px solid rgba(228,206,161,.14);padding-top:44px}
+.end2{border-top:1px solid rgba(234,219,185,.14);padding-top:44px}
 .end .h2s{font-size:22px;margin-bottom:18px}
 .end .small{margin-top:14px;font-size:13px;color:rgba(247,242,232,.6)}
 footer{background:var(--navy);color:rgba(247,242,232,.55);font-size:12px;line-height:1.6;padding:20px 0 110px;border-top:1px solid rgba(255,255,255,.06)}

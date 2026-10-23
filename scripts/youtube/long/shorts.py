@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw, ImageFont
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 FD = os.path.join(ROOT, "scripts", "reels", "fonts")
 F = lambda w, s: ImageFont.truetype(os.path.join(FD, f"SUIT-{w}.ttf"), s)
-W, H = 1080, 1920; NAVY = (11, 27, 51); GOLD = (228, 206, 161); IVORY = (246, 241, 232)
+W, H = 1080, 1920; NAVY = (11, 27, 51); GOLD = (234, 219, 185); IVORY = (246, 241, 232)
 VID_Y, VID_H = 540, int(1080 * 900 / 1700)          # 롱폼 가운데 1700x900(양옆 여백·아래 자막·출처 줄 제외)을 1080 폭으로
 
 

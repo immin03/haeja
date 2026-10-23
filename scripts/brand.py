@@ -15,7 +15,7 @@ EN_FONT = os.path.join(FONTS, "Montserrat-ExtraBold.ttf")
 KO_FONT = os.path.join(FONTS, "SUIT-Bold.ttf")
 
 COLORS = {
-    "dark": {"value": (255, 255, 255), "note": (226, 207, 166), "line": (206, 180, 128), "ko": (226, 207, 166)},
+    "dark": {"value": (255, 255, 255), "note": (234, 219, 185), "line": (216, 194, 148), "ko": (234, 219, 185)},
     "light": {"value": (11, 27, 51), "note": (174, 146, 96), "line": (192, 168, 124), "ko": (158, 132, 86)},   # 2026-10-23: 금빛에서 조금 빠진 아이보리
 }
 _cache = {}
@@ -87,5 +87,5 @@ def v_icon(n=1080, mono=False):
     bb = d.textbbox((0, 0), "V", font=f); w = bb[2] - bb[0]; h = bb[3] - bb[1]
     d.text((n / 2 - w / 2 - bb[0], n * .45 - h / 2 - bb[1]), "V", font=f, fill=(255, 255, 255, 255))
     lw = w * .92; ly = n * .45 + h / 2 + n * .075; lh = max(2, round(n * .016))
-    d.rectangle([n / 2 - lw / 2, ly, n / 2 + lw / 2, ly + lh], fill=(255, 255, 255, 255) if mono else (206, 180, 128, 255))
+    d.rectangle([n / 2 - lw / 2, ly, n / 2 + lw / 2, ly + lh], fill=(255, 255, 255, 255) if mono else (216, 194, 148, 255))
     return im

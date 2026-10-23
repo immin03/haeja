@@ -79,14 +79,14 @@ function summary(r, sc) {
 }
 
 const CSS = `@font-face{font-family:SUIT;src:url(/fonts/SUIT-Variable.woff2) format("woff2");font-weight:100 900;font-display:swap}
-:root{--navy:#0E1A2B;--navy2:#16263D;--gold:#C9AF7A;--gold2:#E4CEA1;--ink:#1B2433;--muted:#6B7584;--line:#E7E2D8;--bg:#F6F3EC;--card:#fff;--good:#2E8B62;--warn:#C27C1E;--bad:#C23232}
+:root{--navy:#0E1A2B;--navy2:#16263D;--gold:#C9AF7A;--gold2:#EADBB9;--ink:#1B2433;--muted:#6B7584;--line:#E7E2D8;--bg:#F6F3EC;--card:#fff;--good:#2E8B62;--warn:#C27C1E;--bad:#C23232}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 SUIT,Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;word-break:keep-all}
 a{color:inherit}
 .top{background:var(--navy);color:#F3EEE3}
 .top .in{max-width:760px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}.wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #CEB480;white-space:nowrap}.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E2CFA6;color:#E2CFA6!important;padding-right:0!important}.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E2CFA6!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
-.top .go{background:linear-gradient(90deg,#C9AF7A,#E4CEA1);color:#0A1322;font-weight:800;text-decoration:none;padding:8px 14px;border-radius:999px;font-size:14px;white-space:nowrap}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}.wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #D8C294;white-space:nowrap}.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#EADBB9;color:#EADBB9!important;padding-right:0!important}.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+.top .go{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322;font-weight:800;text-decoration:none;padding:8px 14px;border-radius:999px;font-size:14px;white-space:nowrap}
 main{max-width:760px;margin:0 auto;padding:18px 16px 40px}
 .crumb{font-size:13px;color:var(--muted);margin-bottom:10px}.crumb a{text-decoration:none}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0}
@@ -118,7 +118,7 @@ td.n{text-align:right;font-weight:700;white-space:nowrap}
 .peers b{color:var(--gold)}
 .mk{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px}.mk a{font-size:13.5px;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px}
 .list td a{text-decoration:none;font-weight:600}.list td.s{color:var(--muted);font-size:13px}
-.share{display:flex;gap:8px;margin:14px 0 0}.share button{flex:1;font:inherit;font-size:14px;font-weight:700;border-radius:12px;padding:10px;cursor:pointer;border:1px solid rgba(228,206,161,.45);background:rgba(228,206,161,.12);color:#F3EEE3}
+.share{display:flex;gap:8px;margin:14px 0 0}.share button{flex:1;font:inherit;font-size:14px;font-weight:700;border-radius:12px;padding:10px;cursor:pointer;border:1px solid rgba(234,219,185,.45);background:rgba(234,219,185,.12);color:#F3EEE3}
 .faq details{border-top:1px solid var(--line);padding:11px 0}.faq details:first-of-type{border-top:0}
 .faq summary{font-weight:700;cursor:pointer;list-style:none}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:"+";float:right;color:var(--muted)}.faq details[open] summary:after{content:"−"}
 .faq details p{margin:8px 0 0;color:#3A4352}
@@ -141,7 +141,7 @@ article.col h1{font-size:25px}article.col h3{font-size:17px;margin:22px 0 8px}ar
 /* 기업 페이지 랜딩형 */
 main.lp .crumb .note{font-size:12px}
 .hero2{background:radial-gradient(120% 80% at 100% 0,rgba(201,175,122,.22),transparent 55%),linear-gradient(165deg,#1A2D47,var(--navy));color:#F3EEE3;border-radius:20px;padding:22px 18px 18px;margin:8px 0 12px}
-.hero2 .eyebrow{display:inline-block;font-size:12px;font-weight:700;color:var(--gold2);border:1px solid rgba(228,206,161,.4);border-radius:999px;padding:3px 10px;margin-bottom:12px}
+.hero2 .eyebrow{display:inline-block;font-size:12px;font-weight:700;color:var(--gold2);border:1px solid rgba(234,219,185,.4);border-radius:999px;padding:3px 10px;margin-bottom:12px}
 .hero2 h1{font-size:27px;line-height:1.32;color:#fff;margin:0 0 10px;letter-spacing:-.5px}.hero2 h1 em{font-style:normal;color:var(--gold2)}
 .verdict{font-size:16px;color:#D5DCE7;margin:0 0 6px}.verdict b{font-weight:900}.hot{color:#FF8080}.cool{color:#7FD8AE}
 .ruler{margin:20px 2px 6px}.ruler .up,.ruler .dn{position:relative;height:38px}

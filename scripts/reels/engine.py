@@ -46,7 +46,7 @@ sys.path.insert(0, HERE)
 from korean import to_speech  # noqa: E402
 
 W, H, FPS, SR = 1080, 1920, 30, 44100
-NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (214, 186, 129); GOLD_D = (150, 129, 88)
+NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (224, 200, 150); GOLD_D = (150, 129, 88)
 IVORY = (246, 241, 232); GRAY = (140, 152, 172); DIM = (78, 94, 122); LOSS = (232, 71, 71)
 GAIN = (96, 196, 150); GRID = (38, 58, 92)
 TONE = {"loss": LOSS, "gold": GOLD, "good": GAIN, "gray": GRAY, "ivory": IVORY}
