@@ -8,8 +8,8 @@
 //   criteria { eyebrow, title, rows:[{label, sub, value}], note }  기준 표 (번호 원 + 이름 + 값)
 //   cards    { eyebrow, title, items:[{name, tag, rows:[[이름, 값]], badge}] }  회사 카드 (세로로 쌓음, 2~4개)
 //   compare  { eyebrow, title, a, b, rows:[{name, a, b}], note }   두 숫자 막대 비교 (예: PER vs 평균 이익 PER)
-//   grid     { l1, l2, pill, cols, tiles:[{name, tag, big, bigLabel, chip, note, tone}], notes }  한 장 요약 (기본 형식, 2026-10-23)
-//   end      { title, body, cta }                    마지막 장 (밸류노트 워드마크 + 팔로우 안내)
+//   grid     { l1, l2, pill, cols, compact?, tiles:[{name, tag, big, bigLabel, chip, note, tone, num?}], notes }  한 장 요약 (기본 형식, 2026-10-23). compact = 타일 10~12개(4열)용 작은 글씨, num = 번호 원 글자(예: '✕')
+//   end      { title, body, cta, checks?:[[이름, 설명]], checkHead?, checkNote? }  마지막 장 (체크표 선택) + 밸류노트 워드마크
 // 공통: spec.foot = 출처·기준일 한 줄 (모든 장 아래), 고지문은 마지막 장에만 작게.
 // 디자인 규칙: 글꼴 Pretendard, 원 안 숫자는 #FFFFFF, 밸류노트 로고는 사이트 og.png 워드마크를 잘라 쓴다. 인물 사진은 재사용 허락된 것만(README).
 import fs from 'node:fs';
@@ -106,15 +106,16 @@ const K = {
     const P = { bg: '#FBF8F1', ink: '#0F1E36', red: '#D8352A', green: '#16794D', gold: '#B8862F', chip: '#FCE7A6', line: '#E6DECD' };
     const cols = s.cols || 3, gap = 18, tw = Math.floor((W - 72 - gap * (cols - 1)) / cols);
     const tone = (t) => t === 'green' ? P.green : t === 'navy' ? P.ink : P.red;
-    const tile = (x, k) => h('div', { width: tw, flexDirection: 'column', background: '#FFFFFF', borderRadius: 20, padding: '26px 22px 24px 22px', border: `2px solid ${P.line}`, boxShadow: '0 4px 14px rgba(15,30,54,.08)' },
-      h('div', { alignItems: 'center', gap: 10 },
-        h('div', { width: 40, height: 40, borderRadius: 10, background: tone(x.tone), color: '#FFFFFF', fontSize: 24, fontWeight: 900, alignItems: 'center', justifyContent: 'center' }, String(k + 1)),
-        t(x.name, { fontSize: x.name.length > 5 ? 31 : 36, fontWeight: 900, color: P.ink, letterSpacing: -1 })),
-      x.tag ? t(x.tag, { fontSize: 22, color: '#6B7484', fontWeight: 700, marginTop: 8 }) : null,
-      t(x.big, { fontSize: x.big.length > 9 ? 48 : 76, fontWeight: 900, color: tone(x.tone), letterSpacing: -2, marginTop: 6, lineHeight: 1.1 }),
-      x.bigLabel ? t(x.bigLabel, { fontSize: 22, color: '#4A5363', fontWeight: 700, marginTop: 4, lineHeight: 1.3 }) : null,
-      x.chip ? h('div', { marginTop: 12, background: P.chip, borderRadius: 10, padding: '8px 10px', justifyContent: 'center' }, t(x.chip, { fontSize: x.chip.length > 16 ? 21 : 23, fontWeight: 900, color: P.ink, letterSpacing: -0.5 })) : null,
-      x.note ? h('div', { flexDirection: 'column', marginTop: 14 }, String(x.note).split('\n').map((l) => t(l, { fontSize: 23, color: P.ink, fontWeight: 800, lineHeight: 1.4 }))) : null);
+    const c = s.compact ? 0.78 : 1, z = (v) => Math.round(v * c);  // compact: 타일 10~12개용 작은 글씨
+    const tile = (x, k) => h('div', { width: tw, flexDirection: 'column', background: '#FFFFFF', borderRadius: 20, padding: s.compact ? '18px 14px 16px 14px' : '26px 22px 24px 22px', border: `2px solid ${P.line}`, boxShadow: '0 4px 14px rgba(15,30,54,.08)' },
+      h('div', { alignItems: 'center', gap: z(10) },
+        h('div', { width: z(40), height: z(40), borderRadius: 10, background: tone(x.tone), color: '#FFFFFF', fontSize: z(24), fontWeight: 900, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }, x.num || String(k + 1)),
+        t(x.name, { fontSize: z(x.name.length > 7 ? 26 : x.name.length > 5 ? 31 : 36), fontWeight: 900, color: P.ink, letterSpacing: -1 })),
+      x.tag ? t(x.tag, { fontSize: z(22), color: '#6B7484', fontWeight: 700, marginTop: z(8) }) : null,
+      t(x.big, { fontSize: z(x.big.length > 9 ? 48 : 76), fontWeight: 900, color: tone(x.tone), letterSpacing: -2, marginTop: z(6), lineHeight: 1.1 }),
+      x.bigLabel ? t(x.bigLabel, { fontSize: z(22), color: '#4A5363', fontWeight: 700, marginTop: 4, lineHeight: 1.3 }) : null,
+      x.chip ? h('div', { marginTop: z(12), background: P.chip, borderRadius: 10, padding: '8px 10px', justifyContent: 'center' }, t(x.chip, { fontSize: z(x.chip.length > 16 ? 21 : 23), fontWeight: 900, color: P.ink, letterSpacing: -0.5 })) : null,
+      x.note ? h('div', { flexDirection: 'column', marginTop: z(14) }, String(x.note).split('\n').map((l) => t(l, { fontSize: z(23), color: P.ink, fontWeight: 800, lineHeight: 1.4 }))) : null);
     const rows = []; for (let k = 0; k < s.tiles.length; k += cols) rows.push(s.tiles.slice(k, k + cols));
     return h('div', { width: W, height: H, flexDirection: 'column', background: P.bg, fontFamily: 'P', color: P.ink, padding: '40px 36px 30px 36px' },
       h('div', { justifyContent: 'space-between', alignItems: 'center' },
@@ -125,7 +126,7 @@ const K = {
         t(s.l2, { fontSize: 82, fontWeight: 900, letterSpacing: -3, lineHeight: 1.08, color: P.red }),
         s.l3 ? t(s.l3, { fontSize: 82, fontWeight: 900, letterSpacing: -3, lineHeight: 1.08 }) : null),
       s.pill ? h('div', { alignSelf: 'flex-start', marginTop: 16, background: P.ink, color: '#FFFFFF', borderRadius: 40, padding: '10px 22px' }, t(s.pill, { fontSize: 25, fontWeight: 800 })) : null,
-      h('div', { flexDirection: 'column', gap: 22, marginTop: 26 }, rows.map((r) => h('div', { gap }, r.map((x) => tile(x, s.tiles.indexOf(x)))))),
+      h('div', { flexDirection: 'column', gap: s.compact ? 16 : 22, marginTop: s.compact ? 20 : 26 }, rows.map((r) => h('div', { gap }, r.map((x) => tile(x, s.tiles.indexOf(x)))))),
       h('div', { flexDirection: 'column', marginTop: 'auto', paddingTop: 14 }, (s.notes || []).map((x) => t(x, { fontSize: 19, color: '#5C6575', fontWeight: 600, lineHeight: 1.45 }))));
   },
 
@@ -159,7 +160,11 @@ const K = {
 
   end: (s, sp, i, n) => shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' },
     bigTitle(s.title, s.size || 64),
-    (s.body || []).map((p) => para(p)),
+    s.checks ? h('div', { flexDirection: 'column', marginTop: 34, background: C.card, borderRadius: 26, padding: '26px 30px', border: `1px solid ${C.line}` },
+      s.checkHead ? t(s.checkHead, { fontSize: 27, color: C.gold, fontWeight: 800, marginBottom: 12 }) : null,
+      s.checks.map(([k, v], j) => h('div', { alignItems: 'center', gap: 20, marginTop: j ? 14 : 4 }, num(j + 1, C.gold2), h('div', { flexDirection: 'column', flexShrink: 1 }, t(k, { fontSize: 32, fontWeight: 900 }), t(v, { fontSize: 28, fontWeight: 600, color: C.mute, marginTop: 2 })))),
+      s.checkNote ? t(s.checkNote, { fontSize: 23, color: C.dim, fontWeight: 500, lineHeight: 1.45, marginTop: 18 }) : null) : null,
+    (s.body || []).map((p) => para(p, s.checks ? { fontSize: 32, marginTop: 24 } : {})),
     s.cta ? h('div', { marginTop: 54, alignSelf: 'flex-start', background: C.gold, color: C.navy, fontSize: 34, fontWeight: 900, borderRadius: 60, padding: '22px 40px' }, s.cta) : null,
     h('div', { marginTop: 60, alignItems: 'center', gap: 22 }, mark(260), t('@value.note.korea', { fontSize: 28, color: C.mute, fontWeight: 700 })))),
 };
