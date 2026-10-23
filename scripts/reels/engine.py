@@ -686,7 +686,7 @@ def s_race(img, u, sc, L, T):
 # 원칙: 글자는 흔들리지 않는다(카메라·흔들림 없음) · 모든 요소는 화면 가운데 정렬 · 위 제목 띠(0~330) 아래부터 자막(1330) 위까지만 쓴다
 #       · 요소는 그 말을 하는 순간에 채워진다(막대가 자라고, 평균선이 그어지고, 식의 칸이 하나씩 찬다)
 YT = False
-YT_TITLE_Y, YT_CAP_Y, YT_CAP_X = 520, 1330, 510   # 자막은 오른쪽 좋아요·댓글·저장 버튼을 피해 살짝 왼쪽, 폭 800 이내
+YT_TITLE_Y, YT_CAP_Y, YT_CAP_X = 560, 1330, W / 2   # 자막은 오른쪽 좋아요·댓글·저장 버튼을 피해 살짝 왼쪽, 폭 800 이내
 
 def join_fracs(parts):
     """한 번에 읽은 문장 안에서 각 자막 조각이 차지하는 시간 비율 (음절 수 + 쉼표·마침표 쉼)"""
@@ -749,7 +749,7 @@ def y_bars(img, u, sc, L, T):
     items = sc["items"]; n_ = len(items); avg = sc.get("avg")
     vals = [it["v"] for it in items] + ([avg["value"]] if avg else [])
     lo, hi = min(0, min(vals)), max(0, max(vals))
-    X0, X1, TOP, BOT = 150, 930, 720 if avg else 680, 1100
+    X0, X1, TOP, BOT = 150, 930, 750 if avg else 710, 1100
     span = (hi - lo) or 1; hi_ = hi + span * .16; lo_ = lo - (span * .14 if lo < 0 else 0)
     ymap = lambda v: BOT - (v - lo_) / (hi_ - lo_) * (BOT - TOP)
     y0 = ymap(0); d = ImageDraw.Draw(img)
@@ -784,7 +784,7 @@ def y_bars(img, u, sc, L, T):
             lab = avg.get("label", f"평균 {avg['value']:g}")
             a_ = prog(u, ta + .3, ta + .7)   # 범례: 제목 아래 '- - 여러 해 평균 17.3조' (막대 숫자와 겹치지 않게)
             if a_ > 0:
-                f_ = F("ExtraBold", 44); tw = f_.getlength(lab); lx = W / 2 - (tw + 90) / 2; ly = 630
+                f_ = F("ExtraBold", 44); tw = f_.getlength(lab); lx = W / 2 - (tw + 90) / 2; ly = 664
                 for x in (lx, lx + 36): d.line([(x, ly), (x + 22, ly)], fill=mix(NAVY, GOLD, a_), width=6)
                 d.text((lx + 90, ly), lab, font=f_, fill=mix(NAVY, GOLD, a_), anchor="lm")
     return img
@@ -800,8 +800,8 @@ def y_compare(img, u, sc, L, T):
         p = prog(u, t0, t0 + .45, ease_io)
         if p <= 0: continue
         col = TONE.get(sd.get("tone", "gray" if i == 0 else "loss"), GRAY)
-        cx = 290 + i * 500; off = int((1 - p) * 24) + 50
-        d.rounded_rectangle([cx - 215, 590 + off, cx + 215, 1120 + off], 36, outline=mix(NAVY, col, p), width=4, fill=mix(NAVY, NAVY2, p))
+        cx = 290 + i * 500; off = int((1 - p) * 24) + 80
+        d.rounded_rectangle([cx - 215, 590 + off, cx + 215, 1090 + off], 36, outline=mix(NAVY, col, p), width=4, fill=mix(NAVY, NAVY2, p))
         lines = sd.get("label", "").split("\n")
         for j, ln in enumerate(lines):
             d.text((cx, 680 + off + (j - (len(lines) - 1) / 2) * 50), ln, font=fit_font(ln, "Bold", 44, 390), fill=mix(NAVY, IVORY, p), anchor="mm")
@@ -838,12 +838,12 @@ def y_equation(img, u, sc, L, T):
     a, b = sc["a"], sc["b"]
     ta = y_at(L, 0, .15); top = y_at(L, 1) if len(L) > 1 else y_at(L, 0, .5)
     tb = y_at(L, 2) if len(L) > 2 else top + .9
-    y_box(img, u, ta, 710, a["label"], a["v"], IVORY)
+    y_box(img, u, ta, 740, a["label"], a["v"], IVORY)
     op = sc.get("op", "× 10")
-    y_fade(img, u, top, op, F("Heavy", 84), GOLD, (W / 2, 872), rise=10)
-    y_box(img, u, tb, 1035, b["label"], b["v"], GOLD, filled=True)
+    y_fade(img, u, top, op, F("Heavy", 84), GOLD, (W / 2, 896), rise=10)
+    y_box(img, u, tb, 1050, b["label"], b["v"], GOLD, filled=True)
     if sc.get("note"):
-        y_fade(img, u, tb + .6, sc["note"], fit_font(sc["note"], "SemiBold", 40, 900), GRAY, (W / 2, 1186))
+        y_fade(img, u, tb + .6, sc["note"], fit_font(sc["note"], "SemiBold", 40, 900), GRAY, (W / 2, 1196))
     return img
 
 YDRAW = {"hook": y_hook, "bars": y_bars, "compare": y_compare, "statement": y_statement, "equation": y_equation}
@@ -1053,7 +1053,7 @@ YT_BANNER = None   # 유튜브 쇼츠: 영상 내내 위에 고정되는 제목 
 def draw_banner(img):
     if not YT_BANNER: return
     # 2026-10-23 운영자: 유튜브 앱에서 위쪽 뒤로가기·검색 아이콘과 겹치지 않게 조금 아래로, 글자는 더 크게
-    d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 400], fill=(8, 10, 16))
+    d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 448], fill=(8, 10, 16))   # 아래 여백을 넉넉히 (10-23 운영자)
     l1, l2 = (list(YT_BANNER) + ["", ""])[:2]
     if l1: d.text((W / 2, 196), l1, font=fit_font(l1, "Heavy", 94, 1000), fill=IVORY, anchor="mm")
     if l2: d.text((W / 2, 318), l2, font=fit_font(l2, "Heavy", 110, 1010), fill=GOLD, anchor="mm")
