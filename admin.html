@@ -212,6 +212,13 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .soc-tb details summary::before{content:"▸";font-size:11px}
 .soc-tb details[open] summary::before{content:"▾"}
 /* 유튜브 검수 */
+.gh-run{padding:14px 16px;margin-bottom:10px}
+.gh-run .t{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:700;font-size:14.5px}
+.gh-run .w{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.55;word-break:keep-all}
+.gh-bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:10px}
+.gh-bar i{display:block;height:100%;background:#B09868;border-radius:99px;transition:width .6s}
+.gh-log{padding:10px 14px}.gh-log .r{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5;word-break:keep-all}
+.gh-log .r:first-child{border-top:0}.gh-log .r .tm{flex:0 0 auto;color:var(--muted);font-variant-numeric:tabular-nums}
 .yt-note{padding:12px 14px;border-radius:12px;background:rgba(176,152,104,.1);color:var(--ink);font-size:13.5px;line-height:1.6;margin-bottom:14px}
 .yt-item{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;padding:16px;margin-bottom:14px}
 .yt-item.short{grid-template-columns:260px minmax(0,1fr)}
@@ -781,13 +788,69 @@ function ytItem(y){
       <details><summary>설명·태그·고정 댓글 보기</summary><pre>${esc(y.description || '')}</pre><div class="m">${esc((y.tags || []).join(', '))}</div>${y.pinned_comment ? `<pre>고정 댓글\n${esc(y.pinned_comment)}</pre>` : ''}</details>
       <div class="ac">${acts.join('')}</div></div></div>`;
 }
+/* 지금 돌아가는 작업 (2026-10-24 운영자: "지금 하고 있는 건지, 어느 정도 렌더링됐는지 대충 확인할 수 있게")
+   공개 저장소의 GitHub Actions 실행 목록과 Claude 커밋 기록을 읽는다. 브라우저 캐시(ETag) 재검증이라 조회 한도를 거의 쓰지 않는다 */
+const GH = { runs: null, commits: null, jobs: {}, at: 0, busy: false, err: '' };
+const GH_API = 'https://api.github.com/repos/immin03/haeja';
+const GH_WF = { 'yt-long': '유튜브 롱폼 렌더', reels: '릴스·쇼츠 렌더', 'voice-clone': '목소리 클로닝', 'daily-cards': '카드뉴스 만들기', 'blog-media': '블로그 이미지', 'company-cards': '기업 카드', 'reels-assets': '릴스 소재 준비', 'div-race': '배당 비교 영상', pages: '사이트 배포', 'yt-keytest': '성우 점검' };
+const ghWf = r => { const k = (r.path || '').split('/').pop().replace(/\.ya?ml$/, ''); return GH_WF[k] || r.name || k; };
+const ghMin = ms => { const m = Math.max(0, Math.round(ms / 60000)); return m < 60 ? m + '분' : Math.floor(m / 60) + '시간 ' + (m % 60) + '분'; };
+const ghActive = () => (GH.runs || []).filter(r => r.status !== 'completed').length;
+async function ghGet(path){ const r = await fetch(GH_API + path, { headers: { Accept: 'application/vnd.github+json' } }); if(!r.ok) throw new Error(r.status === 403 ? 'GitHub 조회 한도에 걸렸습니다. 몇 분 뒤 다시 보입니다' : 'GitHub ' + r.status); return r.json(); }
+async function ghLoad(){
+  if(GH.busy) return; GH.busy = true;
+  try {
+    const since = new Date(Date.now() - 24 * 3600e3).toISOString();
+    const [runs, commits] = await Promise.all([ghGet('/actions/runs?per_page=40'), ghGet('/commits?per_page=40&since=' + since)]);
+    GH.runs = runs.workflow_runs || []; GH.commits = commits || []; GH.err = '';
+    const live = GH.runs.filter(r => r.status === 'in_progress');
+    await Promise.all(live.map(async r => { try { const j = await ghGet(`/actions/runs/${r.id}/jobs`); GH.jobs[r.id] = j.jobs || []; } catch(e) {} }));
+  } catch(e) { GH.err = e.message; }
+  const first = !GH.at; GH.at = Date.now(); GH.busy = false;
+  if(first && page() === 'youtube') { render(); return; }   // 처음 불러오면 메뉴 숫자(제작 중 N)까지 다시 그린다
+  const el = document.getElementById('gh-panel'); if(el) el.innerHTML = ghPanel();
+}
+function ghAvg(r){   // 같은 작업의 최근 성공 실행 평균 시간
+  const same = (GH.runs || []).filter(x => x.path === r.path && x.status === 'completed' && x.conclusion === 'success' && x.run_started_at).slice(0, 8);
+  const d = same.map(x => Date.parse(x.updated_at) - Date.parse(x.run_started_at)), mx = Math.max(0, ...d);
+  const real = d.filter(v => v >= mx * .5);   // 할 일이 없어 금방 끝난 실행은 빼고 평균
+  return real.length ? real.reduce((a, v) => a + v, 0) / real.length : 0;
+}
+function ghRunCard(r){
+  const now = Date.now(), started = Date.parse(r.run_started_at || r.created_at), el = now - started;
+  const steps = (GH.jobs[r.id] || []).flatMap(j => j.steps || []);
+  const cur = steps.find(st => st.status === 'in_progress'), idx = cur ? steps.indexOf(cur) + 1 : 0;
+  const avg = ghAvg(r), pct = r.status === 'queued' || r.status === 'waiting' || r.status === 'pending' ? 0 : avg ? Math.min(95, Math.round(el / avg * 100)) : 0;
+  const what = (r.display_title || '').split('\n')[0];
+  const left = avg && pct < 95 ? ` · 남은 시간 약 ${ghMin(avg - el)}` : avg ? ' · 거의 끝나 갑니다' : '';
+  return `<div class="card gh-run"><div class="t"><span class="kind reel">${esc(ghWf(r))}</span><span class="st ${r.status === 'in_progress' ? 'run' : 'none'}">${r.status === 'in_progress' ? '진행 중' : '대기 중'}</span></div>
+    <div class="w"><b>무엇을</b> ${esc(what)}</div>
+    <div class="w">${r.status === 'in_progress' ? `시작 ${kst(r.run_started_at)} · ${ghMin(el)} 지남${left}${cur ? `<br>지금 단계: ${esc(cur.name)} (${idx}/${steps.length})` : ''}` : '앞 작업이 끝나면 시작합니다'}</div>
+    ${r.status === 'in_progress' ? `<div class="gh-bar"><i style="width:${avg ? pct : 50}%"></i></div><div class="w" style="font-size:12px">${avg ? `약 ${pct}% (최근 평균 ${ghMin(avg)} 기준 추정)` : '처음 돌리는 작업이라 진행률을 추정할 수 없습니다'}</div>` : ''}
+    <div class="w"><a href="${esc(r.html_url)}" target="_blank" rel="noopener">자세한 기록 ↗</a></div></div>`;
+}
+function ghPanel(){
+  if(GH.runs === null) return `<div class="card empty" style="padding:14px">${GH.err ? esc(GH.err) : '작업 현황을 불러오는 중입니다.'}</div>`;
+  const live = GH.runs.filter(r => r.status !== 'completed');
+  const done = GH.runs.filter(r => r.status === 'completed').slice(0, 6);
+  const mine = (GH.commits || []).filter(c => /claude/i.test((c.commit && c.commit.author && c.commit.author.name) || '')).slice(0, 12);
+  const end = r => r.conclusion === 'success' ? '<span class="st ok">완료</span>' : r.conclusion === 'cancelled' ? '<span class="st off">취소</span>' : r.conclusion === 'skipped' ? '<span class="st off">건너뜀</span>' : '<span class="st bad">실패</span>';
+  return `${GH.err ? `<div class="soc-flash bad">${esc(GH.err)}</div>` : ''}
+  <div class="soc-sec"><h2>지금 돌아가는 렌더·작업</h2><span class="n">1분마다 갱신 · 마지막 확인 ${kst(new Date(GH.at).toISOString())}</span></div>
+  ${live.length ? live.map(ghRunCard).join('') : '<div class="card empty" style="padding:14px">지금 돌아가는 렌더·작업이 없습니다.</div>'}
+  <div class="soc-sec"><h2>최근 끝난 작업</h2><span class="n">최근 ${done.length}건</span></div>
+  <div class="card gh-log">${done.map(r => `<div class="r"><span class="tm">${kst(r.updated_at)}</span><span>${end(r)} <b>${esc(ghWf(r))}</b> · ${esc((r.display_title || '').split('\n')[0])}${r.run_started_at ? ` · ${ghMin(Date.parse(r.updated_at) - Date.parse(r.run_started_at))}` : ''}</span></div>`).join('') || '<div class="r">없음</div>'}</div>
+  <div class="soc-sec"><h2>Claude 작업 기록</h2><span class="n">최근 24시간 · 무엇을 바꿨는지</span></div>
+  <div class="card gh-log">${mine.map(c => `<div class="r"><span class="tm">${kst(c.commit.author.date)}</span><span>${esc(c.commit.message.split('\n')[0])}</span></div>`).join('') || '<div class="r">최근 24시간 기록이 없습니다.</div>'}</div>`;
+}
+setInterval(() => { if(!document.hidden && document.getElementById('gh-panel')) ghLoad(); }, 60 * 1000);
 /* 유튜브 세부 메뉴 (2026-10-24): 기획안·제작 중·검수·올리기 대기·올림 완료·보류를 나눠서 한 번에 하나만 본다 */
 function ytViews(){
   const L = YT.list || [], P = YT.plans || [], sortAt = (a, b) => (a.scheduled_at || '').localeCompare(b.scheduled_at || '');
   const v = k => L.filter(y => k.includes(y.status)).sort(sortAt);
   return {
     plan:   { t: '기획안', hot: true, plans: P.filter(x => x.status === 'proposed'), vids: [] },
-    making: { t: '제작 중', plans: P.filter(x => ['approved', 'producing'].includes(x.status)), vids: v(['stale', 'rerendering']) },
+    making: { t: '제작 중', live: true, plans: P.filter(x => ['approved', 'producing'].includes(x.status)), vids: v(['stale', 'rerendering']) },
     review: { t: '영상 검수', hot: true, plans: [], vids: v(['review', 'changes']) },
     ready:  { t: '올리기 대기', hot: true, plans: [], vids: v(['approved']) },
     done:   { t: '올림 완료', plans: [], vids: v(['uploaded']).reverse() },
@@ -803,7 +866,8 @@ const YT_NOTE = {
 function vYoutube(){
   if(YT.list === null){ ytLoad(); return head('유튜브', '불러오는 중', 'youtube'); }
   if(YT.err) return head('유튜브', '', 'youtube') + `<div class="card">불러오지 못했습니다: ${esc(YT.err)}</div>`;
-  const V = ytViews(), n = k => V[k].plans.length + V[k].vids.length;
+  const V = ytViews(), n = k => V[k].plans.length + V[k].vids.length + (V[k].live ? ghActive() : 0);
+  if(GH.runs === null || Date.now() - GH.at > 60e3) setTimeout(ghLoad, 0);
   let cur = subPage(); if(!V[cur]) cur = ['review', 'plan', 'ready', 'making'].find(k => n(k)) || 'plan';
   const x = V[cur];
   const seg = `<div class="seg">${Object.entries(V).map(([k, o]) => `<a href="#youtube/${k}"${k === cur ? ' aria-current="page"' : ''}${o.hot && n(k) ? ' class="hot"' : ''}>${o.t}<b>${n(k)}</b></a>`).join('')}</div>`;
@@ -816,7 +880,7 @@ function vYoutube(){
   ${seg}
   ${YT.msg ? `<div class="soc-flash ok">${esc(YT.msg)}</div>` : ''}
   ${YT_NOTE[cur] && n(cur) ? `<div class="yt-note">${YT_NOTE[cur]}</div>` : ''}
-  ${body || `<div class="card empty" style="padding:14px">${empty}</div>`}`;
+  ${cur === 'making' ? `<div id="gh-panel">${ghPanel()}</div>${body ? `<div class="soc-sec"><h2>제작 중인 기획안·영상</h2></div>${body}` : ''}` : (body || `<div class="card empty" style="padding:14px">${empty}</div>`)}`;
 }
 /* 네이버 블로그: 따로 있던 /naver/ 글 목록을 콘텐츠 메뉴 안에 붙인다 */
 function vBlog(){
