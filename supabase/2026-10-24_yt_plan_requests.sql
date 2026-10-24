@@ -74,3 +74,7 @@ revoke all on function public.yt_plan_req_list() from public, anon;
 grant execute on function public.yt_next_long_slot(text) to authenticated;
 grant execute on function public.yt_plan_request(text, text, text, int) to authenticated;
 grant execute on function public.yt_plan_req_list() to authenticated;
+
+-- 2026-10-24 16:30 운영자: "지금 초반이니까 많이 올리는 게 낫지 않아?" → 롱폼 매일 1편(19:00).
+-- 시즌 기획은 data.fixed_date = true 로 표시하면 승인해도 정해 둔 target_at을 지키고, 자동 배정은 그날을 비켜 간다.
+-- (실제 함수 정의는 마이그레이션 yt_long_daily_slots, yt_slot_skip_fixed 로 적용됨)
