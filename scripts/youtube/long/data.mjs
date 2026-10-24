@@ -23,6 +23,7 @@ export function won(n) {
 }
 const comma = (n) => Math.round(n).toLocaleString('ko-KR') + '원';
 const x1 = (v) => (Math.round(v * 10) / 10).toFixed(1).replace(/\.0$/, '') + '배';
+const w100 = (v) => { const n = Math.round(v / 100) * 100, m = Math.floor(n / 1e4), r = n % 1e4; return '약 ' + (m ? m + '만' + (r ? ' ' + r.toLocaleString('ko-KR') : '') : r.toLocaleString('ko-KR')) + '원'; };
 const pct = (v) => Math.round(v * 100) + '%';
 // 미국 종목 (2026-10-23 스페이스X 편): 달러 표기. 153.94 → "153.9달러", 2.13e12 → "2.1조 달러", 4.26e11 → "4,300억 달러"
 export const usd = (n) => (n >= 100 ? (Math.round(n * 10) / 10).toFixed(1).replace(/\.0$/, '') : (Math.round(n * 100) / 100).toFixed(2).replace(/0$/, '').replace(/\.0?$/, '')) + '달러';
@@ -103,6 +104,7 @@ export async function companyData(code, spec = {}) {
       asof, px_label, ...btv, ...hi, ...usv, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: money2(px), px_short: money(px), iv: iv ? money2(iv) : '', iv_short: iv ? money(iv) : '', iv_man: Math.floor(iv / 1e4) + '만 원',
       mult: x1(px / iv), per_now: x1(px / E), per_avg: x1(px / normal), eps: won(E),
       need: pct(need), iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
+      norm: w100(normal), need_won: w100(px / 10), eps100: w100(E), eps_norm: x1(E / normal),   // 비율 대신 1주당 원화로 말할 때 (100원 단위)
       v30: won(v30), v30_vs: vs(v30, px), v100: won(v100), v100_vs: vs(v100, px),
     },
   };
