@@ -1,0 +1,61 @@
+# 운영자 목소리 클로닝 (scripts/voice/clone.py 설명 참고)
+# 녹음 원본·결과는 평문으로 저장소에 남지 않는다: 이 실행이 만든 1회용 공개키로 암호화한 녹음을
+# voice-xchg 가지에서 기다렸다가 받아 복호화하고, 결과는 요청자 공개키로 암호화해 같은 가지에 둔다.
+name: voice-clone
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/voice/request.json']
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: voice-clone
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: 1회용 키 만들고 공개키 올리기
+        run: |
+          set -e
+          mkdir -p /tmp/v && cd /tmp/v
+          openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out wf_priv.pem 2>/dev/null
+          openssl pkey -in wf_priv.pem -pubout -out wf_pub.pem
+          git config --global user.name "valuenote-bot"; git config --global user.email "bot@valuenote.co.kr"
+          git clone -q --no-checkout "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" x
+          cd x
+          if git ls-remote --exit-code origin voice-xchg >/dev/null; then git fetch -q origin voice-xchg && git checkout -q voice-xchg; else git checkout -q --orphan voice-xchg && git rm -rq --cached . 2>/dev/null || true; fi
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp /tmp/v/wf_pub.pem wf_pub.pem; echo "${{ github.run_id }}" > run.txt
+          git add -A && git commit -qm "voice-clone: 1회용 공개키 (run ${{ github.run_id }})" && git push -q origin voice-xchg
+      - name: 암호화된 녹음 기다리기 (최대 30분)
+        run: |
+          cd /tmp/v/x
+          for i in $(seq 1 120); do
+            git fetch -q origin voice-xchg && git reset -q --hard origin/voice-xchg
+            if [ -f in/${{ github.run_id }}/audio.enc ] && [ -f in/${{ github.run_id }}/key.enc ]; then echo "받음"; exit 0; fi
+            sleep 15
+          done
+          echo "녹음이 오지 않았습니다"; exit 1
+      - name: 복호화·클로닝·샘플
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+        run: |
+          set -e
+          cd /tmp/v
+          openssl pkeyutl -decrypt -inkey wf_priv.pem -pkeyopt rsa_padding_mode:oaep -in x/in/${{ github.run_id }}/key.enc -out k.bin
+          openssl enc -d -aes-256-cbc -pbkdf2 -pass file:k.bin -in x/in/${{ github.run_id }}/audio.enc -out clean.wav
+          python3 $GITHUB_WORKSPACE/scripts/voice/clone.py clean.wav out
+          tar czf result.tgz -C out .
+          openssl rand -hex 32 > rk.txt
+          openssl enc -aes-256-cbc -pbkdf2 -pass file:rk.txt -in result.tgz -out result.enc
+          openssl pkeyutl -encrypt -pubin -inkey $GITHUB_WORKSPACE/scripts/voice/requester_pub.pem -pkeyopt rsa_padding_mode:oaep -in rk.txt -out result.key.enc
+          rm -f clean.wav k.bin rk.txt result.tgz; rm -rf out
+      - name: 결과 올리고 녹음 지우기
+        run: |
+          cd /tmp/v/x
+          git rm -rq in || true
+          mkdir -p out/${{ github.run_id }}
+          cp /tmp/v/result.enc /tmp/v/result.key.enc out/${{ github.run_id }}/
+          git add -A && git commit -qm "voice-clone: 결과 (암호화, run ${{ github.run_id }})" && git push -q origin voice-xchg
