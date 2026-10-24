@@ -41,19 +41,63 @@ def M(s):
 _bg = {}
 
 
+# ── 편마다 다른 미술 콘셉트 (2026-10-24 운영자: "모눈종이도 항상 같고 저울도 항상 같고… 다 비슷비슷하다") ──
+# spec "look": {"paper": grid|dots|ruled|grain|plain|blueprint, "dark": navy|charcoal|teal|plum|forest|ink, "accent": gold|red|teal|sky|orange}
+# 로고·자막·표의 틀은 그대로 두고, 바탕 질감·어두운 화면 색·강조색만 편마다 바꾼다.
+PAPERS = {"grid": (244, 243, 239), "dots": (246, 244, 238), "ruled": (248, 246, 240), "grain": (242, 238, 230), "plain": (245, 244, 241), "blueprint": (236, 242, 248)}
+DARKS = {"navy": (11, 27, 51), "charcoal": (26, 28, 33), "teal": (10, 42, 48), "plum": (40, 22, 48), "forest": (16, 38, 30), "ink": (14, 18, 30)}
+ACCENTS = {"gold": ((168, 144, 97), (234, 219, 185)), "red": ((214, 52, 86), (255, 128, 150)), "teal": ((20, 128, 128), (110, 212, 200)),
+           "sky": ((40, 110, 190), (140, 196, 255)), "orange": ((206, 104, 30), (255, 178, 110))}
+LOOK = {"paper": "grid", "dark": "navy", "accent": "gold"}
+
+
+def set_look(look):
+    """원고의 look 을 적용한다 (없으면 예전 모양: 모눈 + 네이비 + 금색)"""
+    LOOK.update({k: v for k, v in (look or {}).items() if v})
+    lp = PAPERS.get(LOOK["paper"], PAPERS["grid"]); dk = DARKS.get(LOOK["dark"], DARKS["navy"]); acc = ACCENTS.get(LOOK["accent"], ACCENTS["gold"])
+    card2 = tuple(min(255, c + 16) for c in dk)
+    TH["light"].update({"bg": lp, "acc": acc[0]}); TH["dark"].update({"bg": dk, "acc": acc[1], "card": card2, "line": tuple(min(255, c + 44) for c in dk)})
+    _bg.clear()
+
+
 def background(theme):
     if theme in _bg: return _bg[theme].copy()
-    t = TH[theme]; img = Image.new("RGB", (W, H), t["bg"]); d = ImageDraw.Draw(img)
+    t = TH[theme]; rng = np.random.default_rng(7)
     if theme == "light":
-        for x in range(0, W, 48): d.line([x, 0, x, H], fill=GRID, width=1)
-        for y in range(0, H, 48): d.line([0, y, W, y], fill=GRID, width=1)
+        kind = LOOK["paper"]; base = np.asarray(t["bg"], np.float32)
+        g = np.zeros((H, W, 3), np.float32) + base
+        if kind in ("grain", "plain"):   # 종이 결 / 가운데가 밝은 은은한 빛
+            yy, xx = np.mgrid[0:H, 0:W]; r = np.sqrt(((xx - W * .5) / W) ** 2 + ((yy - H * .45) / H) ** 2)
+            g -= (np.clip(r - .25, 0, 1) * (26 if kind == "plain" else 18))[..., None]
+            if kind == "grain": g += rng.normal(0, 4.5, (H, W, 1)).astype(np.float32)
+        img = Image.fromarray(np.clip(g, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(img)
+        line = tuple(int(c * .93) for c in t["bg"])
+        if kind == "grid":
+            for x in range(0, W, 48): d.line([x, 0, x, H], fill=GRID, width=1)
+            for y in range(0, H, 48): d.line([0, y, W, y], fill=GRID, width=1)
+        elif kind == "dots":
+            for x in range(24, W, 40):
+                for y in range(24, H, 40): d.ellipse([x - 2, y - 2, x + 2, y + 2], fill=line)
+        elif kind == "ruled":   # 공책 줄 + 왼쪽 여백선
+            for y in range(72, H, 56): d.line([0, y, W, y], fill=line, width=1)
+            d.line([96, 0, 96, H], fill=(236, 190, 190), width=2)
+        elif kind == "blueprint":
+            for x in range(0, W, 24): d.line([x, 0, x, H], fill=(222, 232, 242) if x % 120 else (205, 220, 236), width=1)
+            for y in range(0, H, 24): d.line([0, y, W, y], fill=(222, 232, 242) if y % 120 else (205, 220, 236), width=1)
     else:
-        g = np.zeros((H, W, 3), np.float32) + np.array(NAVY, np.float32)
+        dk = np.array(t["bg"], np.float32); g = np.zeros((H, W, 3), np.float32) + dk
         yy, xx = np.mgrid[0:H, 0:W]; r = np.sqrt(((xx - W * .5) / W) ** 2 + ((yy - H * .45) / H) ** 2)
-        g += (np.clip(.55 - r, 0, 1) * 40)[..., None] * np.array([.6, .8, 1.0])
+        g += (np.clip(.55 - r, 0, 1) * 40)[..., None] * (np.array([.6, .8, 1.0]) if LOOK["dark"] == "navy" else np.ones(3) * .8)
+        if LOOK["paper"] == "grain": g += rng.normal(0, 3, (H, W, 1)).astype(np.float32)
         img = Image.fromarray(np.clip(g, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(img, "RGBA")
-        for x in range(0, W, 48): d.line([x, 0, x, H], fill=(255, 255, 255, 8), width=1)
-        for y in range(0, H, 48): d.line([0, y, W, y], fill=(255, 255, 255, 8), width=1)
+        if LOOK["paper"] in ("grid", "blueprint"):
+            for x in range(0, W, 48): d.line([x, 0, x, H], fill=(255, 255, 255, 8), width=1)
+            for y in range(0, H, 48): d.line([0, y, W, y], fill=(255, 255, 255, 8), width=1)
+        elif LOOK["paper"] == "dots":
+            for x in range(24, W, 40):
+                for y in range(24, H, 40): d.ellipse([x - 1.5, y - 1.5, x + 1.5, y + 1.5], fill=(255, 255, 255, 14))
+        elif LOOK["paper"] == "ruled":
+            for k in range(-H, W, 70): d.line([k, H, k + H, 0], fill=(255, 255, 255, 7), width=1)
     _bg[theme] = img
     return img.copy()
 
@@ -430,6 +474,95 @@ def draw(sc, V, u, lines, theme, media):
                 s, at = (it if isinstance(it, list) else [it, side.get("at")])[:2]; a = pop(u, at_time(at, lines)); y = 400 + i * 96
                 d.text((x0_ + 50, y + 10 * (1 - a)), fill(s, V), font=fitF(d, fill(s, V), "Bold", 44, 630), fill=A(t["ink"], a))
                 if i < len(side["items"]) - 1: d.line([x0_ + 40, y + 76, x1_ - 40, y + 76], fill=A(t["line"], a), width=1)
+    elif typ == "receipt":  # 영수증: 돈이 어디서 들어오고 어디로 나가는지 한 줄씩 찍힌다 (2026-10-24 새 화면)
+        title_line(d, t, T("title"), tA)
+        items = v.get("items", []); tot = v.get("total")
+        rw = 820; rx = W / 2 - rw / 2 + (v.get("dx", 0)); ry = 250
+        rh = 150 + 74 * len(items) + (150 if tot else 0)
+        a0 = pop(u, at_time(v.get("at"), lines), .5); sh = 40 * (1 - a0)
+        paper = (252, 250, 245)
+        d.rounded_rectangle([rx + 10, ry + 14 - sh, rx + rw + 10, ry + rh + 14 - sh], 6, fill=(0, 0, 0, int(40 * a0)))
+        d.rectangle([rx, ry - sh, rx + rw, ry + rh - sh], fill=A(paper, a0))
+        zz = 18   # 아래쪽 톱니 모양 (찢은 영수증)
+        pts = [(rx, ry + rh - sh)] + [(rx + i * zz + zz / 2, ry + rh - sh + (12 if i % 2 == 0 else 0)) for i in range(int(rw / zz))] + [(rx + rw, ry + rh - sh)]
+        d.polygon(pts + [(rx + rw, ry + rh - sh - 1), (rx, ry + rh - sh - 1)], fill=A(paper, a0))
+        hd = T("head") or "RECEIPT"; fh = F("Heavy", 40)
+        d.text((rx + rw / 2 - d.textlength(hd, font=fh) / 2, ry + 34 - sh), hd, font=fh, fill=A(INK, a0))
+        for k in range(int(rx + 40), int(rx + rw - 40), 22): d.line([k, ry + 104 - sh, k + 11, ry + 104 - sh], fill=A(MUTED, a0), width=2)
+        fi = F("Bold", 38); fv = F("ExtraBold", 40)
+        for i, it in enumerate(items):
+            a = pop(u, at_time(it.get("at"), lines)); y = ry + 130 + i * 74 - sh
+            if a <= 0: continue
+            lab = fill(it["l"], V); val = fill(it["v"], V); col = RED if it.get("minus") else (ACCENTS[LOOK["accent"]][0] if it.get("hl") else INK)
+            d.text((rx + 48 + 16 * (1 - a), y), lab, font=fitF(d, lab, "Bold", 38, rw - 380), fill=A(INK, a))
+            sv = val_num(val, clamp((u - at_time(it.get("at"), lines)) / .6))
+            d.text((rx + rw - 48 - d.textlength(val, font=fv), y), sv, font=fv, fill=A(col, a))
+        if tot:
+            a = pop(u, at_time(tot.get("at"), lines)); y = ry + 130 + len(items) * 74 + 10 - sh
+            d.line([rx + 40, y, rx + rw - 40, y], fill=A(INK, a), width=3)
+            lab = fill(tot["l"], V); val = fill(tot["v"], V); ft = F("Heavy", 54)
+            d.text((rx + 48, y + 28), lab, font=F("ExtraBold", 44), fill=A(INK, a))
+            d.text((rx + rw - 48 - d.textlength(val, font=ft), y + 20), val_num(val, clamp((u - at_time(tot.get("at"), lines)) / .8)), font=ft, fill=A(RED if tot.get("minus") else ACCENTS[LOOK["accent"]][0], a))
+            if tot.get("stamp"):   # 비스듬한 도장
+                sa = pop(u, at_time(tot.get("stamp_at", tot.get("at")), lines) + .5, .25)
+                if sa > 0:
+                    st_ = fill(tot["stamp"], V); fs = F("Heavy", 46); tw = d.textlength(st_, font=fs)
+                    lay = Image.new("RGBA", (int(tw + 60), 100), (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+                    ld.rounded_rectangle([4, 4, tw + 56, 96], 12, outline=A(RED, sa * .9), width=6); ld.text((30, 20), st_, font=fs, fill=A(RED, sa * .9))
+                    lay = lay.rotate(-12, expand=True, resample=Image.BICUBIC); sc_ = 1 + .4 * (1 - sa)
+                    lay = lay.resize((int(lay.width * sc_), int(lay.height * sc_)))
+                    img.paste(lay, (int(rx + rw - lay.width * .75), int(y + 70)), lay)   # 영수증 오른쪽 아래 귀퉁이에 걸치게
+    elif typ == "versus":  # 대결: 둘을 좌우로 맞세우고 가운데 VS (2026-10-24 새 화면)
+        title_line(d, t, T("title"), tA)
+        sides = (v["left"], v["right"]); acc = ACCENTS[LOOK["accent"]]
+        for k, sd_ in enumerate(sides):
+            a = pop(u, at_time(sd_.get("at"), lines), .45); x0_ = 160 if k == 0 else W / 2 + 80; x1_ = W / 2 - 80 if k == 0 else W - 160
+            dx = (-60 if k == 0 else 60) * (1 - a); col = DARKS.get(LOOK["dark"], NAVY) if k == 0 else acc[0]
+            d.rounded_rectangle([x0_ + dx, 270, x1_ + dx, 840], 28, fill=A(col, a))
+            nm = fill(sd_["name"], V); fn = fitF(d, nm, "Heavy", 60, x1_ - x0_ - 80)
+            d.text(((x0_ + x1_) / 2 + dx - d.textlength(nm, font=fn) / 2, 320), nm, font=fn, fill=A(WHITE, a))
+            val = fill(sd_.get("value", ""), V); fv = fitF(d, val, "Heavy", 150, x1_ - x0_ - 80)
+            if val:
+                pv = clamp((u - at_time(sd_.get("at"), lines)) / .9)
+                d.text(((x0_ + x1_) / 2 + dx - d.textlength(val, font=fv) / 2, 470), val_num(val, pv), font=fv, fill=A(WHITE, a))
+            lab = fill(sd_.get("label", ""), V)
+            if lab: fl = fitF(d, lab, "SemiBold", 40, x1_ - x0_ - 80); d.text(((x0_ + x1_) / 2 + dx - d.textlength(lab, font=fl) / 2, 470 + fv.size + 50), lab, font=fl, fill=A((236, 236, 236), a))
+            if sd_.get("win"):
+                wa = pop(u, at_time(sd_["win"], lines))
+                if wa > 0: fw = F("Heavy", 40); s_ = fill(sd_.get("win_text", "승"), V); chip(d, (x0_ + x1_) / 2 + dx - d.textlength(s_, font=fw) / 2 - 22, 760 - 20 * (1 - wa), s_, fw, "gold", wa)
+        va = pop(u, min(at_time(sides[0].get("at"), lines), at_time(sides[1].get("at"), lines)) + .3, .3); r_ = 74 * (1 + .25 * (1 - va))
+        if va > 0:
+            d.ellipse([W / 2 - r_, 555 - r_, W / 2 + r_, 555 + r_], fill=A(WHITE, va), outline=A(INK, va), width=6)
+            fvs = F("Heavy", 64); d.text((W / 2 - d.textlength("VS", font=fvs) / 2, 520), "VS", font=fvs, fill=A(INK, va))
+    elif typ == "kinetic":  # 움직이는 큰 글자: 말에 맞춰 낱말이 하나씩 튀어나온다 (2026-10-24 새 화면)
+        words = v.get("words", []); acc = ACCENTS[LOOK["accent"]]
+        n_ = len(words); total_h = sum(int(w_.get("size", 120)) * 1.18 + 26 for w_ in words); y = (H - total_h) / 2 - 10
+        for i, w_ in enumerate(words):
+            a = pop(u, at_time(w_.get("at"), lines), .3); sz = int(w_.get("size", 120)); s_ = fill(w_["t"], V)
+            f = fitF(d, s_, "Heavy", sz, W - 300); sc_ = 1 + .35 * (1 - a)
+            col = {"acc": acc[0] if theme == "light" else acc[1], "red": RED, "muted": t["muted"]}.get(w_.get("c"), t["ink"])
+            if a > 0:
+                tw = d.textlength(s_, font=f); lay = Image.new("RGBA", (int(tw + 40), int(f.size * 1.4)), (0, 0, 0, 0))
+                ImageDraw.Draw(lay).text((20, 0), s_, font=f, fill=A(col, a))
+                if w_.get("tilt"): lay = lay.rotate(w_["tilt"], expand=True, resample=Image.BICUBIC)
+                lay = lay.resize((max(1, int(lay.width * sc_)), max(1, int(lay.height * sc_))))
+                ox = {"l": 180, "r": W - 180 - lay.width}.get(w_.get("x"), W / 2 - lay.width / 2)
+                img.paste(lay, (int(ox), int(y - (lay.height - f.size * 1.4) / 2)), lay)
+                if w_.get("under"): d.rectangle([W / 2 - tw / 2, y + f.size * 1.15, W / 2 - tw / 2 + tw * a, y + f.size * 1.15 + 10], fill=A(acc[0], a))
+            y += f.size * 1.18 + 26 + (14 if w_.get("under") else 0)
+    elif typ == "quote":  # 인용: 큰 따옴표와 말한 사람 (2026-10-24 새 화면)
+        a = pop(u, at_time(v.get("at"), lines), .5); acc = ACCENTS[LOOK["accent"]]
+        qc = A(acc[0] if theme == "light" else acc[1], a)   # 따옴표를 직접 그린다 (글꼴의 따옴표는 빗금처럼 보인다)
+        for qx in (190, 300):
+            cy_ = 250 + 20 * (1 - a); d.ellipse([qx, cy_, qx + 84, cy_ + 84], fill=qc)
+            d.polygon([(qx + 2, cy_ + 44), (qx + 70, cy_ - 52), (qx + 84, cy_ - 44), (qx + 42, cy_ + 8)], fill=qc)   # 위로 휘어 올라가는 꼬리 (여는 따옴표 모양)
+        q = fill(v["text"], V); f = F("ExtraBold", 66); ls_ = wrap(d, q, f, 1420)[:4]
+        for i, l in enumerate(ls_):
+            b = pop(u, at_time(v.get("at"), lines) + .15 * i, .4); d.text((300, 380 + i * 92 + 14 * (1 - b)), l, font=f, fill=A(t["ink"], b))
+        who = fill(v.get("who", ""), V)
+        if who:
+            b = pop(u, at_time(v.get("who_at", v.get("at")), lines) + .4); yy = 380 + len(ls_) * 92 + 40
+            d.rectangle([300, yy + 26, 300 + 60 * b, yy + 31], fill=A(acc[0], b)); d.text((380, yy), who, font=F("Bold", 44), fill=A(t["muted"], b))
     elif typ == "phone":
         draw_phone(img, d, v, u, lines, V, theme)
     elif typ == "media":
@@ -931,6 +1064,7 @@ def make_thumb(spec, V, out):
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
     spec = json.load(open(spec_path, encoding="utf-8")); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
+    set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
     R.BG = R.bg_gradient(); R.LOGO = Image.open(os.path.join(HERE, "assets", "logo.png")).convert("RGBA")
     R.ICON = Image.open(os.path.join(HERE, "assets", "icon.png")).convert("RGBA"); R.ICON_S = R.ICON.resize((220, 220), Image.LANCZOS)
