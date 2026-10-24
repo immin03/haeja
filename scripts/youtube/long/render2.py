@@ -207,7 +207,7 @@ def draw(sc, V, u, lines, theme, media):
             av = v["avg"]; b = pop(u, at_time(av.get("at"), lines), .8); y = base_y - float(av["value"]) * scale_
             xe = 180 + (W - 360) * b
             for xx in range(180, int(xe), 24): d.line([xx, y, min(xx + 14, xe), y], fill=A(GOLD_D, 1), width=4)
-            if b > .9: chip(d, W - 520, y - 70, fill(av.get("label", "평균"), V), F("ExtraBold", 34), "gold", pop(u, at_time(av.get("at"), lines) + .6))
+            if b > .9: chip(d, av.get("x", W - 520), av.get("y", y - 70), fill(av.get("label", "평균"), V), F("ExtraBold", 34), "gold", pop(u, at_time(av.get("at"), lines) + .6))  # x·y를 주면 막대 숫자와 겹치지 않는 자리에 고정
         for nt in v.get("notes", []):
             b = pop(u, at_time(nt.get("at"), lines))
             if b > 0: chip(d, nt.get("x", 1180), nt.get("y", 220), fill(nt["text"], V), F("ExtraBold", 36), nt.get("kind", "white"), b)
@@ -222,11 +222,12 @@ def draw(sc, V, u, lines, theme, media):
             col = GOLD if on else (NAVY if theme == "light" else (120, 146, 190))
             if v.get("neg"): col = RED if (len(it) > 4 and it[4]) else ((170, 61, 79) if theme == "dark" else (254, 151, 168))
             if cur and not on: col = tuple(int(c * .45 + 235 * .55) for c in col)
-            ww = 1000 * val / mx * p; d.rounded_rectangle([600, y, 600 + max(8, ww), y + 76], 10, fill=A(col, min(1, p * 3)))
+            room = W - 600 - 140 - max(d.textlength(fill(x[3], V) if len(x) > 3 else f"{float(x[1]):g}{v.get('suffix', '')}", font=F("ExtraBold", 46)) for x in items)  # 값 글자가 화면 밖으로 나가지 않게
+            ww = min(1000, room) * val / mx * p; d.rounded_rectangle([600, y, 600 + max(8, ww), y + 76], 10, fill=A(col, min(1, p * 3)))
             d.text((620 + ww, y + 12), (fill(it[3], V) if len(it) > 3 else f"{val:g}{v.get('suffix', '')}"), font=F("ExtraBold", 46), fill=A(RED if v.get("neg") else t["ink"], p))
         if cur and cur.get("note"):
             b = pop(u, at_time(cur.get("at"), lines)); y = 300 + cur["i"] * 130
-            chip(d, 1300, y + 2, fill(cur["note"], V), F("ExtraBold", 36), "navy", b)
+            chip(d, 600, 300 + len(items) * 130 + 10, fill(cur["note"], V), F("ExtraBold", 36), "navy", b)  # 막대 아래에 (막대·값과 겹치지 않게)
     elif typ == "scale":  # 저울
         title_line(d, t, T("title"), tA)
         tilt = 0.0; cx, cy = W / 2, 360
