@@ -184,6 +184,15 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .soc-sec{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .soc-sec h2{margin:22px 0 8px}
 .soc-sec .n{font-size:12px;font-weight:600;color:var(--muted)}
+/* 릴스 검수 (2026-10-24): 승인 대기 릴스를 영상으로 보고 승인한다 */
+.rv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.rv-card{padding:12px;display:flex;flex-direction:column;gap:8px}
+.rv-card video{width:100%;aspect-ratio:9/16;border-radius:10px;background:#000;object-fit:contain}
+.rv-card .t{font-weight:800;font-size:14px;line-height:1.4;word-break:keep-all}
+.rv-card .m{font-size:12px;color:var(--muted);font-weight:600}
+.rv-card details{font-size:12px;color:var(--muted)}
+.rv-card details div{white-space:pre-wrap;word-break:keep-all;margin-top:6px;max-height:220px;overflow:auto;color:var(--ink,inherit)}
+.rv-card .a{display:flex;gap:8px}.rv-card .a button{flex:1}
 .soc-tb table{table-layout:fixed}
 .soc-tb th:nth-child(1){width:46px}.soc-tb th:nth-child(2){width:auto}.soc-tb th:nth-child(3){width:196px}.soc-tb th:nth-child(4){width:104px}.soc-tb th:nth-child(5){width:104px}.soc-tb th:nth-child(6){width:168px}
 .soc-tb td{vertical-align:middle;padding:8px 10px}
@@ -355,7 +364,7 @@ function todoList(){
   const nowIso = new Date().toISOString();
   const overdue = P.filter(p => !isDone(p) && p.approved !== false && !p.paused && p.scheduled_at < new Date(Date.now() - 2 * 3600e3).toISOString() && ['pending','failed'].includes(p.ig_status) && ['pending','failed'].includes(p.th_status));
   if(failed.length){ const cp = failed.some(p => /checkpoint/i.test(p.th_error || '')); L.push(['bad', `SNS 게시 실패 <b>${failed.length}편</b>${cp ? ' · 쓰레드 계정 확인 절차 필요 (threads.com 로그인)' : ''}`, '#social', '다시 올리기']); }
-  if(approve.length) L.push(['warn', `SNS 승인 대기 <b>${approve.length}편</b>`, '#social', '승인하기']);
+  if(approve.length) L.push(['warn', `릴스·SNS 검수 대기 <b>${approve.length}편</b> · 영상 보고 승인`, '#social', '검수하기']);
   if(overdue.length && !failed.length) L.push(['warn', `예정 시간이 2시간 넘게 지났는데 안 올라간 글 <b>${overdue.length}편</b>`, '#social', '확인']);
   const st = OPS.status || {};
   if(st.paused === true) L.push(['warn', 'SNS 자동 게시가 <b>전체 멈춤</b> 상태입니다', '#social', '다시 켜기']);
@@ -903,6 +912,13 @@ function vSocial(){
   const failed = P.filter(isFail).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
   const hold = P.filter(isHold).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
   const queue = P.filter(p => !isDone(p) && !isFail(p) && !isHold(p)).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
+  const review = P.filter(p => p.kind === 'reel' && !isDone(p) && p.approved === false && !p.paused).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
+  const rvCard = p => `<div class="card rv-card">
+      <video controls playsinline preload="metadata" poster="${esc(p.cover || '')}" src="${esc((p.video || '') + '?v=' + encodeURIComponent(p.created_at || ''))}"></video>
+      <div class="t">${esc(p.title)}</div>
+      <div class="m">${esc(p.id)} · 예정 ${kst(p.scheduled_at)} · ${p.to_ig && p.to_threads ? '인스타 + 쓰레드' : p.to_ig ? '인스타만' : '쓰레드만'}</div>
+      <details><summary>본문 보기</summary><div>${esc(p.caption || '')}</div></details>
+      <div class="a"><button class="pri" data-soc-ok="${esc(p.id)}">승인 · 예정대로 게시</button><button data-soc-hold="${esc(p.id)}">보류</button></div></div>`;
   const nowIso = new Date().toISOString();
   const next = queue.find(p => p.scheduled_at > nowIso) || queue[0];
   const thCheckpoint = failed.some(p => THREADS_CHECKPOINT.test(p.th_error || ''));
@@ -928,11 +944,12 @@ function vSocial(){
   <div class="soc-acc">${card('instagram', '인스타그램', 'ig')}${card('threads', '쓰레드', 'th')}${ytCard(st.youtube)}</div>
   <div class="soc-bar"><button class="soc-btn${paused ? '' : ' ghost'}" id="soc-pause">${paused ? '자동 게시 다시 켜기' : '자동 게시 전체 멈추기'}</button>
     <button class="soc-btn ghost" id="soc-check">연결 점검</button><span class="msg" id="soc-msg">${esc(SOC.busy)}</span></div>
+  ${review.length ? `<div class="soc-sec"><h2>릴스 검수 · 승인 대기 ${review.length}편</h2><span class="n">영상을 보고 승인하면 예정 시간에 올라갑니다 · 승인 전에는 게시되지 않습니다</span></div><div class="rv-grid">${review.map(rvCard).join('')}</div>` : ''}
   ${failed.length ? `<div class="soc-sec"><h2>실패 · 조치 필요</h2><span class="n">실패 사유는 배지에 마우스를 올리면 보입니다</span></div><div class="card tbl soc-tb">${socTable(failed, 'queue', '')}</div>` : ''}
   <div class="soc-sec"><h2>예정</h2><span class="n">시간순 · 예정 시간은 바로 고칠 수 있습니다</span></div>
   <div class="card tbl soc-tb">${socTable(queue, 'queue', '예정된 게시물이 없습니다.')}</div>
   <div class="soc-sec"><h2>보류 · 승인 대기</h2><span class="n">재개하거나 승인하면 예정으로 돌아갑니다</span></div>
-  <div class="card tbl soc-tb">${socTable(hold, 'queue', '보류 중인 게시물이 없습니다.')}</div>
+  <div class="card tbl soc-tb">${socTable(hold.filter(p => !review.includes(p)), 'queue', '보류 중인 게시물이 없습니다.')}</div>
   <div class="soc-sec"><h2>게시 완료</h2><span class="n">최근 순</span></div>
   <div class="card tbl soc-tb"><details${done.length <= 5 ? ' open' : ''}><summary>${done.length}편 보기</summary>${socTable(done, 'done', '아직 올라간 게시물이 없습니다.')}</details></div>`;
 }
