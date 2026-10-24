@@ -247,6 +247,11 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .ytp-pg .t{font-size:12.5px;color:var(--muted);margin-top:5px;word-break:keep-all}
 .ytp-pg .t b{color:var(--ink);font-size:13.5px;margin-right:4px}
 .ytp-pg.bad .bar i{background:var(--bad)}.ytp-pg .t.warn{color:var(--bad);font-weight:700}
+.ytp-story{display:grid;gap:8px;margin-top:8px}
+.ytp-story .b{padding:9px 11px;border-radius:10px;background:var(--bg);font-size:13px;line-height:1.6;color:var(--ink2);word-break:keep-all}
+.ytp-story .b b{display:block;color:var(--ink);font-size:13.5px}
+.ytp-story .vz{color:var(--muted);font-size:12.5px;margin-top:3px}.ytp-story .pl{color:var(--bad);font-size:12.5px;font-weight:700;margin-top:3px}
+.ytp-vis{margin-top:6px}
 .ytp-cs{margin:8px 0;display:grid;gap:6px}
 .ytp-c{font-size:13px;line-height:1.6;padding:8px 10px;border-radius:10px;background:var(--bg);word-break:keep-all;white-space:pre-wrap}
 .ytp-c span{display:block;font-size:11px;font-weight:700;color:var(--muted)}
@@ -819,7 +824,9 @@ function ytPlanItem(p){
     ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b></div>` : ''}
     ${p.message ? `<div class="m" style="margin-top:6px"><b>한 문장</b> ${esc(p.message)}</div>` : ''}
     ${(p.why_now || []).length ? `<div class="m" style="margin-top:6px"><b>왜 지금</b><ul style="margin:4px 0 0 18px;padding:0">${li(p.why_now)}</ul></div>` : ''}
-    <details${p.status === 'proposed' ? ' open' : ''}><summary>목차 ${(p.outline || []).length}장</summary><ol style="margin:6px 0 0 18px;padding:0">${li(p.outline)}</ol></details>
+    ${(p.story || []).length ? `<details${p.status === 'proposed' ? ' open' : ''}><summary>이야기 구조 ${p.story.length}막</summary><div class="ytp-story">${p.story.map(b => `<div class="b"><b>${esc(b.beat)}</b><div>${esc(b.story)}</div>${b.visual ? `<div class="vz">화면 · ${esc(b.visual)}</div>` : ''}${b.pull ? `<div class="pl">→ ${esc(b.pull)}</div>` : ''}</div>`).join('')}</div></details>`
+      : `<details${p.status === 'proposed' ? ' open' : ''}><summary>목차 ${(p.outline || []).length}장</summary><ol style="margin:6px 0 0 18px;padding:0">${li(p.outline)}</ol></details>`}
+    ${p.visual ? `<div class="m ytp-vis"><b>미술 콘셉트</b> ${esc(p.visual.concept || '')}${p.visual.look ? ` <span class="st none">${esc([p.visual.look.paper, p.visual.look.dark, p.visual.look.accent].join(' · '))}</span>` : ''}${(p.visual.props || []).length ? `<br>소품 · ${esc(p.visual.props.join(', '))}` : ''}</div>` : ''}
     <div class="m">${when}${p.company ? ` · 데이터 회사 ${esc(p.company)}` : ''}${p.made_at ? ` · 기획 ${kst(p.made_at)}` : ''}</div>
     ${ytProg(p)}
     ${p.owner_note ? `<div class="nt"><b>메모</b><br>${esc(p.owner_note)}</div>` : ''}
