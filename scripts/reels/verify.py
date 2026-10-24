@@ -49,13 +49,23 @@ NAMES = re.compile("버핏|그레이엄|멍거|버크셔|해서웨이|워런")
 LETTERS = {"A": "에이", "B": "비", "C": "씨", "D": "디", "E": "이"}
 
 
+def _assim(t):
+    """표준 발음대로 맞춘다: 받침 ㅂ 뒤에 ㄴ이 오면 ㅁ으로 소리 난다(바꿉니다 → [바꿈니다]). 인식기는 소리대로 적는다"""
+    out = list(t)
+    for i in range(len(out) - 1):
+        c, n = ord(out[i]) - 0xAC00, ord(out[i + 1]) - 0xAC00
+        if 0 <= c < 11172 and 0 <= n < 11172 and c % 28 == 17 and n // 588 == 2:
+            out[i] = chr(0xAC00 + c - 1)
+    return "".join(out)
+
+
 def _norm(t):
     from korean import to_speech
     t = re.sub(r"\b([A-Ea-e])\b", lambda m: LETTERS[m[1].upper()], t)  # 인식기가 '에이'를 'A'로 적는 경우
     t = re.sub(r"[^가-힣]", "", to_speech(t))
     for x in ("배류", "밸류"): t = t.replace(x, "밸유")  # 브랜드명은 받아 적는 방식만 다르다
     for a, b in HOMO: t = t.replace(a, b)
-    return t
+    return _assim(t)
 
 
 def score(expected, heard):
