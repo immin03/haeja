@@ -180,6 +180,7 @@ textarea{min-height:72px;resize:vertical}
 .hold-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:13px}
 @media (max-width:520px){.hold-grid{grid-template-columns:1fr 1fr}}
 .hold-grid div span{display:block;color:var(--muted);font-size:11px}
+.qw-card{border:1.5px solid var(--gold,#C9B180);word-break:keep-all} .qw-card .qw-t{font-weight:800;font-size:16px} .qw-card .qw-btn{width:100%} .qw-done{border-color:var(--accent)}
 .notice{font-size:13px;padding:10px 12px;border-radius:8px;background:var(--warn-soft);color:var(--warn)}
 .empty{text-align:center;padding:28px 16px;color:var(--muted)}
 /* rules */
@@ -1412,8 +1413,8 @@ async function subscribeHere(reg){
   if(error || !data?.publicKey) throw error || new Error('키를 받지 못함');
   return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(data.publicKey) });
 }
-async function enablePush(){
-  const msg = document.getElementById('al-msg');
+async function enablePush(msgId){
+  const msg = document.getElementById(msgId || 'al-msg');
   const say = t => { if(msg) msg.textContent = t; };
   try{
     if(pushState === 'ios-install'){ say('아이폰·아이패드는 Safari 공유 버튼 → "홈 화면에 추가" 후, 홈 화면의 밸류노트 아이콘으로 열어야 알림을 받을 수 있습니다.'); return; }
@@ -3889,6 +3890,32 @@ document.addEventListener('submit', e => {
   if(e.target && e.target.id === 'az-form'){ e.preventDefault(); const q = (document.getElementById('az-q')?.value || '').trim(); if(q) azSearch(q); }
 });
 
+/* 정성 평가 대기: 숫자 점수는 바로 나오지만 워렌 버핏·찰리 멍거 기준 정성 평가는 다음 날 아침에 채워진다.
+   그 사이 잊고 안 돌아오지 않도록, 점수 바로 아래에서 '나오면 알림 받기'를 권한다. */
+function qualWaitHtml(c){
+  if(!c || c.kind !== 'stock' || c.example || qualOf(c).shared || c.qualNotified) return '';
+  const nm = esc(c.name || '이 회사');
+  if(store.isGuest || store.isDemo) return `<div class="card qw-card"><div class="qw-t">정성 평가는 내일 아침에 나옵니다</div>
+    <p class="small muted" style="margin:4px 0 10px">워렌 버핏·찰리 멍거 기준으로 ${nm}의 해자·가격결정력·경영진을 평가해 점수에 더합니다. 가입하면 결과가 나오는 즉시 알려 드립니다.</p>
+    <button type="button" class="btn primary qw-btn" data-guest="signup">가입하고 알림 받기</button></div>`;
+  const on = pushState === 'on';
+  if(c.qualWatch && on) return `<div class="card qw-card qw-done"><div class="qw-t">알림 예약됨 <span class="pill p-good">켜짐</span></div>
+    <p class="small muted" style="margin:4px 0 0">${nm}의 정성 평가가 나오면 바로 알려 드립니다. 보통 다음 날 오전에 나옵니다.</p></div>`;
+  const blocked = pushState === 'denied' || pushState === 'unsupported';
+  return `<div class="card qw-card"><div class="qw-t">정성 평가는 내일 아침에 나옵니다</div>
+    <p class="small muted" style="margin:4px 0 10px">지금 점수는 재무 숫자만으로 계산한 값입니다. 워렌 버핏·찰리 멍거 기준으로 ${nm}의 해자·가격결정력·경영진을 평가하면 밸류노트 점수가 바뀔 수 있습니다. 알림을 켜 두면 결과가 나오는 즉시 알려 드립니다.</p>
+    ${c.qualWatch && blocked ? `<p class="small" style="margin:0">알림 목록(종 모양)에 결과를 넣어 드립니다. 휴대폰 알림은 이 기기에서 꺼져 있습니다.</p>` : `<button type="button" class="btn primary qw-btn" data-qw="${esc(c.id)}">정성 평가 나오면 알림 받기</button>`}
+    <div class="status-line" id="qw-msg"></div></div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-qw]'); if(!b) return;
+  const c = (S.companies || []).find(x => x.id === b.dataset.qw); if(!c) return;
+  b.disabled = true;
+  c.qualWatch = { at: today() }; queueSave(c); try{ store.track('qual-watch', c.yf || c.ticker); }catch(_){}
+  if(pushState === 'on'){ render(); return; }
+  await enablePush('qw-msg');
+  const m = document.getElementById('qw-msg'); if(pushState !== 'on'){ b.disabled = false; if(m && !m.textContent) m.textContent = '알림 목록(종 모양)에는 결과를 넣어 드립니다.'; }
+});
 /* 상세: 개요 카드 + 심사 */
 function viewAnalyze(){
   if(!S.loaded.c) return `<div class="empty">불러오는 중</div>`;
@@ -3899,6 +3926,7 @@ function viewAnalyze(){
   return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="back-list">‹ 목록</button><span class="small muted">${esc(sc || '관심 후보 제외')}</span></div>
   ${!sc ? `<div class="notice" style="margin-top:12px">관심 후보에서 빠진 종목입니다. ${esc(c.watchOut?.why||'')} 메모를 쓰면 "내 종목"으로 고정됩니다.</div>` : ''}
   <div style="margin-top:12px">${companyCard(c, h)}</div>
+  ${(() => { const q = qualWaitHtml(c); return q ? `<div style="margin-top:12px">${q}</div>` : ''; })()}
   <h2>심사</h2>
   ${companyForm(c)}`;
 }
