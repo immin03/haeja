@@ -30,7 +30,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: scripts/reels/.cache
-          key: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
+          # 2026-10-25: 고정 키였을 때는 캐시가 한 번 저장되면 다시 저장되지 않아, 군소리가 섞인 성우 음성을 버리고 새로 받아도
+          # 다음 실행에 옛 음성이 되살아났다(D261024n·F261024n 끝 '아유'). 실행마다 새 키로 저장하고 가장 최근 것을 불러온다.
+          key: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko-${{ github.run_id }}
+          restore-keys: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
       - name: 이슈 확인 (기준금리 결정·물가 발표·지수·환율·국채 금리 급변 → 하루 1편까지 릴스 대본)
         run: |
           # 처음 켤 때는 이미 지난 발표를 다루지 않도록 표시만 한다

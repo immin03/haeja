@@ -97,6 +97,14 @@ def problems(orig, expected, heard):
     for tag, i1, i2, j1, j2 in ops:
         if tag in ("delete", "replace") and i2 - i1 >= 3:
             out.append(f"'{a[i1:i2]}' → '{b[j1:j2]}'")
+    # 4) 대본에 없는 소리가 끼어든 것: 문장 끝 '아유', 문장 앞 '그냥', 중간 '까으' 같은 군소리 (2026-10-25 운영자 지적:
+    #    D261024n 마지막 '팔로우' 문장 뒤에 '아유'가 붙어 게시됐다. 일치율 0.93이라 통과했고, 같은 문장이 캐시로 다른 릴스에도 재사용됐다)
+    for tag, i1, i2, j1, j2 in ops:
+        if tag == "insert" and (j2 - j1 >= 2 or i1 in (0, len(a))):
+            where = "끝" if i1 == len(a) else "앞" if i1 == 0 else "중간"
+            out.append(f"군소리({where}) '{b[j1:j2]}'")
+        elif tag == "replace" and (j2 - j1) - (i2 - i1) >= 2:
+            out.append(f"군소리 '{a[i1:i2]}' → '{b[j1:j2]}'")
     # 3) 한 문장 안에서 세 군데 이상 다르게 들리면 뭉개진 것으로 본다 ('원유 이티에프'→'원이틀에프', '갈아탑니다'→'갈아입합니다')
     if len(ops) >= 3 and not out:
         out.append("여러 곳 다르게 들림: " + ", ".join(f"'{a[i1:i2]}'→'{b[j1:j2]}'" for _, i1, i2, j1, j2 in ops))
