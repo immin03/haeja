@@ -63,9 +63,10 @@ def to_speech(text):
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)\s*%p", lambda m: sign(m[1]) + num(m[2]) + " 퍼센트 포인트", t)
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)\s*%", lambda m: sign(m[1]) + num(m[2]) + " 퍼센트", t)
     t = re.sub(r"(?<![\d.,])(\d+\.\d+)\s*배", lambda m: num(m[1]) + " 배", t)  # 4.4배 → 사 점 사 배 (소수는 먼저)
-    t = re.sub(r"(?<![\d.,])(\d+)\s*배", lambda m: (NATIVE[int(m[1])] if int(m[1]) in NATIVE else sino(m[1])) + " 배", t)
+    t = re.sub(r"(?<![\d.,])(\d+)\s*배(?!럴)", lambda m: (NATIVE[int(m[1])] if int(m[1]) in NATIVE else sino(m[1])) + " 배", t)  # 10배럴은 '십 배럴' (2026-10-24)
+    t = re.sub(r"(?<![\d.,])(\d+)\s*월", lambda m: {6: "유월", 10: "시월"}.get(int(m[1])) or sino(m[1]) + "월", t)  # 6월 = 유월, 10월 = 시월 (2026-10-24 '육월'로 읽던 버그)
     t = re.sub(r"(?<![\d.,])(\d+)\s*(주당)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)
-    t = re.sub(r"(?<![\d.,])(\d+)\s*(달|개|가지|번)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)
+    t = re.sub(r"(?<![\d.,])(\d+)\s*(달(?!러)|개(?!월)|가지|번)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)  # 18달러는 '십팔 달러' (2026-10-24 '열여덟 달러'로 읽던 버그)
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)", lambda m: sign(m[1]) + num(m[2]), t)
     return re.sub(r"\s+", " ", t).strip()
 

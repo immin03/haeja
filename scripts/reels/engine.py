@@ -941,7 +941,7 @@ def plan(spec, speak):
                 import verify
                 if ln.get("cap") and verify.score(" ".join(ln["cap"]), txt) < .8:
                     LINT.append(f"자막과 음성이 다름: {ln['cap']} ↔ {txt}")
-                a = verify.speak_checked(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO, speak, SR, VLOG)
+                a = verify.speak_checked(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO, speak, SR, VLOG, orig=txt)
             else:
                 a = speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
             L.append([u, len(a) / SR, ln.get("cap")]); vo.append((u, a))
@@ -1395,7 +1395,7 @@ def render(spec, outdir, stills=None):
         for v in VLOG:
             mark = "OK" if v["score"] >= v["pass"] else ("△" if v["score"] >= v["floor"] else "✗")
             print(f"  음성 {mark} {v['score']:.2f} (시도 {v['tries']}) {v['text']}")
-            if v["score"] < v["pass"]: print(f"        들린 말: {v['heard']}")
+            if v["score"] < v["pass"] or v.get("problems"): print(f"        들린 말: {v['heard']}  {' · '.join(v.get('problems') or [])}")
         bad = [v for v in VLOG if v["score"] < v["floor"]]
         json.dump({"lines": VLOG, "lint": LINT}, open(os.path.join(outdir, "voice_check.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         mark = os.path.join(outdir, "needs_listen.txt")

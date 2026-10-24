@@ -10,8 +10,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.environ.get("TTS_CACHE", os.path.join(HERE, ".cache"))
 NAME = "sherpa-onnx-zipformer-korean-2024-06-24"
 URL = f"https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/{NAME}.tar.bz2"
-PASS = 0.90      # 이 이상이면 통과
-FLOOR = 0.85     # 모든 재시도 뒤에도 이보다 낮으면 렌더 중단
+PASS = 0.93      # 이 이상이면 통과 (2026-10-24 0.90에서 올림)
+FLOOR = 0.90     # 모든 재시도 뒤에도 이보다 낮으면 불합격 (2026-10-24 0.85에서 올림)
 _rec = None
 
 
@@ -65,19 +65,47 @@ def score(expected, heard):
 
 # 재시도 순서: (속도 배율, 확산 단계, 절 단위로 나누기)
 TRIES = [(1.0, 8, True), (1.0, 16, True), (.94, 16, True), (.9, 32, True), (1.0, 16, False), (.88, 32, False)]
+# 타입캐스트 재시도: 속도는 그대로 두고 캐시를 버리고 새로 받는다(같은 문장도 받을 때마다 소리가 조금씩 다르다)
+TC_TRIES = [(1.0, False), (1.0, True), (1.0, True), (1.0, True), (.97, True)]
 
 
-def speak_checked(text, speed, speak, sr, log):
+def problems(orig, expected, heard):
+    """전체 일치율과 별개로 '듣는 사람이 바로 이상하다고 느끼는' 오류를 찾는다 (2026-10-24 원유 ETF 릴스 사고 뒤 추가).
+    그 릴스는 '원유 ETF는 22%'가 '원유프는 202%'로, '갈아탑니다'가 '갈아입합니다'로 들렸는데 일치율 0.9로 통과했다.
+    1) 숫자: 대본의 숫자가 들린 말에 그대로 있어야 한다(숫자로 적히든 한글로 적히든)
+    2) 빠지거나 뭉개진 덩어리: 대본 쪽 3음절 이상이 통째로 빠지거나 다른 말로 바뀌면 오류"""
+    from korean import to_speech
+    out = []
+    h_norm = _norm(heard); h_digits = set(re.findall(r"\d+", (heard or "").replace(",", "")))
+    for n in re.findall(r"\d[\d,]*(?:\.\d+)?", orig or ""):
+        d = n.replace(",", "")
+        if d in h_digits: continue
+        if re.sub(r"[^가-힣]", "", to_speech(n)) in h_norm: continue
+        out.append(f"숫자 {n}")
+    a, b = _norm(expected), h_norm
+    ops = [o for o in difflib.SequenceMatcher(None, a, b, autojunk=False).get_opcodes() if o[0] != "equal"]
+    for tag, i1, i2, j1, j2 in ops:
+        if tag in ("delete", "replace") and i2 - i1 >= 3:
+            out.append(f"'{a[i1:i2]}' → '{b[j1:j2]}'")
+    # 3) 한 문장 안에서 세 군데 이상 다르게 들리면 뭉개진 것으로 본다 ('원유 이티에프'→'원이틀에프', '갈아탑니다'→'갈아입합니다')
+    if len(ops) >= 3 and not out:
+        out.append("여러 곳 다르게 들림: " + ", ".join(f"'{a[i1:i2]}'→'{b[j1:j2]}'" for _, i1, i2, j1, j2 in ops))
+    return out
+
+
+def speak_checked(text, speed, speak, sr, log, orig=None):
     best = None
     pass_, floor = (PASS - .05, FLOOR - .1) if NAMES.search(text) else (PASS, FLOOR)
-    if os.environ.get("TYPECAST_API_KEY"):
-        # 타입캐스트는 음절을 빼먹지 않는다: 남는 차이는 대부분 받아쓰기(음성 인식) 쪽 오차라 기준을 한 단계 낮춘다
-        pass_, floor = pass_ - .05, floor - .1
-    for k, (m, steps, chunk) in enumerate(TRIES):
-        a = speak(text, speed * m, steps=steps, chunk=chunk)
-        h = hear(a, sr); r = score(text, h)
-        if best is None or r > best[0]: best = (r, a, h)
-        if r >= pass_: break
-    r, a, h = best
-    log.append({"text": text, "heard": h, "score": round(r, 3), "tries": k + 1, "pass": pass_, "floor": floor})
+    # 2026-10-24: 타입캐스트라고 기준을 낮추던 예외를 없앴다. 실제로 이상한 소리가 게시됐다.
+    tc = bool(os.environ.get("TYPECAST_API_KEY"))
+    tries = [(m, 16, True, f) for m, f in TC_TRIES] if tc else [(m, s, c, False) for m, s, c in TRIES]
+    for k, (m, steps, chunk, fresh) in enumerate(tries):
+        a = speak(text, speed * m, steps=steps, chunk=chunk, fresh=fresh) if tc else speak(text, speed * m, steps=steps, chunk=chunk)
+        h = hear(a, sr); r = score(text, h); bad = problems(orig or text, text, h)
+        key = (not bad, r)
+        if best is None or key > best[0]: best = (key, a, h, bad, r)
+        if r >= pass_ and not bad: break
+    _, a, h, bad, r = best
+    if bad: floor = max(floor, 1.01)   # 숫자 오류·덩어리 오류가 남으면 일치율과 상관없이 불합격 → 사람이 듣고 승인
+    log.append({"text": text, "heard": h, "score": round(r, 3), "tries": k + 1, "pass": pass_, "floor": floor, "problems": bad})
     return a
