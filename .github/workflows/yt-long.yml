@@ -32,6 +32,12 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
           pip install -q numpy scipy pillow soundfile sherpa-onnx==1.13.8
           npm i --no-save playwright@1.47.2 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1 || true
+      - name: 음성 캐시 (같은 문장은 타입캐스트에 다시 요청하지 않는다)
+        uses: actions/cache@v4
+        with:
+          path: scripts/reels/.cache
+          key: yt-tts-${{ github.run_id }}
+          restore-keys: yt-tts-
       - name: 대상 고르기
         id: pick
         run: |
