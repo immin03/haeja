@@ -1,7 +1,7 @@
 {
  "id": "Y261023s",
  "title": "스페이스X 매출의 절반, 로켓이 아니었다",
- "scheduled_at": "2026-10-23T21:00:00+09:00",
+ "scheduled_at": "2026-10-27T19:00:00+09:00",
  "approved": false,
  "platform": "youtube",
  "mood": "tense",
@@ -123,8 +123,8 @@
     },
     {
      "cap": [
-      "로켓 회사가 차린 가게가",
-      "알고 보니 초대형 컴퓨터 렌털 가게였던 거죠"
+      "로켓 회사가 차린 가게가 알고 보니",
+      "초대형 컴퓨터 렌털 가게였던 거죠"
      ],
      "say": "로켓 회사가 차린 가게가, 알고 보니 초대형 컴퓨터 렌털 가게였던 거죠."
     }
@@ -208,10 +208,24 @@
    "lines": [
     {
      "cap": [
-      "우주 회사가",
-      "땅 위 데이터센터에서 더 버는 회사가 된 겁니다"
+      "우주 회사가 땅 위 데이터센터에서",
+      "더 버는 회사가 된 겁니다"
      ],
      "say": "우주 회사가, 땅 위 데이터센터에서 더 버는 회사가 된 겁니다."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "AI 렌털, 오래갈까?",
+   "l2": "풀버전에서 뜯어봤습니다",
+   "lines": [
+    {
+     "cap": [
+      "이 렌털 사업의 약점까지,",
+      "풀버전에서 뜯어봤습니다"
+     ],
+     "say": "이 렌털 사업의 약점까지, 풀버전에서 뜯어봤습니다."
     }
    ]
   }
@@ -229,7 +243,13 @@
   "Together that's about $26 billion a year, more than SpaceX's entire revenue last year",
   "But either side can end the Anthropic deal with 90 days' notice,",
   "and once AI chips are plentiful, rents could fall",
-  "A space company now earns more from data centers on the ground"
+  "A space company now earns more from data centers on the ground",
+  "We dug into this rental business, weak spots and all, in the full video",
+  "Tap the link below"
  ],
- "title_en": "Half of SpaceX's revenue isn't from rockets #SpaceX"
+ "title_en": "Half of SpaceX's revenue isn't from rockets #SpaceX",
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ]
 }

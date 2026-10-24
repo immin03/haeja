@@ -855,6 +855,17 @@ def y_equation(img, u, sc, L, T):
 
 YDRAW = {"hook": y_hook, "bars": y_bars, "compare": y_compare, "statement": y_statement, "equation": y_equation}
 
+def y_wrap(d, font, cap, limit=800):
+    """폭 800을 넘는 자막 줄은 글자를 줄이지 않고, 가운데에 가장 가까운 띄어쓰기에서 두 줄로 나눈다"""
+    out = []
+    for l in cap:
+        if d.textlength(l, font=font) <= limit or " " not in l: out.append(l); continue
+        sp = [i for i, ch in enumerate(l) if ch == " "]
+        fits = [i for i in sp if max(d.textlength(l[:i], font=font), d.textlength(l[i + 1:], font=font)) <= limit] or sp
+        i = min(fits, key=lambda i: abs(d.textlength(l[:i], font=font) - d.textlength(l[i + 1:], font=font)))
+        out += y_wrap(d, font, [l[:i], l[i + 1:]], limit)
+    return out
+
 def y_caption(img, u, L):
     """쇼츠 자막: 장면 처음부터 끝까지 끊기지 않고 늘 떠 있다. 다음 문장이 시작되는 순간 바로 바뀐다(깜빡임 없음). 숫자는 금색"""
     caps = [(a, cap) for (a, v, cap) in L if cap]
@@ -862,9 +873,9 @@ def y_caption(img, u, L):
     cap = caps[0][1]
     for a, c in caps:
         if u >= a - .05: cap = c
-    d = ImageDraw.Draw(img); font = F("Bold", 52)
+    d = ImageDraw.Draw(img); font = F("Bold", 52)   # 2026-10-24 운영자: 자막 글자 크기는 처음부터 끝까지 똑같이 (줄이 길면 줄이지 말고 줄을 나눈다)
+    cap = y_wrap(d, font, cap)
     maxw = max(d.textlength(l, font=font) for l in cap)
-    if maxw > 800: font = F("Bold", int(52 * 800 / maxw)); maxw = 800
     lh = 72; y0 = YT_CAP_Y - (len(cap) - 1) * lh / 2
     bar = Image.new("RGBA", (int(maxw + 64), len(cap) * lh + 28), (6, 12, 26, 170))
     img.paste(bar, (int(YT_CAP_X - bar.width / 2), int(y0 - lh / 2 - 14)), bar)
@@ -1367,6 +1378,9 @@ def render(spec, outdir, stills=None):
     global YT_BANNER, YT
     YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
+    if spec.get("platform") == "youtube" and spec["scenes"][-1]["type"] != "cta":
+        # 2026-10-24 운영자: 롱폼에서 나온 쇼츠는 전부 '풀버전 보기'로 끝나야 한다
+        raise RuntimeError(f"{spec['id']}: 유튜브 쇼츠의 마지막 장면은 풀버전 안내(cta)여야 합니다")
     from tts import speak
     os.makedirs(outdir, exist_ok=True)
     VLOG.clear(); LINT.clear()
