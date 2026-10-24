@@ -7,6 +7,7 @@
 //   text     { eyebrow, title, body:[문단], big?, small? }  설명 한 장 (big = 가운데 큰 숫자·문장, small = 아래 작은 각주)
 //   criteria { eyebrow, title, rows:[{label, sub, value}], note }  기준 표 (번호 원 + 이름 + 값)
 //   cards    { eyebrow, title, items:[{name, tag, rows:[[이름, 값]], badge}] }  회사 카드 (세로로 쌓음, 2~4개)
+//            또는 items:[{name, tag, big, side?, chip, meaning, tone}], note?, small?  카드마다 큰 숫자 하나 + 돈 칩 + 뜻 한 줄 (2026-10-24)
 //   compare  { eyebrow, title, a, b, rows:[{name, a, b}], note }   두 숫자 막대 비교 (예: PER vs 평균 이익 PER)
 //   table    { eyebrow, title, cols, rows, widths, hl, tags?, compact?, dimRows?, note }  표 (tags = 회사 이름 옆 업종, compact = 9~12줄, dimRows = 탈락 예시 줄 번호)
 //   grid     { l1, l2, pill, cols, compact?, tiles:[{name, tag, big, bigLabel, chip, note, tone, num?}], notes }  한 장 요약 (기본 형식, 2026-10-23). compact = 타일 10~12개(4열)용 작은 글씨, num = 번호 원 글자(예: '✕')
@@ -83,7 +84,20 @@ const K = {
         t(r.value, { fontSize: 38, fontWeight: 900, color: '#1F7A55', letterSpacing: -1 })) : null))),
     s.note ? para(s.note, { fontSize: 28, marginTop: 30 }) : null)),
 
-  cards: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column' },
+  // 카드 하나에 큰 숫자 하나 (2026-10-24): item.big 이 있으면 이름 줄 → 큰 숫자(+ 옆 작은 줄 side) → 금색 칩(돈으로 바꾼 값) → 뜻 한 줄(meaning).
+  // tone: 'good'|'bad'|'plain'. s.note = 아래 요약 줄(\n 줄바꿈), s.small = 더 작은 각주.
+  cards: (s, sp, i, n) => s.items.some((it) => it.big) ? shell(sp, i, n, h('div', { flexDirection: 'column', flexGrow: 1 },
+    eyebrow(s.eyebrow), bigTitle(s.title, s.size || 58),
+    h('div', { flexDirection: 'column', marginTop: 24, gap: 16 }, s.items.map((it) => h('div', { flexDirection: 'column', background: C.card, borderRadius: 26, padding: '20px 32px 22px 32px', border: `1px solid ${C.line}` },
+      h('div', { alignItems: 'baseline', gap: 14 }, t(it.name, { fontSize: 42, fontWeight: 900, letterSpacing: -1 }), it.tag ? t(it.tag, { fontSize: 26, color: C.dim, fontWeight: 700 }) : null),
+      h('div', { alignItems: 'baseline', justifyContent: 'space-between', marginTop: 4 },
+        t(it.big, { fontSize: 62, fontWeight: 900, letterSpacing: -2, lineHeight: 1.1, color: ['good', 'green'].includes(it.tone) ? C.up : ['bad', 'red'].includes(it.tone) ? C.down : C.ink }),
+        it.side ? t(it.side, { fontSize: 34, fontWeight: 800, color: C.mute }) : null),
+      it.chip ? h('div', { marginTop: 10, alignSelf: 'flex-start', background: 'rgba(234,219,185,.12)', border: '1px solid rgba(234,219,185,.35)', borderRadius: 12, padding: '8px 16px' }, t(it.chip, { fontSize: 28, fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null,
+      it.meaning ? t(it.meaning, { fontSize: 29, fontWeight: 700, color: C.ink, marginTop: 10 }) : null))),
+    s.note ? h('div', { flexDirection: 'column', marginTop: 22 }, String(s.note).split('\n').map((l, k) => t(l, { fontSize: 31, fontWeight: k ? 700 : 900, color: k ? C.mute : C.gold, lineHeight: 1.4 }))) : null,
+    s.small ? t(s.small, { fontSize: 22, color: C.dim, fontWeight: 500, lineHeight: 1.4, marginTop: 'auto', paddingBottom: 14 }) : null))
+  : shell(sp, i, n, h('div', { flexDirection: 'column' },
     eyebrow(s.eyebrow), bigTitle(s.title, s.size || 58),
     h('div', { flexDirection: 'column', marginTop: 34, gap: 26 }, s.items.map((it) => h('div', { flexDirection: 'column', background: C.card, borderRadius: 28, padding: '34px 36px', border: `1px solid ${C.line}` },
       h('div', { justifyContent: 'space-between', alignItems: 'center' },
@@ -106,9 +120,13 @@ const K = {
         h('div', { width: z(38), height: z(38), borderRadius: 10, background: '#FFFFFF', color: C.navy, fontSize: z(23), fontWeight: 900, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }, x.num || String(k + 1)),
         t(x.name, { fontSize: z(x.name.length > 7 ? 25 : x.name.length > 5 ? 29 : 34), fontWeight: 900, color: C.ink, letterSpacing: -1 })),
       x.tag ? t(x.tag, { fontSize: z(21), color: C.dim, fontWeight: 700, marginTop: z(6) }) : null,
-      t(x.big, { fontSize: z(x.big.length > 9 ? 46 : 70), fontWeight: 900, color: tone(x.tone), letterSpacing: -2, marginTop: z(4), lineHeight: 1.1 }),
+      s.inline  // inline: 큰 숫자와 칩을 한 줄에 (2열 × 5줄 = 타일 10개용, 2026-10-24)
+        ? h('div', { alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
+          t(x.big, { fontSize: 58, fontWeight: 900, color: tone(x.tone), letterSpacing: -2, lineHeight: 1.1 }),
+          x.chip ? h('div', { background: 'rgba(234,219,185,.12)', border: '1px solid rgba(234,219,185,.35)', borderRadius: 10, padding: '6px 12px' }, t(x.chip, { fontSize: 23, fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null)
+        : t(x.big, { fontSize: z(x.big.length > 9 ? 46 : 70), fontWeight: 900, color: tone(x.tone), letterSpacing: -2, marginTop: z(4), lineHeight: 1.1 }),
       x.bigLabel ? t(x.bigLabel, { fontSize: z(21), color: C.mute, fontWeight: 700, marginTop: 2, lineHeight: 1.3 }) : null,
-      x.chip ? h('div', { marginTop: z(10), background: 'rgba(234,219,185,.12)', border: '1px solid rgba(234,219,185,.35)', borderRadius: 10, padding: '7px 8px', justifyContent: 'center' }, t(x.chip, { fontSize: z(x.chip.length > 16 ? 20 : 22), fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null,
+      x.chip && !s.inline ? h('div', { marginTop: z(10), background: 'rgba(234,219,185,.12)', border: '1px solid rgba(234,219,185,.35)', borderRadius: 10, padding: '7px 8px', justifyContent: 'center' }, t(x.chip, { fontSize: z(x.chip.length > 16 ? 20 : 22), fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null,
       x.note ? h('div', { flexDirection: 'column', marginTop: z(10) }, String(x.note).split('\n').map((l) => t(l, { fontSize: z(22), color: C.ink, fontWeight: 700, lineHeight: 1.35 }))) : null);
     const rows = []; for (let k = 0; k < s.tiles.length; k += cols) rows.push(s.tiles.slice(k, k + cols));
     return shell(sp, i, n, h('div', { flexDirection: 'column', flexGrow: 1 },
