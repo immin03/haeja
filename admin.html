@@ -111,6 +111,17 @@ code{font-size:12px;background:var(--bg);border:1px solid var(--line);border-rad
 .tabs a{display:inline-flex;align-items:center;gap:6px;padding:13px 12px;font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
 .tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--gold)}
 .tabs a .c{font-size:11px;font-weight:700;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:1px 7px;color:var(--ink2)}
+.tabs .sub{background:var(--bg);border-top:1px solid var(--line)}
+.tabs .sub .in{gap:6px;padding:8px 12px}
+.tabs .sub a{padding:6px 12px;font-size:13px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.tabs .sub a[aria-current="page"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tabs .sub a[aria-current="page"] .c{background:rgba(255,255,255,.18);border-color:transparent;color:inherit}
+.seg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 14px;padding-bottom:2px}
+.seg a{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;padding:8px 13px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:13.5px;font-weight:700;text-decoration:none}
+.seg a b{font-size:11px;font-weight:800;border-radius:999px;padding:0 7px;background:var(--bg);color:var(--ink2)}
+.seg a.hot b{background:rgba(216,65,90,.12);color:var(--bad)}
+.seg a[aria-current="page"]{border-color:var(--ink);color:var(--ink);box-shadow:inset 0 -2px 0 var(--gold)}
+.blog-frame{width:100%;height:calc(100vh - 210px);min-height:560px;border:1px solid var(--line);border-radius:14px;background:#F6F3EC}
 .ptitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 14px}
 .ptitle h1{font-size:19px;font-weight:800;margin:0}
 .ptitle .sub{font-size:12px;color:var(--muted);margin-top:3px}
@@ -224,8 +235,8 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 </style>
 </head>
 <body>
-<header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="/" title="ValueNote 홈으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><a class="btn" href="/naver/" style="text-decoration:none">블로그 글</a><a class="btn" href="./" style="text-decoration:none">앱으로</a><button class="btn" id="reload" hidden>새로고침</button><button class="btn" id="out" hidden>로그아웃</button></div></div></header>
-<nav class="tabs" id="tabs" hidden><div class="in"></div></nav>
+<header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="/" title="ValueNote 홈으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><a class="btn" href="./" style="text-decoration:none">앱으로</a><button class="btn" id="reload" hidden>새로고침</button><button class="btn" id="out" hidden>로그아웃</button></div></div></header>
+<nav class="tabs" id="tabs" hidden><div class="in"></div><div class="sub"><div class="in"></div></div></nav>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
 <script>
@@ -300,21 +311,31 @@ function barsList(obj, order){
   return `<div class="bars">${ent.map(([k, v]) => `<div class="row"><span>${esc(k)}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><span class="n">${n0(v)}</span></div>`).join('')}</div>`;
 }
 
+/* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
+const GROUPS = [
+  ['home', '개요', ['overview']],
+  ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
+  ['growth', '유입', ['traffic', 'landing', 'dm']],
+  ['content', '콘텐츠', ['youtube', 'social', 'blog', 'column']],
+];
 const PAGES = [
   ['overview', '개요'],
-  ['survey', '설문 응답'],
   ['users', '가입자'],
+  ['survey', '설문 응답'],
   ['stocks', '회원 종목'],
+  ['qual', '정성 의견'],
   ['traffic', '유입·기기'],
   ['landing', '소개 페이지'],
   ['dm', '댓글 DM 유입'],
+  ['youtube', '유튜브'],
+  ['social', '인스타·쓰레드'],
+  ['blog', '네이버 블로그'],
   ['column', '칼럼'],
-  ['qual', '정성 의견'],
-  ['social', 'SNS 게시'],
-  ['youtube', '유튜브 검수'],
 ];
 let DATA = null;
-const page = () => { const h = location.hash.slice(1); return PAGES.some(p => p[0] === h) ? h : 'overview'; };
+const page = () => { const h = location.hash.slice(1).split('/')[0]; return PAGES.some(p => p[0] === h) ? h : 'overview'; };
+const subPage = () => location.hash.slice(1).split('/')[1] || '';
+const groupOf = id => GROUPS.find(g => g[2].includes(id)) || GROUPS[0];
 const SIZE_ORDER = ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상','2억 원 이상'];
 const PAGE_KO = {portfolio:'포트폴리오 현황', grade:'내 등급', journal:'결정 일지', fx:'환율', briefing:'오늘 브리핑', trends:'메가트렌드', companies:'기업 찾기', analyze:'종목 분석', watchlist:'관심 종목', dividend:'배당', ref:'기준·검증', alerts:'알림', account:'내 계정', guide:'Q&A', '첫 화면':'첫 화면(접속)', 'admin.html':'관리자'};
 const sum = o => Object.values(o || {}).reduce((a, b) => a + (+b || 0), 0);
@@ -342,6 +363,10 @@ function todoList(){
   (st.accounts || []).forEach(a => { const d = Math.floor((Date.parse(a.expires_at) - Date.now()) / 864e5); if(d <= 12) L.push([d <= 3 ? 'bad' : 'warn', `${a.platform === 'instagram' ? '인스타그램' : '쓰레드'} 토큰 만료 <b>D-${Math.max(0, d)}</b>${d > 10 ? ' · 10일 전 자동 갱신 예정' : ' · 자동 갱신이 안 됐으면 다시 연결'}`, '#social', '연결 점검']); });
   if(!(st.accounts || []).some(a => a.platform === 'instagram')) L.push(['warn', '인스타그램이 <b>연결되지 않았습니다</b>', '#social', '연결']);
   if(!(st.accounts || []).some(a => a.platform === 'threads')) L.push(['warn', '쓰레드가 <b>연결되지 않았습니다</b>', '#social', '연결']);
+  if(YT.list){ const np = (YT.plans || []).filter(x => x.status === 'proposed').length, nr = YT.list.filter(y => ['review', 'changes'].includes(y.status)).length, nu = YT.list.filter(y => y.status === 'approved').length;
+    if(np) L.push(['warn', `유튜브 롱폼 기획안 <b>${np}편</b> 승인 대기`, '#youtube/plan', '기획안 보기']);
+    if(nr) L.push(['warn', `유튜브 영상 <b>${nr}편</b> 검수 대기`, '#youtube/review', '검수하기']);
+    if(nu) L.push(['info', `승인한 유튜브 영상 <b>${nu}편</b> 올리기 대기`, '#youtube/ready', '올리기']); }
   const qOpen = OPS.qual.filter(f => f.status !== 'done').length;
   if(qOpen) L.push(['info', `정성 평가 의견 <b>${qOpen}건</b> 검토 대기`, '#qual', '답변하기']);
   const monday = (() => { const d = new Date(Date.now() + 9 * 3600e3); const w = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - w); return d.toISOString().slice(0, 10); })();
@@ -700,7 +725,8 @@ const FN = C.SUPABASE_URL + '/functions/v1/';
 /* 유튜브 검수: 렌더된 롱폼·쇼츠를 보고 승인한 것만 올린다. 승인 순간에도 숫자가 오래됐는지 DB가 다시 확인한다 */
 const YT = { list: null, msg: '' };
 const YT_ST = { review: ['run', '검수 대기'], stale: ['bad', '숫자 오래됨 · 다시 만드는 중'], rerendering: ['run', '다시 만드는 중'], changes: ['bad', '수정 요청'], approved: ['ok', '승인됨'], hold: ['off', '보류'], uploaded: ['ok', '올림 완료'] };
-async function ytLoad(){ const [r, pl] = await Promise.all([sb.rpc('yt_admin_list'), sb.rpc('yt_plan_list')]); const { data, error } = r; YT.list = error ? [] : (data || []); YT.err = error ? error.message : ''; YT.plans = pl.error ? [] : (pl.data || []); render(); }
+async function ytFetch(){ const [r, pl] = await Promise.all([sb.rpc('yt_admin_list'), sb.rpc('yt_plan_list')]); const { data, error } = r; YT.list = error ? [] : (data || []); YT.err = error ? error.message : ''; YT.plans = pl.error ? [] : (pl.data || []); }
+async function ytLoad(){ await ytFetch(); render(); }
 /* 롱폼 기획안 (2026-10-23 운영자): 롱폼은 원고를 쓰기 전에 기획안을 먼저 승인받는다. 승인하면 제작 작업이 원고를 쓰고 렌더링해 아래 '검수 대기'로 올린다. 반려하면 다음 후보로 바꾼다 */
 const YTP_ST = { proposed: ['run', '승인 대기'], approved: ['ok', '승인 · 제작 대기'], producing: ['ok', '원고·렌더 중'], done: ['ok', '검수 탭으로 넘어감'], rejected: ['off', '반려'] };
 function ytPlanItem(p){
@@ -746,24 +772,47 @@ function ytItem(y){
       <details><summary>설명·태그·고정 댓글 보기</summary><pre>${esc(y.description || '')}</pre><div class="m">${esc((y.tags || []).join(', '))}</div>${y.pinned_comment ? `<pre>고정 댓글\n${esc(y.pinned_comment)}</pre>` : ''}</details>
       <div class="ac">${acts.join('')}</div></div></div>`;
 }
+/* 유튜브 세부 메뉴 (2026-10-24): 기획안·제작 중·검수·올리기 대기·올림 완료·보류를 나눠서 한 번에 하나만 본다 */
+function ytViews(){
+  const L = YT.list || [], P = YT.plans || [], sortAt = (a, b) => (a.scheduled_at || '').localeCompare(b.scheduled_at || '');
+  const v = k => L.filter(y => k.includes(y.status)).sort(sortAt);
+  return {
+    plan:   { t: '기획안', hot: true, plans: P.filter(x => x.status === 'proposed'), vids: [] },
+    making: { t: '제작 중', plans: P.filter(x => ['approved', 'producing'].includes(x.status)), vids: v(['stale', 'rerendering']) },
+    review: { t: '영상 검수', hot: true, plans: [], vids: v(['review', 'changes']) },
+    ready:  { t: '올리기 대기', hot: true, plans: [], vids: v(['approved']) },
+    done:   { t: '올림 완료', plans: [], vids: v(['uploaded']).reverse() },
+    hold:   { t: '보류·반려', plans: P.filter(x => x.status === 'rejected'), vids: v(['hold']) },
+  };
+}
+const YT_NOTE = {
+  plan: '롱폼은 원고를 쓰기 전에 기획안부터 확인합니다. 관심이 큰 회사·이슈 순서로 올라옵니다. <b>승인</b>하면 원고를 쓰고 렌더링해 \'영상 검수\'로 올리고, <b>반려</b>하면 다음 후보로 바꿉니다.',
+  making: '승인한 기획안을 원고로 쓰고 렌더링하는 중이거나, 숫자가 오래돼 최신 값으로 다시 만드는 영상입니다. 끝나면 \'영상 검수\'로 넘어갑니다.',
+  review: '롱폼의 주가·적정 주가·점수는 렌더할 때의 최신 값입니다. 렌더 후 24시간이 지나거나, 주가가 5% 넘게 움직이거나, 실적 발표 같은 일정이 지나가면 자동으로 다시 만들어집니다.',
+  ready: '<b>구글 API 심사 전입니다.</b> 영상·썸네일을 받고 제목·설명·태그를 복사해 유튜브 스튜디오에 직접 올린 뒤 "유튜브에 올렸어요"를 눌러 주세요. 심사가 끝나면 예약 시각에 자동으로 올라갑니다.',
+};
 function vYoutube(){
-  if(YT.list === null){ ytLoad(); return head('유튜브 검수', '불러오는 중', 'youtube'); }
-  if(YT.err) return head('유튜브 검수', '', 'youtube') + `<div class="card">불러오지 못했습니다: ${esc(YT.err)}</div>`;
-  const L = YT.list, by = k => L.filter(y => k.includes(y.status)).sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
-  const wait = by(['review', 'changes', 'stale', 'rerendering']), ok = by(['approved']), hold = by(['hold']), done = by(['uploaded']).reverse();
-  return `${head('유튜브 검수', '올리기 전에 영상·제목·설명을 보고 승인합니다. 승인한 것만 올라갑니다.', 'youtube')}
-  <div class="yt-note"><b>구글 API 심사 전입니다.</b> 승인하면 다운로드·복사 버튼이 열립니다. 유튜브 스튜디오에 직접 올린 뒤 "유튜브에 올렸어요"를 눌러 주세요. 심사가 끝나면 승인한 영상이 예약 시각에 자동으로 올라갑니다.<br>
-  롱폼의 주가·적정 주가·점수는 렌더할 때의 최신 값입니다. 렌더 후 24시간이 지나거나, 주가가 5% 넘게 움직이거나, 실적 발표 같은 일정이 지나가면 자동으로 다시 만들어집니다.</div>
+  if(YT.list === null){ ytLoad(); return head('유튜브', '불러오는 중', 'youtube'); }
+  if(YT.err) return head('유튜브', '', 'youtube') + `<div class="card">불러오지 못했습니다: ${esc(YT.err)}</div>`;
+  const V = ytViews(), n = k => V[k].plans.length + V[k].vids.length;
+  let cur = subPage(); if(!V[cur]) cur = ['review', 'plan', 'ready', 'making'].find(k => n(k)) || 'plan';
+  const x = V[cur];
+  const seg = `<div class="seg">${Object.entries(V).map(([k, o]) => `<a href="#youtube/${k}"${k === cur ? ' aria-current="page"' : ''}${o.hot && n(k) ? ' class="hot"' : ''}>${o.t}<b>${n(k)}</b></a>`).join('')}</div>`;
+  const empty = { plan: '검토할 기획안이 없습니다. 다음 기획 작업이 후보를 올립니다.', making: '지금 만들고 있는 영상이 없습니다.', review: '검수할 영상이 없습니다.', ready: '승인해 둔 영상이 없습니다.', done: '아직 올린 영상이 없습니다.', hold: '보류·반려한 것이 없습니다.' }[cur];
+  let body;
+  if(cur === 'done') body = x.vids.length ? `<div class="card" style="padding:12px 14px">${x.vids.map(y => `<div class="m" style="padding:4px 0">${kst(y.uploaded_at)} · <span class="kind${y.kind === 'short' ? ' reel' : ''}">${y.kind === 'short' ? '쇼츠' : '롱폼'}</span> ${esc(y.title)}</div>`).join('')}</div>` : '';
+  else if(cur === 'hold') body = x.vids.map(ytItem).join('') + (x.plans.length ? `<div class="soc-sec"><h2>반려한 기획안</h2><span class="n">${x.plans.length}편</span></div><div class="card" style="padding:12px 14px">${x.plans.map(p => `<div class="m" style="padding:4px 0">${esc(p.title || p.id)}${p.owner_note ? ` · ${esc(p.owner_note)}` : ''}</div>`).join('')}</div>` : '');
+  else body = x.plans.map(ytPlanItem).join('') + x.vids.map(ytItem).join('');
+  return `${head('유튜브', '기획안 승인 → 제작 → 영상 검수 → 올리기 순서로 진행됩니다.', 'youtube')}
+  ${seg}
   ${YT.msg ? `<div class="soc-flash ok">${esc(YT.msg)}</div>` : ''}
-  ${(() => { const P = YT.plans || [], open = P.filter(p => ['proposed', 'approved', 'producing'].includes(p.status)), past = P.filter(p => ['done', 'rejected'].includes(p.status));
-    return `<div class="soc-sec"><h2>롱폼 기획안</h2><span class="n">승인 대기 ${P.filter(p => p.status === 'proposed').length}편</span></div>
-    <div class="yt-note">롱폼은 원고를 쓰기 전에 기획안부터 확인합니다. 지금 가장 관심이 큰 회사·이슈 순서로 올라옵니다. <b>승인</b>하면 원고를 쓰고 렌더링해 아래 '검수 대기'로 올리고, <b>반려</b>하면 다음 후보로 바꿉니다.</div>
-    ${open.length ? open.map(ytPlanItem).join('') : '<div class="card empty" style="padding:14px">검토할 기획안이 없습니다. 다음 기획 작업이 후보를 올립니다.</div>'}
-    ${past.length ? `<details class="card" style="padding:10px 14px"><summary>지난 기획안 ${past.length}편</summary>${past.map(p => `<div class="m" style="padding:4px 0">${esc((YTP_ST[p.status] || ['', p.status])[1])} · ${esc(p.title || p.id)}${p.owner_note ? ` · ${esc(p.owner_note)}` : ''}</div>`).join('')}</details>` : ''}`; })()}
-  <div class="soc-sec"><h2>검수 대기</h2><span class="n">${wait.length}편</span></div>${wait.length ? wait.map(ytItem).join('') : '<div class="card empty" style="padding:14px">검수할 영상이 없습니다.</div>'}
-  <div class="soc-sec"><h2>승인됨 · 올리기 대기</h2><span class="n">${ok.length}편</span></div>${ok.length ? ok.map(ytItem).join('') : '<div class="card empty" style="padding:14px">승인한 영상이 없습니다.</div>'}
-  ${hold.length ? `<div class="soc-sec"><h2>보류</h2></div>${hold.map(ytItem).join('')}` : ''}
-  <div class="soc-sec"><h2>올림 완료</h2><span class="n">${done.length}편</span></div><div class="card" style="padding:12px 14px">${done.length ? done.map(y => `<div class="m" style="padding:4px 0">${kst(y.uploaded_at)} · ${esc(y.title)}</div>`).join('') : '<div class="empty">아직 없습니다.</div>'}</div>`;
+  ${YT_NOTE[cur] && n(cur) ? `<div class="yt-note">${YT_NOTE[cur]}</div>` : ''}
+  ${body || `<div class="card empty" style="padding:14px">${empty}</div>`}`;
+}
+/* 네이버 블로그: 따로 있던 /naver/ 글 목록을 콘텐츠 메뉴 안에 붙인다 */
+function vBlog(){
+  return `<div class="ptitle"><div><h1>네이버 블로그</h1><div class="sub">글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣고, 올린 글은 '올렸어요'로 표시합니다.</div></div><a class="lnk" href="/naver/" target="_blank" rel="noopener">새 창으로 열기 ↗</a></div>
+  <iframe class="blog-frame" src="/naver/" title="네이버 블로그 글 목록"></iframe>`;
 }
 function bindYoutube(){
   document.querySelectorAll('[data-ytp-set]').forEach(b => b.onclick = async () => {
@@ -930,10 +979,17 @@ function render(s){
     if(nf) hot.social = [nf, 'hot', nf + '편 실패']; else if(na) hot.social = [na, 'warm', na + '편 승인 대기'];
     const nq = OPS.qual.filter(f => f.status !== 'done').length; if(nq) hot.qual = [nq, 'warm', nq + '건 검토 대기']; }
   $('#asof').textContent = '기준 ' + kst(s.asOf);
+  if(YT.list){ const nr = YT.list.filter(y => ['review', 'changes'].includes(y.status)).length, np = (YT.plans || []).filter(x => x.status === 'proposed').length;
+    if(nr + np) hot.youtube = [nr + np, 'warm', [np ? `기획안 ${np}편` : '', nr ? `영상 검수 ${nr}편` : ''].filter(Boolean).join(' · ') + ' 대기']; }
   const nav = $('#tabs'); nav.hidden = false;
-  nav.firstElementChild.innerHTML = PAGES.map(([id, t]) => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${t}${hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : ''}</a>`).join('');
-  document.title = 'ValueNote 관리자 · ' + PAGES.find(x => x[0] === p)[1];
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : vOverview(s);
+  const g = groupOf(p), title = id => PAGES.find(x => x[0] === id)[1];
+  const badge = id => hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : '';
+  nav.firstElementChild.innerHTML = GROUPS.map(([gid, gt, ids]) => { const h = ids.map(i => hot[i]).filter(Boolean), n = h.reduce((a, x) => a + x[0], 0), c = h.some(x => x[1] === 'hot') ? 'hot' : 'warm';
+    return `<a href="#${ids[0]}"${gid === g[0] ? ' aria-current="page"' : ''}>${gt}${n ? `<span class="c ${c}" title="${h.map(x => x[2]).join(' · ')}">${n}</span>` : ''}</a>`; }).join('');
+  const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
+  sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
+  document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'blog' ? vBlog() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
@@ -960,7 +1016,7 @@ async function load(){
   $('#reload').hidden = $('#out').hidden = !session;
   if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
-  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null]);
+  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null]);
   if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
@@ -968,7 +1024,7 @@ $('#reload').onclick = () => { LD.data = null; load(); };
 $('#out').onclick = async () => { await sb.auth.signOut({ scope: 'local' }); load(); };
 window.__render = render;
 load();
-setInterval(() => { if(!document.hidden && !$('#out').hidden && page() !== 'column' && page() !== 'social' && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
+setInterval(() => { if(!document.hidden && !$('#out').hidden && !['column', 'social', 'blog', 'youtube'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
