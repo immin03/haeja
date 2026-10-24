@@ -1,0 +1,248 @@
+{
+ "id": "Y261026d",
+ "title": "테슬라, 차 한 대 팔면 겨우 1,500달러 남는다? 1년 새 반토막",
+ "scheduled_at": "2026-10-26T08:30:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "tense",
+ "broll": "traffic",
+ "threads_tag": "주식",
+ "hashtags": [
+  "테슬라",
+  "Tesla",
+  "테슬라실적",
+  "미국주식",
+  "밸류노트",
+  "shorts"
+ ],
+ "banner": [
+  "테슬라, 차 한 대에 남는 돈",
+  "1년 새 반토막, 왜?"
+ ],
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "caption": "테슬라의 2026년 3분기 영업이익 7억 1,800만 달러를 인도 대수 48만 6,532대로 나누면 한 대에 약 1,476달러(에너지·서비스 이익 포함 단순 계산). 1년 전 같은 계산(16억 2,400만 달러 ÷ 49만 7,099대)으로는 약 3,267달러였습니다. 그런데 차 장사 자체는 나아졌습니다(크레딧 뺀 자동차 매출총이익률 15.4% → 18.1%). 가장 큰 차이는 1년 새 11억 3천만 달러 늘어난 연구개발비입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "테슬라 3분기 · 차 한 대당 영업이익",
+   "num": {
+    "to": 1476,
+    "suffix": "달러"
+   },
+   "tone": "loss",
+   "label": "에너지·서비스 포함 영업이익 ÷ 판 차 대수",
+   "lines": [
+    {
+     "cap": [
+      "테슬라 차 한 대당 영업이익,",
+      "이번 3분기엔 약 1,500달러였어요"
+     ],
+     "say": "테슬라 차 한 대당 영업이익, 이번 삼분기엔 약 천오백 달러였어요."
+    },
+    {
+     "cap": [
+      "회사 전체 영업이익을",
+      "팔린 차 대수로 나눠 본 값이죠"
+     ],
+     "say": "회사 전체 영업이익을, 팔린 차 대수로 나눠 본 값이죠."
+    }
+   ]
+  },
+  {
+   "type": "bars",
+   "title": "차 한 대당 영업이익 (단순 계산)",
+   "items": [
+    {
+     "label": "2025년\n3분기",
+     "v": 3267,
+     "text": "3,267달러",
+     "tone": "gold",
+     "at": [
+      0,
+      0.2
+     ]
+    },
+    {
+     "label": "2026년\n3분기",
+     "v": 1476,
+     "text": "1,476달러",
+     "tone": "loss",
+     "at": [
+      1,
+      0.1
+     ]
+    }
+   ],
+   "lines": [
+    {
+     "cap": [
+      "1년 전엔 같은 계산으로",
+      "한 대에 3,300달러쯤이었는데"
+     ],
+     "say": "일 년 전엔 같은 계산으로, 한 대에 삼천삼백 달러쯤이었는데,"
+    },
+    {
+     "cap": [
+      "1년 만에",
+      "절반도 안 남게 됐어요"
+     ],
+     "say": "일 년 만에, 절반도 안 남게 됐어요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "차값 100달러에서 만드는 비용을 빼면",
+   "l": {
+    "label": "1년 전",
+    "v": "15.4달러",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "2026년 3분기",
+    "v": "18.1달러",
+    "tone": "gold"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그럼 차 장사가 망한 걸까요?"
+     ],
+     "say": "그럼 차 장사가 망한 걸까요?"
+    },
+    {
+     "join": [
+      {
+       "cap": [
+        "아니요. 100달러어치 팔면 남는 몫이"
+       ],
+       "say": "아니요. 백 달러어치 팔면 남는 몫이,"
+      },
+      {
+       "cap": [
+        "15달러 남짓에서 18달러 남짓으로 늘었어요"
+       ],
+       "say": "십오 달러 남짓에서, 십팔 달러 남짓으로 늘었어요."
+      }
+     ]
+    }
+   ],
+   "l_line": 1,
+   "r_line": 2
+  },
+  {
+   "type": "compare",
+   "title": "1년 사이 달라진 돈 (3분기)",
+   "l": {
+    "label": "연구개발비",
+    "v": "+11.3억 달러",
+    "tone": "gold"
+   },
+   "r": {
+    "label": "크레딧 수입",
+    "v": "-3억 달러",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "가장 큰 이유는 연구개발비예요.",
+      "1년 사이에 11억 달러나 늘었거든요"
+     ],
+     "say": "가장 큰 이유는 연구개발비예요. 일 년 사이에 십일억 달러나 늘었거든요."
+    },
+    {
+     "cap": [
+      "전기차 점수 수입이 줄어든",
+      "3억 달러보다 훨씬 큰 돈이죠"
+     ],
+     "say": "전기차 점수 수입이 줄어든 삼억 달러보다, 훨씬 큰 돈이죠."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "연구개발 한 대당 5,700달러",
+   "l2": "쓰고도 1,500달러 남았다",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "연구개발에 한 대당 5,700달러를",
+      "쓰고도 1,500달러가 남은 셈이죠"
+     ],
+     "say": "연구개발에 한 대당 오천칠백 달러를 쓰고도, 천오백 달러가 남은 셈이죠."
+    },
+    {
+     "cap": [
+      "월급은 비슷한데",
+      "학원비를 1.7배로 늘린 집 같달까요"
+     ],
+     "say": "월급은 비슷한데, 학원비를 일 점 칠 배로 늘린 집 같달까요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "못 팔아서일까",
+   "l2": "미리 써서일까",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "그러니 이익이 줄었다는 뉴스엔,",
+      "못 팔아서인지, 미리 써서인지부터",
+      "나눠 보세요"
+     ],
+     "say": "그러니 이익이 줄었다는 뉴스엔, 못 팔아서인지 미리 써서인지부터 나눠 보세요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "이 투자, 씨앗일까 부담일까",
+   "l2": "풀버전에서",
+   "lines": [
+    {
+     "cap": [
+      "이 투자가 씨앗인지 부담인지,",
+      "풀버전에서 숫자로 따져 봤어요"
+     ],
+     "say": "이 투자가 씨앗인지 부담인지, 풀버전에서 숫자로 따져 봤어요."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "Tesla's Q3 operating profit per car: about $1,500",
+  "That's total operating profit divided by cars sold",
+  "A year ago, the same math gave about $3,300 per car",
+  "In one year, it fell to less than half",
+  "So did the car business collapse?",
+  "No. Of every $100 in car sales, what's left",
+  "rose from about $15 to about $18",
+  "The biggest reason is R&D, up $1.1 billion in a year",
+  "far more than the $300 million drop in EV credit income",
+  "So Tesla spent $5,700 per car on R&D and still kept $1,500",
+  "Like a family with similar pay that raised tuition 1.7 times",
+  "So when profits fall, first ask: weak sales, or spending ahead?",
+  "Seed or burden? We ran the numbers in the full video",
+  "Tap the link below"
+ ],
+ "title_en": "Tesla now keeps about $1,500 per car, half of a year ago #Tesla",
+ "long": "L261025-tesla",
+ "review": [
+  {
+   "round": 1,
+   "avg": 6.3
+  },
+  {
+   "round": 2,
+   "avg": 7.8,
+   "must_fix_done": true
+  }
+ ]
+}

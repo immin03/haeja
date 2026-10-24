@@ -1,0 +1,231 @@
+{
+ "id": "Y261026b",
+ "title": "몸값 1조 4,700억 달러 테슬라, 시장이 사는 건 차가 아니다?",
+ "scheduled_at": "2026-10-26T16:00:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "calm",
+ "broll": "traffic",
+ "threads_tag": "주식",
+ "hashtags": [
+  "테슬라",
+  "Tesla",
+  "FSD",
+  "로보택시",
+  "밸류노트",
+  "shorts"
+ ],
+ "banner": [
+  "몸값 1조 4,700억 달러,",
+  "시장은 테슬라의 뭘 사나"
+ ],
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "caption": "테슬라의 시가총액은 10월 23일 종가 기준 약 1조 4,700억 달러(10-Q 표지 발행 주식 기준)입니다. 시장이 보는 것은 차보다 차를 판 뒤에도 돈이 들어오는 사업입니다. FSD 유료 이용자(구매+구독) 104만 → 174만 명(+67%), 9월 오스틴 사이버캡 운행 시작, 옵티머스 외부 인도 2027년 말 목표. 다만 아직 이익표에서는 작고, 이미 숫자로 보이는 건 서비스·기타 매출총이익(3억 6,600만 → 7억 3,400만 달러)입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "테슬라 시가총액 (10월 23일 종가)",
+   "num": {
+    "to": 1.47,
+    "dec": 2,
+    "suffix": "조 달러"
+   },
+   "tone": "gold",
+   "label": "1조 4,700억 달러",
+   "lines": [
+    {
+     "cap": [
+      "테슬라의 몸값은 10월 23일 기준으로",
+      "약 1조 4,700억 달러예요"
+     ],
+     "say": "테슬라의 몸값은 시월 이십삼일 기준으로, 약 일조 사천칠백억 달러예요."
+    },
+    {
+     "cap": [
+      "그런데 시장이 여기서 사는 건,",
+      "자동차가 아닐지도 몰라요"
+     ],
+     "say": "그런데 시장이 여기서 사는 건, 자동차가 아닐지도 몰라요."
+    }
+   ]
+  },
+  {
+   "type": "bars",
+   "title": "FSD 유료 이용자 (구매+구독, 1년 전 vs 지금)",
+   "items": [
+    {
+     "label": "2025년\n3분기",
+     "v": 104,
+     "text": "104만 명",
+     "tone": "gray",
+     "at": [
+      0,
+      0.5
+     ]
+    },
+    {
+     "label": "2026년\n3분기",
+     "v": 174,
+     "text": "174만 명",
+     "tone": "gold",
+     "at": [
+      1,
+      0.2
+     ]
+    }
+   ],
+   "lines": [
+    {
+     "cap": [
+      "첫째, 자율주행 보조 FSD.",
+      "돈 내고 쓰는 사람이 1년 새 67% 늘어"
+     ],
+     "say": "첫째, 자율주행 보조 에프에스디. 돈 내고 쓰는 사람이 일 년 새 육십칠 퍼센트 늘어,"
+    },
+    {
+     "cap": [
+      "174만 명이 됐어요. 특히 구독은",
+      "차를 판 뒤에도 매달 들어오죠"
+     ],
+     "say": "백칠십사만 명이 됐어요. 특히 구독은, 차를 판 뒤에도 매달 들어오죠."
+    }
+   ]
+  },
+  {
+   "type": "list",
+   "title": "기대 둘째 · 셋째",
+   "items": [
+    "사이버캡 · 9월 오스틴 운행 시작",
+    "옵티머스 · 외부 인도 2027년 말 목표"
+   ],
+   "lines": [
+    {
+     "cap": [
+      "둘째, 운전대 없는 로보택시 사이버캡.",
+      "9월부터 오스틴에서 손님을 태워요"
+     ],
+     "say": "둘째, 운전대 없는 로보택시 사이버캡. 구월부터 오스틴에서 손님을 태워요."
+    },
+    {
+     "cap": [
+      "셋째, 사람을 닮은 로봇 옵티머스는",
+      "2027년 말쯤 다른 회사에",
+      "처음 넘긴대요"
+     ],
+     "say": "셋째, 사람을 닮은 로봇 옵티머스는, 이천이십칠년 말쯤 다른 회사에 처음 넘긴대요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "그런데 셋 다",
+   "l2": "아직 이익표에선 작다",
+   "tone": "loss",
+   "lines": [
+    {
+     "cap": [
+      "그런데 셋 다 아직 이익표에선",
+      "작은 숫자예요"
+     ],
+     "say": "그런데 셋 다, 아직 이익표에선 작은 숫자예요."
+    },
+    {
+     "cap": [
+      "원래 미래는, 늘 예정보다",
+      "늦게 오는 법이거든요"
+     ],
+     "say": "원래 미래는, 늘 예정보다 늦게 오는 법이거든요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "이미 숫자로 보이는 변화 (서비스 매출총이익)",
+   "l": {
+    "label": "1년 전 3분기",
+    "v": "3.7억 달러",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "2026년 3분기",
+    "v": "7.3억 달러",
+    "tone": "gold"
+   },
+   "lines": [
+    {
+     "cap": [
+      "대신 이미 시작된 신호도 있어요.",
+      "충전·보험 등 서비스 부문 이익이"
+     ],
+     "say": "대신 이미 시작된 신호도 있어요. 충전과 보험 등, 서비스 부문 이익이,"
+    },
+    {
+     "cap": [
+      "1년 새 두 배가 됐거든요"
+     ],
+     "say": "일 년 새 두 배가 됐거든요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "테슬라 실적에선",
+   "l2": "차 대수만큼 FSD 이용자 수",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "그래서 테슬라 실적에선, 차 대수만큼",
+      "FSD 이용자 수를 보셔야 해요"
+     ],
+     "say": "그래서 테슬라 실적에선, 차 대수만큼 에프에스디 이용자 수를 보셔야 해요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "그 미래, 얼마나 대단해야 할까",
+   "l2": "풀버전에서",
+   "lines": [
+    {
+     "cap": [
+      "그 미래가 얼마나 대단해야 하는지,",
+      "풀버전에서 계산해 봤어요"
+     ],
+     "say": "그 미래가 얼마나 대단해야 하는지, 풀버전에서 계산해 봤어요."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "Tesla is worth about $1.47 trillion as of Oct 23",
+  "But what the market is buying may not be cars",
+  "One: FSD driver-assist. Paying users rose 67% in a year",
+  "to 1.74 million. Subscriptions keep paying monthly after the sale",
+  "Two: the steering-wheel-free Cybercab robotaxi, carrying riders in Austin since September",
+  "Three: the Optimus humanoid robot is due to reach other companies around late 2027",
+  "But all three are still small numbers on the income statement",
+  "The future usually arrives a bit later than planned",
+  "Still, one signal has already started: gross profit from services such as charging and insurance",
+  "doubled in a year",
+  "So in Tesla's results, watch FSD users as closely as car sales",
+  "How big must that future be? We ran it in the full video",
+  "Tap the link below"
+ ],
+ "title_en": "Tesla is worth $1.47 trillion. Is the market even buying cars? #Tesla",
+ "long": "L261025-tesla",
+ "review": [
+  {
+   "round": 1,
+   "avg": 5.8
+  },
+  {
+   "round": 2,
+   "avg": 7.0,
+   "must_fix_done": true
+  }
+ ]
+}

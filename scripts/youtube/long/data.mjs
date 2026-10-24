@@ -103,8 +103,9 @@ export async function companyData(code, spec = {}) {
     vars: {
       asof, px_label, ...btv, ...hi, ...usv, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: money2(px), px_short: money(px), iv: iv ? money2(iv) : '', iv_short: iv ? money(iv) : '', iv_man: Math.floor(iv / 1e4) + '만 원',
       mult: x1(px / iv), per_now: x1(px / E), per_avg: x1(px / normal), eps: won(E),
-      need: pct(need), iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
-      norm: w100(normal), need_won: w100(px / 10), eps100: w100(E), eps_norm: x1(E / normal),   // 비율 대신 1주당 원화로 말할 때 (100원 단위)
+      need: pct(need), need_x: '약 ' + Math.round(need) + '배', iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
+      norm: US ? '약 ' + usd(normal) : w100(normal), need_won: US ? '약 ' + (px / 10 >= 10 ? Math.round(px / 10) + '달러' : usd(px / 10)) : w100(px / 10), eps100: US ? '약 ' + usd(E) : w100(E),   // 미국 종목은 1주당 달러 (2026-10-24 테슬라 편)
+       eps_norm: x1(E / normal),   // 비율 대신 1주당 원화로 말할 때 (100원 단위)
       v30: won(v30), v30_vs: vs(v30, px), v100: won(v100), v100_vs: vs(v100, px),
     },
   };

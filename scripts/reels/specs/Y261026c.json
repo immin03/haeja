@@ -1,0 +1,233 @@
+{
+ "id": "Y261026c",
+ "title": "테슬라 주가가 맞으려면 이익이 34배?",
+ "scheduled_at": "2026-10-26T21:30:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "calm",
+ "broll": "market",
+ "threads_tag": "주식",
+ "hashtags": [
+  "테슬라",
+  "Tesla",
+  "적정주가",
+  "워렌버핏",
+  "밸류노트",
+  "shorts"
+ ],
+ "banner": [
+  "테슬라 주가가 맞으려면",
+  "이익이 몇 배 늘어야 할까?"
+ ],
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "caption": "테슬라는 최근 1년 1주당 1.08달러를 벌었고, 10월 23일 종가는 372달러였습니다. 성장은 빼고 이익의 10배까지만 쳐 주는 그레이엄처럼 깐깐한 계산으로 이 주가가 맞으려면 1주당 약 37달러, 지금 이익의 약 34배를 벌어야 합니다. 다만 이 계산은 성장을 빼고 본 것이고, 워렌 버핏도 아마존·구글을 놓친 것을 실수라고 말한 적이 있습니다. 매수·매도 신호가 아니라 주가에 걸린 기대의 크기입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "10월 23일 종가 기준 · 테슬라",
+   "num": {
+    "to": 34,
+    "suffix": "배"
+   },
+   "tone": "gold",
+   "label": "주가가 맞으려면 이익이 늘어야 하는 배수",
+   "lines": [
+    {
+     "cap": [
+      "테슬라 주가가 맞으려면,",
+      "이익이 지금의 34배가 돼야 한다?"
+     ],
+     "say": "테슬라 주가가 맞으려면, 이익이 지금의 삼십사 배가 돼야 한다?"
+    },
+    {
+     "cap": [
+      "깐깐한 계산기로",
+      "직접 두드려 봤습니다"
+     ],
+     "say": "깐깐한 계산기로, 직접 두드려 봤습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "1년에 1달러 버는 회사",
+   "l2": "10달러까지만 쳐 준다",
+   "tone": "gold",
+   "note": "그레이엄처럼 깐깐하게 · 성장은 빼고 이익의 10배까지만",
+   "lines": [
+    {
+     "cap": [
+      "그레이엄처럼 깐깐한 계산은,",
+      "아주 간단해요"
+     ],
+     "say": "그레이엄처럼 깐깐한 계산은, 아주 간단해요."
+    },
+    {
+     "cap": [
+      "1년에 1달러 버는 회사면,",
+      "10달러까지만 값을 쳐 주죠"
+     ],
+     "say": "일 년에 일 달러 버는 회사면, 십 달러까지만 값을 쳐 주죠."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "테슬라 1주 기준",
+   "l": {
+    "label": "최근 1년 이익",
+    "v": "1.08달러",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "10월 23일 종가",
+    "v": "372달러",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "테슬라는 최근 1년,",
+      "1주당 1.08달러를 벌었는데"
+     ],
+     "say": "테슬라는 최근 일 년, 한 주에 일 달러 팔 센트를 벌었는데,"
+    },
+    {
+     "cap": [
+      "10월 23일 주가는",
+      "372달러였어요"
+     ],
+     "say": "시월 이십삼일 주가는, 삼백칠십이 달러였어요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "이 주가가 맞으려면 (372 ÷ 10)",
+   "l": {
+    "label": "지금 1주당 이익",
+    "v": "1.08달러",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "필요한 1주당 이익",
+    "v": "약 37달러",
+    "tone": "gold"
+   },
+   "lines": [
+    {
+     "cap": [
+      "같은 계산으로 이 주가가 맞으려면,",
+      "1주당 37달러는 벌어야 해요"
+     ],
+     "say": "같은 계산으로 이 주가가 맞으려면, 일 주당 삼십칠 달러는 벌어야 해요."
+    },
+    {
+     "cap": [
+      "네, 저도 처음엔",
+      "계산기가 고장 난 줄 알았답니다"
+     ],
+     "say": "네, 저도 처음엔, 계산기가 고장 난 줄 알았답니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "워렌 버핏도",
+   "l2": "아마존·구글을 놓쳤다",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "그런데 워렌 버핏도, 아마존과 구글을",
+      "놓친 건 실수였다고 고백했어요"
+     ],
+     "say": "그런데 워렌 버핏도, 아마존과 구글을 놓친 건 실수였다고 고백했어요."
+    },
+    {
+     "cap": [
+      "게다가 연구개발에 돈을 많이 쓰면,",
+      "지금 이익은 작게 찍히고요"
+     ],
+     "say": "게다가 연구개발에 돈을 많이 쓰면, 지금 이익은 작게 찍히고요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "사라·팔라가 아니라",
+   "l2": "이익 1.08달러에서 37달러로의 기대",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "그러니까 34배는, 지금 사라거나",
+      "팔라는 얘기가 아니에요"
+     ],
+     "say": "그러니까 삼십사 배는, 지금 사라거나 팔라는 얘기가 아니에요."
+    },
+    {
+     "cap": [
+      "지금 주가에 담긴 기대가",
+      "그만큼 크다는 뜻이죠"
+     ],
+     "say": "지금 주가에 담긴 기대가, 그만큼 크다는 뜻이죠."
+    },
+    {
+     "cap": [
+      "내 주식도 주가를 10으로 나눠 보면,",
+      "10배 기준으로 필요한 이익이 보여요"
+     ],
+     "say": "내 주식도 주가를 십으로 나눠 보면, 십 배 기준으로 필요한 이익이 보여요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "그 기대, 채울 수 있을까",
+   "l2": "풀버전에서",
+   "lines": [
+    {
+     "cap": [
+      "테슬라가 그 기대를 채울 수 있을지,",
+      "풀버전에서 따져 봤어요"
+     ],
+     "say": "테슬라가 그 기대를 채울 수 있을지, 풀버전에서 따져 봤어요."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "For Tesla's stock price to make sense, profit must be 34 times today's?",
+  "We ran it on a strict calculator",
+  "A Graham-style strict method is simple",
+  "A company earning $1 a year is worth up to $10",
+  "Tesla earned $1.08 per share over the past year",
+  "and the stock closed at $372 on Oct 23",
+  "For that price to fit, it must earn about $37 per share: 372 divided by 10",
+  "Yes, I thought my calculator was broken too",
+  "But even Warren Buffett admitted missing Amazon and Google was a mistake",
+  "Also, heavy R&D spending makes today's profit look small",
+  "So 34x isn't telling you to buy or sell",
+  "It means the hope priced in is that big",
+  "Divide your stock's price by 10 to see the profit needed on a 10x yardstick",
+  "Can Tesla meet it? We dug in in the full video",
+  "Tap the link below"
+ ],
+ "title_en": "For Tesla's price to fit, profit must grow 34x? #Tesla",
+ "long": "L261025-tesla",
+ "review": [
+  {
+   "round": 1,
+   "avg": 7.1
+  },
+  {
+   "round": 2,
+   "avg": 8.1,
+   "must_fix_done": true
+  }
+ ]
+}

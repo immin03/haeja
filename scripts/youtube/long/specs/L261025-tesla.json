@@ -1,0 +1,1332 @@
+{
+ "id": "L261025-tesla",
+ "series": "화제 기업",
+ "plan": "P261028-tesla-car-money",
+ "company": "TSLA",
+ "events": [],
+ "fx": 1324.2,
+ "shares": 3952757946,
+ "tags": [
+  "테슬라",
+  "테슬라 주가",
+  "테슬라 실적",
+  "Tesla",
+  "TSLA",
+  "규제 크레딧",
+  "로보택시",
+  "FSD",
+  "옵티머스",
+  "워렌 버핏",
+  "적정 주가",
+  "미국주식"
+ ],
+ "sources": [
+  "테슬라 2026년 3분기 실적 발표 (8-K, 10월 21일) · 3분기 10-Q",
+  "테슬라 2026년 3분기 생산·인도 발표 (10월)",
+  "테슬라 3분기 콘퍼런스콜 (10월 21일, 모틀리풀 녹취록)",
+  "테슬라 연차보고서 (2020년 · 2022년 · 2025년)",
+  "미국 '하나의 크고 아름다운 법' 연비 기준 벌금 폐지 (2025년 7월 4일 서명)",
+  "일렉트렉 테슬라 3분기 분석 (10월 21일)",
+  "버크셔 해서웨이 주주총회 (2017·2018년)",
+  "밸류노트 테슬라 데이터 ({asof} 기준)",
+  "서울 외환시장 원·달러 환율 1,324.2원 (10월 22일 종가)"
+ ],
+ "format": 2,
+ "scheduled_at": "2026-10-25T19:00:00+09:00",
+ "title": "테슬라, 차 한 대에 1,500달러 남는데 몸값은 {mcap_krw}? 이익이 8분의 1로 줄어든 이유",
+ "title_en": "Tesla keeps $1,500 per car, yet it's worth {mcap}? Why profit per car fell to one-eighth",
+ "thumb": {
+  "photo": "electriccar_22982_a.jpg",
+  "focus_x": 0.62,
+  "l1": "테슬라, 차 한 대 팔면",
+  "l2": "200만 원도 안 남는다?",
+  "pos": "left",
+  "s1": 96,
+  "s2": 120
+ },
+ "description_head": "테슬라가 3분기에 차 한 대를 팔 때마다 남긴 영업이익은 약 1,500달러, 4년 전의 8분의 1 수준입니다. 차를 만들어 파는 장사는 오히려 나아졌는데 왜 영업이익은 56% 줄었을까요? 몇 년 동안 테슬라 이익을 받쳐 준 '공짜 돈' 규제 크레딧이 미국 법 개정 뒤 어떻게 줄고 있는지, 줄어든 이익이 AI·로보택시·옵티머스에 들어가는 연구개발과 설비투자로 어떻게 흘러가는지, 그리고 워렌 버핏의 방식으로 따지면 지금 주가가 맞기 위해 테슬라가 1주당 얼마를 벌어야 하는지를 숫자로 풀었습니다. 마지막엔 다음 실적에서 볼 숫자 세 개를 정리했습니다.",
+ "description_en": "Tesla kept about $1,500 in operating profit for every car it sold in Q3 2026, one-eighth of what it made per car four years ago. Its car business actually improved, so why did operating profit fall 56%? We break down how regulatory credits, the 'free money' that propped up Tesla for years, are drying up after a U.S. law change; where the missing profit is going (R&D and capex for AI, robotaxis and Optimus); and, using Warren Buffett's method, how much Tesla must earn per share to justify today's price. We finish with three numbers to watch at the next earnings.\n\nThis video is for educational purposes only and is not a recommendation to buy or sell any security.",
+ "pinned_comment": "테슬라가 AI·로보택시에 쏟는 돈, 여러분은 씨앗이라고 보시나요, 부담이라고 보시나요? 의견을 댓글로 남겨 주세요. 다음 실적이 나오면 이 댓글에 크레딧을 뺀 자동차 이익률과 남는 현금을 정리해 드릴게요.\n\n내 종목의 평균 이익과 적정 주가는 밸류노트에서 같은 기준으로 확인하실 수 있습니다: https://valuenote.co.kr/yt",
+ "hook_promises": [
+  "규제 크레딧(공짜 돈)의 정체 → 2장",
+  "줄어든 이익의 행방 → 3장",
+  "지금 주가가 맞으려면 1주당 얼마를 벌어야 하나 → 5장"
+ ],
+ "scenes": [
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "테슬라 · 2026년 3분기 영업이익 ÷ 인도 대수",
+    "value": "약 1,476달러",
+    "label": "차 한 대에 남은 돈 (단순 계산)",
+    "at": "0",
+    "count": false,
+    "backdrop": "electriccar_22982_a.jpg",
+    "bd_dim": 0.62
+   },
+   "chapter": "차 한 대에 남는 돈",
+   "src": "테슬라 3분기 실적 발표 (10월 21일) · 영업이익 7억 1,800만 달러 ÷ 48만 6,532대 (에너지·서비스 이익 포함)",
+   "asof": false,
+   "lines": [
+    "테슬라가 이번 3분기에 번 영업이익을 판 차 대수로 나눠 보면, 한 대에 약 1,500달러입니다.",
+    "우리 돈으로 200만 원이 안 돼요. 최신 스마트폰 한 대 값 정도죠."
+   ],
+   "en": [
+    "Divide Tesla's Q3 operating profit by the cars it sold, and you get about $1,500 per car.",
+    "That's under 2 million won, roughly the price of a new smartphone."
+   ]
+  },
+  {
+   "v": {
+    "type": "scale",
+    "title": "테슬라 · 차 한 대당 영업이익 (단순 계산)",
+    "left": {
+     "label": "2022년 1분기",
+     "value": "약 11,621달러",
+     "at": "0:1만",
+     "color": "gold"
+    },
+    "right": {
+     "label": "2026년 3분기",
+     "value": "약 1,476달러",
+     "at": "0:8분의",
+     "color": "red"
+    },
+    "center": {
+     "text": "약 8분의 1",
+     "at": "0:8분의",
+     "kind": "red"
+    },
+    "tilt": "left",
+    "tilt_at": "0:8분의"
+   },
+   "src": "테슬라 2022년 1분기 실적 (영업이익 36억 300만 달러 ÷ 31만 48대) · 테슬라 3분기 실적 발표 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "가장 잘 벌던 2022년 1분기엔 한 대에 1만 1,600달러였는데, 지금은 그 8분의 1로 쪼그라들었어요."
+   ],
+   "en": [
+    "In its best quarter, Q1 2022, it was $11,600 per car. Now it's one-eighth of that."
+   ]
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "{px_label} 기준 테슬라 시가총액",
+    "value": "{mcap}",
+    "label": "우리 돈 약 {mcap_krw}",
+    "at": "0",
+    "count": false,
+    "backdrop": "stockmarket_9607_a.jpg",
+    "bd_dim": 0.7
+   },
+   "src": "밸류노트 테슬라 데이터 · 발행 주식 39억 5천만 주 (3분기 10-Q 표지) · 환율 1,324.2원 (10월 22일 종가)",
+   "lines": [
+    "그런데 이 회사의 몸값, 시가총액은 {mcap}. 우리 돈 약 {mcap_krw}이에요.",
+    "스마트폰 한 대 값을 남기는 차 회사에, 시장은 왜 이렇게 큰 값을 매길까요?"
+   ],
+   "en": [
+    "Strange, isn't it? Tesla's market value is {mcap}.",
+    "Why does the market pay so much for a carmaker that keeps a smartphone's worth per car?"
+   ]
+  },
+  {
+   "v": {
+    "type": "agenda",
+    "title": "오늘 볼 내용"
+   },
+   "lines": [
+    "그래서 영상 끝까지 보시면, 세 가지를 알게 되실 거예요.",
+    "첫째, 테슬라 이익을 몇 년 동안 받쳐 준 공짜 돈의 정체. 둘째, 줄어든 이익이 사라진 게 아니라 흘러간 곳.",
+    "셋째, 워렌 버핏의 스승 벤저민 그레이엄식으로 따지면, 지금 주가가 맞기 위해 테슬라가 1주당 얼마를 벌어야 하는지예요. 덤으로, 이렇게 깐깐한 기준 때문에 워렌 버핏도 놓쳤다고 고백한 회사들도 보여 드릴게요."
+   ],
+   "en": [
+    "Watch to the end and you'll learn three things.",
+    "One: the 'free money' that propped up Tesla's profits for years. Two: where the missing profit actually went.",
+    "Three: by Benjamin Graham's method, Buffett's teacher, how much Tesla must earn per share to justify today's price. Plus the companies Buffett admits he missed because of such strict rules."
+   ]
+  },
+  {
+   "v": {
+    "type": "title",
+    "kicker": "1",
+    "text": "테슬라의 수익 구조"
+   },
+   "chapter": "테슬라의 수익 구조",
+   "lines": [
+    "먼저 테슬라가 어디서 돈을 버는지부터 볼게요."
+   ],
+   "en": [
+    "First, where does Tesla's money come from?"
+   ]
+  },
+  {
+   "v": {
+    "type": "hbars",
+    "title": "2026년 3분기 매출 280억 달러, 어디서 나왔나",
+    "suffix": "억 달러",
+    "items": [
+     [
+      "자동차 판매·리스",
+      204.5,
+      "0:자동차",
+      "204.5억 달러"
+     ],
+     [
+      "서비스·기타",
+      46.1,
+      "0:서비스",
+      "46.1억 달러"
+     ],
+     [
+      "에너지 (배터리)",
+      28.8,
+      "0:배터리",
+      "28.8억 달러"
+     ],
+     [
+      "규제 크레딧",
+      1.1,
+      "1:크레딧",
+      "1.1억 달러",
+      true
+     ]
+    ]
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "3분기 매출 280억 달러 가운데 4분의 3 가까이가 자동차예요. 그 밖엔 충전과 보험 같은 서비스, 그리고 집과 발전소에 넣는 배터리 사업이 있고요.",
+    "그리고 맨 아래, 1억 달러 남짓한 규제 크레딧. 작아 보이죠? 이게 오늘 이야기의 첫 번째 열쇠예요."
+   ],
+   "en": [
+    "Of $28 billion in Q3 revenue, nearly three-quarters came from cars. The rest: services like charging and insurance, and batteries for homes and power plants.",
+    "And at the bottom, about $100 million in regulatory credits. Looks tiny, right? It's the first key to today's story."
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "car_64_a.jpg",
+    "caption": "차 한 대 평균 약 4만 1천 달러",
+    "caption_at": "0:4만"
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일) · 자동차 판매 매출 ÷ 인도 대수 (단순 계산)",
+   "asof": false,
+   "lines": [
+    "차는 한 대에 평균 4만 1천 달러쯤에 팔았어요. 1년 전과 거의 같은 값이죠."
+   ],
+   "en": [
+    "Tesla sold its cars for about $41,000 each on average, almost the same as a year ago."
+   ]
+  },
+  {
+   "v": {
+    "type": "bars",
+    "title": "규제 크레딧을 뺀 자동차 매출총이익률",
+    "unit": "%",
+    "items": [
+     [
+      "2025년\n3분기",
+      15.4,
+      "1:15.4달러",
+      false,
+      "15.4%"
+     ],
+     [
+      "2026년\n2분기",
+      16.3,
+      "1",
+      false,
+      "16.3%"
+     ],
+     [
+      "2026년\n3분기",
+      18.1,
+      "1:18.1달러",
+      true,
+      "18.1%"
+     ]
+    ]
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일) · 2분기 실적 발표 (7월)",
+   "asof": false,
+   "lines": [
+    "재밌는 건, 차를 만들어 파는 장사 자체는 오히려 나아졌다는 거예요.",
+    "차를 100달러어치 팔면, 만드는 데 든 돈을 빼고 남는 몫이 1년 전 15.4달러에서 18.1달러로 늘었거든요."
+   ],
+   "en": [
+    "The funny thing is, the business of building and selling cars actually got better.",
+    "What's left after production costs rose from 15.4% of sales a year ago to 18.1%."
+   ]
+  },
+  {
+   "v": {
+    "type": "question",
+    "text": "그런데 왜 이익은 반토막?",
+    "backdrop": "calculator_47415_b.jpg",
+    "bd_dim": 0.6
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "그런데 회사 전체 영업이익은, 1년 새 16억 2천만 달러에서 7억 1,800만 달러로 56% 줄었어요.",
+    "차 장사는 나아졌는데 이익은 반토막. 범인은 둘입니다. 첫 번째 범인부터 만나 보죠."
+   ],
+   "en": [
+    "Yet total operating profit fell 56% in a year, from $1.62 billion to $718 million.",
+    "Better car business, half the profit. There are two culprits. Let's meet the first."
+   ]
+  },
+  {
+   "v": {
+    "type": "title",
+    "kicker": "2",
+    "text": "규제 크레딧의 소멸"
+   },
+   "chapter": "규제 크레딧의 소멸",
+   "lines": [
+    "처음에 약속드린 첫 번째, 공짜 돈 이야기예요."
+   ],
+   "en": [
+    "Promise number one: the free money."
+   ]
+  },
+  {
+   "v": {
+    "type": "card",
+    "kicker": "규제 크레딧",
+    "title": "배출 기준보다 깨끗한 회사가 받는 점수",
+    "rows": [
+     [
+      "전기차만 파는 테슬라는 점수가 남는다",
+      "0:점수"
+     ],
+     [
+      "남는 점수를 다른 자동차 회사에 판매",
+      "1:다른"
+     ]
+    ]
+   },
+   "src": "테슬라 연차보고서 (10-K) 규제 크레딧 설명",
+   "asof": false,
+   "lines": [
+    "나라마다 자동차 회사에 배출가스 기준을 정해 두고, 못 맞추면 벌금을 물리거든요. 기준보다 배출을 적게 한 회사는 그만큼 점수를 받고요.",
+    "전기차만 파는 테슬라는 이 점수가 남아돌아요. 그래서 기준을 못 맞춘 다른 자동차 회사에 팔죠. 원가가 거의 없으니, 파는 만큼 거의 고스란히 이익이에요. 오늘 공짜 돈이라고 부르는 이유죠."
+   ],
+   "en": [
+    "Governments set emissions rules for carmakers and fine those who miss them. Companies that beat the rules earn credits.",
+    "Selling only EVs, Tesla has credits to spare, so it sells them to other carmakers. They cost almost nothing to make, so nearly all of it is profit."
+   ]
+  },
+  {
+   "v": {
+    "type": "bars",
+    "title": "테슬라 규제 크레딧 수입 (분기)",
+    "unit": "억 달러",
+    "items": [
+     [
+      "2025년\n3분기",
+      4.17,
+      "0:4억",
+      false,
+      "4.17"
+     ],
+     [
+      "2025년\n4분기",
+      5.42,
+      "1",
+      false,
+      "5.42"
+     ],
+     [
+      "2026년\n1분기",
+      3.8,
+      "1",
+      false,
+      "3.80"
+     ],
+     [
+      "2026년\n2분기",
+      1.46,
+      "1",
+      false,
+      "1.46"
+     ],
+     [
+      "2026년\n3분기",
+      1.13,
+      "0:1억 1,300만",
+      true,
+      "1.13"
+     ]
+    ],
+    "hl": [
+     {
+      "at": "0:73%",
+      "i": 4,
+      "note": "1년 새 -73%"
+     }
+    ]
+   },
+   "src": "테슬라 분기 실적 발표 (2025년 10월~2026년 10월)",
+   "asof": false,
+   "lines": [
+    "그런데 이 수입이, 1년 전 4억 1,700만 달러에서 이번엔 1억 1,300만 달러로 73% 줄었습니다.",
+    "공짜 돈이 1년 만에 4분의 1로 줄어든 거죠. 월급이 이렇게 깎이면, 이직 준비부터 하게 되잖아요."
+   ],
+   "en": [
+    "That income fell 73%, from $417 million a year ago to $113 million.",
+    "The free money shrank to a quarter in a year. A pay cut like that would have anyone polishing their resume."
+   ]
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "2020년 테슬라 · 첫 연간 흑자",
+    "value": "15억 8천만 달러",
+    "label": "그해 규제 크레딧 수입 (순이익은 7억 2,100만 달러)",
+    "at": "0",
+    "count": false,
+    "tags": [
+     {
+      "text": "단순 계산하면 적자",
+      "at": "1:적자",
+      "kind": "red"
+     }
+    ],
+    "backdrop": "newspaper_41199_b.jpg",
+    "bd_dim": 0.72
+   },
+   "src": "테슬라 2020년 연차보고서 (10-K)",
+   "asof": false,
+   "lines": [
+    "이 돈이 얼마나 중요했냐면요. 테슬라가 처음으로 연간 흑자를 낸 2020년, 순이익은 7억 2,100만 달러였어요.",
+    "그런데 그해 규제 크레딧 수입이 15억 8천만 달러. 단순 계산하면, 이 돈이 없었다면 적자였을 수도 있어요."
+   ],
+   "en": [
+    "How important was it? In 2020, Tesla's first profitable year, net income was $721 million.",
+    "But credit sales that year were $1.58 billion. By simple math, without them Tesla might have posted a loss."
+   ]
+  },
+  {
+   "v": {
+    "type": "card",
+    "kicker": "원인의 원인",
+    "title": "미국 연비 규정 벌금 0달러",
+    "rows": [
+     [
+      "2025년 7월 법 개정: 기준 미달 벌금 폐지",
+      "0:벌금"
+     ],
+     [
+      "다른 회사가 점수를 살 이유 감소",
+      "1:살 이유"
+     ]
+    ]
+   },
+   "src": "미국 '하나의 크고 아름다운 법' (2025년 7월 4일 서명) · 테슬라 3분기 10-Q",
+   "asof": false,
+   "lines": [
+    "왜 줄었을까요? 가장 큰 원인 중 하나는 미국 법이에요. 작년 7월 법이 바뀌면서, 연비 기준을 못 맞춘 회사에 물리던 벌금이 0달러가 됐거든요.",
+    "벌금이 없으면, 다른 회사들은 전기차를 서둘러 늘릴 필요도, 돈 주고 점수를 살 이유도 줄죠. 테슬라의 공짜 돈 수도꼭지가 잠기기 시작한 거예요."
+   ],
+   "en": [
+    "Why? One of the biggest reasons is U.S. law. Last July, the fine for missing fuel-economy standards was cut to zero.",
+    "No fine means less rush to sell EVs and less reason to buy credits. Tesla's free-money faucet started closing."
+   ]
+  },
+  {
+   "v": {
+    "type": "question",
+    "text": "두 번째 범인은 테슬라 자신?",
+    "backdrop": "factory_23696_a.jpg",
+    "bd_dim": 0.62
+   },
+   "lines": [
+    "그런데 두 번째 범인은 좀 의외예요. 테슬라가 스스로 불러들인 범인이거든요."
+   ],
+   "en": [
+    "The second culprit is a surprise. Tesla invited it in itself."
+   ]
+  },
+  {
+   "v": {
+    "type": "title",
+    "kicker": "3",
+    "text": "줄어든 이익의 행방"
+   },
+   "chapter": "줄어든 이익의 행방",
+   "lines": [
+    "처음에 약속드린 두 번째, 줄어든 이익은 어디로 갔을까요?"
+   ],
+   "en": [
+    "Promise number two: where did the profit go?"
+   ]
+  },
+  {
+   "v": {
+    "type": "table",
+    "title": "테슬라 · 1년 사이 (3분기 기준)",
+    "cols": [
+     "항목",
+     "2025년 3분기",
+     "2026년 3분기",
+     "변화"
+    ],
+    "cw": [
+     380,
+     300,
+     300,
+     220
+    ],
+    "rows": [
+     [
+      "연구개발비",
+      "16.3억 달러",
+      "27.6억 달러",
+      "+69%",
+      "1:69%"
+     ],
+     [
+      "설비투자",
+      "22.5억 달러",
+      "47.3억 달러",
+      "+111%",
+      "2:47억"
+     ],
+     [
+      "영업이익",
+      "16.2억 달러",
+      "7.2억 달러",
+      "-56%",
+      "0:영업이익"
+     ]
+    ],
+    "hl": 1
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일) · 3분기 10-Q",
+   "asof": false,
+   "lines": [
+    "영업이익은 1년 새 9억 달러 줄었는데, 연구개발비는 11억 달러 늘었어요. 줄어든 이익보다 더 많이 쓴 거죠.",
+    "연구개발비가 1년 새 16억 3천만 달러에서 27억 6천만 달러로, 69% 늘었고요.",
+    "공장과 장비에 넣는 설비투자도 22억 5천만 달러에서 47억 3천만 달러로 두 배가 넘었어요. 이건 이익보다, 손에 남는 현금을 줄이는 돈이고요."
+   ],
+   "en": [
+    "Operating profit fell $900 million, while R&D rose $1.1 billion, more than the drop.",
+    "R&D rose 69% in a year, from $1.63 billion to $2.76 billion.",
+    "Capex on factories and equipment also more than doubled, from $2.25 billion to $4.73 billion. That hits cash in hand more than profit."
+   ]
+  },
+  {
+   "v": {
+    "type": "scale",
+    "title": "2026년 3분기 · 차 한 대 기준 (단순 계산)",
+    "left": {
+     "label": "한 대당 영업이익",
+     "value": "약 1,476달러",
+     "at": "0:1,500달러",
+     "color": "red"
+    },
+    "right": {
+     "label": "한 대당 연구개발비",
+     "value": "약 5,675달러",
+     "at": "0:5,700달러",
+     "color": "gold"
+    },
+    "center": {
+     "text": "1년 전 수준이면 약 3,800달러",
+     "at": "1:3,800달러",
+     "kind": "navy"
+    },
+    "tilt": "right",
+    "tilt_at": "0:5,700달러"
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일) · 연구개발비 27억 6,100만 달러 ÷ 48만 6,532대 · 늘어난 연구개발비 11억 3,100만 달러를 더한 단순 계산",
+   "asof": false,
+   "lines": [
+    "차 한 대 기준으로 바꿔 볼까요? 테슬라는 연구개발에 한 대당 5,700달러 가까이 쓰고도, 1,500달러를 남긴 거예요.",
+    "연구개발비를 1년 전만큼만 썼다면, 단순 계산으로 한 대에 3,800달러쯤 남았을 거고요.",
+    "월급은 그대로인데 아이 학원비를 두 배로 늘린 집 같은 거죠. 통장만 보면 걱정되지만, 결국 어디에 쓰는지가 중요하잖아요."
+   ],
+   "en": [
+    "Per car: Tesla spent nearly $5,700 on R&D and still kept about $1,500.",
+    "Had R&D stayed at last year's level, it would have kept roughly $3,800 per car, by simple math.",
+    "Like a family whose salary is flat but doubled the kids' tuition. The bank balance looks worrying, but what matters is where it goes."
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "factory_17675_a.jpg",
+    "chips": [
+     {
+      "v": "AI 컴퓨터",
+      "l": "자율주행 학습용",
+      "at": "0:AI"
+     },
+     {
+      "v": "사이버캡",
+      "l": "로보택시 전용차",
+      "at": "0:사이버캡"
+     },
+     {
+      "v": "옵티머스",
+      "l": "사람 모양 로봇",
+      "at": "0:옵티머스"
+     }
+    ]
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "차 판매가 1년 전보다 줄어든 지금, 테슬라는 차를 판 뒤에도 돈이 들어오는 사업에 돈을 걸고 있어요. 자율주행을 가르치는 AI 컴퓨터, 로보택시 전용차 사이버캡, 사람 모양 로봇 옵티머스죠."
+   ],
+   "en": [
+    "With car sales down from a year ago, Tesla is betting on businesses that earn after the sale: AI computers that train self-driving, the Cybercab robotaxi, and the Optimus robot."
+   ]
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "2026년 1~9월 테슬라 설비투자",
+    "value": "130억 달러",
+    "label": "2025년 1년 치 85억 달러를 이미 넘었다",
+    "at": "0:130억",
+    "count": false,
+    "backdrop": "factory_47257_a.jpg",
+    "bd_dim": 0.7
+   },
+   "src": "테슬라 3분기 10-Q (1~9월 설비투자 130억 1,400만 달러) · 2025년 연차보고서 · 3분기 콘퍼런스콜",
+   "asof": false,
+   "lines": [
+    "올해 9월까지 쓴 설비투자만 130억 달러. 작년 1년 치 85억 달러를 석 달이나 남기고 넘었어요.",
+    "그리고 회사는 앞으로 몇 년 동안 이 돈이 더 늘어난다고 했죠."
+   ],
+   "en": [
+    "Capex through September alone was $13 billion, already past last year's full $8.5 billion with a quarter to go.",
+    "And Tesla says this spending will keep growing for the next few years."
+   ]
+  },
+  {
+   "v": {
+    "type": "scale",
+    "title": "테슬라 · 2026년 3분기 현금",
+    "left": {
+     "label": "본업으로 들어온 현금",
+     "value": "62.6억 달러",
+     "at": "0:62억"
+    },
+    "right": {
+     "label": "투자하고 남은 현금",
+     "value": "15.3억 달러",
+     "at": "0:15억",
+     "color": "red"
+    },
+    "center": {
+     "text": "1년 전엔 39.9억 달러",
+     "at": "0:40억",
+     "kind": "navy"
+    },
+    "tilt": "left",
+    "tilt_at": "0:15억"
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "그래서 3분기에 본업으로 62억 달러가 넘는 현금이 들어왔는데, 투자하고 남은 현금은 15억 달러. 1년 전 40억 달러의 절반도 안 되죠.",
+    "다행히 쌓아 둔 현금과 투자 자산이 454억 달러나 있어서, 당장 돈이 모자란 회사는 아니에요."
+   ],
+   "en": [
+    "In Q3, over $6.2 billion of cash came in from operations, but only $1.5 billion was left after investment, less than half of last year's $4 billion.",
+    "Luckily Tesla holds $45.4 billion in cash and investments, so it isn't short of money."
+   ]
+  },
+  {
+   "v": {
+    "type": "question",
+    "text": "시장은 무엇에 돈을 걸었나",
+    "backdrop": "city_4231_a.jpg",
+    "bd_dim": 0.62
+   },
+   "lines": [
+    "그럼 시장은 이 투자에서 무엇이 나온다고 보고, 이렇게 큰 값을 매기는 걸까요?"
+   ],
+   "en": [
+    "So what does the market expect this spending to produce?"
+   ]
+  },
+  {
+   "v": {
+    "type": "title",
+    "kicker": "4",
+    "text": "시장이 기대하는 미래"
+   },
+   "chapter": "시장이 기대하는 미래",
+   "lines": [
+    "테슬라를 차 회사로만 보지 않는 사람들의 근거, 세 가지예요."
+   ],
+   "en": [
+    "Three reasons some people don't see Tesla as just a carmaker."
+   ]
+  },
+  {
+   "v": {
+    "type": "bars",
+    "title": "FSD(자율주행 보조) 유료 이용자 (구매+구독)",
+    "unit": "만 명",
+    "items": [
+     [
+      "2025년\n3분기",
+      104,
+      "0:104만",
+      false,
+      "104만"
+     ],
+     [
+      "2026년\n3분기",
+      174,
+      "0:174만",
+      true,
+      "174만"
+     ]
+    ],
+    "hl": [
+     {
+      "at": "0:67%",
+      "i": 1,
+      "note": "1년 새 +67%"
+     }
+    ]
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일) · 콘퍼런스콜",
+   "asof": false,
+   "lines": [
+    "첫째, 자율주행 보조 소프트웨어 FSD. 한 번에 사거나 구독하는 유료 이용자가 1년 새 104만 명에서 174만 명으로, 67% 늘었어요.",
+    "회사 말로는 북미에선 새 차를 산 사람 넷 중 셋 넘게 돈을 내고 쓴대요. 차를 한 번 판 뒤에도 돈이 들어오는 길이 생긴 거죠."
+   ],
+   "en": [
+    "One: FSD, the driver-assist software. Paying users, by purchase or subscription, rose 67% in a year, from 1.04 million to 1.74 million.",
+    "Tesla says more than three in four new buyers in North America pay for it. Money keeps coming after the car is sold."
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "road_34562.mp4",
+    "caption": "로보택시 · 미국 여러 도시",
+    "caption_at": "0:로보택시"
+   },
+   "src": "테슬라 3분기 실적 발표 · 콘퍼런스콜 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "둘째, 운전자 없는 로보택시. 지금 미국 여러 도시에서 달리고 있고, 9월엔 운전대 없는 전용차 사이버캡이 오스틴에서 손님을 태우기 시작했어요."
+   ],
+   "en": [
+    "Two: driverless robotaxis. They run in several U.S. cities, and in September the steering-wheel-free Cybercab began carrying riders in Austin."
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "robot_47266_a.jpg",
+    "caption": "옵티머스 · 외부 인도 2027년 말 목표",
+    "caption_at": "0:옵티머스"
+   },
+   "src": "테슬라 3분기 실적 발표 · 콘퍼런스콜 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "셋째, 사람 모양 로봇 옵티머스. 프리몬트 공장에서 생산을 시작했지만, 다른 회사에 처음 넘기는 건 2027년 말쯤이래요. 로봇 손이 아직 숙제라네요."
+   ],
+   "en": [
+    "Three: the Optimus humanoid robot. Production has begun in Fremont, but first deliveries to outside companies are expected around late 2027. The hands are still a problem."
+   ]
+  },
+  {
+   "v": {
+    "type": "twocol",
+    "title": "이미 숫자로 보이는 변화 (3분기, 1년 전 대비)",
+    "left": {
+     "title": "서비스·기타",
+     "at": "0:서비스",
+     "items": [
+      [
+       "매출총이익 3.7억에서 7.3억 달러로",
+       "0:두 배"
+      ],
+      [
+       "충전·보험·중고차 등",
+       "0:충전"
+      ]
+     ]
+    },
+    "right": {
+     "title": "에너지 (배터리)",
+     "gold": true,
+     "at": "1:배터리",
+     "items": [
+      [
+       "매출 -16% (설치량 +10%)",
+       "1:16%"
+      ],
+      [
+       "매출총이익률 약 33%",
+       "1:33%"
+      ]
+     ]
+    }
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일)",
+   "asof": false,
+   "lines": [
+    "이미 숫자로 보이는 변화도 있어요. 충전과 보험, 중고차 같은 서비스 사업의 매출총이익이 1년 새 두 배가 됐거든요.",
+    "배터리 사업은 매출이 16% 줄었어요. 그래도 설치한 양은 10% 늘었고요. 무엇보다 100달러어치 팔면 33달러가 남아요. 차의 두 배 가까이죠."
+   ],
+   "en": [
+    "Some change already shows up in numbers. Gross profit from services like charging, insurance and used cars doubled in a year.",
+    "Battery revenue fell 16%, yet installations rose 10%. And it keeps $33 of every $100 sold, nearly double cars."
+   ]
+  },
+  {
+   "v": {
+    "type": "question",
+    "text": "이 미래, 얼마나 대단해야 할까",
+    "backdrop": "calculator_47415_a.jpg",
+    "bd_dim": 0.62
+   },
+   "lines": [
+    "그럼 지금 주가는, 이 미래가 얼마나 대단해야 맞는 걸까요? 워렌 버핏의 스승, 그레이엄의 계산기를 꺼내 볼게요."
+   ],
+   "en": [
+    "So how big must this future be to justify today's price? Let's borrow the calculator of Buffett's teacher, Graham."
+   ]
+  },
+  {
+   "v": {
+    "type": "title",
+    "kicker": "5",
+    "text": "그레이엄식 보수적 가치 평가"
+   },
+   "chapter": "그레이엄식 보수적 가치 평가",
+   "lines": [
+    "처음에 약속드린 세 번째예요."
+   ],
+   "en": [
+    "Promise number three."
+   ]
+  },
+  {
+   "v": {
+    "type": "twocol",
+    "title": "워렌 버핏이 묻는 두 가지",
+    "left": {
+     "title": "좋은 사업인가?",
+     "at": "0:두 가지",
+     "items": [
+      [
+       "꾸준히 예측 가능한 이익",
+       "1:꾸준"
+      ],
+      [
+       "적은 빚",
+       "1:빚"
+      ]
+     ]
+    },
+    "right": {
+     "title": "좋은 가격인가?",
+     "gold": true,
+     "at": "0:두 가지",
+     "items": [
+      [
+       "여러 해 평균 이익 기준",
+       "2:평균"
+      ],
+      [
+       "잘 번 해만 보지 않기",
+       "2:잘 번"
+      ]
+     ]
+    }
+   },
+   "asof": false,
+   "lines": [
+    "워렌 버핏은 늘 두 가지를 물어요.",
+    "첫째, 이익이 꾸준해서 앞날을 내다볼 수 있는 사업인가. 빚은 적은가.",
+    "둘째, 가격이 좋은가. 여기서 그의 스승 벤저민 그레이엄은 아주 깐깐했어요. 잘 번 해만 보지 말고, 여러 해 평균 이익으로 따지라는 거죠."
+   ],
+   "en": [
+    "Warren Buffett always asks two questions.",
+    "First, is it a business with steady, predictable profits and little debt?",
+    "Second, is the price right? Here his teacher Benjamin Graham was strict: don't look at the best year, use average profits over many years."
+   ]
+  },
+  {
+   "v": {
+    "type": "equation",
+    "title": "밸류노트 적정 주가 (테슬라)",
+    "boxes": [
+     {
+      "text": "{norm}",
+      "at": "0:{norm}",
+      "kind": "white",
+      "label": "1주당 평균 이익"
+     },
+     {
+      "text": "× 10",
+      "at": "1:10달러",
+      "kind": "navy",
+      "w": 300
+     },
+     {
+      "text": "{iv_short}",
+      "at": "1:{iv_short}",
+      "kind": "gold"
+     }
+    ],
+    "ops": [
+     "",
+     "≈"
+    ],
+    "notes": [
+     {
+      "text": "성장은 더하지 않는 보수적인 계산",
+      "at": "1:보수적",
+      "kind": "white",
+      "y": 720
+     }
+    ]
+   },
+   "src": "밸류노트 데이터",
+   "lines": [
+    "테슬라가 최근 1년 동안 번 돈은 1주당 {eps100}. 여러 해를 평균해도 1주당 {norm} 정도예요.",
+    "1년에 평균 1달러 버는 회사라면 10달러쯤까지만 값을 쳐 주는, 성장은 빼고 보는 보수적인 계산이에요. 그렇게 나온 밸류노트 적정 주가는 1주에 {iv_short}."
+   ],
+   "en": [
+    "Over the past year Tesla earned {eps100} per share. Averaged over several years, about {norm}.",
+    "A company earning $1 a year on average is valued at about $10, a conservative math with no growth. That gives a ValueNote fair price of {iv_short} per share."
+   ]
+  },
+  {
+   "v": {
+    "type": "scale",
+    "title": "{px_label} 기준",
+    "left": {
+     "label": "워렌 버핏 방식으로 계산한\n밸류노트 적정 주가",
+     "value": "{iv_short}",
+     "at": "0",
+     "color": "gold"
+    },
+    "right": {
+     "label": "지금 주가",
+     "value": "{px_short}",
+     "at": "0:{px_short}",
+     "color": "red"
+    },
+    "center": {
+     "text": "{mult}",
+     "at": "0:{mult}",
+     "kind": "red"
+    },
+    "tilt": "right",
+    "tilt_at": "0:{mult}"
+   },
+   "src": "밸류노트 데이터",
+   "lines": [
+    "{px_label}는 {px_short}. 주가가 이 계산의 {mult}인 셈이에요.",
+    "네, 저도 처음엔 계산기가 고장 난 줄 알았어요. 그런데 이게 이 방식의 성격이에요. 지금 버는 돈만 쳐 주고, 미래의 꿈엔 한 푼도 안 쳐 주거든요."
+   ],
+   "en": [
+    "At {px_short} ({px_label}), the stock trades at {mult} that fair price.",
+    "Yes, I thought my calculator was broken too. But that's the nature of this method: it counts today's earnings and pays nothing for dreams."
+   ]
+  },
+  {
+   "v": {
+    "type": "table",
+    "title": "거꾸로 계산: 1주당 평균 이익이 얼마여야 지금 주가가 맞을까",
+    "cols": [
+     "1주당 평균 이익",
+     "1주당 가치",
+     "지금 주가 대비"
+    ],
+    "cw": [
+     440,
+     340,
+     340
+    ],
+    "rows": [
+     [
+      "{norm} (지금)",
+      "{iv_short}",
+      "{iv_vs}",
+      "0"
+     ],
+     [
+      "{need_won} (필요)",
+      "{px_short}",
+      "같음",
+      "0:{need_won}"
+     ]
+    ],
+    "hl": 1,
+    "focus": {
+     "row": 1,
+     "at": "1"
+    }
+   },
+   "src": "밸류노트 데이터 · 1주당 가치 = 평균 이익 × 10",
+   "lines": [
+    "거꾸로 따져 볼게요. 같은 계산으로 지금 주가가 맞으려면, 테슬라는 앞으로 평균 1주당 {need_won} 정도는 벌어야 해요.",
+    "지금 버는 {eps100}에서 이익이 {need_x}로 늘어야 한다는 뜻이죠. 쉽게 말해, 시장은 테슬라가 지금보다 몇십 배 버는 회사가 된다는 쪽에 돈을 건 셈이에요."
+   ],
+   "en": [
+    "Flip it around: for today's price to fit the same math, Tesla must earn {need_won} per share on average.",
+    "Profit must grow to {need_x} its current {eps100}. In other words, the market is betting Tesla becomes a company earning dozens of times more."
+   ]
+  },
+  {
+   "v": {
+    "type": "phone",
+    "layout": "trio",
+    "img": "capture:TSLA",
+    "title": "밸류노트",
+    "sub": "워렌 버핏의 기준을 담은 앱",
+    "trio": [
+     {
+      "key": "capture:TSLA",
+      "label": "기업 상세",
+      "at": "0"
+     },
+     {
+      "key": "capture:TSLA:list",
+      "label": "기업 목록 · 매일 채점",
+      "at": "0:600여"
+     },
+     {
+      "key": "capture:TSLA:value",
+      "label": "저평가 우량주",
+      "at": "0:기업"
+     }
+    ]
+   },
+   "src": "밸류노트 앱 화면",
+   "lines": [
+    "밸류노트는 워렌 버핏과 찰리 멍거, 벤저민 그레이엄의 투자 원칙을 참고한 같은 계산을, 600여 개 기업에 똑같이 해 두고 있어요."
+   ],
+   "en": [
+    "ValueNote runs this same calculation, based on Buffett, Charlie Munger and Graham, for over 600 companies."
+   ]
+  },
+  {
+   "v": {
+    "type": "table",
+    "title": "밸류노트 점수가 뜻하는 것",
+    "cols": [
+     "밸류노트 점수",
+     "기업 수 (633곳 중)",
+     "의미"
+    ],
+    "cw": [
+     290,
+     330,
+     480
+    ],
+    "rows": [
+     [
+      "70점 이상",
+      "26곳 (상위 4%)",
+      "좋은 회사를 좋은 가격에",
+      "0"
+     ],
+     [
+      "50~69점",
+      "102곳 (16%)",
+      "둘 중 하나가 아쉬움",
+      "0"
+     ],
+     [
+      "30~49점",
+      "263곳 (42%)",
+      "회사나 가격에 부담",
+      "0"
+     ],
+     [
+      "30점 미만",
+      "242곳 (38%)",
+      "회사·가격 모두 부담",
+      "0"
+     ]
+    ],
+    "tags": [
+     {
+      "row": 3,
+      "text": "지금 테슬라 {score}점",
+      "at": "0:{score}점",
+      "kind": "navy"
+     }
+    ]
+   },
+   "src": "밸류노트 데이터 (점수 분포는 10월 22일 기준, 633곳)",
+   "lines": [
+    "같은 기준으로 매긴 밸류노트 점수로 테슬라는 {score}점이에요. 돈 버는 실력을 보는 재무 점수는 {q_score}점인데, 가격 점수가 {v_score}점이에요. 지금 이익에 비해 가격이 아주 높다는 뜻이죠.",
+    "다만 이건 지금 버는 돈만 본 점수라, 사라, 팔라는 신호로 읽으시면 안 돼요."
+   ],
+   "en": [
+    "On the same yardstick, Tesla's ValueNote score is {score}: {q_score} for financial strength, but {v_score} for price, meaning the price is very high relative to current profit.",
+    "It only looks at today's earnings, so don't read it as a buy or sell signal."
+   ]
+  },
+  {
+   "v": {
+    "type": "title",
+    "kicker": "6",
+    "text": "평균 이익 계산의 한계"
+   },
+   "chapter": "평균 이익 계산의 한계",
+   "lines": [
+    "그런데 이 깐깐한 계산기, 워렌 버핏 본인도 크게 놓친 적이 있어요. 그것도 두 번이나요."
+   ],
+   "en": [
+    "But this strict calculator once made Warren Buffett himself miss big. Twice."
+   ]
+  },
+  {
+   "v": {
+    "type": "card",
+    "kicker": "워렌 버핏의 고백",
+    "title": "아마존·구글을 놓친 것은 실수",
+    "rows": [
+     [
+      "버크셔 해서웨이 주주총회에서 직접 언급",
+      "0:실수"
+     ],
+     [
+      "지금 이익만 보면 성장 기업은 늘 비싸 보인다",
+      "1:비싸"
+     ]
+    ]
+   },
+   "src": "버크셔 해서웨이 주주총회 (2017·2018년)",
+   "asof": false,
+   "lines": [
+    "워렌 버핏 스스로도, 아마존과 구글에 투자하지 않은 걸 실수라고 털어놨어요.",
+    "번 돈을 미래에 쏟아붓는 회사는, 지금 이익만 보면 늘 비싸 보이거든요. 테슬라도 그런 경우인지는, 아직 아무도 모르죠."
+   ],
+   "en": [
+    "Buffett himself admitted that not investing in Amazon and Google was a mistake.",
+    "Companies that pour earnings into the future always look expensive on today's profits. Whether Tesla is one of them, nobody knows yet."
+   ]
+  },
+  {
+   "v": {
+    "type": "twocol",
+    "title": "같은 투자, 두 가지 결말",
+    "left": {
+     "title": "투자가 돈이 되면",
+     "gold": true,
+     "at": "0:정말",
+     "items": [
+      [
+       "구독·로보택시 매출 급증",
+       "0:구독"
+      ],
+      [
+       "평균 이익 계산은 너무 낮음",
+       "0:너무 낮은"
+      ]
+     ]
+    },
+    "right": {
+     "title": "상용화가 늦어지면",
+     "at": "1:늦어지면",
+     "items": [
+      [
+       "크레딧 없이 낮은 이익률",
+       "1:공짜 돈"
+      ],
+      [
+       "늘어난 투자비 부담",
+       "1:투자비"
+      ]
+     ]
+    }
+   },
+   "asof": false,
+   "lines": [
+    "로보택시와 구독이 정말 큰돈이 되면, 지금 쏟는 돈은 낭비가 아니라 씨앗이고, 평균 이익으로 한 계산은 너무 낮은 거죠.",
+    "반대로 상용화가 늦어지면, 공짜 돈은 끊기고 투자비는 늘어난 채로 기다려야 해요. 옵티머스 외부 인도가 2027년 말로 잡힌 것처럼, 일정은 생각보다 길어지곤 하거든요.",
+    "그래서 오늘 숫자는 사라, 팔라는 이야기가 아니에요. 지금 주가에 어떤 미래가 걸려 있는지 보자는 거죠."
+   ],
+   "en": [
+    "If robotaxis and subscriptions become big money, today's spending is seed, not waste, and the average-profit math is too low.",
+    "If commercialization slips, Tesla waits with the free money gone and costs up, as with the delayed Optimus deliveries.",
+    "So this isn't a buy or sell call. It's about seeing what future is priced in."
+   ]
+  },
+  {
+   "v": {
+    "type": "title",
+    "kicker": "7",
+    "text": "핵심 점검 지표"
+   },
+   "chapter": "핵심 점검 지표",
+   "lines": [
+    "마지막으로, 다음 실적 때 이 이야기가 어느 쪽으로 가는지 보여 줄 숫자 세 개예요."
+   ],
+   "en": [
+    "Finally, three numbers that will show which way this story goes at the next earnings."
+   ]
+  },
+  {
+   "v": {
+    "type": "checklist",
+    "title": "테슬라, 이 숫자를 보세요",
+    "star": 0,
+    "items": [
+     [
+      "크레딧을 뺀 자동차 이익률 (지금 18.1%)",
+      "0:18.1%"
+     ],
+     [
+      "투자하고 남는 현금 (지금 15.3억 달러)",
+      "1:남는 현금"
+     ],
+     [
+      "FSD 유료 이용자 · 로보택시 도시 수",
+      "2:FSD"
+     ],
+     [
+      "내 종목: 영업이익에서 본업 아닌 돈 빼 보기",
+      "3:내 종목"
+     ]
+    ]
+   },
+   "src": "테슬라 3분기 실적 발표 (10월 21일) · 영업이익 7억 1,800만 − 규제 크레딧 1억 1,300만 달러 · 2분기 잉여현금 -10억 9천만 달러",
+   "asof": false,
+   "lines": [
+    "첫째, 크레딧을 뺀 자동차 이익률. 지금 18.1%인데, 공짜 돈 없이 차 장사만으로 버티는 힘이에요.",
+    "둘째, 투자하고 남는 현금. 이게 0 아래로 내려가면 쌓아 둔 현금을 헐어 쓴다는 뜻인데, 지난 2분기엔 실제로 마이너스였어요.",
+    "셋째, FSD 유료 이용자와 로보택시가 달리는 도시 수. 꿈이 매출로 바뀌는 속도죠.",
+    "그리고 내 종목에도 해 볼 수 있어요. 분기 실적 자료의 매출 표에서 크레딧이나 보조금, 일회성 이익처럼 본업이 아닌 줄을 찾아 영업이익에서 빼 보세요. 테슬라는 빼면 7억 달러가 6억 달러로 줄어요."
+   ],
+   "en": [
+    "One: car margin excluding credits, now 18.1%, the strength of the car business without free money.",
+    "Two: cash left after investment. Below zero means dipping into savings, and in Q2 it actually was negative.",
+    "Three: paid FSD users and robotaxi cities, the speed at which dreams turn into revenue.",
+    "Try it on your own stocks: in the earnings tables, find non-core lines like credits, subsidies or one-offs and subtract them from operating profit. For Tesla, $700 million becomes $600 million."
+   ]
+  },
+  {
+   "v": {
+    "type": "checklist",
+    "title": "오늘의 정리",
+    "star": 0,
+    "items": [
+     [
+      "차 한 대에 약 1,500달러, 공짜 돈은 줄어드는 중",
+      "0"
+     ],
+     [
+      "줄어든 이익은 연구개발로, 남는 현금은 설비투자로",
+      "1"
+     ],
+     [
+      "지금 주가: 몇십 배 버는 미래가 전제",
+      "2"
+     ]
+    ],
+    "backdrop": "sunrise_26532_a.jpg",
+    "bd_dim": 0.7
+   },
+   "asof": false,
+   "lines": [
+    "정리하면, 테슬라는 지금 차 한 대에 1,500달러쯤 남겨요. 차 장사는 나아졌지만, 공짜 돈이던 규제 크레딧이 끊기고 있죠.",
+    "줄어든 이익은 사라진 게 아니라 AI와 로보택시, 로봇 연구개발로, 남는 현금은 설비투자로 가고 있고요.",
+    "그리고 지금 주가는, 그 투자가 테슬라를 지금보다 몇십 배 버는 회사로 만든다는 쪽에 걸려 있어요."
+   ],
+   "en": [
+    "To sum up: Tesla keeps about $1,500 per car. The car business improved, but the free money from credits is drying up.",
+    "The missing profit didn't vanish: it's going into R&D for AI, robotaxis and robots, and spare cash into capex.",
+    "And today's price assumes that spending turns Tesla into a company earning dozens of times more."
+   ]
+  },
+  {
+   "v": {
+    "type": "end",
+    "title": "더 현명한 투자를 위해",
+    "sub": "밸류노트가 함께하겠습니다",
+    "btn_at": [
+     "0:구독",
+     "1:좋아요",
+     "1:알림"
+    ],
+    "next": {
+     "thumb": "/social/youtube/L261023-spacex/thumb.jpg",
+     "label": "함께 보면 좋은 영상",
+     "title": "매출 161% 뛴 스페이스X, 그런데 주가는 왜 하루 만에 꺾였을까?",
+     "at": "2:스페이스X"
+    },
+    "backdrop": "road_4633_a.jpg",
+    "bd_dim": 0.74
+   },
+   "asof": false,
+   "hold": 3.0,
+   "lines": [
+    "오늘 분석이 도움이 되셨다면, 구독 버튼 한 번 눌러 주세요.",
+    "좋아요와 알림 설정까지 해 두시면, 다음 분석도 먼저 받아 보실 수 있어요.",
+    "일론 머스크의 또 다른 회사, 스페이스X 편도 함께 보시면 오늘 이야기가 더 입체적으로 보일 거예요.",
+    "밸류노트가 더 현명한 투자를 돕겠습니다. 감사합니다."
+   ],
+   "en": [
+    "If this helped, please hit subscribe.",
+    "Turn on likes and notifications to get the next analysis first.",
+    "Watch our SpaceX episode, Elon Musk's other company, for the bigger picture.",
+    "ValueNote is here to help you invest more wisely. Thank you."
+   ]
+  }
+ ],
+ "review": [
+  {
+   "round": 1,
+   "avg": 6.9,
+   "items": {
+    "제목·썸네일": 6,
+    "첫30초": 8,
+    "끝까지": 8,
+    "이야기": 7,
+    "원인의원인": 7,
+    "쓸모": 7,
+    "이해": 6,
+    "위트": 6,
+    "정보가치": 8,
+    "홍보": 6
+   }
+  },
+  {
+   "round": 2,
+   "avg": 7.2,
+   "items": {
+    "제목·썸네일": 7,
+    "첫30초": 8,
+    "끝까지": 8,
+    "이야기": 7,
+    "원인의원인": 7,
+    "쓸모": 7,
+    "이해": 7,
+    "위트": 6,
+    "정보가치": 8,
+    "홍보": 7
+   },
+   "must_fix_done": [
+    "설비투자는 이익이 아니라 현금을 줄인다고 구분",
+    "배출 기준 표현 정정",
+    "1,500달러 = 회사 전체 영업이익 ÷ 대수 명시",
+    "버핏 계산기 → 그레이엄 계산기",
+    "need_won 반올림"
+   ],
+   "left": "위트 6점(비유 보강 여지), 제목 길이"
+  }
+ ],
+ "status_note": "검수 미달(평균 7.2) — 운영자 지시대로 필수 지적 반영 후 specs로 올림"
+}

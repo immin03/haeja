@@ -1,0 +1,255 @@
+{
+ "id": "Y261026e",
+ "title": "테슬라 첫 흑자의 비밀, 그 공짜 돈이 사라지고 있다",
+ "scheduled_at": "2026-10-26T13:30:00+09:00",
+ "approved": false,
+ "platform": "youtube",
+ "mood": "tense",
+ "broll": "traffic",
+ "threads_tag": "주식",
+ "hashtags": [
+  "테슬라",
+  "Tesla",
+  "규제크레딧",
+  "미국주식",
+  "밸류노트",
+  "shorts"
+ ],
+ "banner": [
+  "테슬라 첫 흑자의 비밀,",
+  "그 돈이 73% 사라졌다"
+ ],
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "caption": "테슬라가 처음 연간 흑자를 낸 2020년 순이익은 7억 2,100만 달러, 그해 규제 크레딧(배출 기준 점수) 판매 수입은 15억 8천만 달러였습니다. 이 수입이 2026년 3분기 1억 1,300만 달러로 1년 새 73% 줄었습니다. 2025년 7월 미국 법 개정으로 연비 기준 미달 벌금이 0달러가 되면서 다른 회사가 점수를 살 이유가 줄었기 때문입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "2020년 테슬라 · 첫 연간 흑자",
+   "num": {
+    "to": 15.8,
+    "dec": 1,
+    "suffix": "억 달러"
+   },
+   "tone": "gold",
+   "label": "그해 '점수'를 팔아 번 돈",
+   "label_line": 1,
+   "lines": [
+    {
+     "cap": [
+      "테슬라가 처음 연간 흑자를 낸 2020년,",
+      "순이익은 7억 2,100만 달러였어요"
+     ],
+     "say": "테슬라가 처음 연간 흑자를 낸 이천이십년, 순이익은 칠억 이천백만 달러였어요."
+    },
+    {
+     "cap": [
+      "그런데 그해 '점수'를 팔아 번 돈이",
+      "15억 8천만 달러였죠"
+     ],
+     "say": "그런데 그해 점수를 팔아 번 돈이, 십오억 팔천만 달러였죠."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "규제 크레딧",
+   "l2": "배출 기준보다 깨끗하면 받는 점수",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "배출 기준보다 깨끗한 회사는",
+      "점수를 받는데요"
+     ],
+     "say": "배출 기준보다 깨끗한 회사는, 점수를 받는데요."
+    },
+    {
+     "cap": [
+      "전기차만 파는 테슬라는 남는 점수를",
+      "다른 자동차 회사에 팔아요"
+     ],
+     "say": "전기차만 파는 테슬라는, 남는 점수를 다른 자동차 회사에 팔아요."
+    },
+    {
+     "cap": [
+      "원가가 거의 없으니,",
+      "파는 만큼 거의 다 이익이죠"
+     ],
+     "say": "원가가 거의 없으니, 파는 만큼 거의 다 이익이죠."
+    }
+   ]
+  },
+  {
+   "type": "bars",
+   "title": "규제 크레딧 수입 (분기, 억 달러)",
+   "items": [
+    {
+     "label": "25년\n3분기",
+     "v": 4.17,
+     "text": "4.17",
+     "tone": "gold",
+     "at": [
+      0,
+      0.3
+     ]
+    },
+    {
+     "label": "25년\n4분기",
+     "v": 5.42,
+     "text": "5.42",
+     "tone": "gold",
+     "at": [
+      0,
+      0.45
+     ]
+    },
+    {
+     "label": "26년\n1분기",
+     "v": 3.8,
+     "text": "3.80",
+     "tone": "gray",
+     "at": [
+      0,
+      0.6
+     ]
+    },
+    {
+     "label": "26년\n2분기",
+     "v": 1.46,
+     "text": "1.46",
+     "tone": "gray",
+     "at": [
+      0,
+      0.75
+     ]
+    },
+    {
+     "label": "26년\n3분기",
+     "v": 1.13,
+     "text": "1.13",
+     "tone": "loss",
+     "at": [
+      1,
+      0.1
+     ]
+    }
+   ],
+   "lines": [
+    {
+     "cap": [
+      "그런데 이 수입이 1년 사이에",
+      "4억 1,700만 달러에서",
+      "1억 1,300만 달러로"
+     ],
+     "say": "그런데 이 수입이 일 년 사이에, 사억 천칠백만 달러에서 일억 천삼백만 달러로,"
+    },
+    {
+     "cap": [
+      "73%나 줄었어요. 용돈이 1년 만에",
+      "4분의 1로 준 셈이죠"
+     ],
+     "say": "칠십삼 퍼센트나 줄었어요. 용돈이 일 년 만에, 사분의 일로 준 셈이죠."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "벌금이 0달러가 되자",
+   "l2": "점수 살 이유도 줄었다",
+   "tone": "loss",
+   "note": "2025년 7월 미국 법 개정 · 연비 기준 미달 벌금 폐지",
+   "lines": [
+    {
+     "cap": [
+      "가장 큰 이유 중 하나는,",
+      "작년 7월 미국 법이 바뀌면서",
+      "연비 기준 벌금이 없어진 거예요"
+     ],
+     "say": "가장 큰 이유 중 하나는, 작년 칠월 미국 법이 바뀌면서, 연비 기준 벌금이 없어진 거예요."
+    },
+    {
+     "cap": [
+      "벌금이 없으니, 다른 회사가",
+      "점수를 살 이유도 줄었죠"
+     ],
+     "say": "벌금이 없으니, 다른 회사가 점수를 살 이유도 줄었죠."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "테슬라 3분기 영업이익",
+   "l": {
+    "label": "크레딧 포함",
+    "v": "7.2억 달러",
+    "tone": "gold"
+   },
+   "r": {
+    "label": "크레딧 빼면",
+    "v": "6억 달러",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "3분기 영업이익도 크레딧을 빼면",
+      "7억에서 6억 달러로 줄어요"
+     ],
+     "say": "삼분기 영업이익도 크레딧을 빼면, 칠억에서 육억 달러로 줄어요."
+    },
+    {
+     "cap": [
+      "그러니 이익을 볼 땐, 매년",
+      "반복되는 돈인지부터 나눠 보세요"
+     ],
+     "say": "그러니 이익을 볼 땐, 매년 반복되는 돈인지부터 나눠 보세요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "크레딧 없이 얼마나 버나",
+   "l2": "풀버전에서",
+   "lines": [
+    {
+     "cap": [
+      "크레딧 없이 테슬라가 얼마나 버는지,",
+      "풀버전에서 계산해 봤어요"
+     ],
+     "say": "크레딧 없이 테슬라가 얼마나 버는지, 풀버전에서 계산해 봤어요."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "In 2020, Tesla's first profitable year, net income was $721 million",
+  "But it made $1.58 billion that year selling 'credits'",
+  "Companies cleaner than emissions rules earn credits",
+  "Tesla, selling only EVs, sells its spare credits to other carmakers",
+  "They cost almost nothing, so nearly all of it is profit",
+  "But in a year that income went from $417 million to $113 million",
+  "Down 73%, like an allowance cut to a quarter",
+  "One big reason: last July a U.S. law removed the fuel-economy fine",
+  "No fine, so other carmakers have less reason to buy credits",
+  "Without credits, Q3 operating profit drops from $700 million to $600 million",
+  "So when you look at profits, first ask whether the money repeats every year",
+  "How much Tesla earns without credits: see the full video",
+  "Tap the link below"
+ ],
+ "title_en": "The secret behind Tesla's first profit is disappearing #Tesla",
+ "long": "L261025-tesla",
+ "review": [
+  {
+   "round": 1,
+   "avg": 7.2
+  },
+  {
+   "round": 2,
+   "avg": 8.0,
+   "must_fix_done": true
+  }
+ ]
+}
