@@ -357,7 +357,7 @@ const PAGE_KO = {portfolio:'포트폴리오 현황', grade:'내 등급', journal
 const sum = o => Object.values(o || {}).reduce((a, b) => a + (+b || 0), 0);
 
 function head(title, sub, id){
-  return `<div class="ptitle"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div><a class="lnk" href="#${id}" target="_blank" rel="noopener">새 창으로 열기 ↗</a></div>`;
+  return `<div class="ptitle"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div><a class="lnk" href="${location.origin + location.pathname}#${id}" target="_blank" data-newwin>새 창으로 열기 ↗</a></div>`;
 }
 function sec(t, note, body){ return `<h2>${t}${note ? ` <span class="qcount">${note}</span>` : ''}</h2><div class="card">${body}</div>`; }
 
@@ -884,7 +884,7 @@ function vYoutube(){
 }
 /* 네이버 블로그: 따로 있던 /naver/ 글 목록을 콘텐츠 메뉴 안에 붙인다 */
 function vBlog(){
-  return `<div class="ptitle"><div><h1>네이버 블로그</h1><div class="sub">글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣고, 올린 글은 '올렸어요'로 표시합니다.</div></div><a class="lnk" href="/naver/" target="_blank" rel="noopener">새 창으로 열기 ↗</a></div>
+  return `<div class="ptitle"><div><h1>네이버 블로그</h1><div class="sub">글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣고, 올린 글은 '올렸어요'로 표시합니다.</div></div><a class="lnk" href="${location.origin}/naver/" target="_blank" data-newwin>새 창으로 열기 ↗</a></div>
   <iframe class="blog-frame" src="/naver/" title="네이버 블로그 글 목록"></iframe>`;
 }
 function bindYoutube(){
@@ -1082,6 +1082,14 @@ function render(s){
   bindTips();
 }
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+/* 새 창으로 열기 (2026-10-24 운영자: 안 열린다): '#social' 같은 상대 주소 대신 전체 주소로 열고,
+   휴대폰 앱 화면·인앱 브라우저처럼 새 창이 막히면 지금 창에서 그 화면으로 바로 이동한다 */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-newwin]'); if(!a) return;
+  e.preventDefault();
+  let w = null; try { w = window.open(a.href, '_blank'); } catch(_) {}
+  if(!w){ location.href = a.href; if(new URL(a.href).pathname === location.pathname) render(); }
+});
 
 function bindTips(){
   const tip = $('#tip');
