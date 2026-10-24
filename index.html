@@ -2337,7 +2337,14 @@ function discViewHtml(){
    조합 중이면 다시 그리기를 조합이 끝난 뒤로 미루고, 다시 그린 뒤에는 입력하던 칸에 커서를 돌려놓는다. */
 let __imeOn = false, __renderLater = false;
 document.addEventListener('compositionstart', () => { __imeOn = true; }, true);
-document.addEventListener('compositionend', () => { __imeOn = false; if(__renderLater){ __renderLater = false; setTimeout(render, 0); } }, true);
+document.addEventListener('compositionend', e => { __imeOn = false;
+  if(e.target && e.target.id === 'co-q'){ S.coQ = e.target.value; S.coShown = 30; clearTimeout(window.__coQT); window.__coQT = setTimeout(coQApply, 300); }
+  if(__renderLater){ __renderLater = false; setTimeout(render, 0); } }, true);
+function coQApply(){
+  if(__imeOn) return; /* 다음 글자를 조합 중이면 조합이 끝날 때 다시 부른다 */
+  const el = document.getElementById('co-q'); if(el) S.coQ = el.value;
+  if(!coPatch()) render(); if(S.tab === 'analyze') updateEval();
+}
 document.addEventListener('focusout', () => { if(__imeOn){ __imeOn = false; if(__renderLater){ __renderLater = false; setTimeout(render, 0); } } }, true);
 function render(){
   if(__imeOn){ __renderLater = true; return; }
@@ -3714,7 +3721,7 @@ function filterBarHtml(){
   const mk = S.coMkt || 'ALL', so = S.coSort || (prefStyle() ? 'fit' : 'b'), st = S.scope || 'held';
   return `<div class="fbar">
     <div class="chips" role="group" aria-label="시장">${[['ALL','전체'],['KR','한국'],['US','미국'],['JP','일본'],['CN','중국'],['HK','홍콩']].map(([k,l]) => `<button class="chip sm" data-act="co-mkt" data-v="${k}" aria-current="${mk===k}">${l}</button>`).join('')}</div>
-    <div class="fbar-row"><input id="co-q" value="${esc(S.coQ||'')}" placeholder="회사명·티커·산업 검색" aria-label="검색">
+    <div class="fbar-row"><input id="co-q" value="${esc(S.coQ||'')}" placeholder="회사명·티커·산업 검색" aria-label="검색" autocomplete="off" enterkeyhint="search">
       <select id="co-sort" aria-label="정렬">${[...(prefStyle() ? [['fit','내 성향 맞춤']] : []),['b','점수순'],['v','저평가순'],['q','품질순'],['div','배당순'],['name','이름순']].map(([k,l]) => `<option value="${k}" ${so===k?'selected':''}>${l}</option>`).join('')}</select></div>
     <div id="coMin">${minbarHtml(st)}</div>
     ${st === 'watch' ? `<p class="small muted" style="margin:0">관심 후보는 매주 월요일 아침 자동으로 다시 고릅니다: 점수 70점 이상, 탈락·위험 신호 없음, 시장마다 최대 6곳씩 상위 20곳. 여기에 ☆를 누르거나 메모를 쓴 회사가 더해집니다.</p>` : ''}
@@ -6345,7 +6352,10 @@ document.addEventListener('input', e => {
   const el = e.target;
   if(el.id === 'co-q'){
     S.coQ = el.value; S.coShown = 30;
-    clearTimeout(window.__coQT); window.__coQT = setTimeout(() => { if(!coPatch()) render(); if(S.tab==='analyze') updateEval(); }, 120);
+    clearTimeout(window.__coQT);
+    /* 한글 조합 중에는 화면을 전혀 건드리지 않는다(삼성 키보드는 화면이 바뀌면 자모를 끊어 버린다). 글자가 확정되면 결과를 바꾼다 */
+    if(e.isComposing || __imeOn) return;
+    window.__coQT = setTimeout(coQApply, 300);
     return; }
   if(el.id === 'sc-q'){ S2.q = el.value; S2.shown = 40; $('#scList').innerHTML = screenListHtml(); return; }
   if(el.id === 'j-ticker' || el.id === 'j-action'){ const jm = $('#j-model'); if(jm) jm.innerHTML = journalModelHtml($('#j-ticker').value, $('#j-action').value); const jc = $('#j-check'); if(jc && el.id==='j-action') jc.innerHTML = journalChecklistHtml(el.value); return; }
