@@ -23,16 +23,17 @@
   --navy:#0E1A2B; --ivory:#F3EEE3; --gold:#C9B180;
   --s-visit:#3E6AA8; --s-sign:#B09868; --grid:#ECE8DF;
   --good:#2D7A5F; --bad:#D8415A;
+  --tc1:#2a78d6; --tc2:#eb6834; --tc3:#1baf7a; --tc4:#eda100; --tc5:#e87ba4; --tc6:#008300;
   --navy-grad:radial-gradient(130% 160% at 50% -10%,#17283F 0%,#0E1A2B 45%,#0A1322 100%);
   --gold-grad:linear-gradient(90deg,#B49C6D 0%,#EADBB9 50%,#B49C6D 100%);
   --font:"SUIT Variable","SUIT","Pretendard Variable",system-ui,-apple-system,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --ink2:#C3C9D3; --muted:#8E97A7; --line:#212C3C;
-  --s-visit:#5F8FDB; --s-sign:#B89E6B; --grid:#1B2534; --good:#5FC59C; --bad:#FF788F; color-scheme:dark}}
+  --s-visit:#5F8FDB; --s-sign:#B89E6B; --grid:#1B2534; --good:#5FC59C; --bad:#FF788F; --tc1:#3987e5; --tc2:#d95926; --tc3:#199e70; --tc4:#c98500; --tc5:#d55181; --tc6:#008300; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --ink2:#C3C9D3; --muted:#8E97A7; --line:#212C3C;
-  --s-visit:#5F8FDB; --s-sign:#B89E6B; --grid:#1B2534; --good:#5FC59C; --bad:#FF788F; color-scheme:dark}
+  --s-visit:#5F8FDB; --s-sign:#B89E6B; --grid:#1B2534; --good:#5FC59C; --bad:#FF788F; --tc1:#3987e5; --tc2:#d95926; --tc3:#199e70; --tc4:#c98500; --tc5:#d55181; --tc6:#008300; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);letter-spacing:-.01em;word-break:keep-all;-webkit-font-smoothing:antialiased}
@@ -219,20 +220,42 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .gh-bar i{display:block;height:100%;background:#B09868;border-radius:99px;transition:width .6s}
 .gh-log{padding:10px 14px}.gh-log .r{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5;word-break:keep-all}
 .gh-log .r:first-child{border-top:0}.gh-log .r .tm{flex:0 0 auto;color:var(--muted);font-variant-numeric:tabular-nums}
-.tr-list{padding:6px 14px}
-.tr-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
-.tr-row:last-of-type{border-bottom:0}
-.tr-d{flex:0 0 46px;font-size:12px;font-weight:800;color:var(--muted);padding-top:2px}
-.tr-d.near{color:var(--bad)}
-.tr-main{flex:1;min-width:0;word-break:keep-all;overflow-wrap:anywhere}
-.tr-main a{color:var(--ink);text-decoration:none}
+.tr-card{padding:12px 14px}
+.tr-kpis{margin-bottom:4px}
+.tr-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline;flex:0 0 auto}
+.tr-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink2);margin-bottom:6px}
+.tr-legend span{display:inline-flex;align-items:center}
+svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
+.tr-hbars{display:flex;flex-direction:column;gap:3px}
+.tr-hrow{display:grid;grid-template-columns:minmax(80px,32%) 1fr auto;align-items:center;gap:10px;padding:4px 0;font-size:13px}
+.tr-hrow>span{display:flex;align-items:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr-hrow>b{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink2);white-space:nowrap}
+.tr-rk{font-style:normal;font-size:11px;font-weight:800;color:var(--muted);width:18px;flex:0 0 18px}
+.tr-bar{height:10px;background:var(--grid);border-radius:5px;overflow:hidden;min-width:40px}
+.tr-bar i{display:block;height:100%;border-radius:0 4px 4px 0}
+.tr-tb{width:100%;border-collapse:collapse;font-size:13px}
+.tr-tb th{font-size:11.5px}
+.tr-tb td{padding:7px 8px;vertical-align:middle;word-break:keep-all;overflow-wrap:anywhere}
+.tr-tb td a{color:var(--ink);text-decoration:none;font-weight:600}
+.tr-tb .r{text-align:right}
+.tr-num{font-weight:800;color:var(--muted);font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tr-num.near{color:var(--bad)}
+.tr-nw{white-space:nowrap}
+.tr-w{min-width:90px;width:22%}
+.tr-chg{font-size:11.5px;font-weight:700;white-space:nowrap;color:var(--muted)}
+.tr-chg.up{color:var(--good)}.tr-chg.dn{color:var(--bad)}.tr-chg.new{color:var(--tc1)}
+.tr-kind{font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--bg);border:1px solid var(--line);white-space:nowrap}
+.tr-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tr-filter .chip{display:inline-flex;align-items:center}
+.tr-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tr-scroll .tr-tb{min-width:560px}
 .tr-s{color:var(--ink2)}
 .tr-x{flex:0 0 auto;padding:4px 8px;font-size:12px}
 .tr-add{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 6px;border-top:1px solid var(--line)}
 .tr-add input{flex:1 1 140px;min-width:0;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;font-size:13px}
 .tr-add input[type=number]{flex:0 0 64px}.tr-add input[type=date]{flex:0 0 140px}
-.tr-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:760px){.tr-2{grid-template-columns:1fr}}
+.tr-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media (max-width:860px){.tr-2{grid-template-columns:minmax(0,1fr)}.tr-kpis{grid-template-columns:repeat(2,1fr)}}
 .yt-note{padding:12px 14px;border-radius:12px;background:rgba(176,152,104,.1);color:var(--ink);font-size:13.5px;line-height:1.6;margin-bottom:14px}
 .yt-item{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;padding:16px;margin-bottom:14px}
 .yt-item.short{grid-template-columns:260px minmax(0,1fr)}
@@ -971,49 +994,143 @@ function ytViews(){
     trend:  { t: '트렌드', plans: [], vids: [] },
   };
 }
-/* 트렌드 레이더 (2026-10-26 운영자): 지금 뜨는 영상·구조·종목 관심도와 다가오는 이슈를 한 화면에서 본다.
-   기획안 작업이 이 데이터에서 상위 몇 개만 골라 기획안을 만들고, 시즌 이슈는 날짜보다 2~3주 먼저 기획안을 올린다 */
-const TR = { data: null, err: '', at: 0 };
-async function trLoad(){ const { data, error } = await sb.rpc('trend_admin', { p_days: 60 }); TR.data = error ? {} : (data || {}); TR.err = error ? error.message : ''; TR.at = Date.now(); render(); }
-const nk = v => v == null ? '–' : v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v >= 1e4 ? Math.round(v / 1e4).toLocaleString('ko-KR') + '만' : Math.round(v).toLocaleString('ko-KR');
-const TR_KIND = { season: ['시즌', 'run'], event: ['행사', 'run'], macro: ['매크로', 'none'], earnings: ['실적', 'none'] };
-function trIssue(e){
-  const k = TR_KIND[e.kind] || [e.kind, 'none'], d = e.d_minus, auto = ['season', 'event'].includes(e.kind);
-  const plan = e.plan_id ? `<span class="st ok">기획안 ${e.plan_status ? ({ proposed: '승인 대기', approved: '승인됨', producing: '제작 중', done: '완료', rejected: '반려' }[e.plan_status] || e.plan_status) : '연결'}</span>`
-    : auto ? (d <= e.lead_days ? '<span class="st bad">기획안 만드는 중</span>' : `<span class="st none">D-${e.lead_days}에 자동 기획</span>`) : '<span class="st none">참고용</span>';
-  return `<div class="tr-row"><span class="tr-d${d <= 7 ? ' near' : ''}">${d === 0 ? '오늘' : 'D-' + d}</span>
-    <div class="tr-main"><div><b>${esc(e.title)}</b> <span class="kind">${k[0]}</span>${e.est ? ' <span class="st none">날짜 추정</span>' : ''} ${plan}</div>
-    <div class="m">${kday(e.day + 'T00:00:00+09:00').replace(/ \d\d:\d\d$/, '')}${e.cat ? ' · ' + esc(e.cat) : ''}${e.angle ? ' · ' + esc(e.angle) : ''}</div></div>
-    ${e.auto ? '' : `<button class="soc-btn ghost tr-x" data-tr-del="${esc(e.id)}" title="이 이슈 지우기">지우기</button>`}</div>`;
+/* 트렌드 레이더 대시보드 (2026-10-26 운영자): "어떤 흐름이, 어떤 키워드가 더 많이 됐고 이런 것들을 표나 통계로 쉽게 볼 수 있게."
+   위에서부터: 요약 숫자 4개 → 카테고리별 관심 흐름(선) → 뜨는 단어(막대)·검색어 순위(표+7일 미니 그래프)
+   → 지금 뜨는 영상(표, 카테고리 필터) → 뜨는 구조 → 이슈 캘린더(60일 띠 + 표) → 사람들이 찾는 종목(순위 변동).
+   숫자는 trend_admin(목록·이슈)과 trend_stats(날짜·카테고리·검색어·단어 통계) 두 함수에서 온다.
+   기획안 작업은 같은 데이터로 상위 소재만 골라 기획안을 만든다. */
+const TR = { data: null, stats: null, err: '', at: 0, cat: 'all', more: false };
+async function trLoad(){
+  const [a, s] = await Promise.all([sb.rpc('trend_admin', { p_days: 60 }), sb.rpc('trend_stats', { p_days: 14 })]);
+  TR.data = a.error ? {} : (a.data || {}); TR.stats = s.error ? {} : (s.data || {}); TR.err = a.error ? a.error.message : (s.error ? s.error.message : '');
+  TR.at = Date.now(); render();
+}
+const nk = v => v == null ? '–' : v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v >= 1e4 ? (v >= 1e5 ? Math.round(v / 1e4) : (v / 1e4).toFixed(1)) + '만' : Math.round(v).toLocaleString('ko-KR');
+/* 카테고리 색은 순위가 아니라 카테고리에 고정 (검증된 6색 순서) */
+const TR_CATS = ['금융', '기업·브랜드', '경제·사회', '생활·소비', '테크', 'global'];
+const TR_CNAME = { global: '영어권' };
+const trCol = c => `var(--tc${Math.max(0, TR_CATS.indexOf(c)) + 1})`;
+const trCname = c => TR_CNAME[c] || c;
+const trDot = c => `<i class="tr-dot" style="background:${trCol(c)}"></i>`;
+const trPct = (cur, prev) => { if(prev == null || !prev) return '<span class="tr-chg new">신규</span>'; const p = Math.round((cur - prev) / prev * 100); return `<span class="tr-chg ${p > 0 ? 'up' : p < 0 ? 'dn' : ''}">${p > 0 ? '▲' : p < 0 ? '▼' : ''}${Math.abs(p)}%</span>`; };
+const trMd = d => { const x = new Date(d + 'T00:00:00+09:00'); return `${x.getMonth() + 1}/${x.getDate()}`; };
+
+/* 7일 미니 그래프 (한 줄, 마지막 점 강조) */
+function trSpark(vals){
+  const v = (vals || []).map(x => +x || 0); if(v.filter(Boolean).length < 2) return '<span class="m tr-nw">쌓는 중</span>';
+  const W = 84, H = 22, mx = Math.max(...v, 1), x = i => 2 + i * (W - 4) / (v.length - 1), y = n => H - 3 - n / mx * (H - 6);
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><polyline points="${v.map((n, i) => `${x(i)},${y(n)}`).join(' ')}" fill="none" stroke="var(--tc1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(v.length - 1)}" cy="${y(v[v.length - 1])}" r="3" fill="var(--tc1)" stroke="var(--surface)" stroke-width="1.5"/></svg>`;
+}
+/* 표 안 막대 (한 지표, 같은 표 안에서 최대값 기준) */
+const trBar = (v, max, col) => `<div class="tr-bar"><i style="width:${Math.max(2, v / Math.max(max, 1) * 100)}%;background:${col || 'var(--tc1)'}"></i></div>`;
+
+/* 카테고리별 관심 흐름: 날짜 2일 이상이면 선 그래프, 하루뿐이면 오늘 값 막대 */
+function trCatChart(S){
+  const rows = S.cat_series || [], days = S.days || [];
+  if(!rows.length) return '<div class="m">아직 수집 전입니다.</div>';
+  const cats = TR_CATS.filter(c => rows.some(r => r.cat === c));
+  const val = (d, c) => { const r = rows.find(x => x.day === d && x.cat === c); return r ? +r.growth : 0; };
+  if(days.length < 2){
+    const d = days[days.length - 1], max = Math.max(...cats.map(c => val(d, c)), 1), tot = cats.reduce((a, c) => a + val(d, c), 0);
+    return `<div class="m" style="margin-bottom:8px">수집 첫날이라 오늘 값만 있습니다. 내일부터 날짜별 흐름 선으로 바뀝니다. (첫날 값은 영상 나이로 나눈 추정치)</div>
+      <div class="tr-hbars">${cats.slice().sort((a, b) => val(d, b) - val(d, a)).map(c => `<div class="hit tr-hrow" data-tip="${esc(trCname(c))} · 하루 조회 +${nk(val(d, c))}회 · 전체의 ${Math.round(val(d, c) / tot * 100)}%"><span>${trDot(c)}${esc(trCname(c))}</span>${trBar(val(d, c), max, trCol(c))}<b>+${nk(val(d, c))}</b></div>`).join('')}</div>`;
+  }
+  const nar = innerWidth < 700, W = nar ? 400 : 900, H = nar ? 240 : 260, L = 44, R = nar ? 78 : 96, T = 12, B = 24, iw = W - L - R, ih = H - T - B;
+  const max = Math.max(...days.flatMap(d => cats.map(c => val(d, c))), 1);
+  const raw = max / 4, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = [1, 1.5, 2, 2.5, 3, 4, 5, 10].map(m => m * mag).find(s => s >= raw), top = step * 4;
+  const x = i => L + (days.length === 1 ? iw / 2 : i * iw / (days.length - 1)), y = v => T + ih - v / top * ih;
+  let g = '';
+  for(let i = 0; i <= 4; i++){ const v = top * i / 4; g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(v) + 3.5}" text-anchor="end">${nk(v)}</text>`; }
+  const lab = days.map((d, i) => (i === days.length - 1 || (nar ? (days.length - 1 - i) % 4 === 0 && days.length - 1 - i >= 3 : (days.length <= 8 || i % 2 === 0) && days.length - 1 - i >= 2)) ? `<text x="${x(i)}" y="${H - 6}" text-anchor="${i === days.length - 1 ? 'end' : i === 0 ? 'start' : 'middle'}">${trMd(d)}</text>` : '').join('');
+  /* 끝 라벨: 겹치지 않게 최소 간격 12px로 밀어 낸다 */
+  const ends = cats.map(c => ({ c, y: y(val(days[days.length - 1], c)) })).sort((a, b) => a.y - b.y);
+  for(let i = 1; i < ends.length; i++) if(ends[i].y - ends[i - 1].y < 13) ends[i].y = ends[i - 1].y + 13;
+  const over = ends.length ? ends[ends.length - 1].y - (T + ih) : 0; if(over > 0) ends.forEach(e => e.y -= over);
+  const lines = cats.map(c => `<polyline points="${days.map((d, i) => `${x(i)},${y(val(d, c))}`).join(' ')}" fill="none" stroke="${trCol(c)}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`
+    + `<circle cx="${x(days.length - 1)}" cy="${y(val(days[days.length - 1], c))}" r="4" fill="${trCol(c)}" stroke="var(--surface)" stroke-width="2"/>`).join('');
+  const endl = ends.map(e => `<text x="${W - R + 8}" y="${e.y + 3.5}" class="tr-endl">${esc(trCname(e.c))}</text>`).join('');
+  /* 날짜마다 세로 띠: 마우스를 올리면 그날 카테고리 값 전체 */
+  const cols = days.map((d, i) => { const w = days.length > 1 ? iw / (days.length - 1) : iw; const tip = `${trMd(d)} · ` + cats.map(c => `${trCname(c)} +${nk(val(d, c))}`).join(' · ');
+    return `<g class="hit" data-tip="${esc(tip)}"><rect x="${Math.max(L, x(i) - w / 2)}" y="${T}" width="${w}" height="${ih}" fill="transparent"/></g>`; }).join('');
+  return `<div class="tr-legend">${cats.map(c => `<span>${trDot(c)}${esc(trCname(c))}</span>`).join('')}</div>
+    <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="카테고리별 하루 조회 증가 흐름">${g}${lab}<line x1="${L}" x2="${W - R}" y1="${T + ih}" y2="${T + ih}" stroke="var(--line)"/>${lines}${endl}${cols}</svg>`;
+}
+
+function trIssueRow(e){
+  const kind = { season: '시즌', event: '행사', macro: '매크로', earnings: '실적' }[e.kind] || e.kind, d = e.d_minus, auto = ['season', 'event'].includes(e.kind);
+  const plan = e.plan_id && e.plan_id !== 'skip' ? `<span class="st ok">기획안 ${({ proposed: '승인 대기', approved: '승인됨', producing: '제작 중', done: '완료', rejected: '반려' }[e.plan_status] || '연결')}</span>`
+    : e.plan_id === 'skip' ? '<span class="st none">기획 안 함</span>'
+    : auto ? (d <= e.lead_days ? '<span class="st bad">기획안 만드는 중</span>' : `<span class="st none">D-${e.lead_days}에 자동 기획</span>`) : '<span class="st none">참고</span>';
+  return `<tr><td class="tr-num${d <= 7 ? ' near' : ''}">${d === 0 ? '오늘' : 'D-' + d}</td><td class="tr-nw">${trMd(e.day)}</td>
+    <td><b>${esc(e.title)}</b>${e.est ? ' <span class="m">(날짜 추정)</span>' : ''}${e.angle ? `<div class="m">${esc(e.angle)}</div>` : ''}</td>
+    <td><span class="tr-kind k-${esc(e.kind)}">${kind}</span></td><td>${plan}</td>
+    <td>${e.auto ? '' : `<button class="soc-btn ghost tr-x" data-tr-del="${esc(e.id)}">지우기</button>`}</td></tr>`;
+}
+/* 60일 띠: 이슈 종류별 점, 오늘이 왼쪽 끝 */
+function trIssueStrip(iss){
+  const nar = innerWidth < 700, W = nar ? 380 : 900, H = 58, L = 10, R = 10, iw = W - L - R, x = d => L + Math.min(60, Math.max(0, d)) / 60 * iw;
+  const row = { season: 14, event: 14, earnings: 28, macro: 42 }, col = { season: 'var(--tc2)', event: 'var(--tc2)', earnings: 'var(--tc1)', macro: 'var(--muted)' };
+  const ticks = (nar ? [0, 30, 60] : [0, 15, 30, 45, 60]).map(d => `<line x1="${x(d)}" x2="${x(d)}" y1="4" y2="${H - 12}" stroke="var(--grid)"/><text x="${x(d)}" y="${H - 1}" text-anchor="${d === 0 ? 'start' : d === 60 ? 'end' : 'middle'}">${d === 0 ? '오늘' : d + '일 뒤'}</text>`).join('');
+  const dots = iss.map(e => `<g class="hit" data-tip="${esc(`D-${e.d_minus} ${trMd(e.day)} · ${e.title}`)}"><circle cx="${x(e.d_minus)}" cy="${row[e.kind] || 28}" r="9" fill="transparent"/><circle cx="${x(e.d_minus)}" cy="${row[e.kind] || 28}" r="${e.kind === 'season' || e.kind === 'event' ? 5 : 4}" fill="${col[e.kind] || 'var(--muted)'}" stroke="var(--surface)" stroke-width="2"/></g>`).join('');
+  return `<div class="tr-legend"><span>${'<i class="tr-dot" style="background:var(--tc2)"></i>'}시즌·행사 (자동 기획)</span><span><i class="tr-dot" style="background:var(--tc1)"></i>실적 발표</span><span><i class="tr-dot" style="background:var(--muted)"></i>금리 결정</span></div>
+    <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="앞으로 60일 이슈">${ticks}${dots}</svg>`;
 }
 const TR_FLAG = { spike: ['급등', 'bad'], fast_new: ['새 영상 급성장', 'run'], steady: ['꾸준히 많이 봄', 'none'] };
-function trVideo(h, i){
-  const f = TR_FLAG[h.flag] || ['', 'none'], s = h.structure || {};
-  return `<div class="tr-row"><span class="tr-d">${i + 1}</span><div class="tr-main">
-    <div><a href="https://www.youtube.com/watch?v=${encodeURIComponent(h.video_id)}" target="_blank" rel="noopener" data-newwin><b>${esc(h.title)}</b></a></div>
-    <div class="m"><span class="st ${f[1]}">${f[0]}${h.spike ? ` ${h.spike}배` : ''}</span> 하루 +${nk(h.per_day)}회 · 누적 ${nk(h.views)}회 · ${esc(h.channel || '')}${h.published_text ? ' · ' + esc(h.published_text) : ''}${(h.cats || []).length ? ' · ' + esc(h.cats.join('/')) : ''}${h.lang === 'en' ? ' · 영어권' : ''}</div>
-    ${s.title_pattern ? `<div class="m tr-s">구조 · <b>${esc(s.title_pattern)}</b>${s.transfer ? ` → 밸류노트로 가져오면: ${esc(s.transfer)}` : ''}</div>` : ''}</div></div>`;
+function trStockTable(rows, title){
+  return `<div class="card tr-card"><div class="tr-h"><b>${title}</b></div><table class="tr-tb"><thead><tr><th>순위</th><th>종목</th><th>변동</th><th class="r">등락</th></tr></thead><tbody>
+    ${rows.map(s => { const mv = s.prev_rank == null ? '<span class="tr-chg new">새로 진입</span>' : s.prev_rank > s.rank ? `<span class="tr-chg up">▲${s.prev_rank - s.rank}</span>` : s.prev_rank < s.rank ? `<span class="tr-chg dn">▼${s.rank - s.prev_rank}</span>` : '<span class="tr-chg">–</span>';
+      return `<tr><td class="tr-num">${s.rank}</td><td>${esc(s.name)}${s.days_in > 1 ? ` <span class="m">${s.days_in}일째</span>` : ''}</td><td>${mv}</td><td class="r" style="color:${String(s.change || '').startsWith('-') ? 'var(--bad)' : s.change ? 'var(--good)' : 'var(--muted)'}">${esc(s.change || '–')}</td></tr>`; }).join('') || '<tr><td colspan="4" class="m">아직 없음</td></tr>'}
+  </tbody></table></div>`;
 }
 function trPanel(){
   if(!TR.data || Date.now() - TR.at > 10 * 60e3){ if(!TR.loading){ TR.loading = true; trLoad().finally(() => TR.loading = false); } if(!TR.data) return '<div class="card empty" style="padding:14px">불러오는 중</div>'; }
   if(TR.err) return `<div class="card">불러오지 못했습니다: ${esc(TR.err)}</div>`;
-  const D = TR.data, c = D.counts || {}, hot = D.hot || [], st = D.structures || [], iss = D.issues || [], sk = D.stocks || [];
-  const nv = sk.filter(s => s.src === 'naver_search').slice(0, 15), yh = sk.filter(s => s.src === 'yahoo_us').slice(0, 15);
-  const stk = (a, us) => a.map(s => `<div class="m" style="padding:2px 0"><b>${s.rank}</b> ${esc(s.name)}${s.change ? ` <span style="color:${String(s.change).startsWith('-') ? 'var(--bad)' : 'var(--good)'}">${esc(s.change)}</span>` : ''}${us ? '' : ''}</div>`).join('') || '<div class="m">아직 없음</div>';
-  const kr = hot.filter(h => h.lang !== 'en').slice(0, 25), en = hot.filter(h => h.lang === 'en').slice(0, 10);
-  return `<div class="yt-note">매일 아침 7시 25분에 유튜브 검색어 <b>${c.queries || 0}개</b>(금융 + 브랜드·생활·경제·영어권)로 영상을 모아 조회수 증가량을 잽니다. 평소보다 2배 넘게 튀면 <b>급등</b>, 올린 지 나흘 안에 하루 2만 회 넘게 크면 <b>새 영상 급성장</b>입니다. 기획안은 이 목록의 상위 소재·구조와 아래 이슈 캘린더를 함께 보고 만듭니다.
-    <div class="m" style="margin-top:4px">모은 영상 ${nk(c.videos)}개 · 구조 분석 ${nk(c.tagged)}개 · 마지막 수집 ${D.last_run ? kst(D.last_run) : '아직 없음'}${hot.length && !hot.some(h => h.flag === 'spike') ? ' · 급등 판단은 수집 둘째 날부터 나옵니다' : ''}</div></div>
+  const D = TR.data, S = TR.stats || {}, c = D.counts || {}, hot = D.hot || [], iss = D.issues || [];
+  const lastDay = S.last_day, catsToday = (S.cat_series || []).filter(r => r.day === lastDay).sort((a, b) => b.growth - a.growth);
+  const totToday = catsToday.reduce((a, r) => a + (+r.growth || 0), 0), topCat = catsToday[0];
+  const nSpike = hot.filter(h => h.flag === 'spike').length, nFast = hot.filter(h => h.flag === 'fast_new').length;
+  const nextSeason = iss.find(e => ['season', 'event'].includes(e.kind));
+  /* 요약 숫자 */
+  const kpis = `<div class="kpis tr-kpis">
+    <div class="card kpi"><div class="l">오늘 하루 조회 증가 (모은 영상 전체)</div><div class="v">+${nk(totToday)}</div><div class="s">영상 ${nk(c.videos)}개 · 검색어 ${c.queries || 0}개</div></div>
+    <div class="card kpi"><div class="l">급등 · 새 영상 급성장</div><div class="v">${nSpike} · ${nFast}</div><div class="s">${nSpike ? '평소보다 2배 넘게 튄 영상' : '급등 판정은 수집 둘째 날부터'}</div></div>
+    <div class="card kpi"><div class="l">가장 뜨는 카테고리</div><div class="v" style="font-size:22px">${topCat ? trDot(topCat.cat) + esc(trCname(topCat.cat)) : '–'}</div><div class="s">${topCat ? `오늘 증가의 ${Math.round(topCat.growth / Math.max(totToday, 1) * 100)}%` : ''}</div></div>
+    <div class="card kpi"><div class="l">다음 시즌 이슈</div><div class="v" style="font-size:22px">${nextSeason ? 'D-' + nextSeason.d_minus : '–'}</div><div class="s">${nextSeason ? esc(nextSeason.title) : '60일 안에 없음'}</div></div></div>`;
+  /* 뜨는 단어 막대 */
+  const W = (S.words || []).slice(0, 15), wMax = Math.max(...W.map(w => +w.growth), 1);
+  const words = W.length ? `<div class="tr-hbars">${W.map((w, i) => `<div class="hit tr-hrow" data-tip="'${esc(w.w)}' 들어간 영상 ${w.videos}개 · 하루 조회 +${nk(w.growth)}회${w.prev != null ? ' · 어제 +' + nk(w.prev) : ''}"><span><em class="tr-rk">${i + 1}</em>${esc(w.w)}</span>${trBar(+w.growth, wMax)}<b>+${nk(w.growth)} ${w.prev != null ? trPct(+w.growth, +w.prev) : ''}</b></div>`).join('')}</div>` : '<div class="m">아직 없음</div>';
+  /* 검색어 순위 표 */
+  const Q = S.queries || [], qMax = Math.max(...Q.map(q => +q.growth), 1);
+  const qrows = Q.slice(0, TR.more ? 60 : 12).map((q, i) => `<tr><td class="tr-num">${i + 1}</td><td class="tr-nw">${trDot(q.cat)}${esc(q.q)}</td><td class="tr-w">${trBar(+q.growth, qMax, trCol(q.cat))}</td><td class="r tr-nw">+${nk(q.growth)}</td><td class="r">${q.prev != null ? trPct(+q.growth, +q.prev) : '<span class="m">–</span>'}</td><td>${trSpark(q.spark)}</td><td class="r">${q.hot || ''}</td></tr>`).join('');
+  /* 뜨는 영상 표 (카테고리 필터) */
+  const cats = TR_CATS.filter(k => hot.some(h => (h.cats || []).includes(k)));
+  const H = hot.filter(h => TR.cat === 'all' || (h.cats || []).includes(TR.cat)).slice(0, 20), hMax = Math.max(...H.map(h => +h.per_day), 1);
+  const vrows = H.map((h, i) => { const f = TR_FLAG[h.flag] || ['', 'none'], s = h.structure || {}, cat = (h.cats || [])[0];
+    return `<tr><td class="tr-num">${i + 1}</td><td><a href="https://www.youtube.com/watch?v=${encodeURIComponent(h.video_id)}" target="_blank" rel="noopener" data-newwin>${esc(h.title)}</a><div class="m">${esc(h.channel || '')} · ${esc(h.published_text || '')}${s.title_pattern ? ` · 구조 <b>${esc(s.title_pattern)}</b>` : ''}</div></td>
+      <td class="tr-nw">${cat ? trDot(cat) + esc(trCname(cat)) : ''}</td><td class="tr-w">${trBar(+h.per_day, hMax, cat ? trCol(cat) : null)}<div class="m r">+${nk(h.per_day)}/일</div></td>
+      <td><span class="st ${f[1]}">${f[0]}${h.spike ? ` ${h.spike}배` : ''}</span></td></tr>`; }).join('');
+  const st = D.structures || [], sk = S.stocks || [];
+  return `<div class="yt-note">매일 아침 7시 25분에 유튜브 검색어 ${c.queries || 0}개로 영상을 모아 조회수 증가량을 잽니다. 기획안은 아래 표의 상위 소재·구조·이슈를 근거로 만듭니다. 막대·점에 마우스를 올리면 숫자가 나옵니다. <span class="m">마지막 수집 ${D.last_run ? kst(D.last_run) : '아직 없음'}</span></div>
+  ${kpis}
+  <div class="soc-sec"><h2>카테고리별 관심 흐름</h2><span class="n">카테고리마다 모은 영상의 하루 조회 증가 합계 · 최근 14일</span></div>
+  <div class="card tr-card">${trCatChart(S)}</div>
+  <div class="tr-2">
+    <div><div class="soc-sec"><h2>뜨는 단어</h2><span class="n">제목 속 단어 · 하루 조회 증가 합계</span></div><div class="card tr-card">${words}</div></div>
+    <div><div class="soc-sec"><h2>검색어 순위</h2><span class="n">하루 조회 증가 · 전날 대비 · 7일</span></div>
+      <div class="card tr-card tr-scroll"><table class="tr-tb"><thead><tr><th>#</th><th>검색어</th><th></th><th class="r">하루</th><th class="r">전날 대비</th><th>7일</th><th class="r" title="급등·급성장 영상 수">뜸</th></tr></thead><tbody>${qrows}</tbody></table>
+      ${Q.length > 12 ? `<button class="soc-btn ghost" id="tr-more" style="margin-top:8px">${TR.more ? '접기' : `${Q.length}개 전부 보기`}</button>` : ''}</div></div>
+  </div>
+  <div class="soc-sec"><h2>지금 뜨는 영상</h2><span class="n">하루 조회 증가 순 · 쇼츠 제외</span></div>
+  <div class="tr-filter"><button class="chip" data-tr-cat="all" aria-pressed="${TR.cat === 'all'}">전체 ${hot.length}</button>${cats.map(k => `<button class="chip" data-tr-cat="${esc(k)}" aria-pressed="${TR.cat === k}">${trDot(k)}${esc(trCname(k))} ${hot.filter(h => (h.cats || []).includes(k)).length}</button>`).join('')}</div>
+  <div class="card tr-card tr-scroll"><table class="tr-tb"><thead><tr><th>#</th><th>영상</th><th>카테고리</th><th>하루 조회 증가</th><th>판정</th></tr></thead><tbody>${vrows || '<tr><td colspan="5" class="m">없음</td></tr>'}</tbody></table></div>
+  <div class="soc-sec"><h2>뜨는 구조</h2><span class="n">다른 카테고리에서 잘 되는 제목 방식 → 밸류노트로 가져오기</span></div>
+  <div class="card tr-card tr-scroll">${st.length ? `<table class="tr-tb"><thead><tr><th>구조</th><th class="r">영상</th><th>어디서</th><th>밸류노트로 가져오면</th></tr></thead><tbody>${st.map(s => `<tr><td><b>${esc(s.pattern)}</b><div class="m">${(s.best || []).map(esc).join(' / ')}</div></td><td class="r">${s.n}</td><td class="tr-nw">${(s.cats || []).map(k => trDot(k) + esc(trCname(k))).join('<br>')}</td><td>${esc(s.transfer || '')}</td></tr>`).join('')}</tbody></table>` : '<div class="m">구조 분석은 Claude가 매일 오전 뜨는 영상 상위 30개에 붙입니다. 첫 분석 전에는 비어 있습니다.</div>'}</div>
   <div class="soc-sec"><h2>다가오는 이슈</h2><span class="n">60일 · 시즌·행사는 날짜보다 먼저 기획안이 자동으로 올라옵니다</span></div>
-  <div class="card tr-list">${iss.map(trIssue).join('') || '<div class="m">60일 안에 잡힌 이슈가 없습니다.</div>'}
+  <div class="card tr-card">${trIssueStrip(iss)}
+    <div class="tr-scroll"><table class="tr-tb" style="margin-top:8px"><thead><tr><th>남은 날</th><th>날짜</th><th>이슈</th><th>종류</th><th>기획안</th><th></th></tr></thead><tbody>${iss.map(trIssueRow).join('')}</tbody></table></div>
     <div class="tr-add"><input type="date" id="tr-day" aria-label="날짜"><input id="tr-title" placeholder="이슈 이름 (예: 할로윈, 신작 게임 출시)"><input id="tr-angle" placeholder="각도 (예: 하루 매출은 얼마, 누가 돈을 버나)"><input id="tr-lead" type="number" min="3" max="45" value="14" aria-label="며칠 전 기획" title="며칠 전에 기획안을 만들까요"><button class="soc-btn" id="tr-addb">이슈 추가</button></div></div>
-  <div class="soc-sec"><h2>지금 뜨는 영상 · 한국</h2><span class="n">하루 증가량 순</span></div>
-  <div class="card tr-list">${kr.map(trVideo).join('') || '<div class="m">아직 수집 전입니다.</div>'}</div>
-  ${en.length ? `<div class="soc-sec"><h2>지금 뜨는 영상 · 영어권</h2><span class="n">해외 구독자 타깃 참고</span></div><div class="card tr-list">${en.map(trVideo).join('')}</div>` : ''}
-  <div class="soc-sec"><h2>뜨는 구조</h2><span class="n">다른 카테고리에서 잘 되는 제목·전개 방식</span></div>
-  <div class="card tr-list">${st.map(s => `<div class="tr-row"><span class="tr-d">${s.n}편</span><div class="tr-main"><div><b>${esc(s.pattern)}</b> <span class="m">${esc((s.cats || []).join('/'))}</span></div>${s.transfer ? `<div class="m tr-s">밸류노트로 가져오면 · ${esc(s.transfer)}</div>` : ''}<div class="m">${(s.best || []).map(esc).join(' / ')}</div></div></div>`).join('') || '<div class="m">구조 분석은 Claude가 매일 오전 급등 영상에 붙입니다. 첫 분석 전에는 비어 있습니다.</div>'}</div>
-  <div class="soc-sec"><h2>사람들이 찾는 종목</h2><span class="n">${sk[0] ? esc(sk[0].day) : ''} 기준</span></div>
-  <div class="tr-2"><div class="card" style="padding:12px 14px"><div class="m" style="margin-bottom:4px"><b>네이버 증권 검색 상위</b></div>${stk(nv)}</div>
-    <div class="card" style="padding:12px 14px"><div class="m" style="margin-bottom:4px"><b>야후 파이낸스 미국 트렌딩</b></div>${stk(yh, true)}</div></div>`;
+  <div class="soc-sec"><h2>사람들이 찾는 종목</h2><span class="n">${sk[0] ? esc(lastDay || '') + ' 기준 · 전날 대비 순위 변동' : ''}</span></div>
+  <div class="tr-2">${trStockTable(sk.filter(s => s.src === 'naver_search').slice(0, 15), '네이버 증권 검색 상위')}${trStockTable(sk.filter(s => s.src === 'yahoo_us').slice(0, 15), '야후 파이낸스 미국 트렌딩')}</div>`;
 }
 const YT_NOTE = {
   plan: '<b>승인</b>한 순서대로 다음 빈 롱폼 편성일(매일 19:00, 시즌 기획은 정해 둔 날)이 자동으로 잡히고, 그날 아침 최신 숫자로 제작해 \'영상 검수\'로 올립니다. 마음에 안 들면 <b>반려</b>하거나 <b>의견</b>을 남기세요. 새 기획안이 필요하면 위에서 <b>기획안 더 받기</b>를 누르세요.',
@@ -1153,6 +1270,9 @@ function bindYoutube(){
     const { data, error } = await sb.rpc('yt_plan_request', { p_kind: 'revise', p_plan_id: id, p_note: note });
     if(error) toast('보내지 못했습니다: ' + error.message, true); else if(data && data.ok === false) toast(data.reason, true); else toast('의견을 보냈습니다. Claude가 1시간 안에 기획안을 고칩니다.');
     ytLoad(); });
+  document.querySelectorAll('[data-tr-cat]').forEach(b => b.onclick = () => { TR.cat = b.dataset.trCat; render(); });
+  const tm = document.getElementById('tr-more'); if(tm) tm.onclick = () => { TR.more = !TR.more; render(); };
+  if(document.querySelector('.tr-card .hit')) bindTips();
   document.querySelectorAll('[data-tr-del]').forEach(b => b.onclick = async () => {
     if(!confirm('이 이슈를 캘린더에서 지울까요?')) return; b.disabled = true;
     const { error } = await sb.rpc('issue_upsert', { p: { id: b.dataset.trDel, delete: true } });
