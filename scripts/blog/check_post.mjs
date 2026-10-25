@@ -152,7 +152,14 @@ for (const dir of dirs) {
   if (!note || !/에디터 Luciano가 작성했습니다/.test(note.note)) E.push('고지에 작성자 문장(에디터 Luciano가 작성했습니다)이 없습니다');
   if (note && /AI ?(도구|로 (초안|작성|만))/.test(note.note)) E.push('고지에 AI 언급이 있습니다');
   if (p.blocks.some((b) => b.sources)) E.push('참고 자료 목록(sources) 블록은 넣지 않습니다');
-  if (!p.blocks.some((b) => b.img && b.href)) E.push('끝맺음 배너(href)가 없습니다');
+  // 사람이 쓴 글처럼 (2026-10-25 운영자 결정): 배너·고정 인사·굵은 후킹 문단 없이, 1인칭 화자, 링크는 텍스트 1개까지
+  if (p.blocks.some((b) => b.img && (b.href || b.kind === 'banner'))) E.push('끝맺음 배너는 쓰지 않습니다 — 본문 속 1인칭 언급 + {"link","text"} 텍스트 링크 1개로');
+  if (p.blocks.some((b) => /^안녕하세요, 밸류노트 에디터 Luciano입니다/.test(strip(b.p)))) E.push('고정 인사("안녕하세요, 밸류노트 에디터 Luciano입니다")로 시작하지 않습니다 — 이 글을 쓰게 된 계기로 엽니다');
+  const links = p.blocks.filter((b) => b.link);
+  if (links.length > 1) E.push(`밸류노트 링크 ${links.length}개 — 1개까지`);
+  { const ed = p.blocks.findIndex((b) => b.p === '— Editor: Luciano'); const after = ed >= 0 ? p.blocks.slice(ed + 1).filter((b) => b.p && /^\*\*/.test(b.p)) : []; if (after.length) E.push('Editor 줄 뒤 굵은 후킹 문단은 쓰지 않습니다'); }
+  { const body = p.blocks.map((b) => strip(b.p || '')).join(' '); const fp = (body.match(/(^|[\s"'(])(저는|제가|저도|제 생각|저 역시)/g) || []).length; if (fp < 2) W.push(`1인칭(저는·제가) ${fp}번 — Luciano 한 사람이 쓴 글처럼 2번 이상`); }
+  if (day) for (const o of others.filter((o) => o.id.startsWith('b' + day))) if (links.length && o.p.blocks.some((b) => b.link)) W.push(`같은 날 ${o.id}에도 링크가 있습니다 — 같은 날 두 편 가운데 링크는 한 편만`);
   // 사실 표: 제목·요약·소제목의 숫자는 모두 facts 에 있어야 한다
   const facts = p.facts || [];
   if (!facts.length) E.push('facts(확인한 사실과 출처)가 없습니다');
