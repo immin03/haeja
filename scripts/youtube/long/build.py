@@ -73,6 +73,9 @@ def main(only):
             try:   # 2026-10-25 운영자: 한국어·영어 자막(.srt)을 관리자에서 내려받을 수 있게
                 sys.path.insert(0, HERE); import subs; subs.build(sid)
             except Exception as e: print("  자막 만들기 실패:", e)
+            try:   # 2026-10-25 운영자: 해외 시청자용 영어 음성 트랙 (유튜브 '다국어 오디오'에 올림)
+                import en_audio; en_audio.build(sid, tag, REPO)
+            except Exception as e: print("  영어 음성 만들기 실패(한국어판은 그대로):", e)
             done.append(sid)
         except Exception as e:
             import traceback
