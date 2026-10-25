@@ -1,0 +1,23 @@
+# 위키미디어 공용에서 재사용 허락된 실제 사진 받기 (commons_wants.json 을 바꾸면 실행)
+name: commons-media
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/blog/media/commons_wants.json', 'scripts/blog/media/commons.py']
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: python3 scripts/blog/media/commons.py
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          git add scripts/blog/media/lib
+          git diff --cached --quiet || git commit -m "위키미디어 공용 사진 받기"
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
