@@ -220,9 +220,11 @@ def draw(sc, V, u, lines, theme, media):
         en_dy = 0
         if v.get("label_en"):   # 2026-10-25: 핵심 숫자 카드에만 작은 영어 라벨 (해외 시청자용, 한국어 라벨 아래)
             center_text(d, 330 + f.size + 108, T("label_en"), F("SemiBold", 30), A(t["muted"], pop(u, at_time(v.get("at"), lines) + .4))); en_dy = 44
-        for c in v.get("tags", []):  # 옆에 붙는 작은 칩 (예: '영화 한 편 값')
-            b = pop(u, at_time(c.get("at"), lines)); s2 = fill(c["text"], V); f3 = F("ExtraBold", 40)
-            chip(d, W / 2 - d.textlength(s2, font=f3) / 2 - 22, 330 + f.size + 130 + en_dy, s2, f3, c.get("kind", "gold"), b)
+        tg_ = v.get("tags", []); f3 = F("ExtraBold", 40); ws_ = [d.textlength(fill(c["text"], V), font=f3) + 44 for c in tg_]   # 칩이 여러 개면 가운데에 나란히 (2026-10-25: 겹치던 문제)
+        x_ = W / 2 - (sum(ws_) + 24 * max(0, len(ws_) - 1)) / 2
+        for c, w_ in zip(tg_, ws_):  # 옆에 붙는 작은 칩 (예: '영화 한 편 값')
+            b = pop(u, at_time(c.get("at"), lines)); s2 = fill(c["text"], V)
+            chip(d, x_, 330 + f.size + 130 + en_dy, s2, f3, c.get("kind", "gold"), b); x_ += w_ + 24
     elif typ == "bars":
         title_line(d, t, T("title"), tA)
         if v.get("unit"): d.text((W - 300, 128), f"단위: {v['unit']}", font=F("SemiBold", 30), fill=A(t["muted"], tA))

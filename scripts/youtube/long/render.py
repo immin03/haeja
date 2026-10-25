@@ -37,7 +37,7 @@ class AD:
 
     @staticmethod
     def _seg_w(seg, font, d):
-        if seg == "→": return font.size * .95
+        if seg == "→": return font.size * 1.1
         if seg in _CIRC: return font.size * 1.12
         return d.textlength(seg, font=font)
 
@@ -48,25 +48,27 @@ class AD:
 
     def text(self, xy, text, fill=None, font=None, anchor=None, *a, **kw):
         s = str(text)
-        if font is None or anchor or "\n" in s or not _SPECIAL.search(s): return self.d.text(xy, text, fill=fill, font=font, anchor=anchor, *a, **kw)
+        if anchor is not None: kw["anchor"] = anchor
+        if font is None or anchor or "\n" in s or not _SPECIAL.search(s): return self._text_raw(xy, text, font=font, fill=fill, **kw)
         x, y = xy; bb = font.getbbox("0"); cy = y + (bb[1] + bb[3]) / 2; sz = font.size
         col = fill if isinstance(fill, tuple) else (255, 255, 255, 255)
         alpha = col[3] if len(col) > 3 else 255
         for g in _SPECIAL.split(s):
             if not g: continue
             if g == "→":
-                w = sz * .95; lw = max(3, int(sz * .085)); x0, x1 = x + sz * .1, x + w - sz * .12; hh = sz * .2
+                w = sz * 1.1; lw = max(3, int(sz * .1)); x0, x1 = x + sz * .1, x + w - sz * .12; hh = sz * .2
                 self.d.line([(x0, cy), (x1 - lw * .5, cy)], fill=col, width=lw)
                 self.d.polygon([(x1 + lw * .3, cy), (x1 - hh * 1.1, cy - hh), (x1 - hh * 1.1, cy + hh)], fill=col)
             elif g in _CIRC:
                 r = sz * .5; cx = x + sz * .06 + r
                 self.d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(11, 27, 51, alpha), outline=(255, 255, 255, int(alpha * .9)), width=max(2, int(sz * .05)))
                 n = str(_CIRC.index(g) + 1); f2 = font.font_variant(size=max(10, int(sz * .6))); b2 = f2.getbbox(n)
-                self.d.text((cx - (b2[0] + b2[2]) / 2, cy - (b2[1] + b2[3]) / 2), n, font=f2, fill=(255, 255, 255, alpha))
+                self._text_raw((cx - (b2[0] + b2[2]) / 2, cy - (b2[1] + b2[3]) / 2), n, font=f2, fill=(255, 255, 255, alpha))
             else:
-                self.d.text((x, y), g, fill=fill, font=font, *a, **kw)
+                self._text_raw((x, y), g, font=font, fill=fill, **kw)
             x += self._seg_w(g, font, self.d)
-    def text(self, xy, s, font=None, fill=None, **kw):
+
+    def _text_raw(self, xy, s, font=None, fill=None, **kw):
         if fill is not None and len(fill) == 4:
             a = fill[3]
             if a <= 3: return
