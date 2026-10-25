@@ -21,7 +21,7 @@ MODEL = "ssfm-v30"
 
 def _say_en(text):
     """영어 문장 → float32 mono (44.1kHz). 앞뒤 무음은 잘라 낸다"""
-    voices = [v for v in (os.environ.get("TYPECAST_VOICE_EN"), os.environ.get("TYPECAST_VOICE_ID", "tc_5fe06471a9f79e8f959be96f")) if v]
+    voices = [v for v in (os.environ.get("TYPECAST_VOICE_EN"), os.environ.get("TYPECAST_VOICE_ID", "uc_6addc9b84bd9f624e177b63b")) if v]
     os.makedirs(CACHE, exist_ok=True)
     last = None
     for voice in voices:

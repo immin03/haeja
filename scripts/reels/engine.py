@@ -930,15 +930,12 @@ def y_caption(img, u, L):
             d.text((tx, y), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
 
 def y_voice(txt, speak):
-    """롱폼과 같은 목소리: 성호 기본 속도(1.1)로 받아 롱폼과 똑같이 톤 1.04·빠르기 1.24 로 맞춘다.
+    """롱폼과 같은 목소리: 운영자 클론을 타입캐스트 1.1배로 받아 그대로 쓴다 (2026-10-25, 후처리 가속·톤 올림 없음).
     말이 늘어지거나(초당 5.5음절 미만) 뭉개지면(받아쓰기 일치 0.72 미만) 캐시를 버리고 다시 받는다. 속도는 바꾸지 않는다."""
     say = to_speech(txt); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
     for k in range(3):
         raw = speak(say, 1.1, fresh=k > 0)
-        out = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-af",
-                              f"asetrate={int(SR * 1.04)},aresample={SR},atempo={1.24 / 1.04:.4f}", "-f", "f32le", "-"],
-                             input=np.asarray(raw, np.float32).tobytes(), capture_output=True, check=True).stdout
-        a = np.frombuffer(out, np.float32).copy(); rate = syl / max(.1, len(a) / SR)
+        a = np.asarray(raw, np.float32).copy(); rate = syl / max(.1, len(a) / SR)
         try:
             import verify; heard = verify.hear(a, SR); sc = verify.score(txt, heard)
         except Exception: heard, sc = "", 1.0
@@ -1396,7 +1393,7 @@ def build_audio(scenes, total, mood, path):
     import soundfile as sf
     sf.write(path, (out / np.max(np.abs(out)) * .95).astype(np.float32), SR, subtype="PCM_16")
 
-REEL_TEMPO = 1.15  # 2026-10-22 운영자: 릴스는 성호를 15% 빠르게 (느리고 지루하다는 검수)
+REEL_TEMPO = 1.0  # 2026-10-25 운영자: 릴스도 롱폼·쇼츠와 같은 클론 1.1배 (이전 성호 1.15배 가속 대체)
 
 # ── 실행 ─────────────────────────────────────────────────────
 VERIFY = os.environ.get("REELS_VERIFY", "1") != "0"

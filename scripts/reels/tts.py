@@ -1,5 +1,6 @@
 """한국어 음성 합성.
-기본: 타입캐스트 성우 '성호' (2026-10-21 운영자 결정, 건석에서 변경, 릴스·유튜브 공통). TYPECAST_API_KEY 가 있으면 사용한다.
+기본: 운영자 목소리 클론 (2026-10-25 운영자 결정, 이전 성우 '성호' 대체, 롱폼·쇼츠·릴스 공통), 속도 1.1배.
+타입캐스트 API 로 클로닝한 목소리이며 TYPECAST_API_KEY 가 있으면 사용한다. 후처리(가속·톤 올림)는 하지 않는다.
 예비: 키가 없거나 호출이 실패하면 로컬 Supertonic 3 (sherpa-onnx) 로 만든다.
 """
 import os, tarfile, urllib.request
@@ -71,16 +72,19 @@ def clauses(text, maxlen=22):
 
 
 # ── 타입캐스트 ────────────────────────────────────────────────
-TC_VOICE = os.environ.get("TYPECAST_VOICE_ID", "tc_5fe06471a9f79e8f959be96f")  # 성호 (중년 남성, 다큐·스토리텔링)
+CLONE_VOICE = "uc_6addc9b84bd9f624e177b63b"   # 운영자 목소리 클론 (ValueNote_Minwoo, 2026-10-25)
+SEONGHO = "tc_5fe06471a9f79e8f959be96f"       # 이전 성우 '성호' (되돌릴 때만)
+TC_VOICE = os.environ.get("TYPECAST_VOICE_ID", CLONE_VOICE)
 TC_MODEL = "ssfm-v30"
-TC_BASE_SPEED = 1.1  # 대본의 speed 1.1 = 타입캐스트 기본 속도
+TC_BASE_SPEED = 1.1  # 대본의 speed 1.1 = 기준 속도
+VOICE_TEMPO = 1.1    # 2026-10-25 운영자 확정: 클론 목소리는 타입캐스트 audio_tempo 1.1배로 받는다 (대본 speed 1.1 일 때)
 TC_CACHE = os.path.join(CACHE, "typecast")
 
 
 def _typecast(text, speed, fresh=False):
     """타입캐스트로 읽어 44.1kHz mono float 배열을 돌려준다. 같은 문장은 캐시를 쓴다 (크레딧 절약)"""
     import hashlib, json, subprocess, urllib.request, urllib.error
-    tempo = round(min(1.3, max(.85, speed / TC_BASE_SPEED)), 2)
+    tempo = round(min(1.3, max(.85, speed / TC_BASE_SPEED * VOICE_TEMPO)), 2)
     key = hashlib.sha1(f"{TC_VOICE}|{TC_MODEL}|{tempo}|{text}".encode()).hexdigest()[:20]
     os.makedirs(TC_CACHE, exist_ok=True)
     mp3 = os.path.join(TC_CACHE, key + ".mp3")
@@ -88,6 +92,9 @@ def _typecast(text, speed, fresh=False):
     if not os.path.exists(mp3):
         # 요청 형식이 거절되면 단순한 형식으로 한 번 더 (키 점검 때 통과한 형식이 마지막)
         bodies = [
+            {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
+             "prompt": {"emotion_preset": "normal", "emotion_intensity": 1},
+             "output": {"audio_format": "mp3", "audio_tempo": tempo}},
             {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
              "output": {"audio_format": "mp3", "audio_tempo": tempo}},
             {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",

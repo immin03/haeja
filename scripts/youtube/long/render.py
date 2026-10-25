@@ -1,7 +1,7 @@
 """유튜브 롱폼 렌더러 (1920x1080, 24fps)
 사용: python3 scripts/youtube/long/render.py <spec.json> [--fake-voice]
  - 숫자는 같은 폴더의 <id>.data.json (data.mjs 가 렌더 직전에 만든 최신값)으로 채운다
- - 음성: scripts/reels/tts.py (타입캐스트 성우 '성호'). --fake-voice 는 무음(로컬 미리보기용)
+ - 음성: scripts/reels/tts.py (운영자 목소리 클론, 타입캐스트 1.1배). --fake-voice 는 무음(로컬 미리보기용)
  - 결과: social/youtube/<id>/ video.mp4 · thumb.jpg · meta.json
 화면 원칙: 정지 화면 없이 계속 조금씩 움직인다(느린 확대, 숫자 카운트, 차례로 나타나기). 효과음은 쓰지 않고 장면 전환은 부드러운 페이드.
 """
@@ -591,13 +591,17 @@ SHOTS_S = {}
 ICON = ICON_S = None
 
 
-VOICE_SPEED = 1.24   # 원음 대비 말 빠르기 (2026-10-21 운영자: "느려서 지루하다" → 10-22: 조금 더 빠르게, 초당 약 6.7음절)
-VOICE_PITCH = 1.04   # 톤 살짝 위로 (약 0.7반음)
+# 2026-10-25 운영자: 목소리를 운영자 클론(타입캐스트 1.1배)으로 바꾸면서 후처리 가속·톤 올림을 없앴다.
+# (이전 성호: VOICE_SPEED 1.24, VOICE_PITCH 1.04)
+VOICE_SPEED = 1.0
+VOICE_PITCH = 1.0
 GAP = .22            # 문장 사이 쉼(초)
 
 
 def pace(a):
     """속도와 톤을 함께 조정: asetrate로 톤을 올리고(그만큼 빨라짐) 나머지 속도는 atempo로"""
+    if VOICE_SPEED == 1.0 and VOICE_PITCH == 1.0:
+        return np.asarray(a, np.float32).copy()
     out = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-af",
                           f"asetrate={int(SR * VOICE_PITCH)},aresample={SR},atempo={VOICE_SPEED / VOICE_PITCH:.4f}", "-f", "f32le", "-"],
                          input=np.asarray(a, np.float32).tobytes(), capture_output=True, check=True).stdout
