@@ -1115,8 +1115,56 @@ def draw_banner(img):
     if l2: d.text((W / 2, 318), l2, font=fit_font(l2, "Heavy", 110, 1010), fill=GOLD, anchor="mm")
 
 
-def frame(T, scenes, total):
-    s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
+# ── 골드 라인 (2026-10-26 운영자 승인: "앞으로 올라가는 릴스 및 쇼츠도 이 방향으로 전부") ──
+# 펜이 그은 금선 하나가 영상 처음부터 끝까지 끊기지 않는다. 장면이 바뀔 때는 컷 대신 카메라가 펜을 따라 옆으로 이동하고
+# (앞 장면이 왼쪽으로 빠지고 다음 장면이 오른쪽에서 들어옴), 선은 다음 장면에서 이어서 그어진다.
+# 선 자리: 쇼츠·클린 화면은 위 제목 띠 바로 아래, 인스타 릴스는 자막과 고지문 사이. 대본에 "goldline": false 면 끈다.
+GL_ON = True
+GL_INK = (232, 188, 96); GL_PAN = .5          # 펜 색 · 장면 사이 카메라 이동 시간(초)
+GL_REST = .84                                  # 장면 안에서 펜이 멈추는 자리 (화면 폭 비율)
+
+
+def gl_y():
+    return 486 if YT else 1562
+
+
+def _gl_pen(img, x, y, a, k=.8):
+    """금색 만년필: 펜촉이 (x, y)에 닿고 오른쪽 위로 기울어진다 (롱폼 render2 의 펜과 같은 모양, 세로 화면은 0.8배)"""
+    if a <= .02: return
+    d = ImageDraw.Draw(img, "RGBA"); ang = math.radians(-38); ux, uy = math.cos(ang), math.sin(ang); px, py = -uy, ux
+    def P(t, w): return (x + (ux * t + px * w) * k, y + (uy * t + py * w) * k)
+    d.polygon([P(4, -10), P(170, -10), P(170, 22), P(4, 22)], fill=(0, 0, 0, int(70 * a)))
+    d.polygon([P(0, 0), P(34, -11), P(34, 11)], fill=(*GOLD_D, int(255 * a)))
+    d.line([P(4, 0), P(30, 0)], fill=(*NAVY, int(200 * a)), width=2)
+    d.polygon([P(34, -13), P(150, -13), P(150, 13), P(34, 13)], fill=(*GL_INK, int(255 * a)))
+    d.polygon([P(34, -13), P(150, -13), P(150, -5), P(34, -5)], fill=(250, 226, 170, int(200 * a)))
+    d.polygon([P(92, -14), P(102, -14), P(102, 14), P(92, 14)], fill=(*NAVY, int(255 * a)))
+    d.polygon([P(150, -14), P(182, -14), P(186, 0), P(182, 14), P(150, 14)], fill=(*NAVY, int(255 * a)))
+
+
+def gl_tip(u, dur, first):
+    """장면 안 시각 u 에서 펜촉의 x (화면 좌표). 들어오며 긋기 → 멈춤 → 장면 끝에 오른쪽 밖으로"""
+    t0 = .25 if first else 0.0
+    x = W * GL_REST * ease((u - t0) / .95)
+    x += (W + 60 - W * GL_REST) * ease_io((u - (dur - GL_PAN / 2)) / (GL_PAN / 2))
+    return x, (u - t0) / .95
+
+
+def gl_rail(img, u, s, first, last):
+    """장면 위에 금선을 긋는다 (장면 좌표). 펜 위치(x, y, 투명도)를 돌려준다: 긋는 동안 보이고, 멈춘 뒤 잠깐 쉬었다 사라진다"""
+    tip, p_in = gl_tip(u, s["dur"] + (0 if not last else 99), first)
+    if tip <= 1: return None
+    y0 = gl_y(); d = ImageDraw.Draw(img, "RGBA"); n = max(2, int(tip / 18))
+    pts = [(tip * k / n, y0 + 3 * math.sin((tip * k / n) / 140 + s["start"])) for k in range(n + 1)]
+    d.line(pts, fill=(*GL_INK, 240), width=7, joint="curve")
+    qx, qy = pts[-1]; d.ellipse([qx - 3.5, qy - 3.5, qx + 3.5, qy + 3.5], fill=(*GL_INK, 240))
+    moving_out = (not last) and u > s["dur"] - GL_PAN / 2
+    a = 1.0 if (p_in < 1 or moving_out) else 1 - prog(u, (.25 if first else 0) + .95 + .25, (.25 if first else 0) + .95 + .6)
+    return (qx, qy, a) if tip < W + 40 else None   # 펜은 frame 이 맨 위(제목 띠·자막 위)에 그린다
+
+
+def scene_layer(T, s, scenes):
+    """장면 그림(배경·영상 배경·그래픽·금선). 자막·로고·띠 같은 고정 요소는 frame 이 위에 얹는다"""
     sc = s["sc"]; u = T - s["start"]
     warm = 0.0
     if sc["type"] == "hook": warm = prog(u, .85, 1.15) * (1 - prog(u, 2.0, s["dur"]))
@@ -1124,20 +1172,45 @@ def frame(T, scenes, total):
     if s is scenes[0] and sc["type"] == "hook": img = broll_bg(img, u, s["dur"])
     img = (YDRAW if YT and sc["type"] in YDRAW else DRAW)[sc["type"]](img, u, sc, s["L"], T)
     img = camera(img, u, s)
+    pen = gl_rail(img, u, s, s is scenes[0], s is scenes[-1]) if GL_ON else None
+    return img, pen
+
+
+def frame(T, scenes, total, pen=True):
+    s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
+    sc = s["sc"]; u = T - s["start"]
+    img = None; pens = []
+    if GL_ON:   # 장면 경계 ±0.25초: 카메라가 펜을 따라 옆으로 (앞 장면은 왼쪽으로 빠지고 다음 장면이 오른쪽에서)
+        for j in range(1, len(scenes)):
+            b = scenes[j]["start"]
+            if b - GL_PAN / 2 <= T < b + GL_PAN / 2:
+                q = ease_io((T - (b - GL_PAN / 2)) / GL_PAN); off = int(round(W * q))
+                (a_, pa), (b_, pb) = scene_layer(min(T, b - 1 / FPS), scenes[j - 1], scenes), scene_layer(max(T, b), scenes[j], scenes)
+                img = Image.new("RGB", (W, H)); img.paste(a_, (-off, 0)); img.paste(b_, (W - off, 0))
+                if pa: pens.append((pa[0] - off, pa[1], pa[2]))
+                if pb: pens.append((pb[0] + W - off, pb[1], pb[2]))
+                break
+    if img is None:
+        img, p_ = scene_layer(T, s, scenes)
+        if p_: pens.append(p_)
     if YT: y_caption(img, u, s["L"])   # 쇼츠: 모든 장면에 자막이 계속 나온다
     elif sc["type"] not in NO_CAPTION: caption(img, u, s["L"])
     d = ImageDraw.Draw(img)
     if YT_BANNER: draw_banner(img); d = ImageDraw.Draw(img)
     elif sc["type"] not in ("cta", "screen"): logo(d, 236)
     d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
-    if YT: return img   # 쇼츠: 고지문은 설명란에, 장면 사이 금색 휩쓸기 없이 깔끔하게 넘어간다
+    for (px_, py_, pa_) in (pens if pen else []):   # 썸네일에는 펜을 그리지 않는다
+        if -40 < px_ < W + 40: _gl_pen(img, px_, py_, pa_)
+    d = ImageDraw.Draw(img)
+    if YT: return img   # 쇼츠: 고지문은 설명란에
     d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(112, 124, 148), anchor="mm")
-    for x in scenes[1:]:
-        q = (T - (x["start"] - .12)) / .3
-        if 0 <= q <= 1:
-            px = lerp(-600, W + 600, ease_io(q)); ov = Image.new("L", (W, H), 0)
-            ImageDraw.Draw(ov).polygon([(px - 260, 0), (px + 40, 0), (px - 560, H), (px - 860, H)], fill=235)
-            img.paste(Image.new("RGB", (W, H), GOLD), (0, 0), ov)
+    if not GL_ON:   # 골드 라인을 끈 대본만 예전의 금색 휩쓸기 전환
+        for x in scenes[1:]:
+            q = (T - (x["start"] - .12)) / .3
+            if 0 <= q <= 1:
+                px = lerp(-600, W + 600, ease_io(q)); ov = Image.new("L", (W, H), 0)
+                ImageDraw.Draw(ov).polygon([(px - 260, 0), (px + 40, 0), (px - 560, H), (px - 860, H)], fill=235)
+                img.paste(Image.new("RGB", (W, H), GOLD), (0, 0), ov)
     return img
 
 # ── 썸네일(cover.jpg): 시리즈별로 다른 그림, 같은 틀 ────────────
@@ -1256,12 +1329,13 @@ def cover_title(spec, scenes):
 
 def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
-    global YT_BANNER, YT
-    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
+    global YT_BANNER, YT, GL_ON
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
+    GL_ON = spec.get("goldline", True) is not False   # 2026-10-26 골드 라인 (기본 켬)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     scenes, _ = plan_estimate(spec)
     if YT_BANNER and spec.get("platform") == "youtube":   # 유튜브 쇼츠 표지: 제목 띠 + 첫 장면의 큰 숫자가 터진 순간
-        broll_setup(spec, scenes); im = frame(min(1.6, scenes[0]["dur"] - .1), scenes, sum(x["dur"] for x in scenes)).convert("RGB")
+        broll_setup(spec, scenes); im = frame(min(1.6, scenes[0]["dur"] - .1), scenes, sum(x["dur"] for x in scenes), pen=False).convert("RGB")
     else:
         im = cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)
     im.save(os.path.join(outdir, "cover.jpg"), quality=90)
@@ -1414,8 +1488,9 @@ def write_subs(spec, scenes, total, outdir):
         open(os.path.join(outdir, f"subs_{lang}.srt"), "w", encoding="utf-8").write("\n".join(out))
 
 def render(spec, outdir, stills=None):
-    global YT_BANNER, YT
-    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
+    global YT_BANNER, YT, GL_ON
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
+    GL_ON = spec.get("goldline", True) is not False   # 2026-10-26 골드 라인 (기본 켬)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     if spec.get("platform") == "youtube" and spec["scenes"][-1]["type"] != "cta":
         # 2026-10-24 운영자: 롱폼에서 나온 쇼츠는 전부 '풀버전 보기'로 끝나야 한다
@@ -1457,7 +1532,7 @@ def render(spec, outdir, stills=None):
     for i in range(int(total * FPS)):
         p.stdin.write(frame(i / FPS, scenes, total).tobytes())
     p.stdin.close(); p.wait(); os.remove(wav)
-    (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     if spec.get("platform") == "youtube": write_subs(spec, scenes, total, outdir)
     return total
