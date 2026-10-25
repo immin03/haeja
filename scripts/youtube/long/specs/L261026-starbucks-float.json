@@ -403,15 +403,15 @@
     "at": "0",
     "rows": [
      [
-      "돈은 먼저 받고",
+      "선수금 먼저 수령",
       "0:먼저"
      ],
      [
-      "커피는 나중에 내준다",
+      "커피는 나중에 제공",
       "1:나중"
      ],
      [
-      "이자는 0원, 갚는 날도 없다",
+      "이자 0원 · 만기 없음",
       "2:이자"
      ]
     ]
@@ -541,14 +541,14 @@
      },
      {
       "text": "4%",
-      "label": "금리를 4%로 가정",
+      "label": "금리 4% 가정",
       "at": "0:4",
       "w": 300,
       "kind": "white"
      },
      {
       "text": "약 7천만 달러",
-      "label": "안 내는 1년 이자",
+      "label": "1년 이자 절감액",
       "at": "1:7천만",
       "w": 480,
       "kind": "gold"
@@ -576,13 +576,13 @@
    "v": {
     "type": "title",
     "text": "스타벅스는 이자로 돈을 벌까",
-    "sub": "첫 번째 약속"
+    "sub": "첫 번째 이야기"
    },
    "lines": [
     "처음에 말씀드린 첫 번째, 커피 말고 스타벅스를 받쳐 주는 돈이 정말 이자일까요?"
    ],
    "en": [
-    "Promise one: is the money behind Starbucks really interest?"
+    "Part one: is the money behind Starbucks really interest?"
    ],
    "asof": false,
    "chapter": "스타벅스는 이자로 돈을 벌까"
@@ -682,11 +682,11 @@
     "at": "0",
     "rows": [
      [
-      "과거 기록으로 안 쓰일 몫을 추정",
+      "과거 기록 기반 미사용 몫 추정",
       "0:추정"
      ],
      [
-      "그만큼을 매출로 잡는다",
+      "추정액만큼 매출 인식",
       "1:매출"
      ]
     ]
@@ -752,13 +752,13 @@
    "v": {
     "type": "title",
     "text": "스타벅스는 왜 다시 오게 만들까",
-    "sub": "두 번째 약속"
+    "sub": "두 번째 이야기"
    },
    "lines": [
-    "두 번째 약속, 그 돈이 이자보다 더 큰 힘이 되는 이유입니다."
+    "두 번째 이야기, 그 돈이 이자보다 더 큰 힘이 되는 이유입니다."
    ],
    "en": [
-    "Promise two: why that money beats interest."
+    "Part two: why that money beats interest."
    ],
    "asof": false,
    "chapter": "스타벅스는 왜 다시 오게 만들까"
@@ -845,7 +845,7 @@
    ],
    "en": [
     "What matters is why: transactions rose 4.2%.",
-    "Active Rewards members also grew from 33.8 to 35.8 million in two years. Not just higher prices, but people coming back. That's promise two, the pull-back power, showing up in the numbers."
+    "Active Rewards members also grew from 33.8 to 35.8 million in two years. Not just higher prices, but people coming back. That's part two, the pull-back power, showing up in the numbers."
    ],
    "asof": false,
    "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · 거래 +4.2%, 객단가 +3.6%"
@@ -877,7 +877,7 @@
      },
      {
       "v": "40년",
-      "l": "나눠서 매출로",
+      "l": "40년 분할 매출 인식",
       "at": "1:40년"
      }
     ]
@@ -900,7 +900,7 @@
     "type": "stat",
     "kicker": "2026년 6월 28일 · 장부에 남은 장기 선수 매출",
     "value": "56억 달러",
-    "label": "대부분이 네슬레가 미리 낸 돈",
+    "label": "대부분 네슬레 선불금",
     "label_en": "Long-term deferred revenue",
     "at": "0:56억",
     "count": false
@@ -940,15 +940,15 @@
     "at": "0",
     "rows": [
      [
-      "여러 해 평균으로 번 돈",
+      "여러 해 평균 이익",
       "0:평균"
      ],
      [
-      "× 최대 10배까지만",
+      "× 최대 10배 상한",
       "1:10배"
      ],
      [
-      "앞으로의 성장은 0으로",
+      "미래 성장 0 가정",
       "2:0으로"
      ]
     ]
@@ -1003,7 +1003,7 @@
     "type": "stat",
     "kicker": "스타벅스 FY2026 전망 · 조정 주당순이익",
     "value": "2.55~2.65달러",
-    "label": "2025 회계연도 2.13달러에서 20% 넘게 회복",
+    "label": "2025 회계연도 2.13달러 대비 20% 이상 회복",
     "label_en": "FY2026 adjusted EPS guidance",
     "at": "0",
     "count": false
@@ -1014,7 +1014,7 @@
    ],
    "en": [
     "The company sounds confident: it guided fiscal 2026 adjusted EPS to 2.55 to 2.65 dollars.",
-    "That's over 20% above last year's 2.13. This report is the first test of that promise."
+    "That's over 20% above last year's 2.13. This report is the first test of that outlook."
    ],
    "asof": false,
    "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 조정 EPS 전망 2.55~2.65달러 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) · FY2025 조정 EPS 2.13달러"
@@ -1030,11 +1030,11 @@
      "at": "0",
      "items": [
       [
-       "손님 수 증가가 이익으로",
+       "손님 수 증가 → 이익 증가",
        "0:손님"
       ],
       [
-       "평균 이익도 다시 올라간다",
+       "평균 이익 재상승",
        "0:평균"
       ]
      ]
@@ -1044,11 +1044,11 @@
      "at": "1:멈추면",
      "items": [
       [
-       "줄어든 이익이 평균을 끌어내림",
+       "이익 감소 → 평균 하락",
        "1:평균"
       ],
       [
-       "시장 기대와 차이가 커진다",
+       "시장 기대와 격차 확대",
        "1:기대"
       ]
      ]
@@ -1104,13 +1104,13 @@
    "v": {
     "type": "title",
     "text": "10월 29일 실적에서 볼 숫자 3개",
-    "sub": "세 번째 약속"
+    "sub": "세 번째 이야기"
    },
    "lines": [
-    "마지막, 세 번째 약속이에요. 10월 29일, 미국 장 마감 뒤 실적이 나옵니다."
+    "마지막, 세 번째 이야기예요. 10월 29일, 미국 장 마감 뒤 실적이 나옵니다."
    ],
    "en": [
-    "Finally, promise three. Results come out after the U.S. close on October 29."
+    "Finally, part three. Results come out after the U.S. close on October 29."
    ],
    "asof": false,
    "chapter": "10월 29일 실적에서 볼 숫자 3개"
@@ -1151,12 +1151,12 @@
      ],
      [
       "② 손님 수 (거래 건수)",
-      "계속 늘어나는가",
+      "지속 증가 여부",
       "1:손님"
      ],
      [
       "③ 영업이익률 (조정)",
-      "1년 11% 이상",
+      "연간 11% 이상",
       "2:11"
      ]
     ],
