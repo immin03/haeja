@@ -664,6 +664,19 @@ def _draw_pen_body(d, x, y, a):
     d.polygon([P(150, -14), P(182, -14), P(186, 0), P(182, 14), P(150, 14)], fill=(*NAVY, int(255 * a)))       # 뚜껑
 
 
+def pen_sound(dur, seed=0, level=.035):
+    """종이에 펜을 긋는 소리: 2~6kHz 대역의 잡음을 짧은 '사각' 결 몇 개로 나눠 부드럽게 넣는다 (말소리를 가리지 않는 크기)"""
+    from scipy import signal as _sg
+    rng = np.random.default_rng(seed); n = int(dur * SR)
+    noise = rng.standard_normal(n).astype(np.float32)
+    b_, a_ = _sg.butter(2, [1800 / (SR / 2), 6500 / (SR / 2)], "band"); x = _sg.lfilter(b_, a_, noise).astype(np.float32)
+    t = np.arange(n) / SR
+    grain = .55 + .45 * np.abs(np.sin(2 * np.pi * (7 + 3 * rng.random()) * t))   # 손이 움직이는 결
+    env = np.minimum(1, t / .03) * np.minimum(1, (dur - t) / .12).clip(0, 1)
+    y = x * grain * env
+    return (y / (np.abs(y).max() + 1e-9) * level).astype(np.float32)
+
+
 def pen_marks(img, pens, u, lines):
     d = AD(img)
     for i_, pm in enumerate(pens):
@@ -1209,6 +1222,11 @@ def main():
     mix = np.zeros(int((total + 1) * SR), np.float32)
     for st, a in audio:
         i = int(st * SR); mix[i:i + len(a)] += a[: len(mix) - i]
+    # 금색 펜 효과음: 펜이 선을 긋는 동안 부드러운 사각사각 소리 (2026-10-25 운영자: 듣기 좋은 정도로)
+    for x in timeline:
+        for pm in x["sc"].get("pen", []):
+            t0 = x["start"] + at_time(pm.get("at"), x["lines"]); i = int(t0 * SR)
+            sfx = pen_sound(PEN_DRAW + .15, seed=int(t0 * 10)); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
     if np.abs(mix).max() > 0: mix = mix / np.abs(mix).max() * .9
     from scipy import signal as _sg
     env = np.convolve(np.abs(mix), np.ones(int(SR * .25)) / (SR * .25), "same"); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)
@@ -1224,7 +1242,11 @@ def main():
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
     if "--stills" in sys.argv:  # 검수용: 장면마다 마지막 문장을 말하는 순간 한 장씩
         sd = os.path.join(out, "stills"); os.makedirs(sd, exist_ok=True); chapter = ""
+        only = [int(x) for x in os.environ.get("STILLS_ONLY", "").split(",") if x.strip()]   # 검수용: 일부 장면만 (예: STILLS_ONLY=12,35)
         for k, s in enumerate(timeline):
+            if only and k not in only:
+                if s["sc"].get("chapter"): chapter = s["sc"]["chapter"]
+                continue
             sc = s["sc"]; typ = sc["v"]["type"]; theme = "dark" if sc["v"].get("backdrop") else (sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light"))
             if sc.get("chapter"): chapter = sc["chapter"]
             fit = safe_fit(sc, s, V, theme); media = media_source(sc["v"], int(s["dur"] * FPS) + 2, k) if typ == "media" else None
