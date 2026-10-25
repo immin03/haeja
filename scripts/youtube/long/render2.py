@@ -7,6 +7,7 @@
   - 화면은 시간이 아니라 '보여 줄 것'이 바뀔 때 바뀐다. 한 화면 안에서는 말에 맞춰 요소가 하나씩 채워진다.
   - 숫자를 말하는 동안 다른 사진으로 빠지지 않는다. 실사는 원고가 지정한 장면에만.
   - 설명은 밝은 모눈 배경, 질문·반전·장 제목은 네이비 배경. 자막은 아래 한 줄, 문장당 한 번.
+  - (2026-10-25) 해외 시청자용 작은 영어: 화면 제목 v.title_en, 숫자 카드(stat) v.label_en — 핵심 숫자 카드에만 쓴다 (FORMAT.md 언어 중립 화면)
 """
 import json, math, os, re, subprocess, sys, datetime as dt
 import numpy as np
@@ -157,11 +158,15 @@ def dashed_box(d, box, col, a, r=14):
         d.line([x0, y, x0, min(y + seg, y1 - r)], fill=A(col, a), width=2); d.line([x1, y, x1, min(y + seg, y1 - r)], fill=A(col, a), width=2)
 
 
+TITLE_EN = [""]   # 2026-10-25 운영자: 해외 시청자용 — 화면 제목 옆 작은 영어 (원고 v.title_en)
+
+
 def title_line(d, t, text, a, y=150, size=50):
     if not text: return
     size = fitF(d, text, "ExtraBold", size, W - 280).size
     d.text((140, y + 14 * (1 - a)), text, font=F("ExtraBold", size), fill=A(t["ink"], a))
     d.rectangle([140, y + size + 22, 140 + 90 * a, y + size + 27], fill=A(t["acc"], a))
+    if TITLE_EN[0]: d.text((250, y + size + 9), TITLE_EN[0], font=F("SemiBold", 28), fill=A(t["muted"], a * .9))
 
 
 def val_num(s, p):
@@ -174,6 +179,7 @@ def draw(sc, V, u, lines, theme, media):
     v = sc["v"]; typ = v["type"]; t = TH[theme]
     img = media(u) if typ == "media" else background(theme)
     d = AD(img); T = lambda k, dflt="": fill(v.get(k, dflt), V)
+    TITLE_EN[0] = fill(v.get("title_en", ""), V)
     tA = pop(u, 0)
     if typ in ("title", "question"):
         a = pop(u, .1, .5)
@@ -211,9 +217,12 @@ def draw(sc, V, u, lines, theme, media):
         x = W / 2 - d.textlength(s, font=f) / 2
         d.text((x, 330 + 30 * (1 - a)), sv, font=f, fill=A(t["acc"] if theme == "light" else GOLD_L, a))
         if v.get("label"): center_text(d, 330 + f.size + 50, T("label"), F("Bold", 46), A(t["ink"], pop(u, at_time(v.get("at"), lines) + .3)))
+        en_dy = 0
+        if v.get("label_en"):   # 2026-10-25: 핵심 숫자 카드에만 작은 영어 라벨 (해외 시청자용, 한국어 라벨 아래)
+            center_text(d, 330 + f.size + 108, T("label_en"), F("SemiBold", 30), A(t["muted"], pop(u, at_time(v.get("at"), lines) + .4))); en_dy = 44
         for c in v.get("tags", []):  # 옆에 붙는 작은 칩 (예: '영화 한 편 값')
             b = pop(u, at_time(c.get("at"), lines)); s2 = fill(c["text"], V); f3 = F("ExtraBold", 40)
-            chip(d, W / 2 - d.textlength(s2, font=f3) / 2 - 22, 330 + f.size + 130, s2, f3, c.get("kind", "gold"), b)
+            chip(d, W / 2 - d.textlength(s2, font=f3) / 2 - 22, 330 + f.size + 130 + en_dy, s2, f3, c.get("kind", "gold"), b)
     elif typ == "bars":
         title_line(d, t, T("title"), tA)
         if v.get("unit"): d.text((W - 300, 128), f"단위: {v['unit']}", font=F("SemiBold", 30), fill=A(t["muted"], tA))
