@@ -853,7 +853,47 @@ def y_equation(img, u, sc, L, T):
         y_fade(img, u, tb + .6, sc["note"], fit_font(sc["note"], "SemiBold", 40, 900), GRAY, (W / 2, 1196))
     return img
 
-YDRAW = {"hook": y_hook, "bars": y_bars, "compare": y_compare, "statement": y_statement, "equation": y_equation}
+_PH = {}
+def y_photo(img, u, sc, L, T):
+    """실제 사진 장면 (2026-10-25 운영자: 사업·제품이 나오면 실물 사진으로). 쇼츠 전용.
+    photo: scripts/blog/media/lib 파일 이름(위키미디어 공용 등 재사용 허락된 것만), title: 위 제목(선택),
+    chip{v,l,line}: 사진 아래 숫자 칩(선택, line번째 음성 줄에 뜬다), credit: 사진 출처 한 줄(작게)"""
+    y_title(img, u, sc.get("title"))
+    name = sc["photo"]
+    if name not in _PH:
+        p = os.path.join(HERE, "..", "blog", "media", "lib", name)
+        _PH[name] = Image.open(p).convert("RGB")
+    src = _PH[name]
+    BW, BH, CY = 1000, 610, 962 if sc.get("title") else 900
+    dur = (L[-1][0] + L[-1][1] + .6) if L else 4.0
+    z = 1.0 + .08 * clamp(u / max(dur, 1))                                  # 천천히 다가가는 움직임 (멈춘 화면 방지)
+    r = max(BW / src.width, BH / src.height) * z
+    im = src.resize((int(src.width * r) + 1, int(src.height * r) + 1), Image.BILINEAR)
+    fx = sc.get("focus_x", .5); fy = sc.get("focus_y", .5)
+    x0 = int((im.width - BW) * fx); y0 = int((im.height - BH) * fy)
+    im = im.crop((x0, y0, x0 + BW, y0 + BH))
+    a = prog(u, 0, .35)
+    mask = Image.new("L", (BW, BH), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, BW - 1, BH - 1], 34, fill=int(255 * a))
+    oy = int((1 - a) * 24)
+    img.paste(im, (int(W / 2 - BW / 2), int(CY - BH / 2) + oy), mask)
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle([W / 2 - BW / 2, CY - BH / 2 + oy, W / 2 + BW / 2, CY + BH / 2 + oy], 34, outline=mix(NAVY, GOLD_D, a), width=3)
+    ch = sc.get("chip")
+    if ch:
+        t0 = y_at(L, ch.get("line", 0), ch.get("frac", .3)); p = prog(u, t0, t0 + .4, ease_io)
+        if p > 0:
+            s = f'{ch["v"]}  {ch.get("l", "")}'.strip(); f = fit_font(s, "Heavy", 58, 900); w_ = f.getlength(s) + 70
+            by = CY + BH / 2 - 70
+            d.rounded_rectangle([W / 2 - w_ / 2, by - 44 + (1 - p) * 16, W / 2 + w_ / 2, by + 44 + (1 - p) * 16], 26, fill=mix(NAVY, (20, 24, 34), p), outline=mix(NAVY, GOLD, p), width=3)
+            d.text((W / 2, by + (1 - p) * 16), s, font=f, fill=mix(NAVY, GOLD, p), anchor="mm")
+    if sc.get("credit"):   # 출처: 사진 안 오른쪽 아래에 작게 (자막과 겹치지 않게)
+        cf = F("Medium", 22); cx, cy = W / 2 + BW / 2 - 18, CY - BH / 2 + 30 + oy
+        tw = d.textlength(sc["credit"], font=cf)
+        bar = Image.new("RGBA", (int(tw + 24), 34), (0, 0, 0, int(140 * a))); img.paste(bar, (int(cx - tw - 12), int(cy - 17)), bar)
+        d = ImageDraw.Draw(img); d.text((cx, cy), sc["credit"], font=cf, fill=mix(NAVY, (220, 226, 236), a), anchor="rm")
+    return img
+
+YDRAW = {"hook": y_hook, "bars": y_bars, "compare": y_compare, "statement": y_statement, "equation": y_equation, "photo": y_photo}
 
 def y_wrap(d, font, cap, limit=800):
     """폭 800을 넘는 자막 줄은 글자를 줄이지 않고, 가운데에 가장 가까운 띄어쓰기에서 두 줄로 나눈다"""

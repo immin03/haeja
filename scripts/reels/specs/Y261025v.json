@@ -1,0 +1,178 @@
+{
+ "approved": false,
+ "platform": "youtube",
+ "mood": "calm",
+ "threads_tag": "주식",
+ "long": "L261025-tesla-faucet",
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "rev": "2026-10-25-photo",
+ "id": "Y261025v",
+ "title": "테슬라가 차 말고 돈을 거는 세 곳 #테슬라",
+ "title_en": "Three places Tesla bets on besides cars #Tesla",
+ "scheduled_at": "2026-10-25T19:15:00+09:00",
+ "broll": "chip",
+ "banner": [
+  "테슬라가 차 말고",
+  "돈을 거는 세 곳"
+ ],
+ "hashtags": [
+  "테슬라",
+  "FSD",
+  "로보택시",
+  "옵티머스",
+  "밸류노트"
+ ],
+ "caption": "테슬라는 1년 새 연구개발비를 69% 늘렸습니다. 돈이 가는 곳은 세 군데입니다. 자율주행 보조 소프트웨어 FSD는 유료 이용자가 104만 명에서 174만 명으로 늘었고, 운전대 없는 로보택시 사이버캡은 9월 오스틴에서 손님을 태우기 시작했으며, 로봇 옵티머스는 2027년 말 첫 외부 인도가 목표입니다. 배터리 메가팩은 이미 100원어치 팔면 33원쯤 남깁니다.\n\n사진: Wikimedia Commons (CC0 · CC BY 2.0 Steve Jurvetson · 퍼블릭 도메인 Benjamin Ceci)\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "테슬라 연구개발비 · 1년 새",
+   "num": {
+    "to": 69,
+    "suffix": "% 증가"
+   },
+   "tone": "gold",
+   "label": "그 돈이 가는 세 곳",
+   "label_line": 1,
+   "lines": [
+    {
+     "cap": [
+      "테슬라는 1년 새",
+      "연구개발비를 70% 가까이 늘렸어요"
+     ],
+     "say": "테슬라는 1년 새 연구개발비를 70% 가까이 늘렸어요."
+    },
+    {
+     "cap": [
+      "그 돈이 가는 곳은",
+      "세 군데예요"
+     ],
+     "say": "그 돈이 가는 곳은 세 군데예요."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_fsdscreen_1.jpg",
+   "title": "① FSD",
+   "credit": "사진: Wikimedia Commons (CC0)",
+   "chip": {
+    "v": "174만 명",
+    "l": "돈 내고 쓰는 사람",
+    "line": 1,
+    "frac": 0.5
+   },
+   "lines": [
+    {
+     "cap": [
+      "첫째, FSD. 차가 스스로 차선을 바꾸고",
+      "신호를 보고 멈추는 소프트웨어예요"
+     ],
+     "say": "첫째, FSD. 차가 스스로 차선을 바꾸고, 신호를 보고 멈추는 소프트웨어예요."
+    },
+    {
+     "cap": [
+      "돈 내고 쓰는 사람이 1년 새",
+      "104만 명에서 174만 명으로 늘었어요"
+     ],
+     "say": "돈 내고 쓰는 사람이 1년 새 104만 명에서 174만 명으로 늘었어요."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_cybercab_4.jpg",
+   "title": "② 사이버캡",
+   "credit": "사진: Steve Jurvetson · Wikimedia Commons (CC BY 2.0)",
+   "lines": [
+    {
+     "cap": [
+      "둘째, 사이버캡. 운전대도 페달도 없는",
+      "두 사람이 타는 로보택시예요"
+     ],
+     "say": "둘째, 사이버캡. 운전대도 페달도 없는, 두 사람이 타는 로보택시예요."
+    },
+    {
+     "cap": [
+      "9월부터 미국 오스틴에서",
+      "손님을 태우기 시작했어요"
+     ],
+     "say": "9월부터 미국 오스틴에서 손님을 태우기 시작했어요."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_optimus_wide.jpg",
+   "title": "③ 옵티머스",
+   "credit": "사진: Benjamin Ceci (퍼블릭 도메인) · Steve Jurvetson (CC BY 2.0) · Wikimedia Commons",
+   "lines": [
+    {
+     "cap": [
+      "셋째, 사람 모양 로봇 옵티머스",
+      "공장의 단순 반복 일을 맡기는 게 목표예요"
+     ],
+     "say": "셋째, 사람 모양 로봇 옵티머스. 공장의 단순 반복 일을 맡기는 게 목표예요."
+    },
+    {
+     "cap": [
+      "첫 외부 인도는 2027년 말이 목표래요",
+      "로봇 손이 아직 숙제라네요"
+     ],
+     "say": "첫 외부 인도는 2027년 말이 목표래요. 로봇 손이 아직 숙제라네요."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_megapack_3.jpg",
+   "title": "이미 돈 버는 메가팩",
+   "credit": "사진: Wikimedia Commons (CC0)",
+   "chip": {
+    "v": "100원 팔면 33원",
+    "l": "",
+    "line": 0,
+    "frac": 0.7
+   },
+   "lines": [
+    {
+     "cap": [
+      "그리고 컨테이너만 한 배터리 메가팩은",
+      "100원어치 팔면 33원쯤 남겨요"
+     ],
+     "say": "그리고 컨테이너만 한 배터리 메가팩은, 100원어치 팔면 33원쯤 남겨요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "씨앗일까, 부담일까?",
+   "l2": "풀버전에서 따져 봤습니다",
+   "lines": [
+    {
+     "cap": [
+      "이 세 가지 베팅이 씨앗일지 부담일지",
+      "풀버전에서 따져 봤습니다"
+     ],
+     "say": "이 세 가지 베팅이 씨앗일지 부담일지, 풀버전에서 따져 봤습니다."
+    }
+   ]
+  }
+ ],
+ "subs_en": [
+  "Tesla raised R&D spending by nearly 70% in a year",
+  "That money goes to three places",
+  "One: FSD, software that changes lanes and stops at lights on its own",
+  "Paying users rose from 1.04 million to 1.74 million in a year",
+  "Two: the Cybercab, a two-seat robotaxi with no wheel or pedals",
+  "It began carrying riders in Austin in September",
+  "Three: Optimus, a humanoid robot for simple repetitive factory work",
+  "First outside deliveries are targeted for late 2027. The hands are still hard",
+  "And the container-sized Megapack battery keeps about 33 won of every 100 sold",
+  "Seed money or a burden? We checked in the full video",
+  "Tap the link below"
+ ]
+}
