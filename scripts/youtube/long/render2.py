@@ -201,11 +201,11 @@ def draw(sc, V, u, lines, theme, media):
                     if j < ci: d.ellipse([cx_ - r_, cy_ - r_, cx_ + r_, cy_ + r_], fill=A((150, 162, 182), a))
                     elif j == ci: d.ellipse([cx_ - r_, cy_ - r_, cx_ + r_, cy_ + r_], fill=A(GOLD, a))
                     else: d.ellipse([cx_ - r_, cy_ - r_, cx_ + r_, cy_ + r_], outline=A((150, 162, 182), a), width=2)
-                    if j < n_ - 1: d.line([cx_ + r_ + 6, cy_, cx_ + 68 - 15, cy_], fill=A((90, 104, 130), a), width=2)
+                    if j < n_ - 1: d.line([cx_ + r_ + 6, cy_, cx_ + 68 - 15, cy_], fill=A(PEN_INK, a) if j < ci else A((90, 104, 130), a), width=3 if j < ci else 2)  # 골드 라인: 지나온 길은 금선
             f = F("Heavy", 96); s = T("text")
             while d.textlength(s, font=f) > 1600: f = F("Heavy", f.size - 6)
             center_text(d, H / 2 - 80 + 30 * (1 - a), s, f, A(IVORY, a))
-            d.rectangle([W / 2 - 70 * a, H / 2 + 50, W / 2 + 70 * a, H / 2 + 56], fill=A(GOLD, a))
+            if ci < 0: d.rectangle([W / 2 - 70 * a, H / 2 + 50, W / 2 + 70 * a, H / 2 + 56], fill=A(GOLD, a))  # 장 제목은 골드 라인이 밑줄을 긋는다
             sub = T("sub")
             if sub: center_text(d, H / 2 + 90, sub, F("SemiBold", 40), A((180, 190, 206), pop(u, .4)))
     elif typ == "stat":
@@ -700,6 +700,68 @@ def pen_marks(img, pens, u, lines):
         else:
             al = 1.0
         if al > .02: _draw_pen_body(d, tip[0], tip[1], al)
+
+
+# ── 골드 라인 (2026-10-26 운영자 승인: 펜이 그은 선 하나가 영상 전체를 잇는다) ──
+# 롱폼은 '척추'로만 쓴다: 장 제목에서 선이 왼쪽에서 들어와 제목에 밑줄을 긋고, 장면이 끝날 때 오른쪽으로 빠져나가며
+# 카메라가 선을 따라 다음 장면으로 넘어간다. 끝 화면에서 선이 들어와 마지막 밑줄이 된다. 막 안에서는 기존 금색 펜만 쓴다.
+GL_Y = H / 2 + 60
+GL_IN0, GL_IN1, GL_OUT = .12, 1.05, .6   # 들어와 밑줄까지 · 빠져나가는 시간(장면 끝)
+GL_PAN_OUT, GL_PAN_IN = .22, .16       # 카메라가 선을 따라가는 거리 (화면 폭 비율)
+
+
+def _gl_path(x0, x1, y, n=60, seed=0):
+    return [(x0 + (x1 - x0) * k / n, y + 3.5 * math.sin((x0 + (x1 - x0) * k / n) / 170 + seed) - 2 * (k / n)) for k in range(n + 1)]
+
+
+def goldline_title(img, u, dur, text=""):
+    """장 제목: 왼쪽 화면 밖에서 들어와 제목 아래를 지나 멈추고, 끝에서 오른쪽 밖으로 이어진다 (펜은 제목 오른쪽 끝 밖에서 쉰다)"""
+    d = AD(img); endx = W + 80; f = F("Heavy", 96)
+    while text and d.textlength(text, font=f) > 1600: f = F("Heavy", f.size - 6)
+    mid = min(W - 260, W / 2 + (d.textlength(text, font=f) / 2 if text else 360) + 70)
+    e1 = ease(clamp((u - GL_IN0) / (GL_IN1 - GL_IN0))); e2 = ease(clamp((u - (dur - GL_OUT)) / GL_OUT))
+    if e1 <= 0: return
+    tip_x = -40 + (mid + 40) * e1 + (endx - mid) * e2
+    pts = [q for q in _gl_path(-40, endx, GL_Y, 90) if q[0] <= tip_x]
+    if len(pts) < 2: return
+    pts.append((tip_x, pts[-1][1])); lw = 8
+    d.line(pts, fill=(*PEN_INK, 240), width=lw, joint="curve")
+    qx, qy = pts[-1]; d.ellipse([qx - lw / 2, qy - lw / 2, qx + lw / 2, qy + lw / 2], fill=(*PEN_INK, 240))
+    if tip_x < W + 60: _draw_pen_body(d, qx, qy, 1.0)
+
+
+def goldline_end(img, v, u, lines):
+    """끝 화면: 선이 왼쪽에서 들어와 마지막 문구 아래 밑줄이 되고, 펜은 빠져나간다"""
+    d = AD(img)
+    if v.get("next"): x1, y = 520 + 300, 512   # draw_end2: 왼쪽 칸 부제 아래
+    else: x1, y = W / 2 + 330, 622
+    t0 = .25; e = ease(clamp((u - t0) / 1.1))
+    if e <= 0: return
+    tip_x = -40 + (x1 + 40) * e
+    pts = [q for q in _gl_path(-40, x1, y, 70, 1.3) if q[0] <= tip_x]
+    if len(pts) < 2: return
+    pts.append((tip_x, pts[-1][1])); lw = 7
+    d.line(pts, fill=(*PEN_INK, 240), width=lw, joint="curve")
+    qx, qy = pts[-1]; d.ellipse([qx - lw / 2, qy - lw / 2, qx + lw / 2, qy + lw / 2], fill=(*PEN_INK, 240))
+    q = ease(clamp((u - t0 - 1.1) / PEN_OUT))
+    if q < .98: _draw_pen_body(d, qx + 260 * q, qy + 200 * q, 1 - q)
+
+
+def gl_shift(img, dx, theme):
+    """카메라가 선을 따라 옆으로 움직이는 느낌: 화면 전체를 dx만큼 민다"""
+    if abs(dx) < .5: return img
+    base = background(theme).copy() if callable(background) else Image.new("RGB", (W, H), NAVY)
+    base.paste(img, (int(round(dx)), 0)); return base
+
+
+def gl_pan(k, u, dur, timeline):
+    """장 제목 끝에서는 왼쪽으로 따라가고, 장 제목 바로 다음 장면은 오른쪽에서 이어 들어온다"""
+    sc = timeline[k]["sc"]
+    if sc["v"]["type"] == "title" and sc.get("chapter"):
+        return -W * GL_PAN_OUT * ease(clamp((u - (dur - GL_OUT)) / GL_OUT)) ** 1.6
+    if k > 0 and timeline[k - 1]["sc"]["v"]["type"] == "title" and timeline[k - 1]["sc"].get("chapter"):
+        return W * GL_PAN_IN * (1 - ease(clamp(u / .55)))
+    return 0
 
 
 def _cursor(d, x, y, a, press=0.0):
@@ -1227,6 +1289,9 @@ def main():
         for pm in x["sc"].get("pen", []):
             t0 = x["start"] + at_time(pm.get("at"), x["lines"]); i = int(t0 * SR)
             sfx = pen_sound(PEN_DRAW + .15, seed=int(t0 * 10)); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+    for x in timeline:   # 골드 라인: 장 제목에서 선을 긋는 소리 (들어올 때 한 번)
+        if x["sc"]["v"]["type"] == "title" and x["sc"].get("chapter"):
+            i = int((x["start"] + GL_IN0) * SR); sfx = pen_sound(GL_IN1 - GL_IN0 + .1, seed=int(x["start"] * 10), level=.028); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
     if np.abs(mix).max() > 0: mix = mix / np.abs(mix).max() * .9
     from scipy import signal as _sg
     env = np.convolve(np.abs(mix), np.ones(int(SR * .25)) / (SR * .25), "same"); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)
@@ -1261,6 +1326,12 @@ def main():
                     if bdf: im2 = on_backdrop(im2, bdf(tp), theme)
                     pen_marks(im2, sc["pen"], tp, s["lines"]); im2.save(os.path.join(sd, f"{k:02d}_{typ}_pen{tp:.1f}.jpg"), quality=80)
                 pen_marks(img, sc["pen"], u, s["lines"])
+            if typ == "title" and sc.get("chapter"):
+                goldline_title(img, u, s["dur"], fill(sc["v"].get("text", ""), V))
+                for tp in (.6, s["dur"] - .25):   # 선이 들어오는 중 · 빠져나가는 중
+                    im3 = draw(sc, V, tp, s["lines"], theme, None); goldline_title(im3, tp, s["dur"], fill(sc["v"].get("text", ""), V)); im3 = gl_shift(im3, gl_pan(k, tp, s["dur"], timeline), theme)
+                    im3.save(os.path.join(sd, f"{k:02d}_{typ}_gl{tp:.1f}.jpg"), quality=80)
+            if typ == "end": goldline_end(img, sc["v"], u, s["lines"])
             if typ not in ("media", "end"):
                 z = 1.03; cw, ch = W / z, H / z; img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", fill(sc.get("src", sc["v"].get("src", "")), V), V.get("asof"), .5, logo_dark, logo_light)
@@ -1279,7 +1350,9 @@ def main():
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                             "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
     prev_last = None; chapter = ""
+    only_sc = [int(x) for x in os.environ.get("RENDER_SCENES", "").split(",") if x.strip()]   # 검수용: 일부 장면만 영상으로 (예: RENDER_SCENES=14,15,16)
     for k, s in enumerate(timeline):
+        if only_sc and k not in only_sc: continue
         sc = s["sc"]; n = int(round(s["dur"] * FPS)); typ = sc["v"]["type"]
         theme = "dark" if sc["v"].get("backdrop") else (sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light"))
         if sc.get("chapter"): chapter = sc["chapter"]
@@ -1293,6 +1366,9 @@ def main():
             img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
             if bdf: img = on_backdrop(img, bdf(u), theme)
             if sc.get("pen"): pen_marks(img, sc["pen"], u, s["lines"])
+            if typ == "title" and sc.get("chapter"): goldline_title(img, u, s["dur"], fill(sc["v"].get("text", ""), V))
+            if typ == "end": goldline_end(img, sc["v"], u, s["lines"])
+            img = gl_shift(img, gl_pan(k, u, s["dur"], timeline), "dark" if typ == "media" else theme)   # 골드 라인: 카메라가 선을 따라간다 (확대 전에 밀어야 이음매가 안 보인다)
             if typ not in ("media", "end"):  # 그래픽 화면은 장면 내내 아주 천천히 다가간다 (멈춘 화면처럼 보이지 않게)
                 z = 1 + .03 * (u / max(1.0, s["dur"])); cw, ch = W / z, H / z
                 img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
