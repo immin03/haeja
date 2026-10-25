@@ -13,12 +13,12 @@
   "accent": "red"
  },
  "scheduled_at": "2026-10-25T19:00:00+09:00",
- "title": "테슬라, 차 한 대 팔면 200만 원도 안 남는데 몸값은 {mcap_krw}? 공짜 돈이 줄어든 회사의 진짜 베팅",
+ "title": "테슬라 주가 전망, 한 대 팔면 195만 원 남는데 몸값은 1,950조?",
  "title_en": "Tesla keeps under 2 million won per car, yet it's worth {mcap}? The real bet of a company losing its free money",
  "thumb": {
-  "photo": "electriccar_22982_a.jpg",
-  "focus_x": 0.62,
-  "l1": "테슬라, 차 한 대 팔면\n200만 원도 안 남는데",
+  "photo": "commons_modely_6.jpg",
+  "focus_x": 0.85,
+  "l1": "테슬라, 한 대에 195만 원",
   "l2": "몸값은 {mcap_krw}?",
   "pos": "left"
  },
@@ -1316,6 +1316,45 @@
     "독립기념일 위트"
    ],
    "kept": "시가총액(39억 5천만 주×372.2달러×1,324.2원=약 1,948조 원)과 10배 기준(밸류노트 계산 방식)은 맞아 유지"
+  }
+ ],
+ "ab_sets": [
+  {
+   "key": "b",
+   "default": true,
+   "title": "테슬라 주가 전망, 한 대 팔면 195만 원 남는데 몸값은 1,950조?",
+   "thumb": {
+    "photo": "commons_modely_6.jpg",
+    "focus_x": 0.85,
+    "l1": "테슬라, 한 대에 195만 원",
+    "l2": "몸값은 {mcap_krw}?",
+    "pos": "left"
+   },
+   "file": "thumb_b.jpg"
+  },
+  {
+   "key": "a",
+   "title": "테슬라는 어떻게 돈을 벌까? 첫 흑자를 만든 '숨은 돈'이 4분의 1로 줄었다",
+   "thumb": {
+    "photo": "commons_cybercab_2.jpg",
+    "focus_x": 0.75,
+    "l1": "테슬라 흑자의\n진짜 주인공",
+    "l2": "차가 아니었다?",
+    "pos": "left"
+   },
+   "file": "thumb_a.jpg"
+  },
+  {
+   "key": "c",
+   "title": "테슬라 적정주가는? 주가 49만 원인데 워렌 버핏 스승의 계산으론 1만 3천 원",
+   "thumb": {
+    "photo": "commons_musk_8_wide.jpg",
+    "focus_x": 0.5,
+    "l1": "테슬라 적정주가가",
+    "l2": "1만 3천 원이라고?",
+    "pos": "left"
+   },
+   "file": "thumb_c.jpg"
   }
  ]
 }
