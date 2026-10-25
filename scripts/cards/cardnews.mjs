@@ -70,7 +70,11 @@ const K = {
     eyebrow(s.eyebrow), bigTitle(s.title, s.size || 66),
     s.big ? h('div', { marginTop: 44, padding: '34px 40px', borderRadius: 28, background: C.card, border: `2px solid ${C.gold2}`, flexDirection: 'column' },
       String(s.big).split('\n').map((l, k) => t(l, { fontSize: k ? 34 : 46, fontWeight: k ? 600 : 900, color: k ? C.mute : C.gold, lineHeight: 1.4, marginTop: k ? 10 : 0 }))) : null,
-    (s.body || []).map((p) => para(p)),
+    (s.body || []).map((p) => para(p, s.bodySize ? { fontSize: s.bodySize } : {})),
+    // result (2026-10-25): 질문 카드 아래 '141곳 → 85곳 통과' 같은 결과 줄. 앞은 흐리게, 뒤 숫자는 형광 그린
+    s.result ? h('div', { marginTop: 40, alignItems: 'center', gap: 18, alignSelf: 'flex-start', background: 'rgba(61,245,160,.10)', border: '2px solid rgba(61,245,160,.45)', borderRadius: 20, padding: '16px 28px' },
+      t(s.result[0], { fontSize: 36, fontWeight: 800, color: C.mute }), t('→', { fontSize: 36, fontWeight: 900, color: C.mute }),
+      t(s.result[1], { fontSize: 46, fontWeight: 900, color: C.up, letterSpacing: -1 })) : null,
     s.small ? t(s.small, { fontSize: 25, color: C.dim, fontWeight: 500, lineHeight: 1.45, marginTop: 30 }) : null)),
 
   criteria: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column' },
