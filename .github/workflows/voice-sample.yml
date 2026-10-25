@@ -1,0 +1,43 @@
+# 운영자 목소리 클론 청취 샘플 (scripts/voice/sample.py)
+# 결과 mp3 는 평문으로 남기지 않는다: scripts/voice/sample_pub.pem(요청자 공개키)로 암호화해 voice-xchg 가지 sample/<run_id>/ 에 둔다.
+name: voice-sample
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/voice/sample_request.json']
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: voice-sample
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 도구 설치
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q numpy scipy pillow soundfile
+      - name: 샘플 만들기
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+        run: python3 scripts/voice/sample.py /tmp/out
+      - name: 암호화해서 올리기
+        run: |
+          set -e
+          cd /tmp
+          tar czf s.tgz -C out .
+          openssl rand -hex 32 > k.txt
+          openssl enc -aes-256-cbc -pbkdf2 -pass file:k.txt -in s.tgz -out s.enc
+          openssl pkeyutl -encrypt -pubin -inkey $GITHUB_WORKSPACE/scripts/voice/sample_pub.pem -pkeyopt rsa_padding_mode:oaep -in k.txt -out s.key.enc
+          rm -f k.txt s.tgz; rm -rf out
+          git config --global user.name "valuenote-bot"; git config --global user.email "bot@valuenote.co.kr"
+          git clone -q --no-checkout "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" x
+          cd x
+          if git ls-remote --exit-code origin voice-xchg >/dev/null; then git fetch -q origin voice-xchg && git checkout -q voice-xchg; else git checkout -q --orphan voice-xchg && git rm -rq --cached . 2>/dev/null || true; fi
+          mkdir -p sample/${{ github.run_id }}
+          cp /tmp/s.enc /tmp/s.key.enc sample/${{ github.run_id }}/
+          git add -A && git commit -qm "voice-sample: 결과 (암호화, run ${{ github.run_id }})" && git push -q origin voice-xchg
