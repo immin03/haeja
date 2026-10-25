@@ -154,7 +154,8 @@ for (const dir of dirs) {
   if (p.blocks.some((b) => b.sources)) E.push('참고 자료 목록(sources) 블록은 넣지 않습니다');
   // 사람이 쓴 글처럼 (2026-10-25 운영자 결정): 배너·고정 인사·굵은 후킹 문단 없이, 1인칭 화자, 링크는 텍스트 1개까지
   if (p.blocks.some((b) => b.img && (b.href || b.kind === 'banner'))) E.push('끝맺음 배너는 쓰지 않습니다 — 본문 속 1인칭 언급 + {"link","text"} 텍스트 링크 1개로');
-  if (p.blocks.some((b) => /^안녕하세요, 밸류노트 에디터 Luciano입니다/.test(strip(b.p)))) E.push('고정 인사("안녕하세요, 밸류노트 에디터 Luciano입니다")로 시작하지 않습니다 — 이 글을 쓰게 된 계기로 엽니다');
+  if (p.blocks.some((b) => /^안녕하세요/.test(strip(b.p)))) W.push('인사로 시작합니다 — 가끔(세 편에 한 편 정도)만, 인사 뒤 바로 계기 문장으로');
+  if (/가게|옆집|본전까지/.test(p.title)) E.push('제목에 비유(가게·옆집·본전까지)가 있습니다 — 제목만 읽어도 뜻이 통하게');
   const links = p.blocks.filter((b) => b.link);
   if (links.length > 1) E.push(`밸류노트 링크 ${links.length}개 — 1개까지`);
   { const ed = p.blocks.findIndex((b) => b.p === '— Editor: Luciano'); const after = ed >= 0 ? p.blocks.slice(ed + 1).filter((b) => b.p && /^\*\*/.test(b.p)) : []; if (after.length) E.push('Editor 줄 뒤 굵은 후킹 문단은 쓰지 않습니다'); }
