@@ -134,7 +134,10 @@ const K = {
         t(s.l1, { fontSize: s.size || 70, fontWeight: 900, letterSpacing: -2.5, lineHeight: 1.1 }),
         t(s.l2, { fontSize: s.size || 70, fontWeight: 900, letterSpacing: -2.5, lineHeight: 1.1, color: s.l2tone ? tone(s.l2tone) : C.gold }),
         s.l3 ? t(s.l3, { fontSize: s.size || 70, fontWeight: 900, letterSpacing: -2.5, lineHeight: 1.1 }) : null),
+      // chip: 제목 바로 아래 큰 금색 칩(답 미리 보기), sub: 용어 풀이 한 줄 (2026-10-25, 둘 다 선택)
+      s.chip ? h('div', { alignSelf: 'flex-start', marginTop: 14, background: C.gold, borderRadius: 14, padding: '8px 20px' }, t(s.chip, { fontSize: 34, fontWeight: 900, color: C.navy, letterSpacing: -1 })) : null,
       s.pill ? h('div', { alignSelf: 'flex-start', marginTop: 14, background: 'rgba(255,255,255,.08)', borderRadius: 40, padding: '8px 20px' }, t(s.pill, { fontSize: 23, fontWeight: 800, color: C.gold })) : null,
+      s.sub ? t(s.sub, { fontSize: 23, fontWeight: 700, color: C.mute, marginTop: 10 }) : null,
       h('div', { flexDirection: 'column', gap: s.compact ? 14 : 16, marginTop: 20 }, rows.map((r) => h('div', { gap }, r.map((x) => tile(x, s.tiles.indexOf(x)))))),
       h('div', { flexDirection: 'column', marginTop: 'auto', paddingTop: 12, paddingBottom: 14 }, (s.notes || []).map((x) => t(x, { fontSize: 18, color: C.dim, fontWeight: 600, lineHeight: 1.4 })))));
   },
