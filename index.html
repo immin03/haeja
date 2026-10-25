@@ -3273,12 +3273,13 @@ function colBodyHtml(t){
   return String(t || '').split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => {
     const img = p.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
     if(img) return `<figure class="col-fig"><img src="${esc(img[2])}" alt="${esc(img[1])}" loading="lazy">${img[1] ? `<figcaption>${esc(img[1])}</figcaption>` : ''}</figure>`;
+    if(/^\|/.test(p)){ const R = p.split('\n').filter(l => /^\|/.test(l) && !/^\|[\s:|-]+\|$/.test(l)).map(l => l.replace(/^\||\|$/g, '').split('|').map(x => x.trim())); return `<div class="col-tw"><table class="col-tbl"><thead><tr>${R[0].map(x => `<th>${colInline(x)}</th>`).join('')}</tr></thead><tbody>${R.slice(1).map(r => `<tr>${r.map(x => `<td>${colInline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`; }
     if(/^>\s*/.test(p)) return `<blockquote class="col-q">${p.split('\n').map(l => colInline(l.replace(/^>\s*/, ''))).join('<br>')}</blockquote>`;
     if(/^■\s*/.test(p)) return `<h3>${colInline(p.replace(/^■\s*/, '').split('\n')[0])}</h3>${p.split('\n').slice(1).length ? `<p>${p.split('\n').slice(1).map(colInline).join('<br>')}</p>` : ''}`;
     return `<p>${p.split('\n').map(colInline).join('<br>')}</p>`; }).join('');
 }
 /* 칼럼 연재: weekly(주간 시장) · giants(거장의 투자). 조회·추천은 column_stats 표 */
-const COL_SERIES = { weekly: '주간 시장', giants: '거장의 투자' };
+const COL_SERIES = { weekly: '주간 시장', company: '기업 분석', giants: '거장의 투자', basics: '투자 상식', guide: '밸류노트 사용법' };
 const colSeries = c => c.series || 'weekly';
 /* 이슈 분석: 릴스 정리본을 칼럼의 한 갈래로 (blog/issues.json, 글은 /blog/<slug>) */
 const ISS = { L: null, busy: false };
@@ -3306,7 +3307,7 @@ const blogBox = () => `<a class="card blog-box" href="${BLOG_URL}" target="_blan
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
-    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'giants' ? '연재 · 거장의 투자' : '밸류노트 주간 칼럼'}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''} · ${colStatHtml(open)}</div>${colByline(open) ? `<div class="col-by">${esc(colByline(open))}</div>` : ''}
+    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'weekly' ? '밸류노트 주간 칼럼' : '밸류노트 칼럼 · ' + COL_SERIES[colSeries(open)]}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''} · ${colStatHtml(open)}</div>${colByline(open) ? `<div class="col-by">${esc(colByline(open))}</div>` : ''}
       ${open.cover ? `<figure class="col-fig col-cover"><img src="${esc(open.cover)}" alt=""></figure>` : ''}
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
       <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
@@ -6842,6 +6843,7 @@ input,select,textarea{border-radius:10px}
 .col-body p{margin:0 0 10px}
 .col-disc{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line)}.col-by{margin-top:8px;font-size:14px;font-weight:700;color:var(--gold,#C9AF7A);letter-spacing:.2px}
 .col-src{margin-top:14px;line-height:1.7}
+.col-tw{overflow-x:auto;margin:14px 0}.col-tbl{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5;word-break:keep-all}.col-tbl th,.col-tbl td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}.col-tbl th{background:var(--bg);font-weight:700}
 .col-src a{color:var(--muted)}
 .rt-head,.rt-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 72px 54px;gap:8px;align-items:baseline}
 .rt-head{font-size:11.5px;color:var(--muted);padding:0 0 2px}
