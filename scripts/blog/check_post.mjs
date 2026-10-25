@@ -9,6 +9,7 @@
 //  4. 문장 복사: 다른 글과 같은 문장(20자 이상)이 있으면 오류
 //  5. 사실 표: post.json "facts" 에 제목·요약·소제목의 모든 숫자의 출처가 있어야 한다
 //  6. 금지어·AI 상투어·제목 형식·태그·필명·고지 문구
+//  7. AI 문체(번역투·AI 관용구·연결어미 쉼표·종결어미 반복): scripts/humanize_ko.mjs, 규칙은 scripts/CONTENT.md 6절
 // post.json 추가 필드:
 //   img 블록의 "kind": "cover"(실사 사진 표지) | "photo"(무료 실사 사진) | "chart"(실제 데이터 그래프) | "app"(실제 앱 화면) | "data"(밸류노트 점수·적정 주가 계산 카드) | "card"(글자·인용 카드, 1장까지) | "banner"
 //   실사 사진·영상·표지에는 "src": "mixkit:<번호>" 또는 "pexels:<번호>" (scripts/blog/media/lib/index.json 의 id)
@@ -17,6 +18,7 @@
 //   "facts": [{"t": "확인한 사실(숫자 포함)", "src": "출처 URL 또는 'VN'(밸류노트 데이터)"}, ...]
 import fs from 'node:fs';
 import path from 'node:path';
+import { scanKo, textFromFile } from '../humanize_ko.mjs';
 
 const dirs = process.argv.slice(2);
 if (!dirs.length) { console.error('사용법: node scripts/blog/check_post.mjs naver/<id> ...'); process.exit(1); }
@@ -146,6 +148,8 @@ for (const dir of dirs) {
   for (const w of BANNED) if (T.includes(w)) E.push(`쓰지 않는 말: "${w.trim()}"`);
   const slop = SLOP.filter((w) => T.includes(w));
   if (slop.length) W.push(`AI 상투어: ${slop.join(', ')}`);
+  // AI 문체 (2026-10-26 운영자 결정, CONTENT.md 6절): ✗ 는 고친 뒤 출고, ! 는 읽고 판단
+  for (const x of scanKo(textFromFile(dir))) (x.lv === 'err' ? E : W).push(`AI 문체 ${x.id} ${x.c}회 (${x.ex.join(' / ')}) → ${x.fix}`);
   // 필명·고지·출처 목록
   if (!p.blocks.some((b) => b.p === '— Editor: Luciano')) E.push('"— Editor: Luciano" 줄이 없습니다');
   const note = p.blocks.find((b) => b.note);

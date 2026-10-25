@@ -226,3 +226,6 @@ python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover      
 ## "그때 밸류노트 기준으로 샀다면?" 릴스 (2026-10-21 운영자 제안)
 훅: "2019년, 밸류노트 87점이던 회사에 1억을 넣었다면?" → 그래프가 쭉 올라가는 모션(1억 → 4억 6천만 원, 같은 날 코스피 2억 7천만 원과 나란히) → 왜 87점이었나(가격: PER 6배, 순자산보다 싼 주가) → 반전(가장 점수 낮던 마루베니가 가장 많이 벌었다, 점수는 실패를 거르는 도구) → "그 기준으로 지금 70점 넘는 일본 기업은 2곳, 밸류노트에서 확인". 실제 주가·배당·환율 경로는 div_race.mjs 와 같은 방식(야후, GitHub Actions)으로 받는다. 숫자는 scripts/research/data/jp-trading 과 naver/a9 facts 와 일치해야 한다. 같은 틀로 다른 과거 사례(버크셔 애플 2016, 코카콜라 1988 등)도 만들 수 있으나 매수 당시 점수는 반드시 scripts/research/vn_then.mjs 로 지금 공식 재계산.
 - (10-25 운영자 결정) **목소리를 운영자 목소리 클론으로 바꿨다.** 타입캐스트 voice_id `uc_6addc9b84bd9f624e177b63b`, `audio_tempo` 1.1, 후처리 가속·톤 올림 없음. 롱폼·쇼츠·릴스 공통이며 릴스의 1.15배(REEL_TEMPO)도 없앴다. 원음과 조금 다르지만 이걸로 운영하며 개선한다. 실패해도 다른 목소리로 섞지 않는다. 되돌릴 때는 `TYPECAST_VOICE_ID` 환경변수로 성호(`tc_5fe06471a9f79e8f959be96f`)를 지정한다.
+
+## AI 문체 빼기 (2026-10-26)
+대본을 다 쓴 뒤 scripts/CONTENT.md 6절로 마지막 손질을 한다. `node scripts/humanize_ko.mjs scan <대본 파일>` 의 ✗ 는 모두 고치고, 손질 전후는 `node scripts/humanize_ko.mjs diff <전> <후>` 로 숫자가 그대로인지 확인한다. 음성으로 읽히는 문장이라 연결어미 뒤 쉼표, 같은 종결어미 연속, "~다는 것입니다" 반복이 특히 티가 난다.
