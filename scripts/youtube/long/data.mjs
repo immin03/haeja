@@ -95,13 +95,24 @@ export async function companyData(code, spec = {}) {
   }
   const bt = spec.backtest; let btv = {};
   if (bt) { const mult = (r.px + (bt.div_per_share || 0)) / bt.then_px; btv = { bt_won: eokman(1e8 * mult), bt_mult: x1(mult), bt_asof: asof, bt_rise: Math.floor(r.px / bt.then_px) + '배' }; }
+  // 과거 어느 날 산 1억 원이 지금 얼마인지 (spec.px_hist = {이름: 'YYYY-MM-DD'}): 그날(또는 직전 거래일) 종가 기준, 배당·환율 제외
+  const hv = {};
+  for (const [k, day] of Object.entries(spec.px_hist || {})) {
+    try {
+      const t0 = Math.floor(Date.parse(day + 'T00:00:00Z') / 1000) - 7 * 86400, t1 = t0 + 9 * 86400;
+      const j = await (await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(r.t)}?period1=${t0}&period2=${t1}&interval=1d`, { headers: { 'User-Agent': 'Mozilla/5.0' } })).json();
+      const res = j.chart.result[0], cl = res.indicators.quote[0].close; let ref = null;
+      res.timestamp.forEach((ts, i) => { const dd = new Date(ts * 1000 - (US ? 5 : -9) * 3600e3).toISOString().slice(0, 10); if (dd <= day && cl[i] != null) ref = cl[i]; });
+      if (ref) { const g = px / ref - 1; hv[k] = eokman(1e8 * px / ref); hv[k + '_pct'] = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; hv[k + '_ref'] = US ? money2(ref) : won(ref); }
+    } catch (e) { console.error('과거 종가 실패:', k, day, String(e).slice(0, 120)); }
+  }
   const normal = iv / 10;                 // 적정 주가에 쓰인 정상 이익(주당)
   const need = px / 10 / E;               // 지금 주가가 맞으려면 필요한 정상 이익 비율
   const v30 = E * 0.3 * 10, v100 = E * 10;
   return {
     raw: { code, ticker: r.t, name: r.n, px, iv, eps: E, score: vn.total, q: sc.q, v: sc.v, asof_iso: asofIso, ivSrc: sc.ivSrc },
     vars: {
-      asof, px_label, ...btv, ...hi, ...usv, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: money2(px), px_short: money(px), iv: iv ? money2(iv) : '', iv_short: iv ? money(iv) : '', iv_man: Math.floor(iv / 1e4) + '만 원',
+      asof, px_label, ...btv, ...hi, ...usv, ...hv, score: String(vn.total), q_score: String(sc.q), v_score: String(sc.v), px: money2(px), px_short: money(px), iv: iv ? money2(iv) : '', iv_short: iv ? money(iv) : '', iv_man: Math.floor(iv / 1e4) + '만 원',
       mult: x1(px / iv), per_now: x1(px / E), per_avg: x1(px / normal), eps: won(E),
       need: pct(need), need_x: '약 ' + Math.round(need) + '배', iv_pct: pct(iv / 10 / E), iv_vs: vs(iv, px),
       norm: US ? '약 ' + usd(normal) : w100(normal), need_won: US ? '약 ' + (px / 10 >= 10 ? Math.round(px / 10) + '달러' : usd(px / 10)) : w100(px / 10), eps100: US ? '약 ' + usd(E) : w100(E),   // 미국 종목은 1주당 달러 (2026-10-24 테슬라 편)

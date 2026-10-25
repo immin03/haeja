@@ -595,7 +595,7 @@ ICON = ICON_S = None
 # (이전 성호: VOICE_SPEED 1.24, VOICE_PITCH 1.04)
 VOICE_SPEED = 1.0
 VOICE_PITCH = 1.0
-GAP = .22            # 문장 사이 쉼(초)
+GAP = .18            # 문장 사이 쉼(초) — 2026-10-25 운영자: 클론 목소리는 쉼을 살짝 줄인다 (.22 → .18)
 
 
 def pace(a):
