@@ -1,0 +1,2 @@
+-- 2026-10-25 운영자: 롱폼 매일 → 주 4편(일·월·수·금 19:00 KST). 적용 완료(migration yt_long_slot_4_per_week).
+-- yt_next_long_slot: 매일 배정에 요일 조건 extract(dow) in (0,1,3,5) 추가. 나머지 조건(시즌 fixed_date, youtube_posts 겹침)은 그대로.
