@@ -1009,7 +1009,7 @@ def make_thumb(spec, V, out):
     th = Image.alpha_composite(th, sh2); d = ImageDraw.Draw(th)
     l1, l2 = fill(tv["l1"], V), fill(tv["l2"], V); maxw = TW - 120
     f1 = F("Heavy", 112)
-    while d.textlength(l1, font=f1) > maxw: f1 = F("Heavy", f1.size - 4)
+    while max(d.textlength(r, font=f1) for r in l1.split("\n")) > maxw: f1 = F("Heavy", f1.size - 4)
     f2 = F("Heavy", 190)
     while d.textlength(l2, font=f2) > maxw: f2 = F("Heavy", f2.size - 6)
     pos = tv.get("pos", "top")   # 2026-10-22 운영자: 테두리 없이 그림자만 (예시: '얼마 벌고 얼마 쓸까'). center = 회사 로고 + 두 줄을 가운데에
@@ -1021,7 +1021,9 @@ def make_thumb(spec, V, out):
             lh = tv.get("logo_h", 100); cl = Image.open(co).convert("RGBA"); sc2 = lh / cl.height; cl = cl.resize((int(cl.width * sc2), lh), Image.LANCZOS)
             card = cl   # 투명 배경 로고는 카드 없이 사진 위에 바로 (2026-10-22 운영자)
         bdg = tv.get("badge"); fbg = F("ExtraBold", tv.get("badge_s", 38))   # 2026-10-23 운영자: '주가 전망 심층분석' 같은 작은 배지
-        hh = (card.height + 34 if card else 0) + (fbg.size + 58 if bdg else 0) + f1.size + 18 + f2.size; y0 = (TH_ - hh) // 2 - 6
+        rows1 = l1.split("\n")   # 2026-10-25: 흰 줄이 길면 두 줄로 (크기는 그대로, 하이닉스 썸네일과 같은 비율)
+        while max(ImageDraw.Draw(th).textlength(r, font=f2) for r in [l2]) > TW - 2 * LX: f2 = F("Heavy", f2.size - 4)
+        hh = (card.height + 34 if card else 0) + (fbg.size + 58 if bdg else 0) + len(rows1) * (f1.size + 12) + 6 + f2.size; y0 = (TH_ - hh) // 2 - 6
         vg = Image.new("RGBA", (TW, TH_)); gv = ImageDraw.Draw(vg)   # 가운데를 살짝 어둡게
         for r_ in range(0, 520, 4): gv.ellipse([TW / 2 - 700 + r_, TH_ / 2 - 380 + r_ * .55, TW / 2 + 700 - r_, TH_ / 2 + 380 - r_ * .55], fill=(0, 0, 0, 3))
         th = Image.alpha_composite(th, vg.filter(ImageFilter.GaussianBlur(30)))
@@ -1033,12 +1035,12 @@ def make_thumb(spec, V, out):
             dd = ImageDraw.Draw(th); bw = dd.textlength(bdg, font=fbg) + 52; bx = (TW - bw) / 2 if pos == "center" else LX; bh = fbg.size + 30
             sdb = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sdb).rounded_rectangle([bx + 3, y0 + 5, bx + bw + 3, y0 + bh + 5], 12, fill=(0, 0, 0, 150)); th = Image.alpha_composite(th, sdb.filter(ImageFilter.GaussianBlur(6)))
             dd = ImageDraw.Draw(th); dd.rounded_rectangle([bx, y0, bx + bw, y0 + bh], 12, fill=(224, 200, 150)); dd.text((bx + 26, y0 + 10), bdg, font=fbg, fill=(11, 27, 51)); y0 += bh + 28
-        for (txt, f, col) in ((l1, f1, WHITE), (l2, f2, YEL)):
+        for (txt, f, col) in [(r, f1, WHITE) for r in rows1] + [(l2, f2, YEL)]:
             tw_ = ImageDraw.Draw(th).textlength(txt, font=f); x_ = (TW - tw_) / 2 if pos == "center" else LX
             for blur, off, alpha in ((14, 6, 160), (4, 3, 170)):
                 sd_ = Image.new("RGBA", (TW, TH_)); ImageDraw.Draw(sd_).text((x_ + off, y0 + off), txt, font=f, fill=(0, 0, 0, alpha))
                 th = Image.alpha_composite(th, sd_.filter(ImageFilter.GaussianBlur(blur)))
-            ImageDraw.Draw(th).text((x_, y0), txt, font=f, fill=col); y0 += f.size + 18
+            ImageDraw.Draw(th).text((x_, y0), txt, font=f, fill=col); y0 += f.size + (12 if f is f1 else 18)
         paste_logo(th, TW - 40, 34, 34, "dark", align="right", ko=False)   # 썸네일은 ValueNote 단독   # 2026-10-23 확정 로고 (오른쪽 위)
         th.convert("RGB").save(os.path.join(out, "thumb.jpg"), quality=92); return
     if pos == "top": y1 = 46; y2 = y1 + f1.size + 14
