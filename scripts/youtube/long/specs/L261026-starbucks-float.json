@@ -130,7 +130,7 @@
     "type": "stat",
     "kicker": "2024.7~9 · 미국 기존 매장",
     "value": "-10%",
-    "label": "계산 건수 (1년 전 대비)",
+    "label": "결제 횟수 (1년 전 대비)",
     "label_en": "U.S. comparable transactions",
     "at": "0:10%",
     "count": false,
@@ -138,15 +138,27 @@
     "bd_dim": 0.72
    },
    "lines": [
-    "2024년 7월부터 9월까지 석 달 동안, 미국 스타벅스 매장의 계산 건수는 1년 전보다 10% 줄었습니다.",
+    "2024년 7월부터 9월까지 석 달 동안, 미국 스타벅스 매장에서 손님이 결제한 횟수는 1년 전보다 10% 줄었습니다.",
     "열 명이 오던 매장에 아홉 명만 온 셈이죠."
    ],
    "en": [
-    "From July to September 2024, transactions at U.S. Starbucks stores fell 10% from a year earlier.",
+    "From July to September 2024, the number of purchases at U.S. Starbucks stores fell 10% from a year earlier.",
     "Nine customers for every ten who used to come."
    ],
    "asof": false,
-   "src": "스타벅스 FY2024 4분기 실적 발표 (2024년 10월 30일) · 미국 기존 매장 계산 건수 -10%, 매출 -6%"
+   "src": "스타벅스 FY2024 4분기 실적 발표 (2024년 10월 30일) · 미국 기존 매장 계산 건수 -10%, 매출 -6%",
+   "pen": [
+    {
+     "at": "0:10%",
+     "shape": "circle",
+     "box": [
+      760,
+      420,
+      1160,
+      560
+     ]
+    }
+   ]
   },
   {
    "v": {
@@ -391,7 +403,7 @@
     "title_en": "Fiscal 2025, in U.S. dollars",
     "items": [
      [
-      "커피 장사로 남긴 돈 (영업이익)",
+      "커피를 팔아 남긴 돈 (영업이익)",
       2936.6,
       "0:29억",
       "29억 4천만 달러"
@@ -411,17 +423,29 @@
     ]
    },
    "lines": [
-    "2025 회계연도에 스타벅스가 커피 장사로 남긴 영업이익은 29억 4천만 달러입니다.",
-    "회사가 가진 현금 전체에서 나온 이자와 기타 수익은 다 합쳐도 1억 1천만 달러, 영업이익의 약 4%예요.",
+    "스타벅스의 2025 회계연도, 그러니까 2025년 9월까지 1년 동안 커피를 팔아 남긴 돈은 29억 4천만 달러입니다.",
+    "회사가 가진 현금 전체에서 나온 이자는 다른 수익까지 다 합쳐도 1억 1천만 달러, 커피로 남긴 돈의 약 4%예요.",
     "손님이 언제든 꺼내 쓸 수 있는 돈이라, 오래 묶어 두는 상품에 넣기도 어렵거든요."
    ],
    "en": [
-    "In fiscal 2025, Starbucks made 2.94 billion dollars of operating income from selling coffee.",
-    "Interest and other income from all of its cash came to 113 million dollars, about 4% of operating income.",
+    "In fiscal 2025, the twelve months to September 2025, Starbucks kept 2.94 billion dollars from selling coffee.",
+    "Interest from all of its cash, plus other income, came to 110 million dollars, about 4% of what coffee earned.",
     "Customers can spend the balance any time, so Starbucks can't lock it up in long-term investments."
    ],
    "asof": false,
-   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일) · 영업이익 29억 3,660만 달러 · 이자·기타 수익 1억 1,330만 달러"
+   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일) · 영업이익 29억 3,660만 달러 · 이자·기타 수익 1억 1,330만 달러",
+   "pen": [
+    {
+     "at": "1:4%",
+     "shape": "underline",
+     "box": [
+      600,
+      600,
+      1300,
+      660
+     ]
+    }
+   ]
   },
   {
    "v": {
@@ -455,12 +479,12 @@
    "lines": [
     "장부에는 이자보다 큰 수익이 한 줄 더 있습니다. 끝내 쓰이지 않을 잔액을 추정해서 매출로 잡는 낙전 수익인데, 2025 회계연도에 2억 2,240만 달러였어요.",
     "서랍 속 잊힌 기프트카드가 이자보다 두 배 더 번 셈이죠. 솔직히 제 서랍에도 한 장 있습니다.",
-    "그래도 낙전 수익은 영업이익의 8%가 안 됩니다."
+    "그래도 낙전 수익은 커피로 남긴 돈의 8%가 안 됩니다."
    ],
    "en": [
     "The books show one more line, bigger than interest: breakage, the balances Starbucks estimates will never be spent, booked as revenue. 222 million dollars in fiscal 2025.",
     "Forgotten gift cards earned twice as much as interest. Honestly, I have one in my drawer too.",
-    "Still, breakage is under 8% of operating income."
+    "Still, breakage is under 8% of what coffee earned."
    ],
    "asof": false,
    "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 낙전 2억 2,240만 달러 (직영 2억 40만 + 라이선스 2,200만), 전년 2억 760만 달러 · 원화는 1달러 1,324.2원 (10월 22일 종가)"
@@ -581,7 +605,7 @@
   {
    "v": {
     "type": "timeline",
-    "title": "미국 기존 매장 계산 건수 (1년 전 대비)",
+    "title": "미국 매장 결제 횟수 (1년 전 대비)",
     "title_en": "U.S. comparable transactions",
     "points": [
      {
@@ -604,7 +628,7 @@
     ]
    },
    "lines": [
-    "계산 건수는 2024년 4월부터 6월까지 6%, 7월부터 9월까지 10% 줄었습니다.",
+    "손님이 결제한 횟수는 2024년 4월부터 6월까지 6%, 7월부터 9월까지 10% 줄었습니다.",
     "결국 2023년 3월에 취임한 최고경영자는 1년 5개월 만에 교체됐어요."
    ],
    "en": [
@@ -797,8 +821,8 @@
     "lib": "commons_barista_4.jpg",
     "chips": [
      {
-      "v": "7.9%",
-      "l": "2025 회계연도 영업이익률",
+      "v": "7.9달러",
+      "l": "100달러 팔아 남은 돈 (2025 회계연도)",
       "at": "0:7.9"
      },
      {
@@ -809,12 +833,12 @@
     ]
    },
    "lines": [
-    "물론 비용이 들었습니다. 직원과 매장에 돈을 먼저 쓰면서, 2025 회계연도 영업이익률은 7.9%까지 내려갔어요.",
-    "같은 해 미국 기존 매장 매출도 1년 전보다 2% 줄었습니다."
+    "물론 비용이 들었습니다. 직원과 매장에 돈을 먼저 쓰면서, 2025 회계연도에는 100달러어치를 팔아 7.9달러만 남기는 수준까지 내려갔어요.",
+    "같은 해 미국에서 1년 넘게 문을 연 매장의 매출도 1년 전보다 2% 줄었습니다."
    ],
    "en": [
-    "It wasn't free. Spending on staff and stores first pushed the fiscal 2025 operating margin down to 7.9%.",
-    "U.S. comparable store sales fell 2% that year as well."
+    "It wasn't free. Spending on staff and stores first meant that in fiscal 2025, Starbucks kept only 7.9 dollars of every 100 dollars of sales.",
+    "U.S. stores open more than a year also saw sales fall 2% that year."
    ],
    "asof": false,
    "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일)"
@@ -824,14 +848,14 @@
     "type": "stat",
     "kicker": "2026.4~6 · 미국 기존 매장",
     "value": "+4.2%",
-    "label": "손님 수(거래 건수) 증가",
+    "label": "결제 횟수 (손님 수) 증가",
     "label_en": "U.S. comparable transactions",
     "at": "1:4.2",
     "count": false,
     "tags": [
      {
       "text": "객단가 +3.6%보다 큰 몫",
-      "at": "1:손님",
+      "at": "1:결제",
       "kind": "gold"
      }
     ],
@@ -840,14 +864,26 @@
    },
    "lines": [
     "그리고 올해 4월부터 6월까지, 미국 기존 매장 매출은 7.9% 늘었습니다.",
-    "더 중요한 건 이유예요. 계산 건수, 즉 손님 수가 4.2% 늘었거든요."
+    "더 중요한 건 이유예요. 손님이 결제한 횟수가 4.2% 늘었거든요."
    ],
    "en": [
     "Then, from April to June this year, U.S. comparable store sales rose 7.9%.",
-    "What matters is why: transactions, the number of customer visits, rose 4.2%."
+    "What matters is why: the number of purchases rose 4.2%."
    ],
    "asof": false,
-   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · 거래 +4.2%, 객단가 +3.6%"
+   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · 거래 +4.2%, 객단가 +3.6%",
+   "pen": [
+    {
+     "at": "1:4.2",
+     "shape": "circle",
+     "box": [
+      760,
+      420,
+      1160,
+      560
+     ]
+    }
+   ]
   },
   {
    "v": {
@@ -976,10 +1012,10 @@
     "sub": "워렌 버핏의 스승"
    },
    "lines": [
-    "그럼 지금 주가에는 회복이 얼마나 미리 들어 있을까요?"
+    "그럼 지금 주가 {px_short}는 비싼 걸까요, 싼 걸까요?"
    ],
    "en": [
-    "So how much of the recovery is already in today's price?"
+    "So is today's price of {px_short} expensive or cheap?"
    ],
    "asof": false,
    "chapter": "그레이엄 계산으로 본 주가"
@@ -988,8 +1024,8 @@
    "v": {
     "type": "card",
     "kicker": "벤저민 그레이엄의 계산법",
-    "title": "아주 깐깐한 바닥 계산",
-    "title_en": "Benjamin Graham's floor value",
+    "title": "보수적으로 매긴 회사 값",
+    "title_en": "Benjamin Graham's conservative value",
     "at": "0",
     "rows": [
      [
@@ -997,24 +1033,24 @@
       "1:평균"
      ],
      [
-      "× 최대 10배 상한",
+      "× 최대 10배까지만",
       "1:10배"
      ],
      [
-      "미래 성장 0 가정",
-      "2:0으로"
+      "앞으로의 성장은 빼기",
+      "2:빼고"
      ]
     ]
    },
    "lines": [
     "워렌 버핏의 스승, 벤저민 그레이엄의 계산법을 빌려 보겠습니다.",
     "여러 해 동안 평균으로 번 이익에, 최대 10배까지만 값을 매깁니다.",
-    "앞으로 이익이 더 늘 거라는 기대는 0으로 놓아요. 그래서 아주 깐깐한 바닥 값 계산입니다."
+    "앞으로 이익이 더 늘 거라는 기대는 빼고 계산해요. 그래서 아주 보수적으로 매긴 값입니다."
    ],
    "en": [
     "Let's borrow the method of Warren Buffett's teacher, Benjamin Graham.",
     "Take average earnings over several years and pay at most 10 times that.",
-    "Count future growth as zero. It's a strict floor value."
+    "Expected future growth is left out, so it's a very conservative value."
    ],
    "asof": false
   },
@@ -1023,7 +1059,7 @@
     "type": "scale",
     "title": "{px_label} 기준 · 스타벅스 한 주",
     "left": {
-     "label": "그레이엄\n계산 값",
+     "label": "그레이엄식\n계산 값",
      "value": "{iv_short}",
      "at": "0:{iv_short}",
      "color": "gold"
@@ -1051,7 +1087,19 @@
     "The market pays {mult} the floor value. In our Tesla episode the same math gave 38 times, so Starbucks looks far less expensive."
    ],
    "asof": true,
-   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 적정 주가 = 여러 해 평균 이익 × 최대 10배 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) (GAAP 주당순이익 1.63달러, -51%)"
+   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 적정 주가 = 여러 해 평균 이익 × 최대 10배 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) (GAAP 주당순이익 1.63달러, -51%)",
+   "pen": [
+    {
+     "at": "1:{mult}",
+     "shape": "circle",
+     "box": [
+      860,
+      300,
+      1060,
+      380
+     ]
+    }
+   ]
   },
   {
    "v": {
@@ -1077,25 +1125,49 @@
     "label": "100점 만점",
     "label_en": "ValueNote score (out of 100)",
     "at": "0:{score}",
-    "count": false
+    "count": false,
+    "tags": [
+     {
+      "text": "재무 점수 {q_score}점",
+      "at": "1:재무",
+      "kind": "white"
+     },
+     {
+      "text": "가격 점수 {v_score}점",
+      "at": "1:가격",
+      "kind": "red"
+     }
+    ]
    },
    "lines": [
     "스타벅스의 밸류노트 점수는 100점 만점에 {score}점입니다.",
-    "점수가 낮은 가장 큰 이유는 이익이에요. 2025 회계연도 주당순이익이 1년 새 절반 넘게 줄었거든요.",
-    "매장을 고치는 데 돈을 쓴 해의 낮은 이익이, 여러 해 평균 이익을 끌어내리고 있는 겁니다."
+    "세부로 보면, 회사가 돈을 버는 힘을 본 재무 점수는 {q_score}점이고, 지금 주가가 계산 값보다 싼지를 본 가격 점수는 {v_score}점이에요.",
+    "가격 점수가 낮은 건 주가가 계산 값의 {mult}이기 때문입니다. 2025 회계연도에 한 주당 번 돈이 1년 새 절반 넘게 줄면서, 여러 해 평균 이익이 내려간 탓이 커요."
    ],
    "en": [
     "Starbucks scores {score} out of 100 on ValueNote.",
-    "The main reason is earnings: fiscal 2025 earnings per share fell by more than half.",
-    "The weak year spent fixing stores is dragging down the multi-year average."
+    "Broken down, its financial strength score is {q_score} and its price score, how cheap the stock is against the value, is {v_score}.",
+    "The price score is low because the stock trades at {mult} the value. Earnings per share fell by more than half in fiscal 2025, pulling the multi-year average down."
    ],
    "asof": true,
-   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 스타벅스 FY2025 실적 발표 (GAAP 주당순이익 1.63달러, -51%)"
+   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 스타벅스 FY2025 실적 발표 (GAAP 주당순이익 1.63달러, -51%)",
+   "pen": [
+    {
+     "at": "2:가격 점수",
+     "shape": "underline",
+     "box": [
+      760,
+      620,
+      1160,
+      660
+     ]
+    }
+   ]
   },
   {
    "v": {
     "type": "timeline",
-    "title": "스타벅스 조정 주당순이익",
+    "title": "한 주당 번 돈 (일회성 비용 제외)",
     "title_en": "Adjusted EPS",
     "points": [
      {
@@ -1112,11 +1184,11 @@
     ]
    },
    "lines": [
-    "회사는 올해 조정 주당순이익을 2.55달러에서 2.65달러로 예상했습니다.",
+    "회사는 올해 한 주당 번 돈이 2.55달러에서 2.65달러가 될 거라고 예상했습니다. 일회성 비용을 뺀 숫자예요.",
     "작년 2.13달러보다 20% 넘게 많은 숫자예요. 이번 실적이 이 예상을 지키는지가 첫 확인 지점입니다."
    ],
    "en": [
-    "The company guided fiscal 2026 adjusted EPS to 2.55 to 2.65 dollars.",
+    "The company expects to earn 2.55 to 2.65 dollars per share this year, excluding one-time costs.",
     "That's more than 20% above last year's 2.13. This report is the first check on that outlook."
    ],
    "asof": false,
@@ -1188,17 +1260,17 @@
      {
       "key": "capture:SBUX:value",
       "label": "저평가 우량주",
-      "at": "1:바닥"
+      "at": "1:보수적"
      }
     ]
    },
    "lines": [
     "밸류노트에는 스타벅스를 포함해 600여 곳이 이 기준으로 매일 계산돼 있어요.",
-    "다만 미래 성장을 0으로 놓은 바닥 계산이라, 목표 주가도 아니고 매수나 매도 신호도 아니에요."
+    "다만 앞으로의 성장을 빼고 보수적으로 계산한 값이라, 목표 주가도 아니고 매수나 매도 신호도 아니에요."
    ],
    "en": [
     "ValueNote runs this calculation daily on more than 600 companies, Starbucks included.",
-    "It's a floor that counts growth as zero, not a target price or a buy or sell signal."
+    "It's a conservative value that leaves out growth, not a target price or a buy or sell signal."
    ],
    "asof": true,
    "src": "밸류노트 앱 화면 ({asof} 기준)"
@@ -1238,13 +1310,13 @@
       "0:6.5"
      ],
      [
-      "② 계산 건수 (손님 수)",
+      "② 결제 횟수 (손님 수)",
       "증가 지속 여부",
       "1:손님"
      ],
      [
-      "③ 영업이익률 (조정)",
-      "연간 11% 이상",
+      "③ 100달러 팔아 남는 돈",
+      "연간 11달러 이상",
       "2:11"
      ]
     ],
@@ -1252,13 +1324,13 @@
    },
    "lines": [
     "첫 번째는 미국 기존 매장 매출입니다. 회사는 이번 분기 6.5% 이상을 내걸었어요.",
-    "두 번째는 계산 건수예요. 가격이 아니라 손님 수가 계속 늘고 있는지 보여 주는 숫자죠.",
-    "세 번째는 영업이익률입니다. 회사는 연간 11% 이상을 예상했고, 매장에 쓴 돈이 이익으로 돌아오기 시작했는지 보여 줍니다."
+    "두 번째는 결제 횟수예요. 가격이 아니라 손님 수가 계속 늘고 있는지 보여 주는 숫자죠.",
+    "세 번째는 100달러어치를 팔아 몇 달러가 남는지입니다. 회사는 연간 11달러 이상을 예상했고, 매장에 쓴 돈이 이익으로 돌아오기 시작했는지 보여 줍니다."
    ],
    "en": [
     "First, U.S. comparable store sales. The company guided to 6.5% or more this quarter.",
     "Second, transactions: whether the number of customer visits, not prices, keeps rising.",
-    "Third, operating margin. The company expects above 11% for the year, showing whether the store spending is turning into profit."
+    "Third, how many dollars Starbucks keeps from every 100 dollars of sales. It expects more than 11 for the year."
    ],
    "asof": false,
    "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 전망 (4분기 미국 동일매장 매출 +6.5% 이상, 연간 조정 영업이익률 11% 초과) · 실적 발표 2026년 10월 29일 장 마감 후"
@@ -1300,7 +1372,19 @@
     "Both fixed the in-store experience first. Whether customer visits keep rising, October 29 will tell.",
     "And one tip for your own money: load only what you'll spend in a month. The interest goes to Starbucks anyway."
    ],
-   "asof": false
+   "asof": false,
+   "pen": [
+    {
+     "at": "1:손님 수",
+     "shape": "underline",
+     "box": [
+      700,
+      620,
+      1220,
+      700
+     ]
+    }
+   ]
   },
   {
    "v": {

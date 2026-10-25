@@ -25,10 +25,47 @@ def F(w, s):
     return _fc[(w, s)]
 
 
+_CIRC = "①②③④⑤⑥⑦⑧⑨⑩"
+_SPECIAL = re.compile(r"(→|[①-⑩])")
+
+
 class AD:
-    """ImageDraw 대신 쓴다: RGB 화면 위에서도 글자 투명도(페이드)가 먹게 한다 (ImageDraw는 글자 알파를 무시함)"""
+    """ImageDraw 대신 쓴다: RGB 화면 위에서도 글자 투명도(페이드)가 먹게 한다 (ImageDraw는 글자 알파를 무시함).
+    2026-10-25 운영자: SUIT 글꼴은 '→'를 '>'처럼 그려서 화살표를 직접 그린다. ①②③ 번호는 어디서든 같은 번호 원(흰 원 + 남색 숫자)으로 그린다."""
     def __init__(self, img): self.img = img; self.d = ImageDraw.Draw(img, "RGBA")
     def __getattr__(self, k): return getattr(self.d, k)
+
+    @staticmethod
+    def _seg_w(seg, font, d):
+        if seg == "→": return font.size * .95
+        if seg in _CIRC: return font.size * 1.12
+        return d.textlength(seg, font=font)
+
+    def textlength(self, text, font=None, *a, **kw):
+        s = str(text)
+        if font is None or not _SPECIAL.search(s): return self.d.textlength(s, font=font, *a, **kw)
+        return sum(self._seg_w(g, font, self.d) for g in _SPECIAL.split(s) if g)
+
+    def text(self, xy, text, fill=None, font=None, anchor=None, *a, **kw):
+        s = str(text)
+        if font is None or anchor or "\n" in s or not _SPECIAL.search(s): return self.d.text(xy, text, fill=fill, font=font, anchor=anchor, *a, **kw)
+        x, y = xy; bb = font.getbbox("0"); cy = y + (bb[1] + bb[3]) / 2; sz = font.size
+        col = fill if isinstance(fill, tuple) else (255, 255, 255, 255)
+        alpha = col[3] if len(col) > 3 else 255
+        for g in _SPECIAL.split(s):
+            if not g: continue
+            if g == "→":
+                w = sz * .95; lw = max(3, int(sz * .085)); x0, x1 = x + sz * .1, x + w - sz * .12; hh = sz * .2
+                self.d.line([(x0, cy), (x1 - lw * .5, cy)], fill=col, width=lw)
+                self.d.polygon([(x1 + lw * .3, cy), (x1 - hh * 1.1, cy - hh), (x1 - hh * 1.1, cy + hh)], fill=col)
+            elif g in _CIRC:
+                r = sz * .5; cx = x + sz * .06 + r
+                self.d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(11, 27, 51, alpha), outline=(255, 255, 255, int(alpha * .9)), width=max(2, int(sz * .05)))
+                n = str(_CIRC.index(g) + 1); f2 = font.font_variant(size=max(10, int(sz * .6))); b2 = f2.getbbox(n)
+                self.d.text((cx - (b2[0] + b2[2]) / 2, cy - (b2[1] + b2[3]) / 2), n, font=f2, fill=(255, 255, 255, alpha))
+            else:
+                self.d.text((x, y), g, fill=fill, font=font, *a, **kw)
+            x += self._seg_w(g, font, self.d)
     def text(self, xy, s, font=None, fill=None, **kw):
         if fill is not None and len(fill) == 4:
             a = fill[3]
@@ -595,7 +632,7 @@ ICON = ICON_S = None
 # (이전 성호: VOICE_SPEED 1.24, VOICE_PITCH 1.04)
 VOICE_SPEED = 1.0
 VOICE_PITCH = 1.0
-GAP = .18            # 문장 사이 쉼(초) — 2026-10-25 운영자: 클론 목소리는 쉼을 살짝 줄인다 (.22 → .18)
+GAP = .20            # 문장 사이 쉼(초) — 2026-10-25 운영자 확정 0.2초 (.22 → .18 → .20)
 
 
 def pace(a):

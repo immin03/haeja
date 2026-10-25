@@ -457,8 +457,9 @@ def draw(sc, V, u, lines, theme, media):
         for i, it in enumerate(v["items"]):
             s, at = (it if isinstance(it, list) else [it, None])[:2]; a = pop(u, at_time(at, lines)); y = 270 + i * 120
             d.rounded_rectangle([200, y + 12 * (1 - a), W - 200, y + 96 + 12 * (1 - a)], 16, fill=A(t["card"], a), outline=A(t["line"], a), width=2)
-            num = f"{i + 1}"; fn = F("Heavy", 44); d.ellipse([230, y + 20, 286, y + 76], fill=A(GOLD if i == v.get("star", 0) else NAVY, a))
-            d.text((258 - d.textlength(num, font=fn) / 2, y + 22), num, font=fn, fill=A(NAVY if i == v.get("star", 0) else WHITE, a))
+            num = f"{i + 1}"; fn = F("Heavy", 40)   # 2026-10-25 운영자: 번호 원은 모두 같은 모양(남색 원 + 흰 숫자)
+            d.ellipse([230, y + 20, 286, y + 76], fill=A(NAVY, a), outline=A(WHITE, a * .9), width=3); bb = fn.getbbox(num)
+            d.text((258 - (bb[0] + bb[2]) / 2, 48 + y - (bb[1] + bb[3]) / 2), num, font=fn, fill=A(WHITE, a))
             d.text((320, y + 24 + 12 * (1 - a)), fill(s, V), font=fitF(d, fill(s, V), "Bold", 42, W - 200 - 320 - 30), fill=A(t["ink"], a))
     elif typ == "card":  # 인물·회사 카드
         a0 = pop(u, at_time(v.get("at"), lines)); x0_, y0, x1_ = 380, 200, W - 380
@@ -621,6 +622,69 @@ def draw(sc, V, u, lines, theme, media):
 
 
 NEXT_IMG = {}
+
+
+# ── 밸류노트 금색 펜 (2026-10-25 운영자: 캐릭터 대신, 영상 속 소품이 핵심 숫자를 짚어 준다) ──
+# 원고 장면에 "pen": [{"at": "1:4.2", "shape": "circle"|"underline"|"arrow"|"box", "box": [x0, y0, x1, y1]}] (화면 1920x1080 기준, 확대 전 좌표)
+PEN_INK = (232, 188, 96)
+PEN_DRAW, PEN_IN, PEN_OUT = .6, .35, .45
+
+
+def _pen_path(shape, box):
+    x0, y0, x1, y1 = box; cx, cy = (x0 + x1) / 2, (y0 + y1) / 2; rx, ry = (x1 - x0) / 2 + 26, (y1 - y0) / 2 + 20
+    if shape == "underline":
+        return [(x0 - 10 + (x1 - x0 + 20) * k / 40, y1 + 16 + 5 * math.sin(k / 40 * math.pi) - 3 * (k / 40)) for k in range(41)]
+    if shape == "arrow":   # 왼쪽 아래에서 상자 왼쪽 가장자리로
+        sx, sy = x0 - 220, y1 + 120; pts = [(sx + (x0 - 18 - sx) * k / 30, sy + (cy - sy) * k / 30 - 40 * math.sin(k / 30 * math.pi)) for k in range(31)]
+        ex, ey = pts[-1]; return pts + [(ex - 34, ey - 22), (ex, ey), (ex - 30, ey + 28)]
+    if shape == "box":
+        q = [(x0 - 18, y0 - 14), (x1 + 18, y0 - 18), (x1 + 22, y1 + 16), (x0 - 16, y1 + 18), (x0 - 22, y0 - 4)]
+        out = []
+        for (ax, ay), (bx, by) in zip(q, q[1:]): out += [(ax + (bx - ax) * k / 12, ay + (by - ay) * k / 12) for k in range(12)]
+        return out + [q[-1]]
+    pts = []   # circle: 손으로 그린 듯 살짝 찌그러지고, 시작점을 지나쳐 끝난다
+    for k in range(73):
+        th = math.radians(-110 + k * 385 / 72); wob = 1 + .035 * math.sin(3 * th + .7)
+        pts.append((cx + rx * wob * math.cos(th), cy + ry * wob * math.sin(th) * (1 + .04 * k / 72)))
+    return pts
+
+
+def _draw_pen_body(d, x, y, a):
+    """펜 몸통: 펜촉이 (x, y)에 닿고 오른쪽 위로 기울어진 금색 만년필"""
+    ang = math.radians(-38); ux, uy = math.cos(ang), math.sin(ang); px, py = -uy, ux
+    def P(t, w): return (x + ux * t + px * w, y + uy * t + py * w)
+    d.polygon([P(4, -16 + 6), P(170, -16 + 6), P(170, 16 + 6), P(4, 16 + 6)], fill=(0, 0, 0, int(70 * a)))   # 그림자
+    d.polygon([P(0, 0), P(34, -11), P(34, 11)], fill=(*GOLD_D, int(255 * a)))                                  # 펜촉
+    d.line([P(4, 0), P(30, 0)], fill=(*NAVY, int(200 * a)), width=2)
+    d.polygon([P(34, -13), P(150, -13), P(150, 13), P(34, 13)], fill=(*PEN_INK, int(255 * a)))                  # 몸통
+    d.polygon([P(34, -13), P(150, -13), P(150, -5), P(34, -5)], fill=(250, 226, 170, int(200 * a)))            # 반사광
+    d.polygon([P(92, -14), P(102, -14), P(102, 14), P(92, 14)], fill=(*NAVY, int(255 * a)))                    # 남색 띠
+    d.polygon([P(150, -14), P(182, -14), P(186, 0), P(182, 14), P(150, 14)], fill=(*NAVY, int(255 * a)))       # 뚜껑
+
+
+def pen_marks(img, pens, u, lines):
+    d = AD(img)
+    for i_, pm in enumerate(pens):
+        t0 = at_time(pm.get("at"), lines)
+        if u < t0 - PEN_IN: continue
+        pts = _pen_path(pm.get("shape", "circle"), pm["box"]); n = len(pts)
+        prog = clamp((u - t0) / PEN_DRAW); e = ease(prog); k = max(1, int(e * (n - 1)))
+        lw = pm.get("w", 9)
+        if prog > 0:
+            seg = pts[:k + 1]
+            d.line(seg, fill=(*PEN_INK, 235), width=lw, joint="curve")
+            for (qx, qy) in (seg[0], seg[-1]): d.ellipse([qx - lw / 2, qy - lw / 2, qx + lw / 2, qy + lw / 2], fill=(*PEN_INK, 235))
+        # 펜 몸통: 오른쪽 아래에서 들어와 그리고, 다 그린 뒤 빠져나간다
+        tip = pts[k] if prog > 0 else pts[0]
+        if u < t0:
+            q = ease(clamp((u - (t0 - PEN_IN)) / PEN_IN)); sx, sy = W + 120, H + 160
+            tip = (sx + (pts[0][0] - sx) * q, sy + (pts[0][1] - sy) * q); al = q
+        elif u > t0 + PEN_DRAW:
+            q = ease(clamp((u - t0 - PEN_DRAW) / PEN_OUT)); ex, ey = pts[-1]
+            tip = (ex + 260 * q, ey + 200 * q); al = 1 - q
+        else:
+            al = 1.0
+        if al > .02: _draw_pen_body(d, tip[0], tip[1], al)
 
 
 def _cursor(d, x, y, a, press=0.0):
@@ -873,14 +937,16 @@ def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
 def sub_pages(d, text, f, maxw=1480):
     """자막을 한 줄짜리 묶음으로: 쉼표·마침표에서 먼저 끊고, 그래도 길면 단어 단위로 (2026-10-22 운영자: 한 줄씩)"""
     parts = [p.strip() for p in re.split(r"(?<=[,.?!])\s+", text) if p.strip()]
+    # 2026-10-25 운영자: "~입니다. 답은," 처럼 다음 문장 머리가 앞 줄 끝에 붙으면 안 된다 → 문장 끝(. ? !)을 넘어서는 절대 합치지 않는다
+    end = lambda l: bool(re.search(r"[.?!][\"'”’)]*$", l))
     out = []
     for p in parts:
         for l in wrap(d, p, f, maxw):
-            if out and len(l) < 9 and d.textlength(out[-1] + " " + l, font=f) <= maxw: out[-1] += " " + l
+            if out and len(l) < 9 and not end(out[-1]) and d.textlength(out[-1] + " " + l, font=f) <= maxw: out[-1] += " " + l
             else: out.append(l)
     i = 0
-    while i < len(out) - 1:  # 너무 짧은 줄은 다음 줄과 합친다 (한 줄에 들어가면)
-        if len(out[i]) < 9 and d.textlength(out[i] + " " + out[i + 1], font=f) <= maxw: out[i] += " " + out.pop(i + 1)
+    while i < len(out) - 1:  # 너무 짧은 줄은 다음 줄과 합친다 (한 줄에 들어가고, 문장 끝이 아닐 때만)
+        if len(out[i]) < 9 and not end(out[i]) and d.textlength(out[i] + " " + out[i + 1], font=f) <= maxw: out[i] += " " + out.pop(i + 1)
         else: i += 1
     return out
 
@@ -980,6 +1046,31 @@ def load_theme(n):
 VOICE_LOG = []
 
 
+CENTS = []   # 지금까지 고른 문장들의 음색 밝기(스펙트럼 중심, Hz)
+
+
+def voice_stats(a):
+    """말소리 구간의 크기(RMS)와 음색 밝기(스펙트럼 중심)를 잰다. 먹먹하게 받은 문장을 골라내는 데 쓴다"""
+    a = np.asarray(a, np.float32); n = 2048
+    if len(a) < n * 2: return .0, .0
+    fr = np.lib.stride_tricks.sliding_window_view(a, n)[::n // 2] * np.hanning(n)
+    e = (fr ** 2).mean(1); keep = e > e.max() * .05
+    if not keep.any(): return .0, .0
+    mag = np.abs(np.fft.rfft(fr[keep], axis=1)); fq = np.fft.rfftfreq(n, 1 / SR)
+    cent = float(np.median((mag * fq).sum(1) / (mag.sum(1) + 1e-9)))
+    return float(np.sqrt(e[keep].mean())), cent
+
+
+def level_voice(a, target=.1):
+    """문장마다 말소리 크기를 같게 맞춘다 (2026-10-25 운영자: 어떤 구간은 소리가 작게 들림). 너무 크게 키우지는 않고, 넘치는 봉우리는 부드럽게 눌러 준다"""
+    rms, _ = voice_stats(a)
+    if rms <= 0: return a
+    g = float(np.clip(target / rms, .5, 3.0)); y = np.asarray(a, np.float32) * g
+    pk = np.abs(y).max()
+    if pk > .97: y = np.tanh(y / pk * 1.5) / np.tanh(1.5) * .97
+    return y.astype(np.float32)
+
+
 def clean_voice(l, speak):
     """성우 음성에 가끔 섞이는 이상한 소리(늘어진 소리·괴물 소리·덜 녹음된 소리)를 걸러 낸다 (2026-10-22 운영자 검수).
     1) 말 속도가 평소(초당 약 6.7음절)보다 크게 느리거나 빠르면  2) 음성 인식으로 다시 받아 적었을 때 원고와 많이 다르면
@@ -991,12 +1082,15 @@ def clean_voice(l, speak):
         try:
             import verify; sc = verify.score(l, verify.hear(a, SR))
         except Exception: sc = 1.0
-        bad = bad_rate or sc < (.62 if re.search("버핏|그레이엄|멍거|버크셔|CXMT|HBM|PER", l) else .72); cost = abs(rate - 6.7) / 6.7 + max(0, .85 - sc)
-        if best is None or cost < best[0]: best = (cost, a, rate, sc)
+        _, cent = voice_stats(a); ref = float(np.median(CENTS)) if len(CENTS) >= 5 else 0.0
+        muffled = bool(ref and cent < ref * .82)   # 2026-10-25 운영자: 어떤 구간은 먹먹하게 들림 → 평소보다 음색이 크게 어두우면 다시 받는다
+        bad = bad_rate or muffled or sc < (.62 if re.search("버핏|그레이엄|멍거|버크셔|CXMT|HBM|PER", l) else .72); cost = abs(rate - 6.7) / 6.7 + max(0, .85 - sc) + (.5 if muffled else 0)
+        if best is None or cost < best[0]: best = (cost, a, rate, sc, cent)
         if not bad: break
-        print(f"  음성 다시 받기({k + 1}/3): 속도 {rate:.1f}음절/초, 인식 {sc:.2f} · {l[:30]}", flush=True)
-    VOICE_LOG.append([l[:40], round(best[2], 2), round(best[3], 2)])
-    return best[1]
+        print(f"  음성 다시 받기({k + 1}/3): 속도 {rate:.1f}음절/초, 인식 {sc:.2f}, 음색 {cent:.0f}Hz(기준 {ref:.0f}) · {l[:30]}", flush=True)
+    if best[4]: CENTS.append(best[4])
+    VOICE_LOG.append([l[:40], round(best[2], 2), round(best[3], 2), round(best[4])])
+    return level_voice(best[1])
 
 
 def make_thumb(spec, V, out):
@@ -1136,6 +1230,13 @@ def main():
             lt = s["lines"][-1]; u = min(s["dur"] - .05, lt[0] + lt[1] * .9)
             img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
             if bdf: img = on_backdrop(img, bdf(u), theme)
+            if sc.get("pen"):   # 펜이 그리는 중간 모습도 한 장
+                for pm in sc["pen"]:
+                    tp = at_time(pm.get("at"), s["lines"]) + PEN_DRAW * .6
+                    im2 = apply_fit(draw(sc, V, tp, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
+                    if bdf: im2 = on_backdrop(im2, bdf(tp), theme)
+                    pen_marks(im2, sc["pen"], tp, s["lines"]); im2.save(os.path.join(sd, f"{k:02d}_{typ}_pen{tp:.1f}.jpg"), quality=80)
+                pen_marks(img, sc["pen"], u, s["lines"])
             if typ not in ("media", "end"):
                 z = 1.03; cw, ch = W / z, H / z; img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", fill(sc.get("src", sc["v"].get("src", "")), V), V.get("asof"), .5, logo_dark, logo_light)
@@ -1167,6 +1268,7 @@ def main():
             u = i / FPS
             img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
             if bdf: img = on_backdrop(img, bdf(u), theme)
+            if sc.get("pen"): pen_marks(img, sc["pen"], u, s["lines"])
             if typ not in ("media", "end"):  # 그래픽 화면은 장면 내내 아주 천천히 다가간다 (멈춘 화면처럼 보이지 않게)
                 z = 1 + .03 * (u / max(1.0, s["dur"])); cw, ch = W / z, H / z
                 img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
