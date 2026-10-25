@@ -219,6 +219,20 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .gh-bar i{display:block;height:100%;background:#B09868;border-radius:99px;transition:width .6s}
 .gh-log{padding:10px 14px}.gh-log .r{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5;word-break:keep-all}
 .gh-log .r:first-child{border-top:0}.gh-log .r .tm{flex:0 0 auto;color:var(--muted);font-variant-numeric:tabular-nums}
+.tr-list{padding:6px 14px}
+.tr-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.tr-row:last-of-type{border-bottom:0}
+.tr-d{flex:0 0 46px;font-size:12px;font-weight:800;color:var(--muted);padding-top:2px}
+.tr-d.near{color:var(--bad)}
+.tr-main{flex:1;min-width:0;word-break:keep-all;overflow-wrap:anywhere}
+.tr-main a{color:var(--ink);text-decoration:none}
+.tr-s{color:var(--ink2)}
+.tr-x{flex:0 0 auto;padding:4px 8px;font-size:12px}
+.tr-add{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 6px;border-top:1px solid var(--line)}
+.tr-add input{flex:1 1 140px;min-width:0;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;font-size:13px}
+.tr-add input[type=number]{flex:0 0 64px}.tr-add input[type=date]{flex:0 0 140px}
+.tr-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:760px){.tr-2{grid-template-columns:1fr}}
 .yt-note{padding:12px 14px;border-radius:12px;background:rgba(176,152,104,.1);color:var(--ink);font-size:13.5px;line-height:1.6;margin-bottom:14px}
 .yt-item{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;padding:16px;margin-bottom:14px}
 .yt-item.short{grid-template-columns:260px minmax(0,1fr)}
@@ -823,6 +837,7 @@ function ytPlanItem(p){
     <h3>${esc(p.title || p.id)}</h3>
     ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b></div>` : ''}
     ${p.message ? `<div class="m" style="margin-top:6px"><b>한 문장</b> ${esc(p.message)}</div>` : ''}
+    ${p.radar && p.radar.source && p.radar.source !== 'none' ? `<div class="m tr-s" style="margin-top:6px"><b>트렌드 근거</b> <span class="st run">${esc({ hot_video: '뜨는 영상', structure: '뜨는 구조', stock_interest: '종목 관심', issue: '이슈 캘린더' }[p.radar.source] || p.radar.source)}</span> ${esc(p.radar.evidence || '')}${p.radar.structure_from ? ` · 구조: ${esc(p.radar.structure_from)}` : ''}</div>` : ''}
     ${(p.why_now || []).length ? `<div class="m" style="margin-top:6px"><b>왜 지금</b><ul style="margin:4px 0 0 18px;padding:0">${li(p.why_now)}</ul></div>` : ''}
     ${(p.story || []).length ? `<details${p.status === 'proposed' ? ' open' : ''}><summary>이야기 구조 ${p.story.length}막</summary><div class="ytp-story">${p.story.map(b => `<div class="b"><b>${esc(b.beat)}</b><div>${esc(b.story)}</div>${b.visual ? `<div class="vz">화면 · ${esc(b.visual)}</div>` : ''}${b.pull ? `<div class="pl">→ ${esc(b.pull)}</div>` : ''}</div>`).join('')}</div></details>`
       : `<details${p.status === 'proposed' ? ' open' : ''}><summary>목차 ${(p.outline || []).length}장</summary><ol style="margin:6px 0 0 18px;padding:0">${li(p.outline)}</ol></details>`}
@@ -953,7 +968,52 @@ function ytViews(){
     ready:  { t: '올리기 대기', hot: true, plans: [], vids: v(['approved']) },
     done:   { t: '올림 완료', plans: [], vids: v(['uploaded']).reverse() },
     hold:   { t: '보류·반려', plans: P.filter(x => x.status === 'rejected'), vids: v(['hold']) },
+    trend:  { t: '트렌드', plans: [], vids: [] },
   };
+}
+/* 트렌드 레이더 (2026-10-26 운영자): 지금 뜨는 영상·구조·종목 관심도와 다가오는 이슈를 한 화면에서 본다.
+   기획안 작업이 이 데이터에서 상위 몇 개만 골라 기획안을 만들고, 시즌 이슈는 날짜보다 2~3주 먼저 기획안을 올린다 */
+const TR = { data: null, err: '', at: 0 };
+async function trLoad(){ const { data, error } = await sb.rpc('trend_admin', { p_days: 60 }); TR.data = error ? {} : (data || {}); TR.err = error ? error.message : ''; TR.at = Date.now(); render(); }
+const nk = v => v == null ? '–' : v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v >= 1e4 ? Math.round(v / 1e4).toLocaleString('ko-KR') + '만' : Math.round(v).toLocaleString('ko-KR');
+const TR_KIND = { season: ['시즌', 'run'], event: ['행사', 'run'], macro: ['매크로', 'none'], earnings: ['실적', 'none'] };
+function trIssue(e){
+  const k = TR_KIND[e.kind] || [e.kind, 'none'], d = e.d_minus, auto = ['season', 'event'].includes(e.kind);
+  const plan = e.plan_id ? `<span class="st ok">기획안 ${e.plan_status ? ({ proposed: '승인 대기', approved: '승인됨', producing: '제작 중', done: '완료', rejected: '반려' }[e.plan_status] || e.plan_status) : '연결'}</span>`
+    : auto ? (d <= e.lead_days ? '<span class="st bad">기획안 만드는 중</span>' : `<span class="st none">D-${e.lead_days}에 자동 기획</span>`) : '<span class="st none">참고용</span>';
+  return `<div class="tr-row"><span class="tr-d${d <= 7 ? ' near' : ''}">${d === 0 ? '오늘' : 'D-' + d}</span>
+    <div class="tr-main"><div><b>${esc(e.title)}</b> <span class="kind">${k[0]}</span>${e.est ? ' <span class="st none">날짜 추정</span>' : ''} ${plan}</div>
+    <div class="m">${kday(e.day + 'T00:00:00+09:00').replace(/ \d\d:\d\d$/, '')}${e.cat ? ' · ' + esc(e.cat) : ''}${e.angle ? ' · ' + esc(e.angle) : ''}</div></div>
+    ${e.auto ? '' : `<button class="soc-btn ghost tr-x" data-tr-del="${esc(e.id)}" title="이 이슈 지우기">지우기</button>`}</div>`;
+}
+const TR_FLAG = { spike: ['급등', 'bad'], fast_new: ['새 영상 급성장', 'run'], steady: ['꾸준히 많이 봄', 'none'] };
+function trVideo(h, i){
+  const f = TR_FLAG[h.flag] || ['', 'none'], s = h.structure || {};
+  return `<div class="tr-row"><span class="tr-d">${i + 1}</span><div class="tr-main">
+    <div><a href="https://www.youtube.com/watch?v=${encodeURIComponent(h.video_id)}" target="_blank" rel="noopener" data-newwin><b>${esc(h.title)}</b></a></div>
+    <div class="m"><span class="st ${f[1]}">${f[0]}${h.spike ? ` ${h.spike}배` : ''}</span> 하루 +${nk(h.per_day)}회 · 누적 ${nk(h.views)}회 · ${esc(h.channel || '')}${h.published_text ? ' · ' + esc(h.published_text) : ''}${(h.cats || []).length ? ' · ' + esc(h.cats.join('/')) : ''}${h.lang === 'en' ? ' · 영어권' : ''}</div>
+    ${s.title_pattern ? `<div class="m tr-s">구조 · <b>${esc(s.title_pattern)}</b>${s.transfer ? ` → 밸류노트로 가져오면: ${esc(s.transfer)}` : ''}</div>` : ''}</div></div>`;
+}
+function trPanel(){
+  if(!TR.data || Date.now() - TR.at > 10 * 60e3){ if(!TR.loading){ TR.loading = true; trLoad().finally(() => TR.loading = false); } if(!TR.data) return '<div class="card empty" style="padding:14px">불러오는 중</div>'; }
+  if(TR.err) return `<div class="card">불러오지 못했습니다: ${esc(TR.err)}</div>`;
+  const D = TR.data, c = D.counts || {}, hot = D.hot || [], st = D.structures || [], iss = D.issues || [], sk = D.stocks || [];
+  const nv = sk.filter(s => s.src === 'naver_search').slice(0, 15), yh = sk.filter(s => s.src === 'yahoo_us').slice(0, 15);
+  const stk = (a, us) => a.map(s => `<div class="m" style="padding:2px 0"><b>${s.rank}</b> ${esc(s.name)}${s.change ? ` <span style="color:${String(s.change).startsWith('-') ? 'var(--bad)' : 'var(--good)'}">${esc(s.change)}</span>` : ''}${us ? '' : ''}</div>`).join('') || '<div class="m">아직 없음</div>';
+  const kr = hot.filter(h => h.lang !== 'en').slice(0, 25), en = hot.filter(h => h.lang === 'en').slice(0, 10);
+  return `<div class="yt-note">매일 아침 7시 25분에 유튜브 검색어 <b>${c.queries || 0}개</b>(금융 + 브랜드·생활·경제·영어권)로 영상을 모아 조회수 증가량을 잽니다. 평소보다 2배 넘게 튀면 <b>급등</b>, 올린 지 나흘 안에 하루 2만 회 넘게 크면 <b>새 영상 급성장</b>입니다. 기획안은 이 목록의 상위 소재·구조와 아래 이슈 캘린더를 함께 보고 만듭니다.
+    <div class="m" style="margin-top:4px">모은 영상 ${nk(c.videos)}개 · 구조 분석 ${nk(c.tagged)}개 · 마지막 수집 ${D.last_run ? kst(D.last_run) : '아직 없음'}${hot.length && !hot.some(h => h.flag === 'spike') ? ' · 급등 판단은 수집 둘째 날부터 나옵니다' : ''}</div></div>
+  <div class="soc-sec"><h2>다가오는 이슈</h2><span class="n">60일 · 시즌·행사는 날짜보다 먼저 기획안이 자동으로 올라옵니다</span></div>
+  <div class="card tr-list">${iss.map(trIssue).join('') || '<div class="m">60일 안에 잡힌 이슈가 없습니다.</div>'}
+    <div class="tr-add"><input type="date" id="tr-day" aria-label="날짜"><input id="tr-title" placeholder="이슈 이름 (예: 할로윈, 신작 게임 출시)"><input id="tr-angle" placeholder="각도 (예: 하루 매출은 얼마, 누가 돈을 버나)"><input id="tr-lead" type="number" min="3" max="45" value="14" aria-label="며칠 전 기획" title="며칠 전에 기획안을 만들까요"><button class="soc-btn" id="tr-addb">이슈 추가</button></div></div>
+  <div class="soc-sec"><h2>지금 뜨는 영상 · 한국</h2><span class="n">하루 증가량 순</span></div>
+  <div class="card tr-list">${kr.map(trVideo).join('') || '<div class="m">아직 수집 전입니다.</div>'}</div>
+  ${en.length ? `<div class="soc-sec"><h2>지금 뜨는 영상 · 영어권</h2><span class="n">해외 구독자 타깃 참고</span></div><div class="card tr-list">${en.map(trVideo).join('')}</div>` : ''}
+  <div class="soc-sec"><h2>뜨는 구조</h2><span class="n">다른 카테고리에서 잘 되는 제목·전개 방식</span></div>
+  <div class="card tr-list">${st.map(s => `<div class="tr-row"><span class="tr-d">${s.n}편</span><div class="tr-main"><div><b>${esc(s.pattern)}</b> <span class="m">${esc((s.cats || []).join('/'))}</span></div>${s.transfer ? `<div class="m tr-s">밸류노트로 가져오면 · ${esc(s.transfer)}</div>` : ''}<div class="m">${(s.best || []).map(esc).join(' / ')}</div></div></div>`).join('') || '<div class="m">구조 분석은 Claude가 매일 오전 급등 영상에 붙입니다. 첫 분석 전에는 비어 있습니다.</div>'}</div>
+  <div class="soc-sec"><h2>사람들이 찾는 종목</h2><span class="n">${sk[0] ? esc(sk[0].day) : ''} 기준</span></div>
+  <div class="tr-2"><div class="card" style="padding:12px 14px"><div class="m" style="margin-bottom:4px"><b>네이버 증권 검색 상위</b></div>${stk(nv)}</div>
+    <div class="card" style="padding:12px 14px"><div class="m" style="margin-bottom:4px"><b>야후 파이낸스 미국 트렌딩</b></div>${stk(yh, true)}</div></div>`;
 }
 const YT_NOTE = {
   plan: '<b>승인</b>한 순서대로 다음 빈 롱폼 편성일(매일 19:00, 시즌 기획은 정해 둔 날)이 자동으로 잡히고, 그날 아침 최신 숫자로 제작해 \'영상 검수\'로 올립니다. 마음에 안 들면 <b>반려</b>하거나 <b>의견</b>을 남기세요. 새 기획안이 필요하면 위에서 <b>기획안 더 받기</b>를 누르세요.',
@@ -973,6 +1033,7 @@ function vYoutube(){
   let body;
   if(cur === 'done') body = x.vids.length ? `<div class="card" style="padding:12px 14px">${x.vids.map(y => `<div class="m" style="padding:4px 0">${kst(y.uploaded_at)} · <span class="kind${y.kind === 'short' ? ' reel' : ''}">${y.kind === 'short' ? '쇼츠' : '롱폼'}</span> ${esc(y.title)}</div>`).join('')}</div>` : '';
   else if(cur === 'hold') body = x.vids.map(ytItem).join('') + (x.plans.length ? `<div class="soc-sec"><h2>반려한 기획안</h2><span class="n">${x.plans.length}편</span></div><div class="card" style="padding:12px 14px">${x.plans.map(p => `<div class="m" style="padding:4px 0">${esc(p.title || p.id)}${p.owner_note ? ` · ${esc(p.owner_note)}` : ''}</div>`).join('')}</div>` : '');
+  else if(cur === 'trend') body = trPanel();
   else body = x.plans.map(ytPlanItem).join('') + x.vids.map(ytItem).join('');
   if(cur === 'plan') body = body + ytReqPanel();   // 2026-10-24 운영자: 기획안이 먼저 보이게, 요청 칸은 아래로
   return `${head('유튜브', '기획안 승인 → 제작 → 영상 검수 → 올리기 순서로 진행됩니다.', 'youtube')}
@@ -1092,6 +1153,16 @@ function bindYoutube(){
     const { data, error } = await sb.rpc('yt_plan_request', { p_kind: 'revise', p_plan_id: id, p_note: note });
     if(error) toast('보내지 못했습니다: ' + error.message, true); else if(data && data.ok === false) toast(data.reason, true); else toast('의견을 보냈습니다. Claude가 1시간 안에 기획안을 고칩니다.');
     ytLoad(); });
+  document.querySelectorAll('[data-tr-del]').forEach(b => b.onclick = async () => {
+    if(!confirm('이 이슈를 캘린더에서 지울까요?')) return; b.disabled = true;
+    const { error } = await sb.rpc('issue_upsert', { p: { id: b.dataset.trDel, delete: true } });
+    if(error) toast('지우지 못했습니다: ' + error.message, true); else toast('지웠습니다.'); trLoad(); });
+  const ta = document.getElementById('tr-addb'); if(ta) ta.onclick = async () => {
+    const day = document.getElementById('tr-day').value, title = document.getElementById('tr-title').value.trim();
+    if(!day || !title){ toast('날짜와 이슈 이름을 적어 주세요', true); return; }
+    ta.disabled = true;
+    const { error } = await sb.rpc('issue_upsert', { p: { day, title, angle: document.getElementById('tr-angle').value.trim() || null, lead_days: +document.getElementById('tr-lead').value || 14, kind: 'season' } });
+    if(error) toast('추가하지 못했습니다: ' + error.message, true); else toast('추가했습니다. 정한 날짜 전에 기획안이 올라옵니다.'); trLoad(); };
   const mb = document.getElementById('ytp-more'); if(mb) mb.onclick = async () => {
     const note = (document.getElementById('ytp-more-note').value || '').trim(), n = +document.getElementById('ytp-more-n').value || 5;
     mb.disabled = true;
