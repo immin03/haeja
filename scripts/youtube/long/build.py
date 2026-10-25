@@ -70,6 +70,9 @@ def main(only):
             meta["video_url"] = f"https://github.com/{REPO}/releases/download/{tag}/{name}"
             meta["thumb"] = f"/social/youtube/{sid}/thumb.jpg?v={stamp}"
             json.dump(meta, open(meta_p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+            try:   # 2026-10-25 운영자: 한국어·영어 자막(.srt)을 관리자에서 내려받을 수 있게
+                sys.path.insert(0, HERE); import subs; subs.build(sid)
+            except Exception as e: print("  자막 만들기 실패:", e)
             done.append(sid)
         except Exception as e:
             import traceback
@@ -82,7 +85,7 @@ def main(only):
         meta = json.load(open(m, encoding="utf-8"))
         if "video_url" not in meta: continue
         if dt.datetime.fromisoformat(meta["scheduled_at"]) < now - dt.timedelta(days=30): continue
-        queue.append({k: meta.get(k) for k in ("id", "kind", "title", "description", "tags", "scheduled_at", "duration", "video_url", "thumb", "data", "data_asof", "events", "rendered_at", "company", "pinned_comment")})
+        queue.append({k: meta.get(k) for k in ("id", "kind", "title", "description", "tags", "scheduled_at", "duration", "video_url", "thumb", "data", "data_asof", "events", "rendered_at", "company", "pinned_comment", "subs", "title_en", "description_en")})
     queue.sort(key=lambda x: x["scheduled_at"])
     os.makedirs(OUT, exist_ok=True)
     json.dump(queue, open(os.path.join(OUT, "queue.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
