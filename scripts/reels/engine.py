@@ -72,6 +72,8 @@ def cta_lines(spec, sc, lines):
         yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
         sc["_follow"] = "yt" if yt else True
         if yt: return list(lines) + [{"cap": spec.get("full_cap", ["풀버전은 화면 아래 링크를", "눌러 바로 보실 수 있어요"]), "say": spec.get("full_say", "풀버전은 화면 아래 링크를 눌러 바로 보실 수 있어요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
+        if spec.get("outro"):   # 2026-10-25 운영자: 유튜브 쇼츠를 인스타에 다시 올릴 때 "유튜브에서 밸류노트 검색" 으로 마무리
+            return list(lines) + [{"cap": spec["outro"]["cap"], "say": spec["outro"]["say"]}]
         return list(lines) + [{"cap": ["밸류노트를 팔로우하고,", "매일 조금 더 현명한 투자 습관을 길러 보세요"], "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
     sc["_dm"] = kw
     return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
