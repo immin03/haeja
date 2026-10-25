@@ -1,7 +1,7 @@
 {
  "id": "L261026-starbucks-float",
  "series": "돈 버는 구조",
- "plan": "P261026-starbucks-prepaid",
+ "plan": "P261026-starbucks-prepaid (v2 스토리 개정 2026-10-25)",
  "company": "SBUX",
  "events": [],
  "fx": 1324.2,
@@ -12,37 +12,37 @@
   "accent": "gold"
  },
  "scheduled_at": "2026-10-26T19:00:00+09:00",
- "title": "스타벅스는 어떻게 돈을 벌까? 손님이 맡긴 돈만 17억 달러, 이자는 0원",
- "title_en": "How does Starbucks make money? Customers hold $1.75 billion in its app, interest-free",
+ "title": "스타벅스는 어떻게 돈을 벌까? 17억 달러를 모은 앱이 손님을 줄게 만든 이유",
+ "title_en": "How does Starbucks make money? The app that collected $1.75 billion also drove customers away",
  "thumb": {
-  "photo": "commons_sbuxcup_4.jpg",
+  "photo": "commons_mobileorder_1.jpg",
   "focus_x": 0.6,
-  "l1": "스타벅스 앱 속 충전금",
-  "l2": "17억 달러, 이자는 0원?",
+  "l1": "스타벅스 손님을 줄인 원인",
+  "l2": "앱이었다?",
   "pos": "left"
  },
  "ab_sets": [
   {
    "key": "b",
    "default": true,
-   "title": "스타벅스는 어떻게 돈을 벌까? 손님이 맡긴 돈만 17억 달러, 이자는 0원",
+   "title": "스타벅스는 어떻게 돈을 벌까? 17억 달러를 모은 앱이 손님을 줄게 만든 이유",
    "thumb": {
-    "photo": "commons_sbuxcup_4.jpg",
+    "photo": "commons_mobileorder_1.jpg",
     "focus_x": 0.6,
-    "l1": "스타벅스 앱 속 충전금",
-    "l2": "17억 달러, 이자는 0원?",
+    "l1": "스타벅스 손님을 줄인 원인",
+    "l2": "앱이었다?",
     "pos": "left"
    },
    "file": "thumb_b.jpg"
   },
   {
    "key": "a",
-   "title": "스타벅스 주가, 10월 29일 실적 전 볼 숫자 3개 · 충전금 17억 달러의 비밀",
+   "title": "스타벅스 주가, 10월 29일 실적 전 볼 숫자 3개 · 손님 수 -10%에서 +4.2%로",
    "thumb": {
-    "photo": "commons_sbuxcup_1.jpg",
-    "focus_x": 0.5,
-    "l1": "스타벅스 주주라면",
-    "l2": "10월 29일 이 숫자 3개",
+    "photo": "commons_niccol_1.jpg",
+    "focus_x": 0.55,
+    "l1": "스타벅스를 바꾼 처방",
+    "l2": "메뉴 30% 줄이기?",
     "pos": "left"
    },
    "file": "thumb_a.jpg"
@@ -51,7 +51,7 @@
    "key": "c",
    "title": "스타벅스 적정주가는? 워렌 버핏 스승의 계산으론 약 26달러",
    "thumb": {
-    "photo": "commons_mobileorder_1.jpg",
+    "photo": "commons_sbuxcup_4.jpg",
     "focus_x": 0.6,
     "l1": "스타벅스 적정주가가",
     "l2": "약 26달러라고?",
@@ -65,18 +65,19 @@
   "스타벅스 주가",
   "스타벅스 실적",
   "스타벅스 충전금",
+  "스타벅스 앱",
+  "브라이언 니콜",
+  "하워드 슐츠",
   "Starbucks",
   "SBUX",
   "낙전",
-  "브라이언 니콜",
-  "네슬레",
   "워렌 버핏",
   "적정 주가",
   "미국주식"
  ],
  "search_keywords": [
-  "스타벅스 주가",
   "스타벅스는 어떻게 돈을 벌까",
+  "스타벅스 주가",
   "스타벅스 실적",
   "스타벅스 충전금",
   "Starbucks stock"
@@ -87,88 +88,65 @@
   "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준)",
   "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점)",
   "스타벅스 FY2025 실적 발표 (2025년 10월 29일)",
-  "스타벅스 FY2019 1분기 보고서 (10-Q) · 네슬레 계약 회계 처리",
-  "S&P 글로벌 마켓 인텔리전스 (모닝스타 2016년 6월 13일 보도)",
-  "SCK컴퍼니 2025년 감사보고서 (파이낸셜뉴스 2026년 5월 24일 보도)",
   "밸류노트 스타벅스 데이터 ({asof} 기준)",
-  "서울 외환시장 원·달러 환율 1,324.2원 (10월 22일 종가)"
+  "서울 외환시장 원·달러 환율 1,324.2원 (10월 22일 종가)",
+  "스타벅스 FY2024 3·4분기 실적 발표 (2024년 7월 30일, 10월 30일)",
+  "NPR (2008년 2월 27일) · 미국 매장 휴점 바리스타 재교육",
+  "NBC 뉴스 (2024년 8월 13일) · 모바일 주문과 매장 대기",
+  "포천 (2024년 8월 13일) · 브라이언 니콜 선임과 주가",
+  "ABC13 (2024년 8월) · 니콜 근무 조건",
+  "FOX (2025년 1월 29일) · 메뉴 30% 축소",
+  "패키징 유럽 (2025년 2월 3일) · 손글씨·머그잔",
+  "야후 파이낸스 과거 종가 (2021년 7월 23일, 2024년 8월 12일)"
  ],
- "description_head": "스타벅스 주가와 실적이 궁금한 분, 스타벅스는 어떻게 돈을 버는지 궁금한 분을 위한 영상입니다. 미국 손님이 스타벅스 앱과 카드에 맡겨 둔 돈은 약 17억 5천만 달러, 크리스마스 직후엔 20억 달러가 넘습니다. 이자도 만기도 없는 이 돈으로 스타벅스는 정말 이자 장사를 할까요?\n\n실제 장부로 확인하면 이자·기타 수익은 영업이익의 약 4%, 잊힌 잔액을 매출로 잡는 낙전은 2억 2,240만 달러입니다. 진짜 힘은 손님을 다시 오게 만드는 앱 잔액이고, 브라이언 니콜의 '스타벅스로 돌아가자' 이후 미국 손님 수는 다시 늘고 있습니다. 네슬레가 2018년에 미리 낸 71억 5천만 달러 이야기, 그레이엄식 바닥 계산, 그리고 10월 29일 실적 발표 때 볼 숫자 세 개까지 정리했습니다.\n\n사진: 위키미디어 공용 — Shixart1985 (CC BY 2.0) · Infrogmation of New Orleans (CC BY 2.0) · Donald_Trung (CC BY-SA 4.0) · GoToVan from Vancouver, Canada (CC BY 2.0) · Another Believer (CC BY-SA 4.0) · Hiro - Kokoro☆Photo from Kyoto, Japan (CC BY-SA 2.0) · m01229 from USA (CC BY 2.0) · JimmyStardust (CC BY-SA 4.0) · Christian Bolz (CC BY-SA 4.0) · Pike Place Market (CC BY 2.0) · 그 밖의 영상: Mixkit\n\n#스타벅스 #스타벅스주가 #미국주식 #실적발표 #워렌버핏",
- "description_en": "Starbucks stock and earnings, explained: how does Starbucks really make money? U.S. customers keep about $1.75 billion in the Starbucks app and cards, topping $2 billion after the holidays, with no interest and no due date. Does Starbucks live off that float? The books say interest and other income is about 4% of operating income, and breakage, unspent balances booked as revenue, was $222 million. The real power is lock-in: the balance that brings you back. We also cover Nestle's $7.15 billion up-front payment, Benjamin Graham's floor value, and the three numbers to watch on the October 29 earnings release.\n\n#Starbucks #SBUX #stocks #earnings",
+ "description_head": "스타벅스는 어떻게 돈을 벌까? 스타벅스 주가와 실적이 궁금한 분을 위한 영상입니다. 미국 손님이 스타벅스 앱과 카드에 넣어 두고 아직 쓰지 않은 돈은 약 17억 5천만 달러입니다. 그런데 이 앱이 2024년 미국 매장 계산 건수를 10% 줄게 만든 원인이 됐습니다. 앱 주문이 픽업대에 몰리면서 매장이 느려졌기 때문입니다.\n\n충전금이 이자로 버는 돈(영업이익의 약 4%)과 낙전 수익, 2008년 하워드 슐츠의 3시간 30분 휴점, 2024년 브라이언 니콜의 메뉴 30% 축소·머그잔·4분 목표, 손님 수가 -10%에서 +4.2%로 돌아선 과정, 그레이엄식 바닥 계산과 밸류노트 점수, 10월 29일 실적 발표 때 볼 숫자 세 개까지 정리했습니다.\n\n사진: 위키미디어 공용 — Shixart1985 (CC BY 2.0) · Infrogmation of New Orleans (CC BY 2.0) · Donald_Trung (CC BY-SA 4.0) · GoToVan from Vancouver, Canada (CC BY 2.0) · Another Believer (CC BY-SA 4.0) · Hiro - Kokoro☆Photo from Kyoto, Japan (CC BY-SA 2.0) · m01229 from USA (CC BY 2.0) · JimmyStardust (CC BY-SA 4.0) · Christian Bolz (CC BY-SA 4.0) · Pike Place Market (CC BY 2.0) · 그 밖의 영상: Mixkit\n\n#스타벅스 #스타벅스주가 #미국주식 #실적발표 #워렌버핏",
+ "description_en": "How does Starbucks make money? U.S. customers keep about $1.75 billion loaded in the Starbucks app and cards. That same app helped push U.S. store transactions down 10% in 2024, as mobile orders piled up at pickup counters and slowed stores down. We cover what the balance really earns (interest is about 4% of operating income), breakage, Howard Schultz's 2008 three-and-a-half-hour shutdown, Brian Niccol's Back to Starbucks (30% menu cut, ceramic mugs, a four-minute goal), the swing from -10% to +4.2% transactions, Benjamin Graham's floor value, and the three numbers to watch on October 29 earnings.\n\n#Starbucks #SBUX #stocks #earnings",
  "pinned_comment": "10월 29일 스타벅스 실적, 세 숫자 중 무엇이 가장 궁금하신가요? ① 미국 기존 매장 매출(전망 6.5% 이상) ② 손님 수 ③ 영업이익률(연간 11% 이상 전망). 실적이 나오면 이 댓글에 결과를 정리해 드릴게요.\n\n참고: 그레이엄식 계산(여러 해 평균 이익 × 최대 10배)으로 스타벅스 적정 주가는 {iv_short}, 밸류노트 점수는 {score}점입니다 ({asof} 기준). 목표 주가가 아니라 성장을 0으로 놓은 바닥 계산입니다.\n\n내 종목도 같은 기준으로: https://valuenote.co.kr/yt",
  "hook_promises": [
-  "커피 말고 받쳐 주는 돈 → '스타벅스는 이자로 돈을 벌까'(약 2분대 회수)",
-  "이자보다 큰 힘 → '스타벅스는 왜 다시 오게 만들까'",
-  "10월 29일 볼 숫자 3개 → '10월 29일 실적에서 볼 숫자 3개'"
+  "17억 달러 충전금의 정체 → 1장 끝 '첫 번째로 말씀드린'(약 2분 40초 회수)",
+  "손님이 줄어든 원인과 회복 → 2장 끝 원인, 3장 끝 회복",
+  "10월 29일 볼 숫자 3개 → 마지막 장"
  ],
- "viewer_question": "스타벅스 주식을 가진 사람·관심 있는 사람: 스타벅스는 진짜 어디서 돈을 벌고, 10월 29일 실적 때 무엇을 보면 되나?",
+ "viewer_question": "스타벅스 주식을 가진 사람·관심 있는 사람: 스타벅스는 어디서 돈을 벌고, 손님은 왜 줄었다가 다시 늘었으며, 10월 29일 실적 때 무엇을 보면 되나?",
  "scenes": [
   {
    "v": {
     "type": "media",
-    "lib": "phone_4915.mp4",
-    "caption": "스타벅스 앱 속 충전금, 다 합치면?",
+    "lib": "commons_cafequeue_1.jpg",
+    "caption": "스타벅스 손님을 줄인 원인은 앱?",
     "caption_at": "0"
    },
    "lines": [
-    "스타벅스 앱에 충전해 둔 돈, 미국 손님 것만 다 합치면 얼마일까요?"
+    "스타벅스에 17억 달러가 넘는 충전금을 모아 준 앱이, 스타벅스 손님을 줄게 만들었습니다."
    ],
    "en": [
-    "Add up all the money Americans have loaded into the Starbucks app. How much is it?"
+    "The app that helped Starbucks collect over 1.7 billion dollars in customer balances also drove customers away."
    ],
    "asof": false,
-   "chapter": "스타벅스 충전금은 얼마나 될까"
-  },
-  {
-   "v": {
-    "type": "kinetic",
-    "backdrop": "commons_barista_1.jpg",
-    "bd_dim": 0.74,
-    "words": [
-     {
-      "t": "약 17억 5천만 달러",
-      "at": "0:17억",
-      "size": 150,
-      "c": "acc",
-      "under": true
-     },
-     {
-      "t": "≈ 2조 3천억 원",
-      "at": "0:2조",
-      "size": 90,
-      "c": "muted"
-     }
-    ]
-   },
-   "lines": [
-    "약 17억 5천만 달러, 우리 돈으로 2조 3천억 원이 넘습니다."
-   ],
-   "en": [
-    "About 1.75 billion dollars."
-   ],
-   "asof": false,
-   "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 충전카드·리워드 별 잔액 17억 5,170만 달러 · 원화는 1달러 1,324.2원 (10월 22일 종가)"
+   "chapter": "앱이 줄인 손님"
   },
   {
    "v": {
     "type": "stat",
-    "kicker": "크리스마스 선물 시즌 직후 · 2025년 12월 28일",
-    "value": "20억 7천만 달러",
-    "label": "손님이 맡겨 둔 충전금·적립 별",
-    "label_en": "Card & Stars balance after the holidays",
-    "at": "0:20억",
+    "kicker": "2024.7~9 · 미국 기존 매장",
+    "value": "-10%",
+    "label": "계산 건수 (1년 전 대비)",
+    "label_en": "U.S. comparable transactions",
+    "at": "0:10%",
     "count": false,
-    "backdrop": "commons_sbuxcup_1.jpg",
+    "backdrop": "commons_mobileorder_1.jpg",
     "bd_dim": 0.72
    },
    "lines": [
-    "크리스마스 선물 시즌이 지나면, 20억 달러를 훌쩍 넘고요."
+    "2024년 7월부터 9월까지 석 달 동안, 미국 스타벅스 매장의 계산 건수는 1년 전보다 10% 줄었습니다.",
+    "열 명이 오던 매장에 아홉 명만 온 셈이죠."
    ],
    "en": [
-    "After the holiday gift season, it tops 2 billion dollars."
+    "From July to September 2024, transactions at U.S. Starbucks stores fell 10% from a year earlier.",
+    "Nine customers for every ten who used to come."
    ],
    "asof": false,
-   "src": "스타벅스 FY2026 1분기 보고서 (10-Q, 2025년 12월 28일 기준) · 20억 7,330만 달러"
+   "src": "스타벅스 FY2024 4분기 실적 발표 (2024년 10월 30일) · 미국 기존 매장 계산 건수 -10%, 매출 -6%"
   },
   {
    "v": {
@@ -178,12 +156,10 @@
     "caption_at": "0"
    },
    "lines": [
-    "스타벅스 주식을 갖고 계시거나 관심 있는 분이라면,",
-    "앞으로 9분이 스타벅스가 진짜 어떻게 돈을 버는지, 큰 그림으로 이해하는 시간이 될 겁니다."
+    "스타벅스 주식을 갖고 계시거나 관심 있는 분이라면, 앞으로 9분 동안 스타벅스가 돈을 버는 구조와 지금 주가에 들어 있는 기대를 정리해 드릴게요."
    ],
    "en": [
-    "If you own Starbucks stock or are thinking about it,",
-    "the next nine minutes will show you, in one big picture, how Starbucks really makes money."
+    "If you own Starbucks stock or are thinking about it, the next nine minutes lay out how Starbucks makes money and what today's price is betting on."
    ],
    "asof": false
   },
@@ -192,85 +168,80 @@
     "type": "checklist",
     "title": "이 영상을 보면 알게 되는 것",
     "title_en": "What you'll take away",
-    "star": 2,
     "backdrop": "commons_sbuxcup_3.jpg",
     "bd_dim": 0.76,
     "items": [
      [
-      "커피 말고 스타벅스를 받쳐 주는 돈",
-      "1:커피"
+      "17억 달러 충전금의 정체",
+      "1:17억"
      ],
      [
-      "그 돈이 이자보다 더 큰 힘이 되는 이유",
-      "2:이자보다"
+      "손님이 줄어든 원인과 회복 방법",
+      "2:원인"
      ],
      [
-      "10월 29일 실적 발표 때 볼 숫자 세 개",
+      "10월 29일 실적 발표 때 볼 숫자 3개",
       "3:10월"
      ]
     ]
    },
    "lines": [
     "이 영상을 보시면 세 가지를 알게 됩니다.",
-    "하나, 커피 말고 스타벅스를 받쳐 주는 돈.",
-    "둘, 그 돈이 이자보다 더 큰 힘이 되는 이유.",
-    "셋, 10월 29일 실적 발표 때 딱 세 숫자만 보면 되는 이유와, 그 숫자요."
+    "첫 번째, 손님들이 맡겨 둔 17억 달러가 스타벅스에 어떤 돈인지.",
+    "두 번째, 손님이 줄어든 원인과 다시 늘어난 방법.",
+    "세 번째, 10월 29일 실적 발표 때 확인할 숫자 세 개입니다."
    ],
    "en": [
     "Here's what you'll take away.",
-    "One: the money behind Starbucks that isn't coffee.",
-    "Two: why that money is worth more than interest.",
-    "Three: the three numbers to watch on October 29 earnings, and why only those three."
+    "One: what the 1.7 billion dollars customers left with Starbucks really is.",
+    "Two: why customers stopped coming, and how they came back.",
+    "Three: the three numbers to check on October 29 earnings."
    ],
    "asof": false
   },
   {
    "v": {
     "type": "question",
-    "text": "이자 0원, 갚는 날도 없는 돈?",
-    "backdrop": "bank_46980_a.jpg",
+    "text": "돈을 가장 많이 벌어 준 앱이, 왜?",
+    "backdrop": "phone_4915_a.jpg",
     "bd_dim": 0.64
    },
    "lines": [
-    "그런데 이 돈, 은행이라면 이자를 줘야 하는 돈이에요. 스타벅스는 한 푼도 안 줍니다.",
-    "이자 0원에 갚는 날짜도 없는 돈. 이런 대출, 저도 받고 싶네요."
+    "그런데 이상한 점이 있습니다. 이 앱은 스타벅스에 돈을 가장 많이 벌어다 준 장치였거든요."
    ],
    "en": [
-    "If a bank held this money, it would owe you interest. Starbucks pays none.",
-    "Zero interest, no due date. I'd take a loan like that too."
+    "Here's the strange part: this app was the best money-maker Starbucks ever had."
    ],
    "asof": false
   },
   {
    "v": {
     "type": "title",
-    "text": "충전 버튼을 누르는 3,580만 명",
-    "sub": "스타벅스 리워드"
+    "text": "충전금 17억 달러",
+    "sub": "이자 0원 · 만기 없음"
    },
    "lines": [
-    "먼저, 이 돈이 어디서 왔는지부터 볼게요."
+    "먼저, 이 앱이 얼마나 많은 돈을 모았는지부터 보겠습니다."
    ],
    "en": [
-    "First, where does this money come from?"
+    "First, how much money did this app collect?"
    ],
    "asof": false,
-   "chapter": "충전 버튼을 누르는 3,580만 명"
+   "chapter": "충전금 17억 달러"
   },
   {
    "v": {
     "type": "media",
     "lib": "commons_barista_2.jpg",
     "caption": "아침 7시 반, 미국 어느 스타벅스",
-    "caption_at": "1"
+    "caption_at": "0"
    },
    "lines": [
-    "스타벅스 매장은 전 세계 4만 1,304곳, 미국에만 1만 6,933곳이 있어요.",
-    "미국 직장인의 아침을 떠올려 보세요. 출근길에 앱으로 미리 주문하고, 매장에선 컵만 집어 들고 나갑니다.",
-    "잔액이 모자라면 앱이 자동으로 25달러씩 채워 주죠."
+    "미국 직장인은 출근길에 앱으로 미리 주문하고, 매장에서는 컵만 들고 나갑니다.",
+    "잔액이 모자라면 앱이 25달러씩 자동으로 충전해 주죠."
    ],
    "en": [
-    "Starbucks has 41,304 stores worldwide, 16,933 of them in the U.S.",
-    "Picture a weekday morning in America. You order ahead in the app and just grab your cup.",
+    "An American commuter orders ahead in the app and just grabs the cup at the store.",
     "When the balance runs low, the app reloads 25 dollars automatically."
    ],
    "asof": false
@@ -293,312 +264,123 @@
     ]
    },
    "lines": [
-    "이렇게 앱을 쓰는 미국 리워드 회원이 3,580만 명입니다.",
-    "미국 직영점 매출의 59%를 이 회원들이 냅니다. 손님이 쓰는 돈 열 개 중 여섯 개가 앱에서 나오는 셈이죠.",
-    "회원은 결제할 때마다 별을 모으고, 별로 음료를 받아요. 그래서 또 충전하게 되죠."
+    "이렇게 앱을 쓰는 미국 리워드 활성 회원은 3,580만 명입니다.",
+    "미국 직영점 매출의 59%를 이 회원들이 냅니다. 손님이 쓰는 10달러 가운데 6달러가 회원에게서 나오는 셈이에요."
    ],
    "en": [
-    "35.8 million active Starbucks Rewards members in the U.S.",
-    "They account for 59% of spending at U.S. company-operated stores. Six in ten dollars come through the app.",
-    "Members earn Stars with every purchase and redeem them for drinks, so they keep reloading."
+    "35.8 million active Starbucks Rewards members in the U.S. use the app this way.",
+    "They account for 59% of spending at U.S. company-operated stores. Six of every ten dollars come from members."
    ],
    "asof": false,
    "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 90일 활성 회원 3,580만 명 · 회원 결제 비중 59%"
   },
   {
    "v": {
-    "type": "stat",
-    "kicker": "석 달 동안 미국 직영점 카드·앱에 충전된 돈",
-    "value": "31억 달러",
-    "label": "우리 돈 약 4조 원",
-    "label_en": "Loaded to Starbucks Cards in one quarter",
-    "at": "0:31억",
-    "count": false
+    "type": "media",
+    "lib": "phone_4919.mp4",
+    "chips": [
+     {
+      "v": "31억 달러",
+      "l": "석 달 충전액 (미국 직영점)",
+      "at": "0:31억"
+     },
+     {
+      "v": "≈ 4조 원",
+      "l": "원화 환산",
+      "at": "0:4조"
+     }
+    ]
    },
    "lines": [
     "석 달 동안 카드와 앱에 새로 충전되는 돈만 31억 달러, 우리 돈 약 4조 원이에요.",
-    "커피를 마시기 전에, 돈부터 먼저 들어오는 구조입니다."
+    "손님이 커피를 마시기 전에, 돈이 먼저 회사에 들어오는 구조입니다."
    ],
    "en": [
     "In one quarter, 3.1 billion dollars were loaded onto cards and the app.",
-    "The money arrives before the coffee is even made."
+    "The money reaches Starbucks before the coffee is even made."
    ],
    "asof": false,
    "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 충전액 31억 1,500만 달러 (2026년 3~6월) · 원화는 1달러 1,324.2원 (10월 22일 종가)"
   },
   {
    "v": {
-    "type": "media",
-    "lib": "commons_mobileorder_2.jpg",
-    "chips": [
-     {
-      "v": "33%",
-      "l": "앱으로 미리 들어온 주문",
-      "at": "1:세 건"
-     },
-     {
-      "v": "42%",
-      "l": "카드·앱 잔액으로 낸 결제",
-      "at": "2:42"
-     }
+    "type": "bars",
+    "title": "손님이 넣어 두고 아직 안 쓴 돈 (미국)",
+    "title_en": "Customer balances not yet spent",
+    "unit": "억 달러",
+    "items": [
+     [
+      "2025.9.28",
+      17.5,
+      "0:17억",
+      false,
+      "17.5억 달러"
+     ],
+     [
+      "2025.12.28\n연말 직후",
+      20.7,
+      "1:20억",
+      true,
+      "20.7억 달러"
+     ]
     ]
    },
    "lines": [
-    "스타벅스가 선불카드를 처음 낸 건 2001년이에요. 20여 년 만에, 커피 회사가 은행 같은 지갑을 갖게 된 거죠.",
-    "지금 미국 직영점 주문 세 건 중 한 건은, 매장에 오기 전에 앱으로 들어온 주문이에요.",
-    "결제 건수로 보면 42%가 카드와 앱 잔액으로 계산됩니다. 거의 절반이죠."
+    "그렇게 손님들이 넣어 두고 아직 쓰지 않은 돈이, 미국에서만 약 17억 5천만 달러입니다. 우리 돈으로 2조 3천억 원이 넘어요.",
+    "크리스마스 선물 시즌 직후에는 20억 달러를 넘기도 합니다."
    ],
    "en": [
-    "Starbucks launched its prepaid card in 2001. Two decades later, a coffee company has a bank-like wallet.",
-    "Today one in three orders at U.S. company-operated stores comes in through the app before the customer arrives.",
-    "By transactions, 42% are paid with a Starbucks Card or app balance. Nearly half."
+    "Money loaded but not yet spent comes to about 1.75 billion dollars in the U.S. alone.",
+    "Right after the holiday gift season, it tops 2 billion dollars."
    ],
    "asof": false,
-   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 모바일 주문 비중 33% · 카드 결제 비중 42% (거래 건수 기준)"
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "commons_sbuxkorea_1.jpg",
-    "chips": [
-     {
-      "v": "4,275억 원",
-      "l": "한국 사이렌오더 충전금 (2025년 말)",
-      "at": "0:4,275억"
-     }
-    ]
-   },
-   "lines": [
-    "한국도 다르지 않아요. 사이렌오더에 쌓인 충전금이 2025년 말 4,275억 원이었습니다.",
-    "다만 오늘은, 주식으로 사고팔 수 있는 미국 본사 스타벅스 이야기예요."
-   ],
-   "en": [
-    "Korea is no different: Siren Order balances reached 427.5 billion won at the end of 2025.",
-    "But today is about the U.S. parent, the Starbucks you can actually buy shares in."
-   ],
-   "asof": false,
-   "src": "SCK컴퍼니 2025년 감사보고서 (파이낸셜뉴스 2026년 5월 24일 보도) · 한국 스타벅스는 이마트·싱가포르투자청이 주주인 별도 회사"
-  },
-  {
-   "v": {
-    "type": "title",
-    "text": "손님이 은행이 된 회사",
-    "sub": "이자 0원, 만기 없음"
-   },
-   "lines": [
-    "그럼 이 돈은, 회계로는 뭘까요?"
-   ],
-   "en": [
-    "So what is this money, in accounting terms?"
-   ],
-   "asof": false,
-   "chapter": "손님이 은행이 된 회사"
+   "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 충전카드·리워드 별 잔액 17억 5,170만 달러 · 원화는 1달러 1,324.2원 (10월 22일 종가) · 스타벅스 FY2026 1분기 보고서 (10-Q, 2025년 12월 28일 기준) · 20억 7,330만 달러"
   },
   {
    "v": {
     "type": "card",
     "kicker": "충전금 = 갚아야 할 돈",
-    "title": "손님에게 커피로 돌려줘야 하는 빚",
+    "title": "손님에게 커피로 갚는 빚",
     "title_en": "A liability repaid in coffee",
     "at": "0",
     "rows": [
      [
-      "선수금 먼저 수령",
+      "돈은 먼저 받음",
       "0:먼저"
      ],
      [
       "커피는 나중에 제공",
-      "1:나중"
+      "0:나중"
      ],
      [
       "이자 0원 · 만기 없음",
-      "2:이자"
+      "1:이자"
      ]
     ]
    },
    "lines": [
-    "손님이 충전한 돈은, 회계로는 스타벅스가 갚아야 할 빚이에요.",
-    "돈은 먼저 받고, 커피는 나중에 내주니까요.",
-    "그런데 이 빚엔 이자도, 갚는 날짜도 없습니다. 손님이 은행이고, 스타벅스가 대출자인 셈이죠.",
-    "커피를 미리 팔아 둔 돈이라, 그 돈으로 매장을 먼저 돌릴 수도 있고요."
+    "회계로 보면, 이 충전금은 스타벅스가 손님에게 커피로 갚아야 할 빚입니다. 돈은 먼저 받고 커피는 나중에 내주니까요.",
+    "그런데 이 빚에는 이자도, 갚는 날짜도 없어요. 은행에서 이런 조건으로 돈을 빌릴 수 있다면, 저도 당장 빌리고 싶네요."
    ],
    "en": [
-    "To Starbucks, your loaded balance is a liability.",
-    "It takes the money now and hands over coffee later.",
-    "But this debt has no interest and no due date. Customers are the bank, Starbucks is the borrower.",
-    "It is coffee sold in advance, cash Starbucks can put to work first."
+    "In accounting terms, this balance is a debt Starbucks repays in coffee. It takes the money first and serves the coffee later.",
+    "But this debt carries no interest and no due date. If a bank offered me those terms, I'd borrow today."
    ],
    "asof": false,
    "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 충전카드 잔액은 부채(이연수익)로 기록"
   },
   {
    "v": {
-    "type": "headline",
-    "items": [
-     {
-      "src": "S&P 글로벌 분석 (모닝스타 보도)",
-      "date": "2016년 6월",
-      "title": "스타벅스 카드 잔액 12억 달러, 웬만한 미국 은행 예금보다 많다",
-      "at": "0"
-     },
-     {
-      "src": "스타벅스 10-Q",
-      "date": "2025년 12월 28일",
-      "title": "충전금·별 잔액 20억 7천만 달러",
-      "red": true,
-      "at": "1:20억"
-     }
-    ],
-    "note": "10년 사이 약 1.7배",
-    "note_at": "1"
-   },
-   "lines": [
-    "이미 2016년에, 스타벅스 카드에 쌓인 돈이 12억 달러로 웬만한 미국 은행 예금보다 많다는 분석이 나왔어요.",
-    "그게 지금은 연말 기준 20억 달러를 넘었습니다.",
-    "다만 은행 예금엔 이자가 붙지만, 스타벅스 잔액엔 이자가 붙지 않는다는 게 큰 차이죠."
-   ],
-   "en": [
-    "Back in 2016, analysts noted Starbucks cards held 1.2 billion dollars, more than many U.S. banks had in deposits.",
-    "Today it's over 2 billion after the holidays.",
-    "The difference: bank deposits earn interest, Starbucks balances don't."
-   ],
-   "asof": false,
-   "src": "S&P 글로벌 마켓 인텔리전스 분석 (모닝스타 2016년 6월 13일 보도) · 스타벅스 FY2026 1분기 보고서 (10-Q, 2025년 12월 28일 기준)"
-  },
-  {
-   "v": {
-    "type": "bars",
-    "title": "석 달마다 미국 직영점 카드·앱에 충전된 돈",
-    "title_en": "Dollars loaded per quarter",
-    "unit": "억 달러",
-    "items": [
-     [
-      "25년\n1분기",
-      35.2,
-      "0:35억",
-      true,
-      "35.2억"
-     ],
-     [
-      "25년\n2분기",
-      26.3,
-      "0:35억",
-      false,
-      "26.3억"
-     ],
-     [
-      "25년\n3분기",
-      29.6,
-      "0:35억",
-      false,
-      "29.6억"
-     ],
-     [
-      "25년\n4분기",
-      28.0,
-      "0:35억",
-      false,
-      "28.0억"
-     ],
-     [
-      "26년\n1분기",
-      35.6,
-      "0:35억",
-      true,
-      "35.6억"
-     ]
-    ],
-    "hl": [
-     {
-      "at": "1:선물",
-      "i": 4,
-      "note": "연말 석 달"
-     }
-    ]
-   },
-   "lines": [
-    "충전에도 계절이 있어요. 연말이 낀 석 달에는 35억 달러 넘게 충전됩니다.",
-    "선물로 받은 카드가 연초까지 잔액으로 쌓이니까, 크리스마스 직후 잔액이 1년 중 가장 크죠."
-   ],
-   "en": [
-    "Loading has seasons: the quarter with the holidays brings in over 3.5 billion dollars.",
-    "Gift cards pile up as balances into the new year, so the balance peaks right after Christmas."
-   ],
-   "asof": false,
-   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 회계연도 분기 기준 (1분기 = 10~12월)"
-  },
-  {
-   "v": {
-    "type": "equation",
-    "title": "만약 은행에서 빌렸다면 (가정)",
-    "title_en": "If it were a bank loan (hypothetical)",
-    "boxes": [
-     {
-      "text": "17.5억 달러",
-      "label": "충전금·별 잔액",
-      "at": "0:17억",
-      "w": 460
-     },
-     {
-      "text": "4%",
-      "label": "금리 4% 가정",
-      "at": "0:4",
-      "w": 300,
-      "kind": "white"
-     },
-     {
-      "text": "약 7천만 달러",
-      "label": "1년 이자 절감액",
-      "at": "1:7천만",
-      "w": 480,
-      "kind": "gold"
-     }
-    ],
-    "ops": [
-     "×",
-     "="
-    ]
-   },
-   "lines": [
-    "이 돈을 은행에서 빌렸다고 치고, 금리를 4%로만 잡아 볼게요. 계산을 위한 가정이에요.",
-    "1년에 약 7천만 달러, 우리 돈 900억 원이 넘는 이자를 안 내는 셈입니다.",
-    "그럼 스타벅스는 이 돈으로 이자 장사를 하는 회사일까요?"
-   ],
-   "en": [
-    "Say Starbucks borrowed it from a bank at just 4%, just as an assumption.",
-    "That's about 70 million dollars a year in interest it never pays.",
-    "So is Starbucks really in the interest business?"
-   ],
-   "asof": false,
-   "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) 잔액 17억 5,170만 달러 × 가정 금리 4% (실제 금리와 다를 수 있는 단순 계산) · 원화는 1달러 1,324.2원 (10월 22일 종가)"
-  },
-  {
-   "v": {
-    "type": "title",
-    "text": "스타벅스는 이자로 돈을 벌까",
-    "sub": "첫 번째 이야기"
-   },
-   "lines": [
-    "처음에 말씀드린 첫 번째, 커피 말고 스타벅스를 받쳐 주는 돈이 정말 이자일까요?"
-   ],
-   "en": [
-    "Part one: is the money behind Starbucks really interest?"
-   ],
-   "asof": false,
-   "chapter": "스타벅스는 이자로 돈을 벌까"
-  },
-  {
-   "v": {
     "type": "question",
-    "text": "17억 달러를 굴리면 1년에 얼마?",
+    "text": "17억 달러, 이자로 얼마를 벌까?",
     "backdrop": "commons_barista_1.jpg",
     "bd_dim": 0.64
    },
    "lines": [
-    "17억 달러를 굴리면, 1년에 얼마나 벌 수 있을까요? 답은, 생각보다 작습니다."
+    "그럼 스타벅스는 이 돈을 굴려서 이자로 큰돈을 벌까요? 답은, 생각보다 작습니다."
    ],
    "en": [
-    "How much can 1.75 billion dollars earn in a year? Less than you'd think."
+    "So does Starbucks earn big interest on this money? The answer is smaller than you'd think."
    ],
    "asof": false
   },
@@ -623,86 +405,23 @@
     ],
     "hl": [
      {
-      "at": "2:4%",
+      "at": "1:4%",
       "i": 1
      }
     ]
    },
    "lines": [
-    "실제 장부를 열어 볼게요. 2025 회계연도에 스타벅스가 커피 장사로 남긴 돈은 29억 4천만 달러.",
-    "그런데 회사가 가진 현금 전체에서 나온 이자와 기타 수익을 다 합쳐도, 1억 1천만 달러예요.",
-    "영업이익의 약 4%. 스타벅스는 이자로 먹고사는 회사가 아닙니다.",
-    "손님이 언제든 꺼내 쓸 수 있는 돈이라, 오래 묶어 두는 상품에 넣기도 어렵죠. 처음부터 이자로 큰돈을 벌 구조가 아닌 겁니다."
+    "2025 회계연도에 스타벅스가 커피 장사로 남긴 영업이익은 29억 4천만 달러입니다.",
+    "회사가 가진 현금 전체에서 나온 이자와 기타 수익은 다 합쳐도 1억 1천만 달러, 영업이익의 약 4%예요.",
+    "손님이 언제든 꺼내 쓸 수 있는 돈이라, 오래 묶어 두는 상품에 넣기도 어렵거든요."
    ],
    "en": [
-    "Let's open the books. In fiscal 2025, Starbucks made 2.94 billion dollars of operating income.",
-    "All its interest and other income, from all its cash combined, was 113 million.",
-    "About 4% of operating income. Starbucks doesn't live on interest.",
-    "Customers can spend it any time, so it can't be locked up for long. The structure was never built for big interest income."
+    "In fiscal 2025, Starbucks made 2.94 billion dollars of operating income from selling coffee.",
+    "Interest and other income from all of its cash came to 113 million dollars, about 4% of operating income.",
+    "Customers can spend the balance any time, so Starbucks can't lock it up in long-term investments."
    ],
    "asof": false,
    "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일) · 영업이익 29억 3,660만 달러 · 이자·기타 수익 1억 1,330만 달러"
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "coins_38406.mp4",
-    "caption": "그런데 이자보다 큰 돈이 따로 있습니다",
-    "caption_at": "0"
-   },
-   "lines": [
-    "그런데 장부에는, 이자보다 두 배 큰 돈이 한 줄 더 있어요."
-   ],
-   "en": [
-    "But the books show another line, twice as big as interest."
-   ],
-   "asof": false
-  },
-  {
-   "v": {
-    "type": "title",
-    "text": "아무도 안 쓰는 돈, 낙전",
-    "sub": "서랍 속 기프트카드"
-   },
-   "lines": [
-    "서랍 속에 잊고 지낸 기프트카드, 하나쯤 있으시죠?"
-   ],
-   "en": [
-    "Got a forgotten gift card in a drawer somewhere?"
-   ],
-   "asof": false,
-   "chapter": "아무도 안 쓰는 돈, 낙전"
-  },
-  {
-   "v": {
-    "type": "card",
-    "kicker": "낙전 (breakage)",
-    "title": "끝내 안 쓰일 것으로 보는 잔액",
-    "title_en": "Breakage: balances never redeemed",
-    "at": "0",
-    "rows": [
-     [
-      "과거 기록 기반 미사용 몫 추정",
-      "0:추정"
-     ],
-     [
-      "추정액만큼 매출 인식",
-      "1:매출"
-     ]
-    ]
-   },
-   "lines": [
-    "스타벅스는 과거 기록을 보고, 끝내 안 쓰일 잔액이 얼마인지 추정해요.",
-    "그리고 그만큼을 매출로 잡습니다. 이걸 낙전, 영어로 브레이키지라고 해요.",
-    "어디까지나 추정이라, 실제로 쓰인 돈과 차이가 나면 나중에 고쳐 잡습니다."
-   ],
-   "en": [
-    "From past patterns, Starbucks estimates how much will never be spent.",
-    "It books that as revenue. It's called breakage.",
-    "It's an estimate, adjusted later if actual redemptions differ."
-   ],
-   "asof": false,
-   "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) 회계 정책 (주석 1)"
   },
   {
    "v": {
@@ -714,7 +433,7 @@
      [
       "FY2024",
       207.6,
-      "0:2억 760만",
+      "0:2억 2,240만",
       false,
       "2억 760만"
      ],
@@ -734,105 +453,385 @@
     ]
    },
    "lines": [
-    "2025 회계연도 낙전 수익은 2억 2,240만 달러, 우리 돈 약 2,900억 원이에요.",
-    "아까 이자·기타 수익의 두 배쯤 되죠. 잊힌 잔액이, 이자보다 더 많이 번 셈입니다.",
-    "솔직히 제 서랍에도 잔액 남은 카드가 한 장 있는데, 스타벅스 실적에 조금 보탠 셈이네요.",
-    "그래도 영업이익과 비교하면 8%가 안 돼요. 그러니 스타벅스의 진짜 힘은, 따로 있다는 얘기죠."
+    "장부에는 이자보다 큰 수익이 한 줄 더 있습니다. 끝내 쓰이지 않을 잔액을 추정해서 매출로 잡는 낙전 수익인데, 2025 회계연도에 2억 2,240만 달러였어요.",
+    "서랍 속 잊힌 기프트카드가 이자보다 두 배 더 번 셈이죠. 솔직히 제 서랍에도 한 장 있습니다.",
+    "그래도 낙전 수익은 영업이익의 8%가 안 됩니다."
    ],
    "en": [
-    "Fiscal 2025 breakage was 222 million dollars.",
-    "About twice the interest and other income. Forgotten balances earned more than interest.",
-    "Honestly, I have a card with a balance in my drawer too. I guess I chipped in.",
-    "Still under 8% of operating income. So the real power lies elsewhere."
+    "The books show one more line, bigger than interest: breakage, the balances Starbucks estimates will never be spent, booked as revenue. 222 million dollars in fiscal 2025.",
+    "Forgotten gift cards earned twice as much as interest. Honestly, I have one in my drawer too.",
+    "Still, breakage is under 8% of operating income."
    ],
    "asof": false,
    "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 낙전 2억 2,240만 달러 (직영 2억 40만 + 라이선스 2,200만), 전년 2억 760만 달러 · 원화는 1달러 1,324.2원 (10월 22일 종가)"
   },
   {
    "v": {
-    "type": "title",
-    "text": "스타벅스는 왜 다시 오게 만들까",
-    "sub": "두 번째 이야기"
-   },
-   "lines": [
-    "두 번째 이야기, 그 돈이 이자보다 더 큰 힘이 되는 이유입니다."
-   ],
-   "en": [
-    "Part two: why that money beats interest."
-   ],
-   "asof": false,
-   "chapter": "스타벅스는 왜 다시 오게 만들까"
-  },
-  {
-   "v": {
     "type": "media",
     "lib": "commons_cafequeue_2.jpg",
     "caption": "앱에 12달러가 남아 있다면?",
-    "caption_at": "0"
+    "caption_at": "1"
    },
    "lines": [
-    "앱에 12달러가 남아 있으면, 내일 아침 다른 카페로 가기가 어렵죠.",
-    "충전금의 진짜 힘은 이자가 아니라, 손님을 다시 오게 만드는 끈이에요. 이걸 락인, 붙잡아 두는 효과라고 합니다."
+    "첫 번째로 말씀드린 충전금의 정체는, 이자를 버는 돈이 아니라 손님을 다시 오게 만드는 돈입니다.",
+    "앱에 12달러가 남아 있으면, 내일 아침 다른 카페에 가기가 어렵죠. 이걸 락인 효과라고 해요.",
+    "그런데 문제는, 이 앱이 너무 잘 작동했다는 점입니다."
    ],
    "en": [
-    "With 12 dollars left in the app, it's hard to try another cafe tomorrow.",
-    "The real power isn't interest. It's the string that pulls customers back. Lock-in."
+    "So the first answer: the balance isn't money that earns interest. It's money that brings customers back.",
+    "With 12 dollars left in the app, it's hard to try another cafe tomorrow morning. That's called lock-in.",
+    "The problem is, the app worked too well."
    ],
    "asof": false
   },
   {
    "v": {
-    "type": "timeline",
-    "title": "브라이언 니콜의 '스타벅스로 돌아가자'",
-    "title_en": "Back to Starbucks",
-    "points": [
+    "type": "title",
+    "text": "앱 주문이 만든 병목",
+    "sub": "2024년 미국 매장"
+   },
+   "lines": [
+    "아침 8시, 미국 스타벅스 매장의 픽업대를 떠올려 보세요."
+   ],
+   "en": [
+    "Picture the pickup counter at a U.S. Starbucks at 8 a.m."
+   ],
+   "asof": false,
+   "chapter": "앱 주문이 만든 병목"
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_mobileorder_2.jpg",
+    "chips": [
      {
-      "x": "FY2025",
-      "text": "미국 동일매장 매출 -2%",
-      "at": "0:마이너스",
-      "color": "red"
-     },
-     {
-      "x": "2024.9",
-      "text": "브라이언 니콜 CEO 취임",
-      "at": "1:니콜"
-     },
-     {
-      "x": "FY26 3분기",
-      "text": "미국 동일매장 매출 +7.9%",
-      "at": "2:7.9",
-      "color": "gold"
+      "v": "33%",
+      "l": "앱으로 미리 들어온 주문",
+      "at": "1:세 건"
      }
     ]
    },
    "lines": [
-    "그런데 이 끈도, 커피가 만족스러울 때만 버팁니다. 2025 회계연도에 미국 매장 매출은 1년 전보다 2% 줄었어요.",
-    "2024년 9월에 온 브라이언 니콜 최고경영자는, 매장 경험부터 다시 고치겠다며 '스타벅스로 돌아가자'를 내걸었죠.",
-    "메뉴를 줄이고 매장 서비스를 다시 손보는 동안, 2025 회계연도 영업이익률은 7.9%까지 내려왔어요. 고치는 비용이 먼저 나간 거죠.",
-    "그리고 올해 3분기, 미국 기존 매장 매출이 7.9% 늘었습니다."
+    "앱으로 미리 들어온 주문 컵이 픽업대에 줄지어 놓여 있고, 계산대 앞 손님은 그 뒤에서 기다립니다.",
+    "지금 미국 직영점 주문 세 건 중 한 건이 매장에 오기 전에 앱으로 들어옵니다."
    ],
    "en": [
-    "But the string holds only when the coffee experience does. In fiscal 2025, U.S. comparable sales fell 2%.",
-    "CEO Brian Niccol, who arrived in September 2024, launched Back to Starbucks to fix the store experience first.",
-    "While it trimmed the menu and reworked store service, the fiscal 2025 operating margin fell to 7.9%. The fixing cost came first.",
-    "And last quarter, U.S. comparable store sales rose 7.9%."
+    "Cups for app orders line the pickup counter while customers at the register wait behind them.",
+    "Today one in three orders at U.S. company-operated stores comes in through the app before the customer arrives."
    ],
    "asof": false,
-   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일) · 스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준)"
+   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 모바일 주문 비중 33% · 카드 결제 비중 42% (거래 건수 기준)"
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_barista_3.jpg",
+    "chips": [
+     {
+      "v": "+ 시럽",
+      "l": "추가 옵션",
+      "at": "0:시럽"
+     },
+     {
+      "v": "+ 콜드폼",
+      "l": "추가 옵션",
+      "at": "0:콜드폼"
+     },
+     {
+      "v": "제조 시간 ↑",
+      "l": "한 잔당",
+      "at": "2:시간"
+     }
+    ]
+   },
+   "lines": [
+    "앱 주문에는 시럽 추가, 콜드폼 추가 같은 옵션이 많이 붙습니다.",
+    "옵션이 붙을수록 회사가 한 잔에서 남기는 돈은 늘어요.",
+    "대신 직원이 음료 한 잔을 만드는 시간도 그만큼 길어집니다."
+   ],
+   "en": [
+    "App orders often come with add-ons like extra syrup or cold foam.",
+    "Each add-on raises what Starbucks earns per cup.",
+    "But it also stretches the time a barista needs to make each drink."
+   ],
+   "asof": false,
+   "src": "NBC 뉴스 (2024년 8월 13일) · 모바일 주문은 옵션이 많아 수익성은 높지만 제조 시간이 길다"
+  },
+  {
+   "v": {
+    "type": "quote",
+    "text": "앱은 스타벅스의 가장 큰 아킬레스건이다.",
+    "who": "하워드 슐츠 · 스타벅스 창업자 (의역)",
+    "at": "1",
+    "who_at": "1:슐츠",
+    "backdrop": "commons_cafeint_3.jpg",
+    "bd_dim": 0.74
+   },
+   "lines": [
+    "2024년 4월, 당시 최고경영자는 아침 시간 주문을 다 감당하지 못하고 있고, 긴 대기 때문에 발길을 돌리는 손님이 있다고 인정했습니다.",
+    "창업자 하워드 슐츠는 이 앱을 두고, 스타벅스의 가장 큰 아킬레스건이라고까지 말했어요."
+   ],
+   "en": [
+    "In April 2024, the then-CEO admitted Starbucks was struggling to keep up with morning demand, and long waits were turning some customers away.",
+    "Founder Howard Schultz went as far as calling the app Starbucks' biggest Achilles heel."
+   ],
+   "asof": false,
+   "src": "NBC 뉴스 (2024년 8월 13일) · 락스만 나라심한 2024년 4월 실적 발표 발언 · 하워드 슐츠 발언(의역)"
+  },
+  {
+   "v": {
+    "type": "timeline",
+    "title": "미국 기존 매장 계산 건수 (1년 전 대비)",
+    "title_en": "U.S. comparable transactions",
+    "points": [
+     {
+      "x": "2024.4~6",
+      "text": "-6%",
+      "color": "red",
+      "at": "0:6%"
+     },
+     {
+      "x": "2024.7~9",
+      "text": "-10%",
+      "color": "red",
+      "at": "0:10%"
+     },
+     {
+      "x": "2024.8",
+      "text": "최고경영자 교체",
+      "at": "1:교체"
+     }
+    ]
+   },
+   "lines": [
+    "계산 건수는 2024년 4월부터 6월까지 6%, 7월부터 9월까지 10% 줄었습니다.",
+    "결국 2023년 3월에 취임한 최고경영자는 1년 5개월 만에 교체됐어요."
+   ],
+   "en": [
+    "Transactions fell 6% in April to June 2024, then 10% in July to September.",
+    "The CEO who took over in March 2023 was replaced after 17 months."
+   ],
+   "asof": false,
+   "src": "스타벅스 FY2024 3·4분기 실적 발표 · 포천 (2024년 8월 13일)"
+  },
+  {
+   "v": {
+    "type": "kinetic",
+    "backdrop": "commons_sbuxstore_1.jpg",
+    "bd_dim": 0.74,
+    "words": [
+     {
+      "t": "2008.2.26",
+      "at": "0:2008",
+      "size": 120,
+      "c": "acc",
+      "under": true
+     },
+     {
+      "t": "미국 매장 약 7,000곳",
+      "at": "0:7,000",
+      "size": 90,
+      "c": "ivory"
+     },
+     {
+      "t": "3시간 30분 휴점",
+      "at": "1:세 시간",
+      "size": 90,
+      "c": "muted"
+     }
+    ]
+   },
+   "lines": [
+    "스타벅스가 손님을 잃은 건 이번이 처음이 아닙니다. 2008년 2월 26일, 미국 스타벅스 약 7,000곳이 한꺼번에 문을 닫았습니다.",
+    "창업자 하워드 슐츠가 직원들에게 에스프레소 만드는 법을 다시 가르치려고, 세 시간 반 동안 영업을 멈춘 거예요.",
+    "그때 원인은 커피 맛이었고, 이번 원인은 앱 주문이 몰린 매장이었습니다."
+   ],
+   "en": [
+    "This isn't the first time Starbucks lost customers. On February 26, 2008, about 7,000 U.S. Starbucks stores closed at once.",
+    "Founder Howard Schultz shut them for three and a half hours to retrain baristas on making espresso.",
+    "Back then the cause was the coffee. This time it was stores overloaded with app orders."
+   ],
+   "asof": false,
+   "src": "NPR (2008년 2월 27일) · 미국 매장 약 7,000곳 3시간 30분 휴점, 바리스타 재교육"
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_cafeint_1.jpg",
+    "caption": "손님은 어떻게 다시 늘었나",
+    "caption_at": "1"
+   },
+   "lines": [
+    "두 번째로 말씀드린 손님이 줄어든 원인은, 앱 주문이 몰려 느려진 매장이었습니다.",
+    "그럼 스타벅스는 손님을 어떻게 다시 늘렸을까요?"
+   ],
+   "en": [
+    "So part two, the cause: stores slowed down by a flood of app orders.",
+    "How did Starbucks bring customers back?"
+   ],
+   "asof": false
+  },
+  {
+   "v": {
+    "type": "title",
+    "text": "브라이언 니콜의 처방",
+    "sub": "2024년 8월"
+   },
+   "lines": [
+    "2024년 8월 13일, 스타벅스는 새 최고경영자로 브라이언 니콜을 발표합니다."
+   ],
+   "en": [
+    "On August 13, 2024, Starbucks named Brian Niccol its new CEO."
+   ],
+   "asof": false,
+   "chapter": "브라이언 니콜의 처방"
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_niccol_1.jpg",
+    "chips": [
+     {
+      "v": "+24%",
+      "l": "발표 당일 주가 (장중)",
+      "at": "1:24%"
+     }
+    ]
+   },
+   "lines": [
+    "니콜은 부리토 체인 치폴레의 최고경영자로 6년 동안 회사를 키운 사람입니다.",
+    "발표 당일 스타벅스 주가는 장중 24% 올랐어요. 장중 기준으로 스타벅스 역사상 가장 큰 상승이었습니다."
+   ],
+   "en": [
+    "Niccol had spent six years growing the burrito chain Chipotle as its CEO.",
+    "Starbucks shares jumped 24% intraday on the news, the biggest intraday gain in the company's history."
+   ],
+   "asof": false,
+   "src": "포천 (2024년 8월 13일) · 장중 24% 상승, 회사 역사상 최대 장중 상승 · 사진: 위키미디어 공용"
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_seattle_1.jpg",
+    "chips": [
+     {
+      "v": "뉴포트비치 → 시애틀",
+      "l": "집 → 본사",
+      "at": "0:뉴포트비치"
+     },
+     {
+      "v": "1,600km+",
+      "l": "회사 전용기 출퇴근",
+      "at": "0:전용기"
+     }
+    ]
+   },
+   "lines": [
+    "니콜의 근무 조건도 화제가 됐습니다. 캘리포니아 뉴포트비치 집에서 시애틀 본사까지 1,600km가 넘는 거리를, 회사 전용기로 오가기로 했거든요.",
+    "저는 지하철 두 정거장도 멀다고 느끼는데, 니콜은 출근길이 비행기인 셈이죠."
+   ],
+   "en": [
+    "His work arrangement made headlines too: he would fly a company jet more than 1,000 miles between his home in Newport Beach, California, and Seattle headquarters.",
+    "I complain about two subway stops. His commute is a flight."
+   ],
+   "asof": false,
+   "src": "ABC13 (2024년 8월) · 스타벅스 공시(채용 조건): 회사 전용기 출퇴근, 자택 원격 사무실 · 사진: 위키미디어 공용"
+  },
+  {
+   "v": {
+    "type": "checklist",
+    "title": "니콜이 바꾼 것",
+    "title_en": "Back to Starbucks",
+    "backdrop": "commons_cafeint_2.jpg",
+    "bd_dim": 0.78,
+    "items": [
+     [
+      "메뉴 30% 축소",
+      "0:30%"
+     ],
+     [
+      "매장 손님에게 머그잔",
+      "1:머그잔"
+     ],
+     [
+      "컵에 손글씨 메시지",
+      "1:손글씨"
+     ],
+     [
+      "주문 후 4분 안에 음료",
+      "2:4분"
+     ]
+    ]
+   },
+   "lines": [
+    "니콜은 새 메뉴를 늘리는 대신, 메뉴의 30%를 줄이겠다고 발표했습니다.",
+    "매장에서 마시는 손님에게는 다시 머그잔에 음료를 내주고, 테이크아웃 컵에는 직원이 손글씨로 메시지를 쓰게 했어요.",
+    "그리고 주문한 음료가 4분 안에 나오게 하는 목표를 세웠습니다."
+   ],
+   "en": [
+    "Instead of adding new drinks, Niccol announced he would cut 30% of the menu.",
+    "Customers staying in got ceramic mugs again, and baristas started handwriting notes on to-go cups.",
+    "He also set a goal: every drink in four minutes."
+   ],
+   "asof": false,
+   "src": "FOX (2025년 1월 29일) 메뉴 30% 축소 · 패키징 유럽 (2025년 2월 3일) 손글씨·머그잔 · 테이스팅 테이블 4분 목표"
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "coffee_41859_a.jpg",
+    "caption": "앱은 그대로, 매장 속도는 다시 빠르게",
+    "caption_at": "0"
+   },
+   "lines": [
+    "니콜은 앱을 없애지 않았습니다. 앱 주문이 몰리면서 느려진 매장 서비스를 다시 빠르게 만드는 데 집중한 거예요."
+   ],
+   "en": [
+    "Niccol didn't kill the app. He focused on making stores fast again after app orders had slowed them down."
+   ],
+   "asof": false
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_barista_4.jpg",
+    "chips": [
+     {
+      "v": "7.9%",
+      "l": "2025 회계연도 영업이익률",
+      "at": "0:7.9"
+     },
+     {
+      "v": "-2%",
+      "l": "미국 기존 매장 매출",
+      "at": "1:2%"
+     }
+    ]
+   },
+   "lines": [
+    "물론 비용이 들었습니다. 직원과 매장에 돈을 먼저 쓰면서, 2025 회계연도 영업이익률은 7.9%까지 내려갔어요.",
+    "같은 해 미국 기존 매장 매출도 1년 전보다 2% 줄었습니다."
+   ],
+   "en": [
+    "It wasn't free. Spending on staff and stores first pushed the fiscal 2025 operating margin down to 7.9%.",
+    "U.S. comparable store sales fell 2% that year as well."
+   ],
+   "asof": false,
+   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일)"
   },
   {
    "v": {
     "type": "stat",
-    "kicker": "FY2026 3분기 · 미국 기존 매장",
+    "kicker": "2026.4~6 · 미국 기존 매장",
     "value": "+4.2%",
     "label": "손님 수(거래 건수) 증가",
     "label_en": "U.S. comparable transactions",
-    "at": "0",
+    "at": "1:4.2",
     "count": false,
     "tags": [
      {
       "text": "객단가 +3.6%보다 큰 몫",
-      "at": "1:가격",
+      "at": "1:손님",
       "kind": "gold"
      }
     ],
@@ -840,96 +839,150 @@
     "bd_dim": 0.72
    },
    "lines": [
-    "눈여겨볼 건 늘어난 이유예요. 손님 수가 4.2% 늘었습니다.",
-    "리워드 활성 회원도 2년 전 3,380만 명에서 3,580만 명으로 늘었고요. 가격만 올려서가 아니라, 사람이 다시 돌아오고 있다는 뜻이죠. 처음에 말씀드린 두 번째, 다시 오게 만드는 힘이 숫자로 보이는 순간이에요."
+    "그리고 올해 4월부터 6월까지, 미국 기존 매장 매출은 7.9% 늘었습니다.",
+    "더 중요한 건 이유예요. 계산 건수, 즉 손님 수가 4.2% 늘었거든요."
    ],
    "en": [
-    "What matters is why: transactions rose 4.2%.",
-    "Active Rewards members also grew from 33.8 to 35.8 million in two years. Not just higher prices, but people coming back. That's part two, the pull-back power, showing up in the numbers."
+    "Then, from April to June this year, U.S. comparable store sales rose 7.9%.",
+    "What matters is why: transactions, the number of customer visits, rose 4.2%."
    ],
    "asof": false,
    "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · 거래 +4.2%, 객단가 +3.6%"
   },
   {
    "v": {
-    "type": "title",
-    "text": "네슬레가 미리 낸 71억 5천만 달러",
-    "sub": "또 하나의 선불"
-   },
-   "lines": [
-    "그런데 스타벅스가 미리 받아 둔 돈은, 손님 충전금만이 아니에요."
-   ],
-   "en": [
-    "And customer balances aren't the only money Starbucks got up front."
-   ],
-   "asof": false,
-   "chapter": "네슬레가 미리 낸 71억 달러"
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "commons_grocerycoffee_1.jpg",
-    "chips": [
+    "type": "hbars",
+    "title": "미국 리워드 활성 회원 (90일)",
+    "title_en": "Active U.S. Rewards members",
+    "items": [
+     [
+      "2024년 6월",
+      3380,
+      "0:3,380만",
+      "3,380만 명"
+     ],
+     [
+      "2026년 6월",
+      3580,
+      "0:3,580만",
+      "3,580만 명"
+     ]
+    ],
+    "hl": [
      {
-      "v": "71.5억 달러",
-      "l": "2018년 네슬레 선불",
-      "at": "0:71억"
-     },
-     {
-      "v": "40년",
-      "l": "40년 분할 매출 인식",
-      "at": "1:40년"
+      "at": "1:다시",
+      "i": 1
      }
     ]
    },
    "lines": [
-    "2018년, 네슬레는 마트에서 스타벅스 원두와 캡슐을 팔 권리를 사면서, 71억 5천만 달러를 한 번에 냈어요.",
-    "왜 이렇게 큰돈을 미리 냈을까요? 마트와 캡슐 커피 시장에서, 스타벅스라는 이름을 쓰는 값이에요.",
-    "스타벅스는 이 돈을 40년에 나눠서 매출로 잡습니다. 40년 할부로 받는 월급 같은 거죠."
+    "리워드 활성 회원도 2년 전 3,380만 명에서 3,580만 명으로 늘었어요.",
+    "가격만 올린 게 아니라, 매장을 찾는 사람이 다시 늘고 있다는 뜻입니다."
    ],
    "en": [
-    "In 2018, Nestle paid 7.15 billion dollars up front for the right to sell Starbucks beans and capsules in stores.",
-    "Why so much up front? It's the price of using the Starbucks name in grocery aisles and coffee capsules.",
-    "Starbucks spreads it as revenue over 40 years. Like a salary paid out over four decades."
+    "Active Rewards members grew from 33.8 million to 35.8 million in two years.",
+    "Not just higher prices: more people are coming back to the stores."
    ],
    "asof": false,
-   "src": "스타벅스 FY2019 1분기 보고서 (10-Q) · 네슬레 계약 선불 약 70억 달러를 40년 정액으로 매출 인식 · 네슬레 발표 (2018년 5월 7일)"
+   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · 거래 +4.2%, 객단가 +3.6% · 스타벅스 디지털 IR 대시보드"
   },
   {
    "v": {
-    "type": "stat",
-    "kicker": "2026년 6월 28일 · 장부에 남은 장기 선수 매출",
-    "value": "56억 달러",
-    "label": "대부분 네슬레 선불금",
-    "label_en": "Long-term deferred revenue",
-    "at": "0:56억",
-    "count": false
+    "type": "media",
+    "lib": "commons_sbuxpike_1.jpg",
+    "chips": [
+     {
+      "v": "-10% → +4.2%",
+      "l": "미국 매장 계산 건수",
+      "at": "0:느려진"
+     }
+    ]
    },
    "lines": [
-    "그래서 지금도 장부에는, 앞으로 매출이 될 장기 선수금이 56억 달러 남아 있어요.",
-    "손님 충전금 17억 달러에 이 돈까지, 스타벅스는 남의 돈을 먼저 받아 두는 데 정말 능한 회사입니다."
+    "두 번째 질문의 답이 여기 있습니다. 앱 때문에 느려진 매장을 다시 빠르게 만들자, 손님이 돌아왔습니다."
    ],
    "en": [
-    "So the books still carry 5.6 billion dollars of long-term deferred revenue.",
-    "Add the 1.75 billion in customer balances: Starbucks is very good at getting paid first."
+    "That's the answer to part two: once the stores got fast again, customers returned."
    ],
-   "asof": false,
-   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) 재무상태표 · 장기 이연수익 56억 3,250만 달러"
+   "asof": false
   },
   {
    "v": {
     "type": "title",
-    "text": "스타벅스 주가, 숫자로 보면",
-    "sub": "워렌 버핏의 스승의 계산법"
+    "text": "같은 주식, 다른 수익률",
+    "sub": "언제 샀느냐에 따라"
    },
    "lines": [
-    "그럼 주식으로는, 어떻게 봐야 할까요?"
+    "그럼 스타벅스 주식을 가진 사람의 결과는 어땠을까요?"
    ],
    "en": [
-    "So how should we look at the stock?"
+    "So how did it go for Starbucks shareholders?"
    ],
    "asof": false,
-   "chapter": "스타벅스 주가, 숫자로 보면"
+   "chapter": "같은 주식, 다른 수익률"
+  },
+  {
+   "v": {
+    "type": "twocol",
+    "title": "1억 원을 넣었다면 · {px_label}",
+    "title_en": "100 million won invested",
+    "left": {
+     "title": "2021.7.23 최고가 무렵",
+     "at": "0",
+     "items": [
+      [
+       "지금 {w2021}",
+       "0:{w2021}"
+      ],
+      [
+       "수익률 {w2021_pct}",
+       "0:{w2021}"
+      ]
+     ]
+    },
+    "right": {
+     "title": "2024.8.12 니콜 발표 전날",
+     "gold": true,
+     "at": "1",
+     "items": [
+      [
+       "지금 {wniccol}",
+       "1:{wniccol}"
+      ],
+      [
+       "수익률 {wniccol_pct}",
+       "1:{wniccol}"
+      ]
+     ]
+    }
+   },
+   "lines": [
+    "?사상 최고가 근처였던 2021년 7월 23일에 스타벅스 주식을 1억 원어치 샀다면, {px_label} 기준 그 주식은 {w2021}입니다.",
+    "?반대로 니콜 발표 바로 전날인 2024년 8월 12일에 1억 원어치를 샀다면, 지금 그 주식은 {wniccol}이 됐어요.",
+    "?같은 회사라도, 언제 샀느냐에 따라 결과가 이렇게 다릅니다."
+   ],
+   "en": [
+    "If you had bought 100 million won of Starbucks near its peak on July 23, 2021, it would be worth {w2021} at {px_label}.",
+    "Bought the day before the Niccol news, on August 12, 2024, the same 100 million won would be worth {wniccol} now.",
+    "Same company, very different results depending on when you bought."
+   ],
+   "asof": false,
+   "src": "야후 파이낸스 종가 (2021년 7월 23일 {w2021_ref}, 2024년 8월 12일 {wniccol_ref}) · {px_label} 주가 기준, 배당·환율 제외"
+  },
+  {
+   "v": {
+    "type": "title",
+    "text": "그레이엄 계산으로 본 주가",
+    "sub": "워렌 버핏의 스승"
+   },
+   "lines": [
+    "그럼 지금 주가에는 회복이 얼마나 미리 들어 있을까요?"
+   ],
+   "en": [
+    "So how much of the recovery is already in today's price?"
+   ],
+   "asof": false,
+   "chapter": "그레이엄 계산으로 본 주가"
   },
   {
    "v": {
@@ -941,7 +994,7 @@
     "rows": [
      [
       "여러 해 평균 이익",
-      "0:평균"
+      "1:평균"
      ],
      [
       "× 최대 10배 상한",
@@ -954,67 +1007,117 @@
     ]
    },
    "lines": [
-    "워렌 버핏의 스승, 벤저민 그레이엄의 계산법을 빌려 볼게요.",
-    "여러 해 평균으로 번 돈에, 최대 10배까지만 값을 쳐 줍니다.",
-    "앞으로 더 클 거라는 기대는 0으로 놓아요. 그래서 아주 깐깐한, 바닥 계산이에요."
+    "워렌 버핏의 스승, 벤저민 그레이엄의 계산법을 빌려 보겠습니다.",
+    "여러 해 동안 평균으로 번 이익에, 최대 10배까지만 값을 매깁니다.",
+    "앞으로 이익이 더 늘 거라는 기대는 0으로 놓아요. 그래서 아주 깐깐한 바닥 값 계산입니다."
    ],
    "en": [
     "Let's borrow the method of Warren Buffett's teacher, Benjamin Graham.",
-    "Take average earnings over several years, and pay at most 10 times that.",
-    "Count future growth as zero. A strict floor."
+    "Take average earnings over several years and pay at most 10 times that.",
+    "Count future growth as zero. It's a strict floor value."
    ],
    "asof": false
   },
   {
    "v": {
-    "type": "versus",
+    "type": "scale",
     "title": "{px_label} 기준 · 스타벅스 한 주",
-    "title_en": "One Starbucks share",
     "left": {
-     "name": "계산기가 매긴 값",
+     "label": "그레이엄\n계산 값",
      "value": "{iv_short}",
-     "label": "지금까지 번 돈 기준",
-     "at": "0"
+     "at": "0:{iv_short}",
+     "color": "gold"
     },
     "right": {
-     "name": "시장이 매긴 값",
+     "label": "시장 주가",
      "value": "{px_short}",
-     "label": "{px_label}",
      "at": "0:{px_short}",
-     "win": "1:{mult}",
-     "win_text": "계산기 값의 {mult}"
-    }
+     "color": "red"
+    },
+    "center": {
+     "text": "{mult}",
+     "at": "1:{mult}",
+     "kind": "red"
+    },
+    "tilt": "right",
+    "tilt_at": "1:{mult}"
    },
    "lines": [
-    "이 계산으로 스타벅스 한 주는 {iv_short}. {px_label} 주가는 {px_short}이에요.",
-    "시장이 계산기보다 {mult}를 쳐 주고 있는 거죠. 2025 회계연도 주당순이익이 1년 새 절반 넘게 줄어든 탓도 커요.",
-    "시장은 니콜의 회복이 계속된다는 데 돈을 건 셈입니다."
+    "이 계산으로 스타벅스 한 주의 값은 {iv_short}입니다. {px_label} 주가는 {px_short}였어요.",
+    "시장이 계산 값의 {mult}를 매기고 있는 거죠. 테슬라 편에서는 같은 계산으로 38배가 나왔으니, 스타벅스는 그보다 훨씬 덜 비싸 보입니다."
    ],
    "en": [
-    "By this math, one Starbucks share is worth {iv_short}. At {px_label} it traded at {px_short}.",
-    "The market pays {mult} the calculator, partly because fiscal 2025 earnings per share fell by more than half.",
-    "The market is betting Niccol's turnaround keeps going."
+    "By this math one Starbucks share is worth {iv_short}. At {px_label} it traded at {px_short}.",
+    "The market pays {mult} the floor value. In our Tesla episode the same math gave 38 times, so Starbucks looks far less expensive."
    ],
    "asof": true,
    "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 적정 주가 = 여러 해 평균 이익 × 최대 10배 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) (GAAP 주당순이익 1.63달러, -51%)"
   },
   {
    "v": {
+    "type": "question",
+    "text": "덜 비싼데, 점수는?",
+    "backdrop": "commons_sbuxcup_2.jpg",
+    "bd_dim": 0.66
+   },
+   "lines": [
+    "그런데 덜 비싸 보이는 스타벅스의 밸류노트 점수는 몇 점일까요?"
+   ],
+   "en": [
+    "So what is the ValueNote score of a stock that looks less expensive?"
+   ],
+   "asof": false,
+   "hold": 0.9
+  },
+  {
+   "v": {
     "type": "stat",
-    "kicker": "스타벅스 FY2026 전망 · 조정 주당순이익",
-    "value": "2.55~2.65달러",
-    "label": "2025 회계연도 2.13달러 대비 20% 이상 회복",
-    "label_en": "FY2026 adjusted EPS guidance",
-    "at": "0",
+    "kicker": "스타벅스 밸류노트 점수 · {px_label}",
+    "value": "{score}점",
+    "label": "100점 만점",
+    "label_en": "ValueNote score (out of 100)",
+    "at": "0:{score}",
     "count": false
    },
    "lines": [
-    "회사도 회복을 자신하고 있어요. 올해 조정 주당순이익을 2.55달러에서 2.65달러로 내다봤습니다.",
-    "작년 2.13달러보다 20% 넘게 많은 숫자죠. 이번 실적이 그 말을 지키는지가, 첫 시험대예요."
+    "스타벅스의 밸류노트 점수는 100점 만점에 {score}점입니다.",
+    "점수가 낮은 가장 큰 이유는 이익이에요. 2025 회계연도 주당순이익이 1년 새 절반 넘게 줄었거든요.",
+    "매장을 고치는 데 돈을 쓴 해의 낮은 이익이, 여러 해 평균 이익을 끌어내리고 있는 겁니다."
    ],
    "en": [
-    "The company sounds confident: it guided fiscal 2026 adjusted EPS to 2.55 to 2.65 dollars.",
-    "That's over 20% above last year's 2.13. This report is the first test of that outlook."
+    "Starbucks scores {score} out of 100 on ValueNote.",
+    "The main reason is earnings: fiscal 2025 earnings per share fell by more than half.",
+    "The weak year spent fixing stores is dragging down the multi-year average."
+   ],
+   "asof": true,
+   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 스타벅스 FY2025 실적 발표 (GAAP 주당순이익 1.63달러, -51%)"
+  },
+  {
+   "v": {
+    "type": "timeline",
+    "title": "스타벅스 조정 주당순이익",
+    "title_en": "Adjusted EPS",
+    "points": [
+     {
+      "x": "FY2025 실적",
+      "text": "2.13달러",
+      "at": "1:2.13"
+     },
+     {
+      "x": "FY2026 회사 전망",
+      "text": "2.55~2.65달러",
+      "color": "gold",
+      "at": "0:2.55"
+     }
+    ]
+   },
+   "lines": [
+    "회사는 올해 조정 주당순이익을 2.55달러에서 2.65달러로 예상했습니다.",
+    "작년 2.13달러보다 20% 넘게 많은 숫자예요. 이번 실적이 이 예상을 지키는지가 첫 확인 지점입니다."
+   ],
+   "en": [
+    "The company guided fiscal 2026 adjusted EPS to 2.55 to 2.65 dollars.",
+    "That's more than 20% above last year's 2.13. This report is the first check on that outlook."
    ],
    "asof": false,
    "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 조정 EPS 전망 2.55~2.65달러 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) · FY2025 조정 EPS 2.13달러"
@@ -1049,18 +1152,18 @@
       ],
       [
        "시장 기대와 격차 확대",
-       "1:기대"
+       "1:차이"
       ]
      ]
     }
    },
    "lines": [
-    "회복이 이어지면, 늘어난 손님이 이익이 되고, 여러 해 평균 이익도 다시 올라가요. 그럼 바닥 값도 함께 올라가죠.",
-    "반대로 회복이 멈추면, 이익이 줄어든 해가 평균을 끌어내려서, 시장 기대와의 차이가 더 벌어집니다."
+    "회복이 이어지면 늘어난 손님이 이익이 되고, 여러 해 평균 이익도 올라갑니다. 그러면 계산 값도 함께 올라가요.",
+    "반대로 회복이 멈추면, 이익이 줄어든 해가 평균을 계속 끌어내려서, 지금 주가와의 차이가 더 벌어집니다."
    ],
    "en": [
-    "If the recovery continues, more customers become profit and the multi-year average rises, lifting the floor value.",
-    "If it stalls, the weak years drag the average down and the gap with market hopes widens."
+    "If the recovery continues, more customers become more profit, the multi-year average rises, and so does the floor value.",
+    "If it stalls, the weak years keep dragging the average down and the gap with today's price widens."
    ],
    "asof": false
   },
@@ -1090,11 +1193,11 @@
     ]
    },
    "lines": [
-    "밸류노트에는 스타벅스를 포함해 600여 곳이, 이 기준으로 매일 계산돼 있어요. 스타벅스의 밸류노트 점수는 {score}점입니다.",
-    "다만 이건 미래 기대를 0으로 놓은 바닥 계산이라, 목표 주가도 아니고 사라 팔라는 신호도 아니에요."
+    "밸류노트에는 스타벅스를 포함해 600여 곳이 이 기준으로 매일 계산돼 있어요.",
+    "다만 미래 성장을 0으로 놓은 바닥 계산이라, 목표 주가도 아니고 매수나 매도 신호도 아니에요."
    ],
    "en": [
-    "ValueNote runs this calculator daily on over 600 companies, Starbucks included. Its ValueNote score is {score}.",
+    "ValueNote runs this calculation daily on more than 600 companies, Starbucks included.",
     "It's a floor that counts growth as zero, not a target price or a buy or sell signal."
    ],
    "asof": true,
@@ -1103,32 +1206,17 @@
   {
    "v": {
     "type": "title",
-    "text": "10월 29일 실적에서 볼 숫자 3개",
-    "sub": "세 번째 이야기"
+    "text": "10월 29일 볼 숫자 3개",
+    "sub": "세 번째 내용"
    },
    "lines": [
-    "마지막, 세 번째 이야기예요. 10월 29일, 미국 장 마감 뒤 실적이 나옵니다."
+    "마지막으로 세 번째 내용입니다. 스타벅스 실적은 10월 29일 미국 장 마감 뒤에 나옵니다."
    ],
    "en": [
-    "Finally, part three. Results come out after the U.S. close on October 29."
+    "Finally, part three. Starbucks reports after the U.S. close on October 29."
    ],
    "asof": false,
-   "chapter": "10월 29일 실적에서 볼 숫자 3개"
-  },
-  {
-   "v": {
-    "type": "question",
-    "text": "그럼 주주라면, 무엇을 봐야 할까?",
-    "backdrop": "commons_sbuxpike_2.jpg",
-    "bd_dim": 0.64
-   },
-   "lines": [
-    "그럼 스타벅스 주식을 가졌거나 사 볼까 고민하는 분이라면, 무엇을 봐야 할까요? 딱 세 숫자면 됩니다."
-   ],
-   "en": [
-    "So if you own or are eyeing Starbucks, what should you watch? Just three numbers."
-   ],
-   "asof": false
+   "chapter": "10월 29일 볼 숫자 3개"
   },
   {
    "v": {
@@ -1150,8 +1238,8 @@
       "0:6.5"
      ],
      [
-      "② 손님 수 (거래 건수)",
-      "지속 증가 여부",
+      "② 계산 건수 (손님 수)",
+      "증가 지속 여부",
       "1:손님"
      ],
      [
@@ -1163,14 +1251,14 @@
     "hl": 1
    },
    "lines": [
-    "첫째, 미국 기존 매장 매출. 회사는 이번 분기 6.5% 이상을 내걸었어요.",
-    "둘째, 손님 수. 가격이 아니라 사람이 계속 돌아오는지가, 충전금이라는 끈이 튼튼한지를 보여 줘요.",
-    "셋째, 영업이익률. 회사는 1년 기준 11% 이상을 예상했습니다. 매장을 고치는 데 쓴 돈이, 이익으로 돌아오기 시작했는지 보는 숫자죠."
+    "첫 번째는 미국 기존 매장 매출입니다. 회사는 이번 분기 6.5% 이상을 내걸었어요.",
+    "두 번째는 계산 건수예요. 가격이 아니라 손님 수가 계속 늘고 있는지 보여 주는 숫자죠.",
+    "세 번째는 영업이익률입니다. 회사는 연간 11% 이상을 예상했고, 매장에 쓴 돈이 이익으로 돌아오기 시작했는지 보여 줍니다."
    ],
    "en": [
-    "One: U.S. comparable sales. The company guided to 6.5% or more this quarter.",
-    "Two: transactions. Whether people, not prices, keep coming back shows if the string is holding.",
-    "Three: operating margin. The company expects above 11% for the year, showing whether the store fixes are paying off."
+    "First, U.S. comparable store sales. The company guided to 6.5% or more this quarter.",
+    "Second, transactions: whether the number of customer visits, not prices, keeps rising.",
+    "Third, operating margin. The company expects above 11% for the year, showing whether the store spending is turning into profit."
    ],
    "asof": false,
    "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 전망 (4분기 미국 동일매장 매출 +6.5% 이상, 연간 조정 영업이익률 11% 초과) · 실적 발표 2026년 10월 29일 장 마감 후"
@@ -1182,20 +1270,20 @@
     "bd_dim": 0.74,
     "words": [
      {
-      "t": "이자 4%",
-      "at": "0",
-      "size": 110,
+      "t": "2008 · 에스프레소 재교육",
+      "at": "0:2008",
+      "size": 88,
       "c": "muted"
      },
      {
-      "t": "낙전 8% 미만",
-      "at": "0:낙전은",
-      "size": 110,
+      "t": "2024 · 머그잔 · 손글씨 · 4분",
+      "at": "0:니콜",
+      "size": 88,
       "c": "muted"
      },
      {
-      "t": "다시 오게 하는 힘",
-      "at": "1:다시",
+      "t": "손님 수가 답",
+      "at": "1:손님 수",
       "size": 120,
       "c": "acc",
       "under": true
@@ -1203,14 +1291,14 @@
     ]
    },
    "lines": [
-    "정리하면, 충전금이 버는 이자는 이익의 4%, 낙전은 8%가 안 됩니다.",
-    "스타벅스를 받쳐 주는 진짜 힘은, 내일 아침 또 오게 만드는 그 앱 잔액이에요.",
-    "그리고 내 돈에 쓰는 법 하나. 충전은 한 달에 쓸 만큼만 해 두세요. 이자는 어차피 스타벅스 몫이니까요."
+    "2008년 슐츠는 매장 문을 닫고 에스프레소 교육을 다시 했고, 2024년 니콜은 머그잔과 손글씨, 4분 목표를 꺼냈습니다.",
+    "두 사람 모두 매장에서 손님이 겪는 경험을 먼저 고쳤어요. 이번에도 손님 수가 계속 늘지는 10월 29일 숫자가 보여 줄 겁니다.",
+    "그리고 내 돈에 쓰는 팁 하나. 충전은 한 달에 쓸 만큼만 해 두세요. 이자는 어차피 스타벅스가 가져가니까요."
    ],
    "en": [
-    "To sum up: interest is 4% of profit, breakage under 8%.",
-    "What really holds Starbucks up is that app balance that brings you back tomorrow morning.",
-    "One tip for your own money: load only what you'll spend in a month. The interest goes to Starbucks anyway."
+    "In 2008 Schultz closed the stores to retrain on espresso. In 2024 Niccol brought back mugs, handwritten notes and a four-minute goal.",
+    "Both fixed the in-store experience first. Whether customer visits keep rising, October 29 will tell.",
+    "And one tip for your own money: load only what you'll spend in a month. The interest goes to Starbucks anyway."
    ],
    "asof": false
   },
@@ -1230,13 +1318,13 @@
      "title": "테슬라 주가 전망, 한 대 팔면 195만 원 남는데 몸값은 1,950조?",
      "at": "1:테슬라"
     },
-    "backdrop": "commons_roastery_1.jpg",
+    "backdrop": "commons_cafeint_4.jpg",
     "bd_dim": 0.74
    },
    "lines": [
-    "10월 29일, 세 숫자가 어떻게 나올지 궁금하시다면 구독과 좋아요, 알림 설정 부탁드려요.",
+    "10월 29일 세 숫자가 어떻게 나올지 궁금하시다면 구독과 좋아요, 알림 설정 부탁드립니다.",
     "차 한 대에 남는 돈으로 본 테슬라 편도 함께 보시면, 회사가 돈 버는 구조를 보는 눈이 하나 더 생길 거예요.",
-    "여러분 앱엔 지금 얼마가 남아 있나요? 댓글로 알려 주세요. 밸류노트가 더 현명한 투자를 돕겠습니다. 감사합니다."
+    "여러분 앱에는 지금 얼마가 남아 있나요? 댓글로 알려 주세요. 밸류노트가 더 현명한 투자를 돕겠습니다. 감사합니다."
    ],
    "en": [
     "Curious how the three numbers land on October 29? Subscribe, like and turn on notifications.",
@@ -1245,5 +1333,9 @@
    ],
    "asof": false
   }
- ]
+ ],
+ "px_hist": {
+  "w2021": "2021-07-23",
+  "wniccol": "2024-08-12"
+ }
 }
