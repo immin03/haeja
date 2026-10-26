@@ -579,7 +579,7 @@ def framing(s):
         bb = [b.bbox() for b in s["_ink"]["beats"] if not isinstance(b, Pop)] or [(0, 150, TW, 1150)]
         y0 = max(100, min(v[1] for v in bb)); y1 = min(TH - 60, max(v[3] for v in bb))
         h = (y1 - y0) / TH; cy = (y0 + y1) / 2
-        s["_ink"]["frame"] = (clamp(PD / 2 - cy / TH * PD, -.25, .3), clamp(2.3 + (h - .5) * 1.3, 2.3, 2.8))
+        s["_ink"]["frame"] = (clamp(PD / 2 - cy / TH * PD, -.25, .3), clamp(2.3 + (h - .5) * 1.3, 2.45, 2.8))
     return s["_ink"]["frame"]
 
 
