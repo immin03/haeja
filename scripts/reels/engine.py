@@ -1172,15 +1172,27 @@ def scene_layer(T, s, scenes):
     if s is scenes[0] and sc["type"] == "hook": img = broll_bg(img, u, s["dur"])
     img = (YDRAW if YT and sc["type"] in YDRAW else DRAW)[sc["type"]](img, u, sc, s["L"], T)
     img = camera(img, u, s)
-    pen = gl_rail(img, u, s, s is scenes[0], s is scenes[-1]) if GL_ON else None
+    pen = gl_rail(img, u, s, s is scenes[0], s is scenes[-1]) if GL_ON == "rail" else None
     return img, pen
+
+
+_GW = {"key": None, "line": None}
 
 
 def frame(T, scenes, total, pen=True):
     s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
     sc = s["sc"]; u = T - s["start"]
     img = None; pens = []
-    if GL_ON:   # 장면 경계 ±0.25초: 카메라가 펜을 따라 옆으로 (앞 장면은 왼쪽으로 빠지고 다음 장면이 오른쪽에서)
+    if GL_ON and YT:   # 골드 라인 v2: 노트 판 위를 펜이 짚고 카메라가 따라간다 (goldworld.py)
+        import goldworld
+        if _GW["key"] is not scenes: _GW["key"] = scenes; _GW["line"] = goldworld.Line(sys.modules[__name__], scenes, total)
+        img, (ptip, pa, pz) = goldworld.render(sys.modules[__name__], T, scenes, total, _GW["line"])
+        y_caption(img, u, s["L"])
+        if YT_BANNER: draw_banner(img)
+        d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+        if pen and pa > .02: _gl_pen(img, ptip[0], ptip[1], pa, .85 * max(.7, pz))
+        return img
+    if GL_ON == "rail":   # 장면 경계 ±0.25초: 카메라가 펜을 따라 옆으로 (앞 장면은 왼쪽으로 빠지고 다음 장면이 오른쪽에서)
         for j in range(1, len(scenes)):
             b = scenes[j]["start"]
             if b - GL_PAN / 2 <= T < b + GL_PAN / 2:
@@ -1204,7 +1216,7 @@ def frame(T, scenes, total, pen=True):
     d = ImageDraw.Draw(img)
     if YT: return img   # 쇼츠: 고지문은 설명란에
     d.text((W / 2, 1650), DISC_VIDEO, font=F("Medium", 25), fill=(112, 124, 148), anchor="mm")
-    if not GL_ON:   # 골드 라인을 끈 대본만 예전의 금색 휩쓸기 전환
+    if GL_ON != "rail":   # 예전의 금색 휩쓸기 전환 (인스타 기본 화면)
         for x in scenes[1:]:
             q = (T - (x["start"] - .12)) / .3
             if 0 <= q <= 1:
