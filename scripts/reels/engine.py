@@ -65,15 +65,29 @@ def josa(w, a, b):
 def dm_kw(spec):
     d = spec.get("dm") or {}
     return str(d.get("keyword") or "").strip()
+YT_WORDS = ("유튜브", "풀버전", "풀영상", "전체 영상")
+OUTRO_SHORT = {"cap": ["유튜브에서 '밸류노트' 검색"], "say": "유튜브에서 밸류노트를 검색하세요."}
+
+
+def _points_yt(ln):
+    t = " ".join(ln.get("cap") or []) + " " + (ln.get("say") or "")
+    return any(w in t for w in YT_WORDS)
+
+
 def cta_lines(spec, sc, lines):
     kw = dm_kw(spec)
     if sc["type"] != "cta": return lines
     if not kw:  # 정리본이 없는 릴스는 팔로우로 마무리 (2026-10-22 운영자: 모든 릴스에 정리본을 붙이지 않는다)
         yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
         sc["_follow"] = "yt" if yt else True
-        if yt: return list(lines) + [{"cap": spec.get("full_cap", ["풀버전은 화면 아래 링크를", "눌러 바로 보실 수 있어요"]), "say": spec.get("full_say", "풀버전은 화면 아래 링크를 눌러 바로 보실 수 있어요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
-        if spec.get("outro"):   # 2026-10-25 운영자: 유튜브 쇼츠를 인스타에 다시 올릴 때 "유튜브에서 밸류노트 검색" 으로 마무리
-            return list(lines) + [{"cap": spec["outro"]["cap"], "say": spec["outro"]["say"]}]
+        # 끝맺음은 한 번만 (2026-10-26 운영자: "유튜브 밸류노트에서 확인하세요를 불필요하게 여러 번 반복한다, 마지막은 간단하게 하고 끝내자")
+        lines = list(lines); ptr = [l for l in lines if _points_yt(l)]
+        if yt:
+            if ptr: return lines   # 장면이 이미 유튜브 풀영상을 가리키면 안내 문장을 더 붙이지 않는다 (화면의 '풀버전 보기' 버튼은 그대로)
+            return lines + [{"cap": spec.get("full_cap", ["풀버전은 화면 아래 링크에서"]), "say": spec.get("full_say", "풀버전은 화면 아래 링크에서 보세요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
+        if spec.get("outro"):   # 2026-10-25 운영자: 유튜브 쇼츠를 인스타에 다시 올릴 때 "유튜브에서 밸류노트 검색" 으로 마무리 — 한 문장만
+            keep = [l for l in lines if not (_points_yt(l) and len(lines) > 1 and l is not lines[0])] or lines[:1]
+            return keep + [OUTRO_SHORT]
         return list(lines) + [{"cap": ["밸류노트를 팔로우하고,", "매일 조금 더 현명한 투자 습관을 길러 보세요"], "say": "밸류노트를 팔로우하고, 매일 조금 더 현명한 투자 습관을 길러 보세요."}]
     sc["_dm"] = kw
     return list(lines) + [{"cap": None, "say": f"댓글에 {kw}{josa(kw, '을', '를')} 남기시면, 정리본을 보내 드립니다."}]
@@ -1120,6 +1134,7 @@ def draw_banner(img):
 # (앞 장면이 왼쪽으로 빠지고 다음 장면이 오른쪽에서 들어옴), 선은 다음 장면에서 이어서 그어진다.
 # 선 자리: 쇼츠·클린 화면은 위 제목 띠 바로 아래, 인스타 릴스는 자막과 고지문 사이. 대본에 "goldline": false 면 끈다.
 GL_ON = True
+WORLD = None   # "popup" = 팝업 노트 (대본 "world": "popup")
 GL_INK = (232, 188, 96); GL_PAN = .5          # 펜 색 · 장면 사이 카메라 이동 시간(초)
 GL_REST = .84                                  # 장면 안에서 펜이 멈추는 자리 (화면 폭 비율)
 
@@ -1183,6 +1198,14 @@ def frame(T, scenes, total, pen=True):
     s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
     sc = s["sc"]; u = T - s["start"]
     img = None; pens = []
+    if WORLD == "popup":   # 팝업 노트 (popworld.py, 2026-10-26)
+        import popworld
+        img = popworld.render(sys.modules[__name__], T, scenes, total)
+        if YT: y_caption(img, u, s["L"])
+        else: caption(img, u, s["L"])
+        if YT_BANNER: draw_banner(img)
+        d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+        return img
     if GL_ON and YT:   # 골드 라인 v2: 노트 판 위를 펜이 짚고 카메라가 따라간다 (goldworld.py)
         import goldworld
         if _GW["key"] is not scenes: _GW["key"] = scenes; _GW["line"] = goldworld.Line(sys.modules[__name__], scenes, total)
@@ -1341,7 +1364,8 @@ def cover_title(spec, scenes):
 
 def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
-    global YT_BANNER, YT, GL_ON
+    global YT_BANNER, YT, GL_ON, WORLD
+    WORLD = spec.get("world")
     YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
@@ -1500,7 +1524,8 @@ def write_subs(spec, scenes, total, outdir):
         open(os.path.join(outdir, f"subs_{lang}.srt"), "w", encoding="utf-8").write("\n".join(out))
 
 def render(spec, outdir, stills=None):
-    global YT_BANNER, YT, GL_ON
+    global YT_BANNER, YT, GL_ON, WORLD
+    WORLD = spec.get("world")
     YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None

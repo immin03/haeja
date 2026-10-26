@@ -242,3 +242,15 @@ python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover      
 
 ## AI 문체 빼기 (2026-10-26)
 대본을 다 쓴 뒤 scripts/CONTENT.md 6절로 마지막 손질을 한다. `node scripts/humanize_ko.mjs scan <대본 파일>` 의 ✗ 는 모두 고치고, 손질 전후는 `node scripts/humanize_ko.mjs diff <전> <후>` 로 숫자가 그대로인지 확인한다. 음성으로 읽히는 문장이라 연결어미 뒤 쉼표, 같은 종결어미 연속, "~다는 것입니다" 반복이 특히 티가 난다.
+
+## 끝맺음은 한 번만 (2026-10-26 운영자)
+"유튜브 밸류노트에서 확인하세요를 불필요하게 여러 번 반복한다. 마지막은 간단하게 하고 끝내자."
+- 유튜브 쇼츠: 마지막 장면(cta)에 이미 유튜브·풀버전·풀영상을 가리키는 문장이 있으면, 엔진이 '풀버전은 화면 아래 링크…' 문장을 더 붙이지 않는다. 화면의 '풀버전 보기' 버튼은 그대로.
+- 인스타 재게시(S*, outro): 장면 안의 별도 안내 줄은 빼고, 맨 끝은 한 문장 "유튜브에서 밸류노트를 검색하세요."(engine.OUTRO_SHORT)로 끝낸다.
+- 대본에서도 마지막 장면에 같은 안내를 두 줄 쓰지 않는다.
+
+## 팝업 노트 (2026-10-26, popworld.py)
+대본에 "world": "popup" → 책상 위 노트를 진짜 원근으로 그린다(표지 열림 → 장면마다 페이지 넘김 → 금색 펜 밑줄·동그라미).
+장면에 "popup": {"clip": "scripts/higgsfield/out/<id>.mp4", "line": n} → n번째 줄을 읽는 동안 영상 카드가 페이지에서 솟아오른다.
+클립은 Higgsfield(Seedance 2.5)로 만든다: scripts/higgsfield/jobs/*.json 을 푸시하면 higgsfield 워크플로가 받아 커밋한다(비밀값 HF_API_KEY).
+클립을 먼저 받은 뒤 대본을 푸시한다(클립 파일은 렌더 해시에 안 들어가므로, 대본보다 늦게 오면 다시 렌더되지 않는다).
