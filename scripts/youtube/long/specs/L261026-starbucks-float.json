@@ -8,7 +8,7 @@
  "format": 2,
  "world": "notebook",
  "notebook": {
-  "cold_open": 2,
+  "cold_open": 1,
   "stamps": {
    "0": [
     "U.S. · 2024",
@@ -22,7 +22,7 @@
   "dark": "forest",
   "accent": "gold"
  },
- "scheduled_at": "2026-10-26T19:00:00+09:00",
+ "scheduled_at": "2026-10-27T19:00:00+09:00",
  "title": "스타벅스는 어떻게 돈을 벌까? 17억 달러를 모은 앱이 손님을 줄게 만든 이유",
  "title_en": "How does Starbucks make money? The app that collected $1.75 billion also drove customers away",
  "thumb": {
@@ -169,6 +169,45 @@
       548
      ]
     }
+   ],
+   "sketch_add": [
+    {
+     "kind": "icons",
+     "icon": "person",
+     "x": 150,
+     "y": 700,
+     "size": 90,
+     "gap": 20,
+     "n": 10,
+     "hl": [
+      9
+     ],
+     "hlcolor": "red",
+     "line": 1,
+     "at": 0.05,
+     "dur": 1.4
+    },
+    {
+     "kind": "cross",
+     "x0": 1140,
+     "y0": 695,
+     "x1": 1235,
+     "y1": 800,
+     "line": 1,
+     "at": 0.6
+    }
+   ],
+   "notes": [
+    [
+     0,
+     "미국 스타벅스",
+     "@store"
+    ],
+    [
+     0,
+     "손님이 결제한",
+     "손님이 결제한 횟수"
+    ]
    ]
   },
   {
@@ -215,7 +254,7 @@
     "bd_dim": 0.76,
     "items": [
      [
-      "17억 달러 충전금의 정체",
+      "17억 달러 충전금의 가장 강력한 기능",
       "1:17억"
      ],
      [
@@ -777,7 +816,30 @@
     "Customers can spend the balance any time, so Starbucks can't lock it up in long-term investments."
    ],
    "asof": false,
-   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일) · 영업이익 29억 3,660만 달러 · 이자·기타 수익 1억 1,330만 달러"
+   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일) · 영업이익 29억 3,660만 달러 · 이자·기타 수익 1억 1,330만 달러",
+   "notes": [
+    [
+     0,
+     "2025년 9월까지",
+     "2024.10 ~ 2025.9"
+    ],
+    [
+     2,
+     "",
+     "@person"
+    ],
+    [
+     2,
+     "언제든",
+     "언제든 꺼내 쓰는 돈"
+    ],
+    [
+     2,
+     "오래 묶어",
+     "오래 묶어 두기 어렵다",
+     "red"
+    ]
+   ]
   },
   {
    "v": {
@@ -932,12 +994,12 @@
     "was_lib": "commons_cafequeue_2.jpg"
    },
    "lines": [
-    "첫 번째로 말씀드린 충전금의 정체는, 이자를 버는 돈이 아니라 손님을 다시 오게 만드는 돈입니다.",
+    "첫 번째로 말씀드린 충전금의 가장 강력한 기능은, 이자를 버는 게 아니라 손님을 다시 오게 만드는 거예요.",
     "앱에 12달러가 남아 있으면 내일 아침 다른 카페에 가기가 어렵죠. 이걸 락인 효과라고 해요.",
     "그런데 문제는, 이 앱이 너무 잘 작동했다는 점입니다."
    ],
    "en": [
-    "So the first answer: the balance isn't money that earns interest. It's money that brings customers back.",
+    "So the first answer: the balance's most powerful job isn't earning interest. It's bringing customers back.",
     "With 12 dollars left in the app, it's hard to try another cafe tomorrow morning. That's called lock-in.",
     "The problem is, the app worked too well."
    ],
@@ -956,7 +1018,7 @@
     },
     {
      "kind": "write",
-     "text": "충전금의 정체",
+     "text": "충전금의 가장 강력한 기능",
      "x": 120,
      "y": 90,
      "size": 90,
@@ -1106,7 +1168,31 @@
     "Today one in three orders at U.S. company-operated stores comes in through the app before the customer arrives."
    ],
    "asof": false,
-   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 모바일 주문 비중 33% · 카드 결제 비중 42% (거래 건수 기준)"
+   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 모바일 주문 비중 33% · 카드 결제 비중 42% (거래 건수 기준)",
+   "notes": [
+    [
+     0,
+     "",
+     "@cup"
+    ],
+    [
+     0,
+     "픽업대에",
+     "픽업대에 쌓인 앱 주문"
+    ],
+    [
+     0,
+     "계산대 앞",
+     "계산대 손님은 대기",
+     "red"
+    ],
+    [
+     1,
+     "세 건 중",
+     "주문 3건 중 1건 = 앱",
+     "gold"
+    ]
+   ]
   },
   {
    "v": {
@@ -1162,7 +1248,30 @@
     "Founder Howard Schultz went as far as calling the app Starbucks' biggest Achilles heel."
    ],
    "asof": false,
-   "src": "NBC 뉴스 (2024년 8월 13일) · 락스만 나라심한 2024년 4월 실적 발표 발언 · 하워드 슐츠 발언(의역)"
+   "src": "NBC 뉴스 (2024년 8월 13일) · 락스만 나라심한 2024년 4월 실적 발표 발언 · 하워드 슐츠 발언(의역)",
+   "notes": [
+    [
+     0,
+     "2024년 4월",
+     "2024년 4월"
+    ],
+    [
+     0,
+     "아침 시간",
+     "아침 주문을 감당 못 함",
+     "red"
+    ],
+    [
+     0,
+     "발길을",
+     "발길 돌린 손님"
+    ],
+    [
+     1,
+     "하워드 슐츠",
+     "창업자 하워드 슐츠"
+    ]
+   ]
   },
   {
    "v": {
@@ -1238,7 +1347,30 @@
     "Back then the cause was the coffee. This time it was stores overloaded with app orders."
    ],
    "asof": false,
-   "src": "NPR (2008년 2월 27일) · 미국 매장 약 7,000곳 3시간 30분 휴점, 바리스타 재교육"
+   "src": "NPR (2008년 2월 27일) · 미국 매장 약 7,000곳 3시간 30분 휴점, 바리스타 재교육",
+   "notes": [
+    [
+     0,
+     "",
+     "처음이 아니다"
+    ],
+    [
+     1,
+     "에스프레소",
+     "에스프레소 다시 교육"
+    ],
+    [
+     2,
+     "커피 맛",
+     "그때: 커피 맛"
+    ],
+    [
+     2,
+     "이번 원인은",
+     "이번: 앱 주문 몰림",
+     "red"
+    ]
+   ]
   },
   {
    "v": {
@@ -1255,7 +1387,20 @@
     "So part two, the cause: stores slowed down by a flood of app orders.",
     "How did Starbucks bring customers back?"
    ],
-   "asof": false
+   "asof": false,
+   "notes": [
+    [
+     0,
+     "",
+     "원인 = 느려진 매장",
+     "red"
+    ],
+    [
+     0,
+     "앱 주문이",
+     "@phone"
+    ]
+   ]
   },
   {
    "v": {
@@ -1321,7 +1466,20 @@
     "I complain about two subway stops. His commute is a flight."
    ],
    "asof": false,
-   "src": "ABC13 (2024년 8월) · 스타벅스 공시(채용 조건): 회사 전용기 출퇴근, 자택 원격 사무실 · 사진: 위키미디어 공용"
+   "src": "ABC13 (2024년 8월) · 스타벅스 공시(채용 조건): 회사 전용기 출퇴근, 자택 원격 사무실 · 사진: 위키미디어 공용",
+   "notes": [
+    [
+     1,
+     "지하철",
+     "나: 지하철 두 정거장"
+    ],
+    [
+     1,
+     "출근길이",
+     "니콜: 출근길이 비행기",
+     "gold"
+    ]
+   ]
   },
   {
    "v": {
@@ -1375,7 +1533,20 @@
    "en": [
     "Niccol didn't kill the app. He focused on making stores fast again after app orders had slowed them down."
    ],
-   "asof": false
+   "asof": false,
+   "notes": [
+    [
+     0,
+     "",
+     "앱은 그대로"
+    ],
+    [
+     0,
+     "느려진",
+     "느려진 매장 -> 다시 빠르게",
+     "gold"
+    ]
+   ]
   },
   {
    "v": {
@@ -1403,7 +1574,14 @@
     "U.S. stores open more than a year also saw sales fall 2% that year."
    ],
    "asof": false,
-   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일)"
+   "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일)",
+   "notes": [
+    [
+     0,
+     "직원과 매장에",
+     "직원·매장에 먼저 투자"
+    ]
+   ]
   },
   {
    "v": {
@@ -1445,6 +1623,19 @@
       548
      ]
     }
+   ],
+   "notes": [
+    [
+     0,
+     "",
+     "@store"
+    ],
+    [
+     0,
+     "미국 기존 매장",
+     "미국 기존 매장 매출 +7.9%",
+     "green"
+    ]
    ]
   },
   {
@@ -1565,7 +1756,47 @@
     "Same company, very different results depending on when you bought."
    ],
    "asof": false,
-   "src": "야후 파이낸스 종가 (2021년 7월 23일 {w2021_ref}, 2024년 8월 12일 {wniccol_ref}) · {px_label} 주가 기준, 배당·환율 제외"
+   "src": "야후 파이낸스 종가 (2021년 7월 23일 {w2021_ref}, 2024년 8월 12일 {wniccol_ref}) · {px_label} 주가 기준, 배당·환율 제외",
+   "notes": [
+    [
+     0,
+     "사상 최고가",
+     "최고가에 샀다면?"
+    ],
+    [
+     1,
+     "니콜 발표",
+     "니콜 발표 전날에 샀다면?",
+     "gold"
+    ],
+    [
+     2,
+     "",
+     "같은 회사"
+    ],
+    [
+     2,
+     "언제 샀느냐",
+     "언제 샀느냐가 갈랐다",
+     "red"
+    ],
+    [
+     0,
+     "1억 원어치",
+     "@dollar"
+    ],
+    [
+     0,
+     "그 주식은",
+     "2021.7.23 매수"
+    ],
+    [
+     1,
+     "1억 원어치",
+     "2024.8.12 매수",
+     "gold"
+    ]
+   ]
   },
   {
    "v": {
@@ -1614,7 +1845,20 @@
     "Take average earnings over several years and pay at most 10 times that.",
     "Expected future growth is left out, so it's a very conservative value."
    ],
-   "asof": false
+   "asof": false,
+   "notes": [
+    [
+     0,
+     "워렌 버핏의 스승",
+     "워렌 버핏의 스승"
+    ],
+    [
+     0,
+     "벤저민 그레이엄",
+     "= 벤저민 그레이엄",
+     "gold"
+    ]
+   ]
   },
   {
    "v": {
@@ -1754,7 +1998,21 @@
     "That's more than 20% above last year's 2.13. This report is the first check on that outlook."
    ],
    "asof": false,
-   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 조정 EPS 전망 2.55~2.65달러 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) · FY2025 조정 EPS 2.13달러"
+   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 조정 EPS 전망 2.55~2.65달러 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) · FY2025 조정 EPS 2.13달러",
+   "notes": [
+    [
+     1,
+     "20%",
+     "+20% 넘게",
+     "green"
+    ],
+    [
+     1,
+     "첫 확인 지점",
+     "10월 29일 첫 확인",
+     "red"
+    ]
+   ]
   },
   {
    "v": {
@@ -1895,7 +2153,36 @@
     "Third, how many dollars Starbucks keeps from every 100 dollars of sales. It expects more than 11 for the year."
    ],
    "asof": false,
-   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 전망 (4분기 미국 동일매장 매출 +6.5% 이상, 연간 조정 영업이익률 11% 초과) · 실적 발표 2026년 10월 29일 장 마감 후"
+   "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 전망 (4분기 미국 동일매장 매출 +6.5% 이상, 연간 조정 영업이익률 11% 초과) · 실적 발표 2026년 10월 29일 장 마감 후",
+   "notes": [
+    [
+     0,
+     "",
+     "① 미국 기존 매장 매출"
+    ],
+    [
+     2,
+     "100달러어치",
+     "@coin"
+    ],
+    [
+     2,
+     "매장에 쓴 돈",
+     "매장에 쓴 돈 -> 이익?",
+     "gold"
+    ],
+    [
+     2,
+     "몇 달러가",
+     "100달러 팔면 몇 달러?"
+    ],
+    [
+     2,
+     "이익으로",
+     "이익으로 돌아오나?",
+     "red"
+    ]
+   ]
   },
   {
    "v": {
@@ -1946,6 +2233,31 @@
       695
      ]
     }
+   ],
+   "notes": [
+    [
+     1,
+     "두 사람 모두",
+     "두 사람 모두: 매장 경험부터"
+    ],
+    [
+     1,
+     "10월 29일",
+     "10월 29일에 확인",
+     "red"
+    ],
+    [
+     2,
+     "팁 하나",
+     "내 돈 팁: 한 달 쓸 만큼만 충전",
+     "gold"
+    ],
+    [
+     2,
+     "이자는",
+     "이자는 스타벅스 몫",
+     "red"
+    ]
    ]
   },
   {

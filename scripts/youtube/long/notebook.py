@@ -410,7 +410,7 @@ def letterbox(img, amt):
     return img
 
 
-def stamp(pil, lines, u, t0=.6, cps=16):
+def stamp(pil, lines, u, t0=.3, cps=13):
     """타자기 자막: 첫 줄(영문, 고정폭) · 둘째 줄(명조). 한 글자씩 찍히고 커서가 깜빡인다"""
     if not lines: return []
     d = ImageDraw.Draw(pil, "RGBA"); x, y = 150, H - 131 - 230; ticks = []   # 아래 띠 위, 자막보다 위 (위쪽 장면 제목과 겹치지 않게)
@@ -428,7 +428,7 @@ def stamp(pil, lines, u, t0=.6, cps=16):
     return ticks
 
 
-def stamp_times(lines, t0=.6, cps=16):
+def stamp_times(lines, t0=.3, cps=13):
     """타자기 소리를 넣을 때(장면 안 초)"""
     if not lines: return []
     out = [t0 + i / cps for i, ch in enumerate(lines[0]) if ch != " "]
@@ -489,12 +489,16 @@ def flip_sound(sr, seed=0, level=.09):
     return (y / (np.abs(y).max() + 1e-9) * level).astype(np.float32)
 
 
-def type_tick(sr, seed=0, level=.05):
+def type_tick(sr, seed=0, level=.16):
+    """타자기 한 타: 쇠 글쇠가 종이를 때리는 딱 소리 + 낮은 퉁 소리 (2026-10-27 운영자: 따다다닥 들리게)"""
     from scipy import signal as sg
-    rng = np.random.default_rng(seed); n = int(sr * .06); t = np.arange(n) / sr
-    x = rng.standard_normal(n) * np.exp(-t * 160) + .6 * np.sin(2 * np.pi * (1800 + 300 * rng.random()) * t) * np.exp(-t * 90)
-    x = sg.lfilter(*sg.butter(2, 900 / (sr / 2), "high"), x)
-    return (x / (np.abs(x).max() + 1e-9) * level).astype(np.float32)
+    rng = np.random.default_rng(seed); n = int(sr * .09); t = np.arange(n) / sr
+    click = rng.standard_normal(n) * np.exp(-t * 320)
+    click = sg.lfilter(*sg.butter(2, [1500 / (sr / 2), 9000 / (sr / 2)], "band"), click)
+    thump = np.sin(2 * np.pi * (140 + 40 * rng.random()) * t) * np.exp(-t * 60) * .55
+    ring = np.sin(2 * np.pi * (2600 + 500 * rng.random()) * t) * np.exp(-t * 140) * .18
+    x = click + thump + ring
+    return (x / (np.abs(x).max() + 1e-9) * level * (.85 + .3 * rng.random())).astype(np.float32)
 
 
 def whoosh(sr, dur=1.6, level=.06, seed=1):

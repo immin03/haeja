@@ -134,60 +134,76 @@ NUM = __import__("re").compile(r"[+\-−]?\d[\d,.]*\s?(?:조|억|만|천)?(?:\s?
 
 
 def _free_spot(boxes, w, h):
-    for y in (560, 680, 780, 450, 330):
-        for x in (1170, 140, 660, 1400):
-            bx = (x, y, x + w, y + h)
-            if bx[2] > 1860 or bx[3] > 890: continue
-            if all(bx[2] < b[0] - 20 or bx[0] > b[2] + 20 or bx[3] < b[1] - 10 or bx[1] > b[3] + 10 for b in boxes): return x, y
+    """빈자리 찾기: 위에서 아래로, 왼쪽에서 오른쪽으로 훑어 다른 그림과 겹치지 않는 첫 자리"""
+    for y in range(150, 880 - h, 30):
+        for x in range(130, 1860 - w, 40):
+            if all(x + w < b[0] - 24 or x > b[2] + 24 or y + h < b[1] - 14 or y > b[3] + 14 for b in boxes): return x, y
     return None
 
 
-def notes(beats, lines, dur, gap=2.4):
-    """새 그림이 없는 문장: 그 문장의 숫자(예: 25달러, 9분)를 빈자리에 손글씨로 적는다 — 이미 쓴 숫자는 다시 쓰지 않는다"""
+def notes(beats, lines, dur, gap=2.4, authored=(), at_time=None):
+    """빈자리에 손글씨 메모를 적는다.
+    1) 원고의 "notes": [[문장 번호, "그 문장 속 단어", "적을 말", 색(선택)], ...] — 기획 단계에서 정한 짧은 메모. 자리는 자동으로 찾는다.
+       적을 말이 "@cup" 처럼 @로 시작하면 그 그림 기호를 그린다.
+    2) 그래도 펜이 멈추는 문장: 그 문장의 숫자(예: 25달러)를 적는다 — 이미 쓴 숫자는 다시 쓰지 않는다"""
     add = []
-    written = "".join("".join(b.b.get("rows") or [b.b.get("text", "")]) for b in beats if isinstance(b, (IW.Write, IW.Print))).replace(" ", "")
+    def place(txt, t, color):
+        if txt.startswith("@"):
+            sz = 110; spot = _free_spot([z.bbox() for z in beats + add], sz + 20, sz + 20)
+            if spot: add.append(IW.make_beat(dict(kind="icons", icon=txt[1:], x=spot[0], y=spot[1], size=sz, n=1, color=color or "ink"), t, t + .5))
+            return
+        size = 80; w = int(sum(.62 if ord(c) > 0x3000 else .42 for c in txt) * size) + 30
+        spot = _free_spot([z.bbox() for z in beats + add], w, size + 10)
+        if not spot: return
+        txt = txt.replace("·", "/").replace("→", "->")
+        add.append(IW.make_beat(dict(kind="write", text=txt, x=spot[0], y=spot[1], size=size, color=color or "ink"), t, t + IW.clamp(.13 * len(txt.replace(" ", "")) + .25, .45, 1.4)))
+    for n in sorted(authored, key=lambda n: (n[0], 0)):
+        i = min(int(n[0]), len(lines) - 1); a, d, txt = lines[i]
+        t = at_time(f"{i}:{n[1]}", lines) if (n[1] and at_time) else a + .05
+        place(str(n[2]), t, n[3] if len(n) > 3 else None)
+    written = "".join("".join(b.b.get("rows") or [b.b.get("text", "")]) for b in beats + add if isinstance(b, (IW.Write, IW.Print))).replace(" ", "")
     for i, (a, d, txt) in enumerate(lines):
-        ev = sorted([b.t0 for b in beats + add if a - .2 <= b.t0 <= a + d])
-        if ev and ev[0] - a <= gap and all(q - p <= gap for p, q in zip(ev, ev[1:])) and a + d - ev[-1] <= gap: continue
+        if not any(q - p > gap for p, q in idle(beats + add, a, a + d)): continue
         for m in NUM.finditer(txt):
             ph = m.group().strip()
             if ph.replace(" ", "") in written or __import__("re").fullmatch(r"\d{4}\s?년", ph): continue
-            size = 96; w = int(len(ph) * size * .5) + 40
-            spot = _free_spot([b.bbox() for b in beats + add], w, size + 20)
-            if not spot: break
             t = a + d * (m.start() / max(1, len(txt))) * .95
-            nb = IW.make_beat(dict(kind="write", text=ph, x=spot[0], y=spot[1], size=size, color="red" if ph.startswith(("-", "−")) else "gold"), t, t + IW.clamp(.13 * len(ph) + .25, .45, 1.2))
-            add.append(nb); written += ph.replace(" ", "")
+            if not any(p - .2 <= t <= q for p, q in idle(beats + add, a, a + d)): continue
+            place(ph, t, "red" if ph.startswith(("-", "−")) else "gold"); written += ph.replace(" ", "")
     return beats + add
 
 
 def autofill(beats, lines, dur, gap=2.4):
-    """말하는 동안 2.4초 넘게 새 그림이 없으면, 이미 그린 것에 펜이 밑줄 → 형광펜 → 동그라미를 더한다 (쇼츠 잉크 노트와 같은 규칙).
-    손글씨를 먼저 고르고, 없으면 사진·막대·인쇄 글씨도 짚는다. 같은 것만 계속 짚지 않게 덜 짚은 것부터"""
+    """말하는 동안 2.4초 넘게 새 그림이 없으면, 이미 쓴 핵심(숫자 손글씨 먼저)에 펜이 밑줄을 한 번 긋는다.
+    2026-10-27 운영자: "펜을 너무 많이 긋는다, 핵심만" · "선이 다른 글자와 겹쳐 보인다" →
+    형광펜·동그라미는 자동으로 더하지 않고, 대상마다 밑줄 한 번만, 다른 글자와 겹치는 자리면 긋지 않는다"""
     add = []; start = lines[0][0] if lines else 0.0; end = min(dur - .3, (lines[-1][0] + lines[-1][1]) if lines else dur)
-    kinds = (IW.Write, IW.Print, Bar, HBar)   # 사진에는 동그라미를 치지 않는다 (지저분하다)
-    ok = lambda z: isinstance(z, kinds) and not (isinstance(z, IW.Write) and len("".join(z.b.get("rows") or [z.b.get("text", "")]).strip()) <= 1)
-    circles = 0
-    for _ in range(24):
-        ev = sorted([start] + [b.t0 for b in beats + add] + [end])
-        g = next(((a, b) for a, b in zip(ev, ev[1:]) if b - a > gap), None)
+    import re as _re
+    def text(z): return "".join(z.b.get("rows") or [z.b.get("text", "")])
+    def tight(z):   # 손글씨 비트의 실제 글자 상자 (아래 여백 30px 제외)
+        x0, y0, x1, y1 = [float(v) for v in z.bbox()]
+        return (x0, y0, x1, y1)   # 잉크 노트 Write.bbox 는 이미 글자에 딱 맞는 상자
+    def key(z): return isinstance(z, IW.Write) and len(text(z).strip()) > 1 and (_re.search(r"\d", text(z)) or z.b.get("color") in ("red", "gold"))
+    def clear(z, band):
+        for o in beats + add:
+            if o is z or getattr(o, "b", {}).get("_on") is z: continue
+            if isinstance(o, IW.Stroke) and not o.b.get("_auto"): continue
+            ox0, oy0, ox1, oy1 = tight(o) if not isinstance(o, IW.Stroke) else [float(v) for v in o.bbox()]
+            if not (band[2] < ox0 or band[0] > ox1 or band[3] < oy0 or band[1] > oy1): return False
+        return True
+    done = set()
+    for _ in range(12):
+        g = next(((p, q) for p, q in idle(beats + add, start, end) if q - p > gap), None)
         if not g: break
-        t = g[0] + min(1.2, (g[1] - g[0]) / 2)
-        cnt = lambda z: sum(1 for q in add if q.b.get("_on") is z)
-        def room(z):   # 이 대상에 아직 더할 수 있는 표시가 있나
-            n = cnt(z); txt = isinstance(z, (IW.Write, IW.Print))
-            return n < (3 if (txt and circles < 1) else 2 if txt else 1)
-        cand = [b for b in beats if ok(b) and b.t1 <= t + .05 and room(b)]
-        if not cand: t = g[0] + .3; cand = [b for b in beats if ok(b) and room(b)]
-        if not cand: break
-        b = min(cand, key=lambda z: (cnt(z), 0 if isinstance(z, IW.Write) else 1, -z.t0))
-        x0, y0, x1, y1 = [float(v) for v in b.bbox()]; x1 = min(x1, 1860); y1 = min(y1, 880)
-        n = cnt(b); text_like = isinstance(b, (IW.Write, IW.Print))
-        if n == 0: nb = IW.Stroke({"kind": "under", "color": "gold", "_auto": 1}, t, t + .45, IW.under_pts(x0 + 10, x1, min(y1 + 4, 884)), 9)
-        elif n == 1 and text_like: nb = IW.Highlight({"kind": "hl", "x0": x0 + 4, "y0": y0 + (y1 - y0) * .35, "x1": x1, "y1": y1 - 6, "color": "yellow", "_auto": 1}, t, t + .5)
-        else:
-            nb = IW.Stroke({"kind": "circle", "color": "red", "_auto": 1}, t, t + .7, IW.ellipse_pts((x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2 + 26, (y1 - y0) / 2 + 20), 8); circles += 1
-        nb.b["_on"] = b; add.append(nb)
+        t = g[0] + min(1.0, (g[1] - g[0]) / 2); pick = None
+        for z in sorted([z for z in beats if key(z) and id(z) not in done and z.t1 <= t + .05], key=lambda z: -z.t0):
+            x0, y0, x1, y1 = tight(z); band = (x0 + 6, y1, min(x1, 1860), y1 + 18)
+            if band[3] < 890 and clear(z, band): pick = (z, band); break
+            done.add(id(z))
+        if not pick: break
+        z, band = pick; done.add(id(z))
+        nb = IW.Stroke({"kind": "under", "color": "gold", "_auto": 1}, t, t + .45, IW.under_pts(band[0], band[2], band[1] + 6), 8)
+        nb.b["_on"] = z; add.append(nb)
     return beats + add
 
 
@@ -329,16 +345,24 @@ def apply(arr, beats, u):
     return tip
 
 
-def gaps(beats, lines, extra=()):
-    """문장마다 새로 그려지는 것이 있는지, 2.6초 넘게 아무 변화가 없는 구간이 있는지 (장면 안 초)"""
-    ev = sorted([b.t0 for b in beats] + list(extra))
+def idle(beats, a, b):
+    """a~b초 사이 펜이 아무것도 그리지 않는 구간들 (그리는 중인 비트는 움직임으로 친다)"""
+    iv = sorted((max(a, z.t0), min(b, z.t1 + .4)) for z in beats if z.t1 + .4 > a and z.t0 < b)
+    out = []; cur = a
+    for x, y in iv:
+        if x > cur: out.append((cur, x))
+        cur = max(cur, y)
+    if cur < b: out.append((cur, b))
+    return out
+
+
+def gaps(beats, lines, extra=(), lim=2.6):
+    """문장마다 새로 그려지는 것이 있는지, lim초 넘게 펜이 멈춘 구간이 있는지 (장면 안 초)"""
     out = []
     for i, (a, d, txt) in enumerate(lines):
-        inside = [t for t in ev if a - .2 <= t <= a + d]
-        if not inside: out.append(f"문장 {i}: 새 그림 없음 · {txt[:24]}")
-        pts = [a] + inside + [a + d]
-        for p, q in zip(pts, pts[1:]):
-            if q - p > 2.6: out.append(f"문장 {i}: {p:.1f}~{q:.1f}초 멈춤 · {txt[:24]}")
+        if not any(a - .2 <= z.t0 <= a + d for z in beats): out.append(f"문장 {i}: 새 그림 없음 · {txt[:24]}")
+        for p, q in idle(beats, a, a + d):
+            if q - p > lim: out.append(f"문장 {i}: {p:.1f}~{q:.1f}초 멈춤 · {txt[:24]}")
     return out
 
 
@@ -348,4 +372,4 @@ def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
     if spec is None and auto_ok and sc["v"]["type"] in AUTO_TYPES: spec = auto(sc["v"], lines, V, fill, at_time) + list(sc.get("sketch_add", []))
     if spec is None: return None
     dur = (lines[-1][0] + lines[-1][1] + .35) if lines else 1.0
-    return autofill(notes(build(spec, lines), lines, dur), lines, dur)
+    return autofill(notes(build(spec, lines), lines, dur, authored=[n for n in sc.get("notes", [])], at_time=at_time), lines, dur)
