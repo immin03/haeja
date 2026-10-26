@@ -27,7 +27,7 @@
   "미국주식",
   "shorts"
  ],
- "caption": "마이크로소프트가 앞으로 받기로 계약한 돈(받아 둔 주문)은 2025년 12월 말 6,250억 달러로 1년 전의 2.1배였고, 그 약 45%가 챗GPT를 만든 오픈AI 한 곳이었습니다.\n\n오픈AI는 2025년 10월 마이크로소프트 클라우드 애저를 2,500억 달러어치 더 쓰기로 계약했습니다. 오픈AI의 1년 매출 200억 달러 남짓의 10배 안팎입니다. 마이크로소프트는 이 주문을 채우려고 2026 회계연도에 번 현금의 약 63%를 설비에 썼습니다.\n\n그래도 오픈AI를 빼면 주문은 1년 새 25% 늘었고, 애저 매출은 2026년 4~6월 43% 늘어 처음으로 1년 1,000억 달러를 넘었습니다.\n\n이번 실적에서 볼 3가지\n1. 오픈AI를 뺀 주문 증가율: 3월 말 26%, 6월 말 25%. 20%대를 지키면 다른 손님도 계속 늘고 있다는 뜻, 20% 아래로 내려가거나 발표하지 않으면 오픈AI 의존이 커졌다는 신호.\n2. 애저 매출 증가율: 지난 분기 43%. 40%대를 지키면 투자가 매출로 바뀌는 중, 30%대로 꺾이면 회수가 늦어진다는 신호.\n3. 데이터센터에 쓰는 돈: 지난 분기 번 현금 554억 달러 중 358억 달러(약 65%). 80%를 넘기 시작하면 공사비가 매출보다 빨리 늘고 있다는 경고.\n\n기준(20%·30%대·80%)은 밸류노트가 정한 예시입니다. 매수·매도 권유가 아닙니다.",
+ "caption": "마이크로소프트가 앞으로 받기로 계약한 돈(받아 둔 주문)은 2025년 12월 말 6,250억 달러로 1년 전의 2.1배였고, 그 약 45%가 챗GPT를 만든 오픈AI 한 곳이었습니다.\n\n오픈AI는 2025년 10월 마이크로소프트 클라우드 애저를 2,500억 달러어치 더 쓰기로 계약했습니다. 오픈AI의 1년 매출 200억 달러 남짓의 10배 안팎입니다. 마이크로소프트는 이 주문을 채우려고 2026 회계연도에 번 현금의 약 63%를 설비에 썼습니다.\n\n그래도 오픈AI를 빼면 주문은 1년 새 25% 늘었고, 애저 매출은 2026년 4~6월 43% 늘어 처음으로 1년 1,000억 달러를 넘었습니다.\n\n이번 실적에서 볼 3가지\n1. 오픈AI를 뺀 주문 증가율(지난번 25%)\n2. 애저 매출 증가율(지난번 43%)\n3. 설비에 쓰는 돈(번 현금의 63%)\n\n매수·매도 권유가 아닙니다.",
  "subs_en": [
   "Of the money Microsoft is contracted to receive, 45% came from one company",
   "OpenAI, the maker of ChatGPT",
@@ -44,19 +44,9 @@
   "If OpenAI can't keep its promise, only the buildings may remain",
   "Still, it's not all worry. Excluding OpenAI, orders grew 25% in a year",
   "So in this week's earnings, just watch these three",
-  "First, orders excluding OpenAI",
-  "Second, Azure revenue growth",
-  "Third, data center spending",
-  "Starting with the first: orders excluding OpenAI grew 26% in March and 25% in June",
-  "If it holds in the 20s, customers beyond OpenAI keep growing",
-  "If it drops below 20% or isn't disclosed, reliance on OpenAI has grown",
-  "Second, Azure revenue growth. Last quarter it was 43%",
-  "Money poured into data centers must come back as Azure revenue",
-  "Holding the 40s means investment is turning into revenue; the 30s means payback is slowing",
-  "Third, data center spending. Last quarter, $35.8B of $55.4B cash earned went to capex",
-  "In Oct-Dec last year, when the OpenAI deal came in, free cash fell to $5.9B",
-  "If capex tops 80% of cash earned, construction is outpacing revenue",
-  "When results come out, compare them with 25%, 43% and 65%",
+  "First, how much orders excluding OpenAI grew. Last time, 25%",
+  "Second, Azure revenue growth. Can it hold 43%?",
+  "Third, data center spending. Is it outpacing cash earned?",
   "Want more like this? Subscribe and like"
  ],
  "scenes": [
@@ -252,151 +242,31 @@
    "type": "list",
    "title": "마이크로소프트 주가, 이 3가지만 보면 된다",
    "items": [
-    "1 오픈AI를 뺀 주문 증가율",
-    "2 애저 매출 증가율",
-    "3 데이터센터에 쓰는 돈"
+    "1 오픈AI를 뺀 주문 증가율 (지난번 25%)",
+    "2 애저 매출 증가율 (지난번 43%)",
+    "3 설비에 쓰는 돈 (번 현금의 63%)"
    ],
    "lines": [
     {
      "cap": [
-      "첫째, 오픈AI를 뺀 주문"
+      "첫째, 오픈AI를 뺀 주문이 얼마나 늘었는지",
+      "지난번엔 25%였습니다"
      ],
-     "say": "첫째, 오픈 에이아이를 뺀 주문."
+     "say": "첫째, 오픈 에이아이를 뺀 주문이 얼마나 늘었는지. 지난번엔 이십오 퍼센트였습니다."
     },
-    {
-     "cap": [
-      "둘째, 애저 매출 증가율"
-     ],
-     "say": "둘째, 애저 매출 증가율."
-    },
-    {
-     "cap": [
-      "셋째, 데이터센터에 쓰는 돈"
-     ],
-     "say": "셋째, 데이터센터에 쓰는 돈입니다."
-    }
-   ]
-  },
-  {
-   "type": "compare",
-   "title": "① 오픈AI를 뺀 주문 증가율",
-   "l": {
-    "label": "2026년 3월 말",
-    "v": "+26%",
-    "sub": "1년 전보다",
-    "tone": "gray"
-   },
-   "r": {
-    "label": "2026년 6월 말",
-    "v": "+25%",
-    "sub": "1년 전보다",
-    "tone": "good"
-   },
-   "lines": [
-    {
-     "cap": [
-      "첫째부터 볼게요. 오픈AI를 뺀 주문은",
-      "3월 말 26%, 6월 말 25% 늘었습니다"
-     ],
-     "say": "첫째부터 볼게요. 오픈 에이아이를 뺀 주문은, 삼월 말 이십육 퍼센트, 유월 말 이십오 퍼센트 늘었습니다."
-    },
-    {
-     "cap": [
-      "20%대를 지키면 오픈AI 말고도",
-      "손님이 계속 늘고 있다는 뜻입니다"
-     ],
-     "say": "이십 퍼센트대를 지키면, 오픈 에이아이 말고도 손님이 계속 늘고 있다는 뜻입니다."
-    },
-    {
-     "cap": [
-      "20% 아래로 내려가거나 아예 발표하지 않으면",
-      "오픈AI 의존이 더 커졌다고 봐야 합니다"
-     ],
-     "say": "이십 퍼센트 아래로 내려가거나 아예 발표하지 않으면, 오픈 에이아이 의존이 더 커졌다고 봐야 합니다."
-    }
-   ]
-  },
-  {
-   "type": "statement",
-   "l1": "② 애저 매출 증가율",
-   "l2": "지난 분기 +43%",
-   "tone": "gold",
-   "note": "2026년 4~6월 · 1년 전보다",
-   "lines": [
     {
      "cap": [
       "둘째, 애저 매출 증가율",
-      "지난 분기엔 43%였습니다"
+      "43%를 지키는지 봅니다"
      ],
-     "say": "둘째, 애저 매출 증가율. 지난 분기엔 사십삼 퍼센트였습니다."
+     "say": "둘째, 애저 매출 증가율. 사십삼 퍼센트를 지키는지 봅니다."
     },
     {
      "cap": [
-      "데이터센터에 쏟은 돈은",
-      "결국 애저 매출로 돌아와야 합니다"
+      "셋째, 데이터센터에 쓰는 돈",
+      "번 현금보다 너무 빨리 늘지 않는지입니다"
      ],
-     "say": "데이터센터에 쏟은 돈은, 결국 애저 매출로 돌아와야 합니다."
-    },
-    {
-     "cap": [
-      "40%대를 지키면 투자가 매출로 바뀌는 중,",
-      "30%대로 꺾이면 회수가 늦어진다는 신호입니다"
-     ],
-     "say": "사십 퍼센트대를 지키면 투자가 매출로 바뀌는 중이고, 삼십 퍼센트대로 꺾이면 회수가 늦어진다는 신호입니다."
-    }
-   ]
-  },
-  {
-   "type": "compare",
-   "title": "③ 데이터센터에 쓰는 돈 · 2026년 4~6월",
-   "l": {
-    "label": "영업으로 번 현금",
-    "v": "554억 달러",
-    "tone": "gray"
-   },
-   "r": {
-    "label": "설비에 쓴 현금",
-    "v": "358억 달러",
-    "sub": "번 현금의 약 65%",
-    "tone": "loss"
-   },
-   "lines": [
-    {
-     "cap": [
-      "셋째, 데이터센터에 쓰는 돈. 지난 분기엔",
-      "번 현금 554억 달러 중 358억 달러를 썼습니다"
-     ],
-     "say": "셋째, 데이터센터에 쓰는 돈. 지난 분기엔 번 현금 오백오십사억 달러 중, 삼백오십팔억 달러를 설비에 썼습니다."
-    },
-    {
-     "cap": [
-      "오픈AI 계약이 들어온 작년 10~12월엔",
-      "남는 현금이 59억 달러까지 줄었죠"
-     ],
-     "say": "오픈 에이아이 계약이 들어온 작년 시월에서 십이월엔, 남는 현금이 오십구억 달러까지 줄었죠."
-    },
-    {
-     "cap": [
-      "설비투자가 번 현금의 80%를 넘기 시작하면",
-      "공사비가 매출보다 빨리 늘고 있다는 경고입니다"
-     ],
-     "say": "설비투자가 번 현금의 팔십 퍼센트를 넘기 시작하면, 공사비가 매출보다 빨리 늘고 있다는 경고입니다."
-    }
-   ]
-  },
-  {
-   "type": "statement",
-   "l1": "실적 날, 이 세 숫자만",
-   "l2": "25% · 43% · 65%",
-   "tone": "gold",
-   "note": "오픈AI 뺀 주문 · 애저 성장 · 설비에 쓴 현금 비율",
-   "lines": [
-    {
-     "cap": [
-      "실적이 나오면 25%, 43%, 65%",
-      "이 세 숫자와 나란히 비교해 보세요"
-     ],
-     "say": "실적이 나오면, 이십오, 사십삼, 육십오 퍼센트. 이 세 숫자와 나란히 비교해 보세요."
+     "say": "셋째, 데이터센터에 쓰는 돈. 번 현금보다 너무 빨리 늘지 않는지입니다."
     }
    ]
   },
