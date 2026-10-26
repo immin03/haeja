@@ -975,6 +975,8 @@ def plan(spec, speak):
     """각 장면의 음성을 만들고 시작·끝 시간을 정한다"""
     t = 0.0; scenes = []
     speed = spec.get("speed", 1.1)
+    # 잉크 노트는 문장 사이·장면 끝에 숨 고를 틈을 둔다 (2026-10-27 운영자: "너무 빨리 넘어가 눈이 못 따라간다, 몇 초 늘어나도 부드럽게")
+    GAP = spec.get("line_gap", .45 if spec.get("world") == "ink" else .12); TAIL = spec.get("scene_tail", .9 if spec.get("world") == "ink" else 0)
     for sc in spec["scenes"]:
         lines = sc.get("lines") or [{"cap": sc.get("cap"), "say": sc.get("say")}]
         if sc["type"] == "cta" and not lines[0].get("say") and not lines[0].get("cap"):
@@ -987,7 +989,7 @@ def plan(spec, speak):
                 a = y_voice(txt, speak) if YT else speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
                 d_ = len(a) / SR
                 for (f0, f1), p in zip(join_fracs(ln["join"]), ln["join"]): L.append([u + d_ * f0, d_ * (f1 - f0), p.get("cap")])
-                vo.append((u, a)); u += d_ + .12; continue
+                vo.append((u, a)); u += d_ + GAP + ln.get("pause", 0); continue
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
             if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
             if YT:
@@ -1000,8 +1002,8 @@ def plan(spec, speak):
             else:
                 a = speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
             L.append([u, len(a) / SR, ln.get("cap")]); vo.append((u, a))
-            u += len(a) / SR + .12
-        dur = u + {"hook": .1, "cta": .8}.get(sc["type"], .2)
+            u += len(a) / SR + GAP + ln.get("pause", 0)
+        dur = u + {"hook": .1, "cta": .8}.get(sc["type"], .2) + (TAIL if sc is not spec["scenes"][-1] else 0)
         if sc["type"] == "hook": dur = max(dur, 2.6)
         if sc["type"] == "statement": dur = max(dur, 2.5)
         scenes.append({"sc": sc, "start": t, "dur": dur, "L": L, "vo": vo})
@@ -1334,6 +1336,7 @@ def cover(spec, scenes):
 def plan_estimate(spec):
     """음성을 만들지 않고 글자 수로 길이를 어림한 타임라인 (썸네일만 다시 만들 때)"""
     t = 0.0; scenes = []; speed = spec.get("speed", 1.1)
+    GAP = spec.get("line_gap", .45 if spec.get("world") == "ink" else .12); TAIL = spec.get("scene_tail", .9 if spec.get("world") == "ink" else 0)
     for sc in spec["scenes"]:
         lines = sc.get("lines") or [{"cap": sc.get("cap"), "say": sc.get("say")}]
         if sc["type"] == "cta" and not lines[0].get("say") and not lines[0].get("cap"): lines = [{"cap": None, "say": CTA_SAY}]
@@ -1343,12 +1346,12 @@ def plan_estimate(spec):
             if ln.get("join"):
                 v = max(.8, len(" ".join(p["say"] for p in ln["join"]).replace(" ", "")) * .17 / ln.get("speed", speed))
                 for (f0, f1), p in zip(join_fracs(ln["join"]), ln["join"]): L.append([u + v * f0, v * (f1 - f0), p.get("cap")])
-                u += v + .12; continue
+                u += v + GAP; continue
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
             if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
-            v = max(.8, len(txt.replace(" ", "")) * .17 / ln.get("speed", speed))
-            L.append([u, v, ln.get("cap")]); u += v + .12
-        dur = u + {"hook": .1, "cta": .8}.get(sc["type"], .2)
+            v = max(.8, len(txt.replace(" ", "")) * .15 / ln.get("speed", speed))
+            L.append([u, v, ln.get("cap")]); u += v + GAP + ln.get("pause", 0)
+        dur = u + {"hook": .1, "cta": .8}.get(sc["type"], .2) + (TAIL if sc is not spec["scenes"][-1] else 0)
         if sc["type"] == "hook": dur = max(dur, 2.6)
         if sc["type"] == "statement": dur = max(dur, 2.5)
         scenes.append({"sc": sc, "start": t, "dur": dur, "L": L, "vo": []}); t += dur

@@ -36,7 +36,7 @@ IVORY = (243, 236, 221); INKC = (22, 36, 70)
 COL = {"ink": INKC, "red": (214, 48, 72), "gold": (176, 128, 46), "blue": (36, 92, 190), "green": (22, 140, 90),
        "gray": (110, 118, 134), "navy": (16, 30, 58)}
 HLC = {"yellow": (255, 222, 90), "red": (255, 150, 160), "green": (150, 230, 180), "gold": (240, 205, 130)}
-FLIP = .55
+FLIP = .85
 GAP_MAX = 2.6
 _C = {}
 
@@ -408,10 +408,10 @@ def beat_time(b, L, s):
     t0 = s["start"] + a + b.get("at", .05) * v
     d = b.get("dur") or DUR.get(b["kind"])
     if d is None:
-        if b["kind"] == "pop": d = clamp(a + v - (t0 - s["start"]) - .2, .9, 2.0)   # 카드는 길어야 2초 (그 뒤엔 페이지 글씨가 이어진다)
+        if b["kind"] == "pop": d = clamp(a + v - (t0 - s["start"]) - .2, 1.2, 2.6)   # 카드는 길어야 2초 (그 뒤엔 페이지 글씨가 이어진다)
         else:
             n = len("".join(b.get("rows") or [b.get("text", "")]).replace(" ", ""))
-            d = clamp(.13 * n + .25, .45, 1.6)
+            d = clamp(.15 * n + .3, .55, 1.9)
     return t0, t0 + d
 
 
@@ -532,33 +532,39 @@ def focus(s, T):
 
 def pop_state(s, T):
     for b in s["_ink"]["beats"]:
-        if isinstance(b, Pop) and b.t0 - .05 <= T <= b.t1 + .55:
-            ang = 84 * eout(seg(T, b.t0, b.t0 + .55)) * (1 - eio(seg(T, b.t1, b.t1 + .5)))
-            return b, ang, 1 - clamp((seg(T, b.t1, b.t1 + .5) - .5) / .5)
+        if isinstance(b, Pop) and b.t0 - .05 <= T <= b.t1 + .75:
+            ang = 84 * eout(seg(T, b.t0, b.t0 + .8)) * (1 - eio(seg(T, b.t1, b.t1 + .7)))
+            return b, ang, 1 - clamp((seg(T, b.t1, b.t1 + .7) - .5) / .5)
     return None
+
+
+def framing(s):
+    """장면 하나에 고정된 카메라 자리: 그 장면에 쓰일 내용 전체가 들어오게 (2026-10-27 운영자: 노트는 흔들리지 않고 펜만 움직이게)"""
+    if "frame" not in s["_ink"]:
+        bb = [b.bbox() for b in s["_ink"]["beats"] if not isinstance(b, Pop)] or [(0, 150, TW, 1150)]
+        y0 = max(100, min(v[1] for v in bb)); y1 = min(TH - 60, max(v[3] for v in bb))
+        h = (y1 - y0) / TH; cy = (y0 + y1) / 2
+        s["_ink"]["frame"] = (clamp(PD / 2 - cy / TH * PD, -.25, .3), clamp(2.3 + (h - .5) * 1.3, 2.3, 2.8))
+    return s["_ink"]["frame"]
 
 
 def cam_at(scenes, T):
     k = max(i for i, s in enumerate(scenes) if s["start"] <= T + 1e-6 or i == 0); s = scenes[k]
-    tgt = [.5, 0, .02]; yaw = 2.0 * math.sin(T * .35 + k); pitch = 64; dist = 2.78; roll = .7 * math.sin(T * .27 + k * 1.3)
-    f = focus(s, T)
-    if f:   # 지금 쓰는 곳으로 조금 다가간다 (페이지 밖이 보이지 않을 만큼)
-        fx, fy = f; zf = PD / 2 - fy / TH * PD
-        tgt = [lerp(.5, fx / TW, .1), 0, clamp(lerp(.02, zf, .6), -.28, .42)]; dist = 2.42
-        u = T - s["start"]; dist = lerp(2.8, dist, eio(u / .8))
-    if T < .9:
-        q = eio(T / .9); dist = lerp(3.6, dist, q); pitch = lerp(55, pitch, q); yaw = lerp(-8, yaw, q)
-    for j in range(1, len(scenes)):
-        b = scenes[j]["start"]
-        if b - FLIP - .2 <= T < b + .35:
-            q = math.sin(math.pi * seg(T, b - FLIP - .2, b + .35))
-            dist = lerp(dist, 3.3, q); tgt = [lerp(tgt[0], .1, q), 0, lerp(tgt[2], -.06, q)]; pitch = lerp(pitch, 57, q)
+    z, dist = framing(s); u = T - s["start"]
+    dist *= 1 - .025 * clamp(u / max(s["dur"], 1))          # 아주 천천히 다가간다 (흔들림 없이)
+    tgt = [.5, 0, z]; pitch = 64
+    if T < 1.2:
+        q = eio(T / 1.2); dist = lerp(3.4, dist, q); pitch = lerp(56, pitch, q); tgt[2] = lerp(-.02, z, q)
+    if k + 1 < len(scenes):   # 넘김: 다음 장면 자리로 부드럽게 옮겨 가며 살짝 물러난다
+        nz, nd = framing(scenes[k + 1]); b = scenes[k + 1]["start"]
+        q = eio(seg(T, b - FLIP - .25, b + .25))
+        if q > 0:
+            tgt[2] = lerp(z, nz, q); dist = lerp(dist, nd, q) + .35 * math.sin(math.pi * q); pitch = lerp(pitch, 60, math.sin(math.pi * q))
     st = pop_state(s, T)
     if st:
-        b, ang, al = st; q = eio(seg(T, b.t0, b.t0 + .55)) * (1 - eio(seg(T, b.t1, b.t1 + .5)))
-        tgt = [lerp(tgt[0], .5, q), lerp(0, .27, q), lerp(tgt[2], -.02, q)]; pitch = lerp(pitch, 22, q); dist = lerp(dist, 3.0, q)
-        yaw = lerp(yaw, 6 * math.sin((T - b.t0) * .8), q)
-    return P.Cam(tgt, yaw, pitch, dist, 38, roll)
+        b, ang, al = st; q = eio(seg(T, b.t0, b.t0 + .8)) * (1 - eio(seg(T, b.t1, b.t1 + .7)))
+        tgt = [.5, lerp(0, .24, q), lerp(tgt[2], -.02, q)]; pitch = lerp(pitch, 34, q); dist = lerp(dist, 3.0, q)
+    return P.Cam(tgt, 0.0, pitch, dist, 38, 0.0)
 
 
 # ── 펜 ──
@@ -621,8 +627,8 @@ def render(E, T, scenes, total):
                 im = Image.fromarray(c); d = ImageDraw.Draw(im, "RGBA"); d.rectangle([20, 540, 820, 620], fill=(10, 18, 34, 170))
                 d.text((420, 580), b.b["cap"], font=font("ExtraBold", 40), fill=(255, 255, 255), anchor="mm"); c = np.asarray(im)
             P.draw_quad(fr, c, cam.proj(Q), .92 + .08 * math.sin(a), al)
-    if T < .5:
-        _sheet(fr, cam, math.pi * eio(T / .5), P.cover_tex(E, ""), _back(), curl=.2, y0=TK + .008)
+    if T < .8:
+        _sheet(fr, cam, math.pi * eio(T / .8), P.cover_tex(E, ""), _back(), curl=.2, y0=TK + .008)
     if not flipping:
         pn = pen_at(s, T)
         if pn and not st:

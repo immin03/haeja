@@ -81,19 +81,27 @@ p6 = {"type": "compare", "title": old[7]["title"], "l": old[7]["l"], "r": old[7]
     dict(kind="write", text="주가는 '속도'를 먼저 본다", x=70, y=1010, size=84, color="gold", line=3, at=.05),
     dict(kind="under", x0=80, x1=880, y=1110, color="gold", line=3, at=.7),
 ]}}
-# ── 7. 풀영상
-p7 = dict(old[8]); p7["page"] = {"head": "메모리 수업 9분 풀버전", "beats": [
-    dict(kind="pop", src=LIB + "commons_wafer_3.jpg", cap="HBM · 메모리 사이클 9분 수업", line=0, at=0),
-    dict(kind="write", rows=["HBM과", "메모리 사이클", "9분 수업"], x=80, y=180, size=110, line=0, at=.55, dur=.9),
-    dict(kind="write", text="하단 프로필 링크", x=540, y=760, size=120, color="red", anchor="m", line=1, at=0),
-    dict(kind="circle", cx=540, cy=830, rx=420, ry=110, color="red", line=1, at=.4),
-    dict(kind="arrow", pts=[[540, 960], [540, 1180]], color="red", line=1, at=.6, width=12),
-]}
+# ── 7. 마무리 (2026-10-27 운영자: 말은 "좋아요와 구독"만, 풀영상 안내는 글자로만)
+p7 = {"type": "cta", "l1": "더 많은 정보를 원하시면", "l2": "좋아요와 구독",
+      "lines": [{"cap": ["더 많은 정보를 원하시면 좋아요와 구독", "풀영상은 하단 프로필 링크에서"], "say": "더 많은 정보를 원하시면, 좋아요와 구독 눌러 주세요.", "pause": 1.6}],
+      "page": {"head": "VALUENOTE", "beats": [
+    dict(kind="sticker", src=LOGO, x=600, y=150, w=300, rot=4, line=0, at=0),
+    dict(kind="write", rows=["더 많은 정보는", "좋아요 + 구독"], x=80, y=330, size=124, line=0, at=.05, dur=1.4),
+    dict(kind="under", x0=90, x1=760, y=600, color="red", line=0, at=.75),
+    dict(kind="photo", src=LIB + "commons_wafer_3.jpg", x=90, y=700, w=380, h=300, rot=-3, cap="9분 수업", line=0, at=.9),
+    dict(kind="write", rows=["풀영상은", "하단 프로필 링크"], x=520, y=740, size=84, color="red", line=0, at=1.0, dur=1.2),
+    dict(kind="arrow", pts=[[760, 960], [760, 1150]], color="red", line=0, at=1.25, width=12),
+]}}
 # 길이 다듬기 (2026-10-27 운영자: 1분 10초~1분 30초) — 세 가지 미리보기 장면은 빼고, 긴 문장을 줄인다
 p4["lines"][0] = L(["첫째, 빅테크 4곳이 올해 쓰겠다는", "설비투자는 약 7,350억 달러입니다"], "첫째, 빅테크 네 곳이 올해 쓰겠다는 설비투자는, 약 칠천삼백오십억 달러입니다.")
 p5["lines"][2] = L(["29일 콘퍼런스콜에서", "HBM4 공급이 늘었다고 하는지 보세요"], "이십구일 콘퍼런스콜에서, 에이치비엠포 공급이 늘었다고 하는지 보세요.")
-p7["lines"][0] = L(["HBM과 메모리 사이클은", "9분 풀영상에 정리했습니다"], "에이치비엠과 메모리 사이클은, 구 분 풀영상에 정리했습니다.")
 d["scenes"] = [p1, p2, p4, p5, p6, p7]
-d["world"] = "ink"
+d["world"] = "ink"; d["end"] = "subscribe"
+en = d["subs_en"]
+if len(en) == 23:   # 원래 대본(9장면)에서: 세 가지 미리보기 3줄 빼고, 줄인 문장 영어도 맞춘다
+    en = en[:7] + en[10:]
+    en[7] = "First, four Big Tech firms plan about $735B in capex this year"; en[13] = "On the Oct 29 call, watch whether HBM4 supply grew"
+    en = en[:18] + ["Want more? Like and subscribe. Full video: profile link below"]
+d["subs_en"] = en
 json.dump(d, open(SPEC, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("ok", sum(len(s["lines"]) for s in d["scenes"]))

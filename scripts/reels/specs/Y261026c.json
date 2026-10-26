@@ -904,83 +904,94 @@
   },
   {
    "type": "cta",
-   "l1": "메모리 수업 9분 풀버전",
-   "l2": "하단 프로필 링크 클릭",
+   "l1": "더 많은 정보를 원하시면",
+   "l2": "좋아요와 구독",
    "lines": [
     {
      "cap": [
-      "HBM과 메모리 사이클은",
-      "9분 풀영상에 정리했습니다"
+      "더 많은 정보를 원하시면 좋아요와 구독",
+      "풀영상은 하단 프로필 링크에서"
      ],
-     "say": "에이치비엠과 메모리 사이클은, 구 분 풀영상에 정리했습니다."
-    },
-    {
-     "cap": [
-      "하단 프로필 링크를 눌러 보세요"
-     ],
-     "say": "하단 프로필 링크를 눌러 보세요."
+     "say": "더 많은 정보를 원하시면, 좋아요와 구독 눌러 주세요.",
+     "pause": 1.6
     }
    ],
    "page": {
-    "head": "메모리 수업 9분 풀버전",
+    "head": "VALUENOTE",
     "beats": [
      {
-      "kind": "pop",
-      "src": "scripts/blog/media/lib/commons_wafer_3.jpg",
-      "cap": "HBM · 메모리 사이클 9분 수업",
+      "kind": "sticker",
+      "src": "scripts/reels/assets/logo/samsung.png",
+      "x": 600,
+      "y": 150,
+      "w": 300,
+      "rot": 4,
       "line": 0,
       "at": 0
      },
      {
       "kind": "write",
       "rows": [
-       "HBM과",
-       "메모리 사이클",
-       "9분 수업"
+       "더 많은 정보는",
+       "좋아요 + 구독"
       ],
       "x": 80,
-      "y": 180,
-      "size": 110,
+      "y": 330,
+      "size": 124,
       "line": 0,
-      "at": 0.55,
-      "dur": 0.9
+      "at": 0.05,
+      "dur": 1.4
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 760,
+      "y": 600,
+      "color": "red",
+      "line": 0,
+      "at": 0.75
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_wafer_3.jpg",
+      "x": 90,
+      "y": 700,
+      "w": 380,
+      "h": 300,
+      "rot": -3,
+      "cap": "9분 수업",
+      "line": 0,
+      "at": 0.9
      },
      {
       "kind": "write",
-      "text": "하단 프로필 링크",
-      "x": 540,
-      "y": 760,
-      "size": 120,
+      "rows": [
+       "풀영상은",
+       "하단 프로필 링크"
+      ],
+      "x": 520,
+      "y": 740,
+      "size": 84,
       "color": "red",
-      "anchor": "m",
-      "line": 1,
-      "at": 0
-     },
-     {
-      "kind": "circle",
-      "cx": 540,
-      "cy": 830,
-      "rx": 420,
-      "ry": 110,
-      "color": "red",
-      "line": 1,
-      "at": 0.4
+      "line": 0,
+      "at": 1.0,
+      "dur": 1.2
      },
      {
       "kind": "arrow",
       "pts": [
        [
-        540,
+        760,
         960
        ],
        [
-        540,
-        1180
+        760,
+        1150
        ]
       ],
       "color": "red",
-      "line": 1,
-      "at": 0.6,
+      "line": 0,
+      "at": 1.25,
       "width": 12
      }
     ]
@@ -1007,13 +1018,12 @@
   "rose 4% in a month in September. Still rising, but slower",
   "Memory fabs' costs barely change, so a 10% price cut can cut profit 20%",
   "That's why the stock watches the pace of price gains before profits",
-  "HBM and the memory cycle: all in the 9-minute full video",
-  "Tap the profile link below"
+  "Want more? Like and subscribe. Full video: profile link below"
  ],
  "allow_long": true,
  "world": "ink",
  "cover_title": "삼성전자 주가 전망\n이 3가지만\n보면 된다",
  "cover": 0,
  "thumb_file": "scripts/reels/assets/logo/Y261026c_thumb.jpg",
- "ink_strict": false
+ "end": "subscribe"
 }
