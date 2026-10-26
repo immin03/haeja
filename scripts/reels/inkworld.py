@@ -471,7 +471,7 @@ def autofill(s, beats):
         gap = next(((a, b) for a, b in zip(ev, ev[1:]) if b - a > 2.4), None)
         if not gap: break
         t = gap[0] + min(1.3, (gap[1] - gap[0]) / 2)
-        tgt = [b for b in beats + add if isinstance(b, (Write, Chart, Bars, Photo)) and b.t0 < t and not b.b.get("_auto")]
+        tgt = [b for b in beats + add if isinstance(b, Write) and b.t0 < t and not b.b.get("_auto")]   # 손글씨에만 (막대·사진 위에 칠하면 지저분하다)
         if not tgt:
             add.append(Stroke({"kind": "under", "color": "gold", "_auto": 1}, t, t + .45, under_pts(300, 780, 1180))); continue
         b = max(tgt, key=lambda z: z.t0); x0, y0, x1, y1 = [float(v) for v in b.bbox()]
