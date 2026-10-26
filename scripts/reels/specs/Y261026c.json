@@ -24,7 +24,7 @@
   "4만 전자가 HBM 33%로",
   "삼성전자에 무슨 일이?"
  ],
- "caption": "2024년 11월 14일 삼성전자 주가는 4만 9,900원까지 떨어졌습니다. 엔비디아 HBM 품질 테스트를 제때 통과하지 못해 SK하이닉스와 마이크론에 밀렸기 때문입니다.\n\n그 뒤 삼성전자 HBM 점유율은 올해 1분기 21%에서 2분기 33%로 올라, 1등 SK하이닉스와의 차이를 석 달 만에 37%포인트에서 17%포인트로 줄였습니다(카운터포인트리서치). 다만 중국 창신메모리가 3년 전 1%도 안 되던 D램 점유율을 10%까지 끌어올리며 따라오고 있습니다.\n\n풀버전은 밸류노트 유튜브에서 확인하세요. 유튜브에서 '밸류노트'를 검색하거나 유튜브 채널를 눌러 주세요.\n\n현명한 투자를 위한 가치투자 가이드 밸류노트를 프로필 링크에서 확인하세요.",
+ "caption": "2024년 11월 14일 삼성전자 주가는 4만 9,900원까지 떨어졌습니다. 엔비디아 HBM 테스트를 제때 통과하지 못했기 때문입니다.\n\n그 뒤 HBM4를 엔비디아에 공급하기 시작하며 HBM 점유율은 올해 1분기 21%에서 2분기 33%로 올랐고, 1등 SK하이닉스와의 차이를 37%포인트에서 17%포인트로 줄였습니다(카운터포인트리서치).\n\n벤저민 그레이엄 방식(여러 해 평균 이익 × 최대 10배)으로 계산한 한 주 값은 약 6만 9천 원으로, 10월 23일 종가 21만 원대는 그 3배쯤입니다.\n\n10월 29일 실적에서 볼 숫자 3개: ① 빅테크 내년 설비투자 ② 삼성전자 HBM4 판매 ③ D램 값 오르는 속도.\n\n메모리 사이클 이야기는 밸류노트 유튜브 풀영상에 있습니다.",
  "scenes": [
   {
    "type": "hook",
@@ -159,80 +159,100 @@
   },
   {
    "type": "statement",
-   "l1": "보수적으로 계산한 값",
-   "l2": "약 6만 9천 원",
+   "l1": "그레이엄 방식으로 계산하면",
+   "l2": "한 주 약 6만 9천 원",
    "tone": "gold",
+   "note": "여러 해 평균 이익 × 최대 10배 · 10월 23일 종가 기준",
    "lines": [
     {
      "cap": [
-      "그럼 지금 주가는 비쌀까요? 그레이엄 방식으로 보수적으로 계산하면",
-      "삼성전자 한 주의 값은 약 6만 9천 원이에요"
-     ]
+      "그럼 지금 주가는 비쌀까요?",
+      "워렌 버핏의 스승, 그레이엄 방식으로 볼게요"
+     ],
+     "say": "그럼 지금 주가는 비쌀까요? 워렌 버핏의 스승, 그레이엄 방식으로 볼게요."
+    },
+    {
+     "cap": [
+      "여러 해 평균 이익에 10배를 곱하면",
+      "한 주 값은 약 6만 9천 원이에요"
+     ],
+     "say": "여러 해 평균 이익에 십 배를 곱하면, 한 주 값은 약 육만 구천 원이에요."
     },
     {
      "cap": [
       "21만 원대 주가는 그 3배쯤이라",
       "밸류노트 점수는 41점이에요"
-     ]
+     ],
+     "say": "이십일만 원대 주가는 그 세 배쯤이라, 밸류노트 점수는 사십일 점이에요."
     }
-   ],
-   "note": "10월 23일 종가 기준"
+   ]
   },
   {
-   "type": "compare",
-   "title": "밸류노트 점수 41점",
-   "l": {
-    "label": "재무 점수\n돈 버는 실력",
-    "v": "71점",
-    "tone": "good"
-   },
-   "r": {
-    "label": "가격 점수\n계산 값보다 싼지",
-    "v": "23점",
-    "tone": "loss"
-   },
+   "type": "list",
+   "title": "10월 29일 실적, 볼 숫자 3개",
+   "items": [
+    "1 빅테크 내년 설비투자",
+    "2 삼성전자 HBM4 판매",
+    "3 D램 값 오르는 속도"
+   ],
    "lines": [
     {
      "cap": [
-      "돈 버는 실력을 보는 재무 점수는 71점으로 좋은데"
-     ]
+      "첫째, 빅테크가 내년 설비투자를 얼마나 늘리는지",
+      "AI 칩과 메모리를 사는 예산이에요"
+     ],
+     "say": "첫째, 빅테크가 내년 설비투자를 얼마나 늘리는지. 에이아이 칩과 메모리를 사는 예산이에요."
     },
     {
      "cap": [
-      "가격 점수가 23점이라 깎였어요"
-     ]
+      "둘째, 삼성전자 HBM4가 얼마나 팔렸는지",
+      "엔비디아 공급이 계속 늘고 있는지예요"
+     ],
+     "say": "둘째, 삼성전자 에이치비엠포가 얼마나 팔렸는지. 엔비디아 공급이 계속 늘고 있는지예요."
+    },
+    {
+     "cap": [
+      "셋째, D램 값이 오르는 속도",
+      "오르는 폭이 줄면 주가가 먼저 반응해요"
+     ],
+     "say": "셋째, 디램 값이 오르는 속도. 오르는 폭이 줄면 주가가 먼저 반응해요."
     }
    ]
   },
   {
    "type": "cta",
-   "l1": "HBM4, 얼마나 팔렸을까?",
-   "l2": "10월 29일 실적 체크",
+   "l1": "메모리 수업 9분 풀버전",
+   "l2": "하단 프로필 링크 클릭",
    "lines": [
     {
      "cap": [
-      "10월 29일엔 HBM4가 얼마나 팔렸는지가 핵심이에요",
-      "볼 숫자 세 개는 유튜브 풀버전에서 확인하세요"
+      "메모리 사이클 이야기는 풀영상에 더 있어요",
+      "하단 프로필 링크를 눌러 보세요"
      ],
-     "say": "시월 이십구일엔 에이치비엠포가 얼마나 팔렸는지가 핵심이에요. 볼 숫자 세 개는 유튜브 풀버전에서 확인하세요."
+     "say": "메모리 사이클 이야기는 풀영상에 더 있어요. 하단 프로필 링크를 눌러 보세요."
     }
    ]
   }
  ],
  "title_en": "From 49,900 won to 33% of HBM: what happened to Samsung? #Samsung",
  "subs_en": [
-  "On Nov 14, 2024, Samsung fell to 49,900 won",
-  "It failed Nvidia's HBM test on time",
-  "Samsung's HBM share was 21% in Q1 2026",
-  "In Q2 it jumped to 33%",
-  "It more than halved the gap to No. 1 SK hynix in three months",
-  "From 37 points to 17",
+  "On Nov 14, 2024, Samsung shares fell to 49,900 won",
+  "It hadn't passed Nvidia's HBM test in time",
+  "After its chip chief apologized, Samsung passed Nvidia's test in Q4 last year",
+  "and began supplying next-gen HBM4 to Nvidia this February",
+  "Samsung's HBM share, 21% in Q1",
+  "jumped to 33% in Q2",
+  "It cut the gap with No.1 SK hynix by more than half in three months",
+  "from 37 points to 17 points",
   "Had you bought 100 million won at that low",
   "it would be about 430 million won now",
-  "But competitors are catching up fast",
-  "China's CXMT went from under 1% to 10% of DRAM",
-  "Is Samsung expensive now? See the full video",
-  "Tap the link below"
+  "So is the stock expensive now? Let's use Graham's method, Buffett's teacher",
+  "Average earnings over several years times 10 gives about 69,000 won a share",
+  "At 210,000-plus won, the stock is about 3x that; ValueNote score 41",
+  "First: how much Big Tech raises next year's capex, the budget for AI chips and memory",
+  "Second: how much Samsung HBM4 sold, whether Nvidia supply keeps growing",
+  "Third: how fast DRAM prices rise; if gains shrink, the stock reacts first",
+  "The memory-cycle story is in the full video. Tap the profile link below"
  ],
  "allow_long": true,
  "world": "popup"
