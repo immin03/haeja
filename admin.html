@@ -221,6 +221,27 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .gh-log{padding:10px 14px}.gh-log .r{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5;word-break:keep-all}
 .gh-log .r:first-child{border-top:0}.gh-log .r .tm{flex:0 0 auto;color:var(--muted);font-variant-numeric:tabular-nums}
 .tr-card{padding:12px 14px}
+.tp-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
+.tp-card{padding:14px;display:flex;flex-direction:column;gap:8px;word-break:keep-all}
+.tp-card.dim{opacity:.55}
+.tp-h{display:flex;gap:10px;align-items:flex-start}
+.tp-rk{font-style:normal;font-weight:800;font-size:18px;min-width:22px;color:var(--muted)}
+.tp-card:first-child .tp-rk{color:var(--tc2)}
+.tp-t{flex:1;min-width:0}.tp-t b{font-size:15px;line-height:1.35}.tp-t .m{font-size:12.5px;line-height:1.5;margin-top:3px}
+.tp-ac a{color:var(--ink);font-size:12.5px;text-decoration:none;font-weight:600}
+.tp-ev .nw{white-space:nowrap}
+.tp-sc{text-align:right;white-space:nowrap}.tp-sc b{font-size:26px;font-weight:800}.tp-sc span{font-size:12px;color:var(--muted);margin-left:2px}
+.tp-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--grid)}.tp-bar i{display:block;height:100%}
+.tp-parts{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--muted)}.tp-parts b{color:var(--ink)}
+.tp-sig{font-size:12.5px}
+.tp-shelf{font-size:12.5px;padding:8px 10px;border-radius:8px;background:rgba(42,120,214,.08)}
+.tp-shelf em{font-style:normal;font-weight:700}
+.tp-shelf.soon{background:rgba(235,104,52,.1)}.tp-shelf.soon em{color:var(--tc2)}
+.tp-shelf.gone{background:var(--grid)}
+.tp-ev{font-size:12.5px;line-height:1.5}.tp-ev a{color:var(--ink)}
+.tp-fit{font-size:12px}
+.tp-ac{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:2px}
+@media (max-width:700px){.tp-list{grid-template-columns:1fr}}
 .tr-kpis{margin-bottom:4px}
 .tr-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline;flex:0 0 auto}
 .tr-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink2);margin-bottom:6px}
@@ -1010,8 +1031,8 @@ function ytViews(){
    기획안 작업은 같은 데이터로 상위 소재만 골라 기획안을 만든다. */
 const TR = { data: null, stats: null, err: '', at: 0, cat: 'all', more: false };
 async function trLoad(){
-  const [a, s] = await Promise.all([sb.rpc('trend_admin', { p_days: 60 }), sb.rpc('trend_stats', { p_days: 14 })]);
-  TR.data = a.error ? {} : (a.data || {}); TR.stats = s.error ? {} : (s.data || {}); TR.err = a.error ? a.error.message : (s.error ? s.error.message : '');
+  const [a, s, t] = await Promise.all([sb.rpc('trend_admin', { p_days: 60 }), sb.rpc('trend_stats', { p_days: 14 }), sb.rpc('yt_topic_list')]);
+  TR.data = a.error ? {} : (a.data || {}); TR.stats = s.error ? {} : (s.data || {}); TR.topics = t.error ? [] : (t.data || []); TR.err = a.error ? a.error.message : (s.error ? s.error.message : '');
   TR.at = Date.now(); render();
 }
 const nk = v => v == null ? '–' : v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v >= 1e4 ? (v >= 1e5 ? Math.round(v / 1e4) : (v / 1e4).toFixed(1)) + '만' : Math.round(v).toLocaleString('ko-KR');
@@ -1091,6 +1112,38 @@ function trStockTable(rows, title){
       return `<tr><td class="tr-num">${s.rank}</td><td>${esc(s.name)}${s.days_in > 1 ? ` <span class="m">${s.days_in}일째</span>` : ''}</td><td>${mv}</td><td class="r" style="color:${String(s.change || '').startsWith('-') ? 'var(--bad)' : s.change ? 'var(--good)' : 'var(--muted)'}">${esc(s.change || '–')}</td></tr>`; }).join('') || '<tr><td colspan="4" class="m">아직 없음</td></tr>'}
   </tbody></table></div>`;
 }
+/* 추천 주제 순위 (2026-10-26 운영자): "트렌드 흐름, 주제 흐름 등 다 고려해서 가장 추천하는 주제를 선정하고, 최근 급등량·조회수
+   모든 걸 고려해야 하고, 그 주제의 예상 시간 효력도 적어줘. 내가 선택하면 바로 기획안 작성, 기획안 통과하면 렌더링까지."
+   점수 100 = 관심 크기 35 + 가속 30 + 이슈 근접 15 + 밸류노트 적합 20 (yt_topic_list가 trend_hot 최신 값으로 매번 다시 계산).
+   '이걸로 기획안 받기' → yt_topic_pick → 유튜브 대기열 작업이 다음 실행(2시간 안)에 기획안 1편 → 기획안 승인 → 제작·렌더링 → 영상 검수 */
+const TP_PARTS = [['interest', '관심 크기', 35, 'var(--tc1)'], ['accel', '최근 급등', 30, 'var(--tc2)'], ['issue', '이슈 근접', 15, 'var(--tc4)'], ['fit', '밸류노트 적합', 20, 'var(--tc3)']];
+function tpCard(t, i){
+  const P = t.parts || {}, g = t.signals || {}, live = t.live === 1, dl = t.days_left;
+  const bar = `<div class="tp-bar" role="img" aria-label="점수 구성">${TP_PARTS.map(([k, l, mx, c]) => `<i class="hit" style="width:${(+P[k] || 0)}%;background:${c}" data-tip="${l} ${(+P[k] || 0).toFixed(0)} / ${mx}"></i>`).join('')}</div>
+    <div class="tp-parts">${TP_PARTS.map(([k, l, mx, c]) => `<span><i class="tr-dot" style="background:${c}"></i>${l} <b>${(+P[k] || 0).toFixed(0)}</b>/${mx}</span>`).join('')}</div>`;
+  const share = g.pd ? Math.round(g.pd_new / g.pd * 100) : 0;
+  const sig = `관련 영상 ${g.videos || 0}개 · 하루 조회 <b>+${nk(+g.pd)}</b> · 최근 3일 새 영상 몫 <b>${share}%</b> · 급등·급성장 <b>${g.hot || 0}개</b>${g.max_spike ? ` · 최대 ${g.max_spike}배` : ''}`;
+  const kd = d => d ? trMd(d) : '';
+  const shelf = `<div class="tp-shelf${live ? (dl <= 5 ? ' soon' : '') : ' gone'}"><b>효력</b> ${live ? `${kd(t.valid_until)}까지 <em>D-${dl}</em>` : '만료'} · ${esc(t.shelf || '')}${t.best_by ? ` · 늦어도 <b>${kd(t.best_by)}</b> 게시` : ''}${t.issue ? ` · 연결 이슈 ${esc(t.issue)} ${kd(t.issue_day)}` : ''}<div class="m">${esc(t.shelf_why || '')}</div></div>`;
+  const ev = (g.top || []).slice(0, 2).map(v => `<a href="https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}" target="_blank" rel="noopener" data-newwin>${esc(v.title)}</a> <span class="m nw">${esc(v.channel || '')} · +${nk(v.pd)}/일</span>`).join('<br>');
+  const PS = { proposed: '승인 대기', approved: '승인됨 · 제작 예정', producing: '제작 중', done: '완료', rejected: '반려' };
+  const act = t.status === 'planned' ? `<span class="st ok">기획안 ${PS[t.plan_status] || '연결'}</span> <a href="#youtube/plan">${esc(t.plan_title || '')}</a>`
+    : t.status === 'picked' ? '<span class="st run">기획안 쓰는 중 · 2시간 안에 기획안 탭에 올라옵니다</span>'
+    : t.status === 'skipped' ? '<span class="st none">안 하기로 함</span>'
+    : live ? `<button class="soc-btn" data-tp-pick="${esc(t.id)}">이걸로 기획안 받기</button><button class="soc-btn ghost" data-tp-skip="${esc(t.id)}">안 함</button>` : '<span class="st none">효력 지남</span>';
+  return `<div class="card tp-card${live ? '' : ' dim'}">
+    <div class="tp-h"><em class="tp-rk">${i + 1}</em><div class="tp-t"><b>${esc(t.title)}</b><div class="m">${esc(t.angle || '')}</div></div><div class="tp-sc"><b>${t.score}</b><span>점</span></div></div>
+    ${bar}<div class="tp-sig">${sig}</div>${shelf}
+    ${ev ? `<div class="tp-ev"><span class="m">근거 영상</span><br>${ev}</div>` : ''}
+    ${t.fit_why ? `<div class="m tp-fit">적합 판단: ${esc(t.fit_why)}</div>` : ''}
+    <div class="tp-ac">${act}</div></div>`;
+}
+function tpSection(){
+  const T = TR.topics || [];
+  return `<div class="soc-sec"><h2>추천 주제 순위</h2><span class="n">관심 크기 35 + 최근 급등 30 + 이슈 근접 15 + 밸류노트 적합 20 · 숫자는 매일 아침 수집값으로 다시 계산</span></div>
+  ${T.length ? `<div class="tp-list">${T.slice(0, 8).map(tpCard).join('')}</div>` : '<div class="card empty" style="padding:14px">주제 순위는 매일 아침 수집 뒤 Claude가 올립니다.</div>'}
+  <div class="yt-note" style="margin-top:8px">고르면 → 2시간 안에 기획안 탭에 기획안 1편 → 기획안 승인 → 게시일 배정·최신 숫자로 렌더링 → 영상 검수. 급등 판정(평소 대비 몇 배)은 수집 이틀째부터 붙습니다.</div>`;
+}
 function trPanel(){
   if(!TR.data || Date.now() - TR.at > 10 * 60e3){ if(!TR.loading){ TR.loading = true; trLoad().finally(() => TR.loading = false); } if(!TR.data) return '<div class="card empty" style="padding:14px">불러오는 중</div>'; }
   if(TR.err) return `<div class="card">불러오지 못했습니다: ${esc(TR.err)}</div>`;
@@ -1120,6 +1173,7 @@ function trPanel(){
       <td><span class="st ${f[1]}">${f[0]}${h.spike ? ` ${h.spike}배` : ''}</span></td></tr>`; }).join('');
   const st = D.structures || [], sk = S.stocks || [];
   return `<div class="yt-note">매일 아침 7시 25분에 유튜브 검색어 ${c.queries || 0}개로 영상을 모아 조회수 증가량을 잽니다. 기획안은 아래 표의 상위 소재·구조·이슈를 근거로 만듭니다. 막대·점에 마우스를 올리면 숫자가 나옵니다. <span class="m">마지막 수집 ${D.last_run ? kst(D.last_run) : '아직 없음'}</span></div>
+  ${tpSection()}
   ${kpis}
   <div class="soc-sec"><h2>카테고리별 관심 흐름</h2><span class="n">카테고리마다 모은 영상의 하루 조회 증가 합계 · 최근 14일</span></div>
   <div class="card tr-card">${trCatChart(S)}</div>
@@ -1282,6 +1336,15 @@ function bindYoutube(){
   document.querySelectorAll('[data-tr-cat]').forEach(b => b.onclick = () => { TR.cat = b.dataset.trCat; render(); });
   const tm = document.getElementById('tr-more'); if(tm) tm.onclick = () => { TR.more = !TR.more; render(); };
   if(document.querySelector('.tr-card .hit')) bindTips();
+  document.querySelectorAll('[data-tp-pick]').forEach(b => b.onclick = async () => {
+    const t = (TR.topics || []).find(x => x.id === b.dataset.tpPick); const note = prompt(`'${t ? t.title : ''}'로 기획안을 받을까요?\n덧붙일 방향이 있으면 적어 주세요 (비워도 됩니다).`, '');
+    if(note === null) return; b.disabled = true;
+    const { data, error } = await sb.rpc('yt_topic_pick', { p_id: b.dataset.tpPick, p_note: note || null });
+    if(error) toast('요청하지 못했습니다: ' + error.message, true); else if(data && data.ok === false) toast(data.reason, true); else toast('요청했습니다. 2시간 안에 기획안 탭에 올라옵니다.');
+    trLoad(); });
+  document.querySelectorAll('[data-tp-skip]').forEach(b => b.onclick = async () => {
+    b.disabled = true; const { error } = await sb.rpc('yt_topic_skip', { p_id: b.dataset.tpSkip });
+    if(error) toast('바꾸지 못했습니다: ' + error.message, true); trLoad(); });
   document.querySelectorAll('[data-tr-del]').forEach(b => b.onclick = async () => {
     if(!confirm('이 이슈를 캘린더에서 지울까요?')) return; b.disabled = true;
     const { error } = await sb.rpc('issue_upsert', { p: { id: b.dataset.trDel, delete: true } });
