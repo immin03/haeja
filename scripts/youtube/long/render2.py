@@ -1305,13 +1305,13 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             chap = sc["chapter"]; ci = CHAPS.index(chap) if chap in CHAPS else -1
         theme = "dark" if sc["v"].get("backdrop") else (sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light"))
         mode = "title" if (typ == "title" and sc.get("chapter") and ci >= 0) else ("card" if (theme == "dark" or typ == "media") else "light")
-        rot = 0.0 if k < cold else float(rng.choice([-1, 1]) * rng.uniform(.5, 1.6))
-        info.append({"chap": chap, "ci": ci, "theme": theme, "mode": mode, "rot": rot, "pose": NBK.pose_for(k, typ, nb),
+        rot = 0.0 if k < cold else float(rng.choice([-1, 1]) * rng.uniform(.25, .6))   # 카드는 아주 살짝만 기울여 붙인다
+        info.append({"chap": chap, "ci": ci, "theme": theme, "mode": mode, "rot": rot, "pose": NBK.pose_for(k, typ, nb, mode=mode),
                      "flip": bool(k and sc.get("chapter") and mode == "title")})
     close = NBK.close_pose(nb); close["dist"] *= .985
     est = None   # 공개 장면이 끝나는 자세 (노트 전체가 보이게 조금 넓게)
     if cold and cold <= len(info):
-        est = dict(info[cold - 1]["pose"]); est["dist"] *= 1.22; est["pitch"] = 70; est["yaw"] = -5; est["roll"] = -1.2; est["tz"] -= .02
+        est = NBK.pose_for(cold - 1, "title", nb, mode="title")   # 공개 장면은 노트 전체가 정면으로 보이는 데서 멈춘다
     prev_tex = None; prev_pose = None; fi = 0; t0_clock = dt.datetime.now()
     for k, x in enumerate(timeline):
         if only_sc and k not in only_sc: continue
@@ -1347,7 +1347,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 amt = 0.0
                 if I["flip"]:
                     span = NB_FLIP + .6; p = u / span   # 카메라가 뒤로 빠져 넘어가는 페이지 전체를 보여 준 뒤 새 페이지로 내려앉는다
-                    mid = NBK.wide_pose(nb, base_pose); mid["dist"] = base_pose["dist"] * 1.5; mid["pitch"] = 60; mid["tz"] = base_pose["tz"] + .06
+                    mid = dict(base_pose); mid["dist"] = base_pose["dist"] * 1.3; mid["pitch"] = 80; mid["tz"] = base_pose["tz"] + .04
                     pose = dr if p >= 1 else (NBK.mix_pose(start_pose, mid, NBK.eio(p * 2)) if p < .5 else NBK.mix_pose(mid, dr, NBK.eio(p * 2 - 1)))
                 else:
                     pose = NBK.mix_pose(start_pose, dr, NBK.eio(u / NB_MOVE)) if u < NB_MOVE else dr

@@ -24,6 +24,7 @@ W, H = 1920, 1080
 
 INK = (24, 34, 58); NAVY = (11, 27, 51); GOLD = (224, 200, 150); GOLD_D = (168, 144, 97); PEN = (196, 150, 64)
 IVORY = (246, 241, 232); CARD_BORDER = (250, 247, 240)
+CARD_SCALE = .9   # 붙인 사진 카드 크기 (페이지 그림 폭 대비)
 
 
 def clamp(x, a=0.0, b=1.0): return max(a, min(b, x))
@@ -214,7 +215,8 @@ class Notebook:
         self._cards[key] = c
         return c
 
-    def page_card(self, S, rot=0.0, scale=.86, header_right="", seed=0):
+    def page_card(self, S, rot=0.0, scale=None, header_right="", seed=0):
+        scale = scale or CARD_SCALE
         """어두운 장면·실사: 테두리 있는 사진 카드로 붙인다 (테이프 두 장)"""
         c = self._card_prep(rot, scale, header_right, seed); b = c["b"]
         card = np.empty((c["ch"] + 2 * b, c["cw"] + 2 * b, 3), np.uint8); card[:] = CARD_BORDER
@@ -430,22 +432,18 @@ def stamp_times(lines, t0=.6, cps=16):
 
 
 # ── 카메라 자세 ──
-def pose_for(k, typ, nb, seed=0):
-    """장면마다 조금씩 다른 각도. 숫자·표가 많은 장면은 거의 정면, 사진·질문 카드는 조금 더 비스듬히"""
-    rng = np.random.default_rng(1000 + k * 7 + seed)
+def pose_for(k, typ, nb, seed=0, mode="light"):
+    """정면에서 내려다본 고정 구도 (2026-10-27 운영자: 기울어 왔다 갔다 하면 잘 안 보이고 답답하다 → 한 화면에 꽉, 정면)
+    light = 종이에 쓴 장면 그림이 화면을 꽉 채움 · card = 붙인 사진 카드가 화면의 97% · title = 노트 전체(스프링·탭)가 보이게"""
     tz = nb.PD / 2 - (nb.MT + H / 2) / nb.TW
-    half = (W / nb.TW) / 2
-    dense = typ in ("bars", "hbars", "card", "timeline", "twocol", "scale", "checklist", "table", "stat", "compare", "agenda", "phone", "kinetic")
-    if dense:
-        dist0 = FOC * half / (W / 2 * .92)   # 숫자·표 장면: 장면 그림 폭이 화면의 92%
-        yaw = rng.uniform(-2.0, 2.0); pitch = rng.uniform(80, 84); roll = rng.uniform(-.6, .6); dk = rng.uniform(1.0, 1.03)
-    else:
-        dist0 = FOC * half / (W / 2 * .84)   # 사진 카드·제목: 노트 가장자리와 스프링이 보이게
-        yaw = rng.choice([-1, 1]) * rng.uniform(2.5, 4.5); pitch = rng.uniform(73, 78); roll = rng.uniform(-1.0, 1.0); dk = rng.uniform(.98, 1.04)
-    return {"tx": rng.uniform(-.01, .01), "tz": tz + rng.uniform(-.008, .008), "yaw": yaw, "pitch": pitch, "dist": dist0 * dk, "roll": roll}
+    if mode == "card": frac = CARD_SCALE * W / nb.TW / .97
+    elif mode == "title": frac = 1.26; tz = 0.0
+    else: frac = W / nb.TW / 1.0
+    return {"tx": 0.0, "tz": tz, "yaw": 0.0, "pitch": 89.6, "dist": FOC * (frac / 2) / (W / 2), "roll": 0.0}
 
 
-def close_pose(nb, scale=.86):
+def close_pose(nb, scale=None):
+    scale = scale or CARD_SCALE
     """오프닝 공개 장면: 붙인 카드 안의 그림이 화면을 꽉 채우는 위에서 내려다본 자세"""
     tz = nb.PD / 2 - (nb.MT + H / 2) / nb.TW
     half = (W * scale / nb.TW) / 2
@@ -462,9 +460,9 @@ def mix_pose(a, b, p):
 
 
 def drift(pose, u, dur, k):
-    """장면 안에서 아주 천천히 다가가며 살짝 돈다 (멈춘 화면처럼 보이지 않게)"""
+    """장면 안에서 아주 천천히 다가가기만 한다 (돌거나 기울지 않는다)"""
     q = dict(pose); f = u / max(1.0, dur)
-    q["dist"] = pose["dist"] * (1 - .035 * f); q["yaw"] = pose["yaw"] + (1.2 if k % 2 else -1.2) * f; q["tz"] = pose["tz"] + .004 * f
+    q["dist"] = pose["dist"] * (1 - .025 * f)
     return q
 
 
