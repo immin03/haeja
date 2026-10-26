@@ -80,6 +80,8 @@ def cta_lines(spec, sc, lines):
     if not kw:  # 정리본이 없는 릴스는 팔로우로 마무리 (2026-10-22 운영자: 모든 릴스에 정리본을 붙이지 않는다)
         yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
         sc["_follow"] = "yt" if yt else True
+        if not yt and spec.get("end") == "follow":   # 마무리 문장을 대본에 직접 쓴 릴스 (2026-10-27 운영자: 인스타·유튜브 팔로우로 마무리) — 덧붙이지 않는다
+            return lines
         # 끝맺음은 한 번만 (2026-10-26 운영자: "유튜브 밸류노트에서 확인하세요를 불필요하게 여러 번 반복한다, 마지막은 간단하게 하고 끝내자")
         lines = list(lines); ptr = [l for l in lines if _points_yt(l)]
         if yt and spec.get("end") == "subscribe":   # 롱폼 없는 단일 쇼츠는 구독·좋아요로 마무리 (2026-10-26 운영자) — 장면 문장 그대로, 링크 안내 없음

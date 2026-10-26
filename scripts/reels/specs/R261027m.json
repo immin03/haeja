@@ -1,0 +1,930 @@
+{
+ "id": "R261027m",
+ "world": "ink",
+ "style": "clean",
+ "allow_long": true,
+ "end": "follow",
+ "mood": "tense",
+ "threads_tag": "주식",
+ "broll": "datacenter",
+ "cover": 0,
+ "cover_style": "title",
+ "cover_title": "마이크로소프트\n주가 전망\n이 3가지만 보면 된다",
+ "title": "마이크로소프트 주가 전망, 이 3가지만 보면 된다",
+ "title_en": "Microsoft stock outlook: just watch these 3 things #Microsoft",
+ "scheduled_at": "2026-10-27T21:00:00+09:00",
+ "banner": [
+  "마이크로소프트 주가 전망",
+  "이 3가지만 보면 된다"
+ ],
+ "hashtags": [
+  "마이크로소프트",
+  "마이크로소프트주가",
+  "오픈AI",
+  "애저",
+  "미국주식",
+  "shorts"
+ ],
+ "caption": "마이크로소프트가 앞으로 받기로 계약한 돈(받아 둔 주문)은 2025년 12월 말 6,250억 달러로 1년 전의 2.1배였고, 그 약 45%가 챗GPT를 만든 오픈AI 한 곳이었습니다.\n\n오픈AI는 2025년 10월 마이크로소프트 클라우드 애저를 2,500억 달러어치 더 쓰기로 계약했습니다. 오픈AI의 1년 매출 200억 달러 남짓의 10배 안팎입니다. 마이크로소프트는 이 주문을 채우려고 2026 회계연도에 번 현금의 약 63%를 설비에 썼습니다.\n\n그래도 오픈AI를 빼면 주문은 1년 새 25% 늘었고, 애저 매출은 2026년 4~6월 43% 늘어 처음으로 1년 1,000억 달러를 넘었습니다.\n\n이번 실적에서 볼 3가지\n1. 오픈AI를 뺀 주문 증가율(지난번 25%)\n2. 애저 매출 증가율(지난번 43%)\n3. 설비에 쓰는 돈(번 현금의 63%)\n\n매수·매도 권유가 아닙니다.",
+ "subs_en": [
+  "Of the money Microsoft is contracted to receive, 45% came from one company",
+  "OpenAI, the maker of ChatGPT",
+  "Microsoft is known for Windows and Excel, but its fastest-growing business is the Azure cloud",
+  "Azure revenue grew 43% in a year, topping $100 billion a year for the first time",
+  "So its order backlog hit $625 billion, more than doubling in a year",
+  "Nearly half of it was OpenAI's",
+  "Why OpenAI? Building and running ChatGPT takes endless servers",
+  "So last October it agreed to buy $250 billion more of Microsoft's cloud",
+  "Microsoft also owns about 27% of it",
+  "But OpenAI's annual revenue is still just over $20 billion",
+  "The promise is about 10x that, money it must earn or raise",
+  "To fill these orders, Microsoft spends 63% of its cash on data centers",
+  "If OpenAI can't keep its promise, only the buildings may remain",
+  "Still, it's not all worry. Excluding OpenAI, orders grew 25% in a year",
+  "So in this week's earnings, just watch these three",
+  "First, how much orders excluding OpenAI grew. Last time, 25%",
+  "Second, Azure revenue growth. Can it hold 43%?",
+  "Third, data center spending. Is it outpacing cash earned?",
+  "Want more useful info? Follow ValueNote on Instagram and YouTube"
+ ],
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "마이크로소프트가 받아 둔 주문,\n45%가 한 회사였다?",
+   "num": {
+    "to": 45,
+    "fmt": "int",
+    "suffix": "%"
+   },
+   "tone": "gold",
+   "label": "챗GPT를 만든 오픈AI · 2025년 12월 말",
+   "lines": [
+    {
+     "cap": [
+      "마이크로소프트가 앞으로 받기로 계약한 돈,",
+      "그 45%가 한 회사에서 나왔습니다"
+     ],
+     "say": "마이크로소프트가 앞으로 받기로 계약한 돈, 그 사십오 퍼센트가 한 회사에서 나왔습니다."
+    },
+    {
+     "cap": [
+      "챗GPT를 만든 오픈AI입니다"
+     ],
+     "say": "챗지피티를 만든 오픈 에이아이입니다."
+    }
+   ],
+   "page": {
+    "head": "MICROSOFT  ·  MSFT",
+    "beats": [
+     {
+      "kind": "sticker",
+      "src": "scripts/reels/assets/logo/msft_text.png",
+      "x": 560,
+      "y": 150,
+      "w": 380,
+      "rot": -4,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "rows": [
+       "앞으로 받기로 계약한 돈",
+       "(받아 둔 주문 · 2025년 12월 말)"
+      ],
+      "x": 80,
+      "y": 180,
+      "size": 36,
+      "w": "Bold",
+      "line": 0,
+      "at": 0.1
+     },
+     {
+      "kind": "write",
+      "text": "45%",
+      "x": 70,
+      "y": 300,
+      "size": 230,
+      "color": "red",
+      "line": 0,
+      "at": 0.5,
+      "dur": 0.9
+     },
+     {
+      "kind": "write",
+      "text": "= 한 회사",
+      "x": 470,
+      "y": 400,
+      "size": 100,
+      "line": 0,
+      "at": 0.8
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_chatgpt_1.jpg",
+      "x": 80,
+      "y": 640,
+      "w": 430,
+      "h": 320,
+      "rot": -3,
+      "cap": "챗GPT",
+      "fy": 0.2,
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "챗GPT를 만든",
+       "오픈AI"
+      ],
+      "x": 560,
+      "y": 680,
+      "size": 96,
+      "color": "red",
+      "line": 1,
+      "at": 0.3
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "윈도·엑셀 회사?",
+   "l2": "지금 돈은 클라우드에서",
+   "tone": "gold",
+   "note": "애저 1년 매출 1,000억 달러 첫 돌파 · 2026년 4~6월 +43%",
+   "lines": [
+    {
+     "cap": [
+      "마이크로소프트는 윈도와 엑셀로 유명하지만",
+      "요즘 가장 빨리 크는 건 클라우드 애저입니다"
+     ],
+     "say": "마이크로소프트는 윈도와 엑셀로 유명하지만, 요즘 가장 빨리 크는 건 클라우드, 애저입니다."
+    },
+    {
+     "cap": [
+      "애저 매출은 1년 새 43% 늘었고",
+      "처음으로 1년에 1,000억 달러를 넘었습니다"
+     ],
+     "say": "애저 매출은 일 년 새 사십삼 퍼센트 늘었고, 처음으로 일 년에 천억 달러를 넘었습니다."
+    }
+   ],
+   "page": {
+    "head": "마이크로소프트는 어떤 회사?",
+    "beats": [
+     {
+      "kind": "write",
+      "text": "윈도 · 엑셀",
+      "x": 80,
+      "y": 170,
+      "size": 96,
+      "color": "gray",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        200,
+        300
+       ],
+       [
+        200,
+        570
+       ]
+      ],
+      "color": "ink",
+      "line": 0,
+      "at": 0.45
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_msftdc_3.jpg",
+      "x": 520,
+      "y": 180,
+      "w": 440,
+      "h": 300,
+      "rot": 3,
+      "cap": "애저 데이터센터",
+      "line": 0,
+      "at": 0.55
+     },
+     {
+      "kind": "write",
+      "text": "클라우드 '애저'",
+      "x": 80,
+      "y": 590,
+      "size": 110,
+      "color": "blue",
+      "line": 0,
+      "at": 0.7
+     },
+     {
+      "kind": "write",
+      "text": "+43%",
+      "x": 70,
+      "y": 760,
+      "size": 200,
+      "color": "green",
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "print",
+      "rows": [
+       "애저 매출 · 1년 전보다 (2026년 4~6월)",
+       "1년 매출 처음으로 1,000억 달러 넘음"
+      ],
+      "x": 84,
+      "y": 1000,
+      "size": 36,
+      "w": "Bold",
+      "line": 1,
+      "at": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "type": "compare",
+   "title": "마이크로소프트가 받아 둔 주문 · 2025년 12월 말",
+   "l": {
+    "label": "앞으로 받기로 계약한 돈",
+    "v": "6,250억 달러",
+    "sub": "1년 전의 2.1배",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "그중 오픈AI",
+    "v": "약 45%",
+    "sub": "고객 한 곳",
+    "tone": "gold"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그래서 받아 둔 주문도 6,250억 달러,",
+      "1년 만에 두 배가 넘게 늘었는데요"
+     ],
+     "say": "그래서 받아 둔 주문도 육천이백오십억 달러, 일 년 만에 두 배가 넘게 늘었는데요."
+    },
+    {
+     "cap": [
+      "그 절반 가까이가 오픈AI 몫이었습니다"
+     ],
+     "say": "그 절반 가까이가 오픈 에이아이 몫이었습니다."
+    }
+   ],
+   "page": {
+    "head": "받아 둔 주문",
+    "beats": [
+     {
+      "kind": "bars",
+      "items": [
+       {
+        "label": "1년 전",
+        "v": 2980,
+        "text": "약 2,980억",
+        "color": "gray"
+       },
+       {
+        "label": "2025년 12월 말",
+        "v": 6250,
+        "text": "6,250억 달러",
+        "color": "ink"
+       }
+      ],
+      "x": 120,
+      "y": 330,
+      "w": 840,
+      "h": 360,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "text": "받아 둔 주문 · 1년 새",
+      "x": 84,
+      "y": 170,
+      "size": 40,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 0.15
+     },
+     {
+      "kind": "write",
+      "text": "2배+",
+      "x": 700,
+      "y": 140,
+      "size": 100,
+      "color": "green",
+      "line": 0,
+      "at": 0.45
+     },
+     {
+      "kind": "print",
+      "text": "그중 오픈AI 몫 (네모 20칸 = 100%)",
+      "x": 84,
+      "y": 800,
+      "size": 34,
+      "w": "Bold",
+      "color": "gray",
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "icons",
+      "icon": "box",
+      "n": 10,
+      "hl": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8
+      ],
+      "x": 80,
+      "y": 850,
+      "size": 80,
+      "gap": 10,
+      "color": "ink",
+      "hlcolor": "red",
+      "line": 1,
+      "at": 0.1,
+      "dur": 0.6
+     },
+     {
+      "kind": "icons",
+      "icon": "box",
+      "n": 10,
+      "x": 80,
+      "y": 965,
+      "size": 80,
+      "gap": 10,
+      "color": "gray",
+      "line": 1,
+      "at": 0.35,
+      "dur": 0.4
+     },
+     {
+      "kind": "write",
+      "text": "45% = 오픈AI",
+      "x": 80,
+      "y": 1075,
+      "size": 80,
+      "color": "red",
+      "line": 1,
+      "at": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "챗GPT를 돌리려면",
+   "l2": "서버가 끝없이 필요하다",
+   "tone": "ivory",
+   "note": "2025년 10월 새 계약 · 마이크로소프트는 오픈AI 지분 약 27% 보유",
+   "lines": [
+    {
+     "cap": [
+      "왜 오픈AI일까요?",
+      "챗GPT를 만들고 돌리려면 서버가 끝없이 필요합니다"
+     ],
+     "say": "왜 오픈 에이아이일까요? 챗지피티를 만들고 돌리려면, 서버가 끝없이 필요합니다."
+    },
+    {
+     "cap": [
+      "그래서 작년 10월, 마이크로소프트 클라우드를",
+      "2,500억 달러어치 더 쓰기로 계약했습니다"
+     ],
+     "say": "그래서 작년 시월, 마이크로소프트 클라우드를 이천오백억 달러어치 더 쓰기로 계약했습니다."
+    },
+    {
+     "cap": [
+      "마이크로소프트는 오픈AI 지분 약 27%를 가진",
+      "주주이기도 합니다"
+     ],
+     "say": "마이크로소프트는 오픈 에이아이 지분 약 이십칠 퍼센트를 가진 주주이기도 합니다."
+    }
+   ],
+   "page": {
+    "head": "왜 오픈AI일까?",
+    "beats": [
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/commons_openaihq_1.jpg",
+      "cap": "샌프란시스코 · 오픈AI가 있던 파이오니어 빌딩",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "챗GPT를 돌리려면",
+       "서버가 끝없이"
+      ],
+      "x": 80,
+      "y": 170,
+      "size": 100,
+      "line": 0,
+      "at": 0.55,
+      "dur": 1.0
+     },
+     {
+      "kind": "icons",
+      "icon": "server",
+      "n": 7,
+      "x": 80,
+      "y": 410,
+      "size": 100,
+      "gap": 22,
+      "color": "ink",
+      "line": 0,
+      "at": 0.8,
+      "dur": 0.5
+     },
+     {
+      "kind": "write",
+      "text": "2,500억 달러",
+      "x": 70,
+      "y": 570,
+      "size": 130,
+      "color": "red",
+      "line": 1,
+      "at": 0.2
+     },
+     {
+      "kind": "print",
+      "text": "2025년 10월 계약 · 애저(마이크로소프트 클라우드)를 더 쓰기로",
+      "x": 84,
+      "y": 730,
+      "size": 32,
+      "w": "Bold",
+      "color": "gray",
+      "line": 1,
+      "at": 0.6
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "MS = 오픈AI 지분",
+       "약 27% 주주"
+      ],
+      "x": 80,
+      "y": 830,
+      "size": 92,
+      "color": "blue",
+      "line": 2,
+      "at": 0.1
+     }
+    ]
+   }
+  },
+  {
+   "type": "compare",
+   "title": "오픈AI가 한 약속",
+   "l": {
+    "label": "오픈AI 1년 매출 규모",
+    "v": "200억 달러+",
+    "sub": "2025년 · 오픈AI 발표",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "클라우드를 더 쓰기로 한 돈",
+    "v": "2,500억 달러",
+    "sub": "여러 해에 걸쳐",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그런데 오픈AI의 1년 매출은",
+      "아직 200억 달러 남짓입니다"
+     ],
+     "say": "그런데 오픈 에이아이의 일 년 매출은, 아직 이백억 달러 남짓입니다."
+    },
+    {
+     "cap": [
+      "약속한 돈은 그 10배 안팎,",
+      "더 벌거나 투자를 받아야 낼 수 있는 돈이죠"
+     ],
+     "say": "약속한 돈은 그 열 배 안팎, 더 벌거나 투자를 받아야 낼 수 있는 돈이죠."
+    }
+   ],
+   "page": {
+    "head": "오픈AI가 한 약속",
+    "beats": [
+     {
+      "kind": "bars",
+      "items": [
+       {
+        "label": "오픈AI 1년 매출",
+        "v": 200,
+        "text": "200억+",
+        "color": "gray"
+       },
+       {
+        "label": "애저 더 쓰기로 한 돈",
+        "v": 2500,
+        "text": "2,500억",
+        "color": "red"
+       }
+      ],
+      "x": 120,
+      "y": 230,
+      "w": 840,
+      "h": 520,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        330,
+        700
+       ],
+       [
+        600,
+        280
+       ]
+      ],
+      "color": "red",
+      "line": 0,
+      "at": 0.45,
+      "width": 10
+     },
+     {
+      "kind": "print",
+      "text": "2025년 · 오픈AI 발표 / 계약은 여러 해에 나눠 쓰는 돈",
+      "x": 84,
+      "y": 820,
+      "size": 30,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.75
+     },
+     {
+      "kind": "write",
+      "text": "10배 안팎",
+      "x": 80,
+      "y": 880,
+      "size": 120,
+      "color": "red",
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "더 벌거나 · 투자받거나",
+      "x": 80,
+      "y": 1050,
+      "size": 80,
+      "line": 1,
+      "at": 0.45
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "주문을 채우려면",
+   "l2": "데이터센터가 먼저",
+   "tone": "loss",
+   "note": "번 현금 1,829억 달러 중 약 63%(1,159억 달러)를 설비에 · 2026 회계연도",
+   "lines": [
+    {
+     "cap": [
+      "마이크로소프트는 이 주문을 채우려고",
+      "번 현금의 63%를 데이터센터에 쓰고 있습니다"
+     ],
+     "say": "마이크로소프트는 이 주문을 채우려고, 번 현금의 육십삼 퍼센트를 데이터센터에 쓰고 있습니다."
+    },
+    {
+     "cap": [
+      "오픈AI가 약속을 못 지키면",
+      "건물만 남을 수 있는 거죠"
+     ],
+     "say": "오픈 에이아이가 약속을 못 지키면, 건물만 남을 수 있는 거죠."
+    }
+   ],
+   "page": {
+    "head": "주문을 채우려면",
+    "beats": [
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_msftdc_4.jpg",
+      "x": 80,
+      "y": 160,
+      "w": 520,
+      "h": 360,
+      "rot": -2,
+      "cap": "애저 데이터센터 짓는 중",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "번 현금의",
+       "63%"
+      ],
+      "x": 640,
+      "y": 190,
+      "size": 110,
+      "color": "red",
+      "line": 0,
+      "at": 0.35
+     },
+     {
+      "kind": "print",
+      "text": "= 데이터센터 (2026 회계연도 · 1,829억 달러 중 1,159억)",
+      "x": 84,
+      "y": 620,
+      "size": 32,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.75
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "오픈AI가 약속을 못 지키면",
+       "건물만 남는다"
+      ],
+      "x": 80,
+      "y": 720,
+      "size": 96,
+      "line": 1,
+      "at": 0.1,
+      "dur": 1.2
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "그래도 오픈AI를 빼면",
+   "l2": "주문은 1년 새 +25%",
+   "tone": "good",
+   "note": "2026년 6월 말 기준 · 7월 29일 실적 발표",
+   "lines": [
+    {
+     "cap": [
+      "그렇다고 불안만 있는 건 아닙니다",
+      "오픈AI를 빼도 주문은 1년 새 25% 늘었거든요"
+     ],
+     "say": "그렇다고 불안만 있는 건 아닙니다. 오픈 에이아이를 빼도, 주문은 일 년 새 이십오 퍼센트 늘었거든요."
+    },
+    {
+     "cap": [
+      "그래서 이번 주 실적에서는",
+      "이 세 가지만 보면 됩니다"
+     ],
+     "say": "그래서 이번 주 실적에서는, 이 세 가지만 보면 됩니다."
+    }
+   ],
+   "page": {
+    "head": "그래도",
+    "beats": [
+     {
+      "kind": "write",
+      "text": "오픈AI 빼도",
+      "x": 80,
+      "y": 170,
+      "size": 96,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "+25%",
+      "x": 520,
+      "y": 140,
+      "size": 170,
+      "color": "green",
+      "line": 0,
+      "at": 0.6
+     },
+     {
+      "kind": "print",
+      "text": "받아 둔 주문 · 1년 전보다 (2026년 6월 말)",
+      "x": 84,
+      "y": 360,
+      "size": 32,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.8
+     },
+     {
+      "kind": "write",
+      "text": "이번 실적, 이 3가지",
+      "x": 80,
+      "y": 470,
+      "size": 100,
+      "color": "red",
+      "line": 1,
+      "at": 0.1
+     }
+    ]
+   }
+  },
+  {
+   "type": "list",
+   "title": "마이크로소프트 주가, 이 3가지만 보면 된다",
+   "items": [
+    "1 오픈AI를 뺀 주문 증가율 (지난번 25%)",
+    "2 애저 매출 증가율 (지난번 43%)",
+    "3 설비에 쓰는 돈 (번 현금의 63%)"
+   ],
+   "lines": [
+    {
+     "cap": [
+      "첫째, 오픈AI를 뺀 주문이 얼마나 늘었는지",
+      "지난번엔 25%였습니다"
+     ],
+     "say": "첫째, 오픈 에이아이를 뺀 주문이 얼마나 늘었는지. 지난번엔 이십오 퍼센트였습니다."
+    },
+    {
+     "cap": [
+      "둘째, 애저 매출 증가율",
+      "43%를 지키는지 봅니다"
+     ],
+     "say": "둘째, 애저 매출 증가율. 사십삼 퍼센트를 지키는지 봅니다."
+    },
+    {
+     "cap": [
+      "셋째, 데이터센터에 쓰는 돈",
+      "번 현금보다 너무 빨리 늘지 않는지입니다"
+     ],
+     "say": "셋째, 데이터센터에 쓰는 돈. 번 현금보다 너무 빨리 늘지 않는지입니다."
+    }
+   ],
+   "page": {
+    "head": "마이크로소프트 주가, 이 3가지",
+    "beats": [
+     {
+      "kind": "check",
+      "text": "오픈AI 뺀 주문",
+      "x": 80,
+      "y": 200,
+      "size": 70,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "text": "지난번 +25%",
+      "x": 720,
+      "y": 215,
+      "size": 40,
+      "w": "ExtraBold",
+      "color": "green",
+      "line": 0,
+      "at": 0.6
+     },
+     {
+      "kind": "check",
+      "text": "애저 매출 증가율",
+      "x": 80,
+      "y": 480,
+      "size": 70,
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "text": "지난번 +43%",
+      "x": 720,
+      "y": 495,
+      "size": 40,
+      "w": "ExtraBold",
+      "color": "green",
+      "line": 1,
+      "at": 0.6
+     },
+     {
+      "kind": "check",
+      "text": "데이터센터에 쓰는 돈",
+      "x": 80,
+      "y": 760,
+      "size": 70,
+      "line": 2,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "text": "지난해 번 현금의 63%",
+      "x": 170,
+      "y": 865,
+      "size": 40,
+      "w": "ExtraBold",
+      "color": "red",
+      "line": 2,
+      "at": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "l1": "유용한 정보를 더 얻고 싶다면",
+   "l2": "인스타그램·유튜브 팔로우",
+   "lines": [
+    {
+     "cap": [
+      "유용한 정보를 더 얻고 싶다면",
+      "밸류노트 인스타그램·유튜브 팔로우"
+     ],
+     "say": "이런 유용한 정보를 더 얻고 싶으시면, 밸류노트 인스타그램과 유튜브를 팔로우해 주세요.",
+     "pause": 1.4
+    }
+   ],
+   "page": {
+    "head": "VALUENOTE",
+    "beats": [
+     {
+      "kind": "sticker",
+      "src": "scripts/reels/assets/logo/msft_text.png",
+      "x": 560,
+      "y": 160,
+      "w": 360,
+      "rot": 4,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "유용한 정보를",
+       "더 얻고 싶다면"
+      ],
+      "x": 80,
+      "y": 330,
+      "size": 110,
+      "line": 0,
+      "at": 0.05,
+      "dur": 1.2
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "인스타그램, 유튜브",
+       "팔로우!"
+      ],
+      "x": 80,
+      "y": 620,
+      "size": 104,
+      "color": "red",
+      "line": 0,
+      "at": 0.5,
+      "dur": 1.2
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 900,
+      "y": 860,
+      "color": "red",
+      "line": 0,
+      "at": 0.85
+     },
+     {
+      "kind": "print",
+      "rows": [
+       "인스타그램 @value.note.korea",
+       "유튜브 '밸류노트'"
+      ],
+      "x": 84,
+      "y": 920,
+      "size": 40,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 1.0
+     },
+     {
+      "kind": "hl",
+      "x0": 80,
+      "y0": 930,
+      "x1": 700,
+      "y1": 975,
+      "color": "yellow",
+      "line": 0,
+      "at": 1.3
+     }
+    ]
+   }
+  }
+ ],
+ "ink_strict": true
+}
