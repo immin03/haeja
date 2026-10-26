@@ -20,7 +20,7 @@
   "AI는 HBM을 사는데",
   "PC 램값은 왜 올랐을까?"
  ],
- "caption": "트렌드포스는 올해 1분기 범용 D램 계약 가격이 직전 석 달보다 90~95% 오른다고 봤습니다. AI가 사는 건 HBM인데 PC·스마트폰용 D램까지 오른 이유는 HBM이 같은 양을 만들 때 웨이퍼를 일반 D램보다 약 3배 쓰기 때문입니다(마이크론). 이 D램을 세계에서 가장 많이 파는 회사가 삼성전자(2026년 2분기 매출 점유율 38%, 카운터포인트리서치)입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "caption": "트렌드포스는 올해 1분기 범용 D램 계약 가격이 직전 석 달보다 90~95% 오른다고 봤습니다. AI가 사는 건 HBM인데 PC·스마트폰용 D램까지 오른 이유는 HBM이 같은 양을 만들 때 웨이퍼를 일반 D램보다 약 3배 쓰기 때문입니다(마이크론). 이 D램을 세계에서 가장 많이 파는 회사가 삼성전자(2026년 2분기 매출 점유율 38%, 카운터포인트리서치)입니다.\n\n그런데 주가는 최고가에서 크게 내려와 있습니다. 1분기엔 석 달에 90% 넘게 오른다던 D램 값이 9월엔 한 달에 4% 오르는 데 그쳤고, 주식시장은 값이 오르는 속도가 느려지는 것을 이익보다 먼저 반영합니다.\n\n지난 사이클 이야기와 적정 주가 계산은 밸류노트 유튜브 풀영상에 있습니다.",
  "scenes": [
   {
    "type": "hook",
@@ -197,16 +197,69 @@
    ]
   },
   {
-   "type": "cta",
-   "l1": "그런데 주가는 왜 빠졌을까?",
-   "l2": "유튜브 풀영상에서 확인하세요",
+   "type": "statement",
+   "l1": "이익은 최대인데",
+   "l2": "주가는 왜 빠졌을까?",
+   "tone": "gold",
+   "note": "주식시장은 값이 오르는 '속도'부터 본다",
    "lines": [
     {
      "cap": [
-      "그런데 주가는 왜 빠졌는지",
-      "유튜브 영상에서 확인하세요"
+      "그런데 이익은 최대인데",
+      "주가는 최고가에서 크게 내려와 있어요"
      ],
-     "say": "그런데 주가는 왜 빠졌는지, 유튜브 영상에서 확인하세요."
+     "say": "그런데 이익은 최대인데, 주가는 최고가에서 크게 내려와 있어요."
+    },
+    {
+     "cap": [
+      "주식시장은 메모리 값이",
+      "오르는 속도부터 보거든요"
+     ],
+     "say": "주식시장은 메모리 값이 오르는 속도부터 보거든요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "D램 값이 오르는 속도",
+   "l": {
+    "label": "올해 1분기 전망",
+    "v": "석 달 +90%",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "9월",
+    "v": "한 달 +4%",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "1분기엔 석 달에 90% 넘게 오른다던 D램 값이",
+      "9월엔 한 달에 4% 올랐어요"
+     ],
+     "say": "1분기엔 석 달에 구십 퍼센트 넘게 오른다던 디램 값이, 구월엔 한 달에 사 퍼센트 올랐어요."
+    },
+    {
+     "cap": [
+      "여전히 오르지만 속도가 느려지자",
+      "주가가 이익보다 먼저 반응한 거죠"
+     ],
+     "say": "여전히 오르지만 속도가 느려지자, 주가가 이익보다 먼저 반응한 거죠."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "지난 사이클과 적정 주가",
+   "l2": "유튜브 풀영상에서 더 보세요",
+   "lines": [
+    {
+     "cap": [
+      "지난 사이클 이야기와 적정 주가 계산은",
+      "유튜브 풀영상에 더 자세히 있어요"
+     ],
+     "say": "지난 사이클 이야기와 적정 주가 계산은, 유튜브 풀영상에 더 자세히 있어요."
     }
    ]
   }
@@ -226,7 +279,11 @@
   "Gartner sees DRAM prices falling from late 2027; Micron says the 2028 shortage will be worse than this year's",
   "New fabs are coming. SK hynix's first Yongin clean room: February next year,",
   "Samsung's Pyeongtaek P5 aims to start in 2028",
-  "So why did the stock fall? See the full video on YouTube"
+  "Profit is at a record, yet the stock is well off its high",
+  "The market watches how fast memory prices are rising",
+  "DRAM prices were forecast to jump 90%+ in Q1; in September they rose 4% in a month",
+  "Still rising, but slower, and the stock reacted before profits did",
+  "The past cycle and the fair-price math are in the full YouTube video"
  ],
  "allow_long": true,
  "world": "popup",
