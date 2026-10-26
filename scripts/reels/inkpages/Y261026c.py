@@ -66,7 +66,7 @@ p5 = {"type": "compare", "title": old[6]["title"], "l": old[6]["l"], "r": old[6]
                              {"label": "SK하이닉스", "v": 50, "text": "50%", "color": "ink"}], x=90, y=470, w=900, h=380, line=1, at=0),
     dict(kind="arrow", pts=[[330, 780], [520, 640]], color="green", line=1, at=.6),
     dict(kind="write", text="콜에서 'HBM4 공급 늘었다'?", x=70, y=960, size=76, line=2, at=0),
-    dict(kind="write", text="O 추격 계속    X 멈춤", x=90, y=1060, size=78, color="red", line=2, at=.55),
+    dict(kind="write", text="늘었다 = 추격 계속", x=90, y=1060, size=78, color="green", line=2, at=.55),
 ]}}
 # ── 6. ③ D램 값
 p6 = {"type": "compare", "title": old[7]["title"], "l": old[7]["l"], "r": old[7]["r"], "lines": old[7]["lines"], "page": {"head": "3. D램 값이 오르는 속도", "beats": [
@@ -84,12 +84,16 @@ p6 = {"type": "compare", "title": old[7]["title"], "l": old[7]["l"], "r": old[7]
 # ── 7. 풀영상
 p7 = dict(old[8]); p7["page"] = {"head": "메모리 수업 9분 풀버전", "beats": [
     dict(kind="pop", src=LIB + "commons_wafer_3.jpg", cap="HBM · 메모리 사이클 9분 수업", line=0, at=0),
-    dict(kind="write", rows=["HBM이 뭔지,", "메모리 값이 왜", "오르내리는지"], x=80, y=180, size=100, line=0, at=.55, dur=.9),
+    dict(kind="write", rows=["HBM과", "메모리 사이클", "9분 수업"], x=80, y=180, size=110, line=0, at=.55, dur=.9),
     dict(kind="write", text="하단 프로필 링크", x=540, y=760, size=120, color="red", anchor="m", line=1, at=0),
     dict(kind="circle", cx=540, cy=830, rx=420, ry=110, color="red", line=1, at=.4),
     dict(kind="arrow", pts=[[540, 960], [540, 1180]], color="red", line=1, at=.6, width=12),
 ]}
-d["scenes"] = [p1, p2, p3, p4, p5, p6, p7]
+# 길이 다듬기 (2026-10-27 운영자: 1분 10초~1분 30초) — 세 가지 미리보기 장면은 빼고, 긴 문장을 줄인다
+p4["lines"][0] = L(["첫째, 빅테크 4곳이 올해 쓰겠다는", "설비투자는 약 7,350억 달러입니다"], "첫째, 빅테크 네 곳이 올해 쓰겠다는 설비투자는, 약 칠천삼백오십억 달러입니다.")
+p5["lines"][2] = L(["29일 콘퍼런스콜에서", "HBM4 공급이 늘었다고 하는지 보세요"], "이십구일 콘퍼런스콜에서, 에이치비엠포 공급이 늘었다고 하는지 보세요.")
+p7["lines"][0] = L(["HBM과 메모리 사이클은", "9분 풀영상에 정리했습니다"], "에이치비엠과 메모리 사이클은, 구 분 풀영상에 정리했습니다.")
+d["scenes"] = [p1, p2, p4, p5, p6, p7]
 d["world"] = "ink"
 json.dump(d, open(SPEC, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("ok", sum(len(s["lines"]) for s in d["scenes"]))

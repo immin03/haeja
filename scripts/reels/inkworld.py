@@ -458,8 +458,29 @@ def prep(E, scenes):
             t0, t1 = beat_time(b, L, s)
             bb = make_beat(b, t0, t1)
             beats += bb if isinstance(bb, list) else [bb]
+        if pg.get("autofill", True): beats += autofill(s, beats)
         s["_ink"] = {"base": paper(k + 3, pg.get("head"), k + 1), "beats": beats}
     scenes[0]["_ink_ok"] = True
+
+
+def autofill(s, beats):
+    """문장 안에서 2.4초 넘게 새 비트가 없으면, 방금 쓴 글씨·그래프에 펜이 강조 표시(밑줄 → 형광펜 → 동그라미)를 더한다"""
+    add = []; t_end = s["start"] + s["dur"] - FLIP
+    for _ in range(12):
+        ev = sorted([s["start"]] + [b.t0 for b in beats + add] + [t_end])
+        gap = next(((a, b) for a, b in zip(ev, ev[1:]) if b - a > 2.4), None)
+        if not gap: break
+        t = gap[0] + min(1.3, (gap[1] - gap[0]) / 2)
+        tgt = [b for b in beats + add if isinstance(b, (Write, Chart, Bars, Photo)) and b.t0 < t and not b.b.get("_auto")]
+        if not tgt:
+            add.append(Stroke({"kind": "under", "color": "gold", "_auto": 1}, t, t + .45, under_pts(300, 780, 1180))); continue
+        b = max(tgt, key=lambda z: z.t0); x0, y0, x1, y1 = [float(v) for v in b.bbox()]
+        n = sum(1 for z in add if z.b.get("_on") is b)
+        if n % 3 == 0: nb = Stroke({"kind": "under", "color": "gold", "_auto": 1, "_on": b}, t, t + .45, under_pts(x0 + 10, min(x1, TW - 60), min(y1 + 4, TH - 80)), 9)
+        elif n % 3 == 1: nb = Highlight({"kind": "hl", "x0": x0 + 4, "y0": y0 + (y1 - y0) * .35, "x1": min(x1, TW - 40), "y1": y1 - 6, "color": "yellow", "_auto": 1, "_on": b}, t, t + .5)
+        else: nb = Stroke({"kind": "circle", "color": "red", "_auto": 1, "_on": b}, t, t + .7, ellipse_pts((x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2 + 30, (y1 - y0) / 2 + 24), 8)
+        nb.b["_on"] = b; add.append(nb)
+    return add
 
 
 def page_now(s, T):
