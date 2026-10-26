@@ -1287,6 +1287,7 @@ def make_thumb(spec, V, out):
 
 
 # ── 취재 노트 (원고 "world": "notebook", 2026-10-27 운영자: "롱폼도 하나의 큰 노트로 만들어도 될 것 같다", "우리만의 포맷") ──
+GAPS = []   # 손그림 빈틈 기록 (검수용)
 NB_REVEAL = 1.9   # 오프닝 마지막 장면 끝에서 카메라가 뒤로 빠지며 노트가 드러나는 시간
 NB_FLIP = 1.4     # 장이 바뀔 때 페이지가 넘어가는 시간
 NB_FLIP2 = .85    # 같은 장 안에서 장면이 바뀔 때 페이지 넘김
@@ -1307,9 +1308,12 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         if sc.get("chapter"):
             chap = sc["chapter"]; ci = CHAPS.index(chap) if chap in CHAPS else -1
         theme = "dark" if sc["v"].get("backdrop") else (sc.get("bg") or ("dark" if typ in ("title", "question", "end", "media", "agenda") else "light"))
-        mode = "title" if (typ == "title" and sc.get("chapter") and ci >= 0) else ("card" if (theme == "dark" or typ == "media") else "light")
+        import sketch as SK
+        inked = k >= cold and (sc.get("sketch") is not None or typ in SK.AUTO_TYPES)   # 손글씨 페이지로 그리는 장면
+        mode = "title" if (typ == "title" and sc.get("chapter") and ci >= 0) else ("light" if inked or typ == "sketch" else ("card" if (theme == "dark" or typ == "media") else "light"))
+        if inked: theme = "light"
         rot = 0.0 if k < cold else float(rng.choice([-1, 1]) * rng.uniform(.25, .6))   # 카드는 아주 살짝만 기울여 붙인다
-        info.append({"chap": chap, "ci": ci, "theme": theme, "mode": mode, "rot": rot, "pose": NBK.pose_for(k, typ, nb, mode=mode),
+        info.append({"chap": chap, "ci": ci, "theme": theme, "mode": mode, "inked": inked, "rot": rot, "pose": NBK.pose_for(k, typ, nb, mode=mode),
                      "flip": bool(k > cold), "big": bool(sc.get("chapter") and mode == "title")})   # 오프닝 뒤로는 장면마다 페이지를 넘긴다 (쇼츠 잉크 노트처럼)
     close = NBK.close_pose(nb); close["dist"] *= .985
     est = None   # 공개 장면이 끝나는 자세 (노트 전체가 보이게 조금 넓게)
@@ -1319,14 +1323,14 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
     for k, x in enumerate(timeline):
         if only_sc and k not in only_sc: continue
         sc = x["sc"]; n = int(round(x["dur"] * FPS)); typ = sc["v"]["type"]; I = info[k]; theme = I["theme"]
-        media = media_source(sc["v"], n + 2, k) if typ == "media" else None
-        bdf = backdrop_source(sc["v"], n + 2, k)
-        fit = safe_fit(sc, x, V, theme) if I["mode"] != "title" else None
+        media = media_source(sc["v"], n + 2, k) if (typ == "media" and not I["inked"]) else None
+        bdf = backdrop_source(sc["v"], n + 2, k) if not I["inked"] else None
+        fit = safe_fit(sc, x, V, theme) if (I["mode"] != "title" and not I["inked"]) else None
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
         import sketch as SK
-        sk = SK.build(sc.get("sketch"), x["lines"])
-        if sk or typ == "sketch":
-            for g in SK.gaps(sk, x["lines"]): print("  ⚠ 손그림 빈틈:", k, g, flush=True)
+        sk = SK.scene_beats(sc, x["lines"], V, fill, at_time, k >= cold) if I["inked"] else None
+        if sk is not None:
+            for g in SK.gaps(sk, x["lines"]): print("  ⚠ 손그림 빈틈:", k, g, flush=True); GAPS.append([k, g])
         base_pose = I["pose"]; start_pose = prev_pose or base_pose; pen_last = None
         last_tex = None; last_pose = None
         for i in range(n):
@@ -1338,9 +1342,11 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 tex, tip = nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, u, write_t0=wt0)
                 if tip is not None: pen_tip, pen_al = tip, 1.0
             else:
-                img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
-                if bdf: img = on_backdrop(img, bdf(u), theme)
-                if sc.get("pen"): pen_marks(img, sc["pen"], u, x["lines"])
+                if I["inked"]: img = background("light")   # 손글씨 페이지: 빈 종이에서 시작
+                else:
+                    img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
+                    if bdf: img = on_backdrop(img, bdf(u), theme)
+                    if sc.get("pen"): pen_marks(img, sc["pen"], u, x["lines"])
                 if sk:
                     arr = np.asarray(img.convert("RGB")).copy(); tip = SK.apply(arr, sk, u); img = Image.fromarray(arr)
                     if tip is not None and I["mode"] == "light":
@@ -1458,7 +1464,7 @@ def main():
                 i = int((x["start"] + tt) * SR); sfx = NBK.type_tick(SR, seed=int(tt * 100) + k); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
         import sketch as SK
         for k, x in enumerate(timeline):   # 손그림을 그리는 동안 펜 소리 (작게)
-            for b in SK.build(x["sc"].get("sketch"), x["lines"]):
+            for b in (SK.scene_beats(x["sc"], x["lines"], V, fill, at_time, k >= cold) or []):
                 if not b.pen: continue
                 i = int((x["start"] + b.t0) * SR); sfx = pen_sound(max(.3, b.t1 - b.t0) + .1, seed=int(b.t0 * 37) + k, level=.02); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
         if cold and cold <= len(timeline):   # 공개 장면: 카메라가 뒤로 빠질 때 쉭
