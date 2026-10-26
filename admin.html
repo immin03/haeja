@@ -221,6 +221,7 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .gh-log{padding:10px 14px}.gh-log .r{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5;word-break:keep-all}
 .gh-log .r:first-child{border-top:0}.gh-log .r .tm{flex:0 0 auto;color:var(--muted);font-variant-numeric:tabular-nums}
 .tr-card{padding:12px 14px}
+.soc-btn.urgent{background:var(--bad);border-color:var(--bad);color:#fff}
 .ytp-when{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin-top:10px;font-size:13px;word-break:keep-all}
 .ytp-when input{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
 .ytp-when .m{flex-basis:100%;font-size:12px}
@@ -887,12 +888,14 @@ function ytPlanItem(p){
   const defAt = p.status === 'approved' ? p.target_at : (p.fixed_date && p.target_at ? p.target_at : YT.next);
   const kp = iso => { if(!iso) return ['', '19:00']; const d = new Date(Date.parse(iso) + 9*3600e3); return [d.toISOString().slice(0, 10), d.toISOString().slice(11, 16)]; };
   const [dv, tv] = kp(defAt), minD = kp(new Date(Date.now() + 864e5).toISOString())[0];
-  const pick = ['proposed', 'approved'].includes(p.status) ? `<div class="ytp-when"><b>게시 일시</b><input type="date" data-ytp-d="${id}" value="${dv}" min="${minD}" aria-label="게시 날짜"><input type="time" data-ytp-t="${id}" value="${tv}" step="600" aria-label="게시 시각">
-      <span class="m">${p.status === 'approved' ? '바꾸면 그 일시로 다시 잡힙니다' : '그대로 두면 자동 배정, 바꾸면 그 일시로 승인'} · 오후 1시 이후 또는 다음 날 오전, 하루 1편</span></div>` : '';
-  const acts = p.status === 'proposed' ? `<button class="soc-btn ok" data-ytp-set="approved" data-id="${id}">승인 · 이 일시로 배정</button><button class="soc-btn ghost" data-ytp-set="rejected" data-id="${id}">반려 · 다른 주제로</button>`
-    : p.status === 'approved' ? `<button class="soc-btn" data-ytp-retime="${id}">게시 일시 바꾸기</button><button class="soc-btn ghost" data-ytp-set="proposed" data-id="${id}">승인 취소</button>` : '';
+  const pick = ['proposed', 'approved'].includes(p.status) ? `<div class="ytp-when"><b>게시 일시</b><input type="date" data-ytp-d="${id}" value="${dv}" aria-label="게시 날짜"><input type="time" data-ytp-t="${id}" value="${tv}" step="600" aria-label="게시 시각">
+      <span class="m">${p.status === 'approved' ? '바꾸면 그 일시로 다시 잡힙니다' : '그대로 두면 자동 배정, 바꾸면 그 일시로 승인'} · 오후 1시 이후 또는 다음 날 오전 · 긴급은 오늘도 가능(지금부터 5시간 뒤부터) · 하루 1편</span></div>` : '';
+  /* 긴급 (2026-10-26 운영자): "긴급으로 누르는 경우에는 바로 제작할 수 있게 해 줘." → 1시간 안에 제작 시작, 게시는 칸을 바꿨으면 그 일시, 아니면 약 5시간 30분 뒤 */
+  const urg = p.urgent && p.status === 'approved' ? '' : `<button class="soc-btn urgent" data-ytp-urgent="${id}">긴급 · 바로 제작</button>`;
+  const acts = p.status === 'proposed' ? `<button class="soc-btn ok" data-ytp-set="approved" data-id="${id}">승인 · 이 일시로 배정</button>${urg}<button class="soc-btn ghost" data-ytp-set="rejected" data-id="${id}">반려 · 다른 주제로</button>`
+    : p.status === 'approved' ? `<button class="soc-btn" data-ytp-retime="${id}">게시 일시 바꾸기</button>${urg}<button class="soc-btn ghost" data-ytp-set="proposed" data-id="${id}">승인 취소</button>` : '';
   const when = p.status === 'proposed' ? `자동 배정이면 다음 빈 편성일${YT.next ? ` <b>${kday(YT.next)}</b>` : ''}`
-    : ['approved', 'producing', 'done'].includes(p.status) && p.target_at ? `게시 <b>${kday(p.target_at)}</b>${p.slot_by === 'owner' ? ' (직접 지정)' : ''}${p.status === 'approved' ? ' · 게시 당일(오전 게시는 전날) 아침 8시 47분에 최신 숫자로 제작' : ''}`
+    : ['approved', 'producing', 'done'].includes(p.status) && p.target_at ? `게시 <b>${kday(p.target_at)}</b>${p.slot_by === 'owner' ? ' (직접 지정)' : ''}${p.status === 'approved' ? (p.urgent ? ` · <span class="st bad">긴급</span> ${p.urgent_fired_at ? '제작 시작됨' : '1시간 안에 제작 시작'}` : ' · 게시 당일(오전 게시는 전날) 아침 8시 47분에 최신 숫자로 제작') : ''}`
     : p.target_at ? `게시 희망 ${kday(p.target_at)}` : '';
   const cm = (p.comments || []).map(c => `<div class="ytp-c ${c.by === 'claude' ? 'cl' : ''}"><span>${c.by === 'claude' ? 'Claude' : '내 의견'} · ${kst(c.at)}</span>${esc(c.text)}</div>`).join('');
   const waiting = (YT.reqs || []).some(r => r.kind === 'revise' && r.plan_id === p.id && ['pending', 'working'].includes(r.status));
@@ -1349,6 +1352,13 @@ function bindYoutube(){
     else {
       if(more){ const t = (YT.plans || []).find(x => x.id === id); await sb.rpc('yt_plan_request', { p_kind: 'more', p_count: 1, p_note: `반려한 '${t ? t.title : id}' 대신${note ? ' · ' + note : ''}` }); }
       toast({ approved: `승인했습니다. 게시일 ${data && data.target_at ? kday(data.target_at) : ''}로 배정했습니다.`, rejected: more ? '반려했습니다. 대신할 기획안을 요청했습니다.' : '반려했습니다.', proposed: '승인을 취소했습니다. 게시일 배정도 풀었습니다.' }[st] || '바꿨습니다.'); }
+    ytLoad(); });
+  document.querySelectorAll('[data-ytp-urgent]').forEach(b => b.onclick = async () => {
+    const id = b.dataset.ytpUrgent, target = ytpTarget(id, true); if(target === false) return;
+    if(!confirm(`긴급으로 지금 바로 제작을 시작할까요?\n1시간 안에 제작이 시작되고 약 3~4시간 뒤 영상 검수에 올라옵니다.\n게시: ${target ? kday(target) : '지금부터 약 5시간 30분 뒤'}`)) return;
+    b.disabled = true;
+    const { data, error } = await sb.rpc('yt_plan_urgent', { p_id: id, p_target: target });
+    if(error) toast('요청하지 못했습니다: ' + error.message, true); else if(data && data.ok === false) toast(data.reason, true); else toast(`긴급 제작을 걸었습니다. 게시 ${kday(data.target_at)} · 1시간 안에 시작합니다.`);
     ytLoad(); });
   document.querySelectorAll('[data-ytp-retime]').forEach(b => b.onclick = async () => {
     const id = b.dataset.ytpRetime, target = ytpTarget(id, false); if(!target) return;
