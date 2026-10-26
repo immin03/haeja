@@ -1129,6 +1129,17 @@ def draw_banner(img):
     if l2: d.text((W / 2, 318), l2, font=fit_font(l2, "Heavy", 110, 1010), fill=GOLD, anchor="mm")
 
 
+def auto_banner(title):
+    """제목 → 위쪽 두 줄 (쉼표·물음표 앞에서 나누고, 없으면 가운데 띄어쓰기에서)"""
+    t = re.sub(r"\s*#\S+", "", title).strip()
+    if " · " in t: t = t.split(" · ", 1)[1]
+    for sep in (", ", "? "):
+        if sep in t:
+            a, b = t.split(sep, 1); return [a + ("," if sep == ", " else "?"), b] if sep == "? " else [a, b]
+    w = t.split(" "); k = max(1, len(w) // 2)
+    return [" ".join(w[:k]), " ".join(w[k:])]
+
+
 def draw_banner_soft(img):
     """팝업 노트용 제목: 검은 띠 대신 위쪽이 어두워지는 그림자 위에 글자만 (2026-10-26 운영자: 헤더가 영상 안에 녹아 있어야 답답하지 않다)"""
     if not YT_BANNER: return
@@ -1384,8 +1395,12 @@ def cover_title(spec, scenes):
 def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
     global YT_BANNER, YT, GL_ON, WORLD
-    WORLD = spec.get("world")
-    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
+    # 2026-10-26 운영자: "앞으로 올릴 거 전부 그 방식(팝업 노트)으로" → 기본은 팝업 노트 + 깔끔한 화면(제목 두 줄).
+    # 예전 화면이 꼭 필요하면 대본에 "world": "classic".
+    WORLD = spec.get("world", "popup")
+    if WORLD == "classic": WORLD = None
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean" or WORLD == "popup"
+    if WORLD == "popup" and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     scenes, _ = plan_estimate(spec)
@@ -1544,8 +1559,12 @@ def write_subs(spec, scenes, total, outdir):
 
 def render(spec, outdir, stills=None):
     global YT_BANNER, YT, GL_ON, WORLD
-    WORLD = spec.get("world")
-    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
+    # 2026-10-26 운영자: "앞으로 올릴 거 전부 그 방식(팝업 노트)으로" → 기본은 팝업 노트 + 깔끔한 화면(제목 두 줄).
+    # 예전 화면이 꼭 필요하면 대본에 "world": "classic".
+    WORLD = spec.get("world", "popup")
+    if WORLD == "classic": WORLD = None
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean" or WORLD == "popup"
+    if WORLD == "popup" and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     if spec.get("platform") == "youtube" and spec["scenes"][-1]["type"] != "cta":

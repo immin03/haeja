@@ -17,7 +17,7 @@ from PIL import Image, ImageDraw
 
 W, H, FPS = 1080, 1920, 30
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-PY0, PY1 = 470, 1300                 # 장면 그림에서 페이지에 담는 범위 (goldworld 와 같음)
+PY0, PY1 = 470, 1350                 # 장면 그림에서 페이지에 담는 범위 (마지막 장면 버튼 아래 글까지)
 PAD_T, PAD_B = 256, 300             # 세로로 긴 노트 페이지 (2026-10-26 운영자: 노트가 작고 답답해 보인다 → 화면을 꽉 채우게)
 TW, TH = W, PY1 - PY0 + PAD_T + PAD_B   # 페이지 텍스처 (px)
 PW, PD = 1.0, TH / TW                # 페이지 크기 (월드)
@@ -130,7 +130,9 @@ def page_tex(E, s, T, scenes, ink=True):
         d.line([(96, 0), (96, TH)], fill=(64, 52, 60), width=2)
         _C["paper"] = np.asarray(im)
     a = _C["paper"].copy()
-    a[PAD_T:PAD_T + (PY1 - PY0)] = np.asarray(goldworld.page_image(E, s, tt, scenes))
+    _p = goldworld.PY1; goldworld.PY1 = PY1
+    try: a[PAD_T:PAD_T + (PY1 - PY0)] = np.asarray(goldworld.page_image(E, s, tt, scenes))
+    finally: goldworld.PY1 = _p
     if ink and s.get("_mark"):
         pts, t0, t1 = s["_mark"]; p = seg(tt, t0, t1)
         if p > 0:

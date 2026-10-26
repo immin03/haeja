@@ -1,5 +1,5 @@
-# 급한 한 편만 바로 렌더 (2026-10-26): render-one 브랜치에 푸시하면 scripts/reels/render_one.txt 의 id 만
-# 실제 음성으로 렌더하고, 그 대본과 결과(social/reels/<id>)만 main 에 커밋한다.
+# 급한 릴스·쇼츠만 바로 렌더 (2026-10-26): render-one 브랜치에 푸시하면 scripts/reels/render_one.txt 의 id 들을
+# 동시에(한 편씩 따로 서버에서) 실제 음성으로 렌더하고, 각 대본과 결과(social/reels/<id>)만 main 에 커밋한다.
 # 정기 렌더(reels) 대기열을 기다리지 않는다. GITHUB_TOKEN 커밋이라 reels 워크플로를 다시 깨우지 않는다.
 name: reels-one
 on:
@@ -9,15 +9,29 @@ permissions:
   contents: write
 concurrency: reels-one
 jobs:
+  ids:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.l.outputs.list }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: l
+        run: echo "list=$(python3 -c "import json;print(json.dumps(open('scripts/reels/render_one.txt').read().split()))")" >> $GITHUB_OUTPUT
   one:
+    needs: ids
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        id: ${{ fromJson(needs.ids.outputs.list) }}
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - name: 도구 설치
+        timeout-minutes: 8
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           pip install -q sherpa-onnx==1.13.8 soundfile scipy numpy pillow opencv-python-headless
@@ -30,22 +44,20 @@ jobs:
       - name: 렌더
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
-        run: python3 scripts/reels/build.py $(cat scripts/reels/render_one.txt)
+        run: python3 scripts/reels/build.py ${{ matrix.id }}
       - name: main 에 결과만 커밋
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
-          IDS="$(cat scripts/reels/render_one.txt)"; mkdir -p /tmp/keep
-          for id in $IDS; do cp scripts/reels/specs/$id.json /tmp/keep/$id.json; cp -r social/reels/$id /tmp/keep/$id; done
-          for i in 1 2 3 4 5; do
+          id=${{ matrix.id }}; mkdir -p /tmp/keep
+          cp scripts/reels/specs/$id.json /tmp/keep/$id.json; cp -r social/reels/$id /tmp/keep/$id
+          for i in 1 2 3 4 5 6 7 8; do
             git fetch -q origin main && git checkout -q -f -B main origin/main
-            for id in $IDS; do
-              cp /tmp/keep/$id.json scripts/reels/specs/$id.json
-              rm -rf social/reels/$id && cp -r /tmp/keep/$id social/reels/$id
-              git add scripts/reels/specs/$id.json social/reels/$id
-            done
+            cp /tmp/keep/$id.json scripts/reels/specs/$id.json
+            rm -rf social/reels/$id && cp -r /tmp/keep/$id social/reels/$id
+            git add scripts/reels/specs/$id.json social/reels/$id
             git diff --cached --quiet && exit 0
-            git commit -q -m "릴스 한 편 바로 렌더: $IDS"
+            git commit -q -m "릴스 한 편 바로 렌더: $id"
             git push origin main && exit 0
-            sleep 8
+            sleep $((5 + RANDOM % 10))
           done
           exit 1
