@@ -1,0 +1,38 @@
+[
+  {
+    "id": "Y261026d_ram",
+    "endpoint": "bytedance/seedance-2.5/text-to-video",
+    "use": "Y261026d 첫 장면 둘째 줄 (램 가격 보고 놀라셨죠?) 팝업 카드",
+    "body": {
+      "prompt": "Cinematic close-up in a dim computer parts store: a customer's hand slowly picks up a desktop RAM memory stick from a glass shelf and turns it under warm spotlight, shallow depth of field, gentle camera push-in, realistic. No text, no numbers, no logos, no brand names.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "4:3",
+      "generate_audio": false
+    }
+  },
+  {
+    "id": "Y261026d_bakery",
+    "endpoint": "bytedance/seedance-2.5/text-to-video",
+    "use": "Y261026d 빵집 비유 장면 팝업 카드",
+    "body": {
+      "prompt": "Warm cozy bakery at morning: a baker places another tall layered cake onto a display packed with elaborate cakes, while the bread shelf right next to it is almost empty with only two loaves left, soft golden light, slow sideways camera move, realistic and slightly playful. No text, no signs, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "4:3",
+      "generate_audio": false
+    }
+  },
+  {
+    "id": "Y261026d_fab",
+    "endpoint": "bytedance/seedance-2.5/text-to-video",
+    "use": "Y261026d 삼성전자 38% 장면 팝업 카드",
+    "body": {
+      "prompt": "Inside a semiconductor memory factory clean room bathed in amber light: robotic arms transfer shining silicon wafers between machines, engineers in white clean-room suits walk in the background, slow cinematic dolly forward, realistic. No text, no logos, no brand names.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "4:3",
+      "generate_audio": false
+    }
+  }
+]
