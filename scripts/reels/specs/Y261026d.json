@@ -1,0 +1,183 @@
+{
+ "approved": false,
+ "platform": "youtube",
+ "mood": "tense",
+ "threads_tag": "주식",
+ "long": "L261026-samsung-class",
+ "full_say": "화면 아래 링크를 눌러 보세요.",
+ "full_cap": [
+  "화면 아래 링크를 눌러 보세요"
+ ],
+ "broll": "chip",
+ "id": "Y261026d",
+ "title": "AI는 HBM을 사는데 PC 램값은 왜 올랐을까? #삼성전자",
+ "scheduled_at": "2026-10-26T20:00:00+09:00",
+ "hashtags": [
+  "삼성전자",
+  "D램",
+  "HBM",
+  "램가격",
+  "밸류노트",
+  "shorts"
+ ],
+ "banner": [
+  "AI는 HBM을 사는데",
+  "PC 램값은 왜 올랐을까?"
+ ],
+ "caption": "트렌드포스는 올해 1분기 범용 D램 계약 가격이 직전 석 달보다 90~95% 오른다고 봤습니다. AI가 사는 건 HBM인데 PC·스마트폰용 D램까지 오른 이유는 HBM이 같은 양을 만들 때 웨이퍼를 일반 D램보다 약 3배 쓰기 때문입니다(마이크론). 이 D램을 세계에서 가장 많이 파는 회사가 삼성전자(2026년 2분기 매출 점유율 38%, 카운터포인트리서치)입니다.\n\n전체 분석은 밸류노트 유튜브 채널에서 보실 수 있습니다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "올해 1분기 범용 D램 계약 가격",
+   "num": {
+    "to": 90,
+    "suffix": "%+"
+   },
+   "tone": "loss",
+   "label": "석 달 새 (트렌드포스 전망)",
+   "label_line": 1,
+   "lines": [
+    {
+     "cap": [
+      "PC와 스마트폰에 들어가는 메모리 값이",
+      "석 달 새 90% 넘게 오른다는 전망이 나왔어요"
+     ],
+     "say": "피씨와 스마트폰에 들어가는 메모리 값이, 석 달 새 구십 퍼센트 넘게 오른다는 전망이 나왔어요."
+    },
+    {
+     "cap": [
+      "올해 컴퓨터 사려다",
+      "램 가격 보고 놀라셨죠?"
+     ],
+     "say": "올해 컴퓨터 사려다 램 가격 보고 놀라셨죠?"
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "AI가 사는 건 HBM인데",
+   "l2": "왜 PC 램까지?",
+   "tone": "gold",
+   "note": "HBM = AI 칩 바로 옆에 붙는 고대역폭 메모리",
+   "lines": [
+    {
+     "cap": [
+      "AI가 쓸어 담는 건",
+      "AI 칩 옆에 붙는 HBM이에요"
+     ],
+     "say": "에이아이가 쓸어 담는 건 에이아이 칩 옆에 붙는 에이치비엠이에요."
+    },
+    {
+     "cap": [
+      "그런데 왜 PC용 램 값까지",
+      "같이 올랐을까요?"
+     ],
+     "say": "그런데 왜 피씨용 램 값까지 같이 올랐을까요?"
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "같은 양을 만들 때 드는 웨이퍼",
+   "l": {
+    "label": "일반 D램",
+    "v": "1장",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "HBM",
+    "v": "약 3장",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "HBM은 같은 양을 만들 때",
+      "반도체 원판이 세 배쯤 들어요"
+     ],
+     "say": "에이치비엠은 같은 양을 만들 때 반도체 원판이 세 배쯤 들어요."
+    },
+    {
+     "cap": [
+      "마이크론이 직접 밝힌 비율이에요"
+     ],
+     "say": "마이크론이 직접 밝힌 비율이에요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "케이크 만드느라",
+   "l2": "식빵이 모자란 빵집",
+   "tone": "gold",
+   "note": "공장이 HBM을 만들수록 일반 D램은 부족",
+   "lines": [
+    {
+     "cap": [
+      "빵집이 비싼 케이크에 밀가루를 세 배씩 쓰면",
+      "식빵이 모자라서 식빵값까지 오르죠"
+     ],
+     "say": "빵집이 비싼 케이크에 밀가루를 세 배씩 쓰면, 식빵이 모자라서 식빵값까지 오르죠."
+    },
+    {
+     "cap": [
+      "메모리 공장도 똑같아요"
+     ],
+     "say": "메모리 공장도 똑같아요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "이 메모리를 가장 많이 파는 회사",
+   "l2": "삼성전자 38%",
+   "tone": "gold",
+   "note": "세계 D램 매출 점유율 · 2026년 2분기 · 카운터포인트리서치",
+   "lines": [
+    {
+     "cap": [
+      "이 메모리를 세계에서",
+      "가장 많이 파는 회사가 삼성전자예요"
+     ],
+     "say": "이 메모리를 세계에서 가장 많이 파는 회사가 삼성전자예요."
+    },
+    {
+     "cap": [
+      "올해 3분기 석 달에만",
+      "107조 원을 벌었습니다"
+     ],
+     "say": "올해 삼분기 석 달에만 백칠조 원을 벌었습니다."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "그런데 주가는 왜 빠졌을까?",
+   "l2": "유튜브 풀영상에서 확인하세요",
+   "lines": [
+    {
+     "cap": [
+      "그런데 주가는 왜 빠졌는지",
+      "유튜브 영상에서 확인하세요"
+     ],
+     "say": "그런데 주가는 왜 빠졌는지, 유튜브 영상에서 확인하세요."
+    }
+   ]
+  }
+ ],
+ "title_en": "AI buys HBM, so why did PC RAM get pricier? #Samsung",
+ "subs_en": [
+  "PC and phone memory prices were forecast to rise over 90% in three months",
+  "Shocked by RAM prices this year?",
+  "What AI hoovers up is HBM, next to the AI chip",
+  "So why did PC RAM prices rise too?",
+  "HBM needs about three times the wafers",
+  "That's Micron's own ratio",
+  "A bakery using triple flour for cakes runs short of bread",
+  "Memory fabs are the same",
+  "Samsung sells more of this memory than anyone",
+  "It earned 107 trillion won in Q3 alone",
+  "So why did the stock fall? See the full video",
+  "Tap the link below"
+ ]
+}
