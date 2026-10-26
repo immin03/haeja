@@ -4,14 +4,10 @@
  "mood": "tense",
  "threads_tag": "주식",
  "long": "L261026-samsung-class",
- "full_say": "화면 아래 링크를 눌러 보세요.",
- "full_cap": [
-  "화면 아래 링크를 눌러 보세요"
- ],
  "broll": "chip",
  "id": "Y261026d",
  "title": "AI는 HBM을 사는데 PC 램값은 왜 올랐을까? #삼성전자",
- "scheduled_at": "2026-10-27T20:00:00+09:00",
+ "scheduled_at": "2026-10-26T21:00:00+09:00",
  "hashtags": [
   "삼성전자",
   "D램",
@@ -51,7 +47,11 @@
      ],
      "say": "올해 컴퓨터 사려다 램 가격 보고 놀라셨죠?"
     }
-   ]
+   ],
+   "popup": {
+    "clip": "scripts/reels/assets/popup/ram_dram1.mp4",
+    "line": 1
+   }
   },
   {
    "type": "statement",
@@ -148,7 +148,11 @@
      ],
      "say": "올해 삼분기 석 달에만 백칠조 원을 벌었습니다."
     }
-   ]
+   ],
+   "popup": {
+    "clip": "scripts/reels/assets/popup/fab_factory47257.mp4",
+    "line": 0
+   }
   },
   {
    "type": "statement",
@@ -219,8 +223,9 @@
   "Memory fabs are the same",
   "Samsung sells more of this memory than anyone",
   "It earned 107 trillion won in Q3 alone",
-  "So why did the stock fall? See the full video",
-  "Tap the link below"
+  "So why did the stock fall? See the full video"
  ],
- "allow_long": true
+ "allow_long": true,
+ "world": "popup",
+ "rev": "end1"
 }
