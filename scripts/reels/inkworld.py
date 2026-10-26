@@ -141,7 +141,9 @@ class Write(Beat):
         self.lay = np.asarray(lay).astype(np.float32); self.lh = lh; self.ws = [f.getlength(r) for r in rows]
         self.x = int(b["x"] - (wmax / 2 if b.get("anchor") == "m" else 0)); self.y = int(b["y"])
         self.offs = [10 if b.get("anchor", "l") == "l" else (wmax - 20 - w_) / 2 + 10 for w_ in self.ws]
-    def bbox(self): return (self.x, self.y, self.x + self.lay.shape[1], self.y + self.lay.shape[0])
+        ys, xs_ = np.nonzero(self.lay[..., 3] > 30)
+        self.tb = (self.x + int(xs_.min()), self.y + int(ys.min()), self.x + int(xs_.max()), self.y + int(ys.max())) if len(ys) else (self.x, self.y, self.x + 10, self.y + 10)
+    def bbox(self): return self.tb
     def apply(self, tex, T):
         p = self.p(T)
         if p <= 0: return
@@ -170,7 +172,9 @@ class Print(Beat):
         for i, r in enumerate(rows): d.text((0, i * lh), r, font=f, fill=(*c, int(255 * b.get("alpha", 1))))
         self.lay = np.asarray(lay).astype(np.float32)
         an = b.get("anchor", "la"); self.x = int(b["x"] - (wmax if an == "ra" else wmax / 2 if an == "ma" else 0)); self.y = int(b["y"])
-    def bbox(self): return (self.x, self.y, self.x + self.lay.shape[1], self.y + self.lay.shape[0])
+        ys, xs_ = np.nonzero(self.lay[..., 3] > 30)
+        self.tb = (self.x + int(xs_.min()), self.y + int(ys.min()), self.x + int(xs_.max()), self.y + int(ys.max())) if len(ys) else (self.x, self.y, self.x + 10, self.y + 10)
+    def bbox(self): return self.tb
     def apply(self, tex, T):
         p = self.p(T)
         if p > 0: blit(tex, self.lay, self.x, self.y + int(10 * (1 - eout(p))), np.full(self.lay.shape[:2], eout(p), np.float32))
@@ -463,24 +467,51 @@ def prep(E, scenes):
     scenes[0]["_ink_ok"] = True
 
 
+def _hit(r, boxes, pad=6):
+    x0, y0, x1, y1 = r
+    return any(not (x1 + pad < a or x0 - pad > c or y1 + pad < b_ or y0 - pad > d_) for a, b_, c, d_ in boxes)
+
+
 def autofill(s, beats):
-    """문장 안에서 2.4초 넘게 새 비트가 없으면, 방금 쓴 글씨·그래프에 펜이 강조 표시(밑줄 → 형광펜 → 동그라미)를 더한다"""
-    add = []; t_end = s["start"] + s["dur"] - FLIP
+    """문장 안에서 2.4초 넘게 새 비트가 없으면, 방금 쓴 손글씨에 펜이 강조 표시를 더한다.
+    다른 글씨·그림과 겹치면 안 된다 (2026-10-27 운영자: 선을 긋다 보니 글자가 겹친다) → 밑줄 자리가 비었으면 밑줄, 아니면 글자 안쪽 형광펜, 둘레가 비었으면 동그라미"""
+    add = []; t_end = s["start"] + s["dur"] - FLIP; skip = set()
+    solid = [b for b in beats if isinstance(b, (Write, Print, Photo, Sticker, Chart, Bars, Icons))]
     for _ in range(12):
-        ev = sorted([s["start"]] + [b.t0 for b in beats + add] + [t_end])
-        gap = next(((a, b) for a, b in zip(ev, ev[1:]) if b - a > 2.4), None)
+        pops = [b for b in beats if isinstance(b, Pop)]
+        ev = sorted([s["start"]] + [b.t0 for b in beats + add] + [b.t1 + .7 for b in pops] + [float(t_) for b in pops for t_ in np.arange(b.t0 + 2.0, b.t1 + .7, 2.0)] + [t_end])
+        gap = next(((a, b) for a, b in zip(ev, ev[1:]) if b - a > 2.4 and (round(a, 2), round(b, 2)) not in skip), None)
         if not gap: break
         t = gap[0] + min(1.3, (gap[1] - gap[0]) / 2)
-        tgt = [b for b in beats + add if isinstance(b, Write) and b.t0 < t and not b.b.get("_auto")]   # 손글씨에만 (막대·사진 위에 칠하면 지저분하다)
-        if not tgt:
-            add.append(Stroke({"kind": "under", "color": "gold", "_auto": 1}, t, t + .45, under_pts(300, 780, 1180))); continue
-        b = max(tgt, key=lambda z: z.t0); x0, y0, x1, y1 = [float(v) for v in b.bbox()]
-        n = sum(1 for z in add if z.b.get("_on") is b)
-        if n % 3 == 0: nb = Stroke({"kind": "under", "color": "gold", "_auto": 1, "_on": b}, t, t + .45, under_pts(x0 + 10, min(x1, TW - 60), min(y1 + 4, TH - 80)), 9)
-        elif n % 3 == 1: nb = Highlight({"kind": "hl", "x0": x0 + 4, "y0": y0 + (y1 - y0) * .35, "x1": min(x1, TW - 40), "y1": y1 - 6, "color": "yellow", "_auto": 1, "_on": b}, t, t + .5)
-        else: nb = Stroke({"kind": "circle", "color": "red", "_auto": 1, "_on": b}, t, t + .7, ellipse_pts((x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2 + 30, (y1 - y0) / 2 + 24), 8)
-        nb.b["_on"] = b; add.append(nb)
+        cands = sorted([b for b in beats if isinstance(b, Write) and b.t0 < t], key=lambda z: -z.t0)
+        nb = None
+        for tg in cands:
+            x0, y0, x1, y1 = [float(v) for v in tg.bbox()]
+            others = [o.bbox() for o in solid if o is not tg] + [z.bbox() for z in add if z.b.get("_on") is not tg]
+            done = {z.b["kind"] for z in add if z.b.get("_on") is tg} | {z.b["kind"] for z in beats if isinstance(z, (Stroke, Highlight)) and _hit(z.bbox(), [tg.bbox()], 0)}
+            if "under" not in done and not _hit((x0, y1 + 2, x1, y1 + 22), others):
+                nb = Stroke({"kind": "under", "color": "gold", "_auto": 1, "_on": tg}, t, t + .5, under_pts(x0 + 6, x1, y1 + 12), 9)
+            elif "hl" not in done:
+                nb = Highlight({"kind": "hl", "x0": x0 - 4, "y0": y0 + (y1 - y0) * .45, "x1": x1 + 4, "y1": y1 + 4, "color": "yellow", "_auto": 1, "_on": tg}, t, t + .5)
+            elif "circle" not in done and not _hit((x0 - 34, y0 - 26, x1 + 34, y1 + 26), others):
+                nb = Stroke({"kind": "circle", "color": "red", "_auto": 1, "_on": tg}, t, t + .7, ellipse_pts((x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2 + 28, (y1 - y0) / 2 + 22), 8)
+            if nb: break
+        if nb is None:
+            print(f"  ⚠ {gap[0]:.1f}~{gap[1]:.1f}초: 겹치지 않게 강조할 곳이 없습니다 — 비트를 직접 넣으세요"); skip.add((round(gap[0], 2), round(gap[1], 2))); continue
+        add.append(nb)
     return add
+
+
+def overlaps(s):
+    """손으로 짠 비트끼리 겹치는지 (글씨·사진·그림)"""
+    bs = [b for b in s["_ink"]["beats"] if isinstance(b, (Write, Print, Photo, Sticker, Bars, Icons)) and not b.b.get("_auto") and not b.b.get("over")]
+    out = []
+    for i, a in enumerate(bs):
+        for b in bs[i + 1:]:
+            A, B = a.bbox(), b.bbox()
+            if not (A[2] < B[0] or B[2] < A[0] or A[3] < B[1] or B[3] < A[1]):
+                out.append((a.b.get("text") or a.b.get("kind"), b.b.get("text") or b.b.get("kind")))
+    return out
 
 
 def page_now(s, T):
@@ -505,7 +536,11 @@ def events(scenes):
     ev = []
     for j, s in enumerate(scenes):
         if j: ev.append((s["start"] - FLIP, "넘김"))
-        for b in s["_ink"]["beats"]: ev.append((b.t0, b.b.get("kind")))
+        for b in s["_ink"]["beats"]:
+            ev.append((b.t0, b.b.get("kind")))
+            if isinstance(b, Pop):   # 카드가 서 있는 동안은 화면이 살아 있다
+                for tt in np.arange(b.t0 + 2.0, b.t1 + .7, 2.0): ev.append((float(tt), "pop"))
+                ev.append((b.t1 + .7, "pop접힘"))
     return sorted(ev)
 
 

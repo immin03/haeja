@@ -31,7 +31,7 @@ p2 = {"type": "statement", "l1": old[3].get("l1", ""), "l2": old[3].get("l2", ""
     dict(kind="write", text="10월 29일 실적", x=80, y=560, size=104, color="red", line=1, at=.05),
     dict(kind="circle", cx=360, cy=620, rx=330, ry=95, color="red", line=1, at=.4),
     dict(kind="icons", icon="box", n=3, x=110, y=800, size=150, gap=110, color="ink", line=1, at=.55, dur=.6),
-    dict(kind="write", text="?   ?   ?", x=150, y=820, size=120, color="gold", line=1, at=.8, dur=.5),
+    dict(kind="write", text="?   ?   ?", x=150, y=820, size=120, color="gold", line=1, at=.8, dur=.5, over=True),
 ]}}
 # ── 3. 볼 숫자 3개 (체크리스트 + 사진)
 p3 = {"type": "list", "title": old[4]["title"], "items": old[4]["items"], "lines": old[4]["lines"], "page": {"head": "삼성전자 주가, 이 3가지", "beats": [
@@ -42,29 +42,30 @@ p3 = {"type": "list", "title": old[4]["title"], "items": old[4]["items"], "lines
     dict(kind="check", text="D램 값 오르는 속도", x=80, y=830, size=70, line=2, at=0),
     dict(kind="photo", src=LIB + "commons_ddr5_3.jpg", x=700, y=770, w=300, h=230, rot=3, line=2, at=.3),
 ]}}
-# ── 4. ① 빅테크 설비투자
+# ── 4. ① 빅테크 설비투자 (줄 사이를 넉넉히: 2026-10-27 운영자 "선을 긋다 보니 글자가 겹친다")
 p4 = {"type": "statement", "l1": old[5]["l1"], "l2": old[5]["l2"], "note": old[5].get("note"), "lines": old[5]["lines"], "page": {"head": "1. 빅테크 설비투자", "beats": [
-    dict(kind="photo", src=BR + "datacenter_23282.mp4", x=80, y=150, w=470, h=330, rot=-2, cap="빅테크 데이터센터", line=0, at=0),
+    dict(kind="photo", src=BR + "datacenter_23282.mp4", x=80, y=150, w=470, h=290, rot=-2, cap="빅테크 데이터센터", line=0, at=0),
     dict(kind="print", rows=["아마존 · 알파벳", "마이크로소프트", "메타", "올해 계획 합계"], x=610, y=180, size=36, w="Bold", color="gray", line=0, at=.2),
-    dict(kind="write", text="7,350억 달러", x=70, y=500, size=124, color="red", line=0, at=.45),
-    dict(kind="under", x0=80, x1=760, y=635, color="red", line=0, at=.85),
-    dict(kind="arrow", pts=[[300, 650], [300, 735]], color="ink", line=1, at=0),
-    dict(kind="icons", icon="chip", n=6, x=90, y=745, size=84, gap=30, color="ink", line=1, at=.12, dur=.8),
-    dict(kind="write", text="= AI 칩 + 메모리 예산", x=80, y=840, size=78, color="gold", line=1, at=.45),
+    dict(kind="write", text="7,350억 달러", x=70, y=540, size=110, color="red", line=0, at=.45),
+    dict(kind="under", x0=80, x1=700, y=668, color="red", line=0, at=.85),
+    dict(kind="arrow", pts=[[290, 685], [290, 752]], color="ink", line=1, at=0),
+    dict(kind="icons", icon="chip", n=6, x=90, y=762, size=74, gap=34, color="ink", line=1, at=.12, dur=.8),
+    dict(kind="write", text="= AI 칩 + 메모리 예산", x=80, y=868, size=70, color="gold", line=1, at=.45),
     dict(kind="pop", src=LIB + "commons_metahq_1.jpg", cap="지난주 메타 -7% → 삼성전자 -4%", line=2, at=0),
-    dict(kind="write", text="메타 -7%   삼성 -4%", x=80, y=950, size=84, color="red", line=2, at=.62),
-    dict(kind="write", text="더 쓰면 O 좋은 신호", x=80, y=1050, size=70, color="green", line=3, at=.3),
-    dict(kind="write", text="줄이면 X 경고", x=620, y=1050, size=70, color="red", line=3, at=.7),
+    dict(kind="write", text="메타 -7%   삼성 -4%", x=80, y=968, size=76, color="red", line=2, at=.62),
+    dict(kind="write", text="더 쓰면 O 좋은 신호", x=80, y=1068, size=64, color="green", line=3, at=.25),
+    dict(kind="write", text="줄이면 X 경고", x=640, y=1068, size=64, color="red", line=3, at=.65),
 ]}}
 # ── 5. ② HBM4
 p5 = {"type": "compare", "title": old[6]["title"], "l": old[6]["l"], "r": old[6]["r"], "lines": old[6]["lines"], "page": {"head": "2. 삼성전자 HBM4 판매", "beats": [
     dict(kind="pop", src=LIB + "commons_nvidiahq_1.jpg", cap="HBM4, 2월부터 엔비디아에 공급", line=0, at=0),
     dict(kind="write", text="HBM4, 엔비디아로", x=70, y=170, size=96, line=0, at=.55),
     dict(kind="photo", src=LIB + "commons_nvidiagpu_1.jpg", x=700, y=140, w=300, h=210, rot=4, line=0, at=.8),
-    dict(kind="print", text="2026년 2월부터 공급 · HBM 점유율 (카운터포인트리서치)", x=80, y=320, size=30, w="Medium", color="gray", line=0, at=.8),
+    dict(kind="print", text="2026년 2월부터 공급 · HBM 점유율 (카운터포인트리서치)", x=80, y=375, size=30, w="Medium", color="gray", line=0, at=.85),
     dict(kind="bars", items=[{"label": "삼성 1분기", "v": 21, "text": "21%", "color": "gray"}, {"label": "삼성 2분기", "v": 33, "text": "33%", "color": "green"},
-                             {"label": "SK하이닉스", "v": 50, "text": "50%", "color": "ink"}], x=90, y=470, w=900, h=380, line=1, at=0),
-    dict(kind="arrow", pts=[[330, 780], [520, 640]], color="green", line=1, at=.6),
+                             {"label": "SK하이닉스", "v": 50, "text": "50%", "color": "ink"}], x=90, y=500, w=900, h=360, line=1, at=0),
+    dict(kind="arrow", pts=[[330, 800], [520, 670]], color="green", line=1, at=.4),
+    dict(kind="circle", cx=840, cy=670, rx=150, ry=240, color="ink", line=1, at=.75),
     dict(kind="write", text="콜에서 'HBM4 공급 늘었다'?", x=70, y=960, size=76, line=2, at=0),
     dict(kind="write", text="늘었다 = 추격 계속", x=90, y=1060, size=78, color="green", line=2, at=.55),
 ]}}

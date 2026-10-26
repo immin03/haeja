@@ -941,9 +941,18 @@ def y_caption(img, u, L):
     for li, line in enumerate(cap):
         y = y0 + li * lh; x0 = YT_CAP_X - d.textlength(line, font=font) / 2
         d.text((x0, y), line, font=font, fill=IVORY, anchor="lm")
-        for m in re.finditer(r"[+\-−]?\d[\d,.]*\s?(?:조|억|만|천)?\s?(?:원|%|%p|배|점|년|개|곳|달러)?", line):
+        for m in key_numbers(line):
             tx = x0 + d.textlength(line[:m.start()], font=font)
             d.text((tx, y), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
+
+# 자막에서 금색으로 칠하는 숫자 (2026-10-27 운영자: "HBM4는 숫자로 보면 안 되지 — 규칙을 정립")
+# 규칙: 양(量)을 나타내는 숫자만 칠한다 = 숫자 뒤에 단위(원·달러·%·%p·배·점·포인트·명·개·곳, 조·억·만·천 포함)가 붙은 것.
+#  - 영문 이름 속 숫자는 칠하지 않는다: HBM4 · H100 · DDR5 · Q3
+#  - 날짜·순서는 칠하지 않는다: 2024년 · 2월 · 29일 · 1분기 · 첫째
+#  - "4만 9,900원", "37만 4천 원", "7,350억 달러" 처럼 단위가 이어지는 금액은 한 덩어리로 칠한다
+KEYNUM = re.compile(r"(?<![A-Za-z0-9])[+\-−]?\d[\d,.]*(?:(?:\s?(?:조|억|만|천)(?:\s?\d[\d,.]*)?)+(?:\s?(?:원|달러|%p|%|배|점|포인트|명|개|곳))?|\s?(?:원|달러|%p|%|배|점|포인트|명|개|곳))(?![A-Za-z])")
+def key_numbers(line):
+    return list(KEYNUM.finditer(line))
 
 def y_voice(txt, speak):
     """롱폼과 같은 목소리: 운영자 클론을 타입캐스트 1.1배로 받아 그대로 쓴다 (2026-10-25, 후처리 가속·톤 올림 없음).
@@ -1030,7 +1039,7 @@ def caption(img, u, L):
             k = int(clamp(rev, 0, len(line)))
             if k > 0: d.text((x0, y), line[:k], font=font, fill=IVORY, anchor="lm")
             # 숫자(금액·%·배·점)는 드러나는 순간 금색으로 바뀌고 밑줄이 그어진다: 핵심 숫자에 눈이 가게
-            for m in re.finditer(r"[+\-−]?\d[\d,.]*\s?(?:억|만|천)?\s?(?:원|%|%p|배|점|년|개|곳|달러)?", line):
+            for m in key_numbers(line):
                 if k < m.end(): continue
                 tx = x0 + d.textlength(line[:m.start()], font=font); tw = d.textlength(m.group().rstrip(), font=font)
                 d.text((tx, y), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")

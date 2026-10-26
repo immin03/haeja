@@ -15,7 +15,9 @@ E.WORLD = "ink"; E.YT = True; E.GL_ON = False; E.YT_BANNER = spec.get("banner")
 scenes, total = E.plan_estimate(spec)
 inkworld.prep(E, scenes)
 print("길이(어림)", round(total, 1), "초 · 멈춘 구간", inkworld.audit(scenes, total))
-for s in scenes: print(f"  {s['start']:6.1f} {s['sc']['type']:9s} 문장 {len(s['L'])} · 비트 {len(s['_ink']['beats'])}")
+for s in scenes:
+    print(f"  {s['start']:6.1f} {s['sc']['type']:9s} 문장 {len(s['L'])} · 비트 {len(s['_ink']['beats'])}")
+    for a_, b_ in inkworld.overlaps(s): print(f"      ⚠ 겹침: {a_} ↔ {b_}")
 if a.video:
     p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", "1080x1920", "-r", "30", "-i", "-",
                           "-vf", "scale=540:960", "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", os.path.join(a.out, "preview.mp4")], stdin=subprocess.PIPE)
