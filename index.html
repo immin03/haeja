@@ -1113,19 +1113,32 @@ const store = (() => {
     async live(){ const { data: { session } } = await sb.auth.getSession(); if(!session){ this.expired(); throw new Error('로그인이 만료됐습니다'); } },
     async logout(){ this._exp = true; await sb.auth.signOut({ scope: 'local' }); location.reload(); },
     sub(col, cb){
+      /* 2026-10-27 데이터 전송량 절감: 처음 한 번만 컬렉션 전체를 받고, 이후 바뀐 행은 실시간 알림에 실려 오는 그 행만 반영한다.
+         (예전에는 한 행만 바뀌어도 열린 화면마다 컬렉션 전체를 다시 받아 Supabase 전송량 한도를 넘겼다) */
+      const rows = new Map(), key = r => (r.owner || '') + '|' + r.id;
+      const emit = () => cb([...rows.values()].map(r => ({ id: r.id, ...r.data })));
       const load = async () => {
-        const rows = []; let from = 0;
+        const got = []; let from = 0;
         for(;;){
-          const { data, error } = await sb.from('docs').select('id,data').eq('collection', col).range(from, from + 999);
+          const { data, error } = await sb.from('docs').select('owner,id,data').eq('collection', col).range(from, from + 999);
           if(error){ setSave('연결 오류: ' + error.message); return; }
-          rows.push(...data); if(data.length < 1000) break; from += 1000;
+          got.push(...data); if(data.length < 1000) break; from += 1000;
         }
-        cb(rows.map(r => ({ id: r.id, ...r.data })));
+        rows.clear(); got.forEach(r => rows.set(key(r), r)); emit();
+      };
+      const reload = () => { clearTimeout(timers[col]); timers[col] = setTimeout(load, 300); };
+      const apply = (p) => {
+        if(p.errors || (p.eventType !== 'DELETE' && !(p.new && p.new.data))){ reload(); return; } /* 행이 너무 커서 내용이 안 실려 오면 그때만 다시 받는다 */
+        if(p.eventType === 'DELETE'){ if(p.old && p.old.collection && p.old.collection !== col) return; /* 삭제 알림은 컬렉션 필터가 안 걸려 다른 컬렉션 것도 온다 */
+          if(p.old && p.old.id != null) rows.delete(key(p.old)); else { reload(); return; } }
+        else rows.set(key(p.new), { owner: p.new.owner, id: p.new.id, data: p.new.data });
+        clearTimeout(timers['e-' + col]); timers['e-' + col] = setTimeout(emit, 300);
       };
       load();
+      let joined = false;
       sb.channel('docs-' + col)
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'docs', filter: 'collection=eq.' + col }, () => { clearTimeout(timers[col]); timers[col] = setTimeout(load, 300); })
-        .subscribe();
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'docs', filter: 'collection=eq.' + col }, apply)
+        .subscribe(st => { if(st === 'SUBSCRIBED'){ if(joined) reload(); joined = true; } }); /* 연결이 끊겼다 다시 붙으면 놓친 변경을 한 번만 다시 받는다 */
     },
     async set(col, id, data){
       if(this.isDemo || this.isGuest) return; /* 체험 계정·둘러보기: 저장하지 않음 (화면 위 안내 띠로 알림) */

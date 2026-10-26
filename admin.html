@@ -958,7 +958,7 @@ function ytItem(y){
   }
   const dur = y.duration ? `${Math.floor(y.duration / 60)}분 ${Math.round(y.duration % 60)}초` : '';
   return `<div class="card yt-item${short ? ' short' : ''}">
-    <div><video controls preload="metadata" playsinline poster="${esc(y.thumb || '')}" src="${esc(/github\.com\/.+\/releases\/download\//.test(y.video_url || '') ? FN + 'yt-video?u=' + encodeURIComponent(y.video_url) : (y.video_url || ''))}"></video></div>
+    <div><video controls preload="none" playsinline poster="${esc(y.thumb || '')}" src="${esc(/github\.com\/.+\/releases\/download\//.test(y.video_url || '') ? FN + 'yt-video?u=' + encodeURIComponent(y.video_url) : (y.video_url || ''))}"></video></div>
     <div><div class="k"><span class="kind${short ? ' reel' : ''}">${short ? '쇼츠' : '롱폼'}</span><span class="st ${st[0]}">${st[1]}</span>${dur ? `<span class="st none">${dur}</span>` : ''}</div>
       <h3>${esc(y.title || y.id)}</h3>
       ${y.subs && Array.isArray(y.subs.ab) && y.subs.ab.length ? `<div class="m"><b>썸네일·제목 ${y.subs.ab.length}안</b> · 유튜브 스튜디오 '테스트 및 비교'에 셋 다 올리면 반응 좋은 쪽으로 자동으로 정해집니다</div><div class="yt-ab">${y.subs.ab.map((a, i) => `<figure class="${a.default ? 'def' : ''}"><a href="${esc(a.thumb)}" target="_blank"><img src="${esc(a.thumb)}" alt="썸네일 ${esc(a.key || String(i + 1))}" loading="lazy"></a><figcaption><b>${esc((a.key || String(i + 1)).toUpperCase())}안${a.default ? ' · 기본' : ''}</b><br>${esc(a.title || '')}<div class="ac"><a class="soc-btn ghost" href="${esc(a.thumb)}" download>썸네일 받기</a><button class="soc-btn ghost" data-yt-abcopy="${i}" data-id="${esc(y.id)}">제목 복사</button></div></figcaption></figure>`).join('')}</div>` : ''}
@@ -1024,7 +1024,10 @@ function ghPanel(){
   <div class="soc-sec"><h2>Claude 작업 기록</h2><span class="n">최근 24시간 · 무엇을 바꿨는지</span></div>
   <div class="card gh-log">${mine.map(c => `<div class="r"><span class="tm">${kst(c.commit.author.date)}</span><span>${esc(c.commit.message.split('\n')[0])}</span></div>`).join('') || '<div class="r">최근 24시간 기록이 없습니다.</div>'}</div>`;
 }
-setInterval(() => { if(!document.hidden && document.getElementById('gh-panel')){ ghLoad(); if(!document.activeElement?.matches('textarea')) ytLoad(); } }, 60 * 1000);
+/* 2026-10-27 전송량 절감: 영상은 재생 버튼을 누를 때만 받는다(preload=none). 영상을 보고 있는 동안에는 1분 자동 갱신으로 화면을 다시 그리지 않는다
+   (다시 그리면 영상 태그가 새로 만들어져 같은 영상을 처음부터 다시 받는다) */
+const ytWatching = () => [...document.querySelectorAll('video')].some(v => !v.paused || v.currentTime > 0);
+setInterval(() => { if(!document.hidden && document.getElementById('gh-panel')){ ghLoad(); if(!document.activeElement?.matches('textarea') && !ytWatching()) ytLoad(); } }, 60 * 1000);
 /* 유튜브 세부 메뉴 (2026-10-24): 기획안·제작 중·검수·올리기 대기·올림 완료·보류를 나눠서 한 번에 하나만 본다 */
 function ytViews(){
   const L = YT.list || [], P = YT.plans || [], sortAt = (a, b) => (a.scheduled_at || '').localeCompare(b.scheduled_at || '');
