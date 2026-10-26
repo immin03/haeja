@@ -1129,6 +1129,22 @@ def draw_banner(img):
     if l2: d.text((W / 2, 318), l2, font=fit_font(l2, "Heavy", 110, 1010), fill=GOLD, anchor="mm")
 
 
+def draw_banner_soft(img):
+    """팝업 노트용 제목: 검은 띠 대신 위쪽이 어두워지는 그림자 위에 글자만 (2026-10-26 운영자: 헤더가 영상 안에 녹아 있어야 답답하지 않다)"""
+    if not YT_BANNER: return
+    g = np.zeros((H, 1), np.float32); n = 560
+    g[:n, 0] = np.clip(1 - np.arange(n) / n, 0, 1) ** 1.25 * 225
+    m = Image.fromarray(np.repeat(g, W, 1).astype(np.uint8), "L")
+    img.paste(Image.new("RGB", (W, H), (6, 12, 24)), (0, 0), m)
+    d = ImageDraw.Draw(img)
+    l1, l2 = (list(YT_BANNER) + ["", ""])[:2]
+    for s_, y, size, col in ((l1, 196, 94, IVORY), (l2, 318, 110, GOLD)):
+        if not s_: continue
+        f = fit_font(s_, "Heavy", size, 1010 if size > 100 else 1000)
+        d.text((W / 2 + 3, y + 5), s_, font=f, fill=(0, 0, 0), anchor="mm")
+        d.text((W / 2, y), s_, font=f, fill=col, anchor="mm")
+
+
 # ── 골드 라인 (2026-10-26 운영자 승인: "앞으로 올라가는 릴스 및 쇼츠도 이 방향으로 전부") ──
 # 펜이 그은 금선 하나가 영상 처음부터 끝까지 끊기지 않는다. 장면이 바뀔 때는 컷 대신 카메라가 펜을 따라 옆으로 이동하고
 # (앞 장면이 왼쪽으로 빠지고 다음 장면이 오른쪽에서 들어옴), 선은 다음 장면에서 이어서 그어진다.
@@ -1201,9 +1217,12 @@ def frame(T, scenes, total, pen=True):
     if WORLD == "popup":   # 팝업 노트 (popworld.py, 2026-10-26)
         import popworld
         img = popworld.render(sys.modules[__name__], T, scenes, total)
+        global YT_CAP_Y
+        _cy = YT_CAP_Y; YT_CAP_Y = 1590   # 노트가 화면을 채우므로 자막은 노트 아래쪽 (그림·버튼을 가리지 않게)
         if YT: y_caption(img, u, s["L"])
         else: caption(img, u, s["L"])
-        if YT_BANNER: draw_banner(img)
+        YT_CAP_Y = _cy
+        if YT_BANNER: draw_banner_soft(img)
         d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
         return img
     if GL_ON and YT:   # 골드 라인 v2: 노트 판 위를 펜이 짚고 카메라가 따라간다 (goldworld.py)

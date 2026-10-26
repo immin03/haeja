@@ -18,7 +18,8 @@ from PIL import Image, ImageDraw
 W, H, FPS = 1080, 1920, 30
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PY0, PY1 = 470, 1300                 # 장면 그림에서 페이지에 담는 범위 (goldworld 와 같음)
-TW, TH = W, PY1 - PY0                # 페이지 텍스처 (px)
+PAD_T, PAD_B = 256, 300             # 세로로 긴 노트 페이지 (2026-10-26 운영자: 노트가 작고 답답해 보인다 → 화면을 꽉 채우게)
+TW, TH = W, PY1 - PY0 + PAD_T + PAD_B   # 페이지 텍스처 (px)
 PW, PD = 1.0, TH / TW                # 페이지 크기 (월드)
 TK = .03                             # 페이지 묶음 두께
 INK = (232, 188, 96); GOLD = (224, 200, 150); IVORY = (246, 241, 232)
@@ -122,7 +123,14 @@ def page_tex(E, s, T, scenes, ink=True):
     """장면 그림(engine 의 YDRAW)을 남색 노트 종이에 그리고, 펜 표시를 얹는다"""
     import goldworld
     tt = min(max(T, s["start"]), s["start"] + s["dur"] - 1 / FPS)
-    a = np.array(goldworld.page_image(E, s, tt, scenes))
+    if "paper" not in _C:
+        im = Image.new("RGB", (TW, TH), (18, 34, 62)); d = ImageDraw.Draw(im)
+        for y in range(PAD_T + 60 - 64 * 4, TH - 30, 64):
+            if y > 30: d.line([(40, y), (TW - 40, y)], fill=(30, 50, 84), width=2)
+        d.line([(96, 0), (96, TH)], fill=(64, 52, 60), width=2)
+        _C["paper"] = np.asarray(im)
+    a = _C["paper"].copy()
+    a[PAD_T:PAD_T + (PY1 - PY0)] = np.asarray(goldworld.page_image(E, s, tt, scenes))
     if ink and s.get("_mark"):
         pts, t0, t1 = s["_mark"]; p = seg(tt, t0, t1)
         if p > 0:
@@ -135,7 +143,8 @@ def mark_setup(E, scenes):
     """장면마다 펜이 긋는 표시와 시각. 팝업 줄과 겹치면 팝업이 접힌 뒤로 미룬다"""
     import goldworld
     for s in scenes:
-        try: pts, tm = goldworld.target(E, s["sc"], s["L"])
+        try:
+            pts, tm = goldworld.target(E, s["sc"], s["L"]); pts = [(x, y + PAD_T) for x, y in pts]
         except Exception: s["_mark"] = None; continue
         lo = .5
         pu = popup_window(s)
@@ -226,7 +235,7 @@ def block(fr, cam, side, h):
 
 
 # ── 카메라 경로 ──
-REST = dict(tgt=(.5, 0, -.11), yaw=0, pitch=63, dist=3.3, roll=0)
+REST = dict(tgt=(.5, 0, .02), yaw=0, pitch=63, dist=2.78, roll=0)
 
 
 def cam_at(scenes, T):
