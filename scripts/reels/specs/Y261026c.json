@@ -10,7 +10,7 @@
  ],
  "broll": "chip",
  "id": "Y261026c",
- "title": "4만에서 HBM 33% 점유율까지, 삼성전자에 무슨 일이? #삼성전자",
+ "title": "삼성전자 주가 전망, 이 3가지만 보면 된다 #삼성전자",
  "scheduled_at": "2026-10-27T11:00:00+09:00",
  "hashtags": [
   "삼성전자",
@@ -21,10 +21,10 @@
   "shorts"
  ],
  "banner": [
-  "4만 전자가 HBM 33%로",
-  "삼성전자에 무슨 일이?"
+  "삼성전자 주가 전망",
+  "이 3가지만 보면 된다"
  ],
- "caption": "2024년 11월 14일 삼성전자 주가는 4만 9,900원까지 떨어졌습니다. 엔비디아 HBM 테스트를 제때 통과하지 못했기 때문입니다.\n\n그 뒤 HBM4를 엔비디아에 공급하기 시작하며 HBM 점유율은 올해 1분기 21%에서 2분기 33%로 올랐고, 1등 SK하이닉스와의 차이를 37%포인트에서 17%포인트로 줄였습니다(카운터포인트리서치).\n\n벤저민 그레이엄 방식(여러 해 평균 이익 × 최대 10배)으로 계산한 한 주 값은 약 6만 9천 원으로, 10월 23일 종가 21만 원대는 그 3배쯤입니다.\n\n10월 29일 실적에서 볼 숫자 3개: ① 빅테크 내년 설비투자 ② 삼성전자 HBM4 판매 ③ D램 값 오르는 속도.\n\n메모리 사이클 이야기는 밸류노트 유튜브 풀영상에 있습니다.",
+ "caption": "2024년 11월 14일 삼성전자 주가는 4만 9,900원까지 떨어졌습니다. 올해 6월엔 37만 4천 원(장중)까지 올라 1년 반 만에 7배가 넘었고, 10월 23일 21만 5천 원으로 최고가보다 42% 내려왔습니다.\n\n이 가격을 버틸 수 있을지는 세 가지에 달려 있습니다.\n1. 빅테크의 내년 설비투자(AI 칩과 메모리를 사는 예산)\n2. 삼성전자 HBM4 판매(엔비디아 공급이 계속 늘고 있는지)\n3. D램 값이 오르는 속도\n\n10월 29일 실적에서 이 세 숫자를 확인하세요. 매수·매도 권유가 아닙니다.",
  "scenes": [
   {
    "type": "hook",
@@ -46,150 +46,81 @@
     },
     {
      "cap": [
-      "엔비디아 HBM 테스트를",
-      "제때 통과하지 못했거든요"
+      "'4만 전자'라는 말까지 나왔죠"
      ],
-     "say": "엔비디아 에이치비엠 테스트를 제때 통과하지 못했거든요."
+     "say": "사만 전자라는 말까지 나왔죠."
     }
    ]
   },
   {
    "type": "statement",
-   "l1": "사과문 뒤 1년",
-   "l2": "HBM4 엔비디아 공급",
-   "tone": "gold",
-   "note": "2025년 4분기 HBM3E 12단 통과 · 2026년 2월 HBM4",
+   "l1": "1년 반 만에",
+   "l2": "7배 넘게 올랐다",
+   "tone": "good",
+   "note": "2024년 11월 4만 9,900원 → 2026년 6월 37만 4천 원(장중 최고)",
    "lines": [
     {
      "cap": [
-      "반도체 수장이 사과문까지 냈던 삼성전자는",
-      "작년 4분기 엔비디아 테스트를 통과했고"
+      "그런데 올해 6월엔",
+      "37만 4천 원까지 올랐습니다"
      ],
-     "say": "반도체 수장이 사과문까지 냈던 삼성전자는, 작년 사분기 엔비디아 테스트를 통과했고,"
+     "say": "그런데 올해 유월엔, 삼십칠만 사천 원까지 올랐습니다."
     },
     {
      "cap": [
-      "올해 2월엔 차세대 HBM4를",
-      "엔비디아에 공급하기 시작했어요"
+      "1년 반 만에 7배 넘게 오른 겁니다"
      ],
-     "say": "올해 이월엔 차세대 에이치비엠포를 엔비디아에 공급하기 시작했어요."
+     "say": "일 년 반 만에 일곱 배 넘게 오른 겁니다."
     }
    ]
   },
   {
    "type": "compare",
-   "title": "삼성전자 HBM 점유율",
+   "title": "삼성전자 주가 · 최고가와 지금",
    "l": {
-    "label": "2026년 1분기",
-    "v": "21%",
+    "label": "6월 최고",
+    "v": "37만 4천 원",
     "tone": "gray"
    },
    "r": {
-    "label": "2026년 2분기",
-    "v": "33%",
-    "tone": "good"
+    "label": "10월 23일",
+    "v": "21만 5천 원",
+    "sub": "최고가보다 -42%",
+    "tone": "loss"
    },
    "lines": [
     {
      "cap": [
-      "올해 1분기 21%였던",
-      "삼성전자 HBM 점유율이"
+      "그리고 지금은 21만 5천 원",
+      "최고가보다 42% 내려왔습니다"
      ],
-     "say": "올해 일분기 이십일 퍼센트였던 삼성전자 에이치비엠 점유율이,"
-    },
-    {
-     "cap": [
-      "2분기엔 33%로 뛰었어요"
-     ],
-     "say": "이분기엔 삼십삼 퍼센트로 뛰었어요."
+     "say": "그리고 지금은 이십일만 오천 원, 최고가보다 사십이 퍼센트 내려왔습니다."
     }
    ]
   },
   {
    "type": "statement",
-   "l1": "1등과의 차이",
-   "l2": "37%p에서 17%p로",
+   "l1": "21만 원대, 버틸 수 있을까?",
+   "l2": "답은 세 가지에 달렸다",
    "tone": "gold",
-   "note": "1등 SK하이닉스 50% · 카운터포인트리서치",
    "lines": [
     {
      "cap": [
-      "1등 SK하이닉스와의 차이를",
-      "석 달 만에 절반 넘게 줄였습니다"
+      "그럼 이 가격은 버틸 수 있을까요?"
      ],
-     "say": "일등 SK하이닉스와의 차이를, 석 달 만에 절반 넘게 줄였습니다."
+     "say": "그럼 이 가격은 버틸 수 있을까요?"
     },
     {
      "cap": [
-      "37%포인트에서",
-      "17%포인트로요"
+      "답은 이 세 가지에 달려 있습니다"
      ],
-     "say": "삼십칠 퍼센트포인트에서 십칠 퍼센트포인트로요."
-    }
-   ]
-  },
-  {
-   "type": "compare",
-   "title": "그 바닥에서 1억 원을 넣었다면",
-   "l": {
-    "label": "2024.11.14",
-    "v": "1억",
-    "tone": "gray"
-   },
-   "r": {
-    "label": "10월 23일 종가",
-    "v": "4.3억",
-    "tone": "good"
-   },
-   "lines": [
-    {
-     "cap": [
-      "그 바닥에서",
-      "1억 원어치를 샀다면"
-     ],
-     "say": "그 바닥에서 일억 원어치를 샀다면,"
-    },
-    {
-     "cap": [
-      "지금 약 4억 3천만 원이 됐어요"
-     ],
-     "say": "지금 약 사억 삼천만 원이 됐어요."
-    }
-   ]
-  },
-  {
-   "type": "statement",
-   "l1": "그레이엄 방식으로 계산하면",
-   "l2": "한 주 약 6만 9천 원",
-   "tone": "gold",
-   "note": "여러 해 평균 이익 × 최대 10배 · 10월 23일 종가 기준",
-   "lines": [
-    {
-     "cap": [
-      "그럼 지금 주가는 비쌀까요?",
-      "워렌 버핏의 스승, 그레이엄 방식으로 볼게요"
-     ],
-     "say": "그럼 지금 주가는 비쌀까요? 워렌 버핏의 스승, 그레이엄 방식으로 볼게요."
-    },
-    {
-     "cap": [
-      "여러 해 평균 이익에 10배를 곱하면",
-      "한 주 값은 약 6만 9천 원이에요"
-     ],
-     "say": "여러 해 평균 이익에 십 배를 곱하면, 한 주 값은 약 육만 구천 원이에요."
-    },
-    {
-     "cap": [
-      "21만 원대 주가는 그 3배쯤이라",
-      "밸류노트 점수는 41점이에요"
-     ],
-     "say": "이십일만 원대 주가는 그 세 배쯤이라, 밸류노트 점수는 사십일 점이에요."
+     "say": "답은 이 세 가지에 달려 있습니다."
     }
    ]
   },
   {
    "type": "list",
-   "title": "10월 29일 실적, 볼 숫자 3개",
+   "title": "삼성전자 주가, 이 3가지만 보면 된다",
    "items": [
     "1 빅테크 내년 설비투자",
     "2 삼성전자 HBM4 판매",
@@ -213,9 +144,9 @@
     {
      "cap": [
       "셋째, D램 값이 오르는 속도",
-      "오르는 폭이 줄면 주가가 먼저 반응해요"
+      "오르는 폭이 줄면 주가가 먼저 반응합니다"
      ],
-     "say": "셋째, 디램 값이 오르는 속도. 오르는 폭이 줄면 주가가 먼저 반응해요."
+     "say": "셋째, 디램 값이 오르는 속도. 오르는 폭이 줄면 주가가 먼저 반응합니다."
     }
    ]
   },
@@ -226,34 +157,30 @@
    "lines": [
     {
      "cap": [
-      "메모리 사이클 이야기는 풀영상에 더 있어요",
-      "하단 프로필 링크를 눌러 보세요"
+      "풀영상은 하단 프로필 링크를 눌러 보세요"
      ],
-     "say": "메모리 사이클 이야기는 풀영상에 더 있어요. 하단 프로필 링크를 눌러 보세요."
+     "say": "풀영상은 하단 프로필 링크를 눌러 보세요."
     }
    ]
   }
  ],
- "title_en": "From 49,900 won to 33% of HBM: what happened to Samsung? #Samsung",
+ "title_en": "Samsung stock outlook: just watch these 3 things #Samsung",
  "subs_en": [
-  "On Nov 14, 2024, Samsung shares fell to 49,900 won",
-  "It hadn't passed Nvidia's HBM test in time",
-  "After its chip chief apologized, Samsung passed Nvidia's test in Q4 last year",
-  "and began supplying next-gen HBM4 to Nvidia this February",
-  "Samsung's HBM share, 21% in Q1",
-  "jumped to 33% in Q2",
-  "It cut the gap with No.1 SK hynix by more than half in three months",
-  "from 37 points to 17 points",
-  "Had you bought 100 million won at that low",
-  "it would be about 430 million won now",
-  "So is the stock expensive now? Let's use Graham's method, Buffett's teacher",
-  "Average earnings over several years times 10 gives about 69,000 won a share",
-  "At 210,000-plus won, the stock is about 3x that; ValueNote score 41",
-  "First: how much Big Tech raises next year's capex, the budget for AI chips and memory",
-  "Second: how much Samsung HBM4 sold, whether Nvidia supply keeps growing",
-  "Third: how fast DRAM prices rise; if gains shrink, the stock reacts first",
-  "The memory-cycle story is in the full video. Tap the profile link below"
+  "On Nov 14, 2024, Samsung fell to 49,900 won",
+  "People even called it '40,000-won Samsung'",
+  "But this June it hit 374,000 won",
+  "Up more than 7x in a year and a half",
+  "Now it's 215,000 won, 42% below the peak",
+  "So can this price hold?",
+  "The answer depends on these three things",
+  "First, how much Big Tech raises next year's capex. That's the budget for AI chips and memory",
+  "Second, how much Samsung HBM4 sold, and whether Nvidia supply keeps growing",
+  "Third, how fast DRAM prices rise. If gains slow, the stock reacts first",
+  "Full video: tap the profile link below"
  ],
  "allow_long": true,
- "world": "popup"
+ "world": "popup",
+ "cover_title": "삼성전자 주가 전망\n이 3가지만\n보면 된다",
+ "cover": 0,
+ "thumb_file": "scripts/reels/assets/logo/Y261026c_thumb.jpg"
 }
