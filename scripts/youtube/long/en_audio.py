@@ -2,7 +2,7 @@
 사용: python3 scripts/youtube/long/en_audio.py <롱폼 아이디>   (build.py 가 렌더·자막 뒤에 자동으로 부른다)
  - 문장 타이밍: 렌더 결과 meta.json 의 qa.lines [시작, 길이, 자막, 읽은 문장]
  - 영어 문장: 원고 장면의 "en" (subs.py 와 같은 짝짓기, 숫자 자리표는 영어 표기로)
- - 목소리: 타입캐스트 (TYPECAST_VOICE_EN, 없으면 한국어와 같은 목소리에 language=eng). 같은 문장은 캐시
+ - 목소리: 타입캐스트 영어 원어민 성우 Landon (TYPECAST_VOICE_EN 으로 바꿀 수 있음). 운영자 클론은 쓰지 않는다. 같은 문장은 캐시
  - 영어가 한국어 자리보다 길면 최대 1.3배까지 빠르게, 그래도 길면 다음 문장을 조금 밀어 겹치지 않게
  - 배경음악은 한국어판과 같은 테마곡·같은 덕킹. 길이는 영상과 똑같이 맞춘다
  - 결과: social/youtube/<id>/audio_en.m4a (저장소에는 올리지 않고 릴리스에 올린다), meta.json subs.audio_en
@@ -17,11 +17,13 @@ sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 SR = 44100
 CACHE = os.path.join(ROOT, "scripts", "reels", ".cache", "typecast_en")
 MODEL = "ssfm-v30"
+EN_VOICE = "tc_6633457fb5267dbd4808a2dd"   # Landon (영어 원어민 남성, 다큐·뉴스·설명)
 
 
 def _say_en(text):
     """영어 문장 → float32 mono (44.1kHz). 앞뒤 무음은 잘라 낸다"""
-    voices = [v for v in (os.environ.get("TYPECAST_VOICE_EN"), os.environ.get("TYPECAST_VOICE_ID", "uc_6addc9b84bd9f624e177b63b")) if v]
+    # 2026-10-26 운영자: 영어는 운영자 목소리 클론이 어색하다 → 영어 원어민 전문 성우(타입캐스트 Landon, 다큐·뉴스·설명용)로. 클론으로 되돌리지 않는다
+    voices = [os.environ.get("TYPECAST_VOICE_EN") or EN_VOICE]
     os.makedirs(CACHE, exist_ok=True)
     last = None
     for voice in voices:
