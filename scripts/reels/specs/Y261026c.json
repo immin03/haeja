@@ -24,7 +24,7 @@
   "삼성전자 주가 전망",
   "이 3가지만 보면 된다"
  ],
- "caption": "2024년 11월 14일 삼성전자 주가는 4만 9,900원까지 떨어졌습니다. 올해 6월엔 37만 4천 원(장중)까지 올라 1년 반 만에 7배가 넘었고, 10월 23일 21만 5천 원으로 최고가보다 42% 내려왔습니다.\n\n이 가격을 버틸 수 있을지는 세 가지에 달려 있습니다.\n1. 빅테크의 내년 설비투자(AI 칩과 메모리를 사는 예산)\n2. 삼성전자 HBM4 판매(엔비디아 공급이 계속 늘고 있는지)\n3. D램 값이 오르는 속도\n\n10월 29일 실적에서 이 세 숫자를 확인하세요. 매수·매도 권유가 아닙니다.",
+ "caption": "2024년 11월 14일 삼성전자 주가는 4만 9,900원까지 떨어졌습니다. 올해 6월엔 37만 4천 원(장중)까지 올라 1년 반 만에 7배가 넘었고, 10월 23일 21만 5천 원으로 최고가보다 42% 내려왔습니다.\n\n이 가격을 버틸 수 있을지는 10월 29일 실적에서 볼 세 가지에 달려 있습니다.\n\n1. 빅테크 설비투자: 아마존·알파벳·마이크로소프트·메타가 올해 쓰겠다는 돈은 약 7,350억 달러로 AI 칩과 메모리를 사는 예산이다. 29일 새벽 알파벳·마이크로소프트가 내년에 더 쓴다고 하면 좋은 신호, 줄인다고 하면 경고.\n2. 삼성전자 HBM4 판매: 2월부터 엔비디아에 공급 중. HBM 점유율은 1분기 21%에서 2분기 33%(1등 SK하이닉스 50%, 카운터포인트리서치). 콘퍼런스콜에서 HBM4 공급 증가를 말하는지 본다.\n3. D램 값이 오르는 속도: 1분기엔 석 달에 90% 넘게 오른다던 계약 가격이 9월엔 한 달 4%(PC용 D램 26달러, 트렌드포스). 메모리는 값이 10% 내리면 이익이 20% 줄 수 있어 주가가 속도를 먼저 본다.\n\nHBM과 메모리 사이클은 9분 풀영상에 정리했습니다. 매수·매도 권유가 아닙니다.",
  "scenes": [
   {
    "type": "hook",
@@ -112,9 +112,10 @@
     },
     {
      "cap": [
-      "답은 이 세 가지에 달려 있습니다"
+      "답은 29일 실적에서 볼",
+      "이 세 가지에 달려 있습니다"
      ],
-     "say": "답은 이 세 가지에 달려 있습니다."
+     "say": "답은 이십구일 실적에서 볼, 이 세 가지에 달려 있습니다."
     }
    ]
   },
@@ -129,24 +130,141 @@
    "lines": [
     {
      "cap": [
-      "첫째, 빅테크가 내년 설비투자를 얼마나 늘리는지",
-      "AI 칩과 메모리를 사는 예산이에요"
+      "첫째, 빅테크 설비투자"
      ],
-     "say": "첫째, 빅테크가 내년 설비투자를 얼마나 늘리는지. 에이아이 칩과 메모리를 사는 예산이에요."
+     "say": "첫째, 빅테크 설비투자."
     },
     {
      "cap": [
-      "둘째, 삼성전자 HBM4가 얼마나 팔렸는지",
-      "엔비디아 공급이 계속 늘고 있는지예요"
+      "둘째, 삼성전자 HBM4 판매"
      ],
-     "say": "둘째, 삼성전자 에이치비엠포가 얼마나 팔렸는지. 엔비디아 공급이 계속 늘고 있는지예요."
+     "say": "둘째, 삼성전자 에이치비엠포 판매."
     },
     {
      "cap": [
-      "셋째, D램 값이 오르는 속도",
-      "오르는 폭이 줄면 주가가 먼저 반응합니다"
+      "셋째, D램 값이 오르는 속도"
      ],
-     "say": "셋째, 디램 값이 오르는 속도. 오르는 폭이 줄면 주가가 먼저 반응합니다."
+     "say": "셋째, 디램 값이 오르는 속도입니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "① 빅테크 설비투자",
+   "l2": "올해 약 7,350억 달러",
+   "tone": "gold",
+   "note": "아마존·알파벳·마이크로소프트·메타가 밝힌 합계 · 우리 돈 970조 원+",
+   "lines": [
+    {
+     "cap": [
+      "첫째, 아마존·알파벳·마이크로소프트·메타가",
+      "올해 쓰겠다는 설비투자는 약 7,350억 달러입니다"
+     ],
+     "say": "첫째부터 볼게요. 아마존, 알파벳, 마이크로소프트, 메타가 올해 쓰겠다는 설비투자는, 약 칠천삼백오십억 달러입니다."
+    },
+    {
+     "cap": [
+      "이 돈이 AI 칩과 메모리를 사는 예산이에요"
+     ],
+     "say": "이 돈이 에이아이 칩과 메모리를 사는 예산이에요."
+    },
+    {
+     "cap": [
+      "지난주 메타가 번 현금보다 더 많이 투자하자",
+      "메타 7%, 삼성전자도 4% 빠졌습니다"
+     ],
+     "say": "지난주 메타가 번 현금보다 더 많이 투자하자, 메타 주가는 칠 퍼센트, 삼성전자도 사 퍼센트 빠졌습니다."
+    },
+    {
+     "cap": [
+      "29일 새벽 알파벳·마이크로소프트가 내년에 더 쓴다면",
+      "좋은 신호, 줄인다면 경고입니다"
+     ],
+     "say": "이십구일 새벽 알파벳과 마이크로소프트가 내년에 더 쓴다고 하면 좋은 신호, 줄인다고 하면 경고입니다."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "② 삼성전자 HBM 점유율 · 카운터포인트리서치",
+   "l": {
+    "label": "2026년 1분기",
+    "v": "21%",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "2026년 2분기",
+    "v": "33%",
+    "sub": "1등 SK하이닉스 50%",
+    "tone": "good"
+   },
+   "lines": [
+    {
+     "cap": [
+      "둘째, HBM4 판매. 삼성전자는 올해 2월부터",
+      "엔비디아에 HBM4를 공급하고 있습니다"
+     ],
+     "say": "둘째, 에이치비엠포 판매. 삼성전자는 올해 이월부터 엔비디아에 에이치비엠포를 공급하고 있습니다."
+    },
+    {
+     "cap": [
+      "HBM 점유율은 21%에서 33%로 올랐지만",
+      "1등 SK하이닉스는 여전히 50%예요"
+     ],
+     "say": "에이치비엠 점유율은 이십일 퍼센트에서 삼십삼 퍼센트로 올랐지만, 일등 SK하이닉스는 여전히 오십 퍼센트예요."
+    },
+    {
+     "cap": [
+      "29일 콘퍼런스콜에서 HBM4 공급이 늘었다면 추격 계속,",
+      "말을 아낀다면 따라잡기가 멈췄을 수 있습니다"
+     ],
+     "say": "이십구일 콘퍼런스콜에서 에이치비엠포 공급이 늘었다고 하면 추격이 계속된다는 뜻이고, 말을 아낀다면 따라잡기가 멈췄을 수 있습니다."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "③ D램 값이 오르는 속도 · 트렌드포스",
+   "l": {
+    "label": "올해 1분기 전망",
+    "v": "석 달 +90%",
+    "sub": "범용 D램 계약 가격",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "9월",
+    "v": "한 달 +4%",
+    "sub": "PC용 D램 26달러",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "셋째, D램 값이 오르는 속도. 1분기엔 석 달에",
+      "90% 넘게 오른다던 D램 값이"
+     ],
+     "say": "셋째, 디램 값이 오르는 속도. 올해 일분기엔 석 달에 구십 퍼센트 넘게 오른다던 디램 값이,"
+    },
+    {
+     "cap": [
+      "9월엔 한 달에 4% 올랐습니다",
+      "여전히 오르지만 속도는 느려진 거죠"
+     ],
+     "say": "구월엔 한 달에 사 퍼센트 올랐습니다. 여전히 오르지만 속도는 느려진 거죠."
+    },
+    {
+     "cap": [
+      "메모리 공장은 값이 내려도 비용이 그대로라",
+      "값이 10% 내리면 이익은 20% 줄 수 있습니다"
+     ],
+     "say": "메모리 공장은 값이 내려도 비용이 거의 그대로라, 값이 십 퍼센트 내리면 이익은 이십 퍼센트 줄 수 있습니다."
+    },
+    {
+     "cap": [
+      "그래서 주가는 이익보다",
+      "값이 오르는 속도를 먼저 봅니다"
+     ],
+     "say": "그래서 주가는 이익보다, 값이 오르는 속도를 먼저 봅니다."
     }
    ]
   },
@@ -157,9 +275,16 @@
    "lines": [
     {
      "cap": [
-      "풀영상은 하단 프로필 링크를 눌러 보세요"
+      "HBM이 뭔지, 메모리 값이 왜 오르내리는지는",
+      "9분 풀영상에 쉽게 정리했습니다"
      ],
-     "say": "풀영상은 하단 프로필 링크를 눌러 보세요."
+     "say": "에이치비엠이 뭔지, 메모리 값이 왜 오르내리는지는, 구 분 풀영상에 쉽게 정리했습니다."
+    },
+    {
+     "cap": [
+      "하단 프로필 링크를 눌러 보세요"
+     ],
+     "say": "하단 프로필 링크를 눌러 보세요."
     }
    ]
   }
@@ -172,11 +297,23 @@
   "Up more than 7x in a year and a half",
   "Now it's 215,000 won, 42% below the peak",
   "So can this price hold?",
-  "The answer depends on these three things",
-  "First, how much Big Tech raises next year's capex. That's the budget for AI chips and memory",
-  "Second, how much Samsung HBM4 sold, and whether Nvidia supply keeps growing",
-  "Third, how fast DRAM prices rise. If gains slow, the stock reacts first",
-  "Full video: tap the profile link below"
+  "It depends on three things to watch in the Oct 29 results",
+  "First, Big Tech capex",
+  "Second, Samsung HBM4 sales",
+  "Third, how fast DRAM prices rise",
+  "First: Amazon, Alphabet, Microsoft and Meta plan about $735B in capex this year",
+  "That's the budget for AI chips and memory",
+  "Last week Meta invested more than the cash it earned; Meta fell 7%, Samsung 4%",
+  "If Alphabet and Microsoft spend more next year on the 29th, good sign; if they cut, a warning",
+  "Second, HBM4 sales. Samsung has supplied HBM4 to Nvidia since February",
+  "Its HBM share rose from 21% to 33%, but leader SK hynix still has 50%",
+  "If the Oct 29 call says HBM4 supply grew, the chase continues; if they hold back, it may have stalled",
+  "Third, how fast DRAM prices rise. Prices once expected to jump 90%+ in a quarter",
+  "rose 4% in a month in September. Still rising, but slower",
+  "Memory fabs' costs barely change, so a 10% price cut can cut profit 20%",
+  "That's why the stock watches the pace of price gains before profits",
+  "What HBM is and why memory prices swing: all in the 9-minute full video",
+  "Tap the profile link below"
  ],
  "allow_long": true,
  "world": "popup",
