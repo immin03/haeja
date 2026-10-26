@@ -177,6 +177,7 @@ def val_num(s, p):
 # ── 화면 종류 ──
 def draw(sc, V, u, lines, theme, media):
     v = sc["v"]; typ = v["type"]; t = TH[theme]
+    if typ == "sketch": return background(theme)   # 취재 노트 손그림 장면: 빈 종이에서 시작해 sketch 비트만 그린다 (sketch.py)
     img = media(u) if typ == "media" else background(theme)
     d = AD(img); T = lambda k, dflt="": fill(v.get(k, dflt), V)
     TITLE_EN[0] = fill(v.get("title_en", ""), V)
@@ -1288,12 +1289,14 @@ def make_thumb(spec, V, out):
 # ── 취재 노트 (원고 "world": "notebook", 2026-10-27 운영자: "롱폼도 하나의 큰 노트로 만들어도 될 것 같다", "우리만의 포맷") ──
 NB_REVEAL = 1.9   # 오프닝 마지막 장면 끝에서 카메라가 뒤로 빠지며 노트가 드러나는 시간
 NB_FLIP = 1.4     # 장이 바뀔 때 페이지가 넘어가는 시간
+NB_FLIP2 = .85    # 같은 장 안에서 장면이 바뀔 때 페이지 넘김
 NB_MOVE = .85     # 같은 장 안에서 다음 장면으로 카메라가 옮겨 가는 시간
 
 
 def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, stamps, data):
     import notebook as NBK
     from brand import logo_image
+    TH["light"]["bg"] = (243, 236, 221); _bg.clear()   # 쇼츠 잉크 노트와 같은 아이보리 종이
     hdr_logo = logo_image(34, "light", shadow=False)[0]
     nb = NBK.Notebook(background("light"), LOOK["paper"], TH["light"]["bg"], CHAPS, hdr_logo, desk=spec.get("notebook", {}).get("desk", "walnut"))
     rng = np.random.default_rng(17)
@@ -1307,7 +1310,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         mode = "title" if (typ == "title" and sc.get("chapter") and ci >= 0) else ("card" if (theme == "dark" or typ == "media") else "light")
         rot = 0.0 if k < cold else float(rng.choice([-1, 1]) * rng.uniform(.25, .6))   # 카드는 아주 살짝만 기울여 붙인다
         info.append({"chap": chap, "ci": ci, "theme": theme, "mode": mode, "rot": rot, "pose": NBK.pose_for(k, typ, nb, mode=mode),
-                     "flip": bool(k and sc.get("chapter") and mode == "title")})
+                     "flip": bool(k > cold), "big": bool(sc.get("chapter") and mode == "title")})   # 오프닝 뒤로는 장면마다 페이지를 넘긴다 (쇼츠 잉크 노트처럼)
     close = NBK.close_pose(nb); close["dist"] *= .985
     est = None   # 공개 장면이 끝나는 자세 (노트 전체가 보이게 조금 넓게)
     if cold and cold <= len(info):
@@ -1320,7 +1323,11 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         bdf = backdrop_source(sc["v"], n + 2, k)
         fit = safe_fit(sc, x, V, theme) if I["mode"] != "title" else None
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
-        base_pose = I["pose"]; start_pose = prev_pose or base_pose
+        import sketch as SK
+        sk = SK.build(sc.get("sketch"), x["lines"])
+        if sk or typ == "sketch":
+            for g in SK.gaps(sk, x["lines"]): print("  ⚠ 손그림 빈틈:", k, g, flush=True)
+        base_pose = I["pose"]; start_pose = prev_pose or base_pose; pen_last = None
         last_tex = None; last_pose = None
         for i in range(n):
             u = i / FPS
@@ -1334,6 +1341,12 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
                 if bdf: img = on_backdrop(img, bdf(u), theme)
                 if sc.get("pen"): pen_marks(img, sc["pen"], u, x["lines"])
+                if sk:
+                    arr = np.asarray(img.convert("RGB")).copy(); tip = SK.apply(arr, sk, u); img = Image.fromarray(arr)
+                    if tip is not None and I["mode"] == "light":
+                        pen_tip, pen_al = (nb.MX + tip[0], nb.MT + tip[1]), 1.0; pen_last = (pen_tip, u)
+                    elif pen_last and u - pen_last[1] < .35:   # 다음 그림까지 짧게 쉬면 펜이 사라지지 않고 머문다
+                        pen_tip, pen_al = pen_last[0], 1 - (u - pen_last[1]) / .35
                 tex = nb.page_card(img, I["rot"], header_right=I["chap"], seed=k) if I["mode"] == "card" else nb.page_light(img, I["chap"])
             if prev_tex is not None and not I["flip"] and u < .35 and k >= cold:   # 같은 장 안: 앞 장면 페이지에서 부드럽게 바뀐다
                 a = NBK.eio(u / .35); tex = (prev_tex.astype(np.float32) * (1 - a) + tex.astype(np.float32) * a).astype(np.uint8)
@@ -1346,14 +1359,15 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             else:
                 amt = 0.0
                 if I["flip"]:
-                    span = NB_FLIP + .6; p = u / span   # 카메라가 뒤로 빠져 넘어가는 페이지 전체를 보여 준 뒤 새 페이지로 내려앉는다
-                    mid = dict(base_pose); mid["dist"] = base_pose["dist"] * 1.3; mid["pitch"] = 80; mid["tz"] = base_pose["tz"] + .04
+                    span = (NB_FLIP if I["big"] else NB_FLIP2) + .6; p = u / span   # 카메라가 살짝 물러나 넘어가는 페이지를 보여 준 뒤 새 페이지로 내려앉는다
+                    mid = dict(base_pose); mid["dist"] = base_pose["dist"] * (1.3 if I["big"] else 1.1); mid["pitch"] = 80 if I["big"] else 86; mid["tz"] = base_pose["tz"] + (.04 if I["big"] else .015)
                     pose = dr if p >= 1 else (NBK.mix_pose(start_pose, mid, NBK.eio(p * 2)) if p < .5 else NBK.mix_pose(mid, dr, NBK.eio(p * 2 - 1)))
                 else:
                     pose = NBK.mix_pose(start_pose, dr, NBK.eio(u / NB_MOVE)) if u < NB_MOVE else dr
             flip = None
-            if I["flip"] and prev_tex is not None and u < NB_FLIP:
-                flip = (math.pi * NBK.eio(clamp((u - .1) / NB_FLIP)), prev_tex)
+            fd = NB_FLIP if I["big"] else NB_FLIP2
+            if I["flip"] and prev_tex is not None and u < fd + .1:
+                flip = (math.pi * NBK.eio(clamp((u - .1) / fd)), prev_tex)
             fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al)
             # 3) 오프닝 다큐 효과
             if amt > 0:
@@ -1442,6 +1456,11 @@ def main():
                 i = int((x["start"] + .02) * SR); sfx = NBK.flip_sound(SR, seed=k); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
             for tt in NBK.stamp_times(stamps.get(str(k))):   # 오프닝 타자기
                 i = int((x["start"] + tt) * SR); sfx = NBK.type_tick(SR, seed=int(tt * 100) + k); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+        import sketch as SK
+        for k, x in enumerate(timeline):   # 손그림을 그리는 동안 펜 소리 (작게)
+            for b in SK.build(x["sc"].get("sketch"), x["lines"]):
+                if not b.pen: continue
+                i = int((x["start"] + b.t0) * SR); sfx = pen_sound(max(.3, b.t1 - b.t0) + .1, seed=int(b.t0 * 37) + k, level=.02); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
         if cold and cold <= len(timeline):   # 공개 장면: 카메라가 뒤로 빠질 때 쉭
             x = timeline[cold - 1]; i = int((x["start"] + x["dur"] - NB_REVEAL - .3) * SR); sfx = NBK.whoosh(SR, NB_REVEAL + .5)
             mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]

@@ -368,16 +368,22 @@ class Notebook:
         quad(.05, .24, .003, (60, 76, 104))
 
     def _pen_on_page(self, fr, cam, tip, al):
-        """페이지 위 금색 펜: 펜촉이 tip(텍스처 픽셀)에 닿고 오른쪽 아래로 누워 있다"""
-        P0 = self.W3(*tip, y=.004); d = np.array([.62, .55, -.56]); d /= np.linalg.norm(d); nrm = np.array([.67, 0, .74])
-        def seg(t0, t1, w, col, a=1.0):
-            P = np.array([P0 + d * t0 + nrm * w, P0 + d * t1 + nrm * w, P0 + d * t1 - nrm * w, P0 + d * t0 - nrm * w])
-            fill_poly(fr, cam.proj(P), col, al * a)
-        g = np.array([d[0], 0, d[2]]); g /= np.linalg.norm(g); o = np.array([.012, -.004, -.018])   # 종이에 떨어지는 그림자
-        S = np.array([P0 + nrm * .006, P0 + g * .24 + nrm * .012 + o, P0 + g * .24 - nrm * .012 + o, P0 - nrm * .006]); S[:, 1] = .001
-        fill_poly(fr, cam.proj(S), (40, 34, 24), .32 * al, blur=7)
-        seg(0, .035, .004, GOLD_D); seg(.035, .2, .009, (16, 26, 46)); seg(.2, .215, .0095, (220, 190, 120)); seg(.215, .27, .009, (16, 26, 46))
-        seg(.04, .19, .0025, (90, 110, 140), .8)
+        """쇼츠 잉크 노트와 같은 금색 펜: 펜촉이 tip(텍스처 픽셀)에 닿고 오른쪽 위로 누워 있다"""
+        t = cam.proj(self.W3(*tip, y=.002))[0]
+        L = 420.0; ang = math.radians(-56); dv = np.array([math.cos(ang), math.sin(ang)]); nv = np.array([-dv[1], dv[0]])
+        def parts(off):
+            q = t + off; b0 = q + dv * L * .12; b1 = q + dv * L
+            nib = np.array([q, q + dv * L * .13 + nv * L * .028, q + dv * L * .13 - nv * L * .028])
+            body = np.array([b0 + nv * L * .036, b1 + nv * L * .042, b1 - nv * L * .042, b0 - nv * L * .036])
+            return nib, body, b0, b1
+        nib, body, _, _ = parts(np.array([34.0, 46.0]))
+        fill_poly(fr, np.vstack([nib, body]), (0, 0, 0), .28 * al, blur=7)
+        nib, body, b0, b1 = parts(np.zeros(2))
+        fill_poly(fr, nib, (205, 165, 90), al); fill_poly(fr, body, (232, 188, 96), al)
+        fill_poly(fr, np.array([b0 + nv * L * .03, b1 + nv * L * .036, b1 + nv * L * .012, b0 + nv * L * .01]), (252, 228, 172), .7 * al)
+        for f in (.55, .62):
+            c = b0 + (b1 - b0) * f; w_ = L * .02
+            fill_poly(fr, np.array([c + nv * L * .045, c + nv * L * .045 + dv * w_, c - nv * L * .045 + dv * w_, c - nv * L * .045]), (11, 27, 51), al)
 
 
 # ── 화면 위에 얹는 다큐 효과 ──

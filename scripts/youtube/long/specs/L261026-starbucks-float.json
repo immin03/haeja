@@ -173,10 +173,8 @@
   },
   {
    "v": {
-    "type": "media",
-    "lib": "commons_roastery_1.jpg",
-    "caption": "스타벅스 주주라면, 또는 관심 있다면",
-    "caption_at": "0"
+    "type": "sketch",
+    "was_lib": "commons_roastery_1.jpg"
    },
    "lines": [
     "스타벅스 주식을 갖고 계시거나 관심 있는 분이라면 앞으로 9분 동안 스타벅스가 돈을 버는 구조와 지금 주가에 들어 있는 기대를 정리해 드릴게요."
@@ -184,29 +182,92 @@
    "en": [
     "If you own Starbucks stock or are thinking about it, the next nine minutes lay out how Starbucks makes money and what today's price is betting on."
    ],
-   "asof": false
+   "asof": false,
+   "sketch": [
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/commons_roastery_1.jpg",
+     "x": 100,
+     "y": 110,
+     "w": 780,
+     "h": 540,
+     "rot": -2,
+     "line": 0,
+     "at": 0,
+     "cap": "스타벅스 리저브 로스터리"
+    },
+    {
+     "kind": "write",
+     "text": "스타벅스 주주라면,",
+     "x": 960,
+     "y": 130,
+     "size": 100,
+     "color": "ink",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "또는 관심 있다면",
+     "x": 960,
+     "y": 250,
+     "size": 100,
+     "color": "ink",
+     "line": 0,
+     "at": 0.2
+    },
+    {
+     "kind": "write",
+     "text": "앞으로 9분",
+     "x": 960,
+     "y": 400,
+     "size": 120,
+     "color": "red",
+     "line": 0,
+     "at": 0.38
+    },
+    {
+     "kind": "icons",
+     "icon": "clock",
+     "x": 1480,
+     "y": 400,
+     "size": 120,
+     "n": 1,
+     "line": 0,
+     "at": 0.42
+    },
+    {
+     "kind": "under",
+     "x0": 960,
+     "x1": 1400,
+     "y": 540,
+     "line": 0,
+     "at": 0.5,
+     "color": "gold"
+    },
+    {
+     "kind": "check",
+     "text": "돈을 버는 구조",
+     "x": 980,
+     "y": 620,
+     "size": 60,
+     "line": 0,
+     "at": 0.6
+    },
+    {
+     "kind": "check",
+     "text": "주가에 들어 있는 기대",
+     "x": 980,
+     "y": 740,
+     "size": 60,
+     "line": 0,
+     "at": 0.8
+    }
+   ]
   },
   {
    "v": {
-    "type": "checklist",
-    "title": "이 영상을 보면 알게 되는 것",
-    "title_en": "What you'll take away",
-    "backdrop": "commons_sbuxcup_3.jpg",
-    "bd_dim": 0.76,
-    "items": [
-     [
-      "17억 달러 충전금의 정체",
-      "1:17억"
-     ],
-     [
-      "손님이 줄어든 원인과 회복 방법",
-      "2:원인"
-     ],
-     [
-      "10월 29일 실적 발표 때 볼 숫자 3개",
-      "3:10월"
-     ]
-    ]
+    "type": "sketch"
    },
    "lines": [
     "이 영상을 보시면 세 가지를 알게 됩니다.",
@@ -220,14 +281,113 @@
     "Two: why customers stopped coming, and how they came back.",
     "Three: the three numbers to check on October 29 earnings."
    ],
-   "asof": false
+   "asof": false,
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "이 영상을 보면 알게 되는 것",
+     "x": 120,
+     "y": 90,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/commons_sbuxcup_3.jpg",
+     "x": 1320,
+     "y": 120,
+     "w": 500,
+     "h": 360,
+     "rot": 3,
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "3가지",
+     "x": 130,
+     "y": 160,
+     "size": 140,
+     "color": "red",
+     "line": 0,
+     "at": 0.35
+    },
+    {
+     "kind": "circle",
+     "cx": 240,
+     "cy": 250,
+     "rx": 150,
+     "ry": 85,
+     "line": 0,
+     "at": 0.7,
+     "color": "red"
+    },
+    {
+     "kind": "check",
+     "text": "17억 달러 충전금의 정체",
+     "x": 140,
+     "y": 390,
+     "size": 60,
+     "line": 1,
+     "at": 0.15
+    },
+    {
+     "kind": "check",
+     "text": "손님이 줄어든 원인과 회복 방법",
+     "x": 140,
+     "y": 550,
+     "size": 60,
+     "line": 2,
+     "at": 0.15
+    },
+    {
+     "kind": "check",
+     "text": "10월 29일 실적 발표 때 볼 숫자 3개",
+     "x": 140,
+     "y": 710,
+     "size": 60,
+     "line": 3,
+     "at": 0.15
+    },
+    {
+     "kind": "icons",
+     "icon": "jar",
+     "x": 1500,
+     "y": 520,
+     "size": 130,
+     "n": 1,
+     "line": 1,
+     "at": 0.7
+    },
+    {
+     "kind": "icons",
+     "icon": "person",
+     "x": 1460,
+     "y": 560,
+     "size": 110,
+     "n": 2,
+     "line": 2,
+     "at": 0.7,
+     "gap": 10
+    },
+    {
+     "kind": "icons",
+     "icon": "clock",
+     "x": 1500,
+     "y": 690,
+     "size": 120,
+     "n": 1,
+     "line": 3,
+     "at": 0.7
+    }
+   ]
   },
   {
    "v": {
-    "type": "question",
-    "text": "돈을 가장 많이 벌어 준 앱이, 왜?",
-    "backdrop": "phone_4915_a.jpg",
-    "bd_dim": 0.64
+    "type": "sketch"
    },
    "lines": [
     "그런데 이상한 점이 있습니다. 이 앱은 스타벅스에 돈을 가장 많이 벌어다 준 장치였거든요."
@@ -235,7 +395,96 @@
    "en": [
     "Here's the strange part: this app was the best money-maker Starbucks ever had."
    ],
-   "asof": false
+   "asof": false,
+   "sketch": [
+    {
+     "kind": "write",
+     "text": "그런데 이상한 점",
+     "x": 120,
+     "y": 100,
+     "size": 110,
+     "color": "ink",
+     "line": 0,
+     "at": 0.02
+    },
+    {
+     "kind": "write",
+     "text": "?",
+     "x": 1620,
+     "y": 80,
+     "size": 260,
+     "color": "red",
+     "line": 0,
+     "at": 0.12
+    },
+    {
+     "kind": "icons",
+     "icon": "phone",
+     "x": 150,
+     "y": 290,
+     "size": 300,
+     "n": 1,
+     "line": 0,
+     "at": 0.25
+    },
+    {
+     "kind": "write",
+     "text": "스타벅스 앱",
+     "x": 120,
+     "y": 620,
+     "size": 80,
+     "color": "ink",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       480,
+       450
+      ],
+      [
+       820,
+       450
+      ]
+     ],
+     "line": 0,
+     "at": 0.5,
+     "color": "ink"
+    },
+    {
+     "kind": "icons",
+     "icon": "dollar",
+     "x": 860,
+     "y": 380,
+     "size": 140,
+     "n": 4,
+     "line": 0,
+     "at": 0.55,
+     "gap": 30,
+     "dur": 1.0
+    },
+    {
+     "kind": "write",
+     "text": "돈을 가장 많이 벌어 준 장치",
+     "x": 860,
+     "y": 580,
+     "size": 92,
+     "color": "gold",
+     "line": 0,
+     "at": 0.68
+    },
+    {
+     "kind": "under",
+     "x0": 860,
+     "x1": 1800,
+     "y": 700,
+     "line": 0,
+     "at": 0.92,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
@@ -254,10 +503,8 @@
   },
   {
    "v": {
-    "type": "media",
-    "lib": "commons_barista_2.jpg",
-    "caption": "아침 7시 반, 미국 어느 스타벅스",
-    "caption_at": "0"
+    "type": "sketch",
+    "was_lib": "commons_barista_2.jpg"
    },
    "lines": [
     "미국 직장인은 출근길에 앱으로 미리 주문하고 매장에서는 컵만 들고 나갑니다.",
@@ -267,24 +514,101 @@
     "An American commuter orders ahead in the app and just grabs the cup at the store.",
     "When the balance runs low, the app reloads 25 dollars automatically."
    ],
-   "asof": false
+   "asof": false,
+   "sketch": [
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/commons_barista_2.jpg",
+     "x": 100,
+     "y": 110,
+     "w": 820,
+     "h": 560,
+     "rot": -2,
+     "line": 0,
+     "at": 0,
+     "cap": "아침 7시 반, 미국 어느 스타벅스"
+    },
+    {
+     "kind": "icons",
+     "icon": "phone",
+     "x": 1000,
+     "y": 140,
+     "size": 200,
+     "n": 1,
+     "line": 0,
+     "at": 0.15
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       1190,
+       240
+      ],
+      [
+       1400,
+       240
+      ]
+     ],
+     "line": 0,
+     "at": 0.35,
+     "color": "ink"
+    },
+    {
+     "kind": "icons",
+     "icon": "cup",
+     "x": 1420,
+     "y": 140,
+     "size": 200,
+     "n": 1,
+     "line": 0,
+     "at": 0.55
+    },
+    {
+     "kind": "write",
+     "text": "앱으로 미리 주문 → 컵만 들고",
+     "x": 980,
+     "y": 390,
+     "size": 72,
+     "color": "ink",
+     "line": 0,
+     "at": 0.62
+    },
+    {
+     "kind": "write",
+     "text": "잔액이 모자라면?",
+     "x": 980,
+     "y": 520,
+     "size": 84,
+     "color": "red",
+     "line": 1,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "+25달러 자동 충전",
+     "x": 980,
+     "y": 640,
+     "size": 100,
+     "color": "green",
+     "line": 1,
+     "at": 0.4
+    },
+    {
+     "kind": "under",
+     "x0": 980,
+     "x1": 1700,
+     "y": 770,
+     "line": 1,
+     "at": 0.8,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
-    "type": "media",
-    "lib": "phone_14669.mp4",
-    "chips": [
-     {
-      "v": "3,580만 명",
-      "l": "미국 리워드 활성 회원 (90일)",
-      "at": "0:3,580만"
-     },
-     {
-      "v": "59%",
-      "l": "매출 중 회원 결제 비중",
-      "at": "1:59"
-     }
-    ]
+    "type": "sketch",
+    "was_lib": "phone_14669.mp4"
    },
    "lines": [
     "이렇게 앱을 쓰는 미국 리워드 활성 회원은 3,580만 명입니다.",
@@ -295,24 +619,109 @@
     "They account for 59% of spending at U.S. company-operated stores. Six of every ten dollars come from members."
    ],
    "asof": false,
-   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 90일 활성 회원 3,580만 명 · 회원 결제 비중 59%"
+   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 90일 활성 회원 3,580만 명 · 회원 결제 비중 59%",
+   "sketch": [
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/phone_14669_a.jpg",
+     "x": 1220,
+     "y": 120,
+     "w": 600,
+     "h": 420,
+     "rot": 3,
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "print",
+     "text": "미국 리워드 활성 회원 (90일)",
+     "x": 120,
+     "y": 110,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "3,580만 명",
+     "x": 120,
+     "y": 170,
+     "size": 150,
+     "color": "red",
+     "line": 0,
+     "at": 0.45
+    },
+    {
+     "kind": "icons",
+     "icon": "person",
+     "x": 120,
+     "y": 410,
+     "size": 100,
+     "n": 8,
+     "line": 0,
+     "at": 0.55,
+     "gap": 18,
+     "dur": 1.0
+    },
+    {
+     "kind": "write",
+     "text": "매출의 59%",
+     "x": 120,
+     "y": 560,
+     "size": 110,
+     "color": "gold",
+     "line": 1,
+     "at": 0.08
+    },
+    {
+     "kind": "icons",
+     "icon": "dollar",
+     "x": 120,
+     "y": 720,
+     "size": 90,
+     "n": 10,
+     "line": 1,
+     "at": 0.45,
+     "gap": 14,
+     "hl": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "hlcolor": "gold",
+     "dur": 1.2
+    },
+    {
+     "kind": "write",
+     "text": "10달러 중 6달러",
+     "x": 1240,
+     "y": 690,
+     "size": 90,
+     "color": "ink",
+     "line": 1,
+     "at": 0.75
+    },
+    {
+     "kind": "circle",
+     "cx": 1460,
+     "cy": 750,
+     "rx": 260,
+     "ry": 70,
+     "line": 1,
+     "at": 0.95,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
-    "type": "media",
-    "lib": "phone_4919.mp4",
-    "chips": [
-     {
-      "v": "31억 달러",
-      "l": "석 달 충전액 (미국 직영점)",
-      "at": "0:31억"
-     },
-     {
-      "v": "≈ 4조 원",
-      "l": "원화 환산",
-      "at": "0:4조"
-     }
-    ]
+    "type": "sketch",
+    "was_lib": "phone_4919.mp4"
    },
    "lines": [
     "석 달 동안 카드와 앱에 새로 충전되는 돈만 31억 달러, 우리 돈 약 4조 원이에요.",
@@ -323,30 +732,121 @@
     "The money reaches Starbucks before the coffee is even made."
    ],
    "asof": false,
-   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 충전액 31억 1,500만 달러 (2026년 3~6월) · 원화는 1달러 1,324.2원 (10월 22일 종가)"
+   "src": "스타벅스 디지털 IR 대시보드 (FY2026 3분기, 미국 직영점) · 충전액 31억 1,500만 달러 (2026년 3~6월) · 원화는 1달러 1,324.2원 (10월 22일 종가)",
+   "sketch": [
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/phone_4919_a.jpg",
+     "x": 110,
+     "y": 120,
+     "w": 620,
+     "h": 440,
+     "rot": -3,
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "print",
+     "text": "석 달 충전액 (미국 직영점)",
+     "x": 820,
+     "y": 110,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "31억 달러",
+     "x": 820,
+     "y": 170,
+     "size": 160,
+     "color": "red",
+     "line": 0,
+     "at": 0.25
+    },
+    {
+     "kind": "write",
+     "text": "약 4조 원",
+     "x": 820,
+     "y": 390,
+     "size": 100,
+     "color": "ink",
+     "line": 0,
+     "at": 0.7
+    },
+    {
+     "kind": "icons",
+     "icon": "dollar",
+     "x": 150,
+     "y": 630,
+     "size": 150,
+     "n": 1,
+     "line": 1,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "① 돈 먼저",
+     "x": 320,
+     "y": 650,
+     "size": 90,
+     "color": "ink",
+     "line": 1,
+     "at": 0.1
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       700,
+       720
+      ],
+      [
+       960,
+       720
+      ]
+     ],
+     "line": 1,
+     "at": 0.3,
+     "color": "ink"
+    },
+    {
+     "kind": "icons",
+     "icon": "store",
+     "x": 990,
+     "y": 610,
+     "size": 170,
+     "n": 1,
+     "line": 1,
+     "at": 0.38
+    },
+    {
+     "kind": "write",
+     "text": "② 커피는 나중",
+     "x": 1190,
+     "y": 650,
+     "size": 90,
+     "color": "gold",
+     "line": 1,
+     "at": 0.62
+    },
+    {
+     "kind": "icons",
+     "icon": "cup",
+     "x": 1720,
+     "y": 630,
+     "size": 130,
+     "n": 1,
+     "line": 1,
+     "at": 0.72
+    }
+   ]
   },
   {
    "v": {
-    "type": "bars",
-    "title": "손님이 넣어 두고 아직 안 쓴 돈 (미국)",
-    "title_en": "Customer balances not yet spent",
-    "unit": "억 달러",
-    "items": [
-     [
-      "2025.9.28",
-      17.5,
-      "0:17억",
-      false,
-      "17.5억 달러"
-     ],
-     [
-      "2025.12.28\n연말 직후",
-      20.7,
-      "1:20억",
-      true,
-      "20.7억 달러"
-     ]
-    ]
+    "type": "sketch"
    },
    "lines": [
     "그렇게 손님들이 넣어 두고 아직 쓰지 않은 돈이, 미국에서만 약 17억 5천만 달러입니다. 우리 돈으로 2조 3천억 원이 넘어요.",
@@ -358,41 +858,129 @@
    ],
    "asof": false,
    "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 충전카드·리워드 별 잔액 17억 5,170만 달러 · 원화는 1달러 1,324.2원 (10월 22일 종가) · 스타벅스 FY2026 1분기 보고서 (10-Q, 2025년 12월 28일 기준) · 20억 7,330만 달러",
-   "pen": [
+   "sketch": [
     {
-     "at": "0:2조",
-     "shape": "write",
-     "text": "약 2조 3천억 원",
-     "pos": [
-      745,
-      440
+     "kind": "print",
+     "text": "손님이 넣어 두고 아직 안 쓴 돈 (미국)",
+     "x": 120,
+     "y": 90,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "icons",
+     "icon": "person",
+     "x": 120,
+     "y": 190,
+     "size": 110,
+     "n": 4,
+     "line": 0,
+     "at": 0.02,
+     "gap": 18,
+     "dur": 0.8
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       650,
+       250
+      ],
+      [
+       880,
+       250
+      ]
      ],
+     "line": 0,
+     "at": 0.2,
+     "color": "ink"
+    },
+    {
+     "kind": "icons",
+     "icon": "jar",
+     "x": 900,
+     "y": 150,
+     "size": 220,
+     "n": 1,
+     "line": 0,
+     "at": 0.25
+    },
+    {
+     "kind": "write",
+     "text": "아직 안 쓴 돈",
+     "x": 1150,
+     "y": 190,
      "size": 84,
-     "color": "golddark"
+     "color": "ink",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "bar",
+     "x": 260,
+     "base": 800,
+     "w": 200,
+     "hmax": 370,
+     "v": 17.5,
+     "vmax": 20.7,
+     "text": "17.5억 달러",
+     "label": "2025.9.28",
+     "color": "ink",
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "write",
+     "text": "약 2조 3천억 원",
+     "x": 480,
+     "y": 560,
+     "size": 80,
+     "color": "red",
+     "line": 0,
+     "at": 0.8
+    },
+    {
+     "kind": "icons",
+     "icon": "gift",
+     "x": 1380,
+     "y": 430,
+     "size": 170,
+     "n": 1,
+     "line": 1,
+     "at": 0.02
+    },
+    {
+     "kind": "bar",
+     "x": 1060,
+     "base": 800,
+     "w": 200,
+     "hmax": 370,
+     "v": 20.7,
+     "vmax": 20.7,
+     "text": "20.7억 달러",
+     "label": "연말 직후",
+     "color": "gold",
+     "line": 1,
+     "at": 0.25
+    },
+    {
+     "kind": "circle",
+     "cx": 1160,
+     "cy": 395,
+     "rx": 180,
+     "ry": 60,
+     "line": 1,
+     "at": 0.75,
+     "color": "red"
     }
    ]
   },
   {
    "v": {
-    "type": "card",
-    "kicker": "충전금 = 갚아야 할 돈",
-    "title": "손님에게 커피로 갚는 빚",
-    "title_en": "A liability repaid in coffee",
-    "at": "0",
-    "rows": [
-     [
-      "돈은 먼저 받음",
-      "0:먼저"
-     ],
-     [
-      "커피는 나중에 제공",
-      "0:나중"
-     ],
-     [
-      "이자 0원 · 만기 없음",
-      "1:이자"
-     ]
-    ]
+    "type": "sketch"
    },
    "lines": [
     "회계로 보면 이 충전금은 스타벅스가 손님에게 커피로 갚아야 할 빚입니다. 돈은 먼저 받고 커피는 나중에 내주니까요.",
@@ -403,14 +991,156 @@
     "But this debt carries no interest and no due date. If a bank offered me those terms, I'd borrow today."
    ],
    "asof": false,
-   "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 충전카드 잔액은 부채(이연수익)로 기록"
+   "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 충전카드 잔액은 부채(이연수익)로 기록",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "충전금 = 커피로 갚는 빚",
+     "x": 120,
+     "y": 90,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "icons",
+     "icon": "person",
+     "x": 180,
+     "y": 250,
+     "size": 220,
+     "n": 1,
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "손님",
+     "x": 210,
+     "y": 500,
+     "size": 80,
+     "color": "ink",
+     "line": 0,
+     "at": 0.08
+    },
+    {
+     "kind": "icons",
+     "icon": "store",
+     "x": 1460,
+     "y": 230,
+     "size": 260,
+     "n": 1,
+     "line": 0,
+     "at": 0.12
+    },
+    {
+     "kind": "write",
+     "text": "스타벅스",
+     "x": 1450,
+     "y": 500,
+     "size": 80,
+     "color": "ink",
+     "line": 0,
+     "at": 0.15
+    },
+    {
+     "kind": "write",
+     "text": "① 돈은 먼저",
+     "x": 720,
+     "y": 170,
+     "size": 80,
+     "color": "gold",
+     "line": 0,
+     "at": 0.55
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       460,
+       320
+      ],
+      [
+       1400,
+       320
+      ]
+     ],
+     "line": 0,
+     "at": 0.58,
+     "color": "gold"
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       1400,
+       470
+      ],
+      [
+       460,
+       470
+      ]
+     ],
+     "line": 0,
+     "at": 0.8,
+     "color": "blue"
+    },
+    {
+     "kind": "write",
+     "text": "② 커피는 나중에",
+     "x": 720,
+     "y": 500,
+     "size": 80,
+     "color": "blue",
+     "line": 0,
+     "at": 0.83
+    },
+    {
+     "kind": "write",
+     "text": "이자 0원",
+     "x": 200,
+     "y": 670,
+     "size": 110,
+     "color": "red",
+     "line": 1,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "만기 없음",
+     "x": 640,
+     "y": 670,
+     "size": 110,
+     "color": "red",
+     "line": 1,
+     "at": 0.22
+    },
+    {
+     "kind": "icons",
+     "icon": "bank",
+     "x": 1180,
+     "y": 650,
+     "size": 150,
+     "n": 1,
+     "line": 1,
+     "at": 0.55
+    },
+    {
+     "kind": "write",
+     "text": "은행 대출엔 없는 조건",
+     "x": 1350,
+     "y": 690,
+     "size": 66,
+     "color": "ink",
+     "line": 1,
+     "at": 0.6
+    }
+   ]
   },
   {
    "v": {
-    "type": "question",
-    "text": "17억 달러, 이자로 얼마를 벌까?",
-    "backdrop": "commons_barista_1.jpg",
-    "bd_dim": 0.64
+    "type": "sketch"
    },
    "lines": [
     "그럼 스타벅스는 이 돈을 굴려서 이자로 큰돈을 벌까요? 답은, 생각보다 작습니다."
@@ -418,33 +1148,100 @@
    "en": [
     "So does Starbucks earn big interest on this money? The answer is smaller than you'd think."
    ],
-   "asof": false
+   "asof": false,
+   "sketch": [
+    {
+     "kind": "icons",
+     "icon": "jar",
+     "x": 200,
+     "y": 240,
+     "size": 280,
+     "n": 1,
+     "line": 0,
+     "at": 0.02
+    },
+    {
+     "kind": "write",
+     "text": "17억 달러",
+     "x": 160,
+     "y": 560,
+     "size": 90,
+     "color": "ink",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       560,
+       390
+      ],
+      [
+       900,
+       390
+      ]
+     ],
+     "line": 0,
+     "at": 0.28,
+     "color": "ink"
+    },
+    {
+     "kind": "write",
+     "text": "굴리면?",
+     "x": 620,
+     "y": 250,
+     "size": 80,
+     "color": "ink",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "icons",
+     "icon": "dollar",
+     "x": 960,
+     "y": 330,
+     "size": 120,
+     "n": 3,
+     "line": 0,
+     "at": 0.4,
+     "gap": 20,
+     "dur": 0.6
+    },
+    {
+     "kind": "write",
+     "text": "?",
+     "x": 1500,
+     "y": 200,
+     "size": 280,
+     "color": "red",
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "write",
+     "text": "답: 생각보다 작다",
+     "x": 900,
+     "y": 600,
+     "size": 110,
+     "color": "gold",
+     "line": 0,
+     "at": 0.75
+    },
+    {
+     "kind": "under",
+     "x0": 900,
+     "x1": 1700,
+     "y": 740,
+     "line": 0,
+     "at": 0.92,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
-    "type": "hbars",
-    "title": "FY2025 · 스타벅스가 1년에 번 돈",
-    "title_en": "Fiscal 2025, in U.S. dollars",
-    "items": [
-     [
-      "커피를 팔아 남긴 돈 (영업이익)",
-      2936.6,
-      "0:29억",
-      "29억 4천만 달러"
-     ],
-     [
-      "이자·기타 수익 (현금 전체)",
-      113.3,
-      "1:1억",
-      "1억 1천만 달러"
-     ]
-    ],
-    "hl": [
-     {
-      "at": "1:4%",
-      "i": 1
-     }
-    ]
+    "type": "sketch"
    },
    "lines": [
     "스타벅스의 2025 회계연도, 그러니까 2025년 9월까지 1년 동안 커피를 팔아 남긴 돈은 29억 4천만 달러입니다.",
@@ -458,58 +1255,129 @@
    ],
    "asof": false,
    "src": "스타벅스 FY2025 실적 발표 (2025년 10월 29일) · 영업이익 29억 3,660만 달러 · 이자·기타 수익 1억 1,330만 달러",
-   "pen": [
+   "sketch": [
     {
-     "at": "1:4%",
-     "shape": "underline",
-     "box": [
-      610,
-      448,
-      941,
-      496
-     ]
+     "kind": "print",
+     "text": "FY2025 · 스타벅스가 1년에 번 돈",
+     "x": 120,
+     "y": 90,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
     },
     {
-     "at": "1:4%",
-     "shape": "write",
-     "text": "커피 이익의 약 4%",
-     "pos": [
-      640,
-      600
-     ],
-     "size": 96,
-     "color": "golddark"
+     "kind": "icons",
+     "icon": "cup",
+     "x": 120,
+     "y": 200,
+     "size": 120,
+     "n": 1,
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "커피를 팔아 남긴 돈",
+     "x": 280,
+     "y": 210,
+     "size": 72,
+     "color": "ink",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "hbar",
+     "x": 300,
+     "y": 320,
+     "h": 66,
+     "wmax": 1150,
+     "v": 2936.6,
+     "vmax": 2936.6,
+     "text": "29억 4천만 달러",
+     "color": "ink",
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "icons",
+     "icon": "dollar",
+     "x": 120,
+     "y": 450,
+     "size": 120,
+     "n": 1,
+     "line": 1,
+     "at": 0.02
+    },
+    {
+     "kind": "write",
+     "text": "이자·기타 수익",
+     "x": 280,
+     "y": 460,
+     "size": 72,
+     "color": "ink",
+     "line": 1,
+     "at": 0.08
+    },
+    {
+     "kind": "hbar",
+     "x": 300,
+     "y": 570,
+     "h": 66,
+     "wmax": 1150,
+     "v": 113.3,
+     "vmax": 2936.6,
+     "text": "1억 1천만 달러",
+     "color": "gold",
+     "line": 1,
+     "at": 0.35
+    },
+    {
+     "kind": "write",
+     "text": "= 커피 이익의 약 4%",
+     "x": 300,
+     "y": 670,
+     "size": 92,
+     "color": "red",
+     "line": 1,
+     "at": 0.75
+    },
+    {
+     "kind": "icons",
+     "icon": "person",
+     "x": 1300,
+     "y": 640,
+     "size": 120,
+     "n": 1,
+     "line": 2,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "언제든 꺼내 쓰는 돈",
+     "x": 1440,
+     "y": 650,
+     "size": 62,
+     "color": "ink",
+     "line": 2,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "→ 오래 묶어 두기 어렵다",
+     "x": 1300,
+     "y": 770,
+     "size": 62,
+     "color": "red",
+     "line": 2,
+     "at": 0.6
     }
    ]
   },
   {
    "v": {
-    "type": "bars",
-    "title": "스타벅스 낙전 수익 · 1년",
-    "title_en": "Breakage revenue per year",
-    "unit": "백만 달러",
-    "items": [
-     [
-      "FY2024",
-      207.6,
-      "0:2억 2,240만",
-      false,
-      "2억 760만"
-     ],
-     [
-      "FY2025",
-      222.4,
-      "0:2억 2,240만",
-      true,
-      "2억 2,240만"
-     ]
-    ],
-    "hl": [
-     {
-      "at": "1:이자",
-      "i": 1
-     }
-    ]
+    "type": "sketch"
    },
    "lines": [
     "장부에는 이자보다 큰 수익이 한 줄 더 있습니다. 끝내 쓰이지 않을 잔액을 추정해서 매출로 잡는 낙전 수익인데, 2025 회계연도에 2억 2,240만 달러였어요.",
@@ -523,26 +1391,141 @@
    ],
    "asof": false,
    "src": "스타벅스 FY2025 연차보고서 (10-K, 2025년 9월 28일 기준) · 낙전 2억 2,240만 달러 (직영 2억 40만 + 라이선스 2,200만), 전년 2억 760만 달러 · 원화는 1달러 1,324.2원 (10월 22일 종가)",
-   "pen": [
+   "sketch": [
     {
-     "at": "1:두 배",
-     "shape": "write",
-     "text": "이자의 2배",
-     "pos": [
-      790,
-      430
+     "kind": "print",
+     "text": "스타벅스 낙전 수익 · 1년",
+     "x": 120,
+     "y": 90,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "icons",
+     "icon": "ledger",
+     "x": 130,
+     "y": 180,
+     "size": 180,
+     "n": 1,
+     "line": 0,
+     "at": 0.02
+    },
+    {
+     "kind": "write",
+     "text": "장부에 한 줄 더",
+     "x": 340,
+     "y": 210,
+     "size": 80,
+     "color": "ink",
+     "line": 0,
+     "at": 0.08
+    },
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/commons_giftcard_1.jpg",
+     "x": 130,
+     "y": 400,
+     "w": 420,
+     "h": 290,
+     "rot": -3,
+     "line": 0,
+     "at": 0.35
+    },
+    {
+     "kind": "write",
+     "text": "끝내 안 쓰일 잔액",
+     "x": 600,
+     "y": 420,
+     "size": 72,
+     "color": "ink",
+     "line": 0,
+     "at": 0.4
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       1180,
+       460
+      ],
+      [
+       1340,
+       460
+      ]
      ],
-     "size": 96,
-     "color": "golddark"
+     "line": 0,
+     "at": 0.55,
+     "color": "ink"
+    },
+    {
+     "kind": "write",
+     "text": "= 매출",
+     "x": 1360,
+     "y": 420,
+     "size": 80,
+     "color": "gold",
+     "line": 0,
+     "at": 0.58
+    },
+    {
+     "kind": "write",
+     "text": "2억 2,240만 달러",
+     "x": 600,
+     "y": 540,
+     "size": 110,
+     "color": "red",
+     "line": 0,
+     "at": 0.85
+    },
+    {
+     "kind": "icons",
+     "icon": "drawer",
+     "x": 1300,
+     "y": 580,
+     "size": 150,
+     "n": 1,
+     "line": 1,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "서랍 속 잊힌 카드",
+     "x": 1470,
+     "y": 600,
+     "size": 58,
+     "color": "ink",
+     "line": 1,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "이자의 약 2배",
+     "x": 1300,
+     "y": 720,
+     "size": 84,
+     "color": "gold",
+     "line": 1,
+     "at": 0.4
+    },
+    {
+     "kind": "write",
+     "text": "그래도 커피 이익의 8% 미만",
+     "x": 600,
+     "y": 770,
+     "size": 80,
+     "color": "red",
+     "line": 2,
+     "at": 0.1
     }
    ]
   },
   {
    "v": {
-    "type": "media",
-    "lib": "commons_cafequeue_2.jpg",
-    "caption": "앱에 12달러가 남아 있다면?",
-    "caption_at": "1"
+    "type": "sketch",
+    "was_lib": "commons_cafequeue_2.jpg"
    },
    "lines": [
     "첫 번째로 말씀드린 충전금의 정체는, 이자를 버는 돈이 아니라 손님을 다시 오게 만드는 돈입니다.",
@@ -554,7 +1537,134 @@
     "With 12 dollars left in the app, it's hard to try another cafe tomorrow morning. That's called lock-in.",
     "The problem is, the app worked too well."
    ],
-   "asof": false
+   "asof": false,
+   "sketch": [
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/commons_cafequeue_2.jpg",
+     "x": 1200,
+     "y": 110,
+     "w": 620,
+     "h": 430,
+     "rot": 2,
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "write",
+     "text": "충전금의 정체",
+     "x": 120,
+     "y": 90,
+     "size": 90,
+     "color": "ink",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "이자 버는 돈",
+     "x": 120,
+     "y": 230,
+     "size": 84,
+     "color": "gray",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "cross",
+     "x0": 110,
+     "y0": 250,
+     "x1": 560,
+     "y1": 320,
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "write",
+     "text": "손님을 다시 오게 하는 돈",
+     "x": 120,
+     "y": 350,
+     "size": 96,
+     "color": "gold",
+     "line": 0,
+     "at": 0.62
+    },
+    {
+     "kind": "under",
+     "x0": 120,
+     "x1": 1080,
+     "y": 470,
+     "line": 0,
+     "at": 0.9,
+     "color": "gold"
+    },
+    {
+     "kind": "icons",
+     "icon": "phone",
+     "x": 120,
+     "y": 540,
+     "size": 170,
+     "n": 1,
+     "line": 1,
+     "at": 0.02
+    },
+    {
+     "kind": "write",
+     "text": "12달러 남음",
+     "x": 300,
+     "y": 560,
+     "size": 84,
+     "color": "red",
+     "line": 1,
+     "at": 0.1
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       640,
+       620
+      ],
+      [
+       900,
+       620
+      ]
+     ],
+     "line": 1,
+     "at": 0.4,
+     "color": "ink"
+    },
+    {
+     "kind": "write",
+     "text": "내일도 스타벅스",
+     "x": 920,
+     "y": 560,
+     "size": 84,
+     "color": "ink",
+     "line": 1,
+     "at": 0.45
+    },
+    {
+     "kind": "write",
+     "text": "= 락인 효과",
+     "x": 920,
+     "y": 680,
+     "size": 100,
+     "color": "gold",
+     "line": 1,
+     "at": 0.8
+    },
+    {
+     "kind": "write",
+     "text": "그런데 문제는…",
+     "x": 120,
+     "y": 770,
+     "size": 96,
+     "color": "red",
+     "line": 2,
+     "at": 0.1
+    }
+   ]
   },
   {
    "v": {
