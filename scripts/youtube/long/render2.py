@@ -1287,7 +1287,7 @@ def make_thumb(spec, V, out):
 
 # ── 취재 노트 (원고 "world": "notebook", 2026-10-27 운영자: "롱폼도 하나의 큰 노트로 만들어도 될 것 같다", "우리만의 포맷") ──
 NB_REVEAL = 1.9   # 오프닝 마지막 장면 끝에서 카메라가 뒤로 빠지며 노트가 드러나는 시간
-NB_FLIP = 1.0     # 장이 바뀔 때 페이지가 넘어가는 시간
+NB_FLIP = 1.4     # 장이 바뀔 때 페이지가 넘어가는 시간
 NB_MOVE = .85     # 같은 장 안에서 다음 장면으로 카메라가 옮겨 가는 시간
 
 
@@ -1346,14 +1346,14 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             else:
                 amt = 0.0
                 if I["flip"]:
-                    span = NB_FLIP + .5; p = u / span
-                    mid = NBK.wide_pose(nb, base_pose); mid["dist"] = base_pose["dist"] * 1.18; mid["pitch"] = 70
+                    span = NB_FLIP + .6; p = u / span   # 카메라가 뒤로 빠져 넘어가는 페이지 전체를 보여 준 뒤 새 페이지로 내려앉는다
+                    mid = NBK.wide_pose(nb, base_pose); mid["dist"] = base_pose["dist"] * 1.5; mid["pitch"] = 60; mid["tz"] = base_pose["tz"] + .06
                     pose = dr if p >= 1 else (NBK.mix_pose(start_pose, mid, NBK.eio(p * 2)) if p < .5 else NBK.mix_pose(mid, dr, NBK.eio(p * 2 - 1)))
                 else:
                     pose = NBK.mix_pose(start_pose, dr, NBK.eio(u / NB_MOVE)) if u < NB_MOVE else dr
             flip = None
             if I["flip"] and prev_tex is not None and u < NB_FLIP:
-                flip = (math.pi * NBK.eio(u / NB_FLIP) ** 1.1, prev_tex)
+                flip = (math.pi * NBK.eio(clamp((u - .1) / NB_FLIP)), prev_tex)
             fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al)
             # 3) 오프닝 다큐 효과
             if amt > 0:

@@ -253,9 +253,10 @@ class Notebook:
             x0, x1, y = cx - tw / 2 - 10, cx - tw / 2 - 10 + (tw + 30) * eio(q), cy + f.size * .52
             pts = [(x0 + (x1 - x0) * k / 40, y + 5 * math.sin(k / 40 * math.pi) - 4 * k / 40) for k in range(41)]
             d.line(pts, fill=(*PEN, 240), width=10, joint="curve")
-        if sub:
-            a = clamp((u - write_t0 - write_dur - .2) / .4)
-            d.text((cx, cy + f.size * .52 + 70), sub, font=font("SemiBold", 44), fill=(110, 118, 134, int(255 * a)), anchor="mm")
+        a = clamp((u - write_t0 - write_dur - .2) / .4)
+        if sub and a > 0:   # 장 제목을 다 쓴 뒤에 부제가 떠오른다 (PIL 은 투명도 0 글자도 그리므로 따로 겹친다)
+            lay = Image.new("L", im.size, 0); ImageDraw.Draw(lay).text((cx, cy + f.size * .52 + 70), sub, font=font("SemiBold", 44), fill=int(255 * a), anchor="mm")
+            im.paste((110, 118, 134), (0, 0), lay)
         t = np.asarray(im).copy(); self._header(t, "")
         tip = None
         if 0 < p < 1: tip = (cx - layer.width / 2 + layer.width * p, cy + f.size * (.1 + .25 * math.sin(u * 38)))
@@ -404,7 +405,7 @@ def letterbox(img, amt):
 def stamp(pil, lines, u, t0=.6, cps=16):
     """타자기 자막: 첫 줄(영문, 고정폭) · 둘째 줄(명조). 한 글자씩 찍히고 커서가 깜빡인다"""
     if not lines: return []
-    d = ImageDraw.Draw(pil, "RGBA"); x, y = 150, 200; ticks = []
+    d = ImageDraw.Draw(pil, "RGBA"); x, y = 150, H - 131 - 230; ticks = []   # 아래 띠 위, 자막보다 위 (위쪽 장면 제목과 겹치지 않게)
     l1 = lines[0]; l2 = lines[1] if len(lines) > 1 else ""
     n1 = int(clamp((u - t0) * cps / max(1, len(l1))) * len(l1)); t2 = t0 + len(l1) / cps + .25
     n2 = int(clamp((u - t2) * cps / max(1, len(l2) or 1)) * len(l2)) if l2 else 0
