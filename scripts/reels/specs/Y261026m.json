@@ -1,0 +1,292 @@
+{
+ "id": "Y261026m",
+ "platform": "youtube",
+ "approved": false,
+ "world": "popup",
+ "style": "clean",
+ "allow_long": true,
+ "end": "subscribe",
+ "mood": "tense",
+ "threads_tag": "주식",
+ "broll": "datacenter",
+ "cover": 0,
+ "cover_style": "title",
+ "cover_title": "마이크로소프트\n주문 45%가\n한 회사였다?",
+ "title": "마이크로소프트 주문 45%가 한 회사에서 나왔다? #마이크로소프트",
+ "title_en": "45% of Microsoft's orders came from one company? #Microsoft",
+ "scheduled_at": "2026-10-26T22:00:00+09:00",
+ "banner": [
+  "마이크로소프트 주문 45%가",
+  "한 회사에서 나왔다?"
+ ],
+ "hashtags": [
+  "마이크로소프트",
+  "오픈AI",
+  "미국주식",
+  "워렌버핏",
+  "밸류노트",
+  "shorts"
+ ],
+ "caption": "2025년 12월 말 마이크로소프트가 받아 둔 주문 6,250억 달러 가운데 약 45%가 챗GPT를 만든 오픈AI 한 곳이었습니다. 오픈AI가 더 사기로 한 클라우드 2,500억 달러는 오픈AI 1년 매출의 10배 안팎입니다.\n\n그래도 오픈AI를 빼면 주문은 1년 새 25% 늘었습니다.\n\n벤저민 그레이엄과 워렌 버핏의 기준(여러 해 평균 이익)으로 계산한 적정 주가는 약 376달러, 10월 24일 주가 약 525달러는 그 1.4배쯤입니다.\n\n이번 실적에서 볼 숫자: 오픈AI를 뺀 주문 증가율(지난번 25%). 매수·매도 권유가 아닙니다.",
+ "subs_en": [
+  "Microsoft's order backlog: 45% came from OpenAI alone",
+  "Microsoft sells Windows, Excel and cloud services",
+  "Contracted future revenue was $625 billion",
+  "If you own a US index ETF, you already own Microsoft",
+  "OpenAI promised to buy $250 billion more cloud",
+  "That's about 10x OpenAI's annual revenue",
+  "OpenAI has to earn more or raise money to pay it",
+  "Microsoft spends 60% of its cash on data centers first",
+  "If OpenAI falls behind, only the buildings may remain",
+  "Excluding OpenAI, orders still grew 25% in a year",
+  "By Graham and Buffett's standards, fair value is about $376",
+  "The current ~$525 is about 1.4x that",
+  "If OpenAI grows as promised, this estimate is too low",
+  "This earnings report, watch orders excluding OpenAI",
+  "Will orders excluding OpenAI hold 25% again?",
+  "Want more like this? Subscribe and like"
+ ],
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "마이크로소프트가 받아 둔 주문,\n45%가 한 회사였다?",
+   "num": {
+    "to": 45,
+    "fmt": "int",
+    "suffix": "%"
+   },
+   "tone": "gold",
+   "label": "챗GPT를 만든 오픈AI · 2025년 12월 말",
+   "lines": [
+    {
+     "cap": [
+      "마이크로소프트가 받아 둔 주문,",
+      "45%는 오픈AI 한 곳이었습니다"
+     ],
+     "say": "마이크로소프트가 받아 둔 주문, 사십오 퍼센트는 오픈 에이아이 한 곳이었습니다."
+    },
+    {
+     "cap": [
+      "마이크로소프트는 윈도와 엑셀,",
+      "클라우드를 파는 회사입니다"
+     ],
+     "say": "마이크로소프트는 윈도와 엑셀, 클라우드를 파는 회사입니다."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "마이크로소프트가 받아 둔 주문 · 2025년 12월 말",
+   "l": {
+    "label": "앞으로 받기로 계약된 돈",
+    "v": "6,250억 달러",
+    "sub": "1년 전의 2.1배",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "그중 오픈AI",
+    "v": "약 45%",
+    "sub": "한 고객",
+    "tone": "gold"
+   },
+   "lines": [
+    {
+     "cap": [
+      "이 회사가 받기로 계약한 돈은",
+      "6,250억 달러였습니다"
+     ],
+     "say": "이 회사가 받기로 계약한 돈은, 육천이백오십억 달러였습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "미국 지수 ETF를 가졌다면",
+   "l2": "이미 들고 있는 회사",
+   "tone": "ivory",
+   "note": "미국 대표 지수에서 마이크로소프트는 가장 큰 회사 가운데 하나입니다",
+   "lines": [
+    {
+     "cap": [
+      "미국 지수 ETF를 가졌다면",
+      "마이크로소프트도 이미 가진 겁니다"
+     ],
+     "say": "미국 지수 이티에프를 가졌다면, 마이크로소프트도 이미 가진 겁니다."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "오픈AI가 한 약속",
+   "l": {
+    "label": "오픈AI 1년 매출 규모",
+    "v": "200억 달러+",
+    "sub": "2025년 · 오픈AI 발표",
+    "tone": "gray"
+   },
+   "r": {
+    "label": "클라우드를 더 사기로 한 돈",
+    "v": "2,500억 달러",
+    "sub": "2025년 10월 계약 · 여러 해",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "오픈AI는 클라우드를 더 사기로",
+      "2,500억 달러를 약속했습니다"
+     ],
+     "say": "오픈 에이아이는 클라우드를 더 사기로, 이천오백억 달러를 약속했습니다."
+    },
+    {
+     "cap": [
+      "이 돈은 오픈AI",
+      "1년 매출의 10배 안팎입니다"
+     ],
+     "say": "이 돈은 오픈 에이아이, 일 년 매출의 열 배 안팎입니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "이 약속을 지키려면",
+   "l2": "더 벌거나, 투자받거나",
+   "tone": "loss",
+   "note": "계약 기간은 공개되지 않았습니다 · 여러 해에 나눠 쓰는 돈",
+   "lines": [
+    {
+     "cap": [
+      "오픈AI는 이 돈을 더 벌거나",
+      "투자를 받아서 내야 합니다"
+     ],
+     "say": "오픈 에이아이는 이 돈을 더 벌거나, 투자를 받아서 내야 합니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "주문을 채우려면",
+   "l2": "데이터센터가 먼저",
+   "tone": "loss",
+   "note": "번 현금 1,829억 달러 중 약 63%(1,159억 달러)를 설비에 · 2026 회계연도",
+   "lines": [
+    {
+     "cap": [
+      "마이크로소프트는 번 현금의 60%를",
+      "데이터센터에 먼저 씁니다"
+     ],
+     "say": "마이크로소프트는 번 현금의 육십 퍼센트를, 데이터센터에 먼저 씁니다."
+    },
+    {
+     "cap": [
+      "오픈AI가 늦어지면",
+      "건물만 남을 수 있습니다"
+     ],
+     "say": "오픈 에이아이가 늦어지면, 건물만 남을 수 있습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "그런데 오픈AI를 빼도",
+   "l2": "주문은 1년 새 +25%",
+   "tone": "good",
+   "note": "2026년 6월 말 기준 · 7월 29일 실적 발표",
+   "lines": [
+    {
+     "cap": [
+      "그런데 오픈AI를 빼고도",
+      "주문은 1년 새 25% 늘었습니다"
+     ],
+     "say": "그런데 오픈AI를 빼고도, 주문은 일 년 새 이십오 퍼센트 늘었습니다."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "벤저민 그레이엄·워렌 버핏 기준",
+   "l": {
+    "label": "적정 주가",
+    "v": "약 376달러",
+    "sub": "여러 해 평균 이익으로 계산",
+    "tone": "gold"
+   },
+   "r": {
+    "label": "지금 주가",
+    "v": "약 525달러",
+    "sub": "10월 24일 · 약 1.4배",
+    "tone": "gray"
+   },
+   "lines": [
+    {
+     "cap": [
+      "벤저민 그레이엄과 워렌 버핏 기준으로",
+      "재무를 평가하면 적정 주가는 약 376달러"
+     ],
+     "say": "벤저민 그레이엄과 워렌 버핏의 기준으로 재무를 평가해 계산하면, 마이크로소프트 적정 주가는 약 삼백칠십육 달러가 나옵니다."
+    },
+    {
+     "cap": [
+      "지금 주가 약 525달러는",
+      "그 1.4배쯤입니다"
+     ],
+     "say": "지금 주가 약 오백이십오 달러는, 그 일 점 사 배쯤입니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "오픈AI가 약속대로 크면",
+   "l2": "이 계산은 너무 낮다",
+   "tone": "ivory",
+   "note": "과거 평균 이익은 앞으로의 성장을 다 담지 못합니다",
+   "lines": [
+    {
+     "cap": [
+      "오픈AI가 약속대로 커지면",
+      "이 계산은 너무 낮게 나옵니다"
+     ],
+     "say": "오픈 에이아이가 약속대로 커지면, 이 계산은 너무 낮게 나옵니다."
+    }
+   ]
+  },
+  {
+   "type": "list",
+   "title": "이번 주 수요일 실적에서 볼 숫자",
+   "items": [
+    "오픈AI를 뺀 주문 증가율 (지난번 25%)",
+    "밝히지 않으면: 전체 주문과 오픈AI 비중"
+   ],
+   "lines": [
+    {
+     "cap": [
+      "이번 실적에서는 오픈AI를 뺀",
+      "주문이 얼마나 늘었는지 보세요"
+     ],
+     "say": "이번 실적에서는, 오픈 에이아이를 뺀 주문이 얼마나 늘었는지 보세요."
+    },
+    {
+     "cap": [
+      "오픈AI를 뺀 주문,",
+      "이번에도 25%를 지킬까요?"
+     ],
+     "say": "오픈 에이아이를 뺀 주문, 이번에도 이십오 퍼센트를 지킬까요?"
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "이런 정보를 계속 알고 싶다면",
+   "l2": "구독과 좋아요",
+   "lines": [
+    {
+     "cap": [
+      "이런 정보를 계속 알고 싶으시면",
+      "구독과 좋아요 눌러 주세요"
+     ],
+     "say": "이런 정보를 계속 알고 싶으시면, 구독과 좋아요 눌러 주세요."
+    }
+   ]
+  }
+ ]
+}

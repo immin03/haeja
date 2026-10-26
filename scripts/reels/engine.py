@@ -82,6 +82,8 @@ def cta_lines(spec, sc, lines):
         sc["_follow"] = "yt" if yt else True
         # 끝맺음은 한 번만 (2026-10-26 운영자: "유튜브 밸류노트에서 확인하세요를 불필요하게 여러 번 반복한다, 마지막은 간단하게 하고 끝내자")
         lines = list(lines); ptr = [l for l in lines if _points_yt(l)]
+        if yt and spec.get("end") == "subscribe":   # 롱폼 없는 단일 쇼츠는 구독·좋아요로 마무리 (2026-10-26 운영자) — 장면 문장 그대로, 링크 안내 없음
+            sc["_follow"] = "sub"; return lines
         if yt:
             if ptr: return lines   # 장면이 이미 유튜브 풀영상을 가리키면 안내 문장을 더 붙이지 않는다 (화면의 '풀버전 보기' 버튼은 그대로)
             return lines + [{"cap": spec.get("full_cap", ["풀버전은 화면 아래 링크에서"]), "say": spec.get("full_say", "풀버전은 화면 아래 링크에서 보세요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
@@ -515,7 +517,7 @@ def s_cta(img, u, sc, L, T):
                 d.rounded_rectangle([cx - bw / 2 - g, cy - bh / 2 - g, cx + bw / 2 + g, cy + bh / 2 + g], 76, outline=mix(NAVY, GOLD_D, .6 - pulse * .4), width=3)
             d.rounded_rectangle([cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2], 66, fill=mix(NAVY, GOLD, pb))
             yt = sc.get("_follow") == "yt"
-            t1 = "▶  풀버전 보기" if yt else "+ 밸류노트 팔로우"
+            t1 = "▶  풀버전 보기" if yt else ("구독 · 좋아요" if sc.get("_follow") == "sub" else "+ 밸류노트 팔로우")
             if yt:
                 t1 = "풀버전 보기"; tx0 = cx + 24 - d.textlength(t1, font=fit_font(t1, "ExtraBold", 58, bw - 160)) / 2 - 62
                 d.polygon([(tx0, cy - 22), (tx0, cy + 22), (tx0 + 36, cy)], fill=mix(GOLD, NAVY, pb))
@@ -524,7 +526,7 @@ def s_cta(img, u, sc, L, T):
                 for k in range(3):
                     ph_ = ((u - tb) * 1.6 + k / 3) % 1; ay = (1440 + ph_ * 120) if YT else (1310 + ph_ * 220); aa = math.sin(ph_ * math.pi)
                     ImageDraw.Draw(img).line([(W / 2 - 46, ay), (W / 2, ay + 40), (W / 2 + 46, ay)], fill=mix(NAVY, GOLD, aa), width=10, joint="curve")
-            if pb > .6 and not yt and not YT:
+            if pb > .6 and not yt and not YT and sc.get("_follow") != "sub":
                 t2 = "매일 조금 더 현명한 투자 습관"
                 appear(img, u, tb + .25, t2, fit_font(t2, "SemiBold", 38, 960), (196, 204, 220), (W / 2, 1300), dur=.4, rise=20)
         return img
