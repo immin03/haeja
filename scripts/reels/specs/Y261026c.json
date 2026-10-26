@@ -361,13 +361,6 @@
     "head": "그럼 지금 가격은?",
     "beats": [
      {
-      "kind": "pop",
-      "src": "scripts/blog/media/lib/commons_wafer_2.jpg",
-      "cap": "반도체 공장 클린룸",
-      "line": 0,
-      "at": 0
-     },
-     {
       "kind": "write",
       "rows": [
        "21만 원대,",
@@ -378,7 +371,18 @@
       "size": 118,
       "line": 0,
       "at": 0.05,
-      "dur": 0.6
+      "dur": 1.0
+     },
+     {
+      "kind": "print",
+      "text": "지금 21만 5천 원 · 6월 최고가보다 -42%",
+      "x": 84,
+      "y": 470,
+      "size": 34,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.75
      },
      {
       "kind": "write",
@@ -415,14 +419,41 @@
      },
      {
       "kind": "write",
-      "text": "?   ?   ?",
-      "x": 150,
-      "y": 820,
-      "size": 120,
+      "text": "?",
+      "x": 185,
+      "y": 812,
+      "size": 116,
       "color": "gold",
+      "anchor": "m",
       "line": 1,
       "at": 0.8,
-      "dur": 0.5,
+      "dur": 0.25,
+      "over": true
+     },
+     {
+      "kind": "write",
+      "text": "?",
+      "x": 445,
+      "y": 812,
+      "size": 116,
+      "color": "gold",
+      "anchor": "m",
+      "line": 1,
+      "at": 0.87,
+      "dur": 0.25,
+      "over": true
+     },
+     {
+      "kind": "write",
+      "text": "?",
+      "x": 705,
+      "y": 812,
+      "size": 116,
+      "color": "gold",
+      "anchor": "m",
+      "line": 1,
+      "at": 0.94,
+      "dur": 0.25,
       "over": true
      }
     ]

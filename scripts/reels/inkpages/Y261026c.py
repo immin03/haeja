@@ -26,12 +26,15 @@ p1 = {"type": "hook", "lines": old[0]["lines"] + old[1]["lines"] + old[2]["lines
 ]}}
 # ── 2. 버틸 수 있을까?
 p2 = {"type": "statement", "l1": old[3].get("l1", ""), "l2": old[3].get("l2", ""), "lines": old[3]["lines"], "page": {"head": "그럼 지금 가격은?", "beats": [
-    dict(kind="pop", src=LIB + "commons_wafer_2.jpg", cap="반도체 공장 클린룸", line=0, at=0),
-    dict(kind="write", rows=["21만 원대,", "버틸 수 있을까?"], x=80, y=200, size=118, line=0, at=.05, dur=.6),
+    dict(kind="write", rows=["21만 원대,", "버틸 수 있을까?"], x=80, y=200, size=118, line=0, at=.05, dur=1.0),
+    dict(kind="print", text="지금 21만 5천 원 · 6월 최고가보다 -42%", x=84, y=470, size=34, w="Bold", color="gray", line=0, at=.75),
     dict(kind="write", text="10월 29일 실적", x=80, y=560, size=104, color="red", line=1, at=.05),
     dict(kind="circle", cx=360, cy=620, rx=330, ry=95, color="red", line=1, at=.4),
     dict(kind="icons", icon="box", n=3, x=110, y=800, size=150, gap=110, color="ink", line=1, at=.55, dur=.6),
-    dict(kind="write", text="?   ?   ?", x=150, y=820, size=120, color="gold", line=1, at=.8, dur=.5, over=True),
+    # 물음표는 칸마다 가운데에 하나씩 (2026-10-27 운영자: 칸이 안 맞게 그려졌다)
+    dict(kind="write", text="?", x=185, y=812, size=116, color="gold", anchor="m", line=1, at=.8, dur=.25, over=True),
+    dict(kind="write", text="?", x=445, y=812, size=116, color="gold", anchor="m", line=1, at=.87, dur=.25, over=True),
+    dict(kind="write", text="?", x=705, y=812, size=116, color="gold", anchor="m", line=1, at=.94, dur=.25, over=True),
 ]}}
 # ── 3. 볼 숫자 3개 (체크리스트 + 사진)
 p3 = {"type": "list", "title": old[4]["title"], "items": old[4]["items"], "lines": old[4]["lines"], "page": {"head": "삼성전자 주가, 이 3가지", "beats": [
