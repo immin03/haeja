@@ -7455,6 +7455,60 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 #splash .sp-name{color:#EADBB9!important;font-size:22px!important;font-weight:700!important;letter-spacing:.24em!important;line-height:1!important;margin-top:-4px!important;padding-left:.24em}
 #splash .sp-sub{margin-top:14px}
 </style>
+<style>
+/* 좌우 스와이프로 옆 메뉴 이동 (2026-10-27 운영자 요청) */
+@keyframes swInL{from{opacity:.25;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes swInR{from{opacity:.25;transform:translateX(-36px)}to{opacity:1;transform:none}}
+.sw-in-l{animation:swInL .22s ease-out}.sw-in-r{animation:swInR .22s ease-out}
+@media (prefers-reduced-motion:reduce){.sw-in-l,.sw-in-r{animation:none}}
+</style>
+<script>
+/* 좌우 스와이프로 옆 메뉴 이동 (2026-10-27 운영자 요청)
+   - 화면 본문을 옆으로 쓸면 바로 옆 메뉴로 넘어간다. 대메뉴 끝에서는 다음 대메뉴 첫 메뉴로 이어진다
+   - 가로로 스크롤되는 표·칩 줄, 입력칸, 영상, 그래프, 팝업 위에서는 동작하지 않는다
+   - 화면 양끝 24px는 휴대폰 '뒤로 가기' 제스처용으로 비워 둔다 */
+function __swipeNav(rootSel, canSwipe, go){
+  let x0 = 0, y0 = 0, t0 = 0, on = false;
+  const scrollsX = n => { if(n.scrollWidth <= n.clientWidth + 4) return false; const ox = getComputedStyle(n).overflowX; return ox === 'auto' || ox === 'scroll'; };
+  const blocked = el => { for(let n = el; n && n !== document.body; n = n.parentElement){
+    if(n.matches && n.matches('input,textarea,select,button[role=slider],video,audio,canvas,iframe,[contenteditable=""],[contenteditable=true],[data-noswipe]')) return true;
+    if(scrollsX(n)) return true; } return false; };
+  document.addEventListener('touchstart', e => {
+    on = false; if(e.touches.length !== 1) return;
+    const t = e.touches[0]; if(t.clientX < 24 || t.clientX > innerWidth - 24) return;
+    if(!e.target.closest || !e.target.closest(rootSel) || blocked(e.target) || !canSwipe()) return;
+    x0 = t.clientX; y0 = t.clientY; t0 = Date.now(); on = true;
+  }, {passive: true});
+  document.addEventListener('touchmove', e => { if(on && e.touches.length !== 1) on = false; }, {passive: true});
+  document.addEventListener('touchend', e => {
+    if(!on) return; on = false;
+    const t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+    if(Date.now() - t0 > 700 || Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2) return;
+    if(String(getSelection && getSelection()).length) return;
+    const dir = dx < 0 ? 1 : -1;
+    if(!go(dir)) return;
+    const box = document.querySelector(rootSel); if(box){ box.classList.remove('sw-in-l','sw-in-r'); void box.offsetWidth; box.classList.add(dir > 0 ? 'sw-in-l' : 'sw-in-r'); setTimeout(() => box.classList.remove('sw-in-l','sw-in-r'), 260); }
+    try{ navigator.vibrate && navigator.vibrate(8); }catch(_){}
+  }, {passive: true});
+}
+
+__swipeNav('#app', () => {
+  const nav = document.querySelector('nav.tabs');
+  if(!nav || nav.style.display === 'none' || getComputedStyle(nav).display === 'none') return false;
+  if(document.querySelector('.intro,.qz,.gate,.tr-big') || S.__tourOn) return false;
+  return !['alerts','account','guide'].includes(S.tab);
+}, dir => {
+  const order = NAV.flatMap(g => g.subs.map(([k]) => k));
+  const i = order.indexOf(TAB_ALIAS[S.tab] || S.tab); if(i < 0) return false;
+  const nx = order[i + dir]; if(!nx) return false;
+  S.tab = nx; (S.lastSub ||= {})[groupOf(nx).k] = nx;
+  render(); if(S.tab === 'analyze') updateEval();
+  try{ localStorage.setItem('ml-tab', S.tab); }catch(_){}
+  window.scrollTo(0, 0);
+  const b = document.querySelector('#subnav button[aria-pressed="true"]'); if(b) b.scrollIntoView({inline:'center', block:'nearest'});
+  return true;
+});
+</script>
 <script src="/yt.js?v=1" defer></script>
 </body>
 </html>

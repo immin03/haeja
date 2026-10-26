@@ -14,6 +14,11 @@
 .wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#EADBB9;color:#EADBB9!important;padding-right:0!important}
 .wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important;vertical-align:baseline!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 .adm-tag{font-size:11px;letter-spacing:.14em;color:#CDB78A;margin-left:12px;align-self:center}
+/* 좌우 스와이프로 옆 메뉴 이동 (2026-10-27 운영자 요청) */
+@keyframes swInL{from{opacity:.25;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes swInR{from{opacity:.25;transform:translateX(-36px)}to{opacity:1;transform:none}}
+.sw-in-l{animation:swInL .22s ease-out}.sw-in-r{animation:swInR .22s ease-out}
+@media (prefers-reduced-motion:reduce){.sw-in-l,.sw-in-r{animation:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
@@ -1623,6 +1628,43 @@ async function load(){
 $('#reload').onclick = () => { LD.data = null; load(); };
 $('#out').onclick = async () => { await sb.auth.signOut({ scope: 'local' }); load(); };
 window.__render = render;
+/* 좌우 스와이프로 옆 메뉴 이동 (2026-10-27 운영자 요청)
+   - 화면 본문을 옆으로 쓸면 바로 옆 메뉴로 넘어간다. 대메뉴 끝에서는 다음 대메뉴 첫 메뉴로 이어진다
+   - 가로로 스크롤되는 표·칩 줄, 입력칸, 영상, 그래프, 팝업 위에서는 동작하지 않는다
+   - 화면 양끝 24px는 휴대폰 '뒤로 가기' 제스처용으로 비워 둔다 */
+function __swipeNav(rootSel, canSwipe, go){
+  let x0 = 0, y0 = 0, t0 = 0, on = false;
+  const scrollsX = n => { if(n.scrollWidth <= n.clientWidth + 4) return false; const ox = getComputedStyle(n).overflowX; return ox === 'auto' || ox === 'scroll'; };
+  const blocked = el => { for(let n = el; n && n !== document.body; n = n.parentElement){
+    if(n.matches && n.matches('input,textarea,select,button[role=slider],video,audio,canvas,iframe,[contenteditable=""],[contenteditable=true],[data-noswipe]')) return true;
+    if(scrollsX(n)) return true; } return false; };
+  document.addEventListener('touchstart', e => {
+    on = false; if(e.touches.length !== 1) return;
+    const t = e.touches[0]; if(t.clientX < 24 || t.clientX > innerWidth - 24) return;
+    if(!e.target.closest || !e.target.closest(rootSel) || blocked(e.target) || !canSwipe()) return;
+    x0 = t.clientX; y0 = t.clientY; t0 = Date.now(); on = true;
+  }, {passive: true});
+  document.addEventListener('touchmove', e => { if(on && e.touches.length !== 1) on = false; }, {passive: true});
+  document.addEventListener('touchend', e => {
+    if(!on) return; on = false;
+    const t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+    if(Date.now() - t0 > 700 || Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2) return;
+    if(String(getSelection && getSelection()).length) return;
+    const dir = dx < 0 ? 1 : -1;
+    if(!go(dir)) return;
+    const box = document.querySelector(rootSel); if(box){ box.classList.remove('sw-in-l','sw-in-r'); void box.offsetWidth; box.classList.add(dir > 0 ? 'sw-in-l' : 'sw-in-r'); setTimeout(() => box.classList.remove('sw-in-l','sw-in-r'), 260); }
+    try{ navigator.vibrate && navigator.vibrate(8); }catch(_){}
+  }, {passive: true});
+}
+
+__swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySelector('.modal,dialog[open]'), dir => {
+  const order = GROUPS.flatMap(g => g[2]);
+  const nx = order[order.indexOf(page()) + dir]; if(!nx) return false;
+  location.hash = nx;
+  setTimeout(() => { const a = document.querySelector('#tabs .sub a[aria-current="page"], #tabs > .in a[aria-current="page"]'); if(a) a.scrollIntoView({inline:'center', block:'nearest'}); }, 0);
+  return true;
+});
+
 load();
 setInterval(() => { if(!document.hidden && !$('#out').hidden && !['column', 'social', 'blog', 'youtube'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
