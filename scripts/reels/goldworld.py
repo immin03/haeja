@@ -155,12 +155,20 @@ class Line:
             last = pts[-1]; rest_since = T - t1
         return last, moving, rest_since
 
-    def draw(self, d, T, cam):
+    def draw(self, d, T, cam, erase=0.0):
+        """erase: 0~1, 영상 마지막에 선이 처음부터 지워지며(꼬리가 따라 들어가며) 로고 밑줄로 흡수된다"""
+        drawn = []
         for t0, t1, pts in self.segs:
             if T < t0: break
             p = 1.0 if T >= t1 else eio((T - t0) / (t1 - t0))
-            n = max(2, int(len(pts) * p)); sp = [cam(q) for q in pts[:n]]
-            if p < 1: sp.append(cam(_along(pts, p)))
+            n = max(2, int(len(pts) * p)); seg = list(pts[:n])
+            if p < 1: seg.append(_along(pts, p))
+            drawn.append(seg)
+        total_n = sum(len(x) for x in drawn); cut = int(total_n * erase)
+        for seg in drawn:
+            if cut >= len(seg): cut -= len(seg); continue
+            seg = seg[cut:]; cut = 0
+            sp = [cam(q) for q in seg]
             if len(sp) >= 2:
                 wdt = max(4, int(8 * cam.z))
                 d.line(sp, fill=(*INK, 235), width=wdt, joint="curve")
@@ -239,8 +247,15 @@ def page_image(E, s, T, scenes):
     return img.crop((0, PY0, W, PY1))
 
 
+FIN = 1.7   # 마지막 몇 초 동안 마무리 연출
+
+
 def render(E, T, scenes, total, line, pen=True):
     cam = camera_at(T, scenes, line)
+    kL = len(scenes) - 1; f = clamp((T - (total - FIN)) / FIN)
+    logo_w = to_world(kL, (PW / 2, 600 - PY0))
+    if f > 0:   # 카메라가 로고로 천천히 다가간다
+        q = eio(f); cam = Cam(lerp(cam.cx, logo_w[0], q * .3), lerp(cam.cy, logo_w[1], q * .3), cam.z + .08 * q, cam.r)
     out = _desk().copy()
     d = ImageDraw.Draw(out, "RGBA")
     # 책상 위 흩어진 빈 노트 종이(멀리 있는 것일수록 천천히 움직인다): 화면이 입체적으로 보이게
@@ -272,6 +287,17 @@ def render(E, T, scenes, total, line, pen=True):
         out.paste(warped, (0, 0), warped)
         d = ImageDraw.Draw(out, "RGBA")
         d.line(corners + [corners[0]], fill=(60, 84, 126, 160), width=2)
-    line.draw(d, T, cam)
+    line.draw(d, T, cam, erase=eio(clamp(f / .6)) if f > 0 else 0.0)
     tip, moving, rest = line.tip(T)
-    return out, (cam(tip), (1.0 if moving else max(.0, 1 - max(0, rest - .5) / .5)), cam.z)
+    pa = 1.0 if moving else max(.0, 1 - max(0, rest - .5) / .5)
+    tip_s = cam(tip)
+    if f > 0:   # 펜이 로고로 날아가 작아지며 흡수된다 → 로고에서 금빛이 한 번 퍼진다
+        q = eio(clamp(f / .6)); ls = cam(logo_w)
+        tip_s = (lerp(tip_s[0], ls[0], q), lerp(tip_s[1], ls[1] + 40, q)); pa = (1 - q) * max(pa, .9)
+        g = clamp((f - .55) / .45)
+        if g > 0:
+            glow = Image.new("L", (W, H), 0); gd = ImageDraw.Draw(glow); rr = 120 + 520 * eio(g)
+            gd.ellipse([ls[0] - rr, ls[1] - rr * .55, ls[0] + rr, ls[1] + rr * .55], fill=int(150 * math.sin(math.pi * g)))
+            glow = glow.filter(ImageFilter.GaussianBlur(60))
+            out.paste(Image.new("RGB", (W, H), (255, 232, 180)), (0, 0), glow)
+    return out, (tip_s, pa, cam.z)

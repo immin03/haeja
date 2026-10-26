@@ -1,0 +1,38 @@
+# 골드 라인 v2 시안 미리 보기: goldline-v2 브랜치에 푸시하면 지정한 릴스만 실제 음성으로 렌더해 아티팩트로 올린다 (게시·커밋 없음)
+name: reels-preview
+on:
+  push:
+    branches: [goldline-v2]
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 도구 설치
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q sherpa-onnx==1.13.8 soundfile scipy numpy pillow
+      - name: 음성 캐시 (main 의 캐시를 그대로 쓴다)
+        uses: actions/cache/restore@v4
+        with:
+          path: scripts/reels/.cache
+          key: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko-preview-${{ github.run_id }}
+          restore-keys: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
+      - name: 렌더
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+          REELS_VERIFY: '0'
+        run: |
+          cd scripts/reels
+          for id in $(cat preview_ids.txt); do
+            python3 -c "import json,sys,engine; s=json.load(open('specs/'+sys.argv[1]+'.json')); print(engine.render(s, '/tmp/preview/'+sys.argv[1]))" $id
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview
+          path: /tmp/preview/*/reel.mp4
