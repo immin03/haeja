@@ -400,7 +400,7 @@ def s_list(img, u, sc, L, T):
     if sc.get("title"): appear(img, u, .05, sc["title"], fit_font(sc["title"], "Heavy", 76, 960), IVORY, (W / 2, max(400, y0 - 170)), dur=.35)
     span = L[0][1] * .9
     for k, it in enumerate(items):
-        t0 = .15 + span * k / n_
+        t0 = (L[k][0] + .05) if len(L) == n_ and n_ > 1 else .15 + span * k / n_   # 줄마다 하나씩 말할 때는 그 줄에 맞춰 나타난다
         p = prog(u, t0, t0 + .35)
         if p <= 0: continue
         y = y0 + k * gap; x = 110 + (1 - p) * -60
