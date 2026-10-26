@@ -76,10 +76,10 @@ def to_world(k, p):
     return (ox + x * math.cos(a) - y * math.sin(a), oy + x * math.sin(a) + y * math.cos(a))
 
 
-def _ellipse(cx, cy, rx, ry, n=64):
+def _ellipse(cx, cy, rx, ry, n=64, start=180):
     pts = []
     for i in range(n + 1):
-        th = math.radians(180 + i * 385 / n); wob = 1 + .03 * math.sin(3 * th + .5)   # 왼쪽 끝에서 시작해 한 바퀴 조금 넘게
+        th = math.radians(start + i * 385 / n); wob = 1 + .03 * math.sin(3 * th + .5)   # 왼쪽 끝에서 시작해 한 바퀴 조금 넘게
         pts.append((cx + rx * wob * math.cos(th), cy + ry * wob * math.sin(th)))
     return pts
 
@@ -118,14 +118,14 @@ def target(E, sc, L):
     if t == "photo":
         return _ellipse(W / 2, Y(962 if sc.get("title") else 900), 520, 330, 80), .5
     if t == "cta":
-        return _under(W / 2 - 250, W / 2 + 250, Y(694)), .7
+        return _under(W / 2 - 260, W / 2 + 260, Y(728)), .7
     return _under(W / 2 - 200, W / 2 + 200, Y(640)), .6
 
 
 # ── 금선 경로 (영상 전체에 하나) ──────────────────────────────────
 class Line:
     def __init__(self, E, scenes, total):
-        self.E = E; self.scenes = scenes; self.total = total; self.segs = []   # (t0, t1, [world pts])
+        self.E = E; self.scenes = scenes; self.total = total; self.segs = []; self.fin = total   # (t0, t1, [world pts])
         prev_exit = None
         for k, s in enumerate(scenes):
             b, e = s["start"], s["start"] + s["dur"]
@@ -140,6 +140,12 @@ class Line:
             self.segs.append((t_in0, t_in1, [entry] + _towards(entry, mw[0])))
             tm = clamp(tm, t_in1 - b + .05, s["dur"] - PAN0 - .7) + b
             self.segs.append((tm, tm + .6, mw))
+            if k == len(scenes) - 1:   # 마무리 (2026-10-26 운영자): 밸류노트 아래를 긋고 → 동그라미 → 펜이 빠져나가며 사라진다
+                tf = max(tm + .9, e - FIN)
+                ring = [to_world(k, p) for p in _ellipse(PW / 2, 620 - PY0, 365, 140, 70, start=25)]   # 오른쪽 아래(밑줄 끝)에서 시작
+                self.segs.append((tf, tf + .25, [mw[-1]] + _towards(mw[-1], ring[0], 8)))
+                self.segs.append((tf + .25, tf + 1.0, ring))
+                self.fin = tf + 1.0
             if k < len(scenes) - 1:
                 ex = to_world(k, (PW + 30, mk[-1][1]))
                 self.segs.append((e - PAN0 - .25, e - PAN0, [mw[-1]] + _towards(mw[-1], ex)))
@@ -254,8 +260,6 @@ def render(E, T, scenes, total, line, pen=True):
     cam = camera_at(T, scenes, line)
     kL = len(scenes) - 1; f = clamp((T - (total - FIN)) / FIN)
     logo_w = to_world(kL, (PW / 2, 600 - PY0))
-    if f > 0:   # 카메라가 로고로 천천히 다가간다
-        q = eio(f); cam = Cam(lerp(cam.cx, logo_w[0], q * .3), lerp(cam.cy, logo_w[1], q * .3), cam.z + .08 * q, cam.r)
     out = _desk().copy()
     d = ImageDraw.Draw(out, "RGBA")
     # 책상 위 흩어진 빈 노트 종이(멀리 있는 것일수록 천천히 움직인다): 화면이 입체적으로 보이게
@@ -287,14 +291,14 @@ def render(E, T, scenes, total, line, pen=True):
         out.paste(warped, (0, 0), warped)
         d = ImageDraw.Draw(out, "RGBA")
         d.line(corners + [corners[0]], fill=(60, 84, 126, 160), width=2)
-    line.draw(d, T, cam, erase=eio(clamp(f / .6)) if f > 0 else 0.0)
+    line.draw(d, T, cam)
     tip, moving, rest = line.tip(T)
     pa = 1.0 if moving else max(.0, 1 - max(0, rest - .5) / .5)
     tip_s = cam(tip)
-    if f > 0:   # 펜이 로고로 날아가 작아지며 흡수된다 → 로고에서 금빛이 한 번 퍼진다
-        q = eio(clamp(f / .6)); ls = cam(logo_w)
-        tip_s = (lerp(tip_s[0], ls[0], q), lerp(tip_s[1], ls[1] + 40, q)); pa = (1 - q) * max(pa, .9)
-        g = clamp((f - .55) / .45)
+    if T >= line.fin:   # 동그라미를 다 그린 펜은 오른쪽 위로 빠져나가며 사라진다
+        q = eio(clamp((T - line.fin) / .45)); tip_s = (tip_s[0] + 320 * q, tip_s[1] - 260 * q); pa = 1 - q
+    if T >= line.fin - .2:   # 로고에서 금빛이 한 번 퍼진다
+        ls = cam(logo_w); g = clamp((T - (line.fin - .2)) / .9)
         if g > 0:
             glow = Image.new("L", (W, H), 0); gd = ImageDraw.Draw(glow); rr = 120 + 520 * eio(g)
             gd.ellipse([ls[0] - rr, ls[1] - rr * .55, ls[0] + rr, ls[1] + rr * .55], fill=int(150 * math.sin(math.pi * g)))
