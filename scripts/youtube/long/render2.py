@@ -11,7 +11,7 @@
 """
 import json, math, os, re, subprocess, sys, datetime as dt
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -205,7 +205,7 @@ def draw(sc, V, u, lines, theme, media):
             f = F("Heavy", 96); s = T("text")
             while d.textlength(s, font=f) > 1600: f = F("Heavy", f.size - 6)
             center_text(d, H / 2 - 80 + 30 * (1 - a), s, f, A(IVORY, a))
-            if ci < 0: d.rectangle([W / 2 - 70 * a, H / 2 + 50, W / 2 + 70 * a, H / 2 + 56], fill=A(GOLD, a))  # 장 제목은 골드 라인이 밑줄을 긋는다
+            d.rectangle([W / 2 - 70 * a, H / 2 + 50, W / 2 + 70 * a, H / 2 + 56], fill=A(GOLD, a))
             sub = T("sub")
             if sub: center_text(d, H / 2 + 90, sub, F("SemiBold", 40), A((180, 190, 206), pop(u, .4)))
     elif typ == "stat":
@@ -677,11 +677,50 @@ def pen_sound(dur, seed=0, level=.035):
     return (y / (np.abs(y).max() + 1e-9) * level).astype(np.float32)
 
 
+PEN_FONT = os.path.join(ROOT, "scripts", "reels", "fonts", "NanumPenScript-Regular.ttf")   # 손글씨 (나눔손글씨 펜, OFL)
+_penf = {}
+
+
+def pen_dur(pm):
+    """펜이 긋거나 쓰는 시간: 손글씨는 글자 수만큼 길어진다"""
+    return max(.7, .11 * len(str(pm.get("text", "")).replace(" ", ""))) if pm.get("shape") == "write" else PEN_DRAW
+
+
+def pen_write(img, pm, u, t0):
+    """금색 펜이 화면에 직접 손글씨를 쓴다 (2026-10-26 운영자: 중요한 사항은 펜으로 직접 쓰는 걸 보여 주면 좋겠다)
+    pm: {"shape": "write", "text": "16배", "pos": [x, y] (글자 왼쪽 위, 1920x1080 확대 전), "size": 120, "color": "gold"|"golddark"(밝은 배경)|"red"|"green"|"ink"}"""
+    size = int(pm.get("size", 110))
+    if size not in _penf: _penf[size] = ImageFont.truetype(PEN_FONT, size)
+    f = _penf[size]; txt = str(pm["text"]); x0, y0 = pm["pos"]
+    col = {"gold": PEN_INK, "golddark": (176, 128, 44), "red": RED, "green": (61, 245, 160), "ink": INK, "ivory": IVORY}.get(pm.get("color", "gold"), PEN_INK)
+    bb = f.getbbox(txt); tw, th = bb[2], bb[3]
+    mask = Image.new("L", (tw + 8, th + 8), 0); ImageDraw.Draw(mask).text((2, 2), txt, font=f, fill=255)
+    dur = pen_dur(pm); prog = clamp((u - t0) / dur); e = prog   # 손글씨는 일정한 속도로
+    if prog > 0:
+        cut = int((tw + 8) * e); m2 = mask.copy(); ImageDraw.Draw(m2).rectangle([cut, 0, tw + 8, th + 8], fill=0)
+        layer = Image.new("RGBA", mask.size, (*col, 0)); layer.putalpha(m2)
+        # 살짝 그림자로 종이 위에 쓴 느낌
+        sh = Image.new("RGBA", mask.size, (0, 0, 0, 0)); sh.putalpha(m2.point(lambda v: int(v * .35)))
+        img.paste(sh, (int(x0) + 3, int(y0) + 4), sh); img.paste(layer, (int(x0), int(y0)), layer)
+    # 펜촉: 쓰는 동안 글자 높이 안에서 위아래로 움직이며 오른쪽으로 간다
+    d = AD(img); cx = x0 + (tw + 8) * e; cy = y0 + th * (.45 + .3 * math.sin(u * 38))
+    if u < t0:
+        q = ease(clamp((u - (t0 - PEN_IN)) / PEN_IN)); sx, sy = W + 120, H + 160
+        tip = (sx + (x0 - sx) * q, sy + (y0 + th * .5 - sy) * q); al = q
+    elif u > t0 + dur:
+        q = ease(clamp((u - t0 - dur) / PEN_OUT)); tip = (x0 + tw + 8 + 260 * q, y0 + th * .5 + 200 * q); al = 1 - q
+    else:
+        tip = (cx, cy); al = 1.0
+    if al > .02: _draw_pen_body(d, tip[0], tip[1], al)
+
+
 def pen_marks(img, pens, u, lines):
     d = AD(img)
     for i_, pm in enumerate(pens):
         t0 = at_time(pm.get("at"), lines)
         if u < t0 - PEN_IN: continue
+        if pm.get("shape") == "write":
+            pen_write(img, pm, u, t0); d = AD(img); continue
         pts = _pen_path(pm.get("shape", "circle"), pm["box"]); n = len(pts)
         prog = clamp((u - t0) / PEN_DRAW); e = ease(prog); k = max(1, int(e * (n - 1)))
         lw = pm.get("w", 9)
@@ -708,6 +747,9 @@ def pen_marks(img, pens, u, lines):
 GL_Y = H / 2 + 60
 GL_IN0, GL_IN1, GL_OUT = .12, 1.05, .6   # 들어와 밑줄까지 · 빠져나가는 시간(장면 끝)
 GL_PAN_OUT, GL_PAN_IN = .22, .16       # 카메라가 선을 따라가는 거리 (화면 폭 비율)
+# 2026-10-26 운영자 2차 검수(삼성전자 편): "장면 넘어갈 때 쭉 긋다가 애매하게 끊기며 넘어가는 건 어색하다, 안 하는 게 깔끔" →
+# 장 제목 금선·카메라 이동·끝 화면 금선은 끈다(GL_SPINE = False). 대신 중요한 숫자·말은 펜이 직접 손글씨로 쓴다(pen shape "write").
+GL_SPINE = False
 
 
 def _gl_path(x0, x1, y, n=60, seed=0):
@@ -1288,9 +1330,9 @@ def main():
     for x in timeline:
         for pm in x["sc"].get("pen", []):
             t0 = x["start"] + at_time(pm.get("at"), x["lines"]); i = int(t0 * SR)
-            sfx = pen_sound(PEN_DRAW + .15, seed=int(t0 * 10)); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+            sfx = pen_sound(pen_dur(pm) + .15, seed=int(t0 * 10)); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
     for x in timeline:   # 골드 라인: 장 제목에서 선을 긋는 소리 (들어올 때 한 번)
-        if x["sc"]["v"]["type"] == "title" and x["sc"].get("chapter"):
+        if GL_SPINE and x["sc"]["v"]["type"] == "title" and x["sc"].get("chapter"):
             i = int((x["start"] + GL_IN0) * SR); sfx = pen_sound(GL_IN1 - GL_IN0 + .1, seed=int(x["start"] * 10), level=.028); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
     if np.abs(mix).max() > 0: mix = mix / np.abs(mix).max() * .9
     from scipy import signal as _sg
@@ -1321,17 +1363,17 @@ def main():
             if bdf: img = on_backdrop(img, bdf(u), theme)
             if sc.get("pen"):   # 펜이 그리는 중간 모습도 한 장
                 for pm in sc["pen"]:
-                    tp = at_time(pm.get("at"), s["lines"]) + PEN_DRAW * .6
+                    tp = at_time(pm.get("at"), s["lines"]) + pen_dur(pm) * .6
                     im2 = apply_fit(draw(sc, V, tp, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
                     if bdf: im2 = on_backdrop(im2, bdf(tp), theme)
                     pen_marks(im2, sc["pen"], tp, s["lines"]); im2.save(os.path.join(sd, f"{k:02d}_{typ}_pen{tp:.1f}.jpg"), quality=80)
                 pen_marks(img, sc["pen"], u, s["lines"])
-            if typ == "title" and sc.get("chapter"):
+            if GL_SPINE and typ == "title" and sc.get("chapter"):
                 goldline_title(img, u, s["dur"], fill(sc["v"].get("text", ""), V))
                 for tp in (.6, s["dur"] - .25):   # 선이 들어오는 중 · 빠져나가는 중
                     im3 = draw(sc, V, tp, s["lines"], theme, None); goldline_title(im3, tp, s["dur"], fill(sc["v"].get("text", ""), V)); im3 = gl_shift(im3, gl_pan(k, tp, s["dur"], timeline), theme)
                     im3.save(os.path.join(sd, f"{k:02d}_{typ}_gl{tp:.1f}.jpg"), quality=80)
-            if typ == "end": goldline_end(img, sc["v"], u, s["lines"])
+            if GL_SPINE and typ == "end": goldline_end(img, sc["v"], u, s["lines"])
             if typ not in ("media", "end"):
                 z = 1.03; cw, ch = W / z, H / z; img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", fill(sc.get("src", sc["v"].get("src", "")), V), V.get("asof"), .5, logo_dark, logo_light)
@@ -1366,9 +1408,9 @@ def main():
             img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
             if bdf: img = on_backdrop(img, bdf(u), theme)
             if sc.get("pen"): pen_marks(img, sc["pen"], u, s["lines"])
-            if typ == "title" and sc.get("chapter"): goldline_title(img, u, s["dur"], fill(sc["v"].get("text", ""), V))
-            if typ == "end": goldline_end(img, sc["v"], u, s["lines"])
-            img = gl_shift(img, gl_pan(k, u, s["dur"], timeline), "dark" if typ == "media" else theme)   # 골드 라인: 카메라가 선을 따라간다 (확대 전에 밀어야 이음매가 안 보인다)
+            if GL_SPINE and typ == "title" and sc.get("chapter"): goldline_title(img, u, s["dur"], fill(sc["v"].get("text", ""), V))
+            if GL_SPINE and typ == "end": goldline_end(img, sc["v"], u, s["lines"])
+            if GL_SPINE: img = gl_shift(img, gl_pan(k, u, s["dur"], timeline), "dark" if typ == "media" else theme)   # 골드 라인: 카메라가 선을 따라간다 (확대 전에 밀어야 이음매가 안 보인다)
             if typ not in ("media", "end"):  # 그래픽 화면은 장면 내내 아주 천천히 다가간다 (멈춘 화면처럼 보이지 않게)
                 z = 1 + .03 * (u / max(1.0, s["dur"])); cw, ch = W / z, H / z
                 img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))

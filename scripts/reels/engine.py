@@ -1331,7 +1331,7 @@ def render_cover(spec, outdir):
     os.makedirs(outdir, exist_ok=True)
     global YT_BANNER, YT, GL_ON
     YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
-    GL_ON = spec.get("goldline", True) is not False   # 2026-10-26 골드 라인 (기본 켬)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
+    GL_ON = spec.get("goldline") is True   # 2026-10-26 2차 운영자: 금선 레일·장면 사이 카메라 이동은 어색하다 → 기본 끔 (대본에 "goldline": true 일 때만)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     scenes, _ = plan_estimate(spec)
     if YT_BANNER and spec.get("platform") == "youtube":   # 유튜브 쇼츠 표지: 제목 띠 + 첫 장면의 큰 숫자가 터진 순간
@@ -1490,7 +1490,7 @@ def write_subs(spec, scenes, total, outdir):
 def render(spec, outdir, stills=None):
     global YT_BANNER, YT, GL_ON
     YT = spec.get("platform") == "youtube" or spec.get("style") == "clean"
-    GL_ON = spec.get("goldline", True) is not False   # 2026-10-26 골드 라인 (기본 켬)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
+    GL_ON = spec.get("goldline") is True   # 2026-10-26 2차 운영자: 금선 레일·장면 사이 카메라 이동은 어색하다 → 기본 끔 (대본에 "goldline": true 일 때만)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     if spec.get("platform") == "youtube" and spec["scenes"][-1]["type"] != "cta":
         # 2026-10-24 운영자: 롱폼에서 나온 쇼츠는 전부 '풀버전 보기'로 끝나야 한다

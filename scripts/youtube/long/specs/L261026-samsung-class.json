@@ -20,9 +20,9 @@
   }
  ],
  "backtest": {
-  "then_date": "2022-10-20",
-  "then_px": 55500,
-  "div_per_share": 5672
+  "then_date": "2020-06-15",
+  "then_px": 49900,
+  "div_per_share": 10839
  },
  "px_hist": {
   "w4man": "2024-11-14"
@@ -279,7 +279,7 @@
   {
    "v": {
     "type": "title",
-    "text": "1교시 · 메모리는 책상",
+    "text": "1교시 · 메모리가 하는 일",
     "sub": "D램 · 낸드 · 칩"
    },
    "lines": [
@@ -289,7 +289,7 @@
     "First, what memory actually is."
    ],
    "asof": false,
-   "chapter": "1교시 · 메모리는 책상"
+   "chapter": "1교시 · 메모리가 하는 일"
   },
   {
    "v": {
@@ -338,11 +338,11 @@
     ]
    },
    "lines": [
-    "스마트폰에도 노트북에도 서버에도 이 책상이 다 들어가요.",
-    "그리고 삼성전자는 이 책상을 세계에서 가장 많이 파는 회사입니다."
+    "스마트폰에도 노트북에도 서버에도 D램이 다 들어가요.",
+    "그리고 삼성전자는 D램을 세계에서 가장 많이 파는 회사입니다."
    ],
    "en": [
-    "Phones, laptops and servers all need this desk.",
+    "Phones, laptops and servers all need DRAM.",
     "And Samsung sells more of it than anyone in the world."
    ],
    "asof": false,
@@ -352,48 +352,48 @@
    "v": {
     "type": "media",
     "lib": "laptop_1781.mp4",
-    "caption": "책상이 좁으면 천재도 느리다",
+    "caption": "칩이 빨라질수록 메모리도 빨라야",
     "caption_at": "0"
    },
    "lines": [
-    "아무리 머리 좋은 학생도 책상이 좁으면 책을 꺼냈다 넣었다 하느라 시간을 다 씁니다.",
-    "그래서 두뇌가 빨라질수록 책상도 넓고 빨라야 합니다."
+    "계산하는 칩이 아무리 빨라도 D램이 자료를 늦게 넘겨주면 칩은 기다리며 시간을 버립니다.",
+    "그래서 칩이 빨라질수록 메모리도 크고 빨라야 합니다."
    ],
    "en": [
-    "Even a genius wastes time swapping books in and out if the desk is too small.",
-    "So the faster the brain gets, the bigger and faster the desk has to be."
+    "No matter how fast the processor is, it sits idle if DRAM can't feed it data in time.",
+    "So the faster the chip, the bigger and faster the memory has to be."
    ],
    "asof": false
   },
   {
    "v": {
     "type": "question",
-    "text": "AI라는 학생은 책상이 얼마나 필요할까?",
+    "text": "AI에는 메모리가 얼마나 필요할까?",
     "backdrop": "datacenter_23282_a.jpg",
     "bd_dim": 0.66
    },
    "lines": [
-    "그럼 AI라는 학생은 책상이 얼마나 필요할까요?"
+    "그럼 AI에는 메모리가 얼마나 필요할까요?"
    ],
    "en": [
-    "So how much desk does a student called AI need?"
+    "So how much memory does AI need?"
    ],
    "asof": false
   },
   {
    "v": {
     "type": "title",
-    "text": "2교시 · AI가 산 책상",
+    "text": "2교시 · AI가 산 메모리",
     "sub": "HBM"
    },
    "lines": [
-    "답은 아주 넓고 아주 빠른 책상입니다."
+    "답은 아주 크고 아주 빠른 메모리입니다."
    ],
    "en": [
-    "A very wide, very fast desk."
+    "The answer: very large, very fast memory."
    ],
    "asof": false,
-   "chapter": "2교시 · AI가 산 책상"
+   "chapter": "2교시 · AI가 산 메모리"
   },
   {
    "v": {
@@ -407,18 +407,18 @@
      },
      {
       "v": "AI 칩 바로 옆",
-      "l": "특별한 책상",
+      "l": "특별한 메모리",
       "at": "1:바로 옆"
      }
     ]
    },
    "lines": [
-    "AI는 책 수천 권을 한꺼번에 펼쳐 놓고 공부하는 학생입니다. 답 한 줄을 쓸 때마다 엄청난 양의 숫자를 책상에서 꺼내 써야 하거든요.",
-    "그래서 엔비디아는 AI 칩 바로 옆에 특별한 책상을 붙였습니다. 그게 고대역폭 메모리 HBM이에요."
+    "AI는 답 한 줄을 쓸 때마다 엄청난 양의 숫자를 메모리에서 꺼내 계산합니다.",
+    "그래서 엔비디아는 AI 칩 바로 옆에 특별한 메모리를 붙였습니다. 그게 고대역폭 메모리 HBM이에요."
    ],
    "en": [
-    "AI is a student with thousands of books open at once. Every line it writes pulls a huge amount of numbers off the desk.",
-    "So Nvidia attached a special desk right next to its AI chip. That's HBM, high bandwidth memory."
+    "Every line an AI writes pulls a huge amount of numbers out of memory.",
+    "So Nvidia put a special memory right next to its AI chip. That's HBM, high bandwidth memory."
    ],
    "asof": false
   },
@@ -450,11 +450,11 @@
     ]
    },
    "lines": [
-    "HBM은 D램 칩을 아파트처럼 12층으로 쌓고 층마다 구멍을 뚫어 엘리베이터처럼 이은 겁니다.",
+    "HBM은 D램 칩을 12층으로 쌓고 층마다 구멍을 뚫어 위아래를 바로 이은 겁니다.",
     "최신 HBM4는 자료가 오가는 통로가 2,048개입니다. PC용 메모리 한 장은 64개고요."
    ],
    "en": [
-    "HBM stacks DRAM chips twelve floors high, like an apartment, with holes drilled through each floor like elevators.",
+    "HBM stacks DRAM chips twelve layers high and drills through every layer to connect them directly.",
     "The latest HBM4 has 2,048 data lanes. A PC memory stick has 64."
    ],
    "asof": false,
@@ -478,7 +478,7 @@
     ]
    },
    "lines": [
-    "이 책상을 사 주는 건 미국 빅테크예요. 아마존, 알파벳, 마이크로소프트, 메타가 올해 쓰겠다고 밝힌 설비투자를 더하면 약 7,350억 달러. 우리 돈 970조 원이 넘습니다."
+    "AI 칩과 메모리를 사 가는 건 미국 빅테크예요. 아마존, 알파벳, 마이크로소프트, 메타가 올해 쓰겠다고 밝힌 설비투자를 더하면 약 7,350억 달러. 우리 돈 970조 원이 넘습니다."
    ],
    "en": [
     "The buyers are Big Tech. Amazon, Alphabet, Microsoft and Meta plan about 735 billion dollars of capital spending this year. Over 970 trillion won."
@@ -505,7 +505,7 @@
     ]
    },
    "lines": [
-    "AI 칩이 새로 나올 때마다 이 책상도 커졌어요. 올해 나오는 엔비디아 루빈엔 차세대 HBM4가 들어갑니다.",
+    "AI 칩이 새로 나올 때마다 HBM도 더 많이 들어갔어요. 올해 나오는 엔비디아 루빈엔 차세대 HBM4가 들어갑니다.",
     "그러자 메모리 값이 뛰었어요. 트렌드포스는 올해 1분기 범용 D램 계약 가격이 직전 석 달보다 90~95% 오른다고 봤습니다."
    ],
    "en": [
@@ -568,15 +568,13 @@
    "v": {
     "type": "media",
     "lib": "commons_dram_2.jpg",
-    "caption": "케이크 만드느라 식빵이 모자란 빵집",
+    "caption": "PC용 D램 값까지 올랐다",
     "caption_at": "0"
    },
    "lines": [
-    "빵집이 비싼 케이크를 만드느라 밀가루를 세 배씩 쓰면 식빵이 모자라서 식빵값까지 오르는 것과 같아요.",
     "9월 PC용 D램 고정거래가격은 26달러로 한 달 새 또 4% 올랐습니다."
    ],
    "en": [
-    "It's like a bakery using triple the flour for fancy cakes, so bread runs short and bread prices rise too.",
     "In September, the PC DRAM fixed contract price hit 26 dollars, up another 4 percent in a month."
    ],
    "asof": false,
@@ -585,7 +583,7 @@
   {
    "v": {
     "type": "title",
-    "text": "3교시 · 삼성의 반성문",
+    "text": "3교시 · 삼성의 사과문",
     "sub": "2024년 10월"
    },
    "lines": [
@@ -595,7 +593,7 @@
     "But Samsung wasn't the first to ace the HBM test."
    ],
    "asof": false,
-   "chapter": "3교시 · 삼성의 반성문"
+   "chapter": "3교시 · 삼성의 사과문"
   },
   {
    "v": {
@@ -621,7 +619,7 @@
   {
    "v": {
     "type": "timeline",
-    "title": "삼성전자 HBM 반성문 이후",
+    "title": "삼성전자 HBM 사과문 이후",
     "title_en": "After the apology",
     "points": [
      {
@@ -672,7 +670,7 @@
     ]
    },
    "lines": [
-    "?그 바닥에서 1억 원어치를 샀다면 지금 {w4man}이 됐어요. 반성문을 믿어 준 주주가 제일 크게 웃은 셈이죠."
+    "?그 바닥에서 1억 원어치를 샀다면 지금 {w4man}이 됐어요."
    ],
    "en": [
     "Had you bought 100 million won at that low, it would be worth {w4man} today."
@@ -726,7 +724,20 @@
     "This year, 107.4 trillion in Q3 alone. Sixteen times 2023's full year, in three months."
    ],
    "asof": false,
-   "src": "삼성전자 연간 실적 발표 (2023~2025년) · 2026년 3분기 잠정 실적 (10월 8일)"
+   "src": "삼성전자 연간 실적 발표 (2023~2025년) · 2026년 3분기 잠정 실적 (10월 8일)",
+   "pen": [
+    {
+     "at": "1:16배",
+     "shape": "write",
+     "text": "16배!",
+     "pos": [
+      1050,
+      215
+     ],
+     "size": 170,
+     "color": "golddark"
+    }
+   ]
   },
   {
    "v": {
@@ -770,7 +781,7 @@
     "label_at": "1:21"
    },
    "lines": [
-    "다만 HBM 반의 1등은 여전히 SK하이닉스예요. 카운터포인트리서치 집계로 올해 2분기 점유율이 50%입니다.",
+    "다만 HBM 시장 1등은 여전히 SK하이닉스예요. 카운터포인트리서치 집계로 올해 2분기 점유율이 50%입니다.",
     "삼성전자는 1분기 21%에서 2분기 33%로 뛰었어요. 1등과의 차이를 석 달 만에 37%포인트에서 17%포인트로 줄였습니다."
    ],
    "en": [
@@ -787,10 +798,10 @@
     "sub": "마이크론 · CXMT"
    },
    "lines": [
-    "그런데 메모리 반에는 친구들이 더 있습니다."
+    "그런데 메모리 시장에는 경쟁자가 더 있습니다."
    ],
    "en": [
-    "But there are more students in the memory class."
+    "But the memory market has more competitors."
    ],
    "asof": false,
    "chapter": "4교시 · 쫓아오는 경쟁자들"
@@ -870,11 +881,11 @@
    },
    "lines": [
     "3년 전만 해도 1%가 안 되던 회사가 1년 전 4%, 올해 2분기엔 10%까지 올라왔습니다.",
-    "올해 1월부터 9월까지 매출이 우리 돈 약 53조 원이라고 밝혔고요. 전학 온 지 얼마 안 된 친구가 벌써 반에서 4등인 셈이죠."
+    "올해 1월부터 9월까지 매출이 우리 돈 약 53조 원이라고 밝혔고요."
    ],
    "en": [
     "Under 1 percent three years ago, 4 percent a year ago, 10 percent now.",
-    "It reported about 53 trillion won in revenue for January to September. The new kid is already fourth in class."
+    "It reported about 53 trillion won in revenue for January to September."
    ],
    "asof": false,
    "src": "카운터포인트리서치 · CXMT 1~9월 실적 예고 (10월 16일, 2,650억~2,700억 위안)",
@@ -965,7 +976,7 @@
     ]
    },
    "lines": [
-    "메모리의 역사는 늘 같은 노래를 반복했습니다. 모자라서 값이 오르면 다들 공장을 짓고 그 공장이 다 돌면 남아서 값이 떨어지는 거죠.",
+    "메모리의 역사는 늘 같은 흐름을 반복했습니다. 모자라서 값이 오르면 다들 공장을 짓고 그 공장이 다 돌면 남아서 값이 떨어지는 거죠.",
     "가트너는 2027년 말부터 D램 값이 내려갈 거라고 봤습니다. 반대로 마이크론은 2028년 부족이 올해보다 심할 거라고 하고요."
    ],
    "en": [
@@ -1258,6 +1269,44 @@
   },
   {
    "v": {
+    "type": "card",
+    "kicker": "밸류노트 점수의 구성",
+    "title": "네 가지를 합친 100점",
+    "title_en": "Four parts, one score out of 100",
+    "at": "0",
+    "backdrop": "calculator_47415_b.jpg",
+    "bd_dim": 0.82,
+    "rows": [
+     [
+      "재무 점수 · 워렌 버핏·찰리 멍거의 돈 버는 실력",
+      "1:돈 버는"
+     ],
+     [
+      "가격 점수 · 그레이엄식 보수적 계산",
+      "1:가격"
+     ],
+     [
+      "정성 평가 · 해자·경영진·지배구조",
+      "1:해자"
+     ],
+     [
+      "산업 흐름 · AI 같은 메가트렌드",
+      "1:산업"
+     ]
+    ]
+   },
+   "lines": [
+    "밸류노트 점수는 이 그레이엄 계산 하나로만 매기는 점수가 아닙니다.",
+    "워렌 버핏과 찰리 멍거가 중요하게 보는 돈 버는 실력, 그레이엄식으로 계산한 가격, 해자와 경영진 같은 사업의 질, 그리고 산업 흐름까지 네 가지를 합쳐 100점으로 매깁니다."
+   ],
+   "en": [
+    "The ValueNote score isn't just this one Graham calculation.",
+    "It combines four things: the earning power Warren Buffett and Charlie Munger look for, a Graham-style price check, business quality like moat and management, and industry trends."
+   ],
+   "asof": false
+  },
+  {
+   "v": {
     "type": "stat",
     "kicker": "삼성전자 밸류노트 점수 · {px_label}",
     "value": "{score}점",
@@ -1279,11 +1328,11 @@
     ]
    },
    "lines": [
-    "그래서 밸류노트 점수는 {score}점이에요.",
+    "그래서 삼성전자의 밸류노트 점수는 {score}점이에요.",
     "돈 버는 실력을 보는 재무 점수는 {q_score}점으로 좋은데 가격 점수가 {v_score}점이라 깎였습니다."
    ],
    "en": [
-    "So the ValueNote score is {score}.",
+    "So Samsung's ValueNote score is {score}.",
     "Financial strength scores {q_score}, but price scores only {v_score}."
    ],
    "asof": true,
@@ -1307,9 +1356,9 @@
     "lib": "sunrise_26532_a.jpg",
     "chips": [
      {
-      "v": "2022.10.20 · 49점",
+      "v": "2020.6.15 · 52점",
       "l": "같은 기준으로 다시 계산",
-      "at": "0:49"
+      "at": "0:52"
      },
      {
       "v": "1억 원 → {bt_won}",
@@ -1319,15 +1368,15 @@
     ]
    },
    "lines": [
-    "같은 기준으로 다시 계산하면 2022년 10월 20일 점수는 49점이었어요. 그때 1억 원을 넣었다면 배당 포함 지금 약 {bt_won}입니다.",
-    "다만 그때는 주가가 이미 반토막 가까이 빠진 뒤였고 지금은 이익이 가장 많을 때라는 점이 다릅니다."
+    "같은 기준으로 과거를 다시 계산해 보면, 삼성전자 점수가 가장 높았던 건 2020년 6월 15일 52점이었어요. 그때 1억 원을 넣었다면 배당 포함 지금 약 {bt_won}입니다.",
+    "다만 삼성전자는 이익이 크게 출렁이는 회사라, 평균 이익으로 보수적으로 매기면 점수가 높게 나오기 어렵습니다."
    ],
    "en": [
-    "Recalculated the same way, the score on October 20, 2022 was 49. 100 million won then is about {bt_won} now with dividends.",
-    "But back then the stock had already nearly halved. Now profits are at their peak."
+    "Recalculated the same way, Samsung's highest score was 52, on June 15, 2020. 100 million won then would be about {bt_won} now with dividends.",
+    "Because Samsung's profits swing so much, a conservative average-earnings approach rarely gives it a high score."
    ],
    "asof": false,
-   "src": "밸류노트 과거 재계산 (그때 볼 수 있던 5개 연도 결산 기준) · 배당 포함"
+   "src": "밸류노트 과거 재계산 (그때 볼 수 있던 2015~2019년 결산 기준, 2020년 6월 15일 종가 4만 9,900원) · 다시 계산한 시점: 2020.6.15 52점 · 2022.10.20 49점 · 2024.11.14 22점 · 배당 포함"
   },
   {
    "v": {
@@ -1373,10 +1422,10 @@
     ]
    },
    "lines": [
-    "이 계산은 밸류노트가 600여 개 기업에 같은 기준으로 매일 해 두고 있습니다."
+    "이 네 가지 점수는 밸류노트가 600여 개 기업에 같은 기준으로 매일 계산해 두고 있습니다."
    ],
    "en": [
-    "ValueNote runs this same calculation daily for 600-plus companies."
+    "ValueNote calculates these four parts daily for 600-plus companies, all on the same basis."
    ],
    "asof": false,
    "src": "밸류노트 앱 화면"
@@ -1462,8 +1511,8 @@
     "hl": 0
    },
    "lines": [
-    "첫 번째, 빅테크가 내년 설비투자를 얼마나 늘리는지. AI 학생의 책상 예산이에요.",
-    "두 번째, 삼성전자 HBM4가 얼마나 팔렸는지. 반성문 이후 성적이 계속 오르는지 보는 숫자죠.",
+    "첫 번째, 빅테크가 내년 설비투자를 얼마나 늘리는지. AI 칩과 메모리를 사는 예산이에요.",
+    "두 번째, 삼성전자 HBM4가 얼마나 팔렸는지. 엔비디아 공급이 계속 늘고 있는지 보는 숫자죠.",
     "세 번째, D램 값이 오르는 속도. 오르는 폭이 계속 줄면 주가는 이익보다 먼저 반응할 수 있어요."
    ],
    "en": [
@@ -1483,26 +1532,26 @@
     "bd_dim": 0.8,
     "items": [
      [
-      "AI에는 넓고 빠른 책상 HBM이 필요하다",
+      "AI에 필요한 크고 빠른 메모리, HBM",
       "0:AI에는"
      ],
      [
-      "삼성전자는 반성문 뒤 HBM 33%까지",
+      "사과문 뒤 HBM 점유율 33%",
       "1:33"
      ],
      [
-      "주가는 이익보다 값 오르는 속도를 먼저 본다",
+      "이익보다 값 오르는 속도를 먼저 보는 주가",
       "2:속도"
      ]
     ]
    },
    "lines": [
-    "오늘 수업을 세 줄로 줄여 볼게요. AI에는 넓고 빠른 책상이 필요하고 그 책상이 HBM입니다.",
-    "삼성전자는 반성문을 쓴 뒤 HBM 점유율을 33%까지 끌어올렸고요.",
+    "오늘 수업을 세 줄로 줄여 볼게요. AI에는 크고 빠른 메모리가 필요하고 그게 HBM입니다.",
+    "삼성전자는 사과문을 낸 뒤 HBM 점유율을 33%까지 끌어올렸고요.",
     "다만 메모리 주가는 이익보다 값이 오르는 속도를 먼저 봅니다. 이익이 최대인 지금 주가가 빠진 이유죠."
    ],
    "en": [
-    "To sum up: AI needs a wide, fast desk, and that desk is HBM.",
+    "To sum up: AI needs large, fast memory, and that's HBM.",
     "Samsung climbed back to 33 percent of HBM after its apology.",
     "But memory stocks watch the speed of price gains before profits. That's why the stock fell at peak profits."
    ],
@@ -1542,7 +1591,7 @@
    "lines": [
     "오늘 수업이 도움이 되셨다면 구독과 좋아요 부탁드려요.",
     "알림을 켜 두시면 실적 발표 뒤 분석도 먼저 받아 보실 수 있습니다.",
-    "메모리 반의 1등 SK하이닉스 편도 함께 보시면 오늘 이야기가 더 잘 보일 거예요. 밸류노트가 더 현명한 투자를 돕겠습니다. 감사합니다."
+    "HBM 1등 SK하이닉스 편도 함께 보시면 오늘 이야기가 더 잘 보일 거예요. 밸류노트가 더 현명한 투자를 돕겠습니다. 감사합니다."
    ],
    "en": [
     "If this class helped, please subscribe and like.",
