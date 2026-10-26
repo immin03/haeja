@@ -1,0 +1,15 @@
+[
+  {
+    "id": "pike_walk",
+    "check_only": true,
+    "endpoint": "bytedance/seedance-2.5/image-to-video",
+    "image": "scripts/higgsfield/in/pike_card.jpg",
+    "credit": "원본 사진: John Anderson, Wikimedia Commons (CC BY-SA 2.0) — 영상에 출처 표기 필요",
+    "body": {
+      "prompt": "Static locked-off camera. Customers walk in and out of the coffee shop entrance and a few pedestrians pass along the sidewalk, natural daylight, gentle realistic motion. Keep the storefront, sign and all lettering exactly unchanged and sharp. No new text, no camera movement.",
+      "duration": 5,
+      "resolution": "720p",
+      "generate_audio": false
+    }
+  }
+]

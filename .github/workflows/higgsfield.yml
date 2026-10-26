@@ -1,0 +1,38 @@
+name: higgsfield
+# 팝업 노트용 AI 영상 컷 생성 (Higgsfield API, 비밀값 HF_API_KEY)
+# scripts/higgsfield/jobs/ 가 바뀌어 푸시되면 돌고, 받은 영상을 같은 브랜치에 커밋한다.
+on:
+  push:
+    paths:
+      - "scripts/higgsfield/jobs/**"
+      - "scripts/higgsfield/hf.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: higgsfield-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Higgsfield 호출
+        env:
+          HF_API_KEY: ${{ secrets.HF_API_KEY }}
+          HF_API_KEY_ID: ${{ secrets.HF_API_KEY_ID }}
+          HF_API_KEY_SECRET: ${{ secrets.HF_API_KEY_SECRET }}
+        run: python3 scripts/higgsfield/hf.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "valuenote-bot"
+          git config user.email "bot@valuenote.co.kr"
+          git add scripts/higgsfield/out || true
+          if git diff --cached --quiet; then echo "새 결과 없음"; exit 0; fi
+          git commit -m "Higgsfield: AI 영상 컷 받기"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
