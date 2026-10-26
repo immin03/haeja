@@ -60,7 +60,7 @@ def draw_quad(fr, tex, dst, shade=1.0, alpha=1.0):
     if x1 <= x0 or y1 <= y0: return
     d = np.float32(dst - [x0, y0])
     M = cv2.getPerspectiveTransform(np.float32([[0, 0], [tw, 0], [tw, th], [0, th]]), d)
-    wp = cv2.warpPerspective(tex, M, (x1 - x0, y1 - y0), flags=cv2.INTER_LINEAR)
+    wp = cv2.warpPerspective(tex, M, (x1 - x0, y1 - y0), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
     m = np.zeros((y1 - y0, x1 - x0), np.uint8)
     cv2.fillConvexPoly(m, np.int32(np.round(d * 16)), 255, lineType=cv2.LINE_AA, shift=4)
     m = m.astype(np.float32) / 255 * alpha

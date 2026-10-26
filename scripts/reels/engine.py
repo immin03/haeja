@@ -1227,9 +1227,13 @@ def frame(T, scenes, total, pen=True):
     s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
     sc = s["sc"]; u = T - s["start"]
     img = None; pens = []
-    if WORLD == "popup":   # 팝업 노트 (popworld.py, 2026-10-26)
-        import popworld
-        img = popworld.render(sys.modules[__name__], T, scenes, total)
+    if WORLD in ("popup", "ink"):   # 팝업 노트 (popworld.py) · 잉크 노트 (inkworld.py, 2026-10-26)
+        if WORLD == "ink":
+            import inkworld
+            img = inkworld.render(sys.modules[__name__], T, scenes, total)
+        else:
+            import popworld
+            img = popworld.render(sys.modules[__name__], T, scenes, total)
         global YT_CAP_Y
         _cy = YT_CAP_Y; YT_CAP_Y = 1590   # 노트가 화면을 채우므로 자막은 노트 아래쪽 (그림·버튼을 가리지 않게)
         if YT: y_caption(img, u, s["L"])
@@ -1401,8 +1405,8 @@ def render_cover(spec, outdir):
     # 예전 화면이 꼭 필요하면 대본에 "world": "classic".
     WORLD = spec.get("world", "popup")
     if WORLD == "classic": WORLD = None
-    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean" or WORLD == "popup"
-    if WORLD == "popup" and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean" or WORLD in ("popup", "ink")
+    if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     scenes, _ = plan_estimate(spec)
@@ -1565,8 +1569,8 @@ def render(spec, outdir, stills=None):
     # 예전 화면이 꼭 필요하면 대본에 "world": "classic".
     WORLD = spec.get("world", "popup")
     if WORLD == "classic": WORLD = None
-    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean" or WORLD == "popup"
-    if WORLD == "popup" and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
+    YT = spec.get("platform") == "youtube" or spec.get("style") == "clean" or WORLD in ("popup", "ink")
+    if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
     if spec.get("platform") == "youtube" and spec["scenes"][-1]["type"] != "cta":
@@ -1578,6 +1582,12 @@ def render(spec, outdir, stills=None):
     scenes, total = plan(spec, speak)
     broll_setup(spec, scenes)
     if _BR["key"]: print("  영상 배경:", _BR["key"])
+    if WORLD == "ink":   # 멈춘 구간 점검 (2026-10-26 운영자: 성우가 말하는 동안 화면이 쉬면 안 된다)
+        import inkworld
+        inkworld.prep(sys.modules[__name__], scenes); gaps = inkworld.audit(scenes, total)
+        json.dump({"gaps": gaps, "max_gap": inkworld.GAP_MAX}, open(os.path.join(outdir, "ink_check.json"), "w"), ensure_ascii=False)
+        for a_, b_ in gaps: print(f"  ✗ 화면이 {b_ - a_:.1f}초 멈춤: {a_}~{b_}초")
+        if gaps and spec.get("ink_strict", True): raise RuntimeError(f"{spec['id']}: 화면이 {inkworld.GAP_MAX}초 넘게 멈추는 구간 {len(gaps)}곳 — 비트를 더 넣으세요")
     if total > MAX_SEC and not spec.get("allow_long"):
         raise RuntimeError(f"{spec['id']}: {total:.1f}초 — 최대 {MAX_SEC}초를 넘습니다. 이야기에 꼭 필요한 문장만 남기세요")
     if VERIFY:

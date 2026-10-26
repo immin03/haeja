@@ -28,14 +28,6 @@
  "scenes": [
   {
    "type": "hook",
-   "top": "2024년 11월 14일 삼성전자 주가",
-   "num": {
-    "to": 49900,
-    "suffix": "원"
-   },
-   "tone": "loss",
-   "label": "'4만 전자'",
-   "label_line": 1,
    "lines": [
     {
      "cap": [
@@ -49,16 +41,7 @@
       "'4만 전자'라는 말까지 나왔죠"
      ],
      "say": "사만 전자라는 말까지 나왔죠."
-    }
-   ]
-  },
-  {
-   "type": "statement",
-   "l1": "1년 반 만에",
-   "l2": "7배 넘게 올랐다",
-   "tone": "good",
-   "note": "2024년 11월 4만 9,900원 → 2026년 6월 37만 4천 원(장중 최고)",
-   "lines": [
+    },
     {
      "cap": [
       "그런데 올해 6월엔",
@@ -71,24 +54,7 @@
       "1년 반 만에 7배 넘게 오른 겁니다"
      ],
      "say": "일 년 반 만에 일곱 배 넘게 오른 겁니다."
-    }
-   ]
-  },
-  {
-   "type": "compare",
-   "title": "삼성전자 주가 · 최고가와 지금",
-   "l": {
-    "label": "6월 최고",
-    "v": "37만 4천 원",
-    "tone": "gray"
-   },
-   "r": {
-    "label": "10월 23일",
-    "v": "21만 5천 원",
-    "sub": "최고가보다 -42%",
-    "tone": "loss"
-   },
-   "lines": [
+    },
     {
      "cap": [
       "그리고 지금은 21만 5천 원",
@@ -96,13 +62,286 @@
      ],
      "say": "그리고 지금은 이십일만 오천 원, 최고가보다 사십이 퍼센트 내려왔습니다."
     }
-   ]
+   ],
+   "page": {
+    "head": "SAMSUNG  ·  005930",
+    "beats": [
+     {
+      "kind": "sticker",
+      "src": "scripts/reels/assets/logo/samsung.png",
+      "x": 640,
+      "y": 150,
+      "w": 300,
+      "rot": -5,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "text": "2024년 11월 14일",
+      "x": 80,
+      "y": 170,
+      "size": 40,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "49,900원",
+      "x": 70,
+      "y": 215,
+      "size": 140,
+      "color": "red",
+      "line": 0,
+      "at": 0.35
+     },
+     {
+      "kind": "write",
+      "text": "'4만 전자'",
+      "x": 80,
+      "y": 390,
+      "size": 90,
+      "line": 1,
+      "at": 0.0
+     },
+     {
+      "kind": "hl",
+      "x0": 76,
+      "y0": 408,
+      "x1": 440,
+      "y1": 486,
+      "color": "yellow",
+      "line": 1,
+      "at": 0.45
+     },
+     {
+      "kind": "chart",
+      "series": [
+       49900,
+       186200,
+       206000,
+       216000,
+       219500,
+       220500,
+       268500,
+       270500,
+       292500,
+       317000,
+       329000,
+       322500,
+       354000,
+       339500,
+       309500,
+       285000,
+       255000,
+       249500,
+       262500,
+       231000,
+       274500,
+       281500,
+       257000,
+       255500,
+       259500,
+       261000,
+       285500,
+       276000,
+       262000,
+       215500,
+       215500
+      ],
+      "xs": [
+       0,
+       501,
+       508,
+       515,
+       522,
+       529,
+       536,
+       543,
+       550,
+       557,
+       564,
+       571,
+       578,
+       585,
+       592,
+       599,
+       606,
+       613,
+       620,
+       627,
+       634,
+       641,
+       648,
+       655,
+       662,
+       669,
+       676,
+       683,
+       690,
+       697,
+       704
+      ],
+      "x": 110,
+      "y": 560,
+      "w": 840,
+      "h": 440,
+      "lo": 0,
+      "hi": 380000,
+      "to": 12,
+      "color": "green",
+      "line": 2,
+      "at": 0.05,
+      "dur": 1.8,
+      "labels": {
+       "0": "4만 9,900"
+      },
+      "labcolor": "ink",
+      "labdy": 14
+     },
+     {
+      "kind": "write",
+      "text": "6월 37만 4천 원",
+      "x": 330,
+      "y": 470,
+      "size": 72,
+      "color": "green",
+      "line": 2,
+      "at": 0.65
+     },
+     {
+      "kind": "circle",
+      "cx": 800,
+      "cy": 600,
+      "rx": 95,
+      "ry": 70,
+      "color": "green",
+      "line": 3,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "1년 반 만에 7배+",
+      "x": 110,
+      "y": 1035,
+      "size": 78,
+      "color": "green",
+      "line": 3,
+      "at": 0.3
+     },
+     {
+      "kind": "chart",
+      "series": [
+       49900,
+       186200,
+       206000,
+       216000,
+       219500,
+       220500,
+       268500,
+       270500,
+       292500,
+       317000,
+       329000,
+       322500,
+       354000,
+       339500,
+       309500,
+       285000,
+       255000,
+       249500,
+       262500,
+       231000,
+       274500,
+       281500,
+       257000,
+       255500,
+       259500,
+       261000,
+       285500,
+       276000,
+       262000,
+       215500,
+       215500
+      ],
+      "xs": [
+       0,
+       501,
+       508,
+       515,
+       522,
+       529,
+       536,
+       543,
+       550,
+       557,
+       564,
+       571,
+       578,
+       585,
+       592,
+       599,
+       606,
+       613,
+       620,
+       627,
+       634,
+       641,
+       648,
+       655,
+       662,
+       669,
+       676,
+       683,
+       690,
+       697,
+       704
+      ],
+      "x": 110,
+      "y": 560,
+      "w": 840,
+      "h": 440,
+      "lo": 0,
+      "hi": 380000,
+      "from": 12,
+      "to": 30,
+      "color": "red",
+      "line": 4,
+      "at": 0.05,
+      "dur": 1.6,
+      "axis": false,
+      "width": 12
+     },
+     {
+      "kind": "write",
+      "text": "-42%",
+      "x": 640,
+      "y": 800,
+      "size": 130,
+      "color": "red",
+      "line": 4,
+      "at": 0.55
+     },
+     {
+      "kind": "print",
+      "text": "지금 21만 5천 원 · 10월 23일",
+      "x": 1000,
+      "y": 1135,
+      "size": 34,
+      "w": "Bold",
+      "color": "red",
+      "anchor": "ra",
+      "line": 4,
+      "at": 0.5
+     }
+    ]
+   }
   },
   {
    "type": "statement",
    "l1": "21만 원대, 버틸 수 있을까?",
    "l2": "답은 세 가지에 달렸다",
-   "tone": "gold",
    "lines": [
     {
      "cap": [
@@ -117,7 +356,76 @@
      ],
      "say": "답은 이십구일 실적에서 볼, 이 세 가지에 달려 있습니다."
     }
-   ]
+   ],
+   "page": {
+    "head": "그럼 지금 가격은?",
+    "beats": [
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/commons_wafer_2.jpg",
+      "cap": "반도체 공장 클린룸",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "21만 원대,",
+       "버틸 수 있을까?"
+      ],
+      "x": 80,
+      "y": 200,
+      "size": 118,
+      "line": 0,
+      "at": 0.05,
+      "dur": 0.6
+     },
+     {
+      "kind": "write",
+      "text": "10월 29일 실적",
+      "x": 80,
+      "y": 560,
+      "size": 104,
+      "color": "red",
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "circle",
+      "cx": 360,
+      "cy": 620,
+      "rx": 330,
+      "ry": 95,
+      "color": "red",
+      "line": 1,
+      "at": 0.4
+     },
+     {
+      "kind": "icons",
+      "icon": "box",
+      "n": 3,
+      "x": 110,
+      "y": 800,
+      "size": 150,
+      "gap": 110,
+      "color": "ink",
+      "line": 1,
+      "at": 0.55,
+      "dur": 0.6
+     },
+     {
+      "kind": "write",
+      "text": "?   ?   ?",
+      "x": 150,
+      "y": 820,
+      "size": 120,
+      "color": "gold",
+      "line": 1,
+      "at": 0.8,
+      "dur": 0.5
+     }
+    ]
+   }
   },
   {
    "type": "list",
@@ -146,13 +454,77 @@
      ],
      "say": "셋째, 디램 값이 오르는 속도입니다."
     }
-   ]
+   ],
+   "page": {
+    "head": "삼성전자 주가, 이 3가지",
+    "beats": [
+     {
+      "kind": "check",
+      "text": "빅테크 설비투자",
+      "x": 80,
+      "y": 230,
+      "size": 70,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_datacenter_3.jpg",
+      "x": 700,
+      "y": 170,
+      "w": 300,
+      "h": 230,
+      "rot": 4,
+      "line": 0,
+      "at": 0.3
+     },
+     {
+      "kind": "check",
+      "text": "삼성 HBM4 판매",
+      "x": 80,
+      "y": 530,
+      "size": 70,
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_nvidiagpu_1.jpg",
+      "x": 700,
+      "y": 470,
+      "w": 300,
+      "h": 230,
+      "rot": -3,
+      "line": 1,
+      "at": 0.3
+     },
+     {
+      "kind": "check",
+      "text": "D램 값 오르는 속도",
+      "x": 80,
+      "y": 830,
+      "size": 70,
+      "line": 2,
+      "at": 0
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_ddr5_3.jpg",
+      "x": 700,
+      "y": 770,
+      "w": 300,
+      "h": 230,
+      "rot": 3,
+      "line": 2,
+      "at": 0.3
+     }
+    ]
+   }
   },
   {
    "type": "statement",
    "l1": "① 빅테크 설비투자",
    "l2": "올해 약 7,350억 달러",
-   "tone": "gold",
    "note": "아마존·알파벳·마이크로소프트·메타가 밝힌 합계 · 우리 돈 970조 원+",
    "lines": [
     {
@@ -182,7 +554,135 @@
      ],
      "say": "이십구일 새벽 알파벳과 마이크로소프트가 내년에 더 쓴다고 하면 좋은 신호, 줄인다고 하면 경고입니다."
     }
-   ]
+   ],
+   "page": {
+    "head": "1. 빅테크 설비투자",
+    "beats": [
+     {
+      "kind": "photo",
+      "src": "scripts/reels/assets/broll/datacenter_23282.mp4",
+      "x": 80,
+      "y": 150,
+      "w": 470,
+      "h": 330,
+      "rot": -2,
+      "cap": "빅테크 데이터센터",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "rows": [
+       "아마존 · 알파벳",
+       "마이크로소프트",
+       "메타",
+       "올해 계획 합계"
+      ],
+      "x": 610,
+      "y": 180,
+      "size": 36,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.2
+     },
+     {
+      "kind": "write",
+      "text": "7,350억 달러",
+      "x": 70,
+      "y": 500,
+      "size": 124,
+      "color": "red",
+      "line": 0,
+      "at": 0.45
+     },
+     {
+      "kind": "under",
+      "x0": 80,
+      "x1": 760,
+      "y": 635,
+      "color": "red",
+      "line": 0,
+      "at": 0.85
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        300,
+        650
+       ],
+       [
+        300,
+        735
+       ]
+      ],
+      "color": "ink",
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "icons",
+      "icon": "chip",
+      "n": 6,
+      "x": 90,
+      "y": 745,
+      "size": 84,
+      "gap": 30,
+      "color": "ink",
+      "line": 1,
+      "at": 0.12,
+      "dur": 0.8
+     },
+     {
+      "kind": "write",
+      "text": "= AI 칩 + 메모리 예산",
+      "x": 80,
+      "y": 840,
+      "size": 78,
+      "color": "gold",
+      "line": 1,
+      "at": 0.45
+     },
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/commons_metahq_1.jpg",
+      "cap": "지난주 메타 -7% → 삼성전자 -4%",
+      "line": 2,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "메타 -7%   삼성 -4%",
+      "x": 80,
+      "y": 950,
+      "size": 84,
+      "color": "red",
+      "line": 2,
+      "at": 0.62
+     },
+     {
+      "kind": "write",
+      "text": "더 쓰면 O 좋은 신호",
+      "x": 80,
+      "y": 1050,
+      "size": 70,
+      "color": "green",
+      "line": 3,
+      "at": 0.3
+     },
+     {
+      "kind": "write",
+      "text": "줄이면 X 경고",
+      "x": 620,
+      "y": 1050,
+      "size": 70,
+      "color": "red",
+      "line": 3,
+      "at": 0.7
+     }
+    ]
+   }
   },
   {
    "type": "compare",
@@ -220,7 +720,114 @@
      ],
      "say": "이십구일 콘퍼런스콜에서 에이치비엠포 공급이 늘었다고 하면 추격이 계속된다는 뜻이고, 말을 아낀다면 따라잡기가 멈췄을 수 있습니다."
     }
-   ]
+   ],
+   "page": {
+    "head": "2. 삼성전자 HBM4 판매",
+    "beats": [
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/commons_nvidiahq_1.jpg",
+      "cap": "HBM4, 2월부터 엔비디아에 공급",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "HBM4, 엔비디아로",
+      "x": 70,
+      "y": 170,
+      "size": 96,
+      "line": 0,
+      "at": 0.55
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_nvidiagpu_1.jpg",
+      "x": 700,
+      "y": 140,
+      "w": 300,
+      "h": 210,
+      "rot": 4,
+      "line": 0,
+      "at": 0.8
+     },
+     {
+      "kind": "print",
+      "text": "2026년 2월부터 공급 · HBM 점유율 (카운터포인트리서치)",
+      "x": 80,
+      "y": 320,
+      "size": 30,
+      "w": "Medium",
+      "color": "gray",
+      "line": 0,
+      "at": 0.8
+     },
+     {
+      "kind": "bars",
+      "items": [
+       {
+        "label": "삼성 1분기",
+        "v": 21,
+        "text": "21%",
+        "color": "gray"
+       },
+       {
+        "label": "삼성 2분기",
+        "v": 33,
+        "text": "33%",
+        "color": "green"
+       },
+       {
+        "label": "SK하이닉스",
+        "v": 50,
+        "text": "50%",
+        "color": "ink"
+       }
+      ],
+      "x": 90,
+      "y": 470,
+      "w": 900,
+      "h": 380,
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        330,
+        780
+       ],
+       [
+        520,
+        640
+       ]
+      ],
+      "color": "green",
+      "line": 1,
+      "at": 0.6
+     },
+     {
+      "kind": "write",
+      "text": "콜에서 'HBM4 공급 늘었다'?",
+      "x": 70,
+      "y": 960,
+      "size": 76,
+      "line": 2,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "O 추격 계속    X 멈춤",
+      "x": 90,
+      "y": 1060,
+      "size": 78,
+      "color": "red",
+      "line": 2,
+      "at": 0.55
+     }
+    ]
+   }
   },
   {
    "type": "compare",
@@ -266,7 +873,128 @@
      ],
      "say": "그래서 주가는 이익보다, 값이 오르는 속도를 먼저 봅니다."
     }
-   ]
+   ],
+   "page": {
+    "head": "3. D램 값이 오르는 속도",
+    "beats": [
+     {
+      "kind": "photo",
+      "src": "scripts/reels/assets/popup/ram_dram1.mp4",
+      "x": 620,
+      "y": 150,
+      "w": 380,
+      "h": 270,
+      "rot": 3,
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "1분기: 석 달 +90%",
+      "x": 70,
+      "y": 170,
+      "size": 80,
+      "line": 0,
+      "at": 0.2
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        110,
+        440
+       ],
+       [
+        330,
+        290
+       ]
+      ],
+      "color": "ink",
+      "line": 0,
+      "at": 0.75,
+      "width": 12
+     },
+     {
+      "kind": "write",
+      "text": "9월: 한 달 +4%",
+      "x": 70,
+      "y": 470,
+      "size": 92,
+      "color": "red",
+      "line": 1,
+      "at": 0.0
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        110,
+        700
+       ],
+       [
+        430,
+        650
+       ]
+      ],
+      "color": "red",
+      "line": 1,
+      "at": 0.45,
+      "width": 12
+     },
+     {
+      "kind": "write",
+      "text": "느려졌다",
+      "x": 460,
+      "y": 600,
+      "size": 78,
+      "color": "red",
+      "line": 1,
+      "at": 0.7
+     },
+     {
+      "kind": "print",
+      "rows": [
+       "값 100원 - 비용 50원 = 이익 50원",
+       "값  90원 - 비용 50원 = 이익 40원"
+      ],
+      "x": 80,
+      "y": 770,
+      "size": 40,
+      "w": "Bold",
+      "line": 2,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "값 -10%면 이익 -20%",
+      "x": 70,
+      "y": 880,
+      "size": 92,
+      "color": "red",
+      "line": 2,
+      "at": 0.45
+     },
+     {
+      "kind": "write",
+      "text": "주가는 '속도'를 먼저 본다",
+      "x": 70,
+      "y": 1010,
+      "size": 84,
+      "color": "gold",
+      "line": 3,
+      "at": 0.05
+     },
+     {
+      "kind": "under",
+      "x0": 80,
+      "x1": 880,
+      "y": 1110,
+      "color": "gold",
+      "line": 3,
+      "at": 0.7
+     }
+    ]
+   }
   },
   {
    "type": "cta",
@@ -286,7 +1014,71 @@
      ],
      "say": "하단 프로필 링크를 눌러 보세요."
     }
-   ]
+   ],
+   "page": {
+    "head": "메모리 수업 9분 풀버전",
+    "beats": [
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/commons_wafer_3.jpg",
+      "cap": "HBM · 메모리 사이클 9분 수업",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "HBM이 뭔지,",
+       "메모리 값이 왜",
+       "오르내리는지"
+      ],
+      "x": 80,
+      "y": 180,
+      "size": 100,
+      "line": 0,
+      "at": 0.55,
+      "dur": 0.9
+     },
+     {
+      "kind": "write",
+      "text": "하단 프로필 링크",
+      "x": 540,
+      "y": 760,
+      "size": 120,
+      "color": "red",
+      "anchor": "m",
+      "line": 1,
+      "at": 0
+     },
+     {
+      "kind": "circle",
+      "cx": 540,
+      "cy": 830,
+      "rx": 420,
+      "ry": 110,
+      "color": "red",
+      "line": 1,
+      "at": 0.4
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        540,
+        960
+       ],
+       [
+        540,
+        1180
+       ]
+      ],
+      "color": "red",
+      "line": 1,
+      "at": 0.6,
+      "width": 12
+     }
+    ]
+   }
   }
  ],
  "title_en": "Samsung stock outlook: just watch these 3 things #Samsung",
@@ -316,8 +1108,9 @@
   "Tap the profile link below"
  ],
  "allow_long": true,
- "world": "popup",
+ "world": "ink",
  "cover_title": "삼성전자 주가 전망\n이 3가지만\n보면 된다",
  "cover": 0,
- "thumb_file": "scripts/reels/assets/logo/Y261026c_thumb.jpg"
+ "thumb_file": "scripts/reels/assets/logo/Y261026c_thumb.jpg",
+ "ink_strict": false
 }
