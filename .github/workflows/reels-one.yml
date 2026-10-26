@@ -33,8 +33,10 @@ jobs:
       - name: 도구 설치
         timeout-minutes: 12
         run: |
-          command -v ffmpeg || sudo apt-get install -y -qq --no-install-recommends ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends ffmpeg)
-          pip install -q sherpa-onnx==1.13.8 soundfile scipy numpy pillow opencv-python-headless
+          # apt 가 자주 멈춰서(2026-10-26) ffmpeg 는 pip 의 정적 빌드를 쓴다
+          pip install -q sherpa-onnx==1.13.8 soundfile scipy numpy pillow opencv-python-headless imageio-ffmpeg
+          sudo ln -sf "$(python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" /usr/local/bin/ffmpeg
+          ffmpeg -version | head -1
       - name: 음성 캐시
         uses: actions/cache/restore@v4
         with:
