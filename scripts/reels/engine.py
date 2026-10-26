@@ -1579,7 +1579,17 @@ def render(spec, outdir, stills=None):
     if stills is not None:
         for ts in stills: frame(ts, scenes, total).save(os.path.join(outdir, f"still_{ts:.1f}.png"))
         return total
-    wav = os.path.join(outdir, "_mix.wav"); build_audio(scenes, total, spec.get("mood", "tense"), wav)
+    # 유튜브 쇼츠: 썸네일을 먼저 만들고 영상 맨 끝 0.5초에 붙인다 (2026-10-26 운영자: 모바일 앱에선 썸네일 이미지를 못 올리고
+    # 영상 속 장면만 고를 수 있으니, 업로드할 때 마지막 장면을 표지로 고르면 되게 준비해 둔다). 대본 "thumb_end": false 면 끈다.
+    tail_img = None; tail = 0.0
+    if spec.get("platform") == "youtube" and spec.get("thumb_end", True):
+        cover_path = os.path.join(outdir, "cover.jpg")
+        if spec.get("thumb_file") and os.path.exists(os.path.join(HERE, "..", "..", spec["thumb_file"])):
+            Image.open(os.path.join(HERE, "..", "..", spec["thumb_file"])).convert("RGB").resize((W, H)).save(cover_path, quality=92)
+        else:
+            frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB").save(cover_path, quality=90)
+        tail_img = Image.open(cover_path).convert("RGB").resize((W, H)); tail = .5
+    wav = os.path.join(outdir, "_mix.wav"); build_audio(scenes, total + tail, spec.get("mood", "tense"), wav)
     out = os.path.join(outdir, "reel.mp4")
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            "-i", wav, "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-preset", "medium",
@@ -1587,7 +1597,13 @@ def render(spec, outdir, stills=None):
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     for i in range(int(total * FPS)):
         p.stdin.write(frame(i / FPS, scenes, total).tobytes())
+    if tail_img is not None:
+        for _ in range(int(tail * FPS)): p.stdin.write(tail_img.tobytes())
     p.stdin.close(); p.wait(); os.remove(wav)
+    if tail_img is not None:   # 썸네일은 위에서 이미 만들었다
+        open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
+        write_subs(spec, scenes, total, outdir)
+        return total + tail
     (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     if spec.get("platform") == "youtube": write_subs(spec, scenes, total, outdir)

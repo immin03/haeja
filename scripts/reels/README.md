@@ -254,3 +254,10 @@ python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover      
 장면에 "popup": {"clip": "scripts/higgsfield/out/<id>.mp4", "line": n} → n번째 줄을 읽는 동안 영상 카드가 페이지에서 솟아오른다.
 클립은 Higgsfield(Seedance 2.5)로 만든다: scripts/higgsfield/jobs/*.json 을 푸시하면 higgsfield 워크플로가 받아 커밋한다(비밀값 HF_API_KEY).
 클립을 먼저 받은 뒤 대본을 푸시한다(클립 파일은 렌더 해시에 안 들어가므로, 대본보다 늦게 오면 다시 렌더되지 않는다).
+
+## 쇼츠 썸네일은 영상 맨 끝 0.5초에 (2026-10-26 운영자)
+"썸네일은 중요하다. 볼 확률이 조금이라도 있으니 준비해 줘." 유튜브 모바일 앱은 쇼츠에 이미지 썸네일을 못 올리고 영상 속 장면만 고를 수 있다.
+- 엔진이 유튜브 쇼츠(platform youtube)마다 cover.jpg 를 먼저 만들고 영상 맨 끝 0.5초에 붙인다. 업로드할 때 표지로 마지막 장면을 고르면 된다. 끄기: "thumb_end": false.
+- 기본 썸네일은 첫 장면(제목 띠 + 큰 숫자). 회사 이야기 쇼츠는 따로 만든 썸네일을 쓴다: 위 제목 두 줄 + 가운데 회사 로고 + 핵심 그림(예: 최고가에서 꺾여 내려오는 주가 선과 큰 숫자 -42%).
+  만드는 법: python3 scripts/reels/thumb_drop.py <spec> <out.jpg> <로고 png> <prices.json> → 저장소에 넣고 대본에 "thumb_file": "<경로>". 로고는 scripts/youtube/long/assets/co_<종목코드>.png.
+- 썸네일 숫자도 기준일을 함께 쓴다(예: "최고가 대비 · 10월 23일 21만 5천 원").
