@@ -241,6 +241,8 @@ main>h2:first-of-type,.ptitle+h2{margin-top:8px}
 .tp-ev{font-size:12.5px;line-height:1.5}.tp-ev a{color:var(--ink)}
 .tp-fit{font-size:12px}
 .tp-ac{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:2px}
+.tp-note{width:100%;box-sizing:border-box;font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);resize:vertical;word-break:keep-all}
+.tp-btns{display:flex;gap:6px}.tp-ac .tp-dir{width:100%;font-size:12.5px;line-height:1.5}
 @media (max-width:700px){.tp-list{grid-template-columns:1fr}}
 .tr-kpis{margin-bottom:4px}
 .tr-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline;flex:0 0 auto}
@@ -1128,9 +1130,9 @@ function tpCard(t, i){
   const ev = (g.top || []).slice(0, 2).map(v => `<a href="https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}" target="_blank" rel="noopener" data-newwin>${esc(v.title)}</a> <span class="m nw">${esc(v.channel || '')} · +${nk(v.pd)}/일</span>`).join('<br>');
   const PS = { proposed: '승인 대기', approved: '승인됨 · 제작 예정', producing: '제작 중', done: '완료', rejected: '반려' };
   const act = t.status === 'planned' ? `<span class="st ok">기획안 ${PS[t.plan_status] || '연결'}</span> <a href="#youtube/plan">${esc(t.plan_title || '')}</a>`
-    : t.status === 'picked' ? '<span class="st run">기획안 쓰는 중 · 2시간 안에 기획안 탭에 올라옵니다</span>'
+    : t.status === 'picked' ? '<span class="st run">기획안 쓰는 중 · 2시간 안에 기획안 탭에 올라옵니다</span>' + (t.owner_note ? `<div class="m tp-dir">내 방향: ${esc(t.owner_note)}</div>` : '')
     : t.status === 'skipped' ? '<span class="st none">안 하기로 함</span>'
-    : live ? `<button class="soc-btn" data-tp-pick="${esc(t.id)}">이걸로 기획안 받기</button><button class="soc-btn ghost" data-tp-skip="${esc(t.id)}">안 함</button>` : '<span class="st none">효력 지남</span>';
+    : live ? `<textarea class="tp-note" rows="3" data-tp-note="${esc(t.id)}" placeholder="방향을 적어 주세요 (예: 버핏 일본 상사 수익률 중심, 엔저 설명은 짧게, 썸네일엔 버핏 얼굴). 비워도 됩니다."></textarea><div class="tp-btns"><button class="soc-btn" data-tp-pick="${esc(t.id)}">이 방향으로 기획안 받기</button><button class="soc-btn ghost" data-tp-skip="${esc(t.id)}">안 함</button></div>` : '<span class="st none">효력 지남</span>';
   return `<div class="card tp-card${live ? '' : ' dim'}">
     <div class="tp-h"><em class="tp-rk">${i + 1}</em><div class="tp-t"><b>${esc(t.title)}</b><div class="m">${esc(t.angle || '')}</div></div><div class="tp-sc"><b>${t.score}</b><span>점</span></div></div>
     ${bar}<div class="tp-sig">${sig}</div>${shelf}
@@ -1337,10 +1339,10 @@ function bindYoutube(){
   const tm = document.getElementById('tr-more'); if(tm) tm.onclick = () => { TR.more = !TR.more; render(); };
   if(document.querySelector('.tr-card .hit')) bindTips();
   document.querySelectorAll('[data-tp-pick]').forEach(b => b.onclick = async () => {
-    const t = (TR.topics || []).find(x => x.id === b.dataset.tpPick); const note = prompt(`'${t ? t.title : ''}'로 기획안을 받을까요?\n덧붙일 방향이 있으면 적어 주세요 (비워도 됩니다).`, '');
-    if(note === null) return; b.disabled = true;
+    const ta = document.querySelector(`[data-tp-note="${b.dataset.tpPick}"]`), note = ta ? ta.value.trim() : '';
+    b.disabled = true;
     const { data, error } = await sb.rpc('yt_topic_pick', { p_id: b.dataset.tpPick, p_note: note || null });
-    if(error) toast('요청하지 못했습니다: ' + error.message, true); else if(data && data.ok === false) toast(data.reason, true); else toast('요청했습니다. 2시간 안에 기획안 탭에 올라옵니다.');
+    if(error) toast('요청하지 못했습니다: ' + error.message, true); else if(data && data.ok === false) toast(data.reason, true); else toast(note ? '적어 주신 방향으로 기획안을 요청했습니다. 2시간 안에 기획안 탭에 올라옵니다.' : '요청했습니다. 2시간 안에 기획안 탭에 올라옵니다.');
     trLoad(); });
   document.querySelectorAll('[data-tp-skip]').forEach(b => b.onclick = async () => {
     b.disabled = true; const { error } = await sb.rpc('yt_topic_skip', { p_id: b.dataset.tpSkip });
