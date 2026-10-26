@@ -21,6 +21,7 @@ for w in wants:
         lic = md.get("LicenseShortName", {}).get("value", "")
         if not OK.match(lic) or ii.get("width", 0) < 1000: print("건너뜀", p["title"], lic); continue
         n += 1; name = f"commons_{slug}_{n}.jpg"; out = os.path.join(LIB, name)
+        if os.path.exists(out): continue   # 이미 받은 사진은 건너뛴다
         raw = get(ii.get("thumburl") or ii["url"]); tmp = out + ".src"; open(tmp, "wb").write(raw)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-vf", "scale='min(1920,iw)':-2", "-q:v", "3", out], check=True); os.remove(tmp)
         artist = re.sub("<[^>]+>", "", md.get("Artist", {}).get("value", "")).strip()
