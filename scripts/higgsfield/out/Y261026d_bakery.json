@@ -1,0 +1,17 @@
+{
+ "id": "Y261026d_bakery",
+ "endpoint": "bytedance/seedance-2.5/text-to-video",
+ "body": {
+  "prompt": "Warm cozy bakery at morning: a baker places another tall layered cake onto a display packed with elaborate cakes, while the bread shelf right next to it is almost empty with only two loaves left, soft golden light, slow sideways camera move, realistic and slightly playful. No text, no signs, no logos.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "4:3",
+  "generate_audio": false
+ },
+ "submit_http": 403,
+ "submit": {
+  "detail": "not_enough_credits"
+ },
+ "at": "2026-10-26T08:21:47Z",
+ "status": "submit_failed"
+}

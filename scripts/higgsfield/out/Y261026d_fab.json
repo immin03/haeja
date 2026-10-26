@@ -1,0 +1,17 @@
+{
+ "id": "Y261026d_fab",
+ "endpoint": "bytedance/seedance-2.5/text-to-video",
+ "body": {
+  "prompt": "Inside a semiconductor memory factory clean room bathed in amber light: robotic arms transfer shining silicon wafers between machines, engineers in white clean-room suits walk in the background, slow cinematic dolly forward, realistic. No text, no logos, no brand names.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "4:3",
+  "generate_audio": false
+ },
+ "submit_http": 403,
+ "submit": {
+  "detail": "not_enough_credits"
+ },
+ "at": "2026-10-26T08:21:47Z",
+ "status": "submit_failed"
+}

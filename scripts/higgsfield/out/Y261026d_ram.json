@@ -1,0 +1,17 @@
+{
+ "id": "Y261026d_ram",
+ "endpoint": "bytedance/seedance-2.5/text-to-video",
+ "body": {
+  "prompt": "Cinematic close-up in a dim computer parts store: a customer's hand slowly picks up a desktop RAM memory stick from a glass shelf and turns it under warm spotlight, shallow depth of field, gentle camera push-in, realistic. No text, no numbers, no logos, no brand names.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "4:3",
+  "generate_audio": false
+ },
+ "submit_http": 403,
+ "submit": {
+  "detail": "not_enough_credits"
+ },
+ "at": "2026-10-26T08:21:46Z",
+ "status": "submit_failed"
+}
