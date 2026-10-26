@@ -259,6 +259,14 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .yt-note{padding:12px 14px;border-radius:12px;background:rgba(176,152,104,.1);color:var(--ink);font-size:13.5px;line-height:1.6;margin-bottom:14px}
 .yt-item{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;padding:16px;margin-bottom:14px}
 .yt-item.short{grid-template-columns:260px minmax(0,1fr)}
+.yt-ab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 10px}
+.yt-ab figure{margin:0;border:1px solid var(--line,#e3e3e3);border-radius:10px;overflow:hidden;background:#fff}
+.yt-ab figure.def{outline:2px solid #d6b36a}
+.yt-ab img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+.yt-ab figcaption{padding:6px 8px;font-size:12px;line-height:1.4;word-break:keep-all}
+.yt-ab .ac{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.yt-ab .soc-btn{padding:4px 8px;font-size:12px}
+@media(max-width:700px){.yt-ab{grid-template-columns:1fr}}
 .yt-item video{width:100%;border-radius:12px;background:#000;display:block}
 .yt-item.short video{aspect-ratio:9/16;object-fit:cover}
 .yt-item .k{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
@@ -917,6 +925,7 @@ function ytItem(y){
     <div><video controls preload="metadata" playsinline poster="${esc(y.thumb || '')}" src="${esc(/github\.com\/.+\/releases\/download\//.test(y.video_url || '') ? FN + 'yt-video?u=' + encodeURIComponent(y.video_url) : (y.video_url || ''))}"></video></div>
     <div><div class="k"><span class="kind${short ? ' reel' : ''}">${short ? '쇼츠' : '롱폼'}</span><span class="st ${st[0]}">${st[1]}</span>${dur ? `<span class="st none">${dur}</span>` : ''}</div>
       <h3>${esc(y.title || y.id)}</h3>
+      ${y.subs && Array.isArray(y.subs.ab) && y.subs.ab.length ? `<div class="m"><b>썸네일·제목 ${y.subs.ab.length}안</b> · 유튜브 스튜디오 '테스트 및 비교'에 셋 다 올리면 반응 좋은 쪽으로 자동으로 정해집니다</div><div class="yt-ab">${y.subs.ab.map((a, i) => `<figure class="${a.default ? 'def' : ''}"><a href="${esc(a.thumb)}" target="_blank"><img src="${esc(a.thumb)}" alt="썸네일 ${esc(a.key || String(i + 1))}" loading="lazy"></a><figcaption><b>${esc((a.key || String(i + 1)).toUpperCase())}안${a.default ? ' · 기본' : ''}</b><br>${esc(a.title || '')}<div class="ac"><a class="soc-btn ghost" href="${esc(a.thumb)}" download>썸네일 받기</a><button class="soc-btn ghost" data-yt-abcopy="${i}" data-id="${esc(y.id)}">제목 복사</button></div></figcaption></figure>`).join('')}</div>` : ''}
       <div class="m">게시 예정 ${kst(y.scheduled_at)} · 렌더 ${kst(y.rendered_at)}${y.data_asof ? ` · 숫자 기준 ${kstDate(y.data_asof)}` : ''}${y.px ? `<br>주가 ${won0(y.px)} · 적정 주가 ${won0(y.iv)}${y.score != null ? ` · 점수 ${y.score}점` : ''}` : ''}</div>
       ${y.stale_reason ? `<div class="why">${esc(y.stale_reason)}${/원고 수정/.test(y.stale_reason) ? ' · 원고를 고쳐 다시 만들어 올리겠습니다' : ' · 1시간 안에 최신 숫자로 다시 만들어 올라옵니다'}</div>` : ''}
       ${y.note ? `<div class="nt"><b>수정 요청 메모</b><br>${esc(y.note)}</div>` : ''}
@@ -1299,6 +1308,9 @@ function bindYoutube(){
     else if(data && data.ok === false) toast('승인하지 않았습니다: ' + data.reason + '. 새로 만든 뒤 다시 확인해 주세요.', true);
     else toast({ approved: '승인했습니다. 다운로드·복사 버튼이 열렸습니다.', changes: '수정 요청을 남겼습니다.', hold: '보류했습니다.', stale: '다시 만들기를 요청했습니다.', uploaded: '올림 완료로 표시했습니다.' }[st] || '바꿨습니다.');
     ytLoad(); });
+  document.querySelectorAll('[data-yt-abcopy]').forEach(b => b.onclick = async () => {
+    const y = YT.list.find(x => x.id === b.dataset.id); const a = ((y.subs || {}).ab || [])[+b.dataset.ytAbcopy] || {};
+    try { await navigator.clipboard.writeText(a.title || ''); toast('제목을 복사했습니다'); } catch(_) { prompt('복사해 주세요', a.title || ''); } });
   document.querySelectorAll('[data-yt-copy]').forEach(b => b.onclick = async () => {
     const y = YT.list.find(x => x.id === b.dataset.id); const k = b.dataset.ytCopy;
     const t = k === 'tags' ? (y.tags || []).join(', ') : (y[k] || '');

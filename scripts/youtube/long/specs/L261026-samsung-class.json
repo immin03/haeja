@@ -31,55 +31,80 @@
  "title": "삼성전자 주가, 석 달에 107조 버는데 왜 {from_hi} 빠졌을까? 메모리 반도체 9분 수업",
  "title_en": "Samsung Electronics: 107 trillion won in a quarter, so why is the stock down? A 9-minute memory chip class",
  "thumb": {
-  "photo": "chip_47258_a.jpg",
-  "focus_x": 0.6,
+  "photo": "stockmarket_9607_a.jpg",
+  "focus_x": 0.55,
   "l1": "107조 버는데",
-  "l2": "주가는 -{from_hi}?",
+  "l2": "주가 -{from_hi}?",
   "pos": "left",
   "co_logo": "co_005930.png",
-  "logo_h": 64
+  "logo_h": 64,
+  "accent": [
+   255,
+   92,
+   92
+  ],
+  "s1": 92,
+  "s2": 170
  },
  "ab_sets": [
   {
-   "key": "b",
+   "key": "a",
    "default": true,
    "title": "삼성전자 주가, 석 달에 107조 버는데 왜 {from_hi} 빠졌을까? 메모리 반도체 9분 수업",
    "thumb": {
-    "photo": "chip_47258_a.jpg",
-    "focus_x": 0.6,
-    "l1": "107조 버는데",
-    "l2": "주가는 -{from_hi}?",
-    "pos": "left",
-    "co_logo": "co_005930.png",
-    "logo_h": 64
-   },
-   "file": "thumb_b.jpg"
-  },
-  {
-   "key": "a",
-   "title": "삼성전자 HBM, 반성문에서 점유율 33%까지 · 메모리 반도체 쉽게 정리",
-   "thumb": {
-    "photo": "factory_23696_a.jpg",
+    "photo": "stockmarket_9607_a.jpg",
     "focus_x": 0.55,
-    "l1": "반성문 쓴 삼성전자",
-    "l2": "HBM 21% → 33%",
+    "l1": "107조 버는데",
+    "l2": "주가 -{from_hi}?",
     "pos": "left",
     "co_logo": "co_005930.png",
-    "logo_h": 64
+    "logo_h": 64,
+    "accent": [
+     255,
+     92,
+     92
+    ],
+    "s1": 92,
+    "s2": 170
    },
    "file": "thumb_a.jpg"
   },
   {
-   "key": "c",
-   "title": "삼성전자 실적 전 볼 숫자 3개 · AI가 메모리를 쓸어 담는 이유",
+   "key": "b",
+   "title": "삼성전자 실적 발표 D-3, 10월 29일 이 숫자 3개가 주가 가른다 | HBM·D램 쉽게 정리",
    "thumb": {
-    "photo": "datacenter_23282_a.jpg",
+    "photo": "chip_47258_a.jpg",
     "focus_x": 0.6,
-    "l1": "AI가 메모리를",
-    "l2": "쓸어 담는 이유",
+    "badge": "10월 29일 실적 발표 D-3",
+    "badge_s": 40,
+    "l1": "삼성전자, 이 숫자 3개가",
+    "l2": "주가 가른다",
     "pos": "left",
     "co_logo": "co_005930.png",
-    "logo_h": 64
+    "logo_h": 60,
+    "s1": 80,
+    "s2": 150
+   },
+   "file": "thumb_b.jpg"
+  },
+  {
+   "key": "c",
+   "title": "4만 전자가 21만 원, 삼성전자 지금이 꼭대기일까? 메모리 사이클 9분 수업",
+   "thumb": {
+    "photo": "storm_47948_a.jpg",
+    "focus_x": 0.5,
+    "l1": "4만 전자가 21만 원",
+    "l2": "지금이 꼭대기?",
+    "pos": "left",
+    "co_logo": "co_005930.png",
+    "logo_h": 64,
+    "accent": [
+     255,
+     92,
+     92
+    ],
+    "s1": 88,
+    "s2": 160
    },
    "file": "thumb_c.jpg"
   }
