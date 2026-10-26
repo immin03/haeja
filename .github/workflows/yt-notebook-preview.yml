@@ -1,0 +1,46 @@
+# 취재 노트 롱폼 시안: notebook-long 브랜치에 푸시하면 지정한 롱폼의 앞부분만 실제 음성으로 렌더해 릴리스 preview-notebook 에 올린다 (게시·커밋 없음)
+name: yt-notebook-preview
+on:
+  push:
+    branches: [notebook-long]
+    paths: ['scripts/youtube/long/**', '.github/workflows/yt-notebook-preview.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: yt-notebook-preview
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      PREVIEW_ID: L261026-starbucks-float
+      PREVIEW_SCENES: '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: 도구 설치
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+          pip install -q numpy scipy pillow soundfile opencv-python-headless sherpa-onnx==1.13.8
+      - name: 음성 캐시 (롱폼 렌더와 같은 캐시를 읽기만 한다)
+        uses: actions/cache/restore@v4
+        with:
+          path: scripts/reels/.cache
+          key: yt-tts-preview-${{ github.run_id }}
+          restore-keys: yt-tts-
+      - name: 최신 숫자
+        run: node scripts/youtube/long/data.mjs scripts/youtube/long/specs/$PREVIEW_ID.json || echo "숫자 갱신 실패 — 저장된 값으로 진행"
+      - name: 렌더 (앞부분만)
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+          RENDER_SCENES: ${{ env.PREVIEW_SCENES }}
+        run: python3 scripts/youtube/long/render2.py scripts/youtube/long/specs/$PREVIEW_ID.json
+      - name: 릴리스에 올리기 (미리 보기 전용)
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release view preview-notebook >/dev/null 2>&1 || gh release create preview-notebook --prerelease --title "취재 노트 롱폼 시안" --notes "게시용 아님" --target notebook-long
+          cp social/youtube/$PREVIEW_ID/video.mp4 /tmp/$PREVIEW_ID-notebook.mp4
+          gh release upload preview-notebook /tmp/$PREVIEW_ID-notebook.mp4 --clobber
