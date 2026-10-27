@@ -105,7 +105,8 @@ class HBar(IW.Beat):
 
 
 IW.KIND["bar"] = Bar; IW.KIND["hbar"] = HBar
-IW.DUR.update({"bar": .9, "hbar": .9})
+IW.KIND["rule"] = lambda b, t0, t1: IW.Stroke(b, t0, t1, [(b["x0"], b["y0"]), ((b["x0"] + b["x1"]) / 2 + 2, (b["y0"] + b["y1"]) / 2), (b["x1"], b["y1"])], b.get("width", 4))   # 곧은 가는 줄 (칸 나누기)
+IW.DUR.update({"bar": .9, "hbar": .9, "rule": .35})
 
 
 # ── 정리된 필기 (2026-10-27 운영자 검수: "정렬이 안 되고 제멋대로", "펜이 너무 많다", "작은 글씨는 펜을 안 쓰든가 작은 펜으로",
@@ -115,6 +116,9 @@ IW.DUR.update({"bar": .9, "hbar": .9})
 #  - 왼쪽 여백 근처 글씨는 한 줄(x=140)에 맞춘다
 PEN_KEEP = 2
 PEN_MIN = 96
+# 2026-10-27 개선: 휴대폰에서 작은 인쇄 글씨가 안 읽혔다(30px 안팎). 손글씨 → 인쇄 글씨로 바꿀 때 최소 40px, 비율 .62
+PRINT_K = .62
+PRINT_MIN = 40
 COL_X = 140
 _RE = __import__("re")
 
@@ -140,7 +144,7 @@ def tidy(spec):
     for i, b in enumerate(spec):
         k = b.get("kind")
         if k == "write" and i not in keep:
-            sz = b.get("size", 96); ps = int(IW.clamp(round(sz * .56), 30, 64))
+            sz = b.get("size", 96); ps = int(IW.clamp(round(sz * PRINT_K), PRINT_MIN, 72))
             nb = dict(kind="print", x=b["x"], y=b["y"] + int(sz * .14), size=ps, w="Medium" if b.get("color") == "gray" else "Bold",
                       color=b.get("color", "ink"), anchor={"m": "ma"}.get(b.get("anchor"), "la"))
             if b.get("rows"): nb["rows"] = b["rows"]
@@ -258,7 +262,7 @@ def autofill(beats, lines, dur, gap=2.4):
 
 
 # ── 자동 변환: 기존 원고의 화면 종류 → 손글씨 페이지 (2026-10-27 운영자 승인: 자동 변환 + 빈틈 메우기 + 핵심 그림만 손으로) ──
-AUTO_TYPES = {"media", "stat", "checklist", "question", "bars", "hbars", "card", "quote", "timeline", "kinetic", "twocol", "scale", "table"}
+AUTO_TYPES = {"media", "stat", "checklist", "question", "bars", "hbars", "card", "quote", "timeline", "kinetic", "twocol", "scale", "table", "end"}
 LIB = "scripts/blog/media/lib/"
 
 
@@ -294,22 +298,30 @@ def auto(v, lines, V, fill, at_time):
         B.append(d)
     def title(txt, tt=None):
         tt = S0 if tt is None else tt
-        if txt: B.append(dict(kind="print", text=F(txt), x=120, y=90, size=46, w="ExtraBold", t=tt))
+        if txt: B.append(dict(kind="print", text=F(txt), x=COL_X, y=90, size=54, w="ExtraBold", t=tt))
     if t == "media":
         photo(v.get("lib"), 90, 100, 1000, 690, -2, S0)
         y = 130
         if v.get("caption"):
             r = rows(F(v["caption"]), 8); B.append(dict(kind="write", rows=r, x=1170, y=y, size=96, t=T(v.get("caption_at", "0")) + .1)); y += 100 * len(r) + 60
         for i, ch in enumerate(v.get("chips", [])):
-            tt = T(ch.get("at")); B.append(dict(kind="write", rows=rows(F(ch.get("l", "")), 12), x=1175, y=y + 150, size=52, color="gray", t=LS(ch.get("at"))))
+            tt = T(ch.get("at")); B.append(dict(kind="write", rows=rows(F(ch.get("l", "")), 12), x=1175, y=y + 150, size=74, color="gray", t=LS(ch.get("at"))))
             B.append(dict(kind="write", text=F(ch["v"]), x=1170, y=y, size=130, color="red", t=tt)); y += 290
     elif t == "stat":
         if v.get("backdrop"): photo(v["backdrop"], 1180, 140, 640, 460, 3, S0)
-        if v.get("kicker"): B.append(dict(kind="print", text=F(v["kicker"]), x=140, y=110, size=42, w="Bold", color="gray", t=S0))
+        if v.get("kicker"): B.append(dict(kind="print", text=F(v["kicker"]), x=140, y=110, size=48, w="Bold", color="gray", t=S0))
         val = F(v["value"]); ta = T(v.get("at")); B.append(dict(kind="write", text=val, x=140, y=180, size=300, color=tone(val), t=ta))
         B.append(dict(kind="under", x0=150, x1=150 + int(len(val) * 300 * .5), y=500, color="gold", t=ta + .7))
         if v.get("label"): B.append(dict(kind="write", text=F(v["label"]), x=150, y=540, size=84, t=ta + .4))
-        for j, tg in enumerate(v.get("tags", [])): B.append(dict(kind="write", text=F(tg["text"]), x=150, y=680 + j * 90, size=66, color="gold", t=T(tg.get("at"))))
+        tg_ = v.get("tags", [])
+        if tg_ and not v.get("backdrop"):   # 2026-10-27 개선: 사진이 없는 숫자 장면은 오른쪽 절반이 비었다 → 세부 숫자를 오른쪽 칸에 크게, 칸 사이에 세로 줄
+            x_r = 1080; y_r = 240 if len(tg_) < 3 else 200
+            B.append(dict(kind="rule", x0=x_r - 90, y0=210, x1=x_r - 90, y1=190 + 170 * len(tg_), color="gray", t=max(S0, T(tg_[0].get("at")) - .4)))
+            for j, tg in enumerate(tg_):
+                c = {"red": "red", "gold": "gold", "green": "green"}.get(tg.get("kind"), "ink")
+                B.append(dict(kind="write", text=F(tg["text"]), x=x_r, y=y_r + j * 170, size=110, color=c, t=T(tg.get("at"))))
+        else:
+            for j, tg in enumerate(tg_): B.append(dict(kind="write", text=F(tg["text"]), x=150, y=680 + j * 90, size=66, color="gold", t=T(tg.get("at"))))
     elif t == "question":
         if v.get("backdrop"): photo(v["backdrop"], 1220, 140, 600, 430, 3, S0)
         r = rows(F(v["text"]), 9); B.append(dict(kind="write", rows=r, x=140, y=180, size=120, t=S0 + .1))
@@ -339,7 +351,7 @@ def auto(v, lines, V, fill, at_time):
     elif t == "quote":
         if v.get("backdrop"): photo(v["backdrop"], 1220, 140, 600, 430, 3, S0)
         r = rows("“" + F(v["text"]) + "”", 10); ta = T(v.get("at")); B.append(dict(kind="write", rows=r, x=140, y=180, size=110, t=ta))
-        B.append(dict(kind="print", text="— " + F(v.get("who", "")), x=150, y=200 + 112 * len(r) + 30, size=40, w="Bold", color="gray", t=T(v.get("who_at")) if v.get("who_at") else ta + 1))
+        B.append(dict(kind="print", text="— " + F(v.get("who", "")), x=150, y=200 + 112 * len(r) + 30, size=48, w="Bold", color="gray", t=T(v.get("who_at")) if v.get("who_at") else ta + 1))
     elif t == "timeline":
         title(v.get("title")); pts = v["points"]; n = len(pts)
         B.append(dict(kind="under", x0=160, x1=1760, y=580, color="ink", t=S0 + .2, dur=.6))
@@ -348,7 +360,7 @@ def auto(v, lines, V, fill, at_time):
             c = {"gold": "gold", "red": "red", "green": "green"}.get(c, "ink")
             B.append(dict(kind="circle", cx=x, cy=578, rx=16, ry=16, color=c, t=tt, dur=.3))
             B.append(dict(kind="write", rows=rows(F(pnt["text"]), 7), x=x, y=330, size=92, color=c, anchor="m", t=tt + .1))
-            B.append(dict(kind="print", text=F(pnt["x"]), x=x, y=620, size=36, w="Bold", color="gray", anchor="ma", t=tt))
+            B.append(dict(kind="print", text=F(pnt["x"]), x=x, y=620, size=44, w="Bold", color="gray", anchor="ma", t=tt))
     elif t == "kinetic":
         if v.get("backdrop"): photo(v["backdrop"], 1220, 140, 600, 430, 3, S0)
         y = 160
@@ -361,14 +373,14 @@ def auto(v, lines, V, fill, at_time):
         title(v.get("title"))
         for side, x, c in (("left", 140, "ink"), ("right", 1000, "gold")):
             col = v.get(side) or {}; tt = T(col.get("at"))
-            B.append(dict(kind="write", text=F(col.get("title", "")), x=x, y=200, size=64, color="gray", t=tt))
+            B.append(dict(kind="write", text=F(col.get("title", "")), x=x, y=200, size=74, color="gray", t=tt))
             for j, it in enumerate(col.get("items", [])):
                 B.append(dict(kind="write", text=F(it[0]), x=x, y=330 + j * 140, size=96, color="gold" if col.get("gold") else c, t=T(it[1]) + .1 * j if len(it) > 1 else tt + .5 + j))
     elif t == "scale":
         title(v.get("title"))
         for side, x in (("left", 200), ("right", 1060)):
             c = v.get(side) or {}; tt = T(c.get("at"))
-            B.append(dict(kind="print", text=F(c.get("label", "")).replace("\n", " "), x=x, y=240, size=44, w="Bold", color="gray", t=tt))
+            B.append(dict(kind="print", text=F(c.get("label", "")).replace("\n", " "), x=x, y=240, size=50, w="Bold", color="gray", t=tt))
             B.append(dict(kind="write", text=F(c.get("value", "")), x=x, y=310, size=170, color={"gold": "gold", "red": "red"}.get(c.get("color"), "ink"), t=tt + .1))
         ce = v.get("center")
         if ce:
@@ -376,11 +388,11 @@ def auto(v, lines, V, fill, at_time):
             B.append(dict(kind="circle", cx=960, cy=690, rx=300, ry=95, color="red", t=tt + .8))
     elif t == "table":
         title(v.get("title")); cw = v.get("cw", [700, 600]); x2 = 140 + cw[0] + 60
-        for j, c in enumerate(v.get("cols", [])): B.append(dict(kind="print", text=F(c), x=140 if j == 0 else x2, y=190, size=36, w="Bold", color="gray", t=S0))
+        for j, c in enumerate(v.get("cols", [])): B.append(dict(kind="print", text=F(c), x=140 if j == 0 else x2, y=190, size=44, w="Bold", color="gray", t=S0))
         for i, r in enumerate(v["rows"]):
             tt = T(r[2]) if len(r) > 2 else .3 + i; y = 260 + i * 170
-            B.append(dict(kind="write", text=F(r[0]), x=140, y=y, size=74, t=tt)); B.append(dict(kind="write", text=F(r[1]), x=x2, y=y, size=74, color="red", t=tt + .5))
-            if v.get("hl") == i: B.append(dict(kind="hl", x0=130, y0=y + 20, x1=x2 + 600, y1=y + 95, color="yellow", t=tt + 1.0))
+            B.append(dict(kind="write", text=F(r[0]), x=140, y=y, size=96, t=tt)); B.append(dict(kind="write", text=F(r[1]), x=x2, y=y, size=96, color="red", t=tt + .5))
+            if v.get("hl") == i: B.append(dict(kind="hl", x0=128, y0=y + 2, x1=x2 + int(len(F(r[1])) * 48) + 30, y1=y + 82, color="yellow", t=tt + 1.0))   # 인쇄 글씨(약 60px) 높이에 맞춘 형광펜
     return B
 
 
@@ -416,13 +428,62 @@ def gaps(beats, lines, extra=(), lim=2.6):
     return out
 
 
+YKEYS = ("y", "base", "cy", "y0", "y1")
+
+
+def balance(spec, lines, top_=90, bot_=870, min_dy=40):
+    """2026-10-27 개선: 자동 변환 페이지는 글씨가 위쪽 절반에 몰리고 아래 40%가 비었다.
+    사진이 없는 페이지는 그림 덩어리 전체를 종이 세로 가운데로 내린다(왼쪽 줄 맞춤은 그대로)."""
+    if any(b.get("kind") == "photo" for b in spec): return spec
+    bx = [[float(v) for v in z.bbox()] for z in build(spec, lines)]
+    if not bx: return spec
+    top = min(b[1] for b in bx); bot = max(b[3] for b in bx)
+    dy = int(min(top_ + (bot_ - top_ - (bot - top)) / 2 - top, bot_ - bot))
+    if dy < min_dy: return spec
+    out = []
+    for b in spec:
+        b = dict(b)
+        for k in YKEYS:
+            if k in b: b[k] = b[k] + dy
+        if "pts" in b: b["pts"] = [[p[0], p[1] + dy] for p in b["pts"]]
+        out.append(b)
+    return out
+
+
+def end_page(v, lines, fill, V, at_time):
+    """끝 화면도 노트 한 장으로 (2026-10-27 개선: 마지막만 예전 어두운 화면이라 포맷이 깨졌다).
+    왼쪽: 금색 펜 마무리 한마디 + 구독·좋아요·알림 체크 / 오른쪽: 함께 보면 좋은 영상 썸네일을 테이프로 붙인다"""
+    F = lambda x: fill(str(x), V) if x is not None else ""
+    T = lambda at, d=0.0: at_time(at, lines) if at not in (None, "") else (lines[0][0] + d if lines else d)
+    S0 = (lines[0][0] + .05) if lines else 0.0
+    B = [dict(kind="write", rows=rows(F(v.get("title", "")), 6), x=COL_X, y=150, size=118, color="gold", key=1, t=S0 + .1),
+         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=440, size=50, w="Bold", color="gray", t=S0 + 1.2)]
+    labels = ["구독", "좋아요", "알림 설정"]
+    for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
+        B.append(dict(kind="pcheck", text=labels[i], x=COL_X + 10, y=560 + i * 100, size=62, t=T(at) if at else S0 + 1.6 + .5 * i))
+    nx = v.get("next")
+    if nx and nx.get("thumb"):
+        src = nx["thumb"].split("?")[0].lstrip("/")
+        if os.path.exists(os.path.join(IW.ROOT, src)):
+            tt = T(nx.get("at")) if nx.get("at") else S0 + 3
+            B.append(dict(kind="print", text=F(nx.get("label", "함께 보면 좋은 영상")), x=1010, y=120, size=46, w="Bold", color="red", t=tt))
+            B.append(dict(kind="photo", src=src, x=1000, y=230, w=800, h=450, rot=2, t=tt + .1))
+            for j, r in enumerate(rows(F(nx.get("title", "")), 17)[:3]):
+                B.append(dict(kind="print", text=r, x=1010, y=720 + j * 60, size=44, w="Bold", t=tt + .5))
+    return B
+
+
 def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
     """장면 하나의 손그림: 원고에 sketch 가 있으면 그것(핵심 그림), 없으면 화면 종류를 자동 변환. 마지막에 빈틈 메우기"""
     spec = sc.get("sketch")
-    if spec is None and auto_ok and sc["v"]["type"] in AUTO_TYPES: spec = auto(sc["v"], lines, V, fill, at_time) + list(sc.get("sketch_add", []))
+    authored = spec is not None
+    if spec is None and auto_ok and sc["v"]["type"] == "end": spec = end_page(sc["v"], lines, fill, V, at_time)
+    elif spec is None and auto_ok and sc["v"]["type"] in AUTO_TYPES: spec = auto(sc["v"], lines, V, fill, at_time) + list(sc.get("sketch_add", []))
     if spec is None: return None
+    spec = tidy(spec)
+    if not authored and sc["v"]["type"] != "end": spec = balance(spec, lines)
     dur = (lines[-1][0] + lines[-1][1] + .35) if lines else 1.0
     if sc.get("fine"):   # 작은 안내 문구 (예: 목표 주가·매수 신호가 아님) — 말로 하지 않고 종이 아래쪽에 작게
         spec = list(spec) + [dict(kind="print", text=fill(sc["fine"], V), x=1800, y=100, size=28, w="Medium", color="gray", anchor="ra", t=(lines[0][0] + .3) if lines else .3)]
     # 2026-10-27 운영자: 펜이 너무 많다 → 빈틈 자동 밑줄(autofill)은 쓰지 않는다
-    return notes(build(tidy(spec), lines), lines, dur, authored=[n for n in sc.get("notes", [])], at_time=at_time)
+    return notes(build(spec, lines), lines, dur, authored=[n for n in sc.get("notes", [])], at_time=at_time)
