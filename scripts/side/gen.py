@@ -80,21 +80,42 @@ def run(job, H, spent):
     return cost if status == "completed" else 0.0
 
 
+def _ready(job):
+    """입력(image·ref)이 이미 만들어져 있어야 제출할 수 있다"""
+    paths = ([job["image"]] if job.get("image") else []) + (job["ref"] if isinstance(job.get("ref"), list) else [job["ref"]] if job.get("ref") else [])
+    for pth in paths:
+        stem = os.path.splitext(os.path.join(ROOT, pth))[0]
+        if not any(os.path.exists(stem + e) for e in (".png", ".jpg", ".jpeg", ".webp")): return False
+        if job.get("image") == pth:
+            job["image"] = next(os.path.relpath(stem + e, ROOT) for e in (".png", ".jpg", ".jpeg", ".webp") if os.path.exists(stem + e))
+    if isinstance(job.get("ref"), list):
+        job["ref"] = [next((os.path.relpath(os.path.splitext(os.path.join(ROOT, r))[0] + e, ROOT) for e in (".png", ".jpg", ".jpeg", ".webp")
+                            if os.path.exists(os.path.splitext(os.path.join(ROOT, r))[0] + e)), r) for r in job["ref"]]
+    return True
+
+
 def main(only=None):
-    H = hf.auth_headers(); spent = 0.0
+    """입력이 준비된 작업부터 4개씩 동시에 돌린다 (앞 작업 결과를 참고로 쓰는 작업은 다음 차례에)"""
+    from concurrent.futures import ThreadPoolExecutor
+    H = hf.auth_headers(); spent = 0.0; cap = float(os.environ.get("SIDE_GEN_MAX_USD", "3"))
     files = sorted(glob.glob(os.path.join(ROOT, "scripts", "side", "gen", "*.json")))
+    todo = []
     for f in files:
         if only and os.path.basename(f)[:-5] not in only: continue
-        for job in json.load(open(f, encoding="utf-8")):
-            if job.get("disabled"): continue
-            # 앞 작업 결과(같은 실행에서 만든 이미지)를 영상 입력으로 쓰는 경우: 커밋 전이라 raw 주소가 없다 → 업로드 경로로 대체
-            if job.get("image") and not os.path.exists(os.path.join(ROOT, job["image"])):
-                stem = os.path.splitext(job["image"])[0]
-                alt = next((stem + e for e in (".png", ".jpg", ".jpeg", ".webp") if os.path.exists(os.path.join(ROOT, stem + e))), None)
-                if not alt: print(f"[{job['id']}] 입력 이미지 없음 — 다음 실행에서"); continue
-                job["image"] = alt
-            spent += run(job, H, spent)
-    print(f"이번 실행 예상 비용 합계: {spent:.2f}달러")
+        todo += [j for j in json.load(open(f, encoding="utf-8")) if not j.get("disabled")]
+    while todo:
+        ready = [j for j in todo if _ready(j)]
+        if not ready:
+            for j in todo: print(f"[{j['id']}] 입력 이미지 없음 — 다음 실행에서")
+            break
+        todo = [j for j in todo if j not in ready]
+        batch = []
+        for j in ready:
+            c = est(j)
+            if spent + c > cap: print(f"[{j['id']}] 상한 {cap}달러 초과 예상 — 건너뜀"); continue
+            spent += c; batch.append(j)
+        with ThreadPoolExecutor(4) as ex: list(ex.map(lambda j: run(j, H, 0.0), batch))
+    print(f"이번 실행 예상 비용 상한 사용: {spent:.2f}달러")
 
 
 if __name__ == "__main__":

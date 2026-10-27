@@ -1,0 +1,212 @@
+[
+ {
+  "id": "pie_ref",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Product photo of a single Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle, one whole cake next to one cut in half showing the layers, and one in a plain glossy red individual wrapper without any text, on a plain warm cream background, soft studio light, appetizing, realistic food photography, no text, no logos",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "k1_store_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/k1_store.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. in the red box on the counter, neatly arranged in rows. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp06_factory_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp06_factory.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. rows of them moving on the conveyor belt. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp07_alley_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp07_alley.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. the children share one, broken into pieces so the white marshmallow layer shows. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp10_chapel_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp10_chapel.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. each soldier holds one. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp14_russia_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp14_russia.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. a few on the plate, one cut in half showing the marshmallow layer. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp19_market_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp19_market.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. neatly stacked inside the coat, some in plain red wrappers. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp22_hospital_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp22_hospital.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. the nurse holds one in a plain red wrapper. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp09_army_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp09_army.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. the canteen window hands them out in plain red wrappers. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_thumb_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp_thumb.jpeg",
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. one single giant one sitting under the spotlight, half unwrapped from a plain red wrapper. No text, no logos.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp03_pie_v2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Extreme close-up macro of the snack from the reference image being pulled apart into two halves on a tiny wooden counter, soft white marshmallow stretching between the halves, two light sponge layers, glossy smooth chocolate coating, crumbs, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_court",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature 1990s Korean courtroom, a tiny judge with a wooden gavel at the bench, two rival tables of tiny businessmen each holding up an identical snack like the reference, dramatic but funny mood, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_moon",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature night sky scene, an endless line of snacks like the reference stacked into a tall curving tower rising from a tiny Earth toward a big glowing crescent moon, stars, whimsical, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_bday",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature Korean army barracks at night, tiny soldiers in green uniforms gathered around a homemade birthday cake made of snacks like the reference stacked into a tower, one lit candle on top, everyone clapping, warm and funny, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_banana",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature Korean convenience store in 2016 with a crazy crowd of tiny shoppers grabbing the last boxes of yellow banana-flavored snack cakes from an almost empty shelf, a tiny clerk overwhelmed, comedic chaos, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_flavors",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature Russian supermarket aisle with a long shelf of snacks like the reference in colorful flavor boxes, raspberry red, cherry, blackcurrant purple, watermelon green and orange, a tiny babushka choosing happily, winter coats, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_tvad",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature cozy 1990s Korean living room, a tiny family watching an old boxy TV, on the coffee table a box of snacks like the reference, a kid quietly handing one to a sad-looking friend, warm lamp light, heartwarming, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ }
+]
