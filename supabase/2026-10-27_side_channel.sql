@@ -95,3 +95,14 @@ drop trigger if exists sc_settings_touch on public.sc_settings;
 create trigger sc_plans_touch before update on public.sc_plans for each row execute function public.sc_touch();
 create trigger sc_videos_touch before update on public.sc_videos for each row execute function public.sc_touch();
 create trigger sc_settings_touch before update on public.sc_settings for each row execute function public.sc_touch();
+
+-- 렌더 결과 가져오기 (2026-10-27): social/side/queue.json → sc_videos. 10분마다 (side-fetch / side-import)
+create or replace function public.sc_fetch() returns void language plpgsql security definer set search_path = public as $$
+declare site text; rid bigint;
+begin
+  select value #>> '{}' into site from app_config where key = 'site_url';
+  if site is null then return; end if;
+  rid := net.http_get(site || '/social/side/queue.json?ts=' || extract(epoch from now())::bigint);
+  insert into app_config(key, value) values ('sc_req', to_jsonb(rid)) on conflict (key) do update set value = excluded.value;
+end $$;
+-- sc_import() 본문은 Supabase 에 적용된 버전을 따른다 (롱폼 + '-short' 쇼츠 행, 기획안 made 처리)

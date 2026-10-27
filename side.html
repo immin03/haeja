@@ -325,7 +325,7 @@ function item(v, kids, langCount){
       <div class="note">게시 예정 ${kst(v.scheduled_at)}</div>
       ${v.description ? `<details><summary class="note" style="cursor:pointer">설명 보기</summary><div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(v.description)}</div></details>` : ''}
       ${locN ? `<details><summary class="note" style="cursor:pointer">언어별 제목 보기</summary><div class="note" style="margin-top:6px">${Object.entries(v.loc).map(([k, o]) => `<div><b>${esc(LANGS[k] || k)}</b> ${esc(o && o.title || '')}</div>`).join('')}</div></details>` : ''}
-      ${kids.length ? `<div class="note">이 롱폼에서 자른 쇼츠 ${kids.length}편: ${kids.map(k => esc(k.title)).join(' / ')}</div>` : ''}
+      ${kids.length ? `<div class="note">함께 올릴 쇼츠 ${kids.length}편: ${kids.map(k => `${esc(k.title)}${k.video_url ? ` · <a href="${esc(k.video_url)}" target="_blank" rel="noopener">쇼츠 받기</a>` : ''}`).join(' / ')}</div>` : ''}
       ${v.status === 'review' ? `<textarea data-note placeholder="고칠 점을 남기면 다시 렌더합니다">${esc(v.note || '')}</textarea>` : ''}
       <div class="row">
         ${v.video_url ? `<a class="btn sm" href="${esc(v.video_url)}" download style="text-decoration:none;display:inline-flex;align-items:center">내려받기</a>` : ''}
