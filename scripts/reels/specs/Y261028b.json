@@ -1,0 +1,750 @@
+{
+ "approved": false,
+ "platform": "youtube",
+ "threads_tag": "주식",
+ "long": "L261026-starbucks-float",
+ "world": "ink",
+ "allow_long": true,
+ "end": "subscribe",
+ "full_say": "풀버전은 하단 프로필 링크에서 보세요.",
+ "full_cap": [
+  "풀버전은 하단 프로필 링크에서"
+ ],
+ "id": "Y261028b",
+ "scheduled_at": "2026-10-28T16:00:00+09:00",
+ "mood": "tense",
+ "broll": "city",
+ "title": "스타벅스 손님 10% 증발, 범인은 앱이었다? #스타벅스",
+ "title_en": "Starbucks lost 10% of transactions. The culprit was its app? #Starbucks",
+ "banner": [
+  "스타벅스 손님 10% 증발",
+  "범인은 앱이었다?"
+ ],
+ "cover_title": "스타벅스 손님\n10% 증발\n범인은 앱?",
+ "hashtags": [
+  "스타벅스",
+  "스타벅스주가",
+  "브라이언니콜",
+  "하워드슐츠",
+  "밸류노트",
+  "shorts"
+ ],
+ "message": "앱 주문이 몰리며 매장이 느려져 결제 횟수가 10% 줄었고, 2008년처럼 매장 경험을 고치자 손님이 돌아왔다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "lines": [
+    {
+     "cap": [
+      "미국 스타벅스",
+      "손님 열 명 중 한 명이 사라졌습니다"
+     ],
+     "say": "미국 스타벅스, 손님 열 명 중 한 명이 사라졌습니다."
+    },
+    {
+     "cap": [
+      "2024년 7~9월, 결제 횟수가",
+      "1년 전보다 10% 줄었거든요"
+     ],
+     "say": "이천이십사년 칠월부터 구월까지, 결제 횟수가 일 년 전보다 십 퍼센트 줄었거든요."
+    }
+   ],
+   "page": {
+    "head": "STARBUCKS  ·  2024",
+    "beats": [
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_sbuxstore_1.jpg",
+      "x": 600,
+      "y": 150,
+      "w": 400,
+      "h": 280,
+      "rot": 4,
+      "cap": "미국 스타벅스 매장",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "print",
+      "text": "2024년 7~9월 · 결제 횟수",
+      "x": 80,
+      "y": 190,
+      "size": 40,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 0.2
+     },
+     {
+      "kind": "write",
+      "text": "-10%",
+      "x": 70,
+      "y": 250,
+      "size": 200,
+      "color": "red",
+      "line": 0,
+      "at": 0.5
+     },
+     {
+      "kind": "icons",
+      "icon": "person",
+      "n": 10,
+      "hl": [
+       9
+      ],
+      "x": 90,
+      "y": 600,
+      "size": 80,
+      "gap": 12,
+      "color": "ink",
+      "hlcolor": "red",
+      "line": 1,
+      "at": 0.05,
+      "dur": 0.8
+     },
+     {
+      "kind": "cross",
+      "x0": 820,
+      "y0": 600,
+      "x1": 900,
+      "y1": 690,
+      "color": "red",
+      "line": 1,
+      "at": 0.5
+     },
+     {
+      "kind": "write",
+      "text": "10명이 9명으로",
+      "x": 80,
+      "y": 760,
+      "size": 120,
+      "color": "red",
+      "line": 1,
+      "at": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "범인은",
+   "l2": "가장 아끼던 앱",
+   "lines": [
+    {
+     "cap": [
+      "손님을 쫓아낸 건, 바로",
+      "스타벅스가 가장 아끼던 앱이었어요"
+     ],
+     "say": "손님을 쫓아낸 건, 바로 스타벅스가 가장 아끼던 앱이었어요."
+    },
+    {
+     "cap": [
+      "미국 직영점 주문 세 건 중 한 건이",
+      "매장에 오기 전 앱으로 들어옵니다"
+     ],
+     "say": "미국 직영점 주문 세 건 중 한 건이, 매장에 오기 전 앱으로 들어옵니다."
+    }
+   ],
+   "page": {
+    "head": "범인 찾기",
+    "beats": [
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/phone_14669_a.jpg",
+      "cap": "모바일 주문",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "범인 = 앱",
+      "x": 80,
+      "y": 200,
+      "size": 150,
+      "color": "red",
+      "line": 0,
+      "at": 0.5
+     },
+     {
+      "kind": "icons",
+      "icon": "cup",
+      "n": 3,
+      "hl": [
+       0
+      ],
+      "x": 110,
+      "y": 520,
+      "size": 150,
+      "gap": 110,
+      "color": "gray",
+      "hlcolor": "red",
+      "line": 1,
+      "at": 0.05,
+      "dur": 0.6
+     },
+     {
+      "kind": "write",
+      "text": "3잔 중 1잔은 앱",
+      "x": 80,
+      "y": 740,
+      "size": 110,
+      "line": 1,
+      "at": 0.45
+     },
+     {
+      "kind": "print",
+      "text": "미국 직영점 · 디지털 IR 대시보드 (FY2026 3분기)",
+      "x": 84,
+      "y": 900,
+      "size": 32,
+      "w": "Medium",
+      "color": "gray",
+      "line": 1,
+      "at": 0.7
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "옵션이 붙을수록",
+   "l2": "느려지는 매장",
+   "lines": [
+    {
+     "cap": [
+      "앱 주문엔 시럽 추가, 콜드폼 추가",
+      "같은 옵션이 잔뜩 붙어요"
+     ],
+     "say": "앱 주문엔 시럽 추가, 콜드폼 추가 같은 옵션이 잔뜩 붙어요."
+    },
+    {
+     "cap": [
+      "한 잔에 남는 돈은 늘지만",
+      "만드는 시간도 그만큼 길어지죠"
+     ],
+     "say": "한 잔에 남는 돈은 늘지만 만드는 시간도 그만큼 길어지죠."
+    },
+    {
+     "cap": [
+      "아침 8시, 픽업대는 앱으로 주문한 컵으로 꽉 차요",
+      "줄 선 손님은 커피보다 인내심이 먼저 식었죠"
+     ],
+     "say": "아침 여덟 시, 픽업대는 앱으로 주문한 컵으로 꽉 차요. 줄 선 손님은, 커피보다 인내심이 먼저 식었죠."
+    }
+   ],
+   "page": {
+    "head": "아침 8시, 픽업대",
+    "beats": [
+     {
+      "kind": "print",
+      "rows": [
+       "+ 시럽 추가",
+       "+ 콜드폼 추가",
+       "+ 우유 변경 ..."
+      ],
+      "x": 90,
+      "y": 190,
+      "size": 46,
+      "w": "Bold",
+      "line": 0,
+      "at": 0.15
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_barista_1.jpg",
+      "x": 600,
+      "y": 150,
+      "w": 400,
+      "h": 290,
+      "rot": 4,
+      "line": 0,
+      "at": 0.5
+     },
+     {
+      "kind": "write",
+      "text": "남는 돈 늘고",
+      "x": 80,
+      "y": 480,
+      "size": 110,
+      "color": "green",
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "시간도 늘고",
+      "x": 560,
+      "y": 480,
+      "size": 110,
+      "color": "red",
+      "line": 1,
+      "at": 0.45
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_cafequeue_2.jpg",
+      "x": 90,
+      "y": 700,
+      "w": 520,
+      "h": 380,
+      "rot": -2,
+      "cap": "기다리는 손님",
+      "line": 2,
+      "at": 0.1
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "앱 컵 먼저,",
+       "줄은 그 뒤"
+      ],
+      "x": 650,
+      "y": 760,
+      "size": 92,
+      "color": "red",
+      "line": 2,
+      "at": 0.5,
+      "dur": 0.9
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "아킬레스건",
+   "l2": "결국 CEO 교체",
+   "lines": [
+    {
+     "cap": [
+      "창업자 하워드 슐츠는 이 앱을",
+      "스타벅스의 가장 큰 아킬레스건이라고 했어요"
+     ],
+     "say": "창업자 하워드 슐츠는 이 앱을, 스타벅스의 가장 큰 아킬레스건이라고까지 했어요."
+    },
+    {
+     "cap": [
+      "결국 당시 최고경영자는 취임",
+      "1년 5개월 만에 교체됐습니다"
+     ],
+     "say": "결국 당시 최고경영자는, 취임 일 년 오 개월 만에 교체됐습니다."
+    }
+   ],
+   "page": {
+    "head": "창업자의 경고",
+    "beats": [
+     {
+      "kind": "write",
+      "rows": [
+       "\"가장 큰",
+       "아킬레스건\""
+      ],
+      "x": 80,
+      "y": 200,
+      "size": 140,
+      "line": 0,
+      "at": 0.15,
+      "dur": 1.2
+     },
+     {
+      "kind": "print",
+      "text": "하워드 슐츠 (창업자) · 앱을 두고",
+      "x": 86,
+      "y": 520,
+      "size": 38,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.75
+     },
+     {
+      "kind": "print",
+      "rows": [
+       "결제 횟수  2024년 4~6월  -6%",
+       "결제 횟수  2024년 7~9월  -10%"
+      ],
+      "x": 90,
+      "y": 640,
+      "size": 44,
+      "w": "ExtraBold",
+      "color": "red",
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "CEO 교체, 1년 5개월",
+      "x": 80,
+      "y": 860,
+      "size": 104,
+      "color": "red",
+      "line": 1,
+      "at": 0.45
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 960,
+      "y": 990,
+      "color": "red",
+      "line": 1,
+      "at": 0.8
+     }
+    ]
+   }
+  },
+  {
+   "type": "compare",
+   "title": "스타벅스가 손님을 잃은 두 번",
+   "l": {
+    "label": "2008년",
+    "v": "커피 맛"
+   },
+   "r": {
+    "label": "2024년",
+    "v": "느린 매장"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그런데 스타벅스는 2008년에도 이런 위기를 이겨 냈어요",
+      "그때 창업자는 미국 매장 약 7,000곳의 문을 한꺼번에 닫고"
+     ],
+     "say": "그런데 스타벅스는 2008년에도 이런 위기를 이겨 냈어요. 그때 창업자는 미국 매장 약 7,000곳의 문을 한꺼번에 닫고,"
+    },
+    {
+     "cap": [
+      "세 시간 반 동안",
+      "에스프레소 교육을 다시 했죠"
+     ],
+     "say": "세 시간 반 동안, 에스프레소 교육을 다시 했죠."
+    },
+    {
+     "cap": [
+      "그때는 커피를 고쳤고",
+      "이번엔 앱 때문에 느려진 매장을 고쳐야 했죠"
+     ],
+     "say": "그때는 커피를 고쳤고 이번엔 앱 때문에 느려진 매장을 고쳐야 했죠."
+    }
+   ],
+   "page": {
+    "head": "2008년 2월 26일",
+    "beats": [
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/commons_sbuxpike_1.jpg",
+      "cap": "2008년, 7,000곳 휴점",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "7,000곳 문 닫음",
+      "x": 80,
+      "y": 180,
+      "size": 110,
+      "line": 0,
+      "at": 0.55
+     },
+     {
+      "kind": "write",
+      "text": "3시간 반 에스프레소 재교육",
+      "x": 80,
+      "y": 360,
+      "size": 80,
+      "color": "gold",
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_barista_3.jpg",
+      "x": 640,
+      "y": 480,
+      "w": 360,
+      "h": 260,
+      "rot": 3,
+      "line": 1,
+      "at": 0.5
+     },
+     {
+      "kind": "write",
+      "text": "2008년 커피 맛",
+      "x": 80,
+      "y": 800,
+      "size": 100,
+      "color": "gray",
+      "line": 2,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "2024년 느린 매장",
+      "x": 80,
+      "y": 950,
+      "size": 110,
+      "color": "red",
+      "line": 2,
+      "at": 0.45
+     },
+     {
+      "kind": "circle",
+      "cx": 430,
+      "cy": 1010,
+      "rx": 380,
+      "ry": 85,
+      "color": "red",
+      "line": 2,
+      "at": 0.75
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "매장을 고치자",
+   "l2": "손님이 돌아왔다",
+   "lines": [
+    {
+     "cap": [
+      "새 최고경영자 브라이언 니콜은",
+      "앱을 버리지 않고 고쳐서 썼어요"
+     ],
+     "say": "새 최고경영자 브라이언 니콜은, 앱을 버리지 않고 고쳐서 썼어요."
+    },
+    {
+     "cap": [
+      "메뉴를 30% 줄이고 음료가 4분 안에 나오게 했어요",
+      "시럽 대신 속도를 더한 셈이죠"
+     ],
+     "say": "메뉴를 삼십 퍼센트 줄이고 음료가 사 분 안에 나오게 했어요. 시럽 대신 속도를 더한 셈이죠."
+    },
+    {
+     "cap": [
+      "그리고 올해, 2026년 4~6월",
+      "결제 횟수가 4.2% 늘었습니다"
+     ],
+     "say": "그리고 올해, 이천이십육년 사월부터 유월까지, 결제 횟수가 사 점 이 퍼센트 늘었습니다."
+    },
+    {
+     "cap": [
+      "실적 발표에선 결제 횟수 한 줄부터 찾아보세요",
+      "스타벅스는 거기서 무너졌고 거기서 살아났거든요"
+     ],
+     "say": "실적 발표에선 결제 횟수 한 줄부터 찾아보세요. 스타벅스는 거기서 무너졌고 거기서 살아났거든요."
+    }
+   ],
+   "page": {
+    "head": "브라이언 니콜의 처방",
+    "beats": [
+     {
+      "kind": "check",
+      "text": "앱은 고쳐서 쓴다",
+      "x": 90,
+      "y": 200,
+      "size": 72,
+      "line": 0,
+      "at": 0.3
+     },
+     {
+      "kind": "check",
+      "text": "메뉴 -30%",
+      "x": 90,
+      "y": 360,
+      "size": 72,
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "check",
+      "text": "4분 안에 한 잔",
+      "x": 90,
+      "y": 500,
+      "size": 72,
+      "line": 1,
+      "at": 0.5
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_sbuxcup_1.jpg",
+      "x": 700,
+      "y": 180,
+      "w": 290,
+      "h": 380,
+      "rot": 4,
+      "cap": "손글씨 컵",
+      "line": 1,
+      "at": 0.75
+     },
+     {
+      "kind": "print",
+      "text": "2026년 4~6월 · 미국 결제 횟수",
+      "x": 84,
+      "y": 700,
+      "size": 38,
+      "w": "Bold",
+      "color": "gray",
+      "line": 2,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "+4.2%",
+      "x": 70,
+      "y": 760,
+      "size": 200,
+      "color": "green",
+      "line": 2,
+      "at": 0.3
+     },
+     {
+      "kind": "write",
+      "text": "손님 귀환",
+      "x": 600,
+      "y": 830,
+      "size": 110,
+      "color": "green",
+      "line": 2,
+      "at": 0.7
+     },
+     {
+      "kind": "write",
+      "text": "결제 횟수 한 줄부터",
+      "x": 80,
+      "y": 1020,
+      "size": 104,
+      "color": "red",
+      "line": 3,
+      "at": 0.1
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 800,
+      "y": 1145,
+      "color": "red",
+      "line": 3,
+      "at": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "l1": "더 많은 정보를 원하시면",
+   "l2": "좋아요와 구독",
+   "lines": [
+    {
+     "cap": [
+      "더 많은 정보를 원하시면 좋아요와 구독",
+      "풀영상은 하단 프로필 링크에서"
+     ],
+     "say": "더 많은 정보를 원하시면, 좋아요와 구독 눌러 주세요.",
+     "pause": 1.6
+    }
+   ],
+   "page": {
+    "head": "VALUENOTE",
+    "beats": [
+     {
+      "kind": "write",
+      "rows": [
+       "앱에 잠든 2조 원의 정체는",
+       "9분 풀영상에"
+      ],
+      "x": 80,
+      "y": 190,
+      "size": 96,
+      "color": "gold",
+      "line": 0,
+      "at": 0,
+      "dur": 0.9
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "더 많은 정보는",
+       "좋아요 + 구독"
+      ],
+      "x": 80,
+      "y": 470,
+      "size": 112,
+      "line": 0,
+      "at": 0.25,
+      "dur": 1.2
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 720,
+      "y": 715,
+      "color": "red",
+      "line": 0,
+      "at": 0.7
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_sbuxcup_2.jpg",
+      "x": 90,
+      "y": 800,
+      "w": 380,
+      "h": 290,
+      "rot": -3,
+      "cap": "스타벅스 편",
+      "line": 0,
+      "at": 0.85
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "풀영상은",
+       "하단 프로필 링크"
+      ],
+      "x": 520,
+      "y": 830,
+      "size": 80,
+      "color": "red",
+      "line": 0,
+      "at": 1.0,
+      "dur": 1.0
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        760,
+        1030
+       ],
+       [
+        760,
+        1170
+       ]
+      ],
+      "color": "red",
+      "line": 0,
+      "at": 1.25,
+      "width": 12
+     }
+    ]
+   }
+  }
+ ],
+ "caption": "2024년 7~9월 미국 스타벅스에서 손님이 결제한 횟수는 1년 전보다 10% 줄었습니다(4~6월 -6%). 범인은 앱 주문이었습니다. 미국 직영점 주문 세 건 중 한 건이 매장에 오기 전 앱으로 들어오고, 옵션이 많이 붙어 한 잔을 만드는 시간이 길어졌습니다. 창업자 하워드 슐츠는 이 앱을 '가장 큰 아킬레스건'이라고 했고 당시 최고경영자는 취임 1년 5개월 만에 교체됐습니다.\n\n2008년 2월 26일 슐츠는 미국 매장 약 7,000곳을 세 시간 반 닫고 에스프레소 교육을 다시 했습니다. 이번 처방도 매장이었습니다. 브라이언 니콜은 메뉴를 30% 줄이고 4분 목표를 세웠고, 2026년 4~6월 미국 결제 횟수는 4.2% 늘었습니다.\n\n자료: 스타벅스 실적 발표(FY2024·FY2026 3분기), NPR(2008), NBC(2024). 손님이 앱에 넣어 둔 17억 달러의 정체는 9분 풀영상에 있습니다.\n\n사진: Wikimedia Commons (작가·라이선스는 각 파일 페이지) · 매수·매도 권유가 아닙니다.",
+ "subs_en": [
+  "At U.S. Starbucks, one in ten customers vanished",
+  "Jul-Sep 2024, transactions fell 10% from a year earlier",
+  "What drove them away was the app Starbucks loved most",
+  "One in three U.S. company-store orders comes in by app before arrival",
+  "App orders pile on extras like syrup and cold foam",
+  "More profit per cup, but each takes longer to make",
+  "8 a.m.: the pickup counter fills with app cups; patience cools before the coffee",
+  "Founder Howard Schultz called the app Starbucks' biggest Achilles' heel",
+  "The CEO at the time was replaced after one year and five months",
+  "Starbucks beat a crisis like this in 2008 too. The founder shut about 7,000 U.S. stores at once",
+  "For three and a half hours of espresso retraining",
+  "Then they fixed the coffee; this time, stores slowed by the app",
+  "New CEO Brian Niccol fixed the app instead of dropping it",
+  "Menu cut 30%, drinks in 4 minutes: speed added instead of syrup",
+  "This year, Apr-Jun 2026, transactions rose 4.2%",
+  "In earnings, find the transactions line first. That's where Starbucks fell and recovered",
+  "Like and subscribe for more. Full video: profile link"
+ ]
+}

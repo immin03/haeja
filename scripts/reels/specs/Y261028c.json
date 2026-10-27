@@ -1,0 +1,662 @@
+{
+ "approved": false,
+ "platform": "youtube",
+ "threads_tag": "주식",
+ "long": "L261026-starbucks-float",
+ "world": "ink",
+ "allow_long": true,
+ "end": "subscribe",
+ "full_say": "풀버전은 하단 프로필 링크에서 보세요.",
+ "full_cap": [
+  "풀버전은 하단 프로필 링크에서"
+ ],
+ "id": "Y261028c",
+ "scheduled_at": "2026-10-28T21:30:00+09:00",
+ "mood": "tense",
+ "broll": "market",
+ "title": "스타벅스 주가, 같은 1억이 8천만 원 vs 1억 3천만 원? 산 날 하나 차이 #스타벅스",
+ "title_en": "Starbucks stock: why the same 100M won became 80M or 130M #Starbucks",
+ "banner": [
+  "같은 스타벅스 주식 1억",
+  "8천만 원 vs 1억 3천만 원?"
+ ],
+ "cover_title": "스타벅스 1억\n8천만 vs\n1억 3천만",
+ "hashtags": [
+  "스타벅스",
+  "스타벅스주가",
+  "스타벅스실적",
+  "미국주식",
+  "밸류노트",
+  "shorts"
+ ],
+ "message": "같은 스타벅스 주식도 언제 샀느냐(최고가 근처 vs 니콜 발표 전날)에 따라 결과가 갈렸고, 회복이 이익으로 이어지는지는 10월 29일 숫자 3개가 보여 준다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "lines": [
+    {
+     "cap": [
+      "같은 스타벅스 주식 1억 원인데",
+      "한 명은 2천만 원을 잃고 한 명은 3천만 원을 벌었어요"
+     ],
+     "say": "같은 스타벅스 주식 일억 원인데, 한 명은 이천만 원을 잃고 한 명은 삼천만 원을 벌었어요."
+    },
+    {
+     "cap": [
+      "2021년 7월 최고가 근처에 산 사람은 8천만 원",
+      "2024년 8월 12일에 산 사람은 1억 3천만 원"
+     ],
+     "say": "이천이십일년 칠월 최고가 근처에 산 사람은 팔천만 원, 이천이십사년 팔월 십이일에 산 사람은 일억 삼천만 원이 됐죠."
+    },
+    {
+     "cap": [
+      "10월 26일 종가 기준, 주가로만 따진 숫자예요",
+      "그리고 이 승부, 10월 29일 실적에서 또 갈립니다"
+     ],
+     "say": "시월 이십육일 종가 기준, 주가로만 따진 숫자예요. 그리고 이 승부, 시월 이십구일 실적에서 또 갈립니다."
+    }
+   ],
+   "page": {
+    "head": "STARBUCKS  ·  SBUX",
+    "beats": [
+     {
+      "kind": "write",
+      "text": "1억 원은 지금?",
+      "x": 80,
+      "y": 180,
+      "size": 150,
+      "line": 0,
+      "at": 0.1
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_sbuxpike_2.jpg",
+      "x": 700,
+      "y": 300,
+      "w": 300,
+      "h": 220,
+      "rot": 4,
+      "line": 0,
+      "at": 0.5
+     },
+     {
+      "kind": "print",
+      "text": "2021년 7월 23일 · 126달러",
+      "x": 84,
+      "y": 470,
+      "size": 38,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.6
+     },
+     {
+      "kind": "write",
+      "text": "8천만 원 (-18%)",
+      "x": 80,
+      "y": 530,
+      "size": 120,
+      "color": "red",
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "print",
+      "text": "2024년 8월 12일 · 77.03달러",
+      "x": 84,
+      "y": 760,
+      "size": 38,
+      "w": "Bold",
+      "color": "gray",
+      "line": 1,
+      "at": 0.4
+     },
+     {
+      "kind": "write",
+      "text": "1억 3천만 원 (+33%)",
+      "x": 80,
+      "y": 820,
+      "size": 120,
+      "color": "green",
+      "line": 1,
+      "at": 0.55
+     },
+     {
+      "kind": "print",
+      "text": "10월 26일 종가 102.7달러 · 주가만, 배당·환율 빼고",
+      "x": 84,
+      "y": 1000,
+      "size": 32,
+      "w": "Medium",
+      "color": "gray",
+      "line": 2,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "다음 승부는 10월 29일",
+      "x": 80,
+      "y": 1060,
+      "size": 80,
+      "color": "red",
+      "line": 2,
+      "at": 0.55
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "8월 12일",
+   "l2": "니콜 발표 전날",
+   "lines": [
+    {
+     "cap": [
+      "8월 12일은 브라이언 니콜이 새 최고경영자로",
+      "발표되기 바로 전날이었어요"
+     ],
+     "say": "팔월 십이일은, 브라이언 니콜이 새 최고경영자로 발표되기 바로 전날이었어요."
+    },
+    {
+     "cap": [
+      "발표 당일, 주가는 장중 24% 올랐습니다",
+      "실적보다 기대가 먼저 움직인 거예요"
+     ],
+     "say": "발표 당일, 주가는 장중 이십사 퍼센트 올랐습니다. 실적보다 기대가 먼저 움직인 거예요."
+    }
+   ],
+   "page": {
+    "head": "2024년 8월 13일",
+    "beats": [
+     {
+      "kind": "pop",
+      "src": "scripts/blog/media/lib/commons_niccol_1.jpg",
+      "cap": "새 CEO 브라이언 니콜 발표",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "새 CEO",
+       "브라이언 니콜"
+      ],
+      "x": 80,
+      "y": 190,
+      "size": 120,
+      "line": 0,
+      "at": 0.55,
+      "dur": 0.9
+     },
+     {
+      "kind": "write",
+      "text": "장중 +24%",
+      "x": 80,
+      "y": 560,
+      "size": 180,
+      "color": "green",
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        760,
+        860
+       ],
+       [
+        900,
+        600
+       ]
+      ],
+      "color": "green",
+      "line": 1,
+      "at": 0.35,
+      "width": 12
+     },
+     {
+      "kind": "print",
+      "text": "장중 기준 스타벅스 역사상 최대 상승",
+      "x": 84,
+      "y": 830,
+      "size": 40,
+      "w": "Bold",
+      "color": "gray",
+      "line": 1,
+      "at": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "출근길은",
+   "l2": "비행기",
+   "lines": [
+    {
+     "cap": [
+      "니콜은 캘리포니아 집에서 본사까지",
+      "1,600km 넘는 길을 회사 전용기로 출근하기로 했어요"
+     ],
+     "say": "니콜은 캘리포니아 집에서 본사까지, 천육백 킬로미터가 넘는 길을 회사 전용기로 출근하기로 했어요."
+    },
+    {
+     "cap": [
+      "저는 지하철 두 정거장도 멀던데",
+      "이분 출근길은 마일리지가 쌓이네요"
+     ],
+     "say": "저는 지하철 두 정거장도 멀던데, 이분 출근길은 마일리지가 쌓이네요."
+    }
+   ],
+   "page": {
+    "head": "화제가 된 출근길",
+    "beats": [
+     {
+      "kind": "print",
+      "text": "뉴포트비치 (캘리포니아)",
+      "x": 90,
+      "y": 200,
+      "size": 42,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 0.15
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        200,
+        280
+       ],
+       [
+        760,
+        560
+       ]
+      ],
+      "color": "gold",
+      "line": 0,
+      "at": 0.35,
+      "width": 12
+     },
+     {
+      "kind": "print",
+      "text": "시애틀 본사",
+      "x": 700,
+      "y": 600,
+      "size": 42,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 0.55
+     },
+     {
+      "kind": "write",
+      "text": "1,600km+ 전용기",
+      "x": 80,
+      "y": 720,
+      "size": 120,
+      "color": "red",
+      "line": 0,
+      "at": 0.7
+     },
+     {
+      "kind": "write",
+      "text": "vs 지하철 두 정거장",
+      "x": 80,
+      "y": 920,
+      "size": 96,
+      "color": "gray",
+      "line": 1,
+      "at": 0.1
+     }
+    ]
+   }
+  },
+  {
+   "type": "compare",
+   "title": "100달러 팔아 남는 돈",
+   "l": {
+    "label": "2025 회계연도",
+    "v": "7.9달러"
+   },
+   "r": {
+    "label": "올해 회사 예상",
+    "v": "11달러+"
+   },
+   "lines": [
+    {
+     "cap": [
+      "니콜은 직원과 매장에 먼저 돈을 써서 2025 회계연도엔",
+      "100달러어치를 팔아 7.9달러만 남겼죠, 올해 회사 목표는 11달러 이상이에요"
+     ],
+     "say": "니콜은 직원과 매장에 먼저 돈을 썼습니다. 그래서 2025 회계연도엔 100달러어치를 팔아 7.9달러만 남겼죠. 올해 회사 목표는 11달러 이상이에요."
+    },
+    {
+     "cap": [
+      "그 사이 손님은 돌아왔어요",
+      "올해 4~6월 결제 횟수 +4.2%"
+     ],
+     "say": "그 사이 손님은 돌아왔어요. 올해 사월부터 유월까지, 결제 횟수가 사 점 이 퍼센트 늘었거든요."
+    }
+   ],
+   "page": {
+    "head": "100달러 팔면 남는 돈",
+    "beats": [
+     {
+      "kind": "bars",
+      "items": [
+       {
+        "label": "2025 회계연도",
+        "v": 7.9,
+        "text": "7.9달러",
+        "color": "red"
+       },
+       {
+        "label": "올해 회사 예상",
+        "v": 11,
+        "text": "11달러+",
+        "color": "green"
+       }
+      ],
+      "x": 90,
+      "y": 340,
+      "w": 900,
+      "h": 380,
+      "line": 0,
+      "at": 0.3
+     },
+     {
+      "kind": "write",
+      "text": "직원과 매장에 먼저 썼다",
+      "x": 80,
+      "y": 170,
+      "size": 80,
+      "color": "red",
+      "line": 0,
+      "at": 0.05
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        330,
+        480
+       ],
+       [
+        560,
+        400
+       ]
+      ],
+      "color": "green",
+      "line": 0,
+      "at": 0.8,
+      "width": 10
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 800,
+      "y": 270,
+      "color": "red",
+      "line": 0,
+      "at": 0.55
+     },
+     {
+      "kind": "print",
+      "text": "올해 회사 목표 11달러 이상",
+      "x": 560,
+      "y": 785,
+      "size": 36,
+      "w": "Bold",
+      "color": "green",
+      "line": 0,
+      "at": 0.95
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_cafeint_2.jpg",
+      "x": 90,
+      "y": 830,
+      "w": 400,
+      "h": 280,
+      "rot": -3,
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "결제 횟수",
+       "+4.2%"
+      ],
+      "x": 570,
+      "y": 850,
+      "size": 110,
+      "color": "green",
+      "line": 1,
+      "at": 0.4,
+      "dur": 0.9
+     }
+    ]
+   }
+  },
+  {
+   "type": "list",
+   "title": "10월 29일 볼 숫자 3개",
+   "items": [
+    "미국 기존 매장 매출",
+    "결제 횟수",
+    "100달러당 남는 돈"
+   ],
+   "lines": [
+    {
+     "cap": [
+      "산 날은 못 고르더라도, 이번 실적에서",
+      "꼭 볼 숫자는 딱 세 개입니다"
+     ],
+     "say": "산 날은 못 고르더라도, 이번 실적에서 꼭 볼 숫자는 딱 세 개입니다."
+    },
+    {
+     "cap": [
+      "첫째, 미국 기존 매장 매출, 새 매장을 빼고 원래 매장이 더 판 정도",
+      "회사는 이번 분기 6.5% 이상을 내걸었어요"
+     ],
+     "say": "첫째, 미국 기존 매장 매출. 새 매장을 빼고 원래 매장이 얼마나 더 팔았나예요. 회사는 이번 분기 육 점 오 퍼센트 이상을 내걸었어요."
+    },
+    {
+     "cap": [
+      "둘째, 결제 횟수",
+      "지난 분기 4.2%보다 높으면 손님이 계속 느는 거예요"
+     ],
+     "say": "둘째, 결제 횟수. 지난 분기 사 점 이 퍼센트보다 높으면, 손님이 계속 느는 거예요."
+    },
+    {
+     "cap": [
+      "셋째, 100달러어치 팔아 남는 돈",
+      "작년 7.9달러보다 늘면 매장에 쓴 돈이 돌아오는 거예요"
+     ],
+     "say": "셋째, 백 달러어치 팔아 남는 돈. 작년 칠 점 구 달러보다 늘면, 매장에 쓴 돈이 돌아오는 거예요."
+    }
+   ],
+   "page": {
+    "head": "10월 29일, 이 숫자 3개",
+    "beats": [
+     {
+      "kind": "write",
+      "text": "10월 29일 실적",
+      "x": 80,
+      "y": 170,
+      "size": 110,
+      "color": "red",
+      "line": 0,
+      "at": 0.1
+     },
+     {
+      "kind": "print",
+      "text": "미국 장 마감 뒤 발표",
+      "x": 86,
+      "y": 320,
+      "size": 36,
+      "w": "Bold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.6
+     },
+     {
+      "kind": "check",
+      "text": "기존 매장 매출 6.5%+",
+      "x": 90,
+      "y": 470,
+      "size": 66,
+      "line": 1,
+      "at": 0.1
+     },
+     {
+      "kind": "check",
+      "text": "결제 횟수 계속 +?",
+      "x": 90,
+      "y": 690,
+      "size": 66,
+      "line": 2,
+      "at": 0.1
+     },
+     {
+      "kind": "check",
+      "text": "100달러당 남는 돈",
+      "x": 90,
+      "y": 910,
+      "size": 66,
+      "line": 3,
+      "at": 0.1
+     },
+     {
+      "kind": "write",
+      "text": "11달러로 갈까?",
+      "x": 600,
+      "y": 1030,
+      "size": 80,
+      "color": "green",
+      "line": 3,
+      "at": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "l1": "더 많은 정보를 원하시면",
+   "l2": "좋아요와 구독",
+   "lines": [
+    {
+     "cap": [
+      "더 많은 정보를 원하시면 좋아요와 구독",
+      "풀영상은 하단 프로필 링크에서"
+     ],
+     "say": "더 많은 정보를 원하시면, 좋아요와 구독 눌러 주세요.",
+     "pause": 1.6
+    }
+   ],
+   "page": {
+    "head": "VALUENOTE",
+    "beats": [
+     {
+      "kind": "write",
+      "rows": [
+       "지금 주가, 비싼가 싼가는",
+       "9분 풀영상에"
+      ],
+      "x": 80,
+      "y": 190,
+      "size": 96,
+      "color": "gold",
+      "line": 0,
+      "at": 0,
+      "dur": 0.9
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "더 많은 정보는",
+       "좋아요 + 구독"
+      ],
+      "x": 80,
+      "y": 470,
+      "size": 112,
+      "line": 0,
+      "at": 0.25,
+      "dur": 1.2
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 720,
+      "y": 715,
+      "color": "red",
+      "line": 0,
+      "at": 0.7
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_sbuxkorea_1.jpg",
+      "x": 90,
+      "y": 800,
+      "w": 380,
+      "h": 290,
+      "rot": -3,
+      "cap": "스타벅스 편",
+      "line": 0,
+      "at": 0.85
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "풀영상은",
+       "하단 프로필 링크"
+      ],
+      "x": 520,
+      "y": 830,
+      "size": 80,
+      "color": "red",
+      "line": 0,
+      "at": 1.0,
+      "dur": 1.0
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        760,
+        1030
+       ],
+       [
+        760,
+        1170
+       ]
+      ],
+      "color": "red",
+      "line": 0,
+      "at": 1.25,
+      "width": 12
+     }
+    ]
+   }
+  }
+ ],
+ "caption": "스타벅스 주식을 1억 원어치 샀다면? 주가만 따지면(배당·환율 제외, 10월 26일 종가 102.7달러 기준) 최고가 근처였던 2021년 7월 23일(126달러)에 산 사람은 약 8천만 원(-18%), 브라이언 니콜 발표 전날인 2024년 8월 12일(77.03달러)에 산 사람은 약 1억 3천만 원(+33%)입니다.\n\n발표 당일 주가는 장중 24% 올랐습니다. 니콜은 직원과 매장에 돈을 먼저 써 2025 회계연도엔 100달러를 팔아 7.9달러만 남겼지만, 2026년 4~6월 결제 횟수는 4.2% 늘었습니다.\n\n10월 29일 실적에서 볼 숫자 3개: ① 미국 기존 매장 매출(회사 목표 이번 분기 6.5% 이상) ② 결제 횟수 ③ 100달러어치 팔아 남는 돈(회사 연간 예상 11달러 이상). 지금 주가가 비싼지 싼지는 9분 풀영상에 정리했습니다.\n\n사진: Wikimedia Commons (작가·라이선스는 각 파일 페이지) · 매수·매도 권유가 아닙니다.",
+ "subs_en": [
+  "Same 100 million won in Starbucks stock: one lost 20 million, one made 30 million",
+  "Bought near the July 2021 peak: 80 million. Bought Aug 12, 2024: 130 million",
+  "Oct 26 close, price only. And the next round is decided at the Oct 29 earnings",
+  "Aug 12 was the day before Brian Niccol was named CEO",
+  "On the news the stock rose 24% intraday. Hope moved before results",
+  "Niccol would commute 1,600+ km from his California home by company jet",
+  "Two subway stops feel far to me; his commute earns miles",
+  "He spent on staff and stores first: $7.90 kept per $100 in FY2025; this year's goal is $11+",
+  "Meanwhile customers came back: transactions +4.2% in Apr-Jun",
+  "You can't pick the day you buy, but there are just three numbers to watch",
+  "One: U.S. comparable-store sales, the company targets 6.5%+ this quarter",
+  "Two: transactions, above last quarter's 4.2% means customers keep growing",
+  "Three: profit per $100 sold. Above last year's $7.90 means store spending is paying back",
+  "Like and subscribe for more. Full video: profile link"
+ ]
+}
