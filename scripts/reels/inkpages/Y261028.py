@@ -99,7 +99,7 @@ A["scenes"] = [
         dict(kind="write", text="회원이 매출 59%", x=80, y=990, size=96, color="green", line=2, at=.5),
     ]}},
     {"type": "statement", "l1": "내 돈 팁", "l2": "충전은 한 달 치만", "lines": [
-        L(["내 돈 팁 하나, 충전은", "한 달에 쓸 만큼만 하세요"], "내 돈 팁 하나. 충전은 한 달에 쓸 만큼만 하세요."),
+        L(["내 돈을 지키는 팁 하나", "충전은 딱 한 달 쓸 만큼만 하세요"], "내 돈을 지키는 팁 하나. 충전은 딱 한 달 쓸 만큼만 하세요."),
         L(["앱에 남은 돈이 다음 커피를", "대신 골라 주고 있을지 모르니까요"], "앱에 남은 돈이, 다음 커피를 대신 골라 주고 있을지 모르니까요."),
     ], "page": {"head": "내 지갑에서는", "beats": [
         dict(kind="check", text="충전은 한 달 치만", x=90, y=260, size=84, line=0, at=.1),
@@ -153,7 +153,7 @@ B["scenes"] = [
         dict(kind="print", text="미국 직영점 · 디지털 IR 대시보드 (FY2026 3분기)", x=84, y=900, size=32, w="Medium", color="gray", line=1, at=.7),
     ]}},
     {"type": "statement", "l1": "옵션이 붙을수록", "l2": "느려지는 매장", "lines": [
-        L(["앱 주문엔 시럽 추가, 콜드폼 추가", "같은 옵션이 잔뜩 붙어요"], "앱 주문엔 시럽 추가, 콜드폼 추가 같은 옵션이 잔뜩 붙어요."),
+        L(["앱으로 주문하면 시럽 추가, 우유 변경", "같은 옵션이 잔뜩 붙어요"], "앱으로 주문하면 시럽 추가, 우유 변경 같은 옵션이 잔뜩 붙어요."),
         L(["한 잔에 남는 돈은 늘지만", "만드는 시간도 그만큼 길어지죠"], "한 잔에 남는 돈은 늘지만, 만드는 시간도 그만큼 길어지죠."),
         L(["아침 8시, 픽업대는 앱으로 주문한 컵으로 꽉 차요", "줄 선 손님은 커피보다 인내심이 먼저 식었죠"], "아침 여덟 시, 픽업대는 앱으로 주문한 컵으로 꽉 차요. 줄 선 손님은, 커피보다 인내심이 먼저 식었죠."),
     ], "page": {"head": "아침 8시, 픽업대", "beats": [
@@ -210,7 +210,7 @@ B["caption"] = ("2024년 7~9월 미국 스타벅스에서 손님이 결제한 �
                 "자료: 스타벅스 실적 발표(FY2024·FY2026 3분기), NPR(2008), NBC(2024). 손님이 앱에 넣어 둔 17억 달러의 정체는 9분 풀영상에 있습니다." + CREDIT)
 B["subs_en"] = ["Jul-Sep 2024: transactions at U.S. Starbucks fell 10%", "A store that served ten now served nine",
                 "The culprit was the app Starbucks loved most", "One in three U.S. company-store orders comes in by app before arrival",
-                "App orders pile on extras like syrup and cold foam", "More profit per cup, but each takes longer to make",
+                "App orders pile on extras like extra syrup or milk swaps", "More profit per cup, but each takes longer to make",
                 "8 a.m.: app cups line the pickup counter, and the line waits behind them", "Founder Howard Schultz called the app Starbucks' biggest Achilles' heel",
                 "The CEO was replaced after one year and five months", "It happened in 2008 too. Schultz shut about 7,000 U.S. stores at once",
                 "For three and a half hours of espresso retraining", "Then the cause was taste; this time, stores swamped by app orders",
@@ -307,7 +307,7 @@ A["subs_en"] = ["How much have U.S. Starbucks customers left unspent in the app?
                 "Money left in the app may be picking your next coffee for you", "Like and subscribe for more. Full video: profile link"]
 B["subs_en"] = ["At U.S. Starbucks, one in ten customers vanished", "Jul-Sep 2024, transactions fell 10% from a year earlier",
                 "What drove them away was the app Starbucks loved most", "One in three U.S. company-store orders comes in by app before arrival",
-                "App orders pile on extras like syrup and cold foam", "More profit per cup, but each takes longer to make",
+                "App orders pile on extras like extra syrup or milk swaps", "More profit per cup, but each takes longer to make",
                 "8 a.m.: the pickup counter fills with app cups; patience cools before the coffee", "Founder Howard Schultz called the app Starbucks' biggest Achilles' heel",
                 "Starbucks beat a crisis like this in 2008 too. The founder shut about 7,000 U.S. stores at once",
                 "For three and a half hours of espresso retraining", "Then they fixed the coffee; this time, stores slowed by the app",
