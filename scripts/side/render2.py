@@ -453,7 +453,7 @@ def mix(audio_parts, sfx_ev, total, music):
 
 # ---------------- 렌더 ----------------
 LONG = {"W": 1920, "H": 1080, "sub_size": 62, "sub_w": 1000, "sub_y": 1000, "host_h": 440, "feet": 30, "edge": 60,
-        "slots": [(70, 250), (1850, 60), (1850, 330)], "count_y": 70, "logo": (28, 24), "chip_y": 205}
+        "slots": [(70, 300), (1850, 60), (1850, 330)], "count_y": 70, "logo": (24, 18), "chip_y": 230}
 VERT = {"W": 1080, "H": 1920, "sub_size": 76, "sub_w": 960, "sub_y": 1080, "host_h": 520, "feet": 230, "edge": 30,
         "slots": [(40, 420), (1040, 700)], "count_y": 300, "logo": (32, 120), "chip_y": 280}
 FLY_FACES = "left"   # h_fly 그림이 바라보는 쪽 (날아가는 방향이 반대면 좌우 뒤집음)
@@ -461,20 +461,18 @@ L = dict(LONG)
 
 
 def logo_badge(brand=None):
-    """왼쪽 위 고정 로고: 까치 얼굴 동그라미 + 채널 이름 (+ 오늘의 주인공 브랜드)"""
-    face = Image.open(os.path.join(GEN, "brand_logo.jpeg")).convert("RGB").resize((96, 96), Image.LANCZOS) if os.path.exists(os.path.join(GEN, "brand_logo.jpeg")) else Image.new("RGB", (96, 96), YEL)
-    f = FF(34); d0 = ImageDraw.Draw(Image.new("RGB", (8, 8))); tw = int(d0.textlength("What Korea Says", font=f))
-    fb = FP(24, "Bold"); bw = int(d0.textlength(brand, font=fb)) if brand else 0
-    w = max(96 + 18 + tw + 34, 96 + 18 + bw + 60); h = 112 + (52 if brand else 0)
-    im = Image.new("RGBA", (w + 10, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
-    d.rounded_rectangle((40, 22, 96 + 18 + tw + 34, 90), 34, fill=(18, 16, 28, 190))
-    d.text((96 + 22, 56), "What Korea Says", font=f, fill=WHITE, anchor="lm")
-    m = Image.new("L", (96, 96), 0); ImageDraw.Draw(m).ellipse((0, 0, 95, 95), fill=255)
-    d.ellipse((4, 4, 108, 108), fill=WHITE); im.paste(face, (8, 8), m)
-    if brand:
-        d.rounded_rectangle((52, 118, 52 + bw + 58, 160), 21, fill=(255, 255, 255, 235))
-        d.ellipse((66, 131, 82, 147), fill=RED); d.text((92, 139), brand, font=fb, fill=INK, anchor="lm")
-    return im.resize((int(im.width * 1.2), int(im.height * 1.2)), Image.LANCZOS)
+    """왼쪽 위 고정 로고 (2026-10-27 확정: 까치가 가리키는 큰 Korea + What + 'says!' 말풍선) + 오늘의 브랜드 줄"""
+    lp = os.path.join(GEN, "brand_logo_main.png")
+    lg = Image.open(lp).convert("RGBA")
+    tw = 380 if W > H else 400
+    lg = lg.resize((tw, int(lg.height * tw / lg.width)), Image.LANCZOS)
+    if not brand: return lg
+    fb = FP(24, "Bold"); d0 = ImageDraw.Draw(Image.new("RGB", (8, 8))); bw = int(d0.textlength(brand, font=fb))
+    im = Image.new("RGBA", (max(lg.width, bw + 90), lg.height + 52), (0, 0, 0, 0)); im.alpha_composite(lg, (0, 0))
+    d = ImageDraw.Draw(im); y = lg.height + 4
+    d.rounded_rectangle((14, y, 14 + bw + 58, y + 42), 21, fill=(255, 255, 255, 235))
+    d.ellipse((28, y + 13, 44, y + 29), fill=RED); d.text((54, y + 21), brand, font=fb, fill=INK, anchor="lm")
+    return im
 
 
 def zoomc(img, z):
