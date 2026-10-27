@@ -77,7 +77,7 @@ h2{font-size:16px;margin:22px 0 10px;font-weight:850}
 .bar-row .track{height:12px;border-radius:6px;background:var(--line);overflow:hidden}
 .bar-row .fill{height:100%;background:var(--bar);border-radius:6px}
 .bar-row .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:700}
-.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.thumbs a{display:grid;gap:4px;text-decoration:none;color:var(--ink2);font-size:12.5px;font-weight:700}.thumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.thumbs .th{display:grid;gap:6px;grid-template-rows:auto 1fr auto}.thumbs .tt{font-size:12.5px;line-height:1.4;color:var(--ink);font-weight:700}.thumbs a{display:grid;gap:4px;text-decoration:none;color:var(--ink2);font-size:12.5px;font-weight:700}.thumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
 .jobbar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}.jobbar>div{height:100%;background:var(--bar);border-radius:5px;transition:width .6s}
 .plan{display:grid;gap:8px}
 .plan .t{font-size:16px;font-weight:850;line-height:1.4}
@@ -341,6 +341,7 @@ function viewReview(){
       upd({ status: 'uploaded', youtube_id: yid || null, uploaded_at: new Date().toISOString() }, [id], '올림으로 표시했습니다');
     };
     const sv = card.querySelector('[data-save]'); if (sv) sv.onclick = () => upd({ note: note() }, [id], '의견을 저장했습니다');
+    card.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { try { await navigator.clipboard.writeText(b.dataset.copy); toast('제목을 복사했습니다'); } catch(_) { prompt('아래 제목을 복사하세요', b.dataset.copy); } });
   });
 }
 function item(v, kids, langCount){
@@ -354,8 +355,8 @@ function item(v, kids, langCount){
       <div class="note">게시 예정 ${kst(v.scheduled_at)}</div>
       ${v.description ? `<details><summary class="note" style="cursor:pointer">설명 보기</summary><div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(v.description)}</div></details>` : ''}
       ${locN ? `<details><summary class="note" style="cursor:pointer">언어별 제목 보기</summary><div class="note" style="margin-top:6px">${Object.entries(v.loc).map(([k, o]) => `<div><b>${esc(LANGS[k] || k)}</b> ${esc(o && o.title || '')}</div>`).join('')}</div></details>` : ''}
-      ${((S.queue || {})[v.id]?.thumbs || []).length ? `<div class="note" style="font-weight:700">썸네일 후보 (유튜브 '테스트 및 비교'에 3개 모두 넣으면 클릭 많은 쪽으로 자동 선택)</div>
-        <div class="thumbs">${S.queue[v.id].thumbs.map(t => `<a href="${esc(t.url)}" download target="_blank" rel="noopener"><img src="${esc(t.url)}" alt="${esc(t.label)}" loading="lazy"><span>${esc(t.label)} · 받기</span></a>`).join('')}</div>` : ''}
+      ${((S.queue || {})[v.id]?.thumbs || []).length ? `<div class="note" style="font-weight:700">제목·썸네일 A/B 테스트 (스튜디오 '테스트 및 비교'에 같은 글자끼리 짝지어 3개 넣기 · 시청 시간 많은 쪽 자동 선택)</div>
+        <div class="thumbs">${S.queue[v.id].thumbs.map(t => `<div class="th"><a href="${esc(t.url)}" download target="_blank" rel="noopener"><img src="${esc(t.url)}" alt="${esc(t.label)}" loading="lazy"><span>${esc(t.label)} · 썸네일 받기</span></a>${t.title ? `<div class="tt">${esc(t.title)}</div><button class="btn sm" data-copy="${esc(t.title)}">제목 복사</button>` : ''}</div>`).join('')}</div>` : ''}
       ${kids.length ? `<div class="note">함께 올릴 쇼츠 ${kids.length}편: ${kids.map(k => `${esc(k.title)}${k.video_url ? ` · <a href="${esc(k.video_url)}" target="_blank" rel="noopener">쇼츠 받기</a>` : ''}`).join(' / ')}</div>` : ''}
       ${v.status === 'review' ? `<textarea data-note placeholder="고칠 점을 남기면 다시 렌더합니다">${esc(v.note || '')}</textarea>` : ''}
       <div class="row">
