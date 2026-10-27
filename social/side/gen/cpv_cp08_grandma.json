@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp08_grandma",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandmother pushes the plate toward the boy with a big smile, steam rises from the pot, the boy laughs, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b98-5dbc-7ac5-b8fe-9704167243e1/7316ded8-2544-471e-9d05-754f1e72f261.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c2b-3f48-7578-9020-042d274ec2f6",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2b-3f48-7578-9020-042d274ec2f6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2b-3f48-7578-9020-042d274ec2f6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c2b-3f48-7578-9020-042d274ec2f6",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2b-3f48-7578-9020-042d274ec2f6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2b-3f48-7578-9020-042d274ec2f6/cancel",
+  "expires_at": "2026-11-03T07:07:34.106785+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c2b-3f48-7578-9020-042d274ec2f6/00f81daf-79c8-4c59-8108-fa25a2897048.mp4"
+  }
+ },
+ "seconds": 284,
+ "file": "social/side/gen/cpv_cp08_grandma.mp4"
+}

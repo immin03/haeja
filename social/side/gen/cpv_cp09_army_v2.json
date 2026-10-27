@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp09_army_v2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The line of tiny soldiers shuffles forward, the canteen soldier hands out red-wrapped snacks, a flag rope sways, slow camera pan, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-6efa-7c23-9edf-afed4da7de76/6a3658e6-6bd8-4fa9-a97e-f7ec22573d32.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c2c-4934-75aa-8d90-cb8f67073081",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2c-4934-75aa-8d90-cb8f67073081/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2c-4934-75aa-8d90-cb8f67073081/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c2c-4934-75aa-8d90-cb8f67073081",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2c-4934-75aa-8d90-cb8f67073081/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2c-4934-75aa-8d90-cb8f67073081/cancel",
+  "expires_at": "2026-11-03T07:07:48.436006+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c2c-4934-75aa-8d90-cb8f67073081/3cc75dfa-6d04-4c4a-8530-73372afaa5ae.mp4"
+  }
+ },
+ "seconds": 235,
+ "file": "social/side/gen/cpv_cp09_army_v2.mp4"
+}

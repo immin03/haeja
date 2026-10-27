@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp18_kaesong",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Tiny workers in gray uniforms walk out through the factory gate carrying small bags of red snacks, dusk light, slow camera pan, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17ba5-12e7-7804-a477-b21c697f4716/4a3e7244-c973-4324-b635-a3e868d53ada.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c34-6335-776f-bc8d-12e48b989858",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c34-6335-776f-bc8d-12e48b989858/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c34-6335-776f-bc8d-12e48b989858/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c34-6335-776f-bc8d-12e48b989858",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c34-6335-776f-bc8d-12e48b989858/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c34-6335-776f-bc8d-12e48b989858/cancel",
+  "expires_at": "2026-11-03T07:15:55.149681+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c34-6335-776f-bc8d-12e48b989858/dd23a6ae-b560-44be-b94f-d6760150ef69.mp4"
+  }
+ },
+ "seconds": 186,
+ "file": "social/side/gen/cpv_cp18_kaesong.mp4"
+}

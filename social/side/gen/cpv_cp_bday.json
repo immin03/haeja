@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp_bday",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Tiny soldiers clap and sing around the stacked snack cake, the candle flame flickers, one soldier leans in to blow it out, warm and funny, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc2-4d33-7343-a382-40515d470f85/edfe8a62-39a3-4530-88f0-d883abbc0330.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c2f-9f51-763c-937e-9f8a044dde50",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2f-9f51-763c-937e-9f8a044dde50/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2f-9f51-763c-937e-9f8a044dde50/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c2f-9f51-763c-937e-9f8a044dde50",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2f-9f51-763c-937e-9f8a044dde50/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2f-9f51-763c-937e-9f8a044dde50/cancel",
+  "expires_at": "2026-11-03T07:11:27.582804+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c2f-9f51-763c-937e-9f8a044dde50/acd7eb15-f3a1-4a57-a298-2730f49b87e0.mp4"
+  }
+ },
+ "seconds": 235,
+ "file": "social/side/gen/cpv_cp_bday.mp4"
+}

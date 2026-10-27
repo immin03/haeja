@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp16_vietnam",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Incense smoke curls up slowly, candle flames flicker, peach blossom petals drift down, slow gentle push-in toward the altar, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17ba2-82e1-794a-b73a-8a7dd0e801ef/684402be-9020-4111-90c3-fc73fa29bbda.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c33-3be8-7ebc-88e7-11dc8aa2cdf3",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c33-3be8-7ebc-88e7-11dc8aa2cdf3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c33-3be8-7ebc-88e7-11dc8aa2cdf3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c33-3be8-7ebc-88e7-11dc8aa2cdf3",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c33-3be8-7ebc-88e7-11dc8aa2cdf3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c33-3be8-7ebc-88e7-11dc8aa2cdf3/cancel",
+  "expires_at": "2026-11-03T07:14:45.122441+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c33-3be8-7ebc-88e7-11dc8aa2cdf3/ffa14cf6-473d-4084-a36b-4f6aa2aabcb9.mp4"
+  }
+ },
+ "seconds": 192,
+ "file": "social/side/gen/cpv_cp16_vietnam.mp4"
+}

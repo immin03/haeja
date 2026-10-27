@@ -1,0 +1,35 @@
+{
+ "id": "h_fly",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The exact same magpie reporter character from the reference image, same red scarf, brown satchel and black microphone, same proportions, same pose and same camera angle as the reference, now flying through the air seen from the side, both wings spread wide mid-flap, body tilted forward, happy face, microphone in one wing (ignore the pose of the reference), full body, plain flat light cream background with nothing else, soft studio light, cute 3D vinyl toy figurine, no text",
+  "aspect_ratio": "1:1",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c38-70f5-7297-847a-f16a801d5a84",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c38-70f5-7297-847a-f16a801d5a84/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c38-70f5-7297-847a-f16a801d5a84/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c38-70f5-7297-847a-f16a801d5a84",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c38-70f5-7297-847a-f16a801d5a84/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c38-70f5-7297-847a-f16a801d5a84/cancel",
+  "expires_at": "2026-11-03T07:17:48.740537+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c38-70f5-7297-847a-f16a801d5a84/e7505212-669f-4a23-980f-7674615a8b7c.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/h_fly.jpeg"
+}

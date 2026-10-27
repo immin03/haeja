@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp17_china",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Red lanterns sway, confetti drifts down, tiny people walk through the festive street carrying gift bags, slow camera drift, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a/8013663e-0b10-4fc4-a73a-878a81bf5c91.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c33-b657-7cfc-b26b-98f421f4fe26",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c33-b657-7cfc-b26b-98f421f4fe26/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c33-b657-7cfc-b26b-98f421f4fe26/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c33-b657-7cfc-b26b-98f421f4fe26",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c33-b657-7cfc-b26b-98f421f4fe26/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c33-b657-7cfc-b26b-98f421f4fe26/cancel",
+  "expires_at": "2026-11-03T07:15:16.123527+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c33-b657-7cfc-b26b-98f421f4fe26/803c89a9-21e1-4392-83de-b516b669e6ae.mp4"
+  }
+ },
+ "seconds": 192,
+ "file": "social/side/gen/cpv_cp17_china.mp4"
+}

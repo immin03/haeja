@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp05_georgia",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Ceiling fans turn slowly, the tiny businessman lifts his coffee cup and takes a bite of the chocolate cake, sunlight shifts through the windows, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b94-189e-7b26-a382-5f603c612c1d/c493009e-39bb-42ef-b2ac-e49f968e04d4.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c28-1856-7b5a-ac0c-417d0ae82dc8",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c28-1856-7b5a-ac0c-417d0ae82dc8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c28-1856-7b5a-ac0c-417d0ae82dc8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c28-1856-7b5a-ac0c-417d0ae82dc8",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c28-1856-7b5a-ac0c-417d0ae82dc8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c28-1856-7b5a-ac0c-417d0ae82dc8/cancel",
+  "expires_at": "2026-11-03T07:02:45.535666+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c28-1856-7b5a-ac0c-417d0ae82dc8/b0a454d8-d5bb-48cc-8dea-e658201b3b2f.mp4"
+  }
+ },
+ "seconds": 204,
+ "file": "social/side/gen/cpv_cp05_georgia.mp4"
+}

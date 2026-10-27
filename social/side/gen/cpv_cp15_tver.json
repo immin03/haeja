@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp15_tver",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Conveyor belts run fast, forklifts zoom around mountains of red boxes, tiny workers scramble to keep up, comedic chaos, camera pans, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17ba1-4671-7bd3-9686-b1c782b28930/008c2075-7c55-4b23-bfab-3c186593d0d0.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c31-0d76-799d-8649-b888e3baa7c6",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c31-0d76-799d-8649-b888e3baa7c6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c31-0d76-799d-8649-b888e3baa7c6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c31-0d76-799d-8649-b888e3baa7c6",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c31-0d76-799d-8649-b888e3baa7c6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c31-0d76-799d-8649-b888e3baa7c6/cancel",
+  "expires_at": "2026-11-03T07:12:43.767646+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c31-0d76-799d-8649-b888e3baa7c6/ec7d7aeb-b760-463c-b2b0-a963a88c806a.mp4"
+  }
+ },
+ "seconds": 216,
+ "file": "social/side/gen/cpv_cp15_tver.mp4"
+}

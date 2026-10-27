@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp_court2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The tiny judge bangs the gavel, the two rival businessmen argue and wave their chocolate snacks at each other, comedic, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc7-5946-75d1-baa1-7b89e6776a63/6fc36036-5ff1-4673-a5b0-d84b874e8428.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c28-19ed-7cfc-881e-a01cc10ebf5a",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c28-19ed-7cfc-881e-a01cc10ebf5a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c28-19ed-7cfc-881e-a01cc10ebf5a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c28-19ed-7cfc-881e-a01cc10ebf5a",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c28-19ed-7cfc-881e-a01cc10ebf5a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c28-19ed-7cfc-881e-a01cc10ebf5a/cancel",
+  "expires_at": "2026-11-03T07:02:32.619569+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c28-19ed-7cfc-881e-a01cc10ebf5a/184d7c4b-0ce7-4011-80d5-ab50d4c1f406.mp4"
+  }
+ },
+ "seconds": 192,
+ "file": "social/side/gen/cpv_cp_court2.mp4"
+}

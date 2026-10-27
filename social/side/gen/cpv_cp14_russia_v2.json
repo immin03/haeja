@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp14_russia_v2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandmother pours tea from the samovar, steam rises, snow falls outside the frosted window, the fire glows, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-6d5a-7918-bba4-e57110dd1c08/43c978b3-b5b0-453d-83c4-2ed7e3267324.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c2f-e729-7caf-a3bb-a7d673cc07b8",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2f-e729-7caf-a3bb-a7d673cc07b8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2f-e729-7caf-a3bb-a7d673cc07b8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c2f-e729-7caf-a3bb-a7d673cc07b8",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2f-e729-7caf-a3bb-a7d673cc07b8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2f-e729-7caf-a3bb-a7d673cc07b8/cancel",
+  "expires_at": "2026-11-03T07:12:01.934637+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c2f-e729-7caf-a3bb-a7d673cc07b8/2e13fd1f-00db-41c5-98be-83967cb6f66c.mp4"
+  }
+ },
+ "seconds": 247,
+ "file": "social/side/gen/cpv_cp14_russia_v2.mp4"
+}

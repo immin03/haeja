@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp11_trade",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Tiny soldiers on bunk beds play cards and push stacks of snacks like poker chips, one laughs, desk lamp flickers, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b9d-020e-79d9-bd74-1b4575e19daf/71aecc79-ab87-45d4-bc3a-4cc5f0e6ca36.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c2f-0eb2-7f33-8f51-79c8e4e67176",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2f-0eb2-7f33-8f51-79c8e4e67176/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2f-0eb2-7f33-8f51-79c8e4e67176/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c2f-0eb2-7f33-8f51-79c8e4e67176",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c2f-0eb2-7f33-8f51-79c8e4e67176/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c2f-0eb2-7f33-8f51-79c8e4e67176/cancel",
+  "expires_at": "2026-11-03T07:10:57.718740+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c2f-0eb2-7f33-8f51-79c8e4e67176/3eb7c484-5610-45d6-814d-1a28588f7cfc.mp4"
+  }
+ },
+ "seconds": 241,
+ "file": "social/side/gen/cpv_cp11_trade.mp4"
+}

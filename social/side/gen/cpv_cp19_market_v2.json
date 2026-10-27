@@ -1,0 +1,31 @@
+{
+ "id": "cpv_cp19_market_v2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The man in the long coat glances around nervously and opens his coat, tiny buyers lean in, the lantern flickers, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-6d58-76ce-a55a-c9140e751843/9633a1e5-49e8-4214-b900-c9b901bfbd03.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17c35-baa0-7a90-9446-ddaf40a8afa4",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c35-baa0-7a90-9446-ddaf40a8afa4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c35-baa0-7a90-9446-ddaf40a8afa4/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17c35-baa0-7a90-9446-ddaf40a8afa4",
+  "status_url": "https://api.higgsfield.ai/requests/01a17c35-baa0-7a90-9446-ddaf40a8afa4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17c35-baa0-7a90-9446-ddaf40a8afa4/cancel",
+  "expires_at": "2026-11-03T07:17:49.151774+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17c35-baa0-7a90-9446-ddaf40a8afa4/e7bee667-a31f-4c07-bf9d-a5edd6aeabf3.mp4"
+  }
+ },
+ "seconds": 216,
+ "file": "social/side/gen/cpv_cp19_market_v2.mp4"
+}
