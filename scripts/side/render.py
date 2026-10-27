@@ -101,6 +101,39 @@ def photo_bg(path):
     ov = Image.new("RGB", im.size, NAVY); return Image.blend(im, ov, .72)
 
 
+# ---------------- 실사 영상 (Mixkit 무료 라이선스: 상업적 이용 가능, 출처 표기 불필요) ----------------
+def mixkit_clip(vid):
+    p = os.path.join(CACHE, f"mix_{vid}.mp4")
+    if os.path.exists(p) and os.path.getsize(p) > 20000: return p
+    for q in ("1080", "720", "360"):
+        try:
+            data = urllib.request.urlopen(urllib.request.Request(f"https://assets.mixkit.co/videos/{vid}/{vid}-{q}.mp4", headers={"User-Agent": "Mozilla/5.0"}), timeout=90).read()
+            if len(data) > 20000: open(p, "wb").write(data); return p
+        except Exception: continue
+    return None
+
+
+def clip_len(path):
+    try: return float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path], capture_output=True, text=True).stdout.strip())
+    except Exception: return 0.0
+
+
+class Footage:
+    """장면 길이만큼 실사 영상을 1920x1080 프레임으로 읽는다 (짧으면 반복)"""
+    def __init__(self, path, dur, start=0.0, loop=True):
+        args = ["ffmpeg", "-v", "error"] + (["-stream_loop", "-1"] if loop else []) + ["-ss", f"{start:.2f}", "-i", path,
+                "-vf", f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS}", "-t", f"{dur + 1:.2f}",
+                "-an", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"]
+        self.p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL); self.last = None
+    def frame(self):
+        b = self.p.stdout.read(W * H * 3)
+        if len(b) == W * H * 3: self.last = Image.frombytes("RGB", (W, H), b)
+        return self.last
+    def close(self):
+        try: self.p.stdout.close(); self.p.kill()
+        except Exception: pass
+
+
 # ---------------- 그리기 도우미 ----------------
 def wrap(d, text, font, maxw):
     words, lines, cur = text.split(), [], ""
@@ -144,7 +177,30 @@ def scene_layers(sc, total_dur, ctx):
     t = sc["t"]; L = []
     def card(draw_fn, at):
         im = layer(); draw_fn(ImageDraw.Draw(im), im); L.append((at, im))
-    if t == "open":
+    if t == "story":
+        if sc.get("chip"):
+            def c(d, im):
+                fk = F(38); tx = sc["chip"].upper(); tw = d.textlength(tx, font=fk); rrect(d, (60, 140, 60 + tw + 52, 206), 33, RED); d.text((86, 146), tx, font=fk, fill=WHITE)
+            card(c, 0.1)
+        if sc.get("big"):
+            def b(d, im):
+                fb = F(200); tx = sc["big"]
+                while d.textlength(tx, font=fb) > 1600: fb = F(fb.size - 10)
+                tw = d.textlength(tx, font=fb); x = (W - tw) / 2; y = 330
+                d.text((x + 6, y + 8), tx, font=fb, fill=(0, 0, 0, 150)); d.text((x, y), tx, font=fb, fill=WHITE)
+            card(b, 0.35)
+    elif t == "kinetic":
+        g = sc.get("glyphs", []); n = len(g); step = max(.8, (total_dur - 1) / max(1, n))
+        for i, gl in enumerate(g):
+            def f(d, im, i=i, gl=gl):
+                fb = F(240 if len(gl) <= 2 else 170); slot = W / n; tw = d.textlength(gl, font=fb); x = slot * i + (slot - tw) / 2
+                d.text((x + 6, 300 + 8), gl, font=fb, fill=(0, 0, 0, 150)); d.text((x, 300), gl, font=fb, fill=RED if i == n - 1 else WHITE)
+            card(f, 0.3 + i * step)
+    elif t == "clip":
+        def f(d, im):
+            fk = F(30); tx = "SOURCE: " + sc.get("credit", ""); tw = d.textlength(tx, font=fk); rrect(d, (60, 140, 60 + tw + 40, 196), 12, (0, 0, 0, 170)); d.text((80, 147), tx, font=fk, fill=WHITE)
+        card(f, 0.0)
+    elif t == "open":
         def f(d, im):
             fb = F(260); tw = d.textlength(sc["big"], font=fb); d.text(((W - tw) / 2, 250), sc["big"], font=fb, fill=RED)
         card(f, 0.2)
@@ -213,15 +269,16 @@ def scene_layers(sc, total_dur, ctx):
         def f(d, im):
             x0, y0, x1 = 220, (220 if t == "final" else 170), 1700
             ko_ls = wrap_ko(d, sc["ko"], F(40, False), x1 - x0 - 120); en_ls = wrap(d, sc["en"], F(66), x1 - x0 - 120)
-            h_ = 130 + len(ko_ls) * 56 + 40 + len(en_ls) * 86 + 110
+            h_ = 130 + len(ko_ls) * 56 + 40 + len(en_ls) * 86 + (110 if sc.get("likes") else 50)
             rrect(d, (x0, y0, x1, y0 + h_), 34, WHITE)
             d.ellipse((x0 + 50, y0 + 44, x0 + 110, y0 + 104), fill=(222, 228, 240))
-            d.text((x0 + 130, y0 + 46), "Korean viewer", font=F(34), fill=NAVY); d.text((x0 + 130, y0 + 88), sc["src"], font=F(28, False), fill=(110, 120, 140))
+            d.text((x0 + 130, y0 + 46), sc.get("who", "Korean viewer"), font=F(34), fill=NAVY); d.text((x0 + 130, y0 + 88), sc["src"], font=F(28, False), fill=(110, 120, 140))
             y = y0 + 140
             for l in ko_ls: d.text((x0 + 60, y), l, font=F(40, False), fill=(120, 128, 146)); y += 56
             y += 30
             for l in en_ls: d.text((x0 + 60, y), l, font=F(66), fill=NAVY); y += 86
-            y += 20; d.text((x0 + 60, y), "♥", font=F(44), fill=RED); d.text((x0 + 116, y + 4), sc["likes"] + " likes", font=F(40), fill=NAVY)
+            y += 20
+            if sc.get("likes"): d.text((x0 + 60, y), "♥", font=F(44), fill=RED); d.text((x0 + 116, y + 4), sc["likes"] + " likes", font=F(40), fill=NAVY)
             ctx["quote_h"] = h_
         card(f, 0.15)
         if t == "final":
@@ -291,14 +348,23 @@ def thumbnail(spec, path):
     th = spec.get("thumb", {}); im = Image.new("RGB", (1280, 720), NAVY); d = ImageDraw.Draw(im)
     for r in range(700, 0, -10):
         a = (700 - r) / 700; d.ellipse([900 - r, 360 - r * .8, 900 + r, 360 + r * .8], fill=tuple(int(NAVY[i] + (NAVY2[i] - NAVY[i]) * a) for i in range(3)))
-    cx, cy, k = 1075, 380, .82   # 등번호 7 유니폼 (글자와 겹치지 않게 오른쪽)
-    P = lambda x, y: (cx + x * k, cy + y * k)
-    body = [P(-210, -190), P(-75, -230), P(75, -230), P(210, -190), P(300, -75), P(210, -25), P(190, 230), P(-190, 230), P(-210, -25), P(-300, -75)]
-    d.polygon(body, fill=(214, 40, 52)); d.polygon([P(-75, -230), P(0, -178), P(75, -230)], fill=NAVY)
-    fb = F(230); d.text((cx - d.textlength("7", font=fb) / 2, cy - 160), "7", font=fb, fill=WHITE)
+    art = th.get("art", "jersey")
+    if art == "jersey":
+        cx, cy, k = 1075, 380, .82   # 등번호 7 유니폼 (글자와 겹치지 않게 오른쪽)
+        P = lambda x, y: (cx + x * k, cy + y * k)
+        body = [P(-210, -190), P(-75, -230), P(75, -230), P(210, -190), P(300, -75), P(210, -25), P(190, 230), P(-190, 230), P(-210, -25), P(-300, -75)]
+        d.polygon(body, fill=(214, 40, 52)); d.polygon([P(-75, -230), P(0, -178), P(75, -230)], fill=NAVY)
+        fb = F(230); d.text((cx - d.textlength("7", font=fb) / 2, cy - 160), "7", font=fb, fill=WHITE)
+    elif art == "box":   # 로고 없는 빨간 과자 상자 + 둥근 초코 과자 + '금지' 표시
+        box = Image.new("RGBA", (420, 300), (0, 0, 0, 0)); bd = ImageDraw.Draw(box)
+        bd.rounded_rectangle((0, 40, 420, 300), 18, fill=(205, 30, 40)); bd.polygon([(0, 40), (60, 0), (480, 0), (420, 40)], fill=(160, 20, 30))
+        for i in range(3):
+            x0 = 40 + i * 120; bd.ellipse((x0, 120, x0 + 110, 230), fill=(84, 46, 26)); bd.ellipse((x0 + 12, 130, x0 + 98, 200), fill=(110, 64, 38))
+        box = box.rotate(-8, expand=True, resample=Image.BICUBIC); im.paste(box, (835, 200), box)
+        d.ellipse((830, 130, 1260, 560), outline=RED, width=34); d.line((880, 500, 1210, 190), fill=RED, width=34)
     d.text((60, 150), th.get("top", ""), font=F(78), fill=WHITE)
     fbig = F(190)
-    while d.textlength(th.get("big", ""), font=fbig) > 780: fbig = F(fbig.size - 10)
+    while d.textlength(th.get("big", ""), font=fbig) > (700 if th.get("art") == "box" else 780): fbig = F(fbig.size - 10)
     d.text((52, 250), th.get("big", ""), font=fbig, fill=RED)
     rrect(d, (60, 520, 60 + d.textlength(th.get("sub", ""), font=F(52)) + 60, 604), 18, WHITE); d.text((90, 528), th.get("sub", ""), font=F(52), fill=NAVY)
     im.save(path, quality=92)
@@ -310,6 +376,13 @@ def build_timeline(spec):
     segs, chunks, t = [], [], 0.8
     for sc in spec["scenes"]:
         st = t; lines = []
+        if sc["t"] == "clip":
+            src = os.path.join(ROOT, sc.get("file", ""))
+            a0, a1 = float(sc.get("from", 0)), float(sc.get("to", 0)); dur = max(0.0, min(15.0, a1 - a0))
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{a0:.2f}", "-t", f"{dur:.2f}", "-i", src, "-vn", "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True).stdout
+            a = np.frombuffer(raw, dtype=np.float32).copy() * .9; chunks.append((t, a)); sc["_src"] = src
+            if sc.get("caption"): lines.append((t, dur, sc["caption"]))
+            t += dur + .3; segs.append((st, t - st, lines)); continue
         for s in sc["say"]:
             a = say(s); lines.append((t, len(a) / SR, s)); chunks.append((t, a)); t += len(a) / SR + .28
         t += .45
@@ -324,6 +397,11 @@ def render(sid):
     sp = os.path.join(HERE, "specs", sid + ".json"); spec = json.load(open(sp, encoding="utf-8"))
     od = os.path.join(OUT, sid); os.makedirs(od, exist_ok=True)
     print("렌더:", sid, flush=True)
+    keep = []
+    for sc in spec["scenes"]:
+        if sc["t"] == "clip" and not os.path.exists(os.path.join(ROOT, sc.get("file", ""))): print("  인용 영상 없음 — 건너뜀:", sc.get("file")); continue
+        keep.append(sc)
+    spec["scenes"] = keep
     segs, total, voice = build_timeline(spec)
     # 소리: 목소리 + 배경 패드(말할 때 작아짐)
     env = np.convolve(np.abs(voice), np.ones(int(SR * .3)) / int(SR * .3), mode="same"); env = np.clip(env / (env.max() + 1e-9) * 5, 0, 1)
@@ -333,10 +411,19 @@ def render(sid):
     wav = os.path.join(od, "audio.f32")
     mix.tofile(wav)
     # 배경
-    used = set(); bgs = []
+    used = set(); bgs = []; foots = []; used_mix = set()
     for k, sc in enumerate(spec["scenes"]):
         p = pexels_photo(sc.get("bg"), used) if sc.get("bg") else None
         bgs.append(photo_bg(p) if p else gradient_bg(sid + str(k)))
+        fp = None
+        if sc["t"] == "clip": fp = sc["_src"]
+        else:
+            for vid in sc.get("mix", []):
+                if vid in used_mix and len(sc.get("mix", [])) > 1: continue
+                fp = mixkit_clip(vid)
+                if fp: used_mix.add(vid); break
+        foots.append(fp)
+    print("  실사 영상", sum(1 for f in foots if f), "/", len(foots), "장면", flush=True)
     # 장(챕터) 이름
     chap, chaps = "", []
     for (st, du, _), sc in zip(segs, spec["scenes"]):
@@ -347,14 +434,25 @@ def render(sid):
     ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                            "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", wav, "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
                            "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", vid], stdin=subprocess.PIPE)
-    nfr = int(total * FPS); k = 0
+    nfr = int(total * FPS); k = 0; cur_k = -1; reader = None
+    DIM_ = {"story": .30, "kinetic": .55, "clip": 0.0, "stat": .62}
     for fi in range(nfr):
         t = fi / FPS
         while k + 1 < len(segs) and t >= segs[k + 1][0]: k += 1
         st, du, lines = segs[k]; lt = t - st; sc = spec["scenes"][k]
-        bg = bgs[k]; z = 1 + .05 * (lt / max(du, 1)); ox = int(100 * (lt / max(du, 1)) * (1 if k % 2 else -1)) + 100
-        cw, ch_ = int(W / z), int(H / z); left = max(0, min(bg.width - cw, ox + (W - cw) // 2)); top = max(0, min(bg.height - ch_, 60 + (H - ch_) // 2))
-        frame = bg.crop((left, top, left + cw, top + ch_)).resize((W, H), Image.BILINEAR).convert("RGBA")
+        if k != cur_k:
+            if reader: reader.close()
+            reader = None; cur_k = k
+            if foots[k]:
+                reader = Footage(foots[k], du, start=float(sc.get("from", 0)) if sc["t"] == "clip" else 0.0, loop=sc["t"] != "clip")
+        fr_ = reader.frame() if reader else None
+        if fr_ is not None:
+            frame = fr_.convert("RGBA"); dim = DIM_.get(sc["t"], .72)
+            if dim: frame = Image.blend(frame, Image.new("RGBA", (W, H), NAVY + (255,)), dim)
+        else:
+            bg = bgs[k]; z = 1 + .05 * (lt / max(du, 1)); ox = int(100 * (lt / max(du, 1)) * (1 if k % 2 else -1)) + 100
+            cw, ch_ = int(W / z), int(H / z); left = max(0, min(bg.width - cw, ox + (W - cw) // 2)); top = max(0, min(bg.height - ch_, 60 + (H - ch_) // 2))
+            frame = bg.crop((left, top, left + cw, top + ch_)).resize((W, H), Image.BILINEAR).convert("RGBA")
         for at, lay in layers[k]:
             a = ease((lt - at) / .45)
             if a > 0: paste_fade(frame, lay, a, dy=(1 - a) * 30)
@@ -365,6 +463,7 @@ def render(sid):
         cur = next(((t0, dd, s) for (t0, dd, s) in lines if t0 <= t < t0 + dd + .28), None)
         if cur: subtitle(d, sub_piece(d, cur, t))
         ff.stdin.write(frame.convert("RGB").tobytes())
+    if reader: reader.close()
     ff.stdin.close(); ff.wait()
     # 자막·썸네일·쇼츠
     srt = []
@@ -375,35 +474,54 @@ def render(sid):
     fmt = lambda x: f"{int(x // 3600):02d}:{int(x % 3600 // 60):02d}:{int(x % 60):02d},{int(x * 1000 % 1000):03d}"
     open(os.path.join(od, "en.srt"), "w", encoding="utf-8").write("\n".join(f"{i + 1}\n{fmt(a)} --> {fmt(b)}\n{s}\n" for i, (a, b, s) in enumerate(srt)))
     thumbnail(spec, os.path.join(od, "thumb.jpg"))
-    short = make_short(spec, segs, vid, od)
+    short = make_short(spec, segs, vid, od, srt)
     os.remove(wav)
     chapters = "\n".join(f"{int(s // 60)}:{int(s % 60):02d} {name}" for s, name in [(0, "Intro")] + chaps)
     return {"total": total, "chapters": chapters, "video": vid, "short": short}
 
 
-def make_short(spec, segs, vid, od):
-    """세로 쇼츠 (최대 58초): 첫 장면 + 댓글 2~3개 + 마무리 댓글 → 위에 고정 제목 띠, 가운데 원본 화면, 끝에 풀버전 안내"""
+def make_short(spec, segs, vid, od, srt):
+    """세로 쇼츠 (최대 57초): 원고에서 short: true 인 장면(없으면 앞쪽 장면) → 위 고정 제목 띠, 가운데 화면(작은 자막은 잘라 냄), 아래 큰 자막, 끝에 풀버전 안내"""
+    flag = [k for k, sc in enumerate(spec["scenes"]) if sc.get("short")]
+    cand = flag or [k for k, sc in enumerate(spec["scenes"]) if sc["t"] in ("open", "story", "quote", "final", "stat")]
     pick, tot = [], 0
-    for k, sc in enumerate(spec["scenes"]):
-        if sc["t"] in ("open", "quote", "final") and (sc["t"] != "quote" or len([p for p in pick if spec["scenes"][p]["t"] == "quote"]) < 3):
-            if tot + segs[k][1] > 54: continue
-            pick.append(k); tot += segs[k][1]
+    for k in cand:
+        if tot + segs[k][1] > 57: continue
+        pick.append(k); tot += segs[k][1]
     if not pick: return None
     band = Image.new("RGB", (1080, 1920), NAVY); d = ImageDraw.Draw(band)
     th = spec.get("thumb", {})
-    d.text((60, 210), th.get("top", ""), font=F(72), fill=WHITE); d.text((54, 300), th.get("big", ""), font=F(150), fill=RED)
-    d.text((60, 1560), "Full story on our channel", font=F(52), fill=WHITE); d.text((60, 1636), "What Korea Says", font=F(44, False), fill=GRAY)
+    d.text((60, 190), th.get("top", ""), font=F(76), fill=WHITE)
+    fb = F(150)
+    while d.textlength(th.get("big", ""), font=fb) > 960: fb = F(fb.size - 8)
+    d.text((54, 280), th.get("big", ""), font=fb, fill=RED)
+    d.text((60, 1730), "Full story on our channel ▶ What Korea Says", font=F(40), fill=GRAY)
     bp = os.path.join(od, "_short_bg.png"); band.save(bp)
-    parts = []
+    parts, events, off = [], [], 0.0
     for i, k in enumerate(pick):
         st, du, _ = segs[k]; p = os.path.join(od, f"_s{i}.mp4")
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{st:.2f}", "-t", f"{du:.2f}", "-i", vid, "-i", bp, "-filter_complex",
-                        "[0:v]scale=1080:-2[v];[1:v][v]overlay=0:620", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-c:a", "aac", "-r", str(FPS), p], check=True)
+                        "[0:v]crop=1240:880:340:0,scale=1080:-2[v];[1:v][v]overlay=0:470", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-c:a", "aac", "-r", str(FPS), p], check=True)
         parts.append(p)
-    lst = os.path.join(od, "_list.txt"); open(lst, "w").write("".join(f"file '{p}'\n" for p in parts))
+        for a_, b_, txt in srt:
+            if a_ >= st - .05 and b_ <= st + du + .05: events.append((a_ - st + off, b_ - st + off, txt))
+        off += du
+    lst = os.path.join(od, "_list.txt"); open(lst, "w").write("".join(f"file '{os.path.abspath(p)}'\n" for p in parts))
+    joined = os.path.join(od, "_joined.mp4")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", joined], check=True)
+    ts = lambda x: f"{int(x // 3600)}:{int(x % 3600 // 60):02d}:{x % 60:05.2f}"
+    ass = os.path.join(od, "_short.ass")
+    font = "Noto Sans CJK KR"
+    open(ass, "w", encoding="utf-8").write(
+        "[Script Info]\nScriptType: v4.00+\nPlayResX: 1080\nPlayResY: 1920\nWrapStyle: 0\n\n[V4+ Styles]\n"
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
+        f"Style: Big,{font},70,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,3,14,0,8,70,70,1290,1\n\n[Events]\n"
+        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n" +
+        "".join(f"Dialogue: 0,{ts(a_)},{ts(b_)},Big,,0,0,0,,{txt}\n" for a_, b_, txt in events))
     out = os.path.join(od, "short.mp4")
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", "-movflags", "+faststart", out], check=True)
-    for p in parts + [lst, bp]: os.remove(p)
+    fdir = os.path.dirname(_font_path())
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", joined, "-vf", f"ass={ass}:fontsdir={fdir}", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-c:a", "copy", "-movflags", "+faststart", out], check=True)
+    for p in parts + [lst, bp, joined, ass]: os.remove(p)
     return out
 
 
