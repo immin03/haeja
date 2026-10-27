@@ -22,7 +22,7 @@ jobs:
       HF_API_KEY_SECRET: ${{ secrets.HF_API_KEY_SECRET }}
       TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
       GH_TOKEN: ${{ github.token }}
-      SIDE_GEN_MAX_USD: ${{ github.event.inputs.max_usd || '2' }}
+      SIDE_GEN_MAX_USD: ${{ github.event.inputs.max_usd || '3' }}
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 2 }
