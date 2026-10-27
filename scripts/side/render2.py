@@ -393,9 +393,13 @@ SLOTS = [(70, 60), (W - 70, 60), (70, 330), (W - 70, 330)]
 
 
 def render(sid):
+    sys.path.insert(0, HERE); from progress import report
     spec = json.load(open(os.path.join(HERE, "specs2", sid + ".json"), encoding="utf-8"))
+    JID = "render-" + sid; LBL = "롱폼 렌더 · " + spec["title"]
+    report(JID, LBL, pct=1, detail="내레이션 녹음 중")
     od = os.path.join(OUT, sid); os.makedirs(od, exist_ok=True)
     segs, parts, sfx_ev, total = build(spec)
+    report(JID, LBL, pct=12, detail=f"녹음 끝 · 길이 {int(total // 60)}분 {int(total % 60)}초 · 화면 그리는 중")
     audio, venv = mix(parts, sfx_ev, total, music_track(spec.get("music"), total))
     wav = os.path.join(od, "_audio.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-c:a", "pcm_s16le", wav], input=audio.astype(np.float32).tobytes(), check=True)
@@ -498,6 +502,7 @@ def render(sid):
         enc.stdin.write(base.tobytes())
         if t >= sg["en"] - 1 / FPS - 1e-6: prev_last = base
         if fi % (FPS * 30) == 0: print(f"  {sid} {t / 60:.1f}분 / {total / 60:.1f}분", flush=True)
+        if fi % (FPS * 5) == 0: report(JID, LBL, pct=12 + 78 * fi / max(1, nfr), detail=f"화면 {int(t // 60)}:{int(t % 60):02d} / {int(total // 60)}:{int(total % 60):02d}", every=20)
     if foot: foot.close()
     enc.stdin.close(); enc.wait()
     os.remove(wav)
@@ -506,6 +511,7 @@ def render(sid):
     for sc, sg in zip(spec["scenes"], segs):
         if sc.get("chapter") and sg["st"] - last > 10:
             s = 0 if not chapters else int(sg["st"]); chapters.append(f"{s // 60}:{s % 60:02d} {sc['chapter']}"); last = sg["st"]
+    report(JID, LBL, pct=91, detail="썸네일·쇼츠 만드는 중")
     thumb(spec, os.path.join(od, "thumb.jpg"))
     short = make_short(spec, segs, vid, od, srt)
     return {"video": vid, "short": short, "total": total, "chapters": "\n".join(chapters)}
@@ -560,7 +566,14 @@ def main(ids):
                        if not os.path.exists(os.path.join(OUT, os.path.basename(f)[:-5], "meta.json")) or "--all" in sys.argv]
     for sid in ids:
         spec = json.load(open(os.path.join(HERE, "specs2", sid + ".json"), encoding="utf-8"))
-        res = render(sid); r1.publish(sid, res, spec)
+        from progress import report
+        try:
+            res = render(sid)
+            report("render-" + sid, pct=96, detail="검수 대기열에 올리는 중")
+            r1.publish(sid, res, spec)
+            report("render-" + sid, status="done", pct=100, detail=f"완료 · {int(res['total'] // 60)}분 {int(res['total'] % 60)}초 · 검수 탭에서 확인 (몇 분 뒤 반영)")
+        except Exception as e:
+            report("render-" + sid, status="failed", detail="실패: " + str(e)[:200]); raise
     r1.write_queue()
 
 

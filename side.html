@@ -77,6 +77,7 @@ h2{font-size:16px;margin:22px 0 10px;font-weight:850}
 .bar-row .track{height:12px;border-radius:6px;background:var(--line);overflow:hidden}
 .bar-row .fill{height:100%;background:var(--bar);border-radius:6px}
 .bar-row .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:700}
+.jobbar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}.jobbar>div{height:100%;background:var(--bar);border-radius:5px;transition:width .6s}
 .plan{display:grid;gap:8px}
 .plan .t{font-size:16px;font-weight:850;line-height:1.4}
 .plan .ko{font-size:13.5px;color:var(--ink2)}
@@ -131,7 +132,7 @@ let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document
 
 const LINES = { sports:'스포츠', kpop:'K-팝', drama:'드라마', news:'한국 이슈', life:'한국 생활' };
 const LANGS = { es:'스페인어', pt:'포르투갈어', id:'인도네시아어', hi:'힌디어', ja:'일본어', fr:'프랑스어', de:'독일어', vi:'베트남어', th:'태국어', ar:'아랍어', tr:'튀르키예어', it:'이탈리아어', pl:'폴란드어', 'zh-TW':'중국어(번체)', ru:'러시아어', ko:'한국어', nl:'네덜란드어', fil:'필리핀어' };
-const S = { tab: 'trend', trends: [], plans: [], videos: [], settings: {}, err: '' };
+const S = { tab: 'trend', trends: [], plans: [], videos: [], settings: {}, jobs: [], jobsErr: '', err: '' };
 try { const t = localStorage.getItem('sc-tab'); if (t) S.tab = t; } catch(_){}
 
 /* ---------- 로그인 ---------- */
@@ -163,10 +164,16 @@ async function loadAll(){
   S.err = err ? err.error.message : '';
   S.trends = t.data || []; S.plans = p.data || []; S.videos = v.data || []; S.settings = (s.data && s.data.value) || {};
   if (S.settings.channel_name) $('#chname').textContent = S.settings.channel_name;
+  await loadJobs();
+}
+async function loadJobs(){   // 작업 현황은 표가 없어도 다른 탭이 멈추지 않게 따로 읽는다
+  const j = await sb.from('sc_jobs').select('*').order('updated_at', { ascending: false }).limit(40);
+  S.jobsErr = j.error ? j.error.message : ''; S.jobs = j.data || [];
 }
 
 /* ---------- 탭 ---------- */
 const TABS = [
+  ['jobs', '작업 현황', () => S.jobs.filter(j => j.status === 'running' && Date.now() - Date.parse(j.updated_at) < 15*60e3).length],
   ['trend', '트렌드', () => S.trends.filter(x => x.status === 'new').length],
   ['plan', '기획안', () => S.plans.filter(x => x.status === 'pending').length],
   ['review', '검수', () => S.videos.filter(x => x.status === 'review').length],
@@ -185,7 +192,27 @@ function render(){
     $('#main').innerHTML = `<div class="card empty">${missing ? '사이드 채널 테이블이 아직 없습니다.<br>Supabase SQL Editor에서 <b>supabase/2026-10-27_side_channel.sql</b> 을 실행하면 바로 열립니다.' : '불러오지 못했습니다: ' + esc(S.err)}</div>`;
     return;
   }
-  ({ trend: viewTrend, plan: viewPlan, review: viewReview, perf: viewPerf, set: viewSet })[S.tab]();
+  clearTimeout(S.jobTimer);
+  ({ jobs: viewJobs, trend: viewTrend, plan: viewPlan, review: viewReview, perf: viewPerf, set: viewSet })[S.tab]();
+}
+
+/* ---------- 작업 현황 (렌더·생성 진행률) ---------- */
+function viewJobs(){
+  if (S.jobsErr) { $('#main').innerHTML = `<div class="card empty">작업 현황 표가 아직 없습니다.<br>Supabase SQL Editor에서 <b>supabase/2026-10-27_side_jobs.sql</b> 을 실행하면 여기서 진행률이 보입니다.<div class="note" style="margin-top:6px">${esc(S.jobsErr)}</div></div>`; return; }
+  const ago = iso => { const m = Math.round((Date.now() - Date.parse(iso)) / 60e3); return m < 1 ? '방금' : m < 60 ? m + '분 전' : Math.round(m / 60) + '시간 전'; };
+  const dur = (a, b) => { const m = Math.max(0, Math.round((Date.parse(b) - Date.parse(a)) / 60e3)); return m < 60 ? m + '분' : Math.floor(m / 60) + '시간 ' + (m % 60) + '분'; };
+  const st = j => { const stale = j.status === 'running' && Date.now() - Date.parse(j.updated_at) > 15*60e3;
+    return stale ? '<span class="badge bad">소식 없음</span>' : ({ running: '<span class="badge warn">진행 중</span>', done: '<span class="badge good">완료</span>', failed: '<span class="badge bad">실패</span>' })[j.status] || `<span class="badge mut">${esc(j.status)}</span>`; };
+  const running = S.jobs.filter(j => j.status === 'running');
+  $('#main').innerHTML = `<div class="note" style="margin-bottom:10px">영상 렌더와 그림·영상 생성이 지금 어디까지 왔는지 보여 줍니다. 진행 중인 작업이 있으면 10초마다 새로 고칩니다.</div>` +
+    (S.jobs.length ? `<div class="grid">${S.jobs.map(j => `<div class="card" style="display:grid;gap:8px">
+      <div class="row">${st(j)}<span class="badge mut">${j.kind === 'gen' ? '그림·영상 생성' : '렌더'}</span><span class="note" style="margin-left:auto">${ago(j.updated_at)}</span></div>
+      <div style="font-weight:850;font-size:15px">${esc(j.label || j.id)}</div>
+      <div class="jobbar"><div style="width:${Math.min(100, +j.pct || 0)}%"></div></div>
+      <div class="row note"><b style="color:var(--ink)">${j.pct != null ? Math.round(+j.pct) + '%' : ''}</b><span>${esc(j.detail || '')}</span></div>
+      <div class="row note">시작 ${kst(j.started_at)} · 걸린 시간 ${dur(j.started_at, j.status === 'running' ? new Date().toISOString() : j.updated_at)}${j.cost != null ? ' · 비용 약 $' + (+j.cost).toFixed(2) : ''}${j.run_url ? ` · <a href="${esc(j.run_url)}" target="_blank" rel="noopener">GitHub 기록</a>` : ''}</div>
+    </div>`).join('')}</div>` : '<div class="card empty">아직 기록된 작업이 없습니다. 렌더나 생성이 시작되면 여기 나타납니다.</div>');
+  if (running.length) S.jobTimer = setTimeout(async () => { if (S.tab !== 'jobs') return; await loadJobs(); renderTabs(); viewJobs(); }, 10000);
 }
 
 /* ---------- 트렌드 ---------- */

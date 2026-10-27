@@ -103,6 +103,13 @@ def main(only=None):
     for f in files:
         if only and os.path.basename(f)[:-5] not in only: continue
         todo += [j for j in json.load(open(f, encoding="utf-8")) if not j.get("disabled")]
+    sys.path.insert(0, os.path.dirname(__file__)); from progress import report
+    JID = "gen-" + os.environ.get("GITHUB_RUN_ID", "local"); total = len(todo); done = [0]
+    report(JID, "이미지·영상 생성 (Higgsfield)", pct=0, detail=f"{total}건 대기", kind="gen")
+    def one(j):
+        r = run(j, H, 0.0); done[0] += 1
+        report(JID, pct=100 * done[0] / max(1, total), detail=f"{done[0]}/{total} · 방금 {j['id']}", cost=round(spent, 2), kind="gen")
+        return r
     while todo:
         ready = [j for j in todo if _ready(j)]
         if not ready:
@@ -114,7 +121,8 @@ def main(only=None):
             c = est(j)
             if spent + c > cap: print(f"[{j['id']}] 상한 {cap}달러 초과 예상 — 건너뜀"); continue
             spent += c; batch.append(j)
-        with ThreadPoolExecutor(4) as ex: list(ex.map(lambda j: run(j, H, 0.0), batch))
+        with ThreadPoolExecutor(4) as ex: list(ex.map(one, batch))
+    report(JID, status="done", pct=100, detail=f"{done[0]}/{total} 완료 · 예상 비용 {spent:.2f}달러", cost=round(spent, 2), kind="gen")
     print(f"이번 실행 예상 비용 상한 사용: {spent:.2f}달러")
 
 
