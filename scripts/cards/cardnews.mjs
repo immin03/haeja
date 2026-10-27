@@ -39,6 +39,10 @@ const MARK = path.join(ROOT, 'brand', 'logo-dark.png');
 const MARK_R = (() => { const b = fs.readFileSync(MARK); return b.readUInt32BE(20) / b.readUInt32BE(16); })();   // PNG 머리에서 높이÷너비
 const mark = (w = 190) => img(uri(MARK, 'image/png'), { width: w, height: Math.round(w * MARK_R) });
 
+// 사진 출처: 위키미디어 공용 사진은 저작자·라이선스를 사진 귀퉁이에 작게 (Mixkit 등 표기 불필요 사진은 빈칸)
+const CREDITS = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'scripts/blog/media/lib/commons_credits.json'), 'utf8')); } catch { return {}; } })();
+const credit = (f) => { const c = CREDITS[f]; if (!c) return ''; const a = String(c.artist || '').replace(/<[^>]+>/g, '').trim().slice(0, 40); return `사진: ${a ? a + ' · ' : ''}${c.license} · Wikimedia Commons`; };
+
 function shell(spec, i, n, body, { light = false } = {}) {
   return h('div', { width: W, height: H, flexDirection: 'column', background: C.navy, color: C.ink, fontFamily: 'P', position: 'relative' },
     h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'radial-gradient(circle at 85% 0%, rgba(234,219,185,.10), rgba(13,24,40,0) 55%)' }),
@@ -64,7 +68,7 @@ const K = {
       eyebrow(s.eyebrow),
       t(s.l1, { fontSize: s.l1.length > 13 ? 84 : 100, fontWeight: 900, letterSpacing: -3, lineHeight: 1.12, textShadow: '0 4px 18px rgba(0,0,0,.5)' }),
       t(s.l2, { fontSize: s.l2.length > 13 ? 84 : 100, fontWeight: 900, letterSpacing: -3, lineHeight: 1.12, color: C.gold, textShadow: '0 4px 18px rgba(0,0,0,.5)' }),
-      s.sub ? t(s.sub, { fontSize: 36, fontWeight: 700, color: '#E3E8EF', marginTop: 30, lineHeight: 1.4 }) : null)),
+      s.sub ? h('div', { flexDirection: 'column', marginTop: 30 }, String(s.sub).split('\n').map((l) => t(l, { fontSize: 36, fontWeight: 700, color: '#E3E8EF', lineHeight: 1.4 }))) : null)),
 
   text: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column' },
     eyebrow(s.eyebrow), bigTitle(s.title, s.size || 66),
@@ -177,6 +181,52 @@ const K = {
         bar(r.a, C.mute, r.al || `${Number(r.a).toFixed(1)}배`), bar(r.b, C.gold, r.bl || `${Number(r.b).toFixed(1)}배`)))),
       s.note ? para(s.note, { fontSize: 32, marginTop: 44 }) : null));
   },
+
+  // ── 사진 중심 장 (2026-10-27 운영자: "money_zine처럼 직관적이고 사진이 많게") ──
+  // photo     { photo, step?, eyebrow?, name, tag?, big?, body:[줄] }  위 58%는 사진, 아래는 이름·큰 한 줄·설명 두 줄
+  // photolist { eyebrow?, title, rows:[{photo, name, tag?, big?, note?}], note? }  사진 썸네일 + 한 줄씩 (한 장 요약, 3~5줄)
+  // follow    { title, body:[문단], cta? }  마지막 장: 점수·홍보 없이 팔로우 안내만
+  photo: (s, sp, i, n) => {
+    const PH = 830;
+    return h('div', { width: W, height: H, flexDirection: 'column', position: 'relative', fontFamily: 'P', color: C.ink, background: C.navy },
+      h('div', { width: W, height: PH, position: 'relative' },
+        img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: PH, objectFit: 'cover' }),
+        h('div', { position: 'absolute', left: 0, top: 0, width: W, height: PH, background: 'linear-gradient(180deg,rgba(9,17,30,.55) 0%,rgba(9,17,30,0) 26%,rgba(9,17,30,0) 70%,rgba(13,24,40,1) 100%)' }),
+        h('div', { position: 'absolute', left: 64, top: 56, right: 64, justifyContent: 'space-between', alignItems: 'center' }, mark(190),
+          h('div', { fontSize: 26, fontWeight: 800, color: '#FFFFFF', background: 'rgba(0,0,0,.40)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
+        credit(s.photo) ? t(credit(s.photo), { position: 'absolute', right: 64, bottom: 40, fontSize: 17, color: 'rgba(255,255,255,.55)', fontWeight: 500 }) : null),
+      h('div', { flexDirection: 'column', padding: '0 64px', marginTop: -70 },
+        h('div', { alignItems: 'center', gap: 16 },
+          s.step ? h('div', { background: C.gold, color: C.navy, fontSize: 28, fontWeight: 900, borderRadius: 12, padding: '6px 16px' }, s.step) : null,
+          s.eyebrow ? t(s.eyebrow, { fontSize: 30, fontWeight: 800, color: C.gold }) : null),
+        h('div', { alignItems: 'baseline', gap: 18, marginTop: 14 },
+          t(s.name, { fontSize: s.name.length > 10 ? 70 : 88, fontWeight: 900, letterSpacing: -2.5, lineHeight: 1.1 }),
+          s.tag ? t(s.tag, { fontSize: 30, fontWeight: 700, color: C.dim }) : null),
+        s.big ? t(s.big, { fontSize: 52, fontWeight: 900, color: C.gold, letterSpacing: -1, marginTop: 22, lineHeight: 1.25 }) : null,
+        h('div', { flexDirection: 'column', marginTop: 14 }, (s.body || []).map((p) => t(p, { fontSize: 37, color: C.mute, fontWeight: 600, lineHeight: 1.45, marginTop: 10 })))),
+      h('div', { flexDirection: 'column', marginTop: 'auto', padding: '0 64px 46px 64px' },
+        h('div', { width: W - 128, height: 2, background: C.line, marginBottom: 18 }),
+        t(sp.foot || '', { fontSize: 21, color: C.dim, fontWeight: 500, lineHeight: 1.45 })));
+  },
+
+  photolist: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column', flexGrow: 1 },
+    eyebrow(s.eyebrow), bigTitle(s.title, s.size || 58),
+    h('div', { flexDirection: 'column', marginTop: 30, gap: 16 }, s.rows.map((r, k) => h('div', { alignItems: 'center', gap: 24, background: C.card, borderRadius: 24, padding: 14, border: `1px solid ${C.line}` },
+      h('div', { width: 190, height: s.rows.length > 4 ? 118 : 140, borderRadius: 16, overflow: 'hidden', flexShrink: 0, position: 'relative' },
+        img(uri(path.join(ROOT, 'scripts/blog/media/lib', r.photo)), { width: 190, height: s.rows.length > 4 ? 118 : 140, objectFit: 'cover' }),
+        h('div', { position: 'absolute', left: 8, top: 8 }, num(k + 1))),
+      h('div', { flexDirection: 'column', flexShrink: 1 },
+        h('div', { alignItems: 'baseline', gap: 12 }, t(r.name, { fontSize: 38, fontWeight: 900, letterSpacing: -1 }), r.tag ? t(r.tag, { fontSize: 24, color: C.dim, fontWeight: 700 }) : null),
+        r.big ? t(r.big, { fontSize: 32, fontWeight: 900, color: C.gold, marginTop: 4, letterSpacing: -0.5 }) : null,
+        r.note ? t(r.note, { fontSize: 25, fontWeight: 600, color: C.mute, marginTop: 4, lineHeight: 1.35 }) : null)))),
+    s.note ? t(s.note, { fontSize: 27, fontWeight: 700, color: C.ink, marginTop: 22, lineHeight: 1.45 }) : null)),
+
+  follow: (s, sp, i, n) => shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' },
+    bigTitle(s.title, s.size || 68),
+    (s.body || []).map((p) => para(p)),
+    h('div', { marginTop: 60, alignItems: 'center', gap: 24 },
+      h('div', { background: C.gold, color: C.navy, fontSize: 36, fontWeight: 900, borderRadius: 60, padding: '22px 44px' }, s.cta || '팔로우하고 받아 보기'),
+      t('@value.note.korea', { fontSize: 32, color: C.ink, fontWeight: 800 })))),
 
   end: (s, sp, i, n) => shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' },
     bigTitle(s.title, s.size || 64),
