@@ -1,0 +1,35 @@
+{
+ "id": "pie_ref_orion",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Same product photo as the reference, same composition, but the glossy red individual wrapper now has the word ORION printed on it in clean bold white capital letters, spelled exactly O-R-I-O-N, centered, no other text, plain warm cream background, realistic food photography",
+  "aspect_ratio": "16:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bbf-cd0f-7acd-a03b-f68d854d1a38/3abde81b-1cb0-4bdc-9452-2870aa06381e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17cf0-d234-73f4-b043-e4fa55b04119",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf0-d234-73f4-b043-e4fa55b04119/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf0-d234-73f4-b043-e4fa55b04119/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17cf0-d234-73f4-b043-e4fa55b04119",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf0-d234-73f4-b043-e4fa55b04119/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf0-d234-73f4-b043-e4fa55b04119/cancel",
+  "expires_at": "2026-11-03T10:39:06.312993+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf0-d234-73f4-b043-e4fa55b04119/d2bc2a05-30e5-4889-9282-98f9fde30de1.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/pie_ref_orion.jpeg"
+}

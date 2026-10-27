@@ -1,0 +1,31 @@
+{
+ "id": "cpvo_cp_moon",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The tower of chocolate snacks gently sways as it rises toward the glowing moon, stars twinkle, slow camera tilt upward, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf1-e9e6-768a-a6a9-bd1c4d326c9b/42928d04-c856-48d9-88c7-6bd3fb3aa78c.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17cf5-4ce9-7e3e-9861-971eb130e91c",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf5-4ce9-7e3e-9861-971eb130e91c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf5-4ce9-7e3e-9861-971eb130e91c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17cf5-4ce9-7e3e-9861-971eb130e91c",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf5-4ce9-7e3e-9861-971eb130e91c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf5-4ce9-7e3e-9861-971eb130e91c/cancel",
+  "expires_at": "2026-11-03T10:45:37.370747+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf5-4ce9-7e3e-9861-971eb130e91c/660f190d-ba86-40df-bdb4-5da51c216e1c.mp4"
+  }
+ },
+ "seconds": 130,
+ "file": "social/side/gen/cpvo_cp_moon.mp4"
+}

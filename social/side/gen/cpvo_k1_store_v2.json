@@ -1,0 +1,31 @@
+{
+ "id": "cpvo_k1_store_v2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Slow smooth camera push-in through the miniature convenience store toward the red box of chocolate snack cakes on the counter, neon lights flicker softly, light rain outside, tilt-shift look, keep the ORION lettering on the red wrappers sharp and readable",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf1-51e5-7b6e-a54a-f76a1a48da9b/cc9d58db-4d5a-4205-b8a6-1c70d0b7d6a4.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17cf3-479c-78b8-b5e8-c158feda9111",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf3-479c-78b8-b5e8-c158feda9111/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf3-479c-78b8-b5e8-c158feda9111/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17cf3-479c-78b8-b5e8-c158feda9111",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf3-479c-78b8-b5e8-c158feda9111/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf3-479c-78b8-b5e8-c158feda9111/cancel",
+  "expires_at": "2026-11-03T10:43:26.357044+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf3-479c-78b8-b5e8-c158feda9111/11faa39c-14c0-412e-95ef-58ce1ea3bd2f.mp4"
+  }
+ },
+ "seconds": 130,
+ "file": "social/side/gen/cpvo_k1_store_v2.mp4"
+}

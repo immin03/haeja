@@ -1,0 +1,36 @@
+{
+ "id": "cp09_army_v2_o",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrappers handed out at the canteen window show ORION.",
+  "aspect_ratio": "16:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-6efa-7c23-9edf-afed4da7de76/6a3658e6-6bd8-4fa9-a97e-f7ec22573d32.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf0-d234-73f4-b043-e4fa55b04119/d2bc2a05-30e5-4889-9282-98f9fde30de1.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17cf1-51ef-7259-af95-e00a4e5d995e",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf1-51ef-7259-af95-e00a4e5d995e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf1-51ef-7259-af95-e00a4e5d995e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17cf1-51ef-7259-af95-e00a4e5d995e",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf1-51ef-7259-af95-e00a4e5d995e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf1-51ef-7259-af95-e00a4e5d995e/cancel",
+  "expires_at": "2026-11-03T10:39:46.956534+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf1-51ef-7259-af95-e00a4e5d995e/719bb419-da78-4530-94db-616352c98c6d.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/cp09_army_v2_o.jpeg"
+}

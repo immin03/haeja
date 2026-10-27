@@ -1,0 +1,36 @@
+{
+ "id": "cp22_hospital_v2_o",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrapper on the bedside table shows ORION.",
+  "aspect_ratio": "16:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-6da0-7686-98a9-f10be87923af/dabf1a3c-2fe4-465a-bc4a-032978ff54b5.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf0-d234-73f4-b043-e4fa55b04119/d2bc2a05-30e5-4889-9282-98f9fde30de1.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17cf1-503b-73f7-8d49-95f7854150f0",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf1-503b-73f7-8d49-95f7854150f0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf1-503b-73f7-8d49-95f7854150f0/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17cf1-503b-73f7-8d49-95f7854150f0",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf1-503b-73f7-8d49-95f7854150f0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf1-503b-73f7-8d49-95f7854150f0/cancel",
+  "expires_at": "2026-11-03T10:39:44.122425+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf1-503b-73f7-8d49-95f7854150f0/2197c025-0ec7-434e-b308-58b27ee34acd.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/cp22_hospital_v2_o.jpeg"
+}

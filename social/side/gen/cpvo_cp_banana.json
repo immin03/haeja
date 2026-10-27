@@ -1,0 +1,31 @@
+{
+ "id": "cpvo_cp_banana",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Tiny shoppers rush and grab the last yellow snack boxes, the clerk throws up his hands, chaotic and funny, camera pans across the store, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf2-03cd-78af-ae52-a3e7c53e8977/37ba296b-03df-4088-8473-d7e2d03ae940.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17cf5-f4a4-71b3-b96f-3fa6cbdd5df1",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf5-f4a4-71b3-b96f-3fa6cbdd5df1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf5-f4a4-71b3-b96f-3fa6cbdd5df1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17cf5-f4a4-71b3-b96f-3fa6cbdd5df1",
+  "status_url": "https://api.higgsfield.ai/requests/01a17cf5-f4a4-71b3-b96f-3fa6cbdd5df1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17cf5-f4a4-71b3-b96f-3fa6cbdd5df1/cancel",
+  "expires_at": "2026-11-03T10:46:13.919113+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17cf5-f4a4-71b3-b96f-3fa6cbdd5df1/2b46ba82-c153-4895-900b-37578d5364b1.mp4"
+  }
+ },
+ "seconds": 124,
+ "file": "social/side/gen/cpvo_cp_banana.mp4"
+}
