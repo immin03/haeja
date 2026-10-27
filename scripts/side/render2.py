@@ -155,6 +155,9 @@ def bg_source(stem):
     if stem not in _BG:
         p = asset(stem)
         im = Image.open(p).convert("RGB") if p else Image.new("RGB", (W, H), (40, 34, 50))
+        r = W / H; iw, ih = im.size
+        if iw / ih > r: cw = int(ih * r); im = im.crop(((iw - cw) // 2, 0, (iw - cw) // 2 + cw, ih))
+        else: ch = int(iw / r); im = im.crop((0, (ih - ch) // 2, iw, (ih - ch) // 2 + ch))
         im = im.resize((int(W * 1.1), int(H * 1.1)), Image.LANCZOS)
         _BG.clear(); _BG[stem] = im
     return _BG[stem]
@@ -175,7 +178,7 @@ def ken_burns(src, move, p):
 class Footage:
     """AI 영상 배경: 정방향+역방향을 이어 끊김 없이 반복"""
     def __init__(self, stem, dur):
-        src = os.path.join(GEN, stem + ".mp4"); pp = os.path.join(CACHE, stem + "_pp.mp4")
+        src = os.path.join(GEN, stem + ".mp4"); pp = os.path.join(CACHE, f"{stem}_{W}x{H}_pp.mp4")
         if not os.path.exists(pp):
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-filter_complex",
                             f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1[v]",
@@ -192,7 +195,8 @@ class Footage:
 
 
 _HOST = {}
-def host_img(pose, height=440):
+def host_img(pose, height=None):
+    height = height or L["host_h"]
     k = (pose, height)
     if k not in _HOST:
         p = os.path.join(CUT, pose + ".png")
@@ -313,13 +317,13 @@ def norm(w): return "".join(c for c in w.lower() if c.isalnum() or c in "'$")
 
 def draw_sub(base, chunk, t, hl, until):
     if not chunk or t < chunk[0][1] - .02 or t > until: return
-    size = 62; d = ImageDraw.Draw(base)
+    size = L["sub_size"]; d = ImageDraw.Draw(base)
     while True:
         f = FB(size); sp = size * .34
         widths = [d.textlength(w, font=f) for w, _, _ in chunk]; tot = sum(widths) + sp * (len(chunk) - 1)
-        if tot <= 1000 or size <= 44: break
+        if tot <= L["sub_w"] or size <= 44: break
         size -= 4
-    x = (W - tot) / 2; y = 990
+    x = (W - tot) / 2; y = L["sub_y"]
     for (w, a, b), wd in zip(chunk, widths):
         if t >= a - .02:
             age = t - a; s = 1.0 + .12 * max(0.0, 1 - age / .12)
@@ -339,7 +343,7 @@ def build(spec):
             audio_parts.append((t, a)); words = line.split()
             lines.append({"t0": t, "t1": t + d, "chunks": chunks_of(word_times(words, t + .02, t + d - .04))})
             t += d + (.12 if li < len(sc["lines"]) - 1 else 0)
-        t += .38
+        t += .55
         segs.append({"st": st, "en": max(t, st + 2.4), "lines": lines}); t = segs[-1]["en"]
     total = t + 1.2
     # 소품 이벤트
@@ -389,7 +393,16 @@ def mix(audio_parts, sfx_ev, total, music):
 
 
 # ---------------- 렌더 ----------------
-SLOTS = [(70, 60), (W - 70, 60), (70, 330), (W - 70, 330)]
+LONG = {"W": 1920, "H": 1080, "sub_size": 62, "sub_w": 1000, "sub_y": 990, "host_h": 440, "feet": 30, "edge": 60,
+        "slots": [(70, 60), (1850, 60), (70, 330), (1850, 330)], "count_y": 70}
+VERT = {"W": 1080, "H": 1920, "sub_size": 76, "sub_w": 960, "sub_y": 1060, "host_h": 520, "feet": 230, "edge": 30,
+        "slots": [(40, 230), (1040, 560), (40, 890)], "count_y": 240}
+L = dict(LONG)
+
+
+def set_layout(lay):
+    global W, H
+    L.clear(); L.update(lay); W, H = lay["W"], lay["H"]; _BG.clear(); _HOST.clear()
 
 
 def render(sid):
@@ -398,12 +411,48 @@ def render(sid):
     JID = "render-" + sid; LBL = "롱폼 렌더 · " + spec["title"]
     report(JID, LBL, pct=1, detail="내레이션 녹음 중")
     od = os.path.join(OUT, sid); os.makedirs(od, exist_ok=True)
+    set_layout(LONG)
     segs, parts, sfx_ev, total = build(spec)
     report(JID, LBL, pct=12, detail=f"녹음 끝 · 길이 {int(total // 60)}분 {int(total % 60)}초 · 화면 그리는 중")
+    vid = os.path.join(od, "_long.mp4")
+    draw_video(spec, sid, segs, parts, sfx_ev, total, vid, lambda f, msg: report(JID, LBL, pct=12 + 74 * f, detail=msg, every=20))
+    # 챕터
+    chapters, last = [], -99
+    for sc, sg in zip(spec["scenes"], segs):
+        if sc.get("chapter") and sg["st"] - last > 10:
+            s = 0 if not chapters else int(sg["st"]); chapters.append(f"{s // 60}:{s % 60:02d} {sc['chapter']}"); last = sg["st"]
+    report(JID, LBL, pct=87, detail="썸네일 만드는 중")
+    thumb(spec, os.path.join(od, "thumb.jpg"))
+    report(JID, LBL, pct=88, detail="세로 쇼츠 그리는 중")
+    try: short = render_short(spec, sid, od, lambda f, msg: report(JID, LBL, pct=88 + 7 * f, detail="쇼츠 " + msg, every=20))
+    except Exception as e: print("쇼츠 실패", e); short = None
+    set_layout(LONG)
+    return {"video": vid, "short": short, "total": total, "chapters": "\n".join(chapters)}
+
+
+def render_short(spec, sid, od, prog):
+    """세로 쇼츠 (57초 이하): short:true 장면만 골라 세로 화면으로 다시 그린다 — 같은 녹음(캐시) 사용"""
+    pick, tot = [], 0.0
+    cand = [sc for sc in spec["scenes"] if sc.get("short")]
+    set_layout(VERT)
+    for sc in cand:
+        d = build(dict(spec, scenes=[sc]))[3] - 1.7
+        if tot + d > 55: continue
+        pick.append(sc); tot += d
+    if not pick: return None
+    sp = dict(spec, scenes=[dict(sc) for sc in pick])
+    sp["scenes"][-1] = dict(sp["scenes"][-1], chip="Full story on our channel!")
+    segs, parts, sfx_ev, total = build(sp)
+    out = os.path.join(od, "short.mp4")
+    draw_video(sp, sid + "-short", segs, parts, sfx_ev, total, out, prog)
+    return out
+
+
+def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
+    od = os.path.dirname(vid)
     audio, venv = mix(parts, sfx_ev, total, music_track(spec.get("music"), total))
     wav = os.path.join(od, "_audio.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-c:a", "pcm_s16le", wav], input=audio.astype(np.float32).tobytes(), check=True)
-    vid = os.path.join(od, "_long.mp4")
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", wav,
                             "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", vid],
                            stdin=subprocess.PIPE)
@@ -413,6 +462,7 @@ def render(sid):
         for ln in sg["lines"]:
             for ch in ln["chunks"]: srt.append((ch[0][1], ch[-1][2] + .15, " ".join(w for w, _, _ in ch)))
     hl_all = [{norm(w) for w in sc.get("hl", [])} for sc in spec["scenes"]]
+    all_lines = [(si_, ln) for si_, sg_ in enumerate(segs) for ln in sg_["lines"]]   # 자막 겹침 방지: 한 번에 한 줄만
     si = 0; foot = None; cards = {}
     for fi in range(nfr):
         t = fi / FPS
@@ -441,15 +491,15 @@ def render(sid):
         if sc.get("chip") and age < 5.5:
             if "chip" not in cards: cards["chip"] = card_chip(sc["chip"])
             c = cards["chip"]; k = ease_out(age / .4) if age < 5.1 else 1 - ease_out((age - 5.1) / .4)
-            base.paste(c, (int(-c.width + (70 + c.width) * k), 40), c)
+            base.paste(c, (int(-c.width + (L["edge"] + 10 + c.width) * k), 40 if W > H else 120), c)
         # 소품
         slot = 0
         for pp in sg["pops"]:
             a = t - pp["t"]
             key = ("p", pp["k"])
             if pp["kind"] == "comment":
-                pos = SLOTS[slot % len(SLOTS)]; slot += 1
-                if sc.get("chip") and pos == SLOTS[0]: pos = (70, 140)
+                pos = L["slots"][slot % len(L["slots"])]; slot += 1
+                if sc.get("chip") and pos == L["slots"][0]: pos = (pos[0], pos[1] + 80)
             if a < 0 or t > sg["en"] - .05: continue
             if key not in cards:
                 kd = pp["kind"]
@@ -465,7 +515,7 @@ def render(sid):
             cw, ch = max(1, int(c.width * s)), max(1, int(c.height * s)); ci = c.resize((cw, ch), Image.BILINEAR)
             if pp["kind"] == "comment":
                 x = pos[0] if pos[0] < W / 2 else pos[0] - cw; y = pos[1]
-            elif pp["kind"] == "count": x, y = (W - cw) // 2, 70
+            elif pp["kind"] == "count": x, y = (W - cw) // 2, L["count_y"]
             else:
                 fx_, fy_ = pp.get("x", .5), pp.get("y", .42)
                 bob = math.sin(a * 2.2) * 8 if pp["kind"] in ("glyph", "tag") else 0
@@ -487,37 +537,36 @@ def render(sid):
             if sy > .03:
                 hw, hh = int(hi.width * sx), int(hi.height * sy); im = hi.resize((max(1, hw), max(1, hh)), Image.BILINEAR)
                 bob = int(6 * math.sin(t * 2 * math.pi / 1.5))
-                cx = W - 60 - hi.width // 2 if side == "right" else 60 + hi.width // 2
-                feet = H - 30
+                cx = W - L["edge"] - hi.width // 2 if side == "right" else L["edge"] + hi.width // 2
+                feet = H - L["feet"]
                 shb = shadow_blob(int(hi.width * .7 * sc_in * out_k) or 1)
                 base.paste(shb, (cx - shb.width // 2, feet - 30), shb)
                 base.paste(im, (cx - hw // 2, feet - hh + bob), im)
         else: host_state.update(pose=None)
-        # 자막
-        for ln in sg["lines"]:
-            if ln["t0"] - .05 <= t <= ln["t1"] + .3:
+        # 자막: 지금 시각 직전에 시작한 줄 하나만 (다음 줄이 시작되면 앞 줄은 바로 사라진다)
+        cur = None
+        for k_, (si_, ln) in enumerate(all_lines):
+            if ln["t0"] - .05 <= t: cur = k_
+            else: break
+        if cur is not None:
+            si_, ln = all_lines[cur]
+            end_ln = ln["t1"] + .3
+            if cur + 1 < len(all_lines): end_ln = min(end_ln, all_lines[cur + 1][1]["t0"] - .06)
+            if t <= end_ln:
                 for ci_, ch in enumerate(ln["chunks"]):
-                    nxt = ln["chunks"][ci_ + 1][0][1] if ci_ + 1 < len(ln["chunks"]) else ln["t1"] + .3
-                    if ch[0][1] - .02 <= t < nxt: draw_sub(base, ch, t, hl_all[si], nxt)
+                    nxt = ln["chunks"][ci_ + 1][0][1] if ci_ + 1 < len(ln["chunks"]) else end_ln
+                    if ch[0][1] - .02 <= t < nxt: draw_sub(base, ch, t, hl_all[si_], nxt)
         enc.stdin.write(base.tobytes())
         if t >= sg["en"] - 1 / FPS - 1e-6: prev_last = base
         if fi % (FPS * 30) == 0: print(f"  {sid} {t / 60:.1f}분 / {total / 60:.1f}분", flush=True)
-        if fi % (FPS * 5) == 0: report(JID, LBL, pct=12 + 78 * fi / max(1, nfr), detail=f"화면 {int(t // 60)}:{int(t % 60):02d} / {int(total // 60)}:{int(total % 60):02d}", every=20)
+        if fi % (FPS * 5) == 0: prog(fi / max(1, nfr), f"화면 {int(t // 60)}:{int(t % 60):02d} / {int(total // 60)}:{int(total % 60):02d}")
     if foot: foot.close()
     enc.stdin.close(); enc.wait()
     os.remove(wav)
-    # 챕터
-    chapters, last = [], -99
-    for sc, sg in zip(spec["scenes"], segs):
-        if sc.get("chapter") and sg["st"] - last > 10:
-            s = 0 if not chapters else int(sg["st"]); chapters.append(f"{s // 60}:{s % 60:02d} {sc['chapter']}"); last = sg["st"]
-    report(JID, LBL, pct=91, detail="썸네일·쇼츠 만드는 중")
-    thumb(spec, os.path.join(od, "thumb.jpg"))
-    short = make_short(spec, segs, vid, od, srt)
-    return {"video": vid, "short": short, "total": total, "chapters": "\n".join(chapters)}
 
 
 def thumb(spec, path):
+    set_layout(LONG)
     th = spec.get("thumb", {})
     im = ken_burns(bg_source(th.get("bg", spec["scenes"][0]["bg"])), "in", .6).convert("RGBA")
     # 왼쪽 어둡게 (글자 자리)
@@ -538,16 +587,6 @@ def thumb(spec, path):
     d.text((bx, 120), th.get("small", ""), font=FB(96), fill=WHITE, stroke_width=10, stroke_fill=INK)
     d.text((bx, 220), big, font=f, fill=YEL, stroke_width=16, stroke_fill=INK)
     im.convert("RGB").resize((1280, 720), Image.LANCZOS).save(path, quality=92)
-
-
-def make_short(spec, segs, vid, od, srt):
-    """세로 쇼츠: short:true 장면 → 위 제목, 가운데 화면(아래 자막 부분은 잘라 냄), 큰 자막"""
-    sys.path.insert(0, HERE); import render as r1
-    spec2 = dict(spec); spec2["scenes"] = [dict(sc, t=sc.get("t", "story")) for sc in spec["scenes"]]
-    spec2.setdefault("thumb", {}); spec2["thumb"] = dict(top=spec["thumb"].get("small", ""), big=spec["thumb"].get("big", ""))
-    seg3 = [(sg["st"], sg["en"] - sg["st"], None) for sg in segs]
-    try: return r1.make_short(spec2, seg3, vid, od, srt)
-    except Exception as e: print("쇼츠 실패", e); return None
 
 
 def build_description(spec, chapters):

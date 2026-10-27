@@ -32,9 +32,18 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/side/render2.py ${{ github.event.inputs.ids }} --all
       - name: 커밋
+        if: always()
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
-          git add -A social/side social/typecast_usage.json 2>/dev/null || git add -A social/side
-          git diff --cached --quiet && exit 0
-          git commit -m "사이드 채널 롱폼 v2 $(TZ=Asia/Seoul date '+%F %H:%M')"
-          for i in 1 2 3; do git pull --rebase -X theirs -q && git push && exit 0; git rebase --abort 2>/dev/null; sleep 5; done; exit 1
+          # 다른 봇(릴스 등)이 그 사이에 올린 커밋과 부딪히지 않게: 결과물만 따로 두고 최신 main 위에 다시 얹는다
+          mkdir -p /tmp/out && cp -r social/side /tmp/out/ && cp social/typecast_usage.json /tmp/out/ 2>/dev/null || true
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            cp -r /tmp/out/side social/ && { cp /tmp/out/typecast_usage.json social/ 2>/dev/null || true; }
+            git add -A social/side social/typecast_usage.json 2>/dev/null || git add -A social/side
+            git diff --cached --quiet && exit 0
+            git commit -qm "사이드 채널 롱폼 v2 $(TZ=Asia/Seoul date '+%F %H:%M')"
+            git push -q origin HEAD:main && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
