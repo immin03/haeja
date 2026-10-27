@@ -1,0 +1,90 @@
+[
+ {
+  "id": "cp_court",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A miniature 1990s Korean courtroom, a tiny judge with a wooden gavel at the bench, two rival tables of tiny businessmen each holding up an identical round chocolate snack cake, red boxes as evidence on the table, dramatic but funny mood, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_moon",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A miniature night sky scene, an endless line of round chocolate-coated snack cakes stacked into a tall curving tower rising from a tiny Earth toward a big glowing crescent moon, stars, whimsical and magical, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cpv01_dmz",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp01_dmz.jpeg",
+  "body": {
+   "prompt": "Dozens of small white balloons carrying red snack bundles slowly rise and drift over the barbed-wire fence, searchlights sweep across the misty hills, gentle camera push-in, miniature diorama, tilt-shift, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv03_pie",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp03_pie.jpeg",
+  "body": {
+   "prompt": "The two halves of the chocolate cake slowly pull apart, soft marshmallow stretching in gooey strands, crumbs falling, slow macro camera push-in, appetizing, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv06_factory",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp06_factory.jpeg",
+  "body": {
+   "prompt": "The conveyor belt moves steadily carrying rows of round chocolate cakes, tiny workers busily check them, machine dials spin and steam puffs, slow camera pan along the line, miniature diorama, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv10_chapel",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp10_chapel.jpeg",
+  "body": {
+   "prompt": "Tiny soldiers in the pews happily munch their chocolate snack cakes, some turning to each other and grinning, sunbeams shimmer through the windows, slow camera dolly forward down the aisle, playful, miniature diorama, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv13_train",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp13_train.jpeg",
+  "body": {
+   "prompt": "The miniature steam train chugs forward across the snowy forest, smoke puffing from the chimney, snow falling, warm windows glowing, camera tracking alongside, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv20_office",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp20_office.jpeg",
+  "body": {
+   "prompt": "The giant red rubber stamp slams down onto the red snack box with a thump, papers flutter off the desk, the lamp swings, dramatic and funny, miniature diorama, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv22_hospital",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp22_hospital.jpeg",
+  "body": {
+   "prompt": "The kind nurse gently hands the small chocolate cake to the bandaged soldier who slowly smiles, curtains sway softly, moonlight, slow gentle camera push-in, hopeful, miniature diorama, no text",
+   "duration": 5
+  }
+ }
+]
