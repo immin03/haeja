@@ -1,0 +1,66 @@
+[
+ {
+  "id": "c1_magpie",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A little Korean magpie (black and white bird with blue-tinted wings) mascot as a news reporter, wearing a tiny red scarf and a small satchel, holding a tiny microphone, cute 3D vinyl toy figurine character, big glossy eyes, small rounded body, friendly smile, Pixar-like but simple shapes, standing pose, full body, centered, plain soft cream background, studio lighting, no text, no logo",
+   "aspect_ratio": "1:1"
+  }
+ },
+ {
+  "id": "c2_tiger",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A chubby little Korean tiger cub explorer mascot wearing a tiny yellow backpack and a traveler's hat, cute 3D vinyl toy figurine character, big glossy eyes, small rounded body, friendly smile, Pixar-like but simple shapes, standing pose, full body, centered, plain soft cream background, studio lighting, no text, no logo",
+   "aspect_ratio": "1:1"
+  }
+ },
+ {
+  "id": "c3_dokkaebi",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A tiny friendly Korean dokkaebi goblin kid mascot with one small soft horn, wearing a colorful hanbok vest, holding a small wooden club like a pointer, cute 3D vinyl toy figurine character, big glossy eyes, small rounded body, friendly smile, Pixar-like but simple shapes, standing pose, full body, centered, plain soft cream background, studio lighting, no text, no logo",
+   "aspect_ratio": "1:1"
+  }
+ },
+ {
+  "id": "c4_tteok",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A round pastel rice-cake (tteok) mascot with tiny arms and legs, rosy cheeks, wearing a tiny traveler's backpack, cute 3D vinyl toy figurine character, big glossy eyes, small rounded body, friendly smile, Pixar-like but simple shapes, standing pose, full body, centered, plain soft cream background, studio lighting, no text, no logo",
+   "aspect_ratio": "1:1"
+  }
+ },
+ {
+  "id": "k1_store",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A miniature Korean convenience store at night seen from a slightly high angle, glowing shelves full of tiny snacks, a red snack box with round chocolate cakes on the counter, a tiny rainy street outside with neon reflections, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "k2_port",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A miniature 1990s Busan harbor at sunset, toy cargo ship and cranes, tiny traders carrying huge bags stuffed with red snack boxes up the gangway, seagulls, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "v1_store",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/k1_store.png",
+  "body": {
+   "prompt": "Slow smooth camera push-in through the miniature convenience store toward the red snack box on the counter, neon lights flicker softly, light rain outside, gentle tilt-shift look, no text",
+   "duration": 5
+  }
+ }
+]
