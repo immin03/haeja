@@ -326,7 +326,7 @@ def draw_sub(base, chunk, t, hl, until, style=None):
     style = style or SUB_STYLE["s"]
     size = L["sub_size"] - 6; d0 = ImageDraw.Draw(Image.new("RGB", (8, 8)))
     while True:
-        f = FP(size, "Bold"); sp = size * .3
+        f = FP(size, "Bold"); sp = size * .42
         widths = [d0.textlength(w, font=f) for w, _, _ in chunk]; tot = sum(widths) + sp * (len(chunk) - 1)
         if tot <= L["sub_w"] or size <= 40: break
         size -= 3
