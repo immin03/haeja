@@ -1,0 +1,35 @@
+{
+ "id": "h_walk",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The exact same magpie reporter character from the reference image, same red scarf, brown satchel and black microphone, same proportions and colors, walking to the right mid-stride, cheerful, side three-quarter view, full body, plain flat light cream background with nothing else, soft studio light, cute 3D vinyl toy figurine, no text",
+  "aspect_ratio": "1:1",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bae-cc1a-7d18-9f7e-7b20ca3858dc",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bae-cc1a-7d18-9f7e-7b20ca3858dc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bae-cc1a-7d18-9f7e-7b20ca3858dc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bae-cc1a-7d18-9f7e-7b20ca3858dc",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bae-cc1a-7d18-9f7e-7b20ca3858dc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bae-cc1a-7d18-9f7e-7b20ca3858dc/cancel",
+  "expires_at": "2026-11-03T04:47:17.961221+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bae-cc1a-7d18-9f7e-7b20ca3858dc/803ffa77-0c49-490c-b6a3-d31898226d0f.jpeg"
+   }
+  ]
+ },
+ "seconds": 25,
+ "file": "social/side/gen/h_walk.jpeg"
+}

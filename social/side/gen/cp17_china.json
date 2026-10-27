@@ -1,0 +1,32 @@
+{
+ "id": "cp17_china",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A miniature Chinese street at Lunar New Year night, rows of red paper lanterns, tiny people carrying gift bags with round chocolate-coated snack cakes in plain red wrappers, firecracker confetti, festive glow, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a",
+  "status_url": "https://api.higgsfield.ai/requests/01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a",
+  "status_url": "https://api.higgsfield.ai/requests/01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a/cancel",
+  "expires_at": "2026-11-03T04:36:13.438644+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17ba3-d6b5-780c-bccf-ef6d78e7cb6a/8013663e-0b10-4fc4-a73a-878a81bf5c91.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "social/side/gen/cp17_china.jpeg"
+}

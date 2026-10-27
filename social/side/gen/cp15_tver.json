@@ -1,0 +1,32 @@
+{
+ "id": "cp15_tver",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A huge miniature snack factory warehouse overflowing with mountains of red boxes of round chocolate-coated snack cakes in plain red wrappers, tiny forklifts and workers struggling to keep up, conveyor belts everywhere, humorous chaos, bright industrial lights, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17ba1-4671-7bd3-9686-b1c782b28930",
+  "status_url": "https://api.higgsfield.ai/requests/01a17ba1-4671-7bd3-9686-b1c782b28930/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17ba1-4671-7bd3-9686-b1c782b28930/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17ba1-4671-7bd3-9686-b1c782b28930",
+  "status_url": "https://api.higgsfield.ai/requests/01a17ba1-4671-7bd3-9686-b1c782b28930/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17ba1-4671-7bd3-9686-b1c782b28930/cancel",
+  "expires_at": "2026-11-03T04:33:27.412133+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17ba1-4671-7bd3-9686-b1c782b28930/008c2075-7c55-4b23-bfab-3c186593d0d0.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "social/side/gen/cp15_tver.jpeg"
+}

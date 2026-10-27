@@ -1,0 +1,32 @@
+{
+ "id": "cp07_alley",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A miniature 1970s Seoul alley with low tiled-roof houses, tiny children in retro clothes sharing one round chocolate snack cake broken into pieces, laundry lines, warm sunset light, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17b97-69f1-77e3-ac40-295057a882c5",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b97-69f1-77e3-ac40-295057a882c5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b97-69f1-77e3-ac40-295057a882c5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17b97-69f1-77e3-ac40-295057a882c5",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b97-69f1-77e3-ac40-295057a882c5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b97-69f1-77e3-ac40-295057a882c5/cancel",
+  "expires_at": "2026-11-03T04:22:19.699108+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b97-69f1-77e3-ac40-295057a882c5/143779d0-5322-41d8-8196-a4dc7671a369.jpeg"
+   }
+  ]
+ },
+ "seconds": 62,
+ "file": "social/side/gen/cp07_alley.jpeg"
+}
