@@ -20,7 +20,7 @@
       "short": true}]}
 화면 원칙(운영자 2026-10-27): PART 번호 없음, 단어 단위로 튀어나오는 작은 자막(핵심어만 노랑), 댓글이 따다닥 터짐, 진행자 까치가 장면을 끌고 감
 """
-import datetime as dt, glob, hashlib, json, math, os, random, subprocess, sys, urllib.error, urllib.request
+import datetime as dt, glob, hashlib, json, math, os, random, re, subprocess, sys, urllib.error, urllib.request
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -47,6 +47,7 @@ def _font(path, size, var=None, index=0):
         _FC[k] = f
     return _FC[k]
 def FB(size, var="ExtraBold"): return _font(os.path.join(HERE, "fonts", "Baloo2.ttf"), int(size), var)
+def FP(size, w="Bold"): return _font(os.path.join(HERE, "fonts", f"Poppins-{w}.ttf"), int(size))
 def FF(size, var="Bold"): return _font(os.path.join(HERE, "fonts", "Fredoka.ttf"), int(size), var)
 def FKR(size):
     for p in ("/usr/share/fonts/opentype/noto/NotoSansCJK-Medium.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"):
@@ -315,38 +316,98 @@ def chunks_of(wt):
 def norm(w): return "".join(c for c in w.lower() if c.isalnum() or c in "'$")
 
 
-def draw_sub(base, chunk, t, hl, until):
+SUB_STYLE = {"s": "pill"}
+
+
+def draw_sub(base, chunk, t, hl, until, style=None):
+    """자막 3가지: pill(반투명 둥근 바탕 + 형광펜 핵심어, 기본) / clean(바탕 없이 그림자) / card(흰 카드 + 빨강 핵심어)
+    아직 안 읽은 단어는 흐리게 미리 보이고, 읽는 순간 밝아지며 살짝 튄다"""
     if not chunk or t < chunk[0][1] - .02 or t > until: return
-    size = L["sub_size"]; d = ImageDraw.Draw(base)
+    style = style or SUB_STYLE["s"]
+    size = L["sub_size"] - 6; d0 = ImageDraw.Draw(Image.new("RGB", (8, 8)))
     while True:
-        f = FB(size); sp = size * .34
-        widths = [d.textlength(w, font=f) for w, _, _ in chunk]; tot = sum(widths) + sp * (len(chunk) - 1)
-        if tot <= L["sub_w"] or size <= 44: break
-        size -= 4
-    x = (W - tot) / 2; y = L["sub_y"]
+        f = FP(size, "Bold"); sp = size * .3
+        widths = [d0.textlength(w, font=f) for w, _, _ in chunk]; tot = sum(widths) + sp * (len(chunk) - 1)
+        if tot <= L["sub_w"] or size <= 40: break
+        size -= 3
+    padx, pady = int(size * .55), int(size * .32); bh = int(size * 1.3) + pady * 2
+    im = Image.new("RGBA", (int(tot) + padx * 2 + 20, bh + 20), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    if style == "pill": d.rounded_rectangle((10, 10, 10 + tot + padx * 2, 10 + bh), bh // 2, fill=(18, 16, 28, 175))
+    elif style == "card": d.rounded_rectangle((10, 10, 10 + tot + padx * 2, 10 + bh), 22, fill=(255, 255, 255, 240))
+    x = 10 + padx; yb = 10 + pady + int(size * 1.02)
     for (w, a, b), wd in zip(chunk, widths):
-        if t >= a - .02:
-            age = t - a; s = 1.0 + .12 * max(0.0, 1 - age / .12)
-            col = YEL if norm(w) in hl else WHITE
-            d.text((x + wd / 2, y), w, font=FB(size * s), fill=col, anchor="ms", stroke_width=max(6, int(size * .14)), stroke_fill=INK)
+        said = t >= a - .02; key = norm(w) in hl
+        if said and key and style != "clean":
+            col_bg = YEL if style == "pill" else (255, 226, 222)
+            d.rounded_rectangle((x - 8, 10 + pady + int(size * .12), x + wd + 8, 10 + pady + int(size * 1.28)), 12, fill=col_bg + (255,))
+        if style == "card": col = (RED if key else INK) + ((255,) if said else (90,))
+        elif style == "pill": col = (INK + (255,)) if (said and key) else (WHITE + ((255,) if said else (110,)))
+        else: col = (YEL if key else WHITE) + ((255,) if said else (120,))
+        fs = f
+        if said and t - a < .1: fs = FP(size * (1 + .08 * (1 - (t - a) / .1)), "Bold")
+        if style == "clean": d.text((x + wd / 2 + 3, yb + 4), w, font=fs, fill=(0, 0, 0, 150 if said else 60), anchor="ms")
+        d.text((x + wd / 2, yb), w, font=fs, fill=col, anchor="ms")
         x += wd + sp
+    if style == "clean": im = im.filter(ImageFilter.SMOOTH)
+    base.paste(im, (int((W - im.width) / 2), int(L["sub_y"] - bh * .8)), im)
 
 
 # ---------------- 타임라인 ----------------
+def tts_text(text, spec):
+    """화면 자막은 그대로, 성우에게만 읽는 법을 바꿔 준다 (예: Orion → Oh-ree-on)"""
+    for k, v in (spec.get("say_map") or {}).items():
+        text = re.sub(r"(?<![\w-])" + re.escape(k) + r"(?![\w-])", v, text)
+    return text
+
+
+def align(audio, lines, t0):
+    """장면을 한 번에 녹음 → 문장 경계는 소리가 끊기는 곳에 맞추고, 문장 안 단어는 글자 수 비례로 나눈다"""
+    sents = []
+    for li, ln in enumerate(lines):
+        cur = []
+        for w in ln.split():
+            cur.append(w)
+            if w[-1] in ".?!": sents.append((li, cur)); cur = []
+        if cur: sents.append((li, cur))
+    n = len(sents); d = len(audio) / SR; hop = int(.01 * SR)
+    e = np.array([np.sqrt(np.mean(audio[i:i + hop] ** 2)) for i in range(0, max(1, len(audio) - hop), hop)]) if len(audio) > hop else np.zeros(1)
+    thr = max(.006, float(np.percentile(e, 25)) * .7) if len(e) > 10 else .006
+    quiet = e < thr; gaps = []; i = 0
+    while i < len(quiet):
+        if quiet[i]:
+            j = i
+            while j < len(quiet) and quiet[j]: j += 1
+            if (j - i) * .01 >= .08 and i > 0 and j < len(quiet): gaps.append((i * .01, j * .01))
+            i = j
+        else: i += 1
+    chars = [sum(len(w) + 1 for w in s_[1]) for s_ in sents]; tot = max(1, sum(chars))
+    bounds, used, c = [], -1, 0
+    for k in range(n - 1):
+        c += chars[k]; x = d * c / tot; best = None
+        for gi in range(used + 1, len(gaps)):
+            m = (gaps[gi][0] + gaps[gi][1]) / 2
+            if best is None or abs(m - x) < abs((gaps[best][0] + gaps[best][1]) / 2 - x): best = gi
+        if best is not None and abs((gaps[best][0] + gaps[best][1]) / 2 - x) < 1.6: used = best; bounds.append(gaps[best])
+        else: bounds.append((x, x))
+    out = [[] for _ in lines]; st = 0.0
+    for k, (li, ws) in enumerate(sents):
+        en = bounds[k][0] if k < n - 1 else d
+        out[li] += word_times(ws, t0 + st + .02, t0 + max(st + .2, en) - .03)
+        st = bounds[k][1] if k < n - 1 else d
+    return [{"t0": wt[0][1], "t1": wt[-1][2], "chunks": chunks_of(wt)} for wt in out if wt]
+
+
 def build(spec):
     v = spec["voice"]; t = 0.5; segs, audio_parts, sfx_ev = [], [], []
     for si, sc in enumerate(spec["scenes"]):
-        st = t; lines = []
+        st = t
         if si: sfx_ev.append((st, "whoosh"))
-        for li, line in enumerate(sc["lines"]):
-            a = say(line, v); d = len(a) / SR
-            audio_parts.append((t, a)); words = line.split()
-            lines.append({"t0": t, "t1": t + d, "chunks": chunks_of(word_times(words, t + .02, t + d - .04))})
-            t += d + (.12 if li < len(sc["lines"]) - 1 else 0)
-        t += .55
+        a = say(tts_text(" ".join(sc["lines"]), spec), v)
+        audio_parts.append((t, a)); lines = align(a, sc["lines"], t)
+        t += len(a) / SR + .55
         segs.append({"st": st, "en": max(t, st + 2.4), "lines": lines}); t = segs[-1]["en"]
     total = t + 1.2
-    # 소품 이벤트
+    side = "right"
     for sc, sg in zip(spec["scenes"], segs):
         sg["pops"] = []
         for k, p in enumerate(sc.get("pops", [])):
@@ -354,18 +415,16 @@ def build(spec):
             at = (sg["lines"][li]["t0"] if sg["lines"] else sg["st"]) + float(p.get("dt", 0.15))
             sg["pops"].append(dict(p, t=at, k=k))
             sfx_ev.append((at, {"stamp": "thud", "glyph": "chime", "count": "ding"}.get(p["kind"], "pop")))
-        h = sc.get("host")
-        sg["host"] = []
-        if h:
-            sg["host"].append((sg["st"], h["pose"]))
-            for li, pose in h.get("then", []):
-                if li < len(sg["lines"]): sg["host"].append((sg["lines"][li]["t0"], pose))
+        h = sc.get("host") or {"pose": "h_talk", "side": side}   # 운영자: 까치는 처음부터 끝까지 나온다
+        side = h.get("side", side); sg["side"] = side
+        sg["host"] = [(sg["st"], h["pose"])]
+        for li, pose in h.get("then", []):
+            if li < len(sg["lines"]): sg["host"].append((sg["lines"][li]["t0"], pose))
     prev = None
     for sg in segs:
         for tt, pose in sg["host"]:
             if pose != prev: sfx_ev.append((tt, "pop"))
             prev = pose
-        if not sg["host"]: prev = None
     return segs, audio_parts, sfx_ev, total
 
 
@@ -393,11 +452,38 @@ def mix(audio_parts, sfx_ev, total, music):
 
 
 # ---------------- 렌더 ----------------
-LONG = {"W": 1920, "H": 1080, "sub_size": 62, "sub_w": 1000, "sub_y": 990, "host_h": 440, "feet": 30, "edge": 60,
-        "slots": [(70, 60), (1850, 60), (70, 330), (1850, 330)], "count_y": 70}
-VERT = {"W": 1080, "H": 1920, "sub_size": 76, "sub_w": 960, "sub_y": 1060, "host_h": 520, "feet": 230, "edge": 30,
-        "slots": [(40, 230), (1040, 560), (40, 890)], "count_y": 240}
+LONG = {"W": 1920, "H": 1080, "sub_size": 62, "sub_w": 1000, "sub_y": 1000, "host_h": 440, "feet": 30, "edge": 60,
+        "slots": [(70, 250), (1850, 60), (1850, 330)], "count_y": 70, "logo": (28, 24), "chip_y": 205}
+VERT = {"W": 1080, "H": 1920, "sub_size": 76, "sub_w": 960, "sub_y": 1080, "host_h": 520, "feet": 230, "edge": 30,
+        "slots": [(40, 420), (1040, 700)], "count_y": 300, "logo": (32, 120), "chip_y": 280}
+FLY_FACES = "right"   # h_fly 그림이 바라보는 쪽 (날아가는 방향이 반대면 좌우 뒤집음)
 L = dict(LONG)
+
+
+def logo_badge(brand=None):
+    """왼쪽 위 고정 로고: 까치 얼굴 동그라미 + 채널 이름 (+ 오늘의 주인공 브랜드)"""
+    face = Image.open(os.path.join(GEN, "brand_logo.jpeg")).convert("RGB").resize((96, 96), Image.LANCZOS) if os.path.exists(os.path.join(GEN, "brand_logo.jpeg")) else Image.new("RGB", (96, 96), YEL)
+    f = FF(34); d0 = ImageDraw.Draw(Image.new("RGB", (8, 8))); tw = int(d0.textlength("What Korea Says", font=f))
+    fb = FP(24, "Bold"); bw = int(d0.textlength(brand, font=fb)) if brand else 0
+    w = max(96 + 18 + tw + 34, 96 + 18 + bw + 60); h = 112 + (52 if brand else 0)
+    im = Image.new("RGBA", (w + 10, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    d.rounded_rectangle((40, 22, 96 + 18 + tw + 34, 90), 34, fill=(18, 16, 28, 190))
+    d.text((96 + 22, 56), "What Korea Says", font=f, fill=WHITE, anchor="lm")
+    m = Image.new("L", (96, 96), 0); ImageDraw.Draw(m).ellipse((0, 0, 95, 95), fill=255)
+    d.ellipse((4, 4, 108, 108), fill=WHITE); im.paste(face, (8, 8), m)
+    if brand:
+        d.rounded_rectangle((52, 118, 52 + bw + 58, 160), 21, fill=(255, 255, 255, 235))
+        d.ellipse((66, 131, 82, 147), fill=RED); d.text((92, 139), brand, font=fb, fill=INK, anchor="lm")
+    return im.resize((int(im.width * 1.2), int(im.height * 1.2)), Image.LANCZOS)
+
+
+def zoomc(img, z):
+    if z <= 1.001: return img
+    cw, ch = W / z, H / z; x0, y0 = (W - cw) / 2, (H - ch) / 2
+    return img.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
+
+
+def has_pose(p): return os.path.exists(os.path.join(CUT, p + ".png"))
 
 
 def set_layout(lay):
@@ -421,6 +507,7 @@ def render(sid):
     for sc, sg in zip(spec["scenes"], segs):
         if sc.get("chapter") and sg["st"] - last > 10:
             s = 0 if not chapters else int(sg["st"]); chapters.append(f"{s // 60}:{s % 60:02d} {sc['chapter']}"); last = sg["st"]
+    if spec.get("test"): return {"video": vid, "short": None, "total": total, "chapters": "\n".join(chapters)}
     report(JID, LBL, pct=87, detail="썸네일 만드는 중")
     thumb(spec, os.path.join(od, "thumb.jpg"))
     report(JID, LBL, pct=88, detail="세로 쇼츠 그리는 중")
@@ -456,7 +543,8 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", wav,
                             "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", vid],
                            stdin=subprocess.PIPE)
-    nfr = int(total * FPS); prev_last = None; host_state = {"pose": None, "since": -9, "side": None}
+    nfr = int(total * FPS); prev_last = None; host_state = {"pose": None, "since": -9, "side": None, "x": None}
+    LOGO = logo_badge(spec.get("brand_tag"))
     srt = []
     for sc, sg in zip(spec["scenes"], segs):
         for ln in sg["lines"]:
@@ -473,25 +561,28 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
         sc, sg = spec["scenes"][si], segs[si]
         if sc.get("vid") and os.path.exists(os.path.join(GEN, sc["vid"] + ".mp4")):
             if foot is None: foot = Footage(sc["vid"], sg["en"] - sg["st"] + 2)
-            base = foot.frame()
+            base = zoomc(foot.frame(), 1 + .06 * min(1, max(0, (t - sg["st"]) / max(.1, sg["en"] - sg["st"]))))   # 영상도 천천히 당긴다
         else:
             p = (t - sg["st"]) / max(.1, (sg["en"] - sg["st"]))
             base = ken_burns(bg_source(sc["bg"]), sc.get("move"), min(1, max(0, p)))
-        # 장면 전환: 앞 장면 마지막 화면에서 0.25초 섞기 + 살짝 당기기
+        # 장면 전환: 앞 장면 속으로 빨려 들어가듯 확대되며 다음 장면이 당겨져 나온다 (0.45초)
         age = t - sg["st"]
-        if si and age < .25 and prev_last is not None:
-            base = Image.blend(prev_last, base, ease_out(age / .25))
+        if si and age < .45 and prev_last is not None:
+            e_ = age / .45; e_ = e_ * e_ * (3 - 2 * e_)
+            base = Image.blend(zoomc(prev_last, 1 + .35 * e_), zoomc(base, 1.18 - .18 * e_), e_)
         # 흔들림 (도장)
         shake = 0
         for pp in sg["pops"]:
             if pp["kind"] == "stamp" and 0 <= t - pp["t"] < .35: shake = int(16 * (1 - (t - pp["t"]) / .35))
         if shake:
             base = base.transform(base.size, Image.AFFINE, (1, 0, random.randint(-shake, shake), 0, 1, random.randint(-shake, shake)), resample=Image.BILINEAR)
-        # 장소 표지
+        # 장소 표지 (없으면 로고만)
+        if not (sc.get("chip") and age < 5.5): base.paste(LOGO, L["logo"], LOGO)
         if sc.get("chip") and age < 5.5:
             if "chip" not in cards: cards["chip"] = card_chip(sc["chip"])
             c = cards["chip"]; k = ease_out(age / .4) if age < 5.1 else 1 - ease_out((age - 5.1) / .4)
-            base.paste(c, (int(-c.width + (L["edge"] + 10 + c.width) * k), 40 if W > H else 120), c)
+            base.paste(c, (int(-c.width + (L["edge"] + 10 + c.width) * k), L["chip_y"]), c)
+        base.paste(LOGO, L["logo"], LOGO)
         # 소품
         slot = 0
         for pp in sg["pops"]:
@@ -499,7 +590,7 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
             key = ("p", pp["k"])
             if pp["kind"] == "comment":
                 pos = L["slots"][slot % len(L["slots"])]; slot += 1
-                if sc.get("chip") and pos == L["slots"][0]: pos = (pos[0], pos[1] + 80)
+                if sc.get("chip") and pos == L["slots"][0]: pos = (pos[0], pos[1] + 60)
             if a < 0 or t > sg["en"] - .05: continue
             if key not in cards:
                 kd = pp["kind"]
@@ -523,26 +614,43 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
             if pp["kind"] == "stamp" and a < .16:
                 ci.putalpha(ci.getchannel("A").point(lambda v_: int(v_ * min(1, a / .1))))
             base.paste(ci, (int(x), int(y)), ci)
-        # 진행자
-        hs = [p for p in sg["host"] if p[0] <= t]
-        if hs:
-            pose = hs[-1][1]; side = (sc.get("host") or {}).get("side", "right")
-            if pose != host_state["pose"] or side != host_state["side"]:
-                host_state.update(pose=pose, since=hs[-1][0], side=side)
-            hi = host_img(pose); ha = t - host_state["since"]
-            e = float(venv[min(fi, len(venv) - 1)])
+        # 진행자 까치: 처음엔 오른쪽 밖에서 날아 들어오고, 장면마다 정한 쪽(side)으로 날아가 앉는다
+        hs = [p for p in sg["host"] if p[0] <= t] or sg["host"][:1]
+        pose = hs[-1][1]; side = sg.get("side", "right")
+        hi0 = host_img(pose)
+        tx = W - L["edge"] - hi0.width // 2 if side == "right" else L["edge"] + hi0.width // 2
+        if host_state["x"] is None: host_state.update(x=W + 320, fx0=W + 320, ftx=tx, fstart=.15, side=side)
+        if side != host_state["side"]: host_state.update(side=side, fx0=host_state["x"], ftx=tx, fstart=t)
+        fp = (t - host_state["fstart"]) / .9
+        e = float(venv[min(fi, len(venv) - 1)])
+        if fp < 1:
+            q = fp * fp * (3 - 2 * fp); x = host_state["fx0"] + (host_state["ftx"] - host_state["fx0"]) * q
+            yoff = -150 * math.sin(math.pi * fp); flying = True
+        else:
+            x = tx + 14 * math.sin(t * 2 * math.pi / 6.5); yoff = 0; flying = False
+        host_state["x"] = x
+        if flying and has_pose("h_fly"):
+            nm = "h_fly2" if (fi // 4) % 2 and has_pose("h_fly2") else "h_fly"; hi = host_img(nm)
+            going_left = host_state["ftx"] < host_state["fx0"]
+            if (FLY_FACES == "right") == going_left: hi = hi.transpose(Image.FLIP_LEFT_RIGHT)
+            sx = sy = 1.0
+        else:
+            if pose != host_state["pose"]: host_state.update(pose=pose, since=hs[-1][0] if hs[-1][0] > host_state["fstart"] + .9 else t)
+            nm = pose
+            if has_pose(pose + "_b") and ((t + (hash(pose) % 7) * .5) % 3.7) < .13: nm = pose + "_b"        # 눈 깜빡임
+            elif has_pose(pose + "_c") and not (e > .22 and (fi // 3) % 2 == 0): nm = pose + "_c"           # 말할 때 부리 열고 닫기
+            hi = host_img(nm); ha = t - host_state["since"]
             sc_in = ease_back(ha / .3) if ha < .3 else 1.0
-            out_k = 1 - ease_out((t - (sg["en"] - .2)) / .2) if (t > sg["en"] - .2 and si + 1 < len(segs) and not spec["scenes"][si + 1].get("host")) else 1
-            sy = (1 + .045 * e) * sc_in * out_k; sx = (1 - .02 * e) * sc_in * out_k
-            if sy > .03:
-                hw, hh = int(hi.width * sx), int(hi.height * sy); im = hi.resize((max(1, hw), max(1, hh)), Image.BILINEAR)
-                bob = int(6 * math.sin(t * 2 * math.pi / 1.5))
-                cx = W - L["edge"] - hi.width // 2 if side == "right" else L["edge"] + hi.width // 2
-                feet = H - L["feet"]
-                shb = shadow_blob(int(hi.width * .7 * sc_in * out_k) or 1)
-                base.paste(shb, (cx - shb.width // 2, feet - 30), shb)
-                base.paste(im, (cx - hw // 2, feet - hh + bob), im)
-        else: host_state.update(pose=None)
+            sy = (1 + .035 * e) * sc_in; sx = (1 - .015 * e) * sc_in
+        if sy > .03:
+            hw, hh = int(hi.width * sx), int(hi.height * sy); im = hi.resize((max(1, hw), max(1, hh)), Image.BILINEAR)
+            ang = (8 if flying else 1.8) * math.sin(t * 2 * math.pi / (0.9 if flying else 2.6))
+            im = im.rotate(ang, resample=Image.BICUBIC, expand=True)
+            bob = int(6 * math.sin(t * 2 * math.pi / 1.5)) + int(yoff)
+            feet = H - L["feet"]
+            if not flying:
+                shb = shadow_blob(int(hi0.width * .7 * sx) or 1); base.paste(shb, (int(x) - shb.width // 2, feet - 30), shb)
+            base.paste(im, (int(x - im.width / 2), int(feet - hh + bob - (im.height - hh) / 2)), im)
         # 자막: 지금 시각 직전에 시작한 줄 하나만 (다음 줄이 시작되면 앞 줄은 바로 사라진다)
         cur = None
         for k_, (si_, ln) in enumerate(all_lines):
@@ -555,7 +663,7 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
             if t <= end_ln:
                 for ci_, ch in enumerate(ln["chunks"]):
                     nxt = ln["chunks"][ci_ + 1][0][1] if ci_ + 1 < len(ln["chunks"]) else end_ln
-                    if ch[0][1] - .02 <= t < nxt: draw_sub(base, ch, t, hl_all[si_], nxt)
+                    if ch[0][1] - .02 <= t < nxt: draw_sub(base, ch, t, hl_all[si_], nxt, spec["scenes"][si_].get("sub_style") or spec.get("sub_style"))
         enc.stdin.write(base.tobytes())
         if t >= sg["en"] - 1 / FPS - 1e-6: prev_last = base
         if fi % (FPS * 30) == 0: print(f"  {sid} {t / 60:.1f}분 / {total / 60:.1f}분", flush=True)
@@ -608,6 +716,17 @@ def main(ids):
         from progress import report
         try:
             res = render(sid)
+            if spec.get("test"):   # 시험본: 검수 대기열에 올리지 않고 자료 릴리스에만 올린다
+                stamp = dt.datetime.utcnow().strftime("%y%m%d%H%M"); name = f"test_{sid}_{stamp}.mp4"; dst = os.path.join(os.path.dirname(res["video"]), name)
+                os.replace(res["video"], dst); url = None
+                if os.environ.get("GH_TOKEN"):
+                    subprocess.run(["gh", "release", "upload", "side-assets", dst, "--clobber", "-R", REPO], check=True)
+                    url = f"https://github.com/{REPO}/releases/download/side-assets/{name}"; os.remove(dst)
+                tf = os.path.join(OUT, "tests.json"); tl = json.load(open(tf)) if os.path.exists(tf) else []
+                tl.insert(0, {"id": sid, "file": name, "url": url, "sec": round(res["total"], 1), "at": dt.datetime.now(dt.timezone.utc).isoformat()})
+                json.dump(tl[:30], open(tf, "w"), ensure_ascii=False, indent=1)
+                report("render-" + sid, status="done", pct=100, detail=f"시험본 완료 · {name}")
+                continue
             report("render-" + sid, pct=96, detail="검수 대기열에 올리는 중")
             r1.publish(sid, res, spec)
             report("render-" + sid, status="done", pct=100, detail=f"완료 · {int(res['total'] // 60)}분 {int(res['total'] % 60)}초 · 검수 탭에서 확인 (몇 분 뒤 반영)")
