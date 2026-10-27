@@ -4,7 +4,7 @@ name: side-gen
 on:
   push:
     branches: [main]
-    paths: ['scripts/side/gen/*.json', 'scripts/side/voices_req.json', 'scripts/side/voice_tune.py']
+    paths: ['scripts/side/gen/*.json', 'scripts/side/voices_req.json', 'scripts/side/voice_tune.py', 'scripts/side/music.py']
   workflow_dispatch:
     inputs:
       files: { description: '작업 파일 이름(확장자 빼고, 띄어쓰기 구분)', required: false, default: '' }
@@ -38,12 +38,16 @@ jobs:
           echo "files=$f" >> $GITHUB_OUTPUT
           if git diff --name-only HEAD~1 HEAD | grep -q 'scripts/side/voices_req.json'; then echo "voices=1" >> $GITHUB_OUTPUT; fi
           if git diff --name-only HEAD~1 HEAD | grep -q 'scripts/side/voice_tune.py'; then echo "tune=1" >> $GITHUB_OUTPUT; fi
+          if git diff --name-only HEAD~1 HEAD | grep -q 'scripts/side/music.py'; then echo "music=1" >> $GITHUB_OUTPUT; fi
       - name: 성우 후보
         if: steps.pick.outputs.voices == '1'
         run: python3 scripts/side/voices.py
       - name: 진행자 목소리 조율
         if: steps.pick.outputs.tune == '1'
         run: python3 scripts/side/voice_tune.py
+      - name: 배경음악 후보
+        if: steps.pick.outputs.music == '1'
+        run: python3 scripts/side/music.py
       - name: 1차 생성 (이미지)
         if: steps.pick.outputs.files != ''
         run: python3 scripts/side/gen.py ${{ steps.pick.outputs.files }}
