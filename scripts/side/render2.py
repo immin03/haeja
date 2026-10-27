@@ -728,6 +728,8 @@ def main(ids):
             report("render-" + sid, pct=96, detail="검수 대기열에 올리는 중")
             mp = os.path.join(OUT, sid, "meta.json"); keep = (json.load(open(mp)).get("thumbs") if os.path.exists(mp) else None)
             r1.publish(sid, res, spec)
+            open(os.path.join(OUT, sid, "transcript_en.txt"), "w").write("\n\n".join(" ".join(x["lines"]) for x in spec["scenes"]) + "\n")
+            m = json.load(open(mp)); m["transcript"] = f"/social/side/{sid}/transcript_en.txt"; json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
             if keep:   # 따로 만든 썸네일 후보는 다시 렌더해도 유지
                 m = json.load(open(mp)); m["thumbs"] = keep; json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
             report("render-" + sid, status="done", pct=100, detail=f"완료 · {int(res['total'] // 60)}분 {int(res['total'] % 60)}초 · 검수 탭에서 확인 (몇 분 뒤 반영)")
