@@ -108,6 +108,55 @@ IW.KIND["bar"] = Bar; IW.KIND["hbar"] = HBar
 IW.DUR.update({"bar": .9, "hbar": .9})
 
 
+# ── 정리된 필기 (2026-10-27 운영자 검수: "정렬이 안 되고 제멋대로", "펜이 너무 많다", "작은 글씨는 펜을 안 쓰든가 작은 펜으로",
+#    "핵심만 큰 펜", "노트를 막 필기하는 느낌 말고 쓰면서 정리해 줘야") ──
+#  - 펜(손글씨)은 장면마다 핵심 2개까지만: 가장 큰 글씨·숫자 우선. 나머지 손글씨와 96px보다 작은 글씨는 인쇄 글씨로 깔끔하게 나타난다(펜 없음)
+#  - 체크 목록은 인쇄 글씨 + 작은 체크 표시만 펜으로
+#  - 왼쪽 여백 근처 글씨는 한 줄(x=140)에 맞춘다
+PEN_KEEP = 2
+PEN_MIN = 96
+COL_X = 140
+_RE = __import__("re")
+
+
+def _txt(b): return "".join(b.get("rows") or [b.get("text", "")])
+
+
+def tidy(spec):
+    spec = [dict(b) for b in (spec or [])]
+    ws = [i for i, b in enumerate(spec) if b.get("kind") == "write"]
+    def big(b):
+        sz = b.get("size", 96); num = bool(_RE.search(r"\d", _txt(b)))
+        return sz >= PEN_MIN or (num and sz >= 80) or _txt(b).strip() == "?"
+    def rank(i):
+        b = spec[i]; sz = b.get("size", 96)
+        return sz * (1.35 if _RE.search(r"\d", _txt(b)) else 1) + (25 if b.get("color") in ("red", "gold", "green") else 0)
+    keep = set(sorted([i for i in ws if big(spec[i])], key=rank, reverse=True)[:PEN_KEEP])
+    for i, b in enumerate(spec):
+        k = b.get("kind")
+        if k == "write" and i not in keep:
+            sz = b.get("size", 96); ps = int(IW.clamp(round(sz * .56), 30, 64))
+            nb = dict(kind="print", x=b["x"], y=b["y"] + int(sz * .14), size=ps, w="Medium" if b.get("color") == "gray" else "Bold",
+                      color=b.get("color", "ink"), anchor={"m": "ma"}.get(b.get("anchor"), "la"))
+            if b.get("rows"): nb["rows"] = b["rows"]
+            else: nb["text"] = b.get("text", "")
+            for kk in ("t", "line", "at"):
+                if kk in b: nb[kk] = b[kk]
+            spec[i] = b = nb; k = "print"
+        if k == "check": b["kind"] = "pcheck"
+        if k in ("write", "print", "check", "pcheck") and 100 <= b.get("x", 0) <= 180 and b.get("anchor", "la") in ("la", "l"): b["x"] = COL_X
+    return spec
+
+
+def pcheck(b, t0):
+    """인쇄 글씨 체크 항목: 네모(펜 없이) → 글씨(인쇄) → 체크 표시(작은 펜)"""
+    x, y, s = b["x"], b["y"], int(b.get("size", 56)); ps = int(IW.clamp(round(s * .78), 34, 56))
+    box = IW.Stroke(dict(kind="box", color="ink", width=4), t0, t0 + .2, [(x, y), (x + s, y), (x + s, y + s), (x, y + s), (x, y)], 4); box.pen = False
+    txt = IW.Print(dict(kind="print", text=b.get("text", ""), x=x + s + 26, y=y + (s - ps * 1.25) / 2 + 2, size=ps, w="Bold", color=b.get("color", "ink")), t0 + .1, t0 + .4)
+    tick = IW.Stroke(dict(kind="tick", color="red"), t0 + .35, t0 + .6, [(x + s * .15, y + s * .5), (x + s * .42, y + s * .82), (x + s * 1.05, y - s * .15)], 7)
+    return [box, txt, tick]
+
+
 def build(beats_spec, lines):
     """장면의 비트 목록 → 시간이 정해진 비트 객체들 (장면 안 초). lines = [(시작, 길이, 문장), ...]
     비트에 "t"(장면 안 초)가 있으면 line/at 대신 그 시각에 그린다 (자동 변환이 쓴다)"""
@@ -118,6 +167,9 @@ def build(beats_spec, lines):
             b = dict(b)
             if "text" in b: b["text"] = fx(b["text"])
             if "rows" in b: b["rows"] = [fx(r) for r in b["rows"]]
+        if b.get("kind") == "pcheck":
+            t0 = float(b["t"]) if "t" in b else IW.beat_time(dict(b, kind="print"), lines, {"start": 0.0})[0]
+            out += pcheck(b, t0); continue
         if "t" in b:
             t0 = float(b["t"]); d = b.get("dur") or IW.DUR.get(b["kind"])
             if d is None:
@@ -141,35 +193,28 @@ def _free_spot(boxes, w, h):
     return None
 
 
-def notes(beats, lines, dur, gap=2.4, authored=(), at_time=None):
-    """빈자리에 손글씨 메모를 적는다.
-    1) 원고의 "notes": [[문장 번호, "그 문장 속 단어", "적을 말", 색(선택)], ...] — 기획 단계에서 정한 짧은 메모. 자리는 자동으로 찾는다.
-       적을 말이 "@cup" 처럼 @로 시작하면 그 그림 기호를 그린다.
-    2) 그래도 펜이 멈추는 문장: 그 문장의 숫자(예: 25달러)를 적는다 — 이미 쓴 숫자는 다시 쓰지 않는다"""
+def notes(beats, lines, dur, authored=(), at_time=None, maxn=2):
+    """기획 메모를 정리해서 적는다 (2026-10-27 운영자: 빈자리 아무 데나 흩어 쓰지 말고 정리해서).
+    원고의 "notes": [[문장 번호, "그 문장 속 단어", "적을 말", 색(선택)], ...] 중 색이 있는 것부터 장면마다 2개까지만,
+    본문 글씨와 같은 왼쪽 줄에 맞춰 위에서 아래로 차례대로 인쇄 글씨로 쓴다. 자리가 없으면 쓰지 않는다. 그림 기호(@)와 숫자 자동 메모는 쓰지 않는다"""
+    picks = [n for n in authored if not str(n[2]).startswith("@")]
+    picks = sorted(picks, key=lambda n: 0 if (len(n) > 3 and n[3]) else 1)[:maxn]
+    picks = sorted(picks, key=lambda n: (int(n[0]), str(n[1])))
+    if not picks: return beats
+    ph = [z for z in beats if isinstance(z, IW.Photo) and z.bbox()[0] < 400 and (z.bbox()[2] - z.bbox()[0]) > 600]
+    cx = int(ph[0].bbox()[2] + 80) if ph else COL_X; cw = 1860 - cx
     add = []
-    def place(txt, t, color):
-        if txt.startswith("@"):
-            sz = 110; spot = _free_spot([z.bbox() for z in beats + add], sz + 20, sz + 20)
-            if spot: add.append(IW.make_beat(dict(kind="icons", icon=txt[1:], x=spot[0], y=spot[1], size=sz, n=1, color=color or "ink"), t, t + .5))
-            return
-        size = 80; w = int(sum(.62 if ord(c) > 0x3000 else .42 for c in txt) * size) + 30
-        spot = _free_spot([z.bbox() for z in beats + add], w, size + 10)
-        if not spot: return
-        txt = txt.replace("·", "/").replace("→", "->")
-        add.append(IW.make_beat(dict(kind="write", text=txt, x=spot[0], y=spot[1], size=size, color=color or "ink"), t, t + IW.clamp(.13 * len(txt.replace(" ", "")) + .25, .45, 1.4)))
-    for n in sorted(authored, key=lambda n: (n[0], 0)):
-        i = min(int(n[0]), len(lines) - 1); a, d, txt = lines[i]
-        t = at_time(f"{i}:{n[1]}", lines) if (n[1] and at_time) else a + .05
-        place(str(n[2]), t, n[3] if len(n) > 3 else None)
-    written = "".join("".join(b.b.get("rows") or [b.b.get("text", "")]) for b in beats + add if isinstance(b, (IW.Write, IW.Print))).replace(" ", "")
-    for i, (a, d, txt) in enumerate(lines):
-        if not any(q - p > gap for p, q in idle(beats + add, a, a + d)): continue
-        for m in NUM.finditer(txt):
-            ph = m.group().strip()
-            if ph.replace(" ", "") in written or __import__("re").fullmatch(r"\d{4}\s?년", ph): continue
-            t = a + d * (m.start() / max(1, len(txt))) * .95
-            if not any(p - .2 <= t <= q for p, q in idle(beats + add, a, a + d)): continue
-            place(ph, t, "red" if ph.startswith(("-", "−")) else "gold"); written += ph.replace(" ", "")
+    def boxes(): return [[float(v) for v in z.bbox()] for z in beats + add if not isinstance(z, IW.Stroke) or not z.pen]
+    def free(y, h): return all(cx + cw < b[0] or cx > b[2] or y + h < b[1] - 10 or y > b[3] + 10 for b in boxes())
+    texts = [b for b in boxes() if b[0] < cx + 200 and b[2] > cx]
+    y = int(max([b[3] for b in texts], default=140) + 50)
+    for n in picks:
+        txt = str(n[2]).replace("->", "→"); size = 46; h = int(size * 1.32)
+        while y + h <= 860 and not free(y, h): y += 20
+        if y + h > 860: break
+        i = min(int(n[0]), len(lines) - 1); t = at_time(f"{i}:{n[1]}", lines) if (n[1] and at_time) else lines[i][0] + .05
+        add.append(IW.make_beat(dict(kind="print", text=txt, x=cx, y=y, size=size, w="Bold", color=n[3] if len(n) > 3 and n[3] else "ink"), t, t + .3))
+        y += h + 22
     return beats + add
 
 
@@ -372,4 +417,7 @@ def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
     if spec is None and auto_ok and sc["v"]["type"] in AUTO_TYPES: spec = auto(sc["v"], lines, V, fill, at_time) + list(sc.get("sketch_add", []))
     if spec is None: return None
     dur = (lines[-1][0] + lines[-1][1] + .35) if lines else 1.0
-    return autofill(notes(build(spec, lines), lines, dur, authored=[n for n in sc.get("notes", [])], at_time=at_time), lines, dur)
+    if sc.get("fine"):   # 작은 안내 문구 (예: 목표 주가·매수 신호가 아님) — 말로 하지 않고 종이 아래쪽에 작게
+        spec = list(spec) + [dict(kind="print", text=fill(sc["fine"], V), x=COL_X, y=880, size=30, w="Medium", color="gray", t=(lines[0][0] + .3) if lines else .3)]
+    # 2026-10-27 운영자: 펜이 너무 많다 → 빈틈 자동 밑줄(autofill)은 쓰지 않는다
+    return notes(build(tidy(spec), lines), lines, dur, authored=[n for n in sc.get("notes", [])], at_time=at_time)

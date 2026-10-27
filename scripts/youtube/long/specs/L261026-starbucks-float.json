@@ -218,30 +218,34 @@
     "caption_at": "0"
    },
    "lines": [
-    "스타벅스 주식을 갖고 계시거나 관심 있는 분이라면 앞으로 9분 동안 스타벅스가 돈을 버는 구조와 지금 주가에 들어 있는 기대를 정리해 드릴게요."
+    "스타벅스 주식을 갖고 계시거나 관심 있는 분이라면 이 영상을 끝까지 봐 주세요.",
+    "마지막에 10월 29일 실적 발표에서 스타벅스의 앞날을 가를 숫자 세 개를 정리해 드릴게요."
    ],
    "en": [
-    "If you own Starbucks stock or are thinking about it, the next nine minutes lay out how Starbucks makes money and what today's price is betting on."
+    "If you own Starbucks stock or are thinking about it, stay with this video to the end.",
+    "At the end, we'll lay out the three numbers from the October 29 earnings that will shape Starbucks' path."
    ],
    "asof": false,
    "sketch_add": [
     {
      "kind": "check",
-     "text": "스타벅스가 돈을 버는 구조",
+     "text": "10월 29일 실적에서 볼 숫자 3개",
      "x": 1180,
-     "y": 480,
+     "y": 560,
      "size": 54,
-     "line": 0,
-     "at": 0.62
+     "line": 1,
+     "at": 0.3
     },
     {
-     "kind": "check",
-     "text": "주가에 들어 있는 기대",
-     "x": 1180,
-     "y": 600,
-     "size": 54,
-     "line": 0,
-     "at": 0.84
+     "kind": "print",
+     "text": "→ 영상 마지막에 정리",
+     "x": 1260,
+     "y": 650,
+     "size": 40,
+     "w": "Bold",
+     "color": "gold",
+     "line": 1,
+     "at": 0.75
     }
    ]
   },
@@ -1801,8 +1805,8 @@
   {
    "v": {
     "type": "title",
-    "text": "그레이엄 계산으로 본 주가",
-    "sub": "워렌 버핏의 스승"
+    "text": "밸류노트 점수로 본 지금 주가",
+    "sub": "빠르게 보는 점수"
    },
    "lines": [
     "그럼 지금 주가 {px_short}는 비싼 걸까요, 싼 걸까요?"
@@ -1811,61 +1815,48 @@
     "So is today's price of {px_short} expensive or cheap?"
    ],
    "asof": false,
-   "chapter": "그레이엄 계산으로 본 주가"
+   "chapter": "밸류노트 점수로 본 주가"
   },
   {
    "v": {
-    "type": "card",
-    "kicker": "벤저민 그레이엄의 계산법",
-    "title": "보수적으로 매긴 회사 값",
-    "title_en": "Benjamin Graham's conservative value",
-    "at": "0",
-    "rows": [
-     [
-      "여러 해 평균 이익",
-      "1:평균"
-     ],
-     [
-      "× 최대 10배까지만",
-      "1:10배"
-     ],
-     [
-      "미래 성장은 빼기",
-      "2:빼고"
-     ]
+    "type": "stat",
+    "kicker": "스타벅스 밸류노트 점수 · {px_label}",
+    "value": "{score}점",
+    "label": "100점 만점",
+    "label_en": "ValueNote score (out of 100)",
+    "at": "1:{score}",
+    "count": false,
+    "tags": [
+     {
+      "text": "재무 점수 {q_score}점",
+      "at": "1:재무",
+      "kind": "white"
+     },
+     {
+      "text": "가격 점수 {v_score}점",
+      "at": "1:가격",
+      "kind": "red"
+     }
     ]
    },
    "lines": [
-    "워렌 버핏의 스승, 벤저민 그레이엄의 계산법을 빌려 보겠습니다.",
-    "여러 해 동안 평균으로 번 이익에, 최대 10배까지만 값을 매깁니다.",
-    "앞으로 이익이 더 늘 거라는 기대는 빼고 계산해요. 그래서 아주 보수적으로 매긴 값입니다."
+    "밸류노트는 워렌 버핏과 벤저민 그레이엄 같은 대가들의 기준을 합쳐, 600여 개 회사를 매일 100점 만점으로 매기는 앱입니다.",
+    "스타벅스는 {score}점이에요. 돈을 버는 힘을 본 재무 점수는 {q_score}점인데, 주가가 싼지를 본 가격 점수가 {v_score}점입니다."
    ],
    "en": [
-    "Let's borrow the method of Warren Buffett's teacher, Benjamin Graham.",
-    "Take average earnings over several years and pay at most 10 times that.",
-    "Expected future growth is left out, so it's a very conservative value."
+    "ValueNote scores more than 600 companies daily out of 100, combining the standards of investors like Warren Buffett and Benjamin Graham.",
+    "Starbucks scores {score}. Its financial strength score is {q_score}, but its price score is {v_score}."
    ],
-   "asof": false,
-   "notes": [
-    [
-     0,
-     "워렌 버핏의 스승",
-     "워렌 버핏의 스승"
-    ],
-    [
-     0,
-     "벤저민 그레이엄",
-     "= 벤저민 그레이엄",
-     "gold"
-    ]
-   ]
+   "asof": true,
+   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 스타벅스 FY2025 실적 발표 (GAAP 주당순이익 1.63달러, -51%)",
+   "fine": "미래 성장을 뺀 보수적 계산입니다 · 목표 주가나 매수·매도 신호가 아닙니다"
   },
   {
    "v": {
     "type": "scale",
     "title": "{px_label} 기준 · 스타벅스 한 주",
     "left": {
-     "label": "그레이엄식\n계산 값",
+     "label": "보수적\n계산 값",
      "value": "{iv_short}",
      "at": "0:{iv_short}",
      "color": "gold"
@@ -1885,90 +1876,30 @@
     "tilt_at": "1:{mult}"
    },
    "lines": [
-    "이 계산으로 스타벅스 한 주의 값은 {iv_short}입니다. {px_label} 주가는 {px_short}였어요.",
-    "시장이 계산 값의 {mult}를 매기고 있는 거죠. 테슬라 편에서는 같은 계산으로 38배가 나왔으니, 스타벅스는 그보다 훨씬 덜 비싸 보입니다."
+    "가격 점수가 낮은 이유는 이렇습니다. 미래 성장을 빼고 여러 해 평균 이익으로 계산하면 스타벅스 한 주의 값은 {iv_short}인데, {px_label} 주가는 {px_short}였어요.",
+    "계산 값의 {mult}입니다. 한 주당 번 돈이 1년 새 절반 넘게 줄면서 평균 이익이 내려간 탓이 커요."
    ],
    "en": [
-    "By this math one Starbucks share is worth {iv_short}. At {px_label} it traded at {px_short}.",
-    "The market pays {mult} the floor value. In our Tesla episode the same math gave 38 times, so Starbucks looks far less expensive."
+    "Here's why the price score is low. Leave out growth and use multi-year average earnings, and one Starbucks share is worth {iv_short}; at {px_label} it traded at {px_short}.",
+    "That's {mult} the value, largely because earnings per share fell by more than half in a year and pulled the average down."
    ],
    "asof": true,
-   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 적정 주가 = 여러 해 평균 이익 × 최대 10배 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) (GAAP 주당순이익 1.63달러, -51%)",
-   "pen": [
-    {
-     "at": "1:{mult}",
-     "shape": "circle",
-     "box": [
-      882,
-      237,
-      1038,
-      299
-     ]
-    }
-   ]
+   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 적정 주가 = 여러 해 평균 이익 × 최대 10배 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) (GAAP 주당순이익 1.63달러, -51%)"
   },
   {
    "v": {
-    "type": "question",
-    "text": "덜 비싼데, 점수는?",
-    "backdrop": "commons_sbuxcup_2.jpg",
-    "bd_dim": 0.66
+    "type": "title",
+    "text": "10월 29일 볼 숫자 3개",
+    "sub": "세 번째 내용"
    },
    "lines": [
-    "그런데 덜 비싸 보이는 스타벅스의 밸류노트 점수는 몇 점일까요?"
+    "마지막으로 세 번째 내용입니다. 스타벅스 실적은 10월 29일 미국 장 마감 뒤에 나옵니다."
    ],
    "en": [
-    "So what is the ValueNote score of a stock that looks less expensive?"
+    "Finally, part three. Starbucks reports after the U.S. close on October 29."
    ],
    "asof": false,
-   "hold": 0.9
-  },
-  {
-   "v": {
-    "type": "stat",
-    "kicker": "스타벅스 밸류노트 점수 · {px_label}",
-    "value": "{score}점",
-    "label": "100점 만점",
-    "label_en": "ValueNote score (out of 100)",
-    "at": "0:{score}",
-    "count": false,
-    "tags": [
-     {
-      "text": "재무 점수 {q_score}점",
-      "at": "1:재무",
-      "kind": "white"
-     },
-     {
-      "text": "가격 점수 {v_score}점",
-      "at": "1:가격",
-      "kind": "red"
-     }
-    ]
-   },
-   "lines": [
-    "스타벅스의 밸류노트 점수는 100점 만점에 {score}점입니다.",
-    "세부로 보면 회사가 돈을 버는 힘을 본 재무 점수는 {q_score}점입니다. 지금 주가가 계산 값보다 싼지를 본 가격 점수는 {v_score}점이고요.",
-    "가격 점수가 낮은 건 주가가 계산 값의 {mult}이기 때문입니다. 2025 회계연도에 한 주당 번 돈이 1년 새 절반 넘게 줄면서 여러 해 평균 이익이 내려간 탓이 커요."
-   ],
-   "en": [
-    "Starbucks scores {score} out of 100 on ValueNote.",
-    "Broken down, its financial strength score is {q_score} and its price score, how cheap the stock is against the value, is {v_score}.",
-    "The price score is low because the stock trades at {mult} the value. Earnings per share fell by more than half in fiscal 2025, pulling the multi-year average down."
-   ],
-   "asof": true,
-   "src": "밸류노트 스타벅스 데이터 ({asof} 기준) · 스타벅스 FY2025 실적 발표 (GAAP 주당순이익 1.63달러, -51%)",
-   "pen": [
-    {
-     "at": "0:{score}",
-     "shape": "circle",
-     "box": [
-      770,
-      365,
-      1150,
-      555
-     ]
-    }
-   ]
+   "chapter": "10월 29일 볼 숫자 3개"
   },
   {
    "v": {
@@ -1990,125 +1921,23 @@
     ]
    },
    "lines": [
-    "회사는 올해 한 주당 번 돈이 2.55달러에서 2.65달러가 될 거라고 예상했습니다. 일회성 비용을 뺀 숫자예요.",
-    "작년 2.13달러보다 20% 넘게 많은 숫자예요. 이번 실적이 이 예상을 지키는지가 첫 확인 지점입니다."
+    "회사는 올해 한 주당 번 돈이 일회성 비용을 빼고 2.55달러에서 2.65달러가 될 거라고 예상했습니다. 작년 2.13달러보다 20% 넘게 많은 숫자예요.",
+    "이번 실적은 이 예상을 지킬 수 있는지 보여 줄 겁니다. 확인할 숫자는 세 개예요."
    ],
    "en": [
-    "The company expects to earn 2.55 to 2.65 dollars per share this year, excluding one-time costs.",
-    "That's more than 20% above last year's 2.13. This report is the first check on that outlook."
+    "The company expects 2.55 to 2.65 dollars of earnings per share this year, excluding one-time costs, more than 20% above last year's 2.13.",
+    "This report will show whether it can keep that outlook. There are three numbers to check."
    ],
    "asof": false,
    "src": "스타벅스 FY2026 3분기 실적 발표 (2026년 7월 29일, 6월 28일 기준) · FY2026 조정 EPS 전망 2.55~2.65달러 · 스타벅스 FY2025 실적 발표 (2025년 10월 29일) · FY2025 조정 EPS 2.13달러",
    "notes": [
     [
-     1,
+     0,
      "20%",
      "+20% 넘게",
      "green"
-    ],
-    [
-     1,
-     "첫 확인 지점",
-     "10월 29일 첫 확인",
-     "red"
     ]
    ]
-  },
-  {
-   "v": {
-    "type": "twocol",
-    "title": "같은 주식, 두 가지 앞날",
-    "title_en": "Two possible paths",
-    "left": {
-     "title": "회복이 이어지면",
-     "gold": true,
-     "at": "0",
-     "items": [
-      [
-       "손님 수 증가 → 이익 증가",
-       "0:손님"
-      ],
-      [
-       "평균 이익 재상승",
-       "0:평균"
-      ]
-     ]
-    },
-    "right": {
-     "title": "회복이 멈추면",
-     "at": "1:멈추면",
-     "items": [
-      [
-       "이익 감소 → 평균 하락",
-       "1:평균"
-      ],
-      [
-       "시장 기대와 격차 확대",
-       "1:차이"
-      ]
-     ]
-    }
-   },
-   "lines": [
-    "회복이 이어지면 늘어난 손님이 이익이 되고 여러 해 평균 이익도 올라갑니다. 그러면 계산 값도 함께 올라가요.",
-    "반대로 회복이 멈추면 이익이 줄어든 해가 평균을 계속 끌어내립니다. 그러면 지금 주가와 차이가 더 벌어지죠."
-   ],
-   "en": [
-    "If the recovery continues, more customers become more profit, the multi-year average rises, and so does the floor value.",
-    "If it stalls, the weak years keep dragging the average down and the gap with today's price widens."
-   ],
-   "asof": false
-  },
-  {
-   "v": {
-    "type": "phone",
-    "layout": "trio",
-    "img": "capture:SBUX",
-    "title": "밸류노트",
-    "sub": "워렌 버핏의 기준을 담은 앱",
-    "trio": [
-     {
-      "key": "capture:SBUX",
-      "label": "기업 상세",
-      "at": "0"
-     },
-     {
-      "key": "capture:SBUX:list",
-      "label": "기업 목록 · 매일 계산",
-      "at": "0:600여"
-     },
-     {
-      "key": "capture:SBUX:value",
-      "label": "저평가 우량주",
-      "at": "1:보수적"
-     }
-    ]
-   },
-   "lines": [
-    "밸류노트에는 스타벅스를 포함해 600여 곳이 이 기준으로 매일 계산돼 있어요.",
-    "다만 미래 성장을 빼고 보수적으로 계산한 값이라 목표 주가도 아니고 매수나 매도 신호도 아니에요."
-   ],
-   "en": [
-    "ValueNote runs this calculation daily on more than 600 companies, Starbucks included.",
-    "It's a conservative value that leaves out growth, not a target price or a buy or sell signal."
-   ],
-   "asof": true,
-   "src": "밸류노트 앱 화면 ({asof} 기준)"
-  },
-  {
-   "v": {
-    "type": "title",
-    "text": "10월 29일 볼 숫자 3개",
-    "sub": "세 번째 내용"
-   },
-   "lines": [
-    "마지막으로 세 번째 내용입니다. 스타벅스 실적은 10월 29일 미국 장 마감 뒤에 나옵니다."
-   ],
-   "en": [
-    "Finally, part three. Starbucks reports after the U.S. close on October 29."
-   ],
-   "asof": false,
-   "chapter": "10월 29일 볼 숫자 3개"
   },
   {
    "v": {
