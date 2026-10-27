@@ -1,0 +1,28 @@
+{
+ "id": "v1_store",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Slow smooth camera push-in through the miniature convenience store toward the red snack box on the counter, neon lights flicker softly, light rain outside, gentle tilt-shift look, no text",
+  "duration": 5,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/social/side/gen/k1_store.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "An input file could not be found. Please check its URL or upload the file again.",
+  "request_id": "01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/cancel",
+  "expires_at": "2026-11-03T03:47:44.762071+00:00"
+ },
+ "seconds": 7
+}

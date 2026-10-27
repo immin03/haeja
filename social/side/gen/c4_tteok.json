@@ -1,0 +1,32 @@
+{
+ "id": "c4_tteok",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A round pastel rice-cake (tteok) mascot with tiny arms and legs, rosy cheeks, wearing a tiny traveler's backpack, cute 3D vinyl toy figurine character, big glossy eyes, small rounded body, friendly smile, Pixar-like but simple shapes, standing pose, full body, centered, plain soft cream background, studio lighting, no text, no logo",
+  "aspect_ratio": "1:1"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17b74-5dce-7159-afc8-fae7403092ee",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b74-5dce-7159-afc8-fae7403092ee/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b74-5dce-7159-afc8-fae7403092ee/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17b74-5dce-7159-afc8-fae7403092ee",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b74-5dce-7159-afc8-fae7403092ee/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b74-5dce-7159-afc8-fae7403092ee/cancel",
+  "expires_at": "2026-11-03T03:44:17.569850+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b74-5dce-7159-afc8-fae7403092ee/2135a629-7b97-43dd-8acd-8c3e4799d30b.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "social/side/gen/c4_tteok.jpeg"
+}

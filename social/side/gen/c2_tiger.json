@@ -1,0 +1,32 @@
+{
+ "id": "c2_tiger",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A chubby little Korean tiger cub explorer mascot wearing a tiny yellow backpack and a traveler's hat, cute 3D vinyl toy figurine character, big glossy eyes, small rounded body, friendly smile, Pixar-like but simple shapes, standing pose, full body, centered, plain soft cream background, studio lighting, no text, no logo",
+  "aspect_ratio": "1:1"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17b71-eb39-74e6-865f-7c7174cc73be",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b71-eb39-74e6-865f-7c7174cc73be/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b71-eb39-74e6-865f-7c7174cc73be/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17b71-eb39-74e6-865f-7c7174cc73be",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b71-eb39-74e6-865f-7c7174cc73be/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b71-eb39-74e6-865f-7c7174cc73be/cancel",
+  "expires_at": "2026-11-03T03:41:40.180661+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b71-eb39-74e6-865f-7c7174cc73be/671458ac-2e0e-46ad-876b-2036c7bfe12b.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "social/side/gen/c2_tiger.jpeg"
+}

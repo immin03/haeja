@@ -1,0 +1,32 @@
+{
+ "id": "c1_magpie",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A little Korean magpie (black and white bird with blue-tinted wings) mascot as a news reporter, wearing a tiny red scarf and a small satchel, holding a tiny microphone, cute 3D vinyl toy figurine character, big glossy eyes, small rounded body, friendly smile, Pixar-like but simple shapes, standing pose, full body, centered, plain soft cream background, studio lighting, no text, no logo",
+  "aspect_ratio": "1:1"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17b70-ab18-7c04-b78d-9f9919c50bb3",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b70-ab18-7c04-b78d-9f9919c50bb3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b70-ab18-7c04-b78d-9f9919c50bb3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17b70-ab18-7c04-b78d-9f9919c50bb3",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b70-ab18-7c04-b78d-9f9919c50bb3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b70-ab18-7c04-b78d-9f9919c50bb3/cancel",
+  "expires_at": "2026-11-03T03:40:22.278336+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "social/side/gen/c1_magpie.jpeg"
+}
