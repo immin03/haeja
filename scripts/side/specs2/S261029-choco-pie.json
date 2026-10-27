@@ -26,7 +26,7 @@
  },
  "music": "music_owies-ukulele.mp3",
  "thumb": {
-  "bg": "cp_thumb_v2",
+  "bg": "cp_thumb_v2_o",
   "big": "BANNED?!",
   "small": "ORION CHOCO PIE",
   "pose": "c1_surprised",
@@ -140,8 +140,8 @@
    "short": true
   },
   {
-   "bg": "k1_store_v2",
-   "vid": "v1_store_v2",
+   "bg": "k1_store_v2_o",
+   "vid": "cpvo_k1_store_v2",
    "host": {
     "pose": "h_wave",
     "side": "right",
@@ -243,7 +243,7 @@
    ]
   },
   {
-   "bg": "cp_court2",
+   "bg": "cp_court2_o",
    "move": "in",
    "chip": "1999 · Seoul court",
    "host": {
@@ -272,10 +272,10 @@
      "dt": 0.05
     }
    ],
-   "vid": "cpv_cp_court2"
+   "vid": "cpvo_cp_court2"
   },
   {
-   "bg": "cp_banana",
+   "bg": "cp_banana_o",
    "move": "left",
    "chip": "2016 · Seoul",
    "host": {
@@ -303,7 +303,7 @@
      "label": "packs in 3 weeks"
     }
    ],
-   "vid": "cpv_cp_banana"
+   "vid": "cpvo_cp_banana"
   },
   {
    "bg": "cp07_alley_v2",
@@ -374,7 +374,7 @@
    "vid": "cpv_cp_tvad"
   },
   {
-   "bg": "cp09_army_v2",
+   "bg": "cp09_army_v2_o",
    "move": "left",
    "chip": "Korean army base",
    "chapter": "The army's secret currency",
@@ -403,7 +403,7 @@
      "likes": "16"
     }
    ],
-   "vid": "cpv_cp09_army_v2"
+   "vid": "cpvo_cp09_army_v2"
   },
   {
    "bg": "cp10_chapel_v2",
@@ -460,7 +460,7 @@
    "vid": "cpv_cp11_trade"
   },
   {
-   "bg": "cp_bday",
+   "bg": "cp_bday_o",
    "move": "in",
    "host": {
     "pose": "h_laugh",
@@ -477,7 +477,7 @@
     "candle"
    ],
    "short": true,
-   "vid": "cpv_cp_bday"
+   "vid": "cpvo_cp_bday"
   },
   {
    "bg": "k2_port",
@@ -615,7 +615,7 @@
    "vid": "cpv_cp15_tver"
   },
   {
-   "bg": "cp_flavors2",
+   "bg": "cp_flavors2_o",
    "move": "right",
    "host": {
     "pose": "h_eat",
@@ -631,7 +631,7 @@
     "watermelon.",
     "third"
    ],
-   "vid": "cpv_cp_flavors2"
+   "vid": "cpvo_cp_flavors2"
   },
   {
    "bg": "cp16_vietnam",
@@ -718,7 +718,7 @@
    "vid": "cpv_cp18_kaesong"
   },
   {
-   "bg": "cp19_market_v2",
+   "bg": "cp19_market_v2_o",
    "move": "in",
    "host": {
     "pose": "c1_surprised",
@@ -745,7 +745,7 @@
     }
    ],
    "short": true,
-   "vid": "cpv_cp19_market_v2"
+   "vid": "cpvo_cp19_market_v2"
   },
   {
    "bg": "cp20_office",
@@ -814,8 +814,8 @@
    ]
   },
   {
-   "bg": "cp22_hospital_v2",
-   "vid": "cpv22_hospital",
+   "bg": "cp22_hospital_v2_o",
+   "vid": "cpvo_cp22_hospital_v2",
    "chip": "2017 · Seoul",
    "chapter": "The soldier who asked for one",
    "host": {
@@ -841,7 +841,7 @@
    "short": true
   },
   {
-   "bg": "cp_moon",
+   "bg": "cp_moon_o",
    "move": "up",
    "host": {
     "pose": "h_think",
@@ -866,7 +866,7 @@
     }
    ],
    "short": true,
-   "vid": "cpv_cp_moon"
+   "vid": "cpvo_cp_moon"
   },
   {
    "bg": "cp04_map",
@@ -888,8 +888,8 @@
    "vid": "cpv_cp04_map"
   },
   {
-   "bg": "k1_store_v2",
-   "vid": "v1_store_v2",
+   "bg": "k1_store_v2_o",
+   "vid": "cpvo_k1_store_v2",
    "chapter": "Your turn",
    "host": {
     "pose": "h_eat",
