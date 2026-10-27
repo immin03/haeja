@@ -131,7 +131,12 @@ def tidy(spec):
     def rank(i):
         b = spec[i]; sz = b.get("size", 96)
         return sz * (1.35 if _RE.search(r"\d", _txt(b)) else 1) + (25 if b.get("color") in ("red", "gold", "green") else 0)
-    keep = set(sorted([i for i in ws if big(spec[i])], key=rank, reverse=True)[:PEN_KEEP])
+    forced = [i for i in ws if spec[i].get("key")]   # 화면 종류가 정한 핵심(예: 저울의 배수)은 항상 펜
+    keep = set(forced) | set(sorted([i for i in ws if big(spec[i]) and i not in forced], key=rank, reverse=True)[:PEN_KEEP])
+    for i in keep:   # 손글씨가 종이 밖으로 나가지 않게 줄인다
+        b = spec[i]; sz = b.get("size", 96); f = IW.font("pen", sz); wmax = max(f.getlength(r) for r in (b.get("rows") or [b.get("text", "")]))
+        room = 1840 - b["x"] if b.get("anchor") != "m" else 2 * min(b["x"] - 80, 1840 - b["x"])
+        if wmax > room: b["size"] = int(sz * room / wmax)
     for i, b in enumerate(spec):
         k = b.get("kind")
         if k == "write" and i not in keep:
@@ -209,7 +214,7 @@ def notes(beats, lines, dur, authored=(), at_time=None, maxn=2):
     texts = [b for b in boxes() if b[0] < cx + 200 and b[2] > cx]
     y = int(max([b[3] for b in texts], default=140) + 50)
     for n in picks:
-        txt = str(n[2]).replace("->", "→"); size = 46; h = int(size * 1.32)
+        txt = str(n[2]).replace(" -> ", ", ").replace("->", ", ").replace("→", ", "); size = 46; h = int(size * 1.32)
         while y + h <= 860 and not free(y, h): y += 20
         if y + h > 860: break
         i = min(int(n[0]), len(lines) - 1); t = at_time(f"{i}:{n[1]}", lines) if (n[1] and at_time) else lines[i][0] + .05
@@ -367,7 +372,7 @@ def auto(v, lines, V, fill, at_time):
             B.append(dict(kind="write", text=F(c.get("value", "")), x=x, y=310, size=170, color={"gold": "gold", "red": "red"}.get(c.get("color"), "ink"), t=tt + .1))
         ce = v.get("center")
         if ce:
-            tt = T(ce.get("at")); B.append(dict(kind="write", text=F(ce["text"]), x=760, y=600, size=130, color="red", t=tt))
+            tt = T(ce.get("at")); B.append(dict(kind="write", text=F(ce["text"]), x=960, y=600, size=130, color="red", anchor="m", key=1, t=tt))
             B.append(dict(kind="circle", cx=960, cy=690, rx=300, ry=95, color="red", t=tt + .8))
     elif t == "table":
         title(v.get("title")); cw = v.get("cw", [700, 600]); x2 = 140 + cw[0] + 60
@@ -418,6 +423,6 @@ def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
     if spec is None: return None
     dur = (lines[-1][0] + lines[-1][1] + .35) if lines else 1.0
     if sc.get("fine"):   # 작은 안내 문구 (예: 목표 주가·매수 신호가 아님) — 말로 하지 않고 종이 아래쪽에 작게
-        spec = list(spec) + [dict(kind="print", text=fill(sc["fine"], V), x=COL_X, y=880, size=30, w="Medium", color="gray", t=(lines[0][0] + .3) if lines else .3)]
+        spec = list(spec) + [dict(kind="print", text=fill(sc["fine"], V), x=1800, y=100, size=28, w="Medium", color="gray", anchor="ra", t=(lines[0][0] + .3) if lines else .3)]
     # 2026-10-27 운영자: 펜이 너무 많다 → 빈틈 자동 밑줄(autofill)은 쓰지 않는다
     return notes(build(tidy(spec), lines), lines, dur, authored=[n for n in sc.get("notes", [])], at_time=at_time)
