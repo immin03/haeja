@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       ids: { description: '원고 아이디 (scripts/side/specs2, 띄어쓰기 구분)', required: true, default: 'S261029-choco-pie' }
+      mode: { description: 'render(영상) 또는 srt(자막만)', required: false, default: 'render' }
 permissions:
   contents: write
 concurrency: side-long2
@@ -30,7 +31,7 @@ jobs:
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
           GH_TOKEN: ${{ github.token }}
-        run: python3 scripts/side/render2.py ${{ github.event.inputs.ids }} --all
+        run: python3 scripts/side/render2.py ${{ github.event.inputs.ids }} --all ${{ github.event.inputs.mode == 'srt' && '--srt' || '' }}
       - name: 커밋
         if: always()
         run: |

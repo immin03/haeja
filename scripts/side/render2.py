@@ -489,6 +489,17 @@ def set_layout(lay):
     L.clear(); L.update(lay); W, H = lay["W"], lay["H"]; _BG.clear(); _HOST.clear()
 
 
+def write_srt(segs, path):
+    """유튜브 자막 파일(SRT): 화면 자막과 같은 묶음·같은 타이밍"""
+    ts = lambda x: f"{int(x // 3600):02d}:{int(x % 3600 // 60):02d}:{int(x % 60):02d},{int(round((x % 1) * 1000)) % 1000:03d}"
+    items = [(ch[0][1], ch[-1][2], " ".join(w for w, _, _ in ch)) for sg in segs for ln in sg["lines"] for ch in ln["chunks"]]
+    out = []
+    for i, (a, b, txt) in enumerate(items):
+        nxt = items[i + 1][0] if i + 1 < len(items) else b + .5
+        out.append(f"{i + 1}\n{ts(max(0, a - .05))} --> {ts(min(b + .25, nxt - .01))}\n{txt}\n")
+    open(path, "w", encoding="utf-8").write("\n".join(out))
+
+
 def render(sid):
     sys.path.insert(0, HERE); from progress import report
     spec = json.load(open(os.path.join(HERE, "specs2", sid + ".json"), encoding="utf-8"))
@@ -497,6 +508,7 @@ def render(sid):
     od = os.path.join(OUT, sid); os.makedirs(od, exist_ok=True)
     set_layout(LONG)
     segs, parts, sfx_ev, total = build(spec)
+    write_srt(segs, os.path.join(od, "subtitles_en.srt"))
     report(JID, LBL, pct=12, detail=f"녹음 끝 · 길이 {int(total // 60)}분 {int(total % 60)}초 · 화면 그리는 중")
     vid = os.path.join(od, "_long.mp4")
     draw_video(spec, sid, segs, parts, sfx_ev, total, vid, lambda f, msg: report(JID, LBL, pct=12 + 74 * f, detail=msg, every=20))
@@ -709,6 +721,14 @@ def main(ids):
     r1.build_description = build_description
     if not ids: ids = [os.path.basename(f)[:-5] for f in sorted(glob.glob(os.path.join(HERE, "specs2", "*.json")))
                        if not os.path.exists(os.path.join(OUT, os.path.basename(f)[:-5], "meta.json")) or "--all" in sys.argv]
+    if "--srt" in sys.argv:   # 녹음 캐시로 타이밍만 다시 계산해 자막 파일만 만든다 (영상은 그대로)
+        for sid in ids:
+            spec = json.load(open(os.path.join(HERE, "specs2", sid + ".json"), encoding="utf-8"))
+            set_layout(LONG); segs = build(spec)[0]; od = os.path.join(OUT, sid)
+            write_srt(segs, os.path.join(od, "subtitles_en.srt"))
+            mp = os.path.join(od, "meta.json"); m = json.load(open(mp)); m["subtitle"] = f"/social/side/{sid}/subtitles_en.srt"
+            json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1); print("자막", sid)
+        r1.write_queue(); return
     for sid in ids:
         spec = json.load(open(os.path.join(HERE, "specs2", sid + ".json"), encoding="utf-8"))
         from progress import report
@@ -729,7 +749,7 @@ def main(ids):
             mp = os.path.join(OUT, sid, "meta.json"); keep = (json.load(open(mp)).get("thumbs") if os.path.exists(mp) else None)
             r1.publish(sid, res, spec)
             open(os.path.join(OUT, sid, "transcript_en.txt"), "w").write("\n\n".join(" ".join(x["lines"]) for x in spec["scenes"]) + "\n")
-            m = json.load(open(mp)); m["transcript"] = f"/social/side/{sid}/transcript_en.txt"; json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
+            m = json.load(open(mp)); m["transcript"] = f"/social/side/{sid}/transcript_en.txt"; m["subtitle"] = f"/social/side/{sid}/subtitles_en.srt"; json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
             if keep:   # 따로 만든 썸네일 후보는 다시 렌더해도 유지
                 m = json.load(open(mp)); m["thumbs"] = keep; json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
             report("render-" + sid, status="done", pct=100, detail=f"완료 · {int(res['total'] // 60)}분 {int(res['total'] % 60)}초 · 검수 탭에서 확인 (몇 분 뒤 반영)")
