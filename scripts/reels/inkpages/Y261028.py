@@ -338,6 +338,8 @@ for d in (A, B, C):
         if sc["type"] == "bars" and "items" not in sc:
             sc["items"] = [dict(label=i["label"], v=i["v"], text=i["text"]) for b_ in sc["page"]["beats"] if b_["kind"] == "bars" for i in b_["items"]]
     assert len(d["subs_en"]) == sum(len(x["lines"]) for x in d["scenes"]), d["id"]
+for d in (A, B, C):   # 쇼츠 썸네일: 첫 페이지가 꽉 찬 순간 (ink_preview 로 뽑은 그림)
+    d["thumb_file"] = f"scripts/reels/assets/logo/{d['id']}_thumb.jpg"
 for d in (A, B, C):
     json.dump(d, open(os.path.join(SPECS, d["id"] + ".json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("wrote", d["id"], sum(len(s["lines"]) for s in d["scenes"]), "lines")
