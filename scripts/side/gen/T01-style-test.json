@@ -61,6 +61,27 @@
   "body": {
    "prompt": "Slow smooth camera push-in through the miniature convenience store toward the red snack box on the counter, neon lights flicker softly, light rain outside, gentle tilt-shift look, no text",
    "duration": 5
+  },
+  "retry": true
+ },
+ {
+  "id": "v2_port",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/k2_port.jpeg",
+  "body": {
+   "prompt": "Tiny toy traders hurry up the gangway carrying bags of red snack boxes, seagulls flap across the sunset sky, gentle water ripples, slow camera drift right, miniature diorama, tilt-shift, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "c1_surprised",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": "social/side/gen/c1_magpie.jpeg",
+  "body": {
+   "prompt": "The exact same magpie reporter character from the reference image, same red scarf, satchel and microphone, now with a shocked wide-eyed surprised expression, wings thrown up, full body, plain warm cream background, cute 3D vinyl toy figurine, soft studio light",
+   "aspect_ratio": "1:1"
   }
  }
 ]

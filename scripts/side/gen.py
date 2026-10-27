@@ -38,7 +38,13 @@ def find_url(obj, exts):
     return None
 
 
-def raw_url(path): return f"https://raw.githubusercontent.com/{REPO}/{BRANCH}/{path}"
+def raw_url(path):
+    """입력 이미지 주소: 저장소가 비공개라 raw 주소는 외부에서 못 읽는다 → 같은 이름 .json 에 남은 Higgsfield CDN 주소를 우선 쓴다"""
+    rec = os.path.join(ROOT, os.path.splitext(path)[0] + ".json")
+    if os.path.exists(rec):
+        u = find_url(json.load(open(rec)).get("result", {}), (".png", ".jpg", ".jpeg", ".webp"))
+        if u: return u
+    return f"https://raw.githubusercontent.com/{REPO}/{BRANCH}/{path}"
 
 
 def run(job, H, spent):
@@ -46,6 +52,9 @@ def run(job, H, spent):
     exts = (".mp4", ".webm", ".mov") if job["kind"] == "video" else (".png", ".jpg", ".jpeg", ".webp")
     for e in exts:
         if os.path.exists(os.path.join(OUT, jid + e)): print(f"[{jid}] 이미 있음"); return 0.0
+    old = os.path.join(OUT, jid + ".json")
+    if os.path.exists(old) and json.load(open(old)).get("status") not in ("failed", "submit_failed") and not job.get("retry"):
+        print(f"[{jid}] 기록 있음(진행 중이었거나 결과 없음) — retry:true 로 다시"); return 0.0
     cost = est(job); cap = float(os.environ.get("SIDE_GEN_MAX_USD", "3"))
     if spent + cost > cap: print(f"[{jid}] 상한 {cap}달러 초과 예상 — 건너뜀"); return 0.0
     body = dict(job.get("body", {}))
