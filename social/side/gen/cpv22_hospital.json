@@ -1,0 +1,31 @@
+{
+ "id": "cpv22_hospital",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The kind nurse gently hands the chocolate snack cake to the bandaged soldier who slowly smiles, curtains sway softly, moonlight, slow gentle camera push-in, hopeful, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-6da0-7686-98a9-f10be87923af/dabf1a3c-2fe4-465a-bc4a-032978ff54b5.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc9-79db-7d09-8433-459b82360861",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc9-79db-7d09-8433-459b82360861/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc9-79db-7d09-8433-459b82360861/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc9-79db-7d09-8433-459b82360861",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc9-79db-7d09-8433-459b82360861/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc9-79db-7d09-8433-459b82360861/cancel",
+  "expires_at": "2026-11-03T05:17:47.444926+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc9-79db-7d09-8433-459b82360861/79a6ab66-f066-4935-8579-94b6fcb94968.mp4"
+  }
+ },
+ "seconds": 105,
+ "file": "social/side/gen/cpv22_hospital.mp4"
+}

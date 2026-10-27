@@ -1,0 +1,31 @@
+{
+ "id": "cpv06_factory",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The conveyor belt moves steadily carrying rows of round chocolate snack cakes, tiny workers busily check them, machine dials spin and steam puffs, slow camera pan along the line, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc0-f192-720c-9368-aa46cbb9879c/ac39222c-7633-47f1-9eaf-a17e3eeae42b.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc7-be70-7936-8cf1-d03b2731477b",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc7-be70-7936-8cf1-d03b2731477b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc7-be70-7936-8cf1-d03b2731477b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc7-be70-7936-8cf1-d03b2731477b",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc7-be70-7936-8cf1-d03b2731477b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc7-be70-7936-8cf1-d03b2731477b/cancel",
+  "expires_at": "2026-11-03T05:15:55.794436+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc7-be70-7936-8cf1-d03b2731477b/b5541ee8-c736-47f9-960b-e5639442f21e.mp4"
+  }
+ },
+ "seconds": 112,
+ "file": "social/side/gen/cpv06_factory.mp4"
+}

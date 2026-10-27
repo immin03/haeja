@@ -1,0 +1,31 @@
+{
+ "id": "cpv03_pie",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The two halves of the chocolate snack cake slowly pull apart, soft white marshmallow stretching in gooey strands, crumbs falling, slow macro camera push-in, appetizing, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-eac8-709d-a6b7-aacb4c24a918/526d19c4-6f1c-4ff7-a55a-007252885001.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc7-772d-7190-84fe-261837440517",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc7-772d-7190-84fe-261837440517/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc7-772d-7190-84fe-261837440517/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc7-772d-7190-84fe-261837440517",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc7-772d-7190-84fe-261837440517/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc7-772d-7190-84fe-261837440517/cancel",
+  "expires_at": "2026-11-03T05:15:36.819000+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc7-772d-7190-84fe-261837440517/507a35e8-6750-4950-8470-398c24ea7e69.mp4"
+  }
+ },
+ "seconds": 105,
+ "file": "social/side/gen/cpv03_pie.mp4"
+}

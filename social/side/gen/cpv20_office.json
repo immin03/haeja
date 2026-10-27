@@ -1,0 +1,31 @@
+{
+ "id": "cpv20_office",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The giant red rubber stamp slams down onto the red snack box with a thump, papers flutter off the desk, the lamp swings, dramatic and funny, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17ba8-32e5-7255-8bdb-30bcc18b7ebb/da890b08-1915-4006-8dc3-7cccd538c9c6.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc9-76c8-7bc4-9e51-926ef1a36a2b",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc9-76c8-7bc4-9e51-926ef1a36a2b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc9-76c8-7bc4-9e51-926ef1a36a2b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc9-76c8-7bc4-9e51-926ef1a36a2b",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc9-76c8-7bc4-9e51-926ef1a36a2b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc9-76c8-7bc4-9e51-926ef1a36a2b/cancel",
+  "expires_at": "2026-11-03T05:17:49.248362+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc9-76c8-7bc4-9e51-926ef1a36a2b/f35258fb-c49c-492f-ae5b-b69ed724336a.mp4"
+  }
+ },
+ "seconds": 112,
+ "file": "social/side/gen/cpv20_office.mp4"
+}

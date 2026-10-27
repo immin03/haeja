@@ -1,0 +1,31 @@
+{
+ "id": "cpv13_train",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The miniature steam train chugs forward across the snowy forest, smoke puffing from the chimney, snow falling, warm windows glowing, camera tracking alongside, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b9e-9e75-7264-8b0c-95098c8549e8/36b451e2-63c4-456f-804a-784e98fb7b05.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc9-197b-795f-a312-916ec8288329",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc9-197b-795f-a312-916ec8288329/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc9-197b-795f-a312-916ec8288329/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc9-197b-795f-a312-916ec8288329",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc9-197b-795f-a312-916ec8288329/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc9-197b-795f-a312-916ec8288329/cancel",
+  "expires_at": "2026-11-03T05:17:20.996571+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc9-197b-795f-a312-916ec8288329/ec9ed250-4da6-4d31-b8b7-975196606623.mp4"
+  }
+ },
+ "seconds": 105,
+ "file": "social/side/gen/cpv13_train.mp4"
+}

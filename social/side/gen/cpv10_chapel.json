@@ -1,0 +1,31 @@
+{
+ "id": "cpv10_chapel",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Tiny soldiers in the pews happily munch their chocolate snack cakes, some turning to each other and grinning, sunbeams shimmer through the windows, slow camera dolly forward down the aisle, playful, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc0-f2c7-712b-a819-0bdaf0a9bf06/56964e9c-a0b2-4e18-b4c5-f2459330c409.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc7-d690-76d4-a3b9-16e4914b5d51",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc7-d690-76d4-a3b9-16e4914b5d51/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc7-d690-76d4-a3b9-16e4914b5d51/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc7-d690-76d4-a3b9-16e4914b5d51",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc7-d690-76d4-a3b9-16e4914b5d51/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc7-d690-76d4-a3b9-16e4914b5d51/cancel",
+  "expires_at": "2026-11-03T05:16:05.385053+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc7-d690-76d4-a3b9-16e4914b5d51/5f39456f-f128-4310-bc8f-497ccdabf981.mp4"
+  }
+ },
+ "seconds": 112,
+ "file": "social/side/gen/cpv10_chapel.mp4"
+}
