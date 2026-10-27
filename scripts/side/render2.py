@@ -456,7 +456,7 @@ LONG = {"W": 1920, "H": 1080, "sub_size": 62, "sub_w": 1000, "sub_y": 1000, "hos
         "slots": [(70, 250), (1850, 60), (1850, 330)], "count_y": 70, "logo": (28, 24), "chip_y": 205}
 VERT = {"W": 1080, "H": 1920, "sub_size": 76, "sub_w": 960, "sub_y": 1080, "host_h": 520, "feet": 230, "edge": 30,
         "slots": [(40, 420), (1040, 700)], "count_y": 300, "logo": (32, 120), "chip_y": 280}
-FLY_FACES = "right"   # h_fly 그림이 바라보는 쪽 (날아가는 방향이 반대면 좌우 뒤집음)
+FLY_FACES = "left"   # h_fly 그림이 바라보는 쪽 (날아가는 방향이 반대면 좌우 뒤집음)
 L = dict(LONG)
 
 
