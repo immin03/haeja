@@ -1,0 +1,36 @@
+{
+ "id": "cp06_factory_v2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. rows of them moving on the conveyor belt. No text, no logos.",
+  "aspect_ratio": "16:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b95-b5d4-7966-a0d0-f24ac27a5366/92e8757a-6fa7-4182-a950-42a86c64f953.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bbf-cd0f-7acd-a03b-f68d854d1a38/3abde81b-1cb0-4bdc-9452-2870aa06381e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc0-f192-720c-9368-aa46cbb9879c",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc0-f192-720c-9368-aa46cbb9879c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc0-f192-720c-9368-aa46cbb9879c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc0-f192-720c-9368-aa46cbb9879c",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc0-f192-720c-9368-aa46cbb9879c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc0-f192-720c-9368-aa46cbb9879c/cancel",
+  "expires_at": "2026-11-03T05:07:14.149324+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc0-f192-720c-9368-aa46cbb9879c/ac39222c-7633-47f1-9eaf-a17e3eeae42b.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/cp06_factory_v2.jpeg"
+}

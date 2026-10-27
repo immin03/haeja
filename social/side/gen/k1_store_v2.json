@@ -1,0 +1,36 @@
+{
+ "id": "k1_store_v2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. in the red box on the counter, neatly arranged in rows. No text, no logos.",
+  "aspect_ratio": "16:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b75-85e8-7160-8f6f-0e2ab9fde0b7/e1b0b0fa-3e0e-4dd5-b98e-d3488268fb0d.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bbf-cd0f-7acd-a03b-f68d854d1a38/3abde81b-1cb0-4bdc-9452-2870aa06381e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc0-f17c-789f-be3a-3d246eb882f5",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc0-f17c-789f-be3a-3d246eb882f5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc0-f17c-789f-be3a-3d246eb882f5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc0-f17c-789f-be3a-3d246eb882f5",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc0-f17c-789f-be3a-3d246eb882f5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc0-f17c-789f-be3a-3d246eb882f5/cancel",
+  "expires_at": "2026-11-03T05:07:12.721923+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc0-f17c-789f-be3a-3d246eb882f5/08ef4873-35dd-4f97-93cd-7c53ac5e3016.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/k1_store_v2.jpeg"
+}

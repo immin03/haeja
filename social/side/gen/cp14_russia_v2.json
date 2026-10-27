@@ -1,0 +1,36 @@
+{
+ "id": "cp14_russia_v2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, lighting and miniature style. Only replace every chocolate cake or snack in the scene with the snack from the second image: Korean Choco Pie style snack: a flat round sandwich cake about the size of a palm and about 2.5 cm thick, perfectly smooth glossy milk-chocolate coating with a soft dome top, when cut or bitten it shows two soft light-brown sponge cake layers with a thin white marshmallow layer in the middle. a few on the plate, one cut in half showing the marshmallow layer. No text, no logos.",
+  "aspect_ratio": "16:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b9f-da4d-75da-842e-d72f2eb4f011/a3f50725-fa7b-40de-a79b-f563e58866e7.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bbf-cd0f-7acd-a03b-f68d854d1a38/3abde81b-1cb0-4bdc-9452-2870aa06381e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc1-6d5a-7918-bba4-e57110dd1c08",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc1-6d5a-7918-bba4-e57110dd1c08/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc1-6d5a-7918-bba4-e57110dd1c08/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc1-6d5a-7918-bba4-e57110dd1c08",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc1-6d5a-7918-bba4-e57110dd1c08/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc1-6d5a-7918-bba4-e57110dd1c08/cancel",
+  "expires_at": "2026-11-03T05:07:48.069677+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc1-6d5a-7918-bba4-e57110dd1c08/43c978b3-b5b0-453d-83c4-2ed7e3267324.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/cp14_russia_v2.jpeg"
+}

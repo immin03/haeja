@@ -1,0 +1,35 @@
+{
+ "id": "cp_banana",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A miniature Korean convenience store in 2016 with a crazy crowd of tiny shoppers grabbing the last boxes of yellow banana-flavored snack cakes from an almost empty shelf, a tiny clerk overwhelmed, comedic chaos, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no watermark",
+  "aspect_ratio": "16:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bbf-cd0f-7acd-a03b-f68d854d1a38/3abde81b-1cb0-4bdc-9452-2870aa06381e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bc2-4ed5-75c2-9919-111c2d3ce0be",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc2-4ed5-75c2-9919-111c2d3ce0be/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc2-4ed5-75c2-9919-111c2d3ce0be/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bc2-4ed5-75c2-9919-111c2d3ce0be",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bc2-4ed5-75c2-9919-111c2d3ce0be/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bc2-4ed5-75c2-9919-111c2d3ce0be/cancel",
+  "expires_at": "2026-11-03T05:08:38.868109+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bc2-4ed5-75c2-9919-111c2d3ce0be/98f0ce7e-4f13-4280-8180-6a715d9ae66a.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/cp_banana.jpeg"
+}
