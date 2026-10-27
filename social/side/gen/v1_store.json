@@ -4,25 +4,28 @@
  "body": {
   "prompt": "Slow smooth camera push-in through the miniature convenience store toward the red snack box on the counter, neon lights flicker softly, light rain outside, gentle tilt-shift look, no text",
   "duration": 5,
-  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/social/side/gen/k1_store.jpeg"
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b75-85e8-7160-8f6f-0e2ab9fde0b7/e1b0b0fa-3e0e-4dd5-b98e-d3488268fb0d.jpeg"
  },
  "submit_http": 200,
  "submit": {
   "status": "queued",
-  "request_id": "01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1",
-  "status_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/status",
-  "cancel_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/cancel",
+  "request_id": "01a17b7f-f3a5-7305-8375-6ea63c7bb2e4",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b7f-f3a5-7305-8375-6ea63c7bb2e4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b7f-f3a5-7305-8375-6ea63c7bb2e4/cancel",
   "expires_after": 604800
  },
  "est_usd": 0.1,
- "status": "failed",
+ "status": "completed",
  "result": {
-  "status": "failed",
-  "error": "An input file could not be found. Please check its URL or upload the file again.",
-  "request_id": "01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1",
-  "status_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/status",
-  "cancel_url": "https://api.higgsfield.ai/requests/01a17b78-9c6f-7d8a-a33e-aaab52e0a8d1/cancel",
-  "expires_at": "2026-11-03T03:47:44.762071+00:00"
+  "status": "completed",
+  "request_id": "01a17b7f-f3a5-7305-8375-6ea63c7bb2e4",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b7f-f3a5-7305-8375-6ea63c7bb2e4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b7f-f3a5-7305-8375-6ea63c7bb2e4/cancel",
+  "expires_at": "2026-11-03T03:57:38.348141+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b7f-f3a5-7305-8375-6ea63c7bb2e4/4be977be-1f6f-4b64-9cbc-0d13ed604bed.mp4"
+  }
  },
- "seconds": 7
+ "seconds": 119,
+ "file": "social/side/gen/v1_store.mp4"
 }

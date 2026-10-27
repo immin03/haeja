@@ -1,0 +1,31 @@
+{
+ "id": "v2_port",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Tiny toy traders hurry up the gangway carrying bags of red snack boxes, seagulls flap across the sunset sky, gentle water ripples, slow camera drift right, miniature diorama, tilt-shift, no text",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b76-c919-7e25-9ae7-7ddb22bab4bd/427bb805-b0e5-4375-92bd-e1ab660bed4e.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17b81-cbf8-77be-b5df-1d0eb25f2a21",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b81-cbf8-77be-b5df-1d0eb25f2a21/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b81-cbf8-77be-b5df-1d0eb25f2a21/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17b81-cbf8-77be-b5df-1d0eb25f2a21",
+  "status_url": "https://api.higgsfield.ai/requests/01a17b81-cbf8-77be-b5df-1d0eb25f2a21/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17b81-cbf8-77be-b5df-1d0eb25f2a21/cancel",
+  "expires_at": "2026-11-03T03:59:32.877106+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b81-cbf8-77be-b5df-1d0eb25f2a21/a8dadf26-d718-43d8-beca-1836f614e29e.mp4"
+  }
+ },
+ "seconds": 107,
+ "file": "social/side/gen/v2_port.mp4"
+}
