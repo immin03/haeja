@@ -1,0 +1,158 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 보잉은 비행기 6,300대 주문이 밀려 있는데 주가는 왜 하루에 10% 빠졌을까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+<li>움직이는 사진(GIF)도 본문 복사에 함께 들어간다. 붙여넣은 뒤 GIF가 멈춰 있거나 빠졌으면, <b>사진 모두 받기</b>의 g1.gif 를 그 자리에 [사진] 버튼으로 넣는다.</li>
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">점심 12:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">보잉은 비행기 6,300대 주문이 밀려 있는데 주가는 왜 하루에 10% 빠졌을까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 6장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261028x/01.png" alt="하늘을 나는 여객기 아랫면" width="720"></p>
+<p><br></p>
+<blockquote><p><b>3줄 요약</b></p><p>· 보잉 주가가 10월 27일 하루에 <b>10.69% 내려 168.18달러</b>로 마감했습니다. 3분기 매출은 <b>241억 8,800만 달러로 1년 전보다 4%</b> 늘었고 밀린 비행기 주문은 <b>6,300대가 넘어</b> 사상 최대였습니다.</p><p>· 시장이 매출보다 무겁게 본 건 생산 속도였던 것으로 보입니다. 대표 기종 737 생산을 <b>한 달 47대</b>로 안정시키는 일이 날개 공급 때문에 2027년 초로 밀렸고, 상업용 비행기 부문은 한 대를 넘길 때마다 평균 <b>약 430만 달러씩 손실</b>을 냈습니다.</p><p>· 그래서 앞으로 들어올 현금 전망이 줄었습니다. 보잉은 2027년 잉여현금흐름을 <b>30억 달러</b>로 내놨는데 월가 예상은 <b>55억 달러</b>였습니다. 주문이 많다는 건 약속이 많다는 뜻이고, 돈은 만들어 넘길 때 들어옵니다.</p></blockquote>
+<p><br></p>
+<p>어제 미국 장에서 보잉이 10% 넘게 빠졌다는 뉴스를 보고 실적 발표문을 열었습니다. 처음엔 실적 쇼크인 줄 알았는데 매출은 시장 예상(238억 달러)보다 많았고 주문 잔고는 사상 최대라고 첫 줄에 적혀 있었습니다. 주문이 이렇게 많은데 왜 이렇게까지 팔았을까. 숫자를 따라가 보니 답은 공장 쪽에 있었습니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 보잉 앞에 밀린 주문은 6,300대, 지금 속도로 약 10년치입니다</b></span></p>
+
+<p>보잉의 9월 말 수주 잔고(받아 놓고 아직 넘기지 않은 주문)는 7,454억 달러입니다. 그중 상업용 비행기가 6,118억 달러, 대수로는 6,300대가 넘어요. 3분기에만 300대를 새로 주문받았죠.</p>
+<p><br></p>
+<p>이 줄에는 대한항공도 서 있습니다. 대한항공은 2025년 8월 보잉 비행기 103대를 362억 달러에 사겠다고 발표했고 올해 9월 본계약을 맺었습니다. 737-10 50대, 777-9 20대 등이고 2030년 말까지 차례로 들여올 계획이에요.</p>
+<p><br></p>
+<p>그럼 보잉은 1년에 몇 대를 넘길까요? 올해 1~9월 보잉이 고객에게 넘긴 상업용 비행기는 475대입니다. 1년으로 늘려 잡으면 약 630대죠. 6,300대를 이 속도로 다 넘기려면 약 10년이 걸립니다. 예약이 10년치 밀린 식당인데 주방이 느리고, 한 그릇 낼 때마다 손해를 보는 상황을 떠올리면 됩니다. 손님이 많다는 것만으로는 돈이 되지 않죠.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261028x/03.png" alt="보잉 밀린 주문과 1년 인도 속도" width="720"></p><p><span style="color:#888888;font-size:13px">보잉 밀린 주문과 1년 인도 속도</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 매출은 예상보다 많았는데 비행기 부문은 한 대마다 손실이 났습니다</b></span></p>
+
+<p>상업용 비행기 부문의 3분기 영업손실은 6억 9,700만 달러입니다. 매출 107억 2천만 달러에 영업이익률(매출 100달러당 영업이익) -6.5%였어요. 3분기에 넘긴 161대로 나누면 한 대를 넘길 때마다 평균 약 430만 달러를 잃은 셈입니다.</p>
+<p><br></p>
+<p>돈은 방산과 비행기 정비·부품을 파는 서비스 부문에서 났습니다.</p>
+<p><br></p>
+<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr><th style="background:#F3EEE3">보잉 3분기 부문별</th><th style="background:#F3EEE3">매출</th><th style="background:#F3EEE3">영업이익</th><th style="background:#F3EEE3">영업이익률</th></tr></thead><tbody><tr><td>상업용 비행기</td><td>107억 2,000만 달러</td><td>-6억 9,700만 달러</td><td>-6.5%</td></tr><tr><td>방산·우주</td><td>79억 3,500만 달러</td><td>4억 9,200만 달러</td><td>6.2%</td></tr><tr><td>서비스(정비·부품)</td><td>55억 7,400만 달러</td><td>10억 1,900만 달러</td><td>18.3%</td></tr></tbody></table>
+<p><br></p>
+<p>보잉은 비행기 부문 손실의 이유로 세 가지를 들었습니다. 이익이 덜 남는 기종을 많이 넘긴 것, 앞으로 생산 속도를 바꾸는 데 들 것으로 보는 비용, 부품을 대는 회사들에 드는 비용이 늘어난 것입니다. 저는 이렇게 읽었습니다. 공장은 더 많이 만들 준비를 해 두었는데 만드는 대수가 그만큼 따라오지 못하면 그 비용을 적은 대수가 나눠 집니다. 그래서 생산 속도가 한 대당 손익을 크게 좌우합니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261028x/02.jpg" alt="여객기 동체가 놓인 항공기 조립 공장 앞마당" width="720"></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 생산 속도의 발목을 잡은 건 날개였습니다</b></span></p>
+
+<p>보잉의 대표 기종 737 맥스는 한 달 47대 생산을 안정시키는 중입니다. 켈리 오트버그 최고경영자는 이번 실적 발표에서 한 달 47대를 꾸준히 만들 수 있다는 걸 &quot;보여 주는 데 예상보다 오래 걸리고 있다&quot;고 말했습니다. 발목을 잡은 부품은 날개예요.</p>
+<p><br></p>
+<p>일정도 밀렸습니다. 외신 보도를 종합하면 47대 안정은 원래 올해 안이 목표였는데 2027년 초로 늦춰졌고, 그다음 단계인 한 달 52대는 2027년 하반기로 잡혔습니다. 올해 737을 500대 넘기겠다던 목표도 못 맞춘다고 밝혔어요. 3분기에 넘긴 737은 124대로 한 달 평균 약 41대였습니다.</p>
+<p><br></p>
+<p>보잉이 생산 대수에 이렇게 매달리는 데는 사연이 있습니다. 2024년 1월 알래스카항공 737 맥스 9의 비상구 덮개가 비행 중 떨어져 나간 뒤 미국 연방항공청(FAA)은 737 생산을 한 달 38대로 묶었고, 이 상한은 약 1년 9개월 뒤인 2025년 10월에야 풀렸습니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261028x/g1.gif" alt="생산 라인에서 움직이는 로봇 팔" width="720"></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 시장이 깎은 건 1~2년 뒤에 들어올 현금이었습니다</b></span></p>
+
+<p>같은 날 보잉은 실적 설명회(콘퍼런스콜)에서 잉여현금흐름 전망도 내놨습니다. 잉여현금흐름은 장사로 번 현금에서 공장·설비에 쓴 돈을 빼고 남는 현금이에요. 보잉이 밝힌 숫자는 올해 약 20억 달러, 2027년 30억 달러, 2028년 60억 달러, 2029년 100억 달러입니다.</p>
+<p><br></p>
+<p>그런데 월가의 기대는 훨씬 컸습니다. 로이터가 인용한 금융정보업체 LSEG 집계로 애널리스트들은 2027년 55억 달러, 2028년 96억 달러를 예상하고 있었어요. 두 해를 합치면 기대는 151억 달러였는데 보잉이 내놓은 건 90억 달러입니다. 61억 달러가 빈 셈이죠. 제프리스 애널리스트는 2027년 숫자가 낮은 이유로 줄어든 인도 대수와 늘어난 설비 투자를 꼽았습니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261028x/05.png" alt="보잉 잉여현금흐름 전망과 월가 예상" width="720"></p><p><span style="color:#888888;font-size:13px">보잉 잉여현금흐름 전망과 월가 예상</span></p>
+<p><br></p>
+<p>빚을 보면 이 숫자가 왜 중요한지 보입니다. 보잉의 9월 말 차입금은 459억 2천만 달러, 현금과 바로 현금으로 바꿀 수 있는 증권은 207억 달러예요. 차이 252억 달러를 올해 잉여현금흐름 20억 달러로만 갚는다면 12년 넘게 걸리죠.</p>
+<p><br></p>
+<p>솔직히 저는 처음에 주문이 이렇게 많으면 결국 시간문제라고 봤습니다. 그런데 주식의 값은 언젠가 들어올 돈이 아니라 언제, 얼마나 들어오느냐로 정해집니다. 같은 돈도 1~2년 늦게 들어오면 지금 치를 수 있는 값이 줄어들어요.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261028x/04.jpg" alt="공항 탑승구에 나란히 선 여객기들" width="720"></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 보잉이 지금 하는 일과 다음에 확인할 숫자</b></span></p>
+
+<p>좋은 소식도 있습니다. 737-7은 3분기에, 737-10은 10월에 미국 연방항공청 인증을 받았습니다. 대한항공이 50대를 주문한 기종이 바로 737-10이에요. 항공 전문지 리햄뉴스에 따르면 보잉은 에버렛 공장에 737-10 전용 생산 라인(한 달 5대)을 새로 깔았고 이 라인의 첫 인도는 2027년 초로 잡혀 있습니다.</p>
+<p><br></p>
+<p>반대 시각도 분명합니다. 2027년 현금 목표는 아직 인증을 못 받은 대형기 777X(대한항공이 주문한 777-9가 이 계열)가 2027년 중반까지 인증을 받는다는 전제로 나온 숫자예요. 한 달 52대로 가려면 날개뿐 아니라 비행기 몸통(동체)을 만드는 캔자스주 위치토 공장의 생산도 같이 올라가야 하고요.</p>
+<p><br></p>
+<p>보잉 주가 전망 기사를 볼 때 보잉이 계획대로 가는지 확인할 숫자는 두 가지입니다. 하나는 보잉이 매달 공개하는 737 인도 대수예요. 한 달 47대 언저리로 올라오는지 보면 됩니다. 다른 하나는 다음 분기 실적에서 상업용 비행기 부문의 손실 폭이 이번 영업이익률 -6.5%보다 얼마나 줄었는지입니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 내 종목에서 &#39;수주 잔고 사상 최대&#39;를 보면 세 가지를 묻습니다</b></span></p>
+
+<p>미국 주식 보잉만의 이야기는 아닙니다. 국내 조선·방산 기사에서도 &#39;수주 잔고 사상 최대&#39;라는 제목을 자주 봅니다. 저는 그럴 때 세 가지를 차례로 봅니다. 잔고를 1년 매출로 나누면 몇 년치인지, 그 물건을 만들 때 영업이익이 남는지, 그리고 그 이익이 실제 현금으로 들어오는지요.</p>
+<p><br></p>
+<p>저는 밸류노트에서 회사의 적정 주가를 볼 때도 같은 순서를 따릅니다. 최근 몇 년 이익이 들쭉날쭉한 회사는 적정 주가 숫자 자체보다 이익이 언제 안정되는지가 먼저거든요.</p>
+<p><br></p>
+<p>지난번 엔비디아 글에서는 회사가 고객의 빚 보증·남는 용량 구매처럼 고객에게 해 준 약속을 따라갔습니다. 이번에는 거꾸로 고객이 회사에 한 약속, 6,300대의 주문입니다. 여러분이 들고 있는 회사의 주문 잔고는 지금 속도로 몇 년치인가요?</p>
+<p><br></p>
+<p style="text-align:right"><b>— Editor: Luciano</b></p>
+<p><br></p>
+<p><span style="color:#888888;font-size:13px">숫자는 보잉 2026년 3분기 실적 발표(10월 27일)와 콘퍼런스콜, 로이터·리햄뉴스·타임뉴스 보도, 대한항공 발표(2025년 8월·2026년 9월) 기준입니다. 한 대당 손실은 상업용 비행기 부문 손익을 3분기 인도 대수로 나눈 단순 평균입니다. 사진: BWard 1997(CC BY 4.0), SounderBruce(CC BY-SA 4.0), Bahnfrend(CC BY-SA 4.0), 위키미디어 공용. 특정 종목의 매수·매도를 권하는 글이 아닙니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><h2>태그</h2><div class="row"><div id="tags">#보잉 #보잉주가 #보잉주가전망 #보잉737 #737맥스 #대한항공 #수주잔고 #잉여현금흐름 #영업이익률 #미국주식 #밸류노트</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261028x/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261028x/01.png" download="valuenote-b261028x-1.png"><img src="https://www.valuenote.co.kr/naver/b261028x/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261028x/03.png" download="valuenote-b261028x-2.png"><img src="https://www.valuenote.co.kr/naver/b261028x/03.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261028x/02.jpg" download="valuenote-b261028x-3.jpg"><img src="https://www.valuenote.co.kr/naver/b261028x/02.jpg" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261028x/g1.gif" download="valuenote-b261028x-4.gif"><img src="https://www.valuenote.co.kr/naver/b261028x/g1.gif" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261028x/05.png" download="valuenote-b261028x-5.png"><img src="https://www.valuenote.co.kr/naver/b261028x/05.png" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261028x/04.jpg" download="valuenote-b261028x-6.jpg"><img src="https://www.valuenote.co.kr/naver/b261028x/04.jpg" alt="사진 6" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 하늘을 나는 여객기 아랫면]\n\n3줄 요약\n· 보잉 주가가 10월 27일 하루에 10.69% 내려 168.18달러로 마감했습니다. 3분기 매출은 241억 8,800만 달러로 1년 전보다 4% 늘었고 밀린 비행기 주문은 6,300대가 넘어 사상 최대였습니다.\n· 시장이 매출보다 무겁게 본 건 생산 속도였던 것으로 보입니다. 대표 기종 737 생산을 한 달 47대로 안정시키는 일이 날개 공급 때문에 2027년 초로 밀렸고, 상업용 비행기 부문은 한 대를 넘길 때마다 평균 약 430만 달러씩 손실을 냈습니다.\n· 그래서 앞으로 들어올 현금 전망이 줄었습니다. 보잉은 2027년 잉여현금흐름을 30억 달러로 내놨는데 월가 예상은 55억 달러였습니다. 주문이 많다는 건 약속이 많다는 뜻이고, 돈은 만들어 넘길 때 들어옵니다.\n\n어제 미국 장에서 보잉이 10% 넘게 빠졌다는 뉴스를 보고 실적 발표문을 열었습니다. 처음엔 실적 쇼크인 줄 알았는데 매출은 시장 예상(238억 달러)보다 많았고 주문 잔고는 사상 최대라고 첫 줄에 적혀 있었습니다. 주문이 이렇게 많은데 왜 이렇게까지 팔았을까. 숫자를 따라가 보니 답은 공장 쪽에 있었습니다.\n\n■ 보잉 앞에 밀린 주문은 6,300대, 지금 속도로 약 10년치입니다\n\n보잉의 9월 말 수주 잔고(받아 놓고 아직 넘기지 않은 주문)는 7,454억 달러입니다. 그중 상업용 비행기가 6,118억 달러, 대수로는 6,300대가 넘어요. 3분기에만 300대를 새로 주문받았죠.\n\n이 줄에는 대한항공도 서 있습니다. 대한항공은 2025년 8월 보잉 비행기 103대를 362억 달러에 사겠다고 발표했고 올해 9월 본계약을 맺었습니다. 737-10 50대, 777-9 20대 등이고 2030년 말까지 차례로 들여올 계획이에요.\n\n그럼 보잉은 1년에 몇 대를 넘길까요? 올해 1~9월 보잉이 고객에게 넘긴 상업용 비행기는 475대입니다. 1년으로 늘려 잡으면 약 630대죠. 6,300대를 이 속도로 다 넘기려면 약 10년이 걸립니다. 예약이 10년치 밀린 식당인데 주방이 느리고, 한 그릇 낼 때마다 손해를 보는 상황을 떠올리면 됩니다. 손님이 많다는 것만으로는 돈이 되지 않죠.\n\n[사진: 보잉 밀린 주문과 1년 인도 속도]\n\n■ 매출은 예상보다 많았는데 비행기 부문은 한 대마다 손실이 났습니다\n\n상업용 비행기 부문의 3분기 영업손실은 6억 9,700만 달러입니다. 매출 107억 2천만 달러에 영업이익률(매출 100달러당 영업이익) -6.5%였어요. 3분기에 넘긴 161대로 나누면 한 대를 넘길 때마다 평균 약 430만 달러를 잃은 셈입니다.\n\n돈은 방산과 비행기 정비·부품을 파는 서비스 부문에서 났습니다.\n\n보잉 3분기 부문별 | 매출 | 영업이익 | 영업이익률\n상업용 비행기 | 107억 2,000만 달러 | -6억 9,700만 달러 | -6.5%\n방산·우주 | 79억 3,500만 달러 | 4억 9,200만 달러 | 6.2%\n서비스(정비·부품) | 55억 7,400만 달러 | 10억 1,900만 달러 | 18.3%\n\n보잉은 비행기 부문 손실의 이유로 세 가지를 들었습니다. 이익이 덜 남는 기종을 많이 넘긴 것, 앞으로 생산 속도를 바꾸는 데 들 것으로 보는 비용, 부품을 대는 회사들에 드는 비용이 늘어난 것입니다. 저는 이렇게 읽었습니다. 공장은 더 많이 만들 준비를 해 두었는데 만드는 대수가 그만큼 따라오지 못하면 그 비용을 적은 대수가 나눠 집니다. 그래서 생산 속도가 한 대당 손익을 크게 좌우합니다.\n\n[사진: 여객기 동체가 놓인 항공기 조립 공장 앞마당]\n\n■ 생산 속도의 발목을 잡은 건 날개였습니다\n\n보잉의 대표 기종 737 맥스는 한 달 47대 생산을 안정시키는 중입니다. 켈리 오트버그 최고경영자는 이번 실적 발표에서 한 달 47대를 꾸준히 만들 수 있다는 걸 \"보여 주는 데 예상보다 오래 걸리고 있다\"고 말했습니다. 발목을 잡은 부품은 날개예요.\n\n일정도 밀렸습니다. 외신 보도를 종합하면 47대 안정은 원래 올해 안이 목표였는데 2027년 초로 늦춰졌고, 그다음 단계인 한 달 52대는 2027년 하반기로 잡혔습니다. 올해 737을 500대 넘기겠다던 목표도 못 맞춘다고 밝혔어요. 3분기에 넘긴 737은 124대로 한 달 평균 약 41대였습니다.\n\n보잉이 생산 대수에 이렇게 매달리는 데는 사연이 있습니다. 2024년 1월 알래스카항공 737 맥스 9의 비상구 덮개가 비행 중 떨어져 나간 뒤 미국 연방항공청(FAA)은 737 생산을 한 달 38대로 묶었고, 이 상한은 약 1년 9개월 뒤인 2025년 10월에야 풀렸습니다.\n\n[사진: 생산 라인에서 움직이는 로봇 팔]\n\n■ 시장이 깎은 건 1~2년 뒤에 들어올 현금이었습니다\n\n같은 날 보잉은 실적 설명회(콘퍼런스콜)에서 잉여현금흐름 전망도 내놨습니다. 잉여현금흐름은 장사로 번 현금에서 공장·설비에 쓴 돈을 빼고 남는 현금이에요. 보잉이 밝힌 숫자는 올해 약 20억 달러, 2027년 30억 달러, 2028년 60억 달러, 2029년 100억 달러입니다.\n\n그런데 월가의 기대는 훨씬 컸습니다. 로이터가 인용한 금융정보업체 LSEG 집계로 애널리스트들은 2027년 55억 달러, 2028년 96억 달러를 예상하고 있었어요. 두 해를 합치면 기대는 151억 달러였는데 보잉이 내놓은 건 90억 달러입니다. 61억 달러가 빈 셈이죠. 제프리스 애널리스트는 2027년 숫자가 낮은 이유로 줄어든 인도 대수와 늘어난 설비 투자를 꼽았습니다.\n\n[사진: 보잉 잉여현금흐름 전망과 월가 예상]\n\n빚을 보면 이 숫자가 왜 중요한지 보입니다. 보잉의 9월 말 차입금은 459억 2천만 달러, 현금과 바로 현금으로 바꿀 수 있는 증권은 207억 달러예요. 차이 252억 달러를 올해 잉여현금흐름 20억 달러로만 갚는다면 12년 넘게 걸리죠.\n\n솔직히 저는 처음에 주문이 이렇게 많으면 결국 시간문제라고 봤습니다. 그런데 주식의 값은 언젠가 들어올 돈이 아니라 언제, 얼마나 들어오느냐로 정해집니다. 같은 돈도 1~2년 늦게 들어오면 지금 치를 수 있는 값이 줄어들어요.\n\n[사진: 공항 탑승구에 나란히 선 여객기들]\n\n■ 보잉이 지금 하는 일과 다음에 확인할 숫자\n\n좋은 소식도 있습니다. 737-7은 3분기에, 737-10은 10월에 미국 연방항공청 인증을 받았습니다. 대한항공이 50대를 주문한 기종이 바로 737-10이에요. 항공 전문지 리햄뉴스에 따르면 보잉은 에버렛 공장에 737-10 전용 생산 라인(한 달 5대)을 새로 깔았고 이 라인의 첫 인도는 2027년 초로 잡혀 있습니다.\n\n반대 시각도 분명합니다. 2027년 현금 목표는 아직 인증을 못 받은 대형기 777X(대한항공이 주문한 777-9가 이 계열)가 2027년 중반까지 인증을 받는다는 전제로 나온 숫자예요. 한 달 52대로 가려면 날개뿐 아니라 비행기 몸통(동체)을 만드는 캔자스주 위치토 공장의 생산도 같이 올라가야 하고요.\n\n보잉 주가 전망 기사를 볼 때 보잉이 계획대로 가는지 확인할 숫자는 두 가지입니다. 하나는 보잉이 매달 공개하는 737 인도 대수예요. 한 달 47대 언저리로 올라오는지 보면 됩니다. 다른 하나는 다음 분기 실적에서 상업용 비행기 부문의 손실 폭이 이번 영업이익률 -6.5%보다 얼마나 줄었는지입니다.\n\n■ 내 종목에서 '수주 잔고 사상 최대'를 보면 세 가지를 묻습니다\n\n미국 주식 보잉만의 이야기는 아닙니다. 국내 조선·방산 기사에서도 '수주 잔고 사상 최대'라는 제목을 자주 봅니다. 저는 그럴 때 세 가지를 차례로 봅니다. 잔고를 1년 매출로 나누면 몇 년치인지, 그 물건을 만들 때 영업이익이 남는지, 그리고 그 이익이 실제 현금으로 들어오는지요.\n\n저는 밸류노트에서 회사의 적정 주가를 볼 때도 같은 순서를 따릅니다. 최근 몇 년 이익이 들쭉날쭉한 회사는 적정 주가 숫자 자체보다 이익이 언제 안정되는지가 먼저거든요.\n\n지난번 엔비디아 글에서는 회사가 고객의 빚 보증·남는 용량 구매처럼 고객에게 해 준 약속을 따라갔습니다. 이번에는 거꾸로 고객이 회사에 한 약속, 6,300대의 주문입니다. 여러분이 들고 있는 회사의 주문 잔고는 지금 속도로 몇 년치인가요?\n\n— Editor: Luciano\n\n숫자는 보잉 2026년 3분기 실적 발표(10월 27일)와 콘퍼런스콜, 로이터·리햄뉴스·타임뉴스 보도, 대한항공 발표(2025년 8월·2026년 9월) 기준입니다. 한 대당 손실은 상업용 비행기 부문 손익을 3분기 인도 대수로 나눈 단순 평균입니다. 사진: BWard 1997(CC BY 4.0), SounderBruce(CC BY-SA 4.0), Bahnfrend(CC BY-SA 4.0), 위키미디어 공용. 특정 종목의 매수·매도를 권하는 글이 아닙니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
+  catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261028x", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
