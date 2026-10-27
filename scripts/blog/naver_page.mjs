@@ -1,7 +1,7 @@
 // 네이버 블로그 붙여넣기용 페이지 만들기
 // 사용: node scripts/blog/naver_page.mjs naver/<글 id>
 //   naver/<글 id>/post.json 을 읽어 naver/<글 id>.html 과 naver/<글 id>/photos.zip 을 만든다.
-// post.json = { "title": "...", "tags": ["..."], "category": "거장의 투자" (선택: 블로그 카테고리. 없으면 요일로 정함), "order": 1 (선택: 첫 글 묶음의 올리는 순서), "posted": "2026-10-18" (선택: 블로그에 올린 날), "blocks": [
+// post.json = { "title": "...", "tags": ["..."], "slot": "점심 12:00" (선택: 2026-10-27부터 점심·저녁 게시 시각), "category": "거장의 투자" (선택: 블로그 카테고리. 없으면 요일로 정함), "order": 1 (선택: 첫 글 묶음의 올리는 순서), "posted": "2026-10-18" (선택: 블로그에 올린 날), "blocks": [
 //     {"h": "소제목"}, {"p": "문단. **굵게** 가능"}, {"img": "01.png", "cap": "사진 설명"},
 //     {"img": "banner.png", "href": "https://..."} (링크 걸린 배너, 설명 없음),
 //     {"quote": "인용문", "src": "출처"}, {"link": "https://...", "text": "링크 문구"}, {"note": "작은 글씨 고지"},
@@ -75,6 +75,8 @@ execFileSync('zip', ['-j', '-q', zip, ...imgs.map((f) => path.join(dir, f))]);
 
 const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · ${esc(post.title)}</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -95,6 +97,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -105,6 +108,7 @@ ${post.blocks.some((x) => x.kind === 'gif') ? `<li>움직이는 사진(GIF)도 �
 ${vids.length ? `<li>본문의 <b>▶ 여기에 동영상 올리기</b> 자리에, 아래 <b>영상</b> 칸에서 받은 파일을 편집기 [동영상] 버튼으로 넣는다. (영상이 있는 글이 머무는 시간이 길다)</li>` : ''}
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+${post.slot ? `<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">${esc(post.slot)}</div></section>` : ''}
 ${category ? `<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">${esc(category)}</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>` : ''}
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">${esc(post.title)}</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 ${imgs.length}장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -114,6 +118,7 @@ ${category ? `<section class="card"><h2>카테고리</h2><div class="row"><span 
 <div class="ph">${imgs.map((f, i) => `<a href="${imgUrl(f)}" download="valuenote-${id}-${i + 1}.${f.split('.').pop()}"><img src="${imgUrl(f)}" alt="사진 ${i + 1}" loading="lazy"></a>`).join('')}</div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 ${vids.length ? `<section class="card"><h2>영상 (${vids.length}개 · 소리 없음 · 무료 라이선스)</h2>${vids.map((f) => `<div class="row" style="align-items:center;margin:8px 0"><video src="${imgUrl(f)}" muted loop playsinline autoplay style="width:220px;border-radius:8px"></video><a class="btn" href="${imgUrl(f)}" download="valuenote-${id}-${f}">영상 받기</a></div>`).join('')}</section>` : ''}
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = ${JSON.stringify(plain).replace(/</g, '\\u003c')};
@@ -125,6 +130,36 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = ${JSON.stringify(id)}, BAKED = ${JSON.stringify(post.posted || '')};
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>`;
 fs.writeFileSync(`${dir}.html`, html);
 console.log(`✓ ${dir}.html · 사진 ${imgs.length}장 · ${zip}`);
@@ -132,7 +167,7 @@ console.log(`✓ ${dir}.html · 사진 ${imgs.length}장 · ${zip}`);
 // 블로그 글 목록 페이지(naver/index.html): 관리자 페이지 위 '블로그 글'에서 연다. 최신 글이 위
 const root = path.dirname(dir);
 const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d, 'post.json')))
-  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, cat: catOf(d, pj), order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
+  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, cat: catOf(d, pj), slot: pj.slot, order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
   .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || ((a.order ?? 99) - (b.order ?? 99)) || b.d.localeCompare(a.d));
 const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwfx])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '시장 · 매크로', w: '기업 분석', f: '가치투자 공부 · 사용법', x: '시장 이슈 (수시)' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
 // 올린 글 표시: post.json 의 posted(날짜) + 관리자 로그인 시 docs(collection=naver, id=posted)에 저장한 표시를 합친다
@@ -147,10 +182,10 @@ fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko">
 .ck{font:inherit;font-size:14px;font-weight:800;border:1px solid #E7E2D8;background:#fff;color:#6B7584;border-radius:10px;padding:8px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0}.ck:hover{border-color:#C9AF7A;color:#0E1A2B}
 .it.done{background:#F1EEE6}.it.done img{opacity:.45}.it.done b{color:#6B7584}.it.done .ck{background:#2E8B62;border-color:#2E8B62;color:#fff}
 .emb .top{display:none}h3{font-size:15px;color:#6B7584;margin:26px 0 4px}.n{color:#6B7584;font-size:14px}#who{font-size:13px;color:#6B7584}</style><script>if(self!==top)document.documentElement.classList.add('emb')</script></head><body><div class="top"><a class="bk" href="/admin">‹ 관리자</a><b>Value<span>Note</span> · 네이버 블로그 글</b></div><main>
-<p class="n">월·수·금 아침에 새 글이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>
+<p class="n">매일 아침 점심용·저녁용 2편이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 글 페이지 맨 아래 또는 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>
 <p id="who"></p>
 <h3>올릴 글</h3><div id="todo"></div><h3>올린 글</h3><div id="done"></div>
-<div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${x.cat ? `<em class="cat">${esc(x.cat)}</em> ` : ''}${esc(L(x))} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
+<div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${x.cat ? `<em class="cat">${esc(x.cat)}</em> ` : ''}${esc(L(x))}${x.slot ? ' · <b style="display:inline;color:#2E8B62">' + esc(x.slot) + ' 게시</b>' : ''} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
 </main>
 <script>
 const BAKED = ${JSON.stringify(baked)};

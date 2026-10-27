@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 엔비디아는 왜 칩 고객의 임대료와 남는 용량까지 1,645억 달러어치 약속했을까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">엔비디아는 왜 칩 고객의 임대료와 남는 용량까지 1,645억 달러어치 약속했을까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 6장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -117,6 +121,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261026x/01.png" download="valuenote-b261026x-1.png"><img src="https://www.valuenote.co.kr/naver/b261026x/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261026x/02.jpg" download="valuenote-b261026x-2.jpg"><img src="https://www.valuenote.co.kr/naver/b261026x/02.jpg" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261026x/03.jpg" download="valuenote-b261026x-3.jpg"><img src="https://www.valuenote.co.kr/naver/b261026x/03.jpg" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261026x/g1.gif" download="valuenote-b261026x-4.gif"><img src="https://www.valuenote.co.kr/naver/b261026x/g1.gif" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261026x/05.png" download="valuenote-b261026x-5.png"><img src="https://www.valuenote.co.kr/naver/b261026x/05.png" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261026x/04.png" download="valuenote-b261026x-6.png"><img src="https://www.valuenote.co.kr/naver/b261026x/04.png" alt="사진 6" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 밤에 불이 켜진 데이터센터]\n\n3줄 요약\n· 엔비디아는 칩을 사 가는 회사들의 남는 클라우드 용량을 사 주고 임대료를 보증하는 식으로 최대 1,645억 달러를 약속했습니다. 포브스와 제노스펙트럼이 분기 보고서와 8월 공시를 더해 계산한 숫자로, 7월 26일 기준 엔비디아 자기자본의 약 72%입니다.\n· 엔비디아가 지분을 가진 AI 클라우드 회사 코어위브는 10월 22일까지 한 달 동안 주가가 약 35% 빠졌고, 2032년 만기 회사채 금리는 발행 때 9.625%에서 15% 안팎까지 올랐습니다. 2분기 이자 6억 4천만 달러가 조정 영업이익 1억 2,800만 달러의 5배였습니다.\n· 2000년 통신장비 회사 루슨트도 고객에게 67억 달러까지 돈을 빌려주기로 약속했고 그 돈으로 장비를 사던 윈스타 같은 회사들이 무너졌습니다. 엔비디아는 루슨트와 다른 점도 크지만 '고객이 누구 돈으로 사는가'는 이번에 꼭 확인할 숫자입니다.\n\n10월 24일 미국 CNBC에 '엔비디아의 AI 금융가 역할이 첫 시험대에 올랐다'는 기사가 실렸습니다. 칩 회사에 금융가라니. 처음엔 제목이 좀 과하다고 생각했어요. 그래서 포브스와 제노스펙트럼이 정리한 약속 목록을 하나씩 따라가 봤는데 합계가 엔비디아 자기자본의 70%를 넘었습니다. 칩을 파는 회사가 칩을 사는 회사의 임대료까지 약속하는 이유가 궁금해서 이 글을 씁니다.\n\n■ 코어위브 주가는 한 달 만에 약 35% 빠졌습니다\n\n엔비디아 칩을 잔뜩 사서 AI 회사들에 빌려주는 코어위브의 주가는 10월 22일까지 한 달 동안 약 35% 떨어졌습니다. 그날 종가는 55.60달러로 올해 들어 가장 낮았어요. 비슷한 일을 하는 네비우스는 같은 기간 약 29%, 아이렌은 약 46% 빠졌습니다. 이런 회사들을 묶어 '네오클라우드'라고 부릅니다.\n\n주가보다 먼저 움직인 건 채권이었습니다. 코어위브가 9.625% 금리로 판 2032년 만기 회사채는 10월 중순 15% 안팎에서 거래됐습니다. 채권 금리가 오르면 돈을 빌려준 사람들이 그만큼 떼일 걱정을 더 하고 있다고 보면 됩니다.\n\n코어위브 숫자를 보면 이유가 보입니다. 6월 말 빚은 356억 달러, 손에 쥔 현금은 55억 달러였습니다. 2분기에 낸 이자는 6억 4천만 달러로 1년 전 2억 6,700만 달러에서 크게 늘었습니다. 같은 분기 조정 영업이익은 1억 2,800만 달러였죠. 회사가 내놓은 3분기 예상도 이자 8억 6천만~9억 4천만 달러, 조정 영업이익 2억~2억 6천만 달러입니다. 본업으로 버는 돈보다 이자가 몇 배 많은 상태가 이어집니다.\n\n[사진: 데이터센터에 늘어선 대형 서버]\n\n■ 엔비디아가 고객에게 약속한 돈은 최대 1,645억 달러입니다\n\n엔비디아가 고객에게 한 약속은 크게 네 덩어리입니다. 포브스(10월 21일)와 제노스펙트럼(10월 20일)이 엔비디아 분기 보고서와 8월 17일 공시를 바탕으로 정리한 숫자입니다. 엔비디아가 이 합계를 하나의 빚으로 장부에 적은 것은 아니고 대부분은 일이 틀어졌을 때만 돈이 나가는 약속이에요.\n\n엔비디아가 한 약속 | 최대 금액 | 쉽게 말하면\nAI 클라우드 용량 구매 계약 | 360억 달러 | 코어위브 같은 회사가 못 판 컴퓨팅 용량을 엔비디아가 사 주기로 함. 코어위브와 맺은 63억 달러 계약(2032년까지)도 여기에 포함\n아직 시작 전인 데이터센터 임대 | 200억 달러 | 엔비디아가 약 15년짜리 임대 계약을 맺고 다른 회사에 넘김\n땅·전력·건물 보증 | 35억 달러 | AI 클라우드 회사가 데이터센터를 짓는 데 필요한 계약을 보증\n오픈AI 오하이오 데이터센터 보증 | 1,050억 달러 | 오픈AI가 임대료를 못 내면 엔비디아가 정해진 범위만큼 메워 줌\n합계 | 1,645억 달러 | 7월 26일 엔비디아 자기자본 2,290억 달러의 약 72%\n\n가장 큰 건 오픈AI 몫입니다. 로이터에 따르면 엔비디아는 8월 17일 소프트뱅크 계열 SB에너지가 오하이오에 짓는 데이터센터를 오픈AI가 20년 동안 빌릴 수 있도록 최대 1,050억 달러를 보증하기로 했습니다. 보증 범위는 임대료와 전기료 일부, 그리고 건물이 일정 가치 아래로 떨어지지 않게 하는 약속입니다. 오픈AI가 임대료를 못 내면 엔비디아가 그 차이를 메우는 구조죠.\n\n같은 날 젠슨 황 최고경영자는 이 계약이 순환 투자가 아니라고 말했습니다. 그러면서 오하이오 첫 단지가 엔비디아 매출에 최대 2,000억 달러를 보탤 수 있다고 했고요. 그런데 순서를 따라가 보면 좀 묘합니다. 엔비디아가 보증을 서야 오픈AI가 데이터센터를 빌리고 그 데이터센터가 엔비디아 칩을 산다는 점입니다.\n\n■ 2000년 루슨트는 고객에게 67억 달러까지 빌려주기로 했습니다\n\n판 사람이 산 사람의 돈을 대 주는 걸 '벤더 파이낸싱'이라고 부릅니다. 2000년 닷컴버블 때 이 말이 유명해졌죠. 미국 통신장비 회사 루슨트는 2000년 9월 말 기준으로 고객에게 최대 약 67억 달러를 빌려주기로 약속했고 그중 약 13억 달러가 이미 나가 있다고 연간 보고서에 적었습니다. 고객 빚 보증도 최대 약 14억 달러였어요.\n\n이유도 같은 보고서에 있습니다. 통신회사들이 장비를 사는 조건으로 장기 자금을 점점 더 요구했다는 겁니다.\n\n[사진: 서버실의 광섬유 케이블]\n\n그 끝은 좋지 않았습니다. 신생 통신회사 윈스타는 2000년 루슨트에서 최대 20억 달러어치 장비를 사기로 했고 루슨트가 그 자금 일부를 댔습니다. 윈스타는 2001년 4월 파산 보호를 신청했어요. 2005년 12월 미국 파산법원은 루슨트에 2억 4,400만 달러를 물어 주라고 판결했습니다. 루슨트가 빌려준 돈으로 올린 매출은 고객이 더는 돈을 빌리지 못하게 되자 함께 사라졌습니다.\n\n■ 엔비디아는 루슨트보다 훨씬 부자지만 위험의 모양은 닮았습니다\n\n여기까지 읽으면 엔비디아도 루슨트처럼 되는 것 아닌가 하는 걱정이 먼저 듭니다. 저도 그랬고요. 그런데 숫자를 펼쳐 보니 차이가 컸어요. 엔비디아는 7월 26일까지 반년 동안 순이익 1,180억 달러를 벌었습니다. 2분기 매출만 962억 달러로 1년 전의 두 배가 넘었고요. 약속 대부분은 현금을 먼저 내준 돈도 아닙니다. 고객이 실패할 때만 돈이 나가는 보증이죠.\n\n엔비디아가 돈을 빌리는 비용도 다릅니다. 제노스펙트럼에 따르면 엔비디아가 6월에 낸 회사채 금리는 4.5%였고 코어위브가 4월에 낸 또 다른 회사채 금리는 9.75%였습니다. 같은 AI 데이터센터에 돈이 들어가는데 엔비디아가 보증을 서면 시장은 더 싼 금리로 돈을 빌려주는 셈이에요. 제가 보기엔 이 금리 차이가 엔비디아가 보증을 서는 큰 이유입니다.\n\n닮은 점은 위험이 커지는 시점입니다. 보증은 계약서에 서명하는 날이 아니라 고객이 돈을 더 빌리지 못하는 날 문제가 됩니다. 코어위브 회사채 금리가 15% 안팎까지 오른 게 바로 그 신호인지, 잠깐 흔들린 건지는 저도 아직 확신이 없습니다.\n\n[사진: 깜빡이는 서버 불빛]\n\n엔비디아가 발을 빼는 신호는 아직 없습니다. 로이터에 따르면 엔비디아는 오하이오 보증과 함께 SB에너지에 15억 달러를 투자하기로 했습니다. 코어위브에는 그동안 20억 달러를 투자했고요(아이뉴스24, 10월 21일). 칩을 계속 팔려면 칩을 살 회사가 돈을 구할 수 있어야 하니까요.\n\n반대 시각도 분명합니다. 뱅크오브아메리카는 범위를 더 넓게 잡아 엔비디아의 각종 지원 약정을 모두 더하면 최대 2,300억 달러라고 봤습니다. D.A. 데이비슨의 길 루리아는 코어위브가 약 9% 금리로 돈을 빌려 약 1%를 버는 구조라며 주식 가치가 0이 될 수도 있다고 경고했습니다. 가트너는 2030년까지 네오클라우드의 최대 80%가 독자 생존을 못 할 수 있다고 내다봤고요.\n\n영국 투자회사 AJ벨의 대니 휴슨은 이런 거래에 어느 정도 순환 투자가 섞이는 건 피할 수 없다고 봤습니다. 저는 판 사람이 돈을 대는 것보다 그 크기와 상대가 더 중요하다고 생각합니다.\n\n■ 제가 다음에 볼 숫자는 코어위브 이자와 엔비디아 약정 합계입니다\n\n첫 번째는 곧 나올 코어위브 3분기 실적입니다. 회사 예상대로 이자가 8억 6천만~9억 4천만 달러, 조정 영업이익이 2억~2억 6천만 달러라면 이자가 본업 이익의 3배를 넘습니다. 이 차이가 줄어드는지 커지는지가 엔비디아 보증의 첫 시험입니다.\n\n두 번째는 엔비디아의 다음 분기 보고서에 적힐 클라우드 용량 구매 계약 금액입니다. 지금 360억 달러인 이 숫자가 늘면 엔비디아가 못 팔린 용량을 사 주는 일도 많아집니다. 보증 때문에 실제로 나간 돈이 있는지도 함께 봅니다.\n\n■ 밸류노트는 엔비디아 적정 주가를 보수적으로 계산했습니다\n\n밸류노트가 10월 24일 기준으로 계산한 엔비디아 적정 주가는 42.73달러입니다. 그날 엔비디아 주가 210.96달러는 적정 주가의 4.9배였어요. 반도체는 이익이 해마다 크게 오르내리는 업종이어서 지금 같은 좋은 해의 이익이 계속된다고 보지 않고 보수적으로 계산했습니다. AI 호황이 길게 이어지면 이 적정 주가는 낮게 잡힌 값이 됩니다.\n\n[사진: 엔비디아 주가와 적정 주가]\n\n회사 자체의 체력은 다른 얘기입니다. 돈을 버는 힘과 재무 안정성을 매긴 엔비디아 재무 점수는 97점으로, 5년 평균 자기자본이익률이 73.3%이고 이익의 83%가 실제 현금으로 들어왔습니다. 엔비디아 주가 전망을 찾아보면 매출 성장률 얘기가 대부분입니다. 저는 이 83%를 더 오래 보려고 합니다.\n\n[사진: 엔비디아 재무 점수와 현금 전환율]\n\n이유는 간단합니다. 판 사람이 산 사람의 돈을 대기 시작하면 장부의 이익은 늘어도 실제로 들어오는 현금은 덜 늘어납니다. 고객에게 빌려준 몫은 아직 받지 못한 돈으로 남습니다. 남는 용량을 대신 사 주면 칩을 팔고 받은 돈이 다시 나가고요. 내 종목에서도 두 가지만 보면 됩니다. 하나는 분기 보고서 주석의 '약정'과 '보증' 금액을 자기자본과 나눠 보는 것, 다른 하나는 이익 가운데 현금으로 들어온 비율이 해마다 떨어지는지 보는 겁니다.\n\n저는 이 현금 전환율을 밸류노트 기업 화면에서 확인합니다. 회사마다 같은 기준이라 내 종목과 나란히 놓고 보기 편하더군요.\n\n엔비디아 핵심 숫자 보기 → https://www.valuenote.co.kr/?co=NVDA&q=엔비디아&utm_source=naver-blog\n\n칩을 파는 회사가 칩 살 돈까지 걱정해 주는 시장, 여러분은 얼마나 오래 갈 거라고 보시나요? 코어위브 3분기 실적이 나오면 이 숫자들을 다시 정리해 보겠습니다.\n\n— Editor: Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 엔비디아 약정 합계 1,645억 달러는 포브스(10월 21일)·제노스펙트럼(10월 20일)이 엔비디아 분기 보고서(7월 26일 분기)와 8월 17일 공시를 더한 값이며, 엔비디아가 발표한 하나의 숫자가 아닙니다. 대부분은 최대 금액이고 실제 지급을 뜻하지 않습니다. 코어위브 주가·채권 금리는 10월 22일 전후 보도 기준입니다. 엔비디아 적정 주가와 점수는 밸류노트 2026년 10월 24일 계산이며 미래 주가를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -128,4 +133,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261026x", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

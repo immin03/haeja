@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 워렌 버핏은 왜 1987년 폭락 직후 코카콜라를 사서 38년째 팔지 않았을까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">거장의 투자</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">워렌 버핏은 왜 1987년 폭락 직후 코카콜라를 사서 38년째 팔지 않았을까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 6장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -91,6 +95,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/a5/01.png" download="valuenote-a5-1.png"><img src="https://www.valuenote.co.kr/naver/a5/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a5/02.png" download="valuenote-a5-2.png"><img src="https://www.valuenote.co.kr/naver/a5/02.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a5/03.png" download="valuenote-a5-3.png"><img src="https://www.valuenote.co.kr/naver/a5/03.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a5/04.png" download="valuenote-a5-4.png"><img src="https://www.valuenote.co.kr/naver/a5/04.png" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a5/05.png" download="valuenote-a5-5.png"><img src="https://www.valuenote.co.kr/naver/a5/05.png" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a5/06.png" download="valuenote-a5-6.png"><img src="https://www.valuenote.co.kr/naver/a5/06.png" alt="사진 6" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 워렌 버핏 코카콜라 투자: 1988년 매수 후 38년째 보유]\n\n3줄 요약\n· 워렌 버핏은 1987년 블랙먼데이 폭락 직후인 1988~1989년에 약 13억 달러로 코카콜라 주식을 샀습니다.\n· 버크셔는 지금까지 한 주도 팔지 않았고, 2025년 한 해 배당만 약 8억 1,600만 달러를 받았습니다.\n· 워렌 버핏이 본 것은 콜라가 아니라 사람들이 끊기 어려운 습관, 즉 경제적 해자였습니다.\n\n안녕하세요, 밸류노트 에디터 Luciano입니다. 워렌 버핏 하면 떠오르는 회사를 하나만 고르라면 많은 분이 코카콜라를 꼽을 것 같습니다. 오늘은 그 투자가 어떻게 시작됐는지, 시장이 가장 무서웠던 날로 거슬러 올라가 보겠습니다.\n\n1987년 10월 19일 월요일, 뉴욕 증시가 하루 만에 22% 넘게 떨어졌습니다. 지금도 블랙먼데이라고 부르는 날입니다. 그날 저녁 뉴스는 대공황이 다시 오는 것 아니냐는 이야기로 가득했고, 다음 날부터 사람들은 들고 있던 주식을 던지기 시작했습니다.\n\n그런데 그때 오마하의 한 사무실에서는 반대 방향으로 움직이는 사람이 있었습니다. 워렌 버핏입니다. 그가 조용히 사 모으기 시작한 회사는 첨단 기술 회사도, 폭락으로 반값이 된 회사도 아니었습니다. 누구나 아는 음료 회사, 코카콜라였습니다.\n\n■ 사실 워렌 버핏과 코카콜라의 인연은 50년 전에 시작됐습니다\n\n워렌 버핏이 처음 돈을 번 것은 여섯 살 때였습니다. 할아버지 가게에서 콜라 여섯 병 묶음을 25센트에 사 와서, 동네를 돌며 한 병에 5센트씩 팔았습니다. 여섯 병을 다 팔면 30센트, 5센트가 남는 장사였습니다. 그 뒤 50년 가까이 워렌 버핏은 코카콜라 주식을 한 주도 사지 않았습니다. 늘 지켜봤지만, 늘 가격이 맞지 않았기 때문입니다.\n\n그 사이 코카콜라는 한 번 크게 흔들립니다. 1985년, 100년 가까이 지켜 온 원래 맛을 버리고 '뉴 코크'를 내놓았다가 소비자 반발에 석 달 만에 원래 맛으로 돌아간 사건입니다. 회사 입장에서는 망신이었지만, 워렌 버핏은 이 사건에서 다른 것을 봤습니다. 사람들이 콜라 맛 하나에 이렇게까지 화를 낸다는 것, 그만큼 이 제품이 생활 깊숙이 들어와 있다는 것이었습니다.\n\n■ 1988년, 드디어 가격이 맞았습니다\n\n폭락장은 좋은 회사의 주가도 같이 끌어내립니다. 1988년 코카콜라 주가는 블랙먼데이 전보다 한참 낮은 자리에 있었고, 워렌 버핏은 이때부터 1989년까지 모두 약 13억 달러를 코카콜라에 넣었습니다. 워렌 버핏 코카콜라 투자의 시작입니다. 당시 버크셔 규모를 생각하면 한 회사에 넣기에는 상당히 큰돈이라 월가에서도 화제가 됐습니다. 워렌 버핏이 1986년 주주 서한에 남들이 두려워할 때 욕심을 내라고 쓴 지 2년 만에, 그 말을 그대로 실행한 셈입니다.\n\n[사진: 워렌 버핏 명언: 남들이 두려워할 때 욕심을 내라]\n\n워렌 버핏이 본 것은 콜라의 맛이 아니었습니다. 경기가 나빠져도 사람들은 콜라를 끊지 않고, 가격을 조금 올려도 떠나지 않는다는 점이었습니다. 거기에 공장을 계속 새로 짓지 않아도 돈이 벌리는 구조까지 있었습니다. 번 돈의 상당 부분이 주주에게 돌아올 수 있는 회사였습니다. 워렌 버핏은 이런 힘을 경제적 해자라고 불렀습니다. 코카콜라 주식이 오래 들고 갈 주식이 된 이유입니다. 그레이엄식으로 낮은 가격만 찾는 투자가 아니라, 찰리 멍거가 강조한 좋은 회사를 합리적인 가격에 사는 투자에 가까웠습니다.\n\n■ 38년 뒤, 배당만으로 원금의 60%를 매년 받습니다\n\n버크셔는 그 뒤로 코카콜라 주식을 한 주도 팔지 않았습니다. 주식 분할을 거쳐 지금 보유 주식은 4억 주입니다. 2025년 한 해 동안 받은 배당금은 약 8억 1,600만 달러로, 처음 넣은 13억 달러의 60%가 넘는 돈이 해마다 배당으로만 들어오는 것입니다. 2026년 6월 말 기준 보유 지분의 평가액은 약 351억 달러, 원금의 약 27배입니다.\n\n[사진: 버크셔 코카콜라 투자 원금 13억 달러, 연 배당 8억 1,600만 달러, 평가액 351억 달러]\n\n항목 | 금액\n1988~1989년 투자 원금 | 약 13억 달러\n2025년 받은 배당 | 약 8억 1,600만 달러\n2026년 6월 말 평가액 | 약 351억 달러\n보유 주식 수 | 4억 주\n\n숫자를 다시 보면 이 투자의 핵심이 보입니다. 시장이 무너질 때가 좋은 회사를 낮은 가격에 살 기회였고, 오래 들고 갈 회사는 사람들이 끊기 어려운 제품을 가진 회사였으며, 좋은 회사는 팔지 않는 것만으로도 배당과 주가가 함께 자랐습니다.\n\n[사진: 워렌 버핏 코카콜라 투자에서 배울 점 세 가지]\n\n■ 그런데 지금 코카콜라를 사면 같은 결과가 나올까요\n\n여기서 한 가지 짚어야 할 것이 있습니다. 1988년의 코카콜라와 2026년의 코카콜라는 같은 회사지만 가격이 다릅니다. 워렌 버핏이 38년 동안 들고 있는 이유는 좋은 회사여서만이 아니라, 좋은 회사를 좋은 가격에 샀기 때문입니다. 같은 회사라도 언제 얼마에 사느냐에 따라 결과는 완전히 달라집니다.\n\n그러면 지금 코카콜라는 워렌 버핏의 기준으로 몇 점일까요. 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 코카콜라의 밸류노트 점수와 적정 주가는 아래 화면과 같습니다. 다만 이 계산이 늘 맞는 것은 아닙니다. 버크셔는 2025년부터 알파벳을 사들여 올해 2분기에도 더 샀는데, 같은 알파벳이 이 방식으로는 지금 고평가로 나옵니다.\n\n[사진: 밸류노트 앱 기업 화면: 코카콜라 밸류노트 점수와 판정]\n\n38년 동안 한 주도 팔지 않는 것은 가치투자에서 말로는 가장 쉽고 실제로는 가장 어려운 일입니다. 오늘 이야기가 내 계좌를 한 번 다시 들여다보는 계기가 됐으면 좋겠습니다.\n\n— Editor: Luciano\n\n38년 전 워렌 버핏이 산 회사, 지금 기준으로는 몇 점일까요. 밸류노트에서는 코카콜라의 적정 주가와 적정 매수가, 재무 점수와 가격 점수를 한 화면에서 볼 수 있고, 내가 가진 종목도 같은 기준으로 바로 계산됩니다.\n\n[사진: 밸류노트에서 코카콜라 점수 보기]\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 점수와 적정 주가는 2026년 10월 17일 종가 기준 계산 결과이며 미래 주가를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -102,4 +107,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "a5", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

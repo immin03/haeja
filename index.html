@@ -3334,16 +3334,27 @@ function viewColumn(){
       <div data-yt="channel" data-yt-src="app-col-art"></div>
       <p class="small muted col-disc">${colByline(open) ? '밸류노트 에디터 Luciano가 작성한 글입니다. ' : ''}공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
-  return `<div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:16px"><div><h2 style="margin:0">칼럼</h2><div class="small muted">이슈 분석: 화제의 기업을 숫자로 파고듭니다 · 주간 시장: 매주 월요일 시장·금리·환율 정리 · 거장의 투자: 워렌 버핏·그레이엄·찰리 멍거의 실제 매매와 생각</div></div></div>
+  /* 2026-10-27 운영자: 칼럼 화면이 헷갈린다 → 탭·구획 없이 최신순 한 줄 스크롤. 어디서 온 글인지는 작은 레이블로만 구분 */
+  issuesLoad(); colStatsLoad();
+  const exOf = t => { const e = String(t || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*|]/g, '').replace(/\s+/g, ' ').trim(); const x = e.slice(0, 90); return x + (e.length > 90 && !/[.!?다요]$/.test(x) ? '…' : ''); };
+  const feed = [
+    ...L.map(c => ({ k: 'col', at: String(c.id || '').slice(4, 14), c })),
+    ...(ISS.L || []).map(x => ({ k: 'iss', at: String(x.at || '').slice(0, 10), x }))
+  ].sort((a, b) => b.at.localeCompare(a.at));
+  const SRC = { col: ['칼럼', 'src-col'], blog: ['블로그', 'src-blog'], iss: ['정리본', 'src-iss'] };
+  const tag = (k, sub) => `<span class="col-src-tag ${SRC[k][1]}">${SRC[k][0]}</span>${sub ? `<span class="col-ser">${esc(sub)}</span>` : ''}`;
+  const md = d => d ? `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일` : '';
+  const item = (f, i) => {
+    if(f.k === 'iss'){ const x = f.x; return `<a class="card col-item${i === 0 ? ' first' : ''}" href="/blog/${esc(x.slug)}?utm_source=app-column"><span class="small muted col-meta">${tag('iss', '')}${esc(md(f.at))}</span><b>${esc(x.title)}</b><span class="small col-ex">${esc(exOf(x.desc))}</span></a>`; }
+    const c = f.c;
+    return `<button type="button" class="card col-item${i === 0 ? ' first' : ''}${c.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(c.id)}">
+      ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted col-meta">${tag(c.from ? 'blog' : 'col', COL_SERIES[colSeries(c)])}${esc(colDate(c))} · ${colStatHtml(c)}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(exOf(c.body))}</span></button>`;
+  };
+  return `<div style="margin-top:16px"><h2 style="margin:0">칼럼</h2><div class="small muted">최신 글부터 차례로 보여 드립니다 · <span class="col-src-tag src-col">칼럼</span>밸류노트 칼럼 <span class="col-src-tag src-blog">블로그</span>네이버 블로그 글 <span class="col-src-tag src-iss">정리본</span>릴스 정리본</div></div>
+    ${feed.length ? `<div class="col-list">${feed.map(item).join('')}</div>` : `<div class="card empty" style="margin-top:12px">${ISS.L ? '첫 칼럼을 준비하고 있어요.' : '불러오는 중'}</div>`}
     ${newsletterBox()}
-    <div data-yt="latest" data-yt-src="app-column"></div>
     ${blogBox()}
-    <div class="col-tabs">${[['all','전체'], ['issue','이슈 분석'], ...Object.entries(COL_SERIES)].map(([k, l]) => `<button type="button" class="${(S.colSer || 'all') === k ? 'on' : ''}" data-act="col-ser" data-v="${k}">${l}</button>`).join('')}</div>
-    ${(() => { issuesLoad(); const IL = ISS.L || [], ser = S.colSer || 'all';
-      if(ser === 'issue') return IL.length ? `<div class="col-list">${IL.map(issueItem).join('')}</div>` : `<div class="card small muted">${ISS.L ? '아직 이슈 분석 글이 없습니다.' : '불러오는 중'}</div>`;
-      return ser === 'all' && IL.length ? `<div class="small muted" style="margin:14px 0 6px;font-weight:700">이슈 분석</div><div class="col-list">${IL.slice(0, 3).map(issueItem).join('')}</div><div class="small muted" style="margin:14px 0 6px;font-weight:700">주간 시장 · 거장의 투자</div>` : ''; })()}
-    ${(() => { colStatsLoad(); const LL = L.filter(c => (S.colSer || 'all') === 'all' || colSeries(c) === S.colSer); return LL.length ? `<div class="col-list">${LL.map((c, i) => `<button type="button" class="card col-item${i === 0 ? ' first' : ''}${c.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(c.id)}">
-      ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted"><span class="col-ser">${esc(COL_SERIES[colSeries(c)])}</span> ${esc(colDate(c))}${i === 0 ? ' · 최신' : ''} · ${colStatHtml(c)}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(String(c.body || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*]/g, '').replace(/\s+/g, ' ').trim().slice(0, 90))}…</span></button>`).join('')}</div>` : `<div class="card empty" style="margin-top:12px">${L.length ? '이 연재의 첫 글을 준비하고 있어요.' : '첫 칼럼을 준비하고 있어요. 그동안 브리핑 화면의 "이번 주 노트"를 확인해 보세요.'}</div>`; })()}`;
+    <div data-yt="latest" data-yt-src="app-column"></div>`;
 }
 /* 관리자: 이번 주 숫자로 초안을 만들어 관리자 페이지 칼럼 칸으로 넘긴다 */
 /* 받침이 있으면 '이' (워렌 버핏이라면, 그레이엄이라면, 찰리 멍거라면) */
@@ -7309,7 +7320,11 @@ details.g-lock summary{position:relative}
 .col-tabs{display:flex;gap:6px;margin:12px 0 4px;flex-wrap:wrap}
 .col-tabs button{all:unset;cursor:pointer;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
 .col-tabs button.on{background:var(--ink);border-color:var(--ink);color:var(--surface)}
-.col-ser{display:inline-block;font-weight:700;color:var(--accent);margin-right:2px}
+.col-ser{display:inline-block;font-weight:700;color:var(--accent);margin-right:6px}
+.col-src-tag{display:inline-block;font-size:11px;font-weight:800;line-height:1;padding:4px 7px;border-radius:6px;margin-right:6px;vertical-align:1px}
+.col-src-tag.src-col{background:var(--ink);color:var(--surface)}
+.col-src-tag.src-blog{background:#03C75A;color:#FFFFFF}
+.col-src-tag.src-iss{background:rgba(201,177,128,.25);color:var(--ink)}
 .col-stat{white-space:nowrap}
 .col-item.has-cover{display:grid;grid-template-columns:132px 1fr;column-gap:12px;align-items:start}
 .col-item.has-cover .col-thumb{grid-row:span 3;width:132px;height:auto;object-fit:contain;border-radius:10px;background:var(--navy)}

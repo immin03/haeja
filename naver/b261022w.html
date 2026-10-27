@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · DB손해보험은 내 자동차보험료로 어떻게 돈을 벌까, 주가 3배에도 왜 저평가일까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">DB손해보험은 내 자동차보험료로 어떻게 돈을 벌까, 주가 3배에도 왜 저평가일까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 7장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -123,6 +127,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261022w/01.png" download="valuenote-b261022w-1.png"><img src="https://www.valuenote.co.kr/naver/b261022w/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022w/02.jpg" download="valuenote-b261022w-2.jpg"><img src="https://www.valuenote.co.kr/naver/b261022w/02.jpg" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022w/03.png" download="valuenote-b261022w-3.png"><img src="https://www.valuenote.co.kr/naver/b261022w/03.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022w/g1.gif" download="valuenote-b261022w-4.gif"><img src="https://www.valuenote.co.kr/naver/b261022w/g1.gif" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022w/04.png" download="valuenote-b261022w-5.png"><img src="https://www.valuenote.co.kr/naver/b261022w/04.png" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022w/05.png" download="valuenote-b261022w-6.png"><img src="https://www.valuenote.co.kr/naver/b261022w/05.png" alt="사진 6" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022w/06.jpg" download="valuenote-b261022w-7.jpg"><img src="https://www.valuenote.co.kr/naver/b261022w/06.jpg" alt="사진 7" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 비 내리는 밤 젖은 도로]\n\n3줄 요약\n· 1년 치 자동차보험료(2025년 평균 68만 원)는 보험금으로 나가기 전까지 보험사가 대출·채권 등에 굴려 이자를 법니다.\n· DB손해보험이 이렇게 모아 굴리는 돈은 55조 원이 넘고, 올해 4~6월 석 달 동안 보험을 팔아서 5,618억 원, 그 돈을 굴려서 4,021억 원을 벌었습니다.\n· 주가는 4년 10개월 사이 3.4배가 됐지만, 워렌 버핏 방식으로 계산한 적정 주가는 355,846원으로 아직 지금 주가보다 92% 높습니다.\n\n며칠 전 코스피 급락 글을 쓰면서 보니 급락 뒤에도 적정 주가보다 30% 이상 저평가된 국내 좋은 회사 11곳 가운데 5곳이 은행·증권·보험 회사였습니다. 그래서 이번에는 보험사 한 곳이 어떻게 돈을 버는지 보기로 했습니다. 고른 회사는 DB손해보험이에요.\n\n처음엔 큰 기대가 없었습니다. 주가가 4년 10개월 사이 3.4배가 된 회사라 오를 만큼 올랐다고 봤거든요. 그런데 계산해 보니 적정 주가가 지금 주가보다 92% 높게 나왔습니다. 솔직히 의외였습니다.\n\nDB손해보험의 이익이 어디서 나오는지 따라가 보니 출발점은 우리가 매년 내는 자동차보험료였습니다.\n\n보험개발원에 따르면 2025년 개인용 자동차보험의 평균 보험료는 68만 원이었습니다. 그런데 대부분의 해는 사고 없이 지나갑니다. 그러면 그 68만 원은 1년 동안 어디에서 무엇을 하고 있었을까요?\n\n■ 보험사는 보험금을 내주기 전까지 내가 낸 보험료를 굴려 돈을 법니다\n\n보험은 돈을 먼저 받고 나중에 내주는 장사입니다. 수백만 명이 1년 치 보험료를 미리 내고, 그해 사고가 난 사람에게만 보험금이 나갑니다. 사고는 1년 내내 조금씩 나니까 보험사에는 늘 보험금으로 아직 나가지 않은 보험료가 쌓여 있습니다.\n\nDB손해보험이 이렇게 쌓아 굴리는 돈(운용자산)은 2026년 3월 말 기준 55조 8,871억 원입니다. 우리나라 국민 한 사람당 100만 원이 넘는 돈이죠. 가장 큰 몫인 13조 원 넘게는 기업과 개인에게 대출로 빌려주고, 12조 원 남짓은 여러 펀드에, 9조 원 가까이는 나라와 공공기관이 발행한 채권에 넣어 이자를 받습니다.\n\n올해 상반기 DB손해보험의 투자수익률은 4.47%였습니다. 68만 원을 1년 동안 4.47%로 굴리면 3만 원 남짓. 작아 보이지만 DB손해보험은 이걸 55조 원 규모로 합니다.\n\n워렌 버핏은 보험사가 보험금으로 내주기 전까지 들고 있는 보험료를 '플로트(떠다니는 돈)'라고 불렀습니다. 은행 예금과 달리 보험료에는 이자를 붙여 돌려주지 않습니다. 버핏은 이 점을 보고 1967년 보험사 내셔널 인뎀니티를 860만 달러에 샀습니다. 지금의 버크셔는 거기서 출발했어요.\n\n[사진: 상담 창구에서 이야기를 나누는 두 사람]\n\n■ 자동차보험은 보험료 100원을 받아 84.5원을 보험금으로 내줍니다\n\n자동차보험만 놓고 보면 남는 돈이 넉넉하지 않습니다. 삼성화재·현대해상·DB손해보험·KB손해보험 네 회사의 올해 상반기 자동차보험 손해율은 84.5%였습니다. 보험료로 100원을 받으면 84.5원이 보험금으로 나갔습니다.\n\n남은 15원 남짓에서 설계사 수수료와 직원 월급, 광고비까지 내야 합니다. 저는 보험사가 보험료를 받아 남기는 돈이 꽤 클 거라고 막연히 생각했는데 숫자로 보니 많이 팔아 조금 남기는 장사에 가까웠습니다.\n\n그래서 보험사의 이익은 두 갈래에서 나옵니다. 보험을 팔아 남기는 돈(보험손익)과 모아 둔 보험료를 굴려 버는 돈(투자손익)입니다.\n\nDB손해보험의 올해 4~6월 실적에도 이 두 갈래가 그대로 나옵니다. 자동차보험에 건강·상해 같은 장기보험까지 합친 보험 판매로 5,618억 원을 벌었고 모아 둔 보험료를 굴려서 4,021억 원을 벌었습니다. 워렌 버핏은 여기에 조건을 하나 붙였습니다. 보험 영업에서 손해를 보지 않아야 굴리는 보험료가 비용이 들지 않는 돈이 됩니다.\n\n■ DB손해보험 주가는 4년 10개월 사이 3.4배가 됐습니다\n\nDB손해보험은 최근 5개 결산 연도 동안 한 해도 적자를 내지 않았습니다. 주주가 맡긴 돈 100원으로 1년에 평균 17원 넘게 벌었고 가장 나빴던 해에도 13원을 벌었습니다. 회사 이름은 2017년 동부화재에서 지금의 DB손해보험으로 바뀌었고요.\n\n시점 | 무슨 일이 있었나 | 월말 주가\n2017년 | 동부화재가 DB손해보험으로 이름을 바꿈 | —\n2021년 12월 | 지금으로부터 4년 10개월 전 | 54,000원\n2024년 12월 | 3년 만에 약 2배 | 102,800원\n2026년 5월 | 미국 보험사 포테그라 인수 완료 | 143,100원\n2026년 10월 21일 | 지금 주가(종가) | 185,600원\n\n4년 10개월 사이 54,000원이던 주가는 185,600원이 됐습니다. 올해 5월 22일에는 약 2조 3,000억 원을 들여 미국 보험사 포테그라를 사들였는데 국내 보험사가 미국 보험사를 인수한 첫 사례였습니다. 인수 직후 주가는 6월 말 133,900원까지 내려갔다가 9월 말 185,000원까지 올랐습니다.\n\n[사진: DB손해보험 5년 월말 주가]\n\n■ 그런데 DB손해보험 주가는 1년 이익의 6배 남짓입니다\n\nDB손해보험의 PER(주가 ÷ 주당 이익)은 6.3배입니다. 지금 주가로 회사를 통째로 사면 1년 이익을 6년 남짓 모아야 산 값을 돌려받는 값이에요. 이익에 비해 낮게 매겨진 편입니다.\n\n근데 여기서 이상한 점이 하나 있었습니다. 주가가 3배 넘게 오르는 동안 주당 이익도 해마다 평균 20% 가까이 늘어 PER은 여전히 6배 남짓입니다. 저는 이것을 시장이 '앞으로는 지금만큼 못 벌 것'이라고 걱정한다는 뜻으로 읽었습니다.\n\n시장의 걱정은 크게 두 가지입니다. 하나는 자동차보험 손해율입니다. 보험료 100원당 내주는 보험금이 1년 새 82.6원에서 84.5원으로 늘어 보험을 팔아 남기는 몫이 줄고 있습니다.\n\n다른 하나는 약 2조 3,000억 원에 인수한 포테그라가 얼마를 벌어 줄지 아직 실적으로 확인되지 않았다는 점입니다. 이 부분은 저도 확신이 없습니다. 인수한 지 다섯 달이라 분기 실적 한두 번으로 판단하기엔 이릅니다.\n\n[사진: 비 내리는 밤 도로를 달리는 차들]\n\n■ 워렌 버핏 방식으로 계산한 적정 주가는 355,846원입니다\n\n워렌 버핏·벤저민 그레이엄의 방식으로 계산한 DB손해보험의 적정 주가는 355,846원입니다. 지금 주가 185,600원보다 92% 높습니다.\n\n계산 방법은 생각보다 단순합니다. 이 회사가 1년에 주식 한 주당 버는 돈 29,654원에 12를 곱했어요. 보험사처럼 남의 돈을 맡아 굴리는 금융회사는 아무리 잘 벌어도 1년 이익의 12배까지만 쳐 준다는, 일부러 보수적으로 잡은 기준입니다. 이렇게 보수적으로 잡아도 지금 주가는 적정 주가보다 48% 저평가돼 있습니다.\n\n많이 오른 주식이 꼭 고평가된 주식은 아니었습니다. 이 글을 쓰면서 제 생각이 가장 크게 바뀐 부분입니다.\n\n[사진: DB손해보험 지금 주가와 적정 주가]\n\n밸류노트 점수로는 78점입니다. 사업이 얼마나 튼튼한지 보는 재무 점수는 92점, 지금 가격이 얼마나 저평가됐는지 보는 가격 점수는 97점으로 높습니다. 다만 경쟁력·경영진처럼 사업 자체를 직접 따져 보는 정성 평가가 53점에 그쳐 전체 점수가 내려왔습니다.\n\n[사진: DB손해보험 핵심 재무 숫자]\n\n■ 보험사 주식을 볼 때 먼저 확인할 숫자: 손해율과 투자수익률\n\n보험사 주식을 볼 때 저는 손해율과 투자수익률부터 봐요. 자동차보험 손해율이 올랐다는 기사는 보험을 팔아 남기는 이익이 줄었다는 뜻입니다. 실적 발표의 투자수익률(DB손해보험 올해 상반기 4.47%)이 오르는지 내리는지 보면 보험료를 굴려 버는 이익의 방향을 알 수 있습니다. DB손해보험은 여기에 포테그라의 분기 이익을 더해 봐야 합니다.\n\n[사진: 한낮의 붐비는 도시 광장]\n\n저는 이런 숫자를 밸류노트에서 확인하는데 DB손해보험의 적정 주가 355,846원이 어떻게 나왔는지와 5년 동안의 이익 흐름은 여기서 볼 수 있습니다.\n\nDB손해보험 계산 과정 보기 → https://www.valuenote.co.kr/?co=005830&q=DB%EC%86%90%ED%95%B4%EB%B3%B4%ED%97%98&utm_source=naver-blog\n\n갖고 계신 보험사 주식이 있다면 그 회사의 자동차보험 손해율과 투자수익률은 지금 어느 쪽으로 움직이고 있나요?\n\n— Editor: Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 점수와 적정 주가는 10월 17일 데이터 기준 밸류노트 공식에 따른 추정치이며, 주가는 10월 21일 종가입니다. 미래 주가를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -134,4 +139,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261022w", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

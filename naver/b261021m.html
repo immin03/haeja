@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 공포지수 VIX는 코스피가 39% 빠질 때 왜 조용했을까, 누구의 공포를 재나?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">주간 시장 정리</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">공포지수 VIX는 코스피가 39% 빠질 때 왜 조용했을까, 누구의 공포를 재나?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 8장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -101,6 +105,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261021m/01.png" download="valuenote-b261021m-1.png"><img src="https://www.valuenote.co.kr/naver/b261021m/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021m/04.png" download="valuenote-b261021m-2.png"><img src="https://www.valuenote.co.kr/naver/b261021m/04.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021m/03.png" download="valuenote-b261021m-3.png"><img src="https://www.valuenote.co.kr/naver/b261021m/03.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021m/02.jpg" download="valuenote-b261021m-4.jpg"><img src="https://www.valuenote.co.kr/naver/b261021m/02.jpg" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021m/g1.gif" download="valuenote-b261021m-5.gif"><img src="https://www.valuenote.co.kr/naver/b261021m/g1.gif" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021m/05.png" download="valuenote-b261021m-6.png"><img src="https://www.valuenote.co.kr/naver/b261021m/05.png" alt="사진 6" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021m/06.jpg" download="valuenote-b261021m-7.jpg"><img src="https://www.valuenote.co.kr/naver/b261021m/06.jpg" alt="사진 7" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021m/07.png" download="valuenote-b261021m-8.png"><img src="https://www.valuenote.co.kr/naver/b261021m/07.png" alt="사진 8" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 먹구름 속에서 번쩍이는 번개]\n\n3줄 요약\n· 코스피가 6월 고점에서 39% 빠지는 동안 공포지수 VIX는 주간 종가 기준 20을 넘지 않았습니다(10월 19일 18.44). VIX는 세계의 공포가 아니라 미국 S&P 500에 대한 미국 시장의 걱정을 재는 온도계이기 때문입니다.\n· VIX 18은 '앞으로 한 달 동안 미국 주가가 위아래로 5% 안팎 움직일 것'이라는 예상에 가깝습니다. 2008년(80.86)과 2020년(82.69)처럼 미국이 흔들릴 때만 크게 뜁니다.\n· 한국의 공포는 코스피200 변동성지수(VKOSPI)에 따로 찍혔습니다. 6월 29일 장중 97.99로 발표 이후 최고였고, 그사이 적정 주가보다 낮은 국내 회사는 29곳이 됐습니다.\n\n안녕하세요, 밸류노트 에디터 Luciano입니다. 10월 15일 오후를 떠올려 보세요. 코스피가 하루에 7.57% 빠져 거래가 잠시 멈추는 서킷브레이커까지 걸린 날입니다. 코스피 급락 소식이 뜨는 날이면 많은 분이 검색창에 '공포지수'를 쳐 봅니다. 그리고 의외의 숫자를 만납니다.\n\n바로 전날 밤 미국의 공포지수 VIX는 16.87이었습니다. 평소와 다를 게 없는 숫자입니다. 내 계좌는 빨갛게 타들어 가는데 공포지수는 '오늘 날씨 맑음'이라고 말하는 셈입니다. 고장 난 걸까요? 오늘은 이 엇갈림 하나를 끝까지 따라가 보겠습니다.\n\n■ VIX는 뉴욕에 걸린 온도계였습니다\n\nVIX는 미국 대형주 500곳(S&P 500)이 앞으로 한 달 동안 얼마나 출렁일지에 대한 시장의 예상입니다. 미국 시카고옵션거래소가 S&P 500 옵션 가격으로 계산합니다. 옵션은 쉽게 말해 '주가가 많이 떨어지면 돈을 받는 보험'에 가깝습니다. 미국 투자자들이 겁을 먹으면 이 보험이 비싸지고, VIX가 올라갑니다.\n\n그러니 VIX는 서울이 아니라 뉴욕에 걸린 온도계입니다. 서울에 폭풍이 몰아쳐도 뉴욕 하늘이 맑으면 숫자는 낮게 나옵니다. 실제로 코스피가 6월 22일 9,114.55로 최고를 찍고 10월 20일 5,552.74까지 39% 내리는 넉 달 동안, S&P 500은 최고치 근처를 지켰습니다. 10월 20일 S&P 500은 7,712.57로 최고치보다 1.4% 낮을 뿐이었습니다.\n\n[사진: 코스피와 S&P 500 6월 22일 이후]\n\n그래프 속 두 선이 전혀 다른 길을 갑니다. 미국 투자자 입장에서는 걱정할 일이 별로 없던 넉 달이었고, 그래서 그들의 보험료도 오르지 않았습니다. VIX 주간 종가는 이 기간 내내 20을 넘지 않았고, 주간 종가 기준으로 가장 높았던 때도 10월 16일의 19.99였습니다.\n\n■ VIX 18은 '한 달에 5% 안팎 흔들린다'는 뜻입니다\n\nVIX 18은 앞으로 한 달 동안 미국 주가가 위아래로 5% 안팎 움직일 것이라는 예상에 가깝습니다. VIX는 1년 기준으로 적힌 숫자라, 한 달로 바꾸면 약 3.5분의 1로 작아집니다. 10월 19일 VIX 18.44를 한 달로 바꾸면 약 5.3%입니다. S&P 500 투자자가 '다음 달 이맘때 내 계좌가 5% 안팎에서 오르내리겠구나' 하고 예상하는 정도의 평온함입니다.\n\n그러면 진짜 겁이 날 때는 얼마까지 올라갈까요. 30년 기록을 보면 답이 분명합니다.\n\n[사진: VIX 공포지수 1997~2026 월말 값]\n\n시기 | 무슨 일이 있었나 | VIX 종가 최고\n1998년 10월 8일 | 러시아 채무 불이행과 미국 헤지펀드 LTCM 사태 | 45.74\n2008년 11월 20일 | 미국에서 시작된 글로벌 금융위기 | 80.86\n2011년 8월 8일 | 유럽 재정위기와 미국 신용등급 강등 | 48.0\n2020년 3월 16일 | 코로나19 확산 | 82.69 (역대 최고)\n2025년 4월 8일 | 미국 관세 충격 | 52.33\n2026년 10월 19일 | 코스피가 6월 고점보다 37% 낮은 때 | 18.44\n\n표의 다섯 번은 모두 미국 시장이 함께 크게 흔들린 때였습니다. 코인데스크 집계로는 1990년 이후 VIX가 30을 넘겨 마감한 날이 전체의 8%뿐입니다. 18은 정말 평범한 날의 숫자입니다. 표의 마지막 줄을 위 다섯 줄과 나란히 놓으면, 이번 하락이 미국 사람들 눈에는 '남의 동네 일'이었다는 것이 보입니다.\n\n[사진: 야외에서 신문을 펼쳐 읽는 손]\n\n■ 서울에 걸린 온도계는 97.99까지 올라갔습니다\n\n서울의 온도계인 VKOSPI는 6월 29일 장중 97.99로, 2009년 발표를 시작한 뒤 가장 높았습니다. 정식 이름은 코스피200 변동성지수로, 코스피200 옵션 가격을 VIX와 같은 방식으로 계산합니다. 같은 주 VIX 주간 종가는 18.41이었습니다. 한 주에 서울 온도계는 끓고, 뉴욕 온도계는 평온했던 것입니다.\n\n그 뒤로도 서울은 위아래로 크게 흔들렸습니다. 7월 31일 코스피는 하루에 17.91% 올라 SBS Biz에 따르면 하루 상승률 사상 최대를 기록했습니다. 오르는 쪽으로도 이만큼 움직인다는 것은 그만큼 불안했다는 뜻입니다. 서킷브레이커가 걸린 10월 15일 VKOSPI는 장중 57.22, 10월 19일 오전에도 49.95였습니다.\n\n[사진: 밤하늘의 먹구름 사이로 치는 번개]\n\n정리하면, 공포지수는 고장 나지 않았습니다. 우리가 서울 날씨를 뉴욕 온도계로 보고 있었을 뿐입니다. 미국 주식을 사는 이른바 서학개미가 7월 30일 기준으로 미국 주식을 1,704억 달러어치 갖고 있으니, 미국 주식을 가진 분에게는 VIX가, 국내 주식을 가진 분에게는 VKOSPI가 내 계좌의 온도계입니다.\n\n■ 공포가 서울에 몰린 지금, 적정 주가보다 낮은 회사는 한국 29곳, 미국 8곳입니다\n\n10월 17일 종가로 밸류노트가 계산한 국내 기업 156곳 가운데 29곳, 미국 기업 221곳 가운데 8곳이 적정 주가보다 낮습니다. 적정 주가는 회사가 벌어 온 이익과 자산으로 계산하기 때문에 공포지수 같은 분위기 숫자가 들어가지 않습니다. 이익은 그대로인데 겁 때문에 주가만 내려가면, 적정 주가보다 낮은 회사가 늘어납니다.\n\n[사진: 국내 저평가 기업 4~8위]\n\n | 한국 | 미국\n대표 지수는 최고치보다 얼마나 낮나 (10월 20일) | 코스피 −39% | S&P 500 −1.4%\n내 계좌의 온도계 | VKOSPI 49.95 (10월 19일 오전) | VIX 18.44 (10월 19일)\n적정 주가보다 낮은 회사 (10월 17일) | 156곳 중 29곳 | 221곳 중 8곳\n그중 재무 점수 60점 이상이면서 30% 넘게 낮은 회사 | 12곳 | 2곳\n\n다만 숫자가 낮다고 모두 기회는 아닙니다. 주가가 빠진 이유가 회사의 이익을 실제로 깎는 일인지, 시장 전체의 겁에 휩쓸린 것인지는 회사마다 따로 확인해야 합니다. 그 확인이 끝나기 전까지 이 명단은 '살 회사'가 아니라 '들여다볼 회사'입니다.\n\n[사진: 두꺼운 구름 사이로 떠오르는 해]\n\n다음에 '공포지수 낮음' 기사를 보시면 한 가지만 확인해 보세요. 그 숫자가 내 돈이 있는 시장의 온도계인지입니다. 그리고 VIX와 VKOSPI가 함께 오르는 날이 오면, 그때는 불안이 서울만의 일이 아니라는 신호로 읽으시면 됩니다. 두 온도계가 얼마나 벌어져 있는지는 매주 경제 레이더에서 이어서 보겠습니다.\n\n— Editor: Luciano\n\n뉴욕의 온도계가 18에 머무는 동안, 적정 주가보다 낮은 국내 기업은 29곳입니다. 그중 재무 점수 60점을 넘는 회사는 12곳입니다. 어떤 회사들이 그 명단에 있고 적정 주가와 얼마나 떨어져 있는지는 밸류노트 국내 저평가 순위에서 바로 확인할 수 있습니다.\n\n[사진: 밸류노트 국내 저평가 순위 보기]\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. VIX 월말 값과 지수 숫자는 밸류노트 경제 레이더 기록이며, 기업 수는 10월 17일 종가 기준 밸류노트 계산입니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -112,4 +117,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261021m", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

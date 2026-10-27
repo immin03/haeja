@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 버크셔가 실제로 산 62개 회사를 다시 채점하면 어떤 결과가 나올까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">밸류노트 사용법</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">버크셔가 실제로 산 62개 회사를 다시 채점하면 어떤 결과가 나올까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 7장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -89,6 +93,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/a4/01.png" download="valuenote-a4-1.png"><img src="https://www.valuenote.co.kr/naver/a4/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a4/02.png" download="valuenote-a4-2.png"><img src="https://www.valuenote.co.kr/naver/a4/02.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a4/07.png" download="valuenote-a4-3.png"><img src="https://www.valuenote.co.kr/naver/a4/07.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a4/03.png" download="valuenote-a4-4.png"><img src="https://www.valuenote.co.kr/naver/a4/03.png" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a4/04.png" download="valuenote-a4-5.png"><img src="https://www.valuenote.co.kr/naver/a4/04.png" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a4/05.png" download="valuenote-a4-6.png"><img src="https://www.valuenote.co.kr/naver/a4/05.png" alt="사진 6" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/a4/06.png" download="valuenote-a4-7.png"><img src="https://www.valuenote.co.kr/naver/a4/06.png" alt="사진 7" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 버크셔 해서웨이 매수 62건 밸류노트 점수 검증]\n\n3줄 요약\n· 버크셔 해서웨이가 실제로 산 62건을 산 시점의 재무와 주가로 밸류노트 점수를 매겼습니다.\n· 매수 당시 60점 이상이었던 27건의 실패 비율은 15%, 60점 미만 35건은 37%였습니다.\n· 점수로 성공작을 고를 수는 없었지만, 실패를 거르는 데는 분명한 효과가 있었습니다.\n\n안녕하세요, 밸류노트 에디터 Luciano입니다. 지난 글에서 밸류노트 점수가 어떻게 만들어지는지 소개했습니다. 그러면 자연스럽게 이런 질문이 따라옵니다. 그 점수, 정말 맞기는 하나요? 오늘은 그 질문에 숫자로 답해 보겠습니다.\n\n주식 점수를 매기는 서비스는 많습니다. 그런데 그 점수가 실제로 맞는지 확인해 본 서비스는 많지 않습니다. 점수를 만드는 것보다 점수가 틀렸다는 것을 확인하는 쪽이 훨씬 불편한 일이기 때문입니다.\n\n밸류노트 점수를 만들면서 가장 먼저 한 일이 그 불편한 일이었습니다. 세계에서 가장 성공한 투자자가 실제로 산 회사에 이 점수를 매겨 보는 것입니다. 버크셔 해서웨이가 2000년부터 2026년까지 실제로 산 62건을 골랐고, 미국 밖의 회사도 포함했습니다. 각 회사를 산 그 시점의 재무제표와 주가로 채점했고, 매수가 대비 배당 포함 연평균 수익률이 10% 이상이면 성공, 3% 미만이면 실패로 나눴습니다. 나중에 알게 된 정보는 쓰지 않았습니다. 점수가 워렌 버핏의 선택을 얼마나 설명하는지 보려는 것이었습니다.\n\n■ 결과를 열어 보니, 실패 비율이 두 배 넘게 갈렸습니다\n\n매수 당시 밸류노트 점수가 60점 이상이었던 투자는 27건이었고, 이 가운데 실패는 4건으로 실패 비율은 약 15%였습니다. 60점 미만이었던 35건 가운데서는 13건이 실패해 실패 비율이 약 37%였습니다. 열 번 사면 한두 번 실패하느냐, 네 번 가까이 실패하느냐의 차이입니다.\n\n[사진: 버크셔 매수 62건: 60점 이상 실패율 15%, 60점 미만 실패율 37%]\n\n매수 당시 점수 | 건수 | 성공 | 보통 | 실패 | 실패 비율\n60점 이상 | 27건 | 12건 | 11건 | 4건 | 약 15%\n60점 미만 | 35건 | 15건 | 7건 | 13건 | 약 37%\n\n[사진: 밸류노트 앱 기준·검증 화면: 버크셔 역검증 결과]\n\n그런데 표를 조금 더 들여다보면 불편한 쪽의 숫자도 보입니다. 60점 미만에서 산 35건 가운데 15건이 성공했습니다. 60점 이상에서 성공한 12건보다 많습니다. 솔직하게 말하면 이 점수로 워렌 버핏의 대성공작을 미리 골라낼 수는 없었습니다. 금융위기 상처가 남아 있던 2011년의 뱅크오브아메리카(14점)나, 그해 함께 산 마스터카드(40점)처럼 숫자 밖의 판단에서 나온 성공이 많았습니다. 점수가 해 준 일은 성공을 고르는 것이 아니라 실패를 거르는 것이었습니다.\n\n■ 예상과 반대로 나온 숫자 하나\n\n검증을 시작할 때는 회사의 체력을 보는 재무 점수가 결과를 가를 것이라고 봤습니다. 좋은 회사를 사면 결과도 좋을 것이라는, 어찌 보면 당연한 가정이었습니다. 그런데 62건 전체를 놓고 보니 숫자가 반대로 나왔습니다. 성공한 투자의 재무 점수 평균은 61점으로, 실패한 투자의 68점보다 오히려 낮았습니다.\n\n[사진: 버크셔 매수 검증 62건: 재무 점수 평균은 실패한 투자가 더 높았습니다]\n\n반면 가격 점수는 성공한 투자가 평균 53점, 실패한 투자가 39점이었습니다. 이유를 생각해 보면 이렇습니다. 버크셔는 애초에 좋은 회사만 고릅니다. 그러니 그 안에서 결과를 가른 것은 회사의 체력이 아니라 얼마에 샀느냐였던 것입니다. 1989년 주주 서한에서 워렌 버핏이 훌륭한 회사를 적당한 가격에 사라고 썼지만, 정작 결과를 가른 것은 '훌륭한'보다 '적당한 가격' 쪽이었습니다.\n\n[사진: 버크셔 매수 검증 62건: 가격 점수 평균은 성공한 투자가 더 높았습니다]\n\n그래서 밸류노트 점수의 숫자 부분은 재무 점수 40%, 가격 점수 60%로 가격 쪽에 더 무게를 두게 됐습니다. 검증 과정에서 바뀐 것은 이 밖에도 있습니다. 자동차·반도체처럼 경기를 많이 타는 업종은 감점 대신 경고 신호를 붙이도록 바꿨고, 은행과 보험사는 재무 구조가 달라 전용 기준을 따로 만들었습니다.\n\n■ 그래서 점수는 이렇게 읽으면 됩니다\n\n75점 이상은 그레이엄·워렌 버핏·찰리 멍거의 기준에 가까운 회사, 60~74점은 지켜볼 만한 회사, 60점 미만은 지금 기준과 거리가 있는 회사입니다. 가장 중요한 원칙은 점수가 고르는 도구가 아니라 거르는 도구라는 점입니다. 점수가 낮은 회사를 산다면, 워렌 버핏이 2011년 뱅크오브아메리카에 투자했을 때처럼 숫자 밖에서 무엇을 보고 있는지 스스로 설명할 수 있어야 합니다. 설명이 안 된다면 그것이 바로 거를 때입니다.\n\n[사진: 밸류노트 점수 읽는 법: 75점 이상, 60~74점, 60점 미만]\n\n결과가 생각보다 겸손하죠. 성공을 맞히는 도구는 아니었지만, 실패를 줄이는 도구로는 쓸모가 있었습니다. 가치투자의 첫 번째 원칙이 돈을 잃지 않는 것이라는 점을 생각하면 나쁘지 않은 출발입니다. 2026년 10월의 점수는 그대로 기록해 두었고, 2027년 4월에 그 뒤의 실제 결과를 공개합니다. 좋은 결과든 나쁜 결과든 이 블로그에서 그대로 보여 드리겠습니다.\n\n— Editor: Luciano\n\n지금 내가 가진 종목은 60점을 넘을까요? 버크셔 62건에서 60점 미만 종목의 실패 비율은 60점 이상의 두 배가 넘었습니다. 밸류노트에 종목 이름만 넣으면 같은 공식으로 계산한 점수와 적정 주가가 바로 나옵니다.\n\n[사진: 밸류노트에서 내 종목 점수 확인하기]\n\n※ 2026년 10월 19일 덧붙임: 이 검증은 10월 12일 공식 기준입니다. 이후 적정 주가 계산을 고쳤습니다(경기를 타는 업종은 호황기 이익을 그대로 쓰지 않고, 꾸준히 성장해 온 우량주는 성장을 덜 깎도록). 새 기준으로 다시 검증해 결과를 따로 올리겠습니다.\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 과거 검증 결과가 미래의 투자 성과를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -100,4 +105,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "a4", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

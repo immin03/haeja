@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 앤트로픽 상반기 순손실 807억 달러, 매출은 14배 늘었는데 왜 적자일까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">앤트로픽 상반기 순손실 807억 달러, 매출은 14배 늘었는데 왜 적자일까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 6장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -117,6 +121,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261027x/01.png" download="valuenote-b261027x-1.png"><img src="https://www.valuenote.co.kr/naver/b261027x/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261027x/03.png" download="valuenote-b261027x-2.png"><img src="https://www.valuenote.co.kr/naver/b261027x/03.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261027x/02.jpg" download="valuenote-b261027x-3.jpg"><img src="https://www.valuenote.co.kr/naver/b261027x/02.jpg" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261027x/05.png" download="valuenote-b261027x-4.png"><img src="https://www.valuenote.co.kr/naver/b261027x/05.png" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261027x/06.jpg" download="valuenote-b261027x-5.jpg"><img src="https://www.valuenote.co.kr/naver/b261027x/06.jpg" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261027x/04.png" download="valuenote-b261027x-6.png"><img src="https://www.valuenote.co.kr/naver/b261027x/04.png" alt="사진 6" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 회로 기판에 부품을 올리는 자동 기계]\n\n3줄 요약\n· AI '클로드'를 만드는 앤트로픽이 10월 26일 미국 나스닥 상장 신고서를 냈습니다. 올해 1~6월 매출은 162억 9천만 달러로 1년 전(11억 6천만 달러)의 약 14배, 순손실은 807억 5천만 달러였습니다.\n· 그런데 본업에서 난 손실(영업손실)은 6억 9천만 달러였습니다. 순손실의 약 90%인 723억 9천만 달러는 나중에 주식으로 바꿔 줄 투자 계약의 평가손실로, 회사 가치가 오르면서 생긴 장부상 숫자입니다. 현금이 나간 돈이 아닙니다.\n· 같은 가치 상승이 아마존 장부에는 이익으로 잡혔습니다. 아마존의 2분기 순이익 626억 달러에는 주로 앤트로픽 투자에서 나온 세전 534억 달러가 들어 있었고 본업 이익(274억 6천만 달러)의 2배 가까운 크기입니다.\n\n어제 엔비디아가 칩 고객에게 한 약속을 따라가면서 앤트로픽 이름을 몇 번 적었습니다. 그런데 바로 그날 앤트로픽이 상장(IPO) 신고서를 냈고 한국 기사 제목은 거의 다 '순손실 807억 달러'였습니다. 상반기 매출의 5배 가까운 적자라니. 처음엔 저도 AI 회사가 데이터센터에 돈을 쏟아붓다 생긴 손실이라고 생각했어요. 신고서의 손익 표를 한 줄씩 따라가 보니 이야기가 전혀 달랐습니다.\n\n■ 앤트로픽 매출은 1년 만에 약 14배가 됐습니다\n\n앤트로픽이 10월 26일 미국 증권거래위원회에 낸 증권신고서(S-1)에 따르면 올해 1~6월 매출은 162억 9천만 달러입니다. 1년 전 같은 기간은 11억 6천만 달러였어요.\n\n고객 숫자도 같이 늘었습니다. 9월 30일 기준으로 최근 1년 동안 앤트로픽에 10만 달러 넘게 낸 기업이 1만 1,900곳을 넘었고 100만 달러 넘게 낸 곳도 1,900곳이 넘습니다. 신고서는 순매출유지율을 약 900%라고 적었습니다. 1년 전부터 쓰던 고객들이 낸 돈을 모두 더하면 지금은 1년 전의 약 9배라는 뜻이에요.\n\n이렇게 잘 팔리는데 순손실이 807억 달러입니다. 손익계산서를 위에서부터 내려가 봤습니다.\n\n■ 본업 손실은 6억 9천만 달러, 723억 달러는 장부에서 생겼습니다\n\n본업에서 난 손실은 6억 9,300만 달러입니다. 매출에서 컴퓨팅 비용과 인건비·마케팅비를 모두 뺀 영업손실입니다. 1년 전 같은 기간 영업손실 21억 3,500만 달러보다 오히려 줄었습니다.\n\n[사진: 앤트로픽 상반기 매출과 손실]\n\n807억 달러의 대부분은 영업손실 아래에 적히는 항목에서 나옵니다. 신고서 표의 이름은 '전환사채·파생상품 부채·SAFE의 공정가치 변동'이고 금액은 723억 8,800만 달러입니다. 순손실의 약 90%죠. 전환사채는 나중에 주식으로 바꿔 받을 수 있는 빚이고 SAFE는 투자금을 먼저 넣고 주식은 나중에 받기로 한 계약입니다.\n\n왜 손실이 됐는지는 신고서 각주에 한 문장으로 적혀 있습니다. 앤트로픽은 이 변화가 \"주로 기업 가치가 오르면서 전환사채의 공정가치가 커졌기 때문\"이라고 썼습니다. 남은 약 77억 달러는 그 밖의 영업외 비용 87억 5,700만 달러에서 이자 수익 등을 뺀 몫인데, 신고서를 읽은 분석가들에 따르면 이것도 대부분 투자 계약과 관련된 비용입니다.\n\n구조는 이렇습니다. 앤트로픽은 투자자에게 돈을 빌리며 나중에 이 빚을 주식으로 바꿔 주겠다고 약속했습니다. 회사 가치가 10배가 되면 바꿔 줄 주식의 값도 10배가 되죠. 회계 기준은 이 빚을 지금 값으로 다시 재서 장부에 적게 합니다. 갚아야 할 몫이 커진 만큼을 손실로 잡는 겁니다.\n\n솔직히 처음엔 거꾸로 읽었습니다. 회사가 잘될수록 손실이 커진다니요. 그런데 작년 숫자도 같은 모양이었습니다. 2025년 한 해 전체로 보면 앤트로픽 순손실 419억 6,500만 달러 가운데 343억 800만 달러가 같은 평가손실이었고 영업손실은 80억 6천만 달러였어요.\n\n앤트로픽 | 2025년 1~6월 | 2026년 1~6월\n매출 | 11억 6천만 달러 | 162억 9천만 달러\n영업손실 (본업) | 21억 3,500만 달러 | 6억 9,300만 달러\n전환사채 등 평가손실 | 109억 4,200만 달러 | 723억 8,800만 달러\n순손실 | 129억 6,900만 달러 | 807억 4,800만 달러\n\n이 손실 때문에 앤트로픽 금고에서 현금이 빠져나간 건 아닙니다. 6월 말 앤트로픽은 현금과 단기 투자 자산 1,316억 5,100만 달러를 들고 있었고 그때까지 투자자에게 모은 돈은 모두 1,411억 달러였습니다.\n\n[사진: 지폐를 용도별로 나눠 담는 손]\n\n■ 같은 가치 상승이 아마존 장부에는 이익으로 잡혔습니다\n\n여기서 이상한 게 하나 있습니다. 앤트로픽 장부의 손실이 다른 회사 장부에서는 이익으로 보인다는 점이에요. 앤트로픽에 투자한 아마존이 대표적입니다.\n\n아마존이 7월 30일 내놓은 2분기 실적을 보면 순이익은 626억 달러로 1년 전 182억 달러의 3배가 넘었습니다. 그런데 본업에서 번 영업이익은 274억 6천만 달러였어요. 차이를 메운 건 세전 534억 달러의 영업외 기타이익인데, 아마존은 이 돈이 \"주로 앤트로픽 투자에서\" 나왔다고 실적 발표에 적었습니다.\n\n[사진: 아마존 2분기 영업이익과 앤트로픽 평가이익]\n\n구글의 모회사 알파벳도 비슷합니다. 포춘은 4월 30일 기사에서 알파벳의 1분기 순이익 가운데 약 287억 달러가 비상장 회사 지분을 다시 평가해 생긴 이익이고, 그 대부분이 앤트로픽 몫이라고 짚었습니다.\n\n한쪽 장부에는 723억 달러 손실, 다른 쪽 장부에는 수백억 달러 이익. 계약 종류와 금액은 다르지만 둘 다 현금이 오가지 않았고 원인은 같습니다. 앤트로픽 기업 가치가 올랐다는 사실이죠.\n\n■ 앤트로픽이 지금 하고 있는 일과 시장이 걱정하는 빈칸\n\n앤트로픽은 나스닥에 'ANT'라는 이름으로 상장하려 합니다. 주관사는 골드만삭스와 모건스탠리이고 공모가 범위와 주식 수는 아직 신고서에서 비어 있어요. 월스트리트저널은 앤트로픽이 11월 16일 주간 상장을 목표로 하고 기업 가치 1조 5천억~2조 달러에 1,000억 달러 이상을 모을 수 있다고 보도했습니다.\n\n본업도 좋아지고 있습니다. 블룸버그와 파이낸셜타임스에 따르면 앤트로픽은 투자자들에게 3분기 매출이 168억 달러였고 그 분기 현금 흐름이 플러스였다고 알렸습니다. 다만 이 숫자는 아직 신고서에 들어간 숫자가 아닙니다.\n\n반대 시각도 분명합니다. 첫째는 매출을 잡는 방식이에요. 신고서를 읽은 분석가들은 아마존·구글 클라우드 장터를 거쳐 들어온 매출을 수수료를 빼기 전 금액으로 잡는다는 점을 짚었습니다. 고객이 장터에서 100달러를 내면 장터 수수료를 떼기 전 100달러 전부가 앤트로픽 매출이 되고 수수료는 비용으로 따로 적힌다는 얘기예요. 판매·마케팅·제휴 비용은 1년 만에 1억 2천만 달러에서 31억 6,800만 달러로 26배가 됐습니다.\n\n둘째는 컴퓨팅 약속입니다. 신고서는 앞으로 낼 컴퓨팅·인프라 약정 합계를 아직 빈칸으로 남겼습니다. 월스트리트저널은 초안 기준으로 협상 중인 계약까지 최대 7,500억 달러라고 보도했어요. 여러 해에 걸쳐 나눠 낼 돈이긴 하지만 6월 말 현금 1,316억 달러의 약 5.7배입니다.\n\n셋째는 가격입니다. 3분기 매출 168억 달러에 4를 곱해 1년치로 바꾸면 672억 달러인데, 보도된 기업 가치 2조 달러는 1년 매출의 약 30배입니다. 이 배수가 적당한지는 저도 아직 확신이 없습니다. 매출이 지금처럼 빨리 늘면 몇 년 뒤엔 낮은 배수가 되고 신고서 스스로 \"성장률이 낮아질 수 있다\"고 적은 대로라면 높은 배수예요.\n\n[사진: 지갑에서 지폐를 꺼내는 손]\n\n■ 이번 주 아마존 실적에서 앤트로픽 평가이익부터 봅니다\n\n다음에 볼 숫자는 두 개입니다. 하나는 10월 29일 아마존 3분기 실적에서 앤트로픽 투자로 잡은 영업외 이익이 얼마인지입니다. 상장을 앞두고 앤트로픽 기업 가치가 또 올랐다면 아마존 순이익은 다시 본업보다 크게 부풀 수 있어요. 그래서 저는 아마존 주가 전망을 볼 때 순이익보다 영업이익 줄을 먼저 봅니다.\n\n다른 하나는 앤트로픽이 곧 낼 수정 신고서입니다. 공모가 범위와 3분기 재무 숫자, 그리고 비어 있는 컴퓨팅 약정 합계가 들어갑니다. 저는 약정 합계를 현금과 나란히 놓아 볼 생각입니다.\n\n■ 내 종목 순이익에 남의 회사 가치가 섞였는지 확인합니다\n\n내 종목에 적용하는 방법은 단순합니다. 실적 발표에서 영업이익과 순이익을 나란히 놓고 차이가 크면 그 사이 줄을 읽어 보세요. '영업외 이익', '투자 평가이익', '공정가치 변동' 같은 말이 보이면 그 이익은 본업이 아니라 다른 회사 값이 오르내린 결과입니다. 내년에 반대로 움직일 수도 있죠.\n\n두 번째는 이익 가운데 현금으로 들어온 비율입니다. 저는 이 비율을 밸류노트 기업 화면에서 보는데, 10월 24일 기준 아마존은 이익의 21%만 현금으로 들어와 '현금 전환 약함'으로 감점돼 있었습니다. 데이터센터 설비투자가 크거나 평가이익처럼 현금 없는 이익이 커지면 이 비율은 내려갑니다. 밸류노트 적정 주가도 워렌 버핏 방식대로 실제로 남는 현금을 기준으로 계산하기 때문에 이런 이익은 거의 반영되지 않아요.\n\n[사진: 아마존 재무 점수와 현금 전환율]\n\n807억 달러라는 숫자만 보고 놀랐다면 그 아래 6억 9천만 달러를 한 번 더 보셨으면 합니다. 반대로 아마존의 626억 달러를 보고 감탄했다면 그 안의 534억 달러도요. 여러분 종목의 지난 분기 순이익에는 무엇이 섞여 있었나요?\n\n— Editor: Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 앤트로픽 숫자는 2026년 10월 26일 제출된 증권신고서(S-1, 확정 전 문서) 기준이고, 3분기 매출 168억 달러와 현금 흐름은 블룸버그·파이낸셜타임스 보도, 상장 일정·기업 가치·컴퓨팅 약정 최대 7,500억 달러는 월스트리트저널 보도입니다. 아마존 숫자는 2026년 2분기 실적 발표, 알파벳 숫자는 포춘(4월 30일) 기준입니다. 아마존 현금 전환율은 밸류노트 2026년 10월 24일 계산이며 미래 주가를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -128,4 +133,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261027x", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 메타는 공짜 인스타그램으로 어떻게 석 달에 631억 달러를 벌까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">메타는 공짜 인스타그램으로 어떻게 석 달에 631억 달러를 벌까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 7장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -107,6 +111,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261022x/01.png" download="valuenote-b261022x-1.png"><img src="https://www.valuenote.co.kr/naver/b261022x/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022x/02.jpg" download="valuenote-b261022x-2.jpg"><img src="https://www.valuenote.co.kr/naver/b261022x/02.jpg" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022x/04.png" download="valuenote-b261022x-3.png"><img src="https://www.valuenote.co.kr/naver/b261022x/04.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022x/03.png" download="valuenote-b261022x-4.png"><img src="https://www.valuenote.co.kr/naver/b261022x/03.png" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022x/g1.gif" download="valuenote-b261022x-5.gif"><img src="https://www.valuenote.co.kr/naver/b261022x/g1.gif" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022x/05.jpg" download="valuenote-b261022x-6.jpg"><img src="https://www.valuenote.co.kr/naver/b261022x/05.jpg" alt="사진 6" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261022x/06.png" download="valuenote-b261022x-7.png"><img src="https://www.valuenote.co.kr/naver/b261022x/06.png" alt="사진 7" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 태블릿 화면을 들여다보는 사람]\n\n3줄 요약\n· 메타는 인스타그램·페이스북을 공짜로 열어 두고, 그 화면에 광고를 붙여 돈을 법니다. 올해 7~9월 석 달 광고 매출이 631억 달러로 전체 매출의 98%였습니다.\n· 하루 36억 4천만 명이 쓰니, 한 사람에게 석 달에 17달러 남짓을 번 셈입니다. 그런데 그중 9.6달러꼴을 다시 AI 데이터센터와 서버에 넣었습니다.\n· 그래서 번 현금보다 쓴 돈이 많아졌고, 워렌 버핏 방식으로 계산한 적정 주가는 503.54달러이고, 지금 주가 642.62달러는 적정 주가보다 28% 높습니다.\n\n메타의 3분기 실적 자료를 보면서 제가 가장 먼저 해 본 계산은 나눗셈 두 번이었습니다. 광고 매출을 하루 이용자 수로 나누니 한 사람에게 석 달에 17달러 남짓이 나왔습니다. 같은 기간 설비투자를 같은 수로 나누니 9.6달러였습니다. 이 두 숫자가 어떻게 나왔는지 따라가 보려고 이 글을 씁니다.\n\n인스타그램 릴스를 넘기다 보면 몇 개에 하나씩 광고가 끼어 있습니다. 그런데 우리는 인스타그램에 돈을 한 푼도 내지 않습니다. 그러면 메타는 어디서 돈을 벌고, 그 돈을 왜 요즘 AI 데이터센터에 쏟아붓고 있을까요.\n\n■ 인스타그램 이용료는 광고주가 대신 내고 있습니다\n\n메타 매출의 98%는 광고입니다. 올해 7~9월 석 달 매출 646억 달러 가운데 631억 달러가 광고에서 나왔습니다. 우리가 내는 것은 돈이 아니라 시간과 관심이고, 그 관심을 사려는 회사들이 메타에 광고비를 냅니다.\n\n광고 장사가 커지려면 광고를 더 많이 보여 주거나, 한 번 보여 줄 때 더 비싸게 받아야 합니다. 이번 분기 메타는 둘 다 했습니다. 1년 전보다 광고를 보여 준 횟수가 10% 늘었고, 광고 한 번의 평균 값은 14% 올랐습니다. 저는 횟수보다 값이 더 많이 올랐다는 점이 눈에 들어왔습니다. 내 취향을 잘 맞힐수록 광고주가 값을 더 쳐 준다는 뜻이기 때문입니다.\n\n메타의 앱(페이스북·인스타그램·왓츠앱·메신저)을 하루에 한 번 이상 쓰는 사람은 9월 평균 36억 4천만 명입니다. 광고 매출을 이 숫자로 나누면 한 사람에게 석 달에 17달러 남짓, 우리 돈으로 2만 3천 원쯤입니다. 커피 다섯 잔 값을 내 대신 광고주가 내 준 셈입니다.\n\n[사진: 지폐를 세는 기계]\n\n■ 한 사람에게 번 17달러 가운데 9.6달러가 데이터센터로 갔습니다\n\n이번 분기 메타가 데이터센터와 서버 같은 설비에 쓴 돈은 349억 달러로, 1년 전 194억 달러보다 80% 늘었습니다. 하루 이용자 한 사람으로 나누면 석 달에 9.6달러꼴입니다.\n\n17달러를 벌어 9.6달러를 다시 넣었습니다. 솔직히 의외였습니다.\n\n마크 저커버그는 이번 실적 발표에서 '모두를 위한 개인 초지능'에 다가가고 있다고 말했고, 메타는 핵심 광고 사업과 새 AI 서비스를 위해 계속 공격적으로 투자하겠다고 밝혔습니다. 반대로 9월 말 직원 수는 66,775명으로 1년 전보다 15% 줄었습니다. 사람보다 기계에 돈을 쓰는 회사가 된 것입니다.\n\n지난번 스페이스X 글에서 첫 흑자를 낸 분기에 순이익의 4.5배를 설비에 쓴 이야기를 했는데, 메타도 같은 AI 설비 경쟁 한가운데 있습니다. 올해 전체 설비투자 계획은 1,350억~1,450억 달러이고, 문제는 이 돈이 버는 속도보다 빨리 나간다는 점입니다.\n\n[사진: 메타 3분기 번 현금과 설비투자]\n\n■ 번 현금보다 쓴 돈이 21억 달러 많아졌습니다\n\n메타가 석 달 동안 영업으로 번 현금은 328억 달러였는데, 설비에 349억 달러를 썼습니다. 1년 전에는 번 현금에서 설비투자를 빼고도 106억 달러가 남았는데, 이번에는 21억 달러가 모자랐습니다. 월급보다 카드값이 많이 나온 달과 비슷합니다.\n\n돈의 흐름도 달라졌습니다. 1년 전 3분기에는 33억 달러어치 자기 회사 주식을 사들였지만 올해 3분기에는 한 주도 사지 않았습니다. 장기 빚은 올해 9개월 동안(작년 말 587억 달러 → 9월 말 809억 달러) 222억 달러 늘었습니다. 같은 날 메타는 의결권이 없는 새 주식(C주식)을 만들고, 쓰임새로 자금 조달·직원 보상·인수를 꼽았습니다. 다만 9월 말 현금과 유가증권이 824억 달러라 당장 급한 회사는 아닙니다.\n\n처음 실적 기사에서 '영업이익 37% 감소'라는 제목을 봤을 때, 저는 광고 장사가 꺾였나 했습니다. 그런데 숫자를 펼쳐 보니 이유는 따로 있었습니다. 미국 주 검찰총장들과 맺은 청소년 소송 합의 비용 99억 달러가 이번 분기에 한꺼번에 잡혔습니다. 1년 전 일회성 세금 비용과 이번 소송 비용을 모두 빼면, 1주당 이익은 7.25달러에서 7.40달러로 약 2% 늘었습니다.\n\n그래서 저는 오래 남는 숫자가 한 번 나가고 끝나는 소송 비용이 아니라, 해마다 다시 나가는 설비투자라고 봅니다.\n\n[사진: 메타 3분기 주당순이익 비교]\n\n[사진: 푸른 조명의 데이터센터 복도]\n\n■ 4년 전에도 시장은 메타의 씀씀이에 놀랐습니다\n\n메타가 큰돈을 쓴다고 시장이 놀란 것은 이번이 처음이 아닙니다. CNBC에 따르면 2022년 10월 27일 메타 주가는 하루에 24.5% 빠져 97.94달러로 마감했습니다. 2016년 이후 가장 낮은 값이었습니다. 그해 가상현실 사업(리얼리티 랩스)에서만 94억 달러를 잃고 있었고, 모건스탠리는 늘어나는 지출을 이유로 투자 의견을 낮췄습니다.\n\n그 일주일 전인 2022년 10월 20일 주가는 131.53달러였습니다. 지금 밸류노트 공식에 그때까지 나온 결산과 그날 주가를 넣어 다시 계산하면, 그때 메타는 92점이었습니다. 1년에 버는 돈을 9년 남짓만 모으면 주가가 되던 시절입니다. 그날 1억 원을 넣었다면 올해 10월 20일 기준 배당까지 약 4억 9천만 원이 됐습니다. 같은 날 코스피에 넣은 1억 원은 약 2억 5천만 원이었습니다.\n\n[사진: 돌아가는 기계 장치]\n\n■ 워렌 버핏 방식으로 계산한 적정 주가는 503.54달러입니다\n\n지금 메타의 적정 주가는 503.54달러로, 10월 24일 기준 주가 642.62달러가 적정 주가보다 28% 고평가돼 있습니다. 최근 이익에서 출발해, 지난 성장 속도는 4분의 3만, 그것도 1년에 12%까지만 앞으로 이어진다고 쳤습니다. 지금 주가는 1년에 버는 돈을 27년 넘게 모아야 닿는 값입니다. 4년 전의 9년과는 사뭇 다릅니다.\n\n저는 이런 회사를 볼 때 밸류노트에서 재무 점수와 가격 점수를 따로 떼어 보는데, 메타는 둘이 크게 갈립니다. 밸류노트 점수는 지금 56점이고, 회사가 돈을 얼마나 잘 버는지 보는 재무 점수는 94점으로 여전히 최상위권입니다. 지금 가격이 적정 주가에 비해 얼마나 낮은지 보는 가격 점수는 30점입니다. 회사는 여전히 잘 벌고, 달라진 것은 가격입니다.\n\n[사진: 메타 플랫폼스 밸류노트 점수]\n\n워렌 버핏은 1986년 주주 서한에서 주주에게 정말 남는 돈은 이익에서 사업을 지키려고 꼭 다시 넣어야 하는 설비투자를 뺀 돈이라고 썼습니다. 메타 주주라면 다음 실적에서 이익 한 줄보다 '번 현금에서 설비투자를 뺀 돈'이 다시 플러스로 돌아오는지를 먼저 볼 만합니다.\n\n데이터센터가 광고 단가를 계속 올려 줄지는 저도 아직 확신이 없습니다. 이번 분기 14% 상승은 아직 한 분기의 숫자입니다.\n\n인스타그램 광고 하나하나가 모여 석 달에 631억 달러가 되고, 메타는 그 절반 넘는 돈을 데이터센터에 쓰고 있습니다. 이 투자가 몇 년 뒤 광고 단가를 올려 매출을 더 키울지, 이익만 깎을지, 여러분은 어느 쪽으로 보시나요?\n\n— Editor: Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 메타 숫자는 2025년·2026년 3분기 실적 발표 기준이고, 적정 주가와 점수는 10월 24일 데이터 기준 밸류노트 계산입니다. 4년 전 점수는 2022년 10월 20일까지 나온 결산과 그날 종가를 지금 공식에 넣어 다시 계산한 값이며, 수익은 10월 20일 기준·배당 포함·원화 환산(환율 손익 포함)·세전·수수료 제외 금액입니다. 미래 주가를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -118,4 +123,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261022x", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

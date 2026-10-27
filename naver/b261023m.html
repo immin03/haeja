@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 미국 주식 닷컴버블 이후 최고 고평가, 그때 넣은 1억 원은 10년 뒤 얼마였을까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">주간 시장 정리</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">미국 주식 닷컴버블 이후 최고 고평가, 그때 넣은 1억 원은 10년 뒤 얼마였을까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 7장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -119,6 +123,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261023m/01.png" download="valuenote-b261023m-1.png"><img src="https://www.valuenote.co.kr/naver/b261023m/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261023m/02.png" download="valuenote-b261023m-2.png"><img src="https://www.valuenote.co.kr/naver/b261023m/02.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261023m/03.jpg" download="valuenote-b261023m-3.jpg"><img src="https://www.valuenote.co.kr/naver/b261023m/03.jpg" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261023m/g1.gif" download="valuenote-b261023m-4.gif"><img src="https://www.valuenote.co.kr/naver/b261023m/g1.gif" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261023m/04.png" download="valuenote-b261023m-5.png"><img src="https://www.valuenote.co.kr/naver/b261023m/04.png" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261023m/06.png" download="valuenote-b261023m-6.png"><img src="https://www.valuenote.co.kr/naver/b261023m/06.png" alt="사진 6" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261023m/05.jpg" download="valuenote-b261023m-7.jpg"><img src="https://www.valuenote.co.kr/naver/b261023m/05.jpg" alt="사진 7" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 구름 위로 보이는 지구의 대기층]\n\n3줄 요약\n· 미국 주식 대표 지수 S&P 500의 실러 PER(10년 평균 이익으로 잰 PER)은 10월 22일 40.58배로, 1871년 이후 평균 17.44배의 2.3배입니다. 이보다 높았던 때는 닷컴버블뿐입니다.\n· 비슷한 값이던 1999년 12월에 넣은 1억 원은 10년 뒤 약 7,800만 원이었고, 2021년 11월에 넣은 1억 원은 8,000만 원까지 줄었다가 지금 약 1억 6,400만 원입니다.\n· 1999년엔 미국 국채 이자가 주식이 버는 이익보다 많았고 2021년엔 반대였습니다. 지금은 1억 원 기준 국채 이자 495만 원, 주식 이익 378만 원입니다.\n\n10월 22일 S&P 500의 실러 PER이 40.58배로 나온 것을 보고 이 글을 쓰기 시작했습니다. '미국 증시 고평가'라는 말은 어디서나 보이는데 이렇게 고평가일 때 산 사람이 실제로 어떻게 됐는지 숫자로 보여 주는 글은 잘 보이지 않았습니다. 그래서 과거에 실러 PER이 지금과 비슷했을 때 1억 원을 넣었다면 어떻게 됐는지부터 계산해 봤습니다.\n\n■ S&P 500 실러 PER 40.58배, 역사 평균의 2.3배입니다\n\n10월 22일 S&P 500의 실러 PER은 40.58배였습니다. 실러 PER은 주가를 지난 10년 동안 번 돈의 1년 평균(물가 상승분을 뺀 값)으로 나눈 숫자예요. CAPE 지수라고도 부릅니다. 10년 평균을 쓰기 때문에 한 해 이익이 갑자기 늘거나 줄어도 값이 크게 바뀌지 않아서 시장 전체가 고평가인지 볼 때 자주 씁니다.\n\n실러 교수의 자료를 정리한 multpl.com에 따르면 1871년 이후 평균은 17.44배입니다. 지금 값은 그 2.3배입니다. 비유하면 지난 10년 평균 1년에 1,000만 원을 버는 가게를 4억 580만 원에 사는 값이라 그 이익으로 산 돈을 되찾는 데 40년이 걸립니다.\n\n[사진: 실러 PER 고점 네 번 비교]\n\n실러 PER을 만든 사람은 2013년 노벨 경제학상을 공동 수상한 예일대 경제학자 로버트 실러입니다. 미국 공영방송 PBS에 따르면 2000년 3월 그의 책 『비이성적 과열』이 나온 시점은 나스닥 지수의 꼭대기와 겹쳤습니다. '주식이 너무 올랐다'고 경고한 책이 하필 나스닥이 가장 높았던 달에 나온 겁니다.\n\n1871년 이후 156년 동안 실러 PER이 지금보다 높았던 때는 1999년 중반부터 2000년 봄까지, 닷컴 버블이 한창이던 때뿐입니다.\n\n■ 1999년 12월에 넣은 1억 원은 10년 뒤 7,800만 원이었습니다\n\n1999년 12월 S&P 500에 넣은 1억 원은 10년 뒤 약 7,800만 원이 됐습니다. S&P 500 월평균 지수가 1,428에서 1,110으로 22% 내렸습니다. 1999년 12월 실러 PER은 역대 가장 높은 44.19배였습니다.\n\n배당을 다시 투자했다고 쳐도 크게 다르지 않습니다. 운용사 디멘셔널의 집계로 2000~2009년 S&P 500은 배당을 포함해 해마다 0.95%씩 잃었습니다. 1억 원이면 10년 뒤 약 9,100만 원입니다. 미국에서는 이 시기를 '잃어버린 10년'이라고 부릅니다.\n\n[사진: 바다 너머로 해가 뜨는 풍경]\n\n■ 2021년 11월에 넣은 1억 원은 8,000만 원까지 줄었다가 지금 1억 6,400만 원입니다\n\n2021년 11월에 넣은 1억 원은 1년도 안 돼 약 8,000만 원까지 줄었습니다(지수 4,667 → 3,726, 20% 하락). 2021년 11월 실러 PER은 38.58배로 1999년 12월(44.19배)과 비슷하게 높았습니다.\n\n여기까지는 1999년처럼 오래 손해를 볼 것처럼 보였습니다. 그런데 2022년 10월 이후 지수가 다시 올랐습니다.\n\nS&P 500은 10월 22일 7,663까지 올랐고 2021년 11월에 넣은 1억 원은 지금 약 1억 6,400만 원입니다(배당 제외).\n\n이 값에 1억 원을 넣은 때 | 실러 PER | 그 뒤 1억 원은\n1929년 9월 (대공황 직전) | 32.56배 | 10년 뒤 약 4,100만 원\n1999년 12월 (닷컴 버블) | 44.19배 | 10년 뒤 약 7,800만 원\n2021년 11월 | 38.58배 | 1년 뒤 약 8,000만 원, 지금 약 1억 6,400만 원\n2026년 10월 22일 (지금) | 40.58배 | 아직 모릅니다\n\n실러 PER이 비슷하게 높을 때 샀는데 한 번은 10년 뒤 22% 손실, 한 번은 5년이 안 돼 64% 이익입니다. 왜 이렇게 달랐을까요.\n\n[사진: 연기를 뿜으며 하늘로 솟구치는 로켓]\n\n■ 1999년엔 미국 국채 이자가 주식 이익보다 많았고, 2021년엔 반대였습니다\n\n1999년에는 미국 국채 이자가 주식이 버는 이익의 두 배 가까이 됐습니다. 1999년 12월 미국 10년 만기 국채에 1억 원을 넣으면 1년에 628만 원(금리 6.28%)이 나왔고 같은 1억 원어치 미국 주식이 1년에 벌어 준 이익은 337만 원이었습니다.\n\n1억 원어치 주식이 1년에 버는 이익을 비율로 적은 것을 이익수익률이라고 부릅니다. 실러 PER이 아니라 보통 PER(주가 ÷ 최근 1년 이익)을 뒤집은 값입니다. 국채를 사면 주식 이익의 두 배 가까운 이자를 받을 수 있었으니 실러 PER 44배를 주고 주식을 들고 있을 이유가 약했습니다.\n\n2021년 11월은 정반대였습니다. 국채 이자는 1억 원에 156만 원(1.56%)뿐이었고 주식의 이익은 408만 원이었습니다. multpl.com 자료로 계산하면 S&P 500의 주당 이익은 그 뒤 50% 넘게 늘었습니다. 지수가 64% 오르는 동안 PER은 24.52배에서 26.47배로 8%쯤 올랐을 뿐이라 상승의 대부분은 이익이 늘어서 생겼습니다.\n\n그러면 지금은 1999년과 2021년 중 어느 쪽에 가까울까요. 이 부분은 저도 확신이 없습니다.\n\n10월 22일 미국 10년물 국채 금리는 4.95%, 주식의 이익수익률은 3.78%입니다. 1억 원 기준으로 국채 이자 495만 원, 주식이 버는 이익 378만 원입니다. 3.78%는 최근 1년 이익으로 잰 값이라 실러 PER과는 기준이 다릅니다. 지난번 프랑스 국채 금리 글에서 미국 기업 214곳의 PER 중앙값으로 계산했을 때도 1년 이익이 국채 이자보다 적었습니다. 국채 이자가 주식 이익보다 많다는 점은 1999년에 가깝습니다. 다만 2021년 이후처럼 기업 이익이 50% 넘게 늘어난다면 결과는 달라질 수 있습니다.\n\n[사진: 미국 10년물 금리와 이익수익률]\n\n■ 미국 회사 209곳 가운데 적정 주가 아래는 8곳뿐입니다\n\n밸류노트가 적정 주가를 계산하는 미국 회사 209곳 중 주가가 적정 주가보다 낮은 곳은 8곳입니다(10월 17일 데이터). 136곳은 적정 주가의 2배가 넘는 값에 거래되고 중앙값은 적정 주가의 2.6배입니다.\n\n209곳 가운데 8곳은 솔직히 의외였습니다.\n\n적정 주가는 워렌 버핏·벤저민 그레이엄의 방식으로 회사가 버는 돈과 그 꾸준함을 따져 계산한 값입니다. 애플은 10월 17일 주가 343.99달러가 적정 주가 78.50달러의 4.4배이고, 1억 원어치 애플이 1년에 버는 이익은 약 220만 원(PER 46.1배)으로 국채 이자의 절반이 안 됩니다. 재무 점수는 91점인데 가격 점수는 0점입니다. 좋은 회사인지와 지금 주가가 적정한지는 따로 따져야 했습니다.\n\n[사진: 적정 주가 대비 주가 분포 미국과 한국]\n\n한국은 코스피가 고점보다 39% 내려왔는데도 128곳 중 58곳(45%)이 적정 주가의 3배 이상입니다. 대신 적정 주가 아래인 곳도 29곳(23%)으로 미국(8곳, 4%)보다 훨씬 많습니다.\n\n■ 내 미국 주식이 1억 원당 1년에 얼마를 버는지 계산해 봅니다\n\n계산은 한 줄입니다. 100을 그 회사의 PER로 나누면 1억 원어치 주식이 1년에 버는 이익이 퍼센트로 나옵니다. PER 25배면 4%, 1억 원에 400만 원입니다. 이 금액이 미국 국채 이자 495만 원보다 적다면 앞으로 이익이 그 차이 이상 늘어날 회사인지 따져 봐야 합니다.\n\n저는 이런 숫자를 밸류노트에서 확인하는데 다섯 개 시장 584곳 가운데 적정 주가 아래인 81곳이 어느 시장에 있는지는 시장별 저평가 순위에서 볼 수 있습니다.\n\n시장별 저평가 순위 보기 → https://www.valuenote.co.kr/?tab=value&mkt=ALL&utm_source=naver-blog\n\n[사진: 커피 머신에서 커피가 내려지는 모습]\n\n다음 주 28일에는 미국 FOMC가 금리를 정하고 11월 10일에는 미국 10월 소비자물가가 나옵니다. 둘 다 미국 국채 금리를 움직일 수 있는 날입니다. 그 전에 갖고 계신 미국 주식의 PER로 1억 원당 1년 이익을 한 번 계산해 보시면 어떨까요.\n\n— Editor: Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 실러 PER·PER·S&P 500 월별 값은 Robert Shiller 자료를 정리한 multpl.com, 10년물 금리 월평균은 미국 연준 자료(FRED), 배당 포함 수익률은 Dimensional 집계, 기업 숫자는 10월 17일 데이터 기준 밸류노트 계산입니다. 1억 원 환산은 배당·세금·수수료·환율을 뺀 지수 기준 단순 계산이며 미래를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -130,4 +135,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261023m", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

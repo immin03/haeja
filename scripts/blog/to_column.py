@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """네이버 블로그 글(naver/<id>/post.json)을 사이트 칼럼(docs trends col-*) 데이터로 바꾼다.
 
-사용: python3 scripts/blog/to_column.py naver/<id> <YYYY-MM-DD> > /tmp/col.json
+사용: python3 scripts/blog/to_column.py naver/<id> <YYYY-MM-DD> [b|c] > /tmp/col.json
   - 블로그 본문을 그대로 옮긴다(문장 수정 없음). 제목·요약·소제목·문단·표·이미지 순서 유지.
   - 표지(cover)는 data.cover로, 끝 배너(href 있는 이미지)·태그·고지 문구 중복은 뺀다.
-  - 칼럼 id = col-<날짜>b (주간 칼럼 col-<날짜>와 겹치지 않게).
+  - 칼럼 id = col-<날짜>b (그날 두 번째 블로그 글은 c). 주간 칼럼 col-<날짜>와 겹치지 않게.
+운영자 결정(2026-10-27): 매일 블로그 2편(점심·저녁)을 모두 칼럼에 그대로 올린다.
 운영자 결정(2026-10-26): "블로그 내용을 그대로 칼럼에 올려 주면 돼. 하루에 하나, 이틀에 하나."
 """
 import json, sys, os, datetime
@@ -14,7 +15,7 @@ SERIES = {'기업 분석': 'company', '거장의 투자': 'giants', '투자 상�
           '밸류노트 사용법': 'guide', '주간 시장 정리': 'weekly'}
 
 
-def convert(d, date):
+def convert(d, date, suf='b'):
     pid = os.path.basename(os.path.normpath(d))
     p = json.load(open(os.path.join(d, 'post.json')))
     out, cover = [], None
@@ -49,7 +50,7 @@ def convert(d, date):
         if s.startswith('http') and s not in srcs:
             srcs.append(s)
     return {
-        'id': f'col-{date}b',
+        'id': f'col-{date}{suf}',
         'data': {
             'title': p['title'], 'body': body, 'cover': cover,
             'at': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -60,4 +61,4 @@ def convert(d, date):
 
 
 if __name__ == '__main__':
-    print(json.dumps(convert(sys.argv[1], sys.argv[2]), ensure_ascii=False))
+    print(json.dumps(convert(sys.argv[1], sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else 'b'), ensure_ascii=False))

@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 구찌는 매출이 43% 줄었는데 이익은 왜 74%나 줄었을까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">구찌는 매출이 43% 줄었는데 이익은 왜 74%나 줄었을까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 6장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -113,6 +117,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261025x/01.png" download="valuenote-b261025x-1.png"><img src="https://www.valuenote.co.kr/naver/b261025x/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261025x/02.jpg" download="valuenote-b261025x-2.jpg"><img src="https://www.valuenote.co.kr/naver/b261025x/02.jpg" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261025x/03.png" download="valuenote-b261025x-3.png"><img src="https://www.valuenote.co.kr/naver/b261025x/03.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261025x/04.png" download="valuenote-b261025x-4.png"><img src="https://www.valuenote.co.kr/naver/b261025x/04.png" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261025x/05.jpg" download="valuenote-b261025x-5.jpg"><img src="https://www.valuenote.co.kr/naver/b261025x/05.jpg" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261025x/g1.gif" download="valuenote-b261025x-6.gif"><img src="https://www.valuenote.co.kr/naver/b261025x/g1.gif" alt="사진 6" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 밤의 번화가 교차로를 건너는 사람들]\n\n3줄 요약\n· 구찌를 가진 프랑스 회사 케링의 주가는 10월 23일 파리 증시에서 16.57% 떨어져 178.12유로에 마감했습니다. 3분기 전체 매출은 시장 예상과 거의 같았지만, 구찌 매출은 1년 전보다 6% 줄었습니다(환율 영향을 뺀 기준).\n· 구찌는 2022년 매출 100원마다 본업에서 약 36원을 남겼는데, 2025년에는 약 16원이었습니다. 3년 동안 매출은 43% 줄었고 본업 이익은 74% 줄었습니다.\n· 매출보다 이익이 더 빨리 줄어든 데에는 매장 임대료와 인건비처럼 덜 팔려도 잘 줄지 않는 비용이 크게 작용했습니다. 케링은 지난 4월 2030년까지의 구찌 회복 계획(매장 정리, 핵심 가방 강화, 영업이익률 두 배)을 내놨고, 새 디자이너 뎀나의 첫 컬렉션은 9월에야 매장에 다 깔렸습니다.\n\n10월 23일 케링 주가가 하루에 16.57% 빠졌다는 기사를 보고 저는 처음에 구찌 매출이 크게 무너진 줄 알았습니다. 그런데 실적 자료를 열어 보니 3분기 그룹 매출은 시장 예상과 거의 같았어요. 그래서 구찌의 지난 5년 실적을 표로 놓고 계산해 봤습니다. 매출이 43% 줄어든 3년 동안 본업 이익은 74% 줄어 있더군요. 매출은 43% 줄었는데 이익은 왜 74%나 줄었을까. 그게 궁금해서 이 글을 씁니다.\n\n■ 케링 매출은 예상대로였는데 주가는 하루에 16.57% 빠졌습니다\n\n서울신문은 케링 역사상 가장 큰 하락이라고 전했고 로이터도 사상 최악의 하루라고 썼습니다. 하루 만에 시가총액이 약 6분의 1 줄었습니다.\n\n근데 이상한 점이 있습니다. 전날 저녁 발표된 3분기 매출은 생각보다 나쁘지 않았거든요.\n\n케링의 3분기 전체 매출은 33억 4,500만 유로로 시장이 예상한 약 33억 4천만 유로와 거의 같았습니다. 그런데 브랜드별로 나눠 보면 얘기가 달라요. 구찌는 12억 9,100만 유로로 1년 전보다 6% 줄었고 구찌 직영 매장 매출은 9% 줄었습니다. 회사는 실적 설명회에서 10월 매출 추세도 3분기와 대체로 비슷하다고 했고요.\n\n[사진: 붉은 옷을 입고 우산을 든 사람]\n\n■ 케링 본업 이익의 59%가 구찌에서 나옵니다\n\n2025년 케링의 본업 이익 16억 3,100만 유로 가운데 9억 6,600만 유로를 구찌가 벌었습니다. 본업 이익은 일회성 항목을 뺀 반복 영업이익을 말해요. 생로랑, 보테가 베네타 같은 브랜드가 함께 있지만 회사 이익의 절반 넘게를 한 브랜드가 책임지는 구조입니다. 그래서 구찌 매출이 몇 퍼센트만 줄어도 케링 전체 이익이 크게 줄어듭니다.\n\n■ 3년 동안 매출은 43%, 본업 이익은 74% 줄었습니다\n\n구찌 매출은 2022년 104억 8,700만 유로에서 2025년 59억 9,200만 유로로 43% 줄었습니다. 같은 기간 본업 이익은 37억 3,200만 유로에서 9억 6,600만 유로로 74% 줄었고요. 이익이 매출보다 약 1.7배 빠르게 줄었습니다.\n\n솔직히 의외였습니다. 매출이 반 가까이 줄었으니 이익도 반쯤 줄었겠거니 했는데 4분의 3이 사라져 있었으니까요.\n\n구찌 연간 실적 | 매출 | 본업 이익 | 100원어치 팔 때 남은 돈\n2021년 | 97억 3,100만 유로 | 37억 1,500만 유로 | 약 38원\n2022년 | 104억 8,700만 유로 | 37억 3,200만 유로 | 약 36원\n2023년 | 98억 7,300만 유로 | 32억 6,400만 유로 | 약 33원\n2024년 | 76억 5,000만 유로 | 16억 500만 유로 | 약 21원\n2025년 | 59억 9,200만 유로 | 9억 6,600만 유로 | 약 16원\n\n[사진: 구찌 연간 매출과 본업 이익]\n\n2023년까지는 매출이 조금 줄어도 100원당 33원 넘게 남겼습니다. 매출이 크게 꺾인 2024년부터 남는 돈은 21원, 16원으로 빠르게 내려갔습니다.\n\n[사진: 구찌 실제 매출 감소와 본업 이익 감소]\n\n■ 매장 임대료와 인건비는 가방이 덜 팔려도 그대로 나갑니다\n\n매출보다 이익이 더 크게 줄어드는 큰 이유 가운데 하나는 매출이 줄어도 잘 줄지 않는 비용입니다. 가방을 만드는 가죽값처럼 덜 팔면 같이 줄어드는 비용이 있고 번화가 매장의 임대료와 직원 월급처럼 덜 팔아도 거의 그대로 나가는 비용이 있죠. 뒤쪽을 고정비라고 부릅니다.\n\n지난번 게티이미지 글에서는 매출이 4.5% 늘었는데도 이자 부담에 주주 몫이 사라진 회사를 봤습니다. 구찌는 경우가 다릅니다. 이자를 내기 전, 본업 이익 단계에서 이미 매출보다 훨씬 크게 줄었으니까요.\n\n[사진: 계산기를 두드리는 손]\n\n■ 구찌가 꺼낸 카드는 새 디자이너, 대표 가방, 매장 정리입니다\n\n케링은 지난 4월 16일 이탈리아 피렌체에서 2030년까지의 회복 계획을 발표했습니다. 지난해 취임한 루카 데 메오 최고경영자는 그룹 영업이익률을 2025년 11.1%에서 중기적으로 두 배로 올리겠다고 했습니다. 구찌에 대해서는 새로 만들기보다 원래 강점에 다시 집중하겠다는 방향을 내세웠습니다.\n\n구체적인 숫자도 있습니다. 구찌의 대표 가방(아이코닉 라인)이 가죽 제품 매출에서 차지하는 비중을 지금 10%에서 2030년 20%로 올리고 구찌 가죽 제품 매출을 2030년까지 10억 유로 넘게 늘리는 것이 목표입니다. 매장은 올해 최소 100곳, 2030년까지 150곳을 더 줄이고 남는 매장의 3분의 2를 새로 고칩니다. 재고는 2025년 9월보다 10억 유로 줄이기로 했습니다.\n\n디자인은 발렌시아가를 이끌던 뎀나가 맡았습니다. 2026년 2월 27일 밀라노에서 연 첫 구찌 쇼 '프리마베라'는 몸에 붙는 관능적인 스타일로, 1990년대 톰 포드 시절 구찌를 떠올리게 한다는 평을 받았습니다. 이 컬렉션은 9월에야 매장에 모두 깔렸습니다. 3분기 매출에 새 디자인 효과가 아직 거의 담기지 않았다는 뜻이기도 합니다.\n\n나쁜 쪽은 매장을 찾는 사람 수입니다. 구찌 직영 매장 매출은 9% 줄었고 회사는 방문객 감소를 가장 큰 이유로 꼽았습니다. 특히 중국 본토와 일본이 어려웠습니다.\n\n좋은 쪽도 있습니다. 매장에 들어온 손님 가운데 실제로 사는 비율과 한 번에 사는 금액, 평균 판매 가격은 올랐습니다. 백화점 등에 넘기는 도매 매출은 45% 늘었는데, 회사는 1년 전 매출이 낮았던 데다 새 컬렉션 주문이 몰린 영향이라고 설명했습니다.\n\n시장의 의심도 큽니다. 로이터 브레이킹뷰스는 4월 계획에 구찌만의 이익률 목표가 없다는 점을 가장 큰 빈칸으로 꼽았습니다. 번스타인의 루카 솔카는 시장이 부활을 믿는 것보다 경영진이 실제로 부활을 만들어 내는 게 더 어렵고 오래 걸린다고 했습니다. 저도 계획보다 숫자로 확인되는 게 먼저라고 봅니다.\n\n■ 제가 다음 실적에서 볼 숫자는 직영 매장 매출과 구찌 이익률입니다\n\n첫째는 직영 매장 매출 감소 폭입니다. 3분기 -9%가 뎀나 컬렉션이 다 깔린 4분기에 줄어드는지가 새 디자인이 통하는지를 보여 줍니다. 둘째는 구찌 이익률입니다. 올해 상반기에 매출이 줄었는데도 100원당 17원으로 1원 늘었습니다. 매장을 줄여 고정비를 덜어 낸 효과가 계속되면, 매출이 조금만 돌아와도 이익은 매출보다 빠르게 늘 수 있습니다. 앞에서 본 고정비가 이번엔 반대 방향으로 작동하는 셈입니다.\n\n케링의 연간 실적은 내년 2월에 나옵니다. 저는 케링 주가의 방향을 말할 생각은 없고 그때 이 두 숫자가 어느 쪽으로 움직였는지 다시 정리해 보겠습니다.\n\n실적 발표를 볼 때 매출 증감률 바로 옆에 영업이익 증감률을 적어 보면 이런 회사가 보입니다. 매출이 5% 줄었는데 영업이익이 20% 줄었다면 고정비 비중이 큰 회사일 수 있으니, 일회성 비용 때문인지만 확인하면 됩니다.\n\n저는 회사가 매출에서 얼마를 남기는지를 밸류노트 재무 점수로 먼저 확인하는 편입니다. 재무 점수는 순이익률과 적자 연도를 함께 따지기 때문에, 내 종목의 이익이 해마다 꾸준한지 한눈에 볼 수 있습니다.\n\n내 종목 재무 점수 확인하기 → https://www.valuenote.co.kr/?utm_source=naver-blog\n\n[사진: 번화가 교차로를 오가는 사람들]\n\n좋아하는 브랜드가 있다면 다음 실적 기사에서 매출 옆에 이익 숫자를 한 번 나란히 적어 보세요. 그 회사는 지금 100원어치 팔아 몇 원을 남기고 있을까요?\n\n— Editor: Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 구찌·케링 실적은 케링 연간 실적 발표(2021~2025년 실적)와 2026년 3분기 매출 발표(10월 22일) 기준이고, 3분기 매출 증감률은 환율·인수합병 영향을 뺀 비교 기준입니다. 주가는 10월 23일 파리 증시 종가 기준 보도입니다. 가상 매장 예시는 이해를 돕기 위한 계산입니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -124,4 +129,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261025x", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>

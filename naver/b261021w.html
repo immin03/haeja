@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 마이크로소프트 주가는 4년 새 2.2배, 매일 쓰는 엑셀 구독료가 다 한 일일까?</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>
 :root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
@@ -20,6 +22,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 #art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
 .small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
 </style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
 <section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
 <li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
@@ -30,6 +33,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
 <li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+
 <section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">마이크로소프트 주가는 4년 새 2.2배, 매일 쓰는 엑셀 구독료가 다 한 일일까?</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 8장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
@@ -113,6 +117,7 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 <div class="ph"><a href="https://www.valuenote.co.kr/naver/b261021w/01.png" download="valuenote-b261021w-1.png"><img src="https://www.valuenote.co.kr/naver/b261021w/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021w/02.jpg" download="valuenote-b261021w-2.jpg"><img src="https://www.valuenote.co.kr/naver/b261021w/02.jpg" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021w/g1.gif" download="valuenote-b261021w-3.gif"><img src="https://www.valuenote.co.kr/naver/b261021w/g1.gif" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021w/05.png" download="valuenote-b261021w-4.png"><img src="https://www.valuenote.co.kr/naver/b261021w/05.png" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021w/04.png" download="valuenote-b261021w-5.png"><img src="https://www.valuenote.co.kr/naver/b261021w/04.png" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021w/03.png" download="valuenote-b261021w-6.png"><img src="https://www.valuenote.co.kr/naver/b261021w/03.png" alt="사진 6" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021w/06.jpg" download="valuenote-b261021w-7.jpg"><img src="https://www.valuenote.co.kr/naver/b261021w/06.jpg" alt="사진 7" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261021w/07.png" download="valuenote-b261021w-8.png"><img src="https://www.valuenote.co.kr/naver/b261021w/07.png" alt="사진 8" loading="lazy"></a></div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
 const PLAIN = "[사진: 해 질 녘 유리 빌딩이 늘어선 도심]\n\n3줄 요약\n· 마이크로소프트는 엑셀·워드·팀즈를 한 번 팔고 끝내는 대신 매달 구독료를 받는 회사가 됐습니다. 2026 회계연도(2025년 7월~2026년 6월)에 순이익 1,337억 달러, 하루에 3억 6,600만 달러꼴을 남겼습니다.\n· 4년 사이 매출은 1.7배, 주식 1주당 이익은 1.9배 가까이 늘었는데 주가는 2.2배가 됐습니다. 같은 1달러 이익에 사람들이 내는 값이 약 24달러에서 29달러로 올라간 몫입니다.\n· 워렌 버핏·벤저민 그레이엄 방식으로 계산한 적정 주가는 375.81달러로, 지금 주가 524.51달러의 10분의 7 수준입니다.\n\n안녕하세요, 밸류노트 에디터 Luciano입니다. 아침에 출근해 엑셀 파일을 열고, 오전 회의는 팀즈로 들어가고, 점심 전에 워드로 보고서를 고칩니다.\n\n그런데 이 프로그램 값은 누가, 얼마나 내고 있을까요? 그리고 그 돈이 모이는 회사의 주가는 왜 돈을 버는 속도보다 더 빨리 올랐을까요? 오늘은 이 두 질문으로 마이크로소프트를 따라가 보겠습니다.\n\n■ 엑셀은 한 번 사는 물건에서 매달 내는 구독이 됐습니다\n\n마이크로소프트는 2011년 6월 28일 오피스를 인터넷으로 빌려 쓰는 구독 서비스 '오피스 365'를 세계에 내놓았습니다. 예전에는 상자에 든 프로그램을 한 번 사서 몇 년씩 썼다면, 이제는 매달 또는 매년 사용료를 내고 씁니다. 지금 이름은 마이크로소프트 365입니다.\n\n회사에서 쓰는 요금을 보면 감이 옵니다. 바이라인네트워크에 따르면 대기업용 요금제(E3)는 2026년 7월 1일부터 직원 한 명당 한 달 36달러에서 39달러로 올랐습니다. 1년이면 직원 한 명에 468달러, 직원 100명인 회사라면 1년에 4만 6,800달러를 냅니다. 가정용도 마찬가지입니다. 마이크로소프트는 2025년 1월 미국에서 개인·가족용 요금을 한 달 3달러 올렸고, 그때 구독자가 약 8,400만 명이라고 밝혔습니다.\n\n한 번 팔고 끝나던 손님이 매달 찾아오는 단골이 된 셈입니다. 값이 올라도 쉽게 끊지 못하는 이유는 우리도 잘 압니다. 10년 치 업무 파일이 전부 엑셀에 들어 있으니까요.\n\n[사진: 사람들이 일하는 넓은 사무실]\n\n■ 매달 받는 돈이 쌓여 하루 3억 6,600만 달러가 남습니다\n\n마이크로소프트는 2026 회계연도에 매출 3,318억 달러, 순이익 1,337억 달러를 냈습니다. 순이익을 365일로 나누면 하루에 3억 6,600만 달러꼴입니다. 100달러어치를 팔면 40달러가 이익으로 남는 장사입니다.\n\n돈이 어디서 오는지도 보입니다. 올해 4~6월 석 달 매출 900억 달러 가운데 오피스·팀즈·링크드인 같은 업무용 프로그램이 378억 달러, 다른 회사에 서버와 저장 공간을 빌려주는 클라우드(애저 등)가 393억 달러였습니다. 애저 매출은 1년 전보다 43% 늘었고, 돈을 내고 AI 비서 코파일럿을 쓰는 자리는 3,000만 개를 넘었습니다.\n\n이렇게 매달 들어오는 돈 덕분에 주주가 맡긴 돈 100원으로 1년에 평균 37원을 법니다(최근 5년 평균). 여기까지는 좋은 소식입니다. 이상한 일은 주가에서 벌어졌습니다.\n\n■ 그런데 주가는 이익보다 빨리 올라 4년 새 2.2배가 됐습니다\n\n4년 전인 2022년 10월 20일 마이크로소프트 주가는 236.15달러였고, 10월 24일 기준 524.51달러입니다. 2.2배입니다. 같은 4년 동안 1년 매출은 1,983억 달러에서 3,318억 달러로 1.7배, 주식 1주당 1년 이익은 9.65달러에서 17.95달러로 1.9배 가까이 늘었습니다. 오픈AI 투자에서 난 일회성 이익(1주당 0.67달러)을 빼면 1.8배입니다.\n\n항목 | 4년 전 | 지금 | 몇 배\n주가 | 236.15달러 | 524.51달러 | 2.2배\n1년 매출 | 1,983억 달러 | 3,318억 달러 | 1.7배\n주식 1주당 1년 이익 | 9.65달러 | 17.95달러 | 1.9배 가까이\n1년 이익을 몇 년 모아야 주가가 되나 | 약 24년 | 약 29년 | 5년 더\n\n주가가 이익보다 더 뛴 몫은 표의 마지막 줄에 있습니다. 4년 전에는 이 회사가 1년에 버는 돈을 약 24년 모으면 주가가 됐는데, 지금은 29년을 모아야 합니다. 빵이 맛있어지는 속도보다 빵집 앞 줄이 길어지는 속도가 더 빨라, 같은 빵에 웃돈이 붙은 셈입니다.\n\n지금 밸류노트 공식에 그때까지 나온 결산과 그날 주가를 넣어 다시 계산하면, 4년 전 마이크로소프트는 63점이었습니다. 그때 1억 원을 넣었다면 배당까지 지금 약 2억 1천만 원입니다. 같은 날 코스피에 넣은 1억 원은 약 2억 5천만 원이 됐습니다. 세계에서 손꼽히는 회사를 샀는데도 코스피에 졌습니다. 그때 가격 점수는 41점으로, 좋은 회사였지만 싸지는 않았습니다. 맛집 줄은 그때도 이미 길었던 셈입니다.\n\n■ AI 데이터센터에 들어가는 돈이 시장의 걱정거리입니다\n\n올해 시장이 가장 많이 걱정한 숫자는 설비투자였습니다. 경제타임스에 따르면 직전 분기에 데이터센터 같은 설비에 쓴 돈이 380억 달러로 1년 전보다 63% 늘었고, 같은 분기 번 현금에서 설비투자를 빼고 남은 돈은 10% 줄었습니다. 월세가 꼬박꼬박 들어와도 건물 리모델링비가 그보다 빨리 나가기 시작한 셈입니다.\n\n주가도 크게 흔들렸습니다. 6월 한 달에만 18.1% 빠졌다가, 7월 30일 하루에 15.5% 올랐고, 10월 13일에는 543.45달러로 사상 최고 종가를 새로 썼습니다.\n\n[사진: 안경에 비친 코드를 들여다보는 눈]\n\n■ 워렌 버핏 방식으로 계산한 적정 주가는 375.81달러입니다\n\n그럼 주식으로는 얼마짜리 회사일까요. 워렌 버핏·벤저민 그레이엄 방식으로 계산한 마이크로소프트의 적정 주가는 375.81달러입니다. 지금 주가 524.51달러는 적정 주가보다 40% 고평가돼 있고, 거꾸로 말하면 적정 주가는 지금 주가의 10분의 7 정도입니다. 계산은 한 줄입니다. 최근 1년 이익에서 출발해, 지난 성장 속도(연 16.8%)는 그대로 믿지 않고 연 12%까지만 앞으로도 이어진다고 쳤습니다.\n\n[사진: 마이크로소프트 지금 주가와 적정 주가]\n\n밸류노트 점수는 48점입니다. 회사가 돈을 얼마나 잘 버는지 보는 재무 점수는 89점으로 거의 모범생인데, 지금 가격이 적정 주가에 비해 얼마나 낮은지 보는 가격 점수는 24점입니다.\n\n[사진: 마이크로소프트 밸류노트 점수]\n\n지금 계산한 적정 주가를 지난 1년 주가 위에 그어 보면, 3월 말~4월 초와 6월 말 20거래일은 주가가 그 선 아래에 있었습니다. 다만 그때는 이익이 지금과 달랐으니, 그때가 저평가였다고 단정할 수는 없습니다.\n\n[사진: 마이크로소프트 1년 주가와 적정 주가]\n\n마이크로소프트 주가 전망을 찾아보면 월가 숫자는 다릅니다. 서울경제에 따르면 블룸버그가 모은 평균 목표주가는 584달러이고, 애널리스트 72명 가운데 68명이 매수 의견입니다. 월가는 데이터센터 투자가 더 큰 이익으로 돌아온다고 보고, 밸류노트는 이미 번 이익에서 출발합니다.\n\n[사진: 해가 지는 대도시의 고층 빌딩 숲]\n\n■ 구독료 기사 한 줄로 이 회사를 읽는 법\n\n주주에게 정말 남는 돈은 이익에서 꼭 다시 넣어야 하는 설비투자를 뺀 돈입니다. 워렌 버핏이 1986년 주주 서한에 쓴 생각입니다. 마이크로소프트에 대 보면 볼 것은 두 가지입니다. '마이크로소프트 365 요금 인상' 같은 기사는 매달 들어오는 돈이 커진다는 신호이고, 실적 발표에서 번 현금에서 설비투자를 빼고 남은 돈이 늘었는지 줄었는지를 보면 그 돈이 다시 얼마나 빠져나가는지 알 수 있습니다.\n\n내일 아침 엑셀을 열 때 한 번쯤 떠올려 보셔도 좋겠습니다. 이 프로그램은 나에게는 업무 도구이고, 마이크로소프트에는 매달 돌아오는 월세입니다. 다만 좋은 월세 건물도 값을 너무 높게 치르면 수익률은 낮아집니다.\n\n— Editor: Luciano\n\n4년 전 63점이던 마이크로소프트에 넣은 1억 원은 지금 약 2억 1천만 원, 지금 점수는 48점입니다. 적정 주가 375.81달러가 어떻게 나왔는지, 재무 점수 89점의 근거가 된 숫자는 밸류노트의 마이크로소프트 분석 화면에서 한 번에 볼 수 있습니다.\n\n[사진: 밸류노트에서 마이크로소프트 분석 보기]\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 점수와 적정 주가는 10월 24일 데이터 기준 밸류노트 공식에 따른 추정치입니다. 4년 전 점수는 2022년 10월 20일까지 나온 결산과 그날 종가를 지금 공식에 넣어 다시 계산한 값이며, 수익은 배당 포함·원화 환산(환율 손익 포함)·세전·수수료 제외 금액입니다. 미래 주가를 보장하지 않습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
@@ -124,4 +129,34 @@ document.getElementById('cpBody').onclick = async (ev) => { const b = ev.current
   try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
   catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261021w", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
 </script></body></html>
