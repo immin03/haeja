@@ -551,8 +551,11 @@ def publish(sid, res, spec):
 def build_description(spec, chapters):
     desc = spec["description"]
     if "Chapters\n" in desc:
-        head, rest = desc.split("Chapters\n", 1); tail = rest.split("\n\n", 1)[1] if "\n\n" in rest else ""
+        head, rest = desc.split("Chapters\n", 1)
+        rest = rest.lstrip("\n")
+        tail = rest.split("\n\n", 1)[1] if (rest and rest[0].isdigit() and "\n\n" in rest) else rest   # 원고에 적어 둔 예시 챕터만 버리고 나머지 문장은 살린다
         desc = head + "Chapters\n" + chapters + "\n\n" + tail
+    desc += "\n\nSome footage is illustrative stock video (Mixkit) and does not show the actual places or people described."
     if spec.get("sources"): desc += "\n\nSources\n" + "\n".join(spec["sources"])
     return desc
 
