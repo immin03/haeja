@@ -1,0 +1,106 @@
+[
+ {
+  "id": "cp_court2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature 1990s Korean courtroom with plain wood-paneled walls and no flags, a tiny Korean judge in a black robe with a wooden gavel at the bench, two rival tables of tiny Korean businessmen in suits each holding up an identical snack like the reference, dramatic but funny mood, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no flags, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_flavors2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "A miniature Russian supermarket aisle in winter, a long shelf of snacks like the reference in colorful flavor boxes without any text, raspberry red, cherry, blackcurrant purple, watermelon green and orange, a tiny smiling human grandmother in a floral headscarf and winter coat choosing a box happily, 3D miniature diorama, tilt-shift photography look, handcrafted clay and painted wood toy world, soft warm studio lighting, shallow depth of field, rich saturated colors, cozy and playful, highly detailed, no text, no letters, no logos, no flags, no watermark",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cpv01_dmz",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp01_dmz.jpeg",
+  "body": {
+   "prompt": "Dozens of small white balloons carrying red snack bundles slowly rise and drift over the barbed-wire fence, searchlights sweep across the misty hills, gentle camera push-in, miniature diorama, tilt-shift, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "v1_store_v2",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/k1_store_v2.jpeg",
+  "body": {
+   "prompt": "Slow smooth camera push-in through the miniature convenience store toward the red box of chocolate snack cakes on the counter, neon lights flicker softly, light rain outside, tilt-shift look, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv03_pie",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp03_pie_v2.jpeg",
+  "body": {
+   "prompt": "The two halves of the chocolate snack cake slowly pull apart, soft white marshmallow stretching in gooey strands, crumbs falling, slow macro camera push-in, appetizing, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv06_factory",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp06_factory_v2.jpeg",
+  "body": {
+   "prompt": "The conveyor belt moves steadily carrying rows of round chocolate snack cakes, tiny workers busily check them, machine dials spin and steam puffs, slow camera pan along the line, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv10_chapel",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp10_chapel_v2.jpeg",
+  "body": {
+   "prompt": "Tiny soldiers in the pews happily munch their chocolate snack cakes, some turning to each other and grinning, sunbeams shimmer through the windows, slow camera dolly forward down the aisle, playful, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv13_train",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp13_train.jpeg",
+  "body": {
+   "prompt": "The miniature steam train chugs forward across the snowy forest, smoke puffing from the chimney, snow falling, warm windows glowing, camera tracking alongside, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv20_office",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp20_office.jpeg",
+  "body": {
+   "prompt": "The giant red rubber stamp slams down onto the red snack box with a thump, papers flutter off the desk, the lamp swings, dramatic and funny, no text",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpv22_hospital",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp22_hospital_v2.jpeg",
+  "body": {
+   "prompt": "The kind nurse gently hands the chocolate snack cake to the bandaged soldier who slowly smiles, curtains sway softly, moonlight, slow gentle camera push-in, hopeful, no text",
+   "duration": 5
+  }
+ }
+]

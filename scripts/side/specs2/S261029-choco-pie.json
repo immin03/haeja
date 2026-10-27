@@ -23,9 +23,9 @@
   "pitch": 2,
   "tempo": 1.12
  },
- "music": "music_comical.mp3",
+ "music": "music_owies-ukulele.mp3",
  "thumb": {
-  "bg": "cp_thumb",
+  "bg": "cp_thumb_v2",
   "big": "BANNED?!",
   "small": "NORTH KOREA",
   "pose": "c1_surprised",
@@ -44,7 +44,9 @@
   "Orion Russia capacity and new Tver plant — Money Today, 2026-04-22",
   "North Korean soldier who defected given Choco Pies for life — Inquirer/AFP, 2017: https://newsinfo.inquirer.net/?p=953442",
   "Viewer comments: YouTube (\"How Choco Pies Defeated North Korea\"; Orion Choco Pie Russian TV ad, 2000; \"푸른거탑\" army sitcom clip), translated",
-  "MoonPie origin — Tasting Table: https://www.tastingtable.com/1829803/moon-pie-name-origin/"
+  "MoonPie origin — Tasting Table: https://www.tastingtable.com/1829803/moon-pie-name-origin/",
+  "Choco Pie Banana launch, 14 million packs in 3 weeks — Korea JoongAng Daily, 2016-05-09: https://www.koreajoongangdaily.com/business/banana-is-the-new-honey-butter/11425905",
+  "Orion Russia sales 2025, 12 varieties, 5 lines over 140% — Korea JoongAng Daily, 2026-04-21: https://www.koreajoongangdaily.com/business/orions-choco-pie-finds-sweet-spot-in-russia-with-sales-surpassing-136m-in-2025/12537888"
  ],
  "loc": {
   "es": {
@@ -136,8 +138,8 @@
    "short": true
   },
   {
-   "bg": "k1_store",
-   "vid": "v1_store",
+   "bg": "k1_store_v2",
+   "vid": "v1_store_v2",
    "host": {
     "pose": "h_wave",
     "side": "right",
@@ -162,7 +164,7 @@
    "short": true
   },
   {
-   "bg": "cp03_pie",
+   "bg": "cp03_pie_v2",
    "vid": "cpv03_pie",
    "host": {
     "pose": "h_eat",
@@ -219,7 +221,7 @@
    ]
   },
   {
-   "bg": "cp06_factory",
+   "bg": "cp06_factory_v2",
    "vid": "cpv06_factory",
    "chip": "1974 · Seoul",
    "host": {
@@ -237,7 +239,7 @@
    ]
   },
   {
-   "bg": "cp_court",
+   "bg": "cp_court2",
    "move": "in",
    "chip": "1999 · Seoul court",
    "host": {
@@ -268,7 +270,35 @@
    ]
   },
   {
-   "bg": "cp07_alley",
+   "bg": "cp_banana",
+   "move": "left",
+   "chip": "2016 · Seoul",
+   "host": {
+    "pose": "c1_surprised",
+    "side": "right"
+   },
+   "lines": [
+    "For forty-two years, there was only one Choco Pie. One flavor. That's it.",
+    "Then in March 2016, Orion launched banana. A team of ten researchers had spent three years testing twenty flavors to pick it.",
+    "Within three weeks, more than fourteen million packs were gone, and people were hunting store to store to find one."
+   ],
+   "hl": [
+    "forty-two",
+    "banana.",
+    "fourteen",
+    "million"
+   ],
+   "pops": [
+    {
+     "at": 2,
+     "kind": "count",
+     "to": 14000000,
+     "label": "packs in 3 weeks"
+    }
+   ]
+  },
+  {
+   "bg": "cp07_alley_v2",
    "move": "right",
    "chapter": "Jeong, the secret ingredient",
    "host": null,
@@ -312,7 +342,28 @@
    ]
   },
   {
-   "bg": "cp09_army",
+   "bg": "cp_tvad",
+   "move": "in",
+   "chip": "1989 · Korean TV",
+   "host": {
+    "pose": "h_teary",
+    "side": "right"
+   },
+   "lines": [
+    "In 1989, Orion built its TV ads around that feeling.",
+    "No big sales pitch. Just tiny moments. A kid quietly sharing with a friend who's having a bad day.",
+    "The idea was simple: you don't have to say it out loud. The cake says it for you.",
+    "Ask Koreans of a certain age, and they can still hum the jingle."
+   ],
+   "hl": [
+    "1989,",
+    "sharing",
+    "out",
+    "loud."
+   ]
+  },
+  {
+   "bg": "cp09_army_v2",
    "move": "left",
    "chip": "Korean army base",
    "chapter": "The army's secret currency",
@@ -343,7 +394,7 @@
    ]
   },
   {
-   "bg": "cp10_chapel",
+   "bg": "cp10_chapel_v2",
    "vid": "cpv10_chapel",
    "host": {
     "pose": "h_laugh",
@@ -396,6 +447,25 @@
    ]
   },
   {
+   "bg": "cp_bday",
+   "move": "in",
+   "host": {
+    "pose": "h_laugh",
+    "side": "right"
+   },
+   "lines": [
+    "And birthdays? There's no bakery on base.",
+    "So soldiers stack Choco Pies into a tower, stick a candle on top, and sing.",
+    "Ask a Korean guy who served. There's a good chance he's blown out a candle on a Choco Pie cake."
+   ],
+   "hl": [
+    "birthdays?",
+    "tower,",
+    "candle"
+   ],
+   "short": true
+  },
+  {
    "bg": "k2_port",
    "vid": "v2_port",
    "chip": "Early 1990s · Busan",
@@ -431,7 +501,7 @@
    ]
   },
   {
-   "bg": "cp14_russia",
+   "bg": "cp14_russia_v2",
    "move": "in",
    "host": {
     "pose": "h_talk",
@@ -463,7 +533,7 @@
    "short": true
   },
   {
-   "bg": "cp14_russia",
+   "bg": "cp14_russia_v2",
    "move": "left",
    "host": {
     "pose": "h_laugh",
@@ -507,13 +577,15 @@
     "side": "left"
    },
    "lines": [
-    "Today Orion bakes Choco Pies inside Russia, and the factories still can't keep up.",
-    "They're building a whole new factory building near Moscow, just to make more."
+    "Today Orion bakes Choco Pies inside Russia, on five production lines.",
+    "And they run at over a hundred and forty percent of their normal capacity. Basically, the machines never rest.",
+    "So they're adding a whole new factory building near Moscow, just to make more."
    ],
    "hl": [
-    "can't",
-    "keep",
-    "up."
+    "five",
+    "hundred",
+    "forty",
+    "rest."
    ],
    "pops": [
     {
@@ -522,6 +594,24 @@
      "to": 600000000,
      "label": "packs a year in Russia (2016)"
     }
+   ]
+  },
+  {
+   "bg": "cp_flavors2",
+   "move": "right",
+   "host": {
+    "pose": "h_eat",
+    "side": "left"
+   },
+   "lines": [
+    "And Russians don't stop at the original.",
+    "Orion makes twelve different Choco Pies just for Russia. Raspberry, cherry, even watermelon.",
+    "In 2025, Russia alone made up about a third of all Choco Pie sales on the planet."
+   ],
+   "hl": [
+    "twelve",
+    "watermelon.",
+    "third"
    ]
   },
   {
@@ -534,16 +624,18 @@
     "Next stop, Vietnam, where Choco Pie got a promotion.",
     "During the Lunar New Year, families set up altars for their ancestors.",
     "Fruit, flowers, incense, and in a lot of homes, a box of Choco Pie.",
+    "By 2018, people in Vietnam were buying around six hundred million packs a year.",
     "Here, jeong became tình. Affection."
    ],
    "hl": [
     "promotion.",
     "ancestors.",
-    "tình."
+    "tình.",
+    "six"
    ],
    "pops": [
     {
-     "at": 3,
+     "at": 4,
      "kind": "glyph",
      "text": "Tình",
      "x": 0.5,
@@ -592,6 +684,7 @@
     "Okay. Now the strange part.",
     "Just north of the border was the Kaesong Industrial Complex, where South Korean companies ran factories with North Korean workers.",
     "Companies couldn't hand out extra cash. So the bonus was snacks.",
+    "Between 2008 and 2014, one estimate says around 1.2 million boxes of Choco Pies went into North Korea this way.",
     "And the snack everyone wanted? You guessed it."
    ],
    "hl": [
@@ -601,7 +694,7 @@
    ]
   },
   {
-   "bg": "cp19_market",
+   "bg": "cp19_market_v2",
    "move": "in",
    "host": {
     "pose": "c1_surprised",
@@ -636,7 +729,7 @@
    "lines": [
     "For a government that controls almost everything people see and hear, that was a problem.",
     "A sweet little taste of the South, passed from hand to hand.",
-    "So in 2014, according to reports, the factories were told: no more Choco Pies.",
+    "In 2013 the complex shut down for five months. When it reopened, the Choco Pie bonus was off the table, and by 2014, reports said: no more Choco Pies.",
     "Hand out sausages, instant noodles and coffee instead."
    ],
    "hl": [
@@ -653,6 +746,14 @@
      "x": 0.5,
      "y": 0.5,
      "dt": 1.2
+    },
+    {
+     "at": 3,
+     "kind": "comment",
+     "who": "H",
+     "text": "He banned it bcs he wanted all of it for himself",
+     "src": "YouTube comment",
+     "likes": "4"
     }
    ],
    "short": true
@@ -688,7 +789,7 @@
    ]
   },
   {
-   "bg": "cp22_hospital",
+   "bg": "cp22_hospital_v2",
    "vid": "cpv22_hospital",
    "chip": "2017 · Seoul",
    "chapter": "The soldier who asked for one",
@@ -698,16 +799,19 @@
    },
    "lines": [
     "Which brings us to my favorite part.",
-    "In 2017, a young North Korean soldier made a desperate run across the border and was badly hurt.",
-    "Doctors saved him. And when he woke up, one of the first things he reportedly wanted was a Choco Pie.",
-    "Orion heard, sent a hundred boxes, and promised him Choco Pies for life."
+    "In November 2017, a young North Korean soldier made a desperate run across the Joint Security Area, the one spot where soldiers from both sides stand face to face.",
+    "He was badly hurt. Doctors in the South saved his life.",
+    "And when he woke up, one of the first things he reportedly wanted was a Choco Pie.",
+    "Orion heard, sent a hundred boxes to the hospital, and promised him Choco Pies for life.",
+    "Small problem: for a while, doctors only let him have liquids. So the Choco Pies had to wait. Which, honestly, might be the hardest part of the whole story."
    ],
    "hl": [
     "favorite",
     "saved",
     "choco",
     "pie.",
-    "life."
+    "life.",
+    "wait."
    ],
    "short": true
   },
@@ -757,8 +861,8 @@
    ]
   },
   {
-   "bg": "k1_store",
-   "vid": "v1_store",
+   "bg": "k1_store_v2",
+   "vid": "v1_store_v2",
    "chapter": "Your turn",
    "host": {
     "pose": "h_eat",
