@@ -330,13 +330,6 @@
       "100달러어치를 팔아 7.9달러만 남겼죠, 올해 회사 목표는 11달러 이상이에요"
      ],
      "say": "니콜은 직원과 매장에 먼저 돈을 썼습니다. 그래서 2025 회계연도엔 100달러어치를 팔아 7.9달러만 남겼죠. 올해 회사 목표는 11달러 이상이에요."
-    },
-    {
-     "cap": [
-      "그 사이 손님은 돌아왔어요",
-      "올해 4~6월 결제 횟수 +4.2%"
-     ],
-     "say": "그 사이 손님은 돌아왔어요. 올해 사월부터 유월까지, 결제 횟수가 사 점 이 퍼센트 늘었거든요."
     }
    ],
    "page": {
@@ -411,31 +404,6 @@
       "color": "green",
       "line": 0,
       "at": 0.95
-     },
-     {
-      "kind": "photo",
-      "src": "scripts/blog/media/lib/commons_cafeint_2.jpg",
-      "x": 90,
-      "y": 830,
-      "w": 400,
-      "h": 280,
-      "rot": -3,
-      "line": 1,
-      "at": 0.05
-     },
-     {
-      "kind": "write",
-      "rows": [
-       "결제 횟수",
-       "+4.2%"
-      ],
-      "x": 570,
-      "y": 850,
-      "size": 110,
-      "color": "green",
-      "line": 1,
-      "at": 0.4,
-      "dur": 0.9
      }
     ]
    }
@@ -652,7 +620,6 @@
   "Niccol would commute 1,600+ km from his California home by company jet",
   "Two subway stops feel far to me; his commute earns miles",
   "He spent on staff and stores first: $7.90 kept per $100 in FY2025; this year's goal is $11+",
-  "Meanwhile customers came back: transactions +4.2% in Apr-Jun",
   "You can't pick the day you buy, but there are just three numbers to watch",
   "One: U.S. comparable-store sales, the company targets 6.5%+ this quarter",
   "Two: transactions, above last quarter's 4.2% means customers keep growing",

@@ -166,13 +166,10 @@ B["scenes"] = [
     ]}},
     {"type": "statement", "l1": "아킬레스건", "l2": "결국 CEO 교체", "lines": [
         L(["창업자 하워드 슐츠는 이 앱을", "스타벅스의 가장 큰 아킬레스건이라고 했어요"], "창업자 하워드 슐츠는 이 앱을, 스타벅스의 가장 큰 아킬레스건이라고까지 했어요."),
-        L(["결국 당시 최고경영자는 취임", "1년 5개월 만에 교체됐습니다"], "결국 당시 최고경영자는, 취임 일 년 오 개월 만에 교체됐습니다."),
     ], "page": {"head": "창업자의 경고", "beats": [
         dict(kind="write", rows=["\"가장 큰", "아킬레스건\""], x=80, y=200, size=140, line=0, at=.15, dur=1.2),
         dict(kind="print", text="하워드 슐츠 (창업자) · 앱을 두고", x=86, y=520, size=38, w="Bold", color="gray", line=0, at=.75),
-        dict(kind="print", rows=["결제 횟수  2024년 4~6월  -6%", "결제 횟수  2024년 7~9월  -10%"], x=90, y=640, size=44, w="ExtraBold", color="red", line=1, at=.05),
-        dict(kind="write", text="CEO 교체, 1년 5개월", x=80, y=860, size=104, color="red", line=1, at=.45),
-        dict(kind="under", x0=90, x1=960, y=990, color="red", line=1, at=.8),
+        dict(kind="print", rows=["결제 횟수  2024년 4~6월  -6%", "결제 횟수  2024년 7~9월  -10%"], x=90, y=640, size=44, w="ExtraBold", color="red", line=0, at=.85),
     ]}},
     {"type": "compare", "title": "스타벅스가 손님을 잃은 두 번", "l": {"label": "2008년", "v": "커피 맛"}, "r": {"label": "2024년", "v": "느린 매장"}, "lines": [
         L(["그런데 스타벅스는 2008년에도 이런 위기를 이겨 냈어요", "그때 창업자는 미국 매장 약 7,000곳의 문을 한꺼번에 닫고"], "그런데 스타벅스는 2008년에도 이런 위기를 이겨 냈어요. 그때 창업자는 미국 매장 약 7,000곳의 문을 한꺼번에 닫고,"),
@@ -264,7 +261,6 @@ C["scenes"] = [
     ]}},
     {"type": "compare", "title": "100달러 팔아 남는 돈", "l": {"label": "2025 회계연도", "v": "7.9달러"}, "r": {"label": "올해 회사 예상", "v": "11달러+"}, "lines": [
         L(["니콜은 직원과 매장에 먼저 돈을 써서 2025 회계연도엔", "100달러어치를 팔아 7.9달러만 남겼죠, 올해 회사 목표는 11달러 이상이에요"], "니콜은 직원과 매장에 먼저 돈을 썼습니다. 그래서 2025 회계연도엔 100달러어치를 팔아 7.9달러만 남겼죠. 올해 회사 목표는 11달러 이상이에요."),
-        L(["그 사이 손님은 돌아왔어요", "올해 4~6월 결제 횟수 +4.2%"], "그 사이 손님은 돌아왔어요. 올해 사월부터 유월까지, 결제 횟수가 사 점 이 퍼센트 늘었거든요."),
     ], "page": {"head": "100달러 팔면 남는 돈", "beats": [
         dict(kind="bars", items=[{"label": "2025 회계연도", "v": 7.9, "text": "7.9달러", "color": "red"},
                                  {"label": "올해 회사 예상", "v": 11, "text": "11달러+", "color": "green"}], x=90, y=340, w=900, h=380, line=0, at=.3),
@@ -272,8 +268,6 @@ C["scenes"] = [
         dict(kind="arrow", pts=[[330, 480], [560, 400]], color="green", line=0, at=.8, width=10),
         dict(kind="under", x0=90, x1=800, y=270, color="red", line=0, at=.55),
         dict(kind="print", text="올해 회사 목표 11달러 이상", x=560, y=785, size=36, w="Bold", color="green", line=0, at=.95),
-        dict(kind="photo", src=LIB + "commons_cafeint_2.jpg", x=90, y=830, w=400, h=280, rot=-3, line=1, at=.05),
-        dict(kind="write", rows=["결제 횟수", "+4.2%"], x=570, y=850, size=110, color="green", line=1, at=.4, dur=.9),
     ]}},
     {"type": "list", "title": "10월 29일 볼 숫자 3개", "items": ["미국 기존 매장 매출", "결제 횟수", "100달러당 남는 돈"], "lines": [
         L(["산 날은 못 고르더라도, 이번 실적에서", "꼭 볼 숫자는 딱 세 개입니다"], "산 날은 못 고르더라도, 이번 실적에서 꼭 볼 숫자는 딱 세 개입니다."),
@@ -315,7 +309,7 @@ B["subs_en"] = ["At U.S. Starbucks, one in ten customers vanished", "Jul-Sep 202
                 "What drove them away was the app Starbucks loved most", "One in three U.S. company-store orders comes in by app before arrival",
                 "App orders pile on extras like syrup and cold foam", "More profit per cup, but each takes longer to make",
                 "8 a.m.: the pickup counter fills with app cups; patience cools before the coffee", "Founder Howard Schultz called the app Starbucks' biggest Achilles' heel",
-                "The CEO at the time was replaced after one year and five months", "Starbucks beat a crisis like this in 2008 too. The founder shut about 7,000 U.S. stores at once",
+                "Starbucks beat a crisis like this in 2008 too. The founder shut about 7,000 U.S. stores at once",
                 "For three and a half hours of espresso retraining", "Then they fixed the coffee; this time, stores slowed by the app",
                 "New CEO Brian Niccol fixed the app instead of dropping it", "Menu cut 30%, drinks in 4 minutes: speed added instead of syrup",
                 "This year, Apr-Jun 2026, transactions rose 4.2%", "In earnings, find the transactions line first. That's where Starbucks fell and recovered",
@@ -324,7 +318,7 @@ C["subs_en"] = ["Same 100 million won in Starbucks stock: one lost 20 million, o
                 "Oct 26 close, price only. And the next round is decided at the Oct 29 earnings", "Aug 12 was the day before Brian Niccol was named CEO",
                 "On the news the stock rose 24% intraday. Hope moved before results", "Niccol would commute 1,600+ km from his California home by company jet",
                 "Two subway stops feel far to me; his commute earns miles", "He spent on staff and stores first: $7.90 kept per $100 in FY2025; this year's goal is $11+",
-                "Meanwhile customers came back: transactions +4.2% in Apr-Jun", "You can't pick the day you buy, but there are just three numbers to watch",
+                "You can't pick the day you buy, but there are just three numbers to watch",
                 "One: U.S. comparable-store sales, the company targets 6.5%+ this quarter", "Two: transactions, above last quarter's 4.2% means customers keep growing",
                 "Three: profit per $100 sold. Above last year's $7.90 means store spending is paying back", "Like and subscribe for more. Full video: profile link"]
 import re
