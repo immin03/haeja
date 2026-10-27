@@ -1,0 +1,35 @@
+{
+ "id": "brand_logo",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The exact same magpie reporter character from the reference image, same red scarf, close-up portrait from the chest up, cheerful wink and big smile, holding the small microphone near its beak, centered, plain solid warm yellow background, cute 3D vinyl toy figurine, soft studio light, clean simple icon composition, no text, no logo",
+  "aspect_ratio": "1:1",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a17bcf-6659-7023-9c5c-3c4d59464d85",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bcf-6659-7023-9c5c-3c4d59464d85/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bcf-6659-7023-9c5c-3c4d59464d85/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a17bcf-6659-7023-9c5c-3c4d59464d85",
+  "status_url": "https://api.higgsfield.ai/requests/01a17bcf-6659-7023-9c5c-3c4d59464d85/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a17bcf-6659-7023-9c5c-3c4d59464d85/cancel",
+  "expires_at": "2026-11-03T05:22:53.623384+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17bcf-6659-7023-9c5c-3c4d59464d85/9427d69d-9289-467c-a9f5-2116478db892.jpeg"
+   }
+  ]
+ },
+ "seconds": 25,
+ "file": "social/side/gen/brand_logo.jpeg"
+}

@@ -1,0 +1,17 @@
+{
+ "id": "brand_banner",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A very wide panoramic miniature diorama of Korea as a cozy toy world: a tiny Seoul tower on a hill, hanok rooftops, a glowing convenience store, a palace gate, a harbor with a toy ship, mountains and cherry blossoms, the magpie reporter character from the reference image flying happily across the middle of the sky holding its microphone, warm sunset sky, lots of calm empty sky in the center for a title, 3D miniature diorama, tilt-shift, handcrafted clay and painted wood, rich saturated colors, no text, no letters, no logos, no flags",
+  "aspect_ratio": "21:9",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 400,
+ "submit": {
+  "detail": "aspect_ratio: '21:9' is not one of ['auto', '1:1', '1:2', '2:1', '3:2', '2:3', '4:3', '3:4', '16:9', '9:16']"
+ },
+ "est_usd": 0.05,
+ "status": "submit_failed"
+}
