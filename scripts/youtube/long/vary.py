@@ -12,7 +12,7 @@
 import json, os, sys, glob, collections
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-FREE = {"title", "question", "media", "end", "agenda"}
+FREE = {"title", "question", "media", "end", "agenda", "sketch"}   # sketch: 2026-10-27 취재 노트 핵심 그림 5~8개 (FORMAT.md ★)
 METAPHOR = {"scale", "equation", "receipt", "versus"}
 
 
@@ -42,7 +42,7 @@ def main(path):
         if rep: bad.append(f"직전 편({prev[-1]['id']})에서 쓴 비유 화면을 또 씀: {', '.join(rep)}")
     seq = [x for x in ty if x not in ("title", "question")]
     for a, b in zip(seq, seq[1:]):
-        if a == b and a not in ("media",): bad.append(f"같은 화면 연속: {a} → {b}"); break
+        if a == b and a not in ("media", "sketch"): bad.append(f"같은 화면 연속: {a} → {b}"); break
     real = sum(1 for s in spec["scenes"] if s["v"]["type"] == "media" or s["v"].get("backdrop"))
     if real / max(1, len(ty)) < .30: bad.append(f"실사 장면 {real}/{len(ty)} ({real / len(ty):.0%}) — 30% 이상으로")
     else: ok.append(f"실사 {real}/{len(ty)}")

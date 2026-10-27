@@ -47,7 +47,9 @@ export async function companyData(code, spec = {}) {
   const r = rows.find((x) => x.code === code || x.t === code);
   if (!r) throw new Error('회사 데이터 없음: ' + code);
   const US = r.cur === 'USD', px0 = r.px;   // px0: 스크리너 가격 (시가총액 환산용)
-  const money = US ? usd : won, money2 = US ? usd : comma;
+  const JP = r.cur === 'JPY';   // 일본 종목 (2026-10-27 일본 종합상사 편): 엔화 표기 4,910 → "4,910엔"
+  const yen = (n) => Math.round(n).toLocaleString('ko-KR') + '엔';
+  const money = US ? usd : JP ? yen : won, money2 = US ? usd : JP ? yen : comma;
   // 가격은 렌더하는 순간 야후에서 다시 받는다 (실패하면 매일 갱신되는 스크리너 가격과 그 날짜)
   let asofIso = (docs.find((d) => d.id.startsWith('chunk-') && (d.data?.rows || []).includes(r))?.data?.pxAt) || meta.generatedAt || new Date().toISOString();
   try {
@@ -103,7 +105,7 @@ export async function companyData(code, spec = {}) {
       const j = await (await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(r.t)}?period1=${t0}&period2=${t1}&interval=1d`, { headers: { 'User-Agent': 'Mozilla/5.0' } })).json();
       const res = j.chart.result[0], cl = res.indicators.quote[0].close; let ref = null;
       res.timestamp.forEach((ts, i) => { const dd = new Date(ts * 1000 - (US ? 5 : -9) * 3600e3).toISOString().slice(0, 10); if (dd <= day && cl[i] != null) ref = cl[i]; });
-      if (ref) { const g = px / ref - 1; hv[k] = eokman(1e8 * px / ref); hv[k + '_pct'] = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; hv[k + '_ref'] = US ? money2(ref) : won(ref); }
+      if (ref) { const g = px / ref - 1; hv[k] = eokman(1e8 * px / ref); hv[k + '_pct'] = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; hv[k + '_ref'] = (US || JP) ? money2(ref) : won(ref); }
     } catch (e) { console.error('과거 종가 실패:', k, day, String(e).slice(0, 120)); }
   }
   const normal = iv / 10;                 // 적정 주가에 쓰인 정상 이익(주당)
