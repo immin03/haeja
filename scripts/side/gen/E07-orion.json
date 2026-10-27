@@ -1,0 +1,234 @@
+[
+ {
+  "id": "pie_ref_orion",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/pie_ref.jpeg"
+  ],
+  "body": {
+   "prompt": "Same product photo as the reference, same composition, but the glossy red individual wrapper now has the word ORION printed on it in clean bold white capital letters, spelled exactly O-R-I-O-N, centered, no other text, plain warm cream background, realistic food photography",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "k1_store_v2_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/k1_store_v2.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red box on the counter has ORION printed on its front.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp09_army_v2_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp09_army_v2.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrappers handed out at the canteen window show ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp19_market_v2_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp19_market_v2.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrappers inside the coat show ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp22_hospital_v2_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp22_hospital_v2.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrapper on the bedside table shows ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_bday_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp_bday.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrappers in the snack tower show ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_moon_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp_moon.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrappers in the snack tower show ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_court2_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp_court2.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrapper on the table shows ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_banana_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp_banana.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrapper and the snack boxes show ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_flavors2_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp_flavors2.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrapper on the shelf shows ORION and each colorful flavor box shows ORION.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cp_thumb_v2_o",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/cp_thumb_v2.jpeg",
+   "social/side/gen/pie_ref_orion.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first image exactly the same: same scene, composition, characters, camera angle, lighting and miniature style. Only change the red snack wrappers and red snack boxes so they look like the wrapper in the second image, with the word ORION printed in bold white capital letters, spelled exactly O-R-I-O-N. No other text anywhere. The red wrapper under the giant snack shows ORION large and clearly.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "cpvo_k1_store_v2",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/k1_store_v2_o.jpeg",
+  "body": {
+   "prompt": "Slow smooth camera push-in through the miniature convenience store toward the red box of chocolate snack cakes on the counter, neon lights flicker softly, light rain outside, tilt-shift look, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp09_army_v2",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp09_army_v2_o.jpeg",
+  "body": {
+   "prompt": "The line of tiny soldiers shuffles forward, the canteen soldier hands out red-wrapped snacks, a flag rope sways, slow camera pan, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp19_market_v2",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp19_market_v2_o.jpeg",
+  "body": {
+   "prompt": "The man in the long coat glances around nervously and opens his coat, tiny buyers lean in, the lantern flickers, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp22_hospital_v2",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp22_hospital_v2_o.jpeg",
+  "body": {
+   "prompt": "The kind nurse gently hands the chocolate snack cake to the bandaged soldier who slowly smiles, curtains sway softly, moonlight, slow gentle camera push-in, hopeful, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp_bday",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp_bday_o.jpeg",
+  "body": {
+   "prompt": "Tiny soldiers clap and sing around the stacked snack cake, the candle flame flickers, one soldier leans in to blow it out, warm and funny, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp_moon",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp_moon_o.jpeg",
+  "body": {
+   "prompt": "The tower of chocolate snacks gently sways as it rises toward the glowing moon, stars twinkle, slow camera tilt upward, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp_court2",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp_court2_o.jpeg",
+  "body": {
+   "prompt": "The tiny judge bangs the gavel, the two rival businessmen argue and wave their chocolate snacks at each other, comedic, slow push-in, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp_banana",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp_banana_o.jpeg",
+  "body": {
+   "prompt": "Tiny shoppers rush and grab the last yellow snack boxes, the clerk throws up his hands, chaotic and funny, camera pans across the store, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cpvo_cp_flavors2",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cp_flavors2_o.jpeg",
+  "body": {
+   "prompt": "The grandmother happily picks a colorful box from the shelf and smiles, snow falls outside the window, slow camera drift along the aisle, miniature diorama, tilt-shift look, smooth gentle motion, keep the ORION lettering on the red wrappers sharp and readable",
+   "duration": 5
+  }
+ }
+]
