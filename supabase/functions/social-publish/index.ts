@@ -4,6 +4,8 @@
 //                            같은 채널은 최소 90분 간격(연결이 늦어 밀린 글이 한꺼번에 올라가지 않게)
 // - {action:"now", id, t}  : (관리자) 해당 글을 지금 바로 게시
 // - {action:"check", t}    : (관리자) 두 계정 연결 상태와 게시 한도 확인
+// - 날짜 경과 차단: 캡션·제목에 연도 없이 적힌 'N월 N일'(올해 날짜) 중 가장 최근 날짜가 지금(KST)보다 2일 넘게 지났으면
+//                   정기 게시하지 않고 paused=true + '보류: 날짜 경과'로 돌린다 (미리 만든 콘텐츠를 며칠 뒤 올려 숫자가 달라지는 일 방지, 2026-10-28)
 // - app_config: social_paused(전체) / instagram_paused / threads_paused(채널별) 가 true면 정기 게시를 건너뜀 (수동 '지금 올리기'는 그대로 동작)
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -172,6 +174,29 @@ async function publish(ch: "ig" | "th", p: any, acc: Record<string, Acc>, site: 
   }
 }
 
+// 캡션·제목 속 '올해' 날짜(앞에 'YYYY년'이 없는 'N월 N일') 중 가장 최근 날짜. 연도가 붙은 과거 사례(예: 2001년 11월 30일)는 제외.
+const STALE_DAYS = 2;
+function latestDate(p: any): Date | null {
+  const text = `${p.title || ""}\n${p.caption || ""}`;
+  const kst = new Date(Date.now() + 9 * 3600e3);
+  let best: Date | null = null;
+  for (const m of text.matchAll(/(\d{4}년\s*)?(\d{1,2})월\s*(\d{1,2})일/g)) {
+    if (m[1]) continue;
+    const mo = +m[2], d = +m[3]; if (mo < 1 || mo > 12 || d < 1 || d > 31) continue;
+    let dt = new Date(Date.UTC(kst.getUTCFullYear(), mo - 1, d));
+    if (dt.getTime() - kst.getTime() > 60 * 864e5) dt = new Date(Date.UTC(kst.getUTCFullYear() - 1, mo - 1, d)); // 연말→연초
+    if (!best || dt > best) best = dt;
+  }
+  return best;
+}
+function staleReason(p: any): string | null {
+  const d = latestDate(p); if (!d) return null;
+  const kst = new Date(Date.now() + 9 * 3600e3);
+  const today = Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate());
+  const days = Math.floor((today - d.getTime()) / 864e5);
+  return days > STALE_DAYS ? `보류: 날짜 경과 (내용 기준일 ${d.getUTCMonth() + 1}/${d.getUTCDate()}, ${days}일 지남)` : null;
+}
+
 async function lastAt(ch: "ig" | "th") {
   const { data } = await sb.from("social_posts").select(`${ch}_at`).eq(`${ch}_status`, "posted").order(`${ch}_at`, { ascending: false }).limit(1);
   return data?.[0]?.[`${ch}_at`] ? new Date(data[0][`${ch}_at`]).getTime() : 0;
@@ -216,8 +241,17 @@ Deno.serve(async (req: Request) => {
       const { data: due } = await sb.from("social_posts").select("*")
         .eq(ch === "ig" ? "to_ig" : "to_threads", true).eq(`${ch}_status`, "pending")
         .eq("approved", true).eq("paused", false).lte("scheduled_at", now)
-        .order("scheduled_at").limit(1);
-      if (due?.length) res[ch] = { id: due[0].id, ...(await publish(ch, due[0], acc, site)) };
+        .order("scheduled_at").limit(10);
+      for (const p of due || []) {
+        const why = staleReason(p);
+        if (why) {
+          await sb.from("social_posts").update({ paused: true, [`${ch}_error`]: why }).eq("id", p.id);
+          ((res.held ||= []) as unknown[]).push({ ch, id: p.id, why });
+          continue;
+        }
+        res[ch] = { id: p.id, ...(await publish(ch, p, acc, site)) };
+        break;
+      }
     }
     return json(res);
   } catch (e) {
