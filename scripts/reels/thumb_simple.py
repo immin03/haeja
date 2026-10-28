@@ -353,32 +353,83 @@ def _titles3(im, l1, l2, x, y, maxw, s1, s2, anchor="mm"):
     return f1, f2
 
 
+def _bg_photo(im, name, focus=(.5, .5), opacity=.3):
+    """배경 사진을 은은하게 (2026-10-29 운영자: 머니스웨거처럼 사진이 은은하게 깔린 게 세련됐다, 적나라하면 촌스럽다)
+    네이비 톤으로 물들이고 30% 안팎으로만 비치게, 가장자리는 어둡게."""
+    W, H = im.size
+    ph = _duotone(name, W, H, focus, lo=(10, 22, 46), hi=(150, 168, 200))
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    v = 1 - np.clip(np.sqrt(((xx - W / 2) / (W * .62)) ** 2 + ((yy - H * .5) / (H * .62)) ** 2), 0, 1) ** 1.6
+    ph.putalpha(Image.fromarray((np.clip(v, 0, 1) * opacity * 255).astype(np.uint8)))
+    im.alpha_composite(ph)
+
+
+def emblem(im, kind, cx, cy, size, text=None):
+    """한눈에 주제를 알려 주는 포인트 하나 (2026-10-29 운영자: 삼성은 삼성 로고가 있어 직관적이었다 — 그런 포인트가 꼭 하나)
+    jp_flag · coin(text=기호) · envelope(text=글자) · stamp(text=글자) · goldbar"""
+    W, H = im.size; L = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+    if kind == "jp_flag":
+        w, h = size * 1.5, size; x0, y0 = cx - w / 2, cy - h / 2
+        d.rounded_rectangle([x0, y0, x0 + w, y0 + h], int(size * .06), fill=(246, 241, 232))
+        r = size * .3; d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(214, 40, 66))
+    elif kind == "coin":
+        r = size / 2
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(196, 160, 92)); d.ellipse([cx - r * .86, cy - r * .86, cx + r * .86, cy + r * .86], fill=(232, 198, 128))
+        d.ellipse([cx - r * .86, cy - r * .86, cx + r * .86, cy + r * .86], outline=(176, 140, 76), width=max(3, int(size * .02)))
+        d.text((cx, cy + size * .02), text or "¥", font=F("Heavy", int(size * .6)), fill=(120, 88, 36), anchor="mm")
+    elif kind == "envelope":
+        w, h = size * 1.45, size * .95; x0, y0 = cx - w / 2, cy - h / 2
+        d.rounded_rectangle([x0, y0, x0 + w, y0 + h], int(size * .05), fill=(240, 232, 214))
+        d.polygon([(x0, y0), (x0 + w, y0), (cx, y0 + h * .48)], fill=(222, 210, 186))
+        d.line([(x0, y0), (cx, y0 + h * .48), (x0 + w, y0)], fill=(196, 182, 156), width=max(3, int(size * .02)))
+        if text: d.text((cx, y0 + h * .74), text, font=F("Heavy", int(size * .28)), fill=(170, 40, 60), anchor="mm")
+    elif kind == "goldbar":
+        w, h = size * 1.6, size * .62; x0, y0 = cx - w / 2, cy - h / 2; t = h * .32
+        d.polygon([(x0 + w * .12, y0), (x0 + w * .88, y0), (x0 + w, y0 + t), (x0, y0 + t)], fill=(250, 222, 140))
+        d.polygon([(x0, y0 + t), (x0 + w, y0 + t), (x0 + w * .94, y0 + h), (x0 + w * .06, y0 + h)], fill=(214, 168, 70))
+        d.polygon([(x0 + w * .2, y0 + t * .2), (x0 + w * .5, y0 + t * .2), (x0 + w * .45, y0 + t * .8), (x0 + w * .12, y0 + t * .8)], fill=(255, 240, 196))
+        d.text((cx, y0 + t + (h - t) / 2), text or "GOLD", font=F("Mont", int(size * .2)), fill=(150, 108, 30), anchor="mm")
+    elif kind == "stamp":
+        f = F("Heavy", int(size * .42)); tw = f.getlength(text); w, h = tw + size * .5, size * .78
+        st = Image.new("RGBA", (int(w + 40), int(h + 40)), (0, 0, 0, 0)); ds = ImageDraw.Draw(st); c = (255, 77, 109)
+        ds.rounded_rectangle([20, 20, 20 + w, 20 + h], int(size * .08), outline=c, width=max(6, int(size * .06)))
+        ds.text((20 + w / 2, 20 + h / 2 + size * .02), text, font=f, fill=c, anchor="mm")
+        st = st.rotate(-8, resample=Image.BICUBIC, expand=True); L.alpha_composite(st, (int(cx - st.width / 2), int(cy - st.height / 2)))
+    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); sh.putalpha(L.getchannel("A").point(lambda v: int(v * .55)))
+    im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(max(8, size * .08))), (int(size * .04), int(size * .07)))
+    im.alpha_composite(L)
+
+
 def render_v3(spec, out):
-    """2026-10-29 운영자: "이 톤을 최대한 맞춰 줘, 이게 제일 낫다" — 조회수 터진 삼성전자 쇼츠 썸네일 그대로의 톤.
-    네이비 빛 + 옅은 격자, 위 제목(아이보리 + 골드), 가운데 로고(있을 때), 빛나는 그래프 하나, 아래 큰 숫자(라벨 + 숫자).
-    사진·카드·스티커는 쓰지 않는다. 밸류노트 로고는 작게."""
+    """2026-10-29 운영자: 삼성전자 썸네일 톤 + 은은한 배경 사진(머니스웨거 느낌) + 한눈에 주제를 알려 주는 포인트 하나.
+    네이비 빛·옅은 격자, 위 제목(아이보리 + 골드), 포인트(로고 PNG 또는 emblem), 빛나는 그래프, 아래 라벨 + 큰 숫자, 작은 밸류노트 로고."""
     from brand import paste_logo
-    tone = spec.get("tone", "down"); ig = spec.get("safe") == "ig"
+    tone = spec.get("tone", "down"); ig = spec.get("safe") == "ig"; foc = tuple(spec.get("focus", (.5, .5)))
+    em = spec.get("emblem")
     if spec.get("format", "short") == "short":
-        W, H = 1080, 1920; im = background(W, H, .52); o = 70 if ig else 0   # 인스타 격자는 위아래가 잘려 조금 아래로
+        W, H = 1080, 1920; im = background(W, H, .52); o = 60 if ig else 0
+        if spec.get("photo"): _bg_photo(im, spec["photo"], foc, spec.get("photo_opacity", .32))
         f1 = fit(spec["l1"], "Heavy", 100, 980); f2 = fit(spec["l2"], "Heavy", 120, 1000); s1, s2 = 100, 120
         text_shadow(im, (W / 2, 250 + o), spec["l1"], f1, IVORY)
         text_shadow(im, (W / 2, 250 + o + f1.size * .5 + f2.size * .75), spec["l2"], f2, GOLD)
-        top = 560 + o
-        if spec.get("logo"): name_block(im, spec, W / 2, top + 70, 780, 130); top += 200
-        bot = 1260 if ig else 1320
-        if spec.get("chart"): chart(im, spec["chart"], (110, top + 60, 970, bot), tone)
-        ly, ny = (bot + 160, bot + 310) if not ig else (bot + 150, bot + 290)
-        _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 230 if not ig else 210, tone, 960)
+        top = 520 + o
+        if spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
+        elif em: emblem(im, em["kind"], W / 2, top + 130, em.get("size", 230), em.get("text")); top += 290
+        bot = 1300 if ig else 1340
+        if spec.get("chart"): chart(im, spec["chart"], (130, top + 50, 950, bot), tone)
+        ly, ny = (bot + 150, bot + 290) if not ig else (bot + 140, bot + 270)
+        _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 220 if not ig else 200, tone, 960)
         paste_logo(im, W / 2, 90, 34, "dark", align="center")
     else:
         W, H = 1280, 720; im = background(W, H, .6)
+        if spec.get("photo"): _bg_photo(im, spec["photo"], foc, spec.get("photo_opacity", .36))
         f1 = fit(spec["l1"], "Heavy", 66, 1060); f2 = fit(spec["l2"], "Heavy", 88, 1080); s1, s2 = 66, 88
         text_shadow(im, (W / 2, 78), spec["l1"], f1, IVORY)
         text_shadow(im, (W / 2, 78 + f1.size * .55 + f2.size * .7), spec["l2"], f2, GOLD)
-        if spec.get("chart"): chart(im, spec["chart"], (70, 300, 690, 640), tone)
-        if spec.get("logo"): name_block(im, spec, 990, 300, 480, 74)
-        _big(im, spec.get("big_label"), spec["big"], 990, 360, 490, 200, tone, 540)
+        if spec.get("logo"): name_block(im, spec, 360, 460, 520, 120)
+        elif em: emblem(im, em["kind"], 360, 470, em.get("size", 220), em.get("text"))
+        elif spec.get("chart"): chart(im, spec["chart"], (70, 300, 690, 640), tone)
+        _big(im, spec.get("big_label"), spec["big"], 950, 380, 510, 200, tone, 560)
         paste_logo(im, W - 36, 30, 26, "dark", align="right")
     for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
         if f.size < mx * .75: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt}")
