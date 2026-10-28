@@ -1,0 +1,31 @@
+{
+ "id": "mbv3_fly2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The little wooden plane glides slowly from left to right across the big moon, propeller spinning, the magpie's red neckerchief flutters in the wind as it holds the box tight and looks ahead bravely. Soft felt clouds drift past in the foreground, stars twinkle. Smooth tracking camera following the plane. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18010-fe13-7e2d-9e17-b46b8587065d/e6b7c823-cb48-4d9a-becd-3b78adac1a51.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18011-94cb-7a72-a84f-96867c9b1686",
+  "status_url": "https://api.higgsfield.ai/requests/01a18011-94cb-7a72-a84f-96867c9b1686/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18011-94cb-7a72-a84f-96867c9b1686/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18011-94cb-7a72-a84f-96867c9b1686",
+  "status_url": "https://api.higgsfield.ai/requests/01a18011-94cb-7a72-a84f-96867c9b1686/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18011-94cb-7a72-a84f-96867c9b1686/cancel",
+  "expires_at": "2026-11-04T01:15:29.522197+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18011-94cb-7a72-a84f-96867c9b1686/b315f854-b71e-4a68-b72f-16aa24aced95.mp4"
+  }
+ },
+ "seconds": 136,
+ "file": "social/side/gen/mbv3_fly2.mp4"
+}

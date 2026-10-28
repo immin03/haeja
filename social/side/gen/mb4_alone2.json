@@ -1,0 +1,35 @@
+{
+ "id": "mb4_alone2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, camera angle, lighting, colors and miniature clay style. Only change two things: the back of the laptop lid is completely plain matte silver with no logo at all, and the small framed picture on the wall shows only a simple painting of a bird with no writing or letters under it. No text, no letters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-323a-7351-bae6-4bf972c06d14/7b2745fc-5633-45cc-8c1f-b422f62aeda9.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18010-fe30-7b27-ab9e-6063a0fa6f03",
+  "status_url": "https://api.higgsfield.ai/requests/01a18010-fe30-7b27-ab9e-6063a0fa6f03/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18010-fe30-7b27-ab9e-6063a0fa6f03/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18010-fe30-7b27-ab9e-6063a0fa6f03",
+  "status_url": "https://api.higgsfield.ai/requests/01a18010-fe30-7b27-ab9e-6063a0fa6f03/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18010-fe30-7b27-ab9e-6063a0fa6f03/cancel",
+  "expires_at": "2026-11-04T01:13:05.000214+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18010-fe30-7b27-ab9e-6063a0fa6f03/266b7666-e9aa-4954-bf75-e84434ee1b6d.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/mb4_alone2.jpeg"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "mbv4_alone2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Snow falls outside. The woman slowly lifts a forkful of noodles, then hears a tapping and turns her head toward the window. She sees the magpie and the box on the snowy windowsill, freezes, and slowly puts the noodle cup down, her tired eyes widening in disbelief. The magpie taps the glass again and waves one wing. Slow push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18010-fe30-7b27-ab9e-6063a0fa6f03/266b7666-e9aa-4954-bf75-e84434ee1b6d.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18011-94c7-70c8-b4a0-01e9e2652e89",
+  "status_url": "https://api.higgsfield.ai/requests/01a18011-94c7-70c8-b4a0-01e9e2652e89/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18011-94c7-70c8-b4a0-01e9e2652e89/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18011-94c7-70c8-b4a0-01e9e2652e89",
+  "status_url": "https://api.higgsfield.ai/requests/01a18011-94c7-70c8-b4a0-01e9e2652e89/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18011-94c7-70c8-b4a0-01e9e2652e89/cancel",
+  "expires_at": "2026-11-04T01:15:31.581835+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18011-94c7-70c8-b4a0-01e9e2652e89/05f00ba1-9ca6-4798-80fa-4d4c72183a83.mp4"
+  }
+ },
+ "seconds": 136,
+ "file": "social/side/gen/mbv4_alone2.mp4"
+}

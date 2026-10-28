@@ -1,0 +1,35 @@
+{
+ "id": "mb3_fly2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, camera angle, lighting, colors and miniature clay style. Only change one thing: every red star emblem painted on the plane's wings and body is replaced by a small plain red heart. No stars on the plane at all. No text, no letters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-e079-78ae-ae00-bff1a0c5ac3c/37786252-aae7-4e0a-a67f-2f2276ef3a92.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18010-fe13-7e2d-9e17-b46b8587065d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18010-fe13-7e2d-9e17-b46b8587065d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18010-fe13-7e2d-9e17-b46b8587065d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18010-fe13-7e2d-9e17-b46b8587065d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18010-fe13-7e2d-9e17-b46b8587065d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18010-fe13-7e2d-9e17-b46b8587065d/cancel",
+  "expires_at": "2026-11-04T01:13:10.653001+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18010-fe13-7e2d-9e17-b46b8587065d/e6b7c823-cb48-4d9a-becd-3b78adac1a51.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/mb3_fly2.jpeg"
+}
