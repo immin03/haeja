@@ -94,7 +94,7 @@ def chart(im, c, box, tone):
     if c["kind"] == "bars":
         items = c["items"]; n = len(items); hi = max(v for _, v, _ in items)
         bw = (X1 - X0) / (n * 1.9); gap = ((X1 - X0) - bw * n) / (n + 1)
-        lf = F("Bold", max(28, int((Y1 - Y0) * .08))); vf = F("Heavy", int((Y1 - Y0) * .13))
+        lf = F("Bold", max(28, int((Y1 - Y0) * .08))); vf = F("Heavy", int((Y1 - Y0) * .165))   # 2026-10-29 운영자: 354억$ 같은 숫자를 조금 더 크게
         for i, (lab, v, txt) in enumerate(items):
             x = X0 + gap + i * (bw + gap); top = Y1 - (Y1 - Y0 - vf.size * 1.6) * v / hi
             last = i == n - 1; fill = col if last else (92, 108, 138)
@@ -421,16 +421,23 @@ def render_v3(spec, out):
         _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 220 if not ig else 200, tone, 960)
         paste_logo(im, W / 2, 90, 34, "dark", align="center")
     else:
+        # 롱폼 (2026-10-29 운영자: 뉴스 썸네일처럼 — 배경 사진은 넓게, 아래에 두 톤 제목, 오른쪽 위 로고, 큰 숫자 하나)
         W, H = 1280, 720; im = background(W, H, .6)
-        if spec.get("photo"): _bg_photo(im, spec["photo"], foc, spec.get("photo_opacity", .36))
-        f1 = fit(spec["l1"], "Heavy", 66, 1060); f2 = fit(spec["l2"], "Heavy", 88, 1080); s1, s2 = 66, 88
-        text_shadow(im, (W / 2, 78), spec["l1"], f1, IVORY)
-        text_shadow(im, (W / 2, 78 + f1.size * .55 + f2.size * .7), spec["l2"], f2, GOLD)
-        if spec.get("logo"): name_block(im, spec, 360, 460, 520, 120)
-        elif em: emblem(im, em["kind"], 360, 470, em.get("size", 220), em.get("text"))
-        elif spec.get("chart"): chart(im, spec["chart"], (70, 300, 690, 640), tone)
-        _big(im, spec.get("big_label"), spec["big"], 950, 380, 510, 200, tone, 560)
-        paste_logo(im, W - 36, 30, 26, "dark", align="right")
+        if spec.get("photo"):
+            ph = _cover(spec["photo"], W, H, foc, blur=0)
+            g = np.asarray(ph.convert("RGB")).astype(np.float32); gray = g.mean(-1, keepdims=True)
+            g = gray + (g - gray) * .7                                      # 채도를 조금 빼 네이비 톤과 어울리게
+            g = g * .62 + np.array([13, 27, 52], np.float32) * .38          # 네이비로 살짝 물들임
+            im = Image.fromarray(np.clip(g, 0, 255).astype(np.uint8)).convert("RGBA")
+        _shade(im, [(0, 60), (.45, 30), (.6, 140), (.78, 225), (1, 245)])   # 아래 제목 자리만 어둡게
+        _shade(im, [(0, 150), (.4, 40), (.7, 0), (1, 0)], axis="x")          # 왼쪽 위 숫자 자리
+        f1 = fit(spec["l1"], "Heavy", 78, 1180); f2 = fit(spec["l2"], "Heavy", 100, 1200); s1, s2 = 78, 100
+        y2 = H - 30 - f2.size * .6; y1 = y2 - f2.size * .62 - f1.size * .62 - 6
+        text_shadow(im, (W / 2, y1), spec["l1"], f1, GOLD, off=4, blur=10, alpha=220)
+        text_shadow(im, (W / 2, y2), spec["l2"], f2, IVORY, off=4, blur=10, alpha=220)
+        if not spec.get("photo") and spec.get("chart"): chart(im, spec["chart"], (660, 140, 1210, 420), tone)
+        _big(im, spec.get("big_label"), spec["big"], 64, 112, 232, 180, tone, 620, anchor="l")
+        paste_logo(im, W - 36, 30, 30, "dark", align="right")
     for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
         if f.size < mx * .75: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt}")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
