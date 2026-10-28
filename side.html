@@ -78,6 +78,7 @@ h2{font-size:16px;margin:22px 0 10px;font-weight:850}
 .bar-row .fill{height:100%;background:var(--bar);border-radius:6px}
 .bar-row .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:700}
 .thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.thumbs .th{display:grid;gap:6px;grid-template-rows:auto 1fr auto}.thumbs .tt{font-size:12.5px;line-height:1.4;color:var(--ink);font-weight:700}.thumbs a{display:grid;gap:4px;text-decoration:none;color:var(--ink2);font-size:12.5px;font-weight:700}.thumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.dlbox{display:grid;gap:6px;padding:10px;border:1px solid var(--line);border-radius:12px}.loc{display:grid;gap:8px;margin-top:6px}.locrow{display:grid;gap:4px;font-size:13px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
 .jobbar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}.jobbar>div{height:100%;background:var(--bar);border-radius:5px;transition:width .6s}
 .plan{display:grid;gap:8px}
 .plan .t{font-size:16px;font-weight:850;line-height:1.4}
@@ -320,20 +321,17 @@ function viewPlan(){
 
 /* ---------- 검수 ---------- */
 function viewReview(){
-  const longs = S.videos.filter(v => v.kind === 'long' && v.status !== 'rejected');
-  const shortsOf = id => S.videos.filter(v => v.kind === 'short' && v.parent_id === id && v.status !== 'rejected');
-  const orphanShorts = S.videos.filter(v => v.kind === 'short' && !v.parent_id && v.status !== 'rejected');
+  // 2026-10-28 운영자: 쇼츠도 롱폼처럼 따로 검수하고 필요한 것을 모두 받을 수 있게
   const order = { review: 0, approved: 1, uploaded: 2 };
-  const list = longs.concat(orphanShorts).sort((a,b) => (order[a.status] - order[b.status]) || (Date.parse(a.scheduled_at || a.created_at) - Date.parse(b.scheduled_at || b.created_at)));
+  const list = S.videos.filter(v => v.status !== 'rejected').sort((a,b) => (order[a.status] - order[b.status]) || ((a.parent_id || a.id).localeCompare(b.parent_id || b.id)) || (a.kind === 'long' ? -1 : 1));
   const langCount = S.settings.langs ? S.settings.langs.length : 0;
-  $('#main').innerHTML = `<div class="note" style="margin-bottom:10px">롱폼을 승인하면 그 롱폼에서 자른 쇼츠도 함께 승인됩니다. 유튜브 API 심사 전까지는 내려받아 스튜디오에 직접 올리고 '올림'을 눌러 주세요.</div>` +
-    (list.length ? `<div class="grid">${list.map(v => item(v, shortsOf(v.id), langCount)).join('')}</div>` : '<div class="card empty">검수할 영상이 없습니다.</div>');
+  $('#main').innerHTML = `<div class="note" style="margin-bottom:10px">롱폼과 쇼츠를 따로 검수합니다. 유튜브 API 심사 전까지는 받아서 스튜디오에 직접 올리고 '올림'을 눌러 주세요.</div>` +
+    (list.length ? `<div class="grid">${list.map(v => item(v, langCount)).join('')}</div>` : '<div class="card empty">검수할 영상이 없습니다.</div>');
   document.querySelectorAll('[data-vid]').forEach(card => {
     const id = card.dataset.vid, v = S.videos.find(x => x.id === id);
-    const kids = shortsOf(id).map(x => x.id);
     const upd = async (obj, ids, msg) => { const { error } = await sb.from('sc_videos').update(obj).in('id', ids); if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; } await reload(); toast(msg); };
     const note = () => (card.querySelector('[data-note]') || {}).value?.trim() || null;
-    const ok = card.querySelector('[data-ok]'); if (ok) ok.onclick = () => upd({ status: 'approved', reviewed_at: new Date().toISOString(), note: note() }, [id].concat(kids), kids.length ? `승인했습니다 (쇼츠 ${kids.length}편 포함)` : '승인했습니다');
+    const ok = card.querySelector('[data-ok]'); if (ok) ok.onclick = () => upd({ status: 'approved', reviewed_at: new Date().toISOString(), note: note() }, [id], '승인했습니다');
     const no = card.querySelector('[data-no]'); if (no) no.onclick = () => { if (!confirm('이 영상을 반려할까요?')) return; upd({ status: 'rejected', note: note() }, [id], '반려했습니다'); };
     const up = card.querySelector('[data-up]'); if (up) up.onclick = () => {
       const raw = prompt('올린 유튜브 영상 주소나 ID를 붙여 넣어 주세요', v.youtube_id || ''); if (raw === null) return;
@@ -341,28 +339,46 @@ function viewReview(){
       upd({ status: 'uploaded', youtube_id: yid || null, uploaded_at: new Date().toISOString() }, [id], '올림으로 표시했습니다');
     };
     const sv = card.querySelector('[data-save]'); if (sv) sv.onclick = () => upd({ note: note() }, [id], '의견을 저장했습니다');
-    card.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { try { await navigator.clipboard.writeText(b.dataset.copy); toast('제목을 복사했습니다'); } catch(_) { prompt('아래 제목을 복사하세요', b.dataset.copy); } });
+    card.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const what = b.dataset.what || '내용'; try { await navigator.clipboard.writeText(b.dataset.copy); toast(what + '을(를) 복사했습니다'); } catch(_) { prompt('아래 내용을 복사하세요', b.dataset.copy); } });
   });
 }
-function item(v, kids, langCount){
+const dl = (url, label) => url ? `<a class="btn sm" href="${esc(url)}" download target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">${label}</a>` : '';
+const cp = (text, label, what) => text ? `<button class="btn sm" data-copy="${esc(text)}" data-what="${esc(what || label)}">${label}</button>` : '';
+function item(v, langCount){
+  const isShort = v.kind === 'short';
+  const Q = (S.queue || {})[isShort ? v.parent_id : v.id] || {};
+  const SQ = isShort ? (Q.short || {}) : Q;
+  const title = SQ.title || v.title;
+  const desc = SQ.description || v.description || '';
+  const tags = (SQ.tags || (isShort ? null : Q.tags) || []).join(', ');
+  const parent = isShort ? S.videos.find(x => x.id === v.parent_id) : null;
   const st = ({ review: '<span class="badge warn">검수 대기</span>', approved: '<span class="badge good">승인됨 · 업로드 대기</span>', uploaded: '<span class="badge">올림</span>' })[v.status] || '';
   const locN = Object.keys(v.loc || {}).length;
-  return `<div class="card" data-vid="${esc(v.id)}"><div class="vid${v.kind === 'short' ? ' short' : ''}">
+  const dur = v.duration ? (isShort ? Math.round(v.duration) + '초' : Math.round(v.duration / 60) + '분') : '';
+  return `<div class="card" data-vid="${esc(v.id)}"><div class="vid${isShort ? ' short' : ''}">
     <div>${v.video_url ? `<video src="${esc(v.video_url)}" ${v.thumb ? `poster="${esc(v.thumb)}"` : ''} controls preload="none" playsinline></video>` : '<div class="empty">영상 파일 없음</div>'}</div>
     <div class="meta">
-      <div class="row">${st}<span class="badge mut">${v.kind === 'long' ? '롱폼' : '쇼츠'}${v.duration ? ' · ' + Math.round(v.duration / 60) + '분' : ''}</span><span class="badge mut">다국어 ${locN}/${langCount}</span></div>
-      <div style="font-weight:850;font-size:15.5px;line-height:1.4">${esc(v.title)}</div>
-      <div class="note">게시 예정 ${kst(v.scheduled_at)}</div>
-      ${v.description ? `<details><summary class="note" style="cursor:pointer">설명 보기</summary><div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(v.description)}</div></details>` : ''}
-      ${locN ? `<details><summary class="note" style="cursor:pointer">언어별 제목 보기</summary><div class="note" style="margin-top:6px">${Object.entries(v.loc).map(([k, o]) => `<div><b>${esc(LANGS[k] || k)}</b> ${esc(o && o.title || '')}</div>`).join('')}</div></details>` : ''}
-      ${((S.queue || {})[v.id]?.thumbs || []).length ? `<div class="note" style="font-weight:700">제목·썸네일 A/B 테스트 (스튜디오 '테스트 및 비교'에 같은 글자끼리 짝지어 3개 넣기 · 시청 시간 많은 쪽 자동 선택)</div>
-        <div class="thumbs">${S.queue[v.id].thumbs.map(t => `<div class="th"><a href="${esc(t.url)}" download target="_blank" rel="noopener"><img src="${esc(t.url)}" alt="${esc(t.label)}" loading="lazy"><span>${esc(t.label)} · 썸네일 받기</span></a>${t.title ? `<div class="tt">${esc(t.title)}</div><button class="btn sm" data-copy="${esc(t.title)}">제목 복사</button>` : ''}</div>`).join('')}</div>` : ''}
-      ${(S.queue || {})[v.id]?.subtitle ? `<div class="note">영어 자막: <a href="${esc(S.queue[v.id].subtitle)}" download target="_blank" rel="noopener"><b>자막 파일(.srt) 받기</b></a> — 스튜디오 자막 → 영어 추가 → 파일 업로드 → '타이밍 있음'</div>` : (S.queue || {})[v.id]?.transcript ? `<div class="note">자막용 대본: <a href="${esc(S.queue[v.id].transcript)}" download target="_blank" rel="noopener">영어 대본 받기</a> (스튜디오 자막 → 추가 → 파일 업로드 → '타이밍 없음')</div>` : ''}
-      ${kids.length ? `<div class="note">함께 올릴 쇼츠 ${kids.length}편: ${kids.map(k => `${esc(k.title)}${k.video_url ? ` · <a href="${esc(k.video_url)}" target="_blank" rel="noopener">쇼츠 받기</a>` : ''}`).join(' / ')}</div>` : ''}
+      <div class="row">${st}<span class="badge ${isShort ? '' : 'mut'}">${isShort ? '쇼츠' : '롱폼'}${dur ? ' · ' + dur : ''}</span>${isShort ? '' : `<span class="badge mut">다국어 ${locN}/${langCount}</span>`}</div>
+      <div style="font-weight:850;font-size:15.5px;line-height:1.4">${esc(title)}</div>
+      ${parent ? `<div class="note">본편: ${esc(parent.title)} · 본편 올린 다음 날 올리기 · 스튜디오 '관련 동영상'에 본편 연결</div>` : `<div class="note">게시 예정 ${kst(v.scheduled_at)}</div>`}
+      <div class="dlbox">
+        <div class="note" style="font-weight:700">받기</div>
+        <div class="row">
+          ${dl(v.video_url, '영상')}
+          ${isShort ? '' : dl(v.thumb, '대표 썸네일')}
+          ${dl(SQ.subtitle, '영어 자막(.srt)')}
+          ${isShort ? '' : (!Q.subtitle ? dl(Q.transcript, '영어 대본(.txt)') : '')}
+        </div>
+        <div class="note" style="font-weight:700;margin-top:4px">복사</div>
+        <div class="row">${cp(title, '제목')}${cp(desc, '설명')}${cp(tags, '태그')}${isShort ? cp("Where did YOU eat your first Choco Pie? 🍫 Full story on the channel! — Kachi", '고정 댓글') : cp("Where did YOU eat your first Choco Pie? 🍫 I'm reading every comment! — Kachi", '고정 댓글')}</div>
+        ${SQ.subtitle ? `<div class="note">자막: 스튜디오 → 자막 → 영어 추가 → 파일 업로드 → '타이밍 있음'에 .srt</div>` : ''}
+      </div>
+      ${desc ? `<details><summary class="note" style="cursor:pointer">설명 보기</summary><div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(desc)}</div></details>` : ''}
+      ${locN && !isShort ? `<details><summary class="note" style="cursor:pointer">언어별 제목·설명 (스튜디오 → 자막 → 언어 추가)</summary><div class="loc">${Object.entries(v.loc).map(([k, o]) => `<div class="locrow"><b>${esc(LANGS[k] || k)}</b><div>${esc(o && o.title || '')}</div><div class="row">${cp(o && o.title, '제목', LANGS[k] + ' 제목')}${cp(o && o.description, '설명', LANGS[k] + ' 설명')}</div></div>`).join('')}</div></details>` : ''}
+      ${!isShort && (Q.thumbs || []).length ? `<div class="note" style="font-weight:700">제목·썸네일 A/B 테스트 (스튜디오 '테스트 및 비교'에 같은 글자끼리 짝지어 3개 넣기 · 시청 시간 많은 쪽 자동 선택)</div>
+        <div class="thumbs">${Q.thumbs.map(t => `<div class="th"><a href="${esc(t.url)}" download target="_blank" rel="noopener"><img src="${esc(t.url)}" alt="${esc(t.label)}" loading="lazy"><span>${esc(t.label)} · 썸네일 받기</span></a>${t.title ? `<div class="tt">${esc(t.title)}</div>${cp(t.title, '제목 복사', '제목')}` : ''}</div>`).join('')}</div>` : ''}
       ${v.status === 'review' ? `<textarea data-note placeholder="고칠 점을 남기면 다시 렌더합니다">${esc(v.note || '')}</textarea>` : ''}
       <div class="row">
-        ${v.video_url ? `<a class="btn sm" href="${esc(v.video_url)}" download style="text-decoration:none;display:inline-flex;align-items:center">내려받기</a>` : ''}
-        ${v.thumb ? `<a class="btn sm" href="${esc(v.thumb)}" download style="text-decoration:none;display:inline-flex;align-items:center">썸네일</a>` : ''}
         ${v.status === 'review' ? `<button class="btn sm" data-save>의견 저장</button><button class="btn sm ok" data-ok>승인</button><button class="btn sm no" data-no>반려</button>` : ''}
         ${v.status === 'approved' ? `<button class="btn sm pri" data-up>올림</button>` : ''}
         ${v.status === 'uploaded' && v.youtube_id ? `<a class="btn sm" href="https://youtu.be/${esc(v.youtube_id)}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">유튜브에서 보기</a>` : ''}

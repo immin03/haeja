@@ -286,6 +286,22 @@ def card_chip(text):
     return im
 
 
+def card_cta():
+    """쇼츠 마무리 카드: 로고 + FULL STORY ON THE CHANNEL + 좋아요·구독 버튼"""
+    lg = Image.open(os.path.join(GEN, "brand_logo_main.png")).convert("RGBA"); lw = 640; lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
+    w = 900; h = lg.height + 360; im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    d.rounded_rectangle((0, 40, w, h), 48, fill=(255, 255, 255, 240))
+    im.alpha_composite(lg, ((w - lw) // 2, 0))
+    y = lg.height + 30
+    d.text((w // 2, y), "FULL STORY ON THE CHANNEL", font=FP(46, "ExtraBold"), fill=INK, anchor="mt")
+    bw, bh = 360, 110; y2 = y + 90
+    d.rounded_rectangle((w // 2 - bw - 20, y2, w // 2 - 20, y2 + bh), 55, fill=(242, 242, 242), outline=(220, 220, 220), width=3)
+    d.text((w // 2 - 20 - bw // 2, y2 + bh // 2), "LIKE", font=FP(50, "ExtraBold"), fill=INK, anchor="mm")
+    d.rounded_rectangle((w // 2 + 20, y2, w // 2 + 20 + bw, y2 + bh), 55, fill=(230, 33, 23))
+    d.text((w // 2 + 20 + bw // 2, y2 + bh // 2), "SUBSCRIBE", font=FP(50, "ExtraBold"), fill=WHITE, anchor="mm")
+    return im
+
+
 def card_count(val, label):
     f, f2 = FB(110), FB(40, "Bold")
     s = f"{int(val):,}"
@@ -493,10 +509,11 @@ def write_srt(segs, path):
     """유튜브 자막 파일(SRT): 화면 자막과 같은 묶음·같은 타이밍"""
     ts = lambda x: f"{int(x // 3600):02d}:{int(x % 3600 // 60):02d}:{int(x % 60):02d},{int(round((x % 1) * 1000)) % 1000:03d}"
     items = [(ch[0][1], ch[-1][2], " ".join(w for w, _, _ in ch)) for sg in segs for ln in sg["lines"] for ch in ln["chunks"]]
-    out = []
+    out = []; prev = 0.0
     for i, (a, b, txt) in enumerate(items):
-        nxt = items[i + 1][0] if i + 1 < len(items) else b + .5
-        out.append(f"{i + 1}\n{ts(max(0, a - .05))} --> {ts(min(b + .25, nxt - .01))}\n{txt}\n")
+        nxt = items[i + 1][0] - .05 if i + 1 < len(items) else b + .5
+        st = max(prev, a - .05); en = max(st + .3, min(b + .25, nxt - .01)); prev = en + .01
+        out.append(f"{i + 1}\n{ts(st)} --> {ts(en)}\n{txt}\n")
     open(path, "w", encoding="utf-8").write("\n".join(out))
 
 
@@ -527,19 +544,33 @@ def render(sid):
     return {"video": vid, "short": short, "total": total, "chapters": "\n".join(chapters)}
 
 
-def render_short(spec, sid, od, prog):
-    """세로 쇼츠 (57초 이하): short:true 장면만 골라 세로 화면으로 다시 그린다 — 같은 녹음(캐시) 사용"""
+def short_spec(spec):
+    """쇼츠에 들어갈 장면 고르기 (short:true, 55초 이하)"""
     pick, tot = [], 0.0
-    cand = [sc for sc in spec["scenes"] if sc.get("short")]
     set_layout(VERT)
-    for sc in cand:
+    for sc in [sc for sc in spec["scenes"] if sc.get("short")]:
         d = build(dict(spec, scenes=[sc]))[3] - 1.7
         if tot + d > 55: continue
         pick.append(sc); tot += d
     if not pick: return None
     sp = dict(spec, scenes=[dict(sc) for sc in pick])
-    sp["scenes"][-1] = dict(sp["scenes"][-1], chip="Full story on our channel!")
+    # 2026-10-28 운영자: 쇼츠 끝은 "전체 이야기는 채널에서" + 구독·좋아요로 마무리
+    last = spec["scenes"][0]
+    outro = (spec.get("short_meta") or {}).get("outro") or [
+        "Want the full crazy story? It's waiting for you on What Korea Says with Kachi.",
+        "Hit like, subscribe, and I'll see you there!"]
+    sp["scenes"].append({"bg": spec.get("outro_bg", "k1_store_v2_o"), "vid": spec.get("outro_vid", "cpvo_k1_store_v2"),
+                         "host": {"pose": "h_wave", "side": "right", "then": [[1, "h_talk"]]}, "lines": outro,
+                         "hl": ["full", "story", "like,", "subscribe,"], "pops": [{"at": 0, "kind": "cta", "dt": .2}]})
+    return sp
+
+
+def render_short(spec, sid, od, prog):
+    """세로 쇼츠 (57초 이하): short:true 장면만 골라 세로 화면으로 다시 그린다 — 같은 녹음(캐시) 사용"""
+    sp = short_spec(spec)
+    if not sp: return None
     segs, parts, sfx_ev, total = build(sp)
+    write_srt(segs, os.path.join(od, "subtitles_short_en.srt"))
     out = os.path.join(od, "short.mp4")
     draw_video(sp, sid + "-short", segs, parts, sfx_ev, total, out, prog)
     return out
@@ -586,13 +617,14 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
             if pp["kind"] == "stamp" and 0 <= t - pp["t"] < .35: shake = int(16 * (1 - (t - pp["t"]) / .35))
         if shake:
             base = base.transform(base.size, Image.AFFINE, (1, 0, random.randint(-shake, shake), 0, 1, random.randint(-shake, shake)), resample=Image.BILINEAR)
-        # 장소 표지 (없으면 로고만)
-        if not (sc.get("chip") and age < 5.5): base.paste(LOGO, L["logo"], LOGO)
+        # 장소 표지 (없으면 로고만) — 마무리 카드(cta)가 뜨면 모서리 로고는 숨긴다
+        cta_on = any(pp["kind"] == "cta" and t >= pp["t"] for pp in sg["pops"])
+        if not (sc.get("chip") and age < 5.5) and not cta_on: base.paste(LOGO, L["logo"], LOGO)
         if sc.get("chip") and age < 5.5:
             if "chip" not in cards: cards["chip"] = card_chip(sc["chip"])
             c = cards["chip"]; k = ease_out(age / .4) if age < 5.1 else 1 - ease_out((age - 5.1) / .4)
             base.paste(c, (int(-c.width + (L["edge"] + 10 + c.width) * k), L["chip_y"]), c)
-        base.paste(LOGO, L["logo"], LOGO)
+            if not cta_on: base.paste(LOGO, L["logo"], LOGO)
         # 소품
         slot = 0
         for pp in sg["pops"]:
@@ -605,7 +637,7 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
             if key not in cards:
                 kd = pp["kind"]
                 cards[key] = (card_comment(pp, sid + str(si) + str(pp["k"])) if kd == "comment" else card_stamp(pp["text"]) if kd == "stamp"
-                              else card_glyph(pp["text"]) if kd == "glyph" else card_tag(pp["text"]) if kd == "tag" else None)
+                              else card_glyph(pp["text"]) if kd == "glyph" else card_tag(pp["text"]) if kd == "tag" else card_cta() if kd == "cta" else None)
             c = cards[key]; out_k = 1 - ease_out((t - (sg["en"] - .3)) / .25) if t > sg["en"] - .3 else 1
             if pp["kind"] == "count":
                 val = pp["to"] * ease_out(a / 1.6); c = card_count(val, pp.get("label", ""))
@@ -617,6 +649,7 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
             if pp["kind"] == "comment":
                 x = pos[0] if pos[0] < W / 2 else pos[0] - cw; y = pos[1]
             elif pp["kind"] == "count": x, y = (W - cw) // 2, L["count_y"]
+            elif pp["kind"] == "cta": x, y = (W - cw) // 2, int(H * (.13 if H > W else .1)) + int(math.sin(a * 3) * 6)
             else:
                 fx_, fy_ = pp.get("x", .5), pp.get("y", .42)
                 bob = math.sin(a * 2.2) * 8 if pp["kind"] in ("glyph", "tag") else 0
@@ -671,9 +704,13 @@ def draw_video(spec, sid, segs, parts, sfx_ev, total, vid, prog):
             end_ln = ln["t1"] + .3
             if cur + 1 < len(all_lines): end_ln = min(end_ln, all_lines[cur + 1][1]["t0"] - .06)
             if t <= end_ln:
+                pick_ = None
                 for ci_, ch in enumerate(ln["chunks"]):
-                    nxt = ln["chunks"][ci_ + 1][0][1] if ci_ + 1 < len(ln["chunks"]) else end_ln
-                    if ch[0][1] - .02 <= t < nxt: draw_sub(base, ch, t, hl_all[si_], nxt, spec["scenes"][si_].get("sub_style") or spec.get("sub_style"))
+                    if ch[0][1] - .02 <= t: pick_ = ci_   # 한 번에 한 묶음만 (경계에서 두 묶음이 겹쳐 찍히던 문제)
+                if pick_ is not None:
+                    ch = ln["chunks"][pick_]
+                    nxt = ln["chunks"][pick_ + 1][0][1] if pick_ + 1 < len(ln["chunks"]) else end_ln
+                    if t < max(nxt, ch[0][1] + .05): draw_sub(base, ch, t, hl_all[si_], nxt, spec["scenes"][si_].get("sub_style") or spec.get("sub_style"))
         enc.stdin.write(base.tobytes())
         if t >= sg["en"] - 1 / FPS - 1e-6: prev_last = base
         if fi % (FPS * 30) == 0: print(f"  {sid} {t / 60:.1f}분 / {total / 60:.1f}분", flush=True)
@@ -721,12 +758,34 @@ def main(ids):
     r1.build_description = build_description
     if not ids: ids = [os.path.basename(f)[:-5] for f in sorted(glob.glob(os.path.join(HERE, "specs2", "*.json")))
                        if not os.path.exists(os.path.join(OUT, os.path.basename(f)[:-5], "meta.json")) or "--all" in sys.argv]
+    if "--short" in sys.argv:   # 쇼츠만 다시 렌더 (본편은 그대로)
+        sys.path.insert(0, HERE); from progress import report
+        for sid in ids:
+            spec = json.load(open(os.path.join(HERE, "specs2", sid + ".json"), encoding="utf-8"))
+            od = os.path.join(OUT, sid); JID = "render-" + sid + "-short"
+            report(JID, "쇼츠 렌더 · " + spec["title"], pct=2, detail="쇼츠 다시 그리는 중")
+            out = render_short(spec, sid, od, lambda f, msg: report(JID, pct=5 + 85 * f, detail=msg, every=20))
+            stamp = dt.datetime.utcnow().strftime("%y%m%d%H%M"); name = f"{sid}-short-{stamp}.mp4"; up = os.path.join(od, name); os.replace(out, up)
+            tag = "side-" + sid
+            subprocess.run(["gh", "release", "upload", tag, up, "--clobber", "-R", REPO], check=True); os.remove(up)
+            mp = os.path.join(od, "meta.json"); m = json.load(open(mp))
+            m["short_url"] = f"https://github.com/{REPO}/releases/download/{tag}/{name}"
+            m.setdefault("short", {})["subtitle"] = f"/social/side/{sid}/subtitles_short_en.srt"
+            if spec.get("short_meta"): m["short"].update(spec["short_meta"])
+            json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
+            report(JID, status="done", pct=100, detail="쇼츠 완료 · 검수 탭에서 확인 (몇 분 뒤 반영)")
+        set_layout(LONG); r1.write_queue(); return
     if "--srt" in sys.argv:   # 녹음 캐시로 타이밍만 다시 계산해 자막 파일만 만든다 (영상은 그대로)
         for sid in ids:
             spec = json.load(open(os.path.join(HERE, "specs2", sid + ".json"), encoding="utf-8"))
             set_layout(LONG); segs = build(spec)[0]; od = os.path.join(OUT, sid)
             write_srt(segs, os.path.join(od, "subtitles_en.srt"))
+            sp = short_spec(spec)
+            if sp: write_srt(build(sp)[0], os.path.join(od, "subtitles_short_en.srt"))
+            set_layout(LONG)
             mp = os.path.join(od, "meta.json"); m = json.load(open(mp)); m["subtitle"] = f"/social/side/{sid}/subtitles_en.srt"
+            if sp: m.setdefault("short", {})["subtitle"] = f"/social/side/{sid}/subtitles_short_en.srt"
+            if spec.get("short_meta"): m.setdefault("short", {}).update(spec["short_meta"])
             json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1); print("자막", sid)
         r1.write_queue(); return
     for sid in ids:
@@ -749,7 +808,10 @@ def main(ids):
             mp = os.path.join(OUT, sid, "meta.json"); keep = (json.load(open(mp)).get("thumbs") if os.path.exists(mp) else None)
             r1.publish(sid, res, spec)
             open(os.path.join(OUT, sid, "transcript_en.txt"), "w").write("\n\n".join(" ".join(x["lines"]) for x in spec["scenes"]) + "\n")
-            m = json.load(open(mp)); m["transcript"] = f"/social/side/{sid}/transcript_en.txt"; m["subtitle"] = f"/social/side/{sid}/subtitles_en.srt"; json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
+            m = json.load(open(mp)); m["transcript"] = f"/social/side/{sid}/transcript_en.txt"; m["subtitle"] = f"/social/side/{sid}/subtitles_en.srt"
+            if os.path.exists(os.path.join(OUT, sid, "subtitles_short_en.srt")): m.setdefault("short", {})["subtitle"] = f"/social/side/{sid}/subtitles_short_en.srt"
+            if spec.get("short_meta"): m.setdefault("short", {}).update(spec["short_meta"])
+            json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
             if keep:   # 따로 만든 썸네일 후보는 다시 렌더해도 유지
                 m = json.load(open(mp)); m["thumbs"] = keep; json.dump(m, open(mp, "w"), ensure_ascii=False, indent=1)
             report("render-" + sid, status="done", pct=100, detail=f"완료 · {int(res['total'] // 60)}분 {int(res['total'] % 60)}초 · 검수 탭에서 확인 (몇 분 뒤 반영)")
