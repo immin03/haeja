@@ -467,7 +467,7 @@ def render_v4(spec, out):
     _shade(im, [(0, 235), (.4, 195), (.66, 60), (.88, 0), (1, 0)], axis="x")
     _shade(im, [(0, 40), (.2, 0), (.8, 0), (1, 70)])
     tone = spec.get("tone", "down")
-    acc = {"down": (255, 92, 104), "up": GREEN, "gold": (242, 212, 151)}.get(tone, (242, 212, 151))
+    acc = {"down": (255, 92, 104), "up": GREEN, "gold": (242, 212, 151), "ivory": (250, 247, 240)}.get(tone, (242, 212, 151))
     LX = 64; maxw = W - 2 * LX - 120
     rows = []
     if spec.get("logo"):
