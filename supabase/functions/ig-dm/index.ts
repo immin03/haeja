@@ -63,6 +63,12 @@ async function onComment(v: any, a: any, site: string) {
   const any = (await cfg("ig_dm_any_comment")) === true;   // true면 키워드 없이 아무 댓글에나 반응
   if (!post?.dm_keyword && !any) return "no-keyword-post";
   if (post?.dm_keyword && !any && !norm(v.text).includes(norm(post.dm_keyword))) return "no-match";
+  // 같은 사람이 같은 릴스에 댓글을 여러 번 달아도 DM은 하루 한 번만 (2026-10-29: 연달아 단 댓글 2개에 DM 2통이 간 일)
+  if (from.id) {
+    const { data: prev } = await sb.from("ig_dm").select("comment_id").eq("igsid", from.id).eq("media_id", media)
+      .in("status", ["new", "asked", "sent"]).gte("created_at", new Date(Date.now() - 864e5).toISOString()).limit(1);
+    if (prev?.length) return "dup-user";
+  }
   const { error: dup } = await sb.from("ig_dm").insert({ comment_id: cid, media_id: media, post_id: post?.id || null, igsid: from.id || null, username: from.username || null, keyword: post?.dm_keyword || null, status: "new" });
   if (dup) return "dup";
   try {
