@@ -1,0 +1,36 @@
+{
+ "id": "ms3_empty",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "SCARF: a long hand-knitted cherry-red wool scarf with one small cream-white felt heart patch sewn near one end. Close-up of the round twig magpie nest on a snowy ginkgo branch, the chicks are gone, the nest is empty except for the red scarf still lining it, the heart patch visible. Kachi stands on the rim of the nest holding the free end of the scarf in its beak. Evening, falling snow, warm amber streetlamp light from below. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18321-03bf-7ec2-a9bd-ea4982045747/66870daa-417c-47f4-8642-bad33d9a73aa.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18321-e5ba-722b-8f21-a5ca61186beb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18321-e5ba-722b-8f21-a5ca61186beb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18321-e5ba-722b-8f21-a5ca61186beb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18321-e5ba-722b-8f21-a5ca61186beb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18321-e5ba-722b-8f21-a5ca61186beb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18321-e5ba-722b-8f21-a5ca61186beb/cancel",
+  "expires_at": "2026-11-04T15:30:49.061353+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18321-e5ba-722b-8f21-a5ca61186beb/2a3075c0-e22d-4fd5-b11d-79425664f1c6.jpeg"
+   }
+  ]
+ },
+ "seconds": 56,
+ "file": "social/side/gen/ms3_empty.jpeg"
+}

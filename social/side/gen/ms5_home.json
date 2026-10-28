@@ -1,0 +1,36 @@
+{
+ "id": "ms5_home",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "GRANDPA: a thin Korean grandpa in his late seventies, short white hair, kind wrinkled face, faded olive-green padded jacket, grey wool trousers, no hat. SCARF: a long hand-knitted cherry-red wool scarf with one small cream-white felt heart patch sewn near one end. PLACE: a small Seoul neighborhood bus stop: a plain wooden bench under a simple glass shelter with no signs or route numbers, a big ginkgo tree right beside it, a round twig magpie nest on a low ginkgo branch at shoulder height. The grandpa sits on the bench with the red scarf now wrapped warmly around his neck, the heart patch resting on his chest where he can see it; teary eyes and a soft trembling smile. On top of the glass bus shelter roof above him sit Kachi and three young magpies slightly smaller than Kachi, plain black-and-white with no neckerchief and no satchel, in a neat row looking down at him. Evening, gentle falling snow, warm amber streetlamp light. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18321-e5a0-754b-80cc-361c0f9a2734/d1edc509-ac7d-4b71-80f9-0e4680f9f663.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18322-c6b2-7621-aa52-d3c30ce2359f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18322-c6b2-7621-aa52-d3c30ce2359f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18322-c6b2-7621-aa52-d3c30ce2359f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18322-c6b2-7621-aa52-d3c30ce2359f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18322-c6b2-7621-aa52-d3c30ce2359f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18322-c6b2-7621-aa52-d3c30ce2359f/cancel",
+  "expires_at": "2026-11-04T15:31:46.559581+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18322-c6b2-7621-aa52-d3c30ce2359f/6fc26b9b-37ee-4c21-9edc-31634c80e492.jpeg"
+   }
+  ]
+ },
+ "seconds": 56,
+ "file": "social/side/gen/ms5_home.jpeg"
+}
