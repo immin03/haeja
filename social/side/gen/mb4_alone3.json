@@ -1,0 +1,35 @@
+{
+ "id": "mb4_alone3",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change these things: the small framed portrait of the magpie on the wall has exactly one word written neatly under it in simple dark handwriting: Kachi (spelled K-a-c-h-i), and nothing else is written on it. Every glass jar has a plain red lid and no label at all. Any packets have plain solid colors with no writing. No other letters anywhere in the image.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18010-fe30-7b27-ab9e-6063a0fa6f03/266b7666-e9aa-4954-bf75-e84434ee1b6d.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1804a-75f3-7e2c-a37f-2a95cb720e6a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1804a-75f3-7e2c-a37f-2a95cb720e6a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1804a-75f3-7e2c-a37f-2a95cb720e6a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1804a-75f3-7e2c-a37f-2a95cb720e6a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1804a-75f3-7e2c-a37f-2a95cb720e6a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1804a-75f3-7e2c-a37f-2a95cb720e6a/cancel",
+  "expires_at": "2026-11-04T02:15:59.810637+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1804a-75f3-7e2c-a37f-2a95cb720e6a/be2b1869-5b87-4b32-870d-f3c6d3028d44.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/mb4_alone3.jpeg"
+}

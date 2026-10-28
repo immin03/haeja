@@ -1,0 +1,31 @@
+{
+ "id": "mbv73_morning",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The mother looks at her phone, smiles and wipes a tear from her cheek with the back of her hand, then laughs softly and holds the phone to her chest. On the windowsill the magpie tilts its head and gives a small happy hop. Morning sunlight slowly grows warmer. Slow gentle pull-back. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1804a-77f7-70e9-91a1-c805c2e44ae1/6ecbb5ae-211e-46b9-b9af-38478ab15eee.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1804b-7957-726e-a715-014c418c8d6c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1804b-7957-726e-a715-014c418c8d6c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1804b-7957-726e-a715-014c418c8d6c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1804b-7957-726e-a715-014c418c8d6c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1804b-7957-726e-a715-014c418c8d6c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1804b-7957-726e-a715-014c418c8d6c/cancel",
+  "expires_at": "2026-11-04T02:18:31.320830+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1804b-7957-726e-a715-014c418c8d6c/ef9c367a-e14b-4fe9-ae7f-d4fe373d5276.mp4"
+  }
+ },
+ "seconds": 125,
+ "file": "social/side/gen/mbv73_morning.mp4"
+}

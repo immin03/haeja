@@ -1,0 +1,35 @@
+{
+ "id": "mb1_pack3",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change one thing: every framed picture or sign on the walls shows only a simple painting (flowers or a landscape) with absolutely no writing, no letters, no characters and no symbols. Nothing written anywhere in the image.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-322a-7de5-b321-94703e91d9e8/7094d525-2507-445b-8654-00e3ccc4beb1.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1804a-75ed-7ff3-b217-2ff2d0be54c9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1804a-75ed-7ff3-b217-2ff2d0be54c9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1804a-75ed-7ff3-b217-2ff2d0be54c9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1804a-75ed-7ff3-b217-2ff2d0be54c9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1804a-75ed-7ff3-b217-2ff2d0be54c9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1804a-75ed-7ff3-b217-2ff2d0be54c9/cancel",
+  "expires_at": "2026-11-04T02:15:57.167290+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1804a-75ed-7ff3-b217-2ff2d0be54c9/e47b38b0-8105-4800-8f6c-23dfd5a326ae.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/mb1_pack3.jpeg"
+}
