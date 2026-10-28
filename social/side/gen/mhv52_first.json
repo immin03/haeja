@@ -1,0 +1,31 @@
+{
+ "id": "mhv52_first",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The son holds the paper bag of fish-shaped bread out to his mother first; she looks up at him with teary, grateful eyes; snow falls softly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812f-2083-769b-bc9c-0bed9e4237a4/c90ed3c9-c130-44cc-9e12-f04870892555.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1836d-1f66-7827-aaf6-eec227ee8444",
+  "status_url": "https://api.higgsfield.ai/requests/01a1836d-1f66-7827-aaf6-eec227ee8444/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1836d-1f66-7827-aaf6-eec227ee8444/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1836d-1f66-7827-aaf6-eec227ee8444",
+  "status_url": "https://api.higgsfield.ai/requests/01a1836d-1f66-7827-aaf6-eec227ee8444/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1836d-1f66-7827-aaf6-eec227ee8444/cancel",
+  "expires_at": "2026-11-04T16:55:00.425618+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1836d-1f66-7827-aaf6-eec227ee8444/ef30c047-48f5-4cb2-9ca0-39c5aa7f4d60.mp4"
+  }
+ },
+ "seconds": 175,
+ "file": "social/side/gen/mhv52_first.mp4"
+}
