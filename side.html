@@ -136,6 +136,14 @@ button.th .pl i{width:30px;height:30px;border-radius:50%;background:rgba(255,255
 .learn{display:grid;gap:8px;margin:0;padding:0;list-style:none}
 .learn li{font-size:13.5px;line-height:1.6;color:var(--ink2);padding:9px 11px;background:var(--soft);border-radius:10px}
 .learn li small{display:block;color:var(--muted);font-size:11.5px;font-weight:700}
+.imp{display:grid;gap:8px}
+.imp .t{font-size:15.5px;font-weight:850;line-height:1.4}
+.imp .sec{font-size:13px;line-height:1.6;color:var(--ink2)}
+.imp .sec b{display:block;font-size:11.5px;color:var(--muted);font-weight:800;margin-bottom:1px}
+.imp .ap{background:var(--good-bg);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.6;color:var(--ink)}
+.imp .ap b{display:block;font-size:11.5px;color:var(--good);font-weight:800}
+.imp.done{opacity:.72}
+.bk .sub{font-size:11.5px;font-weight:800;color:var(--heart)}
 .login{max-width:380px;margin:40px auto;display:grid;gap:10px}
 .login label{display:grid;gap:5px;font-size:13px;color:var(--muted);font-weight:700}
 .chk{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;border:1px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer;background:var(--surface)}
@@ -183,7 +191,7 @@ const store = { get(k, d){ try { const v = localStorage.getItem(k); return v == 
 
 const EMO = { mom:'엄마', grand:'할머니·할아버지', animal:'동물 가족', kind:'작은 친절', korea:'한국 문화', underdog:'역경·반전', style:'미니어처 감성' };
 const SLOT_NOTE = { '03:00': '유럽 저녁', '08:00': '미국 동부 저녁', '13:00': '미국 서부 저녁', '22:00': '인도 저녁·유럽 낮' };
-const S = { tab: store.get('sc-tab3', 'sched'), trends: [], hot: [], plans: [], videos: [], settings: {}, err: '', queue: {}, hotCat: 'all', hotSort: 'per_day' };
+const S = { tab: store.get('sc-tab3', 'sched'), trends: [], hot: [], plans: [], videos: [], settings: {}, err: '', queue: {}, hotCat: 'all', hotSort: 'per_day', improve: [], breakout: [], impAll: false };
 const SLOTS = () => (S.settings.slots && S.settings.slots.length ? S.settings.slots : ['08:00', '22:00']);
 // 매일 같은 시각, 주말 포함 — 2026-10-28 15:17 대표님 "주말도 포함해서 그냥 2편만"
 const slotsFor = () => SLOTS();
@@ -211,16 +219,19 @@ function loginView(msg){
 /* ---------- 데이터 ---------- */
 async function loadAll(){
   const since = new Date(Date.now() - 3*864e5).toISOString().slice(0,10);
-  const [t, h, p, v, s] = await Promise.all([
+  const [t, h, p, v, s, im, bo] = await Promise.all([
     sb.from('sc_trends').select('*').neq('kind', 'legacy').order('collected_at', { ascending: false }).limit(200),
     sb.from('sc_hot').select('*').gte('day', since).order('views', { ascending: false }).limit(600),
     sb.from('sc_plans').select('*').order('created_at', { ascending: false }).limit(300),
     sb.from('sc_videos').select('*').order('created_at', { ascending: false }).limit(300),
-    sb.from('sc_settings').select('value').eq('id', 1).maybeSingle()
+    sb.from('sc_settings').select('value').eq('id', 1).maybeSingle(),
+    sb.from('sc_improve').select('*').order('day', { ascending: false }).order('impact', { ascending: false }).limit(80),
+    sb.from('sc_breakout').select('*').order('ratio', { ascending: false }).limit(60)
   ]);
   const err = [t, p, v, s].find(r => r.error);
   S.err = err ? err.error.message : '';
   S.trends = t.data || []; S.hot = h.error ? [] : (h.data || []); S.plans = p.data || []; S.videos = v.data || []; S.settings = (s.data && s.data.value) || {};
+  S.improve = im.error ? [] : (im.data || []); S.breakout = bo.error ? [] : (bo.data || []);
   if (S.settings.channel_name) $('#chname').textContent = S.settings.channel_name;
   try { const q = await fetch('/social/side/queue.json?t=' + Date.now()).then(r => r.ok ? r.json() : []); S.queue = {}; (q || []).forEach(m => { S.queue[m.id] = m; }); } catch(_) { S.queue = {}; }
 }
@@ -228,7 +239,7 @@ async function loadAll(){
 /* ---------- 탭 ---------- */
 const TABS = [
   ['sched', '편성', () => 0], // 고치는 건 Claude 몫이라 대표님께 숫자로 재촉하지 않는다
-  ['trend', '트렌드', () => 0],
+  ['trend', '트렌드·개선', () => S.improve.filter(x => x.status === 'proposed').length], // 대표님 승인을 기다리는 개선 제안 수
   ['perf', '성과', () => 0],
   ['set', '설정', () => 0]
 ];
@@ -425,9 +436,9 @@ function viewTrend(){
   const list = hot.filter(x => S.hotCat === 'all' || (x.cats || []).includes(S.hotCat)).sort((a,b) => (+b[S.hotSort] || 0) - (+a[S.hotSort] || 0)).slice(0, S.hotMore ? 60 : 24);
   const log = S.settings.hot_log;
   const usedTr = id => S.plans.some(p => p.trend_id === id && !['rejected'].includes(p.status));
-  $('#main').innerHTML = `
+  $('#main').innerHTML = improveBlock() + breakoutBlock() + `
+    <h2>Claude에게 만들어 달라고 하기</h2>
     <div class="card" style="display:grid;gap:8px">
-      <div style="font-weight:850">Claude에게 만들어 달라고 하기</div>
       <div class="note">보고 싶은 이야기가 있으면 적어 주세요. 다음 빈칸에 넣어 만듭니다. 아래 추천 소재의 '이거 만들어 줘'를 눌러도 됩니다.</div>
       <textarea id="req" placeholder="예: 비 오는 날 편의점 앞에서 할머니에게 우산을 씌워 주는 아이"></textarea>
       <div><button class="btn pri" id="reqbtn">만들어 줘</button></div>
@@ -462,11 +473,77 @@ function viewTrend(){
         <div class="t">${esc(cleanTitle(x.title))}</div><div class="c">${esc(x.channel || '')}${x.age_days != null ? ' · ' + Math.max(1, Math.round(x.age_days)) + '일 전' : ''}</div></a>`).join('')}</div>
       ${!S.hotMore && hot.length > 24 ? '<div style="text-align:center;margin-top:12px"><button class="btn" id="hmore">더 보기</button></div>' : ''}`
       : '<div class="card empty">수집된 쇼츠가 없습니다. 매일 아침 7시 40분에 모읍니다.</div>'}`;
+  bindImprove();
   document.querySelectorAll('#hcat [data-c]').forEach(b => b.onclick = () => { S.hotCat = b.dataset.c; viewTrend(); });
   document.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { S.hotSort = b.dataset.s; viewTrend(); });
   const hm = $('#hmore'); if (hm) hm.onclick = () => { S.hotMore = true; viewTrend(); };
   $('#reqbtn').onclick = async () => { const t = $('#req').value.trim(); if (!t) { toast('만들고 싶은 이야기를 적어 주세요', true); return; } $('#reqbtn').disabled = true; await requestPlan(t, null); };
   document.querySelectorAll('[data-make]').forEach(b => b.onclick = async () => { const tr = S.trends.find(x => x.id === +b.dataset.make); b.disabled = true; if (!(await requestPlan('', tr))) b.disabled = false; });
+}
+
+/* ---------- 매일 개선 제안 (2026-10-29) ----------
+   매일 11시 무렵 Claude(벤치마킹 작업)가 '구독자는 적은데 쇼츠가 터진 채널'(뷰 sc_breakout)과 우리 성과를 비교해 sc_improve 에 제안을 쓴다.
+   대표님이 승인하면 status 'approved' → 다음 작업자 실행이 새 기획에 그대로 넣고 'applied' 로 바꾼다. */
+const AREA = { hook: '첫 2초', title: '제목', story: '이야기', visual: '그림', length: '길이', music: '음악', ending: '엔딩', upload: '운영', topic: '소재', thumb: '썸네일' };
+const IMP_ST = { proposed: ['승인 대기', 'warn'], approved: ['승인 · 다음 기획부터', 'good'], applied: ['적용 중', 'good'], hold: ['보류', 'mut'], rejected: ['반려', 'mut'] };
+function improveBlock(){
+  const wait = S.improve.filter(x => x.status === 'proposed');
+  const rest = S.improve.filter(x => x.status !== 'proposed');
+  const last = S.improve[0];
+  const card = x => {
+    const st = IMP_ST[x.status] || [x.status, 'mut'];
+    const fb = lastNote(x.feedback);
+    const ev = (x.evidence || []).filter(e => e.video_id).slice(0, 4);
+    return `<div class="card imp${x.status === 'proposed' ? '' : ' done'}">
+      <div class="row"><span class="badge heart">${esc(AREA[x.area] || x.area)}</span><span class="badge ${st[1]}">${st[0]}</span>${x.impact ? `<span class="note">기대 ${'●'.repeat(Math.min(5, x.impact))}${'○'.repeat(5 - Math.min(5, x.impact))}</span>` : ''}<span class="note" style="margin-left:auto">${esc((x.day || '').slice(5).replace('-', '/'))}</span></div>
+      <div class="t">${esc(x.title)}</div>
+      ${x.finding ? `<div class="sec"><b>잘 된 채널에서 본 것</b>${esc(x.finding)}</div>` : ''}
+      ${x.ours ? `<div class="sec"><b>우리는</b>${esc(x.ours)}</div>` : ''}
+      ${x.apply ? `<div class="ap"><b>승인하면 다음 영상부터 이렇게</b>${esc(x.apply)}</div>` : ''}
+      ${ev.length ? `<div class="ev">${ev.map(e => `<a href="https://youtube.com/shorts/${esc(e.video_id)}" target="_blank" rel="noopener"><img src="${thumbOf(e.video_id)}" alt="" loading="lazy"><span>${short(e.views)}회${e.subs != null ? ' · 구독 ' + short(e.subs) : ''}</span></a>`).join('')}</div>` : ''}
+      ${x.cost && x.cost !== '없음' ? `<div class="note">추가 비용: ${esc(x.cost)}</div>` : ''}
+      ${(x.applied_to || []).length ? `<div class="note">적용한 기획: ${(x.applied_to || []).map(esc).join(', ')}</div>` : ''}
+      ${fb ? `<div class="item"><div class="cl ${fb.by === 'owner' ? 'owner' : ''}" style="grid-column:1/-1">${fb.by === 'owner' ? '대표님' : 'Claude'} · ${esc(fb.text)}</div></div>` : ''}
+      ${x.status === 'proposed' ? `<div class="row"><button class="btn sm pri" data-imp="approved" data-id="${x.id}">승인</button><button class="btn sm" data-imp="hold" data-id="${x.id}">보류</button><button class="btn sm no" data-imp="rejected" data-id="${x.id}">반려</button><button class="btn sm" data-imp="note" data-id="${x.id}">고쳐서 승인</button></div>`
+        : ['approved', 'applied'].includes(x.status) ? `<div class="row"><button class="btn sm" data-imp="hold" data-id="${x.id}">그만 적용</button></div>`
+        : `<div class="row"><button class="btn sm" data-imp="proposed" data-id="${x.id}">다시 검토</button></div>`}
+    </div>`;
+  };
+  return `<h2 style="margin-top:4px">오늘의 개선 제안 <span class="n">구독자는 적은데 쇼츠가 터진 채널을 매일 11시에 분석해 우리 영상에 적용할 것을 고릅니다 · 승인하면 다음 기획부터 반영${last ? ' · 마지막 분석 ' + esc((last.day || '').slice(5).replace('-', '/')) : ''}</span></h2>
+    ${wait.length ? `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">${wait.map(card).join('')}</div>`
+      : '<div class="card empty">승인을 기다리는 제안이 없습니다. 매일 11시에 새로 올립니다.</div>'}
+    ${rest.length ? `<details class="fold" style="margin-top:10px"${S.impAll ? ' open' : ''} id="impall"><summary>승인·적용 중인 규칙과 지난 제안 ${rest.length}건</summary>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:8px">${rest.slice(0, 30).map(card).join('')}</div></details>` : ''}`;
+}
+function breakoutBlock(){
+  // 같은 채널은 가장 많이 터진 1편만
+  const seen = new Set(), list = S.breakout.filter(x => { if (seen.has(x.channel_id)) return false; seen.add(x.channel_id); return true; }).slice(0, S.bkMore ? 36 : 12);
+  if (!list.length) return '';
+  const our = S.settings.our || {};
+  return `<h2>작은 채널에서 터진 쇼츠 <span class="n">구독자 10만 이하 · 조회수가 구독자의 5배 이상 · 배수 순${our.subs != null ? ` · 우리 채널 구독자 ${short(our.subs)}명` : ''}</span></h2>
+    <div class="hot bk">${list.map((x, i) => `<a href="https://youtube.com/shorts/${esc(x.video_id)}" target="_blank" rel="noopener">
+      <div class="th"><img src="${thumbOf(x.video_id)}" alt="" loading="lazy"><span class="rk">${i + 1}</span><div class="vw"><span>${short(x.views)}회</span><span>구독 ${short(x.subs)}</span></div></div>
+      <div class="sub">구독자의 ${short(x.ratio)}배${x.length_sec ? ' · ' + x.length_sec + '초' : ''}</div>
+      <div class="t">${esc(cleanTitle(x.title))}</div><div class="c">${esc(x.channel || '')}${x.video_count != null ? ' · 영상 ' + x.video_count + '개' : ''}${x.shorts_median != null ? ' · 평소 ' + short(x.shorts_median) + '회' : ''}</div></a>`).join('')}</div>
+    ${!S.bkMore && S.breakout.length > 12 ? '<div style="text-align:center;margin-top:12px"><button class="btn" id="bkmore">더 보기</button></div>' : ''}`;
+}
+function bindImprove(){
+  const d = $('#impall'); if (d) d.ontoggle = () => { S.impAll = d.open; };
+  const bm = $('#bkmore'); if (bm) bm.onclick = () => { S.bkMore = true; viewTrend(); };
+  document.querySelectorAll('[data-imp]').forEach(b => b.onclick = async () => {
+    const x = S.improve.find(r => r.id === +b.dataset.id); if (!x) return;
+    let to = b.dataset.imp, text = '';
+    if (to === 'note') { text = prompt('어떻게 고쳐서 적용할까요? (적어 주신 대로 바꿔서 적용합니다)', '') || ''; if (!text.trim()) return; to = 'approved'; }
+    else if (to === 'rejected' || to === 'hold') { text = prompt(to === 'rejected' ? '반려 이유가 있으면 적어 주세요 (비워도 됩니다)' : '보류 이유가 있으면 적어 주세요 (비워도 됩니다)', '') ?? null; if (text === null) return; }
+    const label = { approved: '승인', hold: '보류', rejected: '반려', proposed: '다시 검토' }[to];
+    const fb = [...(x.feedback || []), { at: new Date().toISOString(), by: 'owner', type: to, text: text.trim() ? text.trim() : label }];
+    b.disabled = true;
+    const { error } = await sb.from('sc_improve').update({ status: to, feedback: fb, updated_at: new Date().toISOString() }).eq('id', x.id);
+    if (error) { toast('저장하지 못했습니다: ' + error.message, true); b.disabled = false; return; }
+    Object.assign(x, { status: to, feedback: fb });
+    toast(to === 'approved' ? '승인했습니다. 다음 기획부터 반영합니다' : label + ' 처리했습니다');
+    viewTrend();
+  });
 }
 
 /* ---------- 성과 ---------- */
@@ -490,6 +567,8 @@ function viewPerf(){
       ${kpi('24시간 중앙값', med != null ? short(med) + '회' : '–', '이 값의 2배면 잘 됨, 절반 미만이면 약함')}
       ${kpi('최고 영상', best ? short(vw(best)) + '회' : '–', best ? cleanTitle(best.title).slice(0, 26) : '')}
     </div>
+    ${S.improve.some(x => ['approved','applied'].includes(x.status)) ? `<h2>지금 적용 중인 개선 <span class="n">트렌드·개선 탭에서 승인한 것 · 새 기획에 그대로 들어갑니다</span></h2>
+      <ul class="learn">${S.improve.filter(x => ['approved','applied'].includes(x.status)).map(x => `<li><small>${esc(AREA[x.area] || x.area)} · ${x.status === 'applied' ? '적용 중' + ((x.applied_to || []).length ? ' · ' + x.applied_to.length + '편' : '') : '다음 기획부터'}</small>${esc(x.title)}</li>`).join('')}</ul>` : ''}
     <h2>Claude가 배운 것 <span class="n">반응을 보고 다음 기획에 반영하는 내용</span></h2>
     ${learn.length ? `<ul class="learn">${learn.map(l => `<li><small>${kst(l.at)}</small>${esc(l.text)}</li>`).join('')}</ul>` : '<div class="card empty">아직 판단할 만큼 데이터가 없습니다. 공개 후 24시간이 지난 영상이 쌓이면 여기에 정리합니다.</div>'}
     <h2>영상별 조회수</h2>

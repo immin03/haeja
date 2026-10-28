@@ -1,9 +1,11 @@
-// 까치 채널(From Korea, With Love) 감성 쇼츠 트렌드 수집 (2026-10-28). 매일 07:40 KST pg_cron 이 부른다.
+// 까치 채널(From Korea, With Love) 감성 쇼츠 트렌드 수집 (2026-10-28, 10-29 벤치마킹 추가). 매일 07:40 KST pg_cron 이 부른다.
 // 1) sc_hot_queries 검색어마다 유튜브 내부 검색 API로 "이번 달 업로드 · 쇼츠 · 조회수 순" 상위 쇼츠를 받아
 //    sc_hot_videos(영상 정보) / sc_hot_snaps(그날 조회수)에 쌓는다. 하루 증가량은 뷰 sc_hot 이 계산한다.
 // 2) 오늘 검색에 안 잡힌 최근 큰 영상은 next API 로 조회수만 다시 읽어 증가량을 이어 간다.
-// 3) 우리 채널에 올린 영상(sc_videos.youtube_id)의 조회수를 읽어 sc_videos.stats 에 6·24·48시간·7일 값을 남긴다 (3시간마다 {"only":"mine"}).
-// body {"wait": true} 이면 끝날 때까지 기다렸다가 로그를 돌려준다.
+// 3) (chan) 10만 회 넘은 쇼츠의 채널 구독자·영상 수·쇼츠 조회수 → sc_hot_channels. 뷰 sc_breakout = 작은 채널인데 터진 쇼츠
+// 4) (ours) 우리 채널 쇼츠 탭에서 조회수를 읽어 sc_videos 에 youtube_id·stats 를 채운다
+// 5) (mine) 우리 올린 영상(sc_videos.youtube_id) 조회수를 6·24·48시간·7일 값으로 남긴다 (3시간마다 {"only":"mine"} → ours+mine)
+// body {"wait": true} 이면 끝날 때까지 기다렸다가 로그를 돌려준다. {"probe":"UC..."} 는 채널 하나를 읽어 바로 돌려준다(점검용).
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -134,7 +136,6 @@ async function mine(log: string[]) {
   const { data } = await sb.from("sc_videos").select("id,youtube_id,uploaded_at,scheduled_at,stats").eq("status", "uploaded").not("youtube_id", "is", null);
   let n = 0;
   await pool(data || [], 3, async (v: any) => {
-    // 스튜디오에 미리 예약한 영상이 많으니 나이는 공개 시각(scheduled_at)부터 센다. 아직 공개 전이면 건너뛴다
     const pub = Date.parse(v.scheduled_at || v.uploaded_at || new Date().toISOString());
     if (pub > Date.now()) return;
     const views = await viewsOf(v.youtube_id); if (views === null) return;
@@ -147,20 +148,105 @@ async function mine(log: string[]) {
   });
   log.push(`우리 영상 조회수 ${n}편`);
 }
+// ── 벤치마킹(2026-10-29): 터진 쇼츠를 올린 채널의 구독자·영상 수·쇼츠 평균, 우리 채널 쇼츠 조회수 ──
+// 이 블록은 index.ts 안에서 쓰인다 (yti, lockups, approx, num, txt, pool, sb 가 위에 있다)
 
-// only = "mine": 우리 영상 조회수만 (3시간마다), 없으면 전체 (매일 07:40)
+type Chan = { channel_id: string; name: string; handle: string; subs: number | null; video_count: number | null; shorts: { id: string; title: string; views: number }[] };
+const SHORTS_TAB = "EgZzaG9ydHPyBgUKA5oBAA==";
+function strings(node: any, out: string[]) {
+  if (node == null) return;
+  if (typeof node === "string") { out.push(node); return; }
+  if (typeof node !== "object") return;
+  if (Array.isArray(node)) { for (const x of node) strings(x, out); return; }
+  for (const k in node) strings(node[k], out);
+}
+async function chanOf(id: string): Promise<Chan | null> {
+  try {
+    const j = await yti("browse", "en", { browseId: id });
+    const ss: string[] = []; strings(j.header, ss);
+    const subsS = ss.find((s) => /subscriber/i.test(s)) || "";
+    const vidS = ss.find((s) => /^\s*[\d.,]+\s*[KMB]?\s+videos?\s*$/i.test(s)) || "";
+    const md = j.metadata?.channelMetadataRenderer || {};
+    const handle = (ss.find((s) => /^@[\w.\-]+$/.test(s)) || String(md.vanityChannelUrl || "").split("/").pop() || "").replace(/^@?/, "@");
+    const c: Chan = { channel_id: id, name: md.title || "", handle, subs: subsS ? approx(subsS) : (/no subscribers/i.test(ss.join(" ")) ? 0 : null),
+      video_count: vidS ? approx(vidS) : null, shorts: [] };
+    try {
+      const t = await yti("browse", "en", { browseId: id, params: SHORTS_TAB });
+      const out: any[] = []; lockups(t, out);
+      const seen = new Set<string>();
+      c.shorts = out.filter((v) => !seen.has(v.id) && seen.add(v.id)).map((v) => ({ id: v.id, title: v.title, views: v.views })).slice(0, 48);
+    } catch (_) { /* 쇼츠 탭 없음 */ }
+    return c;
+  } catch (_) { return null; }
+}
+const median = (xs: number[]) => { if (!xs.length) return null; const s = [...xs].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; };
+const chanRow = (c: Chan) => ({ channel_id: c.channel_id, name: c.name, handle: c.handle, subs: c.subs, video_count: c.video_count, shorts: c.shorts,
+  shorts_n: c.shorts.length, shorts_median: median(c.shorts.map((s) => s.views)), shorts_max: c.shorts.length ? Math.max(...c.shorts.map((s) => s.views)) : null,
+  checked_at: new Date().toISOString() });
+
+// 최근 10만 회 이상 쇼츠를 올린 채널 중 7일 안에 안 본 채널 최대 120개
+async function chan(log: string[]) {
+  const { data: big } = await sb.from("sc_hot").select("video_id,views").gte("views", 100000).order("views", { ascending: false }).limit(800);
+  const ids = [...new Set((big || []).map((r: any) => r.video_id))];
+  const cids = new Set<string>();
+  for (let i = 0; i < ids.length; i += 200) {
+    const { data } = await sb.from("sc_hot_videos").select("channel_id").in("video_id", ids.slice(i, i + 200));
+    (data || []).forEach((r: any) => r.channel_id && cids.add(r.channel_id));
+  }
+  const { data: fresh } = await sb.from("sc_hot_channels").select("channel_id").gte("checked_at", new Date(Date.now() - 7 * 864e5).toISOString());
+  const skip = new Set((fresh || []).map((r: any) => r.channel_id));
+  const todo = [...cids].filter((c) => !skip.has(c)).slice(0, 120);
+  const rows: any[] = [];
+  await pool(todo, 4, async (id) => { const c = await chanOf(id); if (c) rows.push(chanRow(c)); });
+  if (rows.length) await sb.from("sc_hot_channels").upsert(rows, { onConflict: "channel_id" });
+  log.push(`채널 ${rows.length}/${todo.length}개 확인 (구독자 확인 ${rows.filter((r) => r.subs !== null).length})`);
+}
+
+// 우리 채널: 핸들 → 채널 id → 쇼츠 탭 조회수. 제목이 같은 sc_videos 에 youtube_id 를 채우고 stats 를 쌓는다
+async function ours(log: string[]) {
+  const { data: s } = await sb.from("sc_settings").select("value").eq("id", 1).maybeSingle();
+  const v = s?.value || {};
+  let cid = v.channel_id as string | undefined;
+  if (!cid && v.handle) {
+    const r = await yti("navigation/resolve_url", "en", { url: `https://www.youtube.com/@${String(v.handle).replace(/^@/, "")}` });
+    cid = r?.endpoint?.browseEndpoint?.browseId;
+  }
+  if (!cid) { log.push("우리 채널 id 를 못 찾음 (설정 handle 확인)"); return; }
+  const c = await chanOf(cid); if (!c) { log.push("우리 채널 읽기 실패"); return; }
+  await sb.from("sc_hot_channels").upsert(chanRow(c), { onConflict: "channel_id" });
+  const { data: s2 } = await sb.from("sc_settings").select("value").eq("id", 1).maybeSingle();
+  await sb.from("sc_settings").upsert({ id: 1, value: { ...(s2?.value || {}), channel_id: cid, our: { subs: c.subs, video_count: c.video_count, at: new Date().toISOString() } } });
+  const norm = (t: string) => String(t || "").toLowerCase().replace(/#\S+/g, "").replace(/[^\p{L}\p{N}]+/gu, "");
+  const { data: vids } = await sb.from("sc_videos").select("id,title,youtube_id,stats,scheduled_at,uploaded_at,status").in("status", ["uploaded", "approved"]);
+  let n = 0;
+  for (const sv of c.shorts) {
+    const m = (vids || []).find((x: any) => x.youtube_id === sv.id) || (vids || []).find((x: any) => !x.youtube_id && norm(x.title) && norm(x.title) === norm(sv.title));
+    if (!m) continue;
+    const at = new Date().toISOString(), st = { ...(m.stats || {}) };
+    st.now = { views: sv.views, at }; st.hist = [...(st.hist || []), { views: sv.views, at }].slice(-80);
+    const pub = Date.parse(m.scheduled_at || m.uploaded_at || at), age = (Date.now() - pub) / 3600e3;
+    for (const [k, h] of [["h6", 6], ["h24", 24], ["h48", 48], ["d7", 168]] as const) if (age >= h && !st[k]) st[k] = { views: sv.views, at };
+    await sb.from("sc_videos").update({ youtube_id: sv.id, stats: st, ...(m.status === "approved" ? { status: "uploaded" } : {}) }).eq("id", m.id); n++;
+  }
+  log.push(`우리 채널 구독자 ${c.subs ?? "?"} · 쇼츠 ${c.shorts.length}편 · 매칭 ${n}편`);
+}
+
+// only: "mine" → 우리 채널(ours)+조회수(mine) (3시간마다), "chan" → 채널 확인만, 없으면 전체 (매일 07:40)
 async function run(only?: string) {
   const log: string[] = [], t0 = Date.now();
-  const steps = ([["hot", hot], ["mine", mine]] as const).filter(([n]) => !only || n === only);
+  const all = [["hot", hot], ["chan", chan], ["ours", ours], ["mine", mine]] as const;
+  const pick: Record<string, string[]> = { mine: ["ours", "mine"], chan: ["chan"], ours: ["ours"] };
+  const steps = all.filter(([n]) => !only || (pick[only] || [only]).includes(n));
   for (const [name, f] of steps) { try { await f(log); } catch (e) { log.push(`${name} 오류: ${String(e).slice(0, 120)}`); } }
   log.push(`${Math.round((Date.now() - t0) / 1000)}초`);
   const { data: s } = await sb.from("sc_settings").select("value").eq("id", 1).maybeSingle();
-  await sb.from("sc_settings").upsert({ id: 1, value: { ...(s?.value || {}), [only ? "mine_log" : "hot_log"]: { at: new Date().toISOString(), log } } });
+  await sb.from("sc_settings").upsert({ id: 1, value: { ...(s?.value || {}), [only ? `${only}_log` : "hot_log"]: { at: new Date().toISOString(), log } } });
   return log;
 }
 
 Deno.serve(async (req: Request) => {
   const body = await req.json().catch(() => ({}));
+  if (body?.probe) return Response.json(await chanOf(body.probe));
   if (body?.wait) return Response.json({ ok: true, log: await run(body?.only) });
   // @ts-ignore EdgeRuntime 은 Supabase 런타임에 있다
   EdgeRuntime.waitUntil(run(body?.only));
