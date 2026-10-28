@@ -2,9 +2,8 @@
 // 1) sc_hot_queries 검색어마다 유튜브 내부 검색 API로 "이번 달 업로드 · 쇼츠 · 조회수 순" 상위 쇼츠를 받아
 //    sc_hot_videos(영상 정보) / sc_hot_snaps(그날 조회수)에 쌓는다. 하루 증가량은 뷰 sc_hot 이 계산한다.
 // 2) 오늘 검색에 안 잡힌 최근 큰 영상은 next API 로 조회수만 다시 읽어 증가량을 이어 간다.
-// 3) 우리 채널에 올린 영상(sc_videos.youtube_id)의 조회수를 읽어 sc_videos.stats 에 24시간·48시간·7일 값을 남긴다.
+// 3) 우리 채널에 올린 영상(sc_videos.youtube_id)의 조회수를 읽어 sc_videos.stats 에 6·24·48시간·7일 값을 남긴다 (3시간마다 {"only":"mine"}).
 // body {"wait": true} 이면 끝날 때까지 기다렸다가 로그를 돌려준다.
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -142,7 +141,7 @@ async function mine(log: string[]) {
     const at = new Date().toISOString(), age = (Date.now() - pub) / 3600e3;
     const s = { ...(v.stats || {}) }; s.now = { views, at };
     for (const [k, h] of [["h24", 24], ["h48", 48], ["d7", 168]] as const) if (age >= h && !s[k]) s[k] = { views, at };
-    s.h6 = s.h6 || (age >= 6 ? { views, at } : undefined); if (!s.h6) delete s.h6;
+    if (!s.h6 && age >= 6) s.h6 = { views, at };
     s.hist = [...(s.hist || []), { views, at }].slice(-80);
     await sb.from("sc_videos").update({ stats: s }).eq("id", v.id); n++;
   });

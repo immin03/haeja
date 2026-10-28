@@ -111,3 +111,8 @@ from sc_hot_videos v join s on s.video_id = v.video_id and s.rn = 1;
 -- ===== 2026-10-28 13시: 완전 자동 · 하루 3편 =====
 -- sc_settings: {"auto": true, "per_day": 3, "slots": ["03:00","08:00","22:00"], "auto_plan": true}
 -- sc_import(): 자동 모드면 단독 쇼츠를 'approved'(업로드 대기)로 바로 넣는다. 본문은 Supabase 마이그레이션 side_auto_mode_3_per_day 참고
+
+-- ===== 2026-10-28 13시 반: 하루 4편 · 3일 비축 · 반응 학습 =====
+-- update sc_settings set value = value || '{"per_day": 4, "slots": ["03:00","08:00","13:00","22:00"], "buffer_days": 3, "learn": []}'::jsonb where id = 1;
+-- select cron.schedule('side-mine-views', '15 */3 * * *', $$select public._fn_call('sc-trend-collect', '{"only":"mine"}')$$);
+-- sc_settings.value.learn = [{at, text}] : 작업자가 반응을 보고 정리한 교훈 (관리자 성과 탭에 보임)
