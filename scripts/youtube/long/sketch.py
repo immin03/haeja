@@ -67,6 +67,29 @@ def icon_draw(d, kind, x, y, s, c, w=4):
     elif kind == "cart":
         L([(x + s * .02, y + s * .15), (x + s * .18, y + s * .15), (x + s * .3, y + s * .7), (x + s * .85, y + s * .7), (x + s * .95, y + s * .3), (x + s * .22, y + s * .3)])
         d.ellipse([x + s * .3, y + s * .78, x + s * .42, y + s * .9], outline=c, width=w); d.ellipse([x + s * .7, y + s * .78, x + s * .82, y + s * .9], outline=c, width=w)
+    elif kind == "ring":   # 반지 (2026-10-28 금값 편)
+        d.ellipse([x + s * .14, y + s * .3, x + s * .86, y + s * .96], outline=c, width=w + 2)
+        d.ellipse([x + s * .24, y + s * .4, x + s * .76, y + s * .86], outline=c, width=max(2, w - 1))
+        d.polygon([(x + s * .36, y + s * .3), (x + s * .5, y + s * .06), (x + s * .64, y + s * .3)], outline=c, width=w)
+    elif kind == "goldbar":   # 금괴 (사다리꼴)
+        d.polygon([(x + s * .05, y + s * .85), (x + s * .2, y + s * .4), (x + s * .8, y + s * .4), (x + s * .95, y + s * .85)], outline=c, width=w)
+        L([(x + s * .2, y + s * .4), (x + s * .26, y + s * .62), (x + s * .74, y + s * .62), (x + s * .8, y + s * .4)])
+    elif kind == "safe":   # 금고
+        d.rectangle([x + s * .08, y + s * .1, x + s * .92, y + s * .92], outline=c, width=w)
+        d.rectangle([x + s * .16, y + s * .18, x + s * .84, y + s * .84], outline=c, width=max(2, w - 2))
+        d.ellipse([x + s * .36, y + s * .36, x + s * .64, y + s * .64], outline=c, width=w)
+        for a in range(0, 360, 60):
+            r = math.radians(a); L([(x + s * .5, y + s * .5), (x + s * (.5 + .2 * math.cos(r)), y + s * (.5 + .2 * math.sin(r)))])
+    elif kind == "factory":   # 공장·정유 시설
+        L([(x + s * .05, y + s * .95), (x + s * .05, y + s * .5), (x + s * .3, y + s * .65), (x + s * .3, y + s * .5), (x + s * .55, y + s * .65), (x + s * .55, y + s * .3),
+           (x + s * .68, y + s * .3), (x + s * .68, y + s * .65), (x + s * .95, y + s * .65), (x + s * .95, y + s * .95), (x + s * .05, y + s * .95)])
+        for cx in (.6, .66): d.arc([x + s * (cx - .05), y + s * .08, x + s * (cx + .09), y + s * .26], 200, 340, fill=c, width=max(2, w - 1))
+    elif kind == "wheat":   # 농작물
+        L([(x + s * .5, y + s * .98), (x + s * .5, y + s * .1)])
+        for k in range(4):
+            yy = .18 + k * .17
+            d.ellipse([x + s * .26, y + s * yy, x + s * .5, y + s * (yy + .12)], outline=c, width=max(2, w - 1))
+            d.ellipse([x + s * .5, y + s * yy, x + s * .74, y + s * (yy + .12)], outline=c, width=max(2, w - 1))
     else:
         _base_icon(d, kind, x, y, s, c, w)
 
