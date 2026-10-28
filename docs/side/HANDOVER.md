@@ -159,12 +159,12 @@ Keep the miniature clay diorama look and every character design identical to the
 
 ---
 
-## 8. 제작 현황 (2026-10-28 11:30)
+## 8. 제작 현황 (2026-10-28 12:00)
 | 편 | ID | 상태 |
 |---|---|---|
-| 엄마의 택배 — Every Korean mom packs THIS box 📦😭 | E261029-moms-box | 1차 렌더(엔딩 없음)가 관리자에 있음. 글자 수정 6컷(M04) 생성 중 → 끝나면 새 엔딩으로 재렌더 |
-| 엄마 까치 — She stayed like this all night ❄️ | E261031-snow-nest | 렌더 중(side-emo) |
-| 까치밥 — Why Koreans never pick the last persimmon 🥺 | E261030-kkachi-bap | 4컷 수정(M05) 생성 중 → 끝나면 specs_draft → specs_emo 로 옮겨 렌더 |
+| 엄마의 택배 — Every Korean mom packs THIS box 📦😭 | E261029-moms-box | 완성(31.7초, 새 엔딩·글자 수정 반영), 검수 탭 |
+| 까치밥 — Why Koreans never pick the last persimmon 🥺 | E261030-kkachi-bap | 완성(27.8초), 검수 탭 |
+| 엄마 까치 — She stayed like this all night ❄️ | E261031-snow-nest | 완성(27.8초), 검수 탭 |
 | 초코파이(롱폼 8분 + 쇼츠) | S261029-choco-pie | 완성, 검수 탭(옛 채널명 로고) |
 
 **다음 배치 후보** (하루 2편 소화하려면 미리 5~10편씩 생성)
@@ -172,7 +172,7 @@ Keep the miniature clay diorama look and every character design identical to the
 - 비 오는 골목 우산: 장맛비 서울 골목, 까치가 노란 아이 우산을 끌어와 젖은 아기 고양이에게 씌워 줌, 엄마 고양이가 눈을 깜빡여 고마움 표시
 - 그 밖에: 수능 날 엄마의 도시락, 첫 월급 내복 선물, 설날 세배와 할아버지, 군대 간 아들 면회, 이산가족 대신 고향 생각(정치색 피함), 추석 보름달 아래 할머니와 송편
 
-**비용**: Higgsfield 45달러 충전, 지금까지 약 15달러 사용 → 남은 돈 약 30달러(편당 1~1.3달러, 수정 생성 포함 시 1.5달러). 정확한 잔액은 Higgsfield 대시보드 확인
+**비용**: Higgsfield 45달러 충전, 지금까지 약 16달러 사용 → 남은 돈 약 29달러(편당 1~1.3달러, 수정 생성 포함 시 1.5달러). 정확한 잔액은 Higgsfield 대시보드 확인
 
 ---
 
