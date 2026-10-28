@@ -61,6 +61,9 @@ def run(job, H, spent):
     if job.get("image"): body[job.get("image_field", "image_url")] = raw_url(job["image"])
     if job.get("ref"): body[job.get("ref_field", "image_urls")] = [raw_url(r) for r in (job["ref"] if isinstance(job["ref"], list) else [job["ref"]])]
     key = str(uuid.uuid5(uuid.NAMESPACE_URL, jid + json.dumps(body, sort_keys=True)))
+    # 실패했던 작업을 다시 낼 때 같은 키를 쓰면 Higgsfield가 예전 실패 결과(잔액 부족 등)를 그대로 돌려준다 → 새 키
+    if job.get("retry") or (os.path.exists(old) and json.load(open(old)).get("status") in ("failed", "submit_failed")):
+        key = str(uuid.uuid4())
     t0 = time.time(); st, js = hf.http("POST", f"{hf.BASE}/{job['endpoint']}", {**H, "Idempotency-Key": key}, body)
     rec = {"id": jid, "endpoint": job["endpoint"], "body": body, "submit_http": st, "submit": js, "est_usd": round(cost, 3)}
     print(f"[{jid}] 제출 {st}: {json.dumps(js, ensure_ascii=False)[:300]}", flush=True)
