@@ -425,7 +425,7 @@ function viewPerf(){
   $('#main').innerHTML = `
     <div class="grid kpis">
       ${kpi('공개된 쇼츠', up.length + '편', '')}
-      ${kpi('누적 조회수', short(tot), '3시간마다 갱신')}
+      ${kpi('누적 조회수', short(tot), '매일 아침 갱신')}
       ${kpi('24시간 중앙값', med != null ? short(med) + '회' : '–', '이 값의 2배면 잘 됨, 절반 미만이면 약함')}
       ${kpi('최고 영상', best ? short(vw(best)) + '회' : '–', best ? cleanTitle(best.title).slice(0, 26) : '')}
     </div>

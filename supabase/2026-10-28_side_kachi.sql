@@ -116,3 +116,6 @@ from sc_hot_videos v join s on s.video_id = v.video_id and s.rn = 1;
 -- update sc_settings set value = value || '{"per_day": 4, "slots": ["03:00","08:00","13:00","22:00"], "buffer_days": 3, "learn": []}'::jsonb where id = 1;
 -- select cron.schedule('side-mine-views', '15 */3 * * *', $$select public._fn_call('sc-trend-collect', '{"only":"mine"}')$$);
 -- sc_settings.value.learn = [{at, text}] : 작업자가 반응을 보고 정리한 교훈 (관리자 성과 탭에 보임)
+
+-- 13시 35분 대표님: 조회수는 하루 단위로 → side-mine-views(3시간) 삭제. 매일 07:40 side-hot-collect 가 우리 영상 조회수도 읽는다
+-- select cron.unschedule('side-mine-views');

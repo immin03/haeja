@@ -3,7 +3,10 @@
 입력: scripts/side/specs_emo/<id>.json
   {"id", "title", "description", "tags", "pinned", "scheduled_at",
    "music": {"file": "music_miss-you.mp3", "start": 0, "vol": 0.9},
-   "cuts": [{"v": "mbv1_pack", "in": 0.2, "dur": 4.3, "cap": "2 a.m. in Seoul."}, ...],
+   "cuts": [{"v": "mbv1_pack", "in": 0.2, "dur": 4.3, "cap": "2 a.m. in Seoul."},
+            {"img": "mb3_note", "dur": 3.4, "move": "in", "cap": "..."}, ...],
+   - "v" = 생성한 5초 영상, "img" = 그림 한 장을 천천히 움직여 쓰는 컷 (2026-10-28 비용 절감: 영상 생성 없이 0원)
+     move: in(다가가기, 기본) | out(물러나기) | left | right | up | down (가로·세로로 천천히 흐르기)
    "thumb": {"cut": 5, "t": 2.5}}
 결과: 릴리스 side-<id> 에 영상, social/side/<id>/(meta.json, thumb.jpg, subtitles_en.srt), social/side/queue.json 에 kind=short 로 등록
 사용: python3 scripts/side/emo.py <id> [--test]   (--test 는 queue.json 에 올리지 않는다)
@@ -24,6 +27,25 @@ def sh(*a):
     r = subprocess.run(a, capture_output=True, text=True)
     if r.returncode: sys.exit(f"실패: {' '.join(a)[:300]}\n{r.stderr[-1500:]}")
     return r.stdout
+
+
+def find_image(name):
+    for e in (".png", ".jpg", ".jpeg", ".webp"):
+        p = os.path.join(GEN, name + e)
+        if os.path.exists(p): return p
+    sys.exit(f"그림 없음: {name}")
+
+
+def still_cut(c, out):
+    """그림 한 장 → 천천히 움직이는 컷 (Ken Burns). 원본을 2배로 키운 뒤 zoompan 으로 부드럽게 움직인다"""
+    d = float(c["dur"]); fr = int(round(d * FPS)); mv = c.get("move", "in")
+    z = {"in": f"1.0+0.10*on/{fr}", "out": f"1.10-0.10*on/{fr}"}.get(mv, "1.12")
+    x = {"left": f"(iw-iw/zoom)*(1-on/{fr})", "right": f"(iw-iw/zoom)*on/{fr}"}.get(mv, "(iw-iw/zoom)/2")
+    y = {"up": f"(ih-ih/zoom)*(1-on/{fr})", "down": f"(ih-ih/zoom)*on/{fr}"}.get(mv, "(ih-ih/zoom)/2")
+    sh("ffmpeg", "-v", "error", "-y", "-loop", "1", "-i", find_image(c["img"]), "-t", str(d), "-an",
+       "-vf", f"scale={W * 2}:{H * 2}:force_original_aspect_ratio=increase:flags=lanczos,crop={W * 2}:{H * 2},"
+              f"zoompan=z='{z}':x='{x}':y='{y}':d=1:s={W}x{H}:fps={FPS},setsar=1,format=yuv420p",
+       "-frames:v", str(fr), "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", out)
 
 
 def find_video(name):
@@ -149,7 +171,8 @@ def main():
     parts = []
     for i, c in enumerate(cuts):
         out = os.path.join(WORK, f"c{i}.mp4")
-        sh("ffmpeg", "-v", "error", "-y", "-ss", str(c.get("in", 0)), "-t", str(c["dur"]), "-i", find_video(c["v"]), "-an",
+        if c.get("img") and not c.get("v"): still_cut(c, out)
+        else: sh("ffmpeg", "-v", "error", "-y", "-ss", str(c.get("in", 0)), "-t", str(c["dur"]), "-i", find_video(c["v"]), "-an",
            "-vf", f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=lanczos,crop={W}:{H},fps={FPS},setsar=1,format=yuv420p",
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", out)
         real = float(sh("ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", out))
