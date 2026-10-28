@@ -1,0 +1,134 @@
+[
+ {
+  "id": "mb1_pack3",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mb1_pack.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change one thing: every framed picture or sign on the walls shows only a simple painting (flowers or a landscape) with absolutely no writing, no letters, no characters and no symbols. Nothing written anywhere in the image.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mbv13_pack",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/mb1_pack3.jpeg",
+  "body": {
+   "prompt": "The mother gently lowers the wrapped kimchi jar into the box and presses it snugly into place, then tucks one more packet of seaweed into a small gap with her fingertips. The magpie leans forward and holds out the roll of tape to her. Warm lamp light glows, a faint wisp of steam rises from the rice cooker. Very slow push-in toward the mother's hands and face, calm and tender. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "mb2_note3",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mb2_note.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change one thing: every framed picture or sign on the walls shows only a simple painting (flowers or a landscape) with absolutely no writing, no letters, no characters and no symbols. Nothing written anywhere in the image.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mbv23_note",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/mb2_note3.jpeg",
+  "body": {
+   "prompt": "She finishes writing, pauses, folds the note in half and tucks it gently inside the red socks, then places them on top of the food in the box. She rests her palm on the box and pats it softly twice, like patting a child's head. The magpie watches and blinks slowly. Slow gentle push-in, focus drifting from the note to her face. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "mb7_morning3",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mb7_morning.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change one thing: every framed picture or sign on the walls shows only a simple painting (flowers or a landscape) with absolutely no writing, no letters, no characters and no symbols. Nothing written anywhere in the image.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mbv73_morning",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/mb7_morning3.jpeg",
+  "body": {
+   "prompt": "The mother looks at her phone, smiles and wipes a tear from her cheek with the back of her hand, then laughs softly and holds the phone to her chest. On the windowsill the magpie tilts its head and gives a small happy hop. Morning sunlight slowly grows warmer. Slow gentle pull-back. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "mb4_alone3",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mb4_alone2.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change these things: the small framed portrait of the magpie on the wall has exactly one word written neatly under it in simple dark handwriting: Kachi (spelled K-a-c-h-i), and nothing else is written on it. Every glass jar has a plain red lid and no label at all. Any packets have plain solid colors with no writing. No other letters anywhere in the image.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mbv43_alone",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/mb4_alone3.jpeg",
+  "body": {
+   "prompt": "Snow falls outside. The woman slowly lifts a forkful of noodles, then hears a tapping and turns her head toward the window. She sees the magpie and the box on the snowy windowsill, freezes, and slowly puts the noodle cup down, her tired eyes widening in disbelief. The magpie taps the glass again and waves one wing. Slow push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "mb5_open3",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mb5_open.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change these things: the small framed portrait of the magpie on the wall has exactly one word written neatly under it in simple dark handwriting: Kachi (spelled K-a-c-h-i), and nothing else is written on it. Every glass jar has a plain red lid and no label at all. Any packets have plain solid colors with no writing. No other letters anywhere in the image.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mbv53_open",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/mb5_open3.jpeg",
+  "body": {
+   "prompt": "She slowly lowers her hands from her mouth, reaches into the glowing box and lifts out the red knitted socks; the folded note slips out into her palm. Golden light shimmers on her face, her lips tremble into a smile as tears fall. The magpie hops closer on the edge of the box. Slow push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "mb6_hug3",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mb6_hug.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, poses, camera angle, lighting, colors and miniature clay style. Only change these things: the small framed portrait of the magpie on the wall has exactly one word written neatly under it in simple dark handwriting: Kachi (spelled K-a-c-h-i), and nothing else is written on it. Every glass jar has a plain red lid and no label at all. Any packets have plain solid colors with no writing. No other letters anywhere in the image.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mbv63_hug",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/mb6_hug3.jpeg",
+  "body": {
+   "prompt": "She reads the note, laughs through her tears, presses the note against her chest with both hands and closes her eyes, then leans forward and hugs the whole box tightly. The magpie nestles under her arm. Snow keeps falling outside the window. Very slow push-in, then hold. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ }
+]
