@@ -34,12 +34,16 @@ async function api(path: string, token: string, body?: unknown, method = "POST")
     ? undefined
     : { method, headers: { "Content-Type": "application/json", Authorization: "Bearer " + token }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
+  // 메타는 보내기(POST)에 성공하고도 code 1 "An unknown error has occurred"를 돌려줄 때가 있다(2026-10-29 확인).
+  // 다시 보내면 같은 DM이 두 통 가므로 성공으로 본다.
+  if (method === "POST" && j.error && j.error.code === 1) { console.error("meta code1 (treated as sent)", path); return { uncertain: true }; }
   if (!r.ok || j.error) throw new Error((j.error && (j.error.error_user_msg || j.error.message)) || `HTTP ${r.status}`);
   return j;
 }
 
 const norm = (s: string) => String(s || "").replace(/\s+/g, "").replace(/['"‘’“”]/g, "").toLowerCase();
-const REPLIES = ["DM 보내 드렸어요. 확인 부탁드립니다!", "정리본 DM으로 보내 드렸어요 📩", "메시지 확인해 주세요! 정리본 보내 드렸습니다.", "DM 확인 부탁드려요. 정리본 넣어 두었습니다!"];
+// 2026-10-29: 매니챗 공개 답글 문구를 이어받음 (매니챗 해지 후 자체 발송으로 전환)
+const REPLIES = ["DM으로 정리본을 보내 드렸습니다 📩", "보내 드렸습니다! DM함을 확인해 주세요", "요청하신 정리본이 DM으로 도착했습니다", "정리본 DM으로 보내 드렸어요. 확인 부탁드립니다!"];
 
 function followButton(text: string) {
   return { attachment: { type: "template", payload: { template_type: "button", text, buttons: [{ type: "postback", title: "팔로우 확인 🙌", payload: POSTBACK }] } } };
@@ -47,7 +51,7 @@ function followButton(text: string) {
 function linkButton(site: string, post: any) {
   const url = `${site}${post?.dm_guide || "/g"}?utm_source=ig-dm&utm_content=${encodeURIComponent(post?.id || "hub")}`;
   return { attachment: { type: "template", payload: { template_type: "button",
-    text: `팔로우 확인했습니다. 감사합니다!\n\n${post?.title ? "「" + String(post.title).replace(/^이슈 픽 · /, "") + "」 " : ""}정리본입니다. 릴스에서 다 못 한 숫자와 내 종목에 바로 적용하는 방법까지 담았습니다.\n\n이메일을 넣으면 바로 열리고, 새 정리본이 나오면 같은 메일로 알려 드립니다.`,
+    text: `팔로우 확인했습니다. 감사합니다!\n\n${post?.title ? "「" + String(post.title).replace(/^이슈 픽 · /, "") + "」 " : ""}정리본입니다. 릴스에서 다 못 한 숫자와 내 종목에 바로 적용하는 방법까지 담았습니다.\n\n다른 기업 분석과 투자 정리본도 한곳에 모아 두었으니, 궁금하셨던 주제를 눌러 확인해 보세요.`,
     buttons: [{ type: "web_url", url, title: "정리본 보러 가기" }, { type: "web_url", url: `${site}/start?utm_source=ig-dm`, title: "밸류노트 둘러보기" }] } } };
 }
 
@@ -62,15 +66,16 @@ async function onComment(v: any, a: any, site: string) {
   const { error: dup } = await sb.from("ig_dm").insert({ comment_id: cid, media_id: media, post_id: post?.id || null, igsid: from.id || null, username: from.username || null, keyword: post?.dm_keyword || null, status: "new" });
   if (dup) return "dup";
   try {
-    const kw = post?.dm_keyword ? `'${post.dm_keyword}'` : "";
     // 비공개 답장 (댓글 7일 안, 1회): 팔로우 확인 버튼
+    // 2026-10-29: 메타가 DM을 실제로 보내고도 "An unknown error has occurred"(500)를 돌려주는 경우가 있다.
+    //   예전에는 이걸 실패로 보고 글 버전을 한 번 더 보내 DM이 두 통 갔다 → 다시 보내지 않고 '보냄'으로 처리한다.
     try {
       await api(`${a.account_id}/messages`, a.access_token, { recipient: { comment_id: cid }, message: followButton(
-        `안녕하세요, 밸류노트입니다 🙂\n댓글${kw ? "에 " + kw : ""} 남겨 주셔서 감사합니다.\n\n팔로우 확인을 위해 아래 버튼을 눌러 주세요. 확인되면 바로 정리본을 보내 드립니다.`) });
-    } catch (_) {
-      // 버튼 템플릿이 거절되면 글로만 보낸다 (답장을 보내 주시면 이어서 링크를 드림)
-      await api(`${a.account_id}/messages`, a.access_token, { recipient: { comment_id: cid }, message: { text:
-        `안녕하세요, 밸류노트입니다 🙂 댓글 감사합니다.\n이 메시지에 "정리본"이라고 답장해 주시면 팔로우 확인 후 바로 링크를 보내 드립니다.` } });
+        `안녕하세요, 밸류노트입니다 🙂\n댓글 남겨 주셔서 감사합니다. 릴스에서 다룬 내용을 정리본으로 준비해 두었습니다.\n\n팔로우해 주시면 바로 정리본을 보내 드립니다. 팔로우하신 뒤 아래 버튼을 눌러 주세요.`) });
+    } catch (e1) {
+      const msg = String((e1 as Error).message || "");
+      console.error("private-reply", msg);
+      if (!/unknown error/i.test(msg)) throw e1;   // 진짜 실패(권한·7일 지남 등)만 실패로 남긴다
     }
     await sb.from("ig_dm").update({ status: "asked", updated_at: new Date().toISOString() }).eq("comment_id", cid);
     // 공개 답글 (실패해도 DM은 이미 나감)
