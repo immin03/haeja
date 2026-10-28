@@ -1,0 +1,32 @@
+{
+ "id": "gw1_yard",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Late autumn afternoon in a small Korean countryside village: a low stone wall, a traditional house with a dark tiled roof, brown jangdok jars, and a persimmon tree heavy with glowing orange fruit. a Korean grandpa in his seventies with white hair, a grey flat cap, a brown quilted vest over a beige shirt, and a warm wrinkled smile carefully places a bulging bundle wrapped in a plain red cloth into the open trunk of a small plain silver car, while a Korean boy about ten with short black hair, a navy hoodie and jeans stands beside him watching. Golden low sunlight, dry leaves on the dirt road. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180d9-927a-71b7-b7f9-17e4c3a7aa06",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180d9-927a-71b7-b7f9-17e4c3a7aa06",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/cancel",
+  "expires_at": "2026-11-04T04:57:04.610956+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/1ac81f4f-9a3f-4eb4-a0d7-7537fb287578.jpeg"
+   }
+  ]
+ },
+ "seconds": 322,
+ "file": "social/side/gen/gw1_yard.jpeg"
+}

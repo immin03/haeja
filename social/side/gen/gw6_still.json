@@ -1,0 +1,37 @@
+{
+ "id": "gw6_still",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Dusk on the same dirt village road: the same grandpa from the reference images still stands at the road's end, now a small lonely figure, hands behind his back, gazing toward the hills where the car went. The magpie has landed on his shoulder and leans its head against his cheek; he smiles gently. A warm light glows from his house window behind the persimmon tree. Purple-orange sky, first evening lights. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-966f-765a-95a4-bf7c37198913/32a2b95d-c722-4e41-a2b1-d33b008f2494.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/1ac81f4f-9a3f-4eb4-a0d7-7537fb287578.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e0-c2ac-7d27-a382-1072df6bd7ea",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-c2ac-7d27-a382-1072df6bd7ea/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-c2ac-7d27-a382-1072df6bd7ea/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e0-c2ac-7d27-a382-1072df6bd7ea",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-c2ac-7d27-a382-1072df6bd7ea/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-c2ac-7d27-a382-1072df6bd7ea/cancel",
+  "expires_at": "2026-11-04T05:00:22.490623+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2ac-7d27-a382-1072df6bd7ea/060205ff-2223-4d9f-ae05-a5ee794c95b4.jpeg"
+   }
+  ]
+ },
+ "seconds": 50,
+ "file": "social/side/gen/gw6_still.jpeg"
+}

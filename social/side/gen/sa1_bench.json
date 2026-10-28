@@ -1,0 +1,32 @@
+{
+ "id": "sa1_bench",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A cold autumn evening at a small neighborhood bus stop in Seoul: a plain glass bus shelter with a wooden bench, a ginkgo tree dropping golden leaves, warm orange streetlights, low brick villas behind. On the bench sits an elderly Korean grandpa with short white hair, a thin worn grey jacket over a faded blue sweater, baggy brown trousers and old canvas shoes, rubbing his bare red hands together, his breath visible as a little white puff. Beside him a small two-wheeled hand cart piled with neatly folded plain brown cardboard. He looks small, tired and alone. Golden ginkgo leaves on the ground. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180d9-9287-76eb-a3a8-b91296453783",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-9287-76eb-a3a8-b91296453783/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-9287-76eb-a3a8-b91296453783/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180d9-9287-76eb-a3a8-b91296453783",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-9287-76eb-a3a8-b91296453783/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-9287-76eb-a3a8-b91296453783/cancel",
+  "expires_at": "2026-11-04T04:53:00.003316+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-9287-76eb-a3a8-b91296453783/a90d2cfa-550e-445c-9f5a-6e7e384e457d.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "social/side/gen/sa1_bench.jpeg"
+}

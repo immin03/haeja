@@ -1,0 +1,32 @@
+{
+ "id": "mh1_bill",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A snowy winter evening in an old Korean street market in the late 1990s: a small red-tarp street stall with a cast-iron fish-shaped bread mold, golden fish-shaped pastries steaming on the rack. a young Korean mother in her early thirties with a low ponytail, a worn long brown padded coat and a dark knitted scarf stands at the stall holding her thin worn wallet open, taking out her last single plain green paper bill with no printing on it. her small son about seven with a bowl haircut, a puffy green jacket and a knitted hat holds her coat, staring at the pastries. Warm stall light, gentle snow. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180da-d4f8-7a0c-9bc5-40a14316b0d1",
+  "status_url": "https://api.higgsfield.ai/requests/01a180da-d4f8-7a0c-9bc5-40a14316b0d1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180da-d4f8-7a0c-9bc5-40a14316b0d1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180da-d4f8-7a0c-9bc5-40a14316b0d1",
+  "status_url": "https://api.higgsfield.ai/requests/01a180da-d4f8-7a0c-9bc5-40a14316b0d1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180da-d4f8-7a0c-9bc5-40a14316b0d1/cancel",
+  "expires_at": "2026-11-04T04:54:17.952978+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180da-d4f8-7a0c-9bc5-40a14316b0d1/4187aba1-a652-4288-bccd-db6272fa6315.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "social/side/gen/mh1_bill.jpeg"
+}

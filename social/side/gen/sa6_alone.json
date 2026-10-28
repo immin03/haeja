@@ -1,0 +1,36 @@
+{
+ "id": "sa6_alone",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Wide view of the same small bus stop at night: the same elderly grandpa from the reference images sits alone on the bench wearing the long red knitted scarf, smiling softly and waving one hand toward the glowing red tail lights of a bus driving away down the street. His small cardboard cart beside him. Warm orange streetlights, golden ginkgo leaves falling slowly, a peaceful and warm mood. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2a3-7e2a-94a9-0e063d27f382/8899a521-978a-42c3-9006-8843e8fb9f19.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-9287-76eb-a3a8-b91296453783/a90d2cfa-550e-445c-9f5a-6e7e384e457d.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e1-d6be-7075-8566-01bc15c7226f",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e1-d6be-7075-8566-01bc15c7226f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e1-d6be-7075-8566-01bc15c7226f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e1-d6be-7075-8566-01bc15c7226f",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e1-d6be-7075-8566-01bc15c7226f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e1-d6be-7075-8566-01bc15c7226f/cancel",
+  "expires_at": "2026-11-04T05:01:20.841587+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e1-d6be-7075-8566-01bc15c7226f/7a1dd2f7-d23e-479f-b5ba-48df80f3dbaa.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/sa6_alone.jpeg"
+}

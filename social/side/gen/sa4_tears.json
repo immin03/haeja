@@ -1,0 +1,36 @@
+{
+ "id": "sa4_tears",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Emotional close-up of the same elderly grandpa from the reference images (same face, white hair, worn grey jacket) sitting on the bus stop bench, now wearing the long red knitted scarf around his neck. He holds the end of the scarf with both wrinkled hands against his chest, eyes glistening with tears, a trembling grateful smile. Soft warm streetlight, bokeh of golden ginkgo leaves behind. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-9660-7faa-b5bd-c1dc0d6dd7c6/c0b468af-1449-4262-a5a4-49f51961b07a.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-9287-76eb-a3a8-b91296453783/a90d2cfa-550e-445c-9f5a-6e7e384e457d.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e0-c2a3-7e2a-94a9-0e063d27f382",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-c2a3-7e2a-94a9-0e063d27f382/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-c2a3-7e2a-94a9-0e063d27f382/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e0-c2a3-7e2a-94a9-0e063d27f382",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-c2a3-7e2a-94a9-0e063d27f382/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-c2a3-7e2a-94a9-0e063d27f382/cancel",
+  "expires_at": "2026-11-04T05:00:03.978930+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2a3-7e2a-94a9-0e063d27f382/8899a521-978a-42c3-9006-8843e8fb9f19.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/sa4_tears.jpeg"
+}

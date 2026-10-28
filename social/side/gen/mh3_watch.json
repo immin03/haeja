@@ -1,0 +1,37 @@
+{
+ "id": "mh3_watch",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Close-up at the same snowy market stall: the same little son (green jacket, knitted hat) happily bites into a golden fish-shaped pastry, cheeks full, eyes closed with joy. Beside him the same young mother (low ponytail, worn brown coat) watches him with a loving smile while quietly swallowing, her hand pressed to her stomach. On the stall's tarp roof above, the magpie watches them. Snow falling softly. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-ffc1-7f63-beb4-572c8c316a9b/a0817bc2-6c81-4680-a489-de09425f5b07.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180da-d4f8-7a0c-9bc5-40a14316b0d1/4187aba1-a652-4288-bccd-db6272fa6315.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e0-2c69-76fb-9a6d-62ac6f1a31d2",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-2c69-76fb-9a6d-62ac6f1a31d2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-2c69-76fb-9a6d-62ac6f1a31d2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e0-2c69-76fb-9a6d-62ac6f1a31d2",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-2c69-76fb-9a6d-62ac6f1a31d2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-2c69-76fb-9a6d-62ac6f1a31d2/cancel",
+  "expires_at": "2026-11-04T04:59:30.087044+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-2c69-76fb-9a6d-62ac6f1a31d2/95a45cc2-a32f-417b-a624-cdfb9d99c025.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/mh3_watch.jpeg"
+}

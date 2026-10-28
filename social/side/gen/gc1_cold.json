@@ -1,0 +1,32 @@
+{
+ "id": "gc1_cold",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A cold first-frost night in a Seoul apartment complex: tall plain apartment blocks with a few warm lit windows, a small trimmed flowerbed with low bushes. Under a bush, a skinny tabby mother cat curls tightly around exactly four tiny kittens, little white puffs of breath visible, frost on the leaves. Dark blue night with orange lamp light. Exactly four kittens. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180d9-90e5-729d-80d0-6979d5d9d45a",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-90e5-729d-80d0-6979d5d9d45a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-90e5-729d-80d0-6979d5d9d45a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180d9-90e5-729d-80d0-6979d5d9d45a",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-90e5-729d-80d0-6979d5d9d45a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-90e5-729d-80d0-6979d5d9d45a/cancel",
+  "expires_at": "2026-11-04T04:55:20.397883+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-90e5-729d-80d0-6979d5d9d45a/b6601789-b7fe-40e8-8780-7ebcadcdfa07.jpeg"
+   }
+  ]
+ },
+ "seconds": 217,
+ "file": "social/side/gen/gc1_cold.jpeg"
+}

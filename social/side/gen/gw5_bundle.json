@@ -1,0 +1,36 @@
+{
+ "id": "gw5_bundle",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Inside the back seat of the small car, the same boy from the reference images (navy hoodie) holds the opened plain red cloth bundle on his lap: inside are warm roasted sweet potatoes in plain brown paper with gentle steam rising, a few glossy orange persimmons and a small handful of dried persimmons. He looks down at it with a soft, moved expression. Warm sunset light through the car window, countryside blurred outside. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-8197-7e13-bb2c-8c218d0049a3/53b6de49-f40b-41a2-bc6a-7a69fd0875b6.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/1ac81f4f-9a3f-4eb4-a0d7-7537fb287578.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180df-9658-79e4-94f7-a7189a4b13fc",
+  "status_url": "https://api.higgsfield.ai/requests/01a180df-9658-79e4-94f7-a7189a4b13fc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180df-9658-79e4-94f7-a7189a4b13fc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180df-9658-79e4-94f7-a7189a4b13fc",
+  "status_url": "https://api.higgsfield.ai/requests/01a180df-9658-79e4-94f7-a7189a4b13fc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180df-9658-79e4-94f7-a7189a4b13fc/cancel",
+  "expires_at": "2026-11-04T04:58:51.582370+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-9658-79e4-94f7-a7189a4b13fc/e2416723-f27f-4630-9c3a-2c0a6086c8c1.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/gw5_bundle.jpeg"
+}

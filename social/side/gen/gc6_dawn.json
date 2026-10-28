@@ -1,0 +1,36 @@
+{
+ "id": "gc6_dawn",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Soft pale dawn beside the small apartment guardhouse: through the round door of the plain white styrofoam box, the tabby mother cat and exactly four kittens sleep curled together on the checkered blanket with a small red scarf. The same guard from the reference image (grey hair, plain navy uniform and cap) crouches in front of the box, gently setting down a small steel bowl of water, smiling. Frost melting, first warm sunlight. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-81b2-75aa-b069-8cfdc2e5ef8e/34103cc6-1478-4bc9-a5f1-07e262ce4bb8.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2a0-755f-b068-7c21cb7624ba/512ea8e3-2990-4bfc-ae1d-19ee9dd02d4e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e1-d6b8-74ac-b115-7d2628134f88",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e1-d6b8-74ac-b115-7d2628134f88/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e1-d6b8-74ac-b115-7d2628134f88/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e1-d6b8-74ac-b115-7d2628134f88",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e1-d6b8-74ac-b115-7d2628134f88/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e1-d6b8-74ac-b115-7d2628134f88/cancel",
+  "expires_at": "2026-11-04T05:01:23.906798+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e1-d6b8-74ac-b115-7d2628134f88/9c69c4b8-eeb9-4b5d-bf7c-d35650a7a35b.jpeg"
+   }
+  ]
+ },
+ "seconds": 44,
+ "file": "social/side/gen/gc6_dawn.jpeg"
+}

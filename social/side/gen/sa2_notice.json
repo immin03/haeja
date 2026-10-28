@@ -1,0 +1,35 @@
+{
+ "id": "sa2_notice",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The same bus stop at evening from the reference image. a little Korean schoolgirl about eight with a black bob haircut, a cream knitted coat, a long red knitted scarf and a plain yellow backpack stands at the edge of the bus shelter holding her backpack straps and turns her head to look at the same elderly grandpa from the reference image (same face, white hair, worn grey jacket) who sits on the bench blowing warm breath into his cupped bare hands. Her face shows quiet concern. Warm streetlight, falling ginkgo leaves. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-9287-76eb-a3a8-b91296453783/a90d2cfa-550e-445c-9f5a-6e7e384e457d.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180de-833f-7570-a319-65d69255e713",
+  "status_url": "https://api.higgsfield.ai/requests/01a180de-833f-7570-a319-65d69255e713/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180de-833f-7570-a319-65d69255e713/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180de-833f-7570-a319-65d69255e713",
+  "status_url": "https://api.higgsfield.ai/requests/01a180de-833f-7570-a319-65d69255e713/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180de-833f-7570-a319-65d69255e713/cancel",
+  "expires_at": "2026-11-04T04:57:42.834158+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-833f-7570-a319-65d69255e713/5b0fb3ca-7510-422b-9b59-4e90780999de.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/sa2_notice.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "gc2_window",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Through the lit window of a small plain apartment guardhouse booth at night, a Korean apartment night guard in his sixties with grey hair, a plain dark-navy guard uniform jacket with no name tag and no badge, and a plain navy cap leans close to the glass looking outside with a worried, kind face, a small steaming mug in his hand. Inside the booth: a tiny desk, an old radio, a plain wall clock without numbers. The booth has no sign. Cold blue night outside with frost. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180d9-92b1-70c0-a326-e58763e4ccf9",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-92b1-70c0-a326-e58763e4ccf9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-92b1-70c0-a326-e58763e4ccf9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180d9-92b1-70c0-a326-e58763e4ccf9",
+  "status_url": "https://api.higgsfield.ai/requests/01a180d9-92b1-70c0-a326-e58763e4ccf9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180d9-92b1-70c0-a326-e58763e4ccf9/cancel",
+  "expires_at": "2026-11-04T04:53:10.887591+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-92b1-70c0-a326-e58763e4ccf9/a266611a-a905-479c-a27b-eca84ef8ff8a.jpeg"
+   }
+  ]
+ },
+ "seconds": 88,
+ "file": "social/side/gen/gc2_window.jpeg"
+}

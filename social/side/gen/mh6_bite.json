@@ -1,0 +1,37 @@
+{
+ "id": "mh6_bite",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The same white-haired old mother (plum padded coat) takes a bite of a golden fish-shaped pastry and laughs through happy tears, while the same grown-up son (navy coat) puts his arm around her shoulders and smiles. On the counter of the red-tarp stall, the magpie has just set down a tiny brown parcel tied with red string and a red heart tag. Warm stall light, gentle snow, cozy mood. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-2c73-7138-b471-c4079ba17173/9a8519b2-9eb1-424b-8501-f628de5fc0bc.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-17e0-7489-a66c-ea5dfa46f195/3a1f5439-0186-41c9-8da8-6719f464ed43.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e1-4071-7c01-882f-14a4177f56bc",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e1-4071-7c01-882f-14a4177f56bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e1-4071-7c01-882f-14a4177f56bc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e1-4071-7c01-882f-14a4177f56bc",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e1-4071-7c01-882f-14a4177f56bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e1-4071-7c01-882f-14a4177f56bc/cancel",
+  "expires_at": "2026-11-04T05:00:43.515165+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e1-4071-7c01-882f-14a4177f56bc/19c7021c-563f-469a-bc50-fb432589acb0.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/mh6_bite.jpeg"
+}

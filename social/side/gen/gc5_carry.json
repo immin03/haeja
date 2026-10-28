@@ -1,0 +1,36 @@
+{
+ "id": "gc5_carry",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "At night beside the same plain white styrofoam box with a round door from the reference image, the same skinny tabby mother cat from the reference image carries one tiny kitten gently by the scruff in her mouth, stepping toward the round door. The remaining kittens wait under the bush behind her. Frosty ground, warm lamp light from the guardhouse window. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-90e5-729d-80d0-6979d5d9d45a/b6601789-b7fe-40e8-8780-7ebcadcdfa07.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-966c-7b82-95d3-687ff7bb90dc/9c955f71-b7ef-4f9e-b577-d53fdec95af6.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e0-c2a0-755f-b068-7c21cb7624ba",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-c2a0-755f-b068-7c21cb7624ba/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-c2a0-755f-b068-7c21cb7624ba/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e0-c2a0-755f-b068-7c21cb7624ba",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e0-c2a0-755f-b068-7c21cb7624ba/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e0-c2a0-755f-b068-7c21cb7624ba/cancel",
+  "expires_at": "2026-11-04T05:00:10.130025+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2a0-755f-b068-7c21cb7624ba/512ea8e3-2990-4bfc-ae1d-19ee9dd02d4e.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/gc5_carry.jpeg"
+}

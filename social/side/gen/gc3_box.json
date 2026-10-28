@@ -1,0 +1,35 @@
+{
+ "id": "gc3_box",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Inside the warm small guardhouse booth, the same guard from the reference image (grey hair, plain navy uniform, no name tag) kneels on the floor, carefully cutting a round door in the side of a plain white styrofoam box with a box cutter, a folded old checkered wool blanket ready beside it. Focused, gentle expression. Warm lamp light. The box is completely plain with no print. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-92b1-70c0-a326-e58763e4ccf9/a266611a-a905-479c-a27b-eca84ef8ff8a.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180de-81b2-75aa-b069-8cfdc2e5ef8e",
+  "status_url": "https://api.higgsfield.ai/requests/01a180de-81b2-75aa-b069-8cfdc2e5ef8e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180de-81b2-75aa-b069-8cfdc2e5ef8e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180de-81b2-75aa-b069-8cfdc2e5ef8e",
+  "status_url": "https://api.higgsfield.ai/requests/01a180de-81b2-75aa-b069-8cfdc2e5ef8e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180de-81b2-75aa-b069-8cfdc2e5ef8e/cancel",
+  "expires_at": "2026-11-04T04:57:39.913510+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-81b2-75aa-b069-8cfdc2e5ef8e/34103cc6-1478-4bc9-a5f1-07e262ce4bb8.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/gc3_box.jpeg"
+}
