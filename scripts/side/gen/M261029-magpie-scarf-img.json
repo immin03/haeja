@@ -1,0 +1,66 @@
+[
+ {
+  "id": "ms1_nest",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "GRANDPA: a thin Korean grandpa in his late seventies, short white hair, kind wrinkled face, faded olive-green padded jacket, grey wool trousers, no hat. SCARF: a long hand-knitted cherry-red wool scarf with one small cream-white felt heart patch sewn near one end. PLACE: a small Seoul neighborhood bus stop: a plain wooden bench under a simple glass shelter with no signs or route numbers, a big ginkgo tree right beside it, a round twig magpie nest on a low ginkgo branch at shoulder height. Last winter, at night, snow falling, cooler blue-grey tones with a soft vignette. The grandpa stands beside the ginkgo tree in profile and gently tucks the red scarf into the nest, covering three tiny fluffy grey magpie chicks; the heart patch on the scarf is clearly visible at the front of the nest. His hands are mostly hidden by the scarf. Kachi sits on the same branch a little to the side, watching. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "ms2_bench",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/ms1_nest"
+  ],
+  "body": {
+   "prompt": "GRANDPA: a thin Korean grandpa in his late seventies, short white hair, kind wrinkled face, faded olive-green padded jacket, grey wool trousers, no hat. PLACE: a small Seoul neighborhood bus stop: a plain wooden bench under a simple glass shelter with no signs or route numbers, a big ginkgo tree right beside it, a round twig magpie nest on a low ginkgo branch at shoulder height. CART: a small two-wheeled hand cart stacked with plain brown flattened cardboard boxes. This winter, early evening, the first snow, warm amber streetlamp light. The grandpa, wearing NO scarf, sits on the bench next to the cart with his reddened bare hands cupped in front of his mouth, a small puff of misty breath. Kachi sits small on the ginkgo branch above, looking down at him with worried eyes. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "ms3_empty",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/ms1_nest"
+  ],
+  "body": {
+   "prompt": "SCARF: a long hand-knitted cherry-red wool scarf with one small cream-white felt heart patch sewn near one end. Close-up of the round twig magpie nest on a snowy ginkgo branch, the chicks are gone, the nest is empty except for the red scarf still lining it, the heart patch visible. Kachi stands on the rim of the nest holding the free end of the scarf in its beak. Evening, falling snow, warm amber streetlamp light from below. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "ms4_drag",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/ms2_bench"
+  ],
+  "body": {
+   "prompt": "GRANDPA: a thin Korean grandpa in his late seventies, short white hair, kind wrinkled face, faded olive-green padded jacket, grey wool trousers, no hat. SCARF: a long hand-knitted cherry-red wool scarf with one small cream-white felt heart patch sewn near one end. On the snowy wooden bench of the bus stop, Kachi hops toward the seated grandpa, holding the end of the long red scarf in its beak; the scarf trails behind it across the snow on the bench, leaving a soft line in the snow. The grandpa, seen from the side from the chest down to his knees, looks down in surprise; his face is partly visible. Evening, falling snow, warm amber light. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "ms5_home",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/ms2_bench"
+  ],
+  "body": {
+   "prompt": "GRANDPA: a thin Korean grandpa in his late seventies, short white hair, kind wrinkled face, faded olive-green padded jacket, grey wool trousers, no hat. SCARF: a long hand-knitted cherry-red wool scarf with one small cream-white felt heart patch sewn near one end. PLACE: a small Seoul neighborhood bus stop: a plain wooden bench under a simple glass shelter with no signs or route numbers, a big ginkgo tree right beside it, a round twig magpie nest on a low ginkgo branch at shoulder height. The grandpa sits on the bench with the red scarf now wrapped warmly around his neck, the heart patch resting on his chest where he can see it; teary eyes and a soft trembling smile. On top of the glass bus shelter roof above him sit Kachi and three young magpies slightly smaller than Kachi, plain black-and-white with no neckerchief and no satchel, in a neat row looking down at him. Evening, gentle falling snow, warm amber streetlamp light. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]
