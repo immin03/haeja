@@ -998,6 +998,8 @@ function ytItem(y){
 const GH = { runs: null, commits: null, jobs: {}, at: 0, busy: false, err: '' };
 const GH_API = 'https://api.github.com/repos/immin03/haeja';
 const GH_WF = { 'yt-long': '유튜브 롱폼 렌더', reels: '릴스·쇼츠 렌더', 'voice-clone': '목소리 클로닝', 'daily-cards': '카드뉴스 만들기', 'blog-media': '블로그 이미지', 'company-cards': '기업 카드', 'reels-assets': '릴스 소재 준비', 'div-race': '배당 비교 영상', pages: '사이트 배포', 'yt-keytest': '성우 점검' };
+const ghIsSide = r => /^side[-_]/i.test((r.path || '').split('/').pop());
+const GH_SIDE_MSG = /\bside\b|사이드|까치|kachi|from korea|what korea/i;
 const ghWf = r => { const k = (r.path || '').split('/').pop().replace(/\.ya?ml$/, ''); return GH_WF[k] || r.name || k; };
 const ghMin = ms => { const m = Math.max(0, Math.round(ms / 60000)); return m < 60 ? m + '분' : Math.floor(m / 60) + '시간 ' + (m % 60) + '분'; };
 const ghActive = () => (GH.runs || []).filter(r => r.status !== 'completed').length;
@@ -1007,7 +1009,8 @@ async function ghLoad(){
   try {
     const since = new Date(Date.now() - 24 * 3600e3).toISOString();
     const [runs, commits] = await Promise.all([ghGet('/actions/runs?per_page=40'), ghGet('/commits?per_page=40&since=' + since)]);
-    GH.runs = runs.workflow_runs || []; GH.commits = commits || []; GH.err = '';
+    // 2026-10-29 운영자: "밸류노트에 까치 나타날 필요 없어" — 사이드 채널(side-*.yml) 실행·커밋은 밸류노트 관리자에서 뺀다(사이드 관리자 /side 에서 본다)
+    GH.runs = (runs.workflow_runs || []).filter(r => !ghIsSide(r)); GH.commits = (commits || []).filter(c => !GH_SIDE_MSG.test((c.commit && c.commit.message) || '')); GH.err = '';
     const live = GH.runs.filter(r => r.status === 'in_progress');
     await Promise.all(live.map(async r => { try { const j = await ghGet(`/actions/runs/${r.id}/jobs`); GH.jobs[r.id] = j.jobs || []; } catch(e) {} }));
   } catch(e) { GH.err = e.message; }
