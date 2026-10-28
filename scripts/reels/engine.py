@@ -1654,8 +1654,12 @@ def render(spec, outdir, stills=None):
         write_subs(spec, scenes, total, outdir)
         return total + tail
     tj = os.path.join(HERE, "thumbs", f"{spec['id']}.json")
+    if not os.path.exists(tj) and spec["id"][:1] == "R":   # 2026-10-29 운영자: 릴스는 같은 내용 쇼츠(Y…)와 같은 표지로 (인스타 격자에 맞춰 안쪽으로)
+        tj = os.path.join(HERE, "thumbs", "Y" + spec["id"][1:] + ".json")
     if os.path.exists(tj):
-        import thumb_simple; thumb_simple.render(json.load(open(tj, encoding="utf-8")), os.path.join(outdir, "cover.jpg"))
+        import thumb_simple; tspec = json.load(open(tj, encoding="utf-8"))
+        if spec.get("platform") != "youtube": tspec["safe"] = "ig"
+        thumb_simple.render(tspec, os.path.join(outdir, "cover.jpg"))
     else: (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     if spec.get("platform") == "youtube": write_subs(spec, scenes, total, outdir)
