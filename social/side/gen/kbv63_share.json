@@ -1,0 +1,28 @@
+{
+ "id": "kbv63_share",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The woman holds her little son a little tighter and smiles through a tear. On the branch the tiny baby magpie snuggles closer against the magpie. Snow keeps falling softly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e7-08ab-7b87-ac97-414ae644116a/0d814bbd-c4d9-4112-adaf-d28af6c1b82d.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180ff-9604-776c-87ff-05c22b68568d",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ff-9604-776c-87ff-05c22b68568d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ff-9604-776c-87ff-05c22b68568d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a180ff-9604-776c-87ff-05c22b68568d",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ff-9604-776c-87ff-05c22b68568d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ff-9604-776c-87ff-05c22b68568d/cancel",
+  "expires_at": "2026-11-04T05:33:16.642992+00:00"
+ },
+ "seconds": 6
+}

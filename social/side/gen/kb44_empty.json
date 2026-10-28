@@ -1,0 +1,36 @@
+{
+ "id": "kb44_empty",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Keep everything in the first reference image exactly the same: same snowy hanok courtyard, composition, camera angle, lighting, colors, persimmon tree, jars, the folded plum quilted vest, the empty teacup and the reading glasses on the porch, and the miniature clay style. Only fix two things. 1) On the stone step there must be exactly ONE pair of white Korean rubber shoes: exactly two shoes side by side, not three. 2) Move the small wooden picture frame a little to the left on the wall so the whole frame is fully inside the image with a clear margin, and make it slightly larger; keep the same photo inside it: the elderly grandmother with white hair in a low bun and the little girl in the yellow jacket smiling together, the same faces as in the second reference image. Absolutely no text, no letters, no numbers, no hangul, no logos, no watermark anywhere, including inside the frame.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e7-08bc-7b30-8211-a699d833ce91/496af4a3-369e-45c9-818c-49211b8db323.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18038-903a-7fb8-85bb-4b1e0891d0ea/31c40232-7e9f-4007-9ff5-61d9cfa31176.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180ff-961b-7fb1-90e8-f872752f17da",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ff-961b-7fb1-90e8-f872752f17da/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ff-961b-7fb1-90e8-f872752f17da/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180ff-961b-7fb1-90e8-f872752f17da",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ff-961b-7fb1-90e8-f872752f17da/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ff-961b-7fb1-90e8-f872752f17da/cancel",
+  "expires_at": "2026-11-04T05:33:46.470864+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180ff-961b-7fb1-90e8-f872752f17da/bbd9819c-666f-4c44-a13d-e5b48a2d6f48.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/kb44_empty.jpeg"
+}
