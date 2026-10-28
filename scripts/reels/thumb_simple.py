@@ -391,6 +391,12 @@ def emblem(im, kind, cx, cy, size, text=None):
         d.polygon([(x0, y0 + t), (x0 + w, y0 + t), (x0 + w * .94, y0 + h), (x0 + w * .06, y0 + h)], fill=(214, 168, 70))
         d.polygon([(x0 + w * .2, y0 + t * .2), (x0 + w * .5, y0 + t * .2), (x0 + w * .45, y0 + t * .8), (x0 + w * .12, y0 + t * .8)], fill=(255, 240, 196))
         d.text((cx, y0 + t + (h - t) / 2), text or "GOLD", font=F("Mont", int(size * .2)), fill=(150, 108, 30), anchor="mm")
+    elif kind == "q3":   # 물음표 동그라미 셋 (2026-10-29 운영자: "가운데 세 개 아이콘이 검정 배경에 물음표로 3개") — 숫자 3가지가 무엇인지 궁금하게
+        r = size * .3; gap = r * 2.5
+        for k in (-1, 0, 1):
+            x = cx + k * gap
+            d.ellipse([x - r, cy - r, x + r, cy + r], fill=(10, 14, 24), outline=(242, 212, 151), width=max(3, int(size * .025)))
+            d.text((x, cy + size * .015), "?", font=F("Heavy", int(r * 1.25)), fill=(255, 255, 255), anchor="mm")
     elif kind == "stamp":
         f = F("Heavy", int(size * .42)); tw = f.getlength(text); w, h = tw + size * .5, size * .78
         st = Image.new("RGBA", (int(w + 40), int(h + 40)), (0, 0, 0, 0)); ds = ImageDraw.Draw(st); c = (255, 77, 109)
