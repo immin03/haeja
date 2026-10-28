@@ -346,8 +346,9 @@ const dl = (url, label) => url ? `<a class="btn sm" href="${esc(url)}" download 
 const cp = (text, label, what) => text ? `<button class="btn sm" data-copy="${esc(text)}" data-what="${esc(what || label)}">${label}</button>` : '';
 function item(v, langCount){
   const isShort = v.kind === 'short';
-  const Q = (S.queue || {})[isShort ? v.parent_id : v.id] || {};
-  const SQ = isShort ? (Q.short || {}) : Q;
+  const solo = isShort && !v.parent_id;   // 2026-10-28 본편 없는 감성 쇼츠
+  const Q = (S.queue || {})[isShort && !solo ? v.parent_id : v.id] || {};
+  const SQ = isShort && !solo ? (Q.short || {}) : Q;
   const title = SQ.title || v.title;
   const desc = SQ.description || v.description || '';
   const tags = (SQ.tags || (isShort ? null : Q.tags) || []).join(', ');
@@ -365,12 +366,12 @@ function item(v, langCount){
         <div class="note" style="font-weight:700">받기</div>
         <div class="row">
           ${dl(v.video_url, '영상')}
-          ${isShort ? '' : dl(v.thumb, '대표 썸네일')}
+          ${isShort && !solo ? '' : dl(v.thumb, isShort ? '썸네일' : '대표 썸네일')}
           ${dl(SQ.subtitle, '영어 자막(.srt)')}
           ${isShort ? '' : (!Q.subtitle ? dl(Q.transcript, '영어 대본(.txt)') : '')}
         </div>
         <div class="note" style="font-weight:700;margin-top:4px">복사</div>
-        <div class="row">${cp(title, '제목')}${cp(desc, '설명')}${cp(tags, '태그')}${isShort ? cp("Where did YOU eat your first Choco Pie? 🍫 Full story on the channel! — Kachi", '고정 댓글') : cp("Where did YOU eat your first Choco Pie? 🍫 I'm reading every comment! — Kachi", '고정 댓글')}</div>
+        <div class="row">${cp(title, '제목')}${cp(desc, '설명')}${cp(tags, '태그')}${SQ.pinned || Q.pinned ? cp(SQ.pinned || Q.pinned, '고정 댓글') : isShort ? cp("Where did YOU eat your first Choco Pie? 🍫 Full story on the channel! — Kachi", '고정 댓글') : cp("Where did YOU eat your first Choco Pie? 🍫 I'm reading every comment! — Kachi", '고정 댓글')}</div>
         ${SQ.subtitle ? `<div class="note">자막: 스튜디오 → 자막 → 영어 추가 → 파일 업로드 → '타이밍 있음'에 .srt</div>` : ''}
       </div>
       ${desc ? `<details><summary class="note" style="cursor:pointer">설명 보기</summary><div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(desc)}</div></details>` : ''}
