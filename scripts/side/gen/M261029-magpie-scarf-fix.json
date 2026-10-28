@@ -1,0 +1,40 @@
+[
+ {
+  "id": "ms22_bench",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/ms2_bench"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: the grandpa, his pose, the bench, the cart, the ginkgo tree, the nest, the magpie, the lighting and the miniature clay diorama style. Only change: remove both signboards from the bus shelter so its back panels are plain clear glass with nothing on them. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "ms42_drag",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/ms4_drag",
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image the same: the grandpa, his pose and clothes, the snowy bench, the long red scarf with the white heart patch trailing across the bench, the lighting and the miniature clay diorama style. Only change: make the magpie much smaller, a tiny bird about the size of the grandpa's hand, standing on the bench beside his knee and still holding the end of the red scarf in its beak. The magpie keeps its exact design from the magpie reference: glossy black head, cream-white face and belly, big dark-brown eyes, navy-blue wings, red knotted neckerchief, small brown leather satchel. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "ms52_home",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/ms5_home",
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image the same: the grandpa with the red scarf and white heart patch around his neck, his teary smile, the bench, the cart, the ginkgo tree, the nest, the lighting and the miniature clay diorama style. Only change two things: (1) remove the signboard from the bus shelter so its back panel is plain clear glass; (2) on the shelter roof there are exactly four magpies in a row: one is Kachi (the only one with a red neckerchief and a small brown satchel), and three young magpies slightly smaller, plain black-and-white, with no neckerchief and no satchel. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]
