@@ -38,7 +38,8 @@ _fc = {}
 
 
 def F(w, s):
-    p = os.path.join(FD, "Montserrat-ExtraBold.ttf") if w == "Mont" else os.path.join(FD, f"SUIT-{w}.ttf")
+    p = {"Mont": "Montserrat-ExtraBold.ttf", "News": "BlackHanSans-Regular.ttf"}.get(w)   # News = 뉴스 썸네일 같은 굵은 제목체 (2026-10-29)
+    p = os.path.join(FD, p) if p else os.path.join(FD, f"SUIT-{w}.ttf")
     if (p, s) not in _fc: _fc[(p, s)] = ImageFont.truetype(p, s)
     return _fc[(p, s)]
 
@@ -421,23 +422,32 @@ def render_v3(spec, out):
         _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 220 if not ig else 200, tone, 960)
         paste_logo(im, W / 2, 90, 34, "dark", align="center")
     else:
-        # 롱폼 (2026-10-29 운영자: 뉴스 썸네일처럼 — 배경 사진은 넓게, 아래에 두 톤 제목, 오른쪽 위 로고, 큰 숫자 하나)
+        # 롱폼 (2026-10-29 운영자: JTBC 뉴스 썸네일처럼 — 배경 사진이 잘 드러나게, 아래 두 톤 큰 제목(굵은 제목체),
+        #       오른쪽 위 로고 크게, 큰 숫자는 글자처럼 얹지 말고 배경에 녹여서 크게)
         W, H = 1280, 720; im = background(W, H, .6)
         if spec.get("photo"):
             ph = _cover(spec["photo"], W, H, foc, blur=0)
             g = np.asarray(ph.convert("RGB")).astype(np.float32); gray = g.mean(-1, keepdims=True)
-            g = gray + (g - gray) * .7                                      # 채도를 조금 빼 네이비 톤과 어울리게
-            g = g * .62 + np.array([13, 27, 52], np.float32) * .38          # 네이비로 살짝 물들임
+            g = gray + (g - gray) * .88
+            g = g * .84 + np.array([13, 27, 52], np.float32) * .16             # 네이비는 아주 살짝만
             im = Image.fromarray(np.clip(g, 0, 255).astype(np.uint8)).convert("RGBA")
-        _shade(im, [(0, 60), (.45, 30), (.6, 140), (.78, 225), (1, 245)])   # 아래 제목 자리만 어둡게
-        _shade(im, [(0, 150), (.4, 40), (.7, 0), (1, 0)], axis="x")          # 왼쪽 위 숫자 자리
-        f1 = fit(spec["l1"], "Heavy", 78, 1180); f2 = fit(spec["l2"], "Heavy", 100, 1200); s1, s2 = 78, 100
-        y2 = H - 30 - f2.size * .6; y1 = y2 - f2.size * .62 - f1.size * .62 - 6
-        text_shadow(im, (W / 2, y1), spec["l1"], f1, GOLD, off=4, blur=10, alpha=220)
-        text_shadow(im, (W / 2, y2), spec["l2"], f2, IVORY, off=4, blur=10, alpha=220)
+        _shade(im, [(0, 70), (.18, 0), (.5, 0), (.62, 110), (.8, 205), (1, 235)])   # 위 로고 자리와 아래 제목 자리만
+        col = RED if tone == "down" else GREEN
+        if spec.get("big"):   # 배경에 녹인 큰 숫자: 반투명 + 은은한 빛, 사진 위에 스며들게
+            bf = F("News", 300); bx, by = 40, 44
+            glow = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ImageDraw.Draw(glow).text((bx, by), spec["big"], font=bf, fill=col + (150,))
+            im.alpha_composite(glow.filter(ImageFilter.GaussianBlur(26)))
+            lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ImageDraw.Draw(lay).text((bx, by), spec["big"], font=bf, fill=col + (200,))
+            im.alpha_composite(lay)
+            if spec.get("big_label"):
+                tw = bf.getlength(spec["big"]); bb = bf.getbbox(spec["big"])
+                text_shadow(im, (bx + tw + 22, by + bb[3] - 22), spec["big_label"], F("Bold", 34), IVORY, anchor="ls", off=2, blur=5, alpha=200)
+        f1 = fit(spec["l1"], "News", 92, 1180); f2 = fit(spec["l2"], "News", 106, 1200); s1, s2 = 92, 106
+        y2 = H - 22 - f2.size * .58; y1 = y2 - f2.size * .55 - f1.size * .6 - 4
+        text_shadow(im, (W / 2, y1), spec["l1"], f1, GOLD, off=4, blur=10, alpha=230)
+        text_shadow(im, (W / 2, y2), spec["l2"], f2, IVORY, off=4, blur=10, alpha=230)
         if not spec.get("photo") and spec.get("chart"): chart(im, spec["chart"], (660, 140, 1210, 420), tone)
-        _big(im, spec.get("big_label"), spec["big"], 64, 112, 232, 180, tone, 620, anchor="l")
-        paste_logo(im, W - 36, 30, 30, "dark", align="right")
+        paste_logo(im, W - 34, 28, 44, "dark", align="right")
     for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
         if f.size < mx * .75: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt}")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
