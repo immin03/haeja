@@ -1,0 +1,287 @@
+[
+ {
+  "id": "h_fly_love",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie.jpeg",
+   "social/side/gen/h_love.jpeg"
+  ],
+  "body": {
+   "aspect_ratio": "1:1",
+   "prompt": "The exact same magpie character as the reference images, flying toward the left with both wings spread wide and happy, holding the same small brown parcel tied with red string and a red heart tag in its feet, red neckerchief fluttering, big joyful smile. It does NOT hold a microphone. Full body, plain flat light cream background with nothing else, soft studio light, cute 3D clay-and-vinyl toy figurine. No text."
+  }
+ },
+ {
+  "id": "kb1_stop",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "Late autumn in a traditional Korean hanok courtyard: curved dark-grey tiled roofs, a wooden maru porch, rows of brown earthenware jangdok jars along a stone wall, strings of dried red chili peppers. A tall old persimmon tree with bare twisting branches and only five glowing orange persimmons left at the very top. A little Korean girl about seven, with two short pigtails and a yellow quilted jacket, stands on tiptoe reaching up with a long bamboo pole toward the last persimmons. Behind her, an elderly Korean grandmother with white hair in a low bun, a quilted plum vest and a long grey skirt, gently rests her wrinkled hand on the pole, smiling warmly. Golden late-afternoon light, a few orange leaves falling. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kb2_point",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb1_stop",
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "The same elderly Korean grandmother from the reference image (same face, white hair in a low bun, quilted plum vest, long grey skirt) kneels beside the same little girl in the yellow jacket in the same autumn hanok courtyard, one arm around her, pointing up at the last orange persimmons at the top of the tree. The girl looks up with wide curious eyes. High on the top branch, the magpie has just landed next to the persimmons, wings still half open, looking down at them with a happy grin. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kb3_snow",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb1_stop",
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "The same hanok courtyard at dawn in the first snow, soft snow on the curved tiled roofs, the jangdok lids and the persimmon branches. On the top branch, the magpie happily pecks a soft glowing orange persimmon, tiny snowflakes on its red neckerchief. Below, through a warm glowing paper-lattice window, the same grandmother and the little girl in the yellow jacket watch together, the girl pressing both hands to the window and laughing. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kb4_empty",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb1_stop"
+  ],
+  "body": {
+   "prompt": "The same hanok courtyard many years later in gentle falling snow, quiet and a little lonely. On the wooden maru porch, the grandmother's quilted plum vest lies neatly folded beside an empty teacup and her reading glasses. The persimmon tree is older and bigger, its last orange persimmons glowing at the top. Soft blue winter afternoon light with a warm glow from one paper window. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kb5_again",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb4_empty",
+   "social/side/gen/kb1_stop"
+  ],
+  "body": {
+   "prompt": "The same snowy hanok courtyard. A young Korean woman about thirty with long black hair, wearing a long cream coat and the grandmother's quilted plum vest over it, gently rests her hand on a bamboo pole held by her own little son about six in a red puffer jacket, who is reaching up for the last persimmons, exactly like in the old days. She smiles softly, eyes shining with tears, and points up at the top of the tree. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kb6_share",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb5_again",
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "Close-up in the same snowy hanok courtyard: the same young woman in the plum vest kneels and hugs her little son in the red jacket, both looking up with gentle smiles. In the soft-focus background at the top of the persimmon tree, the magpie sits beside the last glowing persimmons in the falling snow, looking down at them and bowing its head. A single tear on the woman's cheek, warm light on their faces. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kbv1_stop",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb1_stop.jpeg",
+  "body": {
+   "prompt": "The grandmother slowly lowers the girl's bamboo pole with a gentle hand, shakes her head with a warm smile. The girl looks back at her, puzzled. Orange leaves drift down slowly. Slow gentle push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kbv2_point",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb2_point.jpeg",
+  "body": {
+   "prompt": "The grandmother points up at the persimmons and says something softly. The girl follows her finger and looks up. On the top branch the magpie folds its wings, hops closer to a persimmon and tilts its head happily. Slow tilt up toward the tree top. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kbv3_snow",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb3_snow.jpeg",
+  "body": {
+   "prompt": "Snow falls softly. The magpie pecks the persimmon and does a happy little wiggle, then turns and looks down at the window. The girl waves both hands and laughs, the grandmother smiles and waves too. Slow tilt down from the magpie to the glowing window. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kbv4_empty",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb4_empty.jpeg",
+  "body": {
+   "prompt": "Snow falls quietly onto the empty maru porch and the folded plum vest. A little wisp of wind moves a few snowflakes. Very slow push-in toward the folded vest, then a slow tilt up to the persimmons at the top of the tree. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kbv5_again",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb5_again.jpeg",
+  "body": {
+   "prompt": "The woman gently lowers her son's bamboo pole exactly the way her grandmother once did, shakes her head with a soft smile, and points up at the tree. The boy looks up, curious. Snow falls. Slow push-in on the woman's face. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kbv6_share",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb6_share.jpeg",
+  "body": {
+   "prompt": "The woman hugs her son tighter and smiles through a tear as they both look up. At the top of the tree the magpie bows its head to them, then pecks the persimmon happily. Snow keeps falling. Very slow push-in, then hold. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "sn1_night",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "Night, heavy snow falling. A big round magpie nest of twigs at the top of a tall bare tree, high above a miniature Korean hanok village with glowing warm windows and curved snowy tiled roofs; N Seoul Tower softly lit in the far distance. A mother magpie in the same clay toy style as the magpie reference image but slightly bigger, glossy black head, cream-white face and belly, dark navy-blue wings, long black tail, kind gentle eyes, no neckerchief, no satchel, spreads both wings wide over the nest like a little roof. Thick snow is piling up on her back and head. Underneath her, a tiny fluffy baby version of the magpie from the reference image, round and downy, big shiny eyes, wearing a tiny red knitted neckerchief, no satchel, peeks out, dry and warm. Deep blue night with warm village lights. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "sn2_under",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/sn1_night",
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "Close-up inside the snowy nest at night: a tiny fluffy baby version of the magpie from the reference image, round and downy, big shiny eyes, wearing a tiny red knitted neckerchief, no satchel, snuggled warm and dry under the mother magpie's chest feathers, eyes sleepy and safe. Above, the mother's wings are spread wide, her face calm but tired, snowflakes on her eyelashes and a thick layer of snow on her wing tops. Warm soft glow under her wings, cold blue snow outside. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "sn3_long",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/sn1_night"
+  ],
+  "body": {
+   "prompt": "The same nest on the tall tree, much later in the night: the mother magpie is almost completely covered by a thick white cap of snow, only her face and wing edges showing, eyes half closed, still holding her wings wide over the nest. Far below, most of the hanok village windows have gone dark; only a few lights remain. Snow still falling, quiet and cold. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "sn4_dawn",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/sn2_under",
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "Blue early dawn, the snow has stopped. Close-up in the nest: the mother magpie is frozen still with thick snow on her head and back, eyes closed. A tiny fluffy baby version of the magpie from the reference image, round and downy, big shiny eyes, wearing a tiny red knitted neckerchief, no satchel has climbed up and is gently pecking the snow off his mother's cheek with his tiny beak, looking worried and loving. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "sn5_sun",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/sn1_night",
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "Golden sunrise over the snowy miniature hanok village, warm pink and gold light spilling over the rooftops and onto the nest. The mother magpie shakes the snow off her body in a sparkling burst of glittering snow, eyes open and bright, holding a small red berry in her beak to feed the baby, who opens his beak wide happily. a tiny fluffy baby version of the magpie from the reference image, round and downy, big shiny eyes, wearing a tiny red knitted neckerchief, no satchel. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "sn6_morning",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/sn5_sun",
+   "social/side/gen/c1_magpie.jpeg"
+  ],
+  "body": {
+   "prompt": "Warm sunny morning. In the nest at the top of the tree, a tiny fluffy baby version of the magpie from the reference image, round and downy, big shiny eyes, wearing a tiny red knitted neckerchief, no satchel, sits snuggled under his mother's wing, both looking out at the sunrise over the snowy hanok village and N Seoul Tower in the distance. The mother gently rests her head on top of the baby's head. Peaceful, warm, golden. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "snv1_night",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/sn1_night.jpeg",
+  "body": {
+   "prompt": "Snow keeps falling and piling up on the mother magpie's back. She shivers once but keeps her wings spread wide over the nest. The baby blinks sleepily and snuggles deeper. Village lights twinkle below. Very slow push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "snv2_under",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/sn2_under.jpeg",
+  "body": {
+   "prompt": "The baby yawns and snuggles deeper under his mother's chest, closing his eyes. Snowflakes land on the mother's eyelashes; she blinks slowly and stays perfectly still, protecting him. Slow gentle push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "snv3_long",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/sn3_long.jpeg",
+  "body": {
+   "prompt": "Time passes: snow keeps falling and the snow cap on the mother grows thicker, one by one the last lights in the village below go out. The mother does not move. Very slow pull-back. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "snv4_dawn",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/sn4_dawn.jpeg",
+  "body": {
+   "prompt": "The baby pecks the snow from his mother's cheek. Slowly the mother opens her eyes, looks at him, and lowers her head to touch his head gently. Soft focus shift from the baby to the mother. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "snv5_sun",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/sn5_sun.jpeg",
+  "body": {
+   "prompt": "The mother shakes the snow off in a glittering cloud in the golden sunlight, then feeds the red berry to the baby, who gulps it and flaps his tiny wings happily. Slow push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "snv6_morning",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/sn6_morning.jpeg",
+  "body": {
+   "prompt": "The baby snuggles under his mother's wing, she rests her head on his, both gently breathing as the golden morning light grows warmer. The camera slowly pulls back to reveal the whole snowy hanok village and N Seoul Tower in the sunrise. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ }
+]
