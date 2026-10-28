@@ -1,0 +1,35 @@
+{
+ "id": "gc62_dawn",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image the same (the guard kneeling with the steel water bowl, the guardhouse, the soft dawn light). Only change the box: the lid is closed and flat with nothing on top, and the tabby mother cat with exactly four kittens and the small red scarf are sleeping INSIDE the box, seen cozy and curled up through the round door opening in its side. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e1-d6b8-74ac-b115-7d2628134f88/9c69c4b8-eeb9-4b5d-bf7c-d35650a7a35b.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1812b-f59e-7213-808c-fb9c12fbfae9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-f59e-7213-808c-fb9c12fbfae9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-f59e-7213-808c-fb9c12fbfae9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1812b-f59e-7213-808c-fb9c12fbfae9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-f59e-7213-808c-fb9c12fbfae9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-f59e-7213-808c-fb9c12fbfae9/cancel",
+  "expires_at": "2026-11-04T06:22:07.966686+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812b-f59e-7213-808c-fb9c12fbfae9/d59164e8-fd66-487c-943a-98cc2462f711.jpeg"
+   }
+  ]
+ },
+ "seconds": 25,
+ "file": "social/side/gen/gc62_dawn.jpeg"
+}

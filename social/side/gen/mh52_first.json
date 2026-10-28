@@ -1,0 +1,36 @@
+{
+ "id": "mh52_first",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the first reference image the same (the white-haired old mother in the plum coat with teary eyes, the stall, the bag of fish-shaped pastries, the snow). Only change the son: he is a tall grown-up man in his thirties, clearly an adult and a head taller than his mother, with short black hair, a navy wool coat and a grey scarf, the same man as in the second reference image, holding out the big plain paper bag to his mother with both hands. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-2c73-7138-b471-c4079ba17173/9a8519b2-9eb1-424b-8501-f628de5fc0bc.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812c-58cf-7df3-bba8-5cafc99b65e1/14da50ea-ca8e-4656-b8d7-ce16d5e2a967.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1812f-2083-769b-bc9c-0bed9e4237a4",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812f-2083-769b-bc9c-0bed9e4237a4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812f-2083-769b-bc9c-0bed9e4237a4/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1812f-2083-769b-bc9c-0bed9e4237a4",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812f-2083-769b-bc9c-0bed9e4237a4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812f-2083-769b-bc9c-0bed9e4237a4/cancel",
+  "expires_at": "2026-11-04T06:25:44.333855+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812f-2083-769b-bc9c-0bed9e4237a4/c90ed3c9-c130-44cc-9e12-f04870892555.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/mh52_first.jpeg"
+}

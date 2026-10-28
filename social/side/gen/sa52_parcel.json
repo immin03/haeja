@@ -1,0 +1,35 @@
+{
+ "id": "sa52_parcel",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same (the girl, the bus stop, the flying magpie, the light). Only change one thing: remove the small brown sparrow sitting on top of the yellow backpack and put there instead a tiny brown paper parcel tied with red string and a small red heart tag. There is only one bird in the picture: the flying magpie. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c295-7aef-8f3c-d9465f8999f5/99dbaec4-cd4e-4fd4-8fc1-af934a436460.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1812b-d856-73e5-a3fc-48abc81364d2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-d856-73e5-a3fc-48abc81364d2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-d856-73e5-a3fc-48abc81364d2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1812b-d856-73e5-a3fc-48abc81364d2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-d856-73e5-a3fc-48abc81364d2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-d856-73e5-a3fc-48abc81364d2/cancel",
+  "expires_at": "2026-11-04T06:22:03.890384+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812b-d856-73e5-a3fc-48abc81364d2/43d1634c-b7cd-4fb7-b259-c6e9bbdea109.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/sa52_parcel.jpeg"
+}

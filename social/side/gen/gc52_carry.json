@@ -1,0 +1,35 @@
+{
+ "id": "gc52_carry",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image the same (the frosty night, the white styrofoam box with the round door, the lamp, the bush with kittens). Only change the mother cat: she is a natural four-legged tabby cat walking on all four paws toward the round door, low to the ground, gently carrying one tiny kitten by the scruff of its neck in her mouth. She is not standing upright. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2a0-755f-b068-7c21cb7624ba/512ea8e3-2990-4bfc-ae1d-19ee9dd02d4e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1812b-d863-7389-a93f-c81d2fe045d4",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-d863-7389-a93f-c81d2fe045d4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-d863-7389-a93f-c81d2fe045d4/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1812b-d863-7389-a93f-c81d2fe045d4",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-d863-7389-a93f-c81d2fe045d4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-d863-7389-a93f-c81d2fe045d4/cancel",
+  "expires_at": "2026-11-04T06:22:04.315696+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812b-d863-7389-a93f-c81d2fe045d4/de0dd538-b538-4cd5-ad58-c22b31c2a403.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/gc52_carry.jpeg"
+}

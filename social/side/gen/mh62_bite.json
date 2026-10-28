@@ -1,0 +1,36 @@
+{
+ "id": "mh62_bite",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the first reference image the same (the white-haired old mother laughing through tears with a fish-shaped pastry, the magpie on the counter with the tiny heart parcel, the stall, the snow). Only change the son: he is a tall grown-up man in his thirties, clearly an adult and a head taller than his mother, with short black hair, a navy wool coat and a grey scarf, the same man as in the second reference image, with his arm around her shoulders, smiling. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e1-4071-7c01-882f-14a4177f56bc/19c7021c-563f-469a-bc50-fb432589acb0.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812c-58cf-7df3-bba8-5cafc99b65e1/14da50ea-ca8e-4656-b8d7-ce16d5e2a967.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1812f-207e-79af-9648-26a792bd16f3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812f-207e-79af-9648-26a792bd16f3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812f-207e-79af-9648-26a792bd16f3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1812f-207e-79af-9648-26a792bd16f3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812f-207e-79af-9648-26a792bd16f3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812f-207e-79af-9648-26a792bd16f3/cancel",
+  "expires_at": "2026-11-04T06:25:44.354550+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812f-207e-79af-9648-26a792bd16f3/36892d54-02b2-406f-a196-2d89f2de8919.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/mh62_bite.jpeg"
+}

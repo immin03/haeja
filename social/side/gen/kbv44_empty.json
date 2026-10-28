@@ -1,0 +1,31 @@
+{
+ "id": "kbv44_empty",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "Snow falls quietly onto the empty wooden porch, the folded plum vest and the pair of white rubber shoes on the stone step. The camera stays almost still with a very slow gentle push-in toward the small framed photo of the grandmother and the little girl. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180ff-961b-7fb1-90e8-f872752f17da/bbd9819c-666f-4c44-a13d-e5b48a2d6f48.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1812b-d86a-7f3c-a75c-42507a745a54",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-d86a-7f3c-a75c-42507a745a54/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-d86a-7f3c-a75c-42507a745a54/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1812b-d86a-7f3c-a75c-42507a745a54",
+  "status_url": "https://api.higgsfield.ai/requests/01a1812b-d86a-7f3c-a75c-42507a745a54/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1812b-d86a-7f3c-a75c-42507a745a54/cancel",
+  "expires_at": "2026-11-04T06:25:05.167961+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1812b-d86a-7f3c-a75c-42507a745a54/8670b8c5-dd96-4f15-8a4f-ae866fa1ec79.mp4"
+  }
+ },
+ "seconds": 212,
+ "file": "social/side/gen/kbv44_empty.mp4"
+}
