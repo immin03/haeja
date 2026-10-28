@@ -1,0 +1,24 @@
+[
+ {
+  "id": "kb33_snow",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb32_snow.jpeg"
+  ],
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Keep everything in the reference image exactly the same: same scene, camera angle, lighting, colors, snowy roof, persimmon tree, jars and miniature clay style, and the magpie exactly as it is. Only change one thing: completely remove the grandmother and the little girl; the snowy courtyard in front of the window is empty with only the snowy earthenware jars, and the glowing window is empty with nobody inside. The magpie is the only living thing in the image. No text, no letters, no logos anywhere."
+  }
+ },
+ {
+  "id": "kbv33_snow",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb33_snow.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "Snow falls softly. The magpie pecks the soft orange persimmon happily, does a joyful little wiggle with its tail, then turns toward the camera with a big grateful smile. The window behind stays empty and glowing; no people appear anywhere. Slow gentle push-in. Keep the miniature clay diorama look and the magpie design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing, no extra limbs, no cuts."
+  }
+ }
+]
