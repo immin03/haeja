@@ -198,7 +198,7 @@ B["scenes"] = [
         dict(kind="write", text="환율 걱정 덜기", x=80, y=960, size=120, color="red", line=1, at=.6),
         dict(kind="circle", cx=400, cy=1030, rx=360, ry=100, color="gold", line=1, at=.88),
     ]}},
-    {"type": "bars", "title": "2025년 예상 (워렌 버핏 2024년 주주서한)", "lines": [
+    {"type": "statement", "l1": "배당은 이자의", "l2": "약 6배", "lines": [
         L(["워렌 버핏이 2024년 주주서한에 쓴 2025년 예상치를 볼게요", "받을 배당은 약 8억 1,200만 달러"], "워렌 버핏이 이천이십사년 주주서한에 쓴 이천이십오년 예상치를 볼게요. 받을 배당은 약 팔억 천이백만 달러,"),
         L(["엔화로 빌린 돈의 이자는 약 1억 3,500만 달러예요", "배당이 이자의 여섯 배쯤 되죠"], "엔화로 빌린 돈의 이자는 약 일억 삼천오백만 달러예요. 배당이 이자의 여섯 배쯤 되죠."),
         L(["1.2%에 빌려서 그보다 훨씬 많은 배당을 받는 거예요", "남의 돈으로 장 보고 거스름돈까지 챙긴 셈이죠"], "일 점 이 퍼센트에 빌려서 그보다 훨씬 많은 배당을 받는 거예요. 남의 돈으로 장 보고, 거스름돈까지 챙긴 셈이죠."),
@@ -251,11 +251,10 @@ B["subs_en"] = ["When Warren Buffett bought Japanese stocks, he didn't send doll
                 "He borrowed the money in Japan, in yen. It became a machine earning 6x the interest",
                 "Berkshire issued yen IOUs, that is, bonds, to borrow yen",
                 "About as much as the money put into the stocks, at an average rate of just 1.2%",
-                "If the yen falls, the shares lose dollar value, but so does the debt",
-                "Like buying a house abroad with a loan from a local bank",
-                "If the house shrinks with the currency, so does the loan: far less currency worry",
+                "If the yen weakens, the shares are worth fewer dollars, but so is the money owed",
+                "Like buying a house abroad with a local bank loan: far less worry about currency losses",
                 "Warren Buffett's 2024 letter estimated 2025 dividends at about $812 million",
-                "Interest on the yen debt: about $135 million. Dividends about six times the interest",
+                "Interest on the yen borrowing: about $135 million. Dividends about six times the interest",
                 "Borrow at 1.2%, collect far more in dividends: shopping with others' money and keeping the change",
                 "It runs even after Warren Buffett stepped down: ¥272.3 billion of new yen bonds in April",
                 "New CEO Greg Abel says the Japan stakes rank with the major U.S. holdings",
@@ -271,6 +270,7 @@ C = dict(BASE, id="Y261029c", scheduled_at="2026-10-29T21:30:00+09:00", mood="te
          banner=["월급은 그대로인데 달러로 반 토막", "일본 회사 이익은 왜 사상 최대?"], cover_title="달러로 반 토막\n그런데 이익은\n사상 최대?",
          hashtags=["일본경제", "엔화", "엔저", "일본GDP", "밸류노트", "shorts"],
          message="일본 GDP 순위는 달러로 재 엔저에 내려갔지만, 해외에서 달러로 버는 회사는 같은 장사로 엔화 이익이 두 배 가까이 돼 나라와 회사 숫자가 반대로 움직였다.")
+C["rev"] = 2   # 영어 자막 수를 맞춰 다시 렌더 (subs_en.srt)
 C["scenes"] = [
     {"type": "hook", "lines": [
         L(["도쿄 직장인 월급 30만 엔, 2012년엔", "달러로 바꾸면 3,750달러였어요"], "도쿄 직장인 월급 삼십만 엔, 이천십이년엔 달러로 바꾸면 삼천칠백오십 달러였어요."),
@@ -364,9 +364,8 @@ C["subs_en"] = ["A Tokyo salary of 300,000 yen was $3,750 in 2012",
                 "Japan's economy in dollars: $6.3 trillion in 2012, $4.3 trillion this year, down almost a third",
                 "Japan rose to No. 2 in 1968, lost places to China in 2010 and Germany in 2023",
                 "The IMF sees it slipping to 6th next year behind India and the U.K., a first since 1968",
-                "GDP rankings measure a country's income in dollars",
-                "Japan kept rates near zero for years; money flowed to higher U.S. rates and the yen weakened",
-                "A weaker yen drags the ranking down. But for some companies it worked the other way",
+                "Japan kept rates near zero for years; money flowed to the U.S. and the yen weakened",
+                "GDP rankings are measured in dollars, so a weak yen drags them down. But for some companies it worked the other way",
                 "A company earning $100 million abroad: at 80 yen, 8 billion yen on its books",
                 "At 157 yen, 15.7 billion yen. Same business, nearly double the profit",
                 "Apr-Jun this year, Japanese corporate profits rose 24.6%, a quarterly record",
