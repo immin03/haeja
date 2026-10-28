@@ -1,0 +1,90 @@
+[
+ {
+  "id": "kb12_stop",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb1_stop.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, camera angle, lighting, colors and miniature clay style. Only change two things: completely remove the big magpie standing on the ground on the right (fill that spot naturally with courtyard ground and earthenware jars), and the persimmon tree keeps only five glowing orange persimmons, all at the very top branches; every other persimmon is removed so the branches are bare. No text, no letters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kbv21_stop",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb12_stop.jpeg",
+  "body": {
+   "prompt": "The grandmother slowly lowers the girl's bamboo pole with a gentle hand, shakes her head with a warm smile. The girl looks back at her, puzzled. Orange leaves drift down slowly. Slow gentle push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kb32_snow",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb3_snow.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, camera angle, lighting, colors and miniature clay style. Only change one thing: remove the little girl who appears inside the glowing window, so the window shows only a warm empty glow. The grandmother and the little girl in the yellow jacket standing outside stay exactly as they are. No text, no letters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kbv23_snow",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb32_snow.jpeg",
+  "body": {
+   "prompt": "Snow falls softly. The magpie pecks the persimmon and does a happy little wiggle, then turns and looks down at the window. The girl waves both hands and laughs, the grandmother smiles and waves too. Slow tilt down from the magpie to the glowing window. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kb42_empty",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb4_empty.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, camera angle, lighting, colors and miniature clay style. Only fix one thing: the sky must be one seamless, continuous soft snowy winter sky from the top edge down to the roofs, with no horizontal band, no seam and no pasted strip. No text, no letters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kbv24_empty",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb42_empty.jpeg",
+  "body": {
+   "prompt": "Snow falls quietly onto the empty maru porch and the folded plum vest. A little wisp of wind moves a few snowflakes. Very slow push-in toward the folded vest, then a slow tilt up to the persimmons at the top of the tree. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "kb52_again",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/kb5_again.jpeg"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, camera angle, lighting, colors and miniature clay style. Only fix one thing: the sky must be one seamless, continuous soft snowy winter sky from the top edge down to the roofs, with no horizontal band, no seam and no pasted strip. No text, no letters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "kbv25_again",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/kb52_again.jpeg",
+  "body": {
+   "prompt": "The woman gently lowers her son's bamboo pole exactly the way her grandmother once did, shakes her head with a soft smile, and points up at the tree. The boy looks up, curious. Snow falls. Slow push-in on the woman's face. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ }
+]
