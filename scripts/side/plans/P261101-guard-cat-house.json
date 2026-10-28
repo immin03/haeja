@@ -1,0 +1,88 @@
+{
+ "bible": {
+  "guard": "GUARD: a gentle Korean apartment night guard in his sixties, grey hair under a navy-blue flat cap, round kind face, navy-blue padded uniform jacket with no badge or text, ",
+  "booth": "BOOTH: a tiny wooden guard booth with a frosty window, a round wall clock with no numbers, a small brown radio, warm lamp light inside, snowy apartment garden outside",
+  "cats": "a tabby mother cat with four small tabby kittens",
+  "blanket": "his own brown-and-cream plaid wool blanket",
+  "box": "a white foam box with a round doorway cut in one side",
+  "palette": "cold blue night outside, warm amber lamp light inside; dawn = soft peach light"
+ },
+ "shots": [
+  {
+   "n": 1,
+   "img_prompt": "(existing) social/side/gen/gc1_cold.jpeg",
+   "refs": [],
+   "reuse": "gcv1_cold.mp4",
+   "action": "(existing video)",
+   "dur": 5,
+   "cap": "The first cold night.",
+   "detail": "mother cat and kittens shivering under the frosty shrub"
+  },
+  {
+   "n": 2,
+   "img_prompt": "(existing) social/side/gen/gc3_box.jpeg",
+   "refs": [],
+   "reuse": "gcv3_box.mp4",
+   "action": "(existing video)",
+   "dur": 5,
+   "cap": "He gave them his own blanket.",
+   "detail": "plaid blanket folded next to the foam box (front right)"
+  },
+  {
+   "n": 3,
+   "img_prompt": "(existing) social/side/gen/gc4_kachi.jpeg",
+   "refs": [],
+   "reuse": "gcv4_kachi.mp4",
+   "action": "(existing video)",
+   "dur": 5,
+   "cap": "Kachi brought one more.",
+   "detail": "Kachi drops the red scarf into the box"
+  },
+  {
+   "n": 4,
+   "img_prompt": "GUARD: a gentle Korean apartment night guard in his sixties, grey hair under a navy-blue flat cap, round kind face, navy-blue padded uniform jacket with no badge or text, dozing peacefully in his wooden chair inside the tiny guard booth at dawn, head tilted, a calm smile. BOOTH: a tiny wooden guard booth with a frosty window, a round wall clock with no numbers, a small brown radio, warm lamp light inside, snowy apartment garden outside. Draped over his knees is his own brown-and-cream plaid wool blanket, and curled asleep on his lap on top of the blanket is the tabby mother cat with her four small kittens tucked against her belly, mostly hidden in the blanket folds. Soft peach dawn light through the frosty window, the empty white foam box with the round doorway visible outside the open booth door in the snow. Only the guard and the cats, no other characters. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "refs": [
+    "social/side/gen/gc3_box.jpeg",
+    "social/side/gen/gc2_window.jpeg",
+    "social/side/gen/gc62_dawn.jpeg"
+   ],
+   "reuse": null,
+   "action": "The guard breathes slowly in his sleep; the mother cat's ear twitches once; dawn light brightens softly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "dur": 5,
+   "cap": "That night, they kept him warm.",
+   "detail": "same plaid blanket now on his knees, cats on his lap, empty box outside"
+  }
+ ],
+ "details": [
+  {
+   "prop": "경비 아저씨의 체크무늬 담요",
+   "where": [
+    2,
+    4
+   ],
+   "meaning": "자기 담요를 내어 줬다 → 새벽엔 그 담요 위에서 고양이들이 그를 데운다"
+  },
+  {
+   "prop": "새벽 빈 상자",
+   "where": [
+    4
+   ],
+   "meaning": "고양이들이 따뜻한 상자를 두고 그에게 왔다 = 반전"
+  },
+  {
+   "prop": "까치의 빨간 목도리",
+   "where": [
+    3
+   ],
+   "meaning": "까치도 자기 것을 보탰다"
+  }
+ ],
+ "est_usd": 0.38,
+ "score": {
+  "surprise": 4,
+  "emotion": 4,
+  "natural": 4,
+  "kachi": 4
+ },
+ "notes": "P0에 맞춰 새로 짬: 기존 영상 3컷(gcv1·gcv3·gcv4) 재사용 + 새 반전 컷 1개(그림 1+영상 1 ≈ $0.38). 반전: 자기 담요를 내어 준 아저씨를, 새벽엔 고양이 가족이 그 담요 위에서 데워 준다. 컷4는 인물 2종(아저씨·고양이), 까치 없음 → 까치 ref 넣지 않음. 4컷 ≈ 18초+엔딩."
+}

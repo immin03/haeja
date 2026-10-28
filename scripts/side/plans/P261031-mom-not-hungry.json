@@ -1,0 +1,76 @@
+{
+ "bible": {
+  "mom1998": "young Korean mother, black hair in a low bun dusted with snow, brown wool coat, dark grey scarf, worn grey gloves",
+  "son1998": "small boy in a sage-green knitted hat and green padded jacket",
+  "now": "grown son in a navy coat and grey scarf; mother now white-haired in a plum wool coat",
+  "place": "snowy winter market night, bungeoppang stall with a red cloth awning, a hanging bulb, cast-iron fish moulds, golden fish-shaped bread",
+  "palette": "cool snowy blue night with warm bulb light"
+ },
+ "shots": [
+  {
+   "n": 1,
+   "img_prompt": "(existing) social/side/gen/mh2_give.jpeg",
+   "refs": [],
+   "reuse": "mhv2_give.mp4",
+   "action": "(existing video)",
+   "dur": 5,
+   "cap": "Winter, 1998. \"I'm not hungry.\"",
+   "detail": "one paper bag only, handed to the boy"
+  },
+  {
+   "n": 2,
+   "img_prompt": "(existing) social/side/gen/mh3_watch.jpeg",
+   "refs": [],
+   "reuse": null,
+   "action": "The boy chews happily; the mother watches him and quietly swallows, smiling; Kachi on the awning tilts its head; snow falls softly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "dur": 5,
+   "cap": "She was. Kachi saw it.",
+   "detail": "mom's empty hands; Kachi on the awning watching"
+  },
+  {
+   "n": 3,
+   "img_prompt": "(existing) social/side/gen/mh62_bite.jpeg",
+   "refs": [],
+   "reuse": null,
+   "action": "The white-haired mother takes a small bite and laughs with teary eyes; Kachi slowly nudges the heart parcel toward her. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "dur": 5,
+   "cap": "Years later... \"You first, Mom.\"",
+   "detail": "same stall; Kachi delivers a heart parcel"
+  }
+ ],
+ "details": [
+  {
+   "prop": "같은 붕어빵 노점(빨간 천 지붕)",
+   "where": [
+    1,
+    2,
+    3
+   ],
+   "meaning": "세월이 흘러 같은 자리에서 갚는다"
+  },
+  {
+   "prop": "1998년 봉투는 아이 손에만",
+   "where": [
+    1,
+    2
+   ],
+   "meaning": "엄마는 먹지 않았다"
+  },
+  {
+   "prop": "그때도 지금도 지붕 위·옆의 까치",
+   "where": [
+    2,
+    3
+   ],
+   "meaning": "까치는 그날을 기억하고 좋은 소식을 들고 온다"
+  }
+ ],
+ "est_usd": 0.5,
+ "score": {
+  "surprise": 4,
+  "emotion": 5,
+  "natural": 4,
+  "kachi": 4
+ },
+ "notes": "3컷으로 압축, 이미 만든 그림·영상 재사용(새 영상 2개 ≈ $0.50). 까치 역할: 1998년에 엄마가 굶는 걸 본 까치가 세월 뒤 같은 노점에 하트 소포를 가져온다."
+}
