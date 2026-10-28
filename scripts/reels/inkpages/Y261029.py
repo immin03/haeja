@@ -207,6 +207,8 @@ B["scenes"] = [
                                  {"label": "엔화 빚 이자", "v": 1.35, "text": "1.35억$", "color": "red"}], x=120, y=180, w=820, h=480, line=0, at=.12),
         dict(kind="print", text="워렌 버핏 2024년 주주서한", x=90, y=760, size=34, w="Medium", color="gray", line=0, at=.7),
         dict(kind="write", text="배당 8억 1,200만 달러", x=80, y=820, size=84, color="green", line=0, at=.4),
+        dict(kind="print", text="엔화로 빌린 돈의 이자 1억 3,500만 달러", x=90, y=900, size=36, w="Bold", color="red", line=1, at=.08),
+        dict(kind="hl", x0=520, y0=600, x1=880, y1=660, color="red", line=1, at=.3),
         dict(kind="write", text="약 6배", x=600, y=240, size=150, color="red", line=1, at=.5, over=True),
         dict(kind="circle", cx=740, cy=330, rx=230, ry=110, color="gold", line=1, at=.8),
         dict(kind="icons", icon="dollar", n=6, hl=[5], x=600, y=960, size=60, gap=50, color="green", hlcolor="gold", line=2, at=.05, dur=.8),
