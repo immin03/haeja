@@ -312,3 +312,4 @@ python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover      
   롱폼 A/B 3안은 `thumbs/<롱폼 id>_a.json`, `_b.json`, `_c.json`. 단독 실행: `python3 scripts/reels/thumb_simple.py <json> <out.jpg>`
 - 숫자는 실제 자료로만. 선은 확인된 날짜의 실제 값만 잇는다.
 - json 이 없으면 렌더 로그에 ⚠ 가 뜬다. 그 상태로 검수에 올리지 않는다.
+- 그림 자리는 편마다 섞는다 (2026-10-28 운영자: "숫자와 그래프만 하지 말고 로고·사진·사람 배경도"): 회사 로고 PNG(`logo`), 관련 사진(`photo`, scripts/blog/media/lib 의 출처 확인된 사진), 주가선·막대(`chart`) 중 그 편에 가장 와닿는 것. 같은 날 올라가는 썸네일이 전부 같은 그림 종류가 되지 않게 한다.

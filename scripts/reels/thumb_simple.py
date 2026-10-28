@@ -3,7 +3,7 @@
 요소는 딱 네 가지만 쓴다. 사진·손글씨·노트 배경·설명 문구는 넣지 않는다.
   1) 위 2줄 제목 (윗줄 아이보리 + 아랫줄 골드 강조)
   2) 가운데 회사 로고 — 누구나 알아보는 로고 PNG가 있을 때만 (영문 글자만 쓰는 건 눈에 안 띄어 빼고 한글 제목을 키운다)
-  3) 그림 하나: 주가선(line) 또는 막대 2개(bars) — 표시는 꼭짓점 하나만
+  3) 그림 하나: 주가선(line)·막대 2개(bars) 또는 관련 사진(photo, 인물·장소·물건) — 편마다 섞어서 단조롭지 않게
   4) 아래 큰 숫자 하나 (하락 = 형광 핑크레드, 상승 = 형광 그린)
 
 세로(쇼츠·릴스 1080x1920)와 가로(롱폼 1280x720) 둘 다 만든다.
@@ -132,6 +132,22 @@ def chart(im, c, box, tone):
         text_shadow(im, (tx, ty), c["mark_label"], f, IVORY, off=2, blur=4, alpha=160)
 
 
+def photo_panel(im, name, box, fade="tb", focus=(.5, .5)):
+    """관련 사진 한 장 (2026-10-28 운영자: 숫자·그래프만 반복하지 말고 로고·사진·사람 배경도 적절히)
+    사진은 scripts/blog/media/lib 의 출처 확인된 사진만 쓴다. 가장자리는 남색 바탕으로 부드럽게 녹인다."""
+    X0, Y0, X1, Y1 = box; bw, bh = X1 - X0, Y1 - Y0
+    ph = Image.open(os.path.join(ROOT, "scripts", "blog", "media", "lib", name)).convert("RGB")
+    sc = max(bw / ph.width, bh / ph.height); ph = ph.resize((int(ph.width * sc) + 1, int(ph.height * sc) + 1), Image.LANCZOS)
+    cx = int((ph.width - bw) * focus[0]); cy = int((ph.height - bh) * focus[1]); ph = ph.crop((cx, cy, cx + bw, cy + bh)).convert("RGBA")
+    a = np.ones((bh, bw), np.float32)
+    if "t" in fade: a *= (np.clip(np.linspace(0, 1, bh) / .35, 0, 1) ** 1.5)[:, None]
+    if "b" in fade: a *= np.clip(np.linspace(1, 0, bh) / .3, 0, 1)[:, None]
+    if "l" in fade: a *= np.clip(np.linspace(0, 1, bw) / .45, 0, 1)[None, :]
+    dim = Image.new("RGBA", (bw, bh), (8, 18, 38, 70)); ph = Image.alpha_composite(ph, dim)   # 살짝 어둡게: 위 글자·숫자가 또렷하게
+    ph.putalpha(Image.fromarray((a * 255).astype(np.uint8)))
+    im.alpha_composite(ph, (X0, Y0))
+
+
 def render(spec, out):
     # 2026-10-28 운영자: "BERKSHIRE·JAPAN 같은 영문 글자는 눈에 안 띈다, 위 한글 제목을 더 크게"
     # → 가운데 이름은 알아보기 쉬운 회사 로고 PNG가 있을 때만 쓰고, 없으면 그 자리를 한글 제목에 준다.
@@ -145,24 +161,30 @@ def render(spec, out):
         text_shadow(im, (W / 2, y1), spec["l1"], f1, IVORY)
         text_shadow(im, (W / 2, y1 + f1.size * .5 + f2.size * .72), spec["l2"], f2, GOLD)
         if has_logo: name_block(im, spec, W / 2, 640, 780, 110)
-        chart(im, spec["chart"], (110, 760 if has_logo else 700, 970, 1250), tone)
+        if spec.get("photo"): photo_panel(im, spec["photo"], (0, 620, W, 1400), "tb", tuple(spec.get("focus", (.5, .5))))
+        if spec.get("chart"): chart(im, spec["chart"], (110, 760 if has_logo else 700, 970, 1250), tone)
         big = fit(spec["big"], "Heavy", 250, 900)
         text_shadow(im, (W / 2, 1490), spec["big"], big, col, off=8, blur=14, alpha=170)
         if spec.get("sub"): text_shadow(im, (W / 2, 1650), spec["sub"], F("SemiBold", 44), GREY, off=2, blur=4, alpha=140)
     else:
         W, H = 1280, 720; im = background(W, H, .62)
+        if spec.get("photo"):   # 사진은 오른쪽, 큰 숫자는 왼쪽
+            photo_panel(im, spec["photo"], (520, 0, W, H), "l", tuple(spec.get("focus", (.5, .5))))
+            top_ = Image.new("RGBA", (W, H), (0, 0, 0, 0)); gt = ImageDraw.Draw(top_)
+            for y in range(240): gt.line([(0, y), (W, y)], fill=(8, 18, 38, int(200 * (1 - y / 240) ** 1.2)))
+            im.alpha_composite(top_)
         s1, s2 = (64, 84) if has_logo else (80, 104)
         f1 = fit(spec["l1"], "Heavy", s1, 1180); f2 = fit(spec["l2"], "Heavy", s2, 1200)
         y1 = 70 if has_logo else 78
         text_shadow(im, (W / 2, y1), spec["l1"], f1, IVORY)
         text_shadow(im, (W / 2, y1 + f1.size * .55 + f2.size * .7), spec["l2"], f2, GOLD)
         top = 300 if has_logo else 320
-        chart(im, spec["chart"], (70, top, 690, 650), tone)
+        if spec.get("chart"): chart(im, spec["chart"], (70, top, 690, 650), tone)
         if has_logo: name_block(im, spec, 990, 300, 480, 74)
         big = fit(spec["big"], "Heavy", 210 if has_logo else 230, 540)
-        by = 470 if has_logo else 480
-        text_shadow(im, (990, by), spec["big"], big, col, off=7, blur=12, alpha=170)
-        if spec.get("sub"): text_shadow(im, (990, by + 130), spec["sub"], F("SemiBold", 34), GREY, off=2, blur=4, alpha=140)
+        by = 470 if has_logo else 480; bx = 330 if (spec.get("photo") and not spec.get("chart")) else 990
+        text_shadow(im, (bx, by), spec["big"], big, col, off=7, blur=12, alpha=170)
+        if spec.get("sub"): text_shadow(im, (bx, by + 130), spec["sub"], F("SemiBold", 34), IVORY if spec.get("photo") else GREY, off=2, blur=4, alpha=160)
     # 2026-10-28 운영자: 썸네일 제목은 짧게 — 글자를 최대 크기로 넣을 수 있는 길이만 (쇼츠 한 줄 9자 안팎, 롱폼 11자 안팎), 최대한 궁금하게
     for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
         if f.size < mx * .92: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt} — 더 짧게 줄이세요")
