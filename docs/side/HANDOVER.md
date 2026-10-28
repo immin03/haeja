@@ -29,6 +29,16 @@
 - 학습: 하루 단위 조회수(매일 07:40) + 스튜디오 분석으로 HIT 포맷은 이어 가고 WEAK 는 원인 하나씩 바꾼다. 제작 고침 횟수도 학습. `sc_settings.value.learn`, `docs/side/LEARN.md`
 - 예약 작업: "까치 채널 작업자 (하루 2편)" 01:41·09:41·13:41·17:41·21:41 / "From Korea, With Love 쇼츠 업로드 (하루 2편)" 06:40·18:40 (대표님 Chrome)
 
+## 0-2. 매일 벤치마킹 → 승인된 개선 제안 적용 (2026-10-29 01:59 대표님 결정 — 작업자 필수)
+> 대표님: "구독자가 얼마 안 되는데 쇼츠 몇 개만으로 터지는 사람들… 특징을 계속 벤치마킹해서 제안해 줘. 내가 승인만 하면 바로 다음 영상 때 적용될 수 있게."
+- 흐름: 07:40 수집기(sc-trend-collect)가 대박 쇼츠 + 그 채널 구독자(`sc_hot_channels`)를 모은다 → 뷰 `sc_breakout`(구독 10만 이하 & 조회수 ≥ 구독자 5배) → **10:53 "까치 채널 벤치마킹·개선 제안"** 작업이 우리 성과와 비교해 `sc_improve` 에 제안(최대 4건) → 대표님이 관리자 **트렌드·개선 탭**에서 승인/보류/반려/고쳐서 승인 → 작업자가 적용.
+- **작업자는 기획을 새로 쓰거나 보강할 때마다 먼저 읽는다:** `select id, area, title, apply, feedback, applied_to from sc_improve where status in ('approved','applied') order by id;`
+  - 모든 항목의 `apply` 를 규칙으로 그대로 따른다. 대표님 피드백(고쳐서 승인 문구)이 있으면 그 문구가 `apply` 보다 우선.
+  - 처음 반영한 기획이 나오면 `update sc_improve set status='applied', applied_to = applied_to || to_jsonb('<plan id>'::text), updated_at=now() where id=<id>;` (이후 기획도 applied_to 에 추가)
+  - 기획안 feedback 에 "개선 #<id> 반영: <어떻게>" 한 줄을 남긴다.
+  - 'hold'·'rejected' 항목은 따르지 않는다. 승인된 규칙이 위 0-1·1장 대표님 결정과 충돌하면 대표님 결정이 우선이고, 충돌 사실을 그 항목 feedback 에 {by:'claude', type:'note'} 로 적는다.
+- 우리 채널 조회수는 3시간마다(`side-ours-views` pg_cron, 매 3시간 :17) 쇼츠 탭에서 읽어 `sc_videos.stats` 와 `youtube_id` 를 채운다. 구독자 수는 `sc_settings.value.our`.
+
 ---
 
 ## 1. 대표님이 일하는 방식 (꼭 지킬 것)
