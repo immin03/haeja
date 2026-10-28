@@ -1,0 +1,31 @@
+{
+ "id": "snv1_night",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Snow keeps falling and piling up on the mother magpie's back. She shivers once but keeps her wings spread wide over the nest. The baby blinks sleepily and snuggles deeper. Village lights twinkle below. Very slow push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18037-f4c7-7a8d-a793-c4af22d8fd56/7b4782db-233d-4302-a203-0a0855453584.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18039-ab97-73c3-abae-595c151dae77",
+  "status_url": "https://api.higgsfield.ai/requests/01a18039-ab97-73c3-abae-595c151dae77/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18039-ab97-73c3-abae-595c151dae77/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18039-ab97-73c3-abae-595c151dae77",
+  "status_url": "https://api.higgsfield.ai/requests/01a18039-ab97-73c3-abae-595c151dae77/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18039-ab97-73c3-abae-595c151dae77/cancel",
+  "expires_at": "2026-11-04T01:59:39.016630+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18039-ab97-73c3-abae-595c151dae77/8e0e271e-4eaa-476b-a4c9-d66c7d8ac590.mp4"
+  }
+ },
+ "seconds": 156,
+ "file": "social/side/gen/snv1_night.mp4"
+}

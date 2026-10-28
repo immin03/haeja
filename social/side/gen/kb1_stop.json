@@ -1,0 +1,35 @@
+{
+ "id": "kb1_stop",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Late autumn in a traditional Korean hanok courtyard: curved dark-grey tiled roofs, a wooden maru porch, rows of brown earthenware jangdok jars along a stone wall, strings of dried red chili peppers. A tall old persimmon tree with bare twisting branches and only five glowing orange persimmons left at the very top. A little Korean girl about seven, with two short pigtails and a yellow quilted jacket, stands on tiptoe reaching up with a long bamboo pole toward the last persimmons. Behind her, an elderly Korean grandmother with white hair in a low bun, a quilted plum vest and a long grey skirt, gently rests her wrinkled hand on the pole, smiling warmly. Golden late-afternoon light, a few orange leaves falling. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18037-f27f-7cbe-ac0e-ae8aafe93d09",
+  "status_url": "https://api.higgsfield.ai/requests/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18037-f27f-7cbe-ac0e-ae8aafe93d09",
+  "status_url": "https://api.higgsfield.ai/requests/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/cancel",
+  "expires_at": "2026-11-04T01:55:39.716373+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/8bd1d6f6-d058-4fed-99aa-5e1c16aa5673.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/kb1_stop.jpeg"
+}

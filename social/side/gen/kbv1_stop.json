@@ -1,0 +1,31 @@
+{
+ "id": "kbv1_stop",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandmother slowly lowers the girl's bamboo pole with a gentle hand, shakes her head with a warm smile. The girl looks back at her, puzzled. Orange leaves drift down slowly. Slow gentle push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/8bd1d6f6-d058-4fed-99aa-5e1c16aa5673.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18038-9030-7e1a-9169-71d855ddd2a9",
+  "status_url": "https://api.higgsfield.ai/requests/01a18038-9030-7e1a-9169-71d855ddd2a9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18038-9030-7e1a-9169-71d855ddd2a9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18038-9030-7e1a-9169-71d855ddd2a9",
+  "status_url": "https://api.higgsfield.ai/requests/01a18038-9030-7e1a-9169-71d855ddd2a9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18038-9030-7e1a-9169-71d855ddd2a9/cancel",
+  "expires_at": "2026-11-04T01:57:54.830261+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18038-9030-7e1a-9169-71d855ddd2a9/4a1ab95f-b9b4-4d18-96f1-68ffd3fd1b57.mp4"
+  }
+ },
+ "seconds": 126,
+ "file": "social/side/gen/kbv1_stop.mp4"
+}

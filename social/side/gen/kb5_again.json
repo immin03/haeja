@@ -1,0 +1,36 @@
+{
+ "id": "kb5_again",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The same snowy hanok courtyard. A young Korean woman about thirty with long black hair, wearing a long cream coat and the grandmother's quilted plum vest over it, gently rests her hand on a bamboo pole held by her own little son about six in a red puffer jacket, who is reaching up for the last persimmons, exactly like in the old days. She smiles softly, eyes shining with tears, and points up at the top of the tree. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18038-902a-7264-a507-e40b1f41f50b/b1cc2399-5531-42ce-b573-3264e9dddbcf.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/8bd1d6f6-d058-4fed-99aa-5e1c16aa5673.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1803c-193d-7dce-9fec-dd21b9fb98ef",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-193d-7dce-9fec-dd21b9fb98ef/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-193d-7dce-9fec-dd21b9fb98ef/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1803c-193d-7dce-9fec-dd21b9fb98ef",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-193d-7dce-9fec-dd21b9fb98ef/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-193d-7dce-9fec-dd21b9fb98ef/cancel",
+  "expires_at": "2026-11-04T02:00:23.775648+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1803c-193d-7dce-9fec-dd21b9fb98ef/aba0d55c-bd92-47ba-8da9-af02a7603129.jpeg"
+   }
+  ]
+ },
+ "seconds": 44,
+ "file": "social/side/gen/kb5_again.jpeg"
+}

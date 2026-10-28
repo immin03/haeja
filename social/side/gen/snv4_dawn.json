@@ -1,0 +1,31 @@
+{
+ "id": "snv4_dawn",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The baby pecks the snow from his mother's cheek. Slowly the mother opens her eyes, looks at him, and lowers her head to touch his head gently. Soft focus shift from the baby to the mother. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1803c-ca43-738d-9714-d259af3b00db/4196875c-8636-4f15-bf7a-9530f3a78332.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18040-ac49-7063-a96b-5cf77e8e8c0c",
+  "status_url": "https://api.higgsfield.ai/requests/01a18040-ac49-7063-a96b-5cf77e8e8c0c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18040-ac49-7063-a96b-5cf77e8e8c0c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18040-ac49-7063-a96b-5cf77e8e8c0c",
+  "status_url": "https://api.higgsfield.ai/requests/01a18040-ac49-7063-a96b-5cf77e8e8c0c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18040-ac49-7063-a96b-5cf77e8e8c0c/cancel",
+  "expires_at": "2026-11-04T02:07:27.484190+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18040-ac49-7063-a96b-5cf77e8e8c0c/40e95c63-a415-4fcc-a03f-9c0482693c94.mp4"
+  }
+ },
+ "seconds": 169,
+ "file": "social/side/gen/snv4_dawn.mp4"
+}

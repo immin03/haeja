@@ -1,0 +1,36 @@
+{
+ "id": "h_fly_love",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "1:1",
+  "prompt": "The exact same magpie character as the reference images, flying toward the left with both wings spread wide and happy, holding the same small brown parcel tied with red string and a red heart tag in its feet, red neckerchief fluttering, big joyful smile. It does NOT hold a microphone. Full body, plain flat light cream background with nothing else, soft studio light, cute 3D clay-and-vinyl toy figurine. No text.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18027-6e1f-71db-ac00-6ef9f74ae6c8/008eb08e-1a8f-4244-98c5-33494ef5670f.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18037-f28b-7132-9290-0ada72035915",
+  "status_url": "https://api.higgsfield.ai/requests/01a18037-f28b-7132-9290-0ada72035915/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18037-f28b-7132-9290-0ada72035915/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18037-f28b-7132-9290-0ada72035915",
+  "status_url": "https://api.higgsfield.ai/requests/01a18037-f28b-7132-9290-0ada72035915/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18037-f28b-7132-9290-0ada72035915/cancel",
+  "expires_at": "2026-11-04T01:55:39.794756+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18037-f28b-7132-9290-0ada72035915/d7c84c8d-66d5-46b1-88f0-0b6786ba65ba.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/h_fly_love.jpeg"
+}

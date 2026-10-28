@@ -1,0 +1,36 @@
+{
+ "id": "sn4_dawn",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Blue early dawn, the snow has stopped. Close-up in the nest: the mother magpie is frozen still with thick snow on her head and back, eyes closed. A tiny fluffy baby version of the magpie from the reference image, round and downy, big shiny eyes, wearing a tiny red knitted neckerchief, no satchel has climbed up and is gently pecking the snow off his mother's cheek with his tiny beak, looking worried and loving. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18039-11b0-7c65-a4f3-6d3bfbd6793b/9731a37d-1509-4ef2-b107-8e281a24f8cf.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1803c-ca43-738d-9714-d259af3b00db",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-ca43-738d-9714-d259af3b00db/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-ca43-738d-9714-d259af3b00db/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1803c-ca43-738d-9714-d259af3b00db",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-ca43-738d-9714-d259af3b00db/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-ca43-738d-9714-d259af3b00db/cancel",
+  "expires_at": "2026-11-04T02:01:06.344484+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1803c-ca43-738d-9714-d259af3b00db/4196875c-8636-4f15-bf7a-9530f3a78332.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/sn4_dawn.jpeg"
+}

@@ -1,0 +1,35 @@
+{
+ "id": "sn3_long",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The same nest on the tall tree, much later in the night: the mother magpie is almost completely covered by a thick white cap of snow, only her face and wing edges showing, eyes half closed, still holding her wings wide over the nest. Far below, most of the hanok village windows have gone dark; only a few lights remain. Snow still falling, quiet and cold. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18037-f4c7-7a8d-a793-c4af22d8fd56/7b4782db-233d-4302-a203-0a0855453584.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18039-29fa-7068-857a-60bfafe15358",
+  "status_url": "https://api.higgsfield.ai/requests/01a18039-29fa-7068-857a-60bfafe15358/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18039-29fa-7068-857a-60bfafe15358/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18039-29fa-7068-857a-60bfafe15358",
+  "status_url": "https://api.higgsfield.ai/requests/01a18039-29fa-7068-857a-60bfafe15358/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18039-29fa-7068-857a-60bfafe15358/cancel",
+  "expires_at": "2026-11-04T01:57:01.342117+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18039-29fa-7068-857a-60bfafe15358/282cf0b8-99a3-4dae-9882-2bfb432bfef7.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/sn3_long.jpeg"
+}

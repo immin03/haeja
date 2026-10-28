@@ -1,0 +1,31 @@
+{
+ "id": "snv3_long",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Time passes: snow keeps falling and the snow cap on the mother grows thicker, one by one the last lights in the village below go out. The mother does not move. Very slow pull-back. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18039-29fa-7068-857a-60bfafe15358/282cf0b8-99a3-4dae-9882-2bfb432bfef7.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1803d-fd7e-7178-b00a-c9134200f954",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803d-fd7e-7178-b00a-c9134200f954/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803d-fd7e-7178-b00a-c9134200f954/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1803d-fd7e-7178-b00a-c9134200f954",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803d-fd7e-7178-b00a-c9134200f954/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803d-fd7e-7178-b00a-c9134200f954/cancel",
+  "expires_at": "2026-11-04T02:04:33.263367+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1803d-fd7e-7178-b00a-c9134200f954/9aa0e667-aa11-4f07-ad22-691947df9e58.mp4"
+  }
+ },
+ "seconds": 169,
+ "file": "social/side/gen/snv3_long.mp4"
+}

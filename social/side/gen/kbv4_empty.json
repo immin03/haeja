@@ -1,0 +1,31 @@
+{
+ "id": "kbv4_empty",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Snow falls quietly onto the empty maru porch and the folded plum vest. A little wisp of wind moves a few snowflakes. Very slow push-in toward the folded vest, then a slow tilt up to the persimmons at the top of the tree. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18038-902a-7264-a507-e40b1f41f50b/b1cc2399-5531-42ce-b573-3264e9dddbcf.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1803c-191e-7b18-a771-cd5755291122",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-191e-7b18-a771-cd5755291122/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-191e-7b18-a771-cd5755291122/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1803c-191e-7b18-a771-cd5755291122",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-191e-7b18-a771-cd5755291122/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-191e-7b18-a771-cd5755291122/cancel",
+  "expires_at": "2026-11-04T02:01:47.471084+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1803c-191e-7b18-a771-cd5755291122/29bcd376-bbf4-4b7e-9382-91c2878a6451.mp4"
+  }
+ },
+ "seconds": 125,
+ "file": "social/side/gen/kbv4_empty.mp4"
+}

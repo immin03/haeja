@@ -1,0 +1,31 @@
+{
+ "id": "kbv3_snow",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Snow falls softly. The magpie pecks the persimmon and does a happy little wiggle, then turns and looks down at the window. The girl waves both hands and laughs, the grandmother smiles and waves too. Slow tilt down from the magpie to the glowing window. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18038-903a-75a7-afc9-bb7f4821b56e/3dc152c2-60b3-46d2-be82-8912b9774634.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1803c-1932-7454-a644-6b0a4bb8bcf2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-1932-7454-a644-6b0a4bb8bcf2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-1932-7454-a644-6b0a4bb8bcf2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1803c-1932-7454-a644-6b0a4bb8bcf2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1803c-1932-7454-a644-6b0a4bb8bcf2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1803c-1932-7454-a644-6b0a4bb8bcf2/cancel",
+  "expires_at": "2026-11-04T02:01:49.084519+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1803c-1932-7454-a644-6b0a4bb8bcf2/c402d0bd-a320-47f2-b1b4-88c5a1cb50be.mp4"
+  }
+ },
+ "seconds": 125,
+ "file": "social/side/gen/kbv3_snow.mp4"
+}

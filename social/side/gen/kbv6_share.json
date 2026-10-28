@@ -1,0 +1,31 @@
+{
+ "id": "kbv6_share",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The woman hugs her son tighter and smiles through a tear as they both look up. At the top of the tree the magpie bows its head to them, then pecks the persimmon happily. Snow keeps falling. Very slow push-in, then hold. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18040-ac69-746a-8f95-ec4e4ee6abd8/2a8240fc-9068-4a5b-a21e-1bef7d81c7ce.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18043-4b02-7774-a6c5-bd4c4f2a10e7",
+  "status_url": "https://api.higgsfield.ai/requests/01a18043-4b02-7774-a6c5-bd4c4f2a10e7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18043-4b02-7774-a6c5-bd4c4f2a10e7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18043-4b02-7774-a6c5-bd4c4f2a10e7",
+  "status_url": "https://api.higgsfield.ai/requests/01a18043-4b02-7774-a6c5-bd4c4f2a10e7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18043-4b02-7774-a6c5-bd4c4f2a10e7/cancel",
+  "expires_at": "2026-11-04T02:09:56.558717+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18043-4b02-7774-a6c5-bd4c4f2a10e7/f48b8896-b644-4263-a436-14796cf2cbb8.mp4"
+  }
+ },
+ "seconds": 144,
+ "file": "social/side/gen/kbv6_share.mp4"
+}
