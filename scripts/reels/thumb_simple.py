@@ -2,7 +2,7 @@
 
 요소는 딱 네 가지만 쓴다. 사진·손글씨·노트 배경·설명 문구는 넣지 않는다.
   1) 위 2줄 제목 (윗줄 아이보리 + 아랫줄 골드 강조)
-  2) 가운데 주인공 이름 크게 (한 단어, 영문 워드마크 또는 회사 로고 PNG)
+  2) 가운데 회사 로고 — 누구나 알아보는 로고 PNG가 있을 때만 (영문 글자만 쓰는 건 눈에 안 띄어 빼고 한글 제목을 키운다)
   3) 그림 하나: 주가선(line) 또는 막대 2개(bars) — 표시는 꼭짓점 하나만
   4) 아래 큰 숫자 하나 (하락 = 형광 핑크레드, 상승 = 형광 그린)
 
@@ -133,27 +133,36 @@ def chart(im, c, box, tone):
 
 
 def render(spec, out):
+    # 2026-10-28 운영자: "BERKSHIRE·JAPAN 같은 영문 글자는 눈에 안 띈다, 위 한글 제목을 더 크게"
+    # → 가운데 이름은 알아보기 쉬운 회사 로고 PNG가 있을 때만 쓰고, 없으면 그 자리를 한글 제목에 준다.
     tone = spec.get("tone", "down"); col = RED if tone == "down" else GREEN
+    has_logo = bool(spec.get("logo"))
     if spec.get("format", "short") == "short":
         W, H = 1080, 1920; im = background(W, H, .55)
-        f1 = fit(spec["l1"], "Heavy", 86, 960); f2 = fit(spec["l2"], "Heavy", 104, 980)
-        text_shadow(im, (W / 2, 350), spec["l1"], f1, IVORY)                # 인스타 격자(3:4)는 y 240~1680만 보인다
-        text_shadow(im, (W / 2, 350 + f1.size * .5 + f2.size * .72), spec["l2"], f2, GOLD)
-        name_block(im, spec, W / 2, 640, 780, 110)
-        chart(im, spec["chart"], (110, 760, 970, 1250), tone)
+        s1, s2 = (86, 104) if has_logo else (108, 128)
+        f1 = fit(spec["l1"], "Heavy", s1, 980); f2 = fit(spec["l2"], "Heavy", s2, 1000)
+        y1 = 350 if has_logo else 380                                       # 인스타 격자(3:4)는 y 240~1680만 보인다
+        text_shadow(im, (W / 2, y1), spec["l1"], f1, IVORY)
+        text_shadow(im, (W / 2, y1 + f1.size * .5 + f2.size * .72), spec["l2"], f2, GOLD)
+        if has_logo: name_block(im, spec, W / 2, 640, 780, 110)
+        chart(im, spec["chart"], (110, 760 if has_logo else 700, 970, 1250), tone)
         big = fit(spec["big"], "Heavy", 250, 900)
         text_shadow(im, (W / 2, 1490), spec["big"], big, col, off=8, blur=14, alpha=170)
         if spec.get("sub"): text_shadow(im, (W / 2, 1650), spec["sub"], F("SemiBold", 44), GREY, off=2, blur=4, alpha=140)
     else:
         W, H = 1280, 720; im = background(W, H, .62)
-        f1 = fit(spec["l1"], "Heavy", 64, 1180); f2 = fit(spec["l2"], "Heavy", 84, 1200)
-        text_shadow(im, (W / 2, 70), spec["l1"], f1, IVORY)
-        text_shadow(im, (W / 2, 70 + f1.size * .55 + f2.size * .7), spec["l2"], f2, GOLD)
-        chart(im, spec["chart"], (70, 300, 690, 640), tone)
-        name_block(im, spec, 990, 300, 480, 74)
-        big = fit(spec["big"], "Heavy", 210, 520)
-        text_shadow(im, (990, 470), spec["big"], big, col, off=7, blur=12, alpha=170)
-        if spec.get("sub"): text_shadow(im, (990, 600), spec["sub"], F("SemiBold", 34), GREY, off=2, blur=4, alpha=140)
+        s1, s2 = (64, 84) if has_logo else (80, 104)
+        f1 = fit(spec["l1"], "Heavy", s1, 1180); f2 = fit(spec["l2"], "Heavy", s2, 1200)
+        y1 = 70 if has_logo else 78
+        text_shadow(im, (W / 2, y1), spec["l1"], f1, IVORY)
+        text_shadow(im, (W / 2, y1 + f1.size * .55 + f2.size * .7), spec["l2"], f2, GOLD)
+        top = 300 if has_logo else 320
+        chart(im, spec["chart"], (70, top, 690, 650), tone)
+        if has_logo: name_block(im, spec, 990, 300, 480, 74)
+        big = fit(spec["big"], "Heavy", 210 if has_logo else 230, 540)
+        by = 470 if has_logo else 480
+        text_shadow(im, (990, by), spec["big"], big, col, off=7, blur=12, alpha=170)
+        if spec.get("sub"): text_shadow(im, (990, by + 130), spec["sub"], F("SemiBold", 34), GREY, off=2, blur=4, alpha=140)
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     im.convert("RGB").save(out, quality=93)
     return out
