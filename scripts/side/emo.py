@@ -71,41 +71,62 @@ def heart(d, cx, cy, r, fill):
     d.polygon(pts, fill=fill)
 
 
-def end_card(spec, bg_frame, out, dur=3.0):
-    """마지막 장면을 흐리게 깔고 까치·채널 로고·팔로우 유도 문구. 쇼츠 아래쪽 UI(제목·버튼)를 피해 화면 가운데 위쪽에 둔다"""
+def _png(img, name):
+    p = os.path.join(WORK, name); img.save(p); return p
+
+
+def end_card(spec, bg_frame, out, dur=4.2):
+    """엔딩 (2026-10-28 운영자): 마지막 장면을 흐리게 깔고 → 글자 로고 → 소포 든 까치가 날아와 로고 위에 앉는다
+    → 문구 'Kachi brings you love, from Korea' → 좋아요·팔로우 버튼. 쇼츠 아래쪽 UI(제목)와 오른쪽 버튼 줄(x>940)을 피한다"""
     E = spec.get("end", {})
     bg = Image.open(bg_frame).convert("RGB").resize((W, H)).filter(ImageFilter.GaussianBlur(26))
-    bg = Image.blend(bg, Image.new("RGB", (W, H), (255, 236, 205)), 0.32)
-    card = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(card)
-    logo = Image.open(os.path.join(ROOT, "docs", "side", "logo_text.png")).convert("RGBA")   # 까치는 크게 따로 → 로고는 글자만
-    lw = 700; logo = logo.resize((lw, int(logo.height * lw / logo.width)), Image.LANCZOS)
-    ly = 900; card.alpha_composite(logo, ((W - lw) // 2, ly))
-    f1 = ImageFont.truetype(os.path.join(FONTS, "Poppins-SemiBold.ttf"), 48)
+    bg = Image.blend(bg, Image.new("RGB", (W, H), (255, 236, 205)), 0.35)
+    # 로고 (글자만)
+    lg = Image.open(os.path.join(ROOT, "docs", "side", "logo_text.png")).convert("RGBA")
+    lw = 640; lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
+    lx, ly = (W - lw) // 2, 820
+    plate = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ImageDraw.Draw(plate).rounded_rectangle((90, 520, W - 90, 1500), 80, fill=(255, 248, 236, 140))
+    bgp = _png(Image.alpha_composite(bg.convert("RGBA"), plate.filter(ImageFilter.GaussianBlur(40))).convert("RGB"), "end_bg.png")
+    lgp = _png(lg, "end_logo.png")
+    # 까치: 나는 모습 → 앉은 모습 ('From' 글자 위에 앉는다)
+    def cutout(name, h):
+        k = Image.open(os.path.join(ROOT, "social", "side", "gen", "cut", name + ".png")).convert("RGBA")
+        return k.resize((int(k.width * h / k.height), h), Image.LANCZOS)
+    fly = cutout(E.get("fly", "h_fly_love"), 400); stand = cutout(E.get("host", "h_love"), 400)
+    flyp, standp = _png(fly, "end_fly.png"), _png(stand, "end_stand.png")
+    sx, sy = lx + 30, ly - stand.height + 28          # 앉는 자리: 로고 왼쪽 위 'From' 위
+    fx0, fy0 = W + 40, 160                            # 오른쪽 위 화면 밖에서 출발
+    fx1, fy1 = sx - (fly.width - stand.width) // 2, sy - 20
+    # 문구 + 버튼
+    f1 = ImageFont.truetype(os.path.join(FONTS, "Poppins-SemiBold.ttf"), 54)
     f2 = ImageFont.truetype(os.path.join(FONTS, "Poppins-Bold.ttf"), 50)
-    y = ly + logo.height + 40
-    line = E.get("line", "")
-    if line:
-        tw = f1.getlength(line); x = (W - tw - 62) / 2
-        heart(d, x + 24, y + 34, 26, (215, 50, 44, 255)); d.text((x + 62, y), line, font=f1, fill=(31, 42, 68, 255)); y += 96
-    pill = E.get("follow", "Follow for more love")   # 오른쪽 좋아요·댓글 버튼 줄(x>940)을 피할 만큼 짧게
-    tw = f2.getlength(pill); px0, px1 = (W - tw) / 2 - 56, (W + tw) / 2 + 56
-    d.rounded_rectangle((px0, y, px1, y + 104), 52, fill=(215, 50, 44, 255))
-    d.text(((W - tw) / 2, y + 18), pill, font=f2, fill=(255, 255, 255, 255))
-    # 글자 판이 흐린 배경 위에서도 또렷하게: 아주 옅은 크림 판을 아래에
-    plate = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dp = ImageDraw.Draw(plate)
-    dp.rounded_rectangle((70, ly - 40, W - 70, y + 150), 70, fill=(255, 248, 236, 150))
-    plate = plate.filter(ImageFilter.GaussianBlur(30))
-    bgp = os.path.join(WORK, "end_bg.png"); Image.alpha_composite(bg.convert("RGBA"), plate).convert("RGB").save(bgp)
-    cp = os.path.join(WORK, "end_card.png"); card.save(cp)
-    kp = os.path.join(ROOT, "social", "side", "gen", "cut", E.get("host", "h_love") + ".png")
-    k = Image.open(kp).convert("RGBA"); kh = 600; k = k.resize((int(k.width * kh / k.height), kh), Image.LANCZOS)
-    kpath = os.path.join(WORK, "end_host.png"); k.save(kpath); kx = (W - k.width) // 2; ky = ly - kh + 10
-    # 배경 아주 천천히 확대 · 카드는 서서히 · 까치는 살짝 통통 튀며 들어온다
-    sh("ffmpeg", "-v", "error", "-y", "-loop", "1", "-t", str(dur), "-i", bgp, "-loop", "1", "-t", str(dur), "-i", cp,
-       "-loop", "1", "-t", str(dur), "-i", kpath, "-filter_complex",
-       f"[0:v]scale={W * 2}:{H * 2},zoompan=z='1+0.0006*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={W}x{H}:fps={FPS}[b];"
-       f"[1:v]format=rgba,fade=in:st=0.15:d=0.5:alpha=1[c];[2:v]format=rgba,fade=in:st=0:d=0.35:alpha=1[k];"
-       f"[b][c]overlay=0:0[bc];[bc][k]overlay=x={kx}:y='{ky}+60*exp(-4*t)*cos(9*t)+8*sin(2*PI*t*0.9)'",
+    phrase = E.get("phrase", "Kachi brings you love, from Korea")
+    ph = Image.new("RGBA", (W, 90), (0, 0, 0, 0)); dp = ImageDraw.Draw(ph)
+    dp.text(((W - f1.getlength(phrase)) / 2, 8), phrase, font=f1, fill=(31, 42, 68, 255))
+    php = _png(ph, "end_phrase.png"); py = ly + lg.height + 30
+    bt = Image.new("RGBA", (W, 130), (0, 0, 0, 0)); db = ImageDraw.Draw(bt)
+    like, follow = "Like", "Follow"
+    w1 = f2.getlength(like) + 150; w2 = f2.getlength(follow) + 110; gap = 36; x = (W - w1 - w2 - gap) / 2
+    db.rounded_rectangle((x, 10, x + w1, 116), 53, fill=(255, 255, 255, 255), outline=(215, 50, 44, 255), width=5)
+    heart(db, x + 62, 62, 30, (215, 50, 44, 255)); db.text((x + 106, 30), like, font=f2, fill=(215, 50, 44, 255))
+    x2 = x + w1 + gap; db.rounded_rectangle((x2, 10, x2 + w2, 116), 53, fill=(215, 50, 44, 255))
+    db.text((x2 + 55, 30), follow, font=f2, fill=(255, 255, 255, 255))
+    btp = _png(bt, "end_btn.png"); by = py + 120
+    T0, T1 = 0.25, 1.35   # 비행 시작·착지
+    P = f"min(max((t-{T0})/{T1 - T0},0),1)"
+    E3 = f"(1-pow(1-{P},3))"
+    sh("ffmpeg", "-v", "error", "-y",
+       "-loop", "1", "-t", str(dur), "-i", bgp, "-loop", "1", "-t", str(dur), "-i", lgp,
+       "-loop", "1", "-t", str(dur), "-i", flyp, "-loop", "1", "-t", str(dur), "-i", standp,
+       "-loop", "1", "-t", str(dur), "-i", php, "-loop", "1", "-t", str(dur), "-i", btp, "-filter_complex",
+       f"[0:v]scale={W * 2}:{H * 2},zoompan=z='1+0.0005*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={W}x{H}:fps={FPS}[b];"
+       f"[1:v]format=rgba,fade=in:st=0:d=0.45:alpha=1[l];"
+       f"[4:v]format=rgba,fade=in:st=1.6:d=0.5:alpha=1[p];[5:v]format=rgba,fade=in:st=2.1:d=0.35:alpha=1[n];"
+       f"[b][l]overlay=x={lx}:y='{ly}+25*exp(-6*t)'[a];"
+       f"[a][2:v]overlay=x='{fx0}+({fx1}-{fx0})*{E3}':y='{fy0}+({fy1}-{fy0})*{E3}-160*sin(PI*{P})+10*sin(2*PI*6*t)':enable='lt(t,{T1})'[a2];"
+       f"[a2][3:v]overlay=x={sx}:y='{sy}-26*exp(-7*(t-{T1}))*abs(cos(11*(t-{T1})))':enable='gte(t,{T1})'[a3];"
+       f"[a3][p]overlay=x=0:y='{py}+18*exp(-7*max(t-1.6,0))'[a4];"
+       f"[a4][n]overlay=x=0:y='{by}+40*exp(-9*max(t-2.1,0))'",
        "-t", str(dur), "-r", str(FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", out)
 
 
@@ -137,7 +158,7 @@ def main():
     if spec.get("end", {}).get("on", True):
         lastf = os.path.join(WORK, "last.png")
         sh("ffmpeg", "-v", "error", "-y", "-sseof", "-0.1", "-i", parts[-1][0], "-frames:v", "1", "-update", "1", lastf)
-        ep = os.path.join(WORK, "end.mp4"); end_card(spec, lastf, ep, spec.get("end", {}).get("dur", 3.0))
+        ep = os.path.join(WORK, "end.mp4"); end_card(spec, lastf, ep, spec.get("end", {}).get("dur", 4.2))
         parts.append((ep, float(sh("ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", ep))))
     n = len(parts)
     # 2) 컷 시작 시각 계산 (겹침 XF 초)
@@ -195,7 +216,7 @@ def main():
     url = f"https://github.com/{REPO}/releases/download/{tag}/{fn}"
     meta = {k: spec.get(k) for k in ("id", "title", "description", "tags", "pinned", "scheduled_at")}
     meta.update(kind="short", duration=round(dur, 1), video_url=url, thumb=f"/social/side/{sid}/thumb.jpg?v={stamp}",
-                subtitle=f"/social/side/{sid}/subtitles_en.srt", rendered_at=time.strftime("%Y-%m-%dT%H:%M:%S%z"), test=test)
+                subtitle=(f"/social/side/{sid}/subtitles_en.srt" if spec.get("srt") else None), rendered_at=time.strftime("%Y-%m-%dT%H:%M:%S%z"), test=test)
     json.dump(meta, open(os.path.join(od, "meta.json"), "w"), ensure_ascii=False, indent=1)
     if not test:
         qp = os.path.join(ROOT, "social", "side", "queue.json"); q = json.load(open(qp)) if os.path.exists(qp) else []

@@ -61,6 +61,7 @@ def logo(with_bird=True):
 
 def main():
     lg = logo(); lg.save(os.path.join(OUT, "logo_main.png")); print("로고", lg.size)
+    lt = logo(False); lt.save(os.path.join(OUT, "logo_text.png")); print("글자 로고", lt.size)
     logo(False).save(os.path.join(OUT, "logo_text.png"))
     # 배너 2560x1440 — 모바일 안전 영역(가운데 1546x423) 안에 로고·한 줄 소개
     src = Image.open(os.path.join(GEN, "brand_banner2.jpeg")).convert("RGB").resize((2560, 1440), Image.LANCZOS)
