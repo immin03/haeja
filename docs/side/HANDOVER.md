@@ -1,4 +1,4 @@
-# From Korea, With Love — 인수인계서 (2026-10-28 기준)
+# From Korea, With Love — 인수인계서 (2026-10-28 오후 개정)
 
 > 이 문서 하나만 새 프로젝트에 올리면 이어서 작업할 수 있게 썼다. 처음 읽는 Claude는 이 문서를 끝까지 읽고 시작한다.
 > 운영자: 최민우 대표님 (아래 "대표님"). 밸류노트(ValueNote, 금융 콘텐츠 앱·채널)가 본업 채널이고, 이 채널은 **가볍게 운영하는 부업 채널**이다.
@@ -18,6 +18,8 @@
 - 제작이 끝난 것은 바로 관리자 페이지 검수 탭에 올려 둔다. 관리자에서 확인할 수 있는 결과는 따로 알림을 많이 보내지 않는다.
 - 게시 여부·제작 상태는 기억으로 단정하지 말고 실제 데이터(저장소, 릴리스, Supabase)를 확인한 뒤 말한다.
 - 한국어 문서·디자인 산출물: Pretendard 또는 SUIT 글꼴, `word-break: keep-all`.
+- **반려 = 수정 요청** (2026-10-28 대표님: "반려할 때 반려 코멘트 반영하게 해 줘"). 관리자에서 '수정 요청'을 누르면 코멘트가 `feedback` 에 남고 status 가 `rework` 가 된다. 새 세션은 **시작하자마자 rework 부터 처리**한다(아래 5-1). 고친 뒤 무엇을 고쳤는지 `feedback` 에 Claude 답을 남긴다.
+- **제목에 #shorts 넣지 않는다** (2026-10-28 결정). 세로 3분 이하는 자동으로 쇼츠로 분류되고, 쇼츠 피드에서 제목이 잘려 #shorts 가 자리만 차지한다. #shorts 는 **설명 끝 해시태그에 한 번**. 제목은 40자 안쪽(관리자 카드에 글자 수 표시).
 
 ---
 
@@ -85,7 +87,9 @@ Visuals are AI-generated miniature illustrations.
 | `scripts/side/brand2.py` | 로고·배너·프로필·워터마크 합성 |
 | `scripts/side/render2.py`, `side-long2.yml` | 롱폼(까치 내레이션) 렌더러 — 지금은 거의 안 씀 |
 | `scripts/side/music.py` | Mixkit 무료 음악(저작자 표시 불필요) 받아 릴리스 `side-assets` 에 올림 |
-| `side.html` | 관리자 페이지 **valuenote.co.kr/side** (밸류노트 관리자와 분리, 로그인만 공유) |
+| `side.html` | 관리자 페이지 **valuenote.co.kr/side** (밸류노트 관리자와 분리, 로그인만 공유). 탭: 검수·업로드 / 트렌드 / 기획안 / 작업 현황 / 성과 / 설정 (2026-10-28 전면 개편) |
+| `supabase/functions/sc-trend-collect` | 감성 쇼츠 트렌드 수집기(엣지 함수). 매일 07:40 KST cron `side-hot-collect`. 우리 올린 영상 조회수도 여기서 읽는다 |
+| `supabase/2026-10-28_side_kachi.sql` | 오늘 DB 변경(수정 요청·피드백, 트렌드 표, 이전 방향 보관) |
 | `docs/side/` | 브랜드 이미지, 이 인수인계서 |
 
 **GitHub Secrets** (이미 등록됨): HF_API_KEY, HF_API_KEY_ID, HF_API_KEY_SECRET(Higgsfield), TYPECAST_API_KEY, PEXELS_API_KEY
@@ -94,8 +98,22 @@ Visuals are AI-generated miniature illustrations.
 
 **Supabase** (프로젝트 id `msjbrwyzkiueqnzjeicm`, 밸류노트와 공용)
 - 표: `sc_trends`, `sc_plans`, `sc_videos`, `sc_settings`, `sc_jobs`(작업 현황 탭용 — `supabase/2026-10-27_side_jobs.sql` 을 대표님이 아직 실행 안 했을 수 있음)
+- `sc_videos.status`: review(검수 대기) → approved(업로드 대기) → uploaded(올림). rework(수정 요청), rejected(폐기), archived(보관 — 이전 방향 롱폼·초코파이·손흥민). `feedback` = [{at, by: owner|claude, type: rework|note|fixed|discard|archive, text}]. `stats` = {now, h24, h48, d7, hist} 조회수(수집기가 채움)
+- `sc_plans`: requested(작성 요청) → pending(승인 대기) → approved(제작 대기) → producing → made. rework(수정 요청), rejected. 감성 쇼츠 기획안은 `line='emo'`, `emotion`(mom·grand·animal·kind·korea·underdog·style), `korea`(한국 장면), `outline`=[{scene, cap}] 컷 목록, `spec`={music, pinned, description, tags, notes}, `publish_at`
+- `sc_trends`: kind='idea'(까치 추천 소재: emotion, korea, apply, reactions=왜 먹히나, evidence=[{video_id,title,views,channel}], score) / 'season'(day, upload_by) / 'legacy'(이전 방향, 안 보임)
+- `sc_hot_queries`(검색어 30개, cat=감정 유형) → `sc_hot_videos` + `sc_hot_snaps`(날마다 조회수) → 뷰 `sc_hot`(views, per_day=하루 증가, measured=전날 대비 실측 여부, age_days)
 - `sc_import()`: 10분마다 사이트의 `/social/side/queue.json` 을 읽어 `sc_videos` 에 넣는다. `kind` 가 `short` 면 단독 쇼츠 행으로 들어간다(2026-10-28 수정). 급하면 `sc_videos` 에 직접 insert 해도 된다
 - 관리자 검수 카드: 단독 쇼츠는 영상·썸네일 받기, 제목·설명·태그·고정 댓글(`pinned`) 복사
+
+### 5-1. 새 세션이 가장 먼저 할 일 (대표님 관리자 입력 처리)
+```sql
+select id, status, title, note, feedback from sc_videos where status = 'rework';
+select id, status, title, note, feedback from sc_plans where status in ('rework','requested','approved') order by publish_at;
+```
+- **영상 rework**: 마지막 owner 코멘트대로 컷을 편집 생성으로 고치거나 spec(자막·음악·엔딩)을 고쳐 다시 렌더 → `sc_import` 가 새 video_url 을 받으면 자동으로 review 로 돌아간다. 이어서 `feedback` 에 `{"by":"claude","type":"fixed","text":"무엇을 고쳤는지"}` 추가.
+- **기획안 rework / requested**: 코멘트대로 outline·title·spec 을 고쳐(또는 새로 써서) status 'pending' 으로, feedback 에 Claude 답.
+- **approved 기획안**: 아래 작업 순서대로 생성 → 점검 → 렌더. spec 의 `scheduled_at` = 기획안 `publish_at`, `id` 는 `E<yymmdd>-<slug>`. 시작할 때 status 'producing', 렌더가 검수 탭에 뜨면 'made' 와 `sc_videos.plan_id` 연결.
+- 자동 작업자(예약 작업 "까치 채널 작업자")가 하루 3번 같은 일을 한다. 대화 중이면 대화에서 먼저 처리해도 된다.
 
 **작업 순서 (한 편 만들기)**
 1. `scripts/side/gen/Mxx-이름.json` 작성 → commit/push → `side-gen` 실행(약 10~20분, 이미지 먼저 → 영상)
@@ -116,7 +134,7 @@ Visuals are AI-generated miniature illustrations.
 ```json
 {
  "id": "E261029-moms-box",
- "title": "Every Korean mom packs THIS box 📦😭 #shorts",
+ "title": "Every Korean mom packs THIS box 📦😭",
  "description": "…\n\nIn Korea, the magpie is the bird that brings good news 🐦\n\n#KoreanMom #Kimchi #shorts",
  "tags": ["Korean mom", "kimchi", "Korea", "Kachi", "From Korea With Love", "shorts"],
  "pinned": "What was in YOUR mom's box? 📦 Tell Kachi in the comments 💛",
@@ -159,6 +177,12 @@ Keep the miniature clay diorama look and every character design identical to the
 
 ---
 
+## 7-1. 트렌드에서 확인된 것 (2026-10-28 첫 수집, 이번 달 업로드 감성 쇼츠 355편)
+- 감정 유형별 상위 20편 하루 조회수 합: **작은 친절 624만 > 동물 가족 333만 > 엄마 130만** > 미니어처 38만 > 한국 문화 28만 > 할머니 17만
+- 최상위 사례: "They Kicked This Stray Cat Out in the Rain… So He Built Him a HOME" 1,013만 회(14일), "A Small Act of Kindness" 913만 회(7일), "He Built a Safe Home for a Mother Cat and Her 5 Kittens" 55만 회(1일), "A Mother's Love Has No Limits" 290만 회(8일), "POV: Your Mom Packed Your Field Trip Lunch" 14만 회(3일)
+- 결론: **비·길고양이·작은 친절**과 **엄마의 희생→세월 뒤 갚기** 구조가 가장 세다. 한국 장면은 이 구조 위에 얹는다(한국 문화만으로는 약함)
+- 종교 자극형(예수·신)·유명 캐릭터(소닉 등)는 수치가 커도 쓰지 않는다
+
 ## 8. 제작 현황 (2026-10-28 12:00)
 | 편 | ID | 상태 |
 |---|---|---|
@@ -166,6 +190,8 @@ Keep the miniature clay diorama look and every character design identical to the
 | 까치밥 — Why Koreans never pick the last persimmon 🥺 | E261030-kkachi-bap | 완성(27.8초), 검수 탭 |
 | 엄마 까치 — She stayed like this all night ❄️ | E261031-snow-nest | 완성(27.8초), 검수 탭 |
 | 초코파이(롱폼 8분 + 쇼츠) | S261029-choco-pie | 완성, 검수 탭(옛 채널명 로고) |
+
+**기획안 탭 승인 대기 (2026-10-28 오후 작성)**: 비 오는 골목 노란 우산(10/31 08:00) · "Mom always said she wasn't hungry" 붕어빵(10/31 20:00) · 아파트 경비 아저씨의 고양이 상자 집(11/1 08:00) · 수능 도시락(11/16 20:00 시즌 고정). 제목에서 #shorts 뺀 상태로 DB·spec·queue 모두 정리함.
 
 **다음 배치 후보** (하루 2편 소화하려면 미리 5~10편씩 생성)
 - 김장 날 첫 입: 할머니가 수육에 김치를 싸서 손주 입에 넣어 주고, 까치도 받아먹다 매워서 빨개짐(감동+웃음)
@@ -179,4 +205,5 @@ Keep the miniature clay diorama look and every character design identical to the
 ## 9. 대표님 할 일 (확인 필요)
 - 유튜브 스튜디오: 채널 이름·핸들·설명·프로필·배너·워터마크 교체
 - Supabase SQL Editor 에서 `supabase/2026-10-27_side_jobs.sql` 실행(관리자 '작업 현황' 탭)
-- 초코파이 롱폼·쇼츠 업로드 여부 결정(옛 채널명 로고가 들어가 있음 → 올릴 거면 로고 교체 재렌더)
+- 초코파이 롱폼·쇼츠 업로드 여부 결정(옛 채널명 로고가 들어가 있음 → 올릴 거면 로고 교체 재렌더). 지금은 관리자 '보관함'에 있음(되돌리기 버튼)
+- 관리자 설정 탭에 실제로 정한 핸들 입력
