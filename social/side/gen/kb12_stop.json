@@ -1,0 +1,35 @@
+{
+ "id": "kb12_stop",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, camera angle, lighting, colors and miniature clay style. Only change two things: completely remove the big magpie standing on the ground on the right (fill that spot naturally with courtyard ground and earthenware jars), and the persimmon tree keeps only five glowing orange persimmons, all at the very top branches; every other persimmon is removed so the branches are bare. No text, no letters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18037-f27f-7cbe-ac0e-ae8aafe93d09/8bd1d6f6-d058-4fed-99aa-5e1c16aa5673.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18054-8e28-76e2-bfbb-a92db6d68c5f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18054-8e28-76e2-bfbb-a92db6d68c5f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18054-8e28-76e2-bfbb-a92db6d68c5f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18054-8e28-76e2-bfbb-a92db6d68c5f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18054-8e28-76e2-bfbb-a92db6d68c5f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18054-8e28-76e2-bfbb-a92db6d68c5f/cancel",
+  "expires_at": "2026-11-04T02:26:55.984043+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18054-8e28-76e2-bfbb-a92db6d68c5f/d688c3b3-4dbb-479f-bd76-89fedbfe5a5f.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/kb12_stop.jpeg"
+}

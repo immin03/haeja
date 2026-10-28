@@ -1,0 +1,35 @@
+{
+ "id": "kb52_again",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, camera angle, lighting, colors and miniature clay style. Only fix one thing: the sky must be one seamless, continuous soft snowy winter sky from the top edge down to the roofs, with no horizontal band, no seam and no pasted strip. No text, no letters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1803c-193d-7dce-9fec-dd21b9fb98ef/aba0d55c-bd92-47ba-8da9-af02a7603129.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18054-8ff4-76ed-b230-0dee00eec56a",
+  "status_url": "https://api.higgsfield.ai/requests/01a18054-8ff4-76ed-b230-0dee00eec56a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18054-8ff4-76ed-b230-0dee00eec56a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18054-8ff4-76ed-b230-0dee00eec56a",
+  "status_url": "https://api.higgsfield.ai/requests/01a18054-8ff4-76ed-b230-0dee00eec56a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18054-8ff4-76ed-b230-0dee00eec56a/cancel",
+  "expires_at": "2026-11-04T02:26:52.881629+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18054-8ff4-76ed-b230-0dee00eec56a/1eb3022f-fcb5-4775-830a-939d1a38e2e6.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/kb52_again.jpeg"
+}

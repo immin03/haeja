@@ -1,0 +1,31 @@
+{
+ "id": "kbv25_again",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The woman gently lowers her son's bamboo pole exactly the way her grandmother once did, shakes her head with a soft smile, and points up at the tree. The boy looks up, curious. Snow falls. Slow push-in on the woman's face. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18054-8ff4-76ed-b230-0dee00eec56a/1eb3022f-fcb5-4775-830a-939d1a38e2e6.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18055-0e60-72fb-ad58-7d250afa9d14",
+  "status_url": "https://api.higgsfield.ai/requests/01a18055-0e60-72fb-ad58-7d250afa9d14/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18055-0e60-72fb-ad58-7d250afa9d14/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18055-0e60-72fb-ad58-7d250afa9d14",
+  "status_url": "https://api.higgsfield.ai/requests/01a18055-0e60-72fb-ad58-7d250afa9d14/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18055-0e60-72fb-ad58-7d250afa9d14/cancel",
+  "expires_at": "2026-11-04T02:28:43.274795+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18055-0e60-72fb-ad58-7d250afa9d14/c601cd3f-c89d-4dc7-b067-215987d4a215.mp4"
+  }
+ },
+ "seconds": 105,
+ "file": "social/side/gen/kbv25_again.mp4"
+}

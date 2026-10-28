@@ -1,0 +1,35 @@
+{
+ "id": "kb32_snow",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: same scene, composition, characters, faces, expressions, camera angle, lighting, colors and miniature clay style. Only change one thing: remove the little girl who appears inside the glowing window, so the window shows only a warm empty glow. The grandmother and the little girl in the yellow jacket standing outside stay exactly as they are. No text, no letters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18038-903a-75a7-afc9-bb7f4821b56e/3dc152c2-60b3-46d2-be82-8912b9774634.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18054-8fdc-7f2e-83f7-6cc4eceaed81",
+  "status_url": "https://api.higgsfield.ai/requests/01a18054-8fdc-7f2e-83f7-6cc4eceaed81/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18054-8fdc-7f2e-83f7-6cc4eceaed81/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18054-8fdc-7f2e-83f7-6cc4eceaed81",
+  "status_url": "https://api.higgsfield.ai/requests/01a18054-8fdc-7f2e-83f7-6cc4eceaed81/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18054-8fdc-7f2e-83f7-6cc4eceaed81/cancel",
+  "expires_at": "2026-11-04T02:26:51.738061+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18054-8fdc-7f2e-83f7-6cc4eceaed81/a4aac43e-33cf-4a94-adf7-cf183b6012a9.jpeg"
+   }
+  ]
+ },
+ "seconds": 25,
+ "file": "social/side/gen/kb32_snow.jpeg"
+}
