@@ -1,0 +1,31 @@
+{
+ "id": "msv5_home",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa slowly smiles with a single tear while the scarf rests around his neck; the magpies on the roof tilt their heads. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1832f-18f4-7e96-9a2e-46d429e7662f/c154a819-7a20-4b6b-890c-889e75888719.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18342-e56e-7a29-99d8-4234eaea0d14",
+  "status_url": "https://api.higgsfield.ai/requests/01a18342-e56e-7a29-99d8-4234eaea0d14/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18342-e56e-7a29-99d8-4234eaea0d14/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18342-e56e-7a29-99d8-4234eaea0d14",
+  "status_url": "https://api.higgsfield.ai/requests/01a18342-e56e-7a29-99d8-4234eaea0d14/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18342-e56e-7a29-99d8-4234eaea0d14/cancel",
+  "expires_at": "2026-11-04T16:10:39.122502+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18342-e56e-7a29-99d8-4234eaea0d14/156b6e96-d7c4-4f75-bca7-941d0c701180.mp4"
+  }
+ },
+ "seconds": 278,
+ "file": "social/side/gen/msv5_home.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "msv1_nest",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa slowly lowers the end of the red scarf over the three chicks; the chicks snuggle in; snow drifts down. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18321-03bf-7ec2-a9bd-ea4982045747/66870daa-417c-47f4-8642-bad33d9a73aa.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18340-5150-7fd0-92b2-2a81ad00e573",
+  "status_url": "https://api.higgsfield.ai/requests/01a18340-5150-7fd0-92b2-2a81ad00e573/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18340-5150-7fd0-92b2-2a81ad00e573/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18340-5150-7fd0-92b2-2a81ad00e573",
+  "status_url": "https://api.higgsfield.ai/requests/01a18340-5150-7fd0-92b2-2a81ad00e573/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18340-5150-7fd0-92b2-2a81ad00e573/cancel",
+  "expires_at": "2026-11-04T16:06:17.594732+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18340-5150-7fd0-92b2-2a81ad00e573/aac4fed4-2cab-460f-b426-a4c40756b7d8.mp4"
+  }
+ },
+ "seconds": 185,
+ "file": "social/side/gen/msv1_nest.mp4"
+}
