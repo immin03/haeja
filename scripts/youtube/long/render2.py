@@ -1405,7 +1405,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 fr = NBK.doc_grade(fr, amt, fi, nb); fr = NBK.letterbox(fr, amt)
             elif bars > 0: fr = NBK.letterbox(fr, bars)
             if k == 0: fr = NBK.fade_black(fr, 1 - NBK.eio(u / .9))
-            if k == len(timeline) - 1: fr = NBK.fade_black(fr, NBK.eio((u - (x["dur"] - .8)) / .8))   # 끝: 어둡게 닫힌다
+            if k == len(timeline) - 1 and not sc.get("endscreen"): fr = NBK.fade_black(fr, NBK.eio((u - (x["dur"] - .8)) / .8))   # 끝: 어둡게 닫힌다 (최종 화면 요소가 얹히는 영상은 닫지 않는다)
             im = Image.fromarray(fr.astype(np.uint8))
             if cine_cap and amt > 0:
                 lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); NBK.cine_title(lay, cine_cap, u, t0=.75, x=150, y=330, size=96)
@@ -1476,6 +1476,7 @@ def main():
             a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
+        if sc.get("endscreen"): dur = max(dur, float(sc["endscreen"]))   # 유튜브 최종 화면은 마지막 5~20초 → 끝 장면을 20초 넘게 유지
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
     total = t
     mix = np.zeros(int((total + 1) * SR), np.float32)

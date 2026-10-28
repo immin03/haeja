@@ -169,7 +169,7 @@ def _txt(b): return "".join(b.get("rows") or [b.get("text", "")])
 #  - 크기 네 단계: 페이지 제목 52 / 핵심 숫자 96~150 / 강조 68 / 본문 52 / 보조 42 — 굵기로 위계를 준다
 #  - 인쇄 글씨는 문장을 말하는 동안 왼쪽부터 타이핑되듯 나타난다 (IW.PRINT_TYPE)
 #  - 동그라미·밑줄은 글씨가 다 써진 뒤에 긋는다
-IW.PRINT_TYPE = True; IW.PHOTO_ZOOM = 0.0; IW.PHOTO_POP = 0.0
+IW.PRINT_TYPE = False; IW.PHOTO_ZOOM = 0.0; IW.PHOTO_POP = 0.0   # 2026-10-29 운영자: 여러 군데가 동시에 써져 정신없다 → 네이비 인쇄 글씨는 바로 나타나고, 펜은 색 숫자만 하나씩
 SIGNED = _RE.compile(r"^\s*([-−+])\s*[\d,.]")
 
 
@@ -184,10 +184,12 @@ def tidy(spec):
     # 장면마다 가장 큰 숫자 하나만 손글씨(연성체)로 쓰고, 나머지는 정렬된 인쇄 글씨. 도형은 글씨에 딱 맞춰 그 뒤에 긋는다
     cands = [i for i, b in enumerate(spec or []) if b.get("kind") == "write" and _RE.search(r"\d[\d,.~]*\s?(만|원|달러|%|톤|조|억|배)", _txt(b)) and not b.get("rows")
              and len(_txt(b).strip()) <= 12 and b.get("size", 96) >= 100]
-    keep = max(cands, key=lambda i: spec[i].get("size", 96), default=None)
+    key_i = max(cands, key=lambda i: spec[i].get("size", 96), default=None)
+    signed = [i for i, b in enumerate(spec or []) if b.get("kind") == "write" and SIGNED.match(_txt(b)) and not b.get("rows") and len(_txt(b).strip()) <= 12]
+    keep = set(([key_i] if key_i is not None else []) + signed[:3])   # 펜으로 쓰는 것: 핵심 숫자 + 빨강·초록 숫자 (최대 4개, 하나씩 차례로)
     for i, b in enumerate(spec or []):
-        if i == keep:
-            b = dict(b); b["color"] = tone_of(_txt(b)); b["key"] = 1
+        if i in keep:
+            b = dict(b); b["color"] = tone_of(_txt(b)) if b.get("color") not in ("green", "red") or SIGNED.match(_txt(b)) else b["color"]; b["key"] = 1
             f = IW.font("pen", b.get("size", 96)); room = 1840 - b["x"]
             if f.getlength(_txt(b)) > room: b["size"] = int(b.get("size", 96) * room / f.getlength(_txt(b)))
             if 100 <= b["x"] <= 180: b["x"] = COL_X
@@ -236,6 +238,7 @@ def after_text(beats):
                 return abs(tx - cx) + abs(ty - (cy if k == "circle" else y0 - 40)) * 1.5
             t = min(txt, key=dist)
             if dist(t) > 420: continue   # 짚을 글씨가 없는 도형은 그리지 않는다
+            if k == "circle" and any(o is not z and isinstance(o, IW.Stroke) and o.b.get("kind") == "circle" for o in out): continue   # 동그라미는 장면에 하나만
             d = max(z.t0, t.t1 + .1) - z.t0; nb = dict(z.b)
             if k == "circle" and (t.tb[3] - t.tb[1]) < 60: k = nb["kind"] = "under"   # 작은 글씨는 동그라미 대신 밑줄 (답답하지 않게)
             if k == "circle":
@@ -249,6 +252,12 @@ def after_text(beats):
                 need = max(t.t1 for t in hit) + .1
                 if z.t0 < need: d = need - z.t0; z.t0 += d; z.t1 += d
         out.append(z)
+    # 펜은 한 번에 한 곳만: 펜이 쓰는 비트(손글씨·그래프·도형)가 겹치면 앞의 것이 끝난 뒤로 민다
+    pens = sorted([z for z in out if z.pen], key=lambda z: z.t0); end = -1.0
+    for z in pens:
+        if z.t0 < end + .05:
+            d = end + .05 - z.t0; z.t0 += d; z.t1 += d
+        end = max(end, z.t1)
     return out
 
 
@@ -400,9 +409,9 @@ def auto(v, lines, V, fill, at_time):
         if v.get("caption"):
             r = rows(F(v["caption"]), 11); B.append(dict(kind="print", rows=r, x=1170, y=y, size=68, w="ExtraBold", t=LS(v.get("caption_at", "0")) + .05)); y += 90 * len(r) + 60
         for i, ch in enumerate(v.get("chips", [])):
-            tt = LS(ch.get("at")) + .05
-            B.append(dict(kind="write", text=F(ch["v"]), x=1170, y=y, size=160, t=tt))
-            B.append(dict(kind="print", rows=rows(F(ch.get("l", "")), 20), x=1172, y=y + 150, size=42, w="Medium", t=tt + .5)); y += 270
+            tl = LS(ch.get("at")) + .05; tt = max(tl, T(ch.get("at")) - .15)   # 설명은 문장 시작에 먼저, 숫자는 그 숫자를 말하는 순간 펜으로
+            B.append(dict(kind="print", rows=rows(F(ch.get("l", "")), 20), x=1172, y=y + 150, size=42, w="Medium", t=tl))
+            B.append(dict(kind="write", text=F(ch["v"]), x=1170, y=y, size=160, t=tt)); y += 270
     elif t == "stat":
         if v.get("backdrop"): photo(v["backdrop"], 1180, 140, 640, 460, 3, S0)
         if v.get("kicker"): B.append(dict(kind="print", text=F(v["kicker"]), x=140, y=110, size=48, w="Bold", color="gray", t=S0))
@@ -546,27 +555,69 @@ def balance(spec, lines, top_=90, bot_=870, min_dy=40):
     return out
 
 
+ES_BOX = (1060, 270, 1780, 675)   # 유튜브 최종 화면 '동영상' 요소 자리 (16:9, 화면 오른쪽 · 가장자리 안전 여백 안)
+ES_SUB = (1300, 760, 150)        # '구독' 요소(원) 자리: 중심 x, y, 지름
+
+
 def end_page(v, lines, fill, V, at_time):
-    """끝 화면도 노트 한 장으로 (2026-10-27 개선: 마지막만 예전 어두운 화면이라 포맷이 깨졌다).
-    왼쪽: 금색 펜 마무리 한마디 + 구독·좋아요·알림 체크 / 오른쪽: 함께 보면 좋은 영상 썸네일을 테이프로 붙인다"""
+    """끝 화면 = 유튜브 최종 화면(20초) 규격 (2026-10-29 운영자: 연관 영상을 끝에 넣는 규격에 맞게).
+    왼쪽: 마무리 문구 + 구독·좋아요·알림 체크 / 오른쪽: 유튜브가 '동영상'·'구독' 요소를 얹을 빈 칸만 은은하게 표시한다
+    (썸네일을 직접 그리면 유튜브 요소와 겹쳐 두 번 보인다)"""
     F = lambda x: fill(str(x), V) if x is not None else ""
     T = lambda at, d=0.0: at_time(at, lines) if at not in (None, "") else (lines[0][0] + d if lines else d)
     S0 = (lines[0][0] + .05) if lines else 0.0
-    B = [dict(kind="write", rows=rows(F(v.get("title", "")), 6), x=COL_X, y=150, size=118, color="gold", key=1, t=S0 + .1),
-         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=440, size=50, w="Bold", color="gray", t=S0 + 1.2)]
+    B = [dict(kind="print", text=F(v.get("title", "")), x=COL_X, y=230, size=84, w="ExtraBold", t=S0),
+         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=345, size=52, w="Bold", t=S0 + .4)]
     labels = ["구독", "좋아요", "알림 설정"]
     for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
-        B.append(dict(kind="pcheck", text=labels[i], x=COL_X + 10, y=560 + i * 100, size=62, t=T(at) if at else S0 + 1.6 + .5 * i))
-    nx = v.get("next")
-    if nx and nx.get("thumb"):
-        src = nx["thumb"].split("?")[0].lstrip("/")
-        if os.path.exists(os.path.join(IW.ROOT, src)):
-            tt = T(nx.get("at")) if nx.get("at") else S0 + 3
-            B.append(dict(kind="print", text=F(nx.get("label", "함께 보면 좋은 영상")), x=1010, y=120, size=46, w="Bold", color="red", t=tt))
-            B.append(dict(kind="photo", src=src, x=1000, y=230, w=800, h=450, rot=2, t=tt + .1))
-            for j, r in enumerate(rows(F(nx.get("title", "")), 17)[:3]):
-                B.append(dict(kind="print", text=r, x=1010, y=720 + j * 60, size=44, w="Bold", t=tt + .5))
+        B.append(dict(kind="pcheck", text=labels[i], x=COL_X + 10, y=480 + i * 105, size=62, t=T(at) if at else S0 + 1.2 + .5 * i))
+    x0, y0, x1, y1 = ES_BOX; tt = S0 + 1.0
+    B.append(dict(kind="print", text=F((v.get("next") or {}).get("label", "함께 보면 좋은 영상")), x=x0, y=y0 - 62, size=44, w="Bold", t=tt))
+    B.append(dict(kind="esbox", x0=x0, y0=y0, x1=x1, y1=y1, t=tt))
     return B
+
+
+class ESBox(IW.Beat):
+    """유튜브 최종 화면 요소가 들어갈 칸: 아주 옅은 네이비 칸 + 점선 테두리"""
+    def __init__(self, b, t0, t1): super().__init__(b, t0, t0 + .4)
+    def bbox(self): b = self.b; return (b["x0"], b["y0"], b["x1"], b["y1"])
+    def apply(self, tex, T):
+        a = IW.eout(self.p(T))
+        if a <= 0: return
+        b = self.b; im = Image.fromarray(tex); d = ImageDraw.Draw(im, "RGBA"); c = IW.INKC
+        d.rounded_rectangle([b["x0"], b["y0"], b["x1"], b["y1"]], 18, fill=(*c, int(22 * a)))
+        L = 2 * (b["x1"] - b["x0"] + b["y1"] - b["y0"]); n = int(L / 26)
+        for k in range(n):
+            if k % 2: continue
+            u0, u1 = k / n * L, (k + 1) / n * L
+            for u in (u0, u1):
+                pass
+            def at(u):
+                w_, h_ = b["x1"] - b["x0"], b["y1"] - b["y0"]
+                if u < w_: return (b["x0"] + u, b["y0"])
+                u -= w_
+                if u < h_: return (b["x1"], b["y0"] + u)
+                u -= h_
+                if u < w_: return (b["x1"] - u, b["y1"])
+                return (b["x0"], b["y1"] - (u - w_))
+            d.line([at(u0), at(min(u1, L - .1))], fill=(*c, int(110 * a)), width=3)
+        tex[:] = np.asarray(im)
+
+
+class ESCircle(IW.Beat):
+    def __init__(self, b, t0, t1): super().__init__(b, t0, t0 + .4)
+    def bbox(self): b = self.b; return (b["cx"] - b["r"], b["cy"] - b["r"], b["cx"] + b["r"], b["cy"] + b["r"])
+    def apply(self, tex, T):
+        a = IW.eout(self.p(T))
+        if a <= 0: return
+        b = self.b; im = Image.fromarray(tex); d = ImageDraw.Draw(im, "RGBA"); c = IW.INKC
+        d.ellipse(self.bbox(), fill=(*c, int(22 * a)))
+        for k in range(0, 360, 16): d.arc(self.bbox(), k, k + 8, fill=(*c, int(110 * a)), width=3)
+        tex[:] = np.asarray(im)
+
+
+IW.KIND["esbox"] = ESBox; IW.KIND["escircle"] = ESCircle
+IW.DUR.update({"esbox": .4, "escircle": .4})
 
 
 def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
