@@ -25,8 +25,8 @@ PEN_SCALE = .82
 _iw_font = IW.font
 
 
-def _pen_font(kind, size):   # 2026-10-28 2차: 롱폼은 손글씨 글꼴을 쓰지 않는다 → 그래프 숫자 등도 SUIT 굵은 글씨
-    return _iw_font("Bold", max(8, int(round(size * .66)))) if kind == "pen" else _iw_font(kind, size)
+def _pen_font(kind, size):   # 손글씨(연성체)는 핵심 숫자·그래프 숫자에만
+    return _iw_font(kind, max(8, int(round(size * PEN_SCALE)))) if kind == "pen" else _iw_font(kind, size)
 
 
 IW.font = _pen_font
@@ -180,11 +180,20 @@ def tone_of(text):
 
 def tidy(spec):
     out = []
-    keys = []   # 핵심 숫자 후보 (가장 큰 글씨)
-    for b in spec or []:
+    # 2026-10-28 3차 운영자: "펜으로 그래프 그리고 포인트 찍는 모션은 너무 좋다. 두서없이 다 들어가서 정신없던 것" →
+    # 장면마다 가장 큰 숫자 하나만 손글씨(연성체)로 쓰고, 나머지는 정렬된 인쇄 글씨. 도형은 글씨에 딱 맞춰 그 뒤에 긋는다
+    cands = [i for i, b in enumerate(spec or []) if b.get("kind") == "write" and _RE.search(r"\d[\d,.~]*\s?(만|원|달러|%|톤|조|억|배)", _txt(b)) and not b.get("rows")
+             and len(_txt(b).strip()) <= 12 and b.get("size", 96) >= 100]
+    keep = max(cands, key=lambda i: spec[i].get("size", 96), default=None)
+    for i, b in enumerate(spec or []):
+        if i == keep:
+            b = dict(b); b["color"] = tone_of(_txt(b)); b["key"] = 1
+            f = IW.font("pen", b.get("size", 96)); room = 1840 - b["x"]
+            if f.getlength(_txt(b)) > room: b["size"] = int(b.get("size", 96) * room / f.getlength(_txt(b)))
+            if 100 <= b["x"] <= 180: b["x"] = COL_X
+            out.append(b); continue
         b = dict(b); k = b.get("kind")
-        if k in ("hl", "circle", "arrow", "cross"): continue   # 형광펜·동그라미·화살표 낙서는 쓰지 않는다
-        if k == "under" and not b.get("key"): continue        # 밑줄은 핵심 숫자 하나에만 (자동)
+        if k in ("hl", "cross"): continue   # 형광펜·X 표시는 쓰지 않는다 (동그라미·화살표·밑줄은 글씨에 맞춰 다시 그린다 — snap)
         if k in ("write", "print"):
             txt = _txt(b); sz = b.get("size", 96 if k == "write" else 40)
             if k == "write": sz = sz * .9   # 손글씨 원고 크기 → 인쇄 글씨 기준
@@ -203,6 +212,7 @@ def tidy(spec):
                 if kk in b: nb[kk] = b[kk]
             b = nb; k = "print"
         elif k == "check": b["kind"] = k = "pcheck"
+        if k == "write": pass
         elif k == "chart" and b.get("color") not in ("red", "green"): b["color"] = "ink"
         elif k in ("under", "circle", "arrow", "cross", "rule", "icons", "bar", "hbar", "bars"):
             b["color"] = "ink"; b.pop("hlcolor", None)
@@ -214,16 +224,32 @@ def tidy(spec):
 
 
 def after_text(beats):
-    """동그라미·밑줄·화살표가 겹치는 글씨보다 먼저 그려지지 않게, 그 글씨가 다 나타난 뒤로 미룬다"""
-    txt = [z for z in beats if isinstance(z, IW.Print)]
+    """동그라미·밑줄을 가장 가까운 글씨 상자에 딱 맞게 다시 그리고(정렬), 그 글씨가 다 나타난 뒤에 긋는다"""
+    txt = [z for z in beats if isinstance(z, (IW.Print, IW.Write))]
+    out = []
     for z in beats:
-        if not isinstance(z, IW.Stroke) or z.b.get("kind") not in ("circle", "under", "arrow", "cross"): continue
-        x0, y0, x1, y1 = [float(v) for v in z.bbox()]
-        hit = [t for t in txt if not (t.tb[2] < x0 or t.tb[0] > x1 or t.tb[3] < y0 - 30 or t.tb[1] > y1)]
-        if hit:
-            need = max(t.t1 for t in hit) + .1
-            if z.t0 < need: d = need - z.t0; z.t0 += d; z.t1 += d
-    return beats
+        k = z.b.get("kind") if isinstance(z, IW.Stroke) else None
+        if k in ("circle", "under") and txt:
+            x0, y0, x1, y1 = [float(v) for v in z.bbox()]; cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+            def dist(t):
+                tx, ty = (t.tb[0] + t.tb[2]) / 2, (t.tb[1] + t.tb[3]) / 2
+                return abs(tx - cx) + abs(ty - (cy if k == "circle" else y0 - 40)) * 1.5
+            t = min(txt, key=dist)
+            if dist(t) > 420: continue   # 짚을 글씨가 없는 도형은 그리지 않는다
+            d = max(z.t0, t.t1 + .1) - z.t0; nb = dict(z.b)
+            if k == "circle" and (t.tb[3] - t.tb[1]) < 60: k = nb["kind"] = "under"   # 작은 글씨는 동그라미 대신 밑줄 (답답하지 않게)
+            if k == "circle":
+                nb.update(cx=(t.tb[0] + t.tb[2]) / 2, cy=(t.tb[1] + t.tb[3]) / 2, rx=(t.tb[2] - t.tb[0]) / 2 + 34, ry=(t.tb[3] - t.tb[1]) / 2 + 22)
+            else:
+                nb.update(x0=t.tb[0] - 4, x1=t.tb[2] + 8, y=t.tb[3] + 14)
+            z = IW.make_beat(nb, z.t0 + d, z.t1 + d)
+        elif k in ("arrow",) and txt:
+            hit = [t for t in txt if not (t.tb[2] < z.bbox()[0] or t.tb[0] > z.bbox()[2] or t.tb[3] < z.bbox()[1] or t.tb[1] > z.bbox()[3])]
+            if hit:
+                need = max(t.t1 for t in hit) + .1
+                if z.t0 < need: d = need - z.t0; z.t0 += d; z.t1 += d
+        out.append(z)
+    return out
 
 
 def pcheck(b, t0):
