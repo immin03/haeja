@@ -5,7 +5,7 @@
    "music": {"file": "music_miss-you.mp3", "start": 0, "vol": 0.9},
    "cuts": [{"v": "mbv1_pack", "in": 0.2, "dur": 4.3, "cap": "2 a.m. in Seoul."},
             {"img": "mb3_note", "dur": 3.4, "move": "in", "cap": "..."}, ...],
-   - "v" = 생성한 5초 영상, "img" = 그림 한 장을 천천히 움직여 쓰는 컷 (2026-10-28 비용 절감: 영상 생성 없이 0원)
+   - "v" = 생성한 5초 영상 (모든 컷의 기본). "img" = 그림 한 장을 천천히 움직이는 컷 — 2026-10-28 대표님 결정으로 쓰지 않는다(퀄리티 유지). 비상용으로만 남겨 둠
      move: in(다가가기, 기본) | out(물러나기) | left | right | up | down (가로·세로로 천천히 흐르기)
    "thumb": {"cut": 5, "t": 2.5}}
 결과: 릴리스 side-<id> 에 영상, social/side/<id>/(meta.json, thumb.jpg, subtitles_en.srt), social/side/queue.json 에 kind=short 로 등록
