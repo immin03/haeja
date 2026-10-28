@@ -1,0 +1,76 @@
+[
+ {
+  "id": "sa52_parcel",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/sa5_parcel"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same (the girl, the bus stop, the flying magpie, the light). Only change one thing: remove the small brown sparrow sitting on top of the yellow backpack and put there instead a tiny brown paper parcel tied with red string and a small red heart tag. There is only one bird in the picture: the flying magpie. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "gc52_carry",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/gc5_carry"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image the same (the frosty night, the white styrofoam box with the round door, the lamp, the bush with kittens). Only change the mother cat: she is a natural four-legged tabby cat walking on all four paws toward the round door, low to the ground, gently carrying one tiny kitten by the scruff of its neck in her mouth. She is not standing upright. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "gc62_dawn",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/gc6_dawn"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image the same (the guard kneeling with the steel water bowl, the guardhouse, the soft dawn light). Only change the box: the lid is closed and flat with nothing on top, and the tabby mother cat with exactly four kittens and the small red scarf are sleeping INSIDE the box, seen cozy and curled up through the round door opening in its side. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mh42_return",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mh4_return"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image the same (the white-haired old mother in the plum coat, the red-tarp fish-shaped bread stall, snow, light). Only change the son: he is a tall grown-up man in his thirties, clearly an adult and a head taller than his mother, with short black hair, a navy wool coat and a grey scarf, standing arm in arm with her and pointing at the pastries with a warm smile. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mh52_first",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mh5_first",
+   "social/side/gen/mh42_return"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first reference image the same (the white-haired old mother in the plum coat with teary eyes, the stall, the bag of fish-shaped pastries, the snow). Only change the son: he is a tall grown-up man in his thirties, clearly an adult and a head taller than his mother, with short black hair, a navy wool coat and a grey scarf, the same man as in the second reference image, holding out the big plain paper bag to his mother with both hands. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mh62_bite",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/mh6_bite",
+   "social/side/gen/mh42_return"
+  ],
+  "body": {
+   "prompt": "Keep everything in the first reference image the same (the white-haired old mother laughing through tears with a fish-shaped pastry, the magpie on the counter with the tiny heart parcel, the stall, the snow). Only change the son: he is a tall grown-up man in his thirties, clearly an adult and a head taller than his mother, with short black hair, a navy wool coat and a grey scarf, the same man as in the second reference image, with his arm around her shoulders, smiling. Keep the handcrafted 3D miniature clay diorama style, lighting and 9:16 framing. Absolutely no text, no letters, no numbers, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]
