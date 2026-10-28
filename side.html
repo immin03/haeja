@@ -300,6 +300,7 @@ function itemCard(x, isVid, cell){
       <div class="row"><span class="badge ${st[1]}">${st[0]}</span>${x.emotion ? `<span class="badge heart">${esc(EMO[x.emotion] || x.emotion)}</span>` : ''}${views}<span class="note" style="margin-left:auto">${when ? kstLong(when) : ''}</span></div>
       <div class="tt">${esc(cleanTitle(x.title))}</div>
       ${!isVid && x.title_ko ? `<div class="note">${esc(x.title_ko)}</div>` : ''}
+      ${!isVid && ((x.spec || {}).details || []).length ? `<div class="note"><b style="color:var(--ink2)">숨은 디테일</b> · ${(x.spec.details || []).map(d => esc(d.prop) + (d.meaning ? ` → ${esc(d.meaning)}` : '')).join(' / ')}</div>` : ''}
       ${n ? `<div class="cl${n.by === 'owner' ? ' owner' : ''}"><b>${n.by === 'owner' ? '대표님' : 'Claude'}</b> · ${esc(n.text)}</div>` : ''}
       <div class="row">
         ${canStop ? `<button class="btn sm no" data-stop>중단</button>` : ''}
