@@ -411,6 +411,88 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 @media (max-width:760px){.bn-card{grid-template-columns:1fr}.bn-thumb{max-width:100%}.bn-all{margin-left:0}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bn-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}}
 :root[data-theme="dark"] .bn-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}
+/* 성과 진단 (2026-10-29 운영자 요청: 관리자에서 보기 쉽게, 일일 보고 + 개선 버튼 + 피드백 칸) */
+.pf-hero{background:var(--navy-grad);color:var(--ivory);border:0;padding:18px 18px 16px;margin-bottom:14px}
+.pf-hero .k{font-size:11.5px;letter-spacing:.12em;color:#CDB78A;font-weight:800}
+.pf-hero .h{font-size:17px;font-weight:800;line-height:1.55;margin-top:6px;word-break:keep-all}
+.pf-hero .n{font-size:12.5px;color:rgba(243,238,227,.66);margin-top:8px;line-height:1.6;word-break:keep-all}
+.pf-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+.pf-kpi{padding:13px 14px}
+.pf-kpi .l{font-size:12px;color:var(--muted);font-weight:700}
+.pf-kpi .v{font-size:25px;font-weight:800;letter-spacing:-.03em;margin-top:3px;font-variant-numeric:tabular-nums}
+.pf-kpi .v small{font-size:13px;font-weight:700;color:var(--muted);margin-left:2px}
+.pf-kpi .g{height:6px;border-radius:99px;background:var(--grid);margin-top:8px;position:relative;overflow:hidden}
+.pf-kpi .g i{position:absolute;left:0;top:0;bottom:0;border-radius:99px}
+.pf-kpi .t{font-size:11.5px;color:var(--muted);margin-top:5px}
+.pf-bad{color:var(--bad)}.pf-ok{color:var(--good)}.pf-warn{color:#B07A12}
+.pf-sec{display:flex;align-items:baseline;justify-content:space-between;gap:4px 10px;margin:22px 0 10px;flex-wrap:wrap}
+.pf-sec h2{font-size:16px;font-weight:800;margin:0;white-space:nowrap}
+.pf-sec span{font-size:12px;color:var(--muted)}
+.pf-find{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pf-f{padding:13px 14px;border-left:4px solid var(--line)}
+.pf-f.bad{border-left-color:var(--bad)}.pf-f.warn{border-left-color:#E0A526}.pf-f.good{border-left-color:var(--good)}.pf-f.info{border-left-color:var(--s-visit)}
+.pf-f b{display:block;font-size:14px;line-height:1.5;word-break:keep-all}
+.pf-f p{margin:6px 0 0;font-size:13px;line-height:1.65;color:var(--ink2);word-break:keep-all}
+.pf-f small{display:block;margin-top:6px;font-size:11.5px;color:var(--muted)}
+.pf-act{padding:14px;margin-bottom:10px}
+.pf-act .top{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+.pf-act .no{width:26px;height:26px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.pf-act .ti{font-weight:800;font-size:15px;line-height:1.45;flex:1 1 240px;word-break:keep-all}
+.pf-tag{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.pf-tag.live{background:rgba(216,65,90,.1);border-color:transparent;color:var(--bad)}
+.pf-tag.sys{background:rgba(62,106,168,.1);border-color:transparent;color:var(--s-visit)}
+.pf-stars{font-size:11px;color:#B07A12;letter-spacing:1px;white-space:nowrap}
+.pf-st{font-size:11.5px;font-weight:800;white-space:nowrap;margin-left:auto}
+.pf-st.ok{color:var(--good)}.pf-st.off{color:var(--muted)}.pf-st.run{color:#B07A12}.pf-st.hold{color:var(--s-visit)}
+.pf-act .row{font-size:13px;line-height:1.65;color:var(--ink2);margin-top:7px;word-break:keep-all}
+.pf-act .row em{font-style:normal;font-weight:800;color:var(--ink)}
+.pf-ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:11px}
+.pf-ctl input[type=text],.pf-fb textarea,.pf-vfb input{flex:1 1 220px;min-width:0;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font:inherit;font-size:13px;background:var(--surface);color:var(--ink)}
+.pf-btn{border:0;border-radius:9px;padding:8px 13px;font-weight:800;font-size:12.5px;cursor:pointer;background:var(--navy-grad);color:var(--ivory);white-space:nowrap}
+.pf-btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink2)}
+.pf-btn.red{background:var(--bad);color:#FFFFFF}
+.pf-btn:disabled{opacity:.5;cursor:default}
+.pf-all{display:flex;gap:8px;justify-content:flex-end;margin:-2px 0 10px}
+.pf-fb{padding:14px}
+.pf-fb textarea{width:100%;min-height:74px;resize:vertical;box-sizing:border-box;line-height:1.6}
+.pf-chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pf-chips button{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer}
+.pf-chips button:hover{border-color:var(--ink2)}
+.pf-msgs{margin-top:12px;display:grid;gap:8px}
+.pf-msg{border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.6;word-break:keep-all}
+.pf-msg .m{font-size:11.5px;color:var(--muted);margin-bottom:3px;display:flex;gap:8px;flex-wrap:wrap}
+.pf-msg .r{margin-top:7px;padding-top:7px;border-top:1px dashed var(--line);color:var(--ink2)}
+.pf-msg .r b{color:var(--good)}
+.pf-vid{display:grid;grid-template-columns:220px 1fr;gap:16px;padding:14px;margin-bottom:12px}
+.pf-vid .th{display:block;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:var(--bg);position:relative}
+.pf-vid .th img{width:100%;height:100%;object-fit:cover;display:block}
+.pf-vid .th .vd{position:absolute;left:8px;top:8px;font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;color:#FFFFFF}
+.pf-vid .vd.bad{background:var(--bad)}.pf-vid .vd.warn{background:#C98B12}.pf-vid .vd.ok{background:var(--good)}
+.pf-vid .tt{font-weight:800;font-size:14.5px;line-height:1.45;word-break:keep-all;color:var(--ink);text-decoration:none}
+.pf-vid .tt:hover{text-decoration:underline}
+.pf-m{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.pf-m span{font-size:12px;font-weight:700;padding:3px 8px;border-radius:8px;background:var(--bg);color:var(--ink2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.pf-m span.bad{background:rgba(216,65,90,.1);color:var(--bad)}.pf-m span.ok{background:rgba(45,122,95,.1);color:var(--good)}.pf-m span.warn{background:rgba(224,165,38,.14);color:#94660B}
+.pf-two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+.pf-ret svg{width:100%;height:auto;display:block}
+.pf-ret .cap,.pf-src .cap{font-size:11.5px;color:var(--muted);font-weight:700;margin-bottom:4px}
+.pf-src .bar{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--grid)}
+.pf-src .lg{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:6px;font-size:11.5px;color:var(--ink2)}
+.pf-src .lg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.pf-li{margin:10px 0 0;padding:0;list-style:none;font-size:13px;line-height:1.6;word-break:keep-all}
+.pf-li li{padding-left:16px;position:relative;margin-top:3px;color:var(--ink2)}
+.pf-li li:before{position:absolute;left:0;top:0;font-weight:800}
+.pf-li li.b:before{content:"−";color:var(--bad)}.pf-li li.g:before{content:"+";color:var(--good)}
+.pf-ab{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;word-break:keep-all}
+.pf-vfb{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.pf-trend{padding:14px}
+.pf-trend svg{width:100%;height:auto;display:block}
+.pf-trend .lg{display:flex;gap:14px;font-size:12px;color:var(--ink2);margin-top:6px;flex-wrap:wrap}
+.pf-trend .lg i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.pf-empty{font-size:13px;color:var(--muted);padding:6px 0}
+.pf-goal{font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px;word-break:keep-all}
+@media (max-width:860px){.pf-kpis{grid-template-columns:repeat(2,1fr)}.pf-find{grid-template-columns:1fr}.pf-vid{grid-template-columns:1fr}.pf-two{grid-template-columns:1fr}}
+.pf-tbl td.num,.pf-tbl th.num{text-align:right;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -492,13 +574,14 @@ function barsList(obj, order){
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
 const GROUPS = [
-  ['home', '개요', ['overview']],
+  ['home', '개요', ['overview', 'perf']],
   ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
   ['growth', '유입', ['traffic', 'landing', 'dm']],
   ['content', '콘텐츠', ['calendar', 'youtube', 'bench', 'social', 'blog', 'column']],
 ];
 const PAGES = [
   ['overview', '개요'],
+  ['perf', '성과 진단'],
   ['users', '가입자'],
   ['survey', '설문 응답'],
   ['stocks', '회원 종목'],
@@ -1716,6 +1799,210 @@ function bindBench(){
   });
 }
 
+/* ───────── 성과 진단 (2026-10-29 운영자: "성과에 대한 진단도 관리자에서 보기 쉽게 … 일일 단위로 정리하고 보고하고,
+   당장 개선 가능한 버튼들과 내가 피드백 남길 칸 … 거기에서 바로 적용해서 개선할 수 있게 다음 콘텐츠부터")
+   데이터: rpc perf_admin() → { videos: yt_perf(30), perf: docs agent 'perf-YYYY-MM-DD' 최근 14개, optimize }
+           docs agent 'perf-inbox' → 대표님 피드백함 (예약 작업이 읽고 답을 달아 둔다)
+   승인한 개선 항목은 매일 05:37 개선 작업이 제작 규칙(FORMAT.md 등)에 옮기고 status를 'applied'로 바꾼다.
+   'live'(이미 올라간 영상 수정) 항목은 유튜브 업로드 작업이 스튜디오에서 처리한다. */
+const PF = { data: null, inbox: null, err: '', msg: '', busy: false };
+const PF_GOAL = { ctr: 4, s15: 60, avg_pct: 35 };
+const PF_ST = { proposed: ['run', '결정 대기'], approved: ['ok', '승인 · 다음 콘텐츠부터 적용 대기'], applied: ['ok', '적용 완료'], hold: ['hold', '보류'], rejected: ['off', '반려'], apply_failed: ['off', '적용 실패'] };
+const PF_AREA_SCOPE = { next: ['', '다음 콘텐츠부터'], live: ['live', '이미 올린 영상 수정'], system: ['sys', '운영 방식'] };
+async function perfLoad(){
+  const [r, ib] = await Promise.all([sb.rpc('perf_admin'), sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', 'perf-inbox').maybeSingle()]);
+  PF.err = r.error ? r.error.message : ''; PF.data = r.error ? { videos: [], perf: [], optimize: [] } : (r.data || { videos: [], perf: [], optimize: [] });
+  PF.inbox = ib.data ? ib.data : { id: 'perf-inbox', data: { items: [] } };
+}
+function pfReports(){ return (PF.data && PF.data.perf || []).filter(x => /^perf-\d{4}-\d{2}-\d{2}$/.test(x.id)); }
+function pfCur(){ const reps = pfReports(); const want = 'perf-' + subPage(); return reps.find(x => x.id === want) || reps[0] || null; }
+function pfPending(){ const r = pfReports()[0]; return r ? (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length : 0; }
+const pfNum = (v, unit = '', d = 1) => v == null || v === '' || isNaN(+v) ? '–' : (Math.round(+v * Math.pow(10, d)) / Math.pow(10, d)).toLocaleString('ko-KR') + unit;
+const pfSec = s => { if(s == null || isNaN(+s)) return '–'; s = Math.round(+s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const pfCls = (v, goal, warnRatio = .6) => v == null || isNaN(+v) ? '' : +v >= goal ? 'ok' : +v >= goal * warnRatio ? 'warn' : 'bad';
+function pfKpi(label, v, unit, goal, sub){
+  const has = v != null && !isNaN(+v), c = goal ? pfCls(v, goal) : '';
+  const w = goal && has ? Math.min(100, +v / goal * 100) : 0, col = c === 'ok' ? 'var(--good)' : c === 'warn' ? '#E0A526' : 'var(--bad)';
+  return `<div class="card pf-kpi"><div class="l">${label}</div><div class="v ${c ? 'pf-' + c : ''}">${has ? pfNum(v, '', unit === '%' ? 1 : 0) : '–'}${has && unit ? `<small>${unit}</small>` : ''}</div>
+    ${goal ? `<div class="g"><i style="width:${w}%;background:${col}"></i></div><div class="t">목표 ${goal}${unit}${has ? ` · ${+v >= goal ? '달성' : '목표의 ' + Math.round(+v / goal * 100) + '%'}` : ''}</div>` : `<div class="t">${sub || ''}</div>`}</div>`;
+}
+function pfRetSvg(ret, dur){
+  if(!ret || typeof ret !== 'object') return '';
+  const pts = [['0', 0, 100], ['5초', 5, ret.s5], ['10초', 10, ret.s10], ['15초', 15, ret.s15], ['30초', 30, ret.s30], ['1분', 60, ret.m1]];
+  if(dur){ pts.push(['25%', dur * .25, ret.p25], ['50%', dur * .5, ret.p50], ['75%', dur * .75, ret.p75], ['끝', dur, ret.end]); }
+  const ok = pts.filter(p => p[2] != null && !isNaN(+p[2])); if(ok.length < 3) return '';
+  const W = 320, H = 110, L = 34, B = 18, maxX = Math.max(...ok.map(p => p[1])) || 1;
+  /* 앞 1분이 잘 보이게 시간축을 제곱근으로 편다 */
+  const X = t => L + Math.sqrt(t / maxX) * (W - L - 8), Y = v => 6 + (100 - Math.min(100, +v)) / 100 * (H - B - 6);
+  const line = ok.map((p, i) => (i ? 'L' : 'M') + X(p[1]).toFixed(1) + ',' + Y(p[2]).toFixed(1)).join('');
+  const goal = Y(PF_GOAL.s15);
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="시청 지속 곡선">
+    ${[100, 50, 0].map(v => `<line x1="${L}" x2="${W - 8}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L - 4}" y="${Y(v) + 3}" font-size="9" text-anchor="end" fill="var(--muted)">${v}%</text>`).join('')}
+    <line x1="${X(15)}" x2="${X(15)}" y1="6" y2="${H - B}" stroke="var(--line)" stroke-dasharray="3 3"/>
+    <line x1="${L}" x2="${W - 8}" y1="${goal}" y2="${goal}" stroke="var(--good)" stroke-dasharray="4 3" opacity=".7"/><text x="${W - 10}" y="${goal - 3}" font-size="9" text-anchor="end" fill="var(--good)">15초 목표 ${PF_GOAL.s15}%</text>
+    <path d="${line}" fill="none" stroke="var(--bad)" stroke-width="2.2" stroke-linejoin="round"/>
+    ${ok.map(p => `<circle cx="${X(p[1])}" cy="${Y(p[2])}" r="2.6" fill="var(--bad)"><title>${p[0]} ${p[2]}%</title></circle>`).join('')}
+    ${ok.filter(p => ['15초', '1분', '50%', '끝'].includes(p[0])).map(p => `<text x="${X(p[1])}" y="${H - 5}" font-size="9" text-anchor="middle" fill="var(--muted)">${p[0]}</text>`).join('')}
+    ${ok.filter(p => p[0] === '15초').map(p => `<text x="${X(p[1]) + 4}" y="${Y(p[2]) - 5}" font-size="10" font-weight="800" fill="var(--bad)">${p[2]}%</text>`).join('')}
+  </svg>`;
+}
+const PF_SRC_COL = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#8a94a6', '#5b6b85'];
+function pfSrc(src){
+  const e = Object.entries(src || {}).filter(([, v]) => +v > 0).sort((a, b) => b[1] - a[1]); if(!e.length) return '';
+  return `<div class="pf-src"><div class="cap">유입 경로</div><div class="bar">${e.map(([k, v], i) => `<span style="width:${v}%;background:${PF_SRC_COL[i % 7]}" title="${esc(k)} ${v}%"></span>`).join('')}</div>
+    <div class="lg">${e.slice(0, 5).map(([k, v], i) => `<span><i style="background:${PF_SRC_COL[i % 7]}"></i>${esc(k)} ${pfNum(v, '%')}</span>`).join('')}</div></div>`;
+}
+function pfVideo(v, diag){
+  const s = v.studio || {}, d = diag || {}, ret = s.retention || d.retention, dur = s.duration_sec || d.duration_sec || v.duration;
+  const ctr = s.ctr ?? d.ctr, s15 = ret && ret.s15, ap = s.avg_pct ?? d.avg_pct ?? (s.avg_sec && dur ? s.avg_sec / dur * 100 : null);
+  const vr = s.valid_views && s.views ? Math.round(s.valid_views / s.views * 100) : d.valid_rate;
+  const verdict = d.verdict || (pfCls(ctr, PF_GOAL.ctr) === 'bad' || pfCls(s15, PF_GOAL.s15) === 'bad' ? 'bad' : 'warn');
+  const vdTxt = { bad: '개선 시급', warn: '보완 필요', ok: '양호' }[verdict] || '';
+  const yid = v.youtube_id || d.youtube_id, link = yid ? `https://studio.youtube.com/video/${yid}/analytics/tab-overview/period-default` : '#';
+  const m = [
+    ['조회', pfNum(s.views ?? d.views, '회', 0), ''],
+    ['노출', pfNum(s.impressions ?? d.impressions, '회', 0), ''],
+    ['클릭률', pfNum(ctr, '%'), pfCls(ctr, PF_GOAL.ctr)],
+    ['15초 유지', pfNum(s15, '%', 0), pfCls(s15, PF_GOAL.s15)],
+    ['평균 시청', pfSec(s.avg_sec ?? d.avg_sec) + (dur ? ' / ' + pfSec(dur) : ''), ''],
+    ['평균 조회율', pfNum(ap, '%'), pfCls(ap, PF_GOAL.avg_pct)],
+    vr != null ? ['유효 조회', vr + '%', pfCls(vr, 70)] : null,
+    s.subs != null ? ['구독', (+s.subs > 0 ? '+' : '') + s.subs, ''] : null
+  ].filter(Boolean);
+  const ab = s.ab || d.ab;
+  const age = v.age_h != null ? (v.age_h >= 48 ? Math.round(v.age_h / 24) + '일째' : v.age_h + '시간째') : '';
+  return `<div class="card pf-vid" data-pfv="${esc(v.id)}">
+    <a class="th" href="${link}" target="_blank" rel="noopener">${yid ? `<img src="https://i.ytimg.com/vi/${esc(yid)}/mqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}${vdTxt ? `<span class="vd ${verdict}">${vdTxt}</span>` : ''}</a>
+    <div>
+      <a class="tt" href="${link}" target="_blank" rel="noopener">${esc(v.title || d.title || v.id)}</a>
+      <div class="bn-meta">${v.published_at ? kst(v.published_at) + ' 공개' : ''}${age ? ' · ' + age : ''}${s.at ? ' · 지표 ' + kst(s.at) : ' · 스튜디오 지표 미수집'}</div>
+      <div class="pf-m">${m.map(([k, val, c]) => `<span class="${c}">${k} ${val}</span>`).join('')}</div>
+      <div class="pf-two">${pfRetSvg(ret, dur) ? `<div class="pf-ret"><div class="cap">시청 지속 곡선</div>${pfRetSvg(ret, dur)}</div>` : `<div class="pf-ret"><div class="cap">시청 지속 곡선</div><div class="pf-empty">${esc((ret && ret.note) || '아직 곡선이 나오지 않았습니다 (조회가 적거나 처리 중)')}</div></div>`}${pfSrc(s.sources || d.sources) || '<div></div>'}</div>
+      ${(d.issues || []).length || (d.good || []).length ? `<ul class="pf-li">${(d.issues || []).map(x => `<li class="b">${esc(x)}</li>`).join('')}${(d.good || []).map(x => `<li class="g">${esc(x)}</li>`).join('')}</ul>` : ''}
+      ${ab && ab.state && ab.state !== '없음' ? `<div class="pf-ab"><b>A/B 테스트</b> · ${esc(ab.state)}${ab.winner ? ` · 승자 ${esc(ab.winner)}` : ''}${ab.note ? ` · ${esc(ab.note)}` : ''}</div>` : ''}
+      <div class="pf-vfb"><input type="text" placeholder="이 영상에 대한 의견 (예: 썸네일 글씨가 작아, 인트로 질문을 더 세게)" data-pfv-note>
+        <button class="pf-btn ghost" data-pfv-kind="thumb">썸네일 교체 요청</button><button class="pf-btn ghost" data-pfv-kind="title">제목 교체 요청</button><button class="pf-btn ghost" data-pfv-kind="keep">이 방식 유지</button><button class="pf-btn" data-pfv-kind="note">의견 보내기</button></div>
+    </div></div>`;
+}
+function pfAction(a, i, repId){
+  const st = PF_ST[a.status || 'proposed'] || ['', a.status], sc = PF_AREA_SCOPE[a.scope || 'next'] || PF_AREA_SCOPE.next, open = (a.status || 'proposed') === 'proposed' || a.status === 'hold';
+  return `<div class="card pf-act" data-pfa="${i}" data-rep="${esc(repId)}">
+    <div class="top"><span class="no">${esc(a.no || i + 1)}</span><span class="ti">${esc(a.title)}</span><span class="pf-tag">${esc(a.area || '')}</span><span class="pf-tag ${sc[0]}">${sc[1]}</span>${a.impact ? `<span class="pf-stars" title="예상 효과">${'★'.repeat(a.impact)}${'☆'.repeat(5 - a.impact)}</span>` : ''}<span class="pf-st ${st[0]}">${st[1]}</span></div>
+    ${a.why ? `<div class="row"><em>근거</em> · ${esc(a.why)}</div>` : ''}
+    ${a.change ? `<div class="row"><em>바꾸는 것</em> · ${esc(a.change)}</div>` : ''}
+    ${a.owner_note ? `<div class="row"><em>대표님 메모</em> · ${esc(a.owner_note)}</div>` : ''}
+    ${a.result ? `<div class="row"><em>적용 결과</em> · ${esc(a.result)}${a.applied_at ? ' · ' + kst(a.applied_at) : ''}</div>` : ''}
+    ${a.effect ? `<div class="row"><em>적용 뒤 성과</em> · ${esc(a.effect)}</div>` : ''}
+    ${open ? `<div class="pf-ctl"><input type="text" placeholder="고쳐서 적용할 내용 (비워 두면 그대로 적용)" data-pfa-note>
+      <button class="pf-btn" data-pfa-to="approved">${a.scope === 'live' ? '지금 영상에 적용' : '다음 콘텐츠부터 적용'}</button>
+      ${a.status !== 'hold' ? '<button class="pf-btn ghost" data-pfa-to="hold">보류</button>' : ''}<button class="pf-btn ghost" data-pfa-to="rejected">반려</button></div>`
+      : a.status === 'approved' ? `<div class="pf-ctl"><span class="bn-meta">${a.scope === 'live' ? '유튜브 업로드 작업이 다음 회차(07:10·12:10·20:10)에 스튜디오에서 바꿉니다.' : '매일 05:37 개선 작업이 제작 규칙에 넣고, 그다음 만드는 콘텐츠부터 반영됩니다. 급하면 채팅에 "성과 개선 지금 적용"이라고 남겨 주세요.'}</span><button class="pf-btn ghost" data-pfa-to="proposed">승인 취소</button></div>` : ''}
+  </div>`;
+}
+function pfTrend(reps){
+  const pts = reps.slice().reverse().map(r => ({ d: r.id.slice(10), k: r.data.kpis || {} })).filter(p => p.k.ctr != null || p.k.s15 != null);
+  if(pts.length < 2) return `<div class="card pf-trend"><div class="pf-empty">추이는 진단이 이틀 이상 쌓이면 그려집니다. 매일 20:52 진단이 하나씩 쌓입니다.</div></div>`;
+  const W = 640, H = 170, L = 30, R = 12, T = 10, B = 22, n = pts.length;
+  const X = i => L + i / (n - 1) * (W - L - R), Y = v => T + (100 - Math.min(100, v)) / 100 * (H - T - B);
+  const Yc = v => T + (10 - Math.min(10, v)) / 10 * (H - T - B);
+  const path = (f, y) => pts.map((p, i) => f(p) == null ? '' : `${i && f(pts[i - 1]) != null ? 'L' : 'M'}${X(i).toFixed(1)},${y(f(p)).toFixed(1)}`).join('');
+  return `<div class="card pf-trend"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="성과 추이">
+    ${[0, 50, 100].map(v => `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L - 4}" y="${Y(v) + 3}" font-size="9" text-anchor="end" fill="var(--muted)">${v}%</text>`).join('')}
+    <path d="${path(p => p.k.s15, Y)}" fill="none" stroke="var(--bad)" stroke-width="2.2"/>
+    <path d="${path(p => p.k.avg_pct, Y)}" fill="none" stroke="#E0A526" stroke-width="2.2"/>
+    <path d="${path(p => p.k.ctr, Yc)}" fill="none" stroke="var(--s-visit)" stroke-width="2.2"/>
+    ${pts.map((p, i) => `<text x="${X(i)}" y="${H - 6}" font-size="9" text-anchor="middle" fill="var(--muted)">${p.d.slice(3).replace('-', '/')}</text>`).join('')}
+  </svg><div class="lg"><span><i style="background:var(--s-visit)"></i>클릭률 (0~10% 축)</span><span><i style="background:var(--bad)"></i>15초 유지율</span><span><i style="background:#E0A526"></i>평균 조회율</span></div></div>`;
+}
+function pfInboxHtml(){
+  const items = ((PF.inbox && PF.inbox.data && PF.inbox.data.items) || []).slice().reverse().slice(0, 12);
+  if(!items.length) return '';
+  const kindKo = { note: '의견', thumb: '썸네일 교체 요청', title: '제목 교체 요청', keep: '유지 요청', general: '전체 의견' };
+  return `<div class="pf-msgs">${items.map(x => `<div class="pf-msg"><div class="m"><b>${esc(kindKo[x.kind] || '의견')}</b><span>${kst(x.at)}</span>${x.video_title ? `<span>${esc(x.video_title.slice(0, 28))}…</span>` : ''}<span class="pf-st ${x.status === 'done' ? 'ok' : 'run'}">${x.status === 'done' ? '반영함' : '반영 대기'}</span></div>${esc(x.text)}${x.reply ? `<div class="r"><b>Claude</b> · ${esc(x.reply)}${x.replied_at ? ' · ' + kst(x.replied_at) : ''}</div>` : ''}</div>`).join('')}</div>`;
+}
+function vPerf(){
+  if(PF.data === null){ perfLoad().then(() => render()); return head('성과 진단', '불러오는 중', 'perf'); }
+  if(PF.err) return head('성과 진단', '', 'perf') + `<div class="card">불러오지 못했습니다: ${esc(PF.err)}</div>`;
+  const reps = pfReports(), rep = pfCur(), d = rep ? rep.data : {}, k = d.kpis || {};
+  d.findings = (d.findings || []).map(f => typeof f === 'string' ? { level: 'info', title: f, body: '' } : f);
+  const seg = reps.length ? `<div class="seg">${reps.slice(0, 10).map(r => { const pend = (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length; return `<a href="#perf/${r.id.slice(5)}"${rep && r.id === rep.id ? ' aria-current="page"' : ''}${pend ? ' class="hot"' : ''}>${r.id.slice(10).replace('-', '월 ')}일${pend ? `<b>${pend}</b>` : ''}</a>`; }).join('')}</div>` : '';
+  const diag = {}; (d.videos || []).forEach(v => diag[v.id] = v);
+  const longs = (PF.data.videos || []).filter(v => v.kind === 'long'), shorts = (PF.data.videos || []).filter(v => v.kind === 'short');
+  const acts = d.actions || [], pend = acts.filter(a => (a.status || 'proposed') === 'proposed').length;
+  const order = { bad: 0, warn: 1, info: 2, good: 3 };
+  const shortRows = shorts.slice(0, 12).map(v => { const s = v.studio || {}; return `<tr><td style="max-width:340px;white-space:normal;word-break:keep-all">${esc(v.title)}</td><td>${kst(v.published_at)}</td><td class="num">${pfNum(s.views, '', 0)}</td><td class="num ${pfCls(s.viewed_pct, 70) ? 'pf-' + pfCls(s.viewed_pct, 70) : ''}">${pfNum(s.viewed_pct, '%')}</td><td class="num">${pfNum(s.avg_pct, '%')}</td><td class="num">${s.subs != null ? s.subs : '–'}</td></tr>`; }).join('');
+  return `${head('성과 진단', '매일 20:10 스튜디오 지표 수집 → 20:52 진단 · 승인한 개선은 다음 콘텐츠부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perf')}
+  ${seg}
+  ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
+  ${rep ? `<div class="card pf-hero"><div class="k">${esc(rep.id.slice(5))} 롱폼 진단 · ${esc(d.by || 'Claude')}</div><div class="h">${esc(d.headline || '스튜디오 지표를 모으기 전의 기록입니다. 아래 발견 사항만 참고하세요.')}</div>${d.sample_note ? `<div class="n">${esc(d.sample_note)}</div>` : ''}</div>
+  <div class="pf-kpis">${pfKpi('썸네일 클릭률', k.ctr, '%', PF_GOAL.ctr)}${pfKpi('15초 유지율', k.s15, '%', PF_GOAL.s15)}${pfKpi('평균 조회율', k.avg_pct, '%', PF_GOAL.avg_pct)}${pfKpi('조회수', k.views, '회', 0, `롱폼 ${k.longs || '–'}편 · 노출 ${pfNum(k.impressions, '회', 0)}`)}${pfKpi('구독 증가', k.subs, '명', 0, `평균 시청 ${pfSec(k.avg_sec)}`)}</div>
+
+  <div class="pf-sec"><h2>지금 결정할 개선 ${pend ? `<span class="pf-st run" style="margin-left:6px">${pend}건 대기</span>` : ''}</h2><span>승인하면 다음 콘텐츠부터 · 메모를 쓰면 그 방향으로 고쳐서</span></div>
+  ${pend > 1 ? `<div class="pf-all"><button class="pf-btn" data-pfa-all="${esc(rep.id)}">대기 ${pend}건 전부 적용</button></div>` : ''}
+  ${acts.length ? acts.map((a, i) => [a, i]).sort((x, y) => ((x[0].status || 'proposed') === 'proposed' ? 0 : 1) - ((y[0].status || 'proposed') === 'proposed' ? 0 : 1) || (y[0].impact || 0) - (x[0].impact || 0)).map(([a, i]) => pfAction(a, i, rep.id)).join('') : '<div class="card pf-empty" style="padding:14px">이 날은 새 개선 제안이 없습니다.</div>'}
+
+  <div class="pf-sec"><h2>대표님 피드백</h2><span>남기면 다음 진단·제작 작업이 읽고 반영 후 답을 답니다</span></div>
+  <div class="card pf-fb"><textarea placeholder="진단이나 영상 방향에 대한 의견을 자유롭게 (예: 인트로는 머니스웨거처럼 결론부터, 썸네일엔 인물 얼굴 더 많이)" data-pf-fb></textarea>
+    <div class="pf-chips">${['인트로를 더 짧고 세게', '썸네일 더 자극적으로(과장 없이)', '숫자 줄이고 이야기 위주로', '다음 롱폼에 바로 반영', '이 진단 방향 좋음'].map(t => `<button type="button" data-pf-chip="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+    <div class="pf-ctl" style="margin-top:0"><span class="bn-meta" style="flex:1">급한 건 채팅에 "성과 피드백 지금 반영"이라고 남기면 바로 처리합니다.</span><button class="pf-btn" data-pf-send>피드백 보내기</button></div>
+    ${pfInboxHtml()}</div>
+
+  <div class="pf-sec"><h2>무엇이 문제인가</h2><span>${(d.findings || []).length}가지 발견</span></div>
+  <div class="pf-find">${(d.findings || []).slice().sort((a, b) => (order[a.level] ?? 9) - (order[b.level] ?? 9)).map(f => `<div class="card pf-f ${esc(f.level)}"><b>${esc(f.title)}</b>${f.body ? `<p>${esc(f.body)}</p>` : ''}${f.evidence ? `<small>근거 · ${esc(f.evidence)}</small>` : ''}</div>`).join('')}</div>` : `<div class="card pf-empty" style="padding:14px">아직 진단이 없습니다. 매일 20:52에 올라옵니다.</div>`}
+
+  <div class="pf-sec"><h2>추이</h2><span>진단마다 한 점</span></div>
+  ${pfTrend(reps)}
+
+  <div class="pf-sec"><h2>롱폼 영상별 진단</h2><span>최근 30일 · ${longs.length}편 · 숫자는 최신 스튜디오 지표</span></div>
+  ${longs.length ? longs.map(v => pfVideo(v, diag[v.id])).join('') : '<div class="card pf-empty" style="padding:14px">올라간 롱폼이 없습니다.</div>'}
+
+  ${shorts.length ? `<div class="pf-sec"><h2>쇼츠 지표</h2><span>쇼츠 개선은 매일 05:37 개선 작업이 검수 기준에 자동 반영</span></div>
+  <div class="card" style="padding:0;overflow-x:auto"><table class="pf-tbl" style="width:100%;min-width:620px"><thead><tr><th>쇼츠</th><th>공개</th><th class="num">조회</th><th class="num">조회함 비율</th><th class="num">평균 조회율</th><th class="num">구독</th></tr></thead><tbody>${shortRows}</tbody></table></div>` : ''}
+  <div class="pf-goal">목표 기준 · 썸네일 클릭률 ${PF_GOAL.ctr}% 이상 · 15초 유지율 ${PF_GOAL.s15}% 이상 · 평균 조회율 ${PF_GOAL.avg_pct}% 이상 (구독자 수만 명 규모 금융 채널의 무난한 수준). 조회 300회 미만 영상은 표본이 작아 방향만 봅니다.</div>`;
+}
+async function pfSaveReport(repId, f, msg){
+  const r = pfReports().find(x => x.id === repId); if(!r) return;
+  const data = JSON.parse(JSON.stringify(r.data || {})); f(data);
+  const { error } = await sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', repId);
+  if(error){ toast('저장하지 못했습니다: ' + error.message, true); return; }
+  r.data = data; PF.msg = ''; toast(msg); render();
+}
+async function pfAddInbox(item){
+  const cur = PF.inbox && PF.inbox.data ? PF.inbox.data : { items: [] };
+  const data = { ...cur, items: [...(cur.items || []), { id: 'f' + Date.now().toString(36), at: new Date().toISOString(), status: 'new', ...item }] };
+  const q = PF.inbox && PF.inbox.updated_at ? sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', 'perf-inbox')
+    : sb.from('docs').upsert({ owner: (await sb.auth.getUser()).data.user.id, collection: 'agent', id: 'perf-inbox', data, updated_at: new Date().toISOString() });
+  const { error } = await q;
+  if(error){ toast('보내지 못했습니다: ' + error.message, true); return false; }
+  PF.inbox = { ...(PF.inbox || {}), id: 'perf-inbox', data, updated_at: new Date().toISOString() }; return true;
+}
+function bindPerf(){
+  const box = $('#main');
+  box.querySelectorAll('[data-pfa-to]').forEach(b => b.onclick = () => {
+    const w = b.closest('[data-pfa]'), i = +w.dataset.pfa, rep = w.dataset.rep, to = b.dataset.pfaTo;
+    const note = ((w.querySelector('[data-pfa-note]') || {}).value || '').trim();
+    pfSaveReport(rep, d => { const a = d.actions[i]; a.status = to; a.decided_at = new Date().toISOString(); a.decided_by = 'owner'; if(note) a.owner_note = note; },
+      to === 'approved' ? (note ? '메모대로 고쳐서 적용합니다.' : '승인했습니다. 다음 콘텐츠부터 적용합니다.') : to === 'hold' ? '보류했습니다.' : to === 'rejected' ? '반려했습니다. 비슷한 제안은 다시 올리지 않습니다.' : '승인을 취소했습니다.');
+  });
+  box.querySelectorAll('[data-pfa-all]').forEach(b => b.onclick = () => {
+    if(!confirm('대기 중인 개선을 전부 다음 콘텐츠부터 적용할까요?')) return;
+    pfSaveReport(b.dataset.pfaAll, d => { (d.actions || []).forEach(a => { if((a.status || 'proposed') === 'proposed'){ a.status = 'approved'; a.decided_at = new Date().toISOString(); a.decided_by = 'owner'; } }); }, '전부 승인했습니다. 다음 콘텐츠부터 적용합니다.');
+  });
+  box.querySelectorAll('[data-pf-chip]').forEach(b => b.onclick = () => { const t = box.querySelector('[data-pf-fb]'); t.value = (t.value ? t.value.trim() + '\n' : '') + b.dataset.pfChip; t.focus(); });
+  const send = box.querySelector('[data-pf-send]');
+  if(send) send.onclick = async () => { const t = box.querySelector('[data-pf-fb]'), text = (t.value || '').trim(); if(!text){ t.focus(); return; }
+    send.disabled = true; const rep = pfCur(); if(await pfAddInbox({ kind: 'general', text, report: rep ? rep.id : null })){ toast('피드백을 남겼습니다. 다음 작업부터 반영합니다.'); render(); } send.disabled = false; };
+  box.querySelectorAll('[data-pfv-kind]').forEach(b => b.onclick = async () => {
+    const w = b.closest('[data-pfv]'), id = w.dataset.pfv, kind = b.dataset.pfvKind, inp = w.querySelector('[data-pfv-note]'), note = (inp.value || '').trim();
+    const v = (PF.data.videos || []).find(x => x.id === id) || {};
+    if(kind === 'note' && !note){ inp.focus(); return; }
+    const def = { thumb: '썸네일을 다른 안으로 바꿔 주세요', title: '제목을 다른 안으로 바꿔 주세요', keep: '이 영상 방식은 좋으니 유지해 주세요' }[kind];
+    b.disabled = true;
+    if(await pfAddInbox({ kind, text: note || def, video_id: id, youtube_id: v.youtube_id || null, video_title: v.title || id })){ toast(kind === 'thumb' || kind === 'title' ? '요청을 남겼습니다. 업로드 작업이 스튜디오에서 바꿉니다.' : '의견을 남겼습니다.'); render(); }
+    b.disabled = false;
+  });
+}
+
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
   const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0, stocks: SK.list ? SK.list.length : null }, hot = {};
@@ -1727,6 +2014,7 @@ function render(s){
   $('#asof').textContent = '기준 ' + kst(s.asOf);
   if(YT.list){ const nr = YT.list.filter(y => ['review', 'changes'].includes(y.status)).length, np = (YT.plans || []).filter(x => x.status === 'proposed').length;
     if(nr + np) hot.youtube = [nr + np, 'warm', [np ? `기획안 ${np}편` : '', nr ? `영상 검수 ${nr}편` : ''].filter(Boolean).join(' · ') + ' 대기']; }
+  if(PF.data){ const np = pfPending(); if(np) hot.perf = [np, 'hot', '성과 개선 ' + np + '건 결정 대기']; }
   if(BN.list){ const nb = benchCounts().proposed; if(nb) hot.bench = [nb, 'warm', '벤치마킹 ' + nb + '건 승인 대기']; }
   const nav = $('#tabs'); nav.hidden = false;
   const g = groupOf(p), title = id => PAGES.find(x => x[0] === id)[1];
@@ -1736,7 +2024,7 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'perf' ? vPerf() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
@@ -1746,6 +2034,7 @@ function render(s){
   if(p === 'social') bindSocial();
   if(p === 'youtube') bindYoutube();
   if(p === 'bench') bindBench();
+  if(p === 'perf') bindPerf();
   if(p === 'calendar') bindCalendar();
   bindTips();
 }
@@ -1773,7 +2062,7 @@ async function load(){
   $('#reload').hidden = $('#out').hidden = !session;
   if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
-  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null, benchLoad().catch(() => {})]);
+  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null, benchLoad().catch(() => {}), perfLoad().catch(() => {})]);
   if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
@@ -1818,7 +2107,7 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
 });
 
 load();
-setInterval(() => { if(!document.hidden && !$('#out').hidden && !['column', 'social', 'blog', 'youtube'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
+setInterval(() => { if(!document.hidden && !$('#out').hidden && !['column', 'social', 'blog', 'youtube', 'perf'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
