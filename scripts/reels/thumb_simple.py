@@ -480,7 +480,8 @@ def render_v4(spec, out):
         lg = Image.open(os.path.join(ROOT, spec["logo"])).convert("RGBA"); lh = 64; lg = lg.resize((int(lg.width * lh / lg.height), lh), Image.LANCZOS); rows.append(("img", lg))
     elif spec.get("name"): rows.append(("txt", spec["name"], fit(spec["name"], "Mont", 70, maxw), IVORY))
     rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", 84, maxw), IVORY))
-    f2 = fit(spec["l2"], "Heavy", 150, maxw); rows.append(("txt", spec["l2"], f2, acc))
+    # 2026-10-29 성과 진단 #2 (대표님 승인): 큰 색 글씨는 8~9자 안으로 짧게, 화면 높이 22% 이상(160px). 큰 숫자형(C안)은 "s2": 220~260
+    s2 = spec.get("s2", 160); f2 = fit(spec["l2"], "Heavy", s2, maxw); rows.append(("txt", spec["l2"], f2, acc))
     hts = [r[1].height if r[0] == "img" else r[2].size for r in rows]; gap = 22
     y = (H - (sum(hts) + gap * (len(rows) - 1))) / 2 + 10
     for r, h in zip(rows, hts):
@@ -489,7 +490,7 @@ def render_v4(spec, out):
             text_shadow(im, (LX, y + h / 2), r[1], r[2], r[3], anchor="lm", off=5, blur=14, alpha=200)
         y += h + gap
     paste_logo(im, W - 36, 30, 30, "dark", align="right")
-    if f2.size < 150 * .75: print(f"  ⚠ 큰 글씨가 길어 작아짐 ({f2.size}/150px): {spec['l2']} — 3~4단어로 줄이세요")
+    if f2.size < s2 * .8: print(f"  ⚠ 큰 글씨가 길어 작아짐 ({f2.size}/{s2}px): {spec['l2']} — 8~9자 안으로 줄이세요")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     im.convert("RGB").save(out, quality=93)
     return out
