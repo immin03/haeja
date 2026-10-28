@@ -25,8 +25,8 @@ PEN_SCALE = .82
 _iw_font = IW.font
 
 
-def _pen_font(kind, size):
-    return _iw_font(kind, max(8, int(round(size * PEN_SCALE)))) if kind == "pen" else _iw_font(kind, size)
+def _pen_font(kind, size):   # 2026-10-28 2차: 롱폼은 손글씨 글꼴을 쓰지 않는다 → 그래프 숫자 등도 SUIT 굵은 글씨
+    return _iw_font("Bold", max(8, int(round(size * .66)))) if kind == "pen" else _iw_font(kind, size)
 
 
 IW.font = _pen_font
@@ -162,45 +162,76 @@ _RE = __import__("re")
 def _txt(b): return "".join(b.get("rows") or [b.get("text", "")])
 
 
+# ── 깔끔한 정리 (2026-10-28 운영자 2차 검수: "색이 너무 많다(회색·빨강·금색·네이비)", "시험 공부 노트처럼 낙서하지 말고 깔끔하게",
+#    "필기체가 안 맞으면 그냥 깔끔하게", "UI·UX 생각해서 정렬", "크기·굵기로 구분하고 색은 줄여라") ──
+#  - 글씨는 전부 SUIT 인쇄 글씨. 손글씨 글꼴은 쓰지 않는다 (펜은 밑줄·체크 같은 선만 긋는다)
+#  - 색: 네이비 하나. 빨강 = '-'로 시작하는 숫자(하락), 초록 = '+'로 시작하는 숫자(상승)만. 회색·금색 글씨 없음
+#  - 크기 네 단계: 페이지 제목 52 / 핵심 숫자 96~150 / 강조 68 / 본문 52 / 보조 42 — 굵기로 위계를 준다
+#  - 인쇄 글씨는 문장을 말하는 동안 왼쪽부터 타이핑되듯 나타난다 (IW.PRINT_TYPE)
+#  - 동그라미·밑줄은 글씨가 다 써진 뒤에 긋는다
+IW.PRINT_TYPE = True; IW.PHOTO_ZOOM = 0.0; IW.PHOTO_POP = 0.0
+SIGNED = _RE.compile(r"^\s*([-−+])\s*[\d,.]")
+
+
+def tone_of(text):
+    m = SIGNED.match(str(text))
+    return ("green" if m.group(1) == "+" else "red") if m else "ink"
+
+
 def tidy(spec):
-    spec = [dict(b) for b in (spec or [])]
-    ws = [i for i, b in enumerate(spec) if b.get("kind") == "write"]
-    def big(b):   # 펜으로 남길 후보: 숫자가 들어간 큰 글씨 · 물음표 하나 (긴 문장·여러 줄은 인쇄 글씨로)
-        sz = b.get("size", 96); num = bool(_RE.search(r"\d", _txt(b))); short = not b.get("rows") and len(_txt(b).strip()) <= 12
-        return (num and sz >= 80 and short) or _txt(b).strip() == "?"
-    def rank(i):
-        b = spec[i]; sz = b.get("size", 96)
-        return sz * (1.35 if _RE.search(r"\d", _txt(b)) else 1) + (25 if b.get("color") in ("red", "gold", "green") else 0)
-    forced = [i for i in ws if spec[i].get("key")]   # 화면 종류가 정한 핵심(예: 저울의 배수)은 항상 펜
-    keep = set(forced) | set(sorted([i for i in ws if big(spec[i]) and i not in forced], key=rank, reverse=True)[:PEN_KEEP])
-    for i in keep:   # 손글씨가 종이 밖으로 나가지 않게 줄인다
-        b = spec[i]; sz = b.get("size", 96); f = IW.font("pen", sz); wmax = max(f.getlength(r) for r in (b.get("rows") or [b.get("text", "")]))
-        room = 1840 - b["x"] if b.get("anchor") != "m" else 2 * min(b["x"] - 80, 1840 - b["x"])
-        if wmax > room: b["size"] = int(sz * room / wmax)
-    for i, b in enumerate(spec):
-        k = b.get("kind")
-        if k == "write" and i not in keep:
-            sz = b.get("size", 96); head = sz >= 100   # 큰 글씨(제목·질문·핵심 숫자)는 굵은 인쇄 글씨로 크게
-            ps = int(IW.clamp(round(sz * (.6 if head else PRINT_K)), PRINT_MIN, 100 if head else 72))
-            wt = "myeongjo" if b.get("serif") else ("ExtraBold" if head else ("Medium" if b.get("color") == "gray" else "Bold"))
-            nb = dict(kind="print", x=b["x"], y=b["y"] + int(sz * .14), size=ps, w=wt,
-                      color=b.get("color", "ink"), anchor={"m": "ma"}.get(b.get("anchor"), "la"))
+    out = []
+    keys = []   # 핵심 숫자 후보 (가장 큰 글씨)
+    for b in spec or []:
+        b = dict(b); k = b.get("kind")
+        if k in ("hl", "circle", "arrow", "cross"): continue   # 형광펜·동그라미·화살표 낙서는 쓰지 않는다
+        if k == "under" and not b.get("key"): continue        # 밑줄은 핵심 숫자 하나에만 (자동)
+        if k in ("write", "print"):
+            txt = _txt(b); sz = b.get("size", 96 if k == "write" else 40)
+            if k == "write": sz = sz * .9   # 손글씨 원고 크기 → 인쇄 글씨 기준
+            top = b.get("y", 999) <= 130 and k == "print" and sz <= 60
+            if top: ps, w = 52, "ExtraBold"
+            elif sz >= 140: ps, w = int(IW.clamp(sz * .62, 96, 150)), "ExtraBold"
+            elif sz >= 80: ps, w = 68, "ExtraBold"
+            elif sz >= 52: ps, w = 52, "Bold"
+            else: ps, w = 42, "Medium"
+            if b.get("serif"): w = "myeongjo"
+            nb = dict(kind="print", x=b["x"], y=b["y"] + (int(sz * .12) if k == "write" else 0), size=ps, w=w, color=tone_of(txt),
+                      anchor={"m": "ma", "ma": "ma", "ra": "ra"}.get(b.get("anchor"), "la"))
             if b.get("rows"): nb["rows"] = b["rows"]
             else: nb["text"] = b.get("text", "")
             for kk in ("t", "line", "at"):
                 if kk in b: nb[kk] = b[kk]
-            spec[i] = b = nb; k = "print"
-        if k == "check": b["kind"] = "pcheck"
-        if k in ("write", "print", "check", "pcheck") and 100 <= b.get("x", 0) <= 180 and b.get("anchor", "la") in ("la", "l"): b["x"] = COL_X
-    return spec
+            b = nb; k = "print"
+        elif k == "check": b["kind"] = k = "pcheck"
+        elif k == "chart" and b.get("color") not in ("red", "green"): b["color"] = "ink"
+        elif k in ("under", "circle", "arrow", "cross", "rule", "icons", "bar", "hbar", "bars"):
+            b["color"] = "ink"; b.pop("hlcolor", None)
+            if k == "icons": b["hl"] = []
+        if k in ("print", "pcheck") and 100 <= b.get("x", 0) <= 180 and b.get("anchor", "la") in ("la", "l"): b["x"] = COL_X
+        if k == "print" and "rows" not in b and b.get("text", "").strip() == "?": continue   # 물음표 낙서 없음
+        out.append(b)
+    return out
+
+
+def after_text(beats):
+    """동그라미·밑줄·화살표가 겹치는 글씨보다 먼저 그려지지 않게, 그 글씨가 다 나타난 뒤로 미룬다"""
+    txt = [z for z in beats if isinstance(z, IW.Print)]
+    for z in beats:
+        if not isinstance(z, IW.Stroke) or z.b.get("kind") not in ("circle", "under", "arrow", "cross"): continue
+        x0, y0, x1, y1 = [float(v) for v in z.bbox()]
+        hit = [t for t in txt if not (t.tb[2] < x0 or t.tb[0] > x1 or t.tb[3] < y0 - 30 or t.tb[1] > y1)]
+        if hit:
+            need = max(t.t1 for t in hit) + .1
+            if z.t0 < need: d = need - z.t0; z.t0 += d; z.t1 += d
+    return beats
 
 
 def pcheck(b, t0):
     """인쇄 글씨 체크 항목: 네모(펜 없이) → 글씨(인쇄) → 체크 표시(작은 펜)"""
     x, y, s = b["x"], b["y"], int(b.get("size", 56)); ps = int(IW.clamp(round(s * .78), 34, 56))
     box = IW.Stroke(dict(kind="box", color="ink", width=4), t0, t0 + .2, [(x, y), (x + s, y), (x + s, y + s), (x, y + s), (x, y)], 4); box.pen = False
-    txt = IW.Print(dict(kind="print", text=b.get("text", ""), x=x + s + 26, y=y + (s - ps * 1.25) / 2 + 2, size=ps, w="Bold", color=b.get("color", "ink")), t0 + .1, t0 + .4)
-    tick = IW.Stroke(dict(kind="tick", color="red"), t0 + .35, t0 + .6, [(x + s * .15, y + s * .5), (x + s * .42, y + s * .82), (x + s * 1.05, y - s * .15)], 7)
+    txt = IW.Print(dict(kind="print", text=b.get("text", ""), x=x + s + 26, y=y + (s - ps * 1.25) / 2 + 2, size=ps, w="Bold", color="ink"), t0 + .1, t0 + .4)
+    tick = IW.Stroke(dict(kind="tick", color="ink"), t0 + .35, t0 + .6, [(x + s * .15, y + s * .5), (x + s * .42, y + s * .82), (x + s * 1.05, y - s * .15)], 7)
     return [box, txt, tick]
 
 
@@ -341,15 +372,16 @@ def auto(v, lines, V, fill, at_time):
         photo(v.get("lib"), 90, 100, 1000, 690, -2, S0)
         y = 130
         if v.get("caption"):
-            r = rows(F(v["caption"]), 8); B.append(dict(kind="write", rows=r, x=1170, y=y, size=96, t=T(v.get("caption_at", "0")) + .1)); y += 100 * len(r) + 60
+            r = rows(F(v["caption"]), 11); B.append(dict(kind="print", rows=r, x=1170, y=y, size=68, w="ExtraBold", t=LS(v.get("caption_at", "0")) + .05)); y += 90 * len(r) + 60
         for i, ch in enumerate(v.get("chips", [])):
-            tt = T(ch.get("at")); B.append(dict(kind="write", rows=rows(F(ch.get("l", "")), 12), x=1175, y=y + 150, size=74, color="gray", t=LS(ch.get("at"))))
-            B.append(dict(kind="write", text=F(ch["v"]), x=1170, y=y, size=130, color="red", t=tt)); y += 290
+            tt = LS(ch.get("at")) + .05
+            B.append(dict(kind="write", text=F(ch["v"]), x=1170, y=y, size=160, t=tt))
+            B.append(dict(kind="print", rows=rows(F(ch.get("l", "")), 20), x=1172, y=y + 150, size=42, w="Medium", t=tt + .5)); y += 270
     elif t == "stat":
         if v.get("backdrop"): photo(v["backdrop"], 1180, 140, 640, 460, 3, S0)
         if v.get("kicker"): B.append(dict(kind="print", text=F(v["kicker"]), x=140, y=110, size=48, w="Bold", color="gray", t=S0))
-        val = F(v["value"]); ta = T(v.get("at")); B.append(dict(kind="write", text=val, x=140, y=180, size=300, color=tone(val), t=ta))
-        B.append(dict(kind="under", x0=150, x1=150 + int(len(val) * 300 * .5), y=500, color="gold", t=ta + .7))
+        val = F(v["value"]); ta = LS(v.get("at")) + .05; B.append(dict(kind="write", text=val, x=140, y=180, size=300, color=tone(val), t=ta))
+        B.append(dict(kind="under", x0=140, x1=140 + int(IW.font("ExtraBold", 150).getlength(val)), y=420, key=1, t=ta + .7))
         if v.get("label"): B.append(dict(kind="write", text=F(v["label"]), x=150, y=540, size=84, t=ta + .4))
         tg_ = v.get("tags", [])
         if tg_ and not v.get("backdrop"):   # 2026-10-27 개선: 사진이 없는 숫자 장면은 오른쪽 절반이 비었다 → 세부 숫자를 오른쪽 칸에 크게, 칸 사이에 세로 줄
@@ -357,9 +389,9 @@ def auto(v, lines, V, fill, at_time):
             B.append(dict(kind="rule", x0=x_r - 90, y0=210, x1=x_r - 90, y1=190 + 170 * len(tg_), color="gray", t=max(S0, T(tg_[0].get("at")) - .4)))
             for j, tg in enumerate(tg_):
                 c = {"red": "red", "gold": "gold", "green": "green"}.get(tg.get("kind"), "ink")
-                B.append(dict(kind="write", text=F(tg["text"]), x=x_r, y=y_r + j * 170, size=110, color=c, t=T(tg.get("at"))))
+                B.append(dict(kind="write", text=F(tg["text"]), x=x_r, y=y_r + j * 170, size=110, t=LS(tg.get("at")) + .1))
         else:
-            for j, tg in enumerate(tg_): B.append(dict(kind="write", text=F(tg["text"]), x=150, y=680 + j * 90, size=66, color="gold", t=T(tg.get("at"))))
+            for j, tg in enumerate(tg_): B.append(dict(kind="print", text=F(tg["text"]), x=150, y=680 + j * 80, size=52, t=LS(tg.get("at")) + .1))
     elif t == "question":
         if v.get("backdrop"): photo(v["backdrop"], 1220, 140, 600, 430, 3, S0)
         r = rows(F(v["text"]), 9); B.append(dict(kind="write", rows=r, x=140, y=180, size=120, t=S0 + .1))
@@ -367,7 +399,7 @@ def auto(v, lines, V, fill, at_time):
     elif t == "checklist":
         title(v.get("title"))
         if v.get("backdrop"): photo(v["backdrop"], 1320, 120, 500, 360, 3, S0)
-        for i, it in enumerate(v["items"]): B.append(dict(kind="check", text=F(it[0]), x=140, y=220 + i * 170, size=64, t=T(it[1]) if len(it) > 1 else .3 + i))
+        for i, it in enumerate(v["items"]): B.append(dict(kind="check", text=F(it[0]), x=140, y=220 + i * 170, size=64, t=LS(it[1]) + .05 if len(it) > 1 else .3 + i))
     elif t == "bars":
         title(v.get("title")); its = v["items"]; vmax = max(float(i[1]) for i in its); n = len(its)
         if v.get("unit"): B.append(dict(kind="print", text="단위: " + F(v["unit"]), x=1800, y=100, size=32, w="Medium", color="gray", anchor="ra", t=S0))
@@ -378,14 +410,14 @@ def auto(v, lines, V, fill, at_time):
     elif t == "hbars":
         title(v.get("title")); its = v["items"]; vmax = max(float(i[1]) for i in its); hl = {h["i"]: h for h in v.get("hl", [])}
         for i, it in enumerate(its):
-            tt = T(it[2]) if len(it) > 2 else .3 + i; y = 200 + i * 240
+            tt = LS(it[2]) + .05 if len(it) > 2 else .3 + i; y = 200 + i * 240
             B.append(dict(kind="write", text=F(it[0]), x=140, y=y, size=66, t=LS(it[2]) if len(it) > 2 else S0))
             B.append(dict(kind="hbar", x=150, y=y + 90, h=66, wmax=1150, v=float(it[1]), vmax=vmax, text=F(it[3]) if len(it) > 3 else "", color="gold" if i in hl else "ink", t=tt))
             if i in hl: B.append(dict(kind="circle", cx=150 + 1150 * float(it[1]) / vmax + 200, cy=y + 123, rx=230, ry=62, color="red", t=T(hl[i].get("at"))))
     elif t == "card":
         if v.get("kicker"): B.append(dict(kind="print", text=F(v["kicker"]), x=140, y=100, size=42, w="Bold", color="red", t=S0))
-        B.append(dict(kind="write", text=F(v.get("title", "")), x=140, y=170, size=110, t=T(v.get("at")) + .1))
-        for i, r in enumerate(v.get("rows", [])): B.append(dict(kind="check", text=F(r[0]), x=160, y=380 + i * 160, size=62, t=T(r[1]) if len(r) > 1 else .5 + i))
+        B.append(dict(kind="write", text=F(v.get("title", "")), x=140, y=170, size=110, t=LS(v.get("at")) + .1))
+        for i, r in enumerate(v.get("rows", [])): B.append(dict(kind="check", text=F(r[0]), x=140, y=380 + i * 160, size=62, t=LS(r[1]) + .05 if len(r) > 1 else .5 + i))
     elif t == "quote":
         if v.get("backdrop"): photo(v["backdrop"], 1220, 140, 600, 430, 3, S0)
         r = rows("“" + F(v["text"]) + "”", 13); ta = T(v.get("at")); B.append(dict(kind="write", rows=r, x=140, y=180, size=120, serif=1, t=ta))
@@ -410,10 +442,10 @@ def auto(v, lines, V, fill, at_time):
     elif t == "twocol":
         title(v.get("title"))
         for side, x, c in (("left", 140, "ink"), ("right", 1000, "gold")):
-            col = v.get(side) or {}; tt = T(col.get("at"))
+            col = v.get(side) or {}; tt = LS(col.get("at")) + .05
             B.append(dict(kind="write", text=F(col.get("title", "")), x=x, y=200, size=74, color="gray", t=tt))
             for j, it in enumerate(col.get("items", [])):
-                B.append(dict(kind="write", text=F(it[0]), x=x, y=330 + j * 140, size=96, color="gold" if col.get("gold") else c, t=T(it[1]) + .1 * j if len(it) > 1 else tt + .5 + j))
+                B.append(dict(kind="write", text=F(it[0]), x=x, y=330 + j * 120, size=60, t=LS(it[1]) + .3 * j if len(it) > 1 else tt + .5 + j))
     elif t == "scale":
         title(v.get("title"))
         for side, x in (("left", 200), ("right", 1060)):
@@ -428,7 +460,7 @@ def auto(v, lines, V, fill, at_time):
         title(v.get("title")); cw = v.get("cw", [700, 600]); x2 = 140 + cw[0] + 60
         for j, c in enumerate(v.get("cols", [])): B.append(dict(kind="print", text=F(c), x=140 if j == 0 else x2, y=190, size=44, w="Bold", color="gray", t=S0))
         for i, r in enumerate(v["rows"]):
-            tt = T(r[2]) if len(r) > 2 else .3 + i; y = 260 + i * 170
+            tt = LS(r[2]) + .05 if len(r) > 2 else .3 + i; y = 260 + i * 170
             B.append(dict(kind="write", text=F(r[0]), x=140, y=y, size=96, t=tt)); B.append(dict(kind="write", text=F(r[1]), x=x2, y=y, size=96, color="red", t=tt + .5))
             if v.get("hl") == i: B.append(dict(kind="hl", x0=128, y0=y + 2, x1=x2 + int(len(F(r[1])) * 48) + 30, y1=y + 82, color="yellow", t=tt + 1.0))   # 인쇄 글씨(약 60px) 높이에 맞춘 형광펜
     return B
@@ -522,6 +554,6 @@ def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
     if not authored and sc["v"]["type"] != "end": spec = balance(spec, lines)
     dur = (lines[-1][0] + lines[-1][1] + .35) if lines else 1.0
     if sc.get("fine"):   # 작은 안내 문구 (예: 목표 주가·매수 신호가 아님) — 말로 하지 않고 종이 아래쪽에 작게
-        spec = list(spec) + [dict(kind="print", text=fill(sc["fine"], V), x=1800, y=100, size=28, w="Medium", color="gray", anchor="ra", t=(lines[0][0] + .3) if lines else .3)]
+        spec = list(spec) + [dict(kind="print", text=fill(sc["fine"], V), x=1800, y=100, size=28, w="Medium", color="ink", alpha=.75, anchor="ra", t=(lines[0][0] + .3) if lines else .3)]
     # 2026-10-27 운영자: 펜이 너무 많다 → 빈틈 자동 밑줄(autofill)은 쓰지 않는다
-    return notes(build(spec, lines), lines, dur, authored=[n for n in sc.get("notes", [])], at_time=at_time)
+    return after_text(build(spec, lines))   # 2026-10-28 운영자: 말하는 말투를 화면에 적지 말 것 → 메모(notes) 쓰지 않음

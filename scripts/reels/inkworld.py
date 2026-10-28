@@ -48,6 +48,9 @@ def lerp(a, b, p): return a + (b - a) * p
 def seg(T, t0, t1): return clamp((T - t0) / (t1 - t0)) if t1 > t0 else float(T >= t1)
 
 
+PHOTO_ZOOM = .06   # 붙인 사진이 천천히 커지는 정도 (롱폼은 sketch.py 가 0으로 끈다)
+PHOTO_POP = .14    # 사진이 붙을 때 크게 시작해 줄어드는 정도
+PRINT_TYPE = False  # True 면 인쇄 글씨가 왼쪽부터 타이핑되듯 나타난다 (롱폼)
 PEN_FONT = "NanumPenScript-Regular.ttf"   # 쇼츠 잉크 노트 기본 손글씨. 롱폼은 sketch.py 가 연성체로 바꾼다 (2026-10-28)
 
 
@@ -115,7 +118,7 @@ def media(src, w, h, T, t0, fx=.5, fy=.5):
     if k not in _C:
         if not os.path.exists(path(src)): print("  ⚠ 사진 없음:", src); return np.full((h, w, 3), 200, np.uint8)
         _C[k] = Image.open(path(src)).convert("RGB")
-    z = 1.0 + .06 * clamp((T - t0) / 6)
+    z = 1.0 + PHOTO_ZOOM * clamp((T - t0) / 6)
     return np.asarray(crop_to(_C[k], w, h, fx, fy, z))
 
 
@@ -167,7 +170,8 @@ class Write(Beat):
 
 class Print(Beat):
     def __init__(self, b, t0, t1):
-        super().__init__(b, max(t0, t0), t0 + .3)
+        n = len("".join(b.get("rows") or [b.get("text", "")]).replace(" ", ""))
+        super().__init__(b, t0, t0 + (clamp(.07 * n + .15, .35, 1.4) if PRINT_TYPE else .3))
         f = font(b.get("w", "Bold"), b.get("size", 40)); c = col(b.get("color", "ink"))
         rows = b.get("rows") or [b["text"]]; lh = int(b.get("size", 40) * 1.32)
         wmax = int(max(f.getlength(r) for r in rows)) + 8
@@ -180,7 +184,16 @@ class Print(Beat):
     def bbox(self): return self.tb
     def apply(self, tex, T):
         p = self.p(T)
-        if p > 0: blit(tex, self.lay, self.x, self.y + int(10 * (1 - eout(p))), np.full(self.lay.shape[:2], eout(p), np.float32))
+        if p <= 0: return
+        if PRINT_TYPE:   # 말하는 속도에 맞춰 왼쪽부터 한 줄씩 타이핑되듯
+            h, w = self.lay.shape[:2]; lh = int(self.b.get("size", 40) * 1.32); nr = max(1, round((h - 10) / lh))
+            ws = [w] * nr; tot = sum(ws); done = p * tot; m = np.zeros((h, w), np.float32); xs = np.arange(w, dtype=np.float32)
+            for i in range(nr):
+                take = clamp(done / ws[i]); done -= ws[i]
+                if take <= 0: break
+                m[i * lh:(i + 1) * lh + (10 if i == nr - 1 else 0)] = 1 if take >= 1 else np.clip((take * w - xs) / 18 + 1, 0, 1)[None, :]
+            blit(tex, self.lay, self.x, self.y, m); return
+        blit(tex, self.lay, self.x, self.y + int(10 * (1 - eout(p))), np.full(self.lay.shape[:2], eout(p), np.float32))
 
 
 class Stroke(Beat):
@@ -251,8 +264,8 @@ class Photo(Beat):
     def apply(self, tex, T):
         p = self.p(T)
         if p <= 0: return
-        c = self.card(T); s = 1.14 - .14 * eout(p); al = eout(min(1, p * 1.6))
-        ang = self.rot + 4 * (1 - eout(p))
+        c = self.card(T); s = 1 + PHOTO_POP - PHOTO_POP * eout(p); al = eout(min(1, p * 1.6))
+        ang = self.rot + (4 if PHOTO_POP else 0) * (1 - eout(p))
         M = cv2.getRotationMatrix2D((self.w / 2, self.h / 2), ang, s)
         ex = int(self.w * .2); M[:, 2] += ex
         big = cv2.warpAffine(c, M, (self.w + 2 * ex, self.h + 2 * ex), flags=cv2.INTER_LINEAR, borderValue=(0, 0, 0, 0)).astype(np.float32)

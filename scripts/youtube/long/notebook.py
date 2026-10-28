@@ -553,9 +553,7 @@ def mix_pose(a, b, p):
 
 def drift(pose, u, dur, k):
     """장면 안에서 아주 천천히 다가가기만 한다 (돌거나 기울지 않는다)"""
-    q = dict(pose); f = u / max(1.0, dur)
-    q["dist"] = pose["dist"] * (1 - .025 * f)
-    return q
+    return dict(pose)   # 2026-10-28 운영자: 점점 커지는 확대 효과가 어수선하다 → 장면 안에서는 카메라를 고정
 
 
 def cam_of(p): return Cam(p["tx"], p["tz"], p["yaw"], p["pitch"], p["dist"], p["roll"])
