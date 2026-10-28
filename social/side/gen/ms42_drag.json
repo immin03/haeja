@@ -1,0 +1,36 @@
+{
+ "id": "ms42_drag",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image the same: the grandpa, his pose and clothes, the snowy bench, the long red scarf with the white heart patch trailing across the bench, the lighting and the miniature clay diorama style. Only change: make the magpie much smaller, a tiny bird about the size of the grandpa's hand, standing on the bench beside his knee and still holding the end of the red scarf in its beak. The magpie keeps its exact design from the magpie reference: glossy black head, cream-white face and belly, big dark-brown eyes, navy-blue wings, red knotted neckerchief, small brown leather satchel. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18322-c6a2-726b-896f-c82c89ccbdc9/4691c1a6-48e8-46ef-8482-93bbb4d56015.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1832f-192b-71b4-a062-b6f2634f00dd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1832f-192b-71b4-a062-b6f2634f00dd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1832f-192b-71b4-a062-b6f2634f00dd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1832f-192b-71b4-a062-b6f2634f00dd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1832f-192b-71b4-a062-b6f2634f00dd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1832f-192b-71b4-a062-b6f2634f00dd/cancel",
+  "expires_at": "2026-11-04T15:45:06.269677+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1832f-192b-71b4-a062-b6f2634f00dd/6d48ccf9-919c-45c8-b28b-b930ec9c5275.jpeg"
+   }
+  ]
+ },
+ "seconds": 44,
+ "file": "social/side/gen/ms42_drag.jpeg"
+}

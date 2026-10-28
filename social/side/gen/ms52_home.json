@@ -1,0 +1,36 @@
+{
+ "id": "ms52_home",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image the same: the grandpa with the red scarf and white heart patch around his neck, his teary smile, the bench, the cart, the ginkgo tree, the nest, the lighting and the miniature clay diorama style. Only change two things: (1) remove the signboard from the bus shelter so its back panel is plain clear glass; (2) on the shelter roof there are exactly four magpies in a row: one is Kachi (the only one with a red neckerchief and a small brown satchel), and three young magpies slightly smaller, plain black-and-white, with no neckerchief and no satchel. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18322-c6b2-7621-aa52-d3c30ce2359f/6fc26b9b-37ee-4c21-9edc-31634c80e492.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1832f-18f4-7e96-9a2e-46d429e7662f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1832f-18f4-7e96-9a2e-46d429e7662f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1832f-18f4-7e96-9a2e-46d429e7662f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1832f-18f4-7e96-9a2e-46d429e7662f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1832f-18f4-7e96-9a2e-46d429e7662f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1832f-18f4-7e96-9a2e-46d429e7662f/cancel",
+  "expires_at": "2026-11-04T15:44:57.759195+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1832f-18f4-7e96-9a2e-46d429e7662f/c154a819-7a20-4b6b-890c-889e75888719.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/ms52_home.jpeg"
+}
