@@ -1,0 +1,814 @@
+{
+ "approved": false,
+ "platform": "youtube",
+ "threads_tag": "주식",
+ "long": "L261028-japan-trading",
+ "world": "ink",
+ "allow_long": true,
+ "end": "subscribe",
+ "full_say": "풀버전은 하단 프로필 링크에서 보세요.",
+ "full_cap": [
+  "풀버전은 하단 프로필 링크에서"
+ ],
+ "id": "Y261029c",
+ "scheduled_at": "2026-10-29T21:30:00+09:00",
+ "mood": "tense",
+ "broll": "city",
+ "title": "일본 월급 30만 엔, 달러로는 반 토막인데 일본 회사 이익은 왜 사상 최대일까? #일본경제",
+ "title_en": "A 300,000-yen salary halved in dollars. So why are Japanese company profits at a record? #JapanEconomy",
+ "banner": [
+  "월급은 그대로인데 달러로 반 토막",
+  "일본 회사 이익은 왜 사상 최대?"
+ ],
+ "cover_title": "달러로 반 토막\n그런데 이익은\n사상 최대?",
+ "hashtags": [
+  "일본경제",
+  "엔화",
+  "엔저",
+  "일본GDP",
+  "밸류노트",
+  "shorts"
+ ],
+ "message": "일본 GDP 순위는 달러로 재 엔저에 내려갔지만, 해외에서 달러로 버는 회사는 같은 장사로 엔화 이익이 두 배 가까이 돼 나라와 회사 숫자가 반대로 움직였다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "lines": [
+    {
+     "cap": [
+      "도쿄 직장인 월급 30만 엔, 2012년엔",
+      "달러로 바꾸면 3,750달러였어요"
+     ],
+     "say": "도쿄 직장인 월급 삼십만 엔, 이천십이년엔 달러로 바꾸면 삼천칠백오십 달러였어요."
+    },
+    {
+     "cap": [
+      "지금은 약 1,900달러, 반 토막이죠",
+      "그런데 일본 회사 이익은 사상 최대입니다"
+     ],
+     "say": "지금은 약 천구백 달러, 반 토막이죠. 그런데 일본 회사 이익은 사상 최대입니다."
+    }
+   ],
+   "page": {
+    "head": "TOKYO  ·  월급 30만 엔",
+    "beats": [
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_tokyocommute_1.jpg",
+      "x": 600,
+      "y": 150,
+      "w": 400,
+      "h": 290,
+      "rot": 4,
+      "cap": "도쿄 출근길",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "30만 엔",
+      "x": 80,
+      "y": 190,
+      "size": 130,
+      "line": 0,
+      "at": 0.15
+     },
+     {
+      "kind": "print",
+      "text": "2012 · 1달러 ≈ 80엔",
+      "x": 84,
+      "y": 380,
+      "size": 40,
+      "w": "ExtraBold",
+      "color": "gray",
+      "line": 0,
+      "at": 0.5
+     },
+     {
+      "kind": "write",
+      "text": "3,750달러",
+      "x": 80,
+      "y": 440,
+      "size": 120,
+      "line": 0,
+      "at": 0.7
+     },
+     {
+      "kind": "print",
+      "text": "2026 · 1달러 ≈ 157엔",
+      "x": 84,
+      "y": 620,
+      "size": 40,
+      "w": "ExtraBold",
+      "color": "gray",
+      "line": 1,
+      "at": 0.0
+     },
+     {
+      "kind": "write",
+      "text": "약 1,900달러",
+      "x": 80,
+      "y": 680,
+      "size": 120,
+      "color": "red",
+      "line": 1,
+      "at": 0.1
+     },
+     {
+      "kind": "write",
+      "text": "반 토막",
+      "x": 650,
+      "y": 700,
+      "size": 110,
+      "color": "red",
+      "line": 1,
+      "at": 0.4
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "그런데 회사 이익은",
+       "사상 최대?"
+      ],
+      "x": 80,
+      "y": 900,
+      "size": 100,
+      "color": "gold",
+      "line": 1,
+      "at": 0.7,
+      "dur": 0.9
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "키는 그대로",
+   "l2": "줄자 눈금만 바뀌었다",
+   "lines": [
+    {
+     "cap": [
+      "키는 그대로인데 줄자 눈금이 바뀐 셈이죠",
+      "나라도 똑같아요"
+     ],
+     "say": "키는 그대로인데, 줄자 눈금이 바뀐 셈이죠. 나라도 똑같아요."
+    },
+    {
+     "cap": [
+      "달러로 잰 일본 경제는 2012년 6조 3천억 달러에서",
+      "올해 4조 3천억 달러, 3분의 1 가까이 줄었죠"
+     ],
+     "say": "달러로 잰 일본 경제는, 이천십이년 육조 삼천억 달러에서 올해 사조 삼천억 달러. 삼분의 일 가까이 줄었죠."
+    }
+   ],
+   "page": {
+    "head": "일본 명목 GDP (달러 기준)",
+    "beats": [
+     {
+      "kind": "write",
+      "rows": [
+       "키는 그대로",
+       "줄자 눈금만 바뀜"
+      ],
+      "x": 80,
+      "y": 180,
+      "size": 96,
+      "line": 0,
+      "at": 0.05,
+      "dur": 1.0
+     },
+     {
+      "kind": "under",
+      "x0": 80,
+      "x1": 760,
+      "y": 390,
+      "color": "gold",
+      "line": 0,
+      "at": 0.6
+     },
+     {
+      "kind": "bars",
+      "items": [
+       {
+        "label": "2012년",
+        "v": 6.3,
+        "text": "6.3조$",
+        "color": "ink"
+       },
+       {
+        "label": "2026년",
+        "v": 4.3,
+        "text": "4.3조$",
+        "color": "red"
+       }
+      ],
+      "x": 120,
+      "y": 480,
+      "w": 820,
+      "h": 420,
+      "line": 1,
+      "at": 0.05
+     },
+     {
+      "kind": "print",
+      "text": "3분의 1 가까이 줄었다",
+      "x": 90,
+      "y": 1010,
+      "size": 44,
+      "w": "Bold",
+      "line": 1,
+      "at": 0.42
+     },
+     {
+      "kind": "write",
+      "text": "-31%",
+      "x": 660,
+      "y": 470,
+      "size": 130,
+      "color": "red",
+      "line": 1,
+      "at": 0.7,
+      "over": true
+     }
+    ]
+   }
+  },
+  {
+   "type": "timeline",
+   "title": "일본 경제 규모 세계 순위",
+   "lines": [
+    {
+     "cap": [
+      "1968년 세계 2위였던 일본은",
+      "2010년 중국에, 2023년 독일에 밀렸고"
+     ],
+     "say": "천구백육십팔년 세계 이위였던 일본은, 이천십년 중국에, 이천이십삼년 독일에 밀렸고,"
+    },
+    {
+     "cap": [
+      "IMF는 내년에 인도와 영국에도 밀려",
+      "6위가 될 거라고 봐요, 1968년 이후 처음이죠"
+     ],
+     "say": "아이엠에프는 내년에 인도와 영국에도 밀려 육위가 될 거라고 봐요. 천구백육십팔년 이후 처음이죠."
+    }
+   ],
+   "page": {
+    "head": "세계 순위 · IMF 2026년 10월 전망",
+    "beats": [
+     {
+      "kind": "write",
+      "text": "1968 · 2위",
+      "x": 80,
+      "y": 190,
+      "size": 100,
+      "line": 0,
+      "at": 0.0
+     },
+     {
+      "kind": "write",
+      "text": "2010 · 3위 (중국)",
+      "x": 80,
+      "y": 330,
+      "size": 92,
+      "line": 0,
+      "at": 0.4
+     },
+     {
+      "kind": "write",
+      "text": "2023 · 4위 (독일)",
+      "x": 80,
+      "y": 460,
+      "size": 92,
+      "line": 0,
+      "at": 0.75
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        900,
+        220
+       ],
+       [
+        900,
+        760
+       ]
+      ],
+      "color": "red",
+      "line": 1,
+      "at": 0.0,
+      "width": 12
+     },
+     {
+      "kind": "write",
+      "text": "2027 · 6위 전망",
+      "x": 80,
+      "y": 640,
+      "size": 110,
+      "color": "red",
+      "line": 1,
+      "at": 0.2
+     },
+     {
+      "kind": "print",
+      "text": "인도·영국에 밀릴 전망",
+      "x": 86,
+      "y": 800,
+      "size": 40,
+      "w": "Bold",
+      "color": "gray",
+      "line": 1,
+      "at": 0.45
+     },
+     {
+      "kind": "hl",
+      "x0": 80,
+      "y0": 880,
+      "x1": 700,
+      "y1": 960,
+      "color": "yellow",
+      "line": 1,
+      "at": 0.7
+     },
+     {
+      "kind": "print",
+      "text": "1968년 이후 처음",
+      "x": 90,
+      "y": 890,
+      "size": 54,
+      "w": "ExtraBold",
+      "line": 1,
+      "at": 0.7
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "GDP 순위는",
+   "l2": "달러로 잰 성적표",
+   "lines": [
+    {
+     "cap": [
+      "일본이 금리를 오랫동안 0% 안팎에 묶자",
+      "돈이 미국으로 빠져나가 엔화가 약해졌죠"
+     ],
+     "say": "일본이 금리를 오랫동안 영 퍼센트 안팎에 묶자, 돈이 미국으로 빠져나가 엔화가 약해졌죠."
+    },
+    {
+     "cap": [
+      "GDP 순위는 달러로 잰 성적표라 엔화가 약하면 같이 내려가요",
+      "그런데 이 눈금, 어떤 회사에겐 정반대로 움직였습니다"
+     ],
+     "say": "지디피 순위는 달러로 잰 성적표라, 엔화가 약하면 같이 내려가요. 그런데 이 눈금, 어떤 회사에겐 정반대로 움직였습니다."
+    }
+   ],
+   "page": {
+    "head": "엔화는 왜 약해졌나",
+    "beats": [
+     {
+      "kind": "print",
+      "text": "일본 금리",
+      "x": 90,
+      "y": 180,
+      "size": 44,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 0.0
+     },
+     {
+      "kind": "write",
+      "text": "0% 안팎",
+      "x": 80,
+      "y": 230,
+      "size": 110,
+      "color": "blue",
+      "line": 0,
+      "at": 0.1
+     },
+     {
+      "kind": "print",
+      "text": "미국 금리",
+      "x": 600,
+      "y": 180,
+      "size": 44,
+      "w": "ExtraBold",
+      "line": 0,
+      "at": 0.4
+     },
+     {
+      "kind": "write",
+      "text": "훨씬 높다",
+      "x": 590,
+      "y": 230,
+      "size": 110,
+      "color": "red",
+      "line": 0,
+      "at": 0.5
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        380,
+        420
+       ],
+       [
+        640,
+        420
+       ]
+      ],
+      "color": "red",
+      "line": 0,
+      "at": 0.75,
+      "width": 12
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "GDP 순위 =",
+       "달러로 잰 성적표"
+      ],
+      "x": 80,
+      "y": 540,
+      "size": 96,
+      "line": 1,
+      "at": 0.0,
+      "dur": 1.0
+     },
+     {
+      "kind": "write",
+      "text": "엔화 약세 = 순위 하락",
+      "x": 80,
+      "y": 800,
+      "size": 92,
+      "line": 1,
+      "at": 0.3
+     },
+     {
+      "kind": "write",
+      "text": "그런데 회사는?",
+      "x": 80,
+      "y": 980,
+      "size": 110,
+      "color": "gold",
+      "line": 1,
+      "at": 0.65
+     }
+    ]
+   }
+  },
+  {
+   "type": "compare",
+   "title": "해외에서 1억 달러를 벌면",
+   "l": {
+    "label": "1달러 80엔",
+    "v": "80억 엔"
+   },
+   "r": {
+    "label": "1달러 157엔",
+    "v": "157억 엔"
+   },
+   "lines": [
+    {
+     "cap": [
+      "해외에서 1억 달러를 버는 회사라면",
+      "1달러 80엔일 때 일본 장부엔 80억 엔이 찍혀요"
+     ],
+     "say": "해외에서 일억 달러를 버는 회사라면, 일 달러 팔십 엔일 때 일본 장부엔 팔십억 엔이 찍혀요."
+    },
+    {
+     "cap": [
+      "157엔이면 157억 엔이죠",
+      "똑같이 장사했는데 이익이 두 배 가까이 돼요"
+     ],
+     "say": "백오십칠 엔이면 백오십칠억 엔이죠. 똑같이 장사했는데, 이익이 두 배 가까이 돼요."
+    },
+    {
+     "cap": [
+      "올해 4~6월 일본 회사 이익은 24.6% 늘어",
+      "분기 기준 사상 최대였어요"
+     ],
+     "say": "올해 사월부터 유월까지 일본 회사 이익은 이십사 점 육 퍼센트 늘어, 분기 기준 사상 최대였어요."
+    }
+   ],
+   "page": {
+    "head": "같은 1억 달러, 다른 장부",
+    "beats": [
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_lngcarrier_1.jpg",
+      "x": 560,
+      "y": 150,
+      "w": 440,
+      "h": 230,
+      "rot": 3,
+      "cap": "해외에서 달러로",
+      "line": 0,
+      "at": 0
+     },
+     {
+      "kind": "write",
+      "text": "1억 달러",
+      "x": 80,
+      "y": 200,
+      "size": 120,
+      "line": 0,
+      "at": 0.15
+     },
+     {
+      "kind": "write",
+      "text": "80엔 = 80억 엔",
+      "x": 80,
+      "y": 420,
+      "size": 100,
+      "color": "gray",
+      "line": 0,
+      "at": 0.6
+     },
+     {
+      "kind": "write",
+      "text": "157엔 = 157억 엔",
+      "x": 80,
+      "y": 560,
+      "size": 110,
+      "color": "red",
+      "line": 1,
+      "at": 0.1
+     },
+     {
+      "kind": "write",
+      "text": "x 2배 가까이",
+      "x": 600,
+      "y": 700,
+      "size": 100,
+      "color": "red",
+      "line": 1,
+      "at": 0.55
+     },
+     {
+      "kind": "print",
+      "text": "일본 재무성 · 2026년 4~6월 · 1년 전보다",
+      "x": 86,
+      "y": 860,
+      "size": 34,
+      "w": "Medium",
+      "color": "gray",
+      "line": 2,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "이익 +24.6%",
+      "x": 80,
+      "y": 910,
+      "size": 130,
+      "color": "red",
+      "line": 2,
+      "at": 0.2
+     },
+     {
+      "kind": "write",
+      "text": "사상 최대",
+      "x": 640,
+      "y": 1080,
+      "size": 100,
+      "color": "gold",
+      "line": 2,
+      "at": 0.65
+     }
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "l1": "내 종목은",
+   "l2": "어느 돈으로 버나",
+   "lines": [
+    {
+     "cap": [
+      "나라 성적은 달러로, 회사 장부는 엔화로 적으니",
+      "두 숫자가 반대로 간 거예요"
+     ],
+     "say": "나라 성적은 달러로, 회사 장부는 엔화로 적으니까, 두 숫자가 반대로 간 거예요."
+    },
+    {
+     "cap": [
+      "내 종목도 확인해 보세요, 전자공시 다트에서 사업보고서의",
+      "'사업의 내용'을 열면 지역별 매출이 나와요"
+     ],
+     "say": "내 종목도 확인해 보세요. 전자공시 다트에서 사업보고서의 사업의 내용을 열면, 지역별 매출이 나와요."
+    },
+    {
+     "cap": [
+      "해외 매출이 크면 원화 약세에 유리하고",
+      "국내 매출이 크면 우리 경기가 더 중요하죠"
+     ],
+     "say": "해외 매출이 크면 원화 약세에 유리하고, 국내 매출이 크면 우리 경기가 더 중요하죠."
+    }
+   ],
+   "page": {
+    "head": "내 종목은 어느 돈으로 버나",
+    "beats": [
+     {
+      "kind": "write",
+      "text": "나라 성적 = 달러",
+      "x": 80,
+      "y": 180,
+      "size": 96,
+      "color": "blue",
+      "line": 0,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "회사 장부 = 엔화",
+      "x": 80,
+      "y": 310,
+      "size": 96,
+      "color": "red",
+      "line": 0,
+      "at": 0.45
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/phone_4915_a.jpg",
+      "x": 660,
+      "y": 440,
+      "w": 340,
+      "h": 250,
+      "rot": 4,
+      "cap": "다트 사업보고서",
+      "line": 1,
+      "at": 0.0
+     },
+     {
+      "kind": "check",
+      "text": "다트 검색",
+      "x": 90,
+      "y": 470,
+      "size": 84,
+      "line": 1,
+      "at": 0.2
+     },
+     {
+      "kind": "check",
+      "text": "사업의 내용",
+      "x": 90,
+      "y": 590,
+      "size": 84,
+      "line": 1,
+      "at": 0.5
+     },
+     {
+      "kind": "check",
+      "text": "지역별 매출",
+      "x": 90,
+      "y": 710,
+      "size": 84,
+      "line": 1,
+      "at": 0.8
+     },
+     {
+      "kind": "write",
+      "text": "해외 매출 크면: 원화 약세에 유리",
+      "x": 80,
+      "y": 880,
+      "size": 88,
+      "color": "red",
+      "line": 2,
+      "at": 0.05
+     },
+     {
+      "kind": "write",
+      "text": "국내 매출 크면: 우리 경기가 중요",
+      "x": 80,
+      "y": 1010,
+      "size": 88,
+      "color": "blue",
+      "line": 2,
+      "at": 0.55
+     }
+    ]
+   }
+  },
+  {
+   "type": "cta",
+   "l1": "더 많은 정보를 원하시면",
+   "l2": "좋아요와 구독",
+   "lines": [
+    {
+     "cap": [
+      "더 많은 정보를 원하시면 좋아요와 구독",
+      "풀영상은 하단 프로필 링크에서"
+     ],
+     "say": "더 많은 정보를 원하시면, 좋아요와 구독 눌러 주세요.",
+     "pause": 1.6
+    }
+   ],
+   "page": {
+    "head": "VALUENOTE",
+    "beats": [
+     {
+      "kind": "write",
+      "rows": [
+       "워렌 버핏이 고른 상사 5곳은",
+       "9분 풀영상에"
+      ],
+      "x": 80,
+      "y": 190,
+      "size": 96,
+      "color": "gold",
+      "line": 0,
+      "at": 0,
+      "dur": 0.9
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "더 많은 정보는",
+       "좋아요 + 구독"
+      ],
+      "x": 80,
+      "y": 470,
+      "size": 112,
+      "line": 0,
+      "at": 0.25,
+      "dur": 1.2
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 720,
+      "y": 715,
+      "color": "red",
+      "line": 0,
+      "at": 0.7
+     },
+     {
+      "kind": "photo",
+      "src": "scripts/blog/media/lib/commons_lawson_1.jpg",
+      "x": 90,
+      "y": 800,
+      "w": 380,
+      "h": 290,
+      "rot": -3,
+      "cap": "일본 종합상사 편",
+      "line": 0,
+      "at": 0.85
+     },
+     {
+      "kind": "write",
+      "rows": [
+       "풀영상은",
+       "하단 프로필 링크"
+      ],
+      "x": 520,
+      "y": 830,
+      "size": 80,
+      "color": "red",
+      "line": 0,
+      "at": 1.0,
+      "dur": 1.0
+     },
+     {
+      "kind": "arrow",
+      "pts": [
+       [
+        760,
+        1030
+       ],
+       [
+        760,
+        1170
+       ]
+      ],
+      "color": "red",
+      "line": 0,
+      "at": 1.25,
+      "width": 12
+     }
+    ]
+   }
+  }
+ ],
+ "caption": "도쿄 직장인 월급 30만 엔은 2012년(1달러 약 80엔)엔 3,750달러, 지금(약 157엔)은 약 1,900달러입니다. 키는 그대로인데 줄자 눈금이 바뀐 셈입니다. 달러로 잰 일본 경제도 2012년 6조 3천억 달러에서 2026년 4조 3천억 달러로 줄었고, IMF는 내년 일본이 인도·영국에 밀려 세계 6위가 될 것으로 봅니다(1968년 이후 처음).\n\nGDP 순위는 번 돈을 달러로 바꿔 잰 숫자라 엔화가 약하면 함께 내려갑니다. 반대로 해외에서 1억 달러를 버는 회사의 엔화 장부는 80억 엔에서 157억 엔이 됩니다. 일본 재무성에 따르면 2026년 4~6월 일본 회사 이익은 1년 전보다 24.6% 늘어 분기 기준 사상 최대였습니다.\n\n내 종목은 전자공시 다트(DART) 사업보고서 '사업의 내용'의 지역별 매출로 확인할 수 있습니다. 자료: 버크셔 해서웨이 2020년 8월 30일 발표·2024년 주주서한(워렌 버핏)·2025년 주주서한(그레그 에이블), IMF 세계경제전망(2026년 10월), 일본 재무성 법인기업통계. 워렌 버핏이 고른 상사 5곳 이야기는 9분 풀영상에 있습니다.\n\n사진: Wikimedia Commons (작가·라이선스는 각 파일 페이지) · 매수·매도 권유가 아닙니다.",
+ "subs_en": [
+  "A Tokyo salary of 300,000 yen was $3,750 in 2012",
+  "Now about $1,900: same salary, halved. Yet Japanese company profits are at a record",
+  "Same height, different tape measure. The whole country too",
+  "Japan's economy in dollars: $6.3 trillion in 2012, $4.3 trillion this year, down almost a third",
+  "Japan rose to No. 2 in 1968, lost places to China in 2010 and Germany in 2023",
+  "The IMF sees it slipping to 6th next year behind India and the U.K., a first since 1968",
+  "GDP rankings measure a country's income in dollars",
+  "Japan kept rates near zero for years; money flowed to higher U.S. rates and the yen weakened",
+  "A weaker yen drags the ranking down. But for some companies it worked the other way",
+  "A company earning $100 million abroad: at 80 yen, 8 billion yen on its books",
+  "At 157 yen, 15.7 billion yen. Same business, nearly double the profit",
+  "Apr-Jun this year, Japanese corporate profits rose 24.6%, a quarterly record",
+  "The country is graded in dollars, companies keep books in yen: so the numbers diverged",
+  "Check your own stocks: in DART filings, open 'Business overview' for sales by region",
+  "Big overseas sales gain when the won is weak; domestic sellers depend more on our economy",
+  "Like and subscribe for more. Full video: profile link"
+ ]
+}
