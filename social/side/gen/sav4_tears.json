@@ -1,0 +1,31 @@
+{
+ "id": "sav4_tears",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa slowly presses the red scarf to his chest, his eyes glistening, and a trembling smile spreads across his face. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2a3-7e2a-94a9-0e063d27f382/8899a521-978a-42c3-9006-8843e8fb9f19.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180ee-5564-77e0-9ed5-e09f38301479",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-5564-77e0-9ed5-e09f38301479/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-5564-77e0-9ed5-e09f38301479/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180ee-5564-77e0-9ed5-e09f38301479",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-5564-77e0-9ed5-e09f38301479/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-5564-77e0-9ed5-e09f38301479/cancel",
+  "expires_at": "2026-11-04T05:17:11.036481+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180ee-5564-77e0-9ed5-e09f38301479/6f64366e-d165-4073-a62f-c363941fba99.mp4"
+  }
+ },
+ "seconds": 167,
+ "file": "social/side/gen/sav4_tears.mp4"
+}

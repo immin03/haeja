@@ -1,0 +1,31 @@
+{
+ "id": "gwv5_bundle",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Soft steam rises from the warm sweet potatoes; the boy slowly lifts one to his face and smiles gently. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-9658-79e4-94f7-a7189a4b13fc/e2416723-f27f-4630-9c3a-2c0a6086c8c1.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f3-9191-7b2a-be5b-e18e11780280",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f3-9191-7b2a-be5b-e18e11780280/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f3-9191-7b2a-be5b-e18e11780280/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f3-9191-7b2a-be5b-e18e11780280",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f3-9191-7b2a-be5b-e18e11780280/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f3-9191-7b2a-be5b-e18e11780280/cancel",
+  "expires_at": "2026-11-04T05:22:46.669856+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f3-9191-7b2a-be5b-e18e11780280/692c1e14-fb82-4bf6-984d-d806a241345f.mp4"
+  }
+ },
+ "seconds": 160,
+ "file": "social/side/gen/gwv5_bundle.mp4"
+}

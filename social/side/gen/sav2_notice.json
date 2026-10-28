@@ -1,0 +1,31 @@
+{
+ "id": "sav2_notice",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The little girl slowly turns her head toward the grandpa and her face softens with concern. Ginkgo leaves drift down gently. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-833f-7570-a319-65d69255e713/5b0fb3ca-7510-422b-9b59-4e90780999de.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180ee-5567-787d-bef9-7366a2e4f068",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-5567-787d-bef9-7366a2e4f068/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-5567-787d-bef9-7366a2e4f068/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180ee-5567-787d-bef9-7366a2e4f068",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-5567-787d-bef9-7366a2e4f068/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-5567-787d-bef9-7366a2e4f068/cancel",
+  "expires_at": "2026-11-04T05:17:10.804427+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180ee-5567-787d-bef9-7366a2e4f068/061734bb-6a3b-4c5c-94e2-573f8882284a.mp4"
+  }
+ },
+ "seconds": 167,
+ "file": "social/side/gen/sav2_notice.mp4"
+}

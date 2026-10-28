@@ -1,0 +1,31 @@
+{
+ "id": "mhv1_bill",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The mother slowly pulls the last bill out of her wallet and looks at it for a moment; steam rises from the stall. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180da-d4f8-7a0c-9bc5-40a14316b0d1/4187aba1-a652-4288-bccd-db6272fa6315.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f6-e60e-77f5-999e-1a1e500a2432",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f6-e60e-77f5-999e-1a1e500a2432/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f6-e60e-77f5-999e-1a1e500a2432/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f6-e60e-77f5-999e-1a1e500a2432",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f6-e60e-77f5-999e-1a1e500a2432/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f6-e60e-77f5-999e-1a1e500a2432/cancel",
+  "expires_at": "2026-11-04T05:25:50.002613+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f6-e60e-77f5-999e-1a1e500a2432/528bb195-50f8-42c3-8767-c499338364b5.mp4"
+  }
+ },
+ "seconds": 124,
+ "file": "social/side/gen/mhv1_bill.mp4"
+}

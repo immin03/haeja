@@ -1,0 +1,31 @@
+{
+ "id": "gwv3_drive",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The car rolls slowly away down the dirt road; the boy in the rear window lifts one hand to wave. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-81b6-7a82-915e-e98d21889505/126f7f99-faec-4834-bc52-c88d77788923.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f0-fed1-728b-9889-f7884e4cfba4",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-fed1-728b-9889-f7884e4cfba4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-fed1-728b-9889-f7884e4cfba4/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f0-fed1-728b-9889-f7884e4cfba4",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-fed1-728b-9889-f7884e4cfba4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-fed1-728b-9889-f7884e4cfba4/cancel",
+  "expires_at": "2026-11-04T05:20:01.243690+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f0-fed1-728b-9889-f7884e4cfba4/93f896c0-93b3-4b1a-a278-c502b44c7732.mp4"
+  }
+ },
+ "seconds": 167,
+ "file": "social/side/gen/gwv3_drive.mp4"
+}

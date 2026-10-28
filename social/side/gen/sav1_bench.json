@@ -1,0 +1,31 @@
+{
+ "id": "sav1_bench",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa slowly rubs his bare hands together and breathes a small white puff of warm air into them. A few golden ginkgo leaves drift down. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-9287-76eb-a3a8-b91296453783/a90d2cfa-550e-445c-9f5a-6e7e384e457d.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180ee-5408-7547-9b7c-166be8324bbc",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-5408-7547-9b7c-166be8324bbc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-5408-7547-9b7c-166be8324bbc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180ee-5408-7547-9b7c-166be8324bbc",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-5408-7547-9b7c-166be8324bbc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-5408-7547-9b7c-166be8324bbc/cancel",
+  "expires_at": "2026-11-04T05:17:11.920936+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180ee-5408-7547-9b7c-166be8324bbc/c51b95e1-ed59-468f-959c-e409956d7d07.mp4"
+  }
+ },
+ "seconds": 173,
+ "file": "social/side/gen/sav1_bench.mp4"
+}

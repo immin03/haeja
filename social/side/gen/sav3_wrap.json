@@ -1,0 +1,31 @@
+{
+ "id": "sav3_wrap",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The girl gently finishes wrapping the red scarf around the grandpa's neck; he slowly looks up at her. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-9660-7faa-b5bd-c1dc0d6dd7c6/c0b468af-1449-4262-a5a4-49f51961b07a.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180ee-53ff-7d6d-aeb1-7c33312391fa",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-53ff-7d6d-aeb1-7c33312391fa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-53ff-7d6d-aeb1-7c33312391fa/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180ee-53ff-7d6d-aeb1-7c33312391fa",
+  "status_url": "https://api.higgsfield.ai/requests/01a180ee-53ff-7d6d-aeb1-7c33312391fa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180ee-53ff-7d6d-aeb1-7c33312391fa/cancel",
+  "expires_at": "2026-11-04T05:17:11.233580+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180ee-53ff-7d6d-aeb1-7c33312391fa/09ea42ab-9cfe-417e-88bd-b1f059c3e21d.mp4"
+  }
+ },
+ "seconds": 167,
+ "file": "social/side/gen/sav3_wrap.mp4"
+}

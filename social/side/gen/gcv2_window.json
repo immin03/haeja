@@ -1,0 +1,31 @@
+{
+ "id": "gcv2_window",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The guard slowly sets down his mug and leans closer to the window, his brow softening. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-92b1-70c0-a326-e58763e4ccf9/a266611a-a905-479c-a27b-eca84ef8ff8a.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f6-0b0b-7684-8a79-4e376ff03e03",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f6-0b0b-7684-8a79-4e376ff03e03/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f6-0b0b-7684-8a79-4e376ff03e03/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f6-0b0b-7684-8a79-4e376ff03e03",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f6-0b0b-7684-8a79-4e376ff03e03/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f6-0b0b-7684-8a79-4e376ff03e03/cancel",
+  "expires_at": "2026-11-04T05:25:30.622942+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f6-0b0b-7684-8a79-4e376ff03e03/5c8eedcb-2db2-4548-a31a-c5ace208f3d1.mp4"
+  }
+ },
+ "seconds": 160,
+ "file": "social/side/gen/gcv2_window.mp4"
+}

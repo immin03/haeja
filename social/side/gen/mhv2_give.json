@@ -1,0 +1,31 @@
+{
+ "id": "mhv2_give",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The mother hands the warm paper bag to her son and gently shakes her head with a soft smile. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-ffc1-7f63-beb4-572c8c316a9b/a0817bc2-6c81-4680-a489-de09425f5b07.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f8-29a7-7b75-bb6b-fe6c8f0119a1",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f8-29a7-7b75-bb6b-fe6c8f0119a1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f8-29a7-7b75-bb6b-fe6c8f0119a1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f8-29a7-7b75-bb6b-fe6c8f0119a1",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f8-29a7-7b75-bb6b-fe6c8f0119a1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f8-29a7-7b75-bb6b-fe6c8f0119a1/cancel",
+  "expires_at": "2026-11-04T05:27:02.899694+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f8-29a7-7b75-bb6b-fe6c8f0119a1/0c92e911-288a-4d7d-a5f1-67191e6814f7.mp4"
+  }
+ },
+ "seconds": 117,
+ "file": "social/side/gen/mhv2_give.mp4"
+}

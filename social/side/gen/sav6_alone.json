@@ -1,0 +1,31 @@
+{
+ "id": "sav6_alone",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa slowly waves one hand toward the departing bus, smiling, while golden ginkgo leaves fall slowly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e1-d6be-7075-8566-01bc15c7226f/7a1dd2f7-d23e-479f-b5ba-48df80f3dbaa.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f0-e84e-76b9-9e02-74661adbc76c",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-e84e-76b9-9e02-74661adbc76c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-e84e-76b9-9e02-74661adbc76c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f0-e84e-76b9-9e02-74661adbc76c",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-e84e-76b9-9e02-74661adbc76c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-e84e-76b9-9e02-74661adbc76c/cancel",
+  "expires_at": "2026-11-04T05:20:51.631450+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f0-e84e-76b9-9e02-74661adbc76c/ecd91390-0d48-437b-8e67-00892bde751c.mp4"
+  }
+ },
+ "seconds": 222,
+ "file": "social/side/gen/sav6_alone.mp4"
+}

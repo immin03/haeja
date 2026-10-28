@@ -1,0 +1,31 @@
+{
+ "id": "gwv2_face",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa gently strokes the boy's cheeks with both thumbs and smiles with glistening eyes; the boy smiles back. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180de-8197-7e13-bb2c-8c218d0049a3/53b6de49-f40b-41a2-bc6a-7a69fd0875b6.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f0-e860-7b73-9dff-542cab62f7b0",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-e860-7b73-9dff-542cab62f7b0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-e860-7b73-9dff-542cab62f7b0/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f0-e860-7b73-9dff-542cab62f7b0",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-e860-7b73-9dff-542cab62f7b0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-e860-7b73-9dff-542cab62f7b0/cancel",
+  "expires_at": "2026-11-04T05:19:58.116626+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f0-e860-7b73-9dff-542cab62f7b0/f40c1a34-24b4-40d2-be52-8e3e30abf7b8.mp4"
+  }
+ },
+ "seconds": 166,
+ "file": "social/side/gen/gwv2_face.mp4"
+}

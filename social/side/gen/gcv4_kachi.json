@@ -1,0 +1,31 @@
+{
+ "id": "gcv4_kachi",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The magpie hovers gently and drops the small red scarf into the box through the round door. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-966c-7b82-95d3-687ff7bb90dc/9c955f71-b7ef-4f9e-b577-d53fdec95af6.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f6-6db6-7b45-9283-10c1ed13d5e3",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f6-6db6-7b45-9283-10c1ed13d5e3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f6-6db6-7b45-9283-10c1ed13d5e3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f6-6db6-7b45-9283-10c1ed13d5e3",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f6-6db6-7b45-9283-10c1ed13d5e3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f6-6db6-7b45-9283-10c1ed13d5e3/cancel",
+  "expires_at": "2026-11-04T05:25:24.589263+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f6-6db6-7b45-9283-10c1ed13d5e3/98d4eaa2-5d43-4777-b6dd-d59ccc7b0fcf.mp4"
+  }
+ },
+ "seconds": 130,
+ "file": "social/side/gen/gcv4_kachi.mp4"
+}

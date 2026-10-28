@@ -1,0 +1,31 @@
+{
+ "id": "gwv1_yard",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa gently pushes the red cloth bundle deeper into the car trunk and pats it once. A persimmon leaf drifts down. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-927a-71b7-b7f9-17e4c3a7aa06/1ac81f4f-9a3f-4eb4-a0d7-7537fb287578.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f0-e85d-7279-96e6-41a51dc664cb",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-e85d-7279-96e6-41a51dc664cb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-e85d-7279-96e6-41a51dc664cb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f0-e85d-7279-96e6-41a51dc664cb",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f0-e85d-7279-96e6-41a51dc664cb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f0-e85d-7279-96e6-41a51dc664cb/cancel",
+  "expires_at": "2026-11-04T05:20:24.542287+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f0-e85d-7279-96e6-41a51dc664cb/5a34636a-1e20-4220-81b2-1b6cfa383796.mp4"
+  }
+ },
+ "seconds": 191,
+ "file": "social/side/gen/gwv1_yard.mp4"
+}

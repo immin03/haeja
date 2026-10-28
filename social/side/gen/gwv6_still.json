@@ -1,0 +1,31 @@
+{
+ "id": "gwv6_still",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The magpie nuzzles the grandpa's cheek and he slowly smiles; the evening sky gently darkens. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-c2ac-7d27-a382-1072df6bd7ea/060205ff-2223-4d9f-ae05-a5ee794c95b4.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f3-daa0-79fd-92fd-458b8557f3eb",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f3-daa0-79fd-92fd-458b8557f3eb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f3-daa0-79fd-92fd-458b8557f3eb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f3-daa0-79fd-92fd-458b8557f3eb",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f3-daa0-79fd-92fd-458b8557f3eb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f3-daa0-79fd-92fd-458b8557f3eb/cancel",
+  "expires_at": "2026-11-04T05:23:08.378478+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f3-daa0-79fd-92fd-458b8557f3eb/1262c660-387c-4716-96e4-6587cbc01fb0.mp4"
+  }
+ },
+ "seconds": 167,
+ "file": "social/side/gen/gwv6_still.mp4"
+}

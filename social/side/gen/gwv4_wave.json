@@ -1,0 +1,31 @@
+{
+ "id": "gwv4_wave",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandpa slowly waves his raised hand from side to side; the magpie on the branch tilts its head. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180df-966f-765a-95a4-bf7c37198913/32a2b95d-c722-4e41-a2b1-d33b008f2494.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f3-79ef-70d7-8a05-f507376ac86a",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f3-79ef-70d7-8a05-f507376ac86a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f3-79ef-70d7-8a05-f507376ac86a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f3-79ef-70d7-8a05-f507376ac86a",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f3-79ef-70d7-8a05-f507376ac86a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f3-79ef-70d7-8a05-f507376ac86a/cancel",
+  "expires_at": "2026-11-04T05:22:43.865945+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f3-79ef-70d7-8a05-f507376ac86a/437b86d2-1f49-4933-9d1e-94f1c9d083ed.mp4"
+  }
+ },
+ "seconds": 167,
+ "file": "social/side/gen/gwv4_wave.mp4"
+}

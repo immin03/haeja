@@ -1,0 +1,31 @@
+{
+ "id": "gcv1_cold",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The mother cat slowly pulls the four kittens closer with her paw; tiny white breaths rise in the cold air. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180d9-90e5-729d-80d0-6979d5d9d45a/b6601789-b7fe-40e8-8780-7ebcadcdfa07.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f4-52ed-76fe-9322-1022751b7dce",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f4-52ed-76fe-9322-1022751b7dce/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f4-52ed-76fe-9322-1022751b7dce/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180f4-52ed-76fe-9322-1022751b7dce",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f4-52ed-76fe-9322-1022751b7dce/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f4-52ed-76fe-9322-1022751b7dce/cancel",
+  "expires_at": "2026-11-04T05:23:40.795907+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180f4-52ed-76fe-9322-1022751b7dce/8c364fa8-60aa-43de-a95c-1bcbe02394d3.mp4"
+  }
+ },
+ "seconds": 167,
+ "file": "social/side/gen/gcv1_cold.mp4"
+}

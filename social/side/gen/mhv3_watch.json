@@ -1,0 +1,28 @@
+{
+ "id": "mhv3_watch",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The boy chews happily; the mother watches him and quietly swallows, smiling. Snow falls softly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e0-2c69-76fb-9a6d-62ac6f1a31d2/95a45cc2-a32f-417b-a624-cdfb9d99c025.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180f8-6fcb-7c4a-a229-7a7816dd337f",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f8-6fcb-7c4a-a229-7a7816dd337f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f8-6fcb-7c4a-a229-7a7816dd337f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a180f8-6fcb-7c4a-a229-7a7816dd337f",
+  "status_url": "https://api.higgsfield.ai/requests/01a180f8-6fcb-7c4a-a229-7a7816dd337f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180f8-6fcb-7c4a-a229-7a7816dd337f/cancel",
+  "expires_at": "2026-11-04T05:25:28.093296+00:00"
+ },
+ "seconds": 6
+}
