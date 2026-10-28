@@ -185,9 +185,10 @@ def render(spec, out):
         by = 470 if has_logo else 480; bx = 330 if (spec.get("photo") and not spec.get("chart")) else 990
         text_shadow(im, (bx, by), spec["big"], big, col, off=7, blur=12, alpha=170)
         if spec.get("sub"): text_shadow(im, (bx, by + 130), spec["sub"], F("SemiBold", 34), IVORY if spec.get("photo") else GREY, off=2, blur=4, alpha=160)
-    # 2026-10-28 운영자: 썸네일 제목은 짧게 — 글자를 최대 크기로 넣을 수 있는 길이만 (쇼츠 한 줄 9자 안팎, 롱폼 11자 안팎), 최대한 궁금하게
+    # 2026-10-28 운영자: 썸네일 제목은 제목만 봐도 무슨 얘기인지 정확히 알게 — 주어·목적어·명사를 빼서 모호하게 줄이지 않는다
+    # (예: "워렌 버핏은 왜 / 일본에서 돈을 빌렸을까?"). 그 안에서 최대한 짧고 궁금하게. 너무 길어 글자가 크게 작아질 때만 경고
     for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
-        if f.size < mx * .92: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt} — 더 짧게 줄이세요")
+        if f.size < mx * .75: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt} — 더 짧게 줄이세요")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     im.convert("RGB").save(out, quality=93)
     return out
