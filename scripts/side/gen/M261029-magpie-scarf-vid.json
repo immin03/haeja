@@ -1,0 +1,52 @@
+[
+ {
+  "id": "msv1_nest",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ms1_nest.jpeg",
+  "body": {
+   "prompt": "The grandpa slowly lowers the end of the red scarf over the three chicks; the chicks snuggle in; snow drifts down. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "msv2_bench",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ms22_bench.jpeg",
+  "body": {
+   "prompt": "The grandpa cups his hands and breathes warm misty breath into them; snowflakes fall slowly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "msv3_empty",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ms3_empty.jpeg",
+  "body": {
+   "prompt": "Kachi grips the scarf end in its beak and gives one slow gentle tug, the scarf slides out a little. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "msv4_drag",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ms4_drag.jpeg",
+  "body": {
+   "prompt": "Kachi takes one small hop forward on the bench, pulling the scarf end onto the grandpa's knee. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "msv5_home",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ms52_home.jpeg",
+  "body": {
+   "prompt": "The grandpa slowly smiles with a single tear while the scarf rests around his neck; the magpies on the roof tilt their heads. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+   "duration": 5
+  }
+ }
+]
