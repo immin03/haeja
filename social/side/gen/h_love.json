@@ -1,0 +1,35 @@
+{
+ "id": "h_love",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "1:1",
+  "prompt": "Full body, standing, hugging a small plain brown cardboard parcel tied with red string and a little red heart-shaped tag against its chest with one wing, and waving hello with the other wing, warm happy smile, eyes sparkling. Plain flat light cream background with nothing else, soft shadow under the feet. The exact same magpie character from the reference image: glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, red knotted neckerchief, small brown leather satchel. It does NOT hold a microphone. Cute 3D clay-and-vinyl toy figurine, soft studio light. No text, no letters, no logos.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18027-6e1f-71db-ac00-6ef9f74ae6c8",
+  "status_url": "https://api.higgsfield.ai/requests/01a18027-6e1f-71db-ac00-6ef9f74ae6c8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18027-6e1f-71db-ac00-6ef9f74ae6c8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18027-6e1f-71db-ac00-6ef9f74ae6c8",
+  "status_url": "https://api.higgsfield.ai/requests/01a18027-6e1f-71db-ac00-6ef9f74ae6c8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18027-6e1f-71db-ac00-6ef9f74ae6c8/cancel",
+  "expires_at": "2026-11-04T01:37:36.844996+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18027-6e1f-71db-ac00-6ef9f74ae6c8/008eb08e-1a8f-4244-98c5-33494ef5670f.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/h_love.jpeg"
+}

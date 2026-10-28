@@ -1,0 +1,35 @@
+{
+ "id": "brand_profile2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "1:1",
+  "prompt": "Close-up portrait from the chest up, centered, a cheerful wink and big warm smile, holding a small plain brown parcel tied with red string and a red heart-shaped tag up near its cheek. Plain solid warm sunny yellow background (#FFD21A). Clean simple icon-like composition with the face in the exact center. The exact same magpie character from the reference image: glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, red knotted neckerchief, small brown leather satchel. It does NOT hold a microphone. Cute 3D clay-and-vinyl toy figurine, soft studio light. No text, no letters, no logos.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18027-6dc4-7777-835f-0478ba1a004f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18027-6dc4-7777-835f-0478ba1a004f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18027-6dc4-7777-835f-0478ba1a004f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18027-6dc4-7777-835f-0478ba1a004f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18027-6dc4-7777-835f-0478ba1a004f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18027-6dc4-7777-835f-0478ba1a004f/cancel",
+  "expires_at": "2026-11-04T01:37:38.229216+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18027-6dc4-7777-835f-0478ba1a004f/2ae2a2c8-e3b9-44c6-8169-b1545687500f.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/brand_profile2.jpeg"
+}

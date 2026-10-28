@@ -1,0 +1,35 @@
+{
+ "id": "brand_banner2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A wide panoramic handcrafted miniature diorama of Korea as a cozy toy world at golden hour, all landmarks arranged in one low horizontal band along the bottom third: hanok rooftops with warm glowing paper windows, a tiny palace gate, Seoul tower on a small hill, apartment towers with lit windows, a persimmon tree with orange fruit, a little harbor, soft mountains behind. The upper two thirds is a calm warm peach-and-lavender sunset sky with a few soft felt clouds, mostly empty. On the right side, the magpie character flies happily carrying a small brown parcel tied with red string and a red heart tag, red neckerchief fluttering. Tilt-shift, warm nostalgic light. The exact same magpie character from the reference image: glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, red knotted neckerchief, small brown leather satchel. It does NOT hold a microphone. Cute 3D clay-and-vinyl toy figurine, soft studio light. No text, no letters, no logos.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18027-6be4-7a75-85b7-db96b8afdbbb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18027-6be4-7a75-85b7-db96b8afdbbb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18027-6be4-7a75-85b7-db96b8afdbbb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18027-6be4-7a75-85b7-db96b8afdbbb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18027-6be4-7a75-85b7-db96b8afdbbb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18027-6be4-7a75-85b7-db96b8afdbbb/cancel",
+  "expires_at": "2026-11-04T01:37:40.608498+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18027-6be4-7a75-85b7-db96b8afdbbb/7f3f40a4-c856-4364-8aa8-8001227e64cc.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/brand_banner2.jpeg"
+}
