@@ -1,9 +1,16 @@
 {
+ "v": 2,
  "format": "short",
  "l1": "일본 월급은 반 토막인데",
  "l2": "회사 이익은 사상 최대?",
- "big": "-49%",
- "tone": "down",
- "sub": "달러로 바꾼 도쿄 월급 · 2012년 대비",
- "photo": "commons_tokyocommute_1.jpg"
+ "photo": "commons_tokyocommute_1.jpg",
+ "flow": [
+  "3,750$",
+  "1,900$",
+  "2012년 월급",
+  "지금 월급"
+ ],
+ "flow_tone": "down",
+ "big": "이익 +24.6%",
+ "tone": "up"
 }

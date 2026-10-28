@@ -149,6 +149,7 @@ def photo_panel(im, name, box, fade="tb", focus=(.5, .5)):
 
 
 def render(spec, out):
+    if spec.get("v", 1) >= 2: return render_v2(spec, out)
     # 2026-10-28 운영자: "BERKSHIRE·JAPAN 같은 영문 글자는 눈에 안 띈다, 위 한글 제목을 더 크게"
     # → 가운데 이름은 알아보기 쉬운 회사 로고 PNG가 있을 때만 쓰고, 없으면 그 자리를 한글 제목에 준다.
     tone = spec.get("tone", "down"); col = RED if tone == "down" else GREEN
@@ -189,6 +190,114 @@ def render(spec, out):
     # (예: "워렌 버핏은 왜 / 일본에서 돈을 빌렸을까?"). 그 안에서 최대한 짧고 궁금하게. 너무 길어 글자가 크게 작아질 때만 경고
     for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
         if f.size < mx * .75: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt} — 더 짧게 줄이세요")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+    im.convert("RGB").save(out, quality=93)
+    return out
+
+
+# ───────────────────────── v2 (2026-10-28 밤) ─────────────────────────
+# 운영자: "어떻게 하면 시각적으로 가장 어필이 될까 최대한 고민해서 바꿔 봐"
+# 원칙 (휴대폰 격자에서 썸네일은 손톱만 하게 보인다 → 작은 글씨는 전부 소음)
+#  1. 3초 안에 읽히는 건 세 덩어리뿐: ① 큰 제목 ② 숫자 이야기 한 줄(A → B) ③ 스티커처럼 붙은 결론 숫자
+#  2. 배경은 그 이야기의 실제 장면 사진(어둡게 깔고 남색 톤) — 숫자만 있는 화면보다 감정이 실린다
+#  3. 작은 설명 글씨(출처·단서)는 넣지 않는다. 막대 이름도 없앤다. 대신 숫자 위에 짧은 라벨 하나만 크게
+#  4. 제목 둘째 줄은 밝은 골드로 질문을 꽂는다. 글자는 크게, 그림자는 진하게
+#  5. 유튜브 격자 아래쪽은 '조회수' 글자가 덮고, 인스타 격자는 가운데 3:4만 보인다 → 중요한 건 y 240~1560 안에
+#  6. 롱폼(가로)은 오른쪽 아래 재생 시간 표시를 피해 결론 숫자를 왼쪽 아래에
+POP = (255, 206, 92); NAVY = (13, 27, 52)
+
+
+def _cover(name, W, H, focus=(.5, .5), blur=1.2):
+    ph = Image.open(os.path.join(ROOT, "scripts", "blog", "media", "lib", name)).convert("RGB")
+    sc = max(W / ph.width, H / ph.height); ph = ph.resize((int(ph.width * sc) + 1, int(ph.height * sc) + 1), Image.LANCZOS)
+    x = int((ph.width - W) * focus[0]); y = int((ph.height - H) * focus[1]); ph = ph.crop((x, y, x + W, y + H))
+    if blur: ph = ph.filter(ImageFilter.GaussianBlur(blur))
+    return ph.convert("RGBA")
+
+
+def _shade(im, stops, axis="y"):
+    """세로(또는 가로) 위치별 남색 덮개 투명도. stops = [(위치 0~1, 투명도 0~255), ...]"""
+    W, H = im.size; n = H if axis == "y" else W
+    xs = np.linspace(0, 1, n); a = np.interp(xs, [p for p, _ in stops], [v for _, v in stops]).astype(np.float32)
+    A = np.repeat(a[:, None], W, 1) if axis == "y" else np.repeat(a[None, :], H, 0)
+    ov = np.zeros((H, W, 4), np.uint8); ov[..., 0], ov[..., 1], ov[..., 2] = 8, 18, 40; ov[..., 3] = A.astype(np.uint8)
+    im.alpha_composite(Image.fromarray(ov, "RGBA"))
+
+
+def _sticker(im, txt, cx, cy, size, tone, angle=-5, maxw=None):
+    col = RED if tone == "down" else GREEN; tc = (255, 255, 255) if tone == "down" else NAVY
+    maxw = maxw or im.size[0] * .84
+    while size > 60 and F("Heavy", size).getlength(txt) + size * .55 > maxw: size -= 6
+    f = F("Heavy", size); tw = f.getlength(txt); pw, ph = int(tw + size * .55), int(size * 1.18)
+    st = Image.new("RGBA", (pw + 80, ph + 80), (0, 0, 0, 0)); d = ImageDraw.Draw(st)
+    d.rounded_rectangle([40, 40, 40 + pw, 40 + ph], int(size * .28), fill=col)
+    d.text((40 + pw / 2, 40 + ph / 2 + size * .04), txt, font=f, fill=tc, anchor="mm")
+    st = st.rotate(angle, resample=Image.BICUBIC, expand=True)
+    sh = Image.new("RGBA", st.size, (0, 0, 0, 0)); sh.putalpha(st.getchannel("A").point(lambda v: int(v * .6)))
+    sh = sh.filter(ImageFilter.GaussianBlur(18))
+    x, y = int(cx - st.width / 2), int(cy - st.height / 2)
+    im.alpha_composite(sh, (x + 10, y + 16)); im.alpha_composite(st, (x, y))
+
+
+def _flow(im, fl, box, tone):
+    """숫자 이야기 한 줄: [라벨] A  →  [라벨] B  (반투명 남색 카드 위)"""
+    X0, Y0, X1, Y1 = box; col = RED if tone == "down" else GREEN
+    a, b, la, lb = fl
+    card = Image.new("RGBA", im.size, (0, 0, 0, 0)); cd = ImageDraw.Draw(card)
+    cd.rounded_rectangle([X0, Y0, X1, Y1], 40, fill=(8, 18, 40, 190), outline=(255, 206, 92, 90), width=3)
+    im.alpha_composite(card)
+    inner = X1 - X0 - 80; arrow = 110; sa, sb = 120, 170
+    while sa > 50 and F("Heavy", sa).getlength(a) + F("Heavy", sb).getlength(b) + arrow + 60 > inner: sa -= 4; sb -= 5
+    fa, fb = F("Heavy", sa), F("Heavy", sb); wa, wb = fa.getlength(a), fb.getlength(b)
+    tot = wa + arrow + 60 + wb; x = (X0 + X1) / 2 - tot / 2; cy = (Y0 + Y1) / 2 + 34
+    fl_ = F("Bold", 46)
+    text_shadow(im, (x + wa / 2, cy - sb * .62 - 18), la, fl_, (210, 218, 232), off=2, blur=4, alpha=150)
+    text_shadow(im, (x + wa / 2, cy), a, fa, (205, 212, 226), off=4, blur=8, alpha=170)
+    ax = x + wa + 30; d = ImageDraw.Draw(im)
+    d.line([(ax, cy), (ax + arrow - 30, cy)], fill=POP, width=14)
+    d.polygon([(ax + arrow, cy), (ax + arrow - 44, cy - 30), (ax + arrow - 44, cy + 30)], fill=POP)
+    bx = ax + arrow + 30
+    text_shadow(im, (bx + wb / 2, cy - sb * .62 - 18), lb, fl_, (235, 240, 248), off=2, blur=4, alpha=150)
+    gl = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(gl).text((bx + wb / 2, cy), b, font=fb, fill=col + (170,), anchor="mm")
+    im.alpha_composite(gl.filter(ImageFilter.GaussianBlur(16)))
+    text_shadow(im, (bx + wb / 2, cy), b, fb, col, off=5, blur=10, alpha=190)
+
+
+def _titles(im, l1, l2, x, y, maxw, s1, s2, anchor="mm"):
+    f1 = fit(l1, "Heavy", s1, maxw); f2 = fit(l2, "Heavy", s2, maxw)
+    for ss, ff, yy, cc in ((l1, f1, y, IVORY), (l2, f2, y + f1.size * .55 + f2.size * .72, POP)):
+        text_shadow(im, (x, yy), ss, ff, cc, anchor=anchor, off=6, blur=14, alpha=230)
+        text_shadow(im, (x, yy), ss, ff, cc, anchor=anchor, off=2, blur=3, alpha=200)
+    return f1, f2
+
+
+def render_v2(spec, out):
+    tone = spec.get("tone", "down"); foc = tuple(spec.get("focus", (.5, .5)))
+    if spec.get("format", "short") == "short":
+        W, H = 1080, 1920
+        if spec.get("photo"):
+            im = _cover(spec["photo"], W, H, foc)
+            _shade(im, [(0, 245), (.12, 225), (.3, 110), (.55, 60), (.75, 110), (.9, 200), (1, 240)])
+        else: im = background(W, H, .5)
+        f1, f2 = _titles(im, spec["l1"], spec["l2"], W / 2, 360, 1000, 112, 134)
+        s1, s2 = 112, 134
+        if spec.get("logo"): name_block(im, spec, W / 2, 640, 640, 120)
+        if spec.get("flow"): _flow(im, spec["flow"], (50, 900, 1030, 1230), spec.get("flow_tone", tone))
+        elif spec.get("chart"): chart(im, spec["chart"], (110, 820, 970, 1250), tone)
+        _sticker(im, spec["big"], W / 2, 1480, 220, tone)
+    else:
+        W, H = 1280, 720
+        if spec.get("photo"):
+            im = _cover(spec["photo"], W, H, foc, blur=.8)
+            _shade(im, [(0, 235), (.45, 190), (.7, 70), (1, 30)], axis="x")
+            _shade(im, [(0, 120), (.35, 30), (.75, 0), (1, 90)])
+        else: im = background(W, H, .62)
+        f1, f2 = _titles(im, spec["l1"], spec["l2"], 60, 92, 1160, 80, 104, anchor="lm")
+        s1, s2 = 80, 104
+        if spec.get("chart") and not spec.get("photo"): chart(im, spec["chart"], (640, 330, 1210, 640), tone)
+        _sticker(im, spec["big"], 330, 520, 150, tone, angle=-4, maxw=560)
+    for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
+        if f.size < mx * .75: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt}")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     im.convert("RGB").save(out, quality=93)
     return out
