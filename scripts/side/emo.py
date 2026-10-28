@@ -36,7 +36,7 @@ def find_video(name):
 def caption_png(text, path):
     """가운데 정렬 흰 글씨 + 부드러운 그림자. 화면 위쪽 1/5 지점(쇼츠 아래쪽 UI를 피한다)"""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    f = ImageFont.truetype(os.path.join(FONTS, "Poppins-SemiBold.ttf"), 66)
+    f = ImageFont.truetype(os.path.join(FONTS, "Poppins-SemiBold.ttf"), 74)
     lines = []
     for para in text.split("\n"):   # 너비 900 안으로 줄바꿈
         cur = ""
@@ -45,7 +45,12 @@ def caption_png(text, path):
             if f.getlength(t) > 900 and cur: lines.append(cur); cur = w
             else: cur = t
         lines.append(cur)
-    lh = 88; y0 = int(H * 0.19) - lh * len(lines) // 2
+    lh = 98; y0 = int(H * 0.19) - lh * len(lines) // 2
+    # 밝은 장면에서도 읽히게 글자 뒤에 아주 흐린 어두운 판
+    tw = max(f.getlength(ln) for ln in lines)
+    plate = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dp = ImageDraw.Draw(plate)
+    dp.rounded_rectangle(((W - tw) / 2 - 60, y0 - 40, (W + tw) / 2 + 60, y0 + lh * len(lines) + 30), 60, fill=(10, 12, 24, 120))
+    img = Image.alpha_composite(img, plate.filter(ImageFilter.GaussianBlur(38)))
     sh_ = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ds = ImageDraw.Draw(sh_)
     for i, ln in enumerate(lines):
         x = (W - f.getlength(ln)) / 2
@@ -64,7 +69,7 @@ def srt_time(t):
 
 def music_file(m):
     p = os.path.join(WORK, m["file"])
-    if not os.path.exists(p):
+    if not os.path.exists(p) or not os.path.getsize(p):
         urllib.request.urlretrieve(f"https://github.com/{REPO}/releases/download/side-assets/{m['file']}", p)
     return p
 
@@ -91,7 +96,7 @@ def main():
     caps = []
     for i, c in enumerate(cuts):
         if not c.get("cap"): continue
-        a = starts[i] + (0.5 if i else 0.3); b = (starts[i + 1] + XF * 0.5) if i < n - 1 else total
+        a = starts[i] + 0.5 if i else 0.0; b = (starts[i + 1] + XF * 0.5) if i < n - 1 else total
         p = os.path.join(WORK, f"cap{i}.png"); caption_png(c["cap"], p); caps.append((p, round(a, 2), round(b, 2), c["cap"]))
     # 4) 이어 붙이기 + 자막 + 음악
     m = spec["music"]; mp = music_file(m)
@@ -104,10 +109,11 @@ def main():
         off += parts[i - 1][1] - XF
         fc.append(f"{last}[{i}:v]xfade=transition=fade:duration={XF}:offset={off:.3f}[x{i}]"); last = f"[x{i}]"
     fade_out = max(0, total - 0.6)
-    fc.append(f"{last}fade=in:st=0:d=0.4[base0]"); last = "[base0]"
+    fc.append(f"{last}null[base0]"); last = "[base0]"
     for k, (p, a, b, _) in enumerate(caps):
         ii = n + k
-        fc.append(f"[{ii}:v]format=rgba,fade=in:st={a}:d=0.5:alpha=1,fade=out:st={max(a, b - 0.5):.2f}:d=0.5:alpha=1[cp{k}]")
+        fin = f"fade=in:st={a}:d=0.5:alpha=1," if a > 0 else ""   # 첫 자막은 첫 프레임부터 보인다(훅)
+        fc.append(f"[{ii}:v]format=rgba,{fin}fade=out:st={max(a, b - 0.5):.2f}:d=0.5:alpha=1[cp{k}]")
         fc.append(f"{last}[cp{k}]overlay=0:0:enable='between(t,{a},{b})'[o{k}]"); last = f"[o{k}]"
     ai = n + len(caps)
     fc.append(f"[{ai}:a]atrim=0:{total},asetpts=PTS-STARTPTS,volume={m.get('vol', 0.9)},afade=t=in:st=0:d=1.2,afade=t=out:st={total - 2.2:.2f}:d=2.2,"
@@ -126,6 +132,7 @@ def main():
     qa = os.path.join(od, "qa"); os.makedirs(qa, exist_ok=True)
     for i in range(n):
         sh("ffmpeg", "-v", "error", "-y", "-ss", f"{starts[i] + parts[i][1] * 0.55:.2f}", "-i", out, "-frames:v", "1", "-vf", "scale=360:-1", os.path.join(qa, f"f{i}.jpg"))
+    if "--local" in sys.argv: print("로컬 점검용:", out, round(dur, 1)); return
     # 6) 릴리스에 올리고 기록
     stamp = time.strftime("%y%m%d%H%M"); tag = f"side-{sid}"; fn = f"{sid}{'-test' if test else ''}-{stamp}.mp4"
     os.rename(out, os.path.join(WORK, fn)); out = os.path.join(WORK, fn)

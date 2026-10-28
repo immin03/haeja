@@ -1,0 +1,47 @@
+# What Korea Says — 감성 쇼츠 렌더 (scripts/side/emo.py)
+# scripts/side/specs_emo/E*.json 이 바뀌면 그 편만 렌더해서 릴리스에 올리고 관리자 검수 목록(queue.json)에 넣는다
+name: side-emo
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/side/specs_emo/E*.json']
+  workflow_dispatch:
+    inputs:
+      ids: { description: '편 ID(띄어쓰기 구분)', required: true }
+permissions:
+  contents: write
+concurrency: side-emo
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 도구
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q pillow
+      - name: 대상
+        id: pick
+        run: |
+          f="${{ github.event.inputs.ids }}"
+          if [ "${{ github.event_name }}" = "push" ]; then f=$(git diff --name-only HEAD~1 HEAD -- 'scripts/side/specs_emo/E*.json' | xargs -r -n1 basename | sed 's/\.json$//' | tr '\n' ' '); fi
+          echo "ids=$f" >> $GITHUB_OUTPUT
+      - name: 렌더
+        if: steps.pick.outputs.ids != ''
+        run: for id in ${{ steps.pick.outputs.ids }}; do python3 scripts/side/emo.py $id; done
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          mkdir -p /tmp/out && cp -r social/side /tmp/out/
+          for i in 1 2 3; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            cp -r /tmp/out/side/. social/side/
+            git add -A social/side; git diff --cached --quiet && exit 0
+            git commit -qm "사이드 감성 쇼츠 렌더 $(TZ=Asia/Seoul date '+%F %H:%M')" && git push -q && exit 0; sleep 5
+          done; exit 1
