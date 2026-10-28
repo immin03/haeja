@@ -149,7 +149,8 @@ def photo_panel(im, name, box, fade="tb", focus=(.5, .5)):
 
 
 def render(spec, out):
-    if spec.get("v", 1) >= 2: return render_v2(spec, out)
+    if spec.get("v", 1) >= 3: return render_v3(spec, out)
+    if spec.get("v", 1) == 2: return render_v2(spec, out)
     # 2026-10-28 운영자: "BERKSHIRE·JAPAN 같은 영문 글자는 눈에 안 띈다, 위 한글 제목을 더 크게"
     # → 가운데 이름은 알아보기 쉬운 회사 로고 PNG가 있을 때만 쓰고, 없으면 그 자리를 한글 제목에 준다.
     tone = spec.get("tone", "down"); col = RED if tone == "down" else GREEN
@@ -302,6 +303,88 @@ def render_v2(spec, out):
     im.convert("RGB").save(out, quality=93)
     return out
 
+
+# ───────────────────────── v3 (2026-10-29) — 밸류노트 톤앤매너 ─────────────────────────
+# 운영자: "사진이 적나라하게 보여서 촌스럽다, 로고도 안 보인다. 가시성은 좋은데 기본 톤앤매너는 맞추자.
+#          원래 쓰던 색, 네이비 배경 일부 + 사진 일부 혼합, 배당 600%·수익률처럼 큰 숫자"
+#  - 바탕은 늘 밸류노트 네이비. 사진은 가운데(롱폼은 오른쪽)에만, 네이비 톤으로 물들여 반쯤 비치게 섞는다
+#  - 제목: 아이보리 + 원래 골드(240,208,140). 숫자 카드 한 줄 + 아래 큰 결론 숫자(라벨 + 숫자, 기울이지 않음)
+#  - 밸류노트 로고를 항상 넣는다 (쇼츠는 아래 가운데, 롱폼은 오른쪽 위)
+import sys as _sys
+_sys.path.insert(0, os.path.join(ROOT, "scripts"))
+
+
+def _duotone(name, W, H, focus=(.5, .5), lo=(13, 27, 52), hi=(170, 186, 214)):
+    ph = _cover(name, W, H, focus, blur=.6).convert("L")
+    a = np.asarray(ph).astype(np.float32) / 255.
+    a = np.clip((a - .08) / .9, 0, 1) ** 1.1
+    lo_, hi_ = np.array(lo, np.float32), np.array(hi, np.float32)
+    rgb = lo_ + (hi_ - lo_) * a[..., None]
+    return Image.fromarray(rgb.astype(np.uint8)).convert("RGBA")
+
+
+def _blend_photo(im, name, box, focus, opacity, fade):
+    X0, Y0, X1, Y1 = box; bw, bh = X1 - X0, Y1 - Y0
+    ph = _duotone(name, bw, bh, focus)
+    a = np.full((bh, bw), opacity, np.float32)
+    if "t" in fade: a *= (np.clip(np.linspace(0, 1, bh) / .3, 0, 1) ** 1.6)[:, None]
+    if "b" in fade: a *= (np.clip(np.linspace(1, 0, bh) / .35, 0, 1) ** 1.6)[:, None]
+    if "l" in fade: a *= (np.clip(np.linspace(0, 1, bw) / .6, 0, 1) ** 1.6)[None, :]
+    if "s" in fade:   # 양옆도 살짝
+        e = np.minimum(np.linspace(0, 1, bw), np.linspace(1, 0, bw)); a *= (np.clip(e / .12, 0, 1))[None, :]
+    ph.putalpha(Image.fromarray((a * 255).astype(np.uint8)))
+    im.alpha_composite(ph, (X0, Y0))
+
+
+def _big(im, label, txt, cx, ly, ny, size, tone, maxw, anchor="m"):
+    col = RED if tone == "down" else GREEN
+    f = fit(txt, "Heavy", size, maxw); lf = F("Bold", max(34, int(size * .24)))
+    a = "mm" if anchor == "m" else "lm"
+    if label: text_shadow(im, (cx, ly), label, lf, IVORY, anchor=a, off=2, blur=5, alpha=170)
+    gl = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(gl).text((cx, ny), txt, font=f, fill=col + (150,), anchor=a)
+    im.alpha_composite(gl.filter(ImageFilter.GaussianBlur(size * .09)))
+    text_shadow(im, (cx, ny), txt, f, col, anchor=a, off=6, blur=12, alpha=190)
+
+
+def _titles3(im, l1, l2, x, y, maxw, s1, s2, anchor="mm"):
+    f1 = fit(l1, "Heavy", s1, maxw); f2 = fit(l2, "Heavy", s2, maxw)
+    for ss, ff, yy, cc in ((l1, f1, y, IVORY), (l2, f2, y + f1.size * .55 + f2.size * .72, GOLD)):
+        text_shadow(im, (x, yy), ss, ff, cc, anchor=anchor, off=5, blur=12, alpha=210)
+    return f1, f2
+
+
+def render_v3(spec, out):
+    """2026-10-29 운영자: "이 톤을 최대한 맞춰 줘, 이게 제일 낫다" — 조회수 터진 삼성전자 쇼츠 썸네일 그대로의 톤.
+    네이비 빛 + 옅은 격자, 위 제목(아이보리 + 골드), 가운데 로고(있을 때), 빛나는 그래프 하나, 아래 큰 숫자(라벨 + 숫자).
+    사진·카드·스티커는 쓰지 않는다. 밸류노트 로고는 작게."""
+    from brand import paste_logo
+    tone = spec.get("tone", "down"); ig = spec.get("safe") == "ig"
+    if spec.get("format", "short") == "short":
+        W, H = 1080, 1920; im = background(W, H, .52); o = 70 if ig else 0   # 인스타 격자는 위아래가 잘려 조금 아래로
+        f1 = fit(spec["l1"], "Heavy", 100, 980); f2 = fit(spec["l2"], "Heavy", 120, 1000); s1, s2 = 100, 120
+        text_shadow(im, (W / 2, 250 + o), spec["l1"], f1, IVORY)
+        text_shadow(im, (W / 2, 250 + o + f1.size * .5 + f2.size * .75), spec["l2"], f2, GOLD)
+        top = 560 + o
+        if spec.get("logo"): name_block(im, spec, W / 2, top + 70, 780, 130); top += 200
+        bot = 1260 if ig else 1320
+        if spec.get("chart"): chart(im, spec["chart"], (110, top + 60, 970, bot), tone)
+        ly, ny = (bot + 160, bot + 310) if not ig else (bot + 150, bot + 290)
+        _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 230 if not ig else 210, tone, 960)
+        paste_logo(im, W / 2, 90, 34, "dark", align="center")
+    else:
+        W, H = 1280, 720; im = background(W, H, .6)
+        f1 = fit(spec["l1"], "Heavy", 66, 1060); f2 = fit(spec["l2"], "Heavy", 88, 1080); s1, s2 = 66, 88
+        text_shadow(im, (W / 2, 78), spec["l1"], f1, IVORY)
+        text_shadow(im, (W / 2, 78 + f1.size * .55 + f2.size * .7), spec["l2"], f2, GOLD)
+        if spec.get("chart"): chart(im, spec["chart"], (70, 300, 690, 640), tone)
+        if spec.get("logo"): name_block(im, spec, 990, 300, 480, 74)
+        _big(im, spec.get("big_label"), spec["big"], 990, 360, 490, 200, tone, 540)
+        paste_logo(im, W - 36, 30, 26, "dark", align="right")
+    for txt, f, mx in ((spec["l1"], f1, s1), (spec["l2"], f2, s2)):
+        if f.size < mx * .75: print(f"  ⚠ 썸네일 제목이 길어 글자가 작아짐 ({f.size}/{mx}px): {txt}")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+    im.convert("RGB").save(out, quality=93)
+    return out
 
 if __name__ == "__main__":
     render(json.load(open(sys.argv[1], encoding="utf-8")), sys.argv[2])
