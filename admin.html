@@ -877,7 +877,7 @@ const FN = C.SUPABASE_URL + '/functions/v1/';
 /* 유튜브 검수: 렌더된 롱폼·쇼츠를 보고 승인한 것만 올린다. 승인 순간에도 숫자가 오래됐는지 DB가 다시 확인한다 */
 const YT = { list: null, msg: '' };
 const YT_ST = { review: ['run', '검수 대기'], stale: ['bad', '숫자 오래됨 · 다시 만드는 중'], rerendering: ['run', '다시 만드는 중'], changes: ['bad', '수정 요청'], approved: ['ok', '승인됨'], hold: ['off', '보류'], uploaded: ['ok', '올림 완료'] };
-async function ytFetch(){ const [r, pl, rq, ns] = await Promise.all([sb.rpc('yt_admin_list'), sb.rpc('yt_plan_list'), sb.rpc('yt_plan_req_list'), sb.rpc('yt_next_long_slot')]); const { data, error } = r; YT.list = error ? [] : (data || []); YT.err = error ? error.message : ''; YT.plans = pl.error ? [] : (pl.data || []); YT.reqs = rq.error ? [] : (rq.data || []); YT.next = ns.error ? null : ns.data; }
+async function ytFetch(){ const [r, pl, rq, ns, fb] = await Promise.all([sb.rpc('yt_admin_list'), sb.rpc('yt_plan_list'), sb.rpc('yt_plan_req_list'), sb.rpc('yt_next_long_slot'), sb.rpc('content_feedback_list', { p_days: 120 })]); YT.fb = fb.error ? [] : (fb.data || []); const { data, error } = r; YT.list = error ? [] : (data || []); YT.err = error ? error.message : ''; YT.plans = pl.error ? [] : (pl.data || []); YT.reqs = rq.error ? [] : (rq.data || []); YT.next = ns.error ? null : ns.data; }
 /* 편성일 표시: 10/26(월) 19:00 */
 const DOW = ['일','월','화','수','목','금','토'];
 const kday = iso => { if(!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOW[d.getUTCDay()]}) ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`; };
@@ -946,6 +946,20 @@ function ytReqPanel(){
     <div class="ytp-more-ac"><select id="ytp-more-n" aria-label="편수"><option value="3">3편</option><option value="5" selected>5편</option></select><button class="soc-btn" id="ytp-more">기획안 더 받기</button></div></div>
     ${groups.length ? `<div style="margin-top:8px">${groups.map(grow).join('')}</div>` : ''}</div>`;
 }
+/* 보류 사유 (2026-10-28 운영자: "앞으로 보류할 때 의견 제출해서 계속 반영하게끔 해 줘")
+   보류를 누르면 사유를 받는다. 사유는 docs 'feedback'에 쌓이고, 모든 제작 작업이 기획·원고 전에 읽어 규칙으로 반영한다 (scripts/CONTENT.md 7장) */
+const fbOf = id => (YT.fb || []).find(f => f.id === id);
+const FB_ASK = '왜 보류하나요? 적어 주신 사유는 앞으로 만드는 쇼츠·릴스·롱폼에 계속 반영됩니다.\n(예: 산 날 하나 차이 비교가 억지스럽다, 숫자만 많고 이야기가 없다)';
+async function fbSave(id, channel, title, reason){
+  const { error } = await sb.rpc('content_feedback_add', { p_id: id, p_channel: channel, p_title: title || id, p_reason: reason });
+  if(error){ toast('보류 사유를 저장하지 못했습니다: ' + error.message, true); return false; }
+  return true;
+}
+function fbPanel(){
+  const F = YT.fb || []; if(!F.length) return '';
+  const CH = { short: '쇼츠', long: '롱폼', reel: '릴스', card: '카드뉴스' };
+  return `<div class="soc-sec"><h2>보류 사유 기록</h2><span class="n">${F.length}건 · 다음 제작부터 규칙으로 반영</span></div><div class="card" style="padding:12px 14px">${F.map(f => `<div class="m" style="padding:5px 0"><span class="kind${f.channel !== 'long' ? ' reel' : ''}">${CH[f.channel] || f.channel}</span> <b>${esc(f.reason)}</b><br><span style="opacity:.7">${esc(f.title || f.id)} · ${kst(f.at)}${f.folded ? ' · 규칙집에 옮김' : ' · 반영 대기'}</span></div>`).join('')}</div>`;
+}
 const won0 = v => v == null ? '–' : Math.round(+v).toLocaleString('ko-KR') + '원';
 function ytItem(y){
   const st = YT_ST[y.status] || ['', y.status], short = y.kind === 'short';
@@ -959,6 +973,7 @@ function ytItem(y){
   if(!['uploaded', 'stale'].includes(y.status)){
     acts.push(`<button class="soc-btn ghost" data-yt-set="changes" data-id="${esc(y.id)}">수정 요청</button>`);
     if(y.status !== 'hold') acts.push(`<button class="soc-btn ghost" data-yt-set="hold" data-id="${esc(y.id)}">보류</button>`);
+    else acts.push(`<button class="soc-btn ghost" data-yt-fb="${esc(y.id)}">${fbOf(y.id) ? '보류 사유 고치기' : '보류 사유 적기'}</button>`);
     if(!short) acts.push(`<button class="soc-btn ghost" data-yt-set="stale" data-id="${esc(y.id)}">최신 숫자로 다시 만들기</button>`);
   }
   const dur = y.duration ? `${Math.floor(y.duration / 60)}분 ${Math.round(y.duration % 60)}초` : '';
@@ -969,7 +984,7 @@ function ytItem(y){
       ${y.subs && Array.isArray(y.subs.ab) && y.subs.ab.length ? `<div class="m"><b>썸네일·제목 ${y.subs.ab.length}안</b> · 유튜브 스튜디오 '테스트 및 비교'에 셋 다 올리면 반응 좋은 쪽으로 자동으로 정해집니다</div><div class="yt-ab">${y.subs.ab.map((a, i) => `<figure class="${a.default ? 'def' : ''}"><a href="${esc(a.thumb)}" target="_blank"><img src="${esc(a.thumb)}" alt="썸네일 ${esc(a.key || String(i + 1))}" loading="lazy"></a><figcaption><b>${esc((a.key || String(i + 1)).toUpperCase())}안${a.default ? ' · 기본' : ''}</b><br>${esc(a.title || '')}<div class="ac"><a class="soc-btn ghost" href="${esc(a.thumb)}" download>썸네일 받기</a><button class="soc-btn ghost" data-yt-abcopy="${i}" data-id="${esc(y.id)}">제목 복사</button></div></figcaption></figure>`).join('')}</div>` : ''}
       <div class="m">게시 예정 ${kst(y.scheduled_at)} · 렌더 ${kst(y.rendered_at)}${y.data_asof ? ` · 숫자 기준 ${kstDate(y.data_asof)}` : ''}${y.px ? `<br>주가 ${won0(y.px)} · 적정 주가 ${won0(y.iv)}${y.score != null ? ` · 점수 ${y.score}점` : ''}` : ''}</div>
       ${y.stale_reason ? `<div class="why">${esc(y.stale_reason)}${/원고 수정/.test(y.stale_reason) ? ' · 원고를 고쳐 다시 만들어 올리겠습니다' : ' · 1시간 안에 최신 숫자로 다시 만들어 올라옵니다'}</div>` : ''}
-      ${y.note ? `<div class="nt"><b>수정 요청 메모</b><br>${esc(y.note)}</div>` : ''}
+      ${y.status === 'hold' ? (fbOf(y.id) ? `<div class="nt"><b>보류 사유 · 다음 제작부터 반영</b><br>${esc(fbOf(y.id).reason)}</div>` : `<div class="why">보류 사유가 없습니다. 사유를 적어 주시면 다음 쇼츠·롱폼부터 반영합니다.</div>`) : (y.note ? `<div class="nt"><b>수정 요청 메모</b><br>${esc(y.note)}</div>` : '')}
       ${(y.subs || y.title_en) ? `<details><summary>영어로 내보내기 (자막·영문 제목·설명)</summary><div class="m">유튜브 스튜디오 → 콘텐츠 → 영상 → 자막 → 언어 추가(영어): 제목·설명 칸에 붙여 넣고, 자막은 파일 업로드로 올립니다. 영어 음성 트랙은 같은 언어(영어) 줄의 '오디오' 칸에 올리면 영어권 시청자에게 영어로 들립니다.</div><div class="ac">${y.subs && y.subs.en ? `<a class="soc-btn" href="${esc(y.subs.en)}" download>영어 자막 (.srt)</a>` : ''}${y.subs && y.subs.ko ? `<a class="soc-btn ghost" href="${esc(y.subs.ko)}" download>한국어 자막 (.srt)</a>` : ''}${y.subs && y.subs.audio_en ? `<a class="soc-btn ghost" href="${esc(y.subs.audio_en)}" download>영어 음성 트랙 (.m4a)</a>` : ''}${y.subs && y.subs.thumb_en ? `<a class="soc-btn ghost" href="${esc(y.subs.thumb_en)}" download>영어 썸네일</a>` : ''}${y.title_en ? `<button class="soc-btn ghost" data-yt-copy="title_en" data-id="${esc(y.id)}">영문 제목 복사</button>` : ''}${y.description_en ? `<button class="soc-btn ghost" data-yt-copy="description_en" data-id="${esc(y.id)}">영문 설명 복사</button>` : ''}</div>${y.title_en ? `<pre>${esc(y.title_en)}\n\n${esc(y.description_en || '')}</pre>` : ''}</details>` : ''}
       <details><summary>설명·태그·고정 댓글 보기</summary><pre>${esc(y.description || '')}</pre><div class="m">${esc((y.tags || []).join(', '))}</div>${y.pinned_comment ? `<pre>고정 댓글\n${esc(y.pinned_comment)}</pre>` : ''}</details>
       <div class="ac">${acts.join('')}</div></div></div>`;
@@ -1235,7 +1250,7 @@ function vYoutube(){
   const empty = { plan: '검토할 기획안이 없습니다. 위에서 기획안 더 받기를 누르세요.', making: '지금 만들고 있는 영상이 없습니다.', review: '검수할 영상이 없습니다.', ready: '승인해 둔 영상이 없습니다.', done: '아직 올린 영상이 없습니다.', hold: '보류·반려한 것이 없습니다.' }[cur];
   let body;
   if(cur === 'done') body = x.vids.length ? `<div class="card" style="padding:12px 14px">${x.vids.map(y => `<div class="m" style="padding:4px 0">${kst(y.uploaded_at)} · <span class="kind${y.kind === 'short' ? ' reel' : ''}">${y.kind === 'short' ? '쇼츠' : '롱폼'}</span> ${esc(y.title)}</div>`).join('')}</div>` : '';
-  else if(cur === 'hold') body = x.vids.map(ytItem).join('') + (x.plans.length ? `<div class="soc-sec"><h2>반려한 기획안</h2><span class="n">${x.plans.length}편</span></div><div class="card" style="padding:12px 14px">${x.plans.map(p => `<div class="m" style="padding:4px 0">${esc(p.title || p.id)}${p.owner_note ? ` · ${esc(p.owner_note)}` : ''}</div>`).join('')}</div>` : '');
+  else if(cur === 'hold') body = x.vids.map(ytItem).join('') + fbPanel() + (x.plans.length ? `<div class="soc-sec"><h2>반려한 기획안</h2><span class="n">${x.plans.length}편</span></div><div class="card" style="padding:12px 14px">${x.plans.map(p => `<div class="m" style="padding:4px 0">${esc(p.title || p.id)}${p.owner_note ? ` · ${esc(p.owner_note)}` : ''}</div>`).join('')}</div>` : '');
   else if(cur === 'trend') body = trPanel();
   else body = x.plans.map(ytPlanItem).join('') + x.vids.map(ytItem).join('');
   if(cur === 'plan') body = body + ytReqPanel();   // 2026-10-24 운영자: 기획안이 먼저 보이게, 요청 칸은 아래로
@@ -1414,12 +1429,19 @@ function bindYoutube(){
     const id = b.dataset.id, st = b.dataset.ytSet; let note = null;
     if(st === 'changes'){ note = prompt('어디를 고칠까요? (예: 2분 10초 자막 오타, 결론을 더 짧게)'); if(note === null) return; }
     if(st === 'stale' && !confirm('최신 숫자로 다시 만들까요? 1시간 안에 새 영상이 올라옵니다.')) return;
+    let why = null;
+    if(st === 'hold'){ why = prompt(FB_ASK); if(why === null) return; why = why.trim(); if(!why){ toast('보류 사유를 적어 주세요. 사유가 있어야 다음 제작에 반영됩니다.', true); return; } }
     b.disabled = true;
+    if(why){ const y = YT.list.find(x => x.id === id) || {}; if(!(await fbSave(id, y.kind === 'short' ? 'short' : 'long', y.title, why))){ b.disabled = false; return; } }
     const { data, error } = await sb.rpc('yt_admin_set', { p_id: id, p_status: st, p_note: note });
     if(error) toast('바꾸지 못했습니다: ' + error.message, true);
     else if(data && data.ok === false) toast('승인하지 않았습니다: ' + data.reason + '. 새로 만든 뒤 다시 확인해 주세요.', true);
-    else toast({ approved: '승인했습니다. 다운로드·복사 버튼이 열렸습니다.', changes: '수정 요청을 남겼습니다.', hold: '보류했습니다.', stale: '다시 만들기를 요청했습니다.', uploaded: '올림 완료로 표시했습니다.' }[st] || '바꿨습니다.');
+    else toast({ approved: '승인했습니다. 다운로드·복사 버튼이 열렸습니다.', changes: '수정 요청을 남겼습니다.', hold: '보류했습니다. 사유는 다음 쇼츠·릴스·롱폼부터 반영합니다.', stale: '다시 만들기를 요청했습니다.', uploaded: '올림 완료로 표시했습니다.' }[st] || '바꿨습니다.');
     ytLoad(); });
+  document.querySelectorAll('[data-yt-fb]').forEach(b => b.onclick = async () => {
+    const y = YT.list.find(x => x.id === b.dataset.ytFb) || {}, old = fbOf(y.id);
+    let why = prompt(FB_ASK, old ? old.reason : ''); if(why === null) return; why = why.trim(); if(!why) return;
+    b.disabled = true; if(await fbSave(y.id, y.kind === 'short' ? 'short' : 'long', y.title, why)) toast('보류 사유를 남겼습니다. 다음 제작부터 반영합니다.'); ytLoad(); });
   document.querySelectorAll('[data-yt-abcopy]').forEach(b => b.onclick = async () => {
     const y = YT.list.find(x => x.id === b.dataset.id); const a = ((y.subs || {}).ab || [])[+b.dataset.ytAbcopy] || {};
     try { await navigator.clipboard.writeText(a.title || ''); toast('제목을 복사했습니다'); } catch(_) { prompt('복사해 주세요', a.title || ''); } });
@@ -1555,6 +1577,8 @@ function bindSocial(){
     await sb.from('social_posts').update({ approved: true }).eq('id', b.dataset.socOk); SOC.busy = `${b.dataset.socOk} 승인했습니다. 시간이 되면 올라갑니다.`; socLoad(); });
   document.querySelectorAll('[data-soc-hold]').forEach(b => b.onclick = async () => {
     const p = SOC.posts.find(x => x.id === b.dataset.socHold);
+    if(!p.paused){ let why = prompt(FB_ASK); if(why === null) return; why = why.trim(); if(!why){ toast('보류 사유를 적어 주세요. 사유가 있어야 다음 제작에 반영됩니다.', true); return; }
+      if(!(await fbSave(p.id, p.kind === 'carousel' ? 'card' : 'reel', p.title, why))) return; }
     const { error } = await sb.from('social_posts').update({ paused: !p.paused }).eq('id', p.id); if(error) toast('바꾸지 못했습니다: ' + error.message, true); else toast(p.paused ? `${p.id} 다시 예정에 넣었습니다` : `${p.id} 보류했습니다`); socLoad(); });
   document.querySelectorAll('[data-soc-now]').forEach(b => b.onclick = async () => {
     if(!confirm(`${b.dataset.socNow} 을(를) 지금 바로 올릴까요? (아직 안 올라간 채널에만 올라갑니다)`)) return;
