@@ -55,6 +55,17 @@ function linkButton(site: string, post: any) {
     buttons: [{ type: "web_url", url, title: "정리본 보러 가기" }, { type: "web_url", url: `${site}/start?utm_source=ig-dm`, title: "밸류노트 둘러보기" }] } } };
 }
 
+// 팔로우 확인 없이 첫 DM에 바로 링크 (2026-10-29)
+// 메타는 앱 역할이 없는 일반 사용자의 '버튼 누름(postback)'을 고급 액세스 심사 전에는 보내 주지 않는다.
+// 그래서 심사 전에는 첫 DM에 링크를 바로 담는다. 심사 통과 후 app_config.ig_dm_follow_gate = true 로 바꾸면 팔로우 확인 흐름으로 돌아간다.
+function directLink(site: string, post: any) {
+  const url = `${site}${post?.dm_guide || "/g"}?utm_source=ig-dm&utm_content=${encodeURIComponent(post?.id || "hub")}`;
+  const t = post?.title ? "「" + String(post.title).replace(/^이슈 픽 · /, "") + "」 " : "";
+  return { attachment: { type: "template", payload: { template_type: "button",
+    text: `안녕하세요, 밸류노트입니다 🙂\n댓글 남겨 주셔서 감사합니다.\n\n${t}정리본입니다. 릴스에서 다 못 한 숫자와 내 종목에 바로 적용하는 방법까지 담았습니다.\n\n@value.note.korea 를 팔로우해 두시면 새 정리본이 나올 때 가장 먼저 보실 수 있습니다.`,
+    buttons: [{ type: "web_url", url, title: "정리본 보러 가기" }, { type: "web_url", url: `${site}/start?utm_source=ig-dm`, title: "밸류노트 둘러보기" }] } } };
+}
+
 // 댓글 하나 처리
 async function onComment(v: any, a: any, site: string) {
   const cid = v.id, from = v.from || {}, media = v.media?.id;
@@ -72,6 +83,12 @@ async function onComment(v: any, a: any, site: string) {
   const { error: dup } = await sb.from("ig_dm").insert({ comment_id: cid, media_id: media, post_id: post?.id || null, igsid: from.id || null, username: from.username || null, keyword: post?.dm_keyword || null, status: "new" });
   if (dup) return "dup";
   try {
+    if ((await cfg("ig_dm_follow_gate")) !== true) {
+      await api(`${a.account_id}/messages`, a.access_token, { recipient: { comment_id: cid }, message: directLink(site, post) });
+      await sb.from("ig_dm").update({ status: "sent", updated_at: new Date().toISOString() }).eq("comment_id", cid);
+      await api(`${cid}/replies`, a.access_token, { message: REPLIES[Math.floor(Math.random() * REPLIES.length)] }).catch(e => console.error("reply", e));
+      return "sent-direct";
+    }
     // 비공개 답장 (댓글 7일 안, 1회): 팔로우 확인 버튼
     // 2026-10-29: 메타가 DM을 실제로 보내고도 "An unknown error has occurred"(500)를 돌려주는 경우가 있다.
     //   예전에는 이걸 실패로 보고 글 버전을 한 번 더 보내 DM이 두 통 갔다 → 다시 보내지 않고 '보냄'으로 처리한다.
