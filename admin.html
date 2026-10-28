@@ -383,6 +383,34 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 @media (max-width:760px){.soc-acc{grid-template-columns:1fr}.soc-kpis{grid-template-columns:repeat(2,1fr)}.soc-tb table{table-layout:auto;min-width:720px}.soc-alert{flex-wrap:wrap}.soc-alert .soc-btn{margin-left:0}.soc-sec .n{display:none}.soc-acc .u small{display:none}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}}
 :root[data-theme="dark"] .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}
+/* 벤치마킹 (2026-10-29) */
+.bn-card{display:grid;grid-template-columns:240px 1fr;gap:16px;margin-bottom:14px}
+.bn-thumb{display:block;border-radius:12px;overflow:hidden;background:var(--bg);aspect-ratio:16/9;position:relative}
+.bn-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.bn-thumb .tag{position:absolute;left:8px;top:8px;background:rgba(14,26,43,.82);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px}
+.bn-title{font-weight:800;font-size:15.5px;line-height:1.45;color:var(--ink);text-decoration:none;word-break:keep-all}
+.bn-title:hover{text-decoration:underline}
+.bn-meta{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.6;word-break:keep-all}
+.bn-meta b{color:var(--ink2)}
+.bn-ratio{display:inline-block;font-weight:800;color:var(--bad);background:rgba(216,65,90,.1);padding:1px 8px;border-radius:999px;font-size:12px}
+.bn-why{margin-top:10px;font-size:13.5px;line-height:1.65;color:var(--ink);word-break:keep-all}
+.bn-pt{border-top:1px solid var(--line);padding:12px 0 2px;margin-top:12px}
+.bn-pt .h{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.bn-pt .t{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.bn-pt .i{font-weight:800;font-size:14px;line-height:1.5;flex:1 1 260px;word-break:keep-all}
+.bn-pt .a{font-size:13px;line-height:1.65;color:var(--ink2);margin-top:6px;word-break:keep-all}
+.bn-pt .a em{font-style:normal;font-weight:700;color:var(--ink)}
+.bn-pt .st{font-size:11.5px;font-weight:800;white-space:nowrap}
+.bn-pt .st.ok{color:var(--good)}.bn-pt .st.off{color:var(--muted)}.bn-pt .st.run{color:#B07A12}
+.bn-act{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.bn-act label{font-size:12.5px;color:var(--ink2);display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.bn-act input[type=text]{flex:1 1 200px;min-width:0;border:1px solid var(--line);border-radius:9px;padding:7px 10px;font:inherit;font-size:13px;background:var(--surface);color:var(--ink)}
+.bn-btn{border:0;border-radius:9px;padding:7px 12px;font-weight:800;font-size:12.5px;cursor:pointer;background:var(--navy-grad);color:var(--ivory)}
+.bn-btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink2)}
+.bn-all{margin-left:auto}
+@media (max-width:760px){.bn-card{grid-template-columns:1fr}.bn-thumb{max-width:100%}.bn-all{margin-left:0}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bn-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}}
+:root[data-theme="dark"] .bn-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}
 </style>
 </head>
 <body>
@@ -467,7 +495,7 @@ const GROUPS = [
   ['home', '개요', ['overview']],
   ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
   ['growth', '유입', ['traffic', 'landing', 'dm']],
-  ['content', '콘텐츠', ['calendar', 'youtube', 'social', 'blog', 'column']],
+  ['content', '콘텐츠', ['calendar', 'youtube', 'bench', 'social', 'blog', 'column']],
 ];
 const PAGES = [
   ['overview', '개요'],
@@ -480,6 +508,7 @@ const PAGES = [
   ['dm', '댓글 DM 유입'],
   ['calendar', '전체 일정'],
   ['youtube', '유튜브'],
+  ['bench', '벤치마킹'],
   ['social', '인스타·쓰레드'],
   ['blog', '네이버 블로그'],
   ['column', '칼럼'],
@@ -1610,6 +1639,83 @@ function bindSocial(){
     SOC.busy = errs.length ? '실패: ' + errs.join(' / ') : proc ? `${b.dataset.socNow} 영상 처리 중입니다. 몇 분 안에 자동으로 올라갑니다.` : `${b.dataset.socNow} 게시를 마쳤습니다.`; toast(SOC.busy, !!errs.length); socLoad(); });
 }
 
+/* 벤치마킹 (2026-10-29 운영자): "구독자는 별로 없는데 영상 몇 개로 조회수가 터진 사람들을 조사해서 벤치마킹할 내용을 계속 전달 →
+   내가 반영하면 좋겠다는 부분을 승인하면 다음 영상부터 그대로 렌더링". 벤치마킹 데스크(예약 작업)가 docs 'bench' 에 영상별 카드를 쌓고,
+   여기서 항목별로 승인·반려한다. 승인 항목은 데스크가 제작 규칙(릴스·쇼츠·롱폼·썸네일)에 옮기고 '반영 완료'로 바꾼다.
+   '대기 영상도 다시 렌더'를 켜면 아직 안 올라간 영상까지 다시 만든다. */
+const BN = { list: null, msg: '' };
+async function benchLoad(){
+  const { data, error } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'bench').order('id', { ascending: false }).limit(120);
+  BN.list = error ? [] : (data || []); BN.err = error ? error.message : '';
+}
+const manK = v => { v = +v || 0; if(v >= 1e8) return (Math.round(v / 1e7) / 10) + '억'; if(v >= 1e4) return (Math.round(v / 1e3) / 10) + '만'; if(v >= 1e3) return (Math.round(v / 100) / 10) + '천'; return String(v); };
+const BN_ST = { proposed: ['run', '승인 대기'], approved: ['ok', '승인 · 반영 대기'], applied: ['ok', '반영 완료'], rejected: ['off', '반려'] };
+const BN_TABS = [['new', '새 제안', ['proposed']], ['approved', '반영 대기', ['approved']], ['applied', '반영 완료', ['applied']], ['rejected', '반려', ['rejected']]];
+function bnPoints(d){ return Array.isArray(d && d.points) ? d.points : []; }
+function benchCounts(){ const c = { proposed: 0, approved: 0, applied: 0, rejected: 0 }; (BN.list || []).forEach(r => bnPoints(r.data).forEach(x => { c[x.status || 'proposed'] = (c[x.status || 'proposed'] || 0) + 1; })); return c; }
+function bnCard(r, sts){
+  const d = r.data || {}, v = d.video || {}, pts = bnPoints(d).map((x, i) => [x, i]).filter(([x]) => sts.includes(x.status || 'proposed'));
+  if(!pts.length) return '';
+  const id = esc(r.id), open = sts.includes('proposed');
+  const meta = [v.channel ? `<b>${esc(v.channel)}</b>` : '', v.subs != null ? `구독자 ${manK(v.subs)}명` : '', v.views ? `조회수 ${manK(v.views)}회` : '', v.length ? `길이 ${esc(v.length)}` : '', v.published ? esc(String(v.published).slice(0, 10)) : '', v.platform && v.platform !== 'youtube' ? esc(v.platform) : ''].filter(Boolean).join(' · ');
+  const pt = ([x, i]) => { const st = BN_ST[x.status || 'proposed'] || ['', x.status];
+    return `<div class="bn-pt" data-bn="${id}" data-i="${i}">
+      <div class="h"><span class="t">${esc(x.target || '공통')}</span><span class="i">${esc(x.idea || '')}</span><span class="st ${st[0]}">${st[1]}</span></div>
+      ${x.apply ? `<div class="a"><em>우리 영상엔:</em> ${esc(x.apply)}</div>` : ''}
+      ${x.example ? `<div class="a"><em>예:</em> ${esc(x.example)}</div>` : ''}
+      ${x.owner_note ? `<div class="a"><em>대표님 메모:</em> ${esc(x.owner_note)}</div>` : ''}
+      ${x.applied_note ? `<div class="a"><em>반영:</em> ${esc(x.applied_note)}${x.applied_at ? ` · ${kst(x.applied_at)}` : ''}</div>` : ''}
+      ${open ? `<div class="bn-act"><input type="text" placeholder="메모 (예: 숫자만 더 크게, 롱폼에만)" data-bn-note><label><input type="checkbox" data-bn-rr> 아직 안 올라간 영상도 다시 렌더</label>
+        <button class="bn-btn" data-bn-ok>승인</button><button class="bn-btn ghost" data-bn-no>반려</button></div>`
+        : (x.status === 'approved' ? `<div class="bn-act"><span class="bn-meta">${x.rerender ? '대기 영상도 다시 렌더' : '다음 영상부터 반영'}</span><button class="bn-btn ghost" data-bn-undo>승인 취소</button></div>` : '')}
+    </div>`; };
+  return `<div class="card bn-card">
+    <a class="bn-thumb" href="${esc(v.url || '#')}" target="_blank" rel="noopener">${v.thumb ? `<img src="${esc(v.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}${v.is_short ? '<span class="tag">쇼츠</span>' : ''}</a>
+    <div>
+      <a class="bn-title" href="${esc(v.url || '#')}" target="_blank" rel="noopener">${esc(v.title || r.id)}</a>
+      <div class="bn-meta">${meta}${v.ratio ? ` <span class="bn-ratio">구독자의 ${n0(Math.round(v.ratio))}배</span>` : ''}</div>
+      ${d.why ? `<div class="bn-why"><b>왜 터졌나</b> · ${esc(d.why)}</div>` : ''}
+      ${pts.map(pt).join('')}
+      ${open && pts.length > 1 ? `<div class="bn-act"><button class="bn-btn ghost bn-all" data-bn-all="${id}">이 영상 항목 전부 승인</button></div>` : ''}
+    </div></div>`;
+}
+function vBench(){
+  if(BN.list === null){ benchLoad().then(() => render()); return head('벤치마킹', '불러오는 중', 'bench'); }
+  if(BN.err) return head('벤치마킹', '', 'bench') + `<div class="card">불러오지 못했습니다: ${esc(BN.err)}</div>`;
+  const c = benchCounts(); let cur = subPage(); if(!BN_TABS.some(t => t[0] === cur)) cur = c.proposed ? 'new' : c.approved ? 'approved' : 'new';
+  const tab = BN_TABS.find(t => t[0] === cur);
+  const seg = `<div class="seg">${BN_TABS.map(([k, t, st]) => { const n = st.reduce((a, x) => a + (c[x] || 0), 0); return `<a href="#bench/${k}"${k === cur ? ' aria-current="page"' : ''}${k === 'new' && n ? ' class="hot"' : ''}>${t}<b>${n}</b></a>`; }).join('')}</div>`;
+  const cards = (BN.list || []).map(r => bnCard(r, tab[2])).join('');
+  const last = (BN.list || [])[0];
+  const note = { new: '구독자는 적은데 조회수가 크게 터진 영상에서 우리가 따라 할 만한 점입니다. 반영하고 싶은 항목만 승인하세요. 메모를 남기면 그 방향으로 반영합니다.',
+    approved: '승인한 항목입니다. 벤치마킹 작업이 하루 두 번(10:23·16:23) 제작 규칙에 옮기고, 다음 영상부터 반영합니다.', applied: '제작 규칙에 들어간 항목입니다.', rejected: '반려한 항목은 비슷한 제안이 다시 올라오지 않게 참고합니다.' }[cur];
+  return `${head('벤치마킹', '조회수가 구독자보다 훨씬 많이 나온 영상을 매일 조사해 올립니다.' + (last ? ` 마지막 조사 ${kst(last.updated_at)}` : ''), 'bench')}
+  ${seg}
+  ${BN.msg ? `<div class="soc-flash ok">${esc(BN.msg)}</div>` : ''}
+  <div class="yt-note">${note}</div>
+  ${cards || `<div class="card empty" style="padding:14px">${cur === 'new' ? '새 제안이 없습니다. 매일 오전 조사 후 올라옵니다.' : '해당하는 항목이 없습니다.'}</div>`}`;
+}
+async function bnSave(id, f, msg){
+  const r = (BN.list || []).find(x => x.id === id); if(!r) return;
+  const data = JSON.parse(JSON.stringify(r.data || {})); f(data);
+  const { error } = await sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'bench').eq('id', id);
+  if(error){ toast('저장하지 못했습니다: ' + error.message, true); return; }
+  r.data = data; BN.msg = ''; toast(msg); render();
+}
+function bindBench(){
+  const box = $('#main');
+  box.querySelectorAll('[data-bn-ok],[data-bn-no],[data-bn-undo]').forEach(b => b.onclick = () => {
+    const w = b.closest('[data-bn]'), id = w.dataset.bn, i = +w.dataset.i;
+    const note = (w.querySelector('[data-bn-note]') || {}).value || '', rr = !!(w.querySelector('[data-bn-rr]') || {}).checked;
+    const to = b.hasAttribute('data-bn-ok') ? 'approved' : b.hasAttribute('data-bn-no') ? 'rejected' : 'proposed';
+    bnSave(id, d => { const x = d.points[i]; x.status = to; x.decided_at = new Date().toISOString(); if(to === 'approved') x.rerender = rr; if(note.trim()) x.owner_note = note.trim(); },
+      to === 'approved' ? '승인했습니다. 다음 영상부터 반영합니다.' : to === 'rejected' ? '반려했습니다.' : '승인을 취소했습니다.');
+  });
+  box.querySelectorAll('[data-bn-all]').forEach(b => b.onclick = () => {
+    bnSave(b.dataset.bnAll, d => { d.points.forEach(x => { if((x.status || 'proposed') === 'proposed'){ x.status = 'approved'; x.decided_at = new Date().toISOString(); } }); }, '이 영상의 항목을 전부 승인했습니다.');
+  });
+}
+
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
   const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0, stocks: SK.list ? SK.list.length : null }, hot = {};
@@ -1621,6 +1727,7 @@ function render(s){
   $('#asof').textContent = '기준 ' + kst(s.asOf);
   if(YT.list){ const nr = YT.list.filter(y => ['review', 'changes'].includes(y.status)).length, np = (YT.plans || []).filter(x => x.status === 'proposed').length;
     if(nr + np) hot.youtube = [nr + np, 'warm', [np ? `기획안 ${np}편` : '', nr ? `영상 검수 ${nr}편` : ''].filter(Boolean).join(' · ') + ' 대기']; }
+  if(BN.list){ const nb = benchCounts().proposed; if(nb) hot.bench = [nb, 'warm', '벤치마킹 ' + nb + '건 승인 대기']; }
   const nav = $('#tabs'); nav.hidden = false;
   const g = groupOf(p), title = id => PAGES.find(x => x[0] === id)[1];
   const badge = id => hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : '';
@@ -1629,7 +1736,7 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
@@ -1638,6 +1745,7 @@ function render(s){
   if(p === 'qual') bindQual();
   if(p === 'social') bindSocial();
   if(p === 'youtube') bindYoutube();
+  if(p === 'bench') bindBench();
   if(p === 'calendar') bindCalendar();
   bindTips();
 }
@@ -1665,7 +1773,7 @@ async function load(){
   $('#reload').hidden = $('#out').hidden = !session;
   if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
-  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null]);
+  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null, benchLoad().catch(() => {})]);
   if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
