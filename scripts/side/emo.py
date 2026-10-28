@@ -171,7 +171,10 @@ def main():
     parts = []
     for i, c in enumerate(cuts):
         out = os.path.join(WORK, f"c{i}.mp4")
-        if c.get("img") and not c.get("v"): still_cut(c, out)
+        if c.get("img") and not c.get("v"):
+            # 2026-10-28 대표님: "사진으로 대체하는 것도 안 했으면 좋겠어. 영상 계속 움직여야 돼." → 모든 컷은 실제 영상
+            if os.environ.get("SIDE_ALLOW_STILL") != "1": sys.exit(f"컷 {i + 1}: 그림 컷(img)은 쓰지 않습니다. 이 컷도 영상으로 생성하세요 (대표님 결정 2026-10-28)")
+            still_cut(c, out)
         else: sh("ffmpeg", "-v", "error", "-y", "-ss", str(c.get("in", 0)), "-t", str(c["dur"]), "-i", find_video(c["v"]), "-an",
            "-vf", f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=lanczos,crop={W}:{H},fps={FPS},setsar=1,format=yuv420p",
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", out)
