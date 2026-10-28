@@ -1,0 +1,291 @@
+[
+ {
+  "id": "sa1_bench",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A cold autumn evening at a small neighborhood bus stop in Seoul: a plain glass bus shelter with a wooden bench, a ginkgo tree dropping golden leaves, warm orange streetlights, low brick villas behind. On the bench sits an elderly Korean grandpa with short white hair, a thin worn grey jacket over a faded blue sweater, baggy brown trousers and old canvas shoes, rubbing his bare red hands together, his breath visible as a little white puff. Beside him a small two-wheeled hand cart piled with neatly folded plain brown cardboard. He looks small, tired and alone. Golden ginkgo leaves on the ground. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "sa2_notice",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "The same bus stop at evening from the reference image. a little Korean schoolgirl about eight with a black bob haircut, a cream knitted coat, a long red knitted scarf and a plain yellow backpack stands at the edge of the bus shelter holding her backpack straps and turns her head to look at the same elderly grandpa from the reference image (same face, white hair, worn grey jacket) who sits on the bench blowing warm breath into his cupped bare hands. Her face shows quiet concern. Warm streetlight, falling ginkgo leaves. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/sa1_bench"
+  ]
+ },
+ {
+  "id": "sa3_wrap",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Close-up at the same bus stop bench: the same little girl from the reference images (black bob, cream coat, yellow backpack) stands on tiptoe and gently wraps her long red knitted scarf around the neck of the same seated elderly grandpa (white hair, worn grey jacket). The scarf is halfway around his neck. He looks at her in surprise, mouth slightly open. Only these two people. Warm orange streetlight, golden ginkgo leaves. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/sa2_notice",
+   "social/side/gen/sa1_bench"
+  ]
+ },
+ {
+  "id": "sa4_tears",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Emotional close-up of the same elderly grandpa from the reference images (same face, white hair, worn grey jacket) sitting on the bus stop bench, now wearing the long red knitted scarf around his neck. He holds the end of the scarf with both wrinkled hands against his chest, eyes glistening with tears, a trembling grateful smile. Soft warm streetlight, bokeh of golden ginkgo leaves behind. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/sa3_wrap",
+   "social/side/gen/sa1_bench"
+  ]
+ },
+ {
+  "id": "sa5_parcel",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "At the same evening bus stop, the same little girl from the reference images (black bob, cream coat, no scarf now) stands with her back half turned toward us, her plain yellow backpack on her back, waving toward warm headlights of an approaching bus in the distance. The magpie flies down behind her with wings spread and gently sets a tiny brown parcel tied with red string and a small red heart tag on top of her backpack. Golden ginkgo leaves drifting. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/sa3_wrap",
+   "social/side/gen/c1_magpie.jpeg"
+  ]
+ },
+ {
+  "id": "sa6_alone",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Wide view of the same small bus stop at night: the same elderly grandpa from the reference images sits alone on the bench wearing the long red knitted scarf, smiling softly and waving one hand toward the glowing red tail lights of a bus driving away down the street. His small cardboard cart beside him. Warm orange streetlights, golden ginkgo leaves falling slowly, a peaceful and warm mood. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/sa4_tears",
+   "social/side/gen/sa1_bench"
+  ]
+ },
+ {
+  "id": "gw1_yard",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Late autumn afternoon in a small Korean countryside village: a low stone wall, a traditional house with a dark tiled roof, brown jangdok jars, and a persimmon tree heavy with glowing orange fruit. a Korean grandpa in his seventies with white hair, a grey flat cap, a brown quilted vest over a beige shirt, and a warm wrinkled smile carefully places a bulging bundle wrapped in a plain red cloth into the open trunk of a small plain silver car, while a Korean boy about ten with short black hair, a navy hoodie and jeans stands beside him watching. Golden low sunlight, dry leaves on the dirt road. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "gw2_face",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Close-up in the same village yard from the reference image: the same grandpa (white hair, grey flat cap, brown vest) cups the face of the same boy (navy hoodie) in both wrinkled hands, smiling with glistening eyes; the boy smiles back. The persimmon tree and stone wall softly blurred behind. Golden late-afternoon light. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gw1_yard"
+  ]
+ },
+ {
+  "id": "gw3_drive",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "The same small plain silver car from the reference image drives slowly away down a narrow dirt village road lined with dry autumn grass and a persimmon tree. Through the car's rear window the same boy in the navy hoodie kneels on the back seat looking back. The road curves away toward low hills. Golden sunset light. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gw1_yard"
+  ]
+ },
+ {
+  "id": "gw4_wave",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "On the narrow dirt village road at sunset, the same grandpa from the reference images (white hair, grey flat cap, brown quilted vest) stands alone raising one hand high to wave goodbye toward the distance where a tiny car is disappearing. On a persimmon branch right beside him sits the magpie, also looking down the road. Long shadows, glowing orange persimmons, a few leaves drifting. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gw2_face",
+   "social/side/gen/gw1_yard",
+   "social/side/gen/c1_magpie.jpeg"
+  ]
+ },
+ {
+  "id": "gw5_bundle",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Inside the back seat of the small car, the same boy from the reference images (navy hoodie) holds the opened plain red cloth bundle on his lap: inside are warm roasted sweet potatoes in plain brown paper with gentle steam rising, a few glossy orange persimmons and a small handful of dried persimmons. He looks down at it with a soft, moved expression. Warm sunset light through the car window, countryside blurred outside. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gw2_face",
+   "social/side/gen/gw1_yard"
+  ]
+ },
+ {
+  "id": "gw6_still",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Dusk on the same dirt village road: the same grandpa from the reference images still stands at the road's end, now a small lonely figure, hands behind his back, gazing toward the hills where the car went. The magpie has landed on his shoulder and leans its head against his cheek; he smiles gently. A warm light glows from his house window behind the persimmon tree. Purple-orange sky, first evening lights. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gw4_wave",
+   "social/side/gen/gw1_yard",
+   "social/side/gen/c1_magpie.jpeg"
+  ]
+ },
+ {
+  "id": "gc1_cold",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A cold first-frost night in a Seoul apartment complex: tall plain apartment blocks with a few warm lit windows, a small trimmed flowerbed with low bushes. Under a bush, a skinny tabby mother cat curls tightly around exactly four tiny kittens, little white puffs of breath visible, frost on the leaves. Dark blue night with orange lamp light. Exactly four kittens. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "gc2_window",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Through the lit window of a small plain apartment guardhouse booth at night, a Korean apartment night guard in his sixties with grey hair, a plain dark-navy guard uniform jacket with no name tag and no badge, and a plain navy cap leans close to the glass looking outside with a worried, kind face, a small steaming mug in his hand. Inside the booth: a tiny desk, an old radio, a plain wall clock without numbers. The booth has no sign. Cold blue night outside with frost. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "gc3_box",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Inside the warm small guardhouse booth, the same guard from the reference image (grey hair, plain navy uniform, no name tag) kneels on the floor, carefully cutting a round door in the side of a plain white styrofoam box with a box cutter, a folded old checkered wool blanket ready beside it. Focused, gentle expression. Warm lamp light. The box is completely plain with no print. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gc2_window"
+  ]
+ },
+ {
+  "id": "gc4_kachi",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Next to the small apartment guardhouse at night, a plain white styrofoam box with a round door cut in its side and an old checkered blanket inside sits on the ground under a lamp. The magpie flies down above the box with wings spread, holding a small soft red knitted scarf in its beak, about to drop it inside. Frosty night, warm lamp light. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gc3_box",
+   "social/side/gen/c1_magpie.jpeg"
+  ]
+ },
+ {
+  "id": "gc5_carry",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "At night beside the same plain white styrofoam box with a round door from the reference image, the same skinny tabby mother cat from the reference image carries one tiny kitten gently by the scruff in her mouth, stepping toward the round door. The remaining kittens wait under the bush behind her. Frosty ground, warm lamp light from the guardhouse window. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gc1_cold",
+   "social/side/gen/gc4_kachi"
+  ]
+ },
+ {
+  "id": "gc6_dawn",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Soft pale dawn beside the small apartment guardhouse: through the round door of the plain white styrofoam box, the tabby mother cat and exactly four kittens sleep curled together on the checkered blanket with a small red scarf. The same guard from the reference image (grey hair, plain navy uniform and cap) crouches in front of the box, gently setting down a small steel bowl of water, smiling. Frost melting, first warm sunlight. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gc3_box",
+   "social/side/gen/gc5_carry"
+  ]
+ },
+ {
+  "id": "mh1_bill",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "A snowy winter evening in an old Korean street market in the late 1990s: a small red-tarp street stall with a cast-iron fish-shaped bread mold, golden fish-shaped pastries steaming on the rack. a young Korean mother in her early thirties with a low ponytail, a worn long brown padded coat and a dark knitted scarf stands at the stall holding her thin worn wallet open, taking out her last single plain green paper bill with no printing on it. her small son about seven with a bowl haircut, a puffy green jacket and a knitted hat holds her coat, staring at the pastries. Warm stall light, gentle snow. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mh2_give",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "At the same red-tarp fish-shaped bread stall from the reference image, the same young mother (low ponytail, worn brown padded coat) bends down and hands a small plain paper bag of warm fish-shaped pastries to the same little son (green jacket, knitted hat), while gently shaking her head with a soft smile as if saying she is not hungry. Steam rising, gentle snow. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/mh1_bill"
+  ]
+ },
+ {
+  "id": "mh3_watch",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Close-up at the same snowy market stall: the same little son (green jacket, knitted hat) happily bites into a golden fish-shaped pastry, cheeks full, eyes closed with joy. Beside him the same young mother (low ponytail, worn brown coat) watches him with a loving smile while quietly swallowing, her hand pressed to her stomach. On the stall's tarp roof above, the magpie watches them. Snow falling softly. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/mh2_give",
+   "social/side/gen/mh1_bill",
+   "social/side/gen/c1_magpie.jpeg"
+  ]
+ },
+ {
+  "id": "mh4_return",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Many years later at the same small red-tarp fish-shaped bread stall in the same snowy market at evening: the same mother now in her seventies with white hair in a low bun, a plum-colored padded coat, slightly bent, the same kind face, arm in arm with her grown-up son in his thirties with short black hair, a navy wool coat and a grey scarf. The son points at the full rack of golden fish-shaped pastries, smiling; the old mother looks at the stall with a nostalgic, surprised face. Warm stall light, gentle snow. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/mh1_bill"
+  ]
+ },
+ {
+  "id": "mh5_first",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "Close-up at the same snowy market stall: the same grown-up son (navy wool coat, grey scarf) holds out a big plain paper bag full of warm fish-shaped pastries with both hands toward the same white-haired old mother (plum padded coat), gently pushing it to her first. She looks up at him, her eyes filling with tears. Steam rising, snow drifting. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/mh4_return"
+  ]
+ },
+ {
+  "id": "mh6_bite",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "The same white-haired old mother (plum padded coat) takes a bite of a golden fish-shaped pastry and laughs through happy tears, while the same grown-up son (navy coat) puts his arm around her shoulders and smiles. On the counter of the red-tarp stall, the magpie has just set down a tiny brown parcel tied with red string and a red heart tag. Warm stall light, gentle snow, cozy mood. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. It is small, about the size of a sparrow compared with the people. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/mh5_first",
+   "social/side/gen/mh4_return",
+   "social/side/gen/c1_magpie.jpeg"
+  ]
+ }
+]
