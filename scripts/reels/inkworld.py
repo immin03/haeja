@@ -48,10 +48,13 @@ def lerp(a, b, p): return a + (b - a) * p
 def seg(T, t0, t1): return clamp((T - t0) / (t1 - t0)) if t1 > t0 else float(T >= t1)
 
 
+PEN_FONT = "NanumPenScript-Regular.ttf"   # 쇼츠 잉크 노트 기본 손글씨. 롱폼은 sketch.py 가 연성체로 바꾼다 (2026-10-28)
+
+
 def font(kind, size):
     k = (kind, size)
     if k not in _C:
-        name = {"pen": "NanumPenScript-Regular.ttf", "mont": "Montserrat-ExtraBold.ttf"}.get(kind, f"SUIT-{kind}.ttf")
+        name = {"pen": PEN_FONT, "mont": "Montserrat-ExtraBold.ttf", "myeongjo": "NanumMyeongjo-ExtraBold.ttf"}.get(kind, f"SUIT-{kind}.ttf")
         _C[k] = ImageFont.truetype(os.path.join(HERE, "fonts", name), size)
     return _C[k]
 

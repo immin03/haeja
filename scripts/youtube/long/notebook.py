@@ -39,8 +39,10 @@ _F = {}
 def font(name, size):
     k = (name, size)
     if k not in _F:
-        cand = {"pen": [os.path.join(FONTS, "NanumPenScript-Regular.ttf")],
+        cand = {
                 "mont": [os.path.join(FONTS, "Montserrat-ExtraBold.ttf")],
+                "myeongjo": [os.path.join(FONTS, "NanumMyeongjo-ExtraBold.ttf")],
+                "pen": [os.path.join(FONTS, "YeonSung-Regular.ttf")],
                 "type": ["/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"],
                 "serif": ["/usr/share/fonts/opentype/noto/NotoSerifCJK-Bold.ttc", "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc",
                           "/usr/share/fonts/noto-cjk/NotoSerifCJK-Bold.ttc", os.path.join(FONTS, "SUIT-Medium.ttf")]}.get(name, [os.path.join(FONTS, f"SUIT-{name}.ttf")])
@@ -235,34 +237,48 @@ class Notebook:
         a = np.clip(wp[..., 3:4], 0, 1); rgb[:] = rgb * (1 - a) + wp[..., :3] * a; al[:] = 1 - (1 - al) * (1 - a)
 
     def page_title(self, text, sub, num, u, write_t0=.55, write_dur=1.1):
-        """장 제목 페이지: 새 종이에 금색 펜으로 장 제목을 쓰고 밑줄"""
+        """장 제목 페이지 (2026-10-28 운영자: 필기체가 너무 많다 · 장 전환은 더 시네마틱하게)
+        큰 명조 제목이 한 글자씩 번지듯 떠오르고(흐림 → 또렷), 금색 펜이 그 아래 밑줄만 긋는다. PART 번호는 자간을 넓혀 먼저 뜬다"""
         t = self.base.copy(); im = Image.fromarray(t); d = ImageDraw.Draw(im, "RGBA")
-        cx, cy = self.TW / 2, self.MT + H * .46
-        d.text((cx, cy - 190), f"PART {num:02d}", font=font("mont", 40), fill=(*GOLD_D, 255), anchor="mm")
-        f = font("pen", 190)
-        while f.size > 90 and d.textlength(text, font=f) > W * .8: f = font("pen", f.size - 10)
+        cx, cy = self.TW / 2, self.MT + H * .47
+        a0 = clamp((u - write_t0 + .35) / .5)
+        if a0 > 0:   # PART 01 (자간 넓게)
+            lab = "  ".join(f"PART {num:02d}"); f0 = font("mont", 34)
+            lay = Image.new("L", im.size, 0); ImageDraw.Draw(lay).text((cx, cy - 175 + 8 * (1 - eout(a0))), lab, font=f0, fill=int(255 * a0), anchor="mm")
+            im.paste(GOLD_D, (0, 0), lay)
+        f = font("myeongjo", 150)
+        while f.size > 70 and d.textlength(text, font=f) > W * .78: f = font("myeongjo", f.size - 6)
         tw = d.textlength(text, font=f)
-        layer = Image.new("L", (int(tw) + 40, f.size + 60), 0); ImageDraw.Draw(layer).text((20, 10), text, font=f, fill=255)
-        p = clamp((u - write_t0) / write_dur); cut = int(layer.width * p)
-        if cut > 0:
-            m = layer.copy(); ImageDraw.Draw(m).rectangle([cut, 0, layer.width, layer.height], fill=0)
-            x0, y0 = int(cx - layer.width / 2), int(cy - layer.height / 2)
-            sh = m.point(lambda v: int(v * .25)); im.paste((0, 0, 0), (x0 + 3, y0 + 4), sh)
-            im.paste(INK, (x0, y0), m)
-        # 밑줄 (손으로 긋는 금색)
-        q = clamp((u - write_t0 - write_dur) / .45)
-        if q > 0:
-            x0, x1, y = cx - tw / 2 - 10, cx - tw / 2 - 10 + (tw + 30) * eio(q), cy + f.size * .52
-            pts = [(x0 + (x1 - x0) * k / 40, y + 5 * math.sin(k / 40 * math.pi) - 4 * k / 40) for k in range(41)]
+        x = cx - tw / 2; chars = list(text); n = max(1, len([c for c in chars if c != " "]))
+        step = write_dur / n; k = 0; done_all = True
+        for ch in chars:
+            cw = d.textlength(ch, font=f)
+            if ch == " ": x += cw; continue
+            p = clamp((u - write_t0 - k * step * .8) / .55); k += 1
+            if p < 1: done_all = False
+            if p > 0:
+                g = Image.new("L", (int(cw) + 60, f.size + 80), 0); ImageDraw.Draw(g).text((30, 40 + 18 * (1 - eout(p))), ch, font=f, fill=255, anchor="la")
+                bl = 7 * (1 - eout(p))
+                if bl > .3: g = g.filter(ImageFilter.GaussianBlur(bl))
+                g = g.point(lambda v, a=eout(p): int(v * a))
+                ox, oy = int(x - 30), int(cy - f.size * .62 - 40)
+                im.paste((0, 0, 0), (ox + 3, oy + 4), g.point(lambda v: int(v * .18)))
+                im.paste(INK, (ox, oy), g)
+            x += cw
+        wend = write_t0 + (n - 1) * step * .8 + .55
+        q = clamp((u - wend + .15) / .5)
+        uy = cy + f.size * .52
+        x1 = cx - tw / 2 - 10
+        if q > 0:   # 밑줄 (금색 펜으로 긋는다)
+            x0 = cx - tw / 2 - 10; x1 = x0 + (tw + 30) * eio(q)
+            pts = [(x0 + (x1 - x0) * k / 40, uy + 5 * math.sin(k / 40 * math.pi) - 4 * k / 40) for k in range(41)]
             d.line(pts, fill=(*PEN, 240), width=10, joint="curve")
-        a = clamp((u - write_t0 - write_dur - .2) / .4)
-        if sub and a > 0:   # 장 제목을 다 쓴 뒤에 부제가 떠오른다 (PIL 은 투명도 0 글자도 그리므로 따로 겹친다)
-            lay = Image.new("L", im.size, 0); ImageDraw.Draw(lay).text((cx, cy + f.size * .52 + 70), sub, font=font("SemiBold", 44), fill=int(255 * a), anchor="mm")
+        a = clamp((u - wend - .25) / .45)
+        if sub and a > 0:
+            lay = Image.new("L", im.size, 0); ImageDraw.Draw(lay).text((cx, uy + 70 + 10 * (1 - eout(a))), sub, font=font("SemiBold", 44), fill=int(255 * a), anchor="mm")
             im.paste((110, 118, 134), (0, 0), lay)
         t = np.asarray(im).copy(); self._header(t, "")
-        tip = None
-        if 0 < p < 1: tip = (cx - layer.width / 2 + layer.width * p, cy + f.size * (.1 + .25 * math.sin(u * 38)))
-        elif 0 < q < 1: tip = (x1, y)
+        tip = (x1, uy) if 0 < q < 1 else None
         return np.clip(t * self.shade, 0, 255).astype(np.uint8), tip
 
     def _header(self, t, right):
@@ -287,7 +303,7 @@ class Notebook:
         PD = self.PD
         return np.array([[-.5 - pad, y, PD / 2 + pad], [.5 + pad, y, PD / 2 + pad], [.5 + pad, y, -PD / 2 - pad], [-.5 - pad, y, -PD / 2 - pad]])
 
-    def frame(self, tex, cam, flip=None, tab=-1, pen_tip=None, pen_alpha=0.0):
+    def frame(self, tex, cam, flip=None, tab=-1, pen_tip=None, pen_alpha=0.0, dof=0.0):
         """tex: 지금 보이는 페이지. flip=(theta(0~pi), old_tex): 앞 페이지가 위로 넘어가는 중"""
         TK, PD = self.TK, self.PD; yb = -TK
         # 책상·그림자·소품·뒤표지는 절반 해상도로 그리고 키운다 (흐릿해도 되는 부분이라 속도를 아낀다)
@@ -319,7 +335,21 @@ class Notebook:
         self._rings(fr, cam)
         if pen_tip is not None and pen_alpha > .02: self._pen_on_page(fr, cam, pen_tip, pen_alpha)
         fr *= self.light
+        if dof > .02: fr = self._dof(fr, cam, dof)
         return np.clip(fr, 0, 255)
+
+    def _dof(self, fr, cam, amt):
+        """얕은 심도 (2026-10-28 시네마틱): 노트 페이지는 또렷하게, 책상과 화면 위쪽 먼 곳은 흐리게"""
+        lo = cv2.resize(fr, (W // 3, H // 3), interpolation=cv2.INTER_AREA)
+        bl = cv2.resize(cv2.GaussianBlur(lo, (0, 0), 2.2 + 3.5 * amt), (W, H), interpolation=cv2.INTER_LINEAR)
+        m = np.zeros((H // 3, W // 3), np.float32)
+        cv2.fillConvexPoly(m, np.int32(np.round(cam.proj(self.corners(0.0, .01)) / 3 * 16)), 1.0, lineType=cv2.LINE_AA, shift=4)
+        m = cv2.GaussianBlur(m, (0, 0), 6)
+        yy = np.linspace(0, 1, H // 3, dtype=np.float32)[:, None]
+        m *= 1 - np.clip((.30 - yy) / .30, 0, 1) * .85   # 화면 위쪽(먼 쪽)은 페이지라도 조금 흐리게
+        m = cv2.resize(m, (W, H), interpolation=cv2.INTER_LINEAR)[..., None]
+        k = amt
+        return fr * (1 - (1 - m) * k) + bl * ((1 - m) * k)
 
     def _sheet(self, fr, cam, theta, old, n=26):
         """앞 페이지가 아래 가장자리부터 들려 위로 넘어간다 (아래쪽이 먼저 휘며 올라감)"""
@@ -386,6 +416,62 @@ class Notebook:
             fill_poly(fr, np.array([c + nv * L * .045, c + nv * L * .045 + dv * w_, c - nv * L * .045 + dv * w_, c - nv * L * .045]), (11, 27, 51), al)
 
 
+# ── 시네마틱 효과 (2026-10-28 운영자: "초기 인트로와 장면 전환은 좀 더 시네마틱하게") ──
+_SW = {}
+
+
+def light_sweep(img, p, strength=.32, ang=-.5):
+    """빛줄기: 따뜻한 금빛 띠가 화면을 비스듬히 훑고 지나간다 (p 0~1 = 왼쪽 밖 → 오른쪽 밖)"""
+    if p <= 0 or p >= 1 or strength <= 0: return img
+    if "g" not in _SW:
+        yy, xx = np.mgrid[0:H // 4, 0:W // 4].astype(np.float32); _SW["g"] = (xx * 4 * math.cos(ang) + yy * 4 * math.sin(ang))
+    g = _SW["g"]; lo, hi = g.min() - 500, g.max() + 500; pos = lo + (hi - lo) * p
+    band = np.exp(-((g - pos) / 210) ** 2) + .45 * np.exp(-((g - pos + 330) / 90) ** 2)
+    band = cv2.resize(band.astype(np.float32), (W, H), interpolation=cv2.INTER_LINEAR)[..., None] * strength * math.sin(math.pi * p)
+    return np.clip(img + band * np.array([255, 214, 150], np.float32), 0, 255)
+
+
+def anamorphic_flare(img, x, y, a):
+    """가로로 길게 번지는 렌즈 빛 (오프닝 첫 장면)"""
+    if a <= .01: return img
+    yy, xx = np.mgrid[0:H // 4, 0:W // 4].astype(np.float32); xx *= 4; yy *= 4
+    streak = np.exp(-((yy - y) / 7) ** 2) * np.exp(-((xx - x) / 900) ** 2)
+    core = np.exp(-(((xx - x) / 70) ** 2 + ((yy - y) / 70) ** 2))
+    f = cv2.resize((streak * .9 + core * .8).astype(np.float32), (W, H), interpolation=cv2.INTER_LINEAR)[..., None] * a
+    return np.clip(img + f * np.array([255, 205, 140], np.float32), 0, 255)
+
+
+def fade_black(img, a):
+    """a=1 이면 완전 검정"""
+    return img * (1 - clamp(a)) if a > 0 else img
+
+
+def cine_title(pil, text, u, t0=.8, x=150, y=None, size=92, sub=None):
+    """오프닝 제목: 명조 큰 글씨가 한 글자씩 흐림에서 또렷하게 떠오르고, 위에 짧은 금선이 그어진다"""
+    if not text or u < t0 - .4: return
+    y = int(H * .40) if y is None else y
+    d = ImageDraw.Draw(pil, "RGBA"); f = font("myeongjo", size)
+    q = clamp((u - t0 + .4) / .6)
+    if q > 0: d.line([(x + 4, y - 34), (x + 4 + 150 * eio(q), y - 34)], fill=(*PEN, int(240 * q)), width=4)
+    cx = x; step = .055
+    for i, ch in enumerate(text):
+        cw = d.textlength(ch, font=f)
+        p = clamp((u - t0 - i * step) / .5)
+        if p > 0 and ch != " ":
+            g = Image.new("L", (int(cw) + 50, size + 70), 0); ImageDraw.Draw(g).text((25, 25 + 14 * (1 - eout(p))), ch, font=f, fill=255)
+            bl = 8 * (1 - eout(p))
+            if bl > .3: g = g.filter(ImageFilter.GaussianBlur(bl))
+            sh = g.filter(ImageFilter.GaussianBlur(10)).point(lambda v, a=eout(p): int(v * .55 * a))
+            pil.paste((0, 0, 0), (int(cx - 25 + 3), y - 25 + 5), sh)
+            pil.paste(IVORY, (int(cx - 25), y - 25), g.point(lambda v, a=eout(p): int(v * a)))
+        cx += cw
+    if sub:
+        a = clamp((u - t0 - len(text) * step - .2) / .5)
+        if a > 0:
+            lay = Image.new("L", pil.size, 0); ImageDraw.Draw(lay).text((x + 4, y + size + 28), sub, font=font("SemiBold", 40), fill=int(230 * a))
+            pil.paste(GOLD, (0, 0), lay)
+
+
 # ── 화면 위에 얹는 다큐 효과 ──
 def doc_grade(img, amt, k=0, nb=None):
     """필름 결 · 따뜻한 색 · 가장자리 어둡게 (amt 0~1)"""
@@ -406,11 +492,11 @@ def doc_grade(img, amt, k=0, nb=None):
 
 def letterbox(img, amt):
     if amt <= 0: return img
-    bh = int(round(131 * amt)); img[:bh] *= 0; img[H - bh:] *= 0
+    bh = int(round(138 * amt)); img[:bh] *= 0; img[H - bh:] *= 0   # 2.39:1 극장 비율
     return img
 
 
-def stamp(pil, lines, u, t0=.3, cps=13):
+def stamp(pil, lines, u, t0=1.9, cps=13):   # 2026-10-28: 오프닝 제목이 다 뜬 뒤에 찍힌다
     """타자기 자막: 첫 줄(영문, 고정폭) · 둘째 줄(명조). 한 글자씩 찍히고 커서가 깜빡인다"""
     if not lines: return []
     d = ImageDraw.Draw(pil, "RGBA"); x, y = 150, H - 131 - 230; ticks = []   # 아래 띠 위, 자막보다 위 (위쪽 장면 제목과 겹치지 않게)
@@ -428,7 +514,7 @@ def stamp(pil, lines, u, t0=.3, cps=13):
     return ticks
 
 
-def stamp_times(lines, t0=.3, cps=13):
+def stamp_times(lines, t0=1.9, cps=13):
     """타자기 소리를 넣을 때(장면 안 초)"""
     if not lines: return []
     out = [t0 + i / cps for i, ch in enumerate(lines[0]) if ch != " "]
@@ -509,4 +595,16 @@ def whoosh(sr, dur=1.6, level=.06, seed=1):
         f = 300 + 2600 * (a / n) ** 1.5; b_, a_ = sg.butter(2, f / (sr / 2)); y[a:a + 512] = sg.lfilter(b_, a_, x[a:a + 512])
     env = np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 2
     y = y * env
+    return (y / (np.abs(y).max() + 1e-9) * level).astype(np.float32)
+
+
+def boom(sr, level=.1, seed=0):
+    """시네마틱 낮은 울림: 낮게 퉁 하고 길게 사라진다 (오프닝 제목·장 제목이 뜰 때, 거슬리지 않게 작게)"""
+    from scipy import signal as sg
+    rng = np.random.default_rng(seed); d = 2.6; n = int(sr * d); t = np.arange(n) / sr
+    f = 46 + 18 * np.exp(-t * 6)
+    body = np.sin(2 * np.pi * np.cumsum(f) / sr) * np.exp(-t * 1.6)
+    air = sg.lfilter(*sg.butter(2, [200 / (sr / 2), 1400 / (sr / 2)], "band"), rng.standard_normal(n)) * np.exp(-t * 3.2) * .12
+    att = np.clip(t / .025, 0, 1)
+    y = (body + air) * att
     return (y / (np.abs(y).max() + 1e-9) * level).astype(np.float32)

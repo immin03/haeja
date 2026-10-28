@@ -18,6 +18,19 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", "reels"))
 import inkworld as IW  # noqa: E402
 
+# 2026-10-28 운영자: "필기체가 너무 많고 잘 안 보인다" → 롱폼 손글씨는 굵고 또렷한 연성체(OFL)로.
+# 나눔펜보다 글자가 약 1.25배 커서, 원고에 적힌 크기에 .82를 곱해 같은 자리에 들어가게 한다(대신 획이 굵어 훨씬 잘 읽힌다).
+IW.PEN_FONT = "YeonSung-Regular.ttf"; IW._C.clear()
+PEN_SCALE = .82
+_iw_font = IW.font
+
+
+def _pen_font(kind, size):
+    return _iw_font(kind, max(8, int(round(size * PEN_SCALE)))) if kind == "pen" else _iw_font(kind, size)
+
+
+IW.font = _pen_font
+
 _base_icon = IW.icon_draw
 
 
@@ -137,7 +150,7 @@ IW.DUR.update({"bar": .9, "hbar": .9, "rule": .35})
 #  - 펜(손글씨)은 장면마다 핵심 2개까지만: 가장 큰 글씨·숫자 우선. 나머지 손글씨와 96px보다 작은 글씨는 인쇄 글씨로 깔끔하게 나타난다(펜 없음)
 #  - 체크 목록은 인쇄 글씨 + 작은 체크 표시만 펜으로
 #  - 왼쪽 여백 근처 글씨는 한 줄(x=140)에 맞춘다
-PEN_KEEP = 2
+PEN_KEEP = 1   # 2026-10-28 운영자: 필기체가 너무 많다 → 장면마다 가장 중요한 숫자 하나만 펜으로, 나머지는 보기 편한 인쇄 글씨로 정렬
 PEN_MIN = 96
 # 2026-10-27 개선: 휴대폰에서 작은 인쇄 글씨가 안 읽혔다(30px 안팎). 손글씨 → 인쇄 글씨로 바꿀 때 최소 40px, 비율 .62
 PRINT_K = .62
@@ -152,9 +165,9 @@ def _txt(b): return "".join(b.get("rows") or [b.get("text", "")])
 def tidy(spec):
     spec = [dict(b) for b in (spec or [])]
     ws = [i for i, b in enumerate(spec) if b.get("kind") == "write"]
-    def big(b):
-        sz = b.get("size", 96); num = bool(_RE.search(r"\d", _txt(b)))
-        return sz >= PEN_MIN or (num and sz >= 80) or _txt(b).strip() == "?"
+    def big(b):   # 펜으로 남길 후보: 숫자가 들어간 큰 글씨 · 물음표 하나 (긴 문장·여러 줄은 인쇄 글씨로)
+        sz = b.get("size", 96); num = bool(_RE.search(r"\d", _txt(b))); short = not b.get("rows") and len(_txt(b).strip()) <= 12
+        return (num and sz >= 80 and short) or _txt(b).strip() == "?"
     def rank(i):
         b = spec[i]; sz = b.get("size", 96)
         return sz * (1.35 if _RE.search(r"\d", _txt(b)) else 1) + (25 if b.get("color") in ("red", "gold", "green") else 0)
@@ -167,8 +180,10 @@ def tidy(spec):
     for i, b in enumerate(spec):
         k = b.get("kind")
         if k == "write" and i not in keep:
-            sz = b.get("size", 96); ps = int(IW.clamp(round(sz * PRINT_K), PRINT_MIN, 72))
-            nb = dict(kind="print", x=b["x"], y=b["y"] + int(sz * .14), size=ps, w="Medium" if b.get("color") == "gray" else "Bold",
+            sz = b.get("size", 96); head = sz >= 100   # 큰 글씨(제목·질문·핵심 숫자)는 굵은 인쇄 글씨로 크게
+            ps = int(IW.clamp(round(sz * (.6 if head else PRINT_K)), PRINT_MIN, 100 if head else 72))
+            wt = "myeongjo" if b.get("serif") else ("ExtraBold" if head else ("Medium" if b.get("color") == "gray" else "Bold"))
+            nb = dict(kind="print", x=b["x"], y=b["y"] + int(sz * .14), size=ps, w=wt,
                       color=b.get("color", "ink"), anchor={"m": "ma"}.get(b.get("anchor"), "la"))
             if b.get("rows"): nb["rows"] = b["rows"]
             else: nb["text"] = b.get("text", "")
@@ -195,7 +210,7 @@ def build(beats_spec, lines):
     out = []
     for b in beats_spec or []:
         if b.get("kind") in ("write", "check"):   # 손글씨 글꼴에 없는 기호 바꾸기
-            fx = lambda x: str(x).replace("·", "/").replace("≈", "약 ").replace("→", "->")
+            fx = lambda x: str(x).replace("≈", "약 ").replace("−", "-")   # 연성체에 없는 기호만 바꾼다
             b = dict(b)
             if "text" in b: b["text"] = fx(b["text"])
             if "rows" in b: b["rows"] = [fx(r) for r in b["rows"]]
@@ -373,8 +388,8 @@ def auto(v, lines, V, fill, at_time):
         for i, r in enumerate(v.get("rows", [])): B.append(dict(kind="check", text=F(r[0]), x=160, y=380 + i * 160, size=62, t=T(r[1]) if len(r) > 1 else .5 + i))
     elif t == "quote":
         if v.get("backdrop"): photo(v["backdrop"], 1220, 140, 600, 430, 3, S0)
-        r = rows("“" + F(v["text"]) + "”", 10); ta = T(v.get("at")); B.append(dict(kind="write", rows=r, x=140, y=180, size=110, t=ta))
-        B.append(dict(kind="print", text="— " + F(v.get("who", "")), x=150, y=200 + 112 * len(r) + 30, size=48, w="Bold", color="gray", t=T(v.get("who_at")) if v.get("who_at") else ta + 1))
+        r = rows("“" + F(v["text"]) + "”", 13); ta = T(v.get("at")); B.append(dict(kind="write", rows=r, x=140, y=180, size=120, serif=1, t=ta))
+        B.append(dict(kind="print", text="— " + F(v.get("who", "")), x=150, y=200 + 96 * len(r) + 40, size=48, w="Bold", color="gray", t=T(v.get("who_at")) if v.get("who_at") else ta + 1))
     elif t == "timeline":
         title(v.get("title")); pts = v["points"]; n = len(pts)
         B.append(dict(kind="under", x0=160, x1=1760, y=580, color="ink", t=S0 + .2, dur=.6))

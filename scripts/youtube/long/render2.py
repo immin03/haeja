@@ -1329,6 +1329,9 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         if only_sc and k not in only_sc: continue
         sc = x["sc"]; n = int(round(x["dur"] * FPS)); typ = sc["v"]["type"]; I = info[k]; theme = I["theme"]
         media = media_source(sc["v"], n + 2, k) if (typ == "media" and not I["inked"]) else None
+        cine_cap = None
+        if k < cold and sc["v"].get("caption"):   # 오프닝: 그림 속 작은 자막 대신 명조 큰 제목이 떠오른다
+            cine_cap = fill(sc["v"]["caption"], V); sc = dict(sc, v={kk: vv for kk, vv in sc["v"].items() if kk not in ("caption", "caption_at")})
         bdf = backdrop_source(sc["v"], n + 2, k) if not I["inked"] else None
         fit = safe_fit(sc, x, V, theme) if (I["mode"] != "title" and not I["inked"]) else None
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
@@ -1343,7 +1346,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             # 1) 장면 그림 → 페이지
             pen_tip = None; pen_al = 0.0
             if I["mode"] == "title":
-                wt0 = NB_FLIP * .55 if I["flip"] else .35
+                wt0 = (1.0 if I["big"] else NB_FLIP * .55) if I["flip"] else .35
                 tex, tip = nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, u, write_t0=wt0)
                 if tip is not None: pen_tip, pen_al = tip, 1.0
             else:
@@ -1363,15 +1366,28 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 a = NBK.eio(u / .35); tex = (prev_tex.astype(np.float32) * (1 - a) + tex.astype(np.float32) * a).astype(np.uint8)
             # 2) 카메라
             dr = NBK.drift(base_pose, u, x["dur"], k)
+            dof = 0.0; bars = 0.0; sweep = -1.0; grade = 0.0
             if k < cold:
-                pose = close; amt = 1.0
+                pose = dict(close); pose["dist"] = close["dist"] * (1 - .045 * NBK.eio(u / max(1.0, x["dur"])))   # 오프닝: 아주 천천히 밀고 들어간다
+                amt = 1.0
                 if k == cold - 1 and u > x["dur"] - NB_REVEAL:
-                    p = NBK.eio((u - (x["dur"] - NB_REVEAL)) / NB_REVEAL); pose = NBK.mix_pose(close, est, p); amt = 1 - p
+                    p = NBK.eio((u - (x["dur"] - NB_REVEAL)) / NB_REVEAL); pose = NBK.mix_pose(pose, est, p); amt = 1 - p; dof = .85 * p
             else:
                 amt = 0.0
-                if I["flip"]:
-                    span = (NB_FLIP if I["big"] else NB_FLIP2) + .6; p = u / span   # 카메라가 살짝 물러나 넘어가는 페이지를 보여 준 뒤 새 페이지로 내려앉는다
-                    mid = dict(base_pose); mid["dist"] = base_pose["dist"] * (1.3 if I["big"] else 1.1); mid["pitch"] = 80 if I["big"] else 86; mid["tz"] = base_pose["tz"] + (.04 if I["big"] else .015)
+                if k == cold and cold and u < NB_MOVE + .4: dof = .85 * (1 - NBK.eio(u / (NB_MOVE + .4)))   # 공개 장면 뒤 초점이 페이지로 돌아온다
+                if I["flip"] and I["big"]:   # 장 전환: 카메라가 비스듬히 높이 물러나(얕은 심도·극장 비율 띠) 넘어가는 페이지를 보여 준 뒤 제목 페이지로 내려앉는다
+                    span = 2.3; p = u / span
+                    mid = dict(base_pose); mid["dist"] = base_pose["dist"] * 1.85; mid["pitch"] = 54; mid["yaw"] = -11; mid["roll"] = -2.5; mid["tz"] = base_pose["tz"] - .05; mid["tx"] = .04
+                    if p >= 1: pose = dr
+                    elif p < .42: pose = NBK.mix_pose(start_pose, mid, NBK.eio(p / .42))
+                    else: pose = NBK.mix_pose(mid, dr, NBK.eio((p - .42) / .58))
+                    wide = clamp(1 - abs(p - .42) / .42) if p < 1 else 0.0
+                    dof = .9 * wide; grade = .45 * wide
+                    bars = clamp(u / .45) * (1 - clamp((u - (x["dur"] - .6)) / .5)) if x["dur"] > 1.2 else 0.0
+                    sweep = (u - .55) / 1.5
+                elif I["flip"]:
+                    span = NB_FLIP2 + .6; p = u / span   # 카메라가 살짝 물러나 넘어가는 페이지를 보여 준 뒤 새 페이지로 내려앉는다
+                    mid = dict(base_pose); mid["dist"] = base_pose["dist"] * 1.1; mid["pitch"] = 86; mid["tz"] = base_pose["tz"] + .015
                     pose = dr if p >= 1 else (NBK.mix_pose(start_pose, mid, NBK.eio(p * 2)) if p < .5 else NBK.mix_pose(mid, dr, NBK.eio(p * 2 - 1)))
                 else:
                     pose = NBK.mix_pose(start_pose, dr, NBK.eio(u / NB_MOVE)) if u < NB_MOVE else dr
@@ -1379,26 +1395,38 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             fd = NB_FLIP if I["big"] else NB_FLIP2
             if I["flip"] and prev_tex is not None and u < fd + .1:
                 flip = (math.pi * NBK.eio(clamp((u - .1) / fd)), prev_tex)
-            fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al)
-            # 3) 오프닝 다큐 효과
+            fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al, dof=dof)
+            # 3) 오프닝 다큐 효과 · 시네마틱 (빛줄기·렌즈 빛·검은 화면에서 떠오르기·극장 비율 띠)
+            if grade > 0: fr = NBK.doc_grade(fr, grade, fi, nb)
+            if 0 < sweep < 1: fr = NBK.light_sweep(fr, sweep, .26)
+            if k == 0 and cold:
+                fr = NBK.anamorphic_flare(fr, 1450 - 260 * clamp(u / 3), 420, .55 * math.sin(math.pi * clamp((u - .35) / 2.2)))
             if amt > 0:
                 fr = NBK.doc_grade(fr, amt, fi, nb); fr = NBK.letterbox(fr, amt)
+            elif bars > 0: fr = NBK.letterbox(fr, bars)
+            if k == 0: fr = NBK.fade_black(fr, 1 - NBK.eio(u / .9))
+            if k == len(timeline) - 1: fr = NBK.fade_black(fr, NBK.eio((u - (x["dur"] - .8)) / .8))   # 끝: 어둡게 닫힌다
             im = Image.fromarray(fr.astype(np.uint8))
+            if cine_cap and amt > 0:
+                lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); NBK.cine_title(lay, cine_cap, u, t0=.75, x=150, y=330, size=96)
+                if amt < 1: lay.putalpha(lay.getchannel("A").point(lambda v: int(v * amt)))
+                im.paste(lay, (0, 0), lay)
             if amt > 0 and stamps.get(str(k)):
                 lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); NBK.stamp(lay, stamps[str(k)], u)
                 if amt < 1: lay.putalpha(lay.getchannel("A").point(lambda v: int(v * amt)))
                 im.paste(lay, (0, 0), lay)
             # 4) 진행 막대 · 출처 · 자막 (화면 위에)
             d = AD(im)
-            if amt < 1:
-                a_ = 1 - amt; d.rectangle([0, 0, W, 5], fill=(30, 24, 18, int(160 * a_))); d.rectangle([0, 0, int(W * (x["start"] + u) / total), 5], fill=(*GOLD, int(255 * a_)))
+            bars = max(bars, amt)
+            if bars < 1:
+                a_ = 1 - bars; d.rectangle([0, 0, W, 5], fill=(30, 24, 18, int(160 * a_))); d.rectangle([0, 0, int(W * (x["start"] + u) / total), 5], fill=(*GOLD, int(255 * a_)))
             foot = " · ".join([q for q in [src, (f"데이터 {asof} 기준" if asof else "")] if q])
             if foot:
                 fy = H - 40 if amt <= 0 else H - 40
                 d.text((62, fy + 2), foot, font=F("Medium", 21), fill=(0, 0, 0, 150)); d.text((60, fy), foot, font=F("Medium", 21), fill=(232, 226, 212, 230))
             cur = next((l for l in reversed(x["lines"]) if u >= l[0] - .05), None)
             if cur and u <= cur[0] + cur[1] + .25 and typ != "end":
-                subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 160) - int(round(40 * amt)))
+                subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 160) - int(round(40 * bars)))
             enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
             if i == n - 1:
                 last_tex = tex if I["mode"] != "title" else nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, 99)[0]
@@ -1440,7 +1468,10 @@ def main():
                 except KeyError: print("  선택 문장 생략:", l[:40])
             else: lines.append(fill(l, V))
         if not lines: print("  문장이 없어 장면 생략:", sc["v"]["type"]); continue
-        lt = []; u = .25
+        lt = []; u = sc.get("lead", .25)
+        if spec.get("world") == "notebook" and "lead" not in sc:   # 2026-10-28 운영자: 인트로·장 전환은 시네마틱하게 → 말 앞에 화면만 흐르는 구간
+            if not timeline: u = 1.1                                  # 오프닝: 검은 화면에서 떠오르며 제목이 뜰 시간
+            elif sc.get("chapter") and sc["v"]["type"] == "title": u = 1.15   # 장 제목: 카메라가 물러나 페이지가 넘어가고 제목이 떠오를 시간
         for l in lines:
             a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
@@ -1472,6 +1503,12 @@ def main():
             for b in (SK.scene_beats(x["sc"], x["lines"], V, fill, at_time, k >= cold) or []):
                 if not b.pen: continue
                 i = int((x["start"] + b.t0) * SR); sfx = pen_sound(max(.3, b.t1 - b.t0) + .1, seed=int(b.t0 * 37) + k, level=.02); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+        for k, x in enumerate(timeline):   # 2026-10-28 시네마틱: 오프닝 제목·장 제목이 뜰 때 낮은 울림, 장 전환 카메라에 부드러운 쉭
+            if k == 0 and cold:
+                i = int((x["start"] + .75) * SR); sfx = NBK.boom(SR, level=.11); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+            elif x["sc"].get("chapter") and x["sc"]["v"]["type"] == "title":
+                i = int((x["start"] + .05) * SR); sfx = NBK.whoosh(SR, 1.3, level=.035, seed=k); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+                i = int((x["start"] + 1.0) * SR); sfx = NBK.boom(SR, level=.085, seed=k); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
         if cold and cold <= len(timeline):   # 공개 장면: 카메라가 뒤로 빠질 때 쉭
             x = timeline[cold - 1]; i = int((x["start"] + x["dur"] - NB_REVEAL - .3) * SR); sfx = NBK.whoosh(SR, NB_REVEAL + .5)
             mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
