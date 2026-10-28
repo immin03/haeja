@@ -1,0 +1,36 @@
+{
+ "id": "kb43_empty",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Keep everything in the first reference image exactly the same: same snowy hanok courtyard, composition, camera angle, lighting, colors, persimmon tree, jars, the folded plum quilted vest, the empty teacup and the reading glasses on the wooden maru porch, and the miniature clay style. Only add two things. 1) On the wooden wall right behind the maru porch, clearly visible and large enough to read on a phone, hang one small simple wooden picture frame with a photo inside: the elderly grandmother (white hair in a low bun, plum quilted vest) and the little girl in the yellow jacket smiling together under the persimmon tree, exactly the same two faces as in the second reference image. 2) On the flat stone step in front of the porch, one pair of small white Korean rubber shoes (gomusin) placed neatly side by side, lightly dusted with snow. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, soft cinematic light, felt, clay, paper and wood textures, gentle film grain, warm nostalgic color grade, not photorealistic. Vertical 9:16 frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no watermark anywhere, including inside the frame.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18054-8fc2-72ee-bc31-2b9fab4336ca/d339a415-cb34-4e7e-adfb-a02e0b810789.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18038-903a-7fb8-85bb-4b1e0891d0ea/31c40232-7e9f-4007-9ff5-61d9cfa31176.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e7-08bc-7b30-8211-a699d833ce91",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e7-08bc-7b30-8211-a699d833ce91/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e7-08bc-7b30-8211-a699d833ce91/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e7-08bc-7b30-8211-a699d833ce91",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e7-08bc-7b30-8211-a699d833ce91/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e7-08bc-7b30-8211-a699d833ce91/cancel",
+  "expires_at": "2026-11-04T05:07:01.934956+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e7-08bc-7b30-8211-a699d833ce91/496af4a3-369e-45c9-818c-49211b8db323.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/kb43_empty.jpeg"
+}

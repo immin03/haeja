@@ -1,0 +1,36 @@
+{
+ "id": "kb63_share",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Keep everything in the first reference image exactly the same: same snowy hanok courtyard, composition, camera angle, lighting, colors, the young woman in the plum vest hugging her little son in the red jacket, their faces and expressions, the persimmons, and the miniature clay style; the magpie stays exactly as it is (the character in the second reference: small round chibi magpie, glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, red knotted neckerchief, small brown leather satchel, no microphone). Only add one thing: right next to the magpie on the same branch, one tiny fluffy baby magpie chick (half its size, round, soft black head and cream belly, no neckerchief) nestled close against it, both looking toward the last persimmon. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, soft cinematic light, felt, clay, paper and wood textures, gentle film grain, warm nostalgic color grade, not photorealistic. Vertical 9:16 frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no watermark anywhere.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18040-ac69-746a-8f95-ec4e4ee6abd8/2a8240fc-9068-4a5b-a21e-1bef7d81c7ce.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a180e7-08ab-7b87-ac97-414ae644116a",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e7-08ab-7b87-ac97-414ae644116a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e7-08ab-7b87-ac97-414ae644116a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a180e7-08ab-7b87-ac97-414ae644116a",
+  "status_url": "https://api.higgsfield.ai/requests/01a180e7-08ab-7b87-ac97-414ae644116a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a180e7-08ab-7b87-ac97-414ae644116a/cancel",
+  "expires_at": "2026-11-04T05:08:58.377952+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a180e7-08ab-7b87-ac97-414ae644116a/0d814bbd-c4d9-4112-adaf-d28af6c1b82d.jpeg"
+   }
+  ]
+ },
+ "seconds": 158,
+ "file": "social/side/gen/kb63_share.jpeg"
+}
