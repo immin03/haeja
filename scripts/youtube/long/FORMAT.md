@@ -81,6 +81,7 @@
   - 기획안 필드: rank, series, title, thumb{l1,l2}, message(한 문장), why_now[근거 숫자와 날짜], outline[장 6~8개], minutes, target_at, company(데이터에 쓸 회사 코드), made_at, made_by, notes.
   - 우선순위: 지금 사람들이 가장 많이 관심 갖는 회사·이슈가 먼저다. 근거는 최근 뉴스량·검색 관심, 밸류노트 안 회사 조회수(agent_snapshot topViews), 다가오는 실적 발표 같은 일정. 같은 회사는 4주 안에 다시 하지 않는다(새 실적처럼 새 이야기가 있으면 예외). 승인 대기는 3~5편을 유지한다.
   - 원고는 승인된 기획안의 제목·메시지·목차를 따른다(바꿀 때는 기획안 notes에 이유). 원고를 쓰기 시작하면 status를 producing, 검수 탭에 올라가면 done으로 바꾼다.
+  - **제작 중 반려 (2026-10-28 운영자: "관리자 제작중에도 반려할수있게 해줘 이유같이 적으면서")**: 대표님은 제작 대기·제작 중인 기획안을 관리자에서 사유와 함께 반려할 수 있다(RPC `yt_plan_cancel` → status rejected, cancelled true, cancel_reason). 제작 작업은 **원고 시작 전, 렌더를 걸기 전, push 전, 검수 탭에 올리기(yt_import) 전마다** `select data->>'status', data->>'cancel_reason' from docs where collection='yt_plans' and id='<기획안 id>'`로 다시 확인하고, rejected면 그 자리에서 멈춘다: 아직 push하지 않은 파일은 버리고, 이미 렌더가 걸렸으면 youtube_posts에 그 영상을 올리지 않으며(올라갔다면 `yt_admin_set(id,'hold','반려: <사유>')`), 최종 메시지는 "중단: 대표님 반려 (<사유>)". 반려된 기획안은 DB 트리거가 producing/done으로 되돌리지 못하게 막는다. cancel_reason은 docs 'feedback'에도 쌓이니 다음 기획·원고에 규칙으로 반영한다.
 
 ## 취재 노트 정리 규칙 (2026-10-27 운영자 검수, 스타벅스 편 — 이 문서의 펜·메모 규칙보다 먼저)
 운영자: "정렬 안 되고 자기 멋대로", "펜이 너무 많다", "작은 글씨는 펜을 안 쓰든가 작은 펜으로, 핵심만 큰 펜", "노트를 두서없이 막 필기하는 느낌 말고 쓰면서 정리해 줘야".
