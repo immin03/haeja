@@ -143,6 +143,8 @@ select id, status, title, note, feedback from sc_plans where status in ('rework'
 3. `scripts/side/specs_emo/E날짜-이름.json` 작성 → `emo.py --local` 로 점검 렌더 → 프레임 확인
 4. push → `side-emo` 가 렌더·등록 → 관리자 검수 탭에 뜬다(안 뜨면 sc_videos 확인)
 - push 가 렌더를 일으키면 안 될 때는 커밋 메시지에 `[skip ci]`
+- **side-gen 은 한 번에 하나만 돌고, 대기 중인 실행은 더 새 push 가 오면 GitHub가 취소한다**(2026-10-28 실제로 발생). push 뒤 반드시 그 커밋의 실행 결과를 확인하고 cancelled 면 `gh workflow run side-gen.yml -R immin03/haeja --ref main -f files="<파일 이름들>"` 로 다시 돌린다
+- Higgsfield 잔액이 0이면 기록 json 의 error 에 "credit balance is too low" 가 남는다. 충전 뒤 retry:true 로 다시
 - GitHub GraphQL 이 막혀 있으니 `gh release download` 대신 `gh api repos/immin03/haeja/releases/...` REST 를 쓴다
 
 ---
