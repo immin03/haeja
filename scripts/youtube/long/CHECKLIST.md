@@ -52,3 +52,6 @@
 - [ ] 썸네일 2~3안(사진·문구 각도 다르게)
 - [ ] 독립 검수 평균 8.5 이상, 7 이하 항목 없음 (최대 3라운드)
 - [ ] (2026-10-26) `node scripts/humanize_ko.mjs scan <원고>` ✗ 0건 · 손질 전후 `diff` 숫자 그대로 (scripts/CONTENT.md 6절)
+
+## 썸네일 (2026-10-28)
+- [ ] `scripts/reels/thumbs/<id>_a/_b/_c.json` 3안이 심플 틀(2줄 제목 · 이름 · 그림 하나 · 큰 숫자)로 있는가 — 사진 배경 썸네일은 쓰지 않는다 (scripts/reels/README.md 썸네일 표준)

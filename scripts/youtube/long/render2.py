@@ -1215,6 +1215,11 @@ def clean_voice(l, speak):
 
 def make_thumb(spec, V, out):
     """썸네일 (2026-10-22 운영자: 머니스웨거처럼 단순·직관·자극적으로) — 관련 사진 한 장 + 굵은 두 줄(흰색 + 노란색 질문)"""
+    tj = os.path.join(ROOT, "scripts", "reels", "thumbs", f"{spec['id']}{'_' + spec['_ab'] if spec.get('_ab') else ''}.json")
+    if not os.path.exists(tj): tj = os.path.join(ROOT, "scripts", "reels", "thumbs", f"{spec['id']}_a.json") if not spec.get("_ab") else tj
+    if os.path.exists(tj):   # 2026-10-28 운영자: 롱폼도 삼성전자 쇼츠 같은 심플 썸네일 (2줄 제목 + 이름 + 그림 하나 + 큰 숫자)
+        sys.path.insert(0, os.path.join(ROOT, "scripts", "reels")); import thumb_simple
+        thumb_simple.render(json.load(open(tj, encoding="utf-8")), os.path.join(out, "thumb.jpg")); return
     tv = spec["thumb"]; TW, TH_ = 1280, 720; YEL = (255, 219, 148)
     ph = tv.get("photo") and os.path.join(ROOT, "scripts", "blog", "media", "lib", tv["photo"])
     if ph and os.path.exists(ph):

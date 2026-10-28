@@ -1629,9 +1629,13 @@ def render(spec, outdir, stills=None):
     tail_img = None; tail = 0.0
     if spec.get("platform") == "youtube" and spec.get("thumb_end", True):
         cover_path = os.path.join(outdir, "cover.jpg")
-        if spec.get("thumb_file") and os.path.exists(os.path.join(HERE, "..", "..", spec["thumb_file"])):
+        tj = os.path.join(HERE, "thumbs", f"{spec['id']}.json")   # 2026-10-28 운영자: 삼성전자 쇼츠 같은 심플 썸네일로 통일 (thumb_simple.py)
+        if os.path.exists(tj):
+            import thumb_simple; thumb_simple.render(json.load(open(tj, encoding="utf-8")), cover_path)
+        elif spec.get("thumb_file") and os.path.exists(os.path.join(HERE, "..", "..", spec["thumb_file"])):
             Image.open(os.path.join(HERE, "..", "..", spec["thumb_file"])).convert("RGB").resize((W, H)).save(cover_path, quality=92)
         else:
+            print(f"  ⚠ {spec['id']}: scripts/reels/thumbs/{spec['id']}.json 이 없어 첫 장면을 썸네일로 씁니다 — 심플 썸네일을 만들어야 업로드할 수 있습니다")
             frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB").save(cover_path, quality=90)
         tail_img = Image.open(cover_path).convert("RGB").resize((W, H)); tail = .5
     wav = os.path.join(outdir, "_mix.wav"); build_audio(scenes, total + tail, spec.get("mood", "tense"), wav)
@@ -1649,7 +1653,10 @@ def render(spec, outdir, stills=None):
         open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
         write_subs(spec, scenes, total, outdir)
         return total + tail
-    (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
+    tj = os.path.join(HERE, "thumbs", f"{spec['id']}.json")
+    if os.path.exists(tj):
+        import thumb_simple; thumb_simple.render(json.load(open(tj, encoding="utf-8")), os.path.join(outdir, "cover.jpg"))
+    else: (frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB") if (YT_BANNER and spec.get("platform") == "youtube") else cover_title(spec, scenes) if spec.get("cover_style", COVER_STYLE) == "title" else cover(spec, scenes)).save(os.path.join(outdir, "cover.jpg"), quality=90)
     open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
     if spec.get("platform") == "youtube": write_subs(spec, scenes, total, outdir)
     return total
