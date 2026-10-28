@@ -150,6 +150,7 @@ def photo_panel(im, name, box, fade="tb", focus=(.5, .5)):
 
 
 def render(spec, out):
+    if spec.get("v", 1) >= 4 and spec.get("format") == "long": return render_v4(spec, out)
     if spec.get("v", 1) >= 3: return render_v3(spec, out)
     if spec.get("v", 1) == 2: return render_v2(spec, out)
     # 2026-10-28 운영자: "BERKSHIRE·JAPAN 같은 영문 글자는 눈에 안 띈다, 위 한글 제목을 더 크게"
@@ -453,6 +454,40 @@ def render_v3(spec, out):
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     im.convert("RGB").save(out, quality=93)
     return out
+
+def render_v4(spec, out):
+    """롱폼 썸네일 확정 틀 (2026-10-29 운영자: 예전 삼성·하이닉스 롱폼 썸네일 "이 정도 느낌이 낫다" + 썸네일 연구 정리)
+    - 주제 실사 사진 1장을 화면 가득, 왼쪽만 어둡게 (사진은 물들이지 않는다)
+    - 왼쪽 정렬로 세 줄만: [로고 또는 주제어] · 흰 짧은 한 줄 · 아주 큰 색 글씨 숫자 질문 (글자는 합쳐 3~6단어)
+    - 글꼴은 SUIT Heavy 하나, 밸류노트 로고는 오른쪽 위, 오른쪽 아래는 재생 시간 자리라 비운다
+    - 설명은 영상 제목이 한다. 썸네일은 핵심 명사와 숫자만"""
+    from brand import paste_logo
+    W, H = 1280, 720; foc = tuple(spec.get("focus", (.5, .5)))
+    im = _cover(spec["photo"], W, H, foc, blur=0) if spec.get("photo") else background(W, H, .6)
+    _shade(im, [(0, 235), (.4, 195), (.66, 60), (.88, 0), (1, 0)], axis="x")
+    _shade(im, [(0, 40), (.2, 0), (.8, 0), (1, 70)])
+    tone = spec.get("tone", "down")
+    acc = {"down": (255, 92, 104), "up": GREEN, "gold": (242, 212, 151)}.get(tone, (242, 212, 151))
+    LX = 64; maxw = W - 2 * LX - 120
+    rows = []
+    if spec.get("logo"):
+        lg = Image.open(os.path.join(ROOT, spec["logo"])).convert("RGBA"); lh = 64; lg = lg.resize((int(lg.width * lh / lg.height), lh), Image.LANCZOS); rows.append(("img", lg))
+    elif spec.get("name"): rows.append(("txt", spec["name"], fit(spec["name"], "Mont", 70, maxw), IVORY))
+    rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", 84, maxw), IVORY))
+    f2 = fit(spec["l2"], "Heavy", 150, maxw); rows.append(("txt", spec["l2"], f2, acc))
+    hts = [r[1].height if r[0] == "img" else r[2].size for r in rows]; gap = 22
+    y = (H - (sum(hts) + gap * (len(rows) - 1))) / 2 + 10
+    for r, h in zip(rows, hts):
+        if r[0] == "img": im.alpha_composite(r[1], (LX, int(y)))
+        else:
+            text_shadow(im, (LX, y + h / 2), r[1], r[2], r[3], anchor="lm", off=5, blur=14, alpha=200)
+        y += h + gap
+    paste_logo(im, W - 36, 30, 30, "dark", align="right")
+    if f2.size < 150 * .75: print(f"  ⚠ 큰 글씨가 길어 작아짐 ({f2.size}/150px): {spec['l2']} — 3~4단어로 줄이세요")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+    im.convert("RGB").save(out, quality=93)
+    return out
+
 
 if __name__ == "__main__":
     render(json.load(open(sys.argv[1], encoding="utf-8")), sys.argv[2])

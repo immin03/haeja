@@ -1,29 +1,12 @@
 {
- "v": 3,
+ "v": 4,
  "format": "long",
+ "photo": "commons_goldbars_4.jpg",
+ "focus": [
+  0.6,
+  0.5
+ ],
  "l1": "금값 전망",
- "l2": "이 숫자 3개만 보면 된다",
- "chart": {
-  "kind": "line",
-  "pts": [
-   [
-    "1월 2일",
-    78.3
-   ],
-   [
-    "1월 29일",
-    101.2
-   ],
-   [
-    "10월 26일",
-    63.9
-   ]
-  ],
-  "mark": 1,
-  "mark_label": "1월 29일 최고"
- },
- "big_label": "1월 꼭대기 대비",
- "big": "-37%",
- "tone": "down",
- "photo": "commons_goldbars_4.jpg"
+ "l2": "이 3가지만 보면 된다",
+ "tone": "gold"
 }
