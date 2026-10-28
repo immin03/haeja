@@ -107,3 +107,7 @@ from sc_hot_videos v join s on s.video_id = v.video_id and s.rn = 1;
 
 -- 매일 07:40 KST 수집
 -- select cron.schedule('side-hot-collect', '40 22 * * *', $$select public._fn_call('sc-trend-collect', '{}')$$);
+
+-- ===== 2026-10-28 13시: 완전 자동 · 하루 3편 =====
+-- sc_settings: {"auto": true, "per_day": 3, "slots": ["03:00","08:00","22:00"], "auto_plan": true}
+-- sc_import(): 자동 모드면 단독 쇼츠를 'approved'(업로드 대기)로 바로 넣는다. 본문은 Supabase 마이그레이션 side_auto_mode_3_per_day 참고

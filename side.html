@@ -96,6 +96,15 @@ textarea{min-height:68px;resize:vertical}
 .msg.claude{background:var(--soft);border-color:transparent}
 .msg .w{font-size:11.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
 .next{border:2px solid var(--heart)}
+.sched{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sday{display:grid;gap:6px;align-content:start}
+.sd{font-size:13px;font-weight:850;color:var(--ink2);padding:2px 2px 0}
+.scell{display:grid;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px}
+.scell .sh{font-size:12px;font-weight:850;color:var(--muted);font-variant-numeric:tabular-nums}
+.slot{display:grid;gap:4px;text-decoration:none;color:var(--ink);font-size:12.5px;line-height:1.4}
+.slot b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:750}
+.slot .badge{justify-self:start}
+@media (max-width:760px){.sched{grid-template-columns:repeat(2,minmax(0,1fr))}}
 details.fold>summary{cursor:pointer;list-style:none;font-size:15px;font-weight:850;padding:6px 0}
 details.fold>summary::-webkit-details-marker{display:none}
 details.fold>summary::before{content:"▸ ";color:var(--muted)}
@@ -230,9 +239,9 @@ const isEmo = v => v.kind === 'short' && !v.parent_id;
 
 /* ---------- 탭 ---------- */
 const TABS = [
-  ['review', '검수·업로드', () => S.videos.filter(x => isEmo(x) && (x.status === 'review' || x.status === 'approved')).length],
+  ['review', '편성', () => S.videos.filter(x => isEmo(x) && (x.status === 'review' || x.status === 'rework')).length],
   ['trend', '트렌드', () => S.trends.filter(x => x.kind === 'idea' && x.status === 'new').length],
-  ['plan', '기획안', () => S.plans.filter(x => x.status === 'pending').length],
+  ['plan', '기획안', () => S.plans.filter(x => x.status === 'pending' || x.status === 'rework').length],
   ['jobs', '작업 현황', () => S.jobs.filter(j => j.status === 'running' && Date.now() - Date.parse(j.updated_at) < 15*60e3).length],
   ['perf', '성과', () => 0],
   ['set', '설정', () => 0]
@@ -257,65 +266,85 @@ function thread(fb){
 }
 const fbAdd = (fb, type, text) => (fb || []).concat([{ at: new Date().toISOString(), by: 'owner', type, text }]);
 
-/* ---------- 검수·업로드 ---------- */
+/* ---------- 편성 (자동 진행) ---------- */
+// 2026-10-28 대표님: "기획부터 제작, 올리는 거 다 너가 할 거야. 나는 아니다 싶은 것만 중간에 중단 요청을 할게."
+// 자동 모드(sc_settings.auto)면 렌더가 끝난 영상은 바로 업로드 대기(approved) → 업로드 작업자가 스튜디오 예약.
+// '중단 요청' = status 'rework' + feedback {type:'stop', text, youtube_id?}. 이미 예약된 영상이면 업로드 작업자가 비공개로 돌린다.
+const AUTO = () => S.settings.auto !== false;
+const SLOTS = () => (S.settings.slots && S.settings.slots.length ? S.settings.slots : ['03:00', '08:00', '22:00']);
+const SLOT_NOTE = { '03:00': '유럽 저녁', '08:00': '미국 저녁', '22:00': '인도 저녁·유럽 낮' };
+const dayKST = off => new Date(Date.now() + 9*3600e3 + off*864e5).toISOString().slice(0,10);
+const slotTs = (d, hm) => Date.parse(`${d}T${hm}:00+09:00`);
+const ts = x => Date.parse(x || '2100-01-01');
 function viewReview(){
   const emo = S.videos.filter(isEmo);
-  const bySched = (a, b) => Date.parse(a.scheduled_at || '2100-01-01') - Date.parse(b.scheduled_at || '2100-01-01');
-  const rework = emo.filter(v => v.status === 'rework').sort(bySched);
-  const review = emo.filter(v => v.status === 'review').sort(bySched);
-  const ready = emo.filter(v => v.status === 'approved').sort(bySched);
-  const done = emo.filter(v => v.status === 'uploaded').sort((a,b) => Date.parse(b.uploaded_at || 0) - Date.parse(a.uploaded_at || 0));
+  const now = Date.now();
+  const sched = emo.filter(v => v.status === 'uploaded' && ts(v.scheduled_at) > now).sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
+  const ready = emo.filter(v => v.status === 'approved').sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
+  const review = emo.filter(v => v.status === 'review').sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
+  const rework = emo.filter(v => v.status === 'rework').sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
+  const live = emo.filter(v => v.status === 'uploaded' && ts(v.scheduled_at) <= now).sort((a,b) => ts(b.scheduled_at) - ts(a.scheduled_at));
   const box = S.videos.filter(v => v.status === 'archived' || v.status === 'rejected' || (!isEmo(v) && v.status !== 'uploaded'));
-  const next = ready[0];
+  const plansLive = S.plans.filter(p => ['approved', 'producing', 'pending', 'requested', 'rework'].includes(p.status));
+  // 앞으로 4일 편성표: 칸마다 영상(예약·대기·수정) 또는 기획안(제작 예정)
+  const near = (x, t) => x && Math.abs(ts(x) - t) <= 30*60e3;
+  const grid = [0,1,2,3].map(off => { const d = dayKST(off); return { d, cells: SLOTS().map(hm => {
+    const t = slotTs(d, hm); const past = t < now;
+    const v = emo.find(v => ['uploaded','approved','review','rework'].includes(v.status) && near(v.scheduled_at, t));
+    const p = !v && plansLive.find(p => near(p.publish_at, t));
+    return { hm, past, v, p };
+  }) }; });
+  const filled = grid.slice(1, 3).flatMap(g => g.cells).filter(c => c.v || c.p).length;
+  const cellHTML = c => {
+    if (c.v) { const st = c.v.status === 'uploaded' ? (c.past ? ['공개됨', 'good'] : ['예약됨', 'good']) : c.v.status === 'approved' ? ['업로드 대기', ''] : c.v.status === 'rework' ? ['수정 중', 'bad'] : ['검수 대기', 'warn'];
+      return `<a class="slot" href="#v-${esc(c.v.id)}"><span class="badge ${st[1]}">${st[0]}</span><b>${esc(cleanTitle(c.v.title))}</b></a>`; }
+    if (c.p) { const st = c.p.status === 'producing' ? ['제작 중', 'warn'] : c.p.status === 'rework' ? ['기획 수정 중', 'bad'] : ['제작 예정', 'mut'];
+      return `<div class="slot"><span class="badge ${st[1]}">${st[0]}</span><b>${esc(cleanTitle(c.p.title))}</b></div>`; }
+    return `<div class="slot empty-slot"><span class="badge ${c.past ? 'mut' : 'bad'}">${c.past ? '지남' : '비어 있음'}</span><span class="note">${c.past ? '' : 'Claude가 채웁니다'}</span></div>`;
+  };
+  const wk = d => { const x = new Date(d + 'T00:00:00+09:00'); return `${x.getMonth()+1}/${x.getDate()}(${'일월화수목금토'[x.getDay()]})`; };
   $('#main').innerHTML = `
     <div class="card" style="display:grid;gap:6px">
-      <div class="row"><span class="badge heart">다음 업로드</span>${next ? `<b style="font-size:15px">${kstLong(next.scheduled_at)}</b>` : '<b>업로드 대기 영상 없음</b>'}</div>
-      <div class="note">${next ? esc(info(next).title) + ' · 아래 체크리스트대로 휴대폰 유튜브 앱에서 올리고, 끝나면 <b>올림</b>을 눌러 주세요.' : '검수 대기 영상을 승인하면 여기 순서대로 올라옵니다.'} 하루 2편: 오전 8시(미국 저녁) · 오후 8시(유럽 낮·미국 아침).</div>
+      <div class="row"><span class="badge ${AUTO() ? 'good' : 'warn'}">${AUTO() ? '자동 진행 중' : '수동 검수 모드'}</span><b>하루 ${S.settings.per_day || 3}편 · ${SLOTS().map(h => h + (SLOT_NOTE[h] ? ` ${SLOT_NOTE[h]}` : '')).join(' / ')}</b></div>
+      <div class="note">${AUTO() ? 'Claude가 트렌드로 기획하고, 만들고, 유튜브에 예약까지 합니다. 아니다 싶은 영상이나 기획안에만 <b>중단 요청</b>을 눌러 주세요. 사유를 적으면 고쳐서 다시 만들고, 비워 두면 다른 이야기로 바꿉니다. 이미 예약된 영상은 비공개로 돌린 뒤 처리합니다.' : '수동 검수 모드입니다. 승인한 영상만 업로드합니다.'} 내일·모레 6칸 중 <b>${filled}칸</b>이 채워져 있습니다.</div>
     </div>
-    ${ready.length ? `<h2>업로드 대기 <span class="n">${ready.length}편 · 예약 시각 순</span></h2><div class="grid">${ready.map((v, i) => card(v, i === 0)).join('')}</div>` : ''}
+    <h2>편성표 <span class="n">앞으로 4일 · 칸을 누르면 아래 영상으로 이동</span></h2>
+    <div class="sched">${grid.map(g => `<div class="sday"><div class="sd">${wk(g.d)}${g.d === dayKST(0) ? ' · 오늘' : ''}</div>${g.cells.map(c => `<div class="scell"><div class="sh">${c.hm}</div>${cellHTML(c)}</div>`).join('')}</div>`).join('')}</div>
+    ${rework.length ? `<h2>수정 중 <span class="n">${rework.length}편 · 중단 요청을 받아 Claude가 고치는 중</span></h2><div class="grid">${rework.map(v => card(v)).join('')}</div>` : ''}
     ${review.length ? `<h2>검수 대기 <span class="n">${review.length}편</span></h2><div class="grid">${review.map(v => card(v)).join('')}</div>` : ''}
-    ${rework.length ? `<h2>수정 요청 중 <span class="n">${rework.length}편 · Claude가 고쳐서 다시 검수 대기로 올립니다</span></h2><div class="grid">${rework.map(v => card(v)).join('')}</div>` : ''}
-    ${!ready.length && !review.length && !rework.length ? '<div class="card empty" style="margin-top:12px">검수할 영상이 없습니다. 기획안을 승인하면 제작해서 여기 올립니다.</div>' : ''}
-    ${done.length ? `<details class="fold" style="margin-top:18px"><summary>올린 영상 ${done.length}편</summary><div class="grid">${done.slice(0, 20).map(v => card(v)).join('')}</div></details>` : ''}
+    ${ready.length ? `<h2>업로드 대기 <span class="n">${ready.length}편 · 다음 업로드 작업 때 유튜브 스튜디오에 예약됩니다</span></h2><div class="grid">${ready.map(v => card(v)).join('')}</div>` : ''}
+    ${sched.length ? `<h2>유튜브 예약됨 <span class="n">${sched.length}편 · 공개 전에 중단할 수 있습니다</span></h2><div class="grid">${sched.map(v => card(v)).join('')}</div>` : ''}
+    ${!rework.length && !review.length && !ready.length && !sched.length ? '<div class="card empty" style="margin-top:12px">대기 중인 영상이 없습니다. 제작이 끝나면 여기 나타납니다.</div>' : ''}
+    ${live.length ? `<details class="fold" style="margin-top:18px"><summary>공개된 영상 ${live.length}편</summary><div class="grid">${live.slice(0, 30).map(v => card(v)).join('')}</div></details>` : ''}
     ${box.length ? `<details class="fold" style="margin-top:8px"><summary>보관함 ${box.length}편 (폐기·이전 방향)</summary><div class="grid">${box.map(v => boxCard(v)).join('')}</div></details>` : ''}`;
   bindReview();
 }
-function card(v, isNext){
+function card(v){
   const I = info(v);
-  const st = ({ review: '<span class="badge warn">검수 대기</span>', rework: '<span class="badge bad">수정 요청 중</span>', approved: '<span class="badge good">승인됨 · 업로드 대기</span>', uploaded: '<span class="badge">올림</span>' })[v.status] || '';
-  const Q = S.queue[v.id] || {};
+  const future = ts(v.scheduled_at) > Date.now();
+  const st = ({ review: '<span class="badge warn">검수 대기</span>', rework: '<span class="badge bad">수정 중</span>', approved: '<span class="badge">업로드 대기</span>', uploaded: future ? '<span class="badge good">유튜브 예약됨</span>' : '<span class="badge good">공개됨</span>' })[v.status] || '';
   const dur = v.duration ? Math.round(v.duration) + '초' : '';
-  const ck = store.get('sc-ck-' + v.id, {});
-  const step = (k, html) => `<li class="${ck[k] ? 'done' : ''}"><input type="checkbox" data-ck="${k}" ${ck[k] ? 'checked' : ''}><span>${html}</span></li>`;
   const cp = (text, label, what) => text ? `<button class="btn sm" data-copy="${esc(text)}" data-what="${esc(what || label)}">${label} 복사</button>` : '';
   const dl = (url, label) => url ? `<a class="btn sm" href="${esc(url)}" download target="_blank" rel="noopener">${label}</a>` : '';
   const views = v.stats && v.stats.now ? `<span class="badge">조회수 ${short(v.stats.now.views)}</span>` : '';
-  return `<div class="card${isNext ? ' next' : ''}" data-vid="${esc(v.id)}"><div class="vid">
+  const canStop = ['review', 'approved'].includes(v.status) || (v.status === 'uploaded' && future);
+  return `<div class="card" id="v-${esc(v.id)}" data-vid="${esc(v.id)}"><div class="vid">
     <div>${v.video_url ? `<video src="${esc(v.video_url)}" ${v.thumb ? `poster="${esc(v.thumb)}"` : ''} controls preload="none" playsinline></video>` : '<div class="ph"></div>'}</div>
     <div class="meta">
-      <div class="row">${st}${dur ? `<span class="badge mut">${dur}</span>` : ''}${views}<span class="note" style="margin-left:auto">게시 ${kstLong(v.scheduled_at)}</span></div>
+      <div class="row">${st}${dur ? `<span class="badge mut">${dur}</span>` : ''}${views}<span class="note" style="margin-left:auto">${v.status === 'uploaded' && !future ? '공개' : '게시'} ${kstLong(v.scheduled_at)}</span></div>
       <div class="ttl">${esc(I.title)}</div>
-      <div class="row">${tBadge(I.title)}</div>
+      <div class="row">${tBadge(I.title)}${v.youtube_id ? `<a class="btn sm" href="https://youtube.com/shorts/${esc(v.youtube_id)}" target="_blank" rel="noopener">유튜브</a><a class="btn sm" href="https://studio.youtube.com/video/${esc(v.youtube_id)}/edit" target="_blank" rel="noopener">스튜디오</a>` : ''}</div>
       ${thread(v.feedback)}
-      ${v.status === 'approved' ? `<div class="box"><div class="h">업로드 체크리스트 (유튜브 앱)</div><ol class="steps">
-        ${step('dl', `<b>영상</b> 휴대폰에 저장 ${dl(v.video_url, '영상 받기')}`)}
-        ${step('open', '유튜브 앱 <b>＋ → 동영상 업로드</b>(세로 영상이라 자동으로 쇼츠)')}
-        ${step('title', `<b>제목</b> 붙여넣기 ${cp(I.title, '제목')}`)}
-        ${step('desc', `<b>설명</b> 붙여넣기 ${cp(I.description, '설명')}`)}
-        ${step('vis', `공개 상태 → <b>예약</b> → <b>${kstLong(v.scheduled_at)}</b>`)}
-        ${step('kids', '시청자층 → <b>아니요, 아동용이 아닙니다</b>')}
-        ${step('ai', '변경되거나 합성된 콘텐츠 → <b>아니요</b> (캐릭터 애니메이션)')}
-        ${step('tags', `태그(선택, 스튜디오) ${cp(I.tags, '태그')}`)}
-        ${step('pin', `공개된 뒤 <b>고정 댓글</b> 달고 고정 ${cp(I.pinned, '고정 댓글')}`)}
-        ${step('done', '맨 아래 <b>올림</b>을 누르고 영상 주소 붙여넣기')}
-      </ol></div>` : `<div class="box"><div class="h">업로드 정보</div><div class="row">${cp(I.title, '제목')}${cp(I.description, '설명')}${cp(I.tags, '태그')}${cp(I.pinned, '고정 댓글')}${dl(v.video_url, '영상 받기')}</div>
-        <details><summary class="note" style="cursor:pointer">설명 보기</summary><div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(I.description)}</div></details></div>`}
-      ${v.status === 'review' || v.status === 'approved' ? `<textarea data-note placeholder="고칠 점을 적고 '수정 요청'을 누르면 Claude가 반영해서 다시 올립니다">${esc(v.status === 'review' ? (v.note || '') : '')}</textarea>` : ''}
+      <details><summary class="note" style="cursor:pointer">제목·설명·태그·고정 댓글 (직접 올릴 때)</summary>
+        <div class="box" style="margin-top:8px"><div class="row">${cp(I.title, '제목')}${cp(I.description, '설명')}${cp(I.tags, '태그')}${cp(I.pinned, '고정 댓글')}${dl(v.video_url, '영상 받기')}</div>
+        <div class="note" style="white-space:pre-wrap">${esc(I.description)}</div>
+        <div class="note">직접 올릴 때: 예약 ${kstLong(v.scheduled_at)} · 아동용 아님 · 변경·합성 콘텐츠 아니요 · 공개 뒤 고정 댓글. 올린 뒤 아래 '직접 올림'을 누르세요.</div></div></details>
+      ${canStop ? `<textarea data-note placeholder="중단 사유(선택). 적으면 그대로 고쳐서 다시 만들고, 비워 두면 다른 이야기로 바꿉니다"></textarea>` : ''}
       <div class="row">
-        ${v.status === 'review' ? `<button class="btn sm ok" data-ok>승인</button><button class="btn sm warn" data-rework>수정 요청</button><button class="btn sm" data-discard>폐기</button>` : ''}
-        ${v.status === 'approved' ? `<button class="btn sm pri" data-up>올림</button><button class="btn sm warn" data-rework>수정 요청</button><button class="btn sm" data-back>검수로 되돌리기</button>` : ''}
-        ${v.status === 'rework' ? `<span class="note">요청을 반영하면 다시 렌더해 검수 대기로 올라옵니다.</span><button class="btn sm" data-back>요청 취소</button>` : ''}
-        ${v.status === 'uploaded' && v.youtube_id ? `<a class="btn sm" href="https://youtube.com/shorts/${esc(v.youtube_id)}" target="_blank" rel="noopener">유튜브에서 보기</a>` : ''}
+        ${canStop ? `<button class="btn sm no" data-stop>중단 요청</button>` : ''}
+        ${v.status === 'review' ? `<button class="btn sm ok" data-ok>승인</button>` : ''}
+        ${v.status === 'approved' ? `<button class="btn sm" data-up>직접 올림</button>` : ''}
+        ${v.status === 'rework' ? `<span class="note">Claude가 반영해서 다시 업로드 대기로 올립니다.</span><button class="btn sm" data-back>중단 취소</button>` : ''}
       </div>
     </div></div></div>`;
 }
@@ -324,32 +353,33 @@ function boxCard(v){
   return `<div class="card" data-vid="${esc(v.id)}" style="display:grid;gap:8px">
     <div class="row"><span class="badge mut">${v.status === 'rejected' ? '폐기' : '보관'}</span>${old ? '<span class="badge mut">이전 방향</span>' : ''}<span class="badge mut">${v.kind === 'long' ? '롱폼' : '쇼츠'}</span></div>
     <div style="font-weight:800">${esc(cleanTitle(v.title))}</div>${thread(v.feedback)}
-    <div class="row"><button class="btn sm" data-back>검수로 되돌리기</button>${v.video_url ? `<a class="btn sm" href="${esc(v.video_url)}" target="_blank" rel="noopener">영상 보기</a>` : ''}</div></div>`;
+    <div class="row"><button class="btn sm" data-back>되살리기</button>${v.video_url ? `<a class="btn sm" href="${esc(v.video_url)}" target="_blank" rel="noopener">영상 보기</a>` : ''}</div></div>`;
 }
 function bindReview(){
   document.querySelectorAll('[data-vid]').forEach(card => {
     const id = card.dataset.vid, v = S.videos.find(x => x.id === id); if (!v) return;
-    const upd = async (obj, msg) => { const { error } = await sb.from('sc_videos').update(obj).eq('id', id); if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; } await reload(); toast(msg); };
+    const upd = async (obj, msg) => { const { error } = await sb.from('sc_videos').update(Object.assign({ updated_at: new Date().toISOString() }, obj)).eq('id', id); if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; } await reload(); toast(msg); };
     const note = () => ((card.querySelector('[data-note]') || {}).value || '').trim();
     const on = (sel, f) => { const b = card.querySelector(sel); if (b) b.onclick = f; };
-    on('[data-ok]', () => upd({ status: 'approved', reviewed_at: new Date().toISOString(), note: note() || null, feedback: note() ? fbAdd(v.feedback, 'note', note()) : v.feedback }, '승인했습니다. 업로드 대기로 옮겼습니다'));
-    on('[data-rework]', () => { const t = note(); if (!t) { toast('무엇을 고칠지 적어 주세요', true); card.querySelector('[data-note]').focus(); return; }
-      upd({ status: 'rework', note: t, feedback: fbAdd(v.feedback, 'rework', t) }, '수정 요청을 남겼습니다. 반영해서 다시 올립니다'); });
-    on('[data-discard]', () => { if (!confirm('이 영상을 폐기할까요? (보관함에서 되돌릴 수 있습니다)')) return; const t = note() || '폐기';
-      upd({ status: 'rejected', note: t, feedback: fbAdd(v.feedback, 'discard', t) }, '폐기했습니다'); });
-    on('[data-back]', () => upd({ status: 'review' }, '검수 대기로 되돌렸습니다'));
+    on('[data-stop]', () => {
+      const t = note(); const sched = v.status === 'uploaded';
+      if (!confirm(sched ? '유튜브에 예약된 영상입니다. 비공개로 돌리고 수정할까요?' : '이 영상을 중단할까요?')) return;
+      const entry = { at: new Date().toISOString(), by: 'owner', type: 'stop', text: t || '중단 요청 (사유 없음 → 다른 이야기로 교체)' };
+      if (v.youtube_id) entry.youtube_id = v.youtube_id;
+      upd({ status: 'rework', note: t || null, youtube_id: null, uploaded_at: null, feedback: (v.feedback || []).concat([entry]) },
+        sched ? '중단했습니다. 업로드 작업자가 비공개로 돌리고 Claude가 처리합니다' : '중단했습니다. Claude가 처리합니다');
+    });
+    on('[data-ok]', () => upd({ status: 'approved', reviewed_at: new Date().toISOString() }, '승인했습니다'));
+    on('[data-back]', () => upd({ status: isEmo(v) ? 'approved' : 'review' }, '되돌렸습니다'));
     on('[data-up]', () => {
-      const raw = prompt('올린 쇼츠 주소를 붙여 넣어 주세요 (예: https://youtube.com/shorts/…)', v.youtube_id || ''); if (raw === null) return;
+      const raw = prompt('직접 올린 쇼츠 주소를 붙여 넣어 주세요 (예: https://youtube.com/shorts/…)', ''); if (raw === null) return;
       const m = String(raw).match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/); const yid = m ? m[1] : String(raw).trim();
       if (!/^[\w-]{11}$/.test(yid)) { toast('주소에서 영상 ID를 찾지 못했습니다', true); return; }
-      upd({ status: 'uploaded', youtube_id: yid, uploaded_at: new Date().toISOString() }, '올림으로 표시했습니다. 조회수는 매일 아침 모읍니다');
+      upd({ status: 'uploaded', youtube_id: yid, uploaded_at: new Date().toISOString() }, '올림으로 표시했습니다');
     });
-    card.querySelectorAll('[data-ck]').forEach(c => c.onchange = () => { const ck = store.get('sc-ck-' + id, {}); ck[c.dataset.ck] = c.checked; store.set('sc-ck-' + id, ck); c.closest('li').classList.toggle('done', c.checked); });
     card.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
       const what = b.dataset.what || '내용';
       try { await navigator.clipboard.writeText(b.dataset.copy); toast(what + ' 복사했습니다'); } catch(_) { prompt('아래 내용을 길게 눌러 복사하세요', b.dataset.copy); }
-      const map = { '제목': 'title', '설명': 'desc', '태그': 'tags', '고정 댓글': 'pin' }; const k = map[what];
-      if (k) { const ck = store.get('sc-ck-' + id, {}); ck[k] = true; store.set('sc-ck-' + id, ck); const i = card.querySelector(`[data-ck="${k}"]`); if (i) { i.checked = true; i.closest('li').classList.add('done'); } }
     });
   });
 }
@@ -437,18 +467,18 @@ async function pickTrend(id, btn){
 
 /* ---------- 기획안 ---------- */
 function viewPlan(){
-  const order = { rework: 0, pending: 1, requested: 2, approved: 3, producing: 4, made: 5, rejected: 6 };
+  const order = { rework: 0, pending: 1, requested: 2, producing: 3, approved: 3, made: 5, rejected: 6 };
   const list = S.plans.filter(p => p.line === 'emo' || p.emotion).sort((a,b) => (order[a.status] - order[b.status]) || (Date.parse(a.publish_at || '2100-01-01') - Date.parse(b.publish_at || '2100-01-01')));
   const live = list.filter(p => p.status !== 'rejected' && p.status !== 'made');
   const old = list.filter(p => p.status === 'rejected' || p.status === 'made');
   $('#main').innerHTML = `
     <div class="card" style="display:grid;gap:8px">
-      <div style="font-weight:850">새 기획안 요청</div>
-      <div class="note">원하는 이야기나 감정을 적으면 Claude가 컷 구성·자막·음악·제목까지 써서 여기 올립니다. 비워 두면 트렌드 데이터에서 가장 좋은 소재로 씁니다.</div>
+      <div style="font-weight:850">원하는 이야기가 있으면 (선택)</div>
+      <div class="note">${AUTO() ? '자동 진행 중이라 Claude가 트렌드로 기획안을 쓰고 바로 제작합니다. 꼭 만들고 싶은 이야기가 있을 때만 적어 주세요. 다음 빈칸에 넣습니다.' : '원하는 이야기나 감정을 적으면 Claude가 컷 구성·자막·음악·제목까지 써서 여기 올립니다.'}</div>
       <textarea id="newreq" placeholder="예: 수능 날 새벽, 엄마가 도시락을 싸는 이야기. 마지막은 시험장 앞 포옹"></textarea>
-      <div class="row"><button class="btn pri" id="reqbtn">기획안 요청</button><span class="note">승인하면 그림·영상 생성 → 렌더 → 검수 탭까지 이어집니다 (편당 약 1.2달러)</span></div>
+      <div class="row"><button class="btn pri" id="reqbtn">기획안 요청</button><span class="note">편당 약 1.2달러 · 그림·영상 생성 → 렌더 → 유튜브 예약까지 자동</span></div>
     </div>
-    <h2>기획안 <span class="n">수정 요청 → 승인 대기 → 작성 중 → 제작</span></h2>
+    <h2>기획안 <span class="n">${AUTO() ? 'Claude가 쓰고 승인한 것 · 아니다 싶으면 중단 요청' : '수정 요청 → 승인 대기 → 작성 중 → 제작'}</span></h2>
     ${live.length ? `<div class="grid">${live.map(planCard).join('')}</div>` : '<div class="card empty">진행 중인 기획안이 없습니다.</div>'}
     ${old.length ? `<details class="fold" style="margin-top:16px"><summary>제작 완료·폐기 ${old.length}건</summary><div class="grid">${old.map(planCard).join('')}</div></details>` : ''}`;
   $('#reqbtn').onclick = async () => {
@@ -462,7 +492,7 @@ function viewPlan(){
   bindPlans();
 }
 function planCard(p){
-  const st = ({ requested: '<span class="badge mut">작성 중</span>', pending: '<span class="badge warn">승인 대기</span>', rework: '<span class="badge bad">수정 요청 중</span>', approved: '<span class="badge good">승인됨 · 제작 대기</span>', producing: '<span class="badge good">제작 중</span>', made: '<span class="badge">제작됨</span>', rejected: '<span class="badge mut">폐기</span>' })[p.status] || '';
+  const st = ({ requested: '<span class="badge mut">작성 중</span>', pending: '<span class="badge warn">승인 대기</span>', rework: '<span class="badge bad">수정 요청 중</span>', approved: '<span class="badge good">제작 예정</span>', producing: '<span class="badge good">제작 중</span>', made: '<span class="badge">제작됨</span>', rejected: '<span class="badge mut">폐기</span>' })[p.status] || '';
   const cuts = (p.outline || []).map(o => typeof o === 'string' ? { scene: o } : o);
   const sp = p.spec || {};
   const ready = cuts.length > 0;
@@ -478,12 +508,13 @@ function planCard(p){
     ${sp.music || sp.pinned ? `<div class="note">${sp.music ? `<b>음악</b> ${esc(sp.music)}` : ''}${sp.music && sp.pinned ? ' · ' : ''}${sp.pinned ? `<b>고정 댓글</b> ${esc(sp.pinned)}` : ''}</div>` : ''}
     ${ev.length ? `<div class="ev">${ev.map(e => `<a href="https://youtube.com/shorts/${esc(e.video_id)}" target="_blank" rel="noopener"><img src="${thumb(e.video_id)}" alt="" loading="lazy"><span>${short(e.views)}회</span></a>`).join('')}</div>` : ''}
     ${thread(p.feedback)}
-    ${editable || p.status === 'approved' ? `<textarea data-note placeholder="고칠 점을 적고 '수정 요청'을 누르면 Claude가 기획안을 고쳐 다시 올립니다"></textarea>
+    ${editable || p.status === 'approved' || p.status === 'producing' ? `<textarea data-note placeholder="중단 사유(선택). 적으면 그대로 고치고, 비워 두면 다른 이야기로 바꿉니다"></textarea>
     <div class="row"><label class="note" style="display:flex;align-items:center;gap:6px">게시 <input type="datetime-local" data-at value="${toLocalInput(p.publish_at)}" style="width:auto"></label></div>` : ''}
     <div class="row">
-      ${p.status === 'pending' ? `<button class="btn sm ok" data-ok>승인 · 제작</button><button class="btn sm warn" data-rework>수정 요청</button><button class="btn sm" data-discard>폐기</button><button class="btn sm" data-save>게시 시각 저장</button>` : ''}
+      ${['pending', 'approved', 'producing'].includes(p.status) ? `<button class="btn sm no" data-stop>중단 요청</button>` : ''}
+      ${p.status === 'pending' ? `<button class="btn sm ok" data-ok>승인 · 제작</button>` : ''}
       ${p.status === 'rework' || p.status === 'requested' ? `<button class="btn sm warn" data-rework>의견 추가</button><button class="btn sm" data-discard>폐기</button>` : ''}
-      ${p.status === 'approved' ? `<button class="btn sm warn" data-rework>제작 전 수정 요청</button><button class="btn sm" data-save>게시 시각 저장</button>` : ''}
+      ${['pending', 'approved'].includes(p.status) ? `<button class="btn sm" data-save>게시 시각 저장</button>` : ''}
       ${p.status === 'rejected' ? `<button class="btn sm" data-revive>다시 승인 대기로</button>` : ''}
     </div></div>`;
 }
@@ -498,6 +529,9 @@ function bindPlans(){
     on('[data-save]', () => patch({ publish_at: at() }, '게시 시각을 저장했습니다'));
     on('[data-rework]', () => { const t = note(); if (!t) { toast('무엇을 고칠지 적어 주세요', true); card.querySelector('[data-note]').focus(); return; }
       patch({ status: p.status === 'requested' ? 'requested' : 'rework', note: t, feedback: fbAdd(p.feedback, 'rework', t) }, '의견을 남겼습니다. Claude가 반영합니다'); });
+    on('[data-stop]', () => { const t = note(); if (!confirm('이 기획안을 중단할까요?')) return;
+      patch(t ? { status: 'rework', note: t, feedback: fbAdd(p.feedback, 'stop', t) } : { status: 'rejected', feedback: fbAdd(p.feedback, 'stop', '중단 요청 (사유 없음 → 다른 이야기로 교체)') },
+        t ? '중단했습니다. Claude가 고쳐서 다시 올립니다' : '중단했습니다. 그 자리는 다른 이야기로 채웁니다'); });
     on('[data-discard]', () => { if (!confirm('이 기획안을 폐기할까요?')) return; patch({ status: 'rejected', feedback: fbAdd(p.feedback, 'discard', note() || '폐기') }, '폐기했습니다'); });
     on('[data-revive]', () => patch({ status: (p.outline || []).length ? 'pending' : 'requested' }, '되살렸습니다'));
   });
@@ -552,16 +586,20 @@ function viewPerf(){
 function viewSet(){
   const s = S.settings;
   $('#main').innerHTML = `<div class="card" style="display:grid;gap:14px">
+    <div><div class="note" style="font-weight:700;margin-bottom:6px">진행 방식</div>
+      <label class="chk"><input type="checkbox" id="s-auto" ${s.auto !== false ? 'checked' : ''}> 자동 진행: Claude가 기획·제작·업로드까지 하고, 나는 중단 요청만 한다</label></div>
+    <label class="note" style="display:grid;gap:5px;font-weight:700">하루 편수<input type="number" id="s-per" min="1" max="6" value="${esc(s.per_day || 3)}"></label>
+    <label class="note" style="display:grid;gap:5px;font-weight:700">업로드 시각 (한국 시각, 쉼표로 구분)<input type="text" id="s-slots" value="${esc(SLOTS().join(', '))}"></label>
+    <div class="note">기본 03:00 유럽 저녁(파리 19시) · 08:00 미국 저녁(뉴욕 18시) · 22:00 인도 저녁(18시 반)·유럽 낮. 편수와 시각을 바꾸면 다음 기획·업로드부터 따릅니다.</div>
     <label class="note" style="display:grid;gap:5px;font-weight:700">채널 이름<input type="text" id="s-name" value="${esc(s.channel_name || 'From Korea, With Love')}"></label>
     <label class="note" style="display:grid;gap:5px;font-weight:700">핸들 (유튜브 스튜디오에서 실제로 정한 것)<input type="text" id="s-handle" value="${esc(s.handle || '')}" placeholder="@KachiFromKorea"></label>
-    <label class="note" style="display:grid;gap:5px;font-weight:700">업로드 시각 (쉼표로 구분, 한국 시각)<input type="text" id="s-slots" value="${esc((s.slots || ['08:00','20:00']).join(', '))}"></label>
-    <div><div class="note" style="font-weight:700;margin-bottom:6px">자동 진행</div>
-      <label class="chk"><input type="checkbox" id="s-auto" ${s.auto_plan !== false ? 'checked' : ''}> 기획안이 3건 미만이면 트렌드 1위 소재로 기획안을 자동으로 채우기</label></div>
-    <div class="note">제목 규칙: 제목에는 #shorts 를 넣지 않습니다(세로 3분 이하는 자동으로 쇼츠). 설명 끝 해시태그에 #shorts 를 한 번 넣습니다. 제목은 40자 안쪽.</div>
+    <div class="note">제목 규칙: 제목에는 #shorts 를 넣지 않습니다(세로 3분 이하는 자동으로 쇼츠). 설명 끝 해시태그에 한 번. 제목은 40자 안쪽.</div>
     <div><button class="btn pri" id="s-save">저장</button></div></div>`;
   $('#s-save').onclick = async () => {
-    const slots = $('#s-slots').value.split(/[,\s]+/).filter(x => /^\d{1,2}:\d{2}$/.test(x));
-    const value = Object.assign({}, S.settings, { channel_name: $('#s-name').value.trim(), handle: $('#s-handle').value.trim().replace(/^@?/, '@').replace(/^@$/, ''), slots, auto_plan: $('#s-auto').checked });
+    const slots = $('#s-slots').value.split(/[,\s]+/).filter(x => /^\d{1,2}:\d{2}$/.test(x)).map(x => x.padStart(5, '0')).sort();
+    const per = Math.max(1, Math.min(6, parseInt($('#s-per').value, 10) || 3));
+    const value = Object.assign({}, S.settings, { auto: $('#s-auto').checked, auto_plan: $('#s-auto').checked, per_day: per, slots,
+      channel_name: $('#s-name').value.trim(), handle: $('#s-handle').value.trim() ? '@' + $('#s-handle').value.trim().replace(/^@+/, '') : '' });
     const { error } = await sb.from('sc_settings').upsert({ id: 1, value });
     if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; }
     await reload(); toast('저장했습니다');
