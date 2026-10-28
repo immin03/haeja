@@ -1,0 +1,31 @@
+{
+ "id": "mbv5_open",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "She slowly lowers her hands from her mouth, reaches into the glowing box and lifts out the red knitted socks; the folded note slips out into her palm. Golden light shimmers on her face, her lips tremble into a smile as tears fall. The magpie hops closer on the edge of the box. Slow push-in. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18006-a9ce-7bae-aa49-546ac7d7935d/9d9be77a-8da7-4f65-9d81-48aa76825e3e.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18009-57dd-78a7-822d-5449e2f1c771",
+  "status_url": "https://api.higgsfield.ai/requests/01a18009-57dd-78a7-822d-5449e2f1c771/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18009-57dd-78a7-822d-5449e2f1c771/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18009-57dd-78a7-822d-5449e2f1c771",
+  "status_url": "https://api.higgsfield.ai/requests/01a18009-57dd-78a7-822d-5449e2f1c771/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18009-57dd-78a7-822d-5449e2f1c771/cancel",
+  "expires_at": "2026-11-04T01:06:15.921583+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18009-57dd-78a7-822d-5449e2f1c771/4a877ed0-240f-4f34-a79b-c8e9d3f8a7e8.mp4"
+  }
+ },
+ "seconds": 123,
+ "file": "social/side/gen/mbv5_open.mp4"
+}

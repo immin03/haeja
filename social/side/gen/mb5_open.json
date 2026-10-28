@@ -1,0 +1,37 @@
+{
+ "id": "mb5_open",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The same young Korean woman from the reference image (same face, same long black hair loosely held up with a claw clip, same oversized grey hoodie) kneels on the wooden floor of the same small snowy-night studio apartment, the plain brown cardboard box opened in front of her. A soft warm golden glow rises out of the box and lights her face, contrasting with the cold blue room. Inside the box: glass jars of red kimchi wrapped in plastic bags, clear containers of side dishes, red instant-noodle packs, dark dried seaweed sheets, orange persimmons, and on top the same pair of hand-knitted red wool socks with a folded cream note tucked inside. Both of her hands cover her mouth, eyes wide and filling with tears. The magpie sits on the edge of the box, smiling up at her, snow melting on its feathers. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-323a-7351-bae6-4bf972c06d14/7b2745fc-5633-45cc-8c1f-b422f62aeda9.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-e07b-7c45-b562-bac27e945cb4/b14339a6-3613-4551-b558-e5dfe48310bd.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18006-a9ce-7bae-aa49-546ac7d7935d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18006-a9ce-7bae-aa49-546ac7d7935d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18006-a9ce-7bae-aa49-546ac7d7935d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18006-a9ce-7bae-aa49-546ac7d7935d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18006-a9ce-7bae-aa49-546ac7d7935d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18006-a9ce-7bae-aa49-546ac7d7935d/cancel",
+  "expires_at": "2026-11-04T01:02:07.123714+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18006-a9ce-7bae-aa49-546ac7d7935d/9d9be77a-8da7-4f65-9d81-48aa76825e3e.jpeg"
+   }
+  ]
+ },
+ "seconds": 49,
+ "file": "social/side/gen/mb5_open.jpeg"
+}

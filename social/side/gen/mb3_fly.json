@@ -1,0 +1,36 @@
+{
+ "id": "mb3_fly",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "A miniature night sky made of deep-blue felt with tiny glowing pin-prick stars and a huge round cream-colored moon, above a rippling ocean of glossy blue resin with little white wave crests. A small vintage propeller cargo plane made of painted cream and red wood flies toward the right across the moon. Tied on top of the plane with brown string sits a plain brown cardboard box, now taped shut, and on top of the box rides the magpie, its red neckerchief streaming in the wind, wings hugging the box tightly, eyes brave and determined. Far below, a tiny glowing coastline; far behind, the warm lights of a city fading into the distance. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-322a-7de5-b321-94703e91d9e8/7094d525-2507-445b-8654-00e3ccc4beb1.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18003-e079-78ae-ae00-bff1a0c5ac3c",
+  "status_url": "https://api.higgsfield.ai/requests/01a18003-e079-78ae-ae00-bff1a0c5ac3c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18003-e079-78ae-ae00-bff1a0c5ac3c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18003-e079-78ae-ae00-bff1a0c5ac3c",
+  "status_url": "https://api.higgsfield.ai/requests/01a18003-e079-78ae-ae00-bff1a0c5ac3c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18003-e079-78ae-ae00-bff1a0c5ac3c/cancel",
+  "expires_at": "2026-11-04T00:58:53.980428+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-e079-78ae-ae00-bff1a0c5ac3c/37786252-aae7-4e0a-a67f-2f2276ef3a92.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/mb3_fly.jpeg"
+}

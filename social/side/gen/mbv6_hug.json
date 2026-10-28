@@ -1,0 +1,31 @@
+{
+ "id": "mbv6_hug",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "She reads the note, laughs through her tears, presses the note against her chest with both hands and closes her eyes, then leans forward and hugs the whole box tightly. The magpie nestles under her arm. Snow keeps falling outside the window. Very slow push-in, then hold. Keep the miniature clay diorama look and every character design identical to the first frame. Smooth, gentle, cinematic motion, no text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-e074-7c9e-a34b-cc13f1369a2e/a1b35dad-3086-4dc9-9b89-bb1b70900489.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18006-a9a9-76ea-a437-841a0c1059ff",
+  "status_url": "https://api.higgsfield.ai/requests/01a18006-a9a9-76ea-a437-841a0c1059ff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18006-a9a9-76ea-a437-841a0c1059ff/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18006-a9a9-76ea-a437-841a0c1059ff",
+  "status_url": "https://api.higgsfield.ai/requests/01a18006-a9a9-76ea-a437-841a0c1059ff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18006-a9a9-76ea-a437-841a0c1059ff/cancel",
+  "expires_at": "2026-11-04T01:03:05.101608+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18006-a9a9-76ea-a437-841a0c1059ff/8e08917d-85d9-49fa-afb0-89ab709b4eae.mp4"
+  }
+ },
+ "seconds": 105,
+ "file": "social/side/gen/mbv6_hug.mp4"
+}

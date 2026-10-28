@@ -1,0 +1,36 @@
+{
+ "id": "mb7_morning",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "The same Korean mother from the reference image (same face, same short curly permed black hair, same pastel floral apron over a lilac cardigan) in the same small Seoul apartment kitchen, now in soft early-morning sunlight, sitting alone at the same low wooden table with a cup of barley tea, looking at her smartphone with a teary, gentle smile, one hand pressed over her heart. The phone screen faces away from us. The straw mat where the box stood is now empty except for a cut strip of packing tape and a loose strand of red yarn. The magpie perches on the windowsill behind her, golden morning light on its feathers, Seoul apartment towers in morning haze outside. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-322a-7de5-b321-94703e91d9e8/7094d525-2507-445b-8654-00e3ccc4beb1.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18003-e090-75c3-beae-41c4ff556642",
+  "status_url": "https://api.higgsfield.ai/requests/01a18003-e090-75c3-beae-41c4ff556642/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18003-e090-75c3-beae-41c4ff556642/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18003-e090-75c3-beae-41c4ff556642",
+  "status_url": "https://api.higgsfield.ai/requests/01a18003-e090-75c3-beae-41c4ff556642/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18003-e090-75c3-beae-41c4ff556642/cancel",
+  "expires_at": "2026-11-04T00:58:52.842408+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18003-e090-75c3-beae-41c4ff556642/45f13064-ca9d-4469-b30a-9c9d2c35d83f.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/mb7_morning.jpeg"
+}
