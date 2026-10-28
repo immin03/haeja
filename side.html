@@ -10,12 +10,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
 <!--
-  사이드 채널 'From Korea, With Love'(진행자 까치) 관리자 — 2026-10-28 감성 쇼츠 방향으로 전면 개편
-  - 밸류노트 관리자(admin.html)와 분리된 페이지. 로그인 계정만 같이 쓴다.
-  - 표: sc_videos(영상) / sc_plans(기획안) / sc_trends(까치 소재·시즌) / sc_hot(감성 쇼츠 조회수, 매일 07:40 수집) / sc_settings / sc_jobs
-  - 반려 = '수정 요청': 코멘트를 feedback 에 남기고 status 'rework'. 자동 작업자(Claude)가 고쳐서 다시 'review' 로 올리고 무엇을 고쳤는지 feedback 에 답한다.
-  - 제목에는 #shorts 를 넣지 않는다(세로 3분 이하는 자동으로 쇼츠). #shorts 는 설명 끝 해시태그에만.
-  - DB 변경: supabase/2026-10-28_side_kachi.sql
+  'From Korea, With Love'(진행자 까치) 관리자 — 2026-10-28 완전 자동 운영판
+  대표님 지시: "체크박스 이런 것도 필요 없어. 다 너가 체크할 거야… 비상상황에 매뉴얼로 해야 될 경우를 대비해서만 놔두면 되지."
+  → 대표님이 하는 일은 두 가지뿐: 영상·기획안 '중단', 트렌드에서 '이거 만들어 줘' 요청. 나머지는 보기만 한다.
+  - 기획·제작: 예약 작업 "까치 채널 작업자" / 업로드: "From Korea, With Love 쇼츠 업로드" (대표님 Chrome)
+  - 중단 = status 'rework' + feedback {type:'stop', text, youtube_id?}. 사유가 있으면 고치고, 없으면 다른 이야기로 교체
+  - 직접 올리기(비상용)는 각 카드의 접힌 칸에만 둔다
+  - 표: sc_videos / sc_plans / sc_trends / sc_hot(조회수 수집) / sc_settings(slots, per_day, auto, learn)
 -->
 <style>
 :root{
@@ -43,19 +44,17 @@ header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:
 .hd .r{margin-left:auto;display:flex;gap:6px;align-items:center;flex:none}
 .btn{height:36px;padding:0 13px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:13.5px;font-weight:750;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:5px;text-decoration:none}
 .btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.btn.ok{background:var(--good-bg);color:var(--good);border-color:transparent}
 .btn.no{background:var(--bad-bg);color:var(--bad);border-color:transparent}
-.btn.warn{background:var(--warn-bg);color:var(--warn);border-color:transparent}
 .btn.sm{height:32px;padding:0 11px;font-size:13px;border-radius:9px}
 .btn:disabled{opacity:.5;cursor:default}
 nav.tabs{max-width:1080px;margin:0 auto;padding:0 10px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 nav.tabs::-webkit-scrollbar{display:none}
-nav.tabs button{flex:none;border:0;background:none;color:var(--muted);font:inherit;font-size:14.5px;font-weight:800;padding:10px 10px 11px;border-bottom:2px solid transparent;cursor:pointer}
+nav.tabs button{flex:none;border:0;background:none;color:var(--muted);font:inherit;font-size:15px;font-weight:800;padding:10px 12px 11px;border-bottom:2px solid transparent;cursor:pointer}
 nav.tabs button.on{color:var(--ink);border-bottom-color:var(--heart)}
 nav.tabs .cnt{display:inline-block;min-width:18px;height:18px;line-height:18px;border-radius:9px;background:var(--heart);color:#FFFFFF;font-size:11px;text-align:center;margin-left:4px;padding:0 5px}
 main{max-width:1080px;margin:0 auto;padding:16px 16px 70px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
-.grid{display:grid;gap:12px}
+.grid{display:grid;gap:10px}
 .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
 .kpi .l{font-size:12.5px;color:var(--muted);font-weight:700}
 .kpi .v{font-size:22px;font-weight:900;margin-top:4px;font-variant-numeric:tabular-nums;line-height:1.25}
@@ -63,53 +62,44 @@ main{max-width:1080px;margin:0 auto;padding:16px 16px 70px}
 h2{font-size:16.5px;margin:24px 0 10px;font-weight:850}
 h2 .n{display:block;font-size:12.5px;color:var(--muted);font-weight:700;margin-top:3px;line-height:1.5}
 .note{font-size:13px;color:var(--muted);line-height:1.6}
-.empty{padding:30px 16px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
+.empty{padding:28px 16px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
 .badge{display:inline-flex;align-items:center;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 8px;background:var(--soft);color:var(--accent);white-space:nowrap}
 .badge.good{background:var(--good-bg);color:var(--good)}.badge.warn{background:var(--warn-bg);color:var(--warn)}.badge.bad{background:var(--bad-bg);color:var(--bad)}.badge.mut{background:var(--line);color:var(--muted)}.badge.heart{background:var(--heart-bg);color:var(--heart)}
 .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+textarea,input[type=text],input[type=email],input[type=password],input[type=number]{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+textarea{min-height:64px;resize:vertical}
+details.fold>summary{cursor:pointer;list-style:none;font-size:15px;font-weight:850;padding:6px 0}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:"▸ ";color:var(--muted)}
+details.fold[open]>summary::before{content:"▾ "}
+details.mini>summary{cursor:pointer;font-size:12.5px;color:var(--muted);font-weight:700}
+/* 편성표 */
+.sched{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.sday{display:grid;gap:6px;align-content:start}
+.sd{font-size:13px;font-weight:850;color:var(--ink2);padding:2px 2px 0}
+.scell{display:grid;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px;min-height:74px;align-content:start;text-decoration:none;color:var(--ink)}
+.scell .sh{font-size:12px;font-weight:850;color:var(--muted);font-variant-numeric:tabular-nums}
+.scell b{font-size:12.5px;line-height:1.4;font-weight:750;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.scell .badge{justify-self:start}
+.scell.past{opacity:.55}
+/* 목록 */
+.item{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start}
+.item .th{width:64px;aspect-ratio:9/16;border-radius:8px;background:var(--line);overflow:hidden;display:block}
+.item .th img{width:100%;height:100%;object-fit:cover;display:block}
+.item .tt{font-weight:850;font-size:15px;line-height:1.4}
+.item .cl{font-size:12.5px;color:var(--ink2);line-height:1.5;background:var(--soft);border-radius:8px;padding:6px 9px}
+.item .cl.owner{background:var(--warn-bg)}
+.item .meta{display:grid;gap:6px;min-width:0}
+/* 트렌드 */
 .bars{display:grid;gap:9px}
 .bar-row{display:grid;grid-template-columns:96px minmax(0,1fr) 62px;gap:8px;align-items:center;font-size:13px}
 .bar-row .track{height:12px;border-radius:6px;background:var(--line);overflow:hidden}
 .bar-row .fill{height:100%;background:var(--bar);border-radius:6px}
 .bar-row .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:700}
-textarea,input[type=text],input[type=datetime-local],input[type=email],input[type=password],input[type=number]{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
-textarea{min-height:68px;resize:vertical}
 .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font:inherit;font-size:13px;font-weight:750;border-radius:999px;padding:6px 12px;cursor:pointer}
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-/* 영상 카드 */
-.vid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px}
-.vid video,.vid .ph{width:100%;aspect-ratio:9/16;border-radius:12px;background:#000;display:block;object-fit:cover}
-.vid .meta{display:grid;gap:10px;align-content:start;min-width:0}
-.ttl{font-weight:850;font-size:16px;line-height:1.4}
-.box{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
-.box .h{font-size:12.5px;font-weight:800;color:var(--ink2)}
-.steps{margin:0;padding:0;list-style:none;display:grid;gap:7px;counter-reset:s}
-.steps li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;align-items:start;font-size:13.5px;line-height:1.5;color:var(--ink2)}
-.steps input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--good)}
-.steps li.done span{color:var(--muted);text-decoration:line-through}
-.steps b{color:var(--ink)}
-.thread{display:grid;gap:6px}
-.msg{font-size:13px;line-height:1.55;padding:8px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
-.msg.owner{background:var(--warn-bg);border-color:transparent}
-.msg.claude{background:var(--soft);border-color:transparent}
-.msg .w{font-size:11.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
-.next{border:2px solid var(--heart)}
-.sched{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.sday{display:grid;gap:6px;align-content:start}
-.sd{font-size:13px;font-weight:850;color:var(--ink2);padding:2px 2px 0}
-.scell{display:grid;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px}
-.scell .sh{font-size:12px;font-weight:850;color:var(--muted);font-variant-numeric:tabular-nums}
-.slot{display:grid;gap:4px;text-decoration:none;color:var(--ink);font-size:12.5px;line-height:1.4}
-.slot b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:750}
-.slot .badge{justify-self:start}
-@media (max-width:760px){.sched{grid-template-columns:repeat(2,minmax(0,1fr))}}
-details.fold>summary{cursor:pointer;list-style:none;font-size:15px;font-weight:850;padding:6px 0}
-details.fold>summary::-webkit-details-marker{display:none}
-details.fold>summary::before{content:"▸ ";color:var(--muted)}
-details.fold[open]>summary::before{content:"▾ "}
-/* 트렌드 */
 .hot{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .hot a{display:grid;gap:6px;text-decoration:none;color:var(--ink)}
 .hot .th{position:relative;aspect-ratio:9/14;border-radius:10px;overflow:hidden;background:var(--line)}
@@ -119,27 +109,24 @@ details.fold[open]>summary::before{content:"▾ "}
 .hot .t{font-size:12.5px;font-weight:700;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hot .c{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .idea{display:grid;gap:8px}
-.idea .t{font-size:16px;font-weight:850;line-height:1.4}
+.idea .t{font-size:15.5px;font-weight:850;line-height:1.4}
 .ev{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .ev::-webkit-scrollbar{display:none}
-.ev a{flex:none;width:74px;display:grid;gap:3px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700}
-.ev img{width:74px;height:110px;object-fit:cover;border-radius:8px;background:var(--line)}
-.cal{display:grid;gap:0}
-.cal .it{display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.ev a{flex:none;width:70px;display:grid;gap:3px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700}
+.ev img{width:70px;height:104px;object-fit:cover;border-radius:8px;background:var(--line)}
+.cal .it{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .cal .it:last-child{border-bottom:0}
 .cal .d{font-size:13px;font-weight:850;color:var(--heart);text-align:center;background:var(--heart-bg);border-radius:10px;padding:6px 0;line-height:1.3}
 .cal .d small{display:block;font-size:11px;color:var(--ink2);font-weight:700}
-/* 기획안 */
-.cuts{margin:0;padding:0;list-style:none;display:grid;gap:6px;counter-reset:c}
-.cuts li{counter-increment:c;display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;font-size:13.5px;line-height:1.55;color:var(--ink2)}
-.cuts li::before{content:counter(c);width:22px;height:22px;border-radius:50%;background:var(--accent);color:#FFFFFF;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
-.cuts .cap{display:inline-block;margin-top:2px;font-size:12.5px;font-weight:800;color:var(--ink);background:var(--soft);border-radius:6px;padding:1px 7px}
+/* 성과 */
 .tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .tbl th{text-align:left;font-size:12px;color:var(--muted);font-weight:800;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .tbl td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 .tbl td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.jobbar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}.jobbar>div{height:100%;background:var(--bar);border-radius:5px;transition:width .6s}
+.learn{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.learn li{font-size:13.5px;line-height:1.6;color:var(--ink2);padding:9px 11px;background:var(--soft);border-radius:10px}
+.learn li small{display:block;color:var(--muted);font-size:11.5px;font-weight:700}
 .login{max-width:380px;margin:40px auto;display:grid;gap:10px}
 .login label{display:grid;gap:5px;font-size:13px;color:var(--muted);font-weight:700}
 .chk{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;border:1px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer;background:var(--surface)}
@@ -148,8 +135,7 @@ details.fold[open]>summary::before{content:"▾ "}
 .toast.bad{background:var(--bad);color:#FFFFFF}
 @media (max-width:760px){
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .vid{grid-template-columns:1fr}
-  .vid video,.vid .ph{max-width:230px;margin:0 auto}
+  .sched{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hd .nm{font-size:15.5px}
   .hd .r .lg{display:none}
   .hot{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
@@ -172,24 +158,25 @@ const sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const short = v => { v = +v || 0; if (v >= 1e8) return (v/1e8).toFixed(1).replace(/\.0$/,'') + '억'; if (v >= 1e4) return (v/1e4).toFixed(v >= 1e5 ? 0 : 1).replace(/\.0$/,'') + '만'; return Math.round(v).toLocaleString('ko-KR'); };
-const kst = iso => { if (!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return d.toISOString().slice(5,16).replace('T',' ').replace('-','/'); };
-const kstLong = iso => { if (!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); const w = '일월화수목금토'[d.getUTCDay()]; return `${d.getUTCMonth()+1}월 ${d.getUTCDate()}일(${w}) ${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`; };
-const toLocalInput = iso => { if (!iso) return ''; const d = new Date(Date.parse(iso) + 9*3600e3); return d.toISOString().slice(0,16); };
-const fromLocalInput = v => v ? new Date(v + ':00+09:00').toISOString() : null;
-const todayKST = () => new Date(Date.now() + 9*3600e3).toISOString().slice(0,10);
+const kst = iso => { if (!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return `${d.getUTCMonth()+1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`; };
+const kstLong = iso => { if (!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return `${d.getUTCMonth()+1}월 ${d.getUTCDate()}일(${'일월화수목금토'[d.getUTCDay()]}) ${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`; };
+const dayKST = off => new Date(Date.now() + 9*3600e3 + off*864e5).toISOString().slice(0,10);
+const todayKST = () => dayKST(0);
 const dday = d => { const n = Math.round((Date.parse(d + 'T00:00:00+09:00') - Date.parse(todayKST() + 'T00:00:00+09:00')) / 864e5); return n === 0 ? 'D-DAY' : n > 0 ? 'D-' + n : 'D+' + (-n); };
-// 제목: #shorts 는 넣지 않는다. 쇼츠 피드에서 잘리지 않게 40자 안쪽이 좋다
+const ts = x => Date.parse(x || '2100-01-01');
 const cleanTitle = t => String(t || '').replace(/\s*#shorts\b/ig, '').replace(/\s{2,}/g, ' ').trim();
-const tlen = t => [...cleanTitle(t)].length;
-const tBadge = t => { const n = tlen(t); return n <= 40 ? `<span class="badge good">${n}자 · 피드에 다 보임</span>` : n <= 55 ? `<span class="badge warn">${n}자 · 끝이 잘릴 수 있음</span>` : `<span class="badge bad">${n}자 · 너무 김</span>`; };
 const withShortsTag = d => { d = String(d || '').trim(); return /#shorts\b/i.test(d) ? d : (d ? d + ' #shorts' : '#shorts'); };
+const thumbOf = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
 let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
   el.textContent = t; el.classList.toggle('bad', !!bad); el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2600); }
 const store = { get(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(_) { return d; } }, set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(_){} } };
 
-// 감정 유형 (트렌드 수집 검색어의 cat 과 같다)
 const EMO = { mom:'엄마', grand:'할머니·할아버지', animal:'동물 가족', kind:'작은 친절', korea:'한국 문화', underdog:'역경·반전', style:'미니어처 감성' };
-const S = { tab: store.get('sc-tab2', 'review'), trends: [], hot: [], plans: [], videos: [], settings: {}, jobs: [], jobsErr: '', err: '', queue: {}, hotCat: 'all', hotSort: 'per_day' };
+const SLOT_NOTE = { '03:00': '유럽 저녁', '08:00': '미국 동부 저녁', '13:00': '미국 서부 저녁', '22:00': '인도 저녁·유럽 낮' };
+const S = { tab: store.get('sc-tab3', 'sched'), trends: [], hot: [], plans: [], videos: [], settings: {}, err: '', queue: {}, hotCat: 'all', hotSort: 'per_day' };
+const SLOTS = () => (S.settings.slots && S.settings.slots.length ? S.settings.slots : ['03:00', '08:00', '13:00', '22:00']);
+const isEmo = v => v.kind === 'short' && !v.parent_id;
+const lastNote = fb => { fb = (fb || []).filter(f => f && f.text); return fb[fb.length - 1]; };
 
 /* ---------- 로그인 ---------- */
 function loginView(msg){
@@ -214,392 +201,257 @@ async function loadAll(){
   const [t, h, p, v, s] = await Promise.all([
     sb.from('sc_trends').select('*').neq('kind', 'legacy').order('collected_at', { ascending: false }).limit(200),
     sb.from('sc_hot').select('*').gte('day', since).order('views', { ascending: false }).limit(600),
-    sb.from('sc_plans').select('*').order('created_at', { ascending: false }).limit(200),
-    sb.from('sc_videos').select('*').order('created_at', { ascending: false }).limit(200),
+    sb.from('sc_plans').select('*').order('created_at', { ascending: false }).limit(300),
+    sb.from('sc_videos').select('*').order('created_at', { ascending: false }).limit(300),
     sb.from('sc_settings').select('value').eq('id', 1).maybeSingle()
   ]);
   const err = [t, p, v, s].find(r => r.error);
   S.err = err ? err.error.message : '';
   S.trends = t.data || []; S.hot = h.error ? [] : (h.data || []); S.plans = p.data || []; S.videos = v.data || []; S.settings = (s.data && s.data.value) || {};
   if (S.settings.channel_name) $('#chname').textContent = S.settings.channel_name;
-  await loadJobs();
   try { const q = await fetch('/social/side/queue.json?t=' + Date.now()).then(r => r.ok ? r.json() : []); S.queue = {}; (q || []).forEach(m => { S.queue[m.id] = m; }); } catch(_) { S.queue = {}; }
 }
-async function loadJobs(){
-  const j = await sb.from('sc_jobs').select('*').order('updated_at', { ascending: false }).limit(40);
-  S.jobsErr = j.error ? j.error.message : ''; S.jobs = j.data || [];
-}
-// 영상의 업로드용 정보: 렌더 대기열(queue.json)이 최신이면 그것을, 없으면 DB 값
-function info(v){
-  const Q = S.queue[v.id] || {};
-  return { title: cleanTitle(Q.title || v.title), description: withShortsTag(Q.description || v.description || ''),
-    tags: (Q.tags || v.tags || []).filter(t => !/^#?shorts$/i.test(t)).join(', '), pinned: Q.pinned || '' };
-}
-const isEmo = v => v.kind === 'short' && !v.parent_id;
 
 /* ---------- 탭 ---------- */
 const TABS = [
-  ['review', '편성', () => S.videos.filter(x => isEmo(x) && (x.status === 'review' || x.status === 'rework')).length],
-  ['trend', '트렌드', () => S.trends.filter(x => x.kind === 'idea' && x.status === 'new').length],
-  ['plan', '기획안', () => S.plans.filter(x => x.status === 'pending' || x.status === 'rework').length],
-  ['jobs', '작업 현황', () => S.jobs.filter(j => j.status === 'running' && Date.now() - Date.parse(j.updated_at) < 15*60e3).length],
+  ['sched', '편성', () => S.videos.filter(x => isEmo(x) && x.status === 'rework').length + S.plans.filter(p => p.status === 'rework').length],
+  ['trend', '트렌드', () => 0],
   ['perf', '성과', () => 0],
   ['set', '설정', () => 0]
 ];
 function renderTabs(){
   $('#tabs').hidden = false;
   $('#tabs').innerHTML = TABS.map(([k, name, cnt]) => { const c = cnt(); return `<button data-k="${k}" class="${S.tab === k ? 'on' : ''}">${name}${c ? `<span class="cnt">${c}</span>` : ''}</button>`; }).join('');
-  $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { S.tab = b.dataset.k; store.set('sc-tab2', S.tab); render(); window.scrollTo(0, 0); });
+  $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { S.tab = b.dataset.k; store.set('sc-tab3', S.tab); render(); window.scrollTo(0, 0); });
 }
 function render(){
   renderTabs();
   if (S.err) { $('#main').innerHTML = `<div class="card empty">불러오지 못했습니다: ${esc(S.err)}</div>`; return; }
-  clearTimeout(S.jobTimer);
-  if (!TABS.find(t => t[0] === S.tab)) S.tab = 'review';
-  ({ review: viewReview, trend: viewTrend, plan: viewPlan, jobs: viewJobs, perf: viewPerf, set: viewSet })[S.tab]();
+  if (!TABS.find(t => t[0] === S.tab)) S.tab = 'sched';
+  ({ sched: viewSched, trend: viewTrend, perf: viewPerf, set: viewSet })[S.tab]();
 }
 function kpi(l, v, s){ return `<div class="card kpi"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div>${s ? `<div class="s">${esc(s)}</div>` : ''}</div>`; }
-function thread(fb){
-  fb = (fb || []).filter(f => f && f.text);
-  if (!fb.length) return '';
-  return `<div class="thread">${fb.slice(-6).map(f => `<div class="msg ${f.by === 'owner' ? 'owner' : 'claude'}"><div class="w">${f.by === 'owner' ? '대표님' : 'Claude'} · ${kst(f.at)}${f.type === 'rework' ? ' · 수정 요청' : f.type === 'fixed' ? ' · 반영함' : f.type === 'discard' ? ' · 폐기' : ''}</div>${esc(f.text)}</div>`).join('')}</div>`;
-}
-const fbAdd = (fb, type, text) => (fb || []).concat([{ at: new Date().toISOString(), by: 'owner', type, text }]);
 
-/* ---------- 편성 (자동 진행) ---------- */
-// 2026-10-28 대표님: "기획부터 제작, 올리는 거 다 너가 할 거야. 나는 아니다 싶은 것만 중간에 중단 요청을 할게."
-// 자동 모드(sc_settings.auto)면 렌더가 끝난 영상은 바로 업로드 대기(approved) → 업로드 작업자가 스튜디오 예약.
-// '중단 요청' = status 'rework' + feedback {type:'stop', text, youtube_id?}. 이미 예약된 영상이면 업로드 작업자가 비공개로 돌린다.
-const AUTO = () => S.settings.auto !== false;
-const SLOTS = () => (S.settings.slots && S.settings.slots.length ? S.settings.slots : ['03:00', '08:00', '22:00']);
-const SLOT_NOTE = { '03:00': '유럽 저녁', '08:00': '미국 저녁', '22:00': '인도 저녁·유럽 낮' };
-const dayKST = off => new Date(Date.now() + 9*3600e3 + off*864e5).toISOString().slice(0,10);
-const slotTs = (d, hm) => Date.parse(`${d}T${hm}:00+09:00`);
-const ts = x => Date.parse(x || '2100-01-01');
-function viewReview(){
-  const emo = S.videos.filter(isEmo);
-  const now = Date.now();
-  const sched = emo.filter(v => v.status === 'uploaded' && ts(v.scheduled_at) > now).sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
-  const ready = emo.filter(v => v.status === 'approved').sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
-  const review = emo.filter(v => v.status === 'review').sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
-  const rework = emo.filter(v => v.status === 'rework').sort((a,b) => ts(a.scheduled_at) - ts(b.scheduled_at));
-  const live = emo.filter(v => v.status === 'uploaded' && ts(v.scheduled_at) <= now).sort((a,b) => ts(b.scheduled_at) - ts(a.scheduled_at));
-  const box = S.videos.filter(v => v.status === 'archived' || v.status === 'rejected' || (!isEmo(v) && v.status !== 'uploaded'));
-  const plansLive = S.plans.filter(p => ['approved', 'producing', 'pending', 'requested', 'rework'].includes(p.status));
-  // 앞으로 4일 편성표: 칸마다 영상(예약·대기·수정) 또는 기획안(제작 예정)
-  const near = (x, t) => x && Math.abs(ts(x) - t) <= 30*60e3;
-  const grid = [0,1,2,3].map(off => { const d = dayKST(off); return { d, cells: SLOTS().map(hm => {
-    const t = slotTs(d, hm); const past = t < now;
-    const v = emo.find(v => ['uploaded','approved','review','rework'].includes(v.status) && near(v.scheduled_at, t));
-    const p = !v && plansLive.find(p => near(p.publish_at, t));
-    return { hm, past, v, p };
+/* ---------- 편성 ---------- */
+// 칸마다 영상(예약·대기·수정) 또는 기획안(제작 예정·제작 중)을 붙인다
+function slotEntries(){
+  const now = Date.now(), near = (x, t) => x && Math.abs(ts(x) - t) <= 30*60e3;
+  const vids = S.videos.filter(v => isEmo(v) && ['uploaded','approved','review','rework'].includes(v.status));
+  const plans = S.plans.filter(p => ['approved','producing','pending','requested','rework'].includes(p.status));
+  return [0,1,2,3,4].map(off => { const d = dayKST(off); return { d, cells: SLOTS().map(hm => {
+    const t = Date.parse(`${d}T${hm}:00+09:00`);
+    const v = vids.find(v => near(v.scheduled_at, t)); const p = !v && plans.find(p => near(p.publish_at, t));
+    return { hm, t, past: t < now, v, p };
   }) }; });
-  const filled = grid.slice(1, 3).flatMap(g => g.cells).filter(c => c.v || c.p).length;
-  const cellHTML = c => {
-    if (c.v) { const st = c.v.status === 'uploaded' ? (c.past ? ['공개됨', 'good'] : ['예약됨', 'good']) : c.v.status === 'approved' ? ['업로드 대기', ''] : c.v.status === 'rework' ? ['수정 중', 'bad'] : ['검수 대기', 'warn'];
-      return `<a class="slot" href="#v-${esc(c.v.id)}"><span class="badge ${st[1]}">${st[0]}</span><b>${esc(cleanTitle(c.v.title))}</b></a>`; }
-    if (c.p) { const st = c.p.status === 'producing' ? ['제작 중', 'warn'] : c.p.status === 'rework' ? ['기획 수정 중', 'bad'] : ['제작 예정', 'mut'];
-      return `<div class="slot"><span class="badge ${st[1]}">${st[0]}</span><b>${esc(cleanTitle(c.p.title))}</b></div>`; }
-    return `<div class="slot empty-slot"><span class="badge ${c.past ? 'mut' : 'bad'}">${c.past ? '지남' : '비어 있음'}</span><span class="note">${c.past ? '' : 'Claude가 채웁니다'}</span></div>`;
-  };
+}
+function stateOf(x){
+  if (x.v) { const v = x.v; if (v.status === 'uploaded') return x.past ? ['공개됨', 'good'] : ['유튜브 예약됨', 'good'];
+    return v.status === 'approved' ? ['완성 · 예약 대기', ''] : v.status === 'rework' ? ['수정 중', 'bad'] : ['완성', ''] }
+  if (x.p) return x.p.status === 'producing' ? ['제작 중', 'warn'] : x.p.status === 'rework' ? ['기획 수정 중', 'bad'] : ['제작 예정', 'mut'];
+  return x.past ? ['지남', 'mut'] : ['비어 있음', 'bad'];
+}
+function viewSched(){
+  const grid = slotEntries();
+  const now = Date.now();
+  const cells = grid.flatMap(g => g.cells);
+  const future = cells.filter(c => !c.past);
+  const done48 = future.filter(c => c.t < now + 48*3600e3);
+  const ready48 = done48.filter(c => c.v && ['uploaded','approved','review'].includes(c.v.status)).length;
+  const nextPub = cells.find(c => !c.past && c.v && c.v.status === 'uploaded');
   const wk = d => { const x = new Date(d + 'T00:00:00+09:00'); return `${x.getMonth()+1}/${x.getDate()}(${'일월화수목금토'[x.getDay()]})`; };
+  const auto = S.settings.auto !== false;
+  // 아래 목록: 앞으로 올라갈 것(영상+기획안) 시간순
+  const list = future.filter(c => c.v || c.p);
+  const fixing = S.videos.filter(v => isEmo(v) && v.status === 'rework' && !future.find(c => c.v === v));
+  const live = S.videos.filter(v => isEmo(v) && v.status === 'uploaded' && ts(v.scheduled_at) <= now).sort((a,b) => ts(b.scheduled_at) - ts(a.scheduled_at));
+  const box = S.videos.filter(v => v.status === 'archived' || v.status === 'rejected' || (!isEmo(v) && v.status !== 'uploaded'));
   $('#main').innerHTML = `
     <div class="card" style="display:grid;gap:6px">
-      <div class="row"><span class="badge ${AUTO() ? 'good' : 'warn'}">${AUTO() ? '자동 진행 중' : '수동 검수 모드'}</span><b>하루 ${S.settings.per_day || 3}편 · ${SLOTS().map(h => h + (SLOT_NOTE[h] ? ` ${SLOT_NOTE[h]}` : '')).join(' / ')}</b></div>
-      <div class="note">${AUTO() ? 'Claude가 트렌드로 기획하고, 만들고, 유튜브에 예약까지 합니다. 아니다 싶은 영상이나 기획안에만 <b>중단 요청</b>을 눌러 주세요. 사유를 적으면 고쳐서 다시 만들고, 비워 두면 다른 이야기로 바꿉니다. 이미 예약된 영상은 비공개로 돌린 뒤 처리합니다.' : '수동 검수 모드입니다. 승인한 영상만 업로드합니다.'} 내일·모레 6칸 중 <b>${filled}칸</b>이 채워져 있습니다.</div>
+      <div class="row"><span class="badge ${auto ? 'good' : 'warn'}">${auto ? '자동 진행 중' : '자동 꺼짐'}</span><b>하루 ${S.settings.per_day || SLOTS().length}편 · ${SLOTS().join(' / ')}</b></div>
+      <div class="note">Claude가 기획 → 제작 → 유튜브 예약까지 합니다. 대표님은 아니다 싶은 것만 <b>중단</b>을 누르시면 됩니다.
+        앞으로 48시간 ${done48.length}칸 중 <b>${ready48}칸 완성</b>${nextPub ? ` · 다음 공개 <b>${kst(nextPub.v.scheduled_at)}</b>` : ''}.</div>
     </div>
-    <h2>편성표 <span class="n">앞으로 4일 · 칸을 누르면 아래 영상으로 이동</span></h2>
-    <div class="sched">${grid.map(g => `<div class="sday"><div class="sd">${wk(g.d)}${g.d === dayKST(0) ? ' · 오늘' : ''}</div>${g.cells.map(c => `<div class="scell"><div class="sh">${c.hm}</div>${cellHTML(c)}</div>`).join('')}</div>`).join('')}</div>
-    ${rework.length ? `<h2>수정 중 <span class="n">${rework.length}편 · 중단 요청을 받아 Claude가 고치는 중</span></h2><div class="grid">${rework.map(v => card(v)).join('')}</div>` : ''}
-    ${review.length ? `<h2>검수 대기 <span class="n">${review.length}편</span></h2><div class="grid">${review.map(v => card(v)).join('')}</div>` : ''}
-    ${ready.length ? `<h2>업로드 대기 <span class="n">${ready.length}편 · 다음 업로드 작업 때 유튜브 스튜디오에 예약됩니다</span></h2><div class="grid">${ready.map(v => card(v)).join('')}</div>` : ''}
-    ${sched.length ? `<h2>유튜브 예약됨 <span class="n">${sched.length}편 · 공개 전에 중단할 수 있습니다</span></h2><div class="grid">${sched.map(v => card(v)).join('')}</div>` : ''}
-    ${!rework.length && !review.length && !ready.length && !sched.length ? '<div class="card empty" style="margin-top:12px">대기 중인 영상이 없습니다. 제작이 끝나면 여기 나타납니다.</div>' : ''}
-    ${live.length ? `<details class="fold" style="margin-top:18px"><summary>공개된 영상 ${live.length}편</summary><div class="grid">${live.slice(0, 30).map(v => card(v)).join('')}</div></details>` : ''}
-    ${box.length ? `<details class="fold" style="margin-top:8px"><summary>보관함 ${box.length}편 (폐기·이전 방향)</summary><div class="grid">${box.map(v => boxCard(v)).join('')}</div></details>` : ''}`;
-  bindReview();
+    <h2>편성표 <span class="n">앞으로 5일 · 칸을 누르면 아래 해당 편으로 이동</span></h2>
+    <div class="sched">${grid.map(g => `<div class="sday"><div class="sd">${wk(g.d)}${g.d === dayKST(0) ? ' · 오늘' : ''}</div>${g.cells.map(c => { const [l, k] = stateOf(c); const it = c.v || c.p;
+      return `<a class="scell${c.past ? ' past' : ''}" ${it ? `href="#i-${esc(it.id)}"` : ''}><div class="sh">${c.hm}</div><span class="badge ${k}">${l}</span>${it ? `<b>${esc(cleanTitle(it.title))}</b>` : ''}</a>`; }).join('')}</div>`).join('')}</div>
+    <h2>올라갈 순서 <span class="n">마음에 안 들면 '중단' · 사유를 적으면 고치고, 비워 두면 다른 이야기로 바꿉니다</span></h2>
+    ${list.length || fixing.length ? `<div class="grid">${list.map(c => itemCard(c.v || c.p, !!c.v, c)).join('')}${fixing.map(v => itemCard(v, true, null)).join('')}</div>` : '<div class="card empty">아직 편성된 것이 없습니다. Claude가 곧 채웁니다.</div>'}
+    ${live.length ? `<details class="fold" style="margin-top:18px"><summary>공개된 영상 ${live.length}편</summary><div class="grid">${live.slice(0, 40).map(v => itemCard(v, true, null)).join('')}</div></details>` : ''}
+    ${box.length ? `<details class="fold" style="margin-top:6px"><summary>보관함 ${box.length}편 (중단·이전 방향)</summary><div class="grid">${box.map(v => itemCard(v, true, null)).join('')}</div></details>` : ''}`;
+  bindSched();
 }
-function card(v){
-  const I = info(v);
-  const future = ts(v.scheduled_at) > Date.now();
-  const st = ({ review: '<span class="badge warn">검수 대기</span>', rework: '<span class="badge bad">수정 중</span>', approved: '<span class="badge">업로드 대기</span>', uploaded: future ? '<span class="badge good">유튜브 예약됨</span>' : '<span class="badge good">공개됨</span>' })[v.status] || '';
-  const dur = v.duration ? Math.round(v.duration) + '초' : '';
-  const cp = (text, label, what) => text ? `<button class="btn sm" data-copy="${esc(text)}" data-what="${esc(what || label)}">${label} 복사</button>` : '';
-  const dl = (url, label) => url ? `<a class="btn sm" href="${esc(url)}" download target="_blank" rel="noopener">${label}</a>` : '';
-  const views = v.stats && v.stats.now ? `<span class="badge">조회수 ${short(v.stats.now.views)}</span>` : '';
-  const canStop = ['review', 'approved'].includes(v.status) || (v.status === 'uploaded' && future);
-  return `<div class="card" id="v-${esc(v.id)}" data-vid="${esc(v.id)}"><div class="vid">
-    <div>${v.video_url ? `<video src="${esc(v.video_url)}" ${v.thumb ? `poster="${esc(v.thumb)}"` : ''} controls preload="none" playsinline></video>` : '<div class="ph"></div>'}</div>
+function itemCard(x, isVid, cell){
+  const now = Date.now();
+  const when = isVid ? x.scheduled_at : x.publish_at;
+  const st = isVid ? (x.status === 'uploaded' ? (ts(when) > now ? ['유튜브 예약됨', 'good'] : ['공개됨', 'good']) : x.status === 'approved' ? ['완성 · 예약 대기', ''] : x.status === 'rework' ? ['수정 중', 'bad'] : x.status === 'review' ? ['완성', ''] : x.status === 'rejected' ? ['중단됨', 'mut'] : ['보관', 'mut'])
+    : (x.status === 'producing' ? ['제작 중', 'warn'] : x.status === 'rework' ? ['기획 수정 중', 'bad'] : ['제작 예정', 'mut']);
+  const n = lastNote(x.feedback);
+  const views = isVid && x.stats && x.stats.now ? `<span class="badge">조회수 ${short(x.stats.now.views)}</span>` : '';
+  const thumb = isVid ? (x.youtube_id ? thumbOf(x.youtube_id) : x.thumb) : '';
+  const canStop = isVid ? (['approved','review'].includes(x.status) || (x.status === 'uploaded' && ts(when) > now)) : ['approved','producing','pending'].includes(x.status);
+  const canBack = ['rejected','archived'].includes(x.status) || x.status === 'rework';
+  const Q = isVid ? (S.queue[x.id] || {}) : {};
+  const desc = isVid ? withShortsTag(Q.description || x.description || '') : '';
+  const tags = isVid ? (Q.tags || x.tags || []).filter(t => !/^#?shorts$/i.test(t)).join(', ') : '';
+  const cp = (text, label) => text ? `<button class="btn sm" data-copy="${esc(text)}" data-what="${esc(label)}">${label}</button>` : '';
+  return `<div class="card" id="i-${esc(x.id)}" data-id="${esc(x.id)}" data-kind="${isVid ? 'v' : 'p'}"><div class="item">
+    ${isVid ? `<a class="th" href="${esc(x.video_url || '#')}" target="_blank" rel="noopener">${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : ''}</a>` : `<div class="th"></div>`}
     <div class="meta">
-      <div class="row">${st}${dur ? `<span class="badge mut">${dur}</span>` : ''}${views}<span class="note" style="margin-left:auto">${v.status === 'uploaded' && !future ? '공개' : '게시'} ${kstLong(v.scheduled_at)}</span></div>
-      <div class="ttl">${esc(I.title)}</div>
-      <div class="row">${tBadge(I.title)}${v.youtube_id ? `<a class="btn sm" href="https://youtube.com/shorts/${esc(v.youtube_id)}" target="_blank" rel="noopener">유튜브</a><a class="btn sm" href="https://studio.youtube.com/video/${esc(v.youtube_id)}/edit" target="_blank" rel="noopener">스튜디오</a>` : ''}</div>
-      ${thread(v.feedback)}
-      <details><summary class="note" style="cursor:pointer">제목·설명·태그·고정 댓글 (직접 올릴 때)</summary>
-        <div class="box" style="margin-top:8px"><div class="row">${cp(I.title, '제목')}${cp(I.description, '설명')}${cp(I.tags, '태그')}${cp(I.pinned, '고정 댓글')}${dl(v.video_url, '영상 받기')}</div>
-        <div class="note" style="white-space:pre-wrap">${esc(I.description)}</div>
-        <div class="note">직접 올릴 때: 예약 ${kstLong(v.scheduled_at)} · 아동용 아님 · 변경·합성 콘텐츠 아니요 · 공개 뒤 고정 댓글. 올린 뒤 아래 '직접 올림'을 누르세요.</div></div></details>
-      ${canStop ? `<textarea data-note placeholder="중단 사유(선택). 적으면 그대로 고쳐서 다시 만들고, 비워 두면 다른 이야기로 바꿉니다"></textarea>` : ''}
+      <div class="row"><span class="badge ${st[1]}">${st[0]}</span>${x.emotion ? `<span class="badge heart">${esc(EMO[x.emotion] || x.emotion)}</span>` : ''}${views}<span class="note" style="margin-left:auto">${when ? kstLong(when) : ''}</span></div>
+      <div class="tt">${esc(cleanTitle(x.title))}</div>
+      ${!isVid && x.title_ko ? `<div class="note">${esc(x.title_ko)}</div>` : ''}
+      ${n ? `<div class="cl${n.by === 'owner' ? ' owner' : ''}"><b>${n.by === 'owner' ? '대표님' : 'Claude'}</b> · ${esc(n.text)}</div>` : ''}
       <div class="row">
-        ${canStop ? `<button class="btn sm no" data-stop>중단 요청</button>` : ''}
-        ${v.status === 'review' ? `<button class="btn sm ok" data-ok>승인</button>` : ''}
-        ${v.status === 'approved' ? `<button class="btn sm" data-up>직접 올림</button>` : ''}
-        ${v.status === 'rework' ? `<span class="note">Claude가 반영해서 다시 업로드 대기로 올립니다.</span><button class="btn sm" data-back>중단 취소</button>` : ''}
+        ${canStop ? `<button class="btn sm no" data-stop>중단</button>` : ''}
+        ${canBack ? `<button class="btn sm" data-back>${x.status === 'rework' ? '중단 취소' : '되살리기'}</button>` : ''}
+        ${isVid && x.youtube_id ? `<a class="btn sm" href="https://youtube.com/shorts/${esc(x.youtube_id)}" target="_blank" rel="noopener">유튜브</a>` : ''}
       </div>
+      ${isVid && x.video_url && ['approved','review','uploaded'].includes(x.status) ? `<details class="mini"><summary>비상시 직접 올리기</summary>
+        <div class="row" style="margin-top:8px"><a class="btn sm" href="${esc(x.video_url)}" download target="_blank" rel="noopener">영상 받기</a>${cp(cleanTitle(x.title), '제목 복사')}${cp(desc, '설명 복사')}${cp(tags, '태그 복사')}${cp(Q.pinned, '고정 댓글 복사')}${x.status !== 'uploaded' ? `<button class="btn sm" data-up>직접 올림 표시</button>` : ''}</div>
+        <div class="note" style="margin-top:6px">예약 ${kstLong(when)} · 아동용 아님 · 변경·합성 콘텐츠 아니요</div></details>` : ''}
     </div></div></div>`;
 }
-function boxCard(v){
-  const old = !isEmo(v);
-  return `<div class="card" data-vid="${esc(v.id)}" style="display:grid;gap:8px">
-    <div class="row"><span class="badge mut">${v.status === 'rejected' ? '폐기' : '보관'}</span>${old ? '<span class="badge mut">이전 방향</span>' : ''}<span class="badge mut">${v.kind === 'long' ? '롱폼' : '쇼츠'}</span></div>
-    <div style="font-weight:800">${esc(cleanTitle(v.title))}</div>${thread(v.feedback)}
-    <div class="row"><button class="btn sm" data-back>되살리기</button>${v.video_url ? `<a class="btn sm" href="${esc(v.video_url)}" target="_blank" rel="noopener">영상 보기</a>` : ''}</div></div>`;
-}
-function bindReview(){
-  document.querySelectorAll('[data-vid]').forEach(card => {
-    const id = card.dataset.vid, v = S.videos.find(x => x.id === id); if (!v) return;
-    const upd = async (obj, msg) => { const { error } = await sb.from('sc_videos').update(Object.assign({ updated_at: new Date().toISOString() }, obj)).eq('id', id); if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; } await reload(); toast(msg); };
-    const note = () => ((card.querySelector('[data-note]') || {}).value || '').trim();
+function bindSched(){
+  document.querySelectorAll('[data-id]').forEach(card => {
+    const id = card.dataset.id, isVid = card.dataset.kind === 'v';
+    const x = isVid ? S.videos.find(v => v.id === id) : S.plans.find(p => p.id === id); if (!x) return;
+    const table = isVid ? 'sc_videos' : 'sc_plans';
+    const upd = async (obj, msg) => { const { error } = await sb.from(table).update(Object.assign({ updated_at: new Date().toISOString() }, obj)).eq('id', id); if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; } await reload(); toast(msg); };
     const on = (sel, f) => { const b = card.querySelector(sel); if (b) b.onclick = f; };
     on('[data-stop]', () => {
-      const t = note(); const sched = v.status === 'uploaded';
-      if (!confirm(sched ? '유튜브에 예약된 영상입니다. 비공개로 돌리고 수정할까요?' : '이 영상을 중단할까요?')) return;
-      const entry = { at: new Date().toISOString(), by: 'owner', type: 'stop', text: t || '중단 요청 (사유 없음 → 다른 이야기로 교체)' };
-      if (v.youtube_id) entry.youtube_id = v.youtube_id;
-      upd({ status: 'rework', note: t || null, youtube_id: null, uploaded_at: null, feedback: (v.feedback || []).concat([entry]) },
-        sched ? '중단했습니다. 업로드 작업자가 비공개로 돌리고 Claude가 처리합니다' : '중단했습니다. Claude가 처리합니다');
+      const sched = isVid && x.status === 'uploaded';
+      const t = prompt((sched ? '유튜브에 예약된 영상입니다. 비공개로 돌리고 처리합니다.\n\n' : '') + '중단 사유를 적으면 그대로 고칩니다. 비워 두면 다른 이야기로 바꿉니다.', '');
+      if (t === null) return;
+      const entry = { at: new Date().toISOString(), by: 'owner', type: 'stop', text: t.trim() || '중단 (사유 없음 → 다른 이야기로 교체)' };
+      if (isVid && x.youtube_id) entry.youtube_id = x.youtube_id;
+      const fb = (x.feedback || []).concat([entry]);
+      if (isVid) upd({ status: 'rework', note: t.trim() || null, youtube_id: null, uploaded_at: null, feedback: fb }, sched ? '중단했습니다. 비공개로 돌리고 처리합니다' : '중단했습니다. Claude가 처리합니다');
+      else upd(t.trim() ? { status: 'rework', note: t.trim(), feedback: fb } : { status: 'rejected', feedback: fb }, t.trim() ? '중단했습니다. 고쳐서 다시 만듭니다' : '중단했습니다. 다른 이야기로 채웁니다');
     });
-    on('[data-ok]', () => upd({ status: 'approved', reviewed_at: new Date().toISOString() }, '승인했습니다'));
-    on('[data-back]', () => upd({ status: isEmo(v) ? 'approved' : 'review' }, '되돌렸습니다'));
+    on('[data-back]', () => upd({ status: isVid ? 'approved' : 'approved' }, '되돌렸습니다'));
     on('[data-up]', () => {
-      const raw = prompt('직접 올린 쇼츠 주소를 붙여 넣어 주세요 (예: https://youtube.com/shorts/…)', ''); if (raw === null) return;
+      const raw = prompt('직접 올린 쇼츠 주소를 붙여 넣어 주세요', ''); if (raw === null) return;
       const m = String(raw).match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/); const yid = m ? m[1] : String(raw).trim();
       if (!/^[\w-]{11}$/.test(yid)) { toast('주소에서 영상 ID를 찾지 못했습니다', true); return; }
       upd({ status: 'uploaded', youtube_id: yid, uploaded_at: new Date().toISOString() }, '올림으로 표시했습니다');
     });
     card.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
-      const what = b.dataset.what || '내용';
-      try { await navigator.clipboard.writeText(b.dataset.copy); toast(what + ' 복사했습니다'); } catch(_) { prompt('아래 내용을 길게 눌러 복사하세요', b.dataset.copy); }
+      try { await navigator.clipboard.writeText(b.dataset.copy); toast(b.dataset.what.replace(' 복사', '') + ' 복사했습니다'); } catch(_) { prompt('아래 내용을 길게 눌러 복사하세요', b.dataset.copy); }
     });
   });
 }
 
 /* ---------- 트렌드 ---------- */
-const thumb = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
+async function requestPlan(text, trend){
+  const pid = 'R' + new Date(Date.now() + 9*3600e3).toISOString().slice(2,19).replace(/[-T:]/g, '');
+  const row = { id: pid, line: 'emo', status: 'requested', title: (trend ? trend.keyword : text).slice(0, 80), note: text || null, outline: [],
+    feedback: [{ at: new Date().toISOString(), by: 'owner', type: 'request', text: text || ('트렌드에서 요청: ' + (trend ? trend.keyword : '')) }] };
+  if (trend) Object.assign(row, { trend_id: trend.id, emotion: trend.emotion, korea: trend.korea, title_ko: trend.apply || null, signal: { evidence: trend.evidence || [] } });
+  const { error } = await sb.from('sc_plans').insert(row);
+  if (error) { toast('요청하지 못했습니다: ' + error.message, true); return false; }
+  if (trend) await sb.from('sc_trends').update({ status: 'picked' }).eq('id', trend.id);
+  await reload(); toast('요청했습니다. Claude가 다음 빈칸에 넣어 만듭니다'); return true;
+}
 function viewTrend(){
   const day = S.hot.reduce((m, x) => x.day > m ? x.day : m, '');
   const hot = S.hot.filter(x => x.day === day);
-  const ideas = S.trends.filter(x => x.kind === 'idea' && x.status === 'new').sort((a,b) => (+b.score || 0) - (+a.score || 0));
+  const ideas = S.trends.filter(x => x.kind === 'idea').sort((a,b) => (a.status === 'new' ? 0 : 1) - (b.status === 'new' ? 0 : 1) || (+b.score || 0) - (+a.score || 0)).slice(0, 9);
   const seasons = S.trends.filter(x => x.kind === 'season' && x.day && x.day >= todayKST()).sort((a,b) => a.day.localeCompare(b.day));
-  // 감정 유형별: 하루 조회수 합(상위 20편)과 편당 중앙값
-  const byCat = {};
-  hot.forEach(x => (x.cats || []).forEach(c => { (byCat[c] = byCat[c] || []).push(+x.per_day || 0); }));
-  const catRows = Object.entries(byCat).map(([c, a]) => { a.sort((p, q) => q - p); const top = a.slice(0, 20); return [c, top.reduce((s, n) => s + n, 0), a[Math.floor(a.length / 2)] || 0, a.length]; }).sort((a,b) => b[1] - a[1]);
+  const byCat = {}; hot.forEach(x => (x.cats || []).forEach(c => { (byCat[c] = byCat[c] || []).push(+x.per_day || 0); }));
+  const catRows = Object.entries(byCat).map(([c, a]) => { a.sort((p, q) => q - p); return [c, a.slice(0, 20).reduce((s, n) => s + n, 0)]; }).sort((a,b) => b[1] - a[1]);
   const maxCat = Math.max(1, ...catRows.map(r => r[1]));
   const top = hot.slice().sort((a,b) => (+b.views) - (+a.views))[0];
-  const next = seasons[0];
   const list = hot.filter(x => S.hotCat === 'all' || (x.cats || []).includes(S.hotCat)).sort((a,b) => (+b[S.hotSort] || 0) - (+a[S.hotSort] || 0)).slice(0, S.hotMore ? 60 : 24);
   const log = S.settings.hot_log;
+  const usedTr = id => S.plans.some(p => p.trend_id === id && !['rejected'].includes(p.status));
   $('#main').innerHTML = `
-    <div class="grid kpis">
-      ${kpi('오늘 수집한 감성 쇼츠', hot.length ? hot.length + '편' : '–', log ? '수집 ' + kst(log.at) + ' · 매일 07:40' : '매일 07:40 자동 수집')}
+    <div class="card" style="display:grid;gap:8px">
+      <div style="font-weight:850">Claude에게 만들어 달라고 하기</div>
+      <div class="note">보고 싶은 이야기가 있으면 적어 주세요. 다음 빈칸에 넣어 만듭니다. 아래 추천 소재의 '이거 만들어 줘'를 눌러도 됩니다.</div>
+      <textarea id="req" placeholder="예: 비 오는 날 편의점 앞에서 할머니에게 우산을 씌워 주는 아이"></textarea>
+      <div><button class="btn pri" id="reqbtn">만들어 줘</button></div>
+    </div>
+    <div class="grid kpis" style="margin-top:12px">
+      ${kpi('오늘 모은 감성 쇼츠', hot.length ? hot.length + '편' : '–', log ? '수집 ' + kst(log.at) + ' · 매일 07:40' : '매일 07:40')}
       ${kpi('이번 달 1위', top ? short(top.views) + '회' : '–', top ? cleanTitle(top.title).slice(0, 28) : '')}
       ${kpi('지금 가장 강한 감정', catRows[0] ? (EMO[catRows[0][0]] || catRows[0][0]) : '–', catRows[0] ? '상위 20편 하루 ' + short(catRows[0][1]) + '회' : '')}
-      ${kpi('다음 시즌', next ? dday(next.day) : '–', next ? next.keyword + (next.upload_by ? ' · ' + next.upload_by.slice(5).replace('-','/') + '까지 올리기' : '') : '')}
+      ${kpi('다음 시즌', seasons[0] ? dday(seasons[0].day) : '–', seasons[0] ? seasons[0].keyword : '')}
     </div>
-
-    <h2>까치 추천 소재 <span class="n">근거 쇼츠 조회수 기준 · '기획안 받기'를 누르면 Claude가 컷 구성까지 써서 기획안 탭에 올립니다</span></h2>
-    ${ideas.length ? `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">${ideas.map(ideaCard).join('')}</div>` : '<div class="card empty">추천 소재가 없습니다. 기획안 탭에서 새 기획안을 요청할 수 있습니다.</div>'}
-
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:12px">
-      <div class="card"><div style="font-weight:850;margin-bottom:4px">감정 유형별 반응</div><div class="note" style="margin-bottom:12px">이번 달 조회수 상위 감성 쇼츠 · 상위 20편의 하루 조회수 합</div>
-        ${catRows.length ? `<div class="bars">${catRows.map(([c, sum, med, n]) => `<div class="bar-row"><span>${esc(EMO[c] || c)}</span><div class="track"><div class="fill" style="width:${sum/maxCat*100}%"></div></div><span class="n">${short(sum)}</span></div>`).join('')}</div>` : '<div class="note">첫 수집이 끝나면 나타납니다.</div>'}
+      <div class="card"><div style="font-weight:850;margin-bottom:4px">감정 유형별 반응</div><div class="note" style="margin-bottom:12px">이번 달 감성 쇼츠 · 상위 20편의 하루 조회수 합</div>
+        ${catRows.length ? `<div class="bars">${catRows.map(([c, sum]) => `<div class="bar-row"><span>${esc(EMO[c] || c)}</span><div class="track"><div class="fill" style="width:${sum/maxCat*100}%"></div></div><span class="n">${short(sum)}</span></div>`).join('')}</div>` : '<div class="note">수집 전입니다.</div>'}
       </div>
-      <div class="card"><div style="font-weight:850;margin-bottom:4px">시즌 캘린더</div><div class="note" style="margin-bottom:6px">시즌 영상은 3~7일 전에 올려야 검색·추천을 탑니다</div>
+      <div class="card"><div style="font-weight:850;margin-bottom:4px">시즌 캘린더</div><div class="note" style="margin-bottom:6px">Claude가 3~7일 전에 맞춰 올립니다</div>
         ${seasons.length ? `<div class="cal">${seasons.slice(0, 8).map(x => `<div class="it"><div class="d">${dday(x.day)}<small>${x.day.slice(5).replace('-','/')}</small></div>
-          <div><div style="font-weight:800;font-size:14px">${esc(x.keyword)}</div><div class="note">${esc(x.apply || '')}${x.upload_by ? ` · <b>${x.upload_by.slice(5).replace('-','/')}까지 올리기</b>` : ''}</div></div>
-          ${x.status === 'new' ? `<button class="btn sm" data-pick="${x.id}">기획안</button>` : '<span class="badge good">기획 중</span>'}</div>`).join('')}</div>` : '<div class="note">등록된 시즌 일정이 없습니다.</div>'}
+          <div><div style="font-weight:800;font-size:14px">${esc(x.keyword)}</div><div class="note">${esc(x.apply || '')}</div></div></div>`).join('')}</div>` : '<div class="note">등록된 시즌이 없습니다.</div>'}
       </div>
     </div>
-
+    <h2>추천 소재 <span class="n">근거 쇼츠 조회수 기준 · Claude가 순서대로 만듭니다</span></h2>
+    ${ideas.length ? `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(290px,1fr))">${ideas.map(x => `<div class="card idea">
+      <div class="row"><span class="badge heart">${esc(EMO[x.emotion] || '감성')}</span>${x.korea ? `<span class="badge">${esc(x.korea)}</span>` : ''}${x.status === 'picked' || usedTr(x.id) ? '<span class="badge good" style="margin-left:auto">편성됨</span>' : ''}</div>
+      <div class="t">${esc(x.keyword)}</div>
+      ${x.apply ? `<div class="note" style="color:var(--ink2)">${esc(x.apply)}</div>` : ''}
+      ${(x.evidence || []).length ? `<div class="ev">${(x.evidence || []).slice(0, 4).map(e => `<a href="https://youtube.com/shorts/${esc(e.video_id)}" target="_blank" rel="noopener"><img src="${thumbOf(e.video_id)}" alt="" loading="lazy"><span>${short(e.views)}회</span></a>`).join('')}</div>` : ''}
+      ${x.status === 'new' && !usedTr(x.id) ? `<div><button class="btn sm pri" data-make="${x.id}">이거 만들어 줘</button></div>` : ''}</div>`).join('')}</div>` : '<div class="card empty">추천 소재가 없습니다.</div>'}
     <h2>지금 뜨는 감성 쇼츠 <span class="n">이번 달 업로드 · 조회수 상위</span></h2>
     <div class="chips" id="hcat">${[['all','전체'], ...Object.entries(EMO)].map(([k, n]) => `<button class="chip${S.hotCat === k ? ' on' : ''}" data-c="${k}">${n}</button>`).join('')}</div>
     <div class="row" style="margin:10px 0"><span class="note">정렬</span><button class="chip${S.hotSort === 'per_day' ? ' on' : ''}" data-s="per_day">하루 조회수</button><button class="chip${S.hotSort === 'views' ? ' on' : ''}" data-s="views">누적 조회수</button></div>
     ${list.length ? `<div class="hot">${list.map((x, i) => `<a href="https://youtube.com/shorts/${esc(x.video_id)}" target="_blank" rel="noopener">
-        <div class="th"><img src="${thumb(x.video_id)}" alt="" loading="lazy"><span class="rk">${i + 1}</span><div class="vw"><span>${short(x.views)}회</span><span>하루 ${x.measured ? '+' : '약 '}${short(x.per_day)}</span></div></div>
-        <div class="t">${esc(cleanTitle(x.title))}</div><div class="c">${esc(x.channel || '')} · ${x.age_days != null ? Math.max(1, Math.round(x.age_days)) + '일 전' : ''}</div></a>`).join('')}</div>
-      ${!S.hotMore && hot.length > 24 ? '<div style="text-align:center;margin-top:12px"><button class="btn" id="hmore">더 보기</button></div>' : ''}
-      <div class="note" style="margin-top:10px">'하루 약'은 올린 뒤 하루 평균, '하루 +'는 어제 수집 대비 실제 증가량입니다(이틀째부터).</div>`
-      : '<div class="card empty">아직 수집된 쇼츠가 없습니다. 매일 아침 7시 40분에 모읍니다.</div>'}`;
-
+        <div class="th"><img src="${thumbOf(x.video_id)}" alt="" loading="lazy"><span class="rk">${i + 1}</span><div class="vw"><span>${short(x.views)}회</span>${x.per_day != null ? `<span>하루 ${x.measured ? '+' : '약 '}${short(x.per_day)}</span>` : ''}</div></div>
+        <div class="t">${esc(cleanTitle(x.title))}</div><div class="c">${esc(x.channel || '')}${x.age_days != null ? ' · ' + Math.max(1, Math.round(x.age_days)) + '일 전' : ''}</div></a>`).join('')}</div>
+      ${!S.hotMore && hot.length > 24 ? '<div style="text-align:center;margin-top:12px"><button class="btn" id="hmore">더 보기</button></div>' : ''}`
+      : '<div class="card empty">수집된 쇼츠가 없습니다. 매일 아침 7시 40분에 모읍니다.</div>'}`;
   document.querySelectorAll('#hcat [data-c]').forEach(b => b.onclick = () => { S.hotCat = b.dataset.c; viewTrend(); });
   document.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { S.hotSort = b.dataset.s; viewTrend(); });
   const hm = $('#hmore'); if (hm) hm.onclick = () => { S.hotMore = true; viewTrend(); };
-  document.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => pickTrend(+b.dataset.pick, b));
-  document.querySelectorAll('[data-skip]').forEach(b => b.onclick = async () => {
-    b.disabled = true; const { error } = await sb.from('sc_trends').update({ status: 'skipped' }).eq('id', +b.dataset.skip);
-    if (error) { toast('제외하지 못했습니다', true); b.disabled = false; return; } await reload(); toast('제외했습니다');
-  });
-}
-function ideaCard(x){
-  const ev = (x.evidence || []).slice(0, 5);
-  return `<div class="card idea">
-    <div class="row"><span class="badge heart">${esc(EMO[x.emotion] || x.emotion || '감성')}</span>${x.korea ? `<span class="badge">${esc(x.korea)}</span>` : ''}${x.score != null ? `<span class="badge mut" style="margin-left:auto">점수 ${(+x.score).toFixed(0)}</span>` : ''}</div>
-    <div class="t">${esc(x.keyword)}</div>
-    ${x.apply ? `<div class="note" style="color:var(--ink2)">${esc(x.apply)}</div>` : ''}
-    ${(x.reactions || []).length ? `<div class="note">왜 먹히나: ${(x.reactions || []).slice(0, 3).map(esc).join(' · ')}</div>` : ''}
-    ${ev.length ? `<div class="ev">${ev.map(e => `<a href="https://youtube.com/shorts/${esc(e.video_id)}" target="_blank" rel="noopener"><img src="${thumb(e.video_id)}" alt="" loading="lazy"><span>${short(e.views)}회</span></a>`).join('')}</div>` : ''}
-    <div class="row" style="margin-top:2px"><button class="btn sm pri" data-pick="${x.id}">기획안 받기</button><button class="btn sm" data-skip="${x.id}">제외</button></div></div>`;
-}
-async function pickTrend(id, btn){
-  const t = S.trends.find(x => x.id === id); if (!t) return;
-  const note = prompt('이 소재로 기획안을 요청합니다. 원하는 방향이 있으면 적어 주세요(비워 두어도 됩니다).', '');
-  if (note === null) return;
-  btn.disabled = true;
-  const pid = 'R' + new Date(Date.now() + 9*3600e3).toISOString().slice(2,16).replace(/[-T:]/g, '');
-  const { error } = await sb.from('sc_plans').insert({ id: pid, trend_id: t.id, line: 'emo', emotion: t.emotion, korea: t.korea, title: t.keyword, title_ko: t.apply || null, status: 'requested', note: note || null,
-    feedback: note ? [{ at: new Date().toISOString(), by: 'owner', type: 'request', text: note }] : [],
-    signal: { evidence: t.evidence || [], reactions: t.reactions || [], day: t.day || null, upload_by: t.upload_by || null }, outline: [] });
-  if (error) { toast('요청하지 못했습니다: ' + error.message, true); btn.disabled = false; return; }
-  await sb.from('sc_trends').update({ status: 'picked' }).eq('id', id);
-  await reload(); toast('기획안을 요청했습니다. Claude가 작성해서 기획안 탭에 올립니다');
-}
-
-/* ---------- 기획안 ---------- */
-function viewPlan(){
-  const order = { rework: 0, pending: 1, requested: 2, producing: 3, approved: 3, made: 5, rejected: 6 };
-  const list = S.plans.filter(p => p.line === 'emo' || p.emotion).sort((a,b) => (order[a.status] - order[b.status]) || (Date.parse(a.publish_at || '2100-01-01') - Date.parse(b.publish_at || '2100-01-01')));
-  const live = list.filter(p => p.status !== 'rejected' && p.status !== 'made');
-  const old = list.filter(p => p.status === 'rejected' || p.status === 'made');
-  $('#main').innerHTML = `
-    <div class="card" style="display:grid;gap:8px">
-      <div style="font-weight:850">원하는 이야기가 있으면 (선택)</div>
-      <div class="note">${AUTO() ? '자동 진행 중이라 Claude가 트렌드로 기획안을 쓰고 바로 제작합니다. 꼭 만들고 싶은 이야기가 있을 때만 적어 주세요. 다음 빈칸에 넣습니다.' : '원하는 이야기나 감정을 적으면 Claude가 컷 구성·자막·음악·제목까지 써서 여기 올립니다.'}</div>
-      <textarea id="newreq" placeholder="예: 수능 날 새벽, 엄마가 도시락을 싸는 이야기. 마지막은 시험장 앞 포옹"></textarea>
-      <div class="row"><button class="btn pri" id="reqbtn">기획안 요청</button><span class="note">편당 약 1.2달러 · 그림·영상 생성 → 렌더 → 유튜브 예약까지 자동</span></div>
-    </div>
-    <h2>기획안 <span class="n">${AUTO() ? 'Claude가 쓰고 승인한 것 · 아니다 싶으면 중단 요청' : '수정 요청 → 승인 대기 → 작성 중 → 제작'}</span></h2>
-    ${live.length ? `<div class="grid">${live.map(planCard).join('')}</div>` : '<div class="card empty">진행 중인 기획안이 없습니다.</div>'}
-    ${old.length ? `<details class="fold" style="margin-top:16px"><summary>제작 완료·폐기 ${old.length}건</summary><div class="grid">${old.map(planCard).join('')}</div></details>` : ''}`;
-  $('#reqbtn').onclick = async () => {
-    const note = $('#newreq').value.trim();
-    const pid = 'R' + new Date(Date.now() + 9*3600e3).toISOString().slice(2,16).replace(/[-T:]/g, '');
-    const { error } = await sb.from('sc_plans').insert({ id: pid, line: 'emo', title: note ? note.slice(0, 60) : '트렌드에서 소재 고르기', status: 'requested', note: note || null,
-      feedback: note ? [{ at: new Date().toISOString(), by: 'owner', type: 'request', text: note }] : [], outline: [] });
-    if (error) { toast('요청하지 못했습니다: ' + error.message, true); return; }
-    await reload(); toast('요청했습니다. Claude가 작성해서 올립니다');
-  };
-  bindPlans();
-}
-function planCard(p){
-  const st = ({ requested: '<span class="badge mut">작성 중</span>', pending: '<span class="badge warn">승인 대기</span>', rework: '<span class="badge bad">수정 요청 중</span>', approved: '<span class="badge good">제작 예정</span>', producing: '<span class="badge good">제작 중</span>', made: '<span class="badge">제작됨</span>', rejected: '<span class="badge mut">폐기</span>' })[p.status] || '';
-  const cuts = (p.outline || []).map(o => typeof o === 'string' ? { scene: o } : o);
-  const sp = p.spec || {};
-  const ready = cuts.length > 0;
-  const ev = ((p.signal || {}).evidence || []).slice(0, 4);
-  const editable = ['pending', 'rework', 'requested'].includes(p.status);
-  return `<div class="card plan" data-id="${esc(p.id)}" style="display:grid;gap:10px">
-    <div class="row">${st}${p.emotion ? `<span class="badge heart">${esc(EMO[p.emotion] || p.emotion)}</span>` : ''}${p.korea ? `<span class="badge">${esc(p.korea)}</span>` : ''}<span class="note" style="margin-left:auto">${p.publish_at ? '게시 ' + kstLong(p.publish_at) : ''}</span></div>
-    <div class="ttl">${esc(cleanTitle(p.title))}</div>
-    ${ready ? `<div class="row">${tBadge(p.title)}</div>` : ''}
-    ${p.title_ko ? `<div class="note" style="color:var(--ink2)">${esc(p.title_ko)}</div>` : ''}
-    ${p.hook ? `<div class="note"><b>첫 장면</b> ${esc(p.hook)}</div>` : ''}
-    ${ready ? `<ol class="cuts">${cuts.map(c => `<li><div>${esc(c.scene || c.text || '')}${c.cap ? `<br><span class="cap">${esc(c.cap)}</span>` : ''}</div></li>`).join('')}</ol>` : (p.status === 'requested' ? '<div class="note">Claude가 컷 구성을 작성하고 있습니다. 보통 몇 시간 안에 올라옵니다.</div>' : '')}
-    ${sp.music || sp.pinned ? `<div class="note">${sp.music ? `<b>음악</b> ${esc(sp.music)}` : ''}${sp.music && sp.pinned ? ' · ' : ''}${sp.pinned ? `<b>고정 댓글</b> ${esc(sp.pinned)}` : ''}</div>` : ''}
-    ${ev.length ? `<div class="ev">${ev.map(e => `<a href="https://youtube.com/shorts/${esc(e.video_id)}" target="_blank" rel="noopener"><img src="${thumb(e.video_id)}" alt="" loading="lazy"><span>${short(e.views)}회</span></a>`).join('')}</div>` : ''}
-    ${thread(p.feedback)}
-    ${editable || p.status === 'approved' || p.status === 'producing' ? `<textarea data-note placeholder="중단 사유(선택). 적으면 그대로 고치고, 비워 두면 다른 이야기로 바꿉니다"></textarea>
-    <div class="row"><label class="note" style="display:flex;align-items:center;gap:6px">게시 <input type="datetime-local" data-at value="${toLocalInput(p.publish_at)}" style="width:auto"></label></div>` : ''}
-    <div class="row">
-      ${['pending', 'approved', 'producing'].includes(p.status) ? `<button class="btn sm no" data-stop>중단 요청</button>` : ''}
-      ${p.status === 'pending' ? `<button class="btn sm ok" data-ok>승인 · 제작</button>` : ''}
-      ${p.status === 'rework' || p.status === 'requested' ? `<button class="btn sm warn" data-rework>의견 추가</button><button class="btn sm" data-discard>폐기</button>` : ''}
-      ${['pending', 'approved'].includes(p.status) ? `<button class="btn sm" data-save>게시 시각 저장</button>` : ''}
-      ${p.status === 'rejected' ? `<button class="btn sm" data-revive>다시 승인 대기로</button>` : ''}
-    </div></div>`;
-}
-function bindPlans(){
-  document.querySelectorAll('.plan').forEach(card => {
-    const id = card.dataset.id, p = S.plans.find(x => x.id === id); if (!p) return;
-    const patch = async (obj, msg) => { const { error } = await sb.from('sc_plans').update(Object.assign({ updated_at: new Date().toISOString() }, obj)).eq('id', id); if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; } await reload(); toast(msg); };
-    const note = () => ((card.querySelector('[data-note]') || {}).value || '').trim();
-    const at = () => { const i = card.querySelector('[data-at]'); return i ? fromLocalInput(i.value) : p.publish_at; };
-    const on = (sel, f) => { const b = card.querySelector(sel); if (b) b.onclick = f; };
-    on('[data-ok]', () => patch({ status: 'approved', publish_at: at(), feedback: note() ? fbAdd(p.feedback, 'note', note()) : p.feedback }, '승인했습니다. 그림·영상 생성부터 시작합니다'));
-    on('[data-save]', () => patch({ publish_at: at() }, '게시 시각을 저장했습니다'));
-    on('[data-rework]', () => { const t = note(); if (!t) { toast('무엇을 고칠지 적어 주세요', true); card.querySelector('[data-note]').focus(); return; }
-      patch({ status: p.status === 'requested' ? 'requested' : 'rework', note: t, feedback: fbAdd(p.feedback, 'rework', t) }, '의견을 남겼습니다. Claude가 반영합니다'); });
-    on('[data-stop]', () => { const t = note(); if (!confirm('이 기획안을 중단할까요?')) return;
-      patch(t ? { status: 'rework', note: t, feedback: fbAdd(p.feedback, 'stop', t) } : { status: 'rejected', feedback: fbAdd(p.feedback, 'stop', '중단 요청 (사유 없음 → 다른 이야기로 교체)') },
-        t ? '중단했습니다. Claude가 고쳐서 다시 올립니다' : '중단했습니다. 그 자리는 다른 이야기로 채웁니다'); });
-    on('[data-discard]', () => { if (!confirm('이 기획안을 폐기할까요?')) return; patch({ status: 'rejected', feedback: fbAdd(p.feedback, 'discard', note() || '폐기') }, '폐기했습니다'); });
-    on('[data-revive]', () => patch({ status: (p.outline || []).length ? 'pending' : 'requested' }, '되살렸습니다'));
-  });
-}
-
-/* ---------- 작업 현황 ---------- */
-function viewJobs(){
-  if (S.jobsErr) { $('#main').innerHTML = `<div class="card empty">작업 현황 표가 아직 없습니다.<br>Supabase SQL Editor에서 <b>supabase/2026-10-27_side_jobs.sql</b> 을 실행하면 여기서 진행률이 보입니다.<div class="note" style="margin-top:6px">${esc(S.jobsErr)}</div></div>`; return; }
-  const ago = iso => { const m = Math.round((Date.now() - Date.parse(iso)) / 60e3); return m < 1 ? '방금' : m < 60 ? m + '분 전' : Math.round(m / 60) + '시간 전'; };
-  const dur = (a, b) => { const m = Math.max(0, Math.round((Date.parse(b) - Date.parse(a)) / 60e3)); return m < 60 ? m + '분' : Math.floor(m / 60) + '시간 ' + (m % 60) + '분'; };
-  const st = j => { const stale = j.status === 'running' && Date.now() - Date.parse(j.updated_at) > 15*60e3;
-    return stale ? '<span class="badge bad">소식 없음</span>' : ({ running: '<span class="badge warn">진행 중</span>', done: '<span class="badge good">완료</span>', failed: '<span class="badge bad">실패</span>' })[j.status] || `<span class="badge mut">${esc(j.status)}</span>`; };
-  const running = S.jobs.filter(j => j.status === 'running');
-  $('#main').innerHTML = `<div class="note" style="margin-bottom:10px">그림·영상 생성과 렌더가 어디까지 왔는지 보여 줍니다. 진행 중이면 10초마다 새로 고칩니다.</div>` +
-    (S.jobs.length ? `<div class="grid">${S.jobs.map(j => `<div class="card" style="display:grid;gap:8px">
-      <div class="row">${st(j)}<span class="badge mut">${j.kind === 'gen' ? '그림·영상 생성' : '렌더'}</span><span class="note" style="margin-left:auto">${ago(j.updated_at)}</span></div>
-      <div style="font-weight:850;font-size:15px">${esc(j.label || j.id)}</div>
-      <div class="jobbar"><div style="width:${Math.min(100, +j.pct || 0)}%"></div></div>
-      <div class="row note"><b style="color:var(--ink)">${j.pct != null ? Math.round(+j.pct) + '%' : ''}</b><span>${esc(j.detail || '')}</span></div>
-      <div class="row note">시작 ${kst(j.started_at)} · 걸린 시간 ${dur(j.started_at, j.status === 'running' ? new Date().toISOString() : j.updated_at)}${j.cost != null ? ' · 비용 약 $' + (+j.cost).toFixed(2) : ''}${j.run_url ? ` · <a href="${esc(j.run_url)}" target="_blank" rel="noopener">GitHub 기록</a>` : ''}</div>
-    </div>`).join('')}</div>` : '<div class="card empty">아직 기록된 작업이 없습니다.</div>');
-  if (running.length) S.jobTimer = setTimeout(async () => { if (S.tab !== 'jobs') return; await loadJobs(); renderTabs(); viewJobs(); }, 10000);
+  $('#reqbtn').onclick = async () => { const t = $('#req').value.trim(); if (!t) { toast('만들고 싶은 이야기를 적어 주세요', true); return; } $('#reqbtn').disabled = true; await requestPlan(t, null); };
+  document.querySelectorAll('[data-make]').forEach(b => b.onclick = async () => { const tr = S.trends.find(x => x.id === +b.dataset.make); b.disabled = true; if (!(await requestPlan('', tr))) b.disabled = false; });
 }
 
 /* ---------- 성과 ---------- */
 function viewPerf(){
-  const up = S.videos.filter(v => v.status === 'uploaded' && isEmo(v)).sort((a,b) => Date.parse(b.uploaded_at || 0) - Date.parse(a.uploaded_at || 0));
+  const now = Date.now();
+  const up = S.videos.filter(v => v.status === 'uploaded' && isEmo(v) && ts(v.scheduled_at) <= now).sort((a,b) => ts(b.scheduled_at) - ts(a.scheduled_at));
   const vw = v => +(v.stats?.now?.views ?? 0);
   const tot = up.reduce((a, v) => a + vw(v), 0);
   const best = up.slice().sort((a,b) => vw(b) - vw(a))[0];
+  const h24 = up.map(v => +(v.stats?.h24?.views)).filter(x => x >= 0 && !isNaN(x)).sort((a,b) => a - b);
+  const med = h24.length ? h24[Math.floor(h24.length / 2)] : null;
   const plan = v => S.plans.find(p => p.id === v.plan_id) || {};
-  const byEmo = {}; up.forEach(v => { const e = plan(v).emotion || '기타'; (byEmo[e] = byEmo[e] || []).push(vw(v)); });
-  const emoRows = Object.entries(byEmo).map(([e, a]) => [e, a.reduce((s, n) => s + n, 0) / a.length, a.length]).sort((a,b) => b[1] - a[1]);
-  const maxE = Math.max(1, ...emoRows.map(r => r[1]));
+  const fmt = v => (plan(v).spec || {}).format || plan(v).emotion || '–';
+  const learn = (S.settings.learn || []).slice(-8).reverse();
   const cell = (v, k) => v.stats?.[k] ? short(v.stats[k].views) : '–';
+  const judge = v => { const x = +(v.stats?.h24?.views); if (!med || isNaN(x)) return ''; return x >= med * 2 ? '<span class="badge good">잘 됨</span>' : x < med * 0.5 ? '<span class="badge bad">약함</span>' : ''; };
   $('#main').innerHTML = `
     <div class="grid kpis">
-      ${kpi('올린 쇼츠', up.length + '편', '첫 2주 28편으로 잘 되는 감정을 찾습니다')}
-      ${kpi('누적 조회수', short(tot), '매일 07:40 갱신')}
-      ${kpi('편당 평균', up.length ? short(tot / up.length) : '–', '')}
+      ${kpi('공개된 쇼츠', up.length + '편', '')}
+      ${kpi('누적 조회수', short(tot), '3시간마다 갱신')}
+      ${kpi('24시간 중앙값', med != null ? short(med) + '회' : '–', '이 값의 2배면 잘 됨, 절반 미만이면 약함')}
       ${kpi('최고 영상', best ? short(vw(best)) + '회' : '–', best ? cleanTitle(best.title).slice(0, 26) : '')}
     </div>
-    ${emoRows.length > 1 ? `<div class="card" style="margin-top:12px"><div style="font-weight:850;margin-bottom:10px">감정 유형별 편당 평균 조회수</div><div class="bars">${emoRows.map(([e, avg, n]) => `<div class="bar-row"><span>${esc(EMO[e] || e)} ${n}편</span><div class="track"><div class="fill" style="width:${avg/maxE*100}%"></div></div><span class="n">${short(avg)}</span></div>`).join('')}</div></div>` : ''}
+    <h2>Claude가 배운 것 <span class="n">반응을 보고 다음 기획에 반영하는 내용</span></h2>
+    ${learn.length ? `<ul class="learn">${learn.map(l => `<li><small>${kst(l.at)}</small>${esc(l.text)}</li>`).join('')}</ul>` : '<div class="card empty">아직 판단할 만큼 데이터가 없습니다. 공개 후 24시간이 지난 영상이 쌓이면 여기에 정리합니다.</div>'}
     <h2>영상별 조회수</h2>
-    ${up.length ? `<div class="card tbl-wrap" style="padding:4px 8px"><table class="tbl"><thead><tr><th>영상</th><th style="text-align:right">지금</th><th style="text-align:right">24시간</th><th style="text-align:right" class="m">48시간</th><th style="text-align:right" class="m">7일</th></tr></thead><tbody>
-      ${up.map(v => `<tr><td><div style="font-weight:800">${esc(cleanTitle(v.title))}</div><div class="note">${kst(v.uploaded_at)}${v.youtube_id ? ` · <a href="https://youtube.com/shorts/${esc(v.youtube_id)}" target="_blank" rel="noopener">보기</a>` : ''}</div></td>
-        <td class="n"><b>${v.stats?.now ? short(vw(v)) : '–'}</b></td><td class="n">${cell(v,'h24')}</td><td class="n m">${cell(v,'h48')}</td><td class="n m">${cell(v,'d7')}</td></tr>`).join('')}
-    </tbody></table></div>` : '<div class="card empty">아직 올린 영상이 없습니다. 검수·업로드 탭에서 올림을 누르면 다음 날 아침부터 조회수가 쌓입니다.</div>'}`;
+    ${up.length ? `<div class="card tbl-wrap" style="padding:4px 8px"><table class="tbl"><thead><tr><th>영상</th><th style="text-align:right">6시간</th><th style="text-align:right">24시간</th><th style="text-align:right" class="m">48시간</th><th style="text-align:right">지금</th><th></th></tr></thead><tbody>
+      ${up.map(v => `<tr><td><div style="font-weight:800">${esc(cleanTitle(v.title))}</div><div class="note">${kst(v.scheduled_at)} · ${esc(EMO[fmt(v)] || fmt(v))}${v.stats?.studio?.viewed_pct != null ? ` · 시청 선택 ${v.stats.studio.viewed_pct}%` : ''}${v.youtube_id ? ` · <a href="https://youtube.com/shorts/${esc(v.youtube_id)}" target="_blank" rel="noopener">보기</a>` : ''}</div></td>
+        <td class="n">${cell(v,'h6')}</td><td class="n">${cell(v,'h24')}</td><td class="n m">${cell(v,'h48')}</td><td class="n"><b>${v.stats?.now ? short(vw(v)) : '–'}</b></td><td>${judge(v)}</td></tr>`).join('')}
+    </tbody></table></div>` : '<div class="card empty">아직 공개된 영상이 없습니다.</div>'}`;
 }
 
 /* ---------- 설정 ---------- */
 function viewSet(){
   const s = S.settings;
   $('#main').innerHTML = `<div class="card" style="display:grid;gap:14px">
-    <div><div class="note" style="font-weight:700;margin-bottom:6px">진행 방식</div>
-      <label class="chk"><input type="checkbox" id="s-auto" ${s.auto !== false ? 'checked' : ''}> 자동 진행: Claude가 기획·제작·업로드까지 하고, 나는 중단 요청만 한다</label></div>
-    <label class="note" style="display:grid;gap:5px;font-weight:700">하루 편수<input type="number" id="s-per" min="1" max="6" value="${esc(s.per_day || 3)}"></label>
-    <label class="note" style="display:grid;gap:5px;font-weight:700">업로드 시각 (한국 시각, 쉼표로 구분)<input type="text" id="s-slots" value="${esc(SLOTS().join(', '))}"></label>
-    <div class="note">기본 03:00 유럽 저녁(파리 19시) · 08:00 미국 저녁(뉴욕 18시) · 22:00 인도 저녁(18시 반)·유럽 낮. 편수와 시각을 바꾸면 다음 기획·업로드부터 따릅니다.</div>
-    <label class="note" style="display:grid;gap:5px;font-weight:700">채널 이름<input type="text" id="s-name" value="${esc(s.channel_name || 'From Korea, With Love')}"></label>
-    <label class="note" style="display:grid;gap:5px;font-weight:700">핸들 (유튜브 스튜디오에서 실제로 정한 것)<input type="text" id="s-handle" value="${esc(s.handle || '')}" placeholder="@KachiFromKorea"></label>
-    <div class="note">제목 규칙: 제목에는 #shorts 를 넣지 않습니다(세로 3분 이하는 자동으로 쇼츠). 설명 끝 해시태그에 한 번. 제목은 40자 안쪽.</div>
+    <label class="chk" style="width:max-content"><input type="checkbox" id="s-auto" ${s.auto !== false ? 'checked' : ''}> 자동 진행 (끄면 기획·제작·업로드가 멈춥니다)</label>
+    <label class="note" style="display:grid;gap:5px;font-weight:700">업로드 시각 (한국 시각, 쉼표로 구분 · 칸 수 = 하루 편수)<input type="text" id="s-slots" value="${esc(SLOTS().join(', '))}"></label>
+    <div class="note">${SLOTS().map(h => `${h} ${SLOT_NOTE[h] || ''}`).join(' · ')}</div>
+    <label class="note" style="display:grid;gap:5px;font-weight:700">핸들 (유튜브에서 실제로 정한 것)<input type="text" id="s-handle" value="${esc(s.handle || '')}" placeholder="@KachiFromKorea"></label>
     <div><button class="btn pri" id="s-save">저장</button></div></div>`;
   $('#s-save').onclick = async () => {
     const slots = $('#s-slots').value.split(/[,\s]+/).filter(x => /^\d{1,2}:\d{2}$/.test(x)).map(x => x.padStart(5, '0')).sort();
-    const per = Math.max(1, Math.min(6, parseInt($('#s-per').value, 10) || 3));
-    const value = Object.assign({}, S.settings, { auto: $('#s-auto').checked, auto_plan: $('#s-auto').checked, per_day: per, slots,
-      channel_name: $('#s-name').value.trim(), handle: $('#s-handle').value.trim() ? '@' + $('#s-handle').value.trim().replace(/^@+/, '') : '' });
+    if (!slots.length) { toast('업로드 시각을 하나 이상 적어 주세요', true); return; }
+    const h = $('#s-handle').value.trim().replace(/^@+/, '');
+    const value = Object.assign({}, S.settings, { auto: $('#s-auto').checked, auto_plan: $('#s-auto').checked, slots, per_day: slots.length, handle: h ? '@' + h : '' });
     const { error } = await sb.from('sc_settings').upsert({ id: 1, value });
     if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; }
     await reload(); toast('저장했습니다');

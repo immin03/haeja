@@ -130,34 +130,40 @@ async function hot(log: string[]) {
   log.push(`다시 읽은 영상 ${extra.length}/${miss?.length || 0}개`);
 }
 
-// 우리 채널 성과: 올린 지 24·48시간·7일이 지난 첫 측정을 고정 기록, now 는 매번 갱신
+// 우리 채널 성과: 공개 6·24·48시간·7일이 지난 첫 측정을 고정 기록, now 는 매번 갱신
 async function mine(log: string[]) {
-  const { data } = await sb.from("sc_videos").select("id,youtube_id,uploaded_at,stats").eq("status", "uploaded").not("youtube_id", "is", null);
+  const { data } = await sb.from("sc_videos").select("id,youtube_id,uploaded_at,scheduled_at,stats").eq("status", "uploaded").not("youtube_id", "is", null);
   let n = 0;
   await pool(data || [], 3, async (v: any) => {
+    // 스튜디오에 미리 예약한 영상이 많으니 나이는 공개 시각(scheduled_at)부터 센다. 아직 공개 전이면 건너뛴다
+    const pub = Date.parse(v.scheduled_at || v.uploaded_at || new Date().toISOString());
+    if (pub > Date.now()) return;
     const views = await viewsOf(v.youtube_id); if (views === null) return;
-    const at = new Date().toISOString(), age = (Date.now() - Date.parse(v.uploaded_at || at)) / 3600e3;
+    const at = new Date().toISOString(), age = (Date.now() - pub) / 3600e3;
     const s = { ...(v.stats || {}) }; s.now = { views, at };
     for (const [k, h] of [["h24", 24], ["h48", 48], ["d7", 168]] as const) if (age >= h && !s[k]) s[k] = { views, at };
-    s.hist = [...(s.hist || []), { views, at }].slice(-60);
+    s.h6 = s.h6 || (age >= 6 ? { views, at } : undefined); if (!s.h6) delete s.h6;
+    s.hist = [...(s.hist || []), { views, at }].slice(-80);
     await sb.from("sc_videos").update({ stats: s }).eq("id", v.id); n++;
   });
   log.push(`우리 영상 조회수 ${n}편`);
 }
 
-async function run() {
+// only = "mine": 우리 영상 조회수만 (3시간마다), 없으면 전체 (매일 07:40)
+async function run(only?: string) {
   const log: string[] = [], t0 = Date.now();
-  for (const [name, f] of [["hot", hot], ["mine", mine]] as const) { try { await f(log); } catch (e) { log.push(`${name} 오류: ${String(e).slice(0, 120)}`); } }
+  const steps = ([["hot", hot], ["mine", mine]] as const).filter(([n]) => !only || n === only);
+  for (const [name, f] of steps) { try { await f(log); } catch (e) { log.push(`${name} 오류: ${String(e).slice(0, 120)}`); } }
   log.push(`${Math.round((Date.now() - t0) / 1000)}초`);
   const { data: s } = await sb.from("sc_settings").select("value").eq("id", 1).maybeSingle();
-  await sb.from("sc_settings").upsert({ id: 1, value: { ...(s?.value || {}), hot_log: { at: new Date().toISOString(), log } } });
+  await sb.from("sc_settings").upsert({ id: 1, value: { ...(s?.value || {}), [only ? "mine_log" : "hot_log"]: { at: new Date().toISOString(), log } } });
   return log;
 }
 
 Deno.serve(async (req: Request) => {
   const body = await req.json().catch(() => ({}));
-  if (body?.wait) return Response.json({ ok: true, log: await run() });
+  if (body?.wait) return Response.json({ ok: true, log: await run(body?.only) });
   // @ts-ignore EdgeRuntime 은 Supabase 런타임에 있다
-  EdgeRuntime.waitUntil(run());
+  EdgeRuntime.waitUntil(run(body?.only));
   return Response.json({ ok: true, started: true }, { status: 202 });
 });
