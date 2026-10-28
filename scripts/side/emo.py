@@ -63,6 +63,52 @@ def caption_png(text, path):
     img.save(path)
 
 
+def heart(d, cx, cy, r, fill):
+    """글꼴에 없을 수 있는 하트 기호 대신 직접 그린다"""
+    import math
+    pts = [(cx + r * 16 * math.sin(t) ** 3 / 16, cy - r * (13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)) / 16)
+           for t in [i * 2 * math.pi / 120 for i in range(120)]]
+    d.polygon(pts, fill=fill)
+
+
+def end_card(spec, bg_frame, out, dur=3.0):
+    """마지막 장면을 흐리게 깔고 까치·채널 로고·팔로우 유도 문구. 쇼츠 아래쪽 UI(제목·버튼)를 피해 화면 가운데 위쪽에 둔다"""
+    E = spec.get("end", {})
+    bg = Image.open(bg_frame).convert("RGB").resize((W, H)).filter(ImageFilter.GaussianBlur(26))
+    bg = Image.blend(bg, Image.new("RGB", (W, H), (255, 236, 205)), 0.32)
+    card = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(card)
+    logo = Image.open(os.path.join(ROOT, "docs", "side", "logo_text.png")).convert("RGBA")   # 까치는 크게 따로 → 로고는 글자만
+    lw = 700; logo = logo.resize((lw, int(logo.height * lw / logo.width)), Image.LANCZOS)
+    ly = 900; card.alpha_composite(logo, ((W - lw) // 2, ly))
+    f1 = ImageFont.truetype(os.path.join(FONTS, "Poppins-SemiBold.ttf"), 48)
+    f2 = ImageFont.truetype(os.path.join(FONTS, "Poppins-Bold.ttf"), 50)
+    y = ly + logo.height + 40
+    line = E.get("line", "")
+    if line:
+        tw = f1.getlength(line); x = (W - tw - 62) / 2
+        heart(d, x + 24, y + 34, 26, (215, 50, 44, 255)); d.text((x + 62, y), line, font=f1, fill=(31, 42, 68, 255)); y += 96
+    pill = E.get("follow", "Follow for more love")   # 오른쪽 좋아요·댓글 버튼 줄(x>940)을 피할 만큼 짧게
+    tw = f2.getlength(pill); px0, px1 = (W - tw) / 2 - 56, (W + tw) / 2 + 56
+    d.rounded_rectangle((px0, y, px1, y + 104), 52, fill=(215, 50, 44, 255))
+    d.text(((W - tw) / 2, y + 18), pill, font=f2, fill=(255, 255, 255, 255))
+    # 글자 판이 흐린 배경 위에서도 또렷하게: 아주 옅은 크림 판을 아래에
+    plate = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dp = ImageDraw.Draw(plate)
+    dp.rounded_rectangle((70, ly - 40, W - 70, y + 150), 70, fill=(255, 248, 236, 150))
+    plate = plate.filter(ImageFilter.GaussianBlur(30))
+    bgp = os.path.join(WORK, "end_bg.png"); Image.alpha_composite(bg.convert("RGBA"), plate).convert("RGB").save(bgp)
+    cp = os.path.join(WORK, "end_card.png"); card.save(cp)
+    kp = os.path.join(ROOT, "social", "side", "gen", "cut", E.get("host", "h_love") + ".png")
+    k = Image.open(kp).convert("RGBA"); kh = 600; k = k.resize((int(k.width * kh / k.height), kh), Image.LANCZOS)
+    kpath = os.path.join(WORK, "end_host.png"); k.save(kpath); kx = (W - k.width) // 2; ky = ly - kh + 10
+    # 배경 아주 천천히 확대 · 카드는 서서히 · 까치는 살짝 통통 튀며 들어온다
+    sh("ffmpeg", "-v", "error", "-y", "-loop", "1", "-t", str(dur), "-i", bgp, "-loop", "1", "-t", str(dur), "-i", cp,
+       "-loop", "1", "-t", str(dur), "-i", kpath, "-filter_complex",
+       f"[0:v]scale={W * 2}:{H * 2},zoompan=z='1+0.0006*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={W}x{H}:fps={FPS}[b];"
+       f"[1:v]format=rgba,fade=in:st=0.15:d=0.5:alpha=1[c];[2:v]format=rgba,fade=in:st=0:d=0.35:alpha=1[k];"
+       f"[b][c]overlay=0:0[bc];[bc][k]overlay=x={kx}:y='{ky}+60*exp(-4*t)*cos(9*t)+8*sin(2*PI*t*0.9)'",
+       "-t", str(dur), "-r", str(FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", out)
+
+
 def srt_time(t):
     ms = int(round(t * 1000)); return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
 
@@ -87,6 +133,13 @@ def main():
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", out)
         real = float(sh("ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", out))
         parts.append((out, real))
+    # 1-2) 마무리 카드: 마지막 컷의 끝 장면 위에 채널 로고·팔로우 유도 (2026-10-28 운영자 요청)
+    if spec.get("end", {}).get("on", True):
+        lastf = os.path.join(WORK, "last.png")
+        sh("ffmpeg", "-v", "error", "-y", "-sseof", "-0.1", "-i", parts[-1][0], "-frames:v", "1", "-update", "1", lastf)
+        ep = os.path.join(WORK, "end.mp4"); end_card(spec, lastf, ep, spec.get("end", {}).get("dur", 3.0))
+        parts.append((ep, float(sh("ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", ep))))
+    n = len(parts)
     # 2) 컷 시작 시각 계산 (겹침 XF 초)
     starts, t = [], 0.0
     for i, (_, d) in enumerate(parts):
