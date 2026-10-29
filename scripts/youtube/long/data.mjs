@@ -93,6 +93,15 @@ export async function companyData(code, spec = {}) {
     if (spec.ipo_px) { const g = px / spec.ipo_px - 1; usv.ipo_vs = (g >= 0 ? '+' : '-') + Math.abs(Math.round(g * 100)) + '%'; usv.ipo_word = g >= 0 ? '높은' : '낮은'; usv.ipo_abs = Math.abs(Math.round(g * 100)) + '%'; }
     for (const [k, c] of Object.entries(spec.mcap_calc || {})) usv[k] = c.fmt === 'usd' ? usdBig(mc / c.div) : '약 ' + Math.round(mc / c.div) + '배';
     for (const [k, n] of Object.entries(spec.px_mult || {})) { usv[k] = usdBig(px * n); if (spec.fx) usv[k + '_krw'] = krw(px * n); }   // 예: 풀리는 주식 수 × 지금 주가
+    // 배당 (2026-10-29 코카콜라 편): spec.div_ps = 1년 배당(주당 달러), spec.div_g = 가정 배당 증가율 → 지금 배당수익률, 1억 원어치 1년 배당(세전), 10년 뒤 원가 대비 배당률
+    if (spec.div_ps) {
+      const y = spec.div_ps / px; usv.dy = (Math.round(y * 1000) / 10).toFixed(1) + '%';
+      const won1 = Math.round(1e8 * y / 1e4); usv.div_1eok = '약 ' + won1.toLocaleString('ko-KR') + '만 원';
+      if (spec.div_g) usv.div_1eok10 = '약 ' + Math.round(won1 * Math.pow(1 + spec.div_g, 10)).toLocaleString('ko-KR') + '만 원';
+      if (spec.div_g) usv.yoc10 = '약 ' + (Math.round(y * Math.pow(1 + spec.div_g, 10) * 1000) / 10).toFixed(1) + '%';
+    }
+    // 오래 들고 있는 지분을 팔 때의 차익·세금 (spec.hold = {shares, cost, tax})
+    if (spec.hold) { const g = px * spec.hold.shares - spec.hold.cost; usv.hold_gain = usdBig(g); usv.hold_tax = usdBig(g * spec.hold.tax); }
     if (spec.px_ref) for (const [k, ref] of Object.entries(spec.px_ref)) { const g = px / ref - 1; usv[k] = (g >= 0 ? '+' : '-') + Math.abs(g * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
   }
   const bt = spec.backtest; let btv = {};

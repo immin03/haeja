@@ -103,6 +103,25 @@ def icon_draw(d, kind, x, y, s, c, w=4):
             yy = .18 + k * .17
             d.ellipse([x + s * .26, y + s * yy, x + s * .5, y + s * (yy + .12)], outline=c, width=max(2, w - 1))
             d.ellipse([x + s * .5, y + s * yy, x + s * .74, y + s * (yy + .12)], outline=c, width=max(2, w - 1))
+    elif kind == "bottle":   # 상표 없는 일반 유리병 (2026-10-29 코카콜라 편 — 특정 회사 병 모양 아님)
+        d.rectangle([x + s * .43, y + s * .02, x + s * .57, y + s * .1], outline=c, width=w)
+        L([(x + s * .44, y + s * .1), (x + s * .44, y + s * .3), (x + s * .32, y + s * .45), (x + s * .32, y + s * .95),
+           (x + s * .68, y + s * .95), (x + s * .68, y + s * .45), (x + s * .56, y + s * .3), (x + s * .56, y + s * .1)])
+        L([(x + s * .36, y + s * .62), (x + s * .64, y + s * .62)])
+    elif kind == "crate":   # 여섯 병짜리 나무 상자
+        d.rectangle([x + s * .04, y + s * .5, x + s * .96, y + s * .95], outline=c, width=w)
+        L([(x + s * .04, y + s * .65), (x + s * .96, y + s * .65)])
+        for k in range(3):
+            bx = x + s * (.12 + k * .29)
+            d.rectangle([bx + s * .08, y + s * .08, bx + s * .14, y + s * .14], outline=c, width=max(2, w - 1))
+            L([(bx + s * .08, y + s * .14), (bx + s * .04, y + s * .25), (bx + s * .04, y + s * .5)])
+            L([(bx + s * .14, y + s * .14), (bx + s * .18, y + s * .25), (bx + s * .18, y + s * .5)])
+    elif kind == "cap":   # 병뚜껑
+        d.ellipse([x + s * .1, y + s * .25, x + s * .9, y + s * .75], outline=c, width=w)
+        for k in range(12):
+            a = k * math.pi / 6; cx, cy = x + s * .5, y + s * .5
+            L([(cx + math.cos(a) * s * .4, cy + math.sin(a) * s * .25), (cx + math.cos(a) * s * .48, cy + math.sin(a) * s * .3)])
+        d.ellipse([x + s * .3, y + s * .38, x + s * .7, y + s * .62], outline=c, width=max(2, w - 2))
     else:
         _base_icon(d, kind, x, y, s, c, w)
 
@@ -382,7 +401,7 @@ def rows(t, n=11):
 
 def tone(s):
     s = str(s).strip()
-    return "red" if s.startswith(("-", "−")) else ("green" if s.startswith("+") else "red")
+    return "red" if s.startswith(("-", "−")) else ("green" if s.startswith("+") else "ink")   # 2026-10-29: 2차 기준(빨강 = '-' 숫자만)에 맞춰 부호 없는 숫자는 네이비
 
 
 def auto(v, lines, V, fill, at_time):
@@ -627,9 +646,12 @@ def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
     """장면 하나의 손그림: 원고에 sketch 가 있으면 그것(핵심 그림), 없으면 화면 종류를 자동 변환. 마지막에 빈틈 메우기"""
     spec = sc.get("sketch")
     authored = spec is not None
-    if spec is None and auto_ok and sc["v"]["type"] == "end": spec = end_page(sc["v"], lines, fill, V, at_time)
+    if spec is None and auto_ok and sc["v"]["type"] == "end": spec = end_page(sc["v"], lines, fill, V, at_time) + list(sc.get("sketch_add", []))   # 2026-10-29: 끝 화면 뒤 문장도 빈틈 없이
     elif spec is None and auto_ok and sc["v"]["type"] in AUTO_TYPES: spec = auto(sc["v"], lines, V, fill, at_time) + list(sc.get("sketch_add", []))
     if spec is None: return None
+    if True:   # 2026-10-29: 직접 그린 손그림·sketch_add 에도 {px} 같은 빈칸을 렌더 시점 값으로 채운다
+        spec = [dict(b, **{k: fill(str(b[k]), V) for k in ("text", "label", "cap") if isinstance(b.get(k), str) and "{" in b[k]},
+                     **({"rows": [fill(str(r), V) for r in b["rows"]]} if isinstance(b.get("rows"), list) else {})) for b in spec]
     spec = tidy(spec)
     if not authored and sc["v"]["type"] != "end": spec = balance(spec, lines)
     dur = (lines[-1][0] + lines[-1][1] + .35) if lines else 1.0
