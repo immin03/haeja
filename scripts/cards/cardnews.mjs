@@ -12,6 +12,7 @@
 //   table    { eyebrow, title, cols, rows, widths, hl, tags?, compact?, dimRows?, note }  표 (tags = 회사 이름 옆 업종, compact = 9~12줄, dimRows = 탈락 예시 줄 번호)
 //   grid     { l1, l2, pill, cols, compact?, tiles:[{name, tag, big, bigLabel, chip, note, tone, num?}], notes }  한 장 요약 (기본 형식, 2026-10-23). compact = 타일 10~12개(4열)용 작은 글씨, num = 번호 원 글자(예: '✕')
 //   end      { title, body, cta, checks?:[[이름, 설명]], checkHead?, checkNote? }  마지막 장 (체크표 선택) + 밸류노트 워드마크
+//   ecover / data  실적 정리형 (2026-10-29): 큰 숫자 표지 + [번호·소제목] 두 줄 제목 + 그림 하나 + 숫자 칸 + 결론 한 줄 — 아래 K.data 설명
 // 공통: spec.foot = 출처·기준일 한 줄 (모든 장 아래), 고지문은 마지막 장에만 작게.
 // 디자인 규칙: 글꼴 Pretendard, 원 안 숫자는 #FFFFFF, 밸류노트 로고는 brand/logo-dark.png (2026-10-23 확정). 인물 사진은 재사용 허락된 것만(README).
 import fs from 'node:fs';
@@ -227,6 +228,106 @@ const K = {
     h('div', { marginTop: 60, alignItems: 'center', gap: 24 },
       h('div', { background: C.gold, color: C.navy, fontSize: 36, fontWeight: 900, borderRadius: 60, padding: '22px 44px' }, s.cta || '팔로우하고 받아 보기'),
       t('@value.note.korea', { fontSize: 32, color: C.ink, fontWeight: 800 })))),
+
+
+  // ── 실적 정리형 장 (2026-10-29 운영자: mijunow 구글 실적 카드 벤치마킹 — "실적 발표에서 어떤 게 나왔는지 잘 정리") ──
+  // 원리만 가져온다(디자인은 밸류노트 톤): 표지에 가장 큰 숫자 하나 → 장마다 [번호·소제목] + 두 줄 제목 + 그림 하나(막대·차트·인용·대비)
+  // + 숫자 칸 2개 + 맨 아래 한 줄 결론. 기대치 대비·지난 분기 대비·경쟁사 대비처럼 '비교'로 보여 준다.
+  // ecover { photo, eyebrow, l1, big, tone:'up'|'down', sub, date }
+  // data   { no, label, l1, l2, l2tone?, thumb?, chart?, kpis?:[{label, value, tone?, sub?}], quote?:{en, ko, who}, split?, watch?, takeaway }
+  //   chart = { type:'hbar', head?, rows:[{name, sub, pct}] }            기대치 대비 % (0 기준 좌우 막대, +는 그린, −는 핑크레드)
+  //         | { type:'vbar', head?, unit?, bars:[{x, v, label?, tone?:'up'|'down'|'plain'|'ghost'|'gold', note?}] }  (음수 가능)
+  //   split = { a:{head, tone, items:[[큰 줄, 작은 줄]]}, b:{...} }      좋았던 것 vs 아쉬운 것, 강세 vs 약세
+  //   watch = [[큰 줄, 작은 줄]] (번호 원 흰색)                           앞으로 볼 숫자
+  //   takeaway: "**금색 강조**가 들어간 결론 한 줄"
+  ecover: (s, sp, i, n) => h('div', { width: W, height: H, position: 'relative', fontFamily: 'P', color: '#FFFFFF', background: C.navy },
+    img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: H, objectFit: 'cover' }),
+    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'linear-gradient(180deg,rgba(9,17,30,.70) 0%,rgba(9,17,30,.20) 28%,rgba(9,17,30,.55) 52%,rgba(9,17,30,.97) 74%,rgba(13,24,40,1) 100%)' }),
+    h('div', { position: 'absolute', left: 64, top: 56, right: 64, justifyContent: 'space-between', alignItems: 'center' }, mark(210),
+      h('div', { fontSize: 26, fontWeight: 800, color: '#FFFFFF', background: 'rgba(0,0,0,.35)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
+    credit(s.photo) ? t(credit(s.photo), { position: 'absolute', right: 64, top: 130, fontSize: 17, color: 'rgba(255,255,255,.6)', fontWeight: 500 }) : null,
+    h('div', { position: 'absolute', left: 64, right: 64, bottom: 70, flexDirection: 'column', alignItems: 'center' },
+      s.eyebrow ? h('div', { background: C.gold, color: C.navy, fontSize: 32, fontWeight: 900, borderRadius: 14, padding: '8px 22px', marginBottom: 22 }, s.eyebrow) : null,
+      t(s.l1, { fontSize: s.l1.length > 11 ? 84 : 96, fontWeight: 900, letterSpacing: -3, lineHeight: 1.1, textShadow: '0 4px 18px rgba(0,0,0,.6)', textAlign: 'center' }),
+      t(s.big, { fontSize: s.big.length > 9 ? 150 : 178, fontWeight: 900, letterSpacing: -6, lineHeight: 1.05, marginTop: 8, color: s.tone === 'down' ? C.down : s.tone === 'up' ? C.up : C.gold, textShadow: '0 6px 24px rgba(0,0,0,.55)' }),
+      s.sub ? t(s.sub, { fontSize: 40, fontWeight: 800, color: '#E3E8EF', marginTop: 14, textAlign: 'center', lineHeight: 1.35 }) : null,
+      s.date ? t(s.date, { fontSize: 24, fontWeight: 600, color: 'rgba(255,255,255,.55)', marginTop: 26 }) : null)),
+
+  data: (s, sp, i, n) => {
+    const TW = W - 128;
+    const tone = (x) => x === 'up' ? C.up : x === 'down' ? C.down : x === 'gold' ? C.gold : x === 'ghost' ? 'rgba(255,255,255,.18)' : C.ink;
+    // 강조(**…**) 경계에서도 원문 띄어쓰기를 그대로 지킨다: 단어 뒤에 공백이 있을 때만 간격을 준다
+    const rich = (str, size, color = C.ink, weight = 800) => {
+      const words = []; let hi = false;
+      for (const part of String(str).split('**')) {
+        for (const m of part.matchAll(/(\S+)(\s*)/g)) words.push({ w: m[1], hi, sp: m[2].length > 0 });
+        if (/\s$/.test(part) && words.length) words[words.length - 1].sp = true;
+        hi = !hi;
+      }
+      return h('div', { flexWrap: 'wrap', alignItems: 'baseline' }, words.map((x) => t(x.w, { fontSize: size, fontWeight: x.hi ? 900 : weight, color: x.hi ? C.gold : color, lineHeight: 1.4, marginRight: x.sp ? Math.round(size * 0.28) : 0 })));
+    };
+    const head = (txt) => txt ? t(txt, { fontSize: 24, fontWeight: 700, color: C.dim, marginBottom: 14 }) : null;
+    const box = (kids, extra = {}) => h('div', { flexDirection: 'column', background: C.card, borderRadius: 24, padding: '24px 28px', border: `1px solid ${C.line}`, ...extra }, kids);
+
+    let chart = null;
+    const c = s.chart;
+    if (c && c.type === 'hbar') {
+      const max = Math.max(...c.rows.map((r) => Math.abs(r.pct)), 1), half = 250;
+      chart = box([head(c.head || '기대치 대비'), c.rows.map((r) => h('div', { alignItems: 'center', marginTop: 14, height: 104 },
+        h('div', { flexDirection: 'column', width: 330 }, t(r.name, { fontSize: 40, fontWeight: 900 }), r.sub ? t(r.sub, { fontSize: 24, fontWeight: 600, color: C.dim, marginTop: 2 }) : null),
+        h('div', { width: half, justifyContent: 'flex-end' }, r.pct < 0 ? h('div', { width: Math.max(10, Math.round(half * Math.abs(r.pct) / max)), height: 54, background: C.down, borderRadius: '8px 0 0 8px' }) : null),
+        h('div', { width: 3, height: 60, background: 'rgba(255,255,255,.35)' }),
+        h('div', { width: half, alignItems: 'center', gap: 12 },
+          r.pct >= 0 ? h('div', { width: Math.max(10, Math.round((half - 120) * r.pct / max)), height: 54, background: C.up, borderRadius: '0 8px 8px 0' }) : null,
+          t(r.label || `${r.pct > 0 ? '+' : ''}${r.pct}%`, { fontSize: 40, fontWeight: 900, color: r.pct >= 0 ? C.up : C.down, marginLeft: r.pct < 0 ? 14 : 0 }))))]);
+    } else if (c && c.type === 'vbar') {
+      const vals = c.bars.map((b) => b.v), max = Math.max(...vals, 0), min = Math.min(...vals, 0), span = max - min || 1, CH = c.h || 380;
+      const zeroY = Math.round(CH * max / span), bw = Math.min(150, Math.floor((TW - 56) / c.bars.length) - 34);
+      chart = box([head(c.head),
+        h('div', { height: CH + 110, justifyContent: 'space-around', alignItems: 'flex-start', position: 'relative' },
+          min < 0 ? h('div', { position: 'absolute', left: 0, right: 0, top: 52 + zeroY, height: 2, background: 'rgba(255,255,255,.35)' }) : null,
+          c.bars.map((b) => {
+            const hgt = Math.max(6, Math.round(CH * Math.abs(b.v) / span)), top = b.v >= 0 ? zeroY - hgt : zeroY;
+            return h('div', { flexDirection: 'column', alignItems: 'center', width: bw + 34, position: 'relative', height: CH + 110 },
+              t(b.label ?? String(b.v), { position: 'absolute', top: b.v >= 0 ? top : zeroY + 4, fontSize: 34, fontWeight: 900, color: b.tone === 'ghost' ? C.mute : tone(b.tone || 'plain'), letterSpacing: -1 }),
+              h('div', { position: 'absolute', top: 52 + top, width: bw, height: hgt, background: tone(b.tone || 'plain'), borderRadius: b.v >= 0 ? '10px 10px 0 0' : '0 0 10px 10px', border: b.tone === 'ghost' ? `3px dashed ${C.mute}` : 'none' }),
+              h('div', { position: 'absolute', top: CH + 62, flexDirection: 'column', alignItems: 'center' },
+                t(b.x, { fontSize: 25, fontWeight: 800, color: C.mute, textAlign: 'center' }),
+                b.note ? t(b.note, { fontSize: 20, fontWeight: 600, color: C.dim, marginTop: 2 }) : null));
+          }))]);
+    }
+
+    const kpis = s.kpis ? h('div', { gap: 16, marginTop: 18 }, s.kpis.map((k) => h('div', { flexDirection: 'column', flexGrow: 1, flexBasis: 0, background: C.card, borderRadius: 22, padding: '18px 24px', border: `1px solid ${C.line}` },
+      t(k.label, { fontSize: 24, fontWeight: 700, color: C.dim }),
+      t(k.value, { fontSize: k.value.length > 9 ? 46 : 56, fontWeight: 900, color: tone(k.tone || 'plain'), letterSpacing: -2, marginTop: 4, lineHeight: 1.1 }),
+      k.sub ? t(k.sub, { fontSize: 22, fontWeight: 600, color: C.mute, marginTop: 4 }) : null))) : null;
+
+    const quote = s.quote ? h('div', { flexDirection: 'column', marginTop: 18, borderLeft: `6px solid ${C.gold}`, background: 'rgba(234,219,185,.07)', borderRadius: '0 18px 18px 0', padding: '18px 24px' },
+      s.quote.en ? t(`“${s.quote.en}”`, { fontSize: 23, fontWeight: 600, color: C.dim, lineHeight: 1.4 }) : null,
+      t(s.quote.ko, { fontSize: 32, fontWeight: 900, color: C.ink, marginTop: 6, lineHeight: 1.35 }),
+      s.quote.who ? t(s.quote.who, { fontSize: 22, fontWeight: 700, color: C.gold, marginTop: 8 }) : null) : null;
+
+    const split = s.split ? h('div', { gap: 16, marginTop: 6 }, [s.split.a, s.split.b].map((col) => h('div', { flexDirection: 'column', flexGrow: 1, flexBasis: 0, background: C.card, borderRadius: 22, overflow: 'hidden', border: `1px solid ${C.line}` },
+      h('div', { background: tone(col.tone), padding: '14px 22px' }, t(col.head, { fontSize: 32, fontWeight: 900, color: C.navy })),
+      h('div', { flexDirection: 'column', padding: '6px 22px 18px 22px' }, col.items.map(([a, b]) => h('div', { flexDirection: 'column', marginTop: 30 },
+        t(a, { fontSize: 35, fontWeight: 900, color: C.ink, lineHeight: 1.3 }), b ? t(b, { fontSize: 26, fontWeight: 600, color: C.mute, marginTop: 6, lineHeight: 1.35 }) : null)))))) : null;
+
+    const watch = s.watch ? h('div', { flexDirection: 'column', gap: 22, marginTop: 10 }, s.watch.map(([a, b], k) => h('div', { alignItems: 'center', gap: 24, background: C.card, borderRadius: 22, padding: '34px 28px', border: `1px solid ${C.line}` },
+      num(k + 1), h('div', { flexDirection: 'column', flexShrink: 1 }, t(a, { fontSize: 38, fontWeight: 900, lineHeight: 1.3 }), b ? t(b, { fontSize: 27, fontWeight: 600, color: C.mute, marginTop: 4, lineHeight: 1.35 }) : null)))) : null;
+
+    return shell(sp, i, n, h('div', { flexDirection: 'column', flexGrow: 1, marginTop: -14 },
+      h('div', { justifyContent: 'space-between', alignItems: 'flex-start' },
+        h('div', { flexDirection: 'column', flexShrink: 1 },
+          h('div', { alignItems: 'center', gap: 12, marginBottom: 14 },
+            s.no ? h('div', { background: '#FFFFFF', color: C.navy, fontSize: 24, fontWeight: 900, borderRadius: 8, padding: '3px 10px' }, s.no) : null,
+            t(s.label || '', { fontSize: 25, fontWeight: 700, color: C.mute })),
+          t(s.l1, { fontSize: s.size || 64, fontWeight: 900, letterSpacing: -2, lineHeight: 1.15 }),
+          s.l2 ? t(s.l2, { fontSize: s.size || 64, fontWeight: 900, letterSpacing: -2, lineHeight: 1.15, color: tone(s.l2tone || 'gold') }) : null),
+        s.thumb ? img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.thumb)), { width: 170, height: 170, borderRadius: 26, objectFit: 'cover', flexShrink: 0, marginLeft: 20, border: `2px solid ${C.line}` }) : null),
+      h('div', { flexDirection: 'column', marginTop: 26 }, chart, split, watch),
+      kpis, quote,
+      s.takeaway ? h('div', { marginTop: 24, marginBottom: 14, background: 'rgba(234,219,185,.10)', border: `2px solid ${C.gold2}`, borderRadius: 18, padding: '16px 22px' }, rich(s.takeaway, 30)) : null));
+  },
 
   end: (s, sp, i, n) => shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' },
     bigTitle(s.title, s.size || 64),
