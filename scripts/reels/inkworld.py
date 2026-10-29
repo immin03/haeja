@@ -62,6 +62,32 @@ def font(kind, size):
     return _C[k]
 
 
+# 2026-10-29 대표님: "화살표를 안 쓰고 괄호(>)를 쓰더라. 그러면 '더 크다'로 읽힌다 — 화살표를 정확하게"
+# SUIT·연성체는 '→'를 '>'처럼 그린다 → 글씨 속 '→'는 글꼴 대신 직접 화살표(몸통 + 머리)를 그린다
+ARROW = "→"
+
+
+def tlen(f, s):
+    s = str(s)
+    if ARROW not in s: return f.getlength(s)
+    parts = s.split(ARROW)
+    return sum(f.getlength(x) for x in parts) + (len(parts) - 1) * f.size * 1.15
+
+
+def ttext(d, xy, s, f, fill):
+    s = str(s); x, y = xy
+    if ARROW not in s: d.text((x, y), s, font=f, fill=fill); return
+    b = f.getbbox("가0"); cy = y + (b[1] + b[3]) / 2; w = f.size * 1.15; lw = max(3, int(f.size * .075))
+    parts = s.split(ARROW)
+    for i, part in enumerate(parts):
+        if part: d.text((x, y), part, font=f, fill=fill); x += f.getlength(part)
+        if i < len(parts) - 1:
+            x0, x1 = x + w * .14, x + w * .86; hh = f.size * .2
+            d.line([(x0, cy), (x1, cy)], fill=fill, width=lw)
+            d.line([(x1 - hh * 1.15, cy - hh), (x1, cy), (x1 - hh * 1.15, cy + hh)], fill=fill, width=lw, joint="curve")
+            x += w
+
+
 def col(c): return COL.get(c, c) if isinstance(c, str) else tuple(c)
 
 
@@ -138,13 +164,13 @@ class Write(Beat):
     def __init__(self, b, t0, t1):
         super().__init__(b, t0, t1)
         f = font("pen", b.get("size", 96)); rows = b.get("rows") or [b["text"]]
-        lh = int(b.get("size", 96) * 1.0); wmax = int(max(f.getlength(r) for r in rows)) + 30
+        lh = int(b.get("size", 96) * 1.0); wmax = int(max(tlen(f, r) for r in rows)) + 30
         lay = Image.new("RGBA", (wmax, lh * len(rows) + 30), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
         c = col(b.get("color", "ink"))
         for i, r in enumerate(rows):
-            x = 10 if b.get("anchor", "l") == "l" else (wmax - 20 - f.getlength(r)) / 2 + 10
-            d.text((x, 4 + i * lh), r, font=f, fill=(*c, 255))
-        self.lay = np.asarray(lay).astype(np.float32); self.lh = lh; self.ws = [f.getlength(r) for r in rows]
+            x = 10 if b.get("anchor", "l") == "l" else (wmax - 20 - tlen(f, r)) / 2 + 10
+            ttext(d, (x, 4 + i * lh), r, f, (*c, 255))
+        self.lay = np.asarray(lay).astype(np.float32); self.lh = lh; self.ws = [tlen(f, r) for r in rows]
         self.x = int(b["x"] - (wmax / 2 if b.get("anchor") == "m" else 0)); self.y = int(b["y"])
         self.offs = [10 if b.get("anchor", "l") == "l" else (wmax - 20 - w_) / 2 + 10 for w_ in self.ws]
         ys, xs_ = np.nonzero(self.lay[..., 3] > 30)
@@ -174,9 +200,9 @@ class Print(Beat):
         super().__init__(b, t0, t0 + (clamp(.07 * n + .15, .35, 1.4) if PRINT_TYPE else .3))
         f = font(b.get("w", "Bold"), b.get("size", 40)); c = col(b.get("color", "ink"))
         rows = b.get("rows") or [b["text"]]; lh = int(b.get("size", 40) * 1.32)
-        wmax = int(max(f.getlength(r) for r in rows)) + 8
+        wmax = int(max(tlen(f, r) for r in rows)) + 8
         lay = Image.new("RGBA", (wmax, lh * len(rows) + 10), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
-        for i, r in enumerate(rows): d.text((0, i * lh), r, font=f, fill=(*c, int(255 * b.get("alpha", 1))))
+        for i, r in enumerate(rows): ttext(d, (0, i * lh), r, f, (*c, int(255 * b.get("alpha", 1))))
         self.lay = np.asarray(lay).astype(np.float32)
         an = b.get("anchor", "la"); self.x = int(b["x"] - (wmax if an == "ra" else wmax / 2 if an == "ma" else 0)); self.y = int(b["y"])
         ys, xs_ = np.nonzero(self.lay[..., 3] > 30)

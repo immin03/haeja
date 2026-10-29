@@ -595,6 +595,130 @@ def balance(spec, lines, top_=90, bot_=870, min_dy=40):
     return out
 
 
+# ── 줄 맞춤 (2026-10-29 대표님: "글자 나열이 깔끔하지 않다. 좌측·가운데·우측 정렬이 딱딱 되게") ──
+#  1) 세로 줄(열): 왼쪽 정렬 글씨의 시작 x가 90px 안쪽으로 흩어져 있으면 한 줄로 모은다(그 무리의 가장 왼쪽 x).
+#     가운데·오른쪽 정렬 글씨도 같은 방식으로 기준선을 하나로 모은다.
+#  2) 가로 줄(행): 서로 다른 열에서 y가 36px 안쪽으로 어긋난 글씨는 같은 높이에 맞춘다.
+#  3) 세로 간격: 한 열 안에서 위아래 글씨 사이가 들쭉날쭉하면(겹치지 않는 범위에서) 8px 격자에 맞춘다.
+#  4) 사진이 없는 페이지는 덩어리 전체를 종이 세로 가운데로(balance), 사진이 있는 페이지는 글씨 덩어리를 사진 높이 가운데로.
+#  움직인 뒤 다른 그림과 새로 겹치면 그 글씨는 원래 자리로 돌린다.
+TEXTK = ("print", "write", "pcheck", "check")
+
+
+def _anch(b):
+    a = b.get("anchor", "la")
+    return "c" if a in ("m", "ma", "mm") else ("r" if a in ("ra", "r") else "l")
+
+
+def _clusters(vals, gap):
+    vals = sorted(set(vals)); out = {}; grp = []
+    for v in vals:
+        if grp and v - grp[-1] > gap:
+            for g in grp: out[g] = grp[0]
+            grp = []
+        grp.append(v)
+    for g in grp: out[g] = grp[0]
+    return out
+
+
+def _over(a, b, pad=6):
+    return not (a[2] + pad <= b[0] or b[2] + pad <= a[0] or a[3] + pad <= b[1] or b[3] + pad <= a[1])
+
+
+def grid(spec, lines):
+    spec = [dict(b) for b in spec]
+    idx = [i for i, b in enumerate(spec) if b.get("kind") in TEXTK and "x" in b and "y" in b]
+    if len(idx) < 2: return spec
+    orig = [dict(b) for b in spec]
+    # 1) 열 맞추기
+    for side in ("l", "c", "r"):
+        ii = [i for i in idx if _anch(spec[i]) == side]
+        if len(ii) < 2: continue
+        m = _clusters([int(spec[i]["x"]) for i in ii], 90)
+        for i in ii: spec[i]["x"] = m[int(spec[i]["x"])]
+    # 2) 행 맞추기 (서로 다른 열끼리)
+    ys = sorted(idx, key=lambda i: spec[i]["y"])
+    for a_ in range(len(ys)):
+        i = ys[a_]
+        for j in ys[a_ + 1:]:
+            if spec[j]["y"] - spec[i]["y"] > 36: break
+            if abs(spec[j]["x"] - spec[i]["x"]) > 200 and spec[j].get("size", 52) <= spec[i].get("size", 52) * 1.6 and spec[i].get("size", 52) <= spec[j].get("size", 52) * 1.6:
+                spec[j]["y"] = spec[i]["y"]
+    # 2-2) 한 줄에 크기가 다른 글씨(예: '8억 4,800만 ÷ 13억 =' 옆 큰 '65%')는 세로 가운데를 맞추고,
+    #      '=' '≈' '→'로 끝나는 식 바로 뒤 값은 멀리 떨어져 떠 있지 않게 60px 옆으로 붙인다
+    def tb(b):
+        z = build([b], lines)
+        return [min(float(q.bbox()[0]) for q in z), min(float(q.bbox()[1]) for q in z), max(float(q.bbox()[2]) for q in z), max(float(q.bbox()[3]) for q in z)] if z else None
+    for i in idx:
+        bi = spec[i]
+        if _anch(bi) != "l" or bi.get("rows"): continue
+        ti = str(bi.get("text", "")).rstrip()
+        if not ti.endswith(("=", "≈", "→")): continue
+        a = tb(bi)
+        if not a: continue
+        cy = (a[1] + a[3]) / 2
+        right = [j for j in idx if j != i and _anch(spec[j]) == "l" and not spec[j].get("rows") and (lambda c: c and c[0] > a[2] and c[1] < cy < c[3])(tb(spec[j]))]
+        if not right: continue
+        j = min(right, key=lambda j: tb(spec[j])[0]); c = tb(spec[j])
+        if c[0] - a[2] > 90:
+            spec[j]["x"] = spec[j]["x"] - int(c[0] - a[2] - 60)
+        c = tb(spec[j]); spec[j]["y"] = spec[j]["y"] + int(cy - (c[1] + c[3]) / 2)
+    # 3) 8px 격자
+    for i in idx: spec[i]["y"] = int(round(spec[i]["y"] / 8.0) * 8)
+    # 새로 생긴 겹침은 되돌린다
+    def boxes(sp):
+        out = {}
+        for k, b in enumerate(sp):
+            try: z = build([b], lines)
+            except Exception: continue
+            if z: out[k] = [min(float(q.bbox()[0]) for q in z), min(float(q.bbox()[1]) for q in z), max(float(q.bbox()[2]) for q in z), max(float(q.bbox()[3]) for q in z)]
+        return out
+    ob, nb = boxes(orig), boxes(spec)
+    for i in idx:
+        if i not in nb: continue
+        if any(k != i and k in ob and i in ob and _over(nb[i], nb[k]) and not _over(ob[i], ob[k]) for k in nb):
+            spec[i]["x"], spec[i]["y"] = orig[i]["x"], orig[i]["y"]
+    return spec
+
+
+def vcenter(spec, lines, top_=150, bot_=880):
+    """사진이 있는 페이지: 사진 옆 글씨 덩어리가 위에 몰리면 사진 높이의 가운데로 내린다"""
+    ph = [b for b in spec if b.get("kind") == "photo"]
+    if len(ph) != 1: return balance(spec, lines, top_=110, bot_=bot_) if not ph else spec
+    p = ph[0]; px0, px1 = p["x"], p["x"] + p["w"]; pcy = p["y"] + p["h"] / 2
+    if p["h"] < 600:   # 작은 사진(질문·인용 장면): 사진과 글씨를 한 덩어리로 보고 종이 세로 가운데로
+        bx = [[float(v) for v in q.bbox()] for b in spec for q in build([b], lines)]
+        if not bx: return spec
+        top = min(b[1] for b in bx); bot = max(b[3] for b in bx)
+        dy = int(min(top_ + (bot_ - top_ - (bot - top)) / 2 - top, bot_ - bot))
+        if dy < 40: return spec
+        out = []
+        for b in spec:
+            b = dict(b)
+            for kk in YKEYS:
+                if kk in b: b[kk] = b[kk] + dy
+            if "pts" in b: b["pts"] = [[q[0], q[1] + dy] for q in b["pts"]]
+            out.append(b)
+        return out
+    side = [k for k, b in enumerate(spec) if b.get("kind") != "photo" and "y" in b and (b.get("x", 0) >= px1 - 20 or b.get("x", 9999) + 50 <= px0)]
+    if not side or len(side) != len([b for b in spec if b.get("kind") != "photo"]): return spec   # 사진 아래·위에도 그림이 있으면 그대로
+    bx = []
+    for k in side:
+        z = build([spec[k]], lines)
+        bx += [[float(v) for v in q.bbox()] for q in z]
+    if not bx: return spec
+    top = min(b[1] for b in bx); bot = max(b[3] for b in bx)
+    dy = int(pcy - (top + bot) / 2)
+    dy = max(min(dy, bot_ - bot), top_ - top)
+    if dy < 40: return spec
+    out = [dict(b) for b in spec]
+    for k in side:
+        for kk in YKEYS:
+            if kk in out[k]: out[k][kk] = out[k][kk] + dy
+        if "pts" in out[k]: out[k]["pts"] = [[q[0], q[1] + dy] for q in out[k]["pts"]]
+    return out
+
+
 ES_BOX = (1060, 270, 1780, 675)   # 유튜브 최종 화면 '동영상' 요소 자리 (16:9, 화면 오른쪽 · 가장자리 안전 여백 안)
 ES_SUB = (1300, 760, 150)        # '구독' 요소(원) 자리: 중심 x, y, 지름
 
@@ -674,7 +798,9 @@ def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
         spec = [dict(b, **{k: fill(str(b[k]), V) for k in ("text", "label", "cap") if isinstance(b.get(k), str) and "{" in b[k]},
                      **({"rows": [fill(str(r), V) for r in b["rows"]]} if isinstance(b.get("rows"), list) else {})) for b in spec]
     spec = tidy(spec)
-    if not authored and sc["v"]["type"] != "end": spec = balance(spec, lines)
+    if sc["v"]["type"] != "end":
+        spec = grid(spec, lines)   # 2026-10-29 대표님: 좌·가운데·우측 정렬을 딱딱 맞게 (직접 그린 장면 포함)
+        spec = vcenter(spec, lines)   # 사진 없으면 balance, 있으면 사진 기준 세로 가운데
     dur = (lines[-1][0] + lines[-1][1] + .35) if lines else 1.0
     if sc.get("fine"):   # 작은 안내 문구 (예: 목표 주가·매수 신호가 아님) — 말로 하지 않고 종이 아래쪽에 작게
         spec = list(spec) + [dict(kind="print", text=fill(sc["fine"], V), x=1800, y=100, size=28, w="Medium", color="ink", alpha=.75, anchor="ra", t=(lines[0][0] + .3) if lines else .3)]
