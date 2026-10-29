@@ -271,10 +271,10 @@
     },
     {
      "cap": [
-      "두 번째 범인은 가게 몫, 4만 원 남짓",
-      "녹이고 다시 만드는 비용과 유통 마진이에요"
+      "두 번째는 가게 몫이에요. 4만 원 남짓",
+      "금을 녹이고 다시 만들고 나르는 비용과 마진이죠"
      ],
-     "say": "두 번째 범인은 가게 몫, 4만 원 남짓. 녹이고 다시 만드는 비용과 유통 마진이에요."
+     "say": "두 번째는 가게 몫이에요. 4만 원 남짓, 금을 녹이고 다시 만들고 나르는 비용과 마진이죠."
     }
    ],
    "page": {
@@ -496,10 +496,10 @@
     },
     {
      "cap": [
-      "1그램 단위로 거래되고",
+      "1그램 단위로 사고팔고",
       "실물로 찾을 때만 부가세가 붙습니다"
      ],
-     "say": "1그램 단위로 거래되고, 실물로 찾을 때만 부가세가 붙습니다."
+     "say": "일 그램 단위로 사고팔고, 실물로 찾을 때만 부가세가 붙습니다."
     }
    ],
    "page": {
@@ -584,6 +584,15 @@
       "color": "gold",
       "line": 1,
       "at": 0.85
+     },
+     {
+      "kind": "under",
+      "x0": 540,
+      "x1": 960,
+      "y": 410,
+      "color": "red",
+      "line": 0,
+      "at": 0.5
      }
     ]
    }
@@ -705,6 +714,15 @@
       "at": 0.8,
       "text": "4만 원 남짓",
       "color": "red"
+     },
+     {
+      "kind": "under",
+      "x0": 90,
+      "x1": 990,
+      "y": 290,
+      "color": "gold",
+      "line": 0,
+      "at": 0.28
      }
     ]
    }
@@ -874,7 +892,7 @@
   "Where did 110,000 won go? It wasn't just the gold shop",
   "Korea Gold Exchange's Oct 26 board: two prices, a 110,000 won gap",
   "Culprit one is tax: nearly 70,000 is VAT, 10% inside the buy price",
-  "Culprit two: the shop's cut, about 40,000 for remelting, remaking and distribution",
+  "Culprit two: the shop's cut, about 40,000 won for remelting, remaking, moving and margin",
   "So to get from 640,000 back to 750,000, gold must rise 17% just to break even",
   "Add a crafting fee, like a baby ring, and the bar is higher",
   "A baby ring was a gift, never something to resell",
