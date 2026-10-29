@@ -1942,7 +1942,7 @@ function pfKpi(label, v, unit, goal, sub){
   const has = v != null && !isNaN(+v), c = goal ? pfCls(v, goal) : '';
   const w = goal && has ? Math.min(100, +v / goal * 100) : 0, col = c === 'ok' ? 'var(--good)' : c === 'warn' ? '#E0A526' : 'var(--bad)';
   return `<div class="card pf-kpi"><div class="l">${label}</div><div class="v ${c ? 'pf-' + c : ''}">${has ? pfNum(v, '', unit === '%' ? 1 : 0) : '–'}${has && unit ? `<small>${unit}</small>` : ''}</div>
-    ${goal ? `<div class="g"><i style="width:${w}%;background:${col}"></i></div><div class="t">목표 ${goal}${unit}${has ? ` · ${+v >= goal ? '달성' : '목표의 ' + Math.round(+v / goal * 100) + '%'}` : ''}</div>` : `<div class="t">${sub || ''}</div>`}</div>`;
+    ${goal ? `<div class="g"><i style="width:${w}%;background:${col}"></i></div><div class="t">목표 ${(+goal).toLocaleString('ko-KR')}${unit}${has ? ` · ${+v >= goal ? '달성' : '목표의 ' + Math.round(+v / goal * 100) + '%'}` : ''}</div>` : `<div class="t">${sub || ''}</div>`}</div>`;
 }
 function pfRetSvg(ret, dur){
   if(!ret || typeof ret !== 'object') return '';
@@ -2038,6 +2038,39 @@ function pfInboxHtml(ch){
   const kindKo = { note: '의견', thumb: '썸네일 교체 요청', title: '제목 교체 요청', keep: '유지 요청', general: '전체 의견' };
   return `<div class="pf-msgs">${items.map(x => `<div class="pf-msg"><div class="m"><b>${esc(kindKo[x.kind] || '의견')}</b><span>${kst(x.at)}</span>${x.video_title ? `<span>${esc(x.video_title.slice(0, 28))}…</span>` : ''}<span class="pf-st ${x.status === 'done' ? 'ok' : 'run'}">${x.status === 'done' ? '반영함' : '반영 대기'}</span></div>${esc(x.text)}${x.reply ? `<div class="r"><b>Claude</b> · ${esc(x.reply)}${x.replied_at ? ' · ' + kst(x.replied_at) : ''}</div>` : ''}</div>`).join('')}</div>`;
 }
+/* 성장·수익 창출·유입 (2026-10-30 대표님 대화: 성장 목표선과 비교, 8,000시간 진행, 유튜브→밸류노트 다리, 터진 영상 후속, 적정 매수가 도달 기록)
+   20:52 성과 진단이 perf-<D>.data 에 track · monetize · funnel · breakouts · alert_track 을 채운다 */
+function pfGrowth(d){
+  const t = d.track || null, m = d.monetize || null, f = d.funnel || null, b = d.breakouts || [], at = d.alert_track || null;
+  if(!t && !m && !f && !b.length && !at) return '';
+  const tile = (label, v, unit, goal, sub) => pfKpi(label, v, unit, goal, sub);
+  const pathTxt = t ? ({ below: '기본 경로 아래', base: '기본 경로', between: '기본~잘 됨 사이', good: '잘 됨 경로', above: '잘 됨 위 (터진 영상 효과)' }[t.path] || t.path || '') : '';
+  const A = (t && t.actual) || {}, G = (t && t.good) || {}, B = (t && t.base) || {};
+  const trackHtml = t ? `<div class="pf-kpis">
+      ${tile('구독자', A.subs, '명', G.subs, '')}
+      ${tile('쇼츠 조회 (30일)', A.short_views, '회', G.short_views, '')}
+      ${tile('롱폼 조회 (30일)', A.long_views, '회', G.long_views, '')}
+      ${tile('롱폼 평균 시청', A.avg_view_min != null ? Math.round(A.avg_view_min * 60) : null, '초', G.avg_view_min != null ? Math.round(G.avg_view_min * 60) : null, '')}
+      <div class="card pf-kpi"><div class="l">지금 경로 · ${esc(t.month || '')}</div><div class="v" style="font-size:20px">${esc(pathTxt || '–')}</div><div class="t">이달 목표 구독 · 기본 ${pfNum(B.subs, '명', 0)} · 잘 됨 ${pfNum(G.subs, '명', 0)}</div></div></div>
+    ${t.note ? `<div class="note" style="margin:-6px 0 12px">${esc(t.note)}</div>` : ''}` : '';
+  const monHtml = m ? `<div class="pf-kpis">
+      ${tile('구독자', m.subs, '명', 1000, '')}
+      ${tile('최근 1년 롱폼 시청시간', m.watch_h_12m, '시간', m.rule_h || 8000, '')}
+      ${tile('최근 90일 쇼츠 조회', m.shorts_90d, '회', m.rule_shorts || 20000000, '')}
+      <div class="card pf-kpi"><div class="l">예상 도달</div><div class="v" style="font-size:20px">${esc(m.eta || '–')}</div><div class="t">${esc(m.basis || '')}</div></div>
+      <div class="card pf-kpi"><div class="l">기준</div><div class="v" style="font-size:14px;line-height:1.35;word-break:keep-all">${esc(m.rule || '2027-02-01부터 1,000명 + 8,000시간')}</div><div class="t">${m.at ? '스튜디오 ' + kst(m.at) : ''}</div></div></div>` : '';
+  const rows = f ? (f.rows || []) : [];
+  const fRows = rows.map(r => `<tr><td>${esc(r.src)}</td><td class="num">${pfNum(r.visits, '', 0)}</td><td class="num">${pfNum(r.deep, '', 0)}</td><td class="num">${pfNum(r.cta, '', 0)}</td><td class="num">${pfNum(r.emails, '', 0)}</td><td class="num">${pfNum(r.signups, '', 0)}</td><td class="num">${r.visits ? pfNum((r.signups || 0) / r.visits * 100, '%') : '–'}</td></tr>`).join('');
+  const fHtml = rows.length ? `<div class="card" style="padding:0;overflow-x:auto;margin-bottom:8px"><table class="pf-tbl" style="width:100%;min-width:620px"><thead><tr><th>들어온 곳 (${esc(String(f.days || 7))}일)</th><th class="num">방문</th><th class="num">깊이 읽음</th><th class="num">가입 버튼</th><th class="num">이메일</th><th class="num">가입</th><th class="num">가입률</th></tr></thead><tbody>${fRows}</tbody></table></div>${f.note ? `<div class="note" style="margin:0 0 12px">${esc(f.note)}</div>` : ''}` : '';
+  const bHtml = b.length ? `<div class="pf-find">${b.map(x => `<div class="card pf-f good"><b>${esc(x.title || x.id)}</b><p>${x.kind === 'long' ? '롱폼' : '쇼츠'} · 평소의 ${pfNum(x.ratio, '배')}${x.follow ? ' · ' + esc(x.follow) : ''}</p></div>`).join('')}</div>` : '';
+  const aHtml = at ? `<div class="card" style="padding:12px 14px;margin:12px 0"><b>적정 매수가 도달 기록</b> · 누적 ${pfNum(at.count, '건', 0)}${at.ret30 != null ? ` · 30일 뒤 평균 ${pfNum(at.ret30, '%')}` : ''}${at.ret90 != null ? ` · 90일 뒤 평균 ${pfNum(at.ret90, '%')}` : ''}${at.note ? `<div class="bn-meta" style="margin-top:4px">${esc(at.note)}</div>` : ''}</div>` : '';
+  return `${trackHtml ? `<div class="pf-sec"><h2>성장 목표선</h2><span>기본 · 잘 됨 시나리오와 실제 비교</span></div>${trackHtml}` : ''}
+  ${monHtml ? `<div class="pf-sec"><h2>수익 창출까지</h2><span>2027-02-01부터 시청시간 8,000시간 기준</span></div>${monHtml}` : ''}
+  ${fHtml ? `<div class="pf-sec"><h2>유튜브 → 밸류노트 다리</h2><span>들어온 곳별 방문 → 가입</span></div>${fHtml}` : ''}
+  ${bHtml ? `<div class="pf-sec"><h2>터진 영상 · 48시간 후속</h2><span>평소의 3배 이상</span></div>${bHtml}` : ''}
+  ${aHtml}`;
+}
+
 function vPerf(){
   if(PF.data === null){ perfLoad().then(() => render()); return head('롱폼 진단', '불러오는 중', 'perf'); }
   if(PF.err) return head('롱폼 진단', '', 'perf') + `<div class="card">불러오지 못했습니다: ${esc(PF.err)}</div>`;
@@ -2054,6 +2087,8 @@ function vPerf(){
   ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
   ${rep ? `<div class="card pf-hero"><div class="k">${esc(rep.id.slice(5))} 롱폼 진단 · ${esc(d.by || 'Claude')}</div><div class="h">${esc(d.headline || '스튜디오 지표를 모으기 전의 기록입니다. 아래 발견 사항만 참고하세요.')}</div>${d.sample_note ? `<div class="n">${esc(d.sample_note)}</div>` : ''}</div>
   <div class="pf-kpis">${pfKpi('썸네일 클릭률', k.ctr, '%', PF_GOAL.ctr)}${pfKpi('15초 유지율', k.s15, '%', PF_GOAL.s15)}${pfKpi('평균 조회율', k.avg_pct, '%', PF_GOAL.avg_pct)}${pfKpi('조회수', k.views, '회', 0, `롱폼 ${k.longs || '–'}편 · 노출 ${pfNum(k.impressions, '회', 0)}`)}${pfKpi('구독 증가', k.subs, '명', 0, `평균 시청 ${pfSec(k.avg_sec)}`)}</div>
+
+  ${pfGrowth(d)}
 
   <div class="pf-sec"><h2>지금 결정할 개선 ${pend ? `<span class="pf-st run" style="margin-left:6px">${pend}건 대기</span>` : ''}</h2><span>승인하면 다음 콘텐츠부터 · 메모를 쓰면 그 방향으로 고쳐서</span></div>
   ${pend > 1 ? `<div class="pf-all"><button class="pf-btn" data-pfa-all="${esc(rep.id)}">대기 ${pend}건 전부 적용</button></div>` : ''}
