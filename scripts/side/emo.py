@@ -97,59 +97,147 @@ def _png(img, name):
     p = os.path.join(WORK, name); img.save(p); return p
 
 
+def _fade(img, a):
+    """RGBA 그림의 투명도를 a(0~1)배로"""
+    if a >= 0.999: return img
+    im = img.copy(); im.putalpha(im.getchannel("A").point(lambda v: int(v * max(0.0, a)))); return im
+
+
+def _clamp(v, lo=0.0, hi=1.0): return max(lo, min(hi, v))
+
+
+def _fit(text, path, size, maxw):
+    """글자가 maxw 안에 들어갈 때까지 크기를 줄인다"""
+    while size > 24:
+        f = ImageFont.truetype(path, size)
+        if f.getlength(text) <= maxw: return f
+        size -= 2
+    return ImageFont.truetype(path, size)
+
+
 def end_card(spec, bg_frame, out, dur=4.2):
-    """엔딩 (2026-10-28 운영자): 마지막 장면을 흐리게 깔고 → 글자 로고 → 소포 든 까치가 날아와 로고 위에 앉는다
-    → 문구 'Kachi brings you love, from Korea' → 좋아요·팔로우 버튼. 쇼츠 아래쪽 UI(제목)와 오른쪽 버튼 줄(x>940)을 피한다"""
+    """엔딩 (2026-10-30 대표님: "좋아요 두 번 탭, 팔로우 유도를 더 자연스럽게")
+    0.0  마지막 장면을 흐리게 깔고 글자 로고가 살짝 튀어 오른다
+    0.25 소포 든 까치가 오른쪽 위에서 날아와 로고 'From' 위에 앉는다
+    1.45 문구 'Kachi brings you love, from Korea'
+    1.9  까치 옆 빈자리를 손끝(흰 터치 점)이 톡톡 두 번 → 물결 두 번 → 빨간 하트가 터지고 작은 하트들이 날아오른다, 까치가 기뻐서 폴짝
+         그 아래 'Double-tap ♥ / if this warmed your heart'
+    2.85 'Follow for a new story every day' (빨간 알약 모양, 버튼보다 부드럽게)
+    쇼츠 아래쪽 제목 영역(y>1470)과 오른쪽 버튼 줄(x>940)을 비운다. 프레임마다 PIL 로 그려 ffmpeg 로 묶는다"""
+    import math
     E = spec.get("end", {})
+    RED, NAVY, PINK = (215, 50, 44), (31, 42, 68), (240, 120, 130)
     bg = Image.open(bg_frame).convert("RGB").resize((W, H)).filter(ImageFilter.GaussianBlur(26))
-    bg = Image.blend(bg, Image.new("RGB", (W, H), (255, 236, 205)), 0.35)
+    bg = Image.blend(bg, Image.new("RGB", (W, H), (255, 236, 205)), 0.35).convert("RGBA")
+    plate = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ImageDraw.Draw(plate).rounded_rectangle((90, 440, W - 90, 1460), 80, fill=(255, 248, 236, 150))
+    bg = Image.alpha_composite(bg, plate.filter(ImageFilter.GaussianBlur(40)))
     # 로고 (글자만)
     lg = Image.open(os.path.join(ROOT, "docs", "side", "logo_text.png")).convert("RGBA")
     lw = 640; lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
-    lx, ly = (W - lw) // 2, 820
-    plate = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ImageDraw.Draw(plate).rounded_rectangle((90, 520, W - 90, 1500), 80, fill=(255, 248, 236, 140))
-    bgp = _png(Image.alpha_composite(bg.convert("RGBA"), plate.filter(ImageFilter.GaussianBlur(40))).convert("RGB"), "end_bg.png")
-    lgp = _png(lg, "end_logo.png")
+    lx, ly = (W - lw) // 2, 740
     # 까치: 나는 모습 → 앉은 모습 ('From' 글자 위에 앉는다)
     def cutout(name, h):
         k = Image.open(os.path.join(ROOT, "social", "side", "gen", "cut", name + ".png")).convert("RGBA")
         return k.resize((int(k.width * h / k.height), h), Image.LANCZOS)
     fly = cutout(E.get("fly", "h_fly_love"), 400); stand = cutout(E.get("host", "h_love"), 400)
-    flyp, standp = _png(fly, "end_fly.png"), _png(stand, "end_stand.png")
-    sx, sy = lx + 30, ly - stand.height + 28          # 앉는 자리: 로고 왼쪽 위 'From' 위
-    fx0, fy0 = W + 40, 160                            # 오른쪽 위 화면 밖에서 출발
+    sx, sy = lx + 30, ly - stand.height + 28
+    fx0, fy0 = W + 40, 120
     fx1, fy1 = sx - (fly.width - stand.width) // 2, sy - 20
-    # 문구 + 버튼
-    f1 = ImageFont.truetype(os.path.join(FONTS, "Poppins-SemiBold.ttf"), 54)
-    f2 = ImageFont.truetype(os.path.join(FONTS, "Poppins-Bold.ttf"), 50)
+    T0, T1 = 0.25, 1.35
+    # 문구
+    f1 = _fit(E.get("phrase", "Kachi brings you love, from Korea"), os.path.join(FONTS, "Poppins-SemiBold.ttf"), 54, 740)
     phrase = E.get("phrase", "Kachi brings you love, from Korea")
-    ph = Image.new("RGBA", (W, 90), (0, 0, 0, 0)); dp = ImageDraw.Draw(ph)
-    dp.text(((W - f1.getlength(phrase)) / 2, 8), phrase, font=f1, fill=(31, 42, 68, 255))
-    php = _png(ph, "end_phrase.png"); py = ly + lg.height + 30
-    bt = Image.new("RGBA", (W, 130), (0, 0, 0, 0)); db = ImageDraw.Draw(bt)
-    like, follow = "Like", "Follow"
-    w1 = f2.getlength(like) + 150; w2 = f2.getlength(follow) + 110; gap = 36; x = (W - w1 - w2 - gap) / 2
-    db.rounded_rectangle((x, 10, x + w1, 116), 53, fill=(255, 255, 255, 255), outline=(215, 50, 44, 255), width=5)
-    heart(db, x + 62, 62, 30, (215, 50, 44, 255)); db.text((x + 106, 30), like, font=f2, fill=(215, 50, 44, 255))
-    x2 = x + w1 + gap; db.rounded_rectangle((x2, 10, x2 + w2, 116), 53, fill=(215, 50, 44, 255))
-    db.text((x2 + 55, 30), follow, font=f2, fill=(255, 255, 255, 255))
-    btp = _png(bt, "end_btn.png"); by = py + 120
-    T0, T1 = 0.25, 1.35   # 비행 시작·착지
-    P = f"min(max((t-{T0})/{T1 - T0},0),1)"
-    E3 = f"(1-pow(1-{P},3))"
-    sh("ffmpeg", "-v", "error", "-y",
-       "-loop", "1", "-t", str(dur), "-i", bgp, "-loop", "1", "-t", str(dur), "-i", lgp,
-       "-loop", "1", "-t", str(dur), "-i", flyp, "-loop", "1", "-t", str(dur), "-i", standp,
-       "-loop", "1", "-t", str(dur), "-i", php, "-loop", "1", "-t", str(dur), "-i", btp, "-filter_complex",
-       f"[0:v]scale={W * 2}:{H * 2},zoompan=z='1+0.0005*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={W}x{H}:fps={FPS}[b];"
-       f"[1:v]format=rgba,fade=in:st=0:d=0.45:alpha=1[l];"
-       f"[4:v]format=rgba,fade=in:st=1.6:d=0.5:alpha=1[p];[5:v]format=rgba,fade=in:st=2.1:d=0.35:alpha=1[n];"
-       f"[b][l]overlay=x={lx}:y='{ly}+25*exp(-6*t)'[a];"
-       f"[a][2:v]overlay=x='{fx0}+({fx1}-{fx0})*{E3}':y='{fy0}+({fy1}-{fy0})*{E3}-160*sin(PI*{P})+10*sin(2*PI*6*t)':enable='lt(t,{T1})'[a2];"
-       f"[a2][3:v]overlay=x={sx}:y='{sy}-26*exp(-7*(t-{T1}))*abs(cos(11*(t-{T1})))':enable='gte(t,{T1})'[a3];"
-       f"[a3][p]overlay=x=0:y='{py}+18*exp(-7*max(t-1.6,0))'[a4];"
-       f"[a4][n]overlay=x=0:y='{by}+40*exp(-9*max(t-2.1,0))'",
-       "-t", str(dur), "-r", str(FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", out)
+    ph = Image.new("RGBA", (W, 90), (0, 0, 0, 0))
+    ImageDraw.Draw(ph).text(((W - f1.getlength(phrase)) / 2, 8), phrase, font=f1, fill=NAVY + (255,))
+    py = ly + lg.height + 24
+    # 더블탭 안내 (두 줄): 'Double-tap ♥' + 'if this warmed your heart'
+    fa = ImageFont.truetype(os.path.join(FONTS, "Poppins-Bold.ttf"), 60)
+    fb = _fit(E.get("tap_line", "if this warmed your heart"), os.path.join(FONTS, "Poppins-SemiBold.ttf"), 44, 760)
+    l1, l2 = "Double-tap", E.get("tap_line", "if this warmed your heart")
+    cap = Image.new("RGBA", (W, 150), (0, 0, 0, 0)); dc = ImageDraw.Draw(cap)
+    w1 = fa.getlength(l1) + 22 + 52; x1 = (W - w1) / 2
+    dc.text((x1, 0), l1, font=fa, fill=RED + (255,)); heart(dc, x1 + fa.getlength(l1) + 22 + 26, 44, 25, RED + (255,))
+    dc.text(((W - fb.getlength(l2)) / 2, 82), l2, font=fb, fill=NAVY + (255,))
+    cy0 = py + 96
+    # 팔로우 (빨간 알약, 오른쪽 버튼 줄을 넘지 않게 너비 760 이하)
+    fl = E.get("follow_line", "Follow for a new story every day")
+    ff = _fit(fl, os.path.join(FONTS, "Poppins-Bold.ttf"), 42, 660)
+    pw = int(ff.getlength(fl) + 110); pill = Image.new("RGBA", (pw + 40, 120), (0, 0, 0, 0)); dl = ImageDraw.Draw(pill)
+    dl.rounded_rectangle((20, 20, 20 + pw, 100), 40, fill=RED + (255,))
+    dl.text((20 + 55, 60 - (ff.getbbox(fl)[1] + ff.getbbox(fl)[3]) / 2), fl, font=ff, fill=(255, 255, 255, 255))
+    shadow = Image.new("RGBA", pill.size, (0, 0, 0, 0)); ImageDraw.Draw(shadow).rounded_rectangle((20, 28, 20 + pw, 108), 40, fill=(90, 20, 10, 70))
+    pill = Image.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(8)), pill)
+    pxp, pyp = (W - pill.width) // 2, cy0 + 150
+    # 탭·하트 위치: 까치 오른쪽 빈자리
+    hx, hy = min(sx + stand.width + 140, 740), sy + 190
+    TA, TB = 2.12, 2.40                       # 첫째·둘째 탭 (둘째 탭에 하트가 터진다)
+    def heart_img(r, col, ring=0):
+        s = int(r * 2.6); im = Image.new("RGBA", (s, s), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+        if ring: heart(d, s / 2, s / 2 + r * 0.05, r + ring, (255, 255, 255, 235))
+        heart(d, s / 2, s / 2 + r * 0.05, r, col + (255,)); return im
+    big = heart_img(92, RED, ring=8)
+    def blit(fr, im, cx, cy, a=1.0, sc=1.0):
+        if a <= 0.01 or sc <= 0.02: return
+        if abs(sc - 1) > 0.01: im = im.resize((max(1, int(im.width * sc)), max(1, int(im.height * sc))), Image.LANCZOS)
+        im = _fade(im, a); x, y = int(cx - im.width / 2), int(cy - im.height / 2)
+        if x >= W or y >= H or x + im.width <= 0 or y + im.height <= 0: return
+        L = Image.new("RGBA", (W, H), (0, 0, 0, 0)); L.paste(im, (x, y)); fr.alpha_composite(L)
+    # 작은 하트들 (각도, 거리, 크기, 색)
+    random_pts = [(-125, 150, 26, PINK), (-100, 210, 20, RED), (-80, 175, 28, PINK), (-62, 225, 18, RED), (-140, 110, 18, RED), (-90, 120, 22, PINK)]
+    minis = [(heart_img(r, c), a, d) for a, d, r, c in random_pts]
+    proc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
+                             "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", out], stdin=subprocess.PIPE)
+    for k in range(int(round(dur * FPS))):
+        t = k / FPS; fr = bg.copy()
+        # 로고
+        blit(fr, lg, lx + lw / 2, ly + lg.height / 2 + 25 * math.exp(-6 * t), _clamp(t / 0.45))
+        # 까치
+        if t < T1:
+            P = _clamp((t - T0) / (T1 - T0)); e3 = 1 - (1 - P) ** 3
+            x = fx0 + (fx1 - fx0) * e3; y = fy0 + (fy1 - fy0) * e3 - 160 * math.sin(math.pi * P) + 10 * math.sin(2 * math.pi * 6 * t)
+            blit(fr, fly, x + fly.width / 2, y + fly.height / 2)
+        else:
+            y = sy - 26 * math.exp(-7 * (t - T1)) * abs(math.cos(11 * (t - T1)))
+            if t >= TB: y -= 46 * math.exp(-5 * (t - TB)) * abs(math.sin(9 * (t - TB)))   # 하트가 터지면 폴짝
+            blit(fr, stand, sx + stand.width / 2, y + stand.height / 2)
+        # 문구
+        if t >= 1.45: blit(fr, ph, W / 2, py + 45 + 18 * math.exp(-7 * (t - 1.45)), _clamp((t - 1.45) / 0.45))
+        # 물결 두 번
+        for ts in (TA, TB):
+            u = (t - ts) / 0.5
+            if 0 <= u <= 1:
+                rr = 36 + 118 * (1 - (1 - u) ** 2); ring = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+                ImageDraw.Draw(ring).ellipse((hx - rr, hy - rr, hx + rr, hy + rr), outline=RED + (int(200 * (1 - u)),), width=7)
+                fr.alpha_composite(ring)
+        # 큰 하트 (둘째 탭에 튀어나와 작게 두근거린다)
+        if t >= TB:
+            u = t - TB; s = 1 - math.exp(-7 * u) * math.cos(13 * u)
+            s *= 1 + 0.035 * math.sin(2 * math.pi * 1.4 * max(0, u - 0.6)) * (u > 0.6)
+            blit(fr, big, hx, hy, 1.0, max(0.02, s))
+            for im, ang, dist in minis:
+                v = _clamp(u / 0.95); r = math.radians(ang)
+                blit(fr, im, hx + math.cos(r) * dist * v + 14 * math.sin(6 * u), hy + math.sin(r) * dist * v - 60 * v, (1 - v) ** 1.3)
+        # 터치 점 (손끝): 나타나서 톡톡 두 번 누르고 사라진다
+        if 1.9 <= t <= 2.75:
+            a = _clamp((t - 1.9) / 0.18) * _clamp((2.75 - t) / 0.2)
+            press = 1.0
+            for ts in (TA, TB):
+                if ts - 0.02 <= t <= ts + 0.1: press = 0.74
+            r = 46 * press; dot = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dd = ImageDraw.Draw(dot)
+            dd.ellipse((hx + 6 - r, hy + 10 - r, hx + 6 + r, hy + 10 + r), fill=(60, 30, 20, int(60 * a)))
+            fr.alpha_composite(dot.filter(ImageFilter.GaussianBlur(10)))
+            dot = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dd = ImageDraw.Draw(dot)
+            dd.ellipse((hx - r, hy - r, hx + r, hy + r), fill=(255, 255, 255, int(225 * a)), outline=(200, 200, 200, int(255 * a)), width=3)
+            fr.alpha_composite(dot)
+        # 안내 문구
+        if t >= 1.9: blit(fr, cap, W / 2, cy0 + 75 + 16 * math.exp(-7 * (t - 1.9)), _clamp((t - 1.9) / 0.4))
+        # 팔로우
+        if t >= 2.85:
+            u = t - 2.85; s = 1 + 0.12 * math.exp(-6 * u) * math.sin(14 * u)
+            blit(fr, pill, W / 2, pyp + pill.height / 2 + 30 * math.exp(-8 * u), _clamp(u / 0.3), s)
+        proc.stdin.write(fr.convert("RGB").tobytes())
+    proc.stdin.close()
+    if proc.wait(): sys.exit("엔딩 렌더 실패")
 
 
 def srt_time(t):
