@@ -1,0 +1,164 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 인텔 주가, 데이터센터 78% 늘었는데 시간외 16% 빠진 이유</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">점심 12:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">인텔 주가, 데이터센터 78% 늘었는데 시간외 16% 빠진 이유</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 5장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261030x/01.png" alt="노트북용 메모리 모듈 두 개의 뒷면" width="720"></p>
+<p><br></p>
+<blockquote><p><b>3줄 요약</b></p><p>· 인텔은 2026년 3분기 데이터센터 칩 매출이 <b>78%</b> 늘었지만 10월 29일 실적 발표 뒤 시간외 거래에서 주가가 <b>16% 넘게</b> 빠졌습니다. 4분기 매출 전망이 시장 예상보다 <b>10억 달러 넘게</b> 낮았기 때문입니다.</p><p>· 인텔은 메모리 값이 크게 올라 PC 판매가 줄었다고 설명했습니다. D램 계약 가격은 2분기 약 80%, 3분기 약 40% 올랐습니다. 4분기 전망치까지 곱하면 연초의 <b>약 3배</b>입니다.</p><p>· 서버 칩은 주문이 넘치는데 만들 물량이 모자랐습니다. 10월 이스라엘 공장 폭발 사고로 4분기 매출 약 <b>3억 달러</b>가 빠집니다.</p></blockquote>
+<p><br></p>
+<p>인텔 주가가 10월 29일 실적 발표 직후 시간외 거래에서 16% 넘게 빠졌습니다. 3분기 성적표만 보면 이상한 일이죠. 데이터센터 칩 매출이 1년 만에 78%나 늘었으니까요.</p>
+<p><br></p>
+<p>인텔을 끌어내린 건 지난 석 달이 아니라 다음 석 달이었습니다. 회사가 내놓은 4분기 매출 전망은 150억~160억 달러였어요. 시장은 171억 달러쯤을 기대하고 있었습니다. 시험은 잘 봤는데, 다음 시험은 어렵겠다고 먼저 말한 셈입니다.</p>
+<p><br></p>
+<p>이렇게 회사가 다음 분기에 얼마를 벌 것 같은지 미리 내놓는 숫자를 실적 전망, 증권가 말로 가이던스라고 합니다. 이번처럼 지난 성적보다 이 숫자에 주가가 더 크게 움직이는 날이 많습니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 인텔 3분기 성적표는 예상보다 좋았습니다</b></span></p>
+
+<p>인텔의 3분기 매출은 165억 달러로 1년 전보다 21% 늘었습니다. 앞에서 끈 건 데이터센터·AI 부문이에요. 재무책임자 데이비드 진스너는 15년 만에 가장 강한 데이터센터 성장이라고 했습니다.</p>
+<p><br></p>
+<p>이익도 예상보다 많았습니다. 그런데 한 줄만 거꾸로 갔어요. PC에 들어가는 칩 매출이 81억 달러로 5% 줄었습니다. 시장은 90억 달러 가까이를 기대했고요.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030x/04.png" alt="인텔 3분기 부문별 매출 증감" width="720"></p><p><span style="color:#888888;font-size:13px">인텔 3분기 부문별 매출 증감</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 인텔 PC 칩 판매를 누른 건 메모리 값이었습니다</b></span></p>
+
+<p>PC 한 대에는 인텔 칩 같은 두뇌 말고도 메모리(D램)가 들어갑니다. 인텔은 실적 발표에서 메모리 값이 크게 올라 PC 판매를 눌렀다고 설명했습니다(로이터). 시장조사업체 트렌드포스에 따르면 D램 계약 가격은 2분기에 약 80%, 3분기에 약 40% 올랐습니다.</p>
+<p><br></p>
+<p>4분기에도 20% 안팎 더 오를 전망입니다. 전망치까지 곱하면 1분기에 100원이던 메모리가 4분기엔 300원쯤 됩니다. 장바구니 속 한 품목 값만 세 배가 된 거죠. 그 한 품목이 하필 빠질 수 없는 부품입니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030x/03.png" alt="D램 계약 가격 분기별 누적" width="720"></p><p><span style="color:#888888;font-size:13px">D램 계약 가격 분기별 누적</span></p>
+<p><br></p>
+<p>메모리 값이 오르니 노트북과 데스크톱 값도 올랐습니다. 비싸지면 덜 삽니다. 카운터포인트리서치 집계로 2분기에 이미 전 세계 PC 출하량, 그러니까 공장에서 팔려 나간 PC 대수는 1년 전보다 4% 줄었어요.</p>
+<p><br></p>
+<p>인텔 재무책임자는 로이터 인터뷰에서 4분기 PC 매출이 크게 줄 것으로 본다고 했습니다. PC 둔화가 적어도 내년 상반기까지 이어진다는 말도 덧붙였고요.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 메모리 값이 뛴 배경에는 AI 메모리로 몰린 공장이 있습니다</b></span></p>
+
+<p>메모리 값 급등의 배경은 공장 배분입니다. 서울경제에 따르면 삼성전자·SK하이닉스·마이크론이 AI 서버용 고대역폭메모리(HBM)에 공장을 더 돌리면서 PC용 물량이 줄었습니다.</p>
+<p><br></p>
+<p>여기서 반전이 하나 있습니다. SK하이닉스가 3분기 석 달 동안 영업이익 83조 원을 남긴 바로 그 메모리 값이, 인텔에게는 PC 판매를 막는 벽이 됐어요. 한 회사의 판매 가격은 다른 회사 손님의 원가입니다.</p>
+<p><br></p>
+<p>솔직히 저도 처음엔 이스라엘 공장 사고가 주범인 줄 알았습니다. 그런데 사고가 깎은 4분기 매출은 약 3억 달러예요. 전망 위쪽 끝인 160억 달러로 잡아도 시장 예상보다 11억 달러가 모자랍니다. 회사 설명대로라면 나머지는 PC 부진과 서버 칩 공급 부족이 나눠 가집니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 인텔 서버 칩은 주문보다 물량이 모자랐습니다</b></span></p>
+
+<p>인텔 데이터센터 쪽 고민은 정반대입니다. 서버용 칩(제품 이름 제온)은 주문이 넘치는데 만들 물량이 모자랐어요. 립부 탄 최고경영자는 &quot;지금 가장 급한 일은 제온 공급을 더 끌어내는 것&quot;이라고 했습니다.</p>
+<p><br></p>
+<p>10월에는 이스라엘 키르야트갓 공장에서 폭발 사고가 났습니다. 현지 보도로 2명이 숨졌습니다. 이 공장은 주로 데이터센터 칩을 만듭니다. 인텔은 2주 멈췄다가 이번 주 안에 생산을 다시 올린다고 했습니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030x/02.jpg" alt="빈자리가 남은 서버 랙이 늘어선 전산실" width="720"></p>
+<p><br></p>
+<p>인텔은 이 사고로 4분기 매출이 약 3억 달러, 내년 1분기에도 비슷하게 줄 것으로 봤습니다. 아직 쓸 수 있는 웨이퍼(칩을 찍어 내는 둥근 실리콘 판)가 어느 것인지 가려내는 중이라고 했고요.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030x/05.png" alt="인텔 4분기 전망과 시장 예상" width="720"></p><p><span style="color:#888888;font-size:13px">인텔 4분기 전망과 시장 예상</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 인텔 주가는 올해 두 배 넘게 오른 상태였습니다</b></span></p>
+
+<p>인텔 주가는 이번 발표 전까지 올해 두 배 넘게 올랐습니다(로이터). 실적 발표 전 10월 29일 장 마감 가격은 92.03달러였어요. 저는 기대가 높았던 만큼 전망 한 줄에 더 크게 흔들렸다고 봅니다.</p>
+<p><br></p>
+<p>인텔의 답은 공장을 더 짓는 것입니다. 올해 설비 투자 계획을 200억 달러로 올렸고 내년엔 크게 늘린다고 했어요. 8월엔 새 주식을 팔아 230억 달러를 모으기도 했습니다.</p>
+<p><br></p>
+<p>시장에선 걱정과 기대가 함께 나옵니다. 가벨리 펀드의 헨디 수산토는 사고로 인텔의 생산 능력이 줄었다는 점을 걱정했습니다. 무어인사이트의 앤셸 새그는 PC 부진이 단기에 그칠 가능성이 높다고 봤고요(로이터).</p>
+<p><br></p>
+<p>인텔 주가 전망을 볼 때 저는 숫자 두 개를 보려고 합니다. 다음 실적에서 PC 칩 매출이 얼마나 줄었는지, 그리고 D램 계약 가격 오름폭이 정말 20%대로 꺾이는지입니다. 트렌드포스는 오름폭이 줄어드는 이유로 소비자 구매력 약화를 꼽았습니다.</p>
+<p><br></p>
+<p>내 종목에도 같은 질문을 던질 수 있습니다. 이 회사가 사 오는 가장 비싼 부품이 무엇이고 그 값이 지금 오르고 있는지요. 메모리 회사 주주에게 좋은 소식이 PC 회사 주주에게는 원가 청구서일 수 있습니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 자주 묻는 질문</b></span></p>
+
+<p>Q. 인텔 주가는 왜 실적 발표 뒤 떨어졌나요? 인텔 주가는 10월 29일 시간외 거래에서 16% 넘게 떨어졌습니다. 3분기 실적은 예상보다 좋았지만 4분기 매출 전망 150억~160억 달러가 시장 예상 약 171억 달러보다 낮았습니다.</p>
+<p><br></p>
+<p>Q. 메모리 가격이 오르면 인텔에 왜 안 좋나요? 인텔 설명에 따르면 메모리 가격이 오르면서 PC 값이 올랐고 PC가 덜 팔려 PC에 들어가는 인텔 칩 판매도 줄었습니다. 인텔 3분기 PC 칩 매출은 81억 달러로 1년 전보다 5% 줄었습니다.</p>
+<p><br></p>
+<p>Q. 인텔 이스라엘 공장 사고 영향은 얼마인가요? 인텔은 10월 키르야트갓 공장 폭발 사고로 4분기 매출이 약 3억 달러 줄고 내년 1분기에도 비슷한 영향이 있을 것으로 봤습니다. 두 분기를 합치면 약 6억 달러입니다.</p>
+<p><br></p>
+<p>같이 읽으면 좋은 글: SK하이닉스 주가, 석 달에 83조 남겼는데 왜 반값일까 / 구글 주가, 석 달에 265억 달러 벌고도 통장은 91억 달러 마이너스</p>
+<p><br></p>
+<p>AI 메모리가 잘 팔리는 동안 누군가는 그 값을 치르고 있었습니다. 여러분 종목은 파는 쪽인가요, 사는 쪽인가요?</p>
+<p><br></p>
+<p style="text-align:right"><b>— Luciano</b></p>
+<p><br></p>
+<p><span style="color:#888888;font-size:13px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 인텔 숫자는 2026년 10월 29일(미국 시간) 발표된 3분기 실적과 4분기 전망(로이터·서울경제·뉴스1 보도로 확인)입니다. 시간외 하락 폭은 보도 시점마다 14~17%로 다릅니다. D램 계약 가격 누적 약 3배는 트렌드포스의 분기별 상승률(2분기 약 80%, 3분기 약 40%, 4분기 전망 약 20%)을 곱한 단순 계산입니다. 이 글은 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><h2>태그</h2><div class="row"><div id="tags">#인텔주가 #인텔실적 #인텔주가전망 #인텔시간외 #메모리가격 #D램가격 #PC출하량 #인텔이스라엘공장 #SK하이닉스 #실적전망</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261030x/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261030x/01.png" download="valuenote-b261030x-1.png"><img src="https://www.valuenote.co.kr/naver/b261030x/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030x/04.png" download="valuenote-b261030x-2.png"><img src="https://www.valuenote.co.kr/naver/b261030x/04.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030x/03.png" download="valuenote-b261030x-3.png"><img src="https://www.valuenote.co.kr/naver/b261030x/03.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030x/02.jpg" download="valuenote-b261030x-4.jpg"><img src="https://www.valuenote.co.kr/naver/b261030x/02.jpg" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030x/05.png" download="valuenote-b261030x-5.png"><img src="https://www.valuenote.co.kr/naver/b261030x/05.png" alt="사진 5" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 노트북용 메모리 모듈 두 개의 뒷면]\n\n3줄 요약\n· 인텔은 2026년 3분기 데이터센터 칩 매출이 78% 늘었지만 10월 29일 실적 발표 뒤 시간외 거래에서 주가가 16% 넘게 빠졌습니다. 4분기 매출 전망이 시장 예상보다 10억 달러 넘게 낮았기 때문입니다.\n· 인텔은 메모리 값이 크게 올라 PC 판매가 줄었다고 설명했습니다. D램 계약 가격은 2분기 약 80%, 3분기 약 40% 올랐습니다. 4분기 전망치까지 곱하면 연초의 약 3배입니다.\n· 서버 칩은 주문이 넘치는데 만들 물량이 모자랐습니다. 10월 이스라엘 공장 폭발 사고로 4분기 매출 약 3억 달러가 빠집니다.\n\n인텔 주가가 10월 29일 실적 발표 직후 시간외 거래에서 16% 넘게 빠졌습니다. 3분기 성적표만 보면 이상한 일이죠. 데이터센터 칩 매출이 1년 만에 78%나 늘었으니까요.\n\n인텔을 끌어내린 건 지난 석 달이 아니라 다음 석 달이었습니다. 회사가 내놓은 4분기 매출 전망은 150억~160억 달러였어요. 시장은 171억 달러쯤을 기대하고 있었습니다. 시험은 잘 봤는데, 다음 시험은 어렵겠다고 먼저 말한 셈입니다.\n\n이렇게 회사가 다음 분기에 얼마를 벌 것 같은지 미리 내놓는 숫자를 실적 전망, 증권가 말로 가이던스라고 합니다. 이번처럼 지난 성적보다 이 숫자에 주가가 더 크게 움직이는 날이 많습니다.\n\n■ 인텔 3분기 성적표는 예상보다 좋았습니다\n\n인텔의 3분기 매출은 165억 달러로 1년 전보다 21% 늘었습니다. 앞에서 끈 건 데이터센터·AI 부문이에요. 재무책임자 데이비드 진스너는 15년 만에 가장 강한 데이터센터 성장이라고 했습니다.\n\n이익도 예상보다 많았습니다. 그런데 한 줄만 거꾸로 갔어요. PC에 들어가는 칩 매출이 81억 달러로 5% 줄었습니다. 시장은 90억 달러 가까이를 기대했고요.\n\n[사진: 인텔 3분기 부문별 매출 증감]\n\n■ 인텔 PC 칩 판매를 누른 건 메모리 값이었습니다\n\nPC 한 대에는 인텔 칩 같은 두뇌 말고도 메모리(D램)가 들어갑니다. 인텔은 실적 발표에서 메모리 값이 크게 올라 PC 판매를 눌렀다고 설명했습니다(로이터). 시장조사업체 트렌드포스에 따르면 D램 계약 가격은 2분기에 약 80%, 3분기에 약 40% 올랐습니다.\n\n4분기에도 20% 안팎 더 오를 전망입니다. 전망치까지 곱하면 1분기에 100원이던 메모리가 4분기엔 300원쯤 됩니다. 장바구니 속 한 품목 값만 세 배가 된 거죠. 그 한 품목이 하필 빠질 수 없는 부품입니다.\n\n[사진: D램 계약 가격 분기별 누적]\n\n메모리 값이 오르니 노트북과 데스크톱 값도 올랐습니다. 비싸지면 덜 삽니다. 카운터포인트리서치 집계로 2분기에 이미 전 세계 PC 출하량, 그러니까 공장에서 팔려 나간 PC 대수는 1년 전보다 4% 줄었어요.\n\n인텔 재무책임자는 로이터 인터뷰에서 4분기 PC 매출이 크게 줄 것으로 본다고 했습니다. PC 둔화가 적어도 내년 상반기까지 이어진다는 말도 덧붙였고요.\n\n■ 메모리 값이 뛴 배경에는 AI 메모리로 몰린 공장이 있습니다\n\n메모리 값 급등의 배경은 공장 배분입니다. 서울경제에 따르면 삼성전자·SK하이닉스·마이크론이 AI 서버용 고대역폭메모리(HBM)에 공장을 더 돌리면서 PC용 물량이 줄었습니다.\n\n여기서 반전이 하나 있습니다. SK하이닉스가 3분기 석 달 동안 영업이익 83조 원을 남긴 바로 그 메모리 값이, 인텔에게는 PC 판매를 막는 벽이 됐어요. 한 회사의 판매 가격은 다른 회사 손님의 원가입니다.\n\n솔직히 저도 처음엔 이스라엘 공장 사고가 주범인 줄 알았습니다. 그런데 사고가 깎은 4분기 매출은 약 3억 달러예요. 전망 위쪽 끝인 160억 달러로 잡아도 시장 예상보다 11억 달러가 모자랍니다. 회사 설명대로라면 나머지는 PC 부진과 서버 칩 공급 부족이 나눠 가집니다.\n\n■ 인텔 서버 칩은 주문보다 물량이 모자랐습니다\n\n인텔 데이터센터 쪽 고민은 정반대입니다. 서버용 칩(제품 이름 제온)은 주문이 넘치는데 만들 물량이 모자랐어요. 립부 탄 최고경영자는 \"지금 가장 급한 일은 제온 공급을 더 끌어내는 것\"이라고 했습니다.\n\n10월에는 이스라엘 키르야트갓 공장에서 폭발 사고가 났습니다. 현지 보도로 2명이 숨졌습니다. 이 공장은 주로 데이터센터 칩을 만듭니다. 인텔은 2주 멈췄다가 이번 주 안에 생산을 다시 올린다고 했습니다.\n\n[사진: 빈자리가 남은 서버 랙이 늘어선 전산실]\n\n인텔은 이 사고로 4분기 매출이 약 3억 달러, 내년 1분기에도 비슷하게 줄 것으로 봤습니다. 아직 쓸 수 있는 웨이퍼(칩을 찍어 내는 둥근 실리콘 판)가 어느 것인지 가려내는 중이라고 했고요.\n\n[사진: 인텔 4분기 전망과 시장 예상]\n\n■ 인텔 주가는 올해 두 배 넘게 오른 상태였습니다\n\n인텔 주가는 이번 발표 전까지 올해 두 배 넘게 올랐습니다(로이터). 실적 발표 전 10월 29일 장 마감 가격은 92.03달러였어요. 저는 기대가 높았던 만큼 전망 한 줄에 더 크게 흔들렸다고 봅니다.\n\n인텔의 답은 공장을 더 짓는 것입니다. 올해 설비 투자 계획을 200억 달러로 올렸고 내년엔 크게 늘린다고 했어요. 8월엔 새 주식을 팔아 230억 달러를 모으기도 했습니다.\n\n시장에선 걱정과 기대가 함께 나옵니다. 가벨리 펀드의 헨디 수산토는 사고로 인텔의 생산 능력이 줄었다는 점을 걱정했습니다. 무어인사이트의 앤셸 새그는 PC 부진이 단기에 그칠 가능성이 높다고 봤고요(로이터).\n\n인텔 주가 전망을 볼 때 저는 숫자 두 개를 보려고 합니다. 다음 실적에서 PC 칩 매출이 얼마나 줄었는지, 그리고 D램 계약 가격 오름폭이 정말 20%대로 꺾이는지입니다. 트렌드포스는 오름폭이 줄어드는 이유로 소비자 구매력 약화를 꼽았습니다.\n\n내 종목에도 같은 질문을 던질 수 있습니다. 이 회사가 사 오는 가장 비싼 부품이 무엇이고 그 값이 지금 오르고 있는지요. 메모리 회사 주주에게 좋은 소식이 PC 회사 주주에게는 원가 청구서일 수 있습니다.\n\n■ 자주 묻는 질문\n\nQ. 인텔 주가는 왜 실적 발표 뒤 떨어졌나요? 인텔 주가는 10월 29일 시간외 거래에서 16% 넘게 떨어졌습니다. 3분기 실적은 예상보다 좋았지만 4분기 매출 전망 150억~160억 달러가 시장 예상 약 171억 달러보다 낮았습니다.\n\nQ. 메모리 가격이 오르면 인텔에 왜 안 좋나요? 인텔 설명에 따르면 메모리 가격이 오르면서 PC 값이 올랐고 PC가 덜 팔려 PC에 들어가는 인텔 칩 판매도 줄었습니다. 인텔 3분기 PC 칩 매출은 81억 달러로 1년 전보다 5% 줄었습니다.\n\nQ. 인텔 이스라엘 공장 사고 영향은 얼마인가요? 인텔은 10월 키르야트갓 공장 폭발 사고로 4분기 매출이 약 3억 달러 줄고 내년 1분기에도 비슷한 영향이 있을 것으로 봤습니다. 두 분기를 합치면 약 6억 달러입니다.\n\n같이 읽으면 좋은 글: SK하이닉스 주가, 석 달에 83조 남겼는데 왜 반값일까 / 구글 주가, 석 달에 265억 달러 벌고도 통장은 91억 달러 마이너스\n\nAI 메모리가 잘 팔리는 동안 누군가는 그 값을 치르고 있었습니다. 여러분 종목은 파는 쪽인가요, 사는 쪽인가요?\n\n— Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 인텔 숫자는 2026년 10월 29일(미국 시간) 발표된 3분기 실적과 4분기 전망(로이터·서울경제·뉴스1 보도로 확인)입니다. 시간외 하락 폭은 보도 시점마다 14~17%로 다릅니다. D램 계약 가격 누적 약 3배는 트렌드포스의 분기별 상승률(2분기 약 80%, 3분기 약 40%, 4분기 전망 약 20%)을 곱한 단순 계산입니다. 이 글은 Luciano가 작성했습니다.";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
+  catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261030x", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
