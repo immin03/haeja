@@ -1,0 +1,148 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 억만장자세는 왜 안 판 주식에 매길까, 워렌 버핏이 계산한 세금 시점 차이 27배</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+<li>움직이는 사진(GIF)도 본문 복사에 함께 들어간다. 붙여넣은 뒤 GIF가 멈춰 있거나 빠졌으면, <b>사진 모두 받기</b>의 g1.gif 를 그 자리에 [사진] 버튼으로 넣는다.</li>
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">투자 상식</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">억만장자세는 왜 안 판 주식에 매길까, 워렌 버핏이 계산한 세금 시점 차이 27배</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 7장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261029f/01.png" alt="해 질 녘 불이 켜진 둥근 지붕의 의사당 건물" width="720"></p>
+<p><br></p>
+<blockquote><p><b>3줄 요약</b></p><p>· 캘리포니아는 <b>11월 3일</b> 주민투표에서 억만장자에게 <b>순자산의 5%</b>를 한 번 걷는 세금(프로포지션 40)을 정합니다. 팔지 않고 들고 있는 주식 값도 순자산에 들어갑니다.</p><p>· 워렌 버핏은 <b>1989년</b> 주주 서한에서 1달러가 해마다 두 배가 되는 투자를 20년 동안 매년 팔면 세후 <b>약 2만 5,250달러</b>, 팔지 않고 한 번에 팔면 <b>약 69만 2,000달러</b>가 남는다고 계산했습니다. 세금을 내는 시점만 다른데 <b>27배</b> 차이입니다.</p><p>· 같은 계산을 한국 해외주식 세율 <b>22%</b>와 버크셔 해서웨이 B주 10년 주가로 해 보니, 해마다 팔고 다시 산 쪽이 세금을 <b>952만 원</b> 덜 내고도 손에 쥔 돈은 <b>2,505만 원</b> 적었습니다.</p></blockquote>
+<p><br></p>
+<p>이번 주 유튜브 경제 채널 소수몽키에 올라온 영상 제목은 &#39;주식 안 팔아도 세금 내라?&#39;였습니다. 조회수가 11만 9천 회를 넘었어요. 영상이 다룬 건 캘리포니아의 억만장자세입니다. 저는 처음에 &#39;부자 몇백 명 이야기구나&#39; 하고 넘기려 했습니다. 그런데 &#39;안 판 주식&#39;이라는 말에서 오래전에 읽은 워렌 버핏의 편지 한 대목이 떠올랐습니다. 계산기를 두드려 보니 이건 제 해외주식 계좌와도 닿아 있는 이야기였습니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 캘리포니아는 11월 3일 순자산 5% 세금을 투표에 붙입니다</b></span></p>
+
+<p>프로포지션 40은 2026년 1월 1일에 캘리포니아에 살던 억만장자에게 순자산의 5%를 한 번 걷는 세금입니다. 캘리포니아 의회 예산분석실(LAO)의 투표 안내문에 따르면 순자산은 주식·사업 지분·투자처럼 가진 것의 값에서 빚을 뺀 금액입니다. 부동산과 연금·퇴직 계좌는 대체로 빠집니다. 세금은 2027년에 내야 하고 5년에 나눠 낼 수도 있지만 그러면 더 많이 냅니다.</p>
+<p><br></p>
+<p>대상은 많지 않습니다. 캘매터스는 캘리포니아의 억만장자를 약 200명으로 봅니다. 그런데 이들의 재산 대부분은 팔지 않은 주식이에요. 미국 소득세는 주식을 팔 때 생긴 이익에만 붙습니다. 팔지 않으면 주가가 열 배가 돼도 낼 세금이 없죠. 억만장자세는 이 빈칸을 겨냥합니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261029f/02.jpg" alt="바닷가 부두 뒤로 고층 빌딩이 늘어선 도심" width="720"></p>
+<p><br></p>
+<p>여론은 출렁이고 있습니다. 공공정책연구소(PPIC)가 10월 16~22일 투표 의향이 있는 유권자 1,086명에게 물었더니 찬성 46%, 반대 52%였습니다. 9월 조사에서는 찬성이 52%였으니 한 달 만에 뒤집힌 셈이에요. 같은 투표지에 함께 오른, 40과 내용이 부딪치는 프로포지션 41·42가 40보다 찬성표를 더 받으면 40은 통과해도 시행되지 않을 수 있습니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 워렌 버핏은 1989년 편지 괄호 속에 이 세금의 가능성을 적었습니다</b></span></p>
+
+<p>워렌 버핏은 팔지 않은 주식의 세금을 &#39;이자 없는 빚&#39;이라고 불렀습니다. 버크셔 해서웨이의 1989년 주주 서한에서 그는 주가가 오른 만큼 장부에 34% 세금을 미리 쌓아 두었다고 설명합니다. 회계에서는 이연법인세라고 부르는 돈입니다. 언젠가 낼 세금이지만 언제 낼지는 버크셔가 정합니다. 그사이엔 그 돈이 계속 버크셔 안에서 일을 하고요.</p>
+<p><br></p>
+<blockquote><p>"경제적으로 보면 이 부채는 우리가 원할 때에만 갚으면 되는, 미국 재무부에서 빌린 이자 없는 대출과 비슷합니다. (물론 의회가 이익이 실현되기 전에 세금을 매기기로 하지 않는다면 말이죠.)"</p><p>— 워렌 버핏, 1989년 버크셔 해서웨이 주주 서한</p></blockquote>
+<p><br></p>
+<p>괄호 안의 한 줄을 다시 읽어 보세요. 팔기 전의 이익에 세금을 매기는 법입니다. 캘리포니아 억만장자세는 이익이 아니라 재산 전체에 매기지만 안 판 주식까지 세금을 물린다는 점에서 37년 전 이 괄호와 닿아 있습니다. 버핏은 이 대출이 얼마나 큰지도 숫자로 보여 줬습니다. 1달러를 해마다 두 배가 되는 곳에 넣은 다음 해마다 판 뒤 34% 세금을 내고 남은 돈으로 다시 사는 일을 20년 반복하면 손에 남는 돈은 약 2만 5,250달러입니다. 같은 1달러가 한 투자 안에서 20번 두 배가 되도록 그냥 두면 104만 8,576달러가 됩니다. 마지막에 한 번 팔아 34%를 내도 약 69만 2,000달러가 남습니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261029f/03.png" alt="워렌 버핏의 1달러 20년 계산" width="720"></p><p><span style="color:#888888;font-size:13px">워렌 버핏의 1달러 20년 계산</span></p>
+<p><br></p>
+<p>수익률은 똑같고 세금을 내는 날만 다른데 27배가 차이 납니다. 버핏은 이 차이를 만든 이유가 &#39;오로지 세금을 내는 시점&#39;이라고 적었습니다. 매년 낸 세금은 그해에 계좌를 떠나 다시는 불어나지 못합니다. 안 판 사람은 그 세금만큼의 돈까지 20년 내내 굴린 거예요.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 한국 해외주식 세금 22%로 다시 계산해 봤습니다</b></span></p>
+
+<p>해마다 팔고 다시 산 계좌는 세금을 덜 내고도 돈이 더 적게 남았습니다. 버핏의 예는 해마다 두 배라는 극단적인 가정이라 실제 숫자로 다시 해 봤어요. 재료는 배당을 한 번도 주지 않아 주가만 보면 되는 버크셔 해서웨이 B주의 10년 주가입니다. 2016년 10월 말 142.95달러에서 2026년 10월 28일 543.82달러까지의 주가에 1억 원을 넣었다고 놓고 한국 해외주식 양도소득세(지방세 포함 22%, 해마다 250만 원 공제)를 적용했습니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261029f/04.png" alt="버크셔 B주 1억 원 세후 평가액 10년" width="720"></p><p><span style="color:#888888;font-size:13px">버크셔 B주 1억 원 세후 평가액 10년</span></p>
+<p><br></p>
+<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr><th style="background:#F3EEE3">1억 원, 버크셔 B주 10년</th><th style="background:#F3EEE3">그냥 들고 있다 마지막에 판 계좌</th><th style="background:#F3EEE3">해마다 10월에 팔고 다시 산 계좌</th></tr></thead><tbody><tr><td>세금을 낸 횟수</td><td>1번</td><td>8번 (손실·공제 이하 해 제외)</td></tr><tr><td>낸 세금 합계</td><td>6,114만 원</td><td>5,162만 원</td></tr><tr><td>세금 낸 뒤 손에 쥔 돈</td><td><b>3억 1,928만 원</b></td><td><b>2억 9,424만 원</b></td></tr><tr><td>차이</td><td></td><td>−2,505만 원</td></tr></tbody></table>
+<p><br></p>
+<p>솔직히 처음엔 반대 결과를 예상했습니다. 해마다 팔면 250만 원 공제를 열 번 받으니 세금이 줄고 그만큼 유리할 거라고 봤거든요. 실제로 세금은 952만 원 덜 냈습니다. 그런데 최종 금액은 2,505만 원 적었습니다. 2017년에 낸 세금 약 627만 원은 그 뒤 9년 동안 버크셔 주가가 2.9배 오르는 걸 구경만 했어요. 세금을 덜 내는 것보다 늦게 내는 게 더 컸다는 뜻입니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261029f/g1.gif" alt="휴대전화 화면을 손가락으로 누르는 모습" width="720"></p>
+<p><br></p>
+<p>이 차이는 수익률이 높고 기간이 길수록 벌어집니다. 10년에 3.8배가 된 버크셔에서는 들고 있던 계좌가 약 8.5%(2,505만 원) 더 남았고 20년 동안 해마다 두 배가 된 버핏의 예에서는 27배였죠. 억만장자의 재산이 대부분 팔지 않은 주식인 것도 같은 계산에서 나옵니다. 창업자는 회사 주식을 팔 이유가 거의 없습니다. 팔지 않는 동안 세금은 이자 없는 대출로 남아 그대로 불어납니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261029f/05.png" alt="해마다 판 계좌와 들고 있던 계좌" width="720"></p><p><span style="color:#888888;font-size:13px">해마다 판 계좌와 들고 있던 계좌</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 찬성 쪽은 1천억 달러, 스탠퍼드 연구는 300억 달러를 봅니다</b></span></p>
+
+<p>억만장자세로 얼마가 걷힐지는 추정마다 세 배 넘게 다릅니다. 찬성 쪽은 1천억 달러를 말합니다. 스탠퍼드대 경제학자 조슈아 라우와 벤저민 재로스는 10월 전미경제연구소(NBER) 논문에서 약 300억 달러(280억~360억 달러)로 봤습니다. 대상자들이 이미 주를 떠나 과세 대상 재산의 30% 가까이가 빠졌다는 이유에서예요. 떠난 사람들이 앞으로 내지 않을 소득세가 해마다 10억~35억 달러라 장기적으로는 주 정부가 손해라는 계산도 붙였습니다.</p>
+<p><br></p>
+<p>반론도 있습니다. 세금은 2026년 1월 1일 거주 기준이라 그 뒤에 이사하거나 이주를 발표하는 것만으로는 대상에서 빠지지 않는다는 지적입니다. 스탠퍼드 추정이 너무 낮을 수 있다는 뜻이죠. 그래서 다음에 볼 숫자는 두 개입니다. 11월 3일 개표에서 프로포지션 40과 41·42의 찬성표 차이, 그리고 통과된다면 뒤따를 소송에서 투표보다 앞선 날짜(1월 1일)의 거주자에게 매기는 소급 과세를 법원이 인정하는지입니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261029f/06.jpg" alt="두 손으로 경제면 신문을 펼쳐 든 모습" width="720"></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 내 계좌의 안 판 이익도 이자 없는 대출입니다</b></span></p>
+
+<p>해외주식 계좌의 평가이익에 22%를 곱한 금액이 지금 내가 쓰고 있는 이자 없는 대출입니다. 증권사 앱에서 종목별 평가손익을 보고 250만 원을 뺀 뒤 22%를 곱해 보세요. 종목을 갈아탈 때마다 이 금액이 계좌를 떠납니다. 그래서 새 종목은 지금 종목보다 세금만큼 더 올라야 본전이에요. 저는 종목을 갈아타기 전에 두 종목의 상승 여력 차이가 이 세금을 넘는지부터 확인합니다. 이 글의 계산은 해마다 전부 판 경우입니다. 이익이 250만 원 공제 한도에 닿을 만큼만 팔았다 다시 사면 그해 세금은 0원이라, 늦게 내기와 함께 쓸 수 있는 별개의 방법입니다.</p>
+<p><br></p>
+<p>11월 3일 캘리포니아 개표 결과가 나오면 이 글에 이어서 적어 보겠습니다. 여러분 계좌에서 이자 없는 대출은 얼마인가요?</p>
+<p><br></p>
+<p style="text-align:right"><b>— Editor: Luciano</b></p>
+<p><br></p>
+<p><span style="color:#888888;font-size:13px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 버크셔 해서웨이 B주 계산은 월말 종가(2016년 10월 31일~2026년 10월 28일) 기준이고 환율 변동·수수료·매매 시차를 빼고 세전 1억 원에 한국 해외주식 양도소득세(지방소득세 포함 22%, 연 250만 원 기본공제)만 적용했습니다. 인용은 버크셔 해서웨이 1989년 주주 서한을 옮긴 것입니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><h2>태그</h2><div class="row"><div id="tags">#억만장자세 #캘리포니아억만장자세 #주식세금 #해외주식양도소득세 #워렌버핏 #버핏주주서한 #캘리포니아 #프로포지션40 #이연법인세 #양도소득세</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261029f/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261029f/01.png" download="valuenote-b261029f-1.png"><img src="https://www.valuenote.co.kr/naver/b261029f/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261029f/02.jpg" download="valuenote-b261029f-2.jpg"><img src="https://www.valuenote.co.kr/naver/b261029f/02.jpg" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261029f/03.png" download="valuenote-b261029f-3.png"><img src="https://www.valuenote.co.kr/naver/b261029f/03.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261029f/04.png" download="valuenote-b261029f-4.png"><img src="https://www.valuenote.co.kr/naver/b261029f/04.png" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261029f/g1.gif" download="valuenote-b261029f-5.gif"><img src="https://www.valuenote.co.kr/naver/b261029f/g1.gif" alt="사진 5" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261029f/05.png" download="valuenote-b261029f-6.png"><img src="https://www.valuenote.co.kr/naver/b261029f/05.png" alt="사진 6" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261029f/06.jpg" download="valuenote-b261029f-7.jpg"><img src="https://www.valuenote.co.kr/naver/b261029f/06.jpg" alt="사진 7" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 해 질 녘 불이 켜진 둥근 지붕의 의사당 건물]\n\n3줄 요약\n· 캘리포니아는 11월 3일 주민투표에서 억만장자에게 순자산의 5%를 한 번 걷는 세금(프로포지션 40)을 정합니다. 팔지 않고 들고 있는 주식 값도 순자산에 들어갑니다.\n· 워렌 버핏은 1989년 주주 서한에서 1달러가 해마다 두 배가 되는 투자를 20년 동안 매년 팔면 세후 약 2만 5,250달러, 팔지 않고 한 번에 팔면 약 69만 2,000달러가 남는다고 계산했습니다. 세금을 내는 시점만 다른데 27배 차이입니다.\n· 같은 계산을 한국 해외주식 세율 22%와 버크셔 해서웨이 B주 10년 주가로 해 보니, 해마다 팔고 다시 산 쪽이 세금을 952만 원 덜 내고도 손에 쥔 돈은 2,505만 원 적었습니다.\n\n이번 주 유튜브 경제 채널 소수몽키에 올라온 영상 제목은 '주식 안 팔아도 세금 내라?'였습니다. 조회수가 11만 9천 회를 넘었어요. 영상이 다룬 건 캘리포니아의 억만장자세입니다. 저는 처음에 '부자 몇백 명 이야기구나' 하고 넘기려 했습니다. 그런데 '안 판 주식'이라는 말에서 오래전에 읽은 워렌 버핏의 편지 한 대목이 떠올랐습니다. 계산기를 두드려 보니 이건 제 해외주식 계좌와도 닿아 있는 이야기였습니다.\n\n■ 캘리포니아는 11월 3일 순자산 5% 세금을 투표에 붙입니다\n\n프로포지션 40은 2026년 1월 1일에 캘리포니아에 살던 억만장자에게 순자산의 5%를 한 번 걷는 세금입니다. 캘리포니아 의회 예산분석실(LAO)의 투표 안내문에 따르면 순자산은 주식·사업 지분·투자처럼 가진 것의 값에서 빚을 뺀 금액입니다. 부동산과 연금·퇴직 계좌는 대체로 빠집니다. 세금은 2027년에 내야 하고 5년에 나눠 낼 수도 있지만 그러면 더 많이 냅니다.\n\n대상은 많지 않습니다. 캘매터스는 캘리포니아의 억만장자를 약 200명으로 봅니다. 그런데 이들의 재산 대부분은 팔지 않은 주식이에요. 미국 소득세는 주식을 팔 때 생긴 이익에만 붙습니다. 팔지 않으면 주가가 열 배가 돼도 낼 세금이 없죠. 억만장자세는 이 빈칸을 겨냥합니다.\n\n[사진: 바닷가 부두 뒤로 고층 빌딩이 늘어선 도심]\n\n여론은 출렁이고 있습니다. 공공정책연구소(PPIC)가 10월 16~22일 투표 의향이 있는 유권자 1,086명에게 물었더니 찬성 46%, 반대 52%였습니다. 9월 조사에서는 찬성이 52%였으니 한 달 만에 뒤집힌 셈이에요. 같은 투표지에 함께 오른, 40과 내용이 부딪치는 프로포지션 41·42가 40보다 찬성표를 더 받으면 40은 통과해도 시행되지 않을 수 있습니다.\n\n■ 워렌 버핏은 1989년 편지 괄호 속에 이 세금의 가능성을 적었습니다\n\n워렌 버핏은 팔지 않은 주식의 세금을 '이자 없는 빚'이라고 불렀습니다. 버크셔 해서웨이의 1989년 주주 서한에서 그는 주가가 오른 만큼 장부에 34% 세금을 미리 쌓아 두었다고 설명합니다. 회계에서는 이연법인세라고 부르는 돈입니다. 언젠가 낼 세금이지만 언제 낼지는 버크셔가 정합니다. 그사이엔 그 돈이 계속 버크셔 안에서 일을 하고요.\n\n\"경제적으로 보면 이 부채는 우리가 원할 때에만 갚으면 되는, 미국 재무부에서 빌린 이자 없는 대출과 비슷합니다. (물론 의회가 이익이 실현되기 전에 세금을 매기기로 하지 않는다면 말이죠.)\" — 워렌 버핏, 1989년 버크셔 해서웨이 주주 서한\n\n괄호 안의 한 줄을 다시 읽어 보세요. 팔기 전의 이익에 세금을 매기는 법입니다. 캘리포니아 억만장자세는 이익이 아니라 재산 전체에 매기지만 안 판 주식까지 세금을 물린다는 점에서 37년 전 이 괄호와 닿아 있습니다. 버핏은 이 대출이 얼마나 큰지도 숫자로 보여 줬습니다. 1달러를 해마다 두 배가 되는 곳에 넣은 다음 해마다 판 뒤 34% 세금을 내고 남은 돈으로 다시 사는 일을 20년 반복하면 손에 남는 돈은 약 2만 5,250달러입니다. 같은 1달러가 한 투자 안에서 20번 두 배가 되도록 그냥 두면 104만 8,576달러가 됩니다. 마지막에 한 번 팔아 34%를 내도 약 69만 2,000달러가 남습니다.\n\n[사진: 워렌 버핏의 1달러 20년 계산]\n\n수익률은 똑같고 세금을 내는 날만 다른데 27배가 차이 납니다. 버핏은 이 차이를 만든 이유가 '오로지 세금을 내는 시점'이라고 적었습니다. 매년 낸 세금은 그해에 계좌를 떠나 다시는 불어나지 못합니다. 안 판 사람은 그 세금만큼의 돈까지 20년 내내 굴린 거예요.\n\n■ 한국 해외주식 세금 22%로 다시 계산해 봤습니다\n\n해마다 팔고 다시 산 계좌는 세금을 덜 내고도 돈이 더 적게 남았습니다. 버핏의 예는 해마다 두 배라는 극단적인 가정이라 실제 숫자로 다시 해 봤어요. 재료는 배당을 한 번도 주지 않아 주가만 보면 되는 버크셔 해서웨이 B주의 10년 주가입니다. 2016년 10월 말 142.95달러에서 2026년 10월 28일 543.82달러까지의 주가에 1억 원을 넣었다고 놓고 한국 해외주식 양도소득세(지방세 포함 22%, 해마다 250만 원 공제)를 적용했습니다.\n\n[사진: 버크셔 B주 1억 원 세후 평가액 10년]\n\n1억 원, 버크셔 B주 10년 | 그냥 들고 있다 마지막에 판 계좌 | 해마다 10월에 팔고 다시 산 계좌\n세금을 낸 횟수 | 1번 | 8번 (손실·공제 이하 해 제외)\n낸 세금 합계 | 6,114만 원 | 5,162만 원\n세금 낸 뒤 손에 쥔 돈 | **3억 1,928만 원** | **2억 9,424만 원**\n차이 |  | −2,505만 원\n\n솔직히 처음엔 반대 결과를 예상했습니다. 해마다 팔면 250만 원 공제를 열 번 받으니 세금이 줄고 그만큼 유리할 거라고 봤거든요. 실제로 세금은 952만 원 덜 냈습니다. 그런데 최종 금액은 2,505만 원 적었습니다. 2017년에 낸 세금 약 627만 원은 그 뒤 9년 동안 버크셔 주가가 2.9배 오르는 걸 구경만 했어요. 세금을 덜 내는 것보다 늦게 내는 게 더 컸다는 뜻입니다.\n\n[사진: 휴대전화 화면을 손가락으로 누르는 모습]\n\n이 차이는 수익률이 높고 기간이 길수록 벌어집니다. 10년에 3.8배가 된 버크셔에서는 들고 있던 계좌가 약 8.5%(2,505만 원) 더 남았고 20년 동안 해마다 두 배가 된 버핏의 예에서는 27배였죠. 억만장자의 재산이 대부분 팔지 않은 주식인 것도 같은 계산에서 나옵니다. 창업자는 회사 주식을 팔 이유가 거의 없습니다. 팔지 않는 동안 세금은 이자 없는 대출로 남아 그대로 불어납니다.\n\n[사진: 해마다 판 계좌와 들고 있던 계좌]\n\n■ 찬성 쪽은 1천억 달러, 스탠퍼드 연구는 300억 달러를 봅니다\n\n억만장자세로 얼마가 걷힐지는 추정마다 세 배 넘게 다릅니다. 찬성 쪽은 1천억 달러를 말합니다. 스탠퍼드대 경제학자 조슈아 라우와 벤저민 재로스는 10월 전미경제연구소(NBER) 논문에서 약 300억 달러(280억~360억 달러)로 봤습니다. 대상자들이 이미 주를 떠나 과세 대상 재산의 30% 가까이가 빠졌다는 이유에서예요. 떠난 사람들이 앞으로 내지 않을 소득세가 해마다 10억~35억 달러라 장기적으로는 주 정부가 손해라는 계산도 붙였습니다.\n\n반론도 있습니다. 세금은 2026년 1월 1일 거주 기준이라 그 뒤에 이사하거나 이주를 발표하는 것만으로는 대상에서 빠지지 않는다는 지적입니다. 스탠퍼드 추정이 너무 낮을 수 있다는 뜻이죠. 그래서 다음에 볼 숫자는 두 개입니다. 11월 3일 개표에서 프로포지션 40과 41·42의 찬성표 차이, 그리고 통과된다면 뒤따를 소송에서 투표보다 앞선 날짜(1월 1일)의 거주자에게 매기는 소급 과세를 법원이 인정하는지입니다.\n\n[사진: 두 손으로 경제면 신문을 펼쳐 든 모습]\n\n■ 내 계좌의 안 판 이익도 이자 없는 대출입니다\n\n해외주식 계좌의 평가이익에 22%를 곱한 금액이 지금 내가 쓰고 있는 이자 없는 대출입니다. 증권사 앱에서 종목별 평가손익을 보고 250만 원을 뺀 뒤 22%를 곱해 보세요. 종목을 갈아탈 때마다 이 금액이 계좌를 떠납니다. 그래서 새 종목은 지금 종목보다 세금만큼 더 올라야 본전이에요. 저는 종목을 갈아타기 전에 두 종목의 상승 여력 차이가 이 세금을 넘는지부터 확인합니다. 이 글의 계산은 해마다 전부 판 경우입니다. 이익이 250만 원 공제 한도에 닿을 만큼만 팔았다 다시 사면 그해 세금은 0원이라, 늦게 내기와 함께 쓸 수 있는 별개의 방법입니다.\n\n11월 3일 캘리포니아 개표 결과가 나오면 이 글에 이어서 적어 보겠습니다. 여러분 계좌에서 이자 없는 대출은 얼마인가요?\n\n— Editor: Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 버크셔 해서웨이 B주 계산은 월말 종가(2016년 10월 31일~2026년 10월 28일) 기준이고 환율 변동·수수료·매매 시차를 빼고 세전 1억 원에 한국 해외주식 양도소득세(지방소득세 포함 22%, 연 250만 원 기본공제)만 적용했습니다. 인용은 버크셔 해서웨이 1989년 주주 서한을 옮긴 것입니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
+  catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261029f", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
