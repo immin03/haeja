@@ -15,7 +15,7 @@ permissions:
 concurrency: reels
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # 2026-10-29 고정: 26 전환 후 브라우저 설치 실패
     timeout-minutes: 170
     steps:
       - uses: actions/checkout@v4
@@ -43,34 +43,8 @@ jobs:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
         run: python3 scripts/reels/build.py || touch /tmp/voicefail
       - name: 커밋
-        run: |
-          git config user.name "valuenote-bot"
-          git config user.email "bot@valuenote.co.kr"
-          git add -A social/reels scripts/reels/events g blog social/typecast_usage.json 2>/dev/null || git add -A social/reels scripts/reels/events g blog
-          git diff --cached --quiet && exit 0
-          git commit -m "릴스 $(TZ=Asia/Seoul date '+%F %H:%M')"
-          # 2026-10-23: 롱폼 렌더(yt-long)도 social/typecast_usage.json 을 같이 고쳐서, 합칠 때 충돌로 렌더 결과 전체가 버려졌다.
-          # 사용량 파일 충돌은 '저장소 값 + 이번 실행이 더 쓴 만큼'으로 합치고, 최대 3번 다시 시도한다.
-          for i in 1 2 3; do
-            if git pull --rebase origin main; then git push && exit 0; continue; fi
-            if git diff --name-only --diff-filter=U | grep -qv '^social/typecast_usage.json$'; then git rebase --abort; echo "사용량 파일 말고 다른 충돌"; exit 1; fi
-            python3 - <<'PY'
-          import json, subprocess
-          f = "social/typecast_usage.json"
-          def v(stage):
-              try: return json.loads(subprocess.run(["git", "show", f":{stage}:{f}"], capture_output=True, text=True, check=True).stdout)
-              except Exception: return {}
-          base, up, mine = v(1), v(2), v(3)   # 리베이스 중: 2 = 저장소(먼저 올라간 쪽), 3 = 이번 실행
-          out = dict(up)
-          for k in set(up) | set(mine):
-              out[k] = up.get(k, 0) + max(0, mine.get(k, 0) - base.get(k, 0))
-          json.dump(out, open(f, "w"), ensure_ascii=False, indent=1); open(f, "a").write("\n")
-          PY
-            git add social/typecast_usage.json
-            GIT_EDITOR=true git rebase --continue && git push && exit 0
-            git rebase --abort 2>/dev/null; sleep 5
-          done
-          exit 1
+        # 2026-10-29: 리베이스 대신 바뀐 파일만 최신 main 위에 다시 얹는다 (사용량 파일은 더해서 합침)
+        run: bash scripts/ci/push_results.sh "릴스 $(TZ=Asia/Seoul date '+%F %H:%M')" social/reels scripts/reels/events g blog social/typecast_usage.json
       - name: 음성 검수 결과
         run: |
           if [ -f /tmp/voicefail ]; then echo '음성 검수에 실패한 릴스가 있습니다. 위 로그의 ✗ 줄을 확인하세요.'; exit 1; fi

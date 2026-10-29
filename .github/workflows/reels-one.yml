@@ -10,7 +10,7 @@ permissions:
 concurrency: reels-one
 jobs:
   ids:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # 2026-10-29 고정: 26 전환 후 브라우저 설치 실패
     outputs:
       list: ${{ steps.l.outputs.list }}
     steps:
@@ -19,7 +19,7 @@ jobs:
         run: echo "list=$(python3 -c "import json;print(json.dumps(open('scripts/reels/render_one.txt').read().split()))")" >> $GITHUB_OUTPUT
   one:
     needs: ids
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # 2026-10-29 고정: 26 전환 후 브라우저 설치 실패
     timeout-minutes: 60
     strategy:
       fail-fast: false

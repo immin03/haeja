@@ -11,7 +11,7 @@ permissions:
 concurrency: side-long2
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # 2026-10-29 고정: 26 전환 후 브라우저 설치 실패
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
