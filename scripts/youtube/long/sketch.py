@@ -390,13 +390,34 @@ LIB = "scripts/blog/media/lib/"
 
 
 def rows(t, n=11):
-    """손글씨 줄 나누기: 띄어쓰기 기준으로 한 줄 n글자 안팎"""
+    """손글씨 줄 나누기: 띄어쓰기 기준으로 한 줄 n글자 안팎.
+    2026-10-29 대표님: '이익이 얼마나 오래 / 가나'처럼 끝에 짧은 꼬리가 남는 어중간한 줄바꿈 금지
+    → 같은 줄 수 안에서 줄 길이가 가장 고르게 되는 자리에서 끊는다."""
+    ws = str(t).replace("\n", " ").split()
+    if not ws: return [""]
     out, cur = [], ""
-    for w in str(t).replace("\n", " ").split():
+    for w in ws:
         if cur and len(cur) + 1 + len(w) > n: out.append(cur); cur = w
         else: cur = (cur + " " + w).strip()
     if cur: out.append(cur)
-    return out or [""]
+    k = len(out)
+    if k < 2 or len(ws) > 14: return out
+    import itertools
+    best = None
+    for cuts in itertools.combinations(range(1, len(ws)), k - 1):
+        b = (0,) + cuts + (len(ws),)
+        ls = [" ".join(ws[b[i]:b[i + 1]]) for i in range(k)]
+        sc = (max(len(x) for x in ls), -min(len(x) for x in ls))
+        if best is None or sc < best[0]: best = (sc, ls)
+    return best[1]
+
+
+def fit_line(t, w="ExtraBold", size=68, maxw=670, floor=54):
+    """한 줄에 들어가면 글자를 조금 줄여서라도 한 줄로 (2026-10-29 대표님: 가능하면 한 줄로 붙여 쓰기)"""
+    t = str(t).replace("\n", " ").strip()
+    for s_ in range(size, floor - 1, -2):
+        if IW.font(w, s_).getlength(t) <= maxw: return [t], s_
+    return rows(t, 11), size
 
 
 def tone(s):
@@ -426,7 +447,7 @@ def auto(v, lines, V, fill, at_time):
         photo(v.get("lib"), 90, 100, 1000, 690, -2, S0)
         y = 130
         if v.get("caption"):
-            r = rows(F(v["caption"]), 11); B.append(dict(kind="print", rows=r, x=1170, y=y, size=68, w="ExtraBold", t=LS(v.get("caption_at", "0")) + .05)); y += 90 * len(r) + 60
+            r, csz = fit_line(F(v["caption"])); B.append(dict(kind="print", rows=r, x=1170, y=y, size=csz, w="ExtraBold", t=LS(v.get("caption_at", "0")) + .05)); y += int(csz * 1.32) * len(r) + 60
         for i, ch in enumerate(v.get("chips", [])):
             tl = LS(ch.get("at")) + .05; tt = max(tl, T(ch.get("at")) - .15)   # 설명은 문장 시작에 먼저, 숫자는 그 숫자를 말하는 순간 펜으로
             B.append(dict(kind="print", rows=rows(F(ch.get("l", "")), 20), x=1172, y=y + 150, size=42, w="Medium", t=tl))

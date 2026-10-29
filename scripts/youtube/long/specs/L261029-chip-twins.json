@@ -119,14 +119,14 @@
    "v": {
     "type": "media",
     "lib": "chip_47048.mp4",
-    "caption": "83조 벌었는데 주가는 -46%?",
+    "caption": "6월 고점 대비 -46%",
     "caption_at": "0"
    },
    "lines": [
-    "석 달에 83조 원을 벌고 올해 100조 원을 돌려준다는데, SK하이닉스 주가는 왜 아직 6월보다 46%나 낮을까요?"
+    "SK하이닉스 주식 갖고 계신 분들, 요즘 좀 헷갈리실 겁니다. 회사는 역대 최대로 벌었다는데, 주가는 아직 6월보다 한참 아래거든요."
    ],
    "en": [
-    "It earned 83 trillion won in three months and plans to return 100 trillion this year. So why is SK hynix stock still 46% below June?"
+    "If you own or follow SK hynix, this is confusing: the company just posted record profits, yet the stock is still far below June."
    ],
    "asof": false,
    "chapter": "역대 최대의 석 달",
@@ -136,30 +136,18 @@
    "v": {
     "type": "media",
     "lib": "commons_wafer_2.jpg",
-    "caption": "이익이 얼마나 오래 가나",
+    "caption": "핵심은 이익의 지속 기간",
     "caption_at": "0"
    },
    "lines": [
-    "시장이 보는 건 이익의 크기보다, 이 이익이 얼마나 오래 가느냐예요."
+    "시장이 보는 건 이익의 크기보다, 이 이익이 얼마나 오래 가느냐입니다."
    ],
    "en": [
     "What the market watches isn't how big the profit is. It's how long it lasts."
    ],
    "asof": false,
    "src": "사진: U.S. Department of Energy · Wikimedia Commons (퍼블릭 도메인)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "핵심 질문 · 이익의 지속 기간",
-     "x": 1170,
-     "y": 400,
-     "size": 48,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.5
-    }
-   ]
+   "sketch_add": []
   },
   {
    "v": {
@@ -187,123 +175,6 @@
      "color": "ink",
      "line": 0,
      "at": 0.5
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "오늘 따라갈 건 세 가지예요. 시장이 아직 못 믿는 것 하나, 회사가 다 말하지 않은 것 하나,",
-    "그리고 1월까지 확인할 숫자 세 개입니다."
-   ],
-   "en": [
-    "We'll follow three things today: what the market still doesn't believe, what the companies didn't fully spell out,",
-    "and three numbers to check before January."
-   ],
-   "asof": false,
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "오늘의 취재 노트",
-     "x": 120,
-     "y": 90,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0
-    },
-    {
-     "kind": "icons",
-     "icon": "chip",
-     "x": 160,
-     "y": 230,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "시장이 아직 못 믿는 것",
-     "x": 330,
-     "y": 250,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.12
-    },
-    {
-     "kind": "icons",
-     "icon": "ledger",
-     "x": 160,
-     "y": 420,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.5
-    },
-    {
-     "kind": "print",
-     "text": "회사가 다 말하지 않은 것",
-     "x": 330,
-     "y": 440,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.6
-    },
-    {
-     "kind": "icons",
-     "icon": "clock",
-     "x": 160,
-     "y": 610,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.0
-    },
-    {
-     "kind": "print",
-     "text": "1월까지 확인할 숫자",
-     "x": 330,
-     "y": 630,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "write",
-     "text": "3개",
-     "x": 1000,
-     "y": 580,
-     "size": 170,
-     "color": "red",
-     "line": 1,
-     "at": 0.45
-    },
-    {
-     "kind": "print",
-     "text": "SK하이닉스 · 삼성전자",
-     "x": 1300,
-     "y": 250,
-     "size": 46,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.85
     }
    ]
   },
@@ -454,7 +325,7 @@
     "bd_dim": 0.72
    },
    "lines": [
-    "두 회사가 석 달 동안 본업으로 남긴 돈이 190조 원이 넘어요.",
+    "두 회사가 석 달 동안 본업으로 남긴 돈이 190조 원이 넘습니다.",
     "하루로 치면 2조 원씩이에요. 로또 1등 당첨금 천 명분쯤을 매일 번 셈이죠."
    ],
    "en": [
@@ -621,7 +492,7 @@
    },
    "lines": [
     "1년 전 이맘때보다 매출은 4.3배, 영업이익은 7.3배가 됐어요.",
-    "그런데 비용은 1.6배밖에 안 늘었습니다. 물건을 네 배 더 팔아서 번 돈은 아니라는 얘기죠. 값이 올랐다는 거예요."
+    "그런데 비용은 1.6배밖에 안 늘었습니다. 물건을 네 배 더 팔아서 번 돈은 아니라는 얘기죠. 값이 올랐다는 뜻입니다."
    ],
    "en": [
     "Versus a year earlier, sales are 4.3 times larger and operating profit 7.3 times.",
@@ -1010,7 +881,7 @@
     "type": "sketch"
    },
    "lines": [
-    "그래서 처음에 말씀드린 첫 번째, 시장이 가장 의심하는 건 이익의 크기가 아니라 이 '값'이 2027년에도 버텨 주느냐예요.",
+    "그래서 시장이 가장 의심하는 건 이익의 크기가 아니라 이 '값'이 2027년에도 버텨 주느냐예요.",
     "많이 팔아서 번 돈은 공장을 늘리면 같이 늘어요. 그런데 비싸게 팔아서 번 돈은 값이 내리면 같이 줄어들거든요.",
     "게다가 오른 값을 보고 메모리 회사들이 공장을 늘리고 있어요. 하이닉스 용인 첫 공장도 2027년 초 문을 열 예정이에요."
    ],
@@ -1178,7 +1049,7 @@
     "bd_dim": 0.74
    },
    "lines": [
-    "외국인 투자자들은 올해 1월부터 10월 12일까지 이 두 종목을 173조 원어치 순매도했어요. 판 돈이 산 돈보다 그만큼 많았다는 뜻이고, 코스피 전체 순매도의 87%예요.",
+    "외국인 투자자들은 올해 1월부터 10월 12일까지 이 두 종목을 173조 원어치 순매도했습니다. 판 돈이 산 돈보다 그만큼 많았다는 뜻이고, 코스피 전체 순매도의 87%예요.",
     "이유는 저마다 다르겠지만, 숫자만 보면 큰손들은 아직 확신보다 의심 쪽에 서 있었어요."
    ],
    "en": [
@@ -1377,7 +1248,7 @@
    "v": {
     "type": "media",
     "lib": "chip_47258.mp4",
-    "caption": "처음이 아니다",
+    "caption": "두 번의 선례",
     "caption_at": "0"
    },
    "lines": [
@@ -1738,7 +1609,7 @@
    "v": {
     "type": "title",
     "text": "100조 원의 주주환원",
-    "sub": "돈은 어디로 가나"
+    "sub": "배당과 자사주 매입"
    },
    "lines": [
     "하이닉스가 올해 주주에게 돌려주겠다는 돈은 약 100조 원이에요."
@@ -1897,7 +1768,7 @@
     ]
    },
    "lines": [
-    "삼성전자는 오늘 3분기 배당만 30조 원, 한 주에 4,601원을 주겠다고 발표했어요.",
+    "삼성전자는 오늘 3분기 배당만 30조 원, 한 주에 4,601원을 주겠다고 발표했습니다.",
     "올해 전체로 90조에서 110조 원을 돌려줄 계획인데, 그중 남은 55조에서 75조 원을 어떻게 돌려줄지는 내년 1월 말 이사회에서 정해요."
    ],
    "en": [
@@ -2010,7 +1881,7 @@
     "sub": "두 번째 이야기"
    },
    "lines": [
-    "처음에 말씀드린 두 번째, 회사가 다 말하지 않은 것들입니다."
+    "두 번째 이야기, 회사가 다 말하지 않은 것들입니다."
    ],
    "en": [
     "Part two: what the companies didn't fully spell out."
@@ -2745,7 +2616,7 @@
     "sub": "세 번째 이야기"
    },
    "lines": [
-    "처음에 말씀드린 세 번째, 1월까지 확인할 숫자 세 개예요."
+    "세 번째 이야기, 1월까지 확인할 숫자 세 개입니다."
    ],
    "en": [
     "Part three: three numbers to check before January."
@@ -3058,7 +2929,7 @@
     "backdrop": "commons_seoulnight_3.jpg",
     "bd_dim": 0.74,
     "note": {
-     "text": "무엇이 먼저 움직일까?",
+     "text": "먼저 움직일 숫자는?",
      "at": "2:먼저"
     }
    },
