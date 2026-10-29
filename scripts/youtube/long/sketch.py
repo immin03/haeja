@@ -571,7 +571,10 @@ def end_page(v, lines, fill, V, at_time):
     labels = ["구독", "좋아요", "알림 설정"]
     for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
         B.append(dict(kind="pcheck", text=labels[i], x=COL_X + 10, y=480 + i * 105, size=62, t=T(at) if at else S0 + 1.2 + .5 * i))
-    x0, y0, x1, y1 = ES_BOX; tt = S0 + 1.0
+    x0, y0, x1, y1 = ES_BOX; nx = v.get("next") or {}
+    tt = T(nx["at"]) if nx.get("at") else S0 + 1.0   # 2026-10-29: 다음 영상을 말하는 순간 칸이 열린다 (빈틈 없이)
+    if v.get("note"):   # 2026-10-29: 마지막 질문(댓글 유도) 한 줄 — 말하는 순간 인쇄 글씨로
+        B.append(dict(kind="print", text=F(v["note"].get("text", "")), x=COL_X, y=820, size=50, w="ExtraBold", color="gold", t=T(v["note"].get("at")) if v["note"].get("at") else S0 + 2.5))
     B.append(dict(kind="print", text=F((v.get("next") or {}).get("label", "함께 보면 좋은 영상")), x=x0, y=y0 - 62, size=44, w="Bold", t=tt))
     B.append(dict(kind="esbox", x0=x0, y0=y0, x1=x1, y1=y1, t=tt))
     return B

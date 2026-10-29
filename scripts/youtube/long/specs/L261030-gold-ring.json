@@ -8,7 +8,7 @@
  "format": 2,
  "world": "notebook",
  "notebook": {
-  "cold_open": 1,
+  "cold_open": 3,
   "stamps": {
    "0": [
     "SEOUL · OCT 2026",
@@ -130,29 +130,63 @@
    "v": {
     "type": "media",
     "lib": "gold_34611.mp4",
-    "caption": "돌반지 한 돈, 지금 팔면?",
+    "caption": "돌반지, 지금 팔아야 할까?",
     "caption_at": "0"
    },
    "lines": [
-    "장롱 속 돌반지 한 돈, 지금 금은방에 팔면 얼마일까요? 64만 원입니다. 10월 26일 시세예요."
+    "1월엔 한 돈에 101만 원이던 금값이, 지금은 64만 원입니다. 장롱 속 돌반지, 지금 팔아야 할까요?"
    ],
    "en": [
-    "That gold baby ring in your drawer: what would a jeweler pay today? 640,000 won per don, as of October 26."
+    "Gold that cost 1.01 million won a don in January now fetches 640,000. Should you sell the baby ring in your drawer?"
    ],
    "asof": false,
    "sketch_add": []
   },
   {
    "v": {
+    "type": "media",
+    "lib": "commons_doljanchi_2.jpg",
+    "caption": "판단 기준은 하나",
+    "caption_at": "0"
+   },
+   "lines": [
+    "결론부터 말하면, 금값을 맞히는 것보다 중요한 판단 기준이 하나 있어요."
+   ],
+   "en": [
+    "Short answer: there's one test that matters more than guessing the gold price."
+   ],
+   "asof": false,
+   "src": "사진: lesterhead · Wikimedia Commons (CC BY 2.0)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_jewelryshop_1.jpg",
+    "caption": "8분 안에",
+    "caption_at": "0"
+   },
+   "lines": [
+    "그 기준을 8분 안에 보여 드릴게요."
+   ],
+   "en": [
+    "I'll show you that test in the next eight minutes."
+   ],
+   "asof": false,
+   "sketch_add": [],
+   "src": "사진: Pos Lam Wrowury Uemkpoa · Wikimedia Commons (CC BY-SA 4.0)"
+  },
+  {
+   "v": {
     "type": "sketch"
    },
    "lines": [
-    "증권 계좌로 금을 사고파는 한국거래소 금시장 값으로 재 보면,",
-    "1월 29일 꼭대기 땐 한 돈에 101만 원이었습니다. 지금은 한국거래소 금시장에서도 64만 원 안팎입니다."
+    "숫자부터 볼게요. 금은방에 팔 때 값은 10월 26일 기준 한 돈 64만 원.",
+    "증권 계좌로 금을 사고파는 한국거래소 금시장에선 1월 29일 꼭대기가 101만 원이었고 공교롭게 지금 시세도 64만 원 안팎이에요."
    ],
    "en": [
-    "Measured on the Korea Exchange gold market,",
-    "it peaked at 1.01 million won a don on January 29. Today it's about 640,000 there too."
+    "First, the numbers. A jeweler pays 640,000 won a don, as of October 26.",
+    "On the Korea Exchange gold market, where you trade gold in a brokerage account, it peaked at 1.01 million on January 29 and is about 640,000 now."
    ],
    "asof": false,
    "src": "한국금거래소 시세 (2026년 10월 26일 · 팔 때 64만 원) · 한국거래소 금시장 금 99.99 1g 1월 29일 최고 26만 9,810원 × 3.75g",
@@ -244,6 +278,39 @@
      "rot": 3,
      "line": 0,
      "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "지금 · 64만 원 안팎",
+     "x": 1100,
+     "y": 700,
+     "size": 54,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.85
+    },
+    {
+     "kind": "print",
+     "text": "한국거래소 금시장",
+     "x": 1100,
+     "y": 780,
+     "size": 44,
+     "w": "Bold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.88
+    },
+    {
+     "kind": "print",
+     "text": "꼭대기 → 지금, 아홉 달",
+     "x": 1040,
+     "y": 610,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.42
     }
    ]
   },
@@ -274,7 +341,30 @@
    ],
    "asof": false,
    "src": "한국거래소 금시장 금 99.99 1g 종가 (2026년 1월 29일 26만 9,810원 · 10월 26일 17만 400원) · 사진: Stevebidmead · Wikimedia Commons (CC0)",
-   "sketch_add": []
+   "sketch_add": [
+    {
+     "kind": "icons",
+     "icon": "ring",
+     "x": 150,
+     "y": 800,
+     "size": 90,
+     "n": 3,
+     "gap": 30,
+     "color": "ink",
+     "line": 0,
+     "at": 0.4
+    },
+    {
+     "kind": "circle",
+     "cx": 475,
+     "cy": 845,
+     "rx": 80,
+     "ry": 70,
+     "color": "red",
+     "line": 0,
+     "at": 0.7
+    }
+   ]
   },
   {
    "v": {
@@ -309,95 +399,6 @@
      "at": 0.6
     }
    ]
-  },
-  {
-   "v": {
-    "type": "kinetic",
-    "backdrop": "commons_doljanchi_2.jpg",
-    "bd_dim": 0.74,
-    "words": [
-     {
-      "t": "팔까?",
-      "at": "0:팔아야",
-      "size": 170,
-      "c": "acc",
-      "under": true
-     },
-     {
-      "t": "둘까?",
-      "at": "0:둬야",
-      "size": 170,
-      "c": "ivory",
-      "x": "r"
-     },
-     {
-      "t": "돌잔치 반지 하나의 고민",
-      "at": "0:그냥",
-      "size": 80,
-      "c": "muted"
-     }
-    ]
-   },
-   "lines": [
-    "그럼 지금 팔아야 할까요, 그냥 둬야 할까요?"
-   ],
-   "en": [
-    "So should you sell now, or hold on?"
-   ],
-   "asof": false,
-   "src": "사진: lesterhead · Wikimedia Commons (CC BY 2.0)",
-   "sketch_add": [
-    {
-     "kind": "icons",
-     "icon": "ring",
-     "x": 1250,
-     "y": 660,
-     "size": 100,
-     "n": 1,
-     "gap": 20,
-     "color": "gold",
-     "line": 0,
-     "at": 0.7
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "checklist",
-    "title": "끝까지 보면 알게 되는 것",
-    "title_en": "What you'll take away",
-    "backdrop": "commons_goldbars_3.jpg",
-    "bd_dim": 0.76,
-    "items": [
-     [
-      "금값이 37% 빠진 이유",
-      "1:이유"
-     ],
-     [
-      "금값이 오르든 내리든 돈을 버는 사람",
-      "2:버는"
-     ],
-     [
-      "워렌 버핏이 금 대신 산 것, 돌반지 판단 기준 3가지",
-      "3:워렌"
-     ]
-    ]
-   },
-   "lines": [
-    "이 영상에서 풀어 볼 건 세 가지예요.",
-    "첫째, 금값이 37% 빠진 이유.",
-    "둘째, 금값이 오르든 내리든 돈을 버는 사람.",
-    "셋째, 워렌 버핏이 금 대신 산 것과 돌반지를 팔지 둘지 판단하는 기준이에요."
-   ],
-   "en": [
-    "We'll unpack three things.",
-    "One: why gold fell 37%.",
-    "Two: who makes money whether gold rises or falls.",
-    "Three: what Warren Buffett bought instead of gold, and three ways to decide whether to sell your ring."
-   ],
-   "asof": false,
-   "src": "사진: Ibex73 · Wikimedia Commons (CC BY 4.0)",
-   "sketch_add": []
   },
   {
    "v": {
@@ -438,6 +439,17 @@
      "color": "red",
      "line": 0,
      "at": 0.55
+    },
+    {
+     "kind": "print",
+     "text": "한국만 8%p 더",
+     "x": 140,
+     "y": 820,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.5
     }
    ]
   },
@@ -550,6 +562,17 @@
      "color": "gold",
      "line": 0,
      "at": 0.9
+    },
+    {
+     "kind": "print",
+     "text": "1월 한 달",
+     "x": 1220,
+     "y": 130,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.64
     }
    ]
   },
@@ -602,7 +625,7 @@
    "lines": [
     "그리고 거기가 꼭대기였어요. 같은 기준으로 2월 말 90만 원, 6월 말 74만 원,",
     "10월 26일엔 64만 원까지 내려왔습니다.",
-    "중간에 잠깐 쉬어 가긴 했지만 아홉 달 내내 계단을 내려온 모양이에요.",
+    "아홉 달 내내 계단을 내려온 모양이죠.",
     "도대체 누가 금값을 이렇게 끌어내렸을까요?"
    ],
    "en": [
@@ -699,6 +722,28 @@
      "color": "gray",
      "line": 2,
      "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "누가 끌어내렸나?",
+     "x": 1400,
+     "y": 560,
+     "size": 54,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 3,
+     "at": 0.5
+    },
+    {
+     "kind": "print",
+     "text": "아홉 달 내리막",
+     "x": 1430,
+     "y": 130,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 2,
+     "at": 0.72
     }
    ]
   },
@@ -736,8 +781,8 @@
     ]
    },
    "lines": [
-    "첫 번째 이유는 금리예요. 지난 9월 16일 미국 중앙은행이 금리를 올렸습니다. 2023년 7월 이후 처음이었죠.",
-    "중동 긴장에 기름값이 뛰고 물가가 다시 오르자 꺼낸 처방이었습니다."
+    "가을 하락의 첫 번째 이유는 금리예요. 지난 9월 16일 미국 중앙은행이 금리를 올렸습니다. 2023년 7월 이후 처음이었죠.",
+    "기름값과 물가가 다시 뛰자 꺼낸 처방입니다."
    ],
    "en": [
     "Reason one: interest rates. On September 16 the U.S. Federal Reserve raised rates, its first hike since July 2023.",
@@ -777,7 +822,19 @@
    ],
    "asof": false,
    "src": "미국 10년 만기 국채 금리 (CNBC · 파이낸셜뉴스 2026.9.24, 9월 23일 5.104%) · 10월 23일 약 4.96% (24/7 월스트리트)",
-   "sketch_add": []
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "이자가 오르면 금 들고 있기 부담",
+     "x": 140,
+     "y": 640,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.64
+    }
+   ]
   },
   {
    "v": {
@@ -785,7 +842,7 @@
    },
    "lines": [
     "금의 약점은 여기 있어요. 이자가 한 푼도 없다는 것.",
-    "9월 말 금리라면 미국 국채에 1만 달러를 넣었을 때 1년에 500달러쯤 이자가 붙어요. 금고 속 금괴는 1년 뒤에도 그대로입니다.",
+    "9월 말 금리라면 미국 국채에 1만 달러를 넣으면 1년 이자가 500달러쯤. 금고 속 금괴는 1년 뒤에도 그대로예요.",
     "그 이자를 포기하는 셈이니, 이자가 오를수록 금을 들고 있기가 비싸지죠."
    ],
    "en": [
@@ -940,7 +997,7 @@
     ]
    },
    "lines": [
-    "두 번째 이유는 1월에 몰려든 단기 자금입니다. 값이 오를 때 뒤따라 들어온 돈이 빠져나가면서 1월 꼭대기 뒤 20% 넘는 하락을 키웠다는 해석이에요.",
+    "두 번째 이유는 봄 하락을 키운, 1월에 몰려든 단기 자금입니다. 값이 오를 때 뒤따라 들어온 돈이 빠져나가면서 1월 꼭대기 뒤 20% 넘는 하락을 키웠다는 해석이에요.",
     "올라갈 때 줄 서서 탄 엘리베이터에서 다 같이 내리려니 문이 좁았던 셈이죠."
    ],
    "en": [
@@ -981,6 +1038,39 @@
      "color": "ink",
      "line": 1,
      "at": 0.15
+    },
+    {
+     "kind": "print",
+     "text": "1월 고점 뒤 -20% 넘게",
+     "x": 1130,
+     "y": 355,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.27
+    },
+    {
+     "kind": "print",
+     "text": "오를 때 뒤따라 산 돈",
+     "x": 1130,
+     "y": 430,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.66
+    },
+    {
+     "kind": "print",
+     "text": "다 같이 내리려니 좁은 문",
+     "x": 1130,
+     "y": 505,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.71
     }
    ]
   },
@@ -993,7 +1083,7 @@
    },
    "lines": [
     "그런데 지난주엔 더 이상한 일이 있었어요. 미국 금리가 오히려 내렸는데 금값도 같이 빠진 겁니다.",
-    "금리와 금값이 이렇게 함께 빠진 건 2008년 12월 이후 처음이라는 분석까지 나왔습니다."
+    "금리와 금값이 이렇게 함께 빠진 건 금융위기가 한창이던 2008년 12월 이후 처음이라는 분석까지 나왔습니다."
    ],
    "en": [
     "Then last week something stranger happened: U.S. yields fell, and gold fell with them.",
@@ -1056,6 +1146,28 @@
      "color": "gray",
      "line": 1,
      "at": 0.75
+    },
+    {
+     "kind": "print",
+     "text": "지난주의 이상한 일",
+     "x": 1100,
+     "y": 860,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.34
+    },
+    {
+     "kind": "print",
+     "text": "드문 동반 하락",
+     "x": 140,
+     "y": 880,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.23
     }
    ]
   },
@@ -1067,7 +1179,7 @@
      {
       "v": "나스닥 -2.6%",
       "l": "10월 22일",
-      "at": "0:급락만"
+      "at": "0:급락은"
      },
      {
       "v": "현금 마련",
@@ -1077,14 +1189,14 @@
     ]
    },
    "lines": [
-    "지난주 급락은 세 번째 이유 때문이라는 분석이 많아요. 미국 기술주가 크게 빠지자 빚을 내 투자한 사람들이 급하게 현금이 필요해졌습니다.",
-    "이럴 땐 금이 먼저 팔리는 일이 많아요. 언제든 바로 현금으로 바꿀 수 있으니까요.",
-    "시장에선 이렇게 봐요. 금이 미워서 판 게 아니라, 지갑에서 제일 빨리 현금이 되는 게 금이었을 뿐이라고요."
+    "지난주 급락은 세 번째 이유, 현금 확보 때문이라는 분석이 많아요. 미국 기술주가 크게 빠지자 빚을 내 투자한 사람들이 급히 현금이 필요해졌거든요.",
+    "이럴 땐 바로 현금이 되는 금이 먼저 팔리곤 합니다.",
+    "금이 미워서가 아니라, 지갑에서 제일 빨리 현금이 되는 게 금이었을 뿐이죠."
    ],
    "en": [
-    "Most analysts point to reason three for last week's plunge. As U.S. tech stocks tumbled, leveraged investors suddenly needed cash.",
-    "In moments like that, gold is often sold first, because it turns into cash instantly.",
-    "Not because anyone stopped liking gold. It was just the fastest thing in the wallet to turn into cash."
+    "Many analysts blame last week's drop on the third reason: raising cash. When U.S. tech stocks fell hard, investors who had borrowed to invest suddenly needed cash.",
+    "At times like that, gold is often sold first because it turns into cash instantly.",
+    "Nobody hated gold. It was just the fastest thing in the wallet to turn into cash."
    ],
    "asof": false,
    "src": "서울경제 2026.10.24 (10월 22일 나스닥 -2.6%, 마진콜 매도 분석) · 키트코 2026.10.23",
@@ -1132,6 +1244,28 @@
      "color": "yellow",
      "line": 2,
      "at": 0.7
+    },
+    {
+     "kind": "print",
+     "text": "빚내 투자, 급히 현금",
+     "x": 1130,
+     "y": 355,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.83
+    },
+    {
+     "kind": "print",
+     "text": "제일 빨리 현금 = 금",
+     "x": 140,
+     "y": 820,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gold",
+     "line": 2,
+     "at": 0.5
     }
    ]
   },
@@ -1140,11 +1274,11 @@
     "type": "sketch"
    },
    "lines": [
-    "첫 번째 이야기, 금값이 빠진 세 가지 이유를 정리해 볼게요.",
-    "봄까지의 큰 하락엔 1월에 몰려든 돈이 빠져나간 몫이 컸고, 가을엔 높아진 이자가 금을 눌렀어요. 지난주 급락엔 급하게 현금이 필요한 손이 더해졌다는 분석입니다."
+    "금값이 빠진 세 가지 이유를 정리해 볼게요.",
+    "봄까지의 큰 하락엔 1월에 몰려든 돈이 빠져나간 몫이 컸다는 해석이 많고 가을엔 높아진 이자가 금을 눌렀어요. 지난주 급락엔 급하게 현금이 필요한 손이 더해졌다는 분석입니다."
    ],
    "en": [
-    "Part one: the three reasons gold fell.",
+    "Let's sum up the three reasons gold fell.",
     "The spring slide came largely from January's crowd leaving, higher interest weighed in the fall, and last week's plunge added sellers who needed cash fast."
    ],
    "asof": false,
@@ -1267,6 +1401,53 @@
      "rot": -2,
      "line": 0,
      "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "봄 · 가을 · 지난주",
+     "x": 1100,
+     "y": 130,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.51
+    },
+    {
+     "kind": "icons",
+     "icon": "coin",
+     "x": 1080,
+     "y": 277,
+     "size": 64,
+     "n": 1,
+     "gap": 10,
+     "color": "gold",
+     "line": 1,
+     "at": 0.12
+    },
+    {
+     "kind": "icons",
+     "icon": "bank",
+     "x": 1080,
+     "y": 447,
+     "size": 64,
+     "n": 1,
+     "gap": 10,
+     "color": "gold",
+     "line": 1,
+     "at": 0.45
+    },
+    {
+     "kind": "icons",
+     "icon": "clock",
+     "x": 1080,
+     "y": 617,
+     "size": 64,
+     "n": 1,
+     "gap": 10,
+     "color": "gold",
+     "line": 1,
+     "at": 0.78
     }
    ]
   },
@@ -1288,14 +1469,14 @@
     ]
    },
    "lines": [
-    "한국 금값은 왜 더 빠졌을까요? 국내 금값은 국제 시세에 원·달러 환율을 곱하고, 사려는 사람이 몰리면 붙는 국내 웃돈을 더해 정해져요.",
-    "올해 4월 보도에 따르면 국내 금값은 국제 시세보다 평균 7~10%, 많게는 20%까지 비쌌던 날도 있었습니다.",
-    "그러니 8%포인트 차이는 환율과 웃돈, 이 두 가지에서 나온 거예요. 몇 대 몇인지 나누긴 어렵지만 웃돈은 금이 인기일 때 붙었다가 열기가 식으면 줄어드는 경우가 많습니다."
+    "한국 금값은 왜 더 빠졌을까요? 결론은 환율과 웃돈이에요. 국내 금값은 국제 시세에 원·달러 환율을 곱하고 사려는 사람이 몰리면 국내 웃돈이 붙어요.",
+    "올해 4월엔 국제 시세보다 평균 7~10%, 많게는 20%까지 비쌌던 날도 있었다고 보도됐습니다.",
+    "웃돈은 금이 인기일 때 붙었다가 열기가 식으면 줄어드는 경우가 많아요. 웃돈이 줄면, 같은 국제 시세에도 국내 금값은 더 내려가죠."
    ],
    "en": [
-    "So why did Korean gold fall further? The local price is the global price, times the won-dollar rate, plus a local premium.",
-    "An April report found Korean gold averaged 7 to 10% above the global price, and up to 20% on some days.",
-    "So the 8-point gap comes from the exchange rate and the premium. Hard to split exactly, but a premium usually builds when gold is hot and fades when the heat cools."
+    "Why did Korean gold fall more? In short: the exchange rate and the local premium. Korean gold is the global price times the won-dollar rate, plus a premium when buyers crowd in.",
+    "In April, reports said Korean gold traded 7 to 10% above the global price on average, and up to 20% on some days.",
+    "It's hard to split the 8-point gap exactly, but that premium tends to appear when gold is hot and shrink when the fever cools. When the premium shrinks, Korean gold falls more even at the same global price."
    ],
    "asof": false,
    "src": "머니투데이방송 MTN (2026년 4월 6일, 국내 금값 국제 시세 대비 평균 7~10%·최대 20% 높음) · 사진: Pos Lam Wrowury Uemkpoa · Wikimedia Commons (CC BY-SA 4.0)",
@@ -1370,6 +1551,39 @@
      "color": "yellow",
      "line": 2,
      "at": 0.85
+    },
+    {
+     "kind": "print",
+     "text": "결론: 환율 + 웃돈",
+     "x": 140,
+     "y": 820,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.77
+    },
+    {
+     "kind": "print",
+     "text": "4월 보도 · MTN",
+     "x": 1130,
+     "y": 355,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.8
+    },
+    {
+     "kind": "print",
+     "text": "웃돈 줄면 국내가 더 하락",
+     "x": 470,
+     "y": 820,
+     "size": 42,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 2,
+     "at": 0.83
     }
    ]
   },
@@ -1464,7 +1678,7 @@
     "type": "sketch"
    },
    "lines": [
-    "차이는 11만 원. 이 중 7만 원 가까이는 부가가치세예요. 살 때 값에 10%가 들어 있거든요. 나머지가 사고파는 쪽의 몫입니다.",
+    "차이는 11만 원. 이 중 7만 원 가까이는 부가가치세예요. 살 때 값에 10%가 들어 있거든요. 나머지가 사고파는 쪽 몫이고요.",
     "오늘 사서 바로 판다면 금값이 얼마나 올라야 본전일까요? 75만 원을 64만 원으로 나누면 1.17, 17%는 올라야 겨우 본전입니다.",
     "돌반지처럼 세공비까지 붙으면 그 문턱은 더 높아지고요."
    ],
@@ -1628,6 +1842,17 @@
      "color": "ink",
      "line": 2,
      "at": 0.5
+    },
+    {
+     "kind": "print",
+     "text": "부가세 10% 포함",
+     "x": 1100,
+     "y": 130,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.59
     }
    ]
   },
@@ -1644,14 +1869,14 @@
     ]
    },
    "lines": [
-    "금은방과 금을 들여와 파는 도매상은 사고팔 때마다 부가세를 뺀 이 차이에서 법니다. 금값이 오르든 내리든, 사고파는 사람이 많을수록요.",
-    "금값이 오르던 작년엔 금을 수입해 파는 한국금거래소 매출이 7조 7천억 원으로 1년 새 두 배가 됐다고 보도됐어요. 매출이 이익은 아니지만 금이 많이 오갈수록 길목이 바빠지는 건 분명하죠.",
-    "두 번째 이야기의 답입니다. 금값을 맞히는 사람보다, 금이 오가는 길목에 선 사람이 더 꾸준히 벌기 쉽죠."
+    "금은방과 도매상은 사고팔 때마다 부가세를 뺀 이 차이에서 법니다. 금값이 오르든 내리든, 오가는 금이 많을수록요.",
+    "금값이 오르던 작년, 한국금거래소 매출은 7조 7천억 원으로 1년 새 두 배가 됐다고 보도됐어요. 매출이 이익은 아니지만 길목이 바빠진 건 분명하죠.",
+    "금값을 맞히는 사람보다, 금이 오가는 길목에 선 사람이 더 꾸준히 벌기 쉽습니다."
    ],
    "en": [
-    "Jewelers and wholesalers earn on that gap, minus VAT, every time gold changes hands, up or down, as long as people trade.",
-    "In last year's rally, importer Korea Gold Exchange reportedly doubled its revenue to 7.7 trillion won. Revenue isn't profit, but more gold changing hands keeps the crossroads busy.",
-    "That's part two. The steadiest money goes not to those who predict gold, but to those standing where it changes hands."
+    "Jewelers and wholesalers earn that gap, minus VAT, every time gold changes hands. Up or down, the more gold moves, the more they make.",
+    "Last year, as gold rallied, Korea Gold Exchange's revenue was reported to have doubled to 7.7 trillion won. Revenue isn't profit, but the toll road clearly got busier.",
+    "Standing on the road gold travels tends to pay more steadily than guessing its price."
    ],
    "asof": false,
    "src": "머니투데이방송 MTN (2026년 4월 6일, 한국금거래소 2025년 매출 7조 7천억 원) · 사진: Pos Lam Wrowury Uemkpoa · Wikimedia Commons (CC BY-SA 4.0)",
@@ -1741,6 +1966,28 @@
      "color": "gold",
      "line": 2,
      "at": 0.75
+    },
+    {
+     "kind": "print",
+     "text": "예측보다 길목",
+     "x": 1130,
+     "y": 400,
+     "size": 54,
+     "w": "ExtraBold",
+     "color": "gold",
+     "line": 2,
+     "at": 0.38
+    },
+    {
+     "kind": "print",
+     "text": "매출과 이익은 다름",
+     "x": 1130,
+     "y": 760,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.75
     }
    ]
   },
@@ -1780,42 +2027,49 @@
     }
    },
    "lines": [
-    "참고로 같은 금이라도 사는 곳마다 값의 구조가 달라요. 금은방은 실물이라 부가세와 차이가 크게 붙습니다.",
-    "증권 계좌로 사는 한국거래소 금시장은 1그램 단위로 거래돼요. 실물로 찾지 않으면 부가가치세도 없습니다.",
-    "어디가 낫다기보다, 값이 붙는 구조가 다르다는 것만 알아 두세요."
+    "참고로 사는 곳마다 값의 구조도 달라요. 금은방은 실물이라 부가세와 차이가 크게 붙고,",
+    "증권 계좌로 사는 한국거래소 금시장은 1그램 단위로 거래되며 실물로 찾지 않으면 부가세가 없습니다."
    ],
    "en": [
-    "Where you buy changes the price structure. A jewelry shop sells physical gold, with VAT and a wide spread.",
-    "The Korea Exchange gold market trades in single grams through a brokerage account, with no VAT unless you withdraw the bars.",
-    "Not which is better: just know the price is built differently."
+    "Where you buy changes the price structure too. A jeweler sells physical gold, with VAT and a wide spread.",
+    "The Korea Exchange gold market trades in 1-gram units in a brokerage account, with no VAT unless you withdraw the metal."
    ],
    "asof": false,
    "src": "한국거래소 금시장 안내 (실물 인출 때 부가가치세 10%) · 한국금거래소 시세",
    "fine": "특정 거래처·상품을 권하는 내용이 아닙니다",
    "sketch_add": [
     {
-     "kind": "icons",
-     "icon": "ring",
-     "x": 1100,
-     "y": 700,
-     "size": 80,
-     "n": 1,
-     "gap": 20,
-     "color": "ink",
-     "line": 2,
-     "at": 0.6
+     "kind": "print",
+     "text": "실물엔 부가세와 차이",
+     "x": 140,
+     "y": 600,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.59
     },
     {
-     "kind": "icons",
-     "icon": "ledger",
-     "x": 1230,
-     "y": 700,
-     "size": 80,
-     "n": 1,
-     "gap": 20,
+     "kind": "print",
+     "text": "계좌는 1g 단위",
+     "x": 1000,
+     "y": 600,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.58
+    },
+    {
+     "kind": "print",
+     "text": "값이 붙는 구조의 차이",
+     "x": 140,
+     "y": 690,
+     "size": 44,
+     "w": "ExtraBold",
      "color": "ink",
-     "line": 2,
-     "at": 0.75
+     "line": 1,
+     "at": 0.37
     }
    ]
   },
@@ -2188,6 +2442,17 @@
      "rot": -3,
      "line": 0,
      "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "'용돈' 1조 달러",
+     "x": 140,
+     "y": 535,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gold",
+     "line": 1,
+     "at": 0.75
     }
    ]
   },
@@ -2204,7 +2469,7 @@
     ]
    },
    "lines": [
-    "100년 뒤를 상상해 볼까요? 농지는 그동안 옥수수와 밀, 면화를 끝없이 길러 낼 겁니다. 회사는 이익과 배당을 쌓아 가고요.",
+    "100년 뒤를 상상해 볼까요? 농지는 그동안 곡식을 끝없이 길러 낼 겁니다. 회사는 이익과 배당을 쌓아 가고요.",
     "정육면체는요? 100년 뒤에도 크기 그대로, 아무것도 낳지 않습니다."
    ],
    "en": [
@@ -2269,7 +2534,19 @@
    ],
    "asof": false,
    "src": "워렌 버핏 2011년 주주서한 (2012년 2월 25일) 'You can fondle the cube, but it will not respond.' · 사진: Ank Kumar · Wikimedia Commons (CC BY-SA 4.0)",
-   "sketch_add": []
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "대답은 없다",
+     "x": 830,
+     "y": 130,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gold",
+     "line": 1,
+     "at": 0.67
+    }
+   ]
   },
   {
    "v": {
@@ -2300,12 +2577,12 @@
    "lines": [
     "물론 그 뒤로 금도 올랐어요. 편지를 쓸 때 온스당 1,750달러였던 금이 지금은 4,000달러 안팎입니다.",
     "다만 워렌 버핏의 말은 금값이 오르냐 내리냐가 아니었어요. 금은 스스로 돈을 벌지 않으니 누군가 더 비싸게 사 줘야만 오른다는 거였죠.",
-    "그래서 버크셔 해서웨이는 금 대신 농지처럼 스스로 일하는 것, 바로 회사를 샀습니다. 세 번째 이야기의 앞부분이에요."
+    "그래서 버크셔 해서웨이는 금 대신 농지처럼 스스로 일하는 것, 바로 회사를 샀습니다."
    ],
    "en": [
     "Gold did rise afterward: from 1,750 dollars an ounce when he wrote to around 4,000 today.",
     "But his point wasn't whether gold goes up. Gold earns nothing on its own, so it rises only if someone pays more for it.",
-    "So Berkshire Hathaway bought things that work on their own, like farmland: businesses. That's the first half of part three."
+    "So Berkshire Hathaway bought what works on its own, like farmland: businesses."
    ],
    "asof": false,
    "src": "워렌 버핏 2011년 주주서한 (금값 온스당 1,750달러) · 국제 금값 2026년 10월 23~26일 약 3,990~4,050달러 (키트코)",
@@ -2384,6 +2661,39 @@
      "color": "gold",
      "line": 2,
      "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "약 2.3배",
+     "x": 1100,
+     "y": 130,
+     "size": 60,
+     "w": "ExtraBold",
+     "color": "gold",
+     "line": 0,
+     "at": 0.6
+    },
+    {
+     "kind": "print",
+     "text": "더 비싸게 사 줄 사람 필요",
+     "x": 1100,
+     "y": 385,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.43
+    },
+    {
+     "kind": "print",
+     "text": "편지 이후",
+     "x": 1100,
+     "y": 235,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.4
     }
    ]
   },
@@ -2456,6 +2766,17 @@
      "color": "gold",
      "line": 1,
      "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "중앙은행 = 꾸준한 매수자",
+     "x": 140,
+     "y": 475,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.72
     }
    ]
   },
@@ -2518,6 +2839,17 @@
      "color": "gold",
      "line": 1,
      "at": 0.5
+    },
+    {
+     "kind": "print",
+     "text": "골드만삭스 추정",
+     "x": 1130,
+     "y": 355,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.71
     }
    ]
   },
@@ -2528,12 +2860,12 @@
    "lines": [
     "이유는 보험이에요. 금은 어느 나라 정부의 약속에도 기대지 않는 자산이라, 달러나 국채에 무슨 일이 생겨도 남아 있으니까요.",
     "워렌 버핏도 이건 인정했습니다. 100년 뒤에도 사람들은 두려울 때 금으로 달려갈 거라고요.",
-    "금을 사는 건 보험을 사는 거예요. 회사를 사는 건 일하는 사람을 사는 거죠. 둘은 애초에 다른 물건입니다."
+    "금을 사는 건 보험을 사는 거예요. 회사를 사는 건 일하는 사람을 사는 거죠."
    ],
    "en": [
     "The reason is insurance. Gold doesn't rely on any government's promise, so it stays even if something happens to the dollar or bonds.",
     "Buffett admitted this too: a century from now, people will still rush to gold when they're afraid.",
-    "Buying gold is buying insurance; buying a company is hiring a worker. They're different things to begin with."
+    "Buying gold is buying insurance. Buying a company is buying a worker."
    ],
    "asof": false,
    "src": "워렌 버핏 2011년 주주서한 ('when people a century from now are fearful, it's likely many will still rush to gold')",
@@ -2689,8 +3021,8 @@
     "bd_dim": 0.74
    },
    "lines": [
-    "금값 전망은 어떻게 봐야 할까요? 짧게는 앞에서 본 세 가지 이유를 지켜보는 쪽이 현실적이에요.",
-    "미국 10년 만기 국채 금리가 오르면 금을 들고 있기가 비싸지고, 원·달러 환율과 웃돈이 오르면 국내 금값은 따라 오르기 쉬워요. 중앙은행이 사들이는 양은 금값을 받쳐 주는 손이고요."
+    "금값 전망은요? 짧게는 앞의 세 가지 이유를 지켜보는 게 현실적이에요.",
+    "미국 10년 만기 국채 금리가 오르면 금을 들고 있기가 비싸지고 원·달러 환율과 웃돈이 오르면 국내 금값은 따라 오르기 쉬워요. 중앙은행이 사들이는 양은 금값을 받쳐 주는 손이고요."
    ],
    "en": [
     "How should we read the gold outlook? In the short run, it's more practical to watch the three reasons we just covered.",
@@ -2722,6 +3054,50 @@
      "color": "gold",
      "line": 0,
      "at": 0.8
+    },
+    {
+     "kind": "print",
+     "text": "금리 · 환율 · 중앙은행",
+     "x": 1100,
+     "y": 160,
+     "size": 48,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.57
+    },
+    {
+     "kind": "print",
+     "text": "금리 오르면 금 보유 부담",
+     "x": 760,
+     "y": 395,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.35
+    },
+    {
+     "kind": "print",
+     "text": "매입량은 받쳐 주는 손",
+     "x": 760,
+     "y": 715,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.81
+    },
+    {
+     "kind": "print",
+     "text": "환율·웃돈 오르면 국내 금값 상승",
+     "x": 760,
+     "y": 555,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.24
     }
    ]
   },
@@ -2731,8 +3107,8 @@
    },
    "lines": [
     "하지만 길게 보면 그림이 달라집니다. 2000년 국제 금값은 온스당 평균 279달러였어요.",
-    "지금은 4,000달러 안팎이니 26년 동안 약 14배가 됐습니다. 2011년 뒤처럼 몇 년씩 빠진 때도 있었지만, 결국 다시 새 고점을 썼죠.",
-    "그래서 금은 오르내림을 맞히기보다 일정 비중을 꾸준히 들고 가는 자산으로 보는 시각이 많아요. 세계금협회 분석으로는 전체 자산의 약 2~9%가 적정 수준으로 꼽힙니다."
+    "지금은 4,000달러 안팎이니 26년 동안 약 14배가 됐습니다. 2011년 뒤처럼 몇 년씩 빠진 때도 있었지만 결국 다시 새 고점을 썼죠.",
+    "그래서 금은 오르내림을 맞히기보다 일정 비중을 꾸준히 들고 가는 자산으로 보는 시각이 많아요. 세계금협회 분석으론 전체 자산의 약 2~9%가 적정선으로 꼽혀요."
    ],
    "en": [
     "But zoom out and the picture changes. In 2000, gold averaged 279 dollars an ounce.",
@@ -2912,6 +3288,50 @@
      "w": "ExtraBold",
      "line": 2,
      "at": 0.75
+    },
+    {
+     "kind": "print",
+     "text": "2011년 뒤 몇 년 하락도",
+     "x": 1280,
+     "y": 130,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.72
+    },
+    {
+     "kind": "print",
+     "text": "맞히기보다 비중",
+     "x": 650,
+     "y": 850,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 2,
+     "at": 0.31
+    },
+    {
+     "kind": "print",
+     "text": "결국 다시 새 고점",
+     "x": 650,
+     "y": 640,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.58
+    },
+    {
+     "kind": "print",
+     "text": "꾸준히 들고 가는 자산",
+     "x": 1280,
+     "y": 730,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 2,
+     "at": 0.19
     }
    ]
   },
@@ -2920,13 +3340,13 @@
    "v": {
     "type": "title",
     "text": "돌반지, 팔까 둘까",
-    "sub": "판단 기준 세 가지"
+    "sub": "판단 기준 하나, 질문 세 개"
    },
    "lines": [
-    "자, 이제 장롱 속 반지로 돌아가 볼까요? 세 번째 이야기, 돌반지를 팔지 둘지 판단하는 기준 세 가지입니다."
+    "자, 장롱 속 반지로 돌아가 볼까요? 처음에 말씀드린 판단 기준은 하나, 이 금이 내 돈에서 무슨 역할을 하느냐예요. 질문 세 개로 확인해 보세요."
    ],
    "en": [
-    "Back to the ring in the drawer. Part three: three ways to decide whether to sell or keep it."
+    "Back to the ring in the drawer. The one test I promised: what job does this gold do in your money? Check it with three questions."
    ],
    "asof": false,
    "sketch_add": []
@@ -2937,13 +3357,13 @@
    },
    "lines": [
     "첫째, 1년 안에 꼭 써야 할 돈인가요? 그렇다면 시세보다 쓸 날짜를 기준으로 정하는 게 마음이 편해요. 금값이 언제 어느 쪽으로 움직일지는 아무도 모르니까요.",
-    "둘째, 팔고 나서 다시 살 계획이 있나요? 그렇다면 다시 살 때 17%의 문턱을 또 넘어야 해요.",
-    "셋째, 내 자산에서 금이 차지하는 비중은 얼마인가요? 앞에서 본 2~9%보다 훨씬 많다면 일부 정리를, 그 안이라면 그대로 두는 쪽을 생각해 볼 수 있어요."
+    "둘째, 다시 사거나 새로 살 생각이 있나요? 그렇다면 살 때마다 17%의 문턱을 넘어야 해요.",
+    "셋째, 내 자산에서 금이 차지하는 비중은 얼마인가요? 앞에서 본 2~9%보다 훨씬 많다면 비중을 점검해 볼 이유가 되고 그 안이라면 서두를 이유는 줄어들어요."
    ],
    "en": [
     "One: will you need this money within a year? Then decide by the date you need it, not the price. No one knows which way gold will move, or when.",
-    "Two: do you plan to buy again later? Then you'll face that 17% hurdle again.",
-    "Three: what share of your assets is gold? If it's far above 2 to 9%, consider trimming; if it's within that range, keeping it is reasonable."
+    "Second: do you plan to buy back, or buy fresh? Then every purchase has to clear that 17% hurdle.",
+    "Third: how much of your wealth is gold? Far above the 2 to 9% we saw, that's a reason to review it; within that range, there's less reason to rush."
    ],
    "asof": false,
    "sketch": [
@@ -3062,11 +3482,11 @@
     "caption_at": "2"
    },
    "lines": [
-    "실제로 파신다면 금은방 두세 곳의 매입가를 비교해 보세요. 세공비는 돌려받지 못한다는 것도 기억해 두세요.",
+    "실제로 파신다면 순도 표시와 무게를 확인하고 금은방 두세 곳의 매입가를 비교해 보세요. 세공비는 돌려받지 못한다는 것도 기억해 두세요.",
     "그리고 그 반지가 아이 첫 생일의 기억이라면, 그 값은 시세판에 없을지도 모르고요."
    ],
    "en": [
-    "If you do sell, compare buy-back prices at two or three shops, and remember the craftsmanship fee doesn't come back.",
+    "If you do sell, check the purity mark and weight, compare offers from two or three jewelers, and remember the craftsmanship fee won't come back.",
     "And if that ring holds a child's first birthday, that value isn't on any price board."
    ],
    "asof": false,
@@ -3081,7 +3501,7 @@
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
-     "at": 0.3
+     "at": 0.45
     },
     {
      "kind": "print",
@@ -3092,7 +3512,7 @@
      "w": "Bold",
      "color": "gray",
      "line": 0,
-     "at": 0.75
+     "at": 0.8
     },
     {
      "kind": "icons",
@@ -3104,10 +3524,31 @@
      "gap": 20,
      "color": "gold",
      "line": 1,
-     "at": 0.55
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "시세판에 없는 값",
+     "x": 1170,
+     "y": 850,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gold",
+     "line": 1,
+     "at": 0.85
+    },
+    {
+     "kind": "print",
+     "text": "순도 표시 · 무게 확인",
+     "x": 1170,
+     "y": 320,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.12
     }
-   ],
-   "sketch": []
+   ]
   },
   {
    "v": {
@@ -3135,14 +3576,14 @@
     ]
    },
    "lines": [
-    "마지막으로 하나만요. 금에는 점수를 매길 수가 없어요. 벌어들이는 이익이 없으니까요.",
-    "회사는 이익이 있어서 따져 볼 수 있습니다. 밸류노트는 대가들의 기준으로 600여 회사를 매일 100점 만점으로 매겨요. 돈 버는 힘은 재무 점수로, 지금 값이 싼지는 가격 점수로 나눠서요.",
-    "좋은 회사와 좋은 가격은 서로 다른 질문이거든요."
+    "마지막으로 하나만요. 금엔 점수를 매길 수 없어요. 벌어들이는 이익이 없으니까요.",
+    "스스로 버는 회사는 다르죠. 밸류노트는 대가들의 기준으로 600여 회사를 매일 100점 만점으로 매기는데,",
+    "좋은 회사인지와 좋은 가격인지를 따로 봅니다."
    ],
    "en": [
-    "One last thing. You can't score gold. It has no earnings.",
-    "Companies have earnings, so they can be scored. ValueNote scores 600-plus companies daily out of 100 by great investors' standards, with separate scores for earning power and for price.",
-    "A good company and a good price are two different questions."
+    "One last thing. You can't score gold. It earns nothing.",
+    "Companies that earn are different. ValueNote scores about 600 of them every day out of 100, using the great investors' standards,",
+    "and it judges a good company and a good price separately."
    ],
    "asof": true,
    "src": "밸류노트 ({asof} 기준)",
@@ -3166,17 +3607,21 @@
      "at": "1:일본"
     },
     "backdrop": "commons_goldbars_3.jpg",
-    "bd_dim": 0.74
+    "bd_dim": 0.74,
+    "note": {
+     "text": "장롱 속 금, 몇 돈인가요?",
+     "at": "2:몇"
+    }
    },
    "lines": [
     "이런 숫자 뒤 이야기가 더 궁금하시면 구독과 좋아요, 알림 설정 부탁드려요.",
-    "워렌 버핏이 일본에서 고른 회사들 이야기도 함께 보시면 좋습니다.",
-    "여러분 장롱 속 금은 몇 돈인가요? 댓글로 알려 주세요. 감사합니다."
+    "워렌 버핏이 고른 일본 회사 이야기도 함께 보세요.",
+    "여러분 장롱 속 금은 몇 돈인가요? 댓글로 알려 주세요."
    ],
    "en": [
     "If you want more stories behind the numbers, please subscribe, like, and turn on notifications.",
-    "The story of the companies Warren Buffett picked in Japan is worth watching too.",
-    "How much gold is in your drawer? Tell us in the comments. Thank you."
+    "And watch the story of the Japanese companies Warren Buffett picked.",
+    "How much gold is in your drawer? Tell us in the comments."
    ],
    "asof": false,
    "src": "",
