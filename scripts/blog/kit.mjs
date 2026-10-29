@@ -30,7 +30,9 @@ const FONT_DIR = path.join(path.dirname(req.resolve('pretendard/package.json')),
 const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900]].map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FONT_DIR, `Pretendard-${w}.subset.woff`)), weight: n, style: 'normal' }));
 // 2026-10-23 확정 로고: Montserrat ExtraBold 'Value'+'Note'(아이보리 베이지), 얇은 금색 줄, 가운데 '밸류노트' (scripts/brand.py와 같은 모양)
 fonts.push({ name: 'M', data: fs.readFileSync(new URL('../reels/fonts/Montserrat-ExtraBold.ttf', import.meta.url)), weight: 800, style: 'normal' });
-const VNL = (size, st = {}) => h('div', { flexDirection: 'column', alignItems: 'center', ...st },
+// 2026-10-29 운영자 결정: 블로그는 일반 블로거 글처럼 — 이미지에 밸류노트 로고·주소를 기본으로 넣지 않는다. 넣어야 할 때만 BRAND=on.
+const BRAND = process.env.BRAND === 'on';
+const VNL = (size, st = {}) => !BRAND ? null : h('div', { flexDirection: 'column', alignItems: 'center', ...st },
   h('div', { fontFamily: 'M', fontSize: size, fontWeight: 800, letterSpacing: -0.3, color: '#FFFFFF', lineHeight: 1, paddingBottom: Math.round(size * .2), borderBottom: '1.5px solid #D8C294' }, 'Value', h('span', { color: '#EADBB9' }, 'Note')),
   h('div', { fontFamily: 'P', fontSize: Math.round(size * .5), fontWeight: 700, letterSpacing: Math.round(size * .11), paddingLeft: Math.round(size * .11), marginTop: Math.round(size * .3), color: '#EADBB9', lineHeight: 1 }, '밸류노트'));
 
@@ -59,7 +61,7 @@ function frame(body, foot = '') {
       h('div', { width: 64, height: 4, borderRadius: 4, background: C.gold2 })),
     h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' }, body),
     h('div', { justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 22, color: C.dim, fontWeight: 700 },
-      t(foot || '투자 교육용 정보 · 매수·매도 권유가 아닙니다', {}), t('valuenote.co.kr', {})));
+      t(foot || '투자 교육용 정보 · 매수·매도 권유가 아닙니다', {}), BRAND ? t('valuenote.co.kr', {}) : null));
 }
 // 줄바꿈(\n)이 있으면 줄마다 따로 그린다 (satori가 \n을 공백처럼 다뤄 어색하게 끊기는 것을 막음)
 const title = (s, size = 54) => String(s).includes('\n')

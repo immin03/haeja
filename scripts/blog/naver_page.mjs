@@ -43,7 +43,7 @@ if (category && !CATS.includes(category)) console.warn(`⚠ 블로그 카테고�
 const BLANK = '<p><br></p>';
 const blockHtml = (b) => {
   if (b.h) return `<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> ${inline(b.h)}</b></span></p>`;
-  if (b.p && /^— Editor:/.test(b.p)) return `<p style="text-align:right"><b>${inline(b.p)}</b></p>`;
+  if (b.p && /^— (Editor: )?Luciano$/.test(b.p)) return `<p style="text-align:right"><b>${inline(b.p)}</b></p>`;
   if (b.p) return `<p>${inline(b.p)}</p>`;
   if (b.img && b.href) return `<p><a href="${esc(b.href)}"><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></a></p>`;
   if (b.img) return `<p><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></p>${b.cap ? `<p><span style="color:#888888;font-size:13px">${esc(b.cap)}</span></p>` : ''}`;

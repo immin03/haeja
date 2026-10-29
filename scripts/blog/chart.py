@@ -39,9 +39,12 @@ unit, dec = sp.get("unit", ""), sp.get("decimals", 1)
 fig = plt.figure(figsize=(10.8, 10.8), dpi=100)
 fig.patch.set_facecolor(C["bg"])
 # 머리 (로고·머리말·제목)
-fig.text(0.067, 0.94, "Value", color=C["ink"], fontsize=24, fontweight="black", va="center")
-fig.text(0.155, 0.94, "Note", color=C["gold"], fontsize=24, fontweight="black", va="center")
-fig.text(0.235, 0.94, "밸류노트", color=C["gold2"], fontsize=16, fontweight="bold", va="center")
+# 2026-10-29 운영자 결정: 블로그는 일반 블로거 글처럼 — 로고·주소는 BRAND=on 일 때만
+BRAND = os.environ.get("BRAND") == "on"
+if BRAND:
+    fig.text(0.067, 0.94, "Value", color=C["ink"], fontsize=24, fontweight="black", va="center")
+    fig.text(0.155, 0.94, "Note", color=C["gold"], fontsize=24, fontweight="black", va="center")
+    fig.text(0.235, 0.94, "밸류노트", color=C["gold2"], fontsize=16, fontweight="bold", va="center")
 y = 0.86
 if sp.get("eyebrow"):
     fig.text(0.067, y, sp["eyebrow"], color=C["gold"], fontsize=19, fontweight="extra bold", va="top"); y -= 0.045
@@ -108,6 +111,7 @@ ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:,
 if sp.get("note"):
     fig.text(0.067, 0.115, sp["note"], color=C["ink"], fontsize=19, fontweight="bold", va="top", wrap=True)
 fig.text(0.067, 0.045, sp.get("foot", "투자 교육용 정보 · 매수·매도 권유가 아닙니다"), color=C["dim"], fontsize=14, fontweight="bold")
-fig.text(0.933, 0.045, "valuenote.co.kr", color=C["dim"], fontsize=14, fontweight="bold", ha="right")
+if BRAND:
+    fig.text(0.933, 0.045, "valuenote.co.kr", color=C["dim"], fontsize=14, fontweight="bold", ha="right")
 fig.savefig(out, facecolor=C["bg"])
 print("✓", out)
