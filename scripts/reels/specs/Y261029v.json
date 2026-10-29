@@ -805,67 +805,31 @@
      {
       "kind": "write",
       "rows": [
-       "평균 이익까지",
-       "따져 본 적정 주가"
+       "풀버전",
+       "SK하이닉스 롱폼"
       ],
       "x": 80,
       "y": 540,
-      "size": 96,
+      "size": 100,
       "line": 1,
       "at": 0.1,
       "dur": 1.0
-     },
-     {
-      "kind": "photo",
-      "src": "scripts/blog/media/lib/commons_seoulnight_1.jpg",
-      "x": 560,
-      "y": 860,
-      "w": 420,
-      "h": 260,
-      "rot": 3,
-      "cap": "서울",
-      "line": 2,
-      "at": 0.0
-     },
-     {
-      "kind": "write",
-      "rows": [
-       "밸류노트",
-       "팔로우"
-      ],
-      "x": 80,
-      "y": 860,
-      "size": 120,
-      "color": "red",
-      "line": 2,
-      "at": 0.3,
-      "dur": 0.9
-     },
-     {
-      "kind": "circle",
-      "cx": 300,
-      "cy": 980,
-      "rx": 260,
-      "ry": 170,
-      "color": "gold",
-      "line": 2,
-      "at": 1.1
      },
      {
       "kind": "arrow",
       "pts": [
        [
         320,
-        1150
+        800
        ],
        [
         320,
-        1280
+        960
        ]
       ],
       "color": "red",
-      "line": 2,
-      "at": 1.5,
+      "line": 1,
+      "at": 0.7,
       "width": 12
      }
     ]
