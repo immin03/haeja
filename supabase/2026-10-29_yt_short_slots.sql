@@ -2,7 +2,7 @@
 -- "슬롯을 3개일 때와 4~5개일 때를 각각 두고, 하나가 추가되면 남는 칸에, 우선순위면 기존 칸에 넣고 원래 거는 뒤로.
 --  쇼츠는 11시(23시) 전에 다 끝내고, 하루 3개 많게는 5개. 벤치마킹 승인분은 렌더 끝나는 시간 계산해서 최대한 빨리."
 --
--- 슬롯(KST): 기본 07:40 · 12:10 · 19:40 / 추가 17:40 · 21:40 / 하루 최대 5편 / 22:59 이후 금지
+-- 슬롯(KST): 기본 07:45 · 12:15 · 19:45 / 추가 17:45 · 21:45 (스튜디오 예약은 15분 단위) / 하루 최대 5편 / 22:59 이후 금지
 -- 우선순위: 2 = 벤치마킹 승인 반영(노트에 '벤치마킹'), 1 = 급변·실적(id 끝 u·q 또는 노트 '급변'·'실적'), 0 = 일반
 --   우선순위 편: 렌더 끝난 시각 + 30분 이후의 가장 빠른 칸(기본·추가 구분 없이). 아직 스튜디오에 안 올라간 일반 편이 있던 칸이면 그 칸을 차지하고 일반 편은 뒤로 밀림.
 --   일반 편: 원래 날짜의 기본 칸 먼저 → 그날 추가 칸 → 다음 날.
@@ -11,7 +11,7 @@
 alter table public.youtube_posts add column if not exists priority smallint;
 
 insert into public.app_config (key, value) values ('yt_short_slots',
-  '{"base":["07:40","12:10","19:40"],"extra":["17:40","21:40"],"max_per_day":5,"latest":"22:59","lead_min":30,"block_min":90}'::jsonb)
+  '{"base":["07:45","12:15","19:45"],"extra":["17:45","21:45"],"max_per_day":5,"latest":"22:59","lead_min":30,"block_min":90}'::jsonb)
 on conflict (key) do update set value = excluded.value;
 
 create or replace function public.yt_short_prio(p public.youtube_posts) returns int
