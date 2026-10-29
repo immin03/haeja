@@ -1,0 +1,42 @@
+[
+ {
+  "id": "cbv1_bowl",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cb1_bowl.jpeg",
+  "body": {
+   "prompt": "The magpie pecks once at the bowl's rim while the cat slowly licks her lips; leaves sway softly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cbv2_rain",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cb2_rain.jpeg",
+  "body": {
+   "prompt": "Rain falls steadily; the mother cat pulls the kittens a little closer; the magpie on the wall slowly tilts its head. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cbv3_basket",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cb3_basket.jpeg",
+  "body": {
+   "prompt": "The magpie gives one small final tug on the basket rim with its beak, then lets go and shakes the rain from its head. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "cbv4_spring",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/cb4_spring.jpeg",
+  "body": {
+   "prompt": "The adult magpie on the nest rim dips its head down toward the cats; the three cats slowly blink up at it. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ }
+]

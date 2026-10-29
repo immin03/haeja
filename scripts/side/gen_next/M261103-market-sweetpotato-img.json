@@ -1,0 +1,53 @@
+[
+ {
+  "id": "mk1_gift",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "GRANDMA (years ago): a Korean market grandma in her late sixties, black-grey permed short hair, round kind face, a red-and-navy floral padded vest, dark sleeve covers on her arms. BOY (years ago): a thin Korean schoolboy about fourteen, short black hair, round glasses, navy school uniform jacket, an open dark-green backpack. PLACE: one small street stall at the corner of an old Korean traditional market alley: a low wooden platform with flat round bamboo baskets of napa cabbages, green onions and radishes, a little round black charcoal drum with roasted sweet potatoes on top, a striped canvas awning on a thin metal pole, one warm bare bulb. No signs, no price tags, no posters, no writing anywhere. SWEET POTATO: a roasted sweet potato with purple-brown skin, wrapped halfway in plain brown paper. The magpie is tiny: about the size of a roasted sweet potato. Years ago, a winter dusk, slightly faded colours like an old memory. The thin schoolboy stands in front of the stall; the grandma leans over and drops a warm roasted sweet potato wrapped in plain brown paper into his open backpack, steam rising. Exactly one magpie perches on the awning pole above, watching. Hands simple and mostly hidden. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mk2_unsold",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "GRANDMA (now): the same grandma in her mid-eighties, snow-white permed short hair, the same round kind face with deeper smile wrinkles, the same red-and-navy floral padded vest, a little more bent. PLACE: one small street stall at the corner of an old Korean traditional market alley: a low wooden platform with flat round bamboo baskets of napa cabbages, green onions and radishes, a little round black charcoal drum with roasted sweet potatoes on top, a striped canvas awning on a thin metal pole, one warm bare bulb. No signs, no price tags, no posters, no writing anywhere. The magpie is tiny: about the size of a roasted sweet potato. Now, a snowy winter night, the market alley empty and dark beyond the stall. The baskets are still piled high with unsold cabbages and green onions, a little snow on them. The old grandma sits small on a low stool under the single warm bulb, shoulders hunched, hands tucked into her sleeves. The charcoal drum is cold and empty. Exactly one magpie on the awning pole looks down the empty alley. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mk3_lead",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/mk1_gift"
+  ],
+  "body": {
+   "prompt": "MAN (now): the same boy grown into a man about thirty-five, short black hair, the same round glasses, a navy wool coat over a grey suit, a grey scarf. The magpie is tiny: about the size of a roasted sweet potato. The snowy entrance of the same old market alley at night, warm shop lights far behind, no signs, no writing. The man in the navy coat with round glasses, holding a paper bag against his chest, has stopped walking and looks up. Exactly one magpie flutters just in front of his face at eye level, wings open, as if calling him into the alley. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "mk4_return",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/mk2_unsold",
+   "social/side/gen/mk3_lead"
+  ],
+  "body": {
+   "prompt": "GRANDMA (now): the same grandma in her mid-eighties, snow-white permed short hair, the same round kind face with deeper smile wrinkles, the same red-and-navy floral padded vest, a little more bent. MAN (now): the same boy grown into a man about thirty-five, short black hair, the same round glasses, a navy wool coat over a grey suit, a grey scarf. PLACE: one small street stall at the corner of an old Korean traditional market alley: a low wooden platform with flat round bamboo baskets of napa cabbages, green onions and radishes, a little round black charcoal drum with roasted sweet potatoes on top, a striped canvas awning on a thin metal pole, one warm bare bulb. No signs, no price tags, no posters, no writing anywhere. SWEET POTATO: a roasted sweet potato with purple-brown skin, wrapped halfway in plain brown paper. The magpie is tiny: about the size of a roasted sweet potato. At the stall under the warm bulb. The man crouches in front of the old grandma so their eyes are level; on the stall between them he has set down a warm roasted sweet potato wrapped halfway in plain brown paper, steam rising. Beside him on the ground stand several full plain paper bags of her cabbages and green onions; the baskets behind are now empty. The grandma looks at his round glasses with quiet recognition and a soft smile. Exactly one magpie sits on the empty basket rim. Hands simple and mostly hidden. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]

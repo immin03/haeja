@@ -1,0 +1,52 @@
+[
+ {
+  "id": "cb1_bowl",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "MOTHER CAT: a small calico street cat with white, orange and black patches, a short tail with a black tip, green eyes. PLACE: the stone jangdokdae platform in the back yard of an old hanok: rows of round brown earthenware crocks (onggi) with lids on a low stone platform, a low grey stone wall behind, a persimmon tree beside the wall, one small dented brass bowl on the platform edge. The magpie is tiny: about the size of the mother cat's head. Warm late-summer afternoon light. The mother cat and the magpie eat side by side from the one small dented brass bowl on the stone platform edge, peacefully, the magpie pecking at a crumb on the rim. Only one cat and only one magpie in the scene, no kittens. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "cb2_rain",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "MOTHER CAT: a small calico street cat with white, orange and black patches, a short tail with a black tip, green eyes. KITTENS: exactly two tiny calico kittens, one mostly orange, one mostly white. PLACE: the stone jangdokdae platform in the back yard of an old hanok: rows of round brown earthenware crocks (onggi) with lids on a low stone platform, a low grey stone wall behind, a persimmon tree beside the wall, one small dented brass bowl on the platform edge. The magpie is tiny: about the size of the mother cat's head. A cold late-autumn evening, heavy cold rain, blue-grey light. In the open gap between two crocks at the front of the stone platform, the soaked mother cat curls around her two tiny kittens, fur wet and flat, with no roof over them; the empty dented brass bowl collects rain. On top of the stone wall behind, exactly one magpie sits hunched in the rain, looking down at them. The persimmon tree is bare. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "cb3_basket",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/cb2_rain"
+  ],
+  "body": {
+   "prompt": "MOTHER CAT: a small calico street cat with white, orange and black patches, a short tail with a black tip, green eyes. KITTENS: exactly two tiny calico kittens, one mostly orange, one mostly white. PLACE: the stone jangdokdae platform in the back yard of an old hanok: rows of round brown earthenware crocks (onggi) with lids on a low stone platform, a low grey stone wall behind, a persimmon tree beside the wall, one small dented brass bowl on the platform edge. BASKET: a round shallow woven bamboo sieve-basket (sokuri), pale straw colour, about four times as wide as the magpie. The magpie is tiny: about the size of the mother cat's head. The same cold rainy evening at the same spot. The round woven bamboo sieve-basket now leans like a small roof over the gap between the two crocks, already covering the mother cat and her two kittens, who peek out dry from underneath. Exactly one magpie, soaked, stands on the stone platform at the basket's front rim, holding the rim in its beak as if it has just pulled it into place. A faint wet drag trail on the stone platform leads from the far side of the platform to the basket. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "cb4_spring",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/cb1_bowl"
+  ],
+  "body": {
+   "prompt": "MOTHER CAT: a small calico street cat with white, orange and black patches, a short tail with a black tip, green eyes. PLACE: the stone jangdokdae platform in the back yard of an old hanok: rows of round brown earthenware crocks (onggi) with lids on a low stone platform, a low grey stone wall behind, a persimmon tree beside the wall, one small dented brass bowl on the platform edge. BASKET: a round shallow woven bamboo sieve-basket (sokuri), pale straw colour, about four times as wide as the magpie. The magpie is tiny: about the size of the mother cat's head. Bright spring morning, white persimmon blossoms and fresh green leaves. High in the persimmon tree is a magpie's twig nest. Below the tree on the stone platform, the round woven bamboo sieve-basket lies upside down as a little roof, and the mother cat and two half-grown calico cats (one mostly orange, one mostly white) sit in a calm row in front of it, all three looking up at the nest like guards. Exactly one adult magpie with a red neckerchief stands on the rim of the nest, two tiny fluffy grey chicks without neckerchiefs peek out of the nest. The dented brass bowl sits in front of the cats with a few crumbs. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]

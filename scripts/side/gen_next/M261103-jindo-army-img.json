@@ -1,0 +1,38 @@
+[
+ {
+  "id": "jd1_leave",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [],
+  "body": {
+   "prompt": "PUPPY: a small white Korean Jindo puppy with pointed ears, a curled fluffy tail and a little red cotton bandana tied around its neck. YOUNG MAN: a Korean young man about twenty, very short buzz-cut black hair, round friendly face; in cut 1 a grey hoodie with a navy duffel bag; in cut 4 a plain olive-green military uniform and cap with no badges, no name tags, no patches, no writing. PLACE: a tiny countryside bus stop: a small wooden shelter with a tiled roof and a wooden bench, a narrow road curving away between rice fields toward low mountains, a single tall persimmon tree beside the shelter. No signs, no timetable, no posters, no writing anywhere. Early spring morning, soft pale light, rice fields flooded and green. The young man in a grey hoodie with his navy duffel bag kneels at the bus stop, forehead gently touching the forehead of the little white Jindo puppy with the red bandana. Only one person and one puppy. Hands simple and hidden in the puppy's fur. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "jd2_wait",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "DOG: the same white Korean Jindo now grown into a medium-sized adult dog, pointed upright ears, curled tail, the same little red cotton bandana now slightly faded. PLACE: a tiny countryside bus stop: a small wooden shelter with a tiled roof and a wooden bench, a narrow road curving away between rice fields toward low mountains, a single tall persimmon tree beside the shelter. No signs, no timetable, no posters, no writing anywhere. The magpie is tiny: about the size of the dog's head. Late autumn sunset, golden harvested rice fields, the persimmon tree heavy with orange fruit. The grown white Jindo with the faded red bandana sits alone in front of the bus stop bench, facing the empty curving road. Exactly one magpie sits on the tiled roof of the shelter above him. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "jd4_home",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/jd1_leave",
+   "social/side/gen/jd2_wait"
+  ],
+  "body": {
+   "prompt": "DOG: the same white Korean Jindo now grown into a medium-sized adult dog, pointed upright ears, curled tail, the same little red cotton bandana now slightly faded. YOUNG MAN: a Korean young man about twenty, very short buzz-cut black hair, round friendly face; in cut 1 a grey hoodie with a navy duffel bag; in cut 4 a plain olive-green military uniform and cap with no badges, no name tags, no patches, no writing. PLACE: a tiny countryside bus stop: a small wooden shelter with a tiled roof and a wooden bench, a narrow road curving away between rice fields toward low mountains, a single tall persimmon tree beside the shelter. No signs, no timetable, no posters, no writing anywhere. The magpie is tiny: about the size of the dog's head. Dusk at the same bus stop, the warm glow of a departing bus's tail lights far down the road. The young man in a plain olive-green military uniform kneels with his duffel bag beside him; the grown white Jindo with the faded red bandana presses its head into his chest, tail curled high. Exactly one magpie sits on the bench end beside them. Hands simple and hidden in the dog's fur. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]

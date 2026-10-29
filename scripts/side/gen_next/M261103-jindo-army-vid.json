@@ -1,0 +1,42 @@
+[
+ {
+  "id": "jdv1_leave",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/jd1_leave.jpeg",
+  "body": {
+   "prompt": "The puppy slowly licks the young man's chin once; his buzz-cut head stays bowed against it. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "jdv2_wait",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/jd2_wait.jpeg",
+  "body": {
+   "prompt": "The dog's ears twitch toward the empty road; a persimmon leaf drifts down past him. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "jdv3_song",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/jdv2_wait_last.jpeg",
+  "body": {
+   "prompt": "The magpie on the roof lifts its head and sings toward the far end of the road, beak opening; below, the dog's ears snap upright and its curled tail starts to wag slowly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "jdv4_home",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/jd4_home.jpeg",
+  "body": {
+   "prompt": "The dog's curled tail wags slowly; the young man closes his eyes with a quiet smile; the magpie hops once on the bench. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ }
+]

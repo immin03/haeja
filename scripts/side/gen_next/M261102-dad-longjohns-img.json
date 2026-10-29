@@ -1,0 +1,50 @@
+[
+ {
+  "id": "dl1_patch",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [],
+  "body": {
+   "prompt": "DAD (years ago): a thin Korean father in his early forties, short black hair, kind tired face, an old faded pink-red long-john top with two square cloth patches on the elbows. GIRL (years ago): his daughter about seven years old, round face, black hair in one low ponytail, yellow pajamas. PLACE: a small old countryside house: a warm-floored room with a yellow oiled-paper floor (ondol), a low wooden table, a sliding paper door (hanji) with a wooden lattice; outside, a little yard with a low stone wall and a blue metal gate. DRAWING: a child's crayon drawing on a small sheet of paper: a smiling stick-figure dad in a bright red long-john suit with a big red heart beside him, no writing at all. Years ago, a winter night, a dim yellow lamp. The father sits on the floor by the low table holding up the elbow of his faded patched long-john sleeve to the lamp, looking at a new hole with a small tired smile. Behind him, the sliding paper door is open a crack and the little girl peeks in, holding the crayon drawing against her chest with both arms. Slightly faded colours like an old memory. Hands simple and mostly hidden in the fabric. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "dl2_parcel",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "DAD (now): the same father in his early sixties, short grey hair, the same kind face with deeper lines, a brown knitted cardigan. PLACE: a small old countryside house: a warm-floored room with a yellow oiled-paper floor (ondol), a low wooden table, a sliding paper door (hanji) with a wooden lattice; outside, a little yard with a low stone wall and a blue metal gate. PARCEL: a small box wrapped in plain brown kraft paper tied with red string in a bow, about twice the size of the magpie. The magpie is tiny: about the size of the father's hand. Now, a snowy winter morning. The father stands at the open blue metal gate. Exactly one magpie stands on top of the gate post, the small kraft-paper parcel tied with red string set down in front of its feet on the snowy post. The father looks at the magpie and the parcel in surprise. No signs, no mailbox letters. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "dl3_open",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/dl1_patch",
+   "social/side/gen/dl2_parcel"
+  ],
+  "body": {
+   "prompt": "DAD (now): the same father in his early sixties, short grey hair, the same kind face with deeper lines, a brown knitted cardigan. PLACE: a small old countryside house: a warm-floored room with a yellow oiled-paper floor (ondol), a low wooden table, a sliding paper door (hanji) with a wooden lattice; outside, a little yard with a low stone wall and a blue metal gate. DRAWING: a child's crayon drawing on a small sheet of paper: a smiling stick-figure dad in a bright red long-john suit with a big red heart beside him, no writing at all. The magpie is tiny: about the size of the father's hand. Inside the warm room, the father kneels by the low table over the opened kraft-paper box: inside lies a neatly folded brand-new bright red long-john set, and on top of it the old yellowed crayon drawing from years ago, its paper soft and creased. Exactly one magpie stands on the edge of the low table, watching. The old faded patched long johns hang folded on a wall hook in the background. Hands simple and mostly hidden. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "dl4_home",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/dl3_open"
+  ],
+  "body": {
+   "prompt": "DAD (now): the same father in his early sixties, short grey hair, the same kind face with deeper lines, a brown knitted cardigan. DAUGHTER (now): the same girl grown into a woman of twenty-five, round face, black hair in one low ponytail, a camel wool coat, a small grey suitcase. PLACE: a small old countryside house: a warm-floored room with a yellow oiled-paper floor (ondol), a low wooden table, a sliding paper door (hanji) with a wooden lattice; outside, a little yard with a low stone wall and a blue metal gate. Late afternoon, snowy yard, the blue metal gate open. The father stands on the house step; the bright red cuff of his new long johns shows under his brown cardigan sleeve. Coming through the gate with her small grey suitcase is his daughter, now grown, smiling. They are a few steps apart. The old crayon drawing is pinned on the house wall beside the door. Warm golden light. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]

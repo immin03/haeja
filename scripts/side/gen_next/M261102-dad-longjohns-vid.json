@@ -1,0 +1,42 @@
+[
+ {
+  "id": "dlv1_patch",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/dl1_patch.jpeg",
+  "body": {
+   "prompt": "The father slowly lowers the worn sleeve with a small tired smile; the girl behind the door hugs her drawing a little tighter. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "dlv2_parcel",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/dl2_parcel.jpeg",
+  "body": {
+   "prompt": "The magpie nudges the parcel one small step toward the father with its beak; snowflakes drift down. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "dlv3_open",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/dl3_open.jpeg",
+  "body": {
+   "prompt": "The father slowly lifts the old crayon drawing a little toward the light and presses his lips together in a quiet smile. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ },
+ {
+  "id": "dlv4_home",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/dl4_home.jpeg",
+  "body": {
+   "prompt": "The father slowly nods and smiles as the daughter takes one step closer; snow falls gently. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts. No tears, no crying.",
+   "duration": 5
+  }
+ }
+]
