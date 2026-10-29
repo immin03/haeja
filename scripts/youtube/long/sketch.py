@@ -586,7 +586,7 @@ def end_page(v, lines, fill, V, at_time):
     T = lambda at, d=0.0: at_time(at, lines) if at not in (None, "") else (lines[0][0] + d if lines else d)
     S0 = (lines[0][0] + .05) if lines else 0.0
     B = [dict(kind="print", text=F(v.get("title", "")), x=COL_X, y=230, size=84, w="ExtraBold", t=S0),
-         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=345, size=52, w="Bold", t=S0 + .4)]
+         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=345, size=52, w="Bold", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4)]
     labels = ["구독", "좋아요", "알림 설정"]
     for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
         B.append(dict(kind="pcheck", text=labels[i], x=COL_X + 10, y=480 + i * 105, size=62, t=T(at) if at else S0 + 1.2 + .5 * i))
