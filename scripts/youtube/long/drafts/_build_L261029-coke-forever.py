@@ -225,7 +225,7 @@ scenes = [
     Q("1998년 이후의 16년", "stockmarket_47792_a.jpg",
       ["그럼 그 뒤로는 탄탄대로였을까요? 꼭 그렇지만은 않았습니다."],
       ["So was it smooth sailing after that? Not exactly."],
-      [R("1998년 이후", 640, at=.6, size=52, w="ExtraBold", x=140)]),
+      [R("1998년 고점 → 2014년 회복", 640, at=.6, size=52, w="ExtraBold", x=140)]),
 
     # ── 4장 ──
     T("16년 제자리와 생일 선물", "주가가 멈춘 동안", ["1998년으로 가 볼게요."], ["Let's go to 1998."]),
@@ -398,11 +398,11 @@ scenes = [
       ["I jot these numbers down in a notebook every day; that's ValueNote.",
        "Coca-Cola's earning-power score is {q_score}, but its price score is {v_score}. A great company and a great price are different questions."],
       [P("밸류노트로 본 코카콜라 · 종합 {score}점", 140, 90, 46, at=0),
-       I("bottle", 1600, 120, 150, line=0, at=.3),
-       dict(kind="rule", x0=150, y0=380, x1=1760, y1=380, color="ink", width=3, line=1, at=0, dur=.3),
-       P("재무 점수 · 돈 버는 실력", 160, 440, 52, line=1, at=0),
+       I("bottle", 1600, 120, 150, line=0, at=.1),
+       dict(kind="rule", x0=150, y0=380, x1=1760, y1=380, color="ink", width=3, line=0, at=.25, dur=.3),
+       P("재무 점수 · 돈 버는 실력", 160, 440, 52, line=0, at=.45),
        Wr("{q_score}점", 160, 520, 160, line=1, at=.12, color="green"),
-       P("가격 점수 · 지금 가격", 1000, 440, 52, line=1, at=.33),
+       P("가격 점수 · 지금 가격", 1000, 440, 52, line=0, at=.65),
        Wr("{v_score}점", 1000, 520, 160, line=1, at=.42, color="red"),
        P("좋은 회사와 좋은 가격은 다른 질문", 160, 720, 52, line=1, at=.68)],
       src="밸류노트 ({asof} 기준, 워렌 버핏·그레이엄·찰리 멍거 기준 종합)", asof=True, fine="점수는 목표 주가나 매수·매도 신호가 아닙니다"),
@@ -442,7 +442,7 @@ scenes = [
          en=["If you want more stories behind the numbers, please subscribe, like, and turn on notifications.",
              "The story of the companies Buffett picked in Japan is worth watching too.",
              "Which company you own keeps customers coming back? Tell us in the comments. Thank you."],
-         asof=False, src="", sketch_add=[R("다음 이야기 · 워렌 버핏이 일본에서 고른 회사들", 820, line=1, at=.2, size=44, w="Bold", x=140), R("댓글 질문 · 손님이 다시 오는 내 회사", 120, line=2, at=.2, x=140), I("person", 720, 520, 90, line=2, at=.6, n=3, gap=16)], endscreen=20.5),
+         asof=False, src="", sketch_add=[R("댓글 질문 · 손님이 다시 오는 내 회사", 120, line=2, at=.2, x=140), I("person", 720, 520, 90, line=2, at=.6, n=3, gap=16)], endscreen=20.5),
 ]
 
 TITLE_A = "코카콜라 주가, 워렌 버핏은 왜 38년째 안 팔까? 13억 달러 넣고 해마다 8억 달러 배당"

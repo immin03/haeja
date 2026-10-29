@@ -1715,7 +1715,7 @@
    "sketch_add": [
     {
      "kind": "print",
-     "text": "1998년 이후",
+     "text": "1998년 고점 → 2014년 회복",
      "x": 140,
      "y": 640,
      "size": 52,
@@ -3326,7 +3326,7 @@
      "gap": 24,
      "color": "ink",
      "line": 0,
-     "at": 0.3
+     "at": 0.1
     },
     {
      "kind": "rule",
@@ -3336,8 +3336,8 @@
      "y1": 380,
      "color": "ink",
      "width": 3,
-     "line": 1,
-     "at": 0,
+     "line": 0,
+     "at": 0.25,
      "dur": 0.3
     },
     {
@@ -3348,8 +3348,8 @@
      "size": 52,
      "w": "ExtraBold",
      "color": "ink",
-     "line": 1,
-     "at": 0
+     "line": 0,
+     "at": 0.45
     },
     {
      "kind": "write",
@@ -3369,8 +3369,8 @@
      "size": 52,
      "w": "ExtraBold",
      "color": "ink",
-     "line": 1,
-     "at": 0.33
+     "line": 0,
+     "at": 0.65
     },
     {
      "kind": "write",
@@ -3619,17 +3619,6 @@
    "asof": false,
    "src": "",
    "sketch_add": [
-    {
-     "kind": "print",
-     "text": "다음 이야기 · 워렌 버핏이 일본에서 고른 회사들",
-     "x": 140,
-     "y": 820,
-     "size": 44,
-     "w": "Bold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.2
-    },
     {
      "kind": "print",
      "text": "댓글 질문 · 손님이 다시 오는 내 회사",
