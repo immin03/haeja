@@ -383,6 +383,36 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 @media (max-width:760px){.soc-acc{grid-template-columns:1fr}.soc-kpis{grid-template-columns:repeat(2,1fr)}.soc-tb table{table-layout:auto;min-width:720px}.soc-alert{flex-wrap:wrap}.soc-alert .soc-btn{margin-left:0}.soc-sec .n{display:none}.soc-acc .u small{display:none}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}}
 :root[data-theme="dark"] .soc-btn:not(.ghost){background:var(--gold-grad);color:#0E1A2B}
+/* 운영 기준 · 제1 원칙 (2026-10-29 운영자) */
+.or-hero{background:var(--navy-grad);color:var(--ivory);border:0;padding:18px;margin-bottom:14px}
+.or-hero .k{font-size:11.5px;letter-spacing:.12em;color:#CDB78A;font-weight:800}
+.or-hero .h{font-size:16px;font-weight:800;line-height:1.6;margin-top:6px;word-break:keep-all}
+.or-form{display:grid;grid-template-columns:150px 1fr;gap:10px;margin-top:12px}
+.or-form select,.or-form textarea{border:1px solid rgba(243,238,227,.25);border-radius:10px;padding:9px 10px;font:inherit;font-size:13.5px;background:rgba(255,255,255,.07);color:var(--ivory)}
+.or-form select option{color:#0E1A2B}
+.or-form textarea{min-height:76px;resize:vertical;line-height:1.55;word-break:keep-all}
+.or-form .row{grid-column:1/-1;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.or-form .hint{font-size:12px;color:rgba(243,238,227,.66);flex:1 1 240px;line-height:1.5}
+.or-go{border:0;border-radius:10px;padding:9px 16px;font-weight:800;font-size:13.5px;cursor:pointer;background:var(--gold-grad);color:#0E1A2B}
+.or-item{border-top:1px solid var(--line);padding:12px 0}
+.or-item:first-child{border-top:0;padding-top:2px}
+.or-item .h{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.or-item .no{font-weight:900;font-size:13px;color:var(--ink)}
+.or-item .ch{font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--ink2)}
+.or-item .st{font-size:11.5px;font-weight:800;margin-left:auto}
+.or-item .st.ok{color:var(--good)}.or-item .st.run{color:#B07A12}.or-item .st.off{color:var(--muted)}
+.or-item .tx{font-size:14.5px;font-weight:700;line-height:1.65;margin-top:6px;word-break:keep-all;white-space:pre-wrap}
+.or-item .rp{font-size:12.5px;line-height:1.6;color:var(--ink2);margin-top:6px;word-break:keep-all}
+.or-item .rp b{color:var(--ink)}
+.or-item .act{display:flex;gap:6px;margin-top:8px}
+.or-std{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.or-std .card{margin:0}
+.or-std h3{margin:0;font-size:15px;display:flex;align-items:center;gap:8px}
+.or-std .when{font-size:13px;font-weight:800;color:var(--ink);margin-top:8px;line-height:1.55;word-break:keep-all}
+.or-std ul{margin:8px 0 0;padding-left:18px;font-size:13px;line-height:1.65;color:var(--ink2);word-break:keep-all}
+.or-std .src{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5;word-break:keep-all}
+.or-std .fb{margin-left:auto;font-size:11.5px}
+@media (max-width:760px){.or-form{grid-template-columns:1fr}.or-std{grid-template-columns:1fr}}
 /* 벤치마킹 (2026-10-29) */
 .bn-card{display:grid;grid-template-columns:240px 1fr;gap:16px;margin-bottom:14px}
 .bn-thumb{display:block;border-radius:12px;overflow:hidden;background:var(--bg);aspect-ratio:16/9;position:relative}
@@ -574,13 +604,14 @@ function barsList(obj, order){
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
 const GROUPS = [
-  ['home', '개요', ['overview', 'perf']],
+  ['home', '개요', ['overview', 'rules', 'perf']],
   ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
   ['growth', '유입', ['traffic', 'landing', 'dm']],
   ['content', '콘텐츠', ['calendar', 'youtube', 'bench', 'social', 'blog', 'column']],
 ];
 const PAGES = [
   ['overview', '개요'],
+  ['rules', '운영 기준'],
   ['perf', '성과 진단'],
   ['users', '가입자'],
   ['survey', '설문 응답'],
@@ -1722,6 +1753,87 @@ function bindSocial(){
     SOC.busy = errs.length ? '실패: ' + errs.join(' / ') : proc ? `${b.dataset.socNow} 영상 처리 중입니다. 몇 분 안에 자동으로 올라갑니다.` : `${b.dataset.socNow} 게시를 마쳤습니다.`; toast(SOC.busy, !!errs.length); socLoad(); });
 }
 
+/* ───────── 운영 기준 · 제1 원칙 (2026-10-29 운영자: "게시하는 방법이 계속 바뀌잖아. 이게 맞는지 나도 계속 검수를 해야 될 거 아니야.
+   검수할 수 있는 창을 관리자 페이지에 만들어 주고, 아닐 때 내가 바로 피드백해서 메모리 업데이트할 수 있는 칸도 만들어 줘.
+   그게 무조건 우리의 제1 원칙이 되는 거야. 무조건 다 같이 따라야 되는 거고.")
+   - docs agent 'owner-rules' : 대표님이 적은 제1 원칙 목록. '제1 원칙 반영' 예약 작업이 모든 제작·게시 작업의 맨 앞(OWNER FIRST PRINCIPLES 블록)과
+     scripts/OWNER_RULES.md, 자동 검수 기준에 넣고 '반영됨'으로 바꾼다. 다른 모든 규칙보다 앞선다.
+   - docs agent 'ops-standards' : 채널별 지금 게시 기준(편성·형식·마무리·만드는 작업). 같은 작업이 매일 실제 설정에서 다시 읽어 갱신한다. */
+const OR = { rules: null, std: null, msg: '', pre: '' };
+const OR_CH = ['전체', '유튜브 롱폼', '유튜브 쇼츠', '인스타 릴스', '카드뉴스', '네이버 블로그', '칼럼', '썸네일·제목', '업로드·편성'];
+async function orLoad(){
+  const { data, error } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').in('id', ['owner-rules', 'ops-standards']);
+  OR.err = error ? error.message : '';
+  const g = id => (data || []).find(r => r.id === id) || null;
+  OR.rules = g('owner-rules') || { id: 'owner-rules', data: { items: [] } }; OR.std = g('ops-standards');
+}
+const OR_ST = { new: ['run', '반영 대기'], applied: ['ok', '반영됨 · 모든 작업이 따름'], retired: ['off', '그만 적용'] };
+function vRules(){
+  if(OR.rules === null){ orLoad().then(() => render()); return head('운영 기준', '불러오는 중', 'rules'); }
+  if(OR.err) return head('운영 기준', '', 'rules') + `<div class="card">불러오지 못했습니다: ${esc(OR.err)}</div>`;
+  const items = [...((OR.rules.data || {}).items || [])].map((x, i) => [x, i]).reverse();
+  const live = items.filter(([x]) => x.status !== 'retired'), waiting = live.filter(([x]) => (x.status || 'new') === 'new').length;
+  const item = ([x, i]) => { const st = OR_ST[x.status || 'new'] || ['', x.status];
+    return `<div class="or-item" data-or="${i}">
+      <div class="h"><span class="no">제1 원칙 ${x.no || i + 1}</span><span class="ch">${esc(x.channel || '전체')}</span><span class="bn-meta" style="margin:0">${x.at ? kst(x.at) : ''}</span><span class="st ${st[0]}">${st[1]}</span></div>
+      <div class="tx">${esc(x.text || '')}</div>
+      ${x.reply ? `<div class="rp"><b>반영:</b> ${esc(x.reply)}${x.applied_at ? ` · ${kst(x.applied_at)}` : ''}</div>` : ''}
+      ${x.status === 'retired' ? `<div class="act"><button class="bn-btn ghost" data-or-to="new">다시 적용</button></div>` : `<div class="act"><button class="bn-btn ghost" data-or-to="retired">그만 적용</button></div>`}
+    </div>`; };
+  const sd = OR.std && OR.std.data ? OR.std.data : null;
+  const std = sd ? (sd.channels || []).map(c => `<div class="card">
+      <h3>${esc(c.title)}<button class="bn-btn ghost fb" data-or-fb="${esc(c.ch || c.title)}">이 기준 고치기</button></h3>
+      <div class="when">${esc(c.schedule || '')}</div>
+      <ul>${(c.rules || []).map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+      <div class="src">${esc(c.by || '')}${c.updated_at ? ` · 확인 ${kst(c.updated_at)}` : ''}</div></div>`).join('') : '';
+  return `${head('운영 기준', '유튜브·쇼츠·릴스·카드뉴스·블로그를 지금 어떤 기준으로 만들고 올리는지 한눈에 봅니다.' + (sd && sd.at ? ` 마지막 점검 ${kst(sd.at)}` : ''), 'rules')}
+  <div class="card or-hero">
+    <div class="k">제1 원칙 · 대표님 지시</div>
+    <div class="h">여기 적은 내용은 모든 제작·게시 작업이 다른 어떤 규칙보다 먼저 따릅니다. 아래 기준이 틀렸거나 바꾸고 싶으면 바로 적어 주세요.</div>
+    <div class="or-form">
+      <select data-or-ch>${OR_CH.map(c => `<option${c === (OR.pre || '전체') ? ' selected' : ''}>${c}</option>`).join('')}</select>
+      <textarea data-or-tx placeholder="예: 쇼츠 끝에 '풀버전은 유튜브에서'를 두 번 말하지 마. 한 번만, 짧게."></textarea>
+      <div class="row"><span class="hint">저장하면 '제1 원칙 반영' 작업이 2시간 안에 모든 작업 지시문·제작 기준·자동 검수 기준에 넣고, 반영한 곳을 여기 답으로 남깁니다.</span><button class="or-go" data-or-add>제1 원칙으로 저장</button></div>
+    </div>
+  </div>
+  ${OR.msg ? `<div class="soc-flash ok">${esc(OR.msg)}</div>` : ''}
+  ${sec('제1 원칙 목록', `적용 중 ${live.length}개${waiting ? ` · 반영 대기 ${waiting}개` : ''}`, live.length || items.length ? items.map(item).join('') : '<div class="empty">아직 적은 원칙이 없습니다. 위 칸에 적으면 바로 이곳에 쌓입니다.</div>')}
+  <h2>채널별 지금 게시 기준</h2>
+  ${std ? `<div class="or-std">${std}</div>` : '<div class="card empty" style="padding:14px">기준 정리를 불러오는 중이거나 아직 없습니다.</div>'}
+  <div class="pf-goal">기준은 '제1 원칙 반영' 작업이 매일 아침 실제 예약 작업 설정과 제작 기준 문서를 다시 읽어 갱신합니다. 여기 보이는 기준과 실제가 다르면 그것도 제1 원칙으로 적어 주세요.</div>`;
+}
+async function orSave(f, msg){
+  const cur = OR.rules && OR.rules.data ? OR.rules.data : { items: [] };
+  const data = JSON.parse(JSON.stringify(cur)); data.items = data.items || []; f(data);
+  const now = new Date().toISOString();
+  const q = OR.rules && OR.rules.updated_at ? sb.from('docs').update({ data, updated_at: now }).eq('collection', 'agent').eq('id', 'owner-rules')
+    : sb.from('docs').upsert({ owner: (await sb.auth.getUser()).data.user.id, collection: 'agent', id: 'owner-rules', data, updated_at: now }, { onConflict: 'owner,collection,id' });
+  const { error } = await q;
+  if(error){ toast('저장하지 못했습니다: ' + error.message, true); return false; }
+  OR.rules = { ...(OR.rules || {}), id: 'owner-rules', data, updated_at: now }; OR.msg = msg; toast(msg); render(); return true;
+}
+function bindRules(){
+  const box = $('#main');
+  const add = box.querySelector('[data-or-add]');
+  if(add) add.onclick = () => {
+    const text = (box.querySelector('[data-or-tx]').value || '').trim(), channel = box.querySelector('[data-or-ch]').value;
+    if(!text){ toast('내용을 적어 주세요.', true); return; }
+    OR.pre = '';
+    orSave(d => { const n = (d.items || []).reduce((m, x) => Math.max(m, +x.no || 0), 0) + 1;
+      d.items.push({ id: 'r' + Date.now().toString(36), no: n, at: new Date().toISOString(), channel, text, status: 'new', by: 'owner' }); },
+      '제1 원칙으로 저장했습니다. 2시간 안에 모든 작업에 반영합니다.');
+  };
+  box.querySelectorAll('[data-or-to]').forEach(b => b.onclick = () => {
+    const i = +b.closest('[data-or]').dataset.or, to = b.dataset.orTo;
+    orSave(d => { const x = d.items[i]; x.status = to; x.changed_at = new Date().toISOString(); if(to === 'retired') x.retired_at = x.changed_at; },
+      to === 'retired' ? '이 원칙은 더 적용하지 않습니다. 다음 반영 때 작업 지시문에서 뺍니다.' : '다시 적용합니다.');
+  });
+  box.querySelectorAll('[data-or-fb]').forEach(b => b.onclick = () => {
+    const ch = b.dataset.orFb; OR.pre = OR_CH.includes(ch) ? ch : '전체';
+    const sel = box.querySelector('[data-or-ch]'); if(sel) sel.value = OR.pre;
+    const ta = box.querySelector('[data-or-tx]'); if(ta){ ta.focus(); ta.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  });
+}
 /* 벤치마킹 (2026-10-29 운영자): "구독자는 별로 없는데 영상 몇 개로 조회수가 터진 사람들을 조사해서 벤치마킹할 내용을 계속 전달 →
    내가 반영하면 좋겠다는 부분을 승인하면 다음 영상부터 그대로 렌더링". 벤치마킹 데스크(예약 작업)가 docs 'bench' 에 영상별 카드를 쌓고,
    여기서 항목별로 승인·반려한다. 승인 항목은 데스크가 제작 규칙(릴스·쇼츠·롱폼·썸네일)에 옮기고 '반영 완료'로 바꾼다.
@@ -2015,6 +2127,7 @@ function render(s){
   if(YT.list){ const nr = YT.list.filter(y => ['review', 'changes'].includes(y.status)).length, np = (YT.plans || []).filter(x => x.status === 'proposed').length;
     if(nr + np) hot.youtube = [nr + np, 'warm', [np ? `기획안 ${np}편` : '', nr ? `영상 검수 ${nr}편` : ''].filter(Boolean).join(' · ') + ' 대기']; }
   if(PF.data){ const np = pfPending(); if(np) hot.perf = [np, 'hot', '성과 개선 ' + np + '건 결정 대기']; }
+  if(OR.rules){ const nw = ((OR.rules.data || {}).items || []).filter(x => (x.status || 'new') === 'new').length; if(nw) hot.rules = [nw, 'warm', '제1 원칙 ' + nw + '개 반영 대기']; }
   if(BN.list){ const nb = benchCounts().proposed; if(nb) hot.bench = [nb, 'warm', '벤치마킹 ' + nb + '건 승인 대기']; }
   const nav = $('#tabs'); nav.hidden = false;
   const g = groupOf(p), title = id => PAGES.find(x => x[0] === id)[1];
@@ -2024,7 +2137,7 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'perf' ? vPerf() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'rules' ? vRules() : p === 'perf' ? vPerf() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
@@ -2034,6 +2147,7 @@ function render(s){
   if(p === 'social') bindSocial();
   if(p === 'youtube') bindYoutube();
   if(p === 'bench') bindBench();
+  if(p === 'rules') bindRules();
   if(p === 'perf') bindPerf();
   if(p === 'calendar') bindCalendar();
   bindTips();

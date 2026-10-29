@@ -1,5 +1,8 @@
 # 인스타 카드뉴스 (2026-10-23 운영자 결정으로 다시 시작)
 
+> **제1 원칙 (2026-10-29 운영자)**: 작업을 시작하기 전에 `scripts/OWNER_RULES.md`(원본: Supabase docs agent 'owner-rules', 관리자 → 운영 기준)를 가장 먼저 읽고, 이 문서의 어떤 규칙보다 우선해 따른다.
+
+
 > **보류 사유 반영 (2026-10-28)**: 기획·원고 전에 `select public.content_feedback_list(120);` 로 운영자가 보류하며 남긴 사유를 읽고 반영한다(scripts/CONTENT.md 7장).
 
 
