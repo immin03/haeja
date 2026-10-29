@@ -101,9 +101,9 @@
  "description_en": "Coca-Cola stock and dividends: Warren Buffett put 1.3 billion dollars into Coca-Cola between 1988 and 1994 and has never sold. This year Berkshire collects about 848 million dollars in Coca-Cola dividends (400 million shares x 2.12 dollars, pre-tax). We cover his six-bottle soda business at age six, why he bought at 15 times earnings in 1988, the concentrate business model, 16 flat years after 1998, 64 straight years of dividend raises, the 65% yield on cost, the October 27 Q3 results, and how to compute your own dividend yield today.\n\n#CocaCola #WarrenBuffett #dividends",
  "pinned_comment": "여러분이 가진 회사 중 '손님이 다시 오는 회사'는 어디인가요? 그 회사의 이익은 해마다 커지고 있나요? 댓글로 나눠 주세요.\n\n원가 대비 배당률 = 올해 배당 ÷ 내가 산 가격. 코카콜라는 {px_label} {px} 기준 배당수익률 약 {dy}입니다.",
  "hook_promises": [
-  "여섯 살 소년의 25센트 콜라 장사",
   "1988년 비싸 보였던 주식을 산 이유",
-  "38년째 안 파는 이유, 곱하기 한 번"
+  "주가가 16년 멈춰도 안 판 이유",
+  "지금 사면 내 배당은 얼마인가"
  ],
  "viewer_question": "워렌 버핏은 왜 코카콜라를 38년째 안 팔고, 지금 사면 배당은 얼마인가?",
  "scenes": [
@@ -114,10 +114,10 @@
     "lib": "commons_vendingnight_2.jpg"
    },
    "lines": [
-    "코카콜라 주식 갖고 계시거나 배당주 찾는 분들, 한 번쯤 궁금하셨을 거예요. 비싸 보일 때도, 주가가 16년 멈췄을 때도 워렌 버핏은 이 주식을 왜 한 주도 안 팔았을까?"
+    "결론부터 말씀드릴게요. 워렌 버핏이 코카콜라를 38년째 안 파는 이유는, 이 주식이 해마다 돌려주는 돈 때문입니다."
    ],
    "en": [
-    "If you own Coca-Cola or hunt for dividend stocks, you've probably wondered: when it looked expensive, and even when the stock stalled for 16 years, why did Warren Buffett never sell a single share?"
+    "Bottom line first: Buffett has kept Coca-Cola for 38 years because of the cash it hands back every year."
    ],
    "asof": false,
    "src": "사진: TurnOnTheNight · Wikimedia Commons (CC BY-SA 4.0)",
@@ -125,219 +125,15 @@
   },
   {
    "v": {
-    "type": "media",
-    "lib": "commons_buffett_2.jpg"
-   },
-   "lines": [
-    "답은 계산기 한 번이면 나와요. 지금 사면 내 배당이 몇 %인지도 같이 계산해 드릴게요."
-   ],
-   "en": [
-    "The answer takes one calculator tap. We'll also work out what dividend you'd get if you bought today."
-   ],
-   "asof": false,
-   "src": "사진: 미국 상무부 · Wikimedia Commons (퍼블릭 도메인)",
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "commons_vendingnight_1.jpg",
-    "chips": [
-     {
-      "v": "3초",
-      "l": "콜라 한 캔 고르는 시간",
-      "at": "0:3초"
-     },
-     {
-      "v": "약 80달러",
-      "l": "버크셔 해서웨이가 받는 배당",
-      "at": "0:80"
-     }
-    ]
-   },
-   "lines": [
-    "편의점 냉장고 앞에서 콜라 한 캔 고르는 3초. 그사이 워렌 버핏의 회사 통장엔 코카콜라 배당이 약 80달러 들어옵니다."
-   ],
-   "en": [
-    "Three seconds to pick a can from the fridge. In that time, Buffett's company collects about 80 dollars in Coca-Cola dividends."
-   ],
-   "asof": false,
-   "src": "버크셔 해서웨이 보유 4억 주 × 2026년 배당 2.12달러 ÷ 1년(3,153만 6천 초) · 세전 단순 계산 · 사진: TurnOnTheNight · Wikimedia Commons (CC BY-SA 4.0)",
-   "sketch_add": [
-    {
-     "kind": "icons",
-     "icon": "bottle",
-     "x": 1600,
-     "y": 140,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "편의점 냉장고 앞",
-     "x": 1170,
-     "y": 700,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.4
-    },
-    {
-     "kind": "print",
-     "text": "세전 단순 계산",
-     "x": 1170,
-     "y": 770,
-     "size": 42,
-     "w": "Medium",
-     "color": "ink",
-     "line": 0,
-     "at": 0.9
-    }
-   ]
-  },
-  {
-   "v": {
     "type": "sketch"
    },
    "lines": [
-    "1초에 27달러, 하루면 약 230만 달러, 1년이면 8억 4,800만 달러예요."
+    "낸 돈은 1988년부터 1994년까지 13억 달러가 전부예요.",
+    "그런데 올해 받는 배당만 8억 4,800만 달러. 낸 돈의 65%가 해마다 돌아옵니다."
    ],
    "en": [
-    "27 dollars a second, about 2.3 million a day, 848 million a year."
-   ],
-   "asof": false,
-   "src": "4억 주 × 연 2.12달러 = 8억 4,800만 달러 · ÷ 365일 ≈ 232만 달러 · ÷ 3,153만 6천 초 ≈ 26.9달러",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "버크셔 해서웨이가 받는 코카콜라 배당 (세전)",
-     "x": 140,
-     "y": 90,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "icons",
-     "icon": "clock",
-     "x": 160,
-     "y": 260,
-     "size": 160,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.02
-    },
-    {
-     "kind": "print",
-     "text": "1초",
-     "x": 360,
-     "y": 280,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "write",
-     "text": "27달러",
-     "x": 360,
-     "y": 340,
-     "size": 170,
-     "color": "ink",
-     "line": 0,
-     "at": 0.12
-    },
-    {
-     "kind": "icons",
-     "icon": "cap",
-     "x": 160,
-     "y": 620,
-     "size": 150,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "하루",
-     "x": 360,
-     "y": 620,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.38
-    },
-    {
-     "kind": "print",
-     "text": "약 230만 달러",
-     "x": 360,
-     "y": 690,
-     "size": 68,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "icons",
-     "icon": "crate",
-     "x": 1000,
-     "y": 600,
-     "size": 170,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.65
-    },
-    {
-     "kind": "print",
-     "text": "1년",
-     "x": 1200,
-     "y": 620,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.68
-    },
-    {
-     "kind": "print",
-     "text": "8억 4,800만 달러",
-     "x": 1200,
-     "y": 690,
-     "size": 68,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.75
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "그런데 워렌 버핏이 이 주식에 낸 돈은 1988년부터 1994년까지 13억 달러가 전부입니다.",
-    "그 뒤로는 콜라 한 캔 값도 더 넣지 않았어요."
-   ],
-   "en": [
-    "Yet all Buffett ever paid for this stake was 1.3 billion dollars, between 1988 and 1994.",
-    "Since then, not even the price of another can."
+    "All he ever paid was 1.3 billion dollars, between 1988 and 1994.",
+    "This year alone the dividend is 848 million dollars. 65% of the cost, back every single year."
    ],
    "asof": false,
    "src": "워렌 버핏 2022년 주주서한 (2023년 2월 25일, 1994년 8월 4억 주 매입 완료 · 원가 13억 달러) · 코카콜라 2026년 2월 19일 배당 발표",
@@ -452,87 +248,144 @@
   {
    "v": {
     "type": "media",
-    "lib": "calculator_47415_a.jpg",
+    "lib": "commons_vendingnight_1.jpg",
     "chips": [
      {
-      "v": "52년",
-      "l": "첫 콜라 장사부터 첫 주식 매수까지",
-      "at": "0:52년"
+      "v": "3초",
+      "l": "콜라 한 캔 고르는 시간",
+      "at": "0:3초"
+     },
+     {
+      "v": "약 80달러",
+      "l": "버크셔 해서웨이가 받는 배당",
+      "at": "0:80"
      }
     ]
    },
    "lines": [
-    "그런데 이상한 건, 어릴 때 콜라를 팔던 워렌 버핏이 이 주식을 사기까지 52년이 걸렸다는 거예요.",
-    "이야기는 1936년, 오마하의 작은 식료품점에서 시작합니다."
+    "콜라 한 캔 고르는 3초 사이에도 약 80달러가 들어오죠. 팔 이유가 없는 주식입니다."
    ],
    "en": [
-    "But here's the stranger part. Buffett sold Coke as a boy, yet took 52 years to buy the stock.",
-    "The story starts in 1936, in a small grocery store in Omaha."
+    "Even in the three seconds it takes to pick a can, about 80 dollars comes in. There's no reason to sell."
    ],
    "asof": false,
-   "src": "",
+   "src": "버크셔 해서웨이 보유 4억 주 × 2026년 배당 2.12달러 ÷ 1년(3,153만 6천 초) · 세전 단순 계산 · 사진: TurnOnTheNight · Wikimedia Commons (CC BY-SA 4.0)",
    "sketch_add": [
     {
-     "kind": "print",
-     "text": "더 이상한 점",
-     "x": 1170,
-     "y": 470,
-     "size": 52,
-     "w": "Bold",
+     "kind": "icons",
+     "icon": "bottle",
+     "x": 1600,
+     "y": 140,
+     "size": 120,
+     "n": 1,
+     "gap": 24,
      "color": "ink",
      "line": 0,
-     "at": 0.05
+     "at": 0.2
     },
     {
      "kind": "print",
-     "text": "1936년 → 1988년",
+     "text": "편의점 냉장고 앞",
      "x": 1170,
-     "y": 540,
-     "size": 48,
-     "w": "Bold",
+     "y": 700,
+     "size": 52,
+     "w": "ExtraBold",
      "color": "ink",
      "line": 0,
      "at": 0.4
     },
     {
      "kind": "print",
-     "text": "이야기의 시작",
+     "text": "세전 단순 계산",
      "x": 1170,
-     "y": 650,
-     "size": 52,
-     "w": "Bold",
+     "y": 770,
+     "size": 42,
+     "w": "Medium",
      "color": "ink",
-     "line": 1,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "1936년 · 오마하 식료품점",
-     "x": 1170,
-     "y": 720,
-     "size": 48,
-     "w": "Bold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.4
+     "line": 0,
+     "at": 0.9
     }
    ]
   },
   {
-   "chapter": "오마하 식료품점의 여섯 병",
    "v": {
-    "type": "title",
-    "text": "오마하 식료품점의 여섯 병",
-    "sub": "1936년 · 첫 번째 이야기"
+    "type": "media",
+    "lib": "commons_buffett_2.jpg",
+    "chips": [
+     {
+      "v": "{dy}",
+      "l": "지금 사면 받는 1년 배당",
+      "at": "0:그런데"
+     }
+    ]
    },
    "lines": [
-    "첫 번째 이야기입니다."
+    "그런데 지금 이 주식을 사면 1년 배당은 주가의 {dy}뿐이에요. 같은 주식인데 왜 이렇게 다를까요?",
+    "1988년에 비싸 보이던 이 주식을 왜 샀는지, 지금 사면 내 배당은 얼마가 되는지 바로 보여 드릴게요."
    ],
    "en": [
-    "Part one."
+    "Buy it today, though, and the yearly dividend is only {dy} of the price. Same stock, so why the gap?",
+    "Why he bought it in 1988 when it looked expensive, and what your dividend would be today. Let's go."
    ],
-   "asof": false,
-   "sketch_add": []
+   "asof": true,
+   "src": "사진: 미국 상무부 · Wikimedia Commons (퍼블릭 도메인) · 코카콜라 연 배당 2.12달러 ÷ {px_label} {px}",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "1988년에 산 사람 · 해마다 65%",
+     "x": 1170,
+     "y": 620,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "오늘 사는 사람 · {dy}",
+     "x": 1170,
+     "y": 690,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "print",
+     "text": "① 1988년, 비싸 보인 매수",
+     "x": 1170,
+     "y": 790,
+     "size": 48,
+     "w": "Bold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "② 16년 정체에도 보유",
+     "x": 1170,
+     "y": 850,
+     "size": 48,
+     "w": "Bold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.35
+    },
+    {
+     "kind": "print",
+     "text": "③ 오늘 사면 내 배당",
+     "x": 1170,
+     "y": 910,
+     "size": 48,
+     "w": "Bold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.65
+    }
+   ]
   },
   {
    "v": {
@@ -540,12 +393,12 @@
     "lib": "commons_oldgrocery_1.jpg"
    },
    "lines": [
-    "1936년 미국 네브래스카주 오마하. 할아버지의 식료품점에서 여섯 살 워렌 버핏은 콜라 여섯 병을 25센트에 사기 시작합니다.",
-    "그리고 동네를 돌며 한 병에 5센트씩 팔았죠."
+    "사실 워렌 버핏은 여섯 살 때 할아버지 가게에서 콜라 여섯 병을 25센트에 사서, 한 병에 5센트씩 팔던 꼬마였어요.",
+    "그런데 이 주식을 사기까지는 52년이 걸렸습니다. 1988년 여름, 무슨 일이 있었을까요?"
    ],
    "en": [
-    "Omaha, Nebraska, 1936. At his grandfather's grocery store, six-year-old Warren Buffett started buying six bottles of Coke for 25 cents.",
-    "Then he sold them around the neighborhood for 5 cents each."
+    "Fun fact: at six, Buffett bought six bottles of Coke for 25 cents at his grandfather's store and sold them for 5 cents each.",
+    "Yet it took him 52 years to buy the stock. What happened in the summer of 1988?"
    ],
    "asof": false,
    "src": "워렌 버핏 1989년 주주서한 (Buffett & Son 식료품점, 여섯 병 25센트 · 한 병 5센트) · 사진: 1939년 핀란드 오울루의 식료품점 · Wikimedia Commons (CC BY 4.0)",
@@ -596,193 +449,44 @@
      "at": 0.8
     },
     {
-     "kind": "icons",
-     "icon": "bottle",
-     "x": 1170,
-     "y": 580,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.05
-    },
-    {
      "kind": "print",
-     "text": "한 병 · 5센트",
-     "x": 1320,
+     "text": "1936년 → 1988년",
+     "x": 1170,
      "y": 610,
      "size": 52,
      "w": "ExtraBold",
      "color": "ink",
      "line": 1,
-     "at": 0.3
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "52년 만의 첫 매수",
+     "x": 1170,
+     "y": 680,
+     "size": 48,
+     "w": "Bold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.5
     }
    ]
   },
   {
+   "chapter": "1988년 여름, 비싸 보인 콜라",
    "v": {
-    "type": "sketch"
+    "type": "title",
+    "text": "1988년 여름, 비싸 보인 콜라",
+    "sub": "첫 번째 이야기"
    },
    "lines": [
-    "여섯 병을 다 팔면 30센트, 남는 돈은 5센트예요. 25센트를 넣어 20%를 번 장사죠.",
-    "가게는 할아버지 것, 손님은 동네 사람, 자본금은 25센트. 꽤 워렌 버핏다운 첫 사업입니다."
+    "첫 번째 이야기, 1988년 여름입니다."
    ],
    "en": [
-    "Sell all six and you have 30 cents: 5 cents of profit, 20% on a 25-cent outlay.",
-    "Grandpa's store, neighborhood customers, 25 cents of capital. A very Buffett-like first business."
+    "Part one: summer, 1988."
    ],
    "asof": false,
-   "src": "워렌 버핏 1989년 주주서한",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "여섯 병 장사의 계산",
-     "x": 140,
-     "y": 90,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "icons",
-     "icon": "crate",
-     "x": 160,
-     "y": 200,
-     "size": 260,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.02
-    },
-    {
-     "kind": "print",
-     "text": "산 값 25센트",
-     "x": 500,
-     "y": 230,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "판 값 6 × 5센트 = 30센트",
-     "x": 500,
-     "y": 320,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "write",
-     "text": "+5센트",
-     "x": 500,
-     "y": 420,
-     "size": 150,
-     "color": "green",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "수익률 20%",
-     "x": 1100,
-     "y": 470,
-     "size": 68,
-     "w": "ExtraBold",
-     "color": "green",
-     "line": 0,
-     "at": 0.85
-    },
-    {
-     "kind": "rule",
-     "x0": 160,
-     "y0": 640,
-     "x1": 1760,
-     "y1": 640,
-     "color": "ink",
-     "width": 3,
-     "line": 1,
-     "at": 0,
-     "dur": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "store",
-     "x": 160,
-     "y": 680,
-     "size": 110,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "가게 · 할아버지",
-     "x": 290,
-     "y": 710,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "icons",
-     "icon": "person",
-     "x": 760,
-     "y": 680,
-     "size": 110,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "손님 · 동네 사람",
-     "x": 890,
-     "y": 710,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.38
-    },
-    {
-     "kind": "icons",
-     "icon": "coin",
-     "x": 1340,
-     "y": 690,
-     "size": 90,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "자본금 25센트",
-     "x": 1450,
-     "y": 710,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.63
-    }
-   ]
+   "sketch_add": []
   },
   {
    "v": {
@@ -797,12 +501,12 @@
     ]
    },
    "lines": [
-    "워렌 버핏은 1989년 주주서한에서 그때를 이렇게 돌아봅니다. 이 음료가 손님을 끄는 남다른 힘을 그때 똑똑히 봤다고요.",
-    "여섯 살 소년이 본 건 이거였어요. 좋은 장사는 같은 손님이 또 사러 오는 장사라는 것."
+    "워렌 버핏은 1989년 주주서한에서 여섯 살 때를 이렇게 돌아봅니다. 이 음료가 손님을 끄는 남다른 힘을 그때 이미 봤다고요.",
+    "좋은 장사는 같은 손님이 또 사러 오는 장사라는 거죠."
    ],
    "en": [
-    "In his 1989 letter, Buffett looked back: even then he clearly saw the product's extraordinary appeal to customers.",
-    "What the boy saw: a good business is one where the same customer comes back to buy again."
+    "In his 1989 letter, Buffett looked back on age six: even then he saw the product's extraordinary pull on customers.",
+    "A good business is one where the same customer comes back to buy again."
    ],
    "asof": false,
    "src": "워렌 버핏 1989년 주주서한 ('the extraordinary consumer attractiveness and commercial possibilities of the product') · 사진: 1935년 정육점 · Wikimedia Commons (퍼블릭 도메인)",
@@ -851,17 +555,6 @@
      "color": "ink",
      "line": 1,
      "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "첫 번째 이야기",
-     "x": 1170,
-     "y": 800,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.25
     }
    ]
   },
@@ -873,11 +566,11 @@
     "bd_dim": 0.72
    },
    "lines": [
-    "그런데 이걸 알아본 소년은, 그 뒤 52년 동안 코카콜라 주식을 지켜보기만 했습니다.",
+    "그런데도 그 뒤 52년 동안 주식은 지켜보기만 했어요.",
     "본인 말로는 코카콜라가 세계로 퍼지는 걸 보면서도, 그 뻔한 걸 못 알아봤다고요."
    ],
    "en": [
-    "Yet the boy who saw this then just watched Coca-Cola for the next 52 years.",
+    "Yet for the next 52 years, he only watched the stock.",
     "In his own words, he watched Coke blanket the world and still overlooked the obvious."
    ],
    "asof": false,
@@ -928,22 +621,6 @@
      "at": 0.5
     }
    ]
-  },
-  {
-   "chapter": "1988년 여름, 비싸 보인 콜라",
-   "v": {
-    "type": "title",
-    "text": "1988년 여름, 비싸 보인 콜라",
-    "sub": "두 번째 이야기"
-   },
-   "lines": [
-    "두 번째 이야기, 1988년으로 가 볼게요."
-   ],
-   "en": [
-    "Part two. Let's go to 1988."
-   ],
-   "asof": false,
-   "sketch_add": []
   },
   {
    "v": {
@@ -1593,7 +1270,7 @@
    },
    "lines": [
     "실제로 10년 뒤 코카콜라 순이익은 약 3.4배가 됐어요. 1988년 10억 달러에서 1998년 35억 달러로요.",
-    "두 번째 이야기의 답입니다. 그해 이익으로 보면 비쌌지만, 워렌 버핏은 해마다 커질 이익에 값을 매긴 거예요. 그 판단은 10년 동안 맞았고요."
+    "첫 번째 이야기의 답입니다. 그해 이익으로 보면 비쌌지만, 워렌 버핏은 해마다 커질 이익에 값을 매긴 거예요. 그 판단은 10년 동안 맞았고요."
    ],
    "en": [
     "Ten years later, Coca-Cola's net income was about 3.4 times larger: from 1 billion dollars in 1988 to 3.5 billion in 1998.",
@@ -1731,13 +1408,13 @@
    "v": {
     "type": "title",
     "text": "16년 제자리와 생일 선물",
-    "sub": "주가가 멈춘 동안"
+    "sub": "두 번째 이야기"
    },
    "lines": [
-    "1998년으로 가 볼게요."
+    "두 번째 이야기, 주가가 멈춘 16년입니다."
    ],
    "en": [
-    "Let's go to 1998."
+    "Part two: sixteen flat years."
    ],
    "asof": false,
    "sketch_add": []
