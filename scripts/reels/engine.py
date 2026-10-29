@@ -66,7 +66,10 @@ def dm_kw(spec):
     d = spec.get("dm") or {}
     return str(d.get("keyword") or "").strip()
 YT_WORDS = ("유튜브", "풀버전", "풀영상", "전체 영상")
-OUTRO_SHORT = {"cap": ["유튜브에서 '밸류노트' 검색"], "say": "유튜브에서 밸류노트를 검색하세요."}
+# 2026-10-30 운영 기준 정리: 릴스 끝은 "인스타·유튜브 팔로우" (10-27 운영자 '이런 유용한 정보를 더 얻고 싶으면 밸류노트 인스타그램과 유튜브를 팔로우', README 릴스=쇼츠 10-29) — 예전 "유튜브에서 검색"(10-25) 대체
+OUTRO_SHORT = {"cap": ["이런 정보, 더 받고 싶다면", "밸류노트 인스타·유튜브 팔로우"], "say": "이런 유용한 정보를 더 얻고 싶으시면, 밸류노트 인스타그램과 유튜브를 팔로우하세요."}
+# 쇼츠 끝 음성은 "좋아요와 구독"만, 풀버전 안내는 아래 자막으로만 (10-27 운영자: "마무리 음성은 더 많은 정보를 원하시면 좋아요와 구독만, 풀영상 안내는 하단 자막으로만")
+SHORT_END_SAY = "더 많은 정보를 원하시면 좋아요와 구독 부탁드립니다."
 
 
 def _points_yt(ln):
@@ -88,7 +91,7 @@ def cta_lines(spec, sc, lines):
             sc["_follow"] = "sub"; return lines
         if yt:
             if ptr: return lines   # 장면이 이미 유튜브 풀영상을 가리키면 안내 문장을 더 붙이지 않는다 (화면의 '풀버전 보기' 버튼은 그대로)
-            return lines + [{"cap": spec.get("full_cap", ["풀버전은 화면 아래 링크에서"]), "say": spec.get("full_say", "풀버전은 화면 아래 링크에서 보세요.")}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자)
+            return lines + [{"cap": spec.get("full_cap", ["풀버전 ▶ 화면 아래 관련 영상"]), "say": SHORT_END_SAY}]   # 쇼츠 → 롱폼으로 (2026-10-22 운영자) · 음성은 좋아요·구독, 풀버전은 자막만 (10-27)
         if spec.get("outro"):   # 2026-10-25 운영자: 유튜브 쇼츠를 인스타에 다시 올릴 때 "유튜브에서 밸류노트 검색" 으로 마무리 — 한 문장만
             keep = [l for l in lines if not (_points_yt(l) and len(lines) > 1 and l is not lines[0])] or lines[:1]
             return keep + [OUTRO_SHORT]
