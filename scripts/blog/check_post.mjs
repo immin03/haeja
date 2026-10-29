@@ -163,6 +163,10 @@ for (const dir of dirs) {
   if ((p.tags || []).some((t) => /밸류노트/.test(t))) E.push("태그에 '밸류노트'가 있습니다 — 2026-10-29부터 쓰지 않습니다");
   if (/에디터|Editor/.test(note?.note || '')) W.push('고지에 에디터 직함이 있습니다 — "이 글은 Luciano가 작성했습니다."로');
   { const kw = String((p.tags || [])[0] || ''); const head = String(p.title || '').replace(/\s/g, '').slice(0, 14); const core = kw.replace(/(주가전망|주가|전망|목표주가|적정주가)$/, ''); if (kw && core && !head.includes(core)) W.push(`첫 태그(핵심 검색어) "${kw}"의 대상 이름이 제목 앞쪽(14자)에 없습니다 — 검색어를 제목 맨 앞에`); }
+  // AI 검색 인용 (2026-10-29): 떼어 읽어도 답이 되는 문장
+  { const PRON = /^(이|그|이것|그것|이런|그런|이는|그는|그래서|하지만|그런데|그러면|또|여기서)[\s,]/; leads.forEach((l) => { const f = l.split(' → ')[1] || ''; if (PRON.test(f)) W.push(`AI 인용: 소제목 아래 첫 문장이 앞 문장에 기대어 시작합니다 — 대상 이름을 주어로: ${f.slice(0, 40)}`); });
+    const sm = p.blocks.find((b) => b.summary)?.summary?.[0] || ''; if (sm && !/\d/.test(sm)) W.push('AI 인용: 3줄 요약 첫 줄에 숫자가 없습니다 — 제목 질문의 답(대상+숫자+기준일)으로');
+    p.blocks.forEach((b) => { const t = strip(b.p || ''); if (/^Q[.\s]/.test(t)) { const a = (t.split('?')[1] || '').trim(); if (a && PRON.test(a)) W.push(`AI 인용: Q&A 답 첫 문장이 단독으로 읽히지 않습니다: ${a.slice(0, 30)}`); } }); }
   if (!p.blocks.some((b) => /^Q[.\s]/.test(strip(b.p || '')))) W.push('글 끝 "자주 묻는 질문"(Q. 문장 2~3개)이 없습니다 — 사람들이 함께 검색하는 질문에 짧게 답하기');
   if (note && /AI ?(도구|로 (초안|작성|만))/.test(note.note)) E.push('고지에 AI 언급이 있습니다');
   if (p.blocks.some((b) => b.sources)) E.push('참고 자료 목록(sources) 블록은 넣지 않습니다');
