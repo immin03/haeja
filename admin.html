@@ -528,6 +528,38 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .pf-vid.sh .th{aspect-ratio:9/16}
 .pf-live{font-size:11.5px;font-weight:800;color:#CDB78A;margin-left:6px}
 @media (max-width:860px){.pf-vid.sh{grid-template-columns:96px 1fr}.pf-vid.sh .pf-two{grid-template-columns:1fr}}
+/* 브리핑 (2026-10-30) — 휴대폰에서 한 손으로 훑어보기 */
+.br{max-width:720px;margin:0 auto}
+.br-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 12px}
+.br-seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.br-seg button{border:0;background:none;font:inherit;font-size:15px;font-weight:800;color:var(--muted);padding:8px 18px;border-radius:999px;cursor:pointer}
+.br-seg button.on{background:var(--navy);color:#FFFFFF}
+.br-nav{display:flex;align-items:center;gap:6px}.br-nav b{font-size:15px;white-space:nowrap}
+.br-nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:20px;line-height:1;cursor:pointer}.br-nav button:disabled{opacity:.3}
+.br-hl p{margin:0;font-size:17px;line-height:1.6;font-weight:700}.br-hl p.m{font-size:14px;font-weight:500}
+.br-at{font-size:12px;color:var(--muted);margin-top:6px}
+.br-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.br-k{padding:12px 14px}.br-k .l{font-size:12.5px;color:var(--muted);font-weight:700}.br-k .v{font-size:24px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}.br-k .s{font-size:12px;color:var(--muted)}
+.br-k .d{font-size:12px;font-weight:800;padding:1px 6px;border-radius:999px;vertical-align:middle}.br-k .d.up{color:var(--good);background:rgba(45,122,95,.1)}.br-k .d.dn{color:var(--bad);background:rgba(216,65,90,.1)}
+.br-row{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-top:1px solid var(--line)}.br-row:first-child{border-top:0;padding-top:2px}
+.br-row .t{flex:1;min-width:0;font-size:15px;line-height:1.5}.br-row .t .m{font-size:13.5px;margin-top:2px}
+.br-row .bt{display:flex;gap:6px;flex-shrink:0}
+.br-dot{width:10px;height:10px;border-radius:50%;margin-top:7px;flex-shrink:0;background:var(--s-visit)}.br-dot.bad{background:var(--bad)}.br-dot.warn{background:#E0A526}.br-dot.good{background:var(--good)}
+.br .m{color:var(--muted)}
+.br-b{border:0;background:var(--navy);color:#FFFFFF;font:inherit;font-size:13.5px;font-weight:800;padding:8px 14px;border-radius:999px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.br-b.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}.br-b.red{background:var(--bad)}.br-b:disabled{opacity:.5}
+.br-ok{font-size:15px;font-weight:700;color:var(--good)}
+.br-ch{border-top:1px solid var(--line)}.br-ch:first-child{border-top:0}
+.br-ch summary{display:flex;justify-content:space-between;align-items:center;padding:12px 0;cursor:pointer;list-style:none;font-size:15px}.br-ch summary::-webkit-details-marker{display:none}
+.br-ch .n{font-weight:800}.br-ch .c em{font-style:normal;font-weight:800;margin-left:10px;font-size:14px;color:var(--ink2)}.br-ch .c em.ok{color:var(--good)}.br-ch .c em.bad{color:var(--bad)}.br-ch .c em.m{color:var(--muted);font-weight:500}
+.br-ch ul{margin:0 0 10px;padding-left:18px;font-size:13.5px;line-height:1.7}
+.br-ch1{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}.br-ch1 .n{font-weight:800}.br-ch1 .c{color:var(--ink2);text-align:right}
+.br-li{margin:0;padding-left:18px;font-size:15px;line-height:1.75}
+.br-fb{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);resize:vertical}
+.br-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-size:12.5px}
+.br-fbl{margin-top:12px}.br-fi{padding:9px 0;border-top:1px solid var(--line);font-size:14px}.br-fi .m{font-size:12px;margin-top:2px}
+.br-more{margin:22px 0 8px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}.br-more a{color:var(--ink2);font-weight:700}
+@media (max-width:640px){.br-kpis{grid-template-columns:repeat(2,1fr)}.br-row{flex-wrap:wrap}.br-row .bt{width:100%;padding-left:20px}}
 </style>
 </head>
 <body>
@@ -609,12 +641,14 @@ function barsList(obj, order){
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
 const GROUPS = [
+  ['brief', '브리핑', ['brief']],
   ['home', '개요', ['overview', 'rules', 'perf', 'perfs']],
   ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
   ['growth', '유입', ['traffic', 'landing', 'dm']],
   ['content', '콘텐츠', ['calendar', 'youtube', 'bench', 'social', 'blog', 'column']],
 ];
 const PAGES = [
+  ['brief', '브리핑'],
   ['overview', '개요'],
   ['rules', '운영 기준'],
   ['perf', '롱폼 진단'],
@@ -634,7 +668,7 @@ const PAGES = [
   ['column', '칼럼'],
 ];
 let DATA = null;
-const page = () => { const h = location.hash.slice(1).split('/')[0]; return PAGES.some(p => p[0] === h) ? h : 'overview'; };
+const page = () => { const h = location.hash.slice(1).split('/')[0]; return PAGES.some(p => p[0] === h) ? h : 'brief'; };
 const subPage = () => location.hash.slice(1).split('/')[1] || '';
 const groupOf = id => GROUPS.find(g => g[2].includes(id)) || GROUPS[0];
 const SIZE_ORDER = ['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상','2억 원 이상'];
@@ -2266,6 +2300,165 @@ function bindPerf(){
   });
 }
 
+/* ───────── 브리핑 (2026-10-30 운영자) ─────────
+   "관리자 페이지 한 곳에서 모든 걸 다 컨트롤", "무조건 보기 쉽게, 약식으로 딱딱 확인", "일일 단위로 또 주간 단위로".
+   첫 화면. 위에서 아래로: 일일·주간 선택 → 한 줄 요약 → 숫자 4개 → 확인할 것 → 올라간 것 → 자동 적용한 것 → 알림 → 피드백.
+   글은 매일 07:47 '밸류노트 브리핑' 작업이 docs agent 'brief-<날짜>' (주간은 'brief-w-<월요일>')에 쓴다.
+   올라간 콘텐츠·확인할 것·알림은 데이터에서 바로 계산하므로 브리핑 글이 없어도 화면은 채워진다. */
+const BR = { mode: 'd', day: null, doc: null, inbox: null, alerts: [], tasks: [], loaded: false, busy: false };
+const brToday = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+const brMonday = d => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() - (x.getUTCDay() + 6) % 7); return x.toISOString().slice(0, 10); };
+const brAdd = (d, n) => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
+const brMD = d => { const x = new Date(d + 'T00:00:00Z'); return `${x.getUTCMonth() + 1}/${x.getUTCDate()}(${DOW[x.getUTCDay()]})`; };
+function brRange(){
+  const day = BR.day || brToday();
+  if(BR.mode === 'w'){ const m = brMonday(day); return { from: m, to: brAdd(m, 6), id: 'brief-w-' + m, label: `${brMD(m)} ~ ${brMD(brAdd(m, 6))}` }; }
+  return { from: day, to: day, id: 'brief-' + day, label: brMD(day) + (day === brToday() ? ' 오늘' : '') };
+}
+const brIn = (iso, r) => { if(!iso) return false; const d = kstDate(iso); return d >= r.from && d <= r.to; };
+async function briefLoad(){
+  const r = brRange();
+  const [doc, inbox, al, tc] = await Promise.all([
+    sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', r.id).maybeSingle(),
+    sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', 'brief-inbox').maybeSingle(),
+    sb.from('docs').select('id,data,updated_at').eq('collection', 'alerts').order('updated_at', { ascending: false }).limit(60),
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'task-changes').maybeSingle()]);
+  BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = al.data || [];
+  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.loaded = true;
+}
+const brAlertOpen = a => (a.data || {}).read !== true;
+const brAlertBig = a => ['bad', 'warn', 'urgent', 'error'].includes((a.data || {}).level);
+function brPending(){ return BR.alerts.filter(a => brAlertOpen(a) && brAlertBig(a)).length; }
+
+/* 채널별 올라간 것·올라갈 것 */
+function brContent(r){
+  const now = new Date().toISOString();
+  const yt = (YT.list || []).filter(y => brIn(y.scheduled_at || y.uploaded_at, r));
+  const so = (OPS.posts || []).filter(p => brIn(p.scheduled_at, r) && p.ig_status !== 'deleted');
+  const row = (name, list, isDone, isBad) => {
+    const done = list.filter(isDone), bad = list.filter(x => !isDone(x) && isBad(x)), wait = list.filter(x => !isDone(x) && !isBad(x));
+    return { name, done, bad, wait, all: list };
+  };
+  const ytBad = y => ['hold', 'stale', 'changes'].includes(y.status) || (y.status !== 'uploaded' && y.scheduled_at < now);
+  return [
+    row('유튜브 롱폼', yt.filter(y => y.kind === 'long'), y => y.status === 'uploaded', ytBad),
+    row('유튜브 쇼츠', yt.filter(y => y.kind === 'short'), y => y.status === 'uploaded', ytBad),
+    row('인스타 릴스', so.filter(p => p.kind === 'reel'), p => p.ig_status === 'posted', p => p.ig_status === 'failed' || p.paused),
+    row('카드뉴스', so.filter(p => p.kind === 'carousel'), p => p.ig_status === 'posted', p => p.ig_status === 'failed' || p.paused),
+  ];
+}
+/* 대표님이 볼 것: 꼭 필요한 것만. 버튼은 '반려'처럼 되돌리는 쪽만 둔다 (제1 원칙 16·17) */
+function brChecks(){
+  const L = [], now = Date.now(), today = brToday();
+  (YT.list || []).filter(y => y.kind === 'long' && ['review', 'approved'].includes(y.status) && y.scheduled_at && Date.parse(y.scheduled_at) > now && Date.parse(y.scheduled_at) < now + 36 * 3600e3).forEach(y => {
+    const auto = y.status === 'review';
+    L.push({ level: 'warn', title: `롱폼 ${kday(y.scheduled_at)} · ${y.title || y.id}`,
+      body: auto ? '9시까지 반려하지 않으면 자동으로 올라갑니다.' : '자동 진행 중입니다. 올라가기 전까지 반려할 수 있습니다.',
+      btns: [`<a class="br-b ghost" href="#youtube/${auto ? 'review' : 'ready'}">영상 보기</a>`, `<button class="br-b red" data-br-long="${esc(y.id)}">반려</button>`] });
+  });
+  const failed = (OPS.posts || []).filter(p => p.ig_status === 'failed' && kstDate(p.scheduled_at) >= brAdd(today, -2));
+  if(failed.length) L.push({ level: 'bad', title: `인스타 게시 실패 ${failed.length}편`, body: '자동으로 다시 올리기를 시도합니다. 계속 실패하면 연결을 확인해 주세요.', btns: ['<a class="br-b ghost" href="#social">보기</a>'] });
+  const st = OPS.status || {};
+  (st.accounts || []).forEach(a => { if(a.platform !== 'instagram') return; const d = Math.floor((Date.parse(a.expires_at) - now) / 864e5); if(d <= 3) L.push({ level: 'bad', title: `인스타그램 연결 만료 D-${Math.max(0, d)}`, body: '다시 연결해야 게시가 이어집니다.', btns: ['<a class="br-b ghost" href="#social">연결</a>'] }); });
+  const tw = BR.tasks.filter(t => t.status === 'pending');
+  if(tw.length) L.push({ level: 'info', title: `예약 작업 변경 ${tw.length}건 대기`, body: "Claude 채팅에서 '작업 변경 반영'이라고 한 번만 말하면 모두 처리합니다.", btns: [] });
+  ((BR.doc || {}).data || {}).checks && BR.doc.data.checks.forEach(c => L.push({ level: c.level || 'info', title: c.title, body: c.body || '', btns: c.link ? [`<a class="br-b ghost" href="${esc(c.link)}">보기</a>`] : [] }));
+  return L;
+}
+function vBrief(){
+  if(!BR.loaded) return '<div class="empty">불러오는 중</div>';
+  const r = brRange(), d = (BR.doc || {}).data || {}, wk = BR.mode === 'w';
+  const s = DATA || {}, sv = s.visitors || {}, sg = s.signups || {};
+  const daily = (s.daily || []).filter(x => x.d >= r.from && x.d <= r.to);
+  const vis = daily.length ? daily.reduce((a, x) => a + (+x.v || 0), 0) : (wk ? sv.d7 : sv.today), sig = daily.length ? daily.reduce((a, x) => a + (+x.s || 0), 0) : (wk ? sg.d7 : sg.today);
+  const C = brContent(r), up = C.reduce((a, c) => a + c.done.length, 0), plan = C.reduce((a, c) => a + c.all.length, 0);
+  const kp = (d.kpis && d.kpis.length ? d.kpis.slice(0, 4) : [
+    { label: '유튜브 구독자', value: '–', note: '브리핑 작업이 채웁니다' },
+    { label: wk ? '이번 주 방문' : '방문', value: n0(vis) },
+    { label: wk ? '이번 주 가입' : '가입', value: n0(sig), note: `전체 ${n0(sg.total)}명` },
+    { label: '올린 콘텐츠', value: `${up}/${plan}`, note: '올림 / 예정' }]);
+  const checks = brChecks();
+  const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
+  const applied = d.applied || [];
+  const open = BR.alerts.filter(brAlertOpen), big = open.filter(brAlertBig), small = open.length - big.length;
+  const fb = (((BR.inbox || {}).data || {}).items || []).slice(-4).reverse();
+  return `<div class="br">
+  <div class="br-top">
+    <div class="br-seg"><button data-br-mode="d"${wk ? '' : ' class="on"'}>일일</button><button data-br-mode="w"${wk ? ' class="on"' : ''}>주간</button></div>
+    <div class="br-nav"><button data-br-step="-1" aria-label="이전">‹</button><b>${r.label}</b><button data-br-step="1" aria-label="다음"${r.to >= brToday() ? ' disabled' : ''}>›</button></div>
+  </div>
+
+  <div class="card br-hl">${d.headline ? `<p>${esc(d.headline)}</p>` : `<p class="m">${wk ? '주간 브리핑은 월요일 07:47에 올라옵니다.' : '오늘 브리핑은 매일 07:47에 올라옵니다.'} 아래 숫자와 목록은 지금 데이터 그대로입니다.</p>`}${d.at ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
+
+  <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
+
+  <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
+  <div class="card">${checks.length ? checks.map(c => `<div class="br-row">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body)}</div>` : ''}</div>${c.btns.length ? `<div class="bt">${c.btns.join('')}</div>` : ''}</div>`).join('') : '<div class="br-ok">✓ 지금 확인할 것 없음</div>'}</div>
+
+  <h2>${wk ? '이번 주' : (r.from === brToday() ? '오늘' : '이날')} 콘텐츠</h2>
+  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">문제 ${c.bad.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${c.all.map(x => `<li><span class="m">${kday(x.scheduled_at)}</span> ${esc(x.title || x.id)}</li>`).join('')}</ul>` : ''}</details>`).join('')}
+    ${(d.channels || []).map(c => `<div class="br-ch1"><span class="n">${esc(c.name)}</span><span class="c">${esc(c.text || '')}</span></div>`).join('')}</div>
+
+  ${(d.sections || []).map(sc => `<h2>${esc(sc.title)}</h2><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('')}
+
+  <h2>자동으로 적용한 것 ${applied.length ? `<span class="qcount">${applied.length}</span>` : ''}</h2>
+  <div class="card">${applied.length ? applied.map((a, i) => `<div class="br-row">${dot('good')}<div class="t"><b>${esc(a.title)}</b>${a.where ? `<div class="m">${esc(a.where)}</div>` : ''}</div><div class="bt">${a.reverted ? '<span class="m">되돌림 요청함</span>' : `<button class="br-b ghost" data-br-undo="${i}">되돌리기</button>`}</div></div>`).join('') : '<div class="m">아직 없습니다. 개선안은 승인 없이 바로 적용되고 여기에 모입니다.</div>'}</div>
+
+  <h2>알림 ${big.length ? `<span class="qcount">${big.length}</span>` : ''}</h2>
+  <div class="card">${big.slice(0, 6).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(a.data.body)}</div>` : ''}<div class="br-at">${kst(a.data.at || a.updated_at)} · ${esc(a.data.source || '')}</div></div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">확인</button></div></div>`).join('') || '<div class="br-ok">✓ 중요한 알림 없음</div>'}
+    ${open.length ? `<div class="br-foot"><span class="m">${small ? `일반 알림 ${small}건은 브리핑에 정리됩니다` : ''}</span><button class="br-b ghost" data-br-readall>모두 읽음</button></div>` : ''}</div>
+
+  <h2>피드백</h2>
+  <div class="card">
+    <textarea class="br-fb" data-br-fb rows="3" placeholder="바꾸고 싶은 것, 새로 할 일, 마음에 안 드는 것을 그냥 적어 주세요. 다음 작업부터 바로 반영합니다."></textarea>
+    <div class="br-foot"><span class="m">적은 내용은 제1 원칙이 되어 모든 작업이 먼저 따릅니다.</span><button class="br-b" data-br-send>보내기</button></div>
+    ${fb.length ? `<div class="br-fbl">${fb.map(f => `<div class="br-fi"><div>${esc(f.text)}</div><div class="m">${kst(f.at)} · ${f.status === 'done' ? '반영함' + (f.reply ? ' — ' + esc(f.reply) : '') : '반영 대기'}</div></div>`).join('')}</div>` : ''}
+  </div>
+
+  <div class="br-more">자세히: <a href="#overview">방문·가입</a><a href="#youtube">유튜브</a><a href="#social">인스타</a><a href="#perf">성과 진단</a><a href="#bench">벤치마킹</a><a href="#rules">운영 기준</a></div>
+</div>`;
+}
+async function brSaveInbox(item){
+  const cur = BR.inbox && BR.inbox.data ? BR.inbox.data : { items: [] };
+  const data = { ...cur, items: [...(cur.items || []), { id: 'b' + Date.now().toString(36), at: new Date().toISOString(), status: 'new', ...item }] };
+  const q = BR.inbox ? sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', 'brief-inbox')
+    : sb.from('docs').upsert({ owner: (await sb.auth.getUser()).data.user.id, collection: 'agent', id: 'brief-inbox', data, updated_at: new Date().toISOString() });
+  const { error } = await q;
+  if(error){ toast('보내지 못했습니다: ' + error.message, true); return false; }
+  BR.inbox = { ...(BR.inbox || {}), id: 'brief-inbox', data }; return true;
+}
+async function brRead(ids){
+  const L = BR.alerts.filter(a => ids.includes(a.id));
+  await Promise.all(L.map(a => sb.from('docs').update({ data: { ...a.data, read: true } }).eq('collection', 'alerts').eq('id', a.id)));
+  L.forEach(a => a.data = { ...a.data, read: true });
+}
+function bindBrief(){
+  const box = $('#main');
+  box.querySelectorAll('[data-br-mode]').forEach(b => b.onclick = async () => { BR.mode = b.dataset.brMode; BR.loaded = false; render(); await briefLoad(); render(); });
+  box.querySelectorAll('[data-br-step]').forEach(b => b.onclick = async () => {
+    const r = brRange(), n = +b.dataset.brStep * (BR.mode === 'w' ? 7 : 1);
+    let nd = brAdd(BR.mode === 'w' ? r.from : r.from, n); if(nd > brToday()) nd = brToday();
+    BR.day = nd; BR.loaded = false; render(); await briefLoad(); render(); });
+  box.querySelectorAll('[data-br-long]').forEach(b => b.onclick = async () => {
+    const note = prompt('반려 이유를 짧게 적어 주세요 (예: 주제가 별로, 첫 문장 다시). 비워 두면 다음 순위로 바꿉니다.'); if(note === null) return;
+    b.disabled = true;
+    const { error } = await sb.rpc('yt_admin_set', { p_id: b.dataset.brLong, p_status: 'changes', p_note: '대표 반려' + (note.trim() ? ': ' + note.trim() : '') });
+    if(error){ toast('반려하지 못했습니다: ' + error.message, true); b.disabled = false; return; }
+    await brSaveInbox({ kind: 'reject_long', ref: b.dataset.brLong, text: '롱폼 반려' + (note.trim() ? ' — ' + note.trim() : '') });
+    toast('반려했습니다. 다음 순위로 바꿉니다.'); await ytFetch(); render(); });
+  box.querySelectorAll('[data-br-undo]').forEach(b => b.onclick = async () => {
+    const a = (((BR.doc || {}).data || {}).applied || [])[+b.dataset.brUndo]; if(!a) return;
+    if(!confirm(`'${a.title}'을(를) 되돌릴까요?`)) return;
+    b.disabled = true;
+    if(await brSaveInbox({ kind: 'revert', ref: a.ref || null, src: a.src || null, text: '되돌리기: ' + a.title })){ a.reverted = true; toast('되돌리기를 요청했습니다. 다음 작업부터 원래대로 돌아갑니다.'); render(); } else b.disabled = false; });
+  box.querySelectorAll('[data-br-read]').forEach(b => b.onclick = async () => { b.disabled = true; await brRead([b.dataset.brRead]); render(); });
+  const ra = box.querySelector('[data-br-readall]'); if(ra) ra.onclick = async () => { ra.disabled = true; await brRead(BR.alerts.filter(brAlertOpen).map(a => a.id)); toast('모두 읽음으로 바꿨습니다.'); render(); };
+  const sd = box.querySelector('[data-br-send]'); if(sd) sd.onclick = async () => {
+    const t = box.querySelector('[data-br-fb]'), text = (t.value || '').trim(); if(!text){ t.focus(); return; }
+    sd.disabled = true;
+    if(await brSaveInbox({ kind: 'feedback', text })){ toast('받았습니다. 다음 작업부터 반영합니다.'); render(); } else sd.disabled = false; };
+}
+
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
   const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0, stocks: SK.list ? SK.list.length : null }, hot = {};
@@ -2280,6 +2473,7 @@ function render(s){
   if(PF.data){ const np = pfPending(); if(np) hot.perf = [np, 'hot', '롱폼 개선 ' + np + '건 결정 대기']; const ns = pfsPending(); if(ns) hot.perfs = [ns, 'hot', '숏폼 개선 ' + ns + '건 결정 대기']; }
   if(OR.rules){ const nw = ((OR.rules.data || {}).items || []).filter(x => (x.status || 'new') === 'new').length; if(nw) hot.rules = [nw, 'warm', '제1 원칙 ' + nw + '개 반영 대기']; }
   if(BN.list){ const nb = benchCounts().proposed; if(nb) hot.bench = [nb, 'warm', '벤치마킹 ' + nb + '건 승인 대기']; }
+  if(BR.loaded){ const nb = brPending() + brChecks().filter(c => c.level !== 'info').length; if(nb) hot.brief = [nb, 'hot', '확인할 것 ' + nb + '건']; }
   const nav = $('#tabs'); nav.hidden = false;
   const g = groupOf(p), title = id => PAGES.find(x => x[0] === id)[1];
   const badge = id => hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : '';
@@ -2288,7 +2482,8 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'rules' ? vRules() : p === 'perf' ? vPerf() : p === 'perfs' ? vPerfs() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
+  $('#main').innerHTML = p === 'brief' ? vBrief() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'rules' ? vRules() : p === 'perf' ? vPerf() : p === 'perfs' ? vPerfs() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
+  if(p === 'brief') bindBrief();
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
@@ -2327,7 +2522,7 @@ async function load(){
   $('#reload').hidden = $('#out').hidden = !session;
   if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
-  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null, benchLoad().catch(() => {}), perfLoad().catch(() => {})]);
+  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null, benchLoad().catch(() => {}), perfLoad().catch(() => {}), briefLoad().catch(() => {})]);
   if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
@@ -2372,7 +2567,7 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
 });
 
 load();
-setInterval(() => { if(!document.hidden && !$('#out').hidden && !['column', 'social', 'blog', 'youtube', 'perf', 'perfs'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
+setInterval(() => { if(!document.hidden && !$('#out').hidden && !['brief', 'column', 'social', 'blog', 'youtube', 'perf', 'perfs'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
