@@ -523,6 +523,11 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .pf-goal{font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px;word-break:keep-all}
 @media (max-width:860px){.pf-kpis{grid-template-columns:repeat(2,1fr)}.pf-find{grid-template-columns:1fr}.pf-vid{grid-template-columns:1fr}.pf-two{grid-template-columns:1fr}}
 .pf-tbl td.num,.pf-tbl th.num{text-align:right;font-variant-numeric:tabular-nums}
+/* 숏폼 진단 (2026-10-30 운영자 요청: 롱폼 진단처럼 숏폼 진단도) — 세로 썸네일 */
+.pf-vid.sh{grid-template-columns:118px 1fr}
+.pf-vid.sh .th{aspect-ratio:9/16}
+.pf-live{font-size:11.5px;font-weight:800;color:#CDB78A;margin-left:6px}
+@media (max-width:860px){.pf-vid.sh{grid-template-columns:96px 1fr}.pf-vid.sh .pf-two{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -604,7 +609,7 @@ function barsList(obj, order){
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
 const GROUPS = [
-  ['home', '개요', ['overview', 'rules', 'perf']],
+  ['home', '개요', ['overview', 'rules', 'perf', 'perfs']],
   ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
   ['growth', '유입', ['traffic', 'landing', 'dm']],
   ['content', '콘텐츠', ['calendar', 'youtube', 'bench', 'social', 'blog', 'column']],
@@ -612,7 +617,8 @@ const GROUPS = [
 const PAGES = [
   ['overview', '개요'],
   ['rules', '운영 기준'],
-  ['perf', '성과 진단'],
+  ['perf', '롱폼 진단'],
+  ['perfs', '숏폼 진단'],
   ['users', '가입자'],
   ['survey', '설문 응답'],
   ['stocks', '회원 종목'],
@@ -1923,7 +1929,7 @@ const PF_ST = { proposed: ['run', '결정 대기'], approved: ['ok', '승인 · 
 const PF_AREA_SCOPE = { next: ['', '다음 콘텐츠부터'], live: ['live', '이미 올린 영상 수정'], system: ['sys', '운영 방식'] };
 async function perfLoad(){
   const [r, ib] = await Promise.all([sb.rpc('perf_admin'), sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', 'perf-inbox').maybeSingle()]);
-  PF.err = r.error ? r.error.message : ''; PF.data = r.error ? { videos: [], perf: [], optimize: [] } : (r.data || { videos: [], perf: [], optimize: [] });
+  PF.err = r.error ? r.error.message : ''; PF.data = r.error ? { videos: [], perf: [], perfs: [], optimize: [] } : (r.data || { videos: [], perf: [], perfs: [], optimize: [] });
   PF.inbox = ib.data ? ib.data : { id: 'perf-inbox', data: { items: [] } };
 }
 function pfReports(){ return (PF.data && PF.data.perf || []).filter(x => /^perf-\d{4}-\d{2}-\d{2}$/.test(x.id)); }
@@ -2008,7 +2014,7 @@ function pfAction(a, i, repId){
     ${open ? `<div class="pf-ctl"><input type="text" placeholder="고쳐서 적용할 내용 (비워 두면 그대로 적용)" data-pfa-note>
       <button class="pf-btn" data-pfa-to="approved">${a.scope === 'live' ? '지금 영상에 적용' : '다음 콘텐츠부터 적용'}</button>
       ${a.status !== 'hold' ? '<button class="pf-btn ghost" data-pfa-to="hold">보류</button>' : ''}<button class="pf-btn ghost" data-pfa-to="rejected">반려</button></div>`
-      : a.status === 'approved' ? `<div class="pf-ctl"><span class="bn-meta">${a.scope === 'live' ? '유튜브 업로드 작업이 다음 회차(07:10·12:10·20:10)에 스튜디오에서 바꿉니다.' : '매일 05:37 개선 작업이 제작 규칙에 넣고, 그다음 만드는 콘텐츠부터 반영됩니다. 급하면 채팅에 "성과 개선 지금 적용"이라고 남겨 주세요.'}</span><button class="pf-btn ghost" data-pfa-to="proposed">승인 취소</button></div>` : ''}
+      : a.status === 'approved' ? `<div class="pf-ctl"><span class="bn-meta">${/^perfs-/.test(repId) ? (a.scope === 'live' ? '유튜브 업로드 작업이 다음 회차(07:10·12:10·20:10)에 스튜디오에서 바꿉니다.' : '매일 05:37 개선 작업이 쇼츠·릴스 제작 기준과 자동 검수 기준에 넣고, 그다음 만드는 쇼츠·릴스부터 반영됩니다. 급하면 채팅에 "숏폼 개선 지금 적용"이라고 남겨 주세요.') : a.scope === 'live' ? '유튜브 업로드 작업이 다음 회차(07:10·12:10·20:10)에 스튜디오에서 바꿉니다.' : '매일 05:37 개선 작업이 제작 규칙에 넣고, 그다음 만드는 콘텐츠부터 반영됩니다. 급하면 채팅에 "성과 개선 지금 적용"이라고 남겨 주세요.'}</span><button class="pf-btn ghost" data-pfa-to="proposed">승인 취소</button></div>` : ''}
   </div>`;
 }
 function pfTrend(reps){
@@ -2026,15 +2032,15 @@ function pfTrend(reps){
     ${pts.map((p, i) => `<text x="${X(i)}" y="${H - 6}" font-size="9" text-anchor="middle" fill="var(--muted)">${p.d.slice(3).replace('-', '/')}</text>`).join('')}
   </svg><div class="lg"><span><i style="background:var(--s-visit)"></i>클릭률 (0~10% 축)</span><span><i style="background:var(--bad)"></i>15초 유지율</span><span><i style="background:#E0A526"></i>평균 조회율</span></div></div>`;
 }
-function pfInboxHtml(){
-  const items = ((PF.inbox && PF.inbox.data && PF.inbox.data.items) || []).slice().reverse().slice(0, 12);
+function pfInboxHtml(ch){
+  const items = ((PF.inbox && PF.inbox.data && PF.inbox.data.items) || []).filter(x => ch === 'short' ? x.channel === 'short' : x.channel !== 'short').slice().reverse().slice(0, 12);
   if(!items.length) return '';
   const kindKo = { note: '의견', thumb: '썸네일 교체 요청', title: '제목 교체 요청', keep: '유지 요청', general: '전체 의견' };
   return `<div class="pf-msgs">${items.map(x => `<div class="pf-msg"><div class="m"><b>${esc(kindKo[x.kind] || '의견')}</b><span>${kst(x.at)}</span>${x.video_title ? `<span>${esc(x.video_title.slice(0, 28))}…</span>` : ''}<span class="pf-st ${x.status === 'done' ? 'ok' : 'run'}">${x.status === 'done' ? '반영함' : '반영 대기'}</span></div>${esc(x.text)}${x.reply ? `<div class="r"><b>Claude</b> · ${esc(x.reply)}${x.replied_at ? ' · ' + kst(x.replied_at) : ''}</div>` : ''}</div>`).join('')}</div>`;
 }
 function vPerf(){
-  if(PF.data === null){ perfLoad().then(() => render()); return head('성과 진단', '불러오는 중', 'perf'); }
-  if(PF.err) return head('성과 진단', '', 'perf') + `<div class="card">불러오지 못했습니다: ${esc(PF.err)}</div>`;
+  if(PF.data === null){ perfLoad().then(() => render()); return head('롱폼 진단', '불러오는 중', 'perf'); }
+  if(PF.err) return head('롱폼 진단', '', 'perf') + `<div class="card">불러오지 못했습니다: ${esc(PF.err)}</div>`;
   const reps = pfReports(), rep = pfCur(), d = rep ? rep.data : {}, k = d.kpis || {};
   d.findings = (d.findings || []).map(f => typeof f === 'string' ? { level: 'info', title: f, body: '' } : f);
   const seg = reps.length ? `<div class="seg">${reps.slice(0, 10).map(r => { const pend = (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length; return `<a href="#perf/${r.id.slice(5)}"${rep && r.id === rep.id ? ' aria-current="page"' : ''}${pend ? ' class="hot"' : ''}>${r.id.slice(10).replace('-', '월 ')}일${pend ? `<b>${pend}</b>` : ''}</a>`; }).join('')}</div>` : '';
@@ -2043,7 +2049,7 @@ function vPerf(){
   const acts = d.actions || [], pend = acts.filter(a => (a.status || 'proposed') === 'proposed').length;
   const order = { bad: 0, warn: 1, info: 2, good: 3 };
   const shortRows = shorts.slice(0, 12).map(v => { const s = v.studio || {}; return `<tr><td style="max-width:340px;white-space:normal;word-break:keep-all">${esc(v.title)}</td><td>${kst(v.published_at)}</td><td class="num">${pfNum(s.views, '', 0)}</td><td class="num ${pfCls(s.viewed_pct, 70) ? 'pf-' + pfCls(s.viewed_pct, 70) : ''}">${pfNum(s.viewed_pct, '%')}</td><td class="num">${pfNum(s.avg_pct, '%')}</td><td class="num">${s.subs != null ? s.subs : '–'}</td></tr>`; }).join('');
-  return `${head('성과 진단', '매일 20:10 스튜디오 지표 수집 → 20:52 진단 · 승인한 개선은 다음 콘텐츠부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perf')}
+  return `${head('롱폼 진단', '매일 20:10 스튜디오 지표 수집 → 20:52 진단 · 승인한 개선은 다음 콘텐츠부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perf')}
   ${seg}
   ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
   ${rep ? `<div class="card pf-hero"><div class="k">${esc(rep.id.slice(5))} 롱폼 진단 · ${esc(d.by || 'Claude')}</div><div class="h">${esc(d.headline || '스튜디오 지표를 모으기 전의 기록입니다. 아래 발견 사항만 참고하세요.')}</div>${d.sample_note ? `<div class="n">${esc(d.sample_note)}</div>` : ''}</div>
@@ -2057,7 +2063,7 @@ function vPerf(){
   <div class="card pf-fb"><textarea placeholder="진단이나 영상 방향에 대한 의견을 자유롭게 (예: 인트로는 머니스웨거처럼 결론부터, 썸네일엔 인물 얼굴 더 많이)" data-pf-fb></textarea>
     <div class="pf-chips">${['인트로를 더 짧고 세게', '썸네일 더 자극적으로(과장 없이)', '숫자 줄이고 이야기 위주로', '다음 롱폼에 바로 반영', '이 진단 방향 좋음'].map(t => `<button type="button" data-pf-chip="${esc(t)}">${esc(t)}</button>`).join('')}</div>
     <div class="pf-ctl" style="margin-top:0"><span class="bn-meta" style="flex:1">급한 건 채팅에 "성과 피드백 지금 반영"이라고 남기면 바로 처리합니다.</span><button class="pf-btn" data-pf-send>피드백 보내기</button></div>
-    ${pfInboxHtml()}</div>
+    ${pfInboxHtml('long')}</div>
 
   <div class="pf-sec"><h2>무엇이 문제인가</h2><span>${(d.findings || []).length}가지 발견</span></div>
   <div class="pf-find">${(d.findings || []).slice().sort((a, b) => (order[a.level] ?? 9) - (order[b.level] ?? 9)).map(f => `<div class="card pf-f ${esc(f.level)}"><b>${esc(f.title)}</b>${f.body ? `<p>${esc(f.body)}</p>` : ''}${f.evidence ? `<small>근거 · ${esc(f.evidence)}</small>` : ''}</div>`).join('')}</div>` : `<div class="card pf-empty" style="padding:14px">아직 진단이 없습니다. 매일 20:52에 올라옵니다.</div>`}
@@ -2068,12 +2074,122 @@ function vPerf(){
   <div class="pf-sec"><h2>롱폼 영상별 진단</h2><span>최근 30일 · ${longs.length}편 · 숫자는 최신 스튜디오 지표</span></div>
   ${longs.length ? longs.map(v => pfVideo(v, diag[v.id])).join('') : '<div class="card pf-empty" style="padding:14px">올라간 롱폼이 없습니다.</div>'}
 
-  ${shorts.length ? `<div class="pf-sec"><h2>쇼츠 지표</h2><span>쇼츠 개선은 매일 05:37 개선 작업이 검수 기준에 자동 반영</span></div>
+  ${shorts.length ? `<div class="pf-sec"><h2>쇼츠 지표</h2><span>자세한 진단은 <a href="#perfs">숏폼 진단</a>에서</span></div>
   <div class="card" style="padding:0;overflow-x:auto"><table class="pf-tbl" style="width:100%;min-width:620px"><thead><tr><th>쇼츠</th><th>공개</th><th class="num">조회</th><th class="num">조회함 비율</th><th class="num">평균 조회율</th><th class="num">구독</th></tr></thead><tbody>${shortRows}</tbody></table></div>` : ''}
   <div class="pf-goal">목표 기준 · 썸네일 클릭률 ${PF_GOAL.ctr}% 이상 · 15초 유지율 ${PF_GOAL.s15}% 이상 · 평균 조회율 ${PF_GOAL.avg_pct}% 이상 (구독자 수만 명 규모 금융 채널의 무난한 수준). 조회 300회 미만 영상은 표본이 작아 방향만 봅니다.</div>`;
 }
+
+/* ───────── 숏폼 진단 (2026-10-30 운영자: "현재 관리자 페이지에 롱폼 진단은 되어있는데 숏폼 진단도 추가해줘")
+   데이터: rpc perf_admin() → perfs: docs agent 'perfs-YYYY-MM-DD' 최근 14개 (매일 05:37 개선 작업이 쓴다), videos: yt_perf(30) 중 kind 'short'
+   보고서 형식은 롱폼과 같다 (headline · kpis · findings · videos · actions). 승인한 개선은 다음 날 05:37 작업이 쇼츠·릴스 제작 기준(scripts/reels/README.md)과
+   자동 검수 기준(docs agent 'auto-review-rules')에 넣는다. 보고서가 아직 없어도 스튜디오 지표는 바로 보인다. 피드백은 perf-inbox에 channel 'short'로 쌓인다. */
+const PFS_GOAL = { viewed_pct: 60, avg_pct: 60, sub_k: 2 };
+function pfsReports(){ return (PF.data && PF.data.perfs || []).filter(x => /^perfs-\d{4}-\d{2}-\d{2}$/.test(x.id)); }
+function pfsCur(){ const reps = pfsReports(); const want = 'perfs-' + subPage(); return reps.find(x => x.id === want) || reps[0] || null; }
+function pfsPending(){ const r = pfsReports()[0]; return r ? (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length : 0; }
+function pfsApct(s, dur){ return s.avg_pct != null ? +s.avg_pct : s.avg_sec != null && dur ? Math.round(s.avg_sec / dur * 1000) / 10 : null; }
+/* 보고서가 없을 때(또는 보고서 뒤로 새 지표가 들어왔을 때) 최근 7일 스튜디오 지표로 바로 계산 */
+function pfsLive(shorts){
+  const wk = shorts.filter(v => v.studio && (v.age_h == null || v.age_h <= 24 * 7)), n = wk.length;
+  const views = wk.reduce((a, v) => a + (+v.studio.views || 0), 0), subs = wk.reduce((a, v) => a + (+v.studio.subs || 0), 0);
+  const wv = wk.filter(v => v.studio.viewed_pct != null), vp = wv.reduce((a, v) => a + (+v.studio.views || 0), 0);
+  const viewed_pct = vp ? Math.round(wv.reduce((a, v) => a + v.studio.viewed_pct * (+v.studio.views || 0), 0) / vp * 10) / 10 : null;
+  const ap = wk.map(v => pfsApct(v.studio, v.studio.duration_sec || v.duration)).filter(x => x != null);
+  return { shorts: n, views, subs, viewed_pct, avg_pct: ap.length ? Math.round(ap.reduce((a, b) => a + b, 0) / ap.length * 10) / 10 : null,
+    sub_k: views ? Math.round(subs / views * 10000) / 10 : null, missing: shorts.filter(v => (v.age_h == null || v.age_h <= 24 * 7) && !v.studio && (v.age_h || 0) >= 20).length };
+}
+function pfsVideo(v, diag){
+  const s = v.studio || {}, d = diag || {}, ret = s.retention || d.retention, dur = s.duration_sec || d.duration_sec || v.duration;
+  const vp = s.viewed_pct ?? d.viewed_pct, ap = pfsApct(s, dur) ?? d.avg_pct, views = s.views ?? d.views;
+  const vr = s.valid_views && s.views ? Math.round(s.valid_views / s.views * 100) : d.valid_rate;
+  const feed = (s.sources || {})['Shorts 피드'], subk = views && s.subs != null ? Math.round(s.subs / views * 10000) / 10 : null;
+  const verdict = d.verdict || (!s.at ? '' : pfCls(vp, PFS_GOAL.viewed_pct) === 'bad' || pfCls(ap, PFS_GOAL.avg_pct) === 'bad' ? 'bad' : pfCls(vp, PFS_GOAL.viewed_pct) === 'ok' && pfCls(ap, PFS_GOAL.avg_pct) === 'ok' ? 'ok' : 'warn');
+  const vdTxt = { bad: '개선 시급', warn: '보완 필요', ok: '양호' }[verdict] || '';
+  const yid = v.youtube_id || d.youtube_id, link = yid ? `https://studio.youtube.com/video/${yid}/analytics/tab-overview/period-default` : '#';
+  const m = [
+    ['조회', pfNum(views, '회', 0), ''],
+    ['조회함 비율', pfNum(vp, '%'), pfCls(vp, PFS_GOAL.viewed_pct)],
+    ['평균 시청', pfSec(s.avg_sec ?? d.avg_sec) + (dur ? ' / ' + pfSec(dur) : ''), ''],
+    ['평균 조회율', pfNum(ap, '%'), pfCls(ap, PFS_GOAL.avg_pct)],
+    vr != null ? ['유효 조회', vr + '%', ''] : null,
+    s.subs != null ? ['구독', (+s.subs > 0 ? '+' : '') + s.subs + (subk != null ? ` (1천 회당 ${subk})` : ''), pfCls(subk, PFS_GOAL.sub_k)] : null,
+    feed != null ? ['Shorts 피드', pfNum(feed, '%'), ''] : null
+  ].filter(Boolean);
+  const age = v.age_h != null ? (v.age_h >= 48 ? Math.round(v.age_h / 24) + '일째' : v.age_h + '시간째') : '';
+  const thumb = yid ? `<img src="https://i.ytimg.com/vi/${esc(yid)}/oardefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${esc(yid)}/hqdefault.jpg'">` : '';
+  const curve = pfRetSvg(ret, dur);
+  return `<div class="card pf-vid sh" data-pfv="${esc(v.id)}">
+    <a class="th" href="${link}" target="_blank" rel="noopener">${thumb}${vdTxt ? `<span class="vd ${verdict}">${vdTxt}</span>` : ''}</a>
+    <div>
+      <a class="tt" href="${link}" target="_blank" rel="noopener">${esc(v.title || d.title || v.id)}</a>
+      <div class="bn-meta">${v.published_at ? kst(v.published_at) + ' 공개' : ''}${age ? ' · ' + age : ''}${s.at ? ' · 지표 ' + kst(s.at) : ' · 스튜디오 지표 미수집'}${!yid ? ' · youtube_id 없음' : ''}</div>
+      <div class="pf-m">${m.map(([k, val, c]) => `<span class="${c}">${k} ${val}</span>`).join('')}</div>
+      <div class="pf-two"><div class="pf-ret"><div class="cap">시청 지속 곡선</div>${curve || `<div class="pf-empty">${esc((ret && ret.note) || (s.at ? '아직 곡선이 나오지 않았습니다 (최대 2일)' : '지표 수집 전'))}</div>`}${ret && ret.dips && ret.dips.length ? `<div class="bn-meta" style="margin-top:4px">급락 구간 · ${ret.dips.slice(0, 3).map(x => esc(x.t + ' ' + (x.note || ''))).join(' · ')}</div>` : ''}</div>${pfSrc(s.sources || d.sources) || '<div></div>'}</div>
+      ${(d.issues || []).length || (d.good || []).length ? `<ul class="pf-li">${(d.issues || []).map(x => `<li class="b">${esc(x)}</li>`).join('')}${(d.good || []).map(x => `<li class="g">${esc(x)}</li>`).join('')}</ul>` : ''}
+      <div class="pf-vfb"><input type="text" placeholder="이 쇼츠에 대한 의견 (예: 첫 장면 숫자를 더 크게, 끝맺음이 길어)" data-pfv-note>
+        <button class="pf-btn ghost" data-pfv-kind="thumb">썸네일 교체 요청</button><button class="pf-btn ghost" data-pfv-kind="title">제목 교체 요청</button><button class="pf-btn ghost" data-pfv-kind="keep">이 방식 유지</button><button class="pf-btn" data-pfv-kind="note">의견 보내기</button></div>
+    </div></div>`;
+}
+function pfsTrend(reps){
+  const pts = reps.slice().reverse().map(r => ({ d: r.id.slice(11), k: r.data.kpis || {} })).filter(p => p.k.viewed_pct != null || p.k.avg_pct != null);
+  if(pts.length < 2) return `<div class="card pf-trend"><div class="pf-empty">추이는 진단이 이틀 이상 쌓이면 그려집니다. 매일 05:37 진단이 하나씩 쌓입니다.</div></div>`;
+  const W = 640, H = 170, L = 30, R = 12, T = 10, B = 22, n = pts.length;
+  const X = i => L + i / (n - 1) * (W - L - R), Y = v => T + (100 - Math.min(100, v)) / 100 * (H - T - B);
+  const path = f => pts.map((p, i) => f(p) == null ? '' : `${i && f(pts[i - 1]) != null ? 'L' : 'M'}${X(i).toFixed(1)},${Y(f(p)).toFixed(1)}`).join('');
+  return `<div class="card pf-trend"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="숏폼 성과 추이">
+    ${[0, 50, 100].map(v => `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L - 4}" y="${Y(v) + 3}" font-size="9" text-anchor="end" fill="var(--muted)">${v}%</text>`).join('')}
+    <path d="${path(p => p.k.viewed_pct)}" fill="none" stroke="var(--s-visit)" stroke-width="2.2"/>
+    <path d="${path(p => p.k.avg_pct)}" fill="none" stroke="#E0A526" stroke-width="2.2"/>
+    ${pts.map((p, i) => `<text x="${X(i)}" y="${H - 6}" font-size="9" text-anchor="middle" fill="var(--muted)">${p.d.slice(3).replace('-', '/')}</text>`).join('')}
+  </svg><div class="lg"><span><i style="background:var(--s-visit)"></i>조회함 비율</span><span><i style="background:#E0A526"></i>평균 조회율</span></div></div>`;
+}
+function vPerfs(){
+  if(PF.data === null){ perfLoad().then(() => render()); return head('숏폼 진단', '불러오는 중', 'perfs'); }
+  if(PF.err) return head('숏폼 진단', '', 'perfs') + `<div class="card">불러오지 못했습니다: ${esc(PF.err)}</div>`;
+  const reps = pfsReports(), rep = pfsCur(), d = rep ? rep.data : {};
+  d.findings = (d.findings || []).map(f => typeof f === 'string' ? { level: 'info', title: f, body: '' } : f);
+  const shorts = (PF.data.videos || []).filter(v => v.kind === 'short').sort((a, b) => String(b.published_at).localeCompare(String(a.published_at)));
+  const live = pfsLive(shorts), k = Object.keys(d.kpis || {}).length ? d.kpis : live, isLive = !Object.keys(d.kpis || {}).length;
+  const seg = reps.length ? `<div class="seg">${reps.slice(0, 10).map(r => { const pend = (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length; return `<a href="#perfs/${r.id.slice(6)}"${rep && r.id === rep.id ? ' aria-current="page"' : ''}${pend ? ' class="hot"' : ''}>${r.id.slice(11).replace('-', '월 ')}일${pend ? `<b>${pend}</b>` : ''}</a>`; }).join('')}</div>` : '';
+  const diag = {}; (d.videos || []).forEach(v => diag[v.id] = v);
+  const acts = d.actions || [], pend = acts.filter(a => (a.status || 'proposed') === 'proposed').length;
+  const order = { bad: 0, warn: 1, info: 2, good: 3 };
+  const withData = shorts.filter(v => v.studio), noData = shorts.filter(v => !v.studio);
+  const reels = d.reels || [];
+  return `${head('숏폼 진단', '매일 05:37 쇼츠·릴스 진단 · 승인한 개선은 다음 쇼츠·릴스부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perfs')}
+  ${seg}
+  ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
+  <div class="card pf-hero"><div class="k">${rep ? esc(rep.id.slice(6)) + ' 숏폼 진단 · ' + esc(d.by || 'Claude') : '실시간 지표 · 최근 7일'}</div>
+    <div class="h">${esc(rep ? (d.headline || '') : `최근 7일 쇼츠 ${live.shorts}편 조회 ${pfNum(live.views, '회', 0)} · 조회함 비율 ${pfNum(live.viewed_pct, '%')} — 첫 진단은 내일 05:37에 올라옵니다.`)}</div>
+    ${d.sample_note || live.missing ? `<div class="n">${esc(d.sample_note || '')}${live.missing ? `${d.sample_note ? ' · ' : ''}올린 지 하루가 지났는데 스튜디오 지표가 없는 쇼츠 ${live.missing}편 (업로드 작업 20:10 회차가 모읍니다)` : ''}</div>` : ''}</div>
+  <div class="pf-kpis">${pfKpi('조회함 비율', k.viewed_pct, '%', PFS_GOAL.viewed_pct)}${pfKpi('평균 조회율', k.avg_pct, '%', PFS_GOAL.avg_pct)}${pfKpi('1천 회당 구독', k.sub_k, '명', PFS_GOAL.sub_k)}${pfKpi('조회수', k.views, '회', 0, `쇼츠 ${k.shorts ?? '–'}편${k.reels != null ? ` · 릴스 ${k.reels}편` : ''}${isLive ? ' · 실시간' : ''}`)}${pfKpi('구독 증가', k.subs, '명', 0, k.best ? `최고 ${esc(k.best)}` : '최근 7일')}</div>
+
+  <div class="pf-sec"><h2>지금 결정할 개선 ${pend ? `<span class="pf-st run" style="margin-left:6px">${pend}건 대기</span>` : ''}</h2><span>승인하면 다음 쇼츠·릴스부터 · 메모를 쓰면 그 방향으로 고쳐서</span></div>
+  ${pend > 1 ? `<div class="pf-all"><button class="pf-btn" data-pfa-all="${esc(rep.id)}">대기 ${pend}건 전부 적용</button></div>` : ''}
+  ${rep ? (acts.length ? acts.map((a, i) => [a, i]).sort((x, y) => ((x[0].status || 'proposed') === 'proposed' ? 0 : 1) - ((y[0].status || 'proposed') === 'proposed' ? 0 : 1) || (y[0].impact || 0) - (x[0].impact || 0)).map(([a, i]) => pfAction(a, i, rep.id)).join('') : '<div class="card pf-empty" style="padding:14px">이 날은 새 개선 제안이 없습니다.</div>') : '<div class="card pf-empty" style="padding:14px">아직 진단이 없습니다. 매일 05:37에 올라옵니다.</div>'}
+
+  <div class="pf-sec"><h2>대표님 피드백</h2><span>남기면 다음 날 05:37 작업이 쇼츠·릴스 기준에 넣고 답을 답니다</span></div>
+  <div class="card pf-fb"><textarea placeholder="쇼츠·릴스 방향에 대한 의견을 자유롭게 (예: 첫 2초에 회사 이름과 숫자 같이, 끝맺음은 더 짧게)" data-pf-fb></textarea>
+    <div class="pf-chips">${['첫 2초 훅을 더 세게', '전환을 더 부드럽게', '끝맺음 더 짧게', '숫자 줄이고 이야기 위주로', '이 진단 방향 좋음'].map(t => `<button type="button" data-pf-chip="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+    <div class="pf-ctl" style="margin-top:0"><span class="bn-meta" style="flex:1">급한 건 채팅에 "숏폼 피드백 지금 반영"이라고 남기면 바로 처리합니다.</span><button class="pf-btn" data-pf-send>피드백 보내기</button></div>
+    ${pfInboxHtml('short')}</div>
+
+  ${rep ? `<div class="pf-sec"><h2>무엇이 문제인가</h2><span>${d.findings.length}가지 발견</span></div>
+  <div class="pf-find">${d.findings.slice().sort((a, b) => (order[a.level] ?? 9) - (order[b.level] ?? 9)).map(f => `<div class="card pf-f ${esc(f.level)}"><b>${esc(f.title)}</b>${f.body ? `<p>${esc(f.body)}</p>` : ''}${f.evidence ? `<small>근거 · ${esc(f.evidence)}</small>` : ''}</div>`).join('')}</div>` : ''}
+
+  <div class="pf-sec"><h2>추이</h2><span>진단마다 한 점</span></div>
+  ${pfsTrend(reps)}
+
+  <div class="pf-sec"><h2>쇼츠 영상별 진단</h2><span>최근 30일 · 지표 있는 ${withData.length}편 · 숫자는 최신 스튜디오 지표</span></div>
+  ${withData.length ? withData.map(v => pfsVideo(v, diag[v.id])).join('') : '<div class="card pf-empty" style="padding:14px">아직 스튜디오 지표가 들어온 쇼츠가 없습니다.</div>'}
+  ${noData.length ? `<details class="card" style="padding:12px 14px;margin-top:4px"><summary style="cursor:pointer;font-weight:800;font-size:13.5px">지표 미수집 쇼츠 ${noData.length}편</summary><table class="pf-tbl" style="width:100%;margin-top:8px"><tbody>${noData.map(v => `<tr><td style="white-space:normal;word-break:keep-all">${esc(v.title)}</td><td>${kst(v.published_at)}</td><td>${v.youtube_id ? '' : '<span class="pf-bad">youtube_id 없음</span>'}</td></tr>`).join('')}</tbody></table></details>` : ''}
+
+  ${reels.length ? `<div class="pf-sec"><h2>인스타 릴스</h2><span>진단에 들어간 릴스 · 보이는 숫자만</span></div>
+  <div class="card" style="padding:0;overflow-x:auto"><table class="pf-tbl" style="width:100%;min-width:620px"><thead><tr><th>릴스</th><th>게시</th><th class="num">조회·도달</th><th class="num">좋아요</th><th class="num">댓글</th><th class="num">저장</th><th>판정</th></tr></thead><tbody>${reels.map(r => `<tr><td style="max-width:340px;white-space:normal;word-break:keep-all">${esc(r.title || r.id)}</td><td>${r.posted_at ? kst(r.posted_at) : '–'}</td><td class="num">${pfNum(r.views ?? r.reach, '', 0)}</td><td class="num">${pfNum(r.likes, '', 0)}</td><td class="num">${pfNum(r.comments, '', 0)}</td><td class="num">${pfNum(r.saves, '', 0)}</td><td>${esc(r.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
+  <div class="pf-goal">목표 기준 · 조회함 비율(피드에서 넘기지 않고 본 비율) ${PFS_GOAL.viewed_pct}% 이상 · 평균 조회율 ${PFS_GOAL.avg_pct}% 이상 · 조회 1천 회당 구독 ${PFS_GOAL.sub_k}명 이상. 조회 300회 미만 쇼츠는 표본이 작아 방향만 봅니다.</div>`;
+}
 async function pfSaveReport(repId, f, msg){
-  const r = pfReports().find(x => x.id === repId); if(!r) return;
+  const r = pfReports().find(x => x.id === repId) || pfsReports().find(x => x.id === repId); if(!r) return;
   const data = JSON.parse(JSON.stringify(r.data || {})); f(data);
   const { error } = await sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', repId);
   if(error){ toast('저장하지 못했습니다: ' + error.message, true); return; }
@@ -2103,14 +2219,14 @@ function bindPerf(){
   box.querySelectorAll('[data-pf-chip]').forEach(b => b.onclick = () => { const t = box.querySelector('[data-pf-fb]'); t.value = (t.value ? t.value.trim() + '\n' : '') + b.dataset.pfChip; t.focus(); });
   const send = box.querySelector('[data-pf-send]');
   if(send) send.onclick = async () => { const t = box.querySelector('[data-pf-fb]'), text = (t.value || '').trim(); if(!text){ t.focus(); return; }
-    send.disabled = true; const rep = pfCur(); if(await pfAddInbox({ kind: 'general', text, report: rep ? rep.id : null })){ toast('피드백을 남겼습니다. 다음 작업부터 반영합니다.'); render(); } send.disabled = false; };
+    send.disabled = true; const rep = pfCur(); const sh = page() === 'perfs', cr = sh ? pfsCur() : rep; if(await pfAddInbox({ kind: 'general', text, report: cr ? cr.id : null, channel: sh ? 'short' : 'long' })){ toast('피드백을 남겼습니다. 다음 작업부터 반영합니다.'); render(); } send.disabled = false; };
   box.querySelectorAll('[data-pfv-kind]').forEach(b => b.onclick = async () => {
     const w = b.closest('[data-pfv]'), id = w.dataset.pfv, kind = b.dataset.pfvKind, inp = w.querySelector('[data-pfv-note]'), note = (inp.value || '').trim();
     const v = (PF.data.videos || []).find(x => x.id === id) || {};
     if(kind === 'note' && !note){ inp.focus(); return; }
     const def = { thumb: '썸네일을 다른 안으로 바꿔 주세요', title: '제목을 다른 안으로 바꿔 주세요', keep: '이 영상 방식은 좋으니 유지해 주세요' }[kind];
     b.disabled = true;
-    if(await pfAddInbox({ kind, text: note || def, video_id: id, youtube_id: v.youtube_id || null, video_title: v.title || id })){ toast(kind === 'thumb' || kind === 'title' ? '요청을 남겼습니다. 업로드 작업이 스튜디오에서 바꿉니다.' : '의견을 남겼습니다.'); render(); }
+    if(await pfAddInbox({ kind, text: note || def, video_id: id, youtube_id: v.youtube_id || null, video_title: v.title || id, channel: v.kind === 'short' ? 'short' : 'long' })){ toast(kind === 'thumb' || kind === 'title' ? '요청을 남겼습니다. 업로드 작업이 스튜디오에서 바꿉니다.' : '의견을 남겼습니다.'); render(); }
     b.disabled = false;
   });
 }
@@ -2126,7 +2242,7 @@ function render(s){
   $('#asof').textContent = '기준 ' + kst(s.asOf);
   if(YT.list){ const nr = YT.list.filter(y => ['review', 'changes'].includes(y.status)).length, np = (YT.plans || []).filter(x => x.status === 'proposed').length;
     if(nr + np) hot.youtube = [nr + np, 'warm', [np ? `기획안 ${np}편` : '', nr ? `영상 검수 ${nr}편` : ''].filter(Boolean).join(' · ') + ' 대기']; }
-  if(PF.data){ const np = pfPending(); if(np) hot.perf = [np, 'hot', '성과 개선 ' + np + '건 결정 대기']; }
+  if(PF.data){ const np = pfPending(); if(np) hot.perf = [np, 'hot', '롱폼 개선 ' + np + '건 결정 대기']; const ns = pfsPending(); if(ns) hot.perfs = [ns, 'hot', '숏폼 개선 ' + ns + '건 결정 대기']; }
   if(OR.rules){ const nw = ((OR.rules.data || {}).items || []).filter(x => (x.status || 'new') === 'new').length; if(nw) hot.rules = [nw, 'warm', '제1 원칙 ' + nw + '개 반영 대기']; }
   if(BN.list){ const nb = benchCounts().proposed; if(nb) hot.bench = [nb, 'warm', '벤치마킹 ' + nb + '건 승인 대기']; }
   const nav = $('#tabs'); nav.hidden = false;
@@ -2137,7 +2253,7 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'rules' ? vRules() : p === 'perf' ? vPerf() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
+  $('#main').innerHTML = p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'bench' ? vBench() : p === 'rules' ? vRules() : p === 'perf' ? vPerf() : p === 'perfs' ? vPerfs() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
@@ -2148,7 +2264,7 @@ function render(s){
   if(p === 'youtube') bindYoutube();
   if(p === 'bench') bindBench();
   if(p === 'rules') bindRules();
-  if(p === 'perf') bindPerf();
+  if(p === 'perf' || p === 'perfs') bindPerf();
   if(p === 'calendar') bindCalendar();
   bindTips();
 }
@@ -2221,7 +2337,7 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
 });
 
 load();
-setInterval(() => { if(!document.hidden && !$('#out').hidden && !['column', 'social', 'blog', 'youtube', 'perf'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
+setInterval(() => { if(!document.hidden && !$('#out').hidden && !['column', 'social', 'blog', 'youtube', 'perf', 'perfs'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
