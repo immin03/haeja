@@ -163,6 +163,16 @@ for (const dir of dirs) {
   if ((p.tags || []).some((t) => /밸류노트/.test(t))) E.push("태그에 '밸류노트'가 있습니다 — 2026-10-29부터 쓰지 않습니다");
   if (/에디터|Editor/.test(note?.note || '')) W.push('고지에 에디터 직함이 있습니다 — "이 글은 Luciano가 작성했습니다."로');
   { const kw = String((p.tags || [])[0] || ''); const head = String(p.title || '').replace(/\s/g, '').slice(0, 14); const core = kw.replace(/(주가전망|주가|전망|목표주가|적정주가)$/, ''); if (kw && core && !head.includes(core)) W.push(`첫 태그(핵심 검색어) "${kw}"의 대상 이름이 제목 앞쪽(14자)에 없습니다 — 검색어를 제목 맨 앞에`); }
+  // 쉽게 읽히는가 (2026-10-29 운영자: "애널리스트 글처럼 어렵다") — README ★ 12
+  { const paras = p.blocks.filter((b) => b.p && strip(b.p).length > 40 && !/^Q[.\s]/.test(strip(b.p))).map((b) => strip(b.p));
+    const nn = paras.map((x) => (x.match(/\d[\d,.]*/g) || []).length); const per = nn.reduce((a, b) => a + b, 0) / Math.max(1, paras.length);
+    if (per > 3.5) W.push(`쉽게: 문단당 숫자 ${per.toFixed(1)}개 — 문단에 1~2개로, 나머지는 표·facts로 (기준 b261029x 3.0)`);
+    const heavy = paras.filter((x, i) => nn[i] >= 5).length; if (heavy) W.push(`쉽게: 숫자 5개 이상인 문단 ${heavy}개 — 나누거나 표로`);
+    const ss = paras.join(' ').split(/(?<=[.?!])\s+/).filter(Boolean); const avg = ss.reduce((a, b) => a + b.length, 0) / Math.max(1, ss.length);
+    if (avg > 40) W.push(`쉽게: 평균 문장 ${Math.round(avg)}자 — 35자 안팎으로 (한 문장에 정보 하나)`);
+    const JG = ['영업이익률', '주당순이익', '평가손실', '평가이익', '영업현금흐름', '잉여현금흐름', '감가상각', '설비투자', '유형자산', '현금흐름표', '컨센서스', '이연법인세', 'ASP', '밸류에이션', 'PER', 'PBR', 'ROE'];
+    const all = paras.join(' '); const jc = JG.reduce((a, j) => a + all.split(j).length - 1, 0); const kinds = JG.filter((j) => all.includes(j));
+    if (jc > 15 || kinds.length > 4) W.push(`쉽게: 전문용어 ${jc}번·${kinds.length}종(${kinds.join(', ')}) — 새 개념은 한 글에 1~2개, 나머지는 생활 말로`); }
   // AI 검색 인용 (2026-10-29): 떼어 읽어도 답이 되는 문장
   { const PRON = /^(이|그|이것|그것|이런|그런|이는|그는|그래서|하지만|그런데|그러면|또|여기서)[\s,]/; leads.forEach((l) => { const f = l.split(' → ')[1] || ''; if (PRON.test(f)) W.push(`AI 인용: 소제목 아래 첫 문장이 앞 문장에 기대어 시작합니다 — 대상 이름을 주어로: ${f.slice(0, 40)}`); });
     const sm = p.blocks.find((b) => b.summary)?.summary?.[0] || ''; if (sm && !/\d/.test(sm)) W.push('AI 인용: 3줄 요약 첫 줄에 숫자가 없습니다 — 제목 질문의 답(대상+숫자+기준일)으로');
