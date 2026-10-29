@@ -1,4 +1,4 @@
-# From Korea, With Love — 인수인계서 (2026-10-28 오후 개정)
+# From Korea, With Love — 인수인계서 (2026-10-30 새벽 개정)
 
 > 이 문서 하나만 새 프로젝트에 올리면 이어서 작업할 수 있게 썼다. 처음 읽는 Claude는 이 문서를 끝까지 읽고 시작한다.
 > 운영자: 최민우 대표님 (아래 "대표님"). 밸류노트(ValueNote, 금융 콘텐츠 앱·채널)가 본업 채널이고, 이 채널은 **가볍게 운영하는 부업 채널**이다.
@@ -21,23 +21,15 @@
   - `spec.bible`: 인물(나이·얼굴·머리·옷 색·까치 대비 크기)·장소(구조·빛·시간·계절)·색감·반복 소품을 고정 문장으로 정해 모든 프롬프트에 그대로 쓴다. 같은 장소·인물이 다시 나오면 예전 그림 재사용(`spec.reuse`)
   - `spec.shots`: 4~5개 {n, img_prompt(최종 그림 프롬프트 전문), refs, reuse, action(작고 느린 동작 하나), dur, cap, detail}
   - `spec.details`: 말없는 디테일 2~4개(아래 3장)
-  - 승인 전 점검: 소리 없이도 이해되고 결말의 원인이 화면에 다 나오는가(첫 컷 궁금증 → 가운데 전환 → 마지막 컷 반전), 컷마다 7장 체크리스트 위험 요소(손가락, 글자, 인물 3명 이상, 빠른 동작, 크기 불일치, 액자 속 얼굴)를 미리 안전한 장면으로 바꿨는가
+  - 승인 전 점검: 소리 없이도 이해되고 결말의 원인이 화면에 다 나오는가(첫 컷 궁금증 → 가운데 전환 → 마지막 컷 반전), 컷마다 7장 체크리스트 위험 요소(손가락, 글자, 인물 3명 이상, 빠른 동작, 크기 불일치, 액자 속 얼굴)를 미리 안전한 장면으로 바꿨는가, **3장 "감정 표현·개연성" 점검을 통과했는가**, **3장 "유튜브 수익 정책" 점검을 통과했는가**
   - 제작은 촬영표를 그대로: 그림 한 번에 → 한 번 점검 → 실패 컷만 1회 고침 → 영상 한 번에. 고침이 생기면 원인을 7장 체크리스트에 한 줄 추가. 목표 고침 0회
 - **예산**: 매일 3.5달러(`daily_usd`, 관리자 설정 탭에서 변경). 넘으면 그날 제작을 멈추고 다음 날 이어 감. 실제 Higgsfield 단가는 생성기 단가표의 약 2.5배 → 그림 약 0.125, 영상(5초) 약 0.25달러, 4~5컷 한 편 약 1.3~1.6달러. API 잔액은 open.higgsfield.ai → Billing (웹사이트 구독 크레딧과 별개, 2026-10-28 100달러 충전). 대표님이 실측 단가를 알려 주시면 `value.prices` 에 넣는다
 - 완성본은 1일 치만 미리(`buffer_days` 1). 기획안(촬영표)은 5일 치(무료)
 - 완전 자동: Claude가 트렌드로 기획·승인·제작, 업로드 작업자가 스튜디오 예약. 대표님은 **중단**과 트렌드 탭 **만들어 줘**만
 - 학습: 하루 단위 조회수(매일 07:40) + 스튜디오 분석으로 HIT 포맷은 이어 가고 WEAK 는 원인 하나씩 바꾼다. 제작 고침 횟수도 학습. `sc_settings.value.learn`, `docs/side/LEARN.md`
-- 예약 작업: "까치 채널 작업자 (하루 2편)" 01:41·09:41·13:41·17:41·21:41 / "From Korea, With Love 쇼츠 업로드 (하루 2편)" 06:40·18:40 (대표님 Chrome)
-
-## 0-2. 매일 벤치마킹 → 승인된 개선 제안 적용 (2026-10-29 01:59 대표님 결정 — 작업자 필수)
-> 대표님: "구독자가 얼마 안 되는데 쇼츠 몇 개만으로 터지는 사람들… 특징을 계속 벤치마킹해서 제안해 줘. 내가 승인만 하면 바로 다음 영상 때 적용될 수 있게."
-- 흐름: 07:40 수집기(sc-trend-collect)가 대박 쇼츠 + 그 채널 구독자(`sc_hot_channels`)를 모은다 → 뷰 `sc_breakout`(구독 10만 이하 & 조회수 ≥ 구독자 5배) → **10:53 "까치 채널 벤치마킹·개선 제안"** 작업이 우리 성과와 비교해 `sc_improve` 에 제안(최대 4건) → 대표님이 관리자 **트렌드·개선 탭**에서 승인/보류/반려/고쳐서 승인 → 작업자가 적용.
-- **작업자는 기획을 새로 쓰거나 보강할 때마다 먼저 읽는다:** `select id, area, title, apply, feedback, applied_to from sc_improve where status in ('approved','applied') order by id;`
-  - 모든 항목의 `apply` 를 규칙으로 그대로 따른다. 대표님 피드백(고쳐서 승인 문구)이 있으면 그 문구가 `apply` 보다 우선.
-  - 처음 반영한 기획이 나오면 `update sc_improve set status='applied', applied_to = applied_to || to_jsonb('<plan id>'::text), updated_at=now() where id=<id>;` (이후 기획도 applied_to 에 추가)
-  - 기획안 feedback 에 "개선 #<id> 반영: <어떻게>" 한 줄을 남긴다.
-  - 'hold'·'rejected' 항목은 따르지 않는다. 승인된 규칙이 위 0-1·1장 대표님 결정과 충돌하면 대표님 결정이 우선이고, 충돌 사실을 그 항목 feedback 에 {by:'claude', type:'note'} 로 적는다.
-- 우리 채널 조회수는 3시간마다(`side-ours-views` pg_cron, 매 3시간 :17) 쇼츠 탭에서 읽어 `sc_videos.stats` 와 `youtube_id` 를 채운다. 구독자 수는 `sc_settings.value.our`.
+- 예약 작업: "까치 채널 작업자 (하루 2편)" 01:41·09:41·13:41·17:41·21:41 / "From Korea, With Love 쇼츠 업로드 (하루 2번)" 06:40·18:40 (대표님 Chrome, 이 컴퓨터 필요 켜짐) / "까치 채널 벤치마킹·개선 제안" 10:53
+- **Chrome 쓰는 예약 작업은 "이 컴퓨터 필요"를 반드시 켠다** (2026-10-28 19:50 대표님). 예약 작업은 클라우드 새 세션으로 시작해 기본 설정으로는 대표님 PC의 Chrome에 닿지 못한다(10/28 19:14 밸류노트·19:41 까치 업로드 모두 "Chrome 연결 안 됨"). 새로 만들 때 `requires_local_device: true` 로 만들고, 만든 뒤 대표님께 데스크톱 앱 → 더 보기 → 예약됨에서 켜졌는지 확인을 알린다. 업로드 시간대에 PC·Claude 데스크톱 앱·Chrome이 켜져 있어야 한다
+- **Chrome 공유 잠금**: 밸류노트 업로드 데스크와 같은 Chrome·구글 계정을 쓴다. Supabase `docs` collection 'locks' id 'chrome-studio' 를 holder 'kachi' 로 잡고, 끝나면 released=true. 까치 데스크는 작업 뒤 반드시 youtube.com 과 Studio 를 둘 다 "밸류노트 ValueNote"(UCXh2Zs40HIrLZK5GTrHyYSQ)로 되돌린다. **Studio 는 youtube.com 과 별도로 마지막 채널을 기억한다** — youtube.com 에서 채널을 바꾼 뒤 `studio.youtube.com/channel/UCXh2Zs40HIrLZK5GTrHyYSQ` 를 직접 열어 확인한다(2026-10-30 실제로 겪음)
 
 ---
 
@@ -58,13 +50,14 @@
 | 항목 | 값 |
 |---|---|
 | 채널 이름 | **From Korea, With Love** (2026-10-28 변경. 이전 이름: What Korea Says / What Korea Says with Kachi) |
-| 핸들 | 추천 @KachiFromKorea (안 되면 @FromKoreaWithKachi → @KachiKorea). 기존 핸들은 @WhatKoreaSaysTV. **대표님이 실제로 무엇으로 바꿨는지 확인할 것** |
+| 핸들 | **@KachiFromKorea** (2026-10-30 스튜디오에서 확인, 적용됨). 기존 핸들은 @WhatKoreaSaysTV |
+| 채널 ID | UCR5ao2RmISHYMmDinRPIaDw (스튜디오 `studio.youtube.com/channel/UCR5ao2RmISHYMmDinRPIaDw`) |
 | 계정 | 밸류노트와 같은 구글 계정 아래 브랜드 채널 |
 | 진행자 | 까치 **Kachi** — 한국에서 좋은 소식을 전하는 새. 소포(사랑)를 배달하는 캐릭터 |
-| 시청자 | 전 세계, 영어 최소. 가족이 봐도 되는 수준이지만 **'아동용 아님'**으로 설정(아동용이면 맞춤 광고·댓글이 막힌다) |
+| 시청자 | 전 세계(미국 우선), 영어 최소. 가족이 봐도 되는 수준이지만 **'아동용 아님'**으로 설정(아동용이면 맞춤 광고·댓글이 막힌다) |
 | 브랜드 파일 | 저장소 `docs/side/`: profile_800.png, banner_2560x1440.jpg, watermark_150.png, logo_main.png(까치+글자), logo_text.png(글자만) |
 
-**채널 설명 (현재 확정본)**
+**채널 설명 (현재 확정본, 2026-10-30 "every week" → "every day")**
 ```
 Hi, I'm Kachi, the magpie! 🐦
 
@@ -74,10 +67,26 @@ A mom's box packed at 2 a.m. The last persimmons left on the tree for the birds.
 
 Every story is told in a tiny miniature world, with love from Korea 💛
 
-New stories every week. Follow, and tell me which Korean story touched you most!
+New stories every day. Follow, and tell me which Korean story touched you most!
 
 Visuals are AI-generated miniature illustrations.
 ```
+
+### 2-1. 스튜디오 설정 (2026-10-30 대표님 요청으로 Chrome에서 전부 점검·최적화)
+대표님 질문 "해외로 설정되어 있어? 거주 국가, 타겟층(미국)": **유튜브에는 시청 국가를 고르는 설정이 없다.** 노출 국가는 영상 언어 신호와 초기 시청자 반응으로 알고리즘이 정한다. 그래서 언어 신호를 전부 영어로 맞추고, 업로드 시간을 미국 저녁에 맞췄다.
+| 위치 | 값 | 비고 |
+|---|---|---|
+| 설정 → 채널 → 거주 국가 | 대한민국 (유지) | 실제 거주지. 수익·세금용이라 시청자 타겟과 무관, 바꾸면 안 됨 |
+| 설정 → 채널 → 키워드 | Kachi, From Korea With Love, Korea, Korean culture, Korean family, Korean mom, Korean grandma, heartwarming, wholesome, kindness, miniature, diorama, claymation, clay animation, magpie, emotional shorts | 10/30 교체(옛 방향 North Korea·Korean snacks·What Korea Says 등 삭제) |
+| 설정 → 채널 → 고급 | 아동용 아님 · 관심 기반 광고 켬 · 클립 허용 · 화질·음질 개선 허용 | 그대로 유지 |
+| 기능 사용 자격 | 표준·중급·고급 모두 사용 설정됨 | |
+| 업로드 기본 설정 → 설명 | 비움 | 옛 방향 문구("What does Korea really think? We translate…")가 남아 있어 삭제. 편마다 spec 설명에 채널 문구가 들어간다. 이미 올린 7편 설명은 깨끗했음 |
+| 업로드 기본 설정 → 태그 | Kachi, From Korea With Love, Korea, heartwarming, wholesome, miniature, claymation | 옛 방향 태그(Korean reaction, netizens…) 교체 |
+| 업로드 기본 설정 → 공개 | 비공개(예약 업로드용) | |
+| 업로드 기본 설정 → 고급 | 카테고리 **영화/애니메이션**(엔터테인먼트에서 변경), 동영상 언어·제목/설명 언어 **영어**, 표준 라이선스, 댓글 켬·기본 검토, 좋아요 수 표시 | 이미 올린 쇼츠 7편도 카테고리 일괄 변경 |
+| 커뮤니티 운영 | 차단 단어(sub4sub, check my channel, telegram, whatsapp, crypto, bitcoin, forex, onlyfans, t.me, promo sm, investment opportunity 등) · 해시태그·URL 포함 댓글 검토 보류 | 스팸은 지우지 않고 검토함으로 |
+| 변경·합성 콘텐츠 | 아니요 | 유튜브 정책상 고지 대상은 "사실처럼 보이는" AI 콘텐츠. 완전한 애니메이션은 대상 아님. 실존 인물·장소를 실사처럼 만들 때만 "예" |
+업로드 데스크 지시문(예약 작업)에 "자세히 보기에서 카테고리·언어 확인" 단계를 추가했다(2026-10-30).
 
 ---
 
@@ -93,15 +102,33 @@ Visuals are AI-generated miniature illustrations.
 - 감정 하나에 집중: 엄마, 할머니, 세대 이어짐, 동물 모성, 작은 친절
 - **자막 파일·자막 설정은 하지 않는다** (대표님 결정)
 - **이야기 품질 기준 (2026-10-28 15:53 대표님: "너무 단조로워, 큰 감동도 없고 억지스럽다, 까치가 등장했으면")**: "모르는 사람이 갑자기 착한 일을 한다"는 금지. 기획마다 ① 친절의 이유(첫 컷에 관계·과거를 심는다) ② 마지막 컷의 반전·회수(첫 컷이 새 의미를 갖게) ③ 까치가 직접 움직이는 역할(알아채고, 물어 오고, 이어 준다 — 구경꾼 아님) ④ 시작보다 큰 보상(재회, 돌아온 선물, 드러나는 가족). 놀라움·감정 정점·자연스러움·까치 역할을 1~5점으로 매겨 넷 다 4점 이상만 승인. 기준 예: P261028-bus-scarf "The magpie remembered his scarf" (지난겨울 할아버지가 까치 새끼들에게 덮어 준 목도리를 올겨울 까치가 돌려준다)
+- **감정 표현은 담담하게 — 억지 눈물 금지 (2026-10-29 대표님: "뭐할 때마다 적나라하게 우는 모습이 오바스럽다, 담담하거나 울컥하는 모습이 낫다")**
+  - 눈물 흘리기·우는 얼굴·흐느끼기·젖은 눈 클로즈업을 쓰지 않는다. 그림·영상 프롬프트에 tears, crying, sobbing, eyes filled with tears, wet eyes 를 쓰지 않는다
+  - 감정 정점은 **멈칫, 입술 다물기, 숨 한 번 고르기, 말없이 고개 끄덕이기, 조용히 번지는 미소, 손을 꼭 잡기·어깨에 손 얹기, 고개 돌리기** 같은 절제된 동작과 소품(1장 디테일)으로 보여 준다. 감동은 인물이 아니라 시청자가 느끼게 둔다
+  - 한 편에 '울컥' 정점은 한 번(마지막 컷 근처)만. 나머지 컷은 평온하거나 일상적인 표정
+  - 자막·제목에서도 우는 장면 묘사를 하지 않는다(이모지 😭 는 제목에 써도 되지만 화면 속 인물은 울지 않는다)
+- **개연성 점검 (2026-10-29 대표님: "개연성 측면에서도 계속 개선이 필요")** — 기획 승인 전 아래를 하나씩 확인한다
+  - 세월이 흐르는 이야기: 인물 나이 차와 동물 나이가 맞는가(개 수명 약 10~15년, 까치 수명 길어야 10년 남짓 → 세월 차이를 그 안으로). 같은 인물의 얼굴·옷 단서가 이어지는가
+  - 결말 소품의 경로: 마지막 컷에 나오는 물건(우산·목도리·손수건)이 **어떻게 거기 왔는지**가 앞 컷에 보이는가(누가 두고 갔는지, 누가 가져왔는지)
+  - 인물이 왜 그 장소·시간에 있는가(퇴근길, 명절 귀성, 매일 같은 시각 등 이유가 화면이나 자막에 한 번은 나온다)
+  - 까치의 행동 동기: 까치가 왜 그 사람을 돕는지(받은 은혜, 매일 받는 먹이 등)가 첫 컷에 심겨 있는가
+  - 우연이 두 번 겹치지 않는가(우연은 한 편에 하나까지)
+  - 동물 행동이 지나치게 사람 같지 않은가(개가 우산을 물고 오는 정도는 OK, 우산을 펴는 건 X)
 - **말없는 디테일 설계 (2026-10-28 대표님)**: 기획 단계에서 이야기의 감정을 대사 없이 보여 주는 소품·배경을 먼저 정한다. 예: 엄마 집 액자엔 엄마와 딸이 함께 찍은 사진, 딸 방 액자엔 까치 사진만 → "엄마가 자식을 더 생각한다". 낡은 장갑 vs 새 장갑, 냉장고에 붙은 아이 어릴 적 사진, 자기 담요를 내어 준 흔적 등. 기획안 `spec.details` = [{prop, where(컷 번호), meaning}] 2~4개. 그림 프롬프트에 해당 컷마다 그대로 넣고(액자 속 사진은 인물 ref 를 함께 넣어 같은 얼굴로), 점검 때 "설계한 디테일이 보이는가"를 확인한다. 처음부터 넣어 한 번에 렌더를 끝낸다
-
+- **유튜브 수익 정책 점검 (2026-10-30 조사, 대표님 결정 필요 사항 포함)**
+  - 2026년 7월 유튜브가 수익 창출 불가 '진정성 없는 콘텐츠' 세 가지를 정리했다: ① 영상마다 차이가 거의 없는 템플릿·AI 대량 생산물 ② **동물이 곤경에 처했다가 누군가 구해 주는 영상**(AI 여부와 무관, 이런 영상 위주 채널은 YPP 제외) ③ AI 페르소나가 민감한 주제를 다루는 영상 (TechCrunch 2026-07-20)
+  - 그래서: 길고양이·새끼 동물이 비·추위에 떨다 구조되는 구조는 **채널의 주력으로 삼지 않는다**. 동물이 나오는 편은 고통이 아니라 관계·은혜 갚기·일상의 따뜻함으로 시작한다(예: 매일 밥 주던 경비원에게 고양이가 무언가 돌려준다). 동물이 다치거나 굶는 장면 금지. 7-1장 트렌드 결론(비·길고양이·작은 친절이 가장 셈)보다 이 정책이 우선
+  - 템플릿 반복 위험 줄이기: 편마다 장소·계절·소품·반전이 달라야 하고, 같은 구조를 연달아 쓰지 않는다. 까치의 성격·연속성(같은 까치, 같은 소포)을 살린다
+  - 이미 예약된 "The night guard did this for a stray cat 🥹"(E261030-guard-cat, 10/30)은 이 위험에 해당할 수 있다 — 한 편만으로 문제가 되지는 않지만 같은 구조를 이어 가지 않는다
 
 ---
 
 ## 4. 업로드 운영
 - 매일 2편 08:00 · 22:00, 주말 포함 (위 0-1)
-- 업로드는 예약 작업이 대표님 Chrome의 유튜브 스튜디오로 한다. 직접 올릴 때만 관리자 카드의 "직접 올릴 때" 펼침을 쓴다
+- 업로드는 예약 작업이 대표님 Chrome의 유튜브 스튜디오로 한다("이 컴퓨터 필요" 켜져 있어야 함). 직접 올릴 때만 관리자 카드의 "직접 올릴 때" 펼침을 쓴다
 - '변경되거나 합성된 콘텐츠' 질문: 캐릭터 애니메이션이라 "아니요". 실존 인물을 실사처럼 만들면 그 편만 "예"
+- 카테고리 영화/애니메이션, 동영상 언어·제목/설명 언어 영어 (업로드 기본값, 2-1장)
+- 썸네일은 반드시 이야기 장면. 엔딩 화면(흐린 배경, 글자 로고, 하트·터치 점, Double-tap 문구, Follow 알약)이 썸네일이면 업로드 데스크가 자동 반려한다
 - 쇼츠 수익은 1,000회당 수십~100원대라 조회수만으로는 작다. 목표는 구독자·채널 성장 → 이후 협찬·롱폼
 
 ---
@@ -134,6 +161,7 @@ Visuals are AI-generated miniature illustrations.
 - 표: `sc_trends`, `sc_plans`, `sc_videos`, `sc_settings`, `sc_jobs`(작업 현황 탭용 — `supabase/2026-10-27_side_jobs.sql` 을 대표님이 아직 실행 안 했을 수 있음)
 - `sc_videos.status`: review(검수 대기) → approved(업로드 대기) → uploaded(올림). rework(수정 요청), rejected(폐기), archived(보관 — 이전 방향 롱폼·초코파이·손흥민). `feedback` = [{at, by: owner|claude, type: rework|note|fixed|discard|archive, text}]. `stats` = {now, h24, h48, d7, hist} 조회수(수집기가 채움)
 - `sc_plans`: requested(작성 요청) → pending(승인 대기) → approved(제작 대기) → producing → made. rework(수정 요청), rejected. 감성 쇼츠 기획안은 `line='emo'`, `emotion`(mom·grand·animal·kind·korea·underdog·style), `korea`(한국 장면), `outline`=[{scene, cap}] 컷 목록, `spec`={music, pinned, description, tags, notes}, `publish_at`
+- `sc_settings` 는 `id=1` 한 행, 설정은 `value` jsonb 안에 있다(키 열 없음)
 - `sc_trends`: kind='idea'(까치 추천 소재: emotion, korea, apply, reactions=왜 먹히나, evidence=[{video_id,title,views,channel}], score) / 'season'(day, upload_by) / 'legacy'(이전 방향, 안 보임)
 - `sc_hot_queries`(검색어 30개, cat=감정 유형) → `sc_hot_videos` + `sc_hot_snaps`(날마다 조회수) → 뷰 `sc_hot`(views, per_day=하루 증가, measured=전날 대비 실측 여부, age_days)
 - `sc_import()`: 10분마다 사이트의 `/social/side/queue.json` 을 읽어 `sc_videos` 에 넣는다. `kind` 가 `short` 면 단독 쇼츠 행으로 들어간다(2026-10-28 수정). 급하면 `sc_videos` 에 직접 insert 해도 된다
@@ -146,7 +174,7 @@ select id, status, title, note, feedback from sc_plans where status in ('rework'
 ```
 - **영상 rework**: 마지막 owner 코멘트대로 컷을 편집 생성으로 고치거나 spec(자막·음악·엔딩)을 고쳐 다시 렌더 → `sc_import` 가 새 video_url 을 받으면 자동으로 review 로 돌아간다. 이어서 `feedback` 에 `{"by":"claude","type":"fixed","text":"무엇을 고쳤는지"}` 추가.
 - **기획안 rework / requested**: 코멘트대로 outline·title·spec 을 고쳐(또는 새로 써서) status 'pending' 으로, feedback 에 Claude 답.
-- **approved 기획안**: 아래 작업 순서대로 생성 → 점검 → 렌더. spec 의 `scheduled_at` = 기획안 `publish_at`, `id` 는 `E<yymmdd>-<slug>`. 시작할 때 status 'producing', 렌더가 검수 탭에 뜨면 'made' 와 `sc_videos.plan_id` 연결.
+- **approved 기획안**: 아래 작업 순서대로 생성 → 점검 → 렌더. spec 의 `scheduled_at` = 기획안 `publish_at`, `id` 는 `E<yymmdd>-<slug>`. 시작할 때 status 'producing', 렌더가 검수 탭에 뜨면 'made' 와 `sc_videos.plan_id` 연결. **생성 직전 프롬프트에 tears/crying/Pixar 같은 표현이 남아 있지 않은지, 3장 개연성·수익 정책 점검을 통과하는지 한 번 더 본다**
 - 자동 작업자(예약 작업 "까치 채널 작업자")가 하루 3번 같은 일을 한다. 대화 중이면 대화에서 먼저 처리해도 된다.
 
 **작업 순서 (한 편 만들기)**
@@ -165,7 +193,14 @@ select id, status, title, note, feedback from sc_plans where status in ('rework'
 - 1080×1920, 30fps. 5초 영상 6~7컷을 0.2초부터 4.4초씩 잘라 0.5초 겹침 페이드로 잇는다
 - 자막: Poppins SemiBold 74px, 화면 위쪽 19% 지점, 흐린 어두운 판 위 흰 글씨. 첫 자막은 첫 프레임부터 보인다(훅)
 - 음악: Mixkit 감성 곡(아래), 시작 지점 조절, 1.2초 페이드 인·2.2초 페이드 아웃, loudnorm
-- **엔딩 4.2초 (확정)**: 마지막 장면을 흐리게 → 글자 로고(logo_text) → 소포 든 까치(`cut/h_fly_love.png`)가 오른쪽 위에서 날아와 로고 'From' 위에 앉는다(`cut/h_love.png`) → 문구 **"Kachi brings you love, from Korea"** → ♥ Like / Follow 버튼. 쇼츠 아래 제목 영역과 오른쪽 버튼 줄(x>940)을 피한다
+- **엔딩 4.2초 (2026-10-30 개편 — 대표님: "좋아요 화면 두 번 클릭하는 거, 팔로우 유도 더 자연스럽게. 좋아요 두 번 클릭이 중요할 것 같아")**. 프레임마다 PIL 로 그려 ffmpeg 로 묶는다(커밋 3b319e8)
+  - 0.0초 마지막 장면을 흐리게, 글자 로고(logo_text)가 살짝 튀어 오름 → 0.25~1.35초 소포 든 까치가 오른쪽 위에서 날아와 로고 'From' 위에 앉음 → 1.45초 문구 "Kachi brings you love, from Korea"
+  - 1.9초 **더블탭 연출**: 까치 오른쪽 빈자리를 흰 터치 점(손끝)이 2.12초·2.40초 톡톡 두 번 누름 → 빨간 물결 두 번 → 둘째 탭에 빨간 하트가 튀어나오고 작은 하트들이 위로 날아감, 까치가 기뻐서 폴짝 → 아래에 **"Double-tap ♥" / "if this warmed your heart"**
+  - 2.85초 빨간 알약 **"Follow for a new story every day"**(버튼 대신 '매일 새 이야기'라는 이유를 주는 문장)
+  - 모든 요소가 쇼츠 아래 제목 영역(y>1470)과 오른쪽 버튼 줄(x>940) 밖에 있다
+  - 문구는 spec `end` 에서 바꿀 수 있다: `phrase`, `tap_line`(기본 "if this warmed your heart"), `follow_line`(기본 "Follow for a new story every day")
+  - 참고: 쇼츠 화면을 두 번 탭하면 좋아요가 되는지는 유튜브 공식 문서로 확인하지 못했다(2026-06 쇼츠 좋아요 버튼이 하트로 바뀜, 한 번 탭은 화면 정리). 그래서 하트 모양을 크게 보여 주어 시청자가 오른쪽 하트 버튼을 눌러도 같은 뜻이 되게 했다
+  - 10/30 이전에 렌더된 편(10/30~10/31 예약분 포함)은 옛 엔딩(♥ Like / Follow 버튼). 다시 렌더하지 않았다
 - spec 예시
 ```json
 {
@@ -186,9 +221,9 @@ select id, status, title, note, feedback from sc_plans where status in ('rework'
 ---
 
 ## 7. 프롬프트 규칙과 점검 체크리스트
-**공통 STYLE (모든 이미지 끝에 붙인다)**
+**공통 STYLE (모든 이미지 끝에 붙인다)** — 2026-10-29 표정 문구 변경("deeply emotional Pixar-like expressions" 삭제)
 ```
-Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and deeply emotional Pixar-like expressions, not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.
+Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.
 ```
 **KACHI (까치가 나오는 컷, ref 에 `social/side/gen/c1_magpie.jpeg`)**
 ```
@@ -196,10 +231,11 @@ The magpie is exactly the character in the magpie reference image: a small round
 ```
 **영상 공통 꼬리**
 ```
-Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.
+Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.
 ```
 - 같은 인물·장소·소품이 다시 나오는 컷은 **앞 컷 이미지를 ref 로 함께** 넣는다(얼굴·옷·상자 일관성)
 - 까치가 안 나와야 하는 컷에는 까치 ref 를 넣지 않는다(넣으면 마이크 든 큰 까치가 끼어든다 — 까치밥 1컷 실수)
+- 감정 정점 컷의 표정 문구 예: "he goes still, lips pressed together, then a slow, quiet smile", "she pauses for a moment, then smiles softly", "her eyes gently closed with a quiet, relieved smile", "he lets out a small breath and nods"
 
 **점검 체크리스트 (실제로 나왔던 실수들)**
 - [ ] **깨진 글자**: 액자·간판·라벨·포장지에 AI 티 나는 한글·영어가 있으면 안 된다. 기본은 글자 없는 그림·무지 포장, 꼭 필요한 자리는 깔끔한 **'Kachi'** 한 단어 (대표님 지적, 2026-10-28)
@@ -210,10 +246,10 @@ Keep the miniature clay diorama look and every character design identical to the
 - [ ] 하늘·배경에 이어 붙인 듯한 가로 띠 없음
 - [ ] 이야기 소품이 맞는지(예: "마지막 감"인데 감이 열 개 달려 있으면 안 됨)
 - [ ] 자막이 밝은 장면에서도 읽히는지, 마지막 문구 줄바꿈이 자연스러운지
-- [ ] **정류장·가게 같은 공공 장소엔 AI가 표지판·안내판을 스스로 그려 넣고 깨진 한글이 생긴다** → 프롬프트에 "no signs, no posters, plain clear glass" 를 처음부터 넣는다 (2026-10-29 목도리 편 2·5컷)
-- [ ] **까치 + 새끼 까치 여럿 장면**: 새끼에게도 빨간 목도리가 붙어 까치가 둘이 된다 → "exactly N magpies, only ONE has a red neckerchief" 로 수를 못박는다 (5컷)
-- [ ] **까치가 사람 옆 같은 높이(벤치)에 있으면 사람만큼 커진다**, 편집으로 줄이면 작은 까치가 하나 더 생긴다 → 처음부터 "tiny, the size of the grandpa's hand" 크기를 bible 에 넣는다 (4컷)
 - [ ] 기획한 디테일(액자 속 사진, 소품 대비 등)이 해당 컷에 실제로 보이는지, 액자 속 인물이 본편 인물과 같은 얼굴인지
+- [ ] **눈물·우는 얼굴 없음** — 볼에 눈물 줄기, 눈가 반짝이는 물방울, 찡그린 울상이 보이면 편집 생성으로 "calm, restrained expression, no tears" 로 고친다 (대표님 지적, 2026-10-29)
+- [ ] **썸네일이 이야기 장면인지** — `thumb.cut` 이 엔딩 카드를 가리키면 안 된다(10/29 까치밥 편이 엔딩 화면 썸네일로 올라간 실수)
+- [ ] **동물이 고통받다 구조되는 장면이 아닌지** (3장 수익 정책)
 
 ---
 
@@ -221,43 +257,33 @@ Keep the miniature clay diorama look and every character design identical to the
 - 감정 유형별 상위 20편 하루 조회수 합: **작은 친절 624만 > 동물 가족 333만 > 엄마 130만** > 미니어처 38만 > 한국 문화 28만 > 할머니 17만
 - 최상위 사례: "They Kicked This Stray Cat Out in the Rain… So He Built Him a HOME" 1,013만 회(14일), "A Small Act of Kindness" 913만 회(7일), "He Built a Safe Home for a Mother Cat and Her 5 Kittens" 55만 회(1일), "A Mother's Love Has No Limits" 290만 회(8일), "POV: Your Mom Packed Your Field Trip Lunch" 14만 회(3일)
 - 결론: **비·길고양이·작은 친절**과 **엄마의 희생→세월 뒤 갚기** 구조가 가장 세다. 한국 장면은 이 구조 위에 얹는다(한국 문화만으로는 약함)
+- **단, 2026-07 유튜브 정책으로 "동물 곤경 → 구조"형은 수익 제외 위험이 크다(3장).** 조회수가 커도 주력으로 쓰지 않고, '엄마의 희생→세월 뒤 갚기'와 '받은 은혜를 까치가 돌려준다' 쪽을 주력으로 한다
 - 종교 자극형(예수·신)·유명 캐릭터(소닉 등)는 수치가 커도 쓰지 않는다
 
-## 8. 제작 현황 (2026-10-28 12:00)
-| 편 | ID | 상태 |
-|---|---|---|
-| 엄마의 택배 — Every Korean mom packs THIS box 📦😭 | E261029-moms-box | 완성(31.7초, 새 엔딩·글자 수정 반영), 검수 탭 |
-| 까치밥 — Why Koreans never pick the last persimmon 🥺 | E261030-kkachi-bap | 완성(27.8초), 검수 탭 |
-| 엄마 까치 — She stayed like this all night ❄️ | E261031-snow-nest | 완성(27.8초), 검수 탭 |
-| 초코파이(롱폼 8분 + 쇼츠) | S261029-choco-pie | 완성, 검수 탭(옛 채널명 로고) |
+## 8. 제작 현황 (2026-10-30 01:40 스튜디오 기준)
+| 편 | 상태 |
+|---|---|
+| Every Korean mom packs THIS box 📦😭 | 공개 10/28 |
+| She stayed like this all night ❄️ | 공개 10/28 (대표님 직접 업로드) |
+| The magpie remembered his scarf 🧣🥺 | 공개 10/29 |
+| Why Koreans never pick the last persimmon 🥺 | 공개 10/29 (썸네일이 엔딩 화면으로 올라간 편) |
+| Mom always said she wasn't hungry… 🥺 | 예약 10/30 |
+| The night guard did this for a stray cat 🥹 | 예약 10/30 |
+| Grandpa waved until we were gone 🥺 | 예약 10/31 |
+| 초코파이(롱폼 8분 + 쇼츠) S261029-choco-pie | 완성, 보관함(옛 채널명 로고) |
 
-**기획안 탭 승인 대기 (2026-10-28 오후 작성)**: 비 오는 골목 노란 우산(10/31 08:00) · "Mom always said she wasn't hungry" 붕어빵(10/31 20:00) · 아파트 경비 아저씨의 고양이 상자 집(11/1 08:00) · 수능 도시락(11/16 20:00 시즌 고정). 제목에서 #shorts 뺀 상태로 DB·spec·queue 모두 정리함.
-
-**2026-10-28 14:40 작업자 실행**: 새 편 2개 완성 → 렌더 대기열(specs_emo): 목도리 정류장 `E261028-bus-scarf`(10/28 22:00, 23.9초, 영상 5컷) · 할아버지 배웅 `E261029-grandpa-wave`(10/29 13:00, 27.8초, 영상 6컷). 경비실 고양이(10/30 03:00)·붕어빵 엄마(10/30 08:00)는 그림 24장·영상 17컷까지 만들고 **Higgsfield 잔액 부족으로 멈춤** — 남은 것: 고칠 그림 6장(`scripts/side/gen/M261028-batch1-fix.json`, 아직 미실행) + 영상 7컷(mhv3_watch, 고친 그림 6장의 영상). 설정은 `scripts/side/specs_draft/E261030-*.json`. 기획 8건 추가(10/28~11/1 빈칸). 충전 후 fix → 영상 → 렌더 순서로 이어 간다.
-
-**2026-10-28 18:30 작업자 실행**: 오늘(KST) 생성비가 이미 하루 예산(3.5달러)을 크게 넘어 새 생성 없음. 빈 22:00 칸은 할아버지 배웅 완성본을 10/29 08:00 → 10/28 22:00으로 당겨 채움(DB 반영). 10/29 08:00 = 목도리 보은(P261028-bus-scarf, 촬영표 완성, 10/29 첫 실행이 제작). 10/30 08:00 붕어빵 엄마·22:00 경비실 고양이 = 남은 영상만 `scripts/side/gen_next/M261029-finish-vid.json`(6컷 중 실패 1 재시도 포함, 약 $1.5). 기획 4건 PLAN-FIRST 촬영표로 새로 씀(핼러윈 군밤 할머니·까치 손수건 기원·우산 누렁이·홍시 숟가락) — 생성 파일은 `scripts/side/gen_next/`(제작 때 gen/ 으로 git mv). **큰 DB 쓰기(문장 ~10KB 이상)는 Supabase MCP 확인 질문 → 무인 실행에서 시간 초과로 막힌다(18:30·18:45 두 번 재현). 편성 3건은 적용됨, 기획 4건은 `scripts/side/plans_next/261028-1830-pending.sql` 미적용 — 다음 실행이 컷 하나씩 작은 문장으로 나눠 먼저 적용할 것**(적용 후 파일 삭제).
-
-**2026-10-28 21:46 작업자 실행 + 대표님 처리**: 기획 4건(핼러윈 10/31 08:00·까치 손수건 10/31 22:00·우산 누렁이 11/1 08:00·홍시 11/1 22:00)은 대표님이 SQL Editor 에서 직접 실행해 DB 반영 완료(촬영표 4컷씩). **주의: Supabase MCP 는 짧은 UPDATE 는 통과하지만, 영어 그림 프롬프트가 든 문장(1.4KB 짜리도)은 서버가 확인 질문을 띄워 3분 뒤 시간 초과된다(항상 허용 설정과 무관).** 긴 프롬프트가 든 DB 쓰기는 피하고, 필요하면 SQL 파일을 저장소에 두고 대표님께 SQL Editor 실행을 부탁한다.
-
-**하루 예산 (2026-10-29 00:40 대표님)**: 밀린 편을 따라잡느라 **10/29(KST) 하루만 5달러**, 10/30부터 다시 3.5달러. (DB `daily_usd` 는 MCP 확인 창 때문에 못 바꿈 — 작업자는 10/29엔 5달러로 계산할 것)
-
-**2026-10-29 00:25~02:30 (대표님과 대화 중 제작)**: 목도리 보은 `E261029-magpie-scarf`(10/29 08:00, 23.9초, 5컷, 실비 약 $2.25 = 그림 8·영상 5, 고침 3장) · 붕어빵 엄마 `E261030-mom-hungry`(10/30 08:00, 27.8초) · 경비실 고양이 `E261030-guard-cat`(10/30 22:00, 27.8초) 완성 → sc_videos 'approved' 직접 넣음(사이트 배포가 늦어 sc_import 가 못 읽었음). 10/29 KST 생성비 약 $3.75/$5. **할아버지 배웅 `E261029-grandpa-wave` 는 10/28 22:00 칸을 놓침**(18:40 업로드 작업 뒤에 22:00로 당겨져서) → 업로드 작업이 다음 빈칸으로 옮겨 올린다. 그래서 이후 편이 한 칸씩 밀릴 수 있다 — 작업자는 빈칸 계산 때 이 여분 1편을 고려할 것.
-
-**2026-10-29 09:45 작업자 실행**: 11/2~11/3 기획 4건(우산 고양이·첫 월급·시장 채소·진돗개 정류장)이 P0(친절의 이유·마지막 반전·까치 역할) 미달 → rejected, 같은 칸에 PLAN-FIRST 새 기획: 11/2 08:00 `P261102-cat-basket`(장독대 고양이·까치 소쿠리 지붕, 개선 #2 첫 적용) · 11/2 22:00 `P261102-dad-longjohns`(아빠 덧댄 내복 → 첫 월급 소포를 까치가 배달, 어린 딸 그림 회수) · 11/3 08:00 `P261103-market-sweetpotato`(시장 할머니 군고구마 → 까치가 그 소년을 이끌어 옴) · 11/3 22:00 `P261103-jindo-army`(입대 이별 → 까치 울음이 귀환을 알림, 3컷은 2컷 마지막 프레임). 각 4컷·예상 $1.375~1.5, 생성 파일 `scripts/side/gen_next/M2611*`. **DB 반영은 cat-basket 기본 행만 됨(shots 비어 있음). 나머지는 `scripts/side/plans_next/261029-0945-pending.sql` — STYLE 문장이 든 긴 UPDATE 가 또 MCP 확인 창으로 시간 초과.** 관찰: STYLE·KACHI 문장 없는 약 5KB insert(영어 bible 포함)는 통과, STYLE 든 12KB update 는 막힘 → 다음 실행은 컷 하나씩(약 2KB) 시도하고, 그래도 막히면 대표님 SQL Editor. 이 SQL 이 적용되기 전엔 11/2 22:00·11/3 08:00·22:00 칸이 DB에서 비어 보이니 **새 기획을 쓰지 말고 이 파일을 먼저 적용**할 것.
-**2026-10-29 17:45 작업자 실행**: 영상 수정 요청·기획 요청 없음. 10/29 22:00·10/30 08:00·22:00 완성본 있음(버퍼 충족) → 새 생성 없음. 09:45 미적용 SQL 이어받아 `P261102-dad-longjohns` 기본 행(shots 빈 배열)만 MCP로 insert 성공. **컷 하나(약 2.4KB, STYLE 문장 포함) UPDATE 도 확인 창 시간 초과 → MCP로는 그림 프롬프트를 못 넣는다고 확정.** 남은 것(고양이 소쿠리·내복 shots, 군고구마·진돗개 기획 행, 개선 #1·#2 applied, 학습 5번)은 `scripts/side/plans_next/261029-1745-pending.sql` 하나로 합침 → 같은 날 대표님이 "다시해" 하셔서 **적용 완료**(11/2·11/3 네 칸 모두 촬영표 4컷씩 approved). **긴 SQL 적용 방법(확정)**: 파일을 커밋·push → `select net.http_get('https://raw.githubusercontent.com/immin03/haeja/<커밋SHA>/<경로>')` → `net._http_response` 에서 md5 를 로컬 md5 와 대조 → `do $d$ ... execute c ... $d$`(begin/commit 줄 제거). 단, 무인 실행에서도 MCP 확인 창이 뜨면 시간 초과될 수 있으니 실패하면 다음 대화로 미룬다. 다음 실행(10/30): 핼러윈 군밤(10/31 08:00)·까치 손수건(10/31 22:00) 제작(약 $3.0/$3.5) — 촬영표는 DB `spec.shots` 에 이미 있어 MCP 쓰기 없이 gen json 만 만들면 된다.
-- 주의: `scripts/side/gen_next/M261031-*`·`M261101-*`(10/28 18:30 작성)은 그 뒤 DB 기획(눈물 금지 STYLE·나이 보정)과 다르다. 제작 때는 DB `spec.shots` 에서 다시 만들어 쓴다.
+**2026-10-29 07:50 감정 표현·개연성 반영 (대표님 지시, 다음 제작분부터)**: 승인된 기획 9건(`sc_plans` line='emo', approved)의 STYLE 문구와 영상 꼬리를 위 7장 새 문구로 바꿈. 눈물 표현 제거 — 핼러윈 할머니(마지막 컷 "말없이 꼭 끌어안는다"), 빨간 손수건(아빠 "잠시 멈췄다가 조용히 미소"), 홍시 할머니("잠시 멈췄다 부드럽게 미소"), 첫 월급(아빠가 "내복을 한참 쓰다듬다 말없이 고개를 끄덕인다"). 개연성 보정 — 우산 강아지(소년 8→12살, 선생님 20대 후반→중반: 개 나이 약 13년. 1컷에 우산을 강아지에게 두고 가는 장면 추가 → 늙은 개가 그 우산을 가져오는 이유), 빨간 손수건(소년 8→14살, 아빠 30대 중반→30살, 딸 5→4살). 아직 촬영표(shots)가 없는 기획(시장 채소·진돗개 버스·노란 우산 고양이·첫 월급·수능 도시락)은 촬영표를 쓸 때 3장 개연성 점검을 적용한다 — 특히 시장 채소는 회사원이 할머니를 돕는 이유(예전 인연)를 첫 컷에 심어야 한다. 노란 우산 고양이처럼 동물이 비에 젖는 기획은 3장 수익 정책 점검을 함께 한다. 이미 완성된 영상은 고치지 않았다.
 
 **다음 배치 후보** (하루 2편 소화하려면 미리 5~10편씩 생성)
 - 김장 날 첫 입: 할머니가 수육에 김치를 싸서 손주 입에 넣어 주고, 까치도 받아먹다 매워서 빨개짐(감동+웃음)
-- 비 오는 골목 우산: 장맛비 서울 골목, 까치가 노란 아이 우산을 끌어와 젖은 아기 고양이에게 씌워 줌, 엄마 고양이가 눈을 깜빡여 고마움 표시
 - 그 밖에: 수능 날 엄마의 도시락, 첫 월급 내복 선물, 설날 세배와 할아버지, 군대 간 아들 면회, 이산가족 대신 고향 생각(정치색 피함), 추석 보름달 아래 할머니와 송편
 
-**비용**: Higgsfield 45달러 충전, 지금까지 약 16달러 사용 → 남은 돈 약 29달러(편당 1~1.3달러, 수정 생성 포함 시 1.5달러). 정확한 잔액은 Higgsfield 대시보드 확인
+**비용**: 정확한 잔액은 Higgsfield 대시보드(open.higgsfield.ai → Billing) 확인
 
 ---
 
 ## 9. 대표님 할 일 (확인 필요)
-- 유튜브 스튜디오: 채널 이름·핸들·설명·프로필·배너·워터마크 교체
 - Supabase SQL Editor 에서 `supabase/2026-10-27_side_jobs.sql` 실행(관리자 '작업 현황' 탭)
 - 초코파이 롱폼·쇼츠 업로드 여부 결정(옛 채널명 로고가 들어가 있음 → 올릴 거면 로고 교체 재렌더). 지금은 관리자 '보관함'에 있음(되돌리기 버튼)
-- 관리자 설정 탭에 실제로 정한 핸들 입력
+- 관리자 설정 탭에 핸들 @KachiFromKorea 입력(아직 안 했다면)
+- 동물 구조형 소재를 계속 쓸지 결정(3장 수익 정책) — Claude 추천: 주력에서 빼고 은혜 갚기·엄마·할머니 쪽으로
