@@ -222,12 +222,36 @@ const K = {
         r.note ? t(r.note, { fontSize: 25, fontWeight: 600, color: C.mute, marginTop: 4, lineHeight: 1.35 }) : null)))),
     s.note ? t(s.note, { fontSize: 27, fontWeight: 700, color: C.ink, marginTop: 22, lineHeight: 1.45 }) : null)),
 
-  follow: (s, sp, i, n) => shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' },
-    bigTitle(s.title, s.size || 68),
-    (s.body || []).map((p) => para(p)),
-    h('div', { marginTop: 60, alignItems: 'center', gap: 24 },
-      h('div', { background: C.gold, color: C.navy, fontSize: 36, fontWeight: 900, borderRadius: 60, padding: '22px 44px' }, s.cta || '팔로우하고 받아 보기'),
-      t('@value.note.korea', { fontSize: 32, color: C.ink, fontWeight: 800 })))),
+  // follow (2026-10-29 운영자, korean_alpha_male 벤치마킹): 마지막 장에서 팔로우·저장·공유를 우리 톤으로 유도한다.
+  // { title, body:[문단], cta?, share?: false 로 끄기, line?: 마지막 한 줄 }  — 기본은 프로필 카드 + 팔로우·저장·공유 세 줄
+  follow: (s, sp, i, n) => {
+    if (s.share === false) return shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' },
+      bigTitle(s.title, s.size || 68), (s.body || []).map((p) => para(p)),
+      h('div', { marginTop: 60, alignItems: 'center', gap: 24 },
+        h('div', { background: C.gold, color: C.navy, fontSize: 36, fontWeight: 900, borderRadius: 60, padding: '22px 44px' }, s.cta || '팔로우하고 받아 보기'),
+        t('@value.note.korea', { fontSize: 32, color: C.ink, fontWeight: 800 }))));
+    const ico = (d) => img('data:image/svg+xml;base64,' + Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`).toString('base64'), { width: 48, height: 48 });
+    const ICON = {
+      follow: '<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M19 8v6M16 11h6"/>',
+      save: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+      share: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>',
+    };
+    const AV = path.join(ROOT, 'brand', 'profile-1080.png');
+    const row = (k, a, b, bg) => h('div', { alignItems: 'center', gap: 26, marginTop: 28 },
+      h('div', { width: 88, height: 88, borderRadius: 88, background: bg, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }, ico(ICON[k])),
+      h('div', { flexDirection: 'column', flexShrink: 1 }, t(a, { fontSize: 42, fontWeight: 900, color: C.ink }), t(b, { fontSize: 29, fontWeight: 600, color: C.mute, marginTop: 4 })));
+    return shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center', marginTop: -20 },
+      bigTitle(s.title || '현명한 투자,\n놓치기 싫다면', s.size || 78),
+      (s.body || ['지금 시장에서 중요한 숫자만 골라 쉽게 정리합니다.']).map((p) => para(p, { fontSize: 38, marginTop: 20 })),
+      h('div', { marginTop: 40, alignItems: 'center', gap: 24, background: C.card, border: `1px solid ${C.line}`, borderRadius: 26, padding: '28px 30px' },
+        fs.existsSync(AV) ? img(uri(AV, 'image/png'), { width: 112, height: 112, borderRadius: 112, border: `3px solid ${C.gold}` }) : null,
+        h('div', { flexDirection: 'column', flexGrow: 1 }, t('value.note.korea', { fontSize: 40, fontWeight: 900 }), t('밸류노트 · 쉬운 주식 공부', { fontSize: 24, fontWeight: 600, color: C.mute, marginTop: 4 })),
+        h('div', { background: C.gold, color: C.navy, fontSize: 30, fontWeight: 900, borderRadius: 16, padding: '14px 26px', border: '4px solid #FFFFFF' }, '팔로우')),
+      row('follow', s.cta || '팔로우하고 다음 소식 받기', '실적·시장 이슈를 다음 날 숫자로 정리해 드려요', C.navy2),
+      row('save', '저장해 두고 다시 보기', '나중에 내 종목 볼 때 꺼내 보세요', C.navy2),
+      row('share', '소중한 사람에게 공유하기', '같이 투자하는 분께 보내 주세요', C.navy2),
+      t(s.line || '유익했다면 저장하고, 소중한 사람에게 공유해 주세요', { fontSize: 38, fontWeight: 900, color: C.gold, marginTop: 44 })));
+  },
 
 
   // ── 실적 정리형 장 (2026-10-29 운영자: mijunow 구글 실적 카드 벤치마킹 — "실적 발표에서 어떤 게 나왔는지 잘 정리") ──
@@ -328,6 +352,34 @@ const K = {
       kpis, quote,
       s.takeaway ? h('div', { marginTop: 24, marginBottom: 14, background: 'rgba(234,219,185,.10)', border: `2px solid ${C.gold2}`, borderRadius: 18, padding: '16px 22px' }, rich(s.takeaway, 30)) : null));
   },
+
+  // ── 화제형 (2026-10-29 운영자: korean_alpha_male 벤치마킹 — "화제성 글들을 우리 톤으로") ──
+  // ncover { photo, lines:[[글, 'gold'|'ink']], tag?, date? }  위 58% 뉴스 사진 + 아래 3~4줄 큰 제목(금색·아이보리 번갈아, 숫자·인용 한 줄 포함)
+  // story  { head, photo?, big?, bigNote?, body:[문단 2~3개] }  금색 소제목 띠 + 기사처럼 읽히는 짧은 문단(장 하나 = 이야기 한 토막)
+  ncover: (s, sp, i, n) => {
+    const PH = 790, maxW = W - 100;
+    const fit = (str) => Math.min(104, Math.floor(maxW / (String(str).length * 0.9)));
+    const size = Math.min(...s.lines.map(([l]) => fit(l)));
+    return h('div', { width: W, height: H, position: 'relative', fontFamily: 'P', color: C.ink, background: C.navy, flexDirection: 'column' },
+      h('div', { width: W, height: PH, position: 'relative' },
+        img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: PH, objectFit: 'cover' }),
+        h('div', { position: 'absolute', left: 0, top: 0, width: W, height: PH, background: 'linear-gradient(180deg,rgba(9,17,30,.55) 0%,rgba(9,17,30,0) 22%,rgba(9,17,30,0) 62%,rgba(13,24,40,1) 100%)' }),
+        h('div', { position: 'absolute', left: 50, top: 46, right: 50, justifyContent: 'space-between', alignItems: 'center' }, mark(190),
+          h('div', { fontSize: 26, fontWeight: 800, color: '#FFFFFF', background: 'rgba(0,0,0,.40)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
+        credit(s.photo) ? t(credit(s.photo), { position: 'absolute', right: 50, top: 120, fontSize: 17, color: 'rgba(255,255,255,.55)', fontWeight: 500 }) : null),
+      h('div', { flexDirection: 'column', alignItems: 'center', marginTop: -110, padding: '0 50px' },
+        s.tag ? h('div', { background: C.gold, color: C.navy, fontSize: 30, fontWeight: 900, borderRadius: 12, padding: '6px 18px', marginBottom: 18 }, s.tag) : null,
+        s.lines.map(([l, tone]) => t(l, { fontSize: size, fontWeight: 900, letterSpacing: -3, lineHeight: 1.16, color: tone === 'gold' ? C.gold : C.ink, textAlign: 'center', textShadow: '0 4px 16px rgba(0,0,0,.55)' }))),
+      h('div', { marginTop: 'auto', padding: '0 50px 40px 50px', justifyContent: 'space-between' },
+        t(s.date || '', { fontSize: 22, color: C.dim, fontWeight: 600 }), t('@value.note.korea', { fontSize: 22, color: C.dim, fontWeight: 700 })));
+  },
+
+  story: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column', flexGrow: 1, marginTop: -10 },
+    h('div', { borderLeft: `8px solid ${C.gold}`, background: 'rgba(234,219,185,.10)', borderRadius: '0 18px 18px 0', padding: '18px 24px', flexDirection: 'column' },
+      String(s.head).split('\n').map((l) => t(l, { fontSize: 48, fontWeight: 900, color: C.gold, lineHeight: 1.3, letterSpacing: -1 }))),
+    s.photo ? img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { width: W - 128, height: 380, objectFit: 'cover', borderRadius: 22, marginTop: 30 }) : null,
+    s.big ? h('div', { alignItems: 'baseline', gap: 18, marginTop: 26 }, t(s.big, { fontSize: 96, fontWeight: 900, letterSpacing: -3, color: s.tone === 'down' ? C.down : s.tone === 'up' ? C.up : C.ink }), s.bigNote ? t(s.bigNote, { fontSize: 32, fontWeight: 700, color: C.mute }) : null) : null,
+    (s.body || []).map((p) => t(p, { fontSize: s.photo ? 37 : 42, color: C.ink, fontWeight: 600, lineHeight: 1.6, marginTop: s.photo ? 26 : 40 })))),
 
   end: (s, sp, i, n) => shell({ ...sp, foot: sp.disclaimer || '' }, i, n, h('div', { flexDirection: 'column', flexGrow: 1, justifyContent: 'center' },
     bigTitle(s.title, s.size || 64),
