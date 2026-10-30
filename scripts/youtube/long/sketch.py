@@ -122,6 +122,21 @@ def icon_draw(d, kind, x, y, s, c, w=4):
             a = k * math.pi / 6; cx, cy = x + s * .5, y + s * .5
             L([(cx + math.cos(a) * s * .4, cy + math.sin(a) * s * .25), (cx + math.cos(a) * s * .48, cy + math.sin(a) * s * .3)])
         d.ellipse([x + s * .3, y + s * .38, x + s * .7, y + s * .62], outline=c, width=max(2, w - 2))
+    elif kind == "pumpkin":   # 호박 (2026-10-30 할로윈 편 — 얼굴 없는 둥근 호박)
+        for ax0, ax1 in ((.06, .56), (.44, .94), (.26, .74)):
+            d.ellipse([x + s * ax0, y + s * .28, x + s * ax1, y + s * .95], outline=c, width=w)
+        d.line([(x + s * .5, y + s * .28), (x + s * .54, y + s * .1), (x + s * .64, y + s * .06)], fill=c, width=w + 1, joint="curve")
+    elif kind == "candy":   # 포장 사탕 (양끝 비틀린 포장)
+        d.ellipse([x + s * .3, y + s * .32, x + s * .7, y + s * .68], outline=c, width=w)
+        d.polygon([(x + s * .3, y + s * .5), (x + s * .06, y + s * .3), (x + s * .1, y + s * .5), (x + s * .06, y + s * .7)], outline=c, width=w)
+        d.polygon([(x + s * .7, y + s * .5), (x + s * .94, y + s * .3), (x + s * .9, y + s * .5), (x + s * .94, y + s * .7)], outline=c, width=w)
+    elif kind == "choco":   # 판 초콜릿 (칸 나뉜 판)
+        d.rectangle([x + s * .15, y + s * .1, x + s * .85, y + s * .92], outline=c, width=w)
+        for k in (1, 2): L([(x + s * (.15 + .7 * k / 3), y + s * .1), (x + s * (.15 + .7 * k / 3), y + s * .92)])
+        for k in (1, 2, 3): L([(x + s * .15, y + s * (.1 + .82 * k / 4)), (x + s * .85, y + s * (.1 + .82 * k / 4))])
+    elif kind == "bean":   # 코코아 콩
+        d.ellipse([x + s * .2, y + s * .1, x + s * .8, y + s * .9], outline=c, width=w)
+        d.arc([x + s * .35, y + s * .12, x + s * .65, y + s * .88], 100, 260, fill=c, width=max(2, w - 1))
     else:
         _base_icon(d, kind, x, y, s, c, w)
 
