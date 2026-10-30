@@ -150,6 +150,40 @@ button.th .pl i{width:30px;height:30px;border-radius:50%;background:rgba(255,255
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:700;transition:.2s;z-index:50;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.on{opacity:1;transform:translateX(-50%)}
 .toast.bad{background:var(--bad);color:#FFFFFF}
+/* 브리핑 · 통합 요청칸 (2026-10-30) */
+.ask{max-width:1080px;margin:0 auto;padding:2px 16px 10px;display:flex;gap:6px;align-items:flex-start}
+.ask textarea{min-height:38px;height:38px;padding:8px 11px;font-size:14px;resize:none;line-height:1.45;overflow:hidden}
+.ask .btn{height:38px;flex:none}
+.asknote{max-width:1080px;margin:-6px auto 0;padding:0 16px 8px;font-size:11.5px;color:var(--muted);font-weight:700}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;color:var(--muted);font:inherit;font-size:13.5px;font-weight:800;padding:7px 14px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.hl{font-size:16px;font-weight:800;line-height:1.6}
+.hl p{margin:0}.hl p+p{margin-top:4px;font-weight:700;color:var(--ink2);font-size:15px}
+.ck{display:grid;gap:7px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ck:first-child{padding-top:2px}.ck:last-child{border-bottom:0;padding-bottom:2px}
+.ck .t{font-weight:850;font-size:14.5px;line-height:1.45;display:flex;gap:8px;align-items:baseline}
+.ck .b{font-size:13px;color:var(--ink2);line-height:1.6}
+.ck .nx{font-size:12.5px;color:var(--muted);line-height:1.55}
+.ck .cmt{display:flex;gap:6px}
+.ck .cmt input{height:32px;padding:5px 10px;font-size:13px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none;background:var(--bar);transform:translateY(-1px)}
+.dot.bad{background:var(--bad)}.dot.warn{background:var(--warn)}.dot.good{background:var(--good)}.dot.mut{background:var(--muted)}
+.pv{display:grid;grid-template-columns:46px minmax(0,1fr);gap:11px;padding:11px 0;border-bottom:1px solid var(--line);align-items:start}
+.pv:first-child{padding-top:2px}.pv:last-child{border-bottom:0;padding-bottom:2px}
+.pth{position:relative;width:46px;aspect-ratio:9/16;border-radius:7px;overflow:hidden;background:var(--line);border:0;padding:0;cursor:pointer;display:block}
+.pth img{width:100%;height:100%;object-fit:cover;display:block}
+.pth i{position:absolute;inset:auto 0 4px 0;margin:auto;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.92);color:#111;font-size:9px;font-style:normal;display:grid;place-items:center;padding-left:1px}
+.pv .tt{font-weight:800;font-size:14px;line-height:1.4}
+.nums{display:flex;gap:4px 12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:3px}
+.nums b{color:var(--ink);font-weight:800}
+.pv .why{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-top:4px}
+.lp{display:grid;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+.lp:first-child{padding-top:2px}.lp:last-child{border-bottom:0;padding-bottom:2px}
+.lp .t{font-weight:850;font-size:14px;line-height:1.45}
+.lp .s{font-size:12.5px;color:var(--muted);line-height:1.5}
+.sub-h{font-size:12.5px;font-weight:850;color:var(--muted);margin:2px 0 4px}
+details.fold .card{margin-top:8px}
 @media (max-width:760px){
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sched{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -166,6 +200,8 @@ button.th .pl i{width:30px;height:30px;border-radius:50%;background:rgba(255,255
   <div class="hd"><span class="nm" id="chname">From Korea, With Love</span><span class="tag">KACHI</span>
     <div class="r"><a class="btn sm" href="/admin"><span class="lg">밸류노트&nbsp;</span>관리자</a><button class="btn sm" id="out" hidden>로그아웃</button></div></div>
   <nav class="tabs" id="tabs" hidden></nav>
+  <div class="ask" id="ask" hidden><textarea id="askt" rows="1" placeholder="요청·피드백 적고 Enter" aria-label="Claude에게 요청"></textarea><button class="btn pri" id="askb">보내기</button></div>
+  <div class="asknote" id="askn" hidden></div>
 </header>
 <main id="main"><div class="empty">불러오는 중</div></main>
 
@@ -191,7 +227,7 @@ const store = { get(k, d){ try { const v = localStorage.getItem(k); return v == 
 
 const EMO = { mom:'엄마', grand:'할머니·할아버지', animal:'동물 가족', kind:'작은 친절', korea:'한국 문화', underdog:'역경·반전', style:'미니어처 감성' };
 const SLOT_NOTE = { '03:00': '유럽 저녁', '08:00': '미국 동부 저녁', '13:00': '미국 서부 저녁', '22:00': '인도 저녁·유럽 낮' };
-const S = { tab: store.get('sc-tab3', 'sched'), trends: [], hot: [], plans: [], videos: [], settings: {}, err: '', queue: {}, hotCat: 'all', hotSort: 'per_day', improve: [], breakout: [], impAll: false };
+const S = { tab: store.get('sc-tab4', 'brief'), docs: {}, brMode: store.get('sc-brmode', 'd'), trends: [], hot: [], plans: [], videos: [], settings: {}, err: '', queue: {}, hotCat: 'all', hotSort: 'per_day', improve: [], breakout: [], impAll: false };
 const SLOTS = () => (S.settings.slots && S.settings.slots.length ? S.settings.slots : ['08:00', '22:00']);
 // 매일 같은 시각, 주말 포함 — 2026-10-28 15:17 대표님 "주말도 포함해서 그냥 2편만"
 const slotsFor = () => SLOTS();
@@ -201,7 +237,7 @@ const lastNote = fb => { fb = (fb || []).filter(f => f && f.text); return fb[fb.
 
 /* ---------- 로그인 ---------- */
 function loginView(msg){
-  $('#tabs').hidden = true; $('#out').hidden = true;
+  $('#tabs').hidden = true; $('#out').hidden = true; $('#ask').hidden = true; $('#askn').hidden = true;
   $('#main').innerHTML = `<div class="card login"><div style="font-weight:850;font-size:17px">관리자 로그인</div>
     <div class="note">밸류노트 관리자 계정으로 로그인하세요.</div>
     <label>이메일<input id="em" type="email" autocomplete="email"></label>
@@ -233,11 +269,13 @@ async function loadAll(){
   S.trends = t.data || []; S.hot = h.error ? [] : (h.data || []); S.plans = p.data || []; S.videos = v.data || []; S.settings = (s.data && s.data.value) || {};
   S.improve = im.error ? [] : (im.data || []); S.breakout = bo.error ? [] : (bo.data || []);
   if (S.settings.channel_name) $('#chname').textContent = S.settings.channel_name;
+  await loadDocs();
   try { const q = await fetch('/social/side/queue.json?t=' + Date.now()).then(r => r.ok ? r.json() : []); S.queue = {}; (q || []).forEach(m => { S.queue[m.id] = m; }); } catch(_) { S.queue = {}; }
 }
 
 /* ---------- 탭 ---------- */
 const TABS = [
+  ['brief', '브리핑', () => checks().filter(c => c.lv === 'bad' || c.lv === 'warn').length],
   ['sched', '편성', () => 0], // 고치는 건 Claude 몫이라 대표님께 숫자로 재촉하지 않는다
   ['trend', '트렌드·개선', () => S.improve.filter(x => x.status === 'proposed').length], // 대표님 승인을 기다리는 개선 제안 수
   ['perf', '성과', () => 0],
@@ -246,15 +284,285 @@ const TABS = [
 function renderTabs(){
   $('#tabs').hidden = false;
   $('#tabs').innerHTML = TABS.map(([k, name, cnt]) => { const c = cnt(); return `<button data-k="${k}" class="${S.tab === k ? 'on' : ''}">${name}${c ? `<span class="cnt">${c}</span>` : ''}</button>`; }).join('');
-  $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { S.tab = b.dataset.k; store.set('sc-tab3', S.tab); render(); window.scrollTo(0, 0); });
+  $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { S.tab = b.dataset.k; store.set('sc-tab4', S.tab); render(); window.scrollTo(0, 0); });
 }
 function render(){
-  renderTabs();
+  renderTabs(); askNote();
   if (S.err) { $('#main').innerHTML = `<div class="card empty">불러오지 못했습니다: ${esc(S.err)}</div>`; return; }
-  if (!TABS.find(t => t[0] === S.tab)) S.tab = 'sched';
-  ({ sched: viewSched, trend: viewTrend, perf: viewPerf, set: viewSet })[S.tab]();
+  if (!TABS.find(t => t[0] === S.tab)) S.tab = 'brief';
+  ({ brief: viewBrief, sched: viewSched, trend: viewTrend, perf: viewPerf, set: viewSet })[S.tab]();
 }
 function kpi(l, v, s){ return `<div class="card kpi"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div>${s ? `<div class="s">${esc(s)}</div>` : ''}</div>`; }
+
+/* ---------- 브리핑 (2026-10-30) ----------
+   대표님: "모든 보고와 조작은 /side 한 곳에서", "대표님은 반려·되돌리기만", "매 편이 실험 — 잘 된 건 더 만들고 안 된 건 다시 안 쓴다".
+   docs agent (owner = 관리자):
+   - side-brief-<KST 날짜> / side-brief-w-<그 주 월요일>: 작업자가 쓰는 헤드라인·확인할 것·자동 적용·할 일
+   - side-brief-inbox: 위 요청칸 {items:[{id, at, where, text, status new|working|done, reply, next}], hidden:[]}
+   - side-learn: 학습 장부 {rules, vars, episodes, patterns, boosts, weekly, log}
+   - side-task-changes: 예약 작업을 바꿔야 할 때 작업이 남기는 메모 (채팅에서 한 번에 반영)
+   판정·숫자는 화면이 sc_videos.stats 로 직접 계산한다(작업자가 아직 안 돌았어도 보이게). 작업자의 장부 판정과 같은 기준이다. */
+const RUNS = [{ h: 9, m: 41, who: '작업자' }, { h: 10, m: 53, who: '벤치마킹' }, { h: 17, m: 41, who: '작업자' }];
+const hm2 = (h, m) => `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+function nextRun(after, who){
+  const base = after || Date.now();
+  for (let d = 0; d < 3; d++) { const day = new Date(base + 9*3600e3 + d*864e5).toISOString().slice(0,10);
+    for (const r of RUNS) { if (who && r.who !== who) continue; const t = Date.parse(`${day}T${hm2(r.h, r.m)}:00+09:00`);
+      if (t > base) { const dd = Math.round((Date.parse(day + 'T00:00:00+09:00') - Date.parse(todayKST() + 'T00:00:00+09:00')) / 864e5);
+        return { t, who: r.who, label: (dd === 0 ? '오늘 ' : dd === 1 ? '내일 ' : '모레 ') + hm2(r.h, r.m) }; } } }
+  return { t: base, who: '작업자', label: '다음 회차' };
+}
+const mondayOf = d => { const x = new Date(d + 'T00:00:00Z'); return new Date(x - ((x.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0,10); };
+const startOf = d => Date.parse(d + 'T00:00:00+09:00');
+const DOCIDS = () => { const t = todayKST(); return ['side-learn', 'side-brief-inbox', 'side-task-changes', 'side-owner-rules', 'side-brief-' + t, 'side-brief-' + dayKST(-1), 'side-brief-w-' + mondayOf(t)]; };
+async function loadDocs(){
+  const { data, error } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').in('id', DOCIDS());
+  if (error) return; S.docs = {}; (data || []).forEach(r => { S.docs[r.id] = r; });
+}
+const D = id => (S.docs[id] || {}).data || null;
+// 읽고-고치고-쓰기: 작업자가 그 사이 답을 단 것을 덮어쓰지 않도록 저장 직전에 새로 읽는다
+async function saveDoc(id, mutate){
+  const { data: row, error: e1 } = await sb.from('docs').select('data').eq('collection', 'agent').eq('id', id).maybeSingle();
+  if (e1) { toast('저장하지 못했습니다: ' + e1.message, true); return false; }
+  const data = mutate(JSON.parse(JSON.stringify((row && row.data) || {}))), at = new Date().toISOString();
+  const q = row ? sb.from('docs').update({ data, updated_at: at }).eq('collection', 'agent').eq('id', id)
+    : sb.from('docs').insert({ owner: (await sb.auth.getUser()).data.user.id, collection: 'agent', id, data, updated_at: at });
+  const { error } = await q; if (error) { toast('저장하지 못했습니다: ' + error.message, true); return false; }
+  S.docs[id] = { id, data, updated_at: at }; return true;
+}
+async function sendRequest(text, where, ref){
+  const item = { id: 'q' + Date.now().toString(36), at: new Date().toISOString(), where, text, status: 'new', kind: 'feedback' };
+  if (ref) item.ref = ref;
+  return saveDoc('side-brief-inbox', d => { d.items = (d.items || []).concat([item]); return d; });
+}
+function askNote(){ const n = $('#askn'); if (!n || n.hidden) return; const r = nextRun(); n.textContent = `다음 처리 ${r.label} (${r.who}) · 처리 상태는 브리핑 '내 요청'에 뜹니다`; }
+
+/* 판정 — 숏폼 기준, 같은 나이(24시간)끼리 비교. 기준값은 장부 rules 가 있으면 그것을 쓴다 */
+const LR = () => Object.assign({ min_views: 300, good_mult: 1.5, bad_mult: 0.5, good_vp: 70, bad_vp: 40, median_days: 14 }, (D('side-learn') || {}).rules || {});
+const VARS = () => Object.assign({ hook: '첫 1초 훅', title: '제목', subject: '주인공', ending: '결말', length: '길이', music: '음악', kachi: '까치 역할', visual: '그림' }, (D('side-learn') || {}).vars || {});
+const pubVids = () => S.videos.filter(v => isEmo(v) && v.status === 'uploaded' && v.scheduled_at && ts(v.scheduled_at) <= Date.now()).sort((a,b) => ts(b.scheduled_at) - ts(a.scheduled_at));
+function medH24(){
+  const from = Date.now() - LR().median_days * 864e5;
+  const a = pubVids().filter(v => ts(v.scheduled_at) >= from).map(v => v.stats && v.stats.h24 ? +v.stats.h24.views : NaN).filter(x => !isNaN(x)).sort((p, q) => p - q);
+  if (!a.length) return null; const m = a.length >> 1; return a.length % 2 ? a[m] : (a[m-1] + a[m]) / 2;
+}
+const vpOf = v => { const s = v.stats || {}; const x = (s.studio_h24 || s.studio || {}).viewed_pct; return x == null || x === '' ? null : +x; };
+function judge(v){
+  const r = LR(), age = (Date.now() - ts(v.scheduled_at)) / 3600e3, h24 = v.stats && v.stats.h24 ? +v.stats.h24.views : null, vp = vpOf(v), med = medH24();
+  const mult = h24 != null && med ? Math.round(h24 / med * 10) / 10 : null;
+  const tail = (mult != null ? ` · 중앙값의 ${mult}배` : '') + (vp != null ? ` · 조회함 ${vp}%` : '');
+  if (h24 == null) return { k: 'wait', l: '판정 전', c: 'mut', why: age < 24 ? `공개 ${Math.max(0, Math.floor(age))}시간 · 24시간 지나면 판정` : '24시간 조회 수집 대기' };
+  if (h24 < r.min_views) return { k: 'small', l: '표본 작음', c: 'mut', mult, why: `24시간 ${short(h24)}회 (${r.min_views}회 미만이라 판정 안 함)${tail} — 참고만` };
+  const good = (mult != null && mult >= r.good_mult) || (vp != null && vp >= r.good_vp);
+  const bad = (mult != null && mult <= r.bad_mult) || (vp != null && vp <= r.bad_vp);
+  if (good && !bad) return { k: 'good', l: '잘 됨', c: 'good', mult, why: `24시간 ${short(h24)}회${tail}` };
+  if (bad && !good) return { k: 'bad', l: '안 됨', c: 'bad', mult, why: `24시간 ${short(h24)}회${tail}` };
+  return { k: 'ok', l: '보통', c: '', mult, why: `24시간 ${short(h24)}회${tail}` };
+}
+function expOf(x){ // 영상 또는 기획안 → 실험 꼬리표
+  const p = x.spec ? x : S.plans.find(p => p.id === x.plan_id);
+  const e = (p && p.spec && p.spec.experiment) || ((D('side-learn') || {}).episodes || []).find(e => e.id === x.id);
+  return e && e.var ? { var: e.var, value: e.value || '', label: `${VARS()[e.var] || e.var} = ${e.value || '–'}` } : null;
+}
+const viewsBy = (v, t) => { let n = 0; ((v.stats || {}).hist || []).forEach(x => { if (ts(x.at) <= t) n = Math.max(n, +x.views || 0); }); return n; };
+const gain = (a, b) => pubVids().reduce((s, v) => s + Math.max(0, viewsBy(v, b) - viewsBy(v, a)), 0);
+function studioSum(list){
+  let vw = 0, vpw = 0, sv = 0, ss = 0;
+  list.forEach(v => { const st = (v.stats || {}).studio || {}, vp = vpOf(v), n = +st.views || 0;
+    if (vp != null && n) { vw += n; vpw += vp * n; } if (st.views != null) { sv += n; ss += +st.subs || 0; } });
+  return { vp: vw ? Math.round(vpw / vw) : null, conv: sv ? Math.round(ss / sv * 1000 * 10) / 10 : null, sv, ss };
+}
+
+/* 확인할 것 — 대표님 눈이 필요한 것만, 그 자리 버튼과 의견 칸 */
+const FAILS = [
+  [/업로드 실패[^·]*/, '다시 올리기를 누르면 다음 업로드 회차(06:40·18:40)가 다시 시도합니다.'],
+  [/업로드 보류[^·]*/, '저작권 검사에 걸려 비공개로 두었습니다. 반려하거나 의견을 남겨 주세요.'],
+  [/썸네일 불량[^·]*/, '작업자가 이야기 장면으로 썸네일을 다시 뽑고 있습니다.'],
+  [/썸네일 확인 필요/, '다음 업로드 회차가 스튜디오에서 썸네일을 다시 설정합니다. 유튜브에서 한번 봐 주세요.'],
+  [/중복 댓글[^·]*/, '유튜브에서 우리 채널 댓글 하나를 지워 주세요(작업은 댓글을 지우지 않습니다).'],
+  [/잘못된 채널[^·]*/, '다른 채널 이름으로 올라간 것이 있습니다. 유튜브에서 확인해 주세요.'],
+  [/고정 댓글 문구 없음/, '작업자가 다음 회차에 고정 댓글 문구를 채웁니다.'],
+  [/보류: 채널 전환 실패/, '다음 업로드 회차가 다시 시도합니다.']
+];
+function checks(){
+  const out = [], now = Date.now(), nr = nextRun(), hid = new Set(store.get('sc-hide', []));
+  const add = c => { if (!hid.has(c.key)) out.push(c); };
+  const bd = D('side-brief-' + todayKST()) || D('side-brief-' + dayKST(-1)) || {};
+  S.videos.filter(v => isEmo(v) && v.status === 'rework').forEach(v => { const f = lastNote(v.feedback);
+    add({ key: 'rw-' + v.id + '-' + (f ? f.at : ''), lv: 'warn', t: '고치는 중 · ' + cleanTitle(v.title), b: f ? `${f.by === 'owner' ? '대표님' : 'Claude'}: ${f.text}` : '', nx: `다음 단계: ${nextRun(0, '작업자').label} 작업자가 고쳐서 다시 렌더 → 같은 칸에 올립니다`, v, acts: ['play', 'back'] }); });
+  S.videos.filter(v => isEmo(v) && !['rework', 'archived', 'rejected'].includes(v.status) && v.scheduled_at && ts(v.scheduled_at) > now - 4*864e5).forEach(v => {
+    FAILS.forEach(([re, fix]) => { const m = String(v.note || '').match(re); if (!m || /다시 올리기 요청/.test(v.note || '') && /업로드 실패/.test(m[0])) return;
+      add({ key: 'nt-' + v.id + '-' + m[0], lv: 'bad', t: cleanTitle(v.title), b: '문제: ' + m[0].trim(), nx: '조치: ' + fix, v, acts: ['play', v.youtube_id ? 'yt' : '', /업로드 실패/.test(m[0]) && v.status === 'approved' ? 'retry' : '', ts(v.scheduled_at) > now ? 'stop' : ''].filter(Boolean) }); }); });
+  const learn = S.settings.learn || [], ll = learn[learn.length - 1];
+  if (ll && /충전 필요/.test(ll.text || '') && ts(ll.at) > now - 2*864e5) add({ key: 'charge-' + ll.at, lv: 'bad', t: 'Higgsfield 잔액 충전 필요', b: ll.text, nx: '조치: open.higgsfield.ai → Billing 에서 충전하시면 다음 작업자 회차가 이어서 만듭니다.', acts: ['hf'] });
+  slotEntries().flatMap(g => g.cells).filter(c => !c.past && c.t < now + 30*3600e3 && !(c.v && ['uploaded', 'approved', 'review'].includes(c.v.status))).forEach(c => {
+    const d = new Date(c.t + 9*3600e3);
+    add({ key: 'slot-' + c.t + '-' + (c.p ? c.p.status : 'none'), lv: c.t < now + 12*3600e3 ? 'warn' : 'info', t: `${d.getUTCMonth()+1}/${d.getUTCDate()} ${c.hm} 칸 영상 아직 없음`, b: c.p ? `기획 '${cleanTitle(c.p.title)}' · ${planState(c.p)[0]}` : (c.v ? `'${cleanTitle(c.v.title)}' ${vidState(c.v, false)[0]}` : '기획도 아직 없습니다'), nx: `다음 단계: ${nextRun(0, '작업자').label} 작업자가 ${c.p ? '만들어' : '기획하고 만들어'} 채웁니다. 예산을 넘으면 다음 날로 넘어갑니다.`, p: c.p, acts: c.p ? ['stop'] : [] }); });
+  S.improve.filter(x => x.status === 'proposed').forEach(x => add({ key: 'imp-' + x.id, lv: 'warn', t: '비용이 늘어나는 개선 · ' + x.title, b: (x.apply || '') + (x.cost ? ` · 추가 비용 ${x.cost}` : ''), nx: '승인하면 다음 기획부터 적용합니다. 반려하면 다시 제안하지 않습니다.', imp: x, acts: ['imp-ok', 'imp-no'] }));
+  S.videos.filter(v => isEmo(v) && ['approved', 'review', 'uploaded'].includes(v.status) && v.scheduled_at && ts(v.scheduled_at) > now && ts(v.scheduled_at) < now + 14*3600e3).forEach(v =>
+    add({ key: 'soon-' + v.id, lv: 'info', t: `곧 공개 ${kst(v.scheduled_at)} · ${cleanTitle(v.title)}`, b: (expOf(v) ? '실험: ' + expOf(v).label + ' · ' : '') + vidState(v, false)[0], nx: '마음에 안 들면 반려(사유를 적으면 고치고, 비우면 다른 이야기로 교체).', v, acts: ['play', 'stop'] }));
+  (bd.checks || []).forEach((c, i) => { const v = c.video_id ? S.videos.find(x => x.id === c.video_id) : null;
+    add({ key: 'bd-' + (c.id || i) + '-' + (c.title || ''), lv: c.level || 'info', t: c.title || '', b: c.body || '', nx: c.next || '', v, acts: v ? ['play', v.youtube_id ? 'yt' : ''].filter(Boolean) : [] }); });
+  const tc = ((D('side-task-changes') || {}).items || []).filter(x => x.status === 'pending');
+  if (tc.length) add({ key: 'tc-' + tc.length + '-' + tc[tc.length - 1].at, lv: 'info', t: `예약 작업 변경 메모 ${tc.length}건`, b: tc.map(x => `${x.task}: ${x.change}`).join(' / '), nx: "채팅에서 '까치 작업 변경 반영'이라고 하시면 한 번에 반영합니다.", acts: [] });
+  const order = { bad: 0, warn: 1, info: 2, good: 3 }; return out.sort((a, b) => (order[a.lv] ?? 2) - (order[b.lv] ?? 2));
+}
+function stopItem(x, isVid){
+  const sched = isVid && x.status === 'uploaded';
+  const t = prompt((sched ? '유튜브에 예약된 영상입니다. 비공개로 돌리고 처리합니다.\n\n' : '') + '반려 사유를 적으면 그대로 고칩니다. 비워 두면 다른 이야기로 바꿉니다.', '');
+  if (t === null) return;
+  const entry = { at: new Date().toISOString(), by: 'owner', type: 'stop', text: t.trim() || '중단 (사유 없음 → 다른 이야기로 교체)' };
+  if (isVid && x.youtube_id) entry.youtube_id = x.youtube_id;
+  const fb = (x.feedback || []).concat([entry]);
+  const obj = isVid ? { status: 'rework', note: t.trim() || null, youtube_id: null, uploaded_at: null, feedback: fb } : (t.trim() ? { status: 'rework', note: t.trim(), feedback: fb } : { status: 'rejected', feedback: fb });
+  updRow(isVid ? 'sc_videos' : 'sc_plans', x.id, obj, isVid ? (sched ? '반려했습니다. 비공개로 돌리고 처리합니다' : '반려했습니다. Claude가 처리합니다') : (t.trim() ? '반려했습니다. 고쳐서 다시 만듭니다' : '반려했습니다. 다른 이야기로 채웁니다'));
+}
+async function updRow(table, id, obj, msg){
+  const { error } = await sb.from(table).update(Object.assign({ updated_at: new Date().toISOString() }, obj)).eq('id', id);
+  if (error) { toast('저장하지 못했습니다: ' + error.message, true); return false; } await reload(); toast(msg); return true;
+}
+
+/* 내 요청 — 요청칸 + 트렌드 '만들어 줘' + 반려한 영상 */
+function myReqs(){
+  const ib = D('side-brief-inbox') || {}, hide = new Set(ib.hidden || []), wk = Date.now() - 7*864e5, nr = nextRun(), L = [];
+  (ib.items || []).filter(f => ts(f.at) > wk).forEach(f => {
+    const st = f.status === 'done' ? ['반영됨', 'good'] : f.status === 'working' ? ['처리 중', 'warn'] : ['접수', ''];
+    L.push({ key: 'ib-' + f.id, at: f.at, where: f.where, text: f.text, st, reply: f.reply,
+      next: f.status === 'done' ? (f.next || '끝났습니다. 다르게 반영됐으면 다시 적어 주세요.') : f.status === 'working' ? (f.next || '진행 중입니다. 끝나면 이 줄이 반영됨으로 바뀝니다.') : `다음 단계: ${nr.label}에 ${nr.who}가 처리하고 결과를 여기에 적습니다.` }); });
+  S.plans.filter(p => (p.feedback || []).some(f => f.by === 'owner' && f.type === 'request') && ts(p.created_at) > wk).forEach(p => {
+    const f = (p.feedback || []).find(f => f.by === 'owner' && f.type === 'request'), c = [...(p.feedback || [])].reverse().find(f => f.by === 'claude');
+    const st = p.status === 'requested' ? ['접수', ''] : ['approved', 'producing', 'pending'].includes(p.status) ? ['처리 중', 'warn'] : p.status === 'made' ? ['반영됨', 'good'] : [p.status === 'rejected' ? '중단' : p.status, 'mut'];
+    L.push({ key: 'pl-' + p.id, at: f.at, where: '만들어 줘', text: f.text, st, reply: c && c.text,
+      next: p.status === 'requested' ? `다음 단계: ${nextRun(0, '작업자').label} 작업자가 기획 → 가장 가까운 빈 칸에 편성` : p.status === 'producing' ? `다음 단계: 영상 만드는 중 → ${kstLong(p.publish_at)} 공개` : p.status === 'made' ? `완성 · ${kstLong(p.publish_at)} 공개` : p.publish_at ? `다음 단계: ${kstLong(p.publish_at)} 칸에 편성 · 공개 하루 전에 영상 제작` : '' }); });
+  S.videos.filter(v => isEmo(v)).forEach(v => { const fb = v.feedback || [], i = fb.map(f => f.by === 'owner' && f.type === 'stop').lastIndexOf(true); if (i < 0 || ts(fb[i].at) < wk) return;
+    const fix = fb.slice(i + 1).find(f => f.by === 'claude' && f.type === 'fixed');
+    L.push({ key: 'st-' + v.id + '-' + fb[i].at, at: fb[i].at, where: '반려', text: `${cleanTitle(v.title)} — ${fb[i].text}`, st: v.status === 'rework' ? ['처리 중', 'warn'] : fix ? ['반영됨', 'good'] : [v.status === 'rejected' ? '교체됨' : '처리 중', v.status === 'rejected' ? 'mut' : 'warn'], reply: fix && fix.text,
+      next: v.status === 'rework' ? `다음 단계: ${nextRun(0, '작업자').label} 작업자가 고쳐서 다시 렌더 → 같은 칸(${kst(v.scheduled_at)})에 올립니다` : fix ? `${kstLong(v.scheduled_at)} 공개 예정` : '' }); });
+  return L.filter(x => !hide.has(x.key)).sort((a, b) => ts(b.at) - ts(a.at));
+}
+
+/* 학습 장부 패턴 — 버튼은 장부에 바로 적고, 다음 작업자 회차가 따른다 */
+const PST = { active: ['쓰는 중', ''], boost: ['더 만들기', 'good'], hold: ['보류', 'warn'], banned: ['다시 안 씀', 'bad'] };
+function patternLine(p){
+  const st = PST[p.state] || [p.state || '쓰는 중', ''];
+  const nums = [`${(p.n || 0) + (p.n_small || 0)}편${p.n_small ? `(표본 작음 ${p.n_small})` : ''}`, p.avg_mult != null ? `평균 ${p.avg_mult}배` : '', (p.good || p.bad) ? `잘 됨 ${p.good || 0} · 안 됨 ${p.bad || 0}` : '', p.last_tested ? `마지막 ${p.last_tested.slice(5).replace('-', '/')}` : '', p.state === 'hold' && p.hold_until ? `${p.hold_until.slice(5).replace('-', '/')} 자동 해제` : ''].filter(Boolean).join(' · ');
+  const btn = (a, l, cls) => `<button class="btn sm${cls ? ' ' + cls : ''}" data-pat="${esc(p.key)}" data-pa="${a}">${l}</button>`;
+  const bs = p.state === 'banned' ? btn('active', '되돌리기') : p.state === 'hold' ? btn('active', '보류 풀기') + btn('banned', '다시 안 씀', 'no') : p.state === 'boost' ? btn('active', '더 만들기 취소') + btn('banned', '다시 안 씀', 'no') : btn('boost', '더 만들기', 'pri') + btn('banned', '다시 안 씀', 'no');
+  return `<div class="lp"><div class="row"><span class="badge ${st[1]}">${st[0]}</span><span class="t">${esc(VARS()[p.var] || p.var)} = ${esc(p.value)}</span></div><div class="s">${esc(nums)}${p.note ? ' · ' + esc(p.note) : ''}</div><div class="row">${bs}</div></div>`;
+}
+async function patternAct(key, to){
+  const label = { active: '되돌렸습니다', boost: '더 만들기로 표시했습니다', banned: '다시 쓰지 않도록 표시했습니다' }[to];
+  const ok = await saveDoc('side-learn', d => { d.patterns = (d.patterns || []).map(p => p.key !== key ? p : Object.assign({}, p, { state: to, hold_until: to === 'active' ? null : p.hold_until, owner: { action: to, at: new Date().toISOString() } }));
+    if (to === 'boost') d.boosts = (d.boosts || []).concat([{ key, at: new Date().toISOString(), by: 'owner', status: 'pending' }]);
+    d.log = (d.log || []).concat([{ at: new Date().toISOString(), text: `대표님: ${key} → ${PST[to][0]}` }]).slice(-40); return d; });
+  if (ok) { toast(`${label}. ${nextRun().label} 작업자 회차부터 적용`); render(); }
+}
+
+function viewBrief(){
+  const now = Date.now(), wk = S.brMode === 'w', t = todayKST(), y = dayKST(-1), mon = mondayOf(t);
+  const bd = wk ? (D('side-brief-w-' + mon) || {}) : (D('side-brief-' + t) || {}), bdy = D('side-brief-' + y) || {};
+  const pubs = pubVids(), our = S.settings.our || {}, learn = D('side-learn') || {}, nr = nextRun();
+  const range = wk ? [startOf(mon), now] : [startOf(y), startOf(t)];
+  const inR = v => ts(v.scheduled_at) >= range[0] && ts(v.scheduled_at) < (wk ? now : startOf(t));
+  const views = gain(range[0], range[1]), today = gain(startOf(t), now);
+  const list7 = pubs.filter(v => ts(v.scheduled_at) > (wk ? startOf(mon) : now - 7*864e5));
+  const st = studioSum(list7);
+  const kp = (bd.kpis || []).reduce((m, k) => { m[k.label] = k; return m; }, {});
+  const upNext = S.videos.filter(v => isEmo(v) && ['uploaded', 'approved'].includes(v.status) && ts(v.scheduled_at) > now && ts(v.scheduled_at) < now + 24*3600e3);
+  const cks = checks(), reqs = myReqs();
+  const head = bd.headline ? String(bd.headline).split(/(?<=[.!?])\s+/).slice(0, 2)
+    : wk ? [`이번 주 ${short(views)}회 조회, 공개 ${pubs.filter(inR).length}편입니다.`, (learn.weekly && learn.weekly.summary) || '학습 장부는 공개 24시간이 지난 편부터 쌓입니다.']
+    : [`어제 ${short(views)}회 조회, 구독자 ${our.subs != null ? short(our.subs) + '명' : '–'}입니다.`, `앞으로 24시간 공개 예정 ${upNext.length}편${cks.filter(c => c.lv === 'bad' || c.lv === 'warn').length ? ` · 확인할 것 ${cks.filter(c => c.lv === 'bad' || c.lv === 'warn').length}건` : ' · 확인할 것 없음'}.`];
+  const pats = (learn.patterns || []).slice(), sc = p => ((p.good || 0) - (p.bad || 0)) * 10 + (p.avg_mult == null ? -1 : p.avg_mult);
+  const top = pats.filter(p => ['active', 'boost'].includes(p.state || 'active') && (p.n || p.n_small)).sort((a, b) => sc(b) - sc(a)).slice(0, 3);
+  const held = pats.filter(p => ['hold', 'banned'].includes(p.state));
+  const vrows = (wk ? pubs.filter(inR) : list7);
+  const auto = [...(bd.auto || bd.applied || []), ...((wk ? [] : (bdy.auto || bdy.applied || [])))];
+  const impAuto = S.improve.filter(x => ['applied', 'approved'].includes(x.status) && ts(x.updated_at || x.created_at) > now - 14*864e5);
+  const prod = S.plans.filter(p => ['approved', 'producing'].includes(p.status) && p.publish_at && ts(p.publish_at) > now && ts(p.publish_at) < now + 48*3600e3);
+  const tcs = ((D('side-task-changes') || {}).items || []).filter(x => x.status === 'pending');
+  const ACT = { play: '▶ 영상 보기', yt: '유튜브', back: '고치지 말고 원래대로', stop: '반려', retry: '다시 올리기', 'imp-ok': '승인', 'imp-no': '반려', hf: 'Higgsfield 열기' };
+  const ckHtml = c => `<div class="ck" data-ck="${esc(c.key)}"><div class="t"><span class="dot ${c.lv === 'info' ? '' : c.lv}"></span><span>${esc(c.t)}</span></div>
+    ${c.b ? `<div class="b">${esc(c.b)}</div>` : ''}${c.nx ? `<div class="nx">${esc(c.nx)}</div>` : ''}
+    <div class="row">${(c.acts || []).map(a => a === 'yt' ? `<a class="btn sm" href="https://youtube.com/shorts/${esc(c.v.youtube_id)}" target="_blank" rel="noopener">유튜브</a>` : a === 'hf' ? `<a class="btn sm" href="https://open.higgsfield.ai" target="_blank" rel="noopener">Higgsfield 열기</a>` : `<button class="btn sm${a === 'stop' || a === 'imp-no' ? ' no' : a === 'play' || a === 'imp-ok' || a === 'retry' ? ' pri' : ''}" data-ca="${a}">${ACT[a]}</button>`).join('')}<button class="btn sm" data-ca="hide">확인함</button></div>
+    <div class="cmt"><input type="text" placeholder="의견 (Enter로 보내기)" data-cmt><button class="btn sm" data-ca="cmt">보내기</button></div></div>`;
+  const kpiD = wk ? [
+      kpi('구독자', our.subs != null ? short(our.subs) + '명' : '–', (kp['구독자'] && kp['구독자'].delta) ? '이번 주 ' + kp['구독자'].delta : our.at ? kst(our.at) + ' 기준' : ''),
+      kpi('이번 주 조회', short(views) + '회', `공개 ${pubs.filter(inR).length}편`),
+      kpi('조회함 비율', st.vp != null ? st.vp + '%' : '–', st.vp != null ? '목표 70% · 스튜디오 기준' : '스튜디오 수집 전 (업로드 작업이 기록)'),
+      kpi('구독 전환', st.conv != null ? `${st.conv}명` : '–', st.sv ? `1천 회당 · 조회 ${short(st.sv)} · 구독 ${st.ss}` : '스튜디오 수집 전')]
+    : [
+      kpi('구독자', our.subs != null ? short(our.subs) + '명' : '–', (kp['구독자'] && kp['구독자'].delta) ? '어제 대비 ' + kp['구독자'].delta : our.at ? kst(our.at) + ' 기준' : ''),
+      kpi('어제 조회', short(views) + '회', `오늘 지금까지 +${short(today)}`),
+      kpi('조회함 비율', st.vp != null ? st.vp + '%' : '–', st.vp != null ? '최근 7일 · 목표 70%' : '스튜디오 수집 전 (업로드 작업이 기록)'),
+      kpi('구독 전환', st.conv != null ? `${st.conv}명` : '–', st.sv ? `1천 회당 · 최근 7일 조회 ${short(st.sv)} · 구독 ${st.ss}` : '1천 회당 · 스튜디오 수집 전')];
+  const vrow = v => { const j = judge(v), e = expOf(v), s = v.stats || {}, c = k => s[k] ? short(s[k].views) : '–', vp = vpOf(v);
+    return `<div class="pv" data-vid="${esc(v.id)}"><button class="pth" data-pv title="영상 보기">${v.youtube_id || v.thumb ? `<img src="${esc(v.youtube_id ? thumbOf(v.youtube_id) : v.thumb)}" alt="" loading="lazy" onerror="this.remove()">` : ''}<i>▶</i></button>
+      <div style="min-width:0"><div class="row"><span class="badge ${j.c}">${j.l}</span><span class="tt">${esc(cleanTitle(v.title))}</span></div>
+      <div class="nums"><span>${kst(v.scheduled_at)}</span><span>6h <b>${c('h6')}</b></span><span>24h <b>${c('h24')}</b></span><span>48h <b>${c('h48')}</b></span><span>조회함 <b>${vp != null ? vp + '%' : '–'}</b></span></div>
+      <div class="why">${e ? `<b>실험</b> ${esc(e.label)} · ` : '<b>실험</b> 꼬리표 없음 · '}${esc(j.why)}</div></div></div>`; };
+  $('#main').innerHTML = `
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><div class="seg" id="brmode"><button data-m="d" class="${wk ? '' : 'on'}">일일</button><button data-m="w" class="${wk ? 'on' : ''}">주간</button></div>
+      <span class="note">${wk ? `${mon.slice(5).replace('-', '/')} 주` : `${t.slice(5).replace('-', '/')} 오늘`}${(S.docs[(wk ? 'side-brief-w-' + mon : 'side-brief-' + t)] || {}).updated_at ? ' · 브리핑 ' + kst(S.docs[(wk ? 'side-brief-w-' + mon : 'side-brief-' + t)].updated_at) : ' · 작업자 브리핑 전(화면 계산)'}</span></div>
+    <div class="card hl">${head.map(s => `<p>${esc(s)}</p>`).join('')}</div>
+    <h2>확인할 것 <span class="n">대표님은 반려·되돌리기만 · 나머지는 Claude가 자동으로 진행</span></h2>
+    <div class="card">${cks.length ? cks.map(ckHtml).join('') : '<div class="empty" style="padding:14px">지금 확인할 것이 없습니다.</div>'}</div>
+    ${reqs.length || ((D('side-brief-inbox') || {}).hidden || []).length ? `<h2>내 요청 <span class="n">처리 상태와 다음 단계</span></h2>
+    <div class="card">${reqs.length ? reqs.slice(0, 12).map(r => `<div class="ck"><div class="t"><span class="badge ${r.st[1]}">${r.st[0]}</span><span>${esc(r.text)}</span></div>
+      <div class="nx">${esc(kst(r.at))}${r.where ? ' · ' + esc(r.where) : ''}</div>${r.reply ? `<div class="b"><b>Claude</b> · ${esc(r.reply)}</div>` : ''}<div class="nx">${esc(r.next)}</div>
+      <div class="row"><button class="btn sm" data-hidereq="${esc(r.key)}">더 보지 않기</button></div></div>`).join('') : '<div class="empty" style="padding:14px">최근 7일 요청이 모두 정리됐습니다.</div>'}</div>` : ''}
+    <h2>숫자</h2>
+    <div class="grid kpis">${kpiD.join('')}</div>
+    <h2>${wk ? '이번 주' : '지금까지'} 배운 것 <span class="n">매 편이 실험 · 버튼을 누르면 다음 작업자 회차(${esc(nr.label)})부터 따릅니다</span></h2>
+    <div class="card">
+      ${(wk && learn.weekly && learn.weekly.summary) ? `<div class="b" style="font-size:13.5px;line-height:1.6;margin-bottom:8px">${esc(learn.weekly.summary)}</div>` : ''}
+      <div class="sub-h">상위 패턴</div>
+      ${top.length ? top.map(patternLine).join('') : '<div class="note" style="padding:4px 0 8px">아직 쌓인 실험이 없습니다. 공개 24시간이 지난 편부터 장부에 들어갑니다.</div>'}
+      <div class="sub-h" style="margin-top:10px">보류·다시 안 씀</div>
+      ${held.length ? held.map(patternLine).join('') : '<div class="note" style="padding:4px 0">없음 — 같은 패턴이 두 번 연속 \'안 됨\'이면 14일 보류합니다.</div>'}
+      ${pats.length > top.length + held.length ? `<details class="mini" style="margin-top:8px"><summary>시험 중인 다른 패턴 ${pats.length - top.length - held.length}개</summary>${pats.filter(p => !top.includes(p) && !held.includes(p)).map(patternLine).join('')}</details>` : ''}
+      <div class="note" style="margin-top:8px">판정: 24시간 조회가 최근 ${LR().median_days}일 중앙값의 ${LR().good_mult}배 이상 또는 조회함 ${LR().good_vp}% 이상 = 잘 됨 · ${LR().bad_mult}배 이하 또는 ${LR().bad_vp}% 이하 = 안 됨 · ${LR().min_views}회 미만은 표본 작음(참고 배율만 기록)</div>
+    </div>
+    <h2>편별 성과 <span class="n">${wk ? '이번 주 공개' : '최근 7일 공개'} · 썸네일을 누르면 바로 재생</span></h2>
+    <div class="card">${vrows.length ? vrows.map(vrow).join('') : '<div class="empty" style="padding:14px">이 기간에 공개된 쇼츠가 없습니다.</div>'}</div>
+    <details class="fold" style="margin-top:18px"><summary>자동으로 적용한 것 ${auto.length + impAuto.length}건</summary><div class="card">
+      ${auto.map(a => `<div class="lp"><div class="t">${esc(a.title || a.text || '')}</div><div class="s">${esc([a.where, a.src, a.ref].filter(Boolean).join(' · '))}</div></div>`).join('')}
+      ${impAuto.map(x => `<div class="lp"><div class="t">벤치마킹 · ${esc(x.title)}</div><div class="s">${esc(x.apply || '')}${(x.applied_to || []).length ? ' · 적용한 기획 ' + x.applied_to.length + '편' : ''}</div><div class="row"><button class="btn sm" data-imprev="${x.id}">되돌리기</button></div></div>`).join('')}
+      ${(S.settings.learn || []).slice(-4).reverse().map(l => `<div class="lp"><div class="t" style="font-weight:700">${esc(l.text)}</div><div class="s">${kst(l.at)} · 학습 기록</div></div>`).join('')}
+      ${!(auto.length + impAuto.length) && !(S.settings.learn || []).length ? '<div class="note">아직 없습니다.</div>' : ''}</div></details>
+    <details class="fold" style="margin-top:6px"><summary>Claude 할 일</summary><div class="card">
+      ${[nr, nextRun(nr.t), nextRun(nextRun(nr.t).t)].map(r => `<div class="lp"><div class="t">${esc(r.label)} · ${esc(r.who)}</div><div class="s">${r.who === '작업자' ? '요청·반려 처리 → 학습 장부 갱신 → 브리핑 → 실험 꼬리표 달아 기획·제작 (하루 예산 $' + esc(S.settings.daily_usd ?? 3.5) + ')' : '요청 처리 → 작은 채널 터진 쇼츠 분석 → 개선 바로 적용(비용 늘면 확인 요청)'}</div></div>`).join('')}
+      <div class="lp"><div class="t">업로드 06:40 · 18:40</div><div class="s">유튜브 예약 · 고정 댓글 · 6h/24h/48h 조회함 비율 기록 · 썸네일 재확인</div></div>
+      ${prod.map(p => `<div class="lp"><div class="t">제작 예정 · ${esc(cleanTitle(p.title))}</div><div class="s">${kstLong(p.publish_at)} 공개 · ${planState(p)[0]}${expOf(p) ? ' · 실험 ' + esc(expOf(p).label) : ''}</div></div>`).join('')}
+      ${(bd.todo || []).map(x => `<div class="lp"><div class="t" style="font-weight:700">${esc(x)}</div></div>`).join('')}
+      ${tcs.map(x => `<div class="lp"><div class="t" style="font-weight:700">예약 작업 변경 메모 · ${esc(x.task)}</div><div class="s">${esc(x.change)} — ${esc(x.why || '')}</div></div>`).join('')}
+    </div></details>`;
+  bindBrief(cks);
+}
+function bindBrief(cks){
+  document.querySelectorAll('#brmode [data-m]').forEach(b => b.onclick = () => { S.brMode = b.dataset.m; store.set('sc-brmode', S.brMode); viewBrief(); });
+  document.querySelectorAll('[data-ck]').forEach(el => { const c = cks.find(x => x.key === el.dataset.ck); if (!c) return;
+    const inp = el.querySelector('[data-cmt]');
+    const sendCmt = async () => { const txt = inp.value.trim(); if (!txt) { inp.focus(); return; }
+      if (await sendRequest(txt, '브리핑 · 확인할 것', { check: c.t, video: c.v ? c.v.id : null, plan: c.p ? c.p.id : null })) { inp.value = ''; toast(`받았습니다. ${nextRun().label}에 처리합니다`); render(); } };
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); sendCmt(); } });
+    el.querySelectorAll('[data-ca]').forEach(b => b.onclick = async () => { const a = b.dataset.ca;
+      if (a === 'cmt') return sendCmt();
+      if (a === 'hide') { store.set('sc-hide', [...store.get('sc-hide', []), c.key].slice(-200)); toast('확인함으로 표시했습니다'); return render(); }
+      if (a === 'play' && c.v) return playVideo(c.v);
+      if (a === 'stop') return c.v ? stopItem(c.v, true) : c.p ? stopItem(c.p, false) : null;
+      if (a === 'back' && c.v) return updRow('sc_videos', c.v.id, { status: 'approved', feedback: (c.v.feedback || []).concat([{ at: new Date().toISOString(), by: 'owner', type: 'note', text: '고치지 말고 원래대로' }]) }, '원래대로 되돌렸습니다');
+      if (a === 'retry' && c.v) return updRow('sc_videos', c.v.id, { status: 'approved', note: String(c.v.note || '').replace(/업로드 실패[^·]*/, '다시 올리기 요청 ') }, '다음 업로드 회차(06:40·18:40)에 다시 올립니다');
+      if ((a === 'imp-ok' || a === 'imp-no') && c.imp) { const to = a === 'imp-ok' ? 'applied' : 'rejected';
+        return updRow('sc_improve', c.imp.id, { status: to, feedback: (c.imp.feedback || []).concat([{ at: new Date().toISOString(), by: 'owner', type: to === 'applied' ? 'approved' : 'rejected', text: to === 'applied' ? '승인' : '반려' }]) }, to === 'applied' ? '승인했습니다. 다음 기획부터 적용합니다' : '반려했습니다'); }
+    }); });
+  document.querySelectorAll('[data-hidereq]').forEach(b => b.onclick = async () => { b.disabled = true;
+    if (await saveDoc('side-brief-inbox', d => { d.hidden = [...new Set([...(d.hidden || []), b.dataset.hidereq])].slice(-300); return d; })) { toast('목록에서 뺐습니다'); render(); } else b.disabled = false; });
+  document.querySelectorAll('[data-pat]').forEach(b => b.onclick = () => { b.disabled = true; patternAct(b.dataset.pat, b.dataset.pa); });
+  document.querySelectorAll('[data-imprev]').forEach(b => b.onclick = async () => { const x = S.improve.find(r => r.id === +b.dataset.imprev); if (!x) return;
+    updRow('sc_improve', x.id, { status: 'rejected', feedback: (x.feedback || []).concat([{ at: new Date().toISOString(), by: 'owner', type: 'revert', text: '되돌리기 (관리자 브리핑)' }]) }, '되돌렸습니다. 다음 기획부터 빠집니다'); });
+  document.querySelectorAll('.pv [data-pv]').forEach(b => b.onclick = () => { const v = S.videos.find(x => x.id === b.closest('.pv').dataset.vid); if (v) playVideo(v); });
+}
 
 /* ---------- 편성 ---------- */
 // 칸마다 영상(예약·대기·수정) 또는 기획안(제작 예정·제작 중)을 붙인다
@@ -390,16 +698,7 @@ function bindSched(){
     const upd = async (obj, msg) => { const { error } = await sb.from(table).update(Object.assign({ updated_at: new Date().toISOString() }, obj)).eq('id', id); if (error) { toast('저장하지 못했습니다: ' + error.message, true); return; } await reload(); toast(msg); };
     const on = (sel, f) => { const b = card.querySelector(sel); if (b) b.onclick = f; };
     if (isVid) card.querySelectorAll('[data-play]').forEach(b => b.onclick = () => playVideo(x));
-    on('[data-stop]', () => {
-      const sched = isVid && x.status === 'uploaded';
-      const t = prompt((sched ? '유튜브에 예약된 영상입니다. 비공개로 돌리고 처리합니다.\n\n' : '') + '중단 사유를 적으면 그대로 고칩니다. 비워 두면 다른 이야기로 바꿉니다.', '');
-      if (t === null) return;
-      const entry = { at: new Date().toISOString(), by: 'owner', type: 'stop', text: t.trim() || '중단 (사유 없음 → 다른 이야기로 교체)' };
-      if (isVid && x.youtube_id) entry.youtube_id = x.youtube_id;
-      const fb = (x.feedback || []).concat([entry]);
-      if (isVid) upd({ status: 'rework', note: t.trim() || null, youtube_id: null, uploaded_at: null, feedback: fb }, sched ? '중단했습니다. 비공개로 돌리고 처리합니다' : '중단했습니다. Claude가 처리합니다');
-      else upd(t.trim() ? { status: 'rework', note: t.trim(), feedback: fb } : { status: 'rejected', feedback: fb }, t.trim() ? '중단했습니다. 고쳐서 다시 만듭니다' : '중단했습니다. 다른 이야기로 채웁니다');
-    });
+    on('[data-stop]', () => stopItem(x, isVid));
     on('[data-back]', () => upd({ status: isVid ? 'approved' : 'approved' }, '되돌렸습니다'));
     on('[data-up]', () => {
       const raw = prompt('직접 올린 쇼츠 주소를 붙여 넣어 주세요', ''); if (raw === null) return;
@@ -485,10 +784,11 @@ function viewTrend(){
    매일 11시 무렵 Claude(벤치마킹 작업)가 '구독자는 적은데 쇼츠가 터진 채널'(뷰 sc_breakout)과 우리 성과를 비교해 sc_improve 에 제안을 쓴다.
    대표님이 승인하면 status 'approved' → 다음 작업자 실행이 새 기획에 그대로 넣고 'applied' 로 바꾼다. */
 const AREA = { hook: '첫 2초', title: '제목', story: '이야기', visual: '그림', length: '길이', music: '음악', ending: '엔딩', upload: '운영', topic: '소재', thumb: '썸네일' };
-const IMP_ST = { proposed: ['승인 대기', 'warn'], approved: ['승인 · 다음 기획부터', 'good'], applied: ['적용 중', 'good'], hold: ['보류', 'mut'], rejected: ['반려', 'mut'] };
+// 2026-10-30: 제안은 승인 없이 바로 적용(실험 꼬리표로 시험) → '안 됨'이면 작업자가 자동으로 뺀다. 비용이 늘어나는 것만 'proposed'로 대표님 확인
+const IMP_ST = { proposed: ['비용 확인 필요', 'warn'], approved: ['자동 적용 중', 'good'], applied: ['자동 적용 중', 'good'], hold: ['보류', 'mut'], rejected: ['빠짐', 'mut'] };
 function improveBlock(){
-  const wait = S.improve.filter(x => x.status === 'proposed');
-  const rest = S.improve.filter(x => x.status !== 'proposed');
+  const wait = S.improve.filter(x => x.status === 'proposed' || (['approved', 'applied'].includes(x.status) && ts(x.updated_at || x.created_at) > Date.now() - 3*864e5));
+  const rest = S.improve.filter(x => !wait.includes(x));
   const last = S.improve[0];
   const card = x => {
     const st = IMP_ST[x.status] || [x.status, 'mut'];
@@ -499,20 +799,20 @@ function improveBlock(){
       <div class="t">${esc(x.title)}</div>
       ${x.finding ? `<div class="sec"><b>잘 된 채널에서 본 것</b>${esc(x.finding)}</div>` : ''}
       ${x.ours ? `<div class="sec"><b>우리는</b>${esc(x.ours)}</div>` : ''}
-      ${x.apply ? `<div class="ap"><b>승인하면 다음 영상부터 이렇게</b>${esc(x.apply)}</div>` : ''}
+      ${x.apply ? `<div class="ap"><b>${x.status === 'proposed' ? '승인하면 다음 영상부터 이렇게' : '다음 영상부터 이렇게 (실험으로 시험)'}</b>${esc(x.apply)}</div>` : ''}
       ${ev.length ? `<div class="ev">${ev.map(e => `<a href="https://youtube.com/shorts/${esc(e.video_id)}" target="_blank" rel="noopener"><img src="${thumbOf(e.video_id)}" alt="" loading="lazy"><span>${short(e.views)}회${e.subs != null ? ' · 구독 ' + short(e.subs) : ''}</span></a>`).join('')}</div>` : ''}
       ${x.cost && x.cost !== '없음' ? `<div class="note">추가 비용: ${esc(x.cost)}</div>` : ''}
       ${(x.applied_to || []).length ? `<div class="note">적용한 기획: ${(x.applied_to || []).map(esc).join(', ')}</div>` : ''}
       ${fb ? `<div class="item"><div class="cl ${fb.by === 'owner' ? 'owner' : ''}" style="grid-column:1/-1">${fb.by === 'owner' ? '대표님' : 'Claude'} · ${esc(fb.text)}</div></div>` : ''}
-      ${x.status === 'proposed' ? `<div class="row"><button class="btn sm pri" data-imp="approved" data-id="${x.id}">승인</button><button class="btn sm" data-imp="hold" data-id="${x.id}">보류</button><button class="btn sm no" data-imp="rejected" data-id="${x.id}">반려</button><button class="btn sm" data-imp="note" data-id="${x.id}">고쳐서 승인</button></div>`
-        : ['approved', 'applied'].includes(x.status) ? `<div class="row"><button class="btn sm" data-imp="hold" data-id="${x.id}">그만 적용</button></div>`
-        : `<div class="row"><button class="btn sm" data-imp="proposed" data-id="${x.id}">다시 검토</button></div>`}
+      ${x.status === 'proposed' ? `<div class="row"><button class="btn sm pri" data-imp="applied" data-id="${x.id}">승인</button><button class="btn sm no" data-imp="rejected" data-id="${x.id}">반려</button><button class="btn sm" data-imp="note" data-id="${x.id}">고쳐서 승인</button></div>`
+        : ['approved', 'applied'].includes(x.status) ? `<div class="row"><button class="btn sm no" data-imp="rejected" data-id="${x.id}">되돌리기</button><button class="btn sm" data-imp="note" data-id="${x.id}">고쳐서 적용</button></div>`
+        : `<div class="row"><button class="btn sm" data-imp="applied" data-id="${x.id}">다시 적용</button></div>`}
     </div>`;
   };
-  return `<h2 style="margin-top:4px">오늘의 개선 제안 <span class="n">구독자는 적은데 쇼츠가 터진 채널을 매일 11시에 분석해 우리 영상에 적용할 것을 고릅니다 · 승인하면 다음 기획부터 반영${last ? ' · 마지막 분석 ' + esc((last.day || '').slice(5).replace('-', '/')) : ''}</span></h2>
+  return `<h2 style="margin-top:4px">최근 개선 (자동 적용) <span class="n">구독자는 적은데 쇼츠가 터진 채널을 매일 10:53에 분석해 다음 기획에 바로 넣고 실험으로 결과를 봅니다 · 안 되면 자동으로 빠짐 · 아니다 싶으면 되돌리기${last ? ' · 마지막 분석 ' + esc((last.day || '').slice(5).replace('-', '/')) : ''}</span></h2>
     ${wait.length ? `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">${wait.map(card).join('')}</div>`
-      : '<div class="card empty">승인을 기다리는 제안이 없습니다. 매일 11시에 새로 올립니다.</div>'}
-    ${rest.length ? `<details class="fold" style="margin-top:10px"${S.impAll ? ' open' : ''} id="impall"><summary>승인·적용 중인 규칙과 지난 제안 ${rest.length}건</summary>
+      : '<div class="card empty">최근 사흘 새로 적용한 개선이 없습니다.</div>'}
+    ${rest.length ? `<details class="fold" style="margin-top:10px"${S.impAll ? ' open' : ''} id="impall"><summary>적용 중인 규칙과 지난 제안 ${rest.length}건</summary>
       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:8px">${rest.slice(0, 30).map(card).join('')}</div></details>` : ''}`;
 }
 function breakoutBlock(){
@@ -534,14 +834,15 @@ function bindImprove(){
     const x = S.improve.find(r => r.id === +b.dataset.id); if (!x) return;
     let to = b.dataset.imp, text = '';
     if (to === 'note') { text = prompt('어떻게 고쳐서 적용할까요? (적어 주신 대로 바꿔서 적용합니다)', '') || ''; if (!text.trim()) return; to = 'approved'; }
-    else if (to === 'rejected' || to === 'hold') { text = prompt(to === 'rejected' ? '반려 이유가 있으면 적어 주세요 (비워도 됩니다)' : '보류 이유가 있으면 적어 주세요 (비워도 됩니다)', '') ?? null; if (text === null) return; }
-    const label = { approved: '승인', hold: '보류', rejected: '반려', proposed: '다시 검토' }[to];
+    else if (to === 'rejected' || to === 'hold') { text = prompt(to === 'rejected' ? (x.status === 'proposed' ? '반려 이유가 있으면 적어 주세요 (비워도 됩니다)' : '되돌리는 이유가 있으면 적어 주세요 (비워도 됩니다) — 다음 기획부터 빠집니다') : '보류 이유가 있으면 적어 주세요 (비워도 됩니다)', '') ?? null; if (text === null) return; }
+    if (to === 'approved') to = 'applied';
+    const label = { applied: x.status === 'proposed' ? '승인' : '다시 적용', hold: '보류', rejected: x.status === 'proposed' ? '반려' : '되돌리기', proposed: '다시 검토' }[to];
     const fb = [...(x.feedback || []), { at: new Date().toISOString(), by: 'owner', type: to, text: text.trim() ? text.trim() : label }];
     b.disabled = true;
     const { error } = await sb.from('sc_improve').update({ status: to, feedback: fb, updated_at: new Date().toISOString() }).eq('id', x.id);
     if (error) { toast('저장하지 못했습니다: ' + error.message, true); b.disabled = false; return; }
     Object.assign(x, { status: to, feedback: fb });
-    toast(to === 'approved' ? '승인했습니다. 다음 기획부터 반영합니다' : label + ' 처리했습니다');
+    toast(to === 'applied' ? label + '했습니다. 다음 기획부터 반영합니다' : label + ' 처리했습니다');
     viewTrend();
   });
 }
@@ -553,18 +854,17 @@ function viewPerf(){
   const vw = v => +(v.stats?.now?.views ?? 0);
   const tot = up.reduce((a, v) => a + vw(v), 0);
   const best = up.slice().sort((a,b) => vw(b) - vw(a))[0];
-  const h24 = up.map(v => +(v.stats?.h24?.views)).filter(x => x >= 0 && !isNaN(x)).sort((a,b) => a - b);
-  const med = h24.length ? h24[Math.floor(h24.length / 2)] : null;
+  const med = medH24();
   const plan = v => S.plans.find(p => p.id === v.plan_id) || {};
   const fmt = v => (plan(v).spec || {}).format || plan(v).emotion || '–';
   const learn = (S.settings.learn || []).slice(-8).reverse();
   const cell = (v, k) => v.stats?.[k] ? short(v.stats[k].views) : '–';
-  const judge = v => { const x = +(v.stats?.h24?.views); if (!med || isNaN(x)) return ''; return x >= med * 2 ? '<span class="badge good">잘 됨</span>' : x < med * 0.5 ? '<span class="badge bad">약함</span>' : ''; };
+  const jb = v => { const j = judge(v); return `<span class="badge ${j.c}" title="${esc(j.why)}">${j.l}</span>`; };
   $('#main').innerHTML = `
     <div class="grid kpis">
       ${kpi('공개된 쇼츠', up.length + '편', '')}
       ${kpi('누적 조회수', short(tot), '매일 아침 갱신')}
-      ${kpi('24시간 중앙값', med != null ? short(med) + '회' : '–', '이 값의 2배면 잘 됨, 절반 미만이면 약함')}
+      ${kpi('24시간 중앙값', med != null ? short(med) + '회' : '–', `최근 ${LR().median_days}일 · ${LR().good_mult}배 이상 잘 됨, ${LR().bad_mult}배 이하 안 됨 (${LR().min_views}회 미만은 표본 작음)`)}
       ${kpi('최고 영상', best ? short(vw(best)) + '회' : '–', best ? cleanTitle(best.title).slice(0, 26) : '')}
     </div>
     ${S.improve.some(x => ['approved','applied'].includes(x.status)) ? `<h2>지금 적용 중인 개선 <span class="n">트렌드·개선 탭에서 승인한 것 · 새 기획에 그대로 들어갑니다</span></h2>
@@ -573,8 +873,8 @@ function viewPerf(){
     ${learn.length ? `<ul class="learn">${learn.map(l => `<li><small>${kst(l.at)}</small>${esc(l.text)}</li>`).join('')}</ul>` : '<div class="card empty">아직 판단할 만큼 데이터가 없습니다. 공개 후 24시간이 지난 영상이 쌓이면 여기에 정리합니다.</div>'}
     <h2>영상별 조회수</h2>
     ${up.length ? `<div class="card tbl-wrap" style="padding:4px 8px"><table class="tbl"><thead><tr><th>영상</th><th style="text-align:right">6시간</th><th style="text-align:right">24시간</th><th style="text-align:right" class="m">48시간</th><th style="text-align:right">지금</th><th></th></tr></thead><tbody>
-      ${up.map(v => `<tr><td><div style="font-weight:800">${esc(cleanTitle(v.title))}</div><div class="note">${kst(v.scheduled_at)} · ${esc(EMO[fmt(v)] || fmt(v))}${v.stats?.studio?.viewed_pct != null ? ` · 시청 선택 ${v.stats.studio.viewed_pct}%` : ''}${v.youtube_id ? ` · <a href="https://youtube.com/shorts/${esc(v.youtube_id)}" target="_blank" rel="noopener">보기</a>` : ''}</div></td>
-        <td class="n">${cell(v,'h6')}</td><td class="n">${cell(v,'h24')}</td><td class="n m">${cell(v,'h48')}</td><td class="n"><b>${v.stats?.now ? short(vw(v)) : '–'}</b></td><td>${judge(v)}</td></tr>`).join('')}
+      ${up.map(v => `<tr><td><div style="font-weight:800">${esc(cleanTitle(v.title))}</div><div class="note">${kst(v.scheduled_at)} · ${esc(EMO[fmt(v)] || fmt(v))}${expOf(v) ? ' · 실험 ' + esc(expOf(v).label) : ''}${v.stats?.studio?.viewed_pct != null ? ` · 시청 선택 ${v.stats.studio.viewed_pct}%` : ''}${v.youtube_id ? ` · <a href="https://youtube.com/shorts/${esc(v.youtube_id)}" target="_blank" rel="noopener">보기</a>` : ''}</div></td>
+        <td class="n">${cell(v,'h6')}</td><td class="n">${cell(v,'h24')}</td><td class="n m">${cell(v,'h48')}</td><td class="n"><b>${v.stats?.now ? short(vw(v)) : '–'}</b></td><td>${jb(v)}</td></tr>`).join('')}
     </tbody></table></div>` : '<div class="card empty">아직 공개된 영상이 없습니다.</div>'}`;
 }
 
@@ -607,10 +907,34 @@ async function boot(){
   if (!session) return loginView();
   const { data: admin } = await sb.rpc('is_admin');
   if (!admin) { await sb.auth.signOut(); return loginView('관리자 계정이 아닙니다.'); }
-  $('#out').hidden = false;
-  $('#out').onclick = async () => { await sb.auth.signOut(); loginView(); };
+  $('#out').hidden = false; $('#ask').hidden = false; $('#askn').hidden = false;
+  $('#out').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+  bindAsk();
   await reload();
 }
+/* 통합 요청칸 — 어느 화면에서든 Enter 로 보내면 side-brief-inbox 에 화면 이름과 함께 쌓이고, 작업자·벤치마킹 회차가 처리한다 */
+function bindAsk(){
+  const ta = $('#askt'), btn = $('#askb');
+  const fit = () => { ta.style.height = '38px'; ta.style.height = Math.min(140, ta.scrollHeight + 2) + 'px'; ta.style.overflow = ta.scrollHeight > 138 ? 'auto' : 'hidden'; };
+  const send = async () => { const t = ta.value.trim(); if (!t) { ta.focus(); return; }
+    btn.disabled = true; const where = (TABS.find(x => x[0] === S.tab) || [, '브리핑'])[1] + ' 화면';
+    const ok = await sendRequest(t, where); btn.disabled = false;
+    if (ok) { ta.value = ''; fit(); ta.blur(); toast(`받았습니다. ${nextRun().label}에 처리하고 브리핑 '내 요청'에 상태가 뜹니다`); render(); } };
+  ta.addEventListener('input', fit);
+  ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } });
+  btn.onclick = send;
+}
+const typing = () => !!document.activeElement?.matches('input,textarea') || !!$('.vmodal');
+/* 데이터 1분마다 갱신(브리핑) · 그 밖의 화면은 5분 — 입력 중이거나 영상 재생 중이면 기다린다 */
+let __tick = 0;
+setInterval(async () => { __tick++; if (document.hidden || $('#out').hidden || typing()) return; if (S.tab !== 'brief' && __tick % 5) return;
+  try { const y = window.scrollY; await loadAll(); render(); window.scrollTo(0, y); } catch(_){} }, 60 * 1000);
+/* 새 버전이 배포되면 화면을 스스로 다시 연다 — 페이지 파일의 ETag 가 바뀌면 입력 중이 아닐 때 새로 고침 */
+let __ver = null;
+async function __checkVer(){ try { const r = await fetch(location.pathname + '?v=' + Date.now(), { method: 'HEAD', cache: 'no-store' }); const v = r.headers.get('etag') || r.headers.get('last-modified'); if (!v) return;
+  if (__ver && v !== __ver && !typing()) location.reload(); else if (!__ver) __ver = v; } catch(_){} }
+__checkVer(); setInterval(() => { if (!document.hidden) __checkVer(); }, 60 * 1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) __checkVer(); });
 boot();
 </script>
 </body>
