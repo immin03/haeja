@@ -2615,7 +2615,7 @@ function brPlainReq(y){
 function brReqs(){
   const L = [], since = Date.now() - 3 * 864e5, recent = iso => iso && Date.parse(iso) > since;
   const OWN = /owner|chat|brief|대표|운영자/, hide = new Set((((BR.inbox || {}).data || {}).hidden) || []);
-  const brief = brNext(BR_H_ALL, 17), up = brNext([7, 10, 12, 17, 20], 10), queue = brNext([9, 20], 47);
+  const brief = brNext(BR_H_ALL, 17), up = brNext([7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22], 10), queue = brNext([9, 20], 47);
   const linked = new Set((YT.reqs || []).map(r => { const o = r.plan_id && (YT.list || []).find(y => y.kind === 'long' && String(y.id).replace(/^L/, '') === String(r.plan_id).replace(/^P/, '')); return o ? o.id : null; }).filter(Boolean));
   (YT.list || []).forEach(y => {
     if(linked.has(y.id)) return; /* 기획안 요청 줄에서 함께 보여 준다 */
