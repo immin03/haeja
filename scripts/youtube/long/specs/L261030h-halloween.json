@@ -116,7 +116,7 @@
   "아이뉴스24 (2026년 10월 22일, 서울시 인파 관리)",
   "밸류노트 허쉬 데이터 ({asof} 기준)"
  ],
- "description_head": "트릭 오어 트릿! 코코아는 반값인데 허쉬 초콜릿은 왜 안 싸질까요? 허쉬는 2026년 3분기 판매량이 약 10% 줄었는데도 주식 한 장당 이익은 2.64달러로 103% 늘었습니다(2026년 10월 29일 실적 발표). 코코아값은 꼭대기(2024년 12월 1톤 1만 2,931달러)에서 절반 아래로 내려왔는데 말이죠.\n\n미국 할로윈 소비 135억 달러 역대 최대(NRF)와 사탕이 3위인 이유, 코코아 1만 2,931달러의 겨울, 허쉬 3분기 성적표(가격 효과 +11%p · 판매량 -10%p · 원가 뺀 남는 돈 비율 42.7%), 원가가 내려도 값은 천천히 내리는 '엘리베이터와 계단', 같은 주 반대 길을 간 몬덜리즈, 두 달만 여는 스피릿 할로윈과 문 닫은 파티시티, 조용한 한국의 할로윈과 빼빼로데이, 그리고 다음 실적 때 볼 숫자 세 개를 정리했습니다.\n\n※ 투자 권유가 아니며, 점수는 목표 주가나 매수·매도 신호가 아닙니다.\n\n사진: 위키미디어 공용 — Mark Hirschey (CC BY-SA 2.0) · MatthewHoobin (CC BY-SA 4.0) · Yuet Man Lee (CC BY-SA 4.0) · Siarhei Besarab (CC BY-SA 4.0) · ImagePerson (CC BY 4.0) · Silar (CC BY-SA 4.0) · OhanaSurf (CC BY-SA 4.0) · Willis Lam (CC BY-SA 2.0) · Saipiny (CC0) · Yoshyoshyoshyosh (CC BY-SA 4.0) · Dillan Payne (CC BY-SA 4.0) · Mixkit",
+ "description_head": "트릭 오어 트릿! 코코아값은 꼭대기(2024년 12월 1톤 1만 2,931달러)에서 절반 아래로 내려왔는데, 허쉬 초콜릿은 왜 안 싸질까요? 그사이 코트디부아르 농부가 받는 코코아 수매값은 1kg 2,800프랑에서 1,200프랑으로 깎였고, 허쉬는 사탕을 약 10% 덜 팔고도 더 많이 남겼습니다(2026년 10월 29일 실적 발표).\n\n날씨가 커피·오렌지주스·올리브유 값까지 흔든 큰 흐름, 오를 땐 로켓처럼 내릴 땐 깃털처럼 움직이는 식품 값, 미국 할로윈 소비 135억 달러, 서아프리카 가뭄과 2011년 코트디부아르 수출 금지, 허쉬의 3분기 성적표, 같은 주 반대 길을 간 몬덜리즈, 가나마일드 값과 빼빼로데이, 거래소 창고 재고와 엘니뇨, 그리고 다음 실적 때 볼 숫자 세 개를 정리했습니다.\n\n※ 투자 권유가 아닙니다.",
  "description_en": "Why isn't Halloween chocolate getting cheaper? Hershey sold about 10% less in Q3 2026, yet adjusted EPS rose 103% to $2.64, even though cocoa is less than half its December 2024 peak of $12,931 a ton. We cover record U.S. Halloween spending ($13.5B, NRF), why candy ranks third, Hershey's price-versus-volume report card, the 'elevator up, stairs down' of prices, Mondelez's opposite strategy, Spirit Halloween's two-month stores, Korea's quiet Halloween and Pepero Day, and three numbers to watch.\n\n#Halloween #Hershey #cocoa",
  "pinned_comment": "올해 할로윈 사탕이나 초콜릿, 작년보다 비싸다고 느끼셨나요? 체감한 값 차이를 댓글로 나눠 주세요.\n\n다음 실적 때 볼 숫자: 허쉬 판매량 · 코코아 선물 가격 · 가격 효과 vs 물량(몬덜리즈와 비교).",
  "hook_promises": [
@@ -291,9 +291,9 @@
   {
    "v": {
     "type": "stat",
-    "kicker": "기온 상승이 더할 식품 물가 · 유럽중앙은행·포츠담 기후영향연구소",
-    "value": "해마다 최대 3.2%p",
-    "label": "2035년까지",
+    "kicker": "기온 상승이 더할 식품 물가 · 해마다 최대",
+    "value": "3.2%p",
+    "label": "2035년까지 · 유럽중앙은행·포츠담 기후영향연구소",
     "label_en": "Extra food inflation from warming by 2035 (ECB·PIK)",
     "at": "0:3.2",
     "count": false,
@@ -480,87 +480,6 @@
      "color": "orange",
      "line": 0,
      "at": 0.6
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "pumpkin_2229_b.jpg",
-    "chips": [
-     {
-      "v": "9억 2천만 달러",
-      "l": "반려동물 의상 · 2026년",
-      "at": "0:9억"
-     }
-    ]
-   },
-   "lines": [
-    "의상 44억 달러를 쪼개 보면 어른 20억, 아이 15억, 그리고 반려동물 의상이 9억 2천만 달러예요. 반려동물 인기 1위는 호박, 2위는 핫도그 의상입니다.",
-    "강아지가 핫도그가 되고 싶었는지는, 아무도 묻지 않았습니다."
-   ],
-   "en": [
-    "Split the 4.4 billion: adults 2 billion, kids 1.5 billion, and pets 920 million. Top pet costume: pumpkin, then hot dog.",
-    "Whether the dogs wanted to be hot dogs, nobody asked."
-   ],
-   "asof": false,
-   "src": "미국소매협회(NRF) 할로윈 소비 조사 (2026년 9월 22일 발표, 7,889명 · 9월 1~9일)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "1위 호박 11.6% · 2위 핫도그 5.9%",
-     "x": 140,
-     "y": 860,
-     "size": 48,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "print",
-     "text": "어른 20억 달러",
-     "x": 1180,
-     "y": 420,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "아이 15억 달러",
-     "x": 1180,
-     "y": 500,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.5
-    },
-    {
-     "kind": "icons",
-     "icon": "pumpkin",
-     "x": 1180,
-     "y": 600,
-     "size": 100,
-     "n": 1,
-     "gap": 20,
-     "color": "ink",
-     "line": 1,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "강아지 의견은 미확인",
-     "x": 1320,
-     "y": 630,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.55
     }
    ]
   },
@@ -1723,86 +1642,6 @@
    ]
   },
   {
-   "v": {
-    "type": "media",
-    "lib": "commons_chocolatesale_2.jpg",
-    "chips": [
-     {
-      "v": "-6.7%",
-      "l": "미국 사탕·젤리·초콜릿 판매 · 10월 17일까지 한 달",
-      "at": "0:6.7"
-     }
-    ]
-   },
-   "lines": [
-    "소비자도 가만있지 않습니다. 범위를 넓혀 10월 17일까지 한 달을 보면, 미국 사탕·젤리·초콜릿 판매가 1년 전보다 6.7% 줄었어요.",
-    "미국소매협회 조사에선 값이 오르면 34%는 다시 쓸 수 있는 장식을 사고 31%는 가격을 비교하겠다고 답했습니다. 사탕 회사의 다음 숙제는 이 사람들을 다시 데려오는 거예요."
-   ],
-   "en": [
-    "Shoppers fight back. In the month to October 17, U.S. candy, gum and chocolate sales were down 6.7% from a year earlier.",
-    "In the NRF survey, 34% said higher prices would push them to reusable items, 31% to compare prices. Bringing them back is the candy makers' next job."
-   ],
-   "asof": false,
-   "src": "닐슨IQ 집계 · AP 보도 (한국경제 2026년 10월 25일) · 미국소매협회(NRF) 할로윈 소비 조사 (2026년 9월 22일 발표, 7,889명 · 9월 1~9일) · 사진: Wikimedia Commons (CC BY-SA 4.0)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "재사용 장식 34% · 가격 비교 31%",
-     "x": 140,
-     "y": 860,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.5
-    },
-    {
-     "kind": "print",
-     "text": "판매 감소",
-     "x": 1160,
-     "y": 420,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.25
-    },
-    {
-     "kind": "print",
-     "text": "범위를 넓혀 한 달 기준",
-     "x": 1160,
-     "y": 500,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "NRF 조사 · 값이 오르면",
-     "x": 1160,
-     "y": 660,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "다시 데려오기 = 숙제",
-     "x": 1160,
-     "y": 740,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.75
-    }
-   ]
-  },
-  {
    "chapter": "한국의 10월 31일",
    "v": {
     "type": "title",
@@ -1957,7 +1796,7 @@
   {
    "v": {
     "type": "media",
-    "lib": "commons_pepero_4.jpg",
+    "lib": "candy_40794_a.jpg",
     "chips": [
      {
       "v": "2,800원 → 3,400원",
