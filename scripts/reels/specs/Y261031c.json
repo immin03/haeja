@@ -1,0 +1,237 @@
+{
+ "approved": false,
+ "platform": "youtube",
+ "threads_tag": "재테크",
+ "long": "L261029-chip-twins",
+ "world": "popup",
+ "allow_long": true,
+ "end": "subscribe",
+ "full_cap": [
+  "풀버전 ▶ 화면 아래 관련 영상"
+ ],
+ "style": "clean",
+ "id": "Y261031c",
+ "scheduled_at": "2026-10-31T19:45:00+09:00",
+ "mood": "calm",
+ "broll": "chip",
+ "hook_type": "H14",
+ "title": "삼성전자 배당, 100주면 46만 원? 그런데 내년부터는 아직 빈칸 #삼성전자",
+ "title_en": "Samsung dividend: how much for 100 shares? 4,601 won a share, and the blank page for 2027 #Samsung",
+ "banner": [
+  "삼성전자 100주 있으면",
+  "이번 배당 얼마 받을까?"
+ ],
+ "cover_title": "삼성전자 100주\n배당 얼마?",
+ "hashtags": [
+  "삼성전자",
+  "삼성전자배당",
+  "배당주",
+  "주주환원",
+  "밸류노트",
+  "shorts"
+ ],
+ "message": "삼성전자 3분기 배당은 한 주 4,601원(100주면 세전 46만 100원, 총 30조 원)이지만, 올해 남은 55~75조 원은 1월 말 이사회에서 정하고 2027년 이후 주주환원 계획은 아직 없다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "삼성전자 · 3분기 배당\n100주 기준 · 세금 떼기 전",
+   "num": {
+    "from": 0,
+    "to": 46,
+    "suffix": "만 원"
+   },
+   "tone": "gold",
+   "label": "100주면",
+   "label_line": 0,
+   "lines": [
+    {
+     "cap": [
+      "삼성전자 100주가 있다면",
+      "이번 배당으로 46만 원이 들어와요"
+     ],
+     "say": "삼성전자 100주가 있다면, 이번 배당으로 46만 원이 들어와요."
+    },
+    {
+     "cap": [
+      "한 주에 4,601원, 세금 떼기 전 기준이에요"
+     ],
+     "say": "한 주에 4,601원, 세금 떼기 전 기준이에요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "세금 15.4% 떼면",
+   "l2": "약 39만 원",
+   "tone": "good",
+   "note": "그런데 하나 걸리는 게 있다",
+   "lines": [
+    {
+     "cap": [
+      "보통 떼는 세금 15.4%를 빼면 약 39만 원",
+      "그런데 하나 걸리는 게 있어요"
+     ],
+     "say": "보통 떼는 세금 15.4%를 빼면 약 39만 원이에요. 그런데 하나 걸리는 게 있어요."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_dram_1.jpg",
+   "title": "삼성전자 메모리",
+   "chip": {
+    "v": "석 달 반도체 영업이익 106조 5천억",
+    "line": 0,
+    "frac": 0.35
+   },
+   "lines": [
+    {
+     "cap": [
+      "삼성전자가 이번에 주주에게 주는 현금은 모두 30조 원",
+      "반도체 부문이 석 달에 남긴 영업이익만 106조 5천억 원이었죠"
+     ],
+     "say": "삼성전자가 이번 분기 주주에게 주는 현금은 모두 30조 원이에요. 반도체 부문이 석 달에 남긴 영업이익만, 106조 5천억 원이었거든요."
+    }
+   ]
+  },
+  {
+   "type": "bars",
+   "title": "올해 주주환원 계획 90~110조 원",
+   "split": false,
+   "items": [
+    {
+     "label": "이미 정한 몫",
+     "v": 35,
+     "text": "약 35조",
+     "tone": "ivory"
+    },
+    {
+     "label": "1월 말 이사회",
+     "v": 65,
+     "text": "55~75조",
+     "tone": "gold"
+    }
+   ],
+   "lines": [
+    {
+     "cap": [
+      "배당에 자사주 매입, 회사가 자기 주식을 사들이는 것까지",
+      "합쳐서 올해 90조에서 110조 원을 돌려줄 계획이에요"
+     ],
+     "say": "배당에, 회사가 자기 주식을 사들이는 자사주 매입까지 합쳐서, 올해 90조에서 110조 원을 돌려줄 계획이에요."
+    },
+    {
+     "cap": [
+      "그중 올해 남은 55조에서 75조 원을",
+      "어떻게 줄지는 1월 말 이사회에서 정해요"
+     ],
+     "say": "그중 올해 남은 55조에서 75조 원을 어떻게 줄지는, 1월 말 이사회에서 정해요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "올해 보너스는 두둑",
+   "l2": "내년 연봉 계약서는 빈칸",
+   "tone": "gold",
+   "lines": [
+    {
+     "cap": [
+      "그런데 올해 보너스는 두둑한데",
+      "내년 연봉 계약서는 아직 안 쓴 셈이에요"
+     ],
+     "say": "그런데 올해 보너스는 두둑한데, 내년 연봉 계약서는 아직 안 쓴 셈이에요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "주주환원 달력",
+   "l": {
+    "label": "3개년 계획",
+    "v": "2024~2026",
+    "sub": "올해로 끝",
+    "tone": "gold"
+   },
+   "r": {
+    "label": "2027년부터",
+    "v": "?",
+    "sub": "아직 계획 없음",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "삼성전자의 3년짜리 주주환원 계획은",
+      "2024년부터 올해까지예요"
+     ],
+     "say": "삼성전자의 3년짜리 주주환원 계획은, 2024년부터 올해까지예요."
+    },
+    {
+     "cap": [
+      "2027년부터의 계획은 아직 없습니다"
+     ],
+     "say": "2027년부터의 계획은 아직 없습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "배당이 궁금하다면",
+   "l2": "1월 말 이사회 날짜",
+   "tone": "good",
+   "note": "2027년 이후 주주환원 계획",
+   "lines": [
+    {
+     "cap": [
+      "1월 말 이사회는 남은 돈과",
+      "2027년 이후 계획을 함께 내놓는 자리예요"
+     ],
+     "say": "1월 말 이사회는, 올해 남은 돈과 2027년 이후 계획을 함께 내놓는 자리예요."
+    },
+    {
+     "cap": [
+      "배당이 궁금하다면 이번 4,601원보다",
+      "그 날짜를 먼저 기억해 두세요"
+     ],
+     "say": "배당이 궁금하다면 이번 4,601원보다, 그 날짜를 먼저 기억해 두세요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "더 많은 정보를 원하시면",
+   "l2": "좋아요와 구독",
+   "lines": [
+    {
+     "cap": [
+      "더 많은 정보를 원하시면 좋아요와 구독",
+      "풀버전 ▶ 화면 아래 관련 영상"
+     ],
+     "say": "더 많은 정보를 원하시면, 좋아요와 구독 눌러 주세요.",
+     "pause": 1.6
+    }
+   ]
+  }
+ ],
+ "caption": "삼성전자는 10월 29일 3분기 배당을 모두 30조 원, 한 주 4,601원으로 발표했습니다. 100주라면 세금 떼기 전 46만 100원입니다. 석 달 동안 반도체에서만 영업이익 106조 5천억 원을 번 덕분이고, 보통 원천징수되는 세금 15.4%를 빼면 100주에 약 39만 원입니다.\n\n올해 전체 주주환원 계획은 90조~110조 원이며, 남은 55조~75조 원을 어떻게 돌려줄지는 내년 1월 말 이사회에서 정합니다. 삼성전자의 3개년 주주환원 계획은 2024~2026년이라 2027년 이후 계획은 아직 없습니다. 배당을 본다면 1월 말 이사회에서 나올 2027년 이후 계획이 먼저 볼 숫자입니다.\n\n자료: 삼성전자 3분기 확정 실적·배당 공시(2026년 10월 29일). SK하이닉스 100조 원 주주환원과 메모리 값 이야기는 풀영상에 정리했습니다.\n\n사진: Wikimedia Commons — User Kotepho (퍼블릭 도메인) · 매수·매도 권유가 아닙니다.",
+ "subs_en": [
+  "With 100 Samsung shares, this dividend pays 460,000 won.",
+  "Like and subscribe for more. Full video: related video below",
+  "After the usual 15.4% tax, about 390,000. But one thing nags.",
+  "Samsung pays 30 trillion won; the chip division alone made 106.5 trillion of operating profit in three months.",
+  "Dividends plus buybacks: 90–110 trillion planned this year.",
+  "How to return the remaining 55–75 trillion is set at the late-January board.",
+  "A fat bonus this year, but next year's contract isn't signed.",
+  "Samsung's 3-year plan runs 2024 through this year.",
+  "No plan yet from 2027.",
+  "The late-January board sets both the remaining money and the post-2027 plan.",
+  "If dividends matter to you, remember that date before this 4,601 won.",
+  "Like and subscribe for more. Full video: related video below"
+ ],
+ "review": {
+  "round1": 6.4,
+  "round2": 6.75,
+  "note": "첫 시청자 검수 2회 · 반도체 부문 이익 명시, 자사주 풀이, 1월 이사회 역할 정리 · 검수 미달(평균 6.75)"
+ }
+}

@@ -1,0 +1,281 @@
+{
+ "approved": false,
+ "platform": "youtube",
+ "threads_tag": "재테크",
+ "long": "L261029-chip-twins",
+ "world": "popup",
+ "allow_long": true,
+ "end": "subscribe",
+ "full_cap": [
+  "풀버전 ▶ 화면 아래 관련 영상"
+ ],
+ "style": "clean",
+ "id": "Y261031b",
+ "scheduled_at": "2026-10-31T12:15:00+09:00",
+ "mood": "tense",
+ "broll": "chip",
+ "hook_type": "H03",
+ "title": "SK하이닉스 주가, 역대 최대로 벌던 해에 왜 39% 빠졌을까? 지금과 닮은 2018년 #SK하이닉스",
+ "title_en": "SK hynix earned record margins in 2018, yet the stock fell 39%. Why the price turned first #SKhynix",
+ "banner": [
+  "역대 최대로 벌던 2018년",
+  "SK하이닉스 주가는 왜 39% 빠졌을까?"
+ ],
+ "cover_title": "역대 최대 이익인데\n주가는 -39%?",
+ "hashtags": [
+  "SK하이닉스",
+  "SK하이닉스주가",
+  "반도체",
+  "메모리",
+  "밸류노트",
+  "shorts"
+ ],
+ "message": "2018년 SK하이닉스는 100원 팔아 57원을 남기는 역대 최대 이익률에도 주가가 먼저 39% 빠졌다 — 메모리 이익은 값에 기대서 시장이 값이 꺾일 걱정을 먼저 가격에 넣는다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "SK하이닉스 주가\n2018년 5월 23일 → 2019년 1월 3일",
+   "num": {
+    "from": 0,
+    "to": -39,
+    "suffix": "%"
+   },
+   "tone": "loss",
+   "label": "역대 최대 이익을 내던 해",
+   "label_line": 0,
+   "lines": [
+    {
+     "cap": [
+      "역대 최대로 벌던 해에",
+      "SK하이닉스 주가는 약 39% 빠졌어요"
+     ],
+     "say": "역대 최대로 벌던 해에, 에스케이하이닉스 주가는 약 39% 빠졌어요."
+    },
+    {
+     "cap": [
+      "2018년 얘기인데",
+      "지금 상황과 꼭 닮았어요"
+     ],
+     "say": "2018년 얘기인데, 지금 상황과 꼭 닮았어요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "2018년 3분기 SK하이닉스",
+   "l2": "100원 팔아 57원",
+   "tone": "good",
+   "note": "그때까지 역대 최대",
+   "lines": [
+    {
+     "cap": [
+      "2018년 3분기 SK하이닉스는",
+      "100원어치 팔아 57원을 남겼어요"
+     ],
+     "say": "2018년 3분기 에스케이하이닉스는 100원어치 팔아 57원을 남겼어요."
+    },
+    {
+     "cap": [
+      "그때까지 역대 최대였죠"
+     ],
+     "say": "그때까지 역대 최대였죠."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "그런데 주가는",
+   "l": {
+    "label": "2018년 5월 23일",
+    "v": "약 9만 5천 원",
+    "tone": "ivory"
+   },
+   "r": {
+    "label": "2019년 1월 3일",
+    "v": "약 5만 7천 원",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그런데 주가는 그해 5월 약 9만 5천 원에서",
+      "이듬해 1월 초 약 5만 7천 원까지 내려왔어요"
+     ],
+     "say": "그런데 주가는 그해 5월 약 9만 5천 원에서, 이듬해 1월 초 약 5만 7천 원까지 내려왔어요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "이익이 꺾였다는 발표보다",
+   "l2": "주가가 8개월 먼저",
+   "tone": "gold",
+   "note": "발표: 2019년 1월 24일",
+   "lines": [
+    {
+     "cap": [
+      "이익이 꺾였다는 발표는 2019년 1월 24일에야 나왔어요",
+      "주가가 8개월 가까이 먼저 움직인 거죠"
+     ],
+     "say": "이익이 꺾였다는 발표는, 2019년 1월 24일에야 나왔어요. 주가가 8개월 가까이 먼저 움직인 거죠."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "umbrella_18208_a.jpg",
+   "title": "우산은 비 오기 전에 팔린다",
+   "chip": {
+    "v": "주가도 먼저 움직인다",
+    "line": 0,
+    "frac": 0.4
+   },
+   "lines": [
+    {
+     "cap": [
+      "우산이 비 오기 전에 팔리듯",
+      "주가도 이익이 줄기 전에 먼저 움직였어요"
+     ],
+     "say": "우산이 비 오기 전에 팔리듯, 주가도 이익이 줄기 전에 먼저 움직였어요."
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "title": "메모리 회사의 이익",
+   "a": {
+    "label": "판 양 × 값",
+    "v": "매출"
+   },
+   "op": "−",
+   "b": {
+    "label": "공장·장비 비용",
+    "v": "그대로"
+   },
+   "lines": [
+    {
+     "cap": [
+      "왜 그랬을까요? 메모리 회사 이익은 메모리 값에 크게 기대요",
+      "메모리 값이 내려도 공장·장비 비용은 그대로 나가거든요"
+     ],
+     "say": "왜 그랬을까요? 메모리 회사 이익은 메모리 값에 크게 기대요. 메모리 값이 내려도, 공장과 장비 비용은 그대로 나가거든요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "값이 꺾인 2023년 1분기",
+   "l2": "100원 팔아 67원 손실",
+   "tone": "loss",
+   "lines": [
+    {
+     "cap": [
+      "그래서 메모리 값이 꺾인 2023년 1분기엔",
+      "100원 팔아 67원을 잃었어요"
+     ],
+     "say": "그래서 메모리 값이 꺾인 2023년 1분기엔, 100원 팔아 67원을 잃었어요."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "지금 SK하이닉스",
+   "l": {
+    "label": "3분기 이익률",
+    "v": "80%",
+    "sub": "2분기 76%보다 올라",
+    "tone": "good"
+   },
+   "r": {
+    "label": "6월 고점 대비 주가",
+    "v": "-46%",
+    "sub": "10월 28일 종가",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "지금은요? 올해 3분기엔",
+      "100원 팔아 80원을 남겼어요"
+     ],
+     "say": "지금은요? 올해 3분기엔, 100원 팔아 80원을 남겼어요."
+    },
+    {
+     "cap": [
+      "그런데 주가는 10월 28일 종가로",
+      "6월 고점보다 아직 46% 아래예요"
+     ],
+     "say": "그런데 주가는 10월 28일 종가로, 6월 고점보다 아직 46% 아래예요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "먼저 볼 숫자",
+   "l2": "매달 말 D램 계약 가격",
+   "tone": "gold",
+   "note": "오르는 폭이 10% 아래로 줄어드는지",
+   "lines": [
+    {
+     "cap": [
+      "시장이 메모리 값이 꺾일 걱정을",
+      "먼저 가격에 넣었을 수 있어요"
+     ],
+     "say": "시장이 메모리 값이 꺾일 걱정을, 먼저 가격에 넣었을 수 있어요."
+    },
+    {
+     "cap": [
+      "그래서 볼 숫자는 회사끼리 거래하는 D램 값, 계약 가격",
+      "매달 말 오르는 폭이 10% 아래로 줄어드는지예요"
+     ],
+     "say": "그래서 볼 숫자는 회사끼리 거래하는 디램 값, 계약 가격이에요. 매달 말 오르는 폭이 10% 아래로 줄어드는지 보세요."
+    },
+    {
+     "cap": [
+      "우산 장수는",
+      "하늘보다 일기예보를 먼저 보거든요"
+     ],
+     "say": "우산 장수는, 하늘보다 일기예보를 먼저 보거든요."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "더 많은 정보를 원하시면",
+   "l2": "좋아요와 구독",
+   "lines": [
+    {
+     "cap": [
+      "더 많은 정보를 원하시면 좋아요와 구독",
+      "풀버전 ▶ 화면 아래 관련 영상"
+     ],
+     "say": "더 많은 정보를 원하시면, 좋아요와 구독 눌러 주세요.",
+     "pause": 1.6
+    }
+   ]
+  }
+ ],
+ "caption": "2018년 3분기 SK하이닉스는 100원어치를 팔아 57원을 남겼습니다. 그때까지 역대 최대 이익률이었지만, 주가는 그해 5월 23일 약 9만 5천 원에서 2019년 1월 3일 약 5만 7천 원으로 약 39% 내려와 있었습니다. 이익이 꺾였다는 발표는 그 뒤인 2019년 1월 24일에 나왔습니다.\n\n메모리 회사 이익은 값에 크게 기댑니다. 값이 내려도 공장·장비 비용은 그대로라, 값이 꺾인 2023년 1분기에는 100원 팔아 67원을 잃었습니다. 올해 3분기 이익률은 약 80%로 2분기(76%)보다 올랐지만, 주가는 10월 28일 종가 기준 6월 22일보다 46% 낮습니다. 매달 말 나오는 D램 계약 가격의 오름폭이 줄어드는지가 먼저 볼 숫자입니다.\n\n자료: SK하이닉스 실적 발표·주가(한국거래소). 100조 원 주주환원과 장기 계약 이야기는 풀영상에 정리했습니다.\n\n사진: Mixkit · 매수·매도 권유가 아닙니다.",
+ "subs_en": [
+  "In its record-profit year, SK hynix stock fell about 39%.",
+  "Like and subscribe for more. Full video: related video below",
+  "Like and subscribe for more. Full video: related video below",
+  "Like and subscribe for more. Full video: related video below",
+  "Yet the stock went from the 95,000s that May to the 57,000s by early January.",
+  "The profit-drop report came only on Jan 24, 2019. The stock moved almost 8 months ahead.",
+  "Like and subscribe for more. Full video: related video below",
+  "Like and subscribe for more. Full video: related video below",
+  "Like and subscribe for more. Full video: related video below",
+  "Like and subscribe for more. Full video: related video below",
+  "Like and subscribe for more. Full video: related video below",
+  "Like and subscribe for more. Full video: related video below",
+  "Watch the DRAM contract price between companies: does the monthly rise fall below 10%?",
+  "Umbrella sellers watch the forecast before the sky.",
+  "Like and subscribe for more. Full video: related video below"
+ ],
+ "review": {
+  "round1": 6.4,
+  "round2": 7.25,
+  "note": "첫 시청자 검수 2회 · 날짜 줄이기, 메모리 값 명시, 계약 가격 풀이 · 검수 미달(평균 7.25)"
+ }
+}
