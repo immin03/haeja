@@ -50,7 +50,7 @@ const blockHtml = (b) => {
   if (b.quote) return `<blockquote><p>"${esc(b.quote)}"</p>${b.src ? `<p>— ${esc(b.src)}</p>` : ''}</blockquote>`;
   if (b.link) return `<p><a href="${esc(b.link)}">${esc(b.text || b.link)}</a></p>`;
   if (b.note) return `<p><span style="color:#888888;font-size:13px">${esc(b.note)}</span></p>`;
-  if (b.summary) return `<blockquote><p><b>3줄 요약</b></p>${b.summary.map((x) => `<p>· ${inline(x)}</p>`).join('')}</blockquote>`;
+  if (b.summary) return `<blockquote><p><b>${b.summary.length > 1 ? "3줄 요약" : "요약"}</b></p>${b.summary.map((x) => `<p>· ${inline(x)}</p>`).join('')}</blockquote>`;
   if (b.table) return `<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr>${b.table.head.map((x) => `<th style="background:#F3EEE3">${esc(x)}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((x) => `<td>${inline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
   if (b.video) return `<div data-skip="1" style="border:2px dashed #C9AF7A;background:#FBF5EA;border-radius:10px;padding:12px 14px;margin:4px 0;font-size:14px;color:#7A6947"><b>▶ 여기에 동영상 올리기</b> · ${esc(b.video)} — 아래 '영상' 칸에서 받아, 네이버 편집기 위 [동영상] 버튼으로 이 자리에 넣으세요.${b.cap ? `<br>영상 설명(영상 아래에 붙여 넣기): ${esc(b.cap)}` : ''}</div>`;
   if (b.sources) return `<p><b>참고한 자료</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
@@ -63,7 +63,7 @@ const body = post.blocks.map((b, i) => {
   const gap = b.h ? BLANK + BLANK : prev.h ? '' : BLANK;
   return gap + '\n' + html;
 }).join('\n');
-const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.alt || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? '3줄 요약\n' + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.video ? '' : b.note || '').filter((x, i, a) => x !== '' || !a[i - 1]).join('\n\n');
+const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.alt || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? (b.summary.length > 1 ? '3줄 요약\n' : '요약\n') + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.video ? '' : b.note || '').filter((x, i, a) => x !== '' || !a[i - 1]).join('\n\n');
 const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
 const imgs = post.blocks.filter((b) => b.img).map((b) => b.img);
 const vids = post.blocks.filter((b) => b.video).map((b) => b.video);
