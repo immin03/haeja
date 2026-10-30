@@ -2452,7 +2452,7 @@ const BR_H_ALL = [8,10,12,14,16,18,20,22]; /* 브리핑 작업: 8~22시 2시간�
 function brReqs(){
   const L = [], since = Date.now() - 3 * 864e5, recent = iso => iso && Date.parse(iso) > since;
   const OWN = /owner|chat|brief|대표|운영자/, hide = new Set((((BR.inbox || {}).data || {}).hidden) || []);
-  const brief = brNext(BR_H_ALL, 17), up = brNext([7, 10, 12, 17, 20], 10), queue = brNext([9, 14, 20], 47);
+  const brief = brNext(BR_H_ALL, 17), up = brNext([7, 10, 12, 17, 20], 10), queue = brNext([9, 20], 47);
   (YT.list || []).forEach(y => {
     const ev = (y.events || []).filter(e => recent(e.at)), mine = ev.filter(e => OWN.test(String(e.by || '')) || /대표/.test(String(e.what || '')));
     const asked = y.status === 'changes' || mine.length || /대표 (지시|반려|수정)|대표님 지적/.test(String(y.note || ''));
