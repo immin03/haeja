@@ -1,0 +1,27 @@
+# 블로그 벤치마킹: 네이버 블로그(메르 등) 최근 글 본문 받기 → scripts/blog/bench/<blogId>/
+name: bench-blog
+on:
+  workflow_dispatch:
+    inputs:
+      blog:
+        description: 네이버 블로그 아이디(쉼표로 여러 개)
+        default: ranto28
+      max:
+        description: 블로그당 최대 글 수
+        default: "30"
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          for b in $(echo "${{ inputs.blog }}" | tr ',' ' '); do python3 scripts/blog/bench/fetch_naver.py "$b" "${{ inputs.max }}"; done
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          git add scripts/blog/bench
+          git diff --cached --quiet || git commit -m "블로그 벤치마킹: 네이버 글 받기 (${{ inputs.blog }})"
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
