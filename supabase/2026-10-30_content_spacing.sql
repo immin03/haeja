@@ -151,3 +151,10 @@ end $$;
 drop trigger if exists ig_reslot_after on public.social_posts;
 create trigger ig_reslot_after after insert or update of scheduled_at, paused, ig_status on public.social_posts
   for each statement execute function public.ig_reslot_trg();
+
+-- ③ 2026-10-30 12:05 대표님: "수정 요청 올렸는데 기획안이 다시 떴고, 수정 요청이 어떻게 되고 있는지 안 나와"
+-- 원인: yt_import 가 새 렌더를 들일 때 status 를 무조건 'review' 로 바꿔, 대표 수정 요청(changes)이 지워졌다.
+-- 고침: changes 인 편은 새 렌더가 들어와도 changes 유지(고친 작업이 확인 뒤 approved), events 는 덮지 않고 이어 붙인다.
+-- (적용한 함수 본문은 DB의 public.yt_import 와 같다 — 위 2026-10-29_yt_short_slots.sql 의 yt_import 에서 status·events 두 줄만 바뀜)
+--   events = coalesce(youtube_posts.events,'[]') || [{by:'import', what:'새 렌더 들어옴 MM-DD HH:MI'}]
+--   status = case when youtube_posts.status = 'changes' then 'changes' else 'review' end

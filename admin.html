@@ -2597,7 +2597,8 @@ function brReqOut(r){
     : long.status === 'review' ? ['run', `롱폼 완성 · 자동 진행 대기 (${when} 예정)`]
     : long.status === 'changes' ? ['run', `롱폼 ${brFixStage(long)} (대표님 수정 요청)`]
     : long.status === 'hold' ? ['bad', '롱폼 보류'] : ['run', long.status];
-  return { st, at: long.updated_at, detail: `롱폼 '${String(long.title || '').slice(0, 40)}'${sh}${rl}`,
+  const ask = long.status === 'changes' ? String(long.note || '').split(/\n · \[|· \[10\//)[0].trim().slice(0, 110) : '';
+  return { st, at: long.updated_at, detail: `롱폼 '${String(long.title || '').slice(0, 40)}'${sh}${rl}${ask ? `\n대표님 수정 요청: "${ask}${ask.length >= 110 ? '…' : ''}"` : ''}`,
     next: long.status === 'changes' ? '다음 단계: 수정본을 다시 만든 뒤 예정 시각에 올립니다. 진행은 이 줄에서 바로 바뀝니다.' : long.status === 'uploaded' ? '롱폼은 끝났습니다. 남은 쇼츠·릴스는 칸에 맞춰 순서대로 올라갑니다.' : `다음 단계: ${when}에 올라갑니다. 싫으면 유튜브 검수에서 반려하세요.` };
 }
 /* 내 요청 (2026-10-30 운영자): 처리 상태 + 항목별 다음 단계 안내 + '더 보지 않기' */
@@ -2605,7 +2606,9 @@ function brReqs(){
   const L = [], since = Date.now() - 3 * 864e5, recent = iso => iso && Date.parse(iso) > since;
   const OWN = /owner|chat|brief|대표|운영자/, hide = new Set((((BR.inbox || {}).data || {}).hidden) || []);
   const brief = brNext(BR_H_ALL, 17), up = brNext([7, 10, 12, 17, 20], 10), queue = brNext([9, 20], 47);
+  const linked = new Set((YT.reqs || []).map(r => { const o = r.plan_id && (YT.list || []).find(y => y.kind === 'long' && String(y.id).replace(/^L/, '') === String(r.plan_id).replace(/^P/, '')); return o ? o.id : null; }).filter(Boolean));
   (YT.list || []).forEach(y => {
+    if(linked.has(y.id)) return; /* 기획안 요청 줄에서 함께 보여 준다 */
     const ev = (y.events || []).filter(e => recent(e.at)), mine = ev.filter(e => OWN.test(String(e.by || '')) || /대표/.test(String(e.what || '')));
     const asked = y.status === 'changes' || mine.length || /대표 (지시|반려|수정)|대표님 지적/.test(String(y.note || ''));
     if(!asked) return;
@@ -2632,16 +2635,19 @@ function brReqs(){
     L.push({ key: 'req:' + r.id, at: r.done_at || r.started_at || r.at, what: r.kind === 'revise' ? '기획안 수정 요청' : '기획안 요청', req: r.note || '', st, detail: r.result || '', next, link: r.status === 'done' ? '#youtube/plan' : '' });
   });
   ((((BR.inbox || {}).data || {}).items) || []).filter(f => recent(f.at)).forEach(f => {
-    const done = f.status === 'done';
-    L.push({ key: 'fb:' + f.id, at: f.replied_at || f.at, what: f.kind === 'revert' ? '되돌리기' : f.kind === 'reject_long' ? '롱폼 반려' : '피드백', req: f.text, st: done ? ['ok', '반영됨'] : ['wait', '접수 · 처리 대기'], detail: f.reply || '',
-      next: done ? '끝났습니다. 다르게 반영됐으면 피드백으로 다시 알려 주세요.' : `다음 단계: ${brief}에 브리핑 작업이 반영하고 결과를 여기에 적습니다.` });
+    /* 2026-10-30 운영자: "너를 통해 반영이 다 됐는데 12:17에 반영한다고 적혀 있어" → 처리된 건 바로 바뀌고, 대표님 차례인 건 그렇게 보인다 */
+    const done = f.status === 'done', working = f.status === 'working', mineTurn = working && /대표님(이|께서)?[^.]{0,30}(눌러|해 주셔야|직접)/.test(String(f.reply || ''));
+    L.push({ key: 'fb:' + f.id, at: f.replied_at || f.at, what: f.kind === 'revert' ? '되돌리기' : f.kind === 'reject_long' ? '롱폼 반려' : '피드백', req: f.text,
+      st: done ? ['ok', '반영됨'] : mineTurn ? ['wait', '대표님 차례'] : working ? ['run', '진행 중'] : ['wait', '접수 · 처리 대기'], detail: f.reply || '',
+      next: done ? '끝났습니다. 다르게 반영됐으면 피드백으로 다시 알려 주세요.' : mineTurn ? '다음 단계: 위에 적힌 것만 대표님이 해 주시면 끝납니다. 하신 뒤 [완료했어요]를 눌러 주세요.' : working ? '다음 단계: 진행 중입니다. 끝나면 이 줄이 바로 반영됨으로 바뀝니다.' : `다음 단계: ${brief}에 브리핑 작업이 반영하고 결과를 여기에 적습니다.`,
+      done_btn: mineTurn ? f.id : '' });
   });
   return L.filter(r => !hide.has(r.key)).sort((a, b) => String(b.at || '').localeCompare(String(a.at || ''))).slice(0, 10);
 }
 function vReqs(){
   const L = brReqs(), nh = ((((BR.inbox || {}).data || {}).hidden) || []).length;
   if(!L.length) return '<div class="m">지금 진행 중인 요청이 없습니다.</div>';
-  return L.map(r => `<div class="br-row"><i class="br-dot ${({ ok: 'good', wait: 'warn', run: 'info', bad: 'bad' })[r.st[0]]}"></i><div class="t"><b>${esc(r.what)}</b><div class="br-rh"><span class="br-st ${r.st[0]}">${esc(r.st[1])}</span></div><div class="br-q">“${esc(String(r.req).slice(0, 120))}”</div>${r.detail ? `<div class="m">${esc(String(r.detail).slice(0, 140))}</div>` : ''}${r.next ? `<div class="br-next">→ ${esc(r.next)}</div>` : ''}<div class="br-acts">${r.link ? `<a class="br-b ghost" href="${r.link}">열기</a>` : ''}<button class="br-b ghost" data-br-hide="${esc(r.key)}">더 보지 않기</button></div></div></div>`).join('')
+  return L.map(r => `<div class="br-row"><i class="br-dot ${({ ok: 'good', wait: 'warn', run: 'info', bad: 'bad' })[r.st[0]]}"></i><div class="t"><b>${esc(r.what)}</b><div class="br-rh"><span class="br-st ${r.st[0]}">${esc(r.st[1])}</span></div><div class="br-q">“${esc(String(r.req).slice(0, 120))}”</div>${r.detail ? `<div class="m">${esc(String(r.detail).slice(0, 260)).replace(/\n/g, '<br>')}</div>` : ''}${r.next ? `<div class="br-next">→ ${esc(r.next)}</div>` : ''}<div class="br-acts">${r.done_btn ? `<button class="br-b" data-br-fbdone="${esc(r.done_btn)}">완료했어요</button>` : ''}${r.link ? `<a class="br-b ghost" href="${r.link}">열기</a>` : ''}<button class="br-b ghost" data-br-hide="${esc(r.key)}">더 보지 않기</button></div></div></div>`).join('')
     + (nh ? `<div class="br-foot"><span class="m">숨긴 요청 ${nh}건</span><button class="br-b ghost" data-br-unhide>다시 보기</button></div>` : '');
 }
 async function brHide(keys, reset){
@@ -2724,6 +2730,10 @@ async function brRead(ids){
 }
 function bindBrief(){
   const box = $('#main');
+  box.querySelectorAll('[data-br-fbdone]').forEach(b => b.onclick = async () => { b.disabled = true;
+    const cur = BR.inbox && BR.inbox.data ? BR.inbox.data : { items: [] }, data = { ...cur, items: (cur.items || []).map(x => x.id === b.dataset.brFbdone ? { ...x, status: 'done', replied_at: new Date().toISOString(), reply: (x.reply || '') + ' → 대표님 완료' } : x) };
+    const { error } = await sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', 'brief-inbox');
+    if(error){ toast('바꾸지 못했습니다: ' + error.message, true); b.disabled = false; return; } BR.inbox = { ...BR.inbox, data }; toast('끝났습니다.'); render(); });
   box.querySelectorAll('[data-td-act]').forEach(b => b.onclick = () => brTodoAct(b.closest('[data-td]'), b.dataset.tdAct, b));
   box.querySelectorAll('[data-br-hide]').forEach(b => b.onclick = () => { b.disabled = true; brHide([b.dataset.brHide]); });
   { const u = box.querySelector('[data-br-unhide]'); if(u) u.onclick = () => brHide([], true); }
