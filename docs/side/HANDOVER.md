@@ -233,6 +233,7 @@ The magpie is exactly the character in the magpie reference image: a small round
 ```
 Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.
 ```
+- **`scripts/side/gen_next/` 작업 파일은 믿지 말고 제작 때 `sc_plans.spec.shots` 의 img_prompt·action 으로 다시 만든다** (2026-10-30 핼러윈 편 제작 중 발견: 10/29 이전 파일 4쌍 — 핼러윈·손수건·우산 강아지·홍시 — 에 옛 STYLE "Pixar" 와 "happy tears"·"eyes fill with tears" 가 그대로 남아 있었음. 촬영표가 정본)
 - 같은 인물·장소·소품이 다시 나오는 컷은 **앞 컷 이미지를 ref 로 함께** 넣는다(얼굴·옷·상자 일관성)
 - 까치가 안 나와야 하는 컷에는 까치 ref 를 넣지 않는다(넣으면 마이크 든 큰 까치가 끼어든다 — 까치밥 1컷 실수)
 - 감정 정점 컷의 표정 문구 예: "he goes still, lips pressed together, then a slow, quiet smile", "she pauses for a moment, then smiles softly", "her eyes gently closed with a quiet, relieved smile", "he lets out a small breath and nods"

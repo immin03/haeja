@@ -1,0 +1,27 @@
+[
+ {
+  "id": "hw22_alone",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/hw2_alone"
+  ],
+  "body": {
+   "prompt": "Keep everything in the reference image exactly the same: the grandma, her pose, her face and clothes, the basket of roasted chestnuts on her lap, the stone step, the wooden gate, the framed crayon drawing on the wall, the magpie on the roof, the night lighting and the miniature clay diorama style. Only change: remove both carved pumpkin lanterns hanging at her gate, so her own gate is plain and dim with no pumpkin and no lantern at all; the only glow on her gate is faint moonlight. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "hw32_lead",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/hw3_lead",
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "Keep the same narrow Halloween-night alley from the reference image: the warm streetlamps, the orange carved pumpkin lanterns with cute smiling faces at the side gates, the dirt path, the hanok gate at the far end, the lighting and the miniature clay diorama style. Only change the two characters and their scale: a seven-year-old child in a ghost costume walks on the ground toward the camera down the middle of the path, the white bedsheet covering the whole body down to the ankles with two round eye holes, small brown shoes visible under the hem, a small orange pumpkin basket handle hanging out from under the sheet; the child's face, hair and hands are completely hidden. The child fills about half the height of the frame. Kachi is small, about the size of the child's head, flying beside the child's shoulder and holding one corner of the white sheet in its beak, gently leading the child toward the hanok gate. The magpie keeps its exact design from the magpie reference: glossy black head, cream-white face and belly, big dark-brown eyes, navy-blue wings, red knotted neckerchief, small brown leather satchel; it does NOT hold a microphone. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]
