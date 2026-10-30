@@ -96,32 +96,23 @@ for (const dir of dirs) {
   const orig = imgs.filter((b) => ['chart', 'app', 'data'].includes(b.kind));
   const K = (k) => imgs.filter((b) => b.kind === k);
   if (imgs.some((b) => !b.kind)) E.push(`kind 가 없는 사진: ${imgs.filter((b) => !b.kind).map((b) => b.img).join(', ')}`);
-  if (orig.length < 2) E.push(`원본 데이터 사진(chart·app·data) ${orig.length}장 — 2장 이상 필요`);
-  if (!imgs.some((b) => b.kind === 'chart' || b.kind === 'app')) E.push('실제 데이터 그래프(chart) 또는 앱 화면(app)이 한 장도 없습니다');
-  // 실사 사진·영상 (2026-10-19 결정: 카드 디자인이 많을수록 AI 글처럼 보인다)
+  // 2026-10-30 STYLE.md 6절: 표지 1장 필수, 그 밖의 이미지는 0~2장(핵심 숫자가 '흐름'일 때 그래프 1장). 실사·GIF·카드는 기본 0장.
   const cover = p.blocks[0];
   if (!cover?.img || cover.kind !== 'cover') E.push('첫 블록이 표지 사진(kind cover)이 아닙니다');
   else if (!cover.src) E.push('표지가 실사 사진 표지(kit photocover)가 아닙니다 — 표지에 쓴 사진의 src 를 다세요');
-  // 2026-10-29: 본문과 상관없는 무료 사진은 오히려 감점 요인 — 실사 사진은 장면이 맞을 때 1~2장, 나머지는 직접 그린 그래프·표
-  if (K('photo').length < 1) E.push(`실사 사진(photo) ${K('photo').length}장 — 1장 이상 필요 (scripts/blog/media/lib)`);
-  if (K('photo').length > 3) W.push(`실사 사진(photo) ${K('photo').length}장 — 본문 장면과 딱 맞는 1~2장만 (무관한 무료 사진은 감점 요인)`);
-  if (K('card').length > 1) E.push(`글자 카드(card) ${K('card').length}장 — 1장까지 (나머지는 실사 사진·그래프·앱 화면으로)`);
-  if (K('data').length > 2) W.push(`점수·계산 카드(data) ${K('data').length}장 — 2장까지 권장`);
+  const extra = imgs.filter((b) => b.kind !== 'cover');
+  if (extra.length > 2) W.push(`표지 외 이미지 ${extra.length}장 — 꼭 필요한 것만 0~2장 (STYLE.md 6절)`);
+  if (K('card').length > 1) E.push(`글자 카드(card) ${K('card').length}장 — 1장까지`);
   const media = [...imgs.filter((b) => b.kind === 'photo' || b.kind === 'gif'), ...p.blocks.filter((b) => b.video)];
   if (media.some((b) => !b.src)) E.push(`출처(src)가 없는 실사 사진·영상: ${media.filter((b) => !b.src).map((b) => b.img || b.video).join(', ')}`);
-  if (p.blocks.some((b) => b.video)) E.push('영상(video) 블록 대신 GIF(kind gif)를 씁니다 — bash scripts/blog/to_gif.sh <mp4> naver/<id>/g1.gif');
-  if (!K('gif').length) W.push('움직이는 사진(gif)이 없습니다 — 짧은 실사 GIF 1개를 권장합니다');
+  if (p.blocks.some((b) => b.video)) E.push('영상(video) 블록은 쓰지 않습니다');
   const coNames = Object.values(vnData().c || {}).map((r) => r && r[0]).filter((n) => n && n.length >= 2);
-  for (const b of media) { const hit = coNames.find((n) => strip(b.cap || b.alt || '').includes(n)); if (hit) E.push(`실사 사진·영상 설명(alt)에 회사 이름("${hit}")이 있습니다 — 무료 소재는 그 회사가 아니므로 "자동차 조립 라인"처럼 일반 설명으로`); }
-  for (let i = 1; i < p.blocks.length; i++) { const a = p.blocks[i - 1], b = p.blocks[i]; if (a.img && b.img && !a.href && !b.href && !['photo', 'gif'].includes(a.kind) && !['photo', 'gif'].includes(b.kind) && i > 1) W.push(`디자인 사진 두 장이 붙어 있습니다: ${a.img}, ${b.img}`); }
-  const stills = imgs.filter((b) => b.kind !== 'gif').length;
-  if (stills < 4 || stills > 8) W.push(`사진 ${stills}장 (GIF 빼고 4~7장, 2026-10-29: 실사 1~2장 + 직접 그린 그래프·카드)`);
+  for (const b of media) { const hit = coNames.find((n) => strip(b.cap || b.alt || '').includes(n)); if (hit) E.push(`실사 사진·영상 설명(alt)에 회사 이름("${hit}")이 있습니다 — 무료 소재는 그 회사가 아니므로 일반 설명으로`); }
   // 사진 설명 (2026-10-19 결정): 사진 밑 설명 문장은 AI 같아 보인다. 실사 사진·영상·표지는 설명 없음, 데이터 이미지는 짧은 명사로
   for (const b of p.blocks.filter((x) => (x.img || x.video) && !x.href)) {
     if (b.cap && (b.video || ['photo', 'gif', 'cover'].includes(b.kind))) E.push(`${b.img || b.video}: 실사 사진·GIF·표지에는 설명(cap)을 달지 않습니다 (alt 만)`);
     else if (b.cap && (/[다요]\.?$|[.:?!]/.test(b.cap.trim()) || b.cap.length > 30)) E.push(`${b.img}: 설명은 30자 이내의 명사로 끝냅니다 — "${b.cap}"`);
   }
-  if (imgs.length && imgs.every((b) => b.kind === imgs[0].kind)) W.push('사진 종류가 한 가지뿐입니다');
   // 정답 먼저: 소제목 바로 아래 블록은 문단, 첫 문장은 70자 이내로 그 단락의 답을 말한다
   const leads = [];
   p.blocks.forEach((b, i) => {
@@ -151,6 +142,20 @@ for (const dir of dirs) {
   for (const w of BANNED) if (T.includes(w)) E.push(`쓰지 않는 말: "${w.trim()}"`);
   const slop = SLOP.filter((w) => T.includes(w));
   if (slop.length) W.push(`AI 상투어: ${slop.join(', ')}`);
+  // v2 문체 (2026-10-30 STYLE.md 4·9절): 의인화 금지, "~셈입니다" 금지, ~요체 2번까지, 대명사·접속사 머리 문장 줄이기
+  {
+    const paras = p.blocks.filter((b) => b.p && !SIG.test(b.p)).map((b) => b.p);
+    const sents = paras.flatMap((t) => t.split(/(?<=[.?!])\s+/)).map((x) => x.trim()).filter(Boolean);
+    const person = ['가게', '손님', '장바구니', '영수증', '가계부', '월급쟁이', '단골', '식당 주인', '사장님 입장'];
+    const hitP = person.filter((w) => paras.some((t) => new RegExp('(^|[\\s"\'(])' + w).test(t)));
+    if (hitP.length) E.push(`v2 문체: 회사·투자를 의인화하는 말(${hitP.join(', ')}) — 회사·기관 이름으로 바꾸세요 (STYLE.md 4-2)`);
+    const shem = sents.filter((x) => /(셈입니다|셈이죠|셈이에요|얘기입니다|얘기예요|뜻이에요|뜻이죠|이야기입니다)\.?$/.test(x));
+    if (shem.length) E.push(`v2 문체: 사실을 다시 풀어 끝내는 문장 ${shem.length}개 ("${shem[0].slice(-25)}") — 사실 문장으로 끝내세요 (STYLE.md 4-3)`);
+    const yo = sents.filter((x) => /(죠|거든요|잖아요|어요|에요|고요|네요)[.?!]?$/.test(x));
+    if (yo.length > 2) W.push(`v2 문체: ~요체 문장 ${yo.length}개 — 글당 2개까지, 나머지는 ~합니다 (STYLE.md 4-4)`);
+    const pron = sents.filter((x) => /^(이|그|이것|이런|그런|그래서|하지만|그런데|또한|한편|즉)[ ,은는이가을를도]/.test(x));
+    if (pron.length >= 5) W.push(`v2 문체: 대명사·접속사로 시작하는 문장 ${pron.length}개 — 주어를 이름으로 (STYLE.md 4-1)`);
+  }
   // AI 문체 (2026-10-26 운영자 결정, CONTENT.md 6절): ✗ 는 고친 뒤 출고, ! 는 읽고 판단
   for (const x of scanKo(textFromFile(dir))) (x.lv === 'err' ? E : W).push(`AI 문체 ${x.id} ${x.c}회 (${x.ex.join(' / ')}) → ${x.fix}`);
   // 필명·고지·출처 목록
