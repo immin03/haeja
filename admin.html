@@ -2339,16 +2339,17 @@ function brRange(){
 const brIn = (iso, r) => { if(!iso) return false; const d = kstDate(iso); return d >= r.from && d <= r.to; };
 async function briefLoad(){
   const r = brRange();
-  const [doc, inbox, al, tc, td, gp, pm] = await Promise.all([
+  const [doc, inbox, al, tc, td, gp, ch, pm] = await Promise.all([
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', r.id).maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', 'brief-inbox').maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'alerts').order('updated_at', { ascending: false }).limit(60),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'task-changes').maybeSingle(),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'owner-todo').maybeSingle(),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'growth-plan').maybeSingle(),
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'yt-channel').maybeSingle(),
     sb.from('docs').select('id,data->monetize').eq('collection', 'agent').like('id', 'perf-20%').order('id', { ascending: false }).limit(1)]);
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = al.data || [];
-  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; BR.growth = (gp.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
+  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
 }
 /* 2026-10-30 운영자: "내 개인계정의 soxl 개장브리핑 등 내용은 여기 안 떠도 돼, 이건 관리자 페이지잖아", "이미 처리됐는데 여전히 떠있는 건 없애고"
    → 대표님 개인 투자 알림(앱 사용자 알림)은 관리자 알림에서 뺀다(앱 알림함에는 그대로 남는다).
@@ -2408,7 +2409,7 @@ function brFixStage(x){
    숫자는 성과 진단(perf-*)의 monetize 가 있으면 그것, 없으면 관리자가 가진 최근 30일 기록 합(스튜디오·공개 조회수)으로 계산한다. */
 function vGoal(kp){
   const gp = BR.growth || {}, mon = BR.mon || null, after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00');
-  const subsK = kp.find(k => /구독자/.test(k.label)); const subs = mon && mon.subs != null ? +mon.subs : subsK ? +String(subsK.value).replace(/[^\d]/g, '') : null;
+  const subsK = kp.find(k => /구독자/.test(k.label)); const chan = BR.chan || {}; const subs = chan.subs != null && (!mon || !mon.at || Date.parse(chan.at) >= Date.parse(mon.at)) ? +chan.subs : mon && mon.subs != null ? +mon.subs : subsK ? +String(subsK.value).replace(/[^\d]/g, '') : null;
   const L = YT.list || [], vOf = y => { const st = y.stats || {}; return st.public && st.public.views != null ? +st.public.views : st.studio && st.studio.views != null ? +st.studio.views : 0; };
   const shorts = mon && mon.shorts_90d != null ? +mon.shorts_90d : L.filter(y => y.kind === 'short' && y.status === 'uploaded' && Date.parse(y.scheduled_at) > Date.now() - 90 * 864e5).reduce((a, y) => a + vOf(y), 0);
   const hours = mon && mon.watch_h_12m != null ? +mon.watch_h_12m : Math.round(L.filter(y => y.kind === 'long' && y.status === 'uploaded').reduce((a, y) => a + (+((y.stats || {}).studio || {}).watch_hours || 0), 0) * 10) / 10;
@@ -2421,8 +2422,8 @@ function vGoal(kp){
   return `<div class="card br-goal">
     <div class="gl-top"><div><div class="gl-k">목표</div><b>유튜브 수익 창출(광고 수익) 조건 달성</b></div><span class="br-st wait">1단계</span></div>
     <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${n0(H)}시간 <b>또는</b> 쇼츠 조회 ${n0(S)}회)${after ? '' : ' · 2027-02-01부터는 8,000시간 또는 2,000만 회'}</div>
-    ${bar('구독자', subs, 1000, '명', '꼭 넘어야 하는 조건')}
-    ${bar('롱폼 시청시간 (최근 1년)', hours, H, '시간', best === 'h' ? '두 길 중 지금 더 가까운 쪽' : '')}
+    ${bar('구독자', subs, 1000, '명', `꼭 넘어야 하는 조건${chan.subs_28d_gain != null ? ` · 최근 28일 +${n0(chan.subs_28d_gain)}명` : ''}${chan.at ? ` · 스튜디오 ${kst(chan.at)}` : ''}`)}
+    ${bar('롱폼 시청시간 (최근 1년)', hours, H, '시간', [best === 'h' ? '두 길 중 지금 더 가까운 쪽' : '', chan.watch_h_28d_all != null ? `참고: 채널 전체 시청 최근 28일 ${n0(chan.watch_h_28d_all)}시간(쇼츠 포함 — 조건에는 롱폼만 셉니다)` : ''].filter(Boolean).join(' · '))}
     ${bar('쇼츠 조회 (최근 90일)', shorts, S, '회', best === 's' ? '두 길 중 지금 더 가까운 쪽' : '')}
     <div class="gl-foot">${eta ? esc(eta) + ' · ' : ''}${mon ? '성과 진단 ' + esc(String(mon.at || '').slice(0, 10)) + ' 기준' : '관리자에 들어온 최근 30일 기록 기준이라 실제보다 조금 적을 수 있습니다'}</div>
   </div>`;
