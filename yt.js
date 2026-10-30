@@ -15,7 +15,7 @@
   var SUB_URL = CH_URL + '?sub_confirmation=1';
 
   var css = ''
-  + '.vnyt{--yn:#0A1730;--yn2:#13305A;--yg:#EADBB9;--yg2:#C9AF7A;--yi:#F7F2E8;font-family:"SUIT Variable","SUIT","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;margin:22px 0;text-align:left}'
+  + '@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}.vnyt{--yn:#0A1730;--yn2:#13305A;--yg:#EADBB9;--yg2:#C9AF7A;--yi:#F7F2E8;font-family:"VN Arrow","SUIT Variable","SUIT","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;margin:22px 0;text-align:left}'
   + '.vnyt *{box-sizing:border-box}'
   + '.vnyt-card{background:linear-gradient(165deg,var(--yn2),var(--yn) 70%);border-radius:18px;overflow:hidden;color:var(--yi);box-shadow:0 10px 26px rgba(10,23,48,.16)}'
   + '.vnyt-top{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;font-size:12.5px;font-weight:800;color:var(--yg);letter-spacing:.02em}'
@@ -35,7 +35,7 @@
   + '.vnyt-btn.ghost{background:rgba(255,255,255,.08);border:1px solid rgba(234,219,185,.35);color:var(--yi)}'
   + '.vnyt-more{display:inline-block;margin-top:8px;font-size:13px;font-weight:800;color:var(--yg);text-decoration:none}'
   + '.vnyt[data-yt-compact]{margin:14px 0 0}.vnyt[data-yt-compact] .vnyt-card{box-shadow:none}'
-  + '.vnyt-ov{position:fixed;inset:0;z-index:2147483000;background:rgba(5,12,26,.86);display:flex;align-items:center;justify-content:center;padding:16px;font-family:"SUIT Variable","SUIT",-apple-system,sans-serif}'
+  + '.vnyt-ov{position:fixed;inset:0;z-index:2147483000;background:rgba(5,12,26,.86);display:flex;align-items:center;justify-content:center;padding:16px;font-family:"VN Arrow","SUIT Variable","SUIT",-apple-system,sans-serif}'
   + '.vnyt-ov-in{width:100%;max-width:880px;text-align:center}.vnyt-ov .vnyt-frame{border-radius:12px;overflow:hidden;cursor:default}'
   + '.vnyt-x{display:block;margin:0 0 8px auto;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#FFFFFF;font-size:24px;line-height:1;cursor:pointer}'
   + '.vnyt-ov .vnyt-more{margin-top:14px;color:#EADBB9}'

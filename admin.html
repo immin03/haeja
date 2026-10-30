@@ -7,12 +7,12 @@
 <title>ValueNote 관리자</title>
 <link rel="icon" type="image/png" href="/favicon-64.png?v=5">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
-<style>@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
+<style>@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
 /* 2026-10-23 확정 로고: Montserrat ExtraBold + 얇은 금색 줄 + 가운데 '밸류노트' */
 .wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;font-variation-settings:normal!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
 .wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #D8C294;white-space:nowrap}
 .wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#EADBB9;color:#EADBB9!important;padding-right:0!important}
-.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important;vertical-align:baseline!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important;vertical-align:baseline!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 .adm-tag{font-size:11px;letter-spacing:.14em;color:#CDB78A;margin-left:12px;align-self:center}
 /* 좌우 스와이프로 옆 메뉴 이동 (2026-10-27 운영자 요청) */
 @keyframes swInL{from{opacity:.25;transform:translateX(36px)}to{opacity:1;transform:none}}
@@ -31,7 +31,7 @@
   --tc1:#2a78d6; --tc2:#eb6834; --tc3:#1baf7a; --tc4:#eda100; --tc5:#e87ba4; --tc6:#008300;
   --navy-grad:radial-gradient(130% 160% at 50% -10%,#17283F 0%,#0E1A2B 45%,#0A1322 100%);
   --gold-grad:linear-gradient(90deg,#B49C6D 0%,#EADBB9 50%,#B49C6D 100%);
-  --font:"SUIT Variable","SUIT","Pretendard Variable",system-ui,-apple-system,sans-serif;
+  --font:"VN Arrow","SUIT Variable","SUIT","Pretendard Variable",system-ui,-apple-system,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --ink2:#C3C9D3; --muted:#8E97A7; --line:#212C3C;
@@ -555,6 +555,8 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-ch ul{margin:0 0 10px;padding-left:18px;font-size:13.5px;line-height:1.7}
 .br-ch1{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}.br-ch1 .n{font-weight:800}.br-ch1 .c{color:var(--ink2);text-align:right}
 .br-li{margin:0;padding-left:18px;font-size:15px;line-height:1.75}
+.br-ch li .br-st{font-size:11.5px;padding:2px 8px;margin-right:4px}.br-ch li.br-off{color:var(--muted)}.br-ch li.br-off .br-st.off{background:var(--bg);color:var(--muted)}.br-legend{font-size:12.5px;margin:0 0 12px}
+.br-todo{border-left:4px solid #E0A526}.br-todo-h{font-weight:800;font-size:15px;margin-bottom:6px}
 .br-fb{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);resize:vertical}
 .br-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-size:12.5px}
 .br-fbl{margin-top:12px}.br-fi{padding:9px 0;border-top:1px solid var(--line);font-size:14px}.br-fi .m{font-size:12px;margin-top:2px}
@@ -2342,9 +2344,35 @@ async function briefLoad(){
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = al.data || [];
   BR.tasks = ((tc.data || {}).data || {}).items || []; BR.loaded = true;
 }
-const brAlertOpen = a => (a.data || {}).read !== true;
+/* 2026-10-30 운영자: "내 개인계정의 soxl 개장브리핑 등 내용은 여기 안 떠도 돼, 이건 관리자 페이지잖아", "이미 처리됐는데 여전히 떠있는 건 없애고"
+   → 대표님 개인 투자 알림(앱 사용자 알림)은 관리자 알림에서 뺀다(앱 알림함에는 그대로 남는다).
+   → 롱폼 승인 요청처럼 이미 처리된 알림은 데이터로 확인해 자동으로 숨긴다. 3일 지난 일반 알림도 숨긴다. */
+const BR_PERSONAL = /개장 브리핑|장 마감|맞춤 알림|투자자 등급|종가 갱신|장부 판정|^칼럼$/;
+function brAlertDone(a){
+  const id = String(a.id || ''), d = a.data || {};
+  const m = id.match(/^ops-lr-(.+)$/); if(m){ const y = (YT.list || []).find(x => x.id === m[1]); if(!y || ['approved', 'uploaded'].includes(y.status)) return true; }
+  if(/^ops-test-/.test(id)) return true;
+  if(/^long-deadline-/.test(id)) return true;
+  if(/승인 1,3|전부 승인/.test(String(d.body || ''))) return true;
+  const age = Date.now() - Date.parse(d.at || a.updated_at || 0);
+  if(!['bad', 'urgent', 'error'].includes(d.level) && age > 3 * 864e5) return true;
+  return false;
+}
+const brAlertOpen = a => (a.data || {}).read !== true && !BR_PERSONAL.test(String((a.data || {}).source || '')) && !brAlertDone(a);
 const brAlertBig = a => ['bad', 'warn', 'urgent', 'error'].includes((a.data || {}).level);
 function brPending(){ return BR.alerts.filter(a => brAlertOpen(a) && brAlertBig(a)).length; }
+
+/* 쇼츠 조회 (지금 데이터): youtube_posts.stats.public(업로드 데스크·채팅이 스튜디오 목록에서 받아 둔 수치) → 없으면 stats.studio */
+function brShortViews(r, wk){
+  const from = wk ? Date.parse(r.from + 'T00:00:00+09:00') : Date.now() - 7 * 864e5, to = Date.now();
+  const L = (YT.list || []).filter(y => y.kind === 'short' && y.status === 'uploaded' && y.scheduled_at && Date.parse(y.scheduled_at) >= from && Date.parse(y.scheduled_at) <= to);
+  let views = 0, top = 0, n = 0, asof = 0;
+  L.forEach(y => { const st = y.stats || {}, p = st.public || {}, s = st.studio || {}; const v = p.views != null ? +p.views : s.views != null ? +s.views : null; if(v == null) return;
+    views += v; top = Math.max(top, v); n++; asof = Math.max(asof, Date.parse(p.at || s.at || 0) || 0); });
+  if(!n) return null;
+  const k = new Date(asof + 9 * 3600e3);
+  return { views, top, n, asof: asof ? `${k.getUTCMonth() + 1}/${k.getUTCDate()} ${String(k.getUTCHours()).padStart(2, '0')}:${String(k.getUTCMinutes()).padStart(2, '0')}` : '–' };
+}
 
 /* 채널별 올라간 것·올라갈 것 */
 function brContent(r){
@@ -2352,15 +2380,17 @@ function brContent(r){
   const yt = (YT.list || []).filter(y => brIn(y.scheduled_at || y.uploaded_at, r));
   const so = (OPS.posts || []).filter(p => brIn(p.scheduled_at, r) && p.ig_status !== 'deleted');
   const row = (name, list, isDone, isBad) => {
-    const done = list.filter(isDone), bad = list.filter(x => !isDone(x) && isBad(x)), wait = list.filter(x => !isDone(x) && !isBad(x));
-    return { name, done, bad, wait, all: list };
+    /* 2026-10-30 운영자: "문제라고 적혀 있는데 이게 무슨 말이지?" → '문제' 한 단어 대신 보류(내려 둔 것)·실패·지연으로 나눠 쓰고, 줄마다 상태를 붙인다 */
+    const done = list.filter(isDone), held = list.filter(x => !isDone(x) && isBad(x) === 'held'), bad = list.filter(x => !isDone(x) && isBad(x) && isBad(x) !== 'held'), wait = list.filter(x => !isDone(x) && !isBad(x));
+    return { name, done, bad, held, wait, all: list, st: x => isDone(x) ? ['ok', x.youtube_id || x.ig_status === 'posted' ? (Date.parse(x.scheduled_at) > Date.now() ? '스튜디오 예약' : '올라감') : '올라감'] : isBad(x) === 'held' ? ['m', '보류 · 안 올림'] : isBad(x) === 'late' ? ['bad', '지연 · 예정 시각 지남'] : isBad(x) ? ['bad', '실패'] : ['wait', '예정'] };
   };
-  const ytBad = y => ['hold', 'stale', 'changes'].includes(y.status) || (y.status !== 'uploaded' && y.scheduled_at < now);
+  const ytBad = y => ['hold', 'stale', 'changes'].includes(y.status) ? 'held' : (y.status !== 'uploaded' && y.scheduled_at < now) ? 'late' : false;
+  const igBad = p => p.ig_status === 'failed' ? 'fail' : p.paused ? 'held' : (p.ig_status !== 'posted' && p.scheduled_at < now) ? 'late' : false;
   return [
     row('유튜브 롱폼', yt.filter(y => y.kind === 'long'), y => y.status === 'uploaded', ytBad),
     row('유튜브 쇼츠', yt.filter(y => y.kind === 'short'), y => y.status === 'uploaded', ytBad),
-    row('인스타 릴스', so.filter(p => p.kind === 'reel'), p => p.ig_status === 'posted', p => p.ig_status === 'failed' || p.paused),
-    row('카드뉴스', so.filter(p => p.kind === 'carousel'), p => p.ig_status === 'posted', p => p.ig_status === 'failed' || p.paused),
+    row('인스타 릴스', so.filter(p => p.kind === 'reel'), p => p.ig_status === 'posted', igBad),
+    row('카드뉴스', so.filter(p => p.kind === 'carousel'), p => p.ig_status === 'posted', igBad),
   ];
 }
 /* 대표님이 볼 것: 꼭 필요한 것만. 버튼은 '반려'처럼 되돌리는 쪽만 둔다 (제1 원칙 16·17) */
@@ -2509,6 +2539,9 @@ function vBrief(){
     { label: wk ? '이번 주 방문' : '방문', value: n0(vis) },
     { label: wk ? '이번 주 가입' : '가입', value: n0(sig), note: `전체 ${n0(sg.total)}명` },
     { label: '올린 콘텐츠', value: `${up}/${plan}`, note: '올림 / 예정' }]);
+  /* 2026-10-30 운영자: "쇼츠가 최신값 아닌 거 같은데? 최상위 1개가 1.6만이 넘는데" → 쇼츠 조회 숫자는 브리핑 글이 아니라 지금 데이터(공개 조회수 → 스튜디오 순)로 계산한다 */
+  { const sv7 = brShortViews(r, wk); if(sv7){ const i = kp.findIndex(k => /쇼츠|유튜브 조회/.test(k.label)); const tile = { label: `쇼츠 조회 (${wk ? '이번 주 올린 편' : '최근 7일 올린 편'})`, value: n0(sv7.views), note: `${sv7.n}편 합계 · 최고 ${n0(sv7.top)}회 · ${sv7.asof} 기준` }; if(i >= 0) kp[i] = tile; else kp.splice(1, 0, tile); kp.length = Math.min(kp.length, 4); } }
+  const todo = ((d.sections || []).find(sc => /직접 할 일/.test(sc.title || '')) || {}).items || [];
   const checks = brChecks();
   const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
   const applied = d.applied || [];
@@ -2523,6 +2556,8 @@ function vBrief(){
   <div class="card br-hl">${d.headline ? `<p>${esc(d.headline)}</p>` : `<p class="m">${wk ? '주간 브리핑은 월요일 07:47에 올라옵니다.' : '오늘 브리핑은 매일 07:47에 올라옵니다.'} 아래 숫자와 목록은 지금 데이터 그대로입니다.</p>`}${d.at ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
 
 
+  ${todo.length ? `<div class="card br-todo"><div class="br-todo-h">대표님이 직접 할 일 <span class="qcount">${todo.length}</span></div><ul class="br-li">${todo.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : ''}
+
   <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
   <div class="card">${vChecks()}</div>
 
@@ -2531,10 +2566,10 @@ function vBrief(){
   <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
   <h2>${wk ? '이번 주' : (r.from === brToday() ? '오늘' : '이날')} 콘텐츠</h2>
-  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">문제 ${c.bad.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${c.all.map(x => `<li><span class="m">${kday(x.scheduled_at)}</span> ${esc(x.title || x.id)}</li>`).join('')}</ul>` : ''}</details>`).join('')}
+  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ 올라감 ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패·지연 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).map(x => { const t = c.st(x); return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}</li>`; }).join('')}</ul><div class="m br-legend">보류 = 대표님 반려나 자동 검수에서 내려 둔 것이라 올리지 않습니다. 실패·지연 = 올라가야 했는데 안 올라간 것(확인할 것에 이유가 뜹니다).</div>` : ''}</details>`).join('')}
     ${(d.channels || []).map(c => `<div class="br-ch1"><span class="n">${esc(c.name)}</span><span class="c">${esc(c.text || '')}</span></div>`).join('')}</div>
 
-  ${(d.sections || []).map(sc => `<details class="br-fold"><summary>${esc(sc.title)}</summary><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></details>`).join('')}
+  ${(d.sections || []).filter(sc => !/직접 할 일/.test(sc.title || '')).map(sc => `<details class="br-fold"><summary>${esc(sc.title)}</summary><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></details>`).join('')}
 
   <details class="br-fold"><summary>자동으로 적용한 것 <span class="qcount">${applied.length}건</span></summary>
   <div class="card">${applied.length ? applied.map((a, i) => `<div class="br-row">${dot('good')}<div class="t"><b>${esc(a.title)}</b>${a.where ? `<div class="m">${esc(a.where)}</div>` : ''}</div><div class="bt">${a.reverted ? '<span class="m">되돌림 요청함</span>' : `<button class="br-b ghost" data-br-undo="${i}">되돌리기</button>`}</div></div>`).join('') : '<div class="m">아직 없습니다. 개선안은 승인 없이 바로 적용되고 여기에 모입니다.</div>'}</div></details>

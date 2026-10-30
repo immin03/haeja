@@ -60,11 +60,11 @@ def para_html(p):
 
 CSS = """:root{--navy:#0A1730;--navy2:#0E2342;--navy3:#13305A;--gold:#EADBB9;--gold2:#C9AF7A;--ivory:#F7F2E8;--paper:#FBF8F2;--ink:#14213A;--muted:#5D6779;--line:#E6DFD1;--card:#fff}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"SUIT Variable","SUIT",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.75;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"VN Arrow","SUIT Variable","SUIT",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}button{font:inherit;cursor:pointer}
 .wrap{max-width:640px;margin:0 auto;padding:0 16px}
 .wm{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.02em;font-size:22px;color:#fff;text-decoration:none;line-height:1.1}
-.wm i{font-style:italic;color:var(--gold)}.wm small{display:block;font-family:"SUIT Variable",sans-serif;font-size:10.5px;font-weight:600;color:rgba(247,242,232,.62)}
+.wm i{font-style:italic;color:var(--gold)}.wm small{display:block;font-family:"VN Arrow","SUIT Variable",sans-serif;font-size:10.5px;font-weight:600;color:rgba(247,242,232,.62)}
 .hero{background:radial-gradient(120% 80% at 90% 0%,rgba(234,219,185,.2) 0,rgba(234,219,185,0) 55%),linear-gradient(170deg,var(--navy2),var(--navy) 75%);color:var(--ivory);padding:18px 0 30px}
 .eyebrow{display:inline-block;margin-top:26px;font-size:12.5px;font-weight:800;letter-spacing:.06em;color:var(--gold);border:1px solid rgba(234,219,185,.4);border-radius:999px;padding:4px 12px}
 h1{margin:12px 0 10px;font-size:28px;line-height:1.3;font-weight:850;letter-spacing:-.02em;color:#fff}
@@ -144,7 +144,7 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
 .wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #D8C294;white-space:nowrap}
 .wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#EADBB9;color:#EADBB9!important;padding-right:0!important}
-.wm small{display:block!important;margin:.32em 0 0!important;font-family:"SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 """
 
 HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
@@ -155,7 +155,7 @@ HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta property="og:image" content="{og}"><meta property="og:url" content="{url}"><link rel="canonical" href="{url}">
 <meta name="robots" content="{robots}">{ld}
 <link rel="icon" type="image/png" href="/favicon-64.png?v=5"><meta name="theme-color" content="#0A1730">
-<style>@font-face{{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}}@font-face{{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}}</style>
+<style>@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}}@font-face{{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>{css}</style></head><body>"""
 
