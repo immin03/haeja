@@ -559,6 +559,7 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-size:12.5px}
 .br-fbl{margin-top:12px}.br-fi{padding:9px 0;border-top:1px solid var(--line);font-size:14px}.br-fi .m{font-size:12px;margin-top:2px}
 .br-q{font-size:14px;color:var(--ink2);margin-top:2px}.br-st{display:inline-block;font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;background:var(--bg);color:var(--ink2)}.br-st.ok{background:rgba(45,122,95,.12);color:var(--good)}.br-st.wait{background:rgba(224,165,38,.16);color:#94660B}.br-st.bad{background:rgba(216,65,90,.1);color:var(--bad)}
+.br-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.br-say{margin-top:8px}.br-say textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:14.5px;background:var(--bg);color:var(--ink);margin-bottom:6px}.br-play{margin-top:8px}.br-play video{width:100%;max-height:60vh;border-radius:10px;background:#000}
 .br-more{margin:22px 0 8px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}.br-more a{color:var(--ink2);font-weight:700}
 @media (max-width:640px){.br-kpis{grid-template-columns:repeat(2,1fr)}.br-row{flex-wrap:wrap}.br-row .bt{width:100%;padding-left:20px}}
 </style>
@@ -2363,24 +2364,66 @@ function igWhy(e){
   return { why: '인스타가 다른 이유로 거절했습니다(아래 원문 참고).', fix: '다시 올리기를 한 번 눌러 보고, 또 실패하면 피드백 칸에 남겨 주세요.' };
 }
 function brChecks(){
+  /* 2026-10-30 운영자: "보기를 클릭했을 때 아무 화면도 안 나온다… 바로 조치하기를 클릭해서 조치하거나 의견을 남겨서 수정 요청" —
+     다른 탭으로 보내는 링크 대신, 항목마다 이 화면에서 바로 쓰는 버튼(조치)과 의견 칸을 둔다 */
   const L = [], now = Date.now(), today = brToday();
   (YT.list || []).filter(y => y.kind === 'long' && ['review', 'approved'].includes(y.status) && y.scheduled_at && Date.parse(y.scheduled_at) > now && Date.parse(y.scheduled_at) < now + 36 * 3600e3).forEach(y => {
     const auto = y.status === 'review';
-    L.push({ level: 'warn', title: `롱폼 ${kday(y.scheduled_at)} · ${y.title || y.id}`,
-      body: auto ? '9시까지 반려하지 않으면 자동으로 올라갑니다.' : '자동 진행 중입니다. 올라가기 전까지 반려할 수 있습니다.',
-      btns: [`<a class="br-b ghost" href="#youtube/${auto ? 'review' : 'ready'}">영상 보기</a>`, `<button class="br-b red" data-br-long="${esc(y.id)}">반려</button>`] });
+    L.push({ level: 'warn', title: `롱폼 ${kday(y.scheduled_at)} · ${y.title || y.id}`, yt: y.id, video: y.video_url, poster: y.thumb,
+      body: auto ? '9시까지 반려하지 않으면 자동으로 올라갑니다.' : '자동으로 올라갑니다. 올라가기 전까지 반려하거나 수정 요청할 수 있습니다.',
+      acts: [['play', '영상 보기', 'ghost'], ['reject', '반려', 'red']], say: '수정 요청' });
   });
-  const failed = (OPS.posts || []).filter(p => p.ig_status === 'failed' && kstDate(p.scheduled_at) >= brAdd(today, -2));
-  failed.forEach(p => { const w = igWhy(p.ig_error);
-    L.push({ level: 'bad', title: `인스타 ${p.kind === 'reel' ? '릴스' : p.kind === 'carousel' ? '카드뉴스' : '게시물'} 실패 · ${p.title || p.id}`,
+  (OPS.posts || []).filter(p => p.ig_status === 'failed' && !p.paused && kstDate(p.scheduled_at) >= brAdd(today, -2)).forEach(p => { const w = igWhy(p.ig_error);
+    L.push({ level: 'bad', title: `인스타 ${p.kind === 'reel' ? '릴스' : p.kind === 'carousel' ? '카드뉴스' : '게시물'} 실패 · ${p.title || p.id}`, post: p.id,
       body: `원인: ${w.why}\n조치: ${w.fix}\n예정 시각 ${kday(p.scheduled_at)} · 인스타 응답 "${String(p.ig_error || '없음').slice(0, 120)}"`,
-      btns: [`<button class="br-b" data-br-repost="${esc(p.id)}">다시 올리기</button>`, '<a class="br-b ghost" href="#social">자세히</a>'] }); });
+      acts: [['repost', '다시 올리기', ''], ['skip', '안 올리기', 'ghost']], say: '의견 남기기' }); });
   const st = OPS.status || {};
-  (st.accounts || []).forEach(a => { if(a.platform !== 'instagram') return; const d = Math.floor((Date.parse(a.expires_at) - now) / 864e5); if(d <= 3) L.push({ level: 'bad', title: `인스타그램 연결 만료 D-${Math.max(0, d)}`, body: '다시 연결해야 게시가 이어집니다.', btns: ['<a class="br-b ghost" href="#social">연결</a>'] }); });
+  (st.accounts || []).forEach(a => { if(a.platform !== 'instagram') return; const d = Math.floor((Date.parse(a.expires_at) - now) / 864e5); if(d <= 3) L.push({ level: 'bad', title: `인스타그램 연결 만료 D-${Math.max(0, d)}`, body: '다시 연결해야 게시가 이어집니다. 연결은 인스타 로그인 화면을 거쳐야 해서 연결 화면으로 이동합니다.', acts: [['goto:#social', '연결 화면 열기', '']], say: '의견 남기기' }); });
   const tw = BR.tasks.filter(t => t.status === 'pending');
-  if(tw.length) L.push({ level: 'info', title: `예약 작업 변경 ${tw.length}건 대기`, body: "Claude 채팅에서 '작업 변경 반영'이라고 한 번만 말하면 모두 처리합니다.", btns: [] });
-  ((BR.doc || {}).data || {}).checks && BR.doc.data.checks.forEach(c => L.push({ level: c.level || 'info', title: c.title, body: c.body || '', btns: c.link ? [`<a class="br-b ghost" href="${esc(c.link)}">보기</a>`] : [] }));
+  if(tw.length) L.push({ level: 'info', title: `예약 작업 설정 변경 ${tw.length}건`, body: tw.map(t => '· ' + (t.change || t.task || '설정 변경')).join('\n') + '\nClaude가 도구로 바꿀 수 없는 설정입니다(예약 작업 설정 화면에서 변경).', acts: [], say: '의견 남기기' });
+  (((BR.doc || {}).data || {}).checks || []).forEach(c => L.push({ level: c.level || 'info', title: c.title, body: c.body || '', acts: [], say: '의견 남기기' }));
   return L;
+}
+function vChecks(){
+  const L = BR.checksNow = brChecks();
+  if(!L.length) return '<div class="br-ok">✓ 지금 확인할 것 없음</div>';
+  const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
+  return L.map((c, i) => `<div class="br-row" data-br-ck="${i}">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body).replace(/\n/g, '<br>')}</div>` : ''}
+    <div class="br-acts">${c.acts.map(([k, t, cls]) => `<button class="br-b ${cls}" data-br-act="${k}">${t}</button>`).join('')}<button class="br-b ghost" data-br-act="say">${c.say}</button></div>
+    <div class="br-play" hidden></div>
+    <div class="br-say" hidden><textarea rows="2" placeholder="${c.yt ? '어디를 어떻게 고칠지 적어 주세요 (예: 10초 전후 빈 화면, 첫 문장 짧게)' : '이 항목에 대한 의견이나 지시를 적어 주세요'}"></textarea><button class="br-b" data-br-act="send">보내기</button></div></div></div>`).join('');
+}
+async function brAct(row, k){
+  const c = (BR.checksNow || [])[+row.dataset.brCk]; if(!c) return;
+  const btn = row.querySelector(`[data-br-act="${k}"]`);
+  if(k.startsWith('goto:')){ location.hash = k.slice(5); return; }
+  if(k === 'say'){ const b = row.querySelector('.br-say'); b.hidden = !b.hidden; if(!b.hidden) b.querySelector('textarea').focus(); return; }
+  if(k === 'play'){ const w = row.querySelector('.br-play'); if(!w.hidden){ w.hidden = true; w.innerHTML = ''; return; }
+    const u = /github\.com\/.+\/releases\/download\//.test(c.video || '') ? FN + 'yt-video?u=' + encodeURIComponent(c.video) : (c.video || '');
+    w.innerHTML = u ? `<video controls playsinline preload="metadata" poster="${esc(c.poster || '')}" src="${esc(u)}"></video>` : '<div class="m">영상 파일 주소가 아직 없습니다.</div>'; w.hidden = false; return; }
+  if(btn) btn.disabled = true;
+  if(k === 'reject'){
+    const note = prompt('반려 이유를 짧게 적어 주세요 (비워 두면 다음 순위로 바꿉니다)'); if(note === null){ btn.disabled = false; return; }
+    const { error } = await sb.rpc('yt_admin_set', { p_id: c.yt, p_status: 'changes', p_note: '대표 반려' + (note.trim() ? ': ' + note.trim() : '') });
+    if(error){ toast('반려하지 못했습니다: ' + error.message, true); btn.disabled = false; return; }
+    await brSaveInbox({ kind: 'reject_long', ref: c.yt, text: '롱폼 반려' + (note.trim() ? ' — ' + note.trim() : '') });
+    toast('반려했습니다. 다음 순위로 바꿉니다.'); await ytFetch(); render(); return; }
+  if(k === 'repost'){
+    if(!confirm('지금 인스타에 다시 올릴까요?')){ btn.disabled = false; return; } btn.textContent = '올리는 중…';
+    const { data: { session } } = await sb.auth.getSession();
+    const r = await fetch(FN + 'social-publish', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ action: 'now', id: c.post, t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
+    const err = [r.error, r.ig && r.ig.error].filter(Boolean).join(' / '), proc = r.ig && r.ig.processing;
+    toast(err ? '또 실패했습니다: ' + err : proc ? '인스타가 영상을 처리 중입니다. 몇 분 안에 올라갑니다.' : '다시 올렸습니다.', !!err);
+    await opsLoad().catch(() => {}); render(); return; }
+  if(k === 'skip'){
+    const { error } = await sb.from('social_posts').update({ paused: true }).eq('id', c.post);
+    toast(error ? '바꾸지 못했습니다: ' + error.message : '이 게시물은 올리지 않습니다.', !!error); await opsLoad().catch(() => {}); render(); return; }
+  if(k === 'send'){
+    const text = (row.querySelector('.br-say textarea').value || '').trim(); if(!text){ btn.disabled = false; row.querySelector('.br-say textarea').focus(); return; }
+    if(c.yt){ const { error } = await sb.rpc('yt_admin_set', { p_id: c.yt, p_status: 'changes', p_note: text });
+      if(error){ toast('보내지 못했습니다: ' + error.message, true); btn.disabled = false; return; }
+      toast('수정 요청을 넣었습니다. 매시 17분 작업이 고치고, 위 내 요청에 진행 상태가 뜹니다.'); await ytFetch(); render(); return; }
+    if(await brSaveInbox({ kind: 'feedback', ref: c.title, text: `[${c.title}] ${text}` })){ toast('받았습니다. 내 요청에 처리 상태가 뜹니다.'); render(); } else btn.disabled = false; }
 }
 
 /* 내 요청 (2026-10-30 운영자: "수정 요청 넣은 게 바로 메인 페이지에 반영이 돼야", "반영이 되면 바로 반영됐다고 떴으면"):
@@ -2439,7 +2482,7 @@ function vBrief(){
   <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
   <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
-  <div class="card">${checks.length ? checks.map(c => `<div class="br-row">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body).replace(/\n/g, '<br>')}</div>` : ''}</div>${c.btns.length ? `<div class="bt">${c.btns.join('')}</div>` : ''}</div>`).join('') : '<div class="br-ok">✓ 지금 확인할 것 없음</div>'}</div>
+  <div class="card">${vChecks()}</div>
 
   <h2>내 요청 <span class="qcount">바로 반영 상태</span></h2>
   <div class="card">${vReqs()}</div>
@@ -2482,6 +2525,7 @@ async function brRead(ids){
 }
 function bindBrief(){
   const box = $('#main');
+  box.querySelectorAll('[data-br-act]').forEach(b => b.onclick = () => brAct(b.closest('[data-br-ck]'), b.dataset.brAct));
   box.querySelectorAll('[data-br-mode]').forEach(b => b.onclick = async () => { BR.mode = b.dataset.brMode; BR.loaded = false; render(); await briefLoad(); render(); });
   box.querySelectorAll('[data-br-step]').forEach(b => b.onclick = async () => {
     const r = brRange(), n = +b.dataset.brStep * (BR.mode === 'w' ? 7 : 1);
@@ -2623,6 +2667,13 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
   return true;
 });
 
+/* 새 버전이 배포되면 화면을 스스로 다시 연다 (2026-10-30 운영자: "옛 화면이 계속 남아 있으면 안 되지") —
+   1분 새로 고침은 데이터만 다시 읽으므로, 페이지 파일의 ETag가 바뀌면 통째로 다시 연다. 입력 중이면 기다린다 */
+let __ver = null;
+async function __checkVer(){ try{ const r = await fetch(location.pathname + '?v=' + Date.now(), { method: 'HEAD', cache: 'no-store' }); const v = r.headers.get('etag') || r.headers.get('last-modified'); if(!v) return;
+  if(__ver && v !== __ver && !document.activeElement?.matches('input,textarea')) location.reload(); else if(!__ver) __ver = v; }catch(_){} }
+__checkVer(); setInterval(() => { if(!document.hidden) __checkVer(); }, 60 * 1000);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) __checkVer(); });
 load();
 /* 브리핑은 1분마다 조용히 새로 고친다 — 요청 처리 상태가 바로 보이게 (2026-10-30) */
 setInterval(async () => { if(document.hidden || $('#out').hidden || page() !== 'brief' || document.activeElement?.matches('input,textarea')) return; try{ await Promise.all([ytFetch(), opsLoad(), briefLoad()]); render(); }catch(_){} }, 60 * 1000);
