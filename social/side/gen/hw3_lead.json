@@ -1,0 +1,35 @@
+{
+ "id": "hw3_lead",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "GHOST COSTUME: a plain white bedsheet worn over the whole body down to the ankles, two round eye holes, only the small orange pumpkin basket handle hanging out from under the sheet; the face, hair and hands are completely hidden. Halloween night at the bright entrance of the narrow alley under a warm streetlamp. Kachi flies low just ahead of a small child in a ghost costume, holding the corner of the white sheet in its beak and gently leading the little ghost down the alley toward the dark hanok gate at the far end. Pumpkin lanterns glow at the side gates. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a4d-8fdc-7922-a6c6-922e5c19e25f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a4d-8fdc-7922-a6c6-922e5c19e25f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a4d-8fdc-7922-a6c6-922e5c19e25f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a4d-8fdc-7922-a6c6-922e5c19e25f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a4d-8fdc-7922-a6c6-922e5c19e25f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a4d-8fdc-7922-a6c6-922e5c19e25f/cancel",
+  "expires_at": "2026-11-06T00:55:33.699582+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4d-8fdc-7922-a6c6-922e5c19e25f/b04c6bbd-c06f-4a64-be8c-4ad40fbbbd15.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/hw3_lead.jpeg"
+}

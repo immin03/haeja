@@ -1,0 +1,35 @@
+{
+ "id": "hw4_home",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "GRANDMA: a small Korean grandma in her late seventies, silver hair in a low bun, round kind face with smile wrinkles, plum-purple quilted vest over a cream blouse, dark grey long skirt. BOY: a Korean boy about seven years old, round rosy cheeks, short black hair, a mustard-yellow knitted beanie, navy padded jacket, carrying a small round orange pumpkin-shaped basket with a cute smiling face. PLACE: a small old hanok house at the end of a narrow Seoul alley: grey-tiled roof with gently curved eaves, a weathered wooden double gate, a low grey stone wall, a single stone step in front of the gate. Halloween night in front of the hanok gate. The white ghost sheet has slipped back off the boy's head and hangs over his shoulders like a cape, showing his happy face and mustard-yellow beanie. The grandma kneels on the stone step and hugs him close, her eyes gently closed with a quiet, relieved smile, cheek against his beanie; her hands are hidden behind his back. Roasted chestnuts fill his orange pumpkin basket on the step. Behind them, through the open gate, the framed crayon drawing of the grandma and the boy in the yellow beanie under a red heart is clearly visible on the wall. There is no bird and no magpie anywhere in this picture; only the grandma and the boy. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4e-2916-754a-828b-cd1da10ccbb9/6febd0de-9f49-4cf6-b944-282f3ac2b37e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a4e-c118-7efe-8069-6b8e95393325",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a4e-c118-7efe-8069-6b8e95393325/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a4e-c118-7efe-8069-6b8e95393325/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a4e-c118-7efe-8069-6b8e95393325",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a4e-c118-7efe-8069-6b8e95393325/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a4e-c118-7efe-8069-6b8e95393325/cancel",
+  "expires_at": "2026-11-06T00:56:51.299272+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4e-c118-7efe-8069-6b8e95393325/3e2c95d0-06ae-4a36-9948-c24082a22dc0.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/hw4_home.jpeg"
+}

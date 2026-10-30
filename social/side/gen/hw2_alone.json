@@ -1,0 +1,36 @@
+{
+ "id": "hw2_alone",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "GRANDMA: a small Korean grandma in her late seventies, silver hair in a low bun, round kind face with smile wrinkles, plum-purple quilted vest over a cream blouse, dark grey long skirt. PLACE: a small old hanok house at the end of a narrow Seoul alley: grey-tiled roof with gently curved eaves, a weathered wooden double gate, a low grey stone wall, a single stone step in front of the gate. Halloween night. The grandma sits alone on the stone step of her dark gate with the basket of roasted chestnuts on her lap, looking down the alley with a lonely little smile. Down the alley the neighbors' gates glow with orange carved pumpkin lanterns with cute smiling faces, but her gate has no lantern. On the inside wall behind the open gate hangs a small wooden frame holding a child's crayon drawing: a grandma with a bun and a small boy in a yellow beanie holding hands under a big red heart (simple drawing, no writing). Kachi sits small on the edge of her roof eave above her, looking down at her. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4d-8da3-7627-9358-710a7bc345c2/c64528ec-5768-4e80-8b24-fc382e3e59f5.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a4e-2916-754a-828b-cd1da10ccbb9",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a4e-2916-754a-828b-cd1da10ccbb9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a4e-2916-754a-828b-cd1da10ccbb9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a4e-2916-754a-828b-cd1da10ccbb9",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a4e-2916-754a-828b-cd1da10ccbb9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a4e-2916-754a-828b-cd1da10ccbb9/cancel",
+  "expires_at": "2026-11-06T00:56:12.889982+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4e-2916-754a-828b-cd1da10ccbb9/6febd0de-9f49-4cf6-b944-282f3ac2b37e.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/hw2_alone.jpeg"
+}
