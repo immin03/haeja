@@ -136,7 +136,7 @@
    },
    "lines": [
     "내일은 할로윈, 아이들이 집집마다 돌며 외치죠. 트릭 오어 트릿, 과자를 안 주면 장난칠 거예요!",
-    "그 바구니에 들어가는 초콜릿, 원료인 코코아값은 꼭대기의 절반 아래로 내려왔어요. 그런데 초콜릿값은 그대로입니다."
+    "그 바구니에 들어가는 초콜릿, 원료인 코코아값은 최고점 대비 50% 넘게 떨어졌어요. 그런데 초콜릿값은 그대로입니다."
    ],
    "en": [
     "Tomorrow is Halloween, and kids go door to door shouting trick or treat: give us candy or we play a prank!",
@@ -150,11 +150,11 @@
    "v": {
     "type": "media",
     "lib": "commons_cocoapod_3.jpg",
-    "caption": "농부 몫은 절반 아래로",
+    "caption": "농부 수입 절반 아래로",
     "caption_at": "0"
    },
    "lines": [
-    "그사이 코코아를 기르는 서아프리카 농부가 받는 돈은 절반 넘게 깎였고, 미국 허쉬는 사탕을 10% 덜 팔고도 더 많이 남겼어요.",
+    "그사이 코코아를 기르는 서아프리카 농부가 받는 돈은 절반 아래로 줄었고 미국 허쉬는 사탕을 10% 덜 팔고도 더 많이 남겼어요.",
     "오늘은 이 초콜릿 한 봉지가 지구 반대편 날씨부터 우리 빼빼로 값까지 어떻게 이어져 있는지 따라가 볼게요."
    ],
    "en": [
@@ -226,20 +226,20 @@
     "lib": "coffee_41859_a.jpg",
     "chips": [
      {
-      "v": "$4",
-      "l": "커피 원두 · 파운드당 처음",
+      "v": "4달러",
+      "l": "커피 원두 1파운드 · 2025년 2월 사상 처음",
       "at": "0:4달러"
      },
      {
       "v": "+68%",
-      "l": "스페인 올리브유 산지값 · 1년",
+      "l": "스페인 올리브유 산지값 · 1년 새",
       "at": "1:68"
      }
     ]
    },
    "lines": [
-    "2024년, 날씨가 망친 건 코코아만이 아니었어요. 오렌지주스 원액은 그해 말 사상 최고를 찍었고, 커피 원두는 브라질 가뭄 끝에 이듬해 초 처음으로 파운드당 4달러를 건드렸습니다.",
-    "유럽에선 올리브유가 같은 길을 걸었어요. 스페인에 두 해 내리 흉작이 들자 산지값이 1년 만에 68% 뛰었죠."
+    "2024년, 날씨가 망친 건 코코아만이 아니었어요. 오렌지주스 원액은 그해 말 사상 최고값을 찍었고 커피 원두는 브라질 가뭄 끝에 이듬해 초 처음으로 파운드당 4달러까지 올랐습니다.",
+    "유럽에선 올리브유가 같은 길을 걸었어요. 스페인에 두 해 내리 흉작이 들자 산지값이 1년 만에 68% 올랐죠."
    ],
    "en": [
     "In 2024 the weather didn't just hit cocoa: orange juice hit a record at year-end, and coffee touched 4 dollars a pound for the first time after Brazil's drought.",
@@ -251,34 +251,11 @@
   },
   {
    "v": {
-    "type": "twocol",
-    "title": "스페인 올리브유 · 2026년 10월",
-    "title_en": "Spanish olive oil, October 2026",
-    "left": {
-     "title": "산지값",
-     "at": "1:산지값",
-     "items": [
-      [
-       "kg당 3.1유로",
-       "1:가장"
-      ]
-     ]
-    },
-    "right": {
-     "title": "마트 병값",
-     "gold": true,
-     "at": "1:병값",
-     "items": [
-      [
-       "리터당 4유로 넘게",
-       "1:4유로"
-      ]
-     ]
-    }
+    "type": "sketch"
    },
    "lines": [
     "그런데 날씨가 풀리고 원료값이 내려와도, 진열대 값은 잘 안 내려와요.",
-    "스페인 올리브유 산지값은 이달 5년 만에 가장 낮은데, 마트 병값은 여전히 리터당 4유로를 넘습니다."
+    "스페인 올리브유 산지값은 이달 1kg에 3.1유로로 5년 만에 가장 낮은데, 마트에선 여전히 1리터에 4.3유로대입니다."
    ],
    "en": [
     "But when the weather eases and raw prices fall, shelf prices barely come down.",
@@ -286,7 +263,119 @@
    ],
    "asof": false,
    "src": "유로위클리뉴스 2026년 10월 22일(산지값 kg당 약 3.1유로, 5년 만의 최저 · 메르카도나 4.35유로·까르푸 4.34유로)",
-   "sketch_add": []
+   "sketch_add": [],
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "스페인 올리브유 값 · 2026년 10월",
+     "x": 140,
+     "y": 130,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1780,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.1,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "산지값 (1kg)",
+     "x": 220,
+     "y": 290,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "3.1유로",
+     "x": 220,
+     "y": 370,
+     "size": 160,
+     "color": "green",
+     "line": 1,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "5년 만에 최저",
+     "x": 220,
+     "y": 560,
+     "size": 44,
+     "w": "Bold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.4
+    },
+    {
+     "kind": "print",
+     "text": "마트 판매가 (1리터)",
+     "x": 1000,
+     "y": 290,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.6
+    },
+    {
+     "kind": "write",
+     "text": "4.3유로대",
+     "x": 1000,
+     "y": 370,
+     "size": 160,
+     "color": "red",
+     "line": 1,
+     "at": 0.8
+    },
+    {
+     "kind": "print",
+     "text": "거의 그대로",
+     "x": 1000,
+     "y": 560,
+     "size": 44,
+     "w": "Bold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.9
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 660,
+     "x1": 1780,
+     "y1": 660,
+     "color": "gray",
+     "width": 3,
+     "line": 1,
+     "at": 0.95,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "원료값은 내려도 진열대 값은 그대로",
+     "x": 140,
+     "y": 700,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.97
+    }
+   ]
   },
   {
    "v": {
@@ -401,41 +490,7 @@
   },
   {
    "v": {
-    "type": "hbars",
-    "title": "2026년 할로윈 소비 · 항목별",
-    "title_en": "Halloween spending by category, 2026",
-    "items": [
-     [
-      "의상",
-      44,
-      "0:44억",
-      "44억 달러"
-     ],
-     [
-      "장식",
-      43,
-      "0:43억",
-      "43억 달러"
-     ],
-     [
-      "사탕",
-      41,
-      "0:41억",
-      "41억 달러"
-     ],
-     [
-      "카드",
-      8,
-      "0:사탕에",
-      "8억 달러"
-     ]
-    ],
-    "hl": [
-     {
-      "at": "1:반전",
-      "i": 2
-     }
-    ]
+    "type": "sketch"
    },
    "lines": [
     "그럼 그 돈은 어디로 갈까요? 의상에 44억, 장식에 43억, 사탕에 41억 달러.",
@@ -447,39 +502,160 @@
    ],
    "asof": false,
    "src": "미국소매협회(NRF) 할로윈 소비 조사 (2026년 9월 22일 발표, 7,889명 · 9월 1~9일)",
-   "sketch_add": [
+   "sketch_add": [],
+   "sketch": [
     {
      "kind": "print",
-     "text": "사탕은 3위",
-     "x": 1100,
-     "y": 860,
-     "size": 54,
+     "text": "2026년 미국 할로윈 소비 · 항목별",
+     "x": 140,
+     "y": 130,
+     "size": 52,
      "w": "ExtraBold",
-     "color": "red",
-     "line": 1,
-     "at": 0.5
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1780,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.1,
+     "dur": 0.3
     },
     {
      "kind": "print",
-     "text": "항목별 순위",
-     "x": 1560,
-     "y": 170,
-     "size": 46,
-     "w": "ExtraBold",
+     "text": "순위",
+     "x": 1640,
+     "y": 250,
+     "size": 40,
+     "w": "Bold",
      "color": "gray",
      "line": 0,
-     "at": 0.3
+     "at": 0.2
     },
     {
      "kind": "print",
-     "text": "의상 1위",
-     "x": 1560,
-     "y": 250,
-     "size": 60,
+     "text": "의상",
+     "x": 140,
+     "y": 326,
+     "size": 56,
      "w": "ExtraBold",
-     "color": "orange",
+     "color": "ink",
+     "line": 0,
+     "at": 0.4
+    },
+    {
+     "kind": "hbar",
+     "x": 330,
+     "y": 320,
+     "h": 72,
+     "wmax": 900,
+     "v": 44,
+     "vmax": 44,
+     "text": "44억 달러",
+     "color": "ink",
+     "tsize": 60,
+     "line": 0,
+     "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "1위",
+     "x": 1640,
+     "y": 326,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "장식",
+     "x": 140,
+     "y": 476,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "ink",
      "line": 0,
      "at": 0.6
+    },
+    {
+     "kind": "hbar",
+     "x": 330,
+     "y": 470,
+     "h": 72,
+     "wmax": 900,
+     "v": 43,
+     "vmax": 44,
+     "text": "43억 달러",
+     "color": "ink",
+     "tsize": 60,
+     "line": 0,
+     "at": 0.65
+    },
+    {
+     "kind": "print",
+     "text": "2위",
+     "x": 1640,
+     "y": 476,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.65
+    },
+    {
+     "kind": "print",
+     "text": "사탕",
+     "x": 140,
+     "y": 626,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.7999999999999999
+    },
+    {
+     "kind": "hbar",
+     "x": 330,
+     "y": 620,
+     "h": 72,
+     "wmax": 900,
+     "v": 41,
+     "vmax": 44,
+     "text": "41억 달러",
+     "color": "red",
+     "tsize": 60,
+     "line": 0,
+     "at": 0.85
+    },
+    {
+     "kind": "print",
+     "text": "3위",
+     "x": 1640,
+     "y": 626,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.85
+    },
+    {
+     "kind": "print",
+     "text": "할로윈 하면 사탕이지만 돈은 의상과 장식에 더 쓴다",
+     "x": 140,
+     "y": 780,
+     "size": 48,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.1
     }
    ]
   },
@@ -561,7 +737,7 @@
    },
    "lines": [
     "2024년 12월 18일, 코코아 1톤이 장중 1만 2,931달러까지 올랐습니다. 사상 최고였죠.",
-    "그 뒤 1년 만에 6천 달러대로 내려왔고 이번 달 초엔 5천 달러대예요. 꼭대기의 절반도 안 됩니다.",
+    "그 뒤 1년 만에 6천 달러대로 내려왔고 이번 달 초엔 5천 달러대예요. 최고점 대비 50% 넘게 떨어졌습니다.",
     "공급이 돌아왔거든요. 10월 초엔 코트디부아르 선적이 1년 전보다 19.8% 늘었고 거래소 창고 재고는 2년 3개월 만에 가장 많았습니다."
    ],
    "en": [
@@ -574,97 +750,98 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "코코아 선물 · 1톤당",
+     "text": "코코아 값 · 1톤당 (뉴욕 선물)",
      "x": 140,
-     "y": 90,
-     "size": 46,
+     "y": 110,
+     "size": 52,
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "icons",
-     "icon": "bean",
-     "x": 150,
-     "y": 200,
-     "size": 110,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
+     "at": 0
     },
     {
      "kind": "bar",
-     "x": 360,
-     "base": 900,
-     "w": 220,
-     "hmax": 560,
+     "x": 200,
+     "base": 720,
+     "w": 200,
+     "hmax": 470,
      "v": 12931,
      "vmax": 12931,
      "text": "12,931달러",
-     "label": "2024년 12월",
+     "label": "2024년 12월 (최고)",
      "color": "red",
+     "tsize": 60,
      "line": 0,
      "at": 0.3
     },
     {
      "kind": "bar",
-     "x": 820,
-     "base": 900,
-     "w": 220,
-     "hmax": 560,
+     "x": 560,
+     "base": 720,
+     "w": 200,
+     "hmax": 470,
      "v": 6120,
      "vmax": 12931,
      "text": "약 6,120달러",
      "label": "2025년 10월",
      "color": "ink",
+     "tsize": 56,
      "line": 1,
      "at": 0.15
     },
     {
      "kind": "bar",
-     "x": 1280,
-     "base": 900,
-     "w": 220,
-     "hmax": 560,
+     "x": 920,
+     "base": 720,
+     "w": 200,
+     "hmax": 470,
      "v": 5640,
      "vmax": 12931,
      "text": "약 5,640달러",
      "label": "2026년 10월",
      "color": "ink",
+     "tsize": 56,
      "line": 1,
-     "at": 0.55
+     "at": 0.5
     },
     {
      "kind": "print",
-     "text": "사상 최고",
-     "x": 600,
-     "y": 330,
-     "size": 44,
-     "w": "ExtraBold",
+     "text": "최고점 대비",
+     "x": 1320,
+     "y": 250,
+     "size": 48,
+     "w": "Bold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.7
+    },
+    {
+     "kind": "write",
+     "text": "-56%",
+     "x": 1320,
+     "y": 320,
+     "size": 150,
      "color": "red",
-     "line": 0,
+     "line": 1,
      "at": 0.8
     },
     {
      "kind": "print",
-     "text": "꼭대기의 절반 아래",
-     "x": 1250,
-     "y": 200,
-     "size": 50,
+     "text": "하락 이유 · 공급 회복",
+     "x": 1320,
+     "y": 520,
+     "size": 46,
      "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.85
+     "color": "ink",
+     "line": 2,
+     "at": 0.1
     },
     {
      "kind": "print",
-     "text": "선적 +19.8% · 재고 2년 3개월 최고",
-     "x": 140,
-     "y": 960,
-     "size": 44,
+     "text": "코트디부아르 선적 +19.8%",
+     "x": 1320,
+     "y": 590,
+     "size": 42,
      "w": "Bold",
      "color": "gray",
      "line": 2,
@@ -672,39 +849,18 @@
     },
     {
      "kind": "print",
-     "text": "공급 회복",
-     "x": 1250,
-     "y": 290,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "green",
-     "line": 2,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "가격 하락",
-     "x": 1250,
-     "y": 370,
-     "size": 50,
-     "w": "ExtraBold",
+     "text": "거래소 재고 2년 3개월 만에 최대",
+     "x": 1320,
+     "y": 650,
+     "size": 42,
+     "w": "Bold",
      "color": "gray",
      "line": 2,
-     "at": 0.5
-    },
-    {
-     "kind": "print",
-     "text": "선적 · 재고 증가",
-     "x": 1250,
-     "y": 440,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 2,
-     "at": 0.85
+     "at": 0.7
     }
    ],
-   "sketch_add": []
+   "sketch_add": [],
+   "facts_calc": "1 − 5,640 ÷ 12,931 ≈ 56%"
   },
   {
    "v": {
@@ -732,10 +888,7 @@
   },
   {
    "v": {
-    "type": "question",
-    "text": "이번엔 날씨가 막은 길",
-    "backdrop": "commons_cocoapod_5.jpg",
-    "bd_dim": 0.7
+    "type": "sketch"
    },
    "lines": [
     "코코아값이 한 나라 사정에 출렁인 게 처음은 아니에요. 2011년 코트디부아르 대선 다툼 때 한쪽이 수출을 막자 코코아값이 32년 만에 가장 높이 올랐죠.",
@@ -747,7 +900,132 @@
    ],
    "asof": false,
    "src": "베이커스저널(2011년 코코아 수출 금지·32년 만의 최고)",
-   "sketch_add": []
+   "sketch_add": [],
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "코코아값을 흔든 두 번의 사건",
+     "x": 140,
+     "y": 130,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1180,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.1,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "2011년",
+     "x": 140,
+     "y": 290,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "대선 분쟁 → 코코아 수출 금지",
+     "x": 360,
+     "y": 296,
+     "size": 48,
+     "w": "Bold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "→ 32년 만의 최고값",
+     "x": 360,
+     "y": 360,
+     "size": 48,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.75
+    },
+    {
+     "kind": "print",
+     "text": "2024년",
+     "x": 140,
+     "y": 490,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.4
+    },
+    {
+     "kind": "print",
+     "text": "가뭄·병충해 → 수확 감소",
+     "x": 360,
+     "y": 496,
+     "size": 48,
+     "w": "Bold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.6
+    },
+    {
+     "kind": "print",
+     "text": "→ 사상 최고값",
+     "x": 360,
+     "y": 560,
+     "size": 48,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.8
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 660,
+     "x1": 1180,
+     "y1": 660,
+     "color": "gray",
+     "width": 3,
+     "line": 1,
+     "at": 0.85,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "2011년은 협상으로 풀렸지만 이번엔 날씨가 원인",
+     "x": 140,
+     "y": 700,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.9
+    },
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/commons_cocoapod_5.jpg",
+     "x": 1260,
+     "y": 180,
+     "w": 520,
+     "h": 420,
+     "rot": 2.0,
+     "line": 0,
+     "at": 0
+    }
+   ]
   },
   {
    "chapter": "값 +11, 양 -10",
@@ -897,22 +1175,7 @@
   },
   {
    "v": {
-    "type": "stat",
-    "kicker": "허쉬 원가 뺀 남는 돈 비율 · 2026년 3분기",
-    "value": "42.7%",
-    "label": "1년 전 31.8% → 지금 42.7%",
-    "label_en": "Hershey adjusted gross margin, Q3 2026",
-    "at": "0:42.7",
-    "count": false,
-    "tags": [
-     {
-      "text": "+10.9%p",
-      "at": "0:10.9",
-      "kind": "gold"
-     }
-    ],
-    "backdrop": "chocolate_41117_a.jpg",
-    "bd_dim": 0.72
+    "type": "sketch"
    },
    "lines": [
     "그런데 남는 돈은 확 달라졌어요. 원가를 빼고 남는 몫이 42.7%, 1년 만에 10.9%포인트 뛰었습니다.",
@@ -924,79 +1187,117 @@
    ],
    "asof": false,
    "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K)",
-   "sketch_add": [
+   "sketch_add": [],
+   "sketch": [
     {
      "kind": "print",
-     "text": "100달러당 32달러 → 43달러",
+     "text": "허쉬 · 100달러어치 팔면 원가 빼고 남는 돈",
      "x": 140,
-     "y": 860,
-     "size": 54,
+     "y": 130,
+     "size": 52,
      "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.6
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1780,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.1,
+     "dur": 0.3
     },
     {
      "kind": "print",
-     "text": "1년 새 +10.9%p",
-     "x": 1180,
-     "y": 700,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "green",
+     "text": "1년 전 (2025년 3분기)",
+     "x": 220,
+     "y": 300,
+     "size": 48,
+     "w": "Bold",
+     "color": "gray",
      "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "write",
+     "text": "32달러",
+     "x": 220,
+     "y": 380,
+     "size": 160,
+     "color": "ink",
+     "line": 1,
+     "at": 0.2
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       700,
+       470
+      ],
+      [
+       960,
+       470
+      ]
+     ],
+     "color": "ink",
+     "line": 1,
      "at": 0.4
     },
     {
      "kind": "print",
-     "text": "원가 부담 회복",
-     "x": 1180,
-     "y": 780,
-     "size": 46,
-     "w": "ExtraBold",
+     "text": "지금 (2026년 3분기)",
+     "x": 1040,
+     "y": 300,
+     "size": 48,
+     "w": "Bold",
      "color": "gray",
-     "line": 0,
-     "at": 0.75
+     "line": 1,
+     "at": 0.4
+    },
+    {
+     "kind": "write",
+     "text": "43달러",
+     "x": 1040,
+     "y": 380,
+     "size": 160,
+     "color": "green",
+     "line": 1,
+     "at": 0.6
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 620,
+     "x1": 1780,
+     "y1": 620,
+     "color": "gray",
+     "width": 3,
+     "line": 1,
+     "at": 0.8,
+     "dur": 0.3
     },
     {
      "kind": "print",
-     "text": "100달러당 +11달러",
-     "x": 1180,
-     "y": 860,
+     "text": "매출총이익률 31.8% → 42.7% (+10.9%p)",
+     "x": 140,
+     "y": 660,
      "size": 46,
-     "w": "ExtraBold",
-     "color": "orange",
+     "w": "Bold",
+     "color": "gray",
      "line": 1,
-     "at": 0.35
+     "at": 0.85
     }
    ]
   },
   {
    "v": {
-    "type": "twocol",
-    "title": "허쉬 북미 과자 부문 · 3분기",
-    "title_en": "Hershey North America Confectionery, Q3 2026",
-    "left": {
-     "title": "가격 효과",
-     "at": "0:값",
-     "items": [
-      [
-       "약 +13%p",
-       "0:13"
-      ]
-     ]
-    },
-    "right": {
-     "title": "판매량",
-     "gold": true,
-     "at": "0:판매량",
-     "items": [
-      [
-       "약 -11%p",
-       "0:11"
-      ]
-     ]
-    }
+    "type": "sketch"
    },
    "lines": [
     "할로윈 사탕이 들어 있는 북미 과자 부문만 보면 더 극적이에요. 값을 올려서 매출이 약 13% 늘었고, 판매량이 줄어 약 11% 빠졌어요.",
@@ -1008,63 +1309,95 @@
    ],
    "asof": false,
    "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K)",
-   "sketch_add": [
-    {
-     "kind": "icons",
-     "icon": "candy",
-     "x": 1450,
-     "y": 700,
-     "size": 110,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
+   "sketch_add": [],
+   "sketch": [
     {
      "kind": "print",
-     "text": "사는 사람은 줄고 가격표는 커지고",
+     "text": "허쉬 북미 과자 부문 · 2026년 3분기 매출 변화",
      "x": 140,
-     "y": 860,
-     "size": 54,
+     "y": 130,
+     "size": 52,
      "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.4
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1780,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.1,
+     "dur": 0.3
     },
     {
      "kind": "print",
-     "text": "할로윈 사탕이 속한 부문",
-     "x": 140,
-     "y": 520,
-     "size": 46,
+     "text": "값 올린 효과",
+     "x": 220,
+     "y": 300,
+     "size": 50,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.3
+     "at": 0.35
     },
     {
-     "kind": "icons",
-     "icon": "choco",
-     "x": 140,
-     "y": 600,
-     "size": 110,
-     "n": 1,
-     "gap": 20,
-     "color": "ink",
+     "kind": "write",
+     "text": "+13%",
+     "x": 220,
+     "y": 380,
+     "size": 150,
+     "color": "green",
      "line": 0,
-     "at": 0.6
+     "at": 0.5
     },
     {
      "kind": "print",
-     "text": "값 인상 · 판매량 감소",
-     "x": 300,
-     "y": 620,
-     "size": 60,
+     "text": "판매량 감소",
+     "x": 1000,
+     "y": 300,
+     "size": 50,
      "w": "ExtraBold",
-     "color": "orange",
+     "color": "gray",
      "line": 0,
      "at": 0.7
+    },
+    {
+     "kind": "write",
+     "text": "-11%",
+     "x": 1000,
+     "y": 380,
+     "size": 150,
+     "color": "red",
+     "line": 0,
+     "at": 0.85
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 620,
+     "x1": 1780,
+     "y1": 620,
+     "color": "gray",
+     "width": 3,
+     "line": 1,
+     "at": 0.0,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "사는 사람은 줄었지만 값을 올린 효과가 더 컸다",
+     "x": 140,
+     "y": 660,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.1
     }
    ]
   },
@@ -1290,169 +1623,125 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "초콜릿값이 늦게 내리는 이유",
+     "text": "초콜릿값이 늦게 내리는 이유 3가지",
      "x": 140,
-     "y": 90,
-     "size": 46,
+     "y": 120,
+     "size": 54,
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
-     "at": 0.0
+     "at": 0
     },
     {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_cocoapod_1.jpg",
-     "x": 1420,
-     "y": 150,
-     "w": 340,
-     "h": 420,
-     "rot": 3,
+     "kind": "rule",
+     "x0": 140,
+     "y0": 215,
+     "x1": 1780,
+     "y1": 215,
+     "color": "gray",
+     "width": 3,
      "line": 0,
-     "at": 0.6
+     "at": 0.1,
+     "dur": 0.3
     },
     {
      "kind": "print",
      "text": "1",
-     "x": 150,
-     "y": 210,
+     "x": 140,
+     "y": 270,
      "size": 80,
      "w": "ExtraBold",
-     "color": "orange",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "icons",
-     "icon": "clock",
-     "x": 230,
-     "y": 210,
-     "size": 90,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "원료를 몇 달 앞서 미리 산다",
-     "x": 360,
-     "y": 225,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "ink",
+     "color": "gold",
      "line": 0,
      "at": 0.1
     },
     {
      "kind": "print",
-     "text": "싼 코코아는 나중에 원가로",
-     "x": 360,
-     "y": 300,
+     "text": "원료 선매입",
+     "x": 260,
+     "y": 274,
+     "size": 62,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.15000000000000002
+    },
+    {
+     "kind": "print",
+     "text": "몇 달~1년 앞서 계약 · 싼 코코아는 나중에 원가 반영",
+     "x": 260,
+     "y": 358,
      "size": 44,
      "w": "Bold",
      "color": "gray",
      "line": 0,
-     "at": 0.7
+     "at": 0.30000000000000004
     },
     {
      "kind": "print",
      "text": "2",
-     "x": 150,
-     "y": 430,
+     "x": 140,
+     "y": 450,
      "size": 80,
      "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.0
-    },
-    {
-     "kind": "icons",
-     "icon": "cart",
-     "x": 230,
-     "y": 430,
-     "size": 90,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
+     "color": "gold",
      "line": 1,
      "at": 0.05
     },
     {
      "kind": "print",
-     "text": "설탕 · 우유 · 포장 · 인건비 · 운송",
-     "x": 360,
-     "y": 445,
-     "size": 54,
+     "text": "코코아 외 원가",
+     "x": 260,
+     "y": 454,
+     "size": 62,
      "w": "ExtraBold",
      "color": "ink",
      "line": 1,
-     "at": 0.2
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "설탕 · 우유 · 포장 · 인건비 · 운송비",
+     "x": 260,
+     "y": 538,
+     "size": 44,
+     "w": "Bold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.25
     },
     {
      "kind": "print",
      "text": "3",
-     "x": 150,
-     "y": 650,
+     "x": 140,
+     "y": 630,
      "size": 80,
      "w": "ExtraBold",
-     "color": "orange",
-     "line": 2,
-     "at": 0.0
-    },
-    {
-     "kind": "icons",
-     "icon": "ledger",
-     "x": 230,
-     "y": 650,
-     "size": 90,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
+     "color": "gold",
      "line": 2,
      "at": 0.05
     },
     {
      "kind": "print",
-     "text": "올린 값 내리기 = 마지막 카드",
-     "x": 360,
-     "y": 665,
-     "size": 54,
+     "text": "가격 인하 기피",
+     "x": 260,
+     "y": 634,
+     "size": 62,
      "w": "ExtraBold",
      "color": "ink",
      "line": 2,
-     "at": 0.2
+     "at": 0.1
     },
     {
-     "kind": "under",
-     "x0": 360,
-     "x1": 1200,
-     "y": 740,
-     "color": "orange",
+     "kind": "print",
+     "text": "한 번 올린 값은 마지막에 내림",
+     "x": 260,
+     "y": 718,
+     "size": 44,
+     "w": "Bold",
+     "color": "gray",
      "line": 2,
-     "at": 0.8
-    },
-    {
-     "kind": "print",
-     "text": "몇 달 ~ 1년 앞서 계약",
-     "x": 1000,
-     "y": 300,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "코코아만이 원가가 아니다",
-     "x": 360,
-     "y": 520,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.6
+     "at": 0.25
     }
    ],
    "sketch_add": []
@@ -1539,38 +1828,7 @@
   },
   {
    "v": {
-    "type": "twocol",
-    "title": "같은 주 실적, 다른 길",
-    "title_en": "Same day, two strategies",
-    "left": {
-     "title": "허쉬",
-     "at": "0:같은",
-     "items": [
-      [
-       "가격 효과 약 +11%p",
-       "0:같은"
-      ],
-      [
-       "판매량 약 -10%p",
-       "0:같은"
-      ]
-     ]
-    },
-    "right": {
-     "title": "몬덜리즈",
-     "gold": true,
-     "at": "0:몬덜리즈",
-     "items": [
-      [
-       "가격 효과 +0.3%p",
-       "0:0.3"
-      ],
-      [
-       "물량·구성 +1.8%p",
-       "0:1.8"
-      ]
-     ]
-    }
+    "type": "sketch"
    },
    "lines": [
     "모두가 같은 길을 간 건 아니에요. 같은 주에 실적을 낸 오레오 회사 몬덜리즈는 값을 0.3%포인트만 올리고 팔리는 양을 1.8%포인트 늘렸습니다.",
@@ -1582,62 +1840,119 @@
    ],
    "asof": false,
    "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K) · 몬덜리즈 2026년 3분기 실적 발표 (2026년 10월 29일)",
-   "sketch_add": [
+   "sketch_add": [],
+   "sketch": [
     {
      "kind": "print",
-     "text": "값으로 vs 양으로",
+     "text": "같은 주 실적 · 값으로 vs 양으로",
      "x": 140,
-     "y": 860,
+     "y": 130,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1780,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.1,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "허쉬",
+     "x": 220,
+     "y": 290,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "값 +11%  ·  판매량 -10%",
+     "x": 220,
+     "y": 380,
      "size": 54,
      "w": "ExtraBold",
-     "color": "orange",
+     "color": "red",
+     "line": 0,
+     "at": 0.2
+    },
+    {
+     "kind": "print",
+     "text": "값으로 번 회사",
+     "x": 220,
+     "y": 460,
+     "size": 44,
+     "w": "Bold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "몬덜리즈 (오레오)",
+     "x": 1000,
+     "y": 290,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "값 +0.3%  ·  판매량 +1.8%",
+     "x": 1000,
+     "y": 380,
+     "size": 54,
+     "w": "ExtraBold",
+     "color": "green",
+     "line": 0,
+     "at": 0.75
+    },
+    {
+     "kind": "print",
+     "text": "양으로 번 회사",
+     "x": 1000,
+     "y": 460,
+     "size": 44,
+     "w": "Bold",
+     "color": "gray",
      "line": 1,
      "at": 0.3
     },
     {
-     "kind": "icons",
-     "icon": "choco",
-     "x": 140,
-     "y": 560,
-     "size": 100,
-     "n": 1,
-     "gap": 20,
-     "color": "ink",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "허쉬: 값으로 번다",
-     "x": 300,
-     "y": 580,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "몬덜리즈: 양으로 번다",
-     "x": 1000,
-     "y": 580,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.85
-    },
-    {
-     "kind": "print",
-     "text": "두 가지 실험",
-     "x": 1000,
-     "y": 860,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "orange",
+     "kind": "rule",
+     "x0": 140,
+     "y0": 620,
+     "x1": 1780,
+     "y1": 620,
+     "color": "gray",
+     "width": 3,
      "line": 1,
-     "at": 0.5
+     "at": 0.6,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "어느 쪽이 맞는지는 다음 실적에서 확인",
+     "x": 140,
+     "y": 660,
+     "size": 48,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.7
     }
    ]
   },
