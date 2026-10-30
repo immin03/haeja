@@ -1,0 +1,176 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 허쉬 주가, 할로윈 사탕은 10% 덜 팔렸는데 주당 이익 2배</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">허쉬 주가, 할로윈 사탕은 10% 덜 팔렸는데 주당 이익 2배</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 5장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261030h/01.png" alt="할로윈 사탕과 초콜릿 봉지가 쌓인 미국 마트 진열대" width="720"></p>
+<p><br></p>
+<blockquote><p><b>3줄 요약</b></p><p>· 허쉬는 2026년 3분기 판매량이 약 <b>10%</b> 줄었는데도 조정 주당순이익은 <b>2.64달러</b>로 1년 전보다 <b>103%</b> 늘었습니다(10월 29일 실적 발표).</p><p>· 비결은 값입니다. 값을 올린 효과가 매출을 약 11%포인트 밀어 올렸고 재료비·공장비를 빼고 남는 비율(조정 매출총이익률)이 <b>42.7%</b>로 1년 새 10.9%포인트 뛰었습니다.</p><p>· 코코아 1톤 값은 2024년 12월 1만 2,931달러에서 2026년 10월 초 5천 달러대로 내려왔지만 초콜릿값은 아직 그만큼 내려오지 않았습니다.</p></blockquote>
+<p><br></p>
+<p>저는 허쉬 주가를 검색하다 이상한 숫자 두 개를 나란히 보게 됐습니다. 허쉬는 올해 3분기에 초콜릿과 사탕을 10% 가까이 덜 팔았는데, 한 주당 이익은 두 배가 됐습니다.</p>
+<p><br></p>
+<p>할로윈 하루 전이라 더 궁금해졌어요. 미국 사람들은 사탕을 덜 사는데 사탕 회사는 더 번다. 장바구니는 가벼워졌는데 계산대 금액은 그대로인 셈입니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 허쉬 3분기 실적, 덜 팔고 두 배 벌었습니다</b></span></p>
+
+<p>허쉬가 10월 29일 발표한 3분기 매출은 32억 7,550만 달러로 1년 전보다 3% 늘었습니다. 판매량이 줄었는데 매출이 늘었다는 게 첫 번째 단서예요.</p>
+<p><br></p>
+<p>회사 설명을 쪼개 보면 이렇습니다. 값을 올린 효과가 매출을 약 11%포인트 밀어 올렸고 덜 팔린 양이 약 10%포인트 끌어내렸습니다. 열 봉지 사던 집이 아홉 봉지만 사도 한 봉지가 11% 비싸면 매출은 거의 그대로죠.</p>
+<p><br></p>
+<p>할로윈 사탕이 들어 있는 북미 과자 부문은 더 뚜렷합니다. 값 효과가 약 13%포인트, 판매량은 약 11%포인트 마이너스였어요.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030h/02.png" alt="허쉬 2026년 3분기 숫자" width="720"></p><p><span style="color:#888888;font-size:13px">허쉬 2026년 3분기 숫자</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 허쉬가 남기는 돈은 100달러에 32달러에서 43달러로 늘었습니다</b></span></p>
+
+<p>허쉬의 조정 매출총이익률은 3분기 42.7%였습니다. 매출총이익률은 판 돈에서 재료비와 공장비를 빼고 남는 비율입니다. 100달러어치를 팔면 43달러가 남는다는 뜻이에요.</p>
+<p><br></p>
+<p>1년 전엔 이 숫자가 31.8%였습니다. 같은 100달러를 팔고 32달러 남기던 회사가 43달러를 남기게 된 거죠. 덜 팔아도 남는 게 훨씬 많아졌습니다.</p>
+<p><br></p>
+<p>그래서 조정 주당순이익이 2.64달러, 103% 늘었습니다. 솔직히 제가 처음엔 일회성 돈이 끼었나 의심했습니다. 실제로 3분기에 받은 관세 환급 약 0.22달러가 들어 있긴 해요. 그걸 빼고 계산해도 80% 넘게 늘었습니다.</p>
+<p><br></p>
+<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr><th style="background:#F3EEE3">허쉬 (2026년 3분기)</th><th style="background:#F3EEE3">숫자</th><th style="background:#F3EEE3">1년 전과 비교</th></tr></thead><tbody><tr><td>매출</td><td>32억 7,550만 달러</td><td>+3.0%</td></tr><tr><td>값을 올린 효과</td><td>약 +11%포인트</td><td>매출 증가 요인</td></tr><tr><td>판매량</td><td>약 −10%포인트</td><td>매출 감소 요인</td></tr><tr><td>조정 매출총이익률</td><td>42.7%</td><td>+10.9%포인트</td></tr><tr><td>조정 주당순이익</td><td>2.64달러</td><td>+103.1%</td></tr></tbody></table>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 코코아 값은 꼭대기의 절반 아래로 내려왔습니다</b></span></p>
+
+<p>코코아 1톤 값은 2024년 12월 18일 뉴욕 선물시장에서 장중 1만 2,931달러까지 올랐습니다. 서아프리카 흉작으로 사상 최고를 찍은 날이에요.</p>
+<p><br></p>
+<p>코코아 값은 그 뒤 공급이 돌아오며 내려왔습니다. 2025년 10월에 6천 달러대, 2026년 10월 초엔 5천 달러대입니다. 꼭대기의 절반도 안 되는 값이죠.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030h/03.png" alt="코코아 선물 1톤 값" width="720"></p><p><span style="color:#888888;font-size:13px">코코아 선물 1톤 값</span></p>
+<p><br></p>
+<p>이상하잖아요. 원료가 반값이 됐는데 할로윈 초콜릿은 왜 그대로일까요?</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 초콜릿값이 늦게 내려오는 이유는 세 가지입니다</b></span></p>
+
+<p>초콜릿값은 원가가 오를 땐 엘리베이터처럼 바로 오르고 내릴 땐 계단으로 걸어 내려옵니다. 이유를 하나씩 보면 납득이 갑니다.</p>
+<p><br></p>
+<p>첫째, 초콜릿 회사는 코코아를 몇 달, 길게는 1년 넘게 앞서 사 둡니다. 김장하듯 미리 사 둔 비싼 코코아를 먼저 쓰니, 지금 싸진 코코아는 시간이 지나야 원가에 들어옵니다.</p>
+<p><br></p>
+<p>둘째, 초콜릿 원가는 코코아만이 아닙니다. 설탕과 우유, 포장, 인건비, 운송비가 함께 움직여요. 셋째, 한 번 내린 값은 다시 올리기 어렵습니다. 그래서 회사는 가격 인하를 가장 마지막에 꺼냅니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030h/04.jpg" alt="손에 든 마른 코코아 열매 꼬투리" width="720"></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 몬덜리즈는 같은 날 정반대 길을 택했습니다</b></span></p>
+
+<p>몬덜리즈는 오레오를 만드는 회사입니다. 같은 10월 29일 발표한 3분기 실적에서 값을 올린 효과는 0.3%포인트에 그쳤고 팔린 양과 구성은 1.8%포인트 늘었습니다.</p>
+<p><br></p>
+<p>허쉬는 값으로, 몬덜리즈는 양으로 벌었습니다. 과자 진열대에서 두 가지 실험이 동시에 돌아가고 있는 셈이에요. 어느 쪽이 맞는지는 다음 실적이 말해 줄 겁니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 미국 할로윈 소비는 135억 달러로 역대 최대입니다</b></span></p>
+
+<p>미국소매협회(NRF) 조사로 올해 미국 할로윈 소비는 135억 달러, 역대 최대 전망입니다. 작년 기록은 131억 달러였어요. 그런데 사탕은 1등이 아닙니다.</p>
+<p><br></p>
+<p>미국 할로윈 돈은 의상 44억 달러, 장식 43억 달러, 사탕 41억 달러 순으로 갑니다. 반려동물 의상에만 9억 2천만 달러를 쓰고 인기 1위는 호박, 2위는 핫도그 의상이에요. 강아지 의견은 아무도 묻지 않았습니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261030h/05.png" alt="2026년 미국 할로윈 소비 항목별" width="720"></p><p><span style="color:#888888;font-size:13px">2026년 미국 할로윈 소비 항목별</span></p>
+<p><br></p>
+<p>사탕 판매 숫자는 반대로 움직입니다. 닐슨IQ 집계로 9월 중순 미국 사탕 판매는 1년 전보다 11.7% 줄었습니다(한국경제 10월 25일 보도). 할로윈 전체 지갑은 커졌는데 사탕 칸만 얇아진 거죠.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 허쉬 다음 실적에서 볼 숫자는 판매량입니다</b></span></p>
+
+<p>허쉬 다음 실적에서 가장 먼저 볼 숫자는 판매량입니다. 이번엔 약 10% 줄었죠. 값 인상 효과가 한 바퀴 돈 뒤에도 판매량이 크게 줄면 값으로 버티는 힘이 약해지고 있다는 신호입니다. 4분기 실적은 내년 초에 나옵니다.</p>
+<p><br></p>
+<p>허쉬도 조심스럽습니다. 올해 매출 성장 전망은 3~3.5%에서 약 3%로 낮췄고 조정 주당순이익 성장 전망은 36~38.5%로 높였습니다. 값으로 버는 힘은 자신 있지만 손님 수는 조심스럽게 본다는 뜻으로 읽힙니다.</p>
+<p><br></p>
+<p>두 번째는 코코아 선물 값입니다. 엘니뇨로 다음 시즌 코트디부아르 주 수확이 17% 줄 수 있다는 전망도 나왔어요. 코코아가 다시 오르면 초콜릿값 인하 기대는 접어야 합니다.</p>
+<p><br></p>
+<p>워렌 버핏은 값을 올려도 손님이 떠나지 않는 힘을 가격 결정력이라고 부르며 사업을 평가할 때 가장 중요한 하나로 꼽았습니다. 이번 할로윈 허쉬 실적은 그 힘이 숫자로 드러난 장면이었어요. 동시에 판매량 −10%는 그 힘에도 한계가 있다는 경고 신호이기도 합니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 자주 묻는 질문</b></span></p>
+
+<p>Q. 허쉬 실적은 어땠나요? 허쉬는 2026년 3분기 매출 32억 7,550만 달러(+3.0%), 조정 주당순이익 2.64달러(+103.1%)를 냈습니다. 판매량은 약 10% 줄었지만 값을 올린 효과가 약 11%포인트였습니다.</p>
+<p><br></p>
+<p>Q. 코코아 값이 내렸는데 초콜릿값은 왜 안 내리나요? 초콜릿 회사가 코코아를 몇 달 앞서 미리 사 두고 설탕·우유·포장 같은 다른 원가도 있으며 한 번 내린 값은 다시 올리기 어려워 가격 인하를 가장 늦게 하기 때문입니다.</p>
+<p><br></p>
+<p>Q. 미국 할로윈 소비는 얼마인가요? 미국소매협회 조사로 2026년 미국 할로윈 소비는 135억 달러로 역대 최대 전망입니다. 의상 44억, 장식 43억, 사탕 41억 달러 순입니다.</p>
+<p><br></p>
+<p>같이 읽으면 좋은 글: 버크셔 해서웨이 주가, 워렌 버핏 은퇴 예고 17개월 만에 신고가 / 구찌는 매출이 43% 줄었는데 이익은 왜 74%나 줄었을까?</p>
+<p><br></p>
+<p>내일 할로윈 사탕을 사신다면 가격표를 한 번 봐 주세요. 작년보다 봉지가 가벼워졌는지, 값이 올랐는지요.</p>
+<p><br></p>
+<p style="text-align:right"><b>— Luciano</b></p>
+<p><br></p>
+<p><span style="color:#888888;font-size:13px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 허쉬·몬덜리즈 숫자는 2026년 10월 29일 발표된 3분기 실적, 할로윈 소비는 미국소매협회 2026년 9월 22일 발표, 코코아 값은 ICE 선물(트레이딩이코노믹스 2026년 10월 1·7일) 기준입니다. 관세 환급 제외 증가율은 (2.64−0.22)÷1.30으로 단순 계산했습니다. 이 글은 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><h2>태그</h2><div class="row"><div id="tags">#허쉬주가 #허쉬실적 #할로윈사탕 #초콜릿가격 #코코아가격 #할로윈소비 #몬덜리즈 #가격결정력 #워렌버핏 #할로윈 #허쉬초콜릿</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261030h/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261030h/01.png" download="valuenote-b261030h-1.png"><img src="https://www.valuenote.co.kr/naver/b261030h/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030h/02.png" download="valuenote-b261030h-2.png"><img src="https://www.valuenote.co.kr/naver/b261030h/02.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030h/03.png" download="valuenote-b261030h-3.png"><img src="https://www.valuenote.co.kr/naver/b261030h/03.png" alt="사진 3" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030h/04.jpg" download="valuenote-b261030h-4.jpg"><img src="https://www.valuenote.co.kr/naver/b261030h/04.jpg" alt="사진 4" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261030h/05.png" download="valuenote-b261030h-5.png"><img src="https://www.valuenote.co.kr/naver/b261030h/05.png" alt="사진 5" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 할로윈 사탕과 초콜릿 봉지가 쌓인 미국 마트 진열대]\n\n3줄 요약\n· 허쉬는 2026년 3분기 판매량이 약 10% 줄었는데도 조정 주당순이익은 2.64달러로 1년 전보다 103% 늘었습니다(10월 29일 실적 발표).\n· 비결은 값입니다. 값을 올린 효과가 매출을 약 11%포인트 밀어 올렸고 재료비·공장비를 빼고 남는 비율(조정 매출총이익률)이 42.7%로 1년 새 10.9%포인트 뛰었습니다.\n· 코코아 1톤 값은 2024년 12월 1만 2,931달러에서 2026년 10월 초 5천 달러대로 내려왔지만 초콜릿값은 아직 그만큼 내려오지 않았습니다.\n\n저는 허쉬 주가를 검색하다 이상한 숫자 두 개를 나란히 보게 됐습니다. 허쉬는 올해 3분기에 초콜릿과 사탕을 10% 가까이 덜 팔았는데, 한 주당 이익은 두 배가 됐습니다.\n\n할로윈 하루 전이라 더 궁금해졌어요. 미국 사람들은 사탕을 덜 사는데 사탕 회사는 더 번다. 장바구니는 가벼워졌는데 계산대 금액은 그대로인 셈입니다.\n\n■ 허쉬 3분기 실적, 덜 팔고 두 배 벌었습니다\n\n허쉬가 10월 29일 발표한 3분기 매출은 32억 7,550만 달러로 1년 전보다 3% 늘었습니다. 판매량이 줄었는데 매출이 늘었다는 게 첫 번째 단서예요.\n\n회사 설명을 쪼개 보면 이렇습니다. 값을 올린 효과가 매출을 약 11%포인트 밀어 올렸고 덜 팔린 양이 약 10%포인트 끌어내렸습니다. 열 봉지 사던 집이 아홉 봉지만 사도 한 봉지가 11% 비싸면 매출은 거의 그대로죠.\n\n할로윈 사탕이 들어 있는 북미 과자 부문은 더 뚜렷합니다. 값 효과가 약 13%포인트, 판매량은 약 11%포인트 마이너스였어요.\n\n[사진: 허쉬 2026년 3분기 숫자]\n\n■ 허쉬가 남기는 돈은 100달러에 32달러에서 43달러로 늘었습니다\n\n허쉬의 조정 매출총이익률은 3분기 42.7%였습니다. 매출총이익률은 판 돈에서 재료비와 공장비를 빼고 남는 비율입니다. 100달러어치를 팔면 43달러가 남는다는 뜻이에요.\n\n1년 전엔 이 숫자가 31.8%였습니다. 같은 100달러를 팔고 32달러 남기던 회사가 43달러를 남기게 된 거죠. 덜 팔아도 남는 게 훨씬 많아졌습니다.\n\n그래서 조정 주당순이익이 2.64달러, 103% 늘었습니다. 솔직히 제가 처음엔 일회성 돈이 끼었나 의심했습니다. 실제로 3분기에 받은 관세 환급 약 0.22달러가 들어 있긴 해요. 그걸 빼고 계산해도 80% 넘게 늘었습니다.\n\n허쉬 (2026년 3분기) | 숫자 | 1년 전과 비교\n매출 | 32억 7,550만 달러 | +3.0%\n값을 올린 효과 | 약 +11%포인트 | 매출 증가 요인\n판매량 | 약 −10%포인트 | 매출 감소 요인\n조정 매출총이익률 | 42.7% | +10.9%포인트\n조정 주당순이익 | 2.64달러 | +103.1%\n\n■ 코코아 값은 꼭대기의 절반 아래로 내려왔습니다\n\n코코아 1톤 값은 2024년 12월 18일 뉴욕 선물시장에서 장중 1만 2,931달러까지 올랐습니다. 서아프리카 흉작으로 사상 최고를 찍은 날이에요.\n\n코코아 값은 그 뒤 공급이 돌아오며 내려왔습니다. 2025년 10월에 6천 달러대, 2026년 10월 초엔 5천 달러대입니다. 꼭대기의 절반도 안 되는 값이죠.\n\n[사진: 코코아 선물 1톤 값]\n\n이상하잖아요. 원료가 반값이 됐는데 할로윈 초콜릿은 왜 그대로일까요?\n\n■ 초콜릿값이 늦게 내려오는 이유는 세 가지입니다\n\n초콜릿값은 원가가 오를 땐 엘리베이터처럼 바로 오르고 내릴 땐 계단으로 걸어 내려옵니다. 이유를 하나씩 보면 납득이 갑니다.\n\n첫째, 초콜릿 회사는 코코아를 몇 달, 길게는 1년 넘게 앞서 사 둡니다. 김장하듯 미리 사 둔 비싼 코코아를 먼저 쓰니, 지금 싸진 코코아는 시간이 지나야 원가에 들어옵니다.\n\n둘째, 초콜릿 원가는 코코아만이 아닙니다. 설탕과 우유, 포장, 인건비, 운송비가 함께 움직여요. 셋째, 한 번 내린 값은 다시 올리기 어렵습니다. 그래서 회사는 가격 인하를 가장 마지막에 꺼냅니다.\n\n[사진: 손에 든 마른 코코아 열매 꼬투리]\n\n■ 몬덜리즈는 같은 날 정반대 길을 택했습니다\n\n몬덜리즈는 오레오를 만드는 회사입니다. 같은 10월 29일 발표한 3분기 실적에서 값을 올린 효과는 0.3%포인트에 그쳤고 팔린 양과 구성은 1.8%포인트 늘었습니다.\n\n허쉬는 값으로, 몬덜리즈는 양으로 벌었습니다. 과자 진열대에서 두 가지 실험이 동시에 돌아가고 있는 셈이에요. 어느 쪽이 맞는지는 다음 실적이 말해 줄 겁니다.\n\n■ 미국 할로윈 소비는 135억 달러로 역대 최대입니다\n\n미국소매협회(NRF) 조사로 올해 미국 할로윈 소비는 135억 달러, 역대 최대 전망입니다. 작년 기록은 131억 달러였어요. 그런데 사탕은 1등이 아닙니다.\n\n미국 할로윈 돈은 의상 44억 달러, 장식 43억 달러, 사탕 41억 달러 순으로 갑니다. 반려동물 의상에만 9억 2천만 달러를 쓰고 인기 1위는 호박, 2위는 핫도그 의상이에요. 강아지 의견은 아무도 묻지 않았습니다.\n\n[사진: 2026년 미국 할로윈 소비 항목별]\n\n사탕 판매 숫자는 반대로 움직입니다. 닐슨IQ 집계로 9월 중순 미국 사탕 판매는 1년 전보다 11.7% 줄었습니다(한국경제 10월 25일 보도). 할로윈 전체 지갑은 커졌는데 사탕 칸만 얇아진 거죠.\n\n■ 허쉬 다음 실적에서 볼 숫자는 판매량입니다\n\n허쉬 다음 실적에서 가장 먼저 볼 숫자는 판매량입니다. 이번엔 약 10% 줄었죠. 값 인상 효과가 한 바퀴 돈 뒤에도 판매량이 크게 줄면 값으로 버티는 힘이 약해지고 있다는 신호입니다. 4분기 실적은 내년 초에 나옵니다.\n\n허쉬도 조심스럽습니다. 올해 매출 성장 전망은 3~3.5%에서 약 3%로 낮췄고 조정 주당순이익 성장 전망은 36~38.5%로 높였습니다. 값으로 버는 힘은 자신 있지만 손님 수는 조심스럽게 본다는 뜻으로 읽힙니다.\n\n두 번째는 코코아 선물 값입니다. 엘니뇨로 다음 시즌 코트디부아르 주 수확이 17% 줄 수 있다는 전망도 나왔어요. 코코아가 다시 오르면 초콜릿값 인하 기대는 접어야 합니다.\n\n워렌 버핏은 값을 올려도 손님이 떠나지 않는 힘을 가격 결정력이라고 부르며 사업을 평가할 때 가장 중요한 하나로 꼽았습니다. 이번 할로윈 허쉬 실적은 그 힘이 숫자로 드러난 장면이었어요. 동시에 판매량 −10%는 그 힘에도 한계가 있다는 경고 신호이기도 합니다.\n\n■ 자주 묻는 질문\n\nQ. 허쉬 실적은 어땠나요? 허쉬는 2026년 3분기 매출 32억 7,550만 달러(+3.0%), 조정 주당순이익 2.64달러(+103.1%)를 냈습니다. 판매량은 약 10% 줄었지만 값을 올린 효과가 약 11%포인트였습니다.\n\nQ. 코코아 값이 내렸는데 초콜릿값은 왜 안 내리나요? 초콜릿 회사가 코코아를 몇 달 앞서 미리 사 두고 설탕·우유·포장 같은 다른 원가도 있으며 한 번 내린 값은 다시 올리기 어려워 가격 인하를 가장 늦게 하기 때문입니다.\n\nQ. 미국 할로윈 소비는 얼마인가요? 미국소매협회 조사로 2026년 미국 할로윈 소비는 135억 달러로 역대 최대 전망입니다. 의상 44억, 장식 43억, 사탕 41억 달러 순입니다.\n\n같이 읽으면 좋은 글: 버크셔 해서웨이 주가, 워렌 버핏 은퇴 예고 17개월 만에 신고가 / 구찌는 매출이 43% 줄었는데 이익은 왜 74%나 줄었을까?\n\n내일 할로윈 사탕을 사신다면 가격표를 한 번 봐 주세요. 작년보다 봉지가 가벼워졌는지, 값이 올랐는지요.\n\n— Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 허쉬·몬덜리즈 숫자는 2026년 10월 29일 발표된 3분기 실적, 할로윈 소비는 미국소매협회 2026년 9월 22일 발표, 코코아 값은 ICE 선물(트레이딩이코노믹스 2026년 10월 1·7일) 기준입니다. 관세 환급 제외 증가율은 (2.64−0.22)÷1.30으로 단순 계산했습니다. 이 글은 Luciano가 작성했습니다.";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
+  catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261030h", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
