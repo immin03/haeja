@@ -105,7 +105,7 @@ for (const dir of dirs) {
   if (!cover?.img || cover.kind !== 'cover') E.push('첫 블록이 표지 사진(kind cover)이 아닙니다');
   else if (!cover.src) E.push('표지가 실사 사진 표지(kit photocover)가 아닙니다 — 표지에 쓴 사진의 src 를 다세요');
   const extra = imgs.filter((b) => b.kind !== 'cover');
-  if (extra.length > 4) W.push(`표지 외 이미지 ${extra.length}장 — 분석 그림 1장 + 단순 사진·GIF 1~2장까지 (STYLE v3-9)`);
+  if (extra.length > 2) W.push(`표지 외 이미지 ${extra.length}장 — 분석 막대 그래프 1장 + 단순 사진 또는 GIF 1장까지 (STYLE v3-9)`);
   if (K('card').length > 1) E.push(`글자 카드(card) ${K('card').length}장 — 1장까지`);
   const media = [...imgs.filter((b) => b.kind === 'photo' || b.kind === 'gif'), ...p.blocks.filter((b) => b.video)];
   if (media.some((b) => !b.src)) E.push(`출처(src)가 없는 실사 사진·영상: ${media.filter((b) => !b.src).map((b) => b.img || b.video).join(', ')}`);
@@ -163,7 +163,7 @@ for (const dir of dirs) {
   const note = p.blocks.find((b) => b.note);
   if (!note || !/Luciano가 작성했습니다/.test(note.note)) E.push('고지에 작성자 문장(Luciano가 작성했습니다)이 없습니다');
   // 2026-10-29 운영자 결정: 회사 블로그가 아니라 일반 블로거 글처럼 — 밸류노트 노출 최소화, 검색어 중심
-  { const body = p.blocks.filter((b) => !b.note).map((b) => strip(b.p || '') + ' ' + (b.h || '')).join(' '); const vn = (body.match(/밸류노트/g) || []).length; if (vn) W.push(`본문에 '밸류노트' ${vn}번 — 2026-10-29부터 기본 0번 (운영자가 요청한 글만 예외)`); }
+  { const body = p.blocks.filter((b) => !b.note).map((b) => strip(b.p || '') + ' ' + (b.h || '')).join(' '); const vn = (body.match(/밸류노트/g) || []).length; if (vn > 1) W.push(`본문에 '밸류노트' ${vn}번 — 끝 링크 문장 한 번만 (STYLE v3-11)`); }
   if (/밸류노트/.test(p.title) || (p.blocks.find((b) => b.summary)?.summary || []).some((x) => /밸류노트/.test(x))) E.push("제목·3줄 요약에 '밸류노트'가 있습니다 — 일반 블로거 글처럼");
   if ((p.tags || []).some((t) => /밸류노트/.test(t))) E.push("태그에 '밸류노트'가 있습니다 — 2026-10-29부터 쓰지 않습니다");
   if (/에디터|Editor/.test(note?.note || '')) W.push('고지에 에디터 직함이 있습니다 — "이 글은 Luciano가 작성했습니다."로');
@@ -191,10 +191,10 @@ for (const dir of dirs) {
   if (/가게|옆집|본전까지/.test(p.title)) E.push('제목에 비유(가게·옆집·본전까지)가 있습니다 — 제목만 읽어도 뜻이 통하게');
   const links = p.blocks.filter((b) => b.link);
   if (links.length > 1) E.push(`밸류노트 링크 ${links.length}개 — 1개까지`);
-  if (links.length) W.push('밸류노트 링크가 있습니다 — 2026-10-29부터 기본은 링크 없음');
+  if (!links.length) W.push('끝에 관련 밸류노트 페이지 텍스트 링크 1개("더 들여다보고 싶다면 ~")가 없습니다 — 2026-10-30 운영자 (STYLE v3-11)');
   { const ed = p.blocks.findIndex((b) => SIG.test(b.p || '')); const after = ed >= 0 ? p.blocks.slice(ed + 1).filter((b) => b.p && /^\*\*/.test(b.p)) : []; if (after.length) E.push('Editor 줄 뒤 굵은 후킹 문단은 쓰지 않습니다'); }
   { const body = p.blocks.map((b) => strip(b.p || '')).join(' '); const fp = (body.match(/(^|[\s"'(])(저는|제가|저도|제 생각|저 역시)/g) || []).length; if (fp < 2) W.push(`1인칭(저는·제가) ${fp}번 — Luciano 한 사람이 쓴 글처럼 2번 이상`); }
-  if (day) for (const o of others.filter((o) => o.id.startsWith('b' + day))) if (links.length && o.p.blocks.some((b) => b.link)) W.push(`같은 날 ${o.id}에도 링크가 있습니다 — 같은 날 두 편 가운데 링크는 한 편만`);
+  if (false) for (const o of others) W.push(`같은 날 ${o.id}에도 링크가 있습니다 — 같은 날 두 편 가운데 링크는 한 편만`);
   // 사실 표: 제목·요약·소제목의 숫자는 모두 facts 에 있어야 한다
   const facts = p.facts || [];
   if (!facts.length) E.push('facts(확인한 사실과 출처)가 없습니다');
