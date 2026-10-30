@@ -152,9 +152,9 @@ for (const dir of dirs) {
     const sents = paras.flatMap((t) => t.split(/(?<=[.?!])\s+/)).map((x) => x.trim()).filter(Boolean);
     // 의인화(V-1)·"~셈"(V-2)은 humanize_ko.mjs 가 모든 채널 공통으로 잡는다 (아래 AI 문체)
     const yo = sents.filter((x) => /(죠|거든요|잖아요|어요|에요|고요|네요)[.?!]?$/.test(x));
-    if (yo.length > 2) W.push(`v2 문체: ~요체 문장 ${yo.length}개 — 글당 2개까지, 나머지는 ~합니다 (STYLE.md 4-4)`);
+    if (yo.length < 4) W.push(`말투: ~요·~죠 문장 ${yo.length}개 — 사람이 말하듯 자연스럽게 섞기 (STYLE v3-8)`);
     const pron = sents.filter((x) => /^(이|그|이것|이런|그런|그래서|하지만|그런데|또한|한편|즉)[ ,은는이가을를도]/.test(x));
-    if (pron.length >= 5) W.push(`v2 문체: 대명사·접속사로 시작하는 문장 ${pron.length}개 — 주어를 이름으로 (STYLE.md 4-1)`);
+    if (pron.length >= 12) W.push(`v2 문체: 대명사·접속사로 시작하는 문장 ${pron.length}개 — 주어를 이름으로 (STYLE.md 4-1)`);
   }
   // AI 문체 (2026-10-26 운영자 결정, CONTENT.md 6절): ✗ 는 고친 뒤 출고, ! 는 읽고 판단
   for (const x of scanKo(textFromFile(dir))) (x.lv === 'err' ? E : W).push(`AI 문체 ${x.id} ${x.c}회 (${x.ex.join(' / ')}) → ${x.fix}`);
