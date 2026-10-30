@@ -106,7 +106,7 @@ begin
   select coalesce(array_agg(coalesce(ig_at, scheduled_at)), '{}') into fixed from social_posts
    where coalesce(ig_status,'') <> 'deleted' and not coalesce(paused,false) and to_ig is not false and approved is not false
      and coalesce(ig_at, scheduled_at) > now() - interval '1 day'
-     and (ig_status = 'posted' or scheduled_at < now() + lockw or id ~ '^(U|E|Q)');
+     and (ig_status = 'posted' or scheduled_at < now() + lockw or id ~ '^(U|E|Q|H)');
 
   -- 1차: 이미 자기 종류 칸에 있고 간격도 맞는 편은 그대로
   -- 2차: 나머지는 같은 날 기본 칸 → 추가 칸 → 다음 날 순으로
@@ -115,7 +115,7 @@ begin
            exists (select 1 from _igs x where x.at = p.scheduled_at and x.kind = p.kind) on_slot
       from social_posts p
      where p.ig_status = 'pending' and not coalesce(p.paused,false) and p.to_ig is not false and p.approved is not false
-       and p.kind in ('reel','carousel') and p.id !~ '^(U|E|Q)'
+       and p.kind in ('reel','carousel') and p.id !~ '^(U|E|Q|H)'
        and p.scheduled_at >= now() + lockw and p.scheduled_at < now() + interval '8 days'
      order by 4 desc, p.scheduled_at, p.id
   loop

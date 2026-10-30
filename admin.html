@@ -556,6 +556,7 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-ch1{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}.br-ch1 .n{font-weight:800}.br-ch1 .c{color:var(--ink2);text-align:right}
 .br-li{margin:0;padding-left:18px;font-size:15px;line-height:1.75}
 .br-ch li .br-st{font-size:11.5px;padding:2px 8px;margin-right:4px}.br-ch li.br-off{color:var(--muted)}.br-ch li.br-off .br-st.off{background:var(--bg);color:var(--muted)}.br-legend{font-size:12.5px;margin:10px 0 2px;line-height:1.6}
+.br-goal{border-left:4px solid var(--navy)}.gl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.gl-k{font-size:12px;color:var(--muted);font-weight:700}.gl-top b{font-size:16px}.gl-rule{font-size:13px;color:var(--ink2);margin:6px 0 10px;line-height:1.55}.gl-row{margin:10px 0}.gl-h{display:flex;justify-content:space-between;gap:8px;font-size:13.5px}.gl-h span{color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap}.gl-bar{height:9px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:5px}.gl-bar i{display:block;height:100%;border-radius:99px;background:var(--navy)}.gl-s{font-size:12px;color:var(--muted);margin-top:3px}.gl-foot{font-size:12px;color:var(--muted);margin-top:8px}
 .br-todo{border-left:4px solid #E0A526}.br-td{padding:12px 0;border-top:1px solid var(--line,rgba(0,0,0,.08))}.br-td:first-of-type{border-top:0}.br-td b{font-size:15px}.br-how{margin:6px 0 0;font-size:13.5px}.br-how summary{cursor:pointer;color:var(--ink2);font-weight:700}.br-how ol{margin:6px 0 0;padding-left:20px;line-height:1.7}.br-tdin{display:flex;gap:8px;margin-top:8px}.br-tdin input{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line,#ddd);border-radius:10px;font:inherit}.br-tdnote{margin-top:6px;font-size:12.5px}.br-why{font-size:12.5px;color:var(--muted);margin:2px 0 4px 0;padding-left:2px}.br-todo-h{font-weight:800;font-size:15px;margin-bottom:6px}
 .br-fb{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);resize:vertical}
 .br-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-size:12.5px}
@@ -570,6 +571,8 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .ask textarea{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;line-height:1.45;resize:none;padding:8px 0;max-height:160px}
 .ask button{flex:none;border:0;border-radius:10px;background:var(--navy);color:#FFFFFF;font:inherit;font-size:14.5px;font-weight:800;padding:10px 16px;cursor:pointer}.ask button:disabled{opacity:.5}
 .ask .m{font-size:12.5px;color:var(--muted);margin:6px 2px 0}
+.ask-att{flex:none;align-self:center;display:flex;align-items:center;justify-content:center;width:34px;height:34px;margin-left:-6px;border-radius:9px;color:var(--ink2);cursor:pointer}.ask-att:hover{background:var(--bg)}.ask.drag form{border-style:dashed;background:var(--bg)}
+.ask-imgs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 2px 0}.ask-imgs[hidden]{display:none}.ask-imgs div{position:relative;width:64px;height:64px;border-radius:10px;overflow:hidden;border:1px solid var(--line,#ddd)}.ask-imgs img{width:100%;height:100%;object-fit:cover}.ask-imgs button{position:absolute;top:2px;right:2px;width:20px;height:20px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.6);color:#FFFFFF;font-size:13px;line-height:20px;cursor:pointer}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ask form{border-color:var(--gold,#C9A24A)}:root:not([data-theme="light"]) .ask button{background:var(--gold-grad);color:#0E1A2B}}
 main#main{padding-bottom:48px}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .br-b:not(.ghost):not(.red){background:var(--gold-grad);color:#0E1A2B}:root:not([data-theme="light"]) .br-seg button.on{background:var(--gold-grad);color:#0E1A2B}}
@@ -582,7 +585,7 @@ main#main{padding-bottom:48px}
 <body>
 <header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="#brief" title="브리핑으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><button class="btn hd-more" id="hdmore" aria-label="메뉴" aria-expanded="false">⋯</button><div class="hd-menu" id="hdmenu" hidden><button id="reload" hidden>새로고침</button><a href="/side">사이드 채널 (까치)</a><a href="./">앱으로 가기</a><button id="out" hidden>로그아웃</button></div></div></div></header>
 <nav class="tabs" id="tabs" hidden><div class="in"></div><div class="sub"><div class="in"></div></div></nav>
-<div class="ask" id="ask" hidden><form><textarea rows="1" placeholder="무엇이든 요청하세요" aria-label="요청"></textarea><button type="submit">보내기</button></form><div class="m" id="ask-m"></div></div>
+<div class="ask" id="ask" hidden><form><label class="ask-att" title="캡처 첨부 (붙여넣기·끌어오기도 됩니다)" aria-label="캡처 첨부"><input type="file" accept="image/*" multiple hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></label><textarea rows="1" placeholder="무엇이든 요청하세요 (캡처는 붙여넣기 가능)" aria-label="요청"></textarea><button type="submit">보내기</button></form><div class="ask-imgs" hidden></div><div class="m" id="ask-m"></div></div>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
 <script>
@@ -2336,14 +2339,16 @@ function brRange(){
 const brIn = (iso, r) => { if(!iso) return false; const d = kstDate(iso); return d >= r.from && d <= r.to; };
 async function briefLoad(){
   const r = brRange();
-  const [doc, inbox, al, tc, td] = await Promise.all([
+  const [doc, inbox, al, tc, td, gp, pm] = await Promise.all([
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', r.id).maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', 'brief-inbox').maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'alerts').order('updated_at', { ascending: false }).limit(60),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'task-changes').maybeSingle(),
-    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'owner-todo').maybeSingle()]);
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'owner-todo').maybeSingle(),
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'growth-plan').maybeSingle(),
+    sb.from('docs').select('id,data->monetize').eq('collection', 'agent').like('id', 'perf-20%').order('id', { ascending: false }).limit(1)]);
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = al.data || [];
-  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; BR.loaded = true;
+  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; BR.growth = (gp.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
 }
 /* 2026-10-30 운영자: "내 개인계정의 soxl 개장브리핑 등 내용은 여기 안 떠도 돼, 이건 관리자 페이지잖아", "이미 처리됐는데 여전히 떠있는 건 없애고"
    → 대표님 개인 투자 알림(앱 사용자 알림)은 관리자 알림에서 뺀다(앱 알림함에는 그대로 남는다).
@@ -2382,8 +2387,45 @@ function brWhy(x){
   const n = String(x.note || '');
   const m = n.match(/자동 검수 보류:\s*([^·]+)/); if(m) return ('자동 검수에서 걸림 — ' + m[1].replace(/\(.*?\)/g, '').trim()).slice(0, 120);
   if(/대표 반려|반려/.test(n)) return '대표님 반려';
-  if(x.status === 'changes') return '수정 요청 처리 중';
+  if(x.status === 'changes') return /대표|운영자|\[10\/\d+ .*대표님/.test(n) ? '대표님 수정 요청' : '수정 요청';
   return x.status === 'hold' ? '사유 기록 없음' : '';
+}
+
+
+/* 수정 중인 편의 지금 단계 (youtube_posts note·events 기준) */
+function isFixRow(x){ return x.status === 'changes' || (x.paused && !!brPairFix(x)); }
+function brPairFix(p){ const m = String(p.ig_error || '').match(/쇼츠\((Y\w+)\)/); if(!m) return null; const y = (YT.list || []).find(v => v.id === m[1]); return y && ['changes', 'review', 'approved'].includes(y.status) && !y.youtube_id ? y : null; }
+function brFixStage(x){
+  if(x.ig_status !== undefined){ const y = brPairFix(x); return y ? '쇼츠와 함께 ' + brFixStage(y).replace(/^수정 /, '') : '수정 중'; }
+  const ev = x.events || [], last = ev[ev.length - 1] || {}, n = String(x.note || '');
+  const tail = n.slice(n.lastIndexOf('수정 요청') >= 0 ? n.lastIndexOf('수정 요청') : 0);
+  if(/처리 중|렌더 중|재렌더 중|rendering/.test(tail) || /렌더|render/.test(String(last.what || '')) && !/완료|반영/.test(String(last.what || ''))) return '렌더링 중';
+  return `수정 접수 · ${brNext(BR_H_ALL, 17)} 작업 시작`;
+}
+
+/* 수익화 목표 바 (2026-10-30 운영자: "우리 목표가 결국 수익화잖아, 목표가 뭐고 우리가 어느 지점까지 와 있는지")
+   기준은 docs agent 'growth-plan'.monetize (2027-01-31까지 1,000명 + 4,000시간 또는 쇼츠 1,000만 회 / 2027-02-01부터 1,000명 + 8,000시간 또는 쇼츠 2,000만 회).
+   숫자는 성과 진단(perf-*)의 monetize 가 있으면 그것, 없으면 관리자가 가진 최근 30일 기록 합(스튜디오·공개 조회수)으로 계산한다. */
+function vGoal(kp){
+  const gp = BR.growth || {}, mon = BR.mon || null, after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00');
+  const subsK = kp.find(k => /구독자/.test(k.label)); const subs = mon && mon.subs != null ? +mon.subs : subsK ? +String(subsK.value).replace(/[^\d]/g, '') : null;
+  const L = YT.list || [], vOf = y => { const st = y.stats || {}; return st.public && st.public.views != null ? +st.public.views : st.studio && st.studio.views != null ? +st.studio.views : 0; };
+  const shorts = mon && mon.shorts_90d != null ? +mon.shorts_90d : L.filter(y => y.kind === 'short' && y.status === 'uploaded' && Date.parse(y.scheduled_at) > Date.now() - 90 * 864e5).reduce((a, y) => a + vOf(y), 0);
+  const hours = mon && mon.watch_h_12m != null ? +mon.watch_h_12m : Math.round(L.filter(y => y.kind === 'long' && y.status === 'uploaded').reduce((a, y) => a + (+((y.stats || {}).studio || {}).watch_hours || 0), 0) * 10) / 10;
+  const H = after ? 8000 : 4000, S = after ? 20000000 : 10000000;
+  const pct = (v, g) => Math.max(0, Math.min(100, (v || 0) / g * 100));
+  const bar = (label, v, g, unit, sub) => { const p = pct(v, g); return `<div class="gl-row"><div class="gl-h"><b>${label}</b><span>${n0(v)}${unit} / ${n0(g)}${unit} · ${p < 1 && v ? p.toFixed(2) : Math.floor(p)}%</span></div><div class="gl-bar"><i style="width:${Math.max(p, v ? 0.8 : 0)}%"></i></div>${sub ? `<div class="gl-s">${sub}</div>` : ''}</div>`; };
+  const best = pct(hours, H) >= pct(shorts, S) ? 'h' : 's';
+  const plan = (gp.base || []).find(m => +m.subs >= 1000), good = (gp.good || []).find(m => +m.subs >= 1000);
+  const eta = good || plan ? `구독자 1,000명 예상: ${good ? '잘 될 때 ' + good.month : ''}${good && plan ? ' · ' : ''}${plan ? '기본 ' + plan.month : ''}` : '';
+  return `<div class="card br-goal">
+    <div class="gl-top"><div><div class="gl-k">목표</div><b>유튜브 수익 창출(광고 수익) 조건 달성</b></div><span class="br-st wait">1단계</span></div>
+    <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${n0(H)}시간 <b>또는</b> 쇼츠 조회 ${n0(S)}회)${after ? '' : ' · 2027-02-01부터는 8,000시간 또는 2,000만 회'}</div>
+    ${bar('구독자', subs, 1000, '명', '꼭 넘어야 하는 조건')}
+    ${bar('롱폼 시청시간 (최근 1년)', hours, H, '시간', best === 'h' ? '두 길 중 지금 더 가까운 쪽' : '')}
+    ${bar('쇼츠 조회 (최근 90일)', shorts, S, '회', best === 's' ? '두 길 중 지금 더 가까운 쪽' : '')}
+    <div class="gl-foot">${eta ? esc(eta) + ' · ' : ''}${mon ? '성과 진단 ' + esc(String(mon.at || '').slice(0, 10)) + ' 기준' : '관리자에 들어온 최근 30일 기록 기준이라 실제보다 조금 적을 수 있습니다'}</div>
+  </div>`;
 }
 
 /* 대표님이 직접 할 일 (2026-10-30 운영자: "내가 할 일은 내가 처리할 수 있게 처리 버튼이나 하는 방식 안내")
@@ -2442,11 +2484,12 @@ function brContent(r){
   const so = (OPS.posts || []).filter(p => brIn(p.scheduled_at, r) && p.ig_status !== 'deleted' && p.approved !== false); /* approved false = 급변 감지 기록(자동 게시 안 함)이라 콘텐츠로 세지 않는다 */
   const row = (name, list, isDone, isBad) => {
     /* 2026-10-30 운영자: "문제라고 적혀 있는데 이게 무슨 말이지?" → '문제' 한 단어 대신 보류(내려 둔 것)·실패·지연으로 나눠 쓰고, 줄마다 상태를 붙인다 */
-    const done = list.filter(isDone), held = list.filter(x => !isDone(x) && isBad(x) === 'held'), bad = list.filter(x => !isDone(x) && isBad(x) && isBad(x) !== 'held'), wait = list.filter(x => !isDone(x) && !isBad(x));
-    return { name, done, bad, held, wait, all: list, st: x => isDone(x) ? ['ok', x.youtube_id || x.ig_status === 'posted' ? (Date.parse(x.scheduled_at) > Date.now() ? '스튜디오 예약' : '올라감') : '올라감'] : isBad(x) === 'held' ? ['m', x.status === 'changes' ? '수정 중 · 고친 뒤 올림' : '보류 · 안 올림'] : isBad(x) === 'late' ? ['bad', '지연 · 예정 시각 지남'] : isBad(x) ? ['bad', '실패'] : ['wait', '예정'] };
+    /* 2026-10-30 운영자: "수정 중인 거는 렌더링 작업 중이라던지 업로드 예정이라던지" → 수정 중(fix)은 보류와 따로 세고, 지금 단계를 보여 준다 */
+    const done = list.filter(isDone), fix = list.filter(x => !isDone(x) && isBad(x) === 'fix'), held = list.filter(x => !isDone(x) && isBad(x) === 'held'), bad = list.filter(x => !isDone(x) && ['late', 'fail'].includes(isBad(x))), wait = list.filter(x => !isDone(x) && !isBad(x));
+    return { name, done, bad, held, fix, wait, all: list, st: x => isDone(x) ? ['ok', x.youtube_id || x.ig_status === 'posted' ? (Date.parse(x.scheduled_at) > Date.now() ? '스튜디오 예약' : '올라감') : '올라감'] : isBad(x) === 'fix' ? ['run', brFixStage(x)] : isBad(x) === 'held' ? ['m', '보류 · 안 올림'] : isBad(x) === 'late' ? ['bad', '지연 · 예정 시각 지남'] : isBad(x) ? ['bad', '실패'] : ['wait', x.status === 'review' ? '완성 · 자동 검수 대기' : x.status === 'approved' ? '업로드 예정' : '예정'] };
   };
-  const ytBad = y => ['hold', 'stale', 'changes'].includes(y.status) ? 'held' : (y.status !== 'uploaded' && y.scheduled_at < now) ? 'late' : false;
-  const igBad = p => p.ig_status === 'failed' ? 'fail' : p.paused ? 'held' : (p.ig_status !== 'posted' && p.scheduled_at < now) ? 'late' : false;
+  const ytBad = y => y.status === 'changes' ? 'fix' : ['hold', 'stale'].includes(y.status) ? 'held' : (y.status !== 'uploaded' && y.scheduled_at < now) ? 'late' : false;
+  const igBad = p => p.ig_status === 'failed' ? 'fail' : p.paused && brPairFix(p) ? 'fix' : p.paused ? 'held' : (p.ig_status !== 'posted' && p.scheduled_at < now) ? 'late' : false;
   return [
     row('유튜브 롱폼', yt.filter(y => y.kind === 'long'), y => y.status === 'uploaded', ytBad),
     row('유튜브 쇼츠', yt.filter(y => y.kind === 'short'), y => y.status === 'uploaded', ytBad),
@@ -2539,6 +2582,23 @@ function brNext(hours, min){ const k = new Date(Date.now() + 9 * 3600e3), h = k.
 /* 'HH:MM'(또는 '내일 HH:MM') → 오늘/내일 그 시각의 ms */
 function brUpAt(t){ const tm = /내일/.test(t), [h, m] = t.replace('내일 ', '').split(':').map(Number); const k = new Date(Date.now() + 9 * 3600e3); k.setUTCHours(h, m, 0, 0); return k.getTime() - 9 * 3600e3 + (tm ? 864e5 : 0); }
 const BR_H_ALL = [8,10,12,14,16,18,20,22]; /* 브리핑 작업: 8~22시 2시간마다 17분 (2026-10-30 최적화) */
+function brReqOut(r){
+  if(!r.plan_id) return null;
+  const slug = String(r.plan_id).replace(/^P/, '');
+  const long = (YT.list || []).find(y => y.kind === 'long' && String(y.id).replace(/^L/, '') === slug);
+  if(!long) return null;
+  const shorts = (YT.list || []).filter(y => y.kind === 'short' && String(y.note || '').includes('related:' + long.id));
+  const reels = (OPS.posts || []).filter(p => p.kind === 'reel' && p.ig_status !== 'deleted' && Date.parse(p.scheduled_at) > Date.now() - 2 * 864e5 && slug.split('-').slice(1).some(w => w.length > 3 && String(p.id + ' ' + p.title).toLowerCase().includes(w)));
+  const when = kday(long.scheduled_at), sh = shorts.length ? ` · 쇼츠 ${shorts.filter(y => y.status === 'uploaded').length}/${shorts.length} 올라감` : '';
+  const rl = reels.length ? ` · 릴스 ${reels.filter(p => p.ig_status === 'posted').length}/${reels.length} 올라감` : '';
+  const st = long.status === 'uploaded' ? ['ok', Date.parse(long.scheduled_at) > Date.now() ? `롱폼 스튜디오 예약 · ${when} 공개` : `롱폼 게시됨 · ${when}`]
+    : long.status === 'approved' ? ['ok', `롱폼 완성 · ${when} 업로드 예정`]
+    : long.status === 'review' ? ['run', `롱폼 완성 · 자동 진행 대기 (${when} 예정)`]
+    : long.status === 'changes' ? ['run', `롱폼 ${brFixStage(long)} (대표님 수정 요청)`]
+    : long.status === 'hold' ? ['bad', '롱폼 보류'] : ['run', long.status];
+  return { st, at: long.updated_at, detail: `롱폼 '${String(long.title || '').slice(0, 40)}'${sh}${rl}`,
+    next: long.status === 'changes' ? '다음 단계: 수정본을 다시 만든 뒤 예정 시각에 올립니다. 진행은 이 줄에서 바로 바뀝니다.' : long.status === 'uploaded' ? '롱폼은 끝났습니다. 남은 쇼츠·릴스는 칸에 맞춰 순서대로 올라갑니다.' : `다음 단계: ${when}에 올라갑니다. 싫으면 유튜브 검수에서 반려하세요.` };
+}
 /* 내 요청 (2026-10-30 운영자): 처리 상태 + 항목별 다음 단계 안내 + '더 보지 않기' */
 function brReqs(){
   const L = [], since = Date.now() - 3 * 864e5, recent = iso => iso && Date.parse(iso) > since;
@@ -2551,7 +2611,7 @@ function brReqs(){
     const last = ev[ev.length - 1], kind = y.kind === 'long' ? '롱폼' : '쇼츠', when = kday(y.scheduled_at);
     const req = y.status === 'changes' ? (y.note || '수정 요청') : (String(y.note || '').split(' · ').find(t => t && !/^related:|^스튜디오|^자동 검수/.test(t)) || (mine[0] && mine[0].what) || '요청');
     const inStudio = !!y.youtube_id;
-    const st = y.status === 'changes' ? ['wait', '접수 · 처리 대기'] : y.status === 'review' ? ['run', '수정 완료 · 자동 진행 대기'] : y.status === 'approved' ? ['ok', `반영됨 · ${when} 게시 예정`] : y.status === 'uploaded' ? ['ok', Date.parse(y.scheduled_at) > Date.now() ? `스튜디오 예약됨 · ${when} 공개` : `게시됨 · ${when}`] : y.status === 'hold' ? ['bad', '보류'] : ['run', y.status];
+    const st = y.status === 'changes' ? (/^렌더링/.test(brFixStage(y)) ? ['run', '렌더링 중'] : ['wait', brFixStage(y)]) : y.status === 'review' ? ['run', '수정 완료 · 자동 진행 대기'] : y.status === 'approved' ? ['ok', `반영됨 · ${when} 게시 예정`] : y.status === 'uploaded' ? ['ok', Date.parse(y.scheduled_at) > Date.now() ? `스튜디오 예약됨 · ${when} 공개` : `게시됨 · ${when}`] : y.status === 'hold' ? ['bad', '보류'] : ['run', y.status];
     const next = y.status === 'changes' ? `다음 단계: ${brief}에 브리핑 작업이 요청대로 처리합니다. 게시 앞당김은 바로, 화면 수정은 다시 만든 뒤 자동 승인됩니다.`
       : y.status === 'review' ? `다음 단계: ${y.kind === 'long' ? '9시 마감 작업이 자동 승인하고' : '자동 검수(6:43·11:43·19:43)가 승인하고'} 업로드 작업이 ${when}에 올립니다.`
       : y.status === 'approved' ? (brUpAt(up) > Date.parse(y.scheduled_at) ? `다음 단계: 예정 시각 전에 도는 업로드 작업이 없어 ${up} 업로드 작업이 올리는 즉시 공개합니다. 컴퓨터와 Chrome이 켜져 있어야 합니다.` : `다음 단계: 업로드 작업이 ${up}에 스튜디오에 예약 → ${when} 공개. 컴퓨터와 Chrome이 켜져 있어야 합니다.`)
@@ -2560,6 +2620,9 @@ function brReqs(){
     L.push({ key: 'yt:' + y.id, at: (last && last.at) || y.updated_at, what: `${kind} · ${y.title || y.id}`, req, st, detail: last ? last.what : '', next });
   });
   (YT.reqs || []).filter(r => recent(r.at) || ['pending', 'working'].includes(r.status)).forEach(r => {
+    /* 2026-10-30 운영자: "할로윈 이미 영상이 나왔는데 아직도 기획안 요청 처리 중" → 요청이 만든 실제 결과물(롱폼·쇼츠·릴스) 상태로 바로 표시 */
+    const out = brReqOut(r);
+    if(out){ L.push({ key: 'req:' + r.id, at: out.at || r.started_at || r.at, what: r.kind === 'revise' ? '기획안 수정 요청' : '기획안 요청', req: r.note || '', st: out.st, detail: out.detail, next: out.next, link: '#youtube' }); return; }
     const st = r.status === 'pending' ? ['wait', '접수 · 처리 대기'] : r.status === 'working' ? ['run', '처리 중'] : r.status === 'done' ? ['ok', '완료'] : ['bad', '실패'];
     const next = r.status === 'pending' ? `다음 단계: 유튜브 대기열이 ${queue}에 기획안을 씁니다(늦어도 ${brief} 브리핑 작업이 챙깁니다).`
       : r.status === 'working' ? `다음 단계: ${r.progress || '작업 중입니다'}`
@@ -2617,6 +2680,8 @@ function vBrief(){
   <div class="card br-hl">${d.headline ? `<p>${esc(d.headline)}</p>` : `<p class="m">${wk ? '주간 브리핑은 월요일 07:47에 올라옵니다.' : '오늘 브리핑은 매일 07:47에 올라옵니다.'} 아래 숫자와 목록은 지금 데이터 그대로입니다.</p>`}${d.at ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
 
 
+  ${vGoal(kp)}
+
   ${vTodo(todo)}
 
   <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
@@ -2627,8 +2692,8 @@ function vBrief(){
   <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
   <h2>${wk ? '이번 주' : (r.from === brToday() ? '오늘' : '이날')} 콘텐츠</h2>
-  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ 업로드 ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패·지연 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}
-    ${C.some(c => c.held.length || c.bad.length) ? `<div class="m br-legend">보류 = 올리지 않기로 내려 둔 것(이유는 줄 아래 '왜'). 수정 중 = 고쳐서 다시 만든 뒤 빈 칸에 다시 올리는 것. 둘 다 시간 칸을 차지하지 않습니다. 실패·지연 = 올라가야 했는데 안 올라간 것으로, 위 '확인할 것'에 이유가 뜹니다.</div>` : ''}
+  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ 업로드 ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패·지연 ${c.bad.length}</em>` : ''}${c.fix.length ? `<em>수정 중 ${c.fix.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' || isFixRow(x) ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}
+    ${C.some(c => c.held.length || c.bad.length || c.fix.length) ? `<div class="m br-legend">수정 중 = 고쳐서 다시 만드는 중(수정 접수 → 렌더링 중 → 업로드 예정 순으로 바뀝니다). 보류 = 올리지 않기로 내려 둔 것. 둘 다 이유는 줄 아래 '왜'에 있고, 시간 칸은 차지하지 않습니다. 실패·지연 = 올라가야 했는데 안 올라간 것으로, 위 '확인할 것'에 이유가 뜹니다.</div>` : ''}
     ${(d.channels || []).map(c => `<div class="br-ch1"><span class="n">${esc(c.name)}</span><span class="c">${esc(c.text || '')}</span></div>`).join('')}</div>
 
   ${(d.sections || []).filter(sc => !/직접 할 일/.test(sc.title || '')).map(sc => `<details class="br-fold"><summary>${esc(sc.title)}</summary><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></details>`).join('')}
@@ -2806,16 +2871,38 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
 /* 맨 위 통합 요청칸 (2026-10-30 운영자: "통합으로 요청하는 요청메시지칸을 제일 위에") —
    어느 화면에서든 한 줄로 요청 → brief-inbox에 화면 이름과 함께 저장 → 브리핑 작업이 처리하고 '내 요청'에 상태가 뜬다 */
 (() => {
-  const box = $('#ask'), f = box.querySelector('form'), ta = f.querySelector('textarea'), btn = f.querySelector('button'), m = $('#ask-m');
+  const box = $('#ask'), f = box.querySelector('form'), ta = f.querySelector('textarea'), btn = f.querySelector('button[type=submit]'), m = $('#ask-m');
+  /* 캡처 첨부 (2026-10-30 운영자: "무엇이든 요청하세요에 캡쳐본 올릴 수 있게") — 버튼·붙여넣기·끌어오기. 긴 변 1600px JPEG로 줄여
+     docs collection 'owner-uploads'에 한 장씩 저장하고, 요청에 images: [id] 로 붙인다. 브리핑 작업이 그 사진을 열어 보고 처리한다 */
+  const imgs = [], tray = box.querySelector('.ask-imgs'), fin = box.querySelector('.ask-att input');
+  const shrink = file => new Promise((ok, no) => { const u = URL.createObjectURL(file), im = new Image();
+    im.onload = () => { const k = Math.min(1, 1600 / Math.max(im.width, im.height)), c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+      const g = c.getContext('2d'); g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, c.width, c.height); g.drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(u); ok({ url: c.toDataURL('image/jpeg', 0.82), w: c.width, h: c.height, name: file.name || 'capture' }); };
+    im.onerror = () => { URL.revokeObjectURL(u); no(new Error('이미지를 읽지 못했습니다')); }; im.src = u; });
+  const drawTray = () => { tray.hidden = !imgs.length; tray.innerHTML = imgs.map((x, i) => `<div><img src="${x.url}" alt=""><button type="button" data-rm="${i}" aria-label="빼기">×</button></div>`).join('');
+    tray.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { imgs.splice(+b.dataset.rm, 1); drawTray(); }); };
+  const addFiles = async files => { for(const file of [...files].filter(x => /^image\//.test(x.type))){ if(imgs.length >= 6){ toast('캡처는 한 번에 6장까지입니다.', true); break; } try{ imgs.push(await shrink(file)); }catch(e){ toast(e.message, true); } } drawTray(); };
+  fin.onchange = () => { addFiles(fin.files); fin.value = ''; };
+  ta.addEventListener('paste', e => { const fs = [...(e.clipboardData || {}).files || []].filter(x => /^image\//.test(x.type)); if(fs.length){ e.preventDefault(); addFiles(fs); } });
+  box.addEventListener('dragover', e => { e.preventDefault(); box.classList.add('drag'); });
+  box.addEventListener('dragleave', () => box.classList.remove('drag'));
+  box.addEventListener('drop', e => { e.preventDefault(); box.classList.remove('drag'); addFiles(e.dataTransfer.files); });
+  const uploadImgs = async () => { const uid = (await sb.auth.getUser()).data.user.id, ids = [];
+    for(const x of imgs){ const id = 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'owner-uploads', id, updated_at: new Date().toISOString(), data: { at: new Date().toISOString(), name: x.name, w: x.w, h: x.h, mime: 'image/jpeg', b64: x.url.split(',')[1] } });
+      if(error) throw new Error('캡처를 올리지 못했습니다: ' + error.message); ids.push(id); }
+    return ids; };
   const where = () => (PAGES.find(x => x[0] === page()) || [])[1] || '';
   const hint = () => { m.textContent = `예: "10시 쇼츠 썸네일 고쳐줘" · 다음 처리 ${brNext(BR_H_ALL, 17)} · 상태는 브리핑 '내 요청'에`; };
   const fit = () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 160) + 'px'; };
   ta.addEventListener('input', fit);
   ta.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); f.requestSubmit(); } });
-  f.onsubmit = async e => { e.preventDefault(); const text = ta.value.trim(); if(!text){ ta.focus(); return; }
-    btn.disabled = true; if(!BR.inbox && !BR.loaded) await briefLoad().catch(() => {});
-    if(await brSaveInbox({ kind: 'feedback', ref: where(), text: `[${where()}] ${text}` })){ ta.value = ''; fit(); toast(`받았습니다. ${brNext(BR_H_ALL, 17)}에 처리하고 브리핑 '내 요청'에 상태가 뜹니다.`); if(page() === 'brief') render(); }
-    btn.disabled = false; };
+  f.onsubmit = async e => { e.preventDefault(); const text = ta.value.trim(); if(!text && !imgs.length){ ta.focus(); return; }
+    btn.disabled = true; btn.textContent = imgs.length ? '올리는 중…' : '보내기'; if(!BR.inbox && !BR.loaded) await briefLoad().catch(() => {});
+    let images = []; try{ images = imgs.length ? await uploadImgs() : []; }catch(err){ toast(err.message, true); btn.disabled = false; btn.textContent = '보내기'; return; }
+    const body = `[${where()}] ${text || '(캡처만 보냄)'}${images.length ? ` [캡처 ${images.length}장]` : ''}`;
+    if(await brSaveInbox({ kind: 'feedback', ref: where(), text: body, ...(images.length ? { images } : {}) })){ ta.value = ''; imgs.length = 0; drawTray(); fit(); toast(`받았습니다. ${brNext(BR_H_ALL, 17)}에 처리하고 브리핑 '내 요청'에 상태가 뜹니다.`); if(page() === 'brief') render(); }
+    btn.disabled = false; btn.textContent = '보내기'; };
   hint(); setInterval(() => { box.hidden = $('#out').hidden; hint(); }, 1000);
 })();
 
