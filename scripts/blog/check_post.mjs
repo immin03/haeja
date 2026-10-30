@@ -90,7 +90,11 @@ for (const dir of dirs) {
   if (!/\d/.test(p.title)) W.push('제목에 숫자가 없습니다');
   // 길이
   const len = bodyLen(p);
-  if (len < 2000 || len > 3600) W.push(`본문 ${len}자 (2,000~3,500자)`);
+  if (len < 1900 || len > 3200) W.push(`본문 ${len}자 (2,000~2,800자, STYLE v3)`);
+  { const t = p.blocks.filter((b) => b.p && !SIG.test(b.p)).map((b) => strip(b.p)).join(' '); const nd = (t.match(/\d[\d,.]*/g) || []).length * 1000 / Math.max(1, t.length);
+    if (nd > 20) W.push(`숫자 밀도 1,000자당 ${nd.toFixed(1)}개 — 15개 안팎으로 (메르 22, 기준 글 b261030u). 이야기를 받치는 기둥 숫자만 (STYLE v3-4)`);
+    const acc = ['잉여현금흐름', '영업현금흐름', '주당순이익', 'PER', 'PBR', 'ROE', 'EBITDA', '컨센서스'].filter((w) => t.includes(w));
+    if (acc.length > 1) W.push(`회계 용어 ${acc.length}개(${acc.join(', ')}) — 한 글에 하나까지, 나머지는 말로 (STYLE v3-4)`); }
   // 사진
   const imgs = p.blocks.filter((b) => b.img && !b.href);
   const orig = imgs.filter((b) => ['chart', 'app', 'data'].includes(b.kind));
@@ -178,7 +182,7 @@ for (const dir of dirs) {
   { const PRON = /^(이|그|이것|그것|이런|그런|이는|그는|그래서|하지만|그런데|그러면|또|여기서)[\s,]/; leads.forEach((l) => { const f = l.split(' → ')[1] || ''; if (PRON.test(f)) W.push(`AI 인용: 소제목 아래 첫 문장이 앞 문장에 기대어 시작합니다 — 대상 이름을 주어로: ${f.slice(0, 40)}`); });
     const sm = p.blocks.find((b) => b.summary)?.summary?.[0] || ''; if (sm && !/\d/.test(sm)) W.push('AI 인용: 3줄 요약 첫 줄에 숫자가 없습니다 — 제목 질문의 답(대상+숫자+기준일)으로');
     p.blocks.forEach((b) => { const t = strip(b.p || ''); if (/^Q[.\s]/.test(t)) { const a = (t.split('?')[1] || '').trim(); if (a && PRON.test(a)) W.push(`AI 인용: Q&A 답 첫 문장이 단독으로 읽히지 않습니다: ${a.slice(0, 30)}`); } }); }
-  if (!p.blocks.some((b) => /^Q[.\s]/.test(strip(b.p || '')))) W.push('글 끝 "자주 묻는 질문"(Q. 문장 2~3개)이 없습니다 — 사람들이 함께 검색하는 질문에 짧게 답하기');
+  // 2026-10-30 STYLE v3: 자주 묻는 질문은 선택 (틀을 줄인다)
   if (note && /AI ?(도구|로 (초안|작성|만))/.test(note.note)) E.push('고지에 AI 언급이 있습니다');
   if (p.blocks.some((b) => b.sources)) E.push('참고 자료 목록(sources) 블록은 넣지 않습니다');
   // 사람이 쓴 글처럼 (2026-10-25 운영자 결정): 배너·고정 인사·굵은 후킹 문단 없이, 1인칭 화자, 링크는 텍스트 1개까지
