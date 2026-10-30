@@ -128,7 +128,7 @@ for (const dir of dirs) {
     if (first.length > 75) W.push(`리드 문장이 깁니다(${first.length}자): ${first.slice(0, 40)}…`);
   });
   const hs = p.blocks.filter((b) => b.h);
-  if (hs.length < 3 || hs.length > 6) W.push(`소제목 ${hs.length}개 (3~6개)`);
+  if (hs.length < 4 || hs.length > 8) W.push(`소제목 ${hs.length}개 (5~7개, STYLE v3-12 큰 그림 포함)`);
   if (hs.filter((b) => /\?$/.test(b.h)).length > 1) E.push('물음표 소제목이 2개 이상입니다');
   // 구조 반복
   const s = sig(p);
