@@ -113,7 +113,7 @@
   {
    "type": "photo",
    "photo": "commons_nysefloor_1.jpg",
-   "title": "10월 30일 · 미국 마감",
+   "title": "10월 30일 · 뉴욕",
    "chip": {
     "v": "-2.86%",
     "l": "나스닥 하루",
@@ -132,7 +132,7 @@
   },
   {
    "type": "bars",
-   "title": "나스닥 · 최근 고점 대비",
+   "title": "나스닥 · 최근 고점 대비 (흔히 쓰는 기준)",
    "split": false,
    "items": [
     {
@@ -142,13 +142,13 @@
      "tone": "loss"
     },
     {
-     "label": "조정 · 흔히 쓰는 기준",
+     "label": "조정",
      "v": 10,
      "text": "-10%",
      "tone": "ivory"
     },
     {
-     "label": "하락장 · 흔히 쓰는 기준",
+     "label": "하락장",
      "v": 20,
      "text": "-20%",
      "tone": "ivory"
@@ -211,19 +211,19 @@
   },
   {
    "type": "bars",
-   "title": "인텔 4분기 매출 · 석 달",
+   "title": "인텔 4분기 매출 · 억 달러",
    "split": false,
    "items": [
     {
      "label": "시장 기대",
      "v": 170,
-     "text": "약 170억 달러",
+     "text": "약 170",
      "tone": "ivory"
     },
     {
      "label": "인텔 전망 · 많아야",
      "v": 160,
-     "text": "150~160억 달러",
+     "text": "150~160",
      "tone": "loss"
     }
    ],
@@ -243,7 +243,7 @@
    "title": "인텔이 꼽은 걸림돌 · PC",
    "chip": {
     "v": "-12%",
-    "l": "올해 PC 시장 · 인텔 전망",
+    "l": "올해 PC 시장",
     "line": 0,
     "frac": 0.55
    },
@@ -399,7 +399,7 @@
    ]
   }
  ],
- "rev": "2026-10-31 인텔 긴급 (popup)",
+ "rev": "2026-10-31 인텔 긴급 (popup) v2 — 막대 이름 겹침·칩 잘림 수정",
  "id": "Y261031u",
  "platform": "youtube",
  "approved": false,
