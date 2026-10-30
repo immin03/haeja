@@ -560,12 +560,20 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-fbl{margin-top:12px}.br-fi{padding:9px 0;border-top:1px solid var(--line);font-size:14px}.br-fi .m{font-size:12px;margin-top:2px}
 .br-q{font-size:14px;color:var(--ink2);margin-top:2px}.br-st{display:inline-block;font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;background:var(--bg);color:var(--ink2)}.br-st.ok{background:rgba(45,122,95,.12);color:var(--good)}.br-st.wait{background:rgba(224,165,38,.16);color:#94660B}.br-st.bad{background:rgba(216,65,90,.1);color:var(--bad)}
 .br-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.br-say{margin-top:8px}.br-say textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:14.5px;background:var(--bg);color:var(--ink);margin-bottom:6px}.br-play{margin-top:8px}.br-play video{width:100%;max-height:60vh;border-radius:10px;background:#000}
+.br-fold{margin-top:14px}.br-fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:12px 4px}.br-fold>summary::-webkit-details-marker{display:none}.br-fold>summary:before{content:"›";display:inline-block;width:14px;color:var(--muted);transition:transform .15s}.br-fold[open]>summary:before{transform:rotate(90deg)}
+.hd-more{font-size:18px;line-height:1;padding:6px 12px}.hd .r{position:relative}.hd-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:50;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(14,26,43,.18);min-width:180px;padding:6px;display:flex;flex-direction:column}.hd-menu[hidden]{display:none}.hd-menu a,.hd-menu button{all:unset;cursor:pointer;padding:11px 12px;border-radius:8px;font-size:14.5px;font-weight:700;color:var(--ink)}.hd-menu a:hover,.hd-menu button:hover{background:var(--bg)}.hd-menu [hidden]{display:none}
+.fb-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;border:0;border-radius:999px;background:var(--navy);color:#FFFFFF;font:inherit;font-size:14.5px;font-weight:800;padding:13px 18px;box-shadow:0 8px 24px rgba(14,26,43,.28);cursor:pointer}
+.fb-sheet{position:fixed;inset:0;z-index:70;background:rgba(14,26,43,.45);display:flex;align-items:flex-end;justify-content:center}.fb-sheet[hidden]{display:none}.fb-card{background:var(--surface);color:var(--ink);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom))}.fb-card b{font-size:16px}.fb-card .m{font-size:13px;color:var(--muted);margin:4px 0 10px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fb-fab{background:var(--gold-grad);color:#0E1A2B}}
+main#main{padding-bottom:96px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .br-b:not(.ghost):not(.red){background:var(--gold-grad);color:#0E1A2B}:root:not([data-theme="light"]) .br-seg button.on{background:var(--gold-grad);color:#0E1A2B}}
+:root[data-theme="dark"] .br-b:not(.ghost):not(.red){background:var(--gold-grad);color:#0E1A2B}
 .br-more{margin:22px 0 8px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}.br-more a{color:var(--ink2);font-weight:700}
 @media (max-width:640px){.br-kpis{grid-template-columns:repeat(2,1fr)}.br-row{flex-wrap:wrap}.br-row .bt{width:100%;padding-left:20px}}
 </style>
 </head>
 <body>
-<header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="/" title="ValueNote 홈으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><a class="btn" href="/side" style="text-decoration:none" title="사이드 채널 관리 (밸류노트와 분리된 별도 페이지)">사이드 채널</a><a class="btn" href="./" style="text-decoration:none">앱으로</a><button class="btn" id="reload" hidden>새로고침</button><button class="btn" id="out" hidden>로그아웃</button></div></div></header>
+<header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="#brief" title="브리핑으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><button class="btn hd-more" id="hdmore" aria-label="메뉴" aria-expanded="false">⋯</button><div class="hd-menu" id="hdmenu" hidden><button id="reload" hidden>새로고침</button><a href="/side">사이드 채널 (까치)</a><a href="./">앱으로 가기</a><button id="out" hidden>로그아웃</button></div></div></div></header>
 <nav class="tabs" id="tabs" hidden><div class="in"></div><div class="sub"><div class="in"></div></div></nav>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
@@ -644,14 +652,14 @@ function barsList(obj, order){
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
 const GROUPS = [
   ['brief', '브리핑', ['brief']],
-  ['home', '개요', ['overview', 'rules', 'perf', 'perfs']],
-  ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
-  ['growth', '유입', ['traffic', 'landing', 'dm']],
-  ['content', '콘텐츠', ['calendar', 'youtube', 'bench', 'social', 'blog', 'column']],
+  ['content', '콘텐츠', ['calendar', 'youtube', 'social', 'blog', 'column']],
+  ['result', '성과', ['perf', 'perfs', 'bench', 'traffic', 'landing', 'dm']],
+  ['member', '회원', ['overview', 'users', 'survey', 'stocks', 'qual']],
+  ['rules', '운영 기준', ['rules']],
 ];
 const PAGES = [
   ['brief', '브리핑'],
-  ['overview', '개요'],
+  ['overview', '방문·가입'],
   ['rules', '운영 기준'],
   ['perf', '롱폼 진단'],
   ['perfs', '숏폼 진단'],
@@ -662,10 +670,10 @@ const PAGES = [
   ['traffic', '유입·기기'],
   ['landing', '소개 페이지'],
   ['dm', '댓글 DM 유입'],
-  ['calendar', '전체 일정'],
+  ['calendar', '일정'],
   ['youtube', '유튜브'],
   ['bench', '벤치마킹'],
-  ['social', '인스타·쓰레드'],
+  ['social', '인스타'],
   ['blog', '네이버 블로그'],
   ['column', '칼럼'],
 ];
@@ -1429,7 +1437,7 @@ const YT_NOTE = {
   plan: '<b>승인</b>한 순서대로 다음 빈 롱폼 편성일(매일 19:00, 시즌 기획은 정해 둔 날)이 자동으로 잡히고, 그날 아침 최신 숫자로 제작해 \'영상 검수\'로 올립니다. 마음에 안 들면 <b>반려</b>하거나 <b>의견</b>을 남기세요. 새 기획안이 필요하면 위에서 <b>기획안 더 받기</b>를 누르세요.',
   making: '승인한 기획안을 원고로 쓰고 렌더링하는 중이거나, 숫자가 오래돼 최신 값으로 다시 만드는 영상입니다. 끝나면 \'영상 검수\'로 넘어갑니다.',
   review: '롱폼의 주가·적정 주가·점수는 렌더할 때의 최신 값입니다. 렌더 후 24시간이 지나거나, 주가가 5% 넘게 움직이거나, 실적 발표 같은 일정이 지나가면 자동으로 다시 만들어집니다.',
-  ready: '<b>구글 API 심사 전입니다.</b> 영상·썸네일을 받고 제목·설명·태그를 복사해 유튜브 스튜디오에 직접 올린 뒤 "유튜브에 올렸어요"를 눌러 주세요. 심사가 끝나면 예약 시각에 자동으로 올라갑니다.',
+  ready: '업로드 작업(매일 7·10·12·17·20시 10분)이 대표님 Chrome으로 스튜디오에 직접 올리고 예약합니다. 따로 하실 일은 없습니다. 바꾸고 싶으면 그 영상에서 수정 요청을 남겨 주세요.',
 };
 function vYoutube(){
   if(YT.list === null){ ytLoad(); return head('유튜브', '불러오는 중', 'youtube'); }
@@ -1446,7 +1454,7 @@ function vYoutube(){
   else if(cur === 'trend') body = trPanel();
   else body = x.plans.map(ytPlanItem).join('') + x.vids.map(ytItem).join('');
   if(cur === 'plan') body = body + ytReqPanel();   // 2026-10-24 운영자: 기획안이 먼저 보이게, 요청 칸은 아래로
-  return `${head('유튜브', '기획안 승인 → 제작 → 영상 검수 → 올리기 순서로 진행됩니다.', 'youtube')}
+  return `${head('유튜브', '기획 → 제작 → 자동 검수 → 업로드까지 자동으로 진행됩니다. 롱폼은 9시까지 반려가 없으면 올라갑니다.', 'youtube')}
   ${seg}
   ${YT.msg ? `<div class="soc-flash ok">${esc(YT.msg)}</div>` : ''}
   ${YT_NOTE[cur] && (n(cur) || cur === 'plan') ? `<div class="yt-note">${YT_NOTE[cur]}</div>` : ''}
@@ -2479,34 +2487,27 @@ function vBrief(){
 
   <div class="card br-hl">${d.headline ? `<p>${esc(d.headline)}</p>` : `<p class="m">${wk ? '주간 브리핑은 월요일 07:47에 올라옵니다.' : '오늘 브리핑은 매일 07:47에 올라옵니다.'} 아래 숫자와 목록은 지금 데이터 그대로입니다.</p>`}${d.at ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
 
-  <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
   <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
   <div class="card">${vChecks()}</div>
 
-  <h2>내 요청 <span class="qcount">바로 반영 상태</span></h2>
-  <div class="card">${vReqs()}</div>
+  ${brReqs().length ? `<h2>내 요청 <span class="qcount">처리 상태</span></h2>\n  <div class="card">${vReqs()}</div>` : ''}
+
+  <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
   <h2>${wk ? '이번 주' : (r.from === brToday() ? '오늘' : '이날')} 콘텐츠</h2>
   <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">문제 ${c.bad.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${c.all.map(x => `<li><span class="m">${kday(x.scheduled_at)}</span> ${esc(x.title || x.id)}</li>`).join('')}</ul>` : ''}</details>`).join('')}
     ${(d.channels || []).map(c => `<div class="br-ch1"><span class="n">${esc(c.name)}</span><span class="c">${esc(c.text || '')}</span></div>`).join('')}</div>
 
-  ${(d.sections || []).map(sc => `<h2>${esc(sc.title)}</h2><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('')}
+  ${(d.sections || []).map(sc => `<details class="br-fold"><summary>${esc(sc.title)}</summary><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></details>`).join('')}
 
-  <h2>자동으로 적용한 것 ${applied.length ? `<span class="qcount">${applied.length}</span>` : ''}</h2>
-  <div class="card">${applied.length ? applied.map((a, i) => `<div class="br-row">${dot('good')}<div class="t"><b>${esc(a.title)}</b>${a.where ? `<div class="m">${esc(a.where)}</div>` : ''}</div><div class="bt">${a.reverted ? '<span class="m">되돌림 요청함</span>' : `<button class="br-b ghost" data-br-undo="${i}">되돌리기</button>`}</div></div>`).join('') : '<div class="m">아직 없습니다. 개선안은 승인 없이 바로 적용되고 여기에 모입니다.</div>'}</div>
+  <details class="br-fold"><summary>자동으로 적용한 것 <span class="qcount">${applied.length}건</span></summary>
+  <div class="card">${applied.length ? applied.map((a, i) => `<div class="br-row">${dot('good')}<div class="t"><b>${esc(a.title)}</b>${a.where ? `<div class="m">${esc(a.where)}</div>` : ''}</div><div class="bt">${a.reverted ? '<span class="m">되돌림 요청함</span>' : `<button class="br-b ghost" data-br-undo="${i}">되돌리기</button>`}</div></div>`).join('') : '<div class="m">아직 없습니다. 개선안은 승인 없이 바로 적용되고 여기에 모입니다.</div>'}</div></details>
 
-  <h2>알림 ${big.length ? `<span class="qcount">${big.length}</span>` : ''}</h2>
+  <details class="br-fold"${big.length ? ' open' : ''}><summary>알림 <span class="qcount">${big.length ? '중요 ' + big.length + '건' : '중요한 알림 없음'}</span></summary>
   <div class="card">${big.slice(0, 6).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(a.data.body)}</div>` : ''}<div class="br-at">${kst(a.data.at || a.updated_at)} · ${esc(a.data.source || '')}</div></div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">확인</button></div></div>`).join('') || '<div class="br-ok">✓ 중요한 알림 없음</div>'}
-    ${open.length ? `<div class="br-foot"><span class="m">${small ? `일반 알림 ${small}건은 브리핑에 정리됩니다` : ''}</span><button class="br-b ghost" data-br-readall>모두 읽음</button></div>` : ''}</div>
+    ${open.length ? `<div class="br-foot"><span class="m">${small ? `일반 알림 ${small}건은 브리핑에 정리됩니다` : ''}</span><button class="br-b ghost" data-br-readall>모두 읽음</button></div>` : ''}</div></details>
 
-  <h2>피드백</h2>
-  <div class="card">
-    <textarea class="br-fb" data-br-fb rows="3" placeholder="바꾸고 싶은 것, 새로 할 일, 마음에 안 드는 것을 그냥 적어 주세요. 다음 작업부터 바로 반영합니다."></textarea>
-    <div class="br-foot"><span class="m">보낸 내용은 위 '내 요청'에서 처리 상태를 바로 볼 수 있습니다.</span><button class="br-b" data-br-send>보내기</button></div>
-  </div>
-
-  <div class="br-more">자세히: <a href="#overview">방문·가입</a><a href="#youtube">유튜브</a><a href="#social">인스타</a><a href="#perf">성과 진단</a><a href="#bench">벤치마킹</a><a href="#rules">운영 기준</a></div>
 </div>`;
 }
 async function brSaveInbox(item){
@@ -2566,14 +2567,9 @@ function render(s){
   if(OPS.loaded){ const isDone = x => (!x.to_ig || x.ig_status === 'posted') && (!x.to_threads || x.th_status === 'posted');
     const nf = OPS.posts.filter(x => !isDone(x) && ((x.to_ig && x.ig_status === 'failed') || (x.to_threads && x.th_status === 'failed'))).length;
     const na = OPS.posts.filter(x => !isDone(x) && x.approved === false).length;
-    if(nf) hot.social = [nf, 'hot', nf + '편 실패']; else if(na) hot.social = [na, 'warm', na + '편 승인 대기'];
+    if(nf) hot.social = [nf, 'hot', nf + '편 실패'];
     const nq = OPS.qual.filter(f => f.status !== 'done').length; if(nq) hot.qual = [nq, 'warm', nq + '건 검토 대기']; }
   $('#asof').textContent = '기준 ' + kst(s.asOf);
-  if(YT.list){ const nr = YT.list.filter(y => ['review', 'changes'].includes(y.status)).length, np = (YT.plans || []).filter(x => x.status === 'proposed').length;
-    if(nr + np) hot.youtube = [nr + np, 'warm', [np ? `기획안 ${np}편` : '', nr ? `영상 검수 ${nr}편` : ''].filter(Boolean).join(' · ') + ' 대기']; }
-  if(PF.data){ const np = pfPending(); if(np) hot.perf = [np, 'hot', '롱폼 개선 ' + np + '건 결정 대기']; const ns = pfsPending(); if(ns) hot.perfs = [ns, 'hot', '숏폼 개선 ' + ns + '건 결정 대기']; }
-  if(OR.rules){ const nw = ((OR.rules.data || {}).items || []).filter(x => (x.status || 'new') === 'new').length; if(nw) hot.rules = [nw, 'warm', '제1 원칙 ' + nw + '개 반영 대기']; }
-  if(BN.list){ const nb = benchCounts().proposed; if(nb) hot.bench = [nb, 'warm', '벤치마킹 ' + nb + '건 승인 대기']; }
   if(BR.loaded){ const nb = brPending() + brChecks().filter(c => c.level !== 'info').length; if(nb) hot.brief = [nb, 'hot', '확인할 것 ' + nb + '건']; }
   const nav = $('#tabs'); nav.hidden = false;
   const g = groupOf(p), title = id => PAGES.find(x => x[0] === id)[1];
@@ -2666,6 +2662,28 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
   setTimeout(() => { const a = document.querySelector('#tabs .sub a[aria-current="page"], #tabs > .in a[aria-current="page"]'); if(a) a.scrollIntoView({inline:'center', block:'nearest'}); }, 0);
   return true;
 });
+
+/* ⋯ 메뉴 (2026-10-30: 머리글 버튼 4개를 하나로) */
+(() => { const b = $('#hdmore'), m = $('#hdmenu'); if(!b) return;
+  b.onclick = e => { e.stopPropagation(); m.hidden = !m.hidden; b.setAttribute('aria-expanded', String(!m.hidden)); };
+  document.addEventListener('click', e => { if(!m.hidden && !m.contains(e.target)) { m.hidden = true; b.setAttribute('aria-expanded', 'false'); } });
+  m.addEventListener('click', e => { if(e.target.closest('a,button')) m.hidden = true; }); })();
+/* 어느 화면에서든 피드백 (2026-10-30 운영자: "관리자 페이지 안에서 왔다 갔다… 가장 심플하고 쉽게") —
+   오른쪽 아래 버튼 하나로 지금 보고 있는 화면 이름과 함께 보낸다. 처리 상태는 브리핑 '내 요청'에 뜬다 */
+(() => {
+  const fab = document.createElement('button'); fab.className = 'fb-fab'; fab.textContent = '✎ 피드백'; fab.hidden = true;
+  const sh = document.createElement('div'); sh.className = 'fb-sheet'; sh.hidden = true;
+  sh.innerHTML = '<div class="fb-card"><b>피드백 · 요청</b><div class="m" id="fb-where"></div><textarea class="br-fb" rows="4" placeholder="바꾸고 싶은 것, 새로 할 일, 마음에 안 드는 것을 그냥 적어 주세요."></textarea><div class="br-foot"><button class="br-b ghost" data-x>닫기</button><button class="br-b" data-go>보내기</button></div></div>';
+  document.body.append(fab, sh);
+  const ta = sh.querySelector('textarea'), where = () => (PAGES.find(x => x[0] === page()) || [])[1] || '';
+  fab.onclick = () => { sh.querySelector('#fb-where').textContent = `지금 화면: ${where()} · 보낸 뒤 처리 상태는 브리핑 '내 요청'에 뜹니다`; sh.hidden = false; setTimeout(() => ta.focus(), 50); };
+  sh.onclick = e => { if(e.target === sh || e.target.closest('[data-x]')) sh.hidden = true; };
+  sh.querySelector('[data-go]').onclick = async e => { const text = ta.value.trim(); if(!text){ ta.focus(); return; }
+    e.target.disabled = true; if(!BR.inbox && !BR.loaded) await briefLoad().catch(() => {});
+    if(await brSaveInbox({ kind: 'feedback', ref: where(), text: `[${where()}] ${text}` })){ ta.value = ''; sh.hidden = true; toast('받았습니다. 브리핑 내 요청에 처리 상태가 뜹니다.'); if(page() === 'brief') render(); }
+    e.target.disabled = false; };
+  setInterval(() => { fab.hidden = $('#out').hidden; }, 1000);
+})();
 
 /* 새 버전이 배포되면 화면을 스스로 다시 연다 (2026-10-30 운영자: "옛 화면이 계속 남아 있으면 안 되지") —
    1분 새로 고침은 데이터만 다시 읽으므로, 페이지 파일의 ETag가 바뀌면 통째로 다시 연다. 입력 중이면 기다린다 */
