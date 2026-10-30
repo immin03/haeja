@@ -90,7 +90,7 @@ for (const dir of dirs) {
   if (!/\d/.test(p.title)) W.push('제목에 숫자가 없습니다');
   // 길이
   const len = bodyLen(p);
-  if (len < 1900 || len > 3200) W.push(`본문 ${len}자 (2,000~2,800자, STYLE v3)`);
+  if (len < 3000 || len > 4000) W.push(`본문 ${len}자 (3,300~3,900자, STYLE v3-12 큰 그림 포함)`);
   { const t = p.blocks.filter((b) => b.p && !SIG.test(b.p)).map((b) => strip(b.p)).join(' '); const nd = (t.match(/\d[\d,.]*/g) || []).length * 1000 / Math.max(1, t.length);
     if (nd > 20) W.push(`숫자 밀도 1,000자당 ${nd.toFixed(1)}개 — 15개 안팎으로 (메르 22, 기준 글 b261030u). 이야기를 받치는 기둥 숫자만 (STYLE v3-4)`);
     const acc = ['잉여현금흐름', '영업현금흐름', '주당순이익', 'PER', 'PBR', 'ROE', 'EBITDA', '컨센서스'].filter((w) => t.includes(w));
