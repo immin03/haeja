@@ -2349,6 +2349,19 @@ function brContent(r){
   ];
 }
 /* 대표님이 볼 것: 꼭 필요한 것만. 버튼은 '반려'처럼 되돌리는 쪽만 둔다 (제1 원칙 16·17) */
+
+/* 인스타 실패 이유를 사람 말로 (2026-10-30 운영자: "실패했으면 왜 실패되고 어떤 이유였는지 써져 있어야… 무작정 보고 올릴 순 없잖아") */
+function igWhy(e){
+  const t = String(e || '');
+  if(!t) return { why: '인스타가 이유를 보내지 않았습니다.', fix: '다시 올리기를 눌러 보고, 또 실패하면 연결을 확인해 주세요.' };
+  if(/unknown error|unexpected error|try again|temporar|2207001|2207003|2207008/i.test(t)) return { why: '인스타그램 서버 쪽 일시 오류로 보입니다. 영상 파일 문제라면 보통 형식·다운로드 오류 문구가 따로 옵니다.', fix: '다시 올리기를 누르면 대부분 바로 올라갑니다.' };
+  if(/token|OAuth|session|expired|190\b/i.test(t)) return { why: '인스타그램 연결(로그인 토큰)이 만료됐습니다.', fix: '자세히 → 인스타그램 다시 연결 후 다시 올리기.' };
+  if(/checkpoint|verify|confirm your identity/i.test(t)) return { why: '인스타 계정에 확인 절차가 걸려 있습니다.', fix: '인스타 앱에서 확인 절차를 마친 뒤 다시 올리기.' };
+  if(/limit|too many|9007|4\b|rate/i.test(t)) return { why: '인스타 하루 게시 한도나 요청 한도에 걸렸습니다.', fix: '1시간쯤 뒤 다시 올리기.' };
+  if(/media|video|format|duration|aspect|codec|2207026|2207004|download|fetch|url/i.test(t)) return { why: '인스타가 영상 파일을 받지 못했거나 형식을 거절했습니다.', fix: '영상 파일 확인이 필요합니다. 다음 매시 17분 작업이 점검해 다시 만듭니다.' };
+  if(/caption|hashtag|text/i.test(t)) return { why: '설명글(캡션·해시태그)이 인스타 기준에 걸렸습니다.', fix: '캡션을 줄여 다시 올립니다.' };
+  return { why: '인스타가 다른 이유로 거절했습니다(아래 원문 참고).', fix: '다시 올리기를 한 번 눌러 보고, 또 실패하면 피드백 칸에 남겨 주세요.' };
+}
 function brChecks(){
   const L = [], now = Date.now(), today = brToday();
   (YT.list || []).filter(y => y.kind === 'long' && ['review', 'approved'].includes(y.status) && y.scheduled_at && Date.parse(y.scheduled_at) > now && Date.parse(y.scheduled_at) < now + 36 * 3600e3).forEach(y => {
@@ -2358,7 +2371,10 @@ function brChecks(){
       btns: [`<a class="br-b ghost" href="#youtube/${auto ? 'review' : 'ready'}">영상 보기</a>`, `<button class="br-b red" data-br-long="${esc(y.id)}">반려</button>`] });
   });
   const failed = (OPS.posts || []).filter(p => p.ig_status === 'failed' && kstDate(p.scheduled_at) >= brAdd(today, -2));
-  if(failed.length) L.push({ level: 'bad', title: `인스타 게시 실패 ${failed.length}편`, body: '자동으로 다시 올리기를 시도합니다. 계속 실패하면 연결을 확인해 주세요.', btns: ['<a class="br-b ghost" href="#social">보기</a>'] });
+  failed.forEach(p => { const w = igWhy(p.ig_error);
+    L.push({ level: 'bad', title: `인스타 ${p.kind === 'reel' ? '릴스' : p.kind === 'carousel' ? '카드뉴스' : '게시물'} 실패 · ${p.title || p.id}`,
+      body: `원인: ${w.why}\n조치: ${w.fix}\n예정 시각 ${kday(p.scheduled_at)} · 인스타 응답 "${String(p.ig_error || '없음').slice(0, 120)}"`,
+      btns: [`<button class="br-b" data-br-repost="${esc(p.id)}">다시 올리기</button>`, '<a class="br-b ghost" href="#social">자세히</a>'] }); });
   const st = OPS.status || {};
   (st.accounts || []).forEach(a => { if(a.platform !== 'instagram') return; const d = Math.floor((Date.parse(a.expires_at) - now) / 864e5); if(d <= 3) L.push({ level: 'bad', title: `인스타그램 연결 만료 D-${Math.max(0, d)}`, body: '다시 연결해야 게시가 이어집니다.', btns: ['<a class="br-b ghost" href="#social">연결</a>'] }); });
   const tw = BR.tasks.filter(t => t.status === 'pending');
@@ -2423,7 +2439,7 @@ function vBrief(){
   <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
   <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
-  <div class="card">${checks.length ? checks.map(c => `<div class="br-row">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body)}</div>` : ''}</div>${c.btns.length ? `<div class="bt">${c.btns.join('')}</div>` : ''}</div>`).join('') : '<div class="br-ok">✓ 지금 확인할 것 없음</div>'}</div>
+  <div class="card">${checks.length ? checks.map(c => `<div class="br-row">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body).replace(/\n/g, '<br>')}</div>` : ''}</div>${c.btns.length ? `<div class="bt">${c.btns.join('')}</div>` : ''}</div>`).join('') : '<div class="br-ok">✓ 지금 확인할 것 없음</div>'}</div>
 
   <h2>내 요청 <span class="qcount">바로 반영 상태</span></h2>
   <div class="card">${vReqs()}</div>
@@ -2471,6 +2487,15 @@ function bindBrief(){
     const r = brRange(), n = +b.dataset.brStep * (BR.mode === 'w' ? 7 : 1);
     let nd = brAdd(BR.mode === 'w' ? r.from : r.from, n); if(nd > brToday()) nd = brToday();
     BR.day = nd; BR.loaded = false; render(); await briefLoad(); render(); });
+  box.querySelectorAll('[data-br-repost]').forEach(b => b.onclick = async () => {
+    const id = b.dataset.brRepost, p = (OPS.posts || []).find(x => x.id === id) || {};
+    if(!confirm(`'${p.title || id}'을(를) 지금 인스타에 다시 올릴까요?`)) return;
+    b.disabled = true; b.textContent = '올리는 중…';
+    const { data: { session } } = await sb.auth.getSession();
+    const r = await fetch(FN + 'social-publish', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ action: 'now', id, t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
+    const err = [r.error, r.ig && r.ig.error].filter(Boolean).join(' / '), proc = r.ig && r.ig.processing;
+    toast(err ? '또 실패했습니다: ' + err : proc ? '인스타가 영상을 처리 중입니다. 몇 분 안에 올라갑니다.' : '다시 올렸습니다.', !!err);
+    await opsLoad().catch(() => {}); render(); });
   box.querySelectorAll('[data-br-long]').forEach(b => b.onclick = async () => {
     const note = prompt('반려 이유를 짧게 적어 주세요 (예: 주제가 별로, 첫 문장 다시). 비워 두면 다음 순위로 바꿉니다.'); if(note === null) return;
     b.disabled = true;
