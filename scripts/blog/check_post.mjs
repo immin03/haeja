@@ -105,7 +105,7 @@ for (const dir of dirs) {
   if (!cover?.img || cover.kind !== 'cover') E.push('첫 블록이 표지 사진(kind cover)이 아닙니다');
   else if (!cover.src) E.push('표지가 실사 사진 표지(kit photocover)가 아닙니다 — 표지에 쓴 사진의 src 를 다세요');
   const extra = imgs.filter((b) => b.kind !== 'cover');
-  if (extra.length > 2) W.push(`표지 외 이미지 ${extra.length}장 — 꼭 필요한 것만 0~2장 (STYLE.md 6절)`);
+  if (extra.length > 4) W.push(`표지 외 이미지 ${extra.length}장 — 분석 그림 1장 + 단순 사진·GIF 1~2장까지 (STYLE v3-9)`);
   if (K('card').length > 1) E.push(`글자 카드(card) ${K('card').length}장 — 1장까지`);
   const media = [...imgs.filter((b) => b.kind === 'photo' || b.kind === 'gif'), ...p.blocks.filter((b) => b.video)];
   if (media.some((b) => !b.src)) E.push(`출처(src)가 없는 실사 사진·영상: ${media.filter((b) => !b.src).map((b) => b.img || b.video).join(', ')}`);
