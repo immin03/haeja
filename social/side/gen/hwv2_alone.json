@@ -1,0 +1,31 @@
+{
+ "id": "hwv2_alone",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandma slowly lowers her gaze to the basket on her lap; far down the alley the pumpkin lanterns flicker softly; Kachi on the eave tilts its head. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a56-0485-70b6-81d8-b1b344db54dc/5fd53c04-0e27-43a2-84b6-007251e960d7.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a5c-3f50-79df-97c0-e81a7bebcb8c",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a5c-3f50-79df-97c0-e81a7bebcb8c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a5c-3f50-79df-97c0-e81a7bebcb8c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a5c-3f50-79df-97c0-e81a7bebcb8c",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a5c-3f50-79df-97c0-e81a7bebcb8c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a5c-3f50-79df-97c0-e81a7bebcb8c/cancel",
+  "expires_at": "2026-11-06T01:13:07.602804+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a5c-3f50-79df-97c0-e81a7bebcb8c/e6eaf9d2-f4a0-45de-875a-3cd0883d135f.mp4"
+  }
+ },
+ "seconds": 125,
+ "file": "social/side/gen/hwv2_alone.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "hwv3_lead",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Kachi flaps slowly and gives the corner of the white sheet one gentle tug; the little ghost child takes one small step forward on the ground. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a56-0485-7771-bbce-bc9691ab6a45/7378480f-c9ff-4413-a479-7549d5f54462.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a5c-3dbc-72d9-a9b5-dc5a98a84dfb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a5c-3dbc-72d9-a9b5-dc5a98a84dfb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a5c-3dbc-72d9-a9b5-dc5a98a84dfb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a5c-3dbc-72d9-a9b5-dc5a98a84dfb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a5c-3dbc-72d9-a9b5-dc5a98a84dfb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a5c-3dbc-72d9-a9b5-dc5a98a84dfb/cancel",
+  "expires_at": "2026-11-06T01:13:21.002463+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a5c-3dbc-72d9-a9b5-dc5a98a84dfb/635dda63-2308-4772-b84f-d37acbd23cee.mp4"
+  }
+ },
+ "seconds": 143,
+ "file": "social/side/gen/hwv3_lead.mp4"
+}

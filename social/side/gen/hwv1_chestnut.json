@@ -1,0 +1,31 @@
+{
+ "id": "hwv1_chestnut",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Kachi takes one small hop toward the chestnut on the wall and tilts its head happily; the grandma smiles softly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4d-8da3-7627-9358-710a7bc345c2/c64528ec-5768-4e80-8b24-fc382e3e59f5.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a5c-3d96-7c4b-8e72-b5d7af8b6ebf",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a5c-3d96-7c4b-8e72-b5d7af8b6ebf/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a5c-3d96-7c4b-8e72-b5d7af8b6ebf/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a5c-3d96-7c4b-8e72-b5d7af8b6ebf",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a5c-3d96-7c4b-8e72-b5d7af8b6ebf/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a5c-3d96-7c4b-8e72-b5d7af8b6ebf/cancel",
+  "expires_at": "2026-11-06T01:13:02.669840+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a5c-3d96-7c4b-8e72-b5d7af8b6ebf/581bd805-355c-4d04-bd7f-e7cd6ed00ec3.mp4"
+  }
+ },
+ "seconds": 124,
+ "file": "social/side/gen/hwv1_chestnut.mp4"
+}
