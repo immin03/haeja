@@ -104,7 +104,7 @@ begin
 
   -- 움직이지 않는 편: 올라간 편 · 곧 올라갈 편 · 급변/실적 편
   select coalesce(array_agg(coalesce(ig_at, scheduled_at)), '{}') into fixed from social_posts
-   where coalesce(ig_status,'') <> 'deleted' and not coalesce(paused,false) and to_ig is not false
+   where coalesce(ig_status,'') <> 'deleted' and not coalesce(paused,false) and to_ig is not false and approved is not false
      and coalesce(ig_at, scheduled_at) > now() - interval '1 day'
      and (ig_status = 'posted' or scheduled_at < now() + lockw or id ~ '^(U|E|Q)');
 
@@ -114,7 +114,7 @@ begin
     select p.id, p.kind, p.scheduled_at,
            exists (select 1 from _igs x where x.at = p.scheduled_at and x.kind = p.kind) on_slot
       from social_posts p
-     where p.ig_status = 'pending' and not coalesce(p.paused,false) and p.to_ig is not false
+     where p.ig_status = 'pending' and not coalesce(p.paused,false) and p.to_ig is not false and p.approved is not false
        and p.kind in ('reel','carousel') and p.id !~ '^(U|E|Q)'
        and p.scheduled_at >= now() + lockw and p.scheduled_at < now() + interval '8 days'
      order by 4 desc, p.scheduled_at, p.id

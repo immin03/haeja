@@ -556,7 +556,7 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-ch1{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}.br-ch1 .n{font-weight:800}.br-ch1 .c{color:var(--ink2);text-align:right}
 .br-li{margin:0;padding-left:18px;font-size:15px;line-height:1.75}
 .br-ch li .br-st{font-size:11.5px;padding:2px 8px;margin-right:4px}.br-ch li.br-off{color:var(--muted)}.br-ch li.br-off .br-st.off{background:var(--bg);color:var(--muted)}.br-legend{font-size:12.5px;margin:10px 0 2px;line-height:1.6}
-.br-todo{border-left:4px solid #E0A526}.br-todo-h{font-weight:800;font-size:15px;margin-bottom:6px}
+.br-todo{border-left:4px solid #E0A526}.br-td{padding:12px 0;border-top:1px solid var(--line,rgba(0,0,0,.08))}.br-td:first-of-type{border-top:0}.br-td b{font-size:15px}.br-how{margin:6px 0 0;font-size:13.5px}.br-how summary{cursor:pointer;color:var(--ink2);font-weight:700}.br-how ol{margin:6px 0 0;padding-left:20px;line-height:1.7}.br-tdin{display:flex;gap:8px;margin-top:8px}.br-tdin input{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line,#ddd);border-radius:10px;font:inherit}.br-tdnote{margin-top:6px;font-size:12.5px}.br-why{font-size:12.5px;color:var(--muted);margin:2px 0 4px 0;padding-left:2px}.br-todo-h{font-weight:800;font-size:15px;margin-bottom:6px}
 .br-fb{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);resize:vertical}
 .br-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-size:12.5px}
 .br-fbl{margin-top:12px}.br-fi{padding:9px 0;border-top:1px solid var(--line);font-size:14px}.br-fi .m{font-size:12px;margin-top:2px}
@@ -2323,7 +2323,7 @@ function bindPerf(){
    첫 화면. 위에서 아래로: 일일·주간 선택 → 한 줄 요약 → 숫자 4개 → 확인할 것 → 올라간 것 → 자동 적용한 것 → 알림 → 피드백.
    글은 매일 07:47 '밸류노트 브리핑' 작업이 docs agent 'brief-<날짜>' (주간은 'brief-w-<월요일>')에 쓴다.
    올라간 콘텐츠·확인할 것·알림은 데이터에서 바로 계산하므로 브리핑 글이 없어도 화면은 채워진다. */
-const BR = { mode: 'd', day: null, doc: null, inbox: null, alerts: [], tasks: [], loaded: false, busy: false };
+const BR = { mode: 'd', day: null, doc: null, inbox: null, alerts: [], tasks: [], todo: null, loaded: false, busy: false };
 const brToday = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 const brMonday = d => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() - (x.getUTCDay() + 6) % 7); return x.toISOString().slice(0, 10); };
 const brAdd = (d, n) => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
@@ -2336,13 +2336,14 @@ function brRange(){
 const brIn = (iso, r) => { if(!iso) return false; const d = kstDate(iso); return d >= r.from && d <= r.to; };
 async function briefLoad(){
   const r = brRange();
-  const [doc, inbox, al, tc] = await Promise.all([
+  const [doc, inbox, al, tc, td] = await Promise.all([
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', r.id).maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', 'brief-inbox').maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'alerts').order('updated_at', { ascending: false }).limit(60),
-    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'task-changes').maybeSingle()]);
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'task-changes').maybeSingle(),
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'owner-todo').maybeSingle()]);
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = al.data || [];
-  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.loaded = true;
+  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; BR.loaded = true;
 }
 /* 2026-10-30 운영자: "내 개인계정의 soxl 개장브리핑 등 내용은 여기 안 떠도 돼, 이건 관리자 페이지잖아", "이미 처리됐는데 여전히 떠있는 건 없애고"
    → 대표님 개인 투자 알림(앱 사용자 알림)은 관리자 알림에서 뺀다(앱 알림함에는 그대로 남는다).
@@ -2374,15 +2375,75 @@ function brShortViews(r, wk){
   return { views, top, n, asof: asof ? `${k.getUTCMonth() + 1}/${k.getUTCDate()} ${String(k.getUTCHours()).padStart(2, '0')}:${String(k.getUTCMinutes()).padStart(2, '0')}` : '–' };
 }
 
+
+/* 보류·실패 이유 한 줄 (2026-10-30 운영자: "보류는 왜 보류인지?") */
+function brWhy(x){
+  if(x.ig_error) return String(x.ig_error).replace(/^(보류|운영 보류|정리[^:]*):\s*/, '').slice(0, 120);
+  const n = String(x.note || '');
+  const m = n.match(/자동 검수 보류:\s*([^·]+)/); if(m) return ('자동 검수에서 걸림 — ' + m[1].replace(/\(.*?\)/g, '').trim()).slice(0, 120);
+  if(/대표 반려|반려/.test(n)) return '대표님 반려';
+  if(x.status === 'changes') return '수정 요청 처리 중';
+  return x.status === 'hold' ? '사유 기록 없음' : '';
+}
+
+/* 대표님이 직접 할 일 (2026-10-30 운영자: "내가 할 일은 내가 처리할 수 있게 처리 버튼이나 하는 방식 안내")
+   docs agent 'owner-todo' data.items: {id, title, why, how:[단계], link:{label,href}, kind: done|daily|decide|input, choices:[{key,label,note}], status, done_at, answer}
+   버튼을 누르면 owner-todo 를 바로 고치고, Claude가 이어서 할 일이 있으면 brief-inbox 에 넣어 브리핑 작업(2시간마다 17분)이 처리한다. */
+const brTodoToday = it => it.kind === 'daily' ? (it.done_at && kstDate(it.done_at) === brToday()) : it.status === 'done';
+function vTodo(fallback){
+  const T = BR.todo && BR.todo.items ? BR.todo.items : null;
+  if(!T){ return fallback.length ? `<div class="card br-todo"><div class="br-todo-h">대표님이 직접 할 일 <span class="qcount">${fallback.length}</span></div><ul class="br-li">${fallback.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : ''; }
+  const open = T.filter(it => !brTodoToday(it)), done = T.filter(brTodoToday);
+  if(!open.length) return `<div class="card br-todo"><div class="br-ok">✓ 대표님이 직접 할 일 없음${done.length ? ` · 오늘 끝낸 일 ${done.length}` : ''}</div></div>`;
+  return `<div class="card br-todo"><div class="br-todo-h">대표님이 직접 할 일 <span class="qcount">${open.length}</span></div>
+  ${open.map(it => `<div class="br-td" data-td="${esc(it.id)}">
+    <b>${esc(it.title)}</b>${it.kind === 'daily' ? ' <span class="br-st wait">매일</span>' : ''}
+    ${it.why ? `<div class="m">${esc(it.why)}</div>` : ''}
+    ${(it.how || []).length ? `<details class="br-how"><summary>하는 방법</summary><ol>${it.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol></details>` : ''}
+    ${it.kind === 'input' ? `<div class="br-tdin"><input type="text" placeholder="${esc(it.placeholder || '')}" value="${esc(it.answer || '')}"><button class="br-b" data-td-act="input">등록</button></div>` : ''}
+    <div class="br-acts">
+      ${it.link ? `<a class="br-b ghost" href="${esc(it.link.href)}"${/^https?:/.test(it.link.href) ? ' target="_blank" rel="noopener"' : ''}${/\.(png|jpe?g)$/.test(it.link.href) ? ' download' : ''}>${esc(it.link.label)}</a>` : ''}
+      ${it.kind === 'decide' ? (it.choices || []).map(c => `<button class="br-b${c.key === 'keep' ? ' ghost' : ''}" data-td-act="choice" data-td-key="${esc(c.key)}" title="${esc(c.note || '')}">${esc(c.label)}</button>`).join('') : ''}
+      ${it.kind === 'done' || it.kind === 'daily' ? `<button class="br-b" data-td-act="done">완료</button>` : ''}
+      <button class="br-b ghost" data-td-act="say">의견</button>
+    </div>
+    ${it.kind === 'decide' && (it.choices || []).some(c => c.note) ? `<div class="m br-tdnote">${(it.choices || []).filter(c => c.note).map(c => `· ${esc(c.label)}: ${esc(c.note)}`).join('<br>')}</div>` : ''}
+    <div class="br-say" hidden><textarea rows="2" placeholder="이 일에 대한 의견이나 지시를 적어 주세요"></textarea><button class="br-b" data-td-act="send">보내기</button></div>
+  </div>`).join('')}
+  ${done.length ? `<div class="br-foot"><span class="m">오늘 끝낸 일 ${done.length}: ${done.map(d => esc(d.title)).join(', ')}</span></div>` : ''}</div>`;
+}
+async function brTodoSave(id, patch, inboxText, okMsg){
+  const data = { ...(BR.todo || { items: [] }) };
+  data.items = (data.items || []).map(it => it.id === id ? { ...it, ...patch } : it); data.updated_at = new Date().toISOString();
+  const { error } = await sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', 'owner-todo');
+  if(error){ toast('저장하지 못했습니다: ' + error.message, true); return; }
+  BR.todo = data;
+  if(inboxText) await brSaveInbox({ kind: 'feedback', ref: 'owner-todo:' + id, text: inboxText });
+  toast(okMsg); render();
+}
+async function brTodoAct(row, act, btn){
+  const id = row.dataset.td, it = ((BR.todo || {}).items || []).find(x => x.id === id); if(!it) return;
+  const now = new Date().toISOString();
+  if(act === 'say'){ const b = row.querySelector('.br-say'); b.hidden = !b.hidden; if(!b.hidden) b.querySelector('textarea').focus(); return; }
+  if(act === 'send'){ const t = (row.querySelector('.br-say textarea').value || '').trim(); if(!t) return;
+    btn.disabled = true; if(await brSaveInbox({ kind: 'feedback', ref: 'owner-todo:' + id, text: `[할 일 · ${it.title}] ${t}` })){ toast('받았습니다. 내 요청에 처리 상태가 뜹니다.'); render(); } else btn.disabled = false; return; }
+  if(act === 'done'){ btn.disabled = true; return brTodoSave(id, it.kind === 'daily' ? { done_at: now } : { status: 'done', done_at: now }, it.kind === 'daily' ? '' : `[할 일 완료] ${it.title} — 대표님이 관리자에서 완료 표시`, it.kind === 'daily' ? '오늘 몫을 끝냈습니다.' : '완료로 옮겼습니다.'); }
+  if(act === 'input'){ const v = (row.querySelector('.br-tdin input').value || '').trim(); if(!v){ row.querySelector('.br-tdin input').focus(); return; }
+    btn.disabled = true; return brTodoSave(id, { status: 'done', done_at: now, answer: v }, `[할 일 답변] ${it.title}: ${v} — 이대로 처리해 주세요(유튜브 채널 설정은 업로드 작업이 스튜디오에서)`, '등록했습니다. Claude가 이어서 처리합니다.'); }
+  if(act === 'choice'){ const c = (it.choices || []).find(x => x.key === btn.dataset.tdKey) || {};
+    if(!confirm(`'${c.label}'로 정할까요?`)) return; btn.disabled = true;
+    return brTodoSave(id, { status: 'done', done_at: now, answer: c.label }, `[할 일 결정] ${it.title}: ${c.label}${c.note ? ' (' + c.note + ')' : ''}`, '정했습니다. Claude가 이어서 처리합니다.'); }
+}
+
 /* 채널별 올라간 것·올라갈 것 */
 function brContent(r){
   const now = new Date().toISOString();
   const yt = (YT.list || []).filter(y => brIn(y.scheduled_at || y.uploaded_at, r));
-  const so = (OPS.posts || []).filter(p => brIn(p.scheduled_at, r) && p.ig_status !== 'deleted');
+  const so = (OPS.posts || []).filter(p => brIn(p.scheduled_at, r) && p.ig_status !== 'deleted' && p.approved !== false); /* approved false = 급변 감지 기록(자동 게시 안 함)이라 콘텐츠로 세지 않는다 */
   const row = (name, list, isDone, isBad) => {
     /* 2026-10-30 운영자: "문제라고 적혀 있는데 이게 무슨 말이지?" → '문제' 한 단어 대신 보류(내려 둔 것)·실패·지연으로 나눠 쓰고, 줄마다 상태를 붙인다 */
     const done = list.filter(isDone), held = list.filter(x => !isDone(x) && isBad(x) === 'held'), bad = list.filter(x => !isDone(x) && isBad(x) && isBad(x) !== 'held'), wait = list.filter(x => !isDone(x) && !isBad(x));
-    return { name, done, bad, held, wait, all: list, st: x => isDone(x) ? ['ok', x.youtube_id || x.ig_status === 'posted' ? (Date.parse(x.scheduled_at) > Date.now() ? '스튜디오 예약' : '올라감') : '올라감'] : isBad(x) === 'held' ? ['m', '보류 · 안 올림'] : isBad(x) === 'late' ? ['bad', '지연 · 예정 시각 지남'] : isBad(x) ? ['bad', '실패'] : ['wait', '예정'] };
+    return { name, done, bad, held, wait, all: list, st: x => isDone(x) ? ['ok', x.youtube_id || x.ig_status === 'posted' ? (Date.parse(x.scheduled_at) > Date.now() ? '스튜디오 예약' : '올라감') : '올라감'] : isBad(x) === 'held' ? ['m', x.status === 'changes' ? '수정 중 · 고친 뒤 올림' : '보류 · 안 올림'] : isBad(x) === 'late' ? ['bad', '지연 · 예정 시각 지남'] : isBad(x) ? ['bad', '실패'] : ['wait', '예정'] };
   };
   const ytBad = y => ['hold', 'stale', 'changes'].includes(y.status) ? 'held' : (y.status !== 'uploaded' && y.scheduled_at < now) ? 'late' : false;
   const igBad = p => p.ig_status === 'failed' ? 'fail' : p.paused ? 'held' : (p.ig_status !== 'posted' && p.scheduled_at < now) ? 'late' : false;
@@ -2556,7 +2617,7 @@ function vBrief(){
   <div class="card br-hl">${d.headline ? `<p>${esc(d.headline)}</p>` : `<p class="m">${wk ? '주간 브리핑은 월요일 07:47에 올라옵니다.' : '오늘 브리핑은 매일 07:47에 올라옵니다.'} 아래 숫자와 목록은 지금 데이터 그대로입니다.</p>`}${d.at ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
 
 
-  ${todo.length ? `<div class="card br-todo"><div class="br-todo-h">대표님이 직접 할 일 <span class="qcount">${todo.length}</span></div><ul class="br-li">${todo.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : ''}
+  ${vTodo(todo)}
 
   <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
   <div class="card">${vChecks()}</div>
@@ -2566,8 +2627,8 @@ function vBrief(){
   <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
   <h2>${wk ? '이번 주' : (r.from === brToday() ? '오늘' : '이날')} 콘텐츠</h2>
-  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ 업로드 ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패·지연 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).map(x => { const t = c.st(x); return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}
-    ${C.some(c => c.held.length || c.bad.length) ? `<div class="m br-legend">보류 = 대표님 반려나 자동 검수에서 내려 둔 것이라 올리지 않습니다(칸도 차지하지 않음). 실패·지연 = 올라가야 했는데 안 올라간 것으로, 위 '확인할 것'에 이유가 뜹니다.</div>` : ''}
+  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ 업로드 ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패·지연 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}
+    ${C.some(c => c.held.length || c.bad.length) ? `<div class="m br-legend">보류 = 올리지 않기로 내려 둔 것(이유는 줄 아래 '왜'). 수정 중 = 고쳐서 다시 만든 뒤 빈 칸에 다시 올리는 것. 둘 다 시간 칸을 차지하지 않습니다. 실패·지연 = 올라가야 했는데 안 올라간 것으로, 위 '확인할 것'에 이유가 뜹니다.</div>` : ''}
     ${(d.channels || []).map(c => `<div class="br-ch1"><span class="n">${esc(c.name)}</span><span class="c">${esc(c.text || '')}</span></div>`).join('')}</div>
 
   ${(d.sections || []).filter(sc => !/직접 할 일/.test(sc.title || '')).map(sc => `<details class="br-fold"><summary>${esc(sc.title)}</summary><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></details>`).join('')}
@@ -2597,6 +2658,7 @@ async function brRead(ids){
 }
 function bindBrief(){
   const box = $('#main');
+  box.querySelectorAll('[data-td-act]').forEach(b => b.onclick = () => brTodoAct(b.closest('[data-td]'), b.dataset.tdAct, b));
   box.querySelectorAll('[data-br-hide]').forEach(b => b.onclick = () => { b.disabled = true; brHide([b.dataset.brHide]); });
   { const u = box.querySelector('[data-br-unhide]'); if(u) u.onclick = () => brHide([], true); }
   box.querySelectorAll('[data-br-act]').forEach(b => b.onclick = () => brAct(b.closest('[data-br-ck]'), b.dataset.brAct));
