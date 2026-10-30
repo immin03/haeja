@@ -1,0 +1,36 @@
+{
+ "id": "hw32_lead",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep the same narrow Halloween-night alley from the reference image: the warm streetlamps, the orange carved pumpkin lanterns with cute smiling faces at the side gates, the dirt path, the hanok gate at the far end, the lighting and the miniature clay diorama style. Only change the two characters and their scale: a seven-year-old child in a ghost costume walks on the ground toward the camera down the middle of the path, the white bedsheet covering the whole body down to the ankles with two round eye holes, small brown shoes visible under the hem, a small orange pumpkin basket handle hanging out from under the sheet; the child's face, hair and hands are completely hidden. The child fills about half the height of the frame. Kachi is small, about the size of the child's head, flying beside the child's shoulder and holding one corner of the white sheet in its beak, gently leading the child toward the hanok gate. The magpie keeps its exact design from the magpie reference: glossy black head, cream-white face and belly, big dark-brown eyes, navy-blue wings, red knotted neckerchief, small brown leather satchel; it does NOT hold a microphone. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4d-8fdc-7922-a6c6-922e5c19e25f/b04c6bbd-c06f-4a64-be8c-4ad40fbbbd15.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a56-0485-7771-bbce-bc9691ab6a45",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a56-0485-7771-bbce-bc9691ab6a45/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a56-0485-7771-bbce-bc9691ab6a45/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a56-0485-7771-bbce-bc9691ab6a45",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a56-0485-7771-bbce-bc9691ab6a45/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a56-0485-7771-bbce-bc9691ab6a45/cancel",
+  "expires_at": "2026-11-06T01:04:51.172532+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a56-0485-7771-bbce-bc9691ab6a45/7378480f-c9ff-4413-a479-7549d5f54462.jpeg"
+   }
+  ]
+ },
+ "seconds": 37,
+ "file": "social/side/gen/hw32_lead.jpeg"
+}

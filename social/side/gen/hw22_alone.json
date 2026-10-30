@@ -1,0 +1,35 @@
+{
+ "id": "hw22_alone",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Keep everything in the reference image exactly the same: the grandma, her pose, her face and clothes, the basket of roasted chestnuts on her lap, the stone step, the wooden gate, the framed crayon drawing on the wall, the magpie on the roof, the night lighting and the miniature clay diorama style. Only change: remove both carved pumpkin lanterns hanging at her gate, so her own gate is plain and dim with no pumpkin and no lantern at all; the only glow on her gate is faint moonlight. Absolutely no text, no letters, no numbers, no hangul, no signs, no posters, no logos anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a4e-2916-754a-828b-cd1da10ccbb9/6febd0de-9f49-4cf6-b944-282f3ac2b37e.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18a56-0485-70b6-81d8-b1b344db54dc",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a56-0485-70b6-81d8-b1b344db54dc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a56-0485-70b6-81d8-b1b344db54dc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18a56-0485-70b6-81d8-b1b344db54dc",
+  "status_url": "https://api.higgsfield.ai/requests/01a18a56-0485-70b6-81d8-b1b344db54dc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18a56-0485-70b6-81d8-b1b344db54dc/cancel",
+  "expires_at": "2026-11-06T01:04:33.718184+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18a56-0485-70b6-81d8-b1b344db54dc/5fd53c04-0e27-43a2-84b6-007251e960d7.jpeg"
+   }
+  ]
+ },
+ "seconds": 19,
+ "file": "social/side/gen/hw22_alone.jpeg"
+}
