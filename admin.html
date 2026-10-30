@@ -2601,6 +2601,16 @@ function brReqOut(r){
   return { st, at: long.updated_at, detail: `롱폼 '${String(long.title || '').slice(0, 40)}'${sh}${rl}${ask ? `\n대표님 수정 요청: "${ask}${ask.length >= 110 ? '…' : ''}"` : ''}`,
     next: long.status === 'changes' ? '다음 단계: 수정본을 다시 만든 뒤 예정 시각에 올립니다. 진행은 이 줄에서 바로 바뀝니다.' : long.status === 'uploaded' ? '롱폼은 끝났습니다. 남은 쇼츠·릴스는 칸에 맞춰 순서대로 올라갑니다.' : `다음 단계: ${when}에 올라갑니다. 싫으면 유튜브 검수에서 반려하세요.` };
 }
+/* 수정 요청을 사람 말로 (2026-10-30 운영자: "이건 무슨 뜻이야, 헷갈려서") — note 속 작업 기록(related:·제1 원칙·점수) 대신 무엇을 고치는지만 */
+function brPlainReq(y){
+  const n = String(y.note || '');
+  const owner = n.match(/\[[^\]]*대표님[^\]]*\]\s*([^\n]+?)(?=\s·\s\[|$)/);
+  const voice = n.match(/자동 검수 보류:\s*음성[^·]*/);
+  if(voice) return '성우 발음이 잘못 들린 줄이 있어(예: 이름·숫자) 그 줄만 고쳐 다시 만듭니다. 자동 검수에서 찾았습니다.';
+  if(owner) return owner[1].replace(/\(.*?\)/g, '').trim().slice(0, 140);
+  const first = n.split(/\n · \[| · /).map(t => t.trim()).find(t => t && !/^related:|^스튜디오|^자동 검수|^\d+\/\d+ \d+:\d+|제1 원칙|^\[/.test(t));
+  return (first || '수정 요청').slice(0, 140);
+}
 /* 내 요청 (2026-10-30 운영자): 처리 상태 + 항목별 다음 단계 안내 + '더 보지 않기' */
 function brReqs(){
   const L = [], since = Date.now() - 3 * 864e5, recent = iso => iso && Date.parse(iso) > since;
@@ -2613,10 +2623,10 @@ function brReqs(){
     const asked = y.status === 'changes' || mine.length || /대표 (지시|반려|수정)|대표님 지적/.test(String(y.note || ''));
     if(!asked) return;
     const last = ev[ev.length - 1], kind = y.kind === 'long' ? '롱폼' : '쇼츠', when = kday(y.scheduled_at);
-    const req = y.status === 'changes' ? (y.note || '수정 요청') : (String(y.note || '').split(' · ').find(t => t && !/^related:|^스튜디오|^자동 검수/.test(t)) || (mine[0] && mine[0].what) || '요청');
+    const req = y.status === 'changes' ? brPlainReq(y) : (String(y.note || '').split(' · ').find(t => t && !/^related:|^스튜디오|^자동 검수/.test(t)) || (mine[0] && mine[0].what) || '요청');
     const inStudio = !!y.youtube_id;
     const st = y.status === 'changes' ? (/^렌더링/.test(brFixStage(y)) ? ['run', '렌더링 중'] : ['wait', brFixStage(y)]) : y.status === 'review' ? ['run', '수정 완료 · 자동 진행 대기'] : y.status === 'approved' ? ['ok', `반영됨 · ${when} 게시 예정`] : y.status === 'uploaded' ? ['ok', Date.parse(y.scheduled_at) > Date.now() ? `스튜디오 예약됨 · ${when} 공개` : `게시됨 · ${when}`] : y.status === 'hold' ? ['bad', '보류'] : ['run', y.status];
-    const next = y.status === 'changes' ? `다음 단계: ${brief}에 브리핑 작업이 요청대로 처리합니다. 게시 앞당김은 바로, 화면 수정은 다시 만든 뒤 자동 승인됩니다.`
+    const next = y.status === 'changes' ? (/^렌더링/.test(brFixStage(y)) ? '다음 단계: 다시 만드는 중입니다 → 확인되면 빈 시간 칸에 올립니다(같은 영상 릴스도 함께).' : `다음 단계: ${brief}에 고치기 시작 → 다시 만든 영상 확인 → 빈 시간 칸에 올립니다(같은 영상 릴스도 함께).`)
       : y.status === 'review' ? `다음 단계: ${y.kind === 'long' ? '9시 마감 작업이 자동 승인하고' : '자동 검수(6:43·11:43·19:43)가 승인하고'} 업로드 작업이 ${when}에 올립니다.`
       : y.status === 'approved' ? (brUpAt(up) > Date.parse(y.scheduled_at) ? `다음 단계: 예정 시각 전에 도는 업로드 작업이 없어 ${up} 업로드 작업이 올리는 즉시 공개합니다. 컴퓨터와 Chrome이 켜져 있어야 합니다.` : `다음 단계: 업로드 작업이 ${up}에 스튜디오에 예약 → ${when} 공개. 컴퓨터와 Chrome이 켜져 있어야 합니다.`)
       : y.status === 'uploaded' ? (Date.parse(y.scheduled_at) > Date.now() ? `다음 단계: ${when} 자동 공개 → 고정 댓글·관련 영상 연결도 자동입니다.` : (inStudio ? '끝났습니다. 성과는 오늘 저녁 성과 진단에 나옵니다. 더 볼 필요 없으면 숨기세요.' : '끝났습니다.'))
