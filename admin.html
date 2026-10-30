@@ -558,6 +558,7 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-fb{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);resize:vertical}
 .br-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-size:12.5px}
 .br-fbl{margin-top:12px}.br-fi{padding:9px 0;border-top:1px solid var(--line);font-size:14px}.br-fi .m{font-size:12px;margin-top:2px}
+.br-q{font-size:14px;color:var(--ink2);margin-top:2px}.br-st{display:inline-block;font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;background:var(--bg);color:var(--ink2)}.br-st.ok{background:rgba(45,122,95,.12);color:var(--good)}.br-st.wait{background:rgba(224,165,38,.16);color:#94660B}.br-st.bad{background:rgba(216,65,90,.1);color:var(--bad)}
 .br-more{margin:22px 0 8px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}.br-more a{color:var(--ink2);font-weight:700}
 @media (max-width:640px){.br-kpis{grid-template-columns:repeat(2,1fr)}.br-row{flex-wrap:wrap}.br-row .bt{width:100%;padding-left:20px}}
 </style>
@@ -2365,6 +2366,35 @@ function brChecks(){
   ((BR.doc || {}).data || {}).checks && BR.doc.data.checks.forEach(c => L.push({ level: c.level || 'info', title: c.title, body: c.body || '', btns: c.link ? [`<a class="br-b ghost" href="${esc(c.link)}">보기</a>`] : [] }));
   return L;
 }
+
+/* 내 요청 (2026-10-30 운영자: "수정 요청 넣은 게 바로 메인 페이지에 반영이 돼야", "반영이 되면 바로 반영됐다고 떴으면"):
+   관리자 어디서 남긴 요청이든(영상 수정 요청·빨리 올려·기획안 요청·피드백) 지금 상태를 데이터에서 바로 계산해 보여 준다 */
+function brReqs(){
+  const L = [], since = Date.now() - 3 * 864e5, recent = iso => iso && Date.parse(iso) > since;
+  const OWN = /owner|chat|brief|대표|운영자/;
+  (YT.list || []).forEach(y => {
+    const ev = (y.events || []).filter(e => recent(e.at)), mine = ev.filter(e => OWN.test(String(e.by || '')) || /대표/.test(String(e.what || '')));
+    const asked = y.status === 'changes' || mine.length || /대표 (지시|반려|수정)|대표님 지적/.test(String(y.note || ''));
+    if(!asked) return;
+    const last = ev[ev.length - 1], kind = y.kind === 'long' ? '롱폼' : '쇼츠';
+    const req = y.status === 'changes' ? (y.note || '수정 요청') : (String(y.note || '').split(' · ').find(t => t && !/^related:|^스튜디오|^자동 검수/.test(t)) || (mine[0] && mine[0].what) || '요청');
+    const st = y.status === 'changes' ? ['wait', '접수 · 처리 대기'] : y.status === 'review' ? ['run', '수정 완료 · 자동 진행 대기'] : y.status === 'approved' ? ['ok', `반영됨 · ${kday(y.scheduled_at)} 게시 예정`] : y.status === 'uploaded' ? ['ok', `게시됨 · ${kday(y.scheduled_at)}`] : y.status === 'hold' ? ['bad', '보류'] : ['run', y.status];
+    L.push({ at: (last && last.at) || y.updated_at, what: `${kind} · ${y.title || y.id}`, req, st, detail: last ? last.what : '' });
+  });
+  (YT.reqs || []).filter(r => recent(r.at) || ['pending', 'working'].includes(r.status)).forEach(r => {
+    const st = r.status === 'pending' ? ['wait', '접수 · 처리 대기'] : r.status === 'working' ? ['run', '처리 중'] : r.status === 'done' ? ['ok', '완료'] : ['bad', '실패'];
+    L.push({ at: r.done_at || r.started_at || r.at, what: r.kind === 'revise' ? '기획안 수정 요청' : '기획안 요청', req: r.note || '', st, detail: r.progress || r.result || '' });
+  });
+  ((((BR.inbox || {}).data || {}).items) || []).filter(f => recent(f.at)).forEach(f => {
+    L.push({ at: f.replied_at || f.at, what: f.kind === 'revert' ? '되돌리기' : f.kind === 'reject_long' ? '롱폼 반려' : '피드백', req: f.text, st: f.status === 'done' ? ['ok', '반영됨'] : ['wait', '접수 · 1시간 안에 반영'], detail: f.reply || '' });
+  });
+  return L.sort((a, b) => String(b.at || '').localeCompare(String(a.at || ''))).slice(0, 10);
+}
+function vReqs(){
+  const L = brReqs();
+  if(!L.length) return '<div class="m">최근 3일 동안 남긴 요청이 없습니다.</div>';
+  return L.map(r => `<div class="br-row"><i class="br-dot ${({ ok: 'good', wait: 'warn', run: 'info', bad: 'bad' })[r.st[0]]}"></i><div class="t"><b>${esc(r.what)}</b><div class="br-q">“${esc(String(r.req).slice(0, 120))}”</div>${r.detail ? `<div class="m">${esc(String(r.detail).slice(0, 140))}</div>` : ''}</div><div class="bt"><span class="br-st ${r.st[0]}">${esc(r.st[1])}</span></div></div>`).join('');
+}
 function vBrief(){
   if(!BR.loaded) return '<div class="empty">불러오는 중</div>';
   const r = brRange(), d = (BR.doc || {}).data || {}, wk = BR.mode === 'w';
@@ -2395,6 +2425,9 @@ function vBrief(){
   <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
   <div class="card">${checks.length ? checks.map(c => `<div class="br-row">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body)}</div>` : ''}</div>${c.btns.length ? `<div class="bt">${c.btns.join('')}</div>` : ''}</div>`).join('') : '<div class="br-ok">✓ 지금 확인할 것 없음</div>'}</div>
 
+  <h2>내 요청 <span class="qcount">바로 반영 상태</span></h2>
+  <div class="card">${vReqs()}</div>
+
   <h2>${wk ? '이번 주' : (r.from === brToday() ? '오늘' : '이날')} 콘텐츠</h2>
   <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">문제 ${c.bad.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${c.all.map(x => `<li><span class="m">${kday(x.scheduled_at)}</span> ${esc(x.title || x.id)}</li>`).join('')}</ul>` : ''}</details>`).join('')}
     ${(d.channels || []).map(c => `<div class="br-ch1"><span class="n">${esc(c.name)}</span><span class="c">${esc(c.text || '')}</span></div>`).join('')}</div>
@@ -2411,8 +2444,7 @@ function vBrief(){
   <h2>피드백</h2>
   <div class="card">
     <textarea class="br-fb" data-br-fb rows="3" placeholder="바꾸고 싶은 것, 새로 할 일, 마음에 안 드는 것을 그냥 적어 주세요. 다음 작업부터 바로 반영합니다."></textarea>
-    <div class="br-foot"><span class="m">적은 내용은 제1 원칙이 되어 모든 작업이 먼저 따릅니다.</span><button class="br-b" data-br-send>보내기</button></div>
-    ${fb.length ? `<div class="br-fbl">${fb.map(f => `<div class="br-fi"><div>${esc(f.text)}</div><div class="m">${kst(f.at)} · ${f.status === 'done' ? '반영함' + (f.reply ? ' — ' + esc(f.reply) : '') : '반영 대기'}</div></div>`).join('')}</div>` : ''}
+    <div class="br-foot"><span class="m">보낸 내용은 위 '내 요청'에서 처리 상태를 바로 볼 수 있습니다.</span><button class="br-b" data-br-send>보내기</button></div>
   </div>
 
   <div class="br-more">자세히: <a href="#overview">방문·가입</a><a href="#youtube">유튜브</a><a href="#social">인스타</a><a href="#perf">성과 진단</a><a href="#bench">벤치마킹</a><a href="#rules">운영 기준</a></div>
@@ -2567,6 +2599,8 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
 });
 
 load();
+/* 브리핑은 1분마다 조용히 새로 고친다 — 요청 처리 상태가 바로 보이게 (2026-10-30) */
+setInterval(async () => { if(document.hidden || $('#out').hidden || page() !== 'brief' || document.activeElement?.matches('input,textarea')) return; try{ await Promise.all([ytFetch(), opsLoad(), briefLoad()]); render(); }catch(_){} }, 60 * 1000);
 setInterval(() => { if(!document.hidden && !$('#out').hidden && !['brief', 'column', 'social', 'blog', 'youtube', 'perf', 'perfs'].includes(page()) && !document.activeElement?.matches('input,textarea')) load(); }, 5 * 60 * 1000);
 </script>
 </body>
