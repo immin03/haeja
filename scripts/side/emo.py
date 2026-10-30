@@ -346,7 +346,7 @@ def main():
         sh("gh", "release", "create", tag, "-R", REPO, "--title", sid, "--notes", spec["title"], "--latest=false")
     sh("gh", "release", "upload", tag, out, "--clobber", "-R", REPO)
     url = f"https://github.com/{REPO}/releases/download/{tag}/{fn}"
-    meta = {k: spec.get(k) for k in ("id", "title", "description", "tags", "pinned", "scheduled_at")}
+    meta = {k: spec.get(k) for k in ("id", "plan_id", "title", "description", "tags", "pinned", "scheduled_at")}  # plan_id: sc_import 가 기획안과 연결
     meta.update(kind="short", duration=round(dur, 1), video_url=url, thumb=f"/social/side/{sid}/thumb.jpg?v={stamp}",
                 subtitle=(f"/social/side/{sid}/subtitles_en.srt" if spec.get("srt") else None), rendered_at=time.strftime("%Y-%m-%dT%H:%M:%S%z"), test=test)
     json.dump(meta, open(os.path.join(od, "meta.json"), "w"), ensure_ascii=False, indent=1)
