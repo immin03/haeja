@@ -254,6 +254,8 @@ Keep the miniature clay diorama look and every character design identical to the
   - 컷을 더하거나 빼거나 순서를 바꾸면 **thumb 을 다시 고르고** 렌더 뒤 `social/side/<id>/thumb.jpg` 를 직접 열어 본다: 로고·"Kachi brings you love, from Korea"·♥/Follow·흐림·검은 화면·깨진 글자 없음, 얼굴 또렷, 가능하면 까치가 보이는 장면. 피드백에 "thumb 확인 <컷>/<초>" 기록
   - 기준 그림: 나쁜 예 `social/side/E261030-kkachi-bap/thumb.jpg`(엔딩 화면, 보관용으로 그대로 둠), 좋은 예 `social/side/E261030-guard-cat/thumb.jpg`
 - [ ] **동물이 고통받다 구조되는 장면이 아닌지** (3장 수익 정책)
+- [ ] **'없어야 하는' 소품이 정말 없는지** — "이웃 대문엔 호박등, 할머니 대문만 없음"처럼 빈자리로 대비를 만드는 디테일은 그림 모델이 무시하고 같이 그려 넣는다(10/30 핼러윈 2컷 고침). 프롬프트 앞쪽에 "her own gate has NO pumpkin and NO lantern" 을 따로 한 문장으로 쓰고, 대비 소품은 화면 멀리 배치
+- [ ] **얼굴이 가려진 인물(유령 천·인형탈 등)의 크기** — 크기 단서가 없으면 까치보다 작은 장난감처럼 나온다(10/30 핼러윈 3컷 고침). "seven-year-old child, fills half the frame height, walks on the ground, shoes visible" 와 "Kachi about the size of the child's head" 를 함께 적는다
 
 ---
 
