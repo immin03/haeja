@@ -146,11 +146,7 @@ for (const dir of dirs) {
   {
     const paras = p.blocks.filter((b) => b.p && !SIG.test(b.p)).map((b) => b.p);
     const sents = paras.flatMap((t) => t.split(/(?<=[.?!])\s+/)).map((x) => x.trim()).filter(Boolean);
-    const person = ['가게', '손님', '장바구니', '영수증', '가계부', '월급쟁이', '단골', '식당 주인', '사장님 입장'];
-    const hitP = person.filter((w) => paras.some((t) => new RegExp('(^|[\\s"\'(])' + w).test(t)));
-    if (hitP.length) E.push(`v2 문체: 회사·투자를 의인화하는 말(${hitP.join(', ')}) — 회사·기관 이름으로 바꾸세요 (STYLE.md 4-2)`);
-    const shem = sents.filter((x) => /(셈입니다|셈이죠|셈이에요|얘기입니다|얘기예요|뜻이에요|뜻이죠|이야기입니다)\.?$/.test(x));
-    if (shem.length) E.push(`v2 문체: 사실을 다시 풀어 끝내는 문장 ${shem.length}개 ("${shem[0].slice(-25)}") — 사실 문장으로 끝내세요 (STYLE.md 4-3)`);
+    // 의인화(V-1)·"~셈"(V-2)은 humanize_ko.mjs 가 모든 채널 공통으로 잡는다 (아래 AI 문체)
     const yo = sents.filter((x) => /(죠|거든요|잖아요|어요|에요|고요|네요)[.?!]?$/.test(x));
     if (yo.length > 2) W.push(`v2 문체: ~요체 문장 ${yo.length}개 — 글당 2개까지, 나머지는 ~합니다 (STYLE.md 4-4)`);
     const pron = sents.filter((x) => /^(이|그|이것|이런|그런|그래서|하지만|그런데|또한|한편|즉)[ ,은는이가을를도]/.test(x));
