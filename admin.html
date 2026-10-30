@@ -562,10 +562,14 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.br-say{margin-top:8px}.br-say textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:14.5px;background:var(--bg);color:var(--ink);margin-bottom:6px}.br-play{margin-top:8px}.br-play video{width:100%;max-height:60vh;border-radius:10px;background:#000}
 .br-fold{margin-top:14px}.br-fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:12px 4px}.br-fold>summary::-webkit-details-marker{display:none}.br-fold>summary:before{content:"›";display:inline-block;width:14px;color:var(--muted);transition:transform .15s}.br-fold[open]>summary:before{transform:rotate(90deg)}
 .hd-more{font-size:18px;line-height:1;padding:6px 12px}.hd .r{position:relative}.hd-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:50;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(14,26,43,.18);min-width:180px;padding:6px;display:flex;flex-direction:column}.hd-menu[hidden]{display:none}.hd-menu a,.hd-menu button{all:unset;cursor:pointer;padding:11px 12px;border-radius:8px;font-size:14.5px;font-weight:700;color:var(--ink)}.hd-menu a:hover,.hd-menu button:hover{background:var(--bg)}.hd-menu [hidden]{display:none}
-.fb-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;border:0;border-radius:999px;background:var(--navy);color:#FFFFFF;font:inherit;font-size:14.5px;font-weight:800;padding:13px 18px;box-shadow:0 8px 24px rgba(14,26,43,.28);cursor:pointer}
 .fb-sheet{position:fixed;inset:0;z-index:70;background:rgba(14,26,43,.45);display:flex;align-items:flex-end;justify-content:center}.fb-sheet[hidden]{display:none}.fb-card{background:var(--surface);color:var(--ink);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom))}.fb-card b{font-size:16px}.fb-card .m{font-size:13px;color:var(--muted);margin:4px 0 10px}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fb-fab{background:var(--gold-grad);color:#0E1A2B}}
-main#main{padding-bottom:96px}
+.ask{max-width:752px;margin:0 auto;padding:12px 16px 0;box-sizing:border-box}.ask[hidden]{display:none}
+.ask form{display:flex;gap:8px;align-items:flex-end;background:var(--surface);border:1.5px solid var(--navy);border-radius:14px;padding:6px 6px 6px 14px}
+.ask textarea{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;line-height:1.45;resize:none;padding:8px 0;max-height:160px}
+.ask button{flex:none;border:0;border-radius:10px;background:var(--navy);color:#FFFFFF;font:inherit;font-size:14.5px;font-weight:800;padding:10px 16px;cursor:pointer}.ask button:disabled{opacity:.5}
+.ask .m{font-size:12.5px;color:var(--muted);margin:6px 2px 0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ask form{border-color:var(--gold,#C9A24A)}:root:not([data-theme="light"]) .ask button{background:var(--gold-grad);color:#0E1A2B}}
+main#main{padding-bottom:48px}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .br-b:not(.ghost):not(.red){background:var(--gold-grad);color:#0E1A2B}:root:not([data-theme="light"]) .br-seg button.on{background:var(--gold-grad);color:#0E1A2B}}
 :root[data-theme="dark"] .br-b:not(.ghost):not(.red){background:var(--gold-grad);color:#0E1A2B}
 .br-rh{margin:5px 0 2px}.br-next{margin-top:6px;font-size:13.5px;line-height:1.55;color:var(--ink);background:var(--bg);border-radius:10px;padding:8px 10px}
@@ -576,6 +580,7 @@ main#main{padding-bottom:96px}
 <body>
 <header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="#brief" title="브리핑으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><button class="btn hd-more" id="hdmore" aria-label="메뉴" aria-expanded="false">⋯</button><div class="hd-menu" id="hdmenu" hidden><button id="reload" hidden>새로고침</button><a href="/side">사이드 채널 (까치)</a><a href="./">앱으로 가기</a><button id="out" hidden>로그아웃</button></div></div></div></header>
 <nav class="tabs" id="tabs" hidden><div class="in"></div><div class="sub"><div class="in"></div></div></nav>
+<div class="ask" id="ask" hidden><form><textarea rows="1" placeholder="무엇이든 요청하세요" aria-label="요청"></textarea><button type="submit">보내기</button></form><div class="m" id="ask-m"></div></div>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
 <script>
@@ -2368,7 +2373,7 @@ function igWhy(e){
   if(/token|OAuth|session|expired|190\b/i.test(t)) return { why: '인스타그램 연결(로그인 토큰)이 만료됐습니다.', fix: '자세히 → 인스타그램 다시 연결 후 다시 올리기.' };
   if(/checkpoint|verify|confirm your identity/i.test(t)) return { why: '인스타 계정에 확인 절차가 걸려 있습니다.', fix: '인스타 앱에서 확인 절차를 마친 뒤 다시 올리기.' };
   if(/limit|too many|9007|4\b|rate/i.test(t)) return { why: '인스타 하루 게시 한도나 요청 한도에 걸렸습니다.', fix: '1시간쯤 뒤 다시 올리기.' };
-  if(/media|video|format|duration|aspect|codec|2207026|2207004|download|fetch|url/i.test(t)) return { why: '인스타가 영상 파일을 받지 못했거나 형식을 거절했습니다.', fix: '영상 파일 확인이 필요합니다. 다음 매시 17분 작업이 점검해 다시 만듭니다.' };
+  if(/media|video|format|duration|aspect|codec|2207026|2207004|download|fetch|url/i.test(t)) return { why: '인스타가 영상 파일을 받지 못했거나 형식을 거절했습니다.', fix: '영상 파일 확인이 필요합니다. 다음 브리핑 작업(2시간마다)이 점검해 다시 만듭니다.' };
   if(/caption|hashtag|text/i.test(t)) return { why: '설명글(캡션·해시태그)이 인스타 기준에 걸렸습니다.', fix: '캡션을 줄여 다시 올립니다.' };
   return { why: '인스타가 다른 이유로 거절했습니다(아래 원문 참고).', fix: '다시 올리기를 한 번 눌러 보고, 또 실패하면 피드백 칸에 남겨 주세요.' };
 }
@@ -2431,7 +2436,7 @@ async function brAct(row, k){
     const text = (row.querySelector('.br-say textarea').value || '').trim(); if(!text){ btn.disabled = false; row.querySelector('.br-say textarea').focus(); return; }
     if(c.yt){ const { error } = await sb.rpc('yt_admin_set', { p_id: c.yt, p_status: 'changes', p_note: text });
       if(error){ toast('보내지 못했습니다: ' + error.message, true); btn.disabled = false; return; }
-      toast('수정 요청을 넣었습니다. 매시 17분 작업이 고치고, 위 내 요청에 진행 상태가 뜹니다.'); await ytFetch(); render(); return; }
+      toast(`수정 요청을 넣었습니다. ${brNext(BR_H_ALL, 17)} 브리핑 작업이 고치고, 위 내 요청에 진행 상태가 뜹니다.`); await ytFetch(); render(); return; }
     if(await brSaveInbox({ kind: 'feedback', ref: c.title, text: `[${c.title}] ${text}` })){ toast('받았습니다. 내 요청에 처리 상태가 뜹니다.'); render(); } else btn.disabled = false; }
 }
 
@@ -2442,7 +2447,7 @@ function brNext(hours, min){ const k = new Date(Date.now() + 9 * 3600e3), h = k.
   const hh = hours.find(x => x > h || (x === h && min > m)); return hh == null ? `내일 ${String(hours[0]).padStart(2, '0')}:${String(min).padStart(2, '0')}` : `${String(hh).padStart(2, '0')}:${String(min).padStart(2, '0')}`; }
 /* 'HH:MM'(또는 '내일 HH:MM') → 오늘/내일 그 시각의 ms */
 function brUpAt(t){ const tm = /내일/.test(t), [h, m] = t.replace('내일 ', '').split(':').map(Number); const k = new Date(Date.now() + 9 * 3600e3); k.setUTCHours(h, m, 0, 0); return k.getTime() - 9 * 3600e3 + (tm ? 864e5 : 0); }
-const BR_H_ALL = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+const BR_H_ALL = [8,10,12,14,16,18,20,22]; /* 브리핑 작업: 8~22시 2시간마다 17분 (2026-10-30 최적화) */
 /* 내 요청 (2026-10-30 운영자): 처리 상태 + 항목별 다음 단계 안내 + '더 보지 않기' */
 function brReqs(){
   const L = [], since = Date.now() - 3 * 864e5, recent = iso => iso && Date.parse(iso) > since;
@@ -2700,21 +2705,20 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
   b.onclick = e => { e.stopPropagation(); m.hidden = !m.hidden; b.setAttribute('aria-expanded', String(!m.hidden)); };
   document.addEventListener('click', e => { if(!m.hidden && !m.contains(e.target)) { m.hidden = true; b.setAttribute('aria-expanded', 'false'); } });
   m.addEventListener('click', e => { if(e.target.closest('a,button')) m.hidden = true; }); })();
-/* 어느 화면에서든 피드백 (2026-10-30 운영자: "관리자 페이지 안에서 왔다 갔다… 가장 심플하고 쉽게") —
-   오른쪽 아래 버튼 하나로 지금 보고 있는 화면 이름과 함께 보낸다. 처리 상태는 브리핑 '내 요청'에 뜬다 */
+/* 맨 위 통합 요청칸 (2026-10-30 운영자: "통합으로 요청하는 요청메시지칸을 제일 위에") —
+   어느 화면에서든 한 줄로 요청 → brief-inbox에 화면 이름과 함께 저장 → 브리핑 작업이 처리하고 '내 요청'에 상태가 뜬다 */
 (() => {
-  const fab = document.createElement('button'); fab.className = 'fb-fab'; fab.textContent = '✎ 피드백'; fab.hidden = true;
-  const sh = document.createElement('div'); sh.className = 'fb-sheet'; sh.hidden = true;
-  sh.innerHTML = '<div class="fb-card"><b>피드백 · 요청</b><div class="m" id="fb-where"></div><textarea class="br-fb" rows="4" placeholder="바꾸고 싶은 것, 새로 할 일, 마음에 안 드는 것을 그냥 적어 주세요."></textarea><div class="br-foot"><button class="br-b ghost" data-x>닫기</button><button class="br-b" data-go>보내기</button></div></div>';
-  document.body.append(fab, sh);
-  const ta = sh.querySelector('textarea'), where = () => (PAGES.find(x => x[0] === page()) || [])[1] || '';
-  fab.onclick = () => { sh.querySelector('#fb-where').textContent = `지금 화면: ${where()} · 보낸 뒤 처리 상태는 브리핑 '내 요청'에 뜹니다`; sh.hidden = false; setTimeout(() => ta.focus(), 50); };
-  sh.onclick = e => { if(e.target === sh || e.target.closest('[data-x]')) sh.hidden = true; };
-  sh.querySelector('[data-go]').onclick = async e => { const text = ta.value.trim(); if(!text){ ta.focus(); return; }
-    e.target.disabled = true; if(!BR.inbox && !BR.loaded) await briefLoad().catch(() => {});
-    if(await brSaveInbox({ kind: 'feedback', ref: where(), text: `[${where()}] ${text}` })){ ta.value = ''; sh.hidden = true; toast('받았습니다. 브리핑 내 요청에 처리 상태가 뜹니다.'); if(page() === 'brief') render(); }
-    e.target.disabled = false; };
-  setInterval(() => { fab.hidden = $('#out').hidden; }, 1000);
+  const box = $('#ask'), f = box.querySelector('form'), ta = f.querySelector('textarea'), btn = f.querySelector('button'), m = $('#ask-m');
+  const where = () => (PAGES.find(x => x[0] === page()) || [])[1] || '';
+  const hint = () => { m.textContent = `예: "10시 쇼츠 썸네일 고쳐줘" · 다음 처리 ${brNext(BR_H_ALL, 17)} · 상태는 브리핑 '내 요청'에`; };
+  const fit = () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 160) + 'px'; };
+  ta.addEventListener('input', fit);
+  ta.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); f.requestSubmit(); } });
+  f.onsubmit = async e => { e.preventDefault(); const text = ta.value.trim(); if(!text){ ta.focus(); return; }
+    btn.disabled = true; if(!BR.inbox && !BR.loaded) await briefLoad().catch(() => {});
+    if(await brSaveInbox({ kind: 'feedback', ref: where(), text: `[${where()}] ${text}` })){ ta.value = ''; fit(); toast(`받았습니다. ${brNext(BR_H_ALL, 17)}에 처리하고 브리핑 '내 요청'에 상태가 뜹니다.`); if(page() === 'brief') render(); }
+    btn.disabled = false; };
+  hint(); setInterval(() => { box.hidden = $('#out').hidden; hint(); }, 1000);
 })();
 
 /* 새 버전이 배포되면 화면을 스스로 다시 연다 (2026-10-30 운영자: "옛 화면이 계속 남아 있으면 안 되지") —
