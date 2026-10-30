@@ -120,8 +120,8 @@
  "description_en": "Why isn't Halloween chocolate getting cheaper? Hershey sold about 10% less in Q3 2026, yet adjusted EPS rose 103% to $2.64, even though cocoa is less than half its December 2024 peak of $12,931 a ton. We cover record U.S. Halloween spending ($13.5B, NRF), why candy ranks third, Hershey's price-versus-volume report card, the 'elevator up, stairs down' of prices, Mondelez's opposite strategy, Spirit Halloween's two-month stores, Korea's quiet Halloween and Pepero Day, and three numbers to watch.\n\n#Halloween #Hershey #cocoa",
  "pinned_comment": "올해 할로윈 사탕이나 초콜릿, 작년보다 비싸다고 느끼셨나요? 체감한 값 차이를 댓글로 나눠 주세요.\n\n다음 실적 때 볼 숫자: 허쉬 판매량 · 코코아 선물 가격 · 가격 효과 vs 물량(몬덜리즈와 비교).",
  "hook_promises": [
-  "사탕은 덜 팔렸는데 이익이 두 배가 된 이유",
-  "코코아가 내려도 초콜릿값이 안 내리는 이유",
+  "코코아는 반값인데 초콜릿은 왜 그대로일까",
+  "지구 반대편 날씨가 빼빼로 값까지 오는 길",
   "다음 실적 때 볼 숫자 3개"
  ],
  "viewer_question": "할로윈 사탕은 덜 팔리는데 허쉬는 어떻게 이익을 두 배로 늘렸고, 코코아값이 내렸는데 초콜릿값은 왜 그대로인가?",
@@ -131,16 +131,16 @@
    "v": {
     "type": "media",
     "lib": "commons_halloweencandy_5.jpg",
-    "caption": "코코아는 반값, 초콜릿값은?",
+    "caption": "코코아는 반값, 초콜릿값은 그대로",
     "caption_at": "0"
    },
    "lines": [
     "내일은 할로윈, 아이들이 집집마다 돌며 외치죠. 트릭 오어 트릿, 과자를 안 주면 장난칠 거예요!",
-    "그 바구니를 가득 채우는 게 사탕과 초콜릿이에요. 그런데 올해는 이상한 일이 벌어졌어요."
+    "그 바구니에 들어가는 초콜릿, 원료인 코코아값은 꼭대기의 절반 아래로 내려왔어요. 그런데 초콜릿값은 그대로입니다."
    ],
    "en": [
     "Tomorrow is Halloween, and kids go door to door shouting trick or treat: give us candy or we play a prank!",
-    "What fills those baskets is candy and chocolate, and this year something strange happened."
+    "The cocoa in those chocolates now costs less than half its peak, yet chocolate prices haven't moved."
    ],
    "asof": false,
    "src": " · 사진: OhanaSurf · Wikimedia Commons (CC BY-SA 4.0)",
@@ -148,191 +148,22 @@
   },
   {
    "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "초콜릿 원료인 코코아값은 반값이 됐는데, 허쉬는 3분기에 10% 덜 팔고도 주식 한 장당 이익이 2.64달러로 1년 전의 두 배가 됐어요."
-   ],
-   "en": [
-    "Cocoa, the raw material, is half price, yet in the third quarter Hershey sold about 10% less and still doubled its profit per share to 2.64 dollars."
-   ],
-   "asof": false,
-   "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "허쉬 · 2026년 3분기",
-     "x": 140,
-     "y": 90,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_hersheys_3.jpg",
-     "x": 1340,
-     "y": 170,
-     "w": 440,
-     "h": 330,
-     "rot": 3,
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "icons",
-     "icon": "candy",
-     "x": 160,
-     "y": 230,
-     "size": 150,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.02
-    },
-    {
-     "kind": "print",
-     "text": "판매량",
-     "x": 360,
-     "y": 240,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "write",
-     "text": "-10%",
-     "x": 360,
-     "y": 300,
-     "size": 170,
-     "color": "red",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 560,
-     "x1": 1780,
-     "y1": 560,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.5,
-     "dur": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "coin",
-     "x": 160,
-     "y": 640,
-     "size": 150,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "주식 한 장당 이익",
-     "x": 360,
-     "y": 640,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "2.64달러",
-     "x": 360,
-     "y": 710,
-     "size": 110,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.65
-    },
-    {
-     "kind": "print",
-     "text": "+103%",
-     "x": 1000,
-     "y": 700,
-     "size": 120,
-     "w": "ExtraBold",
-     "color": "green",
-     "line": 0,
-     "at": 0.85
-    },
-    {
-     "kind": "print",
-     "text": "1년 전 약 1.30달러",
-     "x": 1000,
-     "y": 850,
-     "size": 44,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.9
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
     "type": "media",
     "lib": "commons_cocoapod_3.jpg",
-    "caption": "원료는 싸졌는데?",
-    "caption_at": "0",
-    "chips": [
-     {
-      "v": "약 -56%",
-      "l": "코코아 1톤 · 최고가 대비 (10월 7일)",
-      "at": "0:60%"
-     }
-    ]
+    "caption": "농부 몫은 절반 아래로",
+    "caption_at": "0"
    },
    "lines": [
-    "원료가 반값이면 초콜릿도 싸져야 할 것 같죠. 코코아값은 꼭대기에서 절반 넘게 내려왔거든요.",
-    "그런데 허쉬 초콜릿은 왜 안 싸졌을까요?"
+    "그사이 코코아를 기르는 서아프리카 농부가 받는 돈은 절반 넘게 깎였고, 미국 허쉬는 사탕을 10% 덜 팔고도 더 많이 남겼어요.",
+    "오늘은 이 초콜릿 한 봉지가 지구 반대편 날씨부터 우리 빼빼로 값까지 어떻게 이어져 있는지 따라가 볼게요."
    ],
    "en": [
-    "If the raw material is half price, chocolate should get cheaper too, right? Cocoa is down by more than half from its peak.",
-    "So why didn't Hershey chocolate get cheaper?"
+    "Meanwhile West African cocoa farmers saw their pay cut by more than half, and Hershey sold 10% less candy yet kept more.",
+    "Today we follow one bag of chocolate from the weather on the other side of the world to the price of Pepero in Korea."
    ],
    "asof": false,
-   "src": "ICE 코코아 선물 (2024년 12월 18일 장중 최고 1만 2,931달러 · 2026년 10월 7일 약 5,640달러, 트레이딩이코노믹스) · 사진: Siarhei Besarab · Wikimedia Commons (CC BY-SA 4.0)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "초콜릿 원료 = 코코아",
-     "x": 1150,
-     "y": 700,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "원료값 하락 · 초콜릿값은?",
-     "x": 1150,
-     "y": 790,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.3
-    }
-   ]
+   "src": " · 사진: Siarhei Besarab · Wikimedia Commons (CC BY-SA 4.0) · 코트디부아르 농가 수매값(로이터 2026년 8월 31일) · 허쉬 2026년 3분기 실적 발표",
+   "sketch_add": []
   },
   {
    "v": {
@@ -342,10 +173,10 @@
     "caption_at": "0"
    },
    "lines": [
-    "그 답이 사탕 바구니 속 가격표에 있어요. 하나씩 풀어 볼게요. 끝에는 다음 실적 때 볼 숫자 세 개도 드립니다."
+    "답은 가격표 뒤에 숨어 있어요. 끝에는 다음 실적 때 볼 숫자 세 개도 드립니다."
    ],
    "en": [
-    "The answer is in the price tags in that candy basket. I'll unpack it step by step, and at the end give you three numbers to watch."
+    "The answer hides behind the price tag, and at the end I'll give you three numbers to watch."
    ],
    "asof": false,
    "sketch_add": [
@@ -374,17 +205,126 @@
    ]
   },
   {
+   "chapter": "날씨가 정하는 식탁 물가",
+   "v": {
+    "type": "title",
+    "text": "날씨가 정하는 식탁 물가",
+    "sub": "첫 번째 이야기"
+   },
+   "lines": [
+    "첫 번째 이야기, 먼저 큰 그림부터 볼게요. 요즘 우리 식탁 물가를 정하는 건 날씨예요."
+   ],
+   "en": [
+    "Part one, the big picture first: these days the weather sets the price of what's on our table."
+   ],
+   "asof": false,
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "coffee_41859_a.jpg",
+    "chips": [
+     {
+      "v": "$4",
+      "l": "커피 원두 · 파운드당 처음",
+      "at": "0:4달러"
+     },
+     {
+      "v": "+68%",
+      "l": "스페인 올리브유 산지값 · 1년",
+      "at": "1:68"
+     }
+    ]
+   },
+   "lines": [
+    "2024년, 날씨가 망친 건 코코아만이 아니었어요. 오렌지주스 원액은 그해 말 사상 최고를 찍었고, 커피 원두는 브라질 가뭄 끝에 이듬해 초 처음으로 파운드당 4달러를 건드렸습니다.",
+    "유럽에선 올리브유가 같은 길을 걸었어요. 스페인에 두 해 내리 흉작이 들자 산지값이 1년 만에 68% 뛰었죠."
+   ],
+   "en": [
+    "In 2024 the weather didn't just hit cocoa: orange juice hit a record at year-end, and coffee touched 4 dollars a pound for the first time after Brazil's drought.",
+    "In Europe olive oil followed: after two bad Spanish harvests in a row, farm-gate prices jumped 68% in a year."
+   ],
+   "asof": false,
+   "src": "WSJ 2024년 12월 23일(오렌지주스 선물 사상 최고 파운드당 5.48달러) · GCR 2025년 2월(아라비카 첫 4달러) · Tridge 2024년 1월(스페인 올리브유 산지값 +68%)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "twocol",
+    "title": "스페인 올리브유 · 2026년 10월",
+    "title_en": "Spanish olive oil, October 2026",
+    "left": {
+     "title": "산지값",
+     "at": "1:산지값",
+     "items": [
+      [
+       "kg당 3.1유로",
+       "1:가장"
+      ]
+     ]
+    },
+    "right": {
+     "title": "마트 병값",
+     "gold": true,
+     "at": "1:병값",
+     "items": [
+      [
+       "리터당 4유로 넘게",
+       "1:4유로"
+      ]
+     ]
+    }
+   },
+   "lines": [
+    "그런데 날씨가 풀리고 원료값이 내려와도, 진열대 값은 잘 안 내려와요.",
+    "스페인 올리브유 산지값은 이달 5년 만에 가장 낮은데, 마트 병값은 여전히 리터당 4유로를 넘습니다."
+   ],
+   "en": [
+    "But when the weather eases and raw prices fall, shelf prices barely come down.",
+    "Spanish olive oil at the farm gate is at a five-year low this month, yet supermarket bottles still cost over 4 euros a litre."
+   ],
+   "asof": false,
+   "src": "유로위클리뉴스 2026년 10월 22일(산지값 kg당 약 3.1유로, 5년 만의 최저 · 메르카도나 4.35유로·까르푸 4.34유로)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "기온 상승이 더할 식품 물가 · 유럽중앙은행·포츠담 기후영향연구소",
+    "value": "해마다 최대 3.2%p",
+    "label": "2035년까지",
+    "label_en": "Extra food inflation from warming by 2035 (ECB·PIK)",
+    "at": "0:3.2",
+    "count": false,
+    "tags": [],
+    "backdrop": "chocolate_41126_a.jpg",
+    "bd_dim": 0.72
+   },
+   "lines": [
+    "경제학자들은 이걸 로켓과 깃털이라고 불러요. 오를 땐 로켓처럼, 내릴 땐 깃털처럼. 유럽중앙은행 연구진은 기온이 오르는 것만으로 2035년까지 식품 물가가 해마다 최대 3.2%포인트 더 오를 수 있다고 봤습니다.",
+    "할로윈 초콜릿 이야기는 이 큰 흐름의 한 장면이에요."
+   ],
+   "en": [
+    "Economists call it rockets and feathers: up like a rocket, down like a feather. ECB researchers estimate warming alone could add up to 3.2 points a year to food inflation by 2035.",
+    "The Halloween chocolate story is one scene in that bigger trend."
+   ],
+   "asof": false,
+   "src": "PIK·ECB 공동 연구(2024년 3월 21일) · '로켓과 깃털' Richards·Gómez·Lee(2014)",
+   "sketch_add": []
+  },
+  {
    "chapter": "135억 달러의 하루",
    "v": {
     "type": "title",
     "text": "135억 달러의 하루",
-    "sub": "첫 번째 이야기"
+    "sub": "두 번째 이야기"
    },
    "lines": [
-    "첫 번째 이야기, 할로윈에 쓰는 돈입니다."
+    "두 번째 이야기, 할로윈에 쓰는 돈입니다."
    ],
    "en": [
-    "Chapter one: the money spent on Halloween."
+    "Part two: what Americans spend on Halloween."
    ],
    "asof": false,
    "sketch_add": []
@@ -626,274 +566,6 @@
   },
   {
    "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "사는 곳도 바뀌었어요. 할인점이 39%, 할로윈 전문 매장이 32%, 온라인이 27%.",
-    "그리고 둘 중 한 명은 9월부터 할로윈 장을 보기 시작합니다. 할로윈은 하루가 아니라 두 달짜리 대목이에요."
-   ],
-   "en": [
-    "Where they shop: discount stores 39%, Halloween specialty stores 32%, online 27%.",
-    "And half start shopping in September or earlier. Halloween isn't one day; it's a two-month season."
-   ],
-   "asof": false,
-   "src": "미국소매협회(NRF) 할로윈 소비 조사 (2026년 9월 22일 발표, 7,889명 · 9월 1~9일)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "할로윈 장보는 곳 · 2026년",
-     "x": 140,
-     "y": 90,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_spirithalloween_4.jpg",
-     "x": 1300,
-     "y": 150,
-     "w": 480,
-     "h": 330,
-     "rot": -2,
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "store",
-     "x": 160,
-     "y": 220,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "할인점",
-     "x": 320,
-     "y": 240,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "39%",
-     "x": 820,
-     "y": 220,
-     "size": 90,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "icons",
-     "icon": "pumpkin",
-     "x": 160,
-     "y": 380,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "할로윈 전문 매장",
-     "x": 320,
-     "y": 400,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.4
-    },
-    {
-     "kind": "print",
-     "text": "32%",
-     "x": 820,
-     "y": 380,
-     "size": 90,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "icons",
-     "icon": "phone",
-     "x": 160,
-     "y": 540,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.65
-    },
-    {
-     "kind": "print",
-     "text": "온라인",
-     "x": 320,
-     "y": 560,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "print",
-     "text": "27%",
-     "x": 820,
-     "y": 540,
-     "size": 90,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.75
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 720,
-     "x1": 1780,
-     "y1": 720,
-     "color": "gray",
-     "width": 3,
-     "line": 1,
-     "at": 0.0,
-     "dur": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "clock",
-     "x": 160,
-     "y": 770,
-     "size": 110,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "9월 이전 장보기 시작",
-     "x": 320,
-     "y": 790,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "write",
-     "text": "49%",
-     "x": 1150,
-     "y": 730,
-     "size": 170,
-     "color": "red",
-     "line": 1,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "두 달짜리 대목",
-     "x": 1150,
-     "y": 930,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.8
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "stat",
-    "kicker": "할로윈 카드 구매 계획 · NRF 2026",
-    "value": "42%",
-    "label": "작년 38% → 올해 42%",
-    "label_en": "Shoppers buying Halloween cards (NRF)",
-    "at": "0:42",
-    "count": false,
-    "backdrop": "pumpkin_2229_a.jpg",
-    "bd_dim": 0.74
-   },
-   "lines": [
-    "의외로 늘어난 것도 있어요. 할로윈 카드를 사겠다는 사람이 38%에서 42%로 늘었습니다.",
-    "사탕 대신 마음을 보내는 걸까요? 카드에만 8억 달러가 갑니다."
-   ],
-   "en": [
-    "One surprise: the share planning to buy Halloween cards rose from 38% to 42%.",
-    "Sending feelings instead of sweets? Cards alone take 800 million dollars."
-   ],
-   "asof": false,
-   "src": "미국소매협회(NRF) 할로윈 소비 조사 (2026년 9월 22일 발표, 7,889명 · 9월 1~9일)",
-   "sketch_add": [
-    {
-     "kind": "icons",
-     "icon": "gift",
-     "x": 1450,
-     "y": 700,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "카드 8억 달러",
-     "x": 140,
-     "y": 860,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "구매 계획 4%p 증가",
-     "x": 1180,
-     "y": 700,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "green",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "print",
-     "text": "사탕 대신 카드?",
-     "x": 140,
-     "y": 700,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.3
-    }
-   ]
-  },
-  {
-   "v": {
     "type": "question",
     "text": "덜 팔렸는데 더 벌었다?",
     "backdrop": "candy_10381_a.jpg",
@@ -950,18 +622,19 @@
    "v": {
     "type": "title",
     "text": "코코아 1만 2,931달러의 겨울",
-    "sub": "두 번째 이야기"
+    "sub": "세 번째 이야기"
    },
    "lines": [
-    "두 번째 이야기, 2024년 겨울입니다. 세계 코코아의 절반 넘게 나오는 서아프리카에 흉작이 들었어요.",
-    "이상 기후에 나무를 말려 죽이는 병, 늙은 농장까지 겹쳤죠."
+    "세 번째 이야기, 2024년 겨울입니다. 평소 세계 코코아의 3분의 2 가까이를 기르는 코트디부아르와 가나에 엘니뇨가 몰고 온 가뭄이 들었어요.",
+    "병까지 번지면서, 한 톤에 2,500달러 안팎이던 코코아값이 두 해 만에 다섯 배를 넘었죠."
    ],
    "en": [
-    "Chapter two: the winter of 2024. A poor harvest hit West Africa, where more than half the world's cocoa grows.",
-    "Extreme weather, a tree-killing disease and aging farms all hit at once."
+    "Part three, winter 2024: drought brought by El Niño hit Ivory Coast and Ghana, which usually grow nearly two-thirds of the world's cocoa.",
+    "With disease spreading, cocoa that sold for about 2,500 dollars a ton rose more than fivefold in two years."
    ],
    "asof": false,
-   "sketch_add": []
+   "sketch_add": [],
+   "src": "카카오포럼(코트디부아르·가나 약 3분의 2, 2016/17) · SBS Biz(2023년 이전 톤당 2,500달러 안팎)"
   },
   {
    "v": {
@@ -1117,95 +790,58 @@
   {
    "v": {
     "type": "media",
-    "lib": "commons_hersheys_4.jpg",
+    "lib": "commons_cocoapod_1.jpg",
     "chips": [
      {
-      "v": "31.8%",
-      "l": "허쉬 원가 뺀 남는 돈 비율 · 2025년 3분기",
-      "at": "0:31.8"
+      "v": "2,800 → 1,200",
+      "l": "코트디부아르 코코아 수매값 · 1kg당 CFA프랑",
+      "at": "0:1,200프랑"
      }
     ]
    },
    "lines": [
-    "허쉬는 그 원가 급등을 그대로 맞았어요. 작년 이맘때 허쉬가 팔아서 원가를 빼고 남기는 돈의 비율은 31.8%까지 내려가 있었습니다.",
-    "물건을 100달러어치 팔면 원가를 빼고 32달러쯤 남았다는 뜻이에요. 그래서 허쉬가 고른 길은, 값을 올리는 것이었습니다."
+    "값이 꺾이자 가장 먼저 깎인 건 농부 몫이었어요. 코트디부아르 정부가 정해 주는 코코아 수매값은 1kg에 2,800프랑에서 올봄 1,200프랑으로 내려갔습니다.",
+    "지구 반대편 농부의 수입은 반 넘게 줄었는데, 초콜릿 봉지 값은 그대로였던 거죠."
    ],
    "en": [
-    "Hershey took that cost bomb head-on. A year ago its adjusted gross margin had fallen to 31.8%.",
-    "For every 100 dollars of sales, about 32 dollars were left after costs. So Hershey chose to raise prices."
+    "When prices turned, farmers were cut first: Ivory Coast's set cocoa price fell from 2,800 to 1,200 francs a kilo this spring.",
+    "Farmers' income more than halved, while the price of a chocolate bag stayed put."
    ],
    "asof": false,
-   "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K) (42.7% - 10.9%p) · 사진: Willis Lam · Wikimedia Commons (CC BY-SA 2.0)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "100달러 팔면 32달러 남음",
-     "x": 140,
-     "y": 860,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "선택: 값 올리기",
-     "x": 1100,
-     "y": 860,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.85
-    },
-    {
-     "kind": "print",
-     "text": "원가 급등",
-     "x": 1100,
-     "y": 470,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.25
-    },
-    {
-     "kind": "print",
-     "text": "2025년 3분기",
-     "x": 1100,
-     "y": 560,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "print",
-     "text": "남는 돈 약 32%",
-     "x": 1100,
-     "y": 660,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.55
-    }
-   ]
+   "src": " · 사진: Yuet Man Lee · Wikimedia Commons (CC BY-SA 4.0) · 로이터(ESM 2026년 8월 31일) · wikifarmer(2026년 3월 4일 57% 인하)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "question",
+    "text": "이번엔 날씨가 막은 길",
+    "backdrop": "commons_cocoapod_5.jpg",
+    "bd_dim": 0.7
+   },
+   "lines": [
+    "코코아값이 한 나라 사정에 출렁인 게 처음은 아니에요. 2011년 코트디부아르 대선 다툼 때 한쪽이 수출을 막자 코코아값이 32년 만에 가장 높이 올랐죠.",
+    "그땐 사람이 막은 길이라 협상으로 풀렸어요. 이번엔 날씨가 줄인 수확이었습니다."
+   ],
+   "en": [
+    "It's not the first time one country moved cocoa: in 2011 a disputed Ivory Coast election led to an export ban and a 32-year high.",
+    "That time people blocked the road and talks reopened it. This time the weather shrank the harvest."
+   ],
+   "asof": false,
+   "src": "베이커스저널(2011년 코코아 수출 금지·32년 만의 최고)",
+   "sketch_add": []
   },
   {
    "chapter": "값 +11, 양 -10",
    "v": {
     "type": "title",
-    "text": "값 +11, 양 -10",
-    "sub": "세 번째 이야기"
+    "text": "덜 팔고 더 남긴 회사",
+    "sub": "네 번째 이야기"
    },
    "lines": [
-    "세 번째 이야기, 그 결과가 담긴 성적표예요. 10월 29일 발표에서 값을 올려서 매출이 약 11% 늘었고, 덜 팔려서 약 10% 줄었습니다."
+    "네 번째 이야기, 할로윈 이틀 전 나온 허쉬 성적표예요. 값을 올려서 매출이 약 11% 늘었고, 덜 팔려서 약 10% 줄었습니다."
    ],
    "en": [
-    "Chapter three: the report card. On October 29, higher prices added about 11 points to sales, while lower volume took away about 10."
+    "Part four, Hershey's report card two days before Halloween: price hikes added about 11% to sales, lower volume took away about 10%."
    ],
    "asof": false,
    "sketch_add": []
@@ -1360,7 +996,7 @@
     "bd_dim": 0.72
    },
    "lines": [
-    "그런데 남는 돈은 확 달라졌어요. 원가를 빼고 남기는 돈의 비율이 42.7%, 1년 만에 10.9%포인트 뛰었습니다.",
+    "그런데 남는 돈은 확 달라졌어요. 원가를 빼고 남는 몫이 42.7%, 1년 만에 10.9%포인트 뛰었습니다.",
     "100달러어치 팔면 32달러 남던 회사가, 이제 43달러를 남기는 거예요."
    ],
    "en": [
@@ -1444,8 +1080,8 @@
     }
    },
    "lines": [
-    "할로윈 사탕이 들어 있는 북미 과자 부문만 보면 더 극적이에요. 값을 올려서 매출이 약 13% 늘었고, 덜 팔려서 약 11% 줄었어요.",
-    "사탕 진열대에서 손님은 줄고 가격표 숫자는 커진 거죠."
+    "할로윈 사탕이 들어 있는 북미 과자 부문만 보면 더 극적이에요. 값을 올려서 매출이 약 13% 늘었고, 판매량이 줄어 약 11% 빠졌어요.",
+    "사탕 진열대에서 사는 사람은 줄고 가격표 숫자는 커진 거죠."
    ],
    "en": [
     "In North America Confectionery, home of Halloween candy, it's even starker: about 13 points from price, volume down about 11.",
@@ -1468,7 +1104,7 @@
     },
     {
      "kind": "print",
-     "text": "손님은 줄고 가격표는 커지고",
+     "text": "사는 사람은 줄고 가격표는 커지고",
      "x": 140,
      "y": 860,
      "size": 54,
@@ -1512,151 +1148,6 @@
      "at": 0.7
     }
    ]
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "그래서 주식 한 장당 이익이 2.64달러, 두 배가 됐어요. 여기엔 3분기에 받은 관세 환급 약 22센트도 들어 있는데, 그걸 빼도 80% 넘게 늘었습니다.",
-    "덜 팔고 더 버는 비결이 바로 이거예요."
-   ],
-   "en": [
-    "So adjusted EPS doubled to 2.64 dollars. It includes about 22 cents of tariff refunds received in Q3, but even without them it rose more than 80%.",
-    "That's how selling less and earning more works."
-   ],
-   "asof": false,
-   "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K) · 관세 환급 제외 계산: (2.64 - 0.22) ÷ 1.30 ≈ 1.86",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "허쉬 주식 한 장당 이익",
-     "x": 140,
-     "y": 90,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "print",
-     "text": "2025년 3분기",
-     "x": 160,
-     "y": 210,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "약 1.30달러",
-     "x": 160,
-     "y": 270,
-     "size": 90,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "arrow",
-     "pts": [
-      [
-       700,
-       320
-      ],
-      [
-       960,
-       320
-      ]
-     ],
-     "color": "ink",
-     "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "2026년 3분기",
-     "x": 1000,
-     "y": 210,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "write",
-     "text": "2.64달러",
-     "x": 1000,
-     "y": 250,
-     "size": 170,
-     "color": "red",
-     "line": 0,
-     "at": 0.25
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 560,
-     "x1": 1780,
-     "y1": 560,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.5,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "관세 환급 약 0.22달러 포함",
-     "x": 160,
-     "y": 610,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "빼도 +86%",
-     "x": 160,
-     "y": 690,
-     "size": 80,
-     "w": "ExtraBold",
-     "color": "green",
-     "line": 0,
-     "at": 0.85
-    },
-    {
-     "kind": "icons",
-     "icon": "candy",
-     "x": 1300,
-     "y": 640,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "덜 팔고 더 벌기",
-     "x": 1000,
-     "y": 820,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.4
-    }
-   ],
-   "sketch_add": []
   },
   {
    "v": {
@@ -1706,10 +1197,10 @@
    "v": {
     "type": "title",
     "text": "엘리베이터와 계단",
-    "sub": "네 번째 이야기"
+    "sub": "다섯 번째 이야기"
    },
    "lines": [
-    "네 번째 이야기, 처음 질문으로 돌아가죠. 코코아가 절반 넘게 내렸는데 초콜릿값은 왜 안 내려갈까요?"
+    "다섯 번째 이야기, 처음 질문으로 돌아가죠. 코코아가 절반 넘게 내렸는데 초콜릿값은 왜 안 내려갈까요?"
    ],
    "en": [
     "Chapter four, back to the first question. Cocoa fell by more than half. Why isn't chocolate getting cheaper?"
@@ -2061,7 +1552,7 @@
    },
    "lines": [
     "그럼 허쉬는 어떻게 값을 올리고도 버틸까요? 답은 이름에 있어요. 허쉬 초콜릿, 리세스, 키세스, 그리고 미국에서 파는 킷캣까지 모두 허쉬 거예요.",
-    "할로윈 바구니에서 아이들이 먼저 집는 이름들이죠. 손님이 값보다 이름을 보고 고르는 한, 회사는 값을 올릴 수 있습니다."
+    "할로윈 바구니에서 아이들이 먼저 집는 이름들이죠. 사람들이 값보다 이름을 보고 고르는 한, 회사는 값을 올릴 수 있습니다."
    ],
    "en": [
     "So how does Hershey raise prices and hold on? The answer is in the names: Hershey's, Reese's, Kisses, and in the U.S., even Kit Kat.",
@@ -2312,342 +1803,6 @@
    ]
   },
   {
-   "chapter": "두 달만 여는 가게",
-   "v": {
-    "type": "title",
-    "text": "두 달만 여는 가게",
-    "sub": "다섯 번째 이야기"
-   },
-   "lines": [
-    "다섯 번째 이야기, 1년에 두 달만 문을 여는 가게예요. 스피릿 할로윈은 올해 미국과 캐나다에 팝업 매장 약 1,500곳을 열고 임시 직원을 5만 2천 명 넘게 뽑습니다."
-   ],
-   "en": [
-    "Chapter five: a store that opens two months a year. Spirit Halloween is opening about 1,500 pop-up stores in the U.S. and Canada this year and hiring more than 52,000 seasonal workers."
-   ],
-   "asof": false,
-   "src": "스크립스 뉴스 (2026년 8월 4일)",
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "비결은 빈 매장이에요. 여름 끝에 비어 있는 큰 매장을 짧게 빌려 할로윈까지만 열고 닫습니다.",
-    "1년 치 장사를 두 달에 몰아서 하는 거죠. 9월부터 장을 보는 사람이 절반이니, 이 가게도 그 전에 문을 엽니다."
-   ],
-   "en": [
-    "The trick is empty storefronts. Rent a big vacant store at summer's end, open through Halloween, then close.",
-    "A year's business packed into two months. Shoppers starting in September is this store's calendar."
-   ],
-   "asof": false,
-   "src": "스크립스 뉴스 (2026년 8월 4일) · 미국소매협회(NRF) 할로윈 소비 조사 (2026년 9월 22일 발표, 7,889명 · 9월 1~9일)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "팝업 매장의 달력",
-     "x": 140,
-     "y": 90,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "print",
-     "text": "1월",
-     "x": 160,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "2월",
-     "x": 295,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.08
-    },
-    {
-     "kind": "print",
-     "text": "3월",
-     "x": 430,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.11
-    },
-    {
-     "kind": "print",
-     "text": "4월",
-     "x": 565,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.14
-    },
-    {
-     "kind": "print",
-     "text": "5월",
-     "x": 700,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.16999999999999998
-    },
-    {
-     "kind": "print",
-     "text": "6월",
-     "x": 835,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "7월",
-     "x": 970,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.22999999999999998
-    },
-    {
-     "kind": "print",
-     "text": "8월",
-     "x": 1105,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 0,
-     "at": 0.26
-    },
-    {
-     "kind": "print",
-     "text": "9월",
-     "x": 1240,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 0,
-     "at": 0.29
-    },
-    {
-     "kind": "print",
-     "text": "10월",
-     "x": 1375,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 0,
-     "at": 0.32
-    },
-    {
-     "kind": "print",
-     "text": "11월",
-     "x": 1510,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "12월",
-     "x": 1645,
-     "y": 240,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.37999999999999995
-    },
-    {
-     "kind": "icons",
-     "icon": "store",
-     "x": 160,
-     "y": 420,
-     "size": 130,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "빈 큰 매장 · 짧게 빌림",
-     "x": 330,
-     "y": 450,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "약 1,500곳 · 임시 직원 5만 2천 명+",
-     "x": 330,
-     "y": 540,
-     "size": 48,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "icons",
-     "icon": "pumpkin",
-     "x": 160,
-     "y": 680,
-     "size": 130,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "1년 장사를 두 달에",
-     "x": 330,
-     "y": 700,
-     "size": 70,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "9월 장보기 49%",
-     "x": 330,
-     "y": 810,
-     "size": 48,
-     "w": "Bold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.7
-    },
-    {
-     "kind": "circle",
-     "cx": 1260,
-     "cy": 265,
-     "rx": 210,
-     "ry": 55,
-     "color": "red",
-     "line": 1,
-     "at": 0.4
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "commons_spirithalloween_2.jpg",
-    "chips": [
-     {
-      "v": "약 700곳",
-      "l": "파티시티 매장 정리 · 2024년 12월 파산 신청",
-      "at": "0:700"
-     }
-    ]
-   },
-   "lines": [
-    "반대로 1년 내내 파티 용품을 팔던 파티시티는 2024년 12월 파산을 신청하고 700곳 가까운 매장을 모두 닫기로 했어요.",
-    "빚과 경쟁 등 이유는 여러 가지였지만 같은 할로윈 대목에서 1년 내내 문을 여는 쪽이 버티기 더 어려웠던 셈이죠."
-   ],
-   "en": [
-    "Meanwhile Party City, which sold party goods all year, filed for bankruptcy in December 2024 and moved to close its roughly 700 stores.",
-    "Same Halloween: the all-season store couldn't hold on, the two-month store survived."
-   ],
-   "asof": false,
-   "src": "코스타 (2024년 12월 22일) · 사진: Wikimedia Commons (CC BY-SA 4.0)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "사계절 가게 vs 두 달 가게",
-     "x": 140,
-     "y": 860,
-     "size": 54,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.4
-    },
-    {
-     "kind": "print",
-     "text": "1년 내내 파티 용품",
-     "x": 1100,
-     "y": 460,
-     "size": 48,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "빚 · 경쟁 · 비용",
-     "x": 1100,
-     "y": 560,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "같은 할로윈 대목",
-     "x": 1100,
-     "y": 720,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.5
-    },
-    {
-     "kind": "print",
-     "text": "사계절 가게가 더 힘들다",
-     "x": 1100,
-     "y": 640,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.8
-    }
-   ]
-  },
-  {
    "chapter": "한국의 10월 31일",
    "v": {
     "type": "title",
@@ -2663,58 +1818,6 @@
    "asof": false,
    "src": "아주경제 (2026년 10월 27일)",
    "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "commons_pepero_4.jpg",
-    "chips": [
-     {
-      "v": "+39.2%",
-      "l": "GS25 빼빼로데이 매출 · 2024년",
-      "at": "1:39.2"
-     },
-     {
-      "v": "+30.5%",
-      "l": "GS25 빼빼로데이 매출 · 2025년",
-      "at": "1:30.5"
-     }
-    ]
-   },
-   "lines": [
-    "한국 편의점의 가을 대목은 따로 있어요. 11월 11일 빼빼로데이입니다.",
-    "GS25의 빼빼로데이 매출은 2024년 39.2%, 2025년 30.5% 늘었어요."
-   ],
-   "en": [
-    "Korean convenience stores have a different autumn peak: Pepero Day, November 11.",
-    "GS25's Pepero Day sales rose 39.2% in 2024 and 30.5% in 2025."
-   ],
-   "asof": false,
-   "src": "아주경제 (2026년 10월 27일, GS25 빼빼로데이 매출 증가율) · 사진: Wikimedia Commons (CC0)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "10월 31일 → 11월 11일",
-     "x": 140,
-     "y": 860,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "편의점 가을 대목",
-     "x": 1160,
-     "y": 720,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 0,
-     "at": 0.25
-    }
-   ]
   },
   {
    "v": {
@@ -2797,6 +1900,129 @@
      "at": 0.62
     }
    ],
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_pepero_4.jpg",
+    "chips": [
+     {
+      "v": "+39.2%",
+      "l": "GS25 빼빼로데이 매출 · 2024년",
+      "at": "1:39.2"
+     },
+     {
+      "v": "+30.5%",
+      "l": "GS25 빼빼로데이 매출 · 2025년",
+      "at": "1:30.5"
+     }
+    ]
+   },
+   "lines": [
+    "한국 편의점의 가을 대목은 따로 있어요. 11월 11일 빼빼로데이입니다.",
+    "GS25의 빼빼로데이 매출은 2024년 39.2%, 2025년 30.5% 늘었어요."
+   ],
+   "en": [
+    "Korean convenience stores have a different autumn peak: Pepero Day, November 11.",
+    "GS25's Pepero Day sales rose 39.2% in 2024 and 30.5% in 2025."
+   ],
+   "asof": false,
+   "src": "아주경제 (2026년 10월 27일, GS25 빼빼로데이 매출 증가율) · 사진: Wikimedia Commons (CC0)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "10월 31일 → 11월 11일",
+     "x": 140,
+     "y": 860,
+     "size": 56,
+     "w": "ExtraBold",
+     "color": "orange",
+     "line": 1,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "편의점 가을 대목",
+     "x": 1160,
+     "y": 720,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "orange",
+     "line": 0,
+     "at": 0.25
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_pepero_4.jpg",
+    "chips": [
+     {
+      "v": "2,800원 → 3,400원",
+      "l": "가나마일드 70g · 2025년 2월",
+      "at": "0:3,400원"
+     }
+    ]
+   },
+   "lines": [
+    "코트디부아르 날씨는 우리 마트 진열대까지 옵니다. 롯데웰푸드는 지난해 2월 가나마일드 값을 2,800원에서 3,400원으로 올렸어요.",
+    "코코아값이 꺾인 뒤에도 이 값은 그대로였어요. 업계는 비쌀 때 계약한 원료가 아직 들어오고 있다고 설명했습니다."
+   ],
+   "en": [
+    "Ivory Coast's weather reaches Korean shelves: Lotte Wellfood raised Ghana Mild from 2,800 to 3,400 won last February.",
+    "The price stayed even after cocoa fell; the industry said expensive contracted cocoa was still arriving."
+   ],
+   "asof": false,
+   "src": "한국경제 2026년 8월 9일(가나마일드 70g 2,800원 → 3,400원, 제과업체 원료 선계약) · 비즈워치 2026년 5월 7일",
+   "sketch_add": []
+  },
+  {
+   "chapter": "거래소 창고 재고",
+   "v": {
+    "type": "title",
+    "text": "거래소 창고 재고",
+    "sub": "조금만 더 들어가 보면"
+   },
+   "lines": [
+    "조금만 더 들어가 볼게요. 코코아 시장은 당장 쓸 콩이 얼마나 넉넉한지를 거래소 창고 재고로 봅니다."
+   ],
+   "en": [
+    "Going one step deeper: the cocoa market watches exchange warehouse stocks to see how much beans are on hand."
+   ],
+   "asof": false,
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "뉴욕 ICE 코코아 지정 창고 재고 · 2026년 10월 21일",
+    "value": "363만 포대",
+    "label": "2년 반 만에 최대 · 석 달 새 33만 포대 증가",
+    "label_en": "ICE certified cocoa stocks, Oct 21 2026",
+    "at": "0:363만",
+    "count": false,
+    "tags": [
+     {
+      "text": "엘니뇨 확률 90%+",
+      "at": "1:엘니뇨",
+      "kind": "gold"
+     }
+    ],
+    "backdrop": "chocolate_41112_a.jpg",
+    "bd_dim": 0.72
+   },
+   "lines": [
+    "뉴욕 거래소 지정 창고의 코코아는 이달 363만 포대를 넘어 2년 반 만에 가장 많아졌어요. 이 재고가 쌓이면 코코아값이 눌립니다.",
+    "그런데 하늘에선 미국 기후예측센터가 90% 넘는 확률로 본 '매우 강한' 엘니뇨가 다음 수확을 위협하고 있어요. 초콜릿값이 언제 내려올지는 이 둘의 줄다리기에 달려 있습니다."
+   ],
+   "en": [
+    "Certified cocoa in New York exchange warehouses passed 3.63 million bags this month, a two-and-a-half-year high, which weighs on prices.",
+    "But a 'very strong' El Niño, put above 90% odds by the U.S. Climate Prediction Center, threatens the next harvest. Chocolate prices hang on this tug of war."
+   ],
+   "asof": false,
+   "src": "트레이딩이코노믹스 2026년 10월 22일(ICE 재고 3,635,354포대) · 크롭GPT(7월 22일 3,301,990포대) · 인슈어런스저널 2026년 8월 14일(CPC 엘니뇨 90% 초과)",
    "sketch_add": []
   },
   {
@@ -3125,12 +2351,12 @@
     "bd_dim": 0.74
    },
    "lines": [
-    "셋째, 값이냐 양이냐예요. 허쉬는 올해 매출 성장 전망을 약 3%로 살짝 낮추고, 주식 한 장당 이익이 늘어날 전망은 36~38.5%로 높였습니다.",
-    "값으로 버는 힘은 자신 있지만 손님 수는 조심스럽게 본다는 뜻이죠. 다음 실적 때 두 회사의 판매량을 나란히 놓고 보세요. 허쉬가 마이너스에서 벗어나는지가 관건입니다."
+    "셋째, 값이냐 양이냐예요. 허쉬는 올해 매출 성장 전망을 약 3%로 살짝 낮췄습니다. 값으로 버는 힘은 자신 있지만 사는 사람 수는 조심스럽게 본다는 뜻이죠.",
+    "다음 실적 때 허쉬와 몬덜리즈의 판매량을 나란히 놓고 보세요. 허쉬가 마이너스에서 벗어나는지가 관건입니다."
    ],
    "en": [
-    "Three: price or volume. Hershey trimmed its full-year organic sales growth outlook to about 3% and raised adjusted EPS growth to 36 to 38.5%.",
-    "Confident in pricing, cautious on shoppers. Next time, put the two companies' volume numbers side by side; the key is whether Hershey gets out of negative territory."
+    "Three: price or volume. Hershey trimmed its sales growth outlook to about 3%, confident in pricing but cautious about how many people buy.",
+    "Next quarter, put Hershey's and Mondelez's volumes side by side and see whether Hershey gets out of the negative."
    ],
    "asof": false,
    "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K) (2026년 전망: 매출 성장 3~3.5% → 약 3%, 주식 한 장당 이익 성장 32.5~35% → 36~38.5%)",
@@ -3182,7 +2408,7 @@
     },
     {
      "kind": "print",
-     "text": "값은 자신 · 손님은 조심",
+     "text": "값은 자신 · 사는 사람 수는 조심",
      "x": 1100,
      "y": 580,
      "size": 50,
@@ -3233,7 +2459,7 @@
    "lines": [
     "이 힘을 가장 잘 아는 사람이 워렌 버핏이에요. 1972년 버크셔 해서웨이는 캘리포니아 사탕 회사 시즈 캔디를 2,500만 달러에 샀습니다. 그때 시즈 캔디는 800만 달러의 자본으로 세전 약 500만 달러를 벌고 있었어요.",
     "워렌 버핏의 2007년 주주서한을 보면, 시즈 캔디는 그 뒤 35년 동안 세전 이익 13억 5천만 달러를 벌어다 줬어요.",
-    "그해 매출은 3억 8,300만 달러, 사업에 필요한 돈은 4천만 달러뿐이었죠. 사업에 돈을 거의 더 넣지 않고도 이익이 불어난 비결이 바로 값을 올려도 손님이 남는 힘이었습니다."
+    "그해 매출은 3억 8,300만 달러, 사업에 필요한 돈은 4천만 달러뿐이었죠. 사업에 돈을 거의 더 넣지 않고도 이익이 불어난 비결이 바로 값을 올려도 사는 사람이 떠나지 않는 힘이었습니다."
    ],
    "en": [
     "No one knows this power better than Warren Buffett. In 1972 Berkshire Hathaway bought See's Candies, a California candy company, for 25 million dollars. It was earning 5 million pretax on 8 million of capital.",
@@ -3361,7 +2587,7 @@
     },
     {
      "kind": "print",
-     "text": "값을 올려도 손님이 남는 힘",
+     "text": "값을 올려도 사는 사람이 남는 힘",
      "x": 160,
      "y": 800,
      "size": 64,
@@ -3435,11 +2661,11 @@
    },
    "lines": [
     "오늘 이야기를 한 줄로 줄이면 이래요. 원가가 내려도 값은 천천히 내려오고 그 사이 이익은 이름이 강한 회사가 가져갑니다.",
-    "할로윈 사탕 바구니를 볼 때, 가격표 뒤의 이 구조를 한 번 떠올려 보세요."
+    "날씨가 원료값을 흔드는 일은 앞으로 더 잦아질 거예요. 할로윈 사탕 바구니를 볼 때, 가격표 뒤의 이 구조를 한 번 떠올려 보세요."
    ],
    "en": [
-    "In one line: when costs fall, prices come down slowly, and in between the profit goes to the companies with strong names.",
-    "Next time you see a Halloween candy bowl, think of the structure behind the price tag."
+    "In one line: when costs fall, prices come down slowly, and the companies with strong names keep the profit in between.",
+    "Weather will shake raw material prices more often from here. Next time you see a candy basket, think of the structure behind the price tag."
    ],
    "asof": false,
    "src": "허쉬 2026년 3분기 실적 발표 (2026년 10월 29일, 미국 증권거래위원회 8-K) · ICE 코코아 선물 (2024년 12월 18일 장중 최고 1만 2,931달러 · 2026년 10월 7일 약 5,640달러, 트레이딩이코노믹스)",
@@ -3598,7 +2824,7 @@
     "type": "sketch"
    },
    "lines": [
-    "값을 올려도 손님이 떠나지 않는 힘, 워렌 버핏은 이걸 가격 결정력이라고 부르며 사업을 평가할 때 가장 중요한 하나라고 했어요.",
+    "값을 올려도 사는 사람이 떠나지 않는 힘, 워렌 버핏은 이걸 가격 결정력이라고 부르며 사업을 평가할 때 가장 중요한 하나라고 했어요.",
     "저는 이런 숫자를 매일 노트에 정리해 두는데, 그게 밸류노트예요. 허쉬를 이 기준으로 정리한 노트도 설명란에 남겨 둘게요."
    ],
    "en": [
@@ -3786,5 +3012,6 @@
    ],
    "endscreen": 20.5
   }
- ]
+ ],
+ "format_note": "2026-10-30 13:45 대표님: 블로그 확정 포맷(세상 이야기·큰 그림·지구 반대편→한국·조금만 더 들어가 보면)을 오늘 밤 롱폼부터 적용"
 }
