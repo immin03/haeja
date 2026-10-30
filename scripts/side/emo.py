@@ -7,7 +7,7 @@
             {"img": "mb3_note", "dur": 3.4, "move": "in", "cap": "..."}, ...],
    - "v" = 생성한 5초 영상 (모든 컷의 기본). "img" = 그림 한 장을 천천히 움직이는 컷 — 2026-10-28 대표님 결정으로 쓰지 않는다(퀄리티 유지). 비상용으로만 남겨 둠
      move: in(다가가기, 기본) | out(물러나기) | left | right | up | down (가로·세로로 천천히 흐르기)
-   "thumb": {"cut": 5, "t": 2.5}}
+   "thumb": {"cut": 2, "t": 2.5}}   (필수 · cut 은 1부터 센 이야기 컷 번호, 엔딩 화면 불가 · t 는 그 컷 안 0.5초~dur-0.3초)
 결과: 릴리스 side-<id> 에 영상, social/side/<id>/(meta.json, thumb.jpg, subtitles_en.srt), social/side/queue.json 에 kind=short 로 등록
 사용: python3 scripts/side/emo.py <id> [--test]   (--test 는 queue.json 에 올리지 않는다)
 """
@@ -251,10 +251,28 @@ def music_file(m):
     return p
 
 
+def check_thumb(spec):
+    """썸네일 칸 검사 (2026-10-30 대표님: "썸네일이 왜 끝에 구독 좋아요로 되어 있어? … 잘 점검해 정말로").
+    E261030-kkachi-bap 이 컷 수를 6→4→6 으로 바꾸는 동안 thumb 을 다시 고르지 않아 엔딩 화면(로고·문구)이 썸네일로 공개됐다.
+    그래서 "thumb" 은 반드시 직접 적고, cut 은 1부터 세는 이야기 컷 번호(엔딩 화면은 고를 수 없음),
+    t 는 그 컷 안(앞 컷과 겹치는 흐린 전환 구간·끝 0.3초 제외)이어야 한다. 어긋나면 조용히 엔딩을 뽑지 않고 멈춘다."""
+    cuts = spec["cuts"]; th = spec.get("thumb")
+    if not isinstance(th, dict) or "cut" not in th or "t" not in th:
+        sys.exit('썸네일 오류: spec 에 "thumb": {"cut": <1부터 센 이야기 컷 번호>, "t": <초>} 를 직접 적으세요 (엔딩 화면 금지)')
+    c, t = th["cut"], float(th["t"])
+    if not isinstance(c, int) or c < 1 or c > len(cuts):
+        sys.exit(f"썸네일 오류: thumb.cut={c} — 이야기 컷은 1~{len(cuts)} 번뿐입니다 (엔딩 화면·없는 컷 금지). 컷을 바꿨다면 썸네일 장면을 다시 고르세요")
+    d = float(cuts[c - 1]["dur"]); lo = XF if c > 1 else 0.0
+    if not (lo <= t < d - 0.3):
+        sys.exit(f"썸네일 오류: thumb.t={t} — {c}번 컷({d}초) 안의 {lo}~{d - 0.3:.1f}초 사이여야 합니다 (전환 중 흐린 장면·컷 밖 금지)")
+    return c, t
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]; test = "--test" in sys.argv
     sid = args[0]; spec = json.load(open(os.path.join(ROOT, "scripts", "side", "specs_emo", sid + ".json"), encoding="utf-8"))
     cuts = spec["cuts"]; n = len(cuts)
+    thumb_cut, thumb_t = check_thumb(spec)
     # 1) 컷마다 잘라서 1080x1920·30fps 로 맞춘다 (원본 비율이 달라도 꽉 채우고 가운데 자르기)
     parts = []
     for i, c in enumerate(cuts):
@@ -313,7 +331,7 @@ def main():
     dur = float(sh("ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", out))
     # 5) 썸네일·자막 파일·점검용 프레임
     od = os.path.join(ROOT, "social", "side", sid); os.makedirs(od, exist_ok=True)
-    th = spec.get("thumb", {"cut": n - 2, "t": 2.0}); tt = starts[th["cut"]] + th["t"]
+    tt = starts[thumb_cut - 1] + thumb_t
     sh("ffmpeg", "-v", "error", "-y", "-ss", f"{tt:.2f}", "-i", out, "-frames:v", "1", "-q:v", "2", os.path.join(od, "thumb.jpg"))
     with open(os.path.join(od, "subtitles_en.srt"), "w", encoding="utf-8") as f:
         for k, (_, a, b, txt) in enumerate(caps): f.write(f"{k + 1}\n{srt_time(a)} --> {srt_time(b)}\n{txt}\n\n")

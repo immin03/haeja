@@ -212,7 +212,7 @@ select id, status, title, note, feedback from sc_plans where status in ('rework'
  "scheduled_at": "2026-10-29T20:00:00+09:00",
  "music": {"file": "music_miss-you.mp3", "start": 19.5, "vol": 0.9},
  "cuts": [{"v": "mbv13_pack", "in": 0.2, "dur": 4.4, "cap": "2 a.m. in Seoul."}, {"v": "mbv23_note", "in": 0.2, "dur": 4.4}],
- "thumb": {"cut": 5, "t": 1.4},
+ "thumb": {"cut": 6, "t": 1.4},
  "end": {"phrase": "Kachi brings you love, from Korea", "fly": "h_fly_love", "host": "h_love", "dur": 4.2}
 }
 ```
@@ -249,6 +249,9 @@ Keep the miniature clay diorama look and every character design identical to the
 - [ ] 기획한 디테일(액자 속 사진, 소품 대비 등)이 해당 컷에 실제로 보이는지, 액자 속 인물이 본편 인물과 같은 얼굴인지
 - [ ] **눈물·우는 얼굴 없음** — 볼에 눈물 줄기, 눈가 반짝이는 물방울, 찡그린 울상이 보이면 편집 생성으로 "calm, restrained expression, no tears" 로 고친다 (대표님 지적, 2026-10-29)
 - [ ] **썸네일이 이야기 장면인지** — `thumb.cut` 이 엔딩 카드를 가리키면 안 된다(10/29 까치밥 편이 엔딩 화면 썸네일로 올라간 실수)
+  - 2026-10-30부터 `thumb.cut` 은 **1부터 센 이야기 컷 번호**(엔딩 화면은 번호가 없음), `t` 는 그 컷 안 0.5초~(dur−0.3)초. emo.py 가 어긋나면 렌더를 멈춘다(`check_thumb`). 예전 0부터 센 값은 모두 +1 로 옮김
+  - 컷을 더하거나 빼거나 순서를 바꾸면 **thumb 을 다시 고르고** 렌더 뒤 `social/side/<id>/thumb.jpg` 를 직접 열어 본다: 로고·"Kachi brings you love, from Korea"·♥/Follow·흐림·검은 화면·깨진 글자 없음, 얼굴 또렷, 가능하면 까치가 보이는 장면. 피드백에 "thumb 확인 <컷>/<초>" 기록
+  - 기준 그림: 나쁜 예 `social/side/E261030-kkachi-bap/thumb.jpg`(엔딩 화면, 보관용으로 그대로 둠), 좋은 예 `social/side/E261030-guard-cat/thumb.jpg`
 - [ ] **동물이 고통받다 구조되는 장면이 아닌지** (3장 수익 정책)
 
 ---
