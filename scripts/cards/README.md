@@ -99,3 +99,7 @@
 2. `node scripts/cards/cardnews.mjs scripts/cards/specs/<id>.json` → `social/cards/<id>/NN.jpg`, `post.json`. 모든 장을 Read로 열어 본다.
 3. 커밋·푸시 → Vercel 배포 후 `https://www.valuenote.co.kr/social/cards/<id>/01.jpg`가 200인지 확인.
 4. Supabase `social_posts`에 행을 넣는다 (kind 'carousel', approved true, images = post.json의 경로). 게시는 social-publish(5분마다)가 한다.
+
+
+## 옛날 표현 금지 (2026-10-31 · 제1 원칙 40)
+"석 달" → "세 달", "넉 달" → "네 달", "서너 달" → "3~4개월". 제목·본문·캡션 모두. 기준 scripts/CONTENT.md 9절, 점검 humanize_ko.mjs V-3.
