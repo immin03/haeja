@@ -1,0 +1,49 @@
+[
+ {
+  "id": "gh1_spoon",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "GRANDMA (years ago): a Korean grandma in her late sixties, black-grey hair in a low bun, round kind face, indigo quilted vest over a cream blouse. GIRL (years ago): her granddaughter about five, round face, short black bob with bangs, bright red knit cardigan. SPOON: a small brass spoon with a tiny heart engraved on the handle. PLACE: a hanok courtyard with a wooden porch (maru), a jangdokdae of round brown earthenware crocks on a stone platform, a wooden gate with a small tiled roof, a persimmon tree. Years ago, golden autumn on the wooden porch. The grandma feeds the little girl a spoonful of soft, glossy red ripe persimmon (hongsi) with the small brass spoon with a tiny heart engraved on the handle; the girl opens her mouth wide, eyes squeezed shut in joy. A bowl holding one soft red persimmon sits between them. Hands mostly hidden by the bowl. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "gh2_wait",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "GRANDMA (now): the same Korean grandma, now in her eighties, snow-white hair in a low bun, deeper smile wrinkles, the same indigo quilted vest, a little more bent. SPOON: a small brass spoon with a tiny heart engraved on the handle. PLACE: a hanok courtyard with a wooden porch (maru), a jangdokdae of round brown earthenware crocks on a stone platform, a wooden gate with a small tiled roof, a persimmon tree. Now, a snowy winter afternoon. The grandma, alone, stands beside the snowy jangdokdae with her hands tucked into her sleeves; on the closed lid of one earthenware crock, one single glossy red persimmon rests on a small white dish beside the brass spoon. The persimmon tree is bare. She looks toward the closed wooden gate with quiet longing. Only the grandma in the frame. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gh1_spoon"
+  ]
+ },
+ {
+  "id": "gh3_call",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "PLACE: a hanok courtyard with a wooden porch (maru), a jangdokdae of round brown earthenware crocks on a stone platform, a wooden gate with a small tiled roof, a persimmon tree. Snowy winter afternoon. Kachi lands on the small tiled roof of the wooden gate and calls out with its beak open toward the courtyard; snow falls; far below in soft focus, the small grandma beside the crocks turns toward the gate. Kachi is small, about the size of one roof tile. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/gh2_wait"
+  ]
+ },
+ {
+  "id": "gh4_turn",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "prompt": "GRANDMA (now): the same Korean grandma, now in her eighties, snow-white hair in a low bun, deeper smile wrinkles, the same indigo quilted vest, a little more bent. WOMAN (now): the same granddaughter grown into a young woman in her late twenties, round face, black bob with bangs, a bright red wool coat. SPOON: a small brass spoon with a tiny heart engraved on the handle. Snowy winter on the wooden porch. The granddaughter, now grown, sits beside her grandma and gently feeds her a spoonful of the red persimmon with the same small brass spoon with the heart on the handle; the grandma pauses for a moment, then smiles softly like a child. Snow falls in the courtyard behind them. Only the two women in the frame. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  },
+  "ref": [
+   "social/side/gen/gh1_spoon",
+   "social/side/gen/gh2_wait"
+  ]
+ }
+]
