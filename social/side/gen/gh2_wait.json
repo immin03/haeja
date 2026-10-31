@@ -1,0 +1,35 @@
+{
+ "id": "gh2_wait",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "GRANDMA (now): the same Korean grandma, now in her eighties, snow-white hair in a low bun, deeper smile wrinkles, the same indigo quilted vest, a little more bent. SPOON: a small brass spoon with a tiny heart engraved on the handle. PLACE: a hanok courtyard with a wooden porch (maru), a jangdokdae of round brown earthenware crocks on a stone platform, a wooden gate with a small tiled roof, a persimmon tree. Now, a snowy winter afternoon. The grandma, alone, stands beside the snowy jangdokdae with her hands tucked into her sleeves; on the closed lid of one earthenware crock, one single glossy red persimmon rests on a small white dish beside the brass spoon. The persimmon tree is bare. She looks toward the closed wooden gate with quiet longing. Only the grandma in the frame. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f74-fb91-706b-9275-52142e8871d5/a611b771-e958-46df-809c-d47b817a6ebc.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f76-5ae8-7580-a3c6-8113b262d8e9",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f76-5ae8-7580-a3c6-8113b262d8e9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f76-5ae8-7580-a3c6-8113b262d8e9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f76-5ae8-7580-a3c6-8113b262d8e9",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f76-5ae8-7580-a3c6-8113b262d8e9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f76-5ae8-7580-a3c6-8113b262d8e9/cancel",
+  "expires_at": "2026-11-07T00:58:11.495937+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-5ae8-7580-a3c6-8113b262d8e9/93243e7e-d6c0-4d07-ac89-22460c8eb411.jpeg"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "social/side/gen/gh2_wait.jpeg"
+}

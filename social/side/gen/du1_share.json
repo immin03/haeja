@@ -1,0 +1,32 @@
+{
+ "id": "du1_share",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "BOY (years ago): a Korean boy about twelve, round face, short black hair, navy hoodie, red backpack. PUPPY: a small wet golden-yellow Korean village puppy (nureongi) with floppy ears. UMBRELLA: a child's bright yellow umbrella with one small white heart hand-painted on one panel. PLACE: the gate of a small countryside elementary school: two plain stone gateposts, a short covered entrance with a tiled roof, a muddy village road with rice paddies behind, autumn rain. Years ago, autumn rain at the school gate. The boy crouches beside the stone gatepost and tilts his yellow umbrella over a small wet puppy sitting calmly by the gatepost, so the rain falls on his own back instead, about to leave the open umbrella propped against the gatepost over the puppy and run home in the rain; the white heart on the umbrella is visible. The puppy looks up at him, curious and safe. The boy's hands are simple and mostly hidden by the umbrella handle. Slightly faded colors like an old memory. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f74-fb94-7406-8706-8dce96e72f9b",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f74-fb94-7406-8706-8dce96e72f9b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f74-fb94-7406-8706-8dce96e72f9b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f74-fb94-7406-8706-8dce96e72f9b",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f74-fb94-7406-8706-8dce96e72f9b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f74-fb94-7406-8706-8dce96e72f9b/cancel",
+  "expires_at": "2026-11-07T00:57:37.827323+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f74-fb94-7406-8706-8dce96e72f9b/dd6491c2-917b-423a-878d-b85f5b5ee3c7.jpeg"
+   }
+  ]
+ },
+ "seconds": 89,
+ "file": "social/side/gen/du1_share.jpeg"
+}

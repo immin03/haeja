@@ -1,0 +1,35 @@
+{
+ "id": "du3_teacher",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "TEACHER (now): the same boy grown into a young man in his mid-twenties: same round face and short black hair, grey cardigan over a white shirt, a teacher's lanyard with a plain blank card. PLACE: the gate of a small countryside elementary school: two plain stone gateposts, a short covered entrance with a tiled roof, a muddy village road with rice paddies behind, autumn rain. Rainy afternoon under the covered school gate entrance. The teacher stands alone under the small tiled roof, looking out at the rain with no umbrella, then sees something coming down the road; his face breaks into a quiet, surprised smile. Only one person in the frame, no animals. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f74-fb94-7406-8706-8dce96e72f9b/dd6491c2-917b-423a-878d-b85f5b5ee3c7.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f76-5ae7-7a80-a223-d34f33c5ac1d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f76-5ae7-7a80-a223-d34f33c5ac1d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f76-5ae7-7a80-a223-d34f33c5ac1d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f76-5ae7-7a80-a223-d34f33c5ac1d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f76-5ae7-7a80-a223-d34f33c5ac1d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f76-5ae7-7a80-a223-d34f33c5ac1d/cancel",
+  "expires_at": "2026-11-07T00:58:16.552761+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-5ae7-7a80-a223-d34f33c5ac1d/f53ea63c-b8fa-409e-89fb-2f9b38e1c468.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/du3_teacher.jpeg"
+}

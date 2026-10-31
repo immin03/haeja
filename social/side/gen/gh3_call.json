@@ -1,0 +1,36 @@
+{
+ "id": "gh3_call",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "PLACE: a hanok courtyard with a wooden porch (maru), a jangdokdae of round brown earthenware crocks on a stone platform, a wooden gate with a small tiled roof, a persimmon tree. Snowy winter afternoon. Kachi lands on the small tiled roof of the wooden gate and calls out with its beak open toward the courtyard; snow falls; far below in soft focus, the small grandma beside the crocks turns toward the gate. Kachi is small, about the size of one roof tile. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg",
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-5ae8-7580-a3c6-8113b262d8e9/93243e7e-d6c0-4d07-ac89-22460c8eb411.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f76-f5db-7b8f-855c-bcbb5c10891d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f76-f5db-7b8f-855c-bcbb5c10891d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f76-f5db-7b8f-855c-bcbb5c10891d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f76-f5db-7b8f-855c-bcbb5c10891d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f76-f5db-7b8f-855c-bcbb5c10891d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f76-f5db-7b8f-855c-bcbb5c10891d/cancel",
+  "expires_at": "2026-11-07T00:58:47.214176+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-f5db-7b8f-855c-bcbb5c10891d/65d1df4a-f491-49a0-9205-4bd2a6c653c1.jpeg"
+   }
+  ]
+ },
+ "seconds": 32,
+ "file": "social/side/gen/gh3_call.jpeg"
+}

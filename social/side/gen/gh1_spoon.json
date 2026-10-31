@@ -1,0 +1,32 @@
+{
+ "id": "gh1_spoon",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "GRANDMA (years ago): a Korean grandma in her late sixties, black-grey hair in a low bun, round kind face, indigo quilted vest over a cream blouse. GIRL (years ago): her granddaughter about five, round face, short black bob with bangs, bright red knit cardigan. SPOON: a small brass spoon with a tiny heart engraved on the handle. PLACE: a hanok courtyard with a wooden porch (maru), a jangdokdae of round brown earthenware crocks on a stone platform, a wooden gate with a small tiled roof, a persimmon tree. Years ago, golden autumn on the wooden porch. The grandma feeds the little girl a spoonful of soft, glossy red ripe persimmon (hongsi) with the small brass spoon with a tiny heart engraved on the handle; the girl opens her mouth wide, eyes squeezed shut in joy. A bowl holding one soft red persimmon sits between them. Hands mostly hidden by the bowl. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f74-fb91-706b-9275-52142e8871d5",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f74-fb91-706b-9275-52142e8871d5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f74-fb91-706b-9275-52142e8871d5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f74-fb91-706b-9275-52142e8871d5",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f74-fb91-706b-9275-52142e8871d5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f74-fb91-706b-9275-52142e8871d5/cancel",
+  "expires_at": "2026-11-07T00:57:34.004019+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f74-fb91-706b-9275-52142e8871d5/a611b771-e958-46df-809c-d47b817a6ebc.jpeg"
+   }
+  ]
+ },
+ "seconds": 88,
+ "file": "social/side/gen/gh1_spoon.jpeg"
+}
