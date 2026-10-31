@@ -1,0 +1,31 @@
+{
+ "id": "ghv2_wait",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandma slowly turns her head toward the gate; snowflakes fall softly onto the crocks. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-5ae8-7580-a3c6-8113b262d8e9/93243e7e-d6c0-4d07-ac89-22460c8eb411.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f8b-c218-7035-a3e4-fd23b72466bb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f8b-c218-7035-a3e4-fd23b72466bb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f8b-c218-7035-a3e4-fd23b72466bb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f8b-c218-7035-a3e4-fd23b72466bb",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f8b-c218-7035-a3e4-fd23b72466bb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f8b-c218-7035-a3e4-fd23b72466bb/cancel",
+  "expires_at": "2026-11-07T01:24:31.922379+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f8b-c218-7035-a3e4-fd23b72466bb/8e60d2fc-e70c-4e80-a630-6b63568c7b93.mp4"
+  }
+ },
+ "seconds": 211,
+ "file": "social/side/gen/ghv2_wait.mp4"
+}

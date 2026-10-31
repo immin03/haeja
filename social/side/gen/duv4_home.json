@@ -1,0 +1,31 @@
+{
+ "id": "duv4_home",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The rain falls on the teacher's back as he keeps the umbrella over the old dog; the dog leans in and closes its eyes. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-f5dc-7030-bcf8-f303923bebdf/7b6b1e6d-dc13-4ae0-bdb4-12e29987c727.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f87-5de2-7291-b897-a131766c716f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5de2-7291-b897-a131766c716f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5de2-7291-b897-a131766c716f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f87-5de2-7291-b897-a131766c716f",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5de2-7291-b897-a131766c716f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5de2-7291-b897-a131766c716f/cancel",
+  "expires_at": "2026-11-07T01:21:00.595831+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f87-5de2-7291-b897-a131766c716f/7b3de911-b451-4de3-9d1e-8a6c4ffd00db.mp4"
+  }
+ },
+ "seconds": 286,
+ "file": "social/side/gen/duv4_home.mp4"
+}

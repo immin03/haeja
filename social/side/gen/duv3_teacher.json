@@ -1,0 +1,31 @@
+{
+ "id": "duv3_teacher",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The teacher slowly lifts his eyes from the rain toward the road and smiles quietly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-5ae7-7a80-a223-d34f33c5ac1d/f53ea63c-b8fa-409e-89fb-2f9b38e1c468.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f87-5cab-7412-bdaf-5ff4b3338487",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5cab-7412-bdaf-5ff4b3338487/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5cab-7412-bdaf-5ff4b3338487/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f87-5cab-7412-bdaf-5ff4b3338487",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5cab-7412-bdaf-5ff4b3338487/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5cab-7412-bdaf-5ff4b3338487/cancel",
+  "expires_at": "2026-11-07T01:20:56.866771+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f87-5cab-7412-bdaf-5ff4b3338487/b48f6593-0cd0-4afb-8af7-7334fd37b2cb.mp4"
+  }
+ },
+ "seconds": 285,
+ "file": "social/side/gen/duv3_teacher.mp4"
+}

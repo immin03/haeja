@@ -1,0 +1,31 @@
+{
+ "id": "duv2_road",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Kachi flutters slowly just ahead; the old dog takes one careful step after it, the umbrella in its mouth. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f7e-532e-739b-814d-08acec0e08ab/a35a5ad5-63f0-4c44-9ba7-4d3ac54abf77.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f87-5dbf-7e5b-8ef7-a19c08b0831b",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5dbf-7e5b-8ef7-a19c08b0831b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5dbf-7e5b-8ef7-a19c08b0831b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f87-5dbf-7e5b-8ef7-a19c08b0831b",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5dbf-7e5b-8ef7-a19c08b0831b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5dbf-7e5b-8ef7-a19c08b0831b/cancel",
+  "expires_at": "2026-11-07T01:21:12.054400+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f87-5dbf-7e5b-8ef7-a19c08b0831b/4e726d61-d671-4102-81a1-b0020f843d73.mp4"
+  }
+ },
+ "seconds": 298,
+ "file": "social/side/gen/duv2_road.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "ghv4_turn",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "The grandma slowly takes the spoonful and smiles softly; the young woman smiles warmly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f7e-531a-7f36-8096-69287b9bdf4e/f41f79b2-ee4b-455a-9b7f-5622c59f2bc9.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f8c-0831-70a7-87d2-b11078911f7d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f8c-0831-70a7-87d2-b11078911f7d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f8c-0831-70a7-87d2-b11078911f7d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f8c-0831-70a7-87d2-b11078911f7d",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f8c-0831-70a7-87d2-b11078911f7d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f8c-0831-70a7-87d2-b11078911f7d/cancel",
+  "expires_at": "2026-11-07T01:24:45.909053+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f8c-0831-70a7-87d2-b11078911f7d/b0264034-e75a-4982-a098-aaac22a56dd8.mp4"
+  }
+ },
+ "seconds": 205,
+ "file": "social/side/gen/ghv4_turn.mp4"
+}

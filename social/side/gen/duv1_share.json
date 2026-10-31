@@ -1,0 +1,31 @@
+{
+ "id": "duv1_share",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Rain falls on the boy's back as he keeps the umbrella over the puppy; the puppy looks up and wags its tail slowly. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f74-fb94-7406-8706-8dce96e72f9b/dd6491c2-917b-423a-878d-b85f5b5ee3c7.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f87-5db9-75ee-bf8d-aa53fe872459",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5db9-75ee-bf8d-aa53fe872459/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5db9-75ee-bf8d-aa53fe872459/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f87-5db9-75ee-bf8d-aa53fe872459",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f87-5db9-75ee-bf8d-aa53fe872459/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f87-5db9-75ee-bf8d-aa53fe872459/cancel",
+  "expires_at": "2026-11-07T01:21:13.033952+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f87-5db9-75ee-bf8d-aa53fe872459/58cdbc67-7f0d-4676-ad05-7019205501ce.mp4"
+  }
+ },
+ "seconds": 304,
+ "file": "social/side/gen/duv1_share.mp4"
+}
