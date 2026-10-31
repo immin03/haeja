@@ -6,7 +6,7 @@
   "mood": "tense" | "calm",
   "caption": "인스타·쓰레드 본문 (고지문은 게시할 때 자동으로 붙음)",
   "hashtags": [...], "threads_tag": "...",
-  "scenes": [ { "type": ..., "lines": [{"cap": ["자막 1줄", "자막 2줄"], "say": "생략하면 자막을 읽음"}], ...옵션 } ]
+  "scenes": [ { "type": ..., "lines": [{"cap": ["자막 1줄", "자막 2줄"], "say": "생략하면 자막을 읽음"}]  ← 화면에는 한 번에 최대 2줄(넘치면 2줄씩 넘김, 2026-10-31), ...옵션 } ]
 }
 "cap"만 있으면 "lines": [{"cap": cap}] 로 본다. 숫자는 자동으로 한글 발음으로 읽는다.
 
@@ -929,15 +929,32 @@ def y_wrap(d, font, cap, limit=800):
         out += y_wrap(d, font, [l[:i], l[i + 1:]], limit)
     return out
 
+CAP_MAX_LINES = 2   # 2026-10-31 운영자: 자막이 3~4줄이 되면 아래가 안 보인다 → 쇼츠·릴스 자막은 최대 2줄, 넘치면 2줄 단위로 넘긴다
+
+def cap_pages(lines, n=CAP_MAX_LINES):
+    """줄 목록을 n줄씩 끊는다 (3줄 → 2·1, 4줄 → 2·2, 5줄 → 2·2·1)"""
+    return [lines[i:i + n] for i in range(0, len(lines), n)] or [lines]
+
+def cap_page_at(pages, u, a, v):
+    """한 자막 줄을 읽는 동안(a ~ a+v) 글자 수 비율대로 장을 넘긴다. 읽기가 끝난 뒤에는 마지막 장을 유지"""
+    if len(pages) == 1: return pages[0]
+    w = [sum(len(l) for l in p) for p in pages]; tot = sum(w) or 1
+    f = (u - a) / max(v, .1); acc = 0
+    for p, x in zip(pages, w):
+        acc += x / tot
+        if f < acc: return p
+    return pages[-1]
+
 def y_caption(img, u, L):
-    """쇼츠 자막: 장면 처음부터 끝까지 끊기지 않고 늘 떠 있다. 다음 문장이 시작되는 순간 바로 바뀐다(깜빡임 없음). 숫자는 금색"""
-    caps = [(a, cap) for (a, v, cap) in L if cap]
+    """쇼츠·릴스 자막: 장면 처음부터 끝까지 끊기지 않고 늘 떠 있다. 다음 문장이 시작되는 순간 바로 바뀐다(깜빡임 없음). 숫자는 금색.
+    한 번에 보이는 자막은 최대 2줄 — 길면 2줄씩 나눠 말하는 속도에 맞춰 넘긴다 (2026-10-31)"""
+    caps = [(a, v, cap) for (a, v, cap) in L if cap]
     if not caps: return
-    cap = caps[0][1]
-    for a, c in caps:
-        if u >= a - .05: cap = c
+    a, v, cap = caps[0]
+    for a_, v_, c in caps:
+        if u >= a_ - .05: a, v, cap = a_, v_, c
     d = ImageDraw.Draw(img); font = F("Bold", 52)   # 2026-10-24 운영자: 자막 글자 크기는 처음부터 끝까지 똑같이 (줄이 길면 줄이지 말고 줄을 나눈다)
-    cap = y_wrap(d, font, cap)
+    cap = cap_page_at(cap_pages(y_wrap(d, font, cap)), u, a, v)
     maxw = max(d.textlength(l, font=font) for l in cap)
     lh = 72; y0 = YT_CAP_Y - (len(cap) - 1) * lh / 2
     bar = Image.new("RGBA", (int(maxw + 64), len(cap) * lh + 28), (6, 12, 26, 170))
@@ -1030,6 +1047,11 @@ def caption(img, u, L):
         e = a + v; nxt = L[i + 1][0] if i + 1 < len(L) else 999
         if not (a - .05 <= u < nxt - .02): continue
         d = ImageDraw.Draw(img); font = F("Bold", 54)
+        pages = cap_pages(list(cap))   # 2026-10-31: 한 번에 최대 2줄, 넘치면 2줄씩 넘긴다
+        if len(pages) > 1:
+            cap = cap_page_at(pages, u, a, v)
+            w = [sum(len(l) for l in p) for p in pages]; k = pages.index(cap); tot = sum(w) or 1
+            a = a + v * sum(w[:k]) / tot; v = v * w[k] / tot; e = a + v
         maxw = max(d.textlength(l, font=font) for l in cap)
         if maxw > 960: font = F("Bold", int(54 * 960 / maxw)); maxw = 960
         total = sum(len(l) for l in cap); rev = prog(u, a + .05, e - .15, lambda x: clamp(x)) * total
