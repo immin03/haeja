@@ -6,6 +6,7 @@
 // - {action:"check", t}    : (관리자) 두 계정 연결 상태와 게시 한도 확인
 // - 날짜 경과 차단: 캡션·제목에 연도 없이 적힌 'N월 N일'(올해 날짜) 중 가장 최근 날짜가 지금(KST)보다 2일 넘게 지났으면
 //                   정기 게시하지 않고 paused=true + '보류: 날짜 경과'로 돌린다 (미리 만든 콘텐츠를 며칠 뒤 올려 숫자가 달라지는 일 방지, 2026-10-28)
+// - 스토리: 인스타에 올라간 릴스·카드뉴스를 다음 실행 때 스토리로도 게시 (릴스=같은 영상, 안 되면 표지 / 카드=첫 장). instagram_story_paused=true면 멈춤 (2026-10-31)
 // - app_config: social_paused(전체) / instagram_paused / threads_paused(채널별) 가 true면 정기 게시를 건너뜀 (수동 '지금 올리기'는 그대로 동작)
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -140,6 +141,85 @@ async function finishReels(acc: Record<string, Acc>) {
   return out;
 }
 
+// ── 스토리 자동 게시 (2026-10-31) ─────────────────────────────────────────
+// 인스타에 피드 게시물(릴스·카드뉴스)이 올라가면, 다음 실행(5분 안)에 같은 소재로 스토리를 한 번 더 올린다.
+// - 릴스: 같은 영상을 스토리로. 영상이 길어 거부·처리 실패하면 표지 이미지로 자동 대체
+// - 카드뉴스: 첫 장 이미지
+// - 피드 게시 뒤 12시간이 지난 건은 올리지 않고 skipped (밀린 옛 글이 한꺼번에 스토리로 나가지 않게)
+// - app_config.instagram_story_paused = true 면 멈춤
+// - 스토리는 API로 링크 스티커·게시물 공유 스티커를 붙일 수 없음(메타 제한) → 프로필 방문 유도용
+const STORY_MAX_AGE_H = 12;
+const storyImage = (p: any) => p.kind === "reel" ? (p.cover || null) : ((p.images || [])[0] || null);
+
+async function startStory(a: Acc, p: any, site: string, mode: "video" | "image") {
+  const params: Record<string, string> = { media_type: "STORIES", access_token: a.access_token };
+  if (mode === "video") params.video_url = site + p.video;
+  else params.image_url = site + storyImage(p);
+  const id = (await call(`${IG}/${a.account_id}/media`, params)).id as string;
+  await sb.from("social_posts").update({ story_status: "processing", story_container: id, story_mode: mode, story_error: null, story_at: new Date().toISOString() }).eq("id", p.id);
+  return id;
+}
+
+async function storyFail(p: any, msg: string) {
+  await sb.from("social_posts").update({ story_status: "failed", story_error: msg.slice(0, 500), story_at: new Date().toISOString() }).eq("id", p.id);
+}
+
+// 영상이 안 되면 이미지로 다시 시도. 이미지도 없으면 실패 처리
+async function storyFallback(a: Acc, p: any, site: string, why: string) {
+  if (p.story_mode !== "image" && storyImage(p)) {
+    try { await startStory(a, { ...p, story_mode: "image" }, site, "image"); return { id: p.id, fallback: "image", why }; }
+    catch (e) { why += " / 이미지 대체도 실패: " + String((e as Error).message || e); }
+  }
+  await storyFail(p, why);
+  return { id: p.id, error: why };
+}
+
+async function stories(acc: Record<string, Acc>, site: string) {
+  const a = acc.instagram; if (!a || !site) return [];
+  if ((await cfg("instagram_story_paused")) === true) return [{ idle: "paused" }];
+  const out: unknown[] = [];
+
+  // 1) 처리 중인 스토리 마무리
+  const { data: proc } = await sb.from("social_posts").select("*").eq("story_status", "processing");
+  for (const p of proc || []) {
+    try {
+      const st = (await call(`${IG}/${p.story_container}`, { fields: "status_code", access_token: a.access_token }, "GET")).status_code;
+      if (st === "ERROR" || st === "EXPIRED") { out.push(await storyFallback(a, p, site, "스토리 처리 실패 (" + st + ")")); continue; }
+      if (st !== "FINISHED") {
+        if (Date.now() - new Date(p.story_at).getTime() > 30 * 60e3) out.push(await storyFallback(a, p, site, "스토리 처리 시간이 30분을 넘었습니다"));
+        continue;
+      }
+      const pub = await call(`${IG}/${a.account_id}/media_publish`, { creation_id: p.story_container, access_token: a.access_token });
+      await sb.from("social_posts").update({ story_status: "posted", story_media_id: pub.id, story_error: null, story_at: new Date().toISOString() }).eq("id", p.id);
+      out.push({ id: p.id, story: pub.id, mode: p.story_mode });
+    } catch (e) {
+      const msg = String((e as Error).message || e);
+      await storyFail(p, msg); out.push({ id: p.id, error: msg });
+    }
+  }
+
+  // 2) 피드에 올라간 글 → 스토리 시작 (한 번에 최대 2편)
+  const { data: due } = await sb.from("social_posts").select("*")
+    .eq("to_ig", true).eq("ig_status", "posted").eq("story_status", "pending")
+    .order("ig_at").limit(10);
+  let started = 0;
+  for (const p of due || []) {
+    if (started >= 2) break;
+    if (!p.ig_at || Date.now() - new Date(p.ig_at).getTime() > STORY_MAX_AGE_H * 3600e3) {
+      await sb.from("social_posts").update({ story_status: "skipped", story_error: `피드 게시 뒤 ${STORY_MAX_AGE_H}시간이 지나 스토리를 건너뜀` }).eq("id", p.id);
+      continue;
+    }
+    const { data: lock } = await sb.from("social_posts").update({ story_status: "publishing" }).eq("id", p.id).eq("story_status", "pending").select("id");
+    if (!lock?.length) continue;
+    const mode: "video" | "image" | null = p.kind === "reel" && p.video ? "video" : storyImage(p) ? "image" : null;
+    if (!mode) { await storyFail(p, "스토리로 올릴 영상·이미지가 없습니다"); continue; }
+    try { await startStory(a, p, site, mode); out.push({ id: p.id, started: mode }); }
+    catch (e) { out.push(await storyFallback(a, { ...p, story_mode: mode }, site, String((e as Error).message || e))); }
+    started++;
+  }
+  return out;
+}
+
 // 인스타 게시 직후 관리자 휴대폰으로 알림: 음악 추가 안내
 async function remind(p: any, link: string | null) {
   const owner = await cfg("publisher"); if (!owner) return;
@@ -231,6 +311,7 @@ Deno.serve(async (req: Request) => {
     await refresh(acc);
     const res: Record<string, unknown> = { finished: await finishReels(acc) };
     if (!site || (await cfg("social_paused")) === true) return json({ ...res, idle: !site ? "no site" : "paused" });
+    res.stories = await stories(acc, site).catch(e => [{ error: String((e as Error).message || e) }]);
     const now = new Date().toISOString();
     for (const ch of ["ig", "th"] as const) {
       if (!acc[ch === "ig" ? "instagram" : "threads"]) continue;

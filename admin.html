@@ -1830,6 +1830,17 @@ function chip(status, link, err, label){
   return `<span class="st">${label} 대기</span>`;
 }
 const THREADS_CHECKPOINT = /checkpoint/i;
+/* 인스타 스토리 자동 게시 상태 (피드 게시 뒤 다음 실행 때 같은 소재로 스토리, 2026-10-31) */
+function storyChip(p){
+  const s = p.story_status; if(!s) return '';
+  const m = p.story_mode === 'image' ? ' (표지)' : '';
+  const t = s === 'posted' ? `<span class="st ok">스토리 완료${m}</span>`
+    : s === 'failed' ? `<span class="st bad" title="${esc(p.story_error || '')}">스토리 실패</span>`
+    : s === 'skipped' ? `<span class="st none" title="${esc(p.story_error || '')}">스토리 건너뜀</span>`
+    : (s === 'publishing' || s === 'processing') ? '<span class="st run">스토리 처리 중</span>'
+    : '<span class="st">스토리 대기</span>';
+  return `<div style="margin-top:4px">${t}</div>`;
+}
 function socRow(p, scope){
   const img = (p.images && p.images[0]) || p.cover || '';
   const num = /^[A-Z]/.test(p.id) ? p.id : '#' + p.id;
@@ -1841,7 +1852,7 @@ function socRow(p, scope){
   const when = scope === 'done'
     ? `<span class="when">${kst(p.ig_at || p.th_at || p.scheduled_at)}</span>`
     : `<input type="datetime-local" value="${kstInput(p.scheduled_at)}" data-soc-time="${esc(p.id)}">`;
-  const igCell = p.to_ig ? chip(p.ig_status, p.ig_permalink, p.ig_error, '인스타') : '<span class="st none">–</span>';
+  const igCell = p.to_ig ? chip(p.ig_status, p.ig_permalink, p.ig_error, '인스타') + storyChip(p) : '<span class="st none">–</span>';
   const thCell = p.to_threads ? chip(p.th_status, p.th_permalink, p.th_error, '쓰레드') : '<span class="st none">–</span>';
   const acts = [];
   if(p.approved === false) acts.push(`<button class="pri" data-soc-ok="${esc(p.id)}">승인</button>`);
