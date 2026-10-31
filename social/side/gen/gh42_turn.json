@@ -1,0 +1,35 @@
+{
+ "id": "gh42_turn",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "GRANDMA (now): the same Korean grandma, now in her eighties, snow-white hair in a low bun, deeper smile wrinkles, the same indigo quilted vest, a little more bent. WOMAN (now): the same granddaughter grown into a young woman in her late twenties, round face, black bob with bangs, a bright red wool coat. SPOON: a small brass spoon with a tiny heart engraved on the handle. The granddaughter is clearly a grown adult woman, taller than the grandma, with adult proportions and a slim adult face — NOT a child. Snowy winter on the wooden porch of the hanok. The grown granddaughter in her bright red wool coat sits beside her grandma and gently feeds her a spoonful of the red persimmon with the same small brass spoon with the heart on the handle; the grandma pauses for a moment, then smiles softly like a child. Snow falls in the courtyard behind them. Only the two women in the frame. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f76-5ae8-7580-a3c6-8113b262d8e9/93243e7e-d6c0-4d07-ac89-22460c8eb411.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a18f7e-531a-7f36-8096-69287b9bdf4e",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f7e-531a-7f36-8096-69287b9bdf4e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f7e-531a-7f36-8096-69287b9bdf4e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a18f7e-531a-7f36-8096-69287b9bdf4e",
+  "status_url": "https://api.higgsfield.ai/requests/01a18f7e-531a-7f36-8096-69287b9bdf4e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a18f7e-531a-7f36-8096-69287b9bdf4e/cancel",
+  "expires_at": "2026-11-07T01:07:00.439950+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a18f7e-531a-7f36-8096-69287b9bdf4e/f41f79b2-ee4b-455a-9b7f-5622c59f2bc9.jpeg"
+   }
+  ]
+ },
+ "seconds": 43,
+ "file": "social/side/gen/gh42_turn.jpeg"
+}
