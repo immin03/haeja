@@ -256,6 +256,7 @@ Keep the miniature clay diorama look and every character design identical to the
 - [ ] **동물이 고통받다 구조되는 장면이 아닌지** (3장 수익 정책)
 - [ ] **'없어야 하는' 소품이 정말 없는지** — "이웃 대문엔 호박등, 할머니 대문만 없음"처럼 빈자리로 대비를 만드는 디테일은 그림 모델이 무시하고 같이 그려 넣는다(10/30 핼러윈 2컷 고침). 프롬프트 앞쪽에 "her own gate has NO pumpkin and NO lantern" 을 따로 한 문장으로 쓰고, 대비 소품은 화면 멀리 배치
 - [ ] **얼굴이 가려진 인물(유령 천·인형탈 등)의 크기** — 크기 단서가 없으면 까치보다 작은 장난감처럼 나온다(10/30 핼러윈 3컷 고침). "seven-year-old child, fills half the frame height, walks on the ground, shoes visible" 와 "Kachi about the size of the child's head" 를 함께 적는다
+- [ ] **세월이 흐른 같은 인물·동물** — 어릴 적 그림(ref)을 넣으면 '어른'·'늙은 개'도 어린 모습으로 나온다(10/31 우산 강아지 2컷 늙은 개가 강아지로, 홍시 4컷 어른 손녀가 다섯 살로 나와 고침). 세월 뒤 컷엔 어릴 적 그림을 ref 로 넣지 말고 "clearly a grown adult, taller than…, NOT a child" / "OLD dog, not a puppy, thick grey-white muzzle" 를 한 문장으로 따로 쓴다
 
 ---
 
@@ -293,4 +294,3 @@ Keep the miniature clay diorama look and every character design identical to the
 - 초코파이 롱폼·쇼츠 업로드 여부 결정(옛 채널명 로고가 들어가 있음 → 올릴 거면 로고 교체 재렌더). 지금은 관리자 '보관함'에 있음(되돌리기 버튼)
 - 관리자 설정 탭에 핸들 @KachiFromKorea 입력(아직 안 했다면)
 - 동물 구조형 소재를 계속 쓸지 결정(3장 수익 정책) — Claude 추천: 주력에서 빼고 은혜 갚기·엄마·할머니 쪽으로
-- [ ] **세월이 흐른 같은 인물·동물** — 어릴 적 그림(ref)을 넣으면 '어른'·'늙은 개'도 어린 모습으로 나온다(10/31 우산 강아지 2컷 늙은 개가 강아지로, 홍시 4컷 어른 손녀가 다섯 살로 나와 고침). 세월 뒤 컷엔 어릴 적 그림을 ref 로 넣지 말고 "clearly a grown adult, taller than…, NOT a child" / "OLD dog, not a puppy, thick grey-white muzzle" 를 한 문장으로 따로 쓴다
