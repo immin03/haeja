@@ -580,12 +580,110 @@ main#main{padding-bottom:48px}
 .br-rh{margin:5px 0 2px}.br-next{margin-top:6px;font-size:13.5px;line-height:1.55;color:var(--ink);background:var(--bg);border-radius:10px;padding:8px 10px}
 .br-more{margin:22px 0 8px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}.br-more a{color:var(--ink2);font-weight:700}
 @media (max-width:640px){.br-kpis{grid-template-columns:repeat(2,1fr)}.br-row{flex-wrap:wrap}.br-row .bt{width:100%;padding-left:20px}}
+
+/* ===== 화면 정리 (2026-10-31): PC는 넓고 편하게, 모바일은 겹침·잘림 없이 ===== */
+html,body{overflow-x:clip}
+main{overflow-wrap:break-word}
+.tbl .go{font:inherit;font-size:12.5px;font-weight:700;border:0;border-radius:10px;padding:7px 12px;background:var(--navy-grad);color:var(--ivory);cursor:pointer;white-space:nowrap}
+.tbl input[data-qf-reply]{font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.br-cols{display:block}
+.br-side>.br-kpis:first-child{margin-top:16px}
+
+/* PC: 본문 폭을 1080 → 1280으로 넓히고, 브리핑은 두 단(왼쪽 할 일·확인 / 오른쪽 숫자·콘텐츠·알림) */
+@media (min-width:1100px){
+  .hd,.tabs .in,main{max-width:1280px}
+  main{padding:22px 24px 56px}
+  .hd{padding-left:24px;padding-right:24px}
+  .tabs .in{padding:0 18px}
+  .ask{max-width:1280px;padding:14px 24px 0}
+  .br{max-width:none}
+  .br-cols{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:22px;align-items:start}
+  .br-main>.card:first-child{margin-top:0}
+  .br-side{position:sticky;top:64px}
+  .br-side>.br-kpis:first-child{margin-top:0}
+  .br-side .br-kpis{grid-template-columns:repeat(2,1fr)}
+  .br-side>h2:first-of-type{margin-top:22px}
+  .kpi .v{font-size:30px}
+  .card{padding:18px}
+}
+@media (min-width:1100px) and (max-height:760px){.br-side{position:static}}
+
+/* 모바일 */
+@media (max-width:760px){
+  main{padding:14px 12px 40px}
+  /* 위 메뉴 5개가 한 줄에 다 보이게 */
+  .tabs .in{padding:0 4px;gap:0}
+  .tabs a{padding:12px 8px;font-size:14px;gap:4px}
+  .tabs a .c{padding:0 6px;font-size:10.5px}
+  .tabs .sub .in{padding:8px 10px;gap:6px}
+  .tabs .sub a{padding:6px 11px}
+  /* 요청창 */
+  .ask{padding:10px 12px 0}
+  .ask form{padding:5px 5px 5px 12px}
+  .ask button{padding:10px 14px}
+  /* 화면 제목: 새 창 버튼은 휴대폰에서 필요 없어 숨기고 제목·설명을 한 줄 전체로 */
+  .ptitle{margin:2px 0 12px}
+  .ptitle [data-newwin]{display:none}
+  .ptitle h1{font-size:18px}
+  .ptitle .sub{line-height:1.55}
+  h2{margin:24px 0 8px}
+  .card{padding:14px;border-radius:14px}
+  /* 4칸 숫자 타일은 2칸으로 */
+  .funnel,.funnel[style]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .fn{padding:11px 12px}.fn .v{font-size:21px}
+  .tools{flex-wrap:wrap}
+  /* 막대 목록: 숫자가 줄바꿈되지 않게 */
+  .bars .row{grid-template-columns:minmax(0,108px) minmax(40px,1fr) auto;gap:8px}
+  .bars .n{white-space:nowrap;font-size:12.5px}
+  /* 계정 카드: 상태 배지와 버튼이 겹치지 않게 버튼을 아랫줄로 */
+  .soc-acc .card{flex-wrap:wrap;row-gap:10px}
+  .soc-acc .t{flex-wrap:wrap;row-gap:4px}
+  .soc-acc .ac{width:100%;justify-content:flex-end}
+  .soc-acc .ac .soc-btn{flex:1 1 0}
+  /* SNS 게시물 표 → 카드형 */
+  .soc-tb table,.soc-tb table[style]{min-width:0!important;table-layout:auto}
+  .soc-tb thead{display:none}
+  .soc-tb tbody tr{display:grid;grid-template-columns:40px minmax(0,1fr) minmax(0,1fr);column-gap:10px;row-gap:8px;padding:12px 6px;border-bottom:1px solid var(--line)}
+  .soc-tb tbody tr:last-child{border-bottom:0}
+  .soc-tb td{display:block;padding:0;border:0;min-width:0}
+  .soc-tb td:nth-child(1){grid-row:1/span 4}
+  .soc-tb td:nth-child(2),.soc-tb td:nth-child(3),.soc-tb td:nth-child(6){grid-column:2/4}
+  .soc-tb td:nth-child(4){grid-column:2}.soc-tb td:nth-child(5){grid-column:3}
+  .soc-tb .ttl{white-space:normal;line-height:1.45}
+  .soc-tb .meta{flex-wrap:wrap;white-space:normal;row-gap:4px}
+  .soc-tb .a{justify-content:flex-start;flex-wrap:wrap}
+  .soc-tb .a button{padding:7px 12px;font-size:12.5px}
+  .soc-tb input[type=datetime-local]{max-width:220px}
+  /* 날짜 | 내용 | 버튼 표 → 위아래로 쌓기 (칼럼·정성 의견·바라는 점) */
+  table.stk tr{display:block;padding:10px 4px;border-bottom:1px solid var(--line)}
+  table.stk tr:last-child{border-bottom:0}
+  table.stk td{display:block;width:auto!important;padding:2px 6px;border:0;white-space:normal}
+  table.stk td.nw br{display:none}
+  table.stk td.nw .pill{margin-left:6px}
+  table.stk .lnk{display:inline-block;margin-top:6px}
+  /* 일반 표: 화면 밖으로 나가지 않고 표 안에서만 옆으로 밀어 보기 */
+  .tbl{padding:2px 0;-webkit-overflow-scrolling:touch}
+  main table:not(.stk){display:block;max-width:100%;overflow-x:auto}
+  main .soc-tb table{display:table}
+  main table:not(.stk) td,main table:not(.stk) th{white-space:nowrap}
+  main table:not(.stk) td .m,main table:not(.stk) td div{white-space:normal}
+  .tbl table{font-size:12.5px}
+  /* 유튜브 쇼츠 미리보기는 작게 */
+  .yt-item{padding:14px;gap:12px}
+  .yt-item.short video{max-width:200px}
+  .yt-item h3{font-size:16px}
+  /* 일정 목록: 제목 두 줄까지 */
+  .cal-it .tx{font-size:13.5px}
+}
+@media (max-width:380px){
+  .tabs a{padding:12px 6px;font-size:13.5px}
+}
 </style>
 </head>
 <body>
 <header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="#brief" title="브리핑으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><button class="btn hd-more" id="hdmore" aria-label="메뉴" aria-expanded="false">⋯</button><div class="hd-menu" id="hdmenu" hidden><button id="reload" hidden>새로고침</button><a href="/side">사이드 채널 (까치)</a><a href="./">앱으로 가기</a><button id="out" hidden>로그아웃</button></div></div></div></header>
 <nav class="tabs" id="tabs" hidden><div class="in"></div><div class="sub"><div class="in"></div></div></nav>
-<div class="ask" id="ask" hidden><form><label class="ask-att" title="캡처 첨부 (붙여넣기·끌어오기도 됩니다)" aria-label="캡처 첨부"><input type="file" accept="image/*" multiple hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></label><textarea rows="1" placeholder="무엇이든 요청하세요 (캡처는 붙여넣기 가능)" aria-label="요청"></textarea><button type="submit">보내기</button></form><div class="ask-imgs" hidden></div><div class="m" id="ask-m"></div></div>
+<div class="ask" id="ask" hidden><form><label class="ask-att" title="캡처 첨부 (붙여넣기·끌어오기도 됩니다)" aria-label="캡처 첨부"><input type="file" accept="image/*" multiple hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></label><textarea rows="1" placeholder="무엇이든 요청하세요" aria-label="요청"></textarea><button type="submit">보내기</button></form><div class="ask-imgs" hidden></div><div class="m" id="ask-m"></div></div>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
 <script>
@@ -777,7 +875,7 @@ function vSurvey(s){
     <div>${sec('투자 규모', c(s.size), barsList(s.size||{}, SIZE_ORDER))}</div>
     <div>${sec('투자 시장', c(s.markets), barsList(s.markets||{}, ['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드']))}</div>
   </div>
-  ${sec('바라는 점 (직접 쓴 의견)', '', (() => { const L = (s.users||[]).filter(u => u.note); return L.length ? `<table><tbody>${L.map(u => `<tr><td>${esc(u.note)}</td><td class="muted nw" style="width:1%">${esc(u.email)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 의견이 없습니다.</div>'; })())}`;
+  ${sec('바라는 점 (직접 쓴 의견)', '', (() => { const L = (s.users||[]).filter(u => u.note); return L.length ? `<table class="stk"><tbody>${L.map(u => `<tr><td>${esc(u.note)}</td><td class="muted nw" style="width:1%">${esc(u.email)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 의견이 없습니다.</div>'; })())}`;
 }
 
 const USRC = { ig:'인스타', ad:'광고', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북', naver:'네이버', youtube:'유튜브' };
@@ -1025,7 +1123,7 @@ function vColumn(){
     <div class="msg" id="c-msg" style="color:var(--good)">${esc(COL.msg)}</div>
   </div>
   <h2>지난 칼럼</h2>
-  <div class="card tbl">${COL.list.length ? `<table><tbody>${COL.list.map(c => `<tr><td class="muted nw">${esc(c.id.slice(4))}</td><td><b>${esc(c.title)}</b>${c.auto && !c.edited ? ' <span class="pill">자동</span>' : c.edited ? ' <span class="pill">수정됨</span>' : ''}<div class="muted" style="margin-top:2px">${esc(String(c.body || '').slice(0, 80))}…</div></td><td class="nw"><button class="lnk" data-col-edit="${esc(c.id)}">고치기</button> <button class="lnk" data-col-del="${esc(c.id)}">삭제</button></td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 쓴 칼럼이 없습니다.</div>'}</div>`;
+  <div class="card tbl">${COL.list.length ? `<table class="stk"><tbody>${COL.list.map(c => `<tr><td class="muted nw">${esc(c.id.slice(4))}</td><td><b>${esc(c.title)}</b>${c.auto && !c.edited ? ' <span class="pill">자동</span>' : c.edited ? ' <span class="pill">수정됨</span>' : ''}<div class="muted" style="margin-top:2px">${esc(String(c.body || '').slice(0, 80))}…</div></td><td class="nw"><button class="lnk" data-col-edit="${esc(c.id)}">고치기</button> <button class="lnk" data-col-del="${esc(c.id)}">삭제</button></td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 쓴 칼럼이 없습니다.</div>'}</div>`;
 }
 /* ---- 정성 평가 의견: 사용자가 남긴 의견을 읽고 답한다. 점수는 여기서 바꾸지 않는다 ---- */
 const QF = { list: null, msg: '', onlyOpen: true };
@@ -1038,7 +1136,7 @@ function vQual(){
   return `${head('정성 의견', `사용자가 정성 평가에 남긴 의견 ${n0(L.length)}건 · 검토 대기 ${n0(open.length)}건. 의견은 점수를 바꾸지 않습니다. 다시 조사할 때 참고하고, 답변을 남기면 사용자 화면에 보입니다.`, 'qual')}
   ${QF.msg ? `<div class="msg" style="color:var(--bad)">${esc(QF.msg)}</div>` : ''}
   <div class="chips"><button class="chip" type="button" data-qf-only="1" aria-pressed="${!!QF.onlyOpen}">검토 대기만 <span class="muted" style="font-weight:500">${open.length}</span></button><button class="chip" type="button" data-qf-only="0" aria-pressed="${!QF.onlyOpen}">전체 <span class="muted" style="font-weight:500">${all.length}</span></button></div>
-  <div class="card tbl">${L.length ? `<table><tbody>${L.map((f, i) => `<tr>
+  <div class="card tbl">${L.length ? `<table class="stk"><tbody>${L.map((f, i) => `<tr>
     <td class="muted nw">${esc(String(f.at || '').slice(0, 10))}<br><span class="pill">${f.status === 'done' ? '완료' : f.status === 'seen' ? '확인' : '새 의견'}</span></td>
     <td><b>${esc(f.name || f.ticker || '')}</b> <span class="muted">${esc(f.ticker || '')} · ${esc(f.market || '')} · ${f.shared ? '공용 평가' : '정성 평가 전'}${f.qualAt ? ' · ' + esc(f.qualAt) : ''}</span>
       <div style="margin-top:4px;white-space:pre-wrap">${esc(f.text || '')}</div>
@@ -2696,7 +2794,7 @@ function vBrief(){
 
   <div class="card br-hl">${d.headline ? `<p>${esc(d.headline)}</p>` : `<p class="m">${wk ? '주간 브리핑은 월요일 07:47에 올라옵니다.' : '오늘 브리핑은 매일 07:47에 올라옵니다.'} 아래 숫자와 목록은 지금 데이터 그대로입니다.</p>`}${d.at ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
 
-
+  <div class="br-cols"><div class="br-main">
   ${vGoal(kp)}
 
   ${vTodo(todo)}
@@ -2705,6 +2803,7 @@ function vBrief(){
   <div class="card">${vChecks()}</div>
 
   ${brReqs().length || ((((BR.inbox || {}).data || {}).hidden) || []).length ? `<h2>내 요청 <span class="qcount">처리 상태</span></h2>\n  <div class="card">${vReqs()}</div>` : ''}
+  </div><div class="br-side">
 
   <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
@@ -2721,7 +2820,7 @@ function vBrief(){
   <details class="br-fold"${big.length ? ' open' : ''}><summary>알림 <span class="qcount">${big.length ? '중요 ' + big.length + '건' : '중요한 알림 없음'}</span></summary>
   <div class="card">${big.slice(0, 6).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(a.data.body)}</div>` : ''}<div class="br-at">${kst(a.data.at || a.updated_at)} · ${esc(a.data.source || '')}</div></div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">확인</button></div></div>`).join('') || '<div class="br-ok">✓ 중요한 알림 없음</div>'}
     ${open.length ? `<div class="br-foot"><span class="m">${small ? `일반 알림 ${small}건은 브리핑에 정리됩니다` : ''}</span><button class="br-b ghost" data-br-readall>모두 읽음</button></div>` : ''}</div></details>
-
+  </div></div>
 </div>`;
 }
 async function brSaveInbox(item){
@@ -2914,7 +3013,7 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
       if(error) throw new Error('캡처를 올리지 못했습니다: ' + error.message); ids.push(id); }
     return ids; };
   const where = () => (PAGES.find(x => x[0] === page()) || [])[1] || '';
-  const hint = () => { m.textContent = `예: "10시 쇼츠 썸네일 고쳐줘" · 다음 처리 ${brNext(BR_H_ALL, 17)} · 상태는 브리핑 '내 요청'에`; };
+  const hint = () => { m.textContent = `예: "10시 쇼츠 썸네일 고쳐줘" · 캡처는 붙여넣기 가능 · 다음 처리 ${brNext(BR_H_ALL, 17)} · 상태는 브리핑 '내 요청'에`; };
   const fit = () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 160) + 'px'; };
   ta.addEventListener('input', fit);
   ta.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); f.requestSubmit(); } });
