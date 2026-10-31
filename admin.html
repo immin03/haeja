@@ -678,12 +678,49 @@ main{overflow-wrap:break-word}
 @media (max-width:380px){
   .tabs a{padding:12px 6px;font-size:13.5px}
 }
+/* 2026-10-31 2차: 여백·글자 숨통, 음성 입력 버튼 */
+.br .card+.card{margin-top:14px}
+.br-cols{margin-top:14px}
+.ask textarea{scrollbar-width:none}.ask textarea::-webkit-scrollbar{display:none}
+.ask-mic{flex:none!important;align-self:center;width:38px;height:38px;padding:0!important;border-radius:50%!important;display:flex;align-items:center;justify-content:center;background:transparent!important;color:var(--ink2)!important;border:1px solid var(--line)!important}
+.ask-mic[hidden]{display:none}
+.ask-mic.on{background:var(--bad)!important;color:#FFFFFF!important;border-color:var(--bad)!important;animation:micp 1.2s ease-in-out infinite}
+@keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(216,65,90,.45)}50%{box-shadow:0 0 0 7px rgba(216,65,90,0)}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .gl-bar i{background:var(--gold-grad)}}
+:root[data-theme="dark"] .gl-bar i{background:var(--gold-grad)}
+@media (max-width:760px){
+  main{padding:16px 14px 44px}
+  .card{padding:18px 16px}
+  h2{margin:28px 0 10px}
+  .ask .m{line-height:1.5}
+  .br-top{margin:6px 0 14px}
+  .br-hl p{font-size:16px;line-height:1.7}
+  .br-at{margin-top:10px}
+  .gl-rule{font-size:13px;line-height:1.65;margin:8px 0 14px}
+  .gl-row{margin:16px 0}
+  .gl-h{flex-wrap:wrap;row-gap:2px;font-size:14px}
+  .gl-h span{font-size:13px;margin-left:auto}
+  .gl-bar{margin-top:7px}
+  .gl-s,.gl-foot{line-height:1.55;margin-top:6px}
+  .br-todo-h{margin-bottom:10px}
+  .br-td{padding:18px 0}
+  .br-td b{font-size:15.5px;line-height:1.45}
+  .br-td .m{font-size:14px;line-height:1.65;margin-top:6px;color:var(--muted)}
+  .br-how{margin-top:10px}
+  .br-acts{margin-top:14px;gap:8px}
+  .br-row{padding:16px 0;gap:12px}
+  .br-row .t{font-size:15px;line-height:1.55}
+  .br-row .t .m{font-size:13.5px;line-height:1.65;margin-top:6px}
+  .br-row .bt{padding-top:10px}
+  .br-ch summary,.br-ch1{padding:14px 0}
+  .br-kpis{gap:12px}
+}
 </style>
 </head>
 <body>
 <header><div class="hd"><div style="display:flex;align-items:center"><a class="wm solo" href="#brief" title="브리핑으로" style="font-size:20px"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><span class="adm-tag">관리자</span></div><div class="r"><span id="asof"></span><button class="btn hd-more" id="hdmore" aria-label="메뉴" aria-expanded="false">⋯</button><div class="hd-menu" id="hdmenu" hidden><button id="reload" hidden>새로고침</button><a href="/side">사이드 채널 (까치)</a><a href="./">앱으로 가기</a><button id="out" hidden>로그아웃</button></div></div></div></header>
 <nav class="tabs" id="tabs" hidden><div class="in"></div><div class="sub"><div class="in"></div></div></nav>
-<div class="ask" id="ask" hidden><form><label class="ask-att" title="캡처 첨부 (붙여넣기·끌어오기도 됩니다)" aria-label="캡처 첨부"><input type="file" accept="image/*" multiple hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></label><textarea rows="1" placeholder="무엇이든 요청하세요" aria-label="요청"></textarea><button type="submit">보내기</button></form><div class="ask-imgs" hidden></div><div class="m" id="ask-m"></div></div>
+<div class="ask" id="ask" hidden><form><label class="ask-att" title="캡처 첨부 (붙여넣기·끌어오기도 됩니다)" aria-label="캡처 첨부"><input type="file" accept="image/*" multiple hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></label><textarea rows="1" placeholder="무엇이든 요청하세요" aria-label="요청"></textarea><button type="button" class="ask-mic" aria-label="말로 입력" title="말로 입력" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><button type="submit">보내기</button></form><div class="ask-imgs" hidden></div><div class="m" id="ask-m"></div></div>
 <main id="main"><div class="empty">불러오는 중</div></main>
 <div class="tip" id="tip"></div>
 <script>
@@ -3016,6 +3053,24 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
   const hint = () => { m.textContent = `예: "10시 쇼츠 썸네일 고쳐줘" · 캡처는 붙여넣기 가능 · 다음 처리 ${brNext(BR_H_ALL, 17)} · 상태는 브리핑 '내 요청'에`; };
   const fit = () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 160) + 'px'; };
   ta.addEventListener('input', fit);
+  /* 말로 입력 (2026-10-31 운영자: "입력할 때 음성으로 입력하는 기능") — 브라우저 음성 인식(한국어). 받아 적기만 하고 보내기는 직접 누른다 */
+  { const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = f.querySelector('.ask-mic');
+    if(SR && mic){ mic.hidden = false;
+      const android = /Android/i.test(navigator.userAgent);
+      let rec = null, on = false, base = '', said = '';
+      const join = (a, b) => a && b ? a.replace(/\s+$/, '') + ' ' + b.replace(/^\s+/, '') : (a || b);
+      const show = (live) => { ta.value = join(join(base, said), live || ''); fit(); };
+      const stop = () => { on = false; mic.classList.remove('on'); ta.placeholder = '무엇이든 요청하세요'; if(rec){ try{ rec.stop(); }catch(_){} } };
+      const start = () => {
+        rec = new SR(); rec.lang = 'ko-KR'; rec.interimResults = true; rec.continuous = !android;
+        rec.onresult = e => { let fin = '', live = ''; for(let i = 0; i < e.results.length; i++){ const t = e.results[i][0].transcript; if(e.results[i].isFinal) fin += t; else live += t; }
+          if(android){ if(fin){ said = join(said, fin); show(''); } else show(live); } else { ta.value = join(base, join(fin, live)); fit(); if(fin) said = fin; } };
+        rec.onerror = e => { if(e.error === 'not-allowed' || e.error === 'service-not-allowed'){ toast('마이크 권한을 허용해 주세요', true); stop(); } };
+        rec.onend = () => { if(on && android){ try{ start(); }catch(_){ stop(); } } else if(on){ stop(); } };
+        try{ rec.start(); }catch(_){ stop(); } };
+      mic.onclick = () => { if(on){ stop(); return; } on = true; base = ta.value; said = ''; mic.classList.add('on'); ta.placeholder = '듣고 있어요… 다 말했으면 마이크를 다시 누르세요'; start(); };
+      f.addEventListener('submit', () => { if(on) stop(); }, true);
+    } }
   ta.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); f.requestSubmit(); } });
   f.onsubmit = async e => { e.preventDefault(); const text = ta.value.trim(); if(!text && !imgs.length){ ta.focus(); return; }
     btn.disabled = true; btn.textContent = imgs.length ? '올리는 중…' : '보내기'; if(!BR.inbox && !BR.loaded) await briefLoad().catch(() => {});
