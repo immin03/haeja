@@ -1,0 +1,27 @@
+[
+ {
+  "id": "du22_road",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/du2_road",
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Keep everything in the reference image the same: the muddy rainy village road, the stone school gate, the rice paddies, Kachi flying beside, the folded yellow umbrella with the white heart held in the dog's mouth. Only change the dog: it must clearly be an OLD dog, not a puppy. OLD DOG: the same golden-yellow nureongi now old and big, a grey-white muzzle, slightly cloudy eyes, a faded red collar. The old dog is large and heavy, with a thick grey-white muzzle and grey around the eyes, slightly cloudy pale eyes half closed, a slightly sagging face, walking slowly and carefully. No people in this shot. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere."
+  }
+ },
+ {
+  "id": "gh42_turn",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/gh2_wait"
+  ],
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "GRANDMA (now): the same Korean grandma, now in her eighties, snow-white hair in a low bun, deeper smile wrinkles, the same indigo quilted vest, a little more bent. WOMAN (now): the same granddaughter grown into a young woman in her late twenties, round face, black bob with bangs, a bright red wool coat. SPOON: a small brass spoon with a tiny heart engraved on the handle. The granddaughter is clearly a grown adult woman, taller than the grandma, with adult proportions and a slim adult face — NOT a child. Snowy winter on the wooden porch of the hanok. The grown granddaughter in her bright red wool coat sits beside her grandma and gently feeds her a spoonful of the red persimmon with the same small brass spoon with the heart on the handle; the grandma pauses for a moment, then smiles softly like a child. Snow falls in the courtyard behind them. Only the two women in the frame. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere."
+  }
+ }
+]

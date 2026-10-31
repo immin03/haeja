@@ -293,3 +293,4 @@ Keep the miniature clay diorama look and every character design identical to the
 - 초코파이 롱폼·쇼츠 업로드 여부 결정(옛 채널명 로고가 들어가 있음 → 올릴 거면 로고 교체 재렌더). 지금은 관리자 '보관함'에 있음(되돌리기 버튼)
 - 관리자 설정 탭에 핸들 @KachiFromKorea 입력(아직 안 했다면)
 - 동물 구조형 소재를 계속 쓸지 결정(3장 수익 정책) — Claude 추천: 주력에서 빼고 은혜 갚기·엄마·할머니 쪽으로
+- [ ] **세월이 흐른 같은 인물·동물** — 어릴 적 그림(ref)을 넣으면 '어른'·'늙은 개'도 어린 모습으로 나온다(10/31 우산 강아지 2컷 늙은 개가 강아지로, 홍시 4컷 어른 손녀가 다섯 살로 나와 고침). 세월 뒤 컷엔 어릴 적 그림을 ref 로 넣지 말고 "clearly a grown adult, taller than…, NOT a child" / "OLD dog, not a puppy, thick grey-white muzzle" 를 한 문장으로 따로 쓴다
