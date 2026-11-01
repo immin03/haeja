@@ -28,7 +28,7 @@
   "accent": "orange"
  },
  "scheduled_at": "2026-11-01T19:00:00+09:00",
- "opening": "결론 먼저형",
+ "opening": "결론 먼저형 · 이야기 중심(제1 원칙 49)",
  "hook_type": "H01 결과",
  "endscreen_target": "L261026-starbucks-float",
  "title": "배민 수수료, 치킨 2만 5천 원 시키면 사장님 손엔 얼마 남을까? 수수료·배달비는 6,710원",
@@ -112,35 +112,670 @@
   "와이즈앱·리테일 2026년 7월 배달앱 이용자",
   "CEO스코어데일리 2026년 10월 14일 (수수료 상한 법안·거래비용 26.2%)",
   "한국소비자단체협의회 이중가격 조사",
-  "밸류노트 우버 데이터 ({asof} 기준)"
+  "밸류노트 우버 데이터 ({asof} 기준)",
+  "머니투데이 2026년 7월 22일 '김봉진에서 우버까지…배민 15년 M&A 역사' (2010년 6월 시작 · 2019년 DH 지분 88% 40억 달러 · 우버 약 21조 원)",
+  "머니투데이 2020년 4월 10일 (오픈서비스 5.8% 열흘 만에 백지화)",
+  "이투데이 2021년 3월 30일 (우아한형제들 2020년 매출 1조 995억 원, 94% 증가)"
  ],
  "description_head": "배민 수수료, 치킨 2만 5천 원 한 마리를 시키면 사장님 손엔 3,037원이 남고 배달앱 몫은 6,710원입니다(아시아경제 계산, 서울·중개수수료 7.8% 구간·광고 없음).\n배달앱 수수료와 본사 차액가맹금, 그리고 우버의 딜리버리히어로(배민의 주인) 공개매수까지 숫자로 따라갔습니다.\n\n2024년 폐업 신고 100만 명 첫 돌파, 서울 프랜차이즈 배달 매출 중 수수료 17.1% → 24.0%, 매출은 1.5배가 됐는데 영업이익은 2년 연속 줄어든 우아한형제들, 치킨 본사의 가맹점당 차액가맹금 4,100만 원, 도어대시와 우버가 그리는 배달앱 합병 지도, 총수수료 15% 상한 법안, 그리고 오늘 밤 배달 가격과 매장 가격을 비교해 2,000원을 아끼는 법을 정리했습니다.\n\n※ 투자 권유가 아닙니다.",
  "description_en": "Order a 25,000-won fried chicken in Seoul and the owner keeps about 3,037 won while the delivery app takes 6,710. We follow the money: VAT, app fees, franchise supply markups, record shop closures, Woowa Brothers' revenue up 1.5x while profit fell two years, DoorDash and Uber's consolidation (Uber's tender offer for Delivery Hero, Baemin's owner), the proposed 15% fee cap, and how dual pricing lets you save 2,000 won tonight.\n\n#Baemin #DeliveryApp #Uber",
- "pinned_comment": "오늘 시킨 치킨, 배달앱 가격과 매장 메뉴판 가격이 얼마나 달랐나요? 동네와 가격 차이를 댓글로 나눠 주세요.\n\n앞으로 볼 것: 우버 공개매수 결과(11월 5일 마감) · 수수료 상한 15% 법안(국회 정무위) · 우아한형제들 2026년 영업이익(2027년 4월 다트).",
+ "pinned_comment": "오늘 시킨 치킨, 배달앱 가격과 매장 메뉴판 가격이 얼마나 달랐나요? 동네와 가격 차이를 댓글로 나눠 주세요.",
  "hook_promises": [
-  "2만 5천 원이 어디로 가나",
-  "배민의 주인이 바뀔 수 있는 이유",
-  "오늘 밤 아끼는 2,000원과 볼 것 3가지"
+  "치킨값을 나누는 힘은 어디에 있나",
+  "전단지 회사가 4조 원이 된 이유",
+  "우버가 사려는 것"
  ],
- "viewer_question": "치킨 2만 5천 원 중 사장님 몫은 왜 3천 원뿐이고, 점포가 문을 닫는데 배달앱·본사·우버는 이 돈을 어떻게 나누려 하나?",
- "format_note": "2026-11-01 배달 편: 취재 노트·결론 먼저형 오프닝, 배달 봉투 단면(이 편 비유 화면 1개), 저울·대결 화면 없음",
+ "viewer_question": "치킨 2만 5천 원 중 사장님 몫은 3천 원인데, 점포는 문을 닫고 배달앱 이익도 줄었다면 이 돈의 힘은 누가 쥐고 있나?",
+ "format_note": "2026-11-01 배달 편 v2: 제1 원칙 49(숫자 말고 이야기) 첫 적용 — 전단지→4조→수수료 반발→코로나→2만 5천 원→우버, 사모펀드 경험 1장면, 점수는 끝 한 장면",
  "scenes": [
   {
    "chapter": "금요일 밤의 치킨",
    "v": {
     "type": "media",
     "lib": "commons_kchicken_1.jpg",
-    "caption": "치킨 1마리 2만 5천 원 · 남는 돈 3,037원",
+    "caption": "치킨 1마리 2만 5천 원 · 사장님 몫 3,037원",
     "caption_at": "0"
    },
    "lines": [
-    "2만 5천 원짜리 치킨 한 마리, 사장님 손에 남는 돈은 3,037원입니다."
+    "금요일 밤, 2만 5천 원짜리 치킨 한 마리를 시킵니다. 이 돈에서 튀긴 사장님 손에 남는 건 3,037원이에요."
    ],
    "en": [
-    "Order a 25,000-won fried chicken, and the owner keeps 3,037 won."
+    "Friday night, you order a 25,000-won fried chicken. The owner who fried it keeps 3,037 won."
    ],
    "asof": false,
-   "src": " · 사진: Startandstar · Wikimedia Commons (CC0) · 아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
+   "src": "사진: Startandstar · Wikimedia Commons (CC0) · 아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "restaurant_29050_a.jpg"
+   },
+   "lines": [
+    "그런데 더 이상한 일이 있어요. 치킨집은 매일 문을 닫는데, 수수료를 받는 배달앱도 이익이 2년째 줄고 있습니다."
+   ],
+   "en": [
+    "Stranger still: chicken shops close every day, yet the app collecting the fees has seen profits fall two years running."
+   ],
+   "asof": false,
+   "src": "국세청 국세통계 2025년 폐업자 · 우아한형제들 연결 감사보고서 (2023~2025년 영업이익)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "매일 문 닫는 치킨집",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "배달앱 이익 · 2년째 감소",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.65
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "sketch"
+   },
+   "lines": [
+    "결론부터 말씀드리면 치킨값을 나누는 힘은 치킨을 튀기는 쪽이 아니라 주문이 지나가는 길목을 쥔 쪽에 있습니다. 그래서 지금 미국 우버가 그 길목을 통째로 사려고 해요."
+   ],
+   "en": [
+    "Bottom line: the power to split the price sits with whoever controls the path every order takes, not whoever fries the chicken. That's why Uber now wants to buy that path outright."
+   ],
+   "asof": false,
+   "src": "우버 공개매수 신고서 (2026년 8월 27일, 딜리버리히어로 주당 41.50유로 · 청약 11월 5일까지)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "치킨값을 나누는 힘",
+     "x": 140,
+     "y": 130,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1780,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.05,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "누가 쥐고 있나",
+     "x": 220,
+     "y": 300,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.15
+    },
+    {
+     "kind": "write",
+     "text": "주문이 지나가는 길목",
+     "x": 220,
+     "y": 380,
+     "size": 120,
+     "color": "red",
+     "line": 0,
+     "at": 0.35
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 660,
+     "x1": 1780,
+     "y1": 660,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.75,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "2026년 7월 · 우버, 배민 주인 회사 인수 제안",
+     "x": 140,
+     "y": 700,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.8
+    },
+    {
+     "kind": "under",
+     "x0": 220,
+     "x1": 1380,
+     "y": 540,
+     "line": 0,
+     "at": 0.55,
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "길목 = 주문이 모이는 앱 화면",
+     "x": 220,
+     "y": 580,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.65
+    }
+   ],
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "kinetic",
+    "words": [
+     {
+      "t": "사장님도",
+      "at": "0:사장님도"
+     },
+     {
+      "t": "배달앱도",
+      "at": "0:배달앱도"
+     },
+     {
+      "t": "누가 웃고 있나",
+      "at": "0:누가",
+      "c": "red",
+      "under": true
+     }
+    ],
+    "backdrop": "commons_seoulnight_1.jpg"
+   },
+   "lines": [
+    "치킨을 튀기는 사장님도, 수수료를 받는 배달앱도 웃지 못하는데, 그럼 누가 웃고 있을까요?"
+   ],
+   "en": [
+    "If neither the owner nor the app is smiling, who is?"
+   ],
+   "asof": false,
+   "src": "사진: mauveine.kim · Wikimedia Commons (CC0)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_uberhq_2.jpg"
+   },
+   "lines": [
+    "전단지 한 장에서 시작해 샌프란시스코까지 간 이 이야기, 바로 따라가 보겠습니다. 끝까지 보시면 오늘 밤 치킨값을 조금 아끼는 법도 챙겨 가실 수 있어요."
+   ],
+   "en": [
+    "Let's follow this story from a paper flyer all the way to San Francisco, and by the end you'll know how to save a little on tonight's chicken."
+   ],
+   "asof": false,
+   "src": "사진: HaeB · Wikimedia Commons (CC BY-SA 4.0)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "전단지 한 장 → 샌프란시스코",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.15
+    },
+    {
+     "kind": "print",
+     "text": "배민 15년 · 다섯 장면",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "끝에 · 치킨값 아끼는 법",
+     "x": 1170,
+     "y": 760,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.78
+    }
+   ]
+  },
+  {
+   "chapter": "전단지에서 4조 원까지",
+   "v": {
+    "type": "title",
+    "text": "전단지에서 4조 원까지",
+    "sub": "첫 번째 이야기"
+   },
+   "lines": [
+    "첫 번째 이야기, 2010년입니다. 디자이너 출신 창업자가 동네 음식점 전단지를 모아 앱 하나에 담기 시작했어요."
+   ],
+   "en": [
+    "Story one, 2010. A designer-turned-founder began gathering neighborhood restaurant flyers into a single app."
+   ],
+   "asof": false,
+   "src": "머니투데이 2026년 7월 22일 '김봉진에서 우버까지…배민 15년 M&A 역사' (2010년 6월 서비스 시작)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "phone_4919_a.jpg",
+    "caption": "냉장고 전단지 → 휴대폰 앱 하나",
+    "caption_at": "0"
+   },
+   "lines": [
+    "스마트폰이 막 퍼지던 때였어요. 냉장고에 붙여 두던 전단지가 휴대폰 화면 하나로 들어간 거죠.",
+    "사람들은 전화번호를 찾는 대신 앱을 열기 시작했고 음식점은 그 화면에 이름을 올리려고 줄을 섰습니다."
+   ],
+   "en": [
+    "Smartphones were just spreading. Flyers stuck on the fridge moved into one phone screen.",
+    "People opened the app instead of hunting for numbers, and restaurants lined up to be listed on it."
+   ],
+   "asof": false,
+   "src": "",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "2010년 · 스마트폰 보급 초기",
+     "x": 1170,
+     "y": 520,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.2
+    },
+    {
+     "kind": "print",
+     "text": "음식점 전화번호 한곳에",
+     "x": 1170,
+     "y": 580,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.6
+    },
+    {
+     "kind": "print",
+     "text": "전화번호 검색 → 앱 실행",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.15
+    },
+    {
+     "kind": "print",
+     "text": "음식점 · 앱 입점 경쟁",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.6
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "딜리버리히어로 · 우아한형제들 지분 88% 인수 발표 · 2019년 12월",
+    "value": "4조 7,500억",
+    "label": "원 · 40억 달러",
+    "label_en": "Delivery Hero's deal for 88% of Woowa Brothers, Dec 2019",
+    "at": "0:4조",
+    "count": false,
+    "tags": []
+   },
+   "lines": [
+    "그리고 2019년 말, 독일 회사 딜리버리히어로가 배민을 사겠다고 발표합니다. 값은 우리 돈 약 4조 7,500억 원이었어요.",
+    "치킨을 튀기지도, 배달을 하지도 않는 회사였는데요. 주문이 지나가는 길목 하나가 그만큼의 값을 받은 겁니다.",
+    "그런데 이 값은 몇 달 뒤, 사장님들의 분노와 함께 시험대에 오릅니다."
+   ],
+   "en": [
+    "Then in late 2019, Germany's Delivery Hero announced it would buy Baemin, for about 4.75 trillion won.",
+    "A company that neither fried chicken nor delivered it. The path orders take was worth that much.",
+    "Months later, that value was put to the test."
+   ],
+   "asof": false,
+   "src": "머니투데이 2026년 7월 22일 (2019년 12월 딜리버리히어로, 우아한형제들 지분 88%를 40억 달러에 인수 발표)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "지분 88% · 40억 달러",
+     "x": 1180,
+     "y": 720,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.55
+    },
+    {
+     "kind": "print",
+     "text": "치킨도 배달도 하지 않는 회사",
+     "x": 150,
+     "y": 720,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "주문 길목의 값",
+     "x": 150,
+     "y": 790,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.6
+    },
+    {
+     "kind": "print",
+     "text": "몇 달 뒤 · 시험대",
+     "x": 1180,
+     "y": 790,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 2,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "독일 · 딜리버리히어로",
+     "x": 1180,
+     "y": 650,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.85
+    }
+   ]
+  },
+  {
+   "chapter": "모두가 화났던 봄",
+   "v": {
+    "type": "title",
+    "text": "모두가 화났던 봄",
+    "sub": "두 번째 이야기"
+   },
+   "lines": [
+    "두 번째 이야기, 2020년 4월 1일입니다. 배민이 요금 방식을 바꿉니다. 한 달 정해진 광고비 대신, 주문 한 건마다 매출의 5.8%를 떼는 방식이었어요."
+   ],
+   "en": [
+    "Story two, April 1, 2020. Baemin switched from a flat monthly ad fee to taking 5.8% of every order."
+   ],
+   "asof": false,
+   "src": "머니투데이 2020년 4월 10일 '배달의민족 백기투항…열흘만에 수수료 개편 백지화' (월 8만 8천 원 정액 → 매출 5.8% 정률 '오픈서비스')",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "kinetic",
+    "words": [
+     {
+      "t": "사실상 수수료 인상",
+      "at": "0:인상이라며"
+     },
+     {
+      "t": "앱 삭제 · 평점 1점",
+      "at": "0:지우자며"
+     },
+     {
+      "t": "정치권까지",
+      "at": "0:정치권까지"
+     },
+     {
+      "t": "공정위 인수 심사 중",
+      "at": "1:공정위가"
+     },
+     {
+      "t": "딜리버리히어로 · 배민 인수",
+      "at": "1:인수를"
+     },
+     {
+      "t": "열흘 만에",
+      "at": "1:열흘"
+     },
+     {
+      "t": "사과 · 개편 백지화",
+      "at": "1:백지화했어요",
+      "c": "red",
+      "under": true
+     }
+    ],
+    "backdrop": "commons_kchicken_3.jpg"
+   },
+   "lines": [
+    "코로나로 이미 힘든 사장님들은 사실상 수수료 인상이라며 들고일어났습니다. 소비자들도 앱을 지우자며 평점 1점을 남겼고 정치권까지 나섰어요.",
+    "마침 공정위가 딜리버리히어로의 배민 인수를 심사하던 때였습니다. 배민은 열흘 만에 사과하고 개편을 백지화했어요."
+   ],
+   "en": [
+    "Owners already hurt by COVID called it a hidden fee hike. Customers deleted the app and left one-star reviews, and politicians joined in.",
+    "The FTC was reviewing Delivery Hero's purchase at the time. Within ten days Baemin apologized and scrapped the change."
+   ],
+   "asof": false,
+   "src": "머니투데이 2020년 4월 7일·10일 · 뉴데일리 2020년 4월 8일 (앱 삭제·평점 1점 반발) · 사진: Francesc Fort · Wikimedia Commons (CC BY-SA 4.0)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_seoulnight_2.jpg"
+   },
+   "lines": [
+    "그런데 같은 해, 아무도 예상하지 못한 일이 벌어집니다. 식당에 앉아 먹기 어려워지자 사람들이 집에서 시키기 시작한 거예요."
+   ],
+   "en": [
+    "But that same year, something no one expected: with eating out restricted, people started ordering in."
+   ],
+   "asof": false,
+   "src": "사진: Takipoint123 · Wikimedia Commons (CC BY-SA 4.0)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "2020년 · 코로나",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.15
+    },
+    {
+     "kind": "print",
+     "text": "외식 제한 → 집에서 주문",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "print",
+     "text": "배달 주문 급증",
+     "x": 1170,
+     "y": 760,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.8
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "우아한형제들 매출 · 2020년 · 연결 기준",
+    "value": "1조 원",
+    "label": "처음 돌파 · 1년 전의 약 2배",
+    "label_en": "Woowa Brothers 2020 revenue tops 1 trillion won, nearly double",
+    "at": "0:1조",
+    "count": false,
+    "tags": []
+   },
+   "lines": [
+    "그해 배민 매출은 처음으로 1조 원을 넘었습니다. 1년 전의 두 배 가까이예요.",
+    "그리고 그해 12월, 공정위는 딜리버리히어로의 배민 인수를 허락합니다. 다만 조건이 하나 붙었는데, 이 조건은 이야기 끝에서 다시 중요해집니다."
+   ],
+   "en": [
+    "That year Baemin's revenue topped 1 trillion won for the first time, nearly double the year before.",
+    "That December the FTC approved the deal, with one condition that matters again at the end of this story."
+   ],
+   "asof": false,
+   "src": "이투데이 2021년 3월 30일 (우아한형제들 2020년 매출 1조 995억 원, 전년 대비 94% 증가)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "외식 대신 배달",
+     "x": 1180,
+     "y": 720,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.55
+    },
+    {
+     "kind": "print",
+     "text": "2020년 12월 · 공정위 인수 허락",
+     "x": 150,
+     "y": 720,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "조건 1개 · 뒤에서 다시",
+     "x": 150,
+     "y": 790,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.35
+    },
+    {
+     "kind": "print",
+     "text": "길목의 주인 · 독일 회사로",
+     "x": 1180,
+     "y": 790,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.65
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "delivery_31155_a.jpg"
+   },
+   "lines": [
+    "모두가 수수료에 화를 냈던 바로 그해에, 주문이 지나가는 길목의 값은 오히려 올라갔습니다."
+   ],
+   "en": [
+    "In the very year everyone was furious about fees, the value of the order path went up."
+   ],
+   "asof": false,
+   "src": "",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "수수료 반발",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.25
+    },
+    {
+     "kind": "print",
+     "text": "주문은 오히려 증가",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "print",
+     "text": "길목의 값 상승",
+     "x": 1170,
+     "y": 760,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.8
+    }
+   ]
+  },
+  {
+   "chapter": "2만 5천 원의 행방",
+   "v": {
+    "type": "title",
+    "text": "2만 5천 원의 행방",
+    "sub": "세 번째 이야기"
+   },
+   "lines": [
+    "세 번째 이야기, 오늘 밤의 치킨 봉투를 열어 볼게요. 길목의 값이 오르는 동안, 봉투 안의 몫은 어떻게 나뉘고 있었을까요? 서울의 2만 5천 원짜리 치킨 한 마리를 뜯어 본 아시아경제의 계산입니다."
+   ],
+   "en": [
+    "Story three: let's open tonight's chicken bag, using Asia Economy's breakdown of a 25,000-won chicken in Seoul."
+   ],
+   "asof": false,
+   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
    "sketch_add": []
   },
   {
@@ -148,10 +783,93 @@
     "type": "sketch"
    },
    "lines": [
-    "배달앱 수수료와 배달비로 빠지는 돈은 그 두 배가 넘는 6,710원이에요."
+    "가장 큰 몫은 수수료가 아니에요. 본사를 거쳐 사 오는 닭과 기름, 포장재값이 1만 1,480원, 판매가의 절반 가까이입니다."
    ],
    "en": [
-    "The delivery app takes more than twice that: about 6,700 won."
+    "The biggest slice isn't fees. Chicken, oil and packaging bought through headquarters cost 11,480 won, nearly half the price."
+   ],
+   "asof": false,
+   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "치킨 2만 5천 원 · 가장 큰 몫",
+     "x": 140,
+     "y": 130,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.0
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 230,
+     "x1": 1780,
+     "y1": 230,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.05,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "본사 거쳐 사는 닭·기름·소스·포장재",
+     "x": 220,
+     "y": 300,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "write",
+     "text": "1만 1,480원",
+     "x": 220,
+     "y": 380,
+     "size": 160,
+     "color": "ink",
+     "line": 0,
+     "at": 0.5
+    },
+    {
+     "kind": "rule",
+     "x0": 140,
+     "y0": 660,
+     "x1": 1780,
+     "y1": 660,
+     "color": "gray",
+     "width": 3,
+     "line": 0,
+     "at": 0.8,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "판매가의 절반 가까이",
+     "x": 140,
+     "y": 700,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.85
+    }
+   ],
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "sketch"
+   },
+   "lines": [
+    "그다음이 배달앱이에요. 중개수수료와 배달비, 결제 수수료를 합치면 6,710원. 사장님 손에 남는 돈의 두 배가 넘습니다."
+   ],
+   "en": [
+    "Next comes the app: commission, delivery and payment fees add up to 6,710 won, more than double what the owner keeps."
    ],
    "asof": false,
    "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
@@ -250,145 +968,22 @@
   },
   {
    "v": {
-    "type": "media",
-    "lib": "delivery_42130_a.jpg",
-    "caption": "배민 영업이익 2년 연속 감소",
-    "caption_at": "0"
-   },
-   "lines": [
-    "그런데 이상한 건, 그 배달앱도 매출은 느는데 이익은 2년째 줄고 있다는 겁니다."
-   ],
-   "en": [
-    "Strangely, the app's own profit has been shrinking for two years."
-   ],
-   "asof": false,
-   "src": "우아한형제들 연결 감사보고서 (2024년 실적 2025년 4월 · 2025년 실적 2026년 4월 10일 공시)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "2023년 6,998억 → 2025년 5,929억 원",
-     "x": 1170,
-     "y": 600,
-     "size": 42,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.5
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "commons_uberhq_2.jpg",
-    "chips": [
-     {
-      "v": "우버",
-      "l": "배민 주인 회사 공개매수",
-      "at": "0:우버"
-     },
-     {
-      "v": "11월 5일",
-      "l": "청약 마감",
-      "at": "0:마감은"
-     }
-    ]
-   },
-   "lines": [
-    "그리고 지금, 미국 우버가 배민을 가진 독일 회사의 주주들에게 주식을 팔라고 공개 제안을 했어요. 마감은 11월 5일이에요."
-   ],
-   "en": [
-    "And right now, Uber is trying to buy the company that owns Baemin outright."
-   ],
-   "asof": false,
-   "src": "사진: HaeB · Wikimedia Commons (CC BY-SA 4.0) · 우버 공개매수 신고서 (2026년 8월 27일, 딜리버리히어로 주당 41.50유로 · 청약 11월 5일까지) · 공정거래위원회 기업결합 심사 착수 (2026년 9월 22일)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "딜리버리히어로 · 배민 모회사",
-     "x": 1170,
-     "y": 640,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.45
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "phone_14669.mp4",
-    "caption": "치킨 1마리 · 커진 배달앱 몫",
-    "caption_at": "0"
-   },
-   "lines": [
-    "치킨 한 마리 값에서 배달앱 몫은 왜 커졌는지, 그리고 오늘 밤 2천 원을 아끼는 법까지 바로 보여 드릴게요."
-   ],
-   "en": [
-    "Why more hands share the same chicken money, and how to save 2,000 won tonight. Let's go."
-   ],
-   "asof": false,
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "배달앱 · 본사 · 우버",
-     "x": 1170,
-     "y": 560,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "끝에: 오늘 밤 아끼는 2,000원",
-     "x": 1170,
-     "y": 650,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.65
-    }
-   ]
-  },
-  {
-   "chapter": "2만 5천 원의 단면",
-   "v": {
-    "type": "title",
-    "text": "2만 5천 원의 단면",
-    "sub": "첫 번째 이야기"
-   },
-   "lines": [
-    "첫 번째 이야기, 이 치킨 봉투를 반으로 잘라 보겠습니다."
-   ],
-   "en": [
-    "Part one: let's cut this delivery bag in half."
-   ],
-   "asof": false,
-   "sketch_add": []
-  },
-  {
-   "v": {
     "type": "sketch"
    },
    "lines": [
-    "아시아경제가 서울의 2만 5천 원짜리 치킨 한 마리를 뜯어 본 계산이에요. 매출이 많은 점포에 붙는 가장 높은 수수료 7.8%를 넣었고 광고는 안 쓴다고 쳤습니다.",
-    "먼저 부가세 2,273원이 나라로 갑니다. 닭다리 하나가 벌써 빠졌죠."
+    "여러분이 동네에 치킨집을 하나 열었다고 해 볼게요. 하루 50마리를 배달로 판다고 하죠.",
+    "그러면 배달앱으로 나가는 돈만 한 달에 1천만 원이 넘습니다. 사장님 일당과 전기·가스비는 아직 빼지도 않았어요."
    ],
    "en": [
-    "Asia Economy broke down one 25,000-won chicken in Seoul, at the top 7.8% commission tier and with no ads.",
-    "First, 2,273 won of VAT goes to the government. One drumstick already gone."
+    "Say you opened a chicken shop in your neighborhood and sold 50 a day by delivery.",
+    "The app's share alone would top 10 million won a month, before your own pay and utilities."
    ],
    "asof": false,
-   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
+   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정) 기준 단순 계산(가정)",
    "sketch": [
     {
      "kind": "print",
-     "text": "치킨 2만 5천 원 · 돈이 가는 곳",
+     "text": "가정 · 하루 50마리를 배달로 파는 치킨집",
      "x": 140,
      "y": 130,
      "size": 52,
@@ -411,10 +1006,10 @@
     },
     {
      "kind": "icons",
-     "icon": "bag",
-     "x": 160,
+     "icon": "store",
+     "x": 180,
      "y": 290,
-     "size": 230,
+     "size": 180,
      "n": 1,
      "gap": 24,
      "color": "ink",
@@ -422,79 +1017,141 @@
      "at": 0.1
     },
     {
-     "kind": "icons",
-     "icon": "drumstick",
-     "x": 520,
-     "y": 330,
-     "size": 120,
-     "n": 5,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.4
-    },
-    {
      "kind": "print",
-     "text": "가정: 중개수수료 7.8% · 광고 없음",
-     "x": 520,
-     "y": 500,
-     "size": 44,
+     "text": "배달앱으로 나가는 돈 · 한 달",
+     "x": 480,
+     "y": 300,
+     "size": 50,
      "w": "ExtraBold",
      "color": "gray",
-     "line": 0,
-     "at": 0.75
-    },
-    {
-     "kind": "print",
-     "text": "① 부가세",
-     "x": 140,
-     "y": 620,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
      "line": 1,
-     "at": 0.1
+     "at": 0.05
     },
     {
      "kind": "write",
-     "text": "2,273원",
-     "x": 520,
-     "y": 590,
-     "size": 130,
-     "color": "ink",
+     "text": "1,000만 원 이상",
+     "x": 480,
+     "y": 380,
+     "size": 150,
+     "color": "red",
      "line": 1,
-     "at": 0.3
+     "at": 0.15
     },
     {
-     "kind": "cross",
-     "x0": 520,
-     "y0": 330,
-     "x1": 640,
-     "y1": 450,
+     "kind": "rule",
+     "x0": 140,
+     "y0": 660,
+     "x1": 1780,
+     "y1": 660,
+     "color": "gray",
+     "width": 3,
      "line": 1,
-     "at": 0.8
+     "at": 0.6,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "주문 1건 6,710원 × 하루 50건 × 30일",
+     "x": 140,
+     "y": 700,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.65
+    },
+    {
+     "kind": "print",
+     "text": "사장님 일당·공과금 빼기 전",
+     "x": 1200,
+     "y": 700,
+     "size": 46,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.85
+    },
+    {
+     "kind": "print",
+     "text": "가정 · 서울 · 중개수수료 7.8% · 광고 없음",
+     "x": 480,
+     "y": 570,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.6
     }
    ],
    "sketch_add": []
   },
   {
    "v": {
+    "type": "media",
+    "lib": "phone_14669_a.jpg",
+    "caption": "광고를 붙이면 · 플랫폼 비용 최대 주문액의 40%",
+    "caption_at": "0"
+   },
+   "lines": [
+    "여기에 앱 화면 위쪽에 음식점을 올리는 광고까지 붙이면 같은 계산에서 플랫폼 비용이 주문액의 40%까지 올라갑니다."
+   ],
+   "en": [
+    "Add ads to get listed near the top, and in the same calculation platform costs reach 40% of the order."
+   ],
+   "asof": false,
+   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "앱 상단 노출 광고",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "클릭마다 비용",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.55
+    },
+    {
+     "kind": "print",
+     "text": "플랫폼 비용 증가",
+     "x": 1170,
+     "y": 760,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.8
+    }
+   ]
+  },
+  {
+   "v": {
     "type": "sketch"
    },
    "lines": [
-    "다음은 배달앱이에요. 중개수수료 1,950원, 사장님이 내는 배달비 3,400원, 결제 수수료 750원, 여기에 붙는 부가세까지 6,710원.",
-    "닭은 한 마리인데, 사장님보다 나라와 배달앱이 먼저 가져갑니다."
+    "서울시가 프랜차이즈 점포 186곳을 꼬박 지켜본 조사도 있어요. 배달 매출에서 수수료가 차지하는 몫이 한 해 사이 17%에서 24%로 커졌습니다."
    ],
    "en": [
-    "Next, the app: 1,950 won commission, 3,400 won delivery fee paid by the owner, 750 won card fee, plus VAT: 6,710 won.",
-    "One chicken, and already three parties are sharing it."
+    "Seoul tracked 186 franchise shops for a year: fees' share of delivery sales rose from 17% to 24%."
    ],
    "asof": false,
-   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정) · 배달의민족 상생 요금제 (2025년 2월 26일 시행, 상위 35% 구간 중개수수료 7.8% · 배달비 2,400~3,400원)",
+   "src": "서울시 2024 프랜차이즈 실태조사 (186개 점포, 배달 매출 대비 수수료 17.1% → 24.0%)",
    "sketch": [
     {
      "kind": "print",
-     "text": "② 배달앱 · 주문 1건",
+     "text": "배달 매출 100원 중 수수료 · 서울 프랜차이즈 186곳",
      "x": 140,
      "y": 130,
      "size": 52,
@@ -517,102 +1174,52 @@
     },
     {
      "kind": "print",
-     "text": "중개수수료 7.8%",
-     "x": 140,
-     "y": 290,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "1,950원",
-     "x": 1500,
-     "y": 290,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.15,
-     "anchor": "ra"
-    },
-    {
-     "kind": "print",
-     "text": "사장님 부담 배달비",
-     "x": 140,
-     "y": 390,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "3,400원",
-     "x": 1500,
-     "y": 390,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.35,
-     "anchor": "ra"
-    },
-    {
-     "kind": "print",
-     "text": "결제 수수료 3%",
-     "x": 140,
-     "y": 490,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "750원",
-     "x": 1500,
-     "y": 490,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.65,
-     "anchor": "ra"
-    },
-    {
-     "kind": "print",
-     "text": "수수료 부가세",
-     "x": 140,
-     "y": 590,
-     "size": 56,
+     "text": "1년 전",
+     "x": 220,
+     "y": 300,
+     "size": 50,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.75
+     "at": 0.4
+    },
+    {
+     "kind": "write",
+     "text": "17원",
+     "x": 220,
+     "y": 370,
+     "size": 160,
+     "color": "ink",
+     "line": 0,
+     "at": 0.5
     },
     {
      "kind": "print",
-     "text": "610원",
-     "x": 1500,
-     "y": 590,
-     "size": 56,
+     "text": "1년 뒤",
+     "x": 1000,
+     "y": 300,
+     "size": 50,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.8,
-     "anchor": "ra"
+     "at": 0.7
+    },
+    {
+     "kind": "write",
+     "text": "24원",
+     "x": 1000,
+     "y": 370,
+     "size": 160,
+     "color": "red",
+     "line": 0,
+     "at": 0.8
     },
     {
      "kind": "rule",
      "x0": 140,
-     "y0": 680,
+     "y0": 660,
      "x1": 1780,
-     "y1": 680,
+     "y1": 660,
      "color": "gray",
      "width": 3,
      "line": 0,
@@ -621,740 +1228,73 @@
     },
     {
      "kind": "print",
-     "text": "합계",
+     "text": "배달 매출 대비 수수료 비중 · 1년 새 상승",
      "x": 140,
-     "y": 710,
-     "size": 60,
+     "y": 700,
+     "size": 50,
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
-     "at": 0.88
-    },
-    {
-     "kind": "write",
-     "text": "6,710원",
-     "x": 1100,
-     "y": 690,
-     "size": 120,
-     "color": "red",
-     "line": 0,
      "at": 0.9
-    },
-    {
-     "kind": "under",
-     "x0": 1100,
-     "x1": 1500,
-     "y": 800,
-     "line": 1,
-     "at": 0.5,
-     "color": "red"
     }
    ],
    "sketch_add": []
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "stat",
+    "kicker": "음식업 폐업 신고 · 2025년 · 국세청",
+    "value": "하루 390건",
+    "label": "1년 14만 2천여 명",
+    "label_en": "Restaurant closures filed per day in 2025 (NTS)",
+    "at": "0:하루",
+    "count": false,
+    "tags": []
    },
    "lines": [
-    "그런데 진짜 큰 조각은 수수료가 아니에요. 프랜차이즈 본사를 거쳐 사 오는 닭·기름·소스·포장재가 1만 1,480원, 판매가의 절반 가까이입니다."
+    "그러다 보니 버티지 못하는 곳이 나옵니다. 지난해 음식점 폐업 신고는 하루 390건꼴이었어요."
    ],
    "en": [
-    "But the biggest slice isn't the app: chicken, oil, sauce and boxes bought from the franchise HQ cost 11,480 won, nearly half the price."
+    "So some can't hold on. Last year restaurants filed about 390 closures a day."
    ],
    "asof": false,
-   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정) (본사 공급 물품 45.9%)",
-   "sketch": [
+   "src": "국세청 국세통계 (2025년 폐업자 975,681명, 음식업 142,557명)",
+   "sketch_add": [
     {
      "kind": "print",
-     "text": "③ 본사에서 사는 재료·포장",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 230,
-     "x1": 1780,
-     "y1": 230,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.05,
-     "dur": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "factory",
-     "x": 160,
-     "y": 300,
-     "size": 200,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "닭·기름·소스·포장재",
-     "x": 1100,
-     "y": 320,
+     "text": "버티지 못하는 점포",
+     "x": 150,
+     "y": 720,
      "size": 50,
      "w": "ExtraBold",
-     "color": "gray",
+     "color": "ink",
      "line": 0,
      "at": 0.3
     },
     {
-     "kind": "write",
-     "text": "11,480원",
-     "x": 440,
-     "y": 300,
-     "size": 170,
-     "color": "red",
-     "line": 0,
-     "at": 0.55
-    },
-    {
      "kind": "print",
-     "text": "판매가의 45.9%",
-     "x": 450,
-     "y": 520,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.8
-    },
-    {
-     "kind": "print",
-     "text": "가장 큰 조각",
-     "x": 450,
-     "y": 610,
-     "size": 52,
+     "text": "2025년 · 국세청 집계",
+     "x": 1180,
+     "y": 720,
+     "size": 40,
      "w": "ExtraBold",
      "color": "gray",
-     "line": 0,
-     "at": 0.85
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "매장 임대료와 아르바이트 인건비로 1,500원을 빼면, 남는 건 3,037원이에요.",
-    "그것도 사장님 본인의 일당과 전기·가스비를 빼기 전 금액입니다."
-   ],
-   "en": [
-    "Take out about 1,500 won for rent and part-time wages, and 3,037 won is left.",
-    "And that's before the owner's own labor, electricity and gas."
-   ],
-   "asof": false,
-   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정) (임대료 약 500원 · 인건비 약 1,000원, 공과금·세금 빼기 전)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "치킨 2만 5천 원 · 다섯 조각",
-     "x": 140,
-     "y": 120,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 215,
-     "x1": 1780,
-     "y1": 215,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.02,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "본사 재료·포장",
-     "x": 140,
-     "y": 262,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "hbar",
-     "x": 560,
-     "y": 252,
-     "h": 72,
-     "wmax": 900,
-     "v": 11480,
-     "vmax": 11480,
-     "text": "11,480원",
-     "color": "ink",
-     "tsize": 60,
-     "line": 0,
-     "at": 0.08
-    },
-    {
-     "kind": "print",
-     "text": "배달앱",
-     "x": 140,
-     "y": 372,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "hbar",
-     "x": 560,
-     "y": 362,
-     "h": 72,
-     "wmax": 900,
-     "v": 6710,
-     "vmax": 11480,
-     "text": "6,710원",
-     "color": "ink",
-     "tsize": 60,
-     "line": 0,
-     "at": 0.18
-    },
-    {
-     "kind": "print",
-     "text": "부가세",
-     "x": 140,
-     "y": 482,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.25
-    },
-    {
-     "kind": "hbar",
-     "x": 560,
-     "y": 472,
-     "h": 72,
-     "wmax": 900,
-     "v": 2273,
-     "vmax": 11480,
-     "text": "2,273원",
-     "color": "ink",
-     "tsize": 60,
-     "line": 0,
-     "at": 0.28
-    },
-    {
-     "kind": "print",
-     "text": "임대료·인건비",
-     "x": 140,
-     "y": 592,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.35
-    },
-    {
-     "kind": "hbar",
-     "x": 560,
-     "y": 582,
-     "h": 72,
-     "wmax": 900,
-     "v": 1500,
-     "vmax": 11480,
-     "text": "1,500원",
-     "color": "ink",
-     "tsize": 60,
-     "line": 0,
-     "at": 0.38
-    },
-    {
-     "kind": "print",
-     "text": "남는 돈",
-     "x": 140,
-     "y": 702,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.6
-    },
-    {
-     "kind": "hbar",
-     "x": 560,
-     "y": 692,
-     "h": 72,
-     "wmax": 900,
-     "v": 3037,
-     "vmax": 11480,
-     "text": "3,037원",
-     "color": "red",
-     "tsize": 60,
      "line": 0,
      "at": 0.65
-    },
-    {
-     "kind": "print",
-     "text": "사장님 본인 일당·공과금 빼기 전",
-     "x": 1100,
-     "y": 790,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.4
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "phone_4919_a.jpg",
-    "chips": [
-     {
-      "v": "200~600원",
-      "l": "광고 클릭 1번",
-      "at": "0:200원"
-     },
-     {
-      "v": "최대 40%",
-      "l": "광고 많이 쓸 때 플랫폼 비용",
-      "at": "0:같은"
-     }
-    ]
-   },
-   "lines": [
-    "광고를 붙이면 이야기가 또 달라져요. 클릭 한 번에 200원에서 600원이 붙고 같은 계산에서 광고를 많이 쓰면 플랫폼 비용이 주문액의 40%까지 갑니다.",
-    "여기까지가 첫 번째 질문, 2만 5천 원의 행방이었어요. 이렇게 남는 게 적으면 버티지 못하는 곳도 나오겠죠. 실제로 얼마나 문을 닫았을까요?"
-   ],
-   "en": [
-    "Add ads and it changes again: 200 to 600 won per click, pushing platform costs up to 40% of the order.",
-    "That answers the first question, where the 25,000 won goes. So how many restaurants closed?"
-   ],
-   "asof": false,
-   "src": "아시아경제 2025년 10월 21일 '2만5000원짜리 치킨값 대해부'(서울·중개수수료 7.8% 구간·광고 없음 가정)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "광고비 · 클릭마다 과금",
-     "x": 1170,
-     "y": 630,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.8
-    },
-    {
-     "kind": "print",
-     "text": "첫 번째 질문 · 답 완료",
-     "x": 1170,
-     "y": 690,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "다음: 문 닫은 음식점 수",
-     "x": 1170,
-     "y": 740,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.5
-    },
-    {
-     "kind": "print",
-     "text": "두 번째 이야기",
-     "x": 1170,
-     "y": 790,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.85
     }
    ]
   },
   {
-   "chapter": "100만 명이 문을 닫은 해",
-   "v": {
-    "type": "title",
-    "text": "100만 명이 문을 닫은 해",
-    "sub": "두 번째 이야기"
-   },
-   "lines": [
-    "두 번째 이야기, 숫자로 보는 골목입니다. 국세청 통계로 2024년 폐업 신고는 100만 8천여 명, 집계 이후 처음 100만 명을 넘었어요."
-   ],
-   "en": [
-    "Part two, the street in numbers: in 2024 over 1,008,000 businesses filed to close, the first time above a million."
-   ],
-   "asof": false,
-   "src": "국세청 국세통계 (2024년 폐업자 1,008,282명 · 1995년 집계 이후 처음 100만 명 넘음)",
-   "sketch_add": []
-  },
-  {
    "v": {
     "type": "sketch"
    },
    "lines": [
-    "2025년에도 97만 5천여 명이 문을 닫았고 그중 음식업이 14만 2천여 명이었습니다.",
-    "하루로 나누면 음식업 폐업 신고가 매일 390건꼴입니다."
+    "그런데 반전이 있어요. 점포가 문을 닫아도 배달앱 매출은 줄지 않습니다. 배달앱은 주문 한 건마다 떼거든요.",
+    "A 치킨집이 문을 닫아도, 거기서 시키던 사람이 B 치킨집에서 시키면 수수료는 그대로 들어옵니다."
    ],
    "en": [
-    "In 2025, another 975,000 closed, 142,557 of them in food service.",
-    "That's about 390 restaurants pulling down the shutter every day."
-   ],
-   "asof": false,
-   "src": "국세청 국세통계 (2026년 7월 발표, 2025년 폐업자 975,681명 · 음식업 142,557명)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "2025년 폐업 신고 · 국세청",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 230,
-     "x1": 1780,
-     "y1": 230,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.03,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "전체 폐업",
-     "x": 220,
-     "y": 290,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "97만 5,681명",
-     "x": 220,
-     "y": 360,
-     "size": 110,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "그중 음식업",
-     "x": 1000,
-     "y": 290,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "write",
-     "text": "14만 2,557명",
-     "x": 1000,
-     "y": 350,
-     "size": 130,
-     "color": "red",
-     "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 560,
-     "x1": 1780,
-     "y1": 560,
-     "color": "gray",
-     "width": 3,
-     "line": 1,
-     "at": 0.02,
-     "dur": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "shutter",
-     "x": 160,
-     "y": 600,
-     "size": 150,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "하루 약 390건",
-     "x": 360,
-     "y": 620,
-     "size": 90,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.4
-    },
-    {
-     "kind": "print",
-     "text": "음식업 폐업 신고 · 365일로 나눔",
-     "x": 360,
-     "y": 740,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.75
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "서울시가 프랜차이즈 점포 186곳을 1년 동안 지켜본 조사도 있어요. 배달 매출에서 수수료가 차지하는 몫이 17.1%에서 24.0%로 뛰었습니다. 배달 매출 100원 중 수수료가 1년 새 17원에서 24원이 된 거예요.",
-    "아까 3,037원은 사장님 일당과 공과금을 빼기 전이었죠. 같은 조사에서 그런 비용까지 뺀 치킨집 영업이익률은 6.5%, 100원어치 팔면 6.5원이 남았습니다."
-   ],
-   "en": [
-    "A Seoul survey tracked 186 franchise shops for a year: fees rose from 17.1% to 24.0% of delivery sales.",
-    "Chicken shops' operating margin was 6.5%, meaning 6.5 won left from every 100 won sold."
-   ],
-   "asof": false,
-   "src": "서울시 2024 프랜차이즈 실태조사 (186개 점포, 2023년 10월 ~ 2024년 10월 · 매일경제 2025년 6월 26일)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "배달 매출 중 수수료 비중 · 서울 프랜차이즈 186곳",
-     "x": 140,
-     "y": 130,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 230,
-     "x1": 1780,
-     "y1": 230,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.05,
-     "dur": 0.3
-    },
-    {
-     "kind": "chart",
-     "series": [
-      17.1,
-      24.0
-     ],
-     "xs": [
-      0,
-      12
-     ],
-     "x": 260,
-     "y": 330,
-     "w": 760,
-     "h": 300,
-     "color": "red",
-     "width": 10,
-     "lo": 12,
-     "hi": 26,
-     "labels": {
-      "0": "17.1%",
-      "1": "24.0%"
-     },
-     "line": 0,
-     "at": 0.25,
-     "dur": 2.4
-    },
-    {
-     "kind": "print",
-     "text": "100원 중 17원 → 24원",
-     "x": 520,
-     "y": 250,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "2023년 10월",
-     "x": 200,
-     "y": 700,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "2024년 10월",
-     "x": 900,
-     "y": 700,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "print",
-     "text": "사장님 일당·공과금 뺀 뒤",
-     "x": 1220,
-     "y": 270,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "치킨집 영업이익률",
-     "x": 1220,
-     "y": 330,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.4
-    },
-    {
-     "kind": "write",
-     "text": "6.5%",
-     "x": 1220,
-     "y": 390,
-     "size": 160,
-     "color": "red",
-     "line": 1,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "100원 팔아 6.5원",
-     "x": 1220,
-     "y": 590,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.85
-    },
-    {
-     "kind": "print",
-     "text": "1년 새 6.9%p 상승",
-     "x": 140,
-     "y": 760,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.85
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "question",
-    "text": "수수료를 받는 쪽의 성적표",
-    "backdrop": "commons_seoulnight_1.jpg",
-    "bd_dim": 0.66
-   },
-   "lines": [
-    "점포가 이렇게 문을 닫는 동안, 수수료를 받는 쪽은 어땠을까요?"
-   ],
-   "en": [
-    "While shops were closing like this, how did the side collecting the fees do?"
-   ],
-   "asof": false,
-   "src": "사진: mauveine.kim · Wikimedia Commons (CC0)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "우아한형제들 · 2023 → 2025",
-     "x": 140,
-     "y": 720,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.5
-    }
-   ]
-  },
-  {
-   "chapter": "매출은 늘고 이익은 준 배민",
-   "v": {
-    "type": "title",
-    "text": "매출은 늘고 이익은 준 배민",
-    "sub": "세 번째 이야기"
-   },
-   "lines": [
-    "세 번째 이야기, 배민을 운영하는 우아한형제들의 성적표입니다. 매출은 2023년 3조 4천억 원에서 2025년 5조 2,830억 원으로 1.5배가 됐어요."
-   ],
-   "en": [
-    "Part three: Woowa Brothers, Baemin's operator. Revenue grew 1.5 times, from 3.4 trillion won in 2023 to 5.28 trillion in 2025."
-   ],
-   "asof": false,
-   "src": "우아한형제들 연결 감사보고서 (2024년 실적 2025년 4월 · 2025년 실적 2026년 4월 10일 공시)",
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "문 닫는 점포가 늘어도 배달앱 매출은 늘었어요. 이유 중 하나는 배달앱이 점포 하나가 아니라 주문 한 건마다 떼기 때문이에요.",
-    "A 치킨집이 문을 닫아도, 거기서 시키던 사람이 B 치킨집에서 시키면 수수료는 그대로 들어옵니다. 폐업 신고가 처음 100만 명을 넘은 해에도 배달앱 매출은 26% 늘었어요."
-   ],
-   "en": [
-    "Closures rose, yet app revenue grew, because the app earns on every order, not every shop.",
-    "If chicken shop A closes and the customer orders from shop B, the fee still comes in. Even in the year closures first topped a million, app revenue rose 26%."
+    "Here's the twist: closures don't shrink the app's revenue, because it earns on every order, not every shop.",
+    "If shop A closes and its customers order from shop B, the fee still comes in."
    ],
    "asof": false,
    "src": "우아한형제들 연결 감사보고서 (2024년 실적 2025년 4월 · 2025년 실적 2026년 4월 10일 공시)",
@@ -1426,17 +1366,6 @@
      "color": "red",
      "line": 0,
      "at": 0.85
-    },
-    {
-     "kind": "print",
-     "text": "폐업 100만 해에도 배달앱 매출 +26%",
-     "x": 140,
-     "y": 720,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.8
     },
     {
      "kind": "arrow",
@@ -1530,18 +1459,125 @@
   },
   {
    "v": {
+    "type": "stat",
+    "kicker": "치킨 본사 · 가맹점 1곳에서 받은 재료 마진 · 2024년",
+    "value": "4,100만",
+    "label": "원 · 외식 업종 중 최고",
+    "label_en": "Avg. supply markup per chicken franchise, 2024 (KFTC)",
+    "at": "1:4,100만",
+    "count": false,
+    "tags": []
+   },
+   "lines": [
+    "봉투 속 가장 큰 몫이던 재료값에도 본사 몫이 숨어 있어요.",
+    "치킨 본사가 가맹점 한 곳에서 남긴 재료 마진은 2024년 평균 4,100만 원, 직장인 한 해 연봉 가까이였습니다.",
+    "이 돈을 두고 올해 1월 대법원은, 점주 동의 없이 받은 재료 마진을 돌려주라고 한국피자헛에 판결하기도 했어요."
+   ],
+   "en": [
+    "The biggest slice, supplies, hides HQ's cut too.",
+    "Chicken HQs made an average 41 million won in supply markup per shop in 2024, close to a worker's annual salary.",
+    "In January the Supreme Court ordered Pizza Hut Korea to return markups taken without owners' consent."
+   ],
+   "asof": false,
+   "src": "공정거래위원회 2025년도 가맹사업 현황 (2024년 말 기준, 2026년 4월 발표) · MTN 2026년 1월 15일 (대법원 한국피자헛 판결) (외식 평균 2,600만 원)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "재료값 속 본사 몫",
+     "x": 1180,
+     "y": 650,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "가맹점 1곳 · 연봉 가까이",
+     "x": 150,
+     "y": 720,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "외식 업종 평균의 약 1.6배",
+     "x": 1180,
+     "y": 720,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.8
+    },
+    {
+     "kind": "print",
+     "text": "대법원 · 2026년 1월",
+     "x": 150,
+     "y": 790,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 2,
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "한국피자헛 · 마진 반환 판결",
+     "x": 1180,
+     "y": 790,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 2,
+     "at": 0.45
+    },
+    {
+     "kind": "print",
+     "text": "본사 마진 · 법정 다툼",
+     "x": 150,
+     "y": 650,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 2,
+     "at": 0.8
+    }
+   ]
+  },
+  {
+   "chapter": "배달앱도 웃지 못한 이유",
+   "v": {
+    "type": "title",
+    "text": "배달앱도 웃지 못한 이유",
+    "sub": "네 번째 이야기"
+   },
+   "lines": [
+    "네 번째 이야기, 그럼 배달앱은 신이 났을까요? 아니었습니다."
+   ],
+   "en": [
+    "Story four: so was the app thrilled? No."
+   ],
+   "asof": false,
+   "src": "",
+   "sketch_add": []
+  },
+  {
+   "v": {
     "type": "sketch"
    },
    "lines": [
-    "그런데 반전이 있어요. 영업이익은 거꾸로 갔습니다. 2023년 6,998억 원, 2024년 6,408억 원, 2025년 5,929억 원.",
-    "매출이 1.5배가 되는 동안 이익은 2년 연속 줄었어요."
+    "매출은 같은 기간 1.5배로 늘었는데, 배민의 영업이익은 두 해 연속 줄었어요. 2025년 이익은 2023년보다 1천억 원 넘게 적었습니다."
    ],
    "en": [
-    "But here's the twist: operating profit went the other way, 699.8 billion, then 640.8 billion, then 592.9 billion won.",
-    "Revenue grew 1.5 times while profit fell two years in a row."
+    "Baemin's operating profit fell two years running; 2025 was more than 100 billion won below two years earlier."
    ],
    "asof": false,
-   "src": "우아한형제들 연결 감사보고서 (2024년 실적 2025년 4월 · 2025년 실적 2026년 4월 10일 공시) (영업이익 2023년 6,998억 · 2024년 6,408억 · 2025년 5,929억 원)",
+   "src": "우아한형제들 연결 감사보고서 (영업이익 2023년 6,998억 · 2025년 5,929억 원, 2026년 4월 10일 공시)",
    "sketch": [
     {
      "kind": "print",
@@ -1568,9 +1604,9 @@
     },
     {
      "kind": "bar",
-     "x": 300,
+     "x": 420,
      "base": 720,
-     "w": 190,
+     "w": 220,
      "hmax": 380,
      "v": 6998,
      "vmax": 6998,
@@ -1582,23 +1618,9 @@
     },
     {
      "kind": "bar",
-     "x": 760,
+     "x": 1060,
      "base": 720,
-     "w": 190,
-     "hmax": 380,
-     "v": 6408,
-     "vmax": 6998,
-     "text": "6,408억",
-     "label": "2024년",
-     "color": "ink",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "bar",
-     "x": 1220,
-     "base": 720,
-     "w": 190,
+     "w": 220,
      "hmax": 380,
      "v": 5929,
      "vmax": 6998,
@@ -1606,18 +1628,18 @@
      "label": "2025년",
      "color": "red",
      "line": 0,
-     "at": 0.7
+     "at": 0.6
     },
     {
      "kind": "print",
-     "text": "매출 1.5배 · 이익 2년 연속 감소",
-     "x": 140,
-     "y": 790,
-     "size": 50,
+     "text": "2년 연속 감소",
+     "x": 1400,
+     "y": 400,
+     "size": 56,
      "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.3
+     "color": "red",
+     "line": 0,
+     "at": 0.8
     }
    ],
    "sketch_add": []
@@ -1625,30 +1647,16 @@
   {
    "v": {
     "type": "media",
-    "lib": "smartphone_41638_a.jpg",
-    "chips": [
-     {
-      "v": "2,302만 명",
-      "l": "배민 · 7월 이용자",
-      "at": "1:2,302만"
-     },
-     {
-      "v": "1,313만 명",
-      "l": "쿠팡이츠 · 7월 이용자",
-      "at": "1:1,313만"
-     }
-    ]
+    "lib": "smartphone_41638_a.jpg"
    },
    "lines": [
-    "그 사이 배달앱 두 곳이 정면으로 붙었어요. 2024년 봄 쿠팡이츠가 무료배달을 내걸었고 배민도 따라갔죠.",
-    "올해 7월 한 달 이용자는 배민 2,302만 명, 쿠팡이츠 1,313만 명. 두 앱이 같은 사람들을 놓고 돈을 쓰며 싸우는 중이에요."
+    "2024년 봄, 쿠팡이츠가 무료배달을 내걸었고 배민도 따라갔죠. 두 앱이 같은 사람들을 놓고 배달비를 대신 내 주며 싸우기 시작한 겁니다."
    ],
    "en": [
-    "Meanwhile the two apps went head to head: Coupang Eats offered free delivery, and Baemin followed.",
-    "In July, Baemin had 23 million monthly users and Coupang Eats 13 million, two apps spending to win the same people."
+    "In spring 2024 Coupang Eats offered free delivery and Baemin followed, both paying delivery costs to win the same customers."
    ],
    "asof": false,
-   "src": "와이즈앱·리테일 2026년 7월 월간 이용자 (KNN 2026년 8월 25일)",
+   "src": "쿠팡이츠 무료배달 2024년 3월 · 배민 2024년 4월 대응",
    "sketch_add": [
     {
      "kind": "print",
@@ -1670,29 +1678,93 @@
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
-     "at": 0.6
+     "at": 0.5
     },
     {
      "kind": "print",
-     "text": "월 이용자 · 2026년 7월",
+     "text": "같은 이용자 · 배달비 대신 부담",
      "x": 1170,
      "y": 740,
      "size": 38,
      "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.8
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "delivery_42130_a.jpg",
+    "caption": "무료배달 · 배달비는 사라지지 않음",
+    "caption_at": "0"
+   },
+   "lines": [
+    "무료배달이라고 배달비가 사라지는 건 아니에요. 라이더에게 줄 돈은 누군가 내야 하고 그 몫을 배달앱이 떠안으면서 주문이 늘수록 비용도 같이 늘었습니다.",
+    "그래도 물러설 수는 없었어요. 이용자를 빼앗기면 길목 자체가 흔들리니까요."
+   ],
+   "en": [
+    "Free delivery doesn't make the cost vanish. Someone pays the rider, and as the app took that on, costs grew with every order.",
+    "But retreat wasn't an option: lose the users and the path itself is at risk."
+   ],
+   "asof": false,
+   "src": "",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "라이더 배달비",
+     "x": 1170,
+     "y": 520,
+     "size": 40,
+     "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.85
+     "at": 0.3
     },
     {
      "kind": "print",
-     "text": "같은 이용자 · 돈 쓰는 경쟁",
+     "text": "배달앱이 대신 부담",
      "x": 1170,
-     "y": 790,
-     "size": 38,
+     "y": 580,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.55
+    },
+    {
+     "kind": "print",
+     "text": "주문 증가 = 비용 증가",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.8
+    },
+    {
+     "kind": "print",
+     "text": "물러설 수 없는 싸움",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.2
+    },
+    {
+     "kind": "print",
+     "text": "이용자 = 길목",
+     "x": 1170,
+     "y": 760,
+     "size": 40,
      "w": "ExtraBold",
      "color": "red",
      "line": 1,
-     "at": 0.65
+     "at": 0.6
     }
    ]
   },
@@ -1702,59 +1774,29 @@
     "words": [
      {
       "t": "이용자 증가 둔화",
-      "at": "0:크게"
-     },
-     {
-      "t": "상대 이용자 데려오기",
-      "at": "0:상대"
-     },
-     {
-      "t": "무료배달 비용",
-      "at": "0:무료배달"
-     },
-     {
-      "t": "주문 늘수록 비용도",
-      "at": "0:주문이",
-      "c": "red"
+      "at": "0:늘기"
      },
      {
       "t": "덩치를 키우는 방법?",
-      "at": "1:빠른",
+      "at": "0:덩치를",
       "under": true
      },
      {
-      "t": "미국 회사의 답",
-      "at": "1:미국",
+      "t": "미국에서 온 답",
+      "at": "0:미국에서",
       "c": "red"
      }
     ],
-    "backdrop": "delivery_31155_a.jpg"
+    "backdrop": "delivery_31136_a.jpg"
    },
    "lines": [
-    "새 이용자가 크게 늘기 어려운 시장에서는 상대 이용자를 데려오는 게 빠른 길이고 그 값이 무료배달이었어요. 그 비용을 배달앱이 떠안는 만큼 주문이 늘수록 비용도 같이 늘죠.",
-    "그럼 이 싸움에서 덩치를 키우는 가장 빠른 방법은 뭘까요? 잠시 뒤에 나오는 미국 회사가 그 답을 보여 줍니다."
+    "새 이용자가 늘기 어려운 시장에서 덩치를 키우는 가장 빠른 방법은 뭘까요? 답은 미국에서 왔습니다."
    ],
    "en": [
-    "When customers are the same, the fight is fought with money: who pays for free delivery.",
-    "So what's the surest way to end this fight? An American company coming up shows the answer."
+    "In a market where new users are scarce, what's the fastest way to grow? The answer came from America."
    ],
    "asof": false,
-   "sketch_add": []
-  },
-  {
-   "chapter": "본사의 세 주머니",
-   "v": {
-    "type": "title",
-    "text": "본사의 세 주머니",
-    "sub": "네 번째 이야기"
-   },
-   "lines": [
-    "우버 얘기 전에, 봉투에서 가장 큰 조각인 재료값 1만 1,480원부터 볼게요. 이 돈은 본사를 거쳐 나갑니다. 네 번째 이야기, 그 안에 숨은 본사 몫이에요."
-   ],
-   "en": [
-    "Before that, the biggest slice of the bag. Part four: the franchise headquarters."
-   ],
-   "asof": false,
+   "src": "",
    "sketch_add": []
   },
   {
@@ -1762,19 +1804,17 @@
     "type": "sketch"
    },
    "lines": [
-    "본사가 버는 길은 크게 세 가지예요. 점포를 열 때 받는 가맹비·교육비, 인테리어 공사, 그리고 재료를 대면서 붙이는 마진입니다.",
-    "이 세 번째를 차액가맹금이라고 불러요. 본사가 닭을 사 온 값과 가맹점에 넘긴 값의 차이입니다."
+    "미국 1위 배달앱 도어대시는 지난해 영국 딜리버루를 사들였고 지난달에는 장보기 배달 인스타카트까지 사겠다고 발표했어요. 다른 회사를 사서 덩치를 키우는 겁니다."
    ],
    "en": [
-    "HQs earn three ways: franchise and training fees at opening, interior work, and a margin on supplies.",
-    "That third one is the supply markup: the gap between what HQ pays for chicken and what it charges the shop."
+    "America's top delivery app DoorDash bought Britain's Deliveroo last year, and last month announced a deal for grocery delivery app Instacart: growing by buying."
    ],
    "asof": false,
-   "src": "공정거래위원회 가맹사업 정보공개서 항목 (가맹금·인테리어·차액가맹금)",
+   "src": "도어대시 2026년 3분기 실적 발표 (2026년 10월 29일, 인스타카트 인수 발표) · 딜리버루 인수 완료 2025년 10월 2일",
    "sketch": [
     {
      "kind": "print",
-     "text": "프랜차이즈 본사 수입 · 세 가지",
+     "text": "도어대시 (미국) · 인수로 덩치 키우기",
      "x": 140,
      "y": 130,
      "size": 52,
@@ -1797,105 +1837,69 @@
     },
     {
      "kind": "icons",
-     "icon": "pouch",
-     "x": 200,
+     "icon": "scooter",
+     "x": 160,
      "y": 300,
      "size": 170,
      "n": 1,
      "gap": 24,
      "color": "ink",
      "line": 0,
-     "at": 0.1
+     "at": 0.05
     },
     {
-     "kind": "print",
-     "text": "가맹비·교육비",
-     "x": 160,
-     "y": 500,
-     "size": 50,
-     "w": "ExtraBold",
+     "kind": "arrow",
+     "pts": [
+      [
+       420,
+       360
+      ],
+      [
+       620,
+       360
+      ]
+     ],
      "color": "ink",
-     "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "개점 때 1번",
-     "x": 160,
-     "y": 570,
-     "size": 42,
-     "w": "ExtraBold",
-     "color": "gray",
      "line": 0,
      "at": 0.2
     },
     {
-     "kind": "icons",
-     "icon": "pouch",
-     "x": 820,
-     "y": 300,
-     "size": 170,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.35
-    },
-    {
      "kind": "print",
-     "text": "인테리어 공사",
-     "x": 780,
-     "y": 500,
-     "size": 50,
+     "text": "딜리버루 (영국) · 2025년",
+     "x": 660,
+     "y": 330,
+     "size": 52,
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
-     "at": 0.4
+     "at": 0.25
+    },
+    {
+     "kind": "arrow",
+     "pts": [
+      [
+       420,
+       470
+      ],
+      [
+       620,
+       470
+      ]
+     ],
+     "color": "ink",
+     "line": 0,
+     "at": 0.5
     },
     {
      "kind": "print",
-     "text": "개점 때 1번",
-     "x": 780,
-     "y": 570,
-     "size": 42,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "icons",
-     "icon": "pouch",
-     "x": 1440,
-     "y": 300,
-     "size": 170,
-     "n": 1,
-     "gap": 24,
-     "color": "red",
-     "line": 0,
-     "at": 0.65
-    },
-    {
-     "kind": "print",
-     "text": "차액가맹금",
-     "x": 1400,
-     "y": 500,
-     "size": 56,
+     "text": "인스타카트 (장보기) · 2026년 발표",
+     "x": 660,
+     "y": 440,
+     "size": 52,
      "w": "ExtraBold",
      "color": "red",
      "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "print",
-     "text": "영업하는 내내",
-     "x": 1400,
-     "y": 570,
-     "size": 42,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.75
+     "at": 0.55
     },
     {
      "kind": "rule",
@@ -1905,410 +1909,18 @@
      "y1": 660,
      "color": "gray",
      "width": 3,
-     "line": 1,
-     "at": 0.05,
+     "line": 0,
+     "at": 0.85,
      "dur": 0.3
     },
     {
      "kind": "print",
-     "text": "차액가맹금 = 가맹점 공급가와 본사 매입가의 차이",
+     "text": "이용자를 사는 가장 빠른 길 · 인수",
      "x": 140,
      "y": 700,
      "size": 52,
      "w": "ExtraBold",
      "color": "ink",
-     "line": 1,
-     "at": 0.4
-    },
-    {
-     "kind": "under",
-     "x0": 140,
-     "x1": 560,
-     "y": 780,
-     "line": 1,
-     "at": 0.85,
-     "color": "red"
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "stat",
-    "kicker": "치킨 본사 차액가맹금 · 가맹점 1곳 평균 · 2024년",
-    "value": "4,100만",
-    "label": "원 · 외식 업종 중 최고",
-    "label_en": "Avg. supply markup per chicken franchise, 2024 (KFTC)",
-    "at": "0:4,100만",
-    "count": false,
-    "tags": [
-     {
-      "text": "외식 평균 2,600만 원",
-      "at": "0:외식",
-      "kind": "gold"
-     },
-     {
-      "text": "외식 매출 대비 4.4%",
-      "at": "1:연봉",
-      "kind": "gold"
-     }
-    ]
-   },
-   "lines": [
-    "공정거래위원회 집계로 치킨 본사가 가맹점 한 곳에서 남긴 차액가맹금은 2024년 평균 4,100만 원, 외식 업종 가운데 가장 많았어요.",
-    "가맹점 한 곳에서 재료 마진으로만 직장인 한 해 연봉 가까이를 받은 거예요. 다만 이건 본사의 매출 마진이라 순이익과는 다릅니다."
-   ],
-   "en": [
-    "By the Fair Trade Commission's count, chicken HQs earned an average 41 million won in supply markup per shop in 2024, the most of any food sector.",
-    "Without frying a single chicken, about an office worker's annual salary per shop."
-   ],
-   "asof": false,
-   "src": "공정거래위원회 2025년도 가맹사업 현황 (2024년 말 기준, 2026년 4월 발표 · 뉴시스 2026년 4월 11일)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "공정거래위원회 집계",
-     "x": 1180,
-     "y": 650,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "2026년 4월 발표",
-     "x": 1180,
-     "y": 720,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "가맹점 1곳 · 연봉 가까이",
-     "x": 150,
-     "y": 680,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 1,
-     "at": 0.25
-    },
-    {
-     "kind": "under",
-     "x0": 150,
-     "x1": 700,
-     "y": 745,
-     "line": 1,
-     "at": 0.55,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "매출 마진 · 순이익과 다름",
-     "x": 150,
-     "y": 760,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.85
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "이 돈을 두고 법정 다툼도 이어지고 있어요. 올해 1월 대법원은 한국피자헛이 점주 동의 없이 받은 차액가맹금 215억 원을 돌려줘야 한다고 판결했습니다.",
-    "교촌을 포함해 치킨·피자 브랜드 20여 곳의 점주들도 비슷한 소송을 하고 있어요. 본사 몫은 재료가 오갈 때마다 들어오고 점주 몫은 그 뒤에 남는 돈이라는 게 다툼의 뿌리예요."
-   ],
-   "en": [
-    "Courts are involved too: in January, Korea's Supreme Court ordered Pizza Hut Korea to return 21.5 billion won taken without owners' consent.",
-    "Owners of about 20 chicken and pizza brands, including Kyochon, have filed similar suits. HQ earns every time supplies move; owners keep only what is left."
-   ],
-   "asof": false,
-   "src": "MTN 2026년 1월 15일 (대법원 한국피자헛 판결, 점주 94명) · 헤럴드경제 2026년 4월 14일 (교촌 점주 약 230명 소송, 20여 개 브랜드)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "차액가맹금 · 법정 다툼",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 230,
-     "x1": 1780,
-     "y1": 230,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.02,
-     "dur": 0.3
-    },
-    {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/newspaper_41191_a.jpg",
-     "x": 1240,
-     "y": 140,
-     "w": 540,
-     "h": 380,
-     "rot": 3,
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "대법원 · 2026년 1월",
-     "x": 140,
-     "y": 280,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.2
-    },
-    {
-     "kind": "write",
-     "text": "215억 원",
-     "x": 140,
-     "y": 340,
-     "size": 150,
-     "color": "red",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "print",
-     "text": "한국피자헛 · 동의 없이 받은 차액가맹금 반환",
-     "x": 140,
-     "y": 530,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.75
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 610,
-     "x1": 1780,
-     "y1": 610,
-     "color": "gray",
-     "width": 3,
-     "line": 1,
-     "at": 0.02,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "교촌 포함 치킨·피자 20여 개 브랜드 · 비슷한 소송",
-     "x": 140,
-     "y": 645,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "교촌 점주 약 230명",
-     "x": 1240,
-     "y": 650,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.35
-    },
-    {
-     "kind": "print",
-     "text": "본사 몫: 재료가 오갈 때마다",
-     "x": 140,
-     "y": 730,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "점주 몫: 그 뒤 남는 돈",
-     "x": 900,
-     "y": 730,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 1,
-     "at": 0.85
-    }
-   ],
-   "sketch_add": []
-  },
-  {
-   "chapter": "우버가 그리는 배달 지도",
-   "v": {
-    "type": "title",
-    "text": "우버가 그리는 배달 지도",
-    "sub": "다섯 번째 이야기"
-   },
-   "lines": [
-    "다섯 번째 이야기, 아까의 질문으로 돌아갑니다. 배달앱 싸움에서 덩치를 단번에 키우는 방법 중 하나는, 남의 회사를 사는 거예요."
-   ],
-   "en": [
-    "Part five, back to the earlier question. The surest way to end a delivery-app fight is to merge."
-   ],
-   "asof": false,
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "미국 1위 배달앱 도어대시는 지난해 10월 영국 딜리버루 인수를 마쳤고 10월 말에는 장보기 배달 인스타카트를 약 170억 달러에 사겠다고 발표했어요."
-   ],
-   "en": [
-    "DoorDash, America's top delivery app, closed its Deliveroo deal last October, and in late October announced a roughly 17-billion-dollar deal for Instacart."
-   ],
-   "asof": false,
-   "src": "도어대시 2026년 3분기 실적 발표 (2026년 10월 29일 · 총주문 9억 9,300만 건, 순이익 4억 6,600만 달러, 인스타카트 인수 발표) · 딜루버루 인수 완료 2025년 10월 2일",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "도어대시 · 몸집 키우기",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 230,
-     "x1": 1780,
-     "y1": 230,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.03,
-     "dur": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "scooter",
-     "x": 160,
-     "y": 290,
-     "size": 170,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "도어대시 (미국)",
-     "x": 360,
-     "y": 320,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.08
-    },
-    {
-     "kind": "arrow",
-     "pts": [
-      [
-       780,
-       350
-      ],
-      [
-       960,
-       350
-      ]
-     ],
-     "color": "ink",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "딜리버루 (영국) · 2025년 10월",
-     "x": 1000,
-     "y": 320,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.32
-    },
-    {
-     "kind": "arrow",
-     "pts": [
-      [
-       780,
-       450
-      ],
-      [
-       960,
-       450
-      ]
-     ],
-     "color": "ink",
-     "line": 0,
-     "at": 0.65
-    },
-    {
-     "kind": "print",
-     "text": "인스타카트 · 약 170억 달러",
-     "x": 1000,
-     "y": 420,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.68
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 560,
-     "x1": 1780,
-     "y1": 560,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.85,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "2026년 3분기 · 주문 9억 9,300만 건 · 순이익 4억 6,600만 달러",
-     "x": 140,
-     "y": 600,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
      "line": 0,
      "at": 0.9
     }
@@ -2316,60 +1928,50 @@
    "sketch_add": []
   },
   {
+   "chapter": "우버가 사려는 것",
    "v": {
-    "type": "sketch"
+    "type": "title",
+    "text": "우버가 사려는 것",
+    "sub": "다섯 번째 이야기"
    },
    "lines": [
-    "우버는 판을 더 크게 벌였어요. 지난 7월, 배민의 주인인 독일 딜리버리히어로 주식을 한 주에 41.50유로씩, 모두 약 148억 달러에 사겠다고 나섰습니다.",
-    "딜리버리히어로는 우아한형제들 지분을 사실상 100% 갖고 있어요. 거래가 끝나면 치킨은 서울에서 튀겼는데 그 수수료는 샌프란시스코 회사 실적에 잡힐 수 있어요."
+    "다섯 번째 이야기, 지난 7월입니다. 우버가 배민의 주인 딜리버리히어로를 사겠다며 주주들에게 공개 제안을 냈어요."
    ],
    "en": [
-    "Uber went bigger: in July it offered 41.50 euros a share, about 14.8 billion dollars, for Germany's Delivery Hero, Baemin's owner.",
-    "Delivery Hero owns essentially 100% of Woowa. If the deal closes, chicken fried in Seoul could show up as fees in a San Francisco company's results."
+    "Story five, last July: Uber made a public offer to buy Delivery Hero, Baemin's owner."
    ],
    "asof": false,
-   "src": "우버 공개매수 신고서 (2026년 8월 27일, 딜리버리히어로 주당 41.50유로 · 청약 11월 5일까지) · 공정거래위원회 기업결합 심사 착수 (2026년 9월 22일) · 우아한형제들 지분 우아한DH아시아 99.98% (토요경제 2026년 4월 21일)",
-   "sketch": [
+   "src": "우버 공개매수 신고서 (2026년 8월 27일, 딜리버리히어로 주당 41.50유로 · 청약 11월 5일까지)",
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "stat",
+    "kicker": "우버 · 딜리버리히어로 공개매수 · 2026년 7월 발표",
+    "value": "약 21조",
+    "label": "원 · 응모 마감 11월 5일",
+    "label_en": "Uber's offer for Delivery Hero, about 21 trillion won",
+    "at": "0:약",
+    "count": false,
+    "tags": []
+   },
+   "lines": [
+    "규모는 우리 돈 약 21조 원입니다.",
+    "2019년에 4조 7,500억 원이던 배민을 품은 회사를, 이번엔 그보다 훨씬 큰 값에 사겠다는 거예요."
+   ],
+   "en": [
+    "The deal is worth about 21 trillion won.",
+    "The company that bought Baemin for 4.75 trillion won in 2019 is now being bought for far more."
+   ],
+   "asof": false,
+   "src": "우버 공개매수 신고서 (주당 41.50유로, 약 125억 유로 · 약 148억 달러) · 머니투데이 2026년 7월 22일 (약 21조 원)",
+   "sketch_add": [
     {
      "kind": "print",
-     "text": "배민의 주인 · 지분 구조",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 230,
-     "x1": 1780,
-     "y1": 230,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.03,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "우버 (미국)",
-     "x": 140,
-     "y": 300,
-     "size": 64,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "공개매수 · 1주 41.50유로 · 약 148억 달러",
-     "x": 140,
-     "y": 390,
-     "size": 46,
+     "text": "2026년 7월 · 공개매수",
+     "x": 1180,
+     "y": 720,
+     "size": 40,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
@@ -2377,86 +1979,142 @@
     },
     {
      "kind": "print",
-     "text": "2026년 7월 16일 발표",
-     "x": 140,
-     "y": 460,
-     "size": 44,
+     "text": "2019년 배민 인수 · 4조 7,500억 원",
+     "x": 150,
+     "y": 720,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.15
+    },
+    {
+     "kind": "print",
+     "text": "이번엔 훨씬 큰 값",
+     "x": 150,
+     "y": 790,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.55
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "datacenter_23282_a.jpg",
+    "caption": "투자 심사의 마지막 질문 · 대체할 수 있는가",
+    "caption_at": "1"
+   },
+   "lines": [
+    "제가 사모펀드에서 일하며 데이터센터를 땅부터 개발하고 AI 반도체 회사 투자에도 참여해 봤는데요.",
+    "투자를 심사할 때 결국 남는 질문은 하나였습니다. 이 회사가 빠지면 거래가 다른 길로 돌아갈 수 있나.",
+    "데이터센터에서는 전력과 통신망이, 배달에서는 주문이 몰리는 앱 화면이 바로 그런 자리예요."
+   ],
+   "en": [
+    "When I worked at a private equity fund, I developed a data center from the land up and took part in an AI chip investment.",
+    "In every review, one question was left at the end: if this company disappeared, could the business route around it?",
+    "For a data center that spot is power and fiber; for delivery, it is the app screen where orders gather."
+   ],
+   "asof": false,
+   "src": "",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "사모펀드 · 데이터센터 개발",
+     "x": 1170,
+     "y": 520,
+     "size": 40,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.8
-    },
-    {
-     "kind": "arrow",
-     "pts": [
-      [
-       1000,
-       330
-      ],
-      [
-       1160,
-       330
-      ]
-     ],
-     "color": "ink",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "print",
-     "text": "딜리버리히어로 (독일)",
-     "x": 1200,
-     "y": 300,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.5
-    },
-    {
-     "kind": "arrow",
-     "pts": [
-      [
-       1440,
-       380
-      ],
-      [
-       1440,
-       520
-      ]
-     ],
-     "color": "ink",
-     "line": 1,
-     "at": 0.05
-    },
-    {
-     "kind": "print",
-     "text": "지분 사실상 100%",
-     "x": 1000,
-     "y": 430,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "우아한형제들 (배민)",
-     "x": 1200,
-     "y": 560,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
      "at": 0.2
     },
     {
      "kind": "print",
-     "text": "사실상 100% 자회사",
-     "x": 1200,
+     "text": "AI 반도체 투자 참여",
+     "x": 1170,
+     "y": 580,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.6
+    },
+    {
+     "kind": "print",
+     "text": "이 회사가 빠지면?",
+     "x": 1170,
      "y": 640,
-     "size": 44,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.5
+    },
+    {
+     "kind": "print",
+     "text": "데이터센터 · 전력·통신망",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 2,
+     "at": 0.2
+    },
+    {
+     "kind": "print",
+     "text": "배달 · 주문이 몰리는 앱 화면",
+     "x": 1170,
+     "y": 760,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 2,
+     "at": 0.6
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_uberhq_3.jpg",
+    "caption": "서울의 주문 → 샌프란시스코 실적",
+    "caption_at": "1"
+   },
+   "lines": [
+    "우버가 사려는 것도 바로 그 길목이에요.",
+    "거래가 끝나면 서울에서 튀긴 치킨의 수수료가 샌프란시스코 회사의 실적에 잡힙니다.",
+    "사모펀드에서는 회사를 살 때 얼마에 사는지만큼, 산 값을 어디서 회수할지를 먼저 계산합니다. 21조 원을 낸 쪽이 이 길목에서 무엇을 더 걷으려 할지, 사장님들이 긴장하는 이유예요."
+   ],
+   "en": [
+    "What Uber is buying isn't chicken; it's that path.",
+    "If the deal closes, fees on chicken fried in Seoul land in a San Francisco company's results.",
+    "In private equity you work out where you will earn back the price as carefully as the price itself. That's why owners wonder what a 21-trillion-won buyer will collect on this path."
+   ],
+   "asof": false,
+   "src": "사진: HaeB · Wikimedia Commons (CC BY-SA 4.0) · 우아한형제들 지분 우아한DH아시아 99.98% (토요경제 2026년 4월 21일)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "우버가 사려는 것 · 길목",
+     "x": 1170,
+     "y": 520,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "서울 수수료 → 우버 실적",
+     "x": 1170,
+     "y": 580,
+     "size": 40,
      "w": "ExtraBold",
      "color": "gray",
      "line": 1,
@@ -2464,17 +2122,38 @@
     },
     {
      "kind": "print",
-     "text": "거래 완료 시 · 배민 실적 = 우버 실적",
-     "x": 140,
-     "y": 720,
-     "size": 52,
+     "text": "사모펀드 · 회수 계산",
+     "x": 1170,
+     "y": 640,
+     "size": 40,
      "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.75
+     "color": "gray",
+     "line": 2,
+     "at": 0.15
+    },
+    {
+     "kind": "print",
+     "text": "21조 원 · 어디서 회수?",
+     "x": 1170,
+     "y": 700,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 2,
+     "at": 0.4
+    },
+    {
+     "kind": "print",
+     "text": "사장님들의 긴장",
+     "x": 1170,
+     "y": 760,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 2,
+     "at": 0.7
     }
-   ],
-   "sketch_add": []
+   ]
   },
   {
    "v": {
@@ -2505,12 +2184,12 @@
     ]
    },
    "lines": [
-    "사실 이런 일이 처음은 아니에요. 2020년 12월, 공정위는 딜리버리히어로가 배민을 사는 걸 허락하면서 조건을 붙였습니다. 이미 갖고 있던 요기요를 팔라는 거였죠.",
-    "공정위는 1위와 2위가 한 지붕 아래 들어가면 수수료가 올라도 옮겨 갈 곳이 없어진다고 봤어요. 이번에도 공정위는 9월에 심사를 시작했습니다."
+    "물론 이 길목을 너무 크게 쥐는 걸 막는 쪽도 있어요. 2020년 공정위는 딜리버리히어로가 배민을 사는 걸 허락하면서 갖고 있던 요기요를 팔라는 조건을 붙였습니다.",
+    "1위와 2위가 한 지붕 아래 들어가면 사장님도 소비자도 옮겨 갈 곳이 없어진다는 이유였죠. 이번에도 공정위는 9월에 심사를 시작했습니다. 이 심사의 결론이 길목의 다음 주인을 정하게 됩니다."
    ],
    "en": [
-    "It's not the first time. In December 2020, the KFTC approved Delivery Hero's purchase of Baemin on one condition: sell Yogiyo, which it already owned.",
-    "If No.1 and No.2 share a roof, there's nowhere to go when fees rise. This time too, the KFTC began its review in September."
+    "Someone does guard that path. In 2020 the FTC let Delivery Hero buy Baemin only if it sold Yogiyo.",
+    "Putting No.1 and No.2 under one roof would leave owners and customers nowhere to go. This September the FTC opened a new review, and its verdict will decide the path's next owner."
    ],
    "asof": false,
    "src": "공정거래위원회 딜리버리히어로·우아한형제들 기업결합 조건부 승인 (2020년 12월 28일) · 딜리버루 인수 완료 2025년 10월 2일 · 우버 공개매수 신고서 (2026년 8월 27일, 딜리버리히어로 주당 41.50유로 · 청약 11월 5일까지) · 공정거래위원회 기업결합 심사 착수 (2026년 9월 22일)",
@@ -2536,6 +2215,90 @@
      "color": "red",
      "line": 1,
      "at": 0.6
+    },
+    {
+     "kind": "print",
+     "text": "선택지 사라짐 우려",
+     "x": 1100,
+     "y": 790,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "심사 결론 → 다음 주인",
+     "x": 140,
+     "y": 790,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.85
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_seoulnight_3.jpg"
+   },
+   "lines": [
+    "국회에는 결제·배달비·광고까지 합친 총수수료를 15%로 묶자는 법안도 올라가 있어요.",
+    "다만 상한이 생기면 무료배달 지원이 줄어, 배달비가 다시 소비자에게 돌아올 수 있다는 반론도 있습니다."
+   ],
+   "en": [
+    "A bill in the National Assembly would cap total fees, including payment, delivery and ads, at 15%.",
+    "Critics say a cap could cut free-delivery support and push delivery costs back onto customers."
+   ],
+   "asof": false,
+   "src": "CEO스코어데일리 2026년 10월 14일 (수수료 상한 법안 3건 · 정무위 계류) · 사진: Takipoint123 · Wikimedia Commons (CC BY-SA 4.0)",
+   "sketch_add": [
+    {
+     "kind": "print",
+     "text": "총수수료 상한 15% · 법안",
+     "x": 1170,
+     "y": 560,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "사장님 부담 감소",
+     "x": 1170,
+     "y": 630,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "green",
+     "line": 0,
+     "at": 0.7
+    },
+    {
+     "kind": "print",
+     "text": "반론 · 소비자 배달비 상승?",
+     "x": 1170,
+     "y": 700,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 1,
+     "at": 0.4
+    },
+    {
+     "kind": "print",
+     "text": "소비자 배달비로 돌아올 수도",
+     "x": 1170,
+     "y": 770,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.75
     }
    ]
   },
@@ -2544,14 +2307,14 @@
     "type": "sketch"
    },
    "lines": [
-    "그럼 이렇게 큰돈을 쓰려는 우버는 지금 버는 돈에 비해 비싼 회사일까요?",
-    "워렌 버핏과 벤저민 그레이엄의 기준으로 계산하는 밸류노트로 보면, 우버는 100점 만점에 {score}점이에요. 돈 버는 힘인 재무 점수가 {q_score}점, 지금 이익에 견준 가격 점수가 {v_score}점입니다. 가격 점수가 낮을수록 지금 이익보다 앞날의 기대가 주가에 더 많이 들어 있다는 뜻이에요."
+    "끝까지 봐 주신 분들께 하나만 더 말씀드릴게요. 워렌 버핏 등 투자 거장이 기업을 볼 때 쓰는 기준으로 계산하는 밸류노트에서, 우버는 100점 만점에 {score}점입니다.",
+    "배민의 주인이 바뀌면 이 점수를 움직이는 숫자에 오늘 밤 우리 동네 치킨 주문도 들어가게 됩니다."
    ],
    "en": [
-    "So is Uber, ready to spend this much, expensive against what it earns now?",
-    "By ValueNote, which scores companies on Warren Buffett's and Benjamin Graham's standards, Uber scores {score} out of 100: {q_score} for financial strength and {v_score} for price against current earnings. The lower the price score, the more future hopes are already in the stock."
+    "One more thing for those who stayed: on ValueNote, which scores companies by the standards investors like Warren Buffett use, Uber scores {score} out of 100.",
+    "If Baemin changes hands, tonight's chicken orders become part of the numbers behind that score."
    ],
-   "asof": false,
+   "asof": true,
    "src": "밸류노트 우버 데이터 ({asof} 기준)",
    "sketch": [
     {
@@ -2578,221 +2341,21 @@
      "dur": 0.3
     },
     {
-     "kind": "icons",
-     "icon": "ledger",
-     "x": 160,
-     "y": 290,
-     "size": 150,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "148억 달러를 쓰려는 회사",
-     "x": 1300,
-     "y": 300,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "워렌 버핏·벤저민 그레이엄 기준 계산",
-     "x": 340,
-     "y": 300,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "재무 · 가격 · 정성 평가 · 산업 흐름 종합",
-     "x": 340,
-     "y": 370,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.8
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 440,
-     "x1": 1780,
-     "y1": 440,
-     "color": "gray",
-     "width": 3,
-     "line": 1,
-     "at": 0.0,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "밸류노트 점수",
-     "x": 140,
-     "y": 470,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.05
-    },
-    {
      "kind": "write",
      "text": "{score}점",
-     "x": 140,
-     "y": 530,
-     "size": 150,
+     "x": 220,
+     "y": 320,
+     "size": 170,
      "color": "ink",
-     "line": 1,
-     "at": 0.12
-    },
-    {
-     "kind": "print",
-     "text": "재무 점수 {q_score}점",
-     "x": 760,
-     "y": 500,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "가격 점수 {v_score}점",
-     "x": 760,
-     "y": 590,
-     "size": 56,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
+     "line": 0,
      "at": 0.45
     },
     {
-     "kind": "under",
-     "x0": 760,
-     "x1": 1180,
-     "y": 660,
-     "line": 1,
-     "at": 0.72,
-     "color": "red"
-    },
-    {
      "kind": "print",
-     "text": "보수적 계산 값 {iv} · {px_label} {px}",
-     "x": 140,
-     "y": 700,
+     "text": "워렌 버핏 등 투자 거장의 기준으로 계산",
+     "x": 760,
+     "y": 350,
      "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "가격 점수 낮을수록 기대가 주가에 더 반영",
-     "x": 140,
-     "y": 770,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.85
-    }
-   ],
-   "sketch_add": [],
-   "fine": "목표 주가가 아니며 매수·매도 신호가 아닙니다"
-  },
-  {
-   "chapter": "수수료 상한 15%",
-   "v": {
-    "type": "title",
-    "text": "수수료 상한 15%",
-    "sub": "조금만 더 들어가 보면"
-   },
-   "lines": [
-    "조금만 더 들어가 볼게요. 7.8%만 보면 놓치는 게 있어요. 그건 중개수수료 하나일 뿐이거든요."
-   ],
-   "en": [
-    "Going a bit deeper: the 7.8% you often hear is only the commission."
-   ],
-   "asof": false,
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "결제 수수료, 배달비, 광고비까지 합친 걸 총수수료라고 해요. 올해 10월 보도된 조사에서는 입점 업체가 결제·배달비·광고까지 합쳐 내는 돈이 월매출의 평균 26.2%였습니다.",
-    "그래서 국회에는 이 총수수료를 15%로 묶자는 법안이 세 건 올라가 있어요. 10월 중순까지 정무위원회에서 처리되지 않았습니다."
-   ],
-   "en": [
-    "Add card fees, delivery and ads and you get the total fee: on average 26.2% of a shop's monthly sales.",
-    "Three bills in the National Assembly would cap the total at 15%; as of mid-October they were still in committee."
-   ],
-   "asof": false,
-   "src": "CEO스코어데일리 2026년 10월 14일 (입점업체 거래비용 월매출 평균 26.2% · 수수료 상한 법안 3건 정무위 계류)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "배달앱에 내는 돈 · 월매출 대비",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 230,
-     "x1": 1780,
-     "y1": 230,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.03,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "중개수수료만",
-     "x": 140,
-     "y": 300,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "write",
-     "text": "7.8%",
-     "x": 140,
-     "y": 360,
-     "size": 140,
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "앞에서 본 숫자",
-     "x": 140,
-     "y": 510,
-     "size": 40,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
@@ -2800,185 +2363,50 @@
     },
     {
      "kind": "print",
-     "text": "총수수료 평균",
+     "text": "재무 {q_score}점 · 가격 {v_score}점",
      "x": 760,
-     "y": 300,
-     "size": 50,
+     "y": 430,
+     "size": 46,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "print",
-     "text": "26.2%",
-     "x": 760,
-     "y": 360,
-     "size": 140,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "2026년 10월 보도 조사",
-     "x": 760,
-     "y": 510,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.72
-    },
-    {
-     "kind": "print",
-     "text": "중개 + 결제 + 배달비 + 광고",
-     "x": 1200,
-     "y": 300,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.9
+     "at": 0.7
     },
     {
      "kind": "rule",
      "x0": 140,
-     "y0": 560,
+     "y0": 660,
      "x1": 1780,
-     "y1": 560,
+     "y1": 660,
      "color": "gray",
      "width": 3,
      "line": 1,
-     "at": 0.02,
+     "at": 0.05,
      "dur": 0.3
     },
     {
      "kind": "print",
-     "text": "국회 법안 3건 · 총수수료 상한",
+     "text": "배민 인수 시 · 한국 주문 → 우버 실적",
      "x": 140,
-     "y": 600,
-     "size": 50,
+     "y": 700,
+     "size": 52,
      "w": "ExtraBold",
      "color": "ink",
-     "line": 1,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "15%",
-     "x": 1100,
-     "y": 580,
-     "size": 110,
-     "w": "ExtraBold",
-     "color": "green",
      "line": 1,
      "at": 0.3
     },
     {
      "kind": "print",
-     "text": "3건 계류",
-     "x": 1360,
-     "y": 610,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.5
-    },
-    {
-     "kind": "print",
-     "text": "2026년 10월 중순 · 정무위 계류",
+     "text": "오늘 밤 동네 주문도 반영",
      "x": 140,
-     "y": 700,
-     "size": 46,
+     "y": 770,
+     "size": 44,
      "w": "ExtraBold",
      "color": "gray",
      "line": 1,
      "at": 0.7
     }
    ],
-   "sketch_add": []
-  },
-  {
-   "v": {
-    "type": "media",
-    "lib": "commons_seoulnight_3.jpg",
-    "caption": "같은 2만 5천 원 · 몫의 줄다리기",
-    "caption_at": "0"
-   },
-   "lines": [
-    "상한이 생기면 사장님 부담은 줄겠지만 반론도 있어요. 플랫폼이 무료배달 지원을 줄이면 그 비용이 다시 소비자 배달비로 돌아올 수 있다는 거죠.",
-    "결국 같은 2만 5천 원 안에서 누가 얼마를 갖느냐의 줄다리기입니다."
-   ],
-   "en": [
-    "A cap would ease owners' costs, but critics say platforms could cut free-delivery support and pass costs back to customers.",
-    "In the end it's a tug of war over who keeps how much of the same 25,000 won."
-   ],
-   "asof": false,
-   "src": "사진: Takipoint123 · Wikimedia Commons (CC BY-SA 4.0)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "수수료 상한 15%",
-     "x": 1170,
-     "y": 520,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "사장님 부담 감소",
-     "x": 1170,
-     "y": 590,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "green",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "print",
-     "text": "반론 · 무료배달 지원 축소?",
-     "x": 1170,
-     "y": 660,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.7
-    },
-    {
-     "kind": "print",
-     "text": "사장님 · 배달앱 · 소비자",
-     "x": 1170,
-     "y": 740,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.5
-    }
-   ]
-  },
-  {
-   "chapter": "오늘 밤 아끼는 2,000원",
-   "v": {
-    "type": "title",
-    "text": "오늘 밤 아끼는 2,000원",
-    "sub": "마지막 이야기"
-   },
-   "lines": [
-    "마지막 이야기, 오늘 밤 바로 쓸 수 있는 거예요. 같은 치킨이라도 배달앱 가격과 매장 가격이 다른 곳이 많습니다."
-   ],
-   "en": [
-    "Last part, something for tonight: the same chicken often costs differently in the app and in the shop."
-   ],
-   "asof": false,
    "sketch_add": []
   },
   {
@@ -2986,19 +2414,19 @@
     "type": "sketch"
    },
    "lines": [
-    "소비자단체협의회가 프랜차이즈 29곳을 봤더니 20곳이 배달 메뉴를 더 비싸게 받고 있었어요. 치킨은 한 마리에 2,000원쯤 차이가 났죠.",
-    "교촌도 지난해 9월부터 서울 매장의 배달앱 가격을 2,000원 올렸습니다."
+    "오늘 이야기를 한 줄로 줄이면 이렇습니다. 치킨값을 나누는 힘은 주문이 지나가는 길목에 있고 그 길목의 주인을 정하는 싸움은 이제 세계 무대로 넘어갔어요.",
+    "치킨만의 이야기도 아닙니다. 숙소는 숙박앱이, 택시는 호출앱이 같은 자리를 쥐고 있어요."
    ],
    "en": [
-    "A consumer group checked 29 franchises: 20 charged more for delivery, about 2,000 won more per chicken.",
-    "Kyochon too raised Seoul app prices by 2,000 won from last September."
+    "In one line: the power to split the price lies in the order path, and the fight over who owns it has gone global.",
+    "It isn't just chicken: lodging apps and ride-hailing apps hold the same spot."
    ],
    "asof": false,
-   "src": "한국소비자단체협의회 이중가격 조사 (스마트투데이 2026년 6월 9일 · 2025년 10월 치킨 7개사 추가 조사) · 청년일보 2025년 9월 29일 (교촌 서울 배달앱 가격 2,000원 인상)",
+   "src": "",
    "sketch": [
     {
      "kind": "print",
-     "text": "같은 치킨 1마리 · 가격 비교",
+     "text": "오늘의 한 줄",
      "x": 140,
      "y": 130,
      "size": 52,
@@ -3016,85 +2444,63 @@
      "color": "gray",
      "width": 3,
      "line": 0,
-     "at": 0.03,
+     "at": 0.05,
      "dur": 0.3
     },
     {
      "kind": "print",
-     "text": "매장 가격",
+     "text": "치킨값을 나누는 힘",
      "x": 220,
      "y": 300,
      "size": 50,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "메뉴판 그대로",
-     "x": 220,
-     "y": 390,
-     "size": 90,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "배달앱 가격",
-     "x": 1000,
-     "y": 300,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.4
+     "at": 0.3
     },
     {
      "kind": "write",
-     "text": "+2,000원",
-     "x": 1000,
+     "text": "주문이 지나가는 길목",
+     "x": 220,
      "y": 370,
-     "size": 150,
+     "size": 110,
      "color": "red",
      "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 600,
-     "x1": 1780,
-     "y1": 600,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.75,
-     "dur": 0.3
+     "at": 0.45
     },
     {
      "kind": "print",
-     "text": "프랜차이즈 29곳 중 20곳 · 배달 가격 더 높음",
-     "x": 140,
-     "y": 640,
-     "size": 50,
+     "text": "길목의 주인 → 세계 무대에서 결정",
+     "x": 220,
+     "y": 540,
+     "size": 52,
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
      "at": 0.8
     },
     {
-     "kind": "print",
-     "text": "교촌 · 2025년 9월부터 서울 배달앱 +2,000원",
-     "x": 140,
-     "y": 730,
-     "size": 46,
-     "w": "ExtraBold",
+     "kind": "rule",
+     "x0": 140,
+     "y0": 660,
+     "x1": 1780,
+     "y1": 660,
      "color": "gray",
+     "width": 3,
      "line": 1,
-     "at": 0.5
+     "at": 0.05,
+     "dur": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "숙박앱 · 택시 호출앱 · 같은 자리",
+     "x": 140,
+     "y": 700,
+     "size": 52,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 1,
+     "at": 0.4
     }
    ],
    "sketch_add": []
@@ -3105,289 +2511,45 @@
     "lib": "commons_kchicken_2.jpg",
     "chips": [
      {
-      "v": "직접 포장",
-      "l": "앱 수수료·배달비 없음",
-      "at": "0:포장"
+      "v": "가격 비교",
+      "l": "배달 vs 매장 메뉴판",
+      "at": "0:나란히"
      },
      {
-      "v": "앱 포장 6.8%",
-      "l": "메뉴 가격 확인 필요",
-      "at": "1:6.8%"
+      "v": "직접 포장",
+      "l": "배달비·앱 수수료 없음",
+      "at": "1:포장해"
      }
     ]
    },
    "lines": [
-    "그래서 시키기 전에 앱의 배달 가격과 매장 메뉴판 가격을 한 번 나란히 보세요. 걸어갈 거리라면 앱 말고 매장에 전화하거나 직접 가서 포장하면 배달비도 앱 수수료도 안 붙어요.",
-    "앱으로 포장 주문하면 사장님 쪽에 수수료 6.8%가 붙고 메뉴 가격도 배달 가격 그대로인 곳이 있어요."
+    "그러니 다음에 주문 버튼을 누르기 전에, 앱 가격과 매장 메뉴판 가격을 한 번 나란히 보세요. 프랜차이즈 열 곳 중 일곱 곳은 배달 메뉴를 더 비싸게 받고 있었어요.",
+    "걸어갈 거리라면 매장에 전화해 직접 포장해 보세요. 사장님 손에도, 여러분 지갑에도 조금 더 남습니다."
    ],
    "en": [
-    "So before ordering, compare the app's delivery price with the shop's menu. If it's walkable, picking up yourself is better for your wallet and the owner's share.",
-    "Even app pickup carries a 6.8% fee, but the 3,400-won delivery fee disappears."
+    "So before you tap order next time, compare the app price with the shop's menu. Seven in ten franchises charged more for delivery.",
+    "If it's walkable, call and pick it up yourself. A bit more stays with the owner, and with you."
    ],
    "asof": false,
-   "src": "배달의민족 포장 중개이용료 6.8% (2025년 4월 14일 기존 업체 확대) · 사진: Startandstar · Wikimedia Commons (CC0)",
+   "src": "한국소비자단체협의회 이중가격 조사 (프랜차이즈 29곳 중 20곳) · 사진: Startandstar · Wikimedia Commons (CC0)",
    "sketch_add": [
     {
      "kind": "print",
-     "text": "배달 가격 vs 매장 가격",
+     "text": "주문 전 확인",
      "x": 1170,
-     "y": 640,
-     "size": 38,
+     "y": 600,
+     "size": 36,
      "w": "ExtraBold",
-     "color": "ink",
+     "color": "gray",
      "line": 0,
-     "at": 0.2
+     "at": 0.1
     },
     {
      "kind": "print",
-     "text": "앱에서 나란히 확인",
+     "text": "앱 가격 · 매장 메뉴판",
      "x": 1170,
-     "y": 690,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.42
-    },
-    {
-     "kind": "print",
-     "text": "내 지갑 · 사장님 몫",
-     "x": 1170,
-     "y": 740,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.62
-    },
-    {
-     "kind": "print",
-     "text": "앱 포장 · 메뉴 가격 확인",
-     "x": 1170,
-     "y": 790,
-     "size": 38,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 1,
-     "at": 0.85
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "card",
-    "kicker": "앞으로 볼 숫자",
-    "title": "볼 것 3가지",
-    "title_en": "Three things to watch",
-    "at": "0",
-    "rows": [
-     [
-      "우버 공개매수 결과 · 11월 5일 마감",
-      "0:앞으로"
-     ],
-     [
-      "수수료 상한 법안 · 국회 정무위",
-      "0:바뀔지는"
-     ],
-     [
-      "배민 영업이익 · 2027년 4월 감사보고서",
-      "0:보면"
-     ]
-    ],
-    "backdrop": "delivery_42137_a.jpg",
-    "bd_dim": 0.74
-   },
-   "lines": [
-    "그리고 앞으로 이 2만 5천 원의 나눔이 어떻게 바뀔지는 이 세 가지를 보면 됩니다."
-   ],
-   "en": [
-    "And to see how the 25,000-won split changes from here, watch these three things."
-   ],
-   "asof": false,
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "언제 · 어디서 확인",
-     "x": 140,
-     "y": 300,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.55
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "checklist",
-    "title": "볼 것 1 · 2",
-    "items": [
-     [
-      "우버 공개매수 · 11월 5일 마감",
-      "0:첫째"
-     ],
-     [
-      "응모 50% 넘으면 → 공정위 심사",
-      "0:절반을"
-     ],
-     [
-      "수수료 상한 15% 법안 · 국회 정무위",
-      "1:둘째"
-     ],
-     [
-      "국회 의안정보시스템에서 진행 확인",
-      "1:의안정보시스템"
-     ]
-    ],
-    "backdrop": "commons_uberhq_3.jpg"
-   },
-   "lines": [
-    "첫째, 11월 5일 마감되는 우버의 공개매수예요. 응모가 절반을 넘기면 우버가 배민의 모회사 딜리버리히어로를 지배하는 길이 열리고 그다음은 공정위 심사입니다.",
-    "둘째, 국회 정무위원회에서 15% 상한 법안이 언제 다뤄지는지예요. 국회 의안정보시스템에서 진행 상황을 볼 수 있습니다."
-   ],
-   "en": [
-    "One: Uber's tender offer closing November 5. If more than half is tendered, Baemin's owner could change, and then comes the KFTC review.",
-    "Two: when the committee takes up the 15% cap bills; you can track them on the Assembly's bill system."
-   ],
-   "asof": false,
-   "src": "우버 공개매수 신고서 (2026년 8월 27일, 딜리버리히어로 주당 41.50유로 · 청약 11월 5일까지) · 공정거래위원회 기업결합 심사 착수 (2026년 9월 22일) · 국회 정무위원회 계류 법안 (2026년 10월 14일 기준)",
-   "sketch_add": [
-    {
-     "kind": "print",
-     "text": "응모 결과 · 우버 발표",
-     "x": 1320,
-     "y": 520,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "다음 단계",
-     "x": 1320,
-     "y": 590,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "print",
-     "text": "결합 심사 · 공정위",
-     "x": 1320,
-     "y": 660,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.85
-    },
-    {
-     "kind": "print",
-     "text": "15% 상한 · 3건 계류",
-     "x": 1320,
-     "y": 730,
-     "size": 44,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 1,
-     "at": 0.45
-    },
-    {
-     "kind": "print",
-     "text": "처리 시점 확인",
-     "x": 1320,
-     "y": 790,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 1,
-     "at": 0.78
-    }
-   ]
-  },
-  {
-   "v": {
-    "type": "sketch"
-   },
-   "lines": [
-    "셋째, 내년 4월 전자공시 다트에 올라올 우아한형제들의 2026년 감사보고서예요. 영업이익이 세 해째 줄어드는지, 무료배달 싸움이 멈췄는지가 숫자로 나옵니다.",
-    "오늘 이야기를 한 줄로 줄이면 이래요. 치킨 한 마리 값에서 배달앱 몫은 커졌는데 배달앱 이익은 줄었고 그 몫을 정하는 싸움은 이제 세계 무대로 넘어갔습니다."
-   ],
-   "en": [
-    "Three: Woowa's 2026 audit report on DART next April, showing whether profit falls a third year and whether the free-delivery war has cooled.",
-    "In one line: chicken prices stayed, more hands share them, and the fight over the shares has gone global."
-   ],
-   "asof": false,
-   "src": "우아한형제들 연결 감사보고서 (2024년 실적 2025년 4월 · 2025년 실적 2026년 4월 10일 공시)",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "볼 것 3 · 오늘의 한 줄",
-     "x": 140,
-     "y": 120,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 215,
-     "x1": 1780,
-     "y1": 215,
-     "color": "gray",
-     "width": 3,
-     "line": 0,
-     "at": 0.02,
-     "dur": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "3  우아한형제들 2026년 영업이익",
-     "x": 140,
-     "y": 260,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "icons",
-     "icon": "ledger",
-     "x": 1560,
-     "y": 250,
-     "size": 150,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
-     "line": 0,
-     "at": 0.2
-    },
-    {
-     "kind": "print",
-     "text": "세 번째 숫자",
-     "x": 1560,
-     "y": 420,
-     "size": 40,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "2027년 4월 · 다트 감사보고서",
-     "x": 220,
-     "y": 350,
-     "size": 46,
+     "y": 650,
+     "size": 36,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
@@ -3395,80 +2557,38 @@
     },
     {
      "kind": "print",
-     "text": "3년 연속 감소 여부 · 무료배달 경쟁 진정 여부",
-     "x": 220,
-     "y": 410,
-     "size": 46,
+     "text": "열 곳 중 일곱 · 배달이 더 비쌈",
+     "x": 1170,
+     "y": 700,
+     "size": 36,
+     "w": "ExtraBold",
+     "color": "red",
+     "line": 0,
+     "at": 0.75
+    },
+    {
+     "kind": "print",
+     "text": "걸어갈 거리 · 직접 포장",
+     "x": 1170,
+     "y": 750,
+     "size": 36,
      "w": "ExtraBold",
      "color": "gray",
-     "line": 0,
-     "at": 0.8
-    },
-    {
-     "kind": "rule",
-     "x0": 140,
-     "y0": 470,
-     "x1": 1780,
-     "y1": 470,
-     "color": "gray",
-     "width": 3,
-     "line": 1,
-     "at": 0.02,
-     "dur": 0.3
-    },
-    {
-     "kind": "icons",
-     "icon": "drumstick",
-     "x": 160,
-     "y": 520,
-     "size": 120,
-     "n": 1,
-     "gap": 24,
-     "color": "ink",
      "line": 1,
      "at": 0.1
     },
     {
      "kind": "print",
-     "text": "배달앱 몫 증가 · 이익 감소",
-     "x": 340,
-     "y": 540,
-     "size": 60,
+     "text": "사장님 몫 · 내 지갑",
+     "x": 1170,
+     "y": 800,
+     "size": 36,
      "w": "ExtraBold",
-     "color": "ink",
-     "line": 1,
-     "at": 0.3
-    },
-    {
-     "kind": "arrow",
-     "pts": [
-      [
-       340,
-       680
-      ],
-      [
-       600,
-       680
-      ]
-     ],
      "color": "ink",
      "line": 1,
      "at": 0.6
-    },
-    {
-     "kind": "print",
-     "text": "세계 배달앱 합병 무대로",
-     "x": 640,
-     "y": 640,
-     "size": 60,
-     "w": "ExtraBold",
-     "color": "orange",
-     "line": 1,
-     "at": 0.7
     }
-   ],
-   "sketch_add": [],
-   "fine": "매수·매도를 권하는 내용이 아닙니다"
+   ]
   },
   {
    "v": {
@@ -3496,7 +2616,7 @@
    },
    "lines": [
     "돈이 어디로 흐르는지 궁금한 이야기가 더 있으시면 구독과 알림 설정 부탁드려요.",
-    "앱이 모은 돈으로 돈을 버는 또 다른 구조가 궁금하시면, 스타벅스 편도 함께 보세요.",
+    "앱이 모은 돈으로 돈을 버는 또 다른 구조가 궁금하시면 스타벅스 편도 함께 보세요.",
     "오늘 밤 치킨, 배달 가격과 매장 가격 차이가 얼마였는지 댓글로 알려 주세요. 감사합니다."
    ],
    "en": [
