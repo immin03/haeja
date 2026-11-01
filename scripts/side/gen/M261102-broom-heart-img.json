@@ -1,0 +1,40 @@
+[
+ {
+  "id": "bh1_wreck",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie"
+  ],
+  "body": {
+   "prompt": "GRANDPA: a Korean street sweeper grandpa in his late sixties, short grey hair, kind wrinkled face, an orange-and-navy work vest over a grey padded jacket, a traditional long broom made of bundled twigs. PLACE: a quiet Seoul alley street at dawn lined with tall golden ginkgo trees, a wooden bench, low brick walls, piles of swept golden ginkgo leaves, soft blue-gold morning light. Late autumn dawn. The top of the grandpa's broom handle has NO heart charm: only a short loose end of red yarn dangles there. No red heart anywhere in this picture. The grandpa stands holding his twig broom upright beside a big, neatly swept round pile of golden ginkgo leaves; Kachi has dived head-first into the middle of his pile, golden leaves bursting up and scattering in all directions. The grandpa looks down at the mess, puzzled, eyebrows raised, mouth slightly open. Only the grandpa and Kachi in the frame; his hands are simple and hold the broom. Kachi is about the size of the grandpa's hand. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "bh2_fall",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/bh1_wreck"
+  ],
+  "body": {
+   "prompt": "GRANDPA: a Korean street sweeper grandpa in his late sixties, short grey hair, kind wrinkled face, an orange-and-navy work vest over a grey padded jacket, a traditional long broom made of bundled twigs. HEART: a small red hand-knitted heart charm tied with red yarn to the top of the broom handle. PLACE: a quiet Seoul alley street at dawn lined with tall golden ginkgo trees, a wooden bench, low brick walls, piles of swept golden ginkgo leaves, soft blue-gold morning light. Earlier the same dawn, darker blue light. The grandpa sits on the wooden bench taking a break and offers a small piece of a plain rice ball to Kachi, who is perched on the arm of the bench. His broom leans against the bench. The small red knitted heart charm has just slipped off the broom handle and lies on top of the golden leaf pile right next to the bench, clearly visible. The grandpa does not notice it, he is smiling at Kachi; Kachi turns its head and looks at the red heart. Only the grandpa and Kachi in the frame; his hands are simple. Kachi is about the size of the grandpa's hand. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ },
+ {
+  "id": "bh3_heart",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "ref": [
+   "social/side/gen/c1_magpie",
+   "social/side/gen/bh1_wreck"
+  ],
+  "body": {
+   "prompt": "GRANDPA: a Korean street sweeper grandpa in his late sixties, short grey hair, kind wrinkled face, an orange-and-navy work vest over a grey padded jacket, a traditional long broom made of bundled twigs. HEART: a small red hand-knitted heart charm tied with red yarn to the top of the broom handle. PLACE: a quiet Seoul alley street at dawn lined with tall golden ginkgo trees, a wooden bench, low brick walls, piles of swept golden ginkgo leaves, soft blue-gold morning light. Golden morning sunlight through the ginkgo trees, the leaf pile scattered. Kachi stands on top of the scattered golden leaves holding the small red knitted heart charm by its red yarn loop in its beak, lifting it up toward the grandpa. The grandpa has bent down on one knee in front of Kachi, his broom resting on his shoulder; he has gone completely still, lips pressed together, with the beginning of a quiet, gentle smile. Only the grandpa and Kachi in the frame; his hands rest on his knee. Kachi is about the size of the grandpa's hand. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+   "aspect_ratio": "9:16"
+  }
+ }
+]
