@@ -56,13 +56,16 @@ def overlay(E, img, s, u):
     if not lab and not num: return img
     a = E.prog(u, .15, .55)
     if a <= 0: return img
+    p = 0.0
+    if num:   # 숫자 자리는 숫자가 나타날 때 늘어난다 (2026-11-01 15:11 대표님: 펜 숫자 쓰기 전 라벨 칸이 비어 보인다)
+        t0 = E.y_at(L, f.get("num_line", 0), f.get("num_frac", .3)); p = E.prog(u, t0, t0 + .45)
     lf = E.fit_font(lab or "", "ExtraBold", 46, 820) if lab else None
     pf = _pen(f.get("num_size", 150))
     d0 = ImageDraw.Draw(img)
     lw = d0.textlength(lab, font=lf) if lab else 0
     nw = d0.textlength(num, font=pf) if num else 0
-    X, Y = 56, f.get("y", 420)
-    bw = max(lw, nw) + 72; bh = 96 + (150 if num else 0)
+    X, Y = 56, f.get("y", (getattr(E, "BAND_H", 0) or 390) + 30)
+    bw = max(lw, nw * (1 if p > 0 else 0)) + 72; bh = 96 + 150 * p
     card = Image.new("RGBA", (int(bw) + 30, int(bh) + 30), (0, 0, 0, 0)); cd = ImageDraw.Draw(card)
     cd.rounded_rectangle([12, 16, bw + 12, bh + 16], 10, fill=(0, 0, 0, int(90 * a)))
     card = card.filter(ImageFilter.GaussianBlur(7)); cd = ImageDraw.Draw(card)
@@ -72,7 +75,6 @@ def overlay(E, img, s, u):
     d = ImageDraw.Draw(img)
     if lab: d.text((X + 36, Y + oy + 50), lab, font=lf, fill=E.mix(PAPER, INK, a), anchor="lm")
     if num:
-        t0 = E.y_at(L, f.get("num_line", 0), f.get("num_frac", .3)); p = E.prog(u, t0, t0 + .45)
         if p > 0:
             col = TONES.get(f.get("tone", "loss"), RED)
             ny = Y + oy + 96 + 70
@@ -98,3 +100,38 @@ def render(E, T, s, scenes):
         p = scenes[i - 1]; prev = scene_img(E, p, p["dur"] - 1 / 30)
         img = Image.blend(prev, img, E.ease_io(u / XF))
     return img
+
+
+YEL = (255, 216, 77)
+NAVYB = (11, 27, 51)
+
+
+def band_fonts(E, lines, maxw=960):
+    """제목 띠 글꼴: 1줄 흰 SemiBold, 2·3줄 노랑 Heavy — 화면 폭(좌우 60px 안)에 맞춰 최대로"""
+    out = []
+    for i, s_ in enumerate(lines):
+        out.append(E.fit_font(s_, "SemiBold" if i == 0 else "Heavy", 74 if i == 0 else 150, maxw))
+    return out
+
+
+def band_height(E, lines):
+    fs = band_fonts(E, lines)
+    return int(44 + sum(f.size * (1.22 if i else 1.3) for i, f in enumerate(fs)) + 26)
+
+
+def draw_band(E, img, lines, top=0):
+    """진한 단색 네이비 제목 띠 (2026-11-01 15:11 대표님: 제목이 잘 안 보인다 → 띠를 불투명 네이비로, 숫자 줄은 밝은 노랑 + 검정 외곽선, 글자는 폭에 맞춰 최대로)"""
+    fs = band_fonts(E, lines); h = band_height(E, lines)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, top, W, top + h], fill=NAVYB)
+    d.line([(0, top + h), (W, top + h)], fill=(214, 172, 84), width=4)
+    y = top + 44
+    for i, (s_, f) in enumerate(zip(lines, fs)):
+        lh = f.size * (1.22 if i else 1.3); cy = y + lh / 2
+        if i == 0:
+            d.text((W / 2, cy), s_, font=f, fill=(255, 255, 255), anchor="mm")
+        else:
+            d.text((W / 2 + 3, cy + 5), s_, font=f, fill=(0, 0, 0), anchor="mm")
+            d.text((W / 2, cy), s_, font=f, fill=YEL, anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
+        y += lh
+    return h

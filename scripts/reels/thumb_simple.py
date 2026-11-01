@@ -417,10 +417,19 @@ def render_v3(spec, out):
     if spec.get("format", "short") == "short":
         W, H = 1080, 1920; im = background(W, H, .52); o = 60 if ig else 0
         if spec.get("photo"): _bg_photo(im, spec["photo"], foc, spec.get("photo_opacity", .32))
-        f1 = fit(spec["l1"], "Heavy", 100, 980); f2 = fit(spec["l2"], "Heavy", 120, 1000); s1, s2 = 100, 120
-        text_shadow(im, (W / 2, 250 + o), spec["l1"], f1, IVORY)
-        text_shadow(im, (W / 2, 250 + o + f1.size * .5 + f2.size * .75), spec["l2"], f2, GOLD)
-        top = 520 + o
+        if spec.get("l3"):   # 3줄 제목 (2026-11-01 15:11 대표님: 1줄 흰색 작게 + 2·3줄 밝은 노랑 크게, 검정 외곽선)
+            YEL = (255, 216, 77, 255); f1 = fit(spec["l1"], "SemiBold", 80, 960); f2 = fit(spec["l2"], "Heavy", 140, 960); f3 = fit(spec["l3"], "Heavy", 140, 960); s1, s2 = 80, 140
+            y = 230 + o; text_shadow(im, (W / 2, y), spec["l1"], f1, (255, 255, 255, 255))
+            y += f1.size * .6 + f2.size * .7
+            for ss, ff in ((spec["l2"], f2), (spec["l3"], f3)):
+                ImageDraw.Draw(im).text((W / 2 + 4, y + 6), ss, font=ff, fill=(0, 0, 0, 230), anchor="mm")
+                ImageDraw.Draw(im).text((W / 2, y), ss, font=ff, fill=YEL, anchor="mm", stroke_width=5, stroke_fill=(0, 0, 0, 255)); y += ff.size * 1.15
+            top = int(y) + 10
+        else:
+            f1 = fit(spec["l1"], "Heavy", 100, 980); f2 = fit(spec["l2"], "Heavy", 120, 1000); s1, s2 = 100, 120
+            text_shadow(im, (W / 2, 250 + o), spec["l1"], f1, IVORY)
+            text_shadow(im, (W / 2, 250 + o + f1.size * .5 + f2.size * .75), spec["l2"], f2, GOLD)
+            top = 520 + o
         if spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
         elif em: emblem(im, em["kind"], W / 2, top + 130, em.get("size", 230), em.get("text")); top += 290
         bot = 1300 if ig else 1340
