@@ -1,0 +1,31 @@
+{
+ "id": "edv01_tent",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The candle flame flickers gently and the emperor slowly lifts his head from the wax tablet as the dawn light on the tent canvas grows a little brighter. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a197c5-7615-7785-b528-caab7862da82/b64040aa-8232-46a0-8677-f5be2a5f72cc.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a197c6-cc83-7261-8dd1-07b9a11b0319",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c6-cc83-7261-8dd1-07b9a11b0319/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c6-cc83-7261-8dd1-07b9a11b0319/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a197c6-cc83-7261-8dd1-07b9a11b0319",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c6-cc83-7261-8dd1-07b9a11b0319/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c6-cc83-7261-8dd1-07b9a11b0319/cancel",
+  "expires_at": "2026-11-08T15:45:33.443700+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a197c6-cc83-7261-8dd1-07b9a11b0319/ce28924f-95dd-4c72-93f7-72e79463dc8c.mp4"
+  }
+ },
+ "seconds": 185,
+ "file": "social/side/gen/edv01_tent.mp4"
+}

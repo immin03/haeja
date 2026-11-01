@@ -1,0 +1,31 @@
+{
+ "id": "edv03_subway",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The office worker slowly straightens his shoulders and takes one calm breath, his breath misting in the cold air, while the light from the tunnel grows slightly brighter. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a197c5-7628-7234-829f-6fbc143b9b95/7e5c8d63-cdd1-4104-a1d6-9280eceff5b1.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a197c6-cc84-7106-9728-d8a7de367a96",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c6-cc84-7106-9728-d8a7de367a96/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c6-cc84-7106-9728-d8a7de367a96/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a197c6-cc84-7106-9728-d8a7de367a96",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c6-cc84-7106-9728-d8a7de367a96/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c6-cc84-7106-9728-d8a7de367a96/cancel",
+  "expires_at": "2026-11-08T15:45:24.859756+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a197c6-cc84-7106-9728-d8a7de367a96/bfd35288-0a27-424a-8f67-24ce922a4125.mp4"
+  }
+ },
+ "seconds": 178,
+ "file": "social/side/gen/edv03_subway.mp4"
+}

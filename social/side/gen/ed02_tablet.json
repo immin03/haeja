@@ -1,0 +1,32 @@
+{
+ "id": "ed02_tablet",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Extreme close-up of an older man's weathered hand holding a bronze stylus, pressing slow marks into the dark beeswax of an open wooden diptych wax tablet resting on a rough wooden table, a candle flame beside it casting warm light, wisps of wax shavings, the marks are abstract scratches that are not readable letters. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a197c5-761f-7880-93cf-77af96557828",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c5-761f-7880-93cf-77af96557828/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c5-761f-7880-93cf-77af96557828/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a197c5-761f-7880-93cf-77af96557828",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c5-761f-7880-93cf-77af96557828/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c5-761f-7880-93cf-77af96557828/cancel",
+  "expires_at": "2026-11-08T15:42:27.330035+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a197c5-761f-7880-93cf-77af96557828/e05cfd6a-b8bb-447f-be25-88bea94388e5.jpeg"
+   }
+  ]
+ },
+ "seconds": 86,
+ "file": "social/side/gen/ed02_tablet.jpeg"
+}

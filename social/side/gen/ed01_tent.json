@@ -1,0 +1,32 @@
+{
+ "id": "ed01_tent",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Before dawn inside a Roman military command tent on the cold Danube frontier, an older bearded Roman emperor in a plain dark wool cloak sits alone at a rough wooden table, seen from behind and slightly to the side so his face is not visible, his head bowed over a small wooden wax tablet, one candle burning on the table, a folded red general's cloak and a bronze helmet resting nearby, tent canvas glowing faint blue from the dawn outside. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a197c5-7615-7785-b528-caab7862da82",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c5-7615-7785-b528-caab7862da82/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c5-7615-7785-b528-caab7862da82/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a197c5-7615-7785-b528-caab7862da82",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c5-7615-7785-b528-caab7862da82/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c5-7615-7785-b528-caab7862da82/cancel",
+  "expires_at": "2026-11-08T15:42:19.312692+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a197c5-7615-7785-b528-caab7862da82/b64040aa-8232-46a0-8677-f5be2a5f72cc.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "social/side/gen/ed01_tent.jpeg"
+}

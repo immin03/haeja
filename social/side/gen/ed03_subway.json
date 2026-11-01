@@ -1,0 +1,32 @@
+{
+ "id": "ed03_subway",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Early winter morning on an almost empty modern subway platform, a lone office worker in a dark long coat with a work bag, seen from behind and slightly to the side so the face is not visible, standing still and waiting near the platform edge, cold blue light from the tunnel and one warm overhead lamp above the worker, his breath faintly visible, a quiet calm moment before the train arrives, no signs, no screens. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a197c5-7628-7234-829f-6fbc143b9b95",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c5-7628-7234-829f-6fbc143b9b95/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c5-7628-7234-829f-6fbc143b9b95/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a197c5-7628-7234-829f-6fbc143b9b95",
+  "status_url": "https://api.higgsfield.ai/requests/01a197c5-7628-7234-829f-6fbc143b9b95/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a197c5-7628-7234-829f-6fbc143b9b95/cancel",
+  "expires_at": "2026-11-08T15:42:09.391823+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a197c5-7628-7234-829f-6fbc143b9b95/7e5c8d63-cdd1-4104-a1d6-9280eceff5b1.jpeg"
+   }
+  ]
+ },
+ "seconds": 68,
+ "file": "social/side/gen/ed03_subway.jpeg"
+}
