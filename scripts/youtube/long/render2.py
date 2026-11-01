@@ -1042,20 +1042,29 @@ def media_source(v, n_frames, seed):
 
 
 def full_source(v, n_frames, seed):
-    """2026-11-01 A안: 일러스트를 화면 전체에 깔고 천천히 켄 번즈. 노트 필기 쪽(v.wash: left|right|none)은 아이보리로 살짝 덮어 글씨가 읽히게"""
+    """2026-11-01 A안: 일러스트를 화면 전체에 깔고 천천히 켄 번즈. 노트 필기 쪽(v.wash: left|right|none)은 아이보리로 살짝 덮어 글씨가 읽히게.
+    (속도: 원본은 한 번만 키워 두고, 프레임마다 BILINEAR 한 번 + C 합성만 — 2026-11-01 첫 렌더가 150분 제한에 걸려 고침)"""
     lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); pth = os.path.join(lib, v.get("lib", ""))
     if not v.get("lib") or not os.path.exists(pth): return lambda u: background("light")
-    frames = LazyPhoto(pth, n_frames, seed); side = v.get("wash", "left"); amt = float(v.get("wash_amt", .72))
-    wash = None
+    src = Image.open(pth).convert("RGB"); r = max(W / src.width, H / src.height) * 1.1
+    big = src.resize((int(src.width * r), int(src.height * r)), Image.LANCZOS); bw, bh = big.size
+    dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, 1)]; dx, dy = dirs[seed % len(dirs)]; zin = seed % 2 == 0
+    side = v.get("wash", "left"); amt = float(v.get("wash_amt", .72)); ov = None
     if side in ("left", "right"):
         xs = np.linspace(0, 1, W, dtype=np.float32); xs = xs if side == "left" else xs[::-1]
-        a = np.clip((.62 - xs) / .62, 0, 1) ** 1.4 * amt
-        wash = (np.repeat(a[None, :], H, 0)[..., None], np.array((244, 237, 222), np.float32))
+        a = (np.clip((.62 - xs) / .62, 0, 1) ** 1.4 * amt * 255).astype(np.uint8)
+        arr = np.zeros((H, W, 4), np.uint8); arr[..., 0], arr[..., 1], arr[..., 2] = 244, 237, 222; arr[..., 3] = a[None, :]
+        ov = Image.fromarray(arr, "RGBA")
+    dur = max(1, n_frames - 1)
 
     def get(u):
-        im = np.asarray(Image.fromarray(np.asarray(frames[min(int(u * FPS), len(frames) - 1)])).convert("RGB")).astype(np.float32)
-        if wash is not None: im = im * (1 - wash[0]) + wash[1] * wash[0]
-        return Image.fromarray(np.clip(im, 0, 255).astype(np.uint8))
+        t = min(1.0, u * FPS / dur); z = (1.0 + .06 * t) if zin else (1.06 - .06 * t)
+        cw, ch = bw / 1.0 / z / (bw / W) * (bw / W), 0
+        cw = W * (bw / W) / (1.1 * z) * 1.0; ch = cw * H / W
+        cx = (bw - cw) / 2 + dx * (bw - cw) / 2 * (t - .5); cy = (bh - ch) / 2 + dy * (bh - ch) / 2 * (t - .5)
+        im = big.resize((W, H), Image.BILINEAR, box=(cx, cy, cx + cw, cy + ch))
+        if ov is not None: im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
+        return im
     return get
 
 
