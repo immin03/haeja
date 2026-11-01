@@ -1355,6 +1355,17 @@ def frame(T, scenes, total, pen=True):
     s = next((x for x in scenes if x["start"] <= T < x["start"] + x["dur"]), scenes[-1])
     sc = s["sc"]; u = T - s["start"]
     img = None; pens = []
+    if sc.get("full"):   # 꽉 찬 그림 장면 (2026-11-01 대표님 'A안', fullworld.py) — 장면에 "full" 이 있을 때만
+        import fullworld
+        img = fullworld.render(sys.modules[__name__], T, s, scenes)
+        global YT_CAP_Y
+        _cy = YT_CAP_Y; YT_CAP_Y = 1590
+        if YT: y_caption(img, u, s["L"])
+        else: caption(img, u, s["L"])
+        YT_CAP_Y = _cy
+        if YT_BANNER: draw_banner_soft(img)
+        d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+        return img
     if WORLD in ("popup", "ink"):   # 팝업 노트 (popworld.py) · 잉크 노트 (inkworld.py, 2026-10-26)
         if WORLD == "ink":
             import inkworld
@@ -1362,7 +1373,6 @@ def frame(T, scenes, total, pen=True):
         else:
             import popworld
             img = popworld.render(sys.modules[__name__], T, scenes, total)
-        global YT_CAP_Y
         _cy = YT_CAP_Y; YT_CAP_Y = 1590   # 노트가 화면을 채우므로 자막은 노트 아래쪽 (그림·버튼을 가리지 않게)
         if YT: y_caption(img, u, s["L"])
         else: caption(img, u, s["L"])
