@@ -1065,19 +1065,23 @@ KEYNUM = re.compile(r"(?<![A-Za-z0-9])[+\-−]?\d[\d,.]*(?:(?:\s?(?:조|억|만|
 def key_numbers(line):
     return list(KEYNUM.finditer(line))
 
-def y_voice(txt, speak):
+Y_SPEED = 1.1   # 쇼츠·릴스 음성 속도 (대본 "voice_speed": 1.21 → 타입캐스트 audio_tempo 1.21 = 기본보다 10% 빠르게, 피치 그대로 · 2026-11-01 16:50 대표님)
+
+
+def y_voice(txt, speak, speed=None):
     """롱폼과 같은 목소리: 운영자 클론을 타입캐스트 1.1배로 받아 그대로 쓴다 (2026-10-25, 후처리 가속·톤 올림 없음).
     말이 늘어지거나(초당 5.5음절 미만) 뭉개지면(받아쓰기 일치 0.72 미만) 캐시를 버리고 다시 받는다. 속도는 바꾸지 않는다."""
     say = to_speech(txt); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
     for k in range(3):
-        raw = speak(say, 1.1, fresh=k > 0)
+        spd = speed or Y_SPEED; k_ = spd / 1.1
+        raw = speak(say, spd, fresh=k > 0)
         a = np.asarray(raw, np.float32).copy(); rate = syl / max(.1, len(a) / SR)
         try:
             import verify; heard = verify.hear(a, SR); sc = verify.score(txt, heard)
         except Exception: heard, sc = "", 1.0
         need = .72 if re.search("버핏|그레이엄|PER|HBM|SK", txt) else .82   # 쇼츠는 더 엄격하게: 뭉개진 발음은 다시 받는다
-        bad = (syl >= 10 and not (5.5 <= rate <= 8.3)) or sc < need
-        cost = abs(rate - 6.7) / 6.7 + max(0, .85 - sc)
+        bad = (syl >= 10 and not (5.5 * k_ <= rate <= 8.3 * k_)) or sc < need
+        cost = abs(rate - 6.7 * k_) / (6.7 * k_) + max(0, .85 - sc)
         if best is None or cost < best[0]: best = (cost, a, rate, sc, heard, k + 1, need)
         if not bad: break
         print(f"  음성 다시 받기({k + 1}/3): 속도 {rate:.1f}음절/초, 인식 {sc:.2f} · {txt[:30]}", flush=True)
@@ -1107,14 +1111,14 @@ def plan(spec, speak):
         for ln in lines:
             if ln.get("join"):   # 한 문장을 한 번에 읽고(끊김 없이) 자막만 문장 조각별로 넘긴다
                 txt = " ".join(p["say"] for p in ln["join"])
-                a = y_voice(txt, speak) if YT else speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
+                a = y_voice(txt, speak, ln.get("speed")) if YT else speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
                 d_ = len(a) / SR
                 for (f0, f1), p in zip(join_fracs(ln["join"]), ln["join"]): L.append([u + d_ * f0, d_ * (f1 - f0), p.get("cap")])
                 vo.append((u, a)); u += d_ + GAP + ln.get("pause", 0); continue
             txt = ln.get("say") or " ".join(ln.get("cap") or [])
             if sc["type"] == "statement" and not txt: txt = f"{sc['l1']}, {sc['l2']}."
             if YT:
-                a = y_voice(txt, speak)
+                a = y_voice(txt, speak, ln.get("speed"))
             elif VERIFY:
                 import verify
                 if ln.get("cap") and verify.score(" ".join(ln["cap"]), txt) < .8:
@@ -1554,7 +1558,8 @@ def render_cover(spec, outdir):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H, BANNER_TAG
+    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED
+    Y_SPEED = float(spec.get("voice_speed", 1.1))
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
@@ -1728,7 +1733,8 @@ def render(spec, outdir, stills=None):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H, BANNER_TAG
+    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED
+    Y_SPEED = float(spec.get("voice_speed", 1.1))
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
