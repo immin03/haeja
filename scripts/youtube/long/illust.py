@@ -18,20 +18,26 @@ STYLE = ("Editorial storybook illustration for a Korean finance explainer video.
          "calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: ")
 
 
+SPACE = " Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent."
+
+
 def main(only=None):
-    H = hf.auth_headers(); spent = 0.0; cap = float(os.environ.get("YT_ILLUST_MAX_USD", "2"))
+    """4개씩 동시에 만든다 (한 장 30~100초)"""
+    from concurrent.futures import ThreadPoolExecutor
+    H = hf.auth_headers(); spent = 0.0; cap = float(os.environ.get("YT_ILLUST_MAX_USD", "2")); batch = []
     for f in sorted(glob.glob(os.path.join(ROOT, "scripts", "youtube", "long", "illust", "*.json"))):
         if only and os.path.basename(f)[:-5] not in only: continue
         for j in json.load(open(f, encoding="utf-8")):
             if j.get("disabled"): continue
             j = dict(j); j.setdefault("kind", "image"); j.setdefault("endpoint", "xai/grok-imagine-image-2.0")
             b = dict(j.get("body", {})); b.setdefault("aspect_ratio", "16:9")
-            if not j.get("raw_prompt"): b["prompt"] = STYLE + b.get("prompt", "")
+            if not j.get("raw_prompt"): b["prompt"] = STYLE + b.get("prompt", "") + (SPACE if j.get("space", True) else "")
             j["body"] = b
             c = gen.est(j)
             if spent + c > cap: print(f"[{j['id']}] 상한 {cap}달러 초과 — 건너뜀"); continue
-            spent += gen.run(j, H, spent)
-    print(f"이번 실행 비용(추정): {spent:.2f}달러")
+            spent += c; batch.append(j)
+    with ThreadPoolExecutor(4) as ex: list(ex.map(lambda j: gen.run(j, H, 0.0), batch))
+    print(f"이번 실행 비용(추정 상한): {spent:.2f}달러 · {len(batch)}건")
 
 
 if __name__ == "__main__":
