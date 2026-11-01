@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261101d_shutters",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A narrow Korean alley at dusk where several small restaurants have their metal shutters pulled down; a blank sheet of paper is taped to one shutter; a single delivery scooter passes by with its headlight on. Composition: vertical 9:16; keep the top 25 percent of the frame as calm, nearly empty ivory paper wash for a short handwritten note; main subject in the lower 75 percent."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19584-a011-76c3-a913-fc5513f75087",
+  "status_url": "https://api.higgsfield.ai/requests/01a19584-a011-76c3-a913-fc5513f75087/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19584-a011-76c3-a913-fc5513f75087/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19584-a011-76c3-a913-fc5513f75087",
+  "status_url": "https://api.higgsfield.ai/requests/01a19584-a011-76c3-a913-fc5513f75087/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19584-a011-76c3-a913-fc5513f75087/cancel",
+  "expires_at": "2026-11-08T05:12:09.162404+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19584-a011-76c3-a913-fc5513f75087/3b9c0745-9551-4729-bbe1-ae427aa5dde5.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_Y261101d_shutters.jpeg"
+}

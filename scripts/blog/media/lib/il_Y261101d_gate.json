@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261101d_gate",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: Seen from high above, glowing golden delivery routes from an entire night city converge into one small gate; a giant hand reaches down from the sky and lifts that gate; beyond the city, a dark ocean and a red suspension bridge on the far shore. Composition: vertical 9:16; keep the top 25 percent of the frame as calm, nearly empty ivory paper wash for a short handwritten note; main subject in the lower 75 percent."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19584-a0e7-7775-87d4-35d545d67386",
+  "status_url": "https://api.higgsfield.ai/requests/01a19584-a0e7-7775-87d4-35d545d67386/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19584-a0e7-7775-87d4-35d545d67386/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19584-a0e7-7775-87d4-35d545d67386",
+  "status_url": "https://api.higgsfield.ai/requests/01a19584-a0e7-7775-87d4-35d545d67386/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19584-a0e7-7775-87d4-35d545d67386/cancel",
+  "expires_at": "2026-11-08T05:12:17.427822+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19584-a0e7-7775-87d4-35d545d67386/50f18873-3526-44e6-8808-049cce744ef4.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_Y261101d_gate.jpeg"
+}

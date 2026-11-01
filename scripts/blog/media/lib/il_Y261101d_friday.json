@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261101d_friday",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: Friday night in a small Seoul apartment: a fried chicken delivery box just opened on a low wooden table, steam rising, a smartphone with a softly glowing screen beside it, warm lamp light, lit apartment windows of the city outside. Composition: vertical 9:16; keep the top 25 percent of the frame as calm, nearly empty ivory paper wash for a short handwritten note; main subject in the lower 75 percent."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19583-8d35-7f01-927a-a9ecc2505863",
+  "status_url": "https://api.higgsfield.ai/requests/01a19583-8d35-7f01-927a-a9ecc2505863/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19583-8d35-7f01-927a-a9ecc2505863/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19583-8d35-7f01-927a-a9ecc2505863",
+  "status_url": "https://api.higgsfield.ai/requests/01a19583-8d35-7f01-927a-a9ecc2505863/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19583-8d35-7f01-927a-a9ecc2505863/cancel",
+  "expires_at": "2026-11-08T05:10:50.314777+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19583-8d35-7f01-927a-a9ecc2505863/88aacfe9-3907-4cf0-acb8-5f15fea59595.jpeg"
+   }
+  ]
+ },
+ "seconds": 63,
+ "file": "scripts/blog/media/lib/il_Y261101d_friday.jpeg"
+}
