@@ -1,0 +1,32 @@
+{
+ "id": "il_L261101_rain",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A delivery rider in rain gear checking his phone while waiting at a red light at night, rain reflections on the wet street, an insulated delivery box on the scooter. Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1951a-a8b8-76e8-a22a-40c0c6daa149",
+  "status_url": "https://api.higgsfield.ai/requests/01a1951a-a8b8-76e8-a22a-40c0c6daa149/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1951a-a8b8-76e8-a22a-40c0c6daa149/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1951a-a8b8-76e8-a22a-40c0c6daa149",
+  "status_url": "https://api.higgsfield.ai/requests/01a1951a-a8b8-76e8-a22a-40c0c6daa149/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1951a-a8b8-76e8-a22a-40c0c6daa149/cancel",
+  "expires_at": "2026-11-08T03:16:37.417158+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1951a-a8b8-76e8-a22a-40c0c6daa149/1bc83f53-8c09-408c-adff-8dd68f320620.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "scripts/blog/media/lib/il_L261101_rain.jpeg"
+}

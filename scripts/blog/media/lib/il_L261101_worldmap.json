@@ -1,0 +1,32 @@
+{
+ "id": "il_L261101_worldmap",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: An old paper world map with glowing golden lines connecting the United States to Britain and then spreading across Europe and Asia, tiny delivery scooter icons travelling along the lines. Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1951b-5258-7507-9b7f-88a5738e3ec2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1951b-5258-7507-9b7f-88a5738e3ec2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1951b-5258-7507-9b7f-88a5738e3ec2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1951b-5258-7507-9b7f-88a5738e3ec2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1951b-5258-7507-9b7f-88a5738e3ec2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1951b-5258-7507-9b7f-88a5738e3ec2/cancel",
+  "expires_at": "2026-11-08T03:17:04.388665+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1951b-5258-7507-9b7f-88a5738e3ec2/061584d8-314a-472f-ba1b-bc766a404877.jpeg"
+   }
+  ]
+ },
+ "seconds": 68,
+ "file": "scripts/blog/media/lib/il_L261101_worldmap.jpeg"
+}
