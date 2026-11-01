@@ -1,0 +1,42 @@
+# 롱폼 일러스트 생성 (Higgsfield) — scripts/youtube/long/illust/*.json 이 바뀌면 그 작업만
+name: yt-illust
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/youtube/long/illust/*.json', 'scripts/youtube/long/illust.py']
+  workflow_dispatch:
+    inputs:
+      files: { description: '작업 파일 이름(확장자 빼고, 띄어쓰기 구분)', required: false, default: '' }
+      max_usd: { description: '이번 실행 비용 상한(달러)', required: false, default: '2' }
+permissions:
+  contents: write
+concurrency: yt-illust
+jobs:
+  gen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      HF_API_KEY: ${{ secrets.HF_API_KEY }}
+      HF_API_KEY_ID: ${{ secrets.HF_API_KEY_ID }}
+      HF_API_KEY_SECRET: ${{ secrets.HF_API_KEY_SECRET }}
+      YT_ILLUST_MAX_USD: ${{ github.event.inputs.max_usd || '2' }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 대상
+        id: pick
+        run: |
+          f="${{ github.event.inputs.files }}"
+          if [ "${{ github.event_name }}" = "push" ]; then f=$(git diff --name-only HEAD~1 HEAD -- 'scripts/youtube/long/illust/*.json' | xargs -r -n1 basename | sed 's/\.json$//' | tr '\n' ' '); fi
+          echo "files=$f" >> $GITHUB_OUTPUT
+      - name: 생성
+        if: steps.pick.outputs.files != ''
+        run: python3 scripts/youtube/long/illust.py ${{ steps.pick.outputs.files }}
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          git add -A scripts/blog/media/lib; git diff --cached --quiet && exit 0
+          git commit -qm "롱폼 일러스트 $(TZ=Asia/Seoul date '+%F %H:%M')"
+          for i in 1 2 3; do git pull --rebase -X theirs -q && git push -q && exit 0; sleep 5; done; exit 1
