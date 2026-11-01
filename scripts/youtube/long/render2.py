@@ -1041,6 +1041,24 @@ def media_source(v, n_frames, seed):
     return get
 
 
+def full_source(v, n_frames, seed):
+    """2026-11-01 A안: 일러스트를 화면 전체에 깔고 천천히 켄 번즈. 노트 필기 쪽(v.wash: left|right|none)은 아이보리로 살짝 덮어 글씨가 읽히게"""
+    lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); pth = os.path.join(lib, v.get("lib", ""))
+    if not v.get("lib") or not os.path.exists(pth): return lambda u: background("light")
+    frames = LazyPhoto(pth, n_frames, seed); side = v.get("wash", "left"); amt = float(v.get("wash_amt", .72))
+    wash = None
+    if side in ("left", "right"):
+        xs = np.linspace(0, 1, W, dtype=np.float32); xs = xs if side == "left" else xs[::-1]
+        a = np.clip((.62 - xs) / .62, 0, 1) ** 1.4 * amt
+        wash = (np.repeat(a[None, :], H, 0)[..., None], np.array((244, 237, 222), np.float32))
+
+    def get(u):
+        im = np.asarray(Image.fromarray(np.asarray(frames[min(int(u * FPS), len(frames) - 1)])).convert("RGB")).astype(np.float32)
+        if wash is not None: im = im * (1 - wash[0]) + wash[1] * wash[0]
+        return Image.fromarray(np.clip(im, 0, 255).astype(np.uint8))
+    return get
+
+
 def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
     d = AD(img); t = TH[theme]
     paste_logo(img, 60, 40, 36, "light" if theme == "light" else "dark")   # 2026-10-23 확정 로고 (scripts/brand.py)
@@ -1318,17 +1336,20 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         mode = "title" if (typ == "title" and sc.get("chapter") and ci >= 0) else ("light" if inked or typ == "sketch" else ("card" if (theme == "dark" or typ == "media") else "light"))
         if inked: theme = "light"
         rot = 0.0 if k < cold else float(rng.choice([-1, 1]) * rng.uniform(.25, .6))   # 카드는 아주 살짝만 기울여 붙인다
-        info.append({"chap": chap, "ci": ci, "theme": theme, "mode": mode, "inked": inked, "rot": rot, "pose": NBK.pose_for(k, typ, nb, mode=mode),
+        full = bool(k >= cold and typ == "media" and sc["v"].get("full"))   # 2026-11-01 제1 원칙 49 A안: 그림이 화면 전체 + 그 위 노트 필기
+        if full: inked = sc.get("sketch") is not None
+        info.append({"full": full, "chap": chap, "ci": ci, "theme": theme, "mode": mode, "inked": inked, "rot": rot, "pose": NBK.pose_for(k, typ, nb, mode=mode),
                      "flip": bool(k > cold), "big": bool(sc.get("chapter") and mode == "title")})   # 오프닝 뒤로는 장면마다 페이지를 넘긴다 (쇼츠 잉크 노트처럼)
     close = NBK.close_pose(nb); close["dist"] *= .985
     est = None   # 공개 장면이 끝나는 자세 (노트 전체가 보이게 조금 넓게)
     if cold and cold <= len(info):
         est = NBK.pose_for(cold - 1, "title", nb, mode="title")   # 공개 장면은 노트 전체가 정면으로 보이는 데서 멈춘다
-    prev_tex = None; prev_pose = None; fi = 0; t0_clock = dt.datetime.now()
+    prev_tex = None; prev_pose = None; fi = 0; t0_clock = dt.datetime.now(); prev_fr = None; prev_full = False
     for k, x in enumerate(timeline):
         if only_sc and k not in only_sc: continue
         sc = x["sc"]; n = int(round(x["dur"] * FPS)); typ = sc["v"]["type"]; I = info[k]; theme = I["theme"]
         media = media_source(sc["v"], n + 2, k) if (typ == "media" and not I["inked"]) else None
+        fullsrc = full_source(sc["v"], n + 2, k) if I["full"] else None
         cine_cap = None
         if k < cold and sc["v"].get("caption"):   # 오프닝: 그림 속 작은 자막 대신 명조 큰 제목이 떠오른다
             cine_cap = fill(sc["v"]["caption"], V); sc = dict(sc, v={kk: vv for kk, vv in sc["v"].items() if kk not in ("caption", "caption_at")})
@@ -1337,15 +1358,21 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
         import sketch as SK
         sk = SK.scene_beats(sc, x["lines"], V, fill, at_time, k >= cold) if I["inked"] else None
-        if sk is not None:
+        if sk is not None and not I["full"]:  # 그림 장면은 그림이 움직이므로 펜 쉼 검사 제외
             for g in SK.gaps(sk, x["lines"]): print("  ⚠ 손그림 빈틈:", k, g, flush=True); GAPS.append([k, g])
-        base_pose = I["pose"]; start_pose = prev_pose or base_pose; pen_last = None
+        base_pose = I["pose"]; start_pose = prev_pose or base_pose; pen_last = None; last_fr = None
         last_tex = None; last_pose = None
         for i in range(n):
             u = i / FPS
             # 1) 장면 그림 → 페이지
             pen_tip = None; pen_al = 0.0
-            if I["mode"] == "title":
+            full_img = None
+            if I["full"]:
+                full_img = fullsrc(u)
+                if sk:
+                    arr = np.asarray(full_img).copy(); SK.apply(arr, sk, u); full_img = Image.fromarray(arr)
+                tex = None
+            elif I["mode"] == "title":
                 wt0 = (1.0 if I["big"] else NB_FLIP * .55) if I["flip"] else .35
                 tex, tip = nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, u, write_t0=wt0)
                 if tip is not None: pen_tip, pen_al = tip, 1.0
@@ -1362,7 +1389,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                     elif pen_last and u - pen_last[1] < .35:   # 다음 그림까지 짧게 쉬면 펜이 사라지지 않고 머문다
                         pen_tip, pen_al = pen_last[0], 1 - (u - pen_last[1]) / .35
                 tex = nb.page_card(img, I["rot"], header_right=I["chap"], seed=k) if I["mode"] == "card" else nb.page_light(img, I["chap"])
-            if prev_tex is not None and not I["flip"] and u < .35 and k >= cold:   # 같은 장 안: 앞 장면 페이지에서 부드럽게 바뀐다
+            if tex is not None and prev_tex is not None and not I["flip"] and u < .35 and k >= cold:   # 같은 장 안: 앞 장면 페이지에서 부드럽게 바뀐다
                 a = NBK.eio(u / .35); tex = (prev_tex.astype(np.float32) * (1 - a) + tex.astype(np.float32) * a).astype(np.uint8)
             # 2) 카메라
             dr = NBK.drift(base_pose, u, x["dur"], k)
@@ -1395,7 +1422,10 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             fd = NB_FLIP if I["big"] else NB_FLIP2
             if I["flip"] and prev_tex is not None and u < fd + .1:
                 flip = (math.pi * NBK.eio(clamp((u - .1) / fd)), prev_tex)
-            fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al, dof=dof)
+            if I["full"]: fr = np.asarray(full_img).astype(np.float32); amt = 0.0; bars = 0.0; grade = 0.0; sweep = -1.0
+            else: fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al, dof=dof)
+            if (I["full"] or prev_full) and prev_fr is not None and u < .45 and k > cold:   # 그림 장면은 앞 장면에서 부드럽게 넘어온다
+                a_ = NBK.eio(u / .45); fr = prev_fr * (1 - a_) + np.asarray(fr, np.float32) * a_
             # 3) 오프닝 다큐 효과 · 시네마틱 (빛줄기·렌즈 빛·검은 화면에서 떠오르기·극장 비율 띠)
             if grade > 0: fr = NBK.doc_grade(fr, grade, fi, nb)
             if 0 < sweep < 1: fr = NBK.light_sweep(fr, sweep, .26)
@@ -1428,10 +1458,11 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             if cur and u <= cur[0] + cur[1] + .25 and typ != "end":
                 subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 160) - int(round(40 * bars)))
             enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
+            if i == n - 1: last_fr = np.asarray(fr, np.float32)
             if i == n - 1:
                 last_tex = tex if I["mode"] != "title" else nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, 99)[0]
             last_pose = pose
-        prev_tex = last_tex; prev_pose = last_pose
+        prev_tex = last_tex; prev_pose = last_pose; prev_fr = last_fr; prev_full = I["full"]
         el = (dt.datetime.now() - t0_clock).total_seconds()
         print(f"  장면 {k + 1}/{len(timeline)} {typ}/{I['mode']} {x['dur']:.1f}초 · 누적 {el / 60:.1f}분", flush=True)
     finish(spec, V, timeline, total, enc, tmp, wav, out, data)
