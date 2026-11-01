@@ -30,6 +30,9 @@ const textOf = (p) => [p.title, ...p.blocks.flatMap((b) => [b.h, b.p, b.cap, b.q
 const bodyLen = (p) => p.blocks.reduce((n, b) => n + strip(b.p || '').length + strip(b.h || '').length + (b.summary || []).join('').length, 0);
 const sig = (p) => p.blocks.map((b) => b.h ? 'H' : b.summary ? 'S' : b.table ? 'T' : b.quote ? 'Q' : b.note ? 'N' : b.img ? 'I' : 'P').join('');
 const nums = (s) => (strip(s).match(/\d[\d,.]*/g) || []).map((x) => x.replace(/[.,]$/, '')).filter((x) => x.replace(/[,.]/g, '').length >= 1);
+// v6 숫자 세기: 날짜·연도·분기·시각은 빼고, "2만 5천 원"·"4조 7,500억 원"처럼 한 덩어리 금액은 1개로 센다
+const v6nums = (s) => { let t = strip(s).replace(/\d{4}년(\s?\d{1,2}월)?(\s?\d{1,2}일)?/g, ' ').replace(/\d{1,2}월(\s?\d{1,2}일)?/g, ' ').replace(/\d{1,2}일/g, ' ').replace(/\d분기/g, ' ').replace(/\d{1,2}(시|:\d{2})/g, ' ').replace(/\d{4}\s?→\s?\d{4}/g, ' ');
+  t = t.replace(/\d[\d,.]*\s?(조|억|만)(\s?\d[\d,.]*\s?(억|만|천))*/g, 'N'); return (t.match(/N|\d[\d,.]*/g) || []).length; };
 // 같은 문장으로 보지 않는 고정 문장
 const SIG = /^— (Editor: )?Luciano$/;
 const FIXED = [/^— Luciano$/, /Luciano가 작성했습니다/, /에디터 Luciano입니다\.?$/, /^안녕하세요, 밸류노트 에디터 Luciano입니다\.?$/, /^— Editor: Luciano$/, /이 글은 투자 교육용 정보이며/, /밸류노트 에디터 Luciano가 작성했습니다/, /미래 주가를 보장하지 않습니다/];
@@ -95,6 +98,15 @@ for (const dir of dirs) {
     if (nd > 20) W.push(`숫자 밀도 1,000자당 ${nd.toFixed(1)}개 — 15개 안팎으로 (메르 22, 기준 글 b261030u). 이야기를 받치는 기둥 숫자만 (STYLE v3-4)`);
     const acc = ['잉여현금흐름', '영업현금흐름', '주당순이익', 'PER', 'PBR', 'ROE', 'EBITDA', '컨센서스'].filter((w) => t.includes(w));
     if (acc.length > 1) W.push(`회계 용어 ${acc.length}개(${acc.join(', ')}) — 한 글에 하나까지, 나머지는 말로 (STYLE v3-4)`); }
+  // ★ v6 (2026-11-01 15:31 운영자: "숫자가 너무 많이 나오고 분석글로만 느껴져") — 이야기가 먼저, 숫자는 기둥만. 경고가 아니라 오류.
+  { const body = p.blocks.filter((b) => b.p && !SIG.test(b.p)).map((b) => strip(b.p));
+    const tot = body.reduce((a, x) => a + v6nums(x), 0), chars = body.join(' ').length, dens = tot * 1000 / Math.max(1, chars);
+    const lim = /이 3가지만/.test(p.title || '') ? 18 : 12; // r54: 「이 3가지만」 시리즈만 18개까지
+    if (dens > lim) E.push(`v6 숫자 밀도 1,000자당 ${dens.toFixed(1)}개(날짜·연도 제외 ${tot}개) — ${lim}개 이하로, 큰 숫자는 아는 크기로 (STYLE v6 ③${lim === 18 ? ' · 제1 원칙 r54' : ''})`);
+    const heavy = body.filter((x) => v6nums(x) >= 3); if (heavy.length) E.push(`v6 숫자 3개 이상 문단 ${heavy.length}개 — 한 문단 2개까지: ${heavy[0].slice(0, 40)}…`);
+    const zero = body.filter((x) => v6nums(x) === 0).length; if (zero * 2 < body.length) E.push(`v6 숫자 없는 문단 ${zero}/${body.length} — 절반 이상이어야 합니다 (STYLE v6 ③)`);
+    const first2 = sentences(body.slice(0, 2).join(' ')).slice(0, 2).join(' '); if (v6nums(first2) >= 2) E.push(`v6 첫 2문장에 숫자 ${v6nums(first2)}개 — 1개까지, 세상 장면으로 시작 (STYLE v6 ①)`);
+    const sm = (p.blocks.find((b) => b.summary)?.summary || []).join(' '); if (v6nums(sm) > 1) E.push(`v6 요약 한 줄에 숫자 ${v6nums(sm)}개 — 1개까지 (STYLE v6 ④)`); }
   // 사진
   const imgs = p.blocks.filter((b) => b.img && !b.href);
   const orig = imgs.filter((b) => ['chart', 'app', 'data'].includes(b.kind));
