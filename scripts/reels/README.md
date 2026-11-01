@@ -416,3 +416,6 @@ python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover      
 
 ## 인스타 벤치마킹 반영 (자동, 주 3회)
 - [10/30 igbench] 이익률·비중·수익률 %가 이야기의 중심인 쇼츠·릴스는 첫 화면 첫 줄을 '100원(100달러) 중 N원' 내 돈 단위로 바꿔 쓴다(예: "100원어치 팔아 80원 남긴 SK하이닉스"). % 원래 숫자와 기준일은 둘째 줄이나 화면 아래에. 비유·의인화 금지(제1 원칙 31)는 그대로 — 환산은 실제 숫자 계산이어야 한다. — 근거: 우리 https://www.instagram.com/value.note.korea/reel/DfBpouZyGe9/ '100원어치 팔아서 80원' 조회 1,387 vs 같은 주 미국 기업 릴스 115~129 · money_zine 공동 게시 https://www.instagram.com/money_zine/reel/De4fe4-qj8B/ 'S&P500에 100달러면 46달러는 15개 기업' 조회 5,624(계정 최근 릴스 중앙 약 3,000의 1.9배)
+
+
+> ★ 제1 원칙 51 (11/01): 제목은 HOOKS.md 5절 공식(A 이 3가지만 / B 대상 호명 / C 후회형) + 구체 숫자, 첫 문장은 생활 돈 고민으로 열고, 기획안에 pattern:<win-patterns id>를 적는다.
