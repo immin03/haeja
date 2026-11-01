@@ -1,0 +1,35 @@
+{
+ "id": "bh1_wreck",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "GRANDPA: a Korean street sweeper grandpa in his late sixties, short grey hair, kind wrinkled face, an orange-and-navy work vest over a grey padded jacket, a traditional long broom made of bundled twigs. PLACE: a quiet Seoul alley street at dawn lined with tall golden ginkgo trees, a wooden bench, low brick walls, piles of swept golden ginkgo leaves, soft blue-gold morning light. Late autumn dawn. The top of the grandpa's broom handle has NO heart charm: only a short loose end of red yarn dangles there. No red heart anywhere in this picture. The grandpa stands holding his twig broom upright beside a big, neatly swept round pile of golden ginkgo leaves; Kachi has dived head-first into the middle of his pile, golden leaves bursting up and scattering in all directions. The grandpa looks down at the mess, puzzled, eyebrows raised, mouth slightly open. Only the grandpa and Kachi in the frame; his hands are simple and hold the broom. Kachi is about the size of the grandpa's hand. The magpie is exactly the character in the magpie reference image: a small round chibi magpie with a glossy black head, cream-white face and belly, big shiny dark-brown eyes, short black beak, dark navy-blue wings, a red knotted neckerchief and a small brown leather satchel. It does NOT hold a microphone. Style: handcrafted 3D miniature diorama photographed with a macro lens, tilt-shift, shallow depth of field, soft cinematic light, felt, clay, paper and wood textures with tiny hand-painted details, gentle film grain, warm nostalgic color grade, clay figurines with soft rounded faces and gentle, restrained, understated expressions (no tears, no crying, no exaggerated sad faces), not photorealistic. Vertical 9:16 frame, main subject in the middle of the frame, a calm uncluttered area in the top fifth of the frame. Absolutely no text, no letters, no numbers, no hangul, no logos, no labels, no brand names, no watermark anywhere.",
+  "aspect_ratio": "9:16",
+  "image_urls": [
+   "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a17b70-ab18-7c04-b78d-9f9919c50bb3/782ef25e-92f8-4921-9766-7359221b176c.jpeg"
+  ]
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19497-9df5-7a5c-92cd-57a9589ea2c4",
+  "status_url": "https://api.higgsfield.ai/requests/01a19497-9df5-7a5c-92cd-57a9589ea2c4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19497-9df5-7a5c-92cd-57a9589ea2c4/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19497-9df5-7a5c-92cd-57a9589ea2c4",
+  "status_url": "https://api.higgsfield.ai/requests/01a19497-9df5-7a5c-92cd-57a9589ea2c4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19497-9df5-7a5c-92cd-57a9589ea2c4/cancel",
+  "expires_at": "2026-11-08T00:52:38.314650+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19497-9df5-7a5c-92cd-57a9589ea2c4/fa7946b0-d271-42b7-ae80-8506d440865c.jpeg"
+   }
+  ]
+ },
+ "seconds": 38,
+ "file": "social/side/gen/bh1_wreck.jpeg"
+}
