@@ -1292,7 +1292,7 @@ def draw_banner_soft(img):
 # 선 자리: 쇼츠·클린 화면은 위 제목 띠 바로 아래, 인스타 릴스는 자막과 고지문 사이. 대본에 "goldline": false 면 끈다.
 GL_ON = True
 WORLD = None   # "popup" = 팝업 노트 (대본 "world": "popup")
-BANNER_BAND = False; BAND_H = 0   # 대본 "banner_band": true → 꽉 찬 그림 장면 위 진한 단색 제목 띠(fullworld.draw_band)
+BANNER_BAND = False; BAND_H = 0; BANNER_TAG = None   # 대본 "banner_band": true → 꽉 찬 그림 장면 위 진한 단색 제목 띠(fullworld.draw_band)
 GL_INK = (232, 188, 96); GL_PAN = .5          # 펜 색 · 장면 사이 카메라 이동 시간(초)
 GL_REST = .84                                  # 장면 안에서 펜이 멈추는 자리 (화면 폭 비율)
 
@@ -1361,10 +1361,13 @@ def frame(T, scenes, total, pen=True):
         img = fullworld.render(sys.modules[__name__], T, s, scenes)
         global YT_CAP_Y
         _cy = YT_CAP_Y; YT_CAP_Y = 1590
-        if YT: y_caption(img, u, s["L"])
+        if sc["full"].get("end"): pass
+        elif YT: y_caption(img, u, s["L"])
         else: caption(img, u, s["L"])
         YT_CAP_Y = _cy
-        if YT_BANNER and BANNER_BAND: fullworld.draw_band(sys.modules[__name__], img, YT_BANNER)   # 진한 단색 제목 띠 (대본 "banner_band": true, 2026-11-01 15:11)
+        if sc["full"].get("end"): pass   # 엔딩 카드에는 제목 띠·자막 없음
+        elif YT_BANNER and BANNER_BAND and BANNER_TAG is not None: fullworld.draw_tag_band(sys.modules[__name__], img, BANNER_TAG, YT_BANNER)   # 띠 v4 (2026-11-01 16:11)
+        elif YT_BANNER and BANNER_BAND: fullworld.draw_band(sys.modules[__name__], img, YT_BANNER)   # 진한 단색 제목 띠 (대본 "banner_band": true, 2026-11-01 15:11)
         elif YT_BANNER: draw_banner_soft(img)
         d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
         return img
@@ -1550,10 +1553,15 @@ def render_cover(spec, outdir):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H
+    global BANNER_BAND, BAND_H, BANNER_TAG
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
+    BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
-        import fullworld; BAND_H = fullworld.band_height(sys.modules[__name__], YT_BANNER)
+        import fullworld
+        if BANNER_TAG is not None:
+            if len(YT_BANNER) > fullworld.BAND_MAX_LINES: raise RuntimeError(f"{spec['id']}: 제목 띠 본문은 최대 {fullworld.BAND_MAX_LINES}줄입니다(태그 별도, 2026-11-01 대표님) — {YT_BANNER}")
+            BAND_H = fullworld.tag_band_height(sys.modules[__name__], BANNER_TAG, YT_BANNER)
+        else: BAND_H = fullworld.band_height(sys.modules[__name__], YT_BANNER)
     else: BAND_H = 0
     scenes, _ = plan_estimate(spec)
     if YT_BANNER and spec.get("platform") == "youtube":   # 유튜브 쇼츠 표지: 제목 띠 + 첫 장면의 큰 숫자가 터진 순간
@@ -1719,10 +1727,15 @@ def render(spec, outdir, stills=None):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H
+    global BANNER_BAND, BAND_H, BANNER_TAG
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
+    BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
-        import fullworld; BAND_H = fullworld.band_height(sys.modules[__name__], YT_BANNER)
+        import fullworld
+        if BANNER_TAG is not None:
+            if len(YT_BANNER) > fullworld.BAND_MAX_LINES: raise RuntimeError(f"{spec['id']}: 제목 띠 본문은 최대 {fullworld.BAND_MAX_LINES}줄입니다(태그 별도, 2026-11-01 대표님) — {YT_BANNER}")
+            BAND_H = fullworld.tag_band_height(sys.modules[__name__], BANNER_TAG, YT_BANNER)
+        else: BAND_H = fullworld.band_height(sys.modules[__name__], YT_BANNER)
     else: BAND_H = 0
     if spec.get("platform") == "youtube" and spec["scenes"][-1]["type"] != "cta":
         # 2026-10-24 운영자: 롱폼에서 나온 쇼츠는 전부 '풀버전 보기'로 끝나야 한다
