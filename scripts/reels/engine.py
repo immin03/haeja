@@ -1366,7 +1366,8 @@ def frame(T, scenes, total, pen=True):
         else: caption(img, u, s["L"])
         YT_CAP_Y = _cy
         if sc["full"].get("end"): pass   # 엔딩 카드에는 제목 띠·자막 없음
-        elif YT_BANNER and BANNER_BAND and BANNER_TAG is not None: fullworld.draw_tag_band(sys.modules[__name__], img, BANNER_TAG, YT_BANNER)   # 띠 v4 (2026-11-01 16:11)
+        elif YT_BANNER and BANNER_BAND and BANNER_TAG is not None:   # 띠 v4 (2026-11-01 16:11) · 로고는 화면 아래 가운데 (16:23)
+            fullworld.draw_tag_band(sys.modules[__name__], img, BANNER_TAG, YT_BANNER); fullworld.logo_bottom(img)
         elif YT_BANNER and BANNER_BAND: fullworld.draw_band(sys.modules[__name__], img, YT_BANNER)   # 진한 단색 제목 띠 (대본 "banner_band": true, 2026-11-01 15:11)
         elif YT_BANNER: draw_banner_soft(img)
         d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)

@@ -42,7 +42,8 @@ def _pen(size):
 
 def picture(E, s, u):
     f = s["sc"]["full"]; src = _img(f["img"])
-    z = 1.0 + .07 * E.clamp(u / max(s["dur"], 1.0))
+    # 2026-11-01 16:14 대표님: 확대 효과가 어지럽다 → 기본은 정지 그림. 대본 "zoom": 0.02 이하일 때만 아주 느린 확대 한 방향
+    z = 1.0 + min(float(f.get("zoom", 0) or 0), .02) * E.clamp(u / max(s["dur"], 1.0))
     r = max(W / src.width, H / src.height) * z
     im = src.resize((int(src.width * r) + 1, int(src.height * r) + 1), Image.BILINEAR)
     x0 = int((im.width - W) * f.get("focus_x", .5)); y0 = int((im.height - H) * f.get("focus_y", .5))
@@ -64,7 +65,7 @@ def overlay(E, img, s, u):
     d0 = ImageDraw.Draw(img)
     lw = d0.textlength(lab, font=lf) if lab else 0
     nw = d0.textlength(num, font=pf) if num else 0
-    X, Y = 56, f.get("y", (getattr(E, "BAND_H", 0) or 390) + 30)
+    X, Y = X0, f.get("y", (getattr(E, "BAND_H", 0) or 390) + 30)
     bw = max(lw, nw * (1 if p > 0 else 0)) + 72; bh = 96 + 150 * p
     card = Image.new("RGBA", (int(bw) + 30, int(bh) + 30), (0, 0, 0, 0)); cd = ImageDraw.Draw(card)
     cd.rounded_rectangle([12, 16, bw + 12, bh + 16], 10, fill=(0, 0, 0, int(90 * a)))
@@ -162,8 +163,12 @@ def _shadow_runs(img, x, y, runs, font):
     for t, c in runs: d.text((cx, y), t, font=font, fill=c, anchor="lm"); cx += d.textlength(t, font=font)
 
 
+BAND_W = int(W * .88)   # 2026-11-01 16:23 대표님: 두 줄 중 긴 줄이 화면 폭의 약 88%
+
+
 def tag_fonts(E, lines):
-    return E.fit_font(max(lines, key=len), "Heavy", 124, 960)
+    longest = max(lines, key=lambda t: E.F("Heavy", 100).getlength(t))
+    return E.fit_font(longest, "Heavy", 160, BAND_W)
 
 
 def tag_band_height(E, tag, lines):
@@ -181,17 +186,29 @@ def logo_en(img, x, y, size=38, a=1.0):
 def draw_tag_band(E, img, tag, lines):
     if len(lines) > BAND_MAX_LINES: raise RuntimeError(f"제목 띠 본문은 최대 {BAND_MAX_LINES}줄 (2026-11-01 대표님): {lines}")
     h = tag_band_height(E, tag, lines); d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, W, h], fill=NAVYB); d.line([(60, h - 2), (W - 60, h - 2)], fill=TAGC, width=3)
+    d.rectangle([0, 0, W, h], fill=NAVYB); d.line([(X0, h - 2), (W - X0, h - 2)], fill=TAGC, width=3)
     y = 50
     if tag:
         tf = E.F("Bold", 54); tw = d.textlength(tag, font=tf)
-        d.rounded_rectangle([60, 46, 60 + tw + 52, 46 + 78], 39, fill=TAGC)
-        d.text((86, 85), tag, font=tf, fill=NAVYB, anchor="lm"); y = 150
-    logo_en(img, W - 56, 62, 38)
+        d.rounded_rectangle([X0, 46, X0 + tw + 52, 46 + 78], 39, fill=TAGC)
+        d.text((X0 + 26, 85), tag, font=tf, fill=NAVYB, anchor="lm"); y = 150
     f = tag_fonts(E, lines)
     for i, s_ in enumerate(lines):
-        _shadow_runs(img, 60, y + f.size * .59 + i * f.size * 1.18, _num_runs(E, s_), f)
+        _shadow_runs(img, X0, y + f.size * .59 + i * f.size * 1.18, _num_runs(E, s_), f)
     return h
+
+
+X0 = (W - BAND_W) // 2
+
+
+def logo_bottom(img, y=1712, size=46, a=.75):
+    """화면 아래 가운데 영문 ValueNote (2026-11-01 16:23 대표님: 반투명 흰색 0.75, 자막 박스 아래 여백)"""
+    from brand import EN_FONT
+    f = ImageFont.truetype(EN_FONT, size)
+    lay = Image.new("RGBA", img.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+    ld.text((W / 2 + 2, y + 3), "ValueNote", font=f, fill=(0, 0, 0, int(110 * a)), anchor="mm")
+    lay = lay.filter(ImageFilter.GaussianBlur(3)); ImageDraw.Draw(lay).text((W / 2, y), "ValueNote", font=f, fill=(255, 255, 255, int(255 * a)), anchor="mm")
+    img.paste(lay, (0, 0), lay)
 
 
 def ending_card(E, s, u, kind):
