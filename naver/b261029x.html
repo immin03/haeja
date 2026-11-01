@@ -146,8 +146,14 @@ function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(
 document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
 document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
   const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
-  try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([cl.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); }
-  catch(e) { const sk = [...art.querySelectorAll('[data-skip]')]; sk.forEach((x) => x.remove()); selectCopy(art); location.reload(); }
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
   done(b, '복사했어요 · 붙여넣기 하세요'); };
 // 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
 (() => {
