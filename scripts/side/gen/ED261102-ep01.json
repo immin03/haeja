@@ -1,0 +1,59 @@
+[
+ {
+  "id": "ed01_tent",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Before dawn inside a Roman military command tent on the cold Danube frontier, an older bearded Roman emperor in a plain dark wool cloak sits alone at a rough wooden table, seen from behind and slightly to the side so his face is not visible, his head bowed over a small wooden wax tablet, one candle burning on the table, a folded red general's cloak and a bronze helmet resting nearby, tent canvas glowing faint blue from the dawn outside. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+  }
+ },
+ {
+  "id": "ed02_tablet",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Extreme close-up of an older man's weathered hand holding a bronze stylus, pressing slow marks into the dark beeswax of an open wooden diptych wax tablet resting on a rough wooden table, a candle flame beside it casting warm light, wisps of wax shavings, the marks are abstract scratches that are not readable letters. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+  }
+ },
+ {
+  "id": "ed03_subway",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Early winter morning on an almost empty modern subway platform, a lone office worker in a dark long coat with a work bag, seen from behind and slightly to the side so the face is not visible, standing still and waiting near the platform edge, cold blue light from the tunnel and one warm overhead lamp above the worker, his breath faintly visible, a quiet calm moment before the train arrives, no signs, no screens. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+  }
+ },
+ {
+  "id": "edv01_tent",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed01_tent.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The candle flame flickers gently and the emperor slowly lifts his head from the wax tablet as the dawn light on the tent canvas grows a little brighter. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "edv02_tablet",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed02_tablet.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand slowly draws one short line into the wax with the stylus while the candle flame flickers softly. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "edv03_subway",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed03_subway.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The office worker slowly straightens his shoulders and takes one calm breath, his breath misting in the cold air, while the light from the tunnel grows slightly brighter. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ }
+]
