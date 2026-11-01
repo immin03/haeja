@@ -1,0 +1,32 @@
+{
+ "id": "il_L261101_land",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: An empty plot of land at dawn with surveying stakes and string lines; in the foreground a table with an unrolled blueprint of a data center building, a pencil and a coffee cup; high-voltage power lines stretch across the distant hills.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19505-343a-74aa-9186-0cdf073e7c87",
+  "status_url": "https://api.higgsfield.ai/requests/01a19505-343a-74aa-9186-0cdf073e7c87/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19505-343a-74aa-9186-0cdf073e7c87/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19505-343a-74aa-9186-0cdf073e7c87",
+  "status_url": "https://api.higgsfield.ai/requests/01a19505-343a-74aa-9186-0cdf073e7c87/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19505-343a-74aa-9186-0cdf073e7c87/cancel",
+  "expires_at": "2026-11-08T02:53:04.240354+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19505-343a-74aa-9186-0cdf073e7c87/6560833a-fa86-4a01-aafd-40712166234c.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "scripts/blog/media/lib/il_L261101_land.jpeg"
+}

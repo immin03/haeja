@@ -1,0 +1,32 @@
+{
+ "id": "il_L261101_flyers",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A refrigerator door in a small Korean apartment kitchen at night, covered with many paper delivery menus held by magnets. In the foreground a hand holds a smartphone; the paper menus peel off the fridge and stream into the phone screen like a ribbon of tiny flying sheets.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19500-0db8-7b38-ad62-d753b4ee2802",
+  "status_url": "https://api.higgsfield.ai/requests/01a19500-0db8-7b38-ad62-d753b4ee2802/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19500-0db8-7b38-ad62-d753b4ee2802/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19500-0db8-7b38-ad62-d753b4ee2802",
+  "status_url": "https://api.higgsfield.ai/requests/01a19500-0db8-7b38-ad62-d753b4ee2802/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19500-0db8-7b38-ad62-d753b4ee2802/cancel",
+  "expires_at": "2026-11-08T02:47:31.227738+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19500-0db8-7b38-ad62-d753b4ee2802/3ef7a8a8-61da-49a0-b055-07b14bf17399.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261101_flyers.jpeg"
+}
