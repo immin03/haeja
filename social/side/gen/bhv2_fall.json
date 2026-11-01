@@ -1,0 +1,31 @@
+{
+ "id": "bhv2_fall",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "prompt": "Kachi slowly turns its head toward the red heart on the leaf pile while a single golden ginkgo leaf drifts down and lands on top of it; the grandpa keeps smiling at the rice ball. Keep the miniature clay diorama look and every character design identical to the first frame. One simple, small action only; subtle, slow, gentle motion; the camera stays almost still with at most a slow gentle push-in. No text, no tears, no crying, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "duration": 5,
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19498-369a-75f6-a173-c7269d3a7c94/903d4265-82be-484f-bdc4-6b2cc863df5b.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a194a4-8ecf-7958-ae64-a12fdb48f0bc",
+  "status_url": "https://api.higgsfield.ai/requests/01a194a4-8ecf-7958-ae64-a12fdb48f0bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a194a4-8ecf-7958-ae64-a12fdb48f0bc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a194a4-8ecf-7958-ae64-a12fdb48f0bc",
+  "status_url": "https://api.higgsfield.ai/requests/01a194a4-8ecf-7958-ae64-a12fdb48f0bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a194a4-8ecf-7958-ae64-a12fdb48f0bc/cancel",
+  "expires_at": "2026-11-08T01:08:28.355280+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a194a4-8ecf-7958-ae64-a12fdb48f0bc/5d93bb6f-f1dc-4c39-a62e-ad6ff7bdd847.mp4"
+  }
+ },
+ "seconds": 138,
+ "file": "social/side/gen/bhv2_fall.mp4"
+}
