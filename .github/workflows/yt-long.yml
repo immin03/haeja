@@ -20,7 +20,7 @@ concurrency: yt-long
 jobs:
   build:
     runs-on: ubuntu-24.04  # 2026-10-29 고정: 26 전환 후 브라우저 설치 실패
-    timeout-minutes: 240
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 2 }

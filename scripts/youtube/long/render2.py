@@ -1021,13 +1021,13 @@ def media_source(v, n_frames, seed):
     lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); f = v.get("lib")
     pth = os.path.join(lib, f) if f else None
     if not pth or not os.path.exists(pth): return lambda u: background("dark")
-    if f.endswith(".jpg") or f.endswith(".png"):
+    if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):   # 2026-11-01: .jpeg 를 영상으로 잘못 보고 ffmpeg -stream_loop 로 사진 한 장을 무한 반복 → 렌더가 240분 제한까지 멈춰 있었다
         frames = LazyPhoto(pth, n_frames, seed)   # 2026-10-23: 긴 장면에서 모든 프레임을 미리 만들면 메모리가 넘친다 → 그때그때 만든다
     else:
         dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", pth], capture_output=True, text=True).stdout.strip() or 0)
         cap = min(n_frames, 240)   # 영상은 최대 8초만 풀어 두고, 더 길면 앞뒤로 왕복 재생
         raw = subprocess.run(["ffmpeg", "-v", "error", "-stream_loop", "-1", "-ss", "0", "-i", pth, "-frames:v", str(cap), "-vf",
-                              f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"], capture_output=True).stdout
+                              f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"], capture_output=True, timeout=180).stdout
         fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3) if raw else np.zeros((1, H, W, 3), np.uint8)
         L_ = len(fr); frames = [fr[(i % (2 * L_ - 1)) if (i % (2 * L_ - 1)) < L_ else (2 * L_ - 2 - i % (2 * L_ - 1))] for i in range(n_frames)] if L_ > 1 else [fr[0]] * n_frames
     dark = v.get("dim", .35)
@@ -1326,6 +1326,13 @@ NB_FLIP2 = .85    # 같은 장 안에서 장면이 바뀔 때 페이지 넘김
 NB_MOVE = .85     # 같은 장 안에서 다음 장면으로 카메라가 옮겨 가는 시간
 
 
+def _movavg(x, w):
+    """빠른 이동 평균 (np.convolve(x, ones(w)/w, 'same') 과 같은 결과)"""
+    c = np.cumsum(np.concatenate([np.zeros(1), np.asarray(x, np.float64)])); h = w // 2
+    i = np.arange(len(x)); a = np.clip(i - h, 0, len(x)); b = np.clip(i - h + w, 0, len(x))
+    return ((c[b] - c[a]) / w).astype(np.float32)
+
+
 def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, stamps, data):
     import notebook as NBK
     from brand import logo_image
@@ -1555,13 +1562,13 @@ def main():
             mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
     if np.abs(mix).max() > 0: mix = mix / np.abs(mix).max() * .9
     from scipy import signal as _sg
-    env = np.convolve(np.abs(mix), np.ones(int(SR * .25)) / (SR * .25), "same"); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)
+    env = _movavg(np.abs(mix), int(SR * .25)); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)   # 2026-11-01: np.convolve 가 9분 오디오에서 5분 넘게 걸려 누적합 이동 평균으로 (결과 같음)
     env = _sg.lfilter([.0005], [1, -.9995], env); env = np.clip(env / (env.max() + 1e-9), 0, 1)
     MUS_LEVEL, MUS_DUCK = .25, .62   # 2026-10-22 운영자: 음악이 안 들린다 → 말 없는 곳은 또렷하게, 말할 때는 62% 낮춘다 · 2026-10-27 운영자: "아주 약간만 더 키워도" → .19→.25 (약 +2.4dB)
     boost = np.ones(len(mix), np.float32)   # 시작(첫 말 전)과 끝 화면에서는 음악을 더 크게, 사이는 부드럽게 이어 준다
     first = int(timeline[0]["start"] * SR + timeline[0]["lines"][0][0] * SR); last = int(timeline[-1]["start"] * SR)
     boost[:first] = 1.5; boost[last:] = 1.5
-    boost = np.convolve(boost, np.ones(int(SR * 1.2)) / (SR * 1.2), "same").astype(np.float32)
+    boost = _movavg(boost, int(SR * 1.2))
     mus = load_theme(len(mix)) * (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:, None]
     st_ = np.stack([mix, mix], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
@@ -1609,7 +1616,7 @@ def main():
     # 2) 영상
     tmp = os.path.join(out, "video_noaudio.mp4")
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                            "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
+                            "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
     prev_last = None; chapter = ""
     only_sc = [int(x) for x in os.environ.get("RENDER_SCENES", "").split(",") if x.strip()]   # 검수용: 일부 장면만 영상으로 (예: RENDER_SCENES=14,15,16)
     if NBW: return notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, stamps, data)

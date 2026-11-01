@@ -451,6 +451,9 @@ def cine_title(pil, text, u, t0=.8, x=150, y=None, size=92, sub=None):
     if not text or u < t0 - .4: return
     y = int(H * .40) if y is None else y
     d = ImageDraw.Draw(pil, "RGBA"); f = font("myeongjo", size)
+    tw = d.textlength(text, font=f)
+    if x + tw > W - 90:   # 2026-11-01: 긴 오프닝 제목이 화면 오른쪽 밖으로 잘려 → 화면 안에 들어오게 글씨를 줄인다
+        size = max(48, int(size * (W - 90 - x) / tw)); f = font("myeongjo", size)
     q = clamp((u - t0 + .4) / .6)
     if q > 0: d.line([(x + 4, y - 34), (x + 4 + 150 * eio(q), y - 34)], fill=(*PEN, int(240 * q)), width=4)
     cx = x; step = .055
