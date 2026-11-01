@@ -119,6 +119,13 @@ def target(E, sc, L):
         return _ellipse(W / 2, Y(962 if sc.get("title") else 900), 520, 330, 80), .5
     if t == "cta":
         return _under(W / 2 - 260, W / 2 + 260, Y(728)), .7
+    if t in ("recap", "list"):   # 제목 아래만 긋는다 (2026-11-01: 첫 항목 글자를 가로지르던 금선 제거)
+        tt = sc.get("title") or "이 3가지만"
+        if t == "list":
+            n_ = max(1, len(sc["items"])); y_ = max(400, 880 - (n_ - 1) * (192 if n_ <= 5 else 161) / 2 - 170) + 48
+        else: y_ = 578
+        w = min(900, E.fit_font(tt, "ExtraBold", 66, 940).getlength(tt))
+        return _under(W / 2 - w / 2 - 6, W / 2 + w / 2 + 6, Y(y_)), .55
     return _under(W / 2 - 200, W / 2 + 200, Y(640)), .6
 
 

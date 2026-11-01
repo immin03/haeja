@@ -77,8 +77,29 @@ def _points_yt(ln):
     return any(w in t for w in YT_WORDS)
 
 
+# 「이 3가지만」 시리즈 마무리 (2026-11-01 대표님: "1번 2번 3번이 정확하게 뭔지 다시 적어 주고, 언제·어디서 볼 수 있는지 힌트를 주고 끝내고,
+# 제일 마지막에 '이런 정보를 계속 받아 보고 싶으면 팔로우만 해 두세요'로 끝내야 할 것 같아. 살짝 길어져도")
+SERIES3 = "3가지만"
+SERIES_END = [{"cap": None, "say": "이런 정보를 계속 받아 보고 싶다면,"},
+              {"cap": None, "say": "구독이나 팔로우만 해 두세요. 다음 회사도 이렇게 딱 세 가지로 정리해 드릴게요."}]
+
+
+def series_prep(spec, sc, lines):
+    """시리즈 편: 세 가지 정리 장면은 정리 카드(recap)로, 마지막은 구독·팔로우 마무리로 통일"""
+    if spec.get("series") != SERIES3: return lines
+    if sc["type"] == "list": sc["type"] = "recap"
+    if sc["type"] == "recap" and lines and "pause" not in lines[-1]:   # 다 말한 뒤 세 장을 한 번에 1초쯤 보여 준다
+        lines = [dict(x) for x in lines]; lines[-1]["pause"] = .9
+    if sc["type"] == "cta" and not spec.get("end_custom"):
+        sc["_follow"] = "series"; sc["l1"] = "이런 정보, 계속 받고 싶다면"; sc["l2"] = "구독·팔로우만 해 두세요"
+        return [dict(x) for x in SERIES_END]
+    return lines
+
+
 def cta_lines(spec, sc, lines):
     kw = dm_kw(spec)
+    lines = series_prep(spec, sc, lines)
+    if sc.get("_follow") == "series": return lines
     if sc["type"] != "cta": return lines
     if not kw:  # 정리본이 없는 릴스는 팔로우로 마무리 (2026-10-22 운영자: 모든 릴스에 정리본을 붙이지 않는다)
         yt = spec.get("platform") == "youtube"   # 유튜브 쇼츠는 '팔로우' 대신 '구독'
@@ -423,6 +444,73 @@ def s_list(img, u, sc, L, T):
             d.text((x + 40, y), it, font=fit_font(it, "Bold", fs, 790), fill=mix(NAVY, IVORY, p), anchor="lm")
     return img
 
+def recap_items(sc):
+    """정리 카드 항목: 문자열('① 스타십 15번째 비행') 또는 {t, d, when, where}"""
+    out = []
+    for it in sc["items"]:
+        if isinstance(it, str):
+            t = re.sub(r"^\s*([①-⑩]|\d{1,2}[.)]?)\s*", "", it); out.append({"t": t})
+        else:
+            out.append(dict(it))
+    return out
+
+
+def s_recap(img, u, sc, L, T):
+    """「이 3가지만」 정리 카드 (2026-11-01 대표님: 디자인을 예쁘게, 1·2·3이 정확히 뭔지 + 언제·어디서 확인하는지)
+    - 번호 원: 남색 원 + 흰 테두리 + 흰 숫자 (디자인 기준, 형광색·금색 원 아님)
+    - 카드 = 항목 이름(크게) → 무엇을 보나(한 줄) → 언제·어디서 칩
+    - 말하는 항목만 진하게, 나머지는 흐리게(B261031-04). 다 말한 뒤에는 셋 다 진하게
+    - 노트에 담기는 범위(y 470~1350) 안에 모두 들어가게"""
+    items = recap_items(sc); n = max(1, len(items))
+    off = max(0, len(L) - n)                     # 앞에 '정리하면' 같은 도입 문장이 있으면 그 수만큼 건너뛴다
+    starts = [L[off + k][0] for k in range(n)] if len(L) >= n else [.2 + (L[0][1] if L else 3) * .8 * k / n for k in range(n)]
+    last_end = (L[-1][0] + L[-1][1]) if L else 99
+    active = max([k for k in range(n) if u >= starts[k] - .05] or [-1])
+    every = u >= last_end + .05 or len(L) < n    # 한 줄로 몰아 말하면 강조 없이 차례로만 나타난다
+    # 제목
+    title = sc.get("title") or "이 3가지만"
+    appear(img, u, .02, title, fit_font(title, "ExtraBold", 66, 940), IVORY, (W / 2, 528), dur=.35, rise=24)
+    # 카드 높이: 내용에 맞춰
+    has_d = any(it.get("d") for it in items); has_c = any(it.get("when") or it.get("where") for it in items)
+    ch = 104 + (50 if has_d else 0) + (70 if has_c else 0)
+    gap = 18 if n <= 3 else 12
+    if n > 3: ch = min(ch, int((1340 - 610 - gap * (n - 1)) / n))
+    top0 = 612 + max(0, (1340 - 612 - (n * ch + (n - 1) * gap)) // 2)
+    X0, X1 = 64, W - 64
+    for k, it in enumerate(items):
+        t0 = starts[k] if not every or len(L) >= n else starts[k]
+        p = prog(u, t0 - .05, t0 + .35)
+        if p <= 0: continue
+        on = every or k == active
+        op = p * (1.0 if on else .55)
+        y = top0 + k * (ch + gap)
+        lay = Image.new("RGBA", (W, ch + 8), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+        d.rounded_rectangle([X0, 2, X1, ch], 30, fill=(24, 46, 82, 255) if on else (19, 37, 68, 255),
+                            outline=(*GOLD, 255) if (on and not every) else (*GOLD_D, 200), width=3 if (on and not every) else 2)
+        r = 34; cx = X0 + 30 + r; cy = 18 + r
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(*NAVY, 255), outline=(255, 255, 255, 255), width=4)
+        d.text((cx, cy + 1), str(k + 1), font=F("Heavy", 40), fill=(255, 255, 255, 255), anchor="mm")
+        tx = cx + r + 26; mw = X1 - 34 - tx
+        d.text((tx, cy), it["t"], font=fit_font(it["t"], "ExtraBold", 56, mw), fill=(*IVORY, 255), anchor="lm")
+        yy = cy + r + 12
+        if it.get("d"):
+            d.text((tx, yy + 22), it["d"], font=fit_font(it["d"], "SemiBold", 40, mw), fill=(206, 214, 228, 255), anchor="lm"); yy += 50
+        chips = [(lab, it[key]) for lab, key in (("언제", "when"), ("어디서", "where")) if it.get(key)]
+        if chips:
+            cx2 = tx; cyc = yy + 32; fs = 34
+            def chip_w(fs_): return sum(F("Bold", fs_ - 6).getlength(a) + F("SemiBold", fs_).getlength(b) + 58 for a, b in chips) + 14 * (len(chips) - 1)
+            while fs > 26 and chip_w(fs) > mw: fs -= 2
+            for lab, val in chips:
+                fl, fv = F("Bold", fs - 6), F("SemiBold", fs); w_ = fl.getlength(lab) + fv.getlength(val) + 58
+                d.rounded_rectangle([cx2, cyc - 27, cx2 + w_, cyc + 27], 27, fill=(*mix(NAVY2, GOLD, .16), 255), outline=(*GOLD_D, 255), width=2)
+                d.text((cx2 + 20, cyc + 1), lab, font=fl, fill=(*GOLD, 255), anchor="lm")
+                d.text((cx2 + 20 + fl.getlength(lab) + 18, cyc + 1), val, font=fv, fill=(*IVORY, 255), anchor="lm")
+                cx2 += w_ + 14
+        if op < 1: lay.putalpha(lay.getchannel("A").point(lambda q: int(q * op)))
+        img.paste(lay, (int((1 - p) * -40), int(y - 2)), lay)
+    return img
+
+
 def wrap_words(s, font, maxw):
     """단어 단위로 줄을 나눈다 (한국어 keep-all: 낱말 중간에서 끊지 않는다)"""
     out, cur = [], ""
@@ -511,8 +599,9 @@ def s_cta(img, u, sc, L, T):
             img.paste(Image.new("RGB", (W, H), (255, 244, 210)), (0, 0), Image.fromarray(np.minimum(np.asarray(sh), np.asarray(m))))
     d = ImageDraw.Draw(img)
     l1, l2 = sc.get("l1", "더 현명한 투자를"), sc.get("l2", "시작하세요")
-    appear(img, u, V * .42, l1, fit_font(l1, "Heavy", 92, 980), IVORY, (W / 2, 850), dur=.45, rise=50)
-    appear(img, u, V * .62, l2, fit_font(l2, "Heavy", 92, 980), IVORY, (W / 2, 975), dur=.45, rise=50)
+    ser = sc.get("_follow") == "series" and len(L) > 1   # 시리즈 마무리: 첫 문장에 윗줄, 둘째 문장에 아랫줄(금색)
+    appear(img, u, .35 if ser else V * .42, l1, fit_font(l1, "Heavy", 76 if ser else 92, 920 if ser else 980), IVORY, (W / 2, 850), dur=.45, rise=50)
+    appear(img, u, L[-1][0] - .1 if ser else V * .62, l2, fit_font(l2, "Heavy", 84 if ser else 92, 920 if ser else 980), GOLD if ser else IVORY, (W / 2, 975), dur=.45, rise=50)
     if sc.get("_follow"):  # 팔로우 버튼: 안내 음성이 시작될 때 나타난다
         tb = L[-1][0] if len(L) > 1 else V * .85; pb = prog(u, tb, tb + .4)
         if pb > 0:
@@ -522,7 +611,7 @@ def s_cta(img, u, sc, L, T):
                 d.rounded_rectangle([cx - bw / 2 - g, cy - bh / 2 - g, cx + bw / 2 + g, cy + bh / 2 + g], 76, outline=mix(NAVY, GOLD_D, .6 - pulse * .4), width=3)
             d.rounded_rectangle([cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2], 66, fill=mix(NAVY, GOLD, pb))
             yt = sc.get("_follow") == "yt"
-            t1 = "▶  풀버전 보기" if yt else ("구독 · 좋아요" if sc.get("_follow") == "sub" else "+ 밸류노트 팔로우")
+            t1 = "▶  풀버전 보기" if yt else ("구독 · 좋아요" if sc.get("_follow") == "sub" else ("+  구독 · 팔로우" if sc.get("_follow") == "series" else "+ 밸류노트 팔로우"))
             if yt:
                 t1 = "풀버전 보기"; tx0 = cx + 24 - d.textlength(t1, font=fit_font(t1, "ExtraBold", 58, bw - 160)) / 2 - 62
                 d.polygon([(tx0, cy - 22), (tx0, cy + 22), (tx0 + 36, cy)], fill=mix(GOLD, NAVY, pb))
@@ -531,8 +620,8 @@ def s_cta(img, u, sc, L, T):
                 for k in range(3):
                     ph_ = ((u - tb) * 1.6 + k / 3) % 1; ay = (1440 + ph_ * 120) if YT else (1310 + ph_ * 220); aa = math.sin(ph_ * math.pi)
                     ImageDraw.Draw(img).line([(W / 2 - 46, ay), (W / 2, ay + 40), (W / 2 + 46, ay)], fill=mix(NAVY, GOLD, aa), width=10, joint="curve")
-            if pb > .6 and not yt and not YT and sc.get("_follow") != "sub":
-                t2 = "매일 조금 더 현명한 투자 습관"
+            if pb > .6 and (sc.get("_follow") == "series" or (not yt and not YT and sc.get("_follow") != "sub")):
+                t2 = "다음 회사도 딱 세 가지로 정리해 드립니다" if sc.get("_follow") == "series" else "매일 조금 더 현명한 투자 습관"
                 appear(img, u, tb + .25, t2, fit_font(t2, "SemiBold", 38, 960), (196, 204, 220), (W / 2, 1300), dur=.4, rise=20)
         return img
     kw = sc.get("_dm")
@@ -997,8 +1086,9 @@ def y_voice(txt, speak):
     return a
 
 DRAW = {"hook": s_hook, "line": s_line, "run": s_run, "compare": s_compare, "bars": s_bars,
-        "list": s_list, "race": s_race, "who": s_who, "statement": s_statement, "cta": s_cta, "screen": s_screen}
-NO_CAPTION = {"statement", "cta", "list"}
+        "list": s_list, "race": s_race, "who": s_who, "statement": s_statement, "cta": s_cta, "screen": s_screen,
+        "recap": s_recap}
+NO_CAPTION = {"statement", "cta", "list", "recap"}
 DRAW["equation"] = y_equation
 
 # ── 타임라인 ─────────────────────────────────────────────────
