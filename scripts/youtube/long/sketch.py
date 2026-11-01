@@ -137,6 +137,28 @@ def icon_draw(d, kind, x, y, s, c, w=4):
     elif kind == "bean":   # 코코아 콩
         d.ellipse([x + s * .2, y + s * .1, x + s * .8, y + s * .9], outline=c, width=w)
         d.arc([x + s * .35, y + s * .12, x + s * .65, y + s * .88], 100, 260, fill=c, width=max(2, w - 1))
+    elif kind == "bag":   # 배달 봉투 (2026-11-01 배달 편 — 손잡이 달린 종이봉투, 상표 없음)
+        d.polygon([(x + s * .14, y + s * .32), (x + s * .86, y + s * .32), (x + s * .92, y + s * .96), (x + s * .08, y + s * .96)], outline=c, width=w)
+        d.arc([x + s * .32, y + s * .06, x + s * .68, y + s * .5], 180, 360, fill=c, width=w)
+        L([(x + s * .14, y + s * .44), (x + s * .86, y + s * .44)])
+    elif kind == "drumstick":   # 닭다리 (기울어진 물방울 모양 살 + 뼈)
+        cx, cy, a, b, th = x + s * .62, y + s * .36, s * .34, s * .22, math.radians(-40)
+        pts = [(cx + a * math.cos(t) * math.cos(th) - b * math.sin(t) * math.sin(th) * (1 + .35 * math.cos(t)), cy + a * math.cos(t) * math.sin(th) + b * math.sin(t) * math.cos(th) * (1 + .35 * math.cos(t))) for t in [k * math.pi / 30 for k in range(61)]]
+        L(pts)
+        L([(x + s * .42, y + s * .56), (x + s * .22, y + s * .76)]); L([(x + s * .48, y + s * .62), (x + s * .28, y + s * .82)])
+        d.ellipse([x + s * .08, y + s * .7, x + s * .24, y + s * .86], outline=c, width=w); d.ellipse([x + s * .16, y + s * .8, x + s * .32, y + s * .96], outline=c, width=w)
+    elif kind == "scooter":   # 배달 오토바이
+        d.ellipse([x + s * .04, y + s * .62, x + s * .3, y + s * .88], outline=c, width=w); d.ellipse([x + s * .7, y + s * .62, x + s * .96, y + s * .88], outline=c, width=w)
+        L([(x + s * .17, y + s * .75), (x + s * .4, y + s * .58), (x + s * .7, y + s * .58), (x + s * .83, y + s * .75)])
+        L([(x + s * .7, y + s * .58), (x + s * .78, y + s * .28), (x + s * .9, y + s * .24)])
+        d.rectangle([x + s * .12, y + s * .26, x + s * .44, y + s * .54], outline=c, width=w)   # 뒤 배달통
+    elif kind == "shutter":   # 내려진 가게 셔터
+        d.rectangle([x + s * .06, y + s * .1, x + s * .94, y + s * .95], outline=c, width=w)
+        for k in range(7): L([(x + s * .06, y + s * (.24 + k * .1)), (x + s * .94, y + s * (.24 + k * .1))])
+    elif kind == "pouch":   # 돈주머니
+        d.ellipse([x + s * .12, y + s * .32, x + s * .88, y + s * .96], outline=c, width=w)
+        L([(x + s * .34, y + s * .34), (x + s * .28, y + s * .1), (x + s * .5, y + s * .2), (x + s * .72, y + s * .1), (x + s * .66, y + s * .34)])
+        L([(x + s * .36, y + s * .34), (x + s * .64, y + s * .34)])
     else:
         _base_icon(d, kind, x, y, s, c, w)
 
