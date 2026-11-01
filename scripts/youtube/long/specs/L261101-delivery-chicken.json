@@ -701,6 +701,17 @@
      "at": 0.1
     },
     {
+     "kind": "print",
+     "text": "닭·기름·소스·포장재",
+     "x": 1100,
+     "y": 320,
+     "size": 50,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.3
+    },
+    {
      "kind": "write",
      "text": "11,480원",
      "x": 440,
@@ -1702,8 +1713,8 @@
       "at": "0:무료배달"
      },
      {
-      "t": "누가 떠안나",
-      "at": "0:떠안는",
+      "t": "주문 늘수록 비용도",
+      "at": "0:주문이",
       "c": "red"
      },
      {
@@ -1956,7 +1967,18 @@
    "sketch_add": [
     {
      "kind": "print",
-     "text": "2026년 4월 공정위 발표",
+     "text": "공정거래위원회 집계",
+     "x": 1180,
+     "y": 650,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "2026년 4월 발표",
      "x": 1180,
      "y": 720,
      "size": 44,
@@ -1974,7 +1996,16 @@
      "w": "ExtraBold",
      "color": "red",
      "line": 1,
-     "at": 0.35
+     "at": 0.25
+    },
+    {
+     "kind": "under",
+     "x0": 150,
+     "x1": 700,
+     "y": 745,
+     "line": 1,
+     "at": 0.55,
+     "color": "red"
     },
     {
      "kind": "print",
@@ -1985,7 +2016,7 @@
      "w": "ExtraBold",
      "color": "ink",
      "line": 1,
-     "at": 0.75
+     "at": 0.85
     }
    ]
   },
@@ -2758,6 +2789,17 @@
     },
     {
      "kind": "print",
+     "text": "앞에서 본 숫자",
+     "x": 140,
+     "y": 510,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.25
+    },
+    {
+     "kind": "print",
      "text": "총수수료 평균",
      "x": 760,
      "y": 300,
@@ -2776,7 +2818,18 @@
      "w": "ExtraBold",
      "color": "red",
      "line": 0,
-     "at": 0.6
+     "at": 0.55
+    },
+    {
+     "kind": "print",
+     "text": "2026년 10월 보도 조사",
+     "x": 760,
+     "y": 510,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.72
     },
     {
      "kind": "print",
@@ -2822,6 +2875,17 @@
      "color": "green",
      "line": 1,
      "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "3건 계류",
+     "x": 1360,
+     "y": 610,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 1,
+     "at": 0.5
     },
     {
      "kind": "print",
@@ -3098,14 +3162,14 @@
     },
     {
      "kind": "print",
-     "text": "걸어갈 거리면 직접 포장",
+     "text": "앱 포장 · 메뉴 가격 확인",
      "x": 1170,
      "y": 790,
      "size": 38,
      "w": "ExtraBold",
      "color": "red",
-     "line": 0,
-     "at": 0.92
+     "line": 1,
+     "at": 0.85
     }
    ]
   },
