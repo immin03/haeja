@@ -1,0 +1,31 @@
+{
+ "id": "edv05_letters",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand releases the sealed letter into the brazier and slowly withdraws out of frame; the flames gently catch the papyrus edge, it curls and glows, sparks drift upward, the fire light flickers softly on the tent wall. The camera stays still with only a very slow push-in toward the brazier. Keep the painterly look and every detail identical to the first frame; the wax seals stay unbroken. No faces, no extra hands or fingers, no explosions or big flames, no text, no camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bd7-6f56-7cf3-9a9b-2a390f716bae/2872f10d-dd15-4c4f-b149-e55c0f2b37c2.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19bd9-1225-720d-91d7-abf9cb497128",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bd9-1225-720d-91d7-abf9cb497128/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bd9-1225-720d-91d7-abf9cb497128/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19bd9-1225-720d-91d7-abf9cb497128",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bd9-1225-720d-91d7-abf9cb497128/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bd9-1225-720d-91d7-abf9cb497128/cancel",
+  "expires_at": "2026-11-09T10:45:18.008763+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bd9-1225-720d-91d7-abf9cb497128/94cd926f-b0d6-4a8d-83db-6f8b1cfc3707.mp4"
+  }
+ },
+ "seconds": 266,
+ "file": "social/side/gen/edv05_letters.mp4"
+}
