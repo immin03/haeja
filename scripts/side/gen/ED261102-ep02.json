@@ -1,0 +1,21 @@
+[
+ {
+  "id": "ed05_letters",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Night inside a Roman emperor's campaign tent in 175 AD. Close-up at table height: an older man's weathered right hand, wearing a plain gold signet ring, slowly lowering a rolled papyrus letter tied with a cord and closed with an UNBROKEN red wax seal into a small round bronze brazier on a tripod. Several other sealed, unopened letters already lie in the brazier, their edges curling and glowing orange, small calm flames and drifting sparks rising. Behind, out of focus: the dark canvas wall of the tent, a folded deep-red general's cloak and a bronze helmet on a wooden stool. The fire is the only light source, warm orange light on the hand and the seal. The man's face is NOT in the frame — only the hand, forearm sleeve of dark wool, the letters and the brazier. The seals must be intact: the letters were never opened. Historically accurate Roman objects: papyrus rolls, wax seals, bronze tripod brazier; no books, no paper envelopes, no candles in modern holders. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark empty area in the top third for text. Absolutely no text, no letters, no numbers, no logos, no watermark, nothing modern anywhere."
+  }
+ },
+ {
+  "id": "edv05_letters",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed05_letters.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand releases the sealed letter into the brazier and slowly withdraws out of frame; the flames gently catch the papyrus edge, it curls and glows, sparks drift upward, the fire light flickers softly on the tent wall. The camera stays still with only a very slow push-in toward the brazier. Keep the painterly look and every detail identical to the first frame; the wax seals stay unbroken. No faces, no extra hands or fingers, no explosions or big flames, no text, no camera shake, no cuts."
+  }
+ }
+]
