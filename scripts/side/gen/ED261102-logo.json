@@ -1,0 +1,38 @@
+[
+ {
+  "id": "logo_coin",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "1:1",
+   "prompt": "An ancient Roman coin seen flat: a circle with a fine beaded border, inside it the clean side-profile silhouette of a bearded Roman emperor wearing a laurel wreath, drawn with a few fine gold lines only. Minimal flat vector logo emblem, centered, perfectly symmetric where possible, thin elegant gold lines (#C9A96E) on a plain solid near-black background (#0E0D0C), lots of empty space around it, premium luxury brand mark, no gradients, no shading, no 3D. Absolutely no text, no letters, no numbers, no watermark."
+  }
+ },
+ {
+  "id": "logo_tablet",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "1:1",
+   "prompt": "A small open wooden wax writing tablet (two hinged panels) drawn as a simple line icon, a slim stylus lying diagonally across it, a tiny crescent moon above it. Minimal flat vector logo emblem, centered, perfectly symmetric where possible, thin elegant gold lines (#C9A96E) on a plain solid near-black background (#0E0D0C), lots of empty space around it, premium luxury brand mark, no gradients, no shading, no 3D. Absolutely no text, no letters, no numbers, no watermark."
+  }
+ },
+ {
+  "id": "logo_laurel_m",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "1:1",
+   "prompt": "A slim laurel wreath forming an almost closed circle, the two branches meeting at the bottom, a single small eight-pointed star at the top center inside the wreath, very fine lines. Minimal flat vector logo emblem, centered, perfectly symmetric where possible, thin elegant gold lines (#C9A96E) on a plain solid near-black background (#0E0D0C), lots of empty space around it, premium luxury brand mark, no gradients, no shading, no 3D. Absolutely no text, no letters, no numbers, no watermark."
+  }
+ },
+ {
+  "id": "logo_column",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "1:1",
+   "prompt": "A single slender Ionic Roman column drawn in fine gold lines, with a small crescent moon floating just above its capital, all enclosed in a thin tall arch outline. Minimal flat vector logo emblem, centered, perfectly symmetric where possible, thin elegant gold lines (#C9A96E) on a plain solid near-black background (#0E0D0C), lots of empty space around it, premium luxury brand mark, no gradients, no shading, no 3D. Absolutely no text, no letters, no numbers, no watermark."
+  }
+ }
+]
