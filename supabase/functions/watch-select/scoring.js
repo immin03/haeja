@@ -56,8 +56,8 @@ function scoreRow(row, p, reqMOS){
   const graham = eps && bps && eps > 0 && bps > 0 ? Math.sqrt(22.5*eps*bps) : null;
   /* 주식보상비용 차감: 스톡옵션·RSU는 현금이 나가지 않아도 주주 몫을 희석하는 실제 비용이다 */
   const oe = isNum(val.oeps) ? (isNum(val.sbcps) ? val.oeps - val.sbcps : val.oeps) : null;
-  /* 성장 투자 보정: 설비투자가 순이익보다 크고(capex/NI>100%) ROIC가 15% 이상이면 FCF는 '유지 투자'가 아니라 '성장 투자'에 눌린 값이다.
-     버핏의 오너이익은 유지 투자만 뺀다. 이런 회사는 그레이엄식 정상 이익(다년 평균 EPS, 최근 EPS보다 크지 않게)을 기준으로 삼는다 */
+  /* 성장 투자 보정: 설비투자가 순이익의 80% 이상이고(capex/NI≥80%, 2026-11-02: 97%로 걸리지 않던 삼양식품 사례로 낮춤) ROIC가 15% 이상이면 FCF는 '유지 투자'가 아니라 '성장 투자'에 눌린 값이다.
+     워렌 버핏의 오너이익은 유지 투자만 뺀다. 이런 회사는 그레이엄식 정상 이익(다년 평균 EPS, 최근 EPS보다 크지 않게)을 기준으로 삼는다 */
   const eAvg = val.epsAvg;
   const normEps = isNum(eAvg) && eAvg > 0 ? (isNum(eps) && eps > 0 ? Math.min(eAvg, eps) : eAvg) : null;
   /* ===== 적정 주가 (2026-10-19 개편: 정상 이익 기준으로 보수화) =====
@@ -86,7 +86,7 @@ function scoreRow(row, p, reqMOS){
   const cycAdj = cycInd || (peak && !durable);
   const gDur = durable ? Math.max(0, Math.min(Math.min(fin.epsCagr, val.revCagr)*0.75, 12)) : null;
   const gUse = cycAdj ? p.tg : durable ? Math.max(gDur, isNum(val.growth) ? val.growth : 0) : val.growth;
-  const growthCapex = !row.fin_sector && isNum(oe) && normEps !== null && oe < normEps*0.6 && isNum(fin.capexNi) && fin.capexNi > 100 && isNum(fin.roic) && fin.roic >= 15;
+  const growthCapex = !row.fin_sector && isNum(oe) && normEps !== null && oe < normEps*0.6 && isNum(fin.capexNi) && fin.capexNi >= 80 && isNum(fin.roic) && fin.roic >= 15;
   /* 오너이익(현금)이 최근 이익의 1.3배를 넘으면 일시적 현금 유입으로 보고 이익 쪽으로 낮춘다 */
   const earnTop = Math.max(isNum(eps) && eps > 0 ? eps : 0, isNum(eAvg) && eAvg > 0 ? eAvg : 0) || null;
   let ivBase = growthCapex ? normEps : oe;
