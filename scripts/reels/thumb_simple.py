@@ -491,6 +491,8 @@ def render_v4(spec, out):
     rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", 84, maxw), IVORY))
     # 2026-10-29 성과 진단 #2 (대표님 승인): 큰 색 글씨는 8~9자 안으로 짧게, 화면 높이 22% 이상(160px). 큰 숫자형(C안)은 "s2": 220~260
     s2 = spec.get("s2", 160); f2 = fit(spec["l2"], "Heavy", s2, maxw); rows.append(("txt", spec["l2"], f2, acc))
+    if spec.get("l3"):   # 2026-11-02 대표님(제1 원칙 64): 큰 숫자 아래 그 숫자의 뜻·비교 한 줄(흰색, 작게) — 숫자만 던지지 않는다
+        rows.append(("txt", spec["l3"], fit(spec["l3"], "Heavy", spec.get("s3", 60), maxw), (250, 247, 240)))
     hts = [r[1].height if r[0] == "img" else r[2].size for r in rows]; gap = 22
     y = (H - (sum(hts) + gap * (len(rows) - 1))) / 2 + 10
     for r, h in zip(rows, hts):
