@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261102s_newspaper",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: Autumn 1989: a folded newspaper lying on a wet grey pavement next to a wooden crate of returned instant ramen packets, dramatic red ink splash spreading across the front page like a stain, overcast sky, people's legs walking past in a hurry. Composition: vertical 9:16; keep the top 25 percent of the frame as calm, nearly empty ivory paper wash for a short handwritten note; main subject in the lower 75 percent."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c2c-a6d0-7ad9-95b7-f74cbf8faca5",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c2c-a6d0-7ad9-95b7-f74cbf8faca5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c2c-a6d0-7ad9-95b7-f74cbf8faca5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c2c-a6d0-7ad9-95b7-f74cbf8faca5",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c2c-a6d0-7ad9-95b7-f74cbf8faca5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c2c-a6d0-7ad9-95b7-f74cbf8faca5/cancel",
+  "expires_at": "2026-11-09T12:14:25.410406+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c2c-a6d0-7ad9-95b7-f74cbf8faca5/9b220e70-d602-4632-9584-e3b731ec326e.jpeg"
+   }
+  ]
+ },
+ "seconds": 137,
+ "file": "scripts/blog/media/lib/il_Y261102s_newspaper.jpeg"
+}

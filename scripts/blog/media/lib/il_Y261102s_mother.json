@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261102s_mother",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: Seen from behind: a middle-aged Korean woman in a simple dark coat standing still on a cold Seoul street at night, looking at the warm light and the long line outside a tiny spicy chicken restaurant, one hand holding her bag strap, snow dust in the air, thoughtful mood. Composition: vertical 9:16; keep the top 25 percent of the frame as calm, nearly empty ivory paper wash for a short handwritten note; main subject in the lower 75 percent."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c2c-a58a-733f-8870-fa58430d88f8",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c2c-a58a-733f-8870-fa58430d88f8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c2c-a58a-733f-8870-fa58430d88f8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c2c-a58a-733f-8870-fa58430d88f8",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c2c-a58a-733f-8870-fa58430d88f8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c2c-a58a-733f-8870-fa58430d88f8/cancel",
+  "expires_at": "2026-11-09T12:14:27.006612+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c2c-a58a-733f-8870-fa58430d88f8/a7ff3a43-ca9a-40ec-915a-441c23d0c45a.jpeg"
+   }
+  ]
+ },
+ "seconds": 138,
+ "file": "scripts/blog/media/lib/il_Y261102s_mother.jpeg"
+}
