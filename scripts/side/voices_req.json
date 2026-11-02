@@ -1,15 +1,29 @@
 {
- "requested": "2026-11-02T17:55",
- "tag": "empo",
+ "requested": "2026-11-02T18:10",
+ "tag": "empo2",
  "lang": "kor",
  "model": "ssfm-v30",
- "emotion": "tonedown",
- "tempo": 1.0,
- "line": "매일 밤, 황제처럼 생각하라. 황제의 일기.",
  "voices": [
   {
-   "name": "Gunseok",
-   "id": "tc_6731b2e0855f351b98d30c48"
+   "name": "A_normal",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "emotion": "normal",
+   "intensity": 1.0,
+   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기."
+  },
+  {
+   "name": "B_tonedown_soft",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "emotion": "tonedown",
+   "intensity": 0.4,
+   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기."
+  },
+  {
+   "name": "C_normal_flat",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "emotion": "normal",
+   "intensity": 0.6,
+   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기"
   }
  ]
 }

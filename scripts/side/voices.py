@@ -17,9 +17,9 @@ def get(url):
     with urllib.request.urlopen(req, timeout=60) as r: return json.loads(r.read())
 
 
-def tts(voice, model, path, text=None, lang="eng", emotion=None):
+def tts(voice, model, path, text=None, lang="eng", emotion=None, intensity=1.0):
     body = {"text": text or LINE, "model": model, "voice_id": voice, "language": lang, "output": {"audio_format": "mp3"}}
-    if emotion: body["prompt"] = {"emotion_preset": emotion, "emotion_intensity": 1.0}
+    if emotion: body["prompt"] = {"emotion_preset": emotion, "emotion_intensity": intensity}
     req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST", data=json.dumps(body).encode(),
                                  headers={"X-API-KEY": KEY, "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=120) as r: open(path, "wb").write(r.read())
@@ -31,9 +31,10 @@ def main_req(req):
     for i, v in enumerate(req["voices"], 1):
         name = v["name"].replace(" ", "_")[:24]; fn = f"voice_{tag}_{i:02d}_{name}.mp3"; dst = os.path.join(OUT, fn); raw = dst + ".raw.mp3"
         ok = False
-        for emo in ([req.get("emotion")] if req.get("emotion") else []) + [None]:
+        e0 = v.get("emotion", req.get("emotion"))
+        for emo in ([e0] if e0 else []) + [None]:
             try:
-                tts(v["id"], req.get("model", "ssfm-v30"), raw, req["line"], req.get("lang", "kor"), emo); ok = True; break
+                tts(v["id"], req.get("model", "ssfm-v30"), raw, v.get("line", req.get("line")), req.get("lang", "kor"), emo, v.get("intensity", 1.0)); ok = True; break
             except urllib.error.HTTPError as e: print("실패", name, emo, e.code, e.read()[:200])
             except Exception as e: print("실패", name, emo, str(e)[:160])
         if not ok: continue
