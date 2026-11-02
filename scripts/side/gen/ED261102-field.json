@@ -1,0 +1,21 @@
+[
+ {
+  "id": "ed04_field",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Cold grey-blue dawn on the Danube frontier in 172 AD, during the Marcomannic Wars. An older Roman emperor, about fifty, with short curly grey hair and a short full beard, seen from behind and slightly to the right so his face is NOT visible, stands alone on a low muddy rise in the foreground, wearing a bronze muscle cuirass and a long deep-red general's cloak hanging heavy and still. He looks out over a wide misty battlefield plain below: a Roman legion drawn up in tight rectangular blocks, legionaries with curved red rectangular scutum shields and iron helmets, several eagle standards and red vexillum banners rising above the ranks, thin smoke from extinguished campfires, trampled frosty grass, a few bare winter trees, a dark forest line on the far horizon where the enemy waits unseen. Quiet, heavy calm before the day begins, no fighting, no blood, no corpses. Historically accurate Roman equipment, no medieval armour, no horses in the foreground. The emperor is small to medium in frame, in the lower third, the army in the middle third, faint dawn light breaking low behind the forest. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty sky area in the top third for text. Absolutely no text, no letters, no numbers, no logos, no watermark, nothing modern anywhere."
+  }
+ },
+ {
+  "id": "edv04_field",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed04_field.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The emperor stays completely still with his back to the camera; only his red cloak stirs slightly in a cold wind, the banners above the legion ripple gently, low mist drifts slowly across the plain and thin smoke rises. The camera makes one very slow, smooth push-in toward the emperor. Keep the painterly look and every detail identical to the first frame; the soldiers stay in formation and barely move. No fighting, no running, no text, no morphing faces or bodies, no extra limbs, no camera shake, no cuts."
+  }
+ }
+]
