@@ -786,19 +786,19 @@ def end_page(v, lines, fill, V, at_time):
     F = lambda x: fill(str(x), V) if x is not None else ""
     T = lambda at, d=0.0: at_time(at, lines) if at not in (None, "") else (lines[0][0] + d if lines else d)
     S0 = (lines[0][0] + .05) if lines else 0.0
-    B = [dict(kind="print", text=F(v.get("title", "")), x=COL_X, y=230, size=84, w="ExtraBold", t=S0),
-         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=345, size=(44 if len(F(v.get("sub", ""))) > 18 else 52), w="Bold", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4)]
-    if v.get("photo"):   # 2026-11-02 대표님: 끝 화면도 그림 없이 글자만 두지 말 것 (제1 원칙 72) → 테이프 사진 한 장
-        B.append(dict(kind="photo", src="scripts/blog/media/lib/" + v["photo"], x=COL_X, y=440, w=600, h=340, rot=-1.5, t=S0 + .3))
-    # 2026-11-02 대표님: "구독 좋아요 알림설정은 좀 예쁘게" → 체크 목록 대신 유튜브식 둥근 버튼 세 개가 차례로 톡 튀어나온다
-    py = 830 if v.get("photo") else 520; px = COL_X
+    # 2026-11-02 대표님: "다음 노트에서는 좀 이상한데 / 그 사진은 뭐지? / 구독 좋아요 알림설정도 가운데 정렬 깔끔하게"
+    # → 끝 화면 왼쪽 칸은 사진 없이 [인사 · 다음 영상 한 줄 · 버튼 세 개 · 질문] 을 칸 가운데에 맞춰 세로로 가지런히
+    cx = (COL_X + ES_BOX[0] - 60) / 2
+    B = [dict(kind="print", text=F(v.get("title", "")), x=cx, y=300, size=76, w="ExtraBold", anchor="m", t=S0),
+         dict(kind="print", text=F(v.get("sub", "")), x=cx, y=410, size=(42 if len(F(v.get("sub", ""))) > 18 else 50), w="Bold", anchor="m", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4)]
+    wds = (250, 260, 300); gap = 24; px = cx - (sum(wds) + 2 * gap) / 2; py = 540
     for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
-        kind = ("sub", "like", "bell")[i]; wd = (250, 260, 300)[i]
-        B.append(dict(kind="pill", which=kind, x=px, y=py, w=wd, h=92, t=(T(at) if at else S0 + 1.2) + .28 * i)); px += wd + 24
+        kind = ("sub", "like", "bell")[i]; wd = wds[i]
+        B.append(dict(kind="pill", which=kind, x=px, y=py, w=wd, h=92, t=(T(at) if at else S0 + 1.2) + .28 * i)); px += wd + gap
+    if v.get("note"):   # 마지막 질문(댓글 유도) 한 줄
+        B.append(dict(kind="print", text=F(v["note"].get("text", "")), x=cx, y=720, size=48, w="ExtraBold", color="gold", anchor="m", t=T(v["note"].get("at")) if v["note"].get("at") else S0 + 2.5))
     x0, y0, x1, y1 = ES_BOX; nx = v.get("next") or {}
     tt = T(nx["at"]) if nx.get("at") else S0 + 1.0   # 2026-10-29: 다음 영상을 말하는 순간 칸이 열린다 (빈틈 없이)
-    if v.get("note") and not v.get("photo"):   # 2026-10-29: 마지막 질문(댓글 유도) 한 줄 — 말하는 순간 인쇄 글씨로
-        B.append(dict(kind="print", text=F(v["note"].get("text", "")), x=COL_X, y=820, size=50, w="ExtraBold", color="gold", t=T(v["note"].get("at")) if v["note"].get("at") else S0 + 2.5))
     B.append(dict(kind="print", text=F((v.get("next") or {}).get("label", "함께 보면 좋은 영상")), x=x0, y=y0 - 62, size=44, w="Bold", t=tt))
     B.append(dict(kind="esbox", x0=x0, y0=y0, x1=x1, y1=y1, t=tt))
     return B
