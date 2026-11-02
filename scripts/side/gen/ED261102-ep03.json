@@ -1,0 +1,21 @@
+[
+ {
+  "id": "ed06_forum",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Late afternoon in the Roman Forum around 170 AD. A Roman emperor, older man with short curly grey hair and a short beard, seen strictly from behind so his face is NOT visible, stands alone on the high stone speaker's platform (the Rostra), wearing a white toga with a purple border and a laurel wreath. Below and in front of him, a vast crowd of thousands of Roman citizens in muted tunics and togas fills the Forum, all looking up toward him, small and indistinct, no individual faces in focus. Marble temples with columns, a triumphal arch and smoke from braziers frame the square; low golden sunlight from the side, long shadows, dust in the air. The emperor is in the lower third, centred, the crowd in the middle, a dark dusky sky in the top third. Feeling: one man watched by an entire empire, quiet and heavy. Historically accurate Roman architecture and clothing; no modern objects, no flags with symbols, no banners with writing. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark empty sky or shadow area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+  }
+ },
+ {
+  "id": "edv06_forum",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed06_forum.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The emperor stays completely still with his back to the camera; the crowd below shifts very slightly, a few people turn their heads, dust and brazier smoke drift slowly through the low sunlight. The camera makes one very slow, smooth push-in toward the emperor's back. Keep the painterly look and every detail identical to the first frame; the emperor must stay centred and fully inside the frame for the whole shot. No faces in close-up, no text, no morphing bodies, no extra limbs, no camera shake, no cuts."
+  }
+ }
+]
