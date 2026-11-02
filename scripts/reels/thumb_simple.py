@@ -507,7 +507,7 @@ def render_v4(spec, out):
         else:
             text_shadow(im, (LX, y + h / 2), r[1], r[2], r[3], anchor="lm", off=5, blur=14, alpha=200)
         y += h + gap
-    paste_logo(im, W - 36, 30, 30, "dark", align="right")
+    paste_logo(im, W - 36, 28, spec.get("logo_h", 30), "dark", align="right")   # logo_h: 로고 크기 (2026-11-02 대표님 "로고 좀 더 크게")
     if f2.size < s2 * .8: print(f"  ⚠ 큰 글씨가 길어 작아짐 ({f2.size}/{s2}px): {spec['l2']} — 8~9자 안으로 줄이세요")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     im.convert("RGB").save(out, quality=93)
