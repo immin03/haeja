@@ -1,0 +1,32 @@
+{
+ "id": "ed11_colonnade",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "A long marble colonnade of an ancient Roman palace at late afternoon, an older bearded Roman man in a plain undyed wool toga walks alone in the foreground toward the viewer's left, seen from behind and slightly to the side so his face is not visible, calm and unhurried, while in the soft blurred background between the columns a small group of wealthy Roman nobles in rich togas with purple borders and gold jewellery stand together whispering and glancing at one another, long golden shadows of the columns across the marble floor. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c7e-ee0b-741c-9d43-b076e4cc85a1",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c7e-ee0b-741c-9d43-b076e4cc85a1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c7e-ee0b-741c-9d43-b076e4cc85a1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c7e-ee0b-741c-9d43-b076e4cc85a1",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c7e-ee0b-741c-9d43-b076e4cc85a1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c7e-ee0b-741c-9d43-b076e4cc85a1/cancel",
+  "expires_at": "2026-11-09T13:44:09.317915+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c7e-ee0b-741c-9d43-b076e4cc85a1/0c067f8b-bead-41ac-bb27-48e0861236e9.jpeg"
+   }
+  ]
+ },
+ "seconds": 125,
+ "file": "social/side/gen/ed11_colonnade.jpeg"
+}

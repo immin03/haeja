@@ -1,0 +1,32 @@
+{
+ "id": "ed10_dawn_cot",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Cold grey-blue dawn inside a plain Roman military tent on the Danube frontier in the second century, an older bearded Roman emperor with short curly grey hair sits on the edge of a simple low wooden camp bed, a heavy rough wool blanket still around his shoulders and legs, bare feet just touching the cold earthen floor, seen from behind and slightly to the side so his face is not visible, shoulders slumped as if reluctant to get up, a small oil lamp burning low on a wooden stool, the tent flap half open showing pale dawn light, mist and a distant campfire with two soldiers in Roman armour. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or dawn light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c7e-ecf8-733e-9bd0-13645a53061b",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c7e-ecf8-733e-9bd0-13645a53061b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c7e-ecf8-733e-9bd0-13645a53061b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c7e-ecf8-733e-9bd0-13645a53061b",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c7e-ecf8-733e-9bd0-13645a53061b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c7e-ecf8-733e-9bd0-13645a53061b/cancel",
+  "expires_at": "2026-11-09T13:43:50.230166+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c7e-ecf8-733e-9bd0-13645a53061b/38f7b3fb-cd1a-47c3-80ce-e892a943494c.jpeg"
+   }
+  ]
+ },
+ "seconds": 106,
+ "file": "social/side/gen/ed10_dawn_cot.jpeg"
+}
