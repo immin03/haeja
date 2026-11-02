@@ -37,9 +37,11 @@
 - 유튜브 API 연결은 youtube_account id=2
 - 멈추기: app_config ed_paused = true
 
-## 표지(썸네일) 양식 (2026-11-02 확정)
-- "큰 흰 글씨 + 강한 장면" 프레임 1장 = 유튜브 맞춤 썸네일 = 릴스 cover_url = 쓰레드 사진 = 틱톡 커버
-- thumb_epXX.jpg 로 docs/emperor/ep 에 올리고 ed_posts.cover_path 에 경로 지정
+## 표지(썸네일) 양식 (2026-11-02 21:55 변경 확정)
+- 첫 화면(훅) = "로마 황제가 일기에 쓴 한 줄"(금색, style kicker 62px) + 큰 흰 훅 문구 + 장면 + 하단 THE EMPEROR'S DIARY
+- 이 1장 = 유튜브 맞춤 썸네일 = 릴스 cover_url = 쓰레드 사진 = 틱톡 커버
+- 만들기: python3 make_thumb.py spec.json hook_epXX.jpg → docs/emperor/ep 에 올리고 ed_posts.cover_path 에 지정
+- (이전 양식 thumb_epXX = 본문 큰 글씨 장면, 1~3편 유튜브/쓰레드는 대표님이 직접 교체)
 
 ## 인코딩
 - 그레인(fx.grain) 쓰면 파일이 커짐 → libx264 -crf 24 -tune grain -maxrate 9M (유튜브용)
@@ -50,4 +52,4 @@
 ## 틱톡
 - 스튜디오 업로드는 크롬 file_upload (10MB 미만, /mnt/user-data/uploads 에 복사). fetch 는 CSP 로 막힘
 - 설명: 제목. "인용" 출처. 매일 3편… 팔로우해 두시면… 매일 밤, 황제처럼 생각하라. #명상록 #철학 #황제의일기
-- 커버는 첫 프레임(훅 화면)이 그대로 큰 글씨 양식이라 따로 안 바꿔도 됨
+- 커버는 첫 프레임(훅 화면) = 표지 양식. 게시 후에는 커버 변경 불가라 올리기 전에 확인

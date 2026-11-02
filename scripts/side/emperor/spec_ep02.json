@@ -1,0 +1,135 @@
+{
+ "id": "ep02",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.3
+ },
+ "voice": [
+  {
+   "file": "/home/claude/vo/e3/voice_ep02_02_main_B.mp3",
+   "at": 0.8,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/outro_final2.mp3",
+   "at": 20.15,
+   "vol": 0.95
+  }
+ ],
+ "cuts": [
+  {
+   "img": "/home/claude/haeja/social/side/gen/lib_rome_night.jpeg",
+   "move": "in",
+   "amt": 0.08,
+   "dur": 6.3,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "kicker",
+     "lines": [
+      "로마 황제가 일기에 쓴 한 줄"
+     ],
+     "after": 10
+    },
+    {
+     "t0": -1,
+     "style": "hook",
+     "lines": [
+      "복수하고 싶은",
+      "사람에게"
+     ]
+    }
+   ],
+   "caps": [
+    {
+     "t0": 1.13,
+     "t1": 3.0,
+     "lines": [
+      "로마 황제 마르쿠스 아우렐리우스는"
+     ]
+    },
+    {
+     "t0": 3.05,
+     "t1": 5.75,
+     "lines": [
+      "가장 믿었던 장군에게",
+      "배신당했습니다"
+     ]
+    }
+   ]
+  },
+  {
+   "v": "/home/claude/ed/edv02_ep02.mp4",
+   "dur": 5.2,
+   "speed": 0.97,
+   "shade": 245,
+   "shade_h": 1100,
+   "texts": [
+    {
+     "t0": 0.05,
+     "lines": [
+      "황제는 일기에 이렇게 적었다"
+     ],
+     "style": "sub",
+     "after": 30
+    },
+    {
+     "t0": 1.86,
+     "lines": [
+      "가장 좋은 복수는,"
+     ],
+     "style": "quote",
+     "after": 0
+    },
+    {
+     "t0": 3.17,
+     "lines": [
+      "그 사람처럼",
+      "되지 않는 것이다."
+     ],
+     "style": "quote",
+     "after": 0
+    }
+   ]
+  },
+  {
+   "v": "/home/claude/haeja/social/side/gen/edv05_letters.mp4",
+   "dur": 4.9,
+   "speed": 0.95,
+   "texts": [
+    {
+     "t0": 0.1,
+     "lines": [
+      "반란이 끝난 뒤,"
+     ],
+     "style": "big",
+     "after": 0
+    },
+    {
+     "t0": 1.19,
+     "lines": [
+      "황제는 배신자의 편지를",
+      "읽지도 않고 태웠다."
+     ],
+     "style": "big",
+     "after": 0
+    }
+   ]
+  }
+ ],
+ "end": {
+  "dur": 4.5,
+  "kicker": "오늘 밤 할 일",
+  "lines": [
+   "나를 화나게 한 사람에게",
+   "똑같이 갚지 않을 이유 하나 적기"
+  ],
+  "source": "마르쿠스 아우렐리우스 『명상록』 6권 6절",
+  "slogan": null
+ },
+ "outro": {
+  "dur": 7.9,
+  "p1": 4.7
+ }
+}

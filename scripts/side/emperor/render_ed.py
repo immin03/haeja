@@ -19,14 +19,15 @@ FONTS = {
     "endbig": (F + "Hahmlet[wght].ttf", 66),
     "quote": (F + "Hahmlet[wght].ttf", 64),
     "sub": (F + "Pretendard-SemiBold.otf", 46),
+    "kicker": (F + "Pretendard-SemiBold.otf", 62),  # 첫 화면 "로마 황제가 일기에 쓴 한 줄" (썸네일에서도 잘 보이게)
     "src": (F + "Pretendard-SemiBold.otf", 34),
     "slogan": (F + "Hahmlet[wght].ttf", 98),
     "cta": (F + "Pretendard-SemiBold.otf", 36),
     "cap": (F + "Pretendard-SemiBold.otf", 50),
     "small": (F + "Pretendard-SemiBold.otf", 40),
 }
-COLOR = {"cap": IVORY, "slogan": IVORY, "cta": IVORY, "hook": IVORY, "big": IVORY, "endbig": IVORY, "quote": IVORY, "sub": GOLD, "src": DIM, "small": DIM}
-LH = {"cap": 1.42, "slogan": 1.3, "cta": 1.4, "hook": 1.28, "big": 1.3, "endbig": 1.4, "quote": 1.45, "sub": 1.4, "src": 1.4, "small": 1.45}
+COLOR = {"cap": IVORY, "slogan": IVORY, "cta": IVORY, "hook": IVORY, "big": IVORY, "endbig": IVORY, "quote": IVORY, "sub": GOLD, "kicker": GOLD, "src": DIM, "small": DIM}
+LH = {"cap": 1.42, "slogan": 1.3, "cta": 1.4, "hook": 1.28, "big": 1.3, "endbig": 1.4, "quote": 1.45, "sub": 1.4, "kicker": 1.3, "src": 1.4, "small": 1.45}
 _fc = {}
 WGT = {}
 
@@ -189,8 +190,8 @@ def cta_sprite(kind, D=176):
     S4 = 4; N = D * S4; im = Image.new("RGBA", (N, N), (0, 0, 0, 0)); g = ImageDraw.Draw(im)
     c = N / 2; R = N / 2 - 2 * S4
     g.ellipse([c - R, c - R, c + R, c + R], fill=(20, 18, 15, 170), outline=GOLD + (230,), width=int(2.2 * S4))
-    r2 = R - 9 * S4; g.ellipse([c - r2, c - r2, c + r2, c + r2], outline=GOLD + (60,), width=int(1 * S4))
-    col = IVORY + (255,); w = int(3.6 * S4); r = 30 * S4
+    r2 = R - 10 * S4; g.ellipse([c - r2, c - r2, c + r2, c + r2], outline=IVORY + (175,), width=int(2.4 * S4))
+    col = IVORY + (255,); w = int(4.0 * S4); r = 29 * S4
     if kind == "like":
         pts = []
         for i in range(240):
@@ -307,6 +308,16 @@ def main(spec_path, out, frames_dir=None, platform="reels"):
             if k > 0 and t < starts[k] + xf:
                 pc, pfr = cuts[k - 1]; pi = min(int((t - starts[k - 1]) * FPS), len(pfr) - 1)
                 a = (t - starts[k]) / xf; base = base * a + pfr[pi].astype(np.float32) * (1 - a)
+            fx = spec.get("fx")
+            if fx:  # 고급판: 비네트 + 필름 그레인 (영상 층에만)
+                global _VIG
+                if "_VIG" not in globals():
+                    yy, xx = np.mgrid[0:H, 0:W]; r = np.sqrt(((xx - W / 2) / (W / 2)) ** 2 + ((yy - H * 0.52) / (H / 2)) ** 2)
+                    _VIG = (1 - fx.get("vignette", 0.35) * np.clip((r - 0.45) / 0.75, 0, 1) ** 1.6)[..., None].astype(np.float32)
+                base = base * _VIG
+                g = fx.get("grain", 0)
+                if g: base = base + np.random.normal(0, 255 * g, (H // 2, W // 2, 1)).astype(np.float32).repeat(2, 0).repeat(2, 1)
+                base = np.clip(base, 0, 255)
             base = base.astype(np.uint8); last_base = base
             img = Image.fromarray(base).convert("RGBA")
             top_shade(img, strength=c.get('shade',200), h=c.get('shade_h',980))

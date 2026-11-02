@@ -1,0 +1,190 @@
+{
+ "id": "ep03",
+ "music": {
+  "file": "/home/claude/ed/music/music_secret-garden.mp3",
+  "start": 97,
+  "bed": 0.09
+ },
+ "voice": [
+  {
+   "file": "/home/claude/vo/e4/voice_ep03_02_main_B.mp3",
+   "at": 0.8,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/outro_default.mp3",
+   "at": 24.35,
+   "vol": 1.15
+  }
+ ],
+ "cuts": [
+  {
+   "v": "/home/claude/haeja/social/side/gen/edv06_forum.mp4",
+   "dur": 3.6,
+   "speed": 1.0,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "kicker",
+     "lines": [
+      "로마 황제가 일기에 쓴 한 줄"
+     ],
+     "after": 10
+    },
+    {
+     "t0": -1,
+     "style": "hook",
+     "lines": [
+      "남의 시선이",
+      "신경 쓰이는 사람에게"
+     ]
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.36,
+     "t1": 3.3,
+     "lines": [
+      "로마 황제 마르쿠스 아우렐리우스는"
+     ]
+    }
+   ]
+  },
+  {
+   "v": "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
+   "dur": 4.8,
+   "speed": 1.0,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "로마 황제가 일기에 쓴 한 줄"
+     ],
+     "after": 14
+    },
+    {
+     "t0": -1,
+     "style": "hook",
+     "lines": [
+      "남의 시선이",
+      "신경 쓰이는 사람에게"
+     ]
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.25,
+     "t1": 2.25,
+     "lines": [
+      "제국 전체가 지켜보는",
+      "사람이었습니다"
+     ]
+    },
+    {
+     "t0": 2.37,
+     "t1": 4.4,
+     "lines": [
+      "그런 황제도 일기에",
+      "이렇게 적었습니다"
+     ]
+    }
+   ]
+  },
+  {
+   "v": "/home/claude/ed/edv02_ep03.mp4",
+   "dur": 3.55,
+   "speed": 1.0,
+   "shade": 245,
+   "shade_h": 1100,
+   "texts": [
+    {
+     "t0": 0.05,
+     "lines": [
+      "황제는 일기에 이렇게 적었다"
+     ],
+     "style": "sub",
+     "after": 30
+    },
+    {
+     "t0": 0.3,
+     "lines": [
+      "사람은 누구나",
+      "자기를 가장 사랑하면서,"
+     ],
+     "style": "quote",
+     "after": 0
+    }
+   ]
+  },
+  {
+   "v": "/home/claude/haeja/social/side/gen/edv08_mirror.mp4",
+   "dur": 4.85,
+   "speed": 1.0,
+   "shade": 235,
+   "shade_h": 1100,
+   "texts": [
+    {
+     "t0": 0.19,
+     "lines": [
+      "자기에 대한 평가는",
+      "남의 생각을 더 믿는다."
+     ],
+     "style": "quote",
+     "after": 0
+    }
+   ],
+   "caps": [
+    {
+     "t0": 3.14,
+     "t1": 4.6,
+     "lines": [
+      "그리고 이렇게 덧붙였습니다"
+     ]
+    }
+   ]
+  },
+  {
+   "v": "/home/claude/haeja/social/side/gen/edv09_ruins.mp4",
+   "dur": 4.6,
+   "speed": 1.0,
+   "texts": [
+    {
+     "t0": 0.24,
+     "lines": [
+      "칭찬하는 사람도,",
+      "칭찬받는 사람도,"
+     ],
+     "style": "big",
+     "after": 0
+    },
+    {
+     "t0": 2.47,
+     "lines": [
+      "곧 잊혀진다."
+     ],
+     "style": "big",
+     "after": 0
+    }
+   ]
+  }
+ ],
+ "end": {
+  "dur": 4.5,
+  "kicker": "오늘 밤 할 일",
+  "lines": [
+   "오늘 신경 쓰였던 남의 말 하나를 적고",
+   "1년 뒤에도 중요할지 물어보기"
+  ],
+  "source": "마르쿠스 아우렐리우스 『명상록』 12권 4절",
+  "slogan": null
+ },
+ "outro": {
+  "dur": 7.9,
+  "p1": 4.7
+ },
+ "fx": {
+  "vignette": 0.38,
+  "grain": 0.035
+ }
+}

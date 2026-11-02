@@ -1,0 +1,142 @@
+{
+ "id": "ED261102-01v2",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.3
+ },
+ "voice": [
+  {
+   "file": "/home/claude/vo/e2/voice_emp2_02_main_B.mp3",
+   "at": 0.8,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/outro_final2.mp3",
+   "at": 23.35,
+   "vol": 0.95
+  }
+ ],
+ "cuts": [
+  {
+   "v": "/home/claude/haeja/social/side/gen/edv01_tent.mp4",
+   "dur": 7.25,
+   "speed": 0.7,
+   "texts": [
+    {
+     "t0": -1,
+     "lines": [
+      "로마 황제가 아침마다 쓴 한 줄"
+     ],
+     "style": "kicker",
+     "after": 10
+    },
+    {
+     "t0": -1,
+     "lines": [
+      "일을 시작하기",
+      "두려운 사람에게"
+     ],
+     "style": "hook"
+    }
+   ],
+   "caps": [
+    {
+     "t0": 1.03,
+     "t1": 3.2,
+     "lines": [
+      "로마 황제 마르쿠스 아우렐리우스는"
+     ]
+    },
+    {
+     "t0": 3.7,
+     "t1": 6.8,
+     "lines": [
+      "매일 아침 일을 시작하기 전에",
+      "자기에게 이렇게 썼습니다"
+     ]
+    }
+   ]
+  },
+  {
+   "v": "/home/claude/ed/edv02_script.mp4",
+   "dur": 6.1,
+   "speed": 0.83,
+   "shade": 245,
+   "shade_h": 1100,
+   "texts": [
+    {
+     "t0": 0.05,
+     "lines": [
+      "황제는 아침마다 자기에게 썼다"
+     ],
+     "style": "sub",
+     "after": 30
+    },
+    {
+     "t0": 0.11,
+     "lines": [
+      "오늘 나는",
+      "참견하는 사람,"
+     ],
+     "style": "quote",
+     "after": 0
+    },
+    {
+     "t0": 2.53,
+     "lines": [
+      "고마움 모르는 사람,"
+     ],
+     "style": "quote",
+     "after": 0
+    },
+    {
+     "t0": 3.93,
+     "lines": [
+      "무례한 사람을",
+      "만날 것이다."
+     ],
+     "style": "quote"
+    }
+   ]
+  },
+  {
+   "dur": 6.25,
+   "texts": [
+    {
+     "t0": 0.11,
+     "lines": [
+      "가장 힘센 남자도"
+     ],
+     "style": "big",
+     "after": 0
+    },
+    {
+     "t0": 2.58,
+     "lines": [
+      "상처받을 일을",
+      "미리 적고 나갔다."
+     ],
+     "style": "big"
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/ed04_field.jpeg",
+   "move": "in",
+   "amt": 0.08
+  }
+ ],
+ "end": {
+  "dur": 4.5,
+  "kicker": "오늘 밤 할 일",
+  "lines": [
+   "내일 만날 가장 힘든 사람의",
+   "이름을 하나 적어 두기"
+  ],
+  "source": "마르쿠스 아우렐리우스 『명상록』 2권 1절",
+  "slogan": null
+ },
+ "outro": {
+  "dur": 7.9,
+  "p1": 4.7
+ }
+}
