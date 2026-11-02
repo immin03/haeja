@@ -1386,7 +1386,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             if I["full"]:
                 full_img = fullsrc(u)
                 if sk:
-                    arr = np.asarray(full_img).copy(); SK.apply(arr, sk, u); full_img = Image.fromarray(arr)
+                    arr = np.asarray(full_img).copy(); SK.panel(arr, sk, u); SK.apply(arr, sk, u); full_img = Image.fromarray(arr)   # 제1 원칙 72: 그림 위 글씨 뒤 반투명 판
                 tex = None
             elif I["mode"] == "title":
                 wt0 = (1.0 if I["big"] else NB_FLIP * .55) if I["flip"] else .35

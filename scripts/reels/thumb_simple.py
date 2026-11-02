@@ -478,8 +478,13 @@ def render_v4(spec, out):
     - 설명은 영상 제목이 한다. 썸네일은 핵심 명사와 숫자만"""
     from brand import paste_logo
     W, H = 1280, 720; foc = tuple(spec.get("focus", (.5, .5)))
-    im = _cover(spec["photo"], W, H, foc, blur=0) if spec.get("photo") else background(W, H, .6)
-    _shade(im, [(0, 235), (.4, 195), (.66, 60), (.88, 0), (1, 0)], axis="x")
+    if spec.get("photo") and spec.get("photo_right"):   # 2026-11-02 대표님: "썸네일에서 불닭볶음면을 알 수 있게 명확히" → 사진을 오른쪽에 크게, 글씨에 가리지 않게
+        pw = int(W * spec.get("photo_right")); im = background(W, H, .6).convert("RGBA")
+        ph = _cover(spec["photo"], pw, H, foc, blur=0).convert("RGBA"); im.alpha_composite(ph, (W - pw, 0))
+        _shade(im, [(0, 255), (1 - pw / W, 250), (1 - pw / W + .14, 40), (1 - pw / W + .26, 0), (1, 0)], axis="x")
+    else:
+        im = _cover(spec["photo"], W, H, foc, blur=0) if spec.get("photo") else background(W, H, .6)
+        _shade(im, [(0, 235), (.4, 195), (.66, 60), (.88, 0), (1, 0)], axis="x")
     _shade(im, [(0, 40), (.2, 0), (.8, 0), (1, 70)])
     tone = spec.get("tone", "down")
     acc = {"down": (255, 92, 104), "up": GREEN, "gold": (242, 212, 151), "ivory": (250, 247, 240)}.get(tone, (242, 212, 151))

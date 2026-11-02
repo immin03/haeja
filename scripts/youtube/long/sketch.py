@@ -589,6 +589,25 @@ def apply(arr, beats, u):
     return tip
 
 
+def panel(arr, beats, u):
+    """2026-11-02 대표님: "그림 배경 글자 중 배경과 색이 비슷해 안 보이는 것 → 잘 보이게" (제1 원칙 72).
+    전체 화면 그림 위 글씨 뒤에 반투명 아이보리 판을 깐다 (글씨가 나타나기 시작하면 함께 서서히)."""
+    bx = []
+    for b in beats:
+        if b.b.get("kind") not in ("print", "write") or b.t0 > u + .2: continue
+        try: x0, y0, x1, y1 = b.bbox()
+        except Exception: continue
+        if x1 - x0 < 4 or x1 - x0 > 1500: continue
+        bx.append((x0, y0, x1, y1, b.t0))
+    if not bx: return
+    x0 = min(b[0] for b in bx) - 34; y0 = min(b[1] for b in bx) - 26; x1 = max(b[2] for b in bx) + 34; y1 = max(b[3] for b in bx) + 26
+    a = IW.eout(IW.clamp((u - min(b[4] for b in bx) + .2) / .35, 0, 1))
+    if a <= 0: return
+    im = Image.fromarray(arr).convert("RGBA"); ov = Image.new("RGBA", im.size); d = ImageDraw.Draw(ov)
+    d.rounded_rectangle([x0, y0, x1, y1], 22, fill=(246, 240, 226, int(212 * a)))
+    arr[:] = np.asarray(Image.alpha_composite(im, ov).convert("RGB"))
+
+
 def idle(beats, a, b):
     """a~b초 사이 펜이 아무것도 그리지 않는 구간들 (그리는 중인 비트는 움직임으로 친다)"""
     iv = sorted((max(a, z.t0), min(b, z.t1 + .4)) for z in beats if z.t1 + .4 > a and z.t0 < b)
@@ -768,13 +787,17 @@ def end_page(v, lines, fill, V, at_time):
     T = lambda at, d=0.0: at_time(at, lines) if at not in (None, "") else (lines[0][0] + d if lines else d)
     S0 = (lines[0][0] + .05) if lines else 0.0
     B = [dict(kind="print", text=F(v.get("title", "")), x=COL_X, y=230, size=84, w="ExtraBold", t=S0),
-         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=345, size=52, w="Bold", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4)]
-    labels = ["구독", "좋아요", "알림 설정"]
+         dict(kind="print", text=F(v.get("sub", "")), x=COL_X, y=345, size=(44 if len(F(v.get("sub", ""))) > 18 else 52), w="Bold", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4)]
+    if v.get("photo"):   # 2026-11-02 대표님: 끝 화면도 그림 없이 글자만 두지 말 것 (제1 원칙 72) → 테이프 사진 한 장
+        B.append(dict(kind="photo", src="scripts/blog/media/lib/" + v["photo"], x=COL_X, y=440, w=600, h=340, rot=-1.5, t=S0 + .3))
+    # 2026-11-02 대표님: "구독 좋아요 알림설정은 좀 예쁘게" → 체크 목록 대신 유튜브식 둥근 버튼 세 개가 차례로 톡 튀어나온다
+    py = 830 if v.get("photo") else 520; px = COL_X
     for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
-        B.append(dict(kind="pcheck", text=labels[i], x=COL_X + 10, y=480 + i * 105, size=62, t=T(at) if at else S0 + 1.2 + .5 * i))
+        kind = ("sub", "like", "bell")[i]; wd = (250, 260, 300)[i]
+        B.append(dict(kind="pill", which=kind, x=px, y=py, w=wd, h=92, t=(T(at) if at else S0 + 1.2) + .28 * i)); px += wd + 24
     x0, y0, x1, y1 = ES_BOX; nx = v.get("next") or {}
     tt = T(nx["at"]) if nx.get("at") else S0 + 1.0   # 2026-10-29: 다음 영상을 말하는 순간 칸이 열린다 (빈틈 없이)
-    if v.get("note"):   # 2026-10-29: 마지막 질문(댓글 유도) 한 줄 — 말하는 순간 인쇄 글씨로
+    if v.get("note") and not v.get("photo"):   # 2026-10-29: 마지막 질문(댓글 유도) 한 줄 — 말하는 순간 인쇄 글씨로
         B.append(dict(kind="print", text=F(v["note"].get("text", "")), x=COL_X, y=820, size=50, w="ExtraBold", color="gold", t=T(v["note"].get("at")) if v["note"].get("at") else S0 + 2.5))
     B.append(dict(kind="print", text=F((v.get("next") or {}).get("label", "함께 보면 좋은 영상")), x=x0, y=y0 - 62, size=44, w="Bold", t=tt))
     B.append(dict(kind="esbox", x0=x0, y0=y0, x1=x1, y1=y1, t=tt))
@@ -822,6 +845,42 @@ class ESCircle(IW.Beat):
 
 IW.KIND["esbox"] = ESBox; IW.KIND["escircle"] = ESCircle
 IW.DUR.update({"esbox": .4, "escircle": .4})
+
+class Pill(IW.Beat):
+    """끝 화면 버튼 (구독 빨강 · 좋아요 흰색 · 알림 금색): 작게 튀어나왔다가 제자리, 그 뒤 살짝 눌림"""
+    LAB = {"sub": ("구독", (214, 40, 48), (255, 255, 255)), "like": ("좋아요", (255, 255, 255), (22, 36, 70)), "bell": ("알림 설정", (226, 186, 110), (22, 36, 70))}
+    def __init__(self, b, t0, t1): super().__init__(b, t0, t0 + .45)
+    def bbox(self): b = self.b; return (b["x"], b["y"], b["x"] + b["w"], b["y"] + b["h"])
+    def apply(self, tex, T):
+        p = self.p(T)
+        if p <= 0: return
+        b = self.b; lab, bg, fg = self.LAB[b["which"]]
+        s = (1 + .18 * math.sin(math.pi * min(1, p * 1.2))) if p < 1 else 1.0
+        press = T - self.t1
+        if 0.35 < press < 0.55: s *= .94   # 눌리는 순간
+        w, h = b["w"] * s, b["h"] * s; cx, cy = b["x"] + b["w"] / 2, b["y"] + b["h"] / 2
+        x0, y0, x1, y1 = cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2; a = int(255 * IW.eout(min(1, p * 1.5)))
+        im = Image.fromarray(tex); d = ImageDraw.Draw(im, "RGBA")
+        d.rounded_rectangle([x0 + 4, y0 + 7, x1 + 4, y1 + 7], int(h / 2), fill=(0, 0, 0, int(a * .18)))   # 그림자
+        d.rounded_rectangle([x0, y0, x1, y1], int(h / 2), fill=(*bg, a), outline=(22, 36, 70, int(a * (.9 if bg == (255, 255, 255) else 0))), width=3)
+        ic = h * .38; ix, iy = x0 + h * .42, cy
+        if b["which"] == "sub":
+            d.polygon([(ix - ic * .45, iy - ic * .55), (ix - ic * .45, iy + ic * .55), (ix + ic * .6, iy)], fill=(*fg, a))
+        elif b["which"] == "like":
+            r = ic * .32
+            d.ellipse([ix - 2 * r, iy - r * 1.4, ix, iy + r * .4], fill=(214, 40, 48, a)); d.ellipse([ix, iy - r * 1.4, ix + 2 * r, iy + r * .4], fill=(214, 40, 48, a))
+            d.polygon([(ix - 2 * r + 1, iy - r * .3), (ix + 2 * r - 1, iy - r * .3), (ix, iy + r * 1.9)], fill=(214, 40, 48, a))
+        else:
+            d.pieslice([ix - ic * .55, iy - ic * .7, ix + ic * .55, iy + ic * .6], 180, 360, fill=(*fg, a))
+            d.rectangle([ix - ic * .55, iy - ic * .1, ix + ic * .55, iy + ic * .35], fill=(*fg, a))
+            d.rectangle([ix - ic * .7, iy + ic * .35, ix + ic * .7, iy + ic * .48], fill=(*fg, a)); d.ellipse([ix - ic * .15, iy + ic * .5, ix + ic * .15, iy + ic * .78], fill=(*fg, a))
+        f = IW.font("ExtraBold", int(b["h"] * .38)); tx = ix + ic * .95
+        d.text((tx, cy), lab, font=f, fill=(*fg, a), anchor="lm")
+        tex[:] = np.asarray(im)
+
+
+IW.KIND["pill"] = Pill; IW.DUR["pill"] = .45
+
 
 
 def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
