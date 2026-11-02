@@ -28,3 +28,11 @@
 
 ## 고정 댓글
 <그 편 질문 1문장> <답 유도 1문장> 🌙 황제의 일기는 매일 3편, 로마 황제의 생각을 한 줄씩 나눕니다. 구독해 두시면 오늘 밤에도 황제의 한 줄이 찾아갑니다.
+
+## 자동 게시 (2026-11-02)
+- 인스타 릴스·쓰레드 글: Supabase 함수 ed-publish (cron emperor-social, 5분마다), 대기열 ed_posts, 계정 ed_accounts (밸류노트 social_* 와 분리)
+- 영상 주소: https://www.valuenote.co.kr/docs/emperor/ep/<id>_reels.mp4 (repo docs/emperor/ep 에 올리면 됨)
+- 쓰레드: 글만. 끝맺음은 함수가 자동으로 붙임 → 빈 줄 + "매일 밤, 황제처럼 생각하라.\n황제의 일기."
+- 계정 연결: social-oauth ?go=<nonce> (social_oauth_state 에 platform instagram_ed/threads_ed/youtube_ed 로 1회용 nonce, 1시간 유효)
+- 유튜브 API 연결은 youtube_account id=2
+- 멈추기: app_config ed_paused = true
