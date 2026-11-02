@@ -1,0 +1,32 @@
+{
+ "id": "ed08_mirror",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Night in a plain stone room of a Roman imperial residence. Close view of a round polished bronze hand mirror standing on a wooden table, lit by a single small clay oil lamp beside it. In the warm, slightly distorted bronze reflection we see the soft blurred face of a tired older bearded man looking at himself, face only visible inside the mirror and slightly out of focus; outside the mirror only his shoulder in dark wool is visible at the edge of the frame, from behind. A folded white toga with purple stripe lies on a stool in the shadows. Quiet, introspective, intimate. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c17-8b6f-7a8e-8628-b022dca28978",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c17-8b6f-7a8e-8628-b022dca28978/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c17-8b6f-7a8e-8628-b022dca28978/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c17-8b6f-7a8e-8628-b022dca28978",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c17-8b6f-7a8e-8628-b022dca28978/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c17-8b6f-7a8e-8628-b022dca28978/cancel",
+  "expires_at": "2026-11-09T11:52:12.415979+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c17-8b6f-7a8e-8628-b022dca28978/0fc47e97-8653-4cdd-9613-ef5576213396.jpeg"
+   }
+  ]
+ },
+ "seconds": 186,
+ "file": "social/side/gen/ed08_mirror.jpeg"
+}

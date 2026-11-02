@@ -1,0 +1,32 @@
+{
+ "id": "ed07_crowd",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Low angle view from inside a dense crowd of ancient Roman citizens in the Forum around 170 AD, men and women in muted wool tunics and togas, many faces turned upward toward a distant figure above the frame, their faces softly lit by warm golden late-afternoon sun and a few bronze braziers, shallow depth of field so only two or three faces in the middle are sharp and the rest dissolve into soft painterly blur, dust floating in the light beams, marble columns rising into dark shadow at the top of the frame. Expressions: hopeful, judging, curious. Historically accurate Roman hair and clothing, no helmets, no weapons. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c17-8c85-7338-887f-0ea0931f9eca",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c17-8c85-7338-887f-0ea0931f9eca/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c17-8c85-7338-887f-0ea0931f9eca/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c17-8c85-7338-887f-0ea0931f9eca",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c17-8c85-7338-887f-0ea0931f9eca/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c17-8c85-7338-887f-0ea0931f9eca/cancel",
+  "expires_at": "2026-11-09T11:51:01.126469+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c17-8c85-7338-887f-0ea0931f9eca/d7553744-bc11-4f1a-9df1-c8e72705b0a1.jpeg"
+   }
+  ]
+ },
+ "seconds": 112,
+ "file": "social/side/gen/ed07_crowd.jpeg"
+}

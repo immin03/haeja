@@ -1,0 +1,31 @@
+{
+ "id": "edv07_crowd",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The crowd shifts very slightly, a few heads turn, dust drifts through the light beams, faces stay calm and natural. The camera slowly rises upward through the crowd with a smooth, gentle crane motion. Keep the painterly look and every detail identical to the first frame. No text, no morphing faces, no extra fingers or limbs, no camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c17-8c85-7338-887f-0ea0931f9eca/d7553744-bc11-4f1a-9df1-c8e72705b0a1.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c1a-6802-7592-b49d-6f66191b39c8",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c1a-6802-7592-b49d-6f66191b39c8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c1a-6802-7592-b49d-6f66191b39c8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c1a-6802-7592-b49d-6f66191b39c8",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c1a-6802-7592-b49d-6f66191b39c8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c1a-6802-7592-b49d-6f66191b39c8/cancel",
+  "expires_at": "2026-11-09T11:56:42.883586+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c1a-6802-7592-b49d-6f66191b39c8/e04c0250-1ed4-4e16-bf50-3c77884d476f.mp4"
+  }
+ },
+ "seconds": 267,
+ "file": "social/side/gen/edv07_crowd.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "edv08_mirror",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The oil lamp flame flickers gently, the reflection in the bronze mirror wavers very slightly as the man breathes, warm light moves softly across the bronze. The camera makes one very slow push-in toward the mirror. The face in the mirror stays soft and blurred and does not change identity. Keep the painterly look and every detail identical to the first frame. No text, no morphing faces, no extra fingers or limbs, no camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c17-8b6f-7a8e-8628-b022dca28978/0fc47e97-8653-4cdd-9613-ef5576213396.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c1a-6815-77ff-9728-374d9f7599fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c1a-6815-77ff-9728-374d9f7599fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c1a-6815-77ff-9728-374d9f7599fd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c1a-6815-77ff-9728-374d9f7599fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c1a-6815-77ff-9728-374d9f7599fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c1a-6815-77ff-9728-374d9f7599fd/cancel",
+  "expires_at": "2026-11-09T11:55:48.108275+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c1a-6815-77ff-9728-374d9f7599fd/34825cb1-0d5c-43b3-89c6-aacfeafc25bf.mp4"
+  }
+ },
+ "seconds": 211,
+ "file": "social/side/gen/edv08_mirror.mp4"
+}

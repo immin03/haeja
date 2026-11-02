@@ -1,0 +1,32 @@
+{
+ "id": "ed09_ruins",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "The same Roman Forum many centuries later, abandoned and in ruins at dusk: broken marble columns, fallen capitals half sunk in tall wild grass, the stone speaker's platform cracked and empty, a large toppled marble head of a bearded emperor lying on its side in the grass in the foreground lower third, ivy on the stones, a few crows, wind bending the grass, cold blue-violet twilight sky with the last thin line of gold on the horizon. No people at all. Feeling: everything that was praised is forgotten, calm and melancholic. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c17-8c91-7639-9e0d-f0cb78d0b563",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c17-8c91-7639-9e0d-f0cb78d0b563/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c17-8c91-7639-9e0d-f0cb78d0b563/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c17-8c91-7639-9e0d-f0cb78d0b563",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c17-8c91-7639-9e0d-f0cb78d0b563/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c17-8c91-7639-9e0d-f0cb78d0b563/cancel",
+  "expires_at": "2026-11-09T11:51:14.693713+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c17-8c91-7639-9e0d-f0cb78d0b563/5ac51a69-faac-4284-899b-234159b7b8cb.jpeg"
+   }
+  ]
+ },
+ "seconds": 125,
+ "file": "social/side/gen/ed09_ruins.jpeg"
+}
