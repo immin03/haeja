@@ -1,0 +1,360 @@
+{
+ "id": "Y261102t",
+ "platform": "youtube",
+ "approved": false,
+ "world": "popup",
+ "style": "clean",
+ "allow_long": true,
+ "end": "subscribe",
+ "mood": "tense",
+ "broll": "money",
+ "threads_tag": "주식",
+ "hook_type": "H18",
+ "series": "3가지만",
+ "pattern": "three-things",
+ "note": "3가지만 백필 (제1 원칙 33) — 허쉬 롱폼 L261030h-halloween · related_target:L261030h-halloween",
+ "long": "L261030h-halloween",
+ "scheduled_at": "2026-11-02T21:45:00+09:00",
+ "title": "허쉬 주가 전망, 이 3가지만 보면 된다 #허쉬",
+ "title_en": "Hershey stock outlook: just watch these 3 things #Hershey",
+ "banner_band": true,
+ "banner_style": "tag",
+ "banner_tag": "최고가 대비 -40%",
+ "banner": [
+  "허쉬 주가 전망",
+  "이 3가지만 보면 된다"
+ ],
+ "voice_speed": 1.21,
+ "cover_title": "허쉬 주가 전망\n이 3가지만\n보면 된다",
+ "hashtags": [
+  "허쉬",
+  "허쉬주가",
+  "미국주식",
+  "초콜릿",
+  "밸류노트",
+  "shorts"
+ ],
+ "message": "2023년 5월 1일 종가 276.35달러가 최고가인 허쉬는 코코아가 2024년 12월 1톤 1만 2,931달러까지 오른 뒤 꺾여, 10월 30일(미국) 165.61달러로 최고가보다 40% 낮다. 코코아가 반값 아래로 내려온 지금 이 가격을 버틸지는 ① 4분기 값 올린 효과가 한 자릿수로 줄 때 매출이 버티는지 ② 짭짤한 과자 사업 이익(3분기 -17.9%)이 내년 상반기 새 생산 라인으로 회복되는지 ③ 2027년 이익 목표에 못 미칠 수 있다는 경고가 2월 연간 전망에서 숫자로 어떻게 나오는지 — 세 가지에 달렸다.",
+ "scenes": [
+  {
+   "type": "hook",
+   "top": "허쉬 주가\n2023년 5월 1일",
+   "num": {
+    "from": 0,
+    "to": 276.35,
+    "suffix": "달러",
+    "dec": 2
+   },
+   "tone": "gold",
+   "label": "역대 최고 종가",
+   "label_line": 0,
+   "lines": [
+    {
+     "cap": [
+      "2023년 5월 1일, 허쉬 주가는",
+      "종가 276.35달러, 지금까지의 최고가를 찍었습니다"
+     ],
+     "say": "2023년 5월 1일, 허쉬 주가는 종가 276달러 35센트, 지금까지의 최고가를 찍었습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "코코아 1톤 · 2024년 12월",
+   "l2": "1만 2,931달러",
+   "tone": "loss",
+   "note": "사상 최고 · 허쉬 원가 부담",
+   "lines": [
+    {
+     "cap": [
+      "1년 반 뒤 2024년 12월, 허쉬 초콜릿의 원료",
+      "코코아 1톤이 1만 2,931달러까지 올랐죠"
+     ],
+     "say": "1년 반 뒤 2024년 12월, 허쉬 초콜릿의 원료인 코코아 1톤이 만 이천구백삼십일 달러까지 올랐죠."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "그리고 지금",
+   "l": {
+    "label": "2023년 5월 최고",
+    "v": "276$",
+    "tone": "ivory"
+   },
+   "r": {
+    "label": "10월 30일 종가",
+    "v": "165.61$",
+    "sub": "최고가 대비 -40%",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "허쉬 주가는 미국 시각 10월 30일 165.61달러,",
+      "최고가보다 40% 낮습니다"
+     ],
+     "say": "허쉬 주가는 미국 시각 시월 삼십 일, 백육십오 달러 육십일 센트. 최고가보다 40% 낮습니다."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_cocoapod_4.jpg",
+   "full": {
+    "img": "commons_cocoapod_4.jpg",
+    "label": "코코아 1톤 · 10월 말 5천 달러대",
+    "focus_x": 0.5,
+    "focus_y": 0.45
+   },
+   "lines": [
+    {
+     "cap": [
+      "코코아는 10월 말 1톤 5천 달러대,",
+      "꼭대기의 절반 아래로 내려왔습니다"
+     ],
+     "say": "코코아는 10월 말 1톤 5천 달러대, 꼭대기의 절반 아래로 내려왔습니다."
+    },
+    {
+     "cap": [
+      "허쉬 이 가격, 버틸 수 있을까요?",
+      "앞으로 이 세 가지를 보면 됩니다"
+     ],
+     "say": "허쉬 이 가격, 버틸 수 있을까요? 앞으로 이 세 가지를 보면 됩니다."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_chocolatesale_1.jpg",
+   "full": {
+    "img": "commons_chocolatesale_1.jpg",
+    "label": "① 허쉬 초콜릿 값 · 3분기",
+    "focus_x": 0.5,
+    "focus_y": 0.5,
+    "num": "+13%p",
+    "num_line": 0,
+    "num_frac": 0.7,
+    "tone": "gold"
+   },
+   "lines": [
+    {
+     "cap": [
+      "첫째, 값. 허쉬는 3분기 북미 초콜릿 값을 올려",
+      "매출을 약 13%포인트 끌어올렸습니다"
+     ],
+     "say": "첫째, 값. 허쉬는 3분기 북미 초콜릿 값을 올려, 매출을 약 13퍼센트 포인트 끌어올렸습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "허쉬 4분기 값 올린 효과",
+   "l2": "한 자릿수로",
+   "tone": "loss",
+   "note": "3분기 북미 초콜릿 판매량 -11%",
+   "lines": [
+    {
+     "cap": [
+      "허쉬 재무책임자는 4분기엔 이 효과가",
+      "한 자릿수로 줄어든다고 했어요"
+     ],
+     "say": "허쉬 재무 책임자는 4분기엔 이 효과가 한 자릿수로 줄어든다고 했어요."
+    },
+    {
+     "cap": [
+      "값 효과가 줄 때 매출이 버티는지,",
+      "2월 4분기 실적에서 확인하세요"
+     ],
+     "say": "값 효과가 줄 때 매출이 버티는지, 이월 4분기 실적에서 확인하세요."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "② 허쉬 짭짤한 과자 · 3분기",
+   "l2": "매출 +22.3%",
+   "tone": "good",
+   "note": "팝콘·프레첼 · 인수 효과 약 20%p",
+   "lines": [
+    {
+     "cap": [
+      "둘째, 짭짤한 과자. 허쉬는 팝콘·프레첼도 파는데요",
+      "3분기 이 사업 매출이 22.3% 늘었습니다"
+     ],
+     "say": "둘째, 짭짤한 과자. 허쉬는 팝콘과 프레첼도 파는데요, 3분기 이 사업 매출이 22.3% 늘었습니다."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "허쉬 과자 사업 이익",
+   "l": {
+    "label": "1년 전 3분기",
+    "v": "5,775만$",
+    "tone": "ivory"
+   },
+   "r": {
+    "label": "올해 3분기",
+    "v": "4,739만$",
+    "sub": "-17.9%",
+    "tone": "loss"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그런데 허쉬 과자 사업 이익은 17.9% 줄었죠",
+      "운송·물류·생산비가 늘었기 때문입니다"
+     ],
+     "say": "그런데 허쉬 과자 사업 이익은 17.9% 줄었죠. 운송과 물류, 생산비가 늘었기 때문입니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "허쉬 과자 새 생산 라인",
+   "l2": "내년 상반기",
+   "tone": "gold",
+   "note": "수요가 공급보다 많음 · 분기 실적에서 이익 확인",
+   "lines": [
+    {
+     "cap": [
+      "허쉬는 수요가 공급보다 많다며",
+      "내년 상반기 새 생산 라인을 돌린다고 했어요"
+     ],
+     "say": "허쉬는 수요가 공급보다 많다며, 내년 상반기 새 생산 라인을 돌린다고 했어요."
+    },
+    {
+     "cap": [
+      "그 뒤 과자 이익이 다시 느는지 보세요"
+     ],
+     "say": "그 뒤 과자 이익이 다시 느는지 보세요."
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_hersheyfactory_1.jpg",
+   "full": {
+    "img": "commons_hersheyfactory_1.jpg",
+    "label": "③ 허쉬 올해 이익 전망 · 10월 29일 상향",
+    "focus_x": 0.5,
+    "focus_y": 0.5,
+    "num": "+36~38.5%",
+    "num_line": 0,
+    "num_frac": 0.7,
+    "tone": "good"
+   },
+   "lines": [
+    {
+     "cap": [
+      "셋째, 내년 이익. 허쉬는 올해 조정 주당순이익을",
+      "작년보다 36~38.5% 늘려 잡았습니다"
+     ],
+     "say": "셋째, 내년 이익. 허쉬는 올해 조정 주당 순이익을, 작년보다 36에서 38.5% 늘려 잡았습니다."
+    }
+   ]
+  },
+  {
+   "type": "statement",
+   "l1": "허쉬 2027년 이익",
+   "l2": "목표에 못 미칠 수도",
+   "tone": "loss",
+   "note": "운송·물류·원료비 · 2월 연간 전망",
+   "lines": [
+    {
+     "cap": [
+      "그런데 커크 태너 허쉬 최고경영자는 지금 상황이",
+      "이어지면 내년 이익이 목표에 못 미칠 수 있다고 했죠"
+     ],
+     "say": "그런데 커크 태너 허쉬 최고경영자는, 지금 상황이 이어지면 내년 이익이 원래 목표에 못 미칠 수 있다고 했죠."
+    },
+    {
+     "cap": [
+      "2월 연간 전망에서 숫자로 나옵니다"
+     ],
+     "say": "이월 연간 전망에서 숫자로 나옵니다."
+    }
+   ]
+  },
+  {
+   "type": "list",
+   "title": "허쉬, 이 3가지만",
+   "items": [
+    "① 값 올린 효과 → 한 자릿수",
+    "② 과자 이익 -17.9%",
+    "③ 2027년 이익 목표"
+   ],
+   "lines": [
+    {
+     "cap": [
+      "초콜릿 값, 짭짤한 과자, 내년 이익",
+      "첫 답은 2월 실적 발표에서 나옵니다"
+     ],
+     "say": "초콜릿 값, 짭짤한 과자, 내년 이익. 첫 번째 답은 이월 실적 발표에서 나옵니다."
+    }
+   ]
+  },
+  {
+   "type": "cta",
+   "l1": "더 많은 정보를 원하시면",
+   "l2": "좋아요와 구독",
+   "lines": [
+    {
+     "cap": [
+      "더 많은 정보를 원하시면 좋아요와 구독"
+     ],
+     "say": "더 많은 정보를 원하시면 좋아요와 구독 눌러 주세요.",
+     "pause": 1.6
+    }
+   ]
+  }
+ ],
+ "caption": "2023년 5월 1일 허쉬 주가는 종가 276.35달러로 지금까지의 최고가를 찍었습니다. 1년 반 뒤 2024년 12월, 허쉬 초콜릿의 원료인 코코아 1톤은 1만 2,931달러로 사상 최고까지 올랐고 허쉬는 원가 부담을 값 인상으로 넘겨 왔습니다. 미국 시각 10월 30일 허쉬 종가는 165.61달러로 최고가보다 40% 낮습니다. 코코아는 10월 말 1톤 5천 달러대로 꼭대기의 절반 아래까지 내려왔습니다. 이 가격을 버틸지는 세 가지에 달려 있습니다.\n\n1. 값 올린 효과: 허쉬는 2026년 3분기 북미 초콜릿 값을 올린 효과로 매출을 약 13%포인트 끌어올렸지만 판매량은 11% 줄었습니다. 데이브 훌레이스 재무책임자는 4분기에는 값 올린 효과가 한 자릿수로 줄어든다고 했습니다. 값 효과가 줄 때 매출이 버티는지가 관건입니다.\n\n2. 짭짤한 과자: 허쉬는 팝콘·프레첼 같은 짭짤한 과자도 팝니다. 3분기 이 사업 매출은 3억 9,270만 달러로 22.3% 늘었고 그중 약 20%포인트가 레서이블(LesserEvil) 인수 효과입니다. 반대로 사업 이익은 4,739만 달러로 17.9% 줄었습니다(운송·물류·생산비 증가, 마케팅 투자). 커크 태너 최고경영자는 수요가 공급보다 많다며 내년 상반기 새 생산 라인이 가동된다고 했습니다. 그 뒤 이익이 다시 느는지 보면 됩니다.\n\n3. 내년 이익: 허쉬는 10월 29일 2026년 조정 주당순이익(이익 ÷ 주식 수) 증가율 전망을 32.5~35%에서 36~38.5%(8.58~8.74달러)로 올렸습니다. 다만 태너 최고경영자는 지금 상황이 이어지면 2027년 이익이 원래 목표 범위에 못 미칠 수 있다고 했습니다(운송·물류·코코아 외 원료비). 숫자는 2월 연간 전망에서 나옵니다.\n\n첫 답은 2027년 2월 4분기 실적·연간 전망 발표에서 나옵니다.\n\n자료: 허쉬 2026년 3분기 실적 발표·콘퍼런스콜(10월 29일), 주가는 뉴욕증권거래소 종가(stockanalysis·chartrow, 10월 30일), 코코아는 ICE 뉴욕 선물(2024년 12월 기록, 2026년 10월 26일 종가 5,503달러).\n\n사진: Wikimedia Commons (작가·라이선스는 각 파일 페이지) · 매수·매도 권유가 아닙니다.",
+ "facts": [
+  {
+   "t": "2023-05-01 종가 276.35달러 (역대 최고 종가, 배당 미조정)",
+   "src": "https://chartrow.com/quote/hsy/drawdown"
+  },
+  {
+   "t": "2026-10-30 종가 165.61달러(+3.33%), 52주 범위 156.16~239.48달러",
+   "src": "https://stockanalysis.com/stocks/hsy/"
+  },
+  {
+   "t": "165.61÷276.35−1=−40.1%",
+   "src": "계산 · chartrow drawdown −40.1%"
+  },
+  {
+   "t": "ICE 코코아 2024년 12월 사상 최고 1만 2,931달러/톤",
+   "src": "https://www.albawaba.com/business/cocoa-prices-see-new-record-nearly-13k-1596999 · https://www.bloomberg.com/news/articles/2024-12-18/cocoa-soars-above-12-000-to-reach-fresh-record-on-supply-fears"
+  },
+  {
+   "t": "ICE 코코아 12월물 2026-10-26 종가 5,503달러",
+   "src": "https://www.investing.com/commodities/us-cocoa-historical-data"
+  },
+  {
+   "t": "3분기 북미 초콜릿 매출 26억 5,650만 달러(+1.6%), 값 약 +13%p, 판매량 −11%",
+   "src": "https://www.prnewswire.com/news-releases/hershey-reports-third-quarter-2026-financial-results-302922691.html"
+  },
+  {
+   "t": "Hulays: 'from high double-digit, high teens pricing in Q3 to single-digit pricing in Q4'",
+   "src": "https://www.fool.com/earnings/call-transcripts/2026/10/29/hershey-hsy-q3-2026-earnings-call-transcript/"
+  },
+  {
+   "t": "북미 짭짤한 과자 3분기 매출 3억 9,270만 달러(+22.3%, LesserEvil 약 20%p), 부문 이익 4,740만 달러(−17.9%, 1년 전 5,775만 달러)",
+   "src": "https://www.prnewswire.com/news-releases/hershey-reports-third-quarter-2026-financial-results-302922691.html"
+  },
+  {
+   "t": "Tanner: 'Demand is definitely outstripping supply' · 'manufacturing lines coming online in the first half of next year'",
+   "src": "https://www.fool.com/earnings/call-transcripts/2026/10/29/hershey-hsy-q3-2026-earnings-call-transcript/"
+  },
+  {
+   "t": "2026 조정 EPS 증가율 36~38.5%(이전 32.5~35%), 8.58~8.74달러(2025년 6.31달러)",
+   "src": "https://www.prnewswire.com/news-releases/hershey-reports-third-quarter-2026-financial-results-302922691.html"
+  },
+  {
+   "t": "Tanner: 'If today's conditions remain, we could be shy of the original range or framework.' · Hulays: 2월 연간 전망에서 더 설명",
+   "src": "https://www.fool.com/earnings/call-transcripts/2026/10/29/hershey-hsy-q3-2026-earnings-call-transcript/"
+  }
+ ]
+}
