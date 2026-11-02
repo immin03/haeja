@@ -9,6 +9,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/v1.0";
 const GAP_MIN = 60;
+const TH_DELAY_MIN = 30;  // 쓰레드는 영상(scheduled_at)보다 30분 늦게 (2026-11-02 대표 확정: 07:40/12:20/21:30 → 쓰레드 08:10/12:50/22:00)
 const TH_TOPIC = "철학"; // 쓰레드 주제(토픽) 태그
 const TH_END = "\n매일 밤, 황제처럼 생각하라.\n황제의 일기.";  // 마지막 줄(오늘 밤 할 일) 바로 아래에 붙임 (2026-11-02 22:04 대표 예시)
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json" } });
@@ -131,12 +132,13 @@ Deno.serve(async (req: Request) => {
     if (acc.instagram) res.finished = await finishIG(acc.instagram);
     if ((await cfg("ed_paused")) === true && !body.force) return json({ ...res, idle: "paused" });
     const now = new Date().toISOString();
+    const thCut = new Date(Date.now() - TH_DELAY_MIN * 60e3).toISOString();
     for (const ch of ["ig", "th"] as const) {
       const a = acc[ch === "ig" ? "instagram" : "threads"]; if (!a) continue;
       if (ch === "ig") { const { count } = await sb.from("ed_posts").select("id", { count: "exact", head: true }).eq("ig_status", "processing"); if (count) continue; }
       if (!body.force && Date.now() - (await lastAt(ch)) < GAP_MIN * 60e3) continue;
       const { data: due } = await sb.from("ed_posts").select("*").eq(ch === "ig" ? "to_ig" : "to_th", true).eq(`${ch}_status`, "pending")
-        .eq("paused", false).lte("scheduled_at", now).order("scheduled_at").limit(1);
+        .eq("paused", false).lte("scheduled_at", ch === "th" && !body.force ? thCut : now).order("scheduled_at").limit(1);
       const p = due?.[0]; if (!p) continue;
       res[ch] = { id: p.id, ...(ch === "ig" ? await startIG(a, p, site) : await postTH(a, p, site)) };
     }
