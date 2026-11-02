@@ -26,14 +26,13 @@
  "opening": "이야기형 · 명동의 줄(제1 원칙 68)",
  "hook_type": "인물·장소로 여는 이야기",
  "endscreen_target": "L261101-delivery-chicken",
- "title": "시총 8조 삼양식품 불닭볶음면, 그 뒤에는 지옥 같은 과정이 있었습니다",
- "title_en": "Buldak maker Samyang Foods is worth 8 trillion won. Behind it was hell.",
+ "title": "시총 8조 삼양식품 불닭볶음면, 그 과정은 지옥이었습니다",
+ "title_en": "Samyang Foods, maker of Buldak, is worth 8 trillion won. Getting there was hell.",
  "thumb": {
-  "photo": "commons_buldak_1.jpg",
-  "focus_x": 0.6,
-  "l1": "불닭볶음면 삼양식품, 시가총액 8조 원",
-  "l2": "뒤엔 지옥이 있었다",
-  "l3": "우지 파동 · 부도 · \"사람이 못 먹는 라면\"",
+  "photo": "user_buldak_lift.jpg",
+  "focus_x": 0.5,
+  "l1": "시총 8조 삼양식품 불닭볶음면",
+  "l2": "그 과정은 지옥이었다",
   "pos": "left",
   "s1": 70,
   "s2": 130
@@ -42,12 +41,11 @@
   {
    "key": "a",
    "default": true,
-   "title": "시총 8조 삼양식품 불닭볶음면, 그 뒤에는 지옥 같은 과정이 있었습니다",
+   "title": "시총 8조 삼양식품 불닭볶음면, 그 과정은 지옥이었습니다",
    "thumb": {
-    "photo": "commons_buldak_1.jpg",
-    "l1": "불닭볶음면 삼양식품, 시가총액 8조 원",
-    "l2": "뒤엔 지옥이 있었다",
-    "l3": "우지 파동 · 부도 · \"사람이 못 먹는 라면\""
+    "photo": "user_buldak_lift.jpg",
+    "l1": "시총 8조 삼양식품 불닭볶음면",
+    "l2": "그 과정은 지옥이었다"
    },
    "file": "thumb_a.jpg"
   },
@@ -55,10 +53,9 @@
    "key": "b",
    "title": "불닭볶음면 만든 삼양식품은 부도 난 회사였습니다, 8조 원이 되기까지",
    "thumb": {
-    "photo": "commons_buldak_3.jpg",
+    "photo": "user_buldak_tray.jpg",
     "l1": "불닭볶음면 만든 회사는",
-    "l2": "부도 난 회사였다",
-    "l3": "1998년 부도 → 지금 시가총액 8조 원+"
+    "l2": "부도 난 회사였다"
    },
    "file": "thumb_b.jpg"
   },
@@ -66,10 +63,9 @@
    "key": "c",
    "title": "\"사람이 먹을 수 없는 라면\"이라던 불닭볶음면, 삼양식품을 8조 원 회사로 만들다",
    "thumb": {
-    "photo": "commons_buldak2_6.jpg",
+    "photo": "user_buldak_pack.jpg",
     "l1": "\"사람이 먹을 수 없는 라면\"",
-    "l2": "8조 원이 됐다",
-    "l3": "혹평받던 불닭볶음면 · 해외 매출 6,000억 원+"
+    "l2": "8조 원이 됐다"
    },
    "file": "thumb_c.jpg"
   }
@@ -228,6 +224,18 @@
      "color": "ink",
      "line": 0,
      "at": 0.15
+    },
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/user_buldak_pack.jpg",
+     "x": 1200,
+     "y": 190,
+     "w": 560,
+     "h": 560,
+     "rot": 2,
+     "cap": "불닭볶음면",
+     "line": 0,
+     "at": 0.25
     }
    ]
   },
@@ -730,6 +738,18 @@
      "color": "ink",
      "line": 0,
      "at": 0.1
+    },
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/user_buldak_pack.jpg",
+     "x": 1200,
+     "y": 190,
+     "w": 560,
+     "h": 560,
+     "rot": -2,
+     "cap": "2012 불닭볶음면",
+     "line": 0,
+     "at": 0.35
     }
    ],
    "sketch_add": [],
@@ -798,6 +818,18 @@
      "color": "ink",
      "line": 0,
      "at": 0.1
+    },
+    {
+     "kind": "photo",
+     "src": "scripts/blog/media/lib/user_buldak_carbo.jpg",
+     "x": 1200,
+     "y": 190,
+     "w": 560,
+     "h": 560,
+     "rot": 2,
+     "cap": "까르보불닭볶음면",
+     "line": 0,
+     "at": 0.3
     }
    ]
   },
@@ -954,11 +986,11 @@
     },
     {
      "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_buldak_1.jpg",
-     "x": 1180,
-     "y": 200,
-     "w": 600,
-     "h": 470,
+     "src": "scripts/blog/media/lib/user_buldak_tray.jpg",
+     "x": 1200,
+     "y": 190,
+     "w": 520,
+     "h": 560,
      "rot": 2,
      "cap": "불닭볶음면",
      "line": 0,

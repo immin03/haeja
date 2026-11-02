@@ -488,14 +488,16 @@ def render_v4(spec, out):
     _shade(im, [(0, 40), (.2, 0), (.8, 0), (1, 70)])
     tone = spec.get("tone", "down")
     acc = {"down": (255, 92, 104), "up": GREEN, "gold": (242, 212, 151), "ivory": (250, 247, 240)}.get(tone, (242, 212, 151))
-    LX = 64; maxw = W - 2 * LX - 120
+    LX = 64; maxw = int(spec.get("text_w", W - 2 * LX - 120))   # photo_right 일 때 글씨는 사진 왼쪽 칸 안에
     rows = []
     if spec.get("logo"):
         lg = Image.open(os.path.join(ROOT, spec["logo"])).convert("RGBA"); lh = 64; lg = lg.resize((int(lg.width * lh / lg.height), lh), Image.LANCZOS); rows.append(("img", lg))
     elif spec.get("name"): rows.append(("txt", spec["name"], fit(spec["name"], "Mont", 70, maxw), IVORY))
     rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", 84, maxw), IVORY))
     # 2026-10-29 성과 진단 #2 (대표님 승인): 큰 색 글씨는 8~9자 안으로 짧게, 화면 높이 22% 이상(160px). 큰 숫자형(C안)은 "s2": 220~260
-    s2 = spec.get("s2", 160); f2 = fit(spec["l2"], "Heavy", s2, maxw); rows.append(("txt", spec["l2"], f2, acc))
+    s2 = spec.get("s2", 160); L2 = spec["l2"].split("\n")   # 큰 글씨를 두 줄로 나눌 수 있다 (2026-11-02 삼양 편)
+    f2 = min((fit(t, "Heavy", s2, maxw) for t in L2), key=lambda f: f.size)
+    for t in L2: rows.append(("txt", t, f2, acc))
     if spec.get("l3"):   # 2026-11-02 대표님(제1 원칙 64): 큰 숫자 아래 그 숫자의 뜻·비교 한 줄(흰색, 작게) — 숫자만 던지지 않는다
         rows.append(("txt", spec["l3"], fit(spec["l3"], "Heavy", spec.get("s3", 60), maxw), (250, 247, 240)))
     hts = [r[1].height if r[0] == "img" else r[2].size for r in rows]; gap = 22
