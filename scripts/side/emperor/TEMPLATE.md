@@ -32,7 +32,9 @@
 ## 자동 게시 (2026-11-02)
 - 인스타 릴스·쓰레드 글: Supabase 함수 ed-publish (cron emperor-social, 5분마다), 대기열 ed_posts, 계정 ed_accounts (밸류노트 social_* 와 분리)
 - 영상 주소: https://www.valuenote.co.kr/docs/emperor/ep/<id>_reels.mp4 (repo docs/emperor/ep 에 올리면 됨)
-- 쓰레드: 표지 사진 1장(cover_path) + 글. 끝맺음은 함수가 자동으로 붙임 → 빈 줄 + "매일 밤, 황제처럼 생각하라.\n황제의 일기."
+- 쓰레드: 표지 사진 1장(cover_path) + 글. 끝맺음은 함수가 자동으로 붙임 → 마지막 줄(오늘 밤 할 일) 바로 아래 "매일 밤, 황제처럼 생각하라.\n황제의 일기."
+- 쓰레드 본문 (2026-11-02 22:04): 명상록 인용은 반드시 "큰따옴표"로 감싸 쓸 것 → 함수(fmtTH)가 인용만 앞뒤 빈 줄로 따로 뺀 문단으로 만듦
+  미리보기: ed-publish {"action":"preview_th","th_text":"..."}
 - 계정 연결: social-oauth ?go=<nonce> (social_oauth_state 에 platform instagram_ed/threads_ed/youtube_ed 로 1회용 nonce, 1시간 유효)
 - 유튜브 API 연결은 youtube_account id=2
 - 멈추기: app_config ed_paused = true

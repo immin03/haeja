@@ -2,14 +2,15 @@
 // 밸류노트 social-publish 와 완전히 분리: 계정은 ed_accounts, 대기열은 ed_posts.
 // {} (5분마다 cron): 토큰 갱신 → 처리 중인 릴스 마무리(게시 + 첫 댓글) → 시간이 된 글을 채널별로 1편씩 시작
 // 같은 채널은 최소 60분 간격. app_config.ed_paused = true 면 정기 게시 중지.
-// 쓰레드: 글만 올린다(영상 없음). 본문 끝에 빈 줄 + "매일 밤, 황제처럼 생각하라.\n황제의 일기."
+// 쓰레드: 표지 사진 1장 + 글. 따옴표 인용은 별도 문단. 본문 끝 줄 바로 아래 "매일 밤, 황제처럼 생각하라.\n황제의 일기."
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/v1.0";
 const GAP_MIN = 60;
-const TH_END = "\n\n매일 밤, 황제처럼 생각하라.\n황제의 일기.";
+const TH_TOPIC = "철학"; // 쓰레드 주제(토픽) 태그
+const TH_END = "\n매일 밤, 황제처럼 생각하라.\n황제의 일기.";  // 마지막 줄(오늘 밤 할 일) 바로 아래에 붙임 (2026-11-02 22:04 대표 예시)
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json" } });
 type Acc = { platform: string; account_id: string; username: string; access_token: string; expires_at: string };
 
@@ -38,7 +39,12 @@ async function refresh(acc: Record<string, Acc>) {
     } catch (e) { console.error("refresh", a.platform, e); }
   }
 }
-const thText = (p: any) => String(p.th_text || "").trim().slice(0, 500 - TH_END.length) + TH_END;
+// 쓰레드 본문: 따옴표 인용은 앞뒤 빈 줄로 따로 뺀 문단으로 (2026-11-02 대표 지시)
+function fmtTH(t: string) {
+  return t.replace(/\s*([“"][^“”"]{8,}[”"])\s*/g, "\n\n$1\n\n")
+    .split("\n").map(l => l.trim()).join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+const thText = (p: any) => fmtTH(String(p.th_text || "")).slice(0, 500 - TH_END.length) + TH_END;
 
 async function upd(id: string, o: Record<string, unknown>) { await sb.from("ed_posts").update(o).eq("id", id); }
 
@@ -72,7 +78,9 @@ async function startIG(a: Acc, p: any, site: string) {
   if (!lock?.length) return { skipped: "locked" };
   try {
     const url = /^https?:/.test(p.video_path) ? p.video_path : site + p.video_path;
-    const c = await call(`${IG}/${a.account_id}/media`, { media_type: "REELS", video_url: url, share_to_feed: "true", caption: p.ig_caption || "", access_token: a.access_token });
+    const prm: Record<string, string> = { media_type: "REELS", video_url: url, share_to_feed: "true", caption: p.ig_caption || "", access_token: a.access_token };
+    if (p.cover_path) prm.cover_url = /^https?:/.test(p.cover_path) ? p.cover_path : site + p.cover_path;  // 표지 = 첫 화면(훅) 양식
+    const c = await call(`${IG}/${a.account_id}/media`, prm);
     await upd(p.id, { ig_status: "processing", ig_container: c.id, ig_at: new Date().toISOString() });
     return { processing: c.id };
   } catch (e) {
@@ -81,12 +89,15 @@ async function startIG(a: Acc, p: any, site: string) {
   }
 }
 
-async function postTH(a: Acc, p: any) {
+async function postTH(a: Acc, p: any, site = "") {
   const { data: lock } = await sb.from("ed_posts").update({ th_status: "publishing", th_error: null }).eq("id", p.id).in("th_status", ["pending", "failed"]).select("id");
   if (!lock?.length) return { skipped: "locked" };
   try {
-    const c = await call(`${TH}/${a.account_id}/threads`, { media_type: "TEXT", text: thText(p), access_token: a.access_token });
-    await new Promise(r => setTimeout(r, 4000));
+    const prm: Record<string, string> = { media_type: "TEXT", text: thText(p), topic_tag: p.th_topic || TH_TOPIC, access_token: a.access_token };
+    if (p.th_image !== false && p.cover_path) { prm.media_type = "IMAGE"; prm.image_url = /^https?:/.test(p.cover_path) ? p.cover_path : site + p.cover_path; }  // 쓰레드 = 표지 사진 1장 + 글
+    const c = await call(`${TH}/${a.account_id}/threads`, prm);
+    for (let i = 0; i < 15; i++) { const st = (await call(`${TH}/${c.id}`, { fields: "status", access_token: a.access_token }, "GET").catch(() => ({}))).status; if (st === "FINISHED" || !st) break; if (st === "ERROR") throw new Error("이미지 처리 실패"); await new Promise(r => setTimeout(r, 2000)); }
+    await new Promise(r => setTimeout(r, 2000));
     const pub = await call(`${TH}/${a.account_id}/threads_publish`, { creation_id: c.id, access_token: a.access_token });
     const link = await call(`${TH}/${pub.id}`, { fields: "permalink", access_token: a.access_token }, "GET").catch(() => ({}));
     await upd(p.id, { th_status: "posted", th_media_id: pub.id, th_permalink: link.permalink || null, th_at: new Date().toISOString() });
@@ -107,6 +118,7 @@ Deno.serve(async (req: Request) => {
   try {
     const site = String((await cfg("site_url")) || "").replace(/\/$/, "");
     const acc = await accounts();
+    if (body.action === "preview_th") return json({ text: thText(body) });
     if (body.action === "check") {
       const out: Record<string, unknown> = { accounts: Object.values(acc).map(a => ({ platform: a.platform, username: a.username, expires_at: a.expires_at })) };
       if (acc.instagram) out.ig_limit = await call(`${IG}/${acc.instagram.account_id}/content_publishing_limit`, { fields: "quota_usage,config", access_token: acc.instagram.access_token }, "GET").catch(e => ({ error: String(e.message) }));
@@ -117,16 +129,16 @@ Deno.serve(async (req: Request) => {
     await refresh(acc);
     const res: Record<string, unknown> = {};
     if (acc.instagram) res.finished = await finishIG(acc.instagram);
-    if ((await cfg("ed_paused")) === true) return json({ ...res, idle: "paused" });
+    if ((await cfg("ed_paused")) === true && !body.force) return json({ ...res, idle: "paused" });
     const now = new Date().toISOString();
     for (const ch of ["ig", "th"] as const) {
       const a = acc[ch === "ig" ? "instagram" : "threads"]; if (!a) continue;
       if (ch === "ig") { const { count } = await sb.from("ed_posts").select("id", { count: "exact", head: true }).eq("ig_status", "processing"); if (count) continue; }
-      if (Date.now() - (await lastAt(ch)) < GAP_MIN * 60e3) continue;
+      if (!body.force && Date.now() - (await lastAt(ch)) < GAP_MIN * 60e3) continue;
       const { data: due } = await sb.from("ed_posts").select("*").eq(ch === "ig" ? "to_ig" : "to_th", true).eq(`${ch}_status`, "pending")
         .eq("paused", false).lte("scheduled_at", now).order("scheduled_at").limit(1);
       const p = due?.[0]; if (!p) continue;
-      res[ch] = { id: p.id, ...(ch === "ig" ? await startIG(a, p, site) : await postTH(a, p)) };
+      res[ch] = { id: p.id, ...(ch === "ig" ? await startIG(a, p, site) : await postTH(a, p, site)) };
     }
     return json(res);
   } catch (e) {
