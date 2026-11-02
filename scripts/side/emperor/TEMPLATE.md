@@ -32,7 +32,22 @@
 ## 자동 게시 (2026-11-02)
 - 인스타 릴스·쓰레드 글: Supabase 함수 ed-publish (cron emperor-social, 5분마다), 대기열 ed_posts, 계정 ed_accounts (밸류노트 social_* 와 분리)
 - 영상 주소: https://www.valuenote.co.kr/docs/emperor/ep/<id>_reels.mp4 (repo docs/emperor/ep 에 올리면 됨)
-- 쓰레드: 글만. 끝맺음은 함수가 자동으로 붙임 → 빈 줄 + "매일 밤, 황제처럼 생각하라.\n황제의 일기."
+- 쓰레드: 표지 사진 1장(cover_path) + 글. 끝맺음은 함수가 자동으로 붙임 → 빈 줄 + "매일 밤, 황제처럼 생각하라.\n황제의 일기."
 - 계정 연결: social-oauth ?go=<nonce> (social_oauth_state 에 platform instagram_ed/threads_ed/youtube_ed 로 1회용 nonce, 1시간 유효)
 - 유튜브 API 연결은 youtube_account id=2
 - 멈추기: app_config ed_paused = true
+
+## 표지(썸네일) 양식 (2026-11-02 확정)
+- "큰 흰 글씨 + 강한 장면" 프레임 1장 = 유튜브 맞춤 썸네일 = 릴스 cover_url = 쓰레드 사진 = 틱톡 커버
+- thumb_epXX.jpg 로 docs/emperor/ep 에 올리고 ed_posts.cover_path 에 경로 지정
+
+## 인코딩
+- 그레인(fx.grain) 쓰면 파일이 커짐 → libx264 -crf 24 -tune grain -maxrate 9M (유튜브용)
+- 인스타 업로드본은 별도: -crf 23 -tune grain -maxrate 5M -bufsize 10M, 오디오 aac 48kHz 스테레오 160k (<id>_reels_ig.mp4)
+  · 3편 원본(6Mbps, 96kHz 모노)은 인스타 처리 ERROR 났음
+- 사이트 배포는 몇 분 늦음 → HEAD 200 확인 후 게시 (ed-publish {"action":"check","url":...})
+
+## 틱톡
+- 스튜디오 업로드는 크롬 file_upload (10MB 미만, /mnt/user-data/uploads 에 복사). fetch 는 CSP 로 막힘
+- 설명: 제목. "인용" 출처. 매일 3편… 팔로우해 두시면… 매일 밤, 황제처럼 생각하라. #명상록 #철학 #황제의일기
+- 커버는 첫 프레임(훅 화면)이 그대로 큰 글씨 양식이라 따로 안 바꿔도 됨
