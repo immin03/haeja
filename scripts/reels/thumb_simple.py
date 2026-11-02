@@ -493,7 +493,7 @@ def render_v4(spec, out):
     if spec.get("logo"):
         lg = Image.open(os.path.join(ROOT, spec["logo"])).convert("RGBA"); lh = 64; lg = lg.resize((int(lg.width * lh / lg.height), lh), Image.LANCZOS); rows.append(("img", lg))
     elif spec.get("name"): rows.append(("txt", spec["name"], fit(spec["name"], "Mont", 70, maxw), IVORY))
-    rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", 84, maxw), IVORY))
+    rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", spec.get("s1", 84), int(spec.get("l1_w", maxw))), IVORY))   # s1: 흰 줄 크기 (2026-11-02 대표님 "하얀색도 보일 정도로 키워야지")
     # 2026-10-29 성과 진단 #2 (대표님 승인): 큰 색 글씨는 8~9자 안으로 짧게, 화면 높이 22% 이상(160px). 큰 숫자형(C안)은 "s2": 220~260
     s2 = spec.get("s2", 160); L2 = spec["l2"].split("\n")   # 큰 글씨를 두 줄로 나눌 수 있다 (2026-11-02 삼양 편)
     f2 = min((fit(t, "Heavy", s2, maxw) for t in L2), key=lambda f: f.size)
