@@ -98,3 +98,11 @@
 - 만들기: cards/<id>.json 작성 → python3 make_card.py cards/<id>.json docs/emperor/card → 한 장 모아 눈으로 점검 → push
 - 게시: ed_posts 에 kind='carousel', images=[docs/emperor/card/<id>_01.jpg …], to_ig=true, to_th=false, video_path='' 로 넣으면 ed-publish 가 캐러셀로 올림(댓글은 ig_comment). 틱톡은 Chrome 스튜디오 사진 업로드(tt_text)
 - 인용은 권·절을 반드시 확인한 것만. 현대 장면(ed03_subway) 쓰지 않음
+
+## 해설형 50~60초 실험 (2026-11-03 01:24 대표 지시 — 출판 연계, 참고: 명언 쇼츠 '어차피 죽는다 마음 편하게 살아라' 35만 회)
+- 첫 편: ep06x "휴가를 가도 쉬어지지 않는 이유" (11/3 21:30 슬롯, 기존 ep06 30초본 대체) · 55초
+- 구성: 훅(역설형 제목) → 사연 → 원문 인용 2줄 → **풀이 3문장**(장소를 바꿔도… / 그래서 황제는… / 쉼은…) → 원문 한 줄 더(4권 3절 뒷부분 "이 물러남을 자주 하라. 그리고 새로워져라.") → 오늘 밤 할 일 → 슬로건
+- **고정 제목**: 둘째 컷부터 모든 컷 맨 위에 훅 문구를 금색 한 줄(sub)로 계속 띄운다
+- 만들기: long_<id>.json(문장 시각은 silencedetect -32dB d=0.18 로 나눔) → python3 build_long.py long_<id>.json → render_ed.py (ED_TMP 지정, 긴 편은 memmap 으로 메모리 절약)
+- 내레이션 원고가 그대로 책 한 꼭지(인용 + 풀이)가 되도록 쓴다. 인용은 저작권 끝난 영어 번역(George Long 1862)·원문 기준으로 우리 문장으로 편역 — 기존 한국어 번역본 문장 사용 금지
+- 판단: 같은 시간대 30초본(ep01~05)과 인스타 평균 시청 시간·완주율, 유튜브 조회 비교. 해설형이 비슷하거나 나으면 하루 1편을 해설형으로 고정

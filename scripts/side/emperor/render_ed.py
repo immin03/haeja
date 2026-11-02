@@ -108,15 +108,17 @@ def read_frames(path, n, speed=1.0):
     """영상을 1080x1920으로 꽉 채워(가운데 자르기) n 프레임 읽는다. speed<1 이면 느리게."""
     vf = f"setpts=PTS/{speed},fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}"
     p = subprocess.Popen(["ffmpeg", "-v", "error", "-i", path, "-vf", vf, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
-    frames = []
-    last = None
-    for _ in range(n):
+    # 2026-11-03: 긴 편(55초+)에서 메모리 부족(7GB) → 디스크 memmap 에 담는다
+    import tempfile
+    mm = np.memmap(tempfile.NamedTemporaryFile(prefix="edfr_", dir=os.environ.get("ED_TMP", "/tmp"), delete=False).name, np.uint8, "w+", shape=(n, H, W, 3))
+    last = None; got = 0
+    for i in range(n):
         buf = p.stdout.read(W * H * 3)
         if len(buf) < W * H * 3:
-            frames.append(last); continue
-        last = np.frombuffer(buf, np.uint8).reshape(H, W, 3); frames.append(last)
+            mm[i] = last if last is not None else 0; continue
+        last = np.frombuffer(buf, np.uint8).reshape(H, W, 3); mm[i] = last
     p.stdout.close(); p.wait()
-    return frames
+    return mm
 
 
 def kb_frames(path, n, move="in", amt=0.10):
@@ -124,8 +126,10 @@ def kb_frames(path, n, move="in", amt=0.10):
     src = Image.open(path).convert("RGB")
     sw, sh = src.size; sc = max(W / sw, H / sh) * (1 + amt + 0.02)
     big = src.resize((int(sw * sc), int(sh * sc)), Image.LANCZOS); BW, BH = big.size
-    out = []
-    for i in range(n):
+    class _KB:  # 2026-11-03: 프레임을 미리 다 만들지 않고 필요할 때 만든다(메모리 절약)
+        def __len__(self): return n
+        def __getitem__(self, i): return _kb(i)
+    def _kb(i):
         p = i / max(1, n - 1); p = p * p * (3 - 2 * p)  # 부드럽게
         if move == "in": z = 1 + amt * p
         elif move == "out": z = 1 + amt * (1 - p)
@@ -137,8 +141,8 @@ def kb_frames(path, n, move="in", amt=0.10):
         if move == "up": cy = BH / 2 + (BH - ch) / 2 * (0.8 - 1.6 * p)
         elif move == "down": cy = BH / 2 - (BH - ch) / 2 * (0.8 - 1.6 * p)
         box = (cx - cw / 2, cy - ch / 2, cx + cw / 2, cy + ch / 2)
-        out.append(np.asarray(big.resize((W, H), Image.BILINEAR, box=box)))
-    return out
+        return np.asarray(big.resize((W, H), Image.BILINEAR, box=box))
+    return _KB()
 
 
 def end_card(spec_end, base, t):
