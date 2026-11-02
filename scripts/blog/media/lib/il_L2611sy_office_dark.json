@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611sy_office_dark",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: 1997: a dark empty office at night, desks piled with stacks of documents and unpaid bills, a single desk lamp on, rain on the window, the city lights outside dim. Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19bb8-8396-73a0-9644-4efae5f6714c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bb8-8396-73a0-9644-4efae5f6714c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bb8-8396-73a0-9644-4efae5f6714c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19bb8-8396-73a0-9644-4efae5f6714c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bb8-8396-73a0-9644-4efae5f6714c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bb8-8396-73a0-9644-4efae5f6714c/cancel",
+  "expires_at": "2026-11-09T10:07:41.116496+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bb8-8396-73a0-9644-4efae5f6714c/7ff426ea-ba21-4da6-84dd-a2ad9eeac789.jpeg"
+   }
+  ]
+ },
+ "seconds": 142,
+ "file": "scripts/blog/media/lib/il_L2611sy_office_dark.jpeg"
+}

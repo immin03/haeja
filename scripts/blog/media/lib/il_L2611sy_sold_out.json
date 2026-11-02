@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611sy_sold_out",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: An empty snack shelf in a Korean convenience store with a single handwritten blank paper note taped to it, a few crumbs, no readable text, slightly melancholic light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19bc0-aa82-7ed4-8eef-b6b2ea2e7761",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bc0-aa82-7ed4-8eef-b6b2ea2e7761/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bc0-aa82-7ed4-8eef-b6b2ea2e7761/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19bc0-aa82-7ed4-8eef-b6b2ea2e7761",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bc0-aa82-7ed4-8eef-b6b2ea2e7761/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bc0-aa82-7ed4-8eef-b6b2ea2e7761/cancel",
+  "expires_at": "2026-11-09T10:15:28.216843+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bc0-aa82-7ed4-8eef-b6b2ea2e7761/a7777eba-d89e-4436-a94c-0173213e9f4a.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "scripts/blog/media/lib/il_L2611sy_sold_out.jpeg"
+}

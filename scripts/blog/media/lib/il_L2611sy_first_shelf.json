@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611sy_first_shelf",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: 2012: a hand placing the first plain red instant noodle packet with flame drawings onto a convenience store shelf, bright fluorescent light, no readable text.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19bbc-c5e7-7dc6-b2d0-bb188d35ce94",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bbc-c5e7-7dc6-b2d0-bb188d35ce94/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bbc-c5e7-7dc6-b2d0-bb188d35ce94/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19bbc-c5e7-7dc6-b2d0-bb188d35ce94",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bbc-c5e7-7dc6-b2d0-bb188d35ce94/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bbc-c5e7-7dc6-b2d0-bb188d35ce94/cancel",
+  "expires_at": "2026-11-09T10:11:42.683939+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bbc-c5e7-7dc6-b2d0-bb188d35ce94/157952a8-9ffb-4736-aa68-fcfd4b25f22f.jpeg"
+   }
+  ]
+ },
+ "seconds": 105,
+ "file": "scripts/blog/media/lib/il_L2611sy_first_shelf.jpeg"
+}
