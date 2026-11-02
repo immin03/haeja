@@ -1,0 +1,32 @@
+{
+ "id": "lib_bust",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "A white marble bust of an older bearded Roman emperor with curly hair, seen in three-quarter profile, standing on a dark plinth in a dark hall, a shaft of warm light from the side carving deep shadows on the face, dust in the light. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting, deep warm shadows, a single warm light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty area in the top third. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19b6c-018c-7273-b3f5-b4879afffece",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b6c-018c-7273-b3f5-b4879afffece/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b6c-018c-7273-b3f5-b4879afffece/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19b6c-018c-7273-b3f5-b4879afffece",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b6c-018c-7273-b3f5-b4879afffece/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b6c-018c-7273-b3f5-b4879afffece/cancel",
+  "expires_at": "2026-11-09T08:43:04.871924+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19b6c-018c-7273-b3f5-b4879afffece/59eaf41d-1dca-49b2-a25e-15db95b9fe68.jpeg"
+   }
+  ]
+ },
+ "seconds": 82,
+ "file": "social/side/gen/lib_bust.jpeg"
+}
