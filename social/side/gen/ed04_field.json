@@ -1,0 +1,32 @@
+{
+ "id": "ed04_field",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Cold grey-blue dawn on the Danube frontier in 172 AD, during the Marcomannic Wars. An older Roman emperor, about fifty, with short curly grey hair and a short full beard, seen from behind and slightly to the right so his face is NOT visible, stands alone on a low muddy rise in the foreground, wearing a bronze muscle cuirass and a long deep-red general's cloak hanging heavy and still. He looks out over a wide misty battlefield plain below: a Roman legion drawn up in tight rectangular blocks, legionaries with curved red rectangular scutum shields and iron helmets, several eagle standards and red vexillum banners rising above the ranks, thin smoke from extinguished campfires, trampled frosty grass, a few bare winter trees, a dark forest line on the far horizon where the enemy waits unseen. Quiet, heavy calm before the day begins, no fighting, no blood, no corpses. Historically accurate Roman equipment, no medieval armour, no horses in the foreground. The emperor is small to medium in frame, in the lower third, the army in the middle third, faint dawn light breaking low behind the forest. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm dark empty sky area in the top third for text. Absolutely no text, no letters, no numbers, no logos, no watermark, nothing modern anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c/cancel",
+  "expires_at": "2026-11-09T10:02:39.029424+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c/021b98fe-266e-4096-8cf4-59f1c0166cde.jpeg"
+   }
+  ]
+ },
+ "seconds": 137,
+ "file": "social/side/gen/ed04_field.jpeg"
+}

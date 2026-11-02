@@ -1,0 +1,31 @@
+{
+ "id": "edv04_field",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The emperor stays completely still with his back to the camera; only his red cloak stirs slightly in a cold wind, the banners above the legion ripple gently, low mist drifts slowly across the plain and thin smoke rises. The camera makes one very slow, smooth push-in toward the emperor. Keep the painterly look and every detail identical to the first frame; the soldiers stay in formation and barely move. No fighting, no running, no text, no morphing faces or bodies, no extra limbs, no camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bb3-fc9b-7289-aa36-0b9dfcd64c8c/021b98fe-266e-4096-8cf4-59f1c0166cde.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19bb6-18ef-7b39-8dc1-ce26cf36dafd",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bb6-18ef-7b39-8dc1-ce26cf36dafd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bb6-18ef-7b39-8dc1-ce26cf36dafd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19bb6-18ef-7b39-8dc1-ce26cf36dafd",
+  "status_url": "https://api.higgsfield.ai/requests/01a19bb6-18ef-7b39-8dc1-ce26cf36dafd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19bb6-18ef-7b39-8dc1-ce26cf36dafd/cancel",
+  "expires_at": "2026-11-09T10:05:41.140782+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19bb6-18ef-7b39-8dc1-ce26cf36dafd/43b86c65-fb71-424c-b6c6-044a82f9a88c.mp4"
+  }
+ },
+ "seconds": 180,
+ "file": "social/side/gen/edv04_field.mp4"
+}
