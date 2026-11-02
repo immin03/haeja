@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611sy_market",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: Black-and-white documentary photograph style, early 1960s Seoul Namdaemun market alley: a long line of poorly dressed people holding tin bowls waiting at a street stall where porridge steams from a huge pot, crowded wooden stalls, faded archival film grain. Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ba6-2cb8-7888-891f-f0a6d2e2f7b7",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ba6-2cb8-7888-891f-f0a6d2e2f7b7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ba6-2cb8-7888-891f-f0a6d2e2f7b7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ba6-2cb8-7888-891f-f0a6d2e2f7b7",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ba6-2cb8-7888-891f-f0a6d2e2f7b7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ba6-2cb8-7888-891f-f0a6d2e2f7b7/cancel",
+  "expires_at": "2026-11-09T09:46:58.943286+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ba6-2cb8-7888-891f-f0a6d2e2f7b7/32f4c8cf-5165-4a80-8648-e5e27e20227c.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "scripts/blog/media/lib/il_L2611sy_market.jpeg"
+}
