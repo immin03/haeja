@@ -1,0 +1,32 @@
+{
+ "id": "ed06_forum",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Late afternoon in the Roman Forum around 170 AD. A Roman emperor, older man with short curly grey hair and a short beard, seen strictly from behind so his face is NOT visible, stands alone on the high stone speaker's platform (the Rostra), wearing a white toga with a purple border and a laurel wreath. Below and in front of him, a vast crowd of thousands of Roman citizens in muted tunics and togas fills the Forum, all looking up toward him, small and indistinct, no individual faces in focus. Marble temples with columns, a triumphal arch and smoke from braziers frame the square; low golden sunlight from the side, long shadows, dust in the air. The emperor is in the lower third, centred, the crowd in the middle, a dark dusky sky in the top third. Feeling: one man watched by an entire empire, quiet and heavy. Historically accurate Roman architecture and clothing; no modern objects, no flags with symbols, no banners with writing. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark empty sky or shadow area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c0a-05d5-7418-9bc5-53d649407542",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c0a-05d5-7418-9bc5-53d649407542/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c0a-05d5-7418-9bc5-53d649407542/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c0a-05d5-7418-9bc5-53d649407542",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c0a-05d5-7418-9bc5-53d649407542/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c0a-05d5-7418-9bc5-53d649407542/cancel",
+  "expires_at": "2026-11-09T11:36:41.072096+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c0a-05d5-7418-9bc5-53d649407542/54d17028-7dd9-43ce-8d96-34f74644a804.jpeg"
+   }
+  ]
+ },
+ "seconds": 142,
+ "file": "social/side/gen/ed06_forum.jpeg"
+}

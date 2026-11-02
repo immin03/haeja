@@ -1,0 +1,31 @@
+{
+ "id": "edv06_forum",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The emperor stays completely still with his back to the camera; the crowd below shifts very slightly, a few people turn their heads, dust and brazier smoke drift slowly through the low sunlight. The camera makes one very slow, smooth push-in toward the emperor's back. Keep the painterly look and every detail identical to the first frame; the emperor must stay centred and fully inside the frame for the whole shot. No faces in close-up, no text, no morphing bodies, no extra limbs, no camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c0a-05d5-7418-9bc5-53d649407542/54d17028-7dd9-43ce-8d96-34f74644a804.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c0c-3517-7e12-932e-3ee42846d41a",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c0c-3517-7e12-932e-3ee42846d41a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c0c-3517-7e12-932e-3ee42846d41a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c0c-3517-7e12-932e-3ee42846d41a",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c0c-3517-7e12-932e-3ee42846d41a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c0c-3517-7e12-932e-3ee42846d41a/cancel",
+  "expires_at": "2026-11-09T11:40:41.126873+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c0c-3517-7e12-932e-3ee42846d41a/78f66c72-32a8-472e-99fa-a504bf415400.mp4"
+  }
+ },
+ "seconds": 234,
+ "file": "social/side/gen/edv06_forum.mp4"
+}
