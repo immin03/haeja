@@ -1,0 +1,32 @@
+{
+ "id": "lg3_coin_engraved",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "1:1",
+  "prompt": "An ancient Roman gold coin seen perfectly flat: a refined side-profile portrait of the bearded Roman emperor Marcus Aurelius facing right, wearing a laurel wreath, curly hair and beard rendered with delicate engraved cross-hatching, a fine beaded rim and a thin second ring. Ultra-premium luxury heritage brand emblem, highly detailed fine-line engraving style like a banknote or a classic coin die, intricate but clean, warm ivory white lines (#F2EBDD) on a plain solid near-black background (#0B0A09), perfectly centered, the emblem fills about 75% of the frame with even margins, crisp, high contrast, flat, no color gradients, no 3D render, no glow. Absolutely no text, no letters, no numbers, no inscription, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19b85-a728-7afa-9213-97e37c1f9cbb",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b85-a728-7afa-9213-97e37c1f9cbb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b85-a728-7afa-9213-97e37c1f9cbb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19b85-a728-7afa-9213-97e37c1f9cbb",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b85-a728-7afa-9213-97e37c1f9cbb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b85-a728-7afa-9213-97e37c1f9cbb/cancel",
+  "expires_at": "2026-11-09T09:11:37.317314+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19b85-a728-7afa-9213-97e37c1f9cbb/c57fec1e-5090-4b9d-a1ab-db11df3d2b7c.jpeg"
+   }
+  ]
+ },
+ "seconds": 111,
+ "file": "social/side/gen/lg3_coin_engraved.jpeg"
+}
