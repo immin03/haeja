@@ -1,0 +1,32 @@
+{
+ "id": "logo_coin3",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "1:1",
+  "prompt": "A minimal Roman coin emblem: a perfect double circle ring, inside it a clean simplified side-profile silhouette of a bearded Roman emperor facing right with a laurel wreath, drawn with few confident lines, iconic and readable at very small sizes, like a modern luxury monogram. Premium luxury brand emblem, flat vector line art, perfectly centered, crisp clean BOLD lines of even medium-thick weight in pure warm ivory white (#F2EBDD) on a plain solid near-black background (#0B0A09), high contrast, large and filling about 80% of the frame, generous but even margins, no gradients, no shading, no texture, no 3D. Absolutely no text, no letters, no numbers, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19b79-25e1-7e82-9225-dfaf991e80b2",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b79-25e1-7e82-9225-dfaf991e80b2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b79-25e1-7e82-9225-dfaf991e80b2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19b79-25e1-7e82-9225-dfaf991e80b2",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b79-25e1-7e82-9225-dfaf991e80b2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b79-25e1-7e82-9225-dfaf991e80b2/cancel",
+  "expires_at": "2026-11-09T08:57:49.367724+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19b79-25e1-7e82-9225-dfaf991e80b2/76dae803-b4cb-4a79-a253-86687b7d8839.jpeg"
+   }
+  ]
+ },
+ "seconds": 105,
+ "file": "social/side/gen/logo_coin3.jpeg"
+}
