@@ -1,0 +1,32 @@
+{
+ "id": "logo_laurel_m",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "1:1",
+  "prompt": "A slim laurel wreath forming an almost closed circle, the two branches meeting at the bottom, a single small eight-pointed star at the top center inside the wreath, very fine lines. Minimal flat vector logo emblem, centered, perfectly symmetric where possible, thin elegant gold lines (#C9A96E) on a plain solid near-black background (#0E0D0C), lots of empty space around it, premium luxury brand mark, no gradients, no shading, no 3D. Absolutely no text, no letters, no numbers, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19b63-6542-7247-b327-fda53521b673",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b63-6542-7247-b327-fda53521b673/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b63-6542-7247-b327-fda53521b673/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19b63-6542-7247-b327-fda53521b673",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b63-6542-7247-b327-fda53521b673/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b63-6542-7247-b327-fda53521b673/cancel",
+  "expires_at": "2026-11-09T08:33:43.726851+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19b63-6542-7247-b327-fda53521b673/74e8f8e4-39e1-4c94-9624-effb08189173.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "social/side/gen/logo_laurel_m.jpeg"
+}

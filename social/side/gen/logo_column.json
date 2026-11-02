@@ -1,0 +1,32 @@
+{
+ "id": "logo_column",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "1:1",
+  "prompt": "A single slender Ionic Roman column drawn in fine gold lines, with a small crescent moon floating just above its capital, all enclosed in a thin tall arch outline. Minimal flat vector logo emblem, centered, perfectly symmetric where possible, thin elegant gold lines (#C9A96E) on a plain solid near-black background (#0E0D0C), lots of empty space around it, premium luxury brand mark, no gradients, no shading, no 3D. Absolutely no text, no letters, no numbers, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19b63-666e-7d04-9136-90a16532067e",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b63-666e-7d04-9136-90a16532067e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b63-666e-7d04-9136-90a16532067e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19b63-666e-7d04-9136-90a16532067e",
+  "status_url": "https://api.higgsfield.ai/requests/01a19b63-666e-7d04-9136-90a16532067e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19b63-666e-7d04-9136-90a16532067e/cancel",
+  "expires_at": "2026-11-09T08:34:04.357874+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19b63-666e-7d04-9136-90a16532067e/28695631-80fe-41ac-8d5d-54511c69760a.jpeg"
+   }
+  ]
+ },
+ "seconds": 106,
+ "file": "social/side/gen/logo_column.jpeg"
+}
