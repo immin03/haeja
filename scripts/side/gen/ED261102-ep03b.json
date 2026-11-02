@@ -1,0 +1,59 @@
+[
+ {
+  "id": "ed07_crowd",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Low angle view from inside a dense crowd of ancient Roman citizens in the Forum around 170 AD, men and women in muted wool tunics and togas, many faces turned upward toward a distant figure above the frame, their faces softly lit by warm golden late-afternoon sun and a few bronze braziers, shallow depth of field so only two or three faces in the middle are sharp and the rest dissolve into soft painterly blur, dust floating in the light beams, marble columns rising into dark shadow at the top of the frame. Expressions: hopeful, judging, curious. Historically accurate Roman hair and clothing, no helmets, no weapons. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+  }
+ },
+ {
+  "id": "edv07_crowd",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed07_crowd.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The crowd shifts very slightly, a few heads turn, dust drifts through the light beams, faces stay calm and natural. The camera slowly rises upward through the crowd with a smooth, gentle crane motion. Keep the painterly look and every detail identical to the first frame. No text, no morphing faces, no extra fingers or limbs, no camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ed08_mirror",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Night in a plain stone room of a Roman imperial residence. Close view of a round polished bronze hand mirror standing on a wooden table, lit by a single small clay oil lamp beside it. In the warm, slightly distorted bronze reflection we see the soft blurred face of a tired older bearded man looking at himself, face only visible inside the mirror and slightly out of focus; outside the mirror only his shoulder in dark wool is visible at the edge of the frame, from behind. A folded white toga with purple stripe lies on a stool in the shadows. Quiet, introspective, intimate. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+  }
+ },
+ {
+  "id": "edv08_mirror",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed08_mirror.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The oil lamp flame flickers gently, the reflection in the bronze mirror wavers very slightly as the man breathes, warm light moves softly across the bronze. The camera makes one very slow push-in toward the mirror. The face in the mirror stays soft and blurred and does not change identity. Keep the painterly look and every detail identical to the first frame. No text, no morphing faces, no extra fingers or limbs, no camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ed09_ruins",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "The same Roman Forum many centuries later, abandoned and in ruins at dusk: broken marble columns, fallen capitals half sunk in tall wild grass, the stone speaker's platform cracked and empty, a large toppled marble head of a bearded emperor lying on its side in the grass in the foreground lower third, ivy on the stones, a few crows, wind bending the grass, cold blue-violet twilight sky with the last thin line of gold on the horizon. No people at all. Feeling: everything that was praised is forgotten, calm and melancholic. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, muted bronze, umber and deep navy palette, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower half, a calm dark area in the top third for text. Absolutely no text, no letters, no inscriptions, no numbers, no logos, no watermark, nothing modern anywhere."
+  }
+ },
+ {
+  "id": "edv09_ruins",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/ed09_ruins.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "Wind gently moves the tall grass and ivy, a few dry leaves blow across the stones, a crow lifts off in the distance, the last light on the horizon fades very slightly. The camera makes one very slow, smooth push-in toward the fallen marble head. Keep the painterly look and every detail identical to the first frame. No text, no morphing faces, no extra fingers or limbs, no camera shake, no cuts."
+  }
+ }
+]
