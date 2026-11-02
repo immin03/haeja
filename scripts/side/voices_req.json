@@ -1,29 +1,43 @@
 {
- "requested": "2026-11-02T18:10",
- "tag": "empo2",
+ "requested": "2026-11-02T18:40",
+ "tag": "empo3",
  "lang": "kor",
  "model": "ssfm-v30",
  "voices": [
   {
-   "name": "A_normal",
+   "name": "D_plain_td",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "emotion": "normal",
-   "intensity": 1.0,
-   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기."
+   "emotion": "tonedown",
+   "intensity": 0.3,
+   "line": "황제의 일기."
   },
   {
-   "name": "B_tonedown_soft",
+   "name": "E_plain_norm",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "emotion": "normal",
+   "intensity": 0.5,
+   "line": "황제의 일기."
+  },
+  {
+   "name": "F_sentence",
    "id": "tc_6731b2e0855f351b98d30c48",
    "emotion": "tonedown",
    "intensity": 0.4,
-   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기."
+   "line": "황제의 일기를 펼칩니다."
   },
   {
-   "name": "C_normal_flat",
+   "name": "G_sentence2",
    "id": "tc_6731b2e0855f351b98d30c48",
    "emotion": "normal",
-   "intensity": 0.6,
-   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기"
+   "intensity": 0.5,
+   "line": "황제의 일기에서 만나요."
+  },
+  {
+   "name": "H_full_td",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "emotion": "tonedown",
+   "intensity": 0.3,
+   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기를 씁니다."
   }
  ]
 }
