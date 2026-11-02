@@ -17,15 +17,40 @@ def get(url):
     with urllib.request.urlopen(req, timeout=60) as r: return json.loads(r.read())
 
 
-def tts(voice, model, path):
-    body = {"text": LINE, "model": model, "voice_id": voice, "language": "eng", "output": {"audio_format": "mp3"}}
+def tts(voice, model, path, text=None, lang="eng", emotion=None):
+    body = {"text": text or LINE, "model": model, "voice_id": voice, "language": lang, "output": {"audio_format": "mp3"}}
+    if emotion: body["prompt"] = {"emotion_preset": emotion, "emotion_intensity": 1.0}
     req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST", data=json.dumps(body).encode(),
                                  headers={"X-API-KEY": KEY, "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=120) as r: open(path, "wb").write(r.read())
 
 
+def main_req(req):
+    """voices_req.json 에 voices 목록이 있으면 그 목소리들로 req.line 을 읽힌다 (2026-11-02 황제의 일기 한국어 성우 후보)"""
+    tag = req.get("tag", "ko"); res = []; files = []
+    for i, v in enumerate(req["voices"], 1):
+        name = v["name"].replace(" ", "_")[:24]; fn = f"voice_{tag}_{i:02d}_{name}.mp3"; dst = os.path.join(OUT, fn); raw = dst + ".raw.mp3"
+        ok = False
+        for emo in ([req.get("emotion")] if req.get("emotion") else []) + [None]:
+            try:
+                tts(v["id"], req.get("model", "ssfm-v30"), raw, req["line"], req.get("lang", "kor"), emo); ok = True; break
+            except urllib.error.HTTPError as e: print("실패", name, emo, e.code, e.read()[:200])
+            except Exception as e: print("실패", name, emo, str(e)[:160])
+        if not ok: continue
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-af", f"atempo={req.get('tempo', 1.0)},loudnorm=I=-16:TP=-1.5", "-b:a", "160k", dst], check=True)
+        os.remove(raw); files.append(dst)
+        res.append({"n": i, "voice_id": v["id"], "name": v["name"], "url": f"https://github.com/{REPO}/releases/download/side-assets/{fn}"})
+        print("샘플", i, name, flush=True)
+    if files:
+        subprocess.run(["gh", "release", "upload", "side-assets", *files, "--clobber", "-R", REPO], check=True)
+        for f in files: os.remove(f)
+    json.dump(res, open(os.path.join(OUT, f"voices_{tag}.json"), "w"), ensure_ascii=False, indent=1)
+
+
 def main():
     if not KEY: sys.exit("TYPECAST_API_KEY 없음")
+    req = json.load(open(os.path.join(ROOT, "scripts", "side", "voices_req.json")))
+    if req.get("voices"): return main_req(req)
     voices = None
     for u in ("https://api.typecast.ai/v2/voices?model=ssfm-v30", "https://api.typecast.ai/v1/voices?model=ssfm-v30", "https://api.typecast.ai/v1/voices"):
         try: voices = get(u); print("목록:", u); break
