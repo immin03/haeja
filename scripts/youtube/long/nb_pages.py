@@ -18,7 +18,7 @@ import sketch as SK  # noqa: E402
 def main():
     spec_path, out = sys.argv[1], sys.argv[2]
     only = [int(a) for a in sys.argv[3:]]
-    spec = json.load(open(spec_path, encoding="utf-8"))
+    spec = R2.split_end(json.load(open(spec_path, encoding="utf-8")))
     data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; R2.CV.update(V)
     R2.set_look(spec.get("look")); R2.TH["light"]["bg"] = (243, 236, 221); R2._bg.clear()
     os.makedirs(out, exist_ok=True)

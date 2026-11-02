@@ -1484,6 +1484,36 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
     finish(spec, V, timeline, total, enc, tmp, wav, out, data)
 
 
+ENDSCREEN_SEC = [0.0]
+
+
+def split_end(spec):
+    # 2026-11-03 대표님: 엔딩은 [관련 사진 한 장 더 → 엔딩 화면 · 구독/좋아요/알림은 그 말을 할 때]. 인사 제목만 띄워 둔 채 공백이 길면 안 된다.
+    # → 끝 장면에서 '구독'을 말하기 전 이야기 문장은 앞쪽 사진 장면(전체 화면)으로 떼어 낸다. 사진은 v.closing_photo, 없으면 v.backdrop.
+    sc_ = spec["scenes"]
+    for i_, e_ in enumerate(sc_):
+        if e_["v"].get("type") != "end": continue
+        e_["v"].pop("title", None)
+        k_ = next((j for j, l in enumerate(e_["lines"]) if "구독" in l), 0)
+        ph_ = e_["v"].get("closing_photo") or e_["v"].get("backdrop")
+        if k_ > 0 and ph_:
+            en_ = e_.get("en") or [""] * len(e_["lines"])
+            sc_.insert(i_, {"v": {"type": "media", "lib": ph_, "full": True, "wash": "none"}, "lines": e_["lines"][:k_], "en": en_[:k_], "asof": False, "src": e_.get("src", "")})
+            e_["lines"] = e_["lines"][k_:]; e_["en"] = en_[k_:]
+            def _shift(at):
+                if isinstance(at, str) and ":" in at and at.split(":", 1)[0].isdigit(): n_, w_ = at.split(":", 1); return f"{max(0, int(n_) - k_)}:{w_}"
+                return at
+            v_ = e_["v"]
+            if v_.get("btn_at"): v_["btn_at"] = [_shift(x) for x in v_["btn_at"]]
+            if v_.get("sub_at"): v_["sub_at"] = _shift(v_["sub_at"])
+            if isinstance(v_.get("next"), dict) and v_["next"].get("at"): v_["next"]["at"] = _shift(v_["next"]["at"])
+            if isinstance(v_.get("note"), dict) and v_["note"].get("at"): v_["note"]["at"] = _shift(v_["note"]["at"])
+        break
+    return spec
+
+
+
+
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
     spec = json.load(open(spec_path, encoding="utf-8")); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
@@ -1504,6 +1534,7 @@ def main():
             for k in ("list", "value", "brief", "port"):
                 q = p.replace(".png", "_" + k + ".png")
                 if os.path.exists(q): SHOTS[img + ":" + k] = Image.open(q).convert("RGB")
+    split_end(spec)
     # 1) 음성
     if not fake: from tts import speak
     timeline = []; t = 0.0; audio = []
@@ -1523,7 +1554,7 @@ def main():
             a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
-        if sc.get("endscreen"): dur = max(dur, float(sc["endscreen"]))   # 유튜브 최종 화면은 마지막 5~20초 → 끝 장면을 20초 넘게 유지
+        if sc.get("endscreen"): dur = max(dur + .8, 8.0); ENDSCREEN_SEC[0] = round(dur, 1)   # 2026-11-03 대표님 "공백이 길었다": 20초 고정 대신 말 끝 + 0.8초 (유튜브 최종 화면 최소 5초는 지킴)
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
     total = t
     mix = np.zeros(int((total + 1) * SR), np.float32)
@@ -1674,6 +1705,7 @@ def finish(spec, V, timeline, total, enc, tmp, wav, out, data):
             "qa": {"media": [[k, "lib", s["sc"]["v"].get("lib")] for k, s in enumerate(timeline) if s["sc"]["v"]["type"] == "media"] + [[k, "lib", s["sc"]["v"]["backdrop"]] for k, s in enumerate(timeline) if s["sc"]["v"].get("backdrop")],
                    "lines": [[round(x["start"] + a, 2), round(d_, 2), l, to_speech(l)] for x in timeline for (a, d_, l) in x["lines"]],
                    "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG}}
+    if ENDSCREEN_SEC[0]: meta["endscreen_sec"] = ENDSCREEN_SEC[0]   # 업로드 때 유튜브 최종 화면 요소를 마지막 이 초만큼 건다
     json.dump(meta, open(os.path.join(out, "meta.json"), "w"), ensure_ascii=False, indent=1)
     print(f"완료: {total / 60:.1f}분 → {out}")
 
