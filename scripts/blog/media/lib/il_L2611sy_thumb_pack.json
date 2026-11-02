@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611sy_thumb_pack",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A single glossy BLACK instant noodle packet lying at an angle on a dark weathered wooden table, the packet decorated only with bold red and orange flame swirls and a small drawing of a plate of fiery red noodles, crinkled foil edges, three dried red chili peppers beside it, dramatic warm light from the upper right, deep shadows on the left. Absolutely no letters, no logo, no mascot or character.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19c10-c7c4-7dcb-9c8f-a420b68eb2e7",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c10-c7c4-7dcb-9c8f-a420b68eb2e7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c10-c7c4-7dcb-9c8f-a420b68eb2e7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19c10-c7c4-7dcb-9c8f-a420b68eb2e7",
+  "status_url": "https://api.higgsfield.ai/requests/01a19c10-c7c4-7dcb-9c8f-a420b68eb2e7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19c10-c7c4-7dcb-9c8f-a420b68eb2e7/cancel",
+  "expires_at": "2026-11-09T11:43:44.294371+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19c10-c7c4-7dcb-9c8f-a420b68eb2e7/43c874a6-44f4-44c4-ac3d-3c03e850fb0b.jpeg"
+   }
+  ]
+ },
+ "seconds": 119,
+ "file": "scripts/blog/media/lib/il_L2611sy_thumb_pack.jpeg"
+}
