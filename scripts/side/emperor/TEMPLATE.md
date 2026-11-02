@@ -90,3 +90,11 @@
 - 유튜브 제목: <자극 제목> (| 로마 황제의 일기) #명상록 또는 #명언 #철학 #shorts. 영상 첫 화면은 "~한 사람에게" 표지 양식 유지
 - 예: 로마 황제가 매일 아침 이불 속에서 한 말 / 남과 비교할수록 인생이 새는 이유 | 로마 황제의 일기
 - 원자료: app_config ed_bench_titles (함수 ed-bench 로 갱신)
+
+## 카드뉴스 (2026-11-03 00:39 대표 확정)
+- 인스타 캐러셀 + 틱톡 사진만, 매일 1편 18:40 (쓰레드·유튜브 없음). 설정값 app_config ed_cards
+- 릴스와 같은 주제여도 각도는 다르게: 릴스 = 역설 한 줄 훅, 카드 = "○○할 때, 로마 황제가 일기에 쓴 N줄" 목록형(저장용)
+- 구성 7장(1080×1350): 표지(금색 출처 줄 + 큰 제목 3줄 + 넘겨서 보세요) → I~V 항목(상황 제목 · 금색 세로선 인용 · 『명상록』 권 절 · 풀이 2줄) → 오늘 밤 할 일 + 슬로건
+- 만들기: cards/<id>.json 작성 → python3 make_card.py cards/<id>.json docs/emperor/card → 한 장 모아 눈으로 점검 → push
+- 게시: ed_posts 에 kind='carousel', images=[docs/emperor/card/<id>_01.jpg …], to_ig=true, to_th=false, video_path='' 로 넣으면 ed-publish 가 캐러셀로 올림(댓글은 ig_comment). 틱톡은 Chrome 스튜디오 사진 업로드(tt_text)
+- 인용은 권·절을 반드시 확인한 것만. 현대 장면(ed03_subway) 쓰지 않음

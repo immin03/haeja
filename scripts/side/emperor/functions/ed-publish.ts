@@ -1,4 +1,4 @@
-// 황제의 일기(emperors.diary) 인스타 릴스 + 쓰레드 글 자동 게시 (2026-11-02)
+// 황제의 일기(emperors.diary) 인스타 릴스·카드뉴스(kind='carousel', images[]) + 쓰레드 글 자동 게시 (2026-11-02, 카드뉴스 2026-11-03)
 // 밸류노트 social-publish 와 완전히 분리: 계정은 ed_accounts, 대기열은 ed_posts.
 // {} (5분마다 cron): 토큰 갱신 → 처리 중인 릴스 마무리(게시 + 첫 댓글) → 시간이 된 글을 채널별로 1편씩 시작
 // 같은 채널은 최소 60분 간격. app_config.ed_paused = true 면 정기 게시 중지.
@@ -57,7 +57,7 @@ async function finishIG(a: Acc) {
     try {
       const st = (await call(`${IG}/${p.ig_container}`, { fields: "status_code", access_token: a.access_token }, "GET")).status_code;
       if (st === "ERROR" || st === "EXPIRED") throw new Error("영상 처리 실패 (" + st + ")");
-      if (st !== "FINISHED") { if (Date.now() - new Date(p.ig_at).getTime() > 40 * 60e3) throw new Error("영상 처리 40분 초과"); continue; }
+      if (st !== "FINISHED") { if (Date.now() - new Date(p.ig_at).getTime() > 40 * 60e3) throw new Error("처리 40분 초과"); continue; }
       const pub = await call(`${IG}/${a.account_id}/media_publish`, { creation_id: p.ig_container, access_token: a.access_token });
       const link = await call(`${IG}/${pub.id}`, { fields: "permalink", access_token: a.access_token }, "GET").catch(() => ({}));
       await upd(p.id, { ig_status: "posted", ig_media_id: pub.id, ig_permalink: link.permalink || null, ig_at: new Date().toISOString(), ig_error: null });
@@ -78,10 +78,19 @@ async function startIG(a: Acc, p: any, site: string) {
   const { data: lock } = await sb.from("ed_posts").update({ ig_status: "publishing", ig_error: null }).eq("id", p.id).in("ig_status", ["pending", "failed"]).select("id");
   if (!lock?.length) return { skipped: "locked" };
   try {
-    const url = /^https?:/.test(p.video_path) ? p.video_path : site + p.video_path;
-    const prm: Record<string, string> = { media_type: "REELS", video_url: url, share_to_feed: "true", caption: p.ig_caption || "", access_token: a.access_token };
-    if (p.cover_path) prm.cover_url = /^https?:/.test(p.cover_path) ? p.cover_path : site + p.cover_path;  // 표지 = 첫 화면(훅) 양식
-    const c = await call(`${IG}/${a.account_id}/media`, prm);
+    const abs = (u: string) => /^https?:/.test(u) ? u : site + u;
+    let c: { id: string };
+    if (p.kind === "carousel") {  // 카드뉴스 (2026-11-03): 사진 2~10장 → 캐러셀
+      const imgs: string[] = (p.images || []).slice(0, 10);
+      if (imgs.length < 2) throw new Error("카드뉴스 사진이 2장 미만");
+      const kids: string[] = [];
+      for (const u of imgs) kids.push((await call(`${IG}/${a.account_id}/media`, { image_url: abs(u), is_carousel_item: "true", access_token: a.access_token })).id);
+      c = await call(`${IG}/${a.account_id}/media`, { media_type: "CAROUSEL", children: kids.join(","), caption: p.ig_caption || "", access_token: a.access_token });
+    } else {
+      const prm: Record<string, string> = { media_type: "REELS", video_url: abs(p.video_path), share_to_feed: "true", caption: p.ig_caption || "", access_token: a.access_token };
+      if (p.cover_path) prm.cover_url = abs(p.cover_path);  // 표지 = 첫 화면(훅) 양식
+      c = await call(`${IG}/${a.account_id}/media`, prm);
+    }
     await upd(p.id, { ig_status: "processing", ig_container: c.id, ig_at: new Date().toISOString() });
     return { processing: c.id };
   } catch (e) {
