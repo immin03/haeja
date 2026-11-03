@@ -18,6 +18,9 @@ from scipy import signal as sg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PIANO = os.path.join(HERE, "assets", "piano")
+BASS = os.path.join(HERE, "assets", "bass")   # 핑거 베이스 샘플 (FluidR3_GM electric_bass_finger)
+# 마디마다 베이스 라인: (박, 음) — 1박 뿌리음, 2박 뒤 8분 뿌리음, 3박 한 옥타브(또는 5도) 위, 4박 뿌리음
+BASSLINE = [("A1", "A2"), ("F1", "F2"), ("C2", "G2"), ("G1", "G2")]
 # 마디마다 (베이스, 분산화음 4음)
 CHORDS = [("A2", ("A3", "C4", "E4", "C4")),   # Am
           ("F2", ("F3", "A3", "C4", "A3")),   # F
@@ -27,14 +30,14 @@ TOPS = ["E5", "C5", "G4", "D5"]   # 마디 첫 박 위에 아주 작게 얹는 �
 _CACHE = {}
 
 
-def note(name, sr):
-    k = (name, sr)
+def note(name, sr, d=None):
+    d = d or PIANO; k = (name, sr, d)
     if k not in _CACHE:
-        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(PIANO, name + ".mp3"), "-ac", "1", "-ar", str(sr), "-f", "f32le", "-"],
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(d, name + ".mp3"), "-ac", "1", "-ar", str(sr), "-f", "f32le", "-"],
                              capture_output=True, check=True).stdout
         x = np.frombuffer(raw, np.float32).copy()
         i0 = int(np.argmax(np.abs(x) > .02 * np.abs(x).max())); x = x[i0:]   # 앞 무음 제거
-        b, a = sg.butter(2, 2600 / (sr / 2)); x = sg.lfilter(b, a, x)   # 고음을 살짝 깎아 부드럽게
+        b, a = sg.butter(2, (2600 if d == PIANO else 1800) / (sr / 2)); x = sg.lfilter(b, a, x)   # 고음을 살짝 깎아 부드럽게
         _CACHE[k] = (x / (np.abs(x).max() + 1e-9)).astype(np.float32)
     return _CACHE[k]
 
@@ -65,8 +68,14 @@ def make_bed(n, sr, beat, strong, h0, h1, seed=7):
     for b in range(hb):   # 3) 컷이 바뀌는 박: 낮은 옥타브를 살짝 더해 박자를 짚는다
         if b in strong and b % 4:
             ch = CHORDS[((b - hb) // 4) % 4]; add(b * beat, note(ch[0], sr), .24, cut=(4 - b % 4) * beat + .1)
-    # 4) 로고: C장조 화음이 아래에서 위로 천천히 펼쳐진다 (0.07초 간격), 맨 위 C6 은 아주 작게
+    # 4) 베이스 (2026-11-03 대표님: "피아노뿐 아니라 베이스도") — 휴대폰 스피커에서도 들리게 배음이 있는 핑거 베이스, 박자를 받쳐 준다
+    for b in range(0, hb, 4):
+        lo, hi = BASSLINE[((b - hb) // 4) % 4]; g = .75 + .25 * min(1, b / max(1, hb - 4))
+        for off, nm, lv, ln in ((0, lo, .55, 1.4), (1.5, lo, .38, .45), (2, hi, .42, .9), (3, lo, .45, .9)):
+            add((b + off) * beat, note(nm, sr, BASS), lv * g, cut=ln * beat)
+    # 5) 로고: C장조 화음이 아래에서 위로 천천히 펼쳐진다 (0.07초 간격), 맨 위 C6 은 아주 작게
     roll = [("C3", .40), ("G3", .30), ("C4", .30), ("E4", .27), ("G4", .24), ("C5", .20), ("E5", .14), ("C6", .07)]
+    add(h0 + .03, note("C2", sr, BASS), .55, cut=2.2)   # 로고 화음 밑을 베이스가 길게 받친다
     for j, (nm, lv) in enumerate(roll): add(h0 + .03 + .07 * j, note(nm, sr), lv * 1.6)   # 로고 화음은 반주보다 약 4dB 크게 (말이 없는 구간)
     # 시작은 0.3초에 걸쳐 들어오고, 인트로가 끝나면 1.2초에 걸쳐 빠진다
     tt = np.arange(n) / sr

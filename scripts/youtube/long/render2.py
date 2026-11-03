@@ -1838,8 +1838,9 @@ def main():
         # 2026-11-03 대표님 3차 "여전히 소리가 크다, 목소리가 묻힌다": 훅 구간 말소리 크기에 맞춰 베드를 정하고(말 없는 틈 -13dB), 말할 때는 60% 더 낮춘다(약 -21dB)
         i1 = int(h1 * SR); vs = mix[:i1][env[:i1] > .35]
         v_rms = float(np.sqrt(np.mean(vs ** 2))) if len(vs) > SR // 2 else .1
-        b_rms = float(np.sqrt(np.mean(bed[:int((h1 - 2.7) * SR)] ** 2))) + 1e-9
-        bed = bed * (v_rms / b_rms * 10 ** (-13 / 20)) * (1 - .6 * env)
+        _hb = _sg.lfilter(*_sg.butter(2, 200 / (SR / 2), "high"), bed[:int((h1 - 2.7) * SR)])   # 크기는 휴대폰에서 들리는 200Hz 위로 맞춘다 (베이스 저음은 그 위에 더해진다)
+        b_rms = float(np.sqrt(np.mean(_hb ** 2))) + 1e-9
+        bed = bed * (v_rms / b_rms * 10 ** (-14 / 20)) * (1 - .6 * env)
     st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
