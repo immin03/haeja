@@ -25,8 +25,8 @@ const req = createRequire(path.join(ROOT, 'package.json'));
 const _sm = await import(req.resolve('satori'));
 const satori = typeof _sm.default === 'function' ? _sm.default : (_sm.default?.default || _sm.satori);
 const { Resvg } = req('@resvg/resvg-js');
-const FONT_DIR = path.join(path.dirname(req.resolve('pretendard/package.json')), 'dist/web/static/woff-subset');
-const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900]].map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FONT_DIR, `Pretendard-${w}.subset.woff`)), weight: n, style: 'normal' }));
+const FONT_DIR = path.join(path.dirname(req.resolve('pretendard/package.json')), 'dist/web/static/woff');
+const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900]].map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FONT_DIR, `Pretendard-${w}.woff`)), weight: n, style: 'normal' }));
 
 const W = 1080, H = 1350;
 const C = { navy: '#0D1828', navy2: '#16253B', card: '#1B2B44', ink: '#F4EFE4', mute: '#B3BDCB', dim: '#8693A7', gold: '#EADBB9', gold2: '#C9AF7A', up: '#3DF5A0', down: '#FF4D6D', line: 'rgba(255,255,255,.12)' };
