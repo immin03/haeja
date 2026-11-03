@@ -1,0 +1,169 @@
+{
+ "id": "ep05b",
+ "note": "2026-11-03 12:20 편. 40초 포맷 첫 편: 현대 상황 훅(친구 인스타) → 로마 상황 → 원문 → 풀이 1 → 원문 한 줄 더. 6컷. 고정 제목 사용. sents 시각은 voice 받은 뒤 silencedetect 로 채운다",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "남과 비교할수록",
+  "인생이 새는 이유"
+ ],
+ "title_line": "남과 비교할수록 인생이 새는 이유",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.3
+ },
+ "voice": "/home/claude/vo/ep05b/v_ep05b.mp3",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/edv06_forum.mp4",
+  "/home/claude/haeja/social/side/gen/edv01_tent.mp4",
+  "/home/claude/ed/edv02_ep05b.mp4",
+  "/home/claude/haeja/social/side/gen/lib_hourglass.jpeg",
+  "/home/claude/haeja/social/side/gen/edv08_mirror.mp4"
+ ],
+ "sents": [
+  [
+   0.3,
+   2.02,
+   1,
+   0,
+   "cap",
+   [
+    "친구의 인스타그램을 닫고 나면,"
+   ]
+  ],
+  [
+   2.47,
+   4.22,
+   1,
+   0,
+   "cap",
+   [
+    "왜 내 하루만 초라해 보일까요"
+   ]
+  ],
+  [
+   5.25,
+   7.23,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제 마르쿠스 아우렐리우스는,"
+   ]
+  ],
+  [
+   7.44,
+   9.55,
+   2,
+   1,
+   "cap",
+   [
+    "세상에서 가장 높은 자리에 있었습니다"
+   ]
+  ],
+  [
+   10.2,
+   11.78,
+   2,
+   2,
+   "cap",
+   [
+    "더 비교할 사람도 없었을 텐데,"
+   ]
+  ],
+  [
+   12.4,
+   14.41,
+   2,
+   2,
+   "cap",
+   [
+    "황제는 일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   14.91,
+   16.13,
+   3,
+   3,
+   "quote",
+   [
+    "남이 무엇을 말하고,"
+   ]
+  ],
+  [
+   16.23,
+   17.02,
+   3,
+   3,
+   "quote",
+   [
+    "무엇을 하고,"
+   ]
+  ],
+  [
+   17.14,
+   19.42,
+   3,
+   3,
+   "quote",
+   [
+    "무엇을 생각하는지",
+    "들여다보지 않는 사람은,"
+   ]
+  ],
+  [
+   19.42,
+   20.68,
+   3,
+   3,
+   "quote",
+   [
+    "얼마나 많은 시간을 버는가."
+   ]
+  ],
+  [
+   21.37,
+   24.37,
+   4,
+   4,
+   "big",
+   [
+    "남을 들여다본 시간은,",
+    "전부 내 시간에서",
+    "빠져나갑니다."
+   ]
+  ],
+  [
+   24.6,
+   26.77,
+   5,
+   5,
+   "cap",
+   [
+    "그래서 황제는 이렇게 덧붙였습니다"
+   ]
+  ],
+  [
+   27.16,
+   29.29,
+   5,
+   5,
+   "big",
+   [
+    "오직 내가 하는 일이",
+    "옳은지만 보라."
+   ]
+  ]
+ ],
+ "tonight": [
+  "남을 들여다본 시간 대신,",
+  "오늘 내가 한 일 하나 적기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 4권 18절",
+ "end_voice": "/home/claude/vo/ep05b/end.mp3",
+ "outro_voice": "/home/claude/vo/ep05b/voice_ep05b_03_outro.mp3"
+}

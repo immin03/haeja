@@ -58,8 +58,14 @@ def build(path):
         if not cut["caps"]: del cut["caps"]
         cuts.append(cut)
     end_start = starts[-1] + cuts[-1]["dur"] - 0.25
-    end = {"dur": E.get("end_dur", 5.0), "kicker": "오늘 밤 할 일", "lines": E["tonight"], "source": E["source"], "slogan": None}
-    voices.append({"file": "/home/claude/vo/outro_default.mp3", "at": round(end_start + end["dur"] - 0.1, 3), "vol": 1.0})
+    # 2026-11-03 대표: 마지막 화면 이름을 '오늘의 할 일'로(아침·점심 편에도 맞게), 그 화면에도 내레이션을 넣어 공백을 없앤다
+    end_dur = E.get("end_dur", 5.0)
+    if E.get("end_voice"):
+        ev = E["end_voice"]; evd = dur(ev)
+        voices.append({"file": ev, "at": round(end_start + 0.55, 3), "vol": E.get("vol", 1.3)})
+        end_dur = max(end_dur, round(0.55 + evd + 1.1, 2))
+    end = {"dur": end_dur, "kicker": E.get("end_kicker", "오늘의 할 일"), "lines": E["tonight"], "source": E["source"], "slogan": None}
+    voices.append({"file": E.get("outro_voice", "/home/claude/vo/outro_default.mp3"), "at": round(end_start + end["dur"] - 0.1, 3), "vol": 1.0})
     spec = {"id": key, "music": E["music"], "voice": voices, "cuts": cuts, "end": end, "outro": {"dur": 7.9, "p1": 4.7}}
     total = end_start + end["dur"] + 7.9
     out = f"/home/claude/ed/spec_{key}.json"
