@@ -227,15 +227,11 @@ async function topic(p: any) {
   await pool(need, 6, async (id) => { const b = await channelBasics(id, false); chs.set(id, { id, title: b.title, handle: b.handle, subs: b.subs, videos: b.videos }); });
   const videos = [...vids.values()].filter((v) => v.channel_id).map((v) => { const c = chs.get(v.channel_id) || {}; return { ...v, channel: v.channel || c.title || "", subs: c.subs ?? null, x_subs: c.subs ? Math.round(v.views / Math.max(c.subs, 1) * 10) / 10 : null, tier: tierOf(c.subs ?? null) }; });
   const breakouts = videos.filter((v) => v.subs != null && v.views >= (p.min_views ?? 5000) && (v.x_subs ?? 0) >= (p.min_x ?? 1.5)).sort((a, b) => (b.x_subs - a.x_subs) || (b.views - a.views)).slice(0, 30);
-  const byTier: Record<string, any[]> = {};
-  for (const c of chs.values()) if (c.subs != null) (byTier[tierOf(c.subs)] ||= []).push(c);
-  const pick: any[] = [];
-  for (const [t] of TIERS) {
-    const hot = videos.filter((v) => v.tier === t);
-    const score = (c: any) => Math.max(0, ...hot.filter((v) => v.channel_id === c.id).map((v) => v.x_subs || 0));
-    pick.push(...(byTier[t] || []).sort((a, b) => score(b) - score(a) || b.subs - a.subs).slice(0, p.per_tier ?? 5));
-  }
-  await pool(pick, 5, async (c) => {
+  // 표로 보여 줄 채널: 터진 영상이 있는 채널 우선, 최대 40개를 자세히(개설일·총 영상 수·최근 조회수)
+  const score = (c: any) => Math.max(0, ...videos.filter((v) => v.channel_id === c.id).map((v) => v.x_subs || 0));
+  const pick: any[] = [...chs.values()].filter((c) => c.subs != null).sort((a, b) => score(b) - score(a) || b.subs - a.subs).slice(0, p.max_channels ?? 40);
+  for (const c of pick) { c.best_x = score(c) || null; c.hot = videos.filter((v) => v.channel_id === c.id && (v.x_subs ?? 0) >= 1.5).length; }
+  await pool(pick, 6, async (c) => {
     const b = await channelBasics(c.id, true);
     const vj = await yti("browse", { browseId: c.id, params: P_VIDEOS }).catch(() => null);
     const L = vj ? lockups(vj).slice(0, 12) : [];
@@ -243,11 +239,11 @@ async function topic(p: any) {
     Object.assign(c, { title: b.title || c.title, handle: b.handle || c.handle, url: b.url, avatar: b.avatar, videos: b.videos ?? c.videos, joined: b.joined || "", total_views: b.total_views ?? null,
       age_months: age ? Math.round(age / 30.4 * 10) / 10 : null, subs_per_month: age && c.subs ? Math.round(c.subs / (age / 30.4)) : null,
       recent_avg: avg(L.map((v) => v.views)), recent_median: median(L.map((v) => v.views)), recent_best: L.length ? [...L].sort((a, b) => b.views - a.views)[0] : null,
-      uploads_30d: L.filter((v) => (v.days ?? 999) <= 30).length });
+      uploads_30d: L.filter((v) => (v.days ?? 999) <= 30).length, recent_x: c.subs ? Math.round(median(L.map((v) => v.views)) / Math.max(c.subs, 1) * 100) / 100 : null });
   });
   const tiers = TIERS.map(([t]) => ({ tier: t, channels: pick.filter((c) => tierOf(c.subs) === t),
     videos: videos.filter((v) => v.tier === t).sort((a, b) => (b.x_subs ?? 0) - (a.x_subs ?? 0)).slice(0, 6) }));
-  return { q, queries, period, found_videos: vids.size, found_channels: chs.size, breakouts, tiers };
+  return { q, queries, period, found_videos: vids.size, found_channels: chs.size, breakouts, videos: videos.sort((a, b) => b.views - a.views).slice(0, 80), channels: pick, tiers };
 }
 
 async function similar(p: any) {
@@ -265,6 +261,7 @@ async function similar(p: any) {
   if (!queries.length) queries.push(base.title);
   const r: any = await topic({ ...p, q: queries[0], queries });
   for (const t of r.tiers) t.channels = t.channels.filter((c: any) => c.id !== id);
+  r.channels = r.channels.filter((c: any) => c.id !== id); r.videos = r.videos.filter((v: any) => v.channel_id !== id);
   r.breakouts = r.breakouts.filter((v: any) => v.channel_id !== id);
   return { base: { ...base, keywords_used: words }, ...r };
 }
@@ -289,7 +286,7 @@ Deno.serve(async (req: Request) => {
   try {
     const p = await req.json().catch(() => ({}));
     const act = ["channel", "topic", "similar", "video"].includes(p.action) ? p.action : "channel";
-    const ck = "c-" + (await sha(JSON.stringify([act, String(p.q || "").trim().toLowerCase(), p.period || "", p.lang || "", p.queries || ""])));
+    const ck = "c-" + (await sha(JSON.stringify(["v2", act, String(p.q || "").trim().toLowerCase(), p.period || "", p.lang || "", p.queries || ""])));
     const owner = await pub();
     if (!p.fresh) {
       const { data } = await sb.from("docs").select("data,updated_at").eq("owner", owner).eq("collection", "studio_cache").eq("id", ck).maybeSingle();
