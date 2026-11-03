@@ -1,0 +1,31 @@
+{
+ "id": "lqv08_write",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand writes slowly and steadily, gliding the reed pen tip to the right across the papyrus along one straight line as if writing a sentence in flowing script, a natural calm handwriting motion that continues for the whole clip, the candle flickering softly. Keep the painterly look identical to the first frame; the camera stays still. No text appears, no morphing, no extra fingers, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f9c-c76a-7b9d-ad0b-b2ca3a8e2cd8/31694ed2-acd9-42a1-826f-64636f746686.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19fa6-38f2-705d-829b-7407688da73e",
+  "status_url": "https://api.higgsfield.ai/requests/01a19fa6-38f2-705d-829b-7407688da73e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19fa6-38f2-705d-829b-7407688da73e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19fa6-38f2-705d-829b-7407688da73e",
+  "status_url": "https://api.higgsfield.ai/requests/01a19fa6-38f2-705d-829b-7407688da73e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19fa6-38f2-705d-829b-7407688da73e/cancel",
+  "expires_at": "2026-11-10T04:25:59.369065+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19fa6-38f2-705d-829b-7407688da73e/90c2870a-c728-416e-83b3-d49408d92c84.mp4"
+  }
+ },
+ "seconds": 131,
+ "file": "social/side/gen/lqv08_write.mp4"
+}

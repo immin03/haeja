@@ -1,0 +1,31 @@
+{
+ "id": "lqv03_hand",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand slowly tightens its grip on the letter and then stops completely while the candle flame trembles. Keep the painterly look and every detail identical to the first frame, including any handwriting on the paper which must stay exactly as it is. One simple, slow, subtle motion only; the camera stays almost still. No new text, no morphing, no extra fingers, no camera shake, no cuts.",
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/social/side/gen/lq03_txt.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19fa6-38ed-70eb-9852-712a84aa9eed",
+  "status_url": "https://api.higgsfield.ai/requests/01a19fa6-38ed-70eb-9852-712a84aa9eed/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19fa6-38ed-70eb-9852-712a84aa9eed/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19fa6-38ed-70eb-9852-712a84aa9eed",
+  "status_url": "https://api.higgsfield.ai/requests/01a19fa6-38ed-70eb-9852-712a84aa9eed/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19fa6-38ed-70eb-9852-712a84aa9eed/cancel",
+  "expires_at": "2026-11-10T04:26:11.116572+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19fa6-38ed-70eb-9852-712a84aa9eed/a37a61df-00b3-40cc-b77d-9f1185ae41fc.mp4"
+  }
+ },
+ "seconds": 143,
+ "file": "social/side/gen/lqv03_hand.mp4"
+}
