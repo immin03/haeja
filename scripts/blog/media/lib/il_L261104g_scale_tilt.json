@@ -1,0 +1,32 @@
+{
+ "id": "il_L261104g_scale_tilt",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: An antique brass balance scale clearly tilting to one side, a small gold bar on the lower pan and coins on the higher pan, a storm sky window behind, suspenseful. Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ee5-d315-74b9-b8cd-c6ddf7c27877",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ee5-d315-74b9-b8cd-c6ddf7c27877/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ee5-d315-74b9-b8cd-c6ddf7c27877/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ee5-d315-74b9-b8cd-c6ddf7c27877",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ee5-d315-74b9-b8cd-c6ddf7c27877/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ee5-d315-74b9-b8cd-c6ddf7c27877/cancel",
+  "expires_at": "2026-11-10T00:55:53.401706+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ee5-d315-74b9-b8cd-c6ddf7c27877/17fca0f9-99d9-47b7-9d11-6f3316cf0c36.jpeg"
+   }
+  ]
+ },
+ "seconds": 131,
+ "file": "scripts/blog/media/lib/il_L261104g_scale_tilt.jpeg"
+}
