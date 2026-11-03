@@ -31,6 +31,30 @@ LH = {"cap": 1.42, "slogan": 1.3, "cta": 1.4, "hook": 1.28, "big": 1.3, "endbig"
 _fc = {}
 WGT = {}
 
+# 2026-11-03 대표: 숏폼 템플릿 A/B/C 를 돌아가며 쓴다 (spec["theme"])
+#  A 밤·상아(기존): 어두운 명암 그림 + 상단 그늘 + 왼쪽 정렬 상아색 글씨
+#  B 대리석·낮: 밝은 금빛 그림 + 상단 크림색 판 + 가운데 정렬 먹색 글씨, 테라코타 포인트
+#  C 시네마: 차가운 청회색 그림 + 위아래 검은 띠(레터박스) + 가운데 정렬, 은빛 포인트
+THEME = {"name": "A", "align": "left", "top": 250}
+def set_theme(name):
+    global IVORY, GOLD, DIM
+    name = (name or "A").upper()
+    THEME.clear()
+    if name == "B":
+        ink, acc, dim = (43, 33, 24), (150, 72, 40), (110, 96, 80)
+        THEME.update(name="B", align="center", top=210, ink=ink, shadow=0, wm=(60, 48, 36))
+        for k in COLOR: COLOR[k] = ink
+        COLOR.update(sub=acc, kicker=acc, src=dim, small=dim)
+    elif name == "C":
+        iv, acc, dim = (236, 238, 240), (196, 204, 212), (150, 158, 166)
+        THEME.update(name="C", align="center", top=96, bar_t=580, bar_b=360, wm=(255, 255, 255))
+        for k in COLOR: COLOR[k] = iv
+        COLOR.update(sub=acc, kicker=acc, src=dim, small=dim)
+    else:
+        THEME.update(name="A", align="left", top=250, wm=(255, 255, 255))
+        for k in COLOR: COLOR[k] = IVORY
+        COLOR.update(sub=GOLD, kicker=GOLD, src=DIM, small=DIM)
+
 
 def font(style):
     p, s = FONTS[style]
@@ -60,11 +84,12 @@ def draw_block(img, blocks, t, top=250, x0=96):
         dy = int((1 - a) * 18)
         for ln in b["lines"]:
             col = COLOR[st] + (int(255 * a),)
-            if st == "quote":  # 원문 앞 금색 세로선
-                d.rectangle([x0 - 34, y + 10 + dy, x0 - 28, y + lh - 6 + dy], fill=GOLD + (int(255 * a),))
-            # 글자 그림자(가독성)
-            d.text((x0 + 2, y + dy + 3), ln, font=f, fill=(0, 0, 0, int(150 * a)))
-            d.text((x0, y + dy), ln, font=f, fill=col)
+            cx = x0 if THEME.get("align") != "center" else (W - d.textlength(ln, font=f)) / 2
+            if st == "quote" and THEME.get("align") != "center":  # 원문 앞 금색 세로선
+                d.rectangle([x0 - 34, y + 10 + dy, x0 - 28, y + lh - 6 + dy], fill=COLOR["sub"] + (int(255 * a),))
+            # 글자 그림자(가독성) — B(밝은 판)는 그림자 없음
+            if THEME.get("shadow", 1): d.text((cx + 2, y + dy + 3), ln, font=f, fill=(0, 0, 0, int(150 * a)))
+            d.text((cx, y + dy), ln, font=f, fill=col)
             y += lh
         y += b.get("after", 18)
     img.alpha_composite(layer)
@@ -76,15 +101,32 @@ def draw_caps(img, caps, t, y0=1150):
     for c in caps:
         a = ease((t - c["t0"]) / 0.18) * (1 - ease((t - c["t1"]) / 0.18))
         if a <= 0: continue
-        n = len(c["lines"]); y = y0 - (n * lh) / 2
+        n = len(c["lines"])
+        if THEME.get("name") == "C": y0 = H - THEME["bar_b"] / 2 - 20
+        y = y0 - (n * lh) / 2
+        if THEME.get("name") == "B":  # 크림색 둥근 판 위 먹색 글씨
+            wmax = max(d.textlength(ln, font=f) for ln in c["lines"])
+            d.rounded_rectangle([(W - wmax) / 2 - 34, y - 18, (W + wmax) / 2 + 34, y + n * lh + 6], 26, fill=(246, 239, 226, int(225 * a)))
         for ln in c["lines"]:
             w = d.textlength(ln, font=f); x = (W - w) / 2
+            if THEME.get("name") == "B":
+                d.text((x, y), ln, font=f, fill=THEME["ink"] + (int(255 * a),)); y += lh; continue
             for dx, dy in ((0, 3), (2, 2), (-2, 2)): d.text((x + dx, y + dy), ln, font=f, fill=(0, 0, 0, int(170 * a)))
-            d.text((x, y), ln, font=f, fill=IVORY + (int(255 * a),)); y += lh
+            d.text((x, y), ln, font=f, fill=COLOR["cap"] + (int(255 * a),)); y += lh
     img.alpha_composite(layer)
 
 
 def top_shade(img, h=980, strength=200):
+    if THEME.get("name") == "B":  # 위쪽 크림색 판(그라데이션)
+        # 글이 놓이는 위쪽 720px 은 거의 불투명, 그 아래 260px 동안 흐려진다 (어두운 그림에서도 먹색 글씨가 읽히게)
+        m = np.zeros((H, W), np.uint8); m[:720, :] = 238; m[720:980, :] = np.linspace(238, 0, 260).astype(np.uint8)[:, None]
+        sh = Image.new("RGBA", img.size, (246, 239, 226, 0)); sh.putalpha(Image.fromarray(m)); img.alpha_composite(sh); return
+    if THEME.get("name") == "C":  # 레터박스: 위아래 검은 띠 + 띠 경계 부드럽게
+        bt, bb = THEME["bar_t"], THEME["bar_b"]
+        m = np.zeros((H, W), np.uint8); m[:bt, :] = 255; m[H - bb:, :] = 255
+        m[bt:bt + 140, :] = np.linspace(200, 0, 140).astype(np.uint8)[:, None]
+        m[H - bb - 120:H - bb, :] = np.linspace(0, 180, 120).astype(np.uint8)[:, None]
+        sh = Image.new("RGBA", img.size, (6, 7, 9, 0)); sh.putalpha(Image.fromarray(m)); img.alpha_composite(sh); return
     g = np.linspace(strength, 0, h).astype(np.uint8)
     mask = np.zeros((H, W), np.uint8); mask[:h, :] = g[:, None]
     shade = Image.new("RGBA", img.size, (8, 7, 6, 0)); shade.putalpha(Image.fromarray(mask))
@@ -101,7 +143,8 @@ def watermark(img, a=0.55):
     f = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 34)
     txt = "THE EMPEROR'S DIARY"
     w = d.textlength(txt, font=f)
-    d.text(((W - w) / 2, H - 330), txt, font=f, fill=(255, 255, 255, int(255 * a)))
+    yy = H - 110 if THEME.get("name") == "C" else H - 330
+    d.text(((W - w) / 2, yy), txt, font=f, fill=THEME.get("wm", (255, 255, 255)) + (int(255 * a),))
 
 
 def read_frames(path, n, speed=1.0):
@@ -281,6 +324,7 @@ def outro(spec_o, base, t, platform="reels"):
 
 def main(spec_path, out, frames_dir=None, platform="reels"):
     spec = json.load(open(spec_path))
+    set_theme(spec.get("theme", "A"))
     xf = 0.4  # 컷 사이 겹침
     cuts = []
     for c in spec["cuts"]:
@@ -298,6 +342,7 @@ def main(spec_path, out, frames_dir=None, platform="reels"):
     last_base = None
     for i in range(N):
         t = i / FPS
+        if t >= end_start and THEME.get("name") != "A": set_theme("A")  # 오늘의 할 일·마지막 화면은 브랜드 공통(A)
         if spec.get("outro") and t >= end_start + spec["end"]["dur"]:
             img = outro(spec["outro"], last_base, t - end_start - spec["end"]["dur"], platform)
         elif t >= end_start:
@@ -325,7 +370,7 @@ def main(spec_path, out, frames_dir=None, platform="reels"):
             base = base.astype(np.uint8); last_base = base
             img = Image.fromarray(base).convert("RGBA")
             top_shade(img, strength=c.get('shade',200), h=c.get('shade_h',980))
-            draw_block(img, [dict(b, t0=b["t0"], t1=b.get("t1", 999)) for b in c["texts"]], t - starts[k], top=c.get("top", 250))
+            draw_block(img, [dict(b, t0=b["t0"], t1=b.get("t1", 999)) for b in c["texts"]], t - starts[k], top=c.get("top", THEME.get("top", 250)))
             if c.get("caps"):
                 cs = Image.new("RGBA", img.size, (0, 0, 0, 0))
                 draw_caps(img, c["caps"], t - starts[k], c.get("cap_y", 1150))

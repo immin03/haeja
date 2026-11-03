@@ -2,6 +2,7 @@
 // 밸류노트 social-publish 와 완전히 분리: 계정은 ed_accounts, 대기열은 ed_posts.
 // {} (5분마다 cron): 토큰 갱신 → 처리 중인 릴스 마무리(게시 + 첫 댓글) → 시간이 된 글을 채널별로 1편씩 시작
 // 같은 채널은 최소 60분 간격. app_config.ed_paused = true 면 정기 게시 중지.
+// 유튜브 댓글(2026-11-03 대표 "댓글 안 달리던데 재발하지 않게"): yt_video_id 가 공개되면 yt_comment 를 채널 이름으로 한 번 단다 (youtube_account id=2, 황제의 일기 채널일 때만)
 // 쓰레드: 글만 (2026-11-02 22:49 사진 붙인 3편 노출 급감 → 기본 글만, th_image=true 일 때만 사진). 따옴표 인용은 자기 줄에, 끝에 빈 줄 + "- 매일 밤, 황제처럼 생각하라. 황제의 일기."
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -118,6 +119,42 @@ async function postTH(a: Acc, p: any, site = "") {
   }
 }
 
+// 유튜브 첫 댓글 (2026-11-03): 공개된 쇼츠에 yt_comment 를 단다. 고정(pin)은 API 로 안 돼서 댓글만.
+const ED_CH = "UCR5ao2RmISHYMmDinRPIaDw";
+async function ytTok(): Promise<string | null> {
+  const { data: a } = await sb.from("youtube_account").select("*").eq("id", 2).maybeSingle();
+  if (!a?.refresh_token || a.channel_id !== ED_CH) return null;
+  if (a.access_token && Date.parse(a.expires_at) - Date.now() > 120e3) return a.access_token;
+  const form = new URLSearchParams({ client_id: Deno.env.get("YOUTUBE_CLIENT_ID")!, client_secret: Deno.env.get("YOUTUBE_CLIENT_SECRET")!, grant_type: "refresh_token", refresh_token: a.refresh_token });
+  const t = await (await fetch("https://oauth2.googleapis.com/token", { method: "POST", body: form })).json();
+  if (!t.access_token) return null;
+  await sb.from("youtube_account").update({ access_token: t.access_token, expires_at: new Date(Date.now() + (t.expires_in || 3600) * 1000).toISOString(), updated_at: new Date().toISOString() }).eq("id", 2);
+  return t.access_token;
+}
+async function ytComments() {
+  const { data: rows } = await sb.from("ed_posts").select("id,yt_video_id,yt_comment").eq("yt_comment_status", "pending").not("yt_video_id", "is", null).lte("scheduled_at", new Date().toISOString()).limit(5);
+  if (!rows?.length) return [];
+  const tok = await ytTok(); if (!tok) return [{ error: "황제의 일기 유튜브 연결 없음(youtube_account id=2)" }];
+  const H = { Authorization: "Bearer " + tok, "Content-Type": "application/json" };
+  const out: unknown[] = [];
+  for (const p of rows) {
+    if (!p.yt_comment) { await upd(p.id, { yt_comment_status: "skip" }); continue; }
+    try {
+      const v = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=status&id=${p.yt_video_id}`, { headers: H })).json();
+      if (v.items?.[0]?.status?.privacyStatus !== "public") continue;  // 예약 중이면 공개될 때까지 기다린다
+      const r = await fetch("https://www.googleapis.com/youtube/v3/commentThreads?part=snippet", { method: "POST", headers: H,
+        body: JSON.stringify({ snippet: { videoId: p.yt_video_id, topLevelComment: { snippet: { textOriginal: p.yt_comment } } } }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error?.message || `HTTP ${r.status}`);
+      await upd(p.id, { yt_comment_status: "posted", yt_comment_id: j.id, yt_comment_error: null }); out.push({ id: p.id, yt_comment: j.id });
+    } catch (e) {
+      const msg = String((e as Error).message || e).slice(0, 300);
+      await upd(p.id, { yt_comment_status: "failed", yt_comment_error: msg }); out.push({ id: p.id, error: msg });
+    }
+  }
+  return out;
+}
+
 async function lastAt(ch: "ig" | "th") {
   const { data } = await sb.from("ed_posts").select(`${ch}_at`).eq(`${ch}_status`, "posted").order(`${ch}_at`, { ascending: false }).limit(1);
   return data?.[0]?.[`${ch}_at`] ? new Date(data[0][`${ch}_at`]).getTime() : 0;
@@ -139,6 +176,7 @@ Deno.serve(async (req: Request) => {
     await refresh(acc);
     const res: Record<string, unknown> = {};
     if (acc.instagram) res.finished = await finishIG(acc.instagram);
+    res.yt_comments = await ytComments().catch(e => [{ error: String(e) }]);  // 공개된 영상 댓글은 일시정지와 무관하게
     if ((await cfg("ed_paused")) === true && !body.force) return json({ ...res, idle: "paused" });
     const now = new Date().toISOString();
     const thCut = new Date(Date.now() - TH_DELAY_MIN * 60e3).toISOString();
