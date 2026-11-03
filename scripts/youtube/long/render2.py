@@ -1041,11 +1041,101 @@ def media_source(v, n_frames, seed):
     return get
 
 
+_CLIPS = []
+
+
+def clip_source(pth, n_frames, seed, start=0.0):
+    """영상 클립을 화면 가득 (2026-11-03): 프레임을 미리 풀어 두지 않고 ffmpeg 파이프에서 순서대로 읽는다 (메모리 절약). 아주 천천히 밀고 들어간다."""
+    st = {"p": None, "i": -1, "buf": None}; zin = seed % 2 == 0; dur = max(1, n_frames - 1)
+
+    def close():
+        if st["p"] is not None:
+            try: st["p"].kill(); st["p"].wait(timeout=5)
+            except Exception: pass
+            st["p"] = None
+
+    def get(u):
+        i = int(u * FPS)
+        if st["p"] is None and st["i"] < 0:
+            st["p"] = subprocess.Popen(["ffmpeg", "-v", "error", "-stream_loop", "-1", "-ss", str(start), "-i", pth, "-vf",
+                                        f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
+                                       stdout=subprocess.PIPE, stderr=subprocess.DEVNULL); _CLIPS.append(st["p"])
+        while st["p"] is not None and st["i"] < i:
+            b = st["p"].stdout.read(W * H * 3)
+            if len(b) < W * H * 3: close(); break
+            st["buf"] = b; st["i"] += 1
+        if st["i"] >= n_frames - 1: close()
+        if st["buf"] is None: return background("dark")
+        im = Image.frombuffer("RGB", (W, H), st["buf"])
+        t = min(1.0, u * FPS / dur); z = (1.0 + .04 * t) if zin else (1.04 - .04 * t)
+        if z > 1.0005:
+            cw, ch = W / z, H / z; im = im.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+        return im
+    get.close = close
+    return get
+
+
+def cuts_source(v, n_frames, seed):
+    """한 장면 안에서 사진·영상을 여러 컷으로 빠르게 넘긴다 (2026-11-03 대표님: 처음 10초는 '돈의 질서'처럼 템포 있게).
+    v.cuts = ["a.jpg", "b.mp4", ...] 또는 [{"lib": "a.jpg", "d": 1.4}, ...] — d 를 안 주면 장면 길이를 똑같이 나눈다."""
+    cs = [c if isinstance(c, dict) else {"lib": c} for c in v["cuts"]]
+    total = n_frames / FPS; fixed = sum(float(c["d"]) for c in cs if c.get("d")); free = [c for c in cs if not c.get("d")]
+    each = max(.5, (total - fixed) / len(free)) if free else 0
+    edges = []; t = 0.0
+    for c in cs:
+        d_ = float(c.get("d") or each); edges.append((t, t + d_, c)); t += d_
+    st = {"j": -1, "src": None, "a": 0.0}
+
+    def get(u):
+        j = next((k for k, (a, b, _) in enumerate(edges) if u < b), len(edges) - 1)
+        if j != st["j"]:
+            if st["src"] is not None and hasattr(st["src"], "close"): st["src"].close()
+            a, b, c = edges[j]; nf = int(round(((max(b, total) - a) if j == len(edges) - 1 else (b - a)) * FPS)) + 2
+            st["src"] = full_source({"lib": c["lib"], "wash": c.get("wash", "none")}, nf, seed * 7 + j); st["j"] = j; st["a"] = a
+        return st["src"](max(0.0, u - st["a"]))
+    return get
+
+
+def NBK_eio(t):
+    t = clamp(t); return t * t * (3 - 2 * t)
+
+
+def ident_source(n_frames):
+    """밸류노트 인트로 2.6초 (2026-11-03 대표님 "밸류노트 인트로, 영화 오프닝같이 시네마틱하게")
+    남색 어둠 → 가운데 금빛 점 → 금선이 좌우로 그어짐 → 로고가 떠오름 → (렌더러가) 극장 비율 띠가 열리며 노트로 넘어간다."""
+    from brand import logo_image
+    lg = logo_image(118, "dark", shadow=False, line=False)[0]   # 금선은 인트로가 직접 긋는다
+    BG = (7, 15, 30); GOLDC = (226, 192, 120); dur = max(.1, n_frames / FPS)
+
+    def get(u):
+        im = Image.new("RGB", (W, H), BG); d = ImageDraw.Draw(im, "RGBA")
+        for r_ in range(0, 600, 30): d.ellipse([W / 2 - 900 + r_, H / 2 - 520 + r_ * .58, W / 2 + 900 - r_, H / 2 + 520 - r_ * .58], fill=(30, 50, 86, 6))   # 가운데만 은은하게 밝게
+        cy = H / 2 + 110
+        p_dot = clamp(u / .25); p_line = NBK_eio((u - .2) / .65); p_logo = NBK_eio((u - .7) / .7)
+        if p_line <= 0 and p_dot > 0:
+            rr = 5 * p_dot; d.ellipse([W / 2 - rr * 3, cy - rr * 3, W / 2 + rr * 3, cy + rr * 3], fill=(*GOLDC, int(40 * p_dot))); d.ellipse([W / 2 - rr, cy - rr, W / 2 + rr, cy + rr], fill=(*GOLDC, 255))
+        if p_line > 0:
+            hw = 330 * p_line; d.rectangle([W / 2 - hw, cy - 1.5, W / 2 + hw, cy + 1.5], fill=(*GOLDC, 255))
+            gl = max(0.0, 1 - abs(p_line - .5) * 2); d.rectangle([W / 2 - hw, cy - 6, W / 2 + hw, cy + 6], fill=(*GOLDC, int(28 * gl)))
+        if p_logo > 0:
+            sc_ = .94 + .06 * p_logo; L = lg.resize((int(lg.width * sc_), int(lg.height * sc_)), Image.LANCZOS)
+            L.putalpha(L.getchannel("A").point(lambda q: int(q * p_logo)))
+            im.paste(L, (int(W / 2 - L.width / 2), int(cy - 40 - L.height + 18 * (1 - p_logo))), L)
+        if u > dur - .5:   # 끝: 살짝 밝아지며 노트로 넘어갈 준비
+            im = Image.blend(im, Image.new("RGB", (W, H), (243, 236, 221)), .55 * NBK_eio((u - (dur - .5)) / .5))
+        return im
+    return get
+
+
 def full_source(v, n_frames, seed):
     """2026-11-01 A안: 일러스트를 화면 전체에 깔고 천천히 켄 번즈. 노트 필기 쪽(v.wash: left|right|none)은 아이보리로 살짝 덮어 글씨가 읽히게.
     (속도: 원본은 한 번만 키워 두고, 프레임마다 BILINEAR 한 번 + C 합성만 — 2026-11-01 첫 렌더가 150분 제한에 걸려 고침)"""
-    lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); pth = os.path.join(lib, v.get("lib", ""))
+    lib = os.path.join(ROOT, "scripts", "blog", "media", "lib")
+    if v.get("ident"): return ident_source(n_frames)   # 2026-11-03 대표님: 훅 뒤 2~3초 밸류노트 인트로
+    if v.get("cuts"): return cuts_source(v, n_frames, seed)   # 2026-11-03 대표님: '돈의 질서'처럼 외부 사진·영상을 빠른 템포로
+    pth = os.path.join(lib, v.get("lib", ""))
     if not v.get("lib") or not os.path.exists(pth): return lambda u: background("light")
+    if pth.lower().endswith((".mp4", ".mov", ".webm")): return clip_source(pth, n_frames, seed)
     src = Image.open(pth).convert("RGB"); r = max(W / src.width, H / src.height) * 1.1
     big = src.resize((int(src.width * r), int(src.height * r)), Image.LANCZOS); bw, bh = big.size
     dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, 1)]; dx, dy = dirs[seed % len(dirs)]; zin = seed % 2 == 0
@@ -1364,13 +1454,13 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
     for k, x in enumerate(timeline):
         if only_sc and k not in only_sc: continue
         sc = x["sc"]; n = int(round(x["dur"] * FPS)); typ = sc["v"]["type"]; I = info[k]; theme = I["theme"]
-        media = media_source(sc["v"], n + 2, k) if (typ == "media" and not I["inked"]) else None
+        media = media_source(sc["v"], n + 2, k) if (typ == "media" and not I["inked"] and not I["full"]) else None   # 그림 전체 화면 장면은 full_source 가 맡는다 (영상 클립을 두 번 풀지 않게)
         fullsrc = full_source(sc["v"], n + 2, k) if I["full"] else None
         cine_cap = None
         if k < cold and sc["v"].get("caption"):   # 오프닝: 그림 속 작은 자막 대신 명조 큰 제목이 떠오른다
             cine_cap = fill(sc["v"]["caption"], V); sc = dict(sc, v={kk: vv for kk, vv in sc["v"].items() if kk not in ("caption", "caption_at")})
         bdf = backdrop_source(sc["v"], n + 2, k) if not I["inked"] else None
-        fit = safe_fit(sc, x, V, theme) if (I["mode"] != "title" and not I["inked"]) else None
+        fit = safe_fit(sc, x, V, theme) if (I["mode"] != "title" and not I["inked"] and not I["full"]) else None
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
         import sketch as SK
         sk = SK.scene_beats(sc, x["lines"], V, fill, at_time, k >= cold) if I["inked"] else None
@@ -1447,6 +1537,10 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             if 0 < sweep < 1: fr = NBK.light_sweep(fr, sweep, .26)
             if k == 0 and cold:
                 fr = NBK.anamorphic_flare(fr, 1450 - 260 * clamp(u / 3), 420, .55 * math.sin(math.pi * clamp((u - .35) / 2.2)))
+            if I["full"] and sc["v"].get("cine"):   # 2026-11-03 대표님: 처음 훅은 다큐처럼 시네마틱 (극장 비율 띠 + 필름 색), 인트로 끝에 띠가 열리며 화면이 커진다
+                if not sc["v"].get("ident"): fr = NBK.doc_grade(fr, .55, fi, nb)
+                cb = 1.0 - (NBK.eio(clamp((u - (x["dur"] - .7)) / .7)) if sc["v"].get("ident") else 0.0)
+                fr = NBK.letterbox(fr, cb); bars = max(bars, cb)
             if amt > 0:
                 fr = NBK.doc_grade(fr, amt, fi, nb); fr = NBK.letterbox(fr, amt)
             elif bars > 0: fr = NBK.letterbox(fr, bars)
@@ -1482,6 +1576,45 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         el = (dt.datetime.now() - t0_clock).total_seconds()
         print(f"  장면 {k + 1}/{len(timeline)} {typ}/{I['mode']} {x['dur']:.1f}초 · 누적 {el / 60:.1f}분", flush=True)
     finish(spec, V, timeline, total, enc, tmp, wav, out, data)
+
+
+
+def _env(n, a=.004, r=.25):
+    t = np.arange(n) / SR; return np.minimum(1, t / max(a, 1e-4)) * np.exp(-t / max(r, 1e-4))
+
+
+def sfx_hit(level=.07, seed=0):
+    """컷이 바뀔 때 짧은 타격음: 낮은 쿵 + 아주 짧은 잡음 (2026-11-03 대표님: 훅은 시네마틱한 효과음이 중요)"""
+    n = int(SR * .6); t = np.arange(n) / SR; rng = np.random.default_rng(seed)
+    f = 62 * np.exp(-t * 6) + 38; body = np.sin(2 * np.pi * np.cumsum(f) / SR) * _env(n, .002, .18)
+    nz = rng.standard_normal(n) * _env(n, .001, .03) * .35
+    return ((body + nz) * level).astype(np.float32)
+
+
+def sfx_riser(dur=1.2, level=.05, seed=0):
+    """인트로 직전 올라가는 소리: 걸러진 잡음이 점점 커지고 밝아진다"""
+    from scipy import signal as _sg
+    n = int(SR * dur); rng = np.random.default_rng(seed); x = rng.standard_normal(n).astype(np.float32); t = np.linspace(0, 1, n)
+    lo = _sg.lfilter([.03], [1, -.97], x); hi = _sg.lfilter([.25], [1, -.75], x)
+    out = lo * (1 - t) + hi * t
+    return (out / (np.abs(out).max() + 1e-9) * (t ** 1.6) * level).astype(np.float32)
+
+
+def sfx_chime(level=.05):
+    """엔딩 화면이 열릴 때 맑은 종소리 한 번"""
+    n = int(SR * 2.2); t = np.arange(n) / SR
+    y = sum(np.sin(2 * np.pi * f * t) * w for f, w in ((880, 1), (1320, .5), (1760, .25))) * _env(n, .005, .7)
+    return (y / 1.75 * level).astype(np.float32)
+
+
+def cut_edges(v, dur):
+    """cuts_source 와 같은 계산으로 컷이 바뀌는 시각들"""
+    cs = [c if isinstance(c, dict) else {"lib": c} for c in v.get("cuts", [])]
+    if not cs: return []
+    fixed = sum(float(c["d"]) for c in cs if c.get("d")); free = [c for c in cs if not c.get("d")]
+    each = max(.5, (dur - fixed) / len(free)) if free else 0; t = 0.0; out = []
+    for c in cs[:-1]: t += float(c.get("d") or each); out.append(t)
+    return out
 
 
 ENDSCREEN_SEC = [0.0]
@@ -1545,6 +1678,8 @@ def main():
                 try: lines.append(fill(l[1:], V))
                 except KeyError: print("  선택 문장 생략:", l[:40])
             else: lines.append(fill(l, V))
+        if not lines and sc["v"].get("ident"):   # 2026-11-03 밸류노트 인트로: 말 없이 2.6초
+            dur = float(sc.get("dur", 2.6)); timeline.append({"sc": sc, "start": t, "dur": dur, "lines": []}); t += dur; continue
         if not lines: print("  문장이 없어 장면 생략:", sc["v"]["type"]); continue
         lt = []; u = sc.get("lead", .25)
         if spec.get("world") == "notebook" and "lead" not in sc:   # 2026-10-28 운영자: 인트로·장 전환은 시네마틱하게 → 말 앞에 화면만 흐르는 구간
@@ -1578,7 +1713,28 @@ def main():
             for tt in NBK.stamp_times(stamps.get(str(k))):   # 오프닝 타자기
                 i = int((x["start"] + tt) * SR); sfx = NBK.type_tick(SR, seed=int(tt * 100) + k); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
         import sketch as SK
+        def _add(at, sfx):
+            i = int(at * SR)
+            if 0 <= i < len(mix): mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+        # 2026-11-03 대표님: "처음 훅에는 시네마틱한 효과음이 중요, 중간중간 장면 전환·주제 넘어갈 때도, 아웃트로도"
+        for k, x in enumerate(timeline):
+            v_ = x["sc"]["v"]
+            if v_.get("ident"):   # 밸류노트 인트로: 금선이 그어질 때 쉭, 로고가 뜰 때 낮은 울림
+                _add(x["start"] + .15, NBK.whoosh(SR, .9, level=.05, seed=k)); _add(x["start"] + .75, NBK.boom(SR, level=.12, seed=k))
+            elif v_.get("cine"):
+                if k == 0: _add(x["start"] + .05, NBK.boom(SR, level=.13, seed=k))   # 첫 화면이 떠오를 때 낮은 울림
+                else: _add(x["start"], sfx_hit(.08, seed=k))                          # 훅 장면이 바뀔 때 타격음
+                for e in cut_edges(v_, x["dur"]): _add(x["start"] + e, sfx_hit(.06, seed=int(e * 100) + k))   # 컷마다 짧게
+                nxt = timeline[k + 1]["sc"]["v"] if k + 1 < len(timeline) else {}
+                if nxt.get("ident"): _add(x["start"] + x["dur"] - 1.2, sfx_riser(1.2, .05, seed=k))   # 인트로 직전 올라가는 소리
+            elif v_.get("type") == "media" and v_.get("full") and k and not x["sc"].get("chapter"):
+                _add(x["start"], NBK.whoosh(SR, .7, level=.016, seed=k))   # 그림 장면이 바뀔 때 아주 은은한 쉭
+            if v_.get("type") == "end":
+                _add(x["start"] + .05, NBK.boom(SR, level=.08, seed=k)); _add(x["start"] + .35, sfx_chime(.045))   # 아웃트로: 엔딩 화면이 열릴 때
+            elif k + 1 < len(timeline) and timeline[k + 1]["sc"]["v"].get("type") == "end":
+                _add(x["start"], NBK.whoosh(SR, 1.1, level=.03, seed=k))   # 아웃트로 사진 장면으로 넘어갈 때
         for k, x in enumerate(timeline):   # 손그림을 그리는 동안 펜 소리 (작게)
+            if not x["lines"]: continue
             for b in (SK.scene_beats(x["sc"], x["lines"], V, fill, at_time, k >= cold) or []):
                 if not b.pen: continue
                 i = int((x["start"] + b.t0) * SR); sfx = pen_sound(max(.3, b.t1 - b.t0) + .1, seed=int(b.t0 * 37) + k, level=.02); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
