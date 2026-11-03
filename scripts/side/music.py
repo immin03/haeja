@@ -18,6 +18,13 @@ def get(u):
 
 
 def main():
+    # 2026-11-03 황제의 밤 편지 롱폼 효과음·음악 후보 (실패해도 아래 기존 작업은 계속)
+    try:
+        import importlib.util as _u
+        _p = os.path.join(ROOT, "scripts", "side", "ed_long", "fetch_sfx.py")
+        if os.path.exists(_p):
+            _s = _u.spec_from_file_location("ed_sfx", _p); _m = _u.module_from_spec(_s); _s.loader.exec_module(_m); _m.main()
+    except Exception as e: print("롱폼 효과음 실패", e)
     found = {}
     for p in PAGES:
         try: s = get(p)
