@@ -8,7 +8,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 NUM = ["", "I", "II", "III", "IV", "V", "VI", "VII"]
 ORD = ["", "FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH"]
 TENT = ["fire_4.mp3", 0.38]; TENT2 = ["fire_0.mp3", 0.3]; CAMP = ["wind_2.mp3", 0.4]; CITY = ["rain_0.mp3", 0.2]; NIGHT = ["night_6.mp3", 0.18]
-CARD_SFX = [["transition_5.mp3", 0.0, 0.45], ["drum_6.mp3", 0.35, 0.55]]
+CARD_SFX = [["drum_6.mp3", 0.3, 0.3]]   # 11/3 대표: 문장 카드는 효과 없이 은은한 소리 하나만
 WQ = {"tip0": [1025, 510], "lead": 715, "static": True, "clean": True, "size": 150, "ink": [40, 26, 14], "paper_lv": [72, 98],
       "paper": [[330, 240], [1560, 215], [1720, 1000], [300, 1000]]}
 
@@ -40,13 +40,13 @@ CH = {
                ("still", "e3a_soldiers", ["d3c"], CAMP, {"particles": "snow", "move": {"zoom": [1.25, 1.45], "pan": [[0, 0.05], [0, 0.08]]}, "sfx": [["war_7.mp3", 0.0, 0.18]]})],
         mono=("still", "e3a_soldiers", {"move": {"zoom": [1.5, 1.62], "pan": [[0, 0.08], [0, 0.09]]}, "particles": "snow"}),
         mvoices=["m3a", "m3b", "m3c"], verse=["칭찬받는다고,", "더 나아지지도 더 나빠지지도 않는다."], src="명상록 4권 20절",
-        interp=[("still", "lq08_txt", ["d3d"]), ("still", "e4a_alone", ["d3e"])],
+        interp=[("still", "lq08_write", ["d3d"]), ("still", "e4a_alone", ["d3e"])],
         concept=("d3e", "스토아 철학 · 내면의 가치", "칭찬은 아무것도 더하지 않는다", "Praise adds nothing"),
         apply=[("e3b_sofa", ["d3f"]), ("e3c_meeting", ["d3g"])], tonight=(["아무도 몰라 준 오늘의 일 하나", "그것만으로 충분했다"], "d3h"),
         teaser=("e4a_alone", "d3i", TENT2)),
  4: dict(title="가장 고요한 곳은 내 마음속이다", en="Retire into thyself",
         scene=[("still", "e4a_alone", ["d4a"], TENT2, {"rack": 1.5, "flicker": True}), ("video", "ev_stars", ["d4b"], NIGHT, {"particles": "snow"})],
-        mono=("write", "lqv08c_write", write(["Nowhere either with more quiet", "does a man retire", "than into his own soul."], Q3)),
+        mono=("video", "lwv2_front", {"flicker": True, "move": {"zoom": [1.0, 1.06]}}),
         mvoices=["m4a", "m4b", "m4c"], verse=["사람은 어디로 물러나도,", "자기 마음속보다 고요한 곳을 찾지 못한다."], src="명상록 4권 3절",
         interp=[("still", "e4b_stars", ["d4c"]), ("still", "e4a_alone", ["d4d"])],
         concept=("d4c", "피에르 아도 · 『내면의 성채』", "마음속 요새", "The Inner Citadel"),
@@ -54,7 +54,7 @@ CH = {
         teaser=("lp09_teacher", "d4h", None, {"grade": "memory", "leak": True})),
  5: dict(title="좋은 사람 몇이면 충분하다", en="A few good people are enough",
         scene=[("video", "ev_garden", ["d5a"], None, {"grade": "memory", "leak": True, "tin": "dissolve"}), ("still", "lp09_teacher", ["d5b"], None, {"grade": "memory", "leak": True})],
-        mono=("write", "lqv08c_write", write(["From my grandfather, good morals.", "From my father, mildness of temper.", "From Rusticus, Epictetus."], Q3)),
+        mono=("video", "lqv08c_write", {"flicker": True, "move": {"zoom": [1.0, 1.06]}}),
         mvoices=["m5a", "m5b", "m5c"], verse=["좋은 조부모와 부모와 스승과 벗을", "만난 것에 감사한다."], src="명상록 1권 17절",
         interp=[("still", "e5a_antoninus", ["d5c"], {"grade": "memory", "leak": True}), ("still", "e4a_alone", ["d5d"])],
         concept=("d5d", "명상록 1권 · 감사의 목록", "나를 만든 사람들", "The Gratitude List"),
@@ -137,6 +137,17 @@ def build():
     for s in sh:
         if s.get("src") == "lq08_txt" and "c1c" in str(s.get("voice")): s["voice"] = ["c1c", "c1g"]
     sh[12]["sfx"] = CARD_SFX; sh[12]["label"] = "THE FIRST LINE"
+    # 11/3 대표 피드백: 심장박동 두세 번 더(점점 약하게), 펜 장면은 글씨 합성 없이 두 각도 번갈아, 오프닝은 깔끔하게
+    sh[3]["sfx"] = [["heartbeat_5.mp3", 0.05, 1.2], ["heartbeat_5.mp3", 0.85, 1.0], ["heartbeat_5.mp3", 1.65, 0.7], ["heartbeat_5.mp3", 2.45, 0.45], ["heartbeat_5.mp3", 3.25, 0.25]]
+    sh[5].pop("write", None); sh[5]["src"] = "lwv2_front"; sh[5]["move"] = {"zoom": [1.0, 1.08]}
+    ep = sh[8]; ep.pop("chapter", None); ep["sfx"] = [["drum_6.mp3", 0.3, 0.45]]; ep["dur"] = 4.6
+    m1 = sh[14]; m1.pop("write", None); m1["src"] = "lqv08c_write"
+    m2 = copy.deepcopy(m1); m1["voice"] = ["m_c1b1", "m_c1b2"]; m1["post"] = 0.6; m1["overlays"] = []
+    m2.update({"src": "lwv2_front", "voice": ["m_c1b3", "m_c1b4"], "pre": 0.5, "tin": "dissolve",
+               "overlays": [{"kind": "verse", "lines": ["남의 생각을 짐작하느라,", "남은 날들을 쓰지 마라."], "src": "명상록 3권 4절", "at_voice": "m_c1b4"}]})
+    sh.insert(15, m2)
+    for x in sh:
+        if x.get("src") == "lq08_txt": x["src"] = "lq08_write"
     end = sh.pop()                      # 옛 엔딩 제거
     S = sh
     card_idx = {1: 12}
