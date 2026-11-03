@@ -1,0 +1,32 @@
+{
+ "id": "il_L261104g_pawn_1980s",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A dim 1980s jewelry shop window display with gold chains and rings on velvet, dusty glass, a quiet empty street reflected, melancholic mood of falling prices. Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19edb-436f-7443-95a5-9686fb12ab2c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19edb-436f-7443-95a5-9686fb12ab2c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19edb-436f-7443-95a5-9686fb12ab2c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19edb-436f-7443-95a5-9686fb12ab2c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19edb-436f-7443-95a5-9686fb12ab2c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19edb-436f-7443-95a5-9686fb12ab2c/cancel",
+  "expires_at": "2026-11-10T00:44:12.506243+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19edb-436f-7443-95a5-9686fb12ab2c/66fe5a0b-f5c9-49e3-99d2-16da09d9a82d.jpeg"
+   }
+  ]
+ },
+ "seconds": 125,
+ "file": "scripts/blog/media/lib/il_L261104g_pawn_1980s.jpeg"
+}
