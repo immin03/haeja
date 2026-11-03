@@ -1,0 +1,31 @@
+{
+ "id": "lpv08_write",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The reed pen slowly moves across the lower part of the papyrus drawing one short line of ink while the candle flame flickers softly. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f42-f3cc-720b-a2cb-471607388295/36b9f6df-917b-4a61-bb25-ef8275231fef.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f46-b28d-739e-991f-21c20aaf754b",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f46-b28d-739e-991f-21c20aaf754b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f46-b28d-739e-991f-21c20aaf754b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f46-b28d-739e-991f-21c20aaf754b",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f46-b28d-739e-991f-21c20aaf754b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f46-b28d-739e-991f-21c20aaf754b/cancel",
+  "expires_at": "2026-11-10T02:42:09.204486+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f46-b28d-739e-991f-21c20aaf754b/5458a174-0fc2-4f94-b4b7-9d056d87c8f1.mp4"
+  }
+ },
+ "seconds": 162,
+ "file": "social/side/gen/lpv08_write.mp4"
+}

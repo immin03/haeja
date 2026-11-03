@@ -1,0 +1,32 @@
+{
+ "id": "lp09_teacher",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A sunlit courtyard of a Roman house, a young man of about twenty with short curly brown hair in a simple white toga receiving a scroll from an older bearded Stoic teacher in a grey cloak, both seen in profile, a fountain and potted laurel behind them. Cinematic oil-painting look like a warm golden memory, soft hazy sunlight, gentle bloom, warm amber and ochre palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f43-ea54-7f6b-a80e-dc6bb6951d6c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f43-ea54-7f6b-a80e-dc6bb6951d6c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f43-ea54-7f6b-a80e-dc6bb6951d6c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f43-ea54-7f6b-a80e-dc6bb6951d6c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f43-ea54-7f6b-a80e-dc6bb6951d6c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f43-ea54-7f6b-a80e-dc6bb6951d6c/cancel",
+  "expires_at": "2026-11-10T02:38:35.619017+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f43-ea54-7f6b-a80e-dc6bb6951d6c/ad24f421-392c-40f1-92aa-667ee8cbb174.jpeg"
+   }
+  ]
+ },
+ "seconds": 131,
+ "file": "social/side/gen/lp09_teacher.jpeg"
+}

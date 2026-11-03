@@ -1,0 +1,31 @@
+{
+ "id": "lpv02_messenger",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The kneeling messenger slowly raises the sealed letter a little higher toward the seated emperor while the candle flame flickers and snow melts on his cloak. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f41-3891-7996-94dc-b250fcf42ce1/888d8c84-8fe0-462d-919c-89bbfd4d99d1.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f46-b171-7d37-800e-60ac0dd21b1d",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f46-b171-7d37-800e-60ac0dd21b1d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f46-b171-7d37-800e-60ac0dd21b1d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f46-b171-7d37-800e-60ac0dd21b1d",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f46-b171-7d37-800e-60ac0dd21b1d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f46-b171-7d37-800e-60ac0dd21b1d/cancel",
+  "expires_at": "2026-11-10T02:42:00.586791+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f46-b171-7d37-800e-60ac0dd21b1d/6886ee47-8938-443f-8154-656e72f94afd.mp4"
+  }
+ },
+ "seconds": 149,
+ "file": "social/side/gen/lpv02_messenger.mp4"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "lp08_write",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Close-up from above of a weathered older man's hand writing with a reed pen on a sheet of papyrus on a rough wooden table at night, an inkpot and a candle beside it, only the lower third of the papyrus has a few abstract ink strokes that cannot be read, the upper part of the papyrus is clean and blank, warm candlelight. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f42-f3cc-720b-a2cb-471607388295",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f42-f3cc-720b-a2cb-471607388295/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f42-f3cc-720b-a2cb-471607388295/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f42-f3cc-720b-a2cb-471607388295",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f42-f3cc-720b-a2cb-471607388295/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f42-f3cc-720b-a2cb-471607388295/cancel",
+  "expires_at": "2026-11-10T02:36:43.748545+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f42-f3cc-720b-a2cb-471607388295/36b9f6df-917b-4a61-bb25-ef8275231fef.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "social/side/gen/lp08_write.jpeg"
+}

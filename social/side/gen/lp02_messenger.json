@@ -1,0 +1,32 @@
+{
+ "id": "lp02_messenger",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Inside a dim Roman command tent at night, a snow-covered Roman messenger in a wet wool cloak kneels on the earthen floor with his head bowed, holding up a folded letter sealed with red wax in both hands; in the near foreground the dark crimson cloak and leather boots of the seated emperor, seen from behind his shoulder so the emperor's face is not visible; one candle on a rough wooden table, melting snowflakes on the messenger's shoulders. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f41-3891-7996-94dc-b250fcf42ce1",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f41-3891-7996-94dc-b250fcf42ce1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f41-3891-7996-94dc-b250fcf42ce1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f41-3891-7996-94dc-b250fcf42ce1",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f41-3891-7996-94dc-b250fcf42ce1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f41-3891-7996-94dc-b250fcf42ce1/cancel",
+  "expires_at": "2026-11-10T02:35:20.945336+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f41-3891-7996-94dc-b250fcf42ce1/888d8c84-8fe0-462d-919c-89bbfd4d99d1.jpeg"
+   }
+  ]
+ },
+ "seconds": 112,
+ "file": "social/side/gen/lp02_messenger.jpeg"
+}

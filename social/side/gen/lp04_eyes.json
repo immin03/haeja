@@ -1,0 +1,32 @@
+{
+ "id": "lp04_eyes",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Extreme close-up of the face of the Roman emperor Marcus Aurelius at about fifty-four: a lean weathered face, short curly grey-brown hair, a short curly grey-flecked beard, tired deep-set eyes, wearing a plain brown wool tunic under a deep crimson military cloak, framed from the brow to the beard, lit from one side by warm candlelight with the other side in darkness, his eyes staring at something below the frame, completely still and stunned, lips pressed together, a restrained expression, no tears. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark, no modern brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f41-3878-7d23-8f81-37667716257c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f41-3878-7d23-8f81-37667716257c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f41-3878-7d23-8f81-37667716257c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f41-3878-7d23-8f81-37667716257c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f41-3878-7d23-8f81-37667716257c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f41-3878-7d23-8f81-37667716257c/cancel",
+  "expires_at": "2026-11-10T02:35:19.743258+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f41-3878-7d23-8f81-37667716257c/c070d8a8-b895-4243-8de2-7458325c012b.jpeg"
+   }
+  ]
+ },
+ "seconds": 112,
+ "file": "social/side/gen/lp04_eyes.jpeg"
+}

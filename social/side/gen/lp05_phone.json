@@ -1,0 +1,32 @@
+{
+ "id": "lp05_phone",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A Korean man in his late fifties sitting alone at a small dining table in a dim apartment at night, a smartphone lying face up on the table with a dark screen, a cup of tea gone cold, seen from the side as he looks out of a dark window at blurred city lights. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey night palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no logos, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f42-91c6-7bdd-8922-90318df6e087",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f42-91c6-7bdd-8922-90318df6e087/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f42-91c6-7bdd-8922-90318df6e087/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f42-91c6-7bdd-8922-90318df6e087",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f42-91c6-7bdd-8922-90318df6e087/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f42-91c6-7bdd-8922-90318df6e087/cancel",
+  "expires_at": "2026-11-10T02:36:27.869925+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f42-91c6-7bdd-8922-90318df6e087/2b68d998-4757-41f0-8f22-231149f132ee.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "social/side/gen/lp05_phone.jpeg"
+}
