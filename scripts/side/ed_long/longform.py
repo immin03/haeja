@@ -24,7 +24,8 @@ GOLD = (201, 164, 92); IVORY = (239, 230, 212)
 
 def font(kind, size):
     f = {"ko": "hahmlet-korean-700-normal.ttf", "ko6": "hahmlet-korean-600-normal.ttf", "en": "cormorant-sc-latin-600-normal.ttf",
-         "en5": "cormorant-sc-latin-500-normal.ttf", "ui": "Pretendard-SemiBold.otf", "uim": "Pretendard-Medium.otf"}[kind]
+         "en5": "cormorant-sc-latin-500-normal.ttf", "ui": "Pretendard-SemiBold.otf", "uim": "Pretendard-Medium.otf",
+         "it": "cormorant-garamond-latin-500-italic.ttf", "script": "PinyonScript-Regular.ttf"}[kind]
     return ImageFont.truetype(FONTS + f, size)
 
 
@@ -144,6 +145,91 @@ class Clip:
         return cv2.warpAffine(f, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
 
+class WriteClip(Clip):
+    """펜으로 쓰는 장면: 종이 위 영어 필기체가 펜 끝을 따라 써진다 (카메라 움직임은 특징점 추적, 펜 끝은 템플릿 추적)
+    write = {quad: 글씨 줄 영역 네 꼭짓점(첫 프레임 기준), tip0: 첫 프레임 펜 끝 [x,y], lines: [이미 써 있는 줄...], line: 지금 쓰는 줄,
+             size: 글자 크기, ink: [r,g,b], lead: 펜 끝보다 몇 px 앞까지 보일지}"""
+    def __init__(self, path, move, start, wr):
+        super().__init__(path, move, start)
+        self.wr = wr; fr = self.fr; n = len(fr); h, w = fr[0].shape[:2]
+        gray = [cv2.cvtColor(f, cv2.COLOR_BGR2GRAY) for f in fr]
+        quad = np.float32(wr["quad"]); tx, ty = wr["tip0"]
+        # 카메라 추적 (손·펜 쪽은 빼고 종이 위 특징점)
+        m = np.zeros((h, w), np.uint8); cv2.fillPoly(m, [np.int32(wr.get("paper", wr["quad"]))], 255)
+        cv2.rectangle(m, (int(tx) - 40, 0), (w, int(ty) + 60), 0, -1)
+        acc = np.eye(3); Hs = [acc.copy()]; prev = gray[0]; pts = cv2.goodFeaturesToTrack(prev, 400, 0.01, 8, mask=m)
+        for i in range(1, n):
+            ok = pts is not None and len(pts) >= 8
+            if ok:
+                nxt, st, _ = cv2.calcOpticalFlowPyrLK(prev, gray[i], pts, None, winSize=(21, 21), maxLevel=3)
+                g0, g1 = pts[st == 1], nxt[st == 1]
+                Hm = cv2.findHomography(g0, g1, cv2.RANSAC, 3.0)[0] if len(g0) >= 8 else None
+                if Hm is not None: acc = Hm @ acc
+                pts = g1.reshape(-1, 1, 2) if len(g1) >= 120 else cv2.goodFeaturesToTrack(gray[i], 400, 0.01, 8, mask=cv2.warpPerspective(m, acc, (w, h)))
+            Hs.append(acc.copy()); prev = gray[i]
+        self.Hs = Hs
+        # 펜 끝 추적
+        r = wr.get("tpl", [12, 60, 60, 8])  # 왼, 위, 오른, 아래 여유
+        tpl = gray[0][int(ty) - r[1]:int(ty) + r[3], int(tx) - r[0]:int(tx) + r[2]]; tips = [(tx, ty)]
+        for i in range(1, n):
+            px, py = tips[-1]; x0, y0 = int(px) - 90, int(py) - 90
+            roi = gray[i][max(y0, 0):y0 + 200 + r[1], max(x0, 0):x0 + 200 + r[2]]
+            res = cv2.matchTemplate(roi, tpl, cv2.TM_CCOEFF_NORMED); _, _, _, loc = cv2.minMaxLoc(res)
+            tips.append((max(x0, 0) + loc[0] + r[0], max(y0, 0) + loc[1] + r[1]))
+        tips = np.array(tips, float); k = 5
+        self.tips = np.array([tips[max(0, i - k):i + k + 1].mean(0) for i in range(n)])
+        if wr.get("clean"):   # 영상 모델이 그린 엉뚱한 잉크 자국 지우기: 펜 끝 아래·왼쪽에서 첫 프레임보다 어두워진 곳을 첫 프레임 종이로 되돌림
+            f0 = fr[0]
+            for i in range(1, n):
+                f0w = cv2.warpPerspective(f0, Hs[i], (w, h), borderMode=cv2.BORDER_REPLICATE)
+                d = cv2.cvtColor(f0w, cv2.COLOR_BGR2GRAY).astype(np.int16) - gray[i].astype(np.int16)
+                tx_, ty_ = self.tips[i]
+                reg = np.zeros((h, w), np.uint8); cv2.rectangle(reg, (0, int(ty_) - 48), (int(tx_) - 6, h), 255, -1)
+                cv2.rectangle(reg, (int(tx_) - 6, int(ty_) - 4), (int(tx_) + 8, h), 255, -1)
+                m2 = ((d > 18) & (reg > 0)).astype(np.uint8) * 255
+                m2 = cv2.dilate(m2, np.ones((5, 5), np.uint8)); m2 = cv2.GaussianBlur(m2, (0, 0), 1.5)[..., None] / 255.0
+                fr[i] = (fr[i] * (1 - m2) + f0w * m2).astype(np.uint8)
+        # 글씨 평면
+        PW, PH = 1600, 240 * (len(wr.get("lines", [])) + 1)
+        f = ImageFont.truetype(FONTS + "PinyonScript-Regular.ttf", wr.get("size", 150))
+        im = Image.new("L", (PW, PH), 0); d = ImageDraw.Draw(im); yb = 190
+        for ln in wr.get("lines", []): d.text((10, yb), ln, font=f, fill=255, anchor="ls"); yb += 240
+        self.static = np.array(im).astype(np.float32) / 255.0
+        im2 = Image.new("L", (PW, PH), 0); ImageDraw.Draw(im2).text((10, yb), wr["line"], font=f, fill=255, anchor="ls")
+        self.wline = np.array(im2).astype(np.float32) / 255.0
+        self.line_w = d.textlength(wr["line"], font=f) + 10
+        self.Hq = cv2.getPerspectiveTransform(np.float32([[0, 0], [PW, 0], [PW, PH], [0, PH]]), quad)
+        self.PW, self.PH, self.wh = PW, PH, (w, h)
+        self.ink = np.array(wr.get("ink", [36, 24, 14])[::-1], np.float32)
+        # 펜 끝 → 글씨 평면 x 좌표 (앞으로만 나아가게)
+        us = []
+        for i in range(n):
+            p = np.array([self.tips[i][0], self.tips[i][1], 1.0]); q = np.linalg.inv(Hs[i] @ self.Hq) @ p; us.append(q[0] / q[2])
+        us = np.maximum.accumulate(np.array(us)); u0 = us[0]
+        self.us = us - u0 + wr.get("lead", 30)
+
+    def frame(self, p, t, dur):
+        n = len(self.fr); length = n / self.src_fps
+        rate = max(min(length / dur, 1.0), 0.45)
+        idx = min(int(t * rate * self.src_fps), n - 1)
+        f = self.fr[idx].astype(np.float32); w, h = self.wh
+        u = self.us[idx]; reveal = (np.arange(self.PW)[None, :] < u).astype(np.float32)
+        reveal = cv2.GaussianBlur(reveal, (0, 0), 6) if u < self.line_w else np.ones_like(reveal)
+        a = np.clip(self.static + self.wline * reveal, 0, 1)
+        a = cv2.GaussianBlur(a, (0, 0), 0.9)
+        aw = cv2.warpPerspective(a, self.Hs[idx] @ self.Hq, (w, h))
+        # 손·펜에 가려지는 곳은 글씨를 빼기 (종이는 밝고 손·펜은 어둡다)
+        g = cv2.GaussianBlur(cv2.cvtColor(self.fr[idx], cv2.COLOR_BGR2GRAY).astype(np.float32), (0, 0), 2.5)
+        lo, hi = self.wr.get("paper_lv", [105, 135])
+        vis = np.clip((g - lo) / (hi - lo), 0, 1)
+        vis = cv2.erode(vis, np.ones((7, 7), np.uint8))
+        aw = (aw * vis)[..., None] * self.wr.get("strength", 0.9)
+        f = f * (1 - aw) + (f * 0.25 + self.ink * 0.75) * aw
+        self_fr, self.fr[idx] = self.fr[idx], f.astype(np.uint8)
+        out = Clip.frame(self, p, t, dur); self.fr[idx] = self_fr
+        return out
+
+
 class Particles:
     def __init__(self, kind, n=70, seed=3):
         r = random.Random(seed); self.kind = kind
@@ -249,23 +335,49 @@ def end_frame(s, t, dur, cache, logo):
 
 
 def card_frame(spec_shot, t, dur, cache):
-    """장 제목 카드: 검은 바탕, 금색 로마 숫자, 제목"""
+    """장 제목 카드 (템플릿): CHAPTER + 로마 숫자, 빛나며 길어지는 금색 선, 한글 제목, 영어 부제, 금빛 먼지, 천천히 다가오는 카메라"""
     if "card" not in cache:
-        cache["card"] = (text_layer([spec_shot["num"]], "en", 120, GOLD, shadow=False, height=170),
-                         text_layer([spec_shot["title"]], "ko", 64, IVORY, shadow=False, height=110))
-    num, ttl = cache["card"]
+        cache["card"] = (text_layer(["CHAPTER"], "en", 38, GOLD, track=16, shadow=False, height=60),
+                         text_layer([spec_shot["num"]], "en", 128, GOLD, shadow=False, height=170),
+                         text_layer([spec_shot["title"]], "ko", 66, IVORY, height=110),
+                         text_layer([spec_shot.get("en", "")], "it", 44, (205, 192, 168), shadow=False, height=70),
+                         Particles("embers", 60, 21))
+    k, num, ttl, en, dust = cache["card"]
+    out_a = 1 - ease((t - dur + 0.7) / 0.7)
     img = np.zeros((H, W, 3), np.uint8)
-    a = ease(t / 0.8) * (1 - ease((t - dur + 0.7) / 0.7))
-    layer = np.zeros((H, W, 4), np.uint8); layer[330:330 + num.shape[0]] = num; layer[520:520 + ttl.shape[0]] = ttl
-    img = blend(img, layer, a)
-    # 가는 금색 선
-    x = int(W / 2 - 60 * ease(t / 1.0)); cv2.line(img, (x, 505), (W - x, 505), (92, 164, 201), 1, cv2.LINE_AA)
-    return img
+    # 아주 옅은 따뜻한 빛 웅덩이
+    if "glow" not in cache:
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); g = np.exp(-(((xx - W / 2) / 700) ** 2 + ((yy - 520) / 330) ** 2))
+        cache["glow"] = (g[..., None] * np.array([18, 30, 44], np.float32)).astype(np.float32)
+    img = np.clip(img + cache["glow"] * out_a, 0, 255).astype(np.uint8)
+    lay = np.zeros((H, W, 4), np.uint8)
+    lay[262:322] = k; lay[318:488] = num
+    img = blend(img, lay, ease(t / 0.9) * out_a)
+    # 금색 선: 가운데서 양옆으로 길어지고, 빛이 한 번 훑고 지나감
+    L = int(380 * ease((t - 0.3) / 1.4)); y = 512
+    if L > 2:
+        line = np.zeros((H, W, 3), np.uint8)
+        cv2.line(line, (W // 2 - L, y), (W // 2 + L, y), (92, 164, 201), 2, cv2.LINE_AA)
+        cv2.circle(line, (W // 2 - L, y), 3, (140, 200, 235), -1, cv2.LINE_AA); cv2.circle(line, (W // 2 + L, y), 3, (140, 200, 235), -1, cv2.LINE_AA)
+        glow = cv2.GaussianBlur(line, (0, 0), 7)
+        sweep = np.zeros((H, W, 3), np.uint8)
+        sx = int(W / 2 - 420 + 840 * ease((t - 1.2) / 1.2))
+        if 1.2 < t < 2.6: cv2.circle(sweep, (sx, y), 26, (170, 220, 255), -1); sweep = cv2.GaussianBlur(sweep, (0, 0), 14)
+        img = cv2.add(img, (cv2.addWeighted(cv2.addWeighted(line, 1.0, glow, 1.6, 0), 1.0, sweep, 0.9, 0).astype(np.float32) * out_a).astype(np.uint8))
+    l2 = np.zeros((H, W, 4), np.uint8); l2[540:650] = ttl
+    img = blend(img, l2, ease((t - 0.7) / 0.9) * out_a, dy=12 * (1 - ease((t - 0.7) / 0.9)))
+    if spec_shot.get("en"):
+        l3 = np.zeros((H, W, 4), np.uint8); l3[655:725] = en
+        img = blend(img, l3, ease((t - 1.3) / 1.0) * out_a)
+    img = dust.draw(img, t)
+    # 천천히 다가오는 카메라
+    z = 1.0 + 0.035 * ease(t / dur); M = np.float32([[z, 0, W / 2 * (1 - z)], [0, z, H / 2 * (1 - z)]])
+    return cv2.warpAffine(img, M, (W, H))
 
 
 def tonight_frame(s, t, dur, cache):
     if "tn" not in cache:
-        cache["tn"] = (text_layer(["오늘 밤 해 볼 일"], "ui", 34, GOLD, track=3, shadow=False, height=70),
+        cache["tn"] = (text_layer(["FOR TONIGHT  ·  오늘 밤 해 볼 일"], "ui", 32, GOLD, track=3, shadow=False, height=70),
                        text_layer(s["lines"], "ko6", 60, IVORY, shadow=False, height=260))
     k, body = cache["tn"]
     img = np.zeros((H, W, 3), np.uint8) + np.uint8(8)
@@ -313,14 +425,93 @@ def overlay(img, ov, t, dur, cache, key):
     if k == "concept":   # 개념 카드: 화면 가운데 아래, 3~4초
         if key not in cache:
             cache[key] = (text_layer([ov["kicker"]], "ui", 36, GOLD, track=3, shadow=False, height=56),
-                          text_layer(ov["lines"], "ko", 64, IVORY, height=200))
-        kk, body = cache[key]
+                          text_layer(ov["lines"], "ko", 64, IVORY, height=200),
+                          text_layer([ov.get("en", "")], "it", 42, (205, 192, 168), shadow=False, height=64))
+        kk, body, en = cache[key]
         a = ease((t - ov["at"]) / 0.6) * (1 - ease((t - ov["at"] - ov.get("len", 4.0)) / 0.6))
         if a <= 0: return img
         dark = (img.astype(np.float32) * (1 - 0.72 * a)).astype(np.uint8)
-        lay = np.zeros((H, W, 4), np.uint8); lay[380:436] = kk; lay[450:650] = body
+        lay = np.zeros((H, W, 4), np.uint8); lay[370:426] = kk; lay[440:640] = body
+        if ov.get("en"): lay[640:704] = en
         return blend(dark, lay, a)
     return img
+
+
+# ---------- 자막 (템플릿: 쇼츠와 같은 방식, 강조 문장만 크게) ----------
+def speech_bounds(path, n):
+    """음성 파일 안 문장 경계: 긴 쉼 n-1개를 골라 [(시작, 끝)] n개를 돌려준다"""
+    L = dur_of(path)
+    if n <= 1: return [(0.0, L)]
+    out = subprocess.run(["ffmpeg", "-i", path, "-af", "silencedetect=noise=-38dB:d=0.18", "-f", "null", "-"], capture_output=True, text=True).stderr
+    import re
+    st = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", out)]; en = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", out)]
+    gaps = [(b - a, a, b) for a, b in zip(st, en) if 0.15 < a and b < L - 0.1]
+    gaps = sorted(sorted(gaps, reverse=True)[:n - 1], key=lambda g: g[1])
+    if len(gaps) < n - 1:   # 쉼을 못 찾으면 글자 수 비율로
+        return None
+    pts = [0.0] + [g[1] for g in gaps]; ends = [g[1] for g in gaps] + [L]
+    starts = [0.0] + [g[2] for g in gaps]
+    return list(zip(starts, ends))
+
+
+def wrap_ko(text, fnt, maxw):
+    d = ImageDraw.Draw(Image.new("L", (10, 10))); words = text.split(" "); lines, cur = [], ""
+    for w in words:
+        t = (cur + " " + w).strip()
+        if d.textlength(t, font=fnt) > maxw and cur: lines.append(cur); cur = w
+        else: cur = t
+    if cur: lines.append(cur)
+    return lines
+
+
+def caption_layer(text, kind, cache):
+    key = (text, kind)
+    if key in cache: return cache[key]
+    if kind == "emph":
+        f = font("ko", 72); lines = wrap_ko(text, f, 1400)
+        lay = text_layer(lines, "ko", 72, (240, 222, 178), height=110 * len(lines) + 40, line_gap=1.4)
+    else:
+        kk, sz, col = ("ko6", 46, (246, 238, 222)) if kind == "mono" else ("ui", 44, (255, 255, 255))
+        lines = wrap_ko(text, font(kk, sz), 1500)
+        lay = text_layer(lines, kk, sz, col, height=int(sz * 1.45 * len(lines)) + 30, line_gap=1.4)
+    cache[key] = lay; return lay
+
+
+def draw_captions(img, gt, events, cache):
+    for (a, b, text, kind) in events:
+        if not (a <= gt < b): continue
+        lay = caption_layer(text, kind, cache); h = lay.shape[0]
+        al = ease((gt - a) / 0.18) * (1 - ease((gt - b + 0.18) / 0.18))
+        full = np.zeros((H, W, 4), np.uint8)
+        if kind == "emph":
+            y = int(H * 0.60 - h / 2); full[y:y + h] = lay
+            sc = 0.94 + 0.06 * ease((gt - a) / 0.35)
+            M = np.float32([[sc, 0, W / 2 * (1 - sc)], [0, sc, (y + h / 2) * (1 - sc)]])
+            full = cv2.warpAffine(full, M, (W, H))
+            img = (img.astype(np.float32) * (1 - 0.25 * al)).astype(np.uint8)
+        else:
+            y = H - BAR - 40 - h; full[y:y + h] = lay
+        img = blend(img, full, al)
+    return img
+
+
+def caption_events(S, plan, vfile):
+    subs = S.get("subs", {}); mono = set(S.get("monologue_voices", [])); ev = []
+    for p in plan:
+        if p["s"].get("nocap"): continue
+        for v, at, d in p["voices"]:
+            items = subs.get(v)
+            if not items: continue
+            items = [items] if isinstance(items, str) else items
+            bounds = speech_bounds(vfile(v), len(items))
+            if bounds is None:
+                n = [max(len(x), 1) for x in items]; tot = sum(n); c = 0; bounds = []
+                for k in n: bounds.append((d * c / tot, d * (c + k) / tot)); c += k
+            for txt, (a, b) in zip(items, bounds):
+                if txt.startswith("~"): continue
+                kind = "emph" if txt.startswith("!") else ("mono" if v in mono else "nar")
+                ev.append((at + a - 0.05, at + b + 0.25, txt.lstrip("!"), kind))
+    return ev
 
 
 # ---------- 본체 ----------
@@ -348,6 +539,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
     json.dump([{"i": i, "type": p["s"]["type"], "t0": round(p["t0"], 2), "dur": round(p["dur"], 2), "src": p["s"].get("src", "")} for i, p in enumerate(plan)],
               open(os.path.join(base, f"plan_{S['id']}.json"), "w"), ensure_ascii=False, indent=0)
     t_to = min(t_to or total, total)
+    events = caption_events(S, plan, vfile); capc = {}
     out_dir = P(S.get("out_dir", "_long")); os.makedirs(out_dir, exist_ok=True)
     tag = S["id"] + ("_prev" if preview else "")
     vid_path = os.path.join(out_dir, f"{tag}_v.mp4")
@@ -363,6 +555,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
         if t0 + d <= t_from or t0 >= t_to: continue
         cache = {}; src = None
         if s["type"] == "still": src = Still(os.path.join(gdir, s["src"] + ".jpeg"), s.get("move"))
+        elif s["type"] == "video" and s.get("write"): src = WriteClip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0), s["write"])
         elif s["type"] == "video": src = Clip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0))
         elif s["type"] == "intro": intro = intro or Intro({**S["intro"], "logo": P(S["intro"]["logo"])})
         parts = Particles(s["particles"]) if s.get("particles") else None
@@ -385,6 +578,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
             for oi, ov in enumerate(s.get("overlays", [])): img = overlay(img, ov, tt, d, cache, f"ov{oi}")
             if s["type"] in ("still", "video", "black"): img = look.apply(img, s.get("grade"))
             else: img = _bars(img)
+            img = draw_captions(img, gt, events, capc)
             # 들어오고 나가기
             tin, tout = s.get("tin", "cut"), s.get("tout", "cut")
             if tin == "black": img = (img.astype(np.float32) * ease(tt / s.get("fin", 0.6))).astype(np.uint8)

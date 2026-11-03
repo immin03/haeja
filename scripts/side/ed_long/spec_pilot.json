@@ -1,5 +1,5 @@
 {
- "id": "edl_pilot",
+ "id": "edl_pilot2",
  "root": "../../..",
  "voice_dir": "social/side/voice_samples/lp2",
  "gen_dir": "social/side/gen",
@@ -7,9 +7,13 @@
  "music_dir": "social/side/ed_long/music",
  "out_dir": "_long",
  "monologue_voices": [
-  "h3",
-  "c1b",
-  "x1"
+  "m_h3a",
+  "m_h3b",
+  "m_c1b1",
+  "m_c1b2",
+  "m_c1b3",
+  "m_c1b4",
+  "m_x1"
  ],
  "voice_files": {
   "h1": "voice_lp2_01_h1.mp3",
@@ -25,7 +29,14 @@
   "c1d": "voice_lp2_11_c1d.mp3",
   "c1e": "voice_lp2_12_c1e.mp3",
   "c1f": "voice_lp2_13_c1f.mp3",
-  "x1": "voice_lp2_14_x1.mp3"
+  "x1": "voice_lp2_14_x1.mp3",
+  "m_h3a": "../lp3/voice_lp3_01_m_h3a.mp3",
+  "m_h3b": "../lp3/voice_lp3_02_m_h3b.mp3",
+  "m_c1b1": "../lp3/voice_lp3_03_m_c1b1.mp3",
+  "m_c1b2": "../lp3/voice_lp3_04_m_c1b2.mp3",
+  "m_c1b3": "../lp3/voice_lp3_05_m_c1b3.mp3",
+  "m_c1b4": "../lp3/voice_lp3_06_m_c1b4.mp3",
+  "m_x1": "../lp3/voice_lp3_07_m_x1.mp3"
  },
  "intro": {
   "logo": "docs/emperor/profile_final.png",
@@ -115,10 +126,13 @@
   },
   {
    "type": "video",
-   "src": "lpv03_hand",
-   "voice": "h3",
-   "pre": 0.3,
-   "post": 0.4,
+   "src": "lqv03_hand",
+   "voice": [
+    "m_h3a",
+    "m_h3b"
+   ],
+   "pre": 0.4,
+   "post": 0.6,
    "move": {
     "zoom": [
      1.0,
@@ -141,7 +155,8 @@
      0.85,
      1.0
     ]
-   ]
+   ],
+   "gap": 0.9
   },
   {
    "type": "still",
@@ -177,22 +192,85 @@
   },
   {
    "type": "video",
-   "src": "lpv08_write",
-   "dur": 1.1,
+   "src": "lqv08c_write",
+   "dur": 2.8,
    "fixed": true,
    "move": {
     "zoom": [
-     1.1,
-     1.18
+     1.04,
+     1.12
     ]
    },
+   "flicker": true,
+   "nocap": true,
    "sfx": [
     [
      "paper_6.mp3",
-     0.1,
-     1.2
+     0.2,
+     1.0
+    ],
+    [
+     "paper_6.mp3",
+     1.3,
+     1.1
     ]
-   ]
+   ],
+   "write": {
+    "quad": [
+     [
+      560,
+      391
+     ],
+     [
+      1600,
+      370
+     ],
+     [
+      1600,
+      527
+     ],
+     [
+      560,
+      548
+     ]
+    ],
+    "paper": [
+     [
+      300,
+      300
+     ],
+     [
+      1650,
+      300
+     ],
+     [
+      1800,
+      1000
+     ],
+     [
+      200,
+      1000
+     ]
+    ],
+    "tip0": [
+     1025,
+     510
+    ],
+    "lines": [],
+    "line": "Do not waste the remainder",
+    "size": 150,
+    "lead": 715,
+    "clean": true,
+    "ink": [
+     40,
+     26,
+     14
+    ],
+    "paper_lv": [
+     72,
+     98
+    ]
+   }
   },
   {
    "type": "black",
@@ -320,7 +398,7 @@
    "type": "card",
    "num": "I",
    "title": "나를 지치게 하는 사람은 줄여라",
-   "dur": 4.0,
+   "dur": 4.6,
    "fixed": true,
    "amb": [
     "wind_2.mp3",
@@ -332,11 +410,12 @@
      0.3,
      0.45
     ]
-   ]
+   ],
+   "en": "Spend no thought on the minds of others"
   },
   {
    "type": "still",
-   "src": "lp07_reread",
+   "src": "lq07_txt",
    "voice": "c1a",
    "pre": 0.6,
    "post": 0.6,
@@ -366,10 +445,15 @@
   },
   {
    "type": "video",
-   "src": "lpv08_write",
-   "voice": "c1b",
+   "src": "lqv08c_write",
+   "voice": [
+    "m_c1b1",
+    "m_c1b2",
+    "m_c1b3",
+    "m_c1b4"
+   ],
    "pre": 0.8,
-   "post": 1.4,
+   "post": 1.6,
    "tin": "dissolve",
    "flicker": true,
    "move": {
@@ -391,24 +475,74 @@
    ],
    "overlays": [
     {
-     "kind": "quote",
-     "lines": [
-      "남의 생각을 짐작하느라,",
-      "남은 날들을 쓰지 마라."
-     ],
-     "src": "명상록 3권 4절",
-     "ink": true,
-     "size": 62,
-     "top": 120,
-     "from": 0.55,
-     "to": 0.86,
-     "dx": -230
+     "kind": "caption",
+     "text": "명상록 3권 4절",
+     "at": 9.8
     }
-   ]
+   ],
+   "gap": 1.0,
+   "write": {
+    "quad": [
+     [
+      560,
+      235
+     ],
+     [
+      1600,
+      214
+     ],
+     [
+      1600,
+      527
+     ],
+     [
+      560,
+      548
+     ]
+    ],
+    "paper": [
+     [
+      300,
+      300
+     ],
+     [
+      1650,
+      300
+     ],
+     [
+      1800,
+      1000
+     ],
+     [
+      200,
+      1000
+     ]
+    ],
+    "tip0": [
+     1025,
+     510
+    ],
+    "lines": [
+     "Do not waste the remainder"
+    ],
+    "line": "of thy life in thoughts about others.",
+    "size": 150,
+    "lead": 715,
+    "clean": true,
+    "ink": [
+     40,
+     26,
+     14
+    ],
+    "paper_lv": [
+     72,
+     98
+    ]
+   }
   },
   {
    "type": "still",
-   "src": "lp08_write",
+   "src": "lq08_txt",
    "voice": "c1c",
    "pre": 0.5,
    "post": 0.8,
@@ -433,7 +567,8 @@
       "닿지 않는 것"
      ],
      "at": 5.6,
-     "len": 5.0
+     "len": 5.0,
+     "en": "The Dichotomy of Control"
     }
    ]
   },
@@ -514,7 +649,7 @@
   },
   {
    "type": "end",
-   "voice": "x1",
+   "voice": "m_x1",
    "pre": 1.2,
    "post": 1.6,
    "dur": 5.5,
@@ -527,5 +662,50 @@
    ]
   }
  ],
- "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,"
+ "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,",
+ "subs": {
+  "h2": "가장 믿던 장군이, 황제가 죽었다고 선언했습니다.",
+  "m_h3a": "나는 아직 살아 있다.",
+  "m_h3b": "!그런데 그는, 이미 나를 묻었다.",
+  "h4": "그날 밤, 황제는 아무에게도 보여 주지 않을 일기를 펼쳤습니다.",
+  "s1": [
+   "혹시 이런 저녁, 보내 보신 적 있으십니까?",
+   "하루 종일, 휴대폰이 한 번도 울리지 않은 날."
+  ],
+  "s2": "오랜 친구를 만나고 돌아오는 길이, 오히려 더 허전했던 밤 말입니다.",
+  "s3": [
+   "이천 년 전, 세상에서 가장 힘센 사람도 같은 밤을 보냈습니다.",
+   "!그날 밤 그가 일기에 남긴 일곱 문장"
+  ],
+  "c1a": [
+   "전령이 물러간 뒤에도,",
+   "황제는 편지를 내려놓지 못했습니다.",
+   "아비디우스 카시우스.",
+   "동방의 전쟁을 승리로 이끌고, 황제가 동방 전체를 맡겼던 장군이었습니다."
+  ],
+  "m_c1b1": "그는 지금 무슨 생각을 하고 있을까.",
+  "m_c1b2": "누가 그의 편에 섰을까.",
+  "m_c1b3": "그만두자.",
+  "m_c1b4": "!남의 생각을 짐작하느라, 남은 날들을 쓰지 마라.",
+  "c1c": [
+   "황제는 이 생각을 일기 곳곳에 되풀이해 적었습니다.",
+   "스토아 철학에서는 이것을,",
+   "~",
+   "남의 마음은,",
+   "!언제나 내 힘이 닿지 않는 쪽에 있습니다."
+  ],
+  "c1d": [
+   "회의가 끝난 뒤,",
+   "나를 두고 뒷말을 했다는 동료.",
+   "며칠째 답이 없는 오랜 친구.",
+   "우리는 그 사람의 속을 짐작하느라,",
+   "!밤을 통째로 씁니다."
+  ],
+  "c1e": [
+   "오늘 밤에는, 그 사람 대신 나에게 물어보세요.",
+   "~"
+  ],
+  "c1f": "그리고 몇 달 뒤, 황제의 막사에 상자 하나가 도착합니다.",
+  "m_x1": "~"
+ }
 }
