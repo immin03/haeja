@@ -1530,7 +1530,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 flip = (math.pi * NBK.eio(clamp((u - .1) / fd)), prev_tex)
             if I["full"]: fr = np.asarray(full_img).astype(np.float32); amt = 0.0; bars = 0.0; grade = 0.0; sweep = -1.0
             else: fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al, dof=dof)
-            if (I["full"] or prev_full) and prev_fr is not None and u < .45 and k > cold:   # 그림 장면은 앞 장면에서 부드럽게 넘어온다
+            if (I["full"] or prev_full) and prev_fr is not None and u < .45 and k > cold and not sc["v"].get("cine"):   # 그림 장면은 앞 장면에서 부드럽게 넘어온다 (훅·인트로는 딱 끊는 컷 — 2026-11-03)
                 a_ = NBK.eio(u / .45); fr = prev_fr * (1 - a_) + np.asarray(fr, np.float32) * a_
             # 3) 오프닝 다큐 효과 · 시네마틱 (빛줄기·렌즈 빛·검은 화면에서 떠오르기·극장 비율 띠)
             if grade > 0: fr = NBK.doc_grade(fr, grade, fi, nb)
@@ -1681,7 +1681,7 @@ def main():
         if not lines and sc["v"].get("ident"):   # 2026-11-03 밸류노트 인트로: 말 없이 2.6초
             dur = float(sc.get("dur", 2.6)); timeline.append({"sc": sc, "start": t, "dur": dur, "lines": []}); t += dur; continue
         if not lines: print("  문장이 없어 장면 생략:", sc["v"]["type"]); continue
-        lt = []; u = sc.get("lead", .25)
+        lt = []; u = sc.get("lead", .25) if (timeline or "lead" not in sc) else max(.5, sc["lead"])   # 첫 장면은 검은 화면에서 떠오를 시간 최소 0.5초
         if spec.get("world") == "notebook" and "lead" not in sc:   # 2026-10-28 운영자: 인트로·장 전환은 시네마틱하게 → 말 앞에 화면만 흐르는 구간
             if not timeline: u = 1.1                                  # 오프닝: 검은 화면에서 떠오르며 제목이 뜰 시간
             elif sc.get("chapter") and sc["v"]["type"] == "title": u = 1.15   # 장 제목: 카메라가 물러나 페이지가 넘어가고 제목이 떠오를 시간

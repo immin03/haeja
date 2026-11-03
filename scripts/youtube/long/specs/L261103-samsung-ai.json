@@ -118,21 +118,21 @@
     "cine": true,
     "cuts": [
      {
-      "lib": "il_L2611ss_cin_winter.jpeg",
-      "d": 1.6
+      "lib": "il_L2611ss_cin_winter.jpeg"
      },
      {
-      "lib": "stockmarket_47012_b.jpg",
-      "d": 1.2
+      "lib": "stockmarket_47012_b.jpg"
      },
      {
-      "lib": "newspaper_41192_a.jpg"
+      "lib": "commons_krxboard_1.jpg"
      }
     ]
    },
    "lines": [
     "2024년 겨울, 사람들은 삼성전자를 '4만전자'라고 불렀습니다."
    ],
+   "lead": 0.12,
+   "hold": 0.1,
    "sketch_add": [],
    "en": [
     ""
@@ -155,6 +155,8 @@
    "lines": [
     "회사는 처음으로 사과문을 냈습니다."
    ],
+   "lead": 0.12,
+   "hold": 0.1,
    "sketch_add": [],
    "en": [
     ""
@@ -170,16 +172,13 @@
     "cine": true,
     "cuts": [
      {
-      "lib": "datacenter_23282.mp4",
-      "d": 1.5
+      "lib": "datacenter_23282.mp4"
      },
      {
-      "lib": "chip_47048.mp4",
-      "d": 1.3
+      "lib": "chip_47048.mp4"
      },
      {
-      "lib": "il_L2611ss_cin_cleanroom.jpeg",
-      "d": 1.3
+      "lib": "il_L2611ss_cin_cleanroom.jpeg"
      },
      {
       "lib": "stockmarket_47792_a.jpg"
@@ -189,6 +188,8 @@
    "lines": [
     "2년 뒤, 세 달에 107조 원을 법니다. 그런데 그날, 주가는 빠졌습니다."
    ],
+   "lead": 0.12,
+   "hold": 0.1,
    "sketch_add": [],
    "en": [
     ""
@@ -204,12 +205,10 @@
     "cine": true,
     "cuts": [
      {
-      "lib": "commons_nvidiagpu_1.jpg",
-      "d": 1.0
+      "lib": "commons_nvidiagpu_1.jpg"
      },
      {
-      "lib": "server_24033.mp4",
-      "d": 1.0
+      "lib": "server_24033.mp4"
      },
      {
       "lib": "il_L2611ss_cin_fab.jpeg"
@@ -219,6 +218,8 @@
    "lines": [
     "삼성전자는 지금, AI 시대 어디에 서 있을까요?"
    ],
+   "lead": 0.12,
+   "hold": 0.1,
    "sketch_add": [],
    "en": [
     ""
@@ -245,7 +246,7 @@
     "type": "media",
     "lib": "il_L2611ss_cin_investor.jpeg",
     "full": true,
-    "wash": "right",
+    "wash": "left",
     "wash_amt": 0.85
    },
    "lines": [
@@ -261,7 +262,7 @@
     {
      "kind": "print",
      "text": "삼성전자 · 10월 29일 -4.1% · 10월 30일 -3.0%",
-     "x": 1000,
+     "x": 140,
      "y": 130,
      "size": 52,
      "w": "ExtraBold",
@@ -454,7 +455,7 @@
   {
    "v": {
     "type": "media",
-    "lib": "newspaper_41192_a.jpg",
+    "lib": "commons_krxboard_2.jpg",
     "full": true,
     "wash": "left",
     "wash_amt": 0.85
@@ -661,7 +662,7 @@
   {
    "v": {
     "type": "media",
-    "lib": "commons_skhynix_2.jpg",
+    "lib": "commons_nvidiagpu_2.jpg",
     "full": true,
     "wash": "left",
     "wash_amt": 0.85
@@ -1895,7 +1896,7 @@
   {
    "v": {
     "type": "media",
-    "lib": "commons_skhynix_1.jpg",
+    "lib": "stockmarket_47792_a.jpg",
     "full": true,
     "wash": "left",
     "wash_amt": 0.85
