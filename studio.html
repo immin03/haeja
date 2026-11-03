@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>성과 관리 플랫폼</title>
+<meta name="description" content="유튜브 채널 통계, 구독자 대비 조회수가 터진 영상, 구독자 구간별로 잘하는 비슷한 채널을 무료로 찾아 줍니다.">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=5">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}</style>
+<link rel="stylesheet" href="/studio/admin.css?v=1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<style>
+/* ───────── 성과 관리 플랫폼 전용 (2026-11-03) ───────── */
+.st-hd{max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.st-brand{display:flex;align-items:baseline;gap:10px;color:var(--ivory);text-decoration:none}
+.st-brand b{font-size:18px;font-weight:850;letter-spacing:-.02em}
+.st-brand small{font-size:11px;font-weight:700;color:#CDB78A;border:1px solid rgba(205,183,138,.45);border-radius:999px;padding:1px 8px}
+.st-hd .r{display:flex;gap:8px;align-items:center;font-size:12px;color:rgba(243,238,227,.7)}
+.st-hd .r a{color:rgba(243,238,227,.85)}
+.acc{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.acc button{font:inherit;font-size:13px;font-weight:750;border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:999px;padding:7px 13px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+.acc button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.acc button img{width:20px;height:20px;border-radius:50%}
+.acc .add{border-style:dashed}
+.acc .lab{font-size:12px;color:var(--muted);font-weight:700;margin-right:2px}
+.q{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.q input[type=text]{flex:1 1 260px;min-width:0;font:inherit;font-size:15px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.q select{font:inherit;font-size:14px;padding:0 10px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.q button{font:inherit;font-size:15px;font-weight:800;border:0;border-radius:12px;padding:12px 18px;background:var(--navy-grad);color:var(--ivory);cursor:pointer}
+.q button[disabled]{opacity:.55;cursor:wait}
+.hint{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0 0 16px}
+.hint a{color:var(--ink2)}
+.ex{display:flex;gap:6px;flex-wrap:wrap;margin:-6px 0 16px}
+.ex a{font-size:12px;font-weight:700;color:var(--ink2);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 10px;text-decoration:none}
+.chn{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center}
+.chn img{width:64px;height:64px;border-radius:50%;background:var(--bg)}
+.chn .t{font-size:18px;font-weight:850;line-height:1.3}
+.chn .m{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.6}
+.kg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.kg .k{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kg .k .l{font-size:12px;color:var(--muted);font-weight:650}
+.kg .k .v{font-size:22px;font-weight:850;letter-spacing:-.02em;margin-top:3px;font-variant-numeric:tabular-nums}
+.kg .k .s{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.vr{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.vr:last-child{border-bottom:0}
+.vr .th{display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--bg);position:relative}
+.vr .th img{width:100%;height:100%;object-fit:cover;display:block}
+.vr .th .tag{position:absolute;left:6px;bottom:6px;font-size:10.5px;font-weight:800;background:rgba(14,26,43,.82);color:#fff;border-radius:6px;padding:1px 6px}
+.vr .tt{font-size:14px;font-weight:750;line-height:1.45;color:var(--ink);text-decoration:none;display:block}
+.vr .mm{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6}
+.vr .xx{display:inline-block;font-size:11.5px;font-weight:800;color:var(--bad);background:rgba(216,65,90,.09);border-radius:999px;padding:1px 8px;margin-right:6px}
+.vr .act{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.mini-btn{font:inherit;font-size:12px;font-weight:750;border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:9px;padding:5px 10px;cursor:pointer;text-decoration:none}
+.mini-btn:hover{border-color:var(--gold)}
+.mini-btn.done{color:var(--good);border-color:transparent;background:rgba(45,122,95,.1);cursor:default}
+.bars2 .row{display:grid;grid-template-columns:minmax(0,1fr) 120px 64px;gap:10px;align-items:center;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line)}
+.bars2 .row:last-child{border-bottom:0}
+.bars2 .row a{color:var(--ink);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bars2 .track{height:10px;background:var(--grid);border-radius:4px;overflow:hidden}
+.bars2 .fill{height:100%;border-radius:0 4px 4px 0;background:var(--s-visit)}
+.bars2 .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);white-space:nowrap}
+.bars2 .row .hot{color:var(--bad);font-weight:800;font-size:11px;margin-left:4px}
+.tier{margin-top:8px}
+.tier h3{font-size:14px;font-weight:850;margin:18px 0 8px;display:flex;gap:8px;align-items:baseline}
+.tier h3 span{font-size:12px;color:var(--muted);font-weight:650}
+.crow{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.crow:last-child{border-bottom:0}
+.crow img{width:44px;height:44px;border-radius:50%;background:var(--bg)}
+.crow .t{font-size:14.5px;font-weight:800;color:var(--ink);text-decoration:none}
+.crow .t small{font-weight:600;color:var(--muted);font-size:12px;margin-left:6px}
+.crow .ms{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.crow .ms span{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px 8px;color:var(--ink2);white-space:nowrap}
+.crow .ms span b{color:var(--ink);font-weight:800}
+.crow .best{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.5}
+.crow .best a{color:var(--ink2)}
+.kw{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0 0;font-size:12.5px;color:var(--muted);font-weight:700}
+.chn .m a,.crow .best a{color:var(--ink2)}
+.kw span{font-size:12px;font-weight:700;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+.loading{padding:28px 16px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.7}
+.loading i{display:block;width:26px;height:26px;margin:0 auto 10px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--s-visit);animation:sp 0.9s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.road .c{border:1px dashed var(--line);border-radius:14px;padding:12px;font-size:12.5px;color:var(--ink2);line-height:1.6}
+.road .c b{display:block;font-size:13px;color:var(--ink);margin-bottom:2px}
+.road .c em{font-style:normal;font-size:11px;font-weight:800;color:var(--muted)}
+.foot{max-width:1280px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:var(--muted);line-height:1.7}
+.addf{display:grid;gap:8px}
+.addf label{font-size:12.5px;color:var(--ink2);font-weight:700;display:grid;gap:5px}
+.addf input{font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+@media (max-width:760px){
+  .st-hd,.foot{padding-left:14px;padding-right:14px}
+  #main h2{flex-wrap:wrap;row-gap:2px}#main h2 .qcount{flex-basis:100%;margin-left:11px}
+  .kg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chn{grid-template-columns:52px 1fr}.chn img{width:52px;height:52px}.chn .r2{grid-column:1/-1}
+  .vr{grid-template-columns:96px 1fr}
+  .bars2 .row{grid-template-columns:minmax(0,1fr) 70px 54px}
+  .road{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header><div class="st-hd">
+  <a class="st-brand" href="#channel"><b>성과 관리 플랫폼</b><small>베타 · 무료</small></a>
+  <div class="r"><span id="who"></span><a href="#login" id="loginA">관리자 로그인</a><button class="btn" id="out" hidden>로그아웃</button></div>
+</div></header>
+<nav class="tabs" id="tabs"><div class="in"></div><div class="sub"><div class="in"></div></div></nav>
+<main id="main"><div class="empty">불러오는 중</div></main>
+<div class="foot" id="foot"></div>
+<div class="tip" id="tip"></div>
+<script src="/studio/vn-perf.js?v=1"></script>
+<script>
+/*
+  성과 관리 플랫폼 (2026-11-03 대표 지시)
+  - 밸류노트·황제의 일기 관리자에서 성과 진단·벤치마킹을 빼서 이곳으로 모았다. 계정 전환으로 채널별 성과·벤치마킹을 본다.
+  - 측정 결과는 지금처럼 같은 데이터(docs agent perf-*·bench, ed_* 테이블)에 쌓이므로 예약 작업이 다음 기획안에 자동 반영한다.
+  - 리서치(채널 분석·주제·비슷한 채널·영상 분석)는 로그인 없이 누구나 쓸 수 있다(무료 공개용). 유튜브 공개 데이터만 쓰고 API·OAuth 연동은 추후.
+  - 화면 부품: 밸류노트 진단·벤치마킹 = /studio/vn-perf.js (관리자와 공용), 스타일 = /studio/admin.css
+*/
+const C = window.HAEJA_CONFIG || {};
+const sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n0 = v => (+v || 0).toLocaleString('ko-KR');
+const kst = iso => { if(!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return d.toISOString().slice(0,16).replace('T',' ').slice(2); };
+const man = v => { if(v == null || v === '') return '–'; v = +v || 0; const a = Math.abs(v);
+  if(a >= 1e8) return (Math.round(v / 1e7) / 10).toLocaleString('ko-KR') + '억'; if(a >= 1e4) return (Math.round(v / 1e3) / 10).toLocaleString('ko-KR') + '만';
+  if(a >= 1e3) return (Math.round(v / 100) / 10) + '천'; return String(Math.round(v)); };
+const store = { get(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(_) { return d; } }, set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(_){} } };
+let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
+  el.textContent = t; el.classList.toggle('bad', !!bad); el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2600); }
+function head(title, sub){ return `<div class="ptitle"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div></div>`; }
+
+/* ───────── 주소: #page/sub?q=...&p=... ───────── */
+const hashParts = () => { const h = location.hash.slice(1); const [path, qs] = h.split('?'); return { path: path || '', qs: new URLSearchParams(qs || '') }; };
+const page = () => hashParts().path.split('/')[0] || (S.admin ? 'home' : 'channel');
+const subPage = () => hashParts().path.split('/')[1] || '';
+const qp = k => hashParts().qs.get(k) || '';
+const go = (p, q) => { const s = new URLSearchParams(Object.entries(q || {}).filter(([, v]) => v)).toString(); location.hash = p + (s ? '?' + s : ''); };
+
+/* ───────── 계정 ───────── */
+const BUILTIN = [
+  { id: 'vn', name: '밸류노트', yt: 'UCXh2Zs40HIrLZK5GTrHyYSQ', kind: 'vn', bench: ['주식 투자 기업 분석', '돈 버는 구조', '경제 이야기'] },
+  { id: 'ed', name: '황제의 일기', yt: 'UCR5ao2RmISHYMmDinRPIaDw', kind: 'ed', bench: ['스토아 철학', '명상록', '마르쿠스 아우렐리우스'] },
+];
+const S = { admin: false, uid: null, acc: store.get('st-acc', 'vn'), custom: [], customRow: null, res: {}, busy: {}, edData: null, sent: store.get('st-sent', {}) };
+const accounts = () => [...BUILTIN, ...S.custom];
+const curAcc = () => accounts().find(a => a.id === S.acc) || BUILTIN[0];
+async function loadCustom(){
+  const { data } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'studio').eq('id', 'accounts').maybeSingle();
+  S.customRow = data || null; S.custom = (data && data.data && data.data.list) || [];
+}
+async function saveCustom(list){
+  const payload = { owner: S.uid, collection: 'studio', id: 'accounts', data: { list }, updated_at: new Date().toISOString() };
+  const { error } = await sb.from('docs').upsert(payload, { onConflict: 'owner,collection,id' });
+  if(error){ toast('저장하지 못했습니다: ' + error.message, true); return false; }
+  S.custom = list; return true;
+}
+const ACC_PAGES = { vn: [['home', '개요'], ['perf', '롱폼 진단'], ['perfs', '숏폼 진단'], ['bench', '벤치마킹']],
+  ed: [['home', '개요'], ['perf', '성과'], ['bench', '벤치마킹']], yt: [['home', '개요'], ['bench', '벤치마킹']] };
+const R_PAGES = [['channel', '채널 분석'], ['topic', '주제·터진 영상'], ['similar', '비슷한 채널'], ['video', '영상 분석']];
+const isAccPage = p => ['home', 'perf', 'perfs', 'bench', 'add', 'login'].includes(p);
+
+/* ───────── 공개 리서치 호출 ───────── */
+async function research(action, q, extra){
+  const key = JSON.stringify([action, q, extra || {}]);
+  if(S.res[key]) return S.res[key];
+  if(S.busy[key]) return null;
+  S.busy[key] = true;
+  try {
+    const { data, error } = await sb.functions.invoke('studio-research', { body: { action, q, ...(extra || {}) } });
+    S.res[key] = error ? { ok: false, error: '불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.' } : data;
+  } catch(e){ S.res[key] = { ok: false, error: String(e.message || e) }; }
+  S.busy[key] = false;
+  return S.res[key];
+}
+function useResearch(action, q, extra, waitMsg){
+  const key = JSON.stringify([action, q, extra || {}]);
+  if(S.res[key]) return S.res[key];
+  if(!S.busy[key]) research(action, q, extra).then(() => render());
+  return { loading: true, html: `<div class="card loading"><i></i>${waitMsg || '유튜브에서 공개 데이터를 모으는 중입니다.'}<br><span class="muted">처음 찾는 건 20초~1분 걸립니다. 한 번 찾은 결과는 12시간 동안 바로 나옵니다.</span></div>` };
+}
+
+/* ───────── 화면 부품 ───────── */
+const thumb = id => `https://i.ytimg.com/vi/${esc(id)}/mqdefault.jpg`;
+const vurl = v => (v.short ? 'https://www.youtube.com/shorts/' : 'https://www.youtube.com/watch?v=') + v.id;
+const lenTxt = s => !s ? '' : s >= 3600 ? `${Math.floor(s / 3600)}시간 ${Math.round(s % 3600 / 60)}분` : `${Math.floor(s / 60)}분 ${s % 60}초`;
+function sendBtn(v){
+  if(!S.admin) return '';
+  const k = S.acc + ':' + v.id;
+  return S.sent[k] ? `<span class="mini-btn done">${esc(curAcc().name)} 벤치마킹에 보냄</span>`
+    : `<button class="mini-btn" data-send='${esc(JSON.stringify({ id: v.id, title: v.title, channel: v.channel || '', subs: v.subs ?? null, views: v.views, x: v.x_subs ?? null, short: !!v.short }))}'>${esc(curAcc().name)} 기획에 반영 요청</button>`;
+}
+function vidRow(v, opt){
+  opt = opt || {};
+  const meta = [v.channel ? `<b>${esc(v.channel)}</b>` : '', v.subs != null ? `구독자 ${man(v.subs)}` : '', `조회수 ${man(v.views)}`, v.likes != null ? `좋아요 ${man(v.likes)}` : '', v.ago || (v.published ? esc(v.published) : ''), v.length || ''].filter(Boolean).join(' · ');
+  const x = opt.median && v.x_median >= 2 ? `<span class="xx">평소의 ${v.x_median}배</span>` : v.x_subs >= 1.5 ? `<span class="xx">구독자의 ${v.x_subs}배</span>` : '';
+  return `<div class="vr"><a class="th" href="${vurl(v)}" target="_blank" rel="noopener"><img src="${thumb(v.id)}" alt="" loading="lazy" referrerpolicy="no-referrer">${v.short ? '<span class="tag">쇼츠</span>' : ''}</a>
+    <div><a class="tt" href="${vurl(v)}" target="_blank" rel="noopener">${esc(v.title || v.id)}</a><div class="mm">${x}${meta}</div>
+    <div class="act">${v.channel_id ? `<a class="mini-btn" href="#channel?q=${encodeURIComponent(v.channel_id)}">이 채널 분석</a>` : ''}${sendBtn(v)}</div></div></div>`;
+}
+function viewBars(list, title, note){
+  if(!list.length) return '';
+  const max = Math.max(...list.map(v => v.views), 1);
+  return `<h2>${title}${note ? ` <span class="qcount">${note}</span>` : ''}</h2><div class="card bars2">${list.map(v => `<div class="row" title="${esc(v.title)} · 조회수 ${n0(v.views)}회">
+    <a href="${vurl(v)}" target="_blank" rel="noopener">${esc(v.title || v.id)}${(v.x_median || 0) >= 3 ? `<span class="hot">평소의 ${v.x_median}배</span>` : ''}</a>
+    <div class="track"><div class="fill" style="width:${Math.max(1, v.views / max * 100)}%"></div></div><span class="n">${man(v.views)}</span></div>`).join('')}</div>`;
+}
+function kgrid(items){ return `<div class="kg">${items.map(([l, v, s]) => `<div class="k"><div class="l">${l}</div><div class="v">${v}</div>${s ? `<div class="s">${s}</div>` : ''}</div>`).join('')}</div>`; }
+function errBox(r){ return `<div class="card">${esc(r.error || '불러오지 못했습니다.')}</div>`; }
+
+/* 채널 분석 결과 */
+function channelResult(r){
+  const c = r.channel, st = r.stats, L = st.long, Sh = st.short;
+  const age = c.age_months != null ? (c.age_months >= 24 ? `${Math.round(c.age_months / 12 * 10) / 10}년` : `${c.age_months}개월`) : '–';
+  const card = `<div class="card"><div class="chn">${c.avatar ? `<img src="${esc(c.avatar)}" alt="" referrerpolicy="no-referrer">` : '<span></span>'}
+    <div><div class="t">${esc(c.title)}</div><div class="m"><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.handle || '유튜브에서 보기')}</a>${c.joined ? ` · ${esc(c.joined)} 개설 (${age})` : ''}${c.country ? ' · ' + esc(c.country) : ''}</div></div>
+    <div class="r2"><a class="mini-btn" href="#similar?q=${encodeURIComponent(c.id)}">비슷한 채널 찾기 →</a></div></div>
+    ${kgrid([
+      ['구독자', man(c.subs), c.subs_per_month != null ? `개설 후 한 달 평균 +${man(c.subs_per_month)}` : ''],
+      ['총 조회수', man(c.total_views), c.views_per_video != null ? `영상 1편당 평균 ${man(c.views_per_video)}` : ''],
+      ['영상 수', c.videos != null ? n0(c.videos) + '편' : '–', st.per_week != null ? `최근 주 ${st.per_week}편 올림` : ''],
+      ['채널 나이', age, c.joined ? esc(c.joined) + ' 개설' : ''],
+    ])}</div>`;
+  const perf = kgrid([
+    ['롱폼 조회수 (중앙값)', man(L.median), L.n ? `최근 ${L.n}편 · 구독자의 ${Math.round((L.x_subs_median || 0) * 100)}%` : '롱폼 없음'],
+    ['쇼츠 조회수 (중앙값)', man(Sh.median), Sh.n ? `최근 ${Sh.n}편 · 구독자의 ${Math.round((Sh.x_subs_median || 0) * 100)}%` : '쇼츠 없음'],
+    ['최근 30일 업로드', st.uploads_30d + '편', `최근 90일 ${st.uploads_90d}편 (롱폼)`],
+    ['좋아요율', st.like_rate != null ? st.like_rate + '%' : '–', '조회수 상위 영상의 좋아요 ÷ 조회수'],
+  ]);
+  const longs = (r.longs || []).slice(0, 20), shorts = (r.shorts || []).slice(0, 20);
+  return `${card}
+    <h2>최근 성과</h2>${perf}
+    ${r.breakouts && r.breakouts.length ? `<h2>터진 영상 <span class="qcount">이 채널 평소(중앙값)의 3배 이상 또는 구독자보다 3배 이상</span></h2><div class="card">${r.breakouts.map(v => vidRow(v, { median: 1 })).join('')}</div>` : ''}
+    ${viewBars(longs, '최근 롱폼 조회수', `최근 ${longs.length}편 · 위가 최신`)}
+    ${viewBars(shorts, '최근 쇼츠 조회수', `최근 ${shorts.length}편 · 위가 최신`)}
+    <div class="note">유튜브 공개 페이지 기준입니다. 시청 지속률·클릭률·수익 같은 비공개 지표는 채널 주인이 유튜브 계정을 연결해야 볼 수 있습니다(추후 제공).${r.cached ? ` · ${kst(r.cached)} 기준` : ''}</div>`;
+}
+/* 주제·비슷한 채널 결과 */
+function chRow(c){
+  const age = c.age_months != null ? (c.age_months >= 24 ? `${Math.round(c.age_months / 12 * 10) / 10}년` : `${c.age_months}개월`) : null;
+  const b = c.recent_best;
+  return `<div class="crow">${c.avatar ? `<img src="${esc(c.avatar)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : '<span></span>'}<div>
+    <a class="t" href="#channel?q=${encodeURIComponent(c.id)}">${esc(c.title)}<small>${esc(c.handle || '')}</small></a>
+    <div class="ms"><span>구독자 <b>${man(c.subs)}</b></span>${age ? `<span>개설 <b>${age}</b></span>` : ''}${c.videos != null ? `<span>영상 <b>${n0(c.videos)}편</b></span>` : ''}
+      ${c.subs_per_month != null ? `<span>월평균 구독자 <b>+${man(c.subs_per_month)}</b></span>` : ''}${c.recent_median ? `<span>최근 롱폼 조회수 <b>${man(c.recent_median)}</b></span>` : ''}
+      ${c.uploads_30d != null ? `<span>최근 30일 <b>${c.uploads_30d}편</b></span>` : ''}</div>
+    ${b && b.views ? `<div class="best">최근 가장 잘된 영상: <a href="${vurl(b)}" target="_blank" rel="noopener">${esc(b.title)}</a> · 조회수 ${man(b.views)}${b.ago ? ' · ' + esc(b.ago) : ''}</div>` : ''}
+  </div></div>`;
+}
+function topicResult(r, opt){
+  opt = opt || {};
+  const tiers = (r.tiers || []).filter(t => t.channels.length || t.videos.length);
+  return `${opt.top || ''}
+    <h2>구독자보다 조회수가 훨씬 많이 나온 영상 <span class="qcount">${r.breakouts.length}개 · 구독자의 1.5배 이상</span></h2>
+    <div class="card">${r.breakouts.length ? r.breakouts.slice(0, 15).map(v => vidRow(v)).join('') : '<div class="empty">이 조건에서 터진 영상을 찾지 못했습니다. 기간을 넓히거나 키워드를 바꿔 보세요.</div>'}</div>
+    <h2>구독자 구간별로 잘하고 있는 채널 <span class="qcount">개설 시기·영상 수·성장 속도 비교</span></h2>
+    ${tiers.map(t => `<div class="tier"><h3>${esc(t.tier)} <span>${t.channels.length}개 채널</span></h3>
+      <div class="card">${t.channels.length ? t.channels.map(chRow).join('') : '<div class="empty">이 구간 채널은 찾지 못했습니다.</div>'}</div></div>`).join('') || '<div class="card empty">채널을 찾지 못했습니다.</div>'}
+    <div class="note">검색어 ${(r.queries || []).map(x => `“${esc(x)}”`).join(', ')} · 영상 ${r.found_videos}개, 채널 ${r.found_channels}개를 살펴봤습니다. 유튜브 공개 데이터 기준이라 조회수는 반올림된 값입니다.${r.cached ? ` · ${kst(r.cached)} 기준` : ''}</div>`;
+}
+
+/* ───────── 리서치 화면 ───────── */
+const PERIODS = [['week', '이번 주'], ['month', '이번 달'], ['year', '올해']];
+function vChannel(){
+  const q = qp('q');
+  const form = `${head('채널 분석', '구독자·총 조회수·개설일, 최근 롱폼·쇼츠 성과와 평소보다 터진 영상을 한 번에 봅니다.')}
+    <form class="q" data-go="channel"><input type="text" name="q" value="${esc(q)}" placeholder="채널 주소, @핸들, 또는 그 채널 영상 주소" autocomplete="off"><button>분석</button></form>
+    ${q ? '' : `<div class="ex"><span class="hint" style="margin:0">예시</span><a href="#channel?q=%40MoneySwagger">@MoneySwagger</a><a href="#channel?q=%40valuenote_korea">@valuenote_korea</a></div>`}`;
+  if(!q) return form + roadmap();
+  const r = useResearch('channel', q);
+  return form + (r.loading ? r.html : r.ok ? channelResult(r) : errBox(r));
+}
+function vTopic(){
+  const q = qp('q'), pd = qp('p') || 'month';
+  const form = `${head('주제·터진 영상', '키워드를 넣으면 구독자보다 조회수가 훨씬 많이 나온 영상과, 구독자 1천·1만·10만 구간별로 잘하는 채널을 찾아 줍니다.')}
+    <form class="q" data-go="topic"><input type="text" name="q" value="${esc(q)}" placeholder="예: 주식 투자, 스토아 철학, 자취 요리" autocomplete="off">
+      <select name="p" aria-label="기간">${PERIODS.map(([k, t]) => `<option value="${k}"${k === pd ? ' selected' : ''}>${t}</option>`).join('')}</select><button>찾기</button></form>
+    ${q ? '' : `<div class="ex"><span class="hint" style="margin:0">예시</span><a href="#topic?q=${encodeURIComponent('주식 투자')}">주식 투자</a><a href="#topic?q=${encodeURIComponent('스토아 철학')}">스토아 철학</a><a href="#topic?q=${encodeURIComponent('돈 버는 구조')}">돈 버는 구조</a></div>`}`;
+  if(!q) return form + roadmap();
+  const r = useResearch('topic', q, { period: pd });
+  return form + (r.loading ? r.html : r.ok ? topicResult(r) : errBox(r));
+}
+function vSimilar(){
+  const q = qp('q'), pd = qp('p') || 'month', kw = qp('k');
+  const form = `${head('비슷한 채널', '내 채널(또는 아무 채널)을 넣으면 같은 주제에서 지금 잘하고 있는 채널을 구독자 구간별로 찾아 줍니다.')}
+    <form class="q" data-go="similar"><input type="text" name="q" value="${esc(q)}" placeholder="채널 주소 또는 @핸들" autocomplete="off">
+      <select name="p" aria-label="기간">${PERIODS.map(([k, t]) => `<option value="${k}"${k === pd ? ' selected' : ''}>${t}</option>`).join('')}</select><button>찾기</button></form>`;
+  if(!q) return form + `<div class="hint">키워드를 직접 고르고 싶으면 ‘주제·터진 영상’에서 찾으세요.</div>` + roadmap();
+  const extra = { period: pd }; if(kw) extra.queries = kw.split('|').filter(Boolean).slice(0, 3);
+  const r = useResearch('similar', q, extra, '이 채널의 주제를 읽고, 같은 주제의 영상과 채널을 모으는 중입니다.');
+  if(r.loading) return form + r.html;
+  if(!r.ok) return form + errBox(r);
+  const b = r.base || {};
+  const top = `<div class="card"><div class="chn">${b.avatar ? `<img src="${esc(b.avatar)}" alt="" referrerpolicy="no-referrer">` : '<span></span>'}<div><div class="t">${esc(b.title)}</div>
+    <div class="m">구독자 ${man(b.subs)} · <a href="#channel?q=${encodeURIComponent(b.id)}">이 채널 자세히 보기</a></div>
+    <div class="kw">검색에 쓴 주제 ${(r.queries || []).map(x => `<span>${esc(x)}</span>`).join('')}</div></div></div>
+    <form class="q" data-kw style="margin-top:12px"><input type="text" name="k" value="${esc((r.queries || []).join(', '))}" placeholder="주제를 쉼표로 (최대 3개)"><button>이 주제로 다시 찾기</button></form></div>`;
+  return form + topicResult(r, { top });
+}
+function vVideo(){
+  const q = qp('q');
+  const form = `${head('영상 분석', '영상 하나의 조회수·좋아요·하루 평균 조회수, 채널 구독자 대비 몇 배 나왔는지 봅니다.')}
+    <form class="q" data-go="video"><input type="text" name="q" value="${esc(q)}" placeholder="영상 주소 (쇼츠 포함)" autocomplete="off"><button>분석</button></form>`;
+  if(!q) return form + roadmap();
+  const r = useResearch('video', q);
+  if(r.loading) return form + r.html;
+  if(!r.ok) return form + errBox(r);
+  const v = r.video, c = r.channel;
+  return form + `<div class="card"><div class="vr" style="border:0;grid-template-columns:200px 1fr"><a class="th" href="${esc(v.url)}" target="_blank" rel="noopener"><img src="${esc(v.thumb)}" alt="" referrerpolicy="no-referrer"></a>
+    <div><a class="tt" href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.title)}</a><div class="mm"><a href="#channel?q=${encodeURIComponent(c.id)}">${esc(c.title)}</a> · 구독자 ${man(c.subs)}${v.published ? ' · ' + esc(v.published) + ' 게시' : ''}</div>
+    <div class="act">${sendBtn({ ...v, channel: c.title, subs: c.subs, x_subs: r.x_subs })}</div></div></div>
+    ${kgrid([['조회수', man(v.views), r.x_subs != null ? `구독자의 ${r.x_subs}배` : ''], ['좋아요', man(v.likes), v.like_rate != null ? `조회수의 ${v.like_rate}%` : ''],
+      ['하루 평균 조회수', man(v.views_per_day), v.days ? `게시 ${v.days}일째` : ''], ['채널 구독자', man(c.subs), c.videos != null ? `영상 ${n0(c.videos)}편` : '']])}</div>
+    <div class="note">${r.cached ? kst(r.cached) + ' 기준 · ' : ''}유튜브 공개 페이지 기준입니다.</div>`;
+}
+function roadmap(){
+  return `<h2>이렇게 쓰세요</h2><div class="road">
+    <div class="c"><b>1. 내 채널 분석</b>최근 영상이 평소보다 몇 배 나왔는지, 한 달에 구독자가 몇 명씩 늘었는지 봅니다.</div>
+    <div class="c"><b>2. 비슷한 채널 찾기</b>같은 주제에서 구독자 1천·1만·10만 구간 채널이 몇 개월 만에 몇 편으로 그만큼 컸는지 비교합니다.</div>
+    <div class="c"><b>3. 터진 영상 따라 하기</b>구독자보다 조회수가 훨씬 많이 나온 영상의 제목·주제·길이를 참고해 다음 영상을 기획합니다.</div></div>
+    <h2>준비 중</h2><div class="road">
+    <div class="c"><em>추후</em><b>유튜브 계정 연결 진단</b>시청 지속률·노출 클릭률·유입 경로까지 보는 내 채널 정밀 진단</div>
+    <div class="c"><em>추후</em><b>인스타·쓰레드·틱톡·블로그</b>한 화면에서 여러 SNS 성과를 함께 관리</div>
+    <div class="c"><em>추후</em><b>기획안 자동 추천</b>터진 영상을 분석해 내 채널에 맞는 다음 영상 기획을 제안</div></div>`;
+}
+
+/* ───────── 내 채널(관리자) ───────── */
+function accBar(){
+  return `<div class="acc"><span class="lab">계정</span>${accounts().map(a => `<button data-acc="${esc(a.id)}" aria-pressed="${a.id === S.acc}">${esc(a.name)}</button>`).join('')}<button class="add" data-acc-add>+ 채널 추가</button></div>`;
+}
+function vHome(){
+  const a = curAcc();
+  const top = head(esc(a.name) + ' 개요', '유튜브 공개 지표입니다. 진단·벤치마킹 탭에서 개선 항목을 승인하면 다음 기획안·제작부터 반영됩니다.');
+  if(!a.yt) return top + `<div class="card">유튜브 채널이 연결되지 않았습니다.</div>`;
+  const r = useResearch('channel', a.yt);
+  let extra = '';
+  if(a.kind === 'vn' && PF.data === null) perfLoad().then(() => render());
+  if(a.kind === 'ed' && !S.edData) edLoad().then(() => render());
+  if(a.kind === 'vn' && PF.data){ const lp = pfPending().length, sp = pfsPending().length, bp = benchCounts().proposed;
+    extra = `<h2>결정 대기</h2><div class="card todo">${[[lp, '롱폼 진단 개선안', 'perf'], [sp, '숏폼 진단 개선안', 'perfs'], [bp, '벤치마킹 제안', 'bench/new']].map(([n, t, h]) => `<a href="#${h}"><span class="i ${n ? 'bad' : 'info'}"></span><b>${t}</b><span class="g">${n ? n + '건 결정 대기' : '대기 없음'}</span></a>`).join('')}</div>`; }
+  if(a.kind === 'ed' && S.edData){ const rep = (S.edData.reports || [])[0];
+    extra = rep ? `<h2>최근 분석 <span class="qcount">${esc(rep.day)}</span></h2><div class="card"><div style="font-weight:750">${esc(rep.summary || '')}</div><a class="mini-btn" style="display:inline-block;margin-top:8px" href="#perf">성과 자세히 →</a></div>` : ''; }
+  return top + extra + (r.loading ? r.html : r.ok ? channelResult(r) : errBox(r));
+}
+function vAccBench(){
+  const a = curAcc();
+  const kws = a.bench || [];
+  const pd = qp('p') || 'month';
+  const top = head(esc(a.name) + ' 벤치마킹', `같은 주제에서 구독자보다 조회수가 터진 영상과 잘하는 채널입니다. ‘기획에 반영 요청’을 누르면 ${a.kind === 'yt' ? '목록에 모아 둡니다' : '다음 분석 때 기획안에 반영합니다'}.`);
+  const form = `<form class="q" data-acckw><input type="text" name="k" value="${esc(kws.join(', '))}" placeholder="벤치마킹 주제를 쉼표로 (최대 3개)">
+    <select name="p" aria-label="기간">${PERIODS.map(([k, t]) => `<option value="${k}"${k === pd ? ' selected' : ''}>${t}</option>`).join('')}</select><button>저장하고 찾기</button></form>`;
+  if(!kws.length) return top + form + '<div class="card empty" style="padding:14px">벤치마킹 주제를 넣어 주세요.</div>';
+  const r = useResearch('topic', kws[0], { queries: kws.slice(0, 3), period: pd });
+  return top + form + (r.loading ? r.html : r.ok ? topicResult(r) : errBox(r));
+}
+/* 황제의 일기 성과 (옛 side.html '성과' 탭을 옮김) */
+async function edLoad(){ const { data, error } = await sb.rpc('ed_admin_data'); S.edData = error ? { err: error.message } : data; }
+function edPerf(){
+  if(!S.edData){ edLoad().then(() => render()); return head('황제의 일기 성과', '불러오는 중'); }
+  if(S.edData.err) return head('황제의 일기 성과', '') + `<div class="card">불러오지 못했습니다: ${esc(S.edData.err)}</div>`;
+  const D = S.edData, num = v => v == null || v === '' ? '–' : Math.round(+v).toLocaleString('ko-KR');
+  const m = {}; for(const r of D.stats || []){ const k = r.platform + '|' + r.id; if(!m[k] || (r.day + r.at) > (m[k].day + m[k].at)) m[k] = r; }
+  const L = Object.values(m), g = (ep, p) => (L.find(x => x.ep === ep && x.platform === p) || {}).m || {};
+  const posts = (D.posts || []).filter(p => p.status !== 'draft').slice().sort((a, b) => b.ep - a.ep);
+  const comp = (ep, dur) => { const x = g(ep, 'instagram'); return x.ig_reels_avg_watch_time && dur ? Math.round(x.ig_reels_avg_watch_time / 10 / dur) + '%' : '–'; };
+  const rows = posts.map(p => { const y = g(p.ep, 'youtube'), i = g(p.ep, 'instagram'), t = g(p.ep, 'tiktok'), h = g(p.ep, 'threads');
+    return `<tr><td><b>${esc(p.ep)}</b></td><td>${esc(p.title)}<div class="muted" style="font-size:12px">${kst(p.scheduled_at)}${p.duration_sec ? ' · ' + esc(p.duration_sec) + '초' : ''}</div></td>
+      <td class="nw">${num(y.views)}<div class="muted" style="font-size:12px">♥ ${num(y.likes)}</div></td><td class="nw">${num(i.views)}<div class="muted" style="font-size:12px">완주 ${comp(p.ep, p.duration_sec)}</div></td>
+      <td class="nw">${num(t.views)}<div class="muted" style="font-size:12px">♥ ${num(t.likes)}</div></td><td class="nw">${num(h.views)}<div class="muted" style="font-size:12px">♥ ${num(h.likes)}</div></td></tr>`; }).join('');
+  const reps = (D.reports || []).map(r => `<details style="padding:6px 0"><summary>${esc(r.day)} · ${esc(r.summary)}</summary><div class="note" style="white-space:pre-wrap">${esc(r.body || '')}</div></details>`).join('');
+  return `${head('황제의 일기 성과', '인스타·쓰레드·유튜브 3시간마다, 틱톡 매일 20:37 수집 · 매일 08:43 분석이 다음 편성에 반영합니다.')}
+    <h2>편별 최신 수치 <span class="qcount">완주 = 인스타 평균 시청 ÷ 길이</span></h2>
+    <div class="card tbl"><table><thead><tr><th>편</th><th>제목</th><th>유튜브</th><th>인스타</th><th>틱톡</th><th>쓰레드</th></tr></thead><tbody>${rows || '<tr><td colspan="6" class="muted">아직 수치가 없습니다</td></tr>'}</tbody></table></div>
+    <h2>분석 보고</h2><div class="card">${reps || '<div class="empty">아직 없습니다</div>'}</div>
+    <h2>요청 남기기</h2><div class="card"><form class="q" data-edreq style="margin:0"><input type="text" name="t" placeholder="예: 3초 훅을 더 짧게, 다음 편부터 자막 크게"><button>보내기</button></form><div class="note" style="margin-top:4px">매일 08:43 성과 분석 때 읽고 반영합니다.</div></div>`;
+}
+function vAdd(){
+  return `${head('채널 추가', '유튜브 채널을 추가하면 계정 전환으로 개요·벤치마킹을 볼 수 있습니다. 진단(시청 지속률 등)은 유튜브 계정 연결 기능이 나오면 붙습니다.')}
+    <div class="card addf"><form data-addacc class="addf"><label>이름<input name="name" placeholder="예: 파마스퀘어" required></label>
+      <label>유튜브 채널 주소 또는 @핸들<input name="yt" placeholder="@handle" required></label>
+      <label>벤치마킹 주제 (쉼표로, 최대 3개)<input name="bench" placeholder="예: 건강기능식품, 약사 추천"></label>
+      <div><button class="mini-btn" style="font-size:14px;padding:9px 14px">추가</button></div></form>
+    ${S.custom.length ? `<h2>추가한 채널</h2>${S.custom.map(a => `<div class="crow" style="grid-template-columns:1fr auto"><div><b>${esc(a.name)}</b><div class="muted" style="font-size:12px">${esc(a.yt)} · 주제 ${esc((a.bench || []).join(', ') || '없음')}</div></div><button class="mini-btn" data-acc-del="${esc(a.id)}">삭제</button></div>`).join('')}` : ''}</div>`;
+}
+function vLogin(msg){
+  return `<div class="card login"><div style="font-weight:850;font-size:17px">관리자 로그인</div><div class="note">내 채널(밸류노트·황제의 일기)의 진단·벤치마킹은 관리자만 볼 수 있습니다. 리서치는 로그인 없이 쓰면 됩니다.</div>
+    <form data-login><label>이메일<input name="em" type="email" autocomplete="email"></label><label>비밀번호<input name="pw" type="password" autocomplete="current-password"></label>
+    <button class="go">로그인</button><div class="msg">${esc(msg || '')}</div></form></div>`;
+}
+
+/* ───────── 그리기 ───────── */
+function renderTabs(){
+  const p = page(), nav = $('#tabs');
+  const top = [...R_PAGES.map(([k, t]) => [k, t]), ...(S.admin ? [['home', '내 채널']] : [])];
+  const inAcc = isAccPage(p) && p !== 'login';
+  nav.firstElementChild.innerHTML = top.map(([k, t]) => `<a href="#${k}"${(k === 'home' ? inAcc : k === p) ? ' aria-current="page"' : ''}>${t}</a>`).join('');
+  const sub = nav.querySelector('.sub');
+  if(S.admin && inAcc){
+    const a = curAcc(), pages = ACC_PAGES[a.kind] || ACC_PAGES.yt;
+    sub.hidden = false;
+    sub.firstElementChild.innerHTML = pages.map(([k, t]) => `<a href="#${k}"${k === p ? ' aria-current="page"' : ''}>${t}</a>`).join('');
+  } else sub.hidden = true;
+}
+function render(){
+  const p = page();
+  renderTabs();
+  const a = curAcc();
+  let html;
+  if(p === 'login') html = vLogin();
+  else if(isAccPage(p) && !S.admin) html = vLogin('내 채널은 관리자 로그인이 필요합니다.');
+  else if(p === 'channel') html = vChannel();
+  else if(p === 'topic') html = vTopic();
+  else if(p === 'similar') html = vSimilar();
+  else if(p === 'video') html = vVideo();
+  else if(p === 'add') html = accBar() + vAdd();
+  else if(p === 'home') html = accBar() + vHome();
+  else if(a.kind === 'vn' && (p === 'perf' || p === 'perfs')){
+    if(PF.data === null){ perfLoad().then(() => render()); html = accBar() + head('불러오는 중', ''); }
+    else html = accBar() + (p === 'perf' ? vPerf() : vPerfs());
+  }
+  else if(a.kind === 'vn' && p === 'bench') html = accBar() + vBench() + `<h2>주제로 더 찾기</h2><div class="hint">밸류노트와 같은 주제에서 지금 잘되는 영상·채널은 <a href="#topic?q=${encodeURIComponent(a.bench[0])}">주제·터진 영상</a>에서 찾고, ‘기획에 반영 요청’을 누르면 성과 진단 피드백함으로 들어갑니다.</div>`;
+  else if(a.kind === 'ed' && p === 'perf') html = accBar() + edPerf();
+  else if(p === 'bench') html = accBar() + vAccBench();
+  else html = accBar() + vHome();
+  $('#main').innerHTML = html;
+  document.title = '성과 관리 플랫폼 · ' + ((R_PAGES.find(x => x[0] === p) || [])[1] || (isAccPage(p) ? a.name : ''));
+  $('#foot').innerHTML = `성과 관리 플랫폼은 유튜브 공개 데이터로 채널 통계·터진 영상·비슷한 채널을 무료로 보여 줍니다. 유튜브 공식 서비스가 아니며, 숫자는 유튜브에 보이는 반올림 값입니다.`;
+  bind(p);
+}
+function bind(p){
+  const box = $('#main');
+  box.querySelectorAll('form[data-go]').forEach(f => f.onsubmit = e => { e.preventDefault(); const q = f.q.value.trim(); if(!q) return f.q.focus(); go(f.dataset.go, { q, p: f.p ? f.p.value : '' }); });
+  box.querySelectorAll('form[data-kw]').forEach(f => f.onsubmit = e => { e.preventDefault(); const k = f.k.value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 3).join('|'); go('similar', { q: qp('q'), p: qp('p'), k }); });
+  box.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => { S.acc = b.dataset.acc; store.set('st-acc', S.acc); const pages = (ACC_PAGES[curAcc().kind] || ACC_PAGES.yt).map(x => x[0]); if(!pages.includes(page())) location.hash = 'home'; else render(); });
+  box.querySelectorAll('[data-acc-add]').forEach(b => b.onclick = () => { location.hash = 'add'; });
+  box.querySelectorAll('[data-send]').forEach(b => b.onclick = () => sendBench(JSON.parse(b.dataset.send), b));
+  const ak = box.querySelector('form[data-acckw]');
+  if(ak) ak.onsubmit = async e => { e.preventDefault(); const kws = ak.k.value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 3); const a = curAcc();
+    if(BUILTIN.includes(a)){ const o = store.get('st-bench', {}); o[a.id] = kws; store.set('st-bench', o); a.bench = kws; }
+    else { const list = S.custom.map(x => x.id === a.id ? { ...x, bench: kws } : x); if(!(await saveCustom(list))) return; }
+    go('bench', { p: ak.p.value }); render(); };
+  const add = box.querySelector('form[data-addacc]');
+  if(add) add.onsubmit = async e => { e.preventDefault(); const btn = add.querySelector('button'); btn.disabled = true;
+    const r = await research('channel', add.yt.value.trim()); btn.disabled = false;
+    if(!r || !r.ok){ toast((r && r.error) || '채널을 찾지 못했습니다', true); return; }
+    const acc = { id: 'c' + Date.now().toString(36), name: add.name.value.trim() || r.channel.title, yt: r.channel.id, kind: 'yt', bench: add.bench.value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 3) };
+    if(await saveCustom([...S.custom, acc])){ S.acc = acc.id; store.set('st-acc', acc.id); toast('추가했습니다'); location.hash = 'home'; } };
+  box.querySelectorAll('[data-acc-del]').forEach(b => b.onclick = async () => { if(!confirm('이 채널을 목록에서 뺄까요?')) return; if(await saveCustom(S.custom.filter(x => x.id !== b.dataset.accDel))){ if(S.acc === b.dataset.accDel){ S.acc = 'vn'; store.set('st-acc', 'vn'); } render(); } });
+  const er = box.querySelector('form[data-edreq]');
+  if(er) er.onsubmit = async e => { e.preventDefault(); const t = er.t.value.trim(); if(!t) return;
+    const { error } = await sb.rpc('ed_admin_request', { t, w: '성과 관리 플랫폼 · 성과' }); if(error) return toast('보내지 못했습니다: ' + error.message, true); er.t.value = ''; toast('받았습니다. 다음 분석 때 반영합니다'); };
+  const lg = box.querySelector('form[data-login]');
+  if(lg) lg.onsubmit = async e => { e.preventDefault(); const msg = lg.querySelector('.msg'); msg.textContent = '확인 중';
+    const { error } = await sb.auth.signInWithPassword({ email: lg.em.value.trim(), password: lg.pw.value });
+    if(error){ msg.textContent = '로그인하지 못했습니다: ' + error.message; return; }
+    await boot(); location.hash = 'home'; };
+  if(S.admin && curAcc().kind === 'vn'){ if(p === 'bench') bindBench(); if(p === 'perf' || p === 'perfs') bindPerf(); }
+}
+/* 리서치에서 고른 영상 → 계정별 기획 반영 요청 */
+async function sendBench(v, btn){
+  const a = curAcc(); btn.disabled = true;
+  const text = `[벤치마킹 요청 · 성과 관리 플랫폼] ${v.title} (${v.channel || '채널'} · 구독자 ${man(v.subs)} · 조회수 ${man(v.views)}${v.x ? ` · 구독자의 ${v.x}배` : ''}${v.short ? ' · 쇼츠' : ''}) ${(v.short ? 'https://www.youtube.com/shorts/' : 'https://www.youtube.com/watch?v=') + v.id} — 왜 터졌는지 분해해서 다음 기획안에 반영`;
+  let ok = false;
+  if(a.kind === 'vn'){ if(PF.data === null) await perfLoad(); ok = await pfAddInbox({ kind: 'bench', text, video: v, channel: v.short ? 'shorts' : 'long' }); }
+  else if(a.kind === 'ed'){ const { error } = await sb.rpc('ed_admin_request', { t: text, w: '성과 관리 플랫폼 · 벤치마킹' }); ok = !error; if(error) toast('보내지 못했습니다: ' + error.message, true); }
+  else { const list = S.custom.map(x => x.id === a.id ? { ...x, picks: [...(x.picks || []), { ...v, at: new Date().toISOString() }].slice(-50) } : x); ok = await saveCustom(list); }
+  btn.disabled = false;
+  if(ok){ S.sent[a.id + ':' + v.id] = 1; store.set('st-sent', S.sent); toast(a.name + ' 기획에 반영하도록 보냈습니다'); render(); }
+}
+
+/* ───────── 시작 ───────── */
+async function boot(){
+  const { data: { session } } = await sb.auth.getSession();
+  S.admin = false; S.uid = session ? session.user.id : null;
+  if(session){ const { data } = await sb.rpc('is_admin'); S.admin = !!data; }
+  $('#out').hidden = !session; $('#loginA').hidden = !!session;
+  $('#who').textContent = session ? (S.admin ? '관리자' : session.user.email) : '';
+  if(S.admin){ await loadCustom().catch(() => {});
+    const o = store.get('st-bench', {}); for(const a of BUILTIN) if(o[a.id]) a.bench = o[a.id];
+    if(!accounts().some(a => a.id === S.acc)) S.acc = 'vn'; }
+  render();
+}
+$('#out').onclick = async () => { await sb.auth.signOut({ scope: 'local' }); S.admin = false; PF.data = null; location.hash = 'channel'; boot(); };
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+boot();
+</script>
+</body>
+</html>

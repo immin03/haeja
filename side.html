@@ -219,8 +219,9 @@ let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document
   el.textContent = t; el.classList.toggle('bad', !!bad); el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2600); }
 
 const PL = { youtube: '유튜브', instagram: '인스타', tiktok: '틱톡', threads: '쓰레드' };
-const TABS = [['brief','브리핑'],['sched','편성'],['perf','성과'],['set','설정']];
-const S = { tab: store.get('ed-tab', 'brief'), d: null };
+/* 성과(진단·벤치마킹)는 2026-11-03부터 성과 관리 플랫폼(/studio, 계정 '황제의 일기')에서 본다. 이 탭은 그쪽으로 연결만 한다. */
+const TABS = [['brief','브리핑'],['sched','편성'],['perf','성과 ↗'],['set','설정']];
+const S = { tab: store.get('ed-tab', 'brief') === 'perf' ? 'brief' : store.get('ed-tab', 'brief'), d: null };
 
 function loginView(msg){
   $('#tabs').hidden = true; $('#out').hidden = true; $('#ask').hidden = true; $('#askn').hidden = true;
@@ -259,7 +260,7 @@ const viewsOf = (ep, platform) => { const r = latest().find(x => x.platform === 
 function renderTabs(){
   const nNew = (S.d.requests || []).filter(r => r.status === 'new').length;
   $('#tabs').innerHTML = TABS.map(([k, l]) => `<button data-t="${k}" class="${S.tab === k ? 'on' : ''}">${l}${k === 'brief' && nNew ? `<span class="cnt">${nNew}</span>` : ''}</button>`).join('');
-  $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { S.tab = b.dataset.t; store.set('ed-tab', S.tab); render(); });
+  $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { if (b.dataset.t === 'perf') { store.set('st-acc', 'ed'); location.href = '/studio#perf'; return; } S.tab = b.dataset.t; store.set('ed-tab', S.tab); render(); });
 }
 function render(){
   if (!S.d) return; $('#tabs').hidden = false; renderTabs();
