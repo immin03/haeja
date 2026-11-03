@@ -87,6 +87,7 @@ h2::before{content:"";width:3px;height:14px;border-radius:2px;background:linear-
 .key i{width:10px;height:10px;border-radius:3px;display:inline-block}
 svg text{font-family:var(--font);font-size:10.5px;fill:var(--muted)}
 .tip{position:fixed;pointer-events:none;background:var(--navy);color:var(--ivory);font-size:12px;padding:6px 9px;border-radius:8px;white-space:nowrap;opacity:0;transform:translate(-50%,-120%);transition:opacity .08s;z-index:10}
+.fn-row+.fn-row{margin-top:14px}.fn-t{font-size:13px;font-weight:700;margin:0 0 8px}
 .funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .fn{padding:12px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
 .fn .l{font-size:12px;color:var(--muted);font-weight:600}
@@ -865,6 +866,22 @@ function todoList(){
   if(!L.length) return '<div class="ok">✓ 지금 손댈 일이 없습니다. 자동 게시·칼럼·알림 모두 정상입니다.</div>';
   return `<div class="todo">${L.map(([c, t, h, g]) => `<a href="${h}"><span class="i ${c}"></span><span>${t}</span><span class="g">${g} ›</span></a>`).join('')}</div>`;
 }
+/* 알림·홈 화면 전환: 회사 보고 묻기 → 권한 창 → 허용, 아이폰 안내 → 홈 화면 앱 → 알림 (admin_push_funnel) */
+const PF = { data: undefined };
+async function pfLoad(){ PF.data = null; const { data, error } = await sb.rpc('admin_push_funnel', { p_days: 14 }); PF.data = error ? { error: error.message } : data; if(page() === 'overview') render(); }
+function pfHtml(){
+  if(PF.data === undefined){ setTimeout(pfLoad, 0); return '<div class="muted">불러오는 중…</div>'; }
+  if(!PF.data) return '<div class="muted">불러오는 중…</div>';
+  if(PF.data.error) return `<div class="muted">불러오지 못했습니다: ${esc(PF.data.error)}</div>`;
+  const t = PF.data.steps || {}, st = PF.data.states || {}, g = k => t[k] || 0;
+  const row = (title, steps) => `<div class="fn-row"><div class="fn-t">${title}</div><div class="funnel" style="grid-template-columns:repeat(${steps.length},1fr)">${steps.map(([l, v], i) => `<div class="fn"><div class="l">${l}</div><div class="v">${n0(v)}</div><div class="p">${i === 0 ? '시작' : '앞 단계 대비 ' + pct(v, steps[i - 1][1])}</div></div>`).join('')}</div></div>`;
+  const web = row('안드로이드·PC · 회사 보고 알림 묻기', [['안내 노출', g('pn-nudge')], ['알림 받기 누름', g('pn-on')], ['권한 창', g('px-ask')], ['허용', g('px-perm-granted')], ['알림 켜짐', g('px-on')]]);
+  const ios = row('아이폰 · 홈 화면 추가', [['안내 노출', g('pn-nudge-ios')], ['방법 보기', g('px-ios-guide')], ['홈 화면 앱 실행', g('px-pwa-open')], ['알림 켜짐', g('px-on-pwa')]]);
+  const ins = row('홈 화면 추가 · 안드로이드 설치', [['설치 권유', g('px-install-offer')], ['설치 창', g('px-install-ask')], ['설치함', g('px-install-accepted') + g('px-installed')]]);
+  const lab = { on: '켜짐', off: '꺼짐', denied: '차단', 'ios-install': '아이폰 홈 화면 추가 전', unsupported: '지원 안 됨' };
+  const now = Object.entries(st).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${lab[k] || k} ${n0(v)}명`).join(' · ') || '기록 없음';
+  return `${web}${ios}${ins}<div class="small muted" style="margin-top:10px">지금 회원 기기 상태: ${now} · 권한 거절(나중에) ${n0(g('px-perm-default'))} · 차단 ${n0(g('px-perm-denied'))} · 숫자 코드로 앱 로그인 ${n0(g('px-handoff-pin'))}</div>`;
+}
 function vOverview(s){
   const f = s.funnel || {};
   const steps = [['방문자', f.visitors30, '최근 30일'], ['가입', f.signups30, '방문 대비'], ['기본 정보 완료', f.onboarded, '가입 대비'], ['보유 종목 등록', f.withHoldings, '가입 대비'], ['알림 켬', f.pushOn, '가입 대비']];
@@ -894,6 +911,8 @@ function vOverview(s){
   </div>
   <h2>가입 전환</h2>
   <div class="card"><div class="funnel">${steps.map(([l, v, sub], i) => `<div class="fn"><div class="l">${l}</div><div class="v">${n0(v)}</div><div class="p">${i === 0 ? sub : sub + ' ' + pct(v, base[i])}</div></div>`).join('')}</div></div>
+  <h2>알림·홈 화면 전환 <span class="muted" style="font-size:13px;font-weight:600">최근 14일 · 사람 수</span></h2>
+  <div class="card">${pfHtml()}</div>
   <h2>최근 가입자</h2>
   <div class="card tbl">${recent.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>최근 방문</th><th>알림</th><th>종목</th><th>규모</th><th>설문</th></tr></thead><tbody>${recent.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(SRC[u.src] || USRC[u.src] || u.src || '직접')}</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${pushCell(u)}</td><td>${n0(u.holdings)}</td><td class="nw">${esc(u.size||'–')}</td><td class="nw">${u.style || u.size || (u.expect||[]).length ? '완료' : '<span class="muted">–</span>'}</td></tr>`).join('')}</tbody></table><a class="more" href="#users">전체 가입자 보기 ›</a>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
 }
