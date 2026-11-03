@@ -1,0 +1,31 @@
+{
+ "id": "lqv08b_write",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The weathered hand writes a single line of flowing cursive handwriting, moving the reed pen tip slowly and steadily from left to right in a straight horizontal line across the papyrus, the pen tip staying on the same horizontal line the whole time with only small natural up-and-down loops of handwriting and slight pen lifts between words, the wrist gliding smoothly to the right, the candle flame flickering softly. The camera is completely still. Keep the painterly oil-painting look and every detail identical to the first frame. The papyrus stays blank, no ink lines appear, no text, no morphing, no extra fingers, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f9c-c76a-7b9d-ad0b-b2ca3a8e2cd8/31694ed2-acd9-42a1-826f-64636f746686.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19fb5-ba93-7adb-904e-b83d83c97bed",
+  "status_url": "https://api.higgsfield.ai/requests/01a19fb5-ba93-7adb-904e-b83d83c97bed/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19fb5-ba93-7adb-904e-b83d83c97bed/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19fb5-ba93-7adb-904e-b83d83c97bed",
+  "status_url": "https://api.higgsfield.ai/requests/01a19fb5-ba93-7adb-904e-b83d83c97bed/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19fb5-ba93-7adb-904e-b83d83c97bed/cancel",
+  "expires_at": "2026-11-10T04:47:49.849234+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19fb5-ba93-7adb-904e-b83d83c97bed/d0cacfa4-cfdb-4f88-978b-1cefe5325230.mp4"
+  }
+ },
+ "seconds": 422,
+ "file": "social/side/gen/lqv08b_write.mp4"
+}
