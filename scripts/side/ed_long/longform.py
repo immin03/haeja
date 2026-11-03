@@ -320,18 +320,25 @@ class Intro:
 
 
 def end_frame(s, t, dur, cache, logo):
-    """엔딩: 주화 + THE EMPEROR'S DIARY + 황제의 일기 + 슬로건 (매 편 같음)"""
+    """엔딩: 주화 + THE EMPEROR'S DIARY + 황제의 일기(금색) + 슬로건 (매 편 같음)"""
     if "end" not in cache:
-        cache["end"] = (coin_gold(logo), text_layer(["THE EMPEROR'S DIARY"], "en", 60, GOLD, track=12, shadow=False, height=100),
-                        text_layer([s.get("slogan", "매일 밤, 황제처럼 생각하라")], "ko6", 52, IVORY, shadow=False, height=90))
-    coin, en, sl = cache["end"]
-    img = np.zeros((H, W, 3), np.uint8); a = ease(t / 1.0) * (1 - ease((t - dur + 0.8) / 0.8))
-    lay = np.zeros((H, W, 4), np.uint8); cs = coin.shape[0]; cy = 400
-    lay[cy - cs // 2:cy + cs // 2, W // 2 - cs // 2:W // 2 + cs // 2] = coin
-    img = blend(img, lay, a)
-    l2 = np.zeros((H, W, 4), np.uint8); l2[610:710] = en; img = blend(img, l2, a)
-    a3 = ease((t - 0.8) / 0.9) * (1 - ease((t - dur + 0.8) / 0.8)); l3 = np.zeros((H, W, 4), np.uint8); l3[720:810] = sl
-    return blend(img, l3, a3)
+        cache["end"] = (coin_gold(logo), text_layer(["THE EMPEROR'S DIARY"], "en", 56, GOLD, track=12, shadow=False, height=96),
+                        text_layer(["황제의 일기"], "ko6", 40, (222, 196, 140), shadow=False, height=64),
+                        text_layer([s.get("slogan", "매일 밤, 황제처럼 생각하라")], "ko", 58, (236, 212, 160), shadow=False, height=96),
+                        Particles("embers", 50, 77))
+    coin, en, ko, sl, dust = cache["end"]
+    out = 1 - ease((t - dur + 1.2) / 1.2)
+    img = np.zeros((H, W, 3), np.uint8)
+    a1 = ease((t - 0.2) / 1.2) * out          # 슬로건 먼저
+    l = np.zeros((H, W, 4), np.uint8); l[330:426] = sl; img = blend(img, l, a1, dy=10 * (1 - ease((t - 0.2) / 1.2)))
+    a2 = ease((t - 1.6) / 1.0) * out          # 그 아래 금선 + 채널명
+    ln = np.zeros((H, W, 3), np.uint8); hw = int(160 * ease((t - 1.4) / 1.2))
+    if hw > 2: cv2.line(ln, (W // 2 - hw, 478), (W // 2 + hw, 478), (110, 170, 205), 1, cv2.LINE_AA)
+    img = cv2.add(img, (ln.astype(np.float32) * a2).astype(np.uint8))
+    cs = coin.shape[0]; cy = 640; sc = 0.62; c2 = cv2.resize(coin, (int(cs * sc), int(cs * sc))); s2 = c2.shape[0]
+    l = np.zeros((H, W, 4), np.uint8); l[cy - s2 // 2:cy - s2 // 2 + s2, W // 2 - s2 // 2:W // 2 - s2 // 2 + s2] = c2; img = blend(img, l, a2)
+    l = np.zeros((H, W, 4), np.uint8); l[740:836] = en; l[830:894] = ko; img = blend(img, l, ease((t - 2.0) / 1.0) * out)
+    return dust.draw(img, t)
 
 
 def episode_frame(s, t, dur, cache):
@@ -450,7 +457,7 @@ def outro_frame(s, t, dur, cache, logo):
         ll = np.zeros((H, W, 4), np.uint8); lw_ = o[lab]; ll[y0 + sz + 10:y0 + sz + 60, x0 + sz // 2 - 130:x0 + sz // 2 + 130] = lw_
         img = blend(img, ll, a)
     sa = s.get("slogan_at", dur - 5.5)
-    if s.get("next") and t < sa + 0.6:
+    if s.get("next") and t < sa + 0.6:   # slogan_at 999 → 예고가 끝까지 남음 (슬로건은 end 카드로)
         a = ease((t - 6.0) / 0.8) * out_a * (1 - ease((t - sa) / 0.6))
         l = np.zeros((H, W, 4), np.uint8); l[830:880] = o["nxt_k"]; l[874:944] = o["nxt"]
         img = blend(img, l, a)

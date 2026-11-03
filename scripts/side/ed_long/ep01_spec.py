@@ -178,14 +178,18 @@ def build():
     S.append(shot("still", "e7b_dawn", ["r9"], ["wind_2.mp3", 0.25], {"move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     out = len(S)
     S.append({"type": "outro", "voice": ["o1", "o2", "m_x1"], "gap": 0.7, "pre": 1.0, "post": 2.6, "dur": 12.0, "nocap": True,
-              "next_kicker": "NEXT  ·  EPISODE 2", "next": "무례한 사람들", "slogan": "매일 밤, 황제처럼 생각하라", "tap_sub": 3.4, "tap_like": 4.2,
+              "next_kicker": "NEXT  ·  EPISODE 2", "next": "무례한 사람들", "slogan_at": 999, "tap_sub": 3.4, "tap_like": 4.2,
               "sfx": [["ring_synth.wav", 3.42, 0.45], ["click_2.mp3", 3.4, 0.6], ["click_2.mp3", 4.2, 0.6], ["ring_synth.wav", 4.22, 0.35], ["drum_6.mp3", 0.2, 0.4]]})
+    # 11/3 대표: 맨 마지막 엔딩 — "매일 밤, 황제처럼 생각하라 · 황제의 일기"
+    S.append({"type": "end", "dur": 7.0, "voice": [], "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black",
+              "sfx": [["ring_synth.wav", 0.25, 0.3], ["drum_6.mp3", 1.6, 0.22]]})
     # 음악
     mus = [m for m in P["music"]]; mus[0]["until_shot"] = card_idx[2]; mus[0].pop("len", None)
     for n in range(2, 8):
         f, st = MUSIC[n]; nxt = card_idx[n + 1] if n < 7 else rec
         mus.append({"file": f, "at_shot": card_idx[n], "offset": 1.0, "start": st, "until_shot": nxt, "vol": 0.2, "fin": 3, "fout": 3})
-    mus.append({"file": "sad_5.mp3", "at_shot": rec, "offset": 0.5, "start": 0, "until_shot": out + 1, "tail": 0, "vol": 0.22, "fin": 2, "fout": 4})
+    mus.append({"file": "sad_5.mp3", "at_shot": rec, "offset": 0.5, "start": 0, "until_shot": out + 2, "tail": 0, "vol": 0.22, "fin": 2, "fout": 4})
     sp["music"] = mus
+    sp["voice_gain"] = {"mono": 1.9}   # 11/3 대표: 황제 목소리 조금 더 크게 (1.45 → 1.9)
     json.dump(sp, open(os.path.join(HERE, "spec_ep01.json"), "w"), ensure_ascii=False, indent=1)
     print("장면", len(S), "카드 위치", card_idx, "정리", rec, "아웃트로", out)

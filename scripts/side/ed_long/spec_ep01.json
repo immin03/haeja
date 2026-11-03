@@ -215,7 +215,7 @@
    "at_shot": 80,
    "offset": 0.5,
    "start": 0,
-   "until_shot": 83,
+   "until_shot": 84,
    "tail": 0,
    "vol": 0.22,
    "fin": 2,
@@ -2526,7 +2526,7 @@
    "nocap": true,
    "next_kicker": "NEXT  ·  EPISODE 2",
    "next": "무례한 사람들",
-   "slogan": "매일 밤, 황제처럼 생각하라",
+   "slogan_at": 999,
    "tap_sub": 3.4,
    "tap_like": 4.2,
    "sfx": [
@@ -2554,6 +2554,26 @@
      "drum_6.mp3",
      0.2,
      0.4
+    ]
+   ]
+  },
+  {
+   "type": "end",
+   "dur": 7.0,
+   "voice": [],
+   "nocap": true,
+   "slogan": "매일 밤, 황제처럼 생각하라",
+   "tin": "black",
+   "sfx": [
+    [
+     "ring_synth.wav",
+     0.25,
+     0.3
+    ],
+    [
+     "drum_6.mp3",
+     1.6,
+     0.22
     ]
    ]
   }
@@ -2795,6 +2815,6 @@
   ]
  },
  "voice_gain": {
-  "mono": 1.45
+  "mono": 1.9
  }
 }
