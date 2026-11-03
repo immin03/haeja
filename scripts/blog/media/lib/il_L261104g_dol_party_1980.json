@@ -1,0 +1,32 @@
+{
+ "id": "il_L261104g_dol_party_1980",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A 1980s Korean first-birthday party at home: a baby in traditional hanbok seated at a table with rice cakes and fruit, relatives gently placing a tiny gold ring on the baby's finger, warm nostalgic film photo feel, faces soft.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ec9-e695-7209-9215-f2b5ee94e1fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ec9-e695-7209-9215-f2b5ee94e1fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ec9-e695-7209-9215-f2b5ee94e1fd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ec9-e695-7209-9215-f2b5ee94e1fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ec9-e695-7209-9215-f2b5ee94e1fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ec9-e695-7209-9215-f2b5ee94e1fd/cancel",
+  "expires_at": "2026-11-10T00:24:44.638695+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ec9-e695-7209-9215-f2b5ee94e1fd/50cd03fc-cdac-4c00-87f4-42a370cdf566.jpeg"
+   }
+  ]
+ },
+ "seconds": 94,
+ "file": "scripts/blog/media/lib/il_L261104g_dol_party_1980.jpeg"
+}

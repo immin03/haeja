@@ -1,0 +1,32 @@
+{
+ "id": "il_L261104g_chip_crash",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: Close-up of a computer chip on a circuit board cracking, with a simple downward red arrow line drawn above it, dramatic light. Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ec3-bd97-7d45-a0c4-59c149637bf6",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ec3-bd97-7d45-a0c4-59c149637bf6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ec3-bd97-7d45-a0c4-59c149637bf6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ec3-bd97-7d45-a0c4-59c149637bf6",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ec3-bd97-7d45-a0c4-59c149637bf6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ec3-bd97-7d45-a0c4-59c149637bf6/cancel",
+  "expires_at": "2026-11-10T00:17:54.219568+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ec3-bd97-7d45-a0c4-59c149637bf6/d23ee1a5-9a48-492c-99c4-4eb1df98c0b2.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "scripts/blog/media/lib/il_L261104g_chip_crash.jpeg"
+}

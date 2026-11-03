@@ -1,0 +1,32 @@
+{
+ "id": "il_L261104g_bank_queue_1998",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: Winter 1998 in Seoul, a long line of ordinary Korean people in thick coats waiting outside a bank branch, each holding a small cloth pouch or jewelry box, breath visible in cold air, hopeful mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ec2-fd11-78dd-9da4-eee1632d2789",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ec2-fd11-78dd-9da4-eee1632d2789/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ec2-fd11-78dd-9da4-eee1632d2789/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ec2-fd11-78dd-9da4-eee1632d2789",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ec2-fd11-78dd-9da4-eee1632d2789/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ec2-fd11-78dd-9da4-eee1632d2789/cancel",
+  "expires_at": "2026-11-10T00:17:27.108979+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ec2-fd11-78dd-9da4-eee1632d2789/0fe68ebc-89f4-4e37-9962-d586f78496b2.jpeg"
+   }
+  ]
+ },
+ "seconds": 112,
+ "file": "scripts/blog/media/lib/il_L261104g_bank_queue_1998.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L261104g_central_vault",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A huge central bank underground gold vault with rows of gold bar stacks on shelves, a worker in a white coat checking a clipboard, cool light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ecc-ca56-7279-be70-2f4458cf2dce",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ecc-ca56-7279-be70-2f4458cf2dce/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ecc-ca56-7279-be70-2f4458cf2dce/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ecc-ca56-7279-be70-2f4458cf2dce",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ecc-ca56-7279-be70-2f4458cf2dce/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ecc-ca56-7279-be70-2f4458cf2dce/cancel",
+  "expires_at": "2026-11-10T00:28:10.438418+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ecc-ca56-7279-be70-2f4458cf2dce/b347d7ad-36bb-4ca2-8618-4787dd439102.jpeg"
+   }
+  ]
+ },
+ "seconds": 112,
+ "file": "scripts/blog/media/lib/il_L261104g_central_vault.jpeg"
+}
