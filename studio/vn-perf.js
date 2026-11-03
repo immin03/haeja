@@ -92,8 +92,22 @@ async function perfLoad(){
   PF.err = r.error ? r.error.message : ''; PF.data = r.error ? { videos: [], perf: [], perfs: [], optimize: [] } : (r.data || { videos: [], perf: [], perfs: [], optimize: [] });
   PF.inbox = ib.data ? ib.data : { id: 'perf-inbox', data: { items: [] } };
 }
+/* 날짜 칩: 보고가 있는 날은 링크, 최근 7일 중 보고가 없는 날은 '빠짐' 칩 (2026-11-03 대표님: "11월 2일꺼 업데이트… 안 놓치게 하루 단위로")
+   빠진 날은 매일 07:31 사용량 경보 작업이 성과 평가 작업을 깨워 그 날짜로 보충한다 */
+function pfSeg(reps, prefix, hash, rep){
+  const have = {}; reps.forEach(r => have[r.id.slice(prefix.length)] = r);
+  const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), days = [];
+  for(let i = 0; i < 7; i++){ const x = new Date(Date.parse(today + 'T00:00:00Z') - i * 864e5).toISOString().slice(0, 10); days.push(x); }
+  const older = reps.filter(r => !days.includes(r.id.slice(prefix.length))).slice(0, 4);
+  const chip = (day, r) => { if(!r){ if(day === today) return ''; return `<a href="#${hash}/${day}" class="miss" title="이 날 보고가 없습니다 — 07:31 작업이 보충합니다" style="opacity:.55;border-style:dashed">${day.slice(5).replace('-', '월 ')}일 <b style="background:rgba(216,65,90,.12);color:var(--bad)">빠짐</b></a>`; }
+    const pend = (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length;
+    return `<a href="#${hash}/${day}"${rep && r.id === rep.id ? ' aria-current="page"' : ''}${pend ? ' class="hot"' : ''}>${day.slice(5).replace('-', '월 ')}일${pend ? `<b>${pend}</b>` : ''}${r.data.backfill ? ' <small style="font-weight:500">보충</small>' : ''}</a>`; };
+  const html = days.map(d => chip(d, have[d])).join('') + older.map(r => chip(r.id.slice(prefix.length), r)).join('');
+  return html ? `<div class="seg">${html}</div>` : '';
+}
 function pfReports(){ return (PF.data && PF.data.perf || []).filter(x => /^perf-\d{4}-\d{2}-\d{2}$/.test(x.id)); }
-function pfCur(){ const reps = pfReports(); const want = 'perf-' + subPage(); return reps.find(x => x.id === want) || reps[0] || null; }
+function pfCur(){ const reps = pfReports(); const want = 'perf-' + subPage(); return reps.find(x => x.id === want) || (/^\d{4}-\d{2}-\d{2}$/.test(subPage()) ? null : reps[0] || null); }
+const pfMissCard = (kind) => /^\d{4}-\d{2}-\d{2}$/.test(subPage()) ? `<div class="card pf-hero"><div class="k">${esc(subPage())} ${kind}</div><div class="h">이 날 보고가 없습니다.</div><div class="n">그날 작업이 사용량 한도 등으로 못 돌았습니다. 매일 07:31 작업이 빠진 날을 찾아 그 날짜로 보충하고, 보충한 보고에는 '보충' 표시가 붙습니다.</div></div>` : '';
 function pfPending(){ const r = pfReports()[0]; return r ? (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length : 0; }
 const pfNum = (v, unit = '', d = 1) => v == null || v === '' || isNaN(+v) ? '–' : (Math.round(+v * Math.pow(10, d)) / Math.pow(10, d)).toLocaleString('ko-KR') + unit;
 const pfSec = s => { if(s == null || isNaN(+s)) return '–'; s = Math.round(+s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
@@ -236,7 +250,7 @@ function vPerf(){
   if(PF.err) return head('롱폼 진단', '', 'perf') + `<div class="card">불러오지 못했습니다: ${esc(PF.err)}</div>`;
   const reps = pfReports(), rep = pfCur(), d = rep ? rep.data : {}, k = d.kpis || {};
   d.findings = (d.findings || []).map(f => typeof f === 'string' ? { level: 'info', title: f, body: '' } : f);
-  const seg = reps.length ? `<div class="seg">${reps.slice(0, 10).map(r => { const pend = (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length; return `<a href="#perf/${r.id.slice(5)}"${rep && r.id === rep.id ? ' aria-current="page"' : ''}${pend ? ' class="hot"' : ''}>${r.id.slice(10).replace('-', '월 ')}일${pend ? `<b>${pend}</b>` : ''}</a>`; }).join('')}</div>` : '';
+  const seg = pfSeg(reps, 'perf-', 'perf', rep);
   const diag = {}; (d.videos || []).forEach(v => diag[v.id] = v);
   const longs = (PF.data.videos || []).filter(v => v.kind === 'long'), shorts = (PF.data.videos || []).filter(v => v.kind === 'short');
   const acts = d.actions || [], pend = acts.filter(a => (a.status || 'proposed') === 'proposed').length;
@@ -245,6 +259,7 @@ function vPerf(){
   return `${head('롱폼 진단', '매일 20:10 스튜디오 지표 수집 → 20:52 진단 · 승인한 개선은 다음 콘텐츠부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perf')}
   ${seg}
   ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
+  ${rep ? '' : pfMissCard('롱폼 진단')}
   ${rep ? `<div class="card pf-hero"><div class="k">${esc(rep.id.slice(5))} 롱폼 진단 · ${esc(d.by || 'Claude')}</div><div class="h">${esc(d.headline || '스튜디오 지표를 모으기 전의 기록입니다. 아래 발견 사항만 참고하세요.')}</div>${d.sample_note ? `<div class="n">${esc(d.sample_note)}</div>` : ''}</div>
   <div class="pf-kpis">${pfKpi('썸네일 클릭률', k.ctr, '%', PF_GOAL.ctr)}${pfKpi('15초 유지율', k.s15, '%', PF_GOAL.s15)}${pfKpi('평균 조회율', k.avg_pct, '%', PF_GOAL.avg_pct)}${pfKpi('조회수', k.views, '회', 0, `롱폼 ${k.longs || '–'}편 · 노출 ${pfNum(k.impressions, '회', 0)}`)}${pfKpi('구독 증가', k.subs, '명', 0, `평균 시청 ${pfSec(k.avg_sec)}`)}</div>
 
@@ -280,7 +295,7 @@ function vPerf(){
    자동 검수 기준(docs agent 'auto-review-rules')에 넣는다. 보고서가 아직 없어도 스튜디오 지표는 바로 보인다. 피드백은 perf-inbox에 channel 'short'로 쌓인다. */
 const PFS_GOAL = { viewed_pct: 60, avg_pct: 60, sub_k: 2 };
 function pfsReports(){ return (PF.data && PF.data.perfs || []).filter(x => /^perfs-\d{4}-\d{2}-\d{2}$/.test(x.id)); }
-function pfsCur(){ const reps = pfsReports(); const want = 'perfs-' + subPage(); return reps.find(x => x.id === want) || reps[0] || null; }
+function pfsCur(){ const reps = pfsReports(); const want = 'perfs-' + subPage(); return reps.find(x => x.id === want) || (/^\d{4}-\d{2}-\d{2}$/.test(subPage()) ? null : reps[0] || null); }
 function pfsPending(){ const r = pfsReports()[0]; return r ? (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length : 0; }
 function pfsApct(s, dur){ return s.avg_pct != null ? +s.avg_pct : s.avg_sec != null && dur ? Math.round(s.avg_sec / dur * 1000) / 10 : null; }
 /* 보고서가 없을 때(또는 보고서 뒤로 새 지표가 들어왔을 때) 최근 7일 스튜디오 지표로 바로 계산 */
@@ -345,7 +360,7 @@ function vPerfs(){
   d.findings = (d.findings || []).map(f => typeof f === 'string' ? { level: 'info', title: f, body: '' } : f);
   const shorts = (PF.data.videos || []).filter(v => v.kind === 'short').sort((a, b) => String(b.published_at).localeCompare(String(a.published_at)));
   const live = pfsLive(shorts), k = Object.keys(d.kpis || {}).length ? d.kpis : live, isLive = !Object.keys(d.kpis || {}).length;
-  const seg = reps.length ? `<div class="seg">${reps.slice(0, 10).map(r => { const pend = (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length; return `<a href="#perfs/${r.id.slice(6)}"${rep && r.id === rep.id ? ' aria-current="page"' : ''}${pend ? ' class="hot"' : ''}>${r.id.slice(11).replace('-', '월 ')}일${pend ? `<b>${pend}</b>` : ''}</a>`; }).join('')}</div>` : '';
+  const seg = pfSeg(reps, 'perfs-', 'perfs', rep);
   const diag = {}; (d.videos || []).forEach(v => diag[v.id] = v);
   const acts = d.actions || [], pend = acts.filter(a => (a.status || 'proposed') === 'proposed').length;
   const order = { bad: 0, warn: 1, info: 2, good: 3 };
@@ -354,6 +369,7 @@ function vPerfs(){
   return `${head('숏폼 진단', '매일 05:37 쇼츠·릴스 진단 · 승인한 개선은 다음 쇼츠·릴스부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perfs')}
   ${seg}
   ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
+  ${rep ? '' : pfMissCard('숏폼 진단')}
   <div class="card pf-hero"><div class="k">${rep ? esc(rep.id.slice(6)) + ' 숏폼 진단 · ' + esc(d.by || 'Claude') : '실시간 지표 · 최근 7일'}</div>
     <div class="h">${esc(rep ? (d.headline || '') : `최근 7일 쇼츠 ${live.shorts}편 조회 ${pfNum(live.views, '회', 0)} · 조회함 비율 ${pfNum(live.viewed_pct, '%')} — 첫 진단은 내일 05:37에 올라옵니다.`)}</div>
     ${d.sample_note || live.missing ? `<div class="n">${esc(d.sample_note || '')}${live.missing ? `${d.sample_note ? ' · ' : ''}올린 지 하루가 지났는데 스튜디오 지표가 없는 쇼츠 ${live.missing}편 (업로드 작업 20:10 회차가 모읍니다)` : ''}</div>` : ''}</div>
