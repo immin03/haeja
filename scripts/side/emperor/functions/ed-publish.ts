@@ -2,14 +2,14 @@
 // 밸류노트 social-publish 와 완전히 분리: 계정은 ed_accounts, 대기열은 ed_posts.
 // {} (5분마다 cron): 토큰 갱신 → 처리 중인 릴스 마무리(게시 + 첫 댓글) → 시간이 된 글을 채널별로 1편씩 시작
 // 같은 채널은 최소 60분 간격. app_config.ed_paused = true 면 정기 게시 중지.
-// 쓰레드: 글만 (2026-11-02 22:49 사진 붙인 3편 노출 급감 → 기본 글만, th_image=true 일 때만 사진). 따옴표 인용은 별도 문단. 본문 끝 줄 바로 아래 "매일 밤, 황제처럼 생각하라.\n황제의 일기."
+// 쓰레드: 글만 (2026-11-02 22:49 사진 붙인 3편 노출 급감 → 기본 글만, th_image=true 일 때만 사진). 따옴표 인용은 자기 줄에, 끝에 빈 줄 + "- 매일 밤, 황제처럼 생각하라. 황제의 일기."
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/v1.0";
 const GAP_MIN = 60;
-const TH_DELAY_MIN = 30;  // 쓰레드는 영상(scheduled_at)보다 30분 늦게 (2026-11-02 대표 확정: 07:40/12:20/21:30 → 쓰레드 08:10/12:50/22:00)
+const TH_DELAY_MIN = 0;  // 2026-11-03 12:32 대표: 쓰레드는 이미지 없이 글만 올리므로 영상과 같은 시각에 (이전: 30분 뒤)
 const TH_TOPIC = "철학"; // 쓰레드 주제(토픽) 태그
 const TH_END = "\n\n- 매일 밤, 황제처럼 생각하라. 황제의 일기.";  // 빈 줄 + 대시 서명 한 줄 (2026-11-02 22:44 대표 예시: "마지막에 살짝 티나게")
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json" } });
@@ -49,14 +49,14 @@ const thText = (p: any) => fmtTH(String(p.th_text || "")).slice(0, 500 - TH_END.
 
 async function upd(id: string, o: Record<string, unknown>) { await sb.from("ed_posts").update(o).eq("id", id); }
 
-// 처리 중인 릴스 → 끝났으면 게시 + 첫 댓글
+// 처리 중인 릴스·카드뉴스 → 끝났으면 게시 + 첫 댓글
 async function finishIG(a: Acc) {
   const out: unknown[] = [];
   const { data: rows } = await sb.from("ed_posts").select("*").eq("ig_status", "processing");
   for (const p of rows || []) {
     try {
       const st = (await call(`${IG}/${p.ig_container}`, { fields: "status_code", access_token: a.access_token }, "GET")).status_code;
-      if (st === "ERROR" || st === "EXPIRED") throw new Error("영상 처리 실패 (" + st + ")");
+      if (st === "ERROR" || st === "EXPIRED") throw new Error("처리 실패 (" + st + ")");
       if (st !== "FINISHED") { if (Date.now() - new Date(p.ig_at).getTime() > 40 * 60e3) throw new Error("처리 40분 초과"); continue; }
       const pub = await call(`${IG}/${a.account_id}/media_publish`, { creation_id: p.ig_container, access_token: a.access_token });
       const link = await call(`${IG}/${pub.id}`, { fields: "permalink", access_token: a.access_token }, "GET").catch(() => ({}));
@@ -104,7 +104,7 @@ async function postTH(a: Acc, p: any, site = "") {
   if (!lock?.length) return { skipped: "locked" };
   try {
     const prm: Record<string, string> = { media_type: "TEXT", text: thText(p), topic_tag: p.th_topic || TH_TOPIC, access_token: a.access_token };
-    if (p.th_image === true && p.cover_path) { prm.media_type = "IMAGE"; prm.image_url = /^https?:/.test(p.cover_path) ? p.cover_path : site + p.cover_path; }  // 쓰레드 = 표지 사진 1장 + 글
+    if (p.th_image === true && p.cover_path) { prm.media_type = "IMAGE"; prm.image_url = /^https?:/.test(p.cover_path) ? p.cover_path : site + p.cover_path; }  // 사진은 th_image=true 일 때만
     const c = await call(`${TH}/${a.account_id}/threads`, prm);
     for (let i = 0; i < 15; i++) { const st = (await call(`${TH}/${c.id}`, { fields: "status", access_token: a.access_token }, "GET").catch(() => ({}))).status; if (st === "FINISHED" || !st) break; if (st === "ERROR") throw new Error("이미지 처리 실패"); await new Promise(r => setTimeout(r, 2000)); }
     await new Promise(r => setTimeout(r, 2000));
