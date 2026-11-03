@@ -1,0 +1,531 @@
+{
+ "id": "edl_pilot",
+ "root": "../../..",
+ "voice_dir": "social/side/voice_samples/lp2",
+ "gen_dir": "social/side/gen",
+ "sfx_dir": "social/side/ed_long/sfx",
+ "music_dir": "social/side/ed_long/music",
+ "out_dir": "_long",
+ "monologue_voices": [
+  "h3",
+  "c1b",
+  "x1"
+ ],
+ "voice_files": {
+  "h1": "voice_lp2_01_h1.mp3",
+  "h2": "voice_lp2_02_h2.mp3",
+  "h3": "voice_lp2_03_h3.mp3",
+  "h4": "voice_lp2_04_h4.mp3",
+  "s1": "voice_lp2_05_s1.mp3",
+  "s2": "voice_lp2_06_s2.mp3",
+  "s3": "voice_lp2_07_s3.mp3",
+  "c1a": "voice_lp2_08_c1a.mp3",
+  "c1b": "voice_lp2_09_c1b.mp3",
+  "c1c": "voice_lp2_10_c1c.mp3",
+  "c1d": "voice_lp2_11_c1d.mp3",
+  "c1e": "voice_lp2_12_c1e.mp3",
+  "c1f": "voice_lp2_13_c1f.mp3",
+  "x1": "voice_lp2_14_x1.mp3"
+ },
+ "intro": {
+  "logo": "docs/emperor/profile_final.png",
+  "ep_kicker": "제1편",
+  "ep_title": "배신당한 밤"
+ },
+ "music": [
+  {
+   "file": "cinematic_0.mp3",
+   "at_shot": 8,
+   "offset": 0.5,
+   "start": 0,
+   "len": 95,
+   "vol": 0.22,
+   "fin": 4,
+   "fout": 4
+  }
+ ],
+ "shots": [
+  {
+   "type": "black",
+   "dur": 0.7,
+   "fixed": true,
+   "amb": [
+    "wind_6.mp3",
+    0.6
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lpv01_camp",
+   "dur": 3.0,
+   "fixed": true,
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "amb": [
+    "wind_2.mp3",
+    0.7
+   ],
+   "sfx": [
+    [
+     "horse_7.mp3",
+     1.6,
+     0.35
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "서기 175년 · 다뉴브 강 전선",
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lpv02_messenger",
+   "voice": "h2",
+   "pre": 0.2,
+   "post": 0.3,
+   "move": {
+    "zoom": [
+     1.02,
+     1.1
+    ]
+   },
+   "amb": [
+    "fire_4.mp3",
+    0.45
+   ],
+   "sfx": [
+    [
+     "paper_4.mp3",
+     0.3,
+     0.4
+    ],
+    [
+     "wind_5.mp3",
+     0.0,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lpv03_hand",
+   "voice": "h3",
+   "pre": 0.3,
+   "post": 0.4,
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "flicker": true,
+   "amb": [
+    "fire_0.mp3",
+    0.35
+   ],
+   "sfx": [
+    [
+     "heartbeat_5.mp3",
+     0.05,
+     1.2
+    ],
+    [
+     "heartbeat_5.mp3",
+     0.85,
+     1.0
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp04_eyes",
+   "voice": "h4",
+   "pre": 0.2,
+   "post": 0.2,
+   "move": {
+    "zoom": [
+     1.05,
+     1.22
+    ],
+    "pan": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ],
+    "ease": false
+   },
+   "flicker": true,
+   "sfx": [
+    [
+     "cinematic_1.mp3",
+     0.0,
+     0.55
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lpv08_write",
+   "dur": 1.1,
+   "fixed": true,
+   "move": {
+    "zoom": [
+     1.1,
+     1.18
+    ]
+   },
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.1,
+     1.2
+    ]
+   ]
+  },
+  {
+   "type": "black",
+   "dur": 0.4,
+   "fixed": true
+  },
+  {
+   "type": "intro",
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.8,
+     0.9
+    ],
+    [
+     "cinematic_6.mp3",
+     1.4,
+     0.7
+    ],
+    [
+     "ring_synth.wav",
+     2.4,
+     0.5
+    ],
+    [
+     "drum_5.mp3",
+     4.0,
+     1.0
+    ],
+    [
+     "impact_2.mp3",
+     4.0,
+     0.8
+    ],
+    [
+     "cinematic_4.mp3",
+     4.9,
+     0.55
+    ],
+    [
+     "transition_5.mp3",
+     9.7,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp05_phone",
+   "voice": "s1",
+   "pre": 0.6,
+   "post": 0.4,
+   "grade": "modern",
+   "tin": "black",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.02,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "amb": [
+    "rain_0.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp06_walk",
+   "voice": "s2",
+   "pre": 0.2,
+   "post": 0.6,
+   "grade": "modern",
+   "tin": "dissolve",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "amb": [
+    "rain_0.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp01_camp",
+   "voice": "s3",
+   "pre": 0.3,
+   "post": 0.8,
+   "tin": "dissolve",
+   "particles": "snow",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ],
+    "pan": [
+     [
+      0,
+      0.03
+     ],
+     [
+      0.03,
+      0.0
+     ]
+    ]
+   },
+   "amb": [
+    "wind_2.mp3",
+    0.4
+   ]
+  },
+  {
+   "type": "card",
+   "num": "I",
+   "title": "나를 지치게 하는 사람은 줄여라",
+   "dur": 4.0,
+   "fixed": true,
+   "amb": [
+    "wind_2.mp3",
+    0.35
+   ],
+   "sfx": [
+    [
+     "drum_6.mp3",
+     0.3,
+     0.45
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp07_reread",
+   "voice": "c1a",
+   "pre": 0.6,
+   "post": 0.6,
+   "tin": "dissolve",
+   "flicker": true,
+   "particles": "dust",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ],
+    "pan": [
+     [
+      0.03,
+      0
+     ],
+     [
+      -0.01,
+      0.01
+     ]
+    ]
+   },
+   "amb": [
+    "fire_4.mp3",
+    0.4
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lpv08_write",
+   "voice": "c1b",
+   "pre": 0.8,
+   "post": 1.4,
+   "tin": "dissolve",
+   "flicker": true,
+   "move": {
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.6,
+     0.6
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "quote",
+     "lines": [
+      "남의 생각을 짐작하느라,",
+      "남은 날들을 쓰지 마라."
+     ],
+     "src": "명상록 3권 4절",
+     "ink": true,
+     "size": 62,
+     "top": 120,
+     "from": 0.55,
+     "to": 0.86,
+     "dx": -230
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp08_write",
+   "voice": "c1c",
+   "pre": 0.5,
+   "post": 0.8,
+   "tin": "dissolve",
+   "flicker": true,
+   "move": {
+    "zoom": [
+     1.15,
+     1.0
+    ]
+   },
+   "amb": [
+    "fire_4.mp3",
+    0.3
+   ],
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 통제의 이분법",
+     "lines": [
+      "내 힘이 닿는 것",
+      "닿지 않는 것"
+     ],
+     "at": 5.6,
+     "len": 5.0
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp10_office",
+   "voice": "c1d",
+   "pre": 0.4,
+   "post": 0.8,
+   "grade": "modern",
+   "tin": "dissolve",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ],
+    "pan": [
+     [
+      -0.02,
+      0
+     ],
+     [
+      0.01,
+      0
+     ]
+    ]
+   },
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ]
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "지금 내 힘이 닿는 일은",
+    "무엇인가"
+   ],
+   "voice": "c1e",
+   "pre": 0.8,
+   "post": 1.2,
+   "amb": [
+    "fire_0.mp3",
+    0.2
+   ]
+  },
+  {
+   "type": "still",
+   "src": "lp11_rider",
+   "voice": "c1f",
+   "pre": 0.6,
+   "post": 1.4,
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 1.0,
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "amb": [
+    "wind_2.mp3",
+    0.35
+   ],
+   "sfx": [
+    [
+     "horse_6.mp3",
+     0.0,
+     0.45
+    ],
+    [
+     "horse_7.mp3",
+     3.2,
+     0.4
+    ]
+   ]
+  },
+  {
+   "type": "end",
+   "voice": "x1",
+   "pre": 1.2,
+   "post": 1.6,
+   "dur": 5.5,
+   "sfx": [
+    [
+     "drum_6.mp3",
+     0.2,
+     0.35
+    ]
+   ]
+  }
+ ],
+ "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,"
+}
