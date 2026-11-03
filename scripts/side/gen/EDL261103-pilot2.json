@@ -1,0 +1,29 @@
+[
+ {
+  "id": "lq03_hand",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Close-up of an older man's weathered, veined hand holding an opened parchment letter beside a burning candle at night; the parchment faces the camera almost flat and fills the center of the frame, its upper two-thirds smooth, clean and completely blank, a broken red wax seal near its bottom edge, the fingers gripping the right edge. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "lq07_read",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Over-the-shoulder close shot inside a Roman command tent at night: the Roman emperor Marcus Aurelius at about fifty-four with short curly grey-brown hair and a deep crimson military cloak in the left foreground seen from behind, his face not visible, his hands holding up an opened parchment letter that fills the right half of the frame and faces the camera almost flat, the parchment smooth, clean and completely blank, a broken red wax seal at its bottom, a candle on the table lighting it. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "lq08_write",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Close-up from above at a slight angle of a weathered older man's right hand holding a thin reed pen whose tip touches the left end of an empty line in the upper half of a large clean papyrus sheet lying on a rough wooden table, about to write; the papyrus is completely blank with no marks at all; an inkpot and a candle at the left side, warm candlelight. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ }
+]
