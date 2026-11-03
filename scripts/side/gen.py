@@ -53,6 +53,23 @@ def run(job, H, spent):
     for e in exts:
         if os.path.exists(os.path.join(OUT, jid + e)): print(f"[{jid}] 이미 있음"); return 0.0
     old = os.path.join(OUT, jid + ".json")
+    # 2026-11-03: 15분 안에 안 끝나 '진행 중'으로 남은 작업은 새로 내지 않고 같은 요청을 이어서 기다린다 (중복 비용 방지)
+    if os.path.exists(old) and not job.get("retry"):
+        rec0 = json.load(open(old))
+        if rec0.get("status") in ("in_progress", "queued", None) and (rec0.get("submit") or {}).get("status_url"):
+            url = rec0["submit"]["status_url"]; t0 = time.time(); s = {}
+            while time.time() - t0 < 20 * 60:
+                _, s = hf.http("GET", url, H); status = s.get("status")
+                if status in ("completed", "failed", "nsfw", "canceled"): break
+                time.sleep(8)
+            rec0.update(status=s.get("status"), result=s, resumed=True)
+            out_url = find_url(s, exts)
+            if s.get("status") == "completed" and out_url:
+                ext = os.path.splitext(out_url.split("?")[0])[1].lower() or exts[0]
+                dst = os.path.join(OUT, jid + ext); urllib.request.urlretrieve(out_url, dst); rec0["file"] = os.path.relpath(dst, ROOT)
+                print(f"[{jid}] 이어 받기 저장 {rec0['file']}", flush=True)
+            json.dump(rec0, open(old, "w"), ensure_ascii=False, indent=1)
+            return 0.0
     if os.path.exists(old) and json.load(open(old)).get("status") not in ("failed", "submit_failed") and not job.get("retry"):
         print(f"[{jid}] 기록 있음(진행 중이었거나 결과 없음) — retry:true 로 다시"); return 0.0
     cost = est(job); cap = float(os.environ.get("SIDE_GEN_MAX_USD", "3"))
