@@ -8,6 +8,7 @@
    - "v" = 생성한 5초 영상 (모든 컷의 기본). "img" = 그림 한 장을 천천히 움직이는 컷 — 2026-10-28 대표님 결정으로 쓰지 않는다(퀄리티 유지). 비상용으로만 남겨 둠
      move: in(다가가기, 기본) | out(물러나기) | left | right | up | down (가로·세로로 천천히 흐르기)
    "thumb": {"cut": 2, "t": 2.5}}   (필수 · cut 은 1부터 센 이야기 컷 번호, 엔딩 화면 불가 · t 는 그 컷 안 0.5초~dur-0.3초)
+검사: 렌더 전에 check_thumb·check_rules 가 썸네일 컷·제목 40자·#shorts·'Kachi'·금지어·자막 길이·컷 수·길이를 막는다.
 결과: 릴리스 side-<id> 에 영상, social/side/<id>/(meta.json, thumb.jpg, subtitles_en.srt), social/side/queue.json 에 kind=short 로 등록
 사용: python3 scripts/side/emo.py <id> [--test]   (--test 는 queue.json 에 올리지 않는다)
 """
@@ -268,11 +269,38 @@ def check_thumb(spec):
     return c, t
 
 
+def check_rules(spec):
+    """기계적 규칙은 Claude 가 눈으로 보지 않고 코드가 막는다 (대표님 2026-11-03 "토큰 효율 극대화 · 판단을 코드로").
+    어기면 렌더 전에 멈추고 무엇을 고칠지 한 줄로 알려 준다. 검증 모드 길이 예외는 SIDE_ALLOW_LONG=1."""
+    import re
+    err = []
+    title = (spec.get("title") or "").strip(); cuts = spec["cuts"]
+    if not title: err.append("제목이 비어 있음")
+    if len(title) > 40: err.append(f"제목 {len(title)}자 — 40자 안쪽으로")
+    if "#shorts" in title.lower(): err.append("제목에 #shorts 금지 (설명 끝 해시태그에 한 번)")
+    first_cap = (cuts[0].get("cap") or "") if cuts else ""
+    if re.search(r"kachi", title + " " + first_cap, re.I): err.append("제목·첫 자막에 'Kachi' 금지 → a bird / a magpie (제1 원칙 19)")
+    if not (spec.get("pinned") or "").strip(): err.append("고정 댓글(pinned) 문구 없음")
+    if not (spec.get("description") or "").rstrip().endswith("#shorts"): err.append("설명 끝이 #shorts 로 끝나야 함")
+    text = " ".join([title, spec.get("description") or ""] + [c.get("cap") or "" for c in cuts])
+    bad = re.findall(r"\b(tears?|crying|cries|sobbing)\b", text, re.I)
+    if bad: err.append(f"우는 표현 금지어: {', '.join(sorted(set(bad)))}")
+    for i, c in enumerate(cuts, 1):
+        cap = c.get("cap") or ""
+        if "\n" in cap: err.append(f"{i}컷 자막은 한 줄만")
+        if len(cap.split()) > 10: err.append(f"{i}컷 자막 {len(cap.split())}단어 — 10단어 이하로")
+    if os.environ.get("SIDE_ALLOW_LONG") != "1":
+        if not 3 <= len(cuts) <= 4: err.append(f"컷 {len(cuts)}개 — 검증 모드는 3~4컷 (제1 원칙 15)")
+        total = sum(float(c.get("dur", 5)) for c in cuts) + float(spec.get("end", {}).get("dur", 4.2))
+        if total > 21: err.append(f"길이 약 {total:.1f}초 — 엔딩 포함 15~20초로 (제1 원칙 15)")
+    if err: sys.exit("규칙 위반 (렌더 안 함):\n- " + "\n- ".join(err))
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]; test = "--test" in sys.argv
     sid = args[0]; spec = json.load(open(os.path.join(ROOT, "scripts", "side", "specs_emo", sid + ".json"), encoding="utf-8"))
     cuts = spec["cuts"]; n = len(cuts)
     thumb_cut, thumb_t = check_thumb(spec)
+    check_rules(spec)
     # 1) 컷마다 잘라서 1080x1920·30fps 로 맞춘다 (원본 비율이 달라도 꽉 채우고 가운데 자르기)
     parts = []
     for i, c in enumerate(cuts):
