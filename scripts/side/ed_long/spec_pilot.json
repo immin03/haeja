@@ -1,5 +1,5 @@
 {
- "id": "edl_pilot2",
+ "id": "edl_pilot3",
  "root": "../../..",
  "voice_dir": "social/side/voice_samples/lp2",
  "gen_dir": "social/side/gen",
@@ -39,14 +39,12 @@
   "m_x1": "../lp3/voice_lp3_07_m_x1.mp3"
  },
  "intro": {
-  "logo": "docs/emperor/profile_final.png",
-  "ep_kicker": "제1편",
-  "ep_title": "배신당한 밤"
+  "logo": "docs/emperor/profile_final.png"
  },
  "music": [
   {
    "file": "cinematic_0.mp3",
-   "at_shot": 8,
+   "at_shot": 9,
    "offset": 0.5,
    "start": 0,
    "len": 95,
@@ -193,7 +191,7 @@
   {
    "type": "video",
    "src": "lqv08c_write",
-   "dur": 2.8,
+   "dur": 3.4,
    "fixed": true,
    "move": {
     "zoom": [
@@ -218,37 +216,37 @@
    "write": {
     "quad": [
      [
-      560,
-      391
+      600,
+      330
      ],
      [
-      1600,
-      370
+      1430,
+      316
      ],
      [
-      1600,
-      527
+      1430,
+      512
      ],
      [
-      560,
-      548
+      600,
+      526
      ]
     ],
     "paper": [
      [
-      300,
-      300
+      330,
+      240
      ],
      [
-      1650,
-      300
+      1560,
+      215
      ],
      [
-      1800,
+      1720,
       1000
      ],
      [
-      200,
+      300,
       1000
      ]
     ],
@@ -269,12 +267,15 @@
     "paper_lv": [
      72,
      98
-    ]
-   }
+    ],
+    "static": true
+   },
+   "tout": "black",
+   "fout": 0.8
   },
   {
    "type": "black",
-   "dur": 0.4,
+   "dur": 0.3,
    "fixed": true
   },
   {
@@ -314,6 +315,41 @@
      "transition_5.mp3",
      9.7,
      0.5
+    ]
+   ]
+  },
+  {
+   "type": "episode",
+   "num": 1,
+   "chapter": "CHAPTER I  ·  THE DANUBE FRONTIER",
+   "title": "배신당한 밤",
+   "en": "The Night of Betrayal",
+   "dur": 5.2,
+   "fixed": true,
+   "amb": [
+    "wind_2.mp3",
+    0.3
+   ],
+   "sfx": [
+    [
+     "drum_6.mp3",
+     0.5,
+     0.5
+    ],
+    [
+     "cinematic_4.mp3",
+     1.0,
+     0.45
+    ],
+    [
+     "impact_2.mp3",
+     1.1,
+     0.5
+    ],
+    [
+     "transition_5.mp3",
+     4.3,
+     0.35
     ]
    ]
   },
@@ -398,7 +434,7 @@
    "type": "card",
    "num": "I",
    "title": "나를 지치게 하는 사람은 줄여라",
-   "dur": 4.6,
+   "dur": 4.2,
    "fixed": true,
    "amb": [
     "wind_2.mp3",
@@ -411,7 +447,8 @@
      0.45
     ]
    ],
-   "en": "Spend no thought on the minds of others"
+   "en": "Spend no thought on the minds of others",
+   "label": "THE FIRST LINE  ·  첫 번째 문장"
   },
   {
    "type": "still",
@@ -475,46 +512,50 @@
    ],
    "overlays": [
     {
-     "kind": "caption",
-     "text": "명상록 3권 4절",
-     "at": 9.8
+     "kind": "verse",
+     "lines": [
+      "남의 생각을 짐작하느라,",
+      "남은 날들을 쓰지 마라."
+     ],
+     "src": "명상록 3권 4절",
+     "at": 9.4
     }
    ],
    "gap": 1.0,
    "write": {
     "quad": [
      [
-      560,
-      235
+      600,
+      236
      ],
      [
-      1600,
-      214
+      1430,
+      222
      ],
      [
-      1600,
-      527
+      1430,
+      512
      ],
      [
-      560,
-      548
+      600,
+      526
      ]
     ],
     "paper": [
      [
-      300,
-      300
+      330,
+      240
      ],
      [
-      1650,
-      300
+      1560,
+      215
      ],
      [
-      1800,
+      1720,
       1000
      ],
      [
-      200,
+      300,
       1000
      ]
     ],
@@ -537,7 +578,8 @@
     "paper_lv": [
      72,
      98
-    ]
+    ],
+    "static": true
    }
   },
   {
@@ -563,8 +605,7 @@
      "kind": "concept",
      "kicker": "스토아 철학 · 통제의 이분법",
      "lines": [
-      "내 힘이 닿는 것",
-      "닿지 않는 것"
+      "내 힘이 닿는 것, 닿지 않는 것"
      ],
      "at": 5.6,
      "len": 5.0,
@@ -686,7 +727,7 @@
   "m_c1b1": "그는 지금 무슨 생각을 하고 있을까.",
   "m_c1b2": "누가 그의 편에 섰을까.",
   "m_c1b3": "그만두자.",
-  "m_c1b4": "!남의 생각을 짐작하느라, 남은 날들을 쓰지 마라.",
+  "m_c1b4": "~",
   "c1c": [
    "황제는 이 생각을 일기 곳곳에 되풀이해 적었습니다.",
    "스토아 철학에서는 이것을,",
@@ -707,5 +748,8 @@
   ],
   "c1f": "그리고 몇 달 뒤, 황제의 막사에 상자 하나가 도착합니다.",
   "m_x1": "~"
+ },
+ "voice_gain": {
+  "mono": 1.45
  }
 }

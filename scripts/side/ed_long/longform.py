@@ -178,16 +178,17 @@ class WriteClip(Clip):
             tips.append((max(x0, 0) + loc[0] + r[0], max(y0, 0) + loc[1] + r[1]))
         tips = np.array(tips, float); k = 5
         self.tips = np.array([tips[max(0, i - k):i + k + 1].mean(0) for i in range(n)])
-        if wr.get("clean"):   # 영상 모델이 그린 엉뚱한 잉크 자국 지우기: 펜 끝 아래·왼쪽에서 첫 프레임보다 어두워진 곳을 첫 프레임 종이로 되돌림
-            f0 = fr[0]
+        if wr.get("clean"):   # 영상 모델이 그린 잉크 자국 지우기: 종이 위에서 첫 프레임보다 어두워진 작은 덩어리만 첫 프레임 종이로 되돌림 (손·펜 같은 큰 덩어리는 그대로)
+            f0 = fr[0]; pm = np.zeros((h, w), np.uint8); cv2.fillPoly(pm, [np.int32(wr.get("paper", wr["quad"]))], 255)
             for i in range(1, n):
                 f0w = cv2.warpPerspective(f0, Hs[i], (w, h), borderMode=cv2.BORDER_REPLICATE)
                 d = cv2.cvtColor(f0w, cv2.COLOR_BGR2GRAY).astype(np.int16) - gray[i].astype(np.int16)
-                tx_, ty_ = self.tips[i]
-                reg = np.zeros((h, w), np.uint8); cv2.rectangle(reg, (0, int(ty_) - 48), (int(tx_) - 6, h), 255, -1)
-                cv2.rectangle(reg, (int(tx_) - 6, int(ty_) - 4), (int(tx_) + 8, h), 255, -1)
-                m2 = ((d > 18) & (reg > 0)).astype(np.uint8) * 255
-                m2 = cv2.dilate(m2, np.ones((5, 5), np.uint8)); m2 = cv2.GaussianBlur(m2, (0, 0), 1.5)[..., None] / 255.0
+                m2 = ((d > 16) & (cv2.warpPerspective(pm, Hs[i], (w, h)) > 0)).astype(np.uint8)
+                m2 = cv2.dilate(m2, np.ones((3, 3), np.uint8))
+                nl, lab, st, _ = cv2.connectedComponentsWithStats(m2, 8)
+                keep = np.zeros(nl, np.uint8); keep[1:] = (st[1:, cv2.CC_STAT_AREA] < wr.get("blob_max", 2500)).astype(np.uint8)
+                m2 = keep[lab] * 255
+                m2 = cv2.GaussianBlur(cv2.dilate(m2, np.ones((5, 5), np.uint8)), (0, 0), 1.5)[..., None] / 255.0
                 fr[i] = (fr[i] * (1 - m2) + f0w * m2).astype(np.uint8)
         # 글씨 평면
         PW, PH = 1600, 240 * (len(wr.get("lines", [])) + 1)
@@ -213,8 +214,10 @@ class WriteClip(Clip):
         rate = max(min(length / dur, 1.0), 0.45)
         idx = min(int(t * rate * self.src_fps), n - 1)
         f = self.fr[idx].astype(np.float32); w, h = self.wh
-        u = self.us[idx]; reveal = (np.arange(self.PW)[None, :] < u).astype(np.float32)
-        reveal = cv2.GaussianBlur(reveal, (0, 0), 6) if u < self.line_w else np.ones_like(reveal)
+        if self.wr.get("static"): reveal = np.ones((1, self.PW), np.float32)
+        else:
+            u = self.us[idx]; reveal = (np.arange(self.PW)[None, :] < u).astype(np.float32)
+            reveal = cv2.GaussianBlur(reveal, (0, 0), 6) if u < self.line_w else np.ones_like(reveal)
         a = np.clip(self.static + self.wline * reveal, 0, 1)
         a = cv2.GaussianBlur(a, (0, 0), 0.9)
         aw = cv2.warpPerspective(a, self.Hs[idx] @ self.Hq, (w, h))
@@ -265,7 +268,7 @@ class Intro:
         self.coin = coin_gold(spec["logo"]); self.title = spec.get("ep_title", "")
         self.kicker = spec.get("ep_kicker", "")
         self.en = text_layer(["THE EMPEROR'S DIARY"], "en", 74, GOLD, track=14, shadow=False, height=120)
-        self.ko = text_layer(["황제의 일기"], "ko6", 56, IVORY, shadow=False, height=80)
+        self.ko = text_layer(["황제의 일기"], "ko6", 56, (222, 196, 140), shadow=False, height=80)
         self.t_kick = text_layer([self.kicker], "ui", 40, GOLD, track=6, shadow=False, height=60)
         self.t_title = text_layer([self.title], "ko", 78, IVORY, height=130)
         self.dust = Particles("embers", 90, 11)
@@ -311,11 +314,6 @@ class Intro:
             a = ease((t - 7.0) / 0.9) * (1 - ease((t - 9.6) / 0.6))
             layer = np.zeros((H, W, 4), np.uint8); layer[735:735 + self.ko.shape[0]] = self.ko
             img = blend(img, layer, a)
-        if t >= 10.0:   # 편 제목 카드
-            a = ease((t - 10.0) / 0.6) * (1 - ease((t - 11.5) / 0.5))
-            layer = np.zeros((H, W, 4), np.uint8)
-            layer[420:420 + self.t_kick.shape[0]] = self.t_kick; layer[485:485 + self.t_title.shape[0]] = self.t_title
-            img = blend(img, layer, a)
         return img
 
 
@@ -334,45 +332,68 @@ def end_frame(s, t, dur, cache, logo):
     return blend(img, l3, a3)
 
 
-def card_frame(spec_shot, t, dur, cache):
-    """장 제목 카드 (템플릿): CHAPTER + 로마 숫자, 빛나며 길어지는 금색 선, 한글 제목, 영어 부제, 금빛 먼지, 천천히 다가오는 카메라"""
-    if "card" not in cache:
-        cache["card"] = (text_layer(["CHAPTER"], "en", 38, GOLD, track=16, shadow=False, height=60),
-                         text_layer([spec_shot["num"]], "en", 128, GOLD, shadow=False, height=170),
-                         text_layer([spec_shot["title"]], "ko", 66, IVORY, height=110),
-                         text_layer([spec_shot.get("en", "")], "it", 44, (205, 192, 168), shadow=False, height=70),
-                         Particles("embers", 60, 21))
-    k, num, ttl, en, dust = cache["card"]
-    out_a = 1 - ease((t - dur + 0.7) / 0.7)
-    img = np.zeros((H, W, 3), np.uint8)
-    # 아주 옅은 따뜻한 빛 웅덩이
-    if "glow" not in cache:
-        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); g = np.exp(-(((xx - W / 2) / 700) ** 2 + ((yy - 520) / 330) ** 2))
-        cache["glow"] = (g[..., None] * np.array([18, 30, 44], np.float32)).astype(np.float32)
-    img = np.clip(img + cache["glow"] * out_a, 0, 255).astype(np.uint8)
-    lay = np.zeros((H, W, 4), np.uint8)
-    lay[262:322] = k; lay[318:488] = num
-    img = blend(img, lay, ease(t / 0.9) * out_a)
-    # 금색 선: 가운데서 양옆으로 길어지고, 빛이 한 번 훑고 지나감
-    L = int(380 * ease((t - 0.3) / 1.4)); y = 512
+def episode_frame(s, t, dur, cache):
+    """편 오프닝 (템플릿, 화려하게): CHAPTER 작은 글씨 → EPISODE n → 큰 금빛 제목 → 영어 부제, 빛 선 두 줄, 금빛 먼지, 다가오는 카메라"""
+    if "ep" not in cache:
+        cache["ep"] = (text_layer([s.get("chapter", "")], "en5", 34, (190, 160, 105), track=10, shadow=False, height=56),
+                       text_layer([f"EPISODE  {s.get('num', 1)}"], "en", 62, GOLD, track=18, shadow=False, height=96),
+                       text_layer([s["title"]], "ko", 104, (236, 212, 160), height=160),
+                       text_layer([s.get("en", "")], "it", 50, (205, 192, 168), shadow=False, height=80),
+                       Particles("embers", 120, 31))
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+        cache["epglow"] = (np.exp(-(((xx - W / 2) / 820) ** 2 + ((yy - 560) / 360) ** 2))[..., None] * np.array([20, 36, 54], np.float32))
+    ch, ep, ttl, en, dust = cache["ep"]
+    out_a = 1 - ease((t - dur + 0.9) / 0.9)
+    img = np.clip(np.zeros((H, W, 3), np.float32) + cache["epglow"] * ease(t / 1.2) * out_a, 0, 255).astype(np.uint8)
+    l = np.zeros((H, W, 4), np.uint8); l[250:306] = ch; img = blend(img, l, ease((t - 0.2) / 0.9) * out_a)
+    l = np.zeros((H, W, 4), np.uint8); l[320:416] = ep; img = blend(img, l, ease((t - 0.5) / 0.9) * out_a)
+    # 위아래 두 줄 빛 선이 가운데서 길어짐
+    L = int(520 * ease((t - 0.7) / 1.5))
     if L > 2:
         line = np.zeros((H, W, 3), np.uint8)
-        cv2.line(line, (W // 2 - L, y), (W // 2 + L, y), (92, 164, 201), 2, cv2.LINE_AA)
-        cv2.circle(line, (W // 2 - L, y), 3, (140, 200, 235), -1, cv2.LINE_AA); cv2.circle(line, (W // 2 + L, y), 3, (140, 200, 235), -1, cv2.LINE_AA)
-        glow = cv2.GaussianBlur(line, (0, 0), 7)
+        for y in (440, 690):
+            cv2.line(line, (W // 2 - L, y), (W // 2 + L, y), (92, 164, 201), 2, cv2.LINE_AA)
+            for x in (W // 2 - L, W // 2 + L): cv2.circle(line, (x, y), 4, (150, 210, 240), -1, cv2.LINE_AA)
         sweep = np.zeros((H, W, 3), np.uint8)
-        sx = int(W / 2 - 420 + 840 * ease((t - 1.2) / 1.2))
-        if 1.2 < t < 2.6: cv2.circle(sweep, (sx, y), 26, (170, 220, 255), -1); sweep = cv2.GaussianBlur(sweep, (0, 0), 14)
-        img = cv2.add(img, (cv2.addWeighted(cv2.addWeighted(line, 1.0, glow, 1.6, 0), 1.0, sweep, 0.9, 0).astype(np.float32) * out_a).astype(np.uint8))
-    l2 = np.zeros((H, W, 4), np.uint8); l2[540:650] = ttl
-    img = blend(img, l2, ease((t - 0.7) / 0.9) * out_a, dy=12 * (1 - ease((t - 0.7) / 0.9)))
-    if spec_shot.get("en"):
-        l3 = np.zeros((H, W, 4), np.uint8); l3[655:725] = en
-        img = blend(img, l3, ease((t - 1.3) / 1.0) * out_a)
+        if 1.6 < t < 3.2:
+            sx = int(W / 2 - 560 + 1120 * ease((t - 1.6) / 1.6))
+            for y in (440, 690): cv2.circle(sweep, (sx, y), 30, (170, 220, 255), -1)
+            sweep = cv2.GaussianBlur(sweep, (0, 0), 16)
+        glow = cv2.GaussianBlur(line, (0, 0), 8)
+        img = cv2.add(img, (cv2.addWeighted(cv2.addWeighted(line, 1.0, glow, 1.8, 0), 1.0, sweep, 1.0, 0).astype(np.float32) * out_a).astype(np.uint8))
+    # 제목: 빛이 번지며 떠오름
+    at = ease((t - 1.1) / 1.1)
+    l = np.zeros((H, W, 4), np.uint8); l[485:645] = ttl
+    if at > 0:
+        bloom = cv2.GaussianBlur(l, (0, 0), 18); img = blend(img, bloom, 0.55 * at * (1 - ease((t - 2.4) / 1.2)) * out_a)
+        img = blend(img, l, at * out_a, dy=10 * (1 - at))
+    if s.get("en"):
+        l = np.zeros((H, W, 4), np.uint8); l[712:792] = en; img = blend(img, l, ease((t - 1.9) / 1.0) * out_a)
     img = dust.draw(img, t)
-    # 천천히 다가오는 카메라
-    z = 1.0 + 0.035 * ease(t / dur); M = np.float32([[z, 0, W / 2 * (1 - z)], [0, z, H / 2 * (1 - z)]])
+    z = 1.0 + 0.05 * ease(t / dur); M = np.float32([[z, 0, W / 2 * (1 - z)], [0, z, H / 2 * (1 - z)]])
     return cv2.warpAffine(img, M, (W, H))
+
+
+def card_frame(spec_shot, t, dur, cache):
+    """편 안의 '문장' 카드 (템플릿, 차분하게): 작은 THE FIRST LINE · 로마 숫자, 가는 금선, 한글 제목, 영어 부제"""
+    if "card" not in cache:
+        cache["card"] = (text_layer([spec_shot.get("label", "")], "en5", 30, (190, 160, 105), track=12, shadow=False, height=50),
+                         text_layer([spec_shot["num"]], "en", 84, GOLD, shadow=False, height=110),
+                         text_layer([spec_shot["title"]], "ko", 60, IVORY, height=100),
+                         text_layer([spec_shot.get("en", "")], "it", 40, (205, 192, 168), shadow=False, height=64))
+    k, num, ttl, en = cache["card"]
+    out_a = 1 - ease((t - dur + 0.7) / 0.7)
+    img = np.zeros((H, W, 3), np.uint8)
+    lay = np.zeros((H, W, 4), np.uint8); lay[300:350] = k; lay[350:460] = num
+    img = blend(img, lay, ease(t / 0.9) * out_a)
+    L = int(300 * ease((t - 0.3) / 1.3)); y = 488
+    if L > 2:
+        line = np.zeros((H, W, 3), np.uint8); cv2.line(line, (W // 2 - L, y), (W // 2 + L, y), (92, 164, 201), 2, cv2.LINE_AA)
+        img = cv2.add(img, (cv2.addWeighted(line, 1.0, cv2.GaussianBlur(line, (0, 0), 5), 1.3, 0).astype(np.float32) * out_a).astype(np.uint8))
+    l2 = np.zeros((H, W, 4), np.uint8); l2[512:612] = ttl; img = blend(img, l2, ease((t - 0.6) / 0.9) * out_a)
+    if spec_shot.get("en"):
+        l3 = np.zeros((H, W, 4), np.uint8); l3[618:682] = en; img = blend(img, l3, ease((t - 1.1) / 1.0) * out_a)
+    return img
 
 
 def tonight_frame(s, t, dur, cache):
@@ -396,6 +417,18 @@ def overlay(img, ov, t, dur, cache, key):
         # 왼쪽 정렬처럼 보이게 가운데 정렬 레이어를 옮긴다
         lay[H - BAR - 120:H - BAR - 60] = tl
         return blend(img, lay, a, dx=-W // 2 + 380)
+    if k == "verse":     # 명상록 구절 (템플릿): 가운데 정렬, 두 줄 + 빈 줄 + '- 명상록 n권 n절 -', 화면을 살짝 어둡게
+        if key not in cache:
+            cache[key] = (text_layer(ov["lines"], "ko", ov.get("size", 70), (240, 222, 178), height=230, line_gap=1.5),
+                          text_layer([f"- {ov['src']} -"], "ko6", 38, (205, 180, 128), shadow=True, height=70))
+        q, src = cache[key]
+        a = ease((t - ov["at"]) / 0.7) * (1 - ease((t - ov.get("until", dur) + 0.6) / 0.6))
+        if a <= 0: return img
+        img = (img.astype(np.float32) * (1 - 0.45 * a)).astype(np.uint8)
+        lay = np.zeros((H, W, 4), np.uint8); top = ov.get("top", 360); lay[top:top + 230] = q
+        a2 = ease((t - ov["at"] - 0.9) / 0.7) * (1 - ease((t - ov.get("until", dur) + 0.6) / 0.6))
+        l2 = np.zeros((H, W, 4), np.uint8); l2[top + 250:top + 320] = src
+        return blend(blend(img, lay, a, dy=8 * (1 - a)), l2, a2)
     if k == "quote":     # 일기 손글씨: 글자가 앞에서부터 차례로 써짐
         if key not in cache:
             ink = ov.get("ink")
@@ -531,7 +564,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
             d = dur_of(vfile(v)); vt.append((v, cur, d)); cur += d + gap
         need = (cur - gap + post) if vs else 0
         d = max(s.get("dur", 0), need)
-        if s["type"] == "intro": d = 12.0
+        if s["type"] == "intro": d = 10.6
         if s.get("fixed"): d = s["dur"]
         plan.append({"s": s, "t0": t, "dur": d, "voices": [(v, t + a, dd) for v, a, dd in vt]}); t += d
     total = t
@@ -567,6 +600,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
             if s["type"] == "black": img = np.zeros((H, W, 3), np.uint8)
             elif s["type"] == "intro": img = intro.frame(tt)
             elif s["type"] == "card": img = card_frame(s, tt, d, cache)
+            elif s["type"] == "episode": img = episode_frame(s, tt, d, cache)
             elif s["type"] == "end": img = end_frame(s, tt, d, cache, P(S["intro"]["logo"]))
             elif s["type"] == "tonight": img = tonight_frame(s, tt, d, cache)
             elif s["type"] == "still": img = src.frame(prog)
@@ -621,7 +655,7 @@ def mix_audio(S, plan, total, t_from, t_to, vfile, P, out_dir, tag):
     for p in plan:
         for v, at, d in p["voices"]:
             fx = S.get("monologue_fx", "highpass=f=60,") if v in mono else "highpass=f=60,"   # 2026-11-03 대표: 황제(명일)는 생 목소리 그대로
-            lab = add(vfile(v), at, S.get("voice_vol", 1.0) * (1.1 if v in mono else 1.0), fx)
+            lab = add(vfile(v), at, S.get("voice_vol", 1.0) * (S.get("voice_gain", {}).get("mono", 1.1) if v in mono else 1.0), fx)
             if lab: vo.append(lab)
         s = p["s"]
         if s.get("amb"):
