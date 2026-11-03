@@ -1,0 +1,32 @@
+{
+ "id": "e6a_box",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Inside the Roman command tent by day, a small wooden box wrapped in dark cloth resting on the wooden table, a kneeling soldier with lowered head beside the table, the emperor in his crimson cloak standing with his back to the box, turned away, one hand slightly raised as if saying no, his face not visible, cold pale light through the tent. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff9-0e70-7971-a325-baed1f00af79",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff9-0e70-7971-a325-baed1f00af79/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff9-0e70-7971-a325-baed1f00af79/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff9-0e70-7971-a325-baed1f00af79",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff9-0e70-7971-a325-baed1f00af79/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff9-0e70-7971-a325-baed1f00af79/cancel",
+  "expires_at": "2026-11-10T05:56:46.263571+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff9-0e70-7971-a325-baed1f00af79/99b52490-134a-4b06-817c-37c42cf2b0b5.jpeg"
+   }
+  ]
+ },
+ "seconds": 150,
+ "file": "social/side/gen/e6a_box.jpeg"
+}

@@ -1,0 +1,26 @@
+{
+ "id": "ev_rider",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The rider slowly approaches the tent while soldiers turn their heads to watch, the red sun sinking lower. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f44-662c-7163-921c-967a50f47906/cf9f5e88-1be4-42a2-867b-9e97116db585.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ffc-bb02-784e-946e-bcc6804bcedc",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ffc-bb02-784e-946e-bcc6804bcedc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ffc-bb02-784e-946e-bcc6804bcedc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "in_progress",
+ "result": {
+  "status": "in_progress",
+  "request_id": "01a19ffc-bb02-784e-946e-bcc6804bcedc",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ffc-bb02-784e-946e-bcc6804bcedc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ffc-bb02-784e-946e-bcc6804bcedc/cancel"
+ },
+ "seconds": 902
+}

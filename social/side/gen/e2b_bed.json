@@ -1,0 +1,32 @@
+{
+ "id": "e2b_bed",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A Korean man in his fifties lying awake in bed at night in a dark apartment bedroom, staring at the ceiling, a phone face down on the nightstand, faint city light through the curtains. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff3-6e03-7266-8448-f52eb9afbfc4",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff3-6e03-7266-8448-f52eb9afbfc4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff3-6e03-7266-8448-f52eb9afbfc4/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff3-6e03-7266-8448-f52eb9afbfc4",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff3-6e03-7266-8448-f52eb9afbfc4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff3-6e03-7266-8448-f52eb9afbfc4/cancel",
+  "expires_at": "2026-11-10T05:50:03.110078+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff3-6e03-7266-8448-f52eb9afbfc4/20b104fb-a358-445b-9688-88600b036b9a.jpeg"
+   }
+  ]
+ },
+ "seconds": 113,
+ "file": "social/side/gen/e2b_bed.jpeg"
+}

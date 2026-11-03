@@ -1,0 +1,26 @@
+{
+ "id": "ev_generals",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The general leaning over the map slowly jabs his finger at the map while the others stay still, the lamp flames flickering. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff3-6de8-7bae-972e-fab8f4d5b04c/814eb834-58f0-4286-beec-0469c860ff7f.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a00a-8221-7072-aac9-c8e0ab6c18d8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a00a-8221-7072-aac9-c8e0ab6c18d8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a00a-8221-7072-aac9-c8e0ab6c18d8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "in_progress",
+ "result": {
+  "status": "in_progress",
+  "request_id": "01a1a00a-8221-7072-aac9-c8e0ab6c18d8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a00a-8221-7072-aac9-c8e0ab6c18d8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a00a-8221-7072-aac9-c8e0ab6c18d8/cancel"
+ },
+ "seconds": 906
+}

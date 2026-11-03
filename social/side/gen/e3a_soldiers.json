@@ -1,0 +1,32 @@
+{
+ "id": "e3a_soldiers",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Night in a Roman legionary winter camp on the Danube, hundreds of soldiers with torches gathered in the snow, the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak standing on a low wooden platform addressing them, seen from behind at a distance so his face is not visible, his crimson cloak lit by torchlight, breath visible in the cold air. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff3-6c98-723d-90ab-69783cb54a91",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff3-6c98-723d-90ab-69783cb54a91/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff3-6c98-723d-90ab-69783cb54a91/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff3-6c98-723d-90ab-69783cb54a91",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff3-6c98-723d-90ab-69783cb54a91/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff3-6c98-723d-90ab-69783cb54a91/cancel",
+  "expires_at": "2026-11-10T05:50:54.161038+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff3-6c98-723d-90ab-69783cb54a91/e2b3284d-f659-42f5-9efb-272beb59f8a4.jpeg"
+   }
+  ]
+ },
+ "seconds": 163,
+ "file": "social/side/gen/e3a_soldiers.jpeg"
+}

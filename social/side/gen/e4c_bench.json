@@ -1,0 +1,32 @@
+{
+ "id": "e4c_bench",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "An older Korean man in his sixties sitting alone on a wooden bench by a quiet river at dawn, holding a thermos cup with both hands, calm and peaceful, mist on the water, seen from the side. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff6-ed0a-75d1-99e2-4860cbd9b5ff",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff6-ed0a-75d1-99e2-4860cbd9b5ff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff6-ed0a-75d1-99e2-4860cbd9b5ff/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff6-ed0a-75d1-99e2-4860cbd9b5ff",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff6-ed0a-75d1-99e2-4860cbd9b5ff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff6-ed0a-75d1-99e2-4860cbd9b5ff/cancel",
+  "expires_at": "2026-11-10T05:53:58.439597+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff6-ed0a-75d1-99e2-4860cbd9b5ff/e62baff5-44a9-46e4-90ad-f9bee7e659d8.jpeg"
+   }
+  ]
+ },
+ "seconds": 119,
+ "file": "social/side/gen/e4c_bench.jpeg"
+}

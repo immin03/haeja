@@ -1,0 +1,26 @@
+{
+ "id": "ev_garden",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The two men walk slowly forward side by side in the warm sunlight while leaves sway gently. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff7-6572-7b98-9a30-a53d61f2708d/3661794f-d0fd-47f3-957c-b9afba15e952.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a018-53a2-7460-a0aa-33c54f35e095",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a018-53a2-7460-a0aa-33c54f35e095/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a018-53a2-7460-a0aa-33c54f35e095/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "in_progress",
+ "result": {
+  "status": "in_progress",
+  "request_id": "01a1a018-53a2-7460-a0aa-33c54f35e095",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a018-53a2-7460-a0aa-33c54f35e095/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a018-53a2-7460-a0aa-33c54f35e095/cancel"
+ },
+ "seconds": 906
+}

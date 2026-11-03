@@ -1,0 +1,32 @@
+{
+ "id": "e6c_car",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A Korean man in his forties sitting in a parked car at night with both hands gripping the steering wheel, jaw clenched, rain streaks on the windshield, red tail lights blurred outside. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff9-6ba4-76be-8b07-3e52f8ef0162",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff9-6ba4-76be-8b07-3e52f8ef0162/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff9-6ba4-76be-8b07-3e52f8ef0162/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff9-6ba4-76be-8b07-3e52f8ef0162",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff9-6ba4-76be-8b07-3e52f8ef0162/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff9-6ba4-76be-8b07-3e52f8ef0162/cancel",
+  "expires_at": "2026-11-10T05:56:40.212794+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff9-6ba4-76be-8b07-3e52f8ef0162/05f140c9-5a22-49cb-b7bf-a5fd06536b2e.jpeg"
+   }
+  ]
+ },
+ "seconds": 119,
+ "file": "social/side/gen/e6c_car.jpeg"
+}

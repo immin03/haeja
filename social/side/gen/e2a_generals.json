@@ -1,0 +1,32 @@
+{
+ "id": "e2a_generals",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Inside a large Roman command tent at night, three Roman generals in bronze armor and red cloaks standing around a wooden map table, one leaning forward and pointing angrily at the map, another with arms crossed; at the far end the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak sits in shadow, seen from behind and slightly to the side so his face is not visible; oil lamps and a candle light the scene. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff3-6de8-7bae-972e-fab8f4d5b04c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff3-6de8-7bae-972e-fab8f4d5b04c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff3-6de8-7bae-972e-fab8f4d5b04c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff3-6de8-7bae-972e-fab8f4d5b04c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff3-6de8-7bae-972e-fab8f4d5b04c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff3-6de8-7bae-972e-fab8f4d5b04c/cancel",
+  "expires_at": "2026-11-10T05:50:18.391316+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff3-6de8-7bae-972e-fab8f4d5b04c/814eb834-58f0-4286-beec-0469c860ff7f.jpeg"
+   }
+  ]
+ },
+ "seconds": 132,
+ "file": "social/side/gen/e2a_generals.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "e4a_alone",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Deep night inside a Roman command tent, the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak sitting alone on the edge of a simple camp bed, elbows on his knees, head slightly lowered, seen from the side in deep shadow so his face is mostly hidden, a single candle on a stool beside him, the empty map table behind, perfect stillness. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff5-8ee7-78ea-8196-76a5f542e18a",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff5-8ee7-78ea-8196-76a5f542e18a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff5-8ee7-78ea-8196-76a5f542e18a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff5-8ee7-78ea-8196-76a5f542e18a",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff5-8ee7-78ea-8196-76a5f542e18a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff5-8ee7-78ea-8196-76a5f542e18a/cancel",
+  "expires_at": "2026-11-10T05:52:29.825361+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff5-8ee7-78ea-8196-76a5f542e18a/1f032acf-c83f-445f-a5ab-e27e5d3151e9.jpeg"
+   }
+  ]
+ },
+ "seconds": 119,
+ "file": "social/side/gen/e4a_alone.jpeg"
+}

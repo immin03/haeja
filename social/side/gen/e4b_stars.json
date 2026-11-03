@@ -1,0 +1,32 @@
+{
+ "id": "e4b_stars",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A lone figure in a deep crimson cloak, the Roman emperor seen from behind, standing at the open flap of a command tent looking up at a vast starry winter sky over the frozen Danube river, snow-covered tents fading into the distance, a faint glow of the tent behind him. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19ff5-ee3b-7f7b-9a5d-897e5423deb5",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff5-ee3b-7f7b-9a5d-897e5423deb5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff5-ee3b-7f7b-9a5d-897e5423deb5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19ff5-ee3b-7f7b-9a5d-897e5423deb5",
+  "status_url": "https://api.higgsfield.ai/requests/01a19ff5-ee3b-7f7b-9a5d-897e5423deb5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19ff5-ee3b-7f7b-9a5d-897e5423deb5/cancel",
+  "expires_at": "2026-11-10T05:52:57.222039+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff5-ee3b-7f7b-9a5d-897e5423deb5/1bfafafb-cce7-4672-ab67-10f2214c506f.jpeg"
+   }
+  ]
+ },
+ "seconds": 125,
+ "file": "social/side/gen/e4b_stars.jpeg"
+}

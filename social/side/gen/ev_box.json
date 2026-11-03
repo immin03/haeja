@@ -1,0 +1,26 @@
+{
+ "id": "ev_box",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The emperor stays turned away and slowly lowers his raised hand while the kneeling soldier bows his head lower. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19ff9-0e70-7971-a325-baed1f00af79/99b52490-134a-4b06-817c-37c42cf2b0b5.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a00a-80b3-7140-8477-050bed980c7a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a00a-80b3-7140-8477-050bed980c7a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a00a-80b3-7140-8477-050bed980c7a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "in_progress",
+ "result": {
+  "status": "in_progress",
+  "request_id": "01a1a00a-80b3-7140-8477-050bed980c7a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a00a-80b3-7140-8477-050bed980c7a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a00a-80b3-7140-8477-050bed980c7a/cancel"
+ },
+ "seconds": 905
+}
