@@ -18,7 +18,10 @@ from scipy import signal as sg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PIANO = os.path.join(HERE, "assets", "piano")
-BASS = os.path.join(HERE, "assets", "bass")   # 핑거 베이스 샘플 (FluidR3_GM electric_bass_finger)
+BASS = os.path.join(HERE, "assets", "bass")
+TAIKO = os.path.join(HERE, "assets", "taiko_drum"); TIMP = os.path.join(HERE, "assets", "timpani"); PIZZ = os.path.join(HERE, "assets", "pizzicato_strings")
+# 2026-11-04 대표님: "피아노여서 그 느낌이 덜하네… 베이스 쿵쿵이나… 박자에 맞춰" → style="drive": 타이코 북(박마다 쿵)·팀파니·현 피치카토 8분음표를 더한다
+PZ = [("A2", "C3", "E3", "A3"), ("F2", "A2", "C3", "F3"), ("C3", "E3", "G3", "C4"), ("G2", "B2", "D3", "G3")]   # 핑거 베이스 샘플 (FluidR3_GM electric_bass_finger)
 # 마디마다 베이스 라인: (박, 음) — 1박 뿌리음, 2박 뒤 8분 뿌리음, 3박 한 옥타브(또는 5도) 위, 4박 뿌리음
 BASSLINE = [("A1", "A2"), ("F1", "F2"), ("C2", "G2"), ("G1", "G2")]
 # 마디마다 (베이스, 분산화음 4음)
@@ -37,12 +40,12 @@ def note(name, sr, d=None):
                              capture_output=True, check=True).stdout
         x = np.frombuffer(raw, np.float32).copy()
         i0 = int(np.argmax(np.abs(x) > .02 * np.abs(x).max())); x = x[i0:]   # 앞 무음 제거
-        b, a = sg.butter(2, (2600 if d == PIANO else 1800) / (sr / 2)); x = sg.lfilter(b, a, x)   # 고음을 살짝 깎아 부드럽게
+        b, a = sg.butter(2, {PIANO: 2600, PIZZ: 3200, TAIKO: 5000, TIMP: 4000}.get(d, 1800) / (sr / 2)); x = sg.lfilter(b, a, x)   # 고음을 살짝 깎아 부드럽게
         _CACHE[k] = (x / (np.abs(x).max() + 1e-9)).astype(np.float32)
     return _CACHE[k]
 
 
-def make_bed(n, sr, beat, strong, h0, h1, seed=7):
+def make_bed(n, sr, beat, strong, h0, h1, seed=7, style="drive"):
     rng = np.random.default_rng(seed)
     out = np.zeros(n, np.float32)
 
@@ -61,7 +64,9 @@ def make_bed(n, sr, beat, strong, h0, h1, seed=7):
         b = k // 2; ch = CHORDS[((b - hb) // 4) % 4]
         grow = .75 + .25 * min(1, b / max(1, hb - 2))
         vel = (1.0 if k % 2 == 0 else .72) * (1 + .06 * rng.standard_normal())
-        add(k * e8, note(ch[1][k % 4], sr), .30 * grow * vel, cut=4 * beat - (b % 4) * beat + .1)
+        add(k * e8, note(ch[1][k % 4], sr), (.16 if style == "drive" else .30) * grow * vel, cut=4 * beat - (b % 4) * beat + .1)
+        if style == "drive":   # 현 피치카토 8분음표 — 예고편처럼 쉬지 않고 달리는 리듬
+            pz = PZ[((b - hb) // 4) % 4]; add(k * e8, note(pz[(k * 3) % 4 if k % 2 else (k // 2) % 2], sr, PIZZ), .30 * grow * vel, cut=e8 * 1.6)
     for b in range(0, hb, 4):   # 2) 마디 첫 박: 베이스 + 윗음
         ch = CHORDS[((b - hb) // 4) % 4]; tp = TOPS[((b - hb) // 4) % 4]
         add(b * beat, note(ch[0], sr), .34, cut=4 * beat + .1); add(b * beat, note(tp, sr), .13, cut=4 * beat + .1)
@@ -73,6 +78,14 @@ def make_bed(n, sr, beat, strong, h0, h1, seed=7):
         lo, hi = BASSLINE[((b - hb) // 4) % 4]; g = .75 + .25 * min(1, b / max(1, hb - 4))
         for off, nm, lv, ln in ((0, lo, .55, 1.4), (1.5, lo, .38, .45), (2, hi, .42, .9), (3, lo, .45, .9)):
             add((b + off) * beat, note(nm, sr, BASS), lv * g, cut=ln * beat)
+    if style == "drive":   # 6) 타이코 북: 박마다 쿵, 마디 첫 박·컷이 바뀌는 박은 크게(+팀파니), 로고 직전 2박은 팀파니 16분음표 롤
+        for b in range(hb - 2):
+            big = b % 4 == 0 or b in strong; g = .7 + .3 * min(1, b / max(1, hb - 4))
+            add(b * beat, note("C2" if big else "G2", sr, TAIKO), (.62 if big else .30) * g)
+            if big: add(b * beat, note(BASSLINE[((b - hb) // 4) % 4][0].replace("1", "2"), sr, TIMP), .30 * g, cut=beat * 1.5)
+        for j in range(8):
+            add((hb - 2) * beat + j * beat / 4, note("A1", sr, TIMP), .12 + .05 * j, cut=beat / 4 + .05)
+        add(h0, note("C2", sr, TAIKO), .75); add(h0, note("C2", sr, TIMP), .5, cut=2.4)
     # 5) 로고: C장조 화음이 아래에서 위로 천천히 펼쳐진다 (0.07초 간격), 맨 위 C6 은 아주 작게
     roll = [("C3", .40), ("G3", .30), ("C4", .30), ("E4", .27), ("G4", .24), ("C5", .20), ("E5", .14), ("C6", .07)]
     add(h0 + .03, note("C2", sr, BASS), .55, cut=2.2)   # 로고 화음 밑을 베이스가 길게 받친다
