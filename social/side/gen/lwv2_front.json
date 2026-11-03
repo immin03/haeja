@@ -1,0 +1,31 @@
+{
+ "id": "lwv2_front",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand writes slowly and naturally, the reed pen gliding across the papyrus in small flowing strokes with tiny natural lifts between words, the candle flame flickering softly behind. Keep the painterly look and every detail identical to the first frame; the camera stays still with at most a very slow push-in. No text, no morphing, no extra fingers, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a095-c855-7465-a952-b12bafe3bea1/3d8dc98d-be62-44ea-a6ae-3c12bb9165a4.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a097-5491-749b-9184-e03303507aec",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a097-5491-749b-9184-e03303507aec/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a097-5491-749b-9184-e03303507aec/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a097-5491-749b-9184-e03303507aec",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a097-5491-749b-9184-e03303507aec/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a097-5491-749b-9184-e03303507aec/cancel",
+  "expires_at": "2026-11-10T08:51:51.346301+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a097-5491-749b-9184-e03303507aec/87170a22-fd8e-4b2f-b575-6f6ca1fba9c7.mp4"
+  }
+ },
+ "seconds": 282,
+ "file": "social/side/gen/lwv2_front.mp4"
+}
