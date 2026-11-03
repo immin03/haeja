@@ -1084,9 +1084,18 @@ def cuts_source(v, n_frames, seed):
     edges = []; t = 0.0
     for c in cs:
         d_ = float(c.get("d") or each); edges.append((t, t + d_, c)); t += d_
+    if v.get("_beat"):   # 박자에 맞춰: 장면 박자 수를 컷 수로 나눠 경계를 박자 위에 둔다
+        bt = v["_beat"]; B = max(1, int(round(total / bt))); n = len(cs); bd = [0] + [max(1, int(round(i * B / n))) for i in range(1, n)] + [B]
+        edges = [(bd[i] * bt, bd[i + 1] * bt, cs[i]) for i in range(n)]
     st = {"j": -1, "src": None, "a": 0.0}
 
     def get(u):
+        im = _cut_get(u)
+        if v.get("_beat") and st["j"] > 0 and u - st["a"] < .1:   # 컷 순간 아주 짧게 밝아진다 (레퍼런스 도입부처럼)
+            im = Image.blend(im, Image.new("RGB", (W, H), (255, 248, 236)), .32 * (1 - (u - st["a"]) / .1))
+        return im
+
+    def _cut_get(u):
         j = next((k for k, (a, b, _) in enumerate(edges) if u < b), len(edges) - 1)
         if j != st["j"]:
             if st["src"] is not None and hasattr(st["src"], "close"): st["src"].close()
@@ -1566,7 +1575,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 d.text((62, fy + 2), foot, font=F("Medium", 21), fill=(0, 0, 0, 150)); d.text((60, fy), foot, font=F("Medium", 21), fill=(232, 226, 212, 230))
             cur = next((l for l in reversed(x["lines"]) if u >= l[0] - .05), None)
             if cur and u <= cur[0] + cur[1] + .25 and typ != "end":
-                subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 160) - int(round(40 * bars)))
+                subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 330) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리
             enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
             if i == n - 1: last_fr = np.asarray(fr, np.float32)
             if i == n - 1:
@@ -1607,10 +1616,79 @@ def sfx_chime(level=.05):
     return (y / 1.75 * level).astype(np.float32)
 
 
+def sfx_kick(level=.05, seed=0):
+    """박자마다 낮게 울리는 킥 (영화 예고편 맥박)"""
+    n = int(SR * .5); t = np.arange(n) / SR; f = 120 * np.exp(-t * 28) + 46
+    return (np.sin(2 * np.pi * np.cumsum(f) / SR) * _env(n, .002, .16) * level).astype(np.float32)
+
+
+def sfx_bass(level=.15, f=55.0):
+    """박자마다 짧은 베이스음 (사인 + 2배음, 빠르게 줄어든다)"""
+    n = int(SR * .45); t = np.arange(n) / SR
+    y = (np.sin(2 * np.pi * f * t) + .35 * np.sin(2 * np.pi * 2 * f * t)) * _env(n, .004, .22)
+    return (y / 1.35 * level).astype(np.float32)
+
+
+def sfx_tick(level=.01, seed=0):
+    n = int(SR * .05); rng = np.random.default_rng(seed); x = rng.standard_normal(n)
+    from scipy import signal as _sg
+    x = _sg.lfilter([1, -1], [1, -.6], x)
+    return (x / (np.abs(x).max() + 1e-9) * _env(n, .0005, .012) * level).astype(np.float32)
+
+
+def sfx_braam(level=.12):
+    """밸류노트 로고가 뜰 때 웅장한 저음 화음 + 맑은 위 음 (2026-11-03 대표님: 약간 웅장한 효과음)"""
+    from scipy import signal as _sg
+    n = int(SR * 3.2); t = np.arange(n) / SR
+    saw = lambda f: 2 * ((t * f) % 1) - 1
+    low = sum(saw(f) * w for f, w in ((55, 1), (82.41, .7), (110, .5), (164.8, .25)))
+    low = _sg.lfilter(*_sg.butter(2, 900 / (SR / 2)), low) * np.minimum(1, t / .06) * np.exp(-t / 1.4)
+    shine = sum(np.sin(2 * np.pi * f * t) * w for f, w in ((659.3, .5), (987.8, .3), (1318.5, .18))) * np.minimum(1, t / .25) * np.exp(-t / 1.8)
+    y = low / (np.abs(low).max() + 1e-9) + shine * .35
+    return (y / (np.abs(y).max() + 1e-9) * level).astype(np.float32)
+
+
+def hook_bed(n, timeline):
+    """훅 전용 음악: 박자마다 킥, 8분음표 틱, 낮은 드론, 컷·장면이 바뀌는 박자에 강한 타격, 인트로 직전 상승음, 로고에 웅장한 소리.
+    테마곡은 이 구간에서 쉬고 인트로가 끝나며 들어온다. 반환: (베드 신호, 인트로가 끝나는 시각)"""
+    bed = np.zeros(n, np.float32)
+    def add(at, x):
+        i = int(at * SR)
+        if 0 <= i < n: bed[i:i + len(x)] += x[: max(0, n - i)]
+    idt = next((x for x in timeline if x["sc"]["v"].get("ident")), None)
+    if idt is None: return bed, 0.0
+    bt = idt["sc"]["v"].get("_beat") or .625; h0 = idt["start"]; h1 = idt["start"] + idt["dur"]
+    strong = set()
+    for x in timeline:
+        if x["start"] >= h0: break
+        strong.add(round(x["start"] / bt))
+        for e in cut_edges(x["sc"]["v"], x["dur"]): strong.add(round((x["start"] + e) / bt))
+    nb = int(round(h0 / bt))
+    for b in range(nb):
+        tb = b * bt; grow = .6 + .4 * b / max(1, nb)
+        add(tb, sfx_hit(.34 * grow, seed=b) if b in strong else sfx_kick(.22 * grow, seed=b))   # 2026-11-03 대표님 "음악이 잘 안 들린다" → 약 +10dB
+        add(tb, sfx_bass(.16 * grow, 55.0 if (b // 4) % 2 == 0 else 49.0))   # 박자마다 베이스음 (박자가 귀에 들리게)
+        add(tb + bt / 2, sfx_tick(.05 * grow, seed=b))
+    tt = np.arange(int(h0 * SR)) / SR   # 낮은 드론: 서서히 커졌다가 인트로 직전에 빠진다
+    dr = (np.sin(2 * np.pi * 49 * tt) + .6 * np.sin(2 * np.pi * 73.4 * tt)) * (1 + .25 * np.sin(2 * np.pi * tt / (bt * 4)))
+    dr *= np.minimum(1, tt / 1.0) * np.clip((h0 - tt) / .3, 0, 1) * .09; bed[:len(dr)] += dr.astype(np.float32)
+    add(h0 - 2 * bt, sfx_riser(2 * bt, .22, seed=3))
+    add(h0, sfx_hit(.38, seed=99)); add(h0 + .7, sfx_braam(.42)); add(h0 + .15, NBK_whoosh(.9, .12))
+    return bed, h1
+
+
+def NBK_whoosh(dur, level):
+    import notebook as NBK
+    return NBK.whoosh(SR, dur, level=level, seed=5)
+
+
 def cut_edges(v, dur):
     """cuts_source 와 같은 계산으로 컷이 바뀌는 시각들"""
     cs = [c if isinstance(c, dict) else {"lib": c} for c in v.get("cuts", [])]
     if not cs: return []
+    if v.get("_beat"):
+        bt = v["_beat"]; B = max(1, int(round(dur / bt))); n = len(cs)
+        return [max(1, int(round(i * B / n))) * bt for i in range(1, n)]
     fixed = sum(float(c["d"]) for c in cs if c.get("d")); free = [c for c in cs if not c.get("d")]
     each = max(.5, (dur - fixed) / len(free)) if free else 0; t = 0.0; out = []
     for c in cs[:-1]: t += float(c.get("d") or each); out.append(t)
@@ -1671,6 +1749,7 @@ def main():
     # 1) 음성
     if not fake: from tts import speak
     timeline = []; t = 0.0; audio = []
+    BEAT = (60.0 / float(spec["hook"]["bpm"])) if spec.get("hook", {}).get("bpm") else 0.0   # 2026-11-03 대표님: 훅은 음악 박자에 맞춰 컷이 딱딱 바뀌어야 의미가 있다
     for sc in spec["scenes"]:
         lines = []
         for l in sc["lines"]:
@@ -1679,7 +1758,9 @@ def main():
                 except KeyError: print("  선택 문장 생략:", l[:40])
             else: lines.append(fill(l, V))
         if not lines and sc["v"].get("ident"):   # 2026-11-03 밸류노트 인트로: 말 없이 2.6초
-            dur = float(sc.get("dur", 2.6)); timeline.append({"sc": sc, "start": t, "dur": dur, "lines": []}); t += dur; continue
+            dur = float(sc.get("dur", 2.6))
+            if BEAT: dur = max(2, round(dur / BEAT)) * BEAT; sc["v"]["_beat"] = BEAT
+            timeline.append({"sc": sc, "start": t, "dur": dur, "lines": []}); t += dur; continue
         if not lines: print("  문장이 없어 장면 생략:", sc["v"]["type"]); continue
         lt = []; u = sc.get("lead", .25) if (timeline or "lead" not in sc) else max(.5, sc["lead"])   # 첫 장면은 검은 화면에서 떠오를 시간 최소 0.5초
         if spec.get("world") == "notebook" and "lead" not in sc:   # 2026-10-28 운영자: 인트로·장 전환은 시네마틱하게 → 말 앞에 화면만 흐르는 구간
@@ -1689,6 +1770,8 @@ def main():
             a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
+        if BEAT and sc["v"].get("cine"):   # 장면 끝을 다음 박자에 맞춘다 → 장면이 바뀌는 순간이 늘 박자 위
+            dur = math.ceil((t + dur) / BEAT - 1e-6) * BEAT - t; sc["v"]["_beat"] = BEAT
         if sc.get("endscreen"): dur = max(dur + .8, 8.0); ENDSCREEN_SEC[0] = round(dur, 1)   # 2026-11-03 대표님 "공백이 길었다": 20초 고정 대신 말 끝 + 0.8초 (유튜브 최종 화면 최소 5초는 지킴)
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
     total = t
@@ -1719,6 +1802,7 @@ def main():
         # 2026-11-03 대표님: "처음 훅에는 시네마틱한 효과음이 중요, 중간중간 장면 전환·주제 넘어갈 때도, 아웃트로도"
         for k, x in enumerate(timeline):
             v_ = x["sc"]["v"]
+            if v_.get("_beat"): continue   # 박자 맞춘 훅·인트로는 hook_bed 가 맡는다
             if v_.get("ident"):   # 밸류노트 인트로: 금선이 그어질 때 쉭, 로고가 뜰 때 낮은 울림
                 _add(x["start"] + .15, NBK.whoosh(SR, .9, level=.05, seed=k)); _add(x["start"] + .75, NBK.boom(SR, level=.12, seed=k))
             elif v_.get("cine"):
@@ -1757,7 +1841,11 @@ def main():
     boost[:first] = 1.5; boost[last:] = 1.5
     boost = _movavg(boost, int(SR * 1.2))
     mus = load_theme(len(mix)) * (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:, None]
-    st_ = np.stack([mix, mix], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
+    bed, h1 = hook_bed(len(mix), timeline)
+    if h1:   # 2026-11-03: 훅·인트로 동안 테마곡은 쉬고, 인트로가 끝나며 1.5초에 걸쳐 들어온다
+        g = np.clip((np.arange(len(mix)) / SR - (h1 - .4)) / 1.5, 0, 1).astype(np.float32); mus = mus * g[:, None]
+        bed = bed * (1 - .2 * env)   # 말할 때 베드는 아주 조금만 낮춘다
+    st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
     if "--stills" in sys.argv:  # 검수용: 장면마다 마지막 문장을 말하는 순간 한 장씩
