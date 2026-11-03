@@ -1,11 +1,12 @@
 // 인스타·쓰레드 카드뉴스·릴스 자동 게시
 // - {} (5분마다 cron)      : 토큰 갱신 → 처리 중인 영상 마무리 → 시간이 된 글을 채널별로 1편씩 게시
 //                            릴스(영상)는 컨테이너를 만들고 'processing'으로 둔 뒤, 다음 실행 때 처리가 끝났으면 게시
-//                            같은 채널은 최소 90분 간격(연결이 늦어 밀린 글이 한꺼번에 올라가지 않게)
+//                            같은 채널은 최소 60분 간격(연결이 늦어 밀린 글이 한꺼번에 올라가지 않게)
 // - {action:"now", id, t}  : (관리자) 해당 글을 지금 바로 게시
 // - {action:"check", t}    : (관리자) 두 계정 연결 상태와 게시 한도 확인
 // - 날짜 경과 차단: 캡션·제목에 연도 없이 적힌 'N월 N일'(올해 날짜) 중 가장 최근 날짜가 지금(KST)보다 2일 넘게 지났으면
 //                   정기 게시하지 않고 paused=true + '보류: 날짜 경과'로 돌린다 (미리 만든 콘텐츠를 며칠 뒤 올려 숫자가 달라지는 일 방지, 2026-10-28)
+//                   단 evergreen=true 또는 「3가지만/이것만 보면 된다」 제목은 예외 (2026-11-03)
 // - 스토리: 인스타에 올라간 릴스·카드뉴스를 다음 실행 때 스토리로도 게시 (릴스=같은 영상, 안 되면 표지 / 카드=첫 장). instagram_story_paused=true면 멈춤 (2026-10-31)
 // - app_config: social_paused(전체) / instagram_paused / threads_paused(채널별) 가 true면 정기 게시를 건너뜀 (수동 '지금 올리기'는 그대로 동작)
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
@@ -15,7 +16,7 @@ const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SE
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", "Access-Control-Allow-Methods": "POST, OPTIONS" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/v1.0";
-const GAP_MIN = 90;
+const GAP_MIN = 60; // 인스타 슬롯 간격(app_config ig_slots gap_min 60)과 맞춤 (2026-11-03)
 const DISC = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.";
 // 모든 게시물 본문 끝에 붙는 고정 안내 (해시태그·고지문 앞)
 const CTA = "▶ 현명한 투자를 위한 가치투자 가이드, 밸류노트\n600여 개 기업의 점수와 적정 주가를 프로필 링크에서 확인하세요.";
@@ -269,7 +270,11 @@ function latestDate(p: any): Date | null {
   }
   return best;
 }
+// 시기를 타지 않는 편(「이 3가지만 보면 된다」·「이것만 보면 된다」, evergreen=true)은 날짜 경과로 막지 않는다
+// (쇼츠보다 늦게 잡힌 릴스가 '날짜 경과'로 멈춰 누락되던 문제, 대표 2026-11-03 17:16)
+const EVERGREEN_RE = /이\s*3가지만 보면 된다|이것만 보면 된다/;
 function staleReason(p: any): string | null {
+  if (p.evergreen || EVERGREEN_RE.test(p.title || "")) return null;
   const d = latestDate(p); if (!d) return null;
   const kst = new Date(Date.now() + 9 * 3600e3);
   const today = Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate());
