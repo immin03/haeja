@@ -2069,7 +2069,23 @@ async function briefLoad(){
     sb.from('docs').select('id,data->monetize').eq('collection', 'agent').like('id', 'perf-20%').order('id', { ascending: false }).limit(1)]);
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = al.data || [];
   BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
+  brYtAuto();
 }
+/* 유튜브 구독자·총 조회 새로고침 (2026-11-03 대표님: "브리핑 구독자 수가 업데이트가 안 돼, 새로고침 버튼 누르면 업뎃되게")
+   Edge 함수 yt-public 이 채널 공개 페이지를 읽어 docs agent 'yt-channel'에 저장한다 — 유튜브 API·스튜디오·예약 작업 없이 바로.
+   버튼으로도, 브리핑을 열 때 저장된 숫자가 3시간 넘게 지났으면 자동으로도 돈다(한 번 열 때 1회). */
+async function brYtRefresh(manual){
+  if(BR.ytBusy) return; BR.ytBusy = true; if(manual) render();
+  try{
+    const { data: { session } } = await sb.auth.getSession(); if(!session) return;
+    const r = await fetch(FN + 'yt-public', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
+    if(r.error){ if(manual) toast('구독자 수를 못 읽었습니다: ' + r.error, true); return; }
+    BR.chan = { ...(BR.chan || {}), subs: r.subs, subs_approx: r.subs_approx, views_total: r.views_total, videos: r.videos, at: r.at, source: 'public' };
+    if(manual) toast(`구독자 ${n0(r.subs)}명${r.prev_subs != null && +r.prev_subs !== +r.subs ? ` (저장돼 있던 ${n0(r.prev_subs)}명에서 갱신)` : ''} · 총 조회 ${n0(r.views_total)}회`);
+  } finally { BR.ytBusy = false; if(page() === 'brief') render(); }
+}
+let __ytAuto = false;
+function brYtAuto(){ if(__ytAuto || !BR.loaded) return; const at = (BR.chan || {}).at; if(at && Date.now() - Date.parse(at) < 3 * 3600e3) return; __ytAuto = true; brYtRefresh(false); }
 /* 2026-10-30 운영자: "내 개인계정의 soxl 개장브리핑 등 내용은 여기 안 떠도 돼, 이건 관리자 페이지잖아", "이미 처리됐는데 여전히 떠있는 건 없애고"
    → 대표님 개인 투자 알림(앱 사용자 알림)은 관리자 알림에서 뺀다(앱 알림함에는 그대로 남는다).
    → 롱폼 승인 요청처럼 이미 처리된 알림은 데이터로 확인해 자동으로 숨긴다. 3일 지난 일반 알림도 숨긴다. */
@@ -2138,10 +2154,12 @@ function vGoal(kp){
   const best = pct(hours, H) >= pct(shorts, S) ? 'h' : 's';
   const plan = (gp.base || []).find(m => +m.subs >= 1000), good = (gp.good || []).find(m => +m.subs >= 1000);
   const eta = good || plan ? `구독자 1,000명 예상: ${good ? '잘 될 때 ' + good.month : ''}${good && plan ? ' · ' : ''}${plan ? '기본 ' + plan.month : ''}` : '';
+  const chanAge = chan.at ? Date.now() - Date.parse(chan.at) : Infinity, chanOld = chanAge > 3 * 3600e3;
   return `<div class="card br-goal">
-    <div class="gl-top"><div><div class="gl-k">목표</div><b>유튜브 수익 창출(광고 수익) 조건 달성</b></div><span class="br-st wait">1단계</span></div>
+    <div class="gl-top"><div><div class="gl-k">목표</div><b>유튜브 수익 창출(광고 수익) 조건 달성</b></div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><span class="br-st wait">1단계</span><button class="br-b ghost" type="button" data-br-ytrefresh title="유튜브 채널 공개 페이지에서 구독자·총 조회수를 지금 읽어 옵니다" style="padding:6px 11px;font-size:12.5px">${BR.ytBusy ? '읽는 중…' : '구독자 새로고침'}</button></div></div>
+    ${chan.at ? `<div class="gl-s" style="margin:-2px 0 6px">구독자 숫자 기준: ${kst(chan.at)}${chan.source === 'public' ? ' (유튜브 공개 페이지)' : ' (스튜디오)'}${chanOld ? ' · <b style="color:var(--bad)">' + Math.floor(chanAge / 3600e3) + '시간 전 숫자</b>' : ''}${chan.subs_approx ? ' · 1천 명부터는 공개 페이지가 반올림해 보여 줍니다' : ''}</div>` : ''}
     <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${n0(H)}시간 <b>또는</b> 쇼츠 조회 ${n0(S)}회)${after ? '' : ' · 2027-02-01부터는 8,000시간 또는 2,000만 회'}</div>
-    ${bar('구독자', subs, 1000, '명', `꼭 넘어야 하는 조건${chan.subs_28d_gain != null ? ` · 최근 28일 +${n0(chan.subs_28d_gain)}명` : ''}${chan.at ? ` · 스튜디오 ${kst(chan.at)}` : ''}`)}
+    ${bar('구독자', subs, 1000, '명', `꼭 넘어야 하는 조건${chan.subs_28d_gain != null ? ` · 최근 28일 +${n0(chan.subs_28d_gain)}명` : ''}${chan.views_total != null ? ` · 채널 총 조회 ${n0(chan.views_total)}회` : ''}`)}
     ${bar('롱폼 시청시간 (최근 1년)', hours, H, '시간', [best === 'h' ? '두 길 중 지금 더 가까운 쪽' : '', chan.watch_h_28d_all != null ? `참고: 채널 전체 시청 최근 28일 ${n0(chan.watch_h_28d_all)}시간(쇼츠 포함 — 조건에는 롱폼만 셉니다)` : ''].filter(Boolean).join(' · '))}
     ${bar('쇼츠 조회 (최근 90일)', shorts, S, '회', best === 's' ? '두 길 중 지금 더 가까운 쪽' : '')}
     <div class="gl-foot">${eta ? esc(eta) + ' · ' : ''}${mon ? '성과 진단 ' + esc(String(mon.at || '').slice(0, 10)) + ' 기준' : '관리자에 들어온 최근 30일 기록 기준이라 실제보다 조금 적을 수 있습니다'}</div>
@@ -2399,6 +2417,8 @@ function vBrief(){
     { label: wk ? '이번 주 방문' : '방문', value: n0(vis) },
     { label: wk ? '이번 주 가입' : '가입', value: n0(sig), note: `전체 ${n0(sg.total)}명` },
     { label: '올린 콘텐츠', value: `${up}/${plan}`, note: '올림 / 예정' }]);
+  /* 2026-11-03 대표님: "브리핑 구독자 수가 업데이트가 안 돼" → 구독자 타일은 브리핑 글이 아니라 yt-channel(새로고침 버튼·자동 갱신)의 최신 숫자를 쓴다 */
+  { const ch = BR.chan || {}; if(ch.subs != null && (!d.at || !ch.at || Date.parse(ch.at) >= Date.parse(d.at))){ const i = kp.findIndex(k => /구독자/.test(k.label)); const base = i >= 0 ? kp[i] : {}; const prevN = base.value != null ? +String(base.value).replace(/[^\d]/g, '') : NaN; const diff = Number.isFinite(prevN) && prevN !== +ch.subs ? `${+ch.subs > prevN ? '+' : '−'}${n0(Math.abs(+ch.subs - prevN))} (아침 브리핑 ${n0(prevN)})` : (base.delta || ''); const tile = { label: '유튜브 구독자', value: n0(ch.subs), delta: diff, note: `${kst(ch.at)} 기준${ch.source === 'public' ? '' : ' · 스튜디오'}` }; if(i >= 0) kp[i] = tile; else kp.unshift(tile); } }
   /* 2026-10-30 운영자: "쇼츠가 최신값 아닌 거 같은데? 최상위 1개가 1.6만이 넘는데" → 쇼츠 조회 숫자는 브리핑 글이 아니라 지금 데이터(공개 조회수 → 스튜디오 순)로 계산한다 */
   { const sv7 = brShortViews(r, wk); if(sv7){ const i = kp.findIndex(k => /쇼츠|유튜브 조회/.test(k.label)); const tile = { label: `쇼츠 조회 (${wk ? '이번 주 올린 편' : '최근 7일 올린 편'})`, value: n0(sv7.views), note: `${sv7.n}편 합계 · 최고 ${n0(sv7.top)}회 · ${sv7.asof} 기준` }; if(i >= 0) kp[i] = tile; else kp.splice(1, 0, tile); kp.length = Math.min(kp.length, 4); } }
   const todo = ((d.sections || []).find(sc => /직접 할 일/.test(sc.title || '')) || {}).items || [];
@@ -2495,6 +2515,7 @@ function bindBrief(){
     b.disabled = true;
     if(await brSaveInbox({ kind: 'revert', ref: a.ref || null, src: a.src || null, text: '되돌리기: ' + a.title })){ a.reverted = true; toast('되돌리기를 요청했습니다. 다음 작업부터 원래대로 돌아갑니다.'); render(); } else b.disabled = false; });
   box.querySelectorAll('[data-br-read]').forEach(b => b.onclick = async () => { b.disabled = true; await brRead([b.dataset.brRead]); render(); });
+  const yr = box.querySelector('[data-br-ytrefresh]'); if(yr) yr.onclick = () => brYtRefresh(true);
   const ra = box.querySelector('[data-br-readall]'); if(ra) ra.onclick = async () => { ra.disabled = true; await brRead(BR.alerts.filter(brAlertOpen).map(a => a.id)); toast('모두 읽음으로 바꿨습니다.'); render(); };
   const sd = box.querySelector('[data-br-send]'); if(sd) sd.onclick = async () => {
     const t = box.querySelector('[data-br-fb]'), text = (t.value || '').trim(); if(!text){ t.focus(); return; }
