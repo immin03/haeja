@@ -99,18 +99,20 @@ function pfSeg(reps, prefix, hash, rep){
   const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), days = [];
   for(let i = 0; i < 7; i++){ const x = new Date(Date.parse(today + 'T00:00:00Z') - i * 864e5).toISOString().slice(0, 10); days.push(x); }
   const older = reps.filter(r => !days.includes(r.id.slice(prefix.length))).slice(0, 4);
-  const chip = (day, r) => { if(!r){ if(day === today) return ''; return `<a href="#${hash}/${day}" class="miss" title="이 날 보고가 없습니다 — 열어서 '보충 요청'을 누르면 다음 회차가 채웁니다" style="opacity:.55;border-style:dashed">${day.slice(5).replace('-', '월 ')}일 <b style="background:rgba(216,65,90,.12);color:var(--bad)">빠짐</b></a>`; }
+  const chip = (day, r) => { if(!r){ if(day === today) return `<a href="#${hash}/${day}" class="miss" title="오늘 진단은 '오늘 진단 새로고침'을 누를 때만 작성됩니다" style="opacity:.55;border-style:dashed">${day.slice(5).replace('-', '월 ')}일 <b style="background:var(--bg);color:var(--muted)">아직</b></a>`; return `<a href="#${hash}/${day}" class="miss" title="이 날 보고가 없습니다 — 열어서 '보충 요청'을 누르면 다음 회차가 채웁니다" style="opacity:.55;border-style:dashed">${day.slice(5).replace('-', '월 ')}일 <b style="background:rgba(216,65,90,.12);color:var(--bad)">빠짐</b></a>`; }
     const pend = (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length;
     return `<a href="#${hash}/${day}"${rep && r.id === rep.id ? ' aria-current="page"' : ''}${pend ? ' class="hot"' : ''}>${day.slice(5).replace('-', '월 ')}일${pend ? `<b>${pend}</b>` : ''}${r.data.backfill ? ' <small style="font-weight:500">보충</small>' : ''}</a>`; };
   const missing = pfMissingDays(reps, prefix);
-  const html = days.map(d => chip(d, have[d])).join('') + older.map(r => chip(r.id.slice(prefix.length), r)).join('') + (missing.length ? `<button class="pf-btn" type="button" data-pf-refresh="${hash}" data-pf-day="${missing.join(',')}" style="margin-left:auto" title="빠진 ${missing.length}일을 다음 회차에 보충">빠진 ${missing.length}일 보충 요청</button>` : '');
+  const html = days.map(d => chip(d, have[d])).join('') + older.map(r => chip(r.id.slice(prefix.length), r)).join('')
+    + `<span style="margin-left:auto;display:inline-flex;gap:6px;flex-wrap:wrap">${missing.length ? `<button class="pf-btn ghost" type="button" data-pf-refresh="${hash}" data-pf-day="${missing.join(',')}" title="빠진 ${missing.length}일을 저장된 데이터로 보충">빠진 ${missing.length}일 보충 요청</button>` : ''}<button class="pf-btn" type="button" data-pf-refresh="${hash}" data-pf-day="${today}" title="오늘 진단을 지금 작성합니다 (정규 회차 없음 — 누를 때만)">${have[today] ? '오늘 진단 다시 쓰기' : '오늘 진단 새로고침'}</button></span>`;
   return html ? `<div class="seg" style="display:flex;flex-wrap:wrap;align-items:center">${html}</div>` : '';
 }
 function pfReports(){ return (PF.data && PF.data.perf || []).filter(x => /^perf-\d{4}-\d{2}-\d{2}$/.test(x.id)); }
 function pfCur(){ const reps = pfReports(); const want = 'perf-' + subPage(); return reps.find(x => x.id === want) || (/^\d{4}-\d{2}-\d{2}$/.test(subPage()) ? null : reps[0] || null); }
-/* 2026-11-03 17:30 대표님: "성과 쪽도 새로 고침 해야 불러오는 걸로, 자동으로 하지 말고" → 자동 보충 없음. 빠진 날은 대표님이 '보충 요청'을 누르면
-   docs agent 'perf-refresh'에 적히고, 성과 평가(20:52)·개선(05:37) 작업이 다음 회차에 그 요청을 보고 그 날짜만 저장된 데이터로 보충한다. */
-const pfMissCard = (kind) => /^\d{4}-\d{2}-\d{2}$/.test(subPage()) ? `<div class="card pf-hero"><div class="k">${esc(subPage())} ${kind}</div><div class="h">이 날 보고가 없습니다.</div><div class="n">그날 작업이 사용량 한도 등으로 못 돌았습니다. 자동으로 채우지 않습니다 — 아래 '보충 요청'을 누르면 다음 ${kind === '롱폼 진단' ? '20:52 성과 평가' : '05:37 개선'} 회차가 이 날짜를 저장된 데이터로 보충하고, 보충한 보고에는 '보충' 표시가 붙습니다.</div><div class="pf-ctl" style="margin-top:10px"><button class="pf-btn" type="button" data-pf-refresh="${kind === '롱폼 진단' ? 'perf' : 'perfs'}" data-pf-day="${esc(subPage())}">이 날 보충 요청</button></div></div>` : '';
+/* 2026-11-03 17:30·18:11 대표님: "성과 쪽도 새로 고침 해야 불러오는 걸로, 자동으로 하지 말고", "정규 회차를 싹 다 없애버리고 내가 눌러야만 업데이트"
+   → 성과 평가·개선 작업의 정규 회차 없음. 버튼을 누르면 docs agent 'perf-refresh'에 요청이 적히고, 브리핑 작업(하루 4번)이 그 요청을 보고
+   해당 진단 작업을 깨운다. 오늘 날짜 = 전체 진단 작성, 과거 날짜 = 저장된 데이터로 보충. */
+const pfMissCard = (kind) => /^\d{4}-\d{2}-\d{2}$/.test(subPage()) ? `<div class="card pf-hero"><div class="k">${esc(subPage())} ${kind}</div><div class="h">이 날 보고가 없습니다.</div><div class="n">그날 작업이 사용량 한도 등으로 못 돌았습니다. 자동으로 채우지 않습니다 — 아래 '보충 요청'을 누르면 다음 브리핑 회차(08·12·17·21시 17분)가 진단 작업을 깨워 이 날짜를 저장된 데이터로 보충하고, 보충한 보고에는 '보충' 표시가 붙습니다.</div><div class="pf-ctl" style="margin-top:10px"><button class="pf-btn" type="button" data-pf-refresh="${kind === '롱폼 진단' ? 'perf' : 'perfs'}" data-pf-day="${esc(subPage())}">이 날 보충 요청</button></div></div>` : '';
 /* 최근 7일 중 빠진 날 목록 */
 function pfMissingDays(reps, prefix){
   const have = new Set(reps.map(r => r.id.slice(prefix.length)));
@@ -126,7 +128,7 @@ async function pfRequestRefresh(kind, days){
   const q = row ? sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', 'perf-refresh')
     : sb.from('docs').upsert({ owner: (await sb.auth.getUser()).data.user.id, collection: 'agent', id: 'perf-refresh', data, updated_at: new Date().toISOString() });
   const { error } = await q; if(error){ toast('요청을 저장하지 못했습니다: ' + error.message, true); return false; }
-  toast(`보충 요청을 넣었습니다 (${days.map(d => d.slice(5)).join(', ')}). 다음 ${kind === 'perf' ? '20:52 성과 평가' : '05:37 개선'} 회차가 채웁니다.`); return true;
+  toast(`요청을 넣었습니다 (${days.map(d => d.slice(5)).join(', ')}). 브리핑 작업(08·12·17·21시 17분)이 받아서 진단 작업을 깨우고, 깨운 뒤 ${kind === 'perf' ? '10~15분' : '5~10분'} 안에 올라옵니다.`); return true;
 }
 function pfPending(){ const r = pfReports()[0]; return r ? (r.data.actions || []).filter(a => (a.status || 'proposed') === 'proposed').length : 0; }
 const pfNum = (v, unit = '', d = 1) => v == null || v === '' || isNaN(+v) ? '–' : (Math.round(+v * Math.pow(10, d)) / Math.pow(10, d)).toLocaleString('ko-KR') + unit;
@@ -276,7 +278,7 @@ function vPerf(){
   const acts = d.actions || [], pend = acts.filter(a => (a.status || 'proposed') === 'proposed').length;
   const order = { bad: 0, warn: 1, info: 2, good: 3 };
   const shortRows = shorts.slice(0, 12).map(v => { const s = v.studio || {}; return `<tr><td style="max-width:340px;white-space:normal;word-break:keep-all">${esc(v.title)}</td><td>${kst(v.published_at)}</td><td class="num">${pfNum(s.views, '', 0)}</td><td class="num ${pfCls(s.viewed_pct, 70) ? 'pf-' + pfCls(s.viewed_pct, 70) : ''}">${pfNum(s.viewed_pct, '%')}</td><td class="num">${pfNum(s.avg_pct, '%')}</td><td class="num">${s.subs != null ? s.subs : '–'}</td></tr>`; }).join('');
-  return `${head('롱폼 진단', '매일 20:10 스튜디오 지표 수집 → 20:52 진단 · 승인한 개선은 다음 콘텐츠부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perf')}
+  return `${head('롱폼 진단', '진단은 "오늘 진단 새로고침"을 누를 때만 작성(정규 회차 없음) · 승인한 개선은 다음 콘텐츠부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perf')}
   ${seg}
   ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
   ${rep ? '' : pfMissCard('롱폼 진단')}
@@ -386,12 +388,12 @@ function vPerfs(){
   const order = { bad: 0, warn: 1, info: 2, good: 3 };
   const withData = shorts.filter(v => v.studio), noData = shorts.filter(v => !v.studio);
   const reels = d.reels || [];
-  return `${head('숏폼 진단', '매일 05:37 쇼츠·릴스 진단 · 승인한 개선은 다음 쇼츠·릴스부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perfs')}
+  return `${head('숏폼 진단', '쇼츠·릴스 진단은 "오늘 진단 새로고침"을 누를 때만 작성(정규 회차 없음) · 승인한 개선은 다음 쇼츠·릴스부터 반영' + (rep ? ` · 이 진단 ${kst(rep.at)}` : ''), 'perfs')}
   ${seg}
   ${PF.msg ? `<div class="soc-flash ok">${esc(PF.msg)}</div>` : ''}
   ${rep ? '' : pfMissCard('숏폼 진단')}
   <div class="card pf-hero"><div class="k">${rep ? esc(rep.id.slice(6)) + ' 숏폼 진단 · ' + esc(d.by || 'Claude') : '실시간 지표 · 최근 7일'}</div>
-    <div class="h">${esc(rep ? (d.headline || '') : `최근 7일 쇼츠 ${live.shorts}편 조회 ${pfNum(live.views, '회', 0)} · 조회함 비율 ${pfNum(live.viewed_pct, '%')} — 첫 진단은 내일 05:37에 올라옵니다.`)}</div>
+    <div class="h">${esc(rep ? (d.headline || '') : `최근 7일 쇼츠 ${live.shorts}편 조회 ${pfNum(live.views, '회', 0)} · 조회함 비율 ${pfNum(live.viewed_pct, '%')} — 진단은 '오늘 진단 새로고침'을 누르면 작성됩니다.`)}</div>
     ${d.sample_note || live.missing ? `<div class="n">${esc(d.sample_note || '')}${live.missing ? `${d.sample_note ? ' · ' : ''}올린 지 하루가 지났는데 스튜디오 지표가 없는 쇼츠 ${live.missing}편 (업로드 작업 20:10 회차가 모읍니다)` : ''}</div>` : ''}</div>
   <div class="pf-kpis">${pfKpi('조회함 비율', k.viewed_pct, '%', PFS_GOAL.viewed_pct)}${pfKpi('평균 조회율', k.avg_pct, '%', PFS_GOAL.avg_pct)}${pfKpi('1천 회당 구독', k.sub_k, '명', PFS_GOAL.sub_k)}${pfKpi('조회수', k.views, '회', 0, `쇼츠 ${k.shorts ?? '–'}편${k.reels != null ? ` · 릴스 ${k.reels}편` : ''}${isLive ? ' · 실시간' : ''}`)}${pfKpi('구독 증가', k.subs, '명', 0, k.best ? `최고 ${esc(k.best)}` : '최근 7일')}</div>
 
