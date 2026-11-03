@@ -1,0 +1,32 @@
+{
+ "id": "lb01_dawn_window",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Early morning in the year 170, inside a quiet stone study of a Roman villa, an older Roman emperor in his fifties with short curly grey-brown hair and a short curly grey beard, in a plain off-white wool tunic and a deep crimson cloak, no crown sits at a plain wooden desk beside a tall open window, seen from behind his right shoulder so his face is not visible, writing on a small wax tablet with a bronze stylus, the writing on the tablet is only faint abstract scratches, golden sunrise light pouring in across the desk, a clay oil lamp just put out with a thin curl of smoke, cypress trees and distant hills outside. Camera at shoulder height, still. Cinematic oil-painting look like a sunlit Neoclassical painting brought to life, soft warm golden daylight, cream marble, terracotta, olive green and pale sky blue palette, gentle haze, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm softly lit empty area in the top third. Absolutely no text, no letters, no numbers, no inscriptions on stone, no logos, no watermark, no modern objects anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f7b-bac2-7ac0-9ad4-5e1de279e59c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7b-bac2-7ac0-9ad4-5e1de279e59c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7b-bac2-7ac0-9ad4-5e1de279e59c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f7b-bac2-7ac0-9ad4-5e1de279e59c",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7b-bac2-7ac0-9ad4-5e1de279e59c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7b-bac2-7ac0-9ad4-5e1de279e59c/cancel",
+  "expires_at": "2026-11-10T03:39:36.230965+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f7b-bac2-7ac0-9ad4-5e1de279e59c/1aa27867-1947-44a7-a9f1-49d6817ab577.jpeg"
+   }
+  ]
+ },
+ "seconds": 131,
+ "file": "social/side/gen/lb01_dawn_window.jpeg"
+}

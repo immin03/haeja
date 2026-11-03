@@ -1,0 +1,32 @@
+{
+ "id": "lb03_bath",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Interior of an empty Roman bath hall in soft afternoon light, a large still turquoise pool with faint steam rising, tall arched windows letting in slanted beams of golden light, marble walls and a coffered ceiling, a single folded white linen towel on the stone edge of the pool, nobody in the scene, calm and silent. Cinematic oil-painting look like a sunlit Neoclassical painting brought to life, soft warm golden daylight, cream marble, terracotta, olive green and pale sky blue palette, gentle haze, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm softly lit empty area in the top third. Absolutely no text, no letters, no numbers, no inscriptions on stone, no logos, no watermark, no modern objects anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f7b-bad5-747b-92ca-9554284d45c3",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7b-bad5-747b-92ca-9554284d45c3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7b-bad5-747b-92ca-9554284d45c3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f7b-bad5-747b-92ca-9554284d45c3",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7b-bad5-747b-92ca-9554284d45c3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7b-bad5-747b-92ca-9554284d45c3/cancel",
+  "expires_at": "2026-11-10T03:39:16.690068+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f7b-bad5-747b-92ca-9554284d45c3/cd0ef7cc-47e8-452d-a0af-ebcbc912a53b.jpeg"
+   }
+  ]
+ },
+ "seconds": 113,
+ "file": "social/side/gen/lb03_bath.jpeg"
+}

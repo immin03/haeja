@@ -1,0 +1,32 @@
+{
+ "id": "lb05_arena_empty",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Wide view of an empty Roman amphitheatre at early morning, tiers of pale stone seats curving around an empty raked sand floor, long soft shadows, a few birds flying over the rim, morning haze, a single small human figure in a crimson cloak standing alone in the middle of the sand, seen from far behind, tiny in the frame. Cinematic oil-painting look like a sunlit Neoclassical painting brought to life, soft warm golden daylight, cream marble, terracotta, olive green and pale sky blue palette, gentle haze, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm softly lit empty area in the top third. Absolutely no text, no letters, no numbers, no inscriptions on stone, no logos, no watermark, no modern objects anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f7d-2eb0-79db-8dc0-3409bbb009b2",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7d-2eb0-79db-8dc0-3409bbb009b2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7d-2eb0-79db-8dc0-3409bbb009b2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f7d-2eb0-79db-8dc0-3409bbb009b2",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7d-2eb0-79db-8dc0-3409bbb009b2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7d-2eb0-79db-8dc0-3409bbb009b2/cancel",
+  "expires_at": "2026-11-10T03:40:45.852503+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f7d-2eb0-79db-8dc0-3409bbb009b2/b39b8b38-4fad-4a00-9ab1-4bf91ca19da6.jpeg"
+   }
+  ]
+ },
+ "seconds": 106,
+ "file": "social/side/gen/lb05_arena_empty.jpeg"
+}

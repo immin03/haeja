@@ -1,0 +1,32 @@
+{
+ "id": "lc03_brazier_storm",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Night on a wooden Roman camp rampart in heavy rain and wind, an older Roman emperor in his fifties with short curly grey-brown hair and a short curly grey beard, in a plain off-white wool tunic and a deep crimson cloak, no crown stands beside a burning iron brazier, seen in profile from a distance with his face in shadow and not recognisable, rain streaking through the orange firelight, sparks blown sideways, dark storm clouds and the silhouettes of tents below. Cinematic film still look, cold desaturated steel-blue and slate-grey palette with a single small warm accent of torch or ember light, heavy atmosphere of mist, wind or snow, anamorphic widescreen feeling, fine film grain, painterly texture, vertical 9:16 frame, main subject in the middle band, darker calm areas at the top quarter and bottom quarter of the frame. Absolutely no text, no letters, no numbers, no inscriptions, no logos, no watermark, no modern objects anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f7e-d121-7b5f-9f18-f1b0c55c333d",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7e-d121-7b5f-9f18-f1b0c55c333d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7e-d121-7b5f-9f18-f1b0c55c333d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f7e-d121-7b5f-9f18-f1b0c55c333d",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7e-d121-7b5f-9f18-f1b0c55c333d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7e-d121-7b5f-9f18-f1b0c55c333d/cancel",
+  "expires_at": "2026-11-10T03:42:15.805048+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f7e-d121-7b5f-9f18-f1b0c55c333d/e7d82f96-c42b-4ede-8d6d-6e4954cff0e4.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "social/side/gen/lc03_brazier_storm.jpeg"
+}

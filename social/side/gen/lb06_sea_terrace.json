@@ -1,0 +1,32 @@
+{
+ "id": "lb06_sea_terrace",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "A stone terrace of a Roman seaside villa at golden hour, an older Roman emperor in his fifties with short curly grey-brown hair and a short curly grey beard, in a plain off-white wool tunic and a deep crimson cloak, no crown stands at the low marble balustrade seen from behind, looking out over a calm wide sea toward the setting sun, wind lifting the edge of his crimson cloak, potted olive tree beside him, warm reflections on the water. Cinematic oil-painting look like a sunlit Neoclassical painting brought to life, soft warm golden daylight, cream marble, terracotta, olive green and pale sky blue palette, gentle haze, fine film grain, painterly texture, vertical 9:16 frame, main subject in the lower two-thirds, a calm softly lit empty area in the top third. Absolutely no text, no letters, no numbers, no inscriptions on stone, no logos, no watermark, no modern objects anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a19f7d-7729-7dd6-ba05-d6052536a30a",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7d-7729-7dd6-ba05-d6052536a30a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7d-7729-7dd6-ba05-d6052536a30a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a19f7d-7729-7dd6-ba05-d6052536a30a",
+  "status_url": "https://api.higgsfield.ai/requests/01a19f7d-7729-7dd6-ba05-d6052536a30a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a19f7d-7729-7dd6-ba05-d6052536a30a/cancel",
+  "expires_at": "2026-11-10T03:40:51.822444+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a19f7d-7729-7dd6-ba05-d6052536a30a/a3363dac-6f3b-4333-8a22-830d5f14331a.jpeg"
+   }
+  ]
+ },
+ "seconds": 94,
+ "file": "social/side/gen/lb06_sea_terrace.jpeg"
+}
