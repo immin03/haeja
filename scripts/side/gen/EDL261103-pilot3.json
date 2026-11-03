@@ -1,0 +1,22 @@
+[
+ {
+  "id": "lqv03_hand",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/lq03_txt.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand slowly tightens its grip on the letter and then stops completely while the candle flame trembles. Keep the painterly look and every detail identical to the first frame, including any handwriting on the paper which must stay exactly as it is. One simple, slow, subtle motion only; the camera stays almost still. No new text, no morphing, no extra fingers, no camera shake, no cuts."
+  }
+ },
+ {
+  "id": "lqv08_write",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/lq08_write.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand writes slowly and steadily, gliding the reed pen tip to the right across the papyrus along one straight line as if writing a sentence in flowing script, a natural calm handwriting motion that continues for the whole clip, the candle flickering softly. Keep the painterly look identical to the first frame; the camera stays still. No text appears, no morphing, no extra fingers, no cuts."
+  }
+ }
+]
