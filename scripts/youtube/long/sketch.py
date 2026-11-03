@@ -594,7 +594,7 @@ def panel(arr, beats, u):
     전체 화면 그림 위 글씨 뒤에 반투명 아이보리 판을 깐다 (글씨가 나타나기 시작하면 함께 서서히)."""
     bx = []
     for b in beats:
-        if b.b.get("kind") not in ("print", "write") or b.t0 > u + .2: continue
+        if b.b.get("kind") not in ("print", "write", "chart", "bars") or b.t0 > u + .2: continue   # 2026-11-04 대표님: 사진 위에 그래프도 깔끔하게 (판 안에)
         try: x0, y0, x1, y1 = b.bbox()
         except Exception: continue
         if x1 - x0 < 4 or x1 - x0 > 1500: continue

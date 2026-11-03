@@ -516,7 +516,11 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "stockmarket_47016_a.jpg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
    },
    "lines": [
     "그리고 지금 삼성전자 주가는 22만 9,000원입니다. 2년 만에 4.6배. 그 사이에 무슨 일이 있었을까요?"
@@ -528,17 +532,6 @@
    "asof": false,
    "src": "한국거래소 시세 (2021-01 장중 고가, 2024-11-14 종가, 2026-11-02 종가) · 주요 시점만 이은 선",
    "sketch": [
-    {
-     "kind": "print",
-     "text": "삼성전자 주가 · 주요 시점",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.0
-    },
     {
      "kind": "chart",
      "series": [
@@ -555,30 +548,29 @@
      ],
      "lo": 0,
      "hi": 250000,
-     "x": 220,
-     "y": 300,
-     "w": 1150,
-     "h": 400,
+     "x": 170,
+     "y": 250,
+     "w": 760,
+     "h": 300,
      "color": "green",
-     "width": 10,
+     "width": 9,
      "labels": {
-      "0": "9만 6,800원",
       "1": "4만 9,900원",
       "3": "22만 9,000원"
      },
-     "labsize": 50,
+     "labsize": 44,
      "line": 0,
      "at": 0.05,
-     "dur": 3.2,
+     "dur": 3.0,
      "from": 0,
      "to": 3
     },
     {
      "kind": "print",
-     "text": "2021.1",
-     "x": 180,
-     "y": 750,
-     "size": 40,
+     "text": "2021",
+     "x": 140,
+     "y": 585,
+     "size": 34,
      "w": "Bold",
      "color": "gray",
      "line": 0,
@@ -587,9 +579,9 @@
     {
      "kind": "print",
      "text": "2024.11",
-     "x": 915,
-     "y": 750,
-     "size": 40,
+     "x": 609,
+     "y": 585,
+     "size": 34,
      "w": "Bold",
      "color": "gray",
      "line": 0,
@@ -597,22 +589,11 @@
     },
     {
      "kind": "print",
-     "text": "2026.11",
-     "x": 1310,
-     "y": 750,
-     "size": 40,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.5
-    },
-    {
-     "kind": "print",
-     "text": "주요 시점을 이은 선",
-     "x": 220,
-     "y": 820,
+     "text": "지금",
+     "x": 900,
+     "y": 585,
      "size": 34,
-     "w": "Medium",
+     "w": "Bold",
      "color": "gray",
      "line": 0,
      "at": 0.5
@@ -620,12 +601,12 @@
     {
      "kind": "write",
      "text": "4.6배",
-     "x": 1480,
-     "y": 330,
-     "size": 150,
+     "x": 170,
+     "y": 120,
+     "size": 120,
      "color": "green",
      "line": 0,
-     "at": 0.62
+     "at": 0.6
     }
    ]
   },
@@ -766,7 +747,11 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "commons_wafer_1.jpg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
    },
    "lines": [
     "결과는 숫자로 나왔죠. 2024년 한 해 영업이익에서, SK하이닉스가 삼성전자 반도체 부문을 처음으로 앞질렀습니다. 삼성전자가 1990년대 초부터 D램 1등을 지켜 온 업계에서 벌어진 일이었습니다."
@@ -775,9 +760,9 @@
     {
      "kind": "print",
      "text": "2024년 영업이익",
-     "x": 140,
+     "x": 170,
      "y": 130,
-     "size": 52,
+     "size": 46,
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
@@ -793,41 +778,18 @@
        "color": "red"
       },
       {
-       "label": "삼성전자 반도체 부문",
+       "label": "삼성전자 반도체",
        "v": 15.12,
        "text": "15조 1천억",
        "color": "gray"
       }
      ],
-     "x": 200,
+     "x": 170,
      "y": 290,
-     "w": 1000,
-     "h": 400,
+     "w": 720,
+     "h": 330,
      "line": 0,
      "at": 0.15
-    },
-    {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_skhynix_1.jpg",
-     "x": 1300,
-     "y": 250,
-     "w": 480,
-     "h": 320,
-     "rot": 2,
-     "cap": "SK하이닉스",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "SK하이닉스가 처음으로 앞질렀다",
-     "x": 140,
-     "y": 800,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.6
     }
    ],
    "sketch_add": [],
@@ -1277,7 +1239,11 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "stockmarket_9607_a.jpg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
    },
    "lines": [
     "주가도 따라 움직였습니다. 2021년 사람들이 기다리던 '10만전자'를 넘어, 올해 2월에는 처음으로 20만 원을 넘겼습니다."
@@ -1287,84 +1253,28 @@
     ""
    ],
    "asof": false,
-   "src": "한국거래소 시세 (2024-11-14 종가, 2026-02-24 첫 20만 원 돌파) · 주요 시점만 이은 선",
+   "src": "삼성전자 공시·언론 보도 종합",
    "sketch": [
     {
      "kind": "print",
-     "text": "삼성전자 주가 · 주요 시점",
+     "text": "2026년 2월 24일",
      "x": 140,
      "y": 130,
      "size": 52,
      "w": "ExtraBold",
      "color": "ink",
      "line": 0,
-     "at": 0.0
-    },
-    {
-     "kind": "chart",
-     "series": [
-      96800,
-      49900,
-      200000,
-      229000
-     ],
-     "xs": [
-      0,
-      46,
-      61,
-      70
-     ],
-     "lo": 0,
-     "hi": 250000,
-     "x": 220,
-     "y": 300,
-     "w": 1150,
-     "h": 400,
-     "color": "green",
-     "width": 10,
-     "labels": {
-      "1": "4만 9,900원",
-      "2": "20만 원"
-     },
-     "labsize": 50,
-     "line": 0,
-     "at": 0.05,
-     "dur": 2.6,
-     "from": 1,
-     "to": 2,
-     "axis": true
-    },
-    {
-     "kind": "print",
-     "text": "2024.11",
-     "x": 915,
-     "y": 750,
-     "size": 40,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
      "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "2026.2",
-     "x": 1172,
-     "y": 750,
-     "size": 40,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.4
     },
     {
      "kind": "write",
      "text": "20만 원 돌파",
-     "x": 1420,
-     "y": 330,
-     "size": 110,
+     "x": 140,
+     "y": 210,
+     "size": 120,
      "color": "green",
      "line": 0,
-     "at": 0.6
+     "at": 0.55
     }
    ]
   },
