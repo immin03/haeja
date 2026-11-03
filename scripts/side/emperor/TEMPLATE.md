@@ -117,3 +117,17 @@
 - 마지막 화면에도 내레이션: "오늘의 할 일. <할 일 문장>." (build_long.py end_voice, 화면 길이 자동)
 - 첫 편: ep05b "남과 비교할수록 인생이 새는 이유" 47초, 11/3 12:20 (기존 ep05 대체)
 - 유튜브 교체 방법(ep05b 기준): Studio 를 반드시 `studio.youtube.com/channel/UCR5ao2RmISHYMmDinRPIaDw`(황제의 일기)로 직접 연 뒤 업로드. 영상 편집 화면만 열면 채널이 밸류노트로 남아 있어 업로드가 밸류노트로 간다(11/3 실제 발생 — 밸류노트에 'ep05b shorts up' 비공개 초안 1개). 새 편 예약 → 옛 편 비공개(삭제 안 함) → 끝나면 Studio 를 밸류노트(UCXh2Zs40HIrLZK5GTrHyYSQ)로 되돌림. 업로드 파일은 10MB 미만(2패스 1.5Mbps)으로 /mnt/user-data/uploads 에 복사
+
+## 숏폼 템플릿 A/B/C 순환 (2026-11-03 12:32 대표: "똑같은 이미지 계속 활용하지 말고 A·B·C안 몇 개를 돌아가면서")
+- spec["theme"] = "A" | "B" | "C" (render_ed.py · make_thumb.py 가 읽는다). 게시 순서대로 A→B→C→A… 한 편씩 돌린다(같은 날 3편이 모두 다른 모습). 설정값 app_config ed_themes
+  - A 밤·상아(기존): 어두운 명암 그림(ed*, lib_*, edv*) · 상단 그늘 · 왼쪽 정렬 상아 글씨 · 금색 포인트
+  - B 대리석·낮: 밝은 금빛 그림(lb01~06) · 위 720px 크림색 판 · 가운데 정렬 먹색 글씨 · 테라코타 포인트 · 자막은 크림색 둥근 판
+  - C 시네마: 차가운 청회색 그림(lc01~06) · 위 580/아래 360px 검은 띠 · 가운데 정렬 · 은빛 포인트 · 자막은 아래 띠 안
+  - '오늘의 할 일'·슬로건·마지막 로고 화면은 세 템플릿 공통(브랜드 A)
+- 그림 라이브러리는 템플릿별로 따로 쓴다(A 그림을 B·C에 섞지 않는다). 라이브러리 2차 lb/lc 12장(scripts/side/gen/ED261103-lib2.json). 한 템플릿당 그림이 20장 넘을 때까지 주 1회 6장씩 늘린다(약 0.75달러)
+- lib_window_dawn 에는 휴대폰이 보인다 → 현대 장면이라 쓰지 않는다
+
+## 유튜브 첫 댓글 자동 (2026-11-03 대표: "댓글 안 달리던데 재발하지 않게")
+- 원인: 인스타는 ed-publish 가 첫 댓글을 자동으로 달지만 유튜브는 손으로 달았고 4편·5편이 빠졌다
+- ed-publish v9: ed_posts.yt_video_id 가 '공개'가 되면 yt_comment 를 황제의 일기 채널 이름으로 단다(5분마다, youtube_account id=2 필요). 상태 yt_comment_status pending/posted/failed/skip
+- 새 편을 넣을 때 yt_comment 를 꼭 채운다(인스타 ig_comment 와 같은 질문, '팔로우' → '구독'). 고정(pin)은 API 로 안 됨
