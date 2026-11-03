@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611ss_cin_fab",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Scene: A massive semiconductor fabrication plant complex at night seen from the air, rows of huge factory buildings with glowing windows, light fog, cinematic wide establishing shot.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a03a-4e3f-75f0-9c12-1707c71762b2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a03a-4e3f-75f0-9c12-1707c71762b2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a03a-4e3f-75f0-9c12-1707c71762b2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a03a-4e3f-75f0-9c12-1707c71762b2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a03a-4e3f-75f0-9c12-1707c71762b2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a03a-4e3f-75f0-9c12-1707c71762b2/cancel",
+  "expires_at": "2026-11-10T07:07:13.519441+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a03a-4e3f-75f0-9c12-1707c71762b2/5628ad7d-caad-4dfd-8c5b-7579a34bed90.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "scripts/blog/media/lib/il_L2611ss_cin_fab.jpeg"
+}

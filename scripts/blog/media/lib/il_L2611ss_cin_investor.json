@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611ss_cin_investor",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Scene: A Korean man in his forties sitting alone in a dark apartment at night, his face lit only by a smartphone screen, worried expression, the screen glow is blue, nothing readable on screen.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a03a-4e48-7783-9ec2-6f59e4abd919",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a03a-4e48-7783-9ec2-6f59e4abd919/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a03a-4e48-7783-9ec2-6f59e4abd919/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a03a-4e48-7783-9ec2-6f59e4abd919",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a03a-4e48-7783-9ec2-6f59e4abd919/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a03a-4e48-7783-9ec2-6f59e4abd919/cancel",
+  "expires_at": "2026-11-10T07:07:10.581146+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a03a-4e48-7783-9ec2-6f59e4abd919/b3ff321c-01a0-46d0-8976-4d6a04cbd5ec.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "scripts/blog/media/lib/il_L2611ss_cin_investor.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611ss_cin_cleanroom",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Scene: Engineers in white cleanroom bunny suits walking down a long yellow-lit semiconductor cleanroom corridor, slight motion blur, symmetrical composition.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a03b-a22e-70a9-b4e8-76cb5693f305",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a03b-a22e-70a9-b4e8-76cb5693f305/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a03b-a22e-70a9-b4e8-76cb5693f305/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a03b-a22e-70a9-b4e8-76cb5693f305",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a03b-a22e-70a9-b4e8-76cb5693f305/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a03b-a22e-70a9-b4e8-76cb5693f305/cancel",
+  "expires_at": "2026-11-10T07:08:30.500065+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a03b-a22e-70a9-b4e8-76cb5693f305/2005d4fc-a687-47d4-9616-795b0cd17ded.jpeg"
+   }
+  ]
+ },
+ "seconds": 86,
+ "file": "scripts/blog/media/lib/il_L2611ss_cin_cleanroom.jpeg"
+}

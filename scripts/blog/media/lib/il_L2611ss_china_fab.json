@@ -1,0 +1,32 @@
+{
+ "id": "il_L2611ss_china_fab",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Editorial storybook illustration for a Korean finance explainer video. Hand-drawn deep navy ink linework with soft watercolor wash on warm ivory paper texture, limited palette of navy, ivory and muted gold with small warm accents, gentle light, clear single focal point, calm and intelligent mood, generous empty space around the subject. Absolutely no text, no letters, no numbers, no logos, no watermark. Scene: A huge new chip factory complex under construction in an industrial zone, cranes and scaffolding, grey sky, no signs.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a040-d66a-7775-809e-eb106ab0f2a4",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a040-d66a-7775-809e-eb106ab0f2a4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a040-d66a-7775-809e-eb106ab0f2a4/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a040-d66a-7775-809e-eb106ab0f2a4",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a040-d66a-7775-809e-eb106ab0f2a4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a040-d66a-7775-809e-eb106ab0f2a4/cancel",
+  "expires_at": "2026-11-10T07:14:41.983295+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a040-d66a-7775-809e-eb106ab0f2a4/6a7dfcf1-8838-4891-87c1-909074ae046f.jpeg"
+   }
+  ]
+ },
+ "seconds": 117,
+ "file": "scripts/blog/media/lib/il_L2611ss_china_fab.jpeg"
+}
