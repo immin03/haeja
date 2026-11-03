@@ -1,0 +1,163 @@
+"""EPISODE 1 렌더 설정 만들기 — 파일럿 앞부분(훅·인트로·오프닝·1장)을 이어받고 2~7장, 정리, 아웃트로를 붙인다 (2026-11-03)
+python3 ep01.py spec → scripts/side/ed_long/spec_ep01.json
+"""
+import copy, json, os, re
+import ep01 as E
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+NUM = ["", "I", "II", "III", "IV", "V", "VI", "VII"]
+ORD = ["", "FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH"]
+TENT = ["fire_4.mp3", 0.38]; TENT2 = ["fire_0.mp3", 0.3]; CAMP = ["wind_2.mp3", 0.4]; CITY = ["rain_0.mp3", 0.2]; NIGHT = ["night_6.mp3", 0.18]
+CARD_SFX = [["transition_5.mp3", 0.0, 0.45], ["drum_6.mp3", 0.35, 0.55]]
+WQ = {"tip0": [1025, 510], "lead": 715, "static": True, "clean": True, "size": 150, "ink": [40, 26, 14], "paper_lv": [72, 98],
+      "paper": [[330, 240], [1560, 215], [1720, 1000], [300, 1000]]}
+
+
+def subs_of(name):
+    t = E.TXT[name]; emph = t.startswith("!"); t = t.lstrip("!")
+    parts = [x for x in re.split(r"(?<=[.?!])\s+", t) if x]
+    return [("!" + x if emph else x) for x in parts] if len(parts) > 1 else ("!" + t if emph else t)
+
+
+def write(lines, quad):
+    w = dict(WQ); w.update({"lines": lines[:-1], "line": lines[-1], "quad": quad}); return w
+
+
+Q2 = [[600, 236], [1430, 222], [1430, 512], [600, 526]]
+Q3 = [[620, 215], [1420, 200], [1420, 520], [620, 534]]
+
+CH = {
+ 2: dict(title="남의 잘못은 그 사람의 몫이다", en="Leave the wrong where it was done",
+        scene=[("video", "ev_generals", ["d2a", "d2b"], TENT, {"sfx": [["impact_6.mp3", 4.0, 0.35]]}), ("still", "e2a_generals", ["d2c"], TENT, {"move": {"zoom": [1.05, 1.25], "pan": [[0, 0], [0.18, 0.02]]}})],
+        mono=("still", "e2a_generals", {"move": {"zoom": [1.3, 1.42], "pan": [[0.2, 0.03], [0.22, 0.03]]}, "flicker": True}),
+        mvoices=["m2a", "m2b", "m2c"], verse=["남의 잘못은,", "그것이 생긴 자리에 두어라."], src="명상록 9권 20절",
+        interp=[("still", "lq07_txt", ["d2d"]), ("still", "e4a_alone", ["d2e"])],
+        concept=("d2e", "스토아 철학 · 판단을 내려놓기", "남의 잘못은, 그 사람의 몫", "Leave the wrong where it lies"),
+        apply=[("e2b_bed", ["d2f"]), ("e2c_kitchen", ["d2g"])], tonight=(["그 일을 한 번만 내려놓기", "그것은 그 사람의 몫"], "d2h"),
+        teaser=("e3a_soldiers", "d2i", CAMP)),
+ 3: dict(title="칭찬에 기대지 마라", en="Praise makes nothing better",
+        scene=[("still", "e3a_soldiers", ["d3a"], CAMP, {"particles": "snow", "rack": 1.2}), ("still", "e2a_generals", ["d3b"], TENT, {"move": {"zoom": [1.1, 1.0]}}),
+               ("still", "e3a_soldiers", ["d3c"], CAMP, {"particles": "snow", "move": {"zoom": [1.25, 1.45], "pan": [[0, 0.05], [0, 0.08]]}, "sfx": [["war_7.mp3", 0.0, 0.18]]})],
+        mono=("still", "e3a_soldiers", {"move": {"zoom": [1.5, 1.62], "pan": [[0, 0.08], [0, 0.09]]}, "particles": "snow"}),
+        mvoices=["m3a", "m3b", "m3c"], verse=["칭찬받는다고,", "더 나아지지도 더 나빠지지도 않는다."], src="명상록 4권 20절",
+        interp=[("still", "lq08_txt", ["d3d"]), ("still", "e4a_alone", ["d3e"])],
+        concept=("d3e", "스토아 철학 · 내면의 가치", "칭찬은 아무것도 더하지 않는다", "Praise adds nothing"),
+        apply=[("e3b_sofa", ["d3f"]), ("e3c_meeting", ["d3g"])], tonight=(["아무도 몰라 준 오늘의 일 하나", "그것만으로 충분했다"], "d3h"),
+        teaser=("e4a_alone", "d3i", TENT2)),
+ 4: dict(title="가장 고요한 곳은 내 마음속이다", en="Retire into thyself",
+        scene=[("still", "e4a_alone", ["d4a"], TENT2, {"rack": 1.5, "flicker": True}), ("video", "ev_stars", ["d4b"], NIGHT, {"particles": "snow"})],
+        mono=("write", "lqv08c_write", write(["Nowhere either with more quiet", "does a man retire", "than into his own soul."], Q3)),
+        mvoices=["m4a", "m4b", "m4c"], verse=["사람은 어디로 물러나도,", "자기 마음속보다 고요한 곳을 찾지 못한다."], src="명상록 4권 3절",
+        interp=[("still", "e4b_stars", ["d4c"]), ("still", "e4a_alone", ["d4d"])],
+        concept=("d4c", "피에르 아도 · 『내면의 성채』", "마음속 요새", "The Inner Citadel"),
+        apply=[("e4c_bench", ["d4e"]), ("e4d_cafe", ["d4f"])], tonight=(["휴대폰을 내려놓고", "십 분만 혼자 앉기"], "d4g"),
+        teaser=("lp09_teacher", "d4h", None, {"grade": "memory", "leak": True})),
+ 5: dict(title="좋은 사람 몇이면 충분하다", en="A few good people are enough",
+        scene=[("video", "ev_garden", ["d5a"], None, {"grade": "memory", "leak": True, "tin": "dissolve"}), ("still", "lp09_teacher", ["d5b"], None, {"grade": "memory", "leak": True})],
+        mono=("write", "lqv08c_write", write(["From my grandfather, good morals.", "From my father, mildness of temper.", "From Rusticus, Epictetus."], Q3)),
+        mvoices=["m5a", "m5b", "m5c"], verse=["좋은 조부모와 부모와 스승과 벗을", "만난 것에 감사한다."], src="명상록 1권 17절",
+        interp=[("still", "e5a_antoninus", ["d5c"], {"grade": "memory", "leak": True}), ("still", "e4a_alone", ["d5d"])],
+        concept=("d5d", "명상록 1권 · 감사의 목록", "나를 만든 사람들", "The Gratitude List"),
+        apply=[("e5c_friends", ["d5e"]), ("e5d_couple", ["d5f"])], tonight=(["나를 만든 세 사람의 이름 적기", "그중 한 사람에게 안부"], "d5g"),
+        teaser=("lp11_rider", "d5h", CAMP, {"sfx": [["horse_6.mp3", 0.0, 0.45]]})),
+ 6: dict(title="끊어도, 미워하지는 마라", en="Anger hurts us more than the wrong",
+        scene=[("video", "ev_rider", ["d6a"], CAMP, {"tin": "flash", "sfx": [["impact_1.mp3", 0.0, 0.5], ["horse_6.mp3", 0.2, 0.4]]}),
+               ("video", "ev_box", ["d6b", "d6c"], TENT2, {"sfx": [["heartbeat_7.mp3", 0.0, 0.25]]}), ("still", "lp04_eyes", ["d6d"], None, {"rack": 1.4, "flicker": True})],
+        mono=("still", "lp04_eyes", {"move": {"zoom": [1.2, 1.32], "pan": [[0, -0.02], [0, -0.03]]}, "flicker": True}),
+        mvoices=["m6a", "m6b", "m6c"], verse=["화는, 화나게 한 일보다", "우리를 더 아프게 한다."], src="명상록 11권 18절",
+        interp=[("still", "e6a_box", ["d6e"])],
+        concept=("d6e", "세네카 · 『분노에 관하여』", "분노는 잠깐의 광기다", "Anger is a brief madness"),
+        apply=[("e6c_car", ["d6f"]), ("e6d_hall", ["d6g"])], tonight=(["화가 올라올 때", "숨을 세 번"], "d6h"),
+        teaser=("e7a_fire", "d6i", ["fire_3.mp3", 0.4])),
+ 7: dict(title="오늘을 마지막 날처럼", en="Pass every day as the last",
+        scene=[("video", "ev_fire", ["d7a", "d7b"], ["fire_2.mp3", 0.45], {"tin": "flash", "sfx": [["fire_1.mp3", 0.0, 0.6]]})],
+        mono=("still", "e7a_fire", {"move": {"zoom": [1.15, 1.3]}, "particles": "embers", "flicker": True}),
+        mvoices=["m7a", "m7b", "m7c"], verse=["하루하루를 마지막 날처럼 보내는 것,", "거기에 성품의 완성이 있다."], src="명상록 7권 69절",
+        interp=[("still", "e4b_stars", ["d7c"]), ("video", "ev_dawn", ["d7d"], {"tin": "flash", "sfx": [["impact_2.mp3", 0.0, 0.45], ["war_7.mp3", 0.3, 0.2]]})],
+        concept=("d7c", "스토아 철학 · 메멘토 모리", "죽음을 기억하라", "Memento Mori"),
+        apply=[("e7c_curtain", ["d7e"]), ("e7d_breakfast", ["d7f"])], tonight=(["미뤄 둔 말 하나", "오늘 보내기"], "d7g"),
+        teaser=None),
+}
+MUSIC = {2: ("cinematic_5.mp3", 0), 3: ("sad_3.mp3", 0), 4: ("cinematic_4.mp3", 0), 5: ("dramatic_1.mp3", 0), 6: ("cinematic_5.mp3", 90), 7: ("cinematic_4.mp3", 110)}
+
+
+def shot(kind, src, voices, amb=None, extra=None):
+    if kind == "write":
+        s = {"type": "video", "src": src, "write": extra, "flicker": True, "move": {"zoom": [1.0, 1.06]}}
+        extra = None
+    else:
+        s = {"type": kind, "src": src}
+        s["move"] = {"zoom": [1.0, 1.08]} if kind == "still" else {"zoom": [1.0, 1.05]}
+    if voices: s["voice"] = voices
+    if amb: s["amb"] = amb
+    s.setdefault("tin", "dissolve")
+    if extra: s.update(copy.deepcopy(extra))
+    return s
+
+
+def chapter(n, c):
+    S = []; mus_at = None
+    S.append({"type": "card", "label": f"THE {ORD[n]} LINE", "num": NUM[n], "title": c["title"], "en": c["en"], "dur": 4.2, "fixed": True, "sfx": CARD_SFX, "amb": ["wind_2.mp3", 0.25]})
+    for kind, src, vs, amb, ex in c["scene"]: S.append(shot(kind, src, vs, amb, ex))
+    mk, msrc, mex = c["mono"]
+    m = shot(mk, msrc, c["mvoices"], TENT2, mex if mk != "write" else mex)
+    if mk == "write": m = shot("write", msrc, c["mvoices"], TENT2, mex)
+    m.update({"gap": 1.0, "pre": 0.8, "post": 1.8, "nocap_voices": [c["mvoices"][-1]]})
+    m.setdefault("sfx", []).append(["paper_6.mp3", 0.4, 0.5])
+    m["overlays"] = [{"kind": "verse", "lines": c["verse"], "src": c["src"], "at_voice": c["mvoices"][-1]}]
+    S.append(m)
+    cv, kick, line, en = c["concept"]
+    for it in c["interp"]:
+        kind, src, vs = it[:3]; ex = it[3] if len(it) > 3 else {}
+        s = shot(kind, src, vs, TENT2 if kind == "still" else CAMP, ex)
+        if cv in vs: s["overlays"] = [{"kind": "concept", "kicker": kick, "lines": [line], "en": en, "at_voice": cv, "offset": 0.4, "len": 5.0}]
+        S.append(s)
+    for src, vs in c["apply"]: S.append(shot("still", src, vs, CITY, {"grade": "modern", "move": {"zoom": [1.0, 1.07], "pan": [[0.01, 0], [-0.01, 0]]}}))
+    tl, tv = c["tonight"]
+    S.append({"type": "tonight", "lines": tl, "voice": tv, "pre": 0.8, "post": 1.4, "amb": ["fire_0.mp3", 0.18], "nocap": True, "sfx": [["paper_6.mp3", 0.2, 0.35]]})
+    if c["teaser"]:
+        t = c["teaser"]; ex = t[3] if len(t) > 3 else {}
+        s = shot("still", t[0], [t[1]], t[2], ex); s.update({"tout": "black", "fout": 0.8, "post": 1.4}); S.append(s)
+    return S
+
+
+def build():
+    P = json.load(open(os.path.join(HERE, "spec_pilot.json")))
+    sp = copy.deepcopy(P); sp["id"] = "edl_ep01"
+    sp["voice_dir"] = "social/side/voice_samples/ep01"
+    vf = {k: ("../lp2/" + v if v.startswith("voice_lp2") else v) for k, v in P["voice_files"].items()}
+    for i, (n, v, t) in enumerate(E.LINES): vf[n] = f"voice_ep01_{i + 1:02d}_{n}.mp3"
+    sp["voice_files"] = vf
+    sp["monologue_voices"] = P["monologue_voices"] + [n for n, v, t in E.LINES if v == E.M]
+    subs = dict(P["subs"])
+    for n, v, t in E.LINES: subs[n] = subs_of(n)
+    sp["subs"] = subs
+    sh = sp["shots"]
+    # 앞부분: 파일럿 0~18 (훅·인트로·오프닝·상황·1장). 1장 해설에 에픽테토스 보강
+    for s in sh:
+        if s.get("src") == "lq08_txt" and "c1c" in str(s.get("voice")): s["voice"] = ["c1c", "c1g"]
+    sh[12]["sfx"] = CARD_SFX; sh[12]["label"] = "THE FIRST LINE"
+    end = sh.pop()                      # 옛 엔딩 제거
+    S = sh
+    card_idx = {1: 12}
+    for n in range(2, 8):
+        card_idx[n] = len(S); S += chapter(n, CH[n])
+    rec = len(S)
+    S.append({"type": "recap", "items": ["남의 생각을 짐작하느라, 남은 날들을 쓰지 마라", "남의 잘못은, 그것이 생긴 자리에 두어라", "칭찬은 나를 더 낫게도, 더 못하게도 만들지 않는다",
+                                         "가장 고요한 곳은, 내 마음속이다", "좋은 사람 몇이면, 충분하다", "화는, 나를 먼저 해친다", "오늘을, 마지막 날처럼"],
+              "voice": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"], "gap": 0.8, "pre": 0.8, "post": 1.0, "recap_offset": 1, "nocap": True,
+              "sfx": [["transition_5.mp3", 0.0, 0.35]], "tin": "black", "fin": 1.0})
+    S.append(shot("still", "e7b_dawn", ["r9"], ["wind_2.mp3", 0.25], {"move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
+    out = len(S)
+    S.append({"type": "outro", "voice": ["o1", "o2", "m_x1"], "gap": 0.7, "pre": 1.0, "post": 2.6, "dur": 12.0, "nocap": True,
+              "next_kicker": "NEXT  ·  EPISODE 2", "next": "무례한 사람들", "slogan": "매일 밤, 황제처럼 생각하라", "tap_sub": 3.4, "tap_like": 4.2,
+              "sfx": [["ring_synth.wav", 3.42, 0.45], ["click_2.mp3", 3.4, 0.6], ["click_2.mp3", 4.2, 0.6], ["ring_synth.wav", 4.22, 0.35], ["drum_6.mp3", 0.2, 0.4]]})
+    # 음악
+    mus = [m for m in P["music"]]; mus[0]["until_shot"] = card_idx[2]; mus[0].pop("len", None)
+    for n in range(2, 8):
+        f, st = MUSIC[n]; nxt = card_idx[n + 1] if n < 7 else rec
+        mus.append({"file": f, "at_shot": card_idx[n], "offset": 1.0, "start": st, "until_shot": nxt, "vol": 0.2, "fin": 3, "fout": 3})
+    mus.append({"file": "sad_5.mp3", "at_shot": rec, "offset": 0.5, "start": 0, "until_shot": out + 1, "tail": 0, "vol": 0.22, "fin": 2, "fout": 4})
+    sp["music"] = mus
+    json.dump(sp, open(os.path.join(HERE, "spec_ep01.json"), "w"), ensure_ascii=False, indent=1)
+    print("장면", len(S), "카드 위치", card_idx, "정리", rec, "아웃트로", out)

@@ -1,0 +1,21 @@
+[
+ {
+  "id": "lw2_front",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Eye-level close-up from the front edge of a rough wooden desk at night inside a Roman command tent: an older man's weathered right hand in the sleeve of a deep crimson cloak holds a thin reed pen and writes on a sheet of papyrus lying flat toward the camera, very shallow depth of field so only the pen tip and the fingers are sharp and the far part of the papyrus melts into soft blur, a candle flame glowing just behind the hand, a small bronze inkpot at the left, tiny dust motes in the candlelight, the ink marks are only soft out-of-focus strokes, nothing readable. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no readable writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "lwv2_front",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/lw2_front.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand writes slowly and naturally, the reed pen gliding across the papyrus in small flowing strokes with tiny natural lifts between words, the candle flame flickering softly behind. Keep the painterly look and every detail identical to the first frame; the camera stays still with at most a very slow push-in. No text, no morphing, no extra fingers, no cuts."
+  }
+ }
+]

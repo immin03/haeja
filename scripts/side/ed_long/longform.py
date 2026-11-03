@@ -187,7 +187,9 @@ class WriteClip(Clip):
                 m2 = cv2.dilate(m2, np.ones((3, 3), np.uint8))
                 nl, lab, st, _ = cv2.connectedComponentsWithStats(m2, 8)
                 keep = np.zeros(nl, np.uint8); keep[1:] = (st[1:, cv2.CC_STAT_AREA] < wr.get("blob_max", 2500)).astype(np.uint8)
-                m2 = keep[lab] * 255
+                tx_, ty_ = self.tips[i]   # 펜 끝 왼쪽·아래 띠는 크기와 관계없이 지운다 (펜에 붙은 자국)
+                band = np.zeros((h, w), np.uint8); cv2.rectangle(band, (0, int(ty_) - 50), (int(tx_) - 3, int(ty_) + 60), 1, -1)
+                m2 = np.maximum(keep[lab], m2 * band) * 255
                 m2 = cv2.GaussianBlur(cv2.dilate(m2, np.ones((5, 5), np.uint8)), (0, 0), 1.5)[..., None] / 255.0
                 fr[i] = (fr[i] * (1 - m2) + f0w * m2).astype(np.uint8)
         # 글씨 평면
@@ -407,6 +409,96 @@ def tonight_frame(s, t, dur, cache):
     return blend(img, layer, a)
 
 
+def icon_layer(kind, size=64, col=(255, 255, 255)):
+    """금색 가는 테두리 원 안의 흰 선 아이콘 (구독 종 / 좋아요 엄지)"""
+    im = Image.new("RGBA", (size * 2, size * 2), (0, 0, 0, 0)); d = ImageDraw.Draw(im); c = size
+    d.ellipse([4, 4, size * 2 - 4, size * 2 - 4], outline=GOLD + (255,), width=4)
+    lw = 5; col = col + (255,)
+    if kind == "bell":
+        d.arc([c - 26, c - 34, c + 26, c + 18], 180, 360, fill=col, width=lw)
+        d.line([c - 26, c - 8, c - 26, c + 14], fill=col, width=lw); d.line([c + 26, c - 8, c + 26, c + 14], fill=col, width=lw)
+        d.line([c - 34, c + 16, c + 34, c + 16], fill=col, width=lw); d.ellipse([c - 7, c + 20, c + 7, c + 32], outline=col, width=lw)
+        d.line([c, c - 44, c, c - 34], fill=col, width=lw)
+    else:  # thumb
+        d.rounded_rectangle([c - 34, c - 6, c - 18, c + 30], 3, outline=col, width=lw)
+        d.line([(c - 14, c - 4), (c - 2, c - 34), (c + 6, c - 32), (c + 4, c - 8), (c + 30, c - 8), (c + 32, c + 2), (c + 24, c + 30), (c - 14, c + 30)], fill=col, width=lw, joint="curve")
+    return np.array(im)
+
+
+def outro_frame(s, t, dur, cache, logo):
+    """아웃트로 (템플릿): 주화 → THE EMPEROR'S DIARY · 황제의 일기 → 구독·좋아요 버튼(눌리는 연출) → 다음 이야기 예고 → 슬로건"""
+    if "out" not in cache:
+        cache["out"] = dict(coin=coin_gold(logo), en=text_layer(["THE EMPEROR'S DIARY"], "en", 58, GOLD, track=12, shadow=False, height=96),
+                            ko=text_layer(["황제의 일기"], "ko6", 40, (222, 196, 140), shadow=False, height=64),
+                            sub=icon_layer("bell"), like=icon_layer("thumb"),
+                            l_sub=text_layer(["구독"], "ui", 30, IVORY, shadow=False, width=260, height=50),
+                            l_like=text_layer(["좋아요"], "ui", 30, IVORY, shadow=False, width=260, height=50),
+                            nxt_k=text_layer([s.get("next_kicker", "NEXT")], "en5", 30, (190, 160, 105), track=10, shadow=False, height=50),
+                            nxt=text_layer([s.get("next", "")], "ko6", 44, IVORY, shadow=False, height=70),
+                            slogan=text_layer([s.get("slogan", "매일 밤, 황제처럼 생각하라")], "ko", 54, (236, 212, 160), height=90),
+                            dust=Particles("embers", 80, 41))
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+        cache["oglow"] = (np.exp(-(((xx - W / 2) / 760) ** 2 + ((yy - 470) / 380) ** 2))[..., None] * np.array([16, 30, 46], np.float32))
+    o = cache["out"]; out_a = 1 - ease((t - dur + 1.0) / 1.0)
+    img = np.clip(cache["oglow"] * ease(t / 1.2) * out_a, 0, 255).astype(np.uint8)
+    cs = o["coin"].shape[0]; cy = 270
+    l = np.zeros((H, W, 4), np.uint8); l[cy - cs // 2:cy + cs // 2, W // 2 - cs // 2:W // 2 + cs // 2] = o["coin"]
+    img = blend(img, l, ease(t / 1.0) * out_a, dy=-14 * (1 - ease(t / 1.0)))
+    l = np.zeros((H, W, 4), np.uint8); l[460:556] = o["en"]; l[552:616] = o["ko"]; img = blend(img, l, ease((t - 0.6) / 0.9) * out_a)
+    # 버튼: 3.0초부터 떠오르고, 4.2초 구독·5.0초 좋아요가 눌림(작아졌다 커지며 빛)
+    for i, (key, lab, tp) in enumerate((("sub", "l_sub", s.get("tap_sub", 4.2)), ("like", "l_like", s.get("tap_like", 5.0)))):
+        a = ease((t - 2.6 - 0.2 * i) / 0.7) * out_a
+        if a <= 0: continue
+        ic = o[key]; sz = ic.shape[0]; x0 = W // 2 + (-170 if i == 0 else 170) - sz // 2; y0 = 640
+        k = t - tp; sc = 1.0 - 0.14 * math.exp(-((k - 0.08) / 0.07) ** 2) + 0.10 * math.exp(-((k - 0.28) / 0.12) ** 2) if k > -0.2 else 1.0
+        ic2 = cv2.resize(ic, (int(sz * sc), int(sz * sc))); s2 = ic2.shape[0]
+        lay = np.zeros((H, W, 4), np.uint8); yy0 = y0 + (sz - s2) // 2; xx0 = x0 + (sz - s2) // 2
+        lay[yy0:yy0 + s2, xx0:xx0 + s2] = ic2
+        if k > 0.05:   # 눌린 뒤 금빛으로 채워짐 + 퍼지는 고리
+            fill = np.zeros((H, W, 3), np.uint8); cxi, cyi = x0 + sz // 2, y0 + sz // 2
+            cv2.circle(fill, (cxi, cyi), int(sz * 0.46 * sc), (60, 120, 160), -1, cv2.LINE_AA)
+            img = cv2.add(img, (fill.astype(np.float32) * min(ease(k / 0.25), 1) * a * 0.8).astype(np.uint8))
+            rr = int(sz * 0.5 + 90 * ease(k / 0.7)); ring = np.zeros((H, W, 3), np.uint8)
+            cv2.circle(ring, (cxi, cyi), rr, (92, 164, 201), 2, cv2.LINE_AA)
+            img = cv2.add(img, (cv2.GaussianBlur(ring, (0, 0), 2).astype(np.float32) * (1 - ease(k / 0.7)) * a).astype(np.uint8))
+        img = blend(img, lay, a)
+        ll = np.zeros((H, W, 4), np.uint8); lw_ = o[lab]; ll[y0 + sz + 10:y0 + sz + 60, x0 + sz // 2 - 130:x0 + sz // 2 + 130] = lw_
+        img = blend(img, ll, a)
+    sa = s.get("slogan_at", dur - 5.5)
+    if s.get("next") and t < sa + 0.6:
+        a = ease((t - 6.0) / 0.8) * out_a * (1 - ease((t - sa) / 0.6))
+        l = np.zeros((H, W, 4), np.uint8); l[830:880] = o["nxt_k"]; l[874:944] = o["nxt"]
+        img = blend(img, l, a)
+    if t >= sa:
+        l = np.zeros((H, W, 4), np.uint8); l[850:940] = o["slogan"]; img = blend(img, l, ease((t - sa - 0.3) / 0.9) * out_a)
+    img = o["dust"].draw(img, t)
+    return img
+
+
+def recap_frame(s, t, dur, cache, active):
+    """오늘의 일곱 문장 (템플릿): 왼쪽 정렬 목록, 지금 읽는 문장만 금색으로 밝게, 읽은 문장은 은은하게 남음"""
+    if "rc" not in cache:
+        f = font("ko6", 40); fk = font("en", 38)
+        rows = []
+        for i, it in enumerate(s["items"]):
+            im = Image.new("RGBA", (1500, 64), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+            d.text((0, 6), ["I", "II", "III", "IV", "V", "VI", "VII"][i], font=fk, fill=GOLD + (255,)); d.text((110, 8), it, font=f, fill=(255, 255, 255, 255))
+            rows.append(np.array(im))
+        cache["rc"] = (rows, text_layer([s.get("head", "오늘의 일곱 문장")], "ko6", 44, (222, 196, 140), shadow=False, height=70),
+                       text_layer([s.get("head_en", "SEVEN LINES FROM ONE NIGHT")], "en5", 30, (190, 160, 105), track=10, shadow=False, height=50))
+    rows, hk, he = cache["rc"]; out_a = 1 - ease((t - dur + 0.8) / 0.8)
+    img = (np.zeros((H, W, 3), np.float32) + np.array([8, 10, 12], np.float32)).astype(np.uint8)
+    l = np.zeros((H, W, 4), np.uint8); l[160:210] = he; l[208:278] = hk; img = blend(img, l, ease(t / 0.8) * out_a)
+    for i, r in enumerate(rows):
+        if active is None or i > active: continue
+        cur = (i == active)
+        rr = r.copy()
+        if cur: rr[..., :3] = (rr[..., :3].astype(np.float32) * np.array([1.0, 0.86, 0.62])).astype(np.uint8)
+        l = np.zeros((H, W, 4), np.uint8); y = 320 + i * 76; l[y:y + 64, 330:1830] = rr
+        img = blend(img, l, (1.0 if cur else 0.42) * out_a)
+    return img
+
+
 # ---------- 덧씌우는 글자 (자막·구절·개념) ----------
 def overlay(img, ov, t, dur, cache, key):
     k = ov["kind"]
@@ -533,6 +625,7 @@ def caption_events(S, plan, vfile):
     for p in plan:
         if p["s"].get("nocap"): continue
         for v, at, d in p["voices"]:
+            if v in p["s"].get("nocap_voices", []): continue
             items = subs.get(v)
             if not items: continue
             items = [items] if isinstance(items, str) else items
@@ -548,7 +641,7 @@ def caption_events(S, plan, vfile):
 
 
 # ---------- 본체 ----------
-def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
+def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chunk=None):
     S = json.load(open(spec_path)); base = os.path.dirname(os.path.abspath(spec_path))
     root = os.path.abspath(os.path.join(base, S.get("root", "../../..")))
     P = lambda p: p if os.path.isabs(p) else os.path.join(root, p)
@@ -568,6 +661,11 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
         if s.get("fixed"): d = s["dur"]
         plan.append({"s": s, "t0": t, "dur": d, "voices": [(v, t + a, dd) for v, a, dd in vt]}); t += d
     total = t
+    for p in plan:   # 덧씌우기 시작을 목소리 기준으로
+        for ov in p["s"].get("overlays", []):
+            if ov.get("at_voice"):
+                for v, a, dd in p["voices"]:
+                    if v == ov["at_voice"]: ov["at"] = a - p["t0"] + ov.get("offset", -0.2); ov.setdefault("until", ov.get("until_end", p["dur"]))
     print(f"총 길이 {total:.1f}초, 장면 {len(plan)}개", flush=True)
     json.dump([{"i": i, "type": p["s"]["type"], "t0": round(p["t0"], 2), "dur": round(p["dur"], 2), "src": p["s"].get("src", "")} for i, p in enumerate(plan)],
               open(os.path.join(base, f"plan_{S['id']}.json"), "w"), ensure_ascii=False, indent=0)
@@ -575,7 +673,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
     events = caption_events(S, plan, vfile); capc = {}
     out_dir = P(S.get("out_dir", "_long")); os.makedirs(out_dir, exist_ok=True)
     tag = S["id"] + ("_prev" if preview else "")
-    vid_path = os.path.join(out_dir, f"{tag}_v.mp4")
+    vid_path = os.path.join(out_dir, f"{tag}_{chunk}_v.mp4" if chunk else f"{tag}_v.mp4")
     # 2) 화면
     look = Look(); intro = None; last = None
     scale = 0.5 if preview else 1.0
@@ -592,7 +690,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
         elif s["type"] == "video": src = Clip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0))
         elif s["type"] == "intro": intro = intro or Intro({**S["intro"], "logo": P(S["intro"]["logo"])})
         parts = Particles(s["particles"]) if s.get("particles") else None
-        nfr = int(round(d * FPS)); first = None
+        nfr = int(round(d * FPS)); first = None; lastk = last
         for k in range(nfr):
             tt = k / FPS; gt = t0 + tt
             if gt < t_from or gt >= t_to: continue
@@ -601,6 +699,12 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
             elif s["type"] == "intro": img = intro.frame(tt)
             elif s["type"] == "card": img = card_frame(s, tt, d, cache)
             elif s["type"] == "episode": img = episode_frame(s, tt, d, cache)
+            elif s["type"] == "outro": img = outro_frame(s, tt, d, cache, P(S["intro"]["logo"]))
+            elif s["type"] == "recap":
+                act = None
+                for vi, (vn, va, vd) in enumerate(p["voices"]):
+                    if gt >= va - 0.2: act = vi - s.get("recap_offset", 1)
+                img = recap_frame(s, tt, d, cache, act if act is not None and act >= 0 else None)
             elif s["type"] == "end": img = end_frame(s, tt, d, cache, P(S["intro"]["logo"]))
             elif s["type"] == "tonight": img = tonight_frame(s, tt, d, cache)
             elif s["type"] == "still": img = src.frame(prog)
@@ -609,6 +713,14 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
                 fl = 1 + 0.035 * math.sin(tt * 7.1) + 0.025 * math.sin(tt * 13.7 + 1.3)
                 img = np.clip(img.astype(np.float32) * fl, 0, 255).astype(np.uint8)
             if parts: img = parts.draw(img, tt)
+            if s.get("rack") and tt < s["rack"]:   # 초점이 맞아 들어오는 연출
+                sig = 9 * (1 - ease(tt / s["rack"])); img = cv2.GaussianBlur(img, (0, 0), sig) if sig > 0.3 else img
+            if s.get("leak"):   # 회상 장면의 따뜻한 빛 번짐
+                if "leak" not in cache:
+                    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); cache["leak"] = (xx, yy)
+                xx, yy = cache["leak"]; cx = W * (0.15 + 0.7 * (0.5 + 0.5 * math.sin(tt * 0.35))); cy = H * 0.3
+                g = np.exp(-(((xx - cx) / 520) ** 2 + ((yy - cy) / 380) ** 2))[..., None] * np.array([40, 110, 190], np.float32) * 0.55
+                img = np.clip(img.astype(np.float32) + g, 0, 255).astype(np.uint8)
             for oi, ov in enumerate(s.get("overlays", [])): img = overlay(img, ov, tt, d, cache, f"ov{oi}")
             if s["type"] in ("still", "video", "black"): img = look.apply(img, s.get("grade"))
             else: img = _bars(img)
@@ -616,17 +728,21 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False):
             # 들어오고 나가기
             tin, tout = s.get("tin", "cut"), s.get("tout", "cut")
             if tin == "black": img = (img.astype(np.float32) * ease(tt / s.get("fin", 0.6))).astype(np.uint8)
+            if tin == "flash" and tt < 0.7:   # 극적 전환: 금빛 섬광
+                fa = math.exp(-tt / 0.16); img = np.clip(img.astype(np.float32) * (1 - 0.3 * fa) + np.array([150, 210, 255], np.float32) * fa, 0, 255).astype(np.uint8)
             if tin == "dissolve" and last is not None and tt < 0.6: a = ease(tt / 0.6); img = cv2.addWeighted(last, 1 - a, img, a, 0)
             if tout == "black": img = (img.astype(np.float32) * (1 - ease((tt - d + s.get("fout", 0.6)) / s.get("fout", 0.6)))).astype(np.uint8)
             if first is None: first = img
             frame = cv2.resize(img, (int(W * scale), int(H * scale)), interpolation=cv2.INTER_AREA) if preview else img
             enc.stdin.write(frame.tobytes()); lastk = img
-        last = lastk if nfr else last
+        last = lastk
         print(f"  장면 {pi} {s['type']} {s.get('src','')} {d:.1f}초 완료", flush=True)
     if enc: enc.stdin.close(); enc.wait()
+    if chunk: print("조각 완성", vid_path, flush=True); return vid_path
     # 3) 소리
     for m in S.get("music", []):
         if "at_shot" in m: m["at"] = plan[m["at_shot"]]["t0"] + m.get("offset", 0)
+        if "until_shot" in m: m["len"] = (plan[m["until_shot"]]["t0"] if m["until_shot"] < len(plan) else total) - m["at"] + m.get("tail", 2.0)
     mix_audio(S, plan, total, t_from, t_to, vfile, P, out_dir, tag)
     final = os.path.join(out_dir, f"{tag}.mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", vid_path, "-i", os.path.join(out_dir, f"{tag}_a.wav"), "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
@@ -669,7 +785,9 @@ def mix_audio(S, plan, total, t_from, t_to, vfile, P, out_dir, tag):
             if lab: bg.append(lab)   # 효과음은 덕킹하지 않는 쪽이 낫지만 단순하게 함께 둔다
     for m in S.get("music", []):
         path = os.path.join(mus_dir, m["file"]); length = m.get("len", 60)
-        lab = add(path, m["at"], m["vol"], f"atrim=start={m.get('start',0)},asetpts=PTS-STARTPTS,atrim=0:{length},afade=t=in:d={m.get('fin',2)},afade=t=out:st={max(length-m.get('fout',3),0)}:d={m.get('fout',3)},")
+        src_len = dur_of(path) - m.get("start", 0)
+        loop = f"aloop=loop={int(length // max(src_len, 1)) + 1}:size={int(48000 * dur_of(path))}," if length > src_len else ""
+        lab = add(path, m["at"], m["vol"], f"{loop}atrim=start={m.get('start',0)},asetpts=PTS-STARTPTS,atrim=0:{length},afade=t=in:d={m.get('fin',2)},afade=t=out:st={max(length-m.get('fout',3),0)}:d={m.get('fout',3)},")
         if lab: bg.append(lab)
     L = t_to - t_from
     fc = ";".join(flt)
@@ -685,4 +803,7 @@ if __name__ == "__main__":
     a = sys.argv[1:]; spec = a[0]
     tf = float(a[a.index("--from") + 1]) if "--from" in a else 0.0
     tt = float(a[a.index("--to") + 1]) if "--to" in a else None
-    build(spec, tf, tt, "--preview" in a, "--audio-only" in a)
+    if "--plan" in a:   # 장면 시작 시각만 출력 (조각 나누기용)
+        S = json.load(open(spec)); print("plan only"); build(spec, 0, 0.001, True, True); sys.exit()
+    ch = a[a.index("--chunk") + 1] if "--chunk" in a else None
+    build(spec, tf, tt, "--preview" in a, "--audio-only" in a, ch)
