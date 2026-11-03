@@ -15,12 +15,18 @@
   "expires_after": 604800
  },
  "est_usd": 0.1,
- "status": "in_progress",
+ "status": "completed",
  "result": {
-  "status": "in_progress",
+  "status": "completed",
   "request_id": "01a1a00a-80b3-7140-8477-050bed980c7a",
   "status_url": "https://api.higgsfield.ai/requests/01a1a00a-80b3-7140-8477-050bed980c7a/status",
-  "cancel_url": "https://api.higgsfield.ai/requests/01a1a00a-80b3-7140-8477-050bed980c7a/cancel"
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a00a-80b3-7140-8477-050bed980c7a/cancel",
+  "expires_at": "2026-11-10T06:54:08.332579+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a00a-80b3-7140-8477-050bed980c7a/baeef826-84c6-4d11-a830-1da254a90eb2.mp4"
+  }
  },
- "seconds": 905
+ "seconds": 905,
+ "resumed": true,
+ "file": "social/side/gen/ev_box.mp4"
 }
