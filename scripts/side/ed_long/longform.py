@@ -320,24 +320,27 @@ class Intro:
 
 
 def end_frame(s, t, dur, cache, logo):
-    """엔딩: 주화 + THE EMPEROR'S DIARY + 황제의 일기(금색) + 슬로건 (매 편 같음)"""
+    """엔딩: 슬로건 → 금선·주화·THE EMPEROR'S DIARY·황제의 일기. 글자는 내레이션이 시작하는 순간에 맞춰 떠오른다."""
     if "end" not in cache:
         cache["end"] = (coin_gold(logo), text_layer(["THE EMPEROR'S DIARY"], "en", 56, GOLD, track=12, shadow=False, height=96),
                         text_layer(["황제의 일기"], "ko6", 40, (222, 196, 140), shadow=False, height=64),
                         text_layer([s.get("slogan", "매일 밤, 황제처럼 생각하라")], "ko", 58, (236, 212, 160), shadow=False, height=96),
                         Particles("embers", 50, 77))
     coin, en, ko, sl, dust = cache["end"]
+    vat = s.get("_vat", {}); vs = s.get("voice") or []
+    t1 = vat.get(vs[0], 0.4) - 0.15 if vs else 0.2              # 슬로건: 첫 내레이션과 함께
+    t2 = vat.get(vs[1], 1.8) - 0.25 if len(vs) > 1 else t1 + 1.4  # 채널명: 두 번째 내레이션과 함께
     out = 1 - ease((t - dur + 1.2) / 1.2)
     img = np.zeros((H, W, 3), np.uint8)
-    a1 = ease((t - 0.2) / 1.2) * out          # 슬로건 먼저
-    l = np.zeros((H, W, 4), np.uint8); l[330:426] = sl; img = blend(img, l, a1, dy=10 * (1 - ease((t - 0.2) / 1.2)))
-    a2 = ease((t - 1.6) / 1.0) * out          # 그 아래 금선 + 채널명
-    ln = np.zeros((H, W, 3), np.uint8); hw = int(160 * ease((t - 1.4) / 1.2))
+    a1 = ease((t - t1) / 0.9) * out
+    l = np.zeros((H, W, 4), np.uint8); l[330:426] = sl; img = blend(img, l, a1, dy=10 * (1 - ease((t - t1) / 0.9)))
+    a2 = ease((t - t2) / 0.8) * out
+    ln = np.zeros((H, W, 3), np.uint8); hw = int(160 * ease((t - t2 + 0.2) / 1.0))
     if hw > 2: cv2.line(ln, (W // 2 - hw, 478), (W // 2 + hw, 478), (110, 170, 205), 1, cv2.LINE_AA)
     img = cv2.add(img, (ln.astype(np.float32) * a2).astype(np.uint8))
     cs = coin.shape[0]; cy = 640; sc = 0.62; c2 = cv2.resize(coin, (int(cs * sc), int(cs * sc))); s2 = c2.shape[0]
     l = np.zeros((H, W, 4), np.uint8); l[cy - s2 // 2:cy - s2 // 2 + s2, W // 2 - s2 // 2:W // 2 - s2 // 2 + s2] = c2; img = blend(img, l, a2)
-    l = np.zeros((H, W, 4), np.uint8); l[740:836] = en; l[830:894] = ko; img = blend(img, l, ease((t - 2.0) / 1.0) * out)
+    l = np.zeros((H, W, 4), np.uint8); l[740:836] = en; l[830:894] = ko; img = blend(img, l, ease((t - t2 - 0.1) / 0.8) * out)
     return dust.draw(img, t)
 
 
@@ -401,10 +404,10 @@ def tonight_frame(s, t, dur, cache):
     return blend(img, layer, a)
 
 
-def icon_layer(kind, size=64, col=(255, 255, 255)):
+def icon_layer(kind, size=64, col=(255, 255, 255), ring=True):
     """금색 가는 테두리 원 안의 흰 선 아이콘 (구독 종 / 좋아요 엄지)"""
     im = Image.new("RGBA", (size * 2, size * 2), (0, 0, 0, 0)); d = ImageDraw.Draw(im); c = size
-    d.ellipse([4, 4, size * 2 - 4, size * 2 - 4], outline=GOLD + (255,), width=4)
+    if ring: d.ellipse([4, 4, size * 2 - 4, size * 2 - 4], outline=GOLD + (255,), width=4)
     lw = 5; col = col + (255,)
     if kind == "bell":
         d.arc([c - 26, c - 34, c + 26, c + 18], 180, 360, fill=col, width=lw)
@@ -417,52 +420,61 @@ def icon_layer(kind, size=64, col=(255, 255, 255)):
     return np.array(im)
 
 
+def pill_layer(kind, label, pressed=False):
+    """알약 모양 버튼: 아이콘 + 글자. pressed=True 면 금색으로 채워진 상태"""
+    w, h = 300, 84; im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    if pressed: d.rounded_rectangle([2, 2, w - 3, h - 3], h // 2, fill=(212, 178, 112, 255))
+    else: d.rounded_rectangle([2, 2, w - 3, h - 3], h // 2, fill=(20, 16, 12, 150), outline=GOLD + (255,), width=2)
+    ic = Image.fromarray(icon_layer(kind, 64, (30, 22, 14) if pressed else (255, 255, 255), ring=False)).resize((60, 60), Image.LANCZOS)
+    im.alpha_composite(ic, (40, (h - 60) // 2))
+    f = font("ui", 32); col = (30, 22, 14, 255) if pressed else (246, 238, 222, 255)
+    tw = d.textlength(label, font=f); d.text((112 + (w - 112 - 34 - tw) / 2, h / 2), label, font=f, fill=col, anchor="lm")
+    return np.array(im)
+
+
 def outro_frame(s, t, dur, cache, logo):
-    """아웃트로 (템플릿): 주화 → THE EMPEROR'S DIARY · 황제의 일기 → 구독·좋아요 버튼(눌리는 연출) → 다음 이야기 예고 → 슬로건"""
+    """아웃트로 (템플릿): 주화 → THE EMPEROR'S DIARY · 황제의 일기 → 알약 버튼 [구독] [좋아요] (눌리며 금색으로) → 금선 아래 다음 이야기 예고"""
     if "out" not in cache:
-        cache["out"] = dict(coin=coin_gold(logo), en=text_layer(["THE EMPEROR'S DIARY"], "en", 58, GOLD, track=12, shadow=False, height=96),
-                            ko=text_layer(["황제의 일기"], "ko6", 40, (222, 196, 140), shadow=False, height=64),
-                            sub=icon_layer("bell"), like=icon_layer("thumb"),
-                            l_sub=text_layer(["구독"], "ui", 30, IVORY, shadow=False, width=260, height=50),
-                            l_like=text_layer(["좋아요"], "ui", 30, IVORY, shadow=False, width=260, height=50),
-                            nxt_k=text_layer([s.get("next_kicker", "NEXT")], "en5", 30, (190, 160, 105), track=10, shadow=False, height=50),
-                            nxt=text_layer([s.get("next", "")], "ko6", 44, IVORY, shadow=False, height=70),
-                            slogan=text_layer([s.get("slogan", "매일 밤, 황제처럼 생각하라")], "ko", 54, (236, 212, 160), height=90),
+        coin = coin_gold(logo); cs = coin.shape[0]; k = 0.72
+        cache["out"] = dict(coin=cv2.resize(coin, (int(cs * k), int(cs * k))),
+                            en=text_layer(["THE EMPEROR'S DIARY"], "en", 54, GOLD, track=12, shadow=False, height=92),
+                            ko=text_layer(["황제의 일기"], "ko6", 38, (222, 196, 140), shadow=False, height=60),
+                            sub0=pill_layer("bell", "구독"), sub1=pill_layer("bell", "구독중", True),
+                            like0=pill_layer("thumb", "좋아요"), like1=pill_layer("thumb", "좋아요", True),
+                            nxt_k=text_layer([s.get("next_kicker", "NEXT")], "en5", 28, (190, 160, 105), track=10, shadow=False, height=46),
+                            nxt=text_layer([s.get("next", "")], "ko6", 46, IVORY, shadow=False, height=72),
                             dust=Particles("embers", 80, 41))
         yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-        cache["oglow"] = (np.exp(-(((xx - W / 2) / 760) ** 2 + ((yy - 470) / 380) ** 2))[..., None] * np.array([16, 30, 46], np.float32))
+        cache["oglow"] = (np.exp(-(((xx - W / 2) / 760) ** 2 + ((yy - 430) / 360) ** 2))[..., None] * np.array([16, 30, 46], np.float32))
     o = cache["out"]; out_a = 1 - ease((t - dur + 1.0) / 1.0)
     img = np.clip(cache["oglow"] * ease(t / 1.2) * out_a, 0, 255).astype(np.uint8)
-    cs = o["coin"].shape[0]; cy = 270
-    l = np.zeros((H, W, 4), np.uint8); l[cy - cs // 2:cy + cs // 2, W // 2 - cs // 2:W // 2 + cs // 2] = o["coin"]
+    c = o["coin"]; cs = c.shape[0]; cy = 300
+    l = np.zeros((H, W, 4), np.uint8); l[cy - cs // 2:cy - cs // 2 + cs, W // 2 - cs // 2:W // 2 - cs // 2 + cs] = c
     img = blend(img, l, ease(t / 1.0) * out_a, dy=-14 * (1 - ease(t / 1.0)))
-    l = np.zeros((H, W, 4), np.uint8); l[460:556] = o["en"]; l[552:616] = o["ko"]; img = blend(img, l, ease((t - 0.6) / 0.9) * out_a)
-    # 버튼: 3.0초부터 떠오르고, 4.2초 구독·5.0초 좋아요가 눌림(작아졌다 커지며 빛)
-    for i, (key, lab, tp) in enumerate((("sub", "l_sub", s.get("tap_sub", 4.2)), ("like", "l_like", s.get("tap_like", 5.0)))):
-        a = ease((t - 2.6 - 0.2 * i) / 0.7) * out_a
+    l = np.zeros((H, W, 4), np.uint8); l[438:530] = o["en"]; l[524:584] = o["ko"]; img = blend(img, l, ease((t - 0.6) / 0.9) * out_a)
+    for i, (key, tp) in enumerate((("sub", s.get("tap_sub", 3.4)), ("like", s.get("tap_like", 4.2)))):
+        a = ease((t - 2.4 - 0.2 * i) / 0.7) * out_a
         if a <= 0: continue
-        ic = o[key]; sz = ic.shape[0]; x0 = W // 2 + (-170 if i == 0 else 170) - sz // 2; y0 = 640
-        k = t - tp; sc = 1.0 - 0.14 * math.exp(-((k - 0.08) / 0.07) ** 2) + 0.10 * math.exp(-((k - 0.28) / 0.12) ** 2) if k > -0.2 else 1.0
-        ic2 = cv2.resize(ic, (int(sz * sc), int(sz * sc))); s2 = ic2.shape[0]
-        lay = np.zeros((H, W, 4), np.uint8); yy0 = y0 + (sz - s2) // 2; xx0 = x0 + (sz - s2) // 2
-        lay[yy0:yy0 + s2, xx0:xx0 + s2] = ic2
-        if k > 0.05:   # 눌린 뒤 금빛으로 채워짐 + 퍼지는 고리
-            fill = np.zeros((H, W, 3), np.uint8); cxi, cyi = x0 + sz // 2, y0 + sz // 2
-            cv2.circle(fill, (cxi, cyi), int(sz * 0.46 * sc), (60, 120, 160), -1, cv2.LINE_AA)
-            img = cv2.add(img, (fill.astype(np.float32) * min(ease(k / 0.25), 1) * a * 0.8).astype(np.uint8))
-            rr = int(sz * 0.5 + 90 * ease(k / 0.7)); ring = np.zeros((H, W, 3), np.uint8)
-            cv2.circle(ring, (cxi, cyi), rr, (92, 164, 201), 2, cv2.LINE_AA)
-            img = cv2.add(img, (cv2.GaussianBlur(ring, (0, 0), 2).astype(np.float32) * (1 - ease(k / 0.7)) * a).astype(np.uint8))
+        k = t - tp
+        sc = 1.0 - 0.08 * math.exp(-((k - 0.06) / 0.06) ** 2) + 0.05 * math.exp(-((k - 0.24) / 0.1) ** 2) if k > -0.2 else 1.0
+        pr = ease(k / 0.18) if k > 0 else 0.0
+        base = o[key + "0"].astype(np.float32); on = o[key + "1"].astype(np.float32)
+        pl = (base * (1 - pr) + on * pr).astype(np.uint8)
+        pw, ph = int(pl.shape[1] * sc), int(pl.shape[0] * sc); pl = cv2.resize(pl, (pw, ph))
+        cx = W // 2 + (-170 if i == 0 else 170); cyb = 680
+        lay = np.zeros((H, W, 4), np.uint8); lay[cyb - ph // 2:cyb - ph // 2 + ph, cx - pw // 2:cx - pw // 2 + pw] = pl
+        if 0 < k < 0.8:   # 눌릴 때 퍼지는 고리
+            ring = np.zeros((H, W, 3), np.uint8); e = ease(k / 0.8)
+            cv2.ellipse(ring, (cx, cyb), (int(150 + 60 * e), int(42 + 40 * e)), 0, 0, 360, (92, 164, 201), 2, cv2.LINE_AA)
+            img = cv2.add(img, (cv2.GaussianBlur(ring, (0, 0), 2).astype(np.float32) * (1 - e) * a).astype(np.uint8))
         img = blend(img, lay, a)
-        ll = np.zeros((H, W, 4), np.uint8); lw_ = o[lab]; ll[y0 + sz + 10:y0 + sz + 60, x0 + sz // 2 - 130:x0 + sz // 2 + 130] = lw_
-        img = blend(img, ll, a)
-    sa = s.get("slogan_at", dur - 5.5)
-    if s.get("next") and t < sa + 0.6:   # slogan_at 999 → 예고가 끝까지 남음 (슬로건은 end 카드로)
-        a = ease((t - 6.0) / 0.8) * out_a * (1 - ease((t - sa) / 0.6))
-        l = np.zeros((H, W, 4), np.uint8); l[830:880] = o["nxt_k"]; l[874:944] = o["nxt"]
+    if s.get("next"):
+        a = ease((t - 6.0) / 0.8) * out_a
+        ln = np.zeros((H, W, 3), np.uint8); hw = int(110 * ease((t - 5.8) / 1.0))
+        if hw > 2: cv2.line(ln, (W // 2 - hw, 772), (W // 2 + hw, 772), (110, 170, 205), 1, cv2.LINE_AA)
+        img = cv2.add(img, (ln.astype(np.float32) * a).astype(np.uint8))
+        l = np.zeros((H, W, 4), np.uint8); l[790:836] = o["nxt_k"]; l[836:908] = o["nxt"]
         img = blend(img, l, a)
-    if t >= sa:
-        l = np.zeros((H, W, 4), np.uint8); l[850:940] = o["slogan"]; img = blend(img, l, ease((t - sa - 0.3) / 0.9) * out_a)
     img = o["dust"].draw(img, t)
     return img
 
@@ -655,6 +667,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
         d = max(s.get("dur", 0), need)
         if s["type"] == "intro": d = 10.6
         if s.get("fixed"): d = s["dur"]
+        s["_vat"] = {v: a for v, a, dd in vt}   # 장면 안에서 각 목소리가 시작하는 시각 (엔딩 글자 박자 맞추기)
         plan.append({"s": s, "t0": t, "dur": d, "voices": [(v, t + a, dd) for v, a, dd in vt]}); t += d
     total = t
     for p in plan:   # 덧씌우기 시작을 목소리 기준으로

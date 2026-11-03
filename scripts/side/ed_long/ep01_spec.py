@@ -177,12 +177,14 @@ def build():
               "sfx": [["transition_5.mp3", 0.0, 0.35]], "tin": "black", "fin": 1.0})
     S.append(shot("still", "e7b_dawn", ["r9"], ["wind_2.mp3", 0.25], {"move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     out = len(S)
-    S.append({"type": "outro", "voice": ["o1", "o2", "m_x1"], "gap": 0.7, "pre": 1.0, "post": 2.6, "dur": 12.0, "nocap": True,
+    S.append({"type": "outro", "voice": ["o1", "o2"], "gap": 0.7, "pre": 1.0, "post": 2.6, "dur": 12.0, "nocap": True,
               "next_kicker": "NEXT  ·  EPISODE 2", "next": "무례한 사람들", "slogan_at": 999, "tap_sub": 3.4, "tap_like": 4.2,
               "sfx": [["ring_synth.wav", 3.42, 0.45], ["click_2.mp3", 3.4, 0.6], ["click_2.mp3", 4.2, 0.6], ["ring_synth.wav", 4.22, 0.35], ["drum_6.mp3", 0.2, 0.4]]})
     # 11/3 대표: 맨 마지막 엔딩 — "매일 밤, 황제처럼 생각하라 · 황제의 일기"
-    S.append({"type": "end", "dur": 7.0, "voice": [], "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black",
-              "sfx": [["ring_synth.wav", 0.25, 0.3], ["drum_6.mp3", 1.6, 0.22]]})
+    #   황제(명일) "매일 밤, 황제처럼 생각하라." → 해설(건석) "황제의 일기." — 글자는 각 목소리 시작에 맞춰 뜬다
+    sp["voice_files"]["e_x2"] = "../ep01x/voice_ep01x_01_e_x2.mp3"
+    S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.6, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black",
+              "sfx": [["ring_synth.wav", 0.5, 0.25]]})
     # 음악
     mus = [m for m in P["music"]]; mus[0]["until_shot"] = card_idx[2]; mus[0].pop("len", None)
     for n in range(2, 8):
