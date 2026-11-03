@@ -1113,14 +1113,14 @@ def ident_source(n_frames):
     """밸류노트 인트로 2.6초 (2026-11-03 대표님 "밸류노트 인트로, 영화 오프닝같이 시네마틱하게")
     남색 어둠 → 가운데 금빛 점 → 금선이 좌우로 그어짐 → 로고가 떠오름 → (렌더러가) 극장 비율 띠가 열리며 노트로 넘어간다."""
     from brand import logo_image
-    lg = logo_image(118, "dark", shadow=False, line=False)[0]   # 금선은 인트로가 직접 긋는다
-    BG = (7, 15, 30); GOLDC = (226, 192, 120); dur = max(.1, n_frames / FPS)
+    lg = logo_image(128, "dark", shadow=False, line=False)[0]   # 금선은 인트로가 직접 긋는다 · 2026-11-03 대표님: 로고 아주 살짝 크게(118→128)
+    BG = (7, 15, 30); GOLDC = (226, 192, 120); dur = max(.1, n_frames / FPS); kk = max(1.0, (dur - .5) / 2.0)   # 길이가 늘면 점·선·로고도 그만큼 천천히
 
     def get(u):
         im = Image.new("RGB", (W, H), BG); d = ImageDraw.Draw(im, "RGBA")
         for r_ in range(0, 600, 30): d.ellipse([W / 2 - 900 + r_, H / 2 - 520 + r_ * .58, W / 2 + 900 - r_, H / 2 + 520 - r_ * .58], fill=(30, 50, 86, 6))   # 가운데만 은은하게 밝게
         cy = H / 2 + 110
-        p_dot = clamp(u / .25); p_line = NBK_eio((u - .2) / .65); p_logo = NBK_eio((u - .7) / .7)
+        p_dot = clamp(u / (.25 * kk)); p_line = NBK_eio((u - .2 * kk) / (.65 * kk)); p_logo = NBK_eio((u - .7 * kk) / (.8 * kk))
         if p_line <= 0 and p_dot > 0:
             rr = 5 * p_dot; d.ellipse([W / 2 - rr * 3, cy - rr * 3, W / 2 + rr * 3, cy + rr * 3], fill=(*GOLDC, int(40 * p_dot))); d.ellipse([W / 2 - rr, cy - rr, W / 2 + rr, cy + rr], fill=(*GOLDC, 255))
         if p_line > 0:
@@ -1663,17 +1663,8 @@ def hook_bed(n, timeline):
         if x["start"] >= h0: break
         strong.add(round(x["start"] / bt))
         for e in cut_edges(x["sc"]["v"], x["dur"]): strong.add(round((x["start"] + e) / bt))
-    nb = int(round(h0 / bt))
-    for b in range(nb):
-        tb = b * bt; grow = .6 + .4 * b / max(1, nb)
-        add(tb, sfx_hit(.34 * grow, seed=b) if b in strong else sfx_kick(.22 * grow, seed=b))   # 2026-11-03 대표님 "음악이 잘 안 들린다" → 약 +10dB
-        add(tb, sfx_bass(.16 * grow, 55.0 if (b // 4) % 2 == 0 else 49.0))   # 박자마다 베이스음 (박자가 귀에 들리게)
-        add(tb + bt / 2, sfx_tick(.05 * grow, seed=b))
-    tt = np.arange(int(h0 * SR)) / SR   # 낮은 드론: 서서히 커졌다가 인트로 직전에 빠진다
-    dr = (np.sin(2 * np.pi * 49 * tt) + .6 * np.sin(2 * np.pi * 73.4 * tt)) * (1 + .25 * np.sin(2 * np.pi * tt / (bt * 4)))
-    dr *= np.minimum(1, tt / 1.0) * np.clip((h0 - tt) / .3, 0, 1) * .09; bed[:len(dr)] += dr.astype(np.float32)
-    add(h0 - 2 * bt, sfx_riser(2 * bt, .22, seed=3))
-    add(h0, sfx_hit(.38, seed=99)); add(h0 + .7, sfx_braam(.42)); add(h0 + .15, NBK_whoosh(.9, .12))
+    import hookmusic as HM   # 2026-11-03 대표님 3차: 합성음 전부 빼고 녹음된 피아노 샘플로 (hookmusic.py)
+    bed = HM.make_bed(n, SR, bt, strong, h0, h1)
     return bed, h1
 
 
@@ -1759,7 +1750,7 @@ def main():
             else: lines.append(fill(l, V))
         if not lines and sc["v"].get("ident"):   # 2026-11-03 밸류노트 인트로: 말 없이 2.6초
             dur = float(sc.get("dur", 2.6))
-            if BEAT: dur = max(2, round(dur / BEAT)) * BEAT; sc["v"]["_beat"] = BEAT
+            if BEAT: sc["v"]["_beat"] = BEAT   # 시작은 박자 위(앞 장면이 맞춰 둠), 길이는 그대로 — 2026-11-03 대표님: 로고는 2.5초 → 2.7초로 살짝 천천히
             timeline.append({"sc": sc, "start": t, "dur": dur, "lines": []}); t += dur; continue
         if not lines: print("  문장이 없어 장면 생략:", sc["v"]["type"]); continue
         lt = []; u = sc.get("lead", .25) if (timeline or "lead" not in sc) else max(.5, sc["lead"])   # 첫 장면은 검은 화면에서 떠오를 시간 최소 0.5초
@@ -1844,7 +1835,11 @@ def main():
     bed, h1 = hook_bed(len(mix), timeline)
     if h1:   # 2026-11-03: 훅·인트로 동안 테마곡은 쉬고, 인트로가 끝나며 1.5초에 걸쳐 들어온다
         g = np.clip((np.arange(len(mix)) / SR - (h1 - .4)) / 1.5, 0, 1).astype(np.float32); mus = mus * g[:, None]
-        bed = bed * (1 - .2 * env)   # 말할 때 베드는 아주 조금만 낮춘다
+        # 2026-11-03 대표님 3차 "여전히 소리가 크다, 목소리가 묻힌다": 훅 구간 말소리 크기에 맞춰 베드를 정하고(말 없는 틈 -13dB), 말할 때는 60% 더 낮춘다(약 -21dB)
+        i1 = int(h1 * SR); vs = mix[:i1][env[:i1] > .35]
+        v_rms = float(np.sqrt(np.mean(vs ** 2))) if len(vs) > SR // 2 else .1
+        b_rms = float(np.sqrt(np.mean(bed[:int((h1 - 2.7) * SR)] ** 2))) + 1e-9
+        bed = bed * (v_rms / b_rms * 10 ** (-13 / 20)) * (1 - .6 * env)
     st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
