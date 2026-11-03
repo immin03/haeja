@@ -2,18 +2,14 @@
 // 영상 파일은 32MB 조각으로 나눠 Storage 'ed-tmp' 버킷(비공개)에 올려 두고(action sign 으로 받은 서명 주소),
 // 조각을 차례로 받아 유튜브 이어 올리기(resumable)로 보낸다. 끝나면 action clean 으로 조각을 지운다.
 // 업로드 세션 주소는 app_config 'ed_yt_long_state' 에만 저장하고 응답으로 돌려주지 않는다.
-// 호출: POST {key, action:"sign", prefix, n}  → 조각 올릴 서명 주소 n개
-//       POST {key, action:"start", prefix, total, title, description, tags, privacy, category}
-//       POST {key, action:"push"}   ← 끝날 때까지 여러 번 (한 번에 약 100초)
-//       POST {key, action:"thumb", thumb_path}  (ed-tmp 안의 jpg)
-//       POST {key, action:"clean"}
 // key 는 app_config 'ed_yt_long_key' 와 같아야 한다.
+// action meta (2026-11-04 대표: "제목도 바꿔줘"): {video_id?, title?, desc_prefix?} — 기존 snippet(설명·태그·카테고리)을 그대로 두고 제목만 바꾸거나 설명 맨 앞에 줄을 더한다.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const ED_CH = "UCR5ao2RmISHYMmDinRPIaDw";
-const CHUNK = 32 * 1024 * 1024;   // 256KB 의 배수 = Storage 조각 크기
+const CHUNK = 32 * 1024 * 1024;
 const BUCKET = "ed-tmp";
 const json = (o: unknown, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json" } });
 async function cfg(key: string) { const { data } = await sb.from("app_config").select("value").eq("key", key).maybeSingle(); return data?.value; }
@@ -69,6 +65,22 @@ Deno.serve(async (req: Request) => {
       return json({ ok: true, total });
     }
     const st = await cfg("ed_yt_long_state") as { session: string; total: number; prefix: string; video_id?: string } | null;
+    if (b.action === "meta") {
+      const vid = b.video_id || st?.video_id;
+      if (!vid) return json({ error: "video_id 없음" }, 400);
+      const g = await (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${vid}`, { headers: { Authorization: "Bearer " + tok } })).json();
+      const sn = g.items?.[0]?.snippet;
+      if (!sn) return json({ error: "영상을 찾지 못함", body: JSON.stringify(g).slice(0, 300) }, 404);
+      if (sn.channelId !== ED_CH) return json({ error: "황제의 일기 채널 영상이 아님" }, 400);
+      const before = { title: sn.title, desc_head: String(sn.description || "").slice(0, 120) };
+      const snippet: Record<string, unknown> = { title: b.title || sn.title, description: sn.description || "", tags: sn.tags || [], categoryId: sn.categoryId };
+      if (sn.defaultLanguage) snippet.defaultLanguage = sn.defaultLanguage;
+      if (sn.defaultAudioLanguage) snippet.defaultAudioLanguage = sn.defaultAudioLanguage;
+      if (b.desc_prefix && !String(sn.description || "").startsWith(b.desc_prefix)) snippet.description = b.desc_prefix + "\n\n" + (sn.description || "");
+      const r = await fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet", { method: "PUT", headers: { Authorization: "Bearer " + tok, "Content-Type": "application/json; charset=UTF-8" }, body: JSON.stringify({ id: vid, snippet }) });
+      const out = await r.json();
+      return json({ status: r.status, before, after: { title: out.snippet?.title, desc_head: String(out.snippet?.description || "").slice(0, 120) }, error: out.error?.message });
+    }
     if (!st) return json({ error: "start 먼저" }, 400);
     if (b.action === "push") {
       if (st.video_id) return json({ done: true, video_id: st.video_id });
