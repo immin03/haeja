@@ -38,8 +38,11 @@ def main_req(req):
             except urllib.error.HTTPError as e: print("실패", name, emo, e.code, e.read()[:200])
             except Exception as e: print("실패", name, emo, str(e)[:160])
         if not ok: continue
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-af", f"atempo={req.get('tempo', 1.0)},loudnorm=I=-16:TP=-1.5", "-b:a", "160k", dst], check=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-af", f"atempo={v.get('tempo', req.get('tempo', 1.0))},loudnorm=I=-16:TP=-1.5", "-b:a", "160k", dst], check=True)
         os.remove(raw); files.append(dst)
+        if req.get("keep"):  # 2026-11-03 롱폼 성우 샘플: 저장소에도 남겨 바로 받아 볼 수 있게
+            kd = os.path.join(OUT, "voice_samples", tag); os.makedirs(kd, exist_ok=True)
+            import shutil; shutil.copy(dst, os.path.join(kd, fn))
         res.append({"n": i, "voice_id": v["id"], "name": v["name"], "url": f"https://github.com/{REPO}/releases/download/side-assets/{fn}"})
         print("샘플", i, name, flush=True)
     if files:
