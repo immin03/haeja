@@ -148,74 +148,74 @@
    "vol": 0.22,
    "fin": 4,
    "fout": 4,
-   "until_shot": 20
+   "until_shot": 21
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 20,
+   "at_shot": 21,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 30,
+   "until_shot": 31,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_3.mp3",
-   "at_shot": 30,
+   "at_shot": 31,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 41,
+   "until_shot": 42,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 41,
+   "at_shot": 42,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 51,
+   "until_shot": 52,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "dramatic_1.mp3",
-   "at_shot": 51,
+   "at_shot": 52,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 61,
+   "until_shot": 62,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 61,
+   "at_shot": 62,
    "offset": 1.0,
    "start": 90,
-   "until_shot": 71,
+   "until_shot": 72,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 71,
+   "at_shot": 72,
    "offset": 1.0,
    "start": 110,
-   "until_shot": 79,
+   "until_shot": 80,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_5.mp3",
-   "at_shot": 79,
+   "at_shot": 80,
    "offset": 0.5,
    "start": 0,
-   "until_shot": 82,
+   "until_shot": 83,
    "tail": 0,
    "vol": 0.22,
    "fin": 2,
@@ -620,7 +620,66 @@
     ]
    ],
    "overlays": [],
-   "gap": 1.0
+   "gap": 1.0,
+   "write": {
+    "tip0": [
+     1025,
+     510
+    ],
+    "lead": 715,
+    "static": true,
+    "clean": true,
+    "size": 150,
+    "ink": [
+     40,
+     26,
+     14
+    ],
+    "paper_lv": [
+     72,
+     98
+    ],
+    "paper": [
+     [
+      330,
+      240
+     ],
+     [
+      1560,
+      215
+     ],
+     [
+      1720,
+      1000
+     ],
+     [
+      300,
+      1000
+     ]
+    ],
+    "lines": [
+     "Do not waste the remainder"
+    ],
+    "line": "of thy life in thoughts about others.",
+    "quad": [
+     [
+      600,
+      236
+     ],
+     [
+      1430,
+      222
+     ],
+     [
+      1430,
+      512
+     ],
+     [
+      600,
+      526
+     ]
+    ]
+   }
   },
   {
    "type": "video",
@@ -667,8 +726,7 @@
    "type": "still",
    "src": "lq08_write",
    "voice": [
-    "c1c",
-    "c1g"
+    "c1c"
    ],
    "pre": 0.5,
    "post": 0.8,
@@ -696,6 +754,34 @@
      "en": "The Dichotomy of Control"
     }
    ]
+  },
+  {
+   "type": "still",
+   "src": "lp09_teacher",
+   "voice": [
+    "c1g"
+   ],
+   "grade": "memory",
+   "leak": true,
+   "tin": "dissolve",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ],
+    "pan": [
+     [
+      0.02,
+      0
+     ],
+     [
+      -0.02,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.6
   },
   {
    "type": "still",
@@ -738,7 +824,8 @@
    "amb": [
     "fire_0.mp3",
     0.2
-   ]
+   ],
+   "nocap": true
   },
   {
    "type": "still",
@@ -2487,8 +2574,7 @@
    "!그날 밤 그가 일기에 남긴 일곱 문장"
   ],
   "c1a": [
-   "전령이 물러간 뒤에도,",
-   "황제는 편지를 내려놓지 못했습니다.",
+   "전령이 물러간 뒤에도, 황제는 편지를 내려놓지 못했습니다.",
    "아비디우스 카시우스.",
    "동방의 전쟁을 승리로 이끌고, 황제가 동방 전체를 맡겼던 장군이었습니다."
   ],
@@ -2498,21 +2584,17 @@
   "m_c1b4": "~",
   "c1c": [
    "황제는 이 생각을 일기 곳곳에 되풀이해 적었습니다.",
-   "스토아 철학에서는 이것을,",
-   "~",
-   "남의 마음은,",
-   "!언제나 내 힘이 닿지 않는 쪽에 있습니다."
+   "스토아 철학에서는 이것을, 내 힘이 닿는 것과 닿지 않는 것을 가르는 일이라고 합니다.",
+   "!남의 마음은, 언제나 내 힘이 닿지 않는 쪽에 있습니다."
   ],
   "c1d": [
-   "회의가 끝난 뒤,",
-   "나를 두고 뒷말을 했다는 동료.",
+   "회의가 끝난 뒤, 나를 두고 뒷말을 했다는 동료.",
    "며칠째 답이 없는 오랜 친구.",
-   "우리는 그 사람의 속을 짐작하느라,",
-   "!밤을 통째로 씁니다."
+   "!우리는 그 사람의 속을 짐작하느라, 밤을 통째로 씁니다."
   ],
   "c1e": [
    "오늘 밤에는, 그 사람 대신 나에게 물어보세요.",
-   "~"
+   "지금 내 힘이 닿는 일은, 무엇인가."
   ],
   "c1f": "그리고 몇 달 뒤, 황제의 막사에 상자 하나가 도착합니다.",
   "m_x1": "~",

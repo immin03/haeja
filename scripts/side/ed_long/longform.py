@@ -548,20 +548,27 @@ def overlay(img, ov, t, dur, cache, key):
 
 
 # ---------- 자막 (템플릿: 쇼츠와 같은 방식, 강조 문장만 크게) ----------
-def speech_bounds(path, n):
-    """음성 파일 안 문장 경계: 긴 쉼 n-1개를 골라 [(시작, 끝)] n개를 돌려준다"""
+def speech_bounds(path, n, items=None):
+    """음성 파일 안 문장 경계 (11/3 개선): 글자 수 비율로 예상한 경계에서 가장 가까운 쉼(±1.2초)에 맞춘다. 쉼이 없으면 예상 위치 그대로"""
     L = dur_of(path)
     if n <= 1: return [(0.0, L)]
-    out = subprocess.run(["ffmpeg", "-i", path, "-af", "silencedetect=noise=-38dB:d=0.18", "-f", "null", "-"], capture_output=True, text=True).stderr
+    out = subprocess.run(["ffmpeg", "-i", path, "-af", "silencedetect=noise=-38dB:d=0.15", "-f", "null", "-"], capture_output=True, text=True).stderr
     import re
     st = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", out)]; en = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", out)]
-    gaps = [(b - a, a, b) for a, b in zip(st, en) if 0.15 < a and b < L - 0.1]
-    gaps = sorted(sorted(gaps, reverse=True)[:n - 1], key=lambda g: g[1])
-    if len(gaps) < n - 1:   # 쉼을 못 찾으면 글자 수 비율로
-        return None
-    pts = [0.0] + [g[1] for g in gaps]; ends = [g[1] for g in gaps] + [L]
-    starts = [0.0] + [g[2] for g in gaps]
-    return list(zip(starts, ends))
+    sil = [(a, b) for a, b in zip(st, en) if 0.15 < a and b < L - 0.05]
+    lead = en[0] if st and st[0] < 0.05 and en else 0.0
+    tail = st[-1] if st and len(en) < len(st) else L
+    w = [max(len(re.sub(r"[^가-힣A-Za-z0-9]", "", x or "")), 1) for x in (items or ["x"] * n)]
+    tot = sum(w); c = 0; bounds = []; prev = lead
+    for k in range(n - 1):
+        c += w[k]; e = lead + (tail - lead) * c / tot
+        best = min(sil, key=lambda g: abs((g[0] + g[1]) / 2 - e), default=None)
+        if best and abs((best[0] + best[1]) / 2 - e) < 1.2 and best[0] > prev:
+            bounds.append((prev, best[0])); prev = best[1]
+        else:
+            bounds.append((prev, e)); prev = e
+    bounds.append((prev, tail))
+    return bounds
 
 
 def wrap_ko(text, fnt, maxw):
@@ -614,14 +621,11 @@ def caption_events(S, plan, vfile):
             items = subs.get(v)
             if not items: continue
             items = [items] if isinstance(items, str) else items
-            bounds = speech_bounds(vfile(v), len(items))
-            if bounds is None:
-                n = [max(len(x), 1) for x in items]; tot = sum(n); c = 0; bounds = []
-                for k in n: bounds.append((d * c / tot, d * (c + k) / tot)); c += k
+            bounds = speech_bounds(vfile(v), len(items), [x.lstrip("!~") for x in items])
             for txt, (a, b) in zip(items, bounds):
                 if txt.startswith("~"): continue
                 kind = "emph" if txt.startswith("!") else ("mono" if v in mono else "nar")
-                ev.append((at + a - 0.05, at + b + 0.25, txt.lstrip("!"), kind))
+                ev.append((at + a - 0.08, at + b + 0.15, txt.lstrip("!"), kind))
     return ev
 
 

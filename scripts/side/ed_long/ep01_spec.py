@@ -146,8 +146,25 @@ def build():
     m2.update({"src": "lwv2_front", "voice": ["m_c1b3", "m_c1b4"], "pre": 0.5, "tin": "dissolve",
                "overlays": [{"kind": "verse", "lines": ["남의 생각을 짐작하느라,", "남은 날들을 쓰지 마라."], "src": "명상록 3권 4절", "at_voice": "m_c1b4"}]})
     sh.insert(15, m2)
+    # 11/3 대표: 1:19 펜 장면의 낙서는 지우고 상황에 맞는 필기체만 종이에 고정 (손 쪽은 가림 처리)
+    m1["write"] = write(["Do not waste the remainder", "of thy life in thoughts about others."], Q2)
+    # 1장 해설이 같은 각도 종이 그림으로 오래 이어지지 않게: 에픽테토스 대목은 스승 회상 장면으로
+    for i, x in enumerate(sh):
+        if x.get("src") == "lq08_txt":
+            x["src"] = "lq08_write"; x["voice"] = ["c1c"]
+            sh.insert(i + 1, {"type": "still", "src": "lp09_teacher", "voice": ["c1g"], "grade": "memory", "leak": True, "tin": "dissolve",
+                              "move": {"zoom": [1.0, 1.1], "pan": [[0.02, 0], [-0.02, 0]]}, "pre": 0.3, "post": 0.6})
+            break
+    # 파일럿 때 쉼표 단위로 잘게 나눈 1장 자막은 문장 단위로 (목소리와 어긋나지 않게)
+    for k in ("c1a", "c1c", "c1d", "c1e", "s1", "s3"):
+        if k in E.TXT: continue
+    subs["c1a"] = ["전령이 물러간 뒤에도, 황제는 편지를 내려놓지 못했습니다.", "아비디우스 카시우스.", "동방의 전쟁을 승리로 이끌고, 황제가 동방 전체를 맡겼던 장군이었습니다."]
+    subs["c1c"] = ["황제는 이 생각을 일기 곳곳에 되풀이해 적었습니다.", "스토아 철학에서는 이것을, 내 힘이 닿는 것과 닿지 않는 것을 가르는 일이라고 합니다.", "!남의 마음은, 언제나 내 힘이 닿지 않는 쪽에 있습니다."]
+    subs["c1d"] = ["회의가 끝난 뒤, 나를 두고 뒷말을 했다는 동료.", "며칠째 답이 없는 오랜 친구.", "!우리는 그 사람의 속을 짐작하느라, 밤을 통째로 씁니다."]
+    subs["c1e"] = ["오늘 밤에는, 그 사람 대신 나에게 물어보세요.", "지금 내 힘이 닿는 일은, 무엇인가."]
     for x in sh:
-        if x.get("src") == "lq08_txt": x["src"] = "lq08_write"
+        if x.get("type") == "tonight": x["nocap"] = True
+    sp["subs"] = subs
     end = sh.pop()                      # 옛 엔딩 제거
     S = sh
     card_idx = {1: 12}
