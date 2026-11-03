@@ -356,7 +356,7 @@
     "wash_amt": 0.88
    },
    "lines": [
-    "이상한 건 함께 빠졌다는 겁니다. 10월 말 미국 반도체와 인공지능 주식이 크게 빠진 날, 안전자산이라던 금도 같은 날 함께 빠졌거든요."
+    "이상한 건 같이 빠졌다는 겁니다. 10월 말 미국 반도체·인공지능 주식이 급락한 날 안전자산이라던 금도 함께 빠졌거든요."
    ],
    "en": [
     "The odd part was the timing. On the day US chip and AI stocks plunged in late October, gold, the safe asset, fell the same day."
@@ -971,7 +971,7 @@
      "kind": "print",
      "text": "1998년 금 모으기로 모인 금",
      "x": 960,
-     "y": 300,
+     "y": 250,
      "size": 50,
      "w": "ExtraBold",
      "color": "gray",
@@ -983,35 +983,59 @@
      "kind": "write",
      "text": "227톤",
      "x": 960,
-     "y": 400,
-     "size": 220,
+     "y": 320,
+     "size": 200,
      "color": "ink",
      "line": 0,
-     "at": 0.15,
+     "at": 0.1,
      "anchor": "m"
     },
     {
-     "kind": "icons",
-     "icon": "ring",
-     "x": 760,
-     "y": 790,
-     "size": 70,
-     "n": 5,
-     "gap": 20,
-     "color": "gold",
-     "line": 0,
-     "at": 0.45
-    },
-    {
      "kind": "print",
-     "text": "지금 한국은행 금 보유량(104톤)의 2배 이상",
+     "text": "지금 한국은행 보유량(104톤)의 2배 이상",
      "x": 960,
-     "y": 690,
+     "y": 580,
      "size": 44,
      "w": "ExtraBold",
      "color": "gray",
      "line": 0,
-     "at": 0.7,
+     "at": 0.3,
+     "anchor": "ma"
+    },
+    {
+     "kind": "print",
+     "text": "350만 명 · 1인당 약 17돈",
+     "x": 960,
+     "y": 650,
+     "size": 44,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.55,
+     "anchor": "ma"
+    },
+    {
+     "kind": "icons",
+     "icon": "ring",
+     "x": 1500,
+     "y": 330,
+     "size": 80,
+     "n": 2,
+     "gap": 20,
+     "color": "gold",
+     "line": 0,
+     "at": 0.7
+    },
+    {
+     "kind": "print",
+     "text": "수출 → 약 22억 달러",
+     "x": 960,
+     "y": 720,
+     "size": 48,
+     "w": "ExtraBold",
+     "color": "ink",
+     "line": 0,
+     "at": 0.85,
      "anchor": "ma"
     }
    ],
@@ -1524,7 +1548,7 @@
     "wash_amt": 0.88
    },
    "lines": [
-    "다만 원화로 따지면 사정이 달랐습니다. 1997년 말 환율이 치솟자, 원화로 친 국제 금값이 잠시 1980년 꼭대기를 넘었거든요. 앞에서 본 그 외환위기 때였습니다."
+    "다만 원화로 따지면 사정이 달랐습니다. 1997년 말 환율이 치솟자, 원화로 친 국제 금값이 잠시 1980년 꼭대기를 넘었거든요."
    ],
    "en": [
     "In won, though, it was different. When the won collapsed in late 1997, gold priced in won briefly passed its 1980 peak: the very crisis we just saw."
@@ -1776,6 +1800,39 @@
      "color": "ink",
      "line": 0,
      "at": 0.78
+    },
+    {
+     "kind": "print",
+     "text": "→ 이후 20년 가까이 내리막",
+     "x": 520,
+     "y": 360,
+     "size": 38,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.27
+    },
+    {
+     "kind": "print",
+     "text": "→ 1년 반 만에 회복",
+     "x": 520,
+     "y": 510,
+     "size": 38,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.6
+    },
+    {
+     "kind": "print",
+     "text": "→ 어느 쪽인지는 지나고 나서야",
+     "x": 520,
+     "y": 660,
+     "size": 38,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.9
     }
    ],
    "asof": false,
@@ -1870,7 +1927,7 @@
     "wash_amt": 0.88
    },
    "lines": [
-    "한국에 사는 우리에겐 변수가 하나 더 있습니다. 환율이에요. 국제 금값이 그대로여도 원화가 약해지면 한국 금값은 오르고 원화가 강해지면 내려갑니다. 1998년이 그 극단적인 예였고요."
+    "한국에 사는 우리에겐 환율도 변수입니다. 국제 금값이 그대로여도 원화가 약해지면 한국 금값은 오릅니다. 1998년이 그 극단적인 예였죠."
    ],
    "en": [
     "For us in Korea there is one more variable: the exchange rate. Even if global gold stays put, a weaker won lifts Korean gold prices, and a stronger won lowers them. 1998 was the extreme case."
@@ -1960,7 +2017,7 @@
     "wash_amt": 0.88
    },
    "lines": [
-    "2022년 러시아의 달러 자산이 묶인 뒤로, 달러 대신 금을 쌓는 나라가 늘었다는 분석이 많습니다. 1998년 한국처럼, 자기 나라 돈이 흔들릴 때를 대비한 보험인 거죠. 하락을 받쳐 왔다는 평가도 있지만 늘 그렇다는 보장은 없습니다."
+    "2022년 러시아의 달러 자산이 묶인 뒤로, 달러 대신 금을 쌓는 나라가 늘었다는 분석이 많습니다. 1998년 한국처럼, 통화 보험인 거죠. 하락을 받쳐 왔다는 평가도 있지만 늘 그렇다는 보장은 없습니다."
    ],
    "en": [
     "Since Russia's dollar reserves were frozen in 2022, many analysts say more countries stack gold instead of dollars: insurance, like Korea in 1998. Some buy on dips, which has cushioned falls, but there is no guarantee."
@@ -2112,6 +2169,18 @@
      "line": 0,
      "at": 0.75,
      "anchor": "ma"
+    },
+    {
+     "kind": "print",
+     "text": "팔 때: 금은방 두세 곳 매입가 비교",
+     "x": 960,
+     "y": 850,
+     "size": 40,
+     "w": "ExtraBold",
+     "color": "gray",
+     "line": 0,
+     "at": 0.92,
+     "anchor": "ma"
     }
    ],
    "asof": false,
@@ -2240,13 +2309,13 @@
     "sub_at": "2:지난",
     "note": {
      "text": "우리 집 돌반지는 몇 년생?",
-     "at": "1:댓글"
+     "at": "1:돌반지"
     }
    },
    "lines": [
     "금은 위기 초반엔 먼저 팔리기도 했고, 이자가 물가를 못 따라갈 때 크게 올랐습니다. 다음에 미국 금리 결정 뉴스가 나오면, 미국 물가 발표와 나란히 놓고 한번 보세요. 여기에 원·달러 환율까지 보면, 장롱 속 돌반지 값이 왜 움직이는지 읽을 수 있습니다.",
-    "여러분 집 돌반지는 언제 받은 건가요? 댓글로 알려 주세요. 이런 돈 이야기가 더 궁금하시면 구독과 알림 설정 부탁드려요.",
-    "1월 꼭대기 뒤 금값이 왜 아홉 달 내내 빠졌는지는 지난 영상, 돌반지 지금 팔면 64만 원 편에 정리해 두었습니다. 감사합니다."
+    "여러분 집 돌반지는 언제 받은 건가요? 이런 돈 이야기가 궁금하시면 구독과 알림 설정 부탁드려요.",
+    "올해 금값이 빠진 이유는 지난 금값 영상에 있습니다. 감사합니다."
    ],
    "en": [
     "In a crisis gold was sold first, and when interest lagged inflation it rose first. Next time the Fed decides, set it beside US inflation, then add the won-dollar rate, and you can read why that ring's value moves.",
