@@ -1,0 +1,22 @@
+[
+ {
+  "id": "lqv08b_write",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/lq08_write.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The weathered hand writes a single line of flowing cursive handwriting, moving the reed pen tip slowly and steadily from left to right in a straight horizontal line across the papyrus, the pen tip staying on the same horizontal line the whole time with only small natural up-and-down loops of handwriting and slight pen lifts between words, the wrist gliding smoothly to the right, the candle flame flickering softly. The camera is completely still. Keep the painterly oil-painting look and every detail identical to the first frame. The papyrus stays blank, no ink lines appear, no text, no morphing, no extra fingers, no cuts."
+  }
+ },
+ {
+  "id": "lqv08c_write",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/lq08_write.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The weathered hand writes a single line of flowing cursive handwriting, moving the reed pen tip slowly and steadily from left to right in a straight horizontal line across the papyrus, the pen tip staying on the same horizontal line the whole time with only small natural up-and-down loops of handwriting and slight pen lifts between words, the wrist gliding smoothly to the right, the candle flame flickering softly. The camera is completely still. Keep the painterly oil-painting look and every detail identical to the first frame. The papyrus stays blank, no ink lines appear, no text, no morphing, no extra fingers, no cuts."
+  }
+ }
+]
