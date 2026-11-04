@@ -2195,7 +2195,7 @@ function vTodo(fallback){
   ${open.map(it => `<div class="br-td" data-td="${esc(it.id)}">
     <b>${esc(it.title)}</b>${it.kind === 'daily' ? ' <span class="br-st wait">매일</span>' : ''}
     ${it.why ? `<div class="m">${esc(it.why)}</div>` : ''}
-    ${(it.how || []).length ? `<details class="br-how"><summary>하는 방법</summary><ol>${it.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol></details>` : ''}
+    ${(it.how = Array.isArray(it.how) ? it.how : String(it.how || '').split(/\s*\d+\)\s*/).filter(Boolean)).length ? `<details class="br-how"><summary>하는 방법</summary><ol>${it.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol></details>` : ''}
     ${it.kind === 'input' ? `<div class="br-tdin"><input type="text" placeholder="${esc(it.placeholder || '')}" value="${esc(it.answer || '')}"><button class="br-b" data-td-act="input">등록</button></div>` : ''}
     <div class="br-acts">
       ${it.link ? `<a class="br-b ghost" href="${esc(it.link.href)}"${/^https?:/.test(it.link.href) ? ' target="_blank" rel="noopener"' : ''}${/\.(png|jpe?g)$/.test(it.link.href) ? ' download' : ''}>${esc(it.link.label)}</a>` : ''}
@@ -2557,7 +2557,8 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  $('#main').innerHTML = p === 'brief' ? vBrief() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s);
+  let html; try { html = p === 'brief' ? vBrief() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s); } catch(e) { console.error(e); html = `<div class="card"><b>이 화면을 그리지 못했습니다.</b><div class="m">데이터 한 건이 형식에 맞지 않습니다: ${esc(e.message)} — 위 요청칸에 그대로 알려 주시면 고칩니다.</div></div>`; }
+  $('#main').innerHTML = html;
   if(p === 'brief') bindBrief();
   if(p === 'users') bindUsers(s);
   if(p === 'stocks') bindStocks();
