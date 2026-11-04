@@ -398,6 +398,12 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .sl-c select{font:inherit;font-size:12px;padding:6px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
 .sl-c .soc-btn{padding:6px 8px;font-size:12px}
 .sl-c.today{box-shadow:inset 0 3px 0 var(--gold)}
+.sl-c.tt{border:2px dashed #8A6FD1;background:rgba(138,111,209,.06)}.sl-c.tt .stt{background:#8A6FD1;color:#fff}
+.sl-c .why{font-size:11px;color:var(--muted);line-height:1.4;word-break:keep-all}
+.sl-c .sp{display:flex;flex-direction:column;gap:2px;margin-top:auto;padding-top:4px;border-top:1px dashed var(--line)}
+.sl-c .sp span{font-size:11px;font-weight:800;color:#B07A12;word-break:keep-all}.sl-c .sp span.e{color:var(--muted);font-weight:700}
+.sl-c .bt{display:flex;gap:4px}.sl-c .bt .soc-btn{flex:1}
+.sl-c .soc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .sl-sum{font-size:13px;color:var(--ink2);margin:2px 0 4px}.sl-sum b.bad{color:var(--bad)}
 @media (max-width:760px){.sl-wk{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:760px){.cal-3{grid-template-columns:1fr}.cal-c{min-height:58px;padding:4px}.cal-c .dots{gap:2px 4px}.cal-c .dt{font-size:10px;gap:2px}.cal-c .dt i{width:6px;height:6px}.cal-m{padding:10px}.cal-g{gap:3px}}
@@ -1701,13 +1707,16 @@ function calRow(x){
   return `<a class="cal-it" href="${x.go}"><i style="background:${CH[x.ch][1]}"></i><span class="tm">${x.t || '—'}</span><span class="tx"><small>${CH[x.ch][0]}${x.sub ? ' · ' + esc(x.sub) : ''}</small>${esc(x.title)}</span><span class="st ${x.st[0]}">${x.st[1]}</span></a>`;
 }
 /* 롱폼 편성표 (2026-11-04 22:05 대표님: "롱폼 달력… 쉽게 보이게, slot 비어있으면 선택할 수 있게 유도")
-   롱폼은 월·수·금·일 19:30 (주 4편). 앞으로 5주 칸을 한눈에 — 빈 칸은 금색 점선 + 기획안을 골라 바로 배정 */
+   롱폼은 월·수·금·일 19:30 (주 4편). 앞으로 8주(크리스마스까지) 칸을 한눈에 — 빈 칸은 금색 점선 + 기획안을 골라 바로 배정 */
 const SLOT_DOW = [1, 3, 5, 0];
-function ytSlots(weeks = 5){
+function ytSlots(weeks = 8){
   const today = kstDay(), addD = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
   const L = (YT.list || []).filter(y => y.kind === 'long' && y.scheduled_at && !['hold', 'stale', 'deleted'].includes(y.status));
   const P = (YT.plans || []).filter(p => ['approved', 'producing'].includes(p.status) && p.target_at);
   const pick = (YT.plans || []).filter(p => p.status === 'proposed').sort((a, b) => (+a.rank || 99) - (+b.rank || 99));
+  const TT = pick.filter(p => p.tentative_at);   // 가안 (2026-11-04 22:24 대표님: "너의 추천에 따라 가안으로 선택해놔도 돼")
+  if(YT.days === undefined){ YT.days = null; sb.rpc('yt_special_days', { p_days: 63 }).then(r => { YT.days = r.error ? [] : (r.data || []); render(); }); }
+  const SP = YT.days || [];   // 특별한 날·실적 발표 (issue_events) — 이 칸부터 다음 칸 전까지
   const dow0 = new Date(today + 'T00:00:00Z').getUTCDay(), mon = addD(today, -((dow0 + 6) % 7));
   let html = '', empty = 0, next = null;
   for(let w = 0; w < weeks; w++){
@@ -1717,22 +1726,39 @@ function ytSlots(weeks = 5){
       if(w === 0 && d < addD(today, -1)) { row += `<div class="sl-c up" style="opacity:.45"><span class="sd">${+d.slice(5, 7)}/${+d.slice(8)} <small>${dw}</small></span></div>`; return; }
       const v = L.find(y => kd(y.scheduled_at) === d), pl = P.find(p => kd(p.target_at) === d);
       const lab = `<span class="sd">${+d.slice(5, 7)}/${+d.slice(8)} <small>${dw} · 19:30</small></span>`, td = d === today ? ' today' : '';
+      const nx = addD(d, off === 6 ? 1 : 2), sp = SP.filter(x => x.day >= d && x.day < nx && x.kind !== 'M');
+      const spH = sp.length ? `<div class="sp">${sp.map(x => `<span class="${x.kind === 'E' ? 'e' : ''}">${x.kind === 'S' ? '★ ' : ''}${x.day !== d ? `${+x.day.slice(5, 7)}/${+x.day.slice(8)} ` : ''}${esc(x.title)}</span>`).join('')}</div>` : '';
+      const tt = TT.find(p => p.tentative_at === d);
       if(v){
         const up = v.status === 'uploaded', st = up ? '올라감' : ({ approved: '업로드 대기', review: '검수 대기', changes: '수정 요청' }[v.status] || v.status);
-        row += `<div class="sl-c ${up ? 'up' : 'go'}${td}">${lab}<span class="stt">${st}</span><a class="tl" href="#youtube/${up ? 'done' : 'review'}">${esc(v.title || v.id)}</a></div>`;
+        row += `<div class="sl-c ${up ? 'up' : 'go'}${td}">${lab}<span class="stt">${st}</span><a class="tl" href="#youtube/${up ? 'done' : 'review'}">${esc(v.title || v.id)}</a>${spH}</div>`;
       } else if(pl){
-        row += `<div class="sl-c mk${td}">${lab}<span class="stt">${pl.status === 'producing' ? '제작 중' : '기획 확정 · 제작 예정'}</span><a class="tl" href="#youtube/${pl.status === 'producing' ? 'making' : 'plan'}">${esc(pl.doc_title || pl.title || pl.id)}</a></div>`;
+        row += `<div class="sl-c mk${td}">${lab}<span class="stt">${pl.status === 'producing' ? '제작 중' : '기획 확정 · 제작 예정'}</span><a class="tl" href="#youtube/${pl.status === 'producing' ? 'making' : 'plan'}">${esc(pl.doc_title || pl.title || pl.id)}</a>${spH}</div>`;
+      } else if(d >= today && tt){
+        row += `<div class="sl-c tt${td}">${lab}<span class="stt">가안 · Claude 추천</span><a class="tl" href="#youtube/plan">${esc(tt.doc_title || tt.title || tt.id)}</a>${tt.tentative_why ? `<span class="why">${esc(tt.tentative_why)}</span>` : ''}<div class="bt"><button type="button" class="soc-btn" data-slot-ok="${d}" data-id="${esc(tt.id)}">확정</button><button type="button" class="soc-btn ghost" data-slot-x="${esc(tt.id)}">빼기</button></div>${spH}</div>`;
       } else if(d >= today){
         empty++; if(!next) next = d;
-        row += `<div class="sl-c empty${td}">${lab}<span class="stt">비어 있음</span>${pick.length ? `<select data-slot-sel="${d}"><option value="">기획안 고르기</option>${pick.map(p => `<option value="${esc(p.id)}">${esc(p.doc_title || p.title || p.id)}</option>`).join('')}</select><button type="button" class="soc-btn" data-slot-go="${d}">이 날로 배정</button>` : `<a class="tl" href="#youtube/plan">기획안이 없습니다 → 기획안 받기</a>`}</div>`;
+        row += `<div class="sl-c empty${td}">${lab}<span class="stt">비어 있음</span>${pick.length ? `<select data-slot-sel="${d}"><option value="">기획안 고르기</option>${pick.map(p => `<option value="${esc(p.id)}">${esc(p.doc_title || p.title || p.id)}</option>`).join('')}</select><button type="button" class="soc-btn" data-slot-go="${d}">이 날로 배정</button>` : `<a class="tl" href="#youtube/plan">기획안이 없습니다 → 기획안 받기</a>`}${spH}</div>`;
       } else row += `<div class="sl-c up${td}">${lab}<span class="stt" style="background:var(--bg);color:var(--muted)">비었음</span></div>`;
     });
     html += `<div class="sl-wk">${row}</div>`;
   }
   return `<div class="card cal-m" id="yt-slots"><div class="cal-mh"><b>롱폼 편성표 · 월·수·금·일 19:30</b></div>
-    <div class="sl-sum">${empty ? `앞으로 5주 중 <b class="bad">${empty}칸이 비어 있습니다</b> · 가장 가까운 빈 날 ${+next.slice(5, 7)}/${+next.slice(8)}(${DOW[new Date(next + 'T00:00:00Z').getUTCDay()]}) — 금색 칸에서 기획안을 고르면 바로 배정됩니다.` : '앞으로 5주 편성이 모두 찼습니다.'}</div>${html}</div>`;
+    <div class="sl-sum">${empty ? `앞으로 ${weeks}주 중 <b class="bad">${empty}칸이 비어 있습니다</b>${TT.length ? ` · 보라색 칸 ${TT.length}개는 Claude 가안(확정 누르면 승인)` : ''} · 가장 가까운 빈 날 ${+next.slice(5, 7)}/${+next.slice(8)}(${DOW[new Date(next + 'T00:00:00Z').getUTCDay()]}) — 금색 칸에서 기획안을 고르면 바로 배정됩니다.` : `앞으로 ${weeks}주 편성이 모두 찼습니다.${TT.length ? ` 보라색 칸 ${TT.length}개는 Claude 가안 — 확정을 누르면 승인됩니다.` : ''}`}</div>${html}</div>`;
 }
 function bindSlots(){
+  document.querySelectorAll('[data-slot-ok]').forEach(b => b.onclick = async () => {
+    const d = b.dataset.slotOk, id = b.dataset.id, p = (YT.plans || []).find(x => x.id === id) || {};
+    if(!confirm(`'${p.doc_title || p.title || id}'\n${+d.slice(5, 7)}월 ${+d.slice(8)}일 19:30 롱폼으로 확정합니다. 그 일정에 맞춰 대본부터 제작합니다.`)) return;
+    b.disabled = true;
+    const { data, error } = await sb.rpc('yt_plan_set', { p_id: id, p_status: 'approved', p_note: null, p_target: `${d}T19:30:00+09:00` });
+    if(error || (data && data.ok === false)) toast('확정하지 못했습니다: ' + (error ? error.message : data.reason), true); else toast(`${+d.slice(5, 7)}/${+d.slice(8)} 19:30으로 확정했습니다.`);
+    ytLoad(); });
+  document.querySelectorAll('[data-slot-x]').forEach(b => b.onclick = async () => {
+    const id = b.dataset.slotX; b.disabled = true;
+    const { error } = await sb.rpc('yt_plan_tentative', { p_id: id, p_day: null });
+    if(error) toast('빼지 못했습니다: ' + error.message, true); else toast('가안에서 뺐습니다. 이 칸은 빈 칸으로 돌아갑니다.');
+    ytLoad(); });
   document.querySelectorAll('[data-slot-go]').forEach(b => b.onclick = async () => {
     const d = b.dataset.slotGo, sel = document.querySelector(`[data-slot-sel="${d}"]`), id = sel && sel.value;
     if(!id){ toast('먼저 기획안을 골라 주세요', true); return; }
