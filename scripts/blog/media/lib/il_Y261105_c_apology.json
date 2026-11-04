@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261105_c_apology",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Vertical 9:16 frame; keep the top 25 percent of the frame calm and dark (sky, ceiling or soft blur) with the main subject in the lower 75 percent. Scene: A single printed letter lying on a dark wooden boardroom table at night, a fountain pen beside it, a desk lamp casting warm light, blurred city lights through a tall window behind, nobody in the room."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a506-003c-71c9-a3b4-56d2cd44e804",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a506-003c-71c9-a3b4-56d2cd44e804/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a506-003c-71c9-a3b4-56d2cd44e804/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a506-003c-71c9-a3b4-56d2cd44e804",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a506-003c-71c9-a3b4-56d2cd44e804/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a506-003c-71c9-a3b4-56d2cd44e804/cancel",
+  "expires_at": "2026-11-11T05:28:22.581832+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a506-003c-71c9-a3b4-56d2cd44e804/138460c8-80bf-4c6d-965b-546b8b66a82e.jpeg"
+   }
+  ]
+ },
+ "seconds": 111,
+ "file": "scripts/blog/media/lib/il_Y261105_c_apology.jpeg"
+}

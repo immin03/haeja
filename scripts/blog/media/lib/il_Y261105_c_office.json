@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261105_c_office",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Vertical 9:16 frame; keep the top 25 percent of the frame calm and dark (sky, ceiling or soft blur) with the main subject in the lower 75 percent. Scene: An empty corporate office floor late at night, rows of desks in darkness, a single desk lamp on, city lights through tall windows."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a506-abf9-757b-a76f-692097bc82f0",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a506-abf9-757b-a76f-692097bc82f0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a506-abf9-757b-a76f-692097bc82f0/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a506-abf9-757b-a76f-692097bc82f0",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a506-abf9-757b-a76f-692097bc82f0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a506-abf9-757b-a76f-692097bc82f0/cancel",
+  "expires_at": "2026-11-11T05:29:10.667047+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a506-abf9-757b-a76f-692097bc82f0/b788a52f-b41f-472f-9016-6595eed6f847.jpeg"
+   }
+  ]
+ },
+ "seconds": 111,
+ "file": "scripts/blog/media/lib/il_Y261105_c_office.jpeg"
+}
