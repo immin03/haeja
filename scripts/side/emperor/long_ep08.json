@@ -1,0 +1,31 @@
+{
+ "id": "ep08",
+ "theme": "C",
+ "note": "2026-11-04 16:40 추가 편(대표 09:03 지시). 40초 템플릿: 현대 상황 훅(나를 지치게 하는 사람) → 로마 상황 → 원문 9권 42절(두 컷에 나눔) → 풀이 → 같은 절 뒷부분. 테마 C(시네마, lc 그림). 음성 테이크 A, 0.42초 넘는 쉼 압축",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": ["사람 때문에", "자꾸 지치는 이유"],
+ "title_line": "사람 때문에 자꾸 지치는 이유",
+ "music": {"file": "/home/claude/ed/music/music_classical-7.mp3", "start": 91, "bed": 0.3},
+ "voice": "/home/claude/vo/ep08n/v_ep08.wav",
+ "gap": 0.55,
+ "hold": 1.4,
+ "cuts": ["/home/claude/haeja/social/side/gen/lc03_brazier_storm.jpeg", "/home/claude/haeja/social/side/gen/lc04_horse_ridge.jpeg", "/home/claude/haeja/social/side/gen/lc05_tent_alone.jpeg", "/home/claude/ed/edv02_ep08.mp4", "/home/claude/haeja/social/side/gen/lc02_river_fog.jpeg", "/home/claude/haeja/social/side/gen/lc01_march_snow.jpeg", "/home/claude/haeja/social/side/gen/lc06_battlefield_after.jpeg"],
+ "sents": [
+  [0.42, 1.97, 1, 0, "cap", ["일터에서도, 모임에서도,"]],
+  [2.15, 4.76, 1, 0, "cap", ["왜 꼭 나를 지치게 하는 사람이", "한 명씩 있을까요"]],
+  [4.96, 7.43, 2, 1, "cap", ["로마 황제 마르쿠스 아우렐리우스 곁에도,"]],
+  [7.64, 9.93, 2, 1, "cap", ["아첨하고 배신하는 사람이", "끊이지 않았습니다"]],
+  [10.26, 12.05, 2, 2, "cap", ["그런 황제가 일기에 이렇게 적었습니다"]],
+  [12.47, 15.28, 3, 3, "quote", ["누군가의 뻔뻔함에 화가 나면,", "곧바로 스스로에게 물어라."]],
+  [15.52, 17.65, 3, 3, "quote", ["뻔뻔한 사람이 하나도 없는", "세상이 가능한가?"]],
+  [18.07, 18.67, 3, 4, "quote", ["불가능하다."]],
+  [19.09, 20.65, 3, 4, "quote", ["그러니 불가능한 것을", "바라지 마라."]],
+  [20.89, 24.34, 4, 5, "big", ["사람에게 지치는 건,", "그 사람이 달라지기를", "바라기 때문입니다."]],
+  [24.69, 26.44, 5, 6, "cap", ["그래서 황제는 이렇게 덧붙였습니다"]],
+  [26.75, 30.13, 5, 6, "quote", ["그 사람도, 세상에", "있을 수밖에 없는 사람", "가운데 하나일 뿐이다."]]
+ ],
+ "tonight": ["나를 지치게 한 사람 하나 떠올리고,", "'그런 사람도 있다' 한 줄 적기"],
+ "source": "마르쿠스 아우렐리우스 『명상록』 9권 42절",
+ "end_voice": "/home/claude/vo/ep08n/end.wav",
+ "outro_voice": "/home/claude/vo/ep05b/voice_ep05b_03_outro.mp3"
+}
