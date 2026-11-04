@@ -55,6 +55,10 @@ h2 .n{display:block;font-size:12.5px;color:var(--muted);font-weight:700;margin-t
 .note{font-size:13px;color:var(--muted);line-height:1.6}
 .empty{padding:28px 16px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
 .badge{display:inline-flex;align-items:center;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 8px;background:var(--soft);color:var(--accent);white-space:nowrap}
+.badge.gold{background:var(--heart-bg);color:var(--heart)}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.thumbs a{display:grid;gap:4px;text-decoration:none;color:var(--ink2);font-size:12px;line-height:1.4}
+.thumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:var(--line);display:block}
 .badge.good{background:var(--good-bg);color:var(--good)}.badge.warn{background:var(--warn-bg);color:var(--warn)}.badge.bad{background:var(--bad-bg);color:var(--bad)}.badge.mut{background:var(--line);color:var(--muted)}.badge.heart{background:var(--heart-bg);color:var(--heart)}
 .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 textarea,input[type=text],input[type=email],input[type=password],input[type=number]{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
@@ -203,6 +207,7 @@ details.fold .card{margin-top:8px}
   - 데이터: ed_posts(편성) · ed_stats(3시간마다 수집, 틱톡은 매일 20:37 크롬) · ed_reports(매일 08:43 분석) · ed_requests(요청)
   - 설정: app_config ed_paused / ed_slots / ed_length — 모두 RPC ed_admin_* 로만 읽고 쓴다 (관리자 확인)
   - 옛 까치 관리 화면은 /side-kachi.html 에 보관
+  - 2026-11-04 정리: 고정 편성 07:40/12:20/20:30 + 카드 18:40 + 롱폼 소개 19:30, 틱톡 상태, 롱폼(썸네일 A/B), 자동 작업표 — app_config ed_ops
 */
 const C = window.HAEJA_CONFIG || {};
 const sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
@@ -270,21 +275,48 @@ function render(){
 const kpi = (l, v, s) => `<div class="card kpi"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div>${s ? `<div class="s">${esc(s)}</div>` : ''}</div>`;
 const delta = (a, b) => a == null || b == null ? '' : (a - b >= 0 ? '+' : '') + num(a - b);
 
+/* ---------- 공통: 편 종류 ---------- */
+/* 2026-11-04 정리: 데일리 쇼츠(ep) · 카드뉴스(carousel) · 롱폼 소개(teaser*) · 롱폼 쇼츠(ls*, 대표 지시로 내림) */
+function kindOf(p){
+  if (p.kind === 'carousel') return { k: 'card', l: '카드뉴스' };
+  if (/^teaser/.test(p.id)) return { k: 'teaser', l: '롱폼 소개' };
+  if (/^ls\d/.test(p.id)) return { k: 'ls', l: '롱폼 쇼츠' };
+  return { k: 'daily', l: p.ep ? p.ep + '편' : '쇼츠' };
+}
+const isOff = p => p.paused && (/skip/.test(p.tt_status || '') || /skip/.test(p.ig_status || '') || Date.parse(p.scheduled_at) < Date.now());
+const lenTag = p => { if (p.kind === 'carousel' || !p.duration_sec) return ''; const L = (S.d.settings.length || {}).rotate || [35,45,55];
+  const t = L.reduce((x, y) => Math.abs(y - p.duration_sec) < Math.abs(x - p.duration_sec) ? y : x); return `${Math.round(p.duration_sec)}초(${t}형)`; };
+function chans(p){
+  const out = [];
+  if (p.kind !== 'carousel') out.push(['유튜브', p.yt_video_id ? (Date.parse(p.scheduled_at) <= Date.now() ? 'posted' : 'scheduled') : '–']);
+  if (p.to_ig !== false) out.push(['인스타', p.ig_status]);
+  out.push(['틱톡', p.tt_status]);
+  if (p.to_th) out.push(['쓰레드', p.th_status]);
+  return out.map(([n, st]) => `${n} ${stBadge(st)}`).join(' ');
+}
+
 /* ---------- 브리핑 ---------- */
 function viewBrief(){
   const d = today(), y = new Date(Date.parse(d) - 864e5).toISOString().slice(0,10);
   const yt = accountOn('youtube'), ytY = accountOn('youtube', y);
-  const ig = accountOn('instagram'), igY = accountOn('instagram', y);
-  const th = accountOn('threads'), thY = accountOn('threads', y);
-  const tt = accountOn('tiktok'), ttY = accountOn('tiktok', y);
+  const ig = accountOn('instagram');
+  const th = accountOn('threads');
+  const tt = accountOn('tiktok');
   const L = latest().filter(x => x.id !== 'account');
   const total = p => L.filter(x => x.platform === p).reduce((s, x) => s + (+x.m.views || 0), 0);
   const rep = (S.d.reports || [])[0];
-  const posts = S.d.posts || [];
-  const next = posts.filter(p => Date.parse(p.scheduled_at) > Date.now()).sort((a,b) => Date.parse(a.scheduled_at) - Date.parse(b.scheduled_at));
-  const fails = posts.filter(p => /failed/.test(p.ig_status || '') || /failed/.test(p.th_status || ''));
+  const posts = (S.d.posts || []).filter(p => !isOff(p));
+  const st = S.d.settings, sl = st.slots || {}, len = st.length || {}, ops = st.ops || {};
+  const tmr = new Date(Date.parse(d) + 864e5).toISOString().slice(0,10);
+  const dayList = day => posts.filter(p => dayOf(p.scheduled_at) === day).sort((a,b) => Date.parse(a.scheduled_at) - Date.parse(b.scheduled_at));
+  const fails = posts.filter(p => /fail/.test(p.ig_status || '') || /fail/.test(p.th_status || '') || /fail/.test(p.tt_status || ''));
   const reqs = S.d.requests || [];
-  const len = S.d.settings.length || {};
+  const k = Math.floor((Date.parse(d) - Date.parse(d.slice(0,4) + '-01-01')) / 864e5 + 1) % 3, R = len.rotate || [35,45,55];
+  const lenFor = (i, kk) => R[(kk + i) % 3];
+  const line = p => { const K = kindOf(p), past = Date.parse(p.scheduled_at) <= Date.now();
+    return `<div class="lp"${past ? ' style="opacity:.62"' : ''}><div class="t"><span class="badge ${K.k === 'card' ? 'gold' : K.k === 'teaser' ? 'warn' : ''}">${esc(K.l)}</span> ${kst(p.scheduled_at).split(' ')[1]} · ${esc(p.title)}</div>
+      <div class="s">${lenTag(p) ? lenTag(p) + ' · ' : ''}${p.paused ? '<b>멈춤</b> · ' : ''}${chans(p)}</div></div>`; };
+  const todayL = dayList(d), tmrL = dayList(tmr);
   return `
   <div class="grid kpis">
     ${kpi('유튜브 구독자', num(yt?.subscribers), ytY && ytY !== yt ? '어제 대비 ' + delta(yt?.subscribers, ytY?.subscribers) : '조회 합계 ' + num(total('youtube')))}
@@ -292,54 +324,82 @@ function viewBrief(){
     ${kpi('틱톡 팔로워', num(tt?.followers), tt ? '조회 합계 ' + num(total('tiktok')) : '매일 20:37 수집')}
     ${kpi('쓰레드 팔로워', num(th?.followers), '글 조회 합계 ' + num(total('threads')))}
   </div>
-  <h2>오늘의 분석<span class="n">매일 08:43 Sonnet이 숫자를 보고 씁니다 · 편수가 적을 땐 가설로 표시</span></h2>
+  ${fails.length ? `<h2>확인 필요</h2><div class="card">${fails.map(p => `<div class="ck"><div class="t"><span class="dot bad"></span>${esc(kindOf(p).l)} ${esc(p.title)}</div><div class="b">${esc([/fail/.test(p.ig_status||'') && '인스타: ' + (p.ig_error || p.ig_status), /fail/.test(p.th_status||'') && '쓰레드: ' + (p.th_error || p.th_status), /fail/.test(p.tt_status||'') && '틱톡: ' + p.tt_status].filter(Boolean).join(' · '))}</div></div>`).join('')}</div>` : ''}
+  <h2>오늘 일정<span class="n">${esc(d.slice(5).replace('-','/'))} · 유튜브·인스타·틱톡·쓰레드 같은 시각</span></h2>
+  <div class="card">${todayL.length ? todayL.map(line).join('') : '<div class="empty">오늘 예약이 없습니다.</div>'}</div>
+  <h2>내일 일정<span class="n">데일리 쇼츠는 매일 04:41 자동 제작 · 길이 ${(sl.video || []).map((t, i) => t + ' ' + lenFor(i, (k + 1) % 3) + '초').join(' / ')}</span></h2>
+  <div class="card">${tmrL.length ? tmrL.map(line).join('') : `<div class="empty">내일 04:41에 데일리 3편이 만들어집니다. 카드뉴스는 오늘 18:31에 만들어집니다.</div>`}</div>
+  <h2>고정 편성<span class="n">${esc(sl.decided || '')}</span></h2>
+  <div class="card tbl-wrap"><table class="tbl"><thead><tr><th>시각</th><th>콘텐츠</th><th>채널</th><th>내일 길이</th></tr></thead><tbody>
+    ${[[ (sl.video||[])[0], '데일리 쇼츠 1', '유튜브·인스타·틱톡·쓰레드', lenFor(0, (k + 1) % 3) + '초'],
+       [ (sl.video||[])[1], '데일리 쇼츠 2', '유튜브·인스타·틱톡·쓰레드', lenFor(1, (k + 1) % 3) + '초'],
+       [ sl.card || '18:40', '카드뉴스', '인스타·틱톡', '–'],
+       [ sl.teaser || '19:30', '롱폼 소개 쇼츠 (있는 날만)', '유튜브·인스타·틱톡', '–'],
+       [ (sl.video||[])[2], '데일리 쇼츠 3', '유튜브·인스타·틱톡·쓰레드', lenFor(2, (k + 1) % 3) + '초']]
+      .map(r => `<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td class="note">${esc(r[2])}</td><td class="n">${esc(r[3])}</td></tr>`).join('')}
+  </tbody></table></div>
+  ${viewLong()}
+  <h2>오늘의 분석<span class="n">매일 08:43 숫자를 보고 씁니다 · 편수가 적을 땐 가설로 표시</span></h2>
   <div class="card">${rep ? `<div class="hl"><p>${esc(rep.summary)}</p></div>
     <div class="note" style="white-space:pre-wrap;margin-top:8px">${esc(rep.body || '')}</div>
     ${(rep.actions || []).length ? `<div class="sub-h" style="margin-top:12px">다음 편에 시험할 것</div><ul class="learn">${rep.actions.map(a => `<li>${esc(a.what)}<small>지표 ${esc(a.metric || '')} · 확인 ${esc(a.check_on || '')}</small></li>`).join('')}</ul>` : ''}
     <div class="note" style="margin-top:8px">${esc(rep.day)} 분석</div>` : `<div class="empty">첫 분석은 내일 08:43에 올라옵니다.</div>`}</div>
-  ${fails.length ? `<h2>확인 필요</h2><div class="card">${fails.map(p => `<div class="ck"><div class="t"><span class="dot bad"></span>${esc(p.ep)}편 ${esc(p.title)}</div><div class="b">${esc([p.ig_error && '인스타: ' + p.ig_error, p.th_error && '쓰레드: ' + p.th_error].filter(Boolean).join(' · '))}</div></div>`).join('')}</div>` : ''}
-  <h2>다음 게시<span class="n">영상 3곳 같은 시각 · 쓰레드는 30분 뒤</span></h2>
-  <div class="card">${next.length ? next.slice(0, 6).map(p => `<div class="lp"><div class="t">${kst(p.scheduled_at)} · ${esc(p.ep)}편 ${esc(p.title)}</div><div class="s">${p.duration_sec ? esc(p.duration_sec) + '초 · ' : ''}${p.paused ? '<b>멈춤</b> · ' : ''}인스타 ${stBadge(p.ig_status)} · 쓰레드 ${stBadge(p.th_status)}</div></div>`).join('') : `<div class="empty">예약된 편이 없습니다. 요청칸에 "다음 3편 만들어줘"라고 남겨 주세요.</div>`}</div>
   <h2>진행 중인 실험</h2>
   <div class="card"><ul class="learn">
-    <li>길이: 지금 목표 약 ${esc(len.target_sec || 35)}초 → 단계마다 ${esc(len.per_step || 3)}편 이상 보고 늘리거나 되돌립니다<small>단계 ${esc((len.steps || []).join(' → '))}초 · 지표: 완주율(평균 시청 ÷ 길이)·조회</small></li>
-    <li>게시 시간: ${esc(((S.d.settings.slots || {}).video || []).join(' / '))} (쓰레드 +${esc((S.d.settings.slots || {}).threads_delay_min ?? 30)}분)<small>시간대별 첫 24시간 조회 비교</small></li>
-    <li>표지: 첫 화면(훅) + 금색 "로마 황제가 일기에 쓴 한 줄" 62px<small>2026-11-02부터</small></li>
+    <li>길이: 대본 ${esc(R.join(' · '))}초 전후 세 가지를 시간대마다 날마다 돌립니다<small>11/5부터 · 내일 ${(sl.video || []).map((t, i) => t + ' ' + lenFor(i, (k + 1) % 3) + '초').join(' / ')} · 지표: 완주율·조회 · 길이별 비교는 성과 탭</small></li>
+    <li>롱폼 1편 썸네일 A/B 테스트 3종<small>${esc(ops.longform?.ep1?.thumb_note || '')}</small></li>
+    <li>데일리 양식 A + 장면 묶음 순환 · 황제 인용은 명일 목소리 · 금색 엔딩<small>2026-11-04부터</small></li>
   </ul></div>
   <h2>내 요청</h2>
   <div class="card">${reqs.length ? reqs.slice(0, 10).map(r => `<div class="ck"><div class="t"><span class="dot ${r.status === 'done' ? 'good' : r.status === 'seen' ? 'warn' : 'mut'}"></span>${esc(r.text)}</div><div class="nx">${kst(r.at)} · ${r.status === 'done' ? '처리됨' : r.status === 'seen' ? '확인함' : '대기'}${r.reply ? ' · ' + esc(r.reply) : ''}</div></div>`).join('') : `<div class="empty">아직 요청이 없습니다.</div>`}</div>`;
 }
+function viewLong(){
+  const lf = (S.d.settings.ops || {}).longform; if (!lf) return '';
+  const e = lf.ep1 || {}, t = e.teaser || {};
+  return `<h2>롱폼<span class="n">${esc(e.thumb_note || '')}</span></h2>
+  <div class="card grid" style="gap:12px">
+    <div class="lp"><div class="t"><span class="badge">EP.1</span> <a href="https://youtu.be/${esc(e.video)}" target="_blank" rel="noopener">${esc(e.title)}</a></div><div class="s">${esc(e.len || '')}</div></div>
+    <div class="thumbs">${(e.thumbs || []).map(x => `<a href="${esc(url(x.img))}" target="_blank" rel="noopener"><img src="${esc(url(x.img))}" alt="" loading="lazy"><span><b>${esc(x.k)}</b> ${esc(x.t)}</span></a>`).join('')}</div>
+    ${t.video ? `<div class="lp"><div class="t"><span class="badge warn">롱폼 소개</span> <a href="https://youtube.com/shorts/${esc(t.video)}" target="_blank" rel="noopener">${esc(t.title)}</a></div><div class="s">${esc(t.note || '')}</div></div>` : ''}
+    ${lf.next ? `<div class="lp"><div class="t"><span class="badge mut">다음</span> ${esc(lf.next.title)}</div><div class="s">${esc(lf.next.status || '')}</div></div>` : ''}
+  </div>`;
+}
 function bindBrief(){}
 
 /* ---------- 편성 ---------- */
-function stBadge(s){ s = s || '–'; const c = s === 'posted' ? 'good' : /fail/.test(s) ? 'bad' : s === 'pending' ? '' : 'warn';
-  const t = { posted: '게시됨', pending: '대기', processing: '처리 중', publishing: '올리는 중', failed: '실패', hold: '보류' }[s] || s; return `<span class="badge ${c}">${esc(t)}</span>`; }
+function stBadge(s){ s = s || '–'; const c = s === 'posted' ? 'good' : /fail/.test(s) ? 'bad' : s === 'pending' ? '' : /^skip/.test(s) || s === '–' ? 'mut' : 'warn';
+  const t = { posted: '게시됨', pending: '대기', scheduled: '예약됨', processing: '처리 중', publishing: '올리는 중', failed: '실패', hold: '보류', skip: '안 함' }[s] || (/^scheduled/.test(s) ? '예약 ' + s.slice(10) : /^fail/.test(s) ? '실패' : /^skip/.test(s) ? '안 함' : s);
+  return `<span class="badge ${c}" title="${esc(s)}">${esc(t)}</span>`; }
 function postCard(p){
-  const yt = p.yt_video_id ? `<a href="https://youtube.com/shorts/${esc(p.yt_video_id)}" target="_blank" rel="noopener">유튜브</a>` : '<span class="note">유튜브 –</span>';
-  const ig = p.ig_permalink ? `<a href="${esc(p.ig_permalink)}" target="_blank" rel="noopener">인스타</a>` : '인스타';
-  const th = p.th_permalink ? `<a href="${esc(p.th_permalink)}" target="_blank" rel="noopener">쓰레드</a>` : '쓰레드';
+  const K = kindOf(p);
+  const links = [p.yt_video_id && `<a href="https://youtube.com/shorts/${esc(p.yt_video_id)}" target="_blank" rel="noopener">유튜브</a>`, p.ig_permalink && `<a href="${esc(p.ig_permalink)}" target="_blank" rel="noopener">인스타</a>`, p.th_permalink && `<a href="${esc(p.th_permalink)}" target="_blank" rel="noopener">쓰레드</a>`].filter(Boolean).join(' · ');
   const past = Date.parse(p.scheduled_at) < Date.now();
+  const vs = ['youtube','instagram','tiktok','threads'].map(x => viewsOf(p.ep, x));
+  const nums = K.k === 'card' || !p.ep || vs.every(v => v == null) ? '' : `<span>유튜브 <b>${num(viewsOf(p.ep,'youtube'))}</b></span><span>인스타 <b>${num(viewsOf(p.ep,'instagram'))}</b></span><span>틱톡 <b>${num(viewsOf(p.ep,'tiktok'))}</b></span><span>쓰레드 <b>${num(viewsOf(p.ep,'threads'))}</b></span>`;
   return `<div class="card item" style="margin-bottom:10px">
-    <button class="th" data-v="${esc(url(p.video_path))}" data-t="${esc(p.title)}" aria-label="영상 보기"><img src="${esc(url(p.cover_path))}" alt="" loading="lazy" onerror="this.style.display='none'"><span class="pl"><i>▶</i></span></button>
+    <button class="th" data-v="${esc(url(p.video_path))}" data-i="${esc(K.k === 'card' ? url(p.cover_path) : '')}" data-t="${esc(p.title)}" aria-label="보기"><img src="${esc(url(p.cover_path))}" alt="" loading="lazy" onerror="this.style.display='none'">${K.k === 'card' ? '' : '<span class="pl"><i>▶</i></span>'}</button>
     <div class="meta">
-      <div class="tt">${esc(p.ep)}편 · ${esc(p.title)}</div>
-      <div class="nums"><span>${kst(p.scheduled_at)}</span>${p.duration_sec ? `<span><b>${esc(p.duration_sec)}</b>초</span>` : ''}
-        <span>유튜브 <b>${num(viewsOf(p.ep,'youtube'))}</b></span><span>인스타 <b>${num(viewsOf(p.ep,'instagram'))}</b></span><span>틱톡 <b>${num(viewsOf(p.ep,'tiktok'))}</b></span><span>쓰레드 <b>${num(viewsOf(p.ep,'threads'))}</b></span></div>
-      <div class="row" style="font-size:13px">${yt} · ${ig} ${stBadge(p.ig_status)} · ${th} ${stBadge(p.th_status)}${p.paused ? ' <span class="badge warn">멈춤</span>' : ''}</div>
+      <div class="tt"><span class="badge ${K.k === 'card' ? 'gold' : K.k === 'teaser' ? 'warn' : ''}">${esc(K.l)}</span> ${esc(p.title)}</div>
+      <div class="nums"><span>${kst(p.scheduled_at)}</span>${lenTag(p) ? `<span><b>${esc(lenTag(p))}</b></span>` : ''}${nums}</div>
+      <div class="row" style="font-size:13px">${chans(p)}${p.paused ? ' <span class="badge warn">멈춤</span>' : ''}</div>
+      ${links ? `<div class="note">${links}</div>` : ''}
       ${!past ? `<div class="row"><button class="btn sm ${p.paused ? 'pri' : 'no'}" data-pause="${esc(p.id)}" data-to="${p.paused ? 'false' : 'true'}">${p.paused ? '다시 진행' : '이 편 멈추기'}</button>
         <input type="datetime-local" data-when="${esc(p.id)}" style="width:auto;height:32px;padding:4px 8px;font-size:13px" value="${new Date(Date.parse(p.scheduled_at) + 9*3600e3).toISOString().slice(0,16)}"><button class="btn sm" data-save="${esc(p.id)}">시각 변경</button></div>
-        <div class="note">멈춤·시각 변경은 인스타·쓰레드 자동 게시에 바로 반영됩니다. 유튜브·틱톡 예약은 요청칸에 남겨 주세요.</div>` : ''}
-      ${p.th_text ? `<details class="mini"><summary>쓰레드 글 · 인스타 설명 보기</summary><div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(p.th_text)}</div><div class="note" style="white-space:pre-wrap;margin-top:6px;border-top:1px solid var(--line);padding-top:6px">${esc(p.ig_caption || '')}</div></details>` : ''}
+        <div class="note">멈춤·시각 변경은 인스타·쓰레드 자동 게시와 틱톡 업로드 작업에 바로 반영됩니다. 이미 예약된 유튜브 시각은 요청칸에 남겨 주세요.</div>` : ''}
+      ${(p.th_text || p.ig_caption) ? `<details class="mini"><summary>글 보기 (쓰레드 · 인스타 · 틱톡)</summary>${p.th_text ? `<div class="note" style="white-space:pre-wrap;margin-top:6px">${esc(p.th_text)}</div>` : ''}<div class="note" style="white-space:pre-wrap;margin-top:6px;border-top:1px solid var(--line);padding-top:6px">${esc(p.ig_caption || '')}</div>${p.tt_text ? `<div class="note" style="white-space:pre-wrap;margin-top:6px;border-top:1px solid var(--line);padding-top:6px">${esc(p.tt_text)}</div>` : ''}</details>` : ''}
     </div></div>`;
 }
 function viewSched(){
-  const posts = (S.d.posts || []).slice();
-  const up = posts.filter(p => Date.parse(p.scheduled_at) >= Date.now() - 3600e3).sort((a,b) => Date.parse(a.scheduled_at) - Date.parse(b.scheduled_at));
-  const past = posts.filter(p => Date.parse(p.scheduled_at) < Date.now() - 3600e3).sort((a,b) => Date.parse(b.scheduled_at) - Date.parse(a.scheduled_at));
+  const all = (S.d.posts || []).slice(), posts = all.filter(p => !isOff(p)), off = all.filter(isOff);
+  const F = S.f || 'all', pass = p => F === 'all' || kindOf(p).k === F || (F === 'daily' && kindOf(p).k === 'teaser');
+  const up = posts.filter(p => Date.parse(p.scheduled_at) >= Date.now() - 3600e3 && pass(p)).sort((a,b) => Date.parse(a.scheduled_at) - Date.parse(b.scheduled_at));
+  const past = posts.filter(p => Date.parse(p.scheduled_at) < Date.now() - 3600e3 && pass(p)).sort((a,b) => Date.parse(b.scheduled_at) - Date.parse(a.scheduled_at));
   const sl = S.d.settings.slots || {};
-  return `<h2>예약<span class="n">하루 3편 · 영상 ${esc((sl.video || []).join(' / '))} · 쓰레드 +${esc(sl.threads_delay_min ?? 30)}분</span></h2>
+  return `<div class="seg" style="margin-top:4px">${[['all','전체'],['daily','쇼츠'],['card','카드뉴스']].map(([k, l]) => `<button data-f="${k}" class="${F === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <h2>예약<span class="n">쇼츠 ${esc((sl.video || []).join(' / '))} · 카드뉴스 ${esc(sl.card || '18:40')} · 롱폼 소개 ${esc(sl.teaser || '19:30')} (있는 날)</span></h2>
     ${up.length ? up.map(postCard).join('') : '<div class="card empty">예약된 편이 없습니다.</div>'}
-    <h2>올린 편</h2>${past.map(postCard).join('') || '<div class="card empty">아직 없습니다.</div>'}`;
+    <h2>올린 편</h2>${past.map(postCard).join('') || '<div class="card empty">아직 없습니다.</div>'}
+    ${off.length ? `<details class="fold" style="margin-top:18px"><summary>내린 편·교체된 편 ${off.length}개</summary><div class="card">${off.map(p => `<div class="lp"><div class="t">${esc(kindOf(p).l)} · ${esc(p.title)}</div><div class="s">${kst(p.scheduled_at)}${p.yt_video_id ? ' · 유튜브 ' + esc(p.yt_video_id) + ' (비공개 · 삭제는 대표님이 직접)' : ''}</div></div>`).join('')}</div></details>` : ''}`;
 }
 function playVideo(src, title){
   const m = document.createElement('div'); m.className = 'vmodal';
@@ -348,7 +408,8 @@ function playVideo(src, title){
   document.body.appendChild(m);
 }
 function bindSched(){
-  document.querySelectorAll('[data-v]').forEach(b => b.onclick = () => b.dataset.v && playVideo(b.dataset.v, b.dataset.t));
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { S.f = b.dataset.f; render(); });
+  document.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { if (b.dataset.i) return window.open(b.dataset.i, '_blank'); if (b.dataset.v && /\.mp4/.test(b.dataset.v)) playVideo(b.dataset.v, b.dataset.t); });
   document.querySelectorAll('[data-pause]').forEach(b => b.onclick = async () => {
     const { error } = await sb.rpc('ed_admin_post', { p_id: b.dataset.pause, patch: { paused: b.dataset.to === 'true' } });
     if (error) return toast('저장하지 못했습니다: ' + error.message, true); toast(b.dataset.to === 'true' ? '이 편을 멈췄습니다' : '다시 진행합니다'); reload(); });
@@ -361,7 +422,7 @@ function bindSched(){
 
 /* ---------- 성과 ---------- */
 function viewPerf(){
-  const posts = (S.d.posts || []).slice().sort((a,b) => b.ep - a.ep);
+  const posts = (S.d.posts || []).filter(p => p.ep && p.kind !== 'carousel' && !isOff(p)).sort((a,b) => b.ep - a.ep || Date.parse(b.scheduled_at) - Date.parse(a.scheduled_at));
   const L = latest();
   const g = (ep, p) => L.find(x => x.ep === ep && x.platform === p)?.m || {};
   const comp = (ep, dur) => { const m = g(ep, 'instagram'); return m.ig_reels_avg_watch_time && dur ? Math.round(m.ig_reels_avg_watch_time / 10 / dur) + '%' : '–'; };
@@ -388,25 +449,29 @@ function viewPerf(){
 
 /* ---------- 설정 ---------- */
 function viewSet(){
-  const st = S.d.settings, sl = st.slots || {}, len = st.length || {};
-  return `<div class="card grid" style="gap:14px">
-    <label class="chk"><input type="checkbox" id="auto" ${st.paused === true ? '' : 'checked'}> 인스타·쓰레드 자동 게시 (끄면 예약된 글이 멈춥니다)</label>
-    <label class="note">매일 영상 게시 시각 (한국 시각, 쉼표로 구분 · 개수 = 하루 편수 · 유튜브·인스타·틱톡 같은 시각)<input type="text" id="slots" value="${esc((sl.video || []).join(', '))}"></label>
-    <label class="note">쓰레드는 영상보다 몇 분 뒤에 올릴까요<input type="number" id="thd" value="${esc(sl.threads_delay_min ?? 30)}" min="0" max="180"></label>
-    <label class="note">길이 실험 · 지금 목표 길이(초)<input type="number" id="len" value="${esc(len.target_sec ?? 35)}" min="20" max="90"></label>
-    <div class="note">제작 방식: 기본 템플릿(편당 약 $0.1~0.4) · 표지 = 첫 화면(훅) · 쓰레드 = 표지 사진 + 글(인용은 따로 뺀 문단) + "매일 밤, 황제처럼 생각하라. / 황제의 일기."<br>
-      비용 절감: 분석은 Sonnet, 숫자 수집은 AI 없이 함수로 · 틱톡 수집 작업 모델은 데스크톱 앱에서 Sonnet으로 바꿀 수 있습니다.<br>
-      핸들: 유튜브 @KachiFromKorea → @EmperorsDiaryKR (11/11쯤 변경 가능) · 틱톡 이름 "황제의 일기" (11/7 이후 변경 가능)</div>
+  const st = S.d.settings, sl = st.slots || {}, len = st.length || {}, ops = st.ops || {};
+  return `<h2>게시 설정</h2><div class="card grid" style="gap:14px">
+    <label class="chk"><input type="checkbox" id="auto" ${st.paused === true ? '' : 'checked'}> 자동 게시 켜기 (끄면 인스타·쓰레드 예약 글과 다음 날 제작이 멈춥니다)</label>
+    <label class="note">데일리 쇼츠 게시 시각 (한국 시각, 쉼표로 구분 · 유튜브·인스타·틱톡·쓰레드 같은 시각)<input type="text" id="slots" value="${esc((sl.video || []).join(', '))}"></label>
+    <div class="note">카드뉴스 ${esc(sl.card || '18:40')} (인스타·틱톡) · 롱폼 소개 쇼츠 ${esc(sl.teaser || '19:30')} (있는 날만) · 쓰레드는 영상과 같은 시각</div>
+    <div class="note">길이 실험: 대본 ${esc((len.rotate || [35,45,55]).join(' · '))}초 전후를 시간대마다 날마다 돌림 (±${esc(len.tolerance ?? 4)}초)</div>
     <div><button class="btn pri" id="saveset">저장</button></div></div>
-    <div class="note" style="margin-top:12px">옛 까치 채널 관리 화면: <a href="/side-kachi.html">side-kachi.html</a> (자동 진행 꺼짐 상태 유지)</div>`;
+  <h2>자동 작업<span class="n">매일 이 순서로 돌아갑니다 (한국 시각)</span></h2>
+  <div class="card tbl-wrap"><table class="tbl"><thead><tr><th>시각</th><th>작업</th><th>하는 일</th></tr></thead><tbody>
+    ${(ops.jobs || []).map(j => `<tr><td><b>${esc(j.t)}</b></td><td>${esc(j.name)}</td><td class="note">${esc(j.what)}</td></tr>`).join('')}
+  </tbody></table></div>
+  <h2>제작 원칙<span class="n">${esc(ops.updated || '')} 대표 확정</span></h2>
+  <div class="card"><ul class="learn">${(ops.rules || []).map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>
+  <h2>계정</h2>
+  <div class="card note">${esc(ops.handles || '')}</div>
+  <div class="note" style="margin-top:12px">옛 까치 채널 관리 화면: <a href="/side-kachi.html">side-kachi.html</a> (자동 진행 꺼짐 상태 유지)</div>`;
 }
 function bindSet(){
   $('#saveset').onclick = async () => {
     const video = $('#slots').value.split(',').map(s => s.trim()).filter(s => /^\d{1,2}:\d{2}$/.test(s)).map(s => s.padStart(5, '0'));
     if (!video.length) return toast('시각을 07:40 처럼 적어 주세요', true);
-    const slots = { ...(S.d.settings.slots || {}), video, threads_delay_min: +$('#thd').value || 30, tz: 'Asia/Seoul' };
-    const length = { ...(S.d.settings.length || {}), target_sec: +$('#len').value || 35 };
-    for (const [k, v] of [['ed_paused', !$('#auto').checked], ['ed_slots', slots], ['ed_length', length]]) {
+    const slots = { ...(S.d.settings.slots || {}), video, threads_delay_min: 0, tz: 'Asia/Seoul' };
+    for (const [k, v] of [['ed_paused', !$('#auto').checked], ['ed_slots', slots]]) {
       const { error } = await sb.rpc('ed_admin_set', { k, v }); if (error) return toast('저장하지 못했습니다: ' + error.message, true);
     }
     toast('저장했습니다'); reload();
