@@ -1,0 +1,78 @@
+[
+ {
+  "id": "e2_clock",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Extreme close-up of an ancient Roman water clock (clepsydra) on a stone pedestal in a torch-lit Roman imperial tribunal hall in the frontier city of Sirmium, rough stone walls hung with dark red banners, a raised stone dais at the far end: a bronze spout above a clear glass-and-bronze vessel, a single bright drop of water falling, the rest of the hall melting into deep dark blur, torchlight glinting on the water. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "e2_court",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Wide dramatic shot inside a torch-lit Roman imperial tribunal hall in the frontier city of Sirmium, rough stone walls hung with dark red banners, a raised stone dais at the far end: in the centre of the floor an elderly Greek scholar of about seventy-three, long flowing white beard, thin white curly hair, gaunt hollow cheeks, red-rimmed grief-stricken eyes, white wool himation with a thin purple border over a pale tunic stands with his right arm stretched out, pointing furiously toward the dais, mouth open as if shouting; on the left a group of Athenian delegates in white togas recoil; along the walls Roman guards with tall shields; at the far end on the dais the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak sits very still on a curule chair, small in the distance, his face in shadow. Tense frozen moment, torch smoke in the air. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "e2_sword",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Tight close-up at waist height of a Roman praetorian prefect in polished bronze muscle armor and a dark purple cloak, close-cropped grey hair, hard square jaw: his right hand in a leather bracer gripping the ivory hilt of a gladius and drawing it a hand's width out of a bronze-fitted scabbard, the steel blade catching torchlight, the blurred white figure of an old man in the background beyond. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "e2_eyes",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Intimate close-up portrait of the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak seated on the imperial dais, his face fully visible and clearly lit by a warm torch from the side, calm steady eyes looking straight ahead at someone off-camera, not angry, a faint sadness, absolutely still, deep shadow behind him. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "ev2_clock",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_clock.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "A single drop of water falls slowly from the bronze spout into the vessel and makes small ripples; the torchlight flickers softly. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev2_court",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_court.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The old man shakes his outstretched arm and shouts toward the dais, his beard trembling; the delegates lean back; torch flames waver; the emperor stays completely still. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev2_sword",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_sword.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand slowly slides the blade a little further out of the scabbard and stops, knuckles tightening; torchlight runs along the steel. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev2_eyes",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_eyes.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The emperor blinks once slowly and keeps looking ahead with calm eyes; the torchlight flickers across his face; very slow push-in. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ }
+]
