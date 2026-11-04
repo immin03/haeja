@@ -3,6 +3,7 @@
 // 조각을 차례로 받아 유튜브 이어 올리기(resumable)로 보낸다. 끝나면 action clean 으로 조각을 지운다.
 // 업로드 세션 주소는 app_config 'ed_yt_long_state' 에만 저장하고 응답으로 돌려주지 않는다.
 // key 는 app_config 'ed_yt_long_key' 와 같아야 한다.
+// state_key (2026-11-04): 쇼츠 등 다른 업로드는 b.state_key(예: ed_yt_up_<id>)로 상태를 따로 둔다. publish_at 을 주면 비공개로 올려 그 시각에 공개 예약.
 // action meta (2026-11-04 대표: "제목도 바꿔줘"): {video_id?, title?, desc_prefix?} — 기존 snippet(설명·태그·카테고리)을 그대로 두고 제목만 바꾸거나 설명 맨 앞에 줄을 더한다.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -38,6 +39,7 @@ Deno.serve(async (req: Request) => {
   const b = await req.json().catch(() => ({}));
   const key = await cfg("ed_yt_long_key");
   if (!key || b.key !== key) return json({ error: "forbidden" }, 403);
+  const SK = /^ed_yt_(long_state|up_[a-z0-9_]{1,40})$/.test(String(b.state_key || "")) ? String(b.state_key) : "ed_yt_long_state";
   try {
     if (b.action === "sign") {
       const urls: string[] = [];
@@ -54,17 +56,17 @@ Deno.serve(async (req: Request) => {
       const total = Number(b.total);
       const meta = {
         snippet: { title: b.title, description: b.description, tags: b.tags || [], categoryId: String(b.category || "27"), defaultLanguage: "ko", defaultAudioLanguage: "ko" },
-        status: { privacyStatus: b.privacy || "public", selfDeclaredMadeForKids: false, containsSyntheticMedia: true, embeddable: true },
+        status: { privacyStatus: b.publish_at ? "private" : (b.privacy || "public"), ...(b.publish_at ? { publishAt: b.publish_at } : {}), selfDeclaredMadeForKids: false, containsSyntheticMedia: true, embeddable: true },
       };
       const r = await fetch("https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status", {
         method: "POST", headers: { Authorization: "Bearer " + tok, "Content-Type": "application/json; charset=UTF-8", "X-Upload-Content-Type": "video/mp4", "X-Upload-Content-Length": String(total) },
         body: JSON.stringify(meta) });
       const session = r.headers.get("location");
       if (!session) return json({ error: "세션 생성 실패", status: r.status, body: (await r.text()).slice(0, 500) }, 500);
-      await setCfg("ed_yt_long_state", { session, total, prefix: b.prefix, started: new Date().toISOString() });
+      await setCfg(SK, { session, total, prefix: b.prefix, started: new Date().toISOString() });
       return json({ ok: true, total });
     }
-    const st = await cfg("ed_yt_long_state") as { session: string; total: number; prefix: string; video_id?: string } | null;
+    const st = await cfg(SK) as { session: string; total: number; prefix: string; video_id?: string } | null;
     if (b.action === "meta") {
       const vid = b.video_id || st?.video_id;
       if (!vid) return json({ error: "video_id 없음" }, 400);
@@ -77,9 +79,16 @@ Deno.serve(async (req: Request) => {
       if (sn.defaultLanguage) snippet.defaultLanguage = sn.defaultLanguage;
       if (sn.defaultAudioLanguage) snippet.defaultAudioLanguage = sn.defaultAudioLanguage;
       if (b.desc_prefix && !String(sn.description || "").startsWith(b.desc_prefix)) snippet.description = b.desc_prefix + "\n\n" + (sn.description || "");
+      if (typeof b.description === "string" && b.description) snippet.description = b.description;   // 2026-11-04: 설명 전체 교체
       const r = await fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet", { method: "PUT", headers: { Authorization: "Bearer " + tok, "Content-Type": "application/json; charset=UTF-8" }, body: JSON.stringify({ id: vid, snippet }) });
       const out = await r.json();
       return json({ status: r.status, before, after: { title: out.snippet?.title, desc_head: String(out.snippet?.description || "").slice(0, 120) }, error: out.error?.message });
+    }
+    if (b.action === "privacy") {   // 2026-11-04: 예약 공개 취소/변경 {video_id, privacy, publish_at?}
+      const r = await fetch("https://www.googleapis.com/youtube/v3/videos?part=status", { method: "PUT", headers: { Authorization: "Bearer " + tok, "Content-Type": "application/json; charset=UTF-8" },
+        body: JSON.stringify({ id: b.video_id, status: { privacyStatus: b.privacy || "private", ...(b.publish_at ? { publishAt: b.publish_at } : {}), selfDeclaredMadeForKids: false, embeddable: true } }) });
+      const out = await r.json();
+      return json({ status: r.status, privacy: out.status?.privacyStatus, publishAt: out.status?.publishAt || null, error: out.error?.message });
     }
     if (!st) return json({ error: "start 먼저" }, 400);
     if (b.action === "push") {
@@ -99,7 +108,7 @@ Deno.serve(async (req: Request) => {
       }
       if (done) {
         const vid = (done as { id?: string }).id;
-        await setCfg("ed_yt_long_state", { ...st, video_id: vid, finished: new Date().toISOString(), result: done });
+        await setCfg(SK, { ...st, video_id: vid, finished: new Date().toISOString(), result: done });
         return json({ done: true, video_id: vid });
       }
       return json({ done: false, off, total: st.total, pct: Math.round(off / st.total * 1000) / 10 });
