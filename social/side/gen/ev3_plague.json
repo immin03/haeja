@@ -1,0 +1,31 @@
+{
+ "id": "ev3_plague",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The cart rolls slowly down the street, the hooded man pulling it, smoke drifting from the braziers; the woman in the doorway lowers her eyes. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b6-847d-7d5a-aad4-8032d02d83f1/15226d07-3d18-4558-82a9-af50f4386131.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5f1-c48a-7ac1-a460-e46e03337300",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5f1-c48a-7ac1-a460-e46e03337300/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5f1-c48a-7ac1-a460-e46e03337300/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5f1-c48a-7ac1-a460-e46e03337300",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5f1-c48a-7ac1-a460-e46e03337300/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5f1-c48a-7ac1-a460-e46e03337300/cancel",
+  "expires_at": "2026-11-11T09:46:37.025762+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5f1-c48a-7ac1-a460-e46e03337300/1d53fecf-c4b7-47c3-8018-b5a9b8fd321b.mp4"
+  }
+ },
+ "seconds": 150,
+ "file": "social/side/gen/ev3_plague.mp4"
+}

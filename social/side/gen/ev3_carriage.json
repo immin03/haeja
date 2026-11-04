@@ -1,0 +1,31 @@
+{
+ "id": "ev3_carriage",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "Torches flicker in the wind and soldiers rush toward the carriage door while light snow falls. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b8-3c28-7131-bd08-78a4be9805dc/28cd6828-aa3a-4e9a-86e0-3a12e13ff3e8.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5f1-c334-7aff-a791-85b405fca14c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5f1-c334-7aff-a791-85b405fca14c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5f1-c334-7aff-a791-85b405fca14c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5f1-c334-7aff-a791-85b405fca14c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5f1-c334-7aff-a791-85b405fca14c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5f1-c334-7aff-a791-85b405fca14c/cancel",
+  "expires_at": "2026-11-11T09:46:08.188418+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5f1-c334-7aff-a791-85b405fca14c/3328f27e-d8c1-4a70-9c7d-24c3b26ded29.mp4"
+  }
+ },
+ "seconds": 125,
+ "file": "social/side/gen/ev3_carriage.mp4"
+}

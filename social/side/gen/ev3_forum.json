@@ -1,0 +1,31 @@
+{
+ "id": "ev3_forum",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The auctioneer slowly waves the shimmering silk gown above his head while the crowd laughs and points; banners and cloth move in the wind. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b4-ca8a-70b9-91c7-9c57b7255a75/00d3d8cb-b2c6-4f98-9e2c-c2ae266319fe.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5f1-c33c-7e73-bf93-fcf9e3bc3524",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5f1-c33c-7e73-bf93-fcf9e3bc3524/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5f1-c33c-7e73-bf93-fcf9e3bc3524/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5f1-c33c-7e73-bf93-fcf9e3bc3524",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5f1-c33c-7e73-bf93-fcf9e3bc3524/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5f1-c33c-7e73-bf93-fcf9e3bc3524/cancel",
+  "expires_at": "2026-11-11T09:46:52.306275+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5f1-c33c-7e73-bf93-fcf9e3bc3524/057fc078-bf80-4e74-b95f-abc02ca3a31c.mp4"
+  }
+ },
+ "seconds": 168,
+ "file": "social/side/gen/ev3_forum.mp4"
+}
