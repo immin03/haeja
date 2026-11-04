@@ -1,0 +1,31 @@
+{
+ "id": "ev2_sword",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand slowly slides the blade a little further out of the scabbard and stops, knuckles tightening; torchlight runs along the steel. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a41b-99b4-7420-8d55-e62f00188ab8/8fb45e38-de77-46bd-862b-8f71c02487f6.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a41d-8885-7eb0-8b1f-8d3b7211e025",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41d-8885-7eb0-8b1f-8d3b7211e025/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41d-8885-7eb0-8b1f-8d3b7211e025/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a41d-8885-7eb0-8b1f-8d3b7211e025",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41d-8885-7eb0-8b1f-8d3b7211e025/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41d-8885-7eb0-8b1f-8d3b7211e025/cancel",
+  "expires_at": "2026-11-11T01:15:00.155255+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a41d-8885-7eb0-8b1f-8d3b7211e025/74d8fefd-726e-46fc-b58f-005e985bacbd.mp4"
+  }
+ },
+ "seconds": 144,
+ "file": "social/side/gen/ev2_sword.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "ev2_court",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The old man shakes his outstretched arm and shouts toward the dais, his beard trembling; the delegates lean back; torch flames waver; the emperor stays completely still. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a41b-99a8-793f-beb5-a1fe5dd6158e/f8beb6fd-ab79-4726-a730-e53d732978d8.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a41d-87f5-7375-8908-5d003dd2f036",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41d-87f5-7375-8908-5d003dd2f036/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41d-87f5-7375-8908-5d003dd2f036/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a41d-87f5-7375-8908-5d003dd2f036",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41d-87f5-7375-8908-5d003dd2f036/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41d-87f5-7375-8908-5d003dd2f036/cancel",
+  "expires_at": "2026-11-11T01:15:23.682946+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a41d-87f5-7375-8908-5d003dd2f036/cce5ff23-baef-4ed8-843a-4c1815682c2d.mp4"
+  }
+ },
+ "seconds": 169,
+ "file": "social/side/gen/ev2_court.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "ev2_clock",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "A single drop of water falls slowly from the bronze spout into the vessel and makes small ripples; the torchlight flickers softly. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a41b-9ad9-71a6-85fa-1e8e21101b8e/7cd59389-2d5c-4b94-a40b-bfbfe037a79e.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a41d-87d3-70ce-a92a-c0ba3dbbaf02",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41d-87d3-70ce-a92a-c0ba3dbbaf02/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41d-87d3-70ce-a92a-c0ba3dbbaf02/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a41d-87d3-70ce-a92a-c0ba3dbbaf02",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41d-87d3-70ce-a92a-c0ba3dbbaf02/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41d-87d3-70ce-a92a-c0ba3dbbaf02/cancel",
+  "expires_at": "2026-11-11T01:15:07.725709+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a41d-87d3-70ce-a92a-c0ba3dbbaf02/4fdca6c8-9f20-4e5f-a1a4-11f53884cb8e.mp4"
+  }
+ },
+ "seconds": 150,
+ "file": "social/side/gen/ev2_clock.mp4"
+}

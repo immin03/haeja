@@ -1,0 +1,32 @@
+{
+ "id": "e2_clock",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Extreme close-up of an ancient Roman water clock (clepsydra) on a stone pedestal in a torch-lit Roman imperial tribunal hall in the frontier city of Sirmium, rough stone walls hung with dark red banners, a raised stone dais at the far end: a bronze spout above a clear glass-and-bronze vessel, a single bright drop of water falling, the rest of the hall melting into deep dark blur, torchlight glinting on the water. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a41b-9ad9-71a6-85fa-1e8e21101b8e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41b-9ad9-71a6-85fa-1e8e21101b8e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41b-9ad9-71a6-85fa-1e8e21101b8e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a41b-9ad9-71a6-85fa-1e8e21101b8e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a41b-9ad9-71a6-85fa-1e8e21101b8e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a41b-9ad9-71a6-85fa-1e8e21101b8e/cancel",
+  "expires_at": "2026-11-11T01:12:21.163890+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a41b-9ad9-71a6-85fa-1e8e21101b8e/7cd59389-2d5c-4b94-a40b-bfbfe037a79e.jpeg"
+   }
+  ]
+ },
+ "seconds": 107,
+ "file": "social/side/gen/e2_clock.jpeg"
+}
