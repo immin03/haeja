@@ -1,75 +1,77 @@
 """황제의 일기 EPISODE 2 · 무례한 사람들 — 대본·촬영표 (2026-11-04)
-python3 ep02.py gen [part]   → scripts/side/gen/EDL261104-ep02<part>.json (그림·영상) + scripts/side/voices_req.json (녹음)
-python3 ep02.py spec         → scripts/side/ed_long/spec_ep02.json (렌더 설정)
-1차(part=h): 훅 + 인트로 + EPISODE 2 오프닝만 먼저 (대표 11/4: "인트로만 먼저 렌더링")
-목소리: 해설 건석 / 황제 명일 / 노학자 헤로데스 = 종대(tc_67e38d8c771b5511659c4534, 노년 남성, 장면 대사만 angry)
-        근위대장 바사이우스 = 대진(tc_6a0e85a97f7750959b970d5d) — 2편 문장 V 에서 사용. 조연은 Claude 가 골라 쓰기로 함(11/4 대표)
-기획안: Claude Docs 「황제의 일기 EPISODE 2 · 무례한 사람들 기획안」 — 개연성 표(같은 사실은 한 번만, 시간은 앞으로만)를 대본과 대조할 것
+python3 ep02.py gen     → scripts/side/gen/EDL261104-ep02.json (그림·영상) + scripts/side/voices_req.json (녹음)
+python3 ep02.py spec    → scripts/side/ed_long/spec_ep02.json (렌더 설정)
+기획안: Claude Docs 「황제의 일기 EPISODE 2 · 무례한 사람들 기획안」
+1단계(11/4): 훅 + 인트로 + EPISODE 2 오프닝만. 조연 목소리(헤로데스·근위대장)는 후보를 함께 녹음해 고른다.
+대본 규칙은 1편과 같다: '!' = 가운데 큰 금색 강조 자막, 해설=건석(존댓말), 독백=명일(1인칭 반말).
 """
-import json, os, sys
+import json, os, sys, copy
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE)
-from ep01 import STYLE, VT, EMP   # 1편과 같은 화풍·영상 규칙·황제 묘사
+from ep01 import STYLE, MOD, MEMO, EMP, VT, G, M   # 1편과 같은 화풍·황제 외모·목소리
 
-G = "tc_6731b2e0855f351b98d30c48"    # 건석 (해설)
-M = "tc_62d66c2d1523be99355fda02"    # 명일 (황제)
-HER = "tc_67e38d8c771b5511659c4534"  # 종대 → 헤로데스 아티쿠스 (노학자)
-BAS = "tc_6a0e85a97f7750959b970d5d"  # 대진 → 근위대장 바사이우스
-HER_ALT = {"Deokhwan": "tc_66860d458ca8b2dc5f72b865", "Hakchul": "tc_63a3d9d14b235ddd6541a78e", "Joonghyun": "tc_61cd3cc126463f411925e8a6"}
-FACE = "his face clearly visible and well lit from the side by warm torchlight, natural realistic facial proportions"
-HERODES = ("an old Greek scholar about seventy-five with a long white beard and thin white hair, deep-set eyes, wearing a pale cream himation over a tunic, "
-           "a heavy gold signet ring, " + FACE)
+TAG = "ep02"
+# 조연 목소리 후보 (11/4 대표: 조연은 Claude 가 골라도 됨). 오디션 녹음 뒤 CAST 에 고른 것을 둔다
+HERODES_CAND = {"jongdae": "tc_67e38d8c771b5511659c4534", "kwonil": "tc_675a73eb789ff3ea6cc80235", "deokhwan": "tc_66860d458ca8b2dc5f72b865",
+                "zeus": "tc_6a5882fe54564e2a06a218bb", "poseidon": "tc_6a8f9d53322676d2f0934a21"}
+PREFECT_CAND = {"wangkwon": "tc_66a1ea9420b813b5c36197f1", "junseong": "tc_66e26710ac44cf7c7ebfdb71", "hades": "tc_6a867e6bd49b8f6a07db59da"}
+
+HER = ("an elderly Greek scholar of about seventy-three, long flowing white beard, thin white curly hair, gaunt hollow cheeks, red-rimmed grief-stricken eyes, "
+       "white wool himation with a thin purple border over a pale tunic")
+HALL = ("a torch-lit Roman imperial tribunal hall in the frontier city of Sirmium, rough stone walls hung with dark red banners, a raised stone dais at the far end")
+PREF = "a Roman praetorian prefect in polished bronze muscle armor and a dark purple cloak, close-cropped grey hair, hard square jaw"
 
 IMAGES = {
- # 훅
- "e2_court": ("Inside a torch-lit Roman basilica courtroom in a frontier military town at night, " + HERODES + ", standing in the middle of the floor and pointing an accusing finger "
-              "up toward a raised imperial judgment seat at the right edge of the frame, his face twisted with grief and fury, mouth open as if shouting; behind him a small delegation "
-              "of Athenian men in white togas stepping back in shock; Roman guards in bronze armor along the stone walls; a tall bronze water clock on a stand in the left foreground.", STYLE),
- "e2_sword": ("Tight close-up of a Roman praetorian prefect's armored right hand gripping the hilt of a gladius at his hip, the blade drawn a third of the way out of its scabbard, "
-              "red wool cloak and bronze cuirass, torchlight glinting along the steel, the courtroom behind melting into soft dark blur.", STYLE),
- "e2_eyes": ("Close-up portrait of " + EMP + ", seated on a raised wooden judgment seat in a torch-lit Roman courtroom, " + FACE + ", calm steady eyes looking down at someone "
-             "off-screen to the left, no anger at all, only a faint sadness, very shallow depth of field, the dark hall behind him.", STYLE),
+ "e2_clock": ("Extreme close-up of an ancient Roman water clock (clepsydra) on a stone pedestal in " + HALL + ": a bronze spout above a clear glass-and-bronze vessel, "
+              "a single bright drop of water falling, the rest of the hall melting into deep dark blur, torchlight glinting on the water.", STYLE),
+ "e2_court": ("Wide dramatic shot inside " + HALL + ": in the centre of the floor " + HER + " stands with his right arm stretched out, pointing furiously toward the dais, mouth open as if shouting; "
+              "on the left a group of Athenian delegates in white togas recoil; along the walls Roman guards with tall shields; at the far end on the dais " + EMP +
+              " sits very still on a curule chair, small in the distance, his face in shadow. Tense frozen moment, torch smoke in the air.", STYLE),
+ "e2_sword": ("Tight close-up at waist height of " + PREF + ": his right hand in a leather bracer gripping the ivory hilt of a gladius and drawing it a hand's width out of a bronze-fitted scabbard, "
+              "the steel blade catching torchlight, the blurred white figure of an old man in the background beyond.", STYLE),
+ "e2_eyes": ("Intimate close-up portrait of " + EMP + " seated on the imperial dais, his face fully visible and clearly lit by a warm torch from the side, calm steady eyes looking straight ahead "
+             "at someone off-camera, not angry, a faint sadness, absolutely still, deep shadow behind him.", STYLE),
 }
 VIDEOS = {
- "ev2_court": ("e2_court", "The old scholar shouts and jabs his finger toward the judgment seat, his white beard trembling with rage; the men behind him flinch back a step; torches flicker."),
- "ev2_sword": ("e2_sword", "The armored hand slowly draws the sword a little further out of the scabbard, then stops and holds still; torchlight slides along the blade."),
- "ev2_eyes": ("e2_eyes", "The emperor blinks once slowly and keeps looking steadily ahead, his calm expression unchanged; warm torchlight flickers softly across his face."),
+ "ev2_clock": ("e2_clock", "A single drop of water falls slowly from the bronze spout into the vessel and makes small ripples; the torchlight flickers softly."),
+ "ev2_court": ("e2_court", "The old man shakes his outstretched arm and shouts toward the dais, his beard trembling; the delegates lean back; torch flames waver; the emperor stays completely still."),
+ "ev2_sword": ("e2_sword", "The hand slowly slides the blade a little further out of the scabbard and stops, knuckles tightening; torchlight runs along the steel."),
+ "ev2_eyes": ("e2_eyes", "The emperor blinks once slowly and keeps looking ahead with calm eyes; the torchlight flickers across his face; very slow push-in."),
 }
 
-# (이름, 목소리, 대사, 감정) — '!' 로 시작하면 강조 자막
-LINES_H = [
- ("x_h1", HER, "이것이, 내가 루키우스를 대접한 보답입니까!", "angry"),
- ("h1", G, "로마 황제 앞에서, 한 노인이 소리쳤습니다.", None),
- ("h2", G, "법정에 있던 모두가, 피를 보게 될 거라고 생각했습니다.", None),
- ("m_h1", M, "오늘 나는, 무례한 사람을 만날 것이다.", None),
- ("m_h2", M, "!나는 그것을, 이미 알고 있었다.", None),
- ("h3", G, "황제는 화를 내지 않았습니다. 그 이유는, 그의 일기 둘째 권 첫머리에 적혀 있습니다.", None),
+HOOK = [   # (이름, 목소리, 대사)
+ ("h_her", "HERODES", "이것이, 루키우스를 대접한 대가입니까!"),
+ ("h1", G, "로마 황제 앞에서, 한 노인이 소리쳤습니다."),
+ ("h2", G, "근위대장의 손이, 칼자루로 갔습니다. 법정의 모두가, 피를 볼 거라고 생각했습니다."),
+ ("m_h1", M, "오늘 나는, 무례한 사람을 만날 것이다."),
+ ("m_h2", M, "!나는 그것을, 이미 알고 있었다."),
 ]
-# 조연 목소리 후보 샘플(같은 대사) — 대표가 바꾸고 싶을 때 들어 보도록 저장만 해 둔다
-SAMPLES = [("cand_her_" + k, v, "이것이, 내가 루키우스를 대접한 보답입니까!", "angry") for k, v in HER_ALT.items()] + [
-           ("cand_bas_daejin", BAS, "헤로데스, 죽고 싶은 모양이군.", None), ("cand_bas_sungho", "tc_5fe06471a9f79e8f959be96f", "헤로데스, 죽고 싶은 모양이군.", None)]
+AUDITION = [("her", "HERODES", "이것이, 루키우스를 대접한 대가입니까!", "angry"),
+            ("her2", "HERODES", "늙은이는, 두려운 것이 별로 없소.", "tonedown"),
+            ("pref", "PREFECT", "죽고 싶은 모양이군.", "tonedown")]
 
 
 def clean(t): return t.lstrip("!")
 
 
-def gen(part="h"):
+def gen():
     jobs = []
     for k, (p, st) in IMAGES.items():
         jobs.append({"id": k, "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": p + " " + st}})
     for k, (src, p) in VIDEOS.items():
         jobs.append({"id": k, "kind": "video", "endpoint": "alibaba/wan-3.0/image-to-video", "image": f"social/side/gen/{src}.jpeg", "body": {"duration": 5, "prompt": p + " " + VT}})
-    json.dump(jobs, open(os.path.join(ROOT, f"scripts/side/gen/EDL261104-ep02{part}.json"), "w"), ensure_ascii=False, indent=1)
-    V = []
-    for n, v, t, emo in LINES_H + SAMPLES:
-        V.append({"name": n, "id": v, "line": clean(t), "emotion": emo or "tonedown", "tempo": 0.85 if v == M else 1.0})
-    json.dump({"requested": "2026-11-04T10:40", "note": "황제의 일기 EPISODE 2 훅 녹음 + 조연(노학자·근위대장) 후보 샘플", "tag": "ep02h", "keep": True, "lang": "kor",
+    json.dump(jobs, open(os.path.join(ROOT, "scripts/side/gen/EDL261104-ep02.json"), "w"), ensure_ascii=False, indent=1)
+    V = [{"name": n, "id": v, "line": clean(t), "emotion": "tonedown", "tempo": 0.85 if v == M else 1.0} for n, v, t in HOOK if v in (G, M)]
+    for key, who, line, emo in AUDITION:   # 조연 오디션: 후보마다 같은 대사
+        for nm, vid in (HERODES_CAND if who == "HERODES" else PREFECT_CAND).items():
+            V.append({"name": f"a_{key}_{nm}", "id": vid, "line": line, "emotion": emo, "tempo": 1.0})
+    json.dump({"requested": "2026-11-04T10:10", "note": "황제의 일기 EPISODE 2 훅 녹음 + 조연(헤로데스·근위대장) 오디션", "tag": TAG, "keep": True, "lang": "kor",
                "model": "ssfm-v30", "emotion": "tonedown", "tempo": 1.0, "voices": V}, open(os.path.join(ROOT, "scripts/side/voices_req.json"), "w"), ensure_ascii=False, indent=1)
     print(len(jobs), "생성 작업,", len(V), "줄 녹음")
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "gen": gen(*(sys.argv[2:3] or ["h"]))
+    if sys.argv[1] == "gen": gen()
     else:
         import ep02_spec; ep02_spec.build()

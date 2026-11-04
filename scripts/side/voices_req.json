@@ -1,20 +1,13 @@
 {
- "requested": "2026-11-04T10:40",
- "note": "황제의 일기 EPISODE 2 훅 녹음 + 조연(노학자·근위대장) 후보 샘플",
- "tag": "ep02h",
+ "requested": "2026-11-04T10:10",
+ "note": "황제의 일기 EPISODE 2 훅 녹음 + 조연(헤로데스·근위대장) 오디션",
+ "tag": "ep02",
  "keep": true,
  "lang": "kor",
  "model": "ssfm-v30",
  "emotion": "tonedown",
  "tempo": 1.0,
  "voices": [
-  {
-   "name": "x_h1",
-   "id": "tc_67e38d8c771b5511659c4534",
-   "line": "이것이, 내가 루키우스를 대접한 보답입니까!",
-   "emotion": "angry",
-   "tempo": 1.0
-  },
   {
    "name": "h1",
    "id": "tc_6731b2e0855f351b98d30c48",
@@ -25,7 +18,7 @@
   {
    "name": "h2",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "법정에 있던 모두가, 피를 보게 될 거라고 생각했습니다.",
+   "line": "근위대장의 손이, 칼자루로 갔습니다. 법정의 모두가, 피를 볼 거라고 생각했습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
@@ -44,44 +37,93 @@
    "tempo": 0.85
   },
   {
-   "name": "h3",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "황제는 화를 내지 않았습니다. 그 이유는, 그의 일기 둘째 권 첫머리에 적혀 있습니다.",
-   "emotion": "tonedown",
+   "name": "a_her_jongdae",
+   "id": "tc_67e38d8c771b5511659c4534",
+   "line": "이것이, 루키우스를 대접한 대가입니까!",
+   "emotion": "angry",
    "tempo": 1.0
   },
   {
-   "name": "cand_her_Deokhwan",
+   "name": "a_her_kwonil",
+   "id": "tc_675a73eb789ff3ea6cc80235",
+   "line": "이것이, 루키우스를 대접한 대가입니까!",
+   "emotion": "angry",
+   "tempo": 1.0
+  },
+  {
+   "name": "a_her_deokhwan",
    "id": "tc_66860d458ca8b2dc5f72b865",
-   "line": "이것이, 내가 루키우스를 대접한 보답입니까!",
+   "line": "이것이, 루키우스를 대접한 대가입니까!",
    "emotion": "angry",
    "tempo": 1.0
   },
   {
-   "name": "cand_her_Hakchul",
-   "id": "tc_63a3d9d14b235ddd6541a78e",
-   "line": "이것이, 내가 루키우스를 대접한 보답입니까!",
+   "name": "a_her_zeus",
+   "id": "tc_6a5882fe54564e2a06a218bb",
+   "line": "이것이, 루키우스를 대접한 대가입니까!",
    "emotion": "angry",
    "tempo": 1.0
   },
   {
-   "name": "cand_her_Joonghyun",
-   "id": "tc_61cd3cc126463f411925e8a6",
-   "line": "이것이, 내가 루키우스를 대접한 보답입니까!",
+   "name": "a_her_poseidon",
+   "id": "tc_6a8f9d53322676d2f0934a21",
+   "line": "이것이, 루키우스를 대접한 대가입니까!",
    "emotion": "angry",
    "tempo": 1.0
   },
   {
-   "name": "cand_bas_daejin",
-   "id": "tc_6a0e85a97f7750959b970d5d",
-   "line": "헤로데스, 죽고 싶은 모양이군.",
+   "name": "a_her2_jongdae",
+   "id": "tc_67e38d8c771b5511659c4534",
+   "line": "늙은이는, 두려운 것이 별로 없소.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "cand_bas_sungho",
-   "id": "tc_5fe06471a9f79e8f959be96f",
-   "line": "헤로데스, 죽고 싶은 모양이군.",
+   "name": "a_her2_kwonil",
+   "id": "tc_675a73eb789ff3ea6cc80235",
+   "line": "늙은이는, 두려운 것이 별로 없소.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "a_her2_deokhwan",
+   "id": "tc_66860d458ca8b2dc5f72b865",
+   "line": "늙은이는, 두려운 것이 별로 없소.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "a_her2_zeus",
+   "id": "tc_6a5882fe54564e2a06a218bb",
+   "line": "늙은이는, 두려운 것이 별로 없소.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "a_her2_poseidon",
+   "id": "tc_6a8f9d53322676d2f0934a21",
+   "line": "늙은이는, 두려운 것이 별로 없소.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "a_pref_wangkwon",
+   "id": "tc_66a1ea9420b813b5c36197f1",
+   "line": "죽고 싶은 모양이군.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "a_pref_junseong",
+   "id": "tc_66e26710ac44cf7c7ebfdb71",
+   "line": "죽고 싶은 모양이군.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "a_pref_hades",
+   "id": "tc_6a867e6bd49b8f6a07db59da",
+   "line": "죽고 싶은 모양이군.",
    "emotion": "tonedown",
    "tempo": 1.0
   }
