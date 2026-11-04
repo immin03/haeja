@@ -118,7 +118,7 @@ def build():
     # 훅: 웅성거림 → 경매꾼 → 해설 → 수군대는 원로원 → 내려다보는 황제(독백)
     S.append({"type": "black", "dur": 0.8, "fixed": True, "amb": ["wind_6.mp3", 0.4]})
     S.append({"type": "video", "src": "ev3_forum", "voice": ["h_cr", "h1"], "pre": 0.3, "gap": 0.6, "post": 0.4, "move": {"zoom": [1.0, 1.1]}, "tin": "black", "fin": 0.8,
-              "amb": ["war_7.mp3", 0.12], "overlays": [{"kind": "caption", "text": "기원후 169년 · 로마, 트라야누스 광장", "at": 0.3}]})
+              "amb": ["war_7.mp3", 0.12], "overlays": [{"kind": "caption", "text": "기원후 169년 · 로마, 트라야누스 광장", "at": 0.3, "pos": "top"}]})
     S.append({"type": "still", "src": "e3_gown", "voice": ["h2"], "pre": 0.2, "post": 0.3, "move": {"zoom": [1.0, 1.12]}, "amb": FORUM})
     S.append({"type": "still", "src": "e3_senators", "voice": ["h_sen"], "pre": 0.3, "post": 0.5, "move": {"zoom": [1.05, 1.18]}, "amb": FORUM})
     S.append({"type": "still", "src": "e3_watch", "voice": ["m_h1", "m_h2"], "pre": 0.5, "gap": 1.0, "post": 0.9, "move": {"zoom": [1.04, 1.16]}, "flicker": True,
@@ -129,7 +129,7 @@ def build():
               "amb": ["wind_2.mp3", 0.3], "sfx": [["drum_6.mp3", 0.3, 0.45]], "tout": "black", "fout": 0.8})
     sit = len(S)
     S.append(F.shot("still", "e3_triumph", ["s1"], ["war_7.mp3", 0.15], {"tin": "black", "fin": 0.8, "move": {"zoom": [1.0, 1.1]},
-                    "overlays": [{"kind": "caption", "text": "삼 년 전 · 기원후 166년", "at": 0.3}]}))
+                    "overlays": [{"kind": "caption", "text": "삼 년 전 · 기원후 166년", "at": 0.3, "pos": "top"}]}))
     S.append(F.shot("still", "e3_triumph", ["s2"], ["wind_6.mp3", 0.3], {"move": {"zoom": [1.3, 1.45], "pan": [[0.0, 0.05], [0.0, 0.06]]}}))
     S.append(F.shot("still", "e3_galen", ["s3"], TENT2, {"flicker": True, "move": {"zoom": [1.0, 1.12]}}))
     s4 = F.shot("still", "e3_morning", ["s4"], CAMP, {"move": {"zoom": [1.0, 1.08]}}); s4.update({"tout": "black", "fout": 0.8, "post": 1.4}); S.append(s4)
