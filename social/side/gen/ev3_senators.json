@@ -1,0 +1,31 @@
+{
+ "id": "ev3_senators",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "One senator leans closer and whispers with a smirk while the other slowly turns his head toward something off-camera; togas move slightly. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b4-cb7c-7686-87cb-55af0b69c9fd/99e8c24e-a027-4bc2-be9a-111bde247d38.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a653-d49b-7b8a-95e4-5c4b9f73a56f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a653-d49b-7b8a-95e4-5c4b9f73a56f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a653-d49b-7b8a-95e4-5c4b9f73a56f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a653-d49b-7b8a-95e4-5c4b9f73a56f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a653-d49b-7b8a-95e4-5c4b9f73a56f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a653-d49b-7b8a-95e4-5c4b9f73a56f/cancel",
+  "expires_at": "2026-11-11T11:33:10.958576+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a653-d49b-7b8a-95e4-5c4b9f73a56f/1c68b53a-826e-4a14-bec2-38adee9fc54f.mp4"
+  }
+ },
+ "seconds": 118,
+ "file": "social/side/gen/ev3_senators.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "ev3_rumor",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The men lean in closer and whisper; one glances over his shoulder; the oil lamps flicker. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b9-29d9-78ea-80c9-a03c67de5351/5ac074ba-a937-4d3a-952f-a164d14e8381.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a656-069c-77cd-aaf9-51910b5b0be6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a656-069c-77cd-aaf9-51910b5b0be6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a656-069c-77cd-aaf9-51910b5b0be6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a656-069c-77cd-aaf9-51910b5b0be6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a656-069c-77cd-aaf9-51910b5b0be6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a656-069c-77cd-aaf9-51910b5b0be6/cancel",
+  "expires_at": "2026-11-11T11:36:09.413983+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a656-069c-77cd-aaf9-51910b5b0be6/532e1373-ff66-45d6-b0c4-3fdbc2bfac10.mp4"
+  }
+ },
+ "seconds": 154,
+ "file": "social/side/gen/ev3_rumor.mp4"
+}

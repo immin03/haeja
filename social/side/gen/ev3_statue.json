@@ -1,0 +1,31 @@
+{
+ "id": "ev3_statue",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "Golden dawn light slowly spreads over the bronze statue; pigeons take off; clouds drift; slow camera rise. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5bc-b150-769f-950e-2ad9f74ccc0e/c77cd871-9037-47ac-97d5-073fb3bc5c68.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a65a-9e97-7d4b-80d3-9d236f490b97",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a65a-9e97-7d4b-80d3-9d236f490b97/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a65a-9e97-7d4b-80d3-9d236f490b97/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a65a-9e97-7d4b-80d3-9d236f490b97",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a65a-9e97-7d4b-80d3-9d236f490b97/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a65a-9e97-7d4b-80d3-9d236f490b97/cancel",
+  "expires_at": "2026-11-11T11:40:35.091244+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a65a-9e97-7d4b-80d3-9d236f490b97/d221598e-052e-4c05-97c3-0ac4f07e7787.mp4"
+  }
+ },
+ "seconds": 117,
+ "file": "social/side/gen/ev3_statue.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "ev3_kitchen",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The woman slowly sets a bowl on the table and pauses, looking at the empty chairs; steam rises from the rice. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5bd-2c88-72ec-83c2-e9346dc11e5e/aa24e20f-d241-4354-8d84-6c3ae0bf0545.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a65b-42cd-7738-9c17-e493b3ad2364",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a65b-42cd-7738-9c17-e493b3ad2364/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a65b-42cd-7738-9c17-e493b3ad2364/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a65b-42cd-7738-9c17-e493b3ad2364",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a65b-42cd-7738-9c17-e493b3ad2364/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a65b-42cd-7738-9c17-e493b3ad2364/cancel",
+  "expires_at": "2026-11-11T11:41:12.731356+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a65b-42cd-7738-9c17-e493b3ad2364/0b7aee74-8e71-4dfb-adf3-bff6282fe649.mp4"
+  }
+ },
+ "seconds": 117,
+ "file": "social/side/gen/ev3_kitchen.mp4"
+}

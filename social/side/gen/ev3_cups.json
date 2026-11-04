@@ -1,0 +1,31 @@
+{
+ "id": "ev3_cups",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "A buyer's hands lift a golden cup from the auction table while coins are counted out; the light glints on crystal goblets. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5ba-b1fa-7d90-b0e2-464d1bc36785/51247fe6-5c99-4686-ad9b-decc2e095a5a.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a658-5545-74f8-8e6b-b7ea3194dbb5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a658-5545-74f8-8e6b-b7ea3194dbb5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a658-5545-74f8-8e6b-b7ea3194dbb5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a658-5545-74f8-8e6b-b7ea3194dbb5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a658-5545-74f8-8e6b-b7ea3194dbb5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a658-5545-74f8-8e6b-b7ea3194dbb5/cancel",
+  "expires_at": "2026-11-11T11:38:31.663684+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a658-5545-74f8-8e6b-b7ea3194dbb5/ba3d38c4-cff1-401c-b221-3dea864b6587.mp4"
+  }
+ },
+ "seconds": 148,
+ "file": "social/side/gen/ev3_cups.mp4"
+}

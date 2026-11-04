@@ -1,0 +1,31 @@
+{
+ "id": "ev3_triumph",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The legion marches slowly forward through the gate with standards swaying, the crowd waving; the pale soldier in front coughs into his hand. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b6-5447-7048-a9cb-3cb7f3a340ed/7c653078-e342-4e5e-a59c-7e108125e735.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a653-d4ce-70a7-bfee-1c4bc5af3caa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a653-d4ce-70a7-bfee-1c4bc5af3caa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a653-d4ce-70a7-bfee-1c4bc5af3caa/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a653-d4ce-70a7-bfee-1c4bc5af3caa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a653-d4ce-70a7-bfee-1c4bc5af3caa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a653-d4ce-70a7-bfee-1c4bc5af3caa/cancel",
+  "expires_at": "2026-11-11T11:33:12.145684+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a653-d4ce-70a7-bfee-1c4bc5af3caa/35af0ecf-db6d-4989-9a38-a9231e48e266.mp4"
+  }
+ },
+ "seconds": 124,
+ "file": "social/side/gen/ev3_triumph.mp4"
+}

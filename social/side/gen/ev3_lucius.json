@@ -1,0 +1,31 @@
+{
+ "id": "ev3_lucius",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The candle flame flickers; the emperor slowly bows his head lower while holding his brother's hand; very slow push-in. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b8-7209-7591-9e5c-8c7b56410608/b17a8eb1-e286-4d14-ae5c-3a1c7e8ddc90.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a655-c344-7615-8f7a-8e9b586468bc",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a655-c344-7615-8f7a-8e9b586468bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a655-c344-7615-8f7a-8e9b586468bc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a655-c344-7615-8f7a-8e9b586468bc",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a655-c344-7615-8f7a-8e9b586468bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a655-c344-7615-8f7a-8e9b586468bc/cancel",
+  "expires_at": "2026-11-11T11:35:17.531295+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a655-c344-7615-8f7a-8e9b586468bc/4db4474b-494f-4c62-ab24-8b7e9a0c1a87.mp4"
+  }
+ },
+ "seconds": 117,
+ "file": "social/side/gen/ev3_lucius.mp4"
+}

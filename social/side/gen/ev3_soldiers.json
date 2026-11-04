@@ -1,0 +1,31 @@
+{
+ "id": "ev3_soldiers",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The veteran raises his fist and shouts; the crowd of soldiers stirs and murmurs; standards sway in the wind. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c/f161d37d-76a5-453f-b7e9-21b1e2cc2833.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a658-6829-737d-b03d-875fc456d9b9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a658-6829-737d-b03d-875fc456d9b9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a658-6829-737d-b03d-875fc456d9b9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a658-6829-737d-b03d-875fc456d9b9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a658-6829-737d-b03d-875fc456d9b9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a658-6829-737d-b03d-875fc456d9b9/cancel",
+  "expires_at": "2026-11-11T11:39:15.194281+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a658-6829-737d-b03d-875fc456d9b9/56a613b1-367e-4214-b1b2-a293b0d8df93.mp4"
+  }
+ },
+ "seconds": 185,
+ "file": "social/side/gen/ev3_soldiers.mp4"
+}

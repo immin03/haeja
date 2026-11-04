@@ -1,0 +1,31 @@
+{
+ "id": "ev3_refuse",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The emperor speaks slowly and firmly to the soldiers, his cloak moving in the wind; torches flicker behind him. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5bb-7733-73bd-aa44-eed4ababbc57/9acda740-85fe-4c2e-b393-2a7bc9d23b16.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a659-7f30-747a-8c37-3dcf4aca1b86",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a659-7f30-747a-8c37-3dcf4aca1b86/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a659-7f30-747a-8c37-3dcf4aca1b86/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a659-7f30-747a-8c37-3dcf4aca1b86",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a659-7f30-747a-8c37-3dcf4aca1b86/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a659-7f30-747a-8c37-3dcf4aca1b86/cancel",
+  "expires_at": "2026-11-11T11:39:25.619947+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a659-7f30-747a-8c37-3dcf4aca1b86/dea1b776-641f-40dd-ad3c-5195aea35a1f.mp4"
+  }
+ },
+ "seconds": 123,
+ "file": "social/side/gen/ev3_refuse.mp4"
+}

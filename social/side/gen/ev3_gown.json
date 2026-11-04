@@ -1,0 +1,31 @@
+{
+ "id": "ev3_gown",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The auctioneer slowly lifts the shimmering silk gown higher and turns it so the gold thread catches the light; the crowd below sways. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b4-cb91-7af7-8767-ca0df8d544b4/bca095c5-822e-4367-8de1-d44a2ed09547.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a653-d4b3-750d-b833-d7047ea98329",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a653-d4b3-750d-b833-d7047ea98329/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a653-d4b3-750d-b833-d7047ea98329/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a653-d4b3-750d-b833-d7047ea98329",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a653-d4b3-750d-b833-d7047ea98329/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a653-d4b3-750d-b833-d7047ea98329/cancel",
+  "expires_at": "2026-11-11T11:33:02.726062+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a653-d4b3-750d-b833-d7047ea98329/161ff66a-2b5d-4e0e-b586-bbe527b07bb1.mp4"
+  }
+ },
+ "seconds": 111,
+ "file": "social/side/gen/ev3_gown.mp4"
+}
