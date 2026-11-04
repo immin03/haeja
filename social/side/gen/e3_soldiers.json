@@ -1,0 +1,32 @@
+{
+ "id": "e3_soldiers",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A Roman army camp on the Danube after a victory, a crowd of weary legionaries with dented shields gathered before a wooden tribunal, a scarred veteran in front raising his fist and shouting a demand. His face is in the middle of the frame, fully visible and lit, with space above his head. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c/cancel",
+  "expires_at": "2026-11-11T08:46:09.489294+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5ba-bab0-7b3b-a349-f50ff0e8bd4c/f161d37d-76a5-453f-b7e9-21b1e2cc2833.jpeg"
+   }
+  ]
+ },
+ "seconds": 129,
+ "file": "social/side/gen/e3_soldiers.jpeg"
+}

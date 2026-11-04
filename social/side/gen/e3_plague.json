@@ -1,0 +1,32 @@
+{
+ "id": "e3_plague",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A narrow Roman street during a plague at dusk, a wooden cart carrying bodies wrapped in white cloth pulled by a hooded man, shuttered houses, a woman covering her mouth with a shawl in a doorway, smoke from braziers. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5b6-847d-7d5a-aad4-8032d02d83f1",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5b6-847d-7d5a-aad4-8032d02d83f1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5b6-847d-7d5a-aad4-8032d02d83f1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5b6-847d-7d5a-aad4-8032d02d83f1",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5b6-847d-7d5a-aad4-8032d02d83f1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5b6-847d-7d5a-aad4-8032d02d83f1/cancel",
+  "expires_at": "2026-11-11T08:41:13.426017+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b6-847d-7d5a-aad4-8032d02d83f1/15226d07-3d18-4558-82a9-af50f4386131.jpeg"
+   }
+  ]
+ },
+ "seconds": 111,
+ "file": "social/side/gen/e3_plague.jpeg"
+}

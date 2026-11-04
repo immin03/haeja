@@ -1,0 +1,32 @@
+{
+ "id": "e3m_desk",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A Korean man in his late forties alone at his office desk late at night, finishing his work under a desk lamp, a small satisfied smile, the empty office around him dark. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5bf-8f85-7c3f-bde7-a01da9d016ac",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5bf-8f85-7c3f-bde7-a01da9d016ac/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5bf-8f85-7c3f-bde7-a01da9d016ac/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5bf-8f85-7c3f-bde7-a01da9d016ac",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5bf-8f85-7c3f-bde7-a01da9d016ac/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5bf-8f85-7c3f-bde7-a01da9d016ac/cancel",
+  "expires_at": "2026-11-11T08:50:52.089978+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5bf-8f85-7c3f-bde7-a01da9d016ac/8cafc0c6-2455-4cc5-99b7-f56f927f2750.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "social/side/gen/e3m_desk.jpeg"
+}

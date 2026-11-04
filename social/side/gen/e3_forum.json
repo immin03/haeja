@@ -1,0 +1,32 @@
+{
+ "id": "e3_forum",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Wide view of a public auction in the Forum of Trajan in Rome, tall marble colonnades and the great column of Trajan behind, grey winter daylight: a wooden auction platform piled with gold cups, crystal bowls and marble statues, a stout Roman auctioneer in a plain brown tunic with a loud open mouth holding up a shimmering gold-embroidered silk gown, a large crowd of Roman citizens pressing around, some pointing and laughing. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5b4-ca8a-70b9-91c7-9c57b7255a75",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5b4-ca8a-70b9-91c7-9c57b7255a75/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5b4-ca8a-70b9-91c7-9c57b7255a75/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5b4-ca8a-70b9-91c7-9c57b7255a75",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5b4-ca8a-70b9-91c7-9c57b7255a75/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5b4-ca8a-70b9-91c7-9c57b7255a75/cancel",
+  "expires_at": "2026-11-11T08:39:06.543617+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5b4-ca8a-70b9-91c7-9c57b7255a75/00d3d8cb-b2c6-4f98-9e2c-c2ae266319fe.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "social/side/gen/e3_forum.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "e3m_kitchen",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A Korean woman in her late fifties setting a simple dinner table alone in a small apartment kitchen in the evening, her family's chairs empty, tired but gentle face, warm pendant light. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a5bd-2c88-72ec-83c2-e9346dc11e5e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5bd-2c88-72ec-83c2-e9346dc11e5e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5bd-2c88-72ec-83c2-e9346dc11e5e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a5bd-2c88-72ec-83c2-e9346dc11e5e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a5bd-2c88-72ec-83c2-e9346dc11e5e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a5bd-2c88-72ec-83c2-e9346dc11e5e/cancel",
+  "expires_at": "2026-11-11T08:48:13.769972+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a5bd-2c88-72ec-83c2-e9346dc11e5e/aa24e20f-d241-4354-8d84-6c3ae0bf0545.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "social/side/gen/e3m_kitchen.jpeg"
+}
