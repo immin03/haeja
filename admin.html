@@ -316,6 +316,15 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .yt-plan .m,.yt-plan li{font-size:13px;color:var(--muted);line-height:1.6;word-break:keep-all}
 .yt-plan .m b{color:var(--ink)}
 .yt-plan details{margin:8px 0;font-size:13px}
+.yt-plan{padding:12px 16px;margin-bottom:10px}
+.yt-plan details.ytp-fold{margin:6px 0 0}
+.yt-plan details.ytp-fold>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;color:var(--muted);padding:4px 10px;border:1px solid var(--line);border-radius:999px}
+.yt-plan details.ytp-fold>summary::-webkit-details-marker{display:none}
+.yt-plan details.ytp-fold>summary::after{content:'▾';font-size:11px}
+.yt-plan details.ytp-fold[open]>summary::after{content:'▴'}
+.yt-plan details.ytp-fold[open]>summary{margin-bottom:8px}
+.yt-plan details.ytp-fold>summary .op,.yt-plan details.ytp-fold[open]>summary .cl{display:none}
+.yt-plan details.ytp-fold[open]>summary .op{display:inline}
 .yt-plan .nt{margin:8px 0;padding:8px 10px;border-radius:10px;background:var(--surface);font-size:13px}
 .yt-plan .ac{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .yt-plan .ac .soc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
@@ -1265,7 +1274,8 @@ function ytPlanItem(p){
   const waiting = (YT.reqs || []).some(r => r.kind === 'revise' && r.plan_id === p.id && ['pending', 'working'].includes(r.status));
   return `<div class="card yt-plan">
     <div class="k">${p.rank ? `<span class="kind">${esc(String(p.rank))}순위</span>` : ''}${p.series ? `<span class="st none">${esc(p.series)}</span>` : ''}<span class="st ${st[0]}">${st[1]}</span>${waiting ? '<span class="st run">의견 반영 중</span>' : ''}${p.minutes ? `<span class="st none">약 ${esc(String(p.minutes))}분</span>` : ''}</div>
-    ${p.format === 'doc' && p.doc_title ? `<div class="m"><span class="st run">다큐</span> 스토리텔링 다큐 구성</div><h3>${esc(p.doc_title)}</h3><div class="m">유튜브 제목 · ${esc(p.title || '')}</div>` : `<h3>${esc(p.title || p.id)}</h3>`}
+    ${p.format === 'doc' && p.doc_title ? `<h3>${esc(p.doc_title)}</h3><div class="m"><span class="st run">다큐</span> 유튜브 제목 · ${esc(p.title || '')}</div>` : `<h3>${esc(p.title || p.id)}</h3>`}
+    <details class="ytp-fold" data-ytp-fold="${id}"${(YT.openPlans || new Set()).has(p.id) ? ' open' : ''}><summary><span class="cl">펼치기</span><span class="op">접기</span></summary>
     ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b>${p.ab_doc ? ` · 다큐형 C안 <b>${esc(p.ab_doc.l1 || '')}</b> / <b>${esc(p.ab_doc.l2 || '')}</b>` : ''}</div>` : ''}
     ${p.doc && p.doc.cold_open ? `<div class="m" style="margin-top:6px"><b>콜드 오픈 16초</b> ${esc((p.doc.cold_open.lines || []).join(' '))}<br><span style="color:var(--muted)">컷 · ${esc((p.doc.cold_open.cuts || []).join(' → '))}</span></div>${p.doc.answer_first ? `<div class="m" style="margin-top:6px"><b>결론 먼저</b> ${esc(p.doc.answer_first)}</div>` : ''}${(p.doc.chapters || []).length ? `<div class="m" style="margin-top:6px"><b>질문형 장</b> ${p.doc.chapters.map((c, i) => `${i + 1}. ${esc(c.title)}`).join(' · ')}</div>` : ''}` : ''}
     ${p.message ? `<div class="m" style="margin-top:6px"><b>한 문장</b> ${esc(p.message)}</div>` : ''}
@@ -1279,7 +1289,7 @@ function ytPlanItem(p){
     ${p.owner_note ? `<div class="nt"><b>메모</b><br>${esc(p.owner_note)}</div>` : ''}
     ${cm ? `<div class="ytp-cs">${cm}</div>` : ''}
     ${open ? `<div class="ytp-say"><textarea rows="2" placeholder="의견을 남기면 Claude가 1시간 안에 이 기획안을 고칩니다 (예: 훅을 더 세게, 3장은 빼고 경쟁사 이야기로)" data-ytp-note="${id}"></textarea><button class="soc-btn ghost" data-ytp-say="${id}">의견 보내기</button></div>` : ''}
-    ${pick}${acts ? `<div class="ac">${acts}</div>` : ''}</div>`;
+    ${pick}${acts ? `<div class="ac">${acts}</div>` : ''}</details></div>`;
 }
 /* 제작 진행률 (2026-10-24 운영자: 몇 프로, 어떤 상태인지): 제작 작업이 단계마다 plan.progress {pct, step, at}를 적는다.
    40분 넘게 소식이 없으면 멈춘 것으로 보고 알린다. 승인만 된 기획안은 제작이 언제 시작되는지 보여 준다 */
@@ -1724,6 +1734,8 @@ function ytpTarget(id, onlyIfChanged){
   return `${d.value}T${t.value}:00+09:00`;
 }
 function bindYoutube(){
+  /* 기획안 접기 (2026-11-04 운영자: "기획안이 너무 길게 펼쳐져있어서 제목만 보이고 펼치는 기능") — 펼친 카드는 다시 그려도 열린 채로 둔다 */
+  document.querySelectorAll('[data-ytp-fold]').forEach(d => d.addEventListener('toggle', () => { YT.openPlans = YT.openPlans || new Set(); d.open ? YT.openPlans.add(d.dataset.ytpFold) : YT.openPlans.delete(d.dataset.ytpFold); }));
   document.querySelectorAll('[data-ytp-set]').forEach(b => b.onclick = async () => {
     const id = b.dataset.id, st = b.dataset.ytpSet; let note = null, more = false;
     if(st === 'rejected'){ note = prompt('반려 이유가 있으면 적어 주세요 (예: 이 회사는 다음 달에, 관심이 더 큰 주제로). 비워도 됩니다.'); if(note === null) return;
