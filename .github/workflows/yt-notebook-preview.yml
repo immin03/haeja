@@ -37,6 +37,7 @@ jobs:
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
           RENDER_SCENES: ${{ env.PREVIEW_SCENES }}
+          SAVE_DRY: '1'
         run: python3 scripts/youtube/long/render2.py scripts/youtube/long/specs/$PREVIEW_ID.json
       - name: 릴리스에 올리기 (미리 보기 전용)
         env: { GH_TOKEN: "${{ github.token }}" }
@@ -44,3 +45,4 @@ jobs:
           gh release view preview-notebook >/dev/null 2>&1 || gh release create preview-notebook --prerelease --title "취재 노트 롱폼 시안" --notes "게시용 아님" --target notebook-long
           cp social/youtube/$PREVIEW_ID/video.mp4 /tmp/$PREVIEW_ID-notebook.mp4
           gh release upload preview-notebook /tmp/$PREVIEW_ID-notebook.mp4 --clobber
+          if [ -f social/youtube/$PREVIEW_ID/voice_dry.wav ]; then cp social/youtube/$PREVIEW_ID/voice_dry.wav /tmp/$PREVIEW_ID-dry.wav; gh release upload preview-notebook /tmp/$PREVIEW_ID-dry.wav --clobber; fi
