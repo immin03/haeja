@@ -23,6 +23,22 @@ const dir = process.argv[2];
 if (!dir) { console.error('사용법: node scripts/blog/naver_page.mjs naver/<글 id>'); process.exit(1); }
 const id = path.basename(dir);
 const post = JSON.parse(fs.readFileSync(path.join(dir, 'post.json'), 'utf8'));
+// 작성·수정 기록 (2026-11-05 운영자: "블로그도 너가 고치거나 새로 올릴 때 날짜 시간 적어줘 블로그 관리자 쪽에다가")
+//   post.json 의 history = [{"at": "2026-11-05 00:45", "what": "작성"}, {"at": "...", "what": "수정: 11/4 종가로 업데이트"}] (한국 시각)
+//   처음 만들 때는 자동으로 '작성'이 붙고, 고칠 때는 --log "수정: 무엇을 고쳤나" 로 한 줄을 더한다.
+//   사용: node scripts/blog/naver_page.mjs naver/<글 id> --log "수정: 최신 주가 반영"
+const kstNow = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 16).replace('T', ' ');
+{
+  const li = process.argv.indexOf('--log');
+  const logMsg = li > 0 ? String(process.argv[li + 1] || '').trim() : '';
+  if (li > 0 && !logMsg) { console.error('--log 뒤에 고친 내용을 적어 주세요. 예: --log "수정: 최신 주가 반영"'); process.exit(1); }
+  const h = Array.isArray(post.history) ? post.history : [];
+  let changed = false;
+  if (!h.length) { h.push({ at: kstNow(), what: '작성' }); changed = true; }
+  if (logMsg) { h.push({ at: kstNow(), what: logMsg }); changed = true; }
+  if (changed) { post.history = h; fs.writeFileSync(path.join(dir, 'post.json'), JSON.stringify(post, null, 1) + '\n'); }
+}
+const histLine = (h) => { if (!Array.isArray(h) || !h.length) return ''; const md = (t) => t.slice(5).replace('-', '.'); const last = h[h.length - 1]; return '작성 ' + md(h[0].at) + (h.length > 1 ? ' · 수정 ' + md(last.at) : ''); };
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const inline = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 const imgUrl = (f) => `${SITE}/naver/${id}/${f}`;
@@ -118,6 +134,7 @@ ${category ? `<section class="card"><h2>카테고리</h2><div class="row"><span 
 <div class="ph">${imgs.map((f, i) => `<a href="${imgUrl(f)}" download="valuenote-${id}-${i + 1}.${f.split('.').pop()}"><img src="${imgUrl(f)}" alt="사진 ${i + 1}" loading="lazy"></a>`).join('')}</div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
 ${vids.length ? `<section class="card"><h2>영상 (${vids.length}개 · 소리 없음 · 무료 라이선스)</h2>${vids.map((f) => `<div class="row" style="align-items:center;margin:8px 0"><video src="${imgUrl(f)}" muted loop playsinline autoplay style="width:220px;border-radius:8px"></video><a class="btn" href="${imgUrl(f)}" download="valuenote-${id}-${f}">영상 받기</a></div>`).join('')}</section>` : ''}
+${Array.isArray(post.history) && post.history.length ? `<section class="card"><h2>작성·수정 기록</h2>${post.history.map((x) => `<div class="small" style="margin:4px 0"><b>${esc(x.at)}</b> · ${esc(x.what)}</div>`).join('')}</section>` : ''}
 <section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
@@ -173,7 +190,7 @@ console.log(`✓ ${dir}.html · 사진 ${imgs.length}장 · ${zip}`);
 // 블로그 글 목록 페이지(naver/index.html): 관리자 페이지 위 '블로그 글'에서 연다. 최신 글이 위
 const root = path.dirname(dir);
 const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d, 'post.json')))
-  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, title: pj.title, cat: catOf(d, pj), slot: pj.slot, order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
+  .map((d) => { const pj = JSON.parse(fs.readFileSync(path.join(root, d, 'post.json'), 'utf8')); return { d, hist: histLine(pj.history), title: pj.title, cat: catOf(d, pj), slot: pj.slot, order: pj.order, posted: pj.posted, at: fs.statSync(path.join(root, d, 'post.json')).mtimeMs, n: pj.blocks.filter((b) => b.img).length }; })
   .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || ((a.order ?? 99) - (b.order ?? 99)) || b.d.localeCompare(a.d));
 const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwfx])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '시장 · 매크로', w: '기업 분석', f: '가치투자 공부 · 사용법', x: '시장 이슈 (수시)' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
 // 올린 글 표시: post.json 의 posted(날짜) + 관리자 로그인 시 docs(collection=naver, id=posted)에 저장한 표시를 합친다
@@ -191,7 +208,7 @@ fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko">
 <p class="n">매일 아침 점심용·저녁용 2편이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 글 페이지 맨 아래 또는 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>
 <p id="who"></p>
 <h3>올릴 글</h3><div id="todo"></div><h3>올린 글</h3><div id="done"></div>
-<div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${x.cat ? `<em class="cat">${esc(x.cat)}</em> ` : ''}${esc(L(x))}${x.slot ? ' · <b style="display:inline;color:#2E8B62">' + esc(x.slot) + ' 게시</b>' : ''} · 사진 ${x.n}장</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
+<div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${x.cat ? `<em class="cat">${esc(x.cat)}</em> ` : ''}${esc(L(x))}${x.slot ? ' · <b style="display:inline;color:#2E8B62">' + esc(x.slot) + ' 게시</b>' : ''} · 사진 ${x.n}장${x.hist ? ' · <b style="display:inline;color:#7A6947;white-space:nowrap">' + esc(x.hist) + '</b>' : ''}</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
 </main>
 <script>
 const BAKED = ${JSON.stringify(baked)};

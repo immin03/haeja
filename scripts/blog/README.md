@@ -210,6 +210,7 @@ node scripts/blog/kit.mjs naver/<id> /tmp/jobs.json      # 표지(photocover)·�
 python3 scripts/blog/chart.py naver/<id>/NN.png /tmp/spec.json   # 실제 데이터 선 그래프 (형식은 chart.py 맨 위)
 node scripts/blog/check_post.mjs naver/<id>              # 출고 전 점검 (오류 0개여야 함)
 node scripts/blog/naver_page.mjs naver/<id>              # 페이지·zip
+node scripts/blog/naver_page.mjs naver/<id> --log "수정: 무엇을 고쳤나"   # ★ 고칠 때는 반드시 --log (2026-11-05 운영자: 고치거나 새로 올릴 때 날짜·시간을 관리자 블로그 목록에 표시). 새 글은 처음 실행 때 '작성' 시각이 자동으로 붙는다
 ```
 그래프 데이터는 Supabase REST(anon 키, config.js)로 공개 읽기: trends/series(d: kospi·spx·트렌드), fx/rates(series.*.daily), fx/current(series.USDKRW·JPYKRW100).
 월요일에는 그래프 2~4장을 blog/weekly-<yyyymmdd>/ 에 복사해 사이트 칼럼 본문에도 넣는다(예: col-2026-10-15).
