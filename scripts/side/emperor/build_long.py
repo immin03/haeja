@@ -24,7 +24,7 @@ def build(path):
         ss = [s for s in sents if s[2] == g]
         a, b = max(0, ss[0][0] - 0.12), ss[-1][1] + 0.18   # 2026-11-04: 첫소리·말끝이 잘리지 않게 여유를 더 둠
         piece = f"{work}/{key}_g{g}.wav"
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-ss", f"{a:.3f}", "-to", f"{b:.3f}", "-af", f"afade=t=in:d=0.03,afade=t=out:st={max(0, b - a - 0.04):.3f}:d=0.04", piece], check=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{a:.3f}", "-to", f"{b:.3f}", "-i", src, "-af", f"asetpts=PTS-STARTPTS,afade=t=in:d=0.03,afade=t=out:st={max(0, b - a - 0.04):.3f}:d=0.04", piece], check=True)
         voices.append({"file": piece, "at": round(t, 3), "vol": E.get("vol", 1.3)})
         for i, s in enumerate(sents):
             if s[2] == g: abs_t[i] = (t + s[0] - a, t + s[1] - a)

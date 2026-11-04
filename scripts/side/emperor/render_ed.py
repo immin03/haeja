@@ -415,7 +415,7 @@ def main(spec_path, out, frames_dir=None, platform="reels"):
         for k, v in enumerate(voices):
             ms = int(v["at"] * 1000)
             fc += f";[{k+2}:a]adelay={ms}|{ms},volume={v.get('vol',1.0)}[v{k}]"; parts.append(f"[v{k}]")
-        fc += f";{''.join(parts)}[m]amix=inputs={len(voices)+1}:normalize=0:duration=first,aresample=48000,alimiter=limit=0.85:attack=5:release=60:level=disabled[a]"   # 2026-11-04: 한 번에 거는 loudnorm(목소리 일그러짐) 대신 고정 음량 + 리미터. 목소리 조각은 미리 -16 LUFS 로 맞춰 둔다
+        fc += f";{''.join(parts)}[m]amix=inputs={len(voices)+1}:normalize=0:duration=first,aresample=48000,volume=2.5dB,alimiter=limit=0.85:attack=5:release=60:level=disabled[a]"   # 2026-11-04: 한 번에 거는 loudnorm(목소리 일그러짐) 대신 고정 음량 + 리미터. 목소리 조각은 미리 -16 LUFS 로 맞춰 둔다
         fc = fc.replace(f"volume={mv}[m]", f"volume={mv},apad=whole_dur={total}[m]")
         fc = fc.replace(f"{''.join(parts)}[m]amix", f"[m]{''.join(parts)}amix")
     else:

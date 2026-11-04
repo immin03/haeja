@@ -1,0 +1,151 @@
+{
+ "id": "ep07a",
+ "theme": "A",
+ "note": "2026-11-04 12:20 편. 40초 템플릿(현대 상황 훅 → 로마 상황 → 원문 4권 7절 → 풀이). 테마 B(대리석·낮, lb 그림). 음성 v_ep07.wav = 테이크 A 앞 25.3초(4권 8절 덧붙임 문장은 길이 때문에 뺌), 0.42초 넘는 쉼 압축. sents 는 silencedetect -36dB d=0.1 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "말 한마디가",
+  "하루 종일 맴도는 이유"
+ ],
+ "title_line": "말 한마디가 하루 종일 맴도는 이유",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.3
+ },
+ "voice": "/home/claude/vo/v2/v_ep07a.wav",
+ "gap": 0.6,
+ "hold": 1.4,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ed05_letters.jpeg",
+  "/home/claude/haeja/social/side/gen/ed06_forum.jpeg",
+  "/home/claude/haeja/social/side/gen/ed10_dawn_cot.jpeg",
+  "/home/claude/ed/edv02_ep07.mp4",
+  "/home/claude/haeja/social/side/gen/ed07_crowd.jpeg",
+  "/home/claude/haeja/social/side/gen/ed01_tent.jpeg"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.14,
+   1,
+   0,
+   "cap",
+   [
+    "누군가 툭 던진 말 한마디가,"
+   ]
+  ],
+  [
+   2.37,
+   4.25,
+   1,
+   0,
+   "cap",
+   [
+    "왜 하루 종일 머릿속을 맴돌까요"
+   ]
+  ],
+  [
+   5.234,
+   7.324,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제 마르쿠스 아우렐리우스도,"
+   ]
+  ],
+  [
+   7.624,
+   10.104,
+   2,
+   1,
+   "cap",
+   [
+    "날마다 수많은 사람의 말을",
+    "들어야 했습니다"
+   ]
+  ],
+  [
+   10.634,
+   13.034,
+   2,
+   2,
+   "cap",
+   [
+    "그런 황제가 일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   13.967,
+   15.388,
+   3,
+   3,
+   "quote",
+   [
+    "네 생각을 버려라."
+   ]
+  ],
+  [
+   15.388,
+   19.08,
+   3,
+   3,
+   "quote",
+   [
+    "그러면, '나는 상처받았다'는",
+    "불평도 사라진다."
+   ]
+  ],
+  [
+   19.08,
+   20.501,
+   3,
+   3,
+   "quote",
+   [
+    "그 불평을 버려라."
+   ]
+  ],
+  [
+   20.501,
+   22.347,
+   3,
+   3,
+   "quote",
+   [
+    "그러면 상처도 사라진다."
+   ]
+  ],
+  [
+   23.434,
+   25.214,
+   4,
+   4,
+   "big",
+   [
+    "그 말은 한 번",
+    "들렸을 뿐인데,"
+   ]
+  ],
+  [
+   25.514,
+   27.574,
+   4,
+   5,
+   "big",
+   [
+    "하루 종일 되풀이한 건",
+    "내 생각입니다."
+   ]
+  ]
+ ],
+ "tonight": [
+  "마음에 남은 말 하나 적고,",
+  "'나를 더 나쁘게 했나' 묻기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 4권 7절",
+ "end_voice": "/home/claude/vo/v2/ep07_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/ep07_outro_voice.wav",
+ "vol": 1.0
+}
