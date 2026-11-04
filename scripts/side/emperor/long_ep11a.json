@@ -1,0 +1,144 @@
+{
+ "id": "ep11a",
+ "theme": "A",
+ "note": "2026-11-05 20:30 데일리(45초 칸, (k+1)%3=1). 현대 상황 훅(나를 싫어하는 사람) → 로마 상황 → 원문 11권 13절 → 풀이 2문장. 양식 A, 장면 묶음: lib_cliff_sea·edv04_field·lib_camp·tablet·edv05_letters·lib_road_dawn. 묶음별 녹음 d261105 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "누가 나를 싫어해도",
+  "괜찮은 이유"
+ ],
+ "title_line": "누가 나를 싫어해도 괜찮은 이유",
+ "music": {
+  "file": "/home/claude/ed/music/music_classical-7.mp3",
+  "start": 91,
+  "bed": 0.3
+ },
+ "voice": "/home/claude/vo/v2/v_ep11a.wav",
+ "gap": 0.55,
+ "hold": 1.4,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/lib_cliff_sea.jpeg",
+  "/home/claude/haeja/social/side/gen/edv04_field.mp4",
+  "/home/claude/haeja/social/side/gen/lib_camp.jpeg",
+  "/home/claude/ed/edv02_ep11.mp4",
+  "/home/claude/haeja/social/side/gen/edv05_letters.mp4",
+  "/home/claude/haeja/social/side/gen/lib_road_dawn.jpeg"
+ ],
+ "sents": [
+  [
+   0.6,
+   2.29,
+   1,
+   0,
+   "cap",
+   [
+    "아무 잘못도 안 했는데,"
+   ]
+  ],
+  [
+   2.34,
+   5.062,
+   1,
+   0,
+   "cap",
+   [
+    "누가 나를 싫어하면,",
+    "왜 밤잠까지 설칠까요"
+   ]
+  ],
+  [
+   5.932,
+   8.462,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제 마르쿠스 아우렐리우스를,"
+   ]
+  ],
+  [
+   8.512,
+   10.762,
+   2,
+   1,
+   "cap",
+   [
+    "뒤에서 깎아내리는 사람도",
+    "많았습니다"
+   ]
+  ],
+  [
+   10.812,
+   13.337,
+   2,
+   2,
+   "cap",
+   [
+    "그런 황제가 일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   14.187,
+   16.507,
+   3,
+   3,
+   "quote",
+   [
+    "누가 나를 업신여기는가?"
+   ]
+  ],
+  [
+   16.557,
+   18.707,
+   3,
+   3,
+   "quote",
+   [
+    "그건 그 사람이",
+    "살필 일이다."
+   ]
+  ],
+  [
+   18.757,
+   22.457,
+   3,
+   4,
+   "quote",
+   [
+    "나는 업신여김받을 일을",
+    "하지 않도록,",
+    "나를 살필 뿐이다."
+   ]
+  ],
+  [
+   23.167,
+   25.577,
+   4,
+   5,
+   "big",
+   [
+    "남의 마음은",
+    "내가 고를 수 없습니다."
+   ]
+  ],
+  [
+   25.627,
+   28.457,
+   4,
+   5,
+   "big",
+   [
+    "내가 고를 수 있는 건,",
+    "내 말과 행동뿐입니다."
+   ]
+  ]
+ ],
+ "tonight": [
+  "나를 싫어하는 사람 하나 떠올리고,",
+  "'그건 그의 일' 한 줄 적기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 11권 13절",
+ "end_voice": "/home/claude/vo/v2/ep11_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/ep11_outro_voice.wav",
+ "vol": 1.0
+}

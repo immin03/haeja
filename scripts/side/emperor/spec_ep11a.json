@@ -1,0 +1,242 @@
+{
+ "id": "ep11a",
+ "music": {
+  "file": "/home/claude/ed/music/music_classical-7.mp3",
+  "start": 91,
+  "bed": 0.3
+ },
+ "voice": [
+  {
+   "file": "/home/claude/vo/v2/ep11a_g1.wav",
+   "at": 0.8,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep11a_g2.wav",
+   "at": 6.112,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep11a_g3.wav",
+   "at": 14.367,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep11a_g4.wav",
+   "at": 23.487,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep11_end_voice.wav",
+   "at": 30.597,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep11_outro_voice.wav",
+   "at": 37.257,
+   "vol": 1.0
+  }
+ ],
+ "cuts": [
+  {
+   "dur": 6.082,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "kicker",
+     "lines": [
+      "로마 황제가 일기에 쓴 한 줄"
+     ],
+     "after": 10
+    },
+    {
+     "t0": -1,
+     "style": "hook",
+     "lines": [
+      "누가 나를 싫어해도",
+      "괜찮은 이유"
+     ]
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.87,
+     "t1": 2.76,
+     "lines": [
+      "아무 잘못도 안 했는데,"
+     ]
+    },
+    {
+     "t0": 2.61,
+     "t1": 5.53,
+     "lines": [
+      "누가 나를 싫어하면,",
+      "왜 밤잠까지 설칠까요"
+     ]
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/lib_cliff_sea.jpeg",
+   "move": "in",
+   "amt": 0.08
+  },
+  {
+   "dur": 5.28,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "누가 나를 싫어해도 괜찮은 이유"
+     ],
+     "after": 34
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 3.23,
+     "lines": [
+      "로마 황제 마르쿠스 아우렐리우스를,"
+     ]
+    },
+    {
+     "t0": 3.08,
+     "t1": 5.53,
+     "lines": [
+      "뒤에서 깎아내리는 사람도",
+      "많았습니다"
+     ]
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/edv04_field.mp4",
+   "speed": 0.935
+  },
+  {
+   "dur": 3.775,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "누가 나를 싫어해도 괜찮은 이유"
+     ],
+     "after": 34
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 3.22,
+     "lines": [
+      "그런 황제가 일기에 이렇게 적었습니다"
+     ]
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/lib_camp.jpeg",
+   "move": "in",
+   "amt": 0.08
+  },
+  {
+   "dur": 4.97,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "누가 나를 싫어해도 괜찮은 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "누가 나를 업신여기는가?"
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 2.87,
+     "lines": [
+      "그건 그 사람이",
+      "살필 일이다."
+     ],
+     "style": "quote"
+    }
+   ],
+   "v": "/home/claude/ed/edv02_ep11.mp4",
+   "speed": 0.986,
+   "shade": 245,
+   "shade_h": 1100
+  },
+  {
+   "dur": 4.95,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "누가 나를 싫어해도 괜찮은 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "나는 업신여김받을 일을",
+      "하지 않도록,",
+      "나를 살필 뿐이다."
+     ],
+     "style": "quote"
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/edv05_letters.mp4",
+   "speed": 0.997
+  },
+  {
+   "dur": 7.24,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "누가 나를 싫어해도 괜찮은 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "남의 마음은",
+      "내가 고를 수 없습니다."
+     ],
+     "style": "big"
+    },
+    {
+     "t0": 2.96,
+     "lines": [
+      "내가 고를 수 있는 건,",
+      "내 말과 행동뿐입니다."
+     ],
+     "style": "big"
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/lib_road_dawn.jpeg",
+   "move": "out",
+   "amt": 0.08
+  }
+ ],
+ "end": {
+  "dur": 7.31,
+  "kicker": "오늘의 할 일",
+  "lines": [
+   "나를 싫어하는 사람 하나 떠올리고,",
+   "'그건 그의 일' 한 줄 적기"
+  ],
+  "source": "마르쿠스 아우렐리우스 『명상록』 11권 13절",
+  "slogan": null
+ },
+ "outro": {
+  "dur": 7.9,
+  "p1": 4.7
+ }
+}
