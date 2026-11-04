@@ -1,0 +1,2709 @@
+{
+ "root": "../../..",
+ "gen_dir": "social/side/gen",
+ "sfx_dir": "social/side/ed_long/sfx",
+ "music_dir": "social/side/ed_long/music",
+ "out_dir": "_long",
+ "intro": {
+  "logo": "docs/emperor/profile_final.png"
+ },
+ "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,",
+ "voice_gain": {
+  "mono": 3.8,
+  "narr": 1.2,
+  "cast": 0.85
+ },
+ "id": "edl_ep03",
+ "voice_dir": "social/side/voice_samples/ep03",
+ "voice_files": {
+  "h_cr": "voice_ep03_01_h_cr.mp3",
+  "h1": "voice_ep03_02_h1.mp3",
+  "h2": "voice_ep03_03_h2.mp3",
+  "h_sen": "voice_ep03_04_h_sen.mp3",
+  "m_h1": "voice_ep03_05_m_h1.mp3",
+  "m_h2": "voice_ep03_06_m_h2.mp3",
+  "s1": "voice_ep03_07_s1.mp3",
+  "s2": "voice_ep03_08_s2.mp3",
+  "s3": "voice_ep03_09_s3.mp3",
+  "r7": "voice_ep03_100_r7.mp3",
+  "r8": "voice_ep03_101_r8.mp3",
+  "r9": "voice_ep03_102_r9.mp3",
+  "o1": "voice_ep03_103_o1.mp3",
+  "o2": "voice_ep03_104_o2.mp3",
+  "s4": "voice_ep03_10_s4.mp3",
+  "d1a": "voice_ep03_11_d1a.mp3",
+  "d1b": "voice_ep03_12_d1b.mp3",
+  "w1": "voice_ep03_13_w1.mp3",
+  "d1c": "voice_ep03_14_d1c.mp3",
+  "m1a": "voice_ep03_15_m1a.mp3",
+  "m1b": "voice_ep03_16_m1b.mp3",
+  "m1c": "voice_ep03_17_m1c.mp3",
+  "d1d": "voice_ep03_18_d1d.mp3",
+  "d1e": "voice_ep03_19_d1e.mp3",
+  "d1f": "voice_ep03_20_d1f.mp3",
+  "d1g": "voice_ep03_21_d1g.mp3",
+  "d1h": "voice_ep03_22_d1h.mp3",
+  "d2a": "voice_ep03_23_d2a.mp3",
+  "d2b": "voice_ep03_24_d2b.mp3",
+  "d2c": "voice_ep03_25_d2c.mp3",
+  "r_sen": "voice_ep03_26_r_sen.mp3",
+  "d2d": "voice_ep03_27_d2d.mp3",
+  "m2a": "voice_ep03_28_m2a.mp3",
+  "m2b": "voice_ep03_29_m2b.mp3",
+  "m2c": "voice_ep03_30_m2c.mp3",
+  "d2e": "voice_ep03_31_d2e.mp3",
+  "d2f": "voice_ep03_32_d2f.mp3",
+  "d2g": "voice_ep03_33_d2g.mp3",
+  "d2h": "voice_ep03_34_d2h.mp3",
+  "d2i": "voice_ep03_35_d2i.mp3",
+  "d3a": "voice_ep03_36_d3a.mp3",
+  "d3b": "voice_ep03_37_d3b.mp3",
+  "t_sen": "voice_ep03_38_t_sen.mp3",
+  "d3c": "voice_ep03_39_d3c.mp3",
+  "m3x": "voice_ep03_40_m3x.mp3",
+  "m3a": "voice_ep03_41_m3a.mp3",
+  "m3b": "voice_ep03_42_m3b.mp3",
+  "m3c": "voice_ep03_43_m3c.mp3",
+  "d3d": "voice_ep03_44_d3d.mp3",
+  "d3e": "voice_ep03_45_d3e.mp3",
+  "d3f": "voice_ep03_46_d3f.mp3",
+  "d3g": "voice_ep03_47_d3g.mp3",
+  "d3h": "voice_ep03_48_d3h.mp3",
+  "d4a": "voice_ep03_49_d4a.mp3",
+  "d4b": "voice_ep03_50_d4b.mp3",
+  "c4": "voice_ep03_51_c4.mp3",
+  "d4c": "voice_ep03_52_d4c.mp3",
+  "m4a": "voice_ep03_53_m4a.mp3",
+  "m4b": "voice_ep03_54_m4b.mp3",
+  "m4c": "voice_ep03_55_m4c.mp3",
+  "d4d": "voice_ep03_56_d4d.mp3",
+  "d4e": "voice_ep03_57_d4e.mp3",
+  "d4f": "voice_ep03_58_d4f.mp3",
+  "d4g": "voice_ep03_59_d4g.mp3",
+  "d4h": "voice_ep03_60_d4h.mp3",
+  "d5a": "voice_ep03_61_d5a.mp3",
+  "v_sol": "voice_ep03_62_v_sol.mp3",
+  "d5b": "voice_ep03_63_d5b.mp3",
+  "m5x": "voice_ep03_64_m5x.mp3",
+  "d5c": "voice_ep03_65_d5c.mp3",
+  "m5a": "voice_ep03_66_m5a.mp3",
+  "m5b": "voice_ep03_67_m5b.mp3",
+  "m5c": "voice_ep03_68_m5c.mp3",
+  "d5d": "voice_ep03_69_d5d.mp3",
+  "d5e": "voice_ep03_70_d5e.mp3",
+  "d5f": "voice_ep03_71_d5f.mp3",
+  "d5g": "voice_ep03_72_d5g.mp3",
+  "d5h": "voice_ep03_73_d5h.mp3",
+  "d6a": "voice_ep03_74_d6a.mp3",
+  "d6b": "voice_ep03_75_d6b.mp3",
+  "m6a": "voice_ep03_76_m6a.mp3",
+  "m6b": "voice_ep03_77_m6b.mp3",
+  "m6c": "voice_ep03_78_m6c.mp3",
+  "d6c": "voice_ep03_79_d6c.mp3",
+  "d6d": "voice_ep03_80_d6d.mp3",
+  "d6e": "voice_ep03_81_d6e.mp3",
+  "d6f": "voice_ep03_82_d6f.mp3",
+  "d6i": "voice_ep03_83_d6i.mp3",
+  "d7a": "voice_ep03_84_d7a.mp3",
+  "d7b": "voice_ep03_85_d7b.mp3",
+  "d7c": "voice_ep03_86_d7c.mp3",
+  "m7a": "voice_ep03_87_m7a.mp3",
+  "m7b": "voice_ep03_88_m7b.mp3",
+  "m7c": "voice_ep03_89_m7c.mp3",
+  "d7d": "voice_ep03_90_d7d.mp3",
+  "d7e": "voice_ep03_91_d7e.mp3",
+  "d7f": "voice_ep03_92_d7f.mp3",
+  "d7g": "voice_ep03_93_d7g.mp3",
+  "r1": "voice_ep03_94_r1.mp3",
+  "r2": "voice_ep03_95_r2.mp3",
+  "r3": "voice_ep03_96_r3.mp3",
+  "r4": "voice_ep03_97_r4.mp3",
+  "r5": "voice_ep03_98_r5.mp3",
+  "r6": "voice_ep03_99_r6.mp3",
+  "o3": "../ep02c/voice_ep02c_01_o3.mp3",
+  "m_x1": "../lp3/voice_lp3_07_m_x1.mp3",
+  "e_x2": "../ep01x/voice_ep01x_01_e_x2.mp3"
+ },
+ "subs": {
+  "h_cr": "“황후의 비단옷이오! 금실로 수놓은, 황후의 옷이오!”",
+  "h1": [
+   "기원후 백육십구 년, 로마 트라야누스 광장.",
+   "황제가, 궁전의 보물을 시장에 내놓았습니다."
+  ],
+  "h2": [
+   "황금 잔과 수정 그릇, 그리고 황후의 옷까지.",
+   "사람들은 수군거렸습니다."
+  ],
+  "h_sen": "“철학에 빠진 황제가, 이제는 장사꾼이 되었군.”",
+  "m_h1": "아무도 알아주지 않을 것이다.",
+  "m_h2": "!그래도, 나는 한다.",
+  "s1": [
+   "삼 년 전.",
+   "동방 원정을 마친 군대가, 승리의 행렬을 이루며 로마로 돌아왔습니다."
+  ],
+  "s2": [
+   "그런데 그 행렬과 함께, 보이지 않는 손님이 따라 들어왔습니다.",
+   "역병이었습니다."
+  ],
+  "s3": [
+   "훗날 안토니누스 역병이라 불린 이 병은, 제국 곳곳에서 수많은 목숨을 앗아 갔습니다.",
+   "의사 갈레노스는, 열병과 붉은 발진을 기록으로 남겼습니다."
+  ],
+  "s4": "황제는 로마를 떠나지 않았습니다.",
+  "d1a": [
+   "시신은 수레에 실려 나갔습니다.",
+   "가난한 사람들에게는, 장례를 치를 돈조차 없었습니다."
+  ],
+  "d1b": "황제는 나라의 돈으로, 가난한 이들의 장례를 치러 주게 했다고 전해집니다.",
+  "w1": "“우리 남편 장례를, 황제께서 치러 주셨대요. 그런데 그분 얼굴은, 한 번도 못 봤어요.”",
+  "d1c": "황제는 그 일을, 어디에도 드러내지 않았습니다.",
+  "m1a": "어떤 사람은 남에게 잘해 주고, 그 빚을 꼭 받아 내려 한다.",
+  "m1b": "어떤 사람은 입으로는 말하지 않아도, 마음속에 장부를 적는다.",
+  "m1c": "포도나무가 포도를 맺듯, 선을 행하고 아무것도 바라지 마라.",
+  "d1d": [
+   "황제는 좋은 사람을, 포도를 맺고도 자랑하지 않는 포도나무에 비유했습니다.",
+   "열매를 맺는 것이 포도나무의 본성이듯, 선을 행하는 것이 사람의 본성이라는 겁니다."
+  ],
+  "d1e": [
+   "삼십 년 동안 차려 온 저녁 밥상.",
+   "고맙다는 말은 없는데, 내일도 밥은 차려야 합니다."
+  ],
+  "d1f": "!알아주는 사람이 없어도, 그 밥상은 가족을 살렸습니다.",
+  "d1g": [
+   "오늘 밤에는, 오늘 한 좋은 일 하나를 떠올리고, 그 일을 아무에게도 말하지 않아 보세요.",
+   "포도나무처럼요."
+  ],
+  "d1h": "그리고 그해 겨울, 황제에게 또 하나의 소식이 날아들었습니다.",
+  "d2a": "북쪽 전선으로 함께 가던 길, 공동 황제이자 아우인 루키우스가, 마차 안에서 쓰러졌습니다.",
+  "d2b": [
+   "루키우스는 끝내 일어나지 못했습니다.",
+   "황제는 아우를 신으로 모시는 장례를, 정성껏 치러 주었습니다."
+  ],
+  "d2c": "그러나 로마에는, 이상한 소문이 돌았습니다.",
+  "r_sen": "“황제가, 자기 아우를 독살했다더군.”",
+  "d2d": "황제는 그 소문에, 한마디도 답하지 않았습니다.",
+  "m2a": "너는 선을 행했고, 그는 그 덕을 보았다.",
+  "m2b": "그런데 왜, 바보처럼 세 번째 것을 찾는가.",
+  "m2c": [
+   "선을 행했으면 그것으로 끝이다.",
+   "세 번째 것을 바라지 마라."
+  ],
+  "d2e": [
+   "황제는 선을 행하는 일과, 그 일로 인정받는 일을 분명히 나누었습니다.",
+   "앞의 것은 내 몫이고, 뒤의 것은 남의 몫이라는 겁니다."
+  ],
+  "d2f": [
+   "십 년 동안 홀로 어머니 병간호를 했습니다.",
+   "그런데 장례식장에서, 친척들은 한마디씩 거들기만 했습니다."
+  ],
+  "d2g": "!내가 한 일은, 남이 알아줘야 완성되는 일이 아닙니다.",
+  "d2h": "오늘 밤에는, 내가 한 일에 붙여 둔 알아 달라는 마음을, 살짝 떼어 내 보세요.",
+  "d2i": "그해 봄, 제국의 금고가 바닥을 드러냈습니다.",
+  "d3a": [
+   "역병으로 사람이 줄고, 북쪽에서는 게르만족이 국경을 넘어왔습니다.",
+   "그런데 군대를 꾸릴 돈이, 없었습니다."
+  ],
+  "d3b": "원로원은 손쉬운 길을 말했습니다.",
+  "t_sen": "“세금을 더 걷으면 됩니다, 폐하.”",
+  "d3c": [
+   "그러나 황제는 고개를 저었습니다.",
+   "그리고 아무도 예상하지 못한 결정을 내렸습니다."
+  ],
+  "m3x": "“궁전의 것을, 팔겠소.”",
+  "m3a": "죽은 뒤의 이름에 매달리는 사람은 잊는다.",
+  "m3b": "그를 기억하는 사람들도, 곧 모두 떠난다는 것을.",
+  "m3c": [
+   "이름은 금방 잊힌다.",
+   "지금, 옳은 일을 하라."
+  ],
+  "d3d": [
+   "세금을 올리면 쉬웠을 겁니다.",
+   "하지만 그 짐은, 역병에 지친 백성이 졌을 겁니다.",
+   "황제는 이름을 남기는 일보다, 오늘의 옳은 일을 앞에 두었습니다."
+  ],
+  "d3e": [
+   "또 밀린 승진 발표날.",
+   "밤새 만든 보고서는, 상사의 이름으로 올라갔습니다."
+  ],
+  "d3f": "!이름은 남이 가져가도, 그 일을 해낸 사람은 나입니다.",
+  "d3g": "오늘 밤에는, 이름 없이도 뿌듯했던 오늘의 일 하나를, 떠올려 보세요.",
+  "d3h": "그렇게 트라야누스 광장에, 경매대가 세워졌습니다.",
+  "d4a": [
+   "경매는, 두 달 동안 이어졌다고 전해집니다.",
+   "황금 잔과 수정 그릇, 대대로 내려온 조각상까지 하나씩 팔려 나갔습니다."
+  ],
+  "d4b": [
+   "사람들은 웃었습니다.",
+   "황제가 체면을 잃었다고.",
+   "황후의 옷까지 내다 파는 황제라고."
+  ],
+  "c4": "“더 부르실 분 없소? 팔렸소!”",
+  "d4c": "그렇게 모은 돈으로, 황제는 백성에게 세금을 더 걷지 않고 군대를 꾸렸습니다.",
+  "m4a": "추울 때든 따뜻할 때든, 졸릴 때든 푹 잤을 때든.",
+  "m4b": "칭찬을 듣든, 비난을 듣든.",
+  "m4c": "칭찬을 듣든 비난을 듣든, 해야 할 일을 하라.",
+  "d4d": [
+   "스토아 철학자들은 이것을, 의무라고 불렀습니다.",
+   "남의 박수와 상관없이, 내 자리에서 마땅히 할 일입니다."
+  ],
+  "d4e": [
+   "새벽 세 시, 아무도 보지 않는 병동.",
+   "간호사는 잠든 환자의 이불을, 다시 덮어 줍니다."
+  ],
+  "d4f": "!아무도 보지 않는 일이, 세상을 굴러가게 합니다.",
+  "d4g": "오늘 밤에는, 내일 아무도 보지 않는 곳에서 할 일 하나를, 정해 보세요.",
+  "d4h": [
+   "몇 해 뒤, 다뉴브 전선.",
+   "큰 승리를 거둔 병사들이, 황제 앞에 모여들었습니다."
+  ],
+  "d5a": [
+   "병사들은 상여금을 요구했습니다.",
+   "목숨을 걸고 싸웠으니, 그만한 상을 달라는 것이었습니다."
+  ],
+  "v_sol": "“폐하, 우리는 피를 흘렸습니다. 그에 맞는 상을 주십시오.”",
+  "d5b": [
+   "황제는 거절했습니다.",
+   "그리고 이렇게 말했다고 전해집니다."
+  ],
+  "m5x": "“그대들에게 더 주는 것은, 그대들 부모와 형제의 피에서 짜내는 것이오.”",
+  "d5c": [
+   "병사들은 투덜거렸습니다.",
+   "인기를 얻기 쉬운 길을, 황제는 또 마다한 것입니다."
+  ],
+  "m5a": "사람은 누구보다 자기를 사랑하면서도,",
+  "m5b": "자기 생각보다, 남의 생각을 더 무겁게 여긴다.",
+  "m5c": "남의 평가를, 내 판단보다 앞에 두지 마라.",
+  "d5d": [
+   "황제에게 인기는 목표가 아니었습니다.",
+   "옳다고 판단한 일이 인기가 없을 때, 그는 판단 쪽을 택했습니다."
+  ],
+  "d5e": [
+   "우리 반에서 나만 휴대폰이 없다는 아이의 말.",
+   "엄마의 마음은, 하루에도 몇 번씩 흔들립니다."
+  ],
+  "d5f": "!미움받는 결정이, 틀린 결정은 아닙니다.",
+  "d5g": "오늘 밤에는, 남의 눈 때문에 미뤄 둔 옳은 결정 하나를, 적어 보세요.",
+  "d5h": "그날 밤, 막사에서 황제는, 자신을 비웃는 말들을 떠올렸습니다.",
+  "d6a": [
+   "로마에는 그를, 철학자 황제라고 비꼬는 사람들이 있었습니다.",
+   "책을 붙들고 생각만 하는 황제라고."
+  ],
+  "d6b": "그러나 그날 밤 일기에, 황제는 다른 이야기를 적었습니다.",
+  "m6a": "좋은 사람이란, 어떤 사람인가.",
+  "m6b": "그것을 따지는 데, 남은 날을 쓰지 마라.",
+  "m6c": "좋은 사람이 무엇인지 논하지 말고, 좋은 사람이 되어라.",
+  "d6c": [
+   "황제에게 철학은, 말이 아니라 행동이었습니다.",
+   "경매대에 오른 황후의 옷이, 그가 쓴 어떤 문장보다 그의 철학을 잘 보여 주었습니다."
+  ],
+  "d6d": [
+   "매주 토요일, 무료 급식소에 말없이 나와 밥을 푸는 할아버지가 있습니다.",
+   "사진 한 장 남기지 않습니다."
+  ],
+  "d6e": [
+   "!말보다 먼저, 손이 움직이는 사람.",
+   "!그 사람이, 좋은 사람입니다."
+  ],
+  "d6f": "오늘 밤에는, 말로만 해 왔던 좋은 일 하나를, 이번 주에 직접 해 보세요.",
+  "d6i": "그리고 전쟁이 끝난 뒤, 황제는 경매에서 물건을 산 사람들에게, 한 가지를 알렸습니다.",
+  "d7a": [
+   "원하는 사람은 물건을 돌려주고, 낸 돈을 다시 받아 가도 된다고.",
+   "돌려주지 않는다고 해서, 아무도 벌하지 않았습니다."
+  ],
+  "d7b": [
+   "누군가는 돌려주었고, 누군가는 간직했습니다.",
+   "황제는 그 누구에게도, 고맙다는 말을 요구하지 않았습니다."
+  ],
+  "d7c": [
+   "그리고 오랜 세월이 흐른 뒤, 사람들은 그를 로마 오현제의 마지막 황제로 기억했습니다.",
+   "그를 알아준 것은, 시간이었습니다."
+  ],
+  "m7a": "나는 공동체를 위해, 무언가를 했는가.",
+  "m7b": "그렇다면, 나는 이미 보상을 받았다.",
+  "m7c": "공동체를 위해 일했다면, 나는 이미 보상받았다.",
+  "d7d": [
+   "황제는 보상을 바깥에서 찾지 않았습니다.",
+   "좋은 일을 한 순간, 그 사람은 이미 조금 더 좋은 사람이 되어 있다는 겁니다."
+  ],
+  "d7e": [
+   "삼십 년 다닌 회사의 마지막 날.",
+   "송별회는 짧았고, 누구도 내 이름을 오래 기억하지 않을 겁니다."
+  ],
+  "d7f": "!하지만 그 삼십 년이, 한 가족을 키웠습니다.",
+  "d7g": "오늘 밤에는, 내가 오래 해 온 일 하나에게, 잘했다고 말해 주세요.",
+  "r1": "아무도 알아주지 않을 때, 황제가 일기에 남긴 일곱 문장을 다시 짚어 보겠습니다.",
+  "r2": "첫째, 포도나무처럼, 선을 행하고 바라지 마라.",
+  "r3": "둘째, 세 번째 것을 바라지 마라.",
+  "r4": [
+   "셋째, 이름은 금방 잊힌다.",
+   "지금, 옳은 일을 하라."
+  ],
+  "r5": "넷째, 칭찬을 듣든 비난을 듣든, 할 일을 하라.",
+  "r6": "다섯째, 남의 평가를, 내 판단보다 앞에 두지 마라.",
+  "r7": "여섯째, 좋은 사람을 논하지 말고, 좋은 사람이 되어라.",
+  "r8": "일곱째, 선을 행했다면, 이미 보상받았다.",
+  "r9": "!알아주는 사람이 없어도, 좋은 일은 이미 일어났습니다.",
+  "o1": "오늘 이야기가 마음에 닿으셨다면, 구독과 좋아요로 황제의 일기를 함께 이어 가 주세요.",
+  "o2": "다음 이야기에서는, 아내를 잃은 밤 황제가 일기에 남긴 문장들을 들려드리겠습니다."
+ },
+ "monologue_voices": [
+  "m_h1",
+  "m_h2",
+  "m1a",
+  "m1b",
+  "m1c",
+  "m2a",
+  "m2b",
+  "m2c",
+  "m3x",
+  "m3a",
+  "m3b",
+  "m3c",
+  "m4a",
+  "m4b",
+  "m4c",
+  "m5x",
+  "m5a",
+  "m5b",
+  "m5c",
+  "m6a",
+  "m6b",
+  "m6c",
+  "m7a",
+  "m7b",
+  "m7c",
+  "m_x1"
+ ],
+ "music": [
+  {
+   "file": "cinematic_0.mp3",
+   "at_shot": 8,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 12,
+   "vol": 0.22,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "sad_3.mp3",
+   "at_shot": 12,
+   "offset": 1.0,
+   "start": 0,
+   "until_shot": 21,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "cinematic_5.mp3",
+   "at_shot": 21,
+   "offset": 1.0,
+   "start": 0,
+   "until_shot": 31,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "dramatic_1.mp3",
+   "at_shot": 31,
+   "offset": 1.0,
+   "start": 0,
+   "until_shot": 40,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "cinematic_4.mp3",
+   "at_shot": 40,
+   "offset": 1.0,
+   "start": 0,
+   "until_shot": 50,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "cinematic_5.mp3",
+   "at_shot": 50,
+   "offset": 1.0,
+   "start": 90,
+   "until_shot": 59,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "sad_3.mp3",
+   "at_shot": 59,
+   "offset": 1.0,
+   "start": 60,
+   "until_shot": 68,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "cinematic_4.mp3",
+   "at_shot": 68,
+   "offset": 1.0,
+   "start": 110,
+   "until_shot": 76,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3
+  },
+  {
+   "file": "sad_5.mp3",
+   "at_shot": 76,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 80,
+   "tail": 0,
+   "vol": 0.22,
+   "fin": 2,
+   "fout": 4
+  }
+ ],
+ "shots": [
+  {
+   "type": "black",
+   "dur": 0.8,
+   "fixed": true,
+   "amb": [
+    "wind_6.mp3",
+    0.4
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev3_forum",
+   "voice": [
+    "h_cr",
+    "h1"
+   ],
+   "pre": 0.3,
+   "gap": 0.6,
+   "post": 0.4,
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "tin": "black",
+   "fin": 0.8,
+   "amb": [
+    "war_7.mp3",
+    0.12
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "기원후 169년 · 로마, 트라야누스 광장",
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_gown",
+   "voice": [
+    "h2"
+   ],
+   "pre": 0.2,
+   "post": 0.3,
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "face": [
+    0.489,
+    0.209,
+    0.593,
+    0.424
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_senators",
+   "voice": [
+    "h_sen"
+   ],
+   "pre": 0.3,
+   "post": 0.5,
+   "move": {
+    "zoom": [
+     1.05,
+     1.18
+    ]
+   },
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "face": [
+    0.529,
+    0.23,
+    0.66,
+    0.493
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_watch",
+   "voice": [
+    "m_h1",
+    "m_h2"
+   ],
+   "pre": 0.5,
+   "gap": 1.0,
+   "post": 0.9,
+   "move": {
+    "zoom": [
+     1.04,
+     1.16
+    ]
+   },
+   "flicker": true,
+   "sfx": [
+    [
+     "heartbeat_5.mp3",
+     0.1,
+     0.9
+    ],
+    [
+     "heartbeat_5.mp3",
+     0.9,
+     0.6
+    ],
+    [
+     "heartbeat_5.mp3",
+     1.7,
+     0.35
+    ]
+   ],
+   "tout": "black",
+   "fout": 1.0,
+   "face": [
+    0.387,
+    0.114,
+    0.555,
+    0.443
+   ]
+  },
+  {
+   "type": "black",
+   "dur": 0.4,
+   "fixed": true
+  },
+  {
+   "type": "intro",
+   "sfx": [
+    [
+     "cinematic_6.mp3",
+     1.47,
+     0.7
+    ],
+    [
+     "ring_synth.wav",
+     2.4,
+     0.5
+    ],
+    [
+     "drum_5.mp3",
+     3.92,
+     1.0
+    ],
+    [
+     "impact_2.mp3",
+     3.02,
+     0.8
+    ],
+    [
+     "cinematic_4.mp3",
+     4.9,
+     0.55
+    ],
+    [
+     "transition_5.mp3",
+     8.96,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "episode",
+   "num": 3,
+   "title": "아무도 알아주지 않을 때",
+   "en": "When No One Notices",
+   "dur": 4.6,
+   "fixed": true,
+   "amb": [
+    "wind_2.mp3",
+    0.3
+   ],
+   "sfx": [
+    [
+     "drum_6.mp3",
+     0.3,
+     0.45
+    ]
+   ],
+   "tout": "black",
+   "fout": 0.8
+  },
+  {
+   "type": "still",
+   "src": "e3_triumph",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "voice": [
+    "s1"
+   ],
+   "amb": [
+    "war_7.mp3",
+    0.15
+   ],
+   "tin": "black",
+   "fin": 0.8,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "삼 년 전 · 기원후 166년",
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_triumph",
+   "move": {
+    "zoom": [
+     1.3,
+     1.45
+    ],
+    "pan": [
+     [
+      0.0,
+      0.05
+     ],
+     [
+      0.0,
+      0.06
+     ]
+    ]
+   },
+   "voice": [
+    "s2"
+   ],
+   "amb": [
+    "wind_6.mp3",
+    0.3
+   ],
+   "tin": "dissolve"
+  },
+  {
+   "type": "still",
+   "src": "e3_galen",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "voice": [
+    "s3"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "face": [
+    0.744,
+    0.288,
+    0.826,
+    0.464
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_morning",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "voice": [
+    "s4"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.4
+   ],
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 0.8,
+   "post": 1.4,
+   "face": [
+    0.535,
+    0.01,
+    0.892,
+    0.675
+   ]
+  },
+  {
+   "type": "card",
+   "label": "THE FIRST LINE",
+   "num": "I",
+   "title": "포도나무처럼",
+   "en": "Like a vine that bears grapes",
+   "dur": 4.2,
+   "fixed": true,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.25,
+     0.4
+    ]
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev3_plague",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "voice": [
+    "d1a",
+    "d1b"
+   ],
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve"
+  },
+  {
+   "type": "still",
+   "src": "e3_widow",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "voice": [
+    "w1",
+    "d1c"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "gap": 0.6,
+   "face": [
+    0.418,
+    0.174,
+    0.563,
+    0.462
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lwv3_side",
+   "move": {
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "voice": [
+    "m1a",
+    "m1b",
+    "m1c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "gap": 1.0,
+   "pre": 0.8,
+   "post": 1.8,
+   "nocap_voices": [
+    "m1c"
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.4,
+     0.5
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "verse",
+     "lines": [
+      "포도나무가 포도를 맺듯,",
+      "선을 행하고 아무것도 바라지 마라."
+     ],
+     "src": "명상록 5권 6절",
+     "at_voice": "m1c"
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_vine",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "voice": [
+    "d1d"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "grade": "memory",
+   "leak": true,
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 본성에 따라 살기",
+     "lines": [
+      "선은 그 자체로 보상이다"
+     ],
+     "en": "Like a vine that bears grapes",
+     "at_voice": "d1d",
+     "offset": 0.4,
+     "len": 5.0
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_kitchen",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d1e"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.486,
+    0.345,
+    0.567,
+    0.519
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_family",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d1f"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern"
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "오늘 한 좋은 일 하나",
+    "아무에게도 말하지 않기"
+   ],
+   "voice": "d1g",
+   "pre": 0.8,
+   "post": 1.4,
+   "amb": [
+    "fire_0.mp3",
+    0.18
+   ],
+   "nocap": true,
+   "sfx": []
+  },
+  {
+   "type": "video",
+   "src": "ev3_carriage",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "voice": [
+    "d1h"
+   ],
+   "amb": [
+    "wind_6.mp3",
+    0.35
+   ],
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 0.8,
+   "post": 1.4,
+   "face": [
+    0.013,
+    0.664,
+    0.119,
+    0.883
+   ]
+  },
+  {
+   "type": "card",
+   "label": "THE SECOND LINE",
+   "num": "II",
+   "title": "세 번째 것을 바라지 마라",
+   "en": "Seek not a third thing",
+   "dur": 4.2,
+   "fixed": true,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.25,
+     0.4
+    ]
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev3_carriage",
+   "move": {
+    "zoom": [
+     1.0,
+     1.05
+    ]
+   },
+   "voice": [
+    "d2a"
+   ],
+   "amb": [
+    "wind_6.mp3",
+    0.4
+   ],
+   "tin": "flash",
+   "sfx": [
+    [
+     "horse_6.mp3",
+     0.0,
+     0.35
+    ]
+   ],
+   "face": [
+    0.013,
+    0.664,
+    0.119,
+    0.883
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_lucius",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "voice": [
+    "d2b"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "rack": 1.4,
+   "flicker": true,
+   "face": [
+    0.03,
+    0.323,
+    0.103,
+    0.483
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_rumor",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "voice": [
+    "d2c",
+    "r_sen",
+    "d2d"
+   ],
+   "amb": [
+    "fire_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "gap": 0.5,
+   "flicker": true
+  },
+  {
+   "type": "video",
+   "src": "lwv2_front",
+   "move": {
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "voice": [
+    "m2a",
+    "m2b",
+    "m2c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "gap": 1.0,
+   "pre": 0.8,
+   "post": 1.8,
+   "nocap_voices": [
+    "m2c"
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.4,
+     0.5
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "verse",
+     "lines": [
+      "선을 행했으면 그것으로 끝이다,",
+      "세 번째 것을 바라지 마라."
+     ],
+     "src": "명상록 7권 73절",
+     "at_voice": "m2c"
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_lucius",
+   "move": {
+    "zoom": [
+     1.3,
+     1.42
+    ],
+    "pan": [
+     [
+      0.1,
+      0
+     ],
+     [
+      0.12,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d2e"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 보답을 바라지 않는 선",
+     "lines": [
+      "선행에 인정까지 바라지 마라"
+     ],
+     "en": "Seek not a third thing",
+     "at_voice": "d2e",
+     "offset": 0.4,
+     "len": 5.0
+    }
+   ],
+   "face": [
+    0.03,
+    0.323,
+    0.103,
+    0.483
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_hospital",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d2f"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern"
+  },
+  {
+   "type": "still",
+   "src": "e3m_funeral",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d2g"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.409,
+    0.224,
+    0.514,
+    0.44
+   ]
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "내가 한 일에 붙여 둔",
+    "'알아 달라'는 마음 떼어 내기"
+   ],
+   "voice": "d2h",
+   "pre": 0.8,
+   "post": 1.4,
+   "amb": [
+    "fire_0.mp3",
+    0.18
+   ],
+   "nocap": true,
+   "sfx": []
+  },
+  {
+   "type": "still",
+   "src": "e3_treasury",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "voice": [
+    "d2i"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 0.8,
+   "post": 1.4,
+   "face": [
+    0.032,
+    0.345,
+    0.102,
+    0.5
+   ]
+  },
+  {
+   "type": "card",
+   "label": "THE THIRD LINE",
+   "num": "III",
+   "title": "이름은 금방 잊힌다",
+   "en": "Fame is soon forgotten",
+   "dur": 4.2,
+   "fixed": true,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.25,
+     0.4
+    ]
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_treasury",
+   "move": {
+    "zoom": [
+     1.1,
+     1.24
+    ]
+   },
+   "voice": [
+    "d3a"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "face": [
+    0.032,
+    0.345,
+    0.102,
+    0.5
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_senate",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "voice": [
+    "d3b",
+    "t_sen",
+    "d3c",
+    "m3x"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "gap": 0.6,
+   "face": [
+    0.51,
+    0.194,
+    0.59,
+    0.365
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lwv3_side",
+   "move": {
+    "zoom": [
+     1.04,
+     1.1
+    ]
+   },
+   "voice": [
+    "m3a",
+    "m3b",
+    "m3c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "gap": 1.0,
+   "pre": 0.8,
+   "post": 1.8,
+   "nocap_voices": [
+    "m3c"
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.4,
+     0.5
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "verse",
+     "lines": [
+      "이름은 금방 잊힌다,",
+      "지금, 옳은 일을 하라."
+     ],
+     "src": "명상록 4권 19절",
+     "at_voice": "m3c"
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_senate",
+   "move": {
+    "zoom": [
+     1.3,
+     1.45
+    ],
+    "pan": [
+     [
+      0.12,
+      0.02
+     ],
+     [
+      0.14,
+      0.02
+     ]
+    ]
+   },
+   "voice": [
+    "d3d"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 명성의 덧없음",
+     "lines": [
+      "이름보다 오늘의 옳은 일"
+     ],
+     "en": "Fame is soon forgotten",
+     "at_voice": "d3d",
+     "offset": 0.4,
+     "len": 5.0
+    }
+   ],
+   "face": [
+    0.51,
+    0.194,
+    0.59,
+    0.365
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_promotion",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d3e"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.211,
+    0.199,
+    0.296,
+    0.381
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_desk",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d3f"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern"
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "이름 없이도",
+    "뿌듯했던 오늘의 일 하나"
+   ],
+   "voice": "d3g",
+   "pre": 0.8,
+   "post": 1.4,
+   "amb": [
+    "fire_0.mp3",
+    0.18
+   ],
+   "nocap": true,
+   "sfx": []
+  },
+  {
+   "type": "video",
+   "src": "ev3_forum",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "voice": [
+    "d3h"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 0.8,
+   "post": 1.4
+  },
+  {
+   "type": "card",
+   "label": "THE FOURTH LINE",
+   "num": "IV",
+   "title": "칭찬을 듣든 비난을 듣든",
+   "en": "Do thy duty",
+   "dur": 4.2,
+   "fixed": true,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.25,
+     0.4
+    ]
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_cups",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ],
+    "pan": [
+     [
+      0.02,
+      0
+     ],
+     [
+      -0.02,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d4a"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "face": [
+    0.138,
+    0.299,
+    0.204,
+    0.447
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_gown",
+   "move": {
+    "zoom": [
+     1.15,
+     1.28
+    ]
+   },
+   "voice": [
+    "d4b",
+    "c4"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "gap": 0.4,
+   "face": [
+    0.489,
+    0.209,
+    0.593,
+    0.424
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_watch",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "voice": [
+    "d4c"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "rack": 1.2,
+   "face": [
+    0.387,
+    0.114,
+    0.555,
+    0.443
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lwv2_front",
+   "move": {
+    "zoom": [
+     1.04,
+     1.1
+    ]
+   },
+   "voice": [
+    "m4a",
+    "m4b",
+    "m4c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "gap": 1.0,
+   "pre": 0.8,
+   "post": 1.8,
+   "nocap_voices": [
+    "m4c"
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.4,
+     0.5
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "verse",
+     "lines": [
+      "칭찬을 듣든 비난을 듣든,",
+      "해야 할 일을 하라."
+     ],
+     "src": "명상록 6권 2절",
+     "at_voice": "m4c"
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e4a_alone",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "voice": [
+    "d4d"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 의무",
+     "lines": [
+      "박수와 상관없이, 할 일을 한다"
+     ],
+     "en": "Do thy duty",
+     "at_voice": "d4d",
+     "offset": 0.4,
+     "len": 5.0
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_nurse",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d4e"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern"
+  },
+  {
+   "type": "still",
+   "src": "e3m_guard",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d4f"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern"
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "내일 아무도 안 보는 곳에서",
+    "할 일 하나 정하기"
+   ],
+   "voice": "d4g",
+   "pre": 0.8,
+   "post": 1.4,
+   "amb": [
+    "fire_0.mp3",
+    0.18
+   ],
+   "nocap": true,
+   "sfx": []
+  },
+  {
+   "type": "still",
+   "src": "e3_soldiers",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "voice": [
+    "d4h"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.4
+   ],
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 0.8,
+   "post": 1.4,
+   "face": [
+    0.424,
+    0.198,
+    0.58,
+    0.504
+   ]
+  },
+  {
+   "type": "card",
+   "label": "THE FIFTH LINE",
+   "num": "V",
+   "title": "남의 평가를 앞에 두지 마라",
+   "en": "We value others' opinion more",
+   "dur": 4.2,
+   "fixed": true,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.25,
+     0.4
+    ]
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_soldiers",
+   "move": {
+    "zoom": [
+     1.12,
+     1.26
+    ]
+   },
+   "voice": [
+    "d5a",
+    "v_sol"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.4
+   ],
+   "tin": "dissolve",
+   "gap": 0.5,
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.0,
+     0.18
+    ]
+   ],
+   "face": [
+    0.424,
+    0.198,
+    0.58,
+    0.504
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_refuse",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "voice": [
+    "d5b",
+    "m5x",
+    "d5c"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.4
+   ],
+   "tin": "dissolve",
+   "gap": 0.6,
+   "flicker": true,
+   "face": [
+    0.381,
+    0.171,
+    0.566,
+    0.531
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lwv3_side",
+   "move": {
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "voice": [
+    "m5a",
+    "m5b",
+    "m5c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "gap": 1.0,
+   "pre": 0.8,
+   "post": 1.8,
+   "nocap_voices": [
+    "m5c"
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.4,
+     0.5
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "verse",
+     "lines": [
+      "남의 평가를,",
+      "내 판단보다 앞에 두지 마라."
+     ],
+     "src": "명상록 12권 4절",
+     "at_voice": "m5c"
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_refuse",
+   "move": {
+    "zoom": [
+     1.3,
+     1.4
+    ]
+   },
+   "voice": [
+    "d5d"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 내면의 판단",
+     "lines": [
+      "인기보다 판단"
+     ],
+     "en": "Value thine own judgment",
+     "at_voice": "d5d",
+     "offset": 0.4,
+     "len": 5.0
+    }
+   ],
+   "face": [
+    0.381,
+    0.171,
+    0.566,
+    0.531
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_mother",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d5e"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern"
+  },
+  {
+   "type": "still",
+   "src": "e3m_meeting",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d5f"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.468,
+    0.08,
+    0.546,
+    0.249
+   ]
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "남의 눈 때문에 미뤄 둔",
+    "옳은 결정 하나 적기"
+   ],
+   "voice": "d5g",
+   "pre": 0.8,
+   "post": 1.4,
+   "amb": [
+    "fire_0.mp3",
+    0.18
+   ],
+   "nocap": true,
+   "sfx": []
+  },
+  {
+   "type": "still",
+   "src": "e4a_alone",
+   "move": {
+    "zoom": [
+     1.12,
+     1.22
+    ]
+   },
+   "voice": [
+    "d5h"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "tout": "black",
+   "fout": 0.8,
+   "post": 1.4
+  },
+  {
+   "type": "card",
+   "label": "THE SIXTH LINE",
+   "num": "VI",
+   "title": "좋은 사람이 되어라",
+   "en": "Be such a man",
+   "dur": 4.2,
+   "fixed": true,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.25,
+     0.4
+    ]
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_senators",
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "voice": [
+    "d6a"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "face": [
+    0.529,
+    0.23,
+    0.66,
+    0.493
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e4b_stars",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "voice": [
+    "d6b"
+   ],
+   "amb": [
+    "night_6.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "particles": "snow",
+   "face": [
+    0.217,
+    0.496,
+    0.288,
+    0.653
+   ]
+  },
+  {
+   "type": "video",
+   "src": "lwv2_front",
+   "move": {
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "voice": [
+    "m6a",
+    "m6b",
+    "m6c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "gap": 1.0,
+   "pre": 0.8,
+   "post": 1.8,
+   "nocap_voices": [
+    "m6c"
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.4,
+     0.5
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "verse",
+     "lines": [
+      "좋은 사람을 논하지 말고,",
+      "좋은 사람이 되어라."
+     ],
+     "src": "명상록 10권 16절",
+     "at_voice": "m6c"
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_forum",
+   "move": {
+    "zoom": [
+     1.2,
+     1.32
+    ],
+    "pan": [
+     [
+      0.05,
+      0
+     ],
+     [
+      0.07,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d6c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 실천",
+     "lines": [
+      "철학은 말이 아니라 삶"
+     ],
+     "en": "Be such a man",
+     "at_voice": "d6c",
+     "offset": 0.4,
+     "len": 5.0
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_volunteer",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d6d"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.521,
+    0.481,
+    0.588,
+    0.629
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_volunteer2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d6e"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.137,
+    0.353,
+    0.239,
+    0.565
+   ]
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "말로만 했던 좋은 일 하나",
+    "이번 주에 직접 하기"
+   ],
+   "voice": "d6f",
+   "pre": 0.8,
+   "post": 1.4,
+   "amb": [
+    "fire_0.mp3",
+    0.18
+   ],
+   "nocap": true,
+   "sfx": []
+  },
+  {
+   "type": "still",
+   "src": "e3_return",
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "voice": [
+    "d6i"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 0.8,
+   "post": 1.4
+  },
+  {
+   "type": "card",
+   "label": "THE SEVENTH LINE",
+   "num": "VII",
+   "title": "이미 보상받았다",
+   "en": "Virtue is its own reward",
+   "dur": 4.2,
+   "fixed": true,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.25,
+     0.4
+    ]
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_return",
+   "move": {
+    "zoom": [
+     1.1,
+     1.24
+    ]
+   },
+   "voice": [
+    "d7a",
+    "d7b"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.2
+   ],
+   "tin": "dissolve"
+  },
+  {
+   "type": "still",
+   "src": "e3_statue",
+   "move": {
+    "zoom": [
+     1.0,
+     1.12
+    ]
+   },
+   "voice": [
+    "d7c"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "grade": "memory",
+   "leak": true
+  },
+  {
+   "type": "video",
+   "src": "lwv3_side",
+   "move": {
+    "zoom": [
+     1.04,
+     1.1
+    ]
+   },
+   "voice": [
+    "m7a",
+    "m7b",
+    "m7c"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "flicker": true,
+   "gap": 1.0,
+   "pre": 0.8,
+   "post": 1.8,
+   "nocap_voices": [
+    "m7c"
+   ],
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.4,
+     0.5
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "verse",
+     "lines": [
+      "공동체를 위해 일했다면,",
+      "나는 이미 보상받았다."
+     ],
+     "src": "명상록 11권 4절",
+     "at_voice": "m7c"
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_vine",
+   "move": {
+    "zoom": [
+     1.2,
+     1.32
+    ]
+   },
+   "voice": [
+    "d7d"
+   ],
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "tin": "dissolve",
+   "grade": "memory",
+   "leak": true,
+   "overlays": [
+    {
+     "kind": "concept",
+     "kicker": "스토아 철학 · 덕은 그 자체로 보상",
+     "lines": [
+      "좋은 일은 이미 받은 보상"
+     ],
+     "en": "Virtue is its own reward",
+     "at_voice": "d7d",
+     "offset": 0.4,
+     "len": 5.0
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_retire",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d7e"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.436,
+    0.139,
+    0.562,
+    0.393
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3m_home",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d7f"
+   ],
+   "amb": [
+    "rain_0.mp3",
+    0.2
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "face": [
+    0.27,
+    0.224,
+    0.377,
+    0.446
+   ]
+  },
+  {
+   "type": "tonight",
+   "lines": [
+    "내가 오래 해 온 일 하나에게",
+    "'잘했다' 말해 주기"
+   ],
+   "voice": "d7g",
+   "pre": 0.8,
+   "post": 1.4,
+   "amb": [
+    "fire_0.mp3",
+    0.18
+   ],
+   "nocap": true,
+   "sfx": []
+  },
+  {
+   "type": "recap",
+   "items": [
+    "포도나무처럼, 선을 행하고 바라지 마라",
+    "세 번째 것을 바라지 마라",
+    "이름은 금방 잊힌다, 지금 옳은 일을 하라",
+    "칭찬을 듣든 비난을 듣든, 할 일을 하라",
+    "남의 평가를 내 판단보다 앞에 두지 마라",
+    "좋은 사람을 논하지 말고, 되어라",
+    "선을 행했다면, 이미 보상받았다"
+   ],
+   "voice": [
+    "r1",
+    "r2",
+    "r3",
+    "r4",
+    "r5",
+    "r6",
+    "r7",
+    "r8"
+   ],
+   "gap": 0.8,
+   "pre": 0.8,
+   "post": 1.0,
+   "recap_offset": 1,
+   "nocap": true,
+   "head_en": "SEVEN LINES FOR WHEN NO ONE NOTICES",
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.2,
+     0.45
+    ]
+   ],
+   "tin": "black",
+   "fin": 1.0
+  },
+  {
+   "type": "still",
+   "src": "e3_statue",
+   "move": {
+    "zoom": [
+     1.18,
+     1.0
+    ]
+   },
+   "voice": [
+    "r9"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "grade": "memory",
+   "post": 1.6
+  },
+  {
+   "type": "finale",
+   "dur": 20.0,
+   "voice": [
+    "m_x1",
+    "e_x2",
+    "o1",
+    "o2"
+   ],
+   "pre": 0.8,
+   "gap": 0.8,
+   "post": 1.0,
+   "nocap": true,
+   "tin": "black",
+   "slogan": "매일 밤, 황제처럼 생각하라",
+   "prev_kicker": "이전 이야기  ·  EPISODE 2",
+   "next": "아내를 잃은 밤",
+   "amb": [
+    "wind_2.mp3",
+    0.15
+   ],
+   "sfx": []
+  }
+ ],
+ "cast_voices": [
+  "h_cr",
+  "h_sen",
+  "w1",
+  "r_sen",
+  "t_sen",
+  "c4",
+  "v_sol"
+ ]
+}

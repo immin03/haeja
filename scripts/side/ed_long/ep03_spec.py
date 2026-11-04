@@ -148,6 +148,27 @@ def build():
     S.append({"type": "finale", "dur": 20.0, "voice": ["m_x1", "e_x2", "o1", "o2"], "pre": 0.8, "gap": 0.8, "post": 1.0, "nocap": True, "tin": "black",
               "slogan": "매일 밤, 황제처럼 생각하라", "prev_kicker": "이전 이야기  ·  EPISODE 2", "next": "아내를 잃은 밤", "amb": ["wind_2.mp3", 0.15],
               "sfx": [["click_2.mp3", 0, 0.0]]})
+    # 11/4 대표: 영상미·장면 전환 강화 — 그림의 첫 등장은 움직이는 영상으로, 목소리 둘 이상인 이야기 장면은 영상 → 같은 장면 클로즈업 그림으로 한 번 더 끊어 간다
+    VID = {src: k for k, (src, _) in list(E.VIDEOS.items()) + list(E.VIDEOS_PLUS.items())}
+    seen = set(); S2 = []
+    for x in S:
+        src = x.get("src")
+        if x.get("type") == "still" and src in VID and src not in seen and os.path.exists(os.path.join(E.ROOT, "social/side/gen", VID[src] + ".mp4")):
+            seen.add(src); vs = x.get("voice") or []; vs = [vs] if isinstance(vs, str) else vs
+            v = copy.deepcopy(x); v["type"] = "video"; v["src"] = VID[src]; v.pop("rack", None)
+            if len(vs) >= 2 and not x.get("overlays") and x.get("type") == "still":
+                v["voice"] = vs[:1]; v["post"] = 0.3
+                c = copy.deepcopy(x); c["voice"] = vs[1:]; c["tin"] = "dissolve"; c["pre"] = 0.2
+                c["move"] = {"zoom": [1.18, 1.3], "pan": [[0.0, -0.02], [0.02, -0.03]]}
+                S2 += [v, c]
+            else: S2.append(v)
+        else:
+            if src in VID: seen.add(src)
+            S2.append(x)
+    S[:] = S2
+    cards = [i for i, x in enumerate(S) if x.get("type") == "card"]; card = {n + 1: i for n, i in enumerate(cards)}   # 끊은 뒤 번호 다시 매김
+    rec = [i for i, x in enumerate(S) if x.get("type") == "recap"][0]; out = [i for i, x in enumerate(S) if x.get("type") == "finale"][0]
+    sit = [i for i, x in enumerate(S) if x.get("type") == "episode"][0] + 1
     faces = auto_faces({x.get("src") for x in S if x.get("src") and x["type"] in ("still", "video")})
     for x in S:
         if x.get("src") in faces: x["face"] = faces[x["src"]]
