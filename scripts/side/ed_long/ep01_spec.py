@@ -205,5 +205,8 @@ def build():
         if x.get("src") == "lq08_write" and x["type"] == "still": x["src"] = "lq08_page"   # 같은 장면 그림에도 같은 글
         if x.get("src") not in ("lwv3_side", "lwv2_front") and x["type"] != "intro":   # 글씨 쓰는 장면이 아니면 펜 소리 빼기
             if x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] != "paper_6.mp3"]
+        if x["type"] == "intro":   # 11/4 대표: 인트로 효과음 박자 — 각 소리의 최고점을 그림에 맞춤 (EP02 와 같음)
+            x["sfx"] = [["paper_6.mp3", 0.8, 0.9], ["cinematic_6.mp3", 1.47, 0.7], ["ring_synth.wav", 2.4, 0.5], ["drum_5.mp3", 3.92, 1.0],
+                        ["impact_2.mp3", 3.02, 0.8], ["cinematic_4.mp3", 4.9, 0.55], ["transition_5.mp3", 8.96, 0.5]]
     json.dump(sp, open(os.path.join(HERE, "spec_ep01.json"), "w"), ensure_ascii=False, indent=1)
     print("장면", len(S), "카드 위치", card_idx, "정리", rec, "아웃트로", out)
