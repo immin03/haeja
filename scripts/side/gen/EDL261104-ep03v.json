@@ -1,0 +1,32 @@
+[
+ {
+  "id": "ev3_forum",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e3_forum.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The auctioneer slowly waves the shimmering silk gown above his head while the crowd laughs and points; banners and cloth move in the wind. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev3_plague",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e3_plague.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The cart rolls slowly down the street, the hooded man pulling it, smoke drifting from the braziers; the woman in the doorway lowers her eyes. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev3_carriage",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e3_carriage.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "Torches flicker in the wind and soldiers rush toward the carriage door while light snow falls. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ }
+]
