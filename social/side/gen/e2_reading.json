@@ -1,0 +1,32 @@
+{
+ "id": "e2_reading",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "An old Greek scholar with a long white beard, white wool himation, sitting by an open window of a villa in Athens with the Acropolis far in the distance, holding an unrolled letter with a broken red wax seal, his eyes wet, a faint softening smile, warm afternoon light on his face. Cinematic oil-painting look like a warm golden memory, soft hazy sunlight, gentle bloom, warm amber and ochre palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a4dc-13f0-77f1-a34b-bfb632246a9b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4dc-13f0-77f1-a34b-bfb632246a9b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4dc-13f0-77f1-a34b-bfb632246a9b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a4dc-13f0-77f1-a34b-bfb632246a9b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4dc-13f0-77f1-a34b-bfb632246a9b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4dc-13f0-77f1-a34b-bfb632246a9b/cancel",
+  "expires_at": "2026-11-11T04:42:25.744848+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4dc-13f0-77f1-a34b-bfb632246a9b/1d14a8da-d5c2-402b-8c11-3bd248996698.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "social/side/gen/e2_reading.jpeg"
+}

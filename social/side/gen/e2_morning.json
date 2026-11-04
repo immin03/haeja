@@ -1,0 +1,32 @@
+{
+ "id": "e2_morning",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Sunrise over the walls of Sirmium, the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak standing alone on the stone wall walk seen from behind, his crimson cloak moving in the wind, looking out over the misty river and the camp, golden light, calm and resolved. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a4dd-b4c3-70f6-a666-f28d2d435912",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4dd-b4c3-70f6-a666-f28d2d435912/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4dd-b4c3-70f6-a666-f28d2d435912/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a4dd-b4c3-70f6-a666-f28d2d435912",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4dd-b4c3-70f6-a666-f28d2d435912/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4dd-b4c3-70f6-a666-f28d2d435912/cancel",
+  "expires_at": "2026-11-11T04:44:21.574076+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4dd-b4c3-70f6-a666-f28d2d435912/c9d64f90-acea-4d44-98f4-c8903bc63130.jpeg"
+   }
+  ]
+ },
+ "seconds": 112,
+ "file": "social/side/gen/e2_morning.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "e2_walkout",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Inside a torch-lit Roman imperial tribunal hall in the frontier city of Sirmium, rough stone walls hung with dark red banners, a raised stone dais at the far end: an elderly Greek scholar of about seventy-three, long flowing white beard, thin white curly hair, gaunt hollow cheeks, red-rimmed grief-stricken eyes, white wool himation with a thin purple border over a pale tunic seen from behind walking away toward the open doors at the end of the hall, his white himation trailing, a bronze water clock dripping in the foreground on the right, the stunned crowd and guards turning to watch him leave. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a4da-4394-73e2-abe7-c73d5f03d723",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4da-4394-73e2-abe7-c73d5f03d723/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4da-4394-73e2-abe7-c73d5f03d723/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a4da-4394-73e2-abe7-c73d5f03d723",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4da-4394-73e2-abe7-c73d5f03d723/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4da-4394-73e2-abe7-c73d5f03d723/cancel",
+  "expires_at": "2026-11-11T04:40:25.641495+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4da-4394-73e2-abe7-c73d5f03d723/5600f227-32cd-4deb-82be-feabcaaff1e0.jpeg"
+   }
+  ]
+ },
+ "seconds": 100,
+ "file": "social/side/gen/e2_walkout.jpeg"
+}

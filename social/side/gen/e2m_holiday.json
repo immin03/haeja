@@ -1,0 +1,32 @@
+{
+ "id": "e2m_holiday",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A Korean family holiday dinner table with many dishes, an older Korean uncle in his seventies pointing his chopsticks and talking loudly at a tense nephew in his forties, other relatives looking down awkwardly. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a4df-8947-7247-a92c-044e4cf2594b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4df-8947-7247-a92c-044e4cf2594b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4df-8947-7247-a92c-044e4cf2594b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a4df-8947-7247-a92c-044e4cf2594b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4df-8947-7247-a92c-044e4cf2594b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4df-8947-7247-a92c-044e4cf2594b/cancel",
+  "expires_at": "2026-11-11T04:46:32.637063+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4df-8947-7247-a92c-044e4cf2594b/11389825-6cf5-4a21-a084-27b07fc20d53.jpeg"
+   }
+  ]
+ },
+ "seconds": 118,
+ "file": "social/side/gen/e2m_holiday.jpeg"
+}

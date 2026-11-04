@@ -1,0 +1,32 @@
+{
+ "id": "e2_herodes",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Close portrait of an elderly Greek scholar of about seventy-three, long flowing white beard, thin white curly hair, gaunt hollow cheeks, red-rimmed grief-stricken eyes, white wool himation with a thin purple border over a pale tunic, sitting alone on a stone bench in a dim room, his eyes red with grief and anger, one hand gripping his staff, warm torchlight on his face. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a4d8-86ff-7229-a169-79bafa9e9f2b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4d8-86ff-7229-a169-79bafa9e9f2b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4d8-86ff-7229-a169-79bafa9e9f2b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a4d8-86ff-7229-a169-79bafa9e9f2b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4d8-86ff-7229-a169-79bafa9e9f2b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4d8-86ff-7229-a169-79bafa9e9f2b/cancel",
+  "expires_at": "2026-11-11T04:39:03.686643+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4d8-86ff-7229-a169-79bafa9e9f2b/bd1d7514-7fd0-42ce-8ab9-2c5c70910bd2.jpeg"
+   }
+  ]
+ },
+ "seconds": 131,
+ "file": "social/side/gen/e2_herodes.jpeg"
+}
