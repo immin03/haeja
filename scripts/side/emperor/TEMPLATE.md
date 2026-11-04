@@ -131,3 +131,11 @@
 - 원인: 인스타는 ed-publish 가 첫 댓글을 자동으로 달지만 유튜브는 손으로 달았고 4편·5편이 빠졌다
 - ed-publish v9: ed_posts.yt_video_id 가 '공개'가 되면 yt_comment 를 황제의 일기 채널 이름으로 단다(5분마다, youtube_account id=2 필요). 상태 yt_comment_status pending/posted/failed/skip
 - 새 편을 넣을 때 yt_comment 를 꼭 채운다(인스타 ig_comment 와 같은 질문, '팔로우' → '구독'). 고정(pin)은 API 로 안 됨
+
+## 2026-11-04 대표 확정 (11/3 A/B/C 순환 대체)
+- 양식은 A 하나로 고정. "A·B·C 돌리기" = 장면 묶음(그림 세트)을 돌리는 것이지 양식을 바꾸는 게 아님. B(밝은 대리석)·C(레터박스)는 쓰지 않음
+- 장면은 어두운 명암 그림만 (밝은 그림은 가운데 자막이 안 읽힘)
+- 음성: 문장 묶음마다 따로 녹음해 잘라 붙이지 않음(voice_v2.py). tighten.py(쉼 잘라 붙이기) 쓰지 않음
+- 명상록 인용은 황제 목소리 명일 tc_62d66c2d1523be99355fda02 (tonedown, tempo 0.9, 롱폼과 같은 막사 울림 아주 약간), 나머지는 해설 건석
+- 믹스: 조각마다 -16 LUFS, 한 번에 거는 loudnorm 대신 +2.5dB + alimiter. 내보내기 전에 voice_qa.py 통과 필수
+- 마지막 화면: 롱폼 인트로와 같은 금색 디자인(금빛 주화·THE EMPEROR'S DIARY·금색 테두리 버튼)
