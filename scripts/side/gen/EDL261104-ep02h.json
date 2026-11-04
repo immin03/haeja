@@ -1,0 +1,59 @@
+[
+ {
+  "id": "e2_court",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Inside a torch-lit Roman basilica courtroom in a frontier military town at night, an old Greek scholar about seventy-five with a long white beard and thin white hair, deep-set eyes, wearing a pale cream himation over a tunic, a heavy gold signet ring, his face clearly visible and well lit from the side by warm torchlight, natural realistic facial proportions, standing in the middle of the floor and pointing an accusing finger up toward a raised imperial judgment seat at the right edge of the frame, his face twisted with grief and fury, mouth open as if shouting; behind him a small delegation of Athenian men in white togas stepping back in shock; Roman guards in bronze armor along the stone walls; a tall bronze water clock on a stand in the left foreground. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "e2_sword",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Tight close-up of a Roman praetorian prefect's armored right hand gripping the hilt of a gladius at his hip, the blade drawn a third of the way out of its scabbard, red wool cloak and bronze cuirass, torchlight glinting along the steel, the courtroom behind melting into soft dark blur. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "e2_eyes",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Close-up portrait of the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak, seated on a raised wooden judgment seat in a torch-lit Roman courtroom, his face clearly visible and well lit from the side by warm torchlight, natural realistic facial proportions, calm steady eyes looking down at someone off-screen to the left, no anger at all, only a faint sadness, very shallow depth of field, the dark hall behind him. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "ev2_court",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_court.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The old scholar shouts and jabs his finger toward the judgment seat, his white beard trembling with rage; the men behind him flinch back a step; torches flicker. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev2_sword",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_sword.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The armored hand slowly draws the sword a little further out of the scabbard, then stops and holds still; torchlight slides along the blade. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev2_eyes",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_eyes.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The emperor blinks once slowly and keeps looking steadily ahead, his calm expression unchanged; warm torchlight flickers softly across his face. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ }
+]
