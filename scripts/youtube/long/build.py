@@ -87,6 +87,7 @@ def main(only):
     for m in sorted(glob.glob(os.path.join(OUT, "*", "meta.json"))):
         meta = json.load(open(m, encoding="utf-8"))
         if "video_url" not in meta: continue
+        if meta.get("retired"): continue   # 2026-11-04 대표님: 없앤 편은 검수 대기열에 다시 넣지 않는다
         if dt.datetime.fromisoformat(meta["scheduled_at"]) < now - dt.timedelta(days=30): continue
         queue.append({k: meta.get(k) for k in ("id", "kind", "title", "description", "tags", "scheduled_at", "duration", "video_url", "thumb", "data", "data_asof", "events", "rendered_at", "company", "pinned_comment", "subs", "title_en", "description_en")})
     queue.sort(key=lambda x: x["scheduled_at"])
