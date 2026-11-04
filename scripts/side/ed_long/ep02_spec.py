@@ -29,11 +29,15 @@ def build():
     S.append({"type": "video", "src": "ev2_court", "voice": ["h_her", "h1"], "pre": 0.15, "gap": 0.6, "post": 0.4, "move": {"zoom": [1.0, 1.1]}, "flicker": True,
               "amb": ["fire_4.mp3", 0.4], "sfx": [["impact_5.mp3", 0.1, 0.5], ["whoosh_0.mp3", 0.0, 0.3]]})
     S.append({"type": "video", "src": "ev2_sword", "voice": ["h2"], "pre": 0.3, "post": 0.4, "move": {"zoom": [1.0, 1.08]}, "flicker": True, "tin": "flash",
-              "amb": ["fire_0.mp3", 0.3], "sfx": [["swords_2.mp3", 0.25, 0.55]]})
+              "amb": ["fire_0.mp3", 0.3], "sfx": []})
     S.append({"type": "video", "src": "ev2_eyes", "voice": ["m_h1", "m_h2"], "pre": 0.5, "gap": 1.0, "post": 0.9, "move": {"zoom": [1.04, 1.16]}, "flicker": True,
               "sfx": [["heartbeat_5.mp3", 0.1, 0.9], ["heartbeat_5.mp3", 0.9, 0.6], ["heartbeat_5.mp3", 1.7, 0.35]], "tout": "black", "fout": 1.0})
     S.append({"type": "black", "dur": 0.4, "fixed": True})
-    intro = [s for s in base["shots"] if s["type"] == "intro"][0]; S.append(copy.deepcopy(intro))
+    intro = [s for s in base["shots"] if s["type"] == "intro"][0]; intro = copy.deepcopy(intro)
+    # 11/4 대표: 인트로 효과음 박자 — 각 소리의 '가장 큰 순간'을 그림에 맞춘다 (금빛 원 0.8~2.6, 주화 2.4, 충격 4.0, 영문 제목 5.0, 사라짐 9.6~10.2)
+    intro["sfx"] = [["paper_6.mp3", 0.8, 0.9], ["cinematic_6.mp3", 1.47, 0.7], ["ring_synth.wav", 2.4, 0.5], ["drum_5.mp3", 3.92, 1.0],
+                    ["impact_2.mp3", 3.02, 0.8], ["cinematic_4.mp3", 4.9, 0.55], ["transition_5.mp3", 8.96, 0.5]]
+    S.append(intro)
     S.append({"type": "episode", "num": 2, "title": "무례한 사람들", "en": "The Rude and the Ungrateful", "dur": 4.6, "fixed": True,
               "amb": ["wind_2.mp3", 0.3], "sfx": [["drum_6.mp3", 0.3, 0.45]], "tout": "black", "fout": 0.8})
     sp["shots"] = S
