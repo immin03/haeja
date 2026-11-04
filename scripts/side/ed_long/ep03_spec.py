@@ -142,9 +142,7 @@ def build():
               "voice": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"], "gap": 0.8, "pre": 0.8, "post": 1.0, "recap_offset": 1, "nocap": True,
               "head_en": "SEVEN LINES FOR WHEN NO ONE NOTICES", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "black", "fin": 1.0})
     S.append(F.shot("still", "e3_statue", ["r9"], ["wind_2.mp3", 0.25], {"grade": "memory", "move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
-    S.append({"type": "prev", "voice": ["o3"], "pre": 0.9, "post": 2.2, "dur": 7.0, "nocap": True, "thumb": "social/side/ed_long/thumb_ep01.jpg",
-              "kicker": "PREVIOUS  ·  EPISODE 1", "title": "배신당한 밤", "sub": "황제의 일기는, 그 밤에서 시작됩니다", "tin": "black", "amb": ["wind_2.mp3", 0.2],
-              "sfx": [["paper_3.mp3", 0.3, 0.4]]})
+    # 11/4 대표: 이전 편 추천 화면은 빼고, 마지막 빈 화면(유튜브 최종 화면)에 구독 + 이전 편 영상을 스튜디오에서 배치
     out = len(S)
     S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.2, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black"})
     S.append({"type": "endscreen", "dur": 20.0, "fixed": True, "voice": ["o1", "o2"], "pre": 1.2, "gap": 0.8, "nocap": True, "amb": ["wind_2.mp3", 0.15]})

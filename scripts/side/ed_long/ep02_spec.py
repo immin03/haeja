@@ -114,9 +114,7 @@ def body(S, sp):
               "sfx": [["transition_5.mp3", 0.0, 0.35]], "tin": "black", "fin": 1.0})
     S.append(F.shot("still", "e2_morning", ["r9"], ["wind_2.mp3", 0.25], {"move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     # 11/4 대표: 전편을 못 본 사람에게 1편 추천 화면
-    S.append({"type": "prev", "voice": ["o3"], "pre": 0.9, "post": 2.2, "dur": 7.0, "nocap": True, "thumb": "social/side/ed_long/thumb_ep01.jpg",
-              "kicker": "PREVIOUS  ·  EPISODE 1", "title": "배신당한 밤", "sub": "황제의 일기는, 그 밤에서 시작됩니다", "tin": "black", "amb": ["wind_2.mp3", 0.2],
-              "sfx": [["paper_2.mp3", 0.3, 0.35]]})
+    # 11/4 대표: 이전 편 추천 화면은 빼고, 마지막 빈 화면(유튜브 최종 화면)에 구독 + 이전 편 영상을 스튜디오에서 배치
     out = len(S)
     # 11/4 대표: 엔딩 = "매일 밤, 황제처럼 생각하라 · 황제의 일기" → 맨 마지막은 유튜브 최종 화면(관련 영상·구독)이 뜰 빈 화면 20초, 그 위에 구독·다음 편 해설
     S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.2, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black"})
