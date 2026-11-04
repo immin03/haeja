@@ -398,7 +398,8 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .sl-c select{font:inherit;font-size:12px;padding:6px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
 .sl-c .soc-btn{padding:6px 8px;font-size:12px}
 .sl-c.today{box-shadow:inset 0 3px 0 var(--gold)}
-.sl-c.tt{border:2px dashed #8A6FD1;background:rgba(138,111,209,.06)}.sl-c.tt .stt{background:#8A6FD1;color:#fff}
+.sl-c.tt{border:1px solid var(--line);background:var(--surface)}.sl-c.tt .stt{background:transparent;color:var(--muted);padding:0;font-weight:700;font-size:11px}
+.sl-c.tt .tl{font-size:14px;font-weight:800;line-height:1.4;color:var(--ink)}
 .sl-c .why{font-size:11px;color:var(--muted);line-height:1.4;word-break:keep-all}
 .sl-c .sp{display:flex;flex-direction:column;gap:2px;margin-top:auto;padding-top:4px;border-top:1px dashed var(--line)}
 .sl-c .sp span{font-size:11px;font-weight:800;color:#B07A12;word-break:keep-all}.sl-c .sp span.e{color:var(--muted);font-weight:700}
@@ -1736,7 +1737,7 @@ function ytSlots(weeks = 8){
       } else if(pl){
         row += `<div class="sl-c mk${td}">${lab}<span class="stt">${pl.status === 'producing' ? '제작 중' : '기획 확정 · 제작 예정'}</span><a class="tl" href="#youtube/${pl.status === 'producing' ? 'making' : 'plan'}">${esc(pl.doc_title || pl.title || pl.id)}</a>${pl.status === 'approved' && pick.length ? `<select data-slot-swap="${d}" data-old="${esc(pl.id)}">${opts(pl.id, '다른 기획안으로 바꾸기')}</select>` : ''}${spH}</div>`;
       } else if(d >= today && tt){
-        row += `<div class="sl-c tt${td}">${lab}<span class="stt">가안 · Claude 추천</span><a class="tl" href="#youtube/plan">${esc(tt.doc_title || tt.title || tt.id)}</a>${tt.tentative_why ? `<span class="why">${esc(tt.tentative_why)}</span>` : ''}<div class="bt"><button type="button" class="soc-btn" data-slot-ok="${d}" data-id="${esc(tt.id)}">확정</button><button type="button" class="soc-btn ghost" data-slot-x="${esc(tt.id)}">빼기</button></div><select data-slot-tt="${d}" data-old="${esc(tt.id)}">${opts(tt.id, '다른 기획안으로 바꾸기')}</select>${spH}</div>`;
+        row += `<div class="sl-c tt${td}">${lab}<span class="stt">가안</span><a class="tl" href="#youtube/plan">${esc(tt.doc_title || tt.title || tt.id)}</a>${tt.tentative_why ? `<span class="why">${esc(tt.tentative_why)}</span>` : ''}<div class="bt"><button type="button" class="soc-btn" data-slot-ok="${d}" data-id="${esc(tt.id)}">확정</button><button type="button" class="soc-btn ghost" data-slot-x="${esc(tt.id)}">빼기</button></div><select data-slot-tt="${d}" data-old="${esc(tt.id)}">${opts(tt.id, '다른 기획안으로 바꾸기')}</select>${spH}</div>`;
       } else if(d >= today){
         empty++; if(!next) next = d;
         row += `<div class="sl-c empty${td}">${lab}<span class="stt">비어 있음</span>${pick.length ? `<select data-slot-sel="${d}">${opts(null, '기획안 고르기')}</select><button type="button" class="soc-btn" data-slot-go="${d}">이 날로 배정</button>` : `<a class="tl" href="#youtube/plan">기획안이 없습니다 → 기획안 받기</a>`}${spH}</div>`;
@@ -1745,7 +1746,7 @@ function ytSlots(weeks = 8){
     html += `<div class="sl-wk">${row}</div>`;
   }
   return `<div class="card cal-m" id="yt-slots"><div class="cal-mh"><b>롱폼 편성표 · 월·수·금·일 19:30</b></div>
-    <div class="sl-sum">${empty ? `앞으로 ${weeks}주 중 <b class="bad">${empty}칸이 비어 있습니다</b>${TT.length ? ` · 보라색 칸 ${TT.length}개는 Claude 가안(확정 누르면 승인)` : ''} · 가장 가까운 빈 날 ${+next.slice(5, 7)}/${+next.slice(8)}(${DOW[new Date(next + 'T00:00:00Z').getUTCDay()]}) — 금색 칸에서 기획안을 고르면 바로 배정됩니다.` : `앞으로 ${weeks}주 편성이 모두 찼습니다.${TT.length ? ` 보라색 칸 ${TT.length}개는 Claude 가안 — 확정을 누르면 승인됩니다.` : ''}`}</div>${html}</div>`;
+    <div class="sl-sum">${empty ? `앞으로 ${weeks}주 중 <b class="bad">${empty}칸이 비어 있습니다</b>${TT.length ? ` · '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다` : ''} · 가장 가까운 빈 날 ${+next.slice(5, 7)}/${+next.slice(8)}(${DOW[new Date(next + 'T00:00:00Z').getUTCDay()]}) — 금색 칸에서 기획안을 고르면 바로 배정됩니다.` : `앞으로 ${weeks}주 편성이 모두 찼습니다.${TT.length ? ` '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다.` : ''}`}</div>${html}</div>`;
 }
 function bindSlots(){
   const nm = id => { const p = (YT.plans || []).find(x => x.id === id) || {}; return p.doc_title || p.title || id; };
