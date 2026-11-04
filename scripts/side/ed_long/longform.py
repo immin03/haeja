@@ -856,7 +856,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
                 g = np.exp(-(((xx - cx) / 520) ** 2 + ((yy - cy) / 380) ** 2))[..., None] * np.array([40, 110, 190], np.float32) * 0.55
                 img = np.clip(img.astype(np.float32) + g, 0, 255).astype(np.uint8)
             for oi, ov in enumerate(s.get("overlays", [])):
-                if os.environ.get("ED_VERT") and ov.get("kind") == "verse": continue
+                if os.environ.get("ED_VERT") and ov.get("kind") in ("verse", "caption"): continue   # 세로 쇼츠 조각: 구절·장소 자막은 세로용으로 따로 얹는다
                 img = overlay(img, ov, tt, d, cache, f"ov{oi}")
             if s["type"] in ("still", "video", "black"): img = look.apply(img, s.get("grade"))
             else: img = _bars(img)
