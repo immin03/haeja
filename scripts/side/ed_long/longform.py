@@ -18,7 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 FONTS = "/root/fonts/"
 W, H, FPS = 1920, 1080, 30
-BAR = 131                      # 2.35:1 검은 띠 (위아래)
+BAR = 0 if os.environ.get("ED_VERT") else 131   # ED_VERT=1: 세로 쇼츠용 조각(띠·자막·구절 없이 렌더, caps/verses 파일로 따로 저장)
 GOLD = (201, 164, 92); IVORY = (239, 230, 212)
 
 
@@ -800,6 +800,9 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
               open(os.path.join(base, f"plan_{S['id']}.json"), "w"), ensure_ascii=False, indent=0)
     t_to = min(t_to or total, total)
     events = caption_events(S, plan, vfile); capc = {}
+    json.dump(events, open(os.path.join(base, f"caps_{S['id']}.json"), "w"), ensure_ascii=False)
+    json.dump([{"t0": p["t0"] + ov.get("at", 0), "t1": p["t0"] + ov.get("until", p["dur"]), "lines": ov["lines"], "src": ov.get("src", "")} for p in plan for ov in p["s"].get("overlays", []) if ov.get("kind") == "verse"],
+              open(os.path.join(base, f"verses_{S['id']}.json"), "w"), ensure_ascii=False)
     out_dir = P(S.get("out_dir", "_long")); os.makedirs(out_dir, exist_ok=True)
     tag = S["id"] + ("_prev" if preview else "") + S.get("tag_suffix", "")
     vid_path = os.path.join(out_dir, f"{tag}_{chunk}_v.mp4" if chunk else f"{tag}_v.mp4")
@@ -852,10 +855,12 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
                 xx, yy = cache["leak"]; cx = W * (0.15 + 0.7 * (0.5 + 0.5 * math.sin(tt * 0.35))); cy = H * 0.3
                 g = np.exp(-(((xx - cx) / 520) ** 2 + ((yy - cy) / 380) ** 2))[..., None] * np.array([40, 110, 190], np.float32) * 0.55
                 img = np.clip(img.astype(np.float32) + g, 0, 255).astype(np.uint8)
-            for oi, ov in enumerate(s.get("overlays", [])): img = overlay(img, ov, tt, d, cache, f"ov{oi}")
+            for oi, ov in enumerate(s.get("overlays", [])):
+                if os.environ.get("ED_VERT") and ov.get("kind") == "verse": continue
+                img = overlay(img, ov, tt, d, cache, f"ov{oi}")
             if s["type"] in ("still", "video", "black"): img = look.apply(img, s.get("grade"))
             else: img = _bars(img)
-            img = draw_captions(img, gt, events, capc)
+            if not os.environ.get("ED_VERT"): img = draw_captions(img, gt, events, capc)
             # 들어오고 나가기
             tin, tout = s.get("tin", "cut"), s.get("tout", "cut")
             if tin == "black": img = (img.astype(np.float32) * ease(tt / s.get("fin", 0.6))).astype(np.uint8)
