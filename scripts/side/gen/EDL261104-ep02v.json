@@ -1,0 +1,22 @@
+[
+ {
+  "id": "ev2_lightning",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_lightning.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The lightning flashes and fades, heavy rain keeps falling and the roof glows briefly; then darkness and rain. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ },
+ {
+  "id": "ev2_walkout",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/e2_walkout.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The old man keeps walking slowly away toward the open doors while water drips from the bronze clock; the crowd stays frozen; torch flames waver. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts."
+  }
+ }
+]
