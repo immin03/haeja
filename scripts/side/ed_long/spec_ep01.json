@@ -554,9 +554,14 @@
    ],
    "sfx": [
     [
-     "drum_6.mp3",
-     0.3,
-     0.3
+     "paper_2.mp3",
+     0.25,
+     0.4
+    ],
+    [
+     "ring_synth.wav",
+     0.35,
+     0.12
     ]
    ],
    "en": "Spend no thought on the minds of others",
@@ -627,10 +632,8 @@
      1025,
      510
     ],
-    "lead": 715,
-    "static": true,
+    "lead": 30,
     "clean": true,
-    "size": 150,
     "ink": [
      40,
      26,
@@ -640,46 +643,56 @@
      72,
      98
     ],
+    "strength": 0.82,
     "paper": [
      [
-      330,
-      240
+      290,
+      330
      ],
      [
-      1560,
-      215
+      1080,
+      170
      ],
      [
       1720,
-      1000
+      770
      ],
      [
-      300,
-      1000
+      710,
+      1060
      ]
     ],
-    "lines": [
-     "Do not waste the remainder"
-    ],
-    "line": "of thy life in thoughts about others.",
-    "quad": [
-     [
-      600,
-      236
+    "page": {
+     "corners": [
+      [
+       290,
+       330
+      ],
+      [
+       1080,
+       170
+      ],
+      [
+       1720,
+       770
+      ],
+      [
+       710,
+       1060
+      ]
      ],
-     [
-      1430,
-      222
+     "paper": [
+      1000,
+      1150
      ],
-     [
-      1430,
-      512
-     ],
-     [
-      600,
-      526
-     ]
-    ]
+     "u0": 120,
+     "u1": 930,
+     "v0": 80,
+     "pen_v": 640,
+     "last_u": 640,
+     "lines": 6,
+     "text": "Do not waste the remainder of thy life in thoughts about others, when thou dost not refer thy thoughts to some object of common utility. For thou losest the opportunity of doing something else when thou hast such thoughts as these, what is such a person doing, and why, and what is he saying, and what is he thinking of, and what is he contriving, and whatever else of the kind makes us wander away from the observation of our own ruling power."
+    }
    }
   },
   {
@@ -725,7 +738,7 @@
   },
   {
    "type": "still",
-   "src": "lq08_write",
+   "src": "lq08_page",
    "voice": [
     "c1c"
    ],
@@ -870,9 +883,14 @@
    "fixed": true,
    "sfx": [
     [
-     "drum_6.mp3",
-     0.3,
-     0.3
+     "paper_2.mp3",
+     0.25,
+     0.4
+    ],
+    [
+     "ring_synth.wav",
+     0.35,
+     0.12
     ]
    ],
    "amb": [
@@ -970,13 +988,7 @@
    "nocap_voices": [
     "m2c"
    ],
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.4,
-     0.5
-    ]
-   ],
+   "sfx": [],
    "overlays": [
     {
      "kind": "verse",
@@ -1110,13 +1122,7 @@
     0.18
    ],
    "nocap": true,
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.2,
-     0.35
-    ]
-   ]
+   "sfx": []
   },
   {
    "type": "still",
@@ -1149,9 +1155,14 @@
    "fixed": true,
    "sfx": [
     [
-     "drum_6.mp3",
-     0.3,
-     0.3
+     "paper_2.mp3",
+     0.25,
+     0.4
+    ],
+    [
+     "ring_synth.wav",
+     0.35,
+     0.12
     ]
    ],
    "amb": [
@@ -1269,13 +1280,7 @@
    "nocap_voices": [
     "m3c"
    ],
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.4,
-     0.5
-    ]
-   ],
+   "sfx": [],
    "overlays": [
     {
      "kind": "verse",
@@ -1290,7 +1295,7 @@
   },
   {
    "type": "still",
-   "src": "lq08_write",
+   "src": "lq08_page",
    "move": {
     "zoom": [
      1.0,
@@ -1409,13 +1414,7 @@
     0.18
    ],
    "nocap": true,
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.2,
-     0.35
-    ]
-   ]
+   "sfx": []
   },
   {
    "type": "still",
@@ -1448,9 +1447,14 @@
    "fixed": true,
    "sfx": [
     [
-     "drum_6.mp3",
-     0.3,
-     0.3
+     "paper_2.mp3",
+     0.25,
+     0.4
+    ],
+    [
+     "ring_synth.wav",
+     0.35,
+     0.12
     ]
    ],
    "amb": [
@@ -1663,13 +1667,7 @@
     0.18
    ],
    "nocap": true,
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.2,
-     0.35
-    ]
-   ]
+   "sfx": []
   },
   {
    "type": "still",
@@ -1700,9 +1698,14 @@
    "fixed": true,
    "sfx": [
     [
-     "drum_6.mp3",
-     0.3,
-     0.3
+     "paper_2.mp3",
+     0.25,
+     0.4
+    ],
+    [
+     "ring_synth.wav",
+     0.35,
+     0.12
     ]
    ],
    "amb": [
@@ -1785,7 +1788,74 @@
      "src": "명상록 1권 17절",
      "at_voice": "m5c"
     }
-   ]
+   ],
+   "write": {
+    "tip0": [
+     1025,
+     510
+    ],
+    "lead": 30,
+    "clean": true,
+    "ink": [
+     40,
+     26,
+     14
+    ],
+    "paper_lv": [
+     72,
+     98
+    ],
+    "strength": 0.82,
+    "paper": [
+     [
+      290,
+      330
+     ],
+     [
+      1080,
+      170
+     ],
+     [
+      1720,
+      770
+     ],
+     [
+      710,
+      1060
+     ]
+    ],
+    "page": {
+     "corners": [
+      [
+       290,
+       330
+      ],
+      [
+       1080,
+       170
+      ],
+      [
+       1720,
+       770
+      ],
+      [
+       710,
+       1060
+      ]
+     ],
+     "paper": [
+      1000,
+      1150
+     ],
+     "u0": 120,
+     "u1": 930,
+     "v0": 80,
+     "pen_v": 640,
+     "last_u": 640,
+     "lines": 6,
+     "text": "Do not waste the remainder of thy life in thoughts about others, when thou dost not refer thy thoughts to some object of common utility. For thou losest the opportunity of doing something else when thou hast such thoughts as these, what is such a person doing, and why, and what is he saying, and what is he thinking of, and what is he contriving, and whatever else of the kind makes us wander away from the observation of our own ruling power."
+    }
+   }
   },
   {
    "type": "still",
@@ -1910,13 +1980,7 @@
     0.18
    ],
    "nocap": true,
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.2,
-     0.35
-    ]
-   ]
+   "sfx": []
   },
   {
    "type": "still",
@@ -1956,9 +2020,14 @@
    "fixed": true,
    "sfx": [
     [
-     "drum_6.mp3",
-     0.3,
-     0.3
+     "paper_2.mp3",
+     0.25,
+     0.4
+    ],
+    [
+     "ring_synth.wav",
+     0.35,
+     0.12
     ]
    ],
    "amb": [
@@ -2074,13 +2143,7 @@
    "nocap_voices": [
     "m6c"
    ],
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.4,
-     0.5
-    ]
-   ],
+   "sfx": [],
    "overlays": [
     {
      "kind": "verse",
@@ -2196,13 +2259,7 @@
     0.18
    ],
    "nocap": true,
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.2,
-     0.35
-    ]
-   ]
+   "sfx": []
   },
   {
    "type": "still",
@@ -2235,9 +2292,14 @@
    "fixed": true,
    "sfx": [
     [
-     "drum_6.mp3",
-     0.3,
-     0.3
+     "paper_2.mp3",
+     0.25,
+     0.4
+    ],
+    [
+     "ring_synth.wav",
+     0.35,
+     0.12
     ]
    ],
    "amb": [
@@ -2298,13 +2360,7 @@
    "nocap_voices": [
     "m7c"
    ],
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.4,
-     0.5
-    ]
-   ],
+   "sfx": [],
    "overlays": [
     {
      "kind": "verse",
@@ -2450,13 +2506,7 @@
     0.18
    ],
    "nocap": true,
-   "sfx": [
-    [
-     "paper_6.mp3",
-     0.2,
-     0.35
-    ]
-   ]
+   "sfx": []
   },
   {
    "type": "recap",

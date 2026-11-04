@@ -8,7 +8,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 NUM = ["", "I", "II", "III", "IV", "V", "VI", "VII"]
 ORD = ["", "FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH"]
 TENT = ["fire_4.mp3", 0.38]; TENT2 = ["fire_0.mp3", 0.3]; CAMP = ["wind_2.mp3", 0.4]; CITY = ["rain_0.mp3", 0.2]; NIGHT = ["night_6.mp3", 0.18]
-CARD_SFX = [["drum_6.mp3", 0.3, 0.3]]   # 11/3 대표: 문장 카드는 효과 없이 은은한 소리 하나만
+CARD_SFX = [["paper_2.mp3", 0.25, 0.4], ["ring_synth.wav", 0.35, 0.12]]   # 11/4 대표: 일곱 문장 카드는 무게감 덜한 잔잔한 소리(책장 넘김 + 작은 종)
+# 11/4 대표: 비스듬한 종이(lqv08c) 펜 장면은 종이 한 장 가득 원근에 맞춘 필기체를 미리 입혀 두고 펜은 쓰는 척만
+PAGE = {"tip0": [1025, 510], "lead": 30, "clean": True, "ink": [40, 26, 14], "paper_lv": [72, 98], "strength": 0.82, "paper": [[290, 330], [1080, 170], [1720, 770], [710, 1060]], "page": {"corners": [[290, 330], [1080, 170], [1720, 770], [710, 1060]], "paper": [1000, 1150], "u0": 120, "u1": 930, "v0": 80, "pen_v": 640, "last_u": 640, "lines": 6, "text": "Do not waste the remainder of thy life in thoughts about others, when thou dost not refer thy thoughts to some object of common utility. For thou losest the opportunity of doing something else when thou hast such thoughts as these, what is such a person doing, and why, and what is he saying, and what is he thinking of, and what is he contriving, and whatever else of the kind makes us wander away from the observation of our own ruling power."}}
 WQ = {"tip0": [1025, 510], "lead": 715, "static": True, "clean": True, "size": 150, "ink": [40, 26, 14], "paper_lv": [72, 98],
       "paper": [[330, 240], [1560, 215], [1720, 1000], [300, 1000]]}
 
@@ -193,5 +195,11 @@ def build():
     mus.append({"file": "sad_5.mp3", "at_shot": rec, "offset": 0.5, "start": 0, "until_shot": out + 2, "tail": 0, "vol": 0.22, "fin": 2, "fout": 4})
     sp["music"] = mus
     sp["voice_gain"] = {"mono": 1.9}   # 11/3 대표: 황제 목소리 조금 더 크게 (1.45 → 1.9)
+    # 11/4 대표 피드백 정리
+    for x in S:
+        if x.get("src") == "lqv08c_write": x["write"] = copy.deepcopy(PAGE)          # 같은 종이에 같은 글
+        if x.get("src") == "lq08_write" and x["type"] == "still": x["src"] = "lq08_page"   # 같은 장면 그림에도 같은 글
+        if x.get("src") not in ("lqv08c_write", "lwv2_front") and x["type"] != "intro":   # 글씨 쓰는 장면이 아니면 펜 소리 빼기
+            if x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] != "paper_6.mp3"]
     json.dump(sp, open(os.path.join(HERE, "spec_ep01.json"), "w"), ensure_ascii=False, indent=1)
     print("장면", len(S), "카드 위치", card_idx, "정리", rec, "아웃트로", out)

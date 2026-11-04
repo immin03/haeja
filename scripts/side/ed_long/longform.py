@@ -145,12 +145,34 @@ class Clip:
         return cv2.warpAffine(f, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
 
+def page_layout(pg):
+    """종이 네 모서리(첫 프레임 기준)와 글 → 줄 나눔·글씨 영역(quad). 펜 끝이 마지막 줄 위에 오도록 줄 간격을 맞춘다.
+    pg = {corners, paper:[가로,세로], u0, u1, v0, pen_v, last_u, text}"""
+    corners = np.float32(pg["corners"]); PWd, PHd = pg.get("paper", [1000, 1150])
+    Hi = cv2.getPerspectiveTransform(np.float32([[0, 0], [PWd, 0], [PWd, PHd], [0, PHd]]), corners)
+    u0, u1, v0 = pg.get("u0", 70), pg.get("u1", 930), pg.get("v0", 70); sc = (u1 - u0) / 1600
+    nfull = pg.get("lines", 7); gap = (pg["pen_v"] - v0) / sc / (nfull + 0.79); size = int(gap * pg.get("size_k", 0.6))
+    f = ImageFont.truetype(FONTS + "PinyonScript-Regular.ttf", size); d = ImageDraw.Draw(Image.new("L", (8, 8)))
+    words = pg["text"].split(); lines = []; cur = ""
+    while words and len(lines) < nfull:
+        t = (cur + " " + words[0]).strip()
+        if d.textlength(t, font=f) > 1560 and cur: lines.append(cur); cur = ""
+        else: cur = t; words.pop(0)
+    if cur and len(lines) < nfull: lines.append(cur); cur = ""
+    lim = (pg["last_u"] - u0) / sc; last = ""
+    while words and d.textlength((last + " " + words[0]).strip(), font=f) < lim: last = (last + " " + words.pop(0)).strip()
+    PH = gap * (nfull + 1); v1 = v0 + PH * sc
+    quad = cv2.perspectiveTransform(np.float32([[[u0, v0], [u1, v0], [u1, v1], [u0, v1]]]), Hi)[0]
+    return {"lines": lines, "line": last or " ", "quad": quad.tolist(), "gap": int(round(gap)), "size": size, "static": True}
+
+
 class WriteClip(Clip):
     """펜으로 쓰는 장면: 종이 위 영어 필기체가 펜 끝을 따라 써진다 (카메라 움직임은 특징점 추적, 펜 끝은 템플릿 추적)
     write = {quad: 글씨 줄 영역 네 꼭짓점(첫 프레임 기준), tip0: 첫 프레임 펜 끝 [x,y], lines: [이미 써 있는 줄...], line: 지금 쓰는 줄,
              size: 글자 크기, ink: [r,g,b], lead: 펜 끝보다 몇 px 앞까지 보일지}"""
     def __init__(self, path, move, start, wr):
         super().__init__(path, move, start)
+        if wr.get("page"): wr = {**wr, **page_layout(wr["page"])}   # 종이 한 장 가득 원근에 맞춘 글씨 (11/4)
         self.wr = wr; fr = self.fr; n = len(fr); h, w = fr[0].shape[:2]
         gray = [cv2.cvtColor(f, cv2.COLOR_BGR2GRAY) for f in fr]
         quad = np.float32(wr["quad"]); tx, ty = wr["tip0"]
@@ -190,13 +212,18 @@ class WriteClip(Clip):
                 tx_, ty_ = self.tips[i]   # 펜 끝 왼쪽·아래 띠는 크기와 관계없이 지운다 (펜에 붙은 자국)
                 band = np.zeros((h, w), np.uint8); cv2.rectangle(band, (0, int(ty_) - 50), (int(tx_) - 3, int(ty_) + 60), 1, -1)
                 m2 = np.maximum(keep[lab], m2 * band) * 255
-                m2 = cv2.GaussianBlur(cv2.dilate(m2, np.ones((5, 5), np.uint8)), (0, 0), 1.5)[..., None] / 255.0
+                m2 = cv2.dilate(m2, np.ones((5, 5), np.uint8))
+                # 첫 프레임에서 손이 있던 자리는 첫 프레임으로 되돌리면 손가락이 비친다 → 그 자리만 주변 종이로 메운다 (11/4)
+                hz = np.zeros((h, w), np.uint8); cv2.rectangle(hz, (int(tx) - 40, 0), (w, int(ty) + 60), 255, -1)
+                hz = cv2.warpPerspective(hz, Hs[i], (w, h)); mi = ((m2 > 0) & (hz > 0)).astype(np.uint8) * 255
+                if mi.any(): f0w = np.where(mi[..., None] > 0, cv2.inpaint(fr[i], mi, 5, cv2.INPAINT_TELEA), f0w)
+                m2 = cv2.GaussianBlur(m2, (0, 0), 1.5)[..., None] / 255.0
                 fr[i] = (fr[i] * (1 - m2) + f0w * m2).astype(np.uint8)
         # 글씨 평면
-        PW, PH = 1600, 240 * (len(wr.get("lines", [])) + 1)
+        GAP = wr.get("gap", 240); PW, PH = 1600, GAP * (len(wr.get("lines", [])) + 1)
         f = ImageFont.truetype(FONTS + "PinyonScript-Regular.ttf", wr.get("size", 150))
-        im = Image.new("L", (PW, PH), 0); d = ImageDraw.Draw(im); yb = 190
-        for ln in wr.get("lines", []): d.text((10, yb), ln, font=f, fill=255, anchor="ls"); yb += 240
+        im = Image.new("L", (PW, PH), 0); d = ImageDraw.Draw(im); yb = int(GAP * 0.79)
+        for ln in wr.get("lines", []): d.text((10, yb), ln, font=f, fill=255, anchor="ls"); yb += GAP
         self.static = np.array(im).astype(np.float32) / 255.0
         im2 = Image.new("L", (PW, PH), 0); ImageDraw.Draw(im2).text((10, yb), wr["line"], font=f, fill=255, anchor="ls")
         self.wline = np.array(im2).astype(np.float32) / 255.0
@@ -591,13 +618,23 @@ def speech_bounds(path, n, items=None):
 
 
 def wrap_ko(text, fnt, maxw):
+    """자막 줄 나눔 (11/4): 한 줄에 들어가면 한 줄. 두 줄이면 쉼표 뒤에서 끊는 쪽을 우선하고, 뒷줄에 두세 글자만 남는 끊김은 피한다."""
     d = ImageDraw.Draw(Image.new("L", (10, 10))); words = text.split(" "); lines, cur = [], ""
     for w in words:
         t = (cur + " " + w).strip()
         if d.textlength(t, font=fnt) > maxw and cur: lines.append(cur); cur = w
         else: cur = t
     if cur: lines.append(cur)
-    return lines
+    if len(lines) != 2: return lines
+    best, bc = lines, None
+    for i in range(1, len(words)):
+        a, b = " ".join(words[:i]), " ".join(words[i:]); wa, wb = d.textlength(a, font=fnt), d.textlength(b, font=fnt)
+        if wa > maxw or wb > maxw: continue
+        c = abs(wa - wb) / maxw
+        if a.endswith((",", ".", "?", "!")): c -= 0.5          # 쉼표·마침표 뒤에서 끊기
+        if min(wa, wb) < 0.3 * max(wa, wb): c += 1.0           # 한쪽이 너무 짧은 줄
+        if bc is None or c < bc: best, bc = [a, b], c
+    return best
 
 
 def caption_layer(text, kind, cache):
