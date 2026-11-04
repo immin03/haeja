@@ -410,57 +410,57 @@
    "at_shot": 34,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 44,
+   "until_shot": 45,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 44,
+   "at_shot": 45,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 54,
+   "until_shot": 56,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 54,
+   "at_shot": 56,
    "offset": 1.0,
    "start": 90,
-   "until_shot": 64,
+   "until_shot": 68,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_3.mp3",
-   "at_shot": 64,
+   "at_shot": 68,
    "offset": 1.0,
    "start": 60,
-   "until_shot": 73,
+   "until_shot": 77,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 73,
+   "at_shot": 77,
    "offset": 1.0,
    "start": 110,
-   "until_shot": 81,
+   "until_shot": 85,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_5.mp3",
-   "at_shot": 81,
+   "at_shot": 85,
    "offset": 0.5,
    "start": 0,
-   "until_shot": 85,
+   "until_shot": 89,
    "tail": 0,
    "vol": 0.22,
    "fin": 2,
@@ -1482,8 +1482,8 @@
    ]
   },
   {
-   "type": "video",
-   "src": "ev3_senate",
+   "type": "still",
+   "src": "e3_senate",
    "move": {
     "zoom": [
      1.0,
@@ -1499,7 +1499,35 @@
    ],
    "tin": "dissolve",
    "gap": 0.6,
-   "post": 0.3,
+   "post": 0.15,
+   "face": [
+    0.51,
+    0.194,
+    0.59,
+    0.365
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev3_senate",
+   "move": {
+    "zoom": [
+     1.04,
+     1.1
+    ],
+    "loop": true
+   },
+   "voice": [
+    "t_sen"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.2
+   ],
+   "tin": "cut",
+   "gap": 0.6,
+   "pre": 0.15,
+   "post": 0.15,
    "face": [
     0.526,
     0.133,
@@ -1527,7 +1555,6 @@
     ]
    },
    "voice": [
-    "t_sen",
     "d3c",
     "m3x"
    ],
@@ -1537,7 +1564,7 @@
    ],
    "tin": "dissolve",
    "gap": 0.6,
-   "pre": 0.2,
+   "pre": 0.15,
    "face": [
     0.51,
     0.194,
@@ -1796,8 +1823,7 @@
     ]
    },
    "voice": [
-    "d4b",
-    "c4"
+    "d4b"
    ],
    "amb": [
     "wind_1.mp3",
@@ -1805,11 +1831,39 @@
    ],
    "tin": "dissolve",
    "gap": 0.4,
+   "post": 0.15,
    "face": [
     0.489,
     0.209,
     0.593,
     0.424
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev3_gown",
+   "move": {
+    "zoom": [
+     1.04,
+     1.1
+    ],
+    "loop": true
+   },
+   "voice": [
+    "c4"
+   ],
+   "amb": [
+    "wind_1.mp3",
+    0.3
+   ],
+   "tin": "cut",
+   "gap": 0.4,
+   "pre": 0.15,
+   "face": [
+    0.488,
+    0.207,
+    0.595,
+    0.428
    ]
   },
   {
@@ -2045,8 +2099,7 @@
     ]
    },
    "voice": [
-    "d5a",
-    "v_sol"
+    "d5a"
    ],
    "amb": [
     "wind_2.mp3",
@@ -2061,6 +2114,7 @@
      0.18
     ]
    ],
+   "post": 0.15,
    "face": [
     0.424,
     0.198,
@@ -2070,7 +2124,41 @@
   },
   {
    "type": "video",
-   "src": "ev3_refuse",
+   "src": "ev3_soldiers",
+   "move": {
+    "zoom": [
+     1.04,
+     1.1
+    ],
+    "loop": true
+   },
+   "voice": [
+    "v_sol"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.4
+   ],
+   "tin": "cut",
+   "gap": 0.5,
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.0,
+     0.18
+    ]
+   ],
+   "pre": 0.15,
+   "face": [
+    0.424,
+    0.202,
+    0.578,
+    0.505
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_refuse",
    "move": {
     "zoom": [
      1.0,
@@ -2087,7 +2175,36 @@
    "tin": "dissolve",
    "gap": 0.6,
    "flicker": true,
-   "post": 0.3,
+   "post": 0.15,
+   "face": [
+    0.381,
+    0.171,
+    0.566,
+    0.531
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev3_refuse",
+   "move": {
+    "zoom": [
+     1.04,
+     1.1
+    ],
+    "loop": true
+   },
+   "voice": [
+    "m5x"
+   ],
+   "amb": [
+    "wind_2.mp3",
+    0.4
+   ],
+   "tin": "cut",
+   "gap": 0.6,
+   "flicker": true,
+   "pre": 0.15,
+   "post": 0.15,
    "face": [
     0.376,
     0.164,
@@ -2115,7 +2232,6 @@
     ]
    },
    "voice": [
-    "m5x",
     "d5c"
    ],
    "amb": [
@@ -2125,7 +2241,7 @@
    "tin": "dissolve",
    "gap": 0.6,
    "flicker": true,
-   "pre": 0.2,
+   "pre": 0.15,
    "face": [
     0.381,
     0.171,
@@ -2637,7 +2753,13 @@
    ],
    "tin": "dissolve",
    "grade": "memory",
-   "leak": true
+   "leak": true,
+   "face": [
+    0.41,
+    0.03,
+    0.48,
+    0.14
+   ]
   },
   {
    "type": "video",
@@ -2858,7 +2980,13 @@
    ],
    "tin": "dissolve",
    "grade": "memory",
-   "post": 1.6
+   "post": 1.6,
+   "face": [
+    0.41,
+    0.03,
+    0.48,
+    0.14
+   ]
   },
   {
    "type": "finale",

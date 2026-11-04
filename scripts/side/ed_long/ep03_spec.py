@@ -151,8 +151,24 @@ def build():
     # 11/4 대표: 영상미·장면 전환 강화 — 그림의 첫 등장은 움직이는 영상으로, 목소리 둘 이상인 이야기 장면은 영상 → 같은 장면 클로즈업 그림으로 한 번 더 끊어 간다
     VID = {src: k for k, (src, _) in list(E.VIDEOS.items()) + list(E.VIDEOS_PLUS.items())}
     seen = set(); S2 = []
+    # 11/4 대표: 말하는 사람이 보이는 장면은 말하기 전엔 정지 그림, 그 사람이 말할 때만 영상(입 움직임)을 말 끝날 때까지 반복
+    SPEAK = {"m5x": "ev3_refuse", "t_sen": "ev3_senate", "v_sol": "ev3_soldiers", "c4": "ev3_gown"}
     for x in S:
-        src = x.get("src")
+        src = x.get("src"); vs = x.get("voice") or []; vs = [vs] if isinstance(vs, str) else vs
+        if x.get("type") == "still" and any(v in SPEAK and SPEAK[v] == VID.get(src) for v in vs) and not x.get("overlays"):
+            seen.add(src); segs = []
+            for v in vs:
+                kind = "video" if (v in SPEAK and SPEAK[v] == VID.get(src)) else "still"
+                if segs and segs[-1][0] == kind: segs[-1][1].append(v)
+                else: segs.append((kind, [v]))
+            for j, (kind, vv) in enumerate(segs):
+                c = copy.deepcopy(x); c["voice"] = vv; c.pop("rack", None)
+                if j: c["tin"] = "dissolve" if kind == "still" else "cut"; c["pre"] = 0.15
+                if j < len(segs) - 1: c["post"] = 0.15
+                if kind == "video": c.update({"type": "video", "src": VID[src], "move": {"zoom": [1.04, 1.1], "loop": True}})
+                elif j: c["move"] = {"zoom": [1.18, 1.3], "pan": [[0.0, -0.02], [0.02, -0.03]]}
+                S2.append(c)
+            continue
         if x.get("type") == "still" and src in VID and src not in seen and os.path.exists(os.path.join(E.ROOT, "social/side/gen", VID[src] + ".mp4")):
             seen.add(src); vs = x.get("voice") or []; vs = [vs] if isinstance(vs, str) else vs
             v = copy.deepcopy(x); v["type"] = "video"; v["src"] = VID[src]; v.pop("rack", None)
@@ -170,6 +186,7 @@ def build():
     rec = [i for i, x in enumerate(S) if x.get("type") == "recap"][0]; out = [i for i, x in enumerate(S) if x.get("type") == "finale"][0]
     sit = [i for i, x in enumerate(S) if x.get("type") == "episode"][0] + 1
     faces = auto_faces({x.get("src") for x in S if x.get("src") and x["type"] in ("still", "video")})
+    faces.update({"e3_statue": [0.41, 0.03, 0.48, 0.14], "ev3_statue": [0.41, 0.03, 0.48, 0.14]})   # 11/4 대표: 동상 머리가 잘림 — 머리 위치 직접 지정
     for x in S:
         if x.get("src") in faces: x["face"] = faces[x["src"]]
         if x.get("type") != "intro" and x.get("sfx"):

@@ -157,6 +157,8 @@ class Clip:
         n = len(self.fr); length = n / self.src_fps
         rate = max(min(length / dur, 1.0), 0.45)         # 장면이 길면 느리게 (최대 0.45배속)
         idx = min(int(t * rate * self.src_fps), n - 1)
+        if self.move.get("loop"):                         # 11/4 대표: 말하는 동안 입 움직임을 말 끝날 때까지 반복(앞뒤로 오가며 이어 붙임)
+            k = int(t * self.src_fps) % max(2 * n - 2, 1); idx = k if k < n else 2 * n - 2 - k
         f = self.fr[idx]
         z0, z1 = self.move.get("zoom", [1.0, 1.05]); (x0, y0), (x1, y1) = self.move.get("pan", [[0, 0], [0, 0]])
         e = ease(p); z = z0 + (z1 - z0) * e
