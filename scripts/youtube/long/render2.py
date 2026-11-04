@@ -1855,7 +1855,13 @@ def main():
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
         if BEAT and sc["v"].get("cine"):   # 장면 끝을 다음 박자에 맞춘다 → 장면이 바뀌는 순간이 늘 박자 위
-            dur = math.ceil((t + dur) / BEAT - 1e-6) * BEAT - t; sc["v"]["_beat"] = BEAT
+            unit = BEAT * (4 if (spec.get("hook") or {}).get("cut", "bar" if HOOK_STYLE[0] == "basstaiko" else "beat") == "bar" else 1)
+            # 2026-11-04 19:01 대표님 "다(★)다다다 다다다다 — 별 친 박자(마디 첫 박, 베이스가 제일 센 곳)에 사진을 바꾸면 제일 자연스럽다"
+            # → basstaiko 훅은 사진 전환을 마디 첫 박에만 둔다. 장면 끝도 다음 마디 첫 박으로, 마디 수보다 사진이 많으면 뒤 사진은 뺀다
+            dur = math.ceil((t + dur) / unit - 1e-6) * unit - t; sc["v"]["_beat"] = unit
+            nb_ = max(1, int(round(dur / unit)))
+            if unit > BEAT and len(sc["v"].get("cuts", [])) > nb_:
+                print(f"  훅 마디 맞춤: 사진 {len(sc['v']['cuts'])}장 → {nb_}장 (마디 {nb_}개)"); sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:nb_])
         if sc.get("endscreen"): dur = max(dur + .8, 8.0); ENDSCREEN_SEC[0] = round(dur, 1)   # 2026-11-03 대표님 "공백이 길었다": 20초 고정 대신 말 끝 + 0.8초 (유튜브 최종 화면 최소 5초는 지킴)
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
     total = t
