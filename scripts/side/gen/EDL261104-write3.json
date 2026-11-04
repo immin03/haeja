@@ -1,0 +1,21 @@
+[
+ {
+  "id": "lw3_side",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Low side-angle close-up across a rough wooden desk at night inside a Roman command tent, seen from the left at the height of the desk: an older man's weathered right hand in the sleeve of a deep crimson cloak holds a thin reed pen at the end of a line on a sheet of papyrus, the upper half of the papyrus already covered with many rows of faded brown handwriting that are soft and out of focus, the pen tip touching the paper at the right end of the newest row, shallow depth of field so only the pen tip and the fingers are sharp, a candle glowing on the far side of the desk, a small bronze inkpot in the soft foreground, warm dust motes in the candlelight, the writing rows are only blurred horizontal strokes, nothing readable. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no readable writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "lwv3_side",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/lw3_side.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand keeps writing slowly and naturally along the same row, the reed pen gliding to the right in small flowing strokes with tiny natural lifts between words, then pausing as if thinking; the existing rows of writing stay exactly as they are, the candle flame flickering softly. Keep the painterly look and every detail identical to the first frame; the camera stays still with at most a very slow push-in. No new text appearing, no morphing, no extra fingers, no cuts."
+  }
+ }
+]
