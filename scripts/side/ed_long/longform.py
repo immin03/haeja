@@ -837,7 +837,7 @@ def mix_audio(S, plan, total, t_from, t_to, vfile, P, out_dir, tag):
         if lab: bg.append(lab)
     L = t_to - t_from
     fc = ";".join(flt)
-    fc += f";{''.join('['+x+']' for x in vo)}amix=inputs={len(vo)}:normalize=0,asplit=2[vo1][vo2]"
+    fc += f";{''.join('['+x+']' for x in vo)}amix=inputs={len(vo)}:normalize=0,apad=whole_dur={L},asplit=2[vo1][vo2]"
     fc += f";{''.join('['+x+']' for x in bg)}amix=inputs={len(bg)}:normalize=0[bgm]"
     fc += ";[bgm][vo2]sidechaincompress=threshold=0.03:ratio=6:attack=40:release=600:makeup=1[duck]"
     fc += f";[vo1][duck]amix=inputs=2:normalize=0,apad=whole_dur={L},atrim=0:{L},loudnorm=I=-16:TP=-1.5:LRA=11[out]"

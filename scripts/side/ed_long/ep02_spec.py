@@ -24,7 +24,7 @@ def build():
     S = []
     S.append({"type": "black", "dur": 0.8, "fixed": True, "amb": ["wind_6.mp3", 0.4]})
     # 훅: 물방울 → 고함 → 해설 → 칼 → 황제의 눈(독백)
-    S.append({"type": "video", "src": "ev2_clock", "dur": 2.6, "fixed": True, "move": {"zoom": [1.0, 1.06]}, "amb": ["night_2.mp3", 0.25], "tin": "black", "fin": 0.8, "sfx": [["water_drip.wav", 0.55, 0.5], ["water_drip.wav", 1.75, 0.45]],
+    S.append({"type": "video", "src": "ev2_clock", "dur": 2.6, "fixed": True, "move": {"zoom": [1.0, 1.06]}, "amb": ["night_2.mp3", 0.25], "tin": "black", "fin": 0.8, "sfx": [["water_drip.wav", 0.55, 0.32], ["water_drip.wav", 1.85, 0.26]],
               "overlays": [{"kind": "caption", "text": "기원후 2세기 · 판노니아 시르미움, 황제의 법정", "at": 0.3}]})
     S.append({"type": "video", "src": "ev2_court", "voice": ["h_her", "h1"], "pre": 0.15, "gap": 0.6, "post": 0.4, "move": {"zoom": [1.0, 1.1]}, "flicker": True,
               "amb": ["fire_4.mp3", 0.4], "sfx": [["impact_5.mp3", 0.1, 0.5], ["whoosh_0.mp3", 0.0, 0.3]]})
