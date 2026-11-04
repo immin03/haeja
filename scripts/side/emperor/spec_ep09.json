@@ -1,0 +1,366 @@
+{
+ "id": "ep09",
+ "music": {
+  "file": "/home/claude/ed/music/music_secret-garden.mp3",
+  "start": 97,
+  "bed": 0.07
+ },
+ "voice": [
+  {
+   "file": "/home/claude/vo/ep09/ep09_g1.wav",
+   "at": 0.8,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/ep09/ep09_g2.wav",
+   "at": 4.58,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/ep09/ep09_g3.wav",
+   "at": 14.84,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/ep09/ep09_g4.wav",
+   "at": 25.43,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/ep09/ep09_g5.wav",
+   "at": 33.35,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/ep09/ep09_g6.wav",
+   "at": 39.32,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/ep09/end.wav",
+   "at": 44.28,
+   "vol": 1.3
+  },
+  {
+   "file": "/home/claude/vo/ep05b/voice_ep05b_03_outro.mp3",
+   "at": 50.92,
+   "vol": 1.0
+  }
+ ],
+ "cuts": [
+  {
+   "dur": 4.49,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "kicker",
+     "lines": [
+      "로마 황제가 일기에 쓴 한 줄"
+     ],
+     "after": 10
+    },
+    {
+     "t0": -1,
+     "style": "hook",
+     "lines": [
+      "후회가 밤마다",
+      "다시 찾아오는 이유"
+     ]
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.81,
+     "t1": 4.21,
+     "lines": [
+      "잠자리에 누우면,",
+      "왜 낮에 한 실수가 다시 떠오를까요"
+     ]
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/lib_rome_night.jpeg",
+   "move": "in",
+   "amt": 0.08
+  },
+  {
+   "dur": 6.45,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 2.71,
+     "lines": [
+      "로마 황제 마르쿠스 아우렐리우스는,"
+     ]
+    },
+    {
+     "t0": 3.08,
+     "t1": 6.3,
+     "lines": [
+      "날마다 수많은 사람의 운명이 걸린",
+      "결정을 내려야 했습니다"
+     ]
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/edv06_forum.mp4",
+   "speed": 0.765
+  },
+  {
+   "dur": 4.61,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 2.13,
+     "lines": [
+      "후회할 일도 많았을 텐데,"
+     ]
+    },
+    {
+     "t0": 2.23,
+     "t1": 4.33,
+     "lines": [
+      "황제는 일기에 이렇게 적었습니다"
+     ]
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/edv01_tent.mp4",
+   "speed": 1.0
+  },
+  {
+   "dur": 5.02,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "네 삶 전체를"
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 1.81,
+     "lines": [
+      "한꺼번에 떠올리며",
+      "괴로워하지 마라."
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 4.04,
+     "lines": [
+      "기억하라."
+     ],
+     "style": "quote"
+    }
+   ],
+   "v": "/home/claude/ed/edv02_ep09.mp4",
+   "speed": 0.976,
+   "shade": 245,
+   "shade_h": 1100
+  },
+  {
+   "dur": 6.37,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "미래도 과거도"
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 1.95,
+     "lines": [
+      "너를 괴롭히지 않는다."
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 3.49,
+     "lines": [
+      "너를 괴롭히는 것은,"
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 4.88,
+     "lines": [
+      "오직 지금뿐이다."
+     ],
+     "style": "quote"
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/lib_hourglass.jpeg",
+   "move": "in",
+   "amt": 0.08
+  },
+  {
+   "dur": 2.89,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "지나간 일은",
+      "이미 끝났습니다."
+     ],
+     "style": "big"
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/edv09_ruins.mp4",
+   "speed": 1.0
+  },
+  {
+   "dur": 5.83,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "그 일을 다시",
+      "아프게 하는 건,",
+      "지금 그것을 붙잡은",
+      "내 생각입니다."
+     ],
+     "style": "big"
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/edv08_mirror.mp4",
+   "speed": 0.847
+  },
+  {
+   "dur": 6.37,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 2.62,
+     "lines": [
+      "그 지금마저도,"
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 3.77,
+     "lines": [
+      "따로 떼어 놓고 보면",
+      "아주 작아진다."
+     ],
+     "style": "quote"
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 2.37,
+     "lines": [
+      "그래서 황제는 이렇게 덧붙였습니다"
+     ]
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/ed12_danube_night.jpeg",
+   "move": "out",
+   "amt": 0.08
+  },
+  {
+   "dur": 5.15,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "후회가 밤마다 다시 찾아오는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "과거는 고칠 수 없지만,"
+     ],
+     "style": "big"
+    },
+    {
+     "t0": 2.27,
+     "lines": [
+      "오늘 밤 내려놓을 수는",
+      "있습니다."
+     ],
+     "style": "big"
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/ed11_colonnade.jpeg",
+   "move": "in",
+   "amt": 0.08
+  }
+ ],
+ "end": {
+  "dur": 7.29,
+  "kicker": "오늘의 할 일",
+  "lines": [
+   "후회되는 일 하나 적고,",
+   "그 옆에 내일 할 일로 바꿔 쓰기"
+  ],
+  "source": "마르쿠스 아우렐리우스 『명상록』 8권 36절",
+  "slogan": null
+ },
+ "outro": {
+  "dur": 7.9,
+  "p1": 4.7
+ },
+ "theme": "A"
+}
