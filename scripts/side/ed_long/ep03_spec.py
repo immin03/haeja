@@ -107,6 +107,7 @@ def build():
     d = os.path.join(E.ROOT, sp["voice_dir"]); vf = {}
     for n in (sorted(os.listdir(d)) if os.path.isdir(d) else []):
         if n.endswith(".mp3"): vf[n[:-4].split("_", 3)[-1]] = n
+    vf["h_cr"] = "../ep03c/voice_ep03c_01_h_cr.mp3"; vf["c4"] = "../ep03c/voice_ep03c_02_c4.mp3"   # 11/4 대표: 경매꾼은 굵고 시끄럽게 — 제우스(외치는 톤, F0 약 120~130Hz)로 교체
     vf["o3"] = "../ep02c/voice_ep02c_01_o3.mp3"   # 1편 추천 화면 해설(2편과 같은 녹음)
     vf["m_x1"] = "../lp3/voice_lp3_07_m_x1.mp3"; vf["e_x2"] = "../ep01x/voice_ep01x_01_e_x2.mp3"
     sp["voice_files"] = vf
