@@ -1,0 +1,139 @@
+{
+ "id": "ep10a",
+ "theme": "A",
+ "note": "2026-11-05 12:20 데일리(35초 칸, k=309%3=0). 현대 상황 훅(알아주지 않는 하루) → 로마 황제 한 줄 → 원문 4권 20절 → 풀이 1문장. 양식 A, 장면 묶음: edv07_crowd·lib_bust·tablet·ed09_ruins·lib_scroll. 묶음별 녹음 d261105 | 41초로 길어 훅·로마·인용 묶음을 줄여 다시 녹음(d261105b) | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "인정받으려 할수록",
+  "흔들리는 이유"
+ ],
+ "title_line": "인정받으려 할수록 흔들리는 이유",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.3
+ },
+ "voice": "/home/claude/vo/v2/v_ep10a.wav",
+ "gap": 0.55,
+ "hold": 1.4,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/lib_bust.jpeg",
+  "/home/claude/ed/edv02_ep10.mp4",
+  "/home/claude/haeja/social/side/gen/ed09_ruins.jpeg",
+  "/home/claude/haeja/social/side/gen/lib_scroll.jpeg"
+ ],
+ "sents": [
+  [
+   0.58,
+   2.38,
+   1,
+   0,
+   "cap",
+   [
+    "아무도 알아주지 않으면,"
+   ]
+  ],
+  [
+   2.43,
+   4.199,
+   1,
+   0,
+   "cap",
+   [
+    "왜 하루가 헛것 같을까요"
+   ]
+  ],
+  [
+   5.199,
+   6.098,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제는,"
+   ]
+  ],
+  [
+   6.098,
+   7.944,
+   2,
+   1,
+   "cap",
+   [
+    "일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   8.794,
+   9.975,
+   3,
+   2,
+   "quote",
+   [
+    "아름다운 것은,"
+   ]
+  ],
+  [
+   9.975,
+   11.599,
+   3,
+   2,
+   "quote",
+   [
+    "그 자체로 아름답다."
+   ]
+  ],
+  [
+   11.599,
+   13.665,
+   3,
+   2,
+   "quote",
+   [
+    "칭찬은 그 일부가 아니다."
+   ]
+  ],
+  [
+   13.665,
+   17.551,
+   3,
+   3,
+   "quote",
+   [
+    "칭찬받는다고,",
+    "더 좋아지지도",
+    "나빠지지도 않는다."
+   ]
+  ],
+  [
+   18.521,
+   19.535,
+   4,
+   4,
+   "big",
+   [
+    "내 일의 값은,"
+   ]
+  ],
+  [
+   19.535,
+   21.863,
+   4,
+   4,
+   "big",
+   [
+    "박수 소리로",
+    "정해지지 않습니다."
+   ]
+  ]
+ ],
+ "tonight": [
+  "오늘 한 일 하나 적고,",
+  "칭찬 없이도 할 일이었는지 묻기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 4권 20절",
+ "end_voice": "/home/claude/vo/v2/ep10_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/ep10_outro_voice.wav",
+ "vol": 1.0
+}

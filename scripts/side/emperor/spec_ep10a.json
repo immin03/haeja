@@ -1,0 +1,221 @@
+{
+ "id": "ep10a",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.3
+ },
+ "voice": [
+  {
+   "file": "/home/claude/vo/v2/ep10a_g1.wav",
+   "at": 0.8,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep10a_g2.wav",
+   "at": 5.269,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep10a_g3.wav",
+   "at": 8.864,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep10a_g4.wav",
+   "at": 18.471,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep10_end_voice.wav",
+   "at": 23.633,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep10_outro_voice.wav",
+   "at": 30.063,
+   "vol": 1.0
+  }
+ ],
+ "cuts": [
+  {
+   "dur": 5.239,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "kicker",
+     "lines": [
+      "로마 황제가 일기에 쓴 한 줄"
+     ],
+     "after": 10
+    },
+    {
+     "t0": -1,
+     "style": "hook",
+     "lines": [
+      "인정받으려 할수록",
+      "흔들리는 이유"
+     ]
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.87,
+     "t1": 2.87,
+     "lines": [
+      "아무도 알아주지 않으면,"
+     ]
+    },
+    {
+     "t0": 2.72,
+     "t1": 4.69,
+     "lines": [
+      "왜 하루가 헛것 같을까요"
+     ]
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
+   "speed": 0.942
+  },
+  {
+   "dur": 3.995,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "인정받으려 할수록 흔들리는 이유"
+     ],
+     "after": 34
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 1.6,
+     "lines": [
+      "로마 황제는,"
+     ]
+    },
+    {
+     "t0": 1.4,
+     "t1": 3.44,
+     "lines": [
+      "일기에 이렇게 적었습니다"
+     ]
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/lib_bust.jpeg",
+   "move": "out",
+   "amt": 0.08
+  },
+  {
+   "dur": 5.271,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "인정받으려 할수록 흔들리는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "아름다운 것은,"
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 1.68,
+     "lines": [
+      "그 자체로 아름답다."
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 3.31,
+     "lines": [
+      "칭찬은 그 일부가 아니다."
+     ],
+     "style": "quote"
+    }
+   ],
+   "v": "/home/claude/ed/edv02_ep10.mp4",
+   "speed": 0.93,
+   "shade": 245,
+   "shade_h": 1100
+  },
+  {
+   "dur": 5.136,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "인정받으려 할수록 흔들리는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "칭찬받는다고,",
+      "더 좋아지지도",
+      "나빠지지도 않는다."
+     ],
+     "style": "quote"
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/ed09_ruins.jpeg",
+   "move": "out",
+   "amt": 0.08
+  },
+  {
+   "dur": 5.292,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "인정받으려 할수록 흔들리는 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "내 일의 값은,"
+     ],
+     "style": "big"
+    },
+    {
+     "t0": 1.51,
+     "lines": [
+      "박수 소리로",
+      "정해지지 않습니다."
+     ],
+     "style": "big"
+    }
+   ],
+   "img": "/home/claude/haeja/social/side/gen/lib_scroll.jpeg",
+   "move": "in",
+   "amt": 0.08
+  }
+ ],
+ "end": {
+  "dur": 7.08,
+  "kicker": "오늘의 할 일",
+  "lines": [
+   "오늘 한 일 하나 적고,",
+   "칭찬 없이도 할 일이었는지 묻기"
+  ],
+  "source": "마르쿠스 아우렐리우스 『명상록』 4권 20절",
+  "slogan": null
+ },
+ "outro": {
+  "dur": 7.9,
+  "p1": 4.7
+ }
+}
