@@ -47,6 +47,7 @@ def note(name, sr, d=None):
 
 def make_bed(n, sr, beat, strong, h0, h1, seed=7, style="drive"):
     if style in ("house", "hybrid"): return make_house(n, sr, beat, strong, h0, h1, seed, taiko=(style == "hybrid"))
+    if style == "basstaiko": return make_basstaiko(n, sr, beat, strong, h0, h1, seed)
     rng = np.random.default_rng(seed)
     out = np.zeros(n, np.float32)
 
@@ -188,4 +189,56 @@ def make_house(n, sr, beat, strong, h0, h1, seed=7, taiko=False):
     add(out, h0, ch / (np.abs(ch).max() + 1e-9), .38)
     if taiko: add(out, h0, note("C2", sr, TAIKO), .8); add(out, h0, note("C2", sr, TIMP), .55)
     out *= np.clip(tt / .05, 0, 1) * np.clip((h1 + 1.2 - tt) / 1.2, 0, 1)
+    return out.astype(np.float32)
+
+
+# ── 2026-11-04 16:09 대표님: 베이스하우스 변형 시안 중 "B2(타이코 섞음)로 전체 다 렌더링" → style="basstaiko" ──
+# 4박 킥 · 2·4박 클랩 · 엇박 하이햇 · 엇박 워블 리스 베이스 + 박마다 808 서브 · 마디 첫 박 타이코, 두 마디마다 팀파니 · 마지막 2박 롤+상승음 · 로고 임팩트
+# 16:02 대표님 "음악 소리가 거의 안 들려": 휴대폰 스피커는 200Hz 아래를 못 낸다 → 저음을 포화시켜 들리는 배음을 더하고 초저음은 7dB 줄인다.
+ROOTS_BT = ["A1", "F1", "C2", "G1"]
+
+
+def _sub808(f, d, sr, drive=1.6):
+    m = int(sr * d); t = np.arange(m) / sr; ff = f * (1 + 1.5 * np.exp(-t * 40))
+    return np.tanh(drive * np.sin(2 * np.pi * np.cumsum(ff) / sr)) * np.exp(-t / (d * .55))
+
+
+def _reese(f, d, sr, beat, rate=2, lo=500, hi=900, drive=1.5):
+    m = int(sr * d); t = np.arange(m) / sr
+    y = sum(2 * ((t * f * (1 + dt) + k * .3) % 1) - 1 for k, dt in enumerate((-.008, 0, .008)))
+    lfo = lo + hi * (.5 + .5 * np.sin(2 * np.pi * t / beat * rate)); out = np.zeros(m); seg = int(sr * .02)
+    for i in range(0, m, seg):
+        b, a = sg.butter(2, min(.99, lfo[i] / (sr / 2)), "low"); out[i:i + seg] = sg.lfilter(b, a, y[i:i + seg])
+    return np.tanh(drive * out) * _env(m, sr, .005, d)
+
+
+def make_basstaiko(n, sr, beat, strong, h0, h1, seed=11):
+    rng = np.random.default_rng(seed); out = np.zeros(n, np.float32); pad = np.zeros(n, np.float32); C = _clap(sr, rng)
+    def add(buf, at, x, lv):
+        i = int(round(at * sr))
+        if 0 <= i < n: buf[i:i + len(x)] += (np.asarray(x)[: n - i] * lv).astype(np.float32)
+    hb = int(round(h0 / beat))
+    for b in range(hb - 2):
+        g = .8 + .2 * min(1, b / max(1, hb - 4)); r = ROOTS_BT[(b // 4) % 4]
+        add(out, b * beat, _kick(sr, 2.8), 1.0 * g)
+        if b % 2: add(out, b * beat, C, .32 * g)
+        add(out, b * beat + beat / 2, _hat(sr, rng, .08), .14 * g)
+        add(pad, b * beat + beat / 2, _reese(HZ[r] * 2, beat * .48, sr, beat), .5 * g)
+        if b % 4 == 0 or b in strong: add(out, b * beat, note("C2", sr, TAIKO), .65 * g)
+        if b % 8 == 0: add(out, b * beat, note("C2", sr, TIMP), .4 * g)
+        add(pad, b * beat, _sub808(HZ[r], beat * .9, sr), .55 * g)
+    tt = np.arange(n) / sr; ph = (tt % beat) / beat; out += pad * (.2 + .8 * np.clip(ph / .4, 0, 1) ** .7)
+    t0 = (hb - 2) * beat; m = int(2 * beat * sr); u = np.linspace(0, 1, m)
+    rs = _hp(rng.standard_normal(m), sr, 1500) * u ** 2; add(out, t0, rs / np.abs(rs).max(), .3)
+    for j, at in enumerate([t0 + beat * x for x in (0, .5, 1, 1.25, 1.5, 1.625, 1.75, 1.875)]): add(out, at, C, .16 + .05 * j)
+    m = int(sr * 2.4); t = np.arange(m) / sr; fs_ = 70 * np.exp(-t * 1.6) + 32
+    add(out, h0, _kick(sr, 3.0), 1.1); add(out, h0, np.tanh(2 * np.sin(2 * np.pi * np.cumsum(fs_) / sr)) * np.exp(-t / .9), .85)
+    add(out, h0, note("C2", sr, TIMP), .5)
+    out *= np.clip(tt / .05, 0, 1) * np.clip((h1 + 1.2 - tt) / 1.2, 0, 1)
+    # 들리게: 저음 포화 배음 더하고, 120Hz 아래는 7dB 줄인다
+    lo4 = lambda x, f: sg.sosfilt(sg.butter(4, f / (sr / 2), "low", output="sos"), x)
+    hi4 = lambda x, f: sg.sosfilt(sg.butter(4, f / (sr / 2), "high", output="sos"), x)
+    low = lo4(out, 180); pk = np.abs(low).max() + 1e-9
+    out = out + hi4(np.tanh(low / pk * 4.0), 180) * pk * .9
+    out = out - lo4(out, 120) * (1 - 10 ** (-7 / 20))
     return out.astype(np.float32)

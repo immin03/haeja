@@ -1116,7 +1116,7 @@ def ident_source(n_frames):
     """밸류노트 인트로 2.6초 (2026-11-03 대표님 "밸류노트 인트로, 영화 오프닝같이 시네마틱하게")
     남색 어둠 → 가운데 금빛 점 → 금선이 좌우로 그어짐 → 로고가 떠오름 → (렌더러가) 극장 비율 띠가 열리며 노트로 넘어간다."""
     from brand import logo_image
-    lg = logo_image(128, "dark", shadow=False, line=False)[0]   # 금선은 인트로가 직접 긋는다 · 2026-11-03 대표님: 로고 아주 살짝 크게(118→128)
+    lg = logo_image(109, "dark", shadow=False, line=False)[0]   # 금선은 인트로가 직접 긋는다 · 2026-11-03 대표님: 로고 아주 살짝 크게(118→128) · 2026-11-04 16:10 대표님: 좀 커 보여 약 85%로(128→109)
     BG = (7, 15, 30); GOLDC = (226, 192, 120); dur = max(.1, n_frames / FPS); kk = max(1.0, (dur - .5) / 2.0)   # 길이가 늘면 점·선·로고도 그만큼 천천히
 
     def get(u):
@@ -1127,7 +1127,7 @@ def ident_source(n_frames):
         if p_line <= 0 and p_dot > 0:
             rr = 5 * p_dot; d.ellipse([W / 2 - rr * 3, cy - rr * 3, W / 2 + rr * 3, cy + rr * 3], fill=(*GOLDC, int(40 * p_dot))); d.ellipse([W / 2 - rr, cy - rr, W / 2 + rr, cy + rr], fill=(*GOLDC, 255))
         if p_line > 0:
-            hw = 330 * p_line; d.rectangle([W / 2 - hw, cy - 1.5, W / 2 + hw, cy + 1.5], fill=(*GOLDC, 255))
+            hw = 280 * p_line; d.rectangle([W / 2 - hw, cy - 1.5, W / 2 + hw, cy + 1.5], fill=(*GOLDC, 255))
             gl = max(0.0, 1 - abs(p_line - .5) * 2); d.rectangle([W / 2 - hw, cy - 6, W / 2 + hw, cy + 6], fill=(*GOLDC, int(28 * gl)))
         if p_logo > 0:
             sc_ = .94 + .06 * p_logo; L = lg.resize((int(lg.width * sc_), int(lg.height * sc_)), Image.LANCZOS)
@@ -1849,7 +1849,9 @@ def main():
         v_rms = float(np.sqrt(np.mean(vs ** 2))) if len(vs) > SR // 2 else .1
         _hb = _sg.lfilter(*_sg.butter(2, 200 / (SR / 2), "high"), bed[:int((h1 - 2.7) * SR)])   # 크기는 휴대폰에서 들리는 200Hz 위로 맞춘다 (베이스 저음은 그 위에 더해진다)
         b_rms = float(np.sqrt(np.mean(_hb ** 2))) + 1e-9
-        bed = bed * (v_rms / b_rms * 10 ** (-8 / 20)) * (1 - .45 * env)   # 2026-11-04 대표님 "인트로 쪽 사운드… 거의 안 들려" → 말 없는 틈 -14→-8dB, 말할 때 덜 낮춤(.6→.45)
+        bed = bed * (v_rms / b_rms * 10 ** (-8 / 20)) * (1 - .45 * env)
+        if HOOK_STYLE[0] == "basstaiko":   # 2026-11-04 16:02 대표님 "음악 소리가 거의 안 들려" → 이 스타일은 들리는 대역 -5dB, 봉우리는 부드럽게 눌러 목소리 크기를 지킨다
+            bed = bed * 10 ** (3 / 20); bed = (.55 * np.tanh(bed / .55)).astype(np.float32)   # 2026-11-04 대표님 "인트로 쪽 사운드… 거의 안 들려" → 말 없는 틈 -14→-8dB, 말할 때 덜 낮춤(.6→.45)
     if os.environ.get("SAVE_DRY"):   # 검수용: 음악·베드 없는 목소리+효과음만 (훅 음악 시안 비교용)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", os.path.join(out, "voice_dry.wav")], input=mix.astype(np.float32).tobytes(), check=True)
     st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
