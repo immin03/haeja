@@ -230,15 +230,19 @@ def _icon(d, kind, cx, cy, r, col, w):
 
 
 _SPR = {}
+# 2026-11-04 대표: 마지막 화면을 롱폼 인트로의 금색 디자인으로 ("좋아요 구독 그쪽도 같이 테두리 다 변경… 그 톤으로")
+LG = (201, 164, 92); LG_HI = (236, 212, 160); LG_KO = (222, 196, 140); LG_BG = (10, 9, 8)
 def cta_sprite(kind, D=176):
-    """좋아요·팔로우/구독·공유 버튼: 어두운 유리 원 + 금색 가는 테두리 + 아이보리 선 아이콘 (4배로 그려 매끈하게)"""
+    """좋아요·팔로우/구독·공유 버튼: 검은 원 + 은은히 빛나는 금색 가는 테두리 + 금색 선 아이콘 (4배로 그려 매끈하게)"""
     if kind in _SPR: return _SPR[kind]
     import math as _m
-    S4 = 4; N = D * S4; im = Image.new("RGBA", (N, N), (0, 0, 0, 0)); g = ImageDraw.Draw(im)
-    c = N / 2; R = N / 2 - 2 * S4
-    g.ellipse([c - R, c - R, c + R, c + R], fill=(20, 18, 15, 170), outline=GOLD + (230,), width=int(2.2 * S4))
-    r2 = R - 10 * S4; g.ellipse([c - r2, c - r2, c + r2, c + r2], outline=IVORY + (175,), width=int(2.4 * S4))
-    col = IVORY + (255,); w = int(4.0 * S4); r = 29 * S4
+    S4 = 4; N = (D + 40) * S4; im = Image.new("RGBA", (N, N), (0, 0, 0, 0)); g = ImageDraw.Draw(im)
+    c = N / 2; R = D * S4 / 2 - 2 * S4
+    glow = Image.new("RGBA", (N, N), (0, 0, 0, 0)); gg = ImageDraw.Draw(glow)
+    gg.ellipse([c - R, c - R, c + R, c + R], outline=LG + (200,), width=int(6 * S4))
+    glow = glow.filter(ImageFilter.GaussianBlur(9 * S4)); im.alpha_composite(glow)
+    g.ellipse([c - R, c - R, c + R, c + R], fill=(12, 11, 9, 235), outline=LG + (255,), width=int(2.2 * S4))
+    col = LG_HI + (255,); w = int(3.6 * S4); r = 29 * S4
     if kind == "like":
         pts = []
         for i in range(240):
@@ -261,63 +265,82 @@ def cta_sprite(kind, D=176):
     elif kind == "share":
         a = (c - r * 0.92, c - r * 0.02); b = (c + r * 0.9, c - r * 0.8); t3 = (c + r * 0.12, c + r * 0.95); m = (c - r * 0.12, c + r * 0.12)
         g.line([a, b, t3, m, a], fill=col, width=w, joint="curve"); g.line([m, b], fill=col, width=w)
-    out = im.resize((D, D), Image.LANCZOS); _SPR[kind] = out
+    out = im.resize((D + 40, D + 40), Image.LANCZOS); _SPR[kind] = out
     return out
 
 
+def _coin_gold(path, size=300):
+    """롱폼 인트로와 같은 금색 주화 (longform.coin_gold 와 같은 계산)"""
+    c = Image.open(path).convert("L").resize((size, size), Image.LANCZOS); a = np.array(c).astype(np.float32) / 255.0
+    rgb = np.stack([a * LG[0] * 1.15, a * LG[1] * 1.15, a * LG[2] * 1.1], -1)
+    alpha = np.clip((a - 0.08) * 1.6, 0, 1) * 255
+    yy, xx = np.mgrid[0:size, 0:size]; m = ((xx - size / 2) ** 2 + (yy - size / 2) ** 2) <= (size / 2 - 2) ** 2
+    return Image.fromarray(np.dstack([np.clip(rgb, 0, 255), alpha * m]).astype(np.uint8), "RGBA")
+
+
+_OUT = {}
+def _outro_bg():
+    if "bg" in _OUT: return _OUT["bg"]
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    g = np.exp(-(((xx - W / 2) / 620) ** 2 + ((yy - 760) / 760) ** 2))[..., None]   # 가운데 따뜻한 빛, 가장자리는 어둡게
+    arr = np.clip(np.array(LG_BG, np.float32) + g * np.array([34, 24, 10], np.float32), 0, 255).astype(np.uint8)
+    _OUT["bg"] = Image.fromarray(arr).convert("RGBA"); return _OUT["bg"]
+
+
+def _glint_line(d, layer, cx, y, w, a, t):
+    """금색 가는 선 + 선을 따라 지나가는 빛 (롱폼 EPISODE 카드와 같은 느낌)"""
+    d.line([(cx - w / 2, y), (cx + w / 2, y)], fill=LG + (int(210 * a),), width=2)
+    gx = cx - w / 2 + (w * ((t * 0.45) % 1.0))
+    gl = Image.new("RGBA", layer.size, (0, 0, 0, 0)); ImageDraw.Draw(gl).ellipse([gx - 22, y - 7, gx + 22, y + 7], fill=(255, 236, 190, int(230 * a)))
+    layer.alpha_composite(gl.filter(ImageFilter.GaussianBlur(7)))
+
+
+def _track(d, y, txt, f, col, a, track):
+    ws = [d.textlength(c, font=f) for c in txt]; g = f.size * track; x = (W - (sum(ws) + g * (len(txt) - 1))) / 2
+    for c, w in zip(txt, ws): d.text((x, y), c, font=f, fill=col + (int(255 * a),)); x += w + g
+
+
 def outro(spec_o, base, t, platform="reels"):
-    """마지막: (1) 슬로건 '매일 밤, 황제처럼 생각하라' + 황제의 일기 (성우 멘트)  (2) 좋아요·팔로우(구독)·공유"""
-    img = Image.fromarray(base).convert("RGBA").filter(ImageFilter.GaussianBlur(26))
-    img.alpha_composite(Image.new("RGBA", img.size, BG + (242,)))
+    """마지막(롱폼 인트로 금색 디자인): (1) 슬로건 '매일 밤, 황제처럼 생각하라' + 황제의 일기  (2) 금빛 주화·THE EMPEROR'S DIARY·황제의 일기 + 좋아요·팔로우(구독)·공유"""
+    img = _outro_bg().copy()
     layer = Image.new("RGBA", img.size, (0, 0, 0, 0)); d = ImageDraw.Draw(layer)
     p1 = spec_o.get("p1", 3.4)
-    def ctext(y, txt, st, a, col=None, track=0):
-        f = font(st)
-        if track:
-            ws = [d.textlength(c, font=f) for c in txt]; g = f.size * track; tot = sum(ws) + g * (len(txt) - 1); x = (W - tot) / 2
-            for c, w in zip(txt, ws): d.text((x, y), c, font=f, fill=(col or COLOR[st]) + (int(255 * a),)); x += w + g
-        else:
-            w = d.textlength(txt, font=f); d.text(((W - w) / 2, y), txt, font=f, fill=(col or COLOR[st]) + (int(255 * a),))
-    global EMB
-    if "EMB" not in globals(): EMB = Image.open(spec_o.get("logo", "/home/claude/logo/logo_final.png")).convert("RGBA")
+    def ctext(y, txt, st, a, col=None):
+        f = font(st); w = d.textlength(txt, font=f); d.text(((W - w) / 2, y), txt, font=f, fill=(col or COLOR[st]) + (int(255 * a),))
+    if "coin" not in _OUT: _OUT["coin"] = _coin_gold(spec_o.get("logo", "/home/claude/logo/logo_final.png"))
     if t < p1:
-        a0 = ease(t / 0.5); a1 = ease((t - 0.35) / 0.5); a2 = ease((t - 1.6) / 0.5)
-        fo = 1 - ease((t - (p1 - 0.35)) / 0.35)
-        ctext(700, "매일 밤,", "sub", a1 * fo, col=GOLD)
-        ctext(780, "황제처럼 생각하라", "slogan", a1 * fo)
-        d.line([((W - 70) / 2, 962), ((W + 70) / 2, 962)], fill=GOLD + (int(200 * a2 * fo),), width=2)
-        ctext(996, "황제의 일기", "sub", a2 * fo, col=IVORY)
+        a1 = ease((t - 0.35) / 0.5); a2 = ease((t - 1.6) / 0.5); fo = 1 - ease((t - (p1 - 0.35)) / 0.35)
+        ctext(700, "매일 밤,", "sub", a1 * fo, col=LG)
+        ctext(780, "황제처럼 생각하라", "slogan", a1 * fo, col=LG_HI)
+        _glint_line(d, layer, W / 2, 962, 120, a2 * fo, t)
+        ctext(996, "황제의 일기", "sub", a2 * fo, col=LG_KO)
     else:
-        u = t - p1; a = ease(u / 0.45)
-        # 위: 주화 로고 (지름 = '황제의 일기' 글자 폭) + 황제의 일기 + 영문
-        tf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 76)
-        try: tf.set_variation_by_axes([600])
+        u = t - p1; a = ease(u / 0.5)
+        cx, cy, R = W // 2, 470, 168
+        # 금빛 링(빛 번짐) + 주화
+        ring = Image.new("RGBA", img.size, (0, 0, 0, 0)); rd = ImageDraw.Draw(ring)
+        rd.ellipse([cx - R, cy - R, cx + R, cy + R], outline=(244, 200, 120, int(235 * a)), width=4)
+        layer.alpha_composite(ring.filter(ImageFilter.GaussianBlur(9))); layer.alpha_composite(ring)
+        coin = _OUT["coin"].copy(); coin.putalpha(coin.split()[3].point(lambda v: int(v * a)))
+        layer.alpha_composite(coin, (cx - coin.width // 2, cy - coin.height // 2))
+        ef = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 56)
+        _track(d, cy + R + 52, "THE EMPEROR'S DIARY", ef, LG, ease((u - 0.25) / 0.5), 0.22)
+        kf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 46)
+        try: kf.set_variation_by_axes([600])
         except Exception: pass
-        t_txt = "황제의 일기"; bb = d.textbbox((0, 0), t_txt, font=tf); tw = bb[2] - bb[0]
-        e = EMB.resize((tw, int(tw * EMB.height / EMB.width)), Image.LANCZOS)
-        ly = 330
-        ea = e.split()[3].point(lambda v: int(v * a)); e.putalpha(ea)
-        layer.alpha_composite(e, ((W - e.width) // 2, ly))
-        ty = ly + e.height + 34
-        d.text(((W - tw) / 2 - bb[0], ty - bb[1]), t_txt, font=tf, fill=IVORY + (int(255 * a),))
-        ry = ty + (bb[3] - bb[1]) + 40
-        d.line([((W - 52) / 2, ry), ((W + 52) / 2, ry)], fill=GOLD + (int(220 * a),), width=2)
-        ef = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 34)
-        ctxt = "THE EMPEROR'S DIARY"; ws = [d.textlength(c, font=ef) for c in ctxt]; g = 34 * 0.36
-        x = (W - (sum(ws) + g * (len(ctxt) - 1))) / 2
-        for c, w in zip(ctxt, ws): d.text((x, ry + 26), c, font=ef, fill=GOLD + (int(255 * a),)); x += w + g
-        # 아래: 안내 문구 + 좋아요 / 팔로우(구독) / 공유
-        ab = ease((u - 0.5) / 0.45)
-        ctext(1010, spec_o.get("lead", "오늘의 한 줄이 마음에 남았다면"), "small", ab, col=GOLD)
+        aw = ease((u - 0.45) / 0.5)
+        w = d.textlength("황제의 일기", font=kf); d.text(((W - w) / 2, cy + R + 140), "황제의 일기", font=kf, fill=LG_KO + (int(255 * aw),))
+        _glint_line(d, layer, W / 2, cy + R + 228, 150, aw, u)
+        # 아래: 안내 문구 + 좋아요 / 팔로우(구독) / 공유 — 금색 테두리·아이콘·글씨
+        ab = ease((u - 0.6) / 0.45)
+        ctext(1030, spec_o.get("lead", "오늘의 한 줄이 마음에 남았다면"), "small", ab, col=LG_KO)
         items = [("like", "좋아요"), ("follow" if platform == "reels" else "bell", "팔로우" if platform == "reels" else "구독"), ("share", "친구에게 공유")]
         gap = 290; x0 = W / 2 - gap
         for k, (kind, lab) in enumerate(items):
-            ak = ease((u - 0.6 - k * 0.15) / 0.4); cx = x0 + k * gap; cy = 1200 + int((1 - ak) * 14)
-            sp = cta_sprite(kind)
-            al = sp.split()[3].point(lambda v: int(v * ak)); sp2 = sp.copy(); sp2.putalpha(al)
-            layer.alpha_composite(sp2, (int(cx - sp.width / 2), int(cy - sp.height / 2)))
-            f = font("cta"); w = d.textlength(lab, font=f); d.text((cx - w / 2, cy + 108), lab, font=f, fill=IVORY + (int(235 * ak),))
-
+            ak = ease((u - 0.7 - k * 0.15) / 0.4); bx = x0 + k * gap; by = 1220 + int((1 - ak) * 14)
+            sp = cta_sprite(kind); sp2 = sp.copy(); sp2.putalpha(sp.split()[3].point(lambda v: int(v * ak)))
+            layer.alpha_composite(sp2, (int(bx - sp.width / 2), int(by - sp.height / 2)))
+            f = font("cta"); w = d.textlength(lab, font=f); d.text((bx - w / 2, by + 112), lab, font=f, fill=LG_HI + (int(240 * ak),))
     img.alpha_composite(layer)
     return img
 
@@ -392,12 +415,12 @@ def main(spec_path, out, frames_dir=None, platform="reels"):
         for k, v in enumerate(voices):
             ms = int(v["at"] * 1000)
             fc += f";[{k+2}:a]adelay={ms}|{ms},volume={v.get('vol',1.0)}[v{k}]"; parts.append(f"[v{k}]")
-        fc += f";{''.join(parts)}[m]amix=inputs={len(voices)+1}:normalize=0:duration=first,loudnorm=I=-15:TP=-1.5[a]"
+        fc += f";{''.join(parts)}[m]amix=inputs={len(voices)+1}:normalize=0:duration=first,aresample=48000,alimiter=limit=0.85:attack=5:release=60:level=disabled[a]"   # 2026-11-04: 한 번에 거는 loudnorm(목소리 일그러짐) 대신 고정 음량 + 리미터. 목소리 조각은 미리 -16 LUFS 로 맞춰 둔다
         fc = fc.replace(f"volume={mv}[m]", f"volume={mv},apad=whole_dur={total}[m]")
         fc = fc.replace(f"{''.join(parts)}[m]amix", f"[m]{''.join(parts)}amix")
     else:
         fc = fc.replace("[m]", ",loudnorm=I=-16:TP=-1.5[a]")
-    subprocess.run(cmd + ["-filter_complex", fc, "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-t", str(total), out], check=True)
+    subprocess.run(cmd + ["-filter_complex", fc, "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2", "-t", str(total), out], check=True)
     os.remove(tmp)
     print(f"{out} {total:.1f}s")
 
