@@ -67,7 +67,7 @@ def split_times(a, n, texts):
     return out
 
 def main(ep, takes, vdir):
-    lines = json.load(open("/home/claude/vo/v2_lines.json"))[ep]
+    lines = json.load(open(os.environ.get("ED_LINES", "/home/claude/vo/v2_lines.json")))[ep]
     old = json.load(open(f"{HERE}/long_{ep}.json"))
     takes = takes.split(",")
     # 예전 문장 목록을 조각에 나눠 담기 (조각 글에 들어 있는 문장 순서대로)
