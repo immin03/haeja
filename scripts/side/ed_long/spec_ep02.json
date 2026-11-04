@@ -1,0 +1,265 @@
+{
+ "root": "../../..",
+ "gen_dir": "social/side/gen",
+ "sfx_dir": "social/side/ed_long/sfx",
+ "music_dir": "social/side/ed_long/music",
+ "out_dir": "_long",
+ "intro": {
+  "logo": "docs/emperor/profile_final.png"
+ },
+ "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,",
+ "voice_gain": {
+  "mono": 1.9,
+  "cast": 1.25
+ },
+ "id": "edl_ep02",
+ "voice_dir": "social/side/voice_samples/ep02",
+ "voice_files": {
+  "h1": "voice_ep02_01_h1.mp3",
+  "h2": "voice_ep02_02_h2.mp3",
+  "m_h1": "voice_ep02_03_m_h1.mp3",
+  "m_h2": "voice_ep02_04_m_h2.mp3",
+  "a_her_jongdae": "voice_ep02_05_a_her_jongdae.mp3",
+  "a_her_kwonil": "voice_ep02_06_a_her_kwonil.mp3",
+  "a_her_deokhwan": "voice_ep02_07_a_her_deokhwan.mp3",
+  "a_her_zeus": "voice_ep02_08_a_her_zeus.mp3",
+  "a_her_poseidon": "voice_ep02_09_a_her_poseidon.mp3",
+  "a_her2_jongdae": "voice_ep02_10_a_her2_jongdae.mp3",
+  "a_her2_kwonil": "voice_ep02_11_a_her2_kwonil.mp3",
+  "a_her2_deokhwan": "voice_ep02_12_a_her2_deokhwan.mp3",
+  "a_her2_zeus": "voice_ep02_13_a_her2_zeus.mp3",
+  "a_her2_poseidon": "voice_ep02_14_a_her2_poseidon.mp3",
+  "a_pref_wangkwon": "voice_ep02_15_a_pref_wangkwon.mp3",
+  "a_pref_junseong": "voice_ep02_16_a_pref_junseong.mp3",
+  "a_pref_hades": "voice_ep02_17_a_pref_hades.mp3",
+  "h_her": "voice_ep02_05_a_her_jongdae.mp3"
+ },
+ "subs": {
+  "h_her": "“이것이, 루키우스를 대접한 대가입니까!”",
+  "h1": "로마 황제 앞에서, 한 노인이 소리쳤습니다.",
+  "h2": "근위대장의 손이, 칼자루로 갔습니다. 법정의 모두가, 피를 볼 거라고 생각했습니다.",
+  "m_h1": "오늘 나는, 무례한 사람을 만날 것이다.",
+  "m_h2": "!나는 그것을, 이미 알고 있었다."
+ },
+ "monologue_voices": [
+  "m_h1",
+  "m_h2"
+ ],
+ "shots": [
+  {
+   "type": "black",
+   "dur": 0.8,
+   "fixed": true,
+   "amb": [
+    "wind_6.mp3",
+    0.4
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev2_clock",
+   "dur": 2.6,
+   "fixed": true,
+   "move": {
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "black",
+   "fin": 0.8,
+   "sfx": [
+    [
+     "water_drip.wav",
+     0.55,
+     0.5
+    ],
+    [
+     "water_drip.wav",
+     1.75,
+     0.45
+    ]
+   ],
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "기원후 2세기 · 판노니아 시르미움, 황제의 법정",
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev2_court",
+   "voice": [
+    "h_her",
+    "h1"
+   ],
+   "pre": 0.15,
+   "gap": 0.6,
+   "post": 0.4,
+   "move": {
+    "zoom": [
+     1.0,
+     1.1
+    ]
+   },
+   "flicker": true,
+   "amb": [
+    "fire_4.mp3",
+    0.4
+   ],
+   "sfx": [
+    [
+     "impact_5.mp3",
+     0.1,
+     0.5
+    ],
+    [
+     "whoosh_0.mp3",
+     0.0,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev2_sword",
+   "voice": [
+    "h2"
+   ],
+   "pre": 0.3,
+   "post": 0.4,
+   "move": {
+    "zoom": [
+     1.0,
+     1.08
+    ]
+   },
+   "flicker": true,
+   "tin": "flash",
+   "amb": [
+    "fire_0.mp3",
+    0.3
+   ],
+   "sfx": [
+    [
+     "swords_2.mp3",
+     0.25,
+     0.55
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "ev2_eyes",
+   "voice": [
+    "m_h1",
+    "m_h2"
+   ],
+   "pre": 0.5,
+   "gap": 1.0,
+   "post": 0.9,
+   "move": {
+    "zoom": [
+     1.04,
+     1.16
+    ]
+   },
+   "flicker": true,
+   "sfx": [
+    [
+     "heartbeat_5.mp3",
+     0.1,
+     0.9
+    ],
+    [
+     "heartbeat_5.mp3",
+     0.9,
+     0.6
+    ],
+    [
+     "heartbeat_5.mp3",
+     1.7,
+     0.35
+    ]
+   ],
+   "tout": "black",
+   "fout": 1.0
+  },
+  {
+   "type": "black",
+   "dur": 0.4,
+   "fixed": true
+  },
+  {
+   "type": "intro",
+   "sfx": [
+    [
+     "paper_6.mp3",
+     0.8,
+     0.9
+    ],
+    [
+     "cinematic_6.mp3",
+     1.4,
+     0.7
+    ],
+    [
+     "ring_synth.wav",
+     2.4,
+     0.5
+    ],
+    [
+     "drum_5.mp3",
+     4.0,
+     1.0
+    ],
+    [
+     "impact_2.mp3",
+     4.0,
+     0.8
+    ],
+    [
+     "cinematic_4.mp3",
+     4.9,
+     0.55
+    ],
+    [
+     "transition_5.mp3",
+     9.7,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "episode",
+   "num": 2,
+   "title": "무례한 사람들",
+   "en": "The Rude and the Ungrateful",
+   "dur": 4.6,
+   "fixed": true,
+   "amb": [
+    "wind_2.mp3",
+    0.3
+   ],
+   "sfx": [
+    [
+     "drum_6.mp3",
+     0.3,
+     0.45
+    ]
+   ],
+   "tout": "black",
+   "fout": 0.8
+  }
+ ],
+ "cast_voices": [
+  "h_her"
+ ],
+ "music": []
+}
