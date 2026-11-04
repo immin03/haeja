@@ -565,6 +565,57 @@ def endscreen_frame(s, t, dur, cache):
     return (warm_bg(cache, 540).astype(np.float32) * a).astype(np.uint8)
 
 
+def finale_frame(s, t, dur, cache, logo):
+    """11/4 대표: 마지막 한 화면 — "매일 밤, 황제처럼 생각하라 · 황제의 일기" 내레이션이 나올 때 구독·좋아요 버튼과 이전 편 영상 자리가 함께 보이게.
+    왼쪽 금테 칸 = 유튜브 최종 화면의 '동영상' 요소 자리, 위 주화 = '구독' 요소 자리(스튜디오에서 같은 위치에 배치)"""
+    if "fin" not in cache:
+        coin = coin_gold(logo); c2 = cv2.resize(coin, (180, 180))
+        cache["fin"] = dict(coin=c2, sl=text_layer([s.get("slogan", "매일 밤, 황제처럼 생각하라")], "ko", 54, (240, 216, 166), shadow=False, height=86),
+                            en=text_layer(["THE EMPEROR'S DIARY"], "en", 40, BRIGHT_GOLD, track=10, shadow=False, height=66),
+                            ko=text_layer(["황제의 일기"], "ko6", 32, (232, 210, 160), shadow=False, height=52),
+                            pk=text_layer([s.get("prev_kicker", "이전 이야기  ·  EPISODE 1")], "ko6", 30, (226, 200, 150), shadow=False, height=50),
+                            nk=text_layer([s.get("next_kicker", "다음 이야기")], "ko6", 28, (210, 190, 150), shadow=False, height=46),
+                            nx=text_layer([s.get("next", "")], "ko", 40, BRIGHT_IVORY, shadow=False, height=66),
+                            sub0=pill_layer("bell", "구독"), sub1=pill_layer("bell", "구독중", True),
+                            like0=pill_layer("thumb", "좋아요"), like1=pill_layer("thumb", "좋아요", True), dust=Particles("embers", 50, 91))
+    o = cache["fin"]; vat = s.get("_vat", {}); vs = s.get("voice") or []
+    tv = lambda i, d: vat.get(vs[i], d) if len(vs) > i else d
+    t_sl, t_ch, t_o1, t_o2 = tv(0, 0.8) - 0.15, tv(1, 3.0) - 0.2, tv(2, 5.0), tv(3, 11.0)
+    out = 1 - ease((t - dur + 0.8) / 0.8)
+    img = warm_bg(cache, 560)
+    img = (img.astype(np.float32) * ease(t / 1.0)).astype(np.uint8)
+    l = np.zeros((H, W, 4), np.uint8); cy = 262; l[cy - 90:cy + 90, W // 2 - 90:W // 2 + 90] = o["coin"]; img = blend(img, l, ease(t / 1.0) * out)
+    l = np.zeros((H, W, 4), np.uint8); l[366:452] = o["sl"]; img = blend(img, l, ease((t - t_sl) / 0.9) * out, dy=8 * (1 - ease((t - t_sl) / 0.9)))
+    l = np.zeros((H, W, 4), np.uint8); l[446:512] = o["en"]; l[504:556] = o["ko"]; img = blend(img, l, ease((t - t_ch) / 0.8) * out)
+    # 왼쪽: 이전 편 영상 자리 (유튜브 동영상 요소가 이 칸에 뜬다)
+    a = ease((t - t_ch - 0.4) / 0.9) * out
+    bx0, by0, bx1, by1 = 270, 598, 870, 936
+    fr = np.zeros((H, W, 3), np.uint8); cv2.rectangle(fr, (bx0, by0), (bx1, by1), (6, 6, 8), -1)
+    img = (img.astype(np.float32) * (1 - 0.85 * a * (fr.sum(2, keepdims=True) > 0)) ).astype(np.uint8)
+    ln = np.zeros((H, W, 3), np.uint8); cv2.rectangle(ln, (bx0 - 3, by0 - 3), (bx1 + 3, by1 + 3), (92, 164, 201), 2, cv2.LINE_AA)
+    img = cv2.add(img, (ln.astype(np.float32) * a).astype(np.uint8))
+    l = np.zeros((H, W, 4), np.uint8); l[542:592] = o["pk"]; img = blend(img, l, a, dx=bx0 + (bx1 - bx0) // 2 - W // 2)
+    # 오른쪽: 구독·좋아요 (첫 해설 '구독과 좋아요로'에 맞춰 눌림)
+    for i, (key, tp) in enumerate((("sub", t_o1 + 1.6), ("like", t_o1 + 2.4))):
+        a = ease((t - t_ch - 0.6 - 0.2 * i) / 0.7) * out
+        if a <= 0: continue
+        k = t - tp; sc = 1.0 - 0.08 * math.exp(-((k - 0.06) / 0.06) ** 2) + 0.05 * math.exp(-((k - 0.24) / 0.1) ** 2) if k > -0.2 else 1.0
+        pr = ease(k / 0.18) if k > 0 else 0.0
+        pl = (o[key + "0"].astype(np.float32) * (1 - pr) + o[key + "1"].astype(np.float32) * pr).astype(np.uint8)
+        pw, ph = int(pl.shape[1] * sc * 1.15), int(pl.shape[0] * sc * 1.15); pl = cv2.resize(pl, (pw, ph))
+        cx, cyb = 1330, 650 + 112 * i
+        lay = np.zeros((H, W, 4), np.uint8); lay[cyb - ph // 2:cyb - ph // 2 + ph, cx - pw // 2:cx - pw // 2 + pw] = pl
+        if 0 < k < 0.8:
+            ring = np.zeros((H, W, 3), np.uint8); e = ease(k / 0.8)
+            cv2.ellipse(ring, (cx, cyb), (int(170 + 60 * e), int(48 + 40 * e)), 0, 0, 360, (92, 164, 201), 2, cv2.LINE_AA)
+            img = cv2.add(img, (cv2.GaussianBlur(ring, (0, 0), 2).astype(np.float32) * (1 - e) * a).astype(np.uint8))
+        img = blend(img, lay, a)
+    if s.get("next"):
+        a = ease((t - t_o2) / 0.8) * out
+        l = np.zeros((H, W, 4), np.uint8); l[818:864] = o["nk"]; l[862:928] = o["nx"]; img = blend(img, l, a, dx=1330 - W // 2)
+    return o["dust"].draw(img, t)
+
+
 def prev_frame(s, t, dur, cache, P):
     """11/4 대표: 전편을 못 본 사람에게 1편 추천 — 'PREVIOUS EPISODE' + 1편 썸네일(금테) + 제목"""
     if "pv" not in cache:
@@ -841,6 +892,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
             elif s["type"] == "tonight": img = tonight_frame(s, tt, d, cache)
             elif s["type"] == "prev": img = prev_frame(s, tt, d, cache, P)
             elif s["type"] == "endscreen": img = endscreen_frame(s, tt, d, cache)
+            elif s["type"] == "finale": img = finale_frame(s, tt, d, cache, P(S["intro"]["logo"]))
             elif s["type"] == "still": img = src.frame(prog)
             elif s["type"] == "video": img = src.frame(prog, tt, d)
             if s.get("flicker") and s["type"] in ("still", "video"):

@@ -117,8 +117,10 @@ def body(S, sp):
     # 11/4 대표: 이전 편 추천 화면은 빼고, 마지막 빈 화면(유튜브 최종 화면)에 구독 + 이전 편 영상을 스튜디오에서 배치
     out = len(S)
     # 11/4 대표: 엔딩 = "매일 밤, 황제처럼 생각하라 · 황제의 일기" → 맨 마지막은 유튜브 최종 화면(관련 영상·구독)이 뜰 빈 화면 20초, 그 위에 구독·다음 편 해설
-    S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.2, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black"})
-    S.append({"type": "endscreen", "dur": 20.0, "fixed": True, "voice": ["o1", "o2"], "pre": 1.2, "gap": 0.8, "nocap": True, "amb": ["wind_2.mp3", 0.15]})
+    # 11/4 대표: 마지막 한 화면 — 슬로건·황제의 일기 내레이션과 함께 구독·좋아요 버튼 + 이전 편 영상 자리(유튜브 최종 화면 요소를 같은 자리에 배치), 20초
+    S.append({"type": "finale", "dur": 20.0, "voice": ["m_x1", "e_x2", "o1", "o2"], "pre": 0.8, "gap": 0.8, "post": 1.0, "nocap": True, "tin": "black",
+              "slogan": "매일 밤, 황제처럼 생각하라", "prev_kicker": "이전 이야기  ·  EPISODE 1", "next": "아무도 알아주지 않을 때", "amb": ["wind_2.mp3", 0.15],
+              "sfx": [["click_2.mp3", 0, 0.0]]})
     for x in S:
         if x.get("src") in FACES: x["face"] = FACES[x["src"]]
         if x.get("type") != "intro" and x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] not in ELEC]

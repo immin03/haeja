@@ -144,8 +144,10 @@ def build():
     S.append(F.shot("still", "e3_statue", ["r9"], ["wind_2.mp3", 0.25], {"grade": "memory", "move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     # 11/4 대표: 이전 편 추천 화면은 빼고, 마지막 빈 화면(유튜브 최종 화면)에 구독 + 이전 편 영상을 스튜디오에서 배치
     out = len(S)
-    S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.2, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black"})
-    S.append({"type": "endscreen", "dur": 20.0, "fixed": True, "voice": ["o1", "o2"], "pre": 1.2, "gap": 0.8, "nocap": True, "amb": ["wind_2.mp3", 0.15]})
+    # 11/4 대표: 마지막 한 화면 — 슬로건·황제의 일기 내레이션과 함께 구독·좋아요 버튼 + 이전 편 영상 자리(유튜브 최종 화면 요소를 같은 자리에 배치), 20초
+    S.append({"type": "finale", "dur": 20.0, "voice": ["m_x1", "e_x2", "o1", "o2"], "pre": 0.8, "gap": 0.8, "post": 1.0, "nocap": True, "tin": "black",
+              "slogan": "매일 밤, 황제처럼 생각하라", "prev_kicker": "이전 이야기  ·  EPISODE 2", "next": "아내를 잃은 밤", "amb": ["wind_2.mp3", 0.15],
+              "sfx": [["click_2.mp3", 0, 0.0]]})
     faces = auto_faces({x.get("src") for x in S if x.get("src") and x["type"] in ("still", "video")})
     for x in S:
         if x.get("src") in faces: x["face"] = faces[x["src"]]
