@@ -119,7 +119,7 @@ def body(S, sp):
     # 11/4 대표: 엔딩 = "매일 밤, 황제처럼 생각하라 · 황제의 일기" → 맨 마지막은 유튜브 최종 화면(관련 영상·구독)이 뜰 빈 화면 20초, 그 위에 구독·다음 편 해설
     # 11/4 대표: 마지막 한 화면 — 슬로건·황제의 일기 내레이션과 함께 구독·좋아요 버튼 + 이전 편 영상 자리(유튜브 최종 화면 요소를 같은 자리에 배치), 20초
     S.append({"type": "finale", "dur": 20.0, "voice": ["m_x1", "e_x2", "o1", "o2"], "pre": 0.8, "gap": 0.8, "post": 1.0, "nocap": True, "tin": "black",
-              "slogan": "매일 밤, 황제처럼 생각하라", "prev_kicker": "이전 이야기  ·  EPISODE 1", "next": "아무도 알아주지 않을 때", "amb": ["wind_2.mp3", 0.15],
+              "slogan": "매일 밤, 황제처럼 생각하라", "prev_kicker": "이전 이야기  ·  EPISODE 1", "prev_box": True, "next": "아무도 알아주지 않을 때", "amb": ["wind_2.mp3", 0.15],
               "sfx": [["click_2.mp3", 0, 0.0]]})
     for x in S:
         if x.get("src") in FACES: x["face"] = FACES[x["src"]]

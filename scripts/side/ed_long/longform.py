@@ -588,7 +588,7 @@ def finale_frame(s, t, dur, cache, logo):
     l = np.zeros((H, W, 4), np.uint8); l[366:452] = o["sl"]; img = blend(img, l, ease((t - t_sl) / 0.9) * out, dy=8 * (1 - ease((t - t_sl) / 0.9)))
     l = np.zeros((H, W, 4), np.uint8); l[446:512] = o["en"]; l[504:556] = o["ko"]; img = blend(img, l, ease((t - t_ch) / 0.8) * out)
     # 왼쪽: 이전 편 영상 자리 (유튜브 동영상 요소가 이 칸에 뜬다)
-    a = ease((t - t_ch - 0.4) / 0.9) * out
+    a = ease((t - t_ch - 0.4) / 0.9) * out * (1.0 if s.get("prev_box") else 0.0)   # 11/4 대표: 다음 편부터 이전 편 칸(금테·글자)은 그리지 않고 비워 둔다 — 유튜브 동영상 요소를 그 빈자리에
     bx0, by0, bx1, by1 = 270, 598, 870, 936
     fr = np.zeros((H, W, 3), np.uint8); cv2.rectangle(fr, (bx0, by0), (bx1, by1), (6, 6, 8), -1)
     img = (img.astype(np.float32) * (1 - 0.85 * a * (fr.sum(2, keepdims=True) > 0)) ).astype(np.uint8)
