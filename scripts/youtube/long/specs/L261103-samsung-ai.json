@@ -1023,7 +1023,10 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "commons_micronfab_1.jpg",
+    "full": true,
+    "wash": "none"
    },
    "lines": [
     "메모리를 만드는 회사는 세계에 사실상 세 곳뿐입니다. 삼성전자, SK하이닉스, 그리고 미국의 마이크론입니다. 공장은 몇 년에 걸쳐 짓거든요. 모자라면 값이 오를 수밖에 없습니다."
@@ -1031,77 +1034,21 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "메모리를 만드는 회사 · 사실상 세 곳",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
+     "text": "D램을 만드는 회사",
      "line": 0,
      "at": 0.05
     },
     {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/il_L2611ss_cin_cleanroom.jpeg",
-     "x": 140,
-     "y": 250,
-     "w": 500,
-     "h": 420,
-     "rot": -2,
-     "cap": "삼성전자",
+     "kind": "write",
+     "text": "3곳",
      "line": 0,
-     "at": 0.3
+     "at": 0.25
     },
     {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_skhynix_1.jpg",
-     "x": 710,
-     "y": 250,
-     "w": 500,
-     "h": 420,
-     "rot": 1.5,
-     "cap": "SK하이닉스",
+     "kind": "print",
+     "text": "삼성전자 · SK하이닉스 · 마이크론",
      "line": 0,
      "at": 0.4
-    },
-    {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_micronfab_1.jpg",
-     "x": 1280,
-     "y": 250,
-     "w": 500,
-     "h": 420,
-     "rot": -1,
-     "cap": "마이크론",
-     "line": 0,
-     "at": 0.5
-    },
-    {
-     "kind": "under",
-     "x0": 160,
-     "x1": 620,
-     "y": 700,
-     "line": 0,
-     "at": 0.7,
-     "color": "gold"
-    },
-    {
-     "kind": "under",
-     "x0": 730,
-     "x1": 1190,
-     "y": 700,
-     "line": 0,
-     "at": 0.8,
-     "color": "gold"
-    },
-    {
-     "kind": "under",
-     "x0": 1300,
-     "x1": 1760,
-     "y": 700,
-     "line": 0,
-     "at": 0.9,
-     "color": "gold"
     }
    ],
    "sketch_add": [],
@@ -1492,7 +1439,10 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "commons_wafer_2.jpg",
+    "full": true,
+    "wash": "none"
    },
    "lines": [
     "숫자는 여기서 한 번만 정리하겠습니다. 이번 분기 삼성전자 영업이익 107조 원 가운데 106조 5천억 원이 반도체에서 나왔습니다. 스마트폰과 TV, 가전을 합친 부문은 8천억 원 적자였습니다. 지금 삼성전자 이익은 거의 전부 메모리에서 나옵니다."
@@ -1501,84 +1451,28 @@
     {
      "kind": "print",
      "text": "2026년 3분기 영업이익 107조 원",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
      "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_wafer_1.jpg",
-     "x": 1150,
-     "y": 180,
-     "w": 600,
-     "h": 420,
-     "rot": 2,
-     "cap": "반도체",
-     "line": 0,
-     "at": 0.2
+     "at": 0.05
     },
     {
      "kind": "print",
      "text": "반도체",
-     "x": 140,
-     "y": 290,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
      "line": 0,
-     "at": 0.3
+     "at": 0.25,
+     "color": "gray"
     },
     {
      "kind": "write",
-     "text": "106조 5천억 원",
-     "x": 140,
-     "y": 350,
-     "size": 110,
-     "color": "green",
+     "text": "106.5조",
      "line": 0,
-     "at": 0.32
-    },
-    {
-     "kind": "print",
-     "text": "스마트폰·TV·가전",
-     "x": 140,
-     "y": 560,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.55
-    },
-    {
-     "kind": "write",
-     "text": "-8천억 원",
-     "x": 140,
-     "y": 620,
-     "size": 90,
-     "color": "red",
-     "line": 0,
-     "at": 0.58
-    },
-    {
-     "kind": "under",
-     "x0": 140,
-     "x1": 760,
-     "y": 475,
-     "line": 0,
-     "at": 0.45,
+     "at": 0.3,
      "color": "green"
     },
     {
-     "kind": "under",
-     "x0": 140,
-     "x1": 520,
-     "y": 725,
+     "kind": "print",
+     "text": "스마트폰·TV·가전  -0.8조",
      "line": 0,
-     "at": 0.85,
+     "at": 0.55,
      "color": "red"
     }
    ],
@@ -1591,7 +1485,10 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "il_L2611ss_cin_fab.jpeg",
+    "full": true,
+    "wash": "none"
    },
    "lines": [
     "증권가 계산도 하나 보겠습니다. KB증권은 지금 삼성전자 회사 전체 값이 내년 예상 이익의 3.3년 치라고 봤습니다. SK하이닉스는 2.7년 치입니다. 이익은 역대 최대인데 값은 이만큼 낮습니다. 시장은 이 이익이 오래 가지 않을 거라고 보고 있는 거죠."
@@ -1599,86 +1496,29 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "회사 전체 값 = 내년 예상 이익 × ?",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
+     "text": "회사 값 = 내년 예상 이익의 몇 년 치 · KB증권",
      "line": 0,
-     "at": 0.1
+     "at": 0.05
     },
     {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/il_L2611ss_cin_fab.jpeg",
-     "x": 1150,
-     "y": 200,
-     "w": 600,
-     "h": 420,
-     "rot": -2,
-     "cap": "KB증권 추정",
+     "kind": "bars",
+     "items": [
+      {
+       "label": "삼성전자",
+       "v": 3.3,
+       "text": "3.3년"
+      },
+      {
+       "label": "SK하이닉스",
+       "v": 2.7,
+       "text": "2.7년",
+       "color": "gray"
+      }
+     ],
+     "x": 150,
+     "h": 300,
      "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "print",
-     "text": "삼성전자",
-     "x": 140,
-     "y": 300,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "write",
-     "text": "3.3년 치",
-     "x": 140,
-     "y": 360,
-     "size": 110,
-     "color": "red",
-     "line": 0,
-     "at": 0.32
-    },
-    {
-     "kind": "print",
-     "text": "SK하이닉스",
-     "x": 140,
-     "y": 540,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.45
-    },
-    {
-     "kind": "write",
-     "text": "2.7년 치",
-     "x": 140,
-     "y": 600,
-     "size": 100,
-     "color": "red",
-     "line": 0,
-     "at": 0.47
-    },
-    {
-     "kind": "under",
-     "x0": 140,
-     "x1": 520,
-     "y": 485,
-     "line": 0,
-     "at": 0.62,
-     "color": "red"
-    },
-    {
-     "kind": "under",
-     "x0": 140,
-     "x1": 520,
-     "y": 715,
-     "line": 0,
-     "at": 0.85,
-     "color": "red"
+     "at": 0.2
     }
    ],
    "sketch_add": [],
@@ -1690,7 +1530,10 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "commons_nvidiahq_2.jpg",
+    "full": true,
+    "wash": "none"
    },
    "lines": [
     "그래서 볼 것은 세 가지입니다. 첫째, 엔비디아가 계속 사 가는지. 11월 중순 엔비디아 실적 발표에서 확인합니다. 둘째, 메모리 값. 매달 말 나오는 D램 가격이 꺾이는지 봅니다. 셋째, 아직 정해지지 않은 55조에서 75조 원. 1월 말 삼성전자 실적 발표 때 계획이 나오는지 봅니다."
@@ -1699,76 +1542,26 @@
     {
      "kind": "print",
      "text": "앞으로 볼 것 3가지",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
      "line": 0,
-     "at": 0.02
+     "at": 0
     },
     {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/commons_nvidiahq_2.jpg",
-     "x": 140,
-     "y": 230,
-     "w": 500,
-     "h": 380,
-     "rot": -2,
-     "cap": "① 엔비디아 실적 · 11월 중순",
+     "kind": "print",
+     "text": "① 엔비디아 실적 · 11월 중순",
      "line": 0,
-     "at": 0.08
+     "at": 0.1
     },
     {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/chip_47051_a.jpg",
-     "x": 710,
-     "y": 230,
-     "w": 500,
-     "h": 380,
-     "rot": 1.5,
-     "cap": "② D램 가격 · 매달 말",
+     "kind": "print",
+     "text": "② D램 가격 · 매달 말",
      "line": 0,
-     "at": 0.4
+     "at": 0.35
     },
     {
-     "kind": "photo",
-     "src": "scripts/blog/media/lib/il_L2611ss_shareholders.jpeg",
-     "x": 1280,
-     "y": 230,
-     "w": 500,
-     "h": 380,
-     "rot": -1,
-     "cap": "③ 남은 주주환원 · 1월 말",
+     "kind": "print",
+     "text": "③ 주주환원 55~75조 · 1월 말",
      "line": 0,
-     "at": 0.72
-    },
-    {
-     "kind": "under",
-     "x0": 160,
-     "x1": 620,
-     "y": 650,
-     "line": 0,
-     "at": 0.3,
-     "color": "gold"
-    },
-    {
-     "kind": "under",
-     "x0": 730,
-     "x1": 1190,
-     "y": 650,
-     "line": 0,
-     "at": 0.62,
-     "color": "gold"
-    },
-    {
-     "kind": "under",
-     "x0": 1300,
-     "x1": 1760,
-     "y": 650,
-     "line": 0,
-     "at": 0.92,
-     "color": "gold"
+     "at": 0.65
     }
    ],
    "sketch_add": [],
@@ -1799,7 +1592,10 @@
   },
   {
    "v": {
-    "type": "sketch"
+    "type": "media",
+    "lib": "il_L2611ss_cin_cleanroom.jpeg",
+    "full": true,
+    "wash": "none"
    },
    "lines": [
     "세 숫자가 다 좋으면 107조 원은 시작이 되고 메모리 값이 먼저 꺾이면 107조 원은 꼭대기였다는 평가로 바뀝니다. 어느 쪽인지는 내년 초면 꽤 분명해질 겁니다."
@@ -1808,75 +1604,21 @@
     {
      "kind": "print",
      "text": "107조 원은",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
      "line": 0,
-     "at": 0.02
+     "at": 0
     },
     {
-     "kind": "arrow",
-     "pts": [
-      [
-       520,
-       330
-      ],
-      [
-       900,
-       220
-      ]
-     ],
+     "kind": "print",
+     "text": "세 숫자 모두 좋으면  →  시작",
      "line": 0,
-     "at": 0.1,
+     "at": 0.05,
      "color": "green"
     },
     {
      "kind": "print",
-     "text": "세 숫자 모두 좋음 → 시작",
-     "x": 940,
-     "y": 190,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "green",
+     "text": "D램 값이 먼저 꺾이면  →  꼭대기",
      "line": 0,
-     "at": 0.15
-    },
-    {
-     "kind": "arrow",
-     "pts": [
-      [
-       520,
-       380
-      ],
-      [
-       900,
-       520
-      ]
-     ],
-     "line": 0,
-     "at": 0.45,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "D램 값이 먼저 꺾임 → 꼭대기",
-     "x": 940,
-     "y": 500,
-     "size": 50,
-     "w": "ExtraBold",
-     "color": "red",
-     "line": 0,
-     "at": 0.5
-    },
-    {
-     "kind": "under",
-     "x0": 940,
-     "x1": 1700,
-     "y": 570,
-     "line": 0,
-     "at": 0.8,
+     "at": 0.4,
      "color": "red"
     }
    ],

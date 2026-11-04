@@ -1653,6 +1653,9 @@ def sfx_braam(level=.12):
     return (y / (np.abs(y).max() + 1e-9) * level).astype(np.float32)
 
 
+HOOK_STYLE = ["drive"]   # spec "hook": {"style": "drive"|"house"|"hybrid"}
+
+
 def hook_bed(n, timeline):
     """훅 전용 음악: 박자마다 킥, 8분음표 틱, 낮은 드론, 컷·장면이 바뀌는 박자에 강한 타격, 인트로 직전 상승음, 로고에 웅장한 소리.
     테마곡은 이 구간에서 쉬고 인트로가 끝나며 들어온다. 반환: (베드 신호, 인트로가 끝나는 시각)"""
@@ -1669,7 +1672,7 @@ def hook_bed(n, timeline):
         strong.add(round(x["start"] / bt))
         for e in cut_edges(x["sc"]["v"], x["dur"]): strong.add(round((x["start"] + e) / bt))
     import hookmusic as HM   # 2026-11-03 대표님 3차: 합성음 전부 빼고 녹음된 피아노 샘플로 (hookmusic.py)
-    bed = HM.make_bed(n, SR, bt, strong, h0, h1)
+    bed = HM.make_bed(n, SR, bt, strong, h0, h1, style=HOOK_STYLE[0])
     return bed, h1
 
 
@@ -1723,7 +1726,7 @@ def split_end(spec):
 
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"
+    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive")
     import docfx as DOCFX; data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
@@ -1832,7 +1835,7 @@ def main():
     from scipy import signal as _sg
     env = _movavg(np.abs(mix), int(SR * .25)); env = np.clip(env / (env.max() + 1e-9) * 4, 0, 1)   # 2026-11-01: np.convolve 가 9분 오디오에서 5분 넘게 걸려 누적합 이동 평균으로 (결과 같음)
     env = _sg.lfilter([.0005], [1, -.9995], env); env = np.clip(env / (env.max() + 1e-9), 0, 1)
-    MUS_LEVEL, MUS_DUCK = .25, .62   # 2026-10-22 운영자: 음악이 안 들린다 → 말 없는 곳은 또렷하게, 말할 때는 62% 낮춘다 · 2026-10-27 운영자: "아주 약간만 더 키워도" → .19→.25 (약 +2.4dB)
+    MUS_LEVEL, MUS_DUCK = .32, .62   # 2026-11-04 대표님 "전체적인 배경음악이 너무 작아진 것 같은데… 거의 안 들려" → .25→.32 (약 +2dB) · 2026-10-22 운영자: 음악이 안 들린다 → 말 없는 곳은 또렷하게, 말할 때는 62% 낮춘다 · 2026-10-27 운영자: "아주 약간만 더 키워도" → .19→.25 (약 +2.4dB)
     boost = np.ones(len(mix), np.float32)   # 시작(첫 말 전)과 끝 화면에서는 음악을 더 크게, 사이는 부드럽게 이어 준다
     first = int(timeline[0]["start"] * SR + timeline[0]["lines"][0][0] * SR); last = int(timeline[-1]["start"] * SR)
     boost[:first] = 1.5; boost[last:] = 1.5
@@ -1846,7 +1849,7 @@ def main():
         v_rms = float(np.sqrt(np.mean(vs ** 2))) if len(vs) > SR // 2 else .1
         _hb = _sg.lfilter(*_sg.butter(2, 200 / (SR / 2), "high"), bed[:int((h1 - 2.7) * SR)])   # 크기는 휴대폰에서 들리는 200Hz 위로 맞춘다 (베이스 저음은 그 위에 더해진다)
         b_rms = float(np.sqrt(np.mean(_hb ** 2))) + 1e-9
-        bed = bed * (v_rms / b_rms * 10 ** (-14 / 20)) * (1 - .6 * env)
+        bed = bed * (v_rms / b_rms * 10 ** (-8 / 20)) * (1 - .45 * env)   # 2026-11-04 대표님 "인트로 쪽 사운드… 거의 안 들려" → 말 없는 틈 -14→-8dB, 말할 때 덜 낮춤(.6→.45)
     if os.environ.get("SAVE_DRY"):   # 검수용: 음악·베드 없는 목소리+효과음만 (훅 음악 시안 비교용)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", os.path.join(out, "voice_dry.wav")], input=mix.astype(np.float32).tobytes(), check=True)
     st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)

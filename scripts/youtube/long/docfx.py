@@ -43,7 +43,7 @@ _GRAD = {}
 def _grad(strength):
     if strength not in _GRAD:
         xs = np.linspace(0, 1, W, dtype=np.float32)
-        a = np.clip((.66 - xs) / .66, 0, 1) ** 1.3 * strength
+        a = np.clip((.78 - xs) / .78, 0, 1) ** 1.15 * strength   # 밝은 사진에서도 글씨가 읽히게 (11/4 마이크론·엔비디아 사진)
         _GRAD[strength] = a[None, :, None]
     return _GRAD[strength]
 
@@ -68,6 +68,13 @@ def _glow_line(im, pts, col, w, glow=True):
     ImageDraw.Draw(im).line(pts, fill=(*col, 255), width=w, joint="curve")
 
 
+def _st(d, xy, text, font, fill, **kw):
+    """그림자 있는 글씨 (밝은 사진 위에서도 또렷하게)"""
+    a = fill[3] if len(fill) == 4 else 255
+    d.text((xy[0] + 2, xy[1] + 3), text, font=font, fill=(0, 0, 0, int(a * .55)), **kw)
+    d.text(xy, text, font=font, fill=fill, **kw)
+
+
 def _tone(b, default=WHITE):
     return TONE.get(b.get("color"), default)
 
@@ -80,7 +87,8 @@ def draw(img, beats, u, lines):
     g = eio((u - (min(ts) - .25)) / .5)
     if g <= 0: return img
     a = np.asarray(img).astype(np.float32)
-    m = _grad(.80) * g; navy = np.array([8, 14, 26], np.float32)
+    m = _grad(.86) * g; navy = np.array([8, 14, 26], np.float32)
+    a = a * (1 - .18 * g)   # 화면 전체를 살짝 어둡게 (다큐 색)
     a = a * (1 - m) + navy * m
     im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).convert("RGBA")
     X = 150; y = 150; first = True
@@ -94,12 +102,12 @@ def draw(img, beats, u, lines):
             q = eout(p / .35); d = ImageDraw.Draw(im, "RGBA")
             d.line([(X, y + 17), (X + 50 * q, y + 17)], fill=(*GOLD, 255), width=3)
             r = eout((p - .15) / .4)
-            if r > 0: d.text((X + 66 - 24 * (1 - r), y), b["text"], font=F("SemiBold", 32), fill=(*GOLD, int(255 * r)))
+            if r > 0: _st(d, (X + 66 - 24 * (1 - r), y), b["text"], font=F("SemiBold", 32), fill=(*GOLD, int(255 * r)))
             y += _height(b, True); first = False
         elif k == "print":
             r = eout(p / .45); d = ImageDraw.Draw(im, "RGBA")
             col = _tone(b, WHITE); sz = 44 if len(b.get("text", "")) <= 22 else 38
-            d.text((X, y + 14 * (1 - r)), b["text"], font=F("Bold", sz), fill=(*col, int(255 * r)))
+            _st(d, (X, y + 14 * (1 - r)), b["text"], font=F("Bold", sz), fill=(*col, int(255 * r)))
             y += _height(b, False)
         elif k == "write":
             r = eout(p / .5); d = ImageDraw.Draw(im, "RGBA")
@@ -108,7 +116,7 @@ def draw(img, beats, u, lines):
             if n:   # 숫자 하나: 0에서 세어 올라간다
                 c = eout(p / 1.0); v = n[1] * c; txt = f"{n[0]}{v:,.{n[2]}f}{n[3]}"
             sz = 132 if len(txt) <= 7 else (104 if len(txt) <= 11 else 84)
-            d.text((X, y + 20 * (1 - r)), txt, font=F("Heavy", sz), fill=(*col, int(255 * r)))
+            _st(d, (X, y + 20 * (1 - r)), txt, font=F("Heavy", sz), fill=(*col, int(255 * r)))
             y += _height(b, False)
         elif k == "chart":
             _chart(im, b, p); y = max(y, b["y"] + b["h"] + 90)

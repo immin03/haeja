@@ -46,6 +46,7 @@ def note(name, sr, d=None):
 
 
 def make_bed(n, sr, beat, strong, h0, h1, seed=7, style="drive"):
+    if style in ("house", "hybrid"): return make_house(n, sr, beat, strong, h0, h1, seed, taiko=(style == "hybrid"))
     rng = np.random.default_rng(seed)
     out = np.zeros(n, np.float32)
 
@@ -93,4 +94,98 @@ def make_bed(n, sr, beat, strong, h0, h1, seed=7, style="drive"):
     # 시작은 0.3초에 걸쳐 들어오고, 인트로가 끝나면 1.2초에 걸쳐 빠진다
     tt = np.arange(n) / sr
     out *= np.clip(tt / .3, 0, 1) * np.clip((h1 + 1.2 - tt) / 1.2, 0, 1)
+    return out.astype(np.float32)
+
+
+# ── 2026-11-04 대표님: "일렉트로 하우스 같은 느낌도 있으면… 인트로 좀 더 강력하게" → 시안용 스타일 house / hybrid ──
+def _kick(sr, drive=2.2):
+    m = int(sr * .38); t = np.arange(m) / sr; f = 55 + 120 * np.exp(-t * 28)
+    x = np.sin(2 * np.pi * np.cumsum(f) / sr) * np.exp(-t / .16)
+    x += np.exp(-t / .004) * .6   # 앞머리 딸깍 (휴대폰에서도 박자가 들리게)
+    return np.tanh(drive * x) / np.tanh(drive)
+
+
+def _noise(sr, d, rng): return rng.standard_normal(int(sr * d))
+
+
+def _clap(sr, rng):
+    m = int(sr * .25); out = np.zeros(m)
+    for o in (0, .011, .022):
+        L = m - int(o * sr); z = _bp(rng.standard_normal(L), sr, 900, 3200) * _env(L, sr, .001, .06); out[int(o * sr):] += z
+    return out / (np.abs(out).max() + 1e-9)
+
+
+def _hat(sr, rng, d=.07):
+    z = _hp(_noise(sr, d, rng), sr, 7000) * _env(int(sr * d), sr, .001, d / 3); return z / (np.abs(z).max() + 1e-9)
+
+
+def _sawv(f, d, sr, voices=5, spread=.012):
+    m = int(sr * d); t = np.arange(m) / sr; y = np.zeros(m)
+    for k in range(voices):
+        df = f * (1 + spread * (k - (voices - 1) / 2) / ((voices - 1) / 2 or 1)); y += 2 * ((t * df + .13 * k) % 1) - 1
+    return y / voices
+
+
+def _env_(n, sr, a, r):
+    return _env(n, sr, a, r)
+
+
+def _env(n, sr, a, r):
+    t = np.arange(n) / sr
+    return np.minimum(1, t / max(a, 1e-4)) * np.exp(-t / max(r, 1e-4))
+
+
+def _bp(x, sr, lo, hi):
+    b, a = sg.butter(2, [lo / (sr / 2), min(.99, hi / (sr / 2))], "band"); return sg.lfilter(b, a, x)
+
+
+def _hp(x, sr, f):
+    b, a = sg.butter(2, f / (sr / 2), "high"); return sg.lfilter(b, a, x)
+
+
+def _lp(x, sr, f):
+    b, a = sg.butter(2, min(.99, f / (sr / 2)), "low"); return sg.lfilter(b, a, x)
+
+
+HZ = {"A1": 55.0, "F1": 43.65, "C2": 65.41, "G1": 49.0, "A2": 110.0, "F2": 87.31, "C3": 130.81, "G2": 98.0, "E3": 164.81, "A3": 220.0,
+      "C4": 261.63, "E4": 329.63, "F3": 174.61, "G3": 196.0, "B3": 246.94, "D4": 293.66, "G4": 392.0}
+STAB = [("A3", "C4", "E4"), ("F3", "A3", "C4"), ("G3", "C4", "E4"), ("G3", "B3", "D4")]
+
+
+def make_house(n, sr, beat, strong, h0, h1, seed=7, taiko=False):
+    """일렉트로 하우스: 4박 킥 · 2·4박 클랩 · 엇박 하이햇 · 엇박 베이스 · 사이드체인으로 출렁이는 신스 화음 · 마지막 2박 스네어 롤+상승음 · 로고에 큰 임팩트"""
+    rng = np.random.default_rng(seed); out = np.zeros(n, np.float32); pad = np.zeros(n, np.float32)
+    def add(buf, at, x, lv):
+        i = int(round(at * sr))
+        if 0 <= i < n: buf[i:i + len(x)] += (np.asarray(x)[: n - i] * lv).astype(np.float32)
+    hb = int(round(h0 / beat)); e8 = beat / 2; K = _kick(sr); C = _clap(sr, rng)
+    for b in range(hb - 2):
+        g = .75 + .25 * min(1, b / max(1, hb - 4)); big = b in strong or b % 4 == 0
+        add(out, b * beat, K, .9 * g)
+        if taiko and big: add(out, b * beat, note("C2", sr, TAIKO), .55 * g)
+        if b % 2 == 1: add(out, b * beat, C, .38 * g)
+        add(out, b * beat + e8, _hat(sr, rng, .09), .16 * g)
+        ch = STAB[((b - hb) // 4) % 4]; root = {"A3": "A1", "F3": "F1", "G3": "G1"}[ch[0]] if ch[0] in ("A3", "F3", "G3") else "C2"
+        bs = _lp(_sawv(HZ[root] * 2, e8 * .9, sr, 3, .006), sr, 700) * _env(int(sr * e8 * .9), sr, .004, e8 * .5)
+        add(pad, b * beat + e8, bs, .55 * g)   # 엇박 베이스
+        st = sum(_sawv(HZ[nm], beat * .9, sr) for nm in ch); st = _lp(st, sr, 2600 + 1400 * g) * _env(len(st), sr, .006, beat * .45)
+        add(pad, b * beat, st / 3, .34 * g)    # 화음 스탭
+    # 사이드체인: 킥마다 신스·베이스가 눌렸다가 올라온다 (하우스 특유의 출렁임)
+    tt = np.arange(n) / sr; ph = (tt % beat) / beat; sc = np.clip(ph / .45, 0, 1) ** .7
+    out += pad * (.25 + .75 * sc)
+    # 마지막 2박: 스네어 롤(점점 빨라짐) + 상승 잡음 + 올라가는 음
+    t0 = (hb - 2) * beat; hits = [t0 + beat * x for x in (0, .5, 1, 1.25, 1.5, 1.625, 1.75, 1.875)]
+    for j, at in enumerate(hits): add(out, at, C, .18 + .05 * j)
+    m = int(2 * beat * sr); u = np.linspace(0, 1, m); z = rng.standard_normal(m)
+    rs = _hp(z, sr, 1500) * u ** 2; add(out, t0, rs / (np.abs(rs).max() + 1e-9), .35)
+    f = 220 * 2 ** (u * 2); sw = np.sin(2 * np.pi * np.cumsum(f) / sr) * u ** 2; add(out, t0, sw, .12)
+    # 로고 임팩트: 큰 킥 + 낮게 떨어지는 서브 + 잡음 폭발 + 넓은 화음, 꼬리는 길게
+    m = int(sr * 2.4); t = np.arange(m) / sr; fsub = 70 * np.exp(-t * 1.6) + 32
+    sub = np.tanh(1.8 * np.sin(2 * np.pi * np.cumsum(fsub) / sr)) * np.exp(-t / .9)
+    add(out, h0, _kick(sr, 3.0), 1.1); add(out, h0, sub, .7)
+    z = rng.standard_normal(int(sr * 1.2)); bl = _bp(z, sr, 300, 5000) * _env(len(z), sr, .002, .25); add(out, h0, bl / (np.abs(bl).max() + 1e-9), .45)
+    ch = sum(_sawv(HZ[nm], 2.4, sr, 7, .015) for nm in ("C3", "G3", "C4", "E4", "G4")); ch = _lp(ch, sr, 3200) * _env(len(ch), sr, .01, 1.0)
+    add(out, h0, ch / (np.abs(ch).max() + 1e-9), .38)
+    if taiko: add(out, h0, note("C2", sr, TAIKO), .8); add(out, h0, note("C2", sr, TIMP), .55)
+    out *= np.clip(tt / .05, 0, 1) * np.clip((h1 + 1.2 - tt) / 1.2, 0, 1)
     return out.astype(np.float32)
