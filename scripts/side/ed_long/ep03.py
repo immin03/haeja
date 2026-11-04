@@ -220,9 +220,38 @@ def genv():
     json.dump(vj, open(os.path.join(ROOT, "scripts/side/gen/EDL261104-ep03v.json"), "w"), ensure_ascii=False, indent=1)
     print(len(vj), "영상")
 
+# 11/4 대표: 주 4일로 줄여 아낀 비용만큼 영상미를 높인다 — 이야기 장면 대부분을 움직이는 영상으로, 장면 전환을 더 자주
+VIDEOS_PLUS = {
+ "ev3_gown": ("e3_gown", "The auctioneer slowly lifts the shimmering silk gown higher and turns it so the gold thread catches the light; the crowd below sways."),
+ "ev3_senators": ("e3_senators", "One senator leans closer and whispers with a smirk while the other slowly turns his head toward something off-camera; togas move slightly."),
+ "ev3_watch": ("e3_watch", "The emperor stands still at the balcony, blinks once slowly and keeps watching with calm eyes; a light wind moves his cloak; very slow push-in."),
+ "ev3_triumph": ("e3_triumph", "The legion marches slowly forward through the gate with standards swaying, the crowd waving; the pale soldier in front coughs into his hand."),
+ "ev3_galen": ("e3_galen", "The physician gently turns the patient's arm to look at the rash, the lamp flame flickering; the patient breathes heavily."),
+ "ev3_widow": ("e3_widow", "Smoke rises slowly from the modest pyre; the official hands over the coins and the woman lowers her eyes, holding her shawl; dawn light grows."),
+ "ev3_lucius": ("e3_lucius", "The candle flame flickers; the emperor slowly bows his head lower while holding his brother's hand; very slow push-in."),
+ "ev3_rumor": ("e3_rumor", "The men lean in closer and whisper; one glances over his shoulder; the oil lamps flicker."),
+ "ev3_treasury": ("e3_treasury", "The torch flickers over the empty chests; the clerk slowly lowers his wax tablet and stares in dismay; very slow push-in."),
+ "ev3_senate": ("e3_senate", "The standing senator gestures insistently while the emperor listens without moving, then slowly shakes his head once."),
+ "ev3_cups": ("e3_cups", "A buyer's hands lift a golden cup from the auction table while coins are counted out; the light glints on crystal goblets."),
+ "ev3_soldiers": ("e3_soldiers", "The veteran raises his fist and shouts; the crowd of soldiers stirs and murmurs; standards sway in the wind."),
+ "ev3_refuse": ("e3_refuse", "The emperor speaks slowly and firmly to the soldiers, his cloak moving in the wind; torches flicker behind him."),
+ "ev3_return": ("e3_return", "The merchant slides the golden cup across the table and the clerk counts coins back into his palm; both nod politely."),
+ "ev3_statue": ("e3_statue", "Golden dawn light slowly spreads over the bronze statue; pigeons take off; clouds drift; slow camera rise."),
+ "ev3_kitchen": ("e3m_kitchen", "The woman slowly sets a bowl on the table and pauses, looking at the empty chairs; steam rises from the rice."),
+ "ev3_nurse": ("e3m_nurse", "The nurse gently pulls the blanket up over the sleeping patient and quietly steps back; the monitor light pulses."),
+ "ev3_volunteer": ("e3m_volunteer", "The old man ladles rice onto a tray and hands it over with a small nod; people at the tables eat quietly."),
+}
+
+
+def genv2():
+    vj = [{"id": k, "kind": "video", "endpoint": "alibaba/wan-3.0/image-to-video", "image": f"social/side/gen/{src}.jpeg", "body": {"duration": 5, "prompt": p + " " + VT}} for k, (src, p) in VIDEOS_PLUS.items()]
+    json.dump(vj, open(os.path.join(ROOT, "scripts/side/gen/EDL261104-ep03v2.json"), "w"), ensure_ascii=False, indent=1)
+    print(len(vj), "영상(추가)")
+
 
 if __name__ == "__main__":
     if sys.argv[1] == "gen": gen()
     elif sys.argv[1] == "genv": genv()
+    elif sys.argv[1] == "genv2": genv2()
     else:
         import ep03_spec; ep03_spec.build()
