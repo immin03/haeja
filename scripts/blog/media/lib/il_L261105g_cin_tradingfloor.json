@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105g_cin_tradingfloor",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark, no recognizable real person. Scene: A modern trading floor at night, many glowing screens with blurred golden charts, a lone trader seen from behind, cinematic.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a56e-94a7-75e1-a7ac-345595577050",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a56e-94a7-75e1-a7ac-345595577050/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a56e-94a7-75e1-a7ac-345595577050/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a56e-94a7-75e1-a7ac-345595577050",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a56e-94a7-75e1-a7ac-345595577050/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a56e-94a7-75e1-a7ac-345595577050/cancel",
+  "expires_at": "2026-11-11T07:22:06.629304+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a56e-94a7-75e1-a7ac-345595577050/0fb3ac6f-15f8-412b-af6f-a2363e6303ca.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261105g_cin_tradingfloor.jpeg"
+}

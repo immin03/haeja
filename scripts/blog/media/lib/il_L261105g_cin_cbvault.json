@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105g_cin_cbvault",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark, no recognizable real person. Scene: A modern central bank gold vault, endless rows of neatly stacked gold bars on steel shelves under cool white light, a vault worker in white gloves seen from behind.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a572-faa7-7f8e-bd11-11fc28bd3985",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a572-faa7-7f8e-bd11-11fc28bd3985/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a572-faa7-7f8e-bd11-11fc28bd3985/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a572-faa7-7f8e-bd11-11fc28bd3985",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a572-faa7-7f8e-bd11-11fc28bd3985/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a572-faa7-7f8e-bd11-11fc28bd3985/cancel",
+  "expires_at": "2026-11-11T07:27:11.452610+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a572-faa7-7f8e-bd11-11fc28bd3985/f8db5785-3f08-4d64-9693-6e3b40acf83a.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "scripts/blog/media/lib/il_L261105g_cin_cbvault.jpeg"
+}

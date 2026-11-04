@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105g_cin_agora",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark, no recognizable real person. Scene: An ancient Mediterranean market at golden hour, merchants exchanging small gold coins over baskets of grain and pottery, seen from a distance, warm haze.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a56a-7954-75b2-9b8f-20dd4842f543",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a56a-7954-75b2-9b8f-20dd4842f543/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a56a-7954-75b2-9b8f-20dd4842f543/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a56a-7954-75b2-9b8f-20dd4842f543",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a56a-7954-75b2-9b8f-20dd4842f543/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a56a-7954-75b2-9b8f-20dd4842f543/cancel",
+  "expires_at": "2026-11-11T07:17:40.589900+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a56a-7954-75b2-9b8f-20dd4842f543/2c0c42b8-4d0d-43b8-bd07-7db3f3447093.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261105g_cin_agora.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105g_cin_farmland",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark, no recognizable real person. Scene: Endless golden wheat fields at sunset with a red farm silo, a combine harvester in the distance, warm light, abundance.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a572-03ac-7614-bdaa-6cefd3077780",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a572-03ac-7614-bdaa-6cefd3077780/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a572-03ac-7614-bdaa-6cefd3077780/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a572-03ac-7614-bdaa-6cefd3077780",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a572-03ac-7614-bdaa-6cefd3077780/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a572-03ac-7614-bdaa-6cefd3077780/cancel",
+  "expires_at": "2026-11-11T07:25:57.542802+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a572-03ac-7614-bdaa-6cefd3077780/b63e6471-a55a-4dbb-bcc5-6f531a5519b5.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "scripts/blog/media/lib/il_L261105g_cin_farmland.jpeg"
+}
