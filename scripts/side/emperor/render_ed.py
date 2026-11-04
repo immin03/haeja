@@ -153,7 +153,8 @@ def read_frames(path, n, speed=1.0):
     p = subprocess.Popen(["ffmpeg", "-v", "error", "-i", path, "-vf", vf, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
     # 2026-11-03: 긴 편(55초+)에서 메모리 부족(7GB) → 디스크 memmap 에 담는다
     import tempfile
-    mm = np.memmap(tempfile.NamedTemporaryFile(prefix="edfr_", dir=os.environ.get("ED_TMP", "/tmp"), delete=False).name, np.uint8, "w+", shape=(n, H, W, 3))
+    _fp = tempfile.NamedTemporaryFile(prefix="edfr_", dir=os.environ.get("ED_TMP", "/tmp"), delete=False).name
+    mm = np.memmap(_fp, np.uint8, "w+", shape=(n, H, W, 3)); os.unlink(_fp)   # 2026-11-04: 렌더가 끝나면 저절로 사라지게 (남은 파일 28GB로 디스크가 찼음)
     last = None; got = 0
     for i in range(n):
         buf = p.stdout.read(W * H * 3)

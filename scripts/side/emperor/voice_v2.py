@@ -39,15 +39,31 @@ def speech_runs(a, thr_db=-42, min_gap=0.16):
     return out
 
 def split_times(a, n, texts):
-    """조각 안 문장 n개의 시작·끝. 말 덩어리 사이 쉼이 큰 순서로 n-1곳을 고르고, 안 되면 글자 수 비율로"""
-    runs = speech_runs(a)
-    if len(runs) >= n:
-        gaps = sorted(range(len(runs) - 1), key=lambda i: runs[i + 1][0] - runs[i][1], reverse=True)[:n - 1]
-        cut = sorted(gaps); out, s = [], 0
-        for c in cut + [len(runs) - 1]: out.append([runs[s][0], runs[c][1]]); s = c + 1
+    """조각 안 문장 n개의 시작·끝 (2026-11-04 고침: 말 덩어리를 문장 글자 수 비율에 가장 잘 맞게 나눔 — 쉼이 큰 곳만 고르면
+    '화가 나면, 곧바로…'처럼 쉼표 쉼에서 잘려 자막이 말보다 먼저 넘어감)"""
+    runs = speech_runs(a); m = len(runs)
+    if m < n:
+        L = [len(t) for t in texts]; T0, T1 = runs[0][0], runs[-1][1]; tot = sum(L); out, x = [], T0
+        for l in L: y = x + (T1 - T0) * l / tot; out.append([x, y]); x = y
         return out
-    L = [len(t) for t in texts]; T0, T1 = runs[0][0], runs[-1][1]; tot = sum(L); out, x = [], T0
-    for l in L: y = x + (T1 - T0) * l / tot; out.append([x, y]); x = y
+    L = [len(re.sub(r"\s", "", t)) for t in texts]; ct = sum(L)
+    T = runs[-1][1] - runs[0][0]
+    import functools
+    @functools.lru_cache(None)
+    def best(i, k):   # runs[i:] 를 문장 k.. 에 나눠 담는 최소 비용
+        if k == n: return (0.0, ()) if i == m else (1e9, ())
+        if m - i < n - k: return (1e9, ())
+        res = (1e9, ())
+        last = m if k == n - 1 else m - (n - k - 1)
+        for j in range(i + 1, last + 1):
+            d = runs[j - 1][1] - runs[i][0]
+            c = (d / T - L[k] / ct) ** 2
+            if j < m and k < n - 1: c -= 0.002 * (runs[j][0] - runs[j - 1][1])   # 쉼이 길수록 조금 선호
+            sub = best(j, k + 1)
+            if c + sub[0] < res[0]: res = (c + sub[0], (j,) + sub[1])
+        return res
+    cuts = best(0, 0)[1]; out, s0 = [], 0
+    for j in cuts: out.append([runs[s0][0], runs[j - 1][1]]); s0 = j
     return out
 
 def main(ep, takes, vdir):
@@ -67,7 +83,9 @@ def main(ep, takes, vdir):
         flat = re.sub(r"[\s'\",.?!]", "", line)
         while si < len(sents) and re.sub(r"[\s'\",.?!]", "", " ".join(sents[si][5])) in flat: mine.append(sents[si]); si += 1
         tm = split_times(a, len(mine), [" ".join(s[5]) for s in mine])
-        for s, (x, y) in zip(mine, tm): out_sents.append([round(t + x, 3), round(t + y, 3), k + 1, s[3], s[4], s[5]])
+        for q, (s, (x, y)) in enumerate(zip(mine, tm)):
+            y2 = (tm[q + 1][0] - 0.05) if q + 1 < len(tm) else max(y, len(a) / SR - 0.1)
+            out_sents.append([round(t + x, 3), round(t + max(y, y2), 3), k + 1, s[3], s[4], s[5]])
         full.append(np.zeros(int(0.3 * SR) if k == 0 else int(GAP * SR), np.float32)); full.append(a); t += len(a) / SR + GAP
         pieces.append((nm, tk, round(len(a) / SR, 2), len(mine)))
     assert si == len(sents), f"문장 {len(sents) - si}개가 조각에 안 들어감: {sents[si][5]}"
