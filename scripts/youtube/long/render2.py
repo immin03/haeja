@@ -1105,6 +1105,9 @@ def cuts_source(v, n_frames, seed):
     return get
 
 
+DOC_OVERLAY = False; DOCFX = None
+
+
 def NBK_eio(t):
     t = clamp(t); return t * t * (3 - 2 * t)
 
@@ -1472,7 +1475,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         fit = safe_fit(sc, x, V, theme) if (I["mode"] != "title" and not I["inked"] and not I["full"]) else None
         src = fill(sc.get("src", sc["v"].get("src", "")), V); asof = V.get("asof") if sc.get("asof", typ not in ("title", "question", "end", "media")) else ""
         import sketch as SK
-        sk = SK.scene_beats(sc, x["lines"], V, fill, at_time, k >= cold) if I["inked"] else None
+        sk = SK.scene_beats(sc, x["lines"], V, fill, at_time, k >= cold) if (I["inked"] and not (DOC_OVERLAY and I["full"])) else None
         if sk is not None and not I["full"]:  # 그림 장면은 그림이 움직이므로 펜 쉼 검사 제외
             for g in SK.gaps(sk, x["lines"]): print("  ⚠ 손그림 빈틈:", k, g, flush=True); GAPS.append([k, g])
         base_pose = I["pose"]; start_pose = prev_pose or base_pose; pen_last = None; last_fr = None
@@ -1484,7 +1487,9 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             full_img = None
             if I["full"]:
                 full_img = fullsrc(u)
-                if sk:
+                if DOC_OVERLAY and sc.get("sketch") and not sc["v"].get("cine"):   # 2026-11-04 대표님: 판 없이 다큐처럼 (docfx.py)
+                    full_img = DOCFX.draw(full_img, sc["sketch"], u, x["lines"])
+                elif sk:
                     arr = np.asarray(full_img).copy(); SK.panel(arr, sk, u); SK.apply(arr, sk, u); full_img = Image.fromarray(arr)   # 제1 원칙 72: 그림 위 글씨 뒤 반투명 판
                 tex = None
             elif I["mode"] == "title":
@@ -1718,7 +1723,8 @@ def split_end(spec):
 
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
+    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"
+    import docfx as DOCFX; data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
     R.BG = R.bg_gradient(); R.LOGO = Image.open(os.path.join(HERE, "assets", "logo.png")).convert("RGBA")
@@ -1809,7 +1815,7 @@ def main():
             elif k + 1 < len(timeline) and timeline[k + 1]["sc"]["v"].get("type") == "end":
                 _add(x["start"], NBK.whoosh(SR, 1.1, level=.03, seed=k))   # 아웃트로 사진 장면으로 넘어갈 때
         for k, x in enumerate(timeline):   # 손그림을 그리는 동안 펜 소리 (작게)
-            if not x["lines"]: continue
+            if not x["lines"] or (DOC_OVERLAY and x["sc"]["v"].get("full")): continue   # 다큐 글씨는 펜 소리 없음
             for b in (SK.scene_beats(x["sc"], x["lines"], V, fill, at_time, k >= cold) or []):
                 if not b.pen: continue
                 i = int((x["start"] + b.t0) * SR); sfx = pen_sound(max(.3, b.t1 - b.t0) + .1, seed=int(b.t0 * 37) + k, level=.02); mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]

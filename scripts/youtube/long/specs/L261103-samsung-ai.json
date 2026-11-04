@@ -261,12 +261,23 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "삼성전자 · 10월 29일 -4.1% · 10월 30일 -3.0%",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
+     "text": "삼성전자 · 하루 등락률",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "pct",
+     "items": [
+      {
+       "label": "10.29",
+       "v": -4.1,
+       "mark": "실적 발표 · 영업이익 107조"
+      },
+      {
+       "label": "10.30",
+       "v": -3.0
+      }
+     ],
      "line": 0,
      "at": 0.35
     }
@@ -292,14 +303,24 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "SK하이닉스 · 10월 30일 -7.1% → 11월 2일 +3.8%",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
+     "text": "SK하이닉스 · 하루 등락률",
      "line": 0,
-     "at": 0.1
+     "at": 0
+    },
+    {
+     "kind": "pct",
+     "items": [
+      {
+       "label": "10.30",
+       "v": -7.1
+      },
+      {
+       "label": "11.2",
+       "v": 3.8
+      }
+     ],
+     "line": 0,
+     "at": 0.05
     }
    ]
   },
@@ -469,19 +490,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "'4만전자' · 2020년 이후 처음",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -533,6 +542,12 @@
    "src": "한국거래소 시세 (2021-01 장중 고가, 2024-11-14 종가, 2026-11-02 종가) · 주요 시점만 이은 선",
    "sketch": [
     {
+     "kind": "print",
+     "text": "삼성전자 주가 · 2021~2026",
+     "line": 0,
+     "at": 0
+    },
+    {
      "kind": "chart",
      "series": [
       96800,
@@ -548,10 +563,10 @@
      ],
      "lo": 0,
      "hi": 250000,
-     "x": 170,
-     "y": 250,
-     "w": 760,
-     "h": 300,
+     "x": 150,
+     "y": 230,
+     "w": 860,
+     "h": 330,
      "color": "green",
      "width": 9,
      "labels": {
@@ -563,50 +578,28 @@
      "at": 0.05,
      "dur": 3.0,
      "from": 0,
-     "to": 3
-    },
-    {
-     "kind": "print",
-     "text": "2021",
-     "x": 140,
-     "y": 585,
-     "size": 34,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "2024.11",
-     "x": 609,
-     "y": 585,
-     "size": 34,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.3
-    },
-    {
-     "kind": "print",
-     "text": "지금",
-     "x": 900,
-     "y": 585,
-     "size": 34,
-     "w": "Bold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.5
+     "to": 3,
+     "ticks": [
+      [
+       0,
+       "2021"
+      ],
+      [
+       0.6571428571428571,
+       "2024.11"
+      ],
+      [
+       1,
+       "지금"
+      ]
+     ]
     },
     {
      "kind": "write",
      "text": "4.6배",
-     "x": 170,
-     "y": 120,
-     "size": 120,
-     "color": "green",
+     "color": "white",
      "line": 0,
-     "at": 0.6
+     "at": 0.62
     }
    ]
   },
@@ -627,30 +620,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "HBM",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "AI 칩 옆에 붙는 고급 메모리",
-     "x": 140,
-     "y": 210,
-     "size": 42,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.5
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -669,19 +639,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "엔비디아 → HBM 최대 구매자",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -731,19 +689,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "엔비디아 주력 공급사 → SK하이닉스",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -760,13 +706,8 @@
     {
      "kind": "print",
      "text": "2024년 영업이익",
-     "x": 170,
-     "y": 130,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "ink",
      "line": 0,
-     "at": 0.0
+     "at": 0
     },
     {
      "kind": "bars",
@@ -774,22 +715,26 @@
       {
        "label": "SK하이닉스",
        "v": 23.47,
-       "text": "23조 5천억",
-       "color": "red"
+       "text": "23.5조"
       },
       {
        "label": "삼성전자 반도체",
        "v": 15.12,
-       "text": "15조 1천억",
+       "text": "15.1조",
        "color": "gray"
       }
      ],
-     "x": 170,
-     "y": 290,
-     "w": 720,
+     "x": 150,
      "h": 330,
      "line": 0,
      "at": 0.15
+    },
+    {
+     "kind": "print",
+     "text": "처음으로 역전",
+     "color": "gold",
+     "line": 0,
+     "at": 0.6
     }
    ],
    "sketch_add": [],
@@ -816,19 +761,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "엔비디아 품질 테스트 · 통과 소식 지연",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -987,19 +920,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "HBM3E 추격 대신 → HBM4 먼저",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1018,30 +939,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "HBM4 맨 아래층 칩",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "→ 삼성전자 공장에서 직접",
-     "x": 140,
-     "y": 210,
-     "size": 46,
-     "w": "ExtraBold",
-     "color": "gray",
-     "line": 0,
-     "at": 0.35
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1102,19 +1000,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "AI 데이터센터 투자 급증 → 메모리 부족",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1133,19 +1019,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "빅테크 데이터센터 투자 → AI 칩 → HBM",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1488,19 +1362,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "빅테크 AI 투자 걱정 → 메모리 주문 걱정",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1519,19 +1381,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "시장의 질문 → 내년에도 메모리가 모자랄까",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1622,19 +1472,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "중국 창신메모리 · D램 공장 증설",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "chapter": "버틸 수 있나",
@@ -1957,19 +1795,7 @@
    ],
    "asof": false,
    "src": "삼성전자 공시·언론 보도 종합",
-   "sketch": [
-    {
-     "kind": "print",
-     "text": "SK하이닉스 → ① 엔비디아 숫자에 더 민감",
-     "x": 140,
-     "y": 130,
-     "size": 52,
-     "w": "ExtraBold",
-     "color": "ink",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -2152,5 +1978,6 @@
  ],
  "hook": {
   "bpm": 96
- }
+ },
+ "overlay": "doc"
 }
