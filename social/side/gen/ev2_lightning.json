@@ -1,0 +1,31 @@
+{
+ "id": "ev2_lightning",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The lightning flashes and fades, heavy rain keeps falling and the roof glows briefly; then darkness and rain. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4d8-86f2-71f2-a01d-27bae73a6843/b55b6f9f-fb62-46be-89fe-d2ed71e0c7dd.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a4f4-477a-73be-8bdb-f276c5931ee8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4f4-477a-73be-8bdb-f276c5931ee8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4f4-477a-73be-8bdb-f276c5931ee8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a4f4-477a-73be-8bdb-f276c5931ee8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4f4-477a-73be-8bdb-f276c5931ee8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4f4-477a-73be-8bdb-f276c5931ee8/cancel",
+  "expires_at": "2026-11-11T05:10:14.188633+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4f4-477a-73be-8bdb-f276c5931ee8/6fc84ee0-933b-4027-a35c-4b06f593cbec.mp4"
+  }
+ },
+ "seconds": 180,
+ "file": "social/side/gen/ev2_lightning.mp4"
+}

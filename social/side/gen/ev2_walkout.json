@@ -1,0 +1,31 @@
+{
+ "id": "ev2_walkout",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The old man keeps walking slowly away toward the open doors while water drips from the bronze clock; the crowd stays frozen; torch flames waver. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4da-4394-73e2-abe7-c73d5f03d723/5600f227-32cd-4deb-82be-feabcaaff1e0.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a4f4-4886-772d-8cf1-349fea9861ec",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4f4-4886-772d-8cf1-349fea9861ec/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4f4-4886-772d-8cf1-349fea9861ec/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a4f4-4886-772d-8cf1-349fea9861ec",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a4f4-4886-772d-8cf1-349fea9861ec/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a4f4-4886-772d-8cf1-349fea9861ec/cancel",
+  "expires_at": "2026-11-11T05:09:47.048033+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a4f4-4886-772d-8cf1-349fea9861ec/53adc5a1-e23b-45dc-b8d1-079626c4c6d7.mp4"
+  }
+ },
+ "seconds": 155,
+ "file": "social/side/gen/ev2_walkout.mp4"
+}
