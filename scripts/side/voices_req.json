@@ -1,40 +1,152 @@
 {
- "requested": "2026-11-04T22:10",
- "note": "황제의 일기 EP03 경매꾼 목소리 교체(굵고 시끄럽게: 제우스·포세이돈 angry)",
- "tag": "ep03c",
+ "requested": "2026-11-05T05:05",
+ "note": "황제의 일기 11/5 데일리 쇼츠 ep10(12:20, 35초)·ep11(20:30, 45초) 묶음별 녹음 A·B (해설 건석, 인용 명일)",
+ "tag": "d261105",
  "keep": true,
  "lang": "kor",
  "model": "ssfm-v30",
- "emotion": "angry",
+ "emotion": "tonedown",
  "tempo": 1.0,
  "voices": [
   {
-   "name": "h_cr",
-   "id": "tc_6a5882fe54564e2a06a218bb",
-   "line": "황후의 비단옷이오! 금실로 수놓은, 황후의 옷이오!",
-   "emotion": "angry",
-   "tempo": 1.05
+   "name": "ep10_n1_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "아무도 알아주지 않으면, 왜 열심히 한 하루가 헛것 같을까요.",
+   "emotion": "tonedown",
+   "tempo": 1.0
   },
   {
-   "name": "c4",
-   "id": "tc_6a5882fe54564e2a06a218bb",
-   "line": "더 부르실 분 없소? 팔렸소!",
-   "emotion": "angry",
-   "tempo": 1.05
+   "name": "ep10_n1_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "아무도 알아주지 않으면, 왜 열심히 한 하루가 헛것 같을까요.",
+   "emotion": "tonedown",
+   "tempo": 1.0
   },
   {
-   "name": "h_cr_p",
-   "id": "tc_6a8f9d53322676d2f0934a21",
-   "line": "황후의 비단옷이오! 금실로 수놓은, 황후의 옷이오!",
-   "emotion": "angry",
-   "tempo": 1.05
+   "name": "ep10_n2_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "로마 황제 마르쿠스 아우렐리우스는, 일기에 이렇게 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
   },
   {
-   "name": "c4_p",
-   "id": "tc_6a8f9d53322676d2f0934a21",
-   "line": "더 부르실 분 없소? 팔렸소!",
-   "emotion": "angry",
-   "tempo": 1.05
+   "name": "ep10_n2_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "로마 황제 마르쿠스 아우렐리우스는, 일기에 이렇게 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep10_e3_A",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "아름다운 것은 무엇이든, 그 자체로 아름답다. 칭찬은 그 일부가 아니다. 칭찬받는다고, 더 좋아지지도 나빠지지도 않는다.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep10_e3_B",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "아름다운 것은 무엇이든, 그 자체로 아름답다. 칭찬은 그 일부가 아니다. 칭찬받는다고, 더 좋아지지도 나빠지지도 않는다.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep10_n4_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "내 일의 값은, 박수 소리로 정해지지 않습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep10_n4_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "내 일의 값은, 박수 소리로 정해지지 않습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep10_end_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 오늘 한 일 하나 적고, 칭찬 없이도 할 일이었는지 묻기",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep10_end_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 오늘 한 일 하나 적고, 칭찬 없이도 할 일이었는지 묻기",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep11_n1_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "아무 잘못도 안 했는데, 누가 나를 싫어하면, 왜 밤잠까지 설칠까요.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep11_n1_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "아무 잘못도 안 했는데, 누가 나를 싫어하면, 왜 밤잠까지 설칠까요.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep11_n2_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "로마 황제 마르쿠스 아우렐리우스를, 뒤에서 깎아내리는 사람도 많았습니다. 그런 황제가 일기에 이렇게 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep11_n2_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "로마 황제 마르쿠스 아우렐리우스를, 뒤에서 깎아내리는 사람도 많았습니다. 그런 황제가 일기에 이렇게 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep11_e3_A",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "누가 나를 업신여기는가? 그건 그 사람이 살필 일이다. 나는 업신여김받을 일을 하지 않도록, 나를 살필 뿐이다.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep11_e3_B",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "누가 나를 업신여기는가? 그건 그 사람이 살필 일이다. 나는 업신여김받을 일을 하지 않도록, 나를 살필 뿐이다.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep11_n4_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "남의 마음은 내가 고를 수 없습니다. 내가 고를 수 있는 건, 내 말과 행동뿐입니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep11_n4_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "남의 마음은 내가 고를 수 없습니다. 내가 고를 수 있는 건, 내 말과 행동뿐입니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep11_end_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 나를 싫어하는 사람 하나 떠올리고, '그건 그의 일' 한 줄 적기",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep11_end_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 나를 싫어하는 사람 하나 떠올리고, '그건 그의 일' 한 줄 적기",
+   "emotion": "tonedown",
+   "tempo": 0.9
   }
  ]
 }
