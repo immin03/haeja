@@ -603,7 +603,7 @@ def finale_frame(s, t, dur, cache, logo):
         pr = ease(k / 0.18) if k > 0 else 0.0
         pl = (o[key + "0"].astype(np.float32) * (1 - pr) + o[key + "1"].astype(np.float32) * pr).astype(np.uint8)
         pw, ph = int(pl.shape[1] * sc * 1.15), int(pl.shape[0] * sc * 1.15); pl = cv2.resize(pl, (pw, ph))
-        cx, cyb = 1330, 650 + 112 * i
+        cx, cyb = 1145 + 380 * i, 690
         lay = np.zeros((H, W, 4), np.uint8); lay[cyb - ph // 2:cyb - ph // 2 + ph, cx - pw // 2:cx - pw // 2 + pw] = pl
         if 0 < k < 0.8:
             ring = np.zeros((H, W, 3), np.uint8); e = ease(k / 0.8)
@@ -612,7 +612,7 @@ def finale_frame(s, t, dur, cache, logo):
         img = blend(img, lay, a)
     if s.get("next"):
         a = ease((t - t_o2) / 0.8) * out
-        l = np.zeros((H, W, 4), np.uint8); l[818:864] = o["nk"]; l[862:928] = o["nx"]; img = blend(img, l, a, dx=1330 - W // 2)
+        l = np.zeros((H, W, 4), np.uint8); l[790:836] = o["nk"]; l[836:902] = o["nx"]; img = blend(img, l, a, dx=1335 - W // 2)
     return o["dust"].draw(img, t)
 
 
