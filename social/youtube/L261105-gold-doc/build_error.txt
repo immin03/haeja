@@ -1,19 +1,25 @@
-2026-11-04T07:49:01.436164+00:00
+2026-11-04T08:50:58.343833+00:00
 Traceback (most recent call last):
-  File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 50, in main
-    sh(["node", os.path.join(HERE, "data.mjs"), f])
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 59, in main
+    sh([sys.executable, os.path.join(HERE, renderer), f])
   File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 19, in sh
     if r.returncode: raise RuntimeError(f"명령 실패({r.returncode}): {' '.join(cmd)[:120]}\n{r.stderr[-1500:]}")
                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: 명령 실패(1): node /home/runner/work/haeja/haeja/scripts/youtube/long/data.mjs /home/runner/work/haeja/haeja/scripts/youtube/long/spec
-file:///home/runner/work/haeja/haeja/scripts/youtube/long/data.mjs:48
-  if (!r) throw new Error('회사 데이터 없음: ' + code);
-                ^
-
-Error: 회사 데이터 없음: null
-    at companyData (file:///home/runner/work/haeja/haeja/scripts/youtube/long/data.mjs:48:17)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async file:///home/runner/work/haeja/haeja/scripts/youtube/long/data.mjs:143:16
-
-Node.js v20.20.2
+RuntimeError: 명령 실패(1): /opt/hostedtoolcache/Python/3.12.15/x64/bin/python3 /home/runner/work/haeja/haeja/scripts/youtube/long/render2.py /home/
+Traceback (most recent call last):
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/render2.py", line 1967, in <module>
+    main()
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/render2.py", line 1906, in main
+    if NBW: return notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, stamps, data)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/render2.py", line 1489, in notebook_video
+    full_img = fullsrc(u)
+               ^^^^^^^^^^
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/render2.py", line 1167, in get
+    im = big.resize((W, H), Image.BILINEAR, box=(cx, cy, cx + cw, cy + ch))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/PIL/Image.py", line 2440, in resize
+    return self._new(self.im.resize(size, resample, box))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: box offset can't be negative
 
