@@ -20,7 +20,7 @@ def build():
     sp["voice_files"] = vf
     sp["subs"] = {n: (f"“{t}”" if v not in (E.G, E.M) else t) for n, v, t in E.HOOK}   # 조연 대사는 따옴표로
     sp["monologue_voices"] = [n for n, v, t in E.HOOK if v == E.M]
-    sp["voice_gain"] = {**sp.get("voice_gain", {}), "cast": 1.25}
+    sp["voice_gain"] = {**sp.get("voice_gain", {}), "mono": 3.8, "narr": 1.2, "cast": 0.85}   # 11/4 대표: 노인보다 해설·황제가 작게 들림
     S = []
     S.append({"type": "black", "dur": 0.8, "fixed": True, "amb": ["wind_6.mp3", 0.4]})
     # 훅: 물방울 → 고함 → 해설 → 칼 → 황제의 눈(독백)
