@@ -1847,6 +1847,8 @@ def main():
         _hb = _sg.lfilter(*_sg.butter(2, 200 / (SR / 2), "high"), bed[:int((h1 - 2.7) * SR)])   # 크기는 휴대폰에서 들리는 200Hz 위로 맞춘다 (베이스 저음은 그 위에 더해진다)
         b_rms = float(np.sqrt(np.mean(_hb ** 2))) + 1e-9
         bed = bed * (v_rms / b_rms * 10 ** (-14 / 20)) * (1 - .6 * env)
+    if os.environ.get("SAVE_DRY"):   # 검수용: 음악·베드 없는 목소리+효과음만 (훅 음악 시안 비교용)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", os.path.join(out, "voice_dry.wav")], input=mix.astype(np.float32).tobytes(), check=True)
     st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
