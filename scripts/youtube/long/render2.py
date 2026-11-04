@@ -1112,11 +1112,42 @@ def NBK_eio(t):
     t = clamp(t); return t * t * (3 - 2 * t)
 
 
+IDENT_LOGO = 95; DOCK_T = .9; DOCK_S = .34; _DOCK = {}
+
+
+def dock_logo(im, p, a=1.0):
+    """2026-11-04 18:45 대표님: 인트로 로고가 자연스럽게 오른쪽 위로 옮겨 가 고정된다.
+    p: 0 = 인트로 가운데 자리, 1 = 오른쪽 위 고정 자리. 고정 뒤에는 뒤 배경 밝기에 따라 흰 글씨/남색 글씨를 고른다"""
+    from brand import logo_image
+    if not _DOCK:
+        for th in ("dark", "light"):
+            L = logo_image(IDENT_LOGO, th, shadow=False, line=False)[0]
+            sm = L.resize((int(L.width * DOCK_S), int(L.height * DOCK_S)), Image.LANCZOS)
+            m = Image.new("L", (sm.width + 24, sm.height + 24), 0); m.paste(sm.getchannel("A"), (12, 12)); m = m.filter(ImageFilter.GaussianBlur(5)).point(lambda q: int(q * .5))
+            _DOCK[th] = (L, sm, m)
+    L, sm, sh = _DOCK["dark"]
+    x0, y0 = W / 2 - L.width / 2, H / 2 + 110 - 40 - L.height
+    x1, y1 = W - 58 - sm.width, 34
+    if p < 1:
+        e = NBK_eio(p); s_ = 1 + (DOCK_S - 1) * e
+        Z = L.resize((max(1, int(L.width * s_)), max(1, int(L.height * s_))), Image.LANCZOS)
+        if a < 1: Z.putalpha(Z.getchannel("A").point(lambda q: int(q * a)))
+        im.paste(Z, (int(x0 + (x1 - x0) * e), int(y0 + (y1 - y0) * e)), Z); return
+    box = im.crop((int(x1), int(y1), int(x1 + sm.width), int(y1 + sm.height))).convert("L")
+    th = "light" if np.asarray(box).mean() > 150 else "dark"
+    _, sm, sh = _DOCK[th]
+    if th == "dark":
+        k_ = sh.point(lambda q: int(q * a)); im.paste((0, 0, 0), (int(x1) - 12, int(y1) - 12), k_)
+    Z = sm if a >= 1 else sm.copy()
+    if a < 1: Z.putalpha(sm.getchannel("A").point(lambda q: int(q * a)))
+    im.paste(Z, (int(x1), int(y1)), Z)
+
+
 def ident_source(n_frames):
     """밸류노트 인트로 2.6초 (2026-11-03 대표님 "밸류노트 인트로, 영화 오프닝같이 시네마틱하게")
     남색 어둠 → 가운데 금빛 점 → 금선이 좌우로 그어짐 → 로고가 떠오름 → (렌더러가) 극장 비율 띠가 열리며 노트로 넘어간다."""
     from brand import logo_image
-    lg = logo_image(109, "dark", shadow=False, line=False)[0]   # 금선은 인트로가 직접 긋는다 · 2026-11-03 대표님: 로고 아주 살짝 크게(118→128) · 2026-11-04 16:10 대표님: 좀 커 보여 약 85%로(128→109)
+    lg = logo_image(IDENT_LOGO, "dark", shadow=False, line=False)[0]   # 금선은 인트로가 직접 긋는다 · 2026-11-03 대표님: 로고 아주 살짝 크게(118→128) · 2026-11-04 16:10 대표님: 좀 커 보여 약 85%로(128→109) · 18:45 조금만 더 작게(109→95)
     BG = (7, 15, 30); GOLDC = (226, 192, 120); dur = max(.1, n_frames / FPS); kk = max(1.0, (dur - .5) / 2.0)   # 길이가 늘면 점·선·로고도 그만큼 천천히
 
     def get(u):
@@ -1126,10 +1157,11 @@ def ident_source(n_frames):
         p_dot = clamp(u / (.25 * kk)); p_line = NBK_eio((u - .2 * kk) / (.65 * kk)); p_logo = NBK_eio((u - .7 * kk) / (.8 * kk))
         if p_line <= 0 and p_dot > 0:
             rr = 5 * p_dot; d.ellipse([W / 2 - rr * 3, cy - rr * 3, W / 2 + rr * 3, cy + rr * 3], fill=(*GOLDC, int(40 * p_dot))); d.ellipse([W / 2 - rr, cy - rr, W / 2 + rr, cy + rr], fill=(*GOLDC, 255))
-        if p_line > 0:
-            hw = 280 * p_line; d.rectangle([W / 2 - hw, cy - 1.5, W / 2 + hw, cy + 1.5], fill=(*GOLDC, 255))
+        fo = 1 - NBK_eio((u - (dur - DOCK_T)) / .45)   # 로고가 오른쪽 위로 떠날 때 금선은 사라진다
+        if p_line > 0 and fo > 0:
+            hw = 280 * p_line; d.rectangle([W / 2 - hw, cy - 1.5, W / 2 + hw, cy + 1.5], fill=(*GOLDC, int(255 * fo)))
             gl = max(0.0, 1 - abs(p_line - .5) * 2); d.rectangle([W / 2 - hw, cy - 6, W / 2 + hw, cy + 6], fill=(*GOLDC, int(28 * gl)))
-        if p_logo > 0:
+        if p_logo > 0 and u < dur - DOCK_T:   # 마지막 DOCK_T초는 렌더러가 로고를 오른쪽 위로 옮긴다 (dock_logo)
             sc_ = .94 + .06 * p_logo; L = lg.resize((int(lg.width * sc_), int(lg.height * sc_)), Image.LANCZOS)
             L.putalpha(L.getchannel("A").point(lambda q: int(q * p_logo)))
             im.paste(L, (int(W / 2 - L.width / 2), int(cy - 40 - L.height + 18 * (1 - p_logo))), L)
@@ -1464,6 +1496,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
     if cold and cold <= len(info):
         est = NBK.pose_for(cold - 1, "title", nb, mode="title")   # 공개 장면은 노트 전체가 정면으로 보이는 데서 멈춘다
     prev_tex = None; prev_pose = None; fi = 0; t0_clock = dt.datetime.now(); prev_fr = None; prev_full = False
+    IDK = next((k for k, x in enumerate(timeline) if x["sc"]["v"].get("ident")), None)   # 인트로 장면 번호 (로고 고정용)
     for k, x in enumerate(timeline):
         if only_sc and k not in only_sc: continue
         sc = x["sc"]; n = int(round(x["dur"] * FPS)); typ = sc["v"]["type"]; I = info[k]; theme = I["theme"]
@@ -1570,6 +1603,9 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); NBK.stamp(lay, stamps[str(k)], u)
                 if amt < 1: lay.putalpha(lay.getchannel("A").point(lambda v: int(v * amt)))
                 im.paste(lay, (0, 0), lay)
+            if IDK is not None and typ != "end":   # 인트로 로고 → 오른쪽 위 고정 (2026-11-04)
+                if k == IDK and u >= x["dur"] - DOCK_T: dock_logo(im, clamp((u - (x["dur"] - DOCK_T)) / (DOCK_T - .05)))
+                elif k > IDK: dock_logo(im, 1.0, .92)
             # 4) 진행 막대 · 출처 · 자막 (화면 위에)
             d = AD(im)
             bars = max(bars, amt)
@@ -1737,7 +1773,8 @@ def main():
     logo_light = wm.resize((int(wm.width * .42), int(wm.height * .42)), Image.LANCZOS)
     # 밝은 배경용 로고: 밝은 글자를 네이비로
     arr = np.asarray(logo_light).copy(); lum = arr[..., :3].mean(-1); m = (lum > 200) & (arr[..., 3] > 0); arr[m, :3] = NAVY; logo_dark = Image.fromarray(arr)
-    CHAPS[:] = [sc["chapter"] for sc in spec["scenes"] if sc.get("chapter")][1:]  # 첫 장(도입)은 목차에서 뺀다
+    _ch = [sc for sc in spec["scenes"] if sc.get("chapter")]
+    CHAPS[:] = [sc["chapter"] for sc in _ch][(0 if (_ch and _ch[0]["v"]["type"] == "title") else 1):]  # 첫 장(도입)은 목차에서 뺀다 · 2026-11-04 대표님: 첫 장이 제목 페이지면 PART 01부터 (내레이션 '세 번째 장면' = PART 03)
     for sc in spec["scenes"]:
         img = sc["v"].get("img")
         if img:
