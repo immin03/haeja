@@ -100,8 +100,27 @@ def blend(base, rgba, alpha=1.0, dx=0, dy=0):
 
 
 # ---------- 화면 소스 ----------
+def face_fit(cx, cy, s, w, h, face):
+    """11/4 대표: '왕 얼굴이 잘려 보임' — face=[x0,y0,x1,y1](원본 비율). 얼굴 윗선이 위 띠 아래 26px 안쪽, 아랫선이 아래 띠 위로 오게 화면 중심을 옮긴다."""
+    if face:
+        fx0, fy0, fx1, fy1 = face[0] * w, face[1] * h, face[2] * w, face[3] * h
+        fy0 -= (fy1 - fy0) * 0.12                                   # 머리카락까지
+        top_lim = BAR + 26; bot_lim = H - BAR - 20
+        cy_max = fy0 - (top_lim - H / 2) / s                        # 얼굴 윗선이 띠 아래로
+        cy_min = fy1 - (bot_lim - H / 2) / s                        # 얼굴 아랫선이 아래 띠 위로
+        if cy > cy_max: cy = cy_max
+        if cy < cy_min and cy_min <= cy_max: cy = cy_min
+        x_max = fx0 - (60 - W / 2) / s; x_min = fx1 - (W - 60 - W / 2) / s
+        if cx > x_max: cx = x_max
+        if cx < x_min and x_min <= x_max: cx = x_min
+    hy = (H / 2 - BAR) / s; hx = (W / 2) / s                        # 위아래는 띠 아래까지만 보이면 됨
+    cy = min(max(cy, hy), h - hy); cx = min(max(cx, hx), w - hx)
+    return cx, cy
+
+
 class Still:
-    def __init__(self, path, move, scale=1.25):
+    def __init__(self, path, move, scale=1.25, face=None):
+        self.face = face
         img = cv2.imread(path); h, w = img.shape[:2]
         k = max(W / w, H / h) * scale
         self.img = cv2.resize(img, (int(w * k), int(h * k)), interpolation=cv2.INTER_LANCZOS4)
@@ -115,12 +134,14 @@ class Still:
         base = max(W / sw, H / sh)        # 이 배율이면 화면을 딱 채움
         s = base * z
         cx, cy = sw / 2 + px * sw, sh / 2 + py * sh
+        cx, cy = face_fit(cx, cy, s, sw, sh, self.face)
         M = np.float32([[s, 0, W / 2 - cx * s], [0, s, H / 2 - cy * s]])
         return cv2.warpAffine(self.img, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
 
 class Clip:
-    def __init__(self, path, move, start=0.0):
+    def __init__(self, path, move, start=0.0, face=None):
+        self.face = face
         cap = cv2.VideoCapture(path); self.fr = []
         fps = cap.get(cv2.CAP_PROP_FPS) or 24
         skip = int(start * fps); i = 0
@@ -141,6 +162,7 @@ class Clip:
         e = ease(p); z = z0 + (z1 - z0) * e
         s = self.k * z; h, w = f.shape[:2]
         cx, cy = w / 2 + (x0 + (x1 - x0) * e) * w, h / 2 + (y0 + (y1 - y0) * e) * h
+        cx, cy = face_fit(cx, cy, s, w, h, self.face)
         M = np.float32([[s, 0, W / 2 - cx * s], [0, s, H / 2 - cy * s]])
         return cv2.warpAffine(f, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
@@ -284,7 +306,8 @@ class Particles:
 # ---------- 템플릿 카드 ----------
 def coin_gold(path):
     c = Image.open(path).convert("L").resize((360, 360), Image.LANCZOS); a = np.array(c).astype(np.float32) / 255.0
-    rgb = np.stack([a * GOLD[0] * 1.15, a * GOLD[1] * 1.15, a * GOLD[2] * 1.1], -1)
+    a = np.clip(a * 1.25, 0, 1) ** 0.8   # 11/4 대표: 로고 빛 톤 보완
+    rgb = np.stack([a * GOLD[0] * 1.3, a * GOLD[1] * 1.3, a * GOLD[2] * 1.22], -1)
     alpha = np.clip((a - 0.08) * 1.6, 0, 1) * 255
     yy, xx = np.mgrid[0:360, 0:360]; m = ((xx - 180) ** 2 + (yy - 180) ** 2) <= 178 ** 2
     alpha = alpha * m
@@ -308,14 +331,33 @@ class Intro:
         cx, cy, r = W // 2, 420, 182
         if 0.8 <= t < 10.2:
             # 금빛 잉크 선이 원을 그림 (0.8~2.6초)
+            # 11/4 대표: '노란 동그라미' 대신 황금빛이 원을 그리는 듯 — 붓 끝처럼 굵기가 변하는 금선, 머리의 흰 금빛 불꽃, 뒤로 흩날리는 금가루
             p = ease((t - 0.8) / 1.8); ang = 360 * p
-            glow = np.zeros((H, W, 3), np.uint8)
-            cv2.ellipse(glow, (cx, cy), (r, r), -90, 0, ang, (92, 164, 201), 3, cv2.LINE_AA)
+            core = np.zeros((H, W, 3), np.float32); halo = np.zeros((H, W, 3), np.float32)
+            n = max(int(ang / 2), 1)
+            for j in range(n):
+                a0 = -90 + j * ang / n; a1 = -90 + (j + 1) * ang / n; q = (j + 0.5) / n
+                th = 2.0 + 3.0 * math.sin(math.pi * q) ** 0.7
+                recent = math.exp(-(1 - q) * 5) if p < 1 else 0.35
+                col = (110 + 80 * recent, 186 + 50 * recent, 232 + 20 * recent)
+                cv2.ellipse(core, (cx, cy), (r, r), 0, a0, a1, col, int(round(th)), cv2.LINE_AA)
+                cv2.ellipse(halo, (cx, cy), (r, r), 0, a0, a1, (60, 130, 200), int(th * 5), cv2.LINE_AA)
             if p < 1:
-                hx = int(cx + r * math.cos(math.radians(ang - 90))); hy = int(cy + r * math.sin(math.radians(ang - 90)))
-                cv2.circle(glow, (hx, hy), 7, (200, 235, 255), -1, cv2.LINE_AA)
-            g = cv2.GaussianBlur(glow, (0, 0), 6)
-            img = cv2.add(img, cv2.addWeighted(glow, 1.0, g, 1.4, 0))
+                hx = cx + r * math.cos(math.radians(ang - 90)); hy = cy + r * math.sin(math.radians(ang - 90))
+                cv2.circle(core, (int(hx), int(hy)), 6, (235, 250, 255), -1, cv2.LINE_AA)
+                cv2.circle(halo, (int(hx), int(hy)), 26, (120, 200, 255), -1, cv2.LINE_AA)
+                rng = np.random.default_rng(int(t * 60))
+                for _ in range(18):
+                    back = rng.uniform(0, 40); da = math.radians(ang - 90 - back)
+                    rr = r + rng.normal(0, 6 + back * 0.25)
+                    px_, py_ = cx + rr * math.cos(da), cy + rr * math.sin(da)
+                    br = (1 - back / 40) * rng.uniform(0.4, 1.0)
+                    cv2.circle(core, (int(px_), int(py_)), int(rng.integers(1, 3)), (150 * br + 60, 215 * br + 30, 255 * br), -1, cv2.LINE_AA)
+            elif t < 3.4:
+                fl = math.exp(-(t - 2.6) * 4)
+                halo *= 1 + 1.2 * fl; core *= 1 + 0.5 * fl   # 원이 닫히는 순간 고리 전체가 한 번 환하게
+            g = cv2.GaussianBlur(halo, (0, 0), 14) * 0.55 + cv2.GaussianBlur(core, (0, 0), 3) * 0.8
+            img = np.clip(img.astype(np.float32) + core + g, 0, 255).astype(np.uint8)
         if t >= 2.4:
             # 주화가 원 안에서 떠오름 + 빛 한 줄기가 훑고 지나감
             a = ease((t - 2.4) / 1.4) * (1 - ease((t - 9.6) / 0.6))
@@ -327,6 +369,9 @@ class Intro:
                 sub = layer[cy - cs // 2:cy + cs // 2, cx - cs // 2:cx + cs // 2, :3].astype(np.float32)
                 sub = np.clip(sub + band[..., None] * 140 * (sub > 10), 0, 255); layer[cy - cs // 2:cy + cs // 2, cx - cs // 2:cx + cs // 2, :3] = sub.astype(np.uint8)
             shake = 6 * math.exp(-(t - 4.0) * 18) * math.sin(t * 90) if t >= 4.0 else 0
+            back = np.zeros((H, W, 3), np.float32)   # 11/4 대표: 로고가 어두워 보임 → 뒤에 은은한 금빛 후광
+            cv2.circle(back, (cx, cy), int(r * 1.05), (40, 92, 150), -1, cv2.LINE_AA)
+            img = np.clip(img.astype(np.float32) + cv2.GaussianBlur(back, (0, 0), 60) * a * 0.9, 0, 255).astype(np.uint8)
             img = blend(img, layer, a, dx=shake, dy=shake * 0.6)
         if t >= 4.0:
             img = self.dust.draw(img, t - 4.0) if t < 10.0 else img
@@ -404,15 +449,27 @@ def episode_frame(s, t, dur, cache):
     return cv2.warpAffine(img, M, (W, H))
 
 
+def warm_bg(cache, cy=520, k=1.0):
+    """11/4 대표: 글자 화면이 너무 어두움 → 가운데에 은은한 금빛 바탕"""
+    key = f"wbg{cy}"
+    if key not in cache:
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+        cache[key] = np.exp(-(((xx - W / 2) / 820) ** 2 + ((yy - cy) / 380) ** 2))[..., None] * np.array([20, 34, 52], np.float32) + np.array([10, 12, 14], np.float32)
+    return np.clip(cache[key] * k, 0, 255).astype(np.uint8)
+
+
+BRIGHT_GOLD = (226, 190, 118); BRIGHT_IVORY = (250, 244, 230)
+
+
 def card_frame(spec_shot, t, dur, cache):
     """편 안의 '문장' 카드 (템플릿, 11/3 대표 확정: 효과 없이 깔끔하게): 로마 숫자, 가는 금선, 한글 제목, 영어 부제. 서서히 나타났다 사라짐"""
     if "card" not in cache:
-        cache["card"] = (text_layer([spec_shot["num"]], "en", 84, GOLD, shadow=False, height=110),
-                         text_layer([spec_shot["title"]], "ko", 60, IVORY, height=100),
-                         text_layer([spec_shot.get("en", "")], "it", 40, (205, 192, 168), shadow=False, height=64))
+        cache["card"] = (text_layer([spec_shot["num"]], "en", 84, BRIGHT_GOLD, shadow=False, height=110),
+                         text_layer([spec_shot["title"]], "ko", 60, BRIGHT_IVORY, height=100),
+                         text_layer([spec_shot.get("en", "")], "it", 40, (226, 214, 190), shadow=False, height=64))
     num, ttl, en = cache["card"]
     a = ease(t / 0.8) * (1 - ease((t - dur + 0.7) / 0.7))
-    img = np.zeros((H, W, 3), np.uint8)
+    img = (warm_bg(cache, 520).astype(np.float32) * a).astype(np.uint8)
     lay = np.zeros((H, W, 4), np.uint8); lay[350:460] = num; lay[512:612] = ttl
     if spec_shot.get("en"): lay[618:682] = en
     img = blend(img, lay, a)
@@ -422,11 +479,11 @@ def card_frame(spec_shot, t, dur, cache):
 
 def tonight_frame(s, t, dur, cache):
     if "tn" not in cache:
-        cache["tn"] = (text_layer(["FOR TONIGHT  ·  오늘 밤 해 볼 일"], "ui", 32, GOLD, track=3, shadow=False, height=70),
-                       text_layer(s["lines"], "ko6", 60, IVORY, shadow=False, height=260))
+        cache["tn"] = (text_layer(["FOR TONIGHT  ·  오늘 밤 해 볼 일"], "ui", 34, BRIGHT_GOLD, track=3, shadow=False, height=70),
+                       text_layer(s["lines"], "ko", 64, BRIGHT_IVORY, shadow=False, height=260))
     k, body = cache["tn"]
-    img = np.zeros((H, W, 3), np.uint8) + np.uint8(8)
     a = ease(t / 0.8) * (1 - ease((t - dur + 0.6) / 0.6))
+    img = np.maximum((warm_bg(cache, 500).astype(np.float32) * a).astype(np.uint8), 8)
     layer = np.zeros((H, W, 4), np.uint8); layer[330:400] = k; layer[420:680] = body
     return blend(img, layer, a)
 
@@ -506,27 +563,48 @@ def outro_frame(s, t, dur, cache, logo):
     return img
 
 
+def prev_frame(s, t, dur, cache, P):
+    """11/4 대표: 전편을 못 본 사람에게 1편 추천 — 'PREVIOUS EPISODE' + 1편 썸네일(금테) + 제목"""
+    if "pv" not in cache:
+        th = cv2.imread(P(s["thumb"]))[..., ::-1]; tw = 880; thh = int(th.shape[0] * tw / th.shape[1]); th = cv2.resize(th, (tw, thh), interpolation=cv2.INTER_AREA)
+        fr = np.zeros((thh + 8, tw + 8, 4), np.uint8); fr[..., :3] = GOLD; fr[..., 3] = 255; fr[4:-4, 4:-4, :3] = th
+        cache["pv"] = (fr, text_layer([s.get("kicker", "PREVIOUS  ·  EPISODE 1")], "en5", 30, (214, 182, 122), track=10, shadow=False, height=50),
+                       text_layer([s.get("title", "")], "ko", 56, BRIGHT_IVORY, shadow=False, height=90),
+                       text_layer([s.get("sub", "")], "ko6", 36, (230, 214, 182), shadow=False, height=60))
+    fr, kk, tt_, sub = cache["pv"]; out_a = 1 - ease((t - dur + 0.9) / 0.9)
+    img = warm_bg(cache, 470)
+    l = np.zeros((H, W, 4), np.uint8); l[150:200] = kk; img = blend(img, l, ease(t / 0.8) * out_a)
+    fh, fw = fr.shape[:2]; y0 = 225
+    l = np.zeros((H, W, 4), np.uint8); l[y0:y0 + fh, (W - fw) // 2:(W - fw) // 2 + fw] = fr
+    img = blend(img, l, ease((t - 0.3) / 0.9) * out_a, dy=12 * (1 - ease((t - 0.3) / 0.9)))
+    l = np.zeros((H, W, 4), np.uint8); l[y0 + fh + 26:y0 + fh + 116] = tt_; l[y0 + fh + 112:y0 + fh + 172] = sub
+    return blend(img, l, ease((t - 0.9) / 0.8) * out_a)
+
+
 def recap_frame(s, t, dur, cache, active):
     """오늘의 일곱 문장 (템플릿): 왼쪽 정렬 목록, 지금 읽는 문장만 금색으로 밝게, 읽은 문장은 은은하게 남음"""
     if "rc" not in cache:
-        f = font("ko6", 40); fk = font("en", 38)
-        rows = []
-        for i, it in enumerate(s["items"]):
+        f = font("ko", 42); fk = font("en", 40)
+        rows = []; base_y = 48
+        for i, it in enumerate(s["items"]):   # 11/4 대표: I II III 과 문장을 한 줄 기준선에 맞추고, 숫자는 오른쪽 끝을 한 열로
             im = Image.new("RGBA", (1500, 64), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
-            d.text((0, 6), ["I", "II", "III", "IV", "V", "VI", "VII"][i], font=fk, fill=GOLD + (255,)); d.text((110, 8), it, font=f, fill=(255, 255, 255, 255))
+            d.text((80, base_y), ["I", "II", "III", "IV", "V", "VI", "VII"][i], font=fk, fill=BRIGHT_GOLD + (255,), anchor="rs")
+            d.text((120, base_y), it, font=f, fill=(255, 255, 255, 255), anchor="ls")
             rows.append(np.array(im))
-        cache["rc"] = (rows, text_layer([s.get("head", "오늘의 일곱 문장")], "ko6", 44, (222, 196, 140), shadow=False, height=70),
-                       text_layer([s.get("head_en", "SEVEN LINES FROM ONE NIGHT")], "en5", 30, (190, 160, 105), track=10, shadow=False, height=50))
-    rows, hk, he = cache["rc"]; out_a = 1 - ease((t - dur + 0.8) / 0.8)
-    img = (np.zeros((H, W, 3), np.float32) + np.array([8, 10, 12], np.float32)).astype(np.uint8)
+        cache["rc"] = (rows, text_layer([s.get("head", "오늘의 일곱 문장")], "ko", 46, (240, 214, 160), shadow=False, height=70),
+                       text_layer([s.get("head_en", "SEVEN LINES FROM ONE NIGHT")], "en5", 30, (214, 182, 122), track=10, shadow=False, height=50))
+        widest = max(int(np.where(r[..., 3].max(axis=0) > 0)[0].max()) for r in rows)
+        cache["rc_x"] = (W - widest) // 2
+    rows, hk, he = cache["rc"]; out_a = 1 - ease((t - dur + 0.8) / 0.8); x0 = cache["rc_x"]
+    img = warm_bg(cache, 560)
     l = np.zeros((H, W, 4), np.uint8); l[160:210] = he; l[208:278] = hk; img = blend(img, l, ease(t / 0.8) * out_a)
     for i, r in enumerate(rows):
         if active is None or i > active: continue
         cur = (i == active)
         rr = r.copy()
-        if cur: rr[..., :3] = (rr[..., :3].astype(np.float32) * np.array([1.0, 0.86, 0.62])).astype(np.uint8)
-        l = np.zeros((H, W, 4), np.uint8); y = 320 + i * 76; l[y:y + 64, 330:1830] = rr
-        img = blend(img, l, (1.0 if cur else 0.42) * out_a)
+        if cur: rr[..., :3] = (rr[..., :3].astype(np.float32) * np.array([1.0, 0.9, 0.7])).astype(np.uint8)
+        l = np.zeros((H, W, 4), np.uint8); y = 320 + i * 76; l[y:y + 64, x0:x0 + 1500] = rr[:, :W - x0]
+        img = blend(img, l, (1.0 if cur else 0.72) * out_a)
     return img
 
 
@@ -546,8 +624,9 @@ def overlay(img, ov, t, dur, cache, key):
                           text_layer([f"- {ov['src']} -"], "ko6", 38, (205, 180, 128), shadow=True, height=70))
         q, src = cache[key]
         a = ease((t - ov["at"]) / 0.7) * (1 - ease((t - ov.get("until", dur) + 0.6) / 0.6))
-        if a <= 0: return img
-        img = (img.astype(np.float32) * (1 - 0.45 * a)).astype(np.uint8)
+        ad = ease((t - ov["at"] + 0.2) / 1.5) * (1 - ease((t - ov.get("until", dur) + 1.2) / 1.2))
+        if a <= 0 and ad <= 0: return img
+        img = (img.astype(np.float32) * (1 - 0.45 * ad)).astype(np.uint8)
         lay = np.zeros((H, W, 4), np.uint8); top = ov.get("top", 360); lay[top:top + 230] = q
         a2 = ease((t - ov["at"] - 0.9) / 0.7) * (1 - ease((t - ov.get("until", dur) + 0.6) / 0.6))
         l2 = np.zeros((H, W, 4), np.uint8); l2[top + 250:top + 320] = src
@@ -584,9 +663,11 @@ def overlay(img, ov, t, dur, cache, key):
                           text_layer(ov["lines"], "ko", 64, IVORY, height=200),
                           text_layer([ov.get("en", "")], "it", 42, (205, 192, 168), shadow=False, height=64))
         kk, body, en = cache[key]
-        a = ease((t - ov["at"]) / 0.6) * (1 - ease((t - ov["at"] - ov.get("len", 4.0)) / 0.6))
-        if a <= 0: return img
-        dark = (img.astype(np.float32) * (1 - 0.72 * a)).astype(np.uint8)
+        L = ov.get("len", 4.0)
+        a = ease((t - ov["at"]) / 0.8) * (1 - ease((t - ov["at"] - L) / 0.8))
+        ad = ease((t - ov["at"] + 0.3) / 1.6) * (1 - ease((t - ov["at"] - L + 0.2) / 1.8))   # 11/4 대표: 더 천천히 어두워지고 밝아지게
+        if a <= 0 and ad <= 0: return img
+        dark = (img.astype(np.float32) * (1 - 0.68 * ad)).astype(np.uint8)
         lay = np.zeros((H, W, 4), np.uint8); lay[370:426] = kk; lay[440:640] = body
         if ov.get("en"): lay[640:704] = en
         return blend(dark, lay, a)
@@ -731,9 +812,9 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
         s = p["s"]; t0, d = p["t0"], p["dur"]
         if t0 + d <= t_from or t0 >= t_to: continue
         cache = {}; src = None
-        if s["type"] == "still": src = Still(os.path.join(gdir, s["src"] + ".jpeg"), s.get("move"))
+        if s["type"] == "still": src = Still(os.path.join(gdir, s["src"] + ".jpeg"), s.get("move"), face=s.get("face"))
         elif s["type"] == "video" and s.get("write"): src = WriteClip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0), s["write"])
-        elif s["type"] == "video": src = Clip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0))
+        elif s["type"] == "video": src = Clip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0), face=s.get("face"))
         elif s["type"] == "intro": intro = intro or Intro({**S["intro"], "logo": P(S["intro"]["logo"])})
         parts = Particles(s["particles"]) if s.get("particles") else None
         nfr = int(round(d * FPS)); first = None; lastk = last
@@ -753,6 +834,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
                 img = recap_frame(s, tt, d, cache, act if act is not None and act >= 0 else None)
             elif s["type"] == "end": img = end_frame(s, tt, d, cache, P(S["intro"]["logo"]))
             elif s["type"] == "tonight": img = tonight_frame(s, tt, d, cache)
+            elif s["type"] == "prev": img = prev_frame(s, tt, d, cache, P)
             elif s["type"] == "still": img = src.frame(prog)
             elif s["type"] == "video": img = src.frame(prog, tt, d)
             if s.get("flicker") and s["type"] in ("still", "video"):

@@ -86,6 +86,13 @@ CH2 = {
         apply=[("e2m_family", ["d7e"]), ("e2m_shoes", ["d7f"])], tonight=(["가르칠 사람 한 명,", "견딜 사람 한 명"], "d7g"),
         teaser=None),
 }
+# 11/4 대표: '얼굴이 잘려 보임' — 그림 속 얼굴 위치(원본 비율 x0,y0,x1,y1). 렌더러가 얼굴이 위아래 띠에 잘리지 않게 화면 중심을 옮긴다
+FACES = {"e2_eyes": [0.37, 0.07, 0.65, 0.59], "ev2_eyes": [0.37, 0.07, 0.65, 0.59], "e2_tears": [0.40, 0.07, 0.67, 0.58], "e2_herodes": [0.33, 0.08, 0.55, 0.50],
+         "e2_prefect": [0.31, 0.08, 0.43, 0.27], "e2a_generals": [0.36, 0.12, 0.70, 0.32], "e2_verdict": [0.37, 0.18, 0.48, 0.39], "e2_athenians": [0.10, 0.22, 0.75, 0.50],
+         "e2_dawn": [0.45, 0.16, 0.58, 0.37], "e2_reading": [0.31, 0.10, 0.49, 0.41], "ev2_sword": [0.36, 0.0, 0.62, 0.22], "e2_market": [0.43, 0.30, 0.52, 0.50],
+         "e2m_breath": [0.42, 0.09, 0.56, 0.36], "e2m_ceiling": [0.47, 0.20, 0.60, 0.45], "e2m_elevator": [0.45, 0.14, 0.60, 0.43], "e2m_family": [0.26, 0.20, 0.42, 0.49],
+         "e2m_friend": [0.51, 0.17, 0.65, 0.43], "e2m_shoes": [0.60, 0.10, 0.71, 0.31], "e2m_tea": [0.53, 0.22, 0.64, 0.45]}
+ELEC = ("ring_synth.wav", "transition_5.mp3", "whoosh_0.mp3")   # 11/4 대표: 인위적인 전자음 전환 효과음 제거 (책장 넘기는 소리만)
 MUSIC2 = {1: ("cinematic_5.mp3", 0), 2: ("sad_3.mp3", 0), 3: ("dramatic_1.mp3", 0), 4: ("cinematic_4.mp3", 0), 5: ("cinematic_5.mp3", 90), 6: ("sad_3.mp3", 60), 7: ("cinematic_4.mp3", 110)}
 
 
@@ -106,12 +113,20 @@ def body(S, sp):
               "voice": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"], "gap": 0.8, "pre": 0.8, "post": 1.0, "recap_offset": 1, "nocap": True, "head_en": "SEVEN LINES FOR THE RUDE AND THE UNGRATEFUL",
               "sfx": [["transition_5.mp3", 0.0, 0.35]], "tin": "black", "fin": 1.0})
     S.append(F.shot("still", "e2_morning", ["r9"], ["wind_2.mp3", 0.25], {"move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
+    # 11/4 대표: 전편을 못 본 사람에게 1편 추천 화면
+    S.append({"type": "prev", "voice": ["o3"], "pre": 0.9, "post": 2.2, "dur": 7.0, "nocap": True, "thumb": "social/side/ed_long/thumb_ep01.jpg",
+              "kicker": "PREVIOUS  ·  EPISODE 1", "title": "배신당한 밤", "sub": "황제의 일기는, 그 밤에서 시작됩니다", "tin": "black", "amb": ["wind_2.mp3", 0.2],
+              "sfx": [["paper_2.mp3", 0.3, 0.35]]})
     out = len(S)
     S.append({"type": "outro", "voice": ["o1", "o2"], "gap": 0.7, "pre": 1.0, "post": 2.6, "dur": 12.0, "nocap": True,
               "next_kicker": "NEXT  ·  EPISODE 3", "next": "아무도 알아주지 않을 때", "slogan_at": 999, "tap_sub": 3.4, "tap_like": 4.2,
               "sfx": [["ring_synth.wav", 3.42, 0.45], ["click_2.mp3", 3.4, 0.6], ["click_2.mp3", 4.2, 0.6], ["ring_synth.wav", 4.22, 0.35], ["drum_6.mp3", 0.2, 0.4]]})
     S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.6, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black",
               "sfx": [["ring_synth.wav", 0.5, 0.25]]})
+    for x in S:
+        if x.get("src") in FACES: x["face"] = FACES[x["src"]]
+        if x.get("type") != "intro" and x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] not in ELEC]
+        if x.get("type") == "recap": x["sfx"] = [["paper_2.mp3", 0.2, 0.4]]
     for x in S[sit:]:   # 1편에서 배운 점: 펜 소리는 펜 영상에만, 오늘 밤 카드는 자막 없이
         if x.get("src") not in ("lwv3_side", "lwv2_front") and x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] != "paper_6.mp3"]
         if x.get("type") == "tonight": x["nocap"] = True; x["sfx"] = []
@@ -136,8 +151,10 @@ def build():
         if who == "HERODES": vf[n] = vf.get(f"a_her_{CAST['HERODES']}")
     vf["p3"] = vf.get(f"a_pref_{CAST['PREFECT']}"); vf["h3"] = vf.get(f"a_her2_{CAST['HERODES']}")
     d2 = os.path.join(E.ROOT, "social/side/voice_samples", E.TAG2)
-    for n in (sorted(os.listdir(d2)) if os.path.isdir(d2) else []):   # 본편 녹음 (voice_ep02b_NN_이름.mp3)
-        if n.endswith(".mp3"): vf[n[:-4].split("_", 3)[-1]] = f"../{E.TAG2}/{n}"
+    for tg in (E.TAG2, "ep02c"):   # 본편 녹음 (voice_ep02b_NN_이름.mp3), 1편 추천 해설(ep02c)
+        d2 = os.path.join(E.ROOT, "social/side/voice_samples", tg)
+        for n in (sorted(os.listdir(d2)) if os.path.isdir(d2) else []):
+            if n.endswith(".mp3"): vf[n[:-4].split("_", 3)[-1]] = f"../{tg}/{n}"
     vf["m_x1"] = "../lp3/voice_lp3_07_m_x1.mp3"; vf["e_x2"] = "../ep01x/voice_ep01x_01_e_x2.mp3"   # 엔딩(1편과 같은 녹음)
     sp["voice_files"] = vf
     ALL = E.HOOK + E.LINES2
