@@ -1,0 +1,235 @@
+{
+ "fx": 1430,
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "look": {
+  "paper": "grid",
+  "dark": "navy",
+  "accent": "gold"
+ },
+ "hook": {
+  "bpm": 96
+ },
+ "overlay": "doc",
+ "id": "L261105-gold-doc",
+ "series": "돈의 역사",
+ "plan": "P261101-gold-miner",
+ "company": null,
+ "events": [],
+ "scheduled_at": "2026-11-05T11:30:00+09:00",
+ "opening": "다큐 훅 16초(1933 금 몰수 → 2022 동결 예고) → 밸류노트 인트로 2.7초 → 결론 먼저",
+ "hook_type": "다큐 훅",
+ "endscreen_target": "L261030-gold-ring",
+ "title": "금의 역사, 미국 정부가 금을 빼앗던 날부터 중앙은행이 금을 쓸어 담는 지금까지",
+ "title_en": "The history of gold: from the day America seized its citizens' gold to central banks hoarding it today",
+ "tags": [
+  "금",
+  "금의 역사",
+  "금값",
+  "금값 전망",
+  "금본위제",
+  "닉슨 쇼크",
+  "행정명령 6102",
+  "중앙은행 금 매입",
+  "워렌 버핏 금",
+  "금 ETF"
+ ],
+ "search_keywords": [
+  "금의 역사",
+  "금본위제",
+  "금 몰수 행정명령",
+  "닉슨 쇼크",
+  "중앙은행 금 매입"
+ ],
+ "sources": [
+  "사진: Wikimedia Commons(퍼블릭 도메인·CC), 시네마틱 스틸은 AI 생성"
+ ],
+ "pinned_comment": "",
+ "description_head": "",
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_run1933.jpeg"
+     },
+     {
+      "lib": "commons_ustreasury_2.jpg"
+     }
+    ]
+   },
+   "lines": [
+    "1933년, 미국. 정부가 국민에게 명령합니다. 집에 있는 금을, 전부 내놓으라고."
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_poster1933.jpeg"
+     },
+     {
+      "lib": "commons_doubleeagle_3.jpg"
+     }
+    ]
+   },
+   "lines": [
+    "어기면, 최고 징역 10년."
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_counter1933.jpeg"
+     },
+     {
+      "lib": "il_L261105g_cin_vaultclose.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "은행에 맡긴 제 금을 돌려 달라던 한 남자는, 오히려 기소됩니다."
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_frozen2022.jpeg"
+     },
+     {
+      "lib": "commons_bankofrussia_1.jpg"
+     }
+    ]
+   },
+   "lines": [
+    "그리고 90년 뒤, 이번엔 한 나라의 돈이 하루아침에 묶입니다."
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_goldload.jpeg"
+     },
+     {
+      "lib": "commons_goldbars_4.jpg"
+     },
+     {
+      "lib": "commons_nyfedvault_2.jpg"
+     }
+    ]
+   },
+   "lines": [
+    "그날 이후, 세계의 중앙은행들이 금을 쓸어 담기 시작합니다. 도대체 금이 뭐길래, 이러는 걸까요?"
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "ident": true
+   },
+   "lines": [],
+   "en": [],
+   "asof": false,
+   "src": "",
+   "dur": 2.7,
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "commons_goldbars_3.jpg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "답부터 말씀드릴게요. 금은 누구도 마음대로 찍어 낼 수 없어서 돈입니다. 그래서 정부는 금을 빼앗기도 하고, 묶기도 하고, 다시 사 모으기도 했죠. 금값은 금 자체보다, 사람들이 종이돈을 얼마나 믿느냐로 움직입니다."
+   ],
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "금 = 찍어 낼 수 없는 돈",
+     "line": 0,
+     "at": 0.15
+    }
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  }
+ ]
+}

@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-24.04  # 2026-10-29 고정: 26 전환 후 브라우저 설치 실패
     timeout-minutes: 120
     env:
-      PREVIEW_ID: L261026-starbucks-float
-      PREVIEW_SCENES: '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15'
+      PREVIEW_ID: L261105-gold-doc
+      PREVIEW_SCENES: '0,1,2,3,4,5,6'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
