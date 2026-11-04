@@ -2100,8 +2100,8 @@ async function briefLoad(){
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'growth-plan').maybeSingle(),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'yt-channel').maybeSingle(),
     sb.from('docs').select('id,data->monetize').eq('collection', 'agent').like('id', 'perf-20%').order('id', { ascending: false }).limit(1)]);
-  BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = al.data || [];
-  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
+  BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = (al.data || []).filter(a => a && a.data && typeof a.data === 'object');
+  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; if(BR.todo && Array.isArray(BR.todo.items)) BR.todo = { ...BR.todo, items: BR.todo.items.filter(x => x && typeof x === 'object').map(x => ({ ...x, title: x.title || x.text || '(제목 없음)' })) }; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
 }
 /* 유튜브 구독자·총 조회 새로고침 (2026-11-03 대표님: "브리핑 구독자 수가 업데이트가 안 돼, 새로고침 버튼 누르면 업뎃되게")
    Edge 함수 yt-public 이 채널 공개 페이지를 읽어 docs agent 'yt-channel'에 저장한다 — 유튜브 API·스튜디오·예약 작업 없이 바로.
@@ -2436,9 +2436,17 @@ async function brHide(keys, reset){
   const { error } = await q; if(error){ toast('바꾸지 못했습니다: ' + error.message, true); return; }
   BR.inbox = { ...(BR.inbox || {}), id: 'brief-inbox', data }; render();
 }
+/* 2026-11-04 대표님: 브리핑 글·할 일에 빈 칸(null)이나 형식이 다른 줄이 하나 섞여도 화면 전체가 멈추지 않게, 그리기 전에 걸러 낸다 */
+const brObjs = a => Array.isArray(a) ? a.filter(x => x && typeof x === 'object') : [];
+function brClean(d){
+  const o = { ...d };
+  ['kpis', 'checks', 'applied', 'channels'].forEach(k => { if(k in o) o[k] = brObjs(o[k]); });
+  if('sections' in o) o.sections = brObjs(o.sections).map(sc => ({ ...sc, items: (Array.isArray(sc.items) ? sc.items : [sc.items]).filter(t => t != null && t !== '').map(String) }));
+  return o;
+}
 function vBrief(){
   if(!BR.loaded) return '<div class="empty">불러오는 중</div>';
-  const r = brRange(), d = (BR.doc || {}).data || {}, wk = BR.mode === 'w';
+  const r = brRange(), d = brClean((BR.doc || {}).data || {}), wk = BR.mode === 'w';
   const s = DATA || {}, sv = s.visitors || {}, sg = s.signups || {};
   const daily = (s.daily || []).filter(x => x.d >= r.from && x.d <= r.to);
   const vis = daily.length ? daily.reduce((a, x) => a + (+x.v || 0), 0) : (wk ? sv.d7 : sv.today), sig = daily.length ? daily.reduce((a, x) => a + (+x.s || 0), 0) : (wk ? sg.d7 : sg.today);
