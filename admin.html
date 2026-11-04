@@ -1265,14 +1265,15 @@ function ytPlanItem(p){
   const waiting = (YT.reqs || []).some(r => r.kind === 'revise' && r.plan_id === p.id && ['pending', 'working'].includes(r.status));
   return `<div class="card yt-plan">
     <div class="k">${p.rank ? `<span class="kind">${esc(String(p.rank))}순위</span>` : ''}${p.series ? `<span class="st none">${esc(p.series)}</span>` : ''}<span class="st ${st[0]}">${st[1]}</span>${waiting ? '<span class="st run">의견 반영 중</span>' : ''}${p.minutes ? `<span class="st none">약 ${esc(String(p.minutes))}분</span>` : ''}</div>
-    <h3>${esc(p.title || p.id)}</h3>
-    ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b></div>` : ''}
+    ${p.format === 'doc' && p.doc_title ? `<div class="m"><span class="st run">다큐</span> 스토리텔링 다큐 구성</div><h3>${esc(p.doc_title)}</h3><div class="m">유튜브 제목 · ${esc(p.title || '')}</div>` : `<h3>${esc(p.title || p.id)}</h3>`}
+    ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b>${p.ab_doc ? ` · 다큐형 C안 <b>${esc(p.ab_doc.l1 || '')}</b> / <b>${esc(p.ab_doc.l2 || '')}</b>` : ''}</div>` : ''}
+    ${p.doc && p.doc.cold_open ? `<div class="m" style="margin-top:6px"><b>콜드 오픈 16초</b> ${esc((p.doc.cold_open.lines || []).join(' '))}<br><span style="color:var(--muted)">컷 · ${esc((p.doc.cold_open.cuts || []).join(' → '))}</span></div>${p.doc.answer_first ? `<div class="m" style="margin-top:6px"><b>결론 먼저</b> ${esc(p.doc.answer_first)}</div>` : ''}${(p.doc.chapters || []).length ? `<div class="m" style="margin-top:6px"><b>질문형 장</b> ${p.doc.chapters.map((c, i) => `${i + 1}. ${esc(c.title)}`).join(' · ')}</div>` : ''}` : ''}
     ${p.message ? `<div class="m" style="margin-top:6px"><b>한 문장</b> ${esc(p.message)}</div>` : ''}
     ${p.radar && p.radar.source && p.radar.source !== 'none' ? `<div class="m tr-s" style="margin-top:6px"><b>트렌드 근거</b> <span class="st run">${esc({ hot_video: '뜨는 영상', structure: '뜨는 구조', stock_interest: '종목 관심', issue: '이슈 캘린더' }[p.radar.source] || p.radar.source)}</span> ${esc(p.radar.evidence || '')}${p.radar.structure_from ? ` · 구조: ${esc(p.radar.structure_from)}` : ''}</div>` : ''}
     ${(p.why_now || []).length ? `<div class="m" style="margin-top:6px"><b>왜 지금</b><ul style="margin:4px 0 0 18px;padding:0">${li(p.why_now)}</ul></div>` : ''}
     ${(p.story || []).length ? `<details${p.status === 'proposed' ? ' open' : ''}><summary>이야기 구조 ${p.story.length}막</summary><div class="ytp-story">${p.story.map(b => `<div class="b"><b>${esc(b.beat)}</b><div>${esc(b.story)}</div>${b.visual ? `<div class="vz">화면 · ${esc(b.visual)}</div>` : ''}${b.pull ? `<div class="pl">→ ${esc(b.pull)}</div>` : ''}</div>`).join('')}</div></details>`
       : `<details${p.status === 'proposed' ? ' open' : ''}><summary>목차 ${(p.outline || []).length}장</summary><ol style="margin:6px 0 0 18px;padding:0">${li(p.outline)}</ol></details>`}
-    ${p.visual ? `<div class="m ytp-vis"><b>미술 콘셉트</b> ${esc(p.visual.concept || '')}${p.visual.look ? ` <span class="st none">${esc([p.visual.look.paper, p.visual.look.dark, p.visual.look.accent].join(' · '))}</span>` : ''}${(p.visual.props || []).length ? `<br>소품 · ${esc(p.visual.props.join(', '))}` : ''}</div>` : ''}
+    ${p.format === 'doc' && p.visual_doc ? `<div class="m ytp-vis"><b>화면</b> ${esc(p.visual_doc)}</div>` : p.visual ? `<div class="m ytp-vis"><b>미술 콘셉트</b> ${esc(p.visual.concept || '')}${p.visual.look ? ` <span class="st none">${esc([p.visual.look.paper, p.visual.look.dark, p.visual.look.accent].join(' · '))}</span>` : ''}${(p.visual.props || []).length ? `<br>소품 · ${esc(p.visual.props.join(', '))}` : ''}</div>` : ''}
     <div class="m">${when}${p.company ? ` · 데이터 회사 ${esc(p.company)}` : ''}${p.made_at ? ` · 기획 ${kst(p.made_at)}` : ''}</div>
     ${ytProg(p)}
     ${p.owner_note ? `<div class="nt"><b>메모</b><br>${esc(p.owner_note)}</div>` : ''}
@@ -2111,6 +2112,7 @@ function brAlertDone(a){
   const m = id.match(/^ops-lr-(.+)$/); if(m){ const y = (YT.list || []).find(x => x.id === m[1]); if(!y || ['approved', 'uploaded'].includes(y.status)) return true; }
   if(/^ops-test-/.test(id)) return true;
   if(/^long-deadline-/.test(id)) return true;
+  if(!d.level || d.level === 'info') return true;   // 2026-11-04 대표님: "정보성 알림은 확인 안 하고 싶어" — 정보 알림은 브리핑 알림함에 띄우지 않는다
   if(/승인 1,3|전부 승인/.test(String(d.body || ''))) return true;
   const age = Date.now() - Date.parse(d.at || a.updated_at || 0);
   if(!['bad', 'urgent', 'error'].includes(d.level) && age > 3 * 864e5) return true;
