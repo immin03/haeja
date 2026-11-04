@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105g_cin_poster1933",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Scene: A 1930s government proclamation notice pasted on a brick wall next to a bank door, the paper too blurry and weathered to read, a beam of harsh light across it, a few gold coins dropped on the wet pavement below, sepia tone.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a52d-a271-75f0-b079-97ce091570f9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a52d-a271-75f0-b079-97ce091570f9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a52d-a271-75f0-b079-97ce091570f9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a52d-a271-75f0-b079-97ce091570f9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a52d-a271-75f0-b079-97ce091570f9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a52d-a271-75f0-b079-97ce091570f9/cancel",
+  "expires_at": "2026-11-11T06:11:32.868272+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a52d-a271-75f0-b079-97ce091570f9/ccbb0340-7890-4da6-955b-0e2cf50e8b44.jpeg"
+   }
+  ]
+ },
+ "seconds": 105,
+ "file": "scripts/blog/media/lib/il_L261105g_cin_poster1933.jpeg"
+}

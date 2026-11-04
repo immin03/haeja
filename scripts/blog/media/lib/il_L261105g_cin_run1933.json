@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105g_cin_run1933",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Scene: 1933 America during the Great Depression, a large anxious crowd in 1930s coats and fedora hats packed in front of a closed stone bank entrance, seen from behind and from a distance so no faces are recognizable, grey overcast morning, black-and-white tinted with slight warm sepia.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a52d-a268-7298-82e6-43805c9c410e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a52d-a268-7298-82e6-43805c9c410e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a52d-a268-7298-82e6-43805c9c410e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a52d-a268-7298-82e6-43805c9c410e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a52d-a268-7298-82e6-43805c9c410e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a52d-a268-7298-82e6-43805c9c410e/cancel",
+  "expires_at": "2026-11-11T06:11:19.990465+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a52d-a268-7298-82e6-43805c9c410e/ad7801e8-c85e-4440-96fc-6f5676c36965.jpeg"
+   }
+  ]
+ },
+ "seconds": 92,
+ "file": "scripts/blog/media/lib/il_L261105g_cin_run1933.jpeg"
+}

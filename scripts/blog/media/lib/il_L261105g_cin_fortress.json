@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105g_cin_fortress",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no readable signs, no watermark. Scene: A white granite fortress-like gold depository building alone on a flat field at dusk, high fence, guard tower silhouette, storm clouds, cold blue light, 1930s mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a52f-0e45-7e44-a6b0-8065411d17a7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a52f-0e45-7e44-a6b0-8065411d17a7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a52f-0e45-7e44-a6b0-8065411d17a7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a52f-0e45-7e44-a6b0-8065411d17a7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a52f-0e45-7e44-a6b0-8065411d17a7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a52f-0e45-7e44-a6b0-8065411d17a7/cancel",
+  "expires_at": "2026-11-11T06:13:10.342072+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a52f-0e45-7e44-a6b0-8065411d17a7/42cb8dcd-6eb2-42f0-8b8c-11345eeecda3.jpeg"
+   }
+  ]
+ },
+ "seconds": 105,
+ "file": "scripts/blog/media/lib/il_L261105g_cin_fortress.jpeg"
+}
