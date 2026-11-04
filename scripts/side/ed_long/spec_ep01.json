@@ -149,74 +149,74 @@
    "vol": 0.22,
    "fin": 4,
    "fout": 4,
-   "until_shot": 21
+   "until_shot": 20
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 21,
+   "at_shot": 20,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 31,
+   "until_shot": 30,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_3.mp3",
-   "at_shot": 31,
+   "at_shot": 30,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 42,
+   "until_shot": 41,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 42,
+   "at_shot": 41,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 52,
+   "until_shot": 51,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "dramatic_1.mp3",
-   "at_shot": 52,
+   "at_shot": 51,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 62,
+   "until_shot": 61,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 62,
+   "at_shot": 61,
    "offset": 1.0,
    "start": 90,
-   "until_shot": 72,
+   "until_shot": 71,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 72,
+   "at_shot": 71,
    "offset": 1.0,
    "start": 110,
-   "until_shot": 80,
+   "until_shot": 79,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_5.mp3",
-   "at_shot": 80,
+   "at_shot": 79,
    "offset": 0.5,
    "start": 0,
-   "until_shot": 84,
+   "until_shot": 83,
    "tail": 0,
    "vol": 0.22,
    "fin": 2,
@@ -834,44 +834,14 @@
    ],
    "voice": "c1e",
    "pre": 0.8,
-   "post": 1.2,
+   "post": 1.4,
    "amb": [
     "fire_0.mp3",
     0.2
    ],
-   "nocap": true
-  },
-  {
-   "type": "still",
-   "src": "lp11_rider",
-   "voice": "c1f",
-   "pre": 0.6,
-   "post": 1.4,
-   "tin": "dissolve",
    "tout": "black",
    "fout": 1.0,
-   "move": {
-    "zoom": [
-     1.0,
-     1.1
-    ]
-   },
-   "amb": [
-    "wind_2.mp3",
-    0.35
-   ],
-   "sfx": [
-    [
-     "horse_6.mp3",
-     0.0,
-     0.45
-    ],
-    [
-     "horse_7.mp3",
-     3.2,
-     0.4
-    ]
-   ]
+   "nocap": true
   },
   {
    "type": "card",

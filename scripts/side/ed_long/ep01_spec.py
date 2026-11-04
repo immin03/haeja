@@ -157,6 +157,10 @@ def build():
             sh.insert(i + 1, {"type": "still", "src": "lp09_teacher", "voice": ["c1g"], "grade": "memory", "leak": True, "tin": "dissolve",
                               "move": {"zoom": [1.0, 1.1], "pan": [[0.02, 0], [-0.02, 0]]}, "pre": 0.3, "post": 0.6})
             break
+    # 11/4 대표: 1장 끝 "몇 달 뒤 상자 도착"은 6장(d5h→d6b)과 겹치고 다음 장면("날이 밝기도 전에")과 시간도 거꾸로 → 1장 쪽을 뺀다
+    sh[:] = [x for x in sh if "c1f" not in (x.get("voice") if isinstance(x.get("voice"), list) else [x.get("voice")])]
+    for x in sh:
+        if "c1e" in str(x.get("voice")): x.update({"tout": "black", "fout": 1.0, "post": max(x.get("post", 0.6), 1.4)})
     # 파일럿 때 쉼표 단위로 잘게 나눈 1장 자막은 문장 단위로 (목소리와 어긋나지 않게)
     for k in ("c1a", "c1c", "c1d", "c1e", "s1", "s3"):
         if k in E.TXT: continue
