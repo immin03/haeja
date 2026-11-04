@@ -817,7 +817,7 @@ def mix_audio(S, plan, total, t_from, t_to, vfile, P, out_dir, tag):
     for p in plan:
         for v, at, d in p["voices"]:
             fx = S.get("monologue_fx", "highpass=f=60,") if v in mono else "highpass=f=60,"   # 2026-11-03 대표: 황제(명일)는 생 목소리 그대로
-            lab = add(vfile(v), at, S.get("voice_vol", 1.0) * (S.get("voice_gain", {}).get("mono", 1.1) if v in mono else 1.0), fx)
+            lab = add(vfile(v), at, S.get("voice_vol", 1.0) * (S.get("voice_gain", {}).get("mono", 1.1) if v in mono else (S.get("voice_gain", {}).get("cast", 1.0) if v in S.get("cast_voices", []) else 1.0)), fx)
             if lab: vo.append(lab)
         s = p["s"]
         if s.get("amb"):

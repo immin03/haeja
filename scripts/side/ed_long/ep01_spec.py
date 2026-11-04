@@ -201,9 +201,9 @@ def build():
     sp["voice_gain"] = {"mono": 1.9}   # 11/3 대표: 황제 목소리 조금 더 크게 (1.45 → 1.9)
     # 11/4 대표 피드백 정리
     for x in S:
-        if x.get("src") == "lqv08c_write": x["write"] = copy.deepcopy(PAGE)          # 같은 종이에 같은 글
+        if x.get("src") == "lqv08c_write": x["src"] = "lwv3_side"; x.pop("write", None)   # 11/4: 비스듬한 종이 영상 → 새 옆 각도(글이 이미 써 있는 종이)
         if x.get("src") == "lq08_write" and x["type"] == "still": x["src"] = "lq08_page"   # 같은 장면 그림에도 같은 글
-        if x.get("src") not in ("lqv08c_write", "lwv2_front") and x["type"] != "intro":   # 글씨 쓰는 장면이 아니면 펜 소리 빼기
+        if x.get("src") not in ("lwv3_side", "lwv2_front") and x["type"] != "intro":   # 글씨 쓰는 장면이 아니면 펜 소리 빼기
             if x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] != "paper_6.mp3"]
     json.dump(sp, open(os.path.join(HERE, "spec_ep01.json"), "w"), ensure_ascii=False, indent=1)
     print("장면", len(S), "카드 위치", card_idx, "정리", rec, "아웃트로", out)
