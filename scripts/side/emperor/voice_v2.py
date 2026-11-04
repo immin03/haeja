@@ -5,6 +5,8 @@
 - 조각 사이는 디지털 무음 0.6초로 이어 한 파일로 만들고, 문장 시각을 다시 잰다 → long_<id>a.json
 사용: python3 voice_v2.py <ep> <take A|B per piece, 예: A,A,B,A> <voice_dir>"""
 import json, re, subprocess, sys, os, numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from take_check import check as take_check, norm as _norm
 SR = 48000; GAP = 0.6
 MONO_FX = "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04"   # 롱폼 황제 독백과 같은 값
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -75,6 +77,8 @@ def main(ep, takes, vdir):
     out_sents = []
     for k, ((nm, vid, line), tk) in enumerate(zip(lines, takes)):
         f = [x for x in os.listdir(vdir) if x.endswith(f"_{ep}_{nm}_{tk}.mp3")][0]
+        ok, why = take_check(os.path.join(vdir, f), line if os.path.exists(os.path.join(vdir, f) + ".txt") else None)   # 2026-11-04 녹음 결함·원문 검사
+        if not ok: sys.exit(f"테이크 불통과 {f}: {why} — 다른 테이크(A/B)를 고르거나 다시 녹음")
         a = load(os.path.join(vdir, f), MONO_FX if nm.startswith("e") else None)
         a = trim(a); g = 10 ** ((-16 - lufs(a)) / 20); a = a * g
         pk = float(np.abs(a).max())
@@ -94,6 +98,16 @@ def main(ep, takes, vdir):
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-c:a", "pcm_s24le", wav], input=y.tobytes(), check=True)
     new = dict(old); new.update(id=f"{ep}a", theme="A", voice=wav, sents=out_sents, vol=1.0,
                                 note=old.get("note", "") + " | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A")
+    # 2026-11-04 8편 사고: '오늘의 할 일' 녹음은 이 편 대본(tonight)으로 새로 녹음한 것만 쓴다 — 원문(.txt) 대조 + 소리 끌림 검사
+    if old.get("end_voice"):
+        ev = old["end_voice"]; src = ev if os.path.exists(ev + ".txt") else os.environ.get("ED_END_SRC", ev)
+        want = " ".join(old["tonight"])
+        side = open(src + ".txt").read() if os.path.exists(src + ".txt") else None
+        ok, why = take_check(src)
+        if side is None: why.append("'오늘의 할 일' 녹음 원문(.txt) 없음 — 이 편 문장으로 새로 녹음할 것 (다른 편 녹음 금지)")
+        elif _norm(side) not in (_norm(want), _norm("오늘의 할 일" + want), _norm("오늘의 할 일은" + want)):
+            why.append(f"'오늘의 할 일' 원문 불일치: 녹음='{side.strip()}' / 화면='{want}'")
+        if why: sys.exit(f"엔딩 녹음 불통과 {os.path.basename(src)}: {why}")
     for key in ("end_voice", "outro_voice"):
         if old.get(key):
             b = trim(load(old[key])); b = b * 10 ** ((-16 - lufs(b)) / 20); p = f"/home/claude/vo/v2/{ep}_{key}.wav"

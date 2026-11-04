@@ -23,13 +23,15 @@
    명상록 인용은 권·절을 확실히 아는 것만, George Long(1862) 영역본을 충실히 옮긴 쉬운 한국어. 로마 시대 장면만, 현대 상황은 내레이션 말로만(플랫폼 이름 금지).
 3. 대본 파일: 편마다 `long_<id>.json`(구조는 `long_ep08a.json`을 그대로 따름: kicker, hook, title_line, music, cuts, tonight, source, gap, hold, sents)
    sents 시각은 0으로 두고 문장 글·group·cut·style 만 채운다. 묶음 줄 목록은 `/home/claude/vo/v2_lines.json` 에 `{ "<id>": [["n1", 건석, 글], ["e2", 명일, 인용], ...] }`
-   (인용 묶음 이름은 e 로 시작). 오늘의 할 일 내레이션(end)도 같은 요청에 넣는다.
+   (인용 묶음 이름은 e 로 시작). 오늘의 할 일 내레이션(end)도 같은 요청에 넣는다 — 글은 반드시 "오늘의 할 일. " + 이 편 tonight 두 줄 그대로.
+   ★ 2026-11-04 8편 사고 재발 방지: 다른 편·예전 폴더의 녹음은 어떤 경우에도 쓰지 않는다. long_<id>.json 의 end_voice 는 오늘 받은
+   voice_samples/<tag>/…_end_<A|B>.mp3 를 그대로 가리킨다(옆의 .txt 원문으로 voice_v2.py 가 대조, 다르면 멈춤).
 4. 녹음: `scripts/side/voices_req.json` 에 묶음마다 A·B 두 테이크(이름 `<id>_<묶음>_<A|B>`), tag `d<yymmdd>` 로 커밋·푸시 → side-gen 워크플로가
    `social/side/voice_samples/<tag>/` 에 올릴 때까지 `gh run list -R immin03/haeja --workflow side-gen.yml` 로 기다린다(최대 40분).
-5. 음성 조립: 테이크 고르기(고음역 튐이 적은 쪽) → `ED_LINES=/home/claude/vo/v2_lines.json python3 voice_v2.py <id> <A,B,…> <voice_dir>` → `long_<id>a.json`
+5. 음성 조립: 테이크 고르기 — `python3 take_check.py <mp3> "<대본 글>"` 가 통과한 것 중 고음역 튐이 적은 쪽 (소리 끌림·원문 불일치는 불통과, 둘 다 불통과면 그 묶음만 다시 녹음) → `ED_LINES=/home/claude/vo/v2_lines.json python3 voice_v2.py <id> <A,B,…> <voice_dir>` → `long_<id>a.json`
 6. 일기 쓰는 장면: `python3 tablet_script.py social/side/gen/edv02_tablet.mp4 /home/claude/ed/edv02_<id>.mp4 "<Long 영어 원문 3줄, |로 구분>"`
 7. 렌더: `python3 build_long.py long_<id>a.json` → `python3 render_ed.py /home/claude/ed/spec_<id>a.json <yt.mp4> --platform shorts` 와 `--platform reels`
-8. 검사(필수): `python3 voice_qa.py <yt.mp4> /home/claude/ed/spec_<id>a.json` 가 "통과"여야 한다. 장면 8장 한 장짜리 격자를 한 번 보고
+8. 검사(필수): `python3 voice_qa.py <yt.mp4> /home/claude/ed/spec_<id>a.json` 가 "통과"여야 한다(조각 대조 + 소리 끌림). 오늘의 할 일 구간은 화면 글과 녹음 원문(.txt)이 같은지 한 번 더 눈으로 확인. 장면 8장 한 장짜리 격자를 한 번 보고
    글자 잘림·겹침·밝은 그림 위 자막만 고친다. 자막이 말보다 먼저 넘어가지 않는지 인용 구간 프레임 2장으로 확인.
    불통과 2번이면 그 편은 올리지 않고 docs collection 'alerts' 에 남긴다.
 9. 올리기: TEMPLATE.md 인코딩대로 `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(1초 프레임) 커밋·푸시,

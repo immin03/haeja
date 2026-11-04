@@ -3,7 +3,9 @@ python3 voice_qa.py <final.mp4> <spec.json>   → 통과하면 exit 0
 1) 목소리 조각마다 완성본에서 같은 자리의 소리와 비교(상관계수) — 0.90 미만이면 일그러짐/겹침
 2) 조용한 곳의 '딱' 소리(클릭) 찾기
 3) 전체 크기 -17~-13 LUFS, 최고점 -1.0 dBTP 이하"""
-import json, re, subprocess, sys, numpy as np
+import json, re, subprocess, sys, os, numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from take_check import held_runs, HOLD_MAX
 SR = 48000
 def load(f, ch=1):
     return np.frombuffer(subprocess.run(["ffmpeg", "-v", "error", "-i", f, "-ac", str(ch), "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout, np.float32)
@@ -18,8 +20,9 @@ def main(mp4, spec):
             m = np.abs(p[:n]) > 0.02
             if m.sum() < 100: continue
             c = np.corrcoef(a[:n][m], p[:n][m])[0, 1]; best = max(best, c)
-        rows.append((v["file"].split("/")[-1], "ok" if best >= 0.90 else "확인", round(float(best), 3)))
-        if best < 0.90: ok = False
+        hr = [(a, b) for a, b in held_runs(v["file"]) if b - a > HOLD_MAX]   # 2026-11-04: 녹음 자체의 소리 끌림(갈라짐)
+        rows.append((v["file"].split("/")[-1], "ok" if best >= 0.90 and not hr else "확인", round(float(best), 3), f"끌림 {hr}" if hr else ""))
+        if best < 0.90 or hr: ok = False
     d = np.abs(np.diff(y)); win = int(0.005 * SR)
     e = np.sqrt(np.convolve(y ** 2, np.ones(win) / win, "same"))
     clicks = [round(i / SR, 2) for i in np.where((d > 0.25) & (e[1:] < 0.05))[0]]

@@ -43,7 +43,9 @@ def main_req(req):
         if req.get("keep"):  # 2026-11-03 롱폼 성우 샘플: 저장소에도 남겨 바로 받아 볼 수 있게
             kd = os.path.join(OUT, "voice_samples", tag); os.makedirs(kd, exist_ok=True)
             import shutil; shutil.copy(dst, os.path.join(kd, fn))
-        res.append({"n": i, "voice_id": v["id"], "name": v["name"], "url": f"https://github.com/{REPO}/releases/download/side-assets/{fn}"})
+            # 2026-11-04: 녹음 원문을 옆에 남긴다 → take_check.py 가 대본과 대조 (다른 편 녹음을 잘못 쓰는 사고 방지)
+            open(os.path.join(kd, fn + ".txt"), "w").write(v.get("line", req.get("line")) or "")
+        res.append({"n": i, "voice_id": v["id"], "name": v["name"], "line": v.get("line", req.get("line")), "url": f"https://github.com/{REPO}/releases/download/side-assets/{fn}"})
         print("샘플", i, name, flush=True)
     if files:
         subprocess.run(["gh", "release", "upload", "side-assets", *files, "--clobber", "-R", REPO], check=True)
