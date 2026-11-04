@@ -92,7 +92,7 @@ FACES = {"e2_eyes": [0.37, 0.07, 0.65, 0.59], "ev2_eyes": [0.37, 0.07, 0.65, 0.5
          "e2_dawn": [0.45, 0.16, 0.58, 0.37], "e2_reading": [0.31, 0.10, 0.49, 0.41], "ev2_sword": [0.36, 0.0, 0.62, 0.22], "e2_market": [0.43, 0.30, 0.52, 0.50],
          "e2m_breath": [0.42, 0.09, 0.56, 0.36], "e2m_ceiling": [0.47, 0.20, 0.60, 0.45], "e2m_elevator": [0.45, 0.14, 0.60, 0.43], "e2m_family": [0.26, 0.20, 0.42, 0.49],
          "e2m_friend": [0.51, 0.17, 0.65, 0.43], "e2m_shoes": [0.60, 0.10, 0.71, 0.31], "e2m_tea": [0.53, 0.22, 0.64, 0.45]}
-ELEC = ("ring_synth.wav", "transition_5.mp3", "whoosh_0.mp3")   # 11/4 대표: 인위적인 전자음 전환 효과음 제거 (책장 넘기는 소리만)
+ELEC = ("ring_synth.wav", "transition_5.mp3", "whoosh_0.mp3", "click_2.mp3")   # 11/4 대표: 인위적인 전자음 전환 효과음 제거 (책장 넘기는 소리만)
 MUSIC2 = {1: ("cinematic_5.mp3", 0), 2: ("sad_3.mp3", 0), 3: ("dramatic_1.mp3", 0), 4: ("cinematic_4.mp3", 0), 5: ("cinematic_5.mp3", 90), 6: ("sad_3.mp3", 60), 7: ("cinematic_4.mp3", 110)}
 
 
@@ -118,15 +118,15 @@ def body(S, sp):
               "kicker": "PREVIOUS  ·  EPISODE 1", "title": "배신당한 밤", "sub": "황제의 일기는, 그 밤에서 시작됩니다", "tin": "black", "amb": ["wind_2.mp3", 0.2],
               "sfx": [["paper_2.mp3", 0.3, 0.35]]})
     out = len(S)
-    S.append({"type": "outro", "voice": ["o1", "o2"], "gap": 0.7, "pre": 1.0, "post": 2.6, "dur": 12.0, "nocap": True,
-              "next_kicker": "NEXT  ·  EPISODE 3", "next": "아무도 알아주지 않을 때", "slogan_at": 999, "tap_sub": 3.4, "tap_like": 4.2,
-              "sfx": [["ring_synth.wav", 3.42, 0.45], ["click_2.mp3", 3.4, 0.6], ["click_2.mp3", 4.2, 0.6], ["ring_synth.wav", 4.22, 0.35], ["drum_6.mp3", 0.2, 0.4]]})
-    S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.6, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black",
-              "sfx": [["ring_synth.wav", 0.5, 0.25]]})
+    # 11/4 대표: 엔딩 = "매일 밤, 황제처럼 생각하라 · 황제의 일기" → 맨 마지막은 유튜브 최종 화면(관련 영상·구독)이 뜰 빈 화면 20초, 그 위에 구독·다음 편 해설
+    S.append({"type": "end", "dur": 7.5, "voice": ["m_x1", "e_x2"], "pre": 0.9, "gap": 0.9, "post": 2.2, "nocap": True, "slogan": "매일 밤, 황제처럼 생각하라", "tin": "black"})
+    S.append({"type": "endscreen", "dur": 20.0, "fixed": True, "voice": ["o1", "o2"], "pre": 1.2, "gap": 0.8, "nocap": True, "amb": ["wind_2.mp3", 0.15]})
     for x in S:
         if x.get("src") in FACES: x["face"] = FACES[x["src"]]
         if x.get("type") != "intro" and x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] not in ELEC]
-        if x.get("type") == "recap": x["sfx"] = [["paper_2.mp3", 0.2, 0.4]]
+        if x.get("type") == "recap": x["sfx"] = [["paper_3.mp3", 0.2, 0.45]]
+        if x.get("type") != "intro" and x.get("sfx"):   # 11/4 대표: paper_2 는 '종소리 섞인 책장'이라 전자음처럼 들림 → 순수한 책장 넘김(paper_3)
+            x["sfx"] = [["paper_3.mp3", f[1], max(f[2], 0.4)] if f[0] == "paper_2.mp3" else f for f in x["sfx"]]
     for x in S[sit:]:   # 1편에서 배운 점: 펜 소리는 펜 영상에만, 오늘 밤 카드는 자막 없이
         if x.get("src") not in ("lwv3_side", "lwv2_front") and x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] != "paper_6.mp3"]
         if x.get("type") == "tonight": x["nocap"] = True; x["sfx"] = []

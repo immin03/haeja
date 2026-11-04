@@ -306,8 +306,7 @@ class Particles:
 # ---------- 템플릿 카드 ----------
 def coin_gold(path):
     c = Image.open(path).convert("L").resize((360, 360), Image.LANCZOS); a = np.array(c).astype(np.float32) / 255.0
-    a = np.clip(a * 1.25, 0, 1) ** 0.8   # 11/4 대표: 로고 빛 톤 보완
-    rgb = np.stack([a * GOLD[0] * 1.3, a * GOLD[1] * 1.3, a * GOLD[2] * 1.22], -1)
+    rgb = np.stack([a * GOLD[0] * 1.15, a * GOLD[1] * 1.15, a * GOLD[2] * 1.1], -1)   # 11/4 대표: 주화는 예전 모습이 낫다
     alpha = np.clip((a - 0.08) * 1.6, 0, 1) * 255
     yy, xx = np.mgrid[0:360, 0:360]; m = ((xx - 180) ** 2 + (yy - 180) ** 2) <= 178 ** 2
     alpha = alpha * m
@@ -369,9 +368,6 @@ class Intro:
                 sub = layer[cy - cs // 2:cy + cs // 2, cx - cs // 2:cx + cs // 2, :3].astype(np.float32)
                 sub = np.clip(sub + band[..., None] * 140 * (sub > 10), 0, 255); layer[cy - cs // 2:cy + cs // 2, cx - cs // 2:cx + cs // 2, :3] = sub.astype(np.uint8)
             shake = 6 * math.exp(-(t - 4.0) * 18) * math.sin(t * 90) if t >= 4.0 else 0
-            back = np.zeros((H, W, 3), np.float32)   # 11/4 대표: 로고가 어두워 보임 → 뒤에 은은한 금빛 후광
-            cv2.circle(back, (cx, cy), int(r * 1.05), (40, 92, 150), -1, cv2.LINE_AA)
-            img = np.clip(img.astype(np.float32) + cv2.GaussianBlur(back, (0, 0), 60) * a * 0.9, 0, 255).astype(np.uint8)
             img = blend(img, layer, a, dx=shake, dy=shake * 0.6)
         if t >= 4.0:
             img = self.dust.draw(img, t - 4.0) if t < 10.0 else img
@@ -561,6 +557,12 @@ def outro_frame(s, t, dur, cache, logo):
         img = blend(img, l, a)
     img = o["dust"].draw(img, t)
     return img
+
+
+def endscreen_frame(s, t, dur, cache):
+    """11/4 대표: 맨 마지막은 유튜브 최종 화면(관련 영상·구독)이 올라갈 빈 화면 — 글자·그림 없이 은은한 바탕만"""
+    a = ease(t / 1.2) * (1 - ease((t - dur + 1.0) / 1.0))
+    return (warm_bg(cache, 540).astype(np.float32) * a).astype(np.uint8)
 
 
 def prev_frame(s, t, dur, cache, P):
@@ -835,6 +837,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
             elif s["type"] == "end": img = end_frame(s, tt, d, cache, P(S["intro"]["logo"]))
             elif s["type"] == "tonight": img = tonight_frame(s, tt, d, cache)
             elif s["type"] == "prev": img = prev_frame(s, tt, d, cache, P)
+            elif s["type"] == "endscreen": img = endscreen_frame(s, tt, d, cache)
             elif s["type"] == "still": img = src.frame(prog)
             elif s["type"] == "video": img = src.frame(prog, tt, d)
             if s.get("flicker") and s["type"] in ("still", "video"):

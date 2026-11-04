@@ -835,7 +835,7 @@
    "fixed": true,
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.25,
      0.4
     ]
@@ -1112,7 +1112,7 @@
    "fixed": true,
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.25,
      0.4
     ]
@@ -1381,7 +1381,7 @@
    "fixed": true,
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.25,
      0.4
     ]
@@ -1675,7 +1675,7 @@
    "fixed": true,
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.25,
      0.4
     ]
@@ -1978,7 +1978,7 @@
    "fixed": true,
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.25,
      0.4
     ]
@@ -2243,7 +2243,7 @@
    "fixed": true,
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.25,
      0.4
     ]
@@ -2490,7 +2490,7 @@
    "fixed": true,
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.25,
      0.4
     ]
@@ -2519,9 +2519,9 @@
    "tin": "dissolve",
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.3,
-     0.3
+     0.4
     ]
    ]
   },
@@ -2745,9 +2745,9 @@
    "head_en": "SEVEN LINES FOR THE RUDE AND THE UNGRATEFUL",
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.2,
-     0.4
+     0.45
     ]
    ],
    "tin": "black",
@@ -2792,42 +2792,8 @@
    ],
    "sfx": [
     [
-     "paper_2.mp3",
+     "paper_3.mp3",
      0.3,
-     0.35
-    ]
-   ]
-  },
-  {
-   "type": "outro",
-   "voice": [
-    "o1",
-    "o2"
-   ],
-   "gap": 0.7,
-   "pre": 1.0,
-   "post": 2.6,
-   "dur": 12.0,
-   "nocap": true,
-   "next_kicker": "NEXT  ·  EPISODE 3",
-   "next": "아무도 알아주지 않을 때",
-   "slogan_at": 999,
-   "tap_sub": 3.4,
-   "tap_like": 4.2,
-   "sfx": [
-    [
-     "click_2.mp3",
-     3.4,
-     0.6
-    ],
-    [
-     "click_2.mp3",
-     4.2,
-     0.6
-    ],
-    [
-     "drum_6.mp3",
-     0.2,
      0.4
     ]
    ]
@@ -2841,11 +2807,26 @@
    ],
    "pre": 0.9,
    "gap": 0.9,
-   "post": 2.6,
+   "post": 2.2,
    "nocap": true,
    "slogan": "매일 밤, 황제처럼 생각하라",
-   "tin": "black",
-   "sfx": []
+   "tin": "black"
+  },
+  {
+   "type": "endscreen",
+   "dur": 20.0,
+   "fixed": true,
+   "voice": [
+    "o1",
+    "o2"
+   ],
+   "pre": 1.2,
+   "gap": 0.8,
+   "nocap": true,
+   "amb": [
+    "wind_2.mp3",
+    0.15
+   ]
   }
  ],
  "cast_voices": [
