@@ -103,7 +103,7 @@ def body(S, sp):
     rec = len(S)
     S.append({"type": "recap", "items": ["아침마다 미리 각오하라", "그가 무엇을 옳다고 믿었는지 보라", "무례한 사람이 없는 세상은 없다", "상처받았다는 생각을 내려놓아라",
                                          "경멸은 그의 몫이다", "가장 좋은 복수는, 닮지 않는 것", "가르치거나, 견디거나"],
-              "voice": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"], "gap": 0.8, "pre": 0.8, "post": 1.0, "recap_offset": 1, "nocap": True,
+              "voice": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"], "gap": 0.8, "pre": 0.8, "post": 1.0, "recap_offset": 1, "nocap": True, "head_en": "SEVEN LINES FOR THE RUDE AND THE UNGRATEFUL",
               "sfx": [["transition_5.mp3", 0.0, 0.35]], "tin": "black", "fin": 1.0})
     S.append(F.shot("still", "e2_morning", ["r9"], ["wind_2.mp3", 0.25], {"move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     out = len(S)
