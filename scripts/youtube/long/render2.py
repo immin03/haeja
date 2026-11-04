@@ -1161,9 +1161,10 @@ def full_source(v, n_frames, seed):
 
     def get(u):
         t = min(1.0, u * FPS / dur); z = (1.0 + .06 * t) if zin else (1.06 - .06 * t)
-        cw, ch = bw / 1.0 / z / (bw / W) * (bw / W), 0
-        cw = W * (bw / W) / (1.1 * z) * 1.0; ch = cw * H / W
+        # 2026-11-04 금 편: 16:9보다 넓은/좁은 사진에서 자를 칸이 사진 밖으로 나가 렌더가 멈춰, 짧은 변 기준으로 맞추고 안쪽으로 묶음
+        sc = min(bw / W, bh / H) / (1.1 * z); cw = W * sc; ch = H * sc
         cx = (bw - cw) / 2 + dx * (bw - cw) / 2 * (t - .5); cy = (bh - ch) / 2 + dy * (bh - ch) / 2 * (t - .5)
+        cx = min(max(0.0, cx), bw - cw); cy = min(max(0.0, cy), bh - ch)
         im = big.resize((W, H), Image.BILINEAR, box=(cx, cy, cx + cw, cy + ch))
         if ov is not None: im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
         return im
