@@ -1,0 +1,31 @@
+{
+ "id": "libv_candle_diary",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The candle flame flickers and leans, a drop of wax rolls slowly down the candle, the smoke curls; the camera orbits very slowly around the diary. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92b-1abd-755f-90a4-16af89864e84/1e7cff51-1c8f-46d0-a227-a34b20aff81d.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a95a-4e43-7404-9c35-19d0a58727c8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-7404-9c35-19d0a58727c8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-7404-9c35-19d0a58727c8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a95a-4e43-7404-9c35-19d0a58727c8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-7404-9c35-19d0a58727c8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-7404-9c35-19d0a58727c8/cancel",
+  "expires_at": "2026-11-12T01:42:28.182537+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a95a-4e43-7404-9c35-19d0a58727c8/706b9fc6-8a07-4be5-a0f6-6e8f15de327a.mp4"
+  }
+ },
+ "seconds": 324,
+ "file": "social/side/gen/libv_candle_diary.mp4"
+}

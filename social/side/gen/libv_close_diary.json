@@ -1,0 +1,31 @@
+{
+ "id": "libv_close_diary",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand slowly closes the leather diary and rests on it for a moment; the candle flame leans and flickers; the camera pushes in very slowly. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92d-0656-74cf-88ea-be8301423abd/524cd429-3b98-43bb-bd88-3f9bff6ce9ee.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a95a-4e43-76f3-a913-bbb71f72d25b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-76f3-a913-bbb71f72d25b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-76f3-a913-bbb71f72d25b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a95a-4e43-76f3-a913-bbb71f72d25b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-76f3-a913-bbb71f72d25b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a95a-4e43-76f3-a913-bbb71f72d25b/cancel",
+  "expires_at": "2026-11-12T01:40:56.592984+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a95a-4e43-76f3-a913-bbb71f72d25b/eb354dec-985e-4694-bf9d-644797037b0a.mp4"
+  }
+ },
+ "seconds": 231,
+ "file": "social/side/gen/libv_close_diary.mp4"
+}
