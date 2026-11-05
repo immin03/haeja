@@ -12,6 +12,10 @@ HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.pat
 sys.path.insert(0, HERE)
 from ep01 import STYLE, EMP
 
+# 영상 모델 (2026-11-05 대표: "퀄리티 차이가 크지 않으면 저렴한 걸로")
+# 기본 = wan 3.0 (5초 약 0.10달러). seedance 2.5(5초 약 0.75달러)는 wan 결과가 얼굴·손 깨짐으로
+# 못 쓸 때, 그 장면 하나만 `python3 library.py gen <n> hq` 로 다시 만든다. kling 은 쓰지 않는다(5초 약 0.55달러, 이 채널 검증 없음).
+WAN = "alibaba/wan-3.0/image-to-video"
 SEED = "bytedance/seedance-2.5/image-to-video"
 CINE = ("Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. "
         "Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.")
@@ -66,7 +70,7 @@ LIB = {
                    "Sparks rise and swirl slowly from the coals, the glow pulses, the fingers flex slightly in the warmth; the camera drifts slowly upward with the sparks.",
                    ["fire_4.mp3", 0.35], [], {"zoom": [1.0, 1.06], "pan": [[0.0, 0.01], [0.0, -0.015]]}, "embers", None),
 }
-# 생성 묶음 (push 한 번당 비용 상한 3달러: 그림 0.05 · seedance 5초 약 0.75)
+# 생성 묶음 (push 한 번당 비용 상한 3달러: 그림 0.05 · wan 5초 약 0.10 · seedance 5초 약 0.75)
 BATCH = {1: ["quill", "candle_face", "tent_stars"], 2: ["candle_diary", "dawn_camp", "window_moon", "close_diary"], 3: ["rain_march", "river_night", "quill2"], 4: ["brazier_hands"]}   # quill(1차)은 잉크 자국이 기호처럼 보여 quill2 로 다시
 
 
@@ -74,12 +78,12 @@ def img_id(name): return "lib_" + name
 def vid_id(name): return "libv_" + name
 
 
-def gen(n):
-    jobs = []
+def gen(n, hq=False):
+    jobs = []; ep = SEED if hq else WAN
     if n == 3: jobs.append({"id": img_id("quill2"), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": LIB["quill2"][0] + " " + STYLE}})
     if n == 1:   # 그림은 첫 묶음에서 전부
         jobs += [{"id": img_id(k), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": v[0] + " " + STYLE}} for k, v in LIB.items()]
-    jobs += [{"id": vid_id(k), "kind": "video", "endpoint": SEED, "image": f"social/side/gen/{img_id(k)}.jpeg", "body": {"duration": 5, "prompt": LIB[k][1] + " " + CINE}} for k in BATCH[n]]
+    jobs += [{"id": vid_id(k), "kind": "video", "endpoint": ep, "image": f"social/side/gen/{img_id(k)}.jpeg", "body": {"duration": 5, "prompt": LIB[k][1] + " " + CINE}} for k in BATCH[n]]
     p = os.path.join(ROOT, f"scripts/side/gen/EDL261105-lib{n}.json"); json.dump(jobs, open(p, "w"), ensure_ascii=False, indent=1)
     print(p, len(jobs))
 
@@ -109,4 +113,4 @@ def lib_shot(name, voices=None, dur=3.2, extra=None):
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "gen": gen(int(sys.argv[2]))
+    if sys.argv[1] == "gen": gen(int(sys.argv[2]), hq="hq" in sys.argv[3:])
