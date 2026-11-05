@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105h_towerman",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and warm orange color grade, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark, no recognizable faces. Scene: Silhouette of a man in a dark suit standing with hands behind his back at a floor-to-ceiling window of a high glass office tower, overlooking Paris rooftops at blue hour, seen from behind, face not visible.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a98c-1006-79c8-a810-4d0e5bc33def",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a98c-1006-79c8-a810-4d0e5bc33def/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a98c-1006-79c8-a810-4d0e5bc33def/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a98c-1006-79c8-a810-4d0e5bc33def",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a98c-1006-79c8-a810-4d0e5bc33def/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a98c-1006-79c8-a810-4d0e5bc33def/cancel",
+  "expires_at": "2026-11-12T02:32:32.116512+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a98c-1006-79c8-a810-4d0e5bc33def/046b56c8-2a5c-464e-a86c-e8e6a5f95216.jpeg"
+   }
+  ]
+ },
+ "seconds": 63,
+ "file": "scripts/blog/media/lib/il_L261105h_towerman.jpeg"
+}

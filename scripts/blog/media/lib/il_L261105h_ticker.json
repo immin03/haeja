@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105h_ticker",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and warm orange color grade, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark, no recognizable faces. Scene: Extreme close up of a stock trading screen, abstract glowing orange and white bokeh light streaks, completely blurred so nothing is readable, dark navy background.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a98c-0e13-7a0f-a574-9513f59ac645",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a98c-0e13-7a0f-a574-9513f59ac645/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a98c-0e13-7a0f-a574-9513f59ac645/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a98c-0e13-7a0f-a574-9513f59ac645",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a98c-0e13-7a0f-a574-9513f59ac645/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a98c-0e13-7a0f-a574-9513f59ac645/cancel",
+  "expires_at": "2026-11-12T02:32:57.236220+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a98c-0e13-7a0f-a574-9513f59ac645/6d33e4fe-87d4-4d3f-ac11-c95424325306.jpeg"
+   }
+  ]
+ },
+ "seconds": 88,
+ "file": "scripts/blog/media/lib/il_L261105h_ticker.jpeg"
+}
