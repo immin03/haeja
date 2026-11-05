@@ -1034,9 +1034,55 @@ def cap_page_at(pages, u, a, v):
         if f < acc: return p
     return pages[-1]
 
+CAP_ONE_FROM = 261106   # 2026-11-05 15:12 대표: "한 번에 두 줄씩이 아니라 한 줄씩 빠르게 넘기는 게" — 11/6 이후 편부터(이미 만든 편은 그대로)
+CAP_ONE = False          # render 시작 때 spec 으로 정한다 (대본 "cap_lines": 1|2 가 있으면 그것을 따름)
+
+
+def cap_one_for(spec):
+    if spec.get("cap_lines") in (1, 2): return spec["cap_lines"] == 1
+    m = re.search(r"(\d{6})", spec.get("id", ""))
+    return bool(m) and int(m.group(1)) >= CAP_ONE_FROM
+
+
+def cap_page_span(pages, u, a, v):
+    """cap_page_at 과 같되 (장, 그 장이 시작된 시각) 을 돌려준다 — 한 줄 자막 등장 효과용"""
+    if len(pages) == 1: return pages[0], a
+    w = [sum(len(l) for l in p) for p in pages]; tot = sum(w) or 1
+    f = (u - a) / max(v, .1); acc = 0
+    for p, x in zip(pages, w):
+        if f < acc + x / tot: return p, a + acc * max(v, .1)
+        acc += x / tot
+    return pages[-1], a + (acc - w[-1] / tot) * max(v, .1)
+
+
+def y_caption_one(img, u, L):
+    """한 줄 자막 (2026-11-05 대표): 말하는 속도에 맞춰 한 줄씩 빠르게 바뀐다. 줄이 바뀔 때 0.12초 동안 살짝 커지며 떠오른다. 숫자는 금색."""
+    caps = [(a, v, cap) for (a, v, cap) in L if cap]
+    if not caps: return
+    a, v, cap = caps[0]
+    for a_, v_, c in caps:
+        if u >= a_ - .05: a, v, cap = a_, v_, c
+    font = F("Bold", 58); d = ImageDraw.Draw(img)
+    lines = y_wrap(d, font, cap, limit=880)
+    line, t0 = cap_page_span(cap_pages(lines, 1), u, a, v); line = line[0]
+    k = clamp((u - t0 + .05) / .12)   # 0 → 1 등장
+    ease_k = 1 - (1 - k) ** 3
+    sc = .92 + .08 * ease_k; dy = (1 - ease_k) * 14
+    tw = d.textlength(line, font=font); bw, bh = int(tw + 64), 92
+    lay = Image.new("RGBA", (bw, bh), (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+    ld.rounded_rectangle([0, 0, bw - 1, bh - 1], 14, fill=(6, 12, 26, int(178 * (.4 + .6 * ease_k))))
+    ld.text((32, bh / 2), line, font=font, fill=IVORY, anchor="lm")
+    for m in key_numbers(line):
+        ld.text((32 + ld.textlength(line[:m.start()], font=font), bh / 2), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
+    if sc < .999: lay = lay.resize((max(1, int(bw * sc)), max(1, int(bh * sc))), Image.BICUBIC)
+    if k < 1: lay.putalpha(lay.getchannel("A").point(lambda x: int(x * (.3 + .7 * ease_k))))
+    img.paste(lay, (int(YT_CAP_X - lay.width / 2), int(YT_CAP_Y - lay.height / 2 + dy)), lay)
+
+
 def y_caption(img, u, L):
     """쇼츠·릴스 자막: 장면 처음부터 끝까지 끊기지 않고 늘 떠 있다. 다음 문장이 시작되는 순간 바로 바뀐다(깜빡임 없음). 숫자는 금색.
     한 번에 보이는 자막은 최대 2줄 — 길면 2줄씩 나눠 말하는 속도에 맞춰 넘긴다 (2026-10-31)"""
+    if CAP_ONE: return y_caption_one(img, u, L)
     caps = [(a, v, cap) for (a, v, cap) in L if cap]
     if not caps: return
     a, v, cap = caps[0]
@@ -1558,8 +1604,8 @@ def render_cover(spec, outdir):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED
-    Y_SPEED = float(spec.get("voice_speed", 1.1))
+    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED, CAP_ONE
+    Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec)
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
@@ -1733,8 +1779,8 @@ def render(spec, outdir, stills=None):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED
-    Y_SPEED = float(spec.get("voice_speed", 1.1))
+    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED, CAP_ONE
+    Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec)
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
