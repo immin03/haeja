@@ -128,6 +128,7 @@ button.th .pl i{width:30px;height:30px;border-radius:50%;background:rgba(255,255
 .tbl td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 .tbl td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.wk th,.wk td{text-align:center;white-space:nowrap}.wk th:first-child,.wk td:first-child{text-align:left;min-width:120px}.wk td:first-child small{display:block;color:var(--muted);font-size:11.5px;font-weight:600;margin-top:2px}.wk .td{background:rgba(201,162,39,.10)}.wk th.td{color:#a07d12}.wk .sum td{font-weight:800}.wk .off td{opacity:.5}.wk .dash{color:var(--muted)}
 .learn{display:grid;gap:8px;margin:0;padding:0;list-style:none}
 .learn li{font-size:13.5px;line-height:1.6;color:var(--ink2);padding:9px 11px;background:var(--soft);border-radius:10px}
 .learn li small{display:block;color:var(--muted);font-size:11.5px;font-weight:700}
@@ -225,7 +226,7 @@ let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document
 
 const PL = { youtube: '유튜브', instagram: '인스타', tiktok: '틱톡', threads: '쓰레드' };
 /* 성과(진단·벤치마킹)는 2026-11-03부터 성과 관리 플랫폼(/studio, 계정 '황제의 일기')에서 본다. 이 탭은 그쪽으로 연결만 한다. */
-const TABS = [['brief','브리핑'],['sched','편성'],['perf','성과 ↗'],['set','설정']];
+const TABS = [['brief','브리핑'],['sched','편성'],['rules','운영 기준'],['perf','성과 ↗'],['set','설정']];
 const S = { tab: store.get('ed-tab', 'brief') === 'perf' ? 'brief' : store.get('ed-tab', 'brief'), d: null };
 
 function loginView(msg){
@@ -269,7 +270,7 @@ function renderTabs(){
 }
 function render(){
   if (!S.d) return; $('#tabs').hidden = false; renderTabs();
-  $('#main').innerHTML = S.tab === 'sched' ? viewSched() : S.tab === 'perf' ? viewPerf() : S.tab === 'set' ? viewSet() : viewBrief();
+  $('#main').innerHTML = S.tab === 'sched' ? viewSched() : S.tab === 'rules' ? viewRules() : S.tab === 'perf' ? viewPerf() : S.tab === 'set' ? viewSet() : viewBrief();
   ({ brief: bindBrief, sched: bindSched, perf: () => {}, set: bindSet })[S.tab]?.();
 }
 const kpi = (l, v, s) => `<div class="card kpi"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div>${s ? `<div class="s">${esc(s)}</div>` : ''}</div>`;
@@ -329,7 +330,7 @@ function viewBrief(){
   <div class="card">${todayL.length ? todayL.map(line).join('') : '<div class="empty">오늘 예약이 없습니다.</div>'}</div>
   <h2>내일 일정<span class="n">데일리 쇼츠는 매일 04:41 자동 제작 · 길이 ${(sl.video || []).map((t, i) => t + ' ' + lenFor(i, (k + 1) % 3) + '초').join(' / ')}</span></h2>
   <div class="card">${tmrL.length ? tmrL.map(line).join('') : `<div class="empty">내일 04:41에 데일리 쇼츠 2편(12:20·20:30)이 만들어집니다.</div>`}</div>
-  ${viewRules()}
+  <div class="note" style="margin-top:10px">게시 규칙(요일별 편성)은 <b>운영 기준</b> 탭에서 봅니다.</div>
   ${viewLong()}
   <h2>오늘의 분석<span class="n">매일 08:43 숫자를 보고 씁니다 · 편수가 적을 땐 가설로 표시</span></h2>
   <div class="card">${rep ? `<div class="hl"><p>${esc(rep.summary)}</p></div>
@@ -346,14 +347,38 @@ function viewBrief(){
   <div class="card">${reqs.length ? reqs.slice(0, 10).map(r => `<div class="ck"><div class="t"><span class="dot ${r.status === 'done' ? 'good' : r.status === 'seen' ? 'warn' : 'mut'}"></span>${esc(r.text)}</div><div class="nx">${kst(r.at)} · ${r.status === 'done' ? '처리됨' : r.status === 'seen' ? '확인함' : '대기'}${r.reply ? ' · ' + esc(r.reply) : ''}</div></div>`).join('') : `<div class="empty">아직 요청이 없습니다.</div>`}</div>`;
 }
 function viewRules(){
-  const o = S.d.settings.ops || {}, rows = o.schedule || [];
-  if (!rows.length) return '';
-  return `<h2>게시 규칙<span class="n">${esc((S.d.settings.slots || {}).decided || '')}</span></h2>
+  const o = S.d.settings.ops || {}, sl = S.d.settings.slots || {};
+  const D = ['월','화','수','목','금','토','일'];
+  const wd = (new Date(Date.now() + 9*3600e3).getUTCDay() + 6) % 7;   // 0 = 월 (KST)
+  const LD = sl.long_days || ['월','수','금','일'], V = sl.video || ['12:20','20:30'];
+  const prev = d => D[(D.indexOf(d) + 6) % 7];
+  const teaser = d => LD.includes(prev(d)) ? prev(d) + '요일 롱폼' : '';
+  const cell = (v, i) => `<td class="${i === wd ? 'td' : ''}">${v ? esc(v) : '<span class="dash">–</span>'}</td>`;
+  const row = (name, sub, f, cls) => `<tr${cls ? ` class="${cls}"` : ''}><td><b>${esc(name)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</td>${D.map((d, i) => cell(f(d), i)).join('')}</tr>`;
+  const nShort = d => V.length + (teaser(d) ? 1 : 0);
+  const longN = LD.length, tN = LD.length, dN = V.length * 7;
+  return `<h2>운영 기준<span class="n">황제의 일기를 지금 어떤 기준으로 만들고 올리는지 한눈에 봅니다 · 마지막 정리 ${esc(o.updated || '')}</span></h2>
   <div class="card">
-    ${rows.map(r => `<div class="lp"${r.t === '중단' ? ' style="opacity:.55"' : ''}><div class="t"><b style="display:inline-block;min-width:3.4em">${esc(r.t)}</b> ${esc(r.what)} <span class="badge mut">${esc(r.days)}</span></div><div class="s">${esc(r.where)}${r.note ? ' · ' + esc(r.note) : ''}</div></div>`).join('')}
-  ${o.week ? `<div class="note" style="margin-top:8px">${esc(o.week)}</div>` : ''}
-  ${(o.jobs || []).length ? `<div class="sub-h" style="margin-top:12px">뒤에서 도는 작업</div><ul class="learn">${o.jobs.map(j => `<li><b>${esc(j.t)}</b> ${esc(j.name)}<small>${esc(j.what)}</small></li>`).join('')}</ul>` : ''}
-  </div>`;
+    <div style="font-weight:850;font-size:15.5px">편성 기준</div>
+    <div class="note">롱폼 주 ${longN}편 · 데일리 쇼츠 매일 ${V.length}편 + 롱폼 다음 날 소개 쇼츠 1편 · 쓰레드는 데일리와 같은 시각 · 카드뉴스 중단</div>
+    <div class="tbl-wrap" style="margin-top:10px"><table class="tbl wk"><thead><tr><th></th>${D.map((d, i) => `<th class="${i === wd ? 'td' : ''}">${d}${i === wd ? ' · 오늘' : ''}</th>`).join('')}</tr></thead><tbody>
+      ${row('롱폼', (sl.long || '19:30') + ' · 유튜브', d => LD.includes(d) ? '롱폼' : '')}
+      ${row('롱폼 소개 쇼츠', (sl.teaser || '07:40') + ' · 롱폼 다음 날', teaser)}
+      ${V.map((t, k) => row('데일리 쇼츠 ' + (k + 1), t + ' · 매일', () => '데일리')).join('')}
+      ${row('쇼츠 합계', '유튜브·인스타·틱톡', d => nShort(d) + '편', 'sum')}
+      ${row('쓰레드', '데일리와 같은 시각 · 글만', () => V.length + '편')}
+      ${row('카드뉴스', '11/5 중단', () => '', 'off')}
+    </tbody></table></div>
+    <ul style="margin:12px 0 0;padding-left:18px;font-size:13.5px;line-height:1.8">
+      <li>쇼츠는 유튜브 쇼츠·인스타 릴스·틱톡에 같은 시각 동시 게시</li>
+      <li>데일리 쇼츠 = 양식 A, 대본 길이 35·45·55초를 날마다 돌려 가장 반응 좋은 길이를 찾는 중</li>
+      <li>롱폼 소개 쇼츠 = 전날 롱폼의 오프닝~인트로, 관련 동영상으로 본편 연결 (쓰레드 없음)</li>
+      <li>카드뉴스는 중지 — 인스타 팔로워 1,000명 넘으면 브리핑에 재개 알림</li>
+      <li>주간 합계: 쇼츠 ${dN + tN}편 (데일리 ${dN} · 소개 ${tN}) · 롱폼 ${longN}편</li>
+    </ul>
+  </div>
+  ${(o.jobs || []).length ? `<h2>뒤에서 도는 작업</h2><div class="card"><ul class="learn">${o.jobs.map(j => `<li><b>${esc(j.t)}</b> ${esc(j.name)}<small>${esc(j.what)}</small></li>`).join('')}</ul></div>` : ''}
+  ${(o.rules || []).length ? `<h2>제작 규칙</h2><div class="card"><ul class="learn">${o.rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>` : ''}`;
 }
 function viewLong(){
   const lf = (S.d.settings.ops || {}).longform; if (!lf) return '';
