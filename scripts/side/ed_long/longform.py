@@ -587,7 +587,9 @@ def finale_frame(s, t, dur, cache, logo):
                             nk=text_layer([s.get("next_kicker", "다음 이야기")], "ko6", 28, (210, 190, 150), shadow=False, height=46),
                             nx=text_layer([s.get("next", "")], "ko", 40, BRIGHT_IVORY, shadow=False, height=66),
                             sub0=pill_layer("bell", "구독"), sub1=pill_layer("bell", "구독중", True),
-                            like0=pill_layer("thumb", "좋아요"), like1=pill_layer("thumb", "좋아요", True), dust=Particles("embers", 50, 91))
+                            like0=pill_layer("thumb", "좋아요"), like1=pill_layer("thumb", "좋아요", True), dust=Particles("embers", 50, 91),
+                            # 11/5 대표: 버튼 아래 행동 유도 한 줄 (4편부터)
+                            cta=text_layer([s.get("cta", "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.")], "ko6", 27, (226, 204, 156), shadow=False, height=44))
     o = cache["fin"]; vat = s.get("_vat", {}); vs = s.get("voice") or []
     tv = lambda i, d: vat.get(vs[i], d) if len(vs) > i else d
     t_sl, t_ch, t_o1, t_o2 = tv(0, 0.8) - 0.15, tv(1, 3.0) - 0.2, tv(2, 5.0), tv(3, 11.0)
@@ -620,6 +622,9 @@ def finale_frame(s, t, dur, cache, logo):
             cv2.ellipse(ring, (cx, cyb), (int(170 + 60 * e), int(48 + 40 * e)), 0, 0, 360, (92, 164, 201), 2, cv2.LINE_AA)
             img = cv2.add(img, (cv2.GaussianBlur(ring, (0, 0), 2).astype(np.float32) * (1 - e) * a).astype(np.uint8))
         img = blend(img, lay, a)
+    if s.get("cta", "") is not None and not s.get("no_cta"):
+        a = ease((t - t_ch - 1.4) / 0.8) * out
+        l = np.zeros((H, W, 4), np.uint8); l[740:784] = o["cta"]; img = blend(img, l, a, dx=1335 - W // 2)
     if s.get("next"):
         a = ease((t - t_o2) / 0.8) * out
         l = np.zeros((H, W, 4), np.uint8); l[790:836] = o["nk"]; l[836:902] = o["nx"]; img = blend(img, l, a, dx=1335 - W // 2)

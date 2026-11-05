@@ -190,7 +190,9 @@ def outro2(u):
         ct(992, "황제의 일기", kf, (222, 196, 140), a3)
     ab = ease((u - OUT_T[3]) / 0.5)
     if ab > 0:
-        ct(1150, "오늘의 한 줄이 마음에 남았다면", R.font("small"), (222, 196, 140), ab)
+        # 11/5 대표: 실제 행동을 이끄는 한 줄 — "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."
+        ct(1130, "좋아요와 " + ("팔로우" if PLAT == "reels" else "구독") + "는 영상 제작에", R.font("small"), (222, 196, 140), ab)
+        ct(1188, "큰 힘이 됩니다. 감사합니다.", R.font("small"), (222, 196, 140), ab)
         items = [("like", "좋아요"), ("follow", "팔로우") if PLAT == "reels" else ("bell", "구독"), ("share", "친구에게 공유")]
         for k2, (kind, lab) in enumerate(items):
             ak = ease((u - OUT_T[3] - 0.1 - k2 * 0.15) / 0.4); bx = W / 2 - 290 + k2 * 290; by = 1330 + int((1 - ak) * 14)

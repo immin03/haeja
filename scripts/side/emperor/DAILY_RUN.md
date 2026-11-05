@@ -44,6 +44,7 @@
    사이트 주소가 200이 될 때까지 기다린 뒤
    유튜브: `ED_KEY=<app_config ed_yt_long_key> ./yt_up.sh <id> <yt.mp4> <meta.json> hook_<id>.jpg`
    ★ 썸네일 고정(2026-11-05 대표 지시): 표지는 언제나 초반 양식 첫 화면(금색 "로마 황제가 일기에 쓴 한 줄" + 큰 흰 훅 2줄 + 장면 + 하단 THE EMPEROR'S DIARY) 하나. yt_up.sh 가 업로드 끝에 yt_thumb.sh 로 지정하고 status 200 이 아니면 실패로 끝난다. 유튜브 자동 선택 프레임(인용 장면 등)으로 두지 않는다. 양식을 바꾸지 않는다 (meta = title "<제목> #shorts", description(TEMPLATE 설명란), tags, publish_at = 게시 시각 UTC)
+   ★ 댓글(2026-11-05 대표): yt_comment·ig_comment 는 질문 뒤 빈 줄 하나 + "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."(인스타는 '구독' → '팔로우') 로 끝낸다
    ed_posts: ep07~09 행과 같은 열로 insert (video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
 10. 끝: 커밋 메시지는 한국어, 마지막 줄 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. 결과 한 줄: "완료: <id 제목 길이초> ×2" / "실패: <원인>"
 
