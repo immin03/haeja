@@ -1,0 +1,32 @@
+{
+ "id": "lib_close_diary",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Close-up at night on a wooden desk: an older man's weathered hand in a crimson sleeve gently closing a leather-bound diary, beside it a single candle burning, warm candlelight, deep shadows, dust in the air, shallow depth of field. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a92d-0656-74cf-88ea-be8301423abd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92d-0656-74cf-88ea-be8301423abd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92d-0656-74cf-88ea-be8301423abd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a92d-0656-74cf-88ea-be8301423abd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92d-0656-74cf-88ea-be8301423abd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92d-0656-74cf-88ea-be8301423abd/cancel",
+  "expires_at": "2026-11-12T00:49:32.299545+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92d-0656-74cf-88ea-be8301423abd/524cd429-3b98-43bb-bd88-3f9bff6ce9ee.jpeg"
+   }
+  ]
+ },
+ "seconds": 6,
+ "file": "social/side/gen/lib_close_diary.jpeg"
+}

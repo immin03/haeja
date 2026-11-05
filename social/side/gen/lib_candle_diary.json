@@ -1,0 +1,32 @@
+{
+ "id": "lib_candle_diary",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Close-up on a wooden desk at night: an open leather-bound diary of papyrus pages, a reed pen resting across it, a half-burnt candle with wax dripping slowly down, a thin curl of smoke, a bronze inkpot, warm candlelight in deep darkness, extremely shallow depth of field, the pages show only soft blurred ink strokes, nothing readable. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a92b-1abd-755f-90a4-16af89864e84",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92b-1abd-755f-90a4-16af89864e84/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92b-1abd-755f-90a4-16af89864e84/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a92b-1abd-755f-90a4-16af89864e84",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92b-1abd-755f-90a4-16af89864e84/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92b-1abd-755f-90a4-16af89864e84/cancel",
+  "expires_at": "2026-11-12T00:47:51.400768+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92b-1abd-755f-90a4-16af89864e84/1e7cff51-1c8f-46d0-a227-a34b20aff81d.jpeg"
+   }
+  ]
+ },
+ "seconds": 6,
+ "file": "social/side/gen/lib_candle_diary.jpeg"
+}

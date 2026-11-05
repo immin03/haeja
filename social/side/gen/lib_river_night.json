@@ -1,0 +1,32 @@
+{
+ "id": "lib_river_night",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Very wide shot at night of the Danube river under a full moon, the moon's silver reflection shimmering on the water, a Roman camp with small campfires on the far bank, on the near bank the small dark silhouette of a lone man in a cloak standing at the water's edge, mist over the water, deep blue night. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a92e-abd7-7593-a92f-876259b465ff",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92e-abd7-7593-a92f-876259b465ff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92e-abd7-7593-a92f-876259b465ff/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a92e-abd7-7593-a92f-876259b465ff",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92e-abd7-7593-a92f-876259b465ff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92e-abd7-7593-a92f-876259b465ff/cancel",
+  "expires_at": "2026-11-12T00:51:09.214879+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92e-abd7-7593-a92f-876259b465ff/1caf6697-2f88-4abf-9211-e76332f4ae85.jpeg"
+   }
+  ]
+ },
+ "seconds": 6,
+ "file": "social/side/gen/lib_river_night.jpeg"
+}

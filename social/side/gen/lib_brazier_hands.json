@@ -1,0 +1,32 @@
+{
+ "id": "lib_brazier_hands",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Close-up at night of an older man's weathered hands held out over a bronze brazier full of glowing coals inside a dark command tent, the deep crimson sleeves of his cloak, sparks rising, warm orange light on the hands, deep shadows behind. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a92e-c28e-77f3-8e0b-b4a4423720c9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92e-c28e-77f3-8e0b-b4a4423720c9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92e-c28e-77f3-8e0b-b4a4423720c9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a92e-c28e-77f3-8e0b-b4a4423720c9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a92e-c28e-77f3-8e0b-b4a4423720c9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a92e-c28e-77f3-8e0b-b4a4423720c9/cancel",
+  "expires_at": "2026-11-12T00:51:09.395075+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92e-c28e-77f3-8e0b-b4a4423720c9/d33e445d-1228-4418-86a8-a84ced2a09da.jpeg"
+   }
+  ]
+ },
+ "seconds": 6,
+ "file": "social/side/gen/lib_brazier_hands.jpeg"
+}
