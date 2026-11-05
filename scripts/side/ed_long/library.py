@@ -88,10 +88,17 @@ def have(name):
     return os.path.exists(os.path.join(ROOT, "social/side/gen", vid_id(name) + ".mp4"))
 
 
+def lib_src(name):
+    """11/5 대표: 노트 얼룩 대신 글씨 — page_ink.py 로 글씨를 입힌 판(libv_<이름>_ink)이 있으면 그걸 쓴다"""
+    ink = vid_id(name) + "_ink"
+    if os.path.exists(os.path.join(ROOT, "social/side/gen", ink + ".mp4")): return ink
+    return vid_id(name) if have(name) else img_id(name)
+
+
 def lib_shot(name, voices=None, dur=3.2, extra=None):
     """라이브러리 장면 하나. voices 가 없으면 여운 장면(목소리 없이 dur 초)."""
     _, _, amb, sfx, move, parts, grade = LIB[name]
-    src = vid_id(name) if have(name) else img_id(name)
+    src = lib_src(name)
     s = {"type": "video" if have(name) else "still", "src": src, "amb": list(amb), "sfx": copy.deepcopy(sfx), "move": copy.deepcopy(move), "lib": name}
     if parts: s["particles"] = parts
     if grade: s["grade"] = grade

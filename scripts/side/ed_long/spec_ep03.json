@@ -394,90 +394,90 @@
  "music": [
   {
    "file": "cinematic_0.mp3",
-   "at_shot": 9,
+   "at_shot": 10,
    "offset": 0.5,
    "start": 0,
-   "until_shot": 13,
+   "until_shot": 14,
    "vol": 0.22,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_3.mp3",
-   "at_shot": 13,
+   "at_shot": 14,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 23,
+   "until_shot": 24,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 23,
+   "at_shot": 24,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 34,
+   "until_shot": 35,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "dramatic_1.mp3",
-   "at_shot": 34,
+   "at_shot": 35,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 45,
+   "until_shot": 46,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 45,
+   "at_shot": 46,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 56,
+   "until_shot": 57,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 56,
+   "at_shot": 57,
    "offset": 1.0,
    "start": 90,
-   "until_shot": 68,
+   "until_shot": 69,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_3.mp3",
-   "at_shot": 68,
+   "at_shot": 69,
    "offset": 1.0,
    "start": 60,
-   "until_shot": 77,
+   "until_shot": 78,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 77,
+   "at_shot": 78,
    "offset": 1.0,
    "start": 110,
-   "until_shot": 85,
+   "until_shot": 86,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_5.mp3",
-   "at_shot": 85,
+   "at_shot": 86,
    "offset": 0.5,
    "start": 0,
-   "until_shot": 91,
+   "until_shot": 92,
    "tail": 0,
    "vol": 0.22,
    "fin": 2,
@@ -498,20 +498,39 @@
    "type": "video",
    "src": "ev3_forum",
    "voice": [
-    "h_cr",
-    "h1"
+    "h_cr"
    ],
    "pre": 0.3,
-   "gap": 0.6,
-   "post": 0.4,
+   "post": 0.2,
    "move": {
     "zoom": [
      1.0,
-     1.1
-    ]
+     1.05
+    ],
+    "loop": true
    },
    "tin": "black",
    "fin": 0.8,
+   "amb": [
+    "war_7.mp3",
+    0.12
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e3_forum",
+   "voice": [
+    "h1"
+   ],
+   "pre": 0.2,
+   "post": 0.4,
+   "move": {
+    "zoom": [
+     1.05,
+     1.15
+    ]
+   },
+   "tin": "dissolve",
    "amb": [
     "war_7.mp3",
     0.12
@@ -526,8 +545,8 @@
    ]
   },
   {
-   "type": "video",
-   "src": "ev3_gown",
+   "type": "still",
+   "src": "e3_gown",
    "voice": [
     "h2"
    ],
@@ -544,10 +563,10 @@
     0.3
    ],
    "face": [
-    0.488,
-    0.207,
-    0.595,
-    0.428
+    0.489,
+    0.209,
+    0.593,
+    0.424
    ]
   },
   {
@@ -1457,7 +1476,7 @@
   },
   {
    "type": "video",
-   "src": "libv_candle_diary",
+   "src": "libv_candle_diary_ink",
    "amb": [
     "fire_0.mp3",
     0.32
@@ -1482,10 +1501,10 @@
    "breath": true,
    "tin": "dissolve",
    "face": [
-    0.152,
-    0.146,
-    0.301,
-    0.442
+    0.15,
+    0.144,
+    0.303,
+    0.446
    ]
   },
   {
@@ -1855,8 +1874,8 @@
    "tin": "dissolve"
   },
   {
-   "type": "video",
-   "src": "ev3_forum",
+   "type": "still",
+   "src": "e3_forum",
    "move": {
     "zoom": [
      1.0,
@@ -2177,8 +2196,8 @@
    "tin": "dissolve"
   },
   {
-   "type": "video",
-   "src": "ev3_soldiers",
+   "type": "still",
+   "src": "e3_soldiers",
    "move": {
     "zoom": [
      1.0,
@@ -2198,9 +2217,9 @@
    "post": 1.4,
    "face": [
     0.424,
-    0.202,
-    0.578,
-    0.505
+    0.198,
+    0.58,
+    0.504
    ]
   },
   {
@@ -3126,10 +3145,12 @@
    },
    "lib": "close_diary",
    "particles": "dust",
-   "dur": 3.2,
+   "dur": 4.4,
    "fixed": true,
    "breath": true,
-   "tin": "dissolve"
+   "tin": "dissolve",
+   "tout": "black",
+   "fout": 1.9
   },
   {
    "type": "recap",
@@ -3143,19 +3164,14 @@
     "선을 행했다면, 이미 보상받았다"
    ],
    "voice": [
-    "r1",
-    "r2",
-    "r3",
-    "r4",
-    "r5",
-    "r6",
-    "r7",
-    "r8"
+    "r1"
    ],
-   "gap": 0.8,
    "pre": 0.8,
-   "post": 1.0,
-   "recap_offset": 1,
+   "post": 2.2,
+   "cascade": [
+    1.3,
+    0.5
+   ],
    "nocap": true,
    "head_en": "SEVEN LINES FOR WHEN NO ONE NOTICES",
    "sfx": [
@@ -3170,7 +3186,7 @@
   },
   {
    "type": "video",
-   "src": "libv_candle_diary",
+   "src": "libv_candle_diary_ink",
    "amb": [
     "fire_0.mp3",
     0.32
@@ -3197,10 +3213,10 @@
    "post": 0.4,
    "tin": "dissolve",
    "face": [
-    0.152,
-    0.146,
-    0.301,
-    0.442
+    0.15,
+    0.144,
+    0.303,
+    0.446
    ]
   },
   {
@@ -3210,15 +3226,12 @@
     "내일 아무도 안 보는 곳에서 할 일 하나 정하기",
     "오래 해 온 내 일에게 '잘했다' 말해 주기"
    ],
-   "voice": [
-    "t1",
-    "t2",
-    "t3"
+   "dur": 6.2,
+   "fixed": true,
+   "cascade": [
+    0.5,
+    0.8
    ],
-   "gap": 0.9,
-   "pre": 0.6,
-   "post": 1.2,
-   "recap_offset": 0,
    "nocap": true,
    "head": "오늘 밤, 이 세 가지만",
    "head_en": "THREE THINGS FOR TONIGHT",

@@ -148,7 +148,10 @@ def build():
     S = []
     # 훅: 웅성거림 → 경매꾼 → 해설 → 수군대는 원로원 → 내려다보는 황제(독백)
     S.append({"type": "black", "dur": 0.8, "fixed": True, "amb": ["wind_6.mp3", 0.4]})
-    S.append({"type": "video", "src": "ev3_forum", "voice": ["h_cr", "h1"], "pre": 0.3, "gap": 0.6, "post": 0.4, "move": {"zoom": [1.0, 1.1]}, "tin": "black", "fin": 0.8,
+    # 11/5 대표: 입이 움직이는 영상은 그 사람이 말할 때만 — 경매꾼이 외칠 때만 영상, 해설이 나오면 같은 장면 그림으로
+    S.append({"type": "video", "src": "ev3_forum", "voice": ["h_cr"], "pre": 0.3, "post": 0.2, "move": {"zoom": [1.0, 1.05], "loop": True}, "tin": "black", "fin": 0.8,
+              "amb": ["war_7.mp3", 0.12]})
+    S.append({"type": "still", "src": "e3_forum", "voice": ["h1"], "pre": 0.2, "post": 0.4, "move": {"zoom": [1.05, 1.15]}, "tin": "dissolve",
               "amb": ["war_7.mp3", 0.12], "overlays": [{"kind": "caption", "text": "기원후 169년 · 로마, 트라야누스 광장", "at": 0.3, "pos": "top"}]})
     S.append({"type": "still", "src": "e3_gown", "voice": ["h2"], "pre": 0.2, "post": 0.3, "move": {"zoom": [1.0, 1.12]}, "amb": FORUM})
     S.append({"type": "still", "src": "e3_senators", "voice": ["h_sen"], "pre": 0.3, "post": 0.5, "move": {"zoom": [1.05, 1.18]}, "amb": FORUM})
@@ -170,12 +173,14 @@ def build():
     rec = len(S)
     S.append({"type": "recap", "items": ["포도나무처럼, 선을 행하고 바라지 마라", "세 번째 것을 바라지 마라", "이름은 금방 잊힌다, 지금 옳은 일을 하라", "칭찬을 듣든 비난을 듣든, 할 일을 하라",
                                          "남의 평가를 내 판단보다 앞에 두지 마라", "좋은 사람을 논하지 말고, 되어라", "선을 행했다면, 이미 보상받았다"],
-              "voice": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"], "gap": 0.8, "pre": 0.8, "post": 1.0, "recap_offset": 1, "nocap": True,
+              # 11/5 대표: 일곱 문장을 다 읽지 말고 빠르게 — 첫 해설 한 줄 동안 일곱 줄이 차례로 떠오른다
+              "voice": ["r1"], "pre": 0.8, "post": 2.2, "cascade": [1.3, 0.5], "nocap": True,
               "head_en": "SEVEN LINES FOR WHEN NO ONE NOTICES", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "black", "fin": 1.0})
     # 11/5 대표: 장마다 있던 할 일을 끝에 3개로 모은다 — 촛불 일기 장면에서 한 줄로 넘기고, 세 줄 목록
     S.append(L.lib_shot("candle_diary", voices=["t0"], extra={"pre": 0.5, "post": 0.4, "tin": "dissolve"}))
     S.append({"type": "recap", "items": ["오늘 한 좋은 일, 아무에게도 말하지 않기", "내일 아무도 안 보는 곳에서 할 일 하나 정하기", "오래 해 온 내 일에게 '잘했다' 말해 주기"],
-              "voice": ["t1", "t2", "t3"], "gap": 0.9, "pre": 0.6, "post": 1.2, "recap_offset": 0, "nocap": True,
+              # 11/5 대표: 오늘 할 일도 자연스럽게 빠르게 — 세 줄을 읽지 않고 음악 위로 차례로 띄운다
+              "dur": 6.2, "fixed": True, "cascade": [0.5, 0.8], "nocap": True,
               "head": "오늘 밤, 이 세 가지만", "head_en": "THREE THINGS FOR TONIGHT", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8})
     S.append(F.shot("still", "e3_statue", ["r9"], ["wind_2.mp3", 0.25], {"grade": "memory", "move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     # 11/4 대표: 이전 편 추천 화면은 빼고, 마지막 빈 화면(유튜브 최종 화면)에 구독 + 이전 편 영상을 스튜디오에서 배치
@@ -189,6 +194,7 @@ def build():
     seen = set(); S2 = []
     # 11/4 대표: 말하는 사람이 보이는 장면은 말하기 전엔 정지 그림, 그 사람이 말할 때만 영상(입 움직임)을 말 끝날 때까지 반복
     SPEAK = {"m5x": "ev3_refuse", "t_sen": "ev3_senate", "v_sol": "ev3_soldiers", "c4": "ev3_gown"}
+    TALKERS = {"ev3_forum", "ev3_gown", "ev3_soldiers", "ev3_refuse", "ev3_senate"}   # 11/5 대표: 입이 크게 움직이는 영상 — 해설 위로는 틀지 않는다 (6:55 황제 장면처럼)
     for x in S:
         src = x.get("src"); vs = x.get("voice") or []; vs = [vs] if isinstance(vs, str) else vs
         if x.get("type") == "still" and any(v in SPEAK and SPEAK[v] == VID.get(src) for v in vs) and not x.get("overlays"):
@@ -205,6 +211,7 @@ def build():
                 elif j: c["move"] = {"zoom": [1.18, 1.3], "pan": [[0.0, -0.02], [0.02, -0.03]]}
                 S2.append(c)
             continue
+        if x.get("type") == "still" and src in VID and VID[src] in TALKERS: S2.append(x); continue   # 말하는 영상은 SPEAK 로만
         if x.get("type") == "still" and src in VID and src not in seen and os.path.exists(os.path.join(E.ROOT, "social/side/gen", VID[src] + ".mp4")):
             seen.add(src); vs = x.get("voice") or []; vs = [vs] if isinstance(vs, str) else vs
             v = copy.deepcopy(x); v["type"] = "video"; v["src"] = VID[src]; v.pop("rack", None)
@@ -218,6 +225,8 @@ def build():
             if src in VID: seen.add(src)
             S2.append(x)
     S[:] = S2
+    for x in S:   # 11/5 대표: 10분쯤 책에 손 얹는 장면 — 1초 더 천천히 사라지게
+        if x.get("lib") == "close_diary" and x.get("breath"): x.update({"dur": 4.4, "tout": "black", "fout": 1.9})
     cards = [i for i, x in enumerate(S) if x.get("type") == "card"]; card = {n + 1: i for n, i in enumerate(cards)}   # 끊은 뒤 번호 다시 매김
     rec = [i for i, x in enumerate(S) if x.get("type") == "recap"][0]; out = [i for i, x in enumerate(S) if x.get("type") == "finale"][0]
     sit = [i for i, x in enumerate(S) if x.get("type") == "episode"][0] + 1

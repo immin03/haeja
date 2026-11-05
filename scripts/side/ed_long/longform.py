@@ -692,6 +692,16 @@ def overlay(img, ov, t, dur, cache, key):
         if a <= 0 and ad <= 0: return img
         img = (img.astype(np.float32) * (1 - 0.45 * ad)).astype(np.uint8)
         lay = np.zeros((H, W, 4), np.uint8); top = ov.get("top", 360); lay[top:top + 230] = q
+        if ov.get("line_at"):   # 두 번째 줄부터는 그 줄을 읽기 시작할 때 나타남
+            out = 1 - ease((t - ov.get("until", dur) + 0.6) / 0.6); n = len(ov["lines"]); hh = 230 // n
+            for li in range(n):
+                al = ease((t - max(ov["line_at"][li], ov["at"])) / 0.5) * out
+                if al <= 0: continue
+                ll = np.zeros((H, W, 4), np.uint8); ll[top + li * hh:top + (li + 1) * hh] = q[li * hh:(li + 1) * hh]
+                img = blend(img, ll, al, dy=8 * (1 - al))
+            a2 = ease((t - ov["line_at"][-1] - 0.9) / 0.7) * out
+            l2 = np.zeros((H, W, 4), np.uint8); l2[top + 250:top + 320] = src
+            return blend(img, l2, a2)
         a2 = ease((t - ov["at"] - 0.9) / 0.7) * (1 - ease((t - ov.get("until", dur) + 0.6) / 0.6))
         l2 = np.zeros((H, W, 4), np.uint8); l2[top + 250:top + 320] = src
         return blend(blend(img, lay, a, dy=8 * (1 - a)), l2, a2)
@@ -796,9 +806,15 @@ def caption_layer(text, kind, cache):
 
 
 def draw_captions(img, gt, events, cache):
-    for (a, b, text, kind) in events:
+    for ev in events:
+        a, b, text, kind = ev[:4]; la = ev[4] if len(ev) > 4 else None
         if not (a <= gt < b): continue
         lay = caption_layer(text, kind, cache); h = lay.shape[0]
+        if la:   # 아직 읽지 않은 줄은 가린다 (text_layer 줄 간격 72×1.4)
+            lay = lay.copy(); n = len(la); pitch = 72 * 1.4; y0 = (h - n * pitch) / 2
+            for li in range(1, n):
+                r0 = int(y0 + li * pitch) - 4; r1 = int(y0 + (li + 1) * pitch) - 4 if li < n - 1 else h
+                lay[r0:r1, :, 3] = (lay[r0:r1, :, 3] * ease((gt - la[li]) / 0.3)).astype(np.uint8)
         al = ease((gt - a) / 0.18) * (1 - ease((gt - b + 0.18) / 0.18))
         full = np.zeros((H, W, 4), np.uint8)
         if kind == "emph":
@@ -826,7 +842,11 @@ def caption_events(S, plan, vfile):
             for txt, (a, b) in zip(items, bounds):
                 if txt.startswith("~"): continue
                 kind = "emph" if txt.startswith("!") else ("mono" if v in mono else "nar")
-                ev.append((at + a - 0.08, at + b + 0.15, txt.lstrip("!"), kind))
+                la = None
+                if kind == "emph" and len(items) == 1:   # 11/5 대표: 가운데 큰 문구는 낭독에 맞춰 한 줄씩 나타나기
+                    ls = wrap_ko(txt.lstrip("!"), font("ko", 72), 1400)
+                    if len(ls) > 1: la = [at + b0 - 0.1 for b0, _ in speech_bounds(vfile(v), len(ls), ls)]
+                ev.append((at + a - 0.08, at + b + 0.15, txt.lstrip("!"), kind, la))
     return ev
 
 
@@ -856,7 +876,10 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
         for ov in p["s"].get("overlays", []):
             if ov.get("at_voice"):
                 for v, a, dd in p["voices"]:
-                    if v == ov["at_voice"]: ov["at"] = a - p["t0"] + ov.get("offset", -0.2); ov.setdefault("until", ov.get("until_end", p["dur"]))
+                    if v == ov["at_voice"]:
+                        ov["at"] = a - p["t0"] + ov.get("offset", -0.2); ov.setdefault("until", ov.get("until_end", p["dur"]))
+                        if ov.get("kind") == "verse" and len(ov["lines"]) > 1:   # 11/5 대표: 가운데 문구는 낭독에 맞춰 한 줄씩
+                            lb = speech_bounds(vfile(v), len(ov["lines"]), ov["lines"]); ov["line_at"] = [a - p["t0"] + b0 - 0.15 for b0, _ in lb]
     print(f"총 길이 {total:.1f}초, 장면 {len(plan)}개", flush=True)
     json.dump([{"i": i, "type": p["s"]["type"], "t0": round(p["t0"], 2), "dur": round(p["dur"], 2), "src": p["s"].get("src", "")} for i, p in enumerate(plan)],
               open(os.path.join(base, f"plan_{S['id']}.json"), "w"), ensure_ascii=False, indent=0)
@@ -894,6 +917,9 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
             elif s["type"] == "card": img = card_frame(s, tt, d, cache)
             elif s["type"] == "episode": img = episode_frame(s, tt, d, cache)
             elif s["type"] == "outro": img = outro_frame(s, tt, d, cache, P(S["intro"]["logo"]))
+            elif s["type"] == "recap" and s.get("cascade"):   # 11/5: 낭독 없이 차례로 떠오르는 목록
+                c0, step = s["cascade"]; act = min(int((tt - c0) / step), len(s["items"]) - 1) if tt >= c0 else None
+                img = recap_frame(s, tt, d, cache, act)
             elif s["type"] == "recap":
                 act = None
                 for vi, (vn, va, vd) in enumerate(p["voices"]):
