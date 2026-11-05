@@ -141,7 +141,7 @@ if (process.argv[2]) {
   const specPath = process.argv[2];
   const spec = JSON.parse(fs.readFileSync(specPath, 'utf8'));
   // 2026-11-05 에르메스 편: 밸류노트 데이터에 없는 회사·주제(no_data:true)는 숫자 자리 없이 빈 값으로 (원고에 {자리}를 쓰지 않는다)
-  const data = spec.no_data ? { raw: {}, vars: {} } : await companyData(spec.company, spec);
+  const data = spec.no_data ? { raw: { asof_iso: new Date().toISOString(), name: spec.title?.split(" ")[0] || "" }, vars: { asof: (() => { const d = new Date(Date.now() + 9 * 3600e3); return `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; })() } } : await companyData(spec.company, spec);
   const out = specPath.replace(/\.json$/, '.data.json');
   fs.writeFileSync(out, JSON.stringify(data, null, 1));
   console.log(JSON.stringify(data.vars, null, 1));
