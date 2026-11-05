@@ -1113,31 +1113,32 @@ def NBK_eio(t):
 
 
 def chapter_source(text, sub, num, n_frames):
-    """장 전환 화면 (2026-11-04 18:55 대표님 확정 'A안 + 왼쪽 펀치 구멍'): 남색 바탕에 아주 옅은 노트 줄·여백선·펀치 구멍만 남기고,
-    PART 번호(금색, 자간 넓게) → 명조 제목이 한 글자씩 떠오름 → 금색 짧은 선 → 기간. 오른쪽 아래 큰 번호가 아주 희미하게 천천히 흐른다."""
+    """장 전환 화면 = 시네마틱 타이틀 카드 (2026-11-05 대표님 제1 원칙 96 ③: 펀치 구멍·노트 줄 없이
+    남색 바탕 + 얇은 금색 선 + PART 번호 + 장 제목만). 가운데 정렬: 금색 가는 선이 양옆으로 열리고 → PART 번호(자간 넓게) →
+    명조 제목이 한 글자씩 떠오름 → 아래 금색 가는 선. sub(기간)는 화면에 쓰지 않는다."""
     from notebook import font as NF
     BGN = (13, 24, 44); GLD = (214, 178, 106)
     base = Image.new("RGB", (W, H), BGN); d = ImageDraw.Draw(base, "RGBA")
-    for r_ in range(0, 700, 25): d.ellipse([-300 + r_, -200 + r_ * .6, 1500 - r_, 1300 - r_ * .6], fill=(40, 60, 98, 5))
-    for y in range(150, H, 64): d.line([(0, y), (W, y)], fill=(255, 255, 255, 7), width=1)   # 아주 옅은 노트 줄
-    d.line([(230, 0), (230, H)], fill=(*GLD, 22), width=2)   # 노트 여백선
-    for yy in range(118, H - 60, 108):   # 왼쪽 펀치 구멍 (뚫린 안쪽은 더 어둡게, 아래 가장자리에 빛)
-        d.ellipse([100, yy, 136, yy + 36], fill=(4, 9, 18, 255)); d.arc([100, yy, 136, yy + 36], 20, 160, fill=(255, 255, 255, 26), width=2)
-    rng_ = np.random.default_rng(5); a_ = np.asarray(base).astype(np.int16) + rng_.normal(0, 4, (H, W))[..., None].astype(np.int16)
+    for r_ in range(0, 700, 25): d.ellipse([W / 2 - 1100 + r_, H / 2 - 640 + r_ * .6, W / 2 + 1100 - r_, H / 2 + 640 - r_ * .6], fill=(34, 52, 88, 5))   # 가운데만 은은하게
+    rng_ = np.random.default_rng(5); a_ = np.asarray(base).astype(np.int16) + rng_.normal(0, 3, (H, W))[..., None].astype(np.int16)
     base = Image.fromarray(np.clip(a_, 0, 255).astype(np.uint8))
-    numl = Image.new("L", (W, H), 0); ImageDraw.Draw(numl).text((W - 90, H - 60), f"{num:02d}", font=NF("mont", 460), anchor="rs", fill=255)
-    ft = NF("myeongjo", 128)
-    while ft.size > 70 and ImageDraw.Draw(base).textlength(text, font=ft) > W - 420: ft = NF("myeongjo", ft.size - 6)
-    lab = "  ".join(f"PART {num:02d}"); fl = NF("mont", 30); fs = F("SemiBold", 40)
+    ft = NF("myeongjo", 132)
+    while ft.size > 70 and ImageDraw.Draw(base).textlength(text, font=ft) > W - 360: ft = NF("myeongjo", ft.size - 6)
+    lab = "  ".join(f"PART {num:02d}"); fl = NF("mont", 30)
+    tw = ImageDraw.Draw(base).textlength(text, font=ft); lw = ImageDraw.Draw(base).textlength(lab, font=fl)
+    cx, ly, ty = W / 2, 400, 560
     dur = max(.1, n_frames / FPS)
 
     def get(u):
-        im = base.copy()
-        dx = int(-18 * u / dur); im.paste((255, 255, 255), (dx, 0), numl.point(lambda q: int(q * .05 * NBK_eio(u / .8))))
-        d = ImageDraw.Draw(im, "RGBA")
+        im = base.copy(); d = ImageDraw.Draw(im, "RGBA")
+        p0 = NBK_eio((u - .05) / .6)   # 위 금선: PART 양옆으로 열린다
+        if p0 > 0:
+            g = 26; L_ = 150 * p0
+            d.rectangle([cx - lw / 2 - g - L_, ly - 11, cx - lw / 2 - g, ly - 10], fill=(*GLD, int(230 * p0)))
+            d.rectangle([cx + lw / 2 + g, ly - 11, cx + lw / 2 + g + L_, ly - 10], fill=(*GLD, int(230 * p0)))
         a0 = NBK_eio((u - .15) / .45)
-        if a0 > 0: d.text((300, 380 + 10 * (1 - a0)), lab, font=fl, fill=(*GLD, int(255 * a0)), anchor="ls")
-        x = 294; chars = list(text); nn = max(1, len([c for c in chars if c != " "])); step = min(.07, 1.0 / nn); kq = 0
+        if a0 > 0: d.text((cx, ly + 6 * (1 - a0)), lab, font=fl, fill=(*GLD, int(255 * a0)), anchor="mm")
+        x = cx - tw / 2; chars = list(text); nn = max(1, len([c for c in chars if c != " "])); step = min(.07, 1.0 / nn); kq = 0
         for ch in chars:
             cw = d.textlength(ch, font=ft)
             if ch == " ": x += cw; continue
@@ -1146,13 +1147,12 @@ def chapter_source(text, sub, num, n_frames):
                 g = Image.new("L", (int(cw) + 40, ft.size + 60), 0); ImageDraw.Draw(g).text((20, 30), ch, font=ft, fill=255, anchor="la")
                 bl = 6 * (1 - p_)
                 if bl > .3: g = g.filter(ImageFilter.GaussianBlur(bl))
-                im.paste((245, 241, 232), (int(x - 20), int(540 - ft.size * .78 - 30 + 16 * (1 - p_))), g.point(lambda v, a=p_: int(v * a)))
+                im.paste((245, 241, 232), (int(x - 20), int(ty - ft.size * .62 - 30 + 14 * (1 - p_))), g.point(lambda v, a=p_: int(v * a)))
             x += cw
         t1 = .4 + nn * step + .3
-        q = NBK_eio((u - t1) / .45)
-        if q > 0: d.rectangle([300, 590, 300 + 120 * q, 593], fill=GLD)
-        a2 = NBK_eio((u - t1 - .2) / .45)
-        if sub and a2 > 0: d.text((300, 660 + 8 * (1 - a2)), sub, font=fs, fill=(150, 162, 184, int(255 * a2)), anchor="ls")
+        q = NBK_eio((u - t1) / .55)   # 아래 금선: 가운데에서 양옆으로
+        if q > 0:
+            hw = 90 * q; d.rectangle([cx - hw, ty + ft.size * .62 + 34, cx + hw, ty + ft.size * .62 + 35], fill=(*GLD, 235))
         return im
     return get
 

@@ -241,4 +241,11 @@ def make_basstaiko(n, sr, beat, strong, h0, h1, seed=11):
     low = lo4(out, 180); pk = np.abs(low).max() + 1e-9
     out = out + hi4(np.tanh(low / pk * 4.0), 180) * pk * .9
     out = out - lo4(out, 120) * (1 - 10 ** (-7 / 20))
+    # 2026-11-05 대표님(제1 원칙 96 ④): 사진 전환 박마다 서브 베이스(808 킥·붐) 임팩트를 더 강하게 — 단 목소리보다 작게.
+    # 저음 줄이기(위) 뒤에 더해 붐이 깎이지 않게 하고, 휴대폰에서도 들리게 포화 배음(150Hz 위)을 조금 섞는다. 크기는 렌더러가 목소리에 맞춰 다시 누른다.
+    imp = np.zeros(n, np.float32); m = int(sr * .95); t = np.arange(m) / sr
+    boom = np.tanh(2.4 * np.sin(2 * np.pi * np.cumsum(52 * (1 + 2.2 * np.exp(-t * 28))) / sr)) * np.exp(-t / .32) * np.clip(t / .003, 0, 1)
+    for b in sorted(strong):
+        if 0 < b < hb - 1: add(imp, b * beat, boom, 1.0); add(imp, b * beat, _kick(sr, 3.2), .55)
+    out = out + .62 * imp + hi4(np.tanh(imp * 3.0), 150) * .22
     return out.astype(np.float32)
