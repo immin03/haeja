@@ -1,0 +1,1744 @@
+{
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "look": {
+  "paper": "grid",
+  "dark": "navy",
+  "accent": "gold"
+ },
+ "hook": {
+  "bpm": 96,
+  "style": "basstaiko"
+ },
+ "overlay": "doc",
+ "id": "L261105-krw-airline",
+ "company": "003490",
+ "series": "내 돈과 경제",
+ "plan": "P261028r-krw-airline",
+ "events": [],
+ "scheduled_at": "2026-11-05T19:30:00+09:00",
+ "opening": "장면형 — 다큐 훅(인천공항 환전 100달러 15만 원 → 13만 원대 · 하늘 vs 바다 · 순이익 열 배) → 밸류노트 인트로 2.7초 → 결론 먼저",
+ "hook_type": "다큐 훅 · 장면형",
+ "endscreen_target": "L261103-samsung-ai",
+ "title": "대한항공 주가와 환율, 비행기는 그대로인데 순이익이 10배 뛴 이유",
+ "title_en": "Korean Air stock and the won: why its net profit jumped tenfold without flying ten times more",
+ "tags": [
+  "대한항공",
+  "대한항공 주가",
+  "환율",
+  "원달러 환율",
+  "환율 전망",
+  "원화 강세",
+  "환율 내리면 수혜주",
+  "대한항공 아시아나 통합",
+  "통합 대한항공",
+  "항공주",
+  "대한항공 3분기 실적",
+  "외화환산손익",
+  "수출주 환율"
+ ],
+ "search_keywords": [
+  "대한항공 주가",
+  "환율 전망",
+  "원화 강세",
+  "대한항공 아시아나 통합",
+  "환율 내리면 수혜"
+ ],
+ "sources": [
+  "대한항공 뉴스룸 2026-10-15 '2026년 3분기 잠정실적'(별도)",
+  "비즈니스포스트 2026-10-15",
+  "뉴데일리 2026-09-07 '환율 10원 내리면 외화손익 560억 개선'",
+  "하나은행 매매기준율 2026-11-05 (잡포스트)",
+  "한국은행 국제수지(2026-08-06 보도)",
+  "한국경제·뉴데일리 2020-03-10 한진그룹·조중훈 창업주 '수송보국'",
+  "뉴스토마토 '대한항공 미주 취항 50년'",
+  "대한항공 2020년 실적(경향신문 2021-02-04)",
+  "사진: 시네마틱 스틸은 AI 생성"
+ ],
+ "pinned_comment": "여러분이 가진 종목은 원화가 강해질 때 웃는 쪽(달러를 쓰는 회사)인가요, 우는 쪽(달러를 버는 회사)인가요? 종목 이름과 함께 남겨 주세요.",
+ "description_head": "대한항공 주가와 환율: 지난 3분기 대한항공의 순이익은 1년 전의 열 배가 됐습니다. 문제는 비행기를 더 띄운 게 아니었습니다. 진짜 이유는 달러로 비행기·기름·빚을 사는 회사의 장부를, 내려간 환율이 다시 계산해 준 데 있었습니다.\n원·달러 환율이 내리면 왜 항공사는 웃고 수출 회사는 우는지, 트럭 한 대로 시작한 한진이 적자 국영 항공사를 떠안은 1969년부터 1997년 외환위기, 2020년 코로나, 12월 17일 통합 대한항공 출범까지 따라갑니다. 마지막엔 전문가들이 대한항공을 볼 때 먼저 확인하는 세 가지를 정리합니다.\n\n※ 투자 권유가 아닙니다. 목표 주가·매수·매도 신호가 아닙니다.",
+ "description_en": "Korean Air's Q3 net profit rose tenfold year on year - not because it flew ten times more, but because a stronger won shrank its dollar debts on paper. The story of an airline that buys planes, fuel and debt in dollars, why exporters feel the opposite, and the three things analysts watch.",
+ "hook_promises": [
+  "환율이 두 배로 뛴 겨울 대한항공에 생긴 일",
+  "같은 환율에 웃는 쪽과 우는 쪽",
+  "전문가가 먼저 보는 세 가지"
+ ],
+ "viewer_question": "원화가 강해지면 대한항공은 왜 좋아지고, 그 이익은 진짜 돈일까?",
+ "format_note": "2026-11-05 대한항공 편: 금 편(L261105-gold-doc) 다큐 틀 그대로 — 시네마틱 스틸 26장(il_L261105k_cin_*), 장 7개, 숫자 예산(15만·13만 원대 · 열 배 · 두 배 · 10원·수백억 · 200원 · 12% · 919억→9,297억 마지막 장만)",
+ "thumb": {
+  "photo": "il_L261105k_cin_ledger.jpeg",
+  "focus_x": 0.6,
+  "l1": "대한항공 3분기 순이익",
+  "l2": "1년 새 10배?",
+  "pos": "left",
+  "s1": 70,
+  "s2": 120
+ },
+ "ab_sets": [
+  {
+   "key": "a",
+   "default": true,
+   "title": "대한항공 주가와 환율, 비행기는 그대로인데 순이익이 10배 뛴 이유",
+   "file": "thumb_a.jpg"
+  },
+  {
+   "key": "b",
+   "title": "대한항공 갖고 계신 분이라면 꼭 보세요, 환율 10원에 수백억이 움직이는 회사",
+   "file": "thumb_b.jpg"
+  },
+  {
+   "key": "c",
+   "title": "원달러 환율 내리면 누가 웃고 누가 울까? 대한항공과 수출 회사의 반대 운명",
+   "file": "thumb_c.jpg"
+  }
+ ],
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_hangar.jpeg"
+     },
+     {
+      "lib": "il_L261105k_cin_ledger.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "지난 3분기, 대한항공의 순이익은 1년 전의 열 배가 됐습니다. 비행기를 열 배 더 띄운 것도 아닌데요."
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_exchange.jpeg"
+     },
+     {
+      "lib": "il_L261105k_cin_departure.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "실마리는 인천공항 환전 창구에 있습니다. 여름엔 100달러를 바꾸는 데 15만 원 넘게 들었는데 지금은 13만 원대면 되죠."
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_takeoff.jpeg"
+     },
+     {
+      "lib": "il_L261105k_cin_cargonight.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "같은 날, 활주로에선 대한항공 여객기가 뜨고"
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_port.jpeg"
+     },
+     {
+      "lib": "il_L261105k_cin_carcarrier.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "항구에선 수출선이 떠납니다. 같은 환율에, 한쪽은 웃고 한쪽은 웁니다."
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_twoplanes.jpeg"
+     },
+     {
+      "lib": "il_L261105k_cin_sunset.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "도대체 환율이 이 회사에 뭐길래, 이런 일이 생기는 걸까요?"
+   ],
+   "lead": 0.12,
+   "hold": 0.1,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "ident": true
+   },
+   "lines": [],
+   "en": [],
+   "asof": false,
+   "src": "",
+   "dur": 2.7,
+   "sketch_add": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_hangar.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.9
+   },
+   "lines": [
+    "답부터 말씀드릴게요. 대한항공은 비행기도, 기름도, 빚도 달러로 사는 회사입니다.",
+    "그래서 원화가 강해지면 갚을 돈이 원화로 줄어들고 원화가 약해지면 거꾸로 불어나죠.",
+    "다만 그중 상당 부분은 진짜 현금이 아니라, 장부 위에서 다시 계산된 숫자입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "결론부터",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "달러로 사는 회사",
+     "color": "gold",
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "print",
+     "text": "원화 강세  →  갚을 돈 감소",
+     "line": 1,
+     "at": 0.05,
+     "color": "green"
+    },
+    {
+     "kind": "print",
+     "text": "장부 숫자 ≠ 현금",
+     "line": 2,
+     "at": 0.1,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_departure.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "오늘은 트럭 한 대로 시작한 회사의 이야기부터, 환율이 두 배로 뛰던 겨울에 생긴 일, 같은 환율에 누가 웃고 우는지, 그리고 전문가들이 먼저 보는 세 가지까지 따라가 보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "chapter": "적자 항공사를 떠안은 사람",
+   "v": {
+    "type": "title",
+    "text": "적자 항공사를 떠안은 사람",
+    "sub": "1945 ~ 1969"
+   },
+   "lines": [
+    "첫 번째 장면입니다. 대한항공은 어떻게 시작됐을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_truck1945.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1945년 해방 직후, 인천에서 한 청년이 트럭 한 대로 운송 사업을 시작합니다. 한진그룹을 세운 조중훈 창업주입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1945년 · 인천",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "트럭 한 대  →  한진",
+     "line": 0,
+     "at": 0.45,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_apron1969.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "20여 년 뒤인 1960년대 말, 나라가 운영하던 항공사 대한항공공사는 적자에 허덕이고 있었습니다. 비행기는 몇 대 되지 않았고 하늘길도 가까운 나라뿐이었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1960년대 말 · 대한항공공사",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "적자 국영 항공사",
+     "color": "red",
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_desk1969.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1969년 3월, 정부의 권유를 받은 조중훈 창업주가 이 적자 항공사를 넘겨받습니다. 트럭으로 땅을 달리던 회사가, 하늘을 맡게 된 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1969년 3월",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "민간 대한항공 출범",
+     "color": "gold",
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_takeoff.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그가 내건 말은 수송으로 나라에 보답한다, 수송보국이었습니다. 그리고 이 작은 항공사는, 곧 바다를 건너기로 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "chapter": "태평양을 건넌 회사",
+   "v": {
+    "type": "title",
+    "text": "태평양을 건넌 회사",
+    "sub": "1970년대 ~ 1990년대"
+   },
+   "lines": [
+    "두 번째 장면입니다. 작은 항공사는 어떻게 태평양을 건넜을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_pacific.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1970년대 초, 대한항공은 태평양을 건너 미국으로 가는 하늘길을 엽니다. 처음엔 화물기였고 곧 사람을 태운 여객기가 뒤따랐죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1970년대 초 · 태평양 노선",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "화물기  →  여객기",
+     "line": 0,
+     "at": 0.45,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_cargoload.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그 비행기에는 한국에서 만든 옷과 신발, 전자제품이 실렸습니다. 수출로 크던 나라에, 하늘로 물건을 보내는 길이 생긴 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_hangar.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1973년, 대한항공은 당시 세계에서 가장 큰 여객기였던 보잉 747을 들여옵니다. 한 번에 훨씬 많은 사람과 짐을 실을 수 있는 비행기였죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1973년",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "보잉 747 도입",
+     "color": "gold",
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_factory.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "하늘길이 넓어질수록 비행기가 더 필요했습니다. 그런데 큰 여객기는 미국과 유럽에서만 만들고 값은 달러로 매겨지죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "큰 여객기",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "값은 달러",
+     "color": "gold",
+     "line": 0,
+     "at": 0.5
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_ledger.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 대한항공은 비행기를 들여올 때마다 달러로 빚을 지거나 빌려 씁니다. 회사가 커질수록 장부에 쌓이는 달러 빚도 함께 커졌죠.",
+    "그리고 이 달러 빚이, 어느 겨울 큰 문제가 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "회사가 클수록",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "비행기 상승  →  달러 빚 상승",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "chapter": "환율이 두 배로 뛴 겨울",
+   "v": {
+    "type": "title",
+    "text": "환율이 두 배로 뛴 겨울",
+    "sub": "1997 · 2020"
+   },
+   "lines": [
+    "세 번째 장면입니다. 환율이 갑자기 뛰면, 달러로 사는 회사엔 무슨 일이 생길까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_crisis1997.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1997년, 외환위기가 터집니다. 1년도 안 돼 원·달러 환율이 두 배 넘게 뛰었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국은행 경제통계시스템 · 1997년 월말 환율",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "원·달러 환율 · 1997년",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "chart",
+     "series": [
+      850,
+      890,
+      915,
+      1160,
+      1960
+     ],
+     "xs": [
+      0,
+      5,
+      9,
+      10.6,
+      11.7
+     ],
+     "lo": 700,
+     "hi": 2100,
+     "x": 150,
+     "y": 230,
+     "w": 860,
+     "h": 330,
+     "color": "red",
+     "width": 9,
+     "line": 0,
+     "at": 0.1,
+     "dur": 3.0,
+     "from": 0,
+     "to": 4,
+     "ticks": [
+      [
+       0,
+       "1997.1"
+      ],
+      [
+       1,
+       "1997.12"
+      ]
+     ]
+    },
+    {
+     "kind": "write",
+     "text": "두 배 넘게",
+     "color": "red",
+     "line": 0,
+     "at": 0.6
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_ledger.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "달러로 진 빚은 그대로인데, 그 빚을 갚을 원화가 몇 달 사이 두 배가 된 겁니다. 대한항공은 그해 장부에 큰 손실을 떠안습니다. 비행기는 똑같이 날고 있었는데도요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "달러 빚 · 그대로",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "갚을 원화 · 두 배",
+     "line": 0,
+     "at": 0.3,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_empty2020.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "20여 년 뒤인 2020년, 이번엔 다른 위기가 옵니다. 코로나로 하늘길이 막히고 공항이 텅 비었죠. 세계의 항공사들이 줄줄이 큰 적자를 냅니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2020년 · 코로나",
+     "line": 0,
+     "at": 0.05
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_seatsout.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이때 대한항공은 여객기의 좌석을 뜯어냅니다. 그리고 사람 대신 상자를 실었죠. 마스크와 방역 물품, 반도체 부품이 그 비행기로 날아갔습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "여객기 좌석 철거",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "사람 대신 화물",
+     "color": "gold",
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_cargonight.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그해 대한항공은 영업이익 흑자를 냅니다. 세계 큰 항공사 대부분이 적자를 내던 해였죠. 승객이 사라진 비행기가, 상자로 돈을 번 겁니다. 가장 위험해 보이던 해가, 이 회사가 가장 잘 버틴 해가 됐습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "대한항공 2020년 실적 공시(별도)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2020년",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "영업이익 흑자",
+     "color": "green",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_twoplanes.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 바로 그해 11월, 대한항공은 오랜 경쟁자 아시아나항공을 품기로 합니다. 긴 심사 끝에, 올해 12월 17일 두 회사는 하나의 대한항공으로 출범할 예정입니다.",
+    "아시아나가 가진 달러 빚까지, 함께 떠안으면서요."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2020년 11월 · 아시아나 인수 결정",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "2026년 12월 17일 · 통합 대한항공",
+     "line": 0,
+     "at": 0.45,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "chapter": "달러로 사는 회사",
+   "v": {
+    "type": "title",
+    "text": "달러로 사는 회사",
+    "sub": "비행기 · 기름 · 빚"
+   },
+   "lines": [
+    "네 번째 장면입니다. 그럼 지금, 환율이 내리면 이 회사의 돈은 어떻게 움직일까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_fuel.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "비행기는 대부분 할부나 리스로 들여와 그 값이 달러 빚으로 남고 하늘을 나는 데 드는 기름도 달러로 삽니다. 해외 공항에 내는 이착륙료, 정비 부품값도 달러죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_departure.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 표는 상당 부분 원화로 팔립니다. 한국 승객이 한국에서 사니까요. 나가는 돈은 달러, 들어오는 돈은 원화. 이 엇갈림이, 환율이 이 회사 실적을 크게 흔드는 이유입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "돈의 흐름",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "나가는 돈 · 달러 (비행기 · 기름 · 빚)",
+     "line": 0,
+     "at": 0.35,
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "들어오는 돈 · 원화 (항공권)",
+     "line": 0,
+     "at": 0.6,
+     "color": "green"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_takeoff.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여러분이 이번 겨울 뉴욕 왕복 항공권을 산다고 해 볼게요. 그 표값은 원화로 대한항공에 들어옵니다.",
+    "그런데 그 비행기를 띄우는 기름값과 비행기 할부금은 달러로 나가죠. 여름보다 환율이 200원 넘게 낮아졌다면, 대한항공은 같은 달러를 내는 데 원화를 훨씬 덜 쓰게 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "뉴욕 왕복 항공권",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "표값 · 원화로 들어옴",
+     "line": 0,
+     "at": 0.1,
+     "color": "green"
+    },
+    {
+     "kind": "print",
+     "text": "기름값 · 할부금 · 달러로 나감",
+     "line": 1,
+     "at": 0.1,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_ledger.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "증권가 분석에 따르면, 원·달러 환율이 10원만 움직여도 대한항공의 외화 손익은 수백억 원씩 달라집니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리 2026-09-07 · 증권가 추정",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "환율 10원 움직이면",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "외화 손익 수백억 원",
+     "color": "gold",
+     "line": 0,
+     "at": 0.45
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_hangar.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다만 여기엔 함정이 있습니다. 그중 상당 부분은 달러 빚을 그날 환율로 원화로 다시 적은, 장부 위 숫자예요.",
+    "빚을 실제로 갚은 게 아니라 원화로 다시 계산했을 뿐이라, 환율이 다시 오르면 같은 크기로 되돌아갈 수 있습니다.",
+    "장부가 불어난 것이지, 회사 금고에 현금이 그만큼 들어온 건 아닙니다. 앞에서 말씀드린 열 배의 정체는, 마지막 장면에서 숫자로 확인해 보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "외화환산 손익",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "실제 현금 아님  ·  되돌아갈 수 있음",
+     "line": 1,
+     "at": 0.1,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_inbound.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "환율은 승객 수에도 닿습니다. 원화가 약하던 여름엔 한국에서 떠나는 승객이 줄었죠.",
+    "대한항공도 지난 3분기 한국발 승객은 다소 줄었고 대신 한국으로 오는 외국인과 인천을 거쳐 가는 승객으로 채웠다고 밝혔습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "대한항공 2026-10-15 3분기 잠정실적",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2026년 3분기 · 여객",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "한국발 감소  ·  해외발 · 환승 증가",
+     "line": 1,
+     "at": 0.1,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_seoulstreet.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "원화가 강해지면 이 그림은 반대로 갑니다. 한국 사람에게 해외여행은 싸지고 외국인에게 한국 여행은 조금 비싸지죠.",
+    "그럼 같은 환율에, 반대로 우는 쪽은 누구일까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "chapter": "같은 환율, 반대편의 바다",
+   "v": {
+    "type": "title",
+    "text": "같은 환율, 반대편의 바다",
+    "sub": "수출 회사 · 미국 주식"
+   },
+   "lines": [
+    "다섯 번째 장면입니다. 원화가 강해지면, 누가 손해를 볼까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_carcarrier.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "항구로 가 보면 이야기가 거꾸로입니다. 자동차를 만들어 파는 회사는 미국에서 달러로 벌어, 한국에서 원화로 바꾸죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_shipyard.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "원화가 강해지면 같은 달러를 벌어도 손에 쥐는 원화가 줄어듭니다. 배를 만드는 회사도, 반도체를 파는 회사도 마찬가지죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "수출 회사",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "원화 강세  →  원화로 바꾼 매출 감소",
+     "line": 0,
+     "at": 0.3,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_phone.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "미국 주식을 사 둔 개인 투자자도 같습니다. 주가가 그대로여도, 원화로 바꾸는 순간 평가금액이 줄어들죠.",
+    "여름에 환율 덕에 불어난 수익을, 가을 환율이 조금 돌려받아 간 겁니다. 미국 주식 수익률은 주가와 환율, 두 개를 함께 봐야 하는 이유죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "미국 주식 · 원화 환산",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "평가금액 감소",
+     "color": "red",
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_port.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "결국 대한항공은 달러를 쓰는 회사, 수출 회사는 달러를 버는 회사입니다. 그래서 같은 환율에 표정이 반대가 되죠.",
+    "그런데 원화는, 애초에 왜 강해졌을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "원화가 강해지면",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "달러를 쓰는 회사 · 대한항공  →  유리",
+     "line": 0,
+     "at": 0.2,
+     "color": "green"
+    },
+    {
+     "kind": "print",
+     "text": "달러를 버는 회사 · 수출 회사  →  불리",
+     "line": 0,
+     "at": 0.5,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "chapter": "원화는 왜 강해졌나",
+   "v": {
+    "type": "title",
+    "text": "원화는 왜 강해졌나",
+    "sub": "2026년 여름 ~ 지금"
+   },
+   "lines": [
+    "여섯 번째 장면입니다. 원화는 왜 이렇게 빨리 강해졌을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_exchange.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "올해 6월 말, 원·달러 환율은 한때 크게 치솟았습니다. 그런데 네 달 남짓 사이 200원 넘게 내려왔죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "하나은행 매매기준율 2026-11-05 · 뉴데일리 2026-09-07",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "원·달러 환율 · 2026년",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "chart",
+     "series": [
+      1548,
+      1346,
+      1325,
+      1339
+     ],
+     "xs": [
+      0,
+      67,
+      119,
+      128
+     ],
+     "lo": 1250,
+     "hi": 1600,
+     "x": 150,
+     "y": 230,
+     "w": 860,
+     "h": 330,
+     "color": "gold",
+     "width": 9,
+     "line": 0,
+     "at": 0.1,
+     "dur": 3.0,
+     "from": 0,
+     "to": 3,
+     "ticks": [
+      [
+       0,
+       "6월 말"
+      ],
+      [
+       1,
+       "11월 5일"
+      ]
+     ]
+    },
+    {
+     "kind": "write",
+     "text": "200원 넘게 하락",
+     "color": "green",
+     "line": 0,
+     "at": 0.6
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_cleanroom.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "가장 큰 이유로 꼽히는 건 수출로 들어온 달러입니다. 반도체를 앞세운 수출이 크게 늘면서 나라 밖에서 벌어 온 돈이 쓴 돈보다 훨씬 많아졌죠.",
+    "한국은행 집계로, 6월 한 달 경상수지는 역대 최대였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "한국은행 국제수지 2026-08-06",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2026년 6월 · 경상수지",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "역대 최대",
+     "color": "gold",
+     "line": 1,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_crisis1997.jpeg",
+    "full": true,
+    "wash": "right",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1997년엔 달러가 나라 밖으로 빠져나가 환율이 두 배가 됐다면, 올해는 달러가 많이 들어온 것이 환율을 끌어내린 큰 이유로 꼽힙니다. 같은 회사의 장부가 그때와 정반대로 움직인 배경이죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1997년 · 달러 유출  →  환율 상승",
+     "line": 0,
+     "at": 0.05,
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "2026년 · 달러 유입  →  환율 하락",
+     "line": 0,
+     "at": 0.45,
+     "color": "green"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_port.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "달러가 많이 들어오면 시장에 달러가 흔해지고 흔해진 달러의 값은 내려갑니다. 최근 미국 달러 자체가 약해진 것도 이유로 꼽히죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "원화 강세의 이유",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "수출 달러 유입  ·  달러 약세",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_tanker.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다만 이 흐름이 계속된다는 보장은 없습니다. 수출이 꺾이거나 달러가 다시 강해지면, 환율은 언제든 다시 오를 수 있죠.",
+    "그럼 대한항공은, 지금 어디쯤 와 있을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "chapter": "대한항공의 앞으로",
+   "v": {
+    "type": "title",
+    "text": "대한항공의 앞으로",
+    "sub": "실적 · 위험 · 볼 것 3가지"
+   },
+   "lines": [
+    "마지막 장면입니다. 숫자로 보면, 대한항공은 지금 어떤 상태일까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_cargonight.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "지난 3분기 대한항공은 분기 기준 역대 최대 매출을 올렸습니다. 승객과 화물이 모두 늘었고 영업이익도 1년 전보다 12% 늘었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "대한항공 2026-10-15 3분기 잠정실적(별도)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2026년 3분기 · 영업이익",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "+12%",
+     "color": "green",
+     "line": 0,
+     "at": 0.6
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_ledger.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 순이익은 919억 원에서 9,297억 원, 열 배로 뛰었습니다. 회사는 그 이유로 3분기 말 환율 하락 효과를 먼저 꼽았죠.",
+    "영업이익이 12% 늘 때 순이익이 열 배가 됐다면, 그 차이엔 환율이 다시 적어 준 장부 숫자가 상당 부분 섞여 있을 가능성이 큽니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "대한항공 2026-10-15 3분기 잠정실적(별도)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "3분기 순이익",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "2025년 3분기",
+       "v": 919,
+       "text": "919억",
+       "color": "gray"
+      },
+      {
+       "label": "2026년 3분기",
+       "v": 9297,
+       "text": "9297억"
+      }
+     ],
+     "x": 150,
+     "h": 330,
+     "line": 0,
+     "at": 0.15
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_twoplanes.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "증권가는 대한항공을, 환율과 기름값에 실적이 크게 좌우되는 회사로 봅니다. 증권가 일부에서는 원화 강세와 기름값 안정이 이어지면 이익이 커지고 통합 대한항공의 노선·비용 정리 효과도 더해질 거라고 기대하죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "증권가의 시각",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "환율 · 기름값에 좌우되는 실적",
+     "line": 0,
+     "at": 0.1,
+     "color": "gold"
+    },
+    {
+     "kind": "print",
+     "text": "통합 뒤 노선 · 비용 정리 기대",
+     "line": 0,
+     "at": 0.55
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_tanker.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "위험도 분명합니다. 회사 스스로 중동 전쟁이 길어지며 연료비 부담이 이어질 거라고 밝혔고 아시아나를 합치는 비용과 함께 떠안는 빚도 있습니다.",
+    "원화가 다시 약해지면, 이번 분기의 장부 이익은 거꾸로 돌아갈 수도 있죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "위험",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "연료비  ·  통합 비용  ·  원화 약세",
+     "line": 0,
+     "at": 0.2,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_departure.jpeg",
+    "full": true,
+    "wash": "left",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 전문가들이 이 회사를 볼 때 먼저 확인하는 건 세 가지입니다. 첫째, 원·달러 환율. 둘째, 국제 유가. 셋째, 국제선 승객, 특히 한국으로 오고 거쳐 가는 승객이 늘고 있는지죠.",
+    "환율과 유가는 매일 뉴스에서, 승객 수는 분기마다 대한항공 실적 발표에서 확인할 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "볼 것 3가지",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "print",
+     "text": "① 원·달러 환율",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold"
+    },
+    {
+     "kind": "print",
+     "text": "② 국제 유가",
+     "line": 0,
+     "at": 0.48,
+     "color": "gold"
+    },
+    {
+     "kind": "print",
+     "text": "③ 국제선 승객 · 해외발 · 환승",
+     "line": 0,
+     "at": 0.62,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "lib": "il_L261105k_cin_sunset.jpeg",
+    "full": true,
+    "wash": "none",
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "트럭 한 대로 시작한 회사는, 이제 원화로 표를 팔고 달러로 하늘을 삽니다. 그래서 이 회사의 실적은, 비행기만큼이나 환율로 움직입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "다음 영상: 삼성전자, 107조 벌고도 주가가 빠진 이유",
+    "btn_at": [
+     "1:구독",
+     "1:구독",
+     "1:알림"
+    ],
+    "sub_at": "1:삼성전자",
+    "note": {
+     "text": "내 종목은 달러를 쓰는 쪽? 버는 쪽?"
+    },
+    "next": {
+     "label": "함께 보면 좋은 영상",
+     "at": "1:삼성전자"
+    },
+    "closing_photo": "il_L261105k_cin_sunset.jpeg",
+    "backdrop": "il_L261105k_cin_hangar.jpeg",
+    "bd_dim": 0.74
+   },
+   "lines": [
+    "여러분이 가진 종목은 달러를 쓰는 쪽인가요, 버는 쪽인가요? 댓글로 남겨 주세요.",
+    "이런 돈의 이야기가 도움이 되셨다면 구독과 알림 설정 부탁드립니다. 수출로 들어온 달러의 주인공이 궁금하시다면, 삼성전자 편도 함께 보세요. 감사합니다."
+   ],
+   "endscreen": 8,
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  }
+ ]
+}
