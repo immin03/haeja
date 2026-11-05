@@ -24,7 +24,7 @@ SPACE = " Composition: keep the left 40 percent of the frame as calm, nearly emp
 def main(only=None):
     """4개씩 동시에 만든다 (한 장 30~100초)"""
     from concurrent.futures import ThreadPoolExecutor
-    H = hf.auth_headers(); spent = 0.0; cap = float(os.environ.get("YT_ILLUST_MAX_USD", "2")); batch = []
+    H = hf.auth_headers(); spent = 0.0; cap = min(float(os.environ.get("YT_ILLUST_MAX_USD", "2")), gen.HARD_CAP); batch = []
     for f in sorted(glob.glob(os.path.join(ROOT, "scripts", "youtube", "long", "illust", "*.json"))):
         if only and os.path.basename(f)[:-5] not in only: continue
         for j in json.load(open(f, encoding="utf-8")):

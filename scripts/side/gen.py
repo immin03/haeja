@@ -18,6 +18,7 @@ import hf  # noqa: E402  (http, auth_headers 재사용)
 OUT = os.path.join(ROOT, "social", "side", "gen")
 REPO = os.environ.get("GITHUB_REPOSITORY", "immin03/haeja")
 BRANCH = os.environ.get("GITHUB_REF_NAME", "main")
+HARD_CAP = 3.0  # 회차(한 번 실행) 절대 상한 3달러 — 환경변수·실행 입력으로도 못 올린다 (11/5 대표 지시)
 PRICE = {  # 대략 단가 (open.higgsfield.ai 2026-10-27 표시가, 할인 반영) — 상한 계산용
     "image": 0.05, "video_per_s": {"wan-3.0/": 0.02, "wan-3.0-prime": 0.027, "kling": 0.11, "seedance": 0.15, "grok": 0.08}}
 
@@ -72,7 +73,7 @@ def run(job, H, spent):
             return 0.0
     if os.path.exists(old) and json.load(open(old)).get("status") not in ("failed", "submit_failed") and not job.get("retry"):
         print(f"[{jid}] 기록 있음(진행 중이었거나 결과 없음) — retry:true 로 다시"); return 0.0
-    cost = est(job); cap = float(os.environ.get("SIDE_GEN_MAX_USD", "3"))
+    cost = est(job); cap = min(float(os.environ.get("SIDE_GEN_MAX_USD", "3")), HARD_CAP)
     if spent + cost > cap: print(f"[{jid}] 상한 {cap}달러 초과 예상 — 건너뜀"); return 0.0
     body = dict(job.get("body", {}))
     if job.get("image"): body[job.get("image_field", "image_url")] = raw_url(job["image"])
@@ -117,7 +118,7 @@ def _ready(job):
 def main(only=None):
     """입력이 준비된 작업부터 4개씩 동시에 돌린다 (앞 작업 결과를 참고로 쓰는 작업은 다음 차례에)"""
     from concurrent.futures import ThreadPoolExecutor
-    H = hf.auth_headers(); spent = 0.0; cap = float(os.environ.get("SIDE_GEN_MAX_USD", "3"))
+    H = hf.auth_headers(); spent = 0.0; cap = min(float(os.environ.get("SIDE_GEN_MAX_USD", "3")), HARD_CAP)
     files = sorted(glob.glob(os.path.join(ROOT, "scripts", "side", "gen", "*.json")))
     todo = []
     for f in files:
