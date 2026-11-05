@@ -1,0 +1,31 @@
+{
+ "id": "libv_pyre_far",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The torches move slowly up the hill in a line, the pyre glows and sparks rise into the dusk sky, smoke drifts; the camera stays still. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa6c-a242-7f63-ae48-6807f723edfd/3e6b1a75-176a-46ef-9627-d85863151c41.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa72-8a38-7fb1-9e8b-444ef1e5bced",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa72-8a38-7fb1-9e8b-444ef1e5bced/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa72-8a38-7fb1-9e8b-444ef1e5bced/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa72-8a38-7fb1-9e8b-444ef1e5bced",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa72-8a38-7fb1-9e8b-444ef1e5bced/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa72-8a38-7fb1-9e8b-444ef1e5bced/cancel",
+  "expires_at": "2026-11-12T06:45:29.497667+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa72-8a38-7fb1-9e8b-444ef1e5bced/e4ba115b-e246-4001-9fb7-25e2f1001bf5.mp4"
+  }
+ },
+ "seconds": 136,
+ "file": "social/side/gen/libv_pyre_far.mp4"
+}

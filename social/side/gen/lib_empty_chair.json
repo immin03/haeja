@@ -1,0 +1,32 @@
+{
+ "id": "lib_empty_chair",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "An empty carved wooden chair at the head of a long table in a dim Roman dining room at night, a single candle burning in front of it, a folded cloak left on the seat. The main subject stands in the horizontal center of the frame, so the picture still works when cropped to a tall vertical frame. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa6d-0027-7d50-b25b-0fc90ed1e4e6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6d-0027-7d50-b25b-0fc90ed1e4e6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6d-0027-7d50-b25b-0fc90ed1e4e6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa6d-0027-7d50-b25b-0fc90ed1e4e6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6d-0027-7d50-b25b-0fc90ed1e4e6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6d-0027-7d50-b25b-0fc90ed1e4e6/cancel",
+  "expires_at": "2026-11-12T06:38:20.577355+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa6d-0027-7d50-b25b-0fc90ed1e4e6/9578c978-74dd-422d-8e9a-60c58fb33acc.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "social/side/gen/lib_empty_chair.jpeg"
+}

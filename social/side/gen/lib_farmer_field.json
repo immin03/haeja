@@ -1,0 +1,32 @@
+{
+ "id": "lib_farmer_field",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A farmer guiding a plow pulled by two oxen across a wide field at sunset, seen from a distance, long shadows, warm golden light and dust. The main subject stands in the horizontal center of the frame, so the picture still works when cropped to a tall vertical frame. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa6e-2728-7e47-8c0e-6641ee23f299",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6e-2728-7e47-8c0e-6641ee23f299/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6e-2728-7e47-8c0e-6641ee23f299/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa6e-2728-7e47-8c0e-6641ee23f299",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6e-2728-7e47-8c0e-6641ee23f299/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6e-2728-7e47-8c0e-6641ee23f299/cancel",
+  "expires_at": "2026-11-12T06:39:50.823470+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa6e-2728-7e47-8c0e-6641ee23f299/d2bd02bc-6090-430d-b2f8-60aed5c27902.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "social/side/gen/lib_farmer_field.jpeg"
+}

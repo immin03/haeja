@@ -1,0 +1,31 @@
+{
+ "id": "libv_farmer_field",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The oxen walk slowly forward, the plow turns the earth, dust rises in the golden light; the camera tracks slowly alongside. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa6e-2728-7e47-8c0e-6641ee23f299/d2bd02bc-6090-430d-b2f8-60aed5c27902.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa74-8cba-78c4-930f-c9aed6822ed0",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa74-8cba-78c4-930f-c9aed6822ed0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa74-8cba-78c4-930f-c9aed6822ed0/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa74-8cba-78c4-930f-c9aed6822ed0",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa74-8cba-78c4-930f-c9aed6822ed0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa74-8cba-78c4-930f-c9aed6822ed0/cancel",
+  "expires_at": "2026-11-12T06:47:28.635773+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa74-8cba-78c4-930f-c9aed6822ed0/bf1c0f11-ad0e-4427-8fb1-66cde25c6205.mp4"
+  }
+ },
+ "seconds": 123,
+ "file": "social/side/gen/libv_farmer_field.mp4"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "lib_two_walk",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Two Roman men in cloaks walking away side by side down a long sunlit colonnade, seen from behind, their long shadows on the marble floor. The main subject stands in the horizontal center of the frame, so the picture still works when cropped to a tall vertical frame. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa6b-1a0f-74ed-8705-1bae7e9fc848",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6b-1a0f-74ed-8705-1bae7e9fc848/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6b-1a0f-74ed-8705-1bae7e9fc848/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa6b-1a0f-74ed-8705-1bae7e9fc848",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6b-1a0f-74ed-8705-1bae7e9fc848/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6b-1a0f-74ed-8705-1bae7e9fc848/cancel",
+  "expires_at": "2026-11-12T06:36:46.418858+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa6b-1a0f-74ed-8705-1bae7e9fc848/dfac27d7-2143-4450-b8ff-58c21ae55144.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "social/side/gen/lib_two_walk.jpeg"
+}

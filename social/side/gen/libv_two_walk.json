@@ -1,0 +1,31 @@
+{
+ "id": "libv_two_walk",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "They walk slowly away down the colonnade, their cloaks swaying, light and shadow passing over them; the camera stays still as they grow smaller. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa6b-1a0f-74ed-8705-1bae7e9fc848/dfac27d7-2143-4450-b8ff-58c21ae55144.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa70-866d-78b4-ab85-6b6c90e09243",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa70-866d-78b4-ab85-6b6c90e09243/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa70-866d-78b4-ab85-6b6c90e09243/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa70-866d-78b4-ab85-6b6c90e09243",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa70-866d-78b4-ab85-6b6c90e09243/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa70-866d-78b4-ab85-6b6c90e09243/cancel",
+  "expires_at": "2026-11-12T06:43:15.226059+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa70-866d-78b4-ab85-6b6c90e09243/57116b49-7926-4da3-be3a-519c6a71fde6.mp4"
+  }
+ },
+ "seconds": 136,
+ "file": "social/side/gen/libv_two_walk.mp4"
+}

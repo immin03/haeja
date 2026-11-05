@@ -1,0 +1,32 @@
+{
+ "id": "lib_emp_ridge",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Very wide shot of the Roman emperor Marcus Aurelius seen from behind or as a distant silhouette, face not visible, short curly grey-brown hair, plain brown wool tunic under a deep crimson military cloak on horseback on a high ridge at dusk, a small dark silhouette against a vast orange sky, the Danube valley and a legion camp far below. The main subject stands in the horizontal center of the frame, so the picture still works when cropped to a tall vertical frame. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa6e-e6f8-75b3-852a-c9846b58f8ae",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6e-e6f8-75b3-852a-c9846b58f8ae/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6e-e6f8-75b3-852a-c9846b58f8ae/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa6e-e6f8-75b3-852a-c9846b58f8ae",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa6e-e6f8-75b3-852a-c9846b58f8ae/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa6e-e6f8-75b3-852a-c9846b58f8ae/cancel",
+  "expires_at": "2026-11-12T06:41:00.932239+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa6e-e6f8-75b3-852a-c9846b58f8ae/fe6e883d-1c93-4057-a330-c7c15acf1206.jpeg"
+   }
+  ]
+ },
+ "seconds": 105,
+ "file": "social/side/gen/lib_emp_ridge.jpeg"
+}
