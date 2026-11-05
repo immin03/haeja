@@ -7,6 +7,7 @@ opt-in: 장면에 "full": {...} 이 있을 때만 쓴다(없으면 지금 화면
       자막은 아래쪽 어두운 그라데이션 위. 펜 동그라미로 그림을 가리지 않는다. 장면이 바뀔 때 0.35초 겹쳐 넘어간다.
 """
 import os
+import re
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -170,6 +171,7 @@ def scene_img(E, s, u):
     if s["sc"]["full"].get("end"): return ending_card(E, s, u, s["sc"]["full"]["end"])
     img = picture(E, s, u)
     img.paste(Image.new("RGB", (W, H), (6, 12, 24)), (0, 0), _grad())
+    if getattr(E, "DOC", False): return doc_overlay(E, img, s, u)   # 다큐 스타일 (11/6 편부터 기본)
     return overlay(E, img, s, u)
 
 
@@ -320,3 +322,113 @@ def ending_card(E, s, u, kind):
         d.text((W / 2, by + 62), btn, font=fb, fill=(255, 255, 255) if kind == "yt" else NAVYB, anchor="mm")
     if p < 1: im = Image.blend(Image.new("RGB", (W, H), NAVYB), im, p)
     return im
+
+
+# ── 다큐 스타일 표시 (2026-11-05 15:30 대표: 롱폼 다큐 스타일(11/4 확정, youtube/long/docfx.py)을 숏폼에) ──
+# 판(종이 라벨) 없이 그림·영상 위에 바로: 위쪽을 남색으로 서서히 어둡게 → 금색 짧은 선이 그어지고 작은 금색 제목이 미끄러져 들어옴 →
+# 굵은 숫자 하나가 0에서 세어 올라감(빛나는 그림자) → 선택: 등락률 막대("pct")·막대("bars")가 자라며 숫자가 따라 올라감.
+# 대본: full 의 "label"(작은 제목) · "num"(큰 숫자) · "tone" 그대로 + 선택 "pct": [{"label","v"}] · "bars": [{"label","v","text","color"}]
+DGOLD = (226, 192, 120); DWHITE = (246, 243, 236); DGRAY = (170, 178, 192); DRED = (236, 92, 100); DGREEN = (84, 214, 150)
+DTONE = {"loss": DRED, "good": DGREEN, "gold": DGOLD, "ink": DWHITE}
+_DG = {}
+
+
+def _dgrad(top, n):
+    k = (top, n)
+    if k not in _DG:
+        yy = np.arange(H, dtype=np.float32)
+        a = np.clip(1 - (yy - top) / n, 0, 1) ** 1.1; a[yy < top] = 1
+        _DG[k] = a[:, None, None]
+    return _DG[k]
+
+
+def _eout(x): x = max(0.0, min(1.0, x)); return 1 - (1 - x) ** 3
+
+
+def _count(txt, q):
+    m = re.fullmatch(r"(약 )?([+\-]?)(\d[\d,]*(?:\.\d+)?)(%|배|조|원|만 원)?", txt.strip())
+    if not m: return txt
+    raw = m.group(3).replace(",", ""); dec = len(raw.split(".")[1]) if "." in raw else 0
+    v = float(raw) * q; body = f"{v:,.{dec}f}" if "," in m.group(3) or dec == 0 and v >= 1000 else f"{v:.{dec}f}"
+    return f"{m.group(1) or ''}{m.group(2)}{body}{m.group(4) or ''}"
+
+
+def _dtext(img, xy, text, font, fill, glow=False, anchor="la"):
+    lay = Image.new("RGBA", img.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+    a = fill[3] if len(fill) == 4 else 255
+    ld.text((xy[0] + 3, xy[1] + 5), text, font=font, fill=(0, 0, 0, int(a * .6)), anchor=anchor)
+    lay = lay.filter(ImageFilter.GaussianBlur(5 if glow else 3))
+    if glow:
+        g = Image.new("RGBA", img.size, (0, 0, 0, 0)); ImageDraw.Draw(g).text(xy, text, font=font, fill=(*fill[:3], int(a * .45)), anchor=anchor)
+        lay.alpha_composite(g.filter(ImageFilter.GaussianBlur(14)))
+    ImageDraw.Draw(lay).text(xy, text, font=font, fill=fill, anchor=anchor)
+    img.paste(lay, (0, 0), lay)
+
+
+def _tat(E, L, i, frac):
+    """대본의 num_line 이 자막 묶음 수보다 크면(한 묶음 안의 둘째 줄을 가리킨 옛 대본) 마지막 묶음 안에서 비율로 잡는다"""
+    if i < len(L): return E.y_at(L, i, frac)
+    a, v = L[-1][0], L[-1][1]; return a + v * min(.95, (.5 + .5 * frac))
+
+
+def doc_overlay(E, img, s, u):
+    f = s["sc"]["full"]; L = s["L"]
+    lab = f.get("label"); num = f.get("num"); pct = f.get("pct"); bars = f.get("bars")
+    if not (lab or num or pct or bars): return img
+    g = E.ease_io(max(0.0, min(1.0, (u - .05) / .5)))
+    top = (getattr(E, "BAND_H", 0) or 330)
+    if g > 0:   # 위쪽을 남색으로 (글씨 자리) + 전체를 살짝 어둡게 — 다큐 색
+        a = np.asarray(img, np.float32); m = _dgrad(top + 120, 760) * .82 * g
+        a = a * (1 - .14 * g); a = a * (1 - m) + np.array([8, 14, 26], np.float32) * m
+        img = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+    X = X0; y = top + 70
+    if lab:
+        p = u - .15; d = ImageDraw.Draw(img)
+        q = _eout(p / .35)
+        if q > 0: d.line([(X, y + 22), (X + 56 * q, y + 22)], fill=DGOLD, width=4)
+        r = _eout((p - .15) / .4)
+        if r > 0: _dtext(img, (X + 76 - 26 * (1 - r), y + 22), lab, E.fit_font(lab, "SemiBold", 44, BAND_W - 90), (*DGOLD, int(255 * r)), anchor="lm")
+        y += 84
+    col = DTONE.get(f.get("tone", "ink"), DWHITE)
+    if num:
+        t0 = _tat(E, L, f.get("num_line", 0), f.get("num_frac", .3)); p = u - t0
+        if p > 0:
+            r = _eout(p / .5); c = _eout(p / 1.0)
+            txt = _count(num, c); fnt = E.F("Heavy", 190 if len(num) <= 7 else 150)
+            _dtext(img, (X, y + 22 * (1 - r)), txt, fnt, (*col, int(255 * r)), glow=True)
+        y += 230
+    if pct:
+        t0 = _tat(E, L, f.get("num_line", 0), f.get("pct_frac", .45)); p = u - t0
+        if p > 0: img = _dpct(E, img, pct, p, y)
+    if bars:
+        t0 = _tat(E, L, f.get("num_line", 0), f.get("bars_frac", .2)); p = u - t0
+        if p > 0: img = _dbars(E, img, bars, p, y)
+    return img
+
+
+def _dpct(E, img, it, p, y):
+    """등락률 가로 막대: 한 줄에 하나씩 — 위 작은 회색 이름, 아래 기준선에서 오른쪽으로 자라는 막대(상승 초록·하락 빨강) + 끝에 숫자"""
+    vmax = max(abs(i["v"]) for i in it) or 1; maxw = BAND_W - 360
+    for k, i in enumerate(it):
+        q = _eout((p - .1 - k * .45) / .8)
+        if q <= 0: continue
+        v = i["v"]; col = DRED if v < 0 else DGREEN; ry = y + 40 + k * 190
+        _dtext(img, (X0, ry), i["label"], E.F("SemiBold", 38), (*DGRAY, int(255 * min(1, q * 2))))
+        bw = max(8, maxw * abs(v) / vmax * q); d = ImageDraw.Draw(img)
+        d.rectangle([X0, ry + 60, X0 + bw, ry + 130], fill=col)
+        _dtext(img, (X0 + bw + 24, ry + 95), f"{v * q:+.2f}%", E.F("Heavy", 76), (*col, 255), anchor="lm")
+    return img
+
+
+def _dbars(E, img, it, p, y):
+    d = ImageDraw.Draw(img); h = 420; base = y + 80 + h; vmax = max(abs(i["v"]) for i in it); n = len(it); step = min(330, (BAND_W - 40) // n)
+    d.line([(X0, base), (X0 + step * n * _eout(p / .4), base)], fill=(200, 205, 215), width=2)
+    for k, i in enumerate(it):
+        q = _eout((p - .15 - k * .35) / .9)
+        if q <= 0: continue
+        bx = X0 + k * step; bh = h * abs(i["v"]) / vmax * q; col = DTONE.get(i.get("color"), DWHITE)
+        d.rectangle([bx, base - bh, bx + 130, base], fill=col if k == len(it) - 1 else tuple(int(c * .62) for c in col))   # 마지막(강조) 막대만 선명하게
+        _dtext(img, (bx, base - bh - 14), _count(i.get("text", ""), q), E.F("Heavy", 58), (*col, 255), anchor="ld")
+        _dtext(img, (bx, base + 18), i["label"], E.F("SemiBold", 32), (*DGRAY, 255))
+        d = ImageDraw.Draw(img)
+    return img
