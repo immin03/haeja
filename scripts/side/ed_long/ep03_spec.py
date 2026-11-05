@@ -180,7 +180,7 @@ def build():
     S.append(L.lib_shot("candle_diary", voices=["t0"], extra={"pre": 0.5, "post": 0.4, "tin": "dissolve"}))
     S.append({"type": "recap", "items": ["오늘 한 좋은 일, 아무에게도 말하지 않기", "내일 아무도 안 보는 곳에서 할 일 하나 정하기", "오래 해 온 내 일에게 '잘했다' 말해 주기"],
               # 11/5 대표: 오늘 할 일도 자연스럽게 빠르게 — 세 줄을 읽지 않고 음악 위로 차례로 띄운다
-              "dur": 6.2, "fixed": True, "cascade": [0.5, 0.8], "nocap": True,
+              "dur": 6.2, "fixed": True, "cascade": [0.5, 0.8], "nocap": True, "amb": ["wind_2.mp3", 0.22],
               "head": "오늘 밤, 이 세 가지만", "head_en": "THREE THINGS FOR TONIGHT", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8})
     S.append(F.shot("still", "e3_statue", ["r9"], ["wind_2.mp3", 0.25], {"grade": "memory", "move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     # 11/4 대표: 이전 편 추천 화면은 빼고, 마지막 빈 화면(유튜브 최종 화면)에 구독 + 이전 편 영상을 스튜디오에서 배치
@@ -242,7 +242,7 @@ def build():
     for n in range(1, 8):
         f, st = MUSIC3[n]; nxt = card[n + 1] if n < 7 else rec
         mus.append({"file": f, "at_shot": card[n], "offset": 1.0, "start": st, "until_shot": nxt, "vol": 0.2, "fin": 3, "fout": 3})
-    mus.append({"file": "sad_5.mp3", "at_shot": rec, "offset": 0.5, "start": 0, "until_shot": out + 2, "tail": 0, "vol": 0.22, "fin": 2, "fout": 4})
+    mus.append({"file": "sad_5.mp3", "at_shot": rec, "offset": 0.5, "start": 0, "until_shot": out + 2, "tail": 0, "vol": 0.3, "fin": 2, "fout": 4})
     sp["music"] = mus
     sp["shots"] = S
     sp["cast_voices"] = [n for n, v, t in ALL if v not in (E.G, E.M)]
