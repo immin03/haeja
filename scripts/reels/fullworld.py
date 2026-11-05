@@ -70,6 +70,23 @@ def _video(name, secs, start=0.0):
     return _V[k]
 
 
+def hook_video(E, scenes):
+    """첫 화면은 가능하면 무조건 영상 (2026-11-05 15:21 대표: "제일 첫 화면은 일단 무조건 가능하면 영상으로… 생성하는건 아껴쓰고").
+    대본 첫 장면에 "video" 가 없으면 이미 있는 영상(라이브러리 il_*.mp4 → 무료 스톡 영상)에서 제목·해시태그 주제로 골라 끼운다. 새로 만들지 않는다.
+    끄려면 첫 장면 full 에 "video": "none"."""
+    if not scenes or scenes[0].get("_hv"): return
+    scenes[0]["_hv"] = True
+    f = scenes[0]["sc"].get("full")
+    if not f or f.get("end"): return
+    if f.get("video") == "none": f.pop("video", None); return
+    if f.get("video"): return
+    spec = getattr(E, "SPEC", None) or {}
+    try: k = E.broll_key(spec)
+    except Exception: k = None
+    if k:
+        f["video"] = k; print("  첫 화면 영상 자동 선택:", k)
+
+
 def _ease(E, x):
     return E.ease_io(max(0.0, min(1.0, x)))
 
@@ -160,6 +177,7 @@ def render(E, T, s, scenes):
     """현재 장면이 꽉 찬 그림 장면일 때 한 프레임 (자막·제목 띠는 engine.frame 이 얹는다)"""
     i = scenes.index(s)
     for k, x in enumerate(scenes): x.setdefault("_mi", k)   # 장면 순번 → 켄 번즈 방향
+    hook_video(E, scenes)
     u = T - s["start"]; img = scene_img(E, s, u)
     if i > 0 and u < XF and scenes[i - 1]["sc"].get("full"):
         p = scenes[i - 1]; prev = scene_img(E, p, p["dur"] - 1 / 30)

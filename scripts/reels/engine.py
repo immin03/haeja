@@ -1035,6 +1035,7 @@ def cap_page_at(pages, u, a, v):
     return pages[-1]
 
 CAP_ONE_FROM = 261106   # 2026-11-05 15:12 대표: "한 번에 두 줄씩이 아니라 한 줄씩 빠르게 넘기는 게" — 11/6 이후 편부터(이미 만든 편은 그대로)
+SPEC = None
 CAP_ONE = False          # render 시작 때 spec 으로 정한다 (대본 "cap_lines": 1|2 가 있으면 그것을 따름)
 
 
@@ -1604,8 +1605,8 @@ def render_cover(spec, outdir):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED, CAP_ONE
-    Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec)
+    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED, CAP_ONE, SPEC
+    Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec); SPEC = spec
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
@@ -1779,8 +1780,8 @@ def render(spec, outdir, stills=None):
     if WORLD in ("popup", "ink") and not spec.get("banner"): spec["banner"] = auto_banner(spec.get("title", ""))
     GL_ON = spec.get("goldline", True) is not False   # 골드 라인 기본 켬 (2026-10-26 운영자: 릴스·쇼츠는 샘플처럼 금선이 이어지는 연출 유지. 롱폼만 끔)   # 인스타도 "style": "clean" 이면 쇼츠와 같은 깔끔한 화면
     YT_BANNER = spec.get("banner") if YT else None
-    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED, CAP_ONE
-    Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec)
+    global BANNER_BAND, BAND_H, BANNER_TAG, Y_SPEED, CAP_ONE, SPEC
+    Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec); SPEC = spec
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
     if BANNER_BAND:
