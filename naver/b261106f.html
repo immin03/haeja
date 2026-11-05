@@ -1,0 +1,165 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · AI 폭락 하루 -10%, 기술의 속도와 투표용지가 벌이는 힘겨루기</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">주간 시장 정리</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">AI 폭락 하루 -10%, 기술의 속도와 투표용지가 벌이는 힘겨루기</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 2장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261106f/01.png" alt="데이터센터 서버 복도" width="720"></p>
+<p><br></p>
+<blockquote><p><b>요약</b></p><p>· 2026년 11월 5일 미국 반도체 지수가 하루 10% 넘게 빠진 AI 폭락은, 미국 유권자들이 데이터센터와 전기요금에 처음으로 표로 제동을 건 결과입니다. 역사 속 기술 거품들처럼 이번에도 제동 뒤의 조정이라고 저는 봅니다.</p></blockquote>
+<p><br></p>
+<p>목요일 아침, 출근길에 시세를 열었다가 한동안 화면만 보고 있었습니다. 코스피는 하루에 5% 넘게 빠져 있었어요.</p>
+<p><br></p>
+<p>그날 밤 미국은 더했습니다. 반도체 지수가 하루 만에 10% 넘게 사라졌거든요. 숫자를 오래 보는 직업이지만, 이런 날은 숫자보다 다른 생각이 먼저 듭니다.</p>
+<p><br></p>
+<p>오늘은 분석보다 생각을 조금 적어 보려고 합니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> AI 폭락을 부른 건 기술이 아니라 전기요금이었다</b></span></p>
+
+<p>이번 하락의 출발점은 실험실이 아니라 투표소였습니다. 미국 중간선거와 같은 날 곳곳에서 데이터센터를 짓느냐 마느냐를 묻는 주민투표가 열렸어요. 45건 가운데 39건이 짓지 말자는 쪽으로 나왔습니다.</p>
+<p><br></p>
+<p>사람들이 AI를 미워해서 그랬을까요. 저는 아니라고 봅니다. 데이터센터는 엄청난 전기를 씁니다. 그 비용이 동네 전기요금 고지서로 날아오기 시작하자 먼 미래의 기술 이야기가 이번 달 생활비 이야기가 된 거죠.</p>
+<p><br></p>
+<p>숫자를 보면 이해가 갑니다. 국제에너지기구는 전 세계 데이터센터가 쓰는 전기가 2030년엔 지금 일본 한 나라가 쓰는 만큼으로 불어난다고 봤어요. 그 전기가 어디서 오느냐는 질문은 결국 우리 동네 송전탑 이야기입니다.</p>
+<p><br></p>
+<p>빅테크가 올해 데이터센터와 AI 장비에 쓰는 돈은 로이터 집계로 7,000억 달러가 넘습니다. 이만한 돈이 한 방향으로 몰리면 어디선가는 마찰이 생기기 마련이죠.</p>
+<p><br></p>
+<p>AI는 세상을 바꿀 기술이라는 말을 몇 년째 들어 왔습니다. 그런데 그 속도에 처음 제동을 건 건 거창한 규제 회의가 아니었어요. 동네 투표소의 투표용지 한 장이었습니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 인류는 AI를 기대하면서 동시에 두려워해 왔다</b></span></p>
+
+<p>돌아보면 우리는 늘 두 마음이었습니다. AI가 병을 고치고 일을 줄여 줄 거라 기대하면서도 너무 빨리 오는 건 아닐까 불안해했죠.</p>
+<p><br></p>
+<p>그 불안을 어떻게 다룰지 아무도 설계도를 그려 두지 않았습니다. 그런데 이번 주 그 불안이 처음으로 구체적인 모양을 얻었습니다. 표가 되었고, 그 표가 그대로 시장 가격이 되었어요.</p>
+<p><br></p>
+<p>투자자로서 이 장면이 무섭기보다 흥미로웠습니다. 기술의 속도와 사람들이 만든 제도가 정면으로 맞붙는 순간을 실시간으로 본 셈이니까요.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 철도도 인터넷도 한 번씩 크게 꺾였다</b></span></p>
+
+<p>기술이 꺾이는 장면은 처음이 아닙니다. 1840년대 영국은 철도에 미쳐 있었습니다. 사람들은 너도나도 철도 회사 주식을 샀고, 거품이 꺼지자 많은 투자자가 큰돈을 잃었죠.</p>
+<p><br></p>
+<p>그 시절 &#39;철도왕&#39;으로 불린 조지 허드슨은 철도 노선을 사들이며 영웅이 됐다가, 거품이 꺼진 뒤 회계 부정이 드러나 몰락했습니다. 투자자들이 잃은 돈도 컸어요.</p>
+<p><br></p>
+<p>그런데 철도는 사라지지 않았습니다. 거품이 꺼진 뒤에도 남은 선로들이 영국을 산업 국가로 만들었어요.</p>
+<p><br></p>
+<p>2000년의 인터넷도 그랬습니다. 닷컴 거품이 꺼질 때 많은 사람이 인터넷은 과대평가됐다고 말했죠. 지금 우리는 하루 종일 인터넷 속에서 삽니다.</p>
+<p><br></p>
+<p>두 장면에서 기술은 틀리지 않았습니다. 틀린 건 속도에 대한 기대였어요. 사람들은 몇 년 안에 올 미래에 값을 매겼고, 그 미래는 십수 년에 걸쳐 천천히 왔습니다.</p>
+<p><br></p>
+<p>미래학자 로이 아마라는 이런 말을 남겼습니다. &quot;우리는 기술의 효과를 단기적으로는 과대평가하고, 장기적으로는 과소평가한다.&quot; 저는 이 문장이 지금 시장을 가장 잘 설명한다고 생각합니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261106f/02.jpg" alt="밤의 반도체 공장 단지" width="720"></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> AI 패권 전쟁은 이 제동을 오래 두지 않는다</b></span></p>
+
+<p>다만 이번 제동이 오래갈지는 의문입니다. AI는 이제 한 나라 안의 산업을 넘어 나라끼리의 경쟁이 됐기 때문이에요.</p>
+<p><br></p>
+<p>블룸버그는 올해 6월 중국이 5년 동안 2,950억 달러를 들여 나라 전체에 데이터센터 망을 깔 계획을 준비하고 있다고 보도했습니다. 미국은 회사가 돈을 대고 중국은 정부가 돈을 댑니다. 방향은 같아요.</p>
+<p><br></p>
+<p>이런 판에서 미국이 오래 브레이크를 밟고 서 있기는 어렵습니다. 경쟁자가 달리고 있으니까요. 그래서 저는 속도가 다시 붙을 거라고 봅니다.</p>
+<p><br></p>
+<p>달라지는 건 속도의 질일 겁니다. 전기를 어디서 구할지, 비용을 누가 낼지, 주민에게 무엇을 돌려줄지. 이번 제동은 그 질문들을 AI 산업의 숙제로 올려놓았습니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> AI 폭락 뒤에 남는 질문, 조금 더 들어가 보면</b></span></p>
+
+<p>시장 용어로 보면 이번 일은 &#39;정치 비용&#39;이 가격에 처음 들어온 사건입니다. 지금까지 AI 투자는 기술과 수요만 보면 됐어요. 이제는 허가와 전력망, 지역 여론이라는 변수가 하나 더 붙었습니다.</p>
+<p><br></p>
+<p>이런 변수는 한 번 붙으면 잘 떨어지지 않습니다. 대신 시장은 금세 그 가격을 매기는 법을 배웁니다. 원자력 발전소도 공항도 그렇게 지어졌죠. 반대가 있었고 협상이 있었고 끝내 지어졌습니다.</p>
+<p><br></p>
+<p>그래서 저는 이번 하락을 끝의 시작으로 보지 않습니다. 기술이 사람들과 계약서를 다시 쓰는 과정에서 생긴 조정이라고 봅니다. 그 계약서에 서명이 끝나면 AI는 조금 더 성숙한 모습으로 우리 곁에 자리 잡을 거예요.</p>
+<p><br></p>
+<p>물론 그 과정에서 계좌가 아픈 분들이 많다는 것도 압니다. 저 역시 마음이 편하지만은 않아요. 그래도 이번 주의 장면은 오래 기억해 두려고 합니다. 인간이 만든 기술의 속도와 인간이 만든 제도가 힘겨루기를 하던 그 며칠을요.</p>
+<p><br></p>
+<p>여러분은 이번 하락이 어떻게 보이시나요?</p>
+<p><br></p>
+<p style="text-align:right"><b>— Luciano</b></p>
+<p><br></p>
+<p><span style="color:#888888;font-size:13px">이 글은 Luciano가 작성했습니다. 투자 교육용 생각을 담은 글이며 특정 종목의 매수·매도 권유가 아닙니다. 시장 숫자는 2026년 11월 5일 마감·장중 보도 기준, 중국 데이터센터 계획은 블룸버그(2026년 6월 9일) 보도 기준입니다.</span></p></div></section>
+<section class="card"><h2>태그</h2><div class="row"><div id="tags">#AI폭락 #반도체폭락 #데이터센터 #데이터센터전기요금 #미국중간선거 #AI패권 #미중AI경쟁 #아마라의법칙 #철도버블 #닷컴버블 #코스피폭락</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261106f/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261106f/01.png" download="valuenote-b261106f-1.png"><img src="https://www.valuenote.co.kr/naver/b261106f/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261106f/02.jpg" download="valuenote-b261106f-2.jpg"><img src="https://www.valuenote.co.kr/naver/b261106f/02.jpg" alt="사진 2" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-06 07:10</b> · 작성</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 데이터센터 서버 복도]\n\n요약\n· 2026년 11월 5일 미국 반도체 지수가 하루 10% 넘게 빠진 AI 폭락은, 미국 유권자들이 데이터센터와 전기요금에 처음으로 표로 제동을 건 결과입니다. 역사 속 기술 거품들처럼 이번에도 제동 뒤의 조정이라고 저는 봅니다.\n\n목요일 아침, 출근길에 시세를 열었다가 한동안 화면만 보고 있었습니다. 코스피는 하루에 5% 넘게 빠져 있었어요.\n\n그날 밤 미국은 더했습니다. 반도체 지수가 하루 만에 10% 넘게 사라졌거든요. 숫자를 오래 보는 직업이지만, 이런 날은 숫자보다 다른 생각이 먼저 듭니다.\n\n오늘은 분석보다 생각을 조금 적어 보려고 합니다.\n\n■ AI 폭락을 부른 건 기술이 아니라 전기요금이었다\n\n이번 하락의 출발점은 실험실이 아니라 투표소였습니다. 미국 중간선거와 같은 날 곳곳에서 데이터센터를 짓느냐 마느냐를 묻는 주민투표가 열렸어요. 45건 가운데 39건이 짓지 말자는 쪽으로 나왔습니다.\n\n사람들이 AI를 미워해서 그랬을까요. 저는 아니라고 봅니다. 데이터센터는 엄청난 전기를 씁니다. 그 비용이 동네 전기요금 고지서로 날아오기 시작하자 먼 미래의 기술 이야기가 이번 달 생활비 이야기가 된 거죠.\n\n숫자를 보면 이해가 갑니다. 국제에너지기구는 전 세계 데이터센터가 쓰는 전기가 2030년엔 지금 일본 한 나라가 쓰는 만큼으로 불어난다고 봤어요. 그 전기가 어디서 오느냐는 질문은 결국 우리 동네 송전탑 이야기입니다.\n\n빅테크가 올해 데이터센터와 AI 장비에 쓰는 돈은 로이터 집계로 7,000억 달러가 넘습니다. 이만한 돈이 한 방향으로 몰리면 어디선가는 마찰이 생기기 마련이죠.\n\nAI는 세상을 바꿀 기술이라는 말을 몇 년째 들어 왔습니다. 그런데 그 속도에 처음 제동을 건 건 거창한 규제 회의가 아니었어요. 동네 투표소의 투표용지 한 장이었습니다.\n\n■ 인류는 AI를 기대하면서 동시에 두려워해 왔다\n\n돌아보면 우리는 늘 두 마음이었습니다. AI가 병을 고치고 일을 줄여 줄 거라 기대하면서도 너무 빨리 오는 건 아닐까 불안해했죠.\n\n그 불안을 어떻게 다룰지 아무도 설계도를 그려 두지 않았습니다. 그런데 이번 주 그 불안이 처음으로 구체적인 모양을 얻었습니다. 표가 되었고, 그 표가 그대로 시장 가격이 되었어요.\n\n투자자로서 이 장면이 무섭기보다 흥미로웠습니다. 기술의 속도와 사람들이 만든 제도가 정면으로 맞붙는 순간을 실시간으로 본 셈이니까요.\n\n■ 철도도 인터넷도 한 번씩 크게 꺾였다\n\n기술이 꺾이는 장면은 처음이 아닙니다. 1840년대 영국은 철도에 미쳐 있었습니다. 사람들은 너도나도 철도 회사 주식을 샀고, 거품이 꺼지자 많은 투자자가 큰돈을 잃었죠.\n\n그 시절 '철도왕'으로 불린 조지 허드슨은 철도 노선을 사들이며 영웅이 됐다가, 거품이 꺼진 뒤 회계 부정이 드러나 몰락했습니다. 투자자들이 잃은 돈도 컸어요.\n\n그런데 철도는 사라지지 않았습니다. 거품이 꺼진 뒤에도 남은 선로들이 영국을 산업 국가로 만들었어요.\n\n2000년의 인터넷도 그랬습니다. 닷컴 거품이 꺼질 때 많은 사람이 인터넷은 과대평가됐다고 말했죠. 지금 우리는 하루 종일 인터넷 속에서 삽니다.\n\n두 장면에서 기술은 틀리지 않았습니다. 틀린 건 속도에 대한 기대였어요. 사람들은 몇 년 안에 올 미래에 값을 매겼고, 그 미래는 십수 년에 걸쳐 천천히 왔습니다.\n\n미래학자 로이 아마라는 이런 말을 남겼습니다. \"우리는 기술의 효과를 단기적으로는 과대평가하고, 장기적으로는 과소평가한다.\" 저는 이 문장이 지금 시장을 가장 잘 설명한다고 생각합니다.\n\n[사진: 밤의 반도체 공장 단지]\n\n■ AI 패권 전쟁은 이 제동을 오래 두지 않는다\n\n다만 이번 제동이 오래갈지는 의문입니다. AI는 이제 한 나라 안의 산업을 넘어 나라끼리의 경쟁이 됐기 때문이에요.\n\n블룸버그는 올해 6월 중국이 5년 동안 2,950억 달러를 들여 나라 전체에 데이터센터 망을 깔 계획을 준비하고 있다고 보도했습니다. 미국은 회사가 돈을 대고 중국은 정부가 돈을 댑니다. 방향은 같아요.\n\n이런 판에서 미국이 오래 브레이크를 밟고 서 있기는 어렵습니다. 경쟁자가 달리고 있으니까요. 그래서 저는 속도가 다시 붙을 거라고 봅니다.\n\n달라지는 건 속도의 질일 겁니다. 전기를 어디서 구할지, 비용을 누가 낼지, 주민에게 무엇을 돌려줄지. 이번 제동은 그 질문들을 AI 산업의 숙제로 올려놓았습니다.\n\n■ AI 폭락 뒤에 남는 질문, 조금 더 들어가 보면\n\n시장 용어로 보면 이번 일은 '정치 비용'이 가격에 처음 들어온 사건입니다. 지금까지 AI 투자는 기술과 수요만 보면 됐어요. 이제는 허가와 전력망, 지역 여론이라는 변수가 하나 더 붙었습니다.\n\n이런 변수는 한 번 붙으면 잘 떨어지지 않습니다. 대신 시장은 금세 그 가격을 매기는 법을 배웁니다. 원자력 발전소도 공항도 그렇게 지어졌죠. 반대가 있었고 협상이 있었고 끝내 지어졌습니다.\n\n그래서 저는 이번 하락을 끝의 시작으로 보지 않습니다. 기술이 사람들과 계약서를 다시 쓰는 과정에서 생긴 조정이라고 봅니다. 그 계약서에 서명이 끝나면 AI는 조금 더 성숙한 모습으로 우리 곁에 자리 잡을 거예요.\n\n물론 그 과정에서 계좌가 아픈 분들이 많다는 것도 압니다. 저 역시 마음이 편하지만은 않아요. 그래도 이번 주의 장면은 오래 기억해 두려고 합니다. 인간이 만든 기술의 속도와 인간이 만든 제도가 힘겨루기를 하던 그 며칠을요.\n\n여러분은 이번 하락이 어떻게 보이시나요?\n\n— Luciano\n\n이 글은 Luciano가 작성했습니다. 투자 교육용 생각을 담은 글이며 특정 종목의 매수·매도 권유가 아닙니다. 시장 숫자는 2026년 11월 5일 마감·장중 보도 기준, 중국 데이터센터 계획은 블룸버그(2026년 6월 9일) 보도 기준입니다.";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261106f", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
