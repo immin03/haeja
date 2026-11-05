@@ -380,18 +380,36 @@ function viewRules(){
   ${(o.jobs || []).length ? `<h2>뒤에서 도는 작업</h2><div class="card"><ul class="learn">${o.jobs.map(j => `<li><b>${esc(j.t)}</b> ${esc(j.name)}<small>${esc(j.what)}</small></li>`).join('')}</ul></div>` : ''}
   ${(o.rules || []).length ? `<h2>제작 규칙</h2><div class="card"><ul class="learn">${o.rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>` : ''}`;
 }
+/* 2026-11-05 대표: 롱폼은 업로드 하루 전까지 렌더 완료 — 편마다 업로드 시각·렌더 기한·검토본(ed-review 버킷, 관리자만)을 한눈에 */
 function viewLong(){
   const lf = (S.d.settings.ops || {}).longform; if (!lf) return '';
-  const e = lf.ep1 || {}, t = e.teaser || {};
-  return `<h2>롱폼<span class="n">${esc(e.thumb_note || '')}</span></h2>
-  <div class="card grid" style="gap:12px">
-    <div class="lp"><div class="t"><span class="badge">EP.1</span> <a href="https://youtu.be/${esc(e.video)}" target="_blank" rel="noopener">${esc(e.title)}</a></div><div class="s">${esc(e.len || '')}</div></div>
-    <div class="thumbs">${(e.thumbs || []).map(x => `<a href="${esc(url(x.img))}" target="_blank" rel="noopener"><img src="${esc(url(x.img))}" alt="" loading="lazy"><span><b>${esc(x.k)}</b> ${esc(x.t)}</span></a>`).join('')}</div>
-    ${t.video ? `<div class="lp"><div class="t"><span class="badge warn">롱폼 소개</span> <a href="https://youtube.com/shorts/${esc(t.video)}" target="_blank" rel="noopener">${esc(t.title)}</a></div><div class="s">${esc(t.note || '')}</div></div>` : ''}
-    ${lf.next ? `<div class="lp"><div class="t"><span class="badge mut">다음</span> ${esc(lf.next.title)}</div><div class="s">${esc(lf.next.status || '')}</div></div>` : ''}
+  const eps = (lf.eps || []).slice().sort((a, b) => b.n - a.n);
+  if (!eps.length) return '';
+  const today = new Date(new Date().getTime() + 9 * 3600e3).toISOString().slice(0, 10);
+  const due = e => {
+    if (e.video && !e.review) return '<span class="badge good">게시됨</span>';
+    if (e.render_done) return `<span class="badge ${e.render_done.slice(0, 10) <= e.due ? 'good' : 'bad'}">렌더 완료 ${esc(e.render_done.slice(5))}${e.render_done.slice(0, 10) <= e.due ? '' : ' · 기한 넘김'}</span>`;
+    const d = Math.round((Date.parse(e.due) - Date.parse(today)) / 864e5);
+    return `<span class="badge ${d < 0 ? 'bad' : d === 0 ? 'warn' : 'mut'}">렌더 기한 ${esc(e.due.slice(5))} (${d < 0 ? '지남' : d === 0 ? '오늘' : 'D-' + d})</span>`;
+  };
+  return `<h2>롱폼<span class="n">업로드 하루 전까지 렌더 완료 · 검토본은 여기서 확인</span></h2>
+  <div class="card grid" style="gap:12px">${eps.map(e => `
+    <div class="lp" data-ep="${e.n}">
+      <div class="t"><span class="badge">EP.${e.n}</span> ${e.video ? `<a href="https://youtu.be/${esc(e.video)}" target="_blank" rel="noopener">${esc(e.title)}</a>` : esc(e.title)} ${due(e)}</div>
+      <div class="s">공개 ${esc(e.publish || '')}${e.len ? ' · ' + esc(e.len) : ''}${e.status ? ' · ' + esc(e.status) : ''}${e.note ? ' · ' + esc(e.note) : ''}</div>
+      ${e.review ? `<video class="rv" data-src="${esc(e.review)}" controls preload="metadata" playsinline style="width:100%;max-width:720px;border-radius:8px;background:#000"></video>` : ''}
+      ${(e.review_thumbs || []).length ? `<div class="thumbs">${e.review_thumbs.map((x, i) => `<a class="rt" data-src="${esc(x)}" target="_blank" rel="noopener"><img alt="" loading="lazy"><span><b>${'ABC'[i]}</b></span></a>`).join('')}</div>` : ''}
+      ${e.teaser && e.teaser.video ? `<div class="s"><span class="badge warn">소개 쇼츠</span> <a href="https://youtube.com/shorts/${esc(e.teaser.video)}" target="_blank" rel="noopener">${esc(e.teaser.title || e.teaser.video)}</a>${e.teaser.publish ? ' · ' + esc(e.teaser.publish) : ''}</div>` : ''}
+    </div>`).join('')}
   </div>`;
 }
-function bindBrief(){}
+async function bindBrief(){
+  const els = [...document.querySelectorAll('.rv[data-src], .rt[data-src]')]; if (!els.length) return;
+  const { data } = await sb.storage.from('ed-review').createSignedUrls(els.map(x => x.dataset.src), 3600);
+  (data || []).forEach((r, i) => { if (!r.signedUrl) return; const el = els[i];
+    if (el.tagName === 'VIDEO') el.src = r.signedUrl; else { el.href = r.signedUrl; el.querySelector('img').src = r.signedUrl; } });
+}
+
 
 /* ---------- 편성 ---------- */
 function stBadge(s){ s = s || '–'; const c = s === 'posted' ? 'good' : /fail/.test(s) ? 'bad' : s === 'pending' ? '' : /^skip/.test(s) || s === '–' ? 'mut' : 'warn';
