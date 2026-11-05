@@ -62,62 +62,87 @@ async function videos(days: number, n: number): Promise<Vid[]> {
   return (data || []).map((v) => ({ id: v.youtube_id, title: v.title }));
 }
 let scoredN: number | null = null;
+/* 계산하는 기업 수: c/scores.json 은 { date, c: { 종목: … } } 모양 (2026-11-05 고침: 예전엔 바깥 키 2개를 세서 '2개'로 나왔다) */
 async function scored() {
   if (scoredN !== null) return scoredN;
-  try { const r = await fetch(SITE + "/c/scores.json"); const j = await r.json(); scoredN = Array.isArray(j) ? j.length : Object.keys(j || {}).length; } catch (_) { scoredN = 0; }
+  try { const r = await fetch(SITE + "/c/scores.json"); const j = await r.json(); const c = j?.c ?? j; scoredN = Array.isArray(c) ? c.length : Object.keys(c || {}).length; } catch (_) { scoredN = 0; }
+  if (scoredN < 50) scoredN = 0;
   return scoredN;
 }
+const companiesText = (n: number) => n ? `${Math.floor(n / 50) * 50}곳이 넘는` : "한국·미국 주요";
 
-/* ---------- 메일 틀 ---------- */
-const F = `'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif`;
-const NAVY = "#0E1A2B", GOLD = "#C9B180", INK = "#0E1A2B", MUTED = "#6B7484", LINE = "#E6E1D6", BG = "#F5F3EE";
-const btn = (href: string, t: string) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:18px 0 4px"><tr><td style="background:${NAVY};border-radius:10px"><a href="${href}" style="display:inline-block;padding:13px 22px;font-family:${F};font-size:15px;font-weight:700;color:#FFFFFF;text-decoration:none;word-break:keep-all">${t}</a></td></tr></table>`;
-const h2 = (t: string) => `<tr><td style="padding:30px 28px 10px;font-family:${F};font-size:17px;font-weight:800;color:${INK};word-break:keep-all"><span style="display:inline-block;width:3px;height:15px;background:${GOLD};border-radius:2px;margin-right:8px;vertical-align:-2px"></span>${t}</td></tr>`;
-const p = (t: string, extra = "") => `<p style="margin:0 0 12px;font-family:${F};font-size:15px;line-height:1.75;color:${INK};word-break:keep-all;${extra}">${t}</p>`;
+/* ---------- 메일 틀 (2026-11-05 대표: 더 세련되게 · SUIT · 웹과 같은 느낌) ---------- */
+const F = `'SUIT Variable','SUIT','Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif`;
+const WM = `'Montserrat','Helvetica Neue',Arial,sans-serif`;
+const NAVY = "#0E1A2B", NAVY2 = "#17283F", GOLD = "#C9B180", GOLD2 = "#B49C6D", IVORY = "#EADBB9", INK = "#0E1A2B", BODY = "#3B4657", MUTED = "#6B7484", LINE = "#E9E4D8", BG = "#F5F3EE";
+const eyebrow = (t: string, c = GOLD2) => `<div style="font-family:${F};font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:${c}">${t}</div>`;
+const btn = (href: string, t: string, dark = true) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 2px"><tr><td style="background:${dark ? NAVY : IVORY};border-radius:999px"><a href="${href}" style="display:inline-block;padding:14px 26px;font-family:${F};font-size:14.5px;font-weight:700;letter-spacing:-.01em;color:${dark ? "#FFFFFF" : NAVY};text-decoration:none;word-break:keep-all">${t}</a></td></tr></table>`;
+const h2 = (eb: string, t: string) => `<tr><td style="padding:44px 36px 14px">${eyebrow(eb)}<div style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:${INK};margin-top:8px;word-break:keep-all">${t}</div></td></tr>`;
+const p = (t: string, extra = "") => `<p style="margin:0 0 14px;font-family:${F};font-size:15px;line-height:1.8;color:${BODY};word-break:keep-all;${extra}">${t}</p>`;
+const rule = `<tr><td style="padding:0 36px"><div style="height:1px;background:${LINE};line-height:1px;font-size:1px">&nbsp;</div></td></tr>`;
 const tabUrl = (tab: string, src: string) => `${SITE}/?tab=${tab}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
 const colUrl = (id: string, src: string) => `${SITE}/?col=${encodeURIComponent(id)}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
 const ytUrl = (id: string, src: string) => `https://www.youtube.com/watch?v=${encodeURIComponent(id)}&utm_source=valuenote_mail&utm_campaign=${src}`;
 function colBig(c: Col, src: string) {
-  return `<tr><td style="padding:4px 28px 8px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}">
-    ${c.cover ? `<img src="${esc(c.cover)}" width="544" alt="" style="display:block;width:100%;max-width:544px;height:auto;border-radius:12px;border:1px solid ${LINE}">` : ""}
-    <div style="font-family:${F};font-size:19px;font-weight:800;line-height:1.45;margin:14px 0 6px;word-break:keep-all">${esc(c.title)}</div>
-    <div style="font-family:${F};font-size:14px;line-height:1.7;color:#3B4657;word-break:keep-all">${esc(c.excerpt)}</div>
-    <div style="font-family:${F};font-size:14px;font-weight:700;color:${NAVY};margin-top:8px">칼럼 읽기 →</div></a></td></tr>`;
+  return `<tr><td style="padding:0 36px 8px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}">
+    ${c.cover ? `<img src="${esc(c.cover)}" width="528" alt="" style="display:block;width:100%;max-width:528px;height:auto;border-radius:14px">` : ""}
+    <div style="font-family:${F};font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.45;margin:18px 0 8px;word-break:keep-all">${esc(c.title)}</div>
+    <div style="font-family:${F};font-size:14.5px;line-height:1.8;color:${BODY};word-break:keep-all">${esc(c.excerpt)}</div>
+    <div style="font-family:${F};font-size:13.5px;font-weight:700;color:${GOLD2};margin-top:12px;letter-spacing:.02em">칼럼 읽기 →</div></a></td></tr>`;
 }
-function colRow(c: Col, src: string) {
-  return `<tr><td style="padding:10px 28px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-    ${c.cover ? `<td width="112" valign="top" style="padding-right:14px"><img src="${esc(c.cover)}" width="112" alt="" style="display:block;width:112px;height:auto;border-radius:8px;border:1px solid ${LINE}"></td>` : ""}
-    <td valign="top"><div style="font-family:${F};font-size:15px;font-weight:800;line-height:1.45;word-break:keep-all">${esc(c.title)}</div>
-    <div style="font-family:${F};font-size:13px;line-height:1.6;color:${MUTED};margin-top:4px;word-break:keep-all">${esc(c.excerpt.slice(0, 70))}${c.excerpt.length > 70 ? "…" : ""}</div></td></tr></table></a></td></tr>`;
+function colRow(c: Col, src: string, last = false) {
+  return `<tr><td style="padding:0 36px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${last ? "" : `border-bottom:1px solid ${LINE};`}"><tr>
+    ${c.cover ? `<td width="104" valign="top" style="padding:18px 16px 18px 0"><img src="${esc(c.cover)}" width="104" alt="" style="display:block;width:104px;height:auto;border-radius:10px"></td>` : ""}
+    <td valign="top" style="padding:18px 0"><div style="font-family:${F};font-size:15.5px;font-weight:700;letter-spacing:-.015em;line-height:1.5;word-break:keep-all">${esc(c.title)}</div>
+    <div style="font-family:${F};font-size:13px;line-height:1.65;color:${MUTED};margin-top:5px;word-break:keep-all">${esc(c.excerpt.slice(0, 64))}${c.excerpt.length > 64 ? "…" : ""}</div></td></tr></table></a></td></tr>`;
 }
 function vidGrid(V: Vid[], src: string) {
   if (!V.length) return "";
-  const cell = (v: Vid) => `<td width="50%" valign="top" style="padding:0 6px 14px"><a href="${ytUrl(v.id, src)}" style="text-decoration:none;color:${INK}">
-    <img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" width="262" alt="" style="display:block;width:100%;height:auto;border-radius:10px">
-    <div style="font-family:${F};font-size:13.5px;font-weight:700;line-height:1.5;margin-top:8px;word-break:keep-all">${esc(v.title)}</div></a></td>`;
+  const cell = (v: Vid) => `<td width="50%" valign="top" style="padding:0 7px 20px"><a href="${ytUrl(v.id, src)}" style="text-decoration:none;color:${INK}">
+    <img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" width="250" alt="" style="display:block;width:100%;height:auto;border-radius:12px">
+    <div style="font-family:${F};font-size:13.5px;font-weight:700;letter-spacing:-.01em;line-height:1.55;margin-top:10px;word-break:keep-all">${esc(v.title)}</div></a></td>`;
   let rows = "";
   for (let i = 0; i < V.length; i += 2) rows += `<tr>${cell(V[i])}${V[i + 1] ? cell(V[i + 1]) : '<td width="50%"></td>'}</tr>`;
-  return `<tr><td style="padding:4px 22px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table></td></tr>`;
+  return `<tr><td style="padding:0 29px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table></td></tr>`;
 }
-const channels = (src: string) => `<tr><td style="padding:22px 28px 6px;font-family:${F};font-size:14px;color:${INK};word-break:keep-all">
-  <a href="https://www.youtube.com/@valuenote_korea?utm_source=valuenote_mail&utm_campaign=${src}" style="color:${NAVY};font-weight:700;text-decoration:none">유튜브</a>
-  <span style="color:${LINE}">&nbsp;|&nbsp;</span><a href="https://www.instagram.com/value.note.korea/" style="color:${NAVY};font-weight:700;text-decoration:none">인스타그램</a>
-  <span style="color:${LINE}">&nbsp;|&nbsp;</span><a href="https://blog.naver.com/valuenote_korea" style="color:${NAVY};font-weight:700;text-decoration:none">네이버 블로그</a>
-  <span style="color:${LINE}">&nbsp;|&nbsp;</span><a href="${SITE}/?utm_source=mail&utm_campaign=${src}" style="color:${NAVY};font-weight:700;text-decoration:none">밸류노트 앱</a></td></tr>`;
-function shell(pre: string, body: string, foot: string) {
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>밸류노트</title></head>
+const channels = (src: string) => {
+  const a = (href: string, t: string) => `<a href="${href}" style="font-family:${F};font-size:12.5px;font-weight:700;color:${IVORY};text-decoration:none;letter-spacing:.02em">${t}</a>`;
+  const dot = `<span style="color:#3A4A62">&nbsp;&nbsp;·&nbsp;&nbsp;</span>`;
+  return `${a(`https://www.youtube.com/@valuenote_korea?utm_source=valuenote_mail&utm_campaign=${src}`, "YouTube")}${dot}${a("https://www.instagram.com/value.note.korea/", "Instagram")}${dot}${a("https://blog.naver.com/valuenote_korea", "Naver Blog")}${dot}${a(`${SITE}/?utm_source=mail&utm_campaign=${src}`, "valuenote.co.kr")}`;
+};
+/* 로고: Montserrat "Value"(흰)+"Note"(아이보리) · 아래 얇은 금선 · 그 아래 가운데 '밸류노트' (2026-10-23 확정안) */
+const wordmark = `<table role="presentation" cellpadding="0" cellspacing="0"><tr><td align="center">
+  <div style="font-family:${WM};font-size:22px;font-weight:800;color:#FFFFFF;letter-spacing:-.01em;line-height:1;padding-bottom:7px;border-bottom:1px solid ${GOLD};white-space:nowrap">Value<span style="color:${IVORY}">Note</span></div>
+  <div style="font-family:${F};font-size:10.5px;font-weight:700;letter-spacing:.32em;padding-left:.32em;color:${IVORY};margin-top:6px">밸류노트</div></td></tr></table>`;
+/* SUIT는 → 를 꺾쇠 모양으로 그려서, 화살표만 기본 글꼴로 그린다 (대표 기준: 화살표는 →) */
+const ARW = `<span style="font-family:Arial,Helvetica,sans-serif;font-weight:400">→</span>`;
+/* hero: 남색 첫 화면 — 위에 로고, 아래에 작은 금색 라벨 + 큰 제목 + 한 줄 설명 (+ 버튼) */
+function hero(eb: string, title: string, sub: string, cta?: [string, string]) {
+  return `<tr><td style="background:${NAVY};background-image:linear-gradient(160deg,${NAVY2} 0%,${NAVY} 55%,#0A1322 100%);padding:34px 36px 44px">
+    ${wordmark}
+    <div style="height:40px;line-height:40px;font-size:1px">&nbsp;</div>
+    ${eyebrow(eb, GOLD)}
+    <div style="font-family:${F};font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.38;color:#FFFFFF;margin-top:12px;word-break:keep-all">${title}</div>
+    <div style="font-family:${F};font-size:15px;line-height:1.8;color:#B9C2CF;margin-top:14px;word-break:keep-all">${sub}</div>
+    ${cta ? btn(cta[0], cta[1], false) : ""}
+  </td></tr>`;
+}
+function shell(pre: string, body: string, foot: string, src = "mail") {
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light"><title>밸류노트</title>
+<style>@font-face{font-family:'SUIT Variable';font-weight:100 900;font-display:swap;src:url(${SITE}/fonts/SUIT-Variable.woff2) format('woff2')}@font-face{font-family:'Montserrat';font-weight:800;font-display:swap;src:url(${SITE}/fonts/montserrat-800.woff2) format('woff2')}
+body{margin:0;padding:0;-webkit-font-smoothing:antialiased}a{text-decoration:none}@media (max-width:600px){.vn-wrap{padding:0!important}.vn-card{border-radius:0!important}}</style></head>
 <body style="margin:0;padding:0;background:${BG}">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(pre)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG}"><tr><td align="center" style="padding:24px 12px">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid ${LINE}">
-<tr><td align="center" style="background:${NAVY};padding:26px 20px 22px">
-  <div style="font-family:Montserrat,${F};font-size:26px;font-weight:800;color:#FFFFFF;letter-spacing:-.01em;line-height:1">Value<span style="color:#EADBB9">Note</span></div>
-  <div style="width:120px;height:1px;background:#D8C294;margin:9px auto 7px;line-height:1px;font-size:1px">&nbsp;</div>
-  <div style="font-family:${F};font-size:12px;font-weight:700;letter-spacing:.22em;color:#EADBB9">밸류노트</div></td></tr>
-${body}
-<tr><td style="padding:26px 28px 28px;border-top:1px solid ${LINE};font-family:${F};font-size:12px;line-height:1.75;color:${MUTED};word-break:keep-all">${foot}
-  <div style="margin-top:8px">밸류노트의 글과 영상은 공개된 자료를 정리한 것이며 특정 종목의 매수·매도를 권하지 않습니다.</div>
-  <div style="margin-top:8px">보낸 곳: 밸류노트(ValueNote) · 문의 <a href="mailto:${CONTACT}" style="color:${MUTED}">${CONTACT}</a></div></td></tr>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG}"><tr><td class="vn-wrap" align="center" style="padding:28px 12px">
+<table class="vn-card" role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#FFFFFF;border-radius:20px;overflow:hidden">
+${body.replace(/→/g, ARW)}
+<tr><td style="height:44px;line-height:44px;font-size:1px">&nbsp;</td></tr>
+<tr><td style="background:${NAVY};padding:28px 36px 30px">
+  <div>${channels(src)}</div>
+  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:16px;word-break:keep-all">${foot}</div>
+  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:8px;word-break:keep-all">밸류노트의 글과 영상은 공개된 자료를 정리한 것이며 특정 종목의 매수·매도를 권하지 않습니다.</div>
+  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:8px">보낸 곳: 밸류노트(ValueNote) · 문의 <a href="mailto:${CONTACT}" style="color:#B9C2CF;text-decoration:underline">${CONTACT}</a></div>
+</td></tr>
 </table></td></tr></table></body></html>`;
 }
 const toText = (html: string) => html.replace(/<head[\s\S]*?<\/head>/g, "").replace(/<div style="display:none[^"]*">[\s\S]*?<\/div>/, "").replace(/<style[\s\S]*?<\/style>/g, "").replace(/<a [^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g, "$2 ($1)").replace(/<br\s*\/?>|<\/(p|div|tr|h\d)>/g, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/[ \t]+/g, " ").replace(/\n\s*\n+/g, "\n\n").trim();
@@ -128,65 +153,72 @@ const unsubUrl = (w: Who) => w.token ? `${SITE}/mail?u=${w.token}` : `${SITE}/?t
 async function welcome(w: Who) {
   const [C, V, N] = await Promise.all([columns(14, 3), videos(0, 4), scored()]);
   const nm = w.name || w.email.split("@")[0];
-  const steps = [
-    ["보유 종목을 넣어 보세요", "가지고 계신 종목을 넣으면 지금 주가가 적정 주가보다 싼지 비싼지 바로 보여 드립니다.", tabUrl("portfolio", "welcome")],
-    ["궁금한 회사를 관심 종목에 담아 두세요", "담아 둔 회사가 저평가 구간에 들어오면 알림으로 알려 드려요.", tabUrl("companies", "welcome")],
-    ["알림을 켜 두세요", "휴대폰에서는 홈 화면에 밸류노트를 추가하면 앱처럼 쓰고 알림도 받을 수 있습니다.", tabUrl("alerts", "welcome")],
+  /* 2026-11-05 대표: 촌스럽지 않게 — 현명한 투자, 거장의 기준으로 판단, 어떤 장에서도 흔들리지 않는 투자 */
+  const pillars = [
+    ["가격이 아니라 가치를 봅니다", "주가의 오르내림이 아니라 기업이 실제로 벌어들이는 이익에서 출발합니다. 그 이익을 보수적으로 할인해 지금 가격이 합리적인지 판단합니다."],
+    ["거장의 원칙을 숫자로 옮겼습니다", "워렌 버핏의 경쟁우위, 벤저민 그레이엄의 안전마진, 찰리 멍거의 사업의 질. 세 사람이 기업을 고르던 기준을 하나의 점수와 적정 주가로 정리합니다."],
+    ["어떤 장에서도 흔들리지 않도록", "급등장에서는 과열을, 급락장에서는 기회를 숫자로 확인합니다. 시장의 소음이 아니라 정해 둔 기준으로 판단할 수 있게 돕습니다."],
   ];
-  const stepHtml = steps.map(([t, d, href], i) => `<tr><td style="padding:8px 28px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-    <td width="40" valign="top"><div style="width:28px;height:28px;border-radius:14px;background:${NAVY};color:#FFFFFF;font-family:${F};font-size:14px;font-weight:800;line-height:28px;text-align:center">${i + 1}</div></td>
-    <td valign="top"><a href="${href}" style="text-decoration:none;color:${INK}"><div style="font-family:${F};font-size:15px;font-weight:800;line-height:1.5;word-break:keep-all">${t} →</div>
-    <div style="font-family:${F};font-size:14px;line-height:1.65;color:#3B4657;word-break:keep-all">${d}</div></a></td></tr></table></td></tr>`).join("");
+  const pillarHtml = pillars.map(([t, d], i) => `<tr><td style="padding:0 36px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${i < pillars.length - 1 ? `border-bottom:1px solid ${LINE};` : ""}"><tr>
+    <td width="52" valign="top" style="padding:22px 0"><div style="font-family:${WM};font-size:13px;font-weight:800;color:${GOLD2};letter-spacing:.04em">0${i + 1}</div></td>
+    <td valign="top" style="padding:20px 0"><div style="font-family:${F};font-size:16.5px;font-weight:800;letter-spacing:-.02em;line-height:1.5;color:${INK};word-break:keep-all">${t}</div>
+    <div style="font-family:${F};font-size:14px;line-height:1.8;color:${BODY};margin-top:6px;word-break:keep-all">${d}</div></td></tr></table></td></tr>`).join("");
+  const steps = [
+    ["보유 종목 등록", "지금 가진 종목이 적정 주가보다 싼지 비싼지 바로 확인합니다.", tabUrl("portfolio", "welcome")],
+    ["관심 기업 담기", "담아 둔 기업이 저평가 구간에 들어오면 알려 드립니다.", tabUrl("companies", "welcome")],
+    ["알림 켜기", "홈 화면에 추가하면 앱처럼 쓰고 알림도 받을 수 있습니다.", tabUrl("alerts", "welcome")],
+  ];
+  const stepHtml = `<tr><td style="padding:0 36px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:16px"><tr><td style="padding:8px 22px">
+    ${steps.map(([t, d, href], i) => `<a href="${href}" style="display:block;text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${i < steps.length - 1 ? `border-bottom:1px solid ${LINE};` : ""}"><tr>
+      <td width="38" valign="middle" style="padding:16px 0"><div style="width:26px;height:26px;border-radius:13px;background:${NAVY};color:#FFFFFF;font-family:${F};font-size:12.5px;font-weight:800;line-height:26px;text-align:center">${i + 1}</div></td>
+      <td valign="middle" style="padding:16px 0"><div style="font-family:${F};font-size:14.5px;font-weight:800;letter-spacing:-.015em;color:${INK}">${t}</div><div style="font-family:${F};font-size:13px;line-height:1.6;color:${MUTED};margin-top:2px;word-break:keep-all">${d}</div></td>
+      <td width="20" valign="middle" align="right" style="font-family:${F};font-size:15px;color:${GOLD2}">→</td></tr></table></a>`).join("")}
+  </td></tr></table></td></tr>`;
   const consent = w.ok && w.consent_at
-    ? `${kDate(w.consent_at)}에 칼럼·투자 정보 메일 수신에 동의하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:${MUTED}">여기서 수신을 거부</a>할 수 있습니다.`
-    : `칼럼 메일은 위 버튼을 누르거나 앱의 <a href="${tabUrl("account", "welcome")}" style="color:${MUTED}">내 계정</a>에서 켤 수 있습니다. 켜지 않으면 이 가입 안내 메일 말고는 보내지 않습니다.`;
-  /* 2026-11-05 대표: 가입 축하 메일에서 칼럼 구독을 바로 유도 — 칼럼을 보여 준 바로 다음에 구독 상자 */
+    ? `${kDate(w.consent_at)}에 칼럼·투자 정보 메일 수신에 동의하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:#B9C2CF;text-decoration:underline">수신 거부</a>를 누르세요.`
+    : `이 메일은 밸류노트 가입 안내 메일입니다. 칼럼 메일은 위 버튼이나 앱의 <a href="${tabUrl("account", "welcome")}" style="color:#B9C2CF;text-decoration:underline">내 계정</a>에서 켤 수 있으며, 켜지 않으면 이 안내 말고는 보내지 않습니다.`;
+  /* 칼럼을 보여 준 바로 다음에 구독 상자 */
   const sub = w.ok
-    ? `<tr><td style="padding:18px 28px 0"><div style="background:${BG};border-radius:12px;padding:16px 18px;font-family:${F};font-size:14px;line-height:1.7;color:${INK};word-break:keep-all"><b>칼럼 메일 구독 완료</b><br>매주 월요일 아침 8시 30분, 그 주에 가장 많이 읽힌 칼럼과 새 영상을 보내 드립니다.</div></td></tr>`
-    : `<tr><td style="padding:20px 28px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};border-radius:14px"><tr><td style="padding:24px 22px">
-      <div style="font-family:${F};font-size:13px;font-weight:700;letter-spacing:.06em;color:#EADBB9">매주 월요일 아침 8시 30분</div>
-      <div style="font-family:${F};font-size:19px;font-weight:800;line-height:1.45;color:#FFFFFF;margin:6px 0 10px;word-break:keep-all">이런 칼럼을 메일로 받아 보세요</div>
-      <div style="font-family:${F};font-size:14px;line-height:1.75;color:#D9DEE6;word-break:keep-all">한 주 동안 가장 많이 읽힌 칼럼 4편과 새 영상을 한 통에 모아 보내 드립니다. 일주일에 한 번만 보내고, 메일 아래 링크로 언제든 그만 받을 수 있습니다.</div>
-      <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 0"><tr><td style="background:#EADBB9;border-radius:10px"><a href="${w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", "welcome")}" style="display:inline-block;padding:13px 22px;font-family:${F};font-size:15px;font-weight:800;color:${NAVY};text-decoration:none">칼럼 메일 받기 →</a></td></tr></table>
-      <div style="font-family:${F};font-size:11.5px;line-height:1.6;color:#9AA4B2;margin-top:10px;word-break:keep-all">누르면 열리는 화면에서 한 번 더 확인하면 구독됩니다. 구독은 광고성 정보 수신 동의이며 선택 사항입니다.</div>
+    ? `<tr><td style="padding:28px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:20px 22px">${eyebrow("Weekly Note")}<div style="font-family:${F};font-size:15px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">칼럼 메일 구독이 완료됐습니다. 매주 월요일 아침 8시 30분, 한 주 동안 가장 많이 읽힌 칼럼과 새 영상을 보내 드립니다.</div></div></td></tr>`
+    : `<tr><td style="padding:32px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};background-image:linear-gradient(150deg,${NAVY2} 0%,${NAVY} 60%);border-radius:18px"><tr><td style="padding:30px 28px">
+      ${eyebrow("Weekly Note · 매주 월요일 08:30", GOLD)}
+      <div style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.025em;line-height:1.45;color:#FFFFFF;margin-top:10px;word-break:keep-all">한 주의 시장을<br>칼럼 네 편으로 정리해 드립니다</div>
+      <div style="font-family:${F};font-size:14px;line-height:1.8;color:#B9C2CF;margin-top:12px;word-break:keep-all">가장 많이 읽힌 칼럼과 새 영상을 월요일 아침 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
+      ${btn(w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", "welcome"), "칼럼 메일 받기 →", false)}
+      <div style="font-family:${F};font-size:11px;line-height:1.7;color:#7F8B9D;margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 칼럼·투자 정보(광고성 정보) 수신 동의이며 선택 사항입니다.</div>
     </td></tr></table></td></tr>`;
-  const body = `<tr><td style="padding:32px 28px 4px">
-    <div style="font-family:${F};font-size:23px;font-weight:800;line-height:1.4;color:${INK};word-break:keep-all">${esc(nm)} 님, 밸류노트에 오신 걸 환영합니다</div></td></tr>
-  <tr><td style="padding:14px 28px 0">${p(`밸류노트는 워렌 버핏·벤저민 그레이엄·찰리 멍거가 회사를 고르던 기준으로 ${N ? `<b>${N.toLocaleString("ko-KR")}개</b> 회사의` : "한국·미국 주요 회사의"} 적정 주가와 점수를 매일 다시 계산합니다.`)}
-    ${p("주가가 오를지 맞히는 서비스가 아닙니다. 지금 가격이 회사가 버는 돈에 비해 싼지 비싼지를 보수적인 계산으로 보여 드립니다.")}
-    ${btn(`${SITE}/?utm_source=mail&utm_campaign=welcome`, "밸류노트 열기")}</td></tr>
-  ${h2("처음 하면 좋은 세 가지")}${stepHtml}
-  ${C.length ? h2("요즘 많이 읽힌 칼럼") + C.map((c) => colRow(c, "welcome")).join("") : ""}
+  const body = `${hero("Welcome to ValueNote", `${esc(nm)} 님,<br>시장이 흔들려도<br>기준은 흔들리지 않게.`,
+      `밸류노트는 워렌 버핏·벤저민 그레이엄·찰리 멍거가 기업을 판단하던 원칙으로 ${companiesText(N)} 기업의 적정 주가와 점수를 매일 다시 계산합니다. 감정이 아닌 기준으로, 오래 가는 투자를 돕습니다.`,
+      [`${SITE}/?utm_source=mail&utm_campaign=welcome`, "밸류노트 시작하기 →"])}
+  ${h2("Our Principle", "현명한 투자를 위한 세 가지 기준")}${pillarHtml}
+  ${h2("Get Started", "처음 5분, 이렇게 시작해 보세요")}${stepHtml}
+  ${C.length ? h2("Most Read", "요즘 가장 많이 읽힌 칼럼") + C.map((c, i) => colRow(c, "welcome", i === C.length - 1)).join("") : ""}
   ${sub}
-  ${V.length ? h2("유튜브 밸류노트 최신 영상") + `<tr><td style="padding:0 28px 6px">${p("회사가 돈을 버는 구조를 10분 안팎으로 풀어 드립니다.", `color:#3B4657;font-size:14px`)}</td></tr>` + vidGrid(V, "welcome") : ""}
-  ${channels("welcome")}`;
-  return { subject: "밸류노트 가입을 환영합니다 · 처음 하면 좋은 세 가지", html: shell("보유 종목을 넣으면 적정 주가를 바로 계산해 드립니다.", body, `이 메일은 밸류노트 가입 안내 메일입니다. ${consent}`) };
+  ${V.length ? h2("On YouTube", "기업이 돈을 버는 구조를 10분 안에") + vidGrid(V, "welcome") : ""}`;
+  return { subject: `${nm} 님, 밸류노트에 오신 걸 환영합니다`, html: shell("거장의 기준으로 기업의 적정 주가를 매일 계산합니다. 처음 5분 시작 가이드를 확인하세요.", body, consent, "welcome") };
 }
 async function digest(w: Who) {
   const [C, V] = await Promise.all([columns(7, 4), videos(7, 4)]);
   if (!C.length && !V.length) return null;
   const top = C[0];
-  const body = `<tr><td style="padding:30px 28px 0;font-family:${F};font-size:13px;font-weight:700;color:${MUTED};letter-spacing:.04em">이번 주 밸류노트 · ${weekLabel()}</td></tr>
-  ${top ? `<tr><td style="padding:6px 28px 10px">${p("지난 한 주 밸류노트에서 가장 많이 읽힌 글부터 정리했습니다.", "color:#3B4657;font-size:14px;margin:0")}</td></tr>` + colBig(top, "digest") : ""}
-  ${C.length > 1 ? h2("함께 읽으면 좋은 칼럼") + C.slice(1).map((c) => colRow(c, "digest")).join("") : ""}
-  ${V.length ? h2("이번 주 새 영상") + vidGrid(V, "digest") : ""}
-  <tr><td style="padding:6px 28px 0">${btn(tabUrl("column", "digest"), "칼럼 전체 보기")}</td></tr>
-  ${channels("digest")}`;
-  const foot = `이 메일은 ${w.consent_at ? kDate(w.consent_at) + "에 " : ""}칼럼·투자 정보 메일 수신에 동의하신 분께 보내는 광고성 정보입니다. 더 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:${MUTED};font-weight:700">수신 거부</a>를 누르세요. 한 번 누르면 바로 처리됩니다.`;
-  return { subject: `(광고) ${top ? top.title : "이번 주 밸류노트 새 영상"}`, html: shell(top ? top.excerpt : "이번 주 밸류노트 새 영상", body, foot) };
+  const body = `${hero(`Weekly Note · ${weekLabel()}`, "이번 주,<br>가장 많이 읽힌 밸류노트", "지난 한 주 시장에서 놓치면 아쉬운 이야기를 칼럼과 영상으로 정리했습니다.")}
+  ${top ? h2("Top Story", "이번 주 1위 칼럼") + colBig(top, "digest") : ""}
+  ${C.length > 1 ? h2("More Columns", "함께 읽으면 좋은 칼럼") + C.slice(1).map((c, i, a) => colRow(c, "digest", i === a.length - 1)).join("") : ""}
+  ${V.length ? h2("On YouTube", "이번 주 새 영상") + vidGrid(V, "digest") : ""}
+  <tr><td style="padding:12px 36px 0">${btn(tabUrl("column", "digest"), "칼럼 전체 보기 →")}</td></tr>`;
+  const foot = `이 메일은 ${w.consent_at ? kDate(w.consent_at) + "에 " : ""}칼럼·투자 정보 메일 수신에 동의하신 분께 보내는 광고성 정보입니다. 더 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:#B9C2CF;text-decoration:underline;font-weight:700">수신 거부</a>를 누르세요. 한 번 누르면 바로 처리됩니다.`;
+  return { subject: `(광고) ${top ? top.title : "이번 주 밸류노트 새 영상"}`, html: shell(top ? top.excerpt : "이번 주 밸류노트 새 영상", body, foot, "digest") };
 }
 function consentMail(w: Who, on: boolean, at: string) {
-  const body = `<tr><td style="padding:32px 28px 8px"><div style="font-family:${F};font-size:21px;font-weight:800;line-height:1.4;color:${INK};word-break:keep-all">칼럼 메일 수신 ${on ? "동의" : "거부"}가 처리됐습니다</div></td></tr>
-  <tr><td style="padding:12px 28px 8px">${p(`${esc(w.email)} 주소로 요청하신 칼럼·투자 정보 메일 수신 ${on ? "동의" : "거부"}를 ${kDateTime(at)}에 처리했습니다.`)}
-  ${p(on ? "매주 월요일 아침, 그 주에 많이 읽힌 칼럼과 새 영상을 보내 드립니다. 언제든 메일 아래 수신 거부 링크나 앱의 내 계정에서 끌 수 있습니다." : "앞으로 칼럼 메일은 보내지 않습니다. 가입·계정 관련 안내처럼 꼭 필요한 메일만 보냅니다. 다시 받고 싶으시면 앱의 내 계정에서 켤 수 있습니다.")}
-  ${on ? "" : btn(tabUrl("account", "consent"), "내 계정 열기")}</td></tr>`;
-  return { subject: `[밸류노트] 칼럼 메일 수신 ${on ? "동의" : "거부"} 처리 결과 안내`, html: shell(`칼럼 메일 수신 ${on ? "동의" : "거부"}를 처리했습니다.`, body, "정보통신망법에 따라 수신 동의·거부 처리 결과를 알려 드리는 메일입니다.") };
+  const body = `${hero("Notice", `칼럼 메일 수신 ${on ? "동의" : "거부"}가<br>처리됐습니다`, `${esc(w.email)} 주소로 요청하신 칼럼·투자 정보 메일 수신 ${on ? "동의" : "거부"}를 ${kDateTime(at)}에 처리했습니다.`)}
+  <tr><td style="padding:36px 36px 0">${p(on ? "매주 월요일 아침 8시 30분, 한 주 동안 가장 많이 읽힌 칼럼과 새 영상을 보내 드립니다. 언제든 메일 아래 수신 거부 링크나 앱의 내 계정에서 끌 수 있습니다." : "앞으로 칼럼 메일은 보내지 않습니다. 가입·계정 관련 안내처럼 꼭 필요한 메일만 보냅니다. 다시 받고 싶으시면 앱의 내 계정에서 켤 수 있습니다.")}
+  ${on ? "" : btn(tabUrl("account", "consent"), "내 계정 열기 →")}</td></tr>`;
+  return { subject: `[밸류노트] 칼럼 메일 수신 ${on ? "동의" : "거부"} 처리 결과 안내`, html: shell(`칼럼 메일 수신 ${on ? "동의" : "거부"}를 처리했습니다.`, body, "정보통신망법에 따라 수신 동의·거부 처리 결과를 알려 드리는 메일입니다.", "consent") };
 }
 function reconfirmMail(w: Who) {
-  const body = `<tr><td style="padding:32px 28px 8px"><div style="font-family:${F};font-size:21px;font-weight:800;line-height:1.4;color:${INK};word-break:keep-all">칼럼 메일 수신 동의를 확인해 주세요</div></td></tr>
-  <tr><td style="padding:12px 28px 8px">${p(`${w.consent_at ? kDate(w.consent_at) + "에 " : ""}칼럼·투자 정보 메일 수신에 동의하셨습니다. 법에 따라 2년마다 동의 여부를 다시 알려 드립니다.`)}
-  ${p("계속 받으시려면 아무것도 하지 않으셔도 됩니다. 그만 받으시려면 아래 버튼을 눌러 주세요.")}${btn(unsubUrl(w), "칼럼 메일 그만 받기")}</td></tr>`;
-  return { subject: "[밸류노트] 칼럼 메일 수신 동의 확인 안내", html: shell("2년마다 수신 동의 여부를 알려 드립니다.", body, "정보통신망법에 따라 2년마다 수신 동의 여부를 알려 드리는 메일입니다.") };
+  const body = `${hero("Notice", "칼럼 메일 수신 동의를<br>확인해 주세요", `${w.consent_at ? kDate(w.consent_at) + "에 " : ""}칼럼·투자 정보 메일 수신에 동의하셨습니다. 법에 따라 2년마다 동의 여부를 다시 알려 드립니다.`)}
+  <tr><td style="padding:36px 36px 0">${p("계속 받으시려면 아무것도 하지 않으셔도 됩니다. 그만 받으시려면 아래 버튼을 눌러 주세요.")}${btn(unsubUrl(w), "칼럼 메일 그만 받기")}</td></tr>`;
+  return { subject: "[밸류노트] 칼럼 메일 수신 동의 확인 안내", html: shell("2년마다 수신 동의 여부를 알려 드립니다.", body, "정보통신망법에 따라 2년마다 수신 동의 여부를 알려 드리는 메일입니다.", "reconfirm") };
 }
 
 /* ---------- 보내기 ---------- */
