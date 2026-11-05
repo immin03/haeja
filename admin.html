@@ -1324,9 +1324,9 @@ function vSurvey(s){
 function bindSurvey(){ document.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { location.hash = 'users'; setTimeout(() => crmOpen(b.dataset.goto), 0); }); }
 
 /* ==== 회원 메일 (2026-11-05): 가입 축하 메일 · 주간 칼럼 메일(수신 동의한 회원만) ====
-   발송은 Supabase 함수 mail이 Resend로 한다. 대기열은 5분마다, 주간 칼럼은 매주 월 08:30. 11/12부터 실제 발송 */
+   발송은 Supabase 함수 mail이 Resend로 한다. 대기열은 5분마다, 주간 칼럼은 매주 월 08:30. 2026-11-05 대표 지시로 날짜 제한 풀고 바로 발송 */
 const ML = { d: undefined, st: null, pv: null, pvKind: 'welcome', busy: false };
-const ML_START = Date.parse('2026-11-12T00:00:00+09:00');
+const ML_START = Date.parse('2026-11-05T00:00:00+09:00');
 async function mlLoad(force){
   if(ML.busy || (ML.d !== undefined && !force)) return; ML.busy = true;
   const [a, b] = await Promise.all([sb.rpc('admin_mail'), sb.functions.invoke('mail', { body: { action: 'status' } }).catch(e => ({ error: e }))]);

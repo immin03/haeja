@@ -2479,7 +2479,7 @@ function consentHtml(){
 }
 function discFootHtml(){
   const est = ['analyze','alerts','watchlist','companies'].includes(S.tab);
-  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a> · <a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a>${Date.now() < Date.parse('2026-11-12T00:00:00+09:00') ? ' <a href="/privacy#change">(11월 12일 변경: 칼럼 메일 수신 동의 추가)</a>' : ''}</div></footer>`;
+  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a> · <a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div></footer>`;
 }
 document.addEventListener('change', e => { if(e.target && e.target.classList && e.target.classList.contains('ca-req')){ const b = document.getElementById('disc-ok'); if(b) b.disabled = ![...document.querySelectorAll('.ca-req')].every(x => x.checked); } });
 document.addEventListener('click', e => {
