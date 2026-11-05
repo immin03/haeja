@@ -8,7 +8,7 @@ L="/home/claude/haeja/_long/"; SID=os.environ.get("ED_SID","edl_ep01v"); AUD=os.
 OUT="/home/claude/shorts2/"; W,H,FPS,END=1080,1920,30,2.6
 key,t1,t2=sys.argv[1:4]; segs=[]
 for a in sys.argv[4:]:
-    p=a.split(":"); segs.append((p[0],float(p[1]),float(p[2]),float(p[3]) if len(p)>3 else 0.5, float(p[4]) if len(p)>4 else 0))
+    p=a.split(":"); segs.append((p[0],float(p[1]),float(p[2]),float(p[3]) if len(p)>3 else 0.5, float(p[4]) if len(p)>4 else 0, float(p[5]) if len(p)>5 else 0))   # 6번째: 조각을 렌더한 시작 시각(--from)
 FB=lambda s: ImageFont.truetype(F+"Pretendard-ExtraBold.otf",s); FS=lambda s: ImageFont.truetype(F+"Pretendard-SemiBold.otf",s)
 FM=lambda s: ImageFont.truetype(F+"hahmlet-korean-600-normal.ttf",s)
 WHITE=(255,255,255); GOLD=(240,196,110); CREAM=(246,234,206)
@@ -44,13 +44,14 @@ shadow_text(top,[t1],250,f1,WHITE); shadow_text(top,[t2],250+fs*1.22,f2,GOLD)
 top.save(tmp+"top.png")
 # 자막 조각
 caps=json.load(open(CAP)); ov=[]; vov=[]; T=0; parts=[]
-for i,(ch,a,b,cx,mx) in enumerate(segs):
+for i,(ch,a,b,cx,mx,off) in enumerate(segs):
     f=f"{L}{SID}_{ch}_v.mp4"
     dd=float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f],capture_output=True,text=True).stdout)
-    if b>a: dd=min(dd-a,b-a)
+    if b>a: dd=min(dd-(a-off),b-a)
     if mx: dd=min(dd,mx)
-    parts.append((f,a,dd,cx))
-    for (ca,cb,txt,kind) in caps:
+    parts.append((f,a,dd,cx,off))
+    for cc in caps:
+        ca,cb,txt,kind=cc[:4]
         if cb<=a or ca>=a+dd: continue
         s0=max(ca,a)-a+T; s1=min(cb,a+dd)-a+T
         im=Image.new("RGBA",(W,520),(0,0,0,0))
@@ -81,13 +82,13 @@ shadow_text(end,["매일 밤, 황제처럼 생각하라."],1250,FS(40),CREAM)
 end.save(tmp+"end.png")
 # 합성
 ins=[]; fc=""
-for i,(f,a,dd,cx) in enumerate(parts):
+for i,(f,a,dd,cx,off) in enumerate(parts):
     ins+=["-i",f,"-ss",f"{a:.3f}","-t",f"{dd:.3f}","-i",AUD]
     x=int(max(0,min(1920-608,1920*cx-304)))
     if cx<0:   # 글자가 넓은 화면(인트로 타이틀 등): 자르지 않고 통째로, 뒤는 검정
-        fc+=(f"[{2*i}:v]trim={a:.3f}:{a+dd:.3f},fps={FPS},crop=1200:1080:360:0,scale={W}:-2:flags=lanczos,pad={W}:{H}:0:(oh-ih)/2:black,setsar=1,setpts=PTS-STARTPTS[v{i}];")
+        fc+=(f"[{2*i}:v]trim={a-off:.3f}:{a-off+dd:.3f},fps={FPS},crop=1200:1080:360:0,scale={W}:-2:flags=lanczos,pad={W}:{H}:0:(oh-ih)/2:black,setsar=1,setpts=PTS-STARTPTS[v{i}];")
     else:
-        fc+=(f"[{2*i}:v]trim={a:.3f}:{a+dd:.3f},fps={FPS},crop=608:1080:{x}:0,scale={W}:{H}:flags=lanczos,setsar=1,setpts=PTS-STARTPTS[v{i}];")
+        fc+=(f"[{2*i}:v]trim={a-off:.3f}:{a-off+dd:.3f},fps={FPS},crop=608:1080:{x}:0,scale={W}:{H}:flags=lanczos,setsar=1,setpts=PTS-STARTPTS[v{i}];")
     fc+=(""
          f"[{2*i+1}:a]asetpts=PTS-STARTPTS,afade=t=in:d=0.2,afade=t=out:st={dd-0.3:.3f}:d=0.3[a{i}];")
 n=len(parts); k=2*n
