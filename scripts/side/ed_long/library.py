@@ -70,8 +70,12 @@ LIB = {
                    "Sparks rise and swirl slowly from the coals, the glow pulses, the fingers flex slightly in the warmth; the camera drifts slowly upward with the sparks.",
                    ["fire_4.mp3", 0.35], [], {"zoom": [1.0, 1.06], "pan": [[0.0, 0.01], [0.0, -0.015]]}, "embers", None),
 }
+# 범용 장면(11/5): library_u.py 에 따로 정의하고 여기로 합친다
+from library_u import U, UBATCH
+LIB.update(U)
+
 # 생성 묶음 (push 한 번당 비용 상한 3달러: 그림 0.05 · wan 5초 약 0.10 · seedance 5초 약 0.75)
-BATCH = {1: ["quill", "candle_face", "tent_stars"], 2: ["candle_diary", "dawn_camp", "window_moon", "close_diary"], 3: ["rain_march", "river_night", "quill2"], 4: ["brazier_hands"]}   # quill(1차)은 잉크 자국이 기호처럼 보여 quill2 로 다시
+BATCH = {**UBATCH, 1: ["quill", "candle_face", "tent_stars"], 2: ["candle_diary", "dawn_camp", "window_moon", "close_diary"], 3: ["rain_march", "river_night", "quill2"], 4: ["brazier_hands"]}   # quill(1차)은 잉크 자국이 기호처럼 보여 quill2 로 다시
 
 
 def img_id(name): return "lib_" + name
@@ -81,8 +85,10 @@ def vid_id(name): return "libv_" + name
 def gen(n, hq=False):
     jobs = []; ep = SEED if hq else WAN
     if n == 3: jobs.append({"id": img_id("quill2"), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": LIB["quill2"][0] + " " + STYLE}})
-    if n == 1:   # 그림은 첫 묶음에서 전부
-        jobs += [{"id": img_id(k), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": v[0] + " " + STYLE}} for k, v in LIB.items()]
+    if n == 1:   # 그림은 첫 묶음에서 전부 (1~4 묶음 장면만)
+        jobs += [{"id": img_id(k), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": v[0] + " " + STYLE}} for k, v in LIB.items() if k not in U]
+    if n in UBATCH:   # 범용 묶음은 자기 장면 그림을 같이 만든다(그림 먼저, 영상은 그 그림에서)
+        jobs += [{"id": img_id(k), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": LIB[k][0] + " " + STYLE}} for k in BATCH[n]]
     jobs += [{"id": vid_id(k), "kind": "video", "endpoint": ep, "image": f"social/side/gen/{img_id(k)}.jpeg", "body": {"duration": 5, "prompt": LIB[k][1] + " " + CINE}} for k in BATCH[n]]
     p = os.path.join(ROOT, f"scripts/side/gen/EDL261105-lib{n}.json"); json.dump(jobs, open(p, "w"), ensure_ascii=False, indent=1)
     print(p, len(jobs))
