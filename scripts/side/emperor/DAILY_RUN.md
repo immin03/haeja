@@ -13,7 +13,7 @@
   · 결과는 성과 분석 작업이 길이별로 비교한다 (ed_posts.duration_sec 꼭 기록)
 - 양식은 A 하나. 장면은 어두운 그림만(ed*, lc*, lib_*, edv*), 편마다 장면 묶음이 겹치지 않게, 어제 쓴 묶음은 피한다
 - 목소리: 해설 건석 tc_6731b2e0855f351b98d30c48, 명상록 인용은 황제 명일 tc_62d66c2d1523be99355fda02 (tempo 0.9). 둘 다 tonedown, 묶음별 2테이크
-- 마지막 화면: render_ed.py 기본값(롱폼과 같은 금색 디자인). 유튜브용 --platform shorts, 인스타·틱톡용 --platform reels
+- 화면: 시네마틱 고정 포맷(FX.md). 마지막 화면은 슬로건+엔딩 한 화면(fx_short.py). 유튜브용 --platform shorts, 인스타·틱톡용 --platform reels
 
 ## 순서
 0. 확인: app_config ed_paused 가 true면 멈춤. ed_posts 에 오늘 12:20/20:30 데일리 reel 이 이미 있으면 그 칸은 건너뛴다.
@@ -31,11 +31,14 @@
    `social/side/voice_samples/<tag>/` 에 올릴 때까지 `gh run list -R immin03/haeja --workflow side-gen.yml` 로 기다린다(최대 40분).
 5. 음성 조립: 테이크 고르기 — `python3 take_check.py <mp3> "<대본 글>"` 가 통과한 것 중 고음역 튐이 적은 쪽 (소리 끌림·원문 불일치는 불통과, 둘 다 불통과면 그 묶음만 다시 녹음) → `ED_LINES=/home/claude/vo/v2_lines.json python3 voice_v2.py <id> <A,B,…> <voice_dir>` → `long_<id>a.json`
 6. 일기 쓰는 장면: `python3 tablet_script.py social/side/gen/edv02_tablet.mp4 /home/claude/ed/edv02_<id>.mp4 "<Long 영어 원문 3줄, |로 구분>"`
-7. 렌더: `python3 build_long.py long_<id>a.json` → `python3 render_ed.py /home/claude/ed/spec_<id>a.json <yt.mp4> --platform shorts` 와 `--platform reels`
-8. 검사(필수): `python3 voice_qa.py <yt.mp4> /home/claude/ed/spec_<id>a.json` 가 "통과"여야 한다(조각 대조 + 소리 끌림). 오늘의 할 일 구간은 화면 글과 녹음 원문(.txt)이 같은지 한 번 더 눈으로 확인. 장면 8장 한 장짜리 격자를 한 번 보고
+7. 렌더: `python3 build_long.py long_<id>a.json` → `python3 render_ed.py /home/claude/ed/spec_<id>a.json <base.mp4> --platform shorts`
+   → ★ 시네마틱 고정 포맷(2026-11-05 대표 확정, FX.md 필독): CLIPS.json 에서 장면을 골라 `fx_<id>.json` 을 쓰고
+   `python3 fx_short.py /home/claude/ed/spec_<id>a.json <base.mp4> <yt.mp4> --fx fx_<id>.json --platform shorts` 와 `... <ig.mp4> ... --platform reels`
+   (render_ed 의 reels 렌더는 하지 않는다. 클립은 social/side/gen/<클립>.mp4 를 sparse-checkout 에 추가)
+8. 검사(필수): `python3 voice_qa.py <base.mp4> /home/claude/ed/spec_<id>a.json` 가 "통과"여야 한다(조각 대조 + 소리 끌림). 오늘의 할 일 구간은 화면 글과 녹음 원문(.txt)이 같은지 한 번 더 눈으로 확인. 장면 8장 한 장짜리 격자를 한 번 보고
    글자 잘림·겹침·밝은 그림 위 자막만 고친다. 자막이 말보다 먼저 넘어가지 않는지 인용 구간 프레임 2장으로 확인.
    불통과 2번이면 그 편은 올리지 않고 docs collection 'alerts' 에 남긴다.
-9. 올리기: TEMPLATE.md 인코딩대로 `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(1초 프레임) 커밋·푸시,
+9. 올리기: fx_short.py 결과 그대로(인코딩 포함) `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(1초 프레임) 커밋·푸시,
    사이트 주소가 200이 될 때까지 기다린 뒤
    유튜브: `ED_KEY=<app_config ed_yt_long_key> ./yt_up.sh <id> <yt.mp4> <meta.json>` (meta = title "<제목> #shorts", description(TEMPLATE 설명란), tags, publish_at = 게시 시각 UTC)
    ed_posts: ep07~09 행과 같은 열로 insert (video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
