@@ -620,6 +620,7 @@ def draw(sc, V, u, lines, theme, media):
                     d.rectangle([cx - 2, cy + 8, cx + 38, cy + 13], fill=A(fg, q)); d.ellipse([cx + 13, cy + 12, cx + 23, cy + 21], fill=A(fg, q))
                 d.text((cx + 54, cy - fb.size / 2 - 6), lab, font=fb, fill=A(fg, q))
             x += bw_ + gap
+        _thanks(d, W / 2, 830, pop(u, t0 + .9, .5))
     return img
 
 
@@ -815,6 +816,17 @@ def _cursor(d, x, y, a, press=0.0):
     P = [(x + px * k, y + py * k) for px, py in pts]; d.polygon(P, fill=A(WHITE, a), outline=A(NAVY, a)); d.line(P + [P[0]], fill=A(NAVY, a), width=3)
 
 
+THANKS = "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."   # 2026-11-05 16:04 대표: 롱폼·쇼츠 마지막과 고정 댓글에 (실제 행동 유도)
+
+
+def _thanks(d, cx, y, a):
+    """버튼 아래 작은 감사 문구 (버튼이 다 나온 뒤 페이드 인)"""
+    if a <= 0: return
+    f = F("SemiBold", 34); tw = d.textlength(THANKS, font=f)
+    d.text((cx - tw / 2 + 2, y + 3), THANKS, font=f, fill=(0, 0, 0, int(120 * a)))
+    d.text((cx - tw / 2, y), THANKS, font=f, fill=A(IVORY, a * .92))
+
+
 def draw_end2(img, d, v, u, lines, V):
     """끝 화면 v2 (2026-10-23 운영자: 마지막이 단조롭다) — 왼쪽: 구독·좋아요·알림을 커서가 차례로 누르는 모션, 오른쪽: 다음 영상 카드"""
     p = pop(u, .15, .9); ic = R.ICON_S.resize((150, 150), Image.LANCZOS)
@@ -872,6 +884,7 @@ def draw_end2(img, d, v, u, lines, V):
             else: break
         press = max([clamp(1 - abs(u - (ts[k_] + .55)) / .15) for k_ in range(3)] + [0])
         _cursor(d, cx_, cy_, clamp((u - ts[0] + .5) / .3), press)
+    _thanks(d, LX, y0 + bh_ + 62, pop(u, ts[2] + .7, .5))
     # 다음 영상 카드
     nx = v["next"]; q2 = pop(u, at_time(nx.get("at"), lines), .7)
     if q2 > 0:

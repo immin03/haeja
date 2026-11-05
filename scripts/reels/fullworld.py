@@ -320,6 +320,11 @@ def ending_card(E, s, u, kind):
     if q > 0:
         d.rounded_rectangle([W / 2 - bw / 2, by, W / 2 + bw / 2, by + 124], 62, fill=(196, 52, 60) if kind == "yt" else TAGC)
         d.text((W / 2, by + 62), btn, font=fb, fill=(255, 255, 255) if kind == "yt" else NAVYB, anchor="mm")
+        t = E.prog(u, .9, 1.3)   # 2026-11-05 16:04 대표: 마지막에 감사 문구 (실제 행동 유도)
+        if t > 0:
+            ft = E.F("SemiBold", 42); col = tuple(int(c * t + n * (1 - t)) for c, n in zip((236, 230, 218), NAVYB))
+            for i, l in enumerate(["좋아요와 구독은 영상 제작에", "큰 힘이 됩니다. 감사합니다."] if kind == "yt" else ["좋아요와 팔로우는 콘텐츠 제작에", "큰 힘이 됩니다. 감사합니다."]):
+                d.text((W / 2, 1440 + i * 62), l, font=ft, fill=col, anchor="mm")
     if p < 1: im = Image.blend(Image.new("RGB", (W, H), NAVYB), im, p)
     return im
 
