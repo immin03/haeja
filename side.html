@@ -328,16 +328,8 @@ function viewBrief(){
   <h2>오늘 일정<span class="n">${esc(d.slice(5).replace('-','/'))} · 유튜브·인스타·틱톡·쓰레드 같은 시각</span></h2>
   <div class="card">${todayL.length ? todayL.map(line).join('') : '<div class="empty">오늘 예약이 없습니다.</div>'}</div>
   <h2>내일 일정<span class="n">데일리 쇼츠는 매일 04:41 자동 제작 · 길이 ${(sl.video || []).map((t, i) => t + ' ' + lenFor(i, (k + 1) % 3) + '초').join(' / ')}</span></h2>
-  <div class="card">${tmrL.length ? tmrL.map(line).join('') : `<div class="empty">내일 04:41에 데일리 3편이 만들어집니다. 카드뉴스는 오늘 18:31에 만들어집니다.</div>`}</div>
-  <h2>고정 편성<span class="n">${esc(sl.decided || '')}</span></h2>
-  <div class="card tbl-wrap"><table class="tbl"><thead><tr><th>시각</th><th>콘텐츠</th><th>채널</th><th>내일 길이</th></tr></thead><tbody>
-    ${[[ (sl.video||[])[0], '데일리 쇼츠 1', '유튜브·인스타·틱톡·쓰레드', lenFor(0, (k + 1) % 3) + '초'],
-       [ (sl.video||[])[1], '데일리 쇼츠 2', '유튜브·인스타·틱톡·쓰레드', lenFor(1, (k + 1) % 3) + '초'],
-       [ sl.card || '18:40', '카드뉴스', '인스타·틱톡', '–'],
-       [ sl.teaser || '19:30', '롱폼 소개 쇼츠 (있는 날만)', '유튜브·인스타·틱톡', '–'],
-       [ (sl.video||[])[2], '데일리 쇼츠 3', '유튜브·인스타·틱톡·쓰레드', lenFor(2, (k + 1) % 3) + '초']]
-      .map(r => `<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td class="note">${esc(r[2])}</td><td class="n">${esc(r[3])}</td></tr>`).join('')}
-  </tbody></table></div>
+  <div class="card">${tmrL.length ? tmrL.map(line).join('') : `<div class="empty">내일 04:41에 데일리 쇼츠 2편(12:20·20:30)이 만들어집니다.</div>`}</div>
+  ${viewRules()}
   ${viewLong()}
   <h2>오늘의 분석<span class="n">매일 08:43 숫자를 보고 씁니다 · 편수가 적을 땐 가설로 표시</span></h2>
   <div class="card">${rep ? `<div class="hl"><p>${esc(rep.summary)}</p></div>
@@ -352,6 +344,16 @@ function viewBrief(){
   </ul></div>
   <h2>내 요청</h2>
   <div class="card">${reqs.length ? reqs.slice(0, 10).map(r => `<div class="ck"><div class="t"><span class="dot ${r.status === 'done' ? 'good' : r.status === 'seen' ? 'warn' : 'mut'}"></span>${esc(r.text)}</div><div class="nx">${kst(r.at)} · ${r.status === 'done' ? '처리됨' : r.status === 'seen' ? '확인함' : '대기'}${r.reply ? ' · ' + esc(r.reply) : ''}</div></div>`).join('') : `<div class="empty">아직 요청이 없습니다.</div>`}</div>`;
+}
+function viewRules(){
+  const o = S.d.settings.ops || {}, rows = o.schedule || [];
+  if (!rows.length) return '';
+  return `<h2>게시 규칙<span class="n">${esc((S.d.settings.slots || {}).decided || '')}</span></h2>
+  <div class="card">
+    ${rows.map(r => `<div class="lp"${r.t === '중단' ? ' style="opacity:.55"' : ''}><div class="t"><b style="display:inline-block;min-width:3.4em">${esc(r.t)}</b> ${esc(r.what)} <span class="badge mut">${esc(r.days)}</span></div><div class="s">${esc(r.where)}${r.note ? ' · ' + esc(r.note) : ''}</div></div>`).join('')}
+  ${o.week ? `<div class="note" style="margin-top:8px">${esc(o.week)}</div>` : ''}
+  ${(o.jobs || []).length ? `<div class="sub-h" style="margin-top:12px">뒤에서 도는 작업</div><ul class="learn">${o.jobs.map(j => `<li><b>${esc(j.t)}</b> ${esc(j.name)}<small>${esc(j.what)}</small></li>`).join('')}</ul>` : ''}
+  </div>`;
 }
 function viewLong(){
   const lf = (S.d.settings.ops || {}).longform; if (!lf) return '';
@@ -396,7 +398,7 @@ function viewSched(){
   const past = posts.filter(p => Date.parse(p.scheduled_at) < Date.now() - 3600e3 && pass(p)).sort((a,b) => Date.parse(b.scheduled_at) - Date.parse(a.scheduled_at));
   const sl = S.d.settings.slots || {};
   return `<div class="seg" style="margin-top:4px">${[['all','전체'],['daily','쇼츠'],['card','카드뉴스']].map(([k, l]) => `<button data-f="${k}" class="${F === k ? 'on' : ''}">${l}</button>`).join('')}</div>
-    <h2>예약<span class="n">쇼츠 ${esc((sl.video || []).join(' / '))} · 카드뉴스 ${esc(sl.card || '18:40')} · 롱폼 소개 ${esc(sl.teaser || '19:30')} (있는 날)</span></h2>
+    <h2>예약<span class="n">데일리 쇼츠 ${esc((sl.video || []).join(' / '))} · 롱폼 ${esc(sl.long || '19:30')} 월·수·금·일 · 롱폼 소개 ${esc(sl.teaser || '07:40')} 다음 날</span></h2>
     ${up.length ? up.map(postCard).join('') : '<div class="card empty">예약된 편이 없습니다.</div>'}
     <h2>올린 편</h2>${past.map(postCard).join('') || '<div class="card empty">아직 없습니다.</div>'}
     ${off.length ? `<details class="fold" style="margin-top:18px"><summary>내린 편·교체된 편 ${off.length}개</summary><div class="card">${off.map(p => `<div class="lp"><div class="t">${esc(kindOf(p).l)} · ${esc(p.title)}</div><div class="s">${kst(p.scheduled_at)}${p.yt_video_id ? ' · 유튜브 ' + esc(p.yt_video_id) + ' (비공개 · 삭제는 대표님이 직접)' : ''}</div></div>`).join('')}</div></details>` : ''}`;
@@ -453,7 +455,7 @@ function viewSet(){
   return `<h2>게시 설정</h2><div class="card grid" style="gap:14px">
     <label class="chk"><input type="checkbox" id="auto" ${st.paused === true ? '' : 'checked'}> 자동 게시 켜기 (끄면 인스타·쓰레드 예약 글과 다음 날 제작이 멈춥니다)</label>
     <label class="note">데일리 쇼츠 게시 시각 (한국 시각, 쉼표로 구분 · 유튜브·인스타·틱톡·쓰레드 같은 시각)<input type="text" id="slots" value="${esc((sl.video || []).join(', '))}"></label>
-    <div class="note">카드뉴스 ${esc(sl.card || '18:40')} (인스타·틱톡) · 롱폼 소개 쇼츠 ${esc(sl.teaser || '19:30')} (있는 날만) · 쓰레드는 영상과 같은 시각</div>
+    <div class="note">카드뉴스 중단(인스타 팔로워 1,000명 때 재개) · 롱폼 ${esc(sl.long || '19:30')} 월·수·금·일 · 롱폼 소개 쇼츠 ${esc(sl.teaser || '07:40')} 다음 날 · 쓰레드는 영상과 같은 시각</div>
     <div class="note">길이 실험: 대본 ${esc((len.rotate || [35,45,55]).join(' · '))}초 전후를 시간대마다 날마다 돌림 (±${esc(len.tolerance ?? 4)}초)</div>
     <div><button class="btn pri" id="saveset">저장</button></div></div>
   <h2>자동 작업<span class="n">매일 이 순서로 돌아갑니다 (한국 시각)</span></h2>
