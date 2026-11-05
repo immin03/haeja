@@ -98,6 +98,20 @@ for tag, n in W.get("tags", {}).items():
         except Exception as e:
             print("  오류", tag, vid, e)
 
+# 2b) 영상 창고 (태그 앞쪽 N개, 사진 2장 + 영상) — 2026-11-05 롱폼 '절반 이상 움직이는 영상' (제1 원칙 96)
+for tag, n in W.get("vtags", {}).items():
+    try:
+        items = tag_page(tag)
+    except Exception as e:
+        print("  영상 태그 실패", tag, e)
+        continue
+    for vid, title in items[:n]:
+        TITLES[vid] = title
+        try:
+            mixkit("v" + tag.replace("-", ""), vid, title=title, video=True)
+        except Exception as e:
+            print("  오류", tag, vid, e)
+
 # 제목이 비어 있는 것은 태그 페이지에서 본 제목으로 채운다
 for k, v in IDX.items():
     vid = v.get("id", "").split(":")[-1]
