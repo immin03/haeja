@@ -746,6 +746,107 @@ main{overflow-wrap:break-word}
   .br-ch summary,.br-ch1{padding:14px 0}
   .br-kpis{gap:12px}
 }
+/* ==== 회원 관리 CRM (2026-11-05) ==== */
+.sm{font-size:12px}
+svg.chart{width:100%;height:auto;display:block}
+.crm-top{margin-top:12px}
+.chart-t .key{display:inline-flex;align-items:center;gap:5px;margin-right:10px}
+.chart-t .key i{display:inline-block;width:10px;height:10px;border-radius:3px}
+.stg{display:inline-block;font-size:11px;font-weight:800;padding:1px 8px;border-radius:999px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 28%,transparent);white-space:nowrap}
+.stages{display:flex;flex-direction:column;gap:4px}
+.stages .sgb::before,.stages .sgb::after{content:none}
+.stages .sgb{display:grid;grid-template-columns:78px 30px 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;font:inherit;background:transparent;border:1px solid transparent;border-radius:10px;padding:6px 8px;cursor:pointer;color:var(--ink)}
+.stages .sgb:hover{background:var(--bg)}
+.stages .sgb[aria-pressed="true"]{border-color:var(--line);background:var(--bg)}
+.stages .sgb .stg{justify-self:start}
+.stages .sgb b{font-size:16px;font-variant-numeric:tabular-nums;text-align:right}
+.stages .sgb .bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden}
+.stages .sgb .bar i{display:block;height:100%;border-radius:4px}
+.stages .sgb .muted{grid-column:3;font-size:11.5px;margin-top:2px}
+.cdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.tools select{font:inherit;font-size:13px;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.selbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:10px;border-radius:12px;background:var(--navy-grad);color:var(--ivory)}
+.selbar[hidden]{display:none}
+.selbar .lnk{background:transparent;color:var(--ivory);border-color:rgba(243,238,227,.3)}
+.go.sm{font:inherit;font-size:12.5px;font-weight:700;border:0;border-radius:10px;padding:8px 13px;background:var(--navy-grad);color:var(--ivory);cursor:pointer;white-space:nowrap}
+.selbar .go.sm{background:#EADBB9;color:var(--navy)}
+.go.sm:disabled{opacity:.5}
+.mlist{display:flex;flex-direction:column;gap:8px}
+.mrow{display:grid;grid-template-columns:22px minmax(0,1.5fr) minmax(0,1.25fr) auto;grid-template-areas:"ck who act stat" "ck nx nx nx";gap:6px 16px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.mrow:hover,.mrow:focus-visible{border-color:var(--gold);outline:0;box-shadow:0 4px 16px rgba(14,26,43,.06)}
+.mrow.on{border-color:var(--gold)}
+.mrow .ck{grid-area:ck;display:flex;align-items:center;justify-content:center;align-self:start;padding-top:9px}
+.mrow .ck input{width:16px;height:16px;accent-color:var(--navy);cursor:pointer}
+.mrow .who{grid-area:who;display:flex;gap:10px;align-items:center;min-width:0}
+.ava{width:36px;height:36px;flex:0 0 36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-weight:800;font-size:15px}
+.ava.lg{width:46px;height:46px;flex-basis:46px;font-size:19px}
+.wt{min-width:0}
+.em{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tg{font-size:11px;font-weight:700;color:var(--s-visit)}
+.mrow .act{grid-area:act;min-width:0}
+.mrow .lt{font-size:13px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dots{display:flex;gap:2px}
+.dots i{flex:1;max-width:8px;height:12px;border-radius:2px;background:var(--grid)}
+.dots i.on{background:var(--s-visit)}
+.mrow .stat{grid-area:stat;display:flex;gap:14px}
+.mrow .stat span,.dk div{display:flex;flex-direction:column;align-items:center;font-size:11px;color:var(--muted);white-space:nowrap}
+.mrow .stat em,.dk em{font-style:normal;font-weight:800;font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums}
+.nx{grid-area:nx;font-size:12px;font-weight:600;color:var(--muted);padding-top:2px;border-top:1px dashed var(--line);margin-top:2px;padding-top:7px}
+.nx::before{content:"→ "}
+.nx.msg{color:#A0721F}
+.nx.ok{color:var(--good)}
+.drw .nx{border:0;padding:8px 10px;border-radius:9px;background:var(--bg)}
+.drw-bg{position:fixed;inset:0;background:rgba(10,19,34,.35);z-index:30}
+.drw{position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);background:var(--surface);z-index:31;overflow-y:auto;padding:18px 18px 40px;box-shadow:-12px 0 40px rgba(10,19,34,.18);animation:drwIn .2s ease-out}
+@keyframes drwIn{from{transform:translateX(30px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.drw{animation:none}}
+.drw h3{font-size:13.5px;font-weight:800;margin:20px 0 8px;padding-top:14px;border-top:1px solid var(--line)}
+.dh{display:flex;gap:12px;align-items:center}
+.dh .x{margin-left:auto;flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:14px}
+.dk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px 0 10px;padding:12px 6px;border-radius:12px;background:var(--bg);text-align:center}
+.dk div{text-align:center}
+.dbtn{display:flex;gap:8px;flex-wrap:wrap}
+.memo{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.memo input,.memo textarea,.fl input,.fl textarea,.fl select{width:100%;font:inherit;font-size:13px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);box-sizing:border-box}
+.memo textarea,.fl textarea{resize:vertical;line-height:1.55}
+.sv{display:flex;flex-direction:column;gap:6px}
+.svr{display:grid;grid-template-columns:92px 1fr;gap:8px;font-size:13px;align-items:baseline}
+.svr>.muted{font-size:12px}
+.quote{font-size:13px;line-height:1.6;padding:10px 12px;background:var(--bg);border-left:3px solid var(--gold);border-radius:6px;margin-top:4px}
+.tl{display:flex;flex-direction:column}
+.tli{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.tli:last-child{border-bottom:0}
+.tld{font-weight:800;display:flex;flex-direction:column}
+.tld .sm{font-weight:500;font-size:11px}
+.clog{padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px;line-height:1.5}
+.clog:last-child{border-bottom:0}
+.cmp-bg{position:fixed;inset:0;background:rgba(10,19,34,.45);z-index:40;display:flex;align-items:center;justify-content:center;padding:16px}
+.cmp{width:min(480px,100%);max-height:90vh;overflow-y:auto}
+.fl{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:10px 0 0}
+.fl input,.fl textarea,.fl select{margin-top:4px;font-weight:500}
+.cmp .dbtn{margin-top:14px}
+.quotes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.qt{display:flex;flex-direction:column;gap:10px;justify-content:space-between;font-size:14px;line-height:1.6;border-left:3px solid var(--gold)}
+.qt .lnk{align-self:flex-start;border:0;padding:0;background:none;color:var(--muted)}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sqh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-size:14px}
+.bars.p .row{grid-template-columns:minmax(110px,170px) 1fr 74px}
+.bars.p .n{white-space:nowrap;font-size:12.5px}
+.bars.p .n .muted{font-size:11.5px;margin-left:2px}
+table.svt tr[data-goto]{cursor:pointer}
+table.svt tr[data-goto]:hover td{background:var(--bg)}
+@media (max-width:860px){
+  .mrow{grid-template-columns:22px minmax(0,1fr);grid-template-areas:"ck who" "ck act" "ck stat" "ck nx"}
+  .mrow .stat{justify-content:space-between;padding:2px 0}
+  .dots i{max-width:none}
+  .sgrid{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .tools{flex-wrap:wrap}.tools input{flex-basis:100%}
+  .bars.p .row{grid-template-columns:96px 1fr 66px}
+  .dk{grid-template-columns:repeat(2,1fr);row-gap:12px}
+  .svr{grid-template-columns:80px 1fr}
+}
 </style>
 </head>
 <body>
@@ -830,15 +931,15 @@ function barsList(obj, order){
 const GROUPS = [
   ['brief', '브리핑', ['brief']],
   ['content', '콘텐츠', ['calendar', 'youtube', 'social', 'blog', 'column']],
-  ['result', '유입', ['traffic', 'landing', 'dm']],
-  ['member', '회원', ['overview', 'users', 'survey', 'stocks', 'qual']],
+  ['result', '유입', ['overview', 'traffic', 'landing', 'dm']],
+  ['member', '회원', ['users', 'survey', 'stocks', 'qual']],
   ['rules', '운영 기준', ['rules']],
 ];
 const PAGES = [
   ['brief', '브리핑'],
   ['overview', '방문·가입'],
   ['rules', '운영 기준'],
-  ['users', '가입자'],
+  ['users', '회원 관리'],
   ['survey', '설문 응답'],
   ['stocks', '회원 종목'],
   ['qual', '정성 의견'],
@@ -947,22 +1048,6 @@ function vOverview(s){
   <div class="card tbl">${recent.length ? `<table><thead><tr><th>이메일</th><th>가입</th><th>유입</th><th>최근 방문</th><th>알림</th><th>종목</th><th>규모</th><th>설문</th></tr></thead><tbody>${recent.map(u => `<tr><td>${esc(u.email)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(SRC[u.src] || USRC[u.src] || u.src || '직접')}</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td class="nw">${pushCell(u)}</td><td>${n0(u.holdings)}</td><td class="nw">${esc(u.size||'–')}</td><td class="nw">${u.style || u.size || (u.expect||[]).length ? '완료' : '<span class="muted">–</span>'}</td></tr>`).join('')}</tbody></table><a class="more" href="#users">전체 가입자 보기 ›</a>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
 }
 
-function vSurvey(s){
-  const n = (s.funnel || {}).onboarded || 0;
-  const c = o => `응답 ${n0(sum(o))}건`;
-  return `${head('설문 응답', `가입 직후 기본 정보 질문에 답한 사람 ${n0(n)}명 · 여러 개 고르는 질문은 합계가 응답자보다 많습니다`, 'survey')}
-  ${sec('가입자가 기대하는 것', c(s.expect), barsList(s.expect||{}))}
-  <div class="grid2">
-    <div>${sec('투자 유형', c(s.style), barsList(s.style||{}, ['가치 성장형','안전 배당형','공격 도전형','안정형','배당형','균형형','성장형','공격형']))}</div>
-    <div>${sec('바꾸고 싶은 방향', c(s.goal), barsList(s.goal||{}))}</div>
-  </div>
-  <div class="grid2">
-    <div>${sec('투자 규모', c(s.size), barsList(s.size||{}, SIZE_ORDER))}</div>
-    <div>${sec('투자 시장', c(s.markets), barsList(s.markets||{}, ['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드']))}</div>
-  </div>
-  ${sec('바라는 점 (직접 쓴 의견)', '', (() => { const L = (s.users||[]).filter(u => u.note); return L.length ? `<table class="stk"><tbody>${L.map(u => `<tr><td>${esc(u.note)}</td><td class="muted nw" style="width:1%">${esc(u.email)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">아직 의견이 없습니다.</div>'; })())}`;
-}
-
 const USRC = { ig:'인스타', ad:'광고', threads:'쓰레드', kakaotalk:'카톡', facebook:'페이스북', naver:'네이버', youtube:'유튜브' };
 /* 알림 설정 상태: 켬(기기 수·끈 종류) / 차단 / 아이폰 홈 화면 필요 / 미지원 / "나중에" 누름 / 안 켬 */
 const PUSH_KIND_T = { interest:'본 회사 소식', value:'새로 싸진 회사', column:'새 칼럼' };
@@ -978,38 +1063,258 @@ function pushInfo(u){
 }
 const pushCell = u => { const p = pushInfo(u); return `<span title="${esc(p.tip)}"><b style="color:${p.c}">${p.t}</b>${u.pwa ? ' <span class="pill">앱</span>' : ''}${p.sub ? `<div class="muted" style="font-size:12px">${esc(p.sub)}</div>` : ''}</span>`; };
 const surveyDone = u => !!(u.style || u.size || (u.expect||[]).length || (u.goal||[]).length);
-function userRows(L){
-  if(!L.length) return '<tr><td colspan="9" class="empty">조건에 맞는 가입자가 없습니다.</td></tr>';
-  return L.map(u => { const pills = [...(u.goal||[]), ...(u.expect||[])];
-    return `<tr><td class="nw">${esc(u.email)}</td><td class="nw">${pushCell(u)}</td><td class="muted nw">${kst(u.created_at)}</td><td class="nw">${esc(USRC[u.src] || u.src || '직접')}</td><td class="nw">${n0(u.days30)}일</td><td class="muted nw">${kst(u.last_seen || u.last_sign_in_at)}</td><td>${+u.holdings > 0 ? `<a class="lnk" href="#stocks" data-sk-go="${esc(u.email)}">${n0(u.holdings)}</a>` : n0(u.holdings)}</td><td class="nw">${esc(u.style||'–')}<div class="muted" style="font-size:12px">${esc(u.size||'')}</div></td>
-      <td style="min-width:260px">${surveyDone(u) ? pills.map(e => `<span class="pill">${esc(e)}</span>`).join('') + (u.note ? `<div style="margin-top:4px;font-size:12.5px">“${esc(u.note)}”</div>` : '') : '<span class="muted">설문 전</span>'}</td></tr>`; }).join('');
+/* ==== 회원 관리 CRM (2026-11-05 대표 요청: 회원 활동 추적 · 활성 유저 · 설문 정리 · 회원 소통) ====
+   데이터: admin_crm (회원별 활동·설문·태그·메모·보낸 메시지), admin_crm_member (한 명 상세), admin_crm_set (태그·메모), admin_crm_send (앱 메시지)
+   활동 = 앱을 열거나 화면을 본 날 + 종목·일지 저장. 시세 갱신 같은 시스템 일괄 작업은 활동에서 뺀다 */
+const CRM = { data: undefined, err: '', f: 'all', k: '', sort: 'recent', sel: new Set(), open: null, det: {}, busy: false };
+async function crmLoad(force){
+  if(CRM.busy) return; if(CRM.data !== undefined && !force) return;
+  CRM.busy = true; const { data, error } = await sb.rpc('admin_crm'); CRM.busy = false;
+  CRM.err = error ? error.message : ''; CRM.data = error ? null : data;
+  if(['users', 'survey'].includes(page())) render();
 }
-const UF = { k: '', f: 'all' };
-function userFilter(L){ const k = UF.k.toLowerCase();
-  return L.filter(u => UF.f === 'all' || (UF.f === 'survey' && surveyDone(u)) || (UF.f === 'push' && +u.push > 0) || (UF.f === 'nopush' && !(+u.push > 0)) || (UF.f === 'denied' && pushInfo(u).k === 'denied') || (UF.f === 'hold' && +u.holdings > 0) || (UF.f === 'active' && +u.days30 >= 2))
-          .filter(u => !k || JSON.stringify(u).toLowerCase().includes(k)); }
-function vUsers(s){
-  const L = s.users || [];
-  const chip = (id, t, n) => `<button class="chip" type="button" data-uf="${id}" aria-pressed="${UF.f === id}">${t} <span class="muted" style="font-weight:500">${n}</span></button>`;
-  return `${head('가입자', `최근 100명 · 운영·체험 계정 제외`, 'users')}
-  <div class="tools"><input id="q" type="search" placeholder="이메일·응답 내용으로 찾기" value="${esc(UF.k)}"><span class="qcount" id="ucount"></span><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
-  <div class="chips">${chip('all', '전체', L.length)}${chip('survey', '설문 완료', L.filter(surveyDone).length)}${chip('hold', '종목 등록', L.filter(u => +u.holdings > 0).length)}${chip('push', '알림 켬', L.filter(u => +u.push > 0).length)}${chip('nopush', '알림 안 켬', L.filter(u => !(+u.push > 0)).length)}${chip('denied', '알림 차단', L.filter(u => pushInfo(u).k === 'denied').length)}${chip('active', '30일 2회 이상 방문', L.filter(u => +u.days30 >= 2).length)}</div>
-  <div class="card tbl">${L.length ? `<table><thead><tr><th>이메일</th><th>알림 설정</th><th>가입</th><th>유입</th><th>30일 방문</th><th>최근 방문</th><th>종목</th><th>방식 · 규모</th><th>설문 (방향 · 기대 · 의견)</th></tr></thead><tbody id="ub">${userRows(userFilter(L))}</tbody></table>` : '<div class="empty">아직 가입자가 없습니다.</div>'}</div>`;
+const dayMs = 864e5;
+const kDay = iso => new Date(Date.parse(iso) + 9 * 3600e3).toISOString().slice(0, 10);
+const todayK = () => kDay(new Date().toISOString());
+const daysSince = iso => iso ? Math.max(0, Math.round((Date.parse(todayK()) - Date.parse(kDay(iso))) / dayMs)) : null;
+const ago = iso => { const d = daysSince(iso); if(d === null) return '기록 없음'; if(d === 0){ const h = Math.floor((Date.now() - Date.parse(iso)) / 3600e3); return h < 1 ? '방금' : h + '시간 전'; } return d === 1 ? '어제' : d + '일 전'; };
+/* 회원 단계: 신규(가입 7일 안) → 단골(30일에 4일 이상) → 활성(7일 안에 옴) → 관심 필요(8~14일 안 옴) → 휴면(15일 이상) */
+const STAGE = {
+  new:     { t: '신규',     c: '#3E6AA8', d: '가입 7일 안' },
+  core:    { t: '단골',     c: '#2D7A5F', d: '30일에 4일 이상 방문' },
+  active:  { t: '활성',     c: '#4E9A7B', d: '최근 7일 안에 방문' },
+  risk:    { t: '관심 필요', c: '#C08A2E', d: '8~14일째 안 옴' },
+  dormant: { t: '휴면',     c: '#D8415A', d: '15일 넘게 안 옴' },
+};
+function stageOf(m){
+  const age = daysSince(m.created_at), ds = daysSince(m.last_at);
+  if(age !== null && age < 7) return 'new';
+  if(+m.a30 >= 4 && ds !== null && ds <= 7) return 'core';
+  if(ds !== null && ds <= 7) return 'active';
+  if(ds !== null && ds <= 14) return 'risk';
+  return 'dormant';
 }
-function bindUsers(s){
-  const L = s.users || [], q = $('#q'), ub = $('#ub');
-  const draw = () => { if(!ub) return; const R = userFilter(L); ub.innerHTML = userRows(R); ub.querySelectorAll('[data-sk-go]').forEach(a => a.onclick = () => { SK.k = a.dataset.skGo; SK.f = 'all'; }); const c = $('#ucount'); if(c) c.textContent = R.length === L.length ? '' : `${n0(R.length)}명`; };
-  if(q) q.oninput = () => { UF.k = q.value.trim(); draw(); };
-  document.querySelectorAll('[data-uf]').forEach(b => b.onclick = () => { UF.f = b.dataset.uf; document.querySelectorAll('[data-uf]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
-  draw();
-  const b = $('#csv'); if(b) b.onclick = () => {
-    const cols = ['email','created_at','src','days30','last_seen','push','pwa','holdings','style','goal','size','expect','note'];
-    const val = (u, c) => c === 'push' ? (p => p.t + (p.sub ? ' (' + p.sub + ')' : ''))(pushInfo(u)) : c === 'pwa' ? (u.pwa ? '예' : '') : u[c];
-    const cell = v => '"' + String(Array.isArray(v) ? v.join(' / ') : (v ?? '')).replace(/"/g, '""') + '"';
-    const csv = '﻿' + ['이메일,가입,유입,30일 방문일수,최근 방문,알림,홈화면 앱,종목 수,지금 방식,바꾸고 싶은 방향,규모,기대하는 것,바라는 점', ...L.map(u => cols.map(c => cell(val(u, c))).join(','))].join('\n');
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'valuenote-users-' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
+const stageBadge = k => `<span class="stg" style="--c:${STAGE[k].c}">${STAGE[k].t}</span>`;
+/* 다음에 할 일: 단계와 빠진 행동을 보고 한 줄로 */
+function nextAct(m){
+  const st = stageOf(m), push = +m.push > 0;
+  if(st === 'dormant') return ['msg', '복귀 메시지 보내기 · 새 칼럼·영상 소식으로'];
+  if(st === 'risk') return ['msg', '다시 오도록 이번 주 소식 보내기'];
+  if(!m.surveyed) return ['msg', '설문(투자 유형) 마치도록 안내'];
+  if(!(+m.holdings > 0) && !(+m.interests > 0)) return ['msg', '관심·보유 종목 담기 안내 · 적정 주가 바로 확인'];
+  if(!(+m.holdings > 0)) return ['msg', `보유 종목 등록 안내 · 관심 종목 ${n0(m.interests)}개는 담아 둠`];
+  if(!push) return ['info', '알림 켜기 안내 · 적정 매수가 알림'];
+  if(st === 'core') return ['ok', '단골 · 의견 묻기 좋은 회원'];
+  return ['ok', '잘 쓰고 있음'];
+}
+/* 30일 방문 막대: 하루 한 칸, 온 날만 채운다 */
+function dots(m){
+  const on = new Set(m.dl || []), t = Date.parse(todayK()); let h = '';
+  for(let i = 29; i >= 0; i--){ const d = new Date(t - i * dayMs).toISOString().slice(0, 10); h += `<i${on.has(d) ? ' class="on"' : ''} title="${+d.slice(5,7)}/${+d.slice(8)}${on.has(d) ? ' 방문' : ''}"></i>`; }
+  return `<span class="dots" aria-label="최근 30일 중 ${n0(m.a30)}일 방문">${h}</span>`;
+}
+const pushOf = m => { const s = ((DATA || {}).users || []).find(u => u.email === m.email); return s || { push: m.push }; };
+const nm = m => String(m.email || '').split('@')[0];
+const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
+
+function crmFilter(L){
+  const k = CRM.k.toLowerCase();
+  const R = L.filter(m => CRM.f === 'all' ? true : CRM.f === 'once' ? (+m.a30 <= 1 && daysSince(m.created_at) >= 3) : CRM.f === 'nosurvey' ? !m.surveyed : CRM.f === 'nohold' ? !(+m.holdings > 0) : CRM.f === 'nopush' ? !(+m.push > 0) : CRM.f.startsWith('tag:') ? (m.tags || []).includes(CRM.f.slice(4)) : stageOf(m) === CRM.f)
+            .filter(m => !k || JSON.stringify(m).toLowerCase().includes(k));
+  const by = { recent: m => -Date.parse(m.last_at || 0), joined: m => -Date.parse(m.created_at), days: m => -(+m.a30 || 0), views: m => -(+m.v30 || 0) }[CRM.sort];
+  return R.sort((a, b) => by(a) - by(b));
+}
+
+function crmTrend(daily){
+  if(!daily || !daily.length) return '<div class="empty">기록이 없습니다.</div>';
+  const W = 560, H = 170, L = 26, R = 8, T = 10, B = 22, iw = W - L - R, ih = H - T - B;
+  const max = Math.max(2, ...daily.map(d => Math.max(+d.w || 0, +d.a || 0)));
+  const nice = Math.ceil(max / 2) * 2, y = v => T + ih - v / nice * ih, bw = iw / daily.length;
+  let g = ''; for(let i = 0; i <= 2; i++){ const v = nice * i / 2; g += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${y(v)+3.5}" text-anchor="end">${v}</text>`; }
+  const bars = daily.map((d, i) => { const v = +d.a || 0, x = L + i * bw + 1.5, w = Math.max(1, bw - 3), top = y(v);
+    return `<g class="hit" data-tip="${+d.d.slice(5,7)}/${+d.d.slice(8)} · 그날 활동 ${v}명 · 7일 활동 ${d.w}명 · 가입 ${d.s}명"><rect x="${L + i * bw}" y="${T}" width="${bw}" height="${ih}" fill="transparent"/>${v ? `<rect x="${x}" y="${top}" width="${w}" height="${T + ih - top}" rx="2.5" fill="var(--s-visit)" opacity=".8"/>` : ''}${+d.s ? `<circle cx="${x + w/2}" cy="${T + ih + 6}" r="2.5" fill="var(--s-sign)"/>` : ''}</g>`; }).join('');
+  const line = daily.map((d, i) => `${i ? 'L' : 'M'}${(L + i * bw + bw / 2).toFixed(1)},${y(+d.w || 0).toFixed(1)}`).join(' ');
+  const lab = [0, 7, 14, 21, daily.length - 1].map(i => daily[i] ? `<text x="${L + i * bw + bw / 2}" y="${H - 4}" text-anchor="middle">${+daily[i].d.slice(5,7)}/${+daily[i].d.slice(8)}</text>` : '').join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="최근 30일 활동 회원 수">${g}${bars}<path d="${line}" fill="none" stroke="var(--gold)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${lab}</svg>`;
+}
+
+function vUsers(){
+  if(CRM.data === undefined){ setTimeout(() => crmLoad(), 0); return `${head('회원 관리', '', 'users')}<div class="empty">불러오는 중</div>`; }
+  if(!CRM.data) return `${head('회원 관리', '', 'users')}<div class="card">불러오지 못했습니다: ${esc(CRM.err)}</div>`;
+  const D = CRM.data, L = D.members || [], N = L.length || 0;
+  const cnt = k => L.filter(m => stageOf(m) === k).length;
+  const back2 = L.filter(m => +m.a30 >= 2).length;
+  const wd = D.wau - D.wauPrev, wdel = D.wauPrev ? `<span class="d ${wd > 0 ? 'up' : wd < 0 ? 'dn' : 'eq'}" title="그 전 7일 ${D.wauPrev}명">${wd > 0 ? '+' : ''}${wd}명</span>` : '';
+  const chip = (id, t, n, c) => `<button class="chip" type="button" data-cf="${esc(id)}" aria-pressed="${CRM.f === id}">${c ? `<i class="cdot" style="background:${c}"></i>` : ''}${esc(t)} <span class="muted" style="font-weight:500">${n}</span></button>`;
+  const R = crmFilter(L);
+  return `${head('회원 관리', `회원 ${n0(N)}명 · 운영·체험 계정 제외 · 활동 = 앱을 열었거나 종목·일지를 저장한 날`, 'users')}
+  <div class="kpis">
+    ${kpi('오늘 활동 회원', n0(D.dau), `전체 회원의 ${pct(D.dau, N)}`, true)}
+    ${kpi('7일 활동 회원', n0(D.wau) + wdel, `전체의 ${pct(D.wau, N)} · 배지는 그 전 7일 대비`)}
+    ${kpi('30일 활동 회원', n0(D.mau), `전체의 ${pct(D.mau, N)}`)}
+    ${kpi('다시 온 회원', n0(back2), `30일 중 이틀 이상 온 회원 · ${pct(back2, N)}`)}
+  </div>
+  <div class="grid2 crm-top">
+    <div class="card"><div class="chart-t"><span class="key"><i style="background:var(--s-visit)"></i><b style="color:var(--ink)">그날 활동</b></span><span class="key"><i style="background:var(--gold);height:3px;border-radius:2px"></i>7일 활동</span><span class="key"><i style="background:var(--s-sign);border-radius:50%"></i>가입</span></div>${crmTrend(D.daily)}</div>
+    <div class="card"><div class="chart-t"><b style="color:var(--ink)">회원 단계</b><span>누르면 그 회원만 봅니다</span></div>
+      <div class="stages">${Object.keys(STAGE).map(k => { const n = cnt(k); return `<button type="button" class="sgb" data-cf="${k}" aria-pressed="${CRM.f === k}"><span class="stg" style="--c:${STAGE[k].c}">${STAGE[k].t}</span><b>${n0(n)}</b><span class="bar"><i style="width:${N ? n / N * 100 : 0}%;background:${STAGE[k].c}"></i></span><span class="muted">${STAGE[k].d}</span></button>`; }).join('')}</div>
+    </div>
+  </div>
+  <h2>회원 목록</h2>
+  <div class="tools"><input id="cq" type="search" placeholder="이메일·설문·메모·태그로 찾기" value="${esc(CRM.k)}">
+    <select id="csort" aria-label="정렬">${[['recent','최근 활동 순'],['joined','가입 순'],['days','방문일 많은 순'],['views','본 화면 많은 순']].map(([v, t]) => `<option value="${v}"${CRM.sort === v ? ' selected' : ''}>${t}</option>`).join('')}</select>
+    <span class="qcount" id="ccount">${R.length === N ? '' : n0(R.length) + '명'}</span><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
+  <div class="chips">${chip('all', '전체', N)}${chip('once', '가입 날만 옴', L.filter(m => +m.a30 <= 1 && daysSince(m.created_at) >= 3).length)}${chip('nosurvey', '설문 안 함', L.filter(m => !m.surveyed).length)}${chip('nohold', '종목 없음', L.filter(m => !(+m.holdings > 0)).length)}${chip('nopush', '알림 안 켬', L.filter(m => !(+m.push > 0)).length)}${(D.tags || []).map(t => chip('tag:' + t, '#' + t, L.filter(m => (m.tags || []).includes(t)).length)).join('')}</div>
+  <div class="selbar" id="selbar" ${CRM.sel.size ? '' : 'hidden'}><b id="seln">${CRM.sel.size}명 선택</b><button class="go sm" type="button" data-compose="sel">선택한 회원에게 메시지</button><button class="lnk" type="button" id="selall">보이는 회원 모두 선택</button><button class="lnk" type="button" id="selclr">선택 해제</button></div>
+  <div class="mlist" id="mlist">${crmRows(R)}</div>
+  <div class="note">메시지는 그 회원의 앱 알림함에 남고, 알림을 켠 기기에는 휴대폰 알림으로도 갑니다. 회원을 누르면 날짜별 활동·설문·메모를 봅니다.</div>
+  ${crmDrawer()}`;
+}
+function crmRows(R){
+  if(!R.length) return '<div class="card empty">조건에 맞는 회원이 없습니다.</div>';
+  return R.map(m => { const st = stageOf(m), na = nextAct(m), p = pushInfo(pushOf(m));
+    return `<div class="mrow${CRM.open === m.uid ? ' on' : ''}" data-open="${m.uid}" tabindex="0" role="button" aria-label="${esc(m.email)} 자세히">
+      <label class="ck" data-stop><input type="checkbox" data-sel="${m.uid}"${CRM.sel.has(m.uid) ? ' checked' : ''} aria-label="선택"></label>
+      <div class="who"><div class="ava" style="background:${STAGE[st].c}">${esc(nm(m).slice(0, 1).toUpperCase())}</div>
+        <div class="wt"><div class="em">${esc(m.email)}</div><div class="muted sm">${stageBadge(st)} 가입 ${kstDate(m.created_at).slice(5).replace('-', '/')} · ${esc(m.src)}${(m.tags || []).map(t => ` <span class="tg">#${esc(t)}</span>`).join('')}</div></div></div>
+      <div class="act"><div class="lt"><b>${ago(m.last_at)}</b><span class="muted sm"> · 30일 ${n0(m.a30)}일 방문 · 화면 ${n0(m.v30)}회</span></div>${dots(m)}</div>
+      <div class="stat"><span title="보유 종목"><em>${n0(m.holdings)}</em>보유</span><span title="관심 종목"><em>${n0(m.interests)}</em>관심</span><span title="알림 ${esc(p.t)}"><em style="color:${p.c}">${p.k === 'on' ? '켬' : p.k === 'denied' ? '차단' : '끔'}</em>알림</span><span title="설문"><em style="color:${m.surveyed ? 'var(--good)' : 'var(--muted)'}">${m.surveyed ? '완료' : '–'}</em>설문</span></div>
+      <div class="nx ${na[0]}">${esc(na[1])}${+m.msgs ? `<span class="muted sm"> · 보낸 메시지 ${n0(m.msgs)} (읽음 ${n0(m.msgs_read)})</span>` : ''}</div>
+    </div>`; }).join('');
+}
+const SV_Q = [['style', '투자 유형'], ['goal', '바꾸고 싶은 방향'], ['expect', '기대하는 것'], ['markets', '투자 시장'], ['size', '투자 규모'], ['exp', '투자 경력']];
+function crmDrawer(){
+  const m = CRM.open && ((CRM.data || {}).members || []).find(x => x.uid === CRM.open); if(!m) return '';
+  const st = stageOf(m), det = CRM.det[m.uid], p = pushInfo(pushOf(m)), na = nextAct(m);
+  const PK = Object.assign({}, PAGE_KO, { value: '가치 점수 종목', myguide: '내 가이드', dividend: '배당', column: '칼럼', ref: '기준·검증', watchlist: '관심 종목' });
+  const pageT = x => PK[x] || null;
+  const tl = !det ? '<div class="empty">불러오는 중</div>' : det.error ? `<div class="empty">불러오지 못했습니다: ${esc(det.error)}</div>` : (det.days || []).length ? `<div class="tl">${det.days.map(d => { const pg = [...new Set((d.pages || []).map(pageT).filter(Boolean))];
+      return `<div class="tli"><div class="tld">${+d.d.slice(5,7)}/${+d.d.slice(8)}<span class="muted sm">${kst(d.first_at).slice(9)}~${kst(d.last_at).slice(9)}</span></div><div><b>${(d.marks || []).includes('signup') ? '가입' + ((d.marks || []).includes('onboard') ? '·설문' : '') + ' · ' : (d.marks || []).includes('onboard') ? '설문 · ' : ''}화면 ${n0(d.n)}회</b>${pg.length ? `<div class="muted sm">${pg.map(esc).join(' · ')}</div>` : ''}</div></div>`; }).join('')}</div>` : '<div class="empty">최근 60일 활동이 없습니다.</div>';
+  const sv = m.surveyed || m.style ? `<div class="sv">${SV_Q.map(([k, t]) => { const v = arr(m[k]).flatMap(x => String(x).split(', ')).filter(Boolean); return v.length ? `<div class="svr"><span class="muted">${t}</span><div>${v.map(x => `<span class="pill">${esc(x)}</span>`).join('')}</div></div>` : ''; }).join('')}${m.note ? `<div class="quote">“${esc(m.note)}”</div>` : ''}</div>` : '<div class="empty">아직 설문을 하지 않았습니다.</div>';
+  const C = { holdings: '보유', journal: '일지', interests: '관심', companies: '분석' };
+  const saves = det && (det.saves || []).length ? `<div class="sv">${det.saves.slice(0, 12).map(s => `<div class="svr"><span class="muted">${C[s.c] || s.c}</span><div>${esc(s.name)} <span class="muted sm">${kst(s.at)}</span></div></div>`).join('')}</div>` : '<div class="empty">저장한 종목·일지가 없습니다.</div>';
+  const log = det && (det.log || []).length ? det.log.map(l => `<div class="clog"><div><b>${esc(l.title || '')}</b> <span class="muted sm">${kst(l.at)} · ${l.read ? '<span style="color:var(--good)">읽음</span>' : '안 읽음'}</span></div><div class="sm">${esc(l.body || '')}</div></div>`).join('') : '<div class="empty">보낸 메시지가 없습니다.</div>';
+  return `<div class="drw-bg" data-close></div><aside class="drw" data-noswipe aria-label="회원 상세">
+    <div class="dh"><div class="ava lg" style="background:${STAGE[st].c}">${esc(nm(m).slice(0, 1).toUpperCase())}</div><div style="min-width:0"><div class="em">${esc(m.email)}</div><div class="muted sm">${stageBadge(st)} 가입 ${kst(m.created_at)} · ${esc(m.src)} 유입</div></div><button class="x" type="button" data-close aria-label="닫기">✕</button></div>
+    <div class="dk"><div><em>${ago(m.last_at)}</em>마지막 활동</div><div><em>${n0(m.a30)}일</em>30일 방문</div><div><em>${n0(m.holdings)} · ${n0(m.interests)}</em>보유 · 관심</div><div><em style="color:${p.c}">${esc(p.t)}</em>알림${p.sub ? ' · ' + esc(p.sub) : ''}</div></div>
+    <div class="nx ${na[0]}" style="margin:0 0 14px">다음 할 일: ${esc(na[1])}</div>
+    <div class="dbtn"><button class="go sm" type="button" data-compose="one">이 회원에게 메시지</button><button class="lnk" type="button" data-copy="${esc(m.email)}">이메일 복사</button></div>
+    <h3>관리 메모</h3>
+    <div class="memo"><input id="ctags" placeholder="태그 (쉼표로 구분 · 예: 단골, 피드백 요청)" value="${esc((m.tags || []).join(', '))}"><textarea id="cmemo" rows="3" placeholder="이 회원에 대해 기억할 것 (예: 배당주 위주, 11/5 기능 제안 받음)">${esc(m.memo || '')}</textarea><button class="go sm" type="button" id="csave">메모 저장</button></div>
+    <h3>설문 응답</h3>${sv}
+    <h3>날짜별 활동 <span class="muted sm">최근 60일</span></h3>${tl}
+    <h3>저장한 종목·일지</h3>${saves}
+    <h3>보낸 메시지</h3>${log}
+  </aside>`;
+}
+const MSG_TPL = [
+  ['환영 인사', '밸류노트에 오신 걸 환영합니다', '보유 종목을 한 번 등록해 두시면 워렌 버핏·벤저민 그레이엄 기준의 적정 주가와 점수를 매일 계산해 드립니다.', 'portfolio'],
+  ['종목 등록 안내', '보유 종목, 1분이면 점검할 수 있습니다', '포트폴리오에 가지고 계신 종목을 넣어 보세요. 지금 주가가 적정 주가보다 싼지 비싼지 바로 보여 드립니다.', 'portfolio'],
+  ['다시 오기', '이번 주 새로 싸진 회사가 있습니다', '최근 주가가 많이 움직이면서 점수가 오른 회사들이 생겼습니다. 오늘 한 번 확인해 보세요.', 'companies'],
+  ['의견 묻기', '밸류노트를 더 좋게 만들고 싶습니다', '써 보시면서 불편했던 점이나 있었으면 하는 기능이 있으면 앱 안 의견 보내기로 한 줄만 남겨 주세요.', ''],
+];
+const MSG_TAB = [['', '알림함'], ['portfolio', '포트폴리오'], ['companies', '기업 찾기'], ['briefing', '오늘 브리핑'], ['column', '칼럼']];
+function crmCompose(uids){
+  const L = (CRM.data.members || []).filter(m => uids.includes(m.uid)), pushN = L.filter(m => +m.push > 0).length;
+  document.querySelector('.cmp-bg')?.remove();
+  const box = document.createElement('div'); box.className = 'cmp-bg'; box.setAttribute('data-noswipe', '');
+  box.innerHTML = `<div class="cmp card" role="dialog" aria-label="메시지 보내기"><div class="dh" style="margin-bottom:10px"><b style="font-size:16px">메시지 보내기</b><button class="x" type="button" data-cx aria-label="닫기">✕</button></div>
+    <div class="muted sm" style="margin-bottom:10px">받는 회원 ${n0(L.length)}명${L.length <= 3 ? ' · ' + L.map(m => esc(nm(m))).join(', ') : ''} · 휴대폰 알림까지 가는 회원 ${n0(pushN)}명, 나머지는 앱 알림함에만 남습니다</div>
+    <div class="chips">${MSG_TPL.map((t, i) => `<button class="chip" type="button" data-tpl="${i}">${t[0]}</button>`).join('')}</div>
+    <label class="fl">제목<input id="mt" maxlength="40" placeholder="알림에 보이는 제목"></label>
+    <label class="fl">내용<textarea id="mb" rows="4" maxlength="200" placeholder="두세 문장으로"></textarea></label>
+    <label class="fl">누르면 열 화면<select id="mtab">${MSG_TAB.map(([v, t]) => `<option value="${v}">${t}</option>`).join('')}</select></label>
+    <div class="dbtn" style="justify-content:flex-end"><button class="lnk" type="button" data-cx>취소</button><button class="go sm" type="button" id="msend">${n0(L.length)}명에게 보내기</button></div></div>`;
+  document.body.appendChild(box);
+  const close = () => box.remove();
+  box.querySelectorAll('[data-cx]').forEach(b => b.onclick = close); box.onclick = e => { if(e.target === box) close(); };
+  box.querySelectorAll('[data-tpl]').forEach(b => b.onclick = () => { const t = MSG_TPL[+b.dataset.tpl]; box.querySelector('#mt').value = t[1]; box.querySelector('#mb').value = t[2]; box.querySelector('#mtab').value = t[3]; });
+  box.querySelector('#msend').onclick = async e => {
+    const title = box.querySelector('#mt').value.trim(), body = box.querySelector('#mb').value.trim();
+    if(!title || !body){ toast('제목과 내용을 써 주세요.', true); return; }
+    e.target.disabled = true;
+    const { data, error } = await sb.rpc('admin_crm_send', { p_uids: L.map(m => m.uid), p_title: title, p_body: body, p_tab: box.querySelector('#mtab').value || null });
+    if(error){ e.target.disabled = false; toast('보내지 못했습니다: ' + error.message, true); return; }
+    toast(`${data.sent}명에게 보냈습니다 · 휴대폰 알림 ${data.push}명`); close(); CRM.sel.clear();
+    uids.forEach(u => delete CRM.det[u]); await crmLoad(true);
   };
 }
+function bindUsers(){
+  if(!CRM.data) return;
+  const L = CRM.data.members || [], ml = $('#mlist');
+  const draw = () => { const R = crmFilter(L); ml.innerHTML = crmRows(R); const c = $('#ccount'); if(c) c.textContent = R.length === L.length ? '' : n0(R.length) + '명'; bindRows(); };
+  const selUi = () => { const b = $('#selbar'); b.hidden = !CRM.sel.size; $('#seln').textContent = CRM.sel.size + '명 선택'; };
+  const bindRows = () => {
+    ml.querySelectorAll('[data-sel]').forEach(x => x.onchange = () => { x.checked ? CRM.sel.add(x.dataset.sel) : CRM.sel.delete(x.dataset.sel); selUi(); });
+    ml.querySelectorAll('[data-stop]').forEach(x => x.onclick = e => e.stopPropagation());
+    ml.querySelectorAll('[data-open]').forEach(r => { const go = () => crmOpen(r.dataset.open); r.onclick = go; r.onkeydown = e => { if(e.key === 'Enter') go(); }; });
+  };
+  const q = $('#cq'); if(q) q.oninput = () => { CRM.k = q.value.trim(); draw(); };
+  const so = $('#csort'); if(so) so.onchange = () => { CRM.sort = so.value; draw(); };
+  document.querySelectorAll('[data-cf]').forEach(b => b.onclick = () => { CRM.f = CRM.f === b.dataset.cf && b.dataset.cf !== 'all' ? 'all' : b.dataset.cf; render(); });
+  const sa = $('#selall'); if(sa) sa.onclick = () => { crmFilter(L).forEach(m => CRM.sel.add(m.uid)); draw(); selUi(); };
+  const sc = $('#selclr'); if(sc) sc.onclick = () => { CRM.sel.clear(); draw(); selUi(); };
+  document.querySelectorAll('[data-compose]').forEach(b => b.onclick = () => crmCompose(b.dataset.compose === 'one' ? [CRM.open] : [...CRM.sel]));
+  document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => { CRM.open = null; render(); });
+  document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { try{ await navigator.clipboard.writeText(b.dataset.copy); toast('이메일을 복사했습니다.'); }catch(_){ toast(b.dataset.copy); } });
+  const sv = $('#csave'); if(sv) sv.onclick = async () => {
+    const tags = $('#ctags').value.split(',').map(t => t.trim().replace(/^#/, '')).filter(Boolean), memo = $('#cmemo').value;
+    sv.disabled = true; const { error } = await sb.rpc('admin_crm_set', { p_uid: CRM.open, p_tags: tags, p_memo: memo }); sv.disabled = false;
+    if(error){ toast('저장하지 못했습니다: ' + error.message, true); return; }
+    toast('메모를 저장했습니다.'); await crmLoad(true); };
+  bindRows();
+  const b = $('#csv'); if(b) b.onclick = () => {
+    const H = ['이메일','단계','가입','유입','마지막 활동','30일 방문일','30일 본 화면','보유 종목','일지','알림','설문','투자 유형','바꾸고 싶은 방향','기대하는 것','투자 시장','규모','바라는 점','태그','메모','보낸 메시지'];
+    const cell = v => '"' + String(Array.isArray(v) ? v.join(' / ') : (v ?? '')).replace(/"/g, '""') + '"';
+    const rows = crmFilter(L).map(m => [m.email, STAGE[stageOf(m)].t, kst(m.created_at), m.src, kst(m.last_at), m.a30, m.v30, m.holdings, m.journal, pushInfo(pushOf(m)).t, m.surveyed ? '완료' : '', m.style, m.goal, m.expect, m.markets, m.size, m.note, m.tags, m.memo, m.msgs].map(cell).join(','));
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + [H.join(','), ...rows].join('\n')], {type:'text/csv'})); a.download = 'valuenote-members-' + todayK() + '.csv'; a.click();
+  };
+}
+async function crmOpen(uid){
+  CRM.open = uid; render();
+  if(!CRM.det[uid]){ const { data, error } = await sb.rpc('admin_crm_member', { p_uid: uid }); CRM.det[uid] = error ? { error: error.message } : data; if(CRM.open === uid) render(); }
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && CRM.open && page() === 'users'){ if(document.querySelector('.cmp-bg')) document.querySelector('.cmp-bg').remove(); else { CRM.open = null; render(); } } });
+
+/* ---- 설문 응답: 질문별 막대(명·응답자 대비 %) + 직접 쓴 의견 + 회원별 응답 ---- */
+function barsP(obj, base, order){
+  const ent = order ? order.filter(k => k in obj).map(k => [k, obj[k]]).concat(Object.entries(obj).filter(([k]) => !order.includes(k)).sort((a, b) => b[1] - a[1])) : Object.entries(obj).sort((a, b) => b[1] - a[1]);
+  if(!ent.length) return '<div class="empty">아직 응답이 없습니다.</div>';
+  const max = Math.max(...ent.map(e => e[1]));
+  return `<div class="bars p">${ent.map(([k, v]) => `<div class="row"><span>${esc(k)}</span><div class="track"><div class="fill" style="width:${v / max * 100}%"></div></div><span class="n"><b>${n0(v)}</b>명 <span class="muted">${pct(v, base)}</span></span></div>`).join('')}</div>`;
+}
+function vSurvey(s){
+  if(CRM.data === undefined){ setTimeout(() => crmLoad(), 0); }
+  const M = (CRM.data && CRM.data.members) || [], R = M.filter(m => m.surveyed || m.style), N = M.length || (s.signups || {}).total || 0;
+  const tally = k => { const o = {}; R.forEach(m => [...new Set(arr(m[k]).flatMap(x => String(x).split(', ')).filter(Boolean))].forEach(v => o[v] = (o[v] || 0) + 1)); return o; };
+  const T = M.length ? Object.fromEntries(SV_Q.map(([k]) => [k, tally(k)])) : { style: s.style || {}, goal: s.goal || {}, expect: s.expect || {}, markets: s.markets || {}, size: s.size || {}, exp: {} };
+  const base = R.length || (s.funnel || {}).onboarded || 0;
+  const notes = M.filter(m => m.note);
+  const qb = k => M.length ? R.filter(m => arr(m[k]).length).length : base;
+  const q = (t, k, order) => `<div class="card sq"><div class="sqh"><b>${t}</b><span class="muted sm">답한 회원 ${n0(qb(k))}명 · ${k === 'size' || k === 'exp' ? '하나 고름' : '여러 개 고름'}</span></div>${barsP(T[k] || {}, qb(k), order)}</div>`;
+  const top = o => { const e = Object.entries(o || {}).sort((a, b) => b[1] - a[1]); return e.length ? e.filter(x => x[1] === e[0][1]).map(x => x[0]).join(' · ') : '–'; };
+  return `${head('설문 응답', '가입 직후 묻는 기본 정보 · %는 그 질문에 답한 회원 대비 · 지금 가입 화면은 투자 유형만 묻고, 나머지 질문은 그 전에 가입한 회원의 답입니다', 'survey')}
+  <div class="kpis">
+    ${kpi('설문 응답 회원', n0(base), `전체 회원 ${n0(N)}명 중 ${pct(base, N)}`, true)}
+    ${kpi('직접 쓴 의견', n0(notes.length), '바라는 점을 글로 남긴 회원')}
+    ${kpi('가장 많은 유형', `<span style="font-size:20px">${esc(top(T.style))}</span>`, '투자 유형 1위')}
+    ${kpi('가장 많이 기대하는 것', `<span style="font-size:18px">${esc(top(T.expect))}</span>`, '기대하는 것 1위')}
+  </div>
+  <h2>바라는 점 <span class="qcount">회원이 직접 쓴 글</span></h2>
+  ${notes.length ? `<div class="quotes">${notes.map(m => `<div class="card qt"><div>“${esc(m.note)}”</div><button class="lnk sm" type="button" data-goto="${m.uid}">${esc(m.email)} · ${esc(m.style || '')} ›</button></div>`).join('')}</div>` : '<div class="card empty">아직 의견이 없습니다.</div>'}
+  <h2>질문별 응답</h2>
+  <div class="sgrid">
+    ${q('투자 유형', 'style', ['가치 성장형','안전 배당형','공격 도전형','가치 투자형','안정형','배당형','균형형','성장형','공격형'])}
+    ${q('기대하는 것', 'expect')}
+    ${q('바꾸고 싶은 방향', 'goal')}
+    ${q('투자 시장', 'markets', ['한국 주식','미국 주식','일본 주식','중국 주식','홍콩 주식','ETF·펀드'])}
+    ${q('투자 규모', 'size', SIZE_ORDER)}
+    ${Object.keys(T.exp || {}).length ? q('투자 경력', 'exp') : ''}
+  </div>
+  <h2>회원별 응답 <span class="qcount">${n0(R.length)}명 · 누르면 회원 상세</span></h2>
+  <div class="card tbl"><table class="svt"><thead><tr><th>회원</th><th>유형 · 규모</th><th>기대하는 것</th><th>바꾸고 싶은 방향</th><th>시장</th></tr></thead><tbody>${R.map(m => `<tr data-goto="${m.uid}"><td class="nw"><b>${esc(nm(m))}</b><div class="muted sm">${kstDate(m.created_at).slice(5).replace('-', '/')} 가입</div></td><td class="nw">${esc(m.style || '–')}<div class="muted sm">${esc(m.size || '')}</div></td><td>${arr(m.expect).map(x => `<span class="pill">${esc(x)}</span>`).join('') || '–'}</td><td>${arr(m.goal).map(x => `<span class="pill">${esc(x)}</span>`).join('') || '–'}</td><td class="sm">${arr(m.markets).map(esc).join(', ') || '–'}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">아직 응답이 없습니다.</td></tr>'}</tbody></table></div>`;
+}
+function bindSurvey(){ document.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { location.hash = 'users'; setTimeout(() => crmOpen(b.dataset.goto), 0); }); }
 
 /* ---- 회원 종목: 회원이 보유로 등록하거나 직접 분석한 종목 (운영·체험 계정 제외) ---- */
 const SK = { list: null, err: '', k: '', f: 'all' };
@@ -2688,7 +2993,7 @@ function bindBrief(){
 
 function render(s){
   if(s) DATA = s; s = DATA; if(!s) return;
-  const p = page(), cnt = { users: (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0, stocks: SK.list ? SK.list.length : null }, hot = {};
+  const p = page(), cnt = { users: CRM.data ? (CRM.data.members || []).length : (s.users||[]).length, survey: (s.funnel||{}).onboarded || 0, stocks: SK.list ? SK.list.length : null }, hot = {};
   if(OPS.loaded){ const isDone = x => (!x.to_ig || x.ig_status === 'posted') && (!x.to_threads || x.th_status === 'posted');
     const nf = OPS.posts.filter(x => !isDone(x) && ((x.to_ig && x.ig_status === 'failed') || (x.to_threads && x.th_status === 'failed'))).length;
     const na = OPS.posts.filter(x => !isDone(x) && x.approved === false).length;
@@ -2704,10 +3009,11 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  let html; try { html = p === 'brief' ? vBrief() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers(s) : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s); } catch(e) { console.error(e); html = `<div class="card"><b>이 화면을 그리지 못했습니다.</b><div class="m">데이터 한 건이 형식에 맞지 않습니다: ${esc(e.message)} — 위 요청칸에 그대로 알려 주시면 고칩니다.</div></div>`; }
+  let html; try { html = p === 'brief' ? vBrief() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers() : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s); } catch(e) { console.error(e); html = `<div class="card"><b>이 화면을 그리지 못했습니다.</b><div class="m">데이터 한 건이 형식에 맞지 않습니다: ${esc(e.message)} — 위 요청칸에 그대로 알려 주시면 고칩니다.</div></div>`; }
   $('#main').innerHTML = html;
   if(p === 'brief') bindBrief();
-  if(p === 'users') bindUsers(s);
+  if(p === 'users') bindUsers();
+  if(p === 'survey') bindSurvey();
   if(p === 'stocks') bindStocks();
   if(p === 'landing') bindLanding();
   if(p === 'dm') bindDm();
@@ -2743,11 +3049,11 @@ async function load(){
   $('#reload').hidden = $('#out').hidden = !session;
   if(!session){ $('#tabs').hidden = true; loginView(); return; }
   $('#main').innerHTML = '<div class="empty">불러오는 중</div>';
-  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null, briefLoad().catch(() => {})]);
+  const [{ data, error }] = await Promise.all([sb.rpc('admin_stats'), opsLoad().catch(() => {}), skLoad().catch(() => {}), ytFetch().catch(() => {}), COL.list === null ? colLoad().catch(() => {}) : null, briefLoad().catch(() => {}), crmLoad(true).catch(() => {})]);
   if(error){ if(/not admin/.test(error.message)){ $('#tabs').hidden = true; $('#main').innerHTML = '<div class="card login"><b>관리자 계정이 아닙니다.</b><div class="note">관리자 계정으로 로그인한 상태에서 열어 주세요.</div><a class="lnk" href="./" style="display:inline-block;margin-top:12px">앱으로 돌아가기</a></div>'; } else $('#main').innerHTML = `<div class="card">불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
   render(data);
 }
-$('#reload').onclick = () => { LD.data = null; load(); };
+$('#reload').onclick = () => { LD.data = null; CRM.data = undefined; CRM.det = {}; load(); };
 $('#out').onclick = async () => { await sb.auth.signOut({ scope: 'local' }); load(); };
 window.__render = render;
 /* 좌우 스와이프로 옆 메뉴 이동 (2026-10-27 운영자 요청)
