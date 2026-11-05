@@ -4,6 +4,7 @@ import json, os, copy, sys, re
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import ep03 as E
 import ep01_spec as F
+import library as L
 from ep02_spec import ELEC, subs_of as _subs
 
 TENT = ["fire_4.mp3", 0.38]; TENT2 = ["fire_0.mp3", 0.3]; CAMP = ["wind_2.mp3", 0.4]; CITY = ["night_2.mp3", 0.25]; FORUM = ["wind_1.mp3", 0.3]
@@ -97,6 +98,30 @@ CH3 = {
         apply=[("e3m_retire", ["d7e"]), ("e3m_home", ["d7f"])], tonight=(["내가 오래 해 온 일 하나에게", "'잘했다' 말해 주기"], "d7g"),
         teaser=None),
 }
+# 11/5 대표: 장마다 '오늘 밤 할 일'이 7번 나와 흐름을 끊는다 → 장별 할 일은 빼고 끝에 3개로 모은다.
+# 현대 사례는 남기되 장면 전환 없이 이야기 흐름 안에서 지나가게(녹아들듯 전환), 할 일이 빠진 자리는 3초 안팎의 시네마틱 여운 장면(라이브러리)으로 숨을 고른다.
+BREATH = {1: "tent_stars", 2: "candle_diary", 3: "dawn_camp", 4: "rain_march", 5: "brazier_hands", 6: "river_night", 7: "close_diary"}
+MONO = {1: "quill", 3: "candle_face", 5: "quill", 6: "candle_face"}   # 반복해 나오는 '일기 쓰는 황제'는 라이브러리 고화질 장면과 기존 장면을 번갈아
+
+
+def chapter3(n, c):
+    S = F.chapter(n, c)
+    S = [x for x in S if x.get("type") != "tonight"]
+    for x in S:
+        if x.get("grade") == "modern":   # 현대 사례: 끊는 컷 대신 녹아들듯 이어 가고, 여백도 짧게
+            x["tin"] = "dissolve"; x["pre"] = 0.2; x["post"] = 0.35
+        if x.get("overlays") and any(o.get("kind") == "verse" for o in x["overlays"]) and n in MONO and L.have(MONO[n]):
+            x["src"] = L.vid_id(MONO[n]); x["lib"] = MONO[n]
+            a, sf = L.LIB[MONO[n]][2], L.LIB[MONO[n]][3]
+            x["amb"] = list(a); x["sfx"] = [f for f in x.get("sfx", []) if f[0] != "paper_6.mp3"] + [list(f) for f in sf]
+            x["move"] = dict(L.LIB[MONO[n]][4]); x.pop("flicker", None)
+    b = L.lib_shot(BREATH[n], dur=3.2)
+    k = max(i for i, x in enumerate(S) if x.get("grade") == "modern") + 1   # 현대 사례 바로 뒤, 다음 장 예고 앞
+    S.insert(k, b)
+    if k + 1 < len(S): S[k + 1]["tin"] = "dissolve"
+    return S
+
+
 MUSIC3 = {1: ("sad_3.mp3", 0), 2: ("cinematic_5.mp3", 0), 3: ("dramatic_1.mp3", 0), 4: ("cinematic_4.mp3", 0), 5: ("cinematic_5.mp3", 90), 6: ("sad_3.mp3", 60), 7: ("cinematic_4.mp3", 110)}
 
 
@@ -110,8 +135,13 @@ def build():
     vf["h_cr"] = "../ep03c/voice_ep03c_01_h_cr.mp3"; vf["c4"] = "../ep03c/voice_ep03c_02_c4.mp3"   # 11/4 대표: 경매꾼은 굵고 시끄럽게 — 제우스(외치는 톤, F0 약 120~130Hz)로 교체
     vf["o3"] = "../ep02c/voice_ep02c_01_o3.mp3"   # 1편 추천 화면 해설(2편과 같은 녹음)
     vf["m_x1"] = "../lp3/voice_lp3_07_m_x1.mp3"; vf["e_x2"] = "../ep01x/voice_ep01x_01_e_x2.mp3"
+    dt = os.path.join(E.ROOT, "social/side/voice_samples/ep03t")   # 11/5 끝에 모은 오늘 밤 3가지
+    for n in (sorted(os.listdir(dt)) if os.path.isdir(dt) else []):
+        if n.endswith(".mp3"): vf[n[:-4].split("_", 3)[-1]] = "../ep03t/" + n
     sp["voice_files"] = vf
-    ALL = E.HOOK + E.LINES
+    TON = [("t0", E.G, "오늘 밤, 잠들기 전에, 이 세 가지만 해 보세요."), ("t1", E.G, "하나. 오늘 한 좋은 일 하나를, 아무에게도 말하지 말고 간직해 보세요."),
+           ("t2", E.G, "둘. 내일, 아무도 보지 않는 곳에서 할 일 하나를, 정해 보세요."), ("t3", E.G, "셋. 오래 해 온 내 일에게, 잘했다고 말해 주세요.")]
+    ALL = E.HOOK + E.LINES + TON
     sp["subs"] = {n: subs_of(t, v) for n, v, t in ALL}
     for n in ("m3x", "m5x"): sp["subs"][n] = "“" + E.clean(dict((a, c) for a, b, c in ALL)[n]) + "”"   # 황제가 소리 내어 한 말
     sp["monologue_voices"] = [n for n, v, t in ALL if v == E.M] + ["m_x1"]
@@ -136,12 +166,17 @@ def build():
     s4 = F.shot("still", "e3_morning", ["s4"], CAMP, {"move": {"zoom": [1.0, 1.08]}}); s4.update({"tout": "black", "fout": 0.8, "post": 1.4}); S.append(s4)
     card = {}
     for n in range(1, 8):
-        card[n] = len(S); S += F.chapter(n, CH3[n])
+        card[n] = len(S); S += chapter3(n, CH3[n])
     rec = len(S)
     S.append({"type": "recap", "items": ["포도나무처럼, 선을 행하고 바라지 마라", "세 번째 것을 바라지 마라", "이름은 금방 잊힌다, 지금 옳은 일을 하라", "칭찬을 듣든 비난을 듣든, 할 일을 하라",
                                          "남의 평가를 내 판단보다 앞에 두지 마라", "좋은 사람을 논하지 말고, 되어라", "선을 행했다면, 이미 보상받았다"],
               "voice": ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"], "gap": 0.8, "pre": 0.8, "post": 1.0, "recap_offset": 1, "nocap": True,
               "head_en": "SEVEN LINES FOR WHEN NO ONE NOTICES", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "black", "fin": 1.0})
+    # 11/5 대표: 장마다 있던 할 일을 끝에 3개로 모은다 — 촛불 일기 장면에서 한 줄로 넘기고, 세 줄 목록
+    S.append(L.lib_shot("candle_diary", voices=["t0"], extra={"pre": 0.5, "post": 0.4, "tin": "dissolve"}))
+    S.append({"type": "recap", "items": ["오늘 한 좋은 일, 아무에게도 말하지 않기", "내일 아무도 안 보는 곳에서 할 일 하나 정하기", "오래 해 온 내 일에게 '잘했다' 말해 주기"],
+              "voice": ["t1", "t2", "t3"], "gap": 0.9, "pre": 0.6, "post": 1.2, "recap_offset": 0, "nocap": True,
+              "head": "오늘 밤, 이 세 가지만", "head_en": "THREE THINGS FOR TONIGHT", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8})
     S.append(F.shot("still", "e3_statue", ["r9"], ["wind_2.mp3", 0.25], {"grade": "memory", "move": {"zoom": [1.18, 1.0]}, "post": 1.6, "tin": "dissolve"}))
     # 11/4 대표: 이전 편 추천 화면은 빼고, 마지막 빈 화면(유튜브 최종 화면)에 구독 + 이전 편 영상을 스튜디오에서 배치
     out = len(S)
@@ -193,7 +228,7 @@ def build():
         if x.get("type") != "intro" and x.get("sfx"):
             x["sfx"] = [["paper_3.mp3", f[1], max(f[2], 0.4)] if f[0] == "paper_2.mp3" else f for f in x["sfx"] if f[0] not in ELEC]
         if x.get("type") == "tonight": x["nocap"] = True; x["sfx"] = []
-        if x.get("src") not in ("lwv3_side", "lwv2_front") and x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] != "paper_6.mp3"]
+        if x.get("src") not in ("lwv3_side", "lwv2_front", "libv_quill", "libv_candle_face") and x.get("sfx"): x["sfx"] = [f for f in x["sfx"] if f[0] != "paper_6.mp3"]
     mus = [{"file": "cinematic_0.mp3", "at_shot": sit, "offset": 0.5, "start": 0, "until_shot": card[1], "vol": 0.22, "fin": 3, "fout": 3}]
     for n in range(1, 8):
         f, st = MUSIC3[n]; nxt = card[n + 1] if n < 7 else rec

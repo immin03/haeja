@@ -57,6 +57,10 @@ class Look:
         else:                   # 기본: 따뜻한 촛불 톤, 검정은 살짝 들어 올림
             f = f * np.array([0.92, 0.99, 1.06], np.float32)
         f = 10 + f * 0.96
+        if grade != "modern":   # 11/5 대표(영상미): 촛불·횃불 같은 밝은 곳에 영화 같은 은은한 빛 번짐(블룸)
+            sm = cv2.resize(f, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
+            hi = np.clip(sm - 175, 0, None) * np.array([0.55, 0.8, 1.0], np.float32)
+            f = f + cv2.resize(cv2.GaussianBlur(hi, (0, 0), 9), (W, H)) * 0.55
         f = f * self.vig + self.grain[self.n % 12]; self.n += 1
         out = np.clip(f, 0, 255).astype(np.uint8)
         out[:BAR] = 0; out[H - BAR:] = 0
@@ -156,10 +160,12 @@ class Clip:
     def frame(self, p, t, dur):
         n = len(self.fr); length = n / self.src_fps
         rate = max(min(length / dur, 1.0), 0.45)         # 장면이 길면 느리게 (최대 0.45배속)
-        idx = min(int(t * rate * self.src_fps), n - 1)
+        fi = min(t * rate * self.src_fps, n - 1); idx = int(fi)
         if self.move.get("loop"):                         # 11/4 대표: 말하는 동안 입 움직임을 말 끝날 때까지 반복(앞뒤로 오가며 이어 붙임)
-            k = int(t * self.src_fps) % max(2 * n - 2, 1); idx = k if k < n else 2 * n - 2 - k
+            k = int(t * self.src_fps) % max(2 * n - 2, 1); idx = k if k < n else 2 * n - 2 - k; fi = idx
         f = self.fr[idx]
+        a = fi - idx                                      # 11/5 대표(영상미): 느리게 틀 때 앞뒤 프레임을 섞어 끊김 없이 부드럽게
+        if a > 0.08 and idx + 1 < n: f = cv2.addWeighted(f, 1 - a, self.fr[idx + 1], a, 0)
         z0, z1 = self.move.get("zoom", [1.0, 1.05]); (x0, y0), (x1, y1) = self.move.get("pan", [[0, 0], [0, 0]])
         e = ease(p); z = z0 + (z1 - z0) * e
         s = self.k * z; h, w = f.shape[:2]
