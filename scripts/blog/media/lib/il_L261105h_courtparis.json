@@ -8,20 +8,25 @@
  "submit_http": 200,
  "submit": {
   "status": "queued",
-  "request_id": "01a1a98f-1b98-77f4-9a1b-7eec1ddb8c2b",
-  "status_url": "https://api.higgsfield.ai/requests/01a1a98f-1b98-77f4-9a1b-7eec1ddb8c2b/status",
-  "cancel_url": "https://api.higgsfield.ai/requests/01a1a98f-1b98-77f4-9a1b-7eec1ddb8c2b/cancel",
+  "request_id": "01a1aa77-7efe-72ba-9c1f-4f48fdbea85f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa77-7efe-72ba-9c1f-4f48fdbea85f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa77-7efe-72ba-9c1f-4f48fdbea85f/cancel",
   "expires_after": 604800
  },
  "est_usd": 0.05,
- "status": "failed",
+ "status": "completed",
  "result": {
-  "status": "failed",
-  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
-  "request_id": "01a1a98f-1b98-77f4-9a1b-7eec1ddb8c2b",
-  "status_url": "https://api.higgsfield.ai/requests/01a1a98f-1b98-77f4-9a1b-7eec1ddb8c2b/status",
-  "cancel_url": "https://api.higgsfield.ai/requests/01a1a98f-1b98-77f4-9a1b-7eec1ddb8c2b/cancel",
-  "expires_at": "2026-11-12T02:34:50.791030+00:00"
+  "status": "completed",
+  "request_id": "01a1aa77-7efe-72ba-9c1f-4f48fdbea85f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa77-7efe-72ba-9c1f-4f48fdbea85f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa77-7efe-72ba-9c1f-4f48fdbea85f/cancel",
+  "expires_at": "2026-11-12T06:49:57.212216+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa77-7efe-72ba-9c1f-4f48fdbea85f/97d5b11d-d0c4-4e07-9505-e9fff549e0a5.jpeg"
+   }
+  ]
  },
- "seconds": 7
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261105h_courtparis.jpeg"
 }
