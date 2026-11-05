@@ -1188,7 +1188,7 @@ function loginView(){
       <label><input type="checkbox" class="ag" data-k="invest"> <span>[필수] 투자 자문이 아닌 정보 도구임을 이해합니다</span> <button type="button" class="linkbtn" data-lg="terms">보기</button></label>
       <label><input type="checkbox" class="ag" data-k="age"> <span>[필수] 만 14세 이상입니다</span></label>
       <label><input type="checkbox" class="ag-opt" id="ag-mail"> <span>[선택] 칼럼·투자 정보 메일 받기 <span class="muted">(광고성 정보 수신 동의)</span></span></label>
-      <div class="ag-sum">매주 월요일 아침, 많이 읽힌 칼럼과 새 영상을 이메일로 보내 드립니다. 동의하지 않아도 가입할 수 있고, 언제든 메일 아래 링크나 내 계정에서 끌 수 있습니다.</div>
+      <div class="ag-sum">매주 월요일 아침, 최신 칼럼 중 중요한 글과 새 영상을 이메일로 보내 드립니다. 동의하지 않아도 가입할 수 있고, 언제든 메일 아래 링크나 내 계정에서 끌 수 있습니다.</div>
     </div>` : ''}
     <button class="btn primary" id="lg-go" type="submit">${lgMode==='signup' ? '시작하기' : '로그인'}</button>
     <div class="status-line" id="lg-msg"></div>
@@ -3469,7 +3469,7 @@ function newsletterBox(){
   if(store.isDemo || store.mode !== 'db') return '';
   if(MAILP.st === undefined){ setTimeout(mailLoad, 0); return ''; }
   const on = !!MAILP.st.ok, at = MAILP.st.consent_at ? String(MAILP.st.consent_at).slice(0, 10) : '';
-  return `<div class="card nl-box"><div><b>${on ? '칼럼을 메일로 받고 있어요' : '매주 월요일, 칼럼을 메일로 받아 보세요'}</b><div class="small muted">${on ? esc(store.user?.email || '') + '로 보내 드려요' + (at ? ` · ${esc(at)} 동의` : '') + '. 언제든 끌 수 있어요.' : '많이 읽힌 칼럼과 새 영상을 ' + esc(store.user?.email || '가입한 메일') + '로 보내 드려요. 구독하면 광고성 정보 수신에 동의하게 되고, 언제든 끌 수 있어요.'}</div></div>
+  return `<div class="card nl-box"><div><b>${on ? '칼럼을 메일로 받고 있어요' : '매주 월요일, 칼럼을 메일로 받아 보세요'}</b><div class="small muted">${on ? esc(store.user?.email || '') + '로 보내 드려요' + (at ? ` · ${esc(at)} 동의` : '') + '. 언제든 끌 수 있어요.' : '최신 칼럼 중 중요한 글과 새 영상을 ' + esc(store.user?.email || '가입한 메일') + '로 보내 드려요. 구독하면 광고성 정보 수신에 동의하게 되고, 언제든 끌 수 있어요.'}</div></div>
     <button type="button" class="btn ${on ? '' : 'primary'}" data-act="nl-toggle">${on ? '구독 끄기' : '구독하기'}</button></div>`;
 }
 /* 기존 회원 한 번 묻기 (2026-11-05 대표: 기존 회원에게도 자연스럽게) — 메일로 동의를 묻는 건 광고 전송이라, 앱을 열었을 때 한 번만 화면 안에서 묻는다 */
@@ -3478,8 +3478,8 @@ function mailAsk(){
   if(!MAILP.st || MAILP.st.decided || store.isGuest || store.isDemo || store.mode !== 'db') return;
   if(document.querySelector('.intro, #vn-rec, .mail-ask')){ setTimeout(mailAsk, 20000); return; }
   const d = document.createElement('div'); d.className = 'mail-ask'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-label', '칼럼 메일 받기');
-  d.innerHTML = `<div class="ma-card"><div class="ma-k">새 기능 · 칼럼 메일</div><b>매주 월요일 아침, 많이 읽힌 칼럼을 메일로 받아 보시겠어요?</b>
-    <p>한 주 동안 가장 많이 읽힌 칼럼 4편과 새 영상을 ${esc(store.user?.email || '가입한 메일')}로 한 통에 모아 보내 드립니다. 일주일에 한 번만 보내고, 언제든 끌 수 있습니다.</p>
+  d.innerHTML = `<div class="ma-card"><div class="ma-k">새 기능 · 칼럼 메일</div><b>매주 월요일 아침, 중요한 칼럼을 메일로 받아 보시겠어요?</b>
+    <p>한 주의 칼럼 중 꼭 짚어야 할 4편과 새 영상을 ${esc(store.user?.email || '가입한 메일')}로 한 통에 모아 보내 드립니다. 일주일에 한 번만 보내고, 언제든 끌 수 있습니다.</p>
     <div class="ma-b"><button type="button" class="btn" data-ma="no">괜찮아요</button><button type="button" class="btn primary" data-ma="yes">메일로 받기</button></div>
     <div class="ma-s">받기를 누르면 칼럼·투자 정보 메일(광고성 정보) 수신에 동의하게 됩니다. 선택 사항입니다.</div></div>`;
   document.body.appendChild(d); store.track('view', 'mail-ask');

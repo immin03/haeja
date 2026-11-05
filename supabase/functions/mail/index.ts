@@ -40,20 +40,33 @@ const weekLabel = (d = kst()) => `${d.getUTCMonth() + 1}월 ${Math.ceil(d.getUTC
 const daytime = () => { const h = kst().getUTCHours(); return h >= 8 && h < 21; };
 
 /* ---------- 콘텐츠 ---------- */
-type Col = { id: string; title: string; cover?: string; excerpt: string; views: number };
+type Col = { id: string; title: string; cover?: string; excerpt: string; views: number; series?: string; score: number };
 type Vid = { id: string; title: string };
+/* 칼럼 고르기 (2026-11-05 대표: 최신 내용 중 중요한 칼럼 위주)
+   점수 = 최신일수록 높게(3일마다 절반) + 시장 이슈·기업 분석 가산 + 출처 많은 글 가산 + 조회수(조금)
+   data.pick = true 인 칼럼은 맨 앞. 같은 연재(시리즈)가 몰리지 않게 연재별로 한 편씩 먼저 고른다 */
+const SERIES_W: Record<string, number> = { weekly: 3, company: 3, giants: 2, guide: 1.5 };
 async function columns(days: number, n: number): Promise<Col[]> {
   const from = ymd(new Date(kst().getTime() - days * 864e5));
   const { data } = await sb.from("docs").select("id,data").eq("collection", "trends").like("id", "col-%").gte("id", "col-" + from).order("id", { ascending: false }).limit(40);
   const L = (data || []).filter((d) => d.data?.title && d.data?.body);
   const { data: st } = await sb.from("column_stats").select("id,views").in("id", L.map((d) => d.id));
   const V: Record<string, number> = Object.fromEntries((st || []).map((x) => [x.id, x.views || 0]));
-  return L.map((d) => {
+  const today = Date.parse(ymd(kst()));
+  const all: Col[] = L.map((d) => {
     const quote = String(d.data.body).split("\n").filter((l: string) => l.startsWith(">")).map((l: string) => l.replace(/^>\s?/, "")).join(" ");
     const raw = (quote || String(d.data.body)).replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[*_#>|■]/g, "").replace(/\s+/g, " ").trim();
     const cut = raw.length > 120 ? raw.slice(0, 120).replace(/\s\S*$/, "") + "…" : raw;
-    return { id: d.id, title: d.data.title, cover: d.data.cover, excerpt: cut, views: V[d.id] || 0 };
-  }).sort((a, b) => b.views - a.views || b.id.localeCompare(a.id)).slice(0, n);
+    const age = Math.max(0, (today - Date.parse(d.id.slice(4, 14))) / 864e5) || 0;
+    const views = V[d.id] || 0, series = String(d.data.series || "");
+    const nsrc = Array.isArray(d.data.sources) ? d.data.sources.length : 0;
+    const score = (d.data.pick ? 100 : 0) + 10 * Math.pow(0.5, age / 3) + (SERIES_W[series] ?? 1) + 0.25 * Math.min(nsrc, 8) + 1.5 * Math.log1p(views);
+    return { id: d.id, title: d.data.title, cover: d.data.cover, excerpt: cut, views, series, score };
+  }).sort((a, b) => b.score - a.score || b.id.localeCompare(a.id));
+  const out: Col[] = [], seen = new Set<string>();
+  for (const c of all) if (out.length < n && !seen.has(c.series || c.id)) { out.push(c); seen.add(c.series || c.id); }
+  for (const c of all) if (out.length < n && !out.includes(c)) out.push(c);
+  return out.sort((a, b) => b.score - a.score);
 }
 async function videos(days: number, n: number): Promise<Vid[]> {
   let q = sb.from("youtube_posts").select("youtube_id,title,scheduled_at,kind").not("youtube_id", "is", null).eq("kind", "long").order("scheduled_at", { ascending: false }).limit(n);
@@ -151,7 +164,7 @@ const toText = (html: string) => html.replace(/<head[\s\S]*?<\/head>/g, "").repl
 type Who = { uid?: string; email: string; name?: string; ok?: boolean; consent_at?: string | null; token?: string };
 const unsubUrl = (w: Who) => w.token ? `${SITE}/mail?u=${w.token}` : `${SITE}/?tab=account`;
 async function welcome(w: Who) {
-  const [C, V, N] = await Promise.all([columns(14, 3), videos(0, 4), scored()]);
+  const [C, V, N] = await Promise.all([columns(10, 3), videos(0, 4), scored()]);
   const nm = w.name || w.email.split("@")[0];
   /* 2026-11-05 대표: 촌스럽지 않게 — 현명한 투자, 거장의 기준으로 판단, 어떤 장에서도 흔들리지 않는 투자 */
   const pillars = [
@@ -179,11 +192,11 @@ async function welcome(w: Who) {
     : `이 메일은 밸류노트 가입 안내 메일입니다. 칼럼 메일은 위 버튼이나 앱의 <a href="${tabUrl("account", "welcome")}" style="color:#B9C2CF;text-decoration:underline">내 계정</a>에서 켤 수 있으며, 켜지 않으면 이 안내 말고는 보내지 않습니다.`;
   /* 칼럼을 보여 준 바로 다음에 구독 상자 */
   const sub = w.ok
-    ? `<tr><td style="padding:28px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:20px 22px">${eyebrow("Weekly Note")}<div style="font-family:${F};font-size:15px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">칼럼 메일 구독이 완료됐습니다. 매주 월요일 아침 8시 30분, 한 주 동안 가장 많이 읽힌 칼럼과 새 영상을 보내 드립니다.</div></div></td></tr>`
+    ? `<tr><td style="padding:28px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:20px 22px">${eyebrow("Weekly Note")}<div style="font-family:${F};font-size:15px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">칼럼 메일 구독이 완료됐습니다. 매주 월요일 아침 8시 30분, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 보내 드립니다.</div></div></td></tr>`
     : `<tr><td style="padding:32px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};background-image:linear-gradient(150deg,${NAVY2} 0%,${NAVY} 60%);border-radius:18px"><tr><td style="padding:30px 28px">
       ${eyebrow("Weekly Note · 매주 월요일 08:30", GOLD)}
       <div style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.025em;line-height:1.45;color:#FFFFFF;margin-top:10px;word-break:keep-all">한 주의 시장을<br>칼럼 네 편으로 정리해 드립니다</div>
-      <div style="font-family:${F};font-size:14px;line-height:1.8;color:#B9C2CF;margin-top:12px;word-break:keep-all">가장 많이 읽힌 칼럼과 새 영상을 월요일 아침 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
+      <div style="font-family:${F};font-size:14px;line-height:1.8;color:#B9C2CF;margin-top:12px;word-break:keep-all">한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 월요일 아침 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
       ${btn(w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", "welcome"), "칼럼 메일 받기 →", false)}
       <div style="font-family:${F};font-size:11px;line-height:1.7;color:#7F8B9D;margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 칼럼·투자 정보(광고성 정보) 수신 동의이며 선택 사항입니다.</div>
     </td></tr></table></td></tr>`;
@@ -192,7 +205,7 @@ async function welcome(w: Who) {
       [`${SITE}/?utm_source=mail&utm_campaign=welcome`, "밸류노트 시작하기 →"])}
   ${h2("Our Principle", "현명한 투자를 위한 세 가지 기준")}${pillarHtml}
   ${h2("Get Started", "처음 5분, 이렇게 시작해 보세요")}${stepHtml}
-  ${C.length ? h2("Most Read", "요즘 가장 많이 읽힌 칼럼") + C.map((c, i) => colRow(c, "welcome", i === C.length - 1)).join("") : ""}
+  ${C.length ? h2("Editor's Pick", "지금 꼭 읽어 볼 칼럼") + C.map((c, i) => colRow(c, "welcome", i === C.length - 1)).join("") : ""}
   ${sub}
   ${V.length ? h2("On YouTube", "기업이 돈을 버는 구조를 10분 안에") + vidGrid(V, "welcome") : ""}`;
   return { subject: `${nm} 님, 밸류노트에 오신 걸 환영합니다`, html: shell("거장의 기준으로 기업의 적정 주가를 매일 계산합니다. 처음 5분 시작 가이드를 확인하세요.", body, consent, "welcome") };
@@ -201,8 +214,8 @@ async function digest(w: Who) {
   const [C, V] = await Promise.all([columns(7, 4), videos(7, 4)]);
   if (!C.length && !V.length) return null;
   const top = C[0];
-  const body = `${hero(`Weekly Note · ${weekLabel()}`, "이번 주,<br>가장 많이 읽힌 밸류노트", "지난 한 주 시장에서 놓치면 아쉬운 이야기를 칼럼과 영상으로 정리했습니다.")}
-  ${top ? h2("Top Story", "이번 주 1위 칼럼") + colBig(top, "digest") : ""}
+  const body = `${hero(`Weekly Note · ${weekLabel()}`, "이번 주,<br>꼭 짚어야 할 밸류노트", "지난 한 주 시장에서 놓치면 아쉬운 이야기를 칼럼과 영상으로 정리했습니다.")}
+  ${top ? h2("Top Story", "이번 주 가장 중요한 칼럼") + colBig(top, "digest") : ""}
   ${C.length > 1 ? h2("More Columns", "함께 읽으면 좋은 칼럼") + C.slice(1).map((c, i, a) => colRow(c, "digest", i === a.length - 1)).join("") : ""}
   ${V.length ? h2("On YouTube", "이번 주 새 영상") + vidGrid(V, "digest") : ""}
   <tr><td style="padding:12px 36px 0">${btn(tabUrl("column", "digest"), "칼럼 전체 보기 →")}</td></tr>`;
@@ -211,7 +224,7 @@ async function digest(w: Who) {
 }
 function consentMail(w: Who, on: boolean, at: string) {
   const body = `${hero("Notice", `칼럼 메일 수신 ${on ? "동의" : "거부"}가<br>처리됐습니다`, `${esc(w.email)} 주소로 요청하신 칼럼·투자 정보 메일 수신 ${on ? "동의" : "거부"}를 ${kDateTime(at)}에 처리했습니다.`)}
-  <tr><td style="padding:36px 36px 0">${p(on ? "매주 월요일 아침 8시 30분, 한 주 동안 가장 많이 읽힌 칼럼과 새 영상을 보내 드립니다. 언제든 메일 아래 수신 거부 링크나 앱의 내 계정에서 끌 수 있습니다." : "앞으로 칼럼 메일은 보내지 않습니다. 가입·계정 관련 안내처럼 꼭 필요한 메일만 보냅니다. 다시 받고 싶으시면 앱의 내 계정에서 켤 수 있습니다.")}
+  <tr><td style="padding:36px 36px 0">${p(on ? "매주 월요일 아침 8시 30분, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 보내 드립니다. 언제든 메일 아래 수신 거부 링크나 앱의 내 계정에서 끌 수 있습니다." : "앞으로 칼럼 메일은 보내지 않습니다. 가입·계정 관련 안내처럼 꼭 필요한 메일만 보냅니다. 다시 받고 싶으시면 앱의 내 계정에서 켤 수 있습니다.")}
   ${on ? "" : btn(tabUrl("account", "consent"), "내 계정 열기 →")}</td></tr>`;
   return { subject: `[밸류노트] 칼럼 메일 수신 ${on ? "동의" : "거부"} 처리 결과 안내`, html: shell(`칼럼 메일 수신 ${on ? "동의" : "거부"}를 처리했습니다.`, body, "정보통신망법에 따라 수신 동의·거부 처리 결과를 알려 드리는 메일입니다.", "consent") };
 }
