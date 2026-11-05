@@ -2111,10 +2111,10 @@ function bindSocial(){
 const OR = { rules: null, std: null, msg: '', pre: '' };
 const OR_CH = ['전체', '유튜브 롱폼', '유튜브 쇼츠', '인스타 릴스', '카드뉴스', '네이버 블로그', '칼럼', '썸네일·제목', '업로드·편성'];
 async function orLoad(){
-  const { data, error } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').in('id', ['owner-rules', 'ops-standards']);
+  const { data, error } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').in('id', ['owner-rules', 'ops-standards', 'schedule']);
   OR.err = error ? error.message : '';
   const g = id => (data || []).find(r => r.id === id) || null;
-  OR.rules = g('owner-rules') || { id: 'owner-rules', data: { items: [] } }; OR.std = g('ops-standards');
+  OR.rules = g('owner-rules') || { id: 'owner-rules', data: { items: [] } }; OR.std = g('ops-standards'); OR.sch = g('schedule');
 }
 const OR_ST = { new: ['run', '반영 대기'], applied: ['ok', '반영됨 · 모든 작업이 따름'], retired: ['off', '그만 적용'] };
 function vRules(){
@@ -2135,7 +2135,21 @@ function vRules(){
       <div class="when">${esc(c.schedule || '')}</div>
       <ul>${(c.rules || []).map(r => `<li>${esc(r)}</li>`).join('')}</ul>
       <div class="src">${esc(c.by || '')}${c.updated_at ? ` · 확인 ${kst(c.updated_at)}` : ''}</div></div>`).join('') : '';
+  /* 주간 편성표 (2026-11-05 운영자: "스케줄에 대한 룰을 관리자 페이지에 어디에다 하나 놔줄래? 스케줄이 지금 어떻게 되어 있는지 보고 싶어서")
+     docs agent 'schedule' : {at, title, days:[7개 요일], rows:[{label, cells:[7], note}], notes:[...]} — 편성이 바뀌면 이 문서만 고친다. */
+  const sc = OR.sch && OR.sch.data ? OR.sch.data : null;
+  const todayDow = new Date(Date.now() + 9 * 3600e3).getUTCDay(), dowIdx = (todayDow + 6) % 7;
+  const sched = sc ? `<div class="card" style="padding:16px 18px;margin-bottom:14px">
+      <div class="k" style="font-size:12px;opacity:.7;margin-bottom:4px">주간 편성표${sc.at ? ` · ${kst(sc.at)} 기준` : ''}</div>
+      <div style="font-weight:700;font-size:16px;margin-bottom:10px;word-break:keep-all">${esc(sc.title || '')}</div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px;min-width:640px;word-break:keep-all">
+        <thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid rgba(127,127,127,.3)"></th>${(sc.days || []).map((d, i) => `<th style="padding:6px 8px;border-bottom:1px solid rgba(127,127,127,.3);${i === dowIdx ? 'color:#c9a227' : ''}">${esc(d)}${i === dowIdx ? ' · 오늘' : ''}</th>`).join('')}</tr></thead>
+        <tbody>${(sc.rows || []).map(r => `<tr><td style="padding:8px;font-weight:700;white-space:nowrap;vertical-align:top;border-bottom:1px solid rgba(127,127,127,.15)">${esc(r.label)}${r.note ? `<div style="font-weight:400;font-size:11px;opacity:.65;margin-top:2px">${esc(r.note)}</div>` : ''}</td>${(r.cells || []).map((c, i) => `<td style="padding:8px;vertical-align:top;text-align:center;border-bottom:1px solid rgba(127,127,127,.15);${i === dowIdx ? 'background:rgba(201,162,39,.08)' : ''}${c ? '' : ';opacity:.35'}">${esc(c || '–')}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table></div>
+      ${(sc.notes || []).length ? `<ul style="margin:10px 0 0;padding-left:18px;font-size:13px;line-height:1.6;word-break:keep-all">${sc.notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
+    </div>` : '';
   return `${head('운영 기준', '유튜브·쇼츠·릴스·카드뉴스·블로그를 지금 어떤 기준으로 만들고 올리는지 한눈에 봅니다.' + (sd && sd.at ? ` 마지막 점검 ${kst(sd.at)}` : ''), 'rules')}
+  ${sched}
   <div class="card or-hero">
     <div class="k">제1 원칙 · 대표님 지시</div>
     <div class="h">여기 적은 내용은 모든 제작·게시 작업이 다른 어떤 규칙보다 먼저 따릅니다. 아래 기준이 틀렸거나 바꾸고 싶으면 바로 적어 주세요.</div>
@@ -2837,7 +2851,7 @@ __swipeNav('#main', () => !$('#tabs').hidden && !subPage() && !document.querySel
 /* 새 버전이 배포되면 화면을 스스로 다시 연다 (2026-10-30 운영자: "옛 화면이 계속 남아 있으면 안 되지") —
    1분 새로 고침은 데이터만 다시 읽으므로, 페이지 파일의 ETag가 바뀌면 통째로 다시 연다. 입력 중이면 기다린다 */
 let __ver = null;
-async function __checkVer(){ try{ const r = await fetch(location.pathname + '?v=' + Date.now(), { method: 'HEAD', cache: 'no-store' }); const v = r.headers.get('etag') || r.headers.get('last-modified'); if(!v) return;
+async function __checkVer(){ try{ const r = await fetch(location.pathname + '?v=' + Date.now(), { method: 'HEAD', cache: 'no-store' }); if(!r.ok) return; /* 배포 중 503 응답의 ETag로 화면이 다시 열리던 문제 (2026-11-05) */ const v = r.headers.get('etag') || r.headers.get('last-modified'); if(!v) return;
   if(__ver && v !== __ver && !document.activeElement?.matches('input,textarea')) location.reload(); else if(!__ver) __ver = v; }catch(_){} }
 __checkVer(); setInterval(() => { if(!document.hidden) __checkVer(); }, 60 * 1000);
 document.addEventListener('visibilitychange', () => { if(!document.hidden) __checkVer(); });
