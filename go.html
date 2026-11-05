@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0E1A2B">
+<title>밸류노트로 이동 · ValueNote</title>
+<link rel="icon" type="image/png" href="/favicon-64.png?v=5">
+<style>
+@font-face{font-family:'SUIT Variable';font-weight:100 900;font-display:swap;src:url(/fonts/SUIT-Variable.woff2) format('woff2')}
+@font-face{font-family:'Montserrat';font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format('woff2')}
+html,body{margin:0;height:100%;background:#0E1A2B;color:#FFFFFF}
+body{font-family:'SUIT Variable','SUIT','Pretendard','Apple SD Gothic Neo',sans-serif;word-break:keep-all;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+.b{max-width:360px;width:100%;text-align:center}
+.wm{display:inline-block;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:24px;padding-bottom:7px;border-bottom:1px solid #C9B180}
+.wm i{font-style:normal;color:#EADBB9}
+.k{font-size:11px;font-weight:700;letter-spacing:.32em;padding-left:.32em;color:#EADBB9;margin-top:6px}
+.m{margin:36px 0 0;font-size:15px;line-height:1.7;color:#B9C2CF}
+.btns{display:none;margin-top:24px}
+.btns a{display:block;margin-top:10px;padding:14px 18px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none}
+.p{background:#EADBB9;color:#0E1A2B}
+.s{border:1px solid #33445E;color:#B9C2CF}
+.ar{font-family:Arial,Helvetica,sans-serif;font-weight:400}
+</style>
+</head>
+<body>
+<div class="b">
+  <div class="wm">Value<i>Note</i></div><div class="k">밸류노트</div>
+  <p class="m" id="m">밸류노트로 이동하고 있습니다</p>
+  <div class="btns" id="btns">
+    <a class="p" id="ext" href="#">브라우저에서 열기 <span class="ar">→</span></a>
+    <a class="s" id="here" href="/">여기서 계속 보기</a>
+  </div>
+</div>
+<script>
+/* 2026-11-05 대표: 메일(지메일 등) 안의 내장 브라우저가 아니라 밸류노트로 온전히 이동해서 열리게
+   메일 링크는 모두 /go?to=경로 로 온다.
+   - 컴퓨터: 바로 이동
+   - 안드로이드: 크롬(또는 홈 화면에 설치한 밸류노트 앱)으로 넘긴다 (intent://)
+   - 아이폰: 사파리로 넘긴다 (x-safari-https://, iOS 17 이상)
+   넘어가지 못하면 1.5초 뒤 이 화면 안에서 그대로 연다. 버튼도 남긴다. */
+(function(){
+  var SITE = 'https://www.valuenote.co.kr';
+  var q = new URLSearchParams(location.search), to = q.get('to') || '/';
+  if (to.charAt(0) !== '/' || to.charAt(1) === '/' || to.charAt(1) === '\\') to = '/';   // 우리 사이트 안으로만
+  var url = SITE + to;
+  var here = document.getElementById('here'); here.href = url;
+  var ua = navigator.userAgent || '';
+  var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var android = /Android/i.test(ua);
+  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
+  function go(){ location.replace(url); }
+  if ((!ios && !android) || standalone) return go();
+  var ext;
+  if (android) {
+    var path = url.replace(/^https:\/\//, '');
+    ext = 'intent://' + path + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+  } else {
+    var m = ua.match(/OS (\d+)_/), v = m ? +m[1] : 0;
+    if (v && v < 17) return go();                                 // 사파리로 넘기는 주소는 iOS 17부터
+    ext = 'x-safari-' + url;
+  }
+  var a = document.getElementById('ext'); a.href = ext;
+  a.textContent = (android ? 'Chrome에서 열기 ' : 'Safari에서 열기 '); var s = document.createElement('span'); s.className = 'ar'; s.textContent = '→'; a.appendChild(s);
+  var left = false;
+  document.addEventListener('visibilitychange', function(){ if (document.hidden) left = true; });
+  window.addEventListener('pagehide', function(){ left = true; });
+  try { location.href = ext; } catch (e) {}
+  setTimeout(function(){
+    if (left) {                                                   // 브라우저로 넘어갔다: 돌아오면 안내만
+      document.getElementById('m').textContent = '브라우저에서 밸류노트를 열었습니다';
+      document.getElementById('btns').style.display = 'block';
+      return;
+    }
+    go();                                                         // 넘어가지 못했다: 여기서 연다
+  }, 1500);
+})();
+</script>
+</body>
+</html>

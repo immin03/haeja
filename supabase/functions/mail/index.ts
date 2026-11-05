@@ -140,8 +140,13 @@ function hero(eb: string, title: string, sub: string, cta?: [string, string]) {
     ${cta ? btn(cta[0], cta[1], false) : ""}
   </td></tr>`;
 }
+/* 메일 속 밸류노트 링크는 /go 를 거쳐 메일 앱 내장 브라우저가 아니라 실제 브라우저(또는 설치한 앱)로 연다 (2026-11-05 대표)
+   수신 거부·구독 화면(/mail)은 그 자리에서 바로 열리게 그대로 둔다 */
+const bridge = (h: string) => h
+  .replace(/href="https:\/\/www\.valuenote\.co\.kr(\/[^"]*)"/g, (m, path: string) => path.startsWith("/mail") ? m : `href="${SITE}/go?to=${encodeURIComponent(path)}"`)
+  .replace(/<a href=/g, '<a target="_blank" rel="noopener" href=');
 function shell(pre: string, body: string, foot: string, src = "mail") {
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light"><title>밸류노트</title>
+  return bridge(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light"><title>밸류노트</title>
 <style>@font-face{font-family:'SUIT Variable';font-weight:100 900;font-display:swap;src:url(${SITE}/fonts/SUIT-Variable.woff2) format('woff2')}@font-face{font-family:'Montserrat';font-weight:800;font-display:swap;src:url(${SITE}/fonts/montserrat-800.woff2) format('woff2')}
 body{margin:0;padding:0;-webkit-font-smoothing:antialiased}a{text-decoration:none}@media (max-width:600px){.vn-wrap{padding:0!important}.vn-card{border-radius:0!important}}</style></head>
 <body style="margin:0;padding:0;background:${BG}">
@@ -156,7 +161,7 @@ ${body.replace(/→/g, ARW)}
   <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:8px;word-break:keep-all">밸류노트의 글과 영상은 공개된 자료를 정리한 것이며 특정 종목의 매수·매도를 권하지 않습니다.</div>
   <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:8px">보낸 곳: 밸류노트(ValueNote) · 문의 <a href="mailto:${CONTACT}" style="color:#B9C2CF;text-decoration:underline">${CONTACT}</a></div>
 </td></tr>
-</table></td></tr></table></body></html>`;
+</table></td></tr></table></body></html>`);
 }
 const toText = (html: string) => html.replace(/<head[\s\S]*?<\/head>/g, "").replace(/<div style="display:none[^"]*">[\s\S]*?<\/div>/, "").replace(/<style[\s\S]*?<\/style>/g, "").replace(/<a [^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g, "$2 ($1)").replace(/<br\s*\/?>|<\/(p|div|tr|h\d)>/g, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/[ \t]+/g, " ").replace(/\n\s*\n+/g, "\n\n").trim();
 
