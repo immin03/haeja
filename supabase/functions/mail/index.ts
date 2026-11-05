@@ -14,9 +14,9 @@ const URL_ = Deno.env.get("SUPABASE_URL")!, SRK = Deno.env.get("SUPABASE_SERVICE
 const sb = createClient(URL_, SRK, { auth: { persistSession: false } });
 const KEY = Deno.env.get("RESEND_API_KEY") || "";
 const FROM = Deno.env.get("MAIL_FROM") || "밸류노트 <hello@valuenote.co.kr>";
-const REPLY = Deno.env.get("MAIL_REPLY_TO") || "immin03@gmail.com";
+const REPLY = Deno.env.get("MAIL_REPLY_TO") || "value.note.korea@gmail.com";
 const SITE = "https://www.valuenote.co.kr";
-const CONTACT = "immin03@gmail.com";
+const CONTACT = "value.note.korea@gmail.com";
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", "Access-Control-Allow-Methods": "POST, OPTIONS" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));

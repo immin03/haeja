@@ -50,7 +50,7 @@
   go.onclick = async () => {
     go.disabled = true; msg.textContent = '처리하는 중입니다';
     const { data, error } = await sb.rpc(sub ? 'mail_sub' : 'mail_unsub', { p_token: t });
-    if(error || !data || !data.ok){ go.disabled = false; msg.textContent = '처리하지 못했습니다. 잠시 후 다시 누르시거나 immin03@gmail.com으로 알려 주세요.'; return; }
+    if(error || !data || !data.ok){ go.disabled = false; msg.textContent = '처리하지 못했습니다. 잠시 후 다시 누르시거나 value.note.korea@gmail.com으로 알려 주세요.'; return; }
     const d = new Date(Date.parse(data.at) + 9 * 3600e3).toISOString(), when = `${d.slice(0,4)}년 ${+d.slice(5,7)}월 ${+d.slice(8,10)}일 ${d.slice(11,16)}`;
     box.innerHTML = sub
       ? `<h1>칼럼 메일 구독이 완료됐습니다</h1><p>${clean(data.email)} 주소로 ${when}에 칼럼 메일 수신 동의를 받았습니다. 다음 월요일 아침 8시 30분에 첫 메일을 보내 드립니다.</p><p class="s"><a href="/?utm_source=mail&utm_campaign=sub-done">밸류노트로 돌아가기 →</a></p>`
