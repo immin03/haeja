@@ -12,7 +12,9 @@ import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 const URL_ = Deno.env.get("SUPABASE_URL")!, SRK = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, ANON = Deno.env.get("SUPABASE_ANON_KEY")!;
 const sb = createClient(URL_, SRK, { auth: { persistSession: false } });
-const KEY = Deno.env.get("RESEND_API_KEY") || "";
+let KEY = Deno.env.get("RESEND_API_KEY") || "";
+// 키가 함수 비밀값에 없으면 DB 암호화 금고(vault: resend_api_key)에서 꺼낸다 (2026-11-05)
+async function loadKey() { if (!KEY) { const { data } = await sb.rpc("_mail_key"); KEY = (data as string) || ""; } return KEY; }
 const FROM = Deno.env.get("MAIL_FROM") || "밸류노트 <hello@valuenote.co.kr>";
 const REPLY = Deno.env.get("MAIL_REPLY_TO") || "value.note.korea@gmail.com";
 const SITE = "https://www.valuenote.co.kr";
@@ -218,6 +220,7 @@ async function build(q: { kind: string; ref: string }, w: Who) {
 async function drain() {
   const { data: Q } = await sb.from("mail_queue").select("*").eq("status", "queued").lt("tries", 5).order("created_at").limit(40);
   if (!Q?.length) return { ok: true, sent: 0 };
+  await loadKey();
   if (!KEY) return { ok: false, waiting: Q.length, reason: "RESEND_API_KEY 없음 · 키를 넣으면 대기 중인 메일부터 보냅니다" };
   const { data: live } = await sb.from("app_config").select("value").eq("key", "mail_live").maybeSingle();
   if (live?.value !== true) return { ok: false, waiting: Q.length, reason: "대표 검수 전 · 관리자 메일 탭에서 '검수 완료 · 발송 시작'을 누르면 보냅니다" };
@@ -286,11 +289,12 @@ Deno.serve(async (req: Request) => {
       const m = await build({ kind, ref: "on:preview" }, w);
       if (!m) return json({ ok: false, error: "이번 주에 보낼 칼럼·영상이 없습니다" });
       if (body.action === "preview") return json({ ok: true, subject: m.subject, html: m.html });
+      await loadKey();
       if (!KEY) return json({ ok: false, error: "RESEND_API_KEY가 아직 없습니다" });
       const id = await send(admin.email!, { subject: "[테스트] " + m.subject, html: m.html }, w, kind === "digest");
       return json({ ok: true, id, to: admin.email });
     }
-    if (body.action === "status") return json({ ok: true, key: !!KEY, from: FROM });
+    if (body.action === "status") { await loadKey(); return json({ ok: true, key: !!KEY, from: FROM }); }
     return json({ ok: false, error: "action 필요" }, 400);
   } catch (e) {
     return json({ ok: false, error: String((e as Error)?.message || e) }, 500);
