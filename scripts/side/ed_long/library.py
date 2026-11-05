@@ -23,6 +23,11 @@ LIB = {
            "dust motes floating in the candlelight, the writing is only soft abstract ink strokes, nothing readable, very shallow depth of field.",
            "The pen tip glides slowly to the right leaving a thin wet ink stroke, tiny lifts between strokes; the candle bokeh shimmers; the camera slides very slowly sideways along the line.",
            ["fire_0.mp3", 0.3], [["paper_6.mp3", 0.2, 0.55]], {"zoom": [1.0, 1.06], "pan": [[0.01, 0], [-0.01, 0]]}, "dust", None),
+ "quill2": ("Close-up at night, seen from the side at desk height, of an older man's weathered hand in a deep crimson sleeve writing with a thin reed pen across a sheet of papyrus, "
+            "several long straight horizontal rows of small faint brown handwriting already on the sheet, so soft and out of focus that they are only blurred grey-brown lines, "
+            "the pen tip at the end of the newest row, a candle glowing warmly on the far side of the desk, dust motes in the candlelight, shallow depth of field, nothing readable, no symbols.",
+            "The hand writes slowly along the same straight row, the pen gliding to the right in small natural strokes; the candle flame flickers; the camera slides very slowly sideways.",
+            ["fire_0.mp3", 0.3], [["paper_6.mp3", 0.2, 0.55]], {"zoom": [1.0, 1.06], "pan": [[0.01, 0], [-0.01, 0]]}, "dust", None),
  "candle_face": ("Close portrait in profile of " + EMP + " sitting at a wooden desk inside his command tent at night, writing, his eyes lowered to the papyrus, "
                  "his face lit only by a single candle flame in the foreground, warm golden rim light on his beard and grey curls, deep darkness behind, "
                  "his face is in the middle of the frame, fully visible, with space above his head.",
@@ -62,7 +67,7 @@ LIB = {
                    ["fire_4.mp3", 0.35], [], {"zoom": [1.0, 1.06], "pan": [[0.0, 0.01], [0.0, -0.015]]}, "embers", None),
 }
 # 생성 묶음 (push 한 번당 비용 상한 3달러: 그림 0.05 · seedance 5초 약 0.75)
-BATCH = {1: ["quill", "candle_face", "tent_stars"], 2: ["candle_diary", "dawn_camp", "window_moon", "close_diary"], 3: ["rain_march", "river_night", "brazier_hands"]}
+BATCH = {1: ["quill", "candle_face", "tent_stars"], 2: ["candle_diary", "dawn_camp", "window_moon", "close_diary"], 3: ["rain_march", "river_night", "quill2"], 4: ["brazier_hands"]}   # quill(1차)은 잉크 자국이 기호처럼 보여 quill2 로 다시
 
 
 def img_id(name): return "lib_" + name
@@ -71,6 +76,7 @@ def vid_id(name): return "libv_" + name
 
 def gen(n):
     jobs = []
+    if n == 3: jobs.append({"id": img_id("quill2"), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": LIB["quill2"][0] + " " + STYLE}})
     if n == 1:   # 그림은 첫 묶음에서 전부
         jobs += [{"id": img_id(k), "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": v[0] + " " + STYLE}} for k, v in LIB.items()]
     jobs += [{"id": vid_id(k), "kind": "video", "endpoint": SEED, "image": f"social/side/gen/{img_id(k)}.jpeg", "body": {"duration": 5, "prompt": LIB[k][1] + " " + CINE}} for k in BATCH[n]]

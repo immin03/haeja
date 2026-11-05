@@ -101,7 +101,7 @@ CH3 = {
 # 11/5 대표: 장마다 '오늘 밤 할 일'이 7번 나와 흐름을 끊는다 → 장별 할 일은 빼고 끝에 3개로 모은다.
 # 현대 사례는 남기되 장면 전환 없이 이야기 흐름 안에서 지나가게(녹아들듯 전환), 할 일이 빠진 자리는 3초 안팎의 시네마틱 여운 장면(라이브러리)으로 숨을 고른다.
 BREATH = {1: "tent_stars", 2: "candle_diary", 3: "dawn_camp", 4: "rain_march", 5: "brazier_hands", 6: "river_night", 7: "close_diary"}
-MONO = {1: "quill", 3: "candle_face", 5: "quill", 6: "candle_face"}   # 반복해 나오는 '일기 쓰는 황제'는 라이브러리 고화질 장면과 기존 장면을 번갈아
+MONO = {1: "quill2", 3: "candle_face", 5: "quill2", 6: "candle_face"}   # 반복해 나오는 '일기 쓰는 황제'는 라이브러리 고화질 장면과 기존 장면을 번갈아
 
 
 def chapter3(n, c):
