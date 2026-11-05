@@ -163,6 +163,8 @@ class Clip:
         fi = min(t * rate * self.src_fps, n - 1); idx = int(fi)
         if self.move.get("loop"):                         # 11/4 대표: 말하는 동안 입 움직임을 말 끝날 때까지 반복(앞뒤로 오가며 이어 붙임)
             k = int(t * self.src_fps) % max(2 * n - 2, 1); idx = k if k < n else 2 * n - 2 - k; fi = idx
+        if self.move.get("pingpong") and length / dur < 0.45:   # 11/5 라이브러리: 긴 장면은 멈추지 않고 0.5배속으로 앞뒤 왕복(촛불·표정처럼 되감겨도 자연스러운 장면만)
+            q = (t * 0.5 * self.src_fps) % max(2 * n - 2, 1); fi = q if q < n - 1 else 2 * n - 2 - q; idx = min(int(fi), n - 1)
         f = self.fr[idx]
         a = fi - idx                                      # 11/5 대표(영상미): 느리게 틀 때 앞뒤 프레임을 섞어 끊김 없이 부드럽게
         if a > 0.08 and idx + 1 < n: f = cv2.addWeighted(f, 1 - a, self.fr[idx + 1], a, 0)

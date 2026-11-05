@@ -32,7 +32,7 @@ LIB = {
                  "his face lit only by a single candle flame in the foreground, warm golden rim light on his beard and grey curls, deep darkness behind, "
                  "his face is in the middle of the frame, fully visible, with space above his head.",
                  "He keeps writing slowly, pauses, and his eyes lift a little as he thinks, then lower again; the candle flame breathes and its light moves over his face; very slow push-in.",
-                 ["fire_4.mp3", 0.3], [["paper_6.mp3", 0.6, 0.35]], {"zoom": [1.0, 1.07]}, None, None),
+                 ["fire_4.mp3", 0.3], [["paper_6.mp3", 0.6, 0.35]], {"zoom": [1.0, 1.07], "pingpong": True}, None, None),
  "tent_stars": ("Wide shot at night of " + EMP + " standing alone outside his command tent on a hill above a Roman legion camp beside the Danube river, seen from behind and a little to the side, "
                 "looking up at a vast starry sky with the Milky Way, rows of tents glowing with small campfires below, thin smoke rising, sparks drifting up, cool deep blue night with warm firelight.",
                 "Sparks and embers drift slowly upward from the campfires, thin smoke curls, his cloak moves gently in the wind, stars twinkle; the camera rises slowly and tilts up toward the sky.",
