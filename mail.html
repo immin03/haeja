@@ -31,17 +31,30 @@
 </div>
 </main>
 <script>
-/* 2026-11-05: 메일 아래 '수신 거부' 링크. 링크 검사기가 미리 열어도 처리되지 않도록 버튼을 눌러야 거부된다 */
+/* 2026-11-05: 메일 링크 두 가지
+   ?u=토큰 → 칼럼 메일 수신 거부 / ?s=토큰 → 가입 축하 메일의 '칼럼 메일 받기' (구독)
+   링크 검사기가 미리 열어도 처리되지 않도록 버튼을 눌러야 반영된다 */
 (function(){
-  const t = new URLSearchParams(location.search).get('u') || '', box = document.getElementById('box'), msg = document.getElementById('msg'), go = document.getElementById('go');
-  if(!/^[0-9a-f-]{36}$/i.test(t)){ go.disabled = true; msg.textContent = '링크가 올바르지 않습니다. 앱의 내 계정에서 칼럼 메일을 끌 수 있습니다.'; return; }
+  const q = new URLSearchParams(location.search), sub = !!q.get('s'), t = q.get('s') || q.get('u') || '';
+  const box = document.getElementById('box'), msg = document.getElementById('msg'), go = document.getElementById('go');
+  const clean = v => String(v || '').replace(/[&<>"']/g, '');
+  if(sub){
+    document.title = '칼럼 메일 구독 · ValueNote';
+    box.querySelector('h1').textContent = '칼럼 메일 구독';
+    box.querySelector('p').textContent = '매주 월요일 아침 8시 30분, 한 주 동안 가장 많이 읽힌 칼럼 4편과 새 영상을 한 통에 모아 보내 드립니다. 일주일에 한 번만 보내고, 메일 아래 링크로 언제든 그만 받을 수 있습니다.';
+    go.textContent = '칼럼 메일 받기';
+    const n = document.createElement('p'); n.className = 's'; n.textContent = '구독하면 칼럼·투자 정보 메일(광고성 정보) 수신에 동의하게 됩니다. 선택 사항이며, 구독하지 않아도 밸류노트를 그대로 쓸 수 있습니다.'; go.after(n);
+  }
+  if(!/^[0-9a-f-]{36}$/i.test(t)){ go.disabled = true; msg.textContent = '링크가 올바르지 않습니다. 앱의 내 계정에서 칼럼 메일을 켜거나 끌 수 있습니다.'; return; }
   const C = window.HAEJA_CONFIG || {}, sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
   go.onclick = async () => {
     go.disabled = true; msg.textContent = '처리하는 중입니다';
-    const { data, error } = await sb.rpc('mail_unsub', { p_token: t });
+    const { data, error } = await sb.rpc(sub ? 'mail_sub' : 'mail_unsub', { p_token: t });
     if(error || !data || !data.ok){ go.disabled = false; msg.textContent = '처리하지 못했습니다. 잠시 후 다시 누르시거나 immin03@gmail.com으로 알려 주세요.'; return; }
-    const d = new Date(Date.parse(data.at) + 9 * 3600e3).toISOString();
-    box.innerHTML = `<h1>수신 거부가 처리됐습니다</h1><p>${String(data.email).replace(/[&<>"']/g, '')} 주소로 가던 칼럼·투자 정보 메일을 ${d.slice(0,4)}년 ${+d.slice(5,7)}월 ${+d.slice(8,10)}일 ${d.slice(11,16)}에 멈췄습니다. 처리 결과는 메일로도 알려 드립니다.</p><p class="s">다시 받고 싶으시면 <a href="/?tab=account">앱의 내 계정</a>에서 켤 수 있습니다.</p>`;
+    const d = new Date(Date.parse(data.at) + 9 * 3600e3).toISOString(), when = `${d.slice(0,4)}년 ${+d.slice(5,7)}월 ${+d.slice(8,10)}일 ${d.slice(11,16)}`;
+    box.innerHTML = sub
+      ? `<h1>칼럼 메일 구독이 완료됐습니다</h1><p>${clean(data.email)} 주소로 ${when}에 칼럼 메일 수신 동의를 받았습니다. 다음 월요일 아침 8시 30분에 첫 메일을 보내 드립니다.</p><p class="s"><a href="/?utm_source=mail&utm_campaign=sub-done">밸류노트로 돌아가기 →</a></p>`
+      : `<h1>수신 거부가 처리됐습니다</h1><p>${clean(data.email)} 주소로 가던 칼럼·투자 정보 메일을 ${when}에 멈췄습니다. 처리 결과는 메일로도 알려 드립니다.</p><p class="s">다시 받고 싶으시면 <a href="/?tab=account">앱의 내 계정</a>에서 켤 수 있습니다.</p>`;
   };
 })();
 </script>

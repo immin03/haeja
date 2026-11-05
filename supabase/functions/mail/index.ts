@@ -3,6 +3,7 @@
 // - {action:"digest"}  : (매주 월 08:30 KST) 수신 동의한 회원마다 이번 주 칼럼 메일을 대기열에 넣고 바로 보낸다. 2년 지난 동의는 재확인 안내도 넣는다.
 // - {action:"preview", kind} : (관리자) 메일 미리보기 HTML
 // - {action:"test", kind}    : (관리자) 관리자 본인 메일로 한 통 보내기
+// 대표 검수 스위치(app_config.mail_live)가 켜져야 대기열 메일이 나간다 (2026-11-05)
 // - POST ?unsub=토큰           : 메일 앱의 '수신 거부' 버튼(List-Unsubscribe 원클릭)
 // verify_jwt = false (메일 앱이 원클릭 수신거부를 직접 호출하므로). 관리자 기능은 함수 안에서 확인한다.
 // 법 기준: 칼럼 메일은 광고성 정보로 보고 제목 앞 (광고), 전송자·연락처, 수신거부 링크, 21~08시 발송 안 함.
@@ -123,7 +124,7 @@ const toText = (html: string) => html.replace(/<head[\s\S]*?<\/head>/g, "").repl
 type Who = { uid?: string; email: string; name?: string; ok?: boolean; consent_at?: string | null; token?: string };
 const unsubUrl = (w: Who) => w.token ? `${SITE}/mail?u=${w.token}` : `${SITE}/?tab=account`;
 async function welcome(w: Who) {
-  const [C, V, N] = await Promise.all([columns(14, 2), videos(0, 4), scored()]);
+  const [C, V, N] = await Promise.all([columns(14, 3), videos(0, 4), scored()]);
   const nm = w.name || w.email.split("@")[0];
   const steps = [
     ["보유 종목을 넣어 보세요", "가지고 계신 종목을 넣으면 지금 주가가 적정 주가보다 싼지 비싼지 바로 보여 드립니다.", tabUrl("portfolio", "welcome")],
@@ -135,8 +136,18 @@ async function welcome(w: Who) {
     <td valign="top"><a href="${href}" style="text-decoration:none;color:${INK}"><div style="font-family:${F};font-size:15px;font-weight:800;line-height:1.5;word-break:keep-all">${t} →</div>
     <div style="font-family:${F};font-size:14px;line-height:1.65;color:#3B4657;word-break:keep-all">${d}</div></a></td></tr></table></td></tr>`).join("");
   const consent = w.ok && w.consent_at
-    ? `${kDate(w.consent_at)}에 칼럼·투자 정보 메일 수신에 동의하셨습니다. 매주 월요일 아침에 그 주에 많이 읽힌 칼럼과 새 영상을 보내 드립니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:${MUTED}">여기서 수신을 거부</a>할 수 있습니다.`
-    : `매주 월요일 아침, 많이 읽힌 칼럼과 새 영상을 메일로 받아 보시려면 앱의 <a href="${tabUrl("account", "welcome")}" style="color:${MUTED}">내 계정</a>에서 칼럼 메일을 켜 주세요.`;
+    ? `${kDate(w.consent_at)}에 칼럼·투자 정보 메일 수신에 동의하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:${MUTED}">여기서 수신을 거부</a>할 수 있습니다.`
+    : `칼럼 메일은 위 버튼을 누르거나 앱의 <a href="${tabUrl("account", "welcome")}" style="color:${MUTED}">내 계정</a>에서 켤 수 있습니다. 켜지 않으면 이 가입 안내 메일 말고는 보내지 않습니다.`;
+  /* 2026-11-05 대표: 가입 축하 메일에서 칼럼 구독을 바로 유도 — 칼럼을 보여 준 바로 다음에 구독 상자 */
+  const sub = w.ok
+    ? `<tr><td style="padding:18px 28px 0"><div style="background:${BG};border-radius:12px;padding:16px 18px;font-family:${F};font-size:14px;line-height:1.7;color:${INK};word-break:keep-all"><b>칼럼 메일 구독 완료</b><br>매주 월요일 아침 8시 30분, 그 주에 가장 많이 읽힌 칼럼과 새 영상을 보내 드립니다.</div></td></tr>`
+    : `<tr><td style="padding:20px 28px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};border-radius:14px"><tr><td style="padding:24px 22px">
+      <div style="font-family:${F};font-size:13px;font-weight:700;letter-spacing:.06em;color:#EADBB9">매주 월요일 아침 8시 30분</div>
+      <div style="font-family:${F};font-size:19px;font-weight:800;line-height:1.45;color:#FFFFFF;margin:6px 0 10px;word-break:keep-all">이런 칼럼을 메일로 받아 보세요</div>
+      <div style="font-family:${F};font-size:14px;line-height:1.75;color:#D9DEE6;word-break:keep-all">한 주 동안 가장 많이 읽힌 칼럼 4편과 새 영상을 한 통에 모아 보내 드립니다. 일주일에 한 번만 보내고, 메일 아래 링크로 언제든 그만 받을 수 있습니다.</div>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 0"><tr><td style="background:#EADBB9;border-radius:10px"><a href="${w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", "welcome")}" style="display:inline-block;padding:13px 22px;font-family:${F};font-size:15px;font-weight:800;color:${NAVY};text-decoration:none">칼럼 메일 받기 →</a></td></tr></table>
+      <div style="font-family:${F};font-size:11.5px;line-height:1.6;color:#9AA4B2;margin-top:10px;word-break:keep-all">누르면 열리는 화면에서 한 번 더 확인하면 구독됩니다. 구독은 광고성 정보 수신 동의이며 선택 사항입니다.</div>
+    </td></tr></table></td></tr>`;
   const body = `<tr><td style="padding:32px 28px 4px">
     <div style="font-family:${F};font-size:23px;font-weight:800;line-height:1.4;color:${INK};word-break:keep-all">${esc(nm)} 님, 밸류노트에 오신 걸 환영합니다</div></td></tr>
   <tr><td style="padding:14px 28px 0">${p(`밸류노트는 워렌 버핏·벤저민 그레이엄·찰리 멍거가 회사를 고르던 기준으로 ${N ? `<b>${N.toLocaleString("ko-KR")}개</b> 회사의` : "한국·미국 주요 회사의"} 적정 주가와 점수를 매일 다시 계산합니다.`)}
@@ -144,6 +155,7 @@ async function welcome(w: Who) {
     ${btn(`${SITE}/?utm_source=mail&utm_campaign=welcome`, "밸류노트 열기")}</td></tr>
   ${h2("처음 하면 좋은 세 가지")}${stepHtml}
   ${C.length ? h2("요즘 많이 읽힌 칼럼") + C.map((c) => colRow(c, "welcome")).join("") : ""}
+  ${sub}
   ${V.length ? h2("유튜브 밸류노트 최신 영상") + `<tr><td style="padding:0 28px 6px">${p("회사가 돈을 버는 구조를 10분 안팎으로 풀어 드립니다.", `color:#3B4657;font-size:14px`)}</td></tr>` + vidGrid(V, "welcome") : ""}
   ${channels("welcome")}`;
   return { subject: "밸류노트 가입을 환영합니다 · 처음 하면 좋은 세 가지", html: shell("보유 종목을 넣으면 적정 주가를 바로 계산해 드립니다.", body, `이 메일은 밸류노트 가입 안내 메일입니다. ${consent}`) };
@@ -207,6 +219,8 @@ async function drain() {
   const { data: Q } = await sb.from("mail_queue").select("*").eq("status", "queued").lt("tries", 5).order("created_at").limit(40);
   if (!Q?.length) return { ok: true, sent: 0 };
   if (!KEY) return { ok: false, waiting: Q.length, reason: "RESEND_API_KEY 없음 · 키를 넣으면 대기 중인 메일부터 보냅니다" };
+  const { data: live } = await sb.from("app_config").select("value").eq("key", "mail_live").maybeSingle();
+  if (live?.value !== true) return { ok: false, waiting: Q.length, reason: "대표 검수 전 · 관리자 메일 탭에서 '검수 완료 · 발송 시작'을 누르면 보냅니다" };
   let sent = 0, failed = 0, held = 0;
   for (const q of Q) {
     const ad = q.kind === "digest";
@@ -265,8 +279,10 @@ Deno.serve(async (req: Request) => {
       if (!admin) return json({ ok: false, error: "관리자만 쓸 수 있습니다" }, 403);
       const w = await who(admin.id, admin.email!);
       if (!w.token) w.token = "00000000-0000-0000-0000-000000000000";
-      if (!w.consent_at) { w.consent_at = new Date().toISOString(); w.ok = true; }
       const kind = ["welcome", "digest", "consent", "reconfirm"].includes(body.kind) ? body.kind : "welcome";
+      // 미리보기는 실제 받을 모양: 가입 축하는 기본이 '구독 전' 회원용(구독 버튼 있는 판), as=sub이면 구독한 회원용
+      if (kind === "welcome" && body.as !== "sub") { w.ok = false; w.consent_at = null; }
+      else { w.ok = true; if (!w.consent_at) w.consent_at = new Date().toISOString(); }
       const m = await build({ kind, ref: "on:preview" }, w);
       if (!m) return json({ ok: false, error: "이번 주에 보낼 칼럼·영상이 없습니다" });
       if (body.action === "preview") return json({ ok: true, subject: m.subject, html: m.html });
