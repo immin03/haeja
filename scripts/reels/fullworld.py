@@ -3,7 +3,7 @@
 opt-in: 장면에 "full": {...} 이 있을 때만 쓴다(없으면 지금 화면 그대로). 장면 type(hook·photo·cta 등)은 길이·마무리 계산에만 쓰이고 그림은 그리지 않는다.
   "full": {"img": "<scripts/blog/media/lib 파일>", "label": "왼쪽 위 종이 라벨 한 줄(명사형)",
            "num": "펜 숫자(선택)", "num_line": 0, "num_frac": .3, "tone": "loss|ink|gold", "focus_x": .5, "focus_y": .5}
-화면: 위 제목 띠(배너, draw_banner_soft) 그대로 · 그 아래 화면 끝까지 그림이 꽉 참(천천히 켄 번즈) · 왼쪽 위 아이보리 종이 라벨 + 펜 숫자·금색 밑줄 ·
+화면: 위 제목 띠(배너, draw_banner_soft) 그대로 · 그 아래 화면 끝까지 그림·영상이 꽉 참(사진은 켄 번즈, 2026-11-05) · 왼쪽 위 아이보리 종이 라벨 + 펜 숫자·금색 밑줄 ·
       자막은 아래쪽 어두운 그라데이션 위. 펜 동그라미로 그림을 가리지 않는다. 장면이 바뀔 때 0.35초 겹쳐 넘어간다.
 """
 import os
@@ -40,13 +40,75 @@ def _pen(size):
     return _C[k]
 
 
+MOTIONS = ["in", "left", "out", "right", "up", "in", "down", "out"]   # 장면마다 방향을 바꿔 단조롭지 않게
+KB_ZOOM = .06    # 확대·축소 폭 6% (2026-11-05 대표: 사진도 줌인·줌아웃·이동으로 생동감, 제1 원칙 97 — r57 '정지 그림' 대체)
+KB_PAN = .05     # 이동 폭 = 화면의 5%
+_V = {}          # 영상 프레임 캐시 (장면 2개까지만 — 전환 0.35초 겹침용)
+VW, VH = 720, 1280
+
+
+def _vpath(name):
+    cands = [name] if os.path.isabs(name) else [os.path.join(ROOT, name), os.path.join(ROOT, "scripts", "blog", "media", "lib", name),
+             os.path.join(os.path.dirname(__file__), "assets", "broll", name), os.path.join(os.path.dirname(__file__), "assets", "broll", name + ".mp4")]
+    for c in cands:
+        if os.path.isfile(c): return c
+    raise FileNotFoundError(f"영상 소재 없음: {name}")
+
+
+def _video(name, secs, start=0.0):
+    """세로 화면을 꽉 채우게 잘라 720x1280으로 풀어 둔다(출력 때 1080x1920으로 키움). 영상이 장면보다 짧으면 앞뒤로 왕복 재생."""
+    import subprocess
+    k = (name, round(start, 2))
+    if k not in _V:
+        if len(_V) >= 2: _V.pop(next(iter(_V)))
+        vf = f"scale={VW}:{VH}:force_original_aspect_ratio=increase,crop={VW}:{VH},fps=30"
+        raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{start:.2f}", "-i", _vpath(name), "-t", f"{secs + .6:.2f}", "-an", "-vf", vf,
+                              "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+        n = len(raw) // (VW * VH * 3)
+        if not n: raise RuntimeError(f"영상 프레임 없음: {name}")
+        _V[k] = np.frombuffer(raw[:n * VW * VH * 3], np.uint8).reshape(n, VH, VW, 3)
+    return _V[k]
+
+
+def _ease(E, x):
+    return E.ease_io(max(0.0, min(1.0, x)))
+
+
+def motion_of(f, idx):
+    m = f.get("motion")
+    if m in ("none", "still") or f.get("zoom") == 0: return "none"
+    return m if m in ("in", "out", "left", "right", "up", "down") else MOTIONS[idx % len(MOTIONS)]
+
+
 def picture(E, s, u):
-    f = s["sc"]["full"]; src = _img(f["img"])
-    # 2026-11-01 16:14 대표님: 확대 효과가 어지럽다 → 기본은 정지 그림. 대본 "zoom": 0.02 이하일 때만 아주 느린 확대 한 방향
-    z = 1.0 + min(float(f.get("zoom", 0) or 0), .02) * E.clamp(u / max(s["dur"], 1.0))
+    """장면 바탕. 소재 우선순위(제1 원칙 97): 라이브러리 영상 → 무료 스톡 영상 → 라이브러리 사진 → 무료 사진.
+    영상은 "video": "<lib mp4 | assets/broll 이름 | 경로>" (선택 "video_start": 초). 사진은 "img" 이고 정지 화면 없이 켄 번즈(느린 줌인·줌아웃·이동, 한 장면 한 방향)."""
+    f = s["sc"]["full"]; p = _ease(E, u / max(s["dur"], 1.0))
+    if f.get("video"):
+        fr = _video(f["video"], s["dur"], float(f.get("video_start", 0) or 0))
+        n = len(fr); i = int(u * 30); i = i % (2 * n - 2) if n > 1 else 0
+        if i >= n: i = 2 * n - 2 - i
+        im = Image.fromarray(fr[i]).resize((W, H), Image.BICUBIC)
+        z = 1.0 + .025 * p   # 영상은 이미 움직이므로 아주 느린 확대만
+        if z > 1.001:
+            big = im.resize((int(W * z), int(H * z)), Image.BILINEAR); x0 = (big.width - W) // 2; y0 = (big.height - H) // 2
+            im = big.crop((x0, y0, x0 + W, y0 + H))
+        return im
+    src = _img(f["img"]); m = motion_of(f, s.get("_mi", 0))
+    amp = float(f.get("motion_amp", 1.0) or 1.0)
+    if m == "in": z = 1.0 + KB_ZOOM * amp * p
+    elif m == "out": z = 1.0 + KB_ZOOM * amp * (1 - p)
+    elif m == "none": z = 1.0
+    else: z = 1.0 + KB_PAN * amp * 2 + .01   # 이동할 여유만큼 살짝 크게
     r = max(W / src.width, H / src.height) * z
-    im = src.resize((int(src.width * r) + 1, int(src.height * r) + 1), Image.BILINEAR)
-    x0 = int((im.width - W) * f.get("focus_x", .5)); y0 = int((im.height - H) * f.get("focus_y", .5))
+    im = src.resize((int(src.width * r) + 1, int(src.height * r) + 1), Image.BICUBIC)
+    fx = f.get("focus_x", .5); fy = f.get("focus_y", .5); sw = KB_PAN * amp * W; sh = KB_PAN * amp * H
+    cx = (im.width - W) * fx; cy = (im.height - H) * fy
+    if m == "left": cx += sw * (.5 - p)
+    elif m == "right": cx += sw * (p - .5)
+    elif m == "up": cy += sh * (.5 - p)
+    elif m == "down": cy += sh * (p - .5)
+    x0 = int(max(0, min(im.width - W, cx))); y0 = int(max(0, min(im.height - H, cy)))
     return im.crop((x0, y0, x0 + W, y0 + H))
 
 
@@ -96,8 +158,9 @@ def scene_img(E, s, u):
 
 def render(E, T, s, scenes):
     """현재 장면이 꽉 찬 그림 장면일 때 한 프레임 (자막·제목 띠는 engine.frame 이 얹는다)"""
-    u = T - s["start"]; img = scene_img(E, s, u)
     i = scenes.index(s)
+    for k, x in enumerate(scenes): x.setdefault("_mi", k)   # 장면 순번 → 켄 번즈 방향
+    u = T - s["start"]; img = scene_img(E, s, u)
     if i > 0 and u < XF and scenes[i - 1]["sc"].get("full"):
         p = scenes[i - 1]; prev = scene_img(E, p, p["dur"] - 1 / 30)
         img = Image.blend(prev, img, E.ease_io(u / XF))
@@ -171,9 +234,12 @@ def tag_fonts(E, lines):
     return E.fit_font(longest, "Heavy", 160, BAND_W)
 
 
+TOP_PAD = 60   # 2026-11-05 대표: 헤더가 화면 맨 위에 너무 붙어 있다 → 띠 안 내용을 60px 내린다(앱 뒤로가기·검색 아이콘과도 안 겹침)
+
+
 def tag_band_height(E, tag, lines):
     f = tag_fonts(E, lines)
-    return int((150 if tag else 50) + len(lines) * f.size * 1.18 + 22)
+    return int(TOP_PAD + (150 if tag else 50) + len(lines) * f.size * 1.18 + 30)
 
 
 def logo_en(img, x, y, size=38, a=1.0):
@@ -187,11 +253,11 @@ def draw_tag_band(E, img, tag, lines):
     if len(lines) > BAND_MAX_LINES: raise RuntimeError(f"제목 띠 본문은 최대 {BAND_MAX_LINES}줄 (2026-11-01 대표님): {lines}")
     h = tag_band_height(E, tag, lines); d = ImageDraw.Draw(img)
     d.rectangle([0, 0, W, h], fill=NAVYB); d.line([(X0, h - 2), (W - X0, h - 2)], fill=TAGC, width=3)
-    y = 50
+    y = TOP_PAD + 50
     if tag:
-        tf = E.F("Bold", 54); tw = d.textlength(tag, font=tf)
-        d.rounded_rectangle([X0, 46, X0 + tw + 52, 46 + 78], 39, fill=TAGC)
-        d.text((X0 + 26, 85), tag, font=tf, fill=NAVYB, anchor="lm"); y = 150
+        tf = E.F("Bold", 54); tw = d.textlength(tag, font=tf); ty = TOP_PAD + 46
+        d.rounded_rectangle([X0, ty, X0 + tw + 52, ty + 78], 39, fill=TAGC)
+        d.text((X0 + 26, ty + 39), tag, font=tf, fill=NAVYB, anchor="lm"); y = TOP_PAD + 150
     f = tag_fonts(E, lines)
     for i, s_ in enumerate(lines):
         _shadow_runs(img, X0, y + f.size * .59 + i * f.size * 1.18, _num_runs(E, s_), f)
@@ -201,8 +267,12 @@ def draw_tag_band(E, img, tag, lines):
 X0 = (W - BAND_W) // 2
 
 
-def logo_bottom(img, y=1712, size=46, a=.75):
+LOGO_Y = 1572   # 2026-11-05 대표: 하단 자막·로고를 조금 더 위로(1712 → 1572, 인스타 계정명·캡션과 안 겹치게)
+
+
+def logo_bottom(img, y=None, size=46, a=.75):
     """화면 아래 가운데 영문 ValueNote (2026-11-01 16:23 대표님: 반투명 흰색 0.75, 자막 박스 아래 여백)"""
+    y = LOGO_Y if y is None else y
     from brand import EN_FONT
     f = ImageFont.truetype(EN_FONT, size)
     lay = Image.new("RGBA", img.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)

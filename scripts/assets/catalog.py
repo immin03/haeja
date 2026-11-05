@@ -7,6 +7,7 @@
   python3 scripts/assets/catalog.py build                 목록 다시 만들기
   python3 scripts/assets/catalog.py pick 데이터센터 반도체   주제어로 고르기 — 최근 7일 안에 쓴 것은 빼고 오래 안 쓴 순서
   python3 scripts/assets/catalog.py pick hbm --vertical    세로(9:16) 그림만
+  결과는 ① 라이브러리 영상 → ② 무료 스톡 영상 → ③ 라이브러리 사진 → ④ 무료 사진 순 (2026-11-05 대표, 제1 원칙 97)
 """
 import glob, json, os, re, sys, datetime as dt
 
@@ -23,6 +24,14 @@ KO = {"데이터센터": "data center", "반도체": "chip|wafer|semiconductor|f
       "돈": "money|cash|bill", "금": "gold", "커피": "coffee|cafe", "치킨": "chicken", "배달": "delivery", "공사": "construction|crane"}
 
 
+# 소재 우선순위 (2026-11-05 대표, 제1 원칙 97): 1 라이브러리 영상(Higgsfield il_*.mp4) → 2 무료 스톡 영상 → 3 라이브러리 사진(il_*) → 4 무료 사진(commons_*)
+def tier_of(name):
+    v = name.lower().endswith(".mp4")
+    if name.startswith("il_"): return 1 if v else 3
+    if name.startswith("commons_"): return 4
+    return 2 if v else 4
+
+
 def _when_from_id(sid):
     m = re.search(r"(\d{6})", sid or "")
     if not m: return None
@@ -34,8 +43,11 @@ def build():
     items = {}
     for f in sorted(glob.glob(os.path.join(LIB, "*"))):
         name = os.path.basename(f)
-        if not re.search(r"\.(jpe?g|png|mp4)$", name, re.I) or not name.startswith(("il_", "commons_")): continue
-        it = {"file": name, "kind": "video" if name.endswith(".mp4") else "image", "desc": "", "vertical": None, "uses": [], "last": None}
+        if not re.search(r"\.(jpe?g|png|mp4)$", name, re.I): continue
+        stock = bool(re.match(r"^[a-z]+_\d+\.mp4$", name))   # Pexels·Pixabay·Mixkit 무료 영상 (예: server_12345.mp4)
+        if not (name.startswith(("il_", "commons_")) or stock): continue
+        vid = name.endswith(".mp4")
+        it = {"file": name, "kind": "video" if vid else "image", "tier": tier_of(name), "desc": name.split("_")[0] if stock else "", "vertical": None, "uses": [], "last": None}
         meta = os.path.join(LIB, re.sub(r"\.\w+$", ".json", name))
         if os.path.exists(meta):
             try:
@@ -60,7 +72,7 @@ def build():
             try: when = (json.loads(txt).get("scheduled_at") or "")[:10]
             except Exception: when = ""
             day = when or (str(_when_from_id(sid)) if _when_from_id(sid) else "")
-            for name in set(re.findall(r"((?:il|commons)_[\w\-]+\.(?:jpe?g|png|mp4))", txt)):
+            for name in set(re.findall(r"((?:il|commons)_[\w\-]+\.(?:jpe?g|png|mp4)|[a-z]+_\d+\.mp4)", txt)):
                 if name in items:
                     items[name]["uses"].append(sid)
                     if day and (not items[name]["last"] or day > items[name]["last"]): items[name]["last"] = day
@@ -84,10 +96,11 @@ def pick(words, vertical=False, n=8):
         if not score or (vertical and not it["vertical"]): continue
         last = dt.date.fromisoformat(it["last"]) if it["last"] else None
         if last and (today - last).days < data.get("cooldown_days", COOLDOWN_DAYS): continue
-        rows.append((-score, last or dt.date(2000, 1, 1), len(it["uses"]), it))
-    rows.sort(key=lambda r: (r[0], r[1], r[2]))
-    for _, last, uses, it in rows[:n]:
-        print(f"{it['file']:42s} {'세로' if it['vertical'] else '가로'}  마지막 {it['last'] or '안 씀'} · {uses}회  {it['desc'][:70]}")
+        rows.append((it.get("tier") or tier_of(it["file"]), -score, last or dt.date(2000, 1, 1), len(it["uses"]), it))
+    rows.sort(key=lambda r: (r[0], r[1], r[2], r[3]))   # 우선순위(영상 먼저) → 주제어 맞는 정도 → 오래 안 쓴 순
+    TN = {1: "①라이브러리 영상", 2: "②무료 영상", 3: "③라이브러리 사진", 4: "④무료 사진"}
+    for tier, _, last, uses, it in rows[:n]:
+        print(f"{TN[tier]:10s} {it['file']:42s} {'세로' if it['vertical'] else '가로'}  마지막 {it['last'] or '안 씀'} · {uses}회  {it['desc'][:70]}")
     if not rows: print("맞는 그림이 없습니다 — 주제어를 바꾸거나, 정말 없으면 새로 1~3장만 만드세요.")
 
 

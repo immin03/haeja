@@ -1364,7 +1364,7 @@ def frame(T, scenes, total, pen=True):
         import fullworld
         img = fullworld.render(sys.modules[__name__], T, s, scenes)
         global YT_CAP_Y
-        _cy = YT_CAP_Y; YT_CAP_Y = 1590
+        _cy = YT_CAP_Y; YT_CAP_Y = 1450   # 2026-11-05 대표: 하단 자막 140px 위로 (1590 → 1450)
         if sc["full"].get("end"): pass
         elif YT: y_caption(img, u, s["L"])
         else: caption(img, u, s["L"])
