@@ -2140,9 +2140,9 @@ function vRules(){
   const sc = OR.sch && OR.sch.data ? OR.sch.data : null;
   const todayDow = new Date(Date.now() + 9 * 3600e3).getUTCDay(), dowIdx = (todayDow + 6) % 7;
   const sched = sc ? `<div class="card" style="padding:16px 18px;margin-bottom:14px">
-      <div class="k" style="font-size:12px;opacity:.7;margin-bottom:4px">주간 편성표${sc.at ? ` · ${kst(sc.at)} 기준` : ''}</div>
-      <div style="font-weight:700;font-size:16px;margin-bottom:10px;word-break:keep-all">${esc(sc.title || '')}</div>
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px;min-width:640px;word-break:keep-all">
+      <div style="font-weight:800;font-size:17px;margin-bottom:2px">편성 기준</div><div style="font-size:12px;opacity:.6;margin-bottom:8px">${sc.at ? `${kst(sc.at)} 기준` : ''}</div>
+      <div style="font-size:14px;margin-bottom:10px;word-break:keep-all">${esc(sc.title || '')}</div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px;min-width:560px;word-break:keep-all">
         <thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid rgba(127,127,127,.3)"></th>${(sc.days || []).map((d, i) => `<th style="padding:6px 8px;border-bottom:1px solid rgba(127,127,127,.3);${i === dowIdx ? 'color:#c9a227' : ''}">${esc(d)}${i === dowIdx ? ' · 오늘' : ''}</th>`).join('')}</tr></thead>
         <tbody>${(sc.rows || []).map(r => `<tr><td style="padding:8px;font-weight:700;white-space:nowrap;vertical-align:top;border-bottom:1px solid rgba(127,127,127,.15)">${esc(r.label)}${r.note ? `<div style="font-weight:400;font-size:11px;opacity:.65;margin-top:2px">${esc(r.note)}</div>` : ''}</td>${(r.cells || []).map((c, i) => `<td style="padding:8px;vertical-align:top;text-align:center;border-bottom:1px solid rgba(127,127,127,.15);${i === dowIdx ? 'background:rgba(201,162,39,.08)' : ''}${c ? '' : ';opacity:.35'}">${esc(c || '–')}</td>`).join('')}</tr>`).join('')}</tbody>
       </table></div>
