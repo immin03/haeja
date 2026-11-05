@@ -34,7 +34,14 @@ TITLES = {}
 
 
 def tag_page(tag):
-    page = get(f"https://mixkit.co/free-stock-video/{tag}/").decode("utf-8", "ignore")
+    import time
+    for k in range(4):   # 2026-11-05: 태그 페이지를 한꺼번에 부르면 429(Too Many Requests) → 간격을 두고 다시
+        time.sleep(3 + 10 * k)
+        try:
+            page = get(f"https://mixkit.co/free-stock-video/{tag}/").decode("utf-8", "ignore"); break
+        except Exception as e:
+            if "429" not in str(e) or k == 3: raise
+            print("  429 대기", tag)
     out = []
     for slug, vid in re.findall(r'/free-stock-video/([a-z0-9-]+)-(\d+)/', page):
         if vid not in [v for v, _ in out]:
@@ -86,6 +93,7 @@ for name, ids in W.get("ids", {}).items():
 
 # 2) 공용 사진 창고 (태그 앞쪽 N개, 사진만)
 for tag, n in W.get("tags", {}).items():
+    if any(f.startswith(tag.replace("-", "") + "_") for f in os.listdir(LIB)): continue   # 이미 받은 태그는 페이지를 다시 부르지 않는다 (429 방지)
     try:
         items = tag_page(tag)
     except Exception as e:
