@@ -226,7 +226,7 @@ let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document
 
 const PL = { youtube: '유튜브', instagram: '인스타', tiktok: '틱톡', threads: '쓰레드' };
 /* 성과(진단·벤치마킹)는 2026-11-03부터 성과 관리 플랫폼(/studio, 계정 '황제의 일기')에서 본다. 이 탭은 그쪽으로 연결만 한다. */
-const TABS = [['brief','브리핑'],['sched','편성'],['rules','운영 기준'],['perf','성과 ↗'],['set','설정']];
+const TABS = [['brief','브리핑'],['long','롱폼'],['sched','편성'],['rules','운영 기준'],['perf','성과 ↗'],['set','설정']];
 const S = { tab: store.get('ed-tab', 'brief') === 'perf' ? 'brief' : store.get('ed-tab', 'brief'), d: null };
 
 function loginView(msg){
@@ -270,8 +270,8 @@ function renderTabs(){
 }
 function render(){
   if (!S.d) return; $('#tabs').hidden = false; renderTabs();
-  $('#main').innerHTML = S.tab === 'sched' ? viewSched() : S.tab === 'rules' ? viewRules() : S.tab === 'perf' ? viewPerf() : S.tab === 'set' ? viewSet() : viewBrief();
-  ({ brief: bindBrief, sched: bindSched, perf: () => {}, set: bindSet })[S.tab]?.();
+  $('#main').innerHTML = S.tab === 'long' ? (viewLong() || '<div class="card empty">롱폼 정보 없음</div>') : S.tab === 'sched' ? viewSched() : S.tab === 'rules' ? viewRules() : S.tab === 'perf' ? viewPerf() : S.tab === 'set' ? viewSet() : viewBrief();
+  ({ brief: bindBrief, long: bindBrief, sched: bindSched, perf: () => {}, set: bindSet })[S.tab]?.();
 }
 const kpi = (l, v, s) => `<div class="card kpi"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div>${s ? `<div class="s">${esc(s)}</div>` : ''}</div>`;
 const delta = (a, b) => a == null || b == null ? '' : (a - b >= 0 ? '+' : '') + num(a - b);
