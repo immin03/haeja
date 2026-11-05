@@ -1281,7 +1281,7 @@ function ytPlanItem(p){
   const kp = iso => { if(!iso) return ['', '19:00']; const d = new Date(Date.parse(iso) + 9*3600e3); return [d.toISOString().slice(0, 10), d.toISOString().slice(11, 16)]; };
   const [dv, tv] = kp(defAt), minD = kp(new Date(Date.now() + 864e5).toISOString())[0];
   const pick = ['proposed', 'approved'].includes(p.status) ? `<div class="ytp-when"><b>게시 일시</b><input type="date" data-ytp-d="${id}" value="${dv}" aria-label="게시 날짜"><input type="time" data-ytp-t="${id}" value="${tv}" step="600" aria-label="게시 시각">
-      <span class="m">${p.status === 'approved' ? '바꾸면 그 일시로 다시 잡힙니다' : '그대로 두면 자동 배정, 바꾸면 그 일시로 승인'} · 오후 1시 이후 또는 다음 날 오전 · 긴급은 오늘도 가능(지금부터 5시간 뒤부터) · 하루 1편</span></div>` : '';
+      <span class="m">${p.status === 'approved' ? '바꾸면 그 일시로 다시 잡힙니다' : '그대로 두면 자동 배정, 바꾸면 그 일시로 승인'} · 오후 1시 이후 또는 다음 날 오전 · 긴급은 오늘도 가능(지금부터 5시간 뒤부터) · 롱폼은 화·목·토·일 19:30</span></div>` : '';
   /* 긴급 (2026-10-26 운영자): "긴급으로 누르는 경우에는 바로 제작할 수 있게 해 줘." → 1시간 안에 제작 시작, 게시는 칸을 바꿨으면 그 일시, 아니면 약 5시간 30분 뒤 */
   const urg = p.urgent && p.status === 'approved' ? '' : `<button class="soc-btn urgent" data-ytp-urgent="${id}">긴급 · 바로 제작</button>`;
   const acts = p.status === 'proposed' ? `<button class="soc-btn ok" data-ytp-set="approved" data-id="${id}">승인 · 이 일시로 배정</button>${urg}<button class="soc-btn ghost" data-ytp-set="rejected" data-id="${id}">반려 · 다른 주제로</button>`
@@ -1708,8 +1708,8 @@ function calRow(x){
   return `<a class="cal-it" href="${x.go}"><i style="background:${CH[x.ch][1]}"></i><span class="tm">${x.t || '—'}</span><span class="tx"><small>${CH[x.ch][0]}${x.sub ? ' · ' + esc(x.sub) : ''}</small>${esc(x.title)}</span><span class="st ${x.st[0]}">${x.st[1]}</span></a>`;
 }
 /* 롱폼 편성표 (2026-11-04 22:05 대표님: "롱폼 달력… 쉽게 보이게, slot 비어있으면 선택할 수 있게 유도")
-   롱폼은 월·수·금·일 19:30 (주 4편). 앞으로 8주(크리스마스까지) 칸을 한눈에 — 빈 칸은 금색 점선 + 기획안을 골라 바로 배정 */
-const SLOT_DOW = [1, 3, 5, 0];
+   롱폼은 화·목·토·일 19:30 (주 4편, 2026-11-05 대표님 변경 — 이전 월·수·금·일). 앞으로 8주(크리스마스까지) 칸을 한눈에 — 빈 칸은 금색 점선 + 기획안을 골라 바로 배정 */
+const SLOT_DOW = [2, 4, 6, 0];
 function ytSlots(weeks = 8){
   const today = kstDay(), addD = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
   const L = (YT.list || []).filter(y => y.kind === 'long' && y.scheduled_at && !['hold', 'stale', 'deleted'].includes(y.status));
@@ -1723,12 +1723,12 @@ function ytSlots(weeks = 8){
   let html = '', empty = 0, next = null;
   for(let w = 0; w < weeks; w++){
     let row = '';
-    [0, 2, 4, 6].forEach(off => {
+    [1, 3, 5, 6].forEach(off => {
       const d = addD(mon, w * 7 + off), dw = DOW[new Date(d + 'T00:00:00Z').getUTCDay()];
       if(w === 0 && d < addD(today, -1)) { row += `<div class="sl-c up" style="opacity:.45"><span class="sd">${+d.slice(5, 7)}/${+d.slice(8)} <small>${dw}</small></span></div>`; return; }
       const v = L.find(y => kd(y.scheduled_at) === d), pl = P.find(p => kd(p.target_at) === d);
       const lab = `<span class="sd">${+d.slice(5, 7)}/${+d.slice(8)} <small>${dw} · 19:30</small></span>`, td = d === today ? ' today' : '';
-      const nx = addD(d, off === 6 ? 1 : 2), sp = SP.filter(x => x.day >= d && x.day < nx && x.kind !== 'M');
+      const nx = addD(d, off === 5 ? 1 : 2), sp = SP.filter(x => x.day >= d && x.day < nx && x.kind !== 'M');
       const spH = sp.length ? `<div class="sp">${sp.map(x => `<span class="${x.kind === 'E' ? 'e' : ''}">${x.kind === 'S' ? '★ ' : ''}${x.day !== d ? `${+x.day.slice(5, 7)}/${+x.day.slice(8)} ` : ''}${esc(x.title)}</span>`).join('')}</div>` : '';
       const tt = TT.find(p => p.tentative_at === d);
       if(v){
@@ -1745,7 +1745,7 @@ function ytSlots(weeks = 8){
     });
     html += `<div class="sl-wk">${row}</div>`;
   }
-  return `<div class="card cal-m" id="yt-slots"><div class="cal-mh"><b>롱폼 편성표 · 월·수·금·일 19:30</b></div>
+  return `<div class="card cal-m" id="yt-slots"><div class="cal-mh"><b>롱폼 편성표 · 화·목·토·일 19:30</b></div>
     <div class="sl-sum">${empty ? `앞으로 ${weeks}주 중 <b class="bad">${empty}칸이 비어 있습니다</b>${TT.length ? ` · '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다` : ''} · 가장 가까운 빈 날 ${+next.slice(5, 7)}/${+next.slice(8)}(${DOW[new Date(next + 'T00:00:00Z').getUTCDay()]}) — 금색 칸에서 기획안을 고르면 바로 배정됩니다.` : `앞으로 ${weeks}주 편성이 모두 찼습니다.${TT.length ? ` '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다.` : ''}`}</div>${html}</div>`;
 }
 function bindSlots(){
