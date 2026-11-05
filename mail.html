@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>칼럼 메일 수신 거부 · ValueNote</title>
+<link rel="icon" type="image/png" href="/favicon-64.png?v=5">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<link rel="stylesheet" href="/legal.css">
+<style>
+.um{max-width:460px;margin:24px auto 0;background:var(--surface,#fff);border:1px solid var(--line,#E6E1D6);border-radius:16px;padding:24px;word-break:keep-all}
+.um h1{font-size:21px;margin:0 0 10px}
+.um p{margin:0 0 12px;line-height:1.7}
+.um button{font:inherit;font-weight:700;font-size:15px;border:0;border-radius:10px;padding:13px 20px;background:#0E1A2B;color:#FFFFFF;cursor:pointer;width:100%}
+.um button:disabled{opacity:.5}
+.um .s{font-size:13px;color:#6B7484;margin-top:12px}
+.um a{color:inherit}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+</head>
+<body>
+<header><div class="hd"><a class="wm solo" href="/"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a><a class="back" href="/">서비스로 돌아가기</a></div></header>
+<main>
+<div class="um" id="box">
+  <h1>칼럼 메일 수신 거부</h1>
+  <p>아래 버튼을 누르면 밸류노트 칼럼·투자 정보 메일을 더 이상 보내지 않습니다. 가입·계정 관련 안내처럼 꼭 필요한 메일만 보냅니다.</p>
+  <button type="button" id="go">수신 거부하기</button>
+  <p class="s" id="msg"></p>
+</div>
+</main>
+<script>
+/* 2026-11-05: 메일 아래 '수신 거부' 링크. 링크 검사기가 미리 열어도 처리되지 않도록 버튼을 눌러야 거부된다 */
+(function(){
+  const t = new URLSearchParams(location.search).get('u') || '', box = document.getElementById('box'), msg = document.getElementById('msg'), go = document.getElementById('go');
+  if(!/^[0-9a-f-]{36}$/i.test(t)){ go.disabled = true; msg.textContent = '링크가 올바르지 않습니다. 앱의 내 계정에서 칼럼 메일을 끌 수 있습니다.'; return; }
+  const C = window.HAEJA_CONFIG || {}, sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+  go.onclick = async () => {
+    go.disabled = true; msg.textContent = '처리하는 중입니다';
+    const { data, error } = await sb.rpc('mail_unsub', { p_token: t });
+    if(error || !data || !data.ok){ go.disabled = false; msg.textContent = '처리하지 못했습니다. 잠시 후 다시 누르시거나 immin03@gmail.com으로 알려 주세요.'; return; }
+    const d = new Date(Date.parse(data.at) + 9 * 3600e3).toISOString();
+    box.innerHTML = `<h1>수신 거부가 처리됐습니다</h1><p>${String(data.email).replace(/[&<>"']/g, '')} 주소로 가던 칼럼·투자 정보 메일을 ${d.slice(0,4)}년 ${+d.slice(5,7)}월 ${+d.slice(8,10)}일 ${d.slice(11,16)}에 멈췄습니다. 처리 결과는 메일로도 알려 드립니다.</p><p class="s">다시 받고 싶으시면 <a href="/?tab=account">앱의 내 계정</a>에서 켤 수 있습니다.</p>`;
+  };
+})();
+</script>
+</body>
+</html>

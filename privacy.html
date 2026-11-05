@@ -22,6 +22,7 @@
 <tr><td>카카오 로그인 시</td><td>카카오 회원번호, 닉네임, 프로필 사진(선택), 카카오계정 이메일(동의한 경우)</td><td>카카오로 가입·로그인</td></tr>
 <tr><td>정리본 신청 시</td><td>이메일 주소, 신청한 정리본, 유입 경로</td><td>인스타그램 DM 등으로 받은 정리본 페이지에서 이메일을 입력할 때</td></tr>
 <tr><td>선택</td><td>이름(호칭), 투자 성향 설문 응답(투자 규모·시장·방식·기대하는 점 등), 서비스에 바라는 점</td><td>가입 직후, 계정 설정</td></tr>
+<tr><td>선택</td><td>칼럼·투자 정보 메일 수신 동의 여부와 동의·거부 일시</td><td>회원가입, 내 계정, 칼럼 화면에서 고를 때</td></tr>
 <tr><td>서비스 이용 중 입력</td><td>보유 종목·수량·평균 단가, 예수금, 관심 종목, 결정 일지 등 이용자가 직접 입력한 정보</td><td>서비스 이용 시</td></tr>
 <tr><td>자동 수집</td><td>방문 기록(무작위 방문자 식별번호, 접속 일시, 방문 경로, 기기·운영체제 종류), 알림 수신을 위한 브라우저 구독 정보</td><td>서비스 접속·알림 설정 시</td></tr>
 </table>
@@ -33,7 +34,8 @@
 <li>포트폴리오 평가, 기업 점수 계산, 알림 발송 등 서비스 기능 제공</li>
 <li>투자 성향에 맞춘 정렬·제안 제공</li>
 <li>방문·이용 통계 분석을 통한 서비스 개선</li>
-<li>문의 응대 및 서비스 관련 공지</li>
+<li>문의 응대 및 서비스 관련 공지 (가입 축하·이용 안내 메일, 메일 수신 동의·거부 처리 결과 안내 포함)</li>
+<li>칼럼·투자 정보 메일 발송: 수신에 동의한 회원에게만 매주 많이 읽힌 칼럼과 새 영상을 보냅니다. 광고성 정보에 해당하므로 제목에 (광고)를 표시하고, 21시부터 다음 날 8시까지는 보내지 않으며, 2년마다 동의 여부를 다시 알려 드립니다. 메일 아래 링크나 내 계정에서 언제든 수신을 거부할 수 있습니다.</li>
 <li>정리본을 신청한 분께 정리본 제공, 새 정리본·칼럼 안내 메일 발송 (메일 하단 링크나 개인정보 보호책임자 이메일로 언제든 수신을 거부할 수 있습니다)</li>
 </ul>
 
@@ -41,6 +43,7 @@
 <ul>
 <li>회원 정보와 이용자가 입력한 정보: 회원 탈퇴 시 지체 없이 파기</li>
 <li>정리본 신청 이메일: 수신 거부 또는 삭제 요청 시 지체 없이 파기, 그렇지 않으면 마지막 신청일로부터 2년 보관 후 파기</li>
+<li>메일 수신 동의 기록과 발송 기록: 회원 탈퇴 시 지체 없이 파기</li>
 <li>방문 기록: 수집일로부터 1년 보관 후 파기 (회원 탈퇴 시 해당 회원의 기록은 즉시 파기)</li>
 <li>관련 법령에 따라 보존이 필요한 경우 해당 기간 동안 보관</li>
 </ul>
@@ -54,7 +57,9 @@
 <tr><td>Supabase Inc.</td><td>회원 인증, 데이터베이스 저장·관리</td><td>대한민국(서울 리전)</td></tr>
 <tr><td>Vercel Inc.</td><td>웹사이트 호스팅 및 전송</td><td>미국 등 전 세계 전송망</td></tr>
 <tr><td>Google, Apple, Mozilla 등 브라우저 알림 서비스</td><td>알림을 켠 이용자에 한해 알림 전달</td><td>각 사업자 서버(국외)</td></tr>
+<tr><td>Resend, Inc.</td><td>이메일 발송(가입 안내, 수신에 동의한 회원의 칼럼 메일)</td><td>미국</td></tr>
 </table>
+<p class="note">이메일 발송을 위한 국외 이전: 이전받는 자 Resend, Inc.(미국, resend.com) · 이전 항목 이메일 주소, 이름(호칭, 입력한 경우), 메일 내용 · 이전 일시와 방법 메일을 보낼 때마다 정보통신망으로 전송 · 이용 목적 메일 발송과 발송 결과 확인 · 보유 기간 발송 후 수탁자의 기록 보관 기간이 지나면 삭제. 칼럼 메일 수신을 거부하면 칼럼 메일을 위한 국외 이전은 멈추며, 가입 안내 메일은 가입할 때 한 번만 보냅니다.</p>
 <p class="note">국외 이전은 서비스 제공을 위해 이용자가 서비스에 접속하거나 알림을 켜는 시점에 정보통신망을 통해 이루어집니다. 국외 이전을 원하지 않으면 알림을 끄거나 회원 탈퇴를 할 수 있습니다.</p>
 
 <h2>6. 개인정보의 파기 절차 및 방법</h2>
@@ -100,9 +105,9 @@
 </ul>
 <p lang="en"><b>English summary.</b> ValueNote uses YouTube API Services to upload videos to, and read statistics and comments of, its own YouTube channel (@valuenote_korea). By using these features you agree to be bound by the <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a>, and the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a> applies. We access only the channel ID/title, uploaded video metadata and statistics, and public comments on our own videos. OAuth tokens are stored encrypted on our server and never shared. Access can be revoked at any time via <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google security settings</a>; stored tokens are deleted within 7 days of a request, and API data is refreshed or deleted within 30 days. Contact: the privacy officer listed in section 11.</p>
 
-<h2>13. 처리방침의 변경</h2>
+<h2 id="change">13. 처리방침의 변경</h2>
 <p>이 처리방침의 내용이 바뀌는 경우 시행 7일 전부터 서비스 화면을 통해 알립니다.</p>
-<p class="note">2026년 10월 21일: 정리본 신청 이메일 수집 항목·목적·보유 기간을 추가했습니다.<br>2026년 10월 21일: YouTube API 서비스 이용 항목(12조)을 추가했습니다.</p>
+<p class="note">2026년 11월 5일 공지, 11월 12일 시행: 칼럼·투자 정보 메일 수신 동의(선택) 항목과 이메일 발송 위탁·국외 이전(Resend, Inc.)을 추가했습니다.<br>2026년 10월 21일: 정리본 신청 이메일 수집 항목·목적·보유 기간을 추가했습니다.<br>2026년 10월 21일: YouTube API 서비스 이용 항목(12조)을 추가했습니다.</p>
 </main>
 </body>
 </html>
