@@ -1,0 +1,28 @@
+{
+ "id": "libv_brazier_hands",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "Sparks rise and swirl slowly from the coals, the glow pulses, the fingers flex slightly in the warmth; the camera drifts slowly upward with the sparks. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92e-c28e-77f3-8e0b-b4a4423720c9/d33e445d-1228-4418-86a8-a84ced2a09da.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a985-b84f-7c30-93df-f2fb383d9103",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a985-b84f-7c30-93df-f2fb383d9103/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a985-b84f-7c30-93df-f2fb383d9103/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1a985-b84f-7c30-93df-f2fb383d9103",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a985-b84f-7c30-93df-f2fb383d9103/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a985-b84f-7c30-93df-f2fb383d9103/cancel",
+  "expires_at": "2026-11-12T02:24:36.102776+00:00"
+ },
+ "seconds": 6
+}
