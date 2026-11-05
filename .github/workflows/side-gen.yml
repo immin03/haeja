@@ -24,6 +24,8 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       SIDE_GEN_MAX_USD: ${{ github.event.inputs.max_usd || '3' }}
     steps:
+      - name: 디스크 비우기 (2026-11-05 저장소가 커져 러너 디스크가 가득 차 실패)
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/share/boost && df -h / | tail -1
       - uses: actions/checkout@v4
         with: { fetch-depth: 2 }
       - uses: actions/setup-python@v5
