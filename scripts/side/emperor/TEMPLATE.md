@@ -51,6 +51,7 @@
 ## 표지(썸네일) 양식 (2026-11-02 21:55 변경 확정)
 - 첫 화면(훅) = "로마 황제가 일기에 쓴 한 줄"(금색, style kicker 62px) + 큰 흰 훅 문구 + 장면 + 하단 THE EMPEROR'S DIARY
 - 이 1장 = 유튜브 맞춤 썸네일 = 릴스 cover_url = 쓰레드 사진 = 틱톡 커버
+- ★ 2026-11-05 대표 지시: 이 양식을 바꾸지 않는다(왔다 갔다 금지). 유튜브는 API 업로드 때 썸네일을 안 넣으면 중간 프레임(인용 장면)을 골라 버리므로, yt_up.sh 4번째 인자로 반드시 지정(yt_thumb.sh)
 - 만들기: python3 make_thumb.py spec.json hook_epXX.jpg → docs/emperor/ep 에 올리고 ed_posts.cover_path 에 지정
 - (이전 양식 thumb_epXX = 본문 큰 글씨 장면, 1~3편 유튜브/쓰레드는 대표님이 직접 교체)
 

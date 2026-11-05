@@ -1,7 +1,9 @@
 #!/bin/bash
-# 사용: yt_up.sh <id> <mp4> <meta.json>   meta.json = {"title","description","tags":[],"publish_at"}
+# 사용: yt_up.sh <id> <mp4> <meta.json> <hook_<id>.jpg>   meta.json = {"title","description","tags":[],"publish_at"}
+# ★ 4번째 인자(첫 화면 표지)는 필수 — 2026-11-05 대표 지시: 쇼츠 썸네일 = 초반 양식 첫 화면, 유튜브 자동 선택 금지
 set -e
-ID=$1; F=$2; M=$3
+ID=$1; F=$2; M=$3; J=${4:?썸네일(hook_<id>.jpg) 필요}
+[ -s "$J" ] || { echo "썸네일 파일 없음: $J"; exit 1; }
 U=https://msjbrwyzkiueqnzjeicm.supabase.co/functions/v1/ed-yt-long
 A="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zamJyd3l6a2l1ZXFuemplaWNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTk0NTcsImV4cCI6MjEwNzQzNTQ1N30.RIq2MRW8bwHQUO_dPeIarujjWcYD_dXn06icr1Mpmuw"
 K="${ED_KEY:?ED_KEY 필요: app_config ed_yt_long_key}"
@@ -18,4 +20,5 @@ k,i,t,s,m=sys.argv[1:]; d=json.load(open(m)); d.update({"key":k,"action":"start"
 P
 call @$T/start.json; echo
 for n in $(seq 1 20); do R=$(call "{\"key\":\"$K\",\"action\":\"push\",\"state_key\":\"$SKEY\"}"); echo "$R"; echo "$R" | grep -q '"done":true' && break; done
+ED_KEY=$K "$(dirname "$0")/yt_thumb.sh" "$ID" "$J"
 call "{\"key\":\"$K\",\"action\":\"clean\",\"state_key\":\"$SKEY\"}"; echo; rm -rf $T
