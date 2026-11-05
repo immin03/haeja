@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_sunset",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: Silhouette of a passenger jet climbing away over a runway into a deep golden sunset, runway lights in the foreground, calm and cinematic, lots of sky.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a975-a6da-724d-8eb3-7fe89170223f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a975-a6da-724d-8eb3-7fe89170223f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a975-a6da-724d-8eb3-7fe89170223f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a975-a6da-724d-8eb3-7fe89170223f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a975-a6da-724d-8eb3-7fe89170223f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a975-a6da-724d-8eb3-7fe89170223f/cancel",
+  "expires_at": "2026-11-12T02:08:05.516469+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a975-a6da-724d-8eb3-7fe89170223f/5e5311e9-37b9-4e54-8d9e-a78e0606f39a.jpeg"
+   }
+  ]
+ },
+ "seconds": 68,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_sunset.jpeg"
+}

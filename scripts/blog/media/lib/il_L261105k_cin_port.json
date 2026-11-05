@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_port",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: A vast container port at dusk, giant gantry cranes, a loaded container ship slowly leaving the quay, warm sodium lights, wide aerial-like view.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a974-ca82-7325-939c-e3df2514aee6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a974-ca82-7325-939c-e3df2514aee6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a974-ca82-7325-939c-e3df2514aee6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a974-ca82-7325-939c-e3df2514aee6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a974-ca82-7325-939c-e3df2514aee6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a974-ca82-7325-939c-e3df2514aee6/cancel",
+  "expires_at": "2026-11-12T02:07:01.331893+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a974-ca82-7325-939c-e3df2514aee6/38f557dc-fc6f-4132-833d-04567eee5ce8.jpeg"
+   }
+  ]
+ },
+ "seconds": 56,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_port.jpeg"
+}

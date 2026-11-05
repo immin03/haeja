@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_desk1969",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: A 1969 office desk with a fountain pen, stacks of contract papers too blurry to read, a small metal model of a propeller airliner, an ashtray, warm lamp light, a man's hand in a white shirt cuff signing, face out of frame.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a976-b336-7875-9825-216a6f223214",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a976-b336-7875-9825-216a6f223214/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a976-b336-7875-9825-216a6f223214/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a976-b336-7875-9825-216a6f223214",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a976-b336-7875-9825-216a6f223214/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a976-b336-7875-9825-216a6f223214/cancel",
+  "expires_at": "2026-11-12T02:09:32.303976+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a976-b336-7875-9825-216a6f223214/9a114e9e-5f40-4645-ba03-41b361f20822.jpeg"
+   }
+  ]
+ },
+ "seconds": 86,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_desk1969.jpeg"
+}

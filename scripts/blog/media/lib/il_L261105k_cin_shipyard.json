@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_shipyard",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: A massive ship hull under construction in a Korean shipyard dry dock, giant goliath crane above, sparks of welding, blue hour.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a97b-2410-720b-b606-7963604d189b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a97b-2410-720b-b606-7963604d189b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a97b-2410-720b-b606-7963604d189b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a97b-2410-720b-b606-7963604d189b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a97b-2410-720b-b606-7963604d189b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a97b-2410-720b-b606-7963604d189b/cancel",
+  "expires_at": "2026-11-12T02:14:19.706596+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a97b-2410-720b-b606-7963604d189b/6431b375-fb74-41f3-92b7-7b89b6e7a701.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_shipyard.jpeg"
+}

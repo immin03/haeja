@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_ledger",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: A dark wooden desk with a calculator, a stack of US dollar banknotes seen at an angle so no numbers are readable, and blurry financial reports, a desk lamp, late night, serious mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a97a-ab50-792a-a36e-f6d61c0c7ed5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a97a-ab50-792a-a36e-f6d61c0c7ed5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a97a-ab50-792a-a36e-f6d61c0c7ed5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a97a-ab50-792a-a36e-f6d61c0c7ed5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a97a-ab50-792a-a36e-f6d61c0c7ed5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a97a-ab50-792a-a36e-f6d61c0c7ed5/cancel",
+  "expires_at": "2026-11-12T02:13:35.228424+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a97a-ab50-792a-a36e-f6d61c0c7ed5/567fa9ab-da93-4181-abf1-71709969d346.jpeg"
+   }
+  ]
+ },
+ "seconds": 68,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_ledger.jpeg"
+}

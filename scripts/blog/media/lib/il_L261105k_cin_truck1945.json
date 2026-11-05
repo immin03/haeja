@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_truck1945",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: A late 1940s battered cargo truck parked by a dusty harbor road in Incheon Korea, wooden crates in the back, vintage sepia photograph look, no people's faces.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a976-4f54-7c2e-a50d-8e02541e7943",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a976-4f54-7c2e-a50d-8e02541e7943/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a976-4f54-7c2e-a50d-8e02541e7943/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a976-4f54-7c2e-a50d-8e02541e7943",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a976-4f54-7c2e-a50d-8e02541e7943/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a976-4f54-7c2e-a50d-8e02541e7943/cancel",
+  "expires_at": "2026-11-12T02:09:22.963751+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a976-4f54-7c2e-a50d-8e02541e7943/49490e58-997b-4bf2-b5e9-c9f2c2b585eb.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_truck1945.jpeg"
+}

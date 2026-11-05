@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_crisis1997",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: Seoul 1997 winter, office workers in long coats seen from behind standing in front of a large electronic exchange rate board on a building, the board glowing red and completely blurred, cold blue dusk, anxious mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a977-d469-7623-b25d-e034a65f8bf6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a977-d469-7623-b25d-e034a65f8bf6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a977-d469-7623-b25d-e034a65f8bf6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a977-d469-7623-b25d-e034a65f8bf6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a977-d469-7623-b25d-e034a65f8bf6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a977-d469-7623-b25d-e034a65f8bf6/cancel",
+  "expires_at": "2026-11-12T02:11:10.530587+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a977-d469-7623-b25d-e034a65f8bf6/8e8fb4ad-c770-4a1f-a217-8f965db64e42.jpeg"
+   }
+  ]
+ },
+ "seconds": 111,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_crisis1997.jpeg"
+}

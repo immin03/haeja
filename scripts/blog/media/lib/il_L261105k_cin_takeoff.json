@@ -1,0 +1,32 @@
+{
+ "id": "il_L261105k_cin_takeoff",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody teal and amber color grade, shallow depth of field, film grain. Absolutely no text, no letters, no numbers, no logos, no airline livery, no readable signs, no watermark, no recognizable real person. Scene: A plain white wide-body passenger jet with no markings lifting off a runway at dusk, landing gear retracting, heat haze, orange sky, low angle.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a974-ca99-7cd9-97e0-062f0f9f19cd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a974-ca99-7cd9-97e0-062f0f9f19cd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a974-ca99-7cd9-97e0-062f0f9f19cd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a974-ca99-7cd9-97e0-062f0f9f19cd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a974-ca99-7cd9-97e0-062f0f9f19cd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a974-ca99-7cd9-97e0-062f0f9f19cd/cancel",
+  "expires_at": "2026-11-12T02:07:39.961380+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a974-ca99-7cd9-97e0-062f0f9f19cd/197c27ad-c054-4071-91f6-c03af3a4d68a.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "scripts/blog/media/lib/il_L261105k_cin_takeoff.jpeg"
+}
