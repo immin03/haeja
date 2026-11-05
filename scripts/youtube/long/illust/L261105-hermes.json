@@ -376,5 +376,93 @@
    "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and warm orange color grade, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark, no recognizable faces. Scene: Close up of a blank cream price tag on a string tied to the handle of a leather handbag, the tag empty with nothing written, soft focus background.",
    "aspect_ratio": "16:9"
   }
+ },
+ {
+  "id": "ilv_L261105h_parisnight",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_parisnight.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "Rain-wet street at night, a black car glides past slowly, reflections ripple on the cobblestones, the camera tracks sideways very slowly. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
+ },
+ {
+  "id": "ilv_L261105h_phone2010",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_phone2010.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "The phone screen glows and vibrates gently on the desk, city lights twinkle outside, the camera pushes in slowly toward the phone. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
+ },
+ {
+  "id": "ilv_L261105h_knife",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_knife.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "A craftsman's hand draws the knife slowly through the leather in one clean stroke, the camera holds close and steady. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
+ },
+ {
+  "id": "ilv_L261105h_orangebox",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_orangebox.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "Soft light sweeps across the orange box, the ribbon moves slightly, the camera orbits a few degrees slowly. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
+ },
+ {
+  "id": "ilv_L261105h_safeempty",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_safeempty.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "The empty safe drawer slides open slowly, dust drifts in a beam of light, the camera pushes in. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
+ },
+ {
+  "id": "ilv_L261105h_chalet",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_chalet.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "Fog drifts slowly across the mountain valley around the chalet, trees sway gently, the camera rises slowly. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
+ },
+ {
+  "id": "ilv_L261105h_ticker",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_ticker.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "Blurred glowing numbers on the board flicker and scroll, light flares softly, the camera drifts slowly to the right. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
+ },
+ {
+  "id": "ilv_L261105h_towerman",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "scripts/blog/media/lib/il_L261105h_towerman.jpeg",
+  "raw_prompt": true,
+  "body": {
+   "duration": 5,
+   "prompt": "The figure stands still while city lights shimmer below, clouds move slowly, the camera pulls back slowly. Cinematic documentary look, keep the lighting, color grade and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing, no text, no logos."
+  }
  }
 ]
