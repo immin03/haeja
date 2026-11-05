@@ -1,0 +1,32 @@
+{
+ "id": "lib_river_flow",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A clear river flowing over smooth stones through a quiet forest in soft afternoon light, a few autumn leaves floating on the water, light shafts through the trees. The main subject stands in the horizontal center of the frame, so the picture still works when cropped to a tall vertical frame. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1aa48-5278-769b-a252-e0d9e4075c84",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa48-5278-769b-a252-e0d9e4075c84/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa48-5278-769b-a252-e0d9e4075c84/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1aa48-5278-769b-a252-e0d9e4075c84",
+  "status_url": "https://api.higgsfield.ai/requests/01a1aa48-5278-769b-a252-e0d9e4075c84/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1aa48-5278-769b-a252-e0d9e4075c84/cancel",
+  "expires_at": "2026-11-12T05:58:43.588144+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1aa48-5278-769b-a252-e0d9e4075c84/a4bdc09f-c475-48e5-9fb7-7c3d078496c7.jpeg"
+   }
+  ]
+ },
+ "seconds": 101,
+ "file": "social/side/gen/lib_river_flow.jpeg"
+}
