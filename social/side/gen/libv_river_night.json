@@ -1,0 +1,31 @@
+{
+ "id": "libv_river_night",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The moonlight shimmers and ripples on the river, mist drifts slowly over the water, the campfires flicker far away; the camera pushes in very slowly toward the lone figure. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a92e-abd7-7593-a92f-876259b465ff/1caf6697-2f88-4abf-9211-e76332f4ae85.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a96e-656d-785d-8d3f-f25a00d932c6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a96e-656d-785d-8d3f-f25a00d932c6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a96e-656d-785d-8d3f-f25a00d932c6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a96e-656d-785d-8d3f-f25a00d932c6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a96e-656d-785d-8d3f-f25a00d932c6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a96e-656d-785d-8d3f-f25a00d932c6/cancel",
+  "expires_at": "2026-11-12T02:03:11.246293+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a96e-656d-785d-8d3f-f25a00d932c6/3425e9a4-cf03-4c08-8b7c-9fbc7cc23524.mp4"
+  }
+ },
+ "seconds": 250,
+ "file": "social/side/gen/libv_river_night.mp4"
+}

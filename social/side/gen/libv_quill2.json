@@ -1,0 +1,31 @@
+{
+ "id": "libv_quill2",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand writes slowly along the same straight row, the pen gliding to the right in small natural strokes; the candle flame flickers; the camera slides very slowly sideways. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a96e-6553-75a8-a84c-fa3ba4d15cb2/958ddf2f-0db7-430a-ac08-704cdb76f961.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a972-d34b-7a82-b3c7-1259afbbea07",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a972-d34b-7a82-b3c7-1259afbbea07/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a972-d34b-7a82-b3c7-1259afbbea07/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a972-d34b-7a82-b3c7-1259afbbea07",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a972-d34b-7a82-b3c7-1259afbbea07/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a972-d34b-7a82-b3c7-1259afbbea07/cancel",
+  "expires_at": "2026-11-12T02:09:46.293026+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a972-d34b-7a82-b3c7-1259afbbea07/f500a0a4-0de4-45c2-b6df-53a44d7947fb.mp4"
+  }
+ },
+ "seconds": 350,
+ "file": "social/side/gen/libv_quill2.mp4"
+}

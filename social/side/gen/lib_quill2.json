@@ -1,0 +1,32 @@
+{
+ "id": "lib_quill2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Close-up at night, seen from the side at desk height, of an older man's weathered hand in a deep crimson sleeve writing with a thin reed pen across a sheet of papyrus, several long straight horizontal rows of small faint brown handwriting already on the sheet, so soft and out of focus that they are only blurred grey-brown lines, the pen tip at the end of the newest row, a candle glowing warmly on the far side of the desk, dust motes in the candlelight, shallow depth of field, nothing readable, no symbols. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1a96e-6553-75a8-a84c-fa3ba4d15cb2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a96e-6553-75a8-a84c-fa3ba4d15cb2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a96e-6553-75a8-a84c-fa3ba4d15cb2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1a96e-6553-75a8-a84c-fa3ba4d15cb2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1a96e-6553-75a8-a84c-fa3ba4d15cb2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1a96e-6553-75a8-a84c-fa3ba4d15cb2/cancel",
+  "expires_at": "2026-11-12T02:01:04.098486+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1a96e-6553-75a8-a84c-fa3ba4d15cb2/958ddf2f-0db7-430a-ac08-704cdb76f961.jpeg"
+   }
+  ]
+ },
+ "seconds": 119,
+ "file": "social/side/gen/lib_quill2.jpeg"
+}
