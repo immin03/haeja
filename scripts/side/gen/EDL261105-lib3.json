@@ -1,0 +1,41 @@
+[
+ {
+  "id": "lib_quill2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Close-up at night, seen from the side at desk height, of an older man's weathered hand in a deep crimson sleeve writing with a thin reed pen across a sheet of papyrus, several long straight horizontal rows of small faint brown handwriting already on the sheet, so soft and out of focus that they are only blurred grey-brown lines, the pen tip at the end of the newest row, a candle glowing warmly on the far side of the desk, dust motes in the candlelight, shallow depth of field, nothing readable, no symbols. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "libv_rain_march",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/lib_rain_march.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The column marches slowly forward through the rain, raindrops streak down, torch flames gutter and smoke; the camera tracks slowly alongside the column. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "libv_river_night",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/lib_river_night.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The moonlight shimmers and ripples on the river, mist drifts slowly over the water, the campfires flicker far away; the camera pushes in very slowly toward the lone figure. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "libv_quill2",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/lib_quill2.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand writes slowly along the same straight row, the pen gliding to the right in small natural strokes; the candle flame flickers; the camera slides very slowly sideways. Cinematic, like a shot from a big-budget historical film. Keep the painterly oil-painting look, the lighting and every detail identical to the first frame. Smooth, slow, elegant camera motion only, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ }
+]
