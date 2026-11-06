@@ -43,6 +43,16 @@
    "at": "2026-11-06T16:01:00+09:00",
    "by": "owner",
    "what": "인트로 전 훅: 숨 쉴 틈 없이·궁금증 유발, 무료 영상 컷 추가(다큐미)"
+  },
+  {
+   "at": "2026-11-06T16:07:00+09:00",
+   "by": "owner",
+   "what": "훅에도 다큐 글씨(키커+큰 글씨)를 내레이션에 맞춰"
+  },
+  {
+   "at": "2026-11-06T16:08:00+09:00",
+   "by": "owner",
+   "what": "다큐 글씨를 강조할 내용 전반에 풍성하게 (자막 그대로 반복 금지)"
   }
  ],
  "scheduled_at": "2026-11-06T19:30:00+09:00",
@@ -136,7 +146,8 @@
       "lib": "vstockmarket_47792.mp4"
      }
     ],
-    "cine": true
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "11월 5일, 매출이 57% 늘었다고 발표한 회사가 그날 아침 18% 폭락했습니다."
@@ -148,7 +159,22 @@
    "asof": false,
    "src": "",
    "lead": 0.0,
-   "hold": 0.0
+   "hold": 0.0,
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "11월 5일 · 광통신 장비 회사",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "매출 +57% → 주가 -18%",
+     "line": 0,
+     "at": 0.5,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
@@ -166,7 +192,8 @@
       "lib": "server_24033.mp4"
      }
     ],
-    "cine": true
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "엔비디아 한 회사에서만 하루에 600조 원, 미국 증시 전체로는 3,000조 원이 넘게 사라졌습니다. 이게 말이 됩니까."
@@ -179,10 +206,23 @@
    "src": "",
    "sketch": [
     {
-     "kind": "write",
-     "text": "600조 원",
+     "kind": "print",
+     "text": "11월 5일 · 하루 만에",
      "line": 0,
-     "at": 0.45,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "엔비디아 600조 원",
+     "line": 0,
+     "at": 0.15,
+     "color": "red"
+    },
+    {
+     "kind": "write",
+     "text": "미국 증시 3,000조 원",
+     "line": 0,
+     "at": 0.5,
      "color": "red"
     }
    ],
@@ -205,7 +245,8 @@
       "lib": "il_L261107m_trading_red.jpeg"
      }
     ],
-    "cine": true
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "더 이상한 건, 바로 전날 월가가 44년 만에 가장 좋은 선거 다음 날을 보냈다는 겁니다."
@@ -217,7 +258,22 @@
    "asof": false,
    "src": "",
    "lead": 0.0,
-   "hold": 0.0
+   "hold": 0.0,
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "하루 전 · 11월 4일 · 뉴욕",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "44년 만의 최고 랠리",
+     "line": 0,
+     "at": 0.4,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
@@ -235,7 +291,8 @@
       "lib": "il_L261104g_screens_red.jpeg"
      }
     ],
-    "cine": true
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "그리고 다음 날 아침, 이 충격은 바다 건너 코스피를 3분 만에 멈춰 세웠습니다."
@@ -247,7 +304,22 @@
    "asof": false,
    "src": "",
    "lead": 0.0,
-   "hold": 0.0
+   "hold": 0.0,
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "11월 6일 아침 · 서울",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "코스피 3분 만에 멈춤",
+     "line": 0,
+     "at": 0.45,
+     "color": "red"
+    }
+   ]
   },
   {
    "v": {
@@ -262,7 +334,8 @@
       "lib": "datacenter_23282.mp4"
      }
     ],
-    "cine": true
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "하루 만에 천국에서 지옥으로. 그 24시간 동안, 도대체 무슨 일이 있었던 걸까요?"
@@ -274,7 +347,22 @@
    "asof": false,
    "src": "",
    "lead": 0.0,
-   "hold": 0.0
+   "hold": 0.0,
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "천국에서 지옥으로",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "write",
+     "text": "그 24시간, 무슨 일이?",
+     "line": 0,
+     "at": 0.45,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
@@ -416,7 +504,29 @@
     ""
    ],
    "asof": false,
-   "src": ""
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "투표용지 위의 낯선 질문",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "우리 동네에 데이터센터?",
+     "line": 0,
+     "at": 0.6,
+     "color": "gold"
+    },
+    {
+     "kind": "print",
+     "text": "AI 컴퓨터 수만 대를 모은 건물",
+     "line": 1,
+     "at": 0.3,
+     "color": "gray"
+    }
+   ]
   },
   {
    "v": {
@@ -446,7 +556,29 @@
     ""
    ],
    "asof": false,
-   "src": "IEA 《Energy and AI》 · ZDNet Korea 2026-11-06"
+   "src": "IEA 《Energy and AI》 · ZDNet Korea 2026-11-06",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "대형 데이터센터 한 곳",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "도시 하나만큼 전기",
+     "line": 0,
+     "at": 0.35,
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "전기요금 ↑ · 물 부족 · 일자리는 적다",
+     "line": 1,
+     "at": 0.3,
+     "color": "gray"
+    }
+   ]
   },
   {
    "v": {
@@ -588,7 +720,29 @@
     ""
    ],
    "asof": false,
-   "src": "Al Jazeera·인사이트 2026-11-05"
+   "src": "Al Jazeera·인사이트 2026-11-05",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "11월 4일(수) · 뉴욕",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "print",
+     "text": "의회와 대통령이 갈리면 → 정책 급변 줄어든다",
+     "line": 1,
+     "at": 0.05,
+     "color": "gray"
+    },
+    {
+     "kind": "write",
+     "text": "다우 +1,500포인트",
+     "line": 1,
+     "at": 0.7,
+     "color": "green"
+    }
+   ]
   },
   {
    "v": {
@@ -903,7 +1057,22 @@
     ""
    ],
    "asof": false,
-   "src": "파이낸셜뉴스 2026-11-06 (오리온 CIO 인용)"
+   "src": "파이낸셜뉴스 2026-11-06 (오리온 CIO 인용)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "AI 설비투자의 구조",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "먼저 짓고 → 나중에 번다",
+     "line": 1,
+     "at": 0.2,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
@@ -930,7 +1099,29 @@
     ""
    ],
    "asof": false,
-   "src": ""
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "그 돈의 상당 부분은 빚",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "금리 ↑ → 이자 ↑",
+     "line": 0,
+     "at": 0.55,
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "투자 검토 때 먼저 보는 것: 매출보다 이자",
+     "line": 1,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
@@ -1353,7 +1544,22 @@
     ""
    ],
    "asof": false,
-   "src": ""
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "미국의 동네 투표",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "→ 한국 개인 투자자 계좌",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {
@@ -1540,7 +1746,29 @@
     ""
    ],
    "asof": false,
-   "src": ""
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "워렌 버핏",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "물이 빠져야 보인다",
+     "line": 0,
+     "at": 0.4,
+     "color": "gold"
+    },
+    {
+     "kind": "print",
+     "text": "빚으로 키운 몸집은 물이 빠질 때 드러난다",
+     "line": 1,
+     "at": 0.1,
+     "color": "gray"
+    }
+   ]
   },
   {
    "chapter": "기회와 지옥을 가르는 3가지",
@@ -1751,7 +1979,7 @@
    "v": {
     "type": "media",
     "full": true,
-    "wash": "none",
+    "wash": "left",
     "cuts": [
      {
       "lib": "il_L261107m_empty_floor.jpeg"
@@ -1772,7 +2000,22 @@
     ""
    ],
    "asof": false,
-   "src": ""
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "이번 폭락이 남긴 것",
+     "line": 0,
+     "at": 0.1
+    },
+    {
+     "kind": "write",
+     "text": "빚 적고 현금 많은 쪽",
+     "line": 1,
+     "at": 0.5,
+     "color": "gold"
+    }
+   ]
   },
   {
    "v": {

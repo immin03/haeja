@@ -1580,7 +1580,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             full_img = None
             if I["full"]:
                 full_img = fullsrc(u)
-                if DOC_OVERLAY and sc.get("sketch") and not sc["v"].get("cine"):   # 2026-11-04 대표님: 판 없이 다큐처럼 (docfx.py)
+                if DOC_OVERLAY and sc.get("sketch") and (not sc["v"].get("cine") or sc["v"].get("doc_cine")):   # 2026-11-04 대표님: 판 없이 다큐처럼 (docfx.py) · 2026-11-06 훅(cine)에도 doc_cine 이면 같은 다큐 글씨
                     full_img = DOCFX.draw(full_img, sc["sketch"], u, x["lines"])
                 elif sk:
                     arr = np.asarray(full_img).copy(); SK.panel(arr, sk, u); SK.apply(arr, sk, u); full_img = Image.fromarray(arr)   # 제1 원칙 72: 그림 위 글씨 뒤 반투명 판
