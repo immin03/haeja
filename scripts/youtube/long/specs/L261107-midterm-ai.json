@@ -23,12 +23,18 @@
  "no_data": true,
  "series": "시장 이슈",
  "plan": "P261106-midterm-ai",
- "events": [],
- "scheduled_at": "2026-11-07T19:30:00+09:00",
+ "events": [
+  {
+   "at": "2026-11-06T15:46:00+09:00",
+   "by": "owner",
+   "what": "썸네일 3줄(중간선거 하루만에/3,000조 증발/기회일까? 지옥일까?)+3가지 후킹 3안, 6분경 인물 사진 교체, 엔딩 다음 영상 문구 삭제, 오늘 19:30 공개"
+  }
+ ],
+ "scheduled_at": "2026-11-06T19:30:00+09:00",
  "opening": "콜드 오픈(바이아비 +57%·-18% → 엔비디아 600조 → 44년 만의 랠리가 하루 만에 → 코스피 3분 만에 멈춤) → 인트로 → 결론 먼저(빚으로 짓는 쪽 vs 칩을 파는 쪽)",
  "hook_type": "다큐 훅 · 이상한 풍경형 (머니스웨거 벤치마킹)",
  "endscreen_target": "L261103-samsung-ai",
- "title": "중간선거 하루 만에 사라진 3,000조, AI 주식은 지금 기회일까 지옥일까?",
+ "title": "AI 주식 폭락, 하루 만에 사라진 3,000조… 지금은 기회일까 지옥일까?",
  "title_en": "3 quadrillion won gone a day after the US midterms: are AI stocks an opportunity or a trap?",
  "tags": [
   "AI 주식",
@@ -74,7 +80,7 @@
  "thumb": {
   "photo": "il_L261107m_dc_plains.jpeg",
   "focus_x": 0.6,
-  "l1": "중간선거 하루 만에",
+  "l1": "중간선거 하루만에",
   "l2": "3,000조 증발",
   "pos": "left",
   "s1": 70,
@@ -84,21 +90,21 @@
   {
    "key": "a",
    "default": true,
-   "title": "중간선거 하루 만에 사라진 3,000조, AI 주식은 지금 기회일까 지옥일까?",
+   "title": "AI 주식 폭락, 하루 만에 사라진 3,000조… 지금은 기회일까 지옥일까?",
    "file": "thumb_a.jpg",
-   "type": "A 실물(데이터센터)"
+   "type": "A 대표 지정 문구(데이터센터)"
   },
   {
    "key": "b",
-   "title": "엔비디아 하루 만에 600조 증발, 투표용지에 올라간 데이터센터가 AI 주식을 무너뜨렸다",
+   "title": "나스닥 하루 -5.5%, 중간선거 하루 만에 3,000조 증발… AI 주식 지금 꼭 봐야 할 3가지",
    "file": "thumb_b.jpg",
-   "type": "B 인물(실루엣)"
+   "type": "B 검색어(AI 주식·나스닥)"
   },
   {
    "key": "c",
-   "title": "삼성전자·SK하이닉스 6월 이후 2,261조 증발, 코스피 서킷브레이커는 기회일까 지옥일까?",
+   "title": "삼성전자·SK하이닉스 갖고 계신 분, 미국 증시 3,000조 증발 뒤 지금 봐야 할 3가지",
    "file": "thumb_c.jpg",
-   "type": "C 큰 숫자(한국)"
+   "type": "C 보유자 호명(한국)"
   }
  ],
  "scenes": [
@@ -1231,7 +1237,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261107m_subway_phone.jpeg"
+      "lib": "il_L261105k_cin_phone.jpeg"
      },
      {
       "lib": "il_L261107m_night_worker.jpeg"
@@ -1720,13 +1726,12 @@
   {
    "v": {
     "type": "end",
-    "sub": "다음 영상: 삼성전자 편",
+    "sub": "",
     "btn_at": [
      "1:좋아요",
      "1:구독",
      "1:구독"
     ],
-    "sub_at": "0:다음 영상",
     "note": {
      "text": "지금 가장 흔들리는 종목은?"
     },

@@ -493,13 +493,18 @@ def render_v4(spec, out):
     if spec.get("logo"):
         lg = Image.open(os.path.join(ROOT, spec["logo"])).convert("RGBA"); lh = 64; lg = lg.resize((int(lg.width * lh / lg.height), lh), Image.LANCZOS); rows.append(("img", lg))
     elif spec.get("name"): rows.append(("txt", spec["name"], fit(spec["name"], "Mont", 70, maxw), IVORY))
+    if spec.get("tag"):   # 2026-11-06 대표님: "지금 반드시 봐야 하는 3가지 이런 강한 후킹" — 맨 위 금색 띠(남색 글씨) 한 줄, opt-in
+        ft = F("Heavy", spec.get("st", 44)); tw = int(ImageDraw.Draw(im).textlength(spec["tag"], font=ft)); ph_, pw_ = int(ft.size * 1.5), tw + int(ft.size * 1.1)
+        pill = Image.new("RGBA", (pw_, ph_), (0, 0, 0, 0)); dp = ImageDraw.Draw(pill)
+        dp.rounded_rectangle([0, 0, pw_ - 1, ph_ - 1], ph_ // 2 if spec.get("tag_round") else 10, fill=(242, 212, 151, 255))
+        dp.text((pw_ / 2, ph_ / 2), spec["tag"], font=ft, fill=(11, 27, 51, 255), anchor="mm"); rows.append(("img", pill))
     rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", spec.get("s1", 84), int(spec.get("l1_w", maxw))), IVORY))   # s1: 흰 줄 크기 (2026-11-02 대표님 "하얀색도 보일 정도로 키워야지")
     # 2026-10-29 성과 진단 #2 (대표님 승인): 큰 색 글씨는 8~9자 안으로 짧게, 화면 높이 22% 이상(160px). 큰 숫자형(C안)은 "s2": 220~260
     s2 = spec.get("s2", 160); L2 = spec["l2"].split("\n")   # 큰 글씨를 두 줄로 나눌 수 있다 (2026-11-02 삼양 편)
     f2 = min((fit(t, "Heavy", s2, maxw) for t in L2), key=lambda f: f.size)
     for t in L2: rows.append(("txt", t, f2, acc))
     if spec.get("l3"):   # 2026-11-02 대표님(제1 원칙 64): 큰 숫자 아래 그 숫자의 뜻·비교 한 줄(흰색, 작게) — 숫자만 던지지 않는다
-        rows.append(("txt", spec["l3"], fit(spec["l3"], "Heavy", spec.get("s3", 60), maxw), (250, 247, 240)))
+        rows.append(("txt", spec["l3"], fit(spec["l3"], "Heavy", spec.get("s3", 60), maxw), tuple(spec.get("l3_color", (250, 247, 240)))))   # l3_color: 3줄째도 크게·색으로 (2026-11-06)
     hts = [r[1].height if r[0] == "img" else r[2].size for r in rows]; gap = 22
     y = (H - (sum(hts) + gap * (len(rows) - 1))) / 2 + 10
     for r, h in zip(rows, hts):
