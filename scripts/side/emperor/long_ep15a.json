@@ -1,0 +1,124 @@
+{
+ "id": "ep15a",
+ "theme": "A",
+ "note": "2026-11-07 20:30 데일리(35초 칸, (k+1)%3=0). 현대 상황 훅(몇 번을 말해도 같은 실수) → 로마 상황 → 원문 8권 59절 → 풀이. 양식 A, 시네마틱 fx_ep15. 묶음별 녹음 d261107 | 음악 bed 0.22 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "말이 안 통해",
+  "답답한 사람에게"
+ ],
+ "title_line": "말이 안 통해 답답한 사람에게",
+ "music": {
+  "file": "/home/claude/ed/music/music_secret-garden.mp3",
+  "start": 97,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_ep15a.wav",
+ "gap": 0.55,
+ "hold": 1.4,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_snow_camp.mp4",
+  "/home/claude/haeja/social/side/gen/libv_sea_waves.mp4",
+  "/home/claude/haeja/social/side/gen/libv_hourglass.mp4",
+  "/home/claude/ed/edv02_ep15.mp4",
+  "/home/claude/haeja/social/side/gen/edv09_ruins.mp4",
+  "/home/claude/haeja/social/side/gen/libv_lamp_out.mp4"
+ ],
+ "sents": [
+  [
+   0.31,
+   2.76,
+   1,
+   0,
+   "cap",
+   [
+    "몇 번을 말해도,",
+    "그대로인 사람"
+   ]
+  ],
+  [
+   2.81,
+   4.236,
+   1,
+   0,
+   "cap",
+   [
+    "왜 나만",
+    "속이 터질까요"
+   ]
+  ],
+  [
+   5.286,
+   8.566,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제도,",
+    "말이 안 통하는 신하들과 일했습니다"
+   ]
+  ],
+  [
+   8.616,
+   10.837,
+   2,
+   2,
+   "cap",
+   [
+    "그런 황제가 일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   11.597,
+   13.937,
+   3,
+   3,
+   "quote",
+   [
+    "사람은 서로를 위해",
+    "존재한다."
+   ]
+  ],
+  [
+   13.987,
+   16.577,
+   3,
+   4,
+   "quote",
+   [
+    "그러니 가르쳐라.",
+    "아니면, 견뎌라."
+   ]
+  ],
+  [
+   17.587,
+   19.387,
+   4,
+   5,
+   "big",
+   [
+    "화내는 건,",
+    "답이 아닙니다."
+   ]
+  ],
+  [
+   19.437,
+   21.725,
+   4,
+   5,
+   "big",
+   [
+    "한 번 더 가르치거나,",
+    "품어 주는 것."
+   ]
+  ]
+ ],
+ "tonight": [
+  "답답한 그 사람에게,",
+  "한 번만 더 천천히 설명하기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 8권 59절",
+ "end_voice": "/home/claude/vo/v2/ep15_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/ep15_outro_voice.wav",
+ "vol": 1.0
+}
