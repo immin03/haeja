@@ -1931,6 +1931,13 @@ def main():
                     _add(x["start"] + t - .04, NBK.boom(SR, level=.13, seed=int(t * 10) + k)); _add(x["start"] + t, sfx_hit(.09, seed=int(t * 7) + k))
                 for t in tt: _add(x["start"] + t, sfx_hit(.028, seed=int(t * 13) + k))
                 for t in it: _add(x["start"] + t, NBK.whoosh(SR, .45, level=.02, seed=int(t * 11) + k))
+                for b_ in sk_:   # 방송국 다큐 연출 소리: 도장은 타자기, 자막띠·인용은 은은한 쉭
+                    if b_.get("kind") == "stamp":
+                        t0_ = DOCFX._t0(b_, x["lines"])
+                        for ci in range(len(b_["text"])):
+                            if b_["text"][ci] != " ": _add(x["start"] + t0_ + ci * .045, NBK.type_tick(SR, seed=ci + k * 31))
+                    elif b_.get("kind") in ("lower", "quote"):
+                        _add(x["start"] + DOCFX._t0(b_, x["lines"]), NBK.whoosh(SR, .9, level=.03, seed=k + 7))
                 for b_ in sk_:   # 시계 펀치: 세어 올라가는 동안 빠른 똑딱
                     if b_.get("kind") == "punch" and b_.get("clock"):
                         t0_ = DOCFX._t0(b_, x["lines"]); cnt = b_.get("count", 1.0); q = 0.0

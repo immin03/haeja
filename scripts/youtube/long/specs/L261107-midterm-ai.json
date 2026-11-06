@@ -69,6 +69,10 @@
   {
    "at": "2026-11-06T17:15:00+09:00",
    "what": "강약 조절: 03:00은 강한 펀치, 24:00은 번쩍·흔들림 없이 천천히 올라가는 약한 시계"
+  },
+  {
+   "at": "2026-11-06T17:25:00+09:00",
+   "what": "대표님 '본편 전체 다큐 효과': 본편에 장소·날짜 도장·하단 자막띠·인용 카드 추가, 펀치 강약(강 4·약 4)"
   }
  ],
  "scheduled_at": "2026-11-06T19:30:00+09:00",
@@ -503,6 +507,12 @@
    "src": "AP·로이터 선거 결과 보도",
    "sketch": [
     {
+     "kind": "stamp",
+     "text": "WASHINGTON D.C. · 2026.11.03",
+     "line": 0,
+     "at": 0.02
+    },
+    {
      "kind": "print",
      "text": "2026년 11월 3일 · 미국 중간선거",
      "line": 0,
@@ -655,18 +665,13 @@
      "at": 0.1
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "40건",
+     "sub": "41건 중 · 규제 쪽으로 통과",
      "line": 0,
      "at": 0.55,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "41건 중 · 규제 쪽으로 통과",
-     "line": 0,
-     "at": 0.75,
-     "color": "gray"
+     "color": "red",
+     "hold": 2.4
     }
    ]
   },
@@ -704,18 +709,14 @@
      "at": 0.1
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "30%",
+     "sub": "건설 지연 영향 가능 (UBS 추정)",
      "line": 0,
      "at": 0.6,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "건설 지연 영향 가능 (UBS 추정)",
-     "line": 0,
-     "at": 0.8,
-     "color": "gray"
+     "color": "red",
+     "hold": 3.0,
+     "style": "soft"
     }
    ]
   },
@@ -764,6 +765,12 @@
    "src": "Al Jazeera·인사이트 2026-11-05",
    "sketch": [
     {
+     "kind": "stamp",
+     "text": "NEW YORK · 2026.11.04",
+     "line": 0,
+     "at": 0.02
+    },
+    {
      "kind": "print",
      "text": "11월 4일(수) · 뉴욕",
      "line": 0,
@@ -777,18 +784,14 @@
      "color": "gray"
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "+1,500",
+     "sub": "다우 하루 상승 (포인트)",
      "line": 1,
      "at": 0.7,
-     "color": "green"
-    },
-    {
-     "kind": "print",
-     "text": "다우 하루 상승 (포인트)",
-     "line": 1,
-     "at": 0.8999999999999999,
-     "color": "gray"
+     "color": "green",
+     "hold": 2.6,
+     "style": "soft"
     }
    ]
   },
@@ -910,18 +913,13 @@
      "at": 0.3
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "-5.5%",
+     "sub": "나스닥 · 2025년 4월 이후 최대 하락",
      "line": 0,
      "at": 0.5,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "나스닥 · 2025년 4월 이후 최대 하락",
-     "line": 0,
-     "at": 0.7,
-     "color": "gray"
+     "color": "red",
+     "hold": 2.0
     }
    ]
   },
@@ -1062,18 +1060,13 @@
      "at": 0.1
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "3,000조 원",
+     "sub": "한국 1년 예산의 4배 이상",
      "line": 0,
      "at": 0.4,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "한국 1년 예산의 4배 이상",
-     "line": 0,
-     "at": 0.6000000000000001,
-     "color": "gray"
+     "color": "red",
+     "hold": 3.0
     }
    ]
   },
@@ -1215,8 +1208,9 @@
    "src": "ZDNet Korea 2026-11-06 (로이터 인용)",
    "sketch": [
     {
-     "kind": "print",
-     "text": "코어위브 · AI 컴퓨터 임대",
+     "kind": "lower",
+     "text": "코어위브",
+     "sub": "AI 컴퓨터 임대 · 빚으로 시설 확장",
      "line": 0,
      "at": 0.1
     },
@@ -1265,18 +1259,14 @@
      "at": 0.1
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "30%",
+     "sub": "먼저 멈추는 것 → 공사",
      "line": 0,
      "at": 0.2,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "먼저 멈추는 것 → 공사",
-     "line": 0,
-     "at": 0.4,
-     "color": "gray"
+     "color": "red",
+     "hold": 2.6,
+     "style": "soft"
     }
    ]
   },
@@ -1379,24 +1369,25 @@
    "src": "아주경제 2026-11-06 11:30 · 재경일보 · 이투데이 2026-11-06 (한국거래소)",
    "sketch": [
     {
+     "kind": "stamp",
+     "text": "SEOUL · 2026.11.06 09:03",
+     "line": 0,
+     "at": 0.02
+    },
+    {
      "kind": "print",
      "text": "11월 6일 오전 9시 3분 · 코스피",
      "line": 0,
      "at": 0.1
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "-8%",
+     "sub": "개장 3분 만에",
      "line": 0,
      "at": 0.55,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "개장 3분 만에",
-     "line": 0,
-     "at": 0.75,
-     "color": "gray"
+     "color": "red",
+     "hold": 1.8
     },
     {
      "kind": "write",
@@ -1542,25 +1533,14 @@
      ]
     },
     {
-     "kind": "write",
-     "text": "-2,261조 원",
-     "line": 1,
-     "at": 0.35,
-     "color": "red"
-    },
-    {
-     "kind": "write",
+     "kind": "punch",
      "text": "2,261조 원",
+     "sub": "삼성전자+SK하이닉스 · 6월 고점 대비",
      "line": 0,
      "at": 0.78,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "삼성전자+SK하이닉스 · 6월 고점 대비 증발",
-     "line": 0,
-     "at": 0.95,
-     "color": "gray"
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
     }
    ]
   },
@@ -1754,6 +1734,12 @@
    "src": "나스닥 지수 (2025-04 급락, 2025-06 사상 최고치)",
    "sketch": [
     {
+     "kind": "stamp",
+     "text": "NASDAQ · 2025.04",
+     "line": 0,
+     "at": 0.02
+    },
+    {
      "kind": "print",
      "text": "나스닥 · 2025년",
      "line": 0,
@@ -1852,24 +1838,14 @@
    "src": "",
    "sketch": [
     {
-     "kind": "print",
-     "text": "워렌 버핏",
+     "kind": "quote",
+     "rows": [
+      "물이 빠져야",
+      "누가 벌거벗고 수영하고 있었는지 알 수 있다"
+     ],
+     "by": "워렌 버핏",
      "line": 0,
-     "at": 0.1
-    },
-    {
-     "kind": "write",
-     "text": "물이 빠져야 보인다",
-     "line": 0,
-     "at": 0.4,
-     "color": "gold"
-    },
-    {
-     "kind": "print",
-     "text": "빚으로 키운 몸집은 물이 빠질 때 드러난다",
-     "line": 1,
-     "at": 0.1,
-     "color": "gray"
+     "at": 0.08
     }
    ]
   },
@@ -1975,17 +1951,11 @@
    "src": "엔비디아 실적 일정 공지",
    "sketch": [
     {
-     "kind": "print",
-     "text": "① 엔비디아 3분기 실적",
+     "kind": "lower",
+     "text": "엔비디아 3분기 실적",
+     "sub": "11월 18일 아침 (한국 시각)",
      "line": 0,
      "at": 0.1
-    },
-    {
-     "kind": "print",
-     "text": "11월 18일 아침 (한국 시각)",
-     "line": 0,
-     "at": 0.25,
-     "color": "gold"
     },
     {
      "kind": "print",

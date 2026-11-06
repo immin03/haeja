@@ -87,11 +87,21 @@ def draw(img, beats, u, lines):
     """img: 전체 화면 그림(RGB) · beats: 장면의 sketch 비트 · u: 장면 안 시각(초) · lines: [(시작, 길이, …)]"""
     bs = [b for b in beats if b.get("kind") in ("print", "write", "chart", "bars", "pct", "table", "icon")]
     pu = [b for b in beats if b.get("kind") == "punch"]
-    if not bs and not pu: return img
-    if not bs: return _punches(img.convert("RGBA"), pu, u, lines).convert("RGB")
+    ov_ = [b for b in beats if b.get("kind") in ("stamp", "lower", "quote")]   # 2026-11-06 방송국 다큐 연출: 장소·날짜 도장, 하단 자막띠, 인용 카드
+    if not bs and not pu and not ov_: return img
+    if not bs:
+        im = img.convert("RGBA")
+        if ov_: im = _broadcast(im, ov_, u, lines)
+        if pu: im = _punches(im, pu, u, lines)
+        return im.convert("RGB")
     ts = [_t0(b, lines) for b in bs]
     g = eio((u - (min(ts) - .25)) / .5)
-    if g <= 0: return img
+    if g <= 0:
+        if not ov_ and not pu: return img
+        im = img.convert("RGBA")
+        if ov_: im = _broadcast(im, ov_, u, lines)
+        if pu: im = _punches(im, pu, u, lines)
+        return im.convert("RGB")
     a = np.asarray(img).astype(np.float32)
     m = _grad(.86) * g; navy = np.array([8, 14, 26], np.float32)
     a = a * (1 - .18 * g)   # 화면 전체를 살짝 어둡게 (다큐 색)
@@ -134,6 +144,7 @@ def draw(img, beats, u, lines):
             _table(im, b, p, y); y += _height(b, False)
         elif k == "icon":
             _icon_row(im, b, p, y); y += _height(b, False)
+    if ov_: im = _broadcast(im, ov_, u, lines)
     if pu: im = _punches(im, pu, u, lines)
     return im.convert("RGB")
 
@@ -236,6 +247,39 @@ def _pct(im, b, p, y):
 
 # ───────── 2026-11-06 시네마틱: 숫자 펀치 · 비교표 · 아이콘 ─────────
 PUNCH_HOLD = 2.4
+
+
+def _broadcast(im, beats, u, lines):
+    for b in beats:
+        p = u - _t0(b, lines)
+        if p < 0: continue
+        k = b["kind"]
+        if k == "stamp":   # 왼쪽 위 장소·날짜: 타자기처럼 한 글자씩 + 깜빡이는 커서, 5초 뒤 사라짐
+            hold = b.get("hold", 5.0); fade = 1 - eio((p - hold) / .5)
+            if fade <= 0: continue
+            t = b["text"]; n = min(len(t), int(p / .045)); d = ImageDraw.Draw(im, "RGBA"); f = F("Bold", 30)
+            sy = H - 290; d.rectangle([150, sy, 156, sy + 36], fill=(*RED, int(255 * fade)))
+            _st(d, (172, sy), t[:n], font=f, fill=(*WHITE, int(235 * fade)))
+            if n < len(t) or int(p * 2.2) % 2 == 0:
+                cx = 172 + d.textlength(t[:n], font=f) + 4; d.rectangle([cx, sy + 4, cx + 14, sy + 34], fill=(*WHITE, int(200 * fade)))
+        elif k == "lower":   # 하단 자막띠: 금색 세로선이 서고 이름·설명이 옆에서 밀려 들어온다
+            hold = b.get("hold", 5.0); fade = 1 - eio((p - hold) / .5)
+            if fade <= 0: continue
+            y = H - 330; q = eout(p / .35); r = eout((p - .15) / .45); d = ImageDraw.Draw(im, "RGBA")
+            bg = Image.new("RGBA", im.size); ImageDraw.Draw(bg).rectangle([120, y - 10, 120 + 900 * r, y + 120], fill=(8, 14, 26, int(170 * fade))); im.alpha_composite(bg)
+            d = ImageDraw.Draw(im, "RGBA"); d.rectangle([120, y - 10 + 130 * (1 - q), 128, y + 120], fill=(*GOLD, int(255 * fade)))
+            _st(d, (150 - 30 * (1 - r), y + 4), b["text"], font=F("Heavy", 50), fill=(*WHITE, int(255 * r * fade)))
+            if b.get("sub"): _st(d, (150 - 30 * (1 - r), y + 68), b["sub"], font=F("SemiBold", 32), fill=(*GOLD, int(255 * r * fade)))
+        elif k == "quote":   # 인용 카드: 화면을 어둡게, 큰 금색 따옴표, 한 줄씩 떠오르는 문장, 말한 사람
+            a = np.asarray(im).astype(np.float32); g = eout(p / .5); a[..., :3] *= (1 - .62 * g); im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+            d = ImageDraw.Draw(im, "RGBA"); rows = b["rows"]; f = F("Bold", 66); y0 = H // 2 - 70 * len(rows) // 2 - 40
+            d.text((W // 2, y0 - 70), "“", font=F("Heavy", 180), fill=(*GOLD, int(220 * g)), anchor="mm")
+            for i, t in enumerate(rows):
+                r = eout((p - .4 - i * .7) / .6)
+                if r > 0: _st(d, (W // 2, y0 + 60 + i * 88 + 12 * (1 - r)), t, font=f, fill=(*WHITE, int(255 * r)), anchor="mm")
+            r = eout((p - .5 - len(rows) * .7) / .5)
+            if r > 0: _st(d, (W // 2, y0 + 80 + len(rows) * 88), "— " + b.get("by", ""), font=F("SemiBold", 38), fill=(*GOLD, int(255 * r)), anchor="mm")
+    return im
 
 
 def punch_times(beats, lines):
