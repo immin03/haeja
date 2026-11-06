@@ -99,11 +99,24 @@ async function apiRefresh() {
   return { videos_checked: list.length, videos_updated: done, shorts_views: shorts, long_views: longs, videos_at: at, api: mon, api_error: mon_error };
 }
 
+// 분석 보고서 묶음 (2026-11-06 대표님 "유튜브 통계 싹 다 살펴보고 … 철저하게 분석"): POST {cron:true, reports:[{name, q}]} → Analytics API 결과를 docs agent 'yt-report' 에 저장만 한다(응답으로 내용은 돌려주지 않음 — 관리자 RLS 안에서만 읽게)
+async function runReports(list: { name: string; q: string }[]) {
+  const tok = await ytToken(), out: Record<string, unknown> = {}, at = new Date().toISOString();
+  for (const r of list.slice(0, 12)) {
+    try { out[r.name] = await gget("https://youtubeanalytics.googleapis.com/v2/reports?ids=channel%3D%3DMINE&" + r.q, tok); }
+    catch (e) { out[r.name] = { error: String((e as Error).message || e) }; }
+  }
+  const { data: row } = await sb.from("docs").select("owner").eq("collection", "agent").eq("id", "yt-channel").maybeSingle();
+  if (row?.owner) await sb.from("docs").upsert({ owner: row.owner, collection: "agent", id: "yt-report", data: { at, reports: out }, updated_at: at }, { onConflict: "owner,collection,id" });
+  return Object.keys(out).length;
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
     if (req.method === "GET") return json(await read());
     const body = await req.json().catch(() => ({}));
+    if (body.cron === true && Array.isArray(body.reports)) return json({ ok: true, stored: await runReports(body.reports) });
     const user = body.cron === true ? null : await isAdmin(body.t || ""); if (!user && body.cron !== true) return json({ error: "관리자만 쓸 수 있습니다" }, 403);
     const now = await read();
     const { data: row } = await sb.from("docs").select("owner,data").eq("collection", "agent").eq("id", "yt-channel").maybeSingle();
