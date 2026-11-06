@@ -53,6 +53,20 @@ def find_video(name):
     for e in (".mp4", ".webm", ".mov"):
         p = os.path.join(GEN, name + e)
         if os.path.exists(p): return p
+    # 2026-11-06: 오래된 생성 클립은 저장소에서 빼고 Supabase Storage 로 옮겼다(사이트 주소는 그대로).
+    # 저장소에 없으면 같은 사이트 주소에서 받아 쓴다.
+    p = os.path.join(GEN, name + ".mp4")
+    try:
+        os.makedirs(GEN, exist_ok=True)
+        with urllib.request.urlopen(f"https://www.valuenote.co.kr/social/side/gen/{name}.mp4", timeout=120) as r, open(p + ".part", "wb") as f:
+            while True:
+                b = r.read(1 << 20)
+                if not b: break
+                f.write(b)
+        if os.path.getsize(p + ".part") > 10000:
+            os.replace(p + ".part", p); print(f"  클립 받음: {name}"); return p
+    except Exception as ex:
+        print(f"  클립 받기 실패: {name} · {ex}")
     sys.exit(f"영상 없음: {name}")
 
 

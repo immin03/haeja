@@ -53,6 +53,10 @@
     {
       "source": "/docs/emperor/ep/:file",
       "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/docs/emperor/ep/:file"
+    },
+    {
+      "source": "/social/side/gen/:file",
+      "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/social/side/gen/:file"
     }
   ]
 }

@@ -26,18 +26,41 @@ jobs:
           sparse-checkout: |
             .github
             scripts/reels/specs
+            scripts/side/emperor
+      - name: 최근 7일 안에 바뀐 생성 클립 (작업자가 마지막 프레임을 뽑아 쓸 수 있어 보관)
+        run: |
+          # 확인이 실패하면 생성 클립은 이번 회차에 하나도 옮기지 않는다
+          if git fetch -q --filter=blob:none --shallow-since="8 days ago" origin main && git log origin/main --since="7 days ago" --name-only --format= -- social/side/gen | sort -u > /tmp/recent.txt; then :; else touch /tmp/recent_fail; : > /tmp/recent.txt; fi
+          wc -l < /tmp/recent.txt
       - name: 옮길 파일 고르기·Storage 복사
         run: |
           python3 - <<'PY'
           import json, os, re, subprocess, urllib.request, datetime as dt
           repo = os.environ['GITHUB_REPOSITORY']; mx = int(os.environ['MAX'])
           tree = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}/git/trees/HEAD?recursive=1']))['tree']
-          pat = re.compile(r'^(social/reels/([A-Za-z0-9_-]+)/reel\.mp4|docs/emperor/ep/[A-Za-z0-9_.-]+\.mp4)$')
+          pat = re.compile(r'^(social/reels/([A-Za-z0-9_-]+)/reel\.mp4|docs/emperor/ep/[A-Za-z0-9_.-]+\.mp4|social/side/gen/([A-Za-z0-9_.-]+)\.mp4)$')
+          paths = {e['path'] for e in tree}
+          recent = set(open('/tmp/recent.txt').read().split()) if os.path.exists('/tmp/recent.txt') else set()
+          # 황제 클립 라이브러리: CLIPS.json·황제 스크립트가 쓰는 클립과 ed·edv·ev·libv 이름은 새벽 제작 세션이 저장소에서 직접 읽으므로 옮기지 않는다
+          emp = set()
+          try: emp |= {c['name'] for c in json.load(open('scripts/side/emperor/CLIPS.json'))['clips']}
+          except Exception: pass
+          for root, _, fs in os.walk('scripts/side/emperor'):
+              for fn in fs:
+                  try: emp |= set(re.findall(r'social/side/gen/([A-Za-z0-9_.-]+)\.mp4', open(os.path.join(root, fn), errors='ignore').read()))
+                  except Exception: pass
+          empre = re.compile(r'^(ed|edv|ev\d*|libv)[_0-9]')
           cut = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=3)
           cand = []
           for e in tree:
               m = pat.match(e['path']) if e['type'] == 'blob' else None
               if not m: continue
+              if m.group(3) and os.path.exists('/tmp/recent_fail'): continue
+              if m.group(3):   # 생성 클립: 황제 것 제외 · 생성 기록(.json)이 남아 있어야(다시 생성 방지) · 최근 7일 것 제외
+                  n = m.group(3)
+                  if n in emp or empre.match(n): continue
+                  if f'social/side/gen/{n}.json' not in paths: continue
+                  if e['path'] in recent: continue
               if m.group(2):   # 릴스는 대본의 예약 시각도 3일 지났는지 한 번 더 본다 (막 렌더돼 DB에 아직 없는 편 보호)
                   sp = f'scripts/reels/specs/{m.group(2)}.json'
                   if not os.path.exists(sp): continue
