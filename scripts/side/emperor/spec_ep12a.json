@@ -1,0 +1,247 @@
+{
+ "id": "ep12a",
+ "music": {
+  "file": "/home/claude/ed/music/music_secret-garden.mp3",
+  "start": 97,
+  "bed": 0.22
+ },
+ "voice": [
+  {
+   "file": "/home/claude/vo/v2/ep12a_g1.wav",
+   "at": 0.8,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep12a_g2.wav",
+   "at": 5.852,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep12a_g3.wav",
+   "at": 13.769,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep12a_g4.wav",
+   "at": 21.854,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep12_end_voice.wav",
+   "at": 29.927,
+   "vol": 1.0
+  },
+  {
+   "file": "/home/claude/vo/v2/ep12_outro_voice.wav",
+   "at": 36.167,
+   "vol": 1.0
+  }
+ ],
+ "cuts": [
+  {
+   "dur": 5.822,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "kicker",
+     "lines": [
+      "로마 황제가 일기에 쓴 한 줄"
+     ],
+     "after": 10
+    },
+    {
+     "t0": -1,
+     "style": "hook",
+     "lines": [
+      "화낼수록",
+      "내가 더 아픈 이유"
+     ]
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.87,
+     "t1": 2.92,
+     "lines": [
+      "누가 나를 무시했을 때,"
+     ]
+    },
+    {
+     "t0": 2.77,
+     "t1": 5.27,
+     "lines": [
+      "정작 더 오래 아픈 건,",
+      "왜 나일까요"
+     ]
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/ev2_lightning.mp4",
+   "speed": 0.848
+  },
+  {
+   "dur": 5.25,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "화낼수록 내가 더 아픈 이유"
+     ],
+     "after": 34
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 3.21,
+     "lines": [
+      "로마 황제 마르쿠스 아우렐리우스도,"
+     ]
+    },
+    {
+     "t0": 3.06,
+     "t1": 5.5,
+     "lines": [
+      "무례한 사람들을",
+      "매일 상대했습니다"
+     ]
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+   "speed": 0.94
+  },
+  {
+   "dur": 3.467,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "화낼수록 내가 더 아픈 이유"
+     ],
+     "after": 34
+    }
+   ],
+   "caps": [
+    {
+     "t0": 0.5,
+     "t1": 2.92,
+     "lines": [
+      "그런 황제가 일기에 이렇게 적었습니다"
+     ]
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/libv_close_diary.mp4",
+   "speed": 1.0
+  },
+  {
+   "dur": 3.84,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "화낼수록 내가 더 아픈 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "생각해 보라."
+     ],
+     "style": "quote"
+    },
+    {
+     "t0": 1.83,
+     "lines": [
+      "우리를 화나게 한",
+      "그 일보다,"
+     ],
+     "style": "quote"
+    }
+   ],
+   "v": "/home/claude/ed/edv02_ep12.mp4",
+   "speed": 1.0,
+   "shade": 245,
+   "shade_h": 1100
+  },
+  {
+   "dur": 5.045,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "화낼수록 내가 더 아픈 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "그 일에 품은 화가,",
+      "우리를 얼마나 더",
+      "아프게 하는지."
+     ],
+     "style": "quote"
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/ev_fire.mp4",
+   "speed": 0.979
+  },
+  {
+   "dur": 8.203,
+   "texts": [
+    {
+     "t0": -1,
+     "style": "sub",
+     "lines": [
+      "화낼수록 내가 더 아픈 이유"
+     ],
+     "after": 34
+    },
+    {
+     "t0": 0.5,
+     "lines": [
+      "상처는",
+      "한 번 받았지만,"
+     ],
+     "style": "big"
+    },
+    {
+     "t0": 1.92,
+     "lines": [
+      "화는 그걸 몇 번이고",
+      "다시 꺼냅니다."
+     ],
+     "style": "big"
+    },
+    {
+     "t0": 4.09,
+     "lines": [
+      "화를 내려놓는 건,",
+      "나를 위한 일입니다."
+     ],
+     "style": "big"
+    }
+   ],
+   "v": "/home/claude/haeja/social/side/gen/libv_olive_tree.mp4",
+   "speed": 0.602
+  }
+ ],
+ "end": {
+  "dur": 6.89,
+  "kicker": "오늘의 할 일",
+  "lines": [
+   "화가 난 일 하나 떠올리고,",
+   "'일보다 화가 더 아팠나' 물어보기"
+  ],
+  "source": "마르쿠스 아우렐리우스 『명상록』 11권 18절",
+  "slogan": null
+ },
+ "outro": {
+  "dur": 7.9,
+  "p1": 4.7
+ }
+}

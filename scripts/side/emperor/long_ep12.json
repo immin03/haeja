@@ -1,0 +1,154 @@
+{
+ "id": "ep12",
+ "theme": "A",
+ "note": "2026-11-06 12:20 데일리(45초 칸, k=310%3=1). 현대 상황 훅(무시당한 뒤 오래 아픈 나) → 로마 상황 → 원문 11권 18절 → 풀이. 양식 A, 시네마틱 fx_ep12. 묶음별 녹음 d261106 | 음악 bed 0.22 (0.30이면 voice_qa 상관 0.89로 불통과 — 음악 가림)",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "화낼수록",
+  "내가 더 아픈 이유"
+ ],
+ "title_line": "화낼수록 내가 더 아픈 이유",
+ "music": {
+  "file": "/home/claude/ed/music/music_secret-garden.mp3",
+  "start": 97,
+  "bed": 0.22
+ },
+ "voice": "",
+ "gap": 0.55,
+ "hold": 1.4,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev2_lightning.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+  "/home/claude/haeja/social/side/gen/libv_close_diary.mp4",
+  "/home/claude/ed/edv02_ep12.mp4",
+  "/home/claude/haeja/social/side/gen/ev_fire.mp4",
+  "/home/claude/haeja/social/side/gen/libv_olive_tree.mp4"
+ ],
+ "sents": [
+  [
+   0,
+   0,
+   1,
+   0,
+   "cap",
+   [
+    "누가 나를 무시했을 때,"
+   ]
+  ],
+  [
+   0,
+   0,
+   1,
+   0,
+   "cap",
+   [
+    "정작 더 오래 아픈 건,",
+    "왜 나일까요"
+   ]
+  ],
+  [
+   0,
+   0,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제 마르쿠스 아우렐리우스도,"
+   ]
+  ],
+  [
+   0,
+   0,
+   2,
+   1,
+   "cap",
+   [
+    "무례한 사람들을",
+    "매일 상대했습니다"
+   ]
+  ],
+  [
+   0,
+   0,
+   2,
+   2,
+   "cap",
+   [
+    "그런 황제가 일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   0,
+   0,
+   3,
+   3,
+   "quote",
+   [
+    "생각해 보라."
+   ]
+  ],
+  [
+   0,
+   0,
+   3,
+   3,
+   "quote",
+   [
+    "우리를 화나게 한",
+    "그 일보다,"
+   ]
+  ],
+  [
+   0,
+   0,
+   3,
+   4,
+   "quote",
+   [
+    "그 일에 품은 화가,",
+    "우리를 얼마나 더",
+    "아프게 하는지."
+   ]
+  ],
+  [
+   0,
+   0,
+   4,
+   5,
+   "big",
+   [
+    "상처는",
+    "한 번 받았지만,"
+   ]
+  ],
+  [
+   0,
+   0,
+   4,
+   5,
+   "big",
+   [
+    "화는 그걸 몇 번이고",
+    "다시 꺼냅니다."
+   ]
+  ],
+  [
+   0,
+   0,
+   4,
+   5,
+   "big",
+   [
+    "화를 내려놓는 건,",
+    "나를 위한 일입니다."
+   ]
+  ]
+ ],
+ "tonight": [
+  "화가 난 일 하나 떠올리고,",
+  "'일보다 화가 더 아팠나' 물어보기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 11권 18절",
+ "end_voice": "/home/claude/haeja/social/side/voice_samples/d261106/voice_d261106_10_ep12_end_B.mp3",
+ "outro_voice": "/home/claude/ed/music/outro_shorts.mp3"
+}

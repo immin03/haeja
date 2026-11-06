@@ -1,0 +1,155 @@
+{
+ "id": "ep12a",
+ "theme": "A",
+ "note": "2026-11-06 12:20 데일리(45초 칸, k=310%3=1). 현대 상황 훅(무시당한 뒤 오래 아픈 나) → 로마 상황 → 원문 11권 18절 → 풀이. 양식 A, 시네마틱 fx_ep12. 묶음별 녹음 d261106 | 음악 bed 0.22 (0.30이면 voice_qa 상관 0.89로 불통과 — 음악 가림) | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "화낼수록",
+  "내가 더 아픈 이유"
+ ],
+ "title_line": "화낼수록 내가 더 아픈 이유",
+ "music": {
+  "file": "/home/claude/ed/music/music_secret-garden.mp3",
+  "start": 97,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_ep12a.wav",
+ "gap": 0.55,
+ "hold": 1.4,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev2_lightning.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+  "/home/claude/haeja/social/side/gen/libv_close_diary.mp4",
+  "/home/claude/ed/edv02_ep12.mp4",
+  "/home/claude/haeja/social/side/gen/ev_fire.mp4",
+  "/home/claude/haeja/social/side/gen/libv_olive_tree.mp4"
+ ],
+ "sents": [
+  [
+   0.31,
+   2.16,
+   1,
+   0,
+   "cap",
+   [
+    "누가 나를 무시했을 때,"
+   ]
+  ],
+  [
+   2.21,
+   4.512,
+   1,
+   0,
+   "cap",
+   [
+    "정작 더 오래 아픈 건,",
+    "왜 나일까요"
+   ]
+  ],
+  [
+   5.482,
+   7.992,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제 마르쿠스 아우렐리우스도,"
+   ]
+  ],
+  [
+   8.042,
+   10.282,
+   2,
+   1,
+   "cap",
+   [
+    "무례한 사람들을",
+    "매일 상대했습니다"
+   ]
+  ],
+  [
+   10.332,
+   12.549,
+   2,
+   2,
+   "cap",
+   [
+    "그런 황제가 일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   13.399,
+   14.679,
+   3,
+   3,
+   "quote",
+   [
+    "생각해 보라."
+   ]
+  ],
+  [
+   14.729,
+   16.789,
+   3,
+   3,
+   "quote",
+   [
+    "우리를 화나게 한",
+    "그 일보다,"
+   ]
+  ],
+  [
+   16.839,
+   20.634,
+   3,
+   4,
+   "quote",
+   [
+    "그 일에 품은 화가,",
+    "우리를 얼마나 더",
+    "아프게 하는지."
+   ]
+  ],
+  [
+   21.674,
+   23.09,
+   4,
+   5,
+   "big",
+   [
+    "상처는",
+    "한 번 받았지만,"
+   ]
+  ],
+  [
+   23.09,
+   25.268,
+   4,
+   5,
+   "big",
+   [
+    "화는 그걸 몇 번이고",
+    "다시 꺼냅니다."
+   ]
+  ],
+  [
+   25.268,
+   27.927,
+   4,
+   5,
+   "big",
+   [
+    "화를 내려놓는 건,",
+    "나를 위한 일입니다."
+   ]
+  ]
+ ],
+ "tonight": [
+  "화가 난 일 하나 떠올리고,",
+  "'일보다 화가 더 아팠나' 물어보기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 11권 18절",
+ "end_voice": "/home/claude/vo/v2/ep12_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/ep12_outro_voice.wav",
+ "vol": 1.0
+}
