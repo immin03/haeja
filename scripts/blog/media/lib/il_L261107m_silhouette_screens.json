@@ -1,0 +1,32 @@
+{
+ "id": "il_L261107m_silhouette_screens",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and cold steel-blue color grade with small warm amber highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no flags with readable marks, no watermark, no recognizable faces. Scene: Silhouette of a man in a suit standing in front of a wall of red-glowing market screens in a dark room, seen from behind, face not visible.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1af13-37e9-7313-8043-c1bb340aaa0b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1af13-37e9-7313-8043-c1bb340aaa0b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1af13-37e9-7313-8043-c1bb340aaa0b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1af13-37e9-7313-8043-c1bb340aaa0b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1af13-37e9-7313-8043-c1bb340aaa0b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1af13-37e9-7313-8043-c1bb340aaa0b/cancel",
+  "expires_at": "2026-11-13T04:18:30.061641+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1af13-37e9-7313-8043-c1bb340aaa0b/0f3ce5c2-c640-4025-8e2e-5adff27d0cb0.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261107m_silhouette_screens.jpeg"
+}

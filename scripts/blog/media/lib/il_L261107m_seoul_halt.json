@@ -1,0 +1,32 @@
+{
+ "id": "il_L261107m_seoul_halt",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and cold steel-blue color grade with small warm amber highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no flags with readable marks, no watermark, no recognizable faces. Scene: Wide view of Seoul Yeouido financial district at early morning under a heavy gray sky, glass towers, a few people in coats crossing a plaza, tense mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1af08-351c-7181-9bb3-eaf10f45e3fe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1af08-351c-7181-9bb3-eaf10f45e3fe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1af08-351c-7181-9bb3-eaf10f45e3fe/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1af08-351c-7181-9bb3-eaf10f45e3fe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1af08-351c-7181-9bb3-eaf10f45e3fe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1af08-351c-7181-9bb3-eaf10f45e3fe/cancel",
+  "expires_at": "2026-11-13T04:07:18.524152+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1af08-351c-7181-9bb3-eaf10f45e3fe/07465fbe-5dca-487a-b210-3b4c18786495.jpeg"
+   }
+  ]
+ },
+ "seconds": 131,
+ "file": "scripts/blog/media/lib/il_L261107m_seoul_halt.jpeg"
+}

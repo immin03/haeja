@@ -1,0 +1,32 @@
+{
+ "id": "il_L261107m_night_worker",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and cold steel-blue color grade with small warm amber highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no flags with readable marks, no watermark, no recognizable faces. Scene: A Korean office worker sitting alone at a kitchen table at night with a laptop and phone, head resting on one hand, city lights through the window, seen from behind.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1af0f-8d79-77c5-a55d-fadc7239bf96",
+  "status_url": "https://api.higgsfield.ai/requests/01a1af0f-8d79-77c5-a55d-fadc7239bf96/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1af0f-8d79-77c5-a55d-fadc7239bf96/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1af0f-8d79-77c5-a55d-fadc7239bf96",
+  "status_url": "https://api.higgsfield.ai/requests/01a1af0f-8d79-77c5-a55d-fadc7239bf96/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1af0f-8d79-77c5-a55d-fadc7239bf96/cancel",
+  "expires_at": "2026-11-13T04:15:24.151474+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1af0f-8d79-77c5-a55d-fadc7239bf96/efd2e059-0625-4db5-9d43-167b8e6701e9.jpeg"
+   }
+  ]
+ },
+ "seconds": 131,
+ "file": "scripts/blog/media/lib/il_L261107m_night_worker.jpeg"
+}
