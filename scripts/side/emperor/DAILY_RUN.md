@@ -48,6 +48,17 @@
    ed_posts: ep07~09 행과 같은 열로 insert (video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
 10. 끝: 커밋 메시지는 한국어, 마지막 줄 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. 결과 한 줄: "완료: <id 제목 길이초> ×2" / "실패: <원인>"
 
+## ★ 멈춤·침묵 재발 방지 (2026-11-06 대표 지시, 필수)
+사고: 11/6 04:41 회차가 시작 30분 만에 오류로 끊겼다(커밋·녹음 요청·알림 0건). 아무것도 남기지 않고 죽어서 대표가 09:33에 직접 발견했다.
+1. 진행 기록(heartbeat): 시작 즉시, 그리고 0~10 각 단계에 들어갈 때마다
+   `insert into docs (owner, collection, id, data) values (publisher_id(),'agent','ed-daily-run', jsonb_build_object('day','<yymmdd>','step','<번호 이름>','status','running','at',now())) on conflict (owner, collection, id) do update set data = excluded.data, updated_at = now();`
+   끝나면 status 'done'(두 편 예약 완료) 또는 'failed'(+ 'why'). 감시 작업이 이것으로 살아 있는지 판단한다.
+2. 명령 시간 제한: 셸 명령 하나는 최대 10분(timeout 600000). curl/wget 은 `--max-time 90 --retry 2`, git clone/fetch 는 `timeout 540`.
+   10분 넘게 걸릴 수 있는 일(녹음 워크플로 대기, 긴 렌더)은 한 번에 기다리지 말고 8분 이하로 나눠 되풀이 확인한다. 한 호출로 40분 기다리기 금지.
+3. 같은 단계가 두 번 실패하면 그 자리에서 멈추지 말고: alerts 에 `ed-daily-<yymmdd>-fail`(level warn, title "황제의 일기 데일리 쇼츠 제작 실패", body "<단계> · <원인 한 줄>")을 먼저 쓰고, heartbeat status 'failed' 로 바꾼 뒤 끝낸다. 알림 없이 끝나는 일은 없어야 한다.
+4. 이미 만든 결과(녹음·렌더·업로드)는 다음 회차가 이어 쓸 수 있게 단계마다 바로 커밋·푸시한다. 0단계는 ed_posts 와 저장소(voice_samples/d<yymmdd>, docs/emperor/ep/<id>*)를 보고 끝난 단계는 건너뛴다.
+5. 감시 작업 "황제의 일기 데일리 쇼츠 감시"(06:23·10:13·16:13)가 오늘 칸이 비어 있고 제작이 살아 있지 않으면(heartbeat 40분 이상 멈춤 또는 failed) 이 작업을 다시 돌리고 /side 알림을 남긴다.
+
 ## 하지 않는 것
 - tighten.py(쉼 잘라 붙이기), B·C 양식, 밝은 그림, 새 유료 그림·영상 생성, 브라우저 사용(틱톡은 틱톡 업로드 작업이 따로 올림)
 - /tmp 에 렌더 임시 파일을 남기지 않는다 (render_ed.py가 자동 삭제)
