@@ -60,7 +60,8 @@ def text(im, xy, s, f, fill, anchor="ls", stroke=None):
     ImageDraw.Draw(im).text(xy, s, font=f, fill=fill, anchor=anchor, stroke_width=stroke, stroke_fill=(0, 0, 0))
 
 
-def badge(im, cx, cy, label, col, size=46):
+def badge(im, cx, cy, label, col, size=46, maxw=580):
+    while size > 28 and font(size).getlength(label) + size * .9 > maxw: size -= 2   # 긴 라벨은 칸 안에 들어오게 줄인다
     f = font(size); d = ImageDraw.Draw(im); tw = f.getlength(label); pw, ph = tw + size * .9, size * 1.45
     d.rounded_rectangle([cx - pw / 2, cy - ph / 2, cx + pw / 2, cy + ph / 2], 12, fill=col)
     d.text((cx, cy + 2), label, font=f, fill=(11, 27, 51) if col != RED else WHITE, anchor="mm")
@@ -113,7 +114,8 @@ def versus(spec):
     v = Image.new("RGBA", (hw, H), (0, 0, 0, 0)); dv = ImageDraw.Draw(v)
     for i in range(H): dv.line([(0, i), (hw, i)], fill=(61, 245, 160, int(40 * (1 - i / H))))
     im.alpha_composite(v, (hw, 0))
-    line_chart(im, (hw + 30, 150, hw - 70, 330), [(0, .02), (.15, .08), (.3, .05), (.45, .2), (.58, .3), (.7, .52), (.82, .62), (.9, .85), (1, 1)], GREEN)
+    cy0 = max(150, spec.get("badge_y", 92) + 70)   # 그래프 끝점이 라벨에 가리지 않게
+    line_chart(im, (hw + 30, cy0, hw - 70, 480 - cy0), [(0, .02), (.15, .08), (.3, .05), (.45, .2), (.58, .3), (.7, .52), (.82, .62), (.9, .85), (1, 1)], GREEN)
     if R.get("product"):   # 제품은 작게
         x, y, sz = R.get("product_box", (hw + 30, 250, 230)); pk = cover(R["product"], sz, sz, (.5, .45))
         m = Image.new("L", (sz, sz), 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, sz - 1, sz - 1], 18, fill=255); pk.putalpha(m)
