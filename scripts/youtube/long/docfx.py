@@ -264,9 +264,10 @@ def _punches(im, pu, u, lines):
         t0 = _t0(b, lines); p = u - t0; hold = b.get("hold", PUNCH_HOLD)
         if p < -0.05 or p > hold + .45: continue
         fade = 1 - eio((p - hold) / .45)
-        col = _tone(b, WHITE)
+        col = _tone(b, WHITE); soft = b.get("style") == "soft"   # soft: 번쩍·흔들림·쾅 없이 조용히 떠오르는 약한 박자 (강약 조절, 2026-11-06)
+        if soft: fade *= eout((p + .05) / .45)
         # 뒤 화면을 눌러 어둡게 (가운데 숫자에 집중)
-        dk = eout((p + .05) / .2) * fade
+        dk = eout((p + .05) / .2) * fade * (.7 if soft else 1)
         a = np.asarray(im).astype(np.float32)
         a[..., :3] *= (1 - .55 * dk)
         im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
@@ -278,7 +279,7 @@ def _punches(im, pu, u, lines):
             c = eout(p / .7); v = n[1] * c
             body = f"{v:,.{n[2]}f}" if n[3] else f"{v:.{n[2]}f}"
             txt = f"{n[0]}{body}{n[4]}"
-        sc = 1.0 + .55 * (1 - eout(p / .28)) if p < .28 else 1.0
+        sc = (1.0 + .55 * (1 - eout(p / .28)) if p < .28 else 1.0) if not soft else (0.82 + .04 * eout(p / 2.5))
         fs = int((230 if len(b["text"]) <= 7 else 180 if len(b["text"]) <= 11 else 140) * sc)
         fnt = F("Heavy", fs)
         cx, cy = W // 2, H // 2 - (30 if b.get("sub") else 0)
@@ -298,6 +299,7 @@ def _punches(im, pu, u, lines):
                 d.line([(cx + 260, yy + 30), (cx + 260 + lw, yy + 30)], fill=(*GOLD, int(255 * r)), width=3)
                 _st(d, (cx, yy + 30 + 10 * (1 - r)), b["sub"], font=F("Bold", 50), fill=(*GOLD, int(255 * r)), anchor="mm")
         # 박히는 순간 번쩍 + 흔들림
+        if soft: continue
         if 0 <= p < .16:
             fl = Image.new("RGBA", im.size, (255, 255, 255, int(110 * (1 - p / .16)))); im.alpha_composite(fl)
         if 0 <= p < .35:
