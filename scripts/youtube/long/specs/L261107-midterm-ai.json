@@ -53,6 +53,10 @@
    "at": "2026-11-06T16:08:00+09:00",
    "by": "owner",
    "what": "다큐 글씨를 강조할 내용 전반에 풍성하게 (자막 그대로 반복 금지)"
+  },
+  {
+   "at": "2026-11-06T16:30:00+09:00",
+   "what": "대표님 요청: 숫자 펀치·비교표·아이콘 시네마틱 효과 (11곳 펀치/표/아이콘)"
   }
  ],
  "scheduled_at": "2026-11-06T19:30:00+09:00",
@@ -219,11 +223,13 @@
      "color": "red"
     },
     {
-     "kind": "write",
-     "text": "미국 증시 3,000조 원",
+     "kind": "punch",
+     "text": "3,000조 원",
+     "sub": "미국 증시 · 하루 만에 증발",
      "line": 0,
      "at": 0.5,
-     "color": "red"
+     "color": "red",
+     "hold": 2.2
     }
    ],
    "lead": 0.0,
@@ -413,11 +419,31 @@
      "at": 0.1
     },
     {
-     "kind": "write",
-     "text": "빚으로 짓는 쪽 vs 칩을 파는 쪽",
+     "kind": "table",
+     "cols": [
+      "빚으로 짓는 쪽",
+      "칩을 파는 쪽"
+     ],
+     "rows": [
+      [
+       "데이터센터 건설·임대",
+       "엔비디아·메모리"
+      ],
+      [
+       "빚·이자 부담",
+       "현금·주문"
+      ],
+      [
+       "누구에게는 지옥",
+       "누구에게는 기회"
+      ]
+     ],
+     "colors": [
+      "red",
+      "green"
+     ],
      "line": 0,
-     "at": 0.55,
-     "color": "gold"
+     "at": 0.5
     }
    ]
   },
@@ -520,11 +546,13 @@
      "color": "gold"
     },
     {
-     "kind": "print",
+     "kind": "icon",
+     "name": "server",
      "text": "AI 컴퓨터 수만 대를 모은 건물",
      "line": 1,
      "at": 0.3,
-     "color": "gray"
+     "color": "gold",
+     "text_color": "gray"
     }
    ]
   },
@@ -572,11 +600,13 @@
      "color": "red"
     },
     {
-     "kind": "print",
+     "kind": "icon",
+     "name": "bolt",
      "text": "전기요금 ↑ · 물 부족 · 일자리는 적다",
      "line": 1,
      "at": 0.3,
-     "color": "gray"
+     "color": "red",
+     "text_color": "gray"
     }
    ]
   },
@@ -614,18 +644,12 @@
      "at": 0.1
     },
     {
-     "kind": "write",
-     "text": "41건 중 40건",
+     "kind": "punch",
+     "text": "40건",
+     "sub": "41건 중 · 규제 쪽으로 통과",
      "line": 0,
      "at": 0.55,
      "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "규제 쪽으로 통과",
-     "line": 0,
-     "at": 0.8,
-     "color": "gray"
     }
    ]
   },
@@ -663,18 +687,12 @@
      "at": 0.1
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "30%",
+     "sub": "건설 지연 영향 가능 (UBS 추정)",
      "line": 0,
      "at": 0.6,
      "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "건설 지연 영향 가능 (UBS 추정)",
-     "line": 0,
-     "at": 0.75,
-     "color": "gray"
     }
    ]
   },
@@ -736,11 +754,13 @@
      "color": "gray"
     },
     {
-     "kind": "write",
-     "text": "다우 +1,500포인트",
+     "kind": "punch",
+     "text": "+1,500",
+     "sub": "다우 하루 상승 (포인트)",
      "line": 1,
      "at": 0.7,
-     "color": "green"
+     "color": "green",
+     "hold": 2.0
     }
    ]
   },
@@ -860,6 +880,15 @@
      ],
      "line": 0,
      "at": 0.3
+    },
+    {
+     "kind": "punch",
+     "text": "-5.5%",
+     "sub": "나스닥 · 2025년 4월 이후 최대 하락",
+     "line": 0,
+     "at": 0.5,
+     "color": "red",
+     "hold": 2.0
     }
    ]
   },
@@ -1000,18 +1029,13 @@
      "at": 0.1
     },
     {
-     "kind": "write",
-     "text": "3,000조 원+",
+     "kind": "punch",
+     "text": "3,000조 원",
+     "sub": "한국 1년 예산의 4배 이상",
      "line": 0,
      "at": 0.4,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "한국 1년 예산의 4배 이상",
-     "line": 0,
-     "at": 0.7,
-     "color": "gray"
+     "color": "red",
+     "hold": 3.0
     }
    ]
   },
@@ -1159,11 +1183,13 @@
      "at": 0.1
     },
     {
-     "kind": "print",
+     "kind": "icon",
+     "name": "warning",
      "text": "빚 보험료(5년 CDS) 사상 최고",
      "line": 1,
      "at": 0.55,
-     "color": "red"
+     "color": "red",
+     "text_color": "red"
     }
    ]
   },
@@ -1201,18 +1227,13 @@
      "at": 0.1
     },
     {
-     "kind": "write",
+     "kind": "punch",
      "text": "30%",
+     "sub": "먼저 멈추는 것 → 공사",
      "line": 0,
      "at": 0.2,
-     "color": "red"
-    },
-    {
-     "kind": "print",
-     "text": "먼저 멈추는 것 → 공사",
-     "line": 0,
-     "at": 0.55,
-     "color": "gray"
+     "color": "red",
+     "hold": 2.6
     }
    ]
   },
@@ -1319,6 +1340,15 @@
      "text": "11월 6일 오전 9시 3분 · 코스피",
      "line": 0,
      "at": 0.1
+    },
+    {
+     "kind": "punch",
+     "text": "-8%",
+     "sub": "개장 3분 만에",
+     "line": 0,
+     "at": 0.55,
+     "color": "red",
+     "hold": 1.8
     },
     {
      "kind": "write",
@@ -1469,6 +1499,15 @@
      "line": 1,
      "at": 0.35,
      "color": "red"
+    },
+    {
+     "kind": "punch",
+     "text": "2,261조 원",
+     "sub": "삼성전자+SK하이닉스 · 6월 고점 대비 증발",
+     "line": 0,
+     "at": 0.78,
+     "color": "red",
+     "hold": 2.2
     }
    ]
   },
@@ -1594,10 +1633,12 @@
    "src": "사진: Wikimedia Commons",
    "sketch": [
     {
-     "kind": "print",
+     "kind": "icon",
+     "name": "chip",
      "text": "삼성전자 · SK하이닉스",
      "line": 0,
-     "at": 0.1
+     "at": 0.1,
+     "color": "gold"
     },
     {
      "kind": "write",
@@ -1701,23 +1742,32 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "2025년 4월 vs 2026년 11월",
+     "text": "그때 vs 지금",
      "line": 0,
-     "at": 0.1
+     "at": 0.05
     },
     {
-     "kind": "print",
-     "text": "그때: 정책 공포",
+     "kind": "table",
+     "cols": [
+      "2025년 4월",
+      "2026년 11월"
+     ],
+     "rows": [
+      [
+       "정책 공포",
+       "빚 + 금리"
+      ],
+      [
+       "정책이 바뀌면 풀림",
+       "숫자가 뒤에 버팀"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
      "line": 0,
-     "at": 0.3,
-     "color": "gray"
-    },
-    {
-     "kind": "print",
-     "text": "지금: 빚 + 금리",
-     "line": 0,
-     "at": 0.75,
-     "color": "red"
+     "at": 0.25
     }
    ]
   },
@@ -1819,22 +1869,28 @@
      "at": 0.1
     },
     {
-     "kind": "print",
+     "kind": "icon",
+     "name": "chip",
      "text": "① 엔비디아 실적",
      "line": 0,
-     "at": 0.3
+     "at": 0.3,
+     "color": "gold"
     },
     {
-     "kind": "print",
+     "kind": "icon",
+     "name": "warning",
      "text": "② 규제가 실제로 나오나",
      "line": 0,
-     "at": 0.55
+     "at": 0.55,
+     "color": "gold"
     },
     {
-     "kind": "print",
+     "kind": "icon",
+     "name": "building",
      "text": "③ 빅테크의 설비투자",
      "line": 0,
-     "at": 0.8
+     "at": 0.8,
+     "color": "gold"
     }
    ]
   },

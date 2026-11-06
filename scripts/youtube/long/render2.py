@@ -1920,6 +1920,14 @@ def main():
                 _add(x["start"] + .05, NBK.boom(SR, level=.08, seed=k)); _add(x["start"] + .35, sfx_chime(.045))   # 아웃트로: 엔딩 화면이 열릴 때
             elif k + 1 < len(timeline) and timeline[k + 1]["sc"]["v"].get("type") == "end":
                 _add(x["start"], NBK.whoosh(SR, 1.1, level=.03, seed=k))   # 아웃트로 사진 장면으로 넘어갈 때
+        if DOC_OVERLAY:   # 2026-11-06 대표님: 숫자 펀치는 쾅, 표 줄은 똑딱, 아이콘은 은은한 쉭
+            for k, x in enumerate(timeline):
+                sk_ = x["sc"].get("sketch")
+                if not sk_ or not x["lines"]: continue
+                pt, tt, it = DOCFX.punch_times(sk_, x["lines"])
+                for t in pt: _add(x["start"] + t - .04, NBK.boom(SR, level=.13, seed=int(t * 10) + k)); _add(x["start"] + t, sfx_hit(.09, seed=int(t * 7) + k))
+                for t in tt: _add(x["start"] + t, sfx_hit(.028, seed=int(t * 13) + k))
+                for t in it: _add(x["start"] + t, NBK.whoosh(SR, .45, level=.02, seed=int(t * 11) + k))
         for k, x in enumerate(timeline):   # 손그림을 그리는 동안 펜 소리 (작게)
             if not x["lines"] or (DOC_OVERLAY and x["sc"]["v"].get("full")): continue   # 다큐 글씨는 펜 소리 없음
             for b in (SK.scene_beats(x["sc"], x["lines"], V, fill, at_time, k >= cold) or []):

@@ -8,6 +8,10 @@
   · chart = 흰 선이 빛나는 머리점을 따라 그려지고, 아래는 금색 옅은 면, 끝점은 금색 점 + 퍼지는 고리
   · bars = 막대가 아래에서 자라고 숫자가 따라 올라간다
   · pct = 등락률 막대(가운데 기준선 위·아래), 표시 한 줄(marker)을 금색 세로선으로
+  · punch = 핵심 숫자를 화면 가운데 크게 (쾅: 커졌다 줄며 박히고, 번쩍·흔들림, 숫자 세어 올라감 + 저음 타격음) — hold 초 뒤 사라진다
+  · table = 2~3열 비교표 (머리줄 금색 선이 그어지고 줄마다 차례로 나타남 + 똑딱)
+  · icon = 금색 선 아이콘 + 한 줄 글씨 (chip·bolt·dollar·building·server·warning·up·down·bank·globe)
+  (2026-11-06 대표님: "글자만 쓰지 말고 아이콘/표/그림… 강조할 숫자는 화면 중간에 크게 효과음과… 시네마틱 이펙트를 많이")
 대본(sketch 비트)은 그대로 쓰고, 렌더러가 전체 화면 그림 장면에서 판·손글씨 대신 이 모듈로 그린다 (spec "overlay": "doc").
 """
 import math
@@ -81,8 +85,10 @@ def _tone(b, default=WHITE):
 
 def draw(img, beats, u, lines):
     """img: 전체 화면 그림(RGB) · beats: 장면의 sketch 비트 · u: 장면 안 시각(초) · lines: [(시작, 길이, …)]"""
-    bs = [b for b in beats if b.get("kind") in ("print", "write", "chart", "bars", "pct")]
-    if not bs: return img
+    bs = [b for b in beats if b.get("kind") in ("print", "write", "chart", "bars", "pct", "table", "icon")]
+    pu = [b for b in beats if b.get("kind") == "punch"]
+    if not bs and not pu: return img
+    if not bs: return _punches(img.convert("RGBA"), pu, u, lines).convert("RGB")
     ts = [_t0(b, lines) for b in bs]
     g = eio((u - (min(ts) - .25)) / .5)
     if g <= 0: return img
@@ -124,6 +130,11 @@ def draw(img, beats, u, lines):
             _bars(im, b, p, y); y += _height(b, False)
         elif k == "pct":
             _pct(im, b, p, y); y += _height(b, False)
+        elif k == "table":
+            _table(im, b, p, y); y += _height(b, False)
+        elif k == "icon":
+            _icon_row(im, b, p, y); y += _height(b, False)
+    if pu: im = _punches(im, pu, u, lines)
     return im.convert("RGB")
 
 
@@ -134,6 +145,8 @@ def _height(b, first):
         txt = b.get("text") or "".join(b.get("rows") or []); return 160 if len(txt) <= 7 else (130 if len(txt) <= 11 else 110)
     if k == "bars": return b.get("h", 380) + 200
     if k == "pct": return 470
+    if k == "table": return 96 + 84 * len(b.get("rows", [])) + 40
+    if k == "icon": return 100
     return 0
 
 
@@ -219,3 +232,151 @@ def _pct(im, b, p, y):
         lab = f"{v * q:+.1f}%"
         d.text((bx + 120, (y1 + 8) if v < 0 else (y0 - 8), ), lab, font=F("Heavy", 56), fill=(*col, 255), anchor="la" if v < 0 else "ld")
         d.text((bx + 60, mid + (-40 if v < 0 else 18)), i["label"], font=F("Medium", 28), fill=(*GRAY, 255), anchor="md" if v < 0 else "ma")
+
+
+# ───────── 2026-11-06 시네마틱: 숫자 펀치 · 비교표 · 아이콘 ─────────
+PUNCH_HOLD = 2.4
+
+
+def punch_times(beats, lines):
+    """오디오용: (펀치 시각들, 표 줄 시각들, 아이콘 시각들) — 장면 안 시각(초)"""
+    pt, tt, it = [], [], []
+    for b in beats or []:
+        k = b.get("kind")
+        if k not in ("punch", "table", "icon"): continue
+        t0 = _t0(b, lines)
+        if k == "punch": pt.append(t0)
+        elif k == "table": tt += [t0 + .35 + .45 * r for r in range(len(b.get("rows", [])))]
+        else: it.append(t0)
+    return pt, tt, it
+
+
+def _numparts(text):
+    """'3,000조' '-5.5%' '600조 원' → (앞, 값, 소수, 콤마, 뒤) / 없으면 None"""
+    m = re.match(r"([+\-]?)(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(.*)$", text.strip())
+    if not m: return None
+    raw = m.group(2); dec = len(raw.split(".")[1]) if "." in raw else 0
+    return m.group(1), float(raw.replace(",", "")), dec, "," in raw or float(raw.replace(",", "")) >= 1000, m.group(3)
+
+
+def _punches(im, pu, u, lines):
+    for b in pu:
+        t0 = _t0(b, lines); p = u - t0; hold = b.get("hold", PUNCH_HOLD)
+        if p < -0.05 or p > hold + .45: continue
+        fade = 1 - eio((p - hold) / .45)
+        col = _tone(b, WHITE)
+        # 뒤 화면을 눌러 어둡게 (가운데 숫자에 집중)
+        dk = eout((p + .05) / .2) * fade
+        a = np.asarray(im).astype(np.float32)
+        a[..., :3] *= (1 - .55 * dk)
+        im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+        txt = b["text"]; n = _numparts(txt)
+        if n and p > 0:
+            c = eout(p / .7); v = n[1] * c
+            body = f"{v:,.{n[2]}f}" if n[3] else f"{v:.{n[2]}f}"
+            txt = f"{n[0]}{body}{n[4]}"
+        sc = 1.0 + .55 * (1 - eout(p / .28)) if p < .28 else 1.0
+        fs = int((230 if len(b["text"]) <= 7 else 180 if len(b["text"]) <= 11 else 140) * sc)
+        fnt = F("Heavy", fs)
+        cx, cy = W // 2, H // 2 - (30 if b.get("sub") else 0)
+        al = int(255 * eout((p + .05) / .12) * fade)
+        # 빛 번짐
+        gl = Image.new("RGBA", im.size); ImageDraw.Draw(gl).text((cx, cy), txt, font=fnt, fill=(*col, int(al * .55)), anchor="mm")
+        im.alpha_composite(gl.filter(ImageFilter.GaussianBlur(22)))
+        d = ImageDraw.Draw(im, "RGBA")
+        d.text((cx + 4, cy + 6), txt, font=fnt, fill=(0, 0, 0, int(al * .6)), anchor="mm")
+        d.text((cx, cy), txt, font=fnt, fill=(*col, al), anchor="mm")
+        if b.get("sub"):
+            r = eout((p - .35) / .4) * fade
+            if r > 0:
+                bb = d.textbbox((cx, cy), b["text"], font=F("Heavy", fs), anchor="mm")
+                yy = bb[3] + 40; lw = 70 * r
+                d.line([(cx - 40 - lw - 220, yy + 30), (cx - 220 - 40, yy + 30)], fill=(*GOLD, int(255 * r)), width=3)
+                d.line([(cx + 260, yy + 30), (cx + 260 + lw, yy + 30)], fill=(*GOLD, int(255 * r)), width=3)
+                _st(d, (cx, yy + 30 + 10 * (1 - r)), b["sub"], font=F("Bold", 50), fill=(*GOLD, int(255 * r)), anchor="mm")
+        # 박히는 순간 번쩍 + 흔들림
+        if 0 <= p < .16:
+            fl = Image.new("RGBA", im.size, (255, 255, 255, int(110 * (1 - p / .16)))); im.alpha_composite(fl)
+        if 0 <= p < .35:
+            amp = 14 * (1 - p / .35); dx = int(amp * math.sin(p * 90)); dy = int(amp * .7 * math.cos(p * 77))
+            im = im.transform(im.size, Image.AFFINE, (1, 0, dx, 0, 1, dy), resample=Image.BILINEAR)
+    return im
+
+
+def _table(im, b, p, y):
+    cols = b["cols"]; rows = b.get("rows", []); x = b.get("x", 150); cw = b.get("cw", 430); n = len(cols)
+    tc = [TONE.get(c, WHITE) for c in (b.get("colors") or [None] * n)]
+    d = ImageDraw.Draw(im, "RGBA"); ga = eout(p / .35)
+    for j, c in enumerate(cols):
+        _st(d, (x + j * cw, y + 8), c, font=F("Bold", 40), fill=(*tc[j], int(255 * ga)))
+    d.line([(x, y + 74), (x + (cw * n - 40) * eout(p / .5), y + 74)], fill=(*GOLD, 255), width=3)
+    for r, row in enumerate(rows):
+        q = eout((p - .35 - .45 * r) / .4)
+        if q <= 0: continue
+        yy = y + 96 + 84 * r
+        for j, cell in enumerate(row):
+            _st(d, (x + j * cw + 18 * (1 - q), yy), cell, font=F("SemiBold", 38), fill=(*(tc[j] if b.get("tint_cells") else WHITE), int(255 * q)))
+        d.line([(x, yy + 70), (x + cw * n - 40, yy + 70)], fill=(255, 255, 255, int(40 * q)), width=1)
+    if n > 1:   # 가운데 세로선
+        for j in range(1, n):
+            xx = x + j * cw - 30; d.line([(xx, y + 90), (xx, y + 90 + (84 * len(rows)) * ga)], fill=(255, 255, 255, 60), width=1)
+
+
+def _icon(d, name, cx, cy, s, col, w=5):
+    """간단한 선 아이콘 (s=반지름)"""
+    c = (*col, 255) if len(col) == 3 else col
+    if name == "chip":
+        d.rounded_rectangle([cx - s * .6, cy - s * .6, cx + s * .6, cy + s * .6], radius=s * .12, outline=c, width=w)
+        d.rectangle([cx - s * .25, cy - s * .25, cx + s * .25, cy + s * .25], outline=c, width=w - 1)
+        for k in (-.3, 0, .3):
+            for a, bb in ((cx + k * s, cy - s * .6), (cx + k * s, cy + s * .6)):
+                d.line([(a, bb), (a, bb + (-s * .3 if bb < cy else s * .3))], fill=c, width=w - 1)
+            for a, bb in ((cx - s * .6, cy + k * s), (cx + s * .6, cy + k * s)):
+                d.line([(a, bb), (a + (-s * .3 if a < cx else s * .3), bb)], fill=c, width=w - 1)
+    elif name == "bolt":
+        d.polygon([(cx + s * .15, cy - s), (cx - s * .5, cy + s * .1), (cx - s * .02, cy + s * .1), (cx - s * .2, cy + s), (cx + s * .5, cy - s * .15), (cx + s * .02, cy - s * .15)], outline=c, width=w)
+    elif name == "dollar":
+        d.ellipse([cx - s * .9, cy - s * .9, cx + s * .9, cy + s * .9], outline=c, width=w)
+        d.text((cx, cy + 2), "$", font=F("Heavy", int(s * 1.25)), fill=c, anchor="mm")
+    elif name == "won":
+        d.ellipse([cx - s * .9, cy - s * .9, cx + s * .9, cy + s * .9], outline=c, width=w)
+        d.text((cx, cy + 2), "₩", font=F("Heavy", int(s * 1.1)), fill=c, anchor="mm")
+    elif name == "building":
+        d.rectangle([cx - s * .55, cy - s * .9, cx + s * .2, cy + s * .9], outline=c, width=w)
+        d.rectangle([cx + s * .2, cy - s * .3, cx + s * .7, cy + s * .9], outline=c, width=w)
+        for yy in (-.55, -.15, .25):
+            d.line([(cx - s * .35, cy + yy * s), (cx, cy + yy * s)], fill=c, width=w - 1)
+    elif name == "server":
+        for k in (-.6, 0, .6):
+            d.rounded_rectangle([cx - s * .8, cy + k * s - s * .25, cx + s * .8, cy + k * s + s * .25], radius=6, outline=c, width=w)
+            d.ellipse([cx + s * .45, cy + k * s - 5, cx + s * .45 + 10, cy + k * s + 5], fill=c)
+    elif name == "warning":
+        d.polygon([(cx, cy - s * .9), (cx + s, cy + s * .8), (cx - s, cy + s * .8)], outline=c, width=w)
+        d.line([(cx, cy - s * .3), (cx, cy + s * .25)], fill=c, width=w + 1); d.ellipse([cx - 5, cy + s * .45, cx + 5, cy + s * .45 + 10], fill=c)
+    elif name in ("up", "down"):
+        sg = -1 if name == "up" else 1
+        pts = [(cx - s * .9, cy - sg * s * .6), (cx - s * .25, cy + sg * s * .05), (cx + s * .1, cy - sg * s * .25), (cx + s * .85, cy + sg * s * .6)]
+        d.line(pts, fill=c, width=w + 1, joint="curve")
+        ex, ey = pts[-1]; d.polygon([(ex, ey), (ex - s * .45, ey - sg * s * .02), (ex - s * .05, ey - sg * s * .42)], fill=c)
+    elif name == "bank":
+        d.polygon([(cx, cy - s * .95), (cx + s, cy - s * .45), (cx - s, cy - s * .45)], outline=c, width=w)
+        for k in (-.6, -.2, .2, .6): d.line([(cx + k * s, cy - s * .3), (cx + k * s, cy + s * .6)], fill=c, width=w)
+        d.line([(cx - s, cy + s * .8), (cx + s, cy + s * .8)], fill=c, width=w)
+    elif name == "globe":
+        d.ellipse([cx - s * .9, cy - s * .9, cx + s * .9, cy + s * .9], outline=c, width=w)
+        d.ellipse([cx - s * .4, cy - s * .9, cx + s * .4, cy + s * .9], outline=c, width=w - 1)
+        d.line([(cx - s * .9, cy), (cx + s * .9, cy)], fill=c, width=w - 1)
+    else:
+        d.ellipse([cx - s * .5, cy - s * .5, cx + s * .5, cy + s * .5], outline=c, width=w)
+
+
+def _icon_row(im, b, p, y):
+    x = b.get("x", 150); q = eout(p / .35); s = 34 * (.6 + .4 * q) if q < 1 else 34
+    col = _tone(b, GOLD)
+    ov = Image.new("RGBA", im.size); od = ImageDraw.Draw(ov, "RGBA")
+    od.ellipse([x, y + 8, x + 84, y + 92], fill=(*col, int(40 * q)), outline=(*col, int(200 * q)), width=2)
+    _icon(od, b.get("name", ""), x + 42, y + 50, s * .72, (*col, int(255 * q)), w=4)
+    im.alpha_composite(ov)
+    r = eout((p - .12) / .4)
+    if r > 0 and b.get("text"):
+        _st(ImageDraw.Draw(im, "RGBA"), (x + 110 - 20 * (1 - r), y + 22), b["text"], font=F("Bold", 44), fill=(*_tone({"color": b.get("text_color")}, WHITE), int(255 * r)))
