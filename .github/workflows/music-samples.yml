@@ -1,0 +1,21 @@
+# 음악 시안 미리듣기 받기 (2026-11-06 대표님: 데이터상 가능성 높은 곡만 옵션으로)
+name: music-samples
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - name: 도구
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          npm i --no-save playwright@1.47.2 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1 || true
+      - name: 받기
+        run: python3 scripts/music/fetch_samples.py
+      - name: 올리기
+        run: bash scripts/ci/push_results.sh "음악 시안 미리듣기 $(TZ=Asia/Seoul date '+%F %H:%M')" social/music/samples
