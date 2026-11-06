@@ -44,5 +44,15 @@
       "destination": "/start?utm_source=youtube-bio",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/social/reels/:id/reel.mp4",
+      "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/social/reels/:id/reel.mp4"
+    },
+    {
+      "source": "/docs/emperor/ep/:file",
+      "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/docs/emperor/ep/:file"
+    }
   ]
 }

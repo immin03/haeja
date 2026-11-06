@@ -1,0 +1,83 @@
+# 영상 파일 저장소 정리 (2026-11-06 대표 요청: 저장소 13.9GB → 영상은 Supabase Storage 로)
+# 게시가 끝나고 3일이 지난 릴스·황제 쇼츠 mp4 를 Supabase Storage(media 버킷, 같은 경로)로 복사하고,
+# 복사가 확인된 파일만 저장소에서 지운다. 사이트 주소는 그대로이고 vercel.json rewrite 가 Storage 파일을 내준다.
+# 판단은 Supabase 함수 media-offload 가 DB(게시 상태·예약 시각)를 보고 한다. 게시 전·검수 중·3일 안 파일은 손대지 않는다.
+name: media-offload
+on:
+  schedule:
+    - cron: '17 18 * * *'   # 매일 03:17 KST
+  workflow_dispatch:
+    inputs:
+      max: { description: '이번에 정리할 최대 파일 수', required: false, default: '200' }
+permissions:
+  contents: write
+concurrency: media-offload
+jobs:
+  offload:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MAX: ${{ github.event.inputs.max || '200' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            .github
+            scripts/reels/specs
+      - name: 옮길 파일 고르기·Storage 복사
+        run: |
+          python3 - <<'PY'
+          import json, os, re, subprocess, urllib.request, datetime as dt
+          repo = os.environ['GITHUB_REPOSITORY']; mx = int(os.environ['MAX'])
+          tree = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}/git/trees/HEAD?recursive=1']))['tree']
+          pat = re.compile(r'^(social/reels/([A-Za-z0-9_-]+)/reel\.mp4|docs/emperor/ep/[A-Za-z0-9_.-]+\.mp4)$')
+          cut = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=3)
+          cand = []
+          for e in tree:
+              m = pat.match(e['path']) if e['type'] == 'blob' else None
+              if not m: continue
+              if m.group(2):   # 릴스는 대본의 예약 시각도 3일 지났는지 한 번 더 본다 (막 렌더돼 DB에 아직 없는 편 보호)
+                  sp = f'scripts/reels/specs/{m.group(2)}.json'
+                  if not os.path.exists(sp): continue
+                  try:
+                      when = dt.datetime.fromisoformat(json.load(open(sp))['scheduled_at'])
+                  except Exception:
+                      continue
+                  if when > cut: continue
+              cand.append({'path': e['path'], 'size': e['size']})
+          cand = cand[:mx]
+          print('후보', len(cand))
+          cfg = urllib.request.urlopen('https://www.valuenote.co.kr/config.js', timeout=30).read().decode()
+          key = re.search(r"SUPABASE_ANON_KEY\s*[:=]\s*['\"]([^'\"]+)", cfg).group(1)
+          url = re.search(r"SUPABASE_URL\s*[:=]\s*['\"]([^'\"]+)", cfg).group(1)
+          safe, total = [], 0
+          for i in range(0, len(cand), 8):
+              req = urllib.request.Request(url + '/functions/v1/media-offload', method='POST',
+                  data=json.dumps({'files': cand[i:i+8]}).encode(),
+                  headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key})
+              try:
+                  res = json.loads(urllib.request.urlopen(req, timeout=170).read())['results']
+              except Exception as ex:
+                  print('  묶음 실패', ex); continue
+              for r in res:
+                  print(('  정리 ' if r.get('safe') else '  보관 ') + r['path'] + ' · ' + r.get('reason', ''))
+                  if r.get('safe') and r.get('stored'):
+                      safe.append(r['path']); total += r.get('size') or 0
+          open('/tmp/prune.txt', 'w').write('\n'.join(safe) + ('\n' if safe else ''))
+          print(f'정리 {len(safe)}개 · {total/1e6:.0f}MB')
+          PY
+      - name: 저장소에서 지우기
+        run: |
+          [ -s /tmp/prune.txt ] || { echo '정리할 파일 없음'; exit 0; }
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          n=$(wc -l < /tmp/prune.txt)
+          for i in 1 2 3 4 5; do
+            git fetch -q --depth 1 --filter=blob:none origin main && git reset -q --hard origin/main
+            git rm -q --sparse --ignore-unmatch --pathspec-from-file=/tmp/prune.txt
+            git diff --cached --quiet && { echo '이미 정리됨'; exit 0; }
+            git commit -q -m "영상 $n개를 Supabase Storage 로 옮기고 저장소에서 정리 (사이트 주소는 그대로)" && git push -q origin HEAD:main && exit 0
+            sleep $((5 + RANDOM % 10))
+          done
+          exit 1
