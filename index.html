@@ -16,9 +16,9 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" href="/favicon-64.png?v=5">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=6">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=5">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="밸류노트">
@@ -1513,7 +1513,7 @@ function iosSheet(){
   document.body.insertAdjacentHTML('beforeend', `<div class="gate is-sheet" role="dialog" aria-modal="true" aria-label="홈 화면에 추가하는 방법"><div class="gate-card is-card">
     <div class="eyebrow">아이폰은 이렇게 해야 알림이 와요</div><h3>홈 화면에 밸류노트 추가</h3>
     <p>앱처럼 아이콘 한 번에 열리고, 관심 회사가 싸지면 알림을 받을 수 있어요. 30초면 끝나요.</p>
-    <ol class="is-steps">${html}<li class="is-st"><span class="is-ic is-app"><img src="/icon-192.png?v=5" alt=""></span><span><b>홈 화면의 밸류노트 아이콘으로 열기</b><span>열리면 "알림 켜기"가 바로 나옵니다.</span></span></li></ol>
+    <ol class="is-steps">${html}<li class="is-st"><span class="is-ic is-app"><img src="/icon-192.png?v=6" alt=""></span><span><b>홈 화면의 밸류노트 아이콘으로 열기</b><span>열리면 "알림 켜기"가 바로 나옵니다.</span></span></li></ol>
     ${member ? `<div class="is-pin" id="is-pin"><span class="small muted">홈 화면 앱은 처음 열 때 지금 계정으로 자동 로그인돼요.</span></div>` : ''}
     <div class="gate-a"><button type="button" class="btn primary" data-is="close">알겠어요</button></div>
   </div></div>${point ? `<div class="is-point is-${point}" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="#EADBB9" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>` : ''}`);
@@ -2322,7 +2322,7 @@ function setupHtml(){
     : ps === 'unsupported' ? `<div class="small muted">이 브라우저는 알림을 지원하지 않아요. 크롬·사파리·엣지에서 열어 주세요.</div>`
     : `<button type="button" class="btn primary su-big" data-setup="push">알림 켜기</button>`;
   /* 받게 될 알림을 휴대폰 알림 모양 그대로 미리 보여 준다 */
-  const pv = (t, b, w) => `<div class="su-pv"><img src="/icon-192.png?v=5" alt=""><div><div class="su-pv-h"><b>밸류노트</b><span>${w}</span></div><b>${t}</b><span>${b}</span></div></div>`;
+  const pv = (t, b, w) => `<div class="su-pv"><img src="/icon-192.png?v=6" alt=""><div><div class="su-pv-h"><b>밸류노트</b><span>${w}</span></div><b>${t}</b><span>${b}</span></div></div>`;
   const preview = `<div class="su-pvs" aria-label="알림 예시">
       ${pv('최근 보신 SK하이닉스, 지금은 이렇습니다', '버핏 기준 적정 주가보다 높은 가격에 거래되고 있습니다. 점수와 근거를 확인해 보세요.', '오전 8:40')}
       ${pv('새로 싸진 회사 · ○○은행', '오늘 처음으로 적정 주가보다 31% 쌉니다. 종합 75점, 확인해 보실래요?', '어제')}
@@ -5437,7 +5437,7 @@ function cardBase(ctx){
   // 2026-10-23 확정 로고: Montserrat ExtraBold 'Value'(흰색)+'Note'(아이보리 베이지), 얇은 금색 줄, 가운데 '밸류노트'
   ctx.font = '800 44px Montserrat, "SUIT Variable", sans-serif'; ctx.fillStyle = '#FFFFFF'; ctx.fillText('Value', 80, 118);
   const w = ctx.measureText('Value').width; ctx.fillStyle = '#EADBB9'; ctx.fillText('Note', 80 + w, 118);
-  const wt = w + ctx.measureText('Note').width; ctx.fillStyle = '#D8C294'; ctx.fillRect(80, 128, wt, 1.5);
+  const wt = w + ctx.measureText('Note').width; ctx.fillStyle = '#EADBB9'; ctx.fillRect(80, 128, wt, 1.5);
   ctx.font = '700 22px "SUIT Variable", sans-serif'; ctx.fillStyle = '#EADBB9'; ctx.textAlign = 'center';
   if('letterSpacing' in ctx) ctx.letterSpacing = '8px'; ctx.fillText('밸류노트', 80 + wt / 2 + 4, 160); if('letterSpacing' in ctx) ctx.letterSpacing = '0px'; ctx.textAlign = 'left';
 }
@@ -7686,12 +7686,12 @@ nav.subtabs button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,
 .wordmark .wm-b,#splash .sp-wm span{font-style:normal!important;font-weight:800!important;background:none!important;-webkit-text-fill-color:currentColor;color:#EADBB9!important;padding-right:0}
 .wordmark .wm-a,.brand h1.wordmark .wm-a,#splash .sp-wm{color:#FFFFFF!important}
 .wordmark.vn{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
-.wordmark.vn .vn-en{display:block;padding-bottom:.2em;border-bottom:1px solid #D8C294;white-space:nowrap}
+.wordmark.vn .vn-en{display:block;padding-bottom:.2em;border-bottom:1px solid #EADBB9;white-space:nowrap}
 .wordmark.vn .vn-ko{display:block;margin-top:.32em;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif;font-weight:700;font-size:.5em;letter-spacing:.22em;padding-left:.22em;color:#EADBB9}
 .brand h1.wordmark.vn{font-size:24px}
 .wordmark.vn.solo .vn-ko{display:none}.wordmark.vn.solo .vn-en{border:0;padding:0}
 .wordmark.lg.vn .wm-a{color:#0B1B33!important}.wordmark.lg.vn .wm-b,.wordmark.lg.vn .vn-ko{color:#AE9260!important}.wordmark.lg.vn .vn-en{border-color:#C0A87C}
-#splash .sp-wm{display:inline-block;line-height:1!important;padding-bottom:9px;border-bottom:1.5px solid #D8C294;font-size:44px!important}
+#splash .sp-wm{display:inline-block;line-height:1!important;padding-bottom:9px;border-bottom:1.5px solid #EADBB9;font-size:44px!important}
 #splash .sp-name{color:#EADBB9!important;font-size:22px!important;font-weight:700!important;letter-spacing:.24em!important;line-height:1!important;margin-top:-4px!important;padding-left:.24em}
 #splash .sp-sub{margin-top:14px}
 </style>

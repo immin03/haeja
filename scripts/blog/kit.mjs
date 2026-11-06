@@ -33,7 +33,7 @@ fonts.push({ name: 'M', data: fs.readFileSync(new URL('../reels/fonts/Montserrat
 // 2026-10-29 운영자 결정: 블로그는 일반 블로거 글처럼 — 이미지에 밸류노트 로고·주소를 기본으로 넣지 않는다. 넣어야 할 때만 BRAND=on.
 const BRAND = process.env.BRAND === 'on';
 const VNL = (size, st = {}) => !BRAND ? null : h('div', { flexDirection: 'column', alignItems: 'center', ...st },
-  h('div', { fontFamily: 'M', fontSize: size, fontWeight: 800, letterSpacing: -0.3, color: '#FFFFFF', lineHeight: 1, paddingBottom: Math.round(size * .2), borderBottom: '1.5px solid #D8C294' }, 'Value', h('span', { color: '#EADBB9' }, 'Note')),
+  h('div', { fontFamily: 'M', fontSize: size, fontWeight: 800, letterSpacing: -0.3, color: '#FFFFFF', lineHeight: 1, paddingBottom: Math.round(size * .2), borderBottom: '1.5px solid #EADBB9' }, 'Value', h('span', { color: '#EADBB9' }, 'Note')),
   h('div', { fontFamily: 'P', fontSize: Math.round(size * .5), fontWeight: 700, letterSpacing: Math.round(size * .11), paddingLeft: Math.round(size * .11), marginTop: Math.round(size * .3), color: '#EADBB9', lineHeight: 1 }, '밸류노트'));
 
 const SITE = 'https://www.valuenote.co.kr';

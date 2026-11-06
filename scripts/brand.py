@@ -15,7 +15,7 @@ EN_FONT = os.path.join(FONTS, "Montserrat-ExtraBold.ttf")
 KO_FONT = os.path.join(FONTS, "SUIT-Bold.ttf")
 
 COLORS = {
-    "dark": {"value": (255, 255, 255), "note": (234, 219, 185), "line": (216, 194, 148), "ko": (234, 219, 185)},
+    "dark": {"value": (255, 255, 255), "note": (234, 219, 185), "line": (234, 219, 185), "ko": (234, 219, 185)},
     "light": {"value": (11, 27, 51), "note": (174, 146, 96), "line": (192, 168, 124), "ko": (158, 132, 86)},   # 2026-10-23: 금빛에서 조금 빠진 아이보리
 }
 _cache = {}
@@ -75,7 +75,7 @@ if __name__ == "__main__":   # 확인용: python3 scripts/brand.py out.png
 
 
 def v_icon(n=1080, mono=False):
-    """작은 원·앱 아이콘용 마크 (2026-10-23 확정): 네이비 바탕에 흰 V(Montserrat ExtraBold) + 그 아래 금선.
+    """작은 원·앱 아이콘용 마크 (2026-10-23 확정): 네이비 바탕에 흰·아이보리 2톤 V(Montserrat ExtraBold) + 그 아래 아이보리 둥근 밑줄 (2026-11-06 개편).
     mono=True면 투명 바탕에 흰색만 (안드로이드 알림 배지)"""
     import numpy as np
     if mono: im = Image.new("RGBA", (n, n), (0, 0, 0, 0))
@@ -85,7 +85,11 @@ def v_icon(n=1080, mono=False):
         im = Image.fromarray((np.array([11, 20, 36], np.float32) * (1 - k) + np.array([27, 44, 72], np.float32) * k).astype(np.uint8)).convert("RGBA")
     d = ImageDraw.Draw(im); f = ImageFont.truetype(EN_FONT, int(n * .58))
     bb = d.textbbox((0, 0), "V", font=f); w = bb[2] - bb[0]; h = bb[3] - bb[1]
-    d.text((n / 2 - w / 2 - bb[0], n * .45 - h / 2 - bb[1]), "V", font=f, fill=(255, 255, 255, 255))
-    lw = w * .92; ly = n * .45 + h / 2 + n * .075; lh = max(2, round(n * .016))
-    d.rectangle([n / 2 - lw / 2, ly, n / 2 + lw / 2, ly + lh], fill=(255, 255, 255, 255) if mono else (216, 194, 148, 255))
+    tx, ty = n / 2 - w / 2 - bb[0], n * .45 - h / 2 - bb[1]
+    d.text((tx, ty), "V", font=f, fill=(255, 255, 255, 255))
+    if not mono:   # (2026-11-06) V 오른쪽 획은 Note와 같은 아이보리 — 왼쪽 흰색/오른쪽 아이보리 2톤
+        rt = Image.new("RGBA", (n, n), (0, 0, 0, 0)); ImageDraw.Draw(rt).text((tx, ty), "V", font=f, fill=(234, 219, 185, 255))
+        rt = rt.crop((n // 2, 0, n, n)); im.alpha_composite(rt, (n // 2, 0))
+    lw = w * .6; ly = n * .45 + h / 2 + n * .07; lh = max(2, round(n * .02))
+    d.rounded_rectangle([n / 2 - lw / 2, ly, n / 2 + lw / 2, ly + lh], radius=lh / 2, fill=(255, 255, 255, 255) if mono else (234, 219, 185, 255))
     return im

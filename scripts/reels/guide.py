@@ -142,7 +142,7 @@ details p{margin:8px 0 0;font-size:15.5px;color:#2A3550}
 .list .t{display:block;font-size:16.5px;font-weight:800;line-height:1.45}
 .list .d{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
 .wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
-.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #D8C294;white-space:nowrap}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #EADBB9;white-space:nowrap}
 .wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#EADBB9;color:#EADBB9!important;padding-right:0!important}
 .wm small{display:block!important;margin:.32em 0 0!important;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#EADBB9!important;text-transform:none!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
 """
@@ -154,7 +154,7 @@ HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}">
 <meta property="og:image" content="{og}"><meta property="og:url" content="{url}"><link rel="canonical" href="{url}">
 <meta name="robots" content="{robots}">{ld}
-<link rel="icon" type="image/png" href="/favicon-64.png?v=5"><meta name="theme-color" content="#0A1730">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=6"><meta name="theme-color" content="#0A1730">
 <style>@font-face{{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}}@font-face{{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}}@font-face{{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}}@font-face{{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <style>{css}</style></head><body>"""

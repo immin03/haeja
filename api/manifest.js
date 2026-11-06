@@ -16,8 +16,8 @@ module.exports = (req, res) => {
     theme_color: '#0E1A2B',
     lang: 'ko',
     icons: [
-      { src: '/icon-192.png?v=5', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
-      { src: '/icon-512.png?v=5', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+      { src: '/icon-192.png?v=6', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+      { src: '/icon-512.png?v=6', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
     ]
   };
   res.setHeader('Content-Type', 'application/manifest+json; charset=utf-8');
