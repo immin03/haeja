@@ -270,7 +270,10 @@ def _punches(im, pu, u, lines):
         a = np.asarray(im).astype(np.float32)
         a[..., :3] *= (1 - .55 * dk)
         im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
-        txt = b["text"]; n = _numparts(txt)
+        txt = b["text"]; n = None if b.get("clock") else _numparts(txt)
+        if b.get("clock") and p > -0.05:   # 2026-11-06 대표님: "00:00 → 24:00 빠르게 시간 올라가는 효과" — 시계처럼 세어 올라간다
+            a_, b_ = (int(x) for x in txt.split(":")); tot = a_ * 60 + b_; v = int(round(tot * eout(max(0, p) / b.get("count", 1.0))))
+            txt = f"{v // 60:02d}:{v % 60:02d}"
         if n and p > 0:
             c = eout(p / .7); v = n[1] * c
             body = f"{v:,.{n[2]}f}" if n[3] else f"{v:.{n[2]}f}"

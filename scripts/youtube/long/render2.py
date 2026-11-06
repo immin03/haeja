@@ -1928,6 +1928,10 @@ def main():
                 for t in pt: _add(x["start"] + t - .04, NBK.boom(SR, level=.13, seed=int(t * 10) + k)); _add(x["start"] + t, sfx_hit(.09, seed=int(t * 7) + k))
                 for t in tt: _add(x["start"] + t, sfx_hit(.028, seed=int(t * 13) + k))
                 for t in it: _add(x["start"] + t, NBK.whoosh(SR, .45, level=.02, seed=int(t * 11) + k))
+                for b_ in sk_:   # 시계 펀치: 세어 올라가는 동안 빠른 똑딱
+                    if b_.get("kind") == "punch" and b_.get("clock"):
+                        t0_ = DOCFX._t0(b_, x["lines"]); cnt = b_.get("count", 1.0); q = 0.0
+                        while q < cnt: _add(x["start"] + t0_ + q, sfx_tick(.02, seed=int(q * 100) + k)); q += .07
         for k, x in enumerate(timeline):   # 손그림을 그리는 동안 펜 소리 (작게)
             if not x["lines"] or (DOC_OVERLAY and x["sc"]["v"].get("full")): continue   # 다큐 글씨는 펜 소리 없음
             for b in (SK.scene_beats(x["sc"], x["lines"], V, fill, at_time, k >= cold) or []):

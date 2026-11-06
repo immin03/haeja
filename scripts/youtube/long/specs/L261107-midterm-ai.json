@@ -61,6 +61,10 @@
   {
    "at": "2026-11-06T16:30:00+09:00",
    "what": "대표님: 검색 유입 1·2·3위 키워드(삼성전자 주가 전망·하이닉스주가전망·sk하이닉스 주가전망)로 제목·태그·설명 구성"
+  },
+  {
+   "at": "2026-11-06T17:12:00+09:00",
+   "what": "대표님: 훅 '3분 만에 멈춤'·'24시간'은 가운데 03:00 / 00:00→24:00 시계 펀치로, 인트로 뒤 본편은 펀치 없이 조용히"
   }
  ],
  "scheduled_at": "2026-11-06T19:30:00+09:00",
@@ -321,17 +325,14 @@
    "hold": 0.0,
    "sketch": [
     {
-     "kind": "print",
-     "text": "11월 6일 아침 · 서울",
-     "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "write",
-     "text": "코스피 3분 만에 멈춤",
+     "kind": "punch",
+     "text": "03:00",
+     "clock": true,
+     "count": 0.9,
      "line": 0,
      "at": 0.45,
-     "color": "red"
+     "color": "red",
+     "hold": 2.2
     }
    ]
   },
@@ -364,17 +365,14 @@
    "hold": 0.0,
    "sketch": [
     {
-     "kind": "print",
-     "text": "천국에서 지옥으로",
+     "kind": "punch",
+     "text": "24:00",
+     "clock": true,
+     "count": 1.4,
      "line": 0,
-     "at": 0.05
-    },
-    {
-     "kind": "write",
-     "text": "그 24시간, 무슨 일이?",
-     "line": 0,
-     "at": 0.45,
-     "color": "gold"
+     "at": 0.5,
+     "color": "gold",
+     "hold": 2.6
     }
    ]
   },
@@ -652,12 +650,18 @@
      "at": 0.1
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "40건",
-     "sub": "41건 중 · 규제 쪽으로 통과",
      "line": 0,
      "at": 0.55,
      "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "41건 중 · 규제 쪽으로 통과",
+     "line": 0,
+     "at": 0.75,
+     "color": "gray"
     }
    ]
   },
@@ -695,12 +699,18 @@
      "at": 0.1
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "30%",
-     "sub": "건설 지연 영향 가능 (UBS 추정)",
      "line": 0,
      "at": 0.6,
      "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "건설 지연 영향 가능 (UBS 추정)",
+     "line": 0,
+     "at": 0.8,
+     "color": "gray"
     }
    ]
   },
@@ -762,13 +772,18 @@
      "color": "gray"
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "+1,500",
-     "sub": "다우 하루 상승 (포인트)",
      "line": 1,
      "at": 0.7,
-     "color": "green",
-     "hold": 2.0
+     "color": "green"
+    },
+    {
+     "kind": "print",
+     "text": "다우 하루 상승 (포인트)",
+     "line": 1,
+     "at": 0.8999999999999999,
+     "color": "gray"
     }
    ]
   },
@@ -890,13 +905,18 @@
      "at": 0.3
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "-5.5%",
-     "sub": "나스닥 · 2025년 4월 이후 최대 하락",
      "line": 0,
      "at": 0.5,
-     "color": "red",
-     "hold": 2.0
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "나스닥 · 2025년 4월 이후 최대 하락",
+     "line": 0,
+     "at": 0.7,
+     "color": "gray"
     }
    ]
   },
@@ -1037,13 +1057,18 @@
      "at": 0.1
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "3,000조 원",
-     "sub": "한국 1년 예산의 4배 이상",
      "line": 0,
      "at": 0.4,
-     "color": "red",
-     "hold": 3.0
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "한국 1년 예산의 4배 이상",
+     "line": 0,
+     "at": 0.6000000000000001,
+     "color": "gray"
     }
    ]
   },
@@ -1235,13 +1260,18 @@
      "at": 0.1
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "30%",
-     "sub": "먼저 멈추는 것 → 공사",
      "line": 0,
      "at": 0.2,
-     "color": "red",
-     "hold": 2.6
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "먼저 멈추는 것 → 공사",
+     "line": 0,
+     "at": 0.4,
+     "color": "gray"
     }
    ]
   },
@@ -1350,13 +1380,18 @@
      "at": 0.1
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "-8%",
-     "sub": "개장 3분 만에",
      "line": 0,
      "at": 0.55,
-     "color": "red",
-     "hold": 1.8
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "개장 3분 만에",
+     "line": 0,
+     "at": 0.75,
+     "color": "gray"
     },
     {
      "kind": "write",
@@ -1509,13 +1544,18 @@
      "color": "red"
     },
     {
-     "kind": "punch",
+     "kind": "write",
      "text": "2,261조 원",
-     "sub": "삼성전자+SK하이닉스 · 6월 고점 대비 증발",
      "line": 0,
      "at": 0.78,
-     "color": "red",
-     "hold": 2.2
+     "color": "red"
+    },
+    {
+     "kind": "print",
+     "text": "삼성전자+SK하이닉스 · 6월 고점 대비 증발",
+     "line": 0,
+     "at": 0.95,
+     "color": "gray"
     }
    ]
   },
