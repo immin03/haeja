@@ -5,7 +5,8 @@
 
 ## 고정값
 - ★ 장면: `scripts/side/ed_long/LIBRARY.md` 3장 — 새 그림·영상 생성 금지, 라이브러리(CLIPS.json)에서만 고르고 최근 7일 안에 쓴 클립은 피하며 쓰지 않는 클립은 제외
-- ★ 썸네일: TEMPLATE.md 맨 위 '썸네일 정책'(2026-11-05 번복 금지) — 첫 화면 표지를 유튜브 썸네일로 반드시 지정, 양식 변경 금지
+- ★ 제목: TEMPLATE.md '제목 규칙'(2026-11-06 번복 금지) — 초기 양식 "<상황>한 사람에게", 해시태그 없이 40자 이내. #shorts 는 설명란 끝에만
+- ★ 썸네일: TEMPLATE.md '썸네일 규칙'(번복 금지) — 0초 프레임 첫 화면 표지, 양식 변경 금지
 - 게시 시각(KST): **12:20 / 20:30** 두 편 (유튜브 쇼츠·인스타 릴스·틱톡 같은 시각, 쓰레드 글도 같은 시각)
   · 07:40 은 롱폼 소개 쇼츠 전용 칸(롱폼 다음 날 오전, 이 작업이 만들지 않음). 롱폼이 없는 날도 07:40 데일리는 만들지 않는다
   · 롱폼 본편은 19:30
@@ -22,7 +23,7 @@
 1. 준비: 저장소 sparse clone 후 `scripts/side/emperor`, `social/side/gen`(쓰는 그림만), `docs/emperor/profile_final.png`.
    글꼴 /root/fonts: `Hahmlet[wght].ttf`(google/fonts ofl/hahmlet), `CormorantSC-SemiBold.ttf`(ofl/cormorantsc), `PinyonScript-Regular.ttf`(ofl/pinyonscript),
    Pretendard SemiBold/Bold/ExtraBold(.otf, orioncactus/pretendard). 음악·엔딩 목소리·로고는 `scripts/side/emperor/assets/` → `/home/claude/ed/music/`, `/home/claude/logo/logo_final.png` 로 복사.
-2. 기획(2편): 최근 14일 ed_posts 제목과 겹치지 않는 "사람 문제" 주제, 제목은 TEMPLATE.md 제목 규칙(짧게, 핵심만).
+2. 기획(2편): 최근 14일 ed_posts 제목과 겹치지 않는 "사람 문제" 주제, 제목은 TEMPLATE.md 제목 규칙("<상황>한 사람에게", 해시태그 금지, 40자 이내). 첫 화면 훅 2줄 = 제목.
    명상록 인용은 권·절을 확실히 아는 것만, George Long(1862) 영역본을 충실히 옮긴 쉬운 한국어. 로마 시대 장면만, 현대 상황은 내레이션 말로만(플랫폼 이름 금지).
 3. 대본 파일: 편마다 `long_<id>.json`(구조는 `long_ep08a.json`을 그대로 따름: kicker, hook, title_line, music, cuts, tonight, source, gap, hold, sents)
    sents 시각은 0으로 두고 문장 글·group·cut·style 만 채운다. 묶음 줄 목록은 `/home/claude/vo/v2_lines.json` 에 `{ "<id>": [["n1", 건석, 글], ["e2", 명일, 인용], ...] }`
@@ -40,10 +41,11 @@
 8. 검사(필수): `python3 voice_qa.py <base.mp4> /home/claude/ed/spec_<id>a.json` 가 "통과"여야 한다(조각 대조 + 소리 끌림). 오늘의 할 일 구간은 화면 글과 녹음 원문(.txt)이 같은지 한 번 더 눈으로 확인. 장면 8장 한 장짜리 격자를 한 번 보고
    글자 잘림·겹침·밝은 그림 위 자막만 고친다. 자막이 말보다 먼저 넘어가지 않는지 인용 구간 프레임 2장으로 확인.
    불통과 2번이면 그 편은 올리지 않고 docs collection 'alerts' 에 남긴다.
-9. 올리기: fx_short.py 결과 그대로(인코딩 포함) `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(1초 프레임) 커밋·푸시,
+9. 올리기: fx_short.py 결과 그대로(인코딩 포함) `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(0초 프레임: `ffmpeg -ss 0 -i <yt.mp4> -frames:v 1 -q:v 2 hook_<id>.jpg` — 자막 없는 첫 화면인지 Read 로 한 번 확인) 커밋·푸시,
    사이트 주소가 200이 될 때까지 기다린 뒤
    유튜브: `ED_KEY=<app_config ed_yt_long_key> ./yt_up.sh <id> <yt.mp4> <meta.json> hook_<id>.jpg`
-   ★ 썸네일 고정(2026-11-05 대표 지시): 표지는 언제나 초반 양식 첫 화면(금색 "로마 황제가 일기에 쓴 한 줄" + 큰 흰 훅 2줄 + 장면 + 하단 THE EMPEROR'S DIARY) 하나. yt_up.sh 가 업로드 끝에 yt_thumb.sh 로 지정하고 status 200 이 아니면 실패로 끝난다. 유튜브 자동 선택 프레임(인용 장면 등)으로 두지 않는다. 양식을 바꾸지 않는다 (meta = title "<제목> #shorts", description(TEMPLATE 설명란), tags, publish_at = 게시 시각 UTC)
+   meta.json = {"title": "<제목>"(해시태그·꼬리 없음, 40자 이내 — yt_up.sh 가 어기면 멈춤), "description": TEMPLATE 설명란(#shorts 는 여기 끝에), "tags", "publish_at": 게시 시각 UTC}
+   썸네일: yt_up.sh 가 끝에 yt_thumb.sh 로 hook_<id>.jpg 를 지정한다(200 이 아니면 실패). 실제 화면 확인은 Chrome 작업 몫(TEMPLATE 썸네일 규칙)
    ★ 댓글(2026-11-05 대표): yt_comment·ig_comment 는 질문 뒤 빈 줄 하나 + "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."(인스타는 '구독' → '팔로우') 로 끝낸다
    ed_posts: ep07~09 행과 같은 열로 insert (video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
 10. 끝: 커밋 메시지는 한국어, 마지막 줄 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. 결과 한 줄: "완료: <id 제목 길이초> ×2" / "실패: <원인>"
