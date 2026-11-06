@@ -100,17 +100,46 @@ async function youtube(posts: any[], errs: string[]) {
       hours: hoursSince(v.snippet?.publishedAt),
     }, { ep: p?.ep ?? null, title: v.snippet?.title, posted_at: v.snippet?.publishedAt });
   }
+  if (t.own) await monetize(H, Number(ch?.statistics?.subscriberCount ?? 0), errs);
+}
+
+// 수익 창출 조건 진행 (2026-11-06 대표님: "밸류노트처럼 수익창출까지 그래프 트래킹해줘")
+// 분석 API creatorContentType 으로 쇼츠/롱폼을 나눠 센다 — 롱폼 시청시간은 최근 365일, 쇼츠 조회는 최근 90일.
+// 스튜디오 수익 창출 화면의 '유효 조회수'는 이 값보다 조금 적을 수 있다. 결과는 ed_stats youtube/monetize 한 줄.
+async function monetize(H: Record<string, string>, subs: number, errs: string[]) {
+  const ago = (d: number) => new Date(Date.now() + 9 * 3600e3 - d * 864e5).toISOString().slice(0, 10);
+  const q = async (days: number) => {
+    const r = await getj("https://youtubeanalytics.googleapis.com/v2/reports", {
+      ids: "channel==" + ED_CH, startDate: ago(days), endDate: kst(), dimensions: "creatorContentType", metrics: "views,estimatedMinutesWatched",
+    }, H);
+    const o: Record<string, { views: number; min: number }> = {};
+    // 값 표기가 SHORTS / shorts / videoOnDemand 처럼 달라질 수 있어 소문자·밑줄 제거로 맞춘다
+    for (const row of r.rows || []) o[String(row[0]).toLowerCase().replace(/_/g, "")] = { views: Number(row[1]), min: Number(row[2]) };
+    return o;
+  };
+  try {
+    const y = await q(365), n = await q(90), z = { views: 0, min: 0 };
+    const longY = y["videoondemand"] || z, shortN = n["shorts"] || z;
+    const allMin = Object.values(y).reduce((a, x) => a + x.min, 0);
+    await save("youtube", "monetize", {
+      subs, long_watch_h_365: Math.round(longY.min / 6) / 10, long_views_365: longY.views,
+      shorts_views_90: shortN.views, all_watch_h_365: Math.round(allMin / 6) / 10, by: "youtube-analytics",
+      raw_365: y, raw_90: n,
+    });
+  } catch (e) { errs.push("yt monetize: " + (e as Error).message); }
 }
 
 Deno.serve(async (req: Request) => {
-  await req.json().catch(() => ({}));
+  // {only:"youtube"} : 관리자 '구독자·조회수 새로고침' 버튼(RPC ed_admin_refresh_yt)이 부를 때 — 유튜브만 읽는다
+  const body = await req.json().catch(() => ({}));
+  const ytOnly = body?.only === "youtube";
   const errs: string[] = [];
   try {
     const { data: posts } = await sb.from("ed_posts").select("id,ep,title,ig_media_id,ig_at,th_media_id,th_at,yt_video_id").order("ep");
     const { data: accs } = await sb.from("ed_accounts").select("*");
     const acc = Object.fromEntries((accs || []).map((a: any) => [a.platform, a]));
-    if (acc.instagram) await instagram(acc.instagram, posts || [], errs).catch(e => errs.push("ig: " + e.message));
-    if (acc.threads) await threads(acc.threads, posts || [], errs).catch(e => errs.push("th: " + e.message));
+    if (acc.instagram && !ytOnly) await instagram(acc.instagram, posts || [], errs).catch(e => errs.push("ig: " + e.message));
+    if (acc.threads && !ytOnly) await threads(acc.threads, posts || [], errs).catch(e => errs.push("th: " + e.message));
     await youtube(posts || [], errs).catch(e => errs.push("yt: " + e.message));
     const { count } = await sb.from("ed_stats").select("*", { count: "exact", head: true }).eq("day", kst());
     return Response.json({ ok: true, day: kst(), rows_today: count, errs });

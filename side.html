@@ -53,6 +53,31 @@ main{max-width:1080px;margin:0 auto;padding:16px 16px 70px}
 h2{font-size:16.5px;margin:24px 0 10px;font-weight:850}
 h2 .n{display:block;font-size:12.5px;color:var(--muted);font-weight:700;margin-top:3px;line-height:1.5}
 .note{font-size:13px;color:var(--muted);line-height:1.6}
+/* 수익 창출 목표 카드 (밸류노트 관리자 브리핑과 같은 구성) */
+.gl{margin-top:10px;border-left:4px solid var(--ink);display:grid;gap:10px}
+.gl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.gl-top b{font-size:16.5px;font-weight:850;line-height:1.4}
+.gl-k{font-size:12px;color:var(--muted);font-weight:700}
+.gl-rule{font-size:13px;color:var(--ink2);line-height:1.55}
+.gl-row{display:grid;gap:5px}
+.gl-h{display:flex;justify-content:space-between;gap:10px;font-size:14px;flex-wrap:wrap}
+.gl-h b{font-weight:800}
+.gl-h span{color:var(--ink2);font-variant-numeric:tabular-nums;font-weight:650}
+.gl-bar{height:9px;border-radius:5px;background:var(--line);overflow:hidden}
+.gl-bar i{display:block;height:100%;border-radius:5px;background:var(--ink)}
+.gl-s{font-size:12px;color:var(--muted);line-height:1.5}
+.gl-foot{font-size:12.5px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:9px}
+.gl-ch{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:4px}
+.gl-cht{font-size:13.5px;font-weight:800}
+.gl-cht span{font-size:12px;color:var(--muted);font-weight:650;margin-left:4px}
+.gl-ch svg{display:block;overflow:visible}
+.gl-ch text{font-size:11px;fill:var(--muted);font-family:inherit;font-variant-numeric:tabular-nums}
+.gl-ch text.lv{fill:var(--ink);font-weight:800;font-size:12px}
+.gl-ch .gr{stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.gl-ch .ln{fill:none;stroke:var(--heart);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.gl-ch .ar{fill:var(--heart-bg);opacity:.7}
+.gl-ch .dt{fill:var(--surface);stroke:var(--heart);stroke-width:1.6;vector-effect:non-scaling-stroke}
+.gl-ch .dt.last{fill:var(--heart)}
 .empty{padding:28px 16px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
 .badge{display:inline-flex;align-items:center;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 8px;background:var(--soft);color:var(--accent);white-space:nowrap}
 .badge.gold{background:var(--heart-bg);color:var(--heart)}
@@ -254,7 +279,7 @@ async function loadAll(){
 /* 최신 수치: 플랫폼·게시물별 가장 최근 줄 */
 function latest(){
   const m = {};
-  for (const r of S.d.stats || []) { const k = r.platform + '|' + r.id; if (!m[k] || (r.day + r.at) > (m[k].day + m[k].at)) m[k] = r; }
+  for (const r of S.d.stats || []) { if (r.id === 'monetize') continue; const k = r.platform + '|' + r.id; if (!m[k] || (r.day + r.at) > (m[k].day + m[k].at)) m[k] = r; }
   return Object.values(m);
 }
 function accountOn(platform, day){
@@ -296,6 +321,86 @@ function chans(p){
   return out.map(([n, st]) => `${n} ${stBadge(st)}`).join(' ');
 }
 
+/* ---------- 수익 창출 목표 (2026-11-06 대표님: "밸류노트 관리자처럼 수익창출까지 그래프 트래킹해줘") ----------
+   숫자: ed_stats youtube/monetize (ed-stats 가 3시간마다 유튜브 분석 API creatorContentType 으로 쇼츠·롱폼을 나눠 저장)
+   구독자: ed_stats youtube/account 최신값 · 추이 그래프: 날마다 마지막 account 값
+   새로고침 버튼: RPC ed_admin_refresh_yt → ed-stats {only:'youtube'} (LLM 없음, 10~20초). 자동 갱신은 기존 3시간 수집만. */
+function monRow(){
+  return (S.d.stats || []).filter(x => x.platform === 'youtube' && x.id === 'monetize').sort((a,b) => (a.day + a.at) < (b.day + b.at) ? 1 : -1)[0] || null;
+}
+function subsHist(){
+  const m = {};
+  for (const r of S.d.stats || []) if (r.platform === 'youtube' && r.id === 'account' && r.m && r.m.subscribers != null) { if (!m[r.day] || r.at > m[r.day].at) m[r.day] = r; }
+  return Object.keys(m).sort().map(d => ({ d, v: +m[d].m.subscribers }));
+}
+function subsChart(H, W){
+  if (H.length < 2) return '';
+  W = Math.max(280, Math.round(W || 640)); const Ht = 150, P = { l: 34, r: 12, t: 12, b: 22 };
+  const max = Math.max(...H.map(x => x.v)), min = Math.min(0, ...H.map(x => x.v)), top = Math.max(10, Math.ceil(max * 1.15 / 10) * 10);
+  const x = i => P.l + i * (W - P.l - P.r) / (H.length - 1), y = v => P.t + (Ht - P.t - P.b) * (1 - (v - min) / (top - min));
+  const pts = H.map((h, i) => `${x(i).toFixed(1)},${y(h.v).toFixed(1)}`).join(' ');
+  const area = `${x(0).toFixed(1)},${y(min).toFixed(1)} ${pts} ${x(H.length - 1).toFixed(1)},${y(min).toFixed(1)}`;
+  const step = Math.max(1, Math.ceil(H.length / Math.max(3, Math.floor(W / 70))));
+  const lab = H.map((h, i) => i % step === 0 || i === H.length - 1 ? `<text x="${x(i).toFixed(1)}" y="${Ht - 6}" text-anchor="middle">${esc(+h.d.slice(5, 7))}/${esc(+h.d.slice(8))}</text>` : '').join('');
+  const last = H[H.length - 1];
+  return `<div class="gl-ch"><div class="gl-cht">구독자 추이 <span>최근 ${H.length}일 · 날마다 마지막 수집값</span></div>
+    <svg viewBox="0 0 ${W} ${Ht}" width="${W}" height="${Ht}" role="img" aria-label="구독자 추이 그래프">
+      <line x1="${P.l}" x2="${W - P.r}" y1="${y(top).toFixed(1)}" y2="${y(top).toFixed(1)}" class="gr"/><line x1="${P.l}" x2="${W - P.r}" y1="${y((top + min) / 2).toFixed(1)}" y2="${y((top + min) / 2).toFixed(1)}" class="gr"/><line x1="${P.l}" x2="${W - P.r}" y1="${y(min).toFixed(1)}" y2="${y(min).toFixed(1)}" class="gr"/>
+      <text x="${P.l - 6}" y="${(y(top) + 4).toFixed(1)}" text-anchor="end">${num(top)}</text><text x="${P.l - 6}" y="${(y(min) + 4).toFixed(1)}" text-anchor="end">${num(min)}</text>
+      <polygon points="${area}" class="ar"/><polyline points="${pts}" class="ln"/>
+      ${H.map((h, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(h.v).toFixed(1)}" r="${i === H.length - 1 ? 4 : 2.6}" class="${i === H.length - 1 ? 'dt last' : 'dt'}"><title>${esc(h.d)} · ${num(h.v)}명</title></circle>`).join('')}
+      <text x="${x(H.length - 1).toFixed(1)}" y="${(y(last.v) - 9).toFixed(1)}" text-anchor="end" class="lv">${num(last.v)}명</text>
+      ${lab}
+    </svg></div>`;
+}
+function vGoal(){
+  const mr = monRow(), mon = mr ? mr.m : null, acc = accountOn('youtube');
+  const after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00'), Hg = after ? 8000 : 4000, Sg = after ? 20000000 : 10000000;
+  const subs = acc?.subscribers != null ? +acc.subscribers : mon?.subs != null ? +mon.subs : null;
+  const hours = mon ? +mon.long_watch_h_365 || 0 : null, shorts = mon ? +mon.shorts_views_90 || 0 : null;
+  const pct = (v, g) => Math.max(0, Math.min(100, (v || 0) / g * 100));
+  const fmt = (v, g) => { const p = pct(v, g); return p < 1 && v ? p.toFixed(2) : String(Math.floor(p)); };
+  const nv = v => v == null ? '–' : (v < 100 && v % 1 ? (+v).toFixed(1) : num(v));
+  const bar = (label, v, g, unit, sub) => `<div class="gl-row"><div class="gl-h"><b>${label}</b><span>${nv(v)}${unit} / ${num(g)}${unit} · ${fmt(v, g)}%</span></div><div class="gl-bar"><i style="width:${Math.max(pct(v, g), v ? 0.8 : 0)}%"></i></div>${sub ? `<div class="gl-s">${sub}</div>` : ''}</div>`;
+  const best = pct(hours, Hg) >= pct(shorts, Sg) ? 'h' : 's';
+  /* 예상: 최근 7일(데이터가 7일보다 적으면 있는 만큼) 하루 평균 증가로 1,000명 도달일 */
+  const H = subsHist(), w = H.slice(-8);
+  const span = w.length >= 2 ? (Date.parse(w[w.length - 1].d) - Date.parse(w[0].d)) / 864e5 : 0;
+  const perDay = span > 0 ? (w[w.length - 1].v - w[0].v) / span : null;
+  let eta = '';
+  if (subs != null && subs >= 1000) eta = '구독자 조건 달성';
+  else if (perDay != null && perDay > 0 && subs != null) { const d = new Date(Date.now() + 9 * 3600e3 + Math.ceil((1000 - subs) / perDay) * 864e5); eta = `최근 ${Math.round(span)}일 하루 평균 +${perDay < 10 ? perDay.toFixed(1) : Math.round(perDay)}명 → 이 속도면 1,000명 ${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')} 예상`; }
+  else if (perDay != null) eta = `최근 ${Math.round(span)}일 구독자 증가 없음`;
+  const busy = S.ytBusy;
+  return `<div class="card gl">
+    <div class="gl-top"><div><div class="gl-k">목표</div><b>유튜브 수익 창출(광고 수익) 조건 달성</b></div>
+      <div class="row" style="justify-content:flex-end"><span class="badge warn">1단계</span><button class="btn sm" id="ytref" ${busy ? 'disabled' : ''} title="유튜브 분석에서 구독자·롱폼 시청시간·쇼츠 조회를 지금 다시 읽어 옵니다 (10~20초, 자동 수집은 3시간마다)">${busy ? '읽는 중…' : '구독자·조회수 새로고침'}</button></div></div>
+    ${mr ? `<div class="gl-s" style="margin:-2px 0 6px">숫자 기준: ${kst(mr.at)} (유튜브 분석)${Date.now() - Date.parse(mr.at) > 6 * 3600e3 ? ' · <b style="color:var(--bad)">' + Math.floor((Date.now() - Date.parse(mr.at)) / 3600e3) + '시간 전 숫자</b>' : ''}</div>` : `<div class="gl-s" style="margin:-2px 0 6px">시청시간·쇼츠 조회는 다음 수집(3시간마다) 또는 새로고침 뒤에 채워집니다</div>`}
+    <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${num(Hg)}시간 <b>또는</b> 쇼츠 조회 ${num(Sg)}회)${after ? '' : ' · 2027-02-01부터는 8,000시간 또는 2,000만 회'}</div>
+    ${bar('구독자', subs, 1000, '명', `꼭 넘어야 하는 조건${acc?.views != null ? ` · 채널 총 조회 ${num(acc.views)}회` : ''}`)}
+    ${bar('롱폼 시청시간 (최근 1년)', hours, Hg, '시간', [best === 'h' ? '두 길 중 지금 더 가까운 쪽' : '', mon && mon.all_watch_h_365 != null ? `참고: 쇼츠 포함 전체 시청 ${nv(mon.all_watch_h_365)}시간(조건에는 롱폼만 셉니다)` : ''].filter(Boolean).join(' · '))}
+    ${bar('쇼츠 조회 (최근 90일)', shorts, Sg, '회', [best === 's' ? '두 길 중 지금 더 가까운 쪽' : '', '유튜브 분석 값은 1~2일 늦게 반영되고, 스튜디오 수익 창출 화면의 유효 조회는 이보다 조금 적을 수 있습니다'].filter(Boolean).join(' · '))}
+    ${H.length >= 2 ? '<div id="glch"></div>' : ''}
+    ${eta ? `<div class="gl-foot">${esc(eta)}</div>` : ''}
+  </div>`;
+}
+async function ytRefresh(){
+  if (S.ytBusy) return; S.ytBusy = true; render();
+  const before = (monRow() || {}).at || '';
+  try {
+    const { error } = await sb.rpc('ed_admin_refresh_yt');
+    if (error) { toast('새로고침하지 못했습니다: ' + error.message, true); return; }
+    for (let i = 0; i < 12; i++) {
+      await new Promise(r => setTimeout(r, 3000));
+      if (await loadAll() && ((monRow() || {}).at || '') > before) {
+        const m = monRow().m, a = accountOn('youtube') || {};
+        toast(`구독자 ${num(a.subscribers)}명 · 롱폼 시청 ${m.long_watch_h_365}시간 · 쇼츠 조회 ${num(m.shorts_views_90)}회`); return;
+      }
+    }
+    toast('아직 수집 중입니다. 잠시 뒤 다시 열어 보세요', true);
+  } finally { S.ytBusy = false; render(); }
+}
+
 /* ---------- 브리핑 ---------- */
 function viewBrief(){
   const d = today(), y = new Date(Date.parse(d) - 864e5).toISOString().slice(0,10);
@@ -325,6 +430,7 @@ function viewBrief(){
     ${kpi('틱톡 팔로워', num(tt?.followers), tt ? '조회 합계 ' + num(total('tiktok')) : '매일 20:37 수집')}
     ${kpi('쓰레드 팔로워', num(th?.followers), '글 조회 합계 ' + num(total('threads')))}
   </div>
+  ${vGoal()}
   ${fails.length ? `<h2>확인 필요</h2><div class="card">${fails.map(p => `<div class="ck"><div class="t"><span class="dot bad"></span>${esc(kindOf(p).l)} ${esc(p.title)}</div><div class="b">${esc([/fail/.test(p.ig_status||'') && '인스타: ' + (p.ig_error || p.ig_status), /fail/.test(p.th_status||'') && '쓰레드: ' + (p.th_error || p.th_status), /fail/.test(p.tt_status||'') && '틱톡: ' + p.tt_status].filter(Boolean).join(' · '))}</div></div>`).join('')}</div>` : ''}
   <h2>오늘 일정<span class="n">${esc(d.slice(5).replace('-','/'))} · 유튜브·인스타·틱톡·쓰레드 같은 시각</span></h2>
   <div class="card">${todayL.length ? todayL.map(line).join('') : '<div class="empty">오늘 예약이 없습니다.</div>'}</div>
@@ -404,6 +510,8 @@ function viewLong(){
   </div>`;
 }
 async function bindBrief(){
+  const yr = $('#ytref'); if (yr) yr.onclick = ytRefresh;
+  const gc = $('#glch'); if (gc) { gc.innerHTML = subsChart(subsHist(), gc.clientWidth); }
   const els = [...document.querySelectorAll('.rv[data-src], .rt[data-src]')]; if (!els.length) return;
   const { data } = await sb.storage.from('ed-review').createSignedUrls(els.map(x => x.dataset.src), 3600);
   (data || []).forEach((r, i) => { if (!r.signedUrl) return; const el = els[i];
