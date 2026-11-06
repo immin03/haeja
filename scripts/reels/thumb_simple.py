@@ -150,6 +150,8 @@ def photo_panel(im, name, box, fade="tb", focus=(.5, .5)):
 
 
 def render(spec, out):
+    if spec.get("v", 1) >= 5:   # 2026-11-06 대표님 확정: 롱폼 썸네일 v5 (아래 두 줄·아이보리+초록/빨강/금색·테두리 없음·좌우 대비형)
+        import thumb_v5; return thumb_v5.render(spec, out)
     if spec.get("v", 1) >= 4 and spec.get("format") == "long": return render_v4(spec, out)
     if spec.get("v", 1) >= 3: return render_v3(spec, out)
     if spec.get("v", 1) == 2: return render_v2(spec, out)
