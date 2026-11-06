@@ -90,7 +90,7 @@ end = Image.new("RGBA", (W, H), (0, 0, 0, 242))
 shadow_text(end, cfg["end1"].split("|"), 700, FB(78), WHITE)
 shadow_text(end, cfg["end2"].split("|"), 970, FB(58), GOLD)
 shadow_text(end, ["매일 밤, 황제처럼 생각하라."], 1230, FS(40), CREAM)
-shadow_text(end, ["좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."], 1320, FS(30), (200, 190, 170))
+shadow_text(end, [cfg.get("cta", "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.")], 1320, FS(30), (200, 190, 170))
 end.save(tmp + "end.png")
 # 합성
 HD, ID = h1 - h0, i1 - i0; T = HD + ID
