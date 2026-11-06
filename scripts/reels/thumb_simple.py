@@ -498,7 +498,13 @@ def render_v4(spec, out):
         pill = Image.new("RGBA", (pw_, ph_), (0, 0, 0, 0)); dp = ImageDraw.Draw(pill)
         dp.rounded_rectangle([0, 0, pw_ - 1, ph_ - 1], ph_ // 2 if spec.get("tag_round") else 10, fill=(242, 212, 151, 255))
         dp.text((pw_ / 2, ph_ / 2), spec["tag"], font=ft, fill=(11, 27, 51, 255), anchor="mm"); rows.append(("img", pill))
-    rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", spec.get("s1", 84), int(spec.get("l1_w", maxw))), IVORY))   # s1: 흰 줄 크기 (2026-11-02 대표님 "하얀색도 보일 정도로 키워야지")
+    if spec.get("l1_style") == "box":   # 2026-11-06 대표님: "삼성 SK하이닉스 주가전망을 크게… 폰트 스타일 강조" — 금색 상자 + 남색 굵은 글씨, opt-in
+        f1 = fit(spec["l1"], "Heavy", spec.get("s1", 96), int(spec.get("l1_w", maxw)) - 60); tw = int(ImageDraw.Draw(im).textlength(spec["l1"], font=f1))
+        bh, bw = int(f1.size * 1.32), tw + int(f1.size * .6); box = Image.new("RGBA", (bw, bh), (0, 0, 0, 0)); db = ImageDraw.Draw(box)
+        db.rounded_rectangle([0, 0, bw - 1, bh - 1], 14, fill=tuple(spec.get("l1_bg", (242, 212, 151))) + (255,))
+        db.text((bw / 2, bh / 2 + 2), spec["l1"], font=f1, fill=(11, 27, 51, 255), anchor="mm"); rows.append(("img", box))
+    else:
+        rows.append(("txt", spec["l1"], fit(spec["l1"], "Heavy", spec.get("s1", 84), int(spec.get("l1_w", maxw))), tuple(spec.get("l1_color", IVORY))))   # s1: 흰 줄 크기 (2026-11-02 대표님 "하얀색도 보일 정도로 키워야지")
     # 2026-10-29 성과 진단 #2 (대표님 승인): 큰 색 글씨는 8~9자 안으로 짧게, 화면 높이 22% 이상(160px). 큰 숫자형(C안)은 "s2": 220~260
     s2 = spec.get("s2", 160); L2 = spec["l2"].split("\n")   # 큰 글씨를 두 줄로 나눌 수 있다 (2026-11-02 삼양 편)
     f2 = min((fit(t, "Heavy", s2, maxw) for t in L2), key=lambda f: f.size)
