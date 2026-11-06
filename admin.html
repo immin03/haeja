@@ -2539,7 +2539,7 @@ function vRules(){
       ${x.status === 'retired' ? `<div class="act"><button class="bn-btn ghost" data-or-to="new">다시 적용</button></div>` : `<div class="act"><button class="bn-btn ghost" data-or-to="retired">그만 적용</button></div>`}
     </div>`; };
   const tabsHtml = `<div class="or-tabs">${TABS.map(([k, l]) => `<button data-or-tab="${k}" class="${tab === k ? 'on' : ''}">${l}<span class="c">${cnt[k] || 0}</span></button>`).join('')}<button data-or-tab="all" class="${tab === 'all' ? 'on' : ''}">전부 보기<span class="c">${items.length}</span></button></div>
-    <div class="or-guide">${tab === 'all' ? '모든 원칙을 최신순으로 보여 줍니다.' : esc((TABS.find(t => t[0] === tab) || [])[2] || '')}${tab !== 'common' && tab !== 'retired' && tab !== 'all' ? ' 이 작업들은 공통 원칙도 함께 따릅니다.' : ''}</div>`;
+    <div class="or-guide">${tab === 'all' ? '모든 원칙을 최신순으로 보여 줍니다.' : esc((TABS.find(t => t[0] === tab) || [])[2] || '')}.${tab !== 'common' && tab !== 'retired' && tab !== 'all' ? ' 이 작업들은 공통 원칙도 함께 따릅니다.' : ''}</div>`;
   const sd = OR.std && OR.std.data ? OR.std.data : null;
   const std = sd ? (sd.channels || []).map(c => `<div class="card">
       <h3>${esc(c.title)}<button class="bn-btn ghost fb" data-or-fb="${esc(c.ch || c.title)}">이 기준 고치기</button></h3>
