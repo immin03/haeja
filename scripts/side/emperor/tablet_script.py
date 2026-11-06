@@ -6,6 +6,8 @@ import sys, subprocess, numpy as np, cv2
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 SRC, OUT = sys.argv[1], sys.argv[2]
+sys.path.insert(0, __import__("os").path.dirname(__import__("os").path.abspath(__file__)))
+from clip_fetch import ensure; SRC = ensure(SRC)   # 2026-11-06: 저장소에 없으면 받아 온다
 W, H, FPS = 1080, 1920, 30
 FONT = "/root/fonts/PinyonScript-Regular.ttf"
 # 프레임0 기준 판(밀랍면) 네 꼭짓점: 좌상, 우상, 우하, 좌하

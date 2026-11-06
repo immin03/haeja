@@ -35,7 +35,7 @@ for k, pl in enumerate(PLAN):
 for i in range(len(shots)):
     shots[i].insert(3, shots[i + 1][2] if i + 1 < len(shots) else END)   # [clip, cx, a, b, hl, speed]
 def read_clip(name, cx, n, speed=0.82):
-    path = G + name + ".mp4"
+    from clip_fetch import ensure; path = ensure(G + name + ".mp4")   # 2026-11-06: 저장소에 없으면 받아 온다
     w, h = map(int, subprocess.run(["ffprobe","-v","error","-select_streams","v","-show_entries","stream=width,height","-of","csv=p=0",path],capture_output=True,text=True).stdout.strip().split(","))
     sc = H * 1.0 / h * 1.06; sw = int(w * sc) // 2 * 2; sh = int(h * sc) // 2 * 2
     cw, ch = int(W * 1.06) // 2 * 2, int(H * 1.06) // 2 * 2

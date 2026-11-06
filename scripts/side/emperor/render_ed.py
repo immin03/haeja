@@ -149,6 +149,7 @@ def watermark(img, a=0.55):
 
 def read_frames(path, n, speed=1.0):
     """영상을 1080x1920으로 꽉 채워(가운데 자르기) n 프레임 읽는다. speed<1 이면 느리게."""
+    from clip_fetch import ensure; path = ensure(path)   # 2026-11-06: 저장소에 없는 생성 클립은 받아 온다(없으면 검은 화면 대신 멈춤)
     vf = f"setpts=PTS/{speed},fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}"
     p = subprocess.Popen(["ffmpeg", "-v", "error", "-i", path, "-vf", vf, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
     # 2026-11-03: 긴 편(55초+)에서 메모리 부족(7GB) → 디스크 memmap 에 담는다
