@@ -27,7 +27,7 @@ jobs:
         id: ${{ fromJson(needs.ids.outputs.list) }}
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+        with: { fetch-depth: 1 }  # 2026-11-06: 전체 이력(13.9GB)을 매번 받지 않는다. 아래 커밋 단계는 origin/main 만 다시 받으므로 얕은 클론으로 충분
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - name: 도구 설치
