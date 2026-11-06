@@ -115,7 +115,15 @@ def versus(spec):
     for i in range(H): dv.line([(0, i), (hw, i)], fill=(61, 245, 160, int(40 * (1 - i / H))))
     im.alpha_composite(v, (hw, 0))
     cy0 = max(150, spec.get("badge_y", 92) + 70)   # 그래프 끝점이 라벨에 가리지 않게
-    line_chart(im, (hw + 30, cy0, hw - 70, 480 - cy0), [(0, .02), (.15, .08), (.3, .05), (.45, .2), (.58, .3), (.7, .52), (.82, .62), (.9, .85), (1, 1)], GREEN)
+    pts = [(0, .02), (.15, .08), (.3, .05), (.45, .2), (.58, .3), (.7, .52), (.82, .62), (.9, .85), (1, 1)]
+    if R.get("chart") == "peak":   # 고점 찍고 내려온 경우 (2026-11-06 삼성전자: 6월 38만 원 → 지금 하락)
+        pts = [(0, .02), (.14, .06), (.28, .2), (.42, .42), (.55, .7), (.66, 1), (.76, .78), (.86, .62), (1, .5)]
+    line_chart(im, (hw + 30, cy0, hw - 70, 480 - cy0), pts, GREEN)
+    if R.get("chart") == "peak":   # 고점 이후 내려온 구간은 빨간색으로, 고점에 작은 표시
+        bx, bw, bh = hw + 30, hw - 70, 480 - cy0
+        line_chart(im, (bx, cy0, bw, bh), [p_ for p_ in pts if p_[0] >= .66], RED, area=False)
+        px = hw + 30 + .66 * (hw - 70); py = cy0; d2 = ImageDraw.Draw(im); r = 11
+        d2.ellipse([px - r, py - r, px + r, py + r], fill=GREEN + (255,), outline=WHITE, width=3)
     if R.get("product"):   # 제품은 작게
         x, y, sz = R.get("product_box", (hw + 30, 250, 230)); pk = cover(R["product"], sz, sz, (.5, .45))
         m = Image.new("L", (sz, sz), 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, sz - 1, sz - 1], 18, fill=255); pk.putalpha(m)
@@ -149,9 +157,9 @@ def render(spec, out):
     text(im, (LX, y1), spec["l1"], f1, tuple(spec.get("c1", IVORY)))
     text(im, (LX, y2), spec["l2"], f2, tuple(spec.get("c2", {"down": RED, "gold": (242, 212, 151)}.get(spec.get("tone"), GREEN))))   # 2026-11-06 대표님: 노란색 촌스러움 → 원래 썸네일 색(아이보리 + 형광 초록)
     if spec.get("tag"):   # 맨 위 금색 띠 한 줄 (예: "반드시 봐야 할 3가지") — 두 줄 제목과 별도로 넣는 강한 후킹
-        ft = font(spec.get("st", 50)); tw = ft.getlength(spec["tag"]); ph = ft.size * 1.5; pw = tw + ft.size * 1.0; x0, y0 = 46, 34
-        sh = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([x0 + 4, y0 + 6, x0 + pw + 4, y0 + ph + 6], 10, fill=(0, 0, 0, 150))
-        im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
+        ft = font(spec.get("st", 62)); tw = ft.getlength(spec["tag"]); ph = ft.size * 1.55; pw = tw + ft.size * 1.1; x0, y0 = 40, 30   # 2026-11-06 대표님 "배너가 너무 안 보인다" → 50→62px
+        sh = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([x0 + 4, y0 + 6, x0 + pw + 4, y0 + ph + 6], 10, fill=(0, 0, 0, 220))
+        im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
         ImageDraw.Draw(im).rounded_rectangle([x0, y0, x0 + pw, y0 + ph], 10, fill=(242, 212, 151))
         ImageDraw.Draw(im).text((x0 + pw / 2, y0 + ph / 2 + 2), spec["tag"], font=ft, fill=NAVY, anchor="mm")
     if spec.get("logo_right") or spec.get("versus") or spec.get("tag"): paste_logo(im, W - 30, 22, 28, "dark", align="right")
