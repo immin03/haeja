@@ -240,7 +240,7 @@ def _pct(im, b, p, y):
         v = i["v"]; col = RED if v < 0 else GREEN; bh = abs(v) * sc * q
         y0, y1 = (mid, mid + bh) if v < 0 else (mid - bh, mid)
         d.rectangle([bx + 10, y0, bx + 110, y1], fill=(*col, 230))
-        lab = f"{v * q:+.1f}%"
+        lab = f"{v * q:+.{b.get('dec', 1)}f}%"
         d.text((bx + 120, (y1 + 8) if v < 0 else (y0 - 8), ), lab, font=F("Heavy", 56), fill=(*col, 255), anchor="la" if v < 0 else "ld")
         d.text((bx + 60, mid + (-40 if v < 0 else 18)), i["label"], font=F("Medium", 28), fill=(*GRAY, 255), anchor="md" if v < 0 else "ma")
 
