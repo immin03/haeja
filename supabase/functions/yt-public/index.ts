@@ -48,6 +48,33 @@ async function read() {
   return { subs: subs.n, subs_approx: subs.approx, subs_text: subsT, views_total: views.n, videos: videos.n, channel_id: id, at: new Date().toISOString(), source: "public" };
 }
 
+// 2026-11-06 대표님: "쇼츠 조회 이거보다 많이 되었는데 체크 좀" — 영상별 숫자가 11/04 스튜디오 기록에 멈춰 있고 새 영상은 비어 있었다
+// → 관리자가 버튼을 누를 때(POST {t}) 최근 90일 올린 영상마다 공개 영상 페이지의 조회수를 읽어 youtube_posts.stats.public 에 저장한다. 스튜디오 기록(stats.studio)은 그대로 둔다.
+async function videoViews(id: string): Promise<number | null> {
+  try {
+    const r = await fetch(`https://www.youtube.com/watch?v=${id}&hl=en&gl=US`, { headers: {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+      "Accept-Language": "en-US,en;q=0.9", "Cookie": "CONSENT=YES+1; SOCS=CAI" } });
+    if (!r.ok) return null;
+    const m = (await r.text()).match(/"originalViewCount":"(\d+)"/);
+    return m ? +m[1] : null;
+  } catch { return null; }
+}
+async function refreshVideos() {
+  const since = new Date(Date.now() - 90 * 864e5).toISOString();
+  const { data: rows } = await sb.from("youtube_posts").select("id,youtube_id,kind,stats").not("youtube_id", "is", null).or(`uploaded_at.gte.${since},uploaded_at.is.null`);
+  const list = rows || [], at = new Date().toISOString(); let done = 0, shorts = 0, longs = 0;
+  for (let i = 0; i < list.length; i += 8) {
+    await Promise.all(list.slice(i, i + 8).map(async (row) => {
+      const v = await videoViews(row.youtube_id as string); if (v == null) return;
+      const stats = { ...((row.stats || {}) as Record<string, unknown>), public: { at, by: "공개 영상 페이지", views: v } };
+      const { error } = await sb.from("youtube_posts").update({ stats }).eq("id", row.id);
+      if (!error) { done++; if (row.kind === "short") shorts += v; else longs += v; }
+    }));
+  }
+  return { videos_checked: list.length, videos_updated: done, shorts_views: shorts, long_views: longs, videos_at: at };
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
@@ -64,6 +91,7 @@ Deno.serve(async (req: Request) => {
       history: [...hist, { at: now.at, subs: now.subs, views_total: now.views_total, source: "public" }].slice(-90) };
     const { error } = await sb.from("docs").upsert({ owner, collection: "agent", id: "yt-channel", data, updated_at: now.at }, { onConflict: "owner,collection,id" });
     if (error) return json({ error: error.message }, 500);
-    return json({ ok: true, ...now, prev_subs: prev.subs ?? null, prev_at: prev.at ?? null });
+    const vids = body.cron === true ? null : await refreshVideos().catch((e) => ({ videos_error: String((e as Error).message || e) }));
+    return json({ ok: true, ...now, prev_subs: prev.subs ?? null, prev_at: prev.at ?? null, ...(vids || {}) });
   } catch (e) { return json({ error: String((e as Error).message || e) }, 500); }
 });
