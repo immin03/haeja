@@ -432,6 +432,16 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .or-item .ch{font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--ink2)}
 .or-item .st{font-size:11.5px;font-weight:800;margin-left:auto}
 .or-item .st.ok{color:var(--good)}.or-item .st.run{color:#B07A12}.or-item .st.off{color:var(--muted)}
+.or-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}
+.or-tabs button{font:inherit;font-size:12.5px;font-weight:800;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink2);cursor:pointer}
+.or-tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.or-tabs button .c{opacity:.6;font-weight:700;margin-left:4px}
+.or-guide{font-size:12.5px;color:var(--ink2);line-height:1.6;margin:0 0 10px;word-break:keep-all}
+.or-item details summary{cursor:pointer;list-style:none;font-size:14px;line-height:1.6;word-break:keep-all;margin-top:4px}
+.or-item details summary::-webkit-details-marker{display:none}
+.or-item details summary .more{color:var(--muted);font-size:12px;font-weight:700;margin-left:4px}
+.or-item details[open] summary .more{display:none}
+.or-item details .full{font-size:14px;line-height:1.7;word-break:keep-all;margin-top:4px;white-space:pre-wrap}
 .or-item .tx{font-size:14.5px;font-weight:700;line-height:1.65;margin-top:6px;word-break:keep-all;white-space:pre-wrap}
 .or-item .rp{font-size:12.5px;line-height:1.6;color:var(--ink2);margin-top:6px;word-break:keep-all}
 .or-item .rp b{color:var(--ink)}
@@ -2512,13 +2522,24 @@ function vRules(){
   if(OR.err) return head('운영 기준', '', 'rules') + `<div class="card">불러오지 못했습니다: ${esc(OR.err)}</div>`;
   const items = [...((OR.rules.data || {}).items || [])].map((x, i) => [x, i]).reverse();
   const live = items.filter(([x]) => x.status !== 'retired'), waiting = live.filter(([x]) => (x.status || 'new') === 'new').length;
-  const item = ([x, i]) => { const st = OR_ST[x.status || 'new'] || ['', x.status];
+  /* 2026-11-07 대표 "목록 열어봤는데 뭐가뭔지 모르겠어" → 범위별 탭 + 긴 글은 접어서 */
+  const scopeOf = x => x.status === 'retired' ? 'retired' : (x._doc && x._doc !== 'owner-rules' && x._doc !== 'owner-rules-retired' ? x._doc.replace('owner-rules-', '') : 'common');
+  const TABS = [['common', '공통', '모든 작업이 따릅니다'], ['long', '롱폼', '롱폼 기획·대본·렌더 작업과 유튜브 업로드가 따릅니다'], ['short', '쇼츠·릴스', '쇼츠·릴스 제작 작업과 유튜브 업로드가 따릅니다'],
+    ['blog', '블로그·칼럼', '블로그·칼럼 작업이 따릅니다'], ['card', '카드뉴스', '카드뉴스 작업이 따릅니다'], ['ops', '운영', '브리핑·성과 진단·주간 효율 점검이 따릅니다'], ['retired', '그만 적용', '지금은 어느 작업도 따르지 않습니다. 다시 적용을 누르면 원래 범위로 돌아갑니다']];
+  const cnt = {}; items.forEach(([x]) => { const k = scopeOf(x); cnt[k] = (cnt[k] || 0) + 1; });
+  const tab = OR.tab && cnt[OR.tab] !== undefined ? OR.tab : (OR.tab === 'all' ? 'all' : 'common');
+  const shown = tab === 'all' ? items : items.filter(([x]) => scopeOf(x) === tab);
+  const CHN = { long: '롱폼', short: '쇼츠·릴스', card: '카드뉴스', blog: '블로그', all: '전체', youtube: '유튜브', '-': '전체' };
+  const item = ([x, i]) => { const st = x.status === 'retired' ? ['off', '그만 적용'] : (x.status || 'new') === 'new' ? ['run', '반영 대기'] : ['ok', '적용 중'];
+    const t = String(x.text || ''), cut = t.length > 140 ? t.slice(0, 120).replace(/\s+\S*$/, '') + '…' : t;
     return `<div class="or-item" data-or="${i}">
-      <div class="h"><span class="no">제1 원칙 ${x.no || i + 1}</span><span class="ch">${esc(x.channel || '전체')}</span>${x._doc && x._doc !== 'owner-rules' && x._doc !== 'owner-rules-retired' ? `<span class="ch" title="이 범위의 작업만 읽습니다">${esc(OR_SCOPE[x._doc.replace('owner-rules-', '')] || '')} 전용</span>` : ''}<span class="bn-meta" style="margin:0">${x.at ? kst(x.at) : ''}</span><span class="st ${st[0]}">${st[1]}</span></div>
-      <div class="tx">${esc(x.text || '')}</div>
+      <div class="h"><span class="no">${x.no || i + 1}번</span><span class="ch">${esc(CHN[x.channel] || x.channel || '전체')}</span><span class="bn-meta" style="margin:0">${x.at ? kst(x.at) : ''}</span><span class="st ${st[0]}">${st[1]}</span></div>
+      ${t.length > 140 ? `<details><summary>${esc(cut)}<span class="more">펼치기</span></summary><div class="full">${esc(t)}</div></details>` : `<div class="tx">${esc(t)}</div>`}
       ${x.reply ? `<div class="rp"><b>반영:</b> ${esc(x.reply)}${x.applied_at ? ` · ${kst(x.applied_at)}` : ''}</div>` : ''}
       ${x.status === 'retired' ? `<div class="act"><button class="bn-btn ghost" data-or-to="new">다시 적용</button></div>` : `<div class="act"><button class="bn-btn ghost" data-or-to="retired">그만 적용</button></div>`}
     </div>`; };
+  const tabsHtml = `<div class="or-tabs">${TABS.map(([k, l]) => `<button data-or-tab="${k}" class="${tab === k ? 'on' : ''}">${l}<span class="c">${cnt[k] || 0}</span></button>`).join('')}<button data-or-tab="all" class="${tab === 'all' ? 'on' : ''}">전부 보기<span class="c">${items.length}</span></button></div>
+    <div class="or-guide">${tab === 'all' ? '모든 원칙을 최신순으로 보여 줍니다.' : esc((TABS.find(t => t[0] === tab) || [])[2] || '')}${tab !== 'common' && tab !== 'retired' && tab !== 'all' ? ' 이 작업들은 공통 원칙도 함께 따릅니다.' : ''}</div>`;
   const sd = OR.std && OR.std.data ? OR.std.data : null;
   const std = sd ? (sd.channels || []).map(c => `<div class="card">
       <h3>${esc(c.title)}<button class="bn-btn ghost fb" data-or-fb="${esc(c.ch || c.title)}">이 기준 고치기</button></h3>
@@ -2550,7 +2571,7 @@ function vRules(){
     </div>
   </div>
   ${OR.msg ? `<div class="soc-flash ok">${esc(OR.msg)}</div>` : ''}
-  ${sec('제1 원칙 목록', `적용 중 ${live.length}개${waiting ? ` · 반영 대기 ${waiting}개` : ''}`, live.length || items.length ? items.map(item).join('') : '<div class="empty">아직 적은 원칙이 없습니다. 위 칸에 적으면 바로 이곳에 쌓입니다.</div>')}
+  ${sec('제1 원칙 목록', `적용 중 ${live.length}개${waiting ? ` · 반영 대기 ${waiting}개` : ''}`, items.length ? tabsHtml + (shown.length ? shown.map(item).join('') : '<div class="empty">이 범위에는 원칙이 없습니다.</div>') : '<div class="empty">아직 적은 원칙이 없습니다. 위 칸에 적으면 바로 이곳에 쌓입니다.</div>')}
   <h2>채널별 지금 게시 기준</h2>
   ${std ? `<div class="or-std">${std}</div>` : '<div class="card empty" style="padding:14px">기준 정리를 불러오는 중이거나 아직 없습니다.</div>'}
   <div class="pf-goal">기준은 '제1 원칙 반영' 작업이 매일 아침 실제 예약 작업 설정과 제작 기준 문서를 다시 읽어 갱신합니다. 여기 보이는 기준과 실제가 다르면 그것도 제1 원칙으로 적어 주세요.</div>`;
@@ -2593,6 +2614,7 @@ function bindRules(){
     orSave(d => { const x = d.items.find(y => key(y) === k); if(!x) throw new Error('목록이 바뀌었습니다. 새로고침 후 다시 눌러 주세요.'); x.status = to; x.changed_at = new Date().toISOString(); if(to === 'retired') x.retired_at = x.changed_at; },
       to === 'retired' ? '이 원칙은 더 적용하지 않습니다. 다음 반영 때 작업 지시문에서 뺍니다.' : '다시 적용합니다.');
   });
+  box.querySelectorAll('[data-or-tab]').forEach(b => b.onclick = () => { OR.tab = b.dataset.orTab; render(); });
   box.querySelectorAll('[data-or-fb]').forEach(b => b.onclick = () => {
     const ch = b.dataset.orFb; OR.pre = OR_CH.includes(ch) ? ch : '전체';
     const sel = box.querySelector('[data-or-ch]'); if(sel) sel.value = OR.pre;
