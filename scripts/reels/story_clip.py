@@ -41,11 +41,16 @@ def srt_cut(path):
 
 
 def silence_cut(path):
-    """MIN_CUT~(MAX-END) 사이에서 마지막 무음 시작점. 없으면 None."""
+    """자막이 없을 때: 목소리 대역(300~3400Hz)만 남겨 말 사이 쉼을 찾는다(배경음악 때문에 그냥 무음은 안 잡힘).
+    MIN_CUT~(MAX-END) 안에서 0.3초 이상 쉰 마지막 지점(문장 끝일 가능성이 큼), 없으면 가장 늦은 쉼. 없으면 None."""
     err = subprocess.run(["ffmpeg", "-hide_banner", "-t", str(MAX), "-i", path, "-af",
-                          "silencedetect=noise=-32dB:d=0.22", "-f", "null", "-"], capture_output=True, text=True).stderr
-    ok = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", err) if MIN_CUT <= float(x) <= MAX - END]
-    return (max(ok) + 0.12) if ok else None
+                          "highpass=f=300,lowpass=f=3400,silencedetect=noise=-28dB:d=0.18", "-f", "null", "-"],
+                         capture_output=True, text=True).stderr
+    st = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", err)]
+    en = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", err)]
+    gaps = [(a, b - a) for a, b in zip(st, en) if MIN_CUT <= a <= MAX - END]
+    best = [a for a, d in gaps if d >= 0.3] or [a for a, _ in gaps]
+    return (max(best) + 0.08) if best else None
 
 
 def main(src, out):
