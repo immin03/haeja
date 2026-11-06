@@ -2486,11 +2486,25 @@ function bindSocial(){
    - docs agent 'ops-standards' : 채널별 지금 게시 기준(편성·형식·마무리·만드는 작업). 같은 작업이 매일 실제 설정에서 다시 읽어 갱신한다. */
 const OR = { rules: null, std: null, msg: '', pre: '' };
 const OR_CH = ['전체', '유튜브 롱폼', '유튜브 쇼츠', '인스타 릴스', '카드뉴스', '네이버 블로그', '칼럼', '썸네일·제목', '업로드·편성'];
+/* 2026-11-07 제1 원칙 범위 나누기: 공통은 'owner-rules', 한 채널 전용은 'owner-rules-<범위>', 그만 적용한 것은 'owner-rules-retired'.
+   작업은 공통 + 자기 범위만 읽는다. 이 화면은 전부 합쳐 보여 주고, 저장할 때 항목의 _doc 대로 나눠 쓴다. */
+const OR_DOCS = ['owner-rules', 'owner-rules-long', 'owner-rules-short', 'owner-rules-blog', 'owner-rules-card', 'owner-rules-ops', 'owner-rules-retired'];
+const OR_SCOPE = { common: '공통', long: '롱폼', short: '쇼츠·릴스', blog: '블로그·칼럼', card: '카드뉴스', ops: '운영' };
 async function orLoad(){
-  const { data, error } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').in('id', ['owner-rules', 'ops-standards', 'schedule']);
+  const { data, error } = await sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').in('id', [...OR_DOCS, 'ops-standards', 'schedule']);
   OR.err = error ? error.message : '';
   const g = id => (data || []).find(r => r.id === id) || null;
-  OR.rules = g('owner-rules') || { id: 'owner-rules', data: { items: [] } }; OR.std = g('ops-standards'); OR.sch = g('schedule');
+  OR.docs = {}; OR_DOCS.forEach(id => { const r = g(id); if(r) OR.docs[id] = r; });
+  const base = OR.docs['owner-rules'] || { id: 'owner-rules', data: { items: [] } };
+  const items = [];
+  OR_DOCS.forEach(id => ((OR.docs[id] && OR.docs[id].data || {}).items || []).forEach(x => items.push({ ...x, _doc: id })));
+  items.sort((a, b) => (+a.no || 0) - (+b.no || 0) || String(a.at || '').localeCompare(String(b.at || '')));
+  OR.rules = { ...base, data: { ...(base.data || {}), items } }; OR.std = g('ops-standards'); OR.sch = g('schedule');
+}
+function orDocOf(x){
+  if(x.status === 'retired') return 'owner-rules-retired';
+  if(x._doc && x._doc !== 'owner-rules-retired') return x._doc;
+  return x.scope && x.scope !== 'common' ? 'owner-rules-' + x.scope : 'owner-rules';
 }
 const OR_ST = { new: ['run', '반영 대기'], applied: ['ok', '반영됨 · 모든 작업이 따름'], retired: ['off', '그만 적용'] };
 function vRules(){
@@ -2500,7 +2514,7 @@ function vRules(){
   const live = items.filter(([x]) => x.status !== 'retired'), waiting = live.filter(([x]) => (x.status || 'new') === 'new').length;
   const item = ([x, i]) => { const st = OR_ST[x.status || 'new'] || ['', x.status];
     return `<div class="or-item" data-or="${i}">
-      <div class="h"><span class="no">제1 원칙 ${x.no || i + 1}</span><span class="ch">${esc(x.channel || '전체')}</span><span class="bn-meta" style="margin:0">${x.at ? kst(x.at) : ''}</span><span class="st ${st[0]}">${st[1]}</span></div>
+      <div class="h"><span class="no">제1 원칙 ${x.no || i + 1}</span><span class="ch">${esc(x.channel || '전체')}</span>${x._doc && x._doc !== 'owner-rules' && x._doc !== 'owner-rules-retired' ? `<span class="ch" title="이 범위의 작업만 읽습니다">${esc(OR_SCOPE[x._doc.replace('owner-rules-', '')] || '')} 전용</span>` : ''}<span class="bn-meta" style="margin:0">${x.at ? kst(x.at) : ''}</span><span class="st ${st[0]}">${st[1]}</span></div>
       <div class="tx">${esc(x.text || '')}</div>
       ${x.reply ? `<div class="rp"><b>반영:</b> ${esc(x.reply)}${x.applied_at ? ` · ${kst(x.applied_at)}` : ''}</div>` : ''}
       ${x.status === 'retired' ? `<div class="act"><button class="bn-btn ghost" data-or-to="new">다시 적용</button></div>` : `<div class="act"><button class="bn-btn ghost" data-or-to="retired">그만 적용</button></div>`}
@@ -2542,14 +2556,25 @@ function vRules(){
   <div class="pf-goal">기준은 '제1 원칙 반영' 작업이 매일 아침 실제 예약 작업 설정과 제작 기준 문서를 다시 읽어 갱신합니다. 여기 보이는 기준과 실제가 다르면 그것도 제1 원칙으로 적어 주세요.</div>`;
 }
 async function orSave(f, msg){
-  const cur = OR.rules && OR.rules.data ? OR.rules.data : { items: [] };
-  const data = JSON.parse(JSON.stringify(cur)); data.items = data.items || []; f(data);
-  const now = new Date().toISOString();
-  const q = OR.rules && OR.rules.updated_at ? sb.from('docs').update({ data, updated_at: now }).eq('collection', 'agent').eq('id', 'owner-rules')
-    : sb.from('docs').upsert({ owner: (await sb.auth.getUser()).data.user.id, collection: 'agent', id: 'owner-rules', data, updated_at: now }, { onConflict: 'owner,collection,id' });
-  const { error } = await q;
-  if(error){ toast('저장하지 못했습니다: ' + error.message, true); return false; }
-  OR.rules = { ...(OR.rules || {}), id: 'owner-rules', data, updated_at: now }; OR.msg = msg; toast(msg); render(); return true;
+  await orLoad(); if(OR.err){ toast('저장하지 못했습니다: ' + OR.err, true); return false; }
+  const work = JSON.parse(JSON.stringify(OR.rules.data.items || []));
+  const before = {}; work.forEach((x, i) => before[i] = JSON.stringify(x));
+  const d = { items: work };
+  try { f(d); } catch(e){ toast(e.message, true); render(); return false; }
+  const now = new Date().toISOString(), out = {}, touched = new Set();
+  d.items.forEach((x, i) => { const to = orDocOf(x);
+    if(before[i] === undefined || before[i] !== JSON.stringify(x) || to !== x._doc){ touched.add(to); if(x._doc) touched.add(x._doc); }
+    const { _doc, ...clean } = x; (out[to] = out[to] || []).push(clean); });
+  let uid = null;
+  for(const id of touched){
+    const prev = OR.docs[id];
+    const data = { ...((prev && prev.data) || (id === 'owner-rules' ? {} : { scope: id.replace('owner-rules-', '') })), items: out[id] || [] };
+    const q = prev ? sb.from('docs').update({ data, updated_at: now }).eq('collection', 'agent').eq('id', id)
+      : sb.from('docs').upsert({ owner: uid = uid || (await sb.auth.getUser()).data.user.id, collection: 'agent', id, data, updated_at: now }, { onConflict: 'owner,collection,id' });
+    const { error } = await q;
+    if(error){ toast('저장하지 못했습니다: ' + error.message, true); await orLoad(); render(); return false; }
+  }
+  await orLoad(); OR.msg = msg; toast(msg); render(); return true;
 }
 function bindRules(){
   const box = $('#main');
@@ -2563,8 +2588,9 @@ function bindRules(){
       '제1 원칙으로 저장했습니다. 2시간 안에 모든 작업에 반영합니다.');
   };
   box.querySelectorAll('[data-or-to]').forEach(b => b.onclick = () => {
-    const i = +b.closest('[data-or]').dataset.or, to = b.dataset.orTo;
-    orSave(d => { const x = d.items[i]; x.status = to; x.changed_at = new Date().toISOString(); if(to === 'retired') x.retired_at = x.changed_at; },
+    const i = +b.closest('[data-or]').dataset.or, to = b.dataset.orTo, src = OR.rules.data.items[i] || {};
+    const key = y => [y.id, y.no, y.at, y._doc, String(y.text || '').slice(0, 40)].join('|'), k = key(src);
+    orSave(d => { const x = d.items.find(y => key(y) === k); if(!x) throw new Error('목록이 바뀌었습니다. 새로고침 후 다시 눌러 주세요.'); x.status = to; x.changed_at = new Date().toISOString(); if(to === 'retired') x.retired_at = x.changed_at; },
       to === 'retired' ? '이 원칙은 더 적용하지 않습니다. 다음 반영 때 작업 지시문에서 뺍니다.' : '다시 적용합니다.');
   });
   box.querySelectorAll('[data-or-fb]').forEach(b => b.onclick = () => {
