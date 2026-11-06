@@ -1,0 +1,83 @@
+# 릴스 → 인스타 스토리용 59초 영상 (2026-11-07 대표: "릴스가 업로드 되면 직후 바로 그걸 스토리를 올리면 되는 거거든")
+# 30분마다: 게시 예정(지난 2시간 ~ 앞으로 36시간)인 릴스 중 story.mp4 가 없는 것을 scripts/reels/story_clip.py 로 만든다.
+# 게시는 Supabase 함수 social-publish 가 릴스 게시 직후 story.mp4 를 스토리로 올린다(없으면 최대 60분 기다린 뒤 표지 사진).
+# 게시가 끝나고 3일 지난 story.mp4 는 저장소에서 지운다(다시 쓸 일 없음).
+name: story-clips
+on:
+  schedule:
+    - cron: '11,41 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: story-clips
+jobs:
+  clips:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/
+            /scripts/reels/specs/
+            /scripts/reels/story_clip.py
+            /scripts/reels/fonts/SUIT-ExtraBold.ttf
+      - name: 만들 것·지울 것 고르기
+        run: |
+          python3 - <<'PY'
+          import json, os, re, subprocess, datetime as dt
+          repo = os.environ['GITHUB_REPOSITORY']
+          tree = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}/git/trees/HEAD?recursive=1']))['tree']
+          paths = {e['path'] for e in tree if e['type'] == 'blob'}
+          now = dt.datetime.now(dt.timezone.utc)
+          make, drop = [], []
+          for p in sorted(paths):
+              m = re.match(r'^social/reels/([A-Za-z0-9_-]+)/(reel|story)\.mp4$', p)
+              if not m: continue
+              sid, kind = m.groups()
+              try: when = dt.datetime.fromisoformat(json.load(open(f'scripts/reels/specs/{sid}.json'))['scheduled_at'])
+              except Exception: continue
+              if when.tzinfo is None: when = when.replace(tzinfo=dt.timezone(dt.timedelta(hours=9)))
+              if kind == 'reel' and f'social/reels/{sid}/story.mp4' not in paths and now - dt.timedelta(hours=2) <= when <= now + dt.timedelta(hours=36):
+                  make.append(sid)
+              if kind == 'story' and when < now - dt.timedelta(days=3):
+                  drop.append(p)
+          print('만들 것', make); print('지울 것', len(drop))
+          open('/tmp/make.txt', 'w').write('\n'.join(make) + ('\n' if make else ''))
+          open('/tmp/drop.txt', 'w').write('\n'.join(drop) + ('\n' if drop else ''))
+          PY
+      - name: ffmpeg
+        run: |
+          [ -s /tmp/make.txt ] || exit 0
+          if ! (command -v ffmpeg >/dev/null && ffmpeg -hide_banner -filters 2>/dev/null | grep -q drawtext); then
+            timeout 300 sudo apt-get update -qq && timeout 400 sudo apt-get install -y -qq ffmpeg
+          fi
+          ffmpeg -version | head -1
+      - name: 스토리 영상 만들기
+        run: |
+          [ -s /tmp/make.txt ] || { echo '만들 것 없음'; exit 0; }
+          mkdir -p /tmp/keep
+          for id in $(cat /tmp/make.txt); do
+            git sparse-checkout add "/social/reels/$id/reel.mp4" "/social/reels/$id/subs_ko.srt"
+            if python3 scripts/reels/story_clip.py "social/reels/$id/reel.mp4" "/tmp/keep/$id.mp4"; then :; else echo "실패: $id"; rm -f "/tmp/keep/$id.mp4"; fi
+          done
+          ls -la /tmp/keep
+      - name: 커밋
+        run: |
+          ls /tmp/keep/*.mp4 >/dev/null 2>&1 || [ -s /tmp/drop.txt ] || { echo '바뀐 것 없음'; exit 0; }
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          for i in 1 2 3 4 5 6; do
+            git fetch -q --depth 1 --filter=blob:none origin main && git reset -q --hard origin/main
+            for f in /tmp/keep/*.mp4; do [ -e "$f" ] || continue; id=$(basename "$f" .mp4)
+              git sparse-checkout add "/social/reels/$id/story.mp4"; mkdir -p "social/reels/$id"; cp "$f" "social/reels/$id/story.mp4"
+              git add --sparse "social/reels/$id/story.mp4"; done
+            [ -s /tmp/drop.txt ] && git rm -q --sparse --ignore-unmatch --pathspec-from-file=/tmp/drop.txt
+            git diff --cached --quiet && { echo '이미 반영됨'; exit 0; }
+            git commit -q -m "인스타 스토리용 59초 영상 $(ls /tmp/keep/*.mp4 2>/dev/null | wc -l)편 · 지난 스토리 영상 $(grep -c . /tmp/drop.txt || true)개 정리" && git push -q origin HEAD:main && exit 0
+            sleep $((5 + RANDOM % 10))
+          done
+          exit 1
