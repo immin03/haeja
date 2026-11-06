@@ -91,8 +91,8 @@ async function apiRefresh() {
   try {
     const end = ymd(Date.now() - 864e5), s90 = ymd(Date.now() - 90 * 864e5), s365 = ymd(Date.now() - 365 * 864e5);
     const base = "https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==MINE";
-    const sh = await gget(`${base}&startDate=${s90}&endDate=${end}&metrics=views,engagedViews&filters=creatorContentType==SHORTS`, tok);
-    const lg = await gget(`${base}&startDate=${s365}&endDate=${end}&metrics=views,estimatedMinutesWatched&filters=creatorContentType==VIDEO_ON_DEMAND`, tok);
+    const sh = await gget(`${base}&startDate=${s90}&endDate=${end}&metrics=views,engagedViews&filters=creatorContentType==shorts`, tok);
+    const lg = await gget(`${base}&startDate=${s365}&endDate=${end}&metrics=views,estimatedMinutesWatched&filters=creatorContentType==videoOnDemand`, tok);
     const r1 = (sh.rows || [[0, 0]])[0], r2 = (lg.rows || [[0, 0]])[0];
     mon = { at, end_date: end, shorts_views_90d: Number(r1[0] || 0), shorts_engaged_90d: Number(r1[1] || 0), long_views_12m: Number(r2[0] || 0), long_watch_h_12m: Math.round(Number(r2[1] || 0) / 60 * 10) / 10 };
   } catch (e) { mon_error = String((e as Error).message || e); }

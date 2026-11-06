@@ -2612,9 +2612,9 @@ async function brYtRefresh(manual){
     const { data: { session } } = await sb.auth.getSession(); if(!session) return;
     const r = await fetch(FN + 'yt-public', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
     if(r.error){ if(manual) toast('구독자 수를 못 읽었습니다: ' + r.error, true); return; }
-    BR.chan = { ...(BR.chan || {}), subs: r.subs, subs_approx: r.subs_approx, views_total: r.views_total, videos: r.videos, at: r.at, source: 'public' };
+    BR.chan = { ...(BR.chan || {}), subs: r.subs, subs_approx: r.subs_approx, views_total: r.views_total, videos: r.videos, at: r.at, source: 'public', ...(r.api ? { api: r.api } : {}) };
     if(r.videos_updated) { try{ await ytFetch(); }catch(e){} }
-    if(manual) toast(`구독자 ${n0(r.subs)}명${r.prev_subs != null && +r.prev_subs !== +r.subs ? ` (저장돼 있던 ${n0(r.prev_subs)}명에서 갱신)` : ''} · 총 조회 ${n0(r.views_total)}회${r.videos_updated ? ` · 영상 ${r.videos_updated}편 조회수 갱신(쇼츠 ${n0(r.shorts_views)}회 · 롱폼 ${n0(r.long_views)}회)` : ''}`);
+    if(manual) toast(`구독자 ${n0(r.subs)}명${r.prev_subs != null && +r.prev_subs !== +r.subs ? ` (저장돼 있던 ${n0(r.prev_subs)}명에서 갱신)` : ''} · 총 조회 ${n0(r.views_total)}회${r.videos_updated ? ` · 영상 ${r.videos_updated}편 조회수 갱신(쇼츠 ${n0(r.shorts_views)}회 · 롱폼 ${n0(r.long_views)}회)` : ''}${r.videos_error || r.api_error ? ' · 일부 실패: ' + (r.videos_error || r.api_error) : ''}`, !!r.videos_error);
   } finally { BR.ytBusy = false; if(page() === 'brief') render(); }
 }
 /* 2026-10-30 운영자: "내 개인계정의 soxl 개장브리핑 등 내용은 여기 안 떠도 돼, 이건 관리자 페이지잖아", "이미 처리됐는데 여전히 떠있는 건 없애고"
@@ -2682,8 +2682,11 @@ function brFixStage(x){
    기준은 docs agent 'growth-plan'.monetize (2027-01-31까지 1,000명 + 4,000시간 또는 쇼츠 1,000만 회 / 2027-02-01부터 1,000명 + 8,000시간 또는 쇼츠 2,000만 회).
    숫자는 성과 진단(perf-*)의 monetize 가 있으면 그것, 없으면 관리자가 가진 최근 30일 기록 합(스튜디오·공개 조회수)으로 계산한다. */
 function vGoal(kp){
-  const gp = BR.growth || {}, mon = BR.mon || null, after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00');
-  const subsK = kp.find(k => /구독자/.test(k.label)); const chan = BR.chan || {}; const subs = chan.subs != null && (!mon || !mon.at || Date.parse(chan.at) >= Date.parse(mon.at)) ? +chan.subs : mon && mon.subs != null ? +mon.subs : subsK ? +String(subsK.value).replace(/[^\d]/g, '') : null;
+  const gp = BR.growth || {}, after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00');
+  const subsK = kp.find(k => /구독자/.test(k.label)); const chan = BR.chan || {};
+  /* 2026-11-06: 새로고침 버튼이 유튜브 API로 읽은 수익 창출 숫자(chan.api)가 성과 진단보다 최신이면 그걸 쓴다 */
+  const api = chan.api && chan.api.at ? chan.api : null, pm = BR.mon || null;
+  const mon = api && (!pm || !pm.at || Date.parse(api.at) >= Date.parse(pm.at)) ? { ...(pm || {}), at: api.at, subs: chan.subs, shorts_90d: api.shorts_engaged_90d, watch_h_12m: api.long_watch_h_12m, api: true, end_date: api.end_date } : pm; const subs = chan.subs != null && (!mon || !mon.at || Date.parse(chan.at) >= Date.parse(mon.at)) ? +chan.subs : mon && mon.subs != null ? +mon.subs : subsK ? +String(subsK.value).replace(/[^\d]/g, '') : null;
   const L = YT.list || [], vOf = y => { const b = ytViewsOf(y); return b ? b.v : 0; };
   const S90 = L.filter(y => y.kind === 'short' && y.status === 'uploaded' && Date.parse(y.scheduled_at || y.uploaded_at) > Date.now() - 90 * 864e5);
   const shortsPub = S90.reduce((a, y) => a + vOf(y), 0), shortsPubAt = S90.reduce((a, y) => Math.max(a, (ytViewsOf(y) || {}).at || 0), 0);
@@ -2703,8 +2706,8 @@ function vGoal(kp){
     <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${n0(H)}시간 <b>또는</b> 쇼츠 조회 ${n0(S)}회)${after ? '' : ' · 2027-02-01부터는 8,000시간 또는 2,000만 회'}</div>
     ${bar('구독자', subs, 1000, '명', `꼭 넘어야 하는 조건${chan.subs_28d_gain != null ? ` · 최근 28일 +${n0(chan.subs_28d_gain)}명` : ''}${chan.views_total != null ? ` · 채널 총 조회 ${n0(chan.views_total)}회` : ''}`)}
     ${bar('롱폼 시청시간 (최근 1년)', hours, H, '시간', [best === 'h' ? '두 길 중 지금 더 가까운 쪽' : '', chan.watch_h_28d_all != null ? `참고: 채널 전체 시청 최근 28일 ${n0(chan.watch_h_28d_all)}시간(쇼츠 포함 — 조건에는 롱폼만 셉니다)` : ''].filter(Boolean).join(' · '))}
-    ${bar(mon && mon.shorts_90d != null ? '쇼츠 유효 조회 (최근 90일, 수익 창출 기준)' : '쇼츠 조회 (최근 90일)', shorts, S, '회', [best === 's' ? '두 길 중 지금 더 가까운 쪽' : '', mon && mon.shorts_90d != null ? `스튜디오 수익 창출 화면 ${esc(kst(mon.at))} 값` : '', shortsPub ? `참고: 공개 조회수 합 ${n0(shortsPub)}회 (${S90.length}편 · ${shortsPubAt ? esc(kst(new Date(shortsPubAt).toISOString())) : '–'} 기준)` : ''].filter(Boolean).join(' · '))}
-    <div class="gl-foot">${eta ? esc(eta) + ' · ' : ''}${mon ? '성과 진단 ' + esc(String(mon.at || '').slice(0, 10)) + ' 기준' : '관리자에 들어온 최근 30일 기록 기준이라 실제보다 조금 적을 수 있습니다'}</div>
+    ${bar(mon && mon.shorts_90d != null ? '쇼츠 유효 조회 (최근 90일, 수익 창출 기준)' : '쇼츠 조회 (최근 90일)', shorts, S, '회', [best === 's' ? '두 길 중 지금 더 가까운 쪽' : '', mon && mon.shorts_90d != null ? (mon.api ? `유튜브 API · ${esc(mon.end_date || '')}까지 집계(1~2일 늦음)` : `스튜디오 수익 창출 화면 ${esc(kst(mon.at))} 값`) : '', shortsPub ? `참고: 공개 조회수 합 ${n0(shortsPub)}회 (${S90.length}편 · ${shortsPubAt ? esc(kst(new Date(shortsPubAt).toISOString())) : '–'} 기준)` : ''].filter(Boolean).join(' · '))}
+    <div class="gl-foot">${eta ? esc(eta) + ' · ' : ''}${mon ? (mon.api ? '유튜브 API ' + esc(kst(mon.at)) + ' 읽음' : '성과 진단 ' + esc(String(mon.at || '').slice(0, 10)) + ' 기준') : '관리자에 들어온 최근 30일 기록 기준이라 실제보다 조금 적을 수 있습니다'}</div>
   </div>`;
 }
 
