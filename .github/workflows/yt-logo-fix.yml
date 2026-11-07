@@ -1,0 +1,25 @@
+# 이미 렌더한 롱폼의 로고 인트로 소리만 다시 입혀 같은 릴리스에 올린다 (2026-11-07)
+name: yt-logo-fix
+on:
+  workflow_dispatch:
+    inputs:
+      id: { required: true }
+      asset: { required: true }
+      out: { required: true }
+      h0: { required: true }
+      dur: { required: true }
+      song: { required: true }
+      off: { required: true }
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy scipy
+      - env: { GH_TOKEN: "${{ github.token }}", I: "${{ github.event.inputs.id }}" }
+        run: |
+          gh release download yt-$I -p "${{ github.event.inputs.asset }}" -O /tmp/in.mp4
+          python3 scripts/youtube/long/fix_logo_ring.py /tmp/in.mp4 /tmp/${{ github.event.inputs.out }} ${{ github.event.inputs.h0 }} ${{ github.event.inputs.dur }} ${{ github.event.inputs.song }} ${{ github.event.inputs.off }}
+          gh release upload yt-$I /tmp/${{ github.event.inputs.out }} --clobber
