@@ -113,3 +113,8 @@
 - 만들기: cards/<id>.json 작성 → python3 make_card.py cards/<id>.json docs/emperor/card → 한 장 모아 눈으로 점검 → push
 - 게시: ed_posts 에 kind='carousel', images=[docs/emperor/card/<id>_01.jpg …], to_ig=true, to_th=false, video_path='' 로 넣으면 ed-publish 가 캐러셀로 올림(댓글은 ig_comment). 틱톡은 Chrome 스튜디오 사진 업로드(tt_text)
 - 인용은 권·절을 반드시 확인한 것만. 현대 장면(ed03_subway) 쓰지 않음
+
+## 쇼츠 '관련 동영상'(본편 연결) — Chrome 스튜디오 절차 (2026-11-07 확인)
+- 같은 구글 계정에 밸류노트·황제의 일기 채널이 같이 있다. 스튜디오가 밸류노트로 로그인돼 있으면 영상 편집 화면은 열리지만 '관련 동영상' 선택 창 목록이 비어 있고 검색도 0건이 된다(원인: 요청 신원이 밸류노트).
+- 그래서 먼저 오른쪽 위 프로필 → 계정 전환 → '황제의 일기'로 바꾼 뒤 studio.youtube.com/video/<쇼츠 id>/edit → 오른쪽 '관련 동영상' 연필 → 본편 선택 → 저장 → 새로고침해 이름이 남았는지 확인.
+- 끝나면 계정을 굳이 되돌리지 않는다(밸류노트 작업은 시작할 때 자기 채널로 전환하는 같은 규칙을 따른다).
