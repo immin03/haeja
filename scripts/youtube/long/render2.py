@@ -1457,6 +1457,10 @@ def load_theme(n):
             while len(out) < n:
                 y = tr[j % len(tr)]; out[-xf:] = out[-xf:] * (1 - fade) + y[:xf] * fade; out = np.concatenate([out, y[xf:]]); j += 1
             out = out[:n]; fi = int(SR * .8); out[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)[:, None]; fo = int(SR * 3); out[-fo:] *= np.linspace(1, 0, fo, dtype=np.float32)[:, None]
+            if MUSIC.get("bed_eq") == "heavy":   # 14:27 대표님: 미리듣기처럼 묵직하게 — 저음 +5dB, 6kHz 위 하이햇은 덜어 낸다 (목소리 밑에서 경쾌하게만 들리지 않게)
+                from scipy import signal as _s
+                lo = _s.sosfilt(_s.butter(2, 140, "low", fs=SR, output="sos"), out, axis=0) * (10 ** (5 / 20) - 1)
+                out = _s.sosfilt(_s.butter(2, 6000, "low", fs=SR, output="sos"), out + lo, axis=0).astype(np.float32)
             return (out / (np.abs(out).max() + 1e-9)).astype(np.float32)
     p = _music_file("bed") or os.path.join(HERE, "assets", "theme.mp3")
     if not os.path.exists(p): return make_theme(n)
@@ -1985,9 +1989,7 @@ def main():
         dur = u + sc.get("hold", .35)
         HITS = MUSIC.get("hits") or []
         if HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
-            nx = [h for h in HITS if h >= t + dur - .05]
-            if nx and nx[0] - (t + dur) <= 4.0: dur = nx[0] - t
-            elif BEAT: dur = math.ceil((t + dur) / BEAT - 1e-6) * BEAT - t
+            # 14:27 대표님: 사진 전환에 맞추려고 말을 멈추지 말 것 — 장면 길이는 말 길이 그대로, 장면 안에서 큰 베이스가 오면 그때만 사진을 바꾼다
             hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs; sc["v"]["_beat"] = BEAT or .5
             if len(sc["v"].get("cuts", [])) > len(hs) + 1: sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:len(hs) + 1])
         elif BEAT and sc["v"].get("cine"):   # 장면 끝을 다음 박자에 맞춘다 → 장면이 바뀌는 순간이 늘 박자 위
