@@ -1228,10 +1228,51 @@ def ident_source(n_frames):
             sc_ = .94 + .06 * p_logo; L = lg.resize((int(lg.width * sc_), int(lg.height * sc_)), Image.LANCZOS)
             L.putalpha(L.getchannel("A").point(lambda q: int(q * p_logo)))
             im.paste(L, (int(W / 2 - L.width / 2), int(cy - 40 - L.height + 18 * (1 - p_logo))), L)
+        if IDENT_FX[0]: im = ident_fx(im, u, dur, kk, cy, lg)
         if u > dur - .5:   # 끝: 살짝 밝아지며 노트로 넘어갈 준비
             im = Image.blend(im, Image.new("RGB", (W, H), (243, 236, 221)), .55 * NBK_eio((u - (dur - .5)) / .5))
         return im
     return get
+
+
+IDENT_FX = [False]   # spec hook.ident_fx — 2026-11-07 대표님: 밸류노트 로고 전환도 화려하게
+_SPARK = np.random.default_rng(11).random((46, 4))
+
+
+def ident_fx(im, u, dur, kk, cy, lg):
+    """로고 인트로 강조: ① 들어오는 순간 흰 섬광 ② 금선이 그어질 때 퍼지는 빛 고리 ③ 금빛 불티가 떠오름
+    ④ 로고가 다 뜨면 빛줄기가 로고를 한 번 훑고 지나감 ⑤ 화면 전체가 아주 천천히 다가감"""
+    GOLDC = (226, 192, 120)
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    t_ring = u - .2 * kk   # ② 빛 고리 두 겹
+    for lag, a0 in ((0, 210), (.12, 130)):
+        q = (t_ring - lag) / .75
+        if 0 < q < 1:
+            r = 60 + 900 * NBK_eio(q); a = int(a0 * (1 - q) ** 1.5)
+            for wd, aa in ((14, a // 4), (5, a)): d.ellipse([W / 2 - r, cy - r * .62, W / 2 + r, cy + r * .62], outline=(*GOLDC, aa), width=wd)
+    for x0, y0, sp, ph in _SPARK:   # ③ 불티
+        age = u - .3 * kk - ph * .6
+        if age <= 0: continue
+        x = W / 2 + (x0 - .5) * 1300 + math.sin(age * 2 + ph * 9) * 18; y = cy + 60 - age * (90 + 160 * sp) - y0 * 120
+        a = int(200 * min(1, age / .25) * max(0, 1 - age / 2.2) * (.55 + .45 * math.sin(age * 14 + ph * 20)))
+        if a > 4: rr = 2.5 + 4 * sp; d.ellipse([x - rr, y - rr, x + rr, y + rr], fill=(255, 226, 160, a))
+    im = Image.alpha_composite(im.convert("RGBA"), lay)
+    q = (u - 1.15 * kk) / .5   # ④ 로고 빛줄기 (로고가 떠 있는 동안만)
+    if 0 < q < 1 and u < dur - DOCK_T:
+        sc_ = 1.0; L = lg; lx, ly = int(W / 2 - L.width / 2), int(cy - 40 - L.height)
+        band = Image.new("L", L.size, 0); bd = ImageDraw.Draw(band); bx = -L.height + (L.width + 2 * L.height) * q
+        bd.polygon([(bx, 0), (bx + 70, 0), (bx + 70 - L.height, L.height), (bx - L.height, L.height)], fill=200)
+        from PIL import ImageChops, ImageFilter
+        m = ImageChops.multiply(band.filter(ImageFilter.GaussianBlur(10)), L.getchannel("A"))
+        im.paste(Image.new("RGBA", L.size, (255, 248, 230, 255)), (lx, ly), m)
+    im = im.convert("RGB")
+    if u < .2:   # ① 섬광
+        im = Image.blend(im, Image.new("RGB", (W, H), (255, 246, 225)), .85 * (1 - u / .2) ** 2)
+    z = 1 + .045 * NBK_eio(u / max(.5, dur))   # ⑤
+    if z > 1.001:
+        cw, ch = int(W / z), int(H / z); x0, y0 = (W - cw) // 2, (H - ch) // 2
+        im = im.crop((x0, y0, x0 + cw, y0 + ch)).resize((W, H), Image.BILINEAR)
+    return im
 
 
 def full_source(v, n_frames, seed):
@@ -1805,6 +1846,19 @@ def hook_bed(n, timeline):
         x = _decode(ip, 1)[:, 0]
         if MUSIC.get("intro_offset") is not None: x = x[int(float(MUSIC["intro_offset"]) * SR):]   # 곡의 첫 박을 0초에 맞춘다 → 컷·박자 효과가 음악 박자 위에 떨어진다
         else: lv = np.abs(x); i0 = int(np.argmax(lv > .01)) if (lv > .01).any() else 0; x = x[i0:]
+        if MUSIC.get("end_on_logo"):   # 2026-11-07 대표님: 음악이 로고에서 끝나게 — 로고 첫 박에서 곡을 끊고, 곡에서 가장 센 타격 한 번 + 웅장한 울림이 로고 끝까지 잦아든다
+            i0 = int(h0 * SR); m = min(n, len(x), i0); bed[:m] = x[:m]
+            g = int(.03 * SR); bed[max(0, i0 - g):i0] *= np.linspace(1, 0, min(g, i0), dtype=np.float32)
+            fr = 1024; seg = x[: min(len(x), int(40 * SR))]; e = np.array([np.sum(seg[j:j + fr] ** 2) for j in range(0, len(seg) - fr, fr // 2)])
+            on = np.maximum(0, np.diff(e)); j = int(np.argmax(on)) * (fr // 2)   # 곡 앞 40초에서 가장 세게 치는 순간
+            L = max(1, int((h1 - h0 + .6) * SR)); st = x[j: j + L].copy()
+            if len(st) < L: st = np.pad(st, (0, L - len(st)))
+            st *= np.exp(-np.arange(L) / SR / .75).astype(np.float32) * 1.15
+            bed[i0:i0 + L] += st[: max(0, n - i0)]
+            add(h0 - 1.3, sfx_riser(1.3, .09, seed=3)); add(h0, NBK_boom(.2)); add(h0 + .05, sfx_braam(.16))
+            add(h1 - DOCK_T, NBK_whoosh(.8, .06))   # 로고가 오른쪽 위로 날아갈 때 쉭
+            fi = int(SR * .3); bed[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)
+            return bed, h1
         m = min(n, len(x), int((h1 + 2.0) * SR)); bed[:m] = x[:m]
         f0 = int(h1 * SR); f1 = min(m, int((h1 + 2.0) * SR))
         if f1 > f0: bed[f0:f1] *= np.linspace(1, 0, f1 - f0, dtype=np.float32)
@@ -1813,6 +1867,11 @@ def hook_bed(n, timeline):
     import hookmusic as HM   # 2026-11-03 대표님 3차: 합성음 전부 빼고 녹음된 피아노 샘플로 (hookmusic.py)
     bed = HM.make_bed(n, SR, bt, strong, h0, h1, style=HOOK_STYLE[0])
     return bed, h1
+
+
+def NBK_boom(level):
+    import notebook as NBK
+    return NBK.boom(SR, level=level, seed=5)
 
 
 def NBK_whoosh(dur, level):
@@ -1865,7 +1924,7 @@ def split_end(spec):
 
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {})
+    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
     import docfx as DOCFX; data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
