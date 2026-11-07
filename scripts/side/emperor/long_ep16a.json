@@ -1,0 +1,124 @@
+{
+ "id": "ep16a",
+ "theme": "A",
+ "note": "2026-11-08 12:20 데일리(35초 칸, k=312%3=0). 현대 상황 훅(남의 잘못만 크게 보임) → 로마 상황 → 원문 10권 30절 → 이유. 양식 A, 시네마틱 fx_ep16. 묶음별 녹음 d261108 | 음악 bed 0.22 | 길이 맞춤: n1·n2 줄여 다시 녹음(d261108b) | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "로마 황제가 일기에 쓴 한 줄",
+ "hook": [
+  "남의 잘못만",
+  "자꾸 보이는 이유"
+ ],
+ "title_line": "남의 잘못만 자꾸 보이는 이유",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_ep16a.wav",
+ "gap": 0.55,
+ "hold": 1.4,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_candle_face.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+  "/home/claude/haeja/social/side/gen/edv01_tent.mp4",
+  "/home/claude/ed/edv02_ep16.mp4",
+  "/home/claude/haeja/social/side/gen/ev_fire.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_statue.mp4"
+ ],
+ "sents": [
+  [
+   0.55,
+   3.025,
+   1,
+   0,
+   "cap",
+   [
+    "남의 잘못은, 왜 이렇게",
+    "크게 보일까요"
+   ]
+  ],
+  [
+   3.955,
+   6.295,
+   2,
+   1,
+   "cap",
+   [
+    "로마 황제도,",
+    "그랬습니다"
+   ]
+  ],
+  [
+   6.345,
+   8.197,
+   2,
+   2,
+   "cap",
+   [
+    "그래서 일기에 이렇게 적었습니다"
+   ]
+  ],
+  [
+   8.957,
+   11.047,
+   3,
+   3,
+   "quote",
+   [
+    "남의 잘못에",
+    "화가 나거든,"
+   ]
+  ],
+  [
+   11.097,
+   13.257,
+   3,
+   3,
+   "quote",
+   [
+    "곧바로",
+    "너 자신을 돌아보라."
+   ]
+  ],
+  [
+   13.307,
+   15.677,
+   3,
+   4,
+   "quote",
+   [
+    "너도 같은 잘못을",
+    "하고 있지 않은지."
+   ]
+  ],
+  [
+   16.567,
+   18.322,
+   4,
+   5,
+   "big",
+   [
+    "남의 잘못이",
+    "크게 보이는 건,"
+   ]
+  ],
+  [
+   18.322,
+   20.324,
+   4,
+   5,
+   "big",
+   [
+    "나를 보지",
+    "않기 때문입니다."
+   ]
+  ]
+ ],
+ "tonight": [
+  "거슬렸던 그 잘못,",
+  "나에게도 있었는지 돌아보기"
+ ],
+ "source": "마르쿠스 아우렐리우스 『명상록』 10권 30절",
+ "end_voice": "/home/claude/vo/v2/ep16_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/ep16_outro_voice.wav",
+ "vol": 1.0
+}
