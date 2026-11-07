@@ -1,0 +1,31 @@
+{
+ "id": "ev4_city",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The kneeling elders slowly raise their heads as the emperor lowers his raised hand; cloth moves in a light wind. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4ac-4ff6-740a-a1fb-f66df623c3d2/4a99699b-4cf4-4175-85e9-7fca035ea66c.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4bd-0299-7aec-bb5b-ce7f305aa1fe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bd-0299-7aec-bb5b-ce7f305aa1fe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bd-0299-7aec-bb5b-ce7f305aa1fe/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4bd-0299-7aec-bb5b-ce7f305aa1fe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bd-0299-7aec-bb5b-ce7f305aa1fe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bd-0299-7aec-bb5b-ce7f305aa1fe/cancel",
+  "expires_at": "2026-11-14T06:42:36.330820+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4bd-0299-7aec-bb5b-ce7f305aa1fe/582fa671-9acb-49e2-a261-f3075370b82a.mp4"
+  }
+ },
+ "seconds": 112,
+ "file": "social/side/gen/ev4_city.mp4"
+}

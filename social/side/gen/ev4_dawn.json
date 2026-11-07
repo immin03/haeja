@@ -1,0 +1,31 @@
+{
+ "id": "ev4_dawn",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The emperor steps out of the tent, pauses, takes a slow breath of cold air and nods to the waiting officers; breath mist in the cold. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4ac-1e68-7b8a-a82d-012bbd74d506/879deb71-625f-4803-a161-1a84fe13b991.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4bc-ec89-7f13-b0d2-6780082fdd94",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bc-ec89-7f13-b0d2-6780082fdd94/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bc-ec89-7f13-b0d2-6780082fdd94/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4bc-ec89-7f13-b0d2-6780082fdd94",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bc-ec89-7f13-b0d2-6780082fdd94/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bc-ec89-7f13-b0d2-6780082fdd94/cancel",
+  "expires_at": "2026-11-14T06:42:25.590782+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4bc-ec89-7f13-b0d2-6780082fdd94/9e5c812e-a527-49f6-9738-caa158131887.mp4"
+  }
+ },
+ "seconds": 106,
+ "file": "social/side/gen/ev4_dawn.mp4"
+}

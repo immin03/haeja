@@ -1,0 +1,31 @@
+{
+ "id": "ev4_halala",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "Torches and campfires flicker in the cold wind, smoke drifts slowly, soldiers stand still; very slow push-in toward the lit tent. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4a8-be8a-735b-85f8-f6cf39adfe03/439cf032-e2fb-45ce-b39b-2a993b3e7534.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4bb-153d-72e1-92e8-e8b3a3028c5e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bb-153d-72e1-92e8-e8b3a3028c5e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bb-153d-72e1-92e8-e8b3a3028c5e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4bb-153d-72e1-92e8-e8b3a3028c5e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bb-153d-72e1-92e8-e8b3a3028c5e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bb-153d-72e1-92e8-e8b3a3028c5e/cancel",
+  "expires_at": "2026-11-14T06:40:41.171223+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4bb-153d-72e1-92e8-e8b3a3028c5e/dc12ead9-7008-42bb-9955-d07c8e6d00cd.mp4"
+  }
+ },
+ "seconds": 124,
+ "file": "social/side/gen/ev4_halala.mp4"
+}

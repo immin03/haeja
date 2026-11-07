@@ -1,0 +1,31 @@
+{
+ "id": "ev4_alone",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The emperor sits very still beside the covered bed, slowly lowers his head a little and closes his eyes; the small lamp flame trembles; very slow push-in. Keep the painterly look and every detail identical to the first frame. One simple, slow, subtle motion only; the camera stays almost still with at most a very slow gentle push-in. No text, no morphing faces, no extra fingers or limbs, no sudden camera shake, no cuts.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4a8-bea9-722c-9e80-9c224e435cd5/ca387cea-c524-4f4f-a69f-0940ef4d3e19.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4bb-1677-7dd1-aa30-f5d45e36b196",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bb-1677-7dd1-aa30-f5d45e36b196/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bb-1677-7dd1-aa30-f5d45e36b196/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4bb-1677-7dd1-aa30-f5d45e36b196",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4bb-1677-7dd1-aa30-f5d45e36b196/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4bb-1677-7dd1-aa30-f5d45e36b196/cancel",
+  "expires_at": "2026-11-14T06:40:45.696912+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4bb-1677-7dd1-aa30-f5d45e36b196/16be61e3-00a6-4cfb-a362-7d78bc655256.mp4"
+  }
+ },
+ "seconds": 124,
+ "file": "social/side/gen/ev4_alone.mp4"
+}
