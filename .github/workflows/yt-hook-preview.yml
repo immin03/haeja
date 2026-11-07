@@ -36,7 +36,7 @@ jobs:
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-          RENDER_SCENES: ${{ github.event.inputs.scenes }}
+          AUDIO_ONLY: '1'
           ID: ${{ github.event.inputs.id }}
           BED: ${{ github.event.inputs.bed }}
           GH_TOKEN: ${{ github.token }}
@@ -57,7 +57,6 @@ jobs:
           EOF
             python3 scripts/youtube/long/render2.py $S
             D=social/youtube/$ID
-            cp $D/video.mp4 /tmp/$ID-hook-$NAME.mp4
-            ffmpeg -v error -y -i /tmp/$ID-hook-$NAME.mp4 -vn -b:a 160k /tmp/$ID-hook-$NAME.mp3
-            gh release upload preview-hook /tmp/$ID-hook-$NAME.mp4 /tmp/$ID-hook-$NAME.mp3 --clobber
+            cp $D/hook.mp3 /tmp/$ID-hook-$NAME.mp3
+            gh release upload preview-hook /tmp/$ID-hook-$NAME.mp3 --clobber
           done
