@@ -571,6 +571,12 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 @media (max-width:860px){.pf-vid.sh{grid-template-columns:96px 1fr}.pf-vid.sh .pf-two{grid-template-columns:1fr}}
 /* 브리핑 (2026-10-30) — 휴대폰에서 한 손으로 훑어보기 */
 .br{max-width:720px;margin:0 auto}
+.br-upd{display:flex;align-items:center;gap:8px}.br-upd .m{font-size:13.5px;font-weight:700}
+.br-urgent{border-left:4px solid var(--bad);margin-bottom:12px}.br-sec{font-weight:800;font-size:16px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.br-calm{font-size:14px;font-weight:700;color:var(--good);margin:0 2px 12px}
+.br-rq{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}.br-rq b{font-size:14.5px;font-weight:700;word-break:keep-all}
+.br-row.br-done .t b{color:var(--muted);font-weight:600}.br-row.br-done .t .m{color:var(--muted)}
+.br-stamp{font-size:12px;color:var(--muted);margin:14px 2px 0}
 .br-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 12px}
 .br-seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
 .br-seg button{border:0;background:none;font:inherit;font-size:15px;font-weight:800;color:var(--muted);padding:8px 18px;border-radius:999px;cursor:pointer}
@@ -2632,15 +2638,18 @@ const brToday = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 1
 const brMonday = d => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() - (x.getUTCDay() + 6) % 7); return x.toISOString().slice(0, 10); };
 const brAdd = (d, n) => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
 const brMD = d => { const x = new Date(d + 'T00:00:00Z'); return `${x.getUTCMonth() + 1}/${x.getUTCDate()}(${DOW[x.getUTCDay()]})`; };
+/* 2026-11-07 대표님: "일간·주간·월간을 필터로 눌러서 브리핑만 다르게", "과거 정보는 놔두지 말고" → 날짜 이동 없이 지금 기간만 */
 function brRange(){
-  const day = BR.day || brToday();
-  if(BR.mode === 'w'){ const m = brMonday(day); return { from: m, to: brAdd(m, 6), id: 'brief-w-' + m, label: `${brMD(m)} ~ ${brMD(brAdd(m, 6))}` }; }
-  return { from: day, to: day, id: 'brief-' + day, label: brMD(day) + (day === brToday() ? ' 오늘' : '') };
+  const day = brToday();
+  if(BR.mode === 'w'){ const m = brMonday(day); return { from: m, to: brAdd(m, 6), id: 'brief-w-' + m, label: `이번 주 ${brMD(m)} ~ ${brMD(brAdd(m, 6))}`, word: '이번 주' }; }
+  if(BR.mode === 'm'){ const f = day.slice(0, 8) + '01', x = new Date(f + 'T00:00:00Z'); x.setUTCMonth(x.getUTCMonth() + 1); x.setUTCDate(0);
+    return { from: f, to: x.toISOString().slice(0, 10), id: 'brief-m-' + day.slice(0, 7), label: `${+day.slice(5, 7)}월`, word: '이번 달' }; }
+  return { from: day, to: day, id: 'brief-' + day, label: brMD(day) + ' 오늘', word: '오늘' };
 }
 const brIn = (iso, r) => { if(!iso) return false; const d = kstDate(iso); return d >= r.from && d <= r.to; };
 async function briefLoad(){
   const r = brRange();
-  const [doc, inbox, al, tc, td, gp, ch, pm] = await Promise.all([
+  const [doc, inbox, al, tc, td, gp, ch, pm, rf] = await Promise.all([
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', r.id).maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'agent').eq('id', 'brief-inbox').maybeSingle(),
     sb.from('docs').select('id,data,updated_at').eq('collection', 'alerts').order('updated_at', { ascending: false }).limit(60),
@@ -2648,9 +2657,13 @@ async function briefLoad(){
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'owner-todo').maybeSingle(),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'growth-plan').maybeSingle(),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'yt-channel').maybeSingle(),
-    sb.from('docs').select('id,data->monetize').eq('collection', 'agent').like('id', 'perf-20%').order('id', { ascending: false }).limit(1)]);
+    sb.from('docs').select('id,data->monetize').eq('collection', 'agent').like('id', 'perf-20%').order('id', { ascending: false }).limit(1),
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'admin-refresh').maybeSingle()]);
+  BR.refresh = ((rf || {}).data || {}).data || null;
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = (al.data || []).filter(a => a && a.data && typeof a.data === 'object');
   BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; if(BR.todo && Array.isArray(BR.todo.items)) BR.todo = { ...BR.todo, items: BR.todo.items.filter(x => x && typeof x === 'object').map(x => ({ ...x, title: x.title || x.text || '(제목 없음)' })) }; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
+  const age = BR.chan && BR.chan.at ? Date.now() - Date.parse(BR.chan.at) : Infinity;
+  if(age > 8 * 3600e3 && !BR.autoYt){ BR.autoYt = true; brYtRefresh(false).catch(() => {}); }
 }
 /* 유튜브 구독자·총 조회 새로고침 (2026-11-03 대표님: "브리핑 구독자 수가 업데이트가 안 돼, 새로고침 버튼 누르면 업뎃되게")
    Edge 함수 yt-public 이 채널 공개 페이지를 읽어 docs agent 'yt-channel'에 저장한다 — 유튜브 API·스튜디오·예약 작업 없이 바로.
@@ -2693,8 +2706,8 @@ function ytViewsOf(y){
   const c = [p, s].filter(x => x.views != null).map(x => ({ v: +x.views, at: Date.parse(x.at || 0) || 0 }));
   if(!c.length) return null; c.sort((a, b) => b.at - a.at); return c[0];
 }
-function brShortViews(r, wk){
-  const from = wk ? Date.parse(r.from + 'T00:00:00+09:00') : Date.now() - 7 * 864e5, to = Date.now();
+function brShortViews(r){
+  const from = BR.mode !== 'd' ? Date.parse(r.from + 'T00:00:00+09:00') : Date.now() - 7 * 864e5, to = Date.now();
   const L = (YT.list || []).filter(y => y.kind === 'short' && y.status === 'uploaded' && y.scheduled_at && Date.parse(y.scheduled_at) >= from && Date.parse(y.scheduled_at) <= to);
   let views = 0, top = 0, n = 0, asof = 0;
   L.forEach(y => { const b = ytViewsOf(y); if(!b) return;
@@ -2764,12 +2777,13 @@ function vGoal(kp){
    docs agent 'owner-todo' data.items: {id, title, why, how:[단계], link:{label,href}, kind: done|daily|decide|input, choices:[{key,label,note}], status, done_at, answer}
    버튼을 누르면 owner-todo 를 바로 고치고, Claude가 이어서 할 일이 있으면 brief-inbox 에 넣어 브리핑 작업(2시간마다 17분)이 처리한다. */
 const brTodoToday = it => it.kind === 'daily' ? (it.done_at && kstDate(it.done_at) === brToday()) : it.status === 'done';
+/* 2026-11-07 대표님: 간소화 — 남은 할 일만, 끝낸 일 목록은 띄우지 않는다 */
 function vTodo(fallback){
   const T = BR.todo && BR.todo.items ? BR.todo.items : null;
   if(!T){ return fallback.length ? `<div class="card br-todo"><div class="br-todo-h">대표님이 직접 할 일 <span class="qcount">${fallback.length}</span></div><ul class="br-li">${fallback.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : ''; }
   const open = T.filter(it => !brTodoToday(it)), done = T.filter(brTodoToday);
-  if(!open.length) return `<div class="card br-todo"><div class="br-ok">✓ 대표님이 직접 할 일 없음${done.length ? ` · 오늘 끝낸 일 ${done.length}` : ''}</div></div>`;
-  return `<div class="card br-todo"><div class="br-todo-h">대표님이 직접 할 일 <span class="qcount">${open.length}</span></div>
+  if(!open.length) return '';
+  return `<div class="card br-todo">
   ${open.map(it => `<div class="br-td" data-td="${esc(it.id)}">
     <b>${esc(it.title)}</b>${it.kind === 'daily' ? ' <span class="br-st wait">매일</span>' : ''}
     ${it.why ? `<div class="m">${esc(it.why)}</div>` : ''}
@@ -2784,7 +2798,7 @@ function vTodo(fallback){
     ${it.kind === 'decide' && (it.choices || []).some(c => c.note) ? `<div class="m br-tdnote">${(it.choices || []).filter(c => c.note).map(c => `· ${esc(c.label)}: ${esc(c.note)}`).join('<br>')}</div>` : ''}
     <div class="br-say" hidden><textarea rows="2" placeholder="이 일에 대한 의견이나 지시를 적어 주세요"></textarea><button class="br-b" data-td-act="send">보내기</button></div>
   </div>`).join('')}
-  ${done.length ? `<div class="br-foot"><span class="m">오늘 끝낸 일 ${done.length}: ${done.map(d => esc(d.title)).join(', ')}</span></div>` : ''}</div>`;
+</div>`;
 }
 async function brTodoSave(id, patch, inboxText, okMsg){
   const data = { ...(BR.todo || { items: [] }) };
@@ -2859,10 +2873,10 @@ function brChecks(){
       acts: [['repost', '다시 올리기', ''], ['skip', '안 올리기', 'ghost']], say: '의견 남기기' }); });
   const st = OPS.status || {};
   (st.accounts || []).forEach(a => { if(a.platform !== 'instagram') return; const d = Math.floor((Date.parse(a.expires_at) - now) / 864e5); if(d <= 3) L.push({ level: 'bad', title: `인스타그램 연결 만료 D-${Math.max(0, d)}`, body: '다시 연결해야 게시가 이어집니다. 연결은 인스타 로그인 화면을 거쳐야 해서 연결 화면으로 이동합니다.', acts: [['goto:#social', '연결 화면 열기', '']], say: '의견 남기기' }); });
-  const tw = BR.tasks.filter(t => t.status === 'pending');
-  if(tw.length) L.push({ level: 'info', title: `예약 작업 설정 변경 ${tw.length}건`, body: tw.map(t => '· ' + (t.change || t.task || '설정 변경')).join('\n') + '\nClaude가 도구로 바꿀 수 없는 설정입니다(예약 작업 설정 화면에서 변경).', acts: [], say: '의견 남기기' });
-  (((BR.doc || {}).data || {}).checks || []).forEach(c => L.push({ level: c.level || 'info', title: c.title, body: c.body || '', acts: [], say: '의견 남기기' }));
-  return L;
+  /* 2026-11-07 대표님: "긴급 처리할 것들만 위에" — 정보성 항목은 빼고, 브리핑 글의 확인 항목은 오늘 쓴 글의 경고급만(묵은 글 내용은 안 띄움) */
+  const bd = (BR.doc || {}).data || {};
+  if(BR.mode === 'd' && bd.at && kstDate(bd.at) === today) brObjs(bd.checks).filter(c => ['bad', 'urgent', 'error', 'warn'].includes(c.level)).forEach(c => L.push({ level: c.level, title: c.title, body: c.body || '', acts: [], say: '의견 남기기' }));
+  return L.filter(c => c.level !== 'info');
 }
 function vChecks(){
   const L = BR.checksNow = brChecks();
@@ -2975,21 +2989,25 @@ function brReqs(){
       : '다음 단계: 이유를 확인하고 피드백으로 다시 요청해 주세요.';
     L.push({ key: 'req:' + r.id, at: r.done_at || r.started_at || r.at, what: r.kind === 'revise' ? '기획안 수정 요청' : '기획안 요청', req: r.note || '', st, detail: r.result || '', next, link: r.status === 'done' ? '#youtube/plan' : '' });
   });
-  ((((BR.inbox || {}).data || {}).items) || []).filter(f => recent(f.at)).forEach(f => {
+  ((((BR.inbox || {}).data || {}).items) || []).filter(f => f && (recent(f.at) || f.status !== 'done')).forEach(f => {
     /* 2026-10-30 운영자: "너를 통해 반영이 다 됐는데 12:17에 반영한다고 적혀 있어" → 처리된 건 바로 바뀌고, 대표님 차례인 건 그렇게 보인다 */
     const done = f.status === 'done', working = f.status === 'working', mineTurn = working && /대표님(이|께서)?[^.]{0,30}(눌러|해 주셔야|직접)/.test(String(f.reply || ''));
     L.push({ key: 'fb:' + f.id, at: f.replied_at || f.at, what: f.kind === 'revert' ? '되돌리기' : f.kind === 'reject_long' ? '롱폼 반려' : '피드백', req: f.text,
-      st: done ? ['ok', '반영됨'] : mineTurn ? ['wait', '대표님 차례'] : working ? ['run', '진행 중'] : ['wait', '접수 · 처리 대기'], detail: f.reply || '',
-      next: done ? '끝났습니다. 다르게 반영됐으면 피드백으로 다시 알려 주세요.' : mineTurn ? '다음 단계: 위에 적힌 것만 대표님이 해 주시면 끝납니다. 하신 뒤 [완료했어요]를 눌러 주세요.' : working ? '다음 단계: 진행 중입니다. 끝나면 이 줄이 바로 반영됨으로 바뀝니다.' : `다음 단계: ${brief}에 브리핑 작업이 반영하고 결과를 여기에 적습니다.`,
+      st: done ? ['ok', '처리했음'] : mineTurn ? ['wait', '대표님 차례'] : working ? ['run', '진행 중'] : ['wait', '접수 · 처리 대기'], detail: f.reply || '',
+      next: done ? '' : mineTurn ? '다음 단계: 위에 적힌 것만 대표님이 해 주시면 끝납니다. 하신 뒤 [완료했어요]를 눌러 주세요.' : working ? '다음 단계: 진행 중입니다. 끝나면 이 줄이 바로 반영됨으로 바뀝니다.' : `다음 단계: ${brief}에 브리핑 작업이 반영하고 결과를 여기에 적습니다.`,
       done_btn: mineTurn ? f.id : '' });
   });
-  return L.filter(r => !hide.has(r.key)).sort((a, b) => String(b.at || '').localeCompare(String(a.at || ''))).slice(0, 10);
+  L.forEach(r => { r.done = r.st[0] === 'ok'; });
+  /* 처리 안 된 것 먼저, 그다음 최근 순 */
+  return L.filter(r => !hide.has(r.key)).sort((a, b) => (a.done - b.done) || String(b.at || '').localeCompare(String(a.at || ''))).slice(0, 12);
 }
 function vReqs(){
   const L = brReqs(), nh = ((((BR.inbox || {}).data || {}).hidden) || []).length;
-  if(!L.length) return '<div class="m">지금 진행 중인 요청이 없습니다.</div>';
-  return L.map(r => `<div class="br-row"><i class="br-dot ${({ ok: 'good', wait: 'warn', run: 'info', bad: 'bad' })[r.st[0]]}"></i><div class="t"><b>${esc(r.what)}</b><div class="br-rh"><span class="br-st ${r.st[0]}">${esc(r.st[1])}</span></div><div class="br-q">“${esc(String(r.req).slice(0, 120))}”</div>${r.detail ? `<div class="m">${esc(String(r.detail).slice(0, 260)).replace(/\n/g, '<br>')}</div>` : ''}${r.next ? `<div class="br-next">→ ${esc(r.next)}</div>` : ''}<div class="br-acts">${r.done_btn ? `<button class="br-b" data-br-fbdone="${esc(r.done_btn)}">완료했어요</button>` : ''}${r.link ? `<a class="br-b ghost" href="${r.link}">열기</a>` : ''}<button class="br-b ghost" data-br-hide="${esc(r.key)}">더 보지 않기</button></div></div></div>`).join('')
-    + (nh ? `<div class="br-foot"><span class="m">숨긴 요청 ${nh}건</span><button class="br-b ghost" data-br-unhide>다시 보기</button></div>` : '');
+  if(!L.length) return '<div class="m">지금 남은 요청이 없습니다. 위 요청칸에 적으면 여기에 처리 상태가 뜹니다.</div>';
+  const nd = L.filter(r => r.done).length;
+  /* 2026-11-07 대표님: "처리한 거는 처리했음으로 놔두고 내가 더 보지 않기 누를 수 있게" */
+  return L.map(r => `<div class="br-row${r.done ? ' br-done' : ''}"><i class="br-dot ${({ ok: 'good', wait: 'warn', run: 'info', bad: 'bad' })[r.st[0]]}"></i><div class="t"><div class="br-rq"><span class="br-st ${r.st[0]}">${r.done ? '✓ ' : ''}${esc(r.st[1])}</span><b>${esc(String(r.req || r.what).replace(/^\[[^\]]*\]\s*/, '').slice(0, 90))}</b></div>${r.detail ? `<div class="m">${esc(String(r.detail).slice(0, r.done ? 140 : 220)).replace(/\n/g, '<br>')}</div>` : ''}${!r.done && r.next ? `<div class="br-next">→ ${esc(r.next)}</div>` : ''}</div><div class="bt">${r.done_btn ? `<button class="br-b" data-br-fbdone="${esc(r.done_btn)}">완료했어요</button>` : ''}${r.link && !r.done ? `<a class="br-b ghost" href="${r.link}">열기</a>` : ''}<button class="br-b ghost" data-br-hide="${esc(r.key)}">더 보지 않기</button></div></div>`).join('')
+    + (nd > 1 || nh ? `<div class="br-foot">${nd > 1 ? `<button class="br-b ghost" data-br-hidedone>처리한 것 모두 숨기기</button>` : '<span></span>'}${nh ? `<button class="br-b ghost" data-br-unhide>숨긴 ${nh}건 다시 보기</button>` : ''}</div>` : '');
 }
 async function brHide(keys, reset){
   const cur = BR.inbox && BR.inbox.data ? BR.inbox.data : { items: [] };
@@ -3007,62 +3025,88 @@ function brClean(d){
   if('sections' in o) o.sections = brObjs(o.sections).map(sc => ({ ...sc, items: (Array.isArray(sc.items) ? sc.items : [sc.items]).filter(t => t != null && t !== '').map(String) }));
   return o;
 }
+/* ───────── 브리핑 첫 화면 (2026-11-07 대표님 개편) ─────────
+   "꼭 핵심, 알아야 할 것들만", "긴급 처리할 것들만 위에 잘 보이게", "과거 정보는 놔두지 말고",
+   "내가 처리 요청한 것들 올려 주고 처리한 거는 처리했음으로, 더 보지 않기", "일간·주간·월간은 필터로 브리핑만 다르게".
+   위에서 아래로: 필터 → 긴급 → 한 줄 브리핑 + 숫자 4개 → 내 요청 → 대표님 할 일 → 기간 콘텐츠 → 수익화 목표(접힘).
+   정리·구독자 갱신은 DB 작업 admin-refresh가 하루 3번(08:10·13:10·19:10) 한다 — Claude 토큰 없음. */
+function brSubsGain(r){
+  const ch = BR.chan || {}, H = Array.isArray(ch.history) ? ch.history : [];
+  if(ch.subs == null || !H.length) return null;
+  const from = Date.parse(r.from + 'T00:00:00+09:00');
+  const base = H.filter(h => h && h.subs != null && Date.parse(h.at) < from).pop() || H.find(h => h && h.subs != null && Date.parse(h.at) >= from);
+  if(!base || Date.parse(base.at) >= Date.parse(ch.at)) return null;
+  return +ch.subs - +base.subs;
+}
+function brNums(r){
+  const s = DATA || {}, sv = s.visitors || {}, sg = s.signups || {}, wk = BR.mode !== 'd';
+  const daily = (s.daily || []).filter(x => x.d >= r.from && x.d <= r.to);
+  const vis = daily.length ? daily.reduce((a, x) => a + (+x.v || 0), 0) : (wk ? sv.d7 : sv.today);
+  const sig = daily.length ? daily.reduce((a, x) => a + (+x.s || 0), 0) : (wk ? sg.d7 : sg.today);
+  const ch = BR.chan || {}, gain = brSubsGain(r), sv7 = brShortViews(r);
+  const pm = BR.mode === 'd' ? '어제' : BR.mode === 'w' ? '지난주' : '지난달';
+  return { vis, sig, total: sg.total, subs: ch.subs, gain, sv7, kp: [
+    { label: '유튜브 구독자', value: ch.subs != null ? n0(ch.subs) : '–', delta: gain ? `${gain > 0 ? '+' : '−'}${n0(Math.abs(gain))}` : '', note: ch.at ? `${kst(ch.at)} 기준` : '' },
+    { label: `쇼츠 조회 (${BR.mode === 'd' ? '최근 7일 올린 편' : r.word + ' 올린 편'})`, value: sv7 ? n0(sv7.views) : '–', note: sv7 ? `${sv7.n}편 · 최고 ${n0(sv7.top)}회` : '' },
+    { label: `${r.word} 방문`, value: n0(vis), note: '' },
+    { label: `${r.word} 가입`, value: n0(sig), note: `전체 ${n0(sg.total)}명` }] };
+}
+function vGoalMini(){
+  const ch = BR.chan || {}, api = ch.api && ch.api.at ? ch.api : null, pm = BR.mon || {};
+  const after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00'), H = after ? 8000 : 4000, S = after ? 20000000 : 10000000;
+  const subs = ch.subs != null ? +ch.subs : pm.subs != null ? +pm.subs : 0;
+  const hours = api && api.long_watch_h_12m != null ? +api.long_watch_h_12m : pm.watch_h_12m != null ? +pm.watch_h_12m : 0;
+  const shorts = api && api.shorts_engaged_90d != null ? +api.shorts_engaged_90d : pm.shorts_90d != null ? +pm.shorts_90d : 0;
+  const pct = (v, g) => Math.max(0, Math.min(100, v / g * 100));
+  const bar = (l, v, g, u) => { const p = pct(v, g); return `<div class="gl-row"><div class="gl-h"><b>${l}</b><span>${n0(v)}${u} / ${n0(g)}${u} · ${p < 1 && v ? p.toFixed(2) : Math.floor(p)}%</span></div><div class="gl-bar"><i style="width:${Math.max(p, v ? .8 : 0)}%"></i></div></div>`; };
+  const gp = BR.growth || {}, good = (gp.good || []).find(m => +m.subs >= 1000), base = (gp.base || []).find(m => +m.subs >= 1000);
+  return `<details class="br-fold"><summary>수익화 목표 <span class="qcount">구독자 ${n0(subs)} / 1,000</span></summary><div class="card br-goal">
+    <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${n0(H)}시간 <b>또는</b> 쇼츠 유효 조회 ${n0(S)}회)</div>
+    ${bar('구독자', subs, 1000, '명')}${bar('롱폼 시청시간 (1년)', hours, H, '시간')}${bar('쇼츠 유효 조회 (90일)', shorts, S, '회')}
+    ${good || base ? `<div class="gl-foot">1,000명 예상: ${good ? '잘 될 때 ' + esc(good.month) : ''}${good && base ? ' · ' : ''}${base ? '기본 ' + esc(base.month) : ''}</div>` : ''}
+  </div></details>`;
+}
 function vBrief(){
   if(!BR.loaded) return '<div class="empty">불러오는 중</div>';
-  const r = brRange(), d = brClean((BR.doc || {}).data || {}), wk = BR.mode === 'w';
-  const s = DATA || {}, sv = s.visitors || {}, sg = s.signups || {};
-  const daily = (s.daily || []).filter(x => x.d >= r.from && x.d <= r.to);
-  const vis = daily.length ? daily.reduce((a, x) => a + (+x.v || 0), 0) : (wk ? sv.d7 : sv.today), sig = daily.length ? daily.reduce((a, x) => a + (+x.s || 0), 0) : (wk ? sg.d7 : sg.today);
-  const C = brContent(r), up = C.reduce((a, c) => a + c.done.length, 0), plan = C.reduce((a, c) => a + c.all.length, 0);
-  const kp = (d.kpis && d.kpis.length ? d.kpis.slice(0, 4) : [
-    { label: '유튜브 구독자', value: '–', note: '브리핑 작업이 채웁니다' },
-    { label: wk ? '이번 주 방문' : '방문', value: n0(vis) },
-    { label: wk ? '이번 주 가입' : '가입', value: n0(sig), note: `전체 ${n0(sg.total)}명` },
-    { label: '올린 콘텐츠', value: `${up}/${plan}`, note: '올림 / 예정' }]);
-  /* 2026-11-03 대표님: "브리핑 구독자 수가 업데이트가 안 돼" → 구독자 타일은 브리핑 글이 아니라 yt-channel(새로고침 버튼·자동 갱신)의 최신 숫자를 쓴다 */
-  { const ch = BR.chan || {}; if(ch.subs != null && (!d.at || !ch.at || Date.parse(ch.at) >= Date.parse(d.at))){ const i = kp.findIndex(k => /구독자/.test(k.label)); const base = i >= 0 ? kp[i] : {}; const prevN = base.value != null ? +String(base.value).replace(/[^\d]/g, '') : NaN; const diff = Number.isFinite(prevN) && prevN !== +ch.subs ? `${+ch.subs > prevN ? '+' : '−'}${n0(Math.abs(+ch.subs - prevN))} (아침 브리핑 ${n0(prevN)})` : (base.delta || ''); const tile = { label: '유튜브 구독자', value: n0(ch.subs), delta: diff, note: `${kst(ch.at)} 기준${ch.source === 'public' ? '' : ' · 스튜디오'}` }; if(i >= 0) kp[i] = tile; else kp.unshift(tile); } }
-  /* 2026-10-30 운영자: "쇼츠가 최신값 아닌 거 같은데? 최상위 1개가 1.6만이 넘는데" → 쇼츠 조회 숫자는 브리핑 글이 아니라 지금 데이터(공개 조회수 → 스튜디오 순)로 계산한다 */
-  { const sv7 = brShortViews(r, wk); if(sv7){ const i = kp.findIndex(k => /쇼츠|유튜브 조회/.test(k.label)); const tile = { label: `쇼츠 조회 (${wk ? '이번 주 올린 편' : '최근 7일 올린 편'})`, value: n0(sv7.views), note: `${sv7.n}편 합계 · 최고 ${n0(sv7.top)}회 · ${sv7.asof} 기준` }; if(i >= 0) kp[i] = tile; else kp.splice(1, 0, tile); kp.length = Math.min(kp.length, 4); } }
-  const todo = ((d.sections || []).find(sc => /직접 할 일/.test(sc.title || '')) || {}).items || [];
-  const checks = brChecks();
+  const r = brRange(), d = brClean((BR.doc || {}).data || {});
+  const N = brNums(r), C = brContent(r);
+  const up = C.reduce((a, c) => a + c.done.length, 0), wait = C.reduce((a, c) => a + c.wait.length + c.fix.length, 0), bad = C.reduce((a, c) => a + c.bad.length, 0);
+  /* 한 줄 브리핑: 이 기간 브리핑 글이 있으면 그 글, 없으면 지금 데이터로 바로 만든다 */
+  const auto = `${r.word} 콘텐츠 ${up}편 올라갔고${wait ? ` ${wait}편 남았습니다` : ' 남은 건 없습니다'}${bad ? `, ${bad}편은 실패·지연입니다` : ''}. 방문 ${n0(N.vis)}명 · 가입 ${n0(N.sig)}명${N.subs != null ? ` · 구독자 ${n0(N.subs)}명${N.gain ? `(${N.gain > 0 ? '+' : '−'}${n0(Math.abs(N.gain))})` : ''}` : ''}.`;
+  const head = d.headline ? esc(d.headline) : esc(auto);
+  const urgent = brChecks(), alerts = BR.alerts.filter(a => brAlertOpen(a) && brAlertBig(a));
+  BR.checksNow = urgent;
+  const reqs = brReqs(), todoOpen = ((BR.todo || {}).items || []).filter(it => !brTodoToday(it)).length;
   const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
-  const applied = d.applied || [];
-  const open = BR.alerts.filter(brAlertOpen), big = open.filter(brAlertBig), small = open.length - big.length;
-  const fb = (((BR.inbox || {}).data || {}).items || []).slice(-4).reverse();
+  const ref = (BR.refresh || {}).at;
+  const nu = urgent.length + alerts.length;
   return `<div class="br">
   <div class="br-top">
-    <div class="br-seg"><button data-br-mode="d"${wk ? '' : ' class="on"'}>일일</button><button data-br-mode="w"${wk ? ' class="on"' : ''}>주간</button></div>
-    <div class="br-nav"><button data-br-step="-1" aria-label="이전">‹</button><b>${r.label}</b><button data-br-step="1" aria-label="다음"${r.to >= brToday() ? ' disabled' : ''}>›</button></div>
+    <div class="br-seg">${[['d', '일간'], ['w', '주간'], ['m', '월간']].map(([k, t]) => `<button data-br-mode="${k}"${BR.mode === k ? ' class="on"' : ''}>${t}</button>`).join('')}</div>
+    <div class="br-upd"><span class="m">${esc(r.label)}</span><button class="br-b ghost" data-br-reload title="지금 데이터로 다시 읽고 구독자 수도 새로 읽습니다">${BR.ytBusy ? '읽는 중…' : '새로고침'}</button></div>
   </div>
 
-  <div class="card br-hl">${d.headline ? `<p>${esc(d.headline)}</p>` : `<p class="m">${wk ? '주간 브리핑은 월요일 07:47에 올라옵니다.' : '오늘 브리핑은 매일 07:47에 올라옵니다.'} 아래 숫자와 목록은 지금 데이터 그대로입니다.</p>`}${d.at ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
+  ${nu ? `<div class="card br-urgent"><div class="br-sec">긴급 <span class="qcount">${nu}</span></div>
+    ${urgent.length ? vChecks() : ''}
+    ${alerts.slice(0, 5).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(String(a.data.body).slice(0, 200))}</div>` : ''}</div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">확인</button></div></div>`).join('')}
+  </div>` : `<div class="br-calm">✓ 지금 급한 것 없음</div>`}
+
+  <div class="card br-hl"><p>${head}</p>${d.at && d.headline ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
 
   <div class="br-cols"><div class="br-main">
-  ${vGoal(kp)}
+  <h2>내 요청 ${reqs.filter(x => !x.done).length ? `<span class="qcount">처리 중 ${reqs.filter(x => !x.done).length}</span>` : ''}</h2>
+  <div class="card">${vReqs()}</div>
 
-  ${vTodo(todo)}
-
-  <h2>확인할 것 ${checks.length ? `<span class="qcount">${checks.length}</span>` : ''}</h2>
-  <div class="card">${vChecks()}</div>
-
-  ${brReqs().length || ((((BR.inbox || {}).data || {}).hidden) || []).length ? `<h2>내 요청 <span class="qcount">처리 상태</span></h2>\n  <div class="card">${vReqs()}</div>` : ''}
+  ${todoOpen ? `<h2>대표님이 직접 할 일 <span class="qcount">${todoOpen}</span></h2>${vTodo([])}` : ''}
   </div><div class="br-side">
 
-  <div class="br-kpis">${kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${String(k.delta).startsWith('-') || String(k.delta).startsWith('−') ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
+  <div class="br-kpis">${N.kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${/^[-−]/.test(k.delta) ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
 
-  <h2>${wk ? '이번 주' : (r.from === brToday() ? '오늘' : '이날')} 콘텐츠</h2>
-  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ 업로드 ${c.done.length}</em>` : ''}${c.wait.length ? `<em>예정 ${c.wait.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패·지연 ${c.bad.length}</em>` : ''}${c.fix.length ? `<em>수정 중 ${c.fix.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' || isFixRow(x) ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}
-    ${C.some(c => c.held.length || c.bad.length || c.fix.length) ? `<div class="m br-legend">수정 중 = 고쳐서 다시 만드는 중(수정 접수 → 렌더링 중 → 업로드 예정 순으로 바뀝니다). 보류 = 올리지 않기로 내려 둔 것. 둘 다 이유는 줄 아래 '왜'에 있고, 시간 칸은 차지하지 않습니다. 실패·지연 = 올라가야 했는데 안 올라간 것으로, 위 '확인할 것'에 이유가 뜹니다.</div>` : ''}
-    ${(d.channels || []).map(c => `<div class="br-ch1"><span class="n">${esc(c.name)}</span><span class="c">${esc(c.text || '')}</span></div>`).join('')}</div>
+  <h2>${r.word} 콘텐츠</h2>
+  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length + c.fix.length ? `<em>남음 ${c.wait.length + c.fix.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].filter(x => BR.mode === 'd' || !c.st(x)[0].match(/^m$/)).sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).slice(0, 30).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}</div>
 
-  ${(d.sections || []).filter(sc => !/직접 할 일/.test(sc.title || '')).map(sc => `<details class="br-fold"><summary>${esc(sc.title)}</summary><div class="card"><ul class="br-li">${(sc.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></details>`).join('')}
-
-  <details class="br-fold"><summary>자동으로 적용한 것 <span class="qcount">${applied.length}건</span></summary>
-  <div class="card">${applied.length ? applied.map((a, i) => `<div class="br-row">${dot('good')}<div class="t"><b>${esc(a.title)}</b>${a.where ? `<div class="m">${esc(a.where)}</div>` : ''}</div><div class="bt">${a.reverted ? '<span class="m">되돌림 요청함</span>' : `<button class="br-b ghost" data-br-undo="${i}">되돌리기</button>`}</div></div>`).join('') : '<div class="m">아직 없습니다. 개선안은 승인 없이 바로 적용되고 여기에 모입니다.</div>'}</div></details>
-
-  <details class="br-fold"${big.length ? ' open' : ''}><summary>알림 <span class="qcount">${big.length ? '중요 ' + big.length + '건' : '중요한 알림 없음'}</span></summary>
-  <div class="card">${big.slice(0, 6).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(a.data.body)}</div>` : ''}<div class="br-at">${kst(a.data.at || a.updated_at)} · ${esc(a.data.source || '')}</div></div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">확인</button></div></div>`).join('') || '<div class="br-ok">✓ 중요한 알림 없음</div>'}
-    ${open.length ? `<div class="br-foot"><span class="m">${small ? `일반 알림 ${small}건은 브리핑에 정리됩니다` : ''}</span><button class="br-b ghost" data-br-readall>모두 읽음</button></div>` : ''}</div></details>
+  ${vGoalMini()}
+  ${ref ? `<div class="br-stamp">자동 정리·갱신 ${kst(ref)} · 하루 3번(08:10·13:10·19:10)</div>` : ''}
   </div></div>
 </div>`;
 }
@@ -3088,6 +3132,8 @@ function bindBrief(){
     if(error){ toast('바꾸지 못했습니다: ' + error.message, true); b.disabled = false; return; } BR.inbox = { ...BR.inbox, data }; toast('끝났습니다.'); render(); });
   box.querySelectorAll('[data-td-act]').forEach(b => b.onclick = () => brTodoAct(b.closest('[data-td]'), b.dataset.tdAct, b));
   box.querySelectorAll('[data-br-hide]').forEach(b => b.onclick = () => { b.disabled = true; brHide([b.dataset.brHide]); });
+  { const hd = box.querySelector('[data-br-hidedone]'); if(hd) hd.onclick = () => { hd.disabled = true; brHide(brReqs().filter(r => r.done).map(r => r.key)); }; }
+  { const rl = box.querySelector('[data-br-reload]'); if(rl) rl.onclick = async () => { rl.disabled = true; try{ await Promise.all([ytFetch().catch(() => {}), opsLoad().catch(() => {}), briefLoad()]); }finally{ render(); } brYtRefresh(true); }; }
   { const u = box.querySelector('[data-br-unhide]'); if(u) u.onclick = () => brHide([], true); }
   box.querySelectorAll('[data-br-act]').forEach(b => b.onclick = () => brAct(b.closest('[data-br-ck]'), b.dataset.brAct));
   box.querySelectorAll('[data-br-mode]').forEach(b => b.onclick = async () => { BR.mode = b.dataset.brMode; BR.loaded = false; render(); await briefLoad(); render(); });
