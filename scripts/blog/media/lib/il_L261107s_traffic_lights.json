@@ -1,0 +1,32 @@
+{
+ "id": "il_L261107s_traffic_lights",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and cold steel-blue color grade with small warm amber highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no flags with readable marks, no watermark, no recognizable faces. Scene: Two traffic signal lights glowing in dense night fog side by side, one green and one amber, wet street reflections.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b361-ec9c-7708-a8e6-89fcfa4d2097",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b361-ec9c-7708-a8e6-89fcfa4d2097/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b361-ec9c-7708-a8e6-89fcfa4d2097/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b361-ec9c-7708-a8e6-89fcfa4d2097",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b361-ec9c-7708-a8e6-89fcfa4d2097/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b361-ec9c-7708-a8e6-89fcfa4d2097/cancel",
+  "expires_at": "2026-11-14T00:22:51.959223+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b361-ec9c-7708-a8e6-89fcfa4d2097/e81c11f2-3916-4be3-a449-a1dddaa2d38a.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "scripts/blog/media/lib/il_L261107s_traffic_lights.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L261107s_red_wave",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and cold steel-blue color grade with small warm amber highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no flags with readable marks, no watermark, no recognizable faces. Scene: A wave of red light washing over a green circuit board like a flood, macro photography, dramatic.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b360-fc3b-796c-935e-a7458979ba34",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b360-fc3b-796c-935e-a7458979ba34/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b360-fc3b-796c-935e-a7458979ba34/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b360-fc3b-796c-935e-a7458979ba34",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b360-fc3b-796c-935e-a7458979ba34/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b360-fc3b-796c-935e-a7458979ba34/cancel",
+  "expires_at": "2026-11-14T00:21:56.146585+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b360-fc3b-796c-935e-a7458979ba34/c8526004-89e0-4252-8da9-c389c109d39c.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "scripts/blog/media/lib/il_L261107s_red_wave.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L261107s_closing_floor",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy and cold steel-blue color grade with small warm amber highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no flags with readable marks, no watermark, no recognizable faces. Scene: A stock exchange floor at the closing moment, blurred traders rushing, monitors glowing red, confetti-like paper on the floor, motion blur.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b365-7154-75ee-85a5-e05b91b1b44e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b365-7154-75ee-85a5-e05b91b1b44e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b365-7154-75ee-85a5-e05b91b1b44e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b365-7154-75ee-85a5-e05b91b1b44e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b365-7154-75ee-85a5-e05b91b1b44e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b365-7154-75ee-85a5-e05b91b1b44e/cancel",
+  "expires_at": "2026-11-14T00:27:00.818030+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b365-7154-75ee-85a5-e05b91b1b44e/68ef4c56-af6f-47c8-aa3f-501d8203d91a.jpeg"
+   }
+  ]
+ },
+ "seconds": 93,
+ "file": "scripts/blog/media/lib/il_L261107s_closing_floor.jpeg"
+}
