@@ -1853,9 +1853,9 @@ def hook_bed(n, timeline):
             on = np.maximum(0, np.diff(e)); j = int(np.argmax(on)) * (fr // 2)   # 곡 앞 40초에서 가장 세게 치는 순간
             L = max(1, int((h1 - h0 + .6) * SR)); st = x[j: j + L].copy()
             if len(st) < L: st = np.pad(st, (0, L - len(st)))
-            st *= np.exp(-np.arange(L) / SR / .75).astype(np.float32) * 1.15
+            st *= np.exp(-np.arange(L) / SR / 1.6).astype(np.float32) * 1.3   # 11/7 검수: .75초면 로고 중간에 소리가 비어 → 1.6초로 길게 울린다
             bed[i0:i0 + L] += st[: max(0, n - i0)]
-            add(h0 - 1.3, sfx_riser(1.3, .09, seed=3)); add(h0, NBK_boom(.2)); add(h0 + .05, sfx_braam(.16))
+            add(h0 - 1.3, sfx_riser(1.3, .09, seed=3)); add(h0, NBK_boom(.2)); add(h0 + .05, sfx_braam(.3))
             add(h1 - DOCK_T, NBK_whoosh(.8, .06))   # 로고가 오른쪽 위로 날아갈 때 쉭
             fi = int(SR * .3); bed[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)
             return bed, h1
