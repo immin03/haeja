@@ -81,7 +81,7 @@ CH4 = {
         knot=lib("sunrise_hills", ["d4d"], pre=0.6, post=1.6),
         teaser=lib("rain_march", ["d4t"], pre=0.3, post=1.2)),
  5: dict(title="그리움을, 좋은 일로 바꿔라", en="From one kind act to another",
-        q=[mod("e4m_mom", ["d5q"]), lib("rain_window", ["d5q2"], pre=0.3, post=0.4, grade="modern")],
+        q=[mod("e4m_mom", ["d5q"]), mod("e4m_mom", ["d5q2"]) | {"tin": "cut", "move": {"zoom": [1.18, 1.28], "pan": [[0.0, -0.01], [0.01, -0.02]]}}],   # 둘째 컷도 현대(아치 창문 그림은 로마로 보여 헷갈림)
         scene=[F.shot("still", "e4_halala", ["d5a"], SNOW, {"move": {"zoom": [1.12, 1.24]}}),
                F.shot("still", "e4_girls", ["d5b"], ["wind_1.mp3", 0.2], {"grade": "memory", "move": {"zoom": [1.0, 1.1]}})],
         mono="quill2", mvoices=["m5a", "m5b", "m5c"], verse=["남을 위한 일에서 다음 일로,", "거기서 기쁨을 찾아라."], src="명상록 6권 7절",

@@ -2127,26 +2127,41 @@
    ]
   },
   {
-   "type": "video",
-   "src": "libv_rain_window",
-   "amb": [
-    "rain_4.mp3",
-    0.3
-   ],
-   "sfx": [],
+   "type": "still",
+   "src": "e4m_mom",
    "move": {
     "zoom": [
-     1.0,
-     1.06
+     1.18,
+     1.28
+    ],
+    "pan": [
+     [
+      0.0,
+      -0.01
+     ],
+     [
+      0.01,
+      -0.02
+     ]
     ]
    },
-   "lib": "rain_window",
    "voice": [
     "d5q2"
    ],
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "cut",
+   "grade": "modern",
    "pre": 0.3,
    "post": 0.6,
-   "grade": "modern"
+   "face": [
+    0.348,
+    0.201,
+    0.472,
+    0.451
+   ]
   },
   {
    "type": "still",
