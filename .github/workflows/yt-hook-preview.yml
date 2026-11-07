@@ -1,0 +1,63 @@
+# 훅 음악 시안: 롱폼 앞부분(훅 + 인트로 + 본편 첫 장면)만 실제 음성으로, 음악 시안별로 렌더해 릴리스 preview-hook 에 올린다 (게시·커밋 없음)
+# 2026-11-07 대표님: "I2·I3에 목소리 입혀서 들어보고 싶다"
+# variants 예: 'I2:samples3/I2_full.mp3:0.07:61.5 I3:samples3/I3_full.mp3:1.974:68'  (이름:곡:첫 박 초:훅 BPM)
+name: yt-hook-preview
+on:
+  workflow_dispatch:
+    inputs:
+      id: { description: '롱폼 아이디', required: true }
+      variants: { description: '이름:곡:첫박초:BPM 띄어쓰기로', required: true }
+      bed: { description: '본편 곡들 (쉼표)', required: false, default: '' }
+      scenes: { description: '렌더할 장면 번호 (쉼표)', required: false, default: '0,1,2,3,4,5,6,7,8,9,10,11' }
+permissions:
+  contents: write
+concurrency: yt-hook-preview
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: 도구 설치
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+          pip install -q numpy scipy pillow soundfile opencv-python-headless sherpa-onnx==1.13.8
+      - name: 음성 캐시 (롱폼 렌더와 같은 캐시를 읽기만 한다)
+        uses: actions/cache/restore@v4
+        with:
+          path: scripts/reels/.cache
+          key: yt-tts-hook-${{ github.run_id }}
+          restore-keys: yt-tts-
+      - name: 렌더 (시안별)
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          RENDER_SCENES: ${{ github.event.inputs.scenes }}
+          ID: ${{ github.event.inputs.id }}
+          BED: ${{ github.event.inputs.bed }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          S=scripts/youtube/long/specs/$ID.json; cp $S /tmp/orig.json
+          gh release view preview-hook >/dev/null 2>&1 || gh release create preview-hook --prerelease --title "훅 음악 시안" --notes "게시용 아님"
+          for v in ${{ github.event.inputs.variants }}; do
+            IFS=: read NAME SONG OFF BPM <<< "$v"
+            python3 - "$S" "$SONG" "$OFF" "$BPM" "$BED" <<'EOF'
+          import json, sys
+          p, song, off, bpm, bed = sys.argv[1:]
+          s = json.load(open("/tmp/orig.json", encoding="utf-8"))
+          m = dict(s.get("music") or {}); m["intro"] = "social/music/" + song; m["intro_offset"] = float(off)
+          if bed: m["bed"] = ["social/music/" + b for b in bed.split(",")]
+          s["music"] = m; s["hook"] = dict(s.get("hook") or {}, bpm=float(bpm), pulse=True)
+          json.dump(s, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+          EOF
+            python3 scripts/youtube/long/render2.py $S
+            D=social/youtube/$ID
+            cp $D/video.mp4 /tmp/$ID-hook-$NAME.mp4
+            ffmpeg -v error -y -i /tmp/$ID-hook-$NAME.mp4 -vn -b:a 160k /tmp/$ID-hook-$NAME.mp3
+            gh release upload preview-hook /tmp/$ID-hook-$NAME.mp4 /tmp/$ID-hook-$NAME.mp3 --clobber
+          done

@@ -1104,6 +1104,11 @@ def cuts_source(v, n_frames, seed):
 
     def get(u):
         im = _cut_get(u)
+        if v.get("_pulse"):   # 2026-11-07 대표님: 박자마다 사진이 살짝 '쿵' 하고 다가온다 (박자에 맞춘 훅 전용)
+            ph = u % v["_pulse"]; z = 1 + .035 * math.exp(-ph / .11)
+            if z > 1.002:
+                cw, ch = int(W / z), int(H / z); x0, y0 = (W - cw) // 2, (H - ch) // 2
+                im = im.crop((x0, y0, x0 + cw, y0 + ch)).resize((W, H), Image.BILINEAR)
         if v.get("_beat") and st["j"] > 0 and u - st["a"] < .1:   # 컷 순간 아주 짧게 밝아진다 (레퍼런스 도입부처럼)
             im = Image.blend(im, Image.new("RGB", (W, H), (255, 248, 236)), .32 * (1 - (u - st["a"]) / .1))
         return im
@@ -1373,7 +1378,7 @@ MUSIC = {}   # spec "music": {"intro": 훅 음악 파일, "bed": 본편 배경�
 
 def _music_file(key):
     f = MUSIC.get(key)
-    if not f: return None
+    if not f or not isinstance(f, str): return None
     p = os.path.normpath(os.path.join(HERE, "..", "..", "..", f))
     return p if os.path.exists(p) else None
 
@@ -1386,6 +1391,19 @@ def _decode(p, ch=2):
 def load_theme(n):
     """운영자가 직접 만든 밸류노트 테마곡(assets/theme.mp3, 저작권 없음)을 영상 길이만큼 이어 붙인다.
     곡 앞뒤 무음은 잘라 내고, 반복할 때는 3초 동안 겹쳐서 자연스럽게 넘어간다. 파일이 없으면 합성 테마를 쓴다."""
+    if isinstance(MUSIC.get("bed"), list):   # 2026-11-07 대표님: 본편 곡 두 개를 번갈아 (한 곡만 반복하면 짧게 느껴진다) — 곡마다 끝까지 듣고 4초 겹쳐 넘어간다
+        tr = []
+        for f in MUSIC["bed"]:
+            q = os.path.normpath(os.path.join(HERE, "..", "..", "..", f))
+            if os.path.exists(q):
+                y = _decode(q); lv = np.abs(y).max(1); idx = np.where(lv > .01)[0]; y = y[idx[0]: idx[-1] + 1] if len(idx) else y
+                tr.append(y / (np.sqrt(np.mean(y ** 2)) + 1e-9) * .2)   # 두 곡 크기를 맞춘다
+        if tr:
+            xf = int(SR * 4); fade = np.linspace(0, 1, xf, dtype=np.float32)[:, None]; out = tr[0].copy(); j = 1
+            while len(out) < n:
+                y = tr[j % len(tr)]; out[-xf:] = out[-xf:] * (1 - fade) + y[:xf] * fade; out = np.concatenate([out, y[xf:]]); j += 1
+            out = out[:n]; fi = int(SR * .8); out[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)[:, None]; fo = int(SR * 3); out[-fo:] *= np.linspace(1, 0, fo, dtype=np.float32)[:, None]
+            return (out / (np.abs(out).max() + 1e-9)).astype(np.float32)
     p = _music_file("bed") or os.path.join(HERE, "assets", "theme.mp3")
     if not os.path.exists(p): return make_theme(n)
     x = _decode(p); lv = np.abs(x).max(1)
@@ -1784,7 +1802,9 @@ def hook_bed(n, timeline):
         for e in cut_edges(x["sc"]["v"], x["dur"]): strong.add(round((x["start"] + e) / bt))
     ip = _music_file("intro")
     if ip:   # 2026-11-07 대표님: 훅은 Dramatic Hip Hop(I1) 녹음곡 그대로 — 인트로가 끝나면 2초에 걸쳐 빠진다
-        x = _decode(ip, 1)[:, 0]; lv = np.abs(x); i0 = int(np.argmax(lv > .01)) if (lv > .01).any() else 0; x = x[i0:]
+        x = _decode(ip, 1)[:, 0]
+        if MUSIC.get("intro_offset") is not None: x = x[int(float(MUSIC["intro_offset"]) * SR):]   # 곡의 첫 박을 0초에 맞춘다 → 컷·박자 효과가 음악 박자 위에 떨어진다
+        else: lv = np.abs(x); i0 = int(np.argmax(lv > .01)) if (lv > .01).any() else 0; x = x[i0:]
         m = min(n, len(x), int((h1 + 2.0) * SR)); bed[:m] = x[:m]
         f0 = int(h1 * SR); f1 = min(m, int((h1 + 2.0) * SR))
         if f1 > f0: bed[f0:f1] *= np.linspace(1, 0, f1 - f0, dtype=np.float32)
@@ -1895,6 +1915,7 @@ def main():
             # 2026-11-04 19:01 대표님 "다(★)다다다 다다다다 — 별 친 박자(마디 첫 박, 베이스가 제일 센 곳)에 사진을 바꾸면 제일 자연스럽다"
             # → basstaiko 훅은 사진 전환을 마디 첫 박에만 둔다. 장면 끝도 다음 마디 첫 박으로, 마디 수보다 사진이 많으면 뒤 사진은 뺀다
             dur = math.ceil((t + dur) / unit - 1e-6) * unit - t; sc["v"]["_beat"] = unit
+            if (spec.get("hook") or {}).get("pulse"): sc["v"]["_pulse"] = BEAT
             nb_ = max(1, int(round(dur / unit)))
             if unit > BEAT and len(sc["v"].get("cuts", [])) > nb_:
                 print(f"  훅 마디 맞춤: 사진 {len(sc['v']['cuts'])}장 → {nb_}장 (마디 {nb_}개)"); sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:nb_])
