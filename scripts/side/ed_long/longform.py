@@ -680,7 +680,7 @@ def recap_frame(s, t, dur, cache, active):
 def overlay(img, ov, t, dur, cache, key):
     k = ov["kind"]
     if k == "caption":   # 작은 장소·연도 자막, 왼쪽 아래
-        if key not in cache: cache[key] = text_layer([ov["text"]], "ui", 34, IVORY, track=2, width=W, height=60)
+        if key not in cache: cache[key] = text_layer([ov["text"]], "ui", ov.get("size", 34), IVORY, track=2, width=W, height=60)
         a = ease((t - ov.get("at", 0.3)) / 0.6) * (1 - ease((t - dur + 0.5) / 0.5))
         lay = np.zeros((H, W, 4), np.uint8); tl = cache[key]
         # 왼쪽 정렬처럼 보이게 가운데 정렬 레이어를 옮긴다
