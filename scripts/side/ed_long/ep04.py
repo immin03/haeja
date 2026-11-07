@@ -60,6 +60,13 @@ IMAGES = {
  "e4m_house": ("A Korean woman in her early sixties sitting alone on a sofa in a quiet living room at dusk, holding her late husband's grey cardigan in her lap, his reading glasses on the side table, tired eyes.", MODN),
  "e4m_dog": ("A Korean woman in her mid forties kneeling in a small apartment in the evening beside an empty dog bed, holding a worn red leash in both hands, soft lamp light, quiet grief.", MODN),
  "e4m_bus": ("A Korean man in his early sixties in a dark coat sitting by the window of a city bus at grey morning, looking out at people hurrying to work, his face tired and lonely.", MODN),
+ # 11/8 대표: 현대 장면이 몇 초 한 컷이라 로마와 헷갈림 → 장마다 2컷(상황 → 속마음)으로, 1장은 아버지 별세로
+ "e4m_funeral": ("The same Korean man in his early fifties now in a black mourning suit with a hemp mourning armband, sitting alone late at night in a quiet Korean funeral hall room, "
+                 "a framed portrait of an old father with a black ribbon and white chrysanthemums on the altar behind him slightly out of focus, his head lowered, regret on his face, faces clearly lit.", MODN),
+ "e4m_family": ("The same Korean woman in her early sixties at a family dinner table, relatives talking to her with well-meaning faces, she looks down at her untouched rice bowl, holding back tears, warm dim light.", MODN),
+ "e4m_walk": ("The same Korean woman in her mid forties walking alone on a riverside path at dusk, holding a worn red leash with no dog attached, her face sad but calm, autumn trees.", MODN),
+ "e4m_shirt": ("The same Korean man in his early sixties alone in a small kitchen at dawn, clumsily ironing a white shirt on a board, a framed photo of his late wife on the shelf slightly out of focus, cold light with one warm lamp.", MODN),
+ "e4m_mom": ("A Korean woman in her late forties sitting at a kitchen table late at night, holding her phone with both hands and looking at the glowing screen with tears in her eyes, the screen not readable, an old woman's cardigan on the chair beside her.", MODN),
  "e4m_letter": ("A Korean woman in her late forties at a small school office, handing a white envelope to a shy high-school girl in uniform, a framed photo of an older woman on the desk between them, warm light, gentle smiles.", MODN),
 }
 VIDEOS = {   # wan 3.0, 8개 이하 (LIBRARY.md 4장)
@@ -88,7 +95,8 @@ LINES = [
  ("s3", G, "반란은 석 달 만에 끝났습니다. 황제는 흔들린 동방을 다독이러 먼 길을 떠났고, 황후 파우스티나가 그 길을 함께했습니다."),
  ("s4", G, "그리고 돌아오는 길, 산맥 아래 작은 마을에서, 황후는 병으로 쓰러졌습니다."),
  # 첫 번째 방법 — 그날 밤 (8권 49절)
- ("d1q", G, "한밤중에 걸려 온 전화 한 통. 아버지가 쓰러지셨다는 말에, 머릿속에는 온갖 생각이 한꺼번에 몰려듭니다."),
+ ("d1q", G, "한밤중, 요양병원에서 걸려 온 전화 한 통. 아버지가, 방금 돌아가셨다고 합니다."),
+ ("d1q2", G, "빈소에 앉아서도, 머릿속에는 같은 말만 맴돕니다. 지난 주말에 찾아뵀더라면. 그날 전화를, 조금만 더 길게 받았더라면."),
  ("d1a", G, "그날 밤, 황제의 머릿속에도 생각이 몰려들었을 겁니다."),
  ("d1b", G, "내가 그 먼 길에 데려오지 않았다면. 조금만 더 일찍, 의사를 불렀다면."),
  ("d1c", G, "새벽이 오도록, 황제는 등불 옆에 앉아 있었습니다. 그리고 일기를 펼쳤습니다."),
@@ -100,6 +108,7 @@ LINES = [
  ("d1t", G, "날이 밝자, 로마에서 온 편지 한 통이 막사에 닿았습니다."),
  # 두 번째 방법 — 로마의 소문 (1권 17절)
  ("d2q", G, "남편을 떠나보내고 한 달. 사람들은 이제 어떻게 살 거냐고 묻습니다. 그런데 떠오르는 건, 그가 남기고 간 빈자리뿐입니다."),
+ ("d2q2", G, "위로한다며 건넨 말들이, 오히려 가슴을 찌릅니다. 이제 그만 잊으라고, 산 사람은 살아야 한다고."),
  ("d2a", G, "편지에는, 차가운 소문이 적혀 있었습니다. 황후가 카시우스와 몰래 편지를 주고받으며, 반란을 부추겼다는 소문이었습니다."),
  ("r_sen", "SENATOR", "황후가 반란을 부추겼다더군. 그러니 하늘이 데려간 거지."),
  ("d2b", G, "황제는 그 소문에 답하지 않았습니다. 대신 원로원에 편지를 보냈습니다. 아내를, 신으로 모시게 해 달라고."),
@@ -111,6 +120,7 @@ LINES = [
  ("d2t", G, "며칠 뒤, 마을 밖 언덕에 장작이 쌓였습니다."),
  # 세 번째 방법 — 장례 (9권 35절)
  ("d3q", G, "열다섯 해를 함께한 강아지를 떠나보낸 날. 집 안의 모든 것이 그대로인데, 모든 것이 달라져 있습니다."),
+ ("d3q2", G, "누군가는 고작 개 한 마리라고 말합니다. 하지만 내게는, 열다섯 해의 아침과 저녁이었습니다."),
  ("d3a", G, "황후를 위한 장례의 불이, 겨울 하늘로 타올랐습니다. 병사들은 깃발을 내리고, 말없이 서 있었습니다."),
  ("d3b", G, "황제에게 이별은, 처음이 아니었습니다. 그는 이미 여러 아이를 먼저 떠나보낸 아버지였습니다."),
  ("m3a", M, "어제의 것은 오늘 다른 것이 되고, 오늘의 것은 내일 또 다른 것이 된다."),
@@ -121,6 +131,7 @@ LINES = [
  ("d3t", G, "장례가 끝난 다음 날 새벽. 황제는, 다시 일어나야 했습니다."),
  # 네 번째 방법 — 다음 날 새벽 (5권 1절)
  ("d4q", G, "아내를 보낸 지 한 달. 출근길 버스 창밖으로, 아무 일 없다는 듯 돌아가는 세상이 야속하기만 합니다."),
+ ("d4q2", G, "그래도 아침이면, 서툰 손으로 셔츠를 다려 입고 집을 나섭니다. 아내가 늘 해 주던 일을, 이제는 혼자 합니다."),
  ("d4a", G, "막사 밖에는, 서기와 장교들이 기다리고 있었습니다. 반란에 흔들린 동방의 도시들이, 황제의 판단을 기다리고 있었습니다."),
  ("d4b", G, "황제는 다시 길을 나섰습니다. 그리고 반란에 가담했던 도시들에, 대부분 벌 대신 용서를 내렸습니다."),
  ("m4a", M, "새벽에 일어나기 싫을 때, 이렇게 말하라."),
@@ -130,7 +141,8 @@ LINES = [
  ("d4d", G, "!밥을 짓고, 집을 나서고, 화분에 물을 주는 일. 그 작은 일이, 나를 다시 일으킵니다."),
  ("d4t", G, "그리고 얼마 뒤, 황제는 아내를 위해, 한 가지 일을 시작했습니다."),
  # 다섯 번째 방법 — 몇 달 뒤 (6권 7절)
- ("d5q", G, "어머니를 떠나보낸 뒤, 그 그리움을 어디에 두어야 할지, 아직도 모르겠습니다."),
+ ("d5q", G, "어머니를 떠나보낸 지 일 년. 휴대폰에는 아직도, 엄마라는 이름을 지우지 못했습니다."),
+ ("d5q2", G, "보고 싶은 마음은 그대로인데, 그 그리움을 어디에 두어야 할지, 아직도 모르겠습니다."),
  ("d5a", G, "황제는 아내가 숨을 거둔 마을 할랄라를, 파우스티노폴리스, 파우스티나의 도시라고 이름 붙였습니다."),
  ("d5b", G, "그리고 아내의 이름으로, 가난한 집 소녀들을 돕는 기금을 세웠습니다. 사람들은 그 아이들을, 파우스티나의 소녀들이라고 불렀습니다."),
  ("m5a", M, "한 가지에서 기쁨을 찾고, 거기서 쉬어라."),
