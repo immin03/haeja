@@ -1088,6 +1088,14 @@ def clip_source(pth, n_frames, seed, start=0.0):
     return get
 
 
+def hit_bounds(hs, n):
+    """컷 n장을 큰 베이스 시각 hs 위에서 나눈다: 경계 n-1개를 hs 중에서 고르게 고른다"""
+    k = min(n - 1, len(hs))
+    if k <= 0: return []
+    if k == len(hs): return list(hs)
+    return [hs[int(round((i + 1) * len(hs) / (k + 1))) - 1] if len(hs) > k else hs[i] for i in range(k)]
+
+
 def cuts_source(v, n_frames, seed):
     """한 장면 안에서 사진·영상을 여러 컷으로 빠르게 넘긴다 (2026-11-03 대표님: 처음 10초는 '돈의 질서'처럼 템포 있게).
     v.cuts = ["a.jpg", "b.mp4", ...] 또는 [{"lib": "a.jpg", "d": 1.4}, ...] — d 를 안 주면 장면 길이를 똑같이 나눈다."""
@@ -1097,7 +1105,10 @@ def cuts_source(v, n_frames, seed):
     edges = []; t = 0.0
     for c in cs:
         d_ = float(c.get("d") or each); edges.append((t, t + d_, c)); t += d_
-    if v.get("_beat"):   # 박자에 맞춰: 장면 박자 수를 컷 수로 나눠 경계를 박자 위에 둔다
+    if v.get("_hits") is not None:   # 큰 베이스 시각에만 컷 (2026-11-07)
+        b_ = hit_bounds(v["_hits"], len(cs)); bd = [0.0] + b_ + [total]
+        edges = [(bd[i], bd[i + 1], cs[i]) for i in range(len(bd) - 1)]
+    elif v.get("_beat"):   # 박자에 맞춰: 장면 박자 수를 컷 수로 나눠 경계를 박자 위에 둔다
         bt = v["_beat"]; B = max(1, int(round(total / bt))); n = len(cs); bd = [0] + [max(1, int(round(i * B / n))) for i in range(1, n)] + [B]
         edges = [(bd[i] * bt, bd[i + 1] * bt, cs[i]) for i in range(n)]
     st = {"j": -1, "src": None, "a": 0.0}
@@ -1435,9 +1446,11 @@ def load_theme(n):
     if isinstance(MUSIC.get("bed"), list):   # 2026-11-07 대표님: 본편 곡 두 개를 번갈아 (한 곡만 반복하면 짧게 느껴진다) — 곡마다 끝까지 듣고 4초 겹쳐 넘어간다
         tr = []
         for f in MUSIC["bed"]:
+            f, _, st0 = f.partition("@")   # "곡.mp3@30" = 30초부터 (조용한 도입부를 건너뛴다)
             q = os.path.normpath(os.path.join(HERE, "..", "..", "..", f))
             if os.path.exists(q):
                 y = _decode(q); lv = np.abs(y).max(1); idx = np.where(lv > .01)[0]; y = y[idx[0]: idx[-1] + 1] if len(idx) else y
+                if st0: y = y[int(float(st0) * SR):]
                 tr.append(y / (np.sqrt(np.mean(y ** 2)) + 1e-9) * .2)   # 두 곡 크기를 맞춘다
         if tr:
             xf = int(SR * 4); fade = np.linspace(0, 1, xf, dtype=np.float32)[:, None]; out = tr[0].copy(); j = 1
@@ -1883,6 +1896,7 @@ def cut_edges(v, dur):
     """cuts_source 와 같은 계산으로 컷이 바뀌는 시각들"""
     cs = [c if isinstance(c, dict) else {"lib": c} for c in v.get("cuts", [])]
     if not cs: return []
+    if v.get("_hits") is not None: return hit_bounds(v["_hits"], len(cs))
     if v.get("_beat"):
         bt = v["_beat"]; B = max(1, int(round(dur / bt))); n = len(cs)
         return [max(1, int(round(i * B / n))) * bt for i in range(1, n)]
@@ -1969,7 +1983,14 @@ def main():
             a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
-        if BEAT and sc["v"].get("cine"):   # 장면 끝을 다음 박자에 맞춘다 → 장면이 바뀌는 순간이 늘 박자 위
+        HITS = MUSIC.get("hits") or []
+        if HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
+            nx = [h for h in HITS if h >= t + dur - .05]
+            if nx and nx[0] - (t + dur) <= 4.0: dur = nx[0] - t
+            elif BEAT: dur = math.ceil((t + dur) / BEAT - 1e-6) * BEAT - t
+            hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs; sc["v"]["_beat"] = BEAT or .5
+            if len(sc["v"].get("cuts", [])) > len(hs) + 1: sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:len(hs) + 1])
+        elif BEAT and sc["v"].get("cine"):   # 장면 끝을 다음 박자에 맞춘다 → 장면이 바뀌는 순간이 늘 박자 위
             unit = BEAT * (4 if (spec.get("hook") or {}).get("cut", "bar" if HOOK_STYLE[0] == "basstaiko" else "beat") == "bar" else 1)
             # 2026-11-04 19:01 대표님 "다(★)다다다 다다다다 — 별 친 박자(마디 첫 박, 베이스가 제일 센 곳)에 사진을 바꾸면 제일 자연스럽다"
             # → basstaiko 훅은 사진 전환을 마디 첫 박에만 둔다. 장면 끝도 다음 마디 첫 박으로, 마디 수보다 사진이 많으면 뒤 사진은 뺀다
