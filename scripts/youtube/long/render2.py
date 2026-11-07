@@ -2091,8 +2091,13 @@ def main():
     first = int(timeline[0]["start"] * SR + timeline[0]["lines"][0][0] * SR); last = int(timeline[-1]["start"] * SR)
     boost[:first] = 1.5; boost[last:] = 1.5
     boost = _movavg(boost, int(SR * 1.2))
-    mus = load_theme(len(mix)) * (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:, None]
     bed, h1 = hook_bed(len(mix), timeline)
+    # 2026-11-07 15:12 대표님 "음악이 다른데": 본편 곡이 영상 0초부터 흘러가다 인트로 뒤에 소리만 열려 곡 중간(1분 34초)이 나왔다 → 인트로가 끝나는 순간 곡이 처음(@지점)부터 시작
+    lead_ = int(max(0.0, h1 - .4) * SR) if (h1 and isinstance(MUSIC.get("bed"), list)) else 0
+    th_ = load_theme(len(mix) - lead_)
+    if lead_: th_ = np.concatenate([np.zeros((lead_, 2), np.float32), th_])
+    th_ = th_ * float(10 ** (float(MUSIC.get("bed_gain_db", 0)) / 20))   # "인트로 대비 메인 음악이 너무 작다" → 곡별로 키운다
+    mus = th_ * (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:, None]
     if h1:   # 2026-11-03: 훅·인트로 동안 테마곡은 쉬고, 인트로가 끝나며 1.5초에 걸쳐 들어온다
         g = np.clip((np.arange(len(mix)) / SR - (h1 - .4)) / 1.5, 0, 1).astype(np.float32); mus = mus * g[:, None]
         # 2026-11-03 대표님 3차 "여전히 소리가 크다, 목소리가 묻힌다": 훅 구간 말소리 크기에 맞춰 베드를 정하고(말 없는 틈 -13dB), 말할 때는 60% 더 낮춘다(약 -21dB)
