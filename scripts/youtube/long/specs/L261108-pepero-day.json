@@ -8,9 +8,11 @@
   "desk": "walnut"
  },
  "hook": {
-  "bpm": 96,
+  "bpm": 61.52,
   "style": "basstaiko",
-  "cut": "beat"
+  "cut": "beat",
+  "pulse": false,
+  "ident_fx": false
  },
  "overlay": "doc",
  "look": {
@@ -2014,11 +2016,24 @@
      "at": 0.05
     },
     {
-     "kind": "write",
-     "text": "1조 원",
-     "color": "gold",
+     "kind": "bars",
      "line": 0,
-     "at": 0.4
+     "at": 0.4,
+     "h": 300,
+     "items": [
+      {
+       "label": "지금",
+       "v": 25,
+       "text": "지금",
+       "color": "gray"
+      },
+      {
+       "label": "2035년 목표",
+       "v": 100,
+       "text": "1조 원 · 4배",
+       "color": "gold"
+      }
+     ]
     }
    ]
   },
@@ -2406,5 +2421,38 @@
    "asof": false,
    "src": ""
   }
- ]
+ ],
+ "music": {
+  "intro": "social/music/samples3/I2_full.mp3",
+  "intro_offset": 0.07,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/samples3/H10_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
+  ],
+  "note": "2026-11-07 대표님 확정 기준(FORMAT.md 음악) 그대로: 인트로 I2 · 큰 베이스 컷 · 로고에서 끝 · 본편 H10→H1 @30 묵직 +5dB — 모두 Content ID 없음",
+  "hits": [
+   2.93,
+   6.83,
+   12.68,
+   18.53,
+   22.43,
+   26.33,
+   31.21,
+   35.6,
+   43.4,
+   47.3,
+   53.64,
+   57.54,
+   61.44,
+   65.34,
+   69.24,
+   74.6,
+   78.51,
+   82.41,
+   87.77
+  ],
+  "bed_eq": "heavy",
+  "bed_gain_db": 5
+ }
 }
