@@ -115,6 +115,9 @@ def build():
     for n in (sorted(os.listdir(d)) if os.path.isdir(d) else []):
         if n.endswith(".mp3"): vf[n[:-4].split("_", 3)[-1]] = n
     vf["m_x1"] = "../lp3/voice_lp3_07_m_x1.mp3"; vf["e_x2"] = "../ep01x/voice_ep01x_01_e_x2.mp3"   # 슬로건·황제의 일기 (매 편 같은 녹음)
+    # 11/7 소리 끌림 검사(take_check)로 다시 받은 줄 — 통과한 테이크로 바꾼다 (d5b는 세 테이크 모두 첫 말 '그리고'를 0.7초 늘여 읽음: 가장 짧은 a)
+    for k, f in {"d3a": "voice_ep04r_01_d3aa.mp3", "d3c": "voice_ep04r_03_d3ca.mp3", "d4c": "voice_ep04r_05_d4ca.mp3",
+                 "d4t": "voice_ep04r_08_d4tb.mp3", "d5b": "voice_ep04r_09_d5ba.mp3"}.items(): vf[k] = "../ep04r/" + f
     sp["voice_files"] = vf
     ALL = E.HOOK + E.LINES
     sp["subs"] = {n: subs_of(t, v) for n, v, t in ALL}
