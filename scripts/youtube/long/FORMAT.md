@@ -507,3 +507,11 @@
 - D-2: 원고 — 전체 내레이션을 기획안 data.script([{chapter, lines}])에 올리고 관리자 기획안 카드 '원고 · 대표 검토'에 보인다. 대표님은 의견 칸에 고칠 곳을 적는다. 이 단계에선 렌더하지 않는다(specs/에 넣지 않음, staging/에 둔다).
 - D-1: 렌더 마감 — 의견 반영 → specs/로 옮겨 렌더 → 검수 탭. 대표 검수.
 - D 19:30: 업로드 데스크가 공개. (업로드 전 status가 approved인지 반드시 확인 — 11/6 재렌더 후 review로 되돌아가 늦게 올라간 일 재발 방지)
+
+## 음악 (2026-11-07 대표님 확정)
+- 모두 Pixabay **Content ID 없는 곡**만 쓴다 (social/music/samples3, 후보 페이지 3차).
+- 훅: I2 Epical Hip-Hop(BerryDeep). spec `music.intro`, `intro_offset`(첫 박), `end_on_logo: true`(로고 첫 박에서 곡을 끊고 울림만 남김).
+- 사진 전환은 큰 베이스(`music.hits`, 영상 기준 초)에서만. 박자마다 흔드는 효과(`hook.pulse`)는 쓰지 않는다.
+- **말은 쉬지 않고 쭉** 간다. 사진 전환에 맞추려고 장면을 늘리거나 문장 사이를 띄우지 않는다(훅 장면 lead .08 · hold .12). 사진 전환이 조금 어긋나도 괜찮다.
+- 로고 인트로는 단순하게(`hook.ident_fx` 끔).
+- 본편: H10 Afro House Vibes → H1 Deep House Sunset 번갈아, 둘 다 `@30`(조용한 도입부 건너뜀), `bed_eq: "heavy"`(묵직한 하우스 — 경쾌하게만 들리면 안 됨).
