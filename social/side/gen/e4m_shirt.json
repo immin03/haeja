@@ -1,0 +1,32 @@
+{
+ "id": "e4m_shirt",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "The same Korean man in his early sixties alone in a small kitchen at dawn, clumsily ironing a white shirt on a board, a framed photo of his late wife on the shelf slightly out of focus, cold light with one warm lamp. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b832-64c5-731f-957d-da5d7338ca60",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b832-64c5-731f-957d-da5d7338ca60/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b832-64c5-731f-957d-da5d7338ca60/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b832-64c5-731f-957d-da5d7338ca60",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b832-64c5-731f-957d-da5d7338ca60/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b832-64c5-731f-957d-da5d7338ca60/cancel",
+  "expires_at": "2026-11-14T22:49:29.857015+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b832-64c5-731f-957d-da5d7338ca60/a45126a5-d4d9-4422-a6c3-3e661fbb1a7b.jpeg"
+   }
+  ]
+ },
+ "seconds": 100,
+ "file": "social/side/gen/e4m_shirt.jpeg"
+}
