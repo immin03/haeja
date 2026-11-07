@@ -2,7 +2,7 @@
 import json, os, subprocess, urllib.request
 import numpy as np
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.abspath(os.path.join(HERE,"..",".."))
-OUT=os.path.join(ROOT,"social","music","samples2"); os.makedirs(OUT,exist_ok=True)
+SET=os.environ.get("SET","2"); OUT=os.path.join(ROOT,"social","music","samples"+SET); os.makedirs(OUT,exist_ok=True)
 UA={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36","Referer":"https://pixabay.com/"}
 def bpm(path):
     try:
@@ -13,14 +13,14 @@ def bpm(path):
         return round(float(b[m][np.argmax(ac[1:][m])]))
     except Exception: return None
 meta=[]
-for c in json.load(open(os.path.join(HERE,"candidates2.json"),encoding="utf-8"))["tracks"]:
+for c in json.load(open(os.path.join(HERE,f"candidates{SET}.json"),encoding="utf-8"))["tracks"]:
     m=dict(c); raw=os.path.join(OUT,c["key"]+"_full.mp3")
     try:
         open(raw,"wb").write(urllib.request.urlopen(urllib.request.Request(c["mp3"],headers=UA),timeout=60).read())
         dur=float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",raw],capture_output=True,text=True).stdout.strip() or 0)
         st=0 if c["role"]=="인트로" else min(25,max(0,dur-50))
         subprocess.run(["ffmpeg","-y","-v","error","-ss",str(st),"-t","45","-i",raw,"-af","afade=t=in:d=0.4,afade=t=out:st=42:d=3,loudnorm=I=-16:TP=-1.5","-b:a","128k",os.path.join(OUT,c["key"]+".mp3")],check=True)
-        m.update(duration=round(dur,1),bpm=bpm(raw),file=f"social/music/samples2/{c['key']}.mp3",full=f"social/music/samples2/{c['key']}_full.mp3")
+        m.update(duration=round(dur,1),bpm=bpm(raw),file=f"social/music/samples{SET}/{c['key']}.mp3",full=f"social/music/samples{SET}/{c['key']}_full.mp3")
     except Exception as e: m["error"]=str(e)[:200]
     meta.append(m); print(c["key"], m.get("bpm"), m.get("duration"), m.get("error"), flush=True)
 json.dump(meta,open(os.path.join(OUT,"meta.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=1)
