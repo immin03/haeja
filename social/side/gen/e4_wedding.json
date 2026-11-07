@@ -1,0 +1,32 @@
+{
+ "id": "e4_wedding",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A warm memory of a Roman wedding in the year 145: a young the Roman emperor Marcus Aurelius at about twenty-four, short curly brown hair, a short young beard, a gentle face, plain brown wool tunic under a deep crimson military cloak holding the right hand of a young bride of about fifteen with dark wavy hair and a flame-orange veil, family in togas around them, flower garlands, soft sunlight. Cinematic oil-painting look like a warm golden memory, soft hazy sunlight, gentle bloom, warm amber and ochre palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4aa-62f5-79c6-a37b-15599aa40168",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4aa-62f5-79c6-a37b-15599aa40168/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4aa-62f5-79c6-a37b-15599aa40168/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4aa-62f5-79c6-a37b-15599aa40168",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4aa-62f5-79c6-a37b-15599aa40168/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4aa-62f5-79c6-a37b-15599aa40168/cancel",
+  "expires_at": "2026-11-14T06:22:13.720602+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4aa-62f5-79c6-a37b-15599aa40168/9c8210a4-73a5-4aca-bb94-0ad2780d15c2.jpeg"
+   }
+  ]
+ },
+ "seconds": 112,
+ "file": "social/side/gen/e4_wedding.jpeg"
+}

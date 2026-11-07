@@ -1,0 +1,32 @@
+{
+ "id": "e4_faustina",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A warm portrait of the Roman empress Faustina the Younger at about forty-five, gentle oval face, wavy dark-brown hair parted in the middle and gathered in a low bun, small pearl earrings, a deep blue stola with a pale mantle, sitting by a window in a Roman villa, smiling softly toward someone off-camera, golden afternoon light on her face, face in the middle of the frame. Cinematic oil-painting look like a warm golden memory, soft hazy sunlight, gentle bloom, warm amber and ochre palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4a8-bd10-7605-bb2e-17d6348b5a4e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4a8-bd10-7605-bb2e-17d6348b5a4e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4a8-bd10-7605-bb2e-17d6348b5a4e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4a8-bd10-7605-bb2e-17d6348b5a4e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4a8-bd10-7605-bb2e-17d6348b5a4e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4a8-bd10-7605-bb2e-17d6348b5a4e/cancel",
+  "expires_at": "2026-11-14T06:20:04.011048+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4a8-bd10-7605-bb2e-17d6348b5a4e/be199c96-d9b5-4b76-8f48-2cf53055e605.jpeg"
+   }
+  ]
+ },
+ "seconds": 88,
+ "file": "social/side/gen/e4_faustina.jpeg"
+}

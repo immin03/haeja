@@ -1,0 +1,32 @@
+{
+ "id": "e4_maid",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Inside a large Roman imperial tent at night lit by oil lamps, a middle-aged Roman maid in a plain grey tunic and shawl kneeling at the tent entrance, tears on her face, speaking, and the Roman emperor Marcus Aurelius at about fifty-four, short curly grey-brown hair, short grey-flecked beard, lean weathered face, plain brown wool tunic under a deep crimson military cloak standing in the foreground turning toward her, his face lit and frozen in shock. His face is in the middle of the frame, fully visible and lit, with space above his head. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4a8-be6e-7caf-891c-e02614b3496b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4a8-be6e-7caf-891c-e02614b3496b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4a8-be6e-7caf-891c-e02614b3496b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4a8-be6e-7caf-891c-e02614b3496b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4a8-be6e-7caf-891c-e02614b3496b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4a8-be6e-7caf-891c-e02614b3496b/cancel",
+  "expires_at": "2026-11-14T06:20:14.806314+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4a8-be6e-7caf-891c-e02614b3496b/930bc80b-f641-4a2d-8fd4-a4b6eaa71175.jpeg"
+   }
+  ]
+ },
+ "seconds": 101,
+ "file": "social/side/gen/e4_maid.jpeg"
+}

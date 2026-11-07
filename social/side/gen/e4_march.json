@@ -1,0 +1,32 @@
+{
+ "id": "e4_march",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A long Roman imperial procession winding along a mountain road in the eastern provinces, legionaries, horses and a covered imperial carriage, dust in golden late light, the Taurus mountains ahead. Cinematic oil-painting look, like a dark Renaissance chiaroscuro painting brought to life, deep warm shadows, a single warm candle or torch light source, muted bronze, umber and deep navy palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4aa-1a25-7164-a656-8e6f835479de",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4aa-1a25-7164-a656-8e6f835479de/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4aa-1a25-7164-a656-8e6f835479de/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4aa-1a25-7164-a656-8e6f835479de",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4aa-1a25-7164-a656-8e6f835479de/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4aa-1a25-7164-a656-8e6f835479de/cancel",
+  "expires_at": "2026-11-14T06:22:05.949355+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4aa-1a25-7164-a656-8e6f835479de/9afe8dc1-6152-451e-bc82-9c044a44cacd.jpeg"
+   }
+  ]
+ },
+ "seconds": 119,
+ "file": "social/side/gen/e4_march.jpeg"
+}

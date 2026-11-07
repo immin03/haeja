@@ -1,0 +1,32 @@
+{
+ "id": "e4_children",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A warm memory in a Roman villa garden: the Roman empress Faustina the Younger at about forty-five, gentle oval face, wavy dark-brown hair parted in the middle and gathered in a low bun, small pearl earrings, a deep blue stola with a pale mantle sitting on a stone bench with several small children around her, one little girl on her lap, a fountain and lemon trees, soft light, gentle laughter. Cinematic oil-painting look like a warm golden memory, soft hazy sunlight, gentle bloom, warm amber and ochre palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4ab-f0f5-7f31-ab20-2f8ecc8f6cdc",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4ab-f0f5-7f31-ab20-2f8ecc8f6cdc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4ab-f0f5-7f31-ab20-2f8ecc8f6cdc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4ab-f0f5-7f31-ab20-2f8ecc8f6cdc",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4ab-f0f5-7f31-ab20-2f8ecc8f6cdc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4ab-f0f5-7f31-ab20-2f8ecc8f6cdc/cancel",
+  "expires_at": "2026-11-14T06:24:03.063745+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4ab-f0f5-7f31-ab20-2f8ecc8f6cdc/922b1e06-e08e-4dc2-a88d-54f982357bfc.jpeg"
+   }
+  ]
+ },
+ "seconds": 119,
+ "file": "social/side/gen/e4_children.jpeg"
+}

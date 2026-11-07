@@ -1,0 +1,32 @@
+{
+ "id": "e4_girls",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "A warm sunlit courtyard in Rome, a line of poor young Roman girls in simple tunics receiving bread and small purses of coins from kind officials, a mother holding her daughter's hand and smiling, a carved stone relief of a woman on the wall behind, no letters. Cinematic oil-painting look like a warm golden memory, soft hazy sunlight, gentle bloom, warm amber and ochre palette, fine film grain, painterly texture, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame. Absolutely no text, no letters, no numbers, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b4ac-6a1e-7490-9854-bc922be6c1a5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4ac-6a1e-7490-9854-bc922be6c1a5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4ac-6a1e-7490-9854-bc922be6c1a5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b4ac-6a1e-7490-9854-bc922be6c1a5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b4ac-6a1e-7490-9854-bc922be6c1a5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b4ac-6a1e-7490-9854-bc922be6c1a5/cancel",
+  "expires_at": "2026-11-14T06:24:49.209207+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b4ac-6a1e-7490-9854-bc922be6c1a5/2ce5af97-eaed-44e2-8df1-b9bb96857bb0.jpeg"
+   }
+  ]
+ },
+ "seconds": 132,
+ "file": "social/side/gen/e4_girls.jpeg"
+}
