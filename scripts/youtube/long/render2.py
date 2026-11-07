@@ -1993,6 +1993,7 @@ def main():
             if sc.get("chapter"): chapter = sc["chapter"]
             fit = safe_fit(sc, s, V, theme); media = media_source(sc["v"], int(s["dur"] * FPS) + 2, k) if typ == "media" else None
             bdf = backdrop_source(sc["v"], int(s["dur"] * FPS) + 2, k)
+            if not s["lines"]: continue   # 인트로(ident)처럼 말이 없는 장면은 건너뛴다 (2026-11-07)
             lt = s["lines"][-1]; u = min(s["dur"] - .05, lt[0] + lt[1] * .9)
             img = apply_fit(draw(sc, V, u, s["lines"], "dark" if typ == "media" else theme, media), fit, theme)
             if bdf: img = on_backdrop(img, bdf(u), theme)

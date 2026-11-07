@@ -87,7 +87,7 @@ def draw(img, beats, u, lines):
     """img: 전체 화면 그림(RGB) · beats: 장면의 sketch 비트 · u: 장면 안 시각(초) · lines: [(시작, 길이, …)]"""
     bs = [b for b in beats if b.get("kind") in ("print", "write", "chart", "bars", "pct", "table", "icon")]
     pu = [b for b in beats if b.get("kind") == "punch"]
-    ov_ = [b for b in beats if b.get("kind") in ("stamp", "lower", "quote")]   # 2026-11-06 방송국 다큐 연출: 장소·날짜 도장, 하단 자막띠, 인용 카드
+    ov_ = [b for b in beats if b.get("kind") in ("stamp", "lower", "quote", "acct")]   # 2026-11-06 방송국 다큐 연출: 장소·날짜 도장, 하단 자막띠, 인용 카드
     if not bs and not pu and not ov_: return img
     if not bs:
         im = img.convert("RGBA")
@@ -228,11 +228,12 @@ def _pct(im, b, p, y):
     """등락률 막대: items [{"label","v"(%), "mark":"실적 발표"}] — 가운데 기준선 아래로(하락 빨강)·위로(상승 초록)"""
     it = b["items"]; x = b.get("x", 150); mid = y + 210; sc = b.get("scale", 26)   # 1% = 26px
     d = ImageDraw.Draw(im, "RGBA"); ga = eout(p / .4)
-    d.line([(x - 10, mid), (x - 10 + 260 * len(it) * ga, mid)], fill=(255, 255, 255, 110), width=2)
+    gap = b.get("gap", 260)   # 2026-11-07: 큰 등락률(-38.7%)의 숫자가 옆 막대와 겹치지 않게 간격 지정
+    d.line([(x - 10, mid), (x - 10 + gap * len(it) * ga, mid)], fill=(255, 255, 255, 110), width=2)
     d.text((x - 10, mid - 12), "0%", font=F("Medium", 24), fill=(*GRAY, int(200 * ga)), anchor="rd")
     for k, i in enumerate(it):
         q = eout((p - .2 - k * .45) / .8)
-        bx = x + k * 260
+        bx = x + k * gap
         if i.get("mark") and q > 0:
             d.line([(bx + 60, mid - 200), (bx + 60, mid + 230)], fill=(*GOLD, int(200 * q)), width=2)
             d.text((bx + 74, mid - 200), i["mark"], font=F("Medium", 26), fill=(*GOLD, int(255 * q)))
@@ -270,6 +271,27 @@ def _broadcast(im, beats, u, lines):
             d = ImageDraw.Draw(im, "RGBA"); d.rectangle([120, y - 10 + 130 * (1 - q), 128, y + 120], fill=(*GOLD, int(255 * fade)))
             _st(d, (150 - 30 * (1 - r), y + 4), b["text"], font=F("Heavy", 50), fill=(*WHITE, int(255 * r * fade)))
             if b.get("sub"): _st(d, (150 - 30 * (1 - r), y + 68), b["sub"], font=F("SemiBold", 32), fill=(*GOLD, int(255 * r * fade)))
+        elif k == "acct":   # 2026-11-07 SOXL 편: 반복 등장하는 '계좌 카드' — 오른쪽 위 어두운 유리 카드(흰 판 아님), 금색 윗선, 라벨·큰 숫자(from→to 세어 내려감)·보조 줄
+            hold = b.get("hold", 999.0); fade = 1 - eio((p - hold) / .5)
+            if fade <= 0: continue
+            r = eout(p / .45) * fade; cw, ch = 500, 250 + 44 * len(b.get("rows", []))
+            x0 = W - 110 - cw + int(40 * (1 - eout(p / .45))); y0 = 118
+            bg = Image.new("RGBA", im.size); bd = ImageDraw.Draw(bg)
+            bd.rounded_rectangle([x0, y0, x0 + cw, y0 + ch], 18, fill=(8, 14, 26, int(205 * r)), outline=(*GOLD, int(120 * r)), width=2)
+            im.alpha_composite(bg); d = ImageDraw.Draw(im, "RGBA")
+            d.line([(x0 + 28, y0 + 26), (x0 + 28 + 60 * eout(p / .4), y0 + 26)], fill=(*GOLD, int(255 * r)), width=3)
+            _st(d, (x0 + 28, y0 + 40), b.get("label", ""), font=F("SemiBold", 30), fill=(*GOLD, int(255 * r)))
+            fa, to = b.get("from"), b.get("to"); unit = b.get("unit", "만 원")
+            if fa is not None and to is not None:
+                c = eout((p - b.get("delay", .5)) / b.get("count", 1.6)); v = fa + (to - fa) * c
+            else: v = to if to is not None else fa
+            vt = (b.get("text") or f"{v:,.0f}{unit}") if v is not None else b.get("text", "")
+            col = TONE.get(b.get("color"), WHITE) if (fa is None or c >= .999) else WHITE
+            _st(d, (x0 + 28, y0 + 86), vt, font=F("Heavy", 92), fill=(*col, int(255 * r)))
+            yy = y0 + 196
+            for row in b.get("rows", []):
+                _st(d, (x0 + 28, yy), row, font=F("Bold", 32), fill=(*WHITE, int(235 * r))); yy += 44
+            if b.get("sub"): _st(d, (x0 + 28, yy + 4), b["sub"], font=F("SemiBold", 24), fill=(*GRAY, int(255 * r)))
         elif k == "quote":   # 인용 카드: 화면을 어둡게, 큰 금색 따옴표, 한 줄씩 떠오르는 문장, 말한 사람
             a = np.asarray(im).astype(np.float32); g = eout(p / .5); a[..., :3] *= (1 - .62 * g); im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
             d = ImageDraw.Draw(im, "RGBA"); rows = b["rows"]; f = F("Bold", 66); y0 = H // 2 - 70 * len(rows) // 2 - 40
