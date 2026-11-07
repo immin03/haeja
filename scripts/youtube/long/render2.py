@@ -1368,14 +1368,29 @@ def make_theme(n, seed=11):
     return m.astype(np.float32)
 
 
+MUSIC = {}   # spec "music": {"intro": 훅 음악 파일, "bed": 본편 배경음악 파일, "bed_start": 본편 곡 시작 초} — 저장소 기준 경로 (2026-11-07 대표님: 인트로 I1 · 본편 H5)
+
+
+def _music_file(key):
+    f = MUSIC.get(key)
+    if not f: return None
+    p = os.path.normpath(os.path.join(HERE, "..", "..", "..", f))
+    return p if os.path.exists(p) else None
+
+
+def _decode(p, ch=2):
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", p, "-ac", str(ch), "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
+    return np.frombuffer(raw, np.float32).reshape(-1, ch).copy()
+
+
 def load_theme(n):
     """운영자가 직접 만든 밸류노트 테마곡(assets/theme.mp3, 저작권 없음)을 영상 길이만큼 이어 붙인다.
     곡 앞뒤 무음은 잘라 내고, 반복할 때는 3초 동안 겹쳐서 자연스럽게 넘어간다. 파일이 없으면 합성 테마를 쓴다."""
-    p = os.path.join(HERE, "assets", "theme.mp3")
+    p = _music_file("bed") or os.path.join(HERE, "assets", "theme.mp3")
     if not os.path.exists(p): return make_theme(n)
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", p, "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
-    x = np.frombuffer(raw, np.float32).reshape(-1, 2).copy(); lv = np.abs(x).max(1)
+    x = _decode(p); lv = np.abs(x).max(1)
     idx = np.where(lv > .01)[0]; x = x[idx[0]: idx[-1] + 1] if len(idx) else x
+    if MUSIC.get("bed_start"): x = x[int(float(MUSIC["bed_start"]) * SR):]
     xf = int(SR * 3); out = x.copy(); fade = np.linspace(0, 1, xf, dtype=np.float32)[:, None]
     while len(out) < n:
         out[-xf:] = out[-xf:] * (1 - fade) + x[:xf] * fade; out = np.concatenate([out, x[xf:]])
@@ -1767,6 +1782,14 @@ def hook_bed(n, timeline):
         if x["start"] >= h0: break
         strong.add(round(x["start"] / bt))
         for e in cut_edges(x["sc"]["v"], x["dur"]): strong.add(round((x["start"] + e) / bt))
+    ip = _music_file("intro")
+    if ip:   # 2026-11-07 대표님: 훅은 Dramatic Hip Hop(I1) 녹음곡 그대로 — 인트로가 끝나면 2초에 걸쳐 빠진다
+        x = _decode(ip, 1)[:, 0]; lv = np.abs(x); i0 = int(np.argmax(lv > .01)) if (lv > .01).any() else 0; x = x[i0:]
+        m = min(n, len(x), int((h1 + 2.0) * SR)); bed[:m] = x[:m]
+        f0 = int(h1 * SR); f1 = min(m, int((h1 + 2.0) * SR))
+        if f1 > f0: bed[f0:f1] *= np.linspace(1, 0, f1 - f0, dtype=np.float32)
+        bed[f1:] = 0; fi = int(SR * .3); bed[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)
+        return bed, h1
     import hookmusic as HM   # 2026-11-03 대표님 3차: 합성음 전부 빼고 녹음된 피아노 샘플로 (hookmusic.py)
     bed = HM.make_bed(n, SR, bt, strong, h0, h1, style=HOOK_STYLE[0])
     return bed, h1
@@ -1822,7 +1845,7 @@ def split_end(spec):
 
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive")
+    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {})
     import docfx as DOCFX; data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
@@ -1975,7 +1998,7 @@ def main():
         _hb = _sg.lfilter(*_sg.butter(2, 200 / (SR / 2), "high"), bed[:int((h1 - 2.7) * SR)])   # 크기는 휴대폰에서 들리는 200Hz 위로 맞춘다 (베이스 저음은 그 위에 더해진다)
         b_rms = float(np.sqrt(np.mean(_hb ** 2))) + 1e-9
         bed = bed * (v_rms / b_rms * 10 ** (-8 / 20)) * (1 - .45 * env)
-        if HOOK_STYLE[0] == "basstaiko":   # 2026-11-04 16:02 대표님 "음악 소리가 거의 안 들려" → 이 스타일은 들리는 대역 -5dB, 봉우리는 부드럽게 눌러 목소리 크기를 지킨다
+        if HOOK_STYLE[0] == "basstaiko" and not MUSIC.get("intro"):   # 2026-11-04 16:02 대표님 "음악 소리가 거의 안 들려" → 이 스타일은 들리는 대역 -5dB, 봉우리는 부드럽게 눌러 목소리 크기를 지킨다
             bed = bed * 10 ** (3 / 20); bed = (.55 * np.tanh(bed / .55)).astype(np.float32)   # 2026-11-04 대표님 "인트로 쪽 사운드… 거의 안 들려" → 말 없는 틈 -14→-8dB, 말할 때 덜 낮춤(.6→.45)
     if os.environ.get("SAVE_DRY"):   # 검수용: 음악·베드 없는 목소리+효과음만 (훅 음악 시안 비교용)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", os.path.join(out, "voice_dry.wav")], input=mix.astype(np.float32).tobytes(), check=True)
