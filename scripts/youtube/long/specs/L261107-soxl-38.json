@@ -11,8 +11,8 @@
   "bpm": 61.52,
   "style": "basstaiko",
   "cut": "beat",
-  "pulse": true,
-  "ident_fx": true
+  "pulse": false,
+  "ident_fx": false
  },
  "overlay": "doc",
  "look": {
@@ -3158,9 +3158,30 @@
   "intro_offset": 0.07,
   "end_on_logo": true,
   "bed": [
-   "social/music/samples3/H10_full.mp3",
-   "social/music/samples3/H1_full.mp3"
+   "social/music/samples3/H10_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
   ],
-  "note": "2026-11-07 대표님: 인트로 I2 Epical Hip-Hop(BerryDeep) · 본편 H10 Afro House Vibes(-WATERMEL0N-)와 H1 Deep House Sunset(sunset-house-grooves) 번갈아 — 모두 Pixabay, Content ID 없음"
+  "note": "2026-11-07 대표님: 인트로 I2 Epical Hip-Hop(BerryDeep) — 큰 베이스(hits, 영상 기준 초)에서만 사진 전환 · 본편 H10 Afro House Vibes(-WATERMEL0N-) → H1 Deep House Sunset(sunset-house-grooves), 둘 다 30초 지점부터 — 모두 Pixabay, Content ID 없음 · 로고는 단순하게(ident_fx 끔)",
+  "hits": [
+   2.93,
+   6.83,
+   12.68,
+   18.53,
+   22.43,
+   26.33,
+   31.21,
+   35.6,
+   43.4,
+   47.3,
+   53.64,
+   57.54,
+   61.44,
+   65.34,
+   69.24,
+   74.6,
+   78.51,
+   82.41,
+   87.77
+  ]
  }
 }
