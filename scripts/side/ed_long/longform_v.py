@@ -507,11 +507,12 @@ def recap_frame(s, t, dur, cache, active):
 def overlay(img, ov, t, dur, cache, key):
     k = ov["kind"]
     if k == "caption":   # 작은 장소·연도 자막, 왼쪽 아래
-        if key not in cache: cache[key] = text_layer([ov["text"]], "ui", 34, IVORY, track=2, width=W, height=60)
+        if key not in cache: cache[key] = text_layer([ov["text"]], "ui", ov.get("size", 34), IVORY, track=2, width=W, height=60)
         a = ease((t - ov.get("at", 0.3)) / 0.6) * (1 - ease((t - dur + 0.5) / 0.5))
         lay = np.zeros((H, W, 4), np.uint8); tl = cache[key]
         # 왼쪽 정렬처럼 보이게 가운데 정렬 레이어를 옮긴다
-        lay[H - BAR - 120:H - BAR - 60] = tl
+        y0 = BAR + 40 if ov.get("pos") == "top" else H - BAR - 120   # 11/8: 'top'은 위 왼쪽 — 아래 대사 자막과 겹치지 않게
+        lay[y0:y0 + 60] = tl
         return blend(img, lay, a, dx=-W // 2 + 380)
     if k == "verse":     # 명상록 구절 (템플릿): 가운데 정렬, 두 줄 + 빈 줄 + '- 명상록 n권 n절 -', 화면을 살짝 어둡게
         if key not in cache:

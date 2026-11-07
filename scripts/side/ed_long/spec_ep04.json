@@ -25,7 +25,7 @@
   "s2": "voice_ep04_07_s2.mp3",
   "s3": "voice_ep04_08_s3.mp3",
   "s4": "voice_ep04_09_s4.mp3",
-  "d1q": "voice_ep04_10_d1q.mp3",
+  "d1q": "../ep04b/voice_ep04b_01_d1qa.mp3",
   "d1a": "voice_ep04_11_d1a.mp3",
   "d1b": "voice_ep04_12_d1b.mp3",
   "d1c": "voice_ep04_13_d1c.mp3",
@@ -63,7 +63,7 @@
   "d4c": "../ep04r/voice_ep04r_05_d4ca.mp3",
   "d4d": "voice_ep04_46_d4d.mp3",
   "d4t": "../ep04r/voice_ep04r_08_d4tb.mp3",
-  "d5q": "voice_ep04_48_d5q.mp3",
+  "d5q": "../ep04b/voice_ep04b_11_d5qa.mp3",
   "d5a": "voice_ep04_49_d5a.mp3",
   "d5b": "../ep04r/voice_ep04r_09_d5ba.mp3",
   "m5a": "voice_ep04_51_m5a.mp3",
@@ -79,7 +79,12 @@
   "o1": "voice_ep04_61_o1.mp3",
   "o2": "voice_ep04_62_o2.mp3",
   "m_x1": "../lp3/voice_lp3_07_m_x1.mp3",
-  "e_x2": "../ep01x/voice_ep01x_01_e_x2.mp3"
+  "e_x2": "../ep01x/voice_ep01x_01_e_x2.mp3",
+  "d1q2": "../ep04b/voice_ep04b_04_d1q2b.mp3",
+  "d2q2": "../ep04b/voice_ep04b_06_d2q2b.mp3",
+  "d3q2": "../ep04b/voice_ep04b_07_d3q2a.mp3",
+  "d4q2": "../ep04b/voice_ep04b_10_d4q2b.mp3",
+  "d5q2": "../ep04b/voice_ep04b_14_d5q2b.mp3"
  },
  "subs": {
   "h1": [
@@ -107,8 +112,13 @@
   ],
   "s4": "그리고 돌아오는 길, 산맥 아래 작은 마을에서, 황후는 병으로 쓰러졌습니다.",
   "d1q": [
-   "한밤중에 걸려 온 전화 한 통.",
-   "아버지가 쓰러지셨다는 말에, 머릿속에는 온갖 생각이 한꺼번에 몰려듭니다."
+   "한밤중, 요양병원에서 걸려 온 전화 한 통.",
+   "아버지가, 방금 돌아가셨다고 합니다."
+  ],
+  "d1q2": [
+   "빈소에 앉아서도, 머릿속에는 같은 말만 맴돕니다.",
+   "지난 주말에 찾아뵀더라면.",
+   "그날 전화를, 조금만 더 길게 받았더라면."
   ],
   "d1a": "그날 밤, 황제의 머릿속에도 생각이 몰려들었을 겁니다.",
   "d1b": [
@@ -140,6 +150,10 @@
    "사람들은 이제 어떻게 살 거냐고 묻습니다.",
    "그런데 떠오르는 건, 그가 남기고 간 빈자리뿐입니다."
   ],
+  "d2q2": [
+   "위로한다며 건넨 말들이, 오히려 가슴을 찌릅니다.",
+   "이제 그만 잊으라고, 산 사람은 살아야 한다고."
+  ],
   "d2a": [
    "편지에는, 차가운 소문이 적혀 있었습니다.",
    "황후가 카시우스와 몰래 편지를 주고받으며, 반란을 부추겼다는 소문이었습니다."
@@ -164,6 +178,10 @@
   "d3q": [
    "열다섯 해를 함께한 강아지를 떠나보낸 날.",
    "집 안의 모든 것이 그대로인데, 모든 것이 달라져 있습니다."
+  ],
+  "d3q2": [
+   "누군가는 고작 개 한 마리라고 말합니다.",
+   "하지만 내게는, 열다섯 해의 아침과 저녁이었습니다."
   ],
   "d3a": [
    "황후를 위한 장례의 불이, 겨울 하늘로 타올랐습니다.",
@@ -193,6 +211,10 @@
    "아내를 보낸 지 한 달.",
    "출근길 버스 창밖으로, 아무 일 없다는 듯 돌아가는 세상이 야속하기만 합니다."
   ],
+  "d4q2": [
+   "그래도 아침이면, 서툰 손으로 셔츠를 다려 입고 집을 나섭니다.",
+   "아내가 늘 해 주던 일을, 이제는 혼자 합니다."
+  ],
   "d4a": [
    "막사 밖에는, 서기와 장교들이 기다리고 있었습니다.",
    "반란에 흔들린 동방의 도시들이, 황제의 판단을 기다리고 있었습니다."
@@ -214,7 +236,11 @@
    "!그 작은 일이, 나를 다시 일으킵니다."
   ],
   "d4t": "그리고 얼마 뒤, 황제는 아내를 위해, 한 가지 일을 시작했습니다.",
-  "d5q": "어머니를 떠나보낸 뒤, 그 그리움을 어디에 두어야 할지, 아직도 모르겠습니다.",
+  "d5q": [
+   "어머니를 떠나보낸 지 일 년.",
+   "휴대폰에는 아직도, 엄마라는 이름을 지우지 못했습니다."
+  ],
+  "d5q2": "보고 싶은 마음은 그대로인데, 그 그리움을 어디에 두어야 할지, 아직도 모르겠습니다.",
   "d5a": "황제는 아내가 숨을 거둔 마을 할랄라를, 파우스티노폴리스, 파우스티나의 도시라고 이름 붙였습니다.",
   "d5b": [
    "그리고 아내의 이름으로, 가난한 집 소녀들을 돕는 기금을 세웠습니다.",
@@ -289,57 +315,57 @@
    "at_shot": 12,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 21,
+   "until_shot": 22,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_5.mp3",
-   "at_shot": 21,
+   "at_shot": 22,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 30,
+   "until_shot": 32,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_3.mp3",
-   "at_shot": 30,
+   "at_shot": 32,
    "offset": 1.0,
    "start": 60,
-   "until_shot": 38,
+   "until_shot": 41,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 38,
+   "at_shot": 41,
    "offset": 1.0,
    "start": 0,
-   "until_shot": 46,
+   "until_shot": 50,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "cinematic_4.mp3",
-   "at_shot": 46,
+   "at_shot": 50,
    "offset": 1.0,
    "start": 110,
-   "until_shot": 53,
+   "until_shot": 58,
    "vol": 0.2,
    "fin": 3,
    "fout": 3
   },
   {
    "file": "sad_5.mp3",
-   "at_shot": 53,
+   "at_shot": 58,
    "offset": 0.5,
    "start": 0,
-   "until_shot": 61,
+   "until_shot": 66,
    "tail": 0,
    "vol": 0.28,
    "fin": 2,
@@ -693,11 +719,57 @@
    "grade": "modern",
    "pre": 0.3,
    "post": 0.4,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "지금 · 어느 늦은 밤",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
    "face": [
     0.436,
     0.138,
     0.576,
     0.417
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e4m_funeral",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d1q2"
+   ],
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "pre": 0.3,
+   "post": 0.6,
+   "face": [
+    0.783,
+    0.11,
+    0.872,
+    0.299
    ]
   },
   {
@@ -716,8 +788,26 @@
     "fire_4.mp3",
     0.38
    ],
-   "tin": "dissolve",
-   "flicker": true
+   "tin": "black",
+   "flicker": true,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "다시, 그날 밤 · 할랄라의 막사",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
+   "fin": 0.5,
+   "pre": 0.5,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.05,
+     0.45
+    ]
+   ]
   },
   {
    "type": "still",
@@ -992,11 +1082,57 @@
    "grade": "modern",
    "pre": 0.3,
    "post": 0.4,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "지금 · 남편이 떠난 집",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
    "face": [
     0.391,
     0.181,
     0.497,
     0.399
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e4m_family",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d2q2"
+   ],
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "pre": 0.3,
+   "post": 0.6,
+   "face": [
+    0.434,
+    0.223,
+    0.585,
+    0.522
    ]
   },
   {
@@ -1015,9 +1151,27 @@
     "night_2.mp3",
     0.25
    ],
-   "tin": "dissolve",
+   "tin": "black",
    "gap": 0.5,
    "flicker": true,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "다음 날 아침 · 로마에서 온 편지",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
+   "fin": 0.5,
+   "pre": 0.5,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.05,
+     0.45
+    ]
+   ],
    "post": 0.15,
    "face": [
     0.402,
@@ -1046,7 +1200,15 @@
    "tin": "cut",
    "gap": 0.5,
    "flicker": true,
+   "fin": 0.5,
    "pre": 0.15,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.05,
+     0.45
+    ]
+   ],
    "face": [
     0.397,
     0.267,
@@ -1280,7 +1442,53 @@
    "tin": "dissolve",
    "grade": "modern",
    "pre": 0.3,
-   "post": 0.4
+   "post": 0.4,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "지금 · 강아지가 떠난 저녁",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e4m_walk",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d3q2"
+   ],
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "pre": 0.3,
+   "post": 0.6,
+   "face": [
+    0.395,
+    0.148,
+    0.499,
+    0.364
+   ]
   },
   {
    "type": "video",
@@ -1298,8 +1506,26 @@
     "fire_2.mp3",
     0.4
    ],
-   "tin": "dissolve",
+   "tin": "black",
    "particles": "embers",
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "며칠 뒤 · 마을 밖 언덕",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
+   "fin": 0.5,
+   "pre": 0.5,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.05,
+     0.45
+    ]
+   ],
    "face": [
     0.479,
     0.22,
@@ -1545,11 +1771,57 @@
    "grade": "modern",
    "pre": 0.3,
    "post": 0.4,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "지금 · 출근길",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
    "face": [
     0.441,
     0.214,
     0.605,
     0.536
+   ]
+  },
+  {
+   "type": "still",
+   "src": "e4m_shirt",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d4q2"
+   ],
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "pre": 0.3,
+   "post": 0.6,
+   "face": [
+    0.819,
+    0.306,
+    0.885,
+    0.454
    ]
   },
   {
@@ -1568,7 +1840,25 @@
     "wind_6.mp3",
     0.35
    ],
-   "tin": "dissolve",
+   "tin": "black",
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "장례 다음 날 새벽 · 할랄라",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
+   "fin": 0.5,
+   "pre": 0.5,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.05,
+     0.45
+    ]
+   ],
    "face": [
     0.434,
     0.154,
@@ -1791,6 +2081,52 @@
    ]
   },
   {
+   "type": "still",
+   "src": "e4m_mom",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ],
+    "pan": [
+     [
+      0.01,
+      0
+     ],
+     [
+      -0.01,
+      0
+     ]
+    ]
+   },
+   "voice": [
+    "d5q"
+   ],
+   "amb": [
+    "night_2.mp3",
+    0.25
+   ],
+   "tin": "dissolve",
+   "grade": "modern",
+   "pre": 0.3,
+   "post": 0.4,
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "지금 · 엄마가 떠난 뒤",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
+   "face": [
+    0.348,
+    0.201,
+    0.472,
+    0.451
+   ]
+  },
+  {
    "type": "video",
    "src": "libv_rain_window",
    "amb": [
@@ -1806,10 +2142,10 @@
    },
    "lib": "rain_window",
    "voice": [
-    "d5q"
+    "d5q2"
    ],
    "pre": 0.3,
-   "post": 0.4,
+   "post": 0.6,
    "grade": "modern"
   },
   {
@@ -1828,7 +2164,25 @@
     "wind_6.mp3",
     0.35
    ],
-   "tin": "dissolve"
+   "tin": "black",
+   "overlays": [
+    {
+     "kind": "caption",
+     "text": "몇 달 뒤 · 파우스티노폴리스",
+     "at": 0.3,
+     "pos": "top",
+     "size": 44
+    }
+   ],
+   "fin": 0.5,
+   "pre": 0.5,
+   "sfx": [
+    [
+     "paper_3.mp3",
+     0.05,
+     0.45
+    ]
+   ]
   },
   {
    "type": "video",

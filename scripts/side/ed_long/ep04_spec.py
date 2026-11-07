@@ -31,13 +31,20 @@ def mod(src, vs):   # 현대 장면 — 녹아들듯, 짧은 여백
     s.update({"tin": "dissolve", "pre": 0.3, "post": 0.4}); return s
 
 
+# 11/8 대표: "현실이 몇 초 한 컷으로 지나가 로마와 겹쳐 헷갈린다" →
+#  ① 현대 장면 2컷(상황 → 속마음), ② 들어갈 때 '지금 · …', 로마로 돌아올 때 '다시 · …' 시간·장소 자막,
+#  ③ 로마로 돌아오는 순간 짧은 암전 + 책장 소리(전환음은 책장 소리만 — 11/4 규칙)
+NOW = {1: "지금 · 어느 늦은 밤", 2: "지금 · 남편이 떠난 집", 3: "지금 · 강아지가 떠난 저녁", 4: "지금 · 출근길", 5: "지금 · 엄마가 떠난 뒤"}
+BACK = {1: "다시, 그날 밤 · 할랄라의 막사", 2: "다음 날 아침 · 로마에서 온 편지", 3: "며칠 뒤 · 마을 밖 언덕", 4: "장례 다음 날 새벽 · 할랄라", 5: "몇 달 뒤 · 파우스티노폴리스"}
+
+
 def lib(name, vs=None, **ex):
     return L.lib_shot(name, voices=vs, extra=(ex or None))
 
 
 CH4 = {
  1: dict(title="사실에 이야기를 덧붙이지 마라", en="Say no more than first appearances report",
-        q=mod("e4m_call", ["d1q"]),
+        q=[mod("e4m_call", ["d1q"]), mod("e4m_funeral", ["d1q2"])],
         scene=[F.shot("still", "e4_alone", ["d1a"], TENT, {"flicker": True, "move": {"zoom": [1.0, 1.1]}}),
                F.shot("still", "e4_alone", ["d1b"], TENT, {"flicker": True, "gap": 0.5, "move": {"zoom": [1.22, 1.34], "pan": [[0.0, -0.02], [0.01, -0.03]]}}),
                lib("candle_diary", ["d1c"], pre=0.3, post=0.4)],
@@ -47,7 +54,7 @@ CH4 = {
         knot=lib("tent_stars", ["d1e"], pre=0.6, post=1.6),
         teaser=F.shot("still", "e4_rumor", ["d1t"], CITY, {"move": {"zoom": [1.0, 1.08]}})),
  2: dict(title="잃은 것 말고, 받은 것을 세어라", en="Count what was given",
-        q=mod("e4m_house", ["d2q"]),
+        q=[mod("e4m_house", ["d2q"]), mod("e4m_family", ["d2q2"])],
         scene=[F.shot("still", "e4_rumor", ["d2a", "r_sen"], CITY, {"gap": 0.5, "flicker": True, "move": {"zoom": [1.08, 1.2]}}),
                lib("letter_open", ["d2b"], pre=0.3, post=0.5)],
         mono="candle_face", mvoices=["m2a", "m2b", "m2c"], verse=["그토록 다정하고 꾸밈없는 아내를,", "만난 것에 감사한다."], src="명상록 1권 17절",
@@ -56,7 +63,7 @@ CH4 = {
         knot=F.shot("still", "e4_faustina", ["d2d"], ["wind_1.mp3", 0.2], {"grade": "memory", "leak": True, "pre": 0.6, "post": 1.6, "move": {"zoom": [1.0, 1.1]}}),
         teaser=lib("pyre_far", ["d2t"], pre=0.3, post=1.2)),
  3: dict(title="잃음은 끝이 아니라, 변화다", en="Loss is nothing but change",
-        q=mod("e4m_dog", ["d3q"]),
+        q=[mod("e4m_dog", ["d3q"]), mod("e4m_walk", ["d3q2"])],
         scene=[F.shot("still", "e4_pyre", ["d3a"], FIRE, {"particles": "embers", "move": {"zoom": [1.0, 1.1]}}),
                F.shot("still", "e4_children", ["d3b"], ["wind_1.mp3", 0.2], {"grade": "memory", "leak": True, "move": {"zoom": [1.0, 1.1]}})],
         mono="quill2", mvoices=["m3a", "m3b", "m3c"], verse=["잃는다는 것은,", "변한다는 것일 뿐이다."], src="명상록 9권 35절",
@@ -65,7 +72,7 @@ CH4 = {
         knot=lib("river_flow", ["d3d"], pre=0.6, post=1.6),
         teaser=lib("dawn_camp", ["d3t"], pre=0.3, post=1.2)),
  4: dict(title="슬픔을 안고, 오늘의 일로", en="I rise to do the work of a human being",
-        q=mod("e4m_bus", ["d4q"]),
+        q=[mod("e4m_bus", ["d4q"]), mod("e4m_shirt", ["d4q2"])],
         scene=[F.shot("still", "e4_dawn", ["d4a"], SNOW, {"move": {"zoom": [1.0, 1.1]}}),
                F.shot("still", "e4_city", ["d4b"], FORUM, {"move": {"zoom": [1.0, 1.1]}})],
         mono="candle_face", mvoices=["m4a", "m4b", "m4c"], verse=["나는, 사람의 일을 하러", "일어난다."], src="명상록 5권 1절",
@@ -74,7 +81,7 @@ CH4 = {
         knot=lib("sunrise_hills", ["d4d"], pre=0.6, post=1.6),
         teaser=lib("rain_march", ["d4t"], pre=0.3, post=1.2)),
  5: dict(title="그리움을, 좋은 일로 바꿔라", en="From one kind act to another",
-        q=lib("rain_window", ["d5q"], pre=0.3, post=0.4, grade="modern"),
+        q=[mod("e4m_mom", ["d5q"]), lib("rain_window", ["d5q2"], pre=0.3, post=0.4, grade="modern")],
         scene=[F.shot("still", "e4_halala", ["d5a"], SNOW, {"move": {"zoom": [1.12, 1.24]}}),
                F.shot("still", "e4_girls", ["d5b"], ["wind_1.mp3", 0.2], {"grade": "memory", "move": {"zoom": [1.0, 1.1]}})],
         mono="quill2", mvoices=["m5a", "m5b", "m5c"], verse=["남을 위한 일에서 다음 일로,", "거기서 기쁨을 찾아라."], src="명상록 6권 7절",
@@ -83,14 +90,22 @@ CH4 = {
         knot=mod("e4m_letter", ["d5d"]) | {"pre": 0.6, "post": 1.6},
         teaser=None),
 }
+PICK = {'d1q': 'voice_ep04b_01_d1qa.mp3', 'd1q2': 'voice_ep04b_04_d1q2b.mp3', 'd2q2': 'voice_ep04b_06_d2q2b.mp3', 'd3q2': 'voice_ep04b_07_d3q2a.mp3', 'd4q2': 'voice_ep04b_10_d4q2b.mp3', 'd5q': 'voice_ep04b_11_d5qa.mp3', 'd5q2': 'voice_ep04b_14_d5q2b.mp3'}   # 11/8 2테이크 중 짧은(끌림 없는) 쪽
 MUSIC4 = {1: ("sad_3.mp3", 0), 2: ("cinematic_5.mp3", 0), 3: ("sad_3.mp3", 60), 4: ("cinematic_4.mp3", 0), 5: ("cinematic_4.mp3", 110)}
 
 
 def chapter4(n, c):
     S = [{"type": "card", "label": f"THE {ORD[n]} WAY", "num": NUM[n], "title": f"{KO[n]} · {c['title']}", "en": c["en"], "dur": 4.2, "fixed": True,
           "sfx": F.CARD_SFX, "amb": ["wind_2.mp3", 0.25]}]
-    S.append(copy.deepcopy(c["q"]))
-    S += copy.deepcopy(c["scene"])
+    q = copy.deepcopy(c["q"])
+    q[0].setdefault("overlays", []).append({"kind": "caption", "text": NOW[n], "at": 0.3, "pos": "top", "size": 44})
+    q[-1].update({"post": 0.6})
+    S += q
+    sc = copy.deepcopy(c["scene"])
+    sc[0].setdefault("overlays", []).insert(0, {"kind": "caption", "text": BACK[n], "at": 0.3, "pos": "top", "size": 44})
+    sc[0].update({"tin": "black", "fin": 0.5, "pre": max(sc[0].get("pre", 0.3), 0.5)})
+    sc[0]["sfx"] = (sc[0].get("sfx") or []) + [["paper_3.mp3", 0.05, 0.45]]
+    S += sc
     m = lib(c["mono"], c["mvoices"])
     m.update({"gap": 1.0, "pre": 0.8, "post": 1.8, "nocap_voices": [c["mvoices"][-1]], "tin": "dissolve"})
     m["overlays"] = [{"kind": "verse", "lines": c["verse"], "src": c["src"], "at_voice": c["mvoices"][-1]}]
@@ -118,6 +133,8 @@ def build():
     # 11/7 소리 끌림 검사(take_check)로 다시 받은 줄 — 통과한 테이크로 바꾼다 (d5b는 세 테이크 모두 첫 말 '그리고'를 0.7초 늘여 읽음: 가장 짧은 a)
     for k, f in {"d3a": "voice_ep04r_01_d3aa.mp3", "d3c": "voice_ep04r_03_d3ca.mp3", "d4c": "voice_ep04r_05_d4ca.mp3",
                  "d4t": "voice_ep04r_08_d4tb.mp3", "d5b": "voice_ep04r_09_d5ba.mp3"}.items(): vf[k] = "../ep04r/" + f
+    # 11/8 수정분(ep04b) — 2테이크 중 검사 통과한 것 (PICK에서 고름)
+    for k, f in PICK.items(): vf[k] = "../ep04b/" + f
     sp["voice_files"] = vf
     ALL = E.HOOK + E.LINES
     sp["subs"] = {n: subs_of(t, v) for n, v, t in ALL}
