@@ -16,6 +16,6 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           npm i --no-save playwright@1.47.2 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1 || true
       - name: 받기
-        run: python3 scripts/music/fetch_samples.py
+        run: pip install -q numpy && python3 scripts/music/fetch_direct.py
       - name: 올리기
-        run: bash scripts/ci/push_results.sh "음악 시안 미리듣기 $(TZ=Asia/Seoul date '+%F %H:%M')" social/music/samples
+        run: bash scripts/ci/push_results.sh "음악 시안 미리듣기 $(TZ=Asia/Seoul date '+%F %H:%M')" social/music/samples2
