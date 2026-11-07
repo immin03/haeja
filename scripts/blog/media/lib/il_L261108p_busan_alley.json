@@ -1,0 +1,32 @@
+{
+ "id": "il_L261108p_busan_alley",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep plum and warm crimson color grade with soft golden highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces. Scene: A 1990s hillside alley in Busan at dusk, colorful houses stacked on the slope, two schoolgirls in navy uniforms seen from behind walking down the stairs carrying a small paper snack box, nostalgic film photo look.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b3ba-e142-76e5-8f32-ba62e58b11db",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3ba-e142-76e5-8f32-ba62e58b11db/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3ba-e142-76e5-8f32-ba62e58b11db/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b3ba-e142-76e5-8f32-ba62e58b11db",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3ba-e142-76e5-8f32-ba62e58b11db/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3ba-e142-76e5-8f32-ba62e58b11db/cancel",
+  "expires_at": "2026-11-14T02:00:19.958710+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b3ba-e142-76e5-8f32-ba62e58b11db/ccceca9a-d58b-4585-8bb8-146ca02bf744.jpeg"
+   }
+  ]
+ },
+ "seconds": 93,
+ "file": "scripts/blog/media/lib/il_L261108p_busan_alley.jpeg"
+}

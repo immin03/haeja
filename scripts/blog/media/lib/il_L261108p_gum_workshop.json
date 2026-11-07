@@ -1,0 +1,32 @@
+{
+ "id": "il_L261108p_gum_workshop",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep plum and warm crimson color grade with soft golden highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces. Scene: A vintage 1940s chewing gum workshop, thin sheets of gum being cut into sticks by hand on a floured wooden table, workers' hands only, warm sepia light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b3bd-9070-7be7-97e3-0af6d884645a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3bd-9070-7be7-97e3-0af6d884645a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3bd-9070-7be7-97e3-0af6d884645a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b3bd-9070-7be7-97e3-0af6d884645a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3bd-9070-7be7-97e3-0af6d884645a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3bd-9070-7be7-97e3-0af6d884645a/cancel",
+  "expires_at": "2026-11-14T02:03:07.365625+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b3bd-9070-7be7-97e3-0af6d884645a/8ef76d5e-58d4-40b5-84a4-704094467357.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261108p_gum_workshop.jpeg"
+}

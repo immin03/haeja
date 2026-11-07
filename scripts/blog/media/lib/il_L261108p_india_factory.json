@@ -1,0 +1,32 @@
+{
+ "id": "il_L261108p_india_factory",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep plum and warm crimson color grade with soft golden highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces. Scene: A clean modern food factory in Haryana India, workers in hairnets and white coats beside a conveyor of chocolate sticks, warm light, wide shot.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b3c0-5d61-7409-ad72-c03e4a4a0d27",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3c0-5d61-7409-ad72-c03e4a4a0d27/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3c0-5d61-7409-ad72-c03e4a4a0d27/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b3c0-5d61-7409-ad72-c03e4a4a0d27",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3c0-5d61-7409-ad72-c03e4a4a0d27/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3c0-5d61-7409-ad72-c03e4a4a0d27/cancel",
+  "expires_at": "2026-11-14T02:06:30.782603+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b3c0-5d61-7409-ad72-c03e4a4a0d27/35678308-c99a-435f-af87-29967c952a60.jpeg"
+   }
+  ]
+ },
+ "seconds": 106,
+ "file": "scripts/blog/media/lib/il_L261108p_india_factory.jpeg"
+}

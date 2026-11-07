@@ -1,0 +1,32 @@
+{
+ "id": "il_L261108p_sun_chocolate",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep plum and warm crimson color grade with soft golden highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces. Scene: A single chocolate-coated stick resting on a hot sunlit stone at an Indian market stall, chocolate still firm and glossy despite the heat haze, macro shot.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b3c1-6601-76a2-9526-c122c4e05a19",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3c1-6601-76a2-9526-c122c4e05a19/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3c1-6601-76a2-9526-c122c4e05a19/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b3c1-6601-76a2-9526-c122c4e05a19",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3c1-6601-76a2-9526-c122c4e05a19/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3c1-6601-76a2-9526-c122c4e05a19/cancel",
+  "expires_at": "2026-11-14T02:07:15.244321+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b3c1-6601-76a2-9526-c122c4e05a19/1e034cfa-7cc6-423f-9251-511433e192d4.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261108p_sun_chocolate.jpeg"
+}

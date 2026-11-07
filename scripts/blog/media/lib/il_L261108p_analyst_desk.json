@@ -1,0 +1,32 @@
+{
+ "id": "il_L261108p_analyst_desk",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep plum and warm crimson color grade with soft golden highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces. Scene: A securities analyst's desk at night by a window overlooking Seoul's Yeouido skyline, printed reports and a red snack box beside a laptop, lamp light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b3c3-2408-7f84-90ce-6ec120970c00",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3c3-2408-7f84-90ce-6ec120970c00/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3c3-2408-7f84-90ce-6ec120970c00/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b3c3-2408-7f84-90ce-6ec120970c00",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3c3-2408-7f84-90ce-6ec120970c00/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3c3-2408-7f84-90ce-6ec120970c00/cancel",
+  "expires_at": "2026-11-14T02:09:08.540983+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b3c3-2408-7f84-90ce-6ec120970c00/cb739063-a67e-404a-8f90-6a9c4e7a517c.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261108p_analyst_desk.jpeg"
+}

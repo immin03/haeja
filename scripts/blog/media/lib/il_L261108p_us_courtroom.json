@@ -1,0 +1,32 @@
+{
+ "id": "il_L261108p_us_courtroom",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep plum and warm crimson color grade with soft golden highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces. Scene: An empty American federal courtroom with dark wood paneling, a wooden gavel on the judge's bench, morning light through tall windows.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b3bf-17e8-7d92-be39-d1aea7ce9e8f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3bf-17e8-7d92-be39-d1aea7ce9e8f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3bf-17e8-7d92-be39-d1aea7ce9e8f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b3bf-17e8-7d92-be39-d1aea7ce9e8f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b3bf-17e8-7d92-be39-d1aea7ce9e8f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b3bf-17e8-7d92-be39-d1aea7ce9e8f/cancel",
+  "expires_at": "2026-11-14T02:04:37.431235+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b3bf-17e8-7d92-be39-d1aea7ce9e8f/196b85a9-0015-45d2-9553-2b6c080dfe9b.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_L261108p_us_courtroom.jpeg"
+}
