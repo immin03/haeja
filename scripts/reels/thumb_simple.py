@@ -414,6 +414,8 @@ def render_v3(spec, out):
     """2026-10-29 운영자: 삼성전자 썸네일 톤 + 은은한 배경 사진(머니스웨거 느낌) + 한눈에 주제를 알려 주는 포인트 하나.
     네이비 빛·옅은 격자, 위 제목(아이보리 + 골드), 포인트(로고 PNG 또는 emblem), 빛나는 그래프, 아래 라벨 + 큰 숫자, 작은 밸류노트 로고."""
     from brand import paste_logo
+    if spec.get("layout") == "shorts_big":   # 2026-11-08 대표님 확정 표준(제1 원칙 115): 쇼츠·릴스 공용 — 삼성전자 틀에 위 2줄 제목 최대, 큰 숫자 중간, 하락선, ValueNote 로고 하단 가운데 크게. 인스타 격자(세로 240~1680)·좌우 60 안에 전부 들어온다
+        spec = {**{"header_big": True, "big_center": True, "header_y": 320, "header_w": 950, "big_size": 290, "chart_bottom": 1430, "logo_y": 1525, "logo_size": 72}, **spec}
     tone = spec.get("tone", "down"); ig = spec.get("safe") == "ig"; foc = tuple(spec.get("focus", (.5, .5)))
     em = spec.get("emblem")
     if spec.get("format", "short") == "short":
