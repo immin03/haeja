@@ -17,16 +17,15 @@ if "|" in body: bad.append("제목에 다른 꼬리(|)")
 if len(t)>40: bad.append(f"{len(t)}자(40자 초과)")
 if bad: print("제목 규칙 위반:", t, "·", ", ".join(bad)); sys.exit(1)
 CHK
-# ★ 음성 관문 (2026-11-08 대표: "검수를 꼭 해야 돼") — 데일리 쇼츠(ep숫자)는 voice_gate.py 도장의 sha256 이 이 파일과 같아야 올린다
+# ★ 음성 관문 (2026-11-08 대표: "검수를 꼭 해야 돼") — voice_gate.py 또는 voice_gate_long.py 도장의 sha256 이 이 파일과 같아야 올린다 (2026-11-09 롱폼·소개 쇼츠까지 전부)
 python3 - "$ID" "$F" <<'CHK' || exit 1
 import hashlib,json,os,re,sys
 i,f=sys.argv[1:]
-if re.match(r"ep\d+",i):
-    s=f+".voiceqa.json"
-    if not os.path.exists(s): print("음성 관문 도장 없음 — voice_gate.py 통과 전에는 올리지 않는다:",s); sys.exit(1)
-    d=json.load(open(s)); h=hashlib.sha256(open(f,"rb").read()).hexdigest()
-    if not d.get("passed") or d.get("sha256")!=h: print("음성 관문 도장이 이 파일과 다름 — 다시 검사할 것"); sys.exit(1)
-    print("음성 관문 도장 확인")
+s=f+".voiceqa.json"
+if not os.path.exists(s): print("음성 관문 도장 없음 — voice_gate.py / voice_gate_long.py 통과 전에는 올리지 않는다:",s); sys.exit(1)
+d=json.load(open(s)); h=hashlib.sha256(open(f,"rb").read()).hexdigest()
+if not d.get("passed") or d.get("sha256")!=h: print("음성 관문 도장이 이 파일과 다름 — 다시 검사할 것"); sys.exit(1)
+print("음성 관문 도장 확인")
 CHK
 # ★ 썸네일 검사 (2026-11-06: 13편에 중간 장면 사진이 썸네일로 올라간 사고) — 넘긴 jpg 가 영상 0초 첫 화면과 같아야 올린다
 python3 - "$F" "$J" <<'CHK' || exit 1
@@ -49,9 +48,9 @@ N=$(ls $T/p* | wc -l); TOTAL=$(stat -c%s "$F")
 R=$(call "{\"key\":\"$K\",\"action\":\"sign\",\"prefix\":\"$ID\",\"n\":$N}")
 i=0; for u in $(echo "$R" | python3 -c "import sys,json;print('\n'.join(json.load(sys.stdin)['urls']))"); do
   curl -s -m 300 -X PUT "$u" -H "Content-Type: application/octet-stream" -H "x-upsert: true" --data-binary @$T/p$(printf %03d $i) >/dev/null; i=$((i+1)); done
-python3 - "$K" "$ID" "$TOTAL" "$SKEY" "$M" > $T/start.json <<'P'
+python3 - "$K" "$ID" "$TOTAL" "$SKEY" "$M" "$F" > $T/start.json <<'P'
 import json,sys
-k,i,t,s,m=sys.argv[1:]; d=json.load(open(m)); d.update({"key":k,"action":"start","prefix":i,"total":int(t),"state_key":s,"category":"27"}); print(json.dumps(d,ensure_ascii=False))
+k,i,t,s,m,f=sys.argv[1:]; d=json.load(open(m)); d.update({"key":k,"action":"start","prefix":i,"total":int(t),"state_key":s,"category":"27","voice_qa":json.load(open(f+".voiceqa.json"))["ed_posts_voice_qa"]}); print(json.dumps(d,ensure_ascii=False))
 P
 call @$T/start.json; echo
 for n in $(seq 1 20); do R=$(call "{\"key\":\"$K\",\"action\":\"push\",\"state_key\":\"$SKEY\"}"); echo "$R"; echo "$R" | grep -q '"done":true' && break; done

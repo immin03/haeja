@@ -7,7 +7,7 @@
  A. 목소리 조각마다(원본 음성): 소리 끌기 · 말 속도 · 받아쓰기와 대본 일치(0.80 이상)
  B. 실제로 올릴 파일마다: 조각이 제자리(±0.7초)에 온전히 들어 있고 원본과 일치(상관 0.90 이상), 순서 맞음
     · 조용한 곳의 클릭 없음 · 크기 -17~-13 LUFS · 전체 받아쓰기와 대본 일치(0.72 이상)
-통과하면 <mp4>.voiceqa.json 도장(파일 sha256)을 남긴다. yt_up.sh 는 도장 없이는 올리지 않고,
+통과하면 <mp4>.voiceqa.json 도장(파일 sha256)을 남긴다. yt_up.sh·ed-yt-long 함수는 도장 없이는 올리지 않고,
 ed_posts 는 voice_qa='pass:<sha256>' 없이는 새 데일리 쇼츠 행을 받지 않는다(DB 트리거)."""
 import difflib, hashlib, json, os, re, subprocess, sys, time, numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)

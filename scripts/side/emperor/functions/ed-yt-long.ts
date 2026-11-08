@@ -52,6 +52,7 @@ Deno.serve(async (req: Request) => {
       return json({ urls });
     }
     const tok = await ytTok();
+    if (b.action === "start" && !/^pass:[0-9a-f]{64}$/.test(String(b.voice_qa || ""))) return json({ error: "음성 관문 미통과: voice_qa 없음. voice_gate.py 또는 voice_gate_long.py 를 통과한 파일만 올린다" }, 400);   // 2026-11-09 대표 승인
     if (b.action === "start") {
       const total = Number(b.total);
       const meta = {

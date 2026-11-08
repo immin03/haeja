@@ -35,6 +35,11 @@ def small(src, dst):
 
 if __name__ == "__main__":
     n = int(sys.argv[1]); src = sys.argv[2]; thumbs = sys.argv[3:]
+    # 2026-11-09 음성 관문: voice_gate_long.py 도장 없는 완성본은 관리자 검토로 올리지 않는다
+    import hashlib
+    stamp = src + ".voiceqa.json"
+    if not os.path.exists(stamp): sys.exit(f"음성 관문 도장 없음 — 먼저: python3 voice_gate_long.py <spec.json> {src}")
+    if json.load(open(stamp)).get("sha256") != hashlib.sha256(open(src, "rb").read()).hexdigest(): sys.exit("음성 관문 도장이 이 파일과 다름 — 다시 검사할 것")
     tmp = f"/tmp/ed_review_ep{n:02d}.mp4"; dur = small(src, tmp)
     print("video", put(f"ep{n:02d}.mp4", tmp, "video/mp4"), round(os.path.getsize(tmp) / 1e6, 1), "MB")
     th = []
