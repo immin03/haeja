@@ -1,0 +1,58 @@
+# 본편 배경음악 시안: 이미 만든 롱폼의 실제 목소리에 새 본편 곡을 깔아 소리만 뽑아 릴리스 preview-hook 에 올린다 (게시·커밋 없음)
+# 2026-11-08 대표님: 버즈로 들으니 베이스가 과함 → 잔잔한 곡으로 교체 전에 목소리와 같이 들어 보기
+name: yt-bed-preview
+on:
+  workflow_dispatch:
+    inputs:
+      id: { description: '롱폼 아이디', required: true }
+      name: { description: '시안 이름', required: true }
+      bed: { description: '본편 곡들 (쉼표, social/music/ 기준)', required: true }
+      gain: { description: 'bed_gain_db', required: false, default: '5' }
+permissions:
+  contents: write
+concurrency: yt-bed-preview
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: 도구 설치
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+          pip install -q numpy scipy pillow soundfile opencv-python-headless sherpa-onnx==1.13.8
+      - name: 음성 캐시 (롱폼 렌더와 같은 캐시를 읽기만 한다)
+        uses: actions/cache/restore@v4
+        with:
+          path: scripts/reels/.cache
+          key: yt-tts-bed-${{ github.run_id }}
+          restore-keys: yt-tts-
+      - name: 소리만 렌더
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          AUDIO_ONLY: '1'
+          AUDIO_FULL: '1'
+          ID: ${{ github.event.inputs.id }}
+          NAME: ${{ github.event.inputs.name }}
+          BED: ${{ github.event.inputs.bed }}
+          GAIN: ${{ github.event.inputs.gain }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          S=scripts/youtube/long/specs/$ID.json
+          gh release view preview-hook >/dev/null 2>&1 || gh release create preview-hook --prerelease --title "음악 시안" --notes "게시용 아님"
+          python3 - "$S" <<'EOF'
+          import json, os, sys
+          p = sys.argv[1]; s = json.load(open(p, encoding="utf-8"))
+          m = dict(s.get("music") or {}); m["bed"] = ["social/music/" + b for b in os.environ["BED"].split(",")]
+          m.pop("bed_eq", None); m["bed_gain_db"] = float(os.environ["GAIN"]); s["music"] = m
+          json.dump(s, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+          EOF
+          python3 scripts/youtube/long/render2.py $S
+          cp social/youtube/$ID/hook.mp3 /tmp/$ID-bed-$NAME.mp3
+          gh release upload preview-hook /tmp/$ID-bed-$NAME.mp3 --clobber

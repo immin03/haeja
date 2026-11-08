@@ -2114,7 +2114,7 @@ def main():
     wav = os.path.join(out, "voice.wav")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", wav], input=st_.tobytes(), check=True)
     if os.environ.get("AUDIO_ONLY"):   # 검수용: 소리만 (2026-11-07 대표님: 훅 음악 시안은 인트로 소리만 간단히) — 인트로 끝 +1.5초까지 잘라 둔다
-        cut = (h1 + 1.5) if h1 else 60.0
+        cut = (len(st_) / SR) if os.environ.get("AUDIO_FULL") else ((h1 + 1.5) if h1 else 60.0)   # 2026-11-08 본편 음악 시안: AUDIO_FULL 이면 영상 끝까지 소리만
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", wav, "-t", f"{cut:.2f}", "-af", "afade=t=out:st=%.2f:d=1.2" % max(0, cut - 1.2), "-b:a", "192k", os.path.join(out, "hook.mp3")], check=True)
         print("  훅 소리만 저장:", round(cut, 1), "초"); return
     if "--stills" in sys.argv:  # 검수용: 장면마다 마지막 문장을 말하는 순간 한 장씩
