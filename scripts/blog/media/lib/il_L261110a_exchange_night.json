@@ -1,0 +1,32 @@
+{
+ "id": "il_L261110a_exchange_night",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-orange highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no Chinese characters, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces, no flags. Scene: The exterior of a modern stock exchange tower in Shanghai Lujiazui at night, tall glass facade, mostly dark windows, empty plaza in front, no signage.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b879-e5d8-73e3-a56b-ba29d90ba2f6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b879-e5d8-73e3-a56b-ba29d90ba2f6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b879-e5d8-73e3-a56b-ba29d90ba2f6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b879-e5d8-73e3-a56b-ba29d90ba2f6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b879-e5d8-73e3-a56b-ba29d90ba2f6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b879-e5d8-73e3-a56b-ba29d90ba2f6/cancel",
+  "expires_at": "2026-11-15T00:07:19.854810+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b879-e5d8-73e3-a56b-ba29d90ba2f6/35e4b3c0-95a1-49a3-9cfe-adf3edaf0b13.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "scripts/blog/media/lib/il_L261110a_exchange_night.jpeg"
+}

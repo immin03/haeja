@@ -1,0 +1,32 @@
+{
+ "id": "il_L261110a_phone_pay",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-orange highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no Chinese characters, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces, no flags. Scene: A hand holding a smartphone up to pay at a busy night street food stall in China, the screen glow blurred and unreadable, steam rising, bokeh lights.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b878-d8f6-7d4b-bd93-9d8be01fd05b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b878-d8f6-7d4b-bd93-9d8be01fd05b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b878-d8f6-7d4b-bd93-9d8be01fd05b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b878-d8f6-7d4b-bd93-9d8be01fd05b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b878-d8f6-7d4b-bd93-9d8be01fd05b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b878-d8f6-7d4b-bd93-9d8be01fd05b/cancel",
+  "expires_at": "2026-11-15T00:05:48.252826+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b878-d8f6-7d4b-bd93-9d8be01fd05b/4c840e23-6722-4ec6-adb7-591f2b20427c.jpeg"
+   }
+  ]
+ },
+ "seconds": 62,
+ "file": "scripts/blog/media/lib/il_L261110a_phone_pay.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L261110a_dorm_1990s",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-orange highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no Chinese characters, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces, no flags. Scene: A cramped 1990s Chinese university dormitory room at night, metal bunk beds, a desk lamp, instant noodle bowls, four young men seen from behind playing cards, film photo texture.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b87c-0098-7304-b9a5-f8fc2e5eece1",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b87c-0098-7304-b9a5-f8fc2e5eece1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b87c-0098-7304-b9a5-f8fc2e5eece1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b87c-0098-7304-b9a5-f8fc2e5eece1",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b87c-0098-7304-b9a5-f8fc2e5eece1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b87c-0098-7304-b9a5-f8fc2e5eece1/cancel",
+  "expires_at": "2026-11-15T00:09:32.917327+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b87c-0098-7304-b9a5-f8fc2e5eece1/0546e82a-2576-4620-90a1-c85139b461d0.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "scripts/blog/media/lib/il_L261110a_dorm_1990s.jpeg"
+}

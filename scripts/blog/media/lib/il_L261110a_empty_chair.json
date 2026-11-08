@@ -1,0 +1,32 @@
+{
+ "id": "il_L261110a_empty_chair",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-orange highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no Chinese characters, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces, no flags. Scene: An empty leather executive chair facing a rain-streaked window in a dark office, city lights blurred outside, a sense of absence.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b879-fd96-7a6a-8a7d-934da0d6375a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b879-fd96-7a6a-8a7d-934da0d6375a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b879-fd96-7a6a-8a7d-934da0d6375a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b879-fd96-7a6a-8a7d-934da0d6375a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b879-fd96-7a6a-8a7d-934da0d6375a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b879-fd96-7a6a-8a7d-934da0d6375a/cancel",
+  "expires_at": "2026-11-15T00:07:16.546381+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b879-fd96-7a6a-8a7d-934da0d6375a/b5c5f591-826d-4bc5-8c7c-e44439295d54.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "scripts/blog/media/lib/il_L261110a_empty_chair.jpeg"
+}

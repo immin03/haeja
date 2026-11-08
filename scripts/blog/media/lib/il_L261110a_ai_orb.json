@@ -1,0 +1,32 @@
+{
+ "id": "il_L261110a_ai_orb",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-orange highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no Chinese characters, no logos, no brand names, no readable signs or screens or packaging, no watermark, no recognizable faces, no flags. Scene: A smartphone lying on a table with a soft glowing abstract orb of light floating above the screen, like an AI assistant, product boxes blurred in the background.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1b87f-9e91-7935-a308-1bda0110c68e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b87f-9e91-7935-a308-1bda0110c68e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b87f-9e91-7935-a308-1bda0110c68e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1b87f-9e91-7935-a308-1bda0110c68e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1b87f-9e91-7935-a308-1bda0110c68e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1b87f-9e91-7935-a308-1bda0110c68e/cancel",
+  "expires_at": "2026-11-15T00:13:21.338991+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1b87f-9e91-7935-a308-1bda0110c68e/7c805a11-086b-48f1-be88-3d97ddeedc8d.jpeg"
+   }
+  ]
+ },
+ "seconds": 68,
+ "file": "scripts/blog/media/lib/il_L261110a_ai_orb.jpeg"
+}
