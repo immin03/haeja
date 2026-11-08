@@ -428,10 +428,14 @@ def render_v3(spec, out):
                 ImageDraw.Draw(im).text((W / 2, y), ss, font=ff, fill=YEL, anchor="mm", stroke_width=5, stroke_fill=(0, 0, 0, 255)); y += ff.size * 1.15
             top = int(y) + 10
         else:
-            f1 = fit(spec["l1"], "Heavy", 100, 980); f2 = fit(spec["l2"], "Heavy", 120, 1000); s1, s2 = 100, 120
-            text_shadow(im, (W / 2, 250 + o), spec["l1"], f1, IVORY)
-            text_shadow(im, (W / 2, 250 + o + f1.size * .5 + f2.size * .75), spec["l2"], f2, GOLD)
-            top = 520 + o
+            # 2026-11-08 대표님(제1 원칙 111): 삼성전자 틀 그대로, 위 2줄 제목만 화면 폭 가득 최대한 크게 — thumbs json 에 "header_big": true
+            hb = bool(spec.get("header_big")); s1, s2 = (160, 180) if hb else (100, 120); mw = 1020 if hb else 980
+            f1 = fit(spec["l1"], "Heavy", s1, mw); f2 = fit(spec["l2"], "Heavy", s2, mw if hb else 1000)
+            if hb: s1, s2 = f1.size, f2.size
+            y1 = (225 if hb else 250) + o; y2 = y1 + f1.size * .5 + f2.size * (.68 if hb else .75)
+            text_shadow(im, (W / 2, y1), spec["l1"], f1, IVORY)
+            text_shadow(im, (W / 2, y2), spec["l2"], f2, GOLD)
+            top = max(520 + o, int(y2 + f2.size * .5)) if hb else 520 + o
         if spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
         elif em: emblem(im, em["kind"], W / 2, top + 130, em.get("size", 230), em.get("text")); top += 290
         bot = 1300 if ig else 1340
