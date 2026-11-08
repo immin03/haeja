@@ -157,7 +157,8 @@ HEAD = """<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <link rel="icon" type="image/png" href="/favicon-64.png?v=6"><meta name="theme-color" content="#0A1730">
 <style>@font-face{{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}}@font-face{{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}}@font-face{{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}}@font-face{{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
-<style>{css}</style></head><body>"""
+<style>{css}</style>
+<!-- 인스타 댓글 DM(utm_source=ig-dm)으로 들어오면 다른 칼럼 목록을 숨기고 이 정리본만 보여 준다 (2026-11-08) --><!--dm-only--><style>.dm-only .more,.dm-only .crumb{{display:none!important}}</style><script>(function(){{try{{var q=new URLSearchParams(location.search),k="vn-dm",p=location.pathname,d=q.get("utm_source")==="ig-dm";try{{if(d)sessionStorage.setItem(k,p);else d=sessionStorage.getItem(k)===p}}catch(_){{}}if(!d)return;document.documentElement.classList.add("dm-only");document.addEventListener("DOMContentLoaded",function(){{var e=document.querySelector(".eyebrow");if(e)e.textContent="댓글로 요청하신 분께만 보내 드리는 정리본"}})}}catch(_){{}}}})()</script></head><body>"""
 
 JS = """<script>
 (function(){

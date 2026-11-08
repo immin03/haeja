@@ -3,6 +3,12 @@
 //       → 버튼을 누르면 팔로우 여부 확인 → 팔로우 중이면 정리본 링크(/g/<릴스 id>), 아니면 팔로우 부탁 + 같은 버튼
 // 광고: 인스타 앱 '홍보하기'로 돌린 릴스는 같은 게시물이라 광고 댓글에도 똑같이 동작한다.
 //
+// 2026-11-08: 요청한 정리본 하나만 보낸다
+//   - 릴스에 정리본(dm_guide)이 없을 때 모든 정리본 모음(/g)으로 보내던 것을 없앴다 → 밸류노트 소개(/start)로 보내고 문구도 '정리본'이라 하지 않는다
+//   - "다른 정리본도 모아 두었다" 문구 삭제
+//   - dm_guide에 '?'가 들어 있어도(/lev?p=soxl) 링크가 깨지지 않게 했다
+//   - 정리본 페이지는 utm_source=ig-dm 으로 들어오면 다른 칼럼 목록을 숨긴다(scripts/reels/guide.py)
+//
 // Meta 앱 설정 (운영자가 한 번):
 //   웹훅 콜백 URL = https://<프로젝트>.supabase.co/functions/v1/ig-dm , 확인 토큰 = 비밀값 IG_WEBHOOK_VERIFY 또는 app_config.ig_webhook_verify
 //   구독 필드 = comments, messages, messaging_postbacks
@@ -34,21 +40,43 @@ async function api(path: string, token: string, body?: unknown, method = "POST")
     ? undefined
     : { method, headers: { "Content-Type": "application/json", Authorization: "Bearer " + token }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
+  // 메타는 보내기(POST)에 성공하고도 code 1 "An unknown error has occurred"를 돌려줄 때가 있다(2026-10-29 확인).
+  // 다시 보내면 같은 DM이 두 통 가므로 성공으로 본다.
+  if (method === "POST" && j.error && j.error.code === 1) { console.error("meta code1 (treated as sent)", path); return { uncertain: true }; }
   if (!r.ok || j.error) throw new Error((j.error && (j.error.error_user_msg || j.error.message)) || `HTTP ${r.status}`);
   return j;
 }
 
 const norm = (s: string) => String(s || "").replace(/\s+/g, "").replace(/['"‘’“”]/g, "").toLowerCase();
-const REPLIES = ["DM 보내 드렸어요. 확인 부탁드립니다!", "정리본 DM으로 보내 드렸어요 📩", "메시지 확인해 주세요! 정리본 보내 드렸습니다.", "DM 확인 부탁드려요. 정리본 넣어 두었습니다!"];
+// 2026-10-29: 매니챗 공개 답글 문구를 이어받음 (매니챗 해지 후 자체 발송으로 전환)
+const REPLIES = ["DM으로 정리본을 보내 드렸습니다 📩", "보내 드렸습니다! DM함을 확인해 주세요", "요청하신 정리본이 DM으로 도착했습니다", "정리본 DM으로 보내 드렸어요. 확인 부탁드립니다!"];
+const REPLIES_NO_GUIDE = ["DM 보내 드렸습니다 📩", "보내 드렸습니다! DM함을 확인해 주세요"];
+const pick = (a: string[]) => a[Math.floor(Math.random() * a.length)];
+
+// 릴스에 연결된 정리본 주소 (없으면 null). dm_guide에 이미 '?'가 있어도 utm을 제대로 붙인다.
+function guideUrl(site: string, post: any): string | null {
+  if (!post?.dm_guide) return null;
+  const u = new URL(site + post.dm_guide);
+  u.searchParams.set("utm_source", "ig-dm");
+  u.searchParams.set("utm_content", String(post.id || "hub"));
+  return u.href;
+}
+const startUrl = (site: string, post: any) => `${site}/start?utm_source=ig-dm&utm_content=${encodeURIComponent(post?.id || "none")}`;
+const cleanTitle = (post: any) => post?.title ? "「" + String(post.title).replace(/^이슈 픽 · /, "").replace(/\s*#\S+/g, "").trim() + "」 " : "";
 
 function followButton(text: string) {
   return { attachment: { type: "template", payload: { template_type: "button", text, buttons: [{ type: "postback", title: "팔로우 확인 🙌", payload: POSTBACK }] } } };
 }
-function linkButton(site: string, post: any) {
-  const url = `${site}${post?.dm_guide || "/g"}?utm_source=ig-dm&utm_content=${encodeURIComponent(post?.id || "hub")}`;
+
+// 정리본이 있는 릴스: 그 정리본 하나만. 없는 릴스: '정리본'이라 하지 않고 밸류노트에서 해당 종목을 확인하도록 안내
+function guideMessage(site: string, post: any, head: string) {
+  const url = guideUrl(site, post);
+  if (url) return { attachment: { type: "template", payload: { template_type: "button",
+    text: `${head}\n\n${cleanTitle(post)}정리본입니다. 릴스에서 다 못 한 숫자와 내 종목에 바로 적용하는 방법까지 담았습니다.\n\n@value.note.korea 를 팔로우해 두시면 새 정리본이 나올 때 가장 먼저 보실 수 있습니다.`,
+    buttons: [{ type: "web_url", url, title: "정리본 보러 가기" }] } } };
   return { attachment: { type: "template", payload: { template_type: "button",
-    text: `팔로우 확인했습니다. 감사합니다!\n\n${post?.title ? "「" + String(post.title).replace(/^이슈 픽 · /, "") + "」 " : ""}정리본입니다. 릴스에서 다 못 한 숫자와 내 종목에 바로 적용하는 방법까지 담았습니다.\n\n이메일을 넣으면 바로 열리고, 새 정리본이 나오면 같은 메일로 알려 드립니다.`,
-    buttons: [{ type: "web_url", url, title: "정리본 보러 가기" }, { type: "web_url", url: `${site}/start?utm_source=ig-dm`, title: "밸류노트 둘러보기" }] } } };
+    text: `${head}\n\n${cleanTitle(post)}에서 다룬 회사는 밸류노트에서 워렌 버핏·벤저민 그레이엄의 방식으로 계산한 점수와 적정 주가를 바로 확인하실 수 있습니다.\n\n@value.note.korea 를 팔로우해 두시면 새 분석이 나올 때 가장 먼저 보실 수 있습니다.`,
+    buttons: [{ type: "web_url", url: startUrl(site, post), title: "밸류노트에서 확인하기" }] } } };
 }
 
 // 댓글 하나 처리
@@ -59,22 +87,36 @@ async function onComment(v: any, a: any, site: string) {
   const any = (await cfg("ig_dm_any_comment")) === true;   // true면 키워드 없이 아무 댓글에나 반응
   if (!post?.dm_keyword && !any) return "no-keyword-post";
   if (post?.dm_keyword && !any && !norm(v.text).includes(norm(post.dm_keyword))) return "no-match";
+  // 같은 사람이 같은 릴스에 댓글을 여러 번 달아도 DM은 하루 한 번만 (2026-10-29: 연달아 단 댓글 2개에 DM 2통이 간 일)
+  if (from.id) {
+    const { data: prev } = await sb.from("ig_dm").select("comment_id").eq("igsid", from.id).eq("media_id", media)
+      .in("status", ["new", "asked", "sent"]).gte("created_at", new Date(Date.now() - 864e5).toISOString()).limit(1);
+    if (prev?.length) return "dup-user";
+  }
   const { error: dup } = await sb.from("ig_dm").insert({ comment_id: cid, media_id: media, post_id: post?.id || null, igsid: from.id || null, username: from.username || null, keyword: post?.dm_keyword || null, status: "new" });
   if (dup) return "dup";
+  const reply = post?.dm_guide ? pick(REPLIES) : pick(REPLIES_NO_GUIDE);
   try {
-    const kw = post?.dm_keyword ? `'${post.dm_keyword}'` : "";
+    if ((await cfg("ig_dm_follow_gate")) !== true) {
+      // 팔로우 확인 없이 첫 DM에 바로 링크 (2026-10-29)
+      // 메타는 앱 역할이 없는 일반 사용자의 '버튼 누름(postback)'을 고급 액세스 심사 전에는 보내 주지 않는다.
+      await api(`${a.account_id}/messages`, a.access_token, { recipient: { comment_id: cid }, message: guideMessage(site, post, "안녕하세요, 밸류노트입니다 🙂\n댓글 남겨 주셔서 감사합니다.") });
+      await sb.from("ig_dm").update({ status: "sent", updated_at: new Date().toISOString() }).eq("comment_id", cid);
+      await api(`${cid}/replies`, a.access_token, { message: reply }).catch(e => console.error("reply", e));
+      return post?.dm_guide ? "sent-direct" : "sent-direct-noguide";
+    }
     // 비공개 답장 (댓글 7일 안, 1회): 팔로우 확인 버튼
+    // 2026-10-29: 메타가 DM을 실제로 보내고도 "An unknown error has occurred"(500)를 돌려주는 경우가 있다 → 다시 보내지 않고 '보냄'으로 처리한다.
     try {
       await api(`${a.account_id}/messages`, a.access_token, { recipient: { comment_id: cid }, message: followButton(
-        `안녕하세요, 밸류노트입니다 🙂\n댓글${kw ? "에 " + kw : ""} 남겨 주셔서 감사합니다.\n\n팔로우 확인을 위해 아래 버튼을 눌러 주세요. 확인되면 바로 정리본을 보내 드립니다.`) });
-    } catch (_) {
-      // 버튼 템플릿이 거절되면 글로만 보낸다 (답장을 보내 주시면 이어서 링크를 드림)
-      await api(`${a.account_id}/messages`, a.access_token, { recipient: { comment_id: cid }, message: { text:
-        `안녕하세요, 밸류노트입니다 🙂 댓글 감사합니다.\n이 메시지에 "정리본"이라고 답장해 주시면 팔로우 확인 후 바로 링크를 보내 드립니다.` } });
+        `안녕하세요, 밸류노트입니다 🙂\n댓글 남겨 주셔서 감사합니다. 릴스에서 다룬 내용을 정리본으로 준비해 두었습니다.\n\n팔로우해 주시면 바로 정리본을 보내 드립니다. 팔로우하신 뒤 아래 버튼을 눌러 주세요.`) });
+    } catch (e1) {
+      const msg = String((e1 as Error).message || "");
+      console.error("private-reply", msg);
+      if (!/unknown error/i.test(msg)) throw e1;   // 진짜 실패(권한·7일 지남 등)만 실패로 남긴다
     }
     await sb.from("ig_dm").update({ status: "asked", updated_at: new Date().toISOString() }).eq("comment_id", cid);
-    // 공개 답글 (실패해도 DM은 이미 나감)
-    await api(`${cid}/replies`, a.access_token, { message: REPLIES[Math.floor(Math.random() * REPLIES.length)] }).catch(e => console.error("reply", e));
+    await api(`${cid}/replies`, a.access_token, { message: reply }).catch(e => console.error("reply", e));
     return "asked";
   } catch (e) {
     await sb.from("ig_dm").update({ status: "failed", error: String((e as Error).message).slice(0, 400), updated_at: new Date().toISOString() }).eq("comment_id", cid);
@@ -99,7 +141,7 @@ async function onMessage(m: any, a: any, site: string) {
       "아직 팔로우가 확인되지 않았어요.\n@value.note.korea 를 팔로우하신 뒤 아래 버튼을 다시 눌러 주세요 🙏") });
     return "not-following";
   }
-  await api(`${a.account_id}/messages`, a.access_token, { recipient: { id: uid }, message: linkButton(site, post) });
+  await api(`${a.account_id}/messages`, a.access_token, { recipient: { id: uid }, message: guideMessage(site, post, "팔로우 확인했습니다. 감사합니다!") });
   if (row) await sb.from("ig_dm").update({ status: "sent", updated_at: new Date().toISOString() }).eq("comment_id", row.comment_id);
   return "sent";
 }
