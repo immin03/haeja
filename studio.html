@@ -525,6 +525,7 @@ function renderTabs(){
 }
 function render(){
   const p = page();
+  if(p === 'hot'){ const v = BUILTIN.find(x => x.kind === 'vn'); if(v) S.acc = v.id; } // 핫 토픽은 밸류노트 화면
   renderTabs();
   const a = curAcc();
   let html;
