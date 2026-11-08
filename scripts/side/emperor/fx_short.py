@@ -200,11 +200,12 @@ def outro2(u):
     ab = ease((u - OUT_T[3]) / 0.5)
     if ab > 0:
         # 11/5 대표: 실제 행동을 이끄는 한 줄 — "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."
-        ct(1130, "좋아요와 " + ("팔로우" if PLAT == "reels" else "구독") + "는 영상 제작에", R.font("small"), (222, 196, 140), ab)
-        ct(1188, "큰 힘이 됩니다. 감사합니다.", R.font("small"), (222, 196, 140), ab)
+        # 11/9 대표: 안내 글과 아이콘 사이가 좁음 → 글을 20px 올리고 아이콘을 55px 내림 (간격 약 32 → 약 107px)
+        ct(1110, "좋아요와 " + ("팔로우" if PLAT == "reels" else "구독") + "는 영상 제작에", R.font("small"), (222, 196, 140), ab)
+        ct(1168, "큰 힘이 됩니다. 감사합니다.", R.font("small"), (222, 196, 140), ab)
         items = [("like", "좋아요"), ("follow", "팔로우") if PLAT == "reels" else ("bell", "구독"), ("share", "친구에게 공유")]
         for k2, (kind, lab) in enumerate(items):
-            ak = ease((u - OUT_T[3] - 0.1 - k2 * 0.15) / 0.4); bx = W / 2 - 290 + k2 * 290; by = 1330 + int((1 - ak) * 14)
+            ak = ease((u - OUT_T[3] - 0.1 - k2 * 0.15) / 0.4); bx = W / 2 - 290 + k2 * 290; by = 1385 + int((1 - ak) * 14)
             sp = R.cta_sprite(kind); sp2 = sp.copy(); sp2.putalpha(sp.split()[3].point(lambda v: int(v * ak)))
             lay.alpha_composite(sp2, (int(bx - sp.width / 2), int(by - sp.height / 2)))
             f = R.font("cta"); w = d.textlength(lab, font=f); d.text((bx - w / 2, by + 112), lab, font=f, fill=LG_HI + (int(240 * ak),))
