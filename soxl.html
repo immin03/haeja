@@ -134,6 +134,39 @@ body{padding-bottom:76px}
 .btn{display:flex;align-items:center;justify-content:center;height:54px;border-radius:14px;font-weight:850;font-size:16px;text-decoration:none;background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy)}
 .end small{display:block;margin-top:14px;font-size:12px;color:rgba(247,242,232,.55)}
 @media (max-width:380px){.hero h1{font-size:27px}.tbl .hd,.tbl a{grid-template-columns:1fr 48px 92px;padding:12px}}
+/* 물타기 계산기 */
+.calc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px 16px 16px;margin:6px 0 16px}
+.calc label{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.calc label span{flex:1;font-size:14.5px;font-weight:700;color:#3A4560}
+.calc input{width:110px;height:42px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font:inherit;font-size:16px;font-weight:800;text-align:right;padding:0 10px;color:var(--ink)}
+.calc input:focus{outline:none;border-color:var(--gold2)}
+.calc em{font-style:normal;width:34px;font-size:13px;color:var(--muted)}
+.out{margin-top:14px;background:var(--navy);border-radius:14px;padding:14px 16px;color:var(--ivory)}
+.out div{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 0}
+.out span{font-size:13.5px;color:rgba(247,242,232,.7)}
+.out b{font-size:17px;font-weight:850;color:#fff;white-space:nowrap}
+.out b.gd{color:var(--gold);font-size:20px}
+.out s{color:rgba(247,242,232,.45);font-size:14px;font-weight:700;margin-right:6px}
+/* 3배 감소 예시 */
+.dc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 16px;margin:6px 0 16px}
+.dc div{display:grid;grid-template-columns:96px 1fr auto;gap:8px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.dc div:first-child{border-top:0}
+.dc span{font-size:13.5px;font-weight:700;color:var(--muted)}
+.dc b{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.dc em{font-style:normal;font-weight:850;font-size:16px}
+/* 블라인드 순위 */
+.rk{background:var(--navy);border-radius:18px;padding:6px 16px;margin:6px 0 12px}
+.rk a{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-top:1px solid rgba(234,219,185,.16);text-decoration:none;color:var(--ivory)}
+.rk a:first-child{border-top:0}
+.rk .n{font-family:"Montserrat",sans-serif;color:var(--gold);font-size:16px}
+.rk .ph{display:block;height:15px;width:var(--w,64%);border-radius:5px;background:linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,255,255,.12));filter:blur(.6px)}
+.rk small{display:block;font-size:12px;color:rgba(247,242,232,.6);margin-top:5px}
+.rk .r{text-align:right}
+.rk .r b{display:block;font-size:20px;font-weight:850;color:#fff}
+.rk .r b i{font-style:normal;font-size:12px;color:rgba(247,242,232,.6)}
+.rk .r span{font-size:12px;color:var(--gold)}
+.rk .lock{text-align:center;font-size:12.5px;color:rgba(247,242,232,.6);padding:12px 0;border-top:1px solid rgba(234,219,185,.16)}
+
 </style>
 </head>
 <body>
@@ -224,6 +257,51 @@ body{padding-bottom:76px}
 
 <section>
   <div class="no">07</div>
+  <h2>물타면 본전은 어디일까요?<br>직접 계산해 보세요</h2>
+  <p>지금 평단과 보유 금액, 추가로 넣을 금액을 넣으면 새 평단과 본전까지 필요한 상승률이 바로 나옵니다.</p>
+  <div class="calc">
+    <label><span>지금 평단</span><input id="c-avg" type="number" inputmode="decimal" value="150"><em>달러</em></label>
+    <label><span>보유 금액</span><input id="c-hold" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
+    <label><span>추가로 넣을 금액</span><input id="c-add" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
+    <label><span>추가로 살 가격</span><input id="c-px" type="number" inputmode="decimal" value="46"><em>달러</em></label>
+    <div class="out" id="c-out"></div>
+  </div>
+  <p>물타기는 본전까지의 거리를 확실히 줄여 줍니다. 다만 같은 금액만큼 <b>SOXL 비중도 커진다</b>는 점을 함께 봐야 합니다.</p>
+  <div class="note">* 반도체 지수 상승률은 지수가 흔들림 없이 꾸준히 오른다고 가정한 값입니다. 실제로는 흔들림이 클수록 더 많이 올라야 합니다. 환율·수수료는 넣지 않았습니다.</div>
+</section>
+
+<section>
+  <div class="no">08</div>
+  <h2>3배 상품은 제자리여도<br>돈이 줄어듭니다</h2>
+  <p>반도체 지수가 하루 10% 빠졌다가 다음 날 11.1% 올라 <b>원래 자리로 돌아왔다</b>고 해 보겠습니다.</p>
+  <div class="dc">
+    <div><span>반도체 지수</span><b>100 → 90 → 100</b><em class="ok">0%</em></div>
+    <div><span>SOXL (3배)</span><b>100 → 70 → 93.3</b><em class="up">-6.7%</em></div>
+  </div>
+  <p>지수는 제자리인데 SOXL은 6.7% 줄었습니다. 이런 날이 반복될수록 차이는 커집니다. 그래서 SOXL은 <b>방향이 분명한 구간에 짧게</b> 쓰는 도구에 가깝고, 오래 들고 가는 자산으로는 불리합니다. 반등을 기다리는 동안 크게 흔들린다면, 지수가 돌아와도 SOXL은 다 돌아오지 못할 수 있습니다.</p>
+</section>
+
+<section>
+  <div class="no">09</div>
+  <h2>현명한 투자는<br>어디에 돈을 오래 두는가입니다</h2>
+  <p>워렌 버핏은 가격은 내는 것이고, 가치는 얻는 것이라고 말했습니다. 3배 상품은 가격의 움직임에 돈을 거는 방식이고, 좋은 회사를 싸게 사는 것은 회사가 버는 돈에 돈을 맡기는 방식입니다. 시간이 갈수록 유리한 쪽은 뒤쪽입니다.</p>
+  <ol class="q3">
+    <li><b>레버리지보다 좋은 회사</b><span>SOXL로 반등을 기다리는 동안, 일부는 점수 높은 회사에 나눠 두는 방법도 있습니다</span></li>
+    <li><b>비쌀 때보다 쌀 때</b><span>가격 점수가 높은 회사는 하락장에서도 버틸 여유가 큽니다</span></li>
+    <li><b>짧게보다 오래</b><span>버크셔의 60년 수익은 대부분 오래 들고 간 회사에서 나왔습니다</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="no">10</div>
+  <h2>지금 한국에서 점수가<br>가장 높은 회사는?</h2>
+  <p>같은 기준으로 계산했을 때, 지금 적정 주가보다 싸게 거래되는 한국 회사입니다. 회사 이름은 가입하면 바로 보입니다.</p>
+  <div class="rk" id="rk"></div>
+  <a class="btn kakao big" href="/?kakao=1&amp;from=soxl&amp;vt=KR&amp;utm_source=soxl-rank" data-ev="cta-rank" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 가입하고 회사 이름 보기</span></a>
+</section>
+
+<section>
+  <div class="no">11</div>
   <h2>영상으로 다시 보기</h2>
   <a class="yt" href="https://www.youtube.com/watch?v=L3Y9BkSDNRM" target="_blank" rel="noopener" data-ev="yt">
     <img src="https://i.ytimg.com/vi/L3Y9BkSDNRM/mqdefault.jpg" alt="" loading="lazy">
@@ -278,6 +356,38 @@ document.addEventListener('click', function(e){
 }, false);
 setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
 document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
+
+
+/* ---------- 물타기 계산기 ---------- */
+function calc(){
+  var v = function(id){ var x = parseFloat(document.getElementById(id).value); return isFinite(x) && x > 0 ? x : 0; };
+  var avg = v('c-avg'), hold = v('c-hold'), add = v('c-add'), px = v('c-px'), o = $('#c-out');
+  if(!avg || !hold || !px){ o.innerHTML = '<div><span>숫자를 넣어 주세요</span></div>'; return; }
+  var sh = hold / avg + add / px, na = (hold + add) / sh;
+  var r0 = avg / px - 1, r1 = na / px - 1;
+  var ix = function(r){ return r <= 0 ? 0 : Math.round((Math.pow(1 + r, 1/3) - 1) * 100); };
+  var pc = function(r){ return Math.max(0, Math.round(r * 100)).toLocaleString('ko-KR'); };
+  o.innerHTML = '<div><span>새 평단</span><b class="gd">$' + na.toFixed(1) + '</b></div>' +
+    '<div><span>본전까지 SOXL</span><b><s>+' + pc(r0) + '%</s>+' + pc(r1) + '%</b></div>' +
+    '<div><span>그만큼 반도체 지수가 오르려면</span><b><s>+' + ix(r0) + '%</s>+' + ix(r1) + '%</b></div>' +
+    '<div><span>SOXL에 들어간 돈</span><b>' + (hold + add).toLocaleString('ko-KR') + '만 원</b></div>';
+}
+['c-avg','c-hold','c-add','c-px'].forEach(function(id){ document.getElementById(id).addEventListener('input', function(){ calc(); hit('calc'); }); });
+calc();
+
+/* ---------- 한국 저평가 순위 (이름은 가린다) ---------- */
+var IND = [[/insurance|보험/i,'보험'],[/bank|은행/i,'은행'],[/auto/i,'자동차'],[/medical|health/i,'의료기기·헬스케어'],[/entertainment|leisure/i,'엔터테인먼트'],[/semiconductor|반도체/i,'반도체'],[/software/i,'소프트웨어'],[/telecom|통신/i,'통신'],[/chemical|화학/i,'화학'],[/steel|철강/i,'철강'],[/drug|pharma|biotech/i,'제약·바이오'],[/food|식품/i,'식품'],[/retail|유통/i,'유통'],[/construction|engineering|건설/i,'건설'],[/shipping|marine|해운/i,'해운'],[/utilit|전력/i,'전력'],[/capital markets|증권/i,'증권'],[/aerospace|defense/i,'항공·방산'],[/electr/i,'전기·전자'],[/machinery|기계/i,'기계'],[/game/i,'게임'],[/apparel|footwear|textile/i,'의류·신발'],[/oil|gas|energy/i,'에너지']];
+function ind(t){ t = String(t || ''); for(var i = 0; i < IND.length; i++) if(IND[i][0].test(t)) return IND[i][1]; return t.split(/,| - |—/)[0] || '기타'; }
+var W = [62, 74, 52, 68, 56];
+fetch('/c/value-top.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){
+  var M = j && j.m && j.m.KR; if(!M || !M.top || !M.top.length) return;
+  var go = '/?kakao=1&from=soxl&vt=KR&utm_source=soxl-rank';
+  $('#rk').innerHTML = M.top.slice(0, 5).map(function(x, i){
+    return '<a href="' + go + '" data-ev="rk-row" data-out><span class="n">' + (i + 1) + '</span><span><i class="ph" style="--w:' + W[i] + '%" aria-hidden="true"></i><small>' + esc(ind(x.ind)) + '</small></span>' +
+      '<span class="r"><b>' + x.b + '<i>점</i></b><span>' + x.low + '% 저평가 · 상승 여력 +' + x.up + '%</span></span></a>'; }).join('') +
+    '<div class="lock">한국 ' + M.n + '곳 · 가입하면 회사 이름과 적정 주가가 바로 보입니다</div>';
+  $('#rk-kt').textContent = '카카오로 1초 가입하고 ' + M.n + '곳 이름 보기';
+}).catch(function(){});
 
 /* ---------- SOXL 주요 종목 점수 (/c/scores.json + 기업 페이지의 현재가·적정 주가) ---------- */
 var L = ['nvda','avgo','amd','tsm','mu','qcom','txn','amat','lrcx','klac','asml','adi','mrvl','intc'];
