@@ -578,6 +578,10 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-row.br-done .t b{color:var(--muted);font-weight:600}.br-row.br-done .t .m{color:var(--muted)}
 .br-stamp{font-size:12px;color:var(--muted);margin:14px 2px 0}
 .br-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 12px}
+.br-fresh{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}.br-fresh .x{min-width:0;font-size:13.5px;line-height:1.5;word-break:keep-all}.br-fresh .x b{font-size:15px;font-variant-numeric:tabular-nums}.br-fresh .x span{color:var(--muted);font-size:12.5px}
+.br-when{font-size:12px;color:var(--muted);margin-top:3px}
+.gl-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 22px}.br-goal.top{margin-bottom:12px}.br-goal.top .gl-head{font-size:16px;font-weight:800}
+@media (max-width:760px){.gl-grid{grid-template-columns:1fr}.br-fresh{align-items:flex-start}}
 .br-seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
 .br-seg button{border:0;background:none;font:inherit;font-size:15px;font-weight:800;color:var(--muted);padding:8px 18px;border-radius:999px;cursor:pointer}
 .br-seg button.on{background:var(--navy);color:#FFFFFF}
@@ -2661,7 +2665,7 @@ async function briefLoad(){
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'admin-refresh').maybeSingle()]);
   BR.refresh = ((rf || {}).data || {}).data || null;
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = (al.data || []).filter(a => a && a.data && typeof a.data === 'object');
-  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; if(BR.todo && Array.isArray(BR.todo.items)) BR.todo = { ...BR.todo, items: BR.todo.items.filter(x => x && typeof x === 'object').map(x => ({ ...x, title: x.title || x.text || '(제목 없음)' })) }; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true;
+  BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; if(BR.todo && Array.isArray(BR.todo.items)) BR.todo = { ...BR.todo, items: BR.todo.items.filter(x => x && typeof x === 'object').map(x => ({ ...x, title: x.title || x.text || '(제목 없음)' })) }; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true; if(!doc.error && !al.error) BR.checkedAt = Date.now();
   const age = BR.chan && BR.chan.at ? Date.now() - Date.parse(BR.chan.at) : Infinity;
   if(age > 8 * 3600e3 && !BR.autoYt){ BR.autoYt = true; brYtRefresh(false).catch(() => {}); }
 }
@@ -2673,25 +2677,60 @@ async function brYtRefresh(manual){
   try{
     const { data: { session } } = await sb.auth.getSession(); if(!session) return;
     const r = await fetch(FN + 'yt-public', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + C.SUPABASE_ANON_KEY }, body: JSON.stringify({ t: session.access_token }) }).then(r => r.json()).catch(e => ({ error: String(e) }));
-    if(r.error){ if(manual) toast('구독자 수를 못 읽었습니다: ' + r.error, true); return; }
+    if(r.error){ if(manual) toast('구독자 수를 못 읽었습니다: ' + r.error, true); return r; }
     BR.chan = { ...(BR.chan || {}), subs: r.subs, subs_approx: r.subs_approx, views_total: r.views_total, videos: r.videos, at: r.at, source: 'public', ...(r.api ? { api: r.api } : {}) };
     if(r.videos_updated) { try{ await ytFetch(); }catch(e){} }
     if(manual) toast(`구독자 ${n0(r.subs)}명${r.prev_subs != null && +r.prev_subs !== +r.subs ? ` (저장돼 있던 ${n0(r.prev_subs)}명에서 갱신)` : ''} · 총 조회 ${n0(r.views_total)}회${r.videos_updated ? ` · 영상 ${r.videos_updated}편 조회수 갱신(쇼츠 ${n0(r.shorts_views)}회 · 롱폼 ${n0(r.long_views)}회)` : ''}${r.videos_error || r.api_error ? ' · 일부 실패: ' + (r.videos_error || r.api_error) : ''}`, !!r.videos_error);
+    return r;
   } finally { BR.ytBusy = false; if(page() === 'brief') render(); }
 }
 /* 2026-10-30 운영자: "내 개인계정의 soxl 개장브리핑 등 내용은 여기 안 떠도 돼, 이건 관리자 페이지잖아", "이미 처리됐는데 여전히 떠있는 건 없애고"
    → 대표님 개인 투자 알림(앱 사용자 알림)은 관리자 알림에서 뺀다(앱 알림함에는 그대로 남는다).
    → 롱폼 승인 요청처럼 이미 처리된 알림은 데이터로 확인해 자동으로 숨긴다. 3일 지난 일반 알림도 숨긴다. */
 const BR_PERSONAL = /개장 브리핑|장 마감|맞춤 알림|투자자 등급|종가 갱신|장부 판정|^칼럼$/;
+/* 2026-11-08 대표님: "이미 처리된 것들이 많은데 옛날 정보가 많아", "처리된 건 없어지고 처리 안 된 건 남고"
+   긴급 항목을 글 그대로 믿지 않고 지금 데이터(유튜브·릴스 편성·최종 화면 기록)와 맞춰 본다. true면 이미 처리됨 → 목록에서 뺀다.
+   null은 데이터로 확인할 수 없는 항목 — 대표님이 '다시 보지 않기'를 누를 때까지 남긴다. */
+function brPostClosed(id){
+  const y = (YT.list || []).find(x => x.id === id); if(!y) return null;
+  if(y.status === 'uploaded' || y.youtube_id) return true;
+  return ['hold', 'stale'].includes(y.status) && Date.parse(y.scheduled_at) < Date.now();
+}
+function brFactDone(title, body, at){
+  const text = `${title || ''} ${body || ''}`, today = brToday(), now = Date.now(), tests = [];
+  if(/내일/.test(text) && at && kstDate(at) < today) return true;   /* 그제·어제 쓴 '내일' 경고는 이미 지난 일 */
+  if(/최종 화면/.test(text)){
+    const L = (YT.list || []).filter(y => y.kind === 'long' && y.status === 'uploaded' && Date.parse(y.scheduled_at) > now - 10 * 864e5 && Date.parse(y.scheduled_at) < now);
+    if(L.length) tests.push(L.every(y => (y.events || []).some(e => e && e.what === 'endscreen' && e.target)));
+  }
+  if(/릴스/.test(text) && /0편|없음|없습니다/.test(text)){
+    const m = text.match(/(\d{1,2})[\/-](\d{1,2})/), d = m ? `${today.slice(0, 4)}-${m[1].padStart(2, '0')}-${m[2].padStart(2, '0')}` : null;
+    if(d) tests.push(d < today || (OPS.posts || []).some(p => p.kind === 'reel' && !p.paused && p.ig_status !== 'failed' && kstDate(p.scheduled_at) === d));
+  }
+  if(/선제작 여유분/.test(text)){
+    const R = (YT.list || []).filter(y => ['approved', 'review', 'uploaded'].includes(y.status) && Date.parse(y.scheduled_at) > now && Date.parse(y.scheduled_at) < now + 48 * 3600e3);
+    tests.push(R.some(y => y.kind === 'long') && R.some(y => y.kind === 'short'));
+  }
+  const ids = text.match(/\b[LY]\d{6}[\w-]*/g) || [];
+  if(ids.length){ const v = ids.map(brPostClosed); if(v.some(x => x !== null)) tests.push(v.every(x => x === true)); }
+  return tests.length ? tests.every(Boolean) : null;
+}
+const brLiveWord = v => v === false ? '지금 데이터로 확인해도 아직 남아 있음' : '자동 확인이 안 되는 항목 · 끝났으면 다시 보지 않기';
+function brAlertLive(a){
+  const id = String(a.id || ''), d = a.data || {}, m = id.match(/^ops-y[ut]-([LY]\d{6}[\w-]*?)(?:-\d{6})?$/);
+  if(m){ const v = brPostClosed(m[1]); return v === null ? (YT.list || []).length > 0 : v; }
+  return brFactDone(d.title, d.body, d.at || a.updated_at) === true;
+}
 function brAlertDone(a){
   const id = String(a.id || ''), d = a.data || {};
+  if(brAlertLive(a)) return true;
   const m = id.match(/^ops-lr-(.+)$/); if(m){ const y = (YT.list || []).find(x => x.id === m[1]); if(!y || ['approved', 'uploaded'].includes(y.status)) return true; }
   if(/^ops-test-/.test(id)) return true;
   if(/^long-deadline-/.test(id)) return true;
   if(!d.level || d.level === 'info') return true;   // 2026-11-04 대표님: "정보성 알림은 확인 안 하고 싶어" — 정보 알림은 브리핑 알림함에 띄우지 않는다
   if(/승인 1,3|전부 승인/.test(String(d.body || ''))) return true;
   const age = Date.now() - Date.parse(d.at || a.updated_at || 0);
-  if(!['bad', 'urgent', 'error'].includes(d.level) && age > 3 * 864e5) return true;
+  if(!['bad', 'urgent', 'error'].includes(d.level) && age > 864e5) return true;   // 2026-11-08 3일 → 하루: 경고급은 다음 날이면 지난 정보
   return false;
 }
 const brAlertOpen = a => (a.data || {}).read !== true && !BR_PERSONAL.test(String((a.data || {}).source || '')) && !brAlertDone(a);
@@ -2860,30 +2899,31 @@ function igWhy(e){
 function brChecks(){
   /* 2026-10-30 운영자: "보기를 클릭했을 때 아무 화면도 안 나온다… 바로 조치하기를 클릭해서 조치하거나 의견을 남겨서 수정 요청" —
      다른 탭으로 보내는 링크 대신, 항목마다 이 화면에서 바로 쓰는 버튼(조치)과 의견 칸을 둔다 */
-  const L = [], now = Date.now(), today = brToday();
+  const L = [], now = Date.now(), today = brToday(); BR.autoChecks = 0;
   (YT.list || []).filter(y => y.kind === 'long' && ['review', 'approved'].includes(y.status) && y.scheduled_at && Date.parse(y.scheduled_at) > now && Date.parse(y.scheduled_at) < now + 36 * 3600e3).forEach(y => {
     const auto = y.status === 'review';
     L.push({ level: 'warn', title: `롱폼 ${kday(y.scheduled_at)} · ${y.title || y.id}`, yt: y.id, video: y.video_url, poster: y.thumb,
       body: auto ? '9시까지 반려하지 않으면 자동으로 올라갑니다.' : '자동으로 올라갑니다. 올라가기 전까지 반려하거나 수정 요청할 수 있습니다.',
-      acts: [['play', '영상 보기', 'ghost'], ['reject', '반려', 'red']], say: '수정 요청' });
+      acts: [['play', '영상 보기', 'ghost'], ['reject', '반려', 'red']], say: '수정 요청', key: `ck:long:${y.id}:${y.status}` });
   });
   (OPS.posts || []).filter(p => p.ig_status === 'failed' && !p.paused && kstDate(p.scheduled_at) >= brAdd(today, -2)).forEach(p => { const w = igWhy(p.ig_error);
     L.push({ level: 'bad', title: `인스타 ${p.kind === 'reel' ? '릴스' : p.kind === 'carousel' ? '카드뉴스' : '게시물'} 실패 · ${p.title || p.id}`, post: p.id,
       body: `원인: ${w.why}\n조치: ${w.fix}\n예정 시각 ${kday(p.scheduled_at)} · 인스타 응답 "${String(p.ig_error || '없음').slice(0, 120)}"`,
-      acts: [['repost', '다시 올리기', ''], ['skip', '안 올리기', 'ghost']], say: '의견 남기기' }); });
+      acts: [['repost', '다시 올리기', ''], ['skip', '안 올리기', 'ghost']], say: '의견 남기기', key: `ck:ig:${p.id}` }); });
   const st = OPS.status || {};
   (st.accounts || []).forEach(a => { if(a.platform !== 'instagram') return; const d = Math.floor((Date.parse(a.expires_at) - now) / 864e5); if(d <= 3) L.push({ level: 'bad', title: `인스타그램 연결 만료 D-${Math.max(0, d)}`, body: '다시 연결해야 게시가 이어집니다. 연결은 인스타 로그인 화면을 거쳐야 해서 연결 화면으로 이동합니다.', acts: [['goto:#social', '연결 화면 열기', '']], say: '의견 남기기' }); });
   /* 2026-11-07 대표님: "긴급 처리할 것들만 위에" — 정보성 항목은 빼고, 브리핑 글의 확인 항목은 오늘 쓴 글의 경고급만(묵은 글 내용은 안 띄움) */
   const bd = (BR.doc || {}).data || {};
-  if(BR.mode === 'd' && bd.at && kstDate(bd.at) === today) brObjs(bd.checks).filter(c => ['bad', 'urgent', 'error', 'warn'].includes(c.level)).forEach(c => L.push({ level: c.level, title: c.title, body: c.body || '', acts: [], say: '의견 남기기' }));
-  return L.filter(c => c.level !== 'info');
+  if(BR.mode === 'd' && bd.at && kstDate(bd.at) === today) brObjs(bd.checks).filter(c => ['bad', 'urgent', 'error', 'warn'].includes(c.level)).forEach(c => { const live = brFactDone(c.title, c.body, bd.at); if(live === true){ BR.autoChecks = (BR.autoChecks || 0) + 1; return; } L.push({ level: c.level, title: c.title, body: c.body || '', acts: [], say: '의견 남기기', at: bd.at, live, key: `ck:brief:${today}:${c.title}` }); });
+  const hid = new Set(((BR.inbox || {}).data || {}).hidden || []);
+  return L.filter(c => c.level !== 'info' && !(c.key && hid.has(c.key)));
 }
 function vChecks(){
   const L = BR.checksNow = brChecks();
   if(!L.length) return '<div class="br-ok">✓ 지금 확인할 것 없음</div>';
   const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
-  return L.map((c, i) => `<div class="br-row" data-br-ck="${i}">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body).replace(/\n/g, '<br>')}</div>` : ''}
-    <div class="br-acts">${c.acts.map(([k, t, cls]) => `<button class="br-b ${cls}" data-br-act="${k}">${t}</button>`).join('')}<button class="br-b ghost" data-br-act="say">${c.say}</button></div>
+  return L.map((c, i) => `<div class="br-row" data-br-ck="${i}">${dot(c.level)}<div class="t"><b>${esc(c.title)}</b>${c.body ? `<div class="m">${esc(c.body).replace(/\n/g, '<br>')}</div>` : ''}${c.at ? `<div class="br-when">${kday(c.at)} 기록 · ${brLiveWord(c.live)}</div>` : ''}
+    <div class="br-acts">${c.acts.map(([k, t, cls]) => `<button class="br-b ${cls}" data-br-act="${k}">${t}</button>`).join('')}${c.key ? '<button class="br-b ghost" data-br-act="hide">처리했음 · 다시 보지 않기</button>' : ''}<button class="br-b ghost" data-br-act="say">${c.say}</button></div>
     <div class="br-play" hidden></div>
     <div class="br-say" hidden><textarea rows="2" placeholder="${c.yt ? '어디를 어떻게 고칠지 적어 주세요 (예: 10초 전후 빈 화면, 첫 문장 짧게)' : '이 항목에 대한 의견이나 지시를 적어 주세요'}"></textarea><button class="br-b" data-br-act="send">보내기</button></div></div></div>`).join('');
 }
@@ -2896,6 +2936,7 @@ async function brAct(row, k){
     const u = /github\.com\/.+\/releases\/download\//.test(c.video || '') ? FN + 'yt-video?u=' + encodeURIComponent(c.video) : (c.video || '');
     w.innerHTML = u ? `<video controls playsinline preload="metadata" poster="${esc(c.poster || '')}" src="${esc(u)}"></video>` : '<div class="m">영상 파일 주소가 아직 없습니다.</div>'; w.hidden = false; return; }
   if(btn) btn.disabled = true;
+  if(k === 'hide'){ await brHide([c.key]); return; }
   if(k === 'reject'){
     const note = prompt('반려 이유를 짧게 적어 주세요 (비워 두면 다음 순위로 바꿉니다)'); if(note === null){ btn.disabled = false; return; }
     const { error } = await sb.rpc('yt_admin_set', { p_id: c.yt, p_status: 'changes', p_note: '대표 반려' + (note.trim() ? ': ' + note.trim() : '') });
@@ -3028,7 +3069,7 @@ function brClean(d){
 /* ───────── 브리핑 첫 화면 (2026-11-07 대표님 개편) ─────────
    "꼭 핵심, 알아야 할 것들만", "긴급 처리할 것들만 위에 잘 보이게", "과거 정보는 놔두지 말고",
    "내가 처리 요청한 것들 올려 주고 처리한 거는 처리했음으로, 더 보지 않기", "일간·주간·월간은 필터로 브리핑만 다르게".
-   위에서 아래로: 필터 → 긴급 → 한 줄 브리핑 + 숫자 4개 → 내 요청 → 대표님 할 일 → 기간 콘텐츠 → 수익화 목표(접힘).
+   위에서 아래로: 최신 확인 → 필터 → 수익화 목표 → 긴급 → 한 줄 브리핑 + 숫자 4개 → 내 요청 → 대표님 할 일 → 기간 콘텐츠 (2026-11-08 수익화 목표를 맨 위로).
    정리·구독자 갱신은 DB 작업 admin-refresh가 하루 3번(08:10·13:10·19:10) 한다 — Claude 토큰 없음. */
 function brSubsGain(r){
   const ch = BR.chan || {}, H = Array.isArray(ch.history) ? ch.history : [];
@@ -3051,7 +3092,8 @@ function brNums(r){
     { label: `${r.word} 방문`, value: n0(vis), note: '' },
     { label: `${r.word} 가입`, value: n0(sig), note: `전체 ${n0(sg.total)}명` }] };
 }
-function vGoalMini(){
+/* 2026-11-08 대표님: "수익화 부분 전처럼 상단에" — 접지 않고 맨 위. 언제 읽은 숫자인지 같이 보여 준다 */
+function vGoalTop(){
   const ch = BR.chan || {}, api = ch.api && ch.api.at ? ch.api : null, pm = BR.mon || {};
   const after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00'), H = after ? 8000 : 4000, S = after ? 20000000 : 10000000;
   const subs = ch.subs != null ? +ch.subs : pm.subs != null ? +pm.subs : 0;
@@ -3060,11 +3102,28 @@ function vGoalMini(){
   const pct = (v, g) => Math.max(0, Math.min(100, v / g * 100));
   const bar = (l, v, g, u) => { const p = pct(v, g); return `<div class="gl-row"><div class="gl-h"><b>${l}</b><span>${n0(v)}${u} / ${n0(g)}${u} · ${p < 1 && v ? p.toFixed(2) : Math.floor(p)}%</span></div><div class="gl-bar"><i style="width:${Math.max(p, v ? .8 : 0)}%"></i></div></div>`; };
   const gp = BR.growth || {}, good = (gp.good || []).find(m => +m.subs >= 1000), base = (gp.base || []).find(m => +m.subs >= 1000);
-  return `<details class="br-fold"><summary>수익화 목표 <span class="qcount">구독자 ${n0(subs)} / 1,000</span></summary><div class="card br-goal">
+  const end = api && api.end_date ? String(api.end_date).slice(5).replace(/^0/, '').replace('-0', '-').replace('-', '/') : '';
+  const eta = good || base ? `1,000명 예상: ${good ? '잘 될 때 ' + esc(good.month) : ''}${good && base ? ' · ' : ''}${base ? '기본 ' + esc(base.month) : ''}` : '';
+  const stamp = [ch.at ? `구독자 ${kday(ch.at)} 기준` : '', end ? `시청시간·쇼츠 유효 조회는 유튜브 통계 ${end}까지 집계(1~2일 늦게 반영)` : '', eta].filter(Boolean).join(' · ');
+  return `<div class="card br-goal top"><div class="gl-head">수익화 목표</div>
     <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${n0(H)}시간 <b>또는</b> 쇼츠 유효 조회 ${n0(S)}회)</div>
-    ${bar('구독자', subs, 1000, '명')}${bar('롱폼 시청시간 (1년)', hours, H, '시간')}${bar('쇼츠 유효 조회 (90일)', shorts, S, '회')}
-    ${good || base ? `<div class="gl-foot">1,000명 예상: ${good ? '잘 될 때 ' + esc(good.month) : ''}${good && base ? ' · ' : ''}${base ? '기본 ' + esc(base.month) : ''}</div>` : ''}
-  </div></details>`;
+    <div class="gl-grid">${bar('구독자', subs, 1000, '명')}${bar('롱폼 시청시간 (1년)', hours, H, '시간')}${bar('쇼츠 유효 조회 (90일)', shorts, S, '회')}</div>
+    ${stamp ? `<div class="gl-foot">${stamp}</div>` : ''}
+  </div>`;
+}
+/* 2026-11-08 대표님: "제일 상단에 최신 확인 일자 시간 나오고 내가 새로고침 누르면 다시 최신인지 확인" */
+function brStampAt(ms){ if(!ms) return '–'; const s = new Date(ms + 9 * 3600e3).getUTCSeconds(); return `${kday(new Date(ms).toISOString())}:${String(s).padStart(2, '0')}`; }
+async function brRecheck(){
+  if(BR.checking) return; BR.checking = true; render();
+  let r = null;
+  try{
+    await Promise.all([ytFetch().catch(() => {}), opsLoad().catch(() => {}), briefLoad()]);
+    r = await brYtRefresh(false);
+    if(r && !r.error) BR.checkedAt = Date.now();
+  } finally { BR.checking = false; render(); }
+  const n = brChecks().length + BR.alerts.filter(a => brAlertOpen(a) && brAlertBig(a)).length;
+  if(!r || r.error) toast('유튜브 숫자를 읽지 못했습니다: ' + ((r || {}).error || '다시 눌러 주세요'), true);
+  else toast(`확인했습니다. 긴급 ${n}건 남음 · 구독자 ${n0(r.subs)}명 · 시청시간 ${n0((r.api || {}).long_watch_h_12m)}시간${r.api_error ? ' · 시청시간 읽기 실패: ' + r.api_error : ''}`, !!r.api_error);
 }
 function vBrief(){
   if(!BR.loaded) return '<div class="empty">불러오는 중</div>';
@@ -3080,15 +3139,19 @@ function vBrief(){
   const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
   const ref = (BR.refresh || {}).at;
   const nu = urgent.length + alerts.length;
+  const auto2 = (BR.autoChecks || 0) + BR.alerts.filter(a => a.data.read !== true && !BR_PERSONAL.test(String(a.data.source || '')) && brAlertBig(a) && brAlertDone(a)).length;
   return `<div class="br">
+  <div class="br-fresh"><div class="x">최신 확인 <b>${brStampAt(BR.checkedAt)}</b><br><span>${BR.checking ? '지금 데이터와 유튜브 숫자를 다시 읽는 중입니다' : `지금 데이터와 맞춰 봤습니다${auto2 ? ` · 이미 처리됐거나 지난 알림 ${auto2}건 숨김` : ''}`}</span></div><button class="br-b ghost" data-br-reload title="긴급 항목을 지금 데이터로 다시 확인하고 구독자·시청시간을 새로 읽습니다"${BR.checking ? ' disabled' : ''}>${BR.checking ? '확인 중…' : '새로고침'}</button></div>
   <div class="br-top">
     <div class="br-seg">${[['d', '일간'], ['w', '주간'], ['m', '월간']].map(([k, t]) => `<button data-br-mode="${k}"${BR.mode === k ? ' class="on"' : ''}>${t}</button>`).join('')}</div>
-    <div class="br-upd"><span class="m">${esc(r.label)}</span><button class="br-b ghost" data-br-reload title="지금 데이터로 다시 읽고 구독자 수도 새로 읽습니다">${BR.ytBusy ? '읽는 중…' : '새로고침'}</button></div>
+    <div class="br-upd"><span class="m">${esc(r.label)}</span></div>
   </div>
+
+  ${vGoalTop()}
 
   ${nu ? `<div class="card br-urgent"><div class="br-sec">긴급 <span class="qcount">${nu}</span></div>
     ${urgent.length ? vChecks() : ''}
-    ${alerts.slice(0, 5).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(String(a.data.body).slice(0, 200))}</div>` : ''}</div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">확인</button></div></div>`).join('')}
+    ${alerts.slice(0, 20).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(String(a.data.body).slice(0, 200))}</div>` : ''}${a.data.at ? `<div class="br-when">${kday(a.data.at)} 기록 · ${brLiveWord(brFactDone(a.data.title, a.data.body, a.data.at))}</div>` : ''}</div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">처리했음 · 다시 보지 않기</button></div></div>`).join('')}
   </div>` : `<div class="br-calm">✓ 지금 급한 것 없음</div>`}
 
   <div class="card br-hl"><p>${head}</p>${d.at && d.headline ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
@@ -3105,7 +3168,6 @@ function vBrief(){
   <h2>${r.word} 콘텐츠</h2>
   <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length + c.fix.length ? `<em>남음 ${c.wait.length + c.fix.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].filter(x => BR.mode === 'd' || !c.st(x)[0].match(/^m$/)).sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).slice(0, 30).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}</div>
 
-  ${vGoalMini()}
   ${ref ? `<div class="br-stamp">자동 정리·갱신 ${kst(ref)} · 하루 3번(08:10·13:10·19:10)</div>` : ''}
   </div></div>
 </div>`;
@@ -3133,7 +3195,7 @@ function bindBrief(){
   box.querySelectorAll('[data-td-act]').forEach(b => b.onclick = () => brTodoAct(b.closest('[data-td]'), b.dataset.tdAct, b));
   box.querySelectorAll('[data-br-hide]').forEach(b => b.onclick = () => { b.disabled = true; brHide([b.dataset.brHide]); });
   { const hd = box.querySelector('[data-br-hidedone]'); if(hd) hd.onclick = () => { hd.disabled = true; brHide(brReqs().filter(r => r.done).map(r => r.key)); }; }
-  { const rl = box.querySelector('[data-br-reload]'); if(rl) rl.onclick = async () => { rl.disabled = true; try{ await Promise.all([ytFetch().catch(() => {}), opsLoad().catch(() => {}), briefLoad()]); }finally{ render(); } brYtRefresh(true); }; }
+  { const rl = box.querySelector('[data-br-reload]'); if(rl) rl.onclick = () => brRecheck(); }
   { const u = box.querySelector('[data-br-unhide]'); if(u) u.onclick = () => brHide([], true); }
   box.querySelectorAll('[data-br-act]').forEach(b => b.onclick = () => brAct(b.closest('[data-br-ck]'), b.dataset.brAct));
   box.querySelectorAll('[data-br-mode]').forEach(b => b.onclick = async () => { BR.mode = b.dataset.brMode; BR.loaded = false; render(); await briefLoad(); render(); });
