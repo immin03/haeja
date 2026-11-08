@@ -428,17 +428,29 @@ def render_v3(spec, out):
                 ImageDraw.Draw(im).text((W / 2, y), ss, font=ff, fill=YEL, anchor="mm", stroke_width=5, stroke_fill=(0, 0, 0, 255)); y += ff.size * 1.15
             top = int(y) + 10
         else:
-            f1 = fit(spec["l1"], "Heavy", 100, 980); f2 = fit(spec["l2"], "Heavy", 120, 1000); s1, s2 = 100, 120
-            text_shadow(im, (W / 2, 250 + o), spec["l1"], f1, IVORY)
-            text_shadow(im, (W / 2, 250 + o + f1.size * .5 + f2.size * .75), spec["l2"], f2, GOLD)
-            top = 520 + o
+            # 2026-11-08 대표님(제1 원칙 111): 삼성전자 틀 그대로, 위 2줄 제목만 화면 폭 가득 최대한 크게 — thumbs json 에 "header_big": true
+            hb = bool(spec.get("header_big")); s1, s2 = (160, 180) if hb else (100, 120); mw = spec.get("header_w", 1020) if hb else 980
+            f1 = fit(spec["l1"], "Heavy", s1, mw); f2 = fit(spec["l2"], "Heavy", s2, mw if hb else 1000)
+            if hb: s1, s2 = f1.size, f2.size
+            y1 = (spec.get("header_y", 225) if hb else 250) + o; y2 = y1 + f1.size * .5 + f2.size * (.68 if hb else .75)
+            text_shadow(im, (W / 2, y1), spec["l1"], f1, IVORY)
+            text_shadow(im, (W / 2, y2), spec["l2"], f2, GOLD)
+            top = max(520 + o, int(y2 + f2.size * .5)) if hb else 520 + o
         if spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
         elif em: emblem(im, em["kind"], W / 2, top + 130, em.get("size", 230), em.get("text")); top += 290
-        bot = 1300 if ig else 1340
-        if spec.get("chart"): chart(im, spec["chart"], (130, top + 50, 950, bot), tone)
-        ly, ny = (bot + 150, bot + 290) if not ig else (bot + 140, bot + 270)
-        _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 220 if not ig else 200, tone, 960)
-        paste_logo(im, W / 2, 90, 34, "dark", align="center")
+        if spec.get("big_center"):   # 2026-11-08 대표님: 큰 숫자를 화면 중간에 크게 — 제목 → 큰 숫자 → 라벨 → 그래프 순
+            col = RED if tone == "down" else GREEN
+            bf = fit(spec["big"], "Heavy", spec.get("big_size", 430), 1000); cy = top + bf.size * .62
+            text_shadow(im, (W / 2, cy), spec["big"], bf, col, off=10, blur=20, alpha=190)
+            ly = cy + bf.size * .66
+            if spec.get("big_label"): text_shadow(im, (W / 2, ly), spec["big_label"], fit(spec["big_label"], "Bold", 62, 960), IVORY, off=3, blur=6, alpha=170)
+            if spec.get("chart"): chart(im, spec["chart"], (130, int(ly + 130), 950, spec.get("chart_bottom", 1620)), tone)
+        else:
+            bot = 1300 if ig else 1340
+            if spec.get("chart"): chart(im, spec["chart"], (130, top + 50, 950, bot), tone)
+            ly, ny = (bot + 150, bot + 290) if not ig else (bot + 140, bot + 270)
+            _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 220 if not ig else 200, tone, 960)
+        paste_logo(im, W / 2, spec.get("logo_y", 90), spec.get("logo_size", 34), "dark", align="center")   # 2026-11-08 대표님: 로고는 하단 가운데 가능(logo_y)
     else:
         # 롱폼 (2026-10-29 운영자: JTBC 뉴스 썸네일처럼 — 배경 사진이 잘 드러나게, 아래 두 톤 큰 제목(굵은 제목체),
         #       오른쪽 위 로고 크게, 큰 숫자는 글자처럼 얹지 말고 배경에 녹여서 크게)
