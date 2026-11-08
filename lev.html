@@ -196,6 +196,36 @@ body{padding-bottom:76px}
 .verdict{margin-top:12px;background:#fff;border:1px solid var(--gold2);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.6}
 .verdict b{color:var(--ink)}
 
+/* 2026-11-08 개편: 거장의 장기 투자 중심 */
+.calc-jump{display:block;text-align:center;margin-top:12px;font-size:13px;color:rgba(247,242,232,.7);text-decoration:underline}
+.vs{background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 16px;margin:6px 0 16px}
+.vs div{display:grid;grid-template-columns:118px 1fr 52px;gap:10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.vs div:first-child{border-top:0}
+.vs span{font-size:13.5px;font-weight:700;color:#3A4560}
+.vs i{display:block;height:12px;width:var(--w);border-radius:6px;background:#D9534F}
+.vs b{text-align:right;font-weight:850;color:#C0392B}
+.story{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 16px}
+.story div{background:var(--navy);border-radius:14px;padding:12px}
+.story small{display:block;font-size:11.5px;color:rgba(247,242,232,.6);font-weight:700}
+.story b{display:block;font-size:16px;font-weight:850;color:#fff;margin-top:4px;word-break:keep-all}
+.story b.gd{color:var(--gold)}
+blockquote{margin:14px 0 0;padding:16px 18px;border-left:4px solid var(--gold2);background:#fff;border-radius:0 14px 14px 0;font-size:16px;font-weight:800;line-height:1.55}
+blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;font-weight:700;color:var(--muted)}
+.vn{background:var(--navy);color:var(--ivory);border-radius:18px;padding:18px;margin:6px 0 18px}
+.vn>b{display:block;font-size:17px;color:#fff;margin-bottom:10px}
+.vn ul{list-style:none;margin:0 0 10px;padding:0}
+.vn li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:14.5px}
+.vn li i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#FFFFFF;font-style:normal;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.vn li b{color:var(--gold);margin-right:6px}
+.vn small{font-size:12.5px;color:rgba(247,242,232,.6)}
+.fold{background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 16px}
+.fold summary{list-style:none;cursor:pointer;padding:14px 0;position:relative;padding-right:28px}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary::after{content:"+";position:absolute;right:0;top:12px;font-size:22px;font-weight:700;color:var(--gold2)}
+.fold[open] summary::after{content:"−"}
+.fold summary b{display:block;font-size:16px;font-weight:850}
+.fold summary span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+
 </style>
 </head>
 <body>
@@ -203,15 +233,16 @@ body{padding-bottom:76px}
 <header class="hero">
   <div class="wrap">
     <a class="wm" href="/start?utm_source=lev"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
-    <div class="eyebrow">레버리지 ETF 갖고 계신 분</div>
-    <h1>물탈까, 갈아탈까?<br><em>내 계좌로 계산해 보세요</em></h1>
-    <p>SK하이닉스·삼성전자 2배, SOXL·TQQQ 3배, KODEX 레버리지까지. 평균 산 가격만 넣으면 <b>본전까지의 거리, 1년 뒤 계좌, 언제 얼마나 물을 탈지</b>를 바로 계산합니다.</p>
+    <div class="eyebrow" id="eb">레버리지 ETF 갖고 계신 분께</div>
+    <h1>레버리지가 무너진 해,<br><em>버핏의 코카콜라는 37% 올랐습니다</em></h1>
+    <p>지금 마음이 많이 무거우실 겁니다. 오늘은 계좌를 되살리는 요령보다, <b>앞으로 1년·3년·5년을 마음 편하게 들고 갈 투자</b>에 대해 짧게 이야기해 보려 합니다.</p>
     <div class="stat">
       <div><small>하이닉스 2배</small><b>-91%</b></div>
       <div><small>SOXL 3배</small><b>-85%</b></div>
-      <div><small>계산 시간</small><b class="gd">10초</b></div>
+      <div><small>코카콜라 올해</small><b class="gd">+37%</b></div>
     </div>
-    <a class="btn kakao hk" id="hk" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-hero" data-ev="cta-hero" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>SK하이닉스 점수 알림 받기 · 카카오 1초</a>
+    <a class="btn kakao hk" id="hk" href="/?kakao=1&amp;from=lev&amp;utm_source=lev-hero" data-ev="cta-hero" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하고 점수 보기</a>
+    <a class="calc-jump" href="#calc" data-ev="jump-calc">레버리지 계산기는 아래에 있어요 ↓</a>
   </div>
 </header>
 
@@ -219,7 +250,67 @@ body{padding-bottom:76px}
 
 <section>
   <div class="no">01</div>
-  <h2>내 계좌 넣어 보기</h2>
+  <h2>회사는 돈을 벌었는데,<br>계좌는 왜 이럴까요?</h2>
+  <p>SK하이닉스는 세 달 동안 영업이익 83조 원을 벌었습니다. 그런데 같은 기간 계좌는 이렇게 됐습니다.</p>
+  <div class="vs">
+    <div><span>SK하이닉스 주식</span><i style="--w:61%"></i><b>-61%</b></div>
+    <div><span>SK하이닉스 2배 ETF</span><i style="--w:91%"></i><b>-91%</b></div>
+  </div>
+  <p>레버리지 ETF는 <b>회사가 아니라 하루하루 가격의 움직임</b>에 거는 상품이라서 그렇습니다. 주가가 오르내릴수록 조금씩 깎이고, 주가가 돌아와도 계좌는 덜 돌아옵니다. 회사가 아무리 잘해도 그 몫을 온전히 받지 못하는 구조입니다.</p>
+</section>
+
+<section>
+  <div class="no">02</div>
+  <h2>같은 해, 거장은<br>무엇을 들고 있었을까요?</h2>
+  <p>워렌 버핏은 1988년 코카콜라 주식을 약 13억 달러에 샀습니다. 그 뒤 38년 동안 <b>한 주도 팔지 않았습니다.</b></p>
+  <div class="story">
+    <div><small>1988년 산 돈</small><b>13억 달러</b></div>
+    <div><small>지금 가치</small><b class="gd">약 380억 달러</b></div>
+    <div><small>1년 배당만</small><b>8억 달러 이상</b></div>
+  </div>
+  <p>반도체 레버리지가 무너진 올해도 코카콜라는 37% 올랐습니다. 화려하지 않아도 매일 돈을 버는 회사를, 오래 들고 가면 이런 일이 생깁니다.</p>
+  <blockquote>"10년 들고 있을 생각이 없는 주식이라면,<br>10분도 들고 있지 마라." <cite>— 워렌 버핏</cite></blockquote>
+</section>
+
+<section>
+  <div class="no">03</div>
+  <h2>마음 편한 투자는<br>세 가지만 봅니다</h2>
+  <ol class="chk">
+    <li><b>이 회사는 해마다 더 많이 버는가</b><span>1년 뒤, 3년 뒤에도 사람들이 이 회사 물건을 살지부터 봅니다. 주가 차트보다 먼저입니다.</span></li>
+    <li><b>버는 돈에 비해 싼 가격인가</b><span>좋은 회사도 비싸게 사면 오래 기다려야 합니다. 같은 회사라도 언제 사느냐가 결과를 바꿉니다.</span></li>
+    <li><b>떨어지면 더 사고 싶은 회사인가</b><span>주가가 빠질 때 불안해서 잠이 안 온다면, 회사가 아니라 가격에 돈을 건 것입니다.</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="no">04</div>
+  <h2>다만, 코카콜라도<br>지금은 비쌉니다</h2>
+  <p>코카콜라는 좋은 회사지만, 올해 많이 오른 탓에 지금 가격은 버는 돈에 비해 비싼 편입니다. 밸류노트 기준으로 <b>적정 주가 약 45달러, 지금 약 96달러</b>입니다(11월 6일 기준). 거장의 방법은 "좋은 회사"에서 끝나지 않고, <b>"좋은 회사를 쌀 때"</b>까지입니다.</p>
+  <div class="vn">
+    <b>밸류노트는 그걸 매일 계산합니다</b>
+    <ul>
+      <li><i>1</i><span><b>회사 체력</b> 몇 년 동안 얼마나 꾸준히 벌었는지</span></li>
+      <li><i>2</i><span><b>가격</b> 버는 돈에 비해 지금 싼지 비싼지, 적정 주가는 얼마인지</span></li>
+      <li><i>3</i><span><b>점수</b> 둘을 합쳐 100점 만점으로</span></li>
+    </ul>
+    <small>워렌 버핏·벤저민 그레이엄의 기준으로 한국·미국·일본·홍콩·중국 600곳 넘는 회사를 매일 같은 방법으로 계산합니다.</small>
+  </div>
+  <h3 class="h3">내 상품 안의 회사는 지금 몇 점?</h3>
+  <div class="cards2" id="cards2"></div>
+</section>
+
+<section>
+  <div class="no">05</div>
+  <h2>지금 한국에서 점수가<br>가장 높은 회사는?</h2>
+  <p>같은 기준으로 계산했을 때, 지금 적정 주가보다 싸게 거래되는 한국 회사입니다. 회사 이름은 가입하면 바로 보입니다.</p>
+  <div class="rk" id="rk"></div>
+  <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;vt=KR&amp;utm_source=lev-rank" data-ev="cta-rank" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 가입하고 회사 이름 보기</span></a>
+</section>
+
+<section id="calc">
+  <div class="no">06</div>
+  <details class="fold">
+    <summary><b>참고: 레버리지 계산기</b><span>평균 산 가격을 넣으면 본전까지의 거리와 1년 뒤 계좌를 대략 계산해 볼 수 있습니다</span></summary>
   <div class="seg wrapseg" id="seg">
     <button type="button" class="on" data-k="hynix">SK하이닉스 2배</button><button type="button" data-k="samsung">삼성전자 2배</button><button type="button" data-k="soxl">SOXL 3배</button><button type="button" data-k="tqqq">TQQQ 3배</button><button type="button" data-k="k200">KODEX 레버리지</button>
   </div>
@@ -237,49 +328,11 @@ body{padding-bottom:76px}
   <p class="small">새로 넣을 돈을 세 번으로 나눠 조건에 닿을 때 넣는다고 가정했을 때, 평균 산 가격과 본전까지의 거리가 어떻게 바뀌는지 보여 주는 예시입니다. 조건이 오지 않으면 넣지 않은 돈은 그대로 남습니다.</p>
   <table class="sc4" id="l-plan"></table>
   <div class="note" id="l-note"></div>
+  </details>
 </section>
 
 <section>
-  <div class="no">02</div>
-  <h2>결과를 읽는 법</h2>
-  <ol class="chk">
-    <li><b>레버리지는 길이 곧을 때만 이깁니다</b><span>2배 ETF는 하루 기준으로 2배를 맞추기 때문에, 오르내림이 클수록 깎입니다. 주가가 제자리로 돌아와도 계좌는 덜 돌아옵니다.</span></li>
-    <li><b>방법은 "틀렸을 때 버틸 수 있는가"로</b><span>가장 나쁜 경우의 금액을 먼저 보세요. 그 금액을 견딜 수 없다면, 가장 좋은 경우가 아무리 커도 맞는 방법이 아닙니다.</span></li>
-    <li><b>새 돈을 넣지 않는 것도 선택지입니다</b><span>생활비와 비상금까지 끌어와야 하는 돈이라면, 그 돈은 계좌보다 생활을 먼저 지켜야 합니다.</span></li>
-  </ol>
-</section>
-
-<section>
-  <div class="no">03</div>
-  <h2>회사는 지금 몇 점일까요?</h2>
-  <p>레버리지 ETF가 결국 따라가는 건 그 안의 회사입니다. 워렌 버핏·벤저민 그레이엄의 기준으로 재무와 가격을 함께 본 점수입니다. 위에서 고른 상품에 맞춰 바뀝니다.</p>
-  <div class="cards2" id="cards2"></div>
-  <div class="note">점수는 지금 이익이 평소보다 얼마나 높은 자리인지도 함께 봐서, 이익이 최고일 때는 오히려 낮게 나옵니다. 예를 들어 SK하이닉스는 바닥이던 2022년 10월 73점이었습니다.</div>
-</section>
-
-<section>
-  <div class="no">04</div>
-  <h2>가입하면 바로 이런 걸<br>확인할 수 있습니다</h2>
-  <div class="ft">
-    <div><i>🔔</i><b>적정 매수가 알림</b><span>SK하이닉스·삼성전자를 담아 두면, 가격이 적정 구간에 들어오는 날 알려 드립니다. 물을 탈지 말지를 차트가 아닌 숫자로 판단할 수 있습니다.</span></div>
-    <div><i>📊</i><b>내 종목 채점</b><span>갖고 있는 종목을 넣으면 오래 들고 갈 종목·비중을 줄일 종목·정리할 종목으로 나눠 보여 드립니다.</span></div>
-    <div><i>🏆</i><b>지금 싼 회사 순위</b><span>한국·미국·일본·홍콩·중국에서 적정 주가보다 싸게 거래되는 회사를 매일 점수순으로 보여 드립니다.</span></div>
-    <div><i>📰</i><b>실적 발표 정리</b><span>1월 말 SK하이닉스·삼성전자 4분기 실적처럼, 계좌를 다시 판단할 날의 숫자를 정리해 드립니다.</span></div>
-  </div>
-  <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-ft" data-ev="cta-ft" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하고 바로 보기</a>
-  <div class="alt"><a href="/?signup&amp;from=lev&amp;utm_source=lev-email" data-ev="cta-email" data-out>이메일로 가입</a> · 가입 후 언제든 탈퇴할 수 있습니다</div>
-</section>
-
-<section>
-  <div class="no">05</div>
-  <h2>지금 한국에서 점수가<br>가장 높은 회사는?</h2>
-  <p>같은 기준으로 계산했을 때, 지금 적정 주가보다 싸게 거래되는 한국 회사입니다. 회사 이름은 가입하면 바로 보입니다.</p>
-  <div class="rk" id="rk"></div>
-  <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;vt=KR&amp;utm_source=lev-rank" data-ev="cta-rank" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 가입하고 회사 이름 보기</span></a>
-</section>
-
-<section>
-  <div class="no">06</div>
+  <div class="no">07</div>
   <h2>영상으로 다시 보기</h2>
   <a class="yt" href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener" data-ev="yt">
     <img src="https://i.ytimg.com/vi/L3Y9BkSDNRM/mqdefault.jpg" alt="" loading="lazy">
@@ -291,14 +344,14 @@ body{padding-bottom:76px}
 
 <footer class="end">
   <div class="wrap">
-    <h2>좋은 회사를 싼 가격에,<br>밸류노트로 더 분석해 보세요</h2>
-    <p>SK하이닉스·삼성전자를 담아 두면, 가격이 적정 구간에 들어올 때 확인할 수 있습니다. 한국·미국·일본·홍콩·중국 600+ 기업을 매일 같은 기준으로 계산합니다.</p>
-    <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-end" data-ev="cta-end" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하기</a>
+    <h2>가격이 아니라 회사에,<br>오래 마음 편하게</h2>
+    <p>좋은 회사가 쌀 때를 놓치지 않도록, 밸류노트가 매일 점수와 적정 주가를 계산해 둡니다. 가입은 카카오로 1초면 됩니다.</p>
+    <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;utm_source=lev-end" data-ev="cta-end" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하기</a>
     <small>이 페이지의 계산과 점수는 가정에 따른 결과이며, 매수·매도 권유나 목표 주가가 아닙니다. 늘 맞지는 않습니다.</small>
   </div>
 </footer>
 
-<div class="sticky" id="sticky"><div class="in"><div class="t"><b>내 종목 적정 매수가 알림</b><span>가입하고 바로 받아 보세요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-sticky" data-ev="cta-sticky" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입</a></div></div>
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b>지금 싼 좋은 회사 보기</b><span>점수와 적정 주가를 바로 확인</span></div><a class="btn kakao" href="/?kakao=1&amp;from=lev&amp;utm_source=lev-sticky" data-ev="cta-sticky" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입</a></div></div>
 
 <script>
 (function(){
@@ -366,9 +419,9 @@ function lcalc(){
     var td = function(v){ return '<td' + (v === best ? ' class="best"' : '') + '>' + Math.round(v).toLocaleString('ko-KR') + '만</td>'; };
     h += '<tr><td>' + p[0] + '<small>' + c.base + ' ' + pctf(m - 1) + basePx(c, m) + '</small></td>' + td(A) + td(B) + td(C) + '</tr>'; });
   $('#l-tbl').innerHTML = h;
-  /* 갈림길: 남은 레버리지를 그대로 둘 때와 1배로 옮길 때 1년 뒤가 같아지는 기초자산 상승률 */
+  /* 기준선: 남은 레버리지를 그대로 둘 때와 1배로 옮길 때 1년 뒤가 같아지는 기초자산 상승률 */
   var mx = Math.pow(1 / d, 1 / (L - 1)), worstA = (now + add) * Math.pow(.7, L) * d, worstB = (now + add) * .7;
-  $('#l-ver').innerHTML = '<b>갈림길은 ' + c.base + ' ' + pctf(mx - 1) + basePx(c, mx) + '</b>입니다. 1년 안에 그보다 더 오른다고 보면 레버리지를 그대로 두는 쪽이, 그 아래에 머문다고 보면 주식이나 1배 ETF로 옮기는 쪽이 더 많이 남습니다.' +
+  $('#l-ver').innerHTML = '<b>기준선은 ' + c.base + ' ' + pctf(mx - 1) + basePx(c, mx) + '</b>입니다. 1년 안에 그보다 더 오른다고 보면 레버리지를 그대로 두는 쪽이, 그 아래에 머문다고 보면 주식이나 1배 ETF로 옮기는 쪽이 더 많이 남습니다.' +
     '<br>가장 나쁜 경우(30% 더 하락)에 레버리지로 물타면 <b>' + man(worstA) + '</b>, 갈아타면 <b>' + man(worstB) + '</b>이 남습니다. 이 금액을 견딜 수 있는지부터 보세요.';
   /* 물타기 계획표: 지금 · 10% 더 하락 · 20% 더 하락에 1/3씩 */
   var steps = [['1차', '지금', 1], ['2차', c.base + ' 10% 더 하락 시', .9], ['3차', c.base + ' 20% 더 하락 시', .8]];
@@ -392,6 +445,10 @@ function setCo(k, quiet){ if(!CO[k]) k = 'hynix'; CK = k; var c = CO[k];
 $('#seg').addEventListener('click', function(e){ var b = e.target.closest('[data-k]'); if(b) setCo(b.dataset.k); });
 ['l-avg','l-hold','l-add','l-etf'].forEach(function(id){ document.getElementById(id).addEventListener('input', function(){ lcalc(); hit('calc'); }); });
 setCo(new URLSearchParams(location.search).get('p') || 'hynix', true);
+$('#eb').textContent = CO[CK].n + (CK === 'k200' ? '' : (CO[CK].L === 3 ? ' 3배' : ' 레버리지')) + ' 갖고 계신 분께';
+var fold = $('.fold'); fold.addEventListener('toggle', function(){ if(fold.open) hit('calc-open'); });
+if(location.hash === '#calc') fold.open = true;
+document.querySelector('.calc-jump').addEventListener('click', function(){ fold.open = true; });
 fetch('/c/scores.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c){ SC = j; cards(); } }).catch(function(){});
 ['hynix','samsung'].forEach(function(k){
   fetch('/c/' + CO[k].slug, { cache:'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
