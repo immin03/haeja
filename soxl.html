@@ -107,7 +107,27 @@ section p b{color:var(--ink)}
 .bt b{color:var(--gold);font-size:16px;font-weight:850;white-space:nowrap}
 .bt div:first-child b{font-size:18px}
 
-/* 마지막 */
+/* 가입 유도 */
+.btn.kakao{background:#FEE500;color:#191600;gap:6px}
+.btn.kakao svg{flex:none}
+.btn.hk{margin-top:18px}
+.btn.big{margin-top:6px}
+.ft{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 16px}
+.ft div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.ft i{font-style:normal;font-size:22px;display:block;margin-bottom:6px}
+.ft b{display:block;font-size:15px;font-weight:850;margin-bottom:4px}
+.ft span{display:block;font-size:13px;line-height:1.55;color:#3A4560}
+.alt{text-align:center;margin-top:10px;font-size:13px;color:var(--muted)}
+.alt a{color:var(--muted)}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(251,248,242,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s ease}
+.sticky.on{transform:none}
+.sticky .in{max-width:640px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.sticky .t{flex:1;min-width:0;font-size:12.5px;font-weight:700;line-height:1.35;color:var(--muted)}
+.sticky .t b{display:block;color:var(--ink);font-size:14px}
+.sticky .btn{height:46px;padding:0 16px;font-size:15px;white-space:nowrap}
+body{padding-bottom:76px}
+@media (max-width:380px){.ft{grid-template-columns:1fr}}
+
 .end{margin:40px 0 0;background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);padding:36px 0 44px}
 .end h2{color:#fff}
 .end p{color:rgba(247,242,232,.84);font-size:15.5px;margin:0 0 20px}
@@ -129,6 +149,7 @@ section p b{color:var(--ink)}
       <div><small>지금</small><b>46달러</b></div>
       <div><small>고점 대비</small><b class="gd">-85%</b></div>
     </div>
+    <a class="btn kakao hk" id="hk" href="/?kakao=1&amp;from=soxl&amp;watch=NVDA&amp;utm_source=soxl-hero" data-ev="cta-hero" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>반도체 종목 점수 전체 보기 · 카카오 1초</a>
   </div>
 </header>
 
@@ -180,6 +201,19 @@ section p b{color:var(--ink)}
 
 <section>
   <div class="no">05</div>
+  <h2>가입하면 바로 이런 걸<br>확인할 수 있습니다</h2>
+  <div class="ft">
+    <div><i>🔔</i><b>적정 매수가 알림</b><span>엔비디아·브로드컴을 담아 두면, 적정 매수가에 들어오는 날 휴대폰으로 알려 드립니다. 물타기 타이밍을 차트가 아닌 숫자로 잡을 수 있습니다.</span></div>
+    <div><i>📊</i><b>내 종목 채점</b><span>갖고 있는 종목을 넣으면 오래 들고 갈 종목·비중을 줄일 종목·정리할 종목으로 나눠 보여 드립니다.</span></div>
+    <div><i>🏆</i><b>지금 싼 회사 순위</b><span>한국·미국·일본·홍콩·중국에서 적정 주가보다 싸게 거래되는 회사를 매일 점수순으로 보여 드립니다.</span></div>
+    <div><i>📰</i><b>경제 레이더·주간 칼럼</b><span>평일 아침 시장 흐름과 매주 월요일 칼럼으로, 반도체 업황 변화를 놓치지 않게 정리해 드립니다.</span></div>
+  </div>
+  <a class="btn kakao big" href="/?kakao=1&amp;from=soxl&amp;watch=NVDA&amp;utm_source=soxl-ft" data-ev="cta-ft" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하고 바로 보기</a>
+  <div class="alt"><a href="/?signup&amp;from=soxl&amp;utm_source=soxl-email" data-ev="cta-email" data-out>이메일로 가입</a> · 가입 후 언제든 탈퇴할 수 있습니다</div>
+</section>
+
+<section>
+  <div class="no">06</div>
   <h2>물타기 전에 점검할 3가지</h2>
   <ol class="chk">
     <li><b>주요 종목의 가격 점수</b><span>위 표에서 가격 점수가 낮은 종목이 많다면, 반등이 와도 이미 높은 기대가 주가에 담겨 있어 탄력이 약할 수 있습니다. 가격 점수가 올라오는 시점이 더 안전한 구간입니다.</span></li>
@@ -189,7 +223,7 @@ section p b{color:var(--ink)}
 </section>
 
 <section>
-  <div class="no">06</div>
+  <div class="no">07</div>
   <h2>영상으로 다시 보기</h2>
   <a class="yt" href="https://www.youtube.com/watch?v=L3Y9BkSDNRM" target="_blank" rel="noopener" data-ev="yt">
     <img src="https://i.ytimg.com/vi/L3Y9BkSDNRM/mqdefault.jpg" alt="" loading="lazy">
@@ -203,10 +237,12 @@ section p b{color:var(--ink)}
   <div class="wrap">
     <h2>좋은 회사를 싼 가격에,<br>밸류노트로 더 분석해 보세요</h2>
     <p>엔비디아·브로드컴처럼 관심 있는 종목을 담아 두면, 가격이 적정 구간에 들어올 때 확인할 수 있습니다.</p>
-    <a class="btn" href="/?kakao=1&amp;from=soxl&amp;watch=NVDA&amp;utm_source=yt-soxl" data-ev="cta">밸류노트에서 더 분석하기 →</a>
+    <a class="btn kakao big" href="/?kakao=1&amp;from=soxl&amp;watch=NVDA&amp;utm_source=soxl-end" data-ev="cta-end" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하기</a>
     <small>이 페이지의 점수와 적정 주가는 계산 결과이며, 매수·매도 권유나 목표 주가가 아닙니다. 늘 맞지는 않습니다.</small>
   </div>
 </footer>
+
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b>엔비디아 적정 매수가 알림</b><span>가입하고 바로 받아 보세요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=soxl&amp;watch=NVDA&amp;utm_source=soxl-sticky" data-ev="cta-sticky" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입</a></div></div>
 
 <script>
 (function(){
@@ -224,6 +260,22 @@ var REF = (function(){ var q = new URLSearchParams(location.search); var r = q.g
 function send(kind, path){ if(SKIP) return; try{ fetch(EV_URL, { method:'POST', keepalive:true, headers:{ 'apikey':EV_KEY, 'Authorization':'Bearer ' + EV_KEY, 'Content-Type':'application/json', 'Prefer':'return=minimal' }, body: JSON.stringify({ kind:kind, sid:sid(), path:path, ref:REF, device:device() }) }).catch(function(){}); }catch(_){} }
 function hit(k){ if(once[k]) return; once[k] = 1; send('engage', '/soxl:' + k); }
 send('visit', '/soxl');
+/* 아래 가입 바: 첫 화면 버튼이 지나가면 띄우고, 마지막 가입 영역에서는 숨긴다 */
+var sticky = $('#sticky');
+function stk(){ var h = $('#hk').getBoundingClientRect(), e = $('.end').getBoundingClientRect().top; sticky.classList.toggle('on', h.bottom < 0 && e > innerHeight * .85); }
+addEventListener('scroll', stk, { passive:true }); stk();
+/* 인스타·카톡 등 앱 안 브라우저에서는 가입 버튼을 누를 때 크롬·Safari로 연다 (/start와 같은 방식) */
+var UA = navigator.userAgent, INAPP = /Instagram|FBAN|FBAV|Barcelona|Threads|KAKAOTALK|NAVER\(|Line\//.test(UA);
+function outUrl(href){ var u = new URL(href, location.href); u.searchParams.set('vsid', sid()); try{ var r = localStorage.getItem('vn-ref') || REF; if(r) u.searchParams.set('vref', r); }catch(_){} return u.href; }
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[data-out]'); if(!a || !INAPP) return;
+  var url = outUrl(a.getAttribute('href')); e.preventDefault(); hit('go-ext');
+  if(/KAKAOTALK/.test(UA)){ location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url); return; }
+  if(/Android/.test(UA)){ location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end'; return; }
+  var gone = false, onh = function(){ if(document.hidden) gone = true; }; document.addEventListener('visibilitychange', onh);
+  location.href = 'x-safari-' + url;
+  setTimeout(function(){ document.removeEventListener('visibilitychange', onh); if(!gone){ hit('go-ext-fail'); location.href = url; } }, 1500);
+}, false);
 setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
 document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
 
