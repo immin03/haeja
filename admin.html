@@ -580,8 +580,9 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 12px}
 .br-fresh{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}.br-fresh .x{min-width:0;font-size:13.5px;line-height:1.5;word-break:keep-all}.br-fresh .x b{font-size:15px;font-variant-numeric:tabular-nums}.br-fresh .x span{color:var(--muted);font-size:12.5px}
 .br-when{font-size:12px;color:var(--muted);margin-top:3px}
-.gl-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 22px}.br-goal.top{margin-bottom:12px}.br-goal.top .gl-head{font-size:16px;font-weight:800}
-@media (max-width:760px){.gl-grid{grid-template-columns:1fr}.br-fresh{align-items:flex-start}}
+
+.br-kpis.wide{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:12px}.br-topgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start;margin-bottom:12px}.br-topgrid h2{margin-top:0}
+@media (max-width:760px){.br-kpis.wide{grid-template-columns:repeat(2,minmax(0,1fr))}.br-topgrid{grid-template-columns:1fr}.br-fresh{align-items:flex-start}}
 .br-seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
 .br-seg button{border:0;background:none;font:inherit;font-size:15px;font-weight:800;color:var(--muted);padding:8px 18px;border-radius:999px;cursor:pointer}
 .br-seg button.on{background:var(--navy);color:#FFFFFF}
@@ -2733,7 +2734,9 @@ function brAlertDone(a){
   if(!['bad', 'urgent', 'error'].includes(d.level) && age > 864e5) return true;   // 2026-11-08 3일 → 하루: 경고급은 다음 날이면 지난 정보
   return false;
 }
-const brAlertOpen = a => (a.data || {}).read !== true && !BR_PERSONAL.test(String((a.data || {}).source || '')) && !brAlertDone(a);
+/* 2026-11-08 대표님: "황제의 일기가 왜 여기 나와, 이건 밸류노트잖아" — 다른 채널 알림은 밸류노트 관리자에 띄우지 않는다 */
+const brOtherChannel = a => /^(ed|side)-/.test(String(a.id || '')) || /황제의 일기|까치|From Korea/.test(`${(a.data || {}).title || ''} ${(a.data || {}).body || ''}`);
+const brAlertOpen = a => (a.data || {}).read !== true && !brOtherChannel(a) && !BR_PERSONAL.test(String((a.data || {}).source || '')) && !brAlertDone(a);
 const brAlertBig = a => ['bad', 'warn', 'urgent', 'error'].includes((a.data || {}).level);
 function brPending(){ return BR.alerts.filter(a => brAlertOpen(a) && brAlertBig(a)).length; }
 
@@ -3069,7 +3072,7 @@ function brClean(d){
 /* ───────── 브리핑 첫 화면 (2026-11-07 대표님 개편) ─────────
    "꼭 핵심, 알아야 할 것들만", "긴급 처리할 것들만 위에 잘 보이게", "과거 정보는 놔두지 말고",
    "내가 처리 요청한 것들 올려 주고 처리한 거는 처리했음으로, 더 보지 않기", "일간·주간·월간은 필터로 브리핑만 다르게".
-   위에서 아래로: 최신 확인 → 필터 → 수익화 목표 → 긴급 → 한 줄 브리핑 + 숫자 4개 → 내 요청 → 대표님 할 일 → 기간 콘텐츠 (2026-11-08 수익화 목표를 맨 위로).
+   위에서 아래로: 최신 확인 → 필터 → 숫자 4개 → 수익화 목표·기간 콘텐츠 → 긴급 → 한 줄 브리핑 → 내 요청 → 대표님 할 일 (2026-11-08 대표님: 숫자·콘텐츠·수익화를 최상단으로).
    정리·구독자 갱신은 DB 작업 admin-refresh가 하루 3번(08:10·13:10·19:10) 한다 — Claude 토큰 없음. */
 function brSubsGain(r){
   const ch = BR.chan || {}, H = Array.isArray(ch.history) ? ch.history : [];
@@ -3091,25 +3094,6 @@ function brNums(r){
     { label: `쇼츠 조회 (${BR.mode === 'd' ? '최근 7일 올린 편' : r.word + ' 올린 편'})`, value: sv7 ? n0(sv7.views) : '–', note: sv7 ? `${sv7.n}편 · 최고 ${n0(sv7.top)}회` : '' },
     { label: `${r.word} 방문`, value: n0(vis), note: '' },
     { label: `${r.word} 가입`, value: n0(sig), note: `전체 ${n0(sg.total)}명` }] };
-}
-/* 2026-11-08 대표님: "수익화 부분 전처럼 상단에" — 접지 않고 맨 위. 언제 읽은 숫자인지 같이 보여 준다 */
-function vGoalTop(){
-  const ch = BR.chan || {}, api = ch.api && ch.api.at ? ch.api : null, pm = BR.mon || {};
-  const after = Date.now() >= Date.parse('2027-02-01T00:00:00+09:00'), H = after ? 8000 : 4000, S = after ? 20000000 : 10000000;
-  const subs = ch.subs != null ? +ch.subs : pm.subs != null ? +pm.subs : 0;
-  const hours = api && api.long_watch_h_12m != null ? +api.long_watch_h_12m : pm.watch_h_12m != null ? +pm.watch_h_12m : 0;
-  const shorts = api && api.shorts_engaged_90d != null ? +api.shorts_engaged_90d : pm.shorts_90d != null ? +pm.shorts_90d : 0;
-  const pct = (v, g) => Math.max(0, Math.min(100, v / g * 100));
-  const bar = (l, v, g, u) => { const p = pct(v, g); return `<div class="gl-row"><div class="gl-h"><b>${l}</b><span>${n0(v)}${u} / ${n0(g)}${u} · ${p < 1 && v ? p.toFixed(2) : Math.floor(p)}%</span></div><div class="gl-bar"><i style="width:${Math.max(p, v ? .8 : 0)}%"></i></div></div>`; };
-  const gp = BR.growth || {}, good = (gp.good || []).find(m => +m.subs >= 1000), base = (gp.base || []).find(m => +m.subs >= 1000);
-  const end = api && api.end_date ? String(api.end_date).slice(5).replace(/^0/, '').replace('-0', '-').replace('-', '/') : '';
-  const eta = good || base ? `1,000명 예상: ${good ? '잘 될 때 ' + esc(good.month) : ''}${good && base ? ' · ' : ''}${base ? '기본 ' + esc(base.month) : ''}` : '';
-  const stamp = [ch.at ? `구독자 ${kday(ch.at)} 기준` : '', end ? `시청시간·쇼츠 유효 조회는 유튜브 통계 ${end}까지 집계(1~2일 늦게 반영)` : '', eta].filter(Boolean).join(' · ');
-  return `<div class="card br-goal top"><div class="gl-head">수익화 목표</div>
-    <div class="gl-rule">구독자 1,000명 <b>그리고</b> (롱폼 시청 ${n0(H)}시간 <b>또는</b> 쇼츠 유효 조회 ${n0(S)}회)</div>
-    <div class="gl-grid">${bar('구독자', subs, 1000, '명')}${bar('롱폼 시청시간 (1년)', hours, H, '시간')}${bar('쇼츠 유효 조회 (90일)', shorts, S, '회')}</div>
-    ${stamp ? `<div class="gl-foot">${stamp}</div>` : ''}
-  </div>`;
 }
 /* 2026-11-08 대표님: "제일 상단에 최신 확인 일자 시간 나오고 내가 새로고침 누르면 다시 최신인지 확인" */
 function brStampAt(ms){ if(!ms) return '–'; const s = new Date(ms + 9 * 3600e3).getUTCSeconds(); return `${kday(new Date(ms).toISOString())}:${String(s).padStart(2, '0')}`; }
@@ -3139,15 +3123,18 @@ function vBrief(){
   const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
   const ref = (BR.refresh || {}).at;
   const nu = urgent.length + alerts.length;
-  const auto2 = (BR.autoChecks || 0) + BR.alerts.filter(a => a.data.read !== true && !BR_PERSONAL.test(String(a.data.source || '')) && brAlertBig(a) && brAlertDone(a)).length;
+  const auto2 = (BR.autoChecks || 0) + BR.alerts.filter(a => a.data.read !== true && !brOtherChannel(a) && !BR_PERSONAL.test(String(a.data.source || '')) && brAlertBig(a) && brAlertDone(a)).length;
   return `<div class="br">
   <div class="br-fresh"><div class="x">최신 확인 <b>${brStampAt(BR.checkedAt)}</b><br><span>${BR.checking ? '지금 데이터와 유튜브 숫자를 다시 읽는 중입니다' : `지금 데이터와 맞춰 봤습니다${auto2 ? ` · 이미 처리됐거나 지난 알림 ${auto2}건 숨김` : ''}`}</span></div><button class="br-b ghost" data-br-reload title="긴급 항목을 지금 데이터로 다시 확인하고 구독자·시청시간을 새로 읽습니다"${BR.checking ? ' disabled' : ''}>${BR.checking ? '확인 중…' : '새로고침'}</button></div>
   <div class="br-top">
     <div class="br-seg">${[['d', '일간'], ['w', '주간'], ['m', '월간']].map(([k, t]) => `<button data-br-mode="${k}"${BR.mode === k ? ' class="on"' : ''}>${t}</button>`).join('')}</div>
     <div class="br-upd"><span class="m">${esc(r.label)}</span></div>
   </div>
-
-  ${vGoalTop()}
+  <div class="br-kpis wide">${N.kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${/^[-−]/.test(k.delta) ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
+  <div class="br-topgrid"><div>${vGoal(N.kp)}</div><div>
+  <h2>${r.word} 콘텐츠</h2>
+  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length + c.fix.length ? `<em>남음 ${c.wait.length + c.fix.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].filter(x => BR.mode === 'd' || !c.st(x)[0].match(/^m$/)).sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).slice(0, 30).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}</div>
+  </div></div>
 
   ${nu ? `<div class="card br-urgent"><div class="br-sec">긴급 <span class="qcount">${nu}</span></div>
     ${urgent.length ? vChecks() : ''}
@@ -3161,13 +3148,7 @@ function vBrief(){
   <div class="card">${vReqs()}</div>
 
   ${todoOpen ? `<h2>대표님이 직접 할 일 <span class="qcount">${todoOpen}</span></h2>${vTodo([])}` : ''}
-  </div><div class="br-side">
-
-  <div class="br-kpis">${N.kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${/^[-−]/.test(k.delta) ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
-
-  <h2>${r.word} 콘텐츠</h2>
-  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length + c.fix.length ? `<em>남음 ${c.wait.length + c.fix.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].filter(x => BR.mode === 'd' || !c.st(x)[0].match(/^m$/)).sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).slice(0, 30).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}</div>
-
+  </div>
   ${ref ? `<div class="br-stamp">자동 정리·갱신 ${kst(ref)} · 하루 3번(08:10·13:10·19:10)</div>` : ''}
   </div></div>
 </div>`;
