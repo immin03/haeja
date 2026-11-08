@@ -1,0 +1,35 @@
+{
+ "v": 3,
+ "format": "short",
+ "layout": "shorts_main",
+ "l1": "<회사> 주가 전망",
+ "l2": "3가지만 보면 된다",
+ "name": "<영문 회사명 또는 logo PNG 경로는 logo 키>",
+ "band_img": "<scripts/blog/media/lib 사진 파일명>",
+ "focus": [
+  0.5,
+  0.5
+ ],
+ "chart": {
+  "kind": "line",
+  "pts": [
+   [
+    "<시점>",
+    0
+   ],
+   [
+    "<시점>",
+    0
+   ],
+   [
+    "<시점>",
+    0
+   ]
+  ],
+  "mark": 1,
+  "mark_label": "<고점 가격만, 예: 75만 원>"
+ },
+ "big_label": "<무엇 대비 · 기준일>",
+ "big": "<-62%>",
+ "tone": "down"
+}
