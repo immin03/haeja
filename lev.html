@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>레버리지 물타기 계산 · 밸류노트</title>
+<meta name="description" content="SK하이닉스·삼성전자 단일종목 레버리지 ETF, 내 평균 산 가격을 넣으면 1년 뒤 계좌를 4가지 경우로 계산합니다. 레버리지로 물타기·주식으로 갈아타기·그대로 두기 비교.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="밸류노트 ValueNote">
+<meta property="og:title" content="하이닉스·삼성 레버리지, 1년 뒤 내 계좌 계산하기">
+<meta property="og:description" content="평균 산 가격을 넣으면 레버리지로 물타기 vs 주식으로 갈아타기, 1년 뒤 계좌를 4가지 경우로 보여 드립니다.">
+<meta property="og:image" content="https://www.valuenote.co.kr/og.png">
+<meta property="og:url" content="https://www.valuenote.co.kr/lev">
+<meta property="og:locale" content="ko_KR">
+<link rel="canonical" href="https://www.valuenote.co.kr/lev">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=6">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
+<meta name="theme-color" content="#0A1730">
+<link rel="preload" href="/fonts/montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}
+@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
+:root{
+  --navy:#0A1730; --navy2:#0E2342; --gold:#EADBB9; --gold2:#C9AF7A;
+  --ivory:#F7F2E8; --paper:#FBF8F2; --ink:#14213A; --muted:#5D6779; --line:#E6DFD1;
+  --good:#1F8A5B; --bad:#DB4B63; --warn:#C98A12;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"VN Arrow","SUIT Variable","SUIT",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* 로고 */
+.wm{font-family:"Montserrat",sans-serif;font-weight:800;letter-spacing:-.01em;line-height:1;color:#fff;text-decoration:none;font-size:20px;display:inline-flex;flex-direction:column;align-items:center}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid var(--gold)}
+.wm i{font-style:normal;color:var(--gold)}
+.wm small{display:block;margin-top:.32em;font-family:"SUIT Variable",sans-serif;font-weight:700;font-size:.5em;letter-spacing:.22em;padding-left:.22em;color:var(--gold)}
+
+/* 첫 화면 */
+.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(234,219,185,.2) 0,rgba(234,219,185,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:18px 0 40px}
+.hero .wm{margin-bottom:34px}
+.eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--gold)}
+.hero h1{margin:10px 0 14px;font-size:31px;line-height:1.3;font-weight:850;letter-spacing:-.02em;color:#fff}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{margin:0;font-size:16px;color:rgba(247,242,232,.84)}
+.hero p b{color:#fff}
+.stat{display:flex;gap:10px;margin-top:22px}
+.stat div{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(234,219,185,.22);border-radius:14px;padding:12px 14px}
+.stat small{display:block;font-size:12px;color:rgba(247,242,232,.6);font-weight:700}
+.stat b{display:block;font-size:22px;font-weight:850;color:#fff;letter-spacing:-.01em}
+.stat b.gd{color:var(--gold)}
+
+/* 본문 */
+section{padding:40px 0 8px}
+.no{font-family:"Montserrat",sans-serif;font-size:13px;color:var(--gold2);letter-spacing:.06em}
+h2{margin:6px 0 12px;font-size:23px;line-height:1.38;font-weight:850;letter-spacing:-.015em}
+section p{margin:0 0 14px;font-size:16px;color:#2A3550}
+section p b{color:var(--ink)}
+.note{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* 종목 표 */
+.tbl{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:6px}
+.tbl .hd,.tbl a{display:grid;grid-template-columns:1fr 58px 104px;align-items:center;gap:8px;padding:12px 16px}
+.tbl .hd{background:#F4EFE4;font-size:12px;font-weight:800;color:var(--muted)}
+.tbl .hd span:nth-child(n+2){text-align:right}
+.tbl a{text-decoration:none;border-top:1px solid var(--line)}
+.tbl a:active{background:#FAF6EE}
+.tbl .nm b{display:block;font-size:15.5px;font-weight:800}
+.tbl .nm small{display:block;font-size:12px;color:var(--muted)}
+.tbl .sc{text-align:right;font-size:19px;font-weight:850}
+.tbl .sc i{font-style:normal;font-size:12px;font-weight:700;color:var(--muted)}
+.tbl .gp{text-align:right;font-size:13px;font-weight:800}
+.tbl .gp small{display:block;font-size:11.5px;font-weight:600;color:var(--muted)}
+.up{color:var(--bad)} .ok{color:var(--good)}
+.tbl .more{display:block;text-align:center;padding:13px;font-size:14px;font-weight:800;color:var(--navy);background:#FBF8F2;border-top:1px solid var(--line)}
+.sum{margin-top:14px;background:var(--navy);color:var(--ivory);border-radius:16px;padding:16px 18px;font-size:15px}
+.sum b{color:var(--gold)}
+
+/* 점검 목록 */
+.chk{list-style:none;margin:6px 0 0;padding:0;counter-reset:c}
+.chk li{position:relative;padding:16px 16px 16px 58px;background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:10px;counter-increment:c}
+.chk li::before{content:counter(c);position:absolute;left:16px;top:16px;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-family:"Montserrat",sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center}
+.chk b{display:block;font-size:16px;font-weight:850;margin-bottom:4px}
+.chk span{font-size:14.5px;color:#3A4560}
+
+/* 영상 */
+.yt{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;text-decoration:none}
+.yt img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;flex:none;background:#ddd}
+.yt b{display:block;font-size:14.5px;line-height:1.45}
+.yt small{font-size:12.5px;color:var(--muted)}
+
+/* 세 가지 질문 · 백테스트 */
+.q3{list-style:none;margin:4px 0 16px;padding:0;counter-reset:q;display:grid;gap:8px}
+.q3 li{counter-increment:q;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 52px;position:relative}
+.q3 li::before{content:counter(q);position:absolute;left:14px;top:13px;width:26px;height:26px;border-radius:50%;background:var(--gold2);color:#FFFFFF;font-family:"Montserrat",sans-serif;font-size:13px;display:flex;align-items:center;justify-content:center}
+.q3 b{display:block;font-size:15.5px;font-weight:850}
+.q3 span{font-size:13.5px;color:var(--muted)}
+.bt{background:var(--navy);border-radius:16px;padding:6px 16px;margin:4px 0 16px}
+.bt div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-top:1px solid rgba(234,219,185,.16)}
+.bt div:first-child{border-top:0}
+.bt span{color:var(--ivory);font-weight:800;font-size:15px}
+.bt span small{display:block;font-size:12px;font-weight:600;color:rgba(247,242,232,.6)}
+.bt b{color:var(--gold);font-size:16px;font-weight:850;white-space:nowrap}
+.bt div:first-child b{font-size:18px}
+
+/* 가입 유도 */
+.btn.kakao{background:#FEE500;color:#191600;gap:6px}
+.btn.kakao svg{flex:none}
+.btn.hk{margin-top:18px}
+.btn.big{margin-top:6px}
+.ft{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 16px}
+.ft div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.ft i{font-style:normal;font-size:22px;display:block;margin-bottom:6px}
+.ft b{display:block;font-size:15px;font-weight:850;margin-bottom:4px}
+.ft span{display:block;font-size:13px;line-height:1.55;color:#3A4560}
+.alt{text-align:center;margin-top:10px;font-size:13px;color:var(--muted)}
+.alt a{color:var(--muted)}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(251,248,242,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s ease}
+.sticky.on{transform:none}
+.sticky .in{max-width:640px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.sticky .t{flex:1;min-width:0;font-size:12.5px;font-weight:700;line-height:1.35;color:var(--muted)}
+.sticky .t b{display:block;color:var(--ink);font-size:14px}
+.sticky .btn{height:46px;padding:0 16px;font-size:15px;white-space:nowrap}
+body{padding-bottom:76px}
+@media (max-width:380px){.ft{grid-template-columns:1fr}}
+
+.end{margin:40px 0 0;background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);padding:36px 0 44px}
+.end h2{color:#fff}
+.end p{color:rgba(247,242,232,.84);font-size:15.5px;margin:0 0 20px}
+.btn{display:flex;align-items:center;justify-content:center;height:54px;border-radius:14px;font-weight:850;font-size:16px;text-decoration:none;background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy)}
+.end small{display:block;margin-top:14px;font-size:12px;color:rgba(247,242,232,.55)}
+@media (max-width:380px){.hero h1{font-size:27px}.tbl .hd,.tbl a{grid-template-columns:1fr 48px 92px;padding:12px}}
+/* 물타기 계산기 */
+.calc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px 16px 16px;margin:6px 0 16px}
+.calc label{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.calc label span{flex:1;font-size:14.5px;font-weight:700;color:#3A4560}
+.calc input{width:110px;height:42px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font:inherit;font-size:16px;font-weight:800;text-align:right;padding:0 10px;color:var(--ink)}
+.calc input:focus{outline:none;border-color:var(--gold2)}
+.calc em{font-style:normal;width:34px;font-size:13px;color:var(--muted)}
+.out{margin-top:14px;background:var(--navy);border-radius:14px;padding:14px 16px;color:var(--ivory)}
+.out div{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 0}
+.out span{font-size:13.5px;color:rgba(247,242,232,.7)}
+.out b{font-size:17px;font-weight:850;color:#fff;white-space:nowrap}
+.out b.gd{color:var(--gold);font-size:20px}
+.out s{color:rgba(247,242,232,.45);font-size:14px;font-weight:700;margin-right:6px}
+/* 3배 감소 예시 */
+.dc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 16px;margin:6px 0 16px}
+.dc div{display:grid;grid-template-columns:96px 1fr auto;gap:8px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.dc div:first-child{border-top:0}
+.dc span{font-size:13.5px;font-weight:700;color:var(--muted)}
+.dc b{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.dc em{font-style:normal;font-weight:850;font-size:16px}
+/* 블라인드 순위 */
+.rk{background:var(--navy);border-radius:18px;padding:6px 16px;margin:6px 0 12px}
+.rk a{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-top:1px solid rgba(234,219,185,.16);text-decoration:none;color:var(--ivory)}
+.rk a:first-child{border-top:0}
+.rk .n{font-family:"Montserrat",sans-serif;color:var(--gold);font-size:16px}
+.rk .ph{display:block;height:15px;width:var(--w,64%);border-radius:5px;background:linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,255,255,.12));filter:blur(.6px)}
+.rk small{display:block;font-size:12px;color:rgba(247,242,232,.6);margin-top:5px}
+.rk .r{text-align:right}
+.rk .r b{display:block;font-size:20px;font-weight:850;color:#fff}
+.rk .r b i{font-style:normal;font-size:12px;color:rgba(247,242,232,.6)}
+.rk .r span{font-size:12px;color:var(--gold)}
+.rk .lock{text-align:center;font-size:12.5px;color:rgba(247,242,232,.6);padding:12px 0;border-top:1px solid rgba(234,219,185,.16)}
+
+/* 레버리지 계산기 */
+.seg{display:flex;gap:8px;margin:4px 0 12px}
+.seg button{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;font:inherit;font-weight:800;font-size:15px;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.sumbox{margin-top:14px;background:var(--navy);border-radius:14px;padding:14px 16px;color:var(--ivory)}
+.sumbox div{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 0}
+.sumbox span{font-size:13.5px;color:rgba(247,242,232,.7)}
+.sumbox b{font-size:17px;font-weight:850;color:#fff;white-space:nowrap}
+.sumbox b.gd{color:var(--gold);font-size:20px}
+.sc4{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:12px;font-size:13.5px}
+.sc4 td{white-space:nowrap}.sc4 td:first-child{white-space:normal}.sc4 th,.sc4 td{padding:10px 8px;text-align:right;border-top:1px solid var(--line)}
+.sc4 th{background:#F4EFE4;font-size:12px;color:var(--muted);font-weight:800;border-top:0}
+.sc4 td:first-child,.sc4 th:first-child{text-align:left;font-weight:800}
+.sc4 td small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.sc4 .best{color:var(--good);font-weight:850}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.cards2 a{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-decoration:none}
+.cards2 b{display:block;font-size:15px;font-weight:850}
+.cards2 .n{font-size:30px;font-weight:850;line-height:1.2}
+.cards2 .n i{font-style:normal;font-size:13px;color:var(--muted)}
+.cards2 small{display:block;font-size:12px;color:var(--muted)}
+.cards2 em{display:block;font-style:normal;font-size:12.5px;font-weight:800;margin-top:4px}
+
+.wrapseg{flex-wrap:wrap}.wrapseg button{flex:1 1 30%;font-size:13.5px;height:40px}
+.h3{font-size:18px;font-weight:850;margin:22px 0 4px}
+.small{font-size:14px;color:var(--muted);margin:0 0 4px}
+.verdict{margin-top:12px;background:#fff;border:1px solid var(--gold2);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.6}
+.verdict b{color:var(--ink)}
+
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <a class="wm" href="/start?utm_source=lev"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
+    <div class="eyebrow">레버리지 ETF 갖고 계신 분</div>
+    <h1>물탈까, 갈아탈까?<br><em>내 계좌로 계산해 보세요</em></h1>
+    <p>SK하이닉스·삼성전자 2배, SOXL·TQQQ 3배, KODEX 레버리지까지. 평균 산 가격만 넣으면 <b>본전까지의 거리, 1년 뒤 계좌, 언제 얼마나 물을 탈지</b>를 바로 계산합니다.</p>
+    <div class="stat">
+      <div><small>하이닉스 2배</small><b>-91%</b></div>
+      <div><small>SOXL 3배</small><b>-85%</b></div>
+      <div><small>계산 시간</small><b class="gd">10초</b></div>
+    </div>
+    <a class="btn kakao hk" id="hk" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-hero" data-ev="cta-hero" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>SK하이닉스 점수 알림 받기 · 카카오 1초</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="no">01</div>
+  <h2>내 계좌 넣어 보기</h2>
+  <div class="seg wrapseg" id="seg">
+    <button type="button" class="on" data-k="hynix">SK하이닉스 2배</button><button type="button" data-k="samsung">삼성전자 2배</button><button type="button" data-k="soxl">SOXL 3배</button><button type="button" data-k="tqqq">TQQQ 3배</button><button type="button" data-k="k200">KODEX 레버리지</button>
+  </div>
+  <div class="calc">
+    <label><span>내 평균 산 가격</span><input id="l-avg" type="number" inputmode="decimal"><em id="u1">원</em></label>
+    <label><span>처음 넣은 돈</span><input id="l-hold" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
+    <label><span>새로 넣을 수 있는 돈</span><input id="l-add" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
+    <label><span>지금 ETF 가격</span><input id="l-etf" type="number" inputmode="decimal"><em id="u2">원</em></label>
+    <div class="sumbox" id="l-sum"></div>
+  </div>
+  <h3 class="h3">1년 뒤 계좌, 네 가지 경우</h3>
+  <table class="sc4" id="l-tbl"></table>
+  <div class="verdict" id="l-ver"></div>
+  <h3 class="h3">물을 탄다면, 언제 얼마나</h3>
+  <p class="small">새로 넣을 돈을 세 번으로 나눠, 날짜가 아니라 조건에 맞춰 넣는 계획표입니다. 조건이 오지 않으면 넣지 않은 돈은 그대로 남습니다.</p>
+  <table class="sc4" id="l-plan"></table>
+  <div class="note" id="l-note"></div>
+</section>
+
+<section>
+  <div class="no">02</div>
+  <h2>결과를 읽는 법</h2>
+  <ol class="chk">
+    <li><b>레버리지는 길이 곧을 때만 이깁니다</b><span>2배 ETF는 하루 기준으로 2배를 맞추기 때문에, 오르내림이 클수록 깎입니다. 주가가 제자리로 돌아와도 계좌는 덜 돌아옵니다.</span></li>
+    <li><b>방법은 "틀렸을 때 버틸 수 있는가"로</b><span>가장 나쁜 경우의 금액을 먼저 보세요. 그 금액을 견딜 수 없다면, 가장 좋은 경우가 아무리 커도 맞는 방법이 아닙니다.</span></li>
+    <li><b>새 돈을 넣지 않는 것도 선택지입니다</b><span>생활비와 비상금까지 끌어와야 하는 돈이라면, 그 돈은 계좌보다 생활을 먼저 지켜야 합니다.</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="no">03</div>
+  <h2>회사는 지금 몇 점일까요?</h2>
+  <p>레버리지 ETF가 결국 따라가는 건 그 안의 회사입니다. 워렌 버핏·벤저민 그레이엄의 기준으로 재무와 가격을 함께 본 점수입니다. 위에서 고른 상품에 맞춰 바뀝니다.</p>
+  <div class="cards2" id="cards2"></div>
+  <div class="note">점수는 지금 이익이 평소보다 얼마나 높은 자리인지도 함께 봐서, 이익이 최고일 때는 오히려 낮게 나옵니다. 예를 들어 SK하이닉스는 바닥이던 2022년 10월 73점이었습니다.</div>
+</section>
+
+<section>
+  <div class="no">04</div>
+  <h2>가입하면 바로 이런 걸<br>확인할 수 있습니다</h2>
+  <div class="ft">
+    <div><i>🔔</i><b>적정 매수가 알림</b><span>SK하이닉스·삼성전자를 담아 두면, 가격이 적정 구간에 들어오는 날 알려 드립니다. 물을 탈지 말지를 차트가 아닌 숫자로 판단할 수 있습니다.</span></div>
+    <div><i>📊</i><b>내 종목 채점</b><span>갖고 있는 종목을 넣으면 오래 들고 갈 종목·비중을 줄일 종목·정리할 종목으로 나눠 보여 드립니다.</span></div>
+    <div><i>🏆</i><b>지금 싼 회사 순위</b><span>한국·미국·일본·홍콩·중국에서 적정 주가보다 싸게 거래되는 회사를 매일 점수순으로 보여 드립니다.</span></div>
+    <div><i>📰</i><b>실적 발표 정리</b><span>1월 말 SK하이닉스·삼성전자 4분기 실적처럼, 계좌를 다시 판단할 날의 숫자를 정리해 드립니다.</span></div>
+  </div>
+  <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-ft" data-ev="cta-ft" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하고 바로 보기</a>
+  <div class="alt"><a href="/?signup&amp;from=lev&amp;utm_source=lev-email" data-ev="cta-email" data-out>이메일로 가입</a> · 가입 후 언제든 탈퇴할 수 있습니다</div>
+</section>
+
+<section>
+  <div class="no">05</div>
+  <h2>지금 한국에서 점수가<br>가장 높은 회사는?</h2>
+  <p>같은 기준으로 계산했을 때, 지금 적정 주가보다 싸게 거래되는 한국 회사입니다. 회사 이름은 가입하면 바로 보입니다.</p>
+  <div class="rk" id="rk"></div>
+  <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;vt=KR&amp;utm_source=lev-rank" data-ev="cta-rank" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 가입하고 회사 이름 보기</span></a>
+</section>
+
+<section>
+  <div class="no">06</div>
+  <h2>영상으로 다시 보기</h2>
+  <a class="yt" href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener" data-ev="yt">
+    <img src="https://i.ytimg.com/vi/L3Y9BkSDNRM/mqdefault.jpg" alt="" loading="lazy">
+    <div><b>레버리지 ETF 물타기, 영상으로 보기</b><small>밸류노트 유튜브 · SOXL·SK하이닉스 편</small></div>
+  </a>
+</section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <h2>좋은 회사를 싼 가격에,<br>밸류노트로 더 분석해 보세요</h2>
+    <p>SK하이닉스·삼성전자를 담아 두면, 가격이 적정 구간에 들어올 때 확인할 수 있습니다. 한국·미국·일본·홍콩·중국 600+ 기업을 매일 같은 기준으로 계산합니다.</p>
+    <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-end" data-ev="cta-end" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하기</a>
+    <small>이 페이지의 계산과 점수는 가정에 따른 결과이며, 매수·매도 권유나 목표 주가가 아닙니다. 늘 맞지는 않습니다.</small>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b>내 종목 적정 매수가 알림</b><span>가입하고 바로 받아 보세요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=lev&amp;watch=000660.KS&amp;utm_source=lev-sticky" data-ev="cta-sticky" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입</a></div></div>
+
+<script>
+(function(){
+var $ = function(s){ return document.querySelector(s); };
+var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+var num = function(v){ return typeof v === 'number' && isFinite(v); };
+
+/* ---------- 방문 기록 (/start와 같은 events 표) ---------- */
+var EV_URL = 'https://msjbrwyzkiueqnzjeicm.supabase.co/rest/v1/events', once = {}, T0 = Date.now();
+var EV_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zamJyd3l6a2l1ZXFuemplaWNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTk0NTcsImV4cCI6MjEwNzQzNTQ1N30.RIq2MRW8bwHQUO_dPeIarujjWcYD_dXn06icr1Mpmuw';
+function sid(){ try{ var v = localStorage.getItem('vn-sid'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,32); localStorage.setItem('vn-sid', v); } return v; }catch(_){ return 'nosid'; } }
+function device(){ var u = navigator.userAgent; var os = /iPhone|iPad|iPod/.test(u) ? 'iOS' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : '기타'; return (/Mobi|iPhone|Android/.test(u) ? '모바일' : 'PC') + ' · ' + os; }
+var SKIP = (function(){ try{ if(localStorage.getItem('vn-staff') === '1') return true; }catch(_){} return /^(localhost|127\.|192\.168\.)/.test(location.hostname) || navigator.webdriver || /bot|crawl|spider|headless|preview|facebookexternalhit/i.test(navigator.userAgent); })();
+var REF = (function(){ var q = new URLSearchParams(location.search); var r = q.get('utm_source') || q.get('ref') || 'lev'; try{ if(!localStorage.getItem('vn-ref')) localStorage.setItem('vn-ref', r); }catch(_){} return r; })();
+function send(kind, path){ if(SKIP) return; try{ fetch(EV_URL, { method:'POST', keepalive:true, headers:{ 'apikey':EV_KEY, 'Authorization':'Bearer ' + EV_KEY, 'Content-Type':'application/json', 'Prefer':'return=minimal' }, body: JSON.stringify({ kind:kind, sid:sid(), path:path, ref:REF, device:device() }) }).catch(function(){}); }catch(_){} }
+function hit(k){ if(once[k]) return; once[k] = 1; send('engage', '/lev:' + k); }
+send('visit', '/lev');
+/* 아래 가입 바: 첫 화면 버튼이 지나가면 띄우고, 마지막 가입 영역에서는 숨긴다 */
+var sticky = $('#sticky');
+function stk(){ var h = $('#hk').getBoundingClientRect(), e = $('.end').getBoundingClientRect().top; sticky.classList.toggle('on', h.bottom < 0 && e > innerHeight * .85); }
+addEventListener('scroll', stk, { passive:true }); stk();
+/* 인스타·카톡 등 앱 안 브라우저에서는 가입 버튼을 누를 때 크롬·Safari로 연다 (/start와 같은 방식) */
+var UA = navigator.userAgent, INAPP = /Instagram|FBAN|FBAV|Barcelona|Threads|KAKAOTALK|NAVER\(|Line\//.test(UA);
+function outUrl(href){ var u = new URL(href, location.href); u.searchParams.set('vsid', sid()); try{ var r = localStorage.getItem('vn-ref') || REF; if(r) u.searchParams.set('vref', r); }catch(_){} return u.href; }
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[data-out]'); if(!a || !INAPP) return;
+  var url = outUrl(a.getAttribute('href')); e.preventDefault(); hit('go-ext');
+  if(/KAKAOTALK/.test(UA)){ location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url); return; }
+  if(/Android/.test(UA)){ location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end'; return; }
+  var gone = false, onh = function(){ if(document.hidden) gone = true; }; document.addEventListener('visibilitychange', onh);
+  location.href = 'x-safari-' + url;
+  setTimeout(function(){ document.removeEventListener('visibilitychange', onh); if(!gone){ hit('go-ext-fail'); location.href = url; } }, 1500);
+}, false);
+setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
+document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
+
+
+/* ---------- 레버리지 계산기 (1년 뒤 · 물타기 계획) ----------
+   L: 하루 기준 배수, sg: 기초자산 연 변동성 가정, peak: 기초자산이 고점까지 오르는 배수(단일 종목만), cur: 통화 */
+var CO = {
+  hynix:   { n: 'SK하이닉스', L: 2, sg: .55, avg: 44000, etf: 4000, cur: '원', base: 'SK하이닉스 주가', slug: '000660-ks', px: 1132000, peakPx: 2919000, cards: ['000660-ks'] },
+  samsung: { n: '삼성전자', L: 2, sg: .45, avg: 31325, etf: 5905, cur: '원', base: '삼성전자 주가', slug: '005930-ks', px: 188700, peakPx: 362500, cards: ['005930-ks'] },
+  soxl:    { n: 'SOXL', L: 3, sg: .45, avg: 300, etf: 46, cur: '달러', base: '반도체지수', cards: ['nvda', 'avgo', 'amd', 'mu'] },
+  tqqq:    { n: 'TQQQ', L: 3, sg: .25, avg: 100, etf: 70, cur: '달러', base: '나스닥100 지수', cards: ['aapl', 'msft', 'nvda', 'googl'] },
+  k200:    { n: 'KODEX 레버리지', L: 2, sg: .25, avg: 40000, etf: 25000, cur: '원', base: '코스피200 지수', cards: ['005930-ks', '000660-ks'] } }, CK = 'hynix', SC = null;
+function dec(c){ return Math.exp(-(c.L * c.L - c.L) / 2 * c.sg * c.sg); }   /* 1년 동안 오르내림으로 깎이는 정도 (흔들림 가정) */
+function man(v){ return Math.round(v).toLocaleString('ko-KR') + '만 원'; }
+function money(v, c){ return c.cur === '달러' ? (Math.round(v * 100) / 100).toLocaleString('ko-KR') + '달러' : Math.round(v).toLocaleString('ko-KR') + '원'; }
+function pctf(v){ return (v >= 0 ? '+' : '') + Math.round(v * 100).toLocaleString('ko-KR') + '%'; }
+function basePx(c, m){ return c.px ? ' · 약 ' + (Math.round(c.px * m / 1000) * 1000).toLocaleString('ko-KR') + '원' : ''; }
+function lcalc(){
+  var g = function(id){ var x = parseFloat(document.getElementById(id).value); return isFinite(x) && x > 0 ? x : 0; };
+  var c = CO[CK], avg = g('l-avg'), hold = g('l-hold'), add = g('l-add'), etf = g('l-etf'), d = dec(c), L = c.L;
+  if(!avg || !hold || !etf){ $('#l-sum').innerHTML = '<div><span>숫자를 넣어 주세요</span></div>'; $('#l-tbl').innerHTML = $('#l-plan').innerHTML = $('#l-ver').innerHTML = ''; return; }
+  var now = hold * etf / avg, need = avg / etf - 1, bneed = Math.pow(avg / etf, 1 / L) - 1;
+  $('#l-sum').innerHTML = '<div><span>지금 평가액</span><b class="gd">' + man(now) + '</b></div>' +
+    '<div><span>본전까지 ETF</span><b>' + pctf(need) + '</b></div>' +
+    '<div><span>그러려면 ' + c.base + '</span><b>' + pctf(bneed) + basePx(c, 1 + bneed).replace(' · ', '<br><small style="font-size:12px;color:rgba(247,242,232,.6)">') + (c.px ? '</small>' : '') + '</b></div>';
+  /* 1년 뒤 네 가지 경우 */
+  var last = c.peakPx ? ['고점 회복', c.peakPx / c.px, 1] : ['곧게 +100%', 2, 1];
+  var P = [['30% 더 하락', .7, d], ['제자리에서 오르내림', 1, d], ['흔들리며 +50%', 1.5, d], last];
+  var h = '<tr><th>1년 뒤<br><small>(만 원)</small></th><th>레버리지로<br>물타기</th><th>주식·1배 ETF로<br>갈아타기</th><th>레버리지 두고<br>새 돈만 1배</th></tr>';
+  P.forEach(function(p){ var m = p[1], lv = Math.pow(m, L) * p[2];
+    var A = (now + add) * lv, B = (now + add) * m, C = now * lv + add * m, best = Math.max(A, B, C);
+    var td = function(v){ return '<td' + (v === best ? ' class="best"' : '') + '>' + Math.round(v).toLocaleString('ko-KR') + '만</td>'; };
+    h += '<tr><td>' + p[0] + '<small>' + c.base + ' ' + pctf(m - 1) + basePx(c, m) + '</small></td>' + td(A) + td(B) + td(C) + '</tr>'; });
+  $('#l-tbl').innerHTML = h;
+  /* 갈림길: 남은 레버리지를 그대로 둘 때와 1배로 옮길 때 1년 뒤가 같아지는 기초자산 상승률 */
+  var mx = Math.pow(1 / d, 1 / (L - 1)), worstA = (now + add) * Math.pow(.7, L) * d, worstB = (now + add) * .7;
+  $('#l-ver').innerHTML = '<b>갈림길은 ' + c.base + ' ' + pctf(mx - 1) + basePx(c, mx) + '</b>입니다. 1년 안에 그보다 더 오른다고 보면 레버리지를 그대로 두는 쪽이, 그 아래에 머문다고 보면 주식이나 1배 ETF로 옮기는 쪽이 더 많이 남습니다.' +
+    '<br>가장 나쁜 경우(30% 더 하락)에 레버리지로 물타면 <b>' + man(worstA) + '</b>, 갈아타면 <b>' + man(worstB) + '</b>이 남습니다. 이 금액을 견딜 수 있는지부터 보세요.';
+  /* 물타기 계획표: 지금 · 10% 더 하락 · 20% 더 하락에 1/3씩 */
+  var steps = [['1차', '지금', 1], ['2차', c.base + ' 10% 더 하락 시', .9], ['3차', c.base + ' 20% 더 하락 시', .8]];
+  var sh = hold / avg, cost = hold, t = '<tr><th>회차</th><th>그때 ETF<br>(약)</th><th>평균 산 가격</th><th>본전까지<br>' + c.base.replace(' 주가', '') + '</th></tr>';
+  if(!add){ $('#l-plan').innerHTML = '<tr><td>새로 넣을 돈이 0이면 계획표는 비어 있습니다. 넣지 않는 것도 선택지입니다.</td></tr>'; }
+  else {
+    steps.forEach(function(st){ var pe = etf * Math.pow(st[2], L), part = add / 3; sh += part / pe; cost += part;
+      var na = cost / sh, bn = Math.pow(na / pe, 1 / L) - 1;
+      t += '<tr><td>' + st[0] + '<small>' + st[1] + ' · ' + man(part) + '</small></td><td>' + money(pe, c) + '</td><td>' + money(na, c) + '</td><td>' + pctf(bn) + '</td></tr>'; });
+    $('#l-plan').innerHTML = t;
+  }
+  $('#l-note').textContent = '* ' + c.n + '은 하루 기준 ' + L + '배 상품으로 계산했습니다. 1년 뒤 금액은 ' + c.base + '가 연 ' + Math.round(c.sg * 100) + '% 정도로 오르내린다고 가정한 단순 계산이며, 마지막 경우만 흔들림 없이 오른다고 가정했습니다. 계획표의 ETF 가격은 그 조건에 닿았을 때의 대략적인 값입니다. 수수료·세금·환율·보수는 넣지 않았습니다. 기본값은 11월 6일 기준 예시이니 내 숫자로 바꿔 넣어 보세요. 매수·매도 권유가 아닙니다.';
+}
+function cards(){ if(!SC) return; var c = CO[CK];
+  $('#cards2').innerHTML = c.cards.map(function(s){ var r = SC.c[s]; if(!r) return '';
+    return '<a href="/c/' + s + '" data-ev="co-' + s + '"><b>' + esc(r[0]) + '</b><div class="n">' + (r[1] == null ? '–' : r[1]) + '<i>점</i></div><small>재무 ' + (r[2] == null ? '–' : r[2]) + ' · 가격 ' + (r[3] == null ? '–' : r[3]) + '</small><em class="up">적정 주가 계산 보기 →</em></a>'; }).join(''); }
+function setCo(k, quiet){ if(!CO[k]) k = 'hynix'; CK = k; var c = CO[k];
+  document.querySelectorAll('#seg button').forEach(function(b){ b.classList.toggle('on', b.dataset.k === k); });
+  document.getElementById('l-avg').value = c.avg; document.getElementById('l-etf').value = c.etf; $('#u1').textContent = $('#u2').textContent = c.cur;
+  lcalc(); cards(); if(!quiet) hit('co-' + k); }
+$('#seg').addEventListener('click', function(e){ var b = e.target.closest('[data-k]'); if(b) setCo(b.dataset.k); });
+['l-avg','l-hold','l-add','l-etf'].forEach(function(id){ document.getElementById(id).addEventListener('input', function(){ lcalc(); hit('calc'); }); });
+setCo(new URLSearchParams(location.search).get('p') || 'hynix', true);
+fetch('/c/scores.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c){ SC = j; cards(); } }).catch(function(){});
+['hynix','samsung'].forEach(function(k){
+  fetch('/c/' + CO[k].slug, { cache:'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
+    var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var px = /현재가 ([\d,]+)원/.exec(m[1]);
+    if(px){ CO[k].px = Number(px[1].replace(/,/g, '')); if(CK === k) lcalc(); }
+  }).catch(function(){});
+});
+
+/* ---------- 한국 저평가 순위 (이름은 가린다) ---------- */
+var IND = [[/insurance|보험/i,'보험'],[/bank|은행/i,'은행'],[/auto/i,'자동차'],[/medical|health/i,'의료기기·헬스케어'],[/entertainment|leisure/i,'엔터테인먼트'],[/semiconductor|반도체/i,'반도체'],[/software/i,'소프트웨어'],[/telecom|통신/i,'통신'],[/chemical|화학/i,'화학'],[/steel|철강/i,'철강'],[/drug|pharma|biotech/i,'제약·바이오'],[/food|식품/i,'식품'],[/retail|유통/i,'유통'],[/construction|engineering|건설/i,'건설'],[/shipping|marine|해운/i,'해운'],[/utilit|전력/i,'전력'],[/capital markets|증권/i,'증권'],[/aerospace|defense/i,'항공·방산'],[/electr/i,'전기·전자'],[/machinery|기계/i,'기계'],[/game/i,'게임'],[/apparel|footwear|textile/i,'의류·신발'],[/oil|gas|energy/i,'에너지']];
+function ind(t){ t = String(t || ''); for(var i = 0; i < IND.length; i++) if(IND[i][0].test(t)) return IND[i][1]; return t.split(/,| - |—/)[0] || '기타'; }
+var W = [62, 74, 52, 68, 56];
+fetch('/c/value-top.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){
+  var M = j && j.m && j.m.KR; if(!M || !M.top || !M.top.length) return;
+  var go = '/?kakao=1&from=lev&vt=KR&utm_source=lev-rank';
+  $('#rk').innerHTML = M.top.slice(0, 5).map(function(x, i){
+    return '<a href="' + go + '" data-ev="rk-row" data-out><span class="n">' + (i + 1) + '</span><span><i class="ph" style="--w:' + W[i] + '%" aria-hidden="true"></i><small>' + esc(ind(x.ind)) + '</small></span>' +
+      '<span class="r"><b>' + x.b + '<i>점</i></b><span>' + x.low + '% 저평가 · 상승 여력 +' + x.up + '%</span></span></a>'; }).join('') +
+    '<div class="lock">한국 ' + M.n + '곳 · 가입하면 회사 이름과 적정 주가가 바로 보입니다</div>';
+  $('#rk-kt').textContent = '카카오로 1초 가입하고 ' + M.n + '곳 이름 보기';
+}).catch(function(){});
+
+})();
+</script>
+</body>
+</html>
