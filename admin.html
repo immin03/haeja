@@ -580,7 +580,7 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .br{max-width:720px;margin:0 auto}
 .br-upd{display:flex;align-items:center;gap:8px}.br-upd .m{font-size:13.5px;font-weight:700}
 .hot{margin:0 0 12px;padding:14px}.hot-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}.hot-t{font-weight:800;font-size:17px}.hot-m{font-size:12px;color:var(--ink2)}.hot-m a{color:inherit;font-weight:700}
-.hot-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hot-c{display:flex;flex-direction:column;gap:7px;min-width:0;padding:12px;border:1px solid var(--line);border-radius:12px;word-break:keep-all;overflow-wrap:anywhere}.hot-tag{font-size:12px;font-weight:700;color:var(--ink2)}.hot-c h3{margin:0;font-size:15px;line-height:1.4;font-weight:800}.hot-c p{margin:0;font-size:13px;line-height:1.5;color:var(--ink2)}
+.hot-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hot-c{display:flex;flex-direction:column;gap:7px;min-width:0;padding:12px;border:1px solid var(--line);border-radius:12px;word-break:keep-all;overflow-wrap:anywhere}.hot-tag{font-size:12px;font-weight:700;color:var(--ink2)}.hot-c h3{margin:0;font-size:15px;line-height:1.4;font-weight:800}.hot-c p{margin:0;font-size:13px;line-height:1.5;color:var(--ink2);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
 .hot-n{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;color:var(--ink2)}.hot-n b{color:var(--ink)}.hot-a{font-size:12.5px;line-height:1.45}.hot-a em{font-style:normal;font-weight:700;color:var(--ink2);margin-right:6px}.hot-b{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}.hot-b .soc-btn{padding:7px 10px;font-size:12.5px}.hot-st{margin-top:auto;padding-top:4px;font-size:12.5px;font-weight:700;color:var(--bad)}.hot-e{font-size:13.5px;color:var(--ink2);padding:4px 0}
 @media (max-width:860px){.hot-g{grid-template-columns:1fr}}
 .br-urgent{border-left:4px solid var(--bad);margin-bottom:12px}.br-sec{font-weight:800;font-size:16px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
@@ -3214,7 +3214,7 @@ function vHotTopics(){
     <div class="hot-n"><span>유튜브 <b>${hotN(x.views)}회</b></span><span>채널 <b>${n0(x.channels)}곳</b></span><span>기사 <b>${n0(x.news_n)}건</b></span></div>
     ${x.short_title ? `<div class="hot-a"><em>쇼츠 제목안</em>${esc(x.short_title)}</div>` : ''}
     ${x.valid_until ? `<div class="hot-a"><em>유효</em>${kst(x.valid_until)}까지</div>` : ''}
-    ${st[x.status] ? `<div class="hot-st">${st[x.status]}${x.reply ? ` · ${esc(String(x.reply).replace("요청 접수 · ", ""))}` : ''}</div>`
+    ${st[x.status] ? `<div class="hot-st">${x.status === 'producing' && x.reply ? esc(x.reply) : st[x.status]}${x.status !== 'producing' && x.reply ? ` · ${esc(String(x.reply).replace("요청 접수 · ", ""))}` : ''}</div>`
       : `<div class="hot-b"><button class="soc-btn urgent" data-hot-act="short">쇼츠 긴급</button><button class="soc-btn" data-hot-act="long">롱폼 긴급</button><button class="soc-btn ghost" data-hot-act="dismiss">다시 보지 않기</button></div>`}
   </article>`).join('')}</div>` : `<div class="hot-e">지금 긴급 편성할 만큼 뜨는 주제는 없습니다.</div>`}</section>`;
 }
