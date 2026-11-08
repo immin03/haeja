@@ -197,7 +197,7 @@ body{padding-bottom:76px}
 .verdict b{color:var(--ink)}
 
 /* 2026-11-08 개편: 거장의 장기 투자 중심 */
-.calc-jump{display:block;text-align:center;margin-top:12px;font-size:13px;color:rgba(247,242,232,.7);text-decoration:underline}
+.calc-jump{display:block;text-align:center;margin-top:14px;font-size:15px;font-weight:800;color:var(--ivory);text-decoration:underline}
 .vs{background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 16px;margin:6px 0 16px}
 .vs div{display:grid;grid-template-columns:118px 1fr 52px;gap:10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
 .vs div:first-child{border-top:0}
@@ -225,6 +225,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 .fold[open] summary::after{content:"−"}
 .fold summary b{display:block;font-size:16px;font-weight:850}
 .fold summary span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.planfold{margin-top:14px}.planfold[open]{padding-bottom:14px}.planfold .small{margin-top:0}
 
 </style>
 </head>
@@ -235,21 +236,46 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
     <a class="wm" href="/start?utm_source=lev"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
     <div class="eyebrow" id="eb">레버리지 ETF 갖고 계신 분께</div>
     <h1>레버리지가 무너진 해,<br><em>버핏의 코카콜라는 37% 올랐습니다</em></h1>
-    <p>지금 마음이 많이 무거우실 겁니다. 오늘은 계좌를 되살리는 요령보다, <b>앞으로 1년·3년·5년을 마음 편하게 들고 갈 투자</b>에 대해 짧게 이야기해 보려 합니다.</p>
+    <p>지금 마음이 많이 무거우실 겁니다. 먼저 내 계좌를 계산해 보시고, 이어서 <b>앞으로 1년·3년·5년을 마음 편하게 들고 갈 투자</b>에 대해 짧게 이야기해 보겠습니다.</p>
     <div class="stat">
       <div><small>하이닉스 2배</small><b>-91%</b></div>
       <div><small>SOXL 3배</small><b>-85%</b></div>
       <div><small>코카콜라 올해</small><b class="gd">+37%</b></div>
     </div>
     <a class="btn kakao hk" id="hk" href="/?kakao=1&amp;from=lev&amp;utm_source=lev-hero" data-ev="cta-hero" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하고 점수 보기</a>
-    <a class="calc-jump" href="#calc" data-ev="jump-calc">레버리지 계산기는 아래에 있어요 ↓</a>
+    <a class="calc-jump" href="#calc" data-ev="jump-calc">내 계좌 먼저 계산해 보기 ↓</a>
   </div>
 </header>
 
 <main class="wrap">
 
-<section>
+<section id="calc">
   <div class="no">01</div>
+  <h2>내 계좌 넣어 보기</h2>
+  <p>상품을 고르고 평균 산 가격만 바꿔 보세요. 본전까지의 거리와 1년 뒤 계좌가 바로 나옵니다.</p>
+  <div class="seg wrapseg" id="seg">
+    <button type="button" class="on" data-k="hynix">SK하이닉스 2배</button><button type="button" data-k="samsung">삼성전자 2배</button><button type="button" data-k="soxl">SOXL 3배</button><button type="button" data-k="tqqq">TQQQ 3배</button><button type="button" data-k="k200">KODEX 레버리지</button>
+  </div>
+  <div class="calc">
+    <label><span>내 평균 산 가격</span><input id="l-avg" type="number" inputmode="decimal"><em id="u1">원</em></label>
+    <label><span>처음 넣은 돈</span><input id="l-hold" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
+    <label><span>새로 넣을 수 있는 돈</span><input id="l-add" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
+    <label><span>지금 ETF 가격</span><input id="l-etf" type="number" inputmode="decimal"><em id="u2">원</em></label>
+    <div class="sumbox" id="l-sum"></div>
+  </div>
+  <h3 class="h3">1년 뒤 계좌, 네 가지 경우</h3>
+  <table class="sc4" id="l-tbl"></table>
+  <div class="verdict" id="l-ver"></div>
+  <details class="fold planfold">
+    <summary><b>나눠 넣으면 평균 가격은?</b><span>새 돈을 세 번에 나눠 넣는 경우를 예시로 봅니다</span></summary>
+    <p class="small">새로 넣을 돈을 세 번으로 나눠 조건에 닿을 때 넣는다고 가정했을 때, 평균 산 가격과 본전까지의 거리가 어떻게 바뀌는지 보여 주는 예시입니다. 조건이 오지 않으면 넣지 않은 돈은 그대로 남습니다.</p>
+    <table class="sc4" id="l-plan"></table>
+  </details>
+  <div class="note" id="l-note"></div>
+</section>
+
+<section>
+  <div class="no">02</div>
   <h2>회사는 돈을 벌었는데,<br>계좌는 왜 이럴까요?</h2>
   <p>SK하이닉스는 세 달 동안 영업이익 83조 원을 벌었습니다. 그런데 같은 기간 계좌는 이렇게 됐습니다.</p>
   <div class="vs">
@@ -260,7 +286,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 </section>
 
 <section>
-  <div class="no">02</div>
+  <div class="no">03</div>
   <h2>같은 해, 거장은<br>무엇을 들고 있었을까요?</h2>
   <p>워렌 버핏은 1988년 코카콜라 주식을 약 13억 달러에 샀습니다. 그 뒤 38년 동안 <b>한 주도 팔지 않았습니다.</b></p>
   <div class="story">
@@ -273,7 +299,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 </section>
 
 <section>
-  <div class="no">03</div>
+  <div class="no">04</div>
   <h2>마음 편한 투자는<br>세 가지만 봅니다</h2>
   <ol class="chk">
     <li><b>이 회사는 해마다 더 많이 버는가</b><span>1년 뒤, 3년 뒤에도 사람들이 이 회사 물건을 살지부터 봅니다. 주가 차트보다 먼저입니다.</span></li>
@@ -283,7 +309,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 </section>
 
 <section>
-  <div class="no">04</div>
+  <div class="no">05</div>
   <h2>다만, 코카콜라도<br>지금은 비쌉니다</h2>
   <p>코카콜라는 좋은 회사지만, 올해 많이 오른 탓에 지금 가격은 버는 돈에 비해 비싼 편입니다. 밸류노트 기준으로 <b>적정 주가 약 45달러, 지금 약 96달러</b>입니다(11월 6일 기준). 거장의 방법은 "좋은 회사"에서 끝나지 않고, <b>"좋은 회사를 쌀 때"</b>까지입니다.</p>
   <div class="vn">
@@ -300,35 +326,11 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 </section>
 
 <section>
-  <div class="no">05</div>
+  <div class="no">06</div>
   <h2>지금 한국에서 점수가<br>가장 높은 회사는?</h2>
   <p>같은 기준으로 계산했을 때, 지금 적정 주가보다 싸게 거래되는 한국 회사입니다. 회사 이름은 가입하면 바로 보입니다.</p>
   <div class="rk" id="rk"></div>
   <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;vt=KR&amp;utm_source=lev-rank" data-ev="cta-rank" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 가입하고 회사 이름 보기</span></a>
-</section>
-
-<section id="calc">
-  <div class="no">06</div>
-  <details class="fold">
-    <summary><b>참고: 레버리지 계산기</b><span>평균 산 가격을 넣으면 본전까지의 거리와 1년 뒤 계좌를 대략 계산해 볼 수 있습니다</span></summary>
-  <div class="seg wrapseg" id="seg">
-    <button type="button" class="on" data-k="hynix">SK하이닉스 2배</button><button type="button" data-k="samsung">삼성전자 2배</button><button type="button" data-k="soxl">SOXL 3배</button><button type="button" data-k="tqqq">TQQQ 3배</button><button type="button" data-k="k200">KODEX 레버리지</button>
-  </div>
-  <div class="calc">
-    <label><span>내 평균 산 가격</span><input id="l-avg" type="number" inputmode="decimal"><em id="u1">원</em></label>
-    <label><span>처음 넣은 돈</span><input id="l-hold" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
-    <label><span>새로 넣을 수 있는 돈</span><input id="l-add" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
-    <label><span>지금 ETF 가격</span><input id="l-etf" type="number" inputmode="decimal"><em id="u2">원</em></label>
-    <div class="sumbox" id="l-sum"></div>
-  </div>
-  <h3 class="h3">1년 뒤 계좌, 네 가지 경우</h3>
-  <table class="sc4" id="l-tbl"></table>
-  <div class="verdict" id="l-ver"></div>
-  <h3 class="h3">나눠 넣는다면: 조건별 평균 가격</h3>
-  <p class="small">새로 넣을 돈을 세 번으로 나눠 조건에 닿을 때 넣는다고 가정했을 때, 평균 산 가격과 본전까지의 거리가 어떻게 바뀌는지 보여 주는 예시입니다. 조건이 오지 않으면 넣지 않은 돈은 그대로 남습니다.</p>
-  <table class="sc4" id="l-plan"></table>
-  <div class="note" id="l-note"></div>
-  </details>
 </section>
 
 <section>
@@ -422,18 +424,18 @@ function lcalc(){
   /* 기준선: 남은 레버리지를 그대로 둘 때와 1배로 옮길 때 1년 뒤가 같아지는 기초자산 상승률 */
   var mx = Math.pow(1 / d, 1 / (L - 1)), worstA = (now + add) * Math.pow(.7, L) * d, worstB = (now + add) * .7;
   $('#l-ver').innerHTML = '<b>기준선은 ' + c.base + ' ' + pctf(mx - 1) + basePx(c, mx) + '</b>입니다. 1년 안에 그보다 더 오른다고 보면 레버리지를 그대로 두는 쪽이, 그 아래에 머문다고 보면 주식이나 1배 ETF로 옮기는 쪽이 더 많이 남습니다.' +
-    '<br>가장 나쁜 경우(30% 더 하락)에 레버리지로 물타면 <b>' + man(worstA) + '</b>, 갈아타면 <b>' + man(worstB) + '</b>이 남습니다. 이 금액을 견딜 수 있는지부터 보세요.';
+    '<br>네 경우 중 가장 나쁜 30% 더 하락에서는 레버리지로 물타면 <b>' + man(worstA) + '</b>, 갈아타면 <b>' + man(worstB) + '</b>이 남습니다. 이 금액을 견딜 수 있는지부터 보세요. 생활비나 비상금까지 끌어와야 하는 돈이라면 새 돈을 넣지 않는 것도 선택지입니다.';
   /* 물타기 계획표: 지금 · 10% 더 하락 · 20% 더 하락에 1/3씩 */
   var steps = [['1차', '지금', 1], ['2차', c.base + ' 10% 더 하락 시', .9], ['3차', c.base + ' 20% 더 하락 시', .8]];
   var sh = hold / avg, cost = hold, t = '<tr><th>회차</th><th>그때 ETF<br>(약)</th><th>평균 산 가격</th><th>본전까지<br>' + c.base.replace(' 주가', '') + '</th></tr>';
-  if(!add){ $('#l-plan').innerHTML = '<tr><td>새로 넣을 돈이 0이면 계획표는 비어 있습니다. 넣지 않는 것도 선택지입니다.</td></tr>'; }
+  if(!add){ $('#l-plan').innerHTML = '<tr><td>새로 넣을 돈이 0이면 이 표는 비어 있습니다. 넣지 않는 것도 선택지입니다.</td></tr>'; }
   else {
     steps.forEach(function(st){ var pe = etf * Math.pow(st[2], L), part = add / 3; sh += part / pe; cost += part;
       var na = cost / sh, bn = Math.pow(na / pe, 1 / L) - 1;
       t += '<tr><td>' + st[0] + '<small>' + st[1] + ' · ' + man(part) + '</small></td><td>' + money(pe, c) + '</td><td>' + money(na, c) + '</td><td>' + pctf(bn) + '</td></tr>'; });
     $('#l-plan').innerHTML = t;
   }
-  $('#l-note').textContent = '* ' + c.n + '은 하루 기준 ' + L + '배 상품으로 계산했습니다. 1년 뒤 금액은 ' + c.base + '가 연 ' + Math.round(c.sg * 100) + '% 정도로 오르내린다고 가정한 단순 계산이며, 마지막 경우만 흔들림 없이 오른다고 가정했습니다. 계획표의 ETF 가격은 그 조건에 닿았을 때의 대략적인 값입니다. 수수료·세금·환율·보수는 넣지 않았습니다. 기본값은 11월 6일 기준 예시이니 내 숫자로 바꿔 넣어 보세요. 매수·매도 권유가 아닙니다.';
+  $('#l-note').textContent = '* ' + c.n + '은 하루 기준 ' + L + '배 상품으로 계산했습니다. 1년 뒤 금액은 ' + c.base + '가 연 ' + Math.round(c.sg * 100) + '% 정도로 오르내린다고 가정한 단순 계산이며, 마지막 경우만 흔들림 없이 오른다고 가정했습니다. 본전까지 필요한 주가도 흔들림 없이 오를 때의 값이라, 실제로는 더 필요할 수 있습니다. 나눠 넣는 표의 ETF 가격은 그 조건에 닿았을 때의 대략적인 값입니다. 수수료·세금·환율·보수는 넣지 않았습니다. 기본값은 11월 6일 기준 예시이니 내 숫자로 바꿔 넣어 보세요. 매수·매도 권유가 아닙니다.';
 }
 function cards(){ if(!SC) return; var c = CO[CK];
   $('#cards2').innerHTML = c.cards.map(function(s){ var r = SC.c[s]; if(!r) return '';
@@ -446,9 +448,7 @@ $('#seg').addEventListener('click', function(e){ var b = e.target.closest('[data
 ['l-avg','l-hold','l-add','l-etf'].forEach(function(id){ document.getElementById(id).addEventListener('input', function(){ lcalc(); hit('calc'); }); });
 setCo(new URLSearchParams(location.search).get('p') || 'hynix', true);
 $('#eb').textContent = CO[CK].n + (CK === 'k200' ? '' : (CO[CK].L === 3 ? ' 3배' : ' 레버리지')) + ' 갖고 계신 분께';
-var fold = $('.fold'); fold.addEventListener('toggle', function(){ if(fold.open) hit('calc-open'); });
-if(location.hash === '#calc') fold.open = true;
-document.querySelector('.calc-jump').addEventListener('click', function(){ fold.open = true; });
+var pf = $('.planfold'); pf.addEventListener('toggle', function(){ if(pf.open) hit('plan-open'); });
 fetch('/c/scores.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c){ SC = j; cards(); } }).catch(function(){});
 ['hynix','samsung'].forEach(function(k){
   fetch('/c/' + CO[k].slug, { cache:'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
