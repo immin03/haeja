@@ -1678,7 +1678,7 @@ const DOW = ['일','월','화','수','목','금','토'];
 const kday = iso => { if(!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOW[d.getUTCDay()]}) ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`; };
 async function ytLoad(){ await ytFetch(); render(); }
 /* 롱폼 기획안 (2026-10-23 운영자): 롱폼은 원고를 쓰기 전에 기획안을 먼저 승인받는다. 승인하면 제작 작업이 원고를 쓰고 렌더링해 아래 '검수 대기'로 올린다. 반려하면 다음 후보로 바꾼다 */
-const YTP_ST = { proposed: ['run', '승인 대기'], approved: ['ok', '승인 · 제작 대기'], producing: ['ok', '원고·렌더 중'], done: ['ok', '검수 탭으로 넘어감'], rejected: ['off', '반려'] };
+const YTP_ST = { proposed: ['run', '승인 대기'], approved: ['ok', '승인 · 제작 대기'], producing: ['ok', '원고·렌더 중'], done: ['ok', '검수 탭으로 넘어감'], rejected: ['off', '반려'], script_review: ['run', '원고 교정 대기'] };
 function ytPlanItem(p){
   const st = YTP_ST[p.status] || ['', p.status];
   const li = a => (a || []).map(x => `<li>${esc(x)}</li>`).join('');
@@ -1697,14 +1697,14 @@ function ytPlanItem(p){
     /* 제작 중 반려 (2026-10-28 운영자: "관리자 제작중에도 반려할수있게 해줘 이유같이 적으면서") → RPC yt_plan_cancel, 사유는 보류 사유 기록에도 쌓인다 */
     : p.status === 'producing' ? `<button class="soc-btn ghost" data-ytp-cancel="${id}">제작 멈추고 반려 · 사유 적기</button>` : '';
   const when = p.status === 'proposed' ? `자동 배정이면 다음 빈 편성일${YT.next ? ` <b>${kday(YT.next)}</b>` : ''}`
-    : ['approved', 'producing', 'done'].includes(p.status) && p.target_at ? `게시 <b>${kday(p.target_at)}</b>${p.slot_by === 'owner' ? ' (직접 지정)' : ''}${p.status === 'approved' ? (p.urgent ? ` · <span class="st bad">긴급</span> ${p.urgent_fired_at ? '제작 시작됨' : '1시간 안에 제작 시작'}` : ' · 게시 당일(오전 게시는 전날) 아침 8시 47분에 최신 숫자로 제작') : ''}`
+    : ['approved', 'producing', 'done', 'script_review'].includes(p.status) && p.target_at ? `게시 <b>${kday(p.target_at)}</b>${p.slot_by === 'owner' ? ' (직접 지정)' : ''}${p.status === 'approved' ? (p.urgent ? ` · <span class="st bad">긴급</span> ${p.urgent_fired_at ? '제작 시작됨' : '1시간 안에 제작 시작'}` : ' · 게시 당일(오전 게시는 전날) 아침 8시 47분에 최신 숫자로 제작') : ''}`
     : p.target_at ? `게시 희망 ${kday(p.target_at)}` : '';
   const cm = (p.comments || []).map(c => `<div class="ytp-c ${c.by === 'claude' ? 'cl' : ''}"><span>${c.by === 'claude' ? 'Claude' : '내 의견'} · ${kst(c.at)}</span>${esc(c.text)}</div>`).join('');
   const waiting = (YT.reqs || []).some(r => r.kind === 'revise' && r.plan_id === p.id && ['pending', 'working'].includes(r.status));
   return `<div class="card yt-plan">
     <div class="k">${p.rank ? `<span class="kind">${esc(String(p.rank))}순위</span>` : ''}${p.series ? `<span class="st none">${esc(p.series)}</span>` : ''}<span class="st ${st[0]}">${st[1]}</span>${waiting ? '<span class="st run">의견 반영 중</span>' : ''}${p.minutes ? `<span class="st none">약 ${esc(String(p.minutes))}분</span>` : ''}</div>
     ${p.format === 'doc' && p.doc_title ? `<h3>${esc(p.doc_title)}</h3><div class="m"><span class="st run">다큐</span> 유튜브 제목 · ${esc(p.title || '')}</div>` : `<h3>${esc(p.title || p.id)}</h3>`}
-    <details class="ytp-fold" data-ytp-fold="${id}"${(YT.openPlans || new Set()).has(p.id) ? ' open' : ''}><summary><span class="cl">펼치기</span><span class="op">접기</span></summary>
+    <details class="ytp-fold" data-ytp-fold="${id}"${(YT.openPlans || new Set()).has(p.id) || p.status === 'script_review' ? ' open' : ''}><summary><span class="cl">펼치기</span><span class="op">접기</span></summary>
     ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b>${p.ab_doc ? ` · 다큐형 C안 <b>${esc(p.ab_doc.l1 || '')}</b> / <b>${esc(p.ab_doc.l2 || '')}</b>` : ''}</div>` : ''}
     ${p.doc && p.doc.cold_open ? `<div class="m" style="margin-top:6px"><b>콜드 오픈 16초</b> ${esc((p.doc.cold_open.lines || []).join(' '))}<br><span style="color:var(--muted)">컷 · ${esc((p.doc.cold_open.cuts || []).join(' → '))}</span></div>${p.doc.answer_first ? `<div class="m" style="margin-top:6px"><b>결론 먼저</b> ${esc(p.doc.answer_first)}</div>` : ''}${(p.doc.chapters || []).length ? `<div class="m" style="margin-top:6px"><b>질문형 장</b> ${p.doc.chapters.map((c, i) => `${i + 1}. ${esc(c.title)}`).join(' · ')}</div>` : ''}` : ''}
     ${p.message ? `<div class="m" style="margin-top:6px"><b>한 문장</b> ${esc(p.message)}</div>` : ''}
@@ -1719,6 +1719,7 @@ function ytPlanItem(p){
     ${ytProg(p)}
     ${p.owner_note ? `<div class="nt"><b>메모</b><br>${esc(p.owner_note)}</div>` : ''}
     ${cm ? `<div class="ytp-cs">${cm}</div>` : ''}
+    ${p.status === 'script_review' ? `<div class="ytp-say"><textarea rows="3" placeholder="원고에서 고칠 곳을 적어 주세요. 렌더 시작 전까지 남긴 의견을 반영합니다 (예: 첫 문장을 더 세게, 3장 숫자 빼기)" data-ytp-script-note="${id}"></textarea><button class="soc-btn" data-ytp-script-say="${id}">교정 의견 저장</button></div>` : ''}
     ${open ? `<div class="ytp-say"><textarea rows="2" placeholder="의견을 남기면 Claude가 1시간 안에 이 기획안을 고칩니다 (예: 훅을 더 세게, 3장은 빼고 경쟁사 이야기로)" data-ytp-note="${id}"></textarea><button class="soc-btn ghost" data-ytp-say="${id}">의견 보내기</button></div>` : ''}
     ${pick}${acts ? `<div class="ac">${acts}</div>` : ''}</details></div>`;
 }
@@ -1857,10 +1858,10 @@ setInterval(() => { if(!document.hidden && document.getElementById('gh-panel')){
 /* 유튜브 세부 메뉴 (2026-10-24): 기획안·제작 중·검수·올리기 대기·올림 완료·보류를 나눠서 한 번에 하나만 본다 */
 function ytViews(){
   const L = YT.list || [], P = YT.plans || [], sortAt = (a, b) => (a.scheduled_at || '').localeCompare(b.scheduled_at || '');
-  const v = k => L.filter(y => k.includes(y.status)).sort(sortAt);
+  const v = k => L.filter(y => k.includes(y.status)).sort(sortAt), SR = P.filter(x => x.status === 'script_review');
   return {
-    plan:   { t: '기획안', hot: true, plans: P.filter(x => x.status === 'proposed'), vids: [] },
-    making: { t: '제작 중', live: true, plans: P.filter(x => ['approved', 'producing'].includes(x.status)), vids: v(['stale', 'rerendering']) },
+    plan:   { t: '기획안', hot: true, plans: [...SR, ...P.filter(x => x.status === 'proposed')], vids: [] },
+    making: { t: '제작 중', live: true, plans: [...SR, ...P.filter(x => ['approved', 'producing'].includes(x.status))], vids: v(['stale', 'rerendering']) },
     review: { t: '영상 검수', hot: true, plans: [], vids: v(['review', 'changes']) },
     ready:  { t: '올리기 대기', hot: true, plans: [], vids: v(['approved']) },
     done:   { t: '올림 완료', plans: [], vids: v(['uploaded']).reverse() },
@@ -2330,6 +2331,14 @@ function bindYoutube(){
     const { data, error } = await sb.rpc('yt_plan_retime', { p_id: id, p_target: target });
     if(error) toast('바꾸지 못했습니다: ' + error.message, true); else if(data && data.ok === false) toast(data.reason, true); else toast(`게시 일시를 ${kday(target)}로 바꿨습니다.`);
     ytLoad(); });
+  /* 2026-11-09 대표님: "팔란티어가 어디있어" — 원고 교정 대기(script_review)가 어느 탭에도 안 나왔다. 기획안·제작 중 맨 위에 원고와 의견 칸을 띄운다. 의견은 렌더 시작 때 반영 */
+  document.querySelectorAll('[data-ytp-script-say]').forEach(b => b.onclick = async () => {
+    const id = b.dataset.ytpScriptSay, ta = document.querySelector(`[data-ytp-script-note="${CSS.escape(id)}"]`), note = (ta && ta.value || '').trim();
+    if(!note){ toast('고칠 내용을 적어 주세요.', true); return; }
+    b.disabled = true;
+    const { data, error } = await sb.rpc('yt_plan_script_note', { p_id: id, p_note: note });
+    if(error || (data && data.ok === false)){ toast('저장하지 못했습니다: ' + (error ? error.message : data.reason), true); b.disabled = false; return; }
+    toast('교정 의견을 저장했습니다. 렌더 시작 때 반영합니다.'); ytLoad(); });
   document.querySelectorAll('[data-ytp-say]').forEach(b => b.onclick = async () => {
     const id = b.dataset.ytpSay, ta = document.querySelector(`[data-ytp-note="${CSS.escape(id)}"]`), note = (ta && ta.value || '').trim();
     if(!note){ toast('의견을 적어 주세요', true); ta && ta.focus(); return; }
