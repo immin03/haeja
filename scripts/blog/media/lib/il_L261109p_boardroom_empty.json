@@ -1,0 +1,32 @@
+{
+ "id": "il_L261109p_boardroom_empty",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with cold blue highlights and small warm amber accents, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or documents, no watermark, no recognizable faces, no flags. Any people only seen from behind or as distant silhouettes. Scene: An empty corporate boardroom with one pen and one closed blank folder pushed away across a long polished table, dusk light from the windows.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bc15-ec67-79cb-baf1-05664a8effce",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bc15-ec67-79cb-baf1-05664a8effce/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bc15-ec67-79cb-baf1-05664a8effce/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bc15-ec67-79cb-baf1-05664a8effce",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bc15-ec67-79cb-baf1-05664a8effce/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bc15-ec67-79cb-baf1-05664a8effce/cancel",
+  "expires_at": "2026-11-15T16:56:25.064933+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bc15-ec67-79cb-baf1-05664a8effce/b726e9f0-dfe4-4842-9b9f-941a2a0b2dc7.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_L261109p_boardroom_empty.jpeg"
+}

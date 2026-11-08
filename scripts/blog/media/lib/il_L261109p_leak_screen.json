@@ -1,0 +1,32 @@
+{
+ "id": "il_L261109p_leak_screen",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with cold blue highlights and small warm amber accents, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or documents, no watermark, no recognizable faces, no flags. Any people only seen from behind or as distant silhouettes. Scene: A laptop glowing alone on a desk in a dark room, a stream of blank paper sheets flying out of the screen into darkness, a sense of leaked secret documents.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bc14-c40f-745e-80d2-d69a4b23fb40",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bc14-c40f-745e-80d2-d69a4b23fb40/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bc14-c40f-745e-80d2-d69a4b23fb40/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bc14-c40f-745e-80d2-d69a4b23fb40",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bc14-c40f-745e-80d2-d69a4b23fb40/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bc14-c40f-745e-80d2-d69a4b23fb40/cancel",
+  "expires_at": "2026-11-15T16:55:14.434950+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bc14-c40f-745e-80d2-d69a4b23fb40/6c9bca41-5899-4fcf-abfe-2dc6218456ba.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_L261109p_leak_screen.jpeg"
+}

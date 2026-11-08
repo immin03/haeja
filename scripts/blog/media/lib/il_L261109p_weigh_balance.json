@@ -1,0 +1,32 @@
+{
+ "id": "il_L261109p_weigh_balance",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with cold blue highlights and small warm amber accents, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens or documents, no watermark, no recognizable faces, no flags. Any people only seen from behind or as distant silhouettes. Scene: An old brass balance scale on a dark desk, one pan holds a small modern microchip, the other holds a stack of blank paper shares, side light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bc1b-0d97-7e5f-b2d7-3c46fc337469",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bc1b-0d97-7e5f-b2d7-3c46fc337469/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bc1b-0d97-7e5f-b2d7-3c46fc337469/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bc1b-0d97-7e5f-b2d7-3c46fc337469",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bc1b-0d97-7e5f-b2d7-3c46fc337469/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bc1b-0d97-7e5f-b2d7-3c46fc337469/cancel",
+  "expires_at": "2026-11-15T17:02:13.283603+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bc1b-0d97-7e5f-b2d7-3c46fc337469/2a243e50-999b-4a9c-b7cd-2c838676c08e.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "scripts/blog/media/lib/il_L261109p_weigh_balance.jpeg"
+}
