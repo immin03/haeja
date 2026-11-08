@@ -579,6 +579,10 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 /* 브리핑 (2026-10-30) — 휴대폰에서 한 손으로 훑어보기 */
 .br{max-width:720px;margin:0 auto}
 .br-upd{display:flex;align-items:center;gap:8px}.br-upd .m{font-size:13.5px;font-weight:700}
+.hot{margin:0 0 12px;padding:14px}.hot-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}.hot-t{font-weight:800;font-size:17px}.hot-m{font-size:12px;color:var(--ink2)}.hot-m a{color:inherit;font-weight:700}
+.hot-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hot-c{display:flex;flex-direction:column;gap:7px;min-width:0;padding:12px;border:1px solid var(--line);border-radius:12px;word-break:keep-all;overflow-wrap:anywhere}.hot-tag{font-size:12px;font-weight:700;color:var(--ink2)}.hot-c h3{margin:0;font-size:15px;line-height:1.4;font-weight:800}.hot-c p{margin:0;font-size:13px;line-height:1.5;color:var(--ink2)}
+.hot-n{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;color:var(--ink2)}.hot-n b{color:var(--ink)}.hot-a{font-size:12.5px;line-height:1.45}.hot-a em{font-style:normal;font-weight:700;color:var(--ink2);margin-right:6px}.hot-b{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}.hot-b .soc-btn{padding:7px 10px;font-size:12.5px}.hot-st{margin-top:auto;padding-top:4px;font-size:12.5px;font-weight:700;color:var(--bad)}.hot-e{font-size:13.5px;color:var(--ink2);padding:4px 0}
+@media (max-width:860px){.hot-g{grid-template-columns:1fr}}
 .br-urgent{border-left:4px solid var(--bad);margin-bottom:12px}.br-sec{font-weight:800;font-size:16px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
 .br-calm{font-size:14px;font-weight:700;color:var(--good);margin:0 2px 12px}
 .br-rq{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}.br-rq b{font-size:14.5px;font-weight:700;word-break:keep-all}
@@ -2693,6 +2697,7 @@ async function briefLoad(){
     sb.from('docs').select('id,data->monetize').eq('collection', 'agent').like('id', 'perf-20%').order('id', { ascending: false }).limit(1),
     sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'admin-refresh').maybeSingle()]);
   BR.refresh = ((rf || {}).data || {}).data || null;
+  try{ const h = await sb.rpc('hot_topics_admin', { p_all: false }); BR.hot = h.data || null; }catch(_){ BR.hot = null; }
   BR.doc = doc.data || null; BR.inbox = inbox.data || null; BR.alerts = (al.data || []).filter(a => a && a.data && typeof a.data === 'object');
   BR.tasks = ((tc.data || {}).data || {}).items || []; BR.todo = (td.data || {}).data || null; if(BR.todo && Array.isArray(BR.todo.items)) BR.todo = { ...BR.todo, items: BR.todo.items.filter(x => x && typeof x === 'object').map(x => ({ ...x, title: x.title || x.text || '(제목 없음)' })) }; BR.growth = (gp.data || {}).data || null; BR.chan = (ch.data || {}).data || null; BR.mon = ((pm.data || [])[0] || {}).monetize || null; BR.loaded = true; if(!doc.error && !al.error) BR.checkedAt = Date.now();
   const age = BR.chan && BR.chan.at ? Date.now() - Date.parse(BR.chan.at) : Infinity;
@@ -3154,6 +3159,7 @@ function vBrief(){
   const auto2 = (BR.autoChecks || 0) + BR.alerts.filter(a => a.data.read !== true && !brOtherChannel(a) && !BR_PERSONAL.test(String(a.data.source || '')) && brAlertBig(a) && brAlertDone(a)).length;
   return `<div class="br">
   <div class="br-fresh"><div class="x">최신 확인 <b>${brStampAt(BR.checkedAt)}</b><br><span>${BR.checking ? '지금 데이터와 유튜브 숫자를 다시 읽는 중입니다' : `지금 데이터와 맞춰 봤습니다${auto2 ? ` · 이미 처리됐거나 지난 알림 ${auto2}건 숨김` : ''}`}</span></div><button class="br-b ghost" data-br-reload title="긴급 항목을 지금 데이터로 다시 확인하고 구독자·시청시간을 새로 읽습니다"${BR.checking ? ' disabled' : ''}>${BR.checking ? '확인 중…' : '새로고침'}</button></div>
+  ${vHotTopics()}
   <div class="br-top">
     <div class="br-seg">${[['d', '일간'], ['w', '주간'], ['m', '월간']].map(([k, t]) => `<button data-br-mode="${k}"${BR.mode === k ? ' class="on"' : ''}>${t}</button>`).join('')}</div>
     <div class="br-upd"><span class="m">${esc(r.label)}</span></div>
@@ -3195,8 +3201,33 @@ async function brRead(ids){
   await Promise.all(L.map(a => sb.from('docs').update({ data: { ...a.data, read: true } }).eq('collection', 'alerts').eq('id', a.id)));
   L.forEach(a => a.data = { ...a.data, read: true });
 }
+/* 2026-11-08 대표님: "요즘 뜨는 가장 핫한 주제들, 메인 상단에", 자세한 건 성과 페이지 (studio#hot) */
+function hotN(v){ v = +v || 0; return v >= 1e4 ? `${Math.round(v / 1e3) / 10}만` : n0(v); }
+function vHotTopics(){
+  const H = BR.hot || {}, L = (H.items || []).slice(0, 3);
+  const st = { short_requested: '쇼츠 요청됨', long_requested: '롱폼 요청됨', producing: '제작 중' };
+  return `<section class="card hot"><div class="hot-h"><div class="hot-t">요즘 가장 핫한 주제${L.length ? ` <span class="qcount">${L.length}</span>` : ''}</div><div class="hot-m">${H.at ? `${kst(H.at)} 확인 · ` : ''}하루 4번 갱신 · <a href="/studio#hot">자세히 보기 →</a></div></div>
+  ${L.length ? `<div class="hot-g">${L.map(x => `<article class="hot-c" data-hot="${esc(x.key)}">
+    <div class="hot-tag">${esc(x.entity)}${x.holding ? ` · ${esc(x.holding)}` : ''}</div>
+    <h3>${esc(x.title || `${x.entity} ${x.token}`)}</h3>
+    ${x.why ? `<p>${esc(x.why)}</p>` : ''}
+    <div class="hot-n"><span>유튜브 <b>${hotN(x.views)}회</b></span><span>채널 <b>${n0(x.channels)}곳</b></span><span>기사 <b>${n0(x.news_n)}건</b></span></div>
+    ${x.short_title ? `<div class="hot-a"><em>쇼츠 제목안</em>${esc(x.short_title)}</div>` : ''}
+    ${x.valid_until ? `<div class="hot-a"><em>유효</em>${kst(x.valid_until)}까지</div>` : ''}
+    ${st[x.status] ? `<div class="hot-st">${st[x.status]}${x.reply ? ` · ${esc(String(x.reply).replace("요청 접수 · ", ""))}` : ''}</div>`
+      : `<div class="hot-b"><button class="soc-btn urgent" data-hot-act="short">쇼츠 긴급</button><button class="soc-btn" data-hot-act="long">롱폼 긴급</button><button class="soc-btn ghost" data-hot-act="dismiss">다시 보지 않기</button></div>`}
+  </article>`).join('')}</div>` : `<div class="hot-e">지금 긴급 편성할 만큼 뜨는 주제는 없습니다.</div>`}</section>`;
+}
 function bindBrief(){
   const box = $('#main');
+  box.querySelectorAll('[data-hot-act]').forEach(b => b.onclick = async () => {
+    const act = b.dataset.hotAct, key = b.closest('[data-hot]').dataset.hot;
+    b.disabled = true;
+    const { data, error } = await sb.rpc('hot_topic_act', { p_key: key, p_action: act });
+    if(error || !data || !data.ok){ toast((data && data.reason) || (error && error.message) || '처리하지 못했습니다', true); b.disabled = false; return; }
+    toast(act === 'dismiss' ? '다시 보지 않습니다.' : '요청했습니다. 1시간 안에 제작을 시작합니다.');
+    const h = await sb.rpc('hot_topics_admin', { p_all: false }); BR.hot = h.data || null; render();
+  });
   box.querySelectorAll('[data-br-fbdone]').forEach(b => b.onclick = async () => { b.disabled = true;
     const cur = BR.inbox && BR.inbox.data ? BR.inbox.data : { items: [] }, data = { ...cur, items: (cur.items || []).map(x => x.id === b.dataset.brFbdone ? { ...x, status: 'done', replied_at: new Date().toISOString(), reply: (x.reply || '') + ' → 대표님 완료' } : x) };
     const { error } = await sb.from('docs').update({ data, updated_at: new Date().toISOString() }).eq('collection', 'agent').eq('id', 'brief-inbox');

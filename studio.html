@@ -55,6 +55,7 @@
 .vr .act{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
 .mini-btn{font:inherit;font-size:12px;font-weight:750;border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:9px;padding:5px 10px;cursor:pointer;text-decoration:none}
 .mini-btn:hover{border-color:var(--gold)}
+.hotd{margin-bottom:10px;padding:14px;word-break:keep-all;overflow-wrap:anywhere}.hotd summary{display:flex;gap:10px;align-items:center;flex-wrap:wrap;cursor:pointer}.hotd .hr{font-weight:850;color:var(--gold)}.hotd .ht{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:2px}.hotd .ht small,.hotd .hs,.hotd .hc small{font-size:12px;color:var(--ink2)}.hotd p{margin:10px 0 0;font-size:14px;line-height:1.55}.hotd .hc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}.hotd h3{margin:0 0 6px;font-size:13px}.hotd .hc a{display:block;padding:6px 0;color:inherit;text-decoration:none;border-top:1px solid var(--line);font-size:13px;line-height:1.4}.hotd .hc small{display:block}.hotd .hb{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}@media (max-width:760px){.hotd .hc{grid-template-columns:1fr}}
 .mini-btn.done{color:var(--good);border-color:transparent;background:rgba(45,122,95,.1);cursor:default}
 .bars2 .row{display:grid;grid-template-columns:minmax(0,1fr) 120px 64px;gap:10px;align-items:center;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line)}
 .bars2 .row:last-child{border-bottom:0}
@@ -189,9 +190,9 @@ async function saveCustom(list){
 }
 /* 메뉴는 모든 계정이 같다 (2026-11-03 대표: "범용으로 쓰기 때문에 다 똑같아야 한다, 추후 공개해도 톤이 동일하게") */
 const ACC_MENU = [['home', '개요'], ['perf', '롱폼 진단'], ['perfs', '숏폼 진단'], ['bench', '벤치마킹']];
-const ACC_PAGES = { vn: ACC_MENU, ed: ACC_MENU, yt: ACC_MENU };
+const ACC_PAGES = { vn: [...ACC_MENU, ['hot', '핫 토픽']], ed: ACC_MENU, yt: ACC_MENU };
 const R_PAGES = [['channel', '채널 분석'], ['topic', '주제·터진 영상'], ['similar', '비슷한 채널'], ['video', '영상 분석']];
-const isAccPage = p => ['home', 'perf', 'perfs', 'bench', 'add', 'login'].includes(p);
+const isAccPage = p => ['home', 'perf', 'perfs', 'bench', 'hot', 'add', 'login'].includes(p);
 
 /* ───────── 공개 리서치 호출 ───────── */
 async function research(action, q, extra){
@@ -486,6 +487,23 @@ function vAdd(){
       <div><button class="mini-btn" style="font-size:14px;padding:9px 14px">추가</button></div></form>
     ${S.custom.length ? `<h2>추가한 채널</h2>${S.custom.map(a => `<div class="crow" style="grid-template-columns:1fr auto"><div><b>${esc(a.name)}</b><div class="muted" style="font-size:12px">${esc(a.yt)} · 주제 ${esc((a.bench || []).join(', ') || '없음')}</div></div><button class="mini-btn" data-acc-del="${esc(a.id)}">삭제</button></div>`).join('')}` : ''}</div>`;
 }
+/* 2026-11-08 대표님: 메인엔 핫한 주제 3건, 성과 페이지에선 자세한 근거 */
+const HT = { data: null };
+async function hotLoad(){ const { data, error } = await sb.rpc('hot_topics_admin', { p_all: true }); HT.data = error ? { err: error.message, items: [] } : data; }
+function hotN(v){ v = +v || 0; return v >= 1e4 ? `${Math.round(v / 1e3) / 10}만` : v.toLocaleString('ko-KR'); }
+function vHot(){
+  const L = HT.data.items || [];
+  const lb = { new: '정리 대기', ready: '메인 노출', short_requested: '쇼츠 요청됨', long_requested: '롱폼 요청됨', producing: '제작 중', done: '제작 완료', dismissed: '다시 보지 않기' };
+  const top = head('핫 토픽', `보유자가 많은 종목·CEO의 사건을 하루 4번 찾습니다${HT.data.at ? ` · 마지막 확인 ${kst(HT.data.at)}` : ''}`);
+  if(HT.data.err) return top + `<div class="card empty" style="padding:14px">${esc(HT.data.err)}</div>`;
+  if(!L.length) return top + `<div class="card empty" style="padding:14px">최근 7일 안에 잡힌 주제가 없습니다.</div>`;
+  return top + L.map((x, i) => `<details class="card hotd" data-hot="${esc(x.key)}"${i < 3 ? ' open' : ''}><summary><span class="hr">${i + 1}</span><span class="ht"><b>${esc(x.title || `${x.entity} ${x.token}`)}</b><small>${esc(x.entity)}${x.holding ? ` · ${esc(x.holding)}` : ''} · ${esc(lb[x.status] || x.status)}</small></span><span class="hs">유튜브 ${hotN(x.views)}회 · 채널 ${x.channels}곳 · 기사 ${x.news_n}건 · 시간당 ${hotN(x.per_hour)}회</span></summary>
+    ${x.why ? `<p><b>왜 지금</b> ${esc(x.why)}</p>` : ''}${x.angle ? `<p><b>우리 각도</b> ${esc(x.angle)}</p>` : ''}${x.short_title ? `<p><b>쇼츠 제목안</b> ${esc(x.short_title)}</p>` : ''}${x.long_title ? `<p><b>롱폼 제목안</b> ${esc(x.long_title)}</p>` : ''}${x.reply ? `<p class="muted">${esc(x.reply)}</p>` : ''}
+    <div class="hc"><div><h3>근거 영상</h3>${(x.videos || []).map(v => `<a href="https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}" target="_blank" rel="noopener"><span>${esc(v.title)}</span><small>${esc(v.channel)} · ${hotN(v.views)}회 · ${esc(v.when)}</small></a>`).join('')}</div>
+    <div><h3>관련 기사</h3>${(x.news || []).map(n => `<a href="${esc(n.link)}" target="_blank" rel="noopener"><span>${esc(n.title)}</span><small>${esc(n.source)}</small></a>`).join('') || '<small class="muted">없음</small>'}</div></div>
+    ${['new', 'ready'].includes(x.status) ? `<div class="hb"><button class="mini-btn" data-hot-act="short">쇼츠 긴급</button><button class="mini-btn" data-hot-act="long">롱폼 긴급</button><button class="mini-btn" data-hot-act="dismiss">다시 보지 않기</button></div>` : ''}
+  </details>`).join('');
+}
 function vLogin(msg){
   return `<div class="card login"><div style="font-weight:850;font-size:17px">관리자 로그인</div><div class="note">내 채널(밸류노트·황제의 일기)의 진단·벤치마킹은 관리자만 볼 수 있습니다. 리서치는 로그인 없이 쓰면 됩니다.</div>
     <form data-login><label>이메일<input name="em" type="email" autocomplete="email"></label><label>비밀번호<input name="pw" type="password" autocomplete="current-password"></label>
@@ -523,6 +541,10 @@ function render(){
     else html = accBar() + (p === 'perf' ? vPerf() : vPerfs());
   }
   else if(a.kind === 'vn' && p === 'bench') html = accBar() + vBench() + `<h2>주제로 더 찾기</h2><div class="hint">밸류노트와 같은 주제에서 지금 잘되는 영상·채널은 <a href="#topic?q=${encodeURIComponent(a.bench[0])}">주제·터진 영상</a>에서 찾고, ‘기획에 반영 요청’을 누르면 성과 진단 피드백함으로 들어갑니다.</div>`;
+  else if(a.kind === 'vn' && p === 'hot'){
+    if(HT.data === null){ hotLoad().then(() => render()); html = accBar() + head('불러오는 중', ''); }
+    else html = accBar() + vHot();
+  }
   else if(a.kind === 'ed' && p === 'perfs') html = accBar() + edPerf();
   else if(p === 'perf' || p === 'perfs') html = accBar() + vFormat(p === 'perf' ? 'long' : 'short');
   else if(p === 'bench') html = accBar() + vAccBench();
@@ -534,6 +556,10 @@ function render(){
 }
 function bind(p){
   const box = $('#main');
+  box.querySelectorAll('[data-hot-act]').forEach(b => b.onclick = async () => { const act = b.dataset.hotAct, key = b.closest('[data-hot]').dataset.hot; b.disabled = true;
+    const { data, error } = await sb.rpc('hot_topic_act', { p_key: key, p_action: act });
+    if(error || !data || !data.ok){ toast((data && data.reason) || (error && error.message) || '처리하지 못했습니다', true); b.disabled = false; return; }
+    toast(act === 'dismiss' ? '다시 보지 않습니다.' : '요청했습니다. 1시간 안에 제작을 시작합니다.'); await hotLoad(); render(); });
   box.querySelectorAll('form[data-go]').forEach(f => f.onsubmit = e => { e.preventDefault(); const q = f.q.value.trim(); if(!q) return f.q.focus(); go(f.dataset.go, { q, p: f.p ? f.p.value : '' }); });
   box.querySelectorAll('form[data-kw]').forEach(f => f.onsubmit = e => { e.preventDefault(); const k = f.k.value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 3).join('|'); go('similar', { q: qp('q'), p: qp('p'), k }); });
   box.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => { S.acc = b.dataset.acc; store.set('st-acc', S.acc); const pages = (ACC_PAGES[curAcc().kind] || ACC_PAGES.yt).map(x => x[0]); if(!pages.includes(page())) location.hash = 'home'; else render(); });
