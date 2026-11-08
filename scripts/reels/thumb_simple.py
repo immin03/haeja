@@ -438,10 +438,18 @@ def render_v3(spec, out):
             top = max(520 + o, int(y2 + f2.size * .5)) if hb else 520 + o
         if spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
         elif em: emblem(im, em["kind"], W / 2, top + 130, em.get("size", 230), em.get("text")); top += 290
-        bot = 1300 if ig else 1340
-        if spec.get("chart"): chart(im, spec["chart"], (130, top + 50, 950, bot), tone)
-        ly, ny = (bot + 150, bot + 290) if not ig else (bot + 140, bot + 270)
-        _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 220 if not ig else 200, tone, 960)
+        if spec.get("big_center"):   # 2026-11-08 대표님: 큰 숫자를 화면 중간에 크게 — 제목 → 큰 숫자 → 라벨 → 그래프 순
+            col = RED if tone == "down" else GREEN
+            bf = fit(spec["big"], "Heavy", 430, 1000); cy = top + bf.size * .62
+            text_shadow(im, (W / 2, cy), spec["big"], bf, col, off=10, blur=20, alpha=190)
+            ly = cy + bf.size * .66
+            if spec.get("big_label"): text_shadow(im, (W / 2, ly), spec["big_label"], fit(spec["big_label"], "Bold", 62, 960), IVORY, off=3, blur=6, alpha=170)
+            if spec.get("chart"): chart(im, spec["chart"], (130, int(ly + 130), 950, 1620), tone)
+        else:
+            bot = 1300 if ig else 1340
+            if spec.get("chart"): chart(im, spec["chart"], (130, top + 50, 950, bot), tone)
+            ly, ny = (bot + 150, bot + 290) if not ig else (bot + 140, bot + 270)
+            _big(im, spec.get("big_label"), spec["big"], W / 2, ly, ny, 220 if not ig else 200, tone, 960)
         paste_logo(im, W / 2, 90, 34, "dark", align="center")
     else:
         # 롱폼 (2026-10-29 운영자: JTBC 뉴스 썸네일처럼 — 배경 사진이 잘 드러나게, 아래 두 톤 큰 제목(굵은 제목체),
