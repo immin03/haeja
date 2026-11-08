@@ -32,6 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 FD = os.path.join(HERE, "fonts")
 
+BAND_MEAN, BAND_P90 = 76.5, 152.0   # 사진 띠 자동 음영 기준 (현대차 표지 Y261108k 밝기 기준, 2026-11-09)
 IVORY = (246, 241, 232); GOLD = (240, 208, 140); GREY = (176, 186, 206)
 RED = (255, 77, 109); GREEN = (61, 245, 160)
 _fc = {}
@@ -127,7 +128,7 @@ def chart(im, c, box, tone):
     hx, hy = pts[k]; r = lw * 1.1
     d.ellipse([hx - r, hy - r, hx + r, hy + r], fill=IVORY)
     if c.get("mark_label"):
-        f = F("Bold", max(30, int((Y1 - Y0) * .065))); tw = f.getlength(c["mark_label"])
+        f = F("Heavy" if c.get("mark_size") else "Bold", c.get("mark_size") or max(30, int((Y1 - Y0) * .065))); tw = f.getlength(c["mark_label"])
         tx = min(max(hx, X0 + tw / 2), X1 - tw / 2)
         ty = hy - r - f.size * .9 if tone == "down" else hy + r + f.size * .9
         text_shadow(im, (tx, ty), c["mark_label"], f, IVORY, off=2, blur=4, alpha=160)
@@ -368,6 +369,22 @@ def _bg_photo(im, name, focus=(.5, .5), opacity=.3):
     im.alpha_composite(ph)
 
 
+def photo_band(im, name, y0, y1, focus=(.5, .5), dark=None):
+    """쇼츠 기본 표지의 차량·현장 사진 띠 (2026-11-09 대표님 확정, 제1 원칙 116).
+    사진이 잘 보이게 원본 색 그대로 두되, 글자가 얹히는 구간이 너무 밝으면 자동으로 어둡게 맞춘다("사진이 너무 밝으면 음영 점검").
+    dark 를 json 에 주면 그 값을 그대로 쓴다. 위아래는 네이비로 녹인다."""
+    W = im.size[0]; h = y1 - y0
+    g = np.asarray(_cover(name, W, h, focus, blur=0).convert("RGB")).astype(np.float32)
+    lum = g[..., 0] * .2126 + g[..., 1] * .7152 + g[..., 2] * .0722
+    zone = lum[int(h * .12):int(h * .92), int(W * .06):int(W * .94)]
+    k = dark if dark is not None else float(np.clip(min(BAND_MEAN / max(zone.mean(), 1), BAND_P90 / max(np.percentile(zone, 90), 1)), .45, 1))
+    yy = np.linspace(0, 1, h); fade = np.clip(np.minimum(yy / .18, (1 - yy) / .22), 0, 1) ** 1.2
+    L = Image.fromarray(np.clip(g * k, 0, 255).astype(np.uint8)).convert("RGBA")
+    L.putalpha(Image.fromarray((fade * 255).astype(np.uint8)[:, None].repeat(W, 1)))
+    im.alpha_composite(L, (0, y0))
+    return k
+
+
 def emblem(im, kind, cx, cy, size, text=None):
     """한눈에 주제를 알려 주는 포인트 하나 (2026-10-29 운영자: 삼성은 삼성 로고가 있어 직관적이었다 — 그런 포인트가 꼭 하나)
     jp_flag · coin(text=기호) · envelope(text=글자) · stamp(text=글자) · goldbar"""
@@ -416,6 +433,10 @@ def render_v3(spec, out):
     from brand import paste_logo
     if spec.get("layout") == "shorts_big":   # 2026-11-08 대표님 확정 표준(제1 원칙 115): 쇼츠·릴스 공용 — 삼성전자 틀에 위 2줄 제목 최대, 큰 숫자 중간, 하락선, ValueNote 로고 하단 가운데 크게. 인스타 격자(세로 240~1680)·좌우 60 안에 전부 들어온다
         spec = {**{"header_big": True, "big_center": True, "header_y": 320, "header_w": 950, "big_size": 290, "chart_bottom": 1430, "logo_y": 1525, "logo_size": 72}, **spec}
+    if spec.get("layout") == "shorts_main":   # 2026-11-09 대표님 확정 쇼츠 기본 표지(제1 원칙 116): 2줄 제목 최대 → 회사명 크게 → 큰 숫자 → 기준 문구 → 그래프(선택) → 하단 로고, 가운데에 사진 띠
+        has_chart = bool(spec.get("chart"))
+        spec = {**{"header_big": True, "big_center": True, "header_w": 960, "header_y": 326, "header_cap": 210, "name_center": True, "name_h": 170, "name_w": 920, "name_gap": 112, "after_name": 0 if has_chart else 120, "big_size": 226 if has_chart else 292, "chart_bottom": 1468, "logo_y": 1525, "logo_size": 72, "band": [548, 1270]}, **spec}
+        if has_chart: spec["chart"] = {**{"mark_size": 66}, **spec["chart"]}
     tone = spec.get("tone", "down"); ig = spec.get("safe") == "ig"; foc = tuple(spec.get("focus", (.5, .5)))
     em = spec.get("emblem")
     if spec.get("format", "short") == "short":
@@ -426,6 +447,7 @@ def render_v3(spec, out):
             sh = np.zeros((H, W, 4), np.uint8); sh[..., 3] = (np.clip(1.15 - np.linspace(0, 1, H) / .5, 0, .78) * 255).astype(np.uint8)[:, None]
             ph.alpha_composite(Image.fromarray(sh, "RGBA")); im = ph
         elif spec.get("photo"): _bg_photo(im, spec["photo"], foc, spec.get("photo_opacity", .32))
+        if spec.get("band_img"): print("사진 띠 밝기 계수", round(photo_band(im, spec["band_img"], spec["band"][0], spec["band"][1], foc, spec.get("band_dark")), 2))
         if spec.get("l3"):   # 3줄 제목 (2026-11-01 15:11 대표님: 1줄 흰색 작게 + 2·3줄 밝은 노랑 크게, 검정 외곽선)
             YEL = (255, 216, 77, 255); f1 = fit(spec["l1"], "SemiBold", 80, 960); f2 = fit(spec["l2"], "Heavy", 140, 960); f3 = fit(spec["l3"], "Heavy", 140, 960); s1, s2 = 80, 140
             y = 230 + o; text_shadow(im, (W / 2, y), spec["l1"], f1, (255, 255, 255, 255))
@@ -436,14 +458,16 @@ def render_v3(spec, out):
             top = int(y) + 10
         else:
             # 2026-11-08 대표님(제1 원칙 111): 삼성전자 틀 그대로, 위 2줄 제목만 화면 폭 가득 최대한 크게 — thumbs json 에 "header_big": true
-            hb = bool(spec.get("header_big")); s1, s2 = (160, 180) if hb else (100, 120); mw = spec.get("header_w", 1020) if hb else 980
+            hb = bool(spec.get("header_big")); s1, s2 = (spec.get("header_cap", 160), spec.get("header_cap", 180)) if hb else (100, 120); mw = spec.get("header_w", 1020) if hb else 980
             f1 = fit(spec["l1"], "Heavy", s1, mw); f2 = fit(spec["l2"], "Heavy", s2, mw if hb else 1000)
             if hb: s1, s2 = f1.size, f2.size
             y1 = (spec.get("header_y", 225) if hb else 250) + o; y2 = y1 + f1.size * .5 + f2.size * (.68 if hb else .75)
             text_shadow(im, (W / 2, y1), spec["l1"], f1, IVORY)
             text_shadow(im, (W / 2, y2), spec["l2"], f2, GOLD)
             top = max(520 + o, int(y2 + f2.size * .5)) if hb else 520 + o
-        if spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
+        if spec.get("name_center") and (spec.get("name") or spec.get("logo")):
+            nh = spec["name_h"]; top += spec["name_gap"]; name_block(im, spec, W / 2, top + nh / 2, spec["name_w"], nh); top += nh + spec["after_name"]
+        elif spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
         elif em: emblem(im, em["kind"], W / 2, top + 130, em.get("size", 230), em.get("text")); top += 290
         if spec.get("big_center"):   # 2026-11-08 대표님: 큰 숫자를 화면 중간에 크게 — 제목 → 큰 숫자 → 라벨 → 그래프 순
             col = RED if tone == "down" else GREEN

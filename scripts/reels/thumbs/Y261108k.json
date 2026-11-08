@@ -1,10 +1,9 @@
 {
  "v": 3,
  "format": "short",
- "l1": "현대차 주가 전망 · 이 3가지만",
- "l2": "75만 → 28만 원",
- "l3": "더 빠질까?",
- "name": "현대차",
+ "l1": "현대차 주가 전망",
+ "l2": "3가지만 보면 된다",
+ "name": "HYUNDAI",
  "chart": {
   "kind": "line",
   "pts": [
@@ -22,10 +21,15 @@
    ]
   ],
   "mark": 1,
-  "mark_label": "6월 1일 종가 75만 원"
+  "mark_label": "75만 원"
  },
  "big_label": "6월 1일 종가 대비 · 11월 6일",
  "big": "-62%",
  "tone": "down",
- "photo": "car_35540_a.jpg"
+ "layout": "shorts_main",
+ "band_img": "cardriving_52427_a.jpg",
+ "focus": [
+  0.2,
+  0.55
+ ]
 }
