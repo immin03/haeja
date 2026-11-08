@@ -193,7 +193,7 @@ var SHOW = 7;
 var D = null, PX = {};
 function gap(slug){ var p = PX[slug]; if(!p || !(p.pn > 0) || !(p.vn > 0)) return '<span class="gp">–</span>';
   var x = p.pn / p.vn;
-  var t = x >= 1.5 ? '약 ' + (Math.round(x * 10) / 10) + '배 비쌈' : x > 1.02 ? Math.round((x - 1) * 100) + '% 비쌈' : x < .98 ? Math.round((1 - x) * 100) + '% 쌈' : '적정';
+  var t = x >= 3 ? '3배 이상 비쌈' : x >= 1.5 ? '약 ' + (Math.round(x * 10) / 10) + '배 비쌈' : x > 1.02 ? Math.round((x - 1) * 100) + '% 비쌈' : x < .98 ? Math.round((1 - x) * 100) + '% 쌈' : '적정';
   return '<span class="gp ' + (x > 1.02 ? 'up' : 'ok') + '">' + t + '<small>' + esc(p.px) + ' → ' + esc(p.iv) + '</small></span>'; }
 function draw(all){
   if(!D) return;
