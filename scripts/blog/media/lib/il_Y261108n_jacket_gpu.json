@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261108n_jacket_gpu",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic, dark political-thriller documentary look, deep navy and black color grade with strong blood-red accent light, dramatic rim light, film grain, vertical composition with the subject centered. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark. No face visible: any person is an anonymous silhouette seen strictly from behind, head in deep shadow, not resembling any real person. Scene: An anonymous man in a black leather jacket seen from behind, standing alone in front of a towering wall of glowing AI server racks, the server lights turning red, haze in the air, his long shadow on the floor.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bba6-f104-7c55-88c5-4a2c52a2bb10",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f104-7c55-88c5-4a2c52a2bb10/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f104-7c55-88c5-4a2c52a2bb10/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bba6-f104-7c55-88c5-4a2c52a2bb10",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f104-7c55-88c5-4a2c52a2bb10/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f104-7c55-88c5-4a2c52a2bb10/cancel",
+  "expires_at": "2026-11-15T14:55:23.745324+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bba6-f104-7c55-88c5-4a2c52a2bb10/2a42b932-3ec3-4285-91fb-a9dc90a727dc.jpeg"
+   }
+  ]
+ },
+ "seconds": 86,
+ "file": "scripts/blog/media/lib/il_Y261108n_jacket_gpu.jpeg"
+}

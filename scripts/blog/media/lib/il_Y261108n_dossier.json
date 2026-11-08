@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261108n_dossier",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic, dark political-thriller documentary look, deep navy and black color grade with strong blood-red accent light, dramatic rim light, film grain, vertical composition with the subject centered. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark. No face visible: any person is an anonymous silhouette seen strictly from behind, head in deep shadow, not resembling any real person. Scene: Dark wooden table in a dim government room, a thick sealed classified folder with a red wax-like stripe and no writing, a black leather jacket draped over the chair behind it, single harsh desk lamp, red glow, surveillance mood.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bba6-f10a-7389-96e4-d0b293a7ca04",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f10a-7389-96e4-d0b293a7ca04/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f10a-7389-96e4-d0b293a7ca04/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bba6-f10a-7389-96e4-d0b293a7ca04",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f10a-7389-96e4-d0b293a7ca04/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f10a-7389-96e4-d0b293a7ca04/cancel",
+  "expires_at": "2026-11-15T14:55:26.309641+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bba6-f10a-7389-96e4-d0b293a7ca04/6d2345ec-01f0-4261-8330-8ee8b475e24d.jpeg"
+   }
+  ]
+ },
+ "seconds": 86,
+ "file": "scripts/blog/media/lib/il_Y261108n_dossier.jpeg"
+}

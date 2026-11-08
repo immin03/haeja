@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261108n_hearing",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic, dark political-thriller documentary look, deep navy and black color grade with strong blood-red accent light, dramatic rim light, film grain, vertical composition with the subject centered. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark. No face visible: any person is an anonymous silhouette seen strictly from behind, head in deep shadow, not resembling any real person. Scene: Empty closed-door congressional hearing room at night, a single empty witness chair lit by a hard spotlight, rows of empty dark seats, a black leather jacket hanging on the chair back, ominous red light from the side.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bba6-f115-73d2-8087-a98abe302879",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f115-73d2-8087-a98abe302879/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f115-73d2-8087-a98abe302879/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bba6-f115-73d2-8087-a98abe302879",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f115-73d2-8087-a98abe302879/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f115-73d2-8087-a98abe302879/cancel",
+  "expires_at": "2026-11-15T14:55:11.524911+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bba6-f115-73d2-8087-a98abe302879/5a6a2bfe-3d74-4a58-86cc-5d839d24b3eb.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "scripts/blog/media/lib/il_Y261108n_hearing.jpeg"
+}

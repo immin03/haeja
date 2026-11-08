@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261108n_jacket_capitol",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic, dark political-thriller documentary look, deep navy and black color grade with strong blood-red accent light, dramatic rim light, film grain, vertical composition with the subject centered. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark. No face visible: any person is an anonymous silhouette seen strictly from behind, head in deep shadow, not resembling any real person. Scene: An anonymous man in a black leather jacket seen from behind at night, standing at the bottom of huge white marble steps leading up to a domed government building, red and blue light on wet stone, tense mood.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bba6-f10c-7ee2-a49c-f50fc046b1c0",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f10c-7ee2-a49c-f50fc046b1c0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f10c-7ee2-a49c-f50fc046b1c0/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bba6-f10c-7ee2-a49c-f50fc046b1c0",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bba6-f10c-7ee2-a49c-f50fc046b1c0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bba6-f10c-7ee2-a49c-f50fc046b1c0/cancel",
+  "expires_at": "2026-11-15T14:55:15.794948+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bba6-f10c-7ee2-a49c-f50fc046b1c0/fc1ef308-43f7-4dcb-9b0f-ae872293915c.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "scripts/blog/media/lib/il_Y261108n_jacket_capitol.jpeg"
+}
