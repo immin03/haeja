@@ -28,10 +28,12 @@ if not d.get("passed") or d.get("sha256")!=h: print("음성 관문 도장이 이
 print("음성 관문 도장 확인")
 CHK
 # ★ 썸네일 검사 (2026-11-06: 13편에 중간 장면 사진이 썸네일로 올라간 사고) — 넘긴 jpg 가 영상 0초 첫 화면과 같아야 올린다
-python3 - "$F" "$J" <<'CHK' || exit 1
-import subprocess,sys,tempfile,os
+python3 - "$F" "$J" "$ID" <<'CHK' || exit 1
+import re,subprocess,sys,tempfile,os
 from PIL import Image, ImageChops, ImageStat
-v,j=sys.argv[1:]; f=os.path.join(tempfile.mkdtemp(),"f0.jpg")
+v,j,i=sys.argv[1:]
+if not re.match(r"ep\d+",i): print("썸네일 첫 화면 검사 건너뜀(데일리 쇼츠 전용 규칙 — 소개 쇼츠·롱폼은 별도 표지)"); sys.exit(0)
+f=os.path.join(tempfile.mkdtemp(),"f0.jpg")
 subprocess.run(["ffmpeg","-v","error","-y","-ss","0","-i",v,"-frames:v","1",f],check=True)
 a=Image.open(f).convert("L").resize((108,192)); b=Image.open(j).convert("L").resize((108,192))
 d=ImageStat.Stat(ImageChops.difference(a,b)).mean[0]

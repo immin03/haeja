@@ -1,5 +1,5 @@
 > ★ 음성 관문 (2026-11-09 대표 승인, 11/8 데일리 쇼츠 음성 사고 후속) — 롱폼·소개 쇼츠 공통, 건너뛰기 없음
-> 1. 롱폼 완성본: `python3 voice_gate_long.py <spec_epNN.json> <완성.mp4>` · 소개 쇼츠: `python3 voice_gate_long.py --teaser <spec_epNNp.json> <유튜브.mp4> <인스타.mp4>`
+> 1. 롱폼 완성본: `python3 voice_gate_long.py <spec_epNN.json> <완성.mp4>` · 소개 쇼츠: `python3 voice_gate_long.py <spec_epNNp.json> <유튜브.mp4> <인스타.mp4>`
 > 2. 통과하면 `<mp4>.voiceqa.json` 도장이 생긴다. `review_up.py` 는 도장 없으면 거부, `ed-yt-long` 함수는 start 에 `voice_qa`(도장의 `ed_posts_voice_qa` 값) 없으면 거부, ed_posts(lt05~) 도 `voice_qa` 없으면 거부.
 > 3. 불통과 줄은 다시 녹음하거나 문장을 바꿔 다시 렌더한다. 도장을 손으로 만들지 않는다. 재인코딩하면 도장이 무효다.
 > 4. 유튜브 업로드는 `emperor/yt_up.sh` 를 쓴다 (도장 확인과 voice_qa 전달이 들어 있다).

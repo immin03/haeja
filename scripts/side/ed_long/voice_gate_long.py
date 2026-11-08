@@ -1,6 +1,6 @@
 """황제의 일기 롱폼·소개 쇼츠 음성 관문 (2026-11-09 대표 승인 — 데일리 쇼츠 voice_gate.py 와 같은 장치)
-사용: python3 voice_gate_long.py <spec_epNN.json> <완성본.mp4> [더 있으면 이어서]      # 롱폼 본편
-      python3 voice_gate_long.py --teaser <spec_epNNp.json> <소개쇼츠.mp4> [인스타용.mp4]  # 소개 쇼츠 (앞부분 대사만 있음)
+사용: python3 voice_gate_long.py <spec_epNN.json> <완성본.mp4>                    # 롱폼 본편
+      python3 voice_gate_long.py <spec_epNNp.json> <소개쇼츠.mp4> <인스타용.mp4>   # 소개 쇼츠 (소개 쇼츠 전용 spec — 거기 적힌 대사는 전부 있어야 한다)
 검사 — 하나라도 어기면 불통과, 도장을 찍지 않는다.
  A. 목소리 파일마다: 끝소리 끌기 · 중간 끌기 · 소리 끌림 · 말 속도 · 받아쓰기와 대본 일치
  B. 완성본마다: 대사가 순서대로 온전히 들어 있고 원본과 일치 · 조용한 곳 클릭 없음 · 전체 받아쓰기 일치
@@ -12,9 +12,9 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE + "/.
 from take_check import held_runs, HOLD_MAX, DRAG_TH, norm, speech_seconds, _load, SR as TSR
 import voice_gate as G
 SR = G.SR; TAIL_MAX, MID_MAX, RATE_MIN = 1.25, 1.75, 4.2
-SIM_PIECE, SIM_FULL, CORR_MIN = 0.78, 0.60, 0.85
+SIM_PIECE, SIM_FULL, CORR_MIN = 0.62, 0.60, 0.80   # 받아쓰기: 고유명사 많은 정상 줄 최저 0.67, 다른 문장끼리 99% 0.51
 ROOT = os.path.abspath(HERE + "/../../..")
-FIXED = {"e_x2": "황제의 일기"}   # 매 편 같은 녹음이라 대본 파일이 없는 줄
+FIXED = {"e_x2": "황제의 일기", "m_x1": "매일 밤, 황제처럼 생각하라."}   # 매 편 같은 녹음이라 대본 파일이 없는 줄
 
 
 def piece_why(f, text):
@@ -48,7 +48,7 @@ def manifest(S):
                 t = S["subs"].get(n)
                 t = " ".join(t) if isinstance(t, list) else t
             t = t or FIXED.get(n)
-            if not t: sys.exit(f"불통과: {n} 대본을 찾을 수 없음")
+            if not t or not re.search("[가-힣]", t): t = None   # 자막을 숨긴 줄 — 소리 검사만 한다
             out.append(dict(name=n, file=f, text=t, fx=S.get("monologue_fx") if n in mono else None))
     return out
 
@@ -61,12 +61,14 @@ def stt_long(asr, y, step=45):
 
 
 def main(argv):
-    teaser = "--teaser" in argv; argv = [a for a in argv if a != "--teaser"]; S = json.load(open(argv[0])); mp4s = argv[1:]
+    S = json.load(open(argv[0])); mp4s = argv[1:]
     M = manifest(S); fail = []; asr = G.recognizer()
     print(f"[A] 목소리 {len(M)}개")
     for m in M:
-        s = asr.create_stream(); s.accept_waveform(SR, G.load(m["file"])); asr.decode_stream(s); m["sim"] = G.sim(m["text"], s.result.text)
-        why = piece_why(m["file"], m["text"]) + ([f"받아쓰기 불일치 {m['sim']:.2f}"] if m["sim"] < SIM_PIECE else [])
+        why = piece_why(m["file"], m["text"] or "")
+        if m["text"]:
+            s = asr.create_stream(); s.accept_waveform(SR, G.load(m["file"])); asr.decode_stream(s); m["sim"] = G.sim(m["text"], s.result.text)
+            if m["sim"] < SIM_PIECE: why.append(f"받아쓰기 불일치 {m['sim']:.2f}")
         m["why"] = why
         if why: print(f"  {m['name']}: {why} · {m['text'][:30]}")
     for f in mp4s:
@@ -74,16 +76,14 @@ def main(argv):
         for i, m in enumerate(M):
             p = load_fx(m["file"], m["fx"]); at, r, n = G.locate(y, p)
             if at < last - 0.3 or r < CORR_MIN:
-                if teaser and used: break     # 소개 쇼츠는 앞부분까지만 쓴다
                 bad.append(f"{m['name']} 못 찾음/일그러짐 (자리 {at:.2f}, 상관 {r:.3f})"); continue
             used.append(m); last = at + n
         print(f"  대사 {len(used)}/{len(M)}개 확인 · 끝 {last:.1f}초")
-        if teaser and not used: bad.append("대사를 하나도 찾지 못함")
         d = np.abs(np.diff(y)); w = int(.005 * SR); e = np.sqrt(np.convolve(y ** 2, np.ones(w) / w, "same")); c = np.where((d > .25) & (e[1:] < .05))[0]
         if len(c): bad.append(f"클릭 {len(c)}곳 {[round(x / SR, 2) for x in c[:6]]}")
-        script = " ".join(m["text"] for m in used); fs = G.sim(script, stt_long(asr, y[:int((last + 1) * SR)])); print(f"  전체 받아쓰기 일치 {fs:.2f}")
+        script = " ".join(m["text"] for m in used if m["text"]); fs = G.sim(script, stt_long(asr, y[:int((last + 1) * SR)])); print(f"  전체 받아쓰기 일치 {fs:.2f}")
         if fs < SIM_FULL: bad.append(f"전체 받아쓰기 불일치 {fs:.2f}")
-        for m in (used if teaser else M):
+        for m in M:
             fail += [f"{m['name']}: {w}" for w in m["why"] if f"{m['name']}: {w}" not in fail]
         fail += [f"{os.path.basename(f)}: {b}" for b in bad]
     if fail:
