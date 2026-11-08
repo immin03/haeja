@@ -368,7 +368,7 @@ svg text.tr-endl{font-size:11px;fill:var(--ink2);font-weight:600}
 .cal-m{padding:14px}
 .cal-mh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .cal-mh b{font-size:16px;margin-right:auto;order:-1}
-.cal-mh .soc-btn{padding:6px 11px}
+.cal-mh .soc-btn{padding:6px 11px}.cal-mh .soc-btn:disabled{opacity:.4;cursor:default}.sl-pg{font-size:13px;font-weight:700;color:var(--muted);margin-right:4px}
 .cal-lgs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .cal-lg{display:inline-flex;align-items:center;gap:5px;font:inherit;font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer}
 .cal-lg i{width:8px;height:8px;border-radius:50%}
@@ -2128,18 +2128,26 @@ function slotFlag(d, reg, iso, urgent){
   const hm = new Date(Date.parse(iso) + 9 * 3600e3).toISOString().slice(11, 16), near = Math.abs(+hm.slice(0, 2) * 60 + +hm.slice(3) - 1170) <= 15;
   return near ? (reg ? '' : '특별 편성') : '긴급 편성';
 }
+/* 2026-11-09 대표님: "전에 것도 이전·다음으로 왔다갔다하면서 볼 수 있게, 과거 기록이 다 사라진다"
+   SLOT_WK = 이번 주에서 몇 주 옮겨 보는지. 한 번에 4주씩(앞뒤 화면이 겹쳐 맥락이 끊기지 않게). 지난 기록은 yt_long_history 로 30일 넘어도 전부 가져온다 */
+let SLOT_WK = 0;
 function ytSlots(weeks = 8){
   const today = kstDay(), now = Date.now(), addD = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
   const hmOf = iso => new Date(Date.parse(iso) + 9 * 3600e3).toISOString().slice(11, 16);
-  const L = (YT.list || []).filter(y => y.kind === 'long' && y.scheduled_at && !['hold', 'stale', 'deleted'].includes(y.status));
+  if(YT.hist === undefined){ YT.hist = null; sb.rpc('yt_long_history').then(r => { YT.hist = r.error ? [] : (r.data || []); render(); }); }
+  const listIds = new Set((YT.list || []).map(y => y.id));
+  const L = [...(YT.list || []), ...(YT.hist || []).filter(y => !listIds.has(y.id))].filter(y => y.kind === 'long' && y.scheduled_at && !['hold', 'stale', 'deleted', 'rejected'].includes(y.status));
   const P = (YT.plans || []).filter(p => ['approved', 'producing'].includes(p.status) && p.target_at);
   const urgentDays = new Set((YT.plans || []).filter(p => p.urgent && p.target_at && p.status !== 'proposed').map(p => kd(p.target_at)));
   const pick = (YT.plans || []).filter(p => p.status === 'proposed').sort((a, b) => (+a.rank || 99) - (+b.rank || 99));
   const TT = pick.filter(p => p.tentative_at);   // 가안 (2026-11-04 22:24 대표님: "너의 추천에 따라 가안으로 선택해놔도 돼")
-  if(YT.days === undefined){ YT.days = null; sb.rpc('yt_special_days', { p_days: 63 }).then(r => { YT.days = r.error ? [] : (r.data || []); render(); }); }
+  if(YT.days === undefined){ YT.days = null; sb.rpc('yt_special_days', { p_days: 400 }).then(r => { YT.days = r.error ? [] : (r.data || []); render(); }); }
   const SP = YT.days || [];
   const opts = (skip, ph) => `<option value="">${ph}</option>` + pick.filter(p => p.id !== skip).map(p => `<option value="${esc(p.id)}">${esc(p.doc_title || p.title || p.id)}${p.tentative_at ? ` (가안 ${+p.tentative_at.slice(5, 7)}/${+p.tentative_at.slice(8)})` : ''}</option>`).join('');
-  const dow0 = new Date(today + 'T00:00:00Z').getUTCDay(), mon = addD(today, -((dow0 + 6) % 7));
+  const dow0 = new Date(today + 'T00:00:00Z').getUTCDay(), thisMon = addD(today, -((dow0 + 6) % 7)), mon = addD(thisMon, SLOT_WK * 7), lastDay = addD(mon, weeks * 7 - 1);
+  const firstRec = L.length ? L.reduce((m, y) => { const k = kd(y.scheduled_at); return k < m ? k : m; }, '9999') : today, hasPrev = mon > firstRec;
+  const md = d => `${+d.slice(5, 7)}/${+d.slice(8)}`;
+  const seen = L.filter(y => { const k = kd(y.scheduled_at); return k >= mon && k <= lastDay; });
   const flagH = f => f ? `<span class="stt ex${f === '특별 편성' ? ' sc' : ''}">${f}</span>` : '';
   let html = '', empty = 0, next = null;
   for(let w = 0; w < weeks; w++){
@@ -2163,7 +2171,7 @@ function ytSlots(weeks = 8){
         row += `<div class="sl-c mk${f === '긴급 편성' ? ' xu' : f ? ' xs' : ''}${td}">${lab(hmOf(pl.target_at))}<div class="tg"><span class="stt">${pl.status === 'producing' ? '제작 중' : '기획 확정 · 제작 예정'}</span>${flagH(f)}</div><a class="tl" href="#youtube/${pl.status === 'producing' ? 'making' : 'plan'}">${esc(pl.doc_title || pl.title || pl.id)}</a>${pl.status === 'approved' && pick.length ? `<select data-slot-swap="${d}" data-old="${esc(pl.id)}">${opts(pl.id, '다른 기획안으로 바꾸기')}</select>` : ''}${spH}</div>`;
       } else if(d >= today && tt){
         row += `<div class="sl-c tt${td}">${lab('19:30')}<span class="stt">가안</span><a class="tl" href="#youtube/plan">${esc(tt.doc_title || tt.title || tt.id)}</a>${tt.tentative_why ? `<span class="why">${esc(tt.tentative_why)}</span>` : ''}<div class="bt"><button type="button" class="soc-btn" data-slot-ok="${d}" data-id="${esc(tt.id)}">확정</button><button type="button" class="soc-btn ghost" data-slot-x="${esc(tt.id)}">빼기</button></div><select data-slot-tt="${d}" data-old="${esc(tt.id)}">${opts(tt.id, '다른 기획안으로 바꾸기')}</select>${spH}</div>`;
-      } else if(!reg){   // 월·수·금에 나간 것이 없으면 조용히 날짜만 (빈 칸으로 세지 않는다)
+      } else if(!reg || d < SLOT_FROM){   // 월·수·금에 나간 것이 없으면(정규 요일이 바뀐 11/5 이전도 빈 칸으로 세지 않는다) 조용히 날짜만 (빈 칸으로 세지 않는다)
         row += `<div class="sl-c off${sp.length ? '' : ' blank'}${td}">${lab('')}${spH}</div>`;
       } else if(d >= today){
         empty++; if(!next) next = d;
@@ -2173,12 +2181,13 @@ function ytSlots(weeks = 8){
     html += `<div class="sl-wk">${row}</div>`;
   }
   const hd = ['월', '화', '수', '목', '금', '토', '일'].map((x, i) => `<span class="${[1, 3, 5, 6].includes(i) ? 'on' : ''}">${x}</span>`).join('');
-  return `<div class="card cal-m" id="yt-slots"><div class="cal-mh"><b>롱폼 편성표 · 정규 화·목·토·일 19:30</b></div>
-    <div class="sl-sum">${empty ? `앞으로 ${weeks}주 중 <b class="bad">${empty}칸이 비어 있습니다</b>${TT.length ? ` · '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다` : ''} · 가장 가까운 빈 날 ${+next.slice(5, 7)}/${+next.slice(8)}(${DOW[new Date(next + 'T00:00:00Z').getUTCDay()]}) — 금색 칸에서 기획안을 고르면 바로 배정됩니다.` : `앞으로 ${weeks}주 편성이 모두 찼습니다.${TT.length ? ` '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다.` : ''}`}</div>
+  return `<div class="card cal-m" id="yt-slots"><div class="cal-mh"><b>롱폼 편성표 · 정규 화·목·토·일 19:30</b><span class="sl-pg">${md(mon)} ~ ${md(lastDay)}</span><button type="button" class="soc-btn ghost" data-slot-pg="-4"${hasPrev ? '' : ' disabled title="이전 기록이 없습니다"'}>← 이전</button>${SLOT_WK ? '<button type="button" class="soc-btn ghost" data-slot-pg="0">이번 주</button>' : ''}<button type="button" class="soc-btn ghost" data-slot-pg="4">다음 →</button></div>
+    <div class="sl-sum">${SLOT_WK ? `${md(mon)}~${md(lastDay)} · 이 기간 롱폼 <b>${seen.length}편</b>${seen.filter(y => y.status === 'uploaded' && Date.parse(y.scheduled_at) <= now).length ? ` (공개 완료 ${seen.filter(y => y.status === 'uploaded' && Date.parse(y.scheduled_at) <= now).length}편)` : ''}${empty ? ` · 비어 있는 칸 <b class="bad">${empty}칸</b>` : ''}` : empty ? `앞으로 ${weeks}주 중 <b class="bad">${empty}칸이 비어 있습니다</b>${TT.length ? ` · '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다` : ''} · 가장 가까운 빈 날 ${+next.slice(5, 7)}/${+next.slice(8)}(${DOW[new Date(next + 'T00:00:00Z').getUTCDay()]}) — 금색 칸에서 기획안을 고르면 바로 배정됩니다.` : `앞으로 ${weeks}주 편성이 모두 찼습니다.${TT.length ? ` '가안' 칸 ${TT.length}개는 확정을 눌러야 제작됩니다.` : ''}`}</div>
     <div class="sl-lg"><span class="stt ex">긴급 편성</span>19:30을 벗어나 공개하거나 긴급으로 제작한 편<span class="stt ex sc">특별 편성</span>월·수·금 19:30에 공개하는 편</div>
     <div class="sl-hd">${hd}</div>${html}</div>`;
 }
 function bindSlots(){
+  document.querySelectorAll('[data-slot-pg]').forEach(b => b.onclick = () => { const n = +b.dataset.slotPg; SLOT_WK = n ? SLOT_WK + n : 0; render(); });
   const nm = id => { const p = (YT.plans || []).find(x => x.id === id) || {}; return p.doc_title || p.title || id; };
   /* 가안 칸에서 다른 기획안 고르기 → 가안만 바꾼다 (제작은 확정을 눌러야 시작) */
   document.querySelectorAll('[data-slot-tt]').forEach(sel => sel.onchange = async () => {
