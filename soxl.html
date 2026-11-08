@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SOXL 물타기 전에 · 밸류노트</title>
+<meta name="description" content="SOXL은 반도체 종목들을 3배로 따라갑니다. 엔비디아·브로드컴·AMD 등 주요 종목이 지금 비싼 구간인지 싼 구간인지, 워렌 버핏·그레이엄 기준으로 매일 계산한 점수로 정리했습니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="밸류노트 ValueNote">
+<meta property="og:title" content="SOXL 물타기 전에, 안에 담긴 종목부터 보세요">
+<meta property="og:description" content="엔비디아·브로드컴·AMD 등 SOXL 주요 종목의 워렌 버핏 기준 점수와 적정 주가를 한 페이지에 정리했습니다.">
+<meta property="og:image" content="https://www.valuenote.co.kr/og.png">
+<meta property="og:url" content="https://www.valuenote.co.kr/soxl">
+<meta property="og:locale" content="ko_KR">
+<link rel="canonical" href="https://www.valuenote.co.kr/soxl">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=6">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
+<meta name="theme-color" content="#0A1730">
+<link rel="preload" href="/fonts/montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}
+@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
+:root{
+  --navy:#0A1730; --navy2:#0E2342; --gold:#EADBB9; --gold2:#C9AF7A;
+  --ivory:#F7F2E8; --paper:#FBF8F2; --ink:#14213A; --muted:#5D6779; --line:#E6DFD1;
+  --good:#1F8A5B; --bad:#DB4B63; --warn:#C98A12;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"VN Arrow","SUIT Variable","SUIT",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* 로고 */
+.wm{font-family:"Montserrat",sans-serif;font-weight:800;letter-spacing:-.01em;line-height:1;color:#fff;text-decoration:none;font-size:20px;display:inline-flex;flex-direction:column;align-items:center}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid var(--gold)}
+.wm i{font-style:normal;color:var(--gold)}
+.wm small{display:block;margin-top:.32em;font-family:"SUIT Variable",sans-serif;font-weight:700;font-size:.5em;letter-spacing:.22em;padding-left:.22em;color:var(--gold)}
+
+/* 첫 화면 */
+.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(234,219,185,.2) 0,rgba(234,219,185,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:18px 0 40px}
+.hero .wm{margin-bottom:34px}
+.eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--gold)}
+.hero h1{margin:10px 0 14px;font-size:31px;line-height:1.3;font-weight:850;letter-spacing:-.02em;color:#fff}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{margin:0;font-size:16px;color:rgba(247,242,232,.84)}
+.hero p b{color:#fff}
+.stat{display:flex;gap:10px;margin-top:22px}
+.stat div{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(234,219,185,.22);border-radius:14px;padding:12px 14px}
+.stat small{display:block;font-size:12px;color:rgba(247,242,232,.6);font-weight:700}
+.stat b{display:block;font-size:22px;font-weight:850;color:#fff;letter-spacing:-.01em}
+.stat b.gd{color:var(--gold)}
+
+/* 본문 */
+section{padding:40px 0 8px}
+.no{font-family:"Montserrat",sans-serif;font-size:13px;color:var(--gold2);letter-spacing:.06em}
+h2{margin:6px 0 12px;font-size:23px;line-height:1.38;font-weight:850;letter-spacing:-.015em}
+section p{margin:0 0 14px;font-size:16px;color:#2A3550}
+section p b{color:var(--ink)}
+.note{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* 종목 표 */
+.tbl{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:6px}
+.tbl .hd,.tbl a{display:grid;grid-template-columns:1fr 58px 104px;align-items:center;gap:8px;padding:12px 16px}
+.tbl .hd{background:#F4EFE4;font-size:12px;font-weight:800;color:var(--muted)}
+.tbl .hd span:nth-child(n+2){text-align:right}
+.tbl a{text-decoration:none;border-top:1px solid var(--line)}
+.tbl a:active{background:#FAF6EE}
+.tbl .nm b{display:block;font-size:15.5px;font-weight:800}
+.tbl .nm small{display:block;font-size:12px;color:var(--muted)}
+.tbl .sc{text-align:right;font-size:19px;font-weight:850}
+.tbl .sc i{font-style:normal;font-size:12px;font-weight:700;color:var(--muted)}
+.tbl .gp{text-align:right;font-size:13px;font-weight:800}
+.tbl .gp small{display:block;font-size:11.5px;font-weight:600;color:var(--muted)}
+.up{color:var(--bad)} .ok{color:var(--good)}
+.tbl .more{display:block;text-align:center;padding:13px;font-size:14px;font-weight:800;color:var(--navy);background:#FBF8F2;border-top:1px solid var(--line)}
+.sum{margin-top:14px;background:var(--navy);color:var(--ivory);border-radius:16px;padding:16px 18px;font-size:15px}
+.sum b{color:var(--gold)}
+
+/* 점검 목록 */
+.chk{list-style:none;margin:6px 0 0;padding:0;counter-reset:c}
+.chk li{position:relative;padding:16px 16px 16px 58px;background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:10px;counter-increment:c}
+.chk li::before{content:counter(c);position:absolute;left:16px;top:16px;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-family:"Montserrat",sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center}
+.chk b{display:block;font-size:16px;font-weight:850;margin-bottom:4px}
+.chk span{font-size:14.5px;color:#3A4560}
+
+/* 영상 */
+.yt{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;text-decoration:none}
+.yt img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;flex:none;background:#ddd}
+.yt b{display:block;font-size:14.5px;line-height:1.45}
+.yt small{font-size:12.5px;color:var(--muted)}
+
+/* 마지막 */
+.end{margin:40px 0 0;background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);padding:36px 0 44px}
+.end h2{color:#fff}
+.end p{color:rgba(247,242,232,.84);font-size:15.5px;margin:0 0 20px}
+.btn{display:flex;align-items:center;justify-content:center;height:54px;border-radius:14px;font-weight:850;font-size:16px;text-decoration:none;background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy)}
+.end small{display:block;margin-top:14px;font-size:12px;color:rgba(247,242,232,.55)}
+@media (max-width:380px){.hero h1{font-size:27px}.tbl .hd,.tbl a{grid-template-columns:1fr 48px 92px;padding:12px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <a class="wm" href="/start?utm_source=soxl"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
+    <div class="eyebrow">SOXL 보유자를 위한 정리</div>
+    <h1>SOXL 물타기 전에,<br><em>안에 담긴 종목</em>부터 보세요</h1>
+    <p>SOXL은 반도체 지수를 <b>하루 3배</b>로 따라가는 상품입니다. 그래서 반등의 속도도 결국 <b>엔비디아·브로드컴·AMD 같은 종목들이 지금 비싼지, 싼지</b>에 달려 있습니다.</p>
+    <div class="stat">
+      <div><small>고점</small><b>300달러</b></div>
+      <div><small>지금</small><b>46달러</b></div>
+      <div><small>고점 대비</small><b class="gd">-85%</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="no">01</div>
+  <h2>2022년에도 한 번 있었던 일입니다</h2>
+  <p>SOXL은 2022년에도 고점에서 약 90% 빠졌습니다. 그때 다시 올라온 힘은 SOXL 자체가 아니라, 그 안에 담긴 <b>반도체 회사들의 이익</b>이었습니다. 이익이 다시 늘기 시작하자 지수가 먼저 움직였고, 3배 상품은 그 움직임을 크게 키웠습니다.</p>
+  <p>그래서 지금 확인해야 할 것도 같습니다. <b>담긴 회사들이 지금 이익에 비해 얼마나 비싼 가격에 거래되고 있는지</b>입니다.</p>
+</section>
+
+<section>
+  <div class="no">02</div>
+  <h2>SOXL 주요 종목, 지금 몇 점일까요?</h2>
+  <p>워렌 버핏·벤저민 그레이엄의 기준으로 재무와 가격을 함께 본 점수입니다. 종목을 누르면 적정 주가 계산 과정을 볼 수 있습니다.</p>
+  <div class="tbl" id="tbl">
+    <div class="hd"><span>종목</span><span>점수</span><span>지금 가격</span></div>
+  </div>
+  <div class="note" id="asof">매일 같은 공식으로 다시 계산합니다.</div>
+  <div class="sum" id="sum" hidden></div>
+</section>
+
+<section>
+  <div class="no">03</div>
+  <h2>물타기 전에 점검할 3가지</h2>
+  <ol class="chk">
+    <li><b>주요 종목의 가격 점수</b><span>위 표에서 가격 점수가 낮은 종목이 많다면, 반등이 와도 이미 높은 기대가 주가에 담겨 있어 탄력이 약할 수 있습니다. 가격 점수가 올라오는 시점이 더 안전한 구간입니다.</span></li>
+    <li><b>3배 상품은 오르내림만 반복해도 줄어듭니다</b><span>지수가 제자리여도 크게 흔들리면 3배 상품은 원금이 깎입니다. 한 번에 넣기보다 나눠서 넣고, 넣는 조건을 미리 정해 두는 편이 낫습니다.</span></li>
+    <li><b>전체 자산에서의 비중</b><span>SOXL이 다시 반토막 나도 생활과 다른 투자가 흔들리지 않는 비중인지 먼저 확인하세요. 물타기는 평단을 낮추지만, 비중도 함께 키웁니다.</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="no">04</div>
+  <h2>영상으로 다시 보기</h2>
+  <a class="yt" href="https://www.youtube.com/watch?v=L3Y9BkSDNRM" target="_blank" rel="noopener" data-ev="yt">
+    <img src="https://i.ytimg.com/vi/L3Y9BkSDNRM/mqdefault.jpg" alt="" loading="lazy">
+    <div><b>SOXL 주가 전망, 300달러에서 46달러 → 물타기 해도 될까?</b><small>밸류노트 유튜브 · 9분</small></div>
+  </a>
+</section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <h2>종목 하나하나,<br>더 깊이 분석할 수 있습니다</h2>
+    <p>밸류노트는 600+ 기업의 점수와 적정 주가를 워렌 버핏·그레이엄의 기준으로 매일 계산합니다. 엔비디아·브로드컴처럼 관심 있는 종목을 담아 두면, 가격이 적정 구간에 들어올 때 확인할 수 있습니다.</p>
+    <a class="btn" href="/?kakao=1&amp;from=soxl&amp;watch=NVDA&amp;utm_source=yt-soxl" data-ev="cta">밸류노트에서 더 분석하기 →</a>
+    <small>이 페이지의 점수와 적정 주가는 계산 결과이며, 매수·매도 권유나 목표 주가가 아닙니다. 늘 맞지는 않습니다.</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+var $ = function(s){ return document.querySelector(s); };
+var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+var num = function(v){ return typeof v === 'number' && isFinite(v); };
+
+/* ---------- 방문 기록 (/start와 같은 events 표) ---------- */
+var EV_URL = 'https://msjbrwyzkiueqnzjeicm.supabase.co/rest/v1/events', once = {}, T0 = Date.now();
+var EV_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zamJyd3l6a2l1ZXFuemplaWNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTk0NTcsImV4cCI6MjEwNzQzNTQ1N30.RIq2MRW8bwHQUO_dPeIarujjWcYD_dXn06icr1Mpmuw';
+function sid(){ try{ var v = localStorage.getItem('vn-sid'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,32); localStorage.setItem('vn-sid', v); } return v; }catch(_){ return 'nosid'; } }
+function device(){ var u = navigator.userAgent; var os = /iPhone|iPad|iPod/.test(u) ? 'iOS' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : '기타'; return (/Mobi|iPhone|Android/.test(u) ? '모바일' : 'PC') + ' · ' + os; }
+var SKIP = (function(){ try{ if(localStorage.getItem('vn-staff') === '1') return true; }catch(_){} return /^(localhost|127\.|192\.168\.)/.test(location.hostname) || navigator.webdriver || /bot|crawl|spider|headless|preview|facebookexternalhit/i.test(navigator.userAgent); })();
+var REF = (function(){ var q = new URLSearchParams(location.search); var r = q.get('utm_source') || q.get('ref') || 'soxl'; try{ if(!localStorage.getItem('vn-ref')) localStorage.setItem('vn-ref', r); }catch(_){} return r; })();
+function send(kind, path){ if(SKIP) return; try{ fetch(EV_URL, { method:'POST', keepalive:true, headers:{ 'apikey':EV_KEY, 'Authorization':'Bearer ' + EV_KEY, 'Content-Type':'application/json', 'Prefer':'return=minimal' }, body: JSON.stringify({ kind:kind, sid:sid(), path:path, ref:REF, device:device() }) }).catch(function(){}); }catch(_){} }
+function hit(k){ if(once[k]) return; once[k] = 1; send('engage', '/soxl:' + k); }
+send('visit', '/soxl');
+setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
+document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
+
+/* ---------- SOXL 주요 종목 점수 (/c/scores.json + 기업 페이지의 현재가·적정 주가) ---------- */
+var L = ['nvda','avgo','amd','tsm','mu','qcom','txn','amat','lrcx','klac','asml','adi','mrvl','intc'];
+var SHOW = 7;
+var D = null, PX = {};
+function gap(slug){ var p = PX[slug]; if(!p || !(p.pn > 0) || !(p.vn > 0)) return '<span class="gp">–</span>';
+  var x = p.pn / p.vn;
+  var t = x >= 1.5 ? '약 ' + (Math.round(x * 10) / 10) + '배 비쌈' : x > 1.02 ? Math.round((x - 1) * 100) + '% 비쌈' : x < .98 ? Math.round((1 - x) * 100) + '% 쌈' : '적정';
+  return '<span class="gp ' + (x > 1.02 ? 'up' : 'ok') + '">' + t + '<small>' + esc(p.px) + ' → ' + esc(p.iv) + '</small></span>'; }
+function draw(all){
+  if(!D) return;
+  var rows = L.filter(function(s){ return D.c[s] && num(D.c[s][1]); });
+  var list = all ? rows : rows.slice(0, SHOW);
+  var h = '<div class="hd"><span>종목</span><span>점수</span><span>현재가 → 적정 주가</span></div>';
+  h += list.map(function(s){ var r = D.c[s];
+    return '<a href="/c/' + s + '" data-ev="co-' + s + '"><span class="nm"><b>' + esc(r[0]) + '</b><small>재무 ' + (num(r[2]) ? r[2] : '–') + ' · 가격 ' + (num(r[3]) ? r[3] : '–') + '</small></span>' +
+      '<span class="sc">' + (num(r[1]) ? r[1] : '–') + '<i>점</i></span>' + gap(s) + '</a>'; }).join('');
+  if(!all && rows.length > SHOW) h += '<a class="more" href="#" id="more" data-ev="more">나머지 ' + (rows.length - SHOW) + '개 종목도 보기 ↓</a>';
+  $('#tbl').innerHTML = h;
+  var m = $('#more'); if(m) m.addEventListener('click', function(e){ e.preventDefault(); draw(true); });
+  if(D.date) $('#asof').textContent = D.date.replace(/-/g, '.') + ' 기준 · 매일 같은 공식으로 다시 계산합니다.';
+  summary(rows);
+}
+function summary(rows){
+  var sc = rows.map(function(s){ return D.c[s][3]; }).filter(num);
+  if(sc.length < 5) return;
+  var low = sc.filter(function(v){ return v < 30; }).length;
+  var q = rows.map(function(s){ return D.c[s][2]; }).filter(num), qh = q.filter(function(v){ return v >= 80; }).length;
+  $('#sum').innerHTML = '주요 종목 ' + sc.length + '개 중 <b>' + low + '개</b>는 가격 점수가 30점 아래입니다. 재무 점수 80점 이상인 회사는 <b>' + qh + '개</b>입니다. 회사는 튼튼하지만 가격에는 아직 기대가 많이 담겨 있다는 뜻이라, 물타기는 한 번에 하기보다 가격 점수가 올라오는 것을 보며 나눠서 하는 편이 낫습니다.';
+  if(low < sc.length / 2) $('#sum').innerHTML = '주요 종목 ' + sc.length + '개 중 가격 점수가 30점 아래인 종목은 <b>' + low + '개</b>뿐입니다. 재무 점수 80점 이상인 회사는 <b>' + qh + '개</b>입니다. 회사의 체력에 비해 가격 부담이 크지 않은 구간이라는 뜻입니다.';
+  $('#sum').hidden = false;
+}
+var won = function(s){ return Number(String(s).replace(/[^\d.]/g, '')); };
+fetch('/c/scores.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){
+  if(!j || !j.c) return; D = j; draw(false);
+  L.forEach(function(s){ if(!D.c[s]) return;
+    fetch('/c/' + s, { cache:'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
+      var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
+      var px = /현재가 ([$₩]?[\d,.]*\d)(원?)/.exec(d), iv = /적정 주가 ([$₩]?[\d,.]*\d)(원?)/.exec(d);
+      if(px && iv){ PX[s] = { px: px[1] + px[2], iv: iv[1] + iv[2], pn: won(px[1]), vn: won(iv[1]) }; draw(!!$('#tbl .more') ? false : $('#tbl').children.length > SHOW + 1); }
+    }).catch(function(){}); });
+}).catch(function(){});
+})();
+</script>
+</body>
+</html>
