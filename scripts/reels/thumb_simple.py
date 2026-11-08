@@ -32,7 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 FD = os.path.join(HERE, "fonts")
 
-FULL_MEAN = 52.9   # 전체 사진 평균 밝기 목표 (현대차 표지 Y261108k 기준)
+FULL_MEAN = 48.9   # 전체 사진 평균 밝기 목표 (현대차 표지 Y261108k 기준)
 BAND_MEAN, BAND_P90 = 76.5, 152.0   # 사진 띠 자동 음영 기준 (현대차 표지 Y261108k 밝기 기준, 2026-11-09)
 IVORY = (246, 241, 232); GOLD = (240, 208, 140); GREY = (176, 186, 206)
 RED = (255, 77, 109); GREEN = (61, 245, 160)
