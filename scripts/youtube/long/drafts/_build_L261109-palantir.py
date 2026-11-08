@@ -147,7 +147,7 @@ M((7,5), ["vsatellite_46148", "space_45036", "vunitedstates_26828"], BARS("민�
 M((7,6), ["commons_openaihq_1", "space_23203", "vsemiconductor_1139"], [IC("server", "AI 모델사 직접 거래", at=0.35)], src="3분기 실적 설명회")
 M((7,7), ["commons_seoulnight_3", "L261105h_safeempty", "commons_bankvault_1"], [PU("약 520조 원", "시가총액 · 11/6 종가, 1,355원 환산", at=0.55)], src="StockAnalysis · KB Think 2026-11-06")
 M((7,8), ["commons_goldcert_1", "vsilhouette_34041", "coins_47017_a", "commons_stockcert_1"], [PU("113배", "주가 ÷ 1주당 연간 이익 (PER)", at=0.15, color="red", soft=False)], src="StockAnalysis · PER 112.98 (11/6)")
-M((7,9), ["chess_5339", "commons_wafer_3", "commons_chessknight_2"], [P("PER 30배 = 이익 약 3.8배"), TB(["연 성장", "소요 기간"], [["2배", "2년"], ["30%", "5년"]], ["gray", "gold"], at=0.3)], src="계산: 이익 3.8배 기준 · " + FINE)
+M((7,9), ["chess_5339", "commons_padlock_2", "commons_chessknight_2"], [P("PER 30배 = 이익 약 3.8배"), TB(["연 성장", "소요 기간"], [["2배", "2년"], ["30%", "5년"]], ["gray", "gold"], at=0.3)], src="계산: 이익 3.8배 기준 · " + FINE)
 
 # ---------- 창업자 ----------
 T("창업자들이 한 일", "내부자 매도와 의결권")
