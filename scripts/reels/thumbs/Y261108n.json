@@ -3,11 +3,32 @@
  "format": "short",
  "layout": "shorts_big",
  "l1": "젠슨 황 중국 스파이 의혹",
- "l2": "엔비디아 주가 어디까지?",
- "big_label": "미국 하원 비공개 설명 제안일",
- "big": "11월 18일",
+ "l2": "엔비디아 주가 터지나?",
+ "header_w": 1040,
+ "header_y": 250,
+ "chart": {
+  "kind": "line",
+  "pts": [
+   [
+    "10월 6일",
+    239.24
+   ],
+   [
+    "10월 29일",
+    213.66
+   ],
+   [
+    "11월 6일",
+    186.64
+   ]
+  ],
+  "mark": 0,
+  "mark_label": "10월 6일 239달러"
+ },
+ "big_label": "10월 고점 대비 · 11월 6일 종가 187달러",
+ "big": "-22%",
+ "big_size": 340,
  "tone": "down",
  "photo": "il_Y261108n_jacket_capitol.jpeg",
- "photo_full": true,
- "big_size": 240
+ "photo_full": true
 }
