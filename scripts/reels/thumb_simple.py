@@ -420,7 +420,12 @@ def render_v3(spec, out):
     em = spec.get("emblem")
     if spec.get("format", "short") == "short":
         W, H = 1080, 1920; im = background(W, H, .52); o = 60 if ig else 0
-        if spec.get("photo"): _bg_photo(im, spec["photo"], foc, spec.get("photo_opacity", .32))
+        if spec.get("photo") and spec.get("photo_full"):   # 2026-11-08 대표님: "화면에 이미지를 입혀야지" — 은은한 배경 대신 사진이 그대로 보이게, 위쪽 제목 자리만 어둡게
+            from PIL import ImageEnhance
+            ph = ImageEnhance.Brightness(_cover(spec["photo"], W, H, foc, blur=0).convert("RGB")).enhance(spec.get("photo_bright", 1.35)).convert("RGBA")
+            sh = np.zeros((H, W, 4), np.uint8); sh[..., 3] = (np.clip(1.15 - np.linspace(0, 1, H) / .5, 0, .78) * 255).astype(np.uint8)[:, None]
+            ph.alpha_composite(Image.fromarray(sh, "RGBA")); im = ph
+        elif spec.get("photo"): _bg_photo(im, spec["photo"], foc, spec.get("photo_opacity", .32))
         if spec.get("l3"):   # 3줄 제목 (2026-11-01 15:11 대표님: 1줄 흰색 작게 + 2·3줄 밝은 노랑 크게, 검정 외곽선)
             YEL = (255, 216, 77, 255); f1 = fit(spec["l1"], "SemiBold", 80, 960); f2 = fit(spec["l2"], "Heavy", 140, 960); f3 = fit(spec["l3"], "Heavy", 140, 960); s1, s2 = 80, 140
             y = 230 + o; text_shadow(im, (W / 2, y), spec["l1"], f1, (255, 255, 255, 255))

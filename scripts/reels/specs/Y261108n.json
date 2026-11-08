@@ -72,7 +72,7 @@
  ],
  "note": "대표 긴급 즉시 게시(제1 원칙 39) · 같은 영상 릴스 R261108n 동시",
  "scheduled_at": "2026-11-09T07:00:00+09:00",
- "caption": "미국 하원 3개 위원회가 엔비디아 CEO 젠슨 황에게 비공개 설명을 요구했습니다. 제안일은 11월 18일, 참석 회신 기한은 11월 11일입니다.\n\n뉴욕타임스(10월 29일)는 미국 정보당국이 엔비디아 고객사 임원을 중국 정보기관 연계 인물로 판단했다고 보도했고, FT(11월 7일)는 젠슨 황과 이 임원의 연인 관계 의혹을 보도했습니다. 엔비디아는 통상적인 업무 관계라는 입장이고, 젠슨 황은 칩이 중국으로 빠져나가지 않았다고 밝혔습니다. 의혹은 사실로 확인되지 않았습니다.\n\n11월 8일에는 젠슨 황의 장녀인 엔비디아 임원의 방한이 취소되고 배경훈 부총리 면담도 무산됐습니다. 회사가 밝힌 이유는 '부득이한 사정'이며, 의혹과의 관련성은 확인되지 않았습니다.\n\n주가: 보도일 10월 29일 엔비디아 -0.80%(나스닥 -1.38%). 11월 5일 -9.3%는 미국 선거 뒤 AI 규제 우려로 시장 전체가 빠진 날입니다.\n\n볼 것 3가지\n1. 11월 11일: 젠슨 황의 참석 회신\n2. 11월 18일 전후: 비공개 설명과 엔비디아 실적\n3. 미국 상무부의 대중국 칩 수출 규제\n\n자료: 뉴욕타임스·FT 보도를 인용한 Yahoo Finance, 이투데이, 서울신문, 파이낸셜뉴스(11월 8일), Trefis(11월 6일). 사진: Wikimedia Commons, Pexels · 매수·매도 권유가 아닙니다.",
+ "caption": "미국 하원 3개 위원회가 엔비디아 CEO 젠슨 황에게 비공개 설명을 요구했습니다. 제안일은 11월 18일, 참석 회신 기한은 11월 11일입니다.\n\n뉴욕타임스(10월 29일)는 미국 정보당국이 엔비디아 고객사 임원을 중국 정보기관 연계 인물로 판단했다고 보도했고, FT(11월 7일)는 젠슨 황과 이 임원의 연인 관계 의혹을 보도했습니다. 엔비디아는 통상적인 업무 관계라는 입장이고, 젠슨 황은 칩이 중국으로 빠져나가지 않았다고 밝혔습니다. 의혹은 사실로 확인되지 않았습니다.\n\n11월 8일에는 젠슨 황의 장녀인 엔비디아 임원의 방한이 취소되고 배경훈 부총리 면담도 무산됐습니다. 회사가 밝힌 이유는 '부득이한 사정'이며, 의혹과의 관련성은 확인되지 않았습니다.\n\n주가: 보도일 10월 29일 엔비디아 -0.80%(나스닥 -1.38%). 11월 5일 -9.3%는 미국 선거 뒤 AI 규제 우려로 시장 전체가 빠진 날입니다.\n\n볼 것 3가지\n1. 11월 11일: 젠슨 황의 참석 회신\n2. 11월 18일 전후: 비공개 설명과 엔비디아 실적\n3. 미국 상무부의 대중국 칩 수출 규제\n\n자료: 뉴욕타임스·FT 보도를 인용한 Yahoo Finance, 이투데이, 서울신문, 파이낸셜뉴스(11월 8일), Trefis(11월 6일). 영상·사진: Mixkit, Wikimedia Commons · 매수·매도 권유가 아닙니다.",
  "scenes": [
   {
    "type": "hook",
@@ -86,8 +86,8 @@
    },
    "tone": "loss",
    "full": {
-    "img": "il_L261107m_gpu_red.jpeg",
-    "video": "server_20822.mp4",
+    "img": "vwashington_22784_a.jpg",
+    "video": "vwashington_22784.mp4",
     "label": "미국 하원 · 비공개 설명 요구 · 제안일 11월 18일",
     "num": "11월 18일",
     "num_line": 0,
@@ -101,13 +101,34 @@
       "최고경영자 젠슨 황을 불렀습니다"
      ],
      "say": "미국 하원이, 최고경영자 젠슨 황을 불렀습니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "il_Y261108n_jacket_gpu.jpeg",
+   "full": {
+    "img": "il_Y261108n_jacket_gpu.jpeg",
+    "label": "미국 하원 · 비공개 설명 요구 · 제안일 11월 18일"
+   },
+   "lines": [
     {
      "cap": [
       "이유는 중국 스파이 의혹입니다"
      ],
      "say": "이유는 중국 스파이 의혹입니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vstockmarket_47792_a.jpg",
+   "full": {
+    "img": "vstockmarket_47792_a.jpg",
+    "video": "vstockmarket_47792.mp4",
+    "label": "미국 하원 · 비공개 설명 요구 · 제안일 11월 18일"
+   },
+   "lines": [
     {
      "cap": [
       "엔비디아 주가, 터질까요?"
@@ -118,9 +139,10 @@
   },
   {
    "type": "photo",
-   "photo": "il_L261107m_capitol_dawn.jpeg",
+   "photo": "vsurveillance_23016_a.jpg",
    "full": {
-    "img": "il_L261107m_capitol_dawn.jpeg",
+    "img": "vsurveillance_23016_a.jpg",
+    "video": "vsurveillance_23016.mp4",
     "label": "뉴욕타임스 10월 29일 · FT 11월 7일 보도"
    },
    "lines": [
@@ -130,14 +152,35 @@
       "미국 정보당국이 움직였습니다"
      ],
      "say": "뉴욕타임스 보도에 따르면, 미국 정보당국이 움직였습니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "il_Y261108n_dossier.jpeg",
+   "full": {
+    "img": "il_Y261108n_dossier.jpeg",
+    "label": "뉴욕타임스 10월 29일 · FT 11월 7일 보도"
+   },
+   "lines": [
     {
      "cap": [
       "엔비디아 고객사 임원을",
       "중국 정보기관 연계로 판단했다는 내용입니다"
      ],
      "say": "고객사 임원을, 중국 정보기관과 연계됐다고 판단했다는 내용입니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vnewspaper_41192_a.jpg",
+   "full": {
+    "img": "vnewspaper_41192_a.jpg",
+    "video": "vnewspaper_41192.mp4",
+    "label": "뉴욕타임스 10월 29일 · FT 11월 7일 보도"
+   },
+   "lines": [
     {
      "cap": [
       "FT는 두 사람의",
@@ -161,14 +204,36 @@
       "업무 관계라고 설명합니다"
      ],
      "say": "회사는 통상적인 업무 관계라고 설명합니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vchina_13312_a.jpg",
+   "full": {
+    "img": "vchina_13312_a.jpg",
+    "video": "vchina_13312.mp4",
+    "label": "엔비디아 입장 · 통상적 업무 관계"
+   },
+   "lines": [
     {
      "cap": [
       "젠슨 황은 칩이 중국으로",
       "빠져나가지 않았다고 했어요"
      ],
      "say": "젠슨 황은 칩이 중국으로 빠져나가지 않았다고 했어요."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vcourt_47602_a.jpg",
+   "full": {
+    "img": "vcourt_47602_a.jpg",
+    "video": "vcourt_47602.mp4",
+    "label": "엔비디아 입장 · 통상적 업무 관계"
+   },
+   "lines": [
     {
      "cap": [
       "의혹이 사실로 확인된 건 아닙니다"
@@ -179,9 +244,10 @@
   },
   {
    "type": "photo",
-   "photo": "commons_seoulnight_1.jpg",
+   "photo": "vairplane_7374_a.jpg",
    "full": {
-    "img": "commons_seoulnight_1.jpg",
+    "img": "vairplane_7374_a.jpg",
+    "video": "vairplane_7374.mp4",
     "label": "11월 8일 · 엔비디아 임원 방한 취소"
    },
    "lines": [
@@ -191,13 +257,35 @@
       "한국 방문을 취소했어요"
      ],
      "say": "그의 장녀도, 한국 방문을 취소했어요."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vhandshake_30016_a.jpg",
+   "full": {
+    "img": "vhandshake_30016_a.jpg",
+    "video": "vhandshake_30016.mp4",
+    "label": "11월 8일 · 엔비디아 임원 방한 취소"
+   },
+   "lines": [
     {
      "cap": [
       "배경훈 부총리 면담도 무산됐습니다"
      ],
      "say": "부총리 면담도 없던 일이 됐습니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vseoul_20093_a.jpg",
+   "full": {
+    "img": "vseoul_20093_a.jpg",
+    "video": "vseoul_20093.mp4",
+    "label": "11월 8일 · 엔비디아 임원 방한 취소"
+   },
+   "lines": [
     {
      "cap": [
       "회사는 이유를",
@@ -209,9 +297,27 @@
   },
   {
    "type": "photo",
-   "photo": "il_L261104g_chip_crash.jpeg",
+   "photo": "vstockmarket_47213_a.jpg",
    "full": {
-    "img": "il_L261104g_chip_crash.jpeg",
+    "img": "vstockmarket_47213_a.jpg",
+    "video": "vstockmarket_47213.mp4",
+    "label": "10월 29일 뉴욕타임스 보도일 · 종가"
+   },
+   "lines": [
+    {
+     "cap": [
+      "그럼 주가는 어땠을까요?"
+     ],
+     "say": "그럼 주가는 어땠을까요?"
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vstockmarket_47016_a.jpg",
+   "full": {
+    "img": "vstockmarket_47016_a.jpg",
+    "video": "vstockmarket_47016.mp4",
     "label": "10월 29일 뉴욕타임스 보도일 · 종가",
     "pct": [
      {
@@ -227,12 +333,6 @@
    "lines": [
     {
      "cap": [
-      "그럼 주가는 어땠을까요?"
-     ],
-     "say": "그럼 주가는 어땠을까요?"
-    },
-    {
-     "cap": [
       "보도가 나온 10월 29일",
       "엔비디아는 0.8% 내렸습니다"
      ],
@@ -242,9 +342,10 @@
   },
   {
    "type": "photo",
-   "photo": "il_L261107s_chip_crack.jpeg",
+   "photo": "vstockmarket_9607_a.jpg",
    "full": {
-    "img": "il_L261107s_chip_crack.jpeg",
+    "img": "vstockmarket_9607_a.jpg",
+    "video": "vstockmarket_9607.mp4",
     "label": "11월 5일 · 엔비디아 하루 등락률",
     "num": "-9.3%",
     "num_line": 0,
@@ -257,14 +358,36 @@
       "11월 5일엔 주가가 9.3% 빠졌지만"
      ],
      "say": "11월 5일에는 주가가 9.3% 빠졌지만,"
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vunitedstates_19414_a.jpg",
+   "full": {
+    "img": "vunitedstates_19414_a.jpg",
+    "video": "vunitedstates_19414.mp4",
+    "label": "11월 5일 · 엔비디아 하루 등락률"
+   },
+   "lines": [
     {
      "cap": [
       "미국 선거 뒤 시장 전체가",
       "빠진 날이었습니다"
      ],
      "say": "미국 선거 뒤에 시장 전체가 빠진 날이었습니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vstockmarket_47214_a.jpg",
+   "full": {
+    "img": "vstockmarket_47214_a.jpg",
+    "video": "vstockmarket_47214.mp4",
+    "label": "11월 5일 · 엔비디아 하루 등락률"
+   },
+   "lines": [
     {
      "cap": [
       "주가만 보면 시장은 아직",
@@ -276,10 +399,10 @@
   },
   {
    "type": "photo",
-   "photo": "il_L261107m_cargo_chips.jpeg",
+   "photo": "storm_47948_a.jpg",
    "full": {
-    "img": "il_L261107m_cargo_chips.jpeg",
-    "video": "datacenter_23282.mp4",
+    "img": "storm_47948_a.jpg",
+    "video": "storm_47948.mp4",
     "label": "쟁점 · 대중국 수출 규제와 고객 심사"
    },
    "lines": [
@@ -288,21 +411,54 @@
       "진짜 위험은 스캔들이 아닙니다"
      ],
      "say": "진짜 위험은 스캔들이 아닙니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vsingapore_30966_a.jpg",
+   "full": {
+    "img": "vsingapore_30966_a.jpg",
+    "video": "vsingapore_30966.mp4",
+    "label": "쟁점 · 대중국 수출 규제와 고객 심사"
+   },
+   "lines": [
     {
      "cap": [
       "미국은 싱가포르 고객사가",
       "칩을 중국에 넘겼는지 조사 중입니다"
      ],
      "say": "미국은 싱가포르 고객사가, 칩을 중국에 넘겼는지 조사 중입니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vdocuments_45923_a.jpg",
+   "full": {
+    "img": "vdocuments_45923_a.jpg",
+    "video": "vdocuments_45923.mp4",
+    "label": "쟁점 · 대중국 수출 규제와 고객 심사"
+   },
+   "lines": [
     {
      "cap": [
       "회사 내부 점검에선",
       "증거가 없었다고 합니다"
      ],
      "say": "회사 내부 점검에선 증거가 없었다고 합니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "containership_30467_a.jpg",
+   "full": {
+    "img": "containership_30467_a.jpg",
+    "video": "containership_30467.mp4",
+    "label": "쟁점 · 대중국 수출 규제와 고객 심사"
+   },
+   "lines": [
     {
      "cap": [
       "하지만 정치권이 움직이면",
@@ -314,10 +470,10 @@
   },
   {
    "type": "photo",
-   "photo": "chip_47048_a.jpg",
+   "photo": "vsemiconductor_1141_a.jpg",
    "full": {
-    "img": "chip_47048_a.jpg",
-    "video": "chip_47048.mp4",
+    "img": "vsemiconductor_1141_a.jpg",
+    "video": "vsemiconductor_1141.mp4",
     "label": "엔비디아 → HBM → 삼성전자·SK하이닉스"
    },
    "lines": [
@@ -327,14 +483,35 @@
       "그 안에 들어가는 메모리 수요도 흔들립니다"
      ],
      "say": "칩이 덜 팔리면, 그 안에 들어가는 메모리 수요도 흔들립니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "commons_samsungfab_1.jpg",
+   "full": {
+    "img": "commons_samsungfab_1.jpg",
+    "label": "엔비디아 → HBM → 삼성전자·SK하이닉스"
+   },
+   "lines": [
     {
      "cap": [
       "그 메모리를 만드는 곳이",
       "삼성전자와 SK하이닉스입니다"
      ],
      "say": "그 메모리를 만드는 곳이, 삼성전자와 SK하이닉스입니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "server_24033_a.jpg",
+   "full": {
+    "img": "server_24033_a.jpg",
+    "video": "server_24033.mp4",
+    "label": "엔비디아 → HBM → 삼성전자·SK하이닉스"
+   },
+   "lines": [
     {
      "cap": [
       "앞으로 이 세 가지만 보면 됩니다"
@@ -345,9 +522,9 @@
   },
   {
    "type": "photo",
-   "photo": "il_L261105g_cin_capitol.jpeg",
+   "photo": "il_Y261108n_jacket_capitol.jpeg",
    "full": {
-    "img": "il_L261105g_cin_capitol.jpeg",
+    "img": "il_Y261108n_jacket_capitol.jpeg",
     "label": "① 참석 회신 기한",
     "num": "11월 11일",
     "num_line": 0,
@@ -361,7 +538,17 @@
       "첫째, 11월 11일입니다"
      ],
      "say": "첫째, 11월 11일입니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "il_Y261108n_hearing.jpeg",
+   "full": {
+    "img": "il_Y261108n_hearing.jpeg",
+    "label": "① 참석 회신 기한"
+   },
+   "lines": [
     {
      "cap": [
       "젠슨 황이 하원 설명에",
@@ -373,9 +560,9 @@
   },
   {
    "type": "photo",
-   "photo": "commons_nvidiagpu_1.jpg",
+   "photo": "il_Y261108n_stage.jpeg",
    "full": {
-    "img": "commons_nvidiagpu_1.jpg",
+    "img": "il_Y261108n_stage.jpeg",
     "label": "② 비공개 설명 제안일 · 3분기 실적 주간",
     "num": "11월 18일",
     "num_line": 0,
@@ -389,7 +576,18 @@
       "둘째, 11월 18일입니다"
      ],
      "say": "둘째, 11월 18일입니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "vstockmarket_47012_a.jpg",
+   "full": {
+    "img": "vstockmarket_47012_a.jpg",
+    "video": "vstockmarket_47012.mp4",
+    "label": "② 비공개 설명 제안일 · 3분기 실적 주간"
+   },
+   "lines": [
     {
      "cap": [
       "이 날은 엔비디아",
@@ -401,9 +599,9 @@
   },
   {
    "type": "photo",
-   "photo": "il_L261110a_server_aisle.jpeg",
+   "photo": "il_Y261108n_shipment.jpeg",
    "full": {
-    "img": "il_L261110a_server_aisle.jpeg",
+    "img": "il_Y261108n_shipment.jpeg",
     "label": "③ 미국 상무부 · 대중국 칩 수출 규제"
    },
    "lines": [
@@ -412,7 +610,18 @@
       "셋째, 수출 규제입니다"
      ],
      "say": "셋째는, 수출 규제입니다."
-    },
+    }
+   ]
+  },
+  {
+   "type": "photo",
+   "photo": "chip_47258_a.jpg",
+   "full": {
+    "img": "chip_47258_a.jpg",
+    "video": "chip_47258.mp4",
+    "label": "③ 미국 상무부 · 대중국 칩 수출 규제"
+   },
+   "lines": [
     {
      "cap": [
       "규제가 세지면",

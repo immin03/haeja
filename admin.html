@@ -2137,7 +2137,7 @@ function ytSlots(weeks = 8){
   if(YT.hist === undefined){ YT.hist = null; sb.rpc('yt_long_history').then(r => { YT.hist = r.error ? [] : (r.data || []); render(); }); }
   const listIds = new Set((YT.list || []).map(y => y.id));
   const L = [...(YT.list || []), ...(YT.hist || []).filter(y => !listIds.has(y.id))].filter(y => y.kind === 'long' && y.scheduled_at && !['hold', 'stale', 'deleted', 'rejected'].includes(y.status));
-  const P = (YT.plans || []).filter(p => ['approved', 'producing'].includes(p.status) && p.target_at);
+  const P = (YT.plans || []).filter(p => ['approved', 'producing', 'script_review'].includes(p.status) && p.target_at);
   const urgentDays = new Set((YT.plans || []).filter(p => p.urgent && p.target_at && p.status !== 'proposed').map(p => kd(p.target_at)));
   const pick = (YT.plans || []).filter(p => p.status === 'proposed').sort((a, b) => (+a.rank || 99) - (+b.rank || 99));
   const TT = pick.filter(p => p.tentative_at);   // 가안 (2026-11-04 22:24 대표님: "너의 추천에 따라 가안으로 선택해놔도 돼")
@@ -2168,7 +2168,7 @@ function ytSlots(weeks = 8){
         row += `<div class="sl-c ${V.every(isUp) ? 'up' : 'go'}${ex}${td}">${lab(V.length > 1 ? V.length + '편' : hmOf(V[0].scheduled_at))}${items}${spH}</div>`;
       } else if(pl){
         const f = slotFlag(d, reg, pl.target_at, !!pl.urgent);
-        row += `<div class="sl-c mk${f === '긴급 편성' ? ' xu' : f ? ' xs' : ''}${td}">${lab(hmOf(pl.target_at))}<div class="tg"><span class="stt">${pl.status === 'producing' ? '제작 중' : '기획 확정 · 제작 예정'}</span>${flagH(f)}</div><a class="tl" href="#youtube/${pl.status === 'producing' ? 'making' : 'plan'}">${esc(pl.doc_title || pl.title || pl.id)}</a>${pl.status === 'approved' && pick.length ? `<select data-slot-swap="${d}" data-old="${esc(pl.id)}">${opts(pl.id, '다른 기획안으로 바꾸기')}</select>` : ''}${spH}</div>`;
+        row += `<div class="sl-c mk${f === '긴급 편성' ? ' xu' : f ? ' xs' : ''}${td}">${lab(hmOf(pl.target_at))}<div class="tg"><span class="stt">${pl.status === 'producing' ? '제작 중' : pl.status === 'script_review' ? '원고 교정 대기' : '기획 확정 · 제작 예정'}</span>${flagH(f)}</div><a class="tl" href="#youtube/${pl.status === 'producing' ? 'making' : 'plan'}">${esc(pl.doc_title || pl.title || pl.id)}</a>${pl.status === 'approved' && pick.length ? `<select data-slot-swap="${d}" data-old="${esc(pl.id)}">${opts(pl.id, '다른 기획안으로 바꾸기')}</select>` : ''}${spH}</div>`;
       } else if(d >= today && tt){
         row += `<div class="sl-c tt${td}">${lab('19:30')}<span class="stt">가안</span><a class="tl" href="#youtube/plan">${esc(tt.doc_title || tt.title || tt.id)}</a>${tt.tentative_why ? `<span class="why">${esc(tt.tentative_why)}</span>` : ''}<div class="bt"><button type="button" class="soc-btn" data-slot-ok="${d}" data-id="${esc(tt.id)}">확정</button><button type="button" class="soc-btn ghost" data-slot-x="${esc(tt.id)}">빼기</button></div><select data-slot-tt="${d}" data-old="${esc(tt.id)}">${opts(tt.id, '다른 기획안으로 바꾸기')}</select>${spH}</div>`;
       } else if(!reg || d < SLOT_FROM){   // 월·수·금에 나간 것이 없으면(정규 요일이 바뀐 11/5 이전도 빈 칸으로 세지 않는다) 조용히 날짜만 (빈 칸으로 세지 않는다)
