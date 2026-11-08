@@ -68,6 +68,9 @@ def build(path):
     voices.append({"file": E.get("outro_voice", "/home/claude/vo/outro_default.mp3"), "at": round(end_start + end["dur"] - 0.1, 3), "vol": 1.0})
     spec = {"id": key, "music": E["music"], "voice": voices, "cuts": cuts, "end": end, "outro": {"dur": 7.9, "p1": 4.7}}
     total = end_start + end["dur"] + 7.9
+    # 2026-11-09 ep18(63초) 사고: 유튜브는 1분 넘는 쇼츠에 소유권 주장이 걸리면 전 세계 차단한다. secret-garden 은 RouteNote 주장('You Called Me')이 걸리는 곡 (TEMPLATE 고정값)
+    if total >= 57 and "secret-garden" in E["music"]["file"]:
+        sys.exit(f"{key}: {total:.1f}초 편에 secret-garden 사용 금지(1분 초과 쇼츠는 소유권 주장 시 전 세계 차단) — music 을 classical-7(start 91, bed 0.22) 또는 miss-you(start 19.5, bed 0.22)로 바꿀 것")
     out = f"/home/claude/ed/spec_{key}.json"
     json.dump(spec, open(out, "w"), ensure_ascii=False, indent=1)
     print(key, "voice_end", round(voice_end, 2), "end_start", round(end_start, 2), "total", round(total, 1), [c["dur"] for c in cuts])
