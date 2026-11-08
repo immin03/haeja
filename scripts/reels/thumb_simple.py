@@ -32,6 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 FD = os.path.join(HERE, "fonts")
 
+FULL_MEAN = 52.9   # 전체 사진 평균 밝기 목표 (현대차 표지 Y261108k 기준)
 BAND_MEAN, BAND_P90 = 76.5, 152.0   # 사진 띠 자동 음영 기준 (현대차 표지 Y261108k 밝기 기준, 2026-11-09)
 IVORY = (246, 241, 232); GOLD = (240, 208, 140); GREY = (176, 186, 206)
 RED = (255, 77, 109); GREEN = (61, 245, 160)
@@ -369,6 +370,13 @@ def _bg_photo(im, name, focus=(.5, .5), opacity=.3):
     im.alpha_composite(ph)
 
 
+def full_photo_bright(name, focus=(.5, .5)):
+    """전체 사진형 표지의 자동 음영 (2026-11-09 대표님 "사진이 밝잖아"): 사진 밝기를 재서 글자가 잘 읽히는 밝기로 맞춘다. 어두운 사진은 그대로 둔다."""
+    g = np.asarray(_cover(name, 1080, 1920, focus, blur=0).convert("RGB")).astype(np.float32)
+    lum = float((g[..., 0] * .2126 + g[..., 1] * .7152 + g[..., 2] * .0722).mean())
+    k = float(np.clip(FULL_MEAN / max(lum, 1), .4, 1)); print("전체 사진 밝기 계수", round(k, 2)); return k
+
+
 def photo_band(im, name, y0, y1, focus=(.5, .5), dark=None):
     """쇼츠 기본 표지의 차량·현장 사진 띠 (2026-11-09 대표님 확정, 제1 원칙 116).
     사진이 잘 보이게 원본 색 그대로 두되, 글자가 얹히는 구간이 너무 밝으면 자동으로 어둡게 맞춘다("사진이 너무 밝으면 음영 점검").
@@ -433,10 +441,11 @@ def render_v3(spec, out):
     from brand import paste_logo
     if spec.get("layout") == "shorts_big":   # 2026-11-08 대표님 확정 표준(제1 원칙 115): 쇼츠·릴스 공용 — 삼성전자 틀에 위 2줄 제목 최대, 큰 숫자 중간, 하락선, ValueNote 로고 하단 가운데 크게. 인스타 격자(세로 240~1680)·좌우 60 안에 전부 들어온다
         spec = {**{"header_big": True, "big_center": True, "header_y": 320, "header_w": 950, "big_size": 290, "chart_bottom": 1430, "logo_y": 1525, "logo_size": 72}, **spec}
-    if spec.get("layout") == "shorts_main":   # 2026-11-09 대표님 확정 쇼츠 기본 표지(제1 원칙 116): 2줄 제목 최대 → 회사명 크게 → 큰 숫자 → 기준 문구 → 그래프(선택) → 하단 로고, 가운데에 사진 띠
-        has_chart = bool(spec.get("chart"))
-        spec = {**{"header_big": True, "big_center": True, "header_w": 960, "header_y": 326, "header_cap": 210, "name_center": True, "name_h": 170, "name_w": 920, "name_gap": 112, "after_name": 0 if has_chart else 120, "big_size": 226 if has_chart else 292, "chart_bottom": 1468, "logo_y": 1525, "logo_size": 72, "band": [548, 1270]}, **spec}
-        if has_chart: spec["chart"] = {**{"mark_size": 66}, **spec["chart"]}
+    if spec.get("layout") == "shorts_main":   # 2026-11-09 대표님 확정 쇼츠 기본 표지(제1 원칙 116): 전체 사진 + 2줄 제목 최대 → 회사명 크게 → 큰 숫자 → 기준 문구 → 얇은 그래프(선택) → 하단 로고
+        has_chart = bool(spec.get("chart")); full = bool(spec.get("photo")) and not spec.get("band_img")   # photo = 전체 사진형(기본), band_img = 사진 띠형
+        spec = {**{"header_big": True, "big_center": True, "header_w": 960, "header_y": 326, "header_cap": 210, "name_center": True, "name_h": 170, "name_w": 920, "name_gap": 112, "after_name": 0 if has_chart else 120, "big_size": 230 if has_chart else 300, "chart_bottom": 1465, "photo_full": full, "logo_y": 1525, "logo_size": 72, "band": [548, 1270]}, **spec}
+        if has_chart: spec["chart"] = {**{"mark_size": 60}, **spec["chart"]}
+        if full and "photo_bright" not in spec: spec["photo_bright"] = full_photo_bright(spec["photo"], tuple(spec.get("focus", (.5, .5))))
     tone = spec.get("tone", "down"); ig = spec.get("safe") == "ig"; foc = tuple(spec.get("focus", (.5, .5)))
     em = spec.get("emblem")
     if spec.get("format", "short") == "short":

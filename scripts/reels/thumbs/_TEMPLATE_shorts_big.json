@@ -1,9 +1,14 @@
 {
  "v": 3,
  "format": "short",
- "layout": "shorts_big",
- "l1": "<대상, 한 줄 (예: SK하이닉스 레버리지)>",
- "l2": "<핵심 질문 (예: 지금 물타도 될까?)>",
+ "layout": "shorts_main",
+ "l1": "<회사> 주가 전망",
+ "l2": "3가지만 보면 된다",
+ "name": "<영문 회사명 또는 logo PNG 경로는 logo 키>",
+ "focus": [
+  0.5,
+  0.5
+ ],
  "chart": {
   "kind": "line",
   "pts": [
@@ -14,12 +19,17 @@
    [
     "<시점>",
     0
+   ],
+   [
+    "<시점>",
+    0
    ]
   ],
-  "mark": 0,
-  "mark_label": "<고점 표기>"
+  "mark": 1,
+  "mark_label": "<고점 가격만, 예: 75만 원>"
  },
  "big_label": "<무엇 대비 · 기준일>",
- "big": "<-91%>",
- "tone": "down"
+ "big": "<-62%>",
+ "tone": "down",
+ "photo": "<scripts/blog/media/lib 의 세로로 잘라도 괜찮은 사진 파일명 · 주제와 맞는 사진>"
 }
