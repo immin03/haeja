@@ -4,11 +4,16 @@
     → 0.62초 넘게 스펙트럼이 거의 안 변하는 유성음 구간이 있으면 불통과 (정상 테이크는 최대 0.55초 안팎)
  2) 엉뚱한 문장: 다른 편의 '오늘의 할 일' 녹음을 잘못 가져다 씀
     → 녹음 옆의 <파일>.txt (voices.py 가 녹음 때 남기는 원문) 가 대본 문장과 같아야 통과. txt 가 없으면 불통과
+(2026-11-08 ep17 사고 추가) 3) 끝소리 끌기: '떠올리기'가 1.8초 늘어진 테이크가 1)번 기준(0.9)을 빠져나가 그대로 나갔다
+    → 느슨한 기준(0.8)으로 1.15초 넘게 소리가 안 변하면 불통과 (녹음 108개 실측: 정상 최대 1.03초, 사고 1.84초)
+    4) 말 속도: 글자/말소리 시간이 4.6자/초 미만이면 불통과 (정상 최저 5.17, 사고 3.86)
 사용: python3 take_check.py <mp3> ["기대 문장"]   (문장을 주면 원문 대조까지)
 다른 스크립트: from take_check import check  → (ok, 이유 목록)"""
 import os, re, subprocess, sys, numpy as np
 SR = 24000
 HOLD_MAX = 0.62
+DRAG_MAX, DRAG_TH = 1.15, 0.8   # 2026-11-08: 끝소리 끌기
+RATE_MIN = 4.6                  # 2026-11-08: 글자/초 (글자 8자 이상일 때)
 
 
 def _load(f):
@@ -37,12 +42,30 @@ def norm(t):
     return re.sub(r"[\s'\"‘’“”.,?!·…\-—]", "", t or "")
 
 
+def speech_seconds(f):
+    x = _load(f); win = int(.02 * SR); e = np.sqrt(np.convolve(x ** 2, np.ones(win) / win, "same"))
+    return float((e > e.max() * 10 ** (-35 / 20)).sum() / SR)
+
+
+def drag_why(f, text=None):
+    """2026-11-08: 끝소리 끌기·말 속도 — voice_gate.py 와 같은 기준"""
+    why = []
+    for a, b in held_runs(f, th=DRAG_TH, min_len=0.25):
+        if b - a > DRAG_MAX: why.append(f"소리 끌기 {a}~{b}초 ({b - a:.2f}초, 기준 {DRAG_MAX})")
+    n = len(norm(text))
+    if n >= 8:
+        r = n / max(speech_seconds(f), 0.01)
+        if r < RATE_MIN: why.append(f"말이 비정상적으로 느림 {r:.2f}자/초 (기준 {RATE_MIN})")
+    return why
+
+
 def check(f, expect=None):
     why = []
     for a, b in held_runs(f):
         if b - a > HOLD_MAX: why.append(f"소리 끌림 {a}~{b}초 ({b - a:.2f}초)")
+    side = f + ".txt"
+    why += drag_why(f, expect if expect is not None else (open(side).read() if os.path.exists(side) else None))
     if expect is not None:
-        side = f + ".txt"
         if not os.path.exists(side): why.append("원문 기록(.txt) 없음 — 이 편 대본으로 새로 녹음한 테이크만 쓴다")
         elif norm(open(side).read()) != norm(expect):
             why.append(f"원문 불일치: 녹음='{open(side).read().strip()}' / 대본='{expect}'")

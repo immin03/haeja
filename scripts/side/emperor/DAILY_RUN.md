@@ -37,8 +37,12 @@
    → ★ 시네마틱 고정 포맷(2026-11-05 대표 확정, FX.md 필독): CLIPS.json 에서 장면을 골라 `fx_<id>.json` 을 쓰고
    `python3 fx_short.py /home/claude/ed/spec_<id>a.json <base.mp4> <yt.mp4> --fx fx_<id>.json --platform shorts` 와 `... <ig.mp4> ... --platform reels`
    (render_ed 의 reels 렌더는 하지 않는다. 클립은 social/side/gen/<클립>.mp4 를 sparse-checkout 에 추가)
-8. 검사(필수): `python3 voice_qa.py <base.mp4> /home/claude/ed/spec_<id>a.json` 가 "통과"여야 한다(조각 대조 + 소리 끌림). 오늘의 할 일 구간은 화면 글과 녹음 원문(.txt)이 같은지 한 번 더 눈으로 확인. 장면 8장 한 장짜리 격자를 한 번 보고
-   글자 잘림·겹침·밝은 그림 위 자막만 고친다. 자막이 말보다 먼저 넘어가지 않는지 인용 구간 프레임 2장으로 확인.
+8. 검사(필수): ★ 음성 관문 — 2026-11-08 ep17 사고('떠올리기' 1.8초 끌린 녹음이 그대로 게시) 재발 방지. **올릴 파일 두 개를 직접 검사한다.**
+   `python3 voice_gate.py /home/claude/ed/spec_<id>a.json <yt.mp4> <ig.mp4>` 가 "통과"여야 한다 (끌기·말 속도·받아쓰기 대조·제자리·일그러짐·클릭·크기).
+   불통과면 해당 묶음을 다른 테이크로 바꾸거나 다시 녹음해 7단계부터 다시 한다. 통과 뒤 파일을 다시 인코딩·수정하면 도장이 무효가 되므로 다시 검사한다.
+   5단계 테이크 고르기에서 끌기·느림은 take_check.py 가 먼저 막는다 — 두 테이크 길이가 30% 넘게 차이 나면 긴 쪽을 쓰지 않는다.
+   도장 `<mp4>.voiceqa.json` 은 `yt_up.sh` 가 확인하고(없으면 업로드 거부), ed_posts insert 에는 `voice_qa` 열에 ig 파일 도장의 `ed_posts_voice_qa` 값을 넣는다(없으면 DB 가 거부). 도장을 손으로 만들거나 관문을 건너뛰지 않는다.
+   장면 8장 한 장짜리 격자를 한 번 보고 글자 잘림·겹침·밝은 그림 위 자막만 고친다. 자막이 말보다 먼저 넘어가지 않는지 인용 구간 프레임 2장으로 확인.
    길이 확인: `ffprobe` 로 잰 yt.mp4 길이가 칸 길이(TEMPLATE '★ 길이·내용 규칙') ±5초 밖이면 대본으로 돌아가 항목을 더하거나 뺀다(쉼·속도로 맞추지 않음).
    불통과 2번이면 그 편은 올리지 않고 docs collection 'alerts' 에 남긴다.
 9. 올리기: fx_short.py 결과 그대로(인코딩 포함) `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(0초 프레임: `ffmpeg -ss 0 -i <yt.mp4> -frames:v 1 -q:v 2 hook_<id>.jpg` — 자막 없는 첫 화면인지 Read 로 한 번 확인) 커밋·푸시,
@@ -47,7 +51,7 @@
    meta.json = {"title": "<제목> | 명상록"(해시태그 없음, 40자 이내 — yt_up.sh 가 어기면 멈춤), "description": TEMPLATE 설명란(#shorts 는 여기 끝에), "tags": TEMPLATE '태그 세트', "publish_at": 게시 시각 UTC}
    썸네일: yt_up.sh 가 끝에 yt_thumb.sh 로 hook_<id>.jpg 를 지정한다(200 이 아니면 실패). 실제 화면 확인은 Chrome 작업 몫(TEMPLATE 썸네일 규칙)
    ★ 댓글(2026-11-05 대표): yt_comment·ig_comment 는 질문 뒤 빈 줄 하나 + "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."(인스타는 '구독' → '팔로우') 로 끝낸다
-   ed_posts: ep07~09 행과 같은 열로 insert (video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
+   ed_posts: ep07~09 행과 같은 열로 insert (voice_qa = ig 도장의 ed_posts_voice_qa, video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
 10. 끝: 커밋 메시지는 한국어, 마지막 줄 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. 결과 한 줄: "완료: <id 제목 길이초> ×2" / "실패: <원인>"
 
 ## ★ 멈춤·침묵 재발 방지 (2026-11-06 대표 지시, 필수)

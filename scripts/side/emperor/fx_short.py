@@ -130,8 +130,11 @@ from PIL import ImageFont
 E = spec["end"]; O = spec["outro"]; DELAY = 0.35   # 오늘의 할 일 내레이션 뒤 여유 (소리도 같은 만큼 늘림)
 OS = END + E["dur"] + DELAY; TOT = OS + O["dur"]
 OS0 = END + E["dur"]   # render_ed 완성본에서 마지막 화면이 시작되는 시각
-def voiced(a, b):
-    r = subprocess.run(["ffmpeg", "-v", "info", "-ss", str(a), "-t", str(b - a), "-i", ORIG, "-vn", "-af", "highpass=f=250,lowpass=f=3500,silencedetect=noise=-19dB:d=0.15", "-f", "null", "-"], capture_output=True, text=True).stderr
+def voiced(a, b, src=None):
+    if src:   # 2026-11-08: 음악 없는 목소리 원본에서 잰다 — 음악이 섞인 완성본으로 재면 말끝을 놓쳐 ep17 재렌더가 멈췄다
+        r = subprocess.run(["ffmpeg", "-v", "info", "-i", src, "-vn", "-af", "silencedetect=noise=-32dB:d=0.15", "-f", "null", "-"], capture_output=True, text=True).stderr
+    else:
+        r = subprocess.run(["ffmpeg", "-v", "info", "-ss", str(a), "-t", str(b - a), "-i", ORIG, "-vn", "-af", "highpass=f=250,lowpass=f=3500,silencedetect=noise=-19dB:d=0.15", "-f", "null", "-"], capture_output=True, text=True).stderr
     ev = [(l.split("silence_")[1].split(":")[0], float(l.split(": ")[1].split()[0])) for l in r.splitlines() if "silence_start" in l or "silence_end" in l]
     segs = []; cur = 0.0
     for k2, v in ev:
@@ -140,11 +143,17 @@ def voiced(a, b):
         else: cur = v
     if cur < b - a - 0.12 and (not ev or ev[-1][0] == "end"): segs.append([a + cur, b])
     return segs
-seg = voiced(END, OS0 - 0.1)
+EV = spec["voice"][-2]   # [..., 오늘의 할 일, 슬로건]
+_evd = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", EV["file"]], capture_output=True, text=True).stdout)
+seg = voiced(EV["at"], EV["at"] + _evd, src=EV["file"])
 T_K = seg[0] if seg else [END + .8, END + 1.5]
 rest = seg[1:]; nL = len(E["lines"])
 while len(rest) > nL:   # 가장 가까운 두 조각부터 합친다
     gi = min(range(len(rest) - 1), key=lambda i: rest[i + 1][0] - rest[i][1]); rest[gi] = [rest[gi][0], rest[gi + 1][1]]; del rest[gi + 1]
+if rest and len(rest) < nL:   # 2026-11-08: 쉼 없이 이어 읽은 테이크 — 글자 수 비율로 나눈다 (예전엔 고정 시각으로 대체돼 소리 처리까지 어긋났다)
+    a0, a1 = rest[0][0], rest[-1][1]; Ln = [max(len(x.replace(" ", "")), 1) for x in E["lines"]]; x0 = a0; rest = []
+    for n in Ln:
+        x1 = x0 + (a1 - a0) * n / sum(Ln); rest.append([x0, x1]); x0 = x1
 T_L = rest if len(rest) == nL else [[END + 2.3, END + 4.1], [END + 4.5, END + 5.9]][:nL]
 NAR_END = T_L[-1][1]
 oseg = voiced(OS0 - 0.2, OS0 + spec["outro"]["dur"])
@@ -246,6 +255,7 @@ SW = os.path.join(TMP, "swell.wav"); BM = os.path.join(TMP, "boom.wav")
 subprocess.run(["ffmpeg","-v","error","-y","-f","lavfi","-i","anoisesrc=d=1.2:c=pink:a=0.8","-af","highpass=f=200,lowpass=f=2500,afade=t=in:d=0.8:curve=exp,afade=t=out:st=0.8:d=0.4,volume=0.45","-ar","48000","-ac","2",SW],check=True)
 subprocess.run(["ffmpeg","-v","error","-y","-f","lavfi","-i","sine=f=48:d=1.6","-f","lavfi","-i","anoisesrc=d=1.6:c=brown:a=0.6","-filter_complex","[0][1]amix=2,lowpass=f=160,afade=t=out:st=0.05:d=1.5,volume=1.6","-ar","48000","-ac","2",BM],check=True)
 sa, sb = NAR_END + 0.13, OS0 - 0.15; tempo = (sb - sa) / (sb - sa + DELAY)
+assert sb - sa > 0.4 and 0.5 <= tempo <= 1.0, f"오늘의 할 일 뒤 여유 계산 오류 sa={sa} sb={sb} tempo={tempo} — 목소리 시각 확인"
 fc = ["[1:a]asplit=3[x1][x2][x3]", f"[x1]atrim=0:{sa},asetpts=PTS-STARTPTS[a1]", f"[x2]atrim={sa}:{sb},asetpts=PTS-STARTPTS,atempo={tempo:.4f}[a2]", f"[x3]atrim={sb},asetpts=PTS-STARTPTS[a3]", "[a1][a2][a3]concat=n=3:v=0:a=1[base]"]
 ins = ["-i", HEAD, "-i", ORIG]; mix = ["[base]"]; k = 2
 for t in [x[2] for x in shots[1:] if x[4]]:
