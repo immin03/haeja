@@ -1704,7 +1704,7 @@ function ytPlanItem(p){
   return `<div class="card yt-plan">
     <div class="k">${p.rank ? `<span class="kind">${esc(String(p.rank))}순위</span>` : ''}${p.series ? `<span class="st none">${esc(p.series)}</span>` : ''}<span class="st ${st[0]}">${st[1]}</span>${waiting ? '<span class="st run">의견 반영 중</span>' : ''}${p.minutes ? `<span class="st none">약 ${esc(String(p.minutes))}분</span>` : ''}</div>
     ${p.format === 'doc' && p.doc_title ? `<h3>${esc(p.doc_title)}</h3><div class="m"><span class="st run">다큐</span> 유튜브 제목 · ${esc(p.title || '')}</div>` : `<h3>${esc(p.title || p.id)}</h3>`}
-    <details class="ytp-fold" data-ytp-fold="${id}"${(YT.openPlans || new Set()).has(p.id) || p.status === 'script_review' ? ' open' : ''}><summary><span class="cl">펼치기</span><span class="op">접기</span></summary>
+    <details class="ytp-fold" data-ytp-fold="${id}"${(YT.openPlans || new Set()).has(p.id) || (p.status === 'script_review' && Date.parse(p.target_at || '') >= Date.now()) ? ' open' : ''}><summary><span class="cl">펼치기</span><span class="op">접기</span></summary>
     ${p.thumb ? `<div class="m">썸네일 · <b>${esc(p.thumb.l1 || '')}</b> / <b>${esc(p.thumb.l2 || '')}</b>${p.ab_doc ? ` · 다큐형 C안 <b>${esc(p.ab_doc.l1 || '')}</b> / <b>${esc(p.ab_doc.l2 || '')}</b>` : ''}</div>` : ''}
     ${p.doc && p.doc.cold_open ? `<div class="m" style="margin-top:6px"><b>콜드 오픈 16초</b> ${esc((p.doc.cold_open.lines || []).join(' '))}<br><span style="color:var(--muted)">컷 · ${esc((p.doc.cold_open.cuts || []).join(' → '))}</span></div>${p.doc.answer_first ? `<div class="m" style="margin-top:6px"><b>결론 먼저</b> ${esc(p.doc.answer_first)}</div>` : ''}${(p.doc.chapters || []).length ? `<div class="m" style="margin-top:6px"><b>질문형 장</b> ${p.doc.chapters.map((c, i) => `${i + 1}. ${esc(c.title)}`).join(' · ')}</div>` : ''}` : ''}
     ${p.message ? `<div class="m" style="margin-top:6px"><b>한 문장</b> ${esc(p.message)}</div>` : ''}
@@ -1858,7 +1858,7 @@ setInterval(() => { if(!document.hidden && document.getElementById('gh-panel')){
 /* 유튜브 세부 메뉴 (2026-10-24): 기획안·제작 중·검수·올리기 대기·올림 완료·보류를 나눠서 한 번에 하나만 본다 */
 function ytViews(){
   const L = YT.list || [], P = YT.plans || [], sortAt = (a, b) => (a.scheduled_at || '').localeCompare(b.scheduled_at || '');
-  const v = k => L.filter(y => k.includes(y.status)).sort(sortAt), SR = P.filter(x => x.status === 'script_review');
+  const v = k => L.filter(y => k.includes(y.status)).sort(sortAt), nowT = Date.now(), srT = x => { const t = Date.parse(x.target_at || '') || 0; return t >= nowT ? t : 9e15 - t; }, SR = P.filter(x => x.status === 'script_review').sort((a, b) => srT(a) - srT(b));   // 게시일이 가까운 원고부터, 게시일이 지난 원고는 맨 뒤
   return {
     plan:   { t: '기획안', hot: true, plans: [...SR, ...P.filter(x => x.status === 'proposed')], vids: [] },
     making: { t: '제작 중', live: true, plans: [...SR, ...P.filter(x => ['approved', 'producing'].includes(x.status))], vids: v(['stale', 'rerendering']) },
