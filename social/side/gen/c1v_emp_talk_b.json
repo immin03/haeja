@@ -1,0 +1,31 @@
+{
+ "id": "c1v_emp_talk_b",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "He looks up and says one quiet sentence, his lips and jaw moving naturally and slowly, then he stops speaking, closes his mouth and holds the look in silence; the firelight moves on his face; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0b7-1d6c-70a6-b147-ebc77f737b26/f5b76fcb-f475-4332-b6d7-b3e6c26a4125.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c0ca-e1e9-7047-ba71-49e86d801c9e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0ca-e1e9-7047-ba71-49e86d801c9e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0ca-e1e9-7047-ba71-49e86d801c9e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c0ca-e1e9-7047-ba71-49e86d801c9e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0ca-e1e9-7047-ba71-49e86d801c9e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0ca-e1e9-7047-ba71-49e86d801c9e/cancel",
+  "expires_at": "2026-11-16T14:57:33.944749+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0ca-e1e9-7047-ba71-49e86d801c9e/264a39e4-d748-4a47-b559-b6b95298aa8e.mp4"
+  }
+ },
+ "seconds": 376,
+ "file": "social/side/gen/c1v_emp_talk_b.mp4"
+}
