@@ -244,6 +244,10 @@ spec["scenes"][35]["sketch"][0]["text"] = "블랙스카이 사례 (달러)"
 for it_ in spec["scenes"][35]["sketch"][1]["items"]: it_["text"] = "800만"
 spec["scenes"][41]["sketch"][0]["text"] = "3분기 미국 매출 (달러)"
 for it_, v_ in zip(spec["scenes"][41]["sketch"][1]["items"], ("9.84억", "9.53억")): it_["text"] = v_
+for s_ in spec["scenes"]:   # 훅 구간은 자막이 높이 올라가므로 하단 띠를 그 위로
+    if s_["v"].get("cine"):
+        for e_ in s_.get("sketch") or []:
+            if e_.get("kind") == "lower": e_["y"] = 540
 spec["music"].update(bed=["social/music/samples3/H6_full.mp3@30", "social/music/samples3/H1_full.mp3@30"], bed_gain_db=3, bed_hp=120)
 out = os.path.join(OUT_DIR, "L261109-palantir-what.json")
 json.dump(spec, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
