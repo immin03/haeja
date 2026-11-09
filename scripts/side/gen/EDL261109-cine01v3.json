@@ -1,0 +1,72 @@
+[
+ {
+  "id": "c1v_ots",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_ots.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The general listens without speaking, his mouth stays closed, he swallows and his eyes narrow a little; the out-of-focus shoulder stays still; the firelight moves on his face. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_gen_talk_b",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_gen_talk.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He leans forward and speaks with rising anger, his lips and jaw moving naturally in continuous forceful speech for the whole shot; the firelight moves on his face; the camera is almost still. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_emp_talk_b",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_emp_talk2.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He looks up and says one quiet sentence, his lips and jaw moving naturally and slowly, then he stops speaking, closes his mouth and holds the look in silence; the firelight moves on his face; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_chest",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/c1_chest.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hands let go and draw away out of frame; dust drifts in the firelight; very slow push-in on the chest. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_seal",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/c1_seal.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "Firelight slides slowly across the wax seal; dust motes drift; the camera glides very slowly along the leather strap. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_emp_listen",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/c1_emp_listen.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He keeps listening in silence, his mouth stays closed, a slow breath and one slow blink; the firelight moves over his face; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_emp_fire",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0/image-to-video",
+  "image": "social/side/gen/c1_emp_fire.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He stays still looking into the fire, his mouth stays closed, one slow blink; smoke drifts across; firelight moves on his face; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ }
+]
