@@ -17,7 +17,7 @@ import numpy as np, cv2
 from PIL import Image, ImageDraw, ImageFont
 
 FONTS = "/root/fonts/"
-W, H, FPS = 1920, 1080, 30
+W, H, FPS = 1920, 1080, int(os.environ.get("ED_FPS", "30"))   # 11/9 실화극: 24 = 원본 클립과 같은 프레임 수(섞기·끊김 없음)
 BAR = 0 if os.environ.get("ED_VERT") else 131   # ED_VERT=1: 세로 쇼츠용 조각(띠·자막·구절 없이 렌더, caps/verses 파일로 따로 저장)
 GOLD = (201, 164, 92); IVORY = (239, 230, 212)
 
@@ -872,7 +872,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
             d = dur_of(vfile(v)); vt.append((v, cur, d)); cur += d + gap
         need = (cur - gap + post) if vs else 0
         d = max(s.get("dur", 0), need)
-        if s["type"] == "intro": d = 10.6
+        if s["type"] == "intro": d = 10.6 / float(S.get("intro_speed", 1))   # 11/9 실화극: 인트로 빠르게
         if s.get("fixed"): d = s["dur"]
         s["_vat"] = {v: a for v, a, dd in vt}   # 장면 안에서 각 목소리가 시작하는 시각 (엔딩 글자 박자 맞추기)
         plan.append({"s": s, "t0": t, "dur": d, "voices": [(v, t + a, dd) for v, a, dd in vt]}); t += d
@@ -918,7 +918,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
             if gt < t_from or gt >= t_to: continue
             prog = tt / d
             if s["type"] == "black": img = np.zeros((H, W, 3), np.uint8)
-            elif s["type"] == "intro": img = intro.frame(tt)
+            elif s["type"] == "intro": img = intro.frame(tt * float(S.get("intro_speed", 1)))
             elif s["type"] == "card": img = card_frame(s, tt, d, cache)
             elif s["type"] == "episode": img = episode_frame(s, tt, d, cache)
             elif s["type"] == "outro": img = outro_frame(s, tt, d, cache, P(S["intro"]["logo"]))

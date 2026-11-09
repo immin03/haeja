@@ -103,4 +103,59 @@ def genv(n):
 
 
 if __name__ == "__main__":
-    gen() if sys.argv[1] == "gen" else genv(int(sys.argv[2]))
+    pass
+
+
+# ---------- 렌더 설정 (python3 cine01.py spec) — 클립을 늘리지 않는다: 장면 길이 ≤ 클립 길이(5초), ED_FPS=24 로 원본 프레임 그대로
+PICK = {"n1": "A", "n2": "A", "n3": "A", "n4": "A", "n5": "A", "g1a": "B", "g1b": "B", "e1": "A", "g2": "A", "e2": "B", "g3": "B", "e3": "B", "e4": "A", "g4": "B", "e5": "B"}
+FIRE = ["fire_4.mp3", 0.34]; FIRE2 = ["fire_0.mp3", 0.28]
+STILL = {"zoom": [1.0, 1.015]}
+
+
+def shot(src, voice=None, pre=0.3, post=0.4, dur=0, amb=FIRE, start=0.0, **kw):
+    s = {"type": "video", "src": src, "move": dict(STILL), "amb": list(amb), "pre": pre, "post": post, "start": start}
+    if voice: s["voice"] = [voice]
+    if dur: s["dur"] = dur
+    s.update(kw); return s
+
+
+def spec():
+    d = "social/side/voice_samples/" + TAG; vf = {}
+    for f in sorted(os.listdir(os.path.join(ROOT, d))):
+        if f.endswith(".mp3"):
+            n = f[:-4].split("_", 3)[3]; b, t = n.rsplit("_", 1)
+            if PICK.get(b) == t: vf[b] = f
+    q = lambda t: "“" + t + "”"
+    subs = {n: (t if v == G else q(t)) for n, v, t in LINES}
+    subs["n1"] = "!" + subs["n1"]
+    shots = [
+     shot("c1v_chest", "n1", pre=0.6, post=0.5, tin="black", fin=0.5, sfx=[["impact_2.mp3", 0.1, 0.3]]),
+     shot("c1v_enter", "n2", pre=0.3, post=0.5, sfx=[["war_7.mp3", 0.0, 0.08]]),
+     shot("c1v_seal", "n3", pre=0.2, post=0.3, amb=FIRE2),
+     shot("c1v_hand", "n4", pre=0.2, post=0.2, dur=5.0, amb=FIRE2, sfx=[["heartbeat_2.mp3", 1.8, 0.35]]),
+     shot("c1v_push", "n5", pre=0.3, post=0.6, sfx=[["fire_2.mp3", 1.2, 0.8], ["impact_3.mp3", 1.5, 0.35]]),
+     shot("c1v_burn", dur=3.6, amb=["fire_2.mp3", 0.75], tout="black", fout=0.7),
+     {"type": "intro", "sfx": [["cinematic_6.mp3", 0.98, 0.7], ["ring_synth.wav", 1.6, 0.5], ["drum_5.mp3", 2.61, 1.0], ["impact_2.mp3", 2.01, 0.8], ["cinematic_4.mp3", 3.27, 0.5], ["transition_5.mp3", 5.97, 0.5]]},
+     shot("c1v_wide", "g1a", pre=0.8, post=0.4, tin="black", fin=0.6),
+     shot("c1v_emp_listen", "g1b", pre=0.1, post=0.25, fixed=False),
+     shot("c1v_ots", "e1", pre=0.2, post=0.5),
+     shot("c1v_gen_talk", "g2", pre=0.1, post=0.4),
+     shot("c1v_emp_talk", "e2", pre=0.2, post=0.6),
+     shot("c1v_hand", "g3", pre=0.1, post=0.3, start=2.0, amb=FIRE2),
+     shot("c1v_emp_fire", "e3", pre=0.3, post=0.3),
+     shot("c1v_ots", "e4", pre=1.0, post=0.3, start=2.3),
+     shot("c1v_gen_talk_b", "g4", pre=0.1, post=0.5),
+     shot("c1v_emp_talk_b", "e5", pre=0.5, post=1.3, tout="black", fout=1.0),
+    ]
+    S = {"id": "cine01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
+         "intro": {"logo": "docs/emperor/profile_final.png", "ep_kicker": "명상록 실화극", "ep_title": "배신한 사람에게 하는 가장 완벽한 복수"}, "intro_speed": 1.5,
+         "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0}, "voice_dir": d, "voice_files": vf, "subs": subs,
+         "monologue_voices": [n for n, v, t in LINES if v == M], "cast_voices": [n for n, v, t in LINES if v == V],
+         "music": [{"file": "cinematic_5.mp3", "at_shot": 0, "offset": 0.0, "start": 0, "until_shot": 5, "vol": 0.18, "fin": 1.0, "fout": 1.2},
+                   {"file": "sad_3.mp3", "at_shot": 7, "offset": 0.5, "start": 60, "until_shot": 16, "vol": 0.13, "fin": 3, "fout": 2}],
+         "shots": shots}
+    json.dump(S, open(os.path.join(HERE, "spec_cine01.json"), "w"), ensure_ascii=False, indent=1); print(len(shots), "장면", vf.keys())
+
+
+if __name__ == "__main__":
+    {"gen": gen, "spec": spec}.get(sys.argv[1], lambda: genv(int(sys.argv[2])))()
