@@ -24,7 +24,7 @@
 <meta name="apple-mobile-web-app-title" content="밸류노트">
 <meta name="application-name" content="밸류노트">
 <link rel="preload" href="/fonts/montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
-<style>@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
+<style>@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:block;src:url(/fonts/montserrat-800.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -53,8 +53,10 @@ if('serviceWorker' in navigator)window.addEventListener('load',function(){naviga
 <style>
 #splash{position:fixed;inset:0;z-index:100;background:#0E1A2B;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .45s ease;font-family:"VN Arrow","SUIT Variable","SUIT","Pretendard Variable",system-ui,sans-serif}
 #splash.out{opacity:0;pointer-events:none}
-#splash .sp-wm{font-family:"Fraunces",Georgia,serif;font-size:46px;font-weight:600;letter-spacing:-.02em;color:#FFFFFF;animation:spIn .7s ease-out both;font-variation-settings:"opsz" 144}
-#splash .sp-wm span{color:#C9B180;font-style:italic}
+/* 2026-11-10 스플래시는 처음 그려질 때부터 확정 로고(Montserrat ExtraBold, Value 흰색·Note 아이보리·아이보리 밑줄·아래 밸류노트)로 — 뒤쪽 스타일이 읽히기 전 옛 세리프/기본 글꼴이 잠깐 보이던 문제 수정 */
+#splash .sp-wm{font-family:"Montserrat","SUIT Variable",SUIT,sans-serif;font-size:44px;font-weight:800;letter-spacing:-.01em;line-height:1;color:#FFFFFF;display:inline-block;padding-bottom:9px;border-bottom:1.5px solid #EADBB9;animation:spIn .7s ease-out both}
+#splash .sp-wm span{color:#EADBB9;font-style:normal;font-weight:800}
+#splash .sp-name{color:#EADBB9;font-size:22px;font-weight:700;letter-spacing:.24em;line-height:1;margin-top:-4px;padding-left:.24em;animation:spIn .7s .1s ease-out both}
 #splash .sp-sub{color:#C9B180;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;animation:spIn .7s .15s ease-out both}
 #splash .sp-ko{color:rgba(255,255,255,.6);font-size:13px;animation:spIn .7s .3s ease-out both}
 #splash .sp-bar{width:120px;height:2px;border-radius:1px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:18px}
