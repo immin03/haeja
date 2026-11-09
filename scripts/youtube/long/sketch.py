@@ -791,6 +791,16 @@ def end_page(v, lines, fill, V, at_time):
     cx = (COL_X + ES_BOX[0] - 60) / 2
     # 2026-11-03 대표님: "'봐 주셔서 감사합니다'는 의미 없는 말이고 이것만 띄워 놓고 공백이 길었다", "관련 영상 칸이 안 맞으니 점선을 빼고 영상만 배치"
     # → 인사 제목·점선 칸·'함께 보면 좋은 영상' 글씨를 그리지 않는다. 왼쪽엔 [다음 영상 한 줄 · 버튼 세 개 · 질문]만, 오른쪽은 비워 두고 업로드 때 유튜브 '동영상' 요소만 얹는다.
+    if v.get("dark_end"):   # 2026-11-10 대표님: 끝 화면은 노트 대신 새 채널 배너 톤 — 차별화된 분석 · 기업 이해 · 투자가 달라진다
+        IV = (246, 241, 232); GD = (236, 217, 180); X0 = 130
+        B = [dict(kind="print", text="차별화된 분석을 전하는 경제·투자 채널", x=X0, y=372, size=40, w="SemiBold", color=GD, t=S0),
+             dict(kind="print", text="기업을 이해하면,", x=X0, y=434, size=96, w="ExtraBold", color=IV, t=S0 + .25),
+             dict(kind="print", text="투자가 달라집니다", x=X0, y=556, size=96, w="ExtraBold", color=GD, t=S0 + .55),
+             dict(kind="print", text="스토리와 숫자로 기업의 내재 가치를 짚어 드립니다", x=X0, y=690, size=38, w="Medium", color=IV, t=S0 + .85)]
+        wds = (250, 260, 300); gap = 24; px = X0
+        for i, kind in enumerate(("sub", "like", "bell")):
+            B.append(dict(kind="pill", which=kind, x=px, y=770, w=wds[i], h=92, t=S0 + 1.2 + .28 * i)); px += wds[i] + gap
+        return B
     B = []
     if v.get("note"):   # 마무리 질문(댓글 유도) 한 줄이 엔딩 화면이 열리자마자 먼저 — 빈 화면 없이
         B.append(dict(kind="print", text=F(v["note"].get("text", "")), x=cx, y=340, size=56, w="ExtraBold", color="gold", anchor="m", t=S0))
@@ -895,7 +905,7 @@ def scene_beats(sc, lines, V, fill, at_time, auto_ok=True):
     if True:   # 2026-10-29: 직접 그린 손그림·sketch_add 에도 {px} 같은 빈칸을 렌더 시점 값으로 채운다
         spec = [dict(b, **{k: fill(str(b[k]), V) for k in ("text", "label", "cap") if isinstance(b.get(k), str) and "{" in b[k]},
                      **({"rows": [fill(str(r), V) for r in b["rows"]]} if isinstance(b.get("rows"), list) else {})) for b in spec]
-    spec = tidy(spec)
+    if not sc["v"].get("dark_end"): spec = tidy(spec)   # 어두운 끝 화면은 색·크기를 그대로
     if sc["v"]["type"] != "end":
         spec = grid(spec, lines)   # 2026-10-29 대표님: 좌·가운데·우측 정렬을 딱딱 맞게 (직접 그린 장면 포함)
         spec = vcenter(spec, lines)   # 사진 없으면 balance, 있으면 사진 기준 세로 가운데

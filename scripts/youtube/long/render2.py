@@ -1286,6 +1286,24 @@ def ident_fx(im, u, dur, kk, cy, lg):
     return im
 
 
+_DARK_END = None
+def dark_end_bg():
+    """2026-11-10 대표님: 끝 화면 = 새 채널 배너 톤 (네이비 + 옅은 캔들 + 금색 상승선)"""
+    global _DARK_END
+    if _DARK_END is not None: return _DARK_END.copy()
+    img = background("dark").convert("RGB"); ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(ov); rng = np.random.default_rng(11)
+    pts = []
+    for x in range(0, W + 1, 12):
+        t = x / W; pts.append((x, 1010 - 150 * (t ** 1.6) - 26 * math.sin(t * 7)))
+    for x in range(24, W, 44):
+        y = 1010 - 150 * ((x / W) ** 1.6) - 26 * math.sin(x / W * 7) + 34; h = float(rng.uniform(14, 44)); w_ = float(rng.uniform(16, 44))
+        d.line([(x, y - h / 2 - w_ * .5), (x, y + h / 2 + w_ * .5)], fill=(200, 208, 222, 54), width=2); d.rounded_rectangle([x - 7, y - h / 2, x + 7, y + h / 2], 3, fill=(210, 216, 228, 58))
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0)); g = ImageDraw.Draw(glow); g.line(pts, fill=(236, 217, 180, 150), width=8)
+    ov.alpha_composite(glow.filter(ImageFilter.GaussianBlur(8))); d = ImageDraw.Draw(ov); d.line(pts, fill=(236, 217, 180, 230), width=3)
+    img = Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB"); _DARK_END = img
+    return img.copy()
+
+
 def full_source(v, n_frames, seed):
     """2026-11-01 A안: 일러스트를 화면 전체에 깔고 천천히 켄 번즈. 노트 필기 쪽(v.wash: left|right|none)은 아이보리로 살짝 덮어 글씨가 읽히게.
     (속도: 원본은 한 번만 키워 두고, 프레임마다 BILINEAR 한 번 + C 합성만 — 2026-11-01 첫 렌더가 150분 제한에 걸려 고침)"""
@@ -1684,7 +1702,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 tex, tip = nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, u, write_t0=wt0)
                 if tip is not None: pen_tip, pen_al = tip, 1.0
             else:
-                if I["inked"]: img = background("dark" if sc["v"].get("dark_end") else "light")   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
+                if I["inked"]: img = dark_end_bg() if sc["v"].get("dark_end") else background("light")   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
                 else:
                     img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
                     if bdf: img = on_backdrop(img, bdf(u), theme)
