@@ -130,7 +130,7 @@ def spec():
     subs["n1"] = "!" + subs["n1"]
     shots = [
      shot("c1v_chest", "n1", pre=0.6, post=0.5, tin="black", fin=0.5, sfx=[["impact_2.mp3", 0.1, 0.3]]),
-     shot("c1v_enter", "n2", pre=0.3, post=0.5, sfx=[["war_7.mp3", 0.0, 0.08]]),
+     shot("c1v_enter", "n2", pre=0.15, post=0.05, sfx=[["war_7.mp3", 0.0, 0.08]]),
      shot("c1v_seal", "n3", pre=0.2, post=0.3, amb=FIRE2),
      shot("c1v_hand", "n4", pre=0.2, post=0.2, dur=5.0, amb=FIRE2, sfx=[["heartbeat_2.mp3", 1.8, 0.35]]),
      shot("c1v_push", "n5", pre=0.3, post=0.6, sfx=[["fire_2.mp3", 1.2, 0.8], ["impact_3.mp3", 1.5, 0.35]]),
