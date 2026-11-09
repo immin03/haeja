@@ -1,0 +1,32 @@
+[
+ {
+  "id": "cep1_arrive",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/cep1i_arrive.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The general steps forward and hands over the scroll; the emperor takes it slowly. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "cep1_ranks",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/cep1i_ranks.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He climbs the steps slowly and turns to face the army; snow falls; slow crane forward. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "cep1_spk",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/cep1i_spk.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He speaks slowly and sorrowfully to an army, his lips and jaw moving naturally in continuous speech for the whole shot; his breath visible; the camera is almost still. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ }
+]

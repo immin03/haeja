@@ -1,0 +1,32 @@
+[
+ {
+  "id": "cep1_cloak",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/cep1i_cloak.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The officers settle the cloak on his shoulders, he steps forward and raises one arm; soldiers raise swords. Real-time motion. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "cep1_ctalk",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/cep1i_ctalk.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He speaks loudly to an army, his lips and jaw moving naturally in continuous speech for the whole shot; the camera is almost still. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "cep1_cheer",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/cep1i_cheer.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "They thrust their swords upward and shout together; dust rises. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ }
+]
