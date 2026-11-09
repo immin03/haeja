@@ -1,0 +1,3520 @@
+{
+ "fx": 1430,
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "hook": {
+  "bpm": 61.52,
+  "style": "basstaiko",
+  "cut": "beat",
+  "pulse": false,
+  "ident_fx": false
+ },
+ "overlay": "doc",
+ "look": {
+  "paper": "blueprint",
+  "dark": "ink",
+  "accent": "sky"
+ },
+ "music": {
+  "intro": "social/music/samples3/I2_full.mp3",
+  "intro_offset": 0.07,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/samples3/H6_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
+  ],
+  "note": "본편 H6 House - July → H1 Deep House Sunset · 120Hz 아래 차단 (대표 11/9 최신 기준)",
+  "hits": [
+   2.93,
+   6.83,
+   12.68,
+   18.53,
+   22.43,
+   26.33,
+   31.21,
+   35.6,
+   43.4,
+   47.3,
+   53.64,
+   57.54,
+   61.44,
+   65.34,
+   69.24,
+   74.6,
+   78.51,
+   82.41,
+   87.77
+  ],
+  "bed_gain_db": 3,
+  "bed_hp": 120
+ },
+ "id": "L261110-pepero-v2",
+ "company": null,
+ "no_data": true,
+ "series": "빼빼로데이",
+ "scheduled_at": "2026-11-10T19:30:00+09:00",
+ "events": [
+  {
+   "at": "2026-11-10T00:24:00+09:00",
+   "by": "owner",
+   "what": "채팅 지시 — 빼빼로 내일 예약본 작업, 훅·리훅 살리고 사운드 최신 버전"
+  }
+ ],
+ "opening": "미스터리형 — 판결문 첫 줄 → 손잡이 소송 → 광고 문구(답 미공개) → 11월 11일의 수수께끼 → 휴업 → 타워 담보 → 판결문 마지막 줄 예고",
+ "hook_type": "미스터리 훅 + 힌트 + 리훅",
+ "endscreen_target": "L261105-hermes",
+ "title": "빼빼로데이 유래, 미국 법원까지 간 6년 소송… 그 날을 만든 건 롯데가 아니었다",
+ "doc_title": "빼빼로데이는 누가 만들었나",
+ "title_en": "Pepero Day: the six-year US lawsuit and the day Lotte did not invent",
+ "tags": [
+  "빼빼로데이 유래",
+  "빼빼로데이",
+  "빼빼로",
+  "포키",
+  "롯데웰푸드",
+  "롯데웰푸드 주가",
+  "롯데웰푸드 주가 전망",
+  "신격호",
+  "롯데월드타워",
+  "롯데 유동성",
+  "11월 11일",
+  "빼빼로 수출",
+  "인도 빼빼로",
+  "K푸드"
+ ],
+ "search_keywords": [
+  "빼빼로데이 유래",
+  "빼빼로데이",
+  "롯데웰푸드 주가 전망",
+  "빼빼로"
+ ],
+ "sources": [
+  "미국 연방 제3순회항소법원 2021-01-26 판결 (Ezaki Glico v. Lotte International America, 판결문 인용)",
+  "아이뉴스24 2025-11-07 · 헤럴드경제 2025-06-07 · 연합통신 1996-11-13 (유래)",
+  "머니투데이·뉴데일리 2020-01-19 (신격호 생애) · 서울신문 1998-09-04 (재무구조)",
+  "뉴데일리 2011-11-03 · 매일신문 2011-11-09 · 엘르엣진 설문 2011 (밀레니엄 빼빼로데이·대구 휴업·선물 설문)",
+  "파이낸셜뉴스 2026-10-16 · 새턴경제 2026-11-04 (올해 편의점 준비)",
+  "서울신문 2015-07-31 · 이투데이 (경영권 분쟁, 양측 주장)",
+  "뉴시스 2024-11-29 · 르몽드 디플로마티크 · 한국경제 2024-12-02 · 데일리바이트 2022-11-23·2024-11 · 뉴스토마토 2024-11-13 (위기설·타워 담보·회사채·롯데건설)",
+  "글로벌이코노믹 2026-10-30 · 한경비즈니스 2026-10-29 · 파이낸셜뉴스 2026-08-12 · 아시아경제 2026-05-31 · 서울신문 2026-10-29 (호텔롯데·롯데렌탈·센텀시티)",
+  "아주경제 2026-10-20·2026-06-30 · 머니투데이 2026-10-23 · 더구루 2026-09-05 · 새턴경제 2024-09-09 (빼빼로 매출·원롯데)",
+  "스마트투데이 2026-02-06 · 비즈워치 2026-02-11 (2025년 실적)",
+  "다올투자증권 2026-10-12 (3분기 전망, S저널 인용)",
+  "그림: AI 생성 스틸(실존 인물 아님) · 사진: Wikimedia Commons · 영상: Mixkit·Pexels"
+ ],
+ "pinned_comment": "이번 빼빼로데이, 여러분은 누구에게 주실 건가요? 직장 동료 몫까지 챙기시나요? 댓글로 나눠 주세요.\n※ 2015년 경영권 분쟁은 양측 주장을 함께 소개했습니다. 주가 전망은 2026년 10월 12일 증권사 자료 기준이며 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "description_head": "빼빼로데이 유래가 궁금하신 분들을 위해 정리했습니다.\n\n11월 11일을 만든 건 롯데가 아니었습니다. 포키와 빼빼로의 6년 미국 소송, 2011년 대구 초등학교 휴업, 창업자의 타워가 담보가 된 사연과 지라시·회사채 위기, 롯데웰푸드 주가 전망까지 다룹니다.\n\n※ 주가 전망은 2026년 10월 12일 증권사 자료 기준이며 매수·매도 권유가 아닙니다.",
+ "description_en": "Pepero Day was not invented by Lotte. We trace the six-year US lawsuit with Pocky, the 2011 school closures, the Lotte World Tower pledge and what to watch at Lotte Wellfood.",
+ "hook_promises": [
+  "판결문의 마지막 한 줄",
+  "승패를 결정한 광고 문구",
+  "볼 것 3가지"
+ ],
+ "viewer_question": "빼빼로데이는 누가 만들었고 롯데는 지금 어떤 상황인가",
+ "format_note": "11/10 재제작. 실존 인물 사진 없음. 경영권 분쟁은 양측 주장 구분. 시그니엘 매각 언급 없음.",
+ "thumb": {
+  "photo": "il_L261108p_thumb_girls.jpeg",
+  "focus_x": 0.6,
+  "l1": "이 날을 만든 건",
+  "l2": "롯데가 아니었다",
+  "pos": "left",
+  "s1": 70,
+  "s2": 130
+ },
+ "ab_sets": [
+  {
+   "key": "a",
+   "default": true,
+   "title": "빼빼로데이 유래, 미국 법원까지 간 6년 소송… 그 날을 만든 건 롯데가 아니었다",
+   "file": "thumb_a.jpg",
+   "type": "A 유래"
+  },
+  {
+   "key": "b",
+   "title": "빼빼로데이 유래, 미국 법원까지 간 6년 소송… 그 날을 만든 건 롯데가 아니었다",
+   "file": "thumb_b.jpg",
+   "type": "B 소송"
+  },
+  {
+   "key": "c",
+   "title": "빼빼로데이 유래, 미국 법원까지 간 6년 소송… 그 날을 만든 건 롯데가 아니었다",
+   "file": "thumb_c.jpg",
+   "type": "C 타워·주가 전망"
+  }
+ ],
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261108p_us_courtroom.jpeg"
+     },
+     {
+      "lib": "il_L261105h_uscourt.jpeg"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "2021년 1월, 미국 연방 항소법원의 한 판사가 판결문 첫 줄을 이렇게 씁니다. 이것은 디저트 이상의 이야기다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "“A tale of more than just desserts.”",
+     "sub": "Ezaki Glico v. Lotte · 2021년 1월",
+     "line": 0,
+     "at": 0.9,
+     "y": 540
+    }
+   ],
+   "lead": 0.0,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261108p_stick_handle.jpeg"
+     },
+     {
+      "lib": "commons_pepero_1.jpg"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "재판의 대상은 초콜릿 막대 과자의 손잡이였어요. 일본 포키가 한국 빼빼로를 미국 법정에 세운 사건이었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "POCKY vs PEPERO",
+     "sub": "미국 연방 항소법원",
+     "line": 0,
+     "at": 0.6,
+     "color": "gold",
+     "hold": 1.8
+    }
+   ],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vdocuments_22856.mp4"
+     },
+     {
+      "lib": "vnewspaper_41199.mp4"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "승패를 결정한 건 뜻밖의 문장 하나였습니다. 소송을 건 회사가 직접 쓴 광고 문구였거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "tokyo_28687.mp4"
+     },
+     {
+      "lib": "commons_busanstairs_1.jpg"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true,
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 진짜 수수께끼는 법정 밖에 있습니다. 막대 과자는 일본이 먼저인데, 11월 11일은 한국이 먼저예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "막대 과자",
+      "11월 11일"
+     ],
+     "rows": [
+      [
+       "일본이 먼저",
+       "한국이 먼저"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 1.0
+    }
+   ],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261108p_girls_handover.jpeg"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "그 날을 만든 것도 롯데가 아니었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261108p_empty_class.jpeg"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "2011년 그 날에는 대구 초등학교 절반 가까이가 문을 닫습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "매일신문 2011-11-09",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "215곳 중 101곳",
+     "sub": "2011년 11월 11일 · 대구 초등학교 휴업",
+     "line": 0,
+     "at": 0.3,
+     "color": "red",
+     "hold": 1.8
+    }
+   ],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "commons_lotteworldtower_1.jpg"
+     },
+     {
+      "lib": "vcontract_23112.mp4"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "그리고 이 과자를 만든 그룹은, 창업자가 30년 걸려 세운 123층 타워를 은행에 담보로 내놓게 되죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴시스 2024-11-29",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "롯데월드타워",
+     "sub": "2024년 11월 · 은행 담보",
+     "line": 0,
+     "at": 1.4,
+     "y": 540
+    }
+   ],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "commons_pepero_5.jpg"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "지금 그 그룹이 다시 기대를 거는 게, 바로 이 작은 과자입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vdocuments_45923.mp4"
+     }
+    ],
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "판결문의 마지막 한 줄이 무엇이었는지는, 영상 끝에서 알려 드릴게요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lead": 0.08,
+   "hold": 0.12
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "ident": true
+   },
+   "lines": [
+    "밸류노트, 지금 시작합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_sales_office.jpeg"
+     },
+     {
+      "lib": "vtyping_242.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이야기는 1994년, 경상남도의 한 롯데 영업사원에서 시작합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "아이뉴스24 2025-11-07",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1994년 · 경상남도",
+     "line": 0,
+     "at": 0.05
+    }
+   ],
+   "chapter": "회사보다 먼저 움직인 주문"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_corner_shop.jpeg"
+     },
+     {
+      "lib": "commons_oldgrocery_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "해마다 11월 11일만 되면 거래처에서 빼빼로를 더 보내 달라는 주문이 들어왔거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "phone_4919.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "영업사원이 물건을 팔러 다닌 게 아니라, 거꾸로 주문이 밀려든 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_hands_exchange.jpeg"
+     },
+     {
+      "lib": "il_L261108p_sticks_eleven.jpeg"
+     },
+     {
+      "lib": "commons_busanstairs_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "알아보니 부산과 경남의 여학생들이 이 날 빼빼로를 주고받고 있었어요. 1이 네 개 겹친 날, 빼빼로처럼 키 크고 날씬해지자는 뜻이었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_busan_alley.jpeg"
+     },
+     {
+      "lib": "commons_busanstairs_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "시작이 1993년인지 1994년인지, 중학생인지 고등학생인지는 기록마다 조금씩 다릅니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "헤럴드경제 2025-06-07",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "시작 시점",
+      "주체"
+     ],
+     "rows": [
+      [
+       "1993년 또는 1994년",
+       "중학생 또는 고등학생"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gray"
+     ],
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_thumb_girls.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "확실한 건, 회사보다 학생들이 먼저였다는 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_press_1996.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이 유행이 통신사 기사로 처음 세상에 알려진 건 1996년 11월이었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "연합통신 1996-11-13",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1996년 11월 13일 · 첫 보도",
+     "line": 0,
+     "at": 0.05
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_lottedept_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 이 막대 과자를 팔던 회사는, 대체 어떻게 시작된 곳이었을까요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_busan_port.jpeg"
+     },
+     {
+      "lib": "commons_yenbills_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1941년, 울산 출신 청년 신격호가 일본으로 건너갑니다. 사촌형이 마련해 준 밑천은 83엔이었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이·뉴데일리 2020-01-19",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "83엔",
+     "sub": "1941년 일본행 밑천",
+     "line": 0,
+     "at": 1.5,
+     "color": "gold",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ],
+   "chapter": "83엔을 들고 떠난 청년"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_tokyo_1948.jpeg"
+     },
+     {
+      "lib": "il_L2611sy_newspaper.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "와세다대학에서 화학을 공부하며 신문과 우유를 배달해 학비를 벌었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이·뉴데일리 2020-01-19",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "factory_14051_a.jpg"
+     },
+     {
+      "lib": "commons_yenbills_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1944년에는 일본인 사업가에게 5만 엔을 빌려 윤활유 공장을 세웁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이·뉴데일리 2020-01-19",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "윤활유 공장",
+     "sub": "1944년 · 5만 엔 차입",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "storm_47948.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 미군 폭격에 공장이 불타고, 남은 건 빚뿐이었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이·뉴데일리 2020-01-19",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vcraftsman_7039.mp4"
+     },
+     {
+      "lib": "commons_yenbills_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "광복 뒤 막노동으로 버티다 1946년 도쿄에 화학 공장을 차려 화장품을 팔았고, 그 돈으로 빚을 정리해요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이·뉴데일리 2020-01-19",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_novel_gum.jpeg"
+     },
+     {
+      "lib": "il_L261108p_gum_workshop.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1948년, 그가 껌 회사를 세우며 붙인 이름이 롯데입니다. 괴테 소설 속 여주인공 샤롯데에서 따왔죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이·뉴데일리 2020-01-19",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "LOTTE",
+     "sub": "1948년 · 샤롯데에서 따온 이름",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_bankvault_1.jpg"
+     },
+     {
+      "lib": "vmoney_18261.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그렇게 빚에 데어서였을까요. 그는 은행 돈을 되도록 쓰지 않는 경영으로 유명해집니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "서울신문 1998-09-04",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261104g_bank_queue_1998.jpeg"
+     },
+     {
+      "lib": "vseoul_20089.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "외환위기 직후인 1998년, 롯데는 30대 그룹 가운데 재무구조가 가장 탄탄하다는 평가를 받았어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "서울신문 1998-09-04",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "부채비율 216%",
+     "sub": "1998년 · 30대 그룹 중 재무구조 1위",
+     "line": 0,
+     "at": 0.6,
+     "color": "gold",
+     "hold": 2.0,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_lottedept_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이건 잠깐 기억해 두세요, 뒤에서 다시 꺼낼게요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_factory_1960s.jpeg"
+     },
+     {
+      "lib": "il_L261108p_choco_line.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1967년 한국에 롯데제과를 세웠고, 1983년 가는 비스킷 막대에 초콜릿을 입힌 빼빼로가 나옵니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "1967년 롯데제과 · 1983년 빼빼로",
+     "line": 0,
+     "at": 0.05
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "chocolate_41117_a.jpg"
+     },
+     {
+      "lib": "commons_uscourthouse_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "끝을 손잡이처럼 조금 남겨 둔 모양이었죠. 바로 이 손잡이가 훗날 미국 법정까지 가게 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "tokyo_4231.mp4"
+     },
+     {
+      "lib": "commons_lawson_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이런 모양을 먼저 만든 건 일본 글리코였습니다. 1966년에 나온 포키죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "POCKY",
+     "sub": "1966년 · 일본 글리코",
+     "line": 0,
+     "at": 0.5
+    }
+   ],
+   "chapter": "6년 소송의 마지막 한 줄"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnewspaper_34190.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 빼빼로에는 따라 만들었다는 말이 오래 따라다녔어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vcourt_46117.mp4"
+     },
+     {
+      "lib": "vcontract_23222.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "2015년, 글리코는 미국에서 롯데를 상대로 소송을 냅니다. 포키의 막대 모양을 베꼈다는 주장이었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2015년 · 미국 소송 제기",
+     "line": 0,
+     "at": 0.05
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vdocuments_48385.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "글리코는 이 모양을 미국에 상표처럼 등록해 둔 상태였거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_uscourthouse_2.jpg"
+     },
+     {
+      "lib": "newspaper_41191_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 항소법원은 글리코가 스스로 낸 광고를 꺼내 듭니다. 포키의 손잡이를 손에 묻지 않는 손잡이라고 자랑한 문구였죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "“the no mess handle”",
+     "sub": "글리코 광고 문구 · 판결문 인용",
+     "line": 0,
+     "at": 2.0
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vcourt_46820.mp4"
+     },
+     {
+      "lib": "commons_ussupremeish_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "판사의 논리는 단순했어요. 포키의 모든 특징은 잡고, 먹고, 나누고, 포장하는 쓸모와 이어져 있다는 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "포키의 특징",
+      "판결"
+     ],
+     "rows": [
+      [
+       "잡기·먹기·나누기·포장",
+       "실용적 기능"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.5
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vcourt_47602.mp4"
+     },
+     {
+      "lib": "il_L261105h_contract.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "쓸모 때문에 생긴 모양은 한 회사가 독점할 수 없다는 판단이었고, 롯데가 이겼습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vdocuments_24632.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "광고로 자랑한 장점이, 법정에서는 자기 권리를 지우는 증거가 된 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_ussupremeish_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "판결문의 마지막 한 줄은 영상 끝에서 알려 드릴게요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_koreaconv_1.jpg"
+     },
+     {
+      "lib": "commons_familymart_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이렇게 막대 모양 싸움은 끝났습니다. 그런데 11월 11일을 둘러싼 이야기는 더 황당해요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "tokyo_30137.mp4"
+     },
+     {
+      "lib": "commons_lawson_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "글리코도 1999년에 11월 11일을 포키의 날로 정합니다. 막대 과자는 일본이 먼저였지만, 이 날만큼은 한국이 먼저였던 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "글리코 · 헤럴드경제 2025-06-07",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "포키의 날",
+     "sub": "1999년 · 일본 글리코 지정",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "천년에 단 하루"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_office_gifts.jpeg"
+     },
+     {
+      "lib": "gift_14839_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "롯데는 2000년대 들어 이 날을 본격적으로 키웁니다. 친구와 연인, 직장 동료와 마음을 나누는 날이라는 이름을 붙였어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vshopping_15914.mp4"
+     },
+     {
+      "lib": "commons_chocolatesale_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "절정은 2011년이었습니다. 11년 11월 11일, 1이 여섯 개 겹치는 날이었거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리 2011-11-03",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2011년 11월 11일",
+     "sub": "1이 여섯 개",
+     "line": 0,
+     "at": 0.5
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_chocolatesale_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그해 롯데제과의 홍보 문구는 천년에 단 하루였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리 2011-11-03",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "“천년에 단 하루”",
+     "sub": "2011년 롯데제과 홍보 문구",
+     "line": 0,
+     "at": 0.5
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "phone_4915.mp4"
+     },
+     {
+      "lib": "laptop_4713.mp4"
+     },
+     {
+      "lib": "vcomputer_308.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 인터넷에서 바로 반박이 나왔어요. 2111년에도, 2211년에도 똑같이 1이 여섯 개 겹친다는 거였죠. 천년이 아니라 100년에 한 번이었던 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리 2011-11-03",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "2111년 11월 11일",
+      "2211년 11월 11일"
+     ],
+     "rows": [
+      [
+       "1이 여섯 개",
+       "1이 여섯 개"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gray"
+     ],
+     "line": 0,
+     "at": 0.6
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261110a_rural_school.jpeg"
+     },
+     {
+      "lib": "city_49845_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "학교는 더 심각했습니다. 그해 11월 11일, 대구 초등학교 215곳 가운데 101곳이 휴업을 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "매일신문 2011-11-09",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "city_1606_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "같은 날 휴업한 학교가 2009년에는 2곳, 2010년에는 1곳도 없었는데 말이죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "매일신문 2011-11-09",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "11월 11일 휴업 학교 수 · 대구 초등",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "2009년",
+       "v": 2,
+       "text": "2곳",
+       "color": "gray"
+      },
+      {
+       "label": "2010년",
+       "v": 0.3,
+       "text": "0곳",
+       "color": "gray"
+      },
+      {
+       "label": "2011년",
+       "v": 101,
+       "text": "101곳",
+       "color": "red"
+      }
+     ],
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_jewelryshop_1.jpg"
+     },
+     {
+      "lib": "commons_handbagshop_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "같은 해 20, 30대 여성 천여 명에게 받고 싶은 선물을 물었더니, 액세서리, 명품 가방, 화장품 바로 다음이 빼빼로였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엘르엣진 설문 2011",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "받고 싶은 선물 · 20~30대 여성",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "액세서리",
+       "v": 27,
+       "text": "27%",
+       "color": "gray"
+      },
+      {
+       "label": "명품 가방",
+       "v": 20,
+       "text": "20%",
+       "color": "gray"
+      },
+      {
+       "label": "화장품",
+       "v": 18,
+       "text": "18%",
+       "color": "gray"
+      },
+      {
+       "label": "빼빼로",
+       "v": 17,
+       "text": "17%",
+       "color": "gold"
+      }
+     ],
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_silkscarf_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "과자 한 갑이 명품 가방과 같은 순위표에 오른 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vofficebuilding_31663.mp4"
+     },
+     {
+      "lib": "office_914_a.jpg"
+     },
+     {
+      "lib": "commons_cafeint_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "직장에서는 또 다릅니다. 올해 11월 11일은 수요일이라, 팀원 수대로 사서 책상에 하나씩 올려놓는 빼빼로까지 편의점이 물량으로 계산하고 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "파이낸셜뉴스 2026-10-16",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2026년 11월 11일",
+     "sub": "수요일",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_koreaconv_2.jpg"
+     },
+     {
+      "lib": "commons_koreaconv_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "세븐일레븐은 지난해 관련 매출이 120% 늘자, 올해 상품 수를 30% 늘렸습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "새턴경제 2026-11-04",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "+120%",
+     "sub": "세븐일레븐 지난해 11월 1~11일 관련 매출",
+     "line": 0,
+     "at": 0.4,
+     "color": "green",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_warehouse.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "빼빼로 1년 판매의 절반이 11월에 몰리는 이유입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_jongno_1.jpg"
+     },
+     {
+      "lib": "commons_seoulnight_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여기까지가 과자 이야기입니다. 그런데 이 과자를 만든 그룹의 사정은, 전혀 달콤하지 않았어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_lotteworldtower_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "은행 돈을 그토록 멀리하던 그룹이, 어쩌다 창업자의 타워를 은행에 내놓게 됐을까요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "chapter": "담보로 잡힌 123층"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnewspaper_41192.mp4"
+     },
+     {
+      "lib": "vdocuments_39496.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "먼저 집안싸움이 있었습니다. 2015년 장남 신동주 전 부회장은 아버지가 서명했다는 동생 해임 지시서를 공개했어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "서울신문 2015-07-31",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "신동주 측 공개",
+     "sub": "해임 지시서 · 신동주 측 주장",
+     "line": 0,
+     "at": 1.5
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vcontract_28362.mp4"
+     },
+     {
+      "lib": "commons_archiveboxes_1.jpg"
+     },
+     {
+      "lib": "vmeeting_15716.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "롯데 측은 적법한 절차가 없어 무효이고, 창업주가 고령으로 판단력이 흐려졌다고 맞섰습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "서울신문 2015-07-31",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "롯데그룹 측 반박",
+     "sub": "적법 절차 없어 무효",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vconference_13192.mp4"
+     },
+     {
+      "lib": "vmeeting_22961.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그해 8월 일본 롯데홀딩스 주주총회에서 차남 신동빈 회장이 승리합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "이투데이",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "2015년 8월 17일 · 일본 롯데홀딩스 주주총회",
+     "line": 0,
+     "at": 0.05
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vseoul_20095.mp4"
+     },
+     {
+      "lib": "il_L261105h_towerman.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "창업주가 부지를 산 지 30년 만인 2017년, 123층 롯데월드타워가 완공되죠. 그는 2020년 99세로 세상을 떠났습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이·뉴데일리 2020-01-19",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "123층",
+     "sub": "1987년 부지 매입 · 2017년 완공",
+     "line": 0,
+     "at": 0.8,
+     "color": "gold",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnightcity_40746.mp4"
+     },
+     {
+      "lib": "commons_constructiondc_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "진짜 위기는 2022년 가을에 시작됩니다. 레고랜드 사태로 돈줄이 막히자 롯데건설이 급해졌거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "데일리바이트 2022-11-23",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2022년 가을",
+     "sub": "레고랜드 사태",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_refinery_1.jpg"
+     },
+     {
+      "lib": "vmoney_47005.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "롯데케미칼이 5,000억 원을 빌려주고, 롯데홈쇼핑이 1,000억 원을 넣었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "데일리바이트 2022-11-23",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "롯데케미칼",
+      "롯데홈쇼핑"
+     ],
+     "rows": [
+      [
+       "5,000억 원",
+       "1,000억 원"
+      ]
+     ],
+     "colors": [
+      "gold",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.2
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vofficebuilding_41541.mp4"
+     },
+     {
+      "lib": "commons_bankvault_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래도 모자라 서울 잠원동 본사 땅과 건물을 담보로 일본 미즈호은행에서 약 3,000억 원을 빌립니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "데일리바이트 2022-11-23",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "미즈호은행 · 약 3,000억 원",
+     "sub": "잠원동 본사 땅·건물 담보",
+     "line": 0,
+     "at": 1.2
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_krxboard_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "2024년에는 롯데의 빚이 재계 4위인데 순이익은 17위라는 분석까지 나옵니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴스토마토 2024-11-13",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "차입금",
+      "순이익"
+     ],
+     "rows": [
+      [
+       "재계 4위",
+       "재계 17위"
+      ]
+     ],
+     "colors": [
+      "red",
+      "gray"
+     ],
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "phone_14669.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그해 11월 16일, 유튜브에 롯데그룹 공중분해 위기라는 영상이 올라옵니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "데일리바이트 2024-11",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "“롯데그룹 공중분해 위기”",
+     "sub": "2024년 11월 16일 · 유튜브 영상 제목",
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnews_41204.mp4"
+     },
+     {
+      "lib": "vcomputer_46635.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "곧이어 증권가에 지라시가 돕니다. 다음 달 모라토리엄을 선언하고 직원 절반 이상을 줄인다는 내용이었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "데일리바이트 2024-11",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "증권가 지라시",
+     "sub": "모라토리엄·인력 절반 감축 · 롯데 측 사실무근",
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vstockmarket_47213.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "18일 롯데케미칼 주가는 10% 넘게 빠졌고, 그룹은 사실무근이라고 공시하며 유포자 수사를 요청하겠다고 했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "데일리바이트 2024-11",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "-10.22%",
+     "sub": "2024년 11월 18일 · 롯데케미칼 주가",
+     "line": 0,
+     "at": 0.3,
+     "color": "red",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_refinery_2.jpg"
+     },
+     {
+      "lib": "il_L261105g_cin_receipt.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 지라시보다 무서운 문제가 따로 있었어요. 롯데케미칼 차입금이 2019년 3조 6천억 원에서 10조 9천억 원까지 불어나 있었거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴시스 2024-11-29",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "롯데케미칼 차입금",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "2019년",
+       "v": 3.6,
+       "text": "약 3.6조",
+       "color": "gray"
+      },
+      {
+       "label": "2024년 9월",
+       "v": 10.9,
+       "text": "약 10.9조",
+       "color": "red"
+      }
+     ],
+     "line": 0,
+     "at": 1.0
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_ledger.jpeg"
+     },
+     {
+      "lib": "commons_stockcert_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "회사채 14종에서 약속 위반 사유가 생깁니다. 규모는 2조 500억 원. 채권자가 만기 전에 돈을 돌려 달라고 할 수 있는 상황이 된 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국경제 2024-12-02",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "2조 500억 원",
+     "sub": "특약 위반 사유 발생 회사채 규모",
+     "line": 0,
+     "at": 0.8,
+     "color": "red",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_storm_tower.jpeg"
+     },
+     {
+      "lib": "il_L261105g_cin_vaultclose.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 27일 롯데는 결국 롯데월드타워를 은행 담보로 내놓습니다. 짓는 데만 4조 2천억 원, 가치는 6조 원이 넘는 건물이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "르몽드 디플로마티크 · 뉴시스 2024-11-29",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "6조 원+",
+     "sub": "롯데월드타워 가치 · 은행 담보 제공",
+     "line": 0,
+     "at": 1.4,
+     "color": "red",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261104g_banker_silhouette.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "은행 돈을 멀리하던 창업주의 타워가, 은행의 담보가 된 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vstockmarket_47012.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데도 바로 다음 날, 롯데케미칼 회사채 1,300억 원어치가 손해를 감수한 가격에 시장에 나왔어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국경제 2024-12-02",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vofficebuilding_40701.mp4"
+     },
+     {
+      "lib": "money_23524_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그룹의 돈줄로 통하는 호텔롯데 사정도 비슷합니다. 총차입금이 8조 6천억 원을 넘고, 1년 안에 돌아오는 빚만 약 5조 원이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "파이낸셜뉴스 2026-08-12 · 아시아경제 2026-05-31",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "총차입금",
+      "1년 내 만기"
+     ],
+     "rows": [
+      [
+       "8조 6,199억 원",
+       "약 5조 원"
+      ]
+     ],
+     "colors": [
+      "red",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.8
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnightcity_40747.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "L7 같은 호텔까지 매각 검토 대상에 올랐고요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴시스 2024-11-29",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vhandshake_30016.mp4"
+     },
+     {
+      "lib": "vconference_23116.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "믿었던 1조 6천억 원짜리 롯데렌탈 매각은 공정위 문턱을 넘지 못해 올해 5월 깨졌습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "아시아경제 2026-05-31",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "공정거래위원회",
+     "sub": "기업결합 승인 불발 · 2026년 5월 계약 해지",
+     "line": 0,
+     "at": 1.2
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vmoney_45703.mp4"
+     },
+     {
+      "lib": "vbusinessman_231.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "결국 주당 7만 7,115원이던 값을 5만 9,000원으로 낮춰 미국 사모펀드 TPG에 넘겼죠. 10월 30일, 1조 3,105억 원입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "글로벌이코노믹 2026-10-30",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "최초 계약",
+      "최종 매각"
+     ],
+     "rows": [
+      [
+       "주당 7만 7,115원",
+       "주당 5만 9,000원"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.3
+    },
+    {
+     "kind": "punch",
+     "text": "1조 3,105억 원",
+     "sub": "롯데렌탈 매각 · TPG · 2026년 10월 30일",
+     "line": 0,
+     "at": 3.2,
+     "color": "gold",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnightcity_49878.mp4"
+     },
+     {
+      "lib": "commons_seoulnight_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그 전날에는 부산 센텀시티점을 바로 옆에서 싸우던 경쟁사 신세계에 넘기기로 합의했어요. 신세계는 이 일대를 신세계타운으로 만들겠다고 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "서울신문 2026-10-29",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "롯데백화점 부산 센텀시티점",
+     "sub": "2026년 10월 29일 · 신세계에 매각 합의",
+     "line": 0,
+     "at": 0.5
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_yeouido_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "올해 이렇게 확보한 돈이 약 1조 7,300억 원입니다. 위기설은 잦아들었다는 평가도 있지만, 매각은 아직 끝나지 않았어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한경비즈니스 2026-10-29 · 아시아타임즈 2026-11-01",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_thumb_sticks.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이렇게 급하게 매각으로 자금을 확보하고 있는 그룹이, 과자 하나에는 1조 원 목표를 걸었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_pepero_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이상한 일이죠. 빼빼로는 회사 매출의 10%도 되지 않거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "chapter": "매출의 10%도 안 되는 과자"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_analyst_desk.jpeg"
+     },
+     {
+      "lib": "commons_krxboard_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "지난해 빼빼로 매출은 2,430억 원, 롯데웰푸드 전체 매출은 4조 2,160억 원이었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "아주경제 2026-10-20 · 스마트투데이 2026-02-06",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "지난해 매출",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "빼빼로",
+       "v": 2430,
+       "text": "2,430억",
+       "color": "gold"
+      },
+      {
+       "label": "롯데웰푸드 전체",
+       "v": 42160,
+       "text": "4조 2,160억",
+       "color": "gray"
+      }
+     ],
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_cocoa_farm.jpeg"
+     },
+     {
+      "lib": "commons_cocoapod_1.jpg"
+     },
+     {
+      "lib": "il_L261108p_cocoa_screens.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "오히려 회사를 흔든 건 초콜릿이었어요. 카카오 값이 뛰면서 지난해 영업이익은 30% 줄었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "비즈워치 2026-02-11",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "-30%",
+     "sub": "지난해 롯데웰푸드 영업이익",
+     "line": 0,
+     "at": 1.0,
+     "color": "red",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "map_39787.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래도 빼빼로를 앞세우는 이유는 해외에 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_hanoi_popup.jpeg"
+     },
+     {
+      "lib": "containership_30467.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "올해 상반기, 빼빼로 해외 매출이 530억 원으로 국내 385억 원을 처음 앞질렀어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "아주경제 2026-10-20",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "올해 상반기 빼빼로 매출",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "해외",
+       "v": 530,
+       "text": "530억",
+       "color": "gold"
+      },
+      {
+       "label": "국내",
+       "v": 385,
+       "text": "385억",
+       "color": "gray"
+      }
+     ],
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vshopping_49137.mp4"
+     },
+     {
+      "lib": "commons_oldgrocery_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다만 국내 판매가 몰리는 11월이 남아 있어서, 연간 기록은 연말에 확인됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vairplane_7374.mp4"
+     },
+     {
+      "lib": "vconference_13222.mp4"
+     },
+     {
+      "lib": "vofficebuilding_40652.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "2024년 9월 폴란드 바르샤바, 신동빈 회장은 한일 롯데 식품사 회의에서 긴밀하게 협력하라고 주문합니다. 연 매출 1조 원짜리 메가 브랜드, 그 첫 후보가 빼빼로였죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "새턴경제 2024-09-09",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2024년 9월 · 폴란드 바르샤바",
+     "sub": "원롯데 식품사 전략회의",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vsingapore_30966.mp4"
+     },
+     {
+      "lib": "vhandshake_24047.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "올해 7월에는 한국과 일본 롯데가 싱가포르에 합작법인을 세웠고, 오너 3세 신유열이 이사회 의장을 맡았어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "아주경제 2026-06-30",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2026년 7월 · 싱가포르",
+     "sub": "한일 롯데 합작법인",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vmeeting_4809.mp4"
+     },
+     {
+      "lib": "commons_tokyocommute_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "경영권 분쟁의 무대였던 한국과 일본 롯데가, 이번엔 빼빼로를 첫 전략 상품으로 올린 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "더구루 2026-09-05",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_india_factory.jpeg"
+     },
+     {
+      "lib": "commons_haryana_1.jpg"
+     },
+     {
+      "lib": "il_L261108p_sun_chocolate.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "인도 하리아나 공장에서는 2025년 7월부터 빼빼로를 직접 만들기 시작했어요. 40도를 넘나드는 더위에 잘 녹지 않는 초콜릿까지 따로 개발해서요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "아이뉴스24 2025-11-07",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "인도 하리아나 · 2025년 7월 생산 시작",
+     "line": 0,
+     "at": 0.05
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_times_square.jpeg"
+     },
+     {
+      "lib": "commons_timessquare_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "올해도 10월 19일부터 11월 15일까지, 뉴욕 타임스스퀘어 전광판에 빼빼로 광고가 걸려 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이 2026-10-23",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_world_pins.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "부산 교실에서 시작된 날이 뉴욕까지 간 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnewyork_30544.mp4"
+     },
+     {
+      "lib": "cargo_4011.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "목표는 2035년 빼빼로 매출 1조 원. 지금의 네 배쯤 되는 크기입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "아주경제 2026-10-20",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "1조 원",
+     "sub": "2035년 빼빼로 매출 목표",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vstockmarket_9607.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "판결문 마지막 한 줄은 잠시 뒤로 미루고, 롯데웰푸드 주가부터 보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "chapter": "롯데웰푸드 주가 전망"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_freezer_aisle.jpeg"
+     },
+     {
+      "lib": "vanalytics_5462.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "증권가의 시각은 국내는 제자리걸음이고, 해외가 실적을 결정한다는 쪽입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "다올투자증권 2026-10-12 · 매수·매도 권유 아님",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "laptop_1781.mp4"
+     },
+     {
+      "lib": "vtyping_41183.mp4"
+     },
+     {
+      "lib": "vstockmarket_47214.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다올투자증권은 10월 12일 보고서에서 3분기 영업이익을 883억 원으로, 1년 전보다 27.5% 늘 것으로 봤어요. 해외 법인 매출은 15.3% 증가, 국내 매출은 0.7% 감소 전망입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "다올투자증권 2026-10-12 · 매수·매도 권유 아님",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "883억 원",
+     "sub": "3분기 영업이익 전망 · 전년 대비 +27.5%",
+     "line": 0,
+     "at": 0.9,
+     "color": "gold",
+     "hold": 2.0,
+     "style": "soft"
+    },
+    {
+     "kind": "print",
+     "text": "증권사 전망치 · 2026년 10월 12일",
+     "line": 0,
+     "at": 0.05
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_three_items.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "앞으로 볼 건 세 가지입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_delhi_market.jpeg"
+     },
+     {
+      "lib": "commons_haryana_2.jpg"
+     },
+     {
+      "lib": "vshopping_42123.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "첫째는 인도입니다. 아이스크림 성수기와 초코파이 네 번째 생산 라인이 실제 숫자로 이어지는지 보시면 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "다올투자증권 2026-10-12 · 매수·매도 권유 아님",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "globe",
+     "text": "① 인도 실적",
+     "line": 0,
+     "at": 0.08,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_cocoapod_3.jpg"
+     },
+     {
+      "lib": "vmoney_18296.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "둘째는 원가입니다. 카카오는 내려왔지만, 유제품과 포장재 값이 오르면 이익 회복 폭은 줄어듭니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "다올투자증권 2026-10-12 · 매수·매도 권유 아님",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "dollar",
+     "text": "② 원가 · 유제품·포장재",
+     "line": 0,
+     "at": 0.08,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "cargo_30125.mp4"
+     },
+     {
+      "lib": "commons_busanport_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "셋째는 빼빼로 해외 매출 1,000억 원 돌파 여부예요. 11월 실적까지 합친 연간 수치는 내년 초에 나옵니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "머니투데이 2026-10-23",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "up",
+     "text": "③ 빼빼로 해외 매출 1,000억 원",
+     "line": 0,
+     "at": 0.08,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_oldgrocery_3.jpg"
+     },
+     {
+      "lib": "vstockmarket_47792.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "위험도 있습니다. 국내 과자 시장은 아이가 줄면서 계속 작아질 수 있고, 그룹 재무 정리가 언제 끝나는지도 함께 봐야 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "다올투자증권 2026-10-12 · 매수·매도 권유 아님",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vstockmarket_47016.mp4"
+     },
+     {
+      "lib": "vanalytics_42648.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 이 회사 주가에는 11월 11일 하루의 판매량보다, 해외에서 남기는 이익이 더 중요합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "다올투자증권 2026-10-12 · 매수·매도 권유 아님",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261108p_closing_store.jpeg"
+     },
+     {
+      "lib": "commons_busanport_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "부산 여학생들이 주고받던 과자는 미국 법정을 지나, 한 그룹이 기대를 거는 상품이 됐습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L2611sy_court.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "약속드린 판결문의 마지막 한 줄은 이렇습니다. 쿠키는 원래 그렇게 부스러지는 법이다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방 제3순회항소법원 2021-01 (Ezaki Glico v. Lotte)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "“That's the way the cookie crumbles.”",
+     "sub": "판결문 마지막 문장 · 2021년 1월",
+     "line": 0,
+     "at": 1.0
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_seoulnight_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "세상일이 다 그렇다는 영어 관용구를, 과자 소송에 그대로 쓴 겁니다. 빼빼로와 롯데의 이야기는 아직 끝나지 않았습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L2611sy_snackbar.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이번 빼빼로데이, 여러분은 누구에게 주실 건가요? 댓글로 남겨 주세요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105h_archive.jpeg"
+     },
+     {
+      "lib": "vpresentation_24173.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "밸류노트는 영상 한 편을 위해 판결문과 공시, 기사를 하나하나 확인하고, 어떻게 하면 쉽게 전할 수 있을지 오래 고민합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vhandshake_46755.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "오늘 이야기가 조금이라도 도움이 되셨다면, 좋아요와 구독 한 번 부탁드립니다. 여러분의 그 한 번이 밸류노트가 다음 영상을 계속 만들 수 있는 힘이 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "",
+    "btn_at": [
+     "0:현명한",
+     "0:현명한",
+     "0:현명한"
+    ],
+    "note": {
+     "text": ""
+    },
+    "dark_end": true
+   },
+   "lines": [
+    "현명한 투자를 위한 채널, 밸류노트였습니다."
+   ],
+   "endscreen": 11,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  }
+ ]
+}
