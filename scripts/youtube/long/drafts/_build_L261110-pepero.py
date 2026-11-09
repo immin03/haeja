@@ -111,7 +111,7 @@ M((3,5), ["L261108p_novel_gum", "L261108p_gum_workshop"], [LOW("LOTTE", "1948년
 M((3,6), ["commons_bankvault_1", "vmoney_18261"], [], src="서울신문 1998-09-04")
 M((3,7), ["L261104g_bank_queue_1998"], [PU("부채비율 216%", "1998년 · 30대 그룹 중 재무구조 1위", at=0.6, hold=2.0)], src="서울신문 1998-09-04")
 M((3,8), ["commons_lottedept_2"], [])
-M((3,9), ["L261108p_factory_1960s", "L261108p_choco_line", "factory_47257"], [P("1967년 롯데제과 · 1983년 빼빼로")])
+M((3,9), ["L261108p_factory_1960s", "L261108p_choco_line"], [P("1967년 롯데제과 · 1983년 빼빼로")])
 M((3,10), ["chocolate_41117_a", "commons_uscourthouse_1"], [])
 T("6년 소송의 마지막 한 줄", "")
 M((4,0), ["tokyo_4231", "commons_lawson_2"], [LOW("POCKY", "1966년 · 일본 글리코", at=0.5)], src=CT)
@@ -128,11 +128,11 @@ M((4,10), ["commons_koreaconv_1"], [])
 T("천년에 단 하루", "")
 M((5,0), ["tokyo_30137", "commons_lawson_1"], [LOW("포키의 날", "1999년 · 일본 글리코 지정", at=0.3)], src="글리코 · 헤럴드경제 2025-06-07")
 M((5,1), ["L261108p_office_gifts", "gift_14839_a"], [])
-M((5,2), ["vshopping_15914"], [PU("2011.11.11", "1이 여섯 개", at=0.5, hold=1.6, soft=False)], src="뉴데일리 2011-11-03")
+M((5,2), ["vshopping_15914"], [LOW("2011년 11월 11일", "1이 여섯 개", at=0.5)], src="뉴데일리 2011-11-03")
 M((5,3), ["commons_chocolatesale_1"], [LOW("“천년에 단 하루”", "2011년 롯데제과 홍보 문구", at=0.5)], src="뉴데일리 2011-11-03")
 M((5,4), ["phone_4915", "laptop_4713"], [TB(["2111년 11월 11일", "2211년 11월 11일"], [["1이 여섯 개", "1이 여섯 개"]], ["gray", "gray"], at=0.6)], src="뉴데일리 2011-11-03")
 M((5,5), ["L261110a_rural_school"], [], src="매일신문 2011-11-09")
-M((5,6), ["vnews_14044"], BARS("11월 11일 휴업 학교 수 · 대구 초등", [b("2009년", 2, "2곳", "gray"), b("2010년", 0.3, "0곳", "gray"), b("2011년", 101, "101곳", "red")]), src="매일신문 2011-11-09")
+M((5,6), ["city_1606_a"], BARS("11월 11일 휴업 학교 수 · 대구 초등", [b("2009년", 2, "2곳", "gray"), b("2010년", 0.3, "0곳", "gray"), b("2011년", 101, "101곳", "red")]), src="매일신문 2011-11-09")
 M((5,7), ["vpresentation_9069"], [])
 M((5,8), ["commons_pricetag_1", "money_23524_a"], [], src="뉴데일리 2011-11-03")
 M((5,9), ["commons_jewelryshop_1", "commons_handbagshop_1"], BARS("받고 싶은 선물 · 20~30대 여성", [b("액세서리", 27, "27%", "gray"), b("명품 가방", 20, "20%", "gray"), b("화장품", 18, "18%", "gray"), b("빼빼로", 17, "17%", "gold")]), src="엘르엣진 설문 2011")
@@ -148,10 +148,10 @@ M((6,0), ["vnewspaper_41192", "vseoul_20093"], [P("2015년 7월")], src="서울�
 M((6,1), ["vdocuments_39496"], [LOW("신동주 측 공개", "해임 지시서 · 신동주 측 주장", at=0.5)], src="서울신문 2015-07-31")
 M((6,2), ["vcontract_28362"], [LOW("롯데그룹 측 반박", "적법 절차 없어 무효", at=0.3)], src="서울신문 2015-07-31")
 M((6,3), ["vconference_13192", "vmeeting_22961"], [P("2015년 8월 17일 · 일본 롯데홀딩스 주주총회")], src="이투데이")
-M((6,4), ["commons_lotteworldtower_2", "L261101_tower"], [PU("123층", "1987년 부지 매입 · 2017년 완공", at=0.8, hold=1.8)], src=SH)
+M((6,4), ["commons_lotteworldtower_2", "vseoul_20095"], [PU("123층", "1987년 부지 매입 · 2017년 완공", at=0.8, hold=1.8)], src=SH)
 M((6,5), ["L261104g_banker_silhouette"], [])
 M((6,6), ["phone_14669", "vnews_41204"], [P("2024년 11월 18일 · 공시 '사실무근'")], src=LQ)
-M((6,7), ["commons_refinery_1", "vanalytics_41278"], BARS("롯데케미칼 차입금", [b("2019년", 3.6, "약 3.6조", "gray"), b("2024년 9월", 10.9, "약 10.9조", "red")], at=0.5), src=LQ)
+M((6,7), ["commons_refinery_1", "commons_refinery_2"], BARS("롯데케미칼 차입금", [b("2019년", 3.6, "약 3.6조", "gray"), b("2024년 9월", 10.9, "약 10.9조", "red")], at=0.5), src=LQ)
 M((6,8), ["L261105k_cin_ledger"], [TB(["회사채 약정", "2024년 3분기 말"], [["5배 이상", "4.3배"]], ["gray", "red"], at=0.8)], src=LQ)
 M((6,9), ["L261107m_storm_tower", "L261105g_cin_vaultclose"], [PU("6조 원+", "롯데월드타워 가치 · 은행 담보 제공", color="red", at=1.2, hold=1.8)], src=LQ)
 M((6,10), ["L261105h_towerman"], [])
@@ -206,7 +206,7 @@ spec.update({"id": "L261110-pepero-day", "company": None, "no_data": True, "seri
  "thumb": {"photo": "il_L261108p_thumb_girls.jpeg", "focus_x": 0.6, "l1": "이 날을 만든 건", "l2": "롯데가 아니었다", "pos": "left", "s1": 70, "s2": 130},
  "ab_sets": [{"key": "a", "default": True, "title": TITLE, "file": "thumb_a.jpg", "type": "A 유래"}, {"key": "b", "title": TITLE, "file": "thumb_b.jpg", "type": "B 소송"}, {"key": "c", "title": TITLE, "file": "thumb_c.jpg", "type": "C 타워·주가 전망"}],
  "scenes": S})
-EXTRA = {"광복 뒤": ["commons_yenbills_3"], "쓸모 때문에": ["L261105h_contract"], "2024년 9월": ["vbusinessman_8941"], "지난해 빼빼로 매출": ["vpresentation_24173"], "시작이 1993년": ["commons_busanstairs_3"], "외환위기 직후": ["vseoul_20089"], "판사의 논리": ["commons_ussupremeish_2"], "그리고 판사는": ["L2611sy_court"], "이렇게 막대 모양": ["commons_familymart_1"], "절정은 2011": ["commons_chocolatesale_2"], "그런데 인터넷에서": ["vcomputer_308"], "학교는 더": ["city_49845_a"], "학교들은 행사": ["commons_oldgrocery_4", "vshopping_4147"], "직장에서는": ["commons_cafeint_1"], "세븐일레븐은": ["commons_koreaconv_3"], "여기까지가": ["commons_seoulnight_3"], "장남 신동주": ["commons_archiveboxes_1"], "롯데 측은": ["vmeeting_15716"], "앞에서 기억": ["commons_bankvault_2"], "일부 회사채": ["commons_stockcert_1", "vanalytics_41277"], "다만 국내": ["commons_oldgrocery_1"], "경영권 분쟁의": ["commons_tokyocommute_1"], "첫째는 인도": ["commons_haryana_2", "vshopping_42123"], "셋째는 빼빼로": ["commons_busanport_1"], "그래서 이 회사": ["vanalytics_42648"], "부산 여학생들이": ["commons_busanport_2"], "판사의 말처럼": ["commons_vendingnight_4"]}
+EXTRA = {"광복 뒤": ["commons_yenbills_3"], "쓸모 때문에": ["L261105h_contract"], "2024년 9월": ["vofficebuilding_40652"], "지난해 빼빼로 매출": ["commons_krxboard_1"], "시작이 1993년": ["commons_busanstairs_3"], "외환위기 직후": ["vseoul_20089"], "판사의 논리": ["commons_ussupremeish_2"], "그리고 판사는": ["L2611sy_court"], "이렇게 막대 모양": ["commons_familymart_1"], "절정은 2011": ["commons_chocolatesale_2"], "그런데 인터넷에서": ["vcomputer_308"], "학교는 더": ["city_49845_a"], "학교들은 행사": ["commons_oldgrocery_4", "vshopping_4147"], "직장에서는": ["commons_cafeint_1"], "세븐일레븐은": ["commons_koreaconv_3"], "여기까지가": ["commons_seoulnight_3"], "장남 신동주": ["commons_archiveboxes_1"], "롯데 측은": ["vmeeting_15716"], "앞에서 기억": ["commons_bankvault_2"], "일부 회사채": ["commons_stockcert_1", "L261105g_cin_receipt"], "다만 국내": ["commons_oldgrocery_1"], "경영권 분쟁의": ["commons_tokyocommute_1"], "첫째는 인도": ["commons_haryana_2", "vshopping_42123"], "셋째는 빼빼로": ["commons_busanport_1"], "그래서 이 회사": ["vanalytics_42648"], "부산 여학생들이": ["commons_busanport_2"], "판사의 말처럼": ["commons_vendingnight_4"]}
 for s_ in spec["scenes"]:
     for k_, ex_ in EXTRA.items():
         if s_.get("lines") and s_["lines"][0].startswith(k_) and "cuts" in s_["v"]:
