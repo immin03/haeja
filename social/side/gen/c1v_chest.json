@@ -1,0 +1,28 @@
+{
+ "id": "c1v_chest",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hands let go and draw away out of frame; dust drifts in the firelight; very slow push-in on the chest. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bfc6-ce00-7c91-9232-88538ce957f9/e7b37726-0be9-417a-ac7b-1679c7994474.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bfe7-363c-7bb9-8dfb-733172772574",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bfe7-363c-7bb9-8dfb-733172772574/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bfe7-363c-7bb9-8dfb-733172772574/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1bfe7-363c-7bb9-8dfb-733172772574",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bfe7-363c-7bb9-8dfb-733172772574/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bfe7-363c-7bb9-8dfb-733172772574/cancel",
+  "expires_at": "2026-11-16T10:42:43.923896+00:00"
+ },
+ "seconds": 6
+}
