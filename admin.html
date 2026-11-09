@@ -1747,7 +1747,7 @@ async function ytLoad(){ await ytFetch(); render(); }
 const YTP_ST = { proposed: ['run', '승인 대기'], approved: ['ok', '승인 · 제작 대기'], producing: ['ok', '원고·렌더 중'], done: ['ok', '검수 탭으로 넘어감'], rejected: ['off', '반려'], script_review: ['run', '원고 교정 대기'] };
 function ytPlanItem(p){
   const st = YTP_ST[p.status] || ['', p.status];
-  const li = a => (a || []).map(x => `<li>${esc(x)}</li>`).join('');
+  const li = a => (Array.isArray(a) ? a : (a ? [a] : [])).map(x => `<li>${esc(x)}</li>`).join('');   // 2026-11-10: 글자 하나로 저장된 칸도 화면이 멈추지 않게
   const id = esc(p.id), open = ['proposed', 'approved'].includes(p.status);
   /* 게시 일시 직접 지정 (2026-10-26 운영자): "날짜 시간 지정할 수 있게 해 줘. 너가 지정한 날짜에 무조건 따라가는 게 아니라."
      기본값은 자동 배정일(또는 정해 둔 날). 칸을 바꾸면 그 일시로 승인되고, 승인 뒤에도 제작 전까지 바꿀 수 있다 */
