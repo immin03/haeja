@@ -110,7 +110,7 @@ M((3,4), ["vcraftsman_7039"], [], src=SH)
 M((3,5), ["L261108p_novel_gum", "L261108p_gum_workshop"], [LOW("LOTTE", "1948년 · 샤롯데에서 따온 이름", at=0.3)], src=SH)
 M((3,6), ["commons_bankvault_1", "vmoney_18261"], [], src="서울신문 1998-09-04")
 M((3,7), ["L261104g_bank_queue_1998"], [PU("부채비율 216%", "1998년 · 30대 그룹 중 재무구조 1위", at=0.6, hold=2.0)], src="서울신문 1998-09-04")
-M((3,8), ["commons_lottedept_2"], [])
+M((3,8), ["vseoul_20093"], [])
 M((3,9), ["L261108p_factory_1960s", "L261108p_choco_line"], [P("1967년 롯데제과 · 1983년 빼빼로")])
 M((3,10), ["chocolate_41117_a", "commons_uscourthouse_1"], [])
 T("6년 소송의 마지막 한 줄", "")
@@ -144,13 +144,13 @@ M((6,1), ["vnewspaper_41192", "vdocuments_39496"], [LOW("신동주 측 공개", 
 M((6,2), ["vcontract_28362", "commons_archiveboxes_1"], [LOW("롯데그룹 측 반박", "적법 절차 없어 무효", at=0.3)], src="서울신문 2015-07-31")
 M((6,3), ["vconference_13192"], [], src="이투데이")
 M((6,4), ["vseoul_20095", "L261105h_towerman"], [PU("123층", "2017년 완공", at=0.8, hold=1.6)], src=SH)
-M((6,5), ["vnightcity_40746", "commons_constructiondc_1"], [LOW("2022년 가을", "레고랜드 사태", at=0.3)], src="데일리바이트 2022-11-23")
+M((6,5), ["vnightcity_40746", "commons_seoulnight_1"], [LOW("2022년 가을", "레고랜드 사태", at=0.3)], src="데일리바이트 2022-11-23")
 M((6,6), ["commons_refinery_1", "vmoney_47005"], [], src="데일리바이트 2022-11-23")
-M((6,7), ["vofficebuilding_41541", "commons_bankvault_2"], [LOW("서울 잠원동 본사", "일본 미즈호은행 담보 대출", at=1.2)], src="데일리바이트 2022-11-23")
+M((6,7), ["vofficebuilding_41541", "L261104g_central_vault"], [LOW("서울 잠원동 본사", "일본 미즈호은행 담보 대출", at=1.2)], src="데일리바이트 2022-11-23")
 M((6,8), ["commons_krxboard_2"], [], src="뉴스토마토 2024-11-13")
 M((6,9), ["phone_14669"], [LOW("“롯데그룹 공중분해 위기”", "2024년 11월 · 유튜브 영상 제목", at=0.5)], src="데일리바이트 2024-11")
 M((6,10), ["vnews_41204", "vcomputer_46635"], [LOW("증권가 지라시", "롯데 측 사실무근", at=0.4)], src="데일리바이트 2024-11")
-M((6,11), ["vstockmarket_47213", "vdocuments_22856".replace("vdocuments_22856","vtyping_41183") if False else "laptop_4713".replace("laptop_4713","vanalytics_41278")], [], src="데일리바이트 2024-11")
+M((6,11), ["vstockmarket_47213", "commons_krxboard_3"], [], src="데일리바이트 2024-11")
 M((6,12), ["commons_refinery_2", "L261105g_cin_receipt"], [])
 M((6,13), ["L261105k_cin_ledger", "commons_stockcert_1"], [], src="한국경제 2024-12-02")
 M((6,14), ["L261107m_storm_tower", "L261105g_cin_vaultclose"], [LOW("2024년 11월 27일", "롯데월드타워 은행 담보 제공", at=1.8)], src="르몽드 디플로마티크 · " + LQ)
@@ -159,8 +159,8 @@ M((6,16), ["vstockmarket_47012"], [], src="한국경제 2024-12-02")
 M((6,17), ["vofficebuilding_40701", "vnightcity_40747"], [], src=LQ)
 M((6,18), ["vhandshake_30016", "vconference_23116", "vbusinessman_231"], [LOW("공정거래위원회", "기업결합 승인 불발", at=2.6)], src="아시아경제 2026-05-31")
 M((6,19), ["vmoney_45703"], [], src="글로벌이코노믹 2026-10-30")
-M((6,20), ["vnightcity_49878", "commons_seoulnight_1"], [LOW("롯데백화점 부산 센텀시티점", "2026년 10월 29일 · 신세계에 매각 합의", at=1.5)], src="서울신문 2026-10-29")
-M((6,21), ["commons_jongno_1".replace("commons_jongno_1","vseoul_20093")], [])
+M((6,20), ["commons_busanport_1", "vnightcity_49878"], [LOW("롯데백화점 부산 센텀시티점", "2026년 10월 29일 · 신세계에 매각 합의", at=1.5)], src="서울신문 2026-10-29")
+M((6,21), ["commons_lottedept_2"], [])
 M((6,22), ["commons_yeouido_1"], [], src=LB + " · 아시아타임즈 2026-11-01")
 M((6,23), ["L261108p_thumb_sticks"], [])
 T("매출의 10%도 안 되는 과자", "")
@@ -215,7 +215,7 @@ spec.update({"id": "L261110-pepero-v2", "company": None, "no_data": True, "serie
  "thumb": {"photo": "il_L261108p_thumb_girls.jpeg", "focus_x": 0.6, "l1": "이 날을 만든 건", "l2": "롯데가 아니었다", "pos": "left", "s1": 70, "s2": 130},
  "ab_sets": [{"key": "a", "default": True, "title": TITLE, "file": "thumb_a.jpg", "type": "A 유래"}, {"key": "b", "title": TITLE, "file": "thumb_b.jpg", "type": "B 소송"}, {"key": "c", "title": TITLE, "file": "thumb_c.jpg", "type": "C 타워·주가 전망"}],
  "scenes": S})
-EXTRA = {"광복 뒤": ["commons_yenbills_3"], "쓸모 때문에": ["L261105h_contract"], "2024년 9월": ["vofficebuilding_40652"], "지난해 빼빼로 매출": ["commons_krxboard_1"], "시작이 1993년": ["commons_busanstairs_3"], "외환위기 직후": ["vseoul_20089"], "판사의 논리": ["commons_ussupremeish_2"], "그리고 판사는": ["L2611sy_court"], "이렇게 막대 모양": ["commons_familymart_1"], "절정은 2011": ["commons_chocolatesale_2"], "그런데 인터넷에서": ["vcomputer_308"], "학교는 더": ["city_49845_a"], "학교들은 행사": ["candy_10374_a", "vpresentation_24068"], "직장에서는": ["commons_cafeint_1"], "세븐일레븐은": ["commons_koreaconv_3"], "여기까지가": ["commons_seoulnight_3"], "장남 신동주": ["commons_archiveboxes_1"], "롯데 측은": ["vmeeting_15716"], "앞에서 기억": ["commons_bankvault_2"], "일부 회사채": ["commons_stockcert_1", "L261105g_cin_receipt"], "다만 국내": ["commons_oldgrocery_1"], "경영권 분쟁의": ["commons_tokyocommute_1"], "첫째는 인도": ["commons_haryana_2", "vshopping_42123"], "셋째는 빼빼로": ["commons_busanport_1"], "그래서 이 회사": ["vanalytics_42648"], "부산 여학생들이": ["commons_busanport_2"], "판사의 말처럼": ["gift_14839_b"]}
+EXTRA = {"광복 뒤": ["commons_yenbills_3"], "쓸모 때문에": ["L261105h_contract"], "2024년 9월": ["vofficebuilding_40652"], "지난해 빼빼로 매출": ["commons_krxboard_1"], "시작이 1993년": ["commons_busanstairs_3"], "외환위기 직후": ["vseoul_20089"], "판사의 논리": ["commons_ussupremeish_2"], "그리고 판사는": ["L2611sy_court"], "이렇게 막대 모양": ["commons_familymart_1"], "절정은 2011": ["commons_chocolatesale_2"], "그런데 인터넷에서": ["vcomputer_308"], "학교는 더": ["city_49845_a"], "학교들은 행사": ["candy_10374_a", "vpresentation_24068"], "직장에서는": ["commons_cafeint_1"], "세븐일레븐은": ["commons_koreaconv_3"], "여기까지가": ["commons_seoulnight_3"], "장남 신동주": ["commons_archiveboxes_1"], "롯데 측은": ["vmeeting_15716"], "일부 회사채": ["commons_stockcert_1", "L261105g_cin_receipt"], "다만 국내": ["commons_oldgrocery_1"], "경영권 분쟁의": ["commons_tokyocommute_1"], "첫째는 인도": ["commons_haryana_2", "vshopping_42123"], "셋째는 빼빼로": ["vairplane_4204"], "그래서 이 회사": ["vanalytics_42648"], "부산 여학생들이": ["commons_busanport_2"], "판사의 말처럼": ["gift_14839_b"]}
 for s_ in spec["scenes"]:
     for k_, ex_ in EXTRA.items():
         if s_.get("lines") and s_["lines"][0].startswith(k_) and "cuts" in s_["v"]:
