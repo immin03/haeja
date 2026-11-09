@@ -154,7 +154,7 @@ M((8,3), ["server_47050".replace("47050","7863") if False else "L261110a_server_
 M((8,4), ["vnews_14044".replace("14044","41204") if False else "vconference_23116".replace("23116","4809") if False else "vmeeting_4809".replace("4809","4809") if False else "vbusinessman_42648".replace("42648","231") if False else "L261110a_midnight_phones"], [], src="FourWeekMBA·비즈워치 2026-11-09")
 M((8,5), ["vtyping_41183"], [])
 M((8,6), ["vstockmarket_9607"], [IC("up", "① 단기 충격 · 유출 없음 + CEO 유지", at=0.08, color="gold")], src=FIN)
-M((8,7), ["vwashington_22787".replace("22787","22786") if False else "vsingapore_30966".replace("30966","30998") if False else "cargo_4011".replace("4011","30125") if False else "containership_30467", "L261107m_cargo_chips".replace("L261107m_cargo_chips","vnightcity_40747") if False else "commons_ustreasury_3"], [IC("globe", "② 규제 확대 · 동남아시아 판매", at=0.08, color="gold")], src=FIN)
+M((8,7), ["vwashington_22787".replace("22787","22786") if False else "vsingapore_30966".replace("30966","30998") if False else "cargo_4011".replace("4011","30125") if False else "containership_30467", "Y261105_a_china"], [IC("globe", "② 규제 확대 · 동남아시아 판매", at=0.08, color="gold")], src=FIN)
 M((8,8), ["L261109p_box_exit", "vnewyork_30544"], [IC("warning", "③ CEO 교체 · 기업가치 할인", at=0.08, color="red")], src=FIN)
 M((8,9), ["L261107s_dawn_phone"], [])
 M((8,10), ["vcapitol_49851".replace("49851","40700") if False else "vwashington_22786".replace("22786","22788") if False else "vdocuments_48385".replace("48385","39496") if False else "vcontract_28362".replace("28362","23112") if False else "L261105k_cin_phone"], [IC("bolt", "11월 11일 · 참석 회신 기한", at=0.08)], src="미국 하원 3개 위원회")
