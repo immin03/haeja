@@ -234,9 +234,8 @@ def _pct(im, b, p, y):
     for k, i in enumerate(it):
         q = eout((p - .2 - k * .45) / .8)
         bx = x + k * gap
-        if i.get("mark") and q > 0:
-            d.line([(bx + 60, mid - 200), (bx + 60, mid + 230)], fill=(*GOLD, int(200 * q)), width=2)
-            d.text((bx + 74, mid - 200), i["mark"], font=F("Medium", 26), fill=(*GOLD, int(255 * q)))
+        if i.get("mark") and q > 0:   # 2026-11-09 대표님: 막대가 글자를 가렸다 → 세로선 없이 막대 위쪽 빈 공간에 표시
+            d.text((bx + 60, mid - (204 if i["v"] >= 0 else 84)), i["mark"], font=F("Medium", 26), fill=(*GOLD, int(255 * q)), anchor="md")
         if q <= 0: continue
         v = i["v"]; col = RED if v < 0 else GREEN; bh = abs(v) * sc * q
         y0, y1 = (mid, mid + bh) if v < 0 else (mid - bh, mid)

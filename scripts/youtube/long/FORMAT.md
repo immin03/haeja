@@ -514,4 +514,5 @@
 - 사진 전환은 큰 베이스(`music.hits`, 영상 기준 초)에서만. 박자마다 흔드는 효과(`hook.pulse`)는 쓰지 않는다.
 - **말은 쉬지 않고 쭉** 간다. 사진 전환에 맞추려고 장면을 늘리거나 문장 사이를 띄우지 않는다(훅 장면 lead .08 · hold .12). 사진 전환이 조금 어긋나도 괜찮다.
 - 로고 인트로는 단순하게(`hook.ident_fx` 끔).
-- 본편: H10 Afro House Vibes → H1 Deep House Sunset 번갈아, 둘 다 `@30`(조용한 도입부 건너뜀), `bed_eq: "heavy"`(묵직한 하우스 — 경쾌하게만 들리면 안 됨).
+- 본편(2026-11-09 대표님 "노이즈캔슬 이어폰에서 음악이 크다, 더 차분하게"): `samples4` Lofi Chill → Lofi Restaurant → Background Documentary → A Calm Soundtrack, `bed_gain_db: 1`, `bed_hp: 90`. `bed_eq: "heavy"`는 쓰지 않는다.
+- 소재(2026-11-09): Commons 일반어 검색 사진은 시대·인물이 엉뚱할 수 있다. 렌더 전 그 편의 전체 소재를 접촉 시트로 눈으로 확인한다.

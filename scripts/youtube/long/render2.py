@@ -1186,7 +1186,7 @@ def chapter_source(text, sub, num, n_frames):
     return get
 
 
-IDENT_LOGO = 95; DOCK_T = .9; DOCK_S = .34; _DOCK = {}
+IDENT_LOGO = 95; DOCK_T = .9; DOCK_S = .39; _DOCK = {}
 
 
 def dock_logo(im, p, a=1.0):
@@ -1208,10 +1208,10 @@ def dock_logo(im, p, a=1.0):
         if a < 1: Z.putalpha(Z.getchannel("A").point(lambda q: int(q * a)))
         im.paste(Z, (int(x0 + (x1 - x0) * e), int(y0 + (y1 - y0) * e)), Z); return
     box = im.crop((int(x1), int(y1), int(x1 + sm.width), int(y1 + sm.height))).convert("L")
-    th = "light" if np.asarray(box).mean() > 150 else "dark"
-    _, sm, sh = _DOCK[th]
-    if th == "dark":
-        k_ = sh.point(lambda q: int(q * a)); im.paste((0, 0, 0), (int(x1) - 12, int(y1) - 12), k_)
+    # 2026-11-09 대표님: 로고 살짝 크게(.34→.39). 밝은 배경에서 남색 Value + 아이보리 Note의 Note가 묻혔다 → 항상 밝은 글씨 로고 + 배경 밝기만큼 뒤를 부드럽게 어둡게
+    lum = float(np.asarray(box).mean()); _, sm, sh = _DOCK["dark"]
+    dim = min(1.0, .5 + max(0.0, lum - 90) / 90)
+    k_ = sh.point(lambda q: int(min(255, q * 2 * dim * a))); im.paste((0, 0, 0), (int(x1) - 12, int(y1) - 12), k_)
     Z = sm if a >= 1 else sm.copy()
     if a < 1: Z.putalpha(sm.getchannel("A").point(lambda q: int(q * a)))
     im.paste(Z, (int(x1), int(y1)), Z)
@@ -1461,6 +1461,9 @@ def load_theme(n):
                 from scipy import signal as _s
                 lo = _s.sosfilt(_s.butter(2, 140, "low", fs=SR, output="sos"), out, axis=0) * (10 ** (5 / 20) - 1)
                 out = _s.sosfilt(_s.butter(2, 6000, "low", fs=SR, output="sos"), out + lo, axis=0).astype(np.float32)
+            if MUSIC.get("bed_hp"):   # 2026-11-09 대표님: 노이즈캔슬 이어폰에서 본편 음악이 크다 → 깔리는 음악의 초저음을 잘라 낸다
+                from scipy import signal as _s
+                out = _s.sosfilt(_s.butter(2, float(MUSIC["bed_hp"]), "high", fs=SR, output="sos"), out, axis=0).astype(np.float32)
             return (out / (np.abs(out).max() + 1e-9)).astype(np.float32)
     p = _music_file("bed") or os.path.join(HERE, "assets", "theme.mp3")
     if not os.path.exists(p): return make_theme(n)
