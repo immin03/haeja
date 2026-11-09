@@ -93,7 +93,13 @@ T("확인된 것과 의혹", "")
 M((2,0), ["commons_nvidiahq_3", "vmeeting_4809"], [TB(["확인", "의혹"], [["불륜 인정·이사회 조사", "중국 스파이 여부"]], ["green", "red"], at=0.2)], src="CBS News 2026-11-09")
 M((2,1), ["vnewspaper_41192", "vchina_13312"], [], src=SP)
 M((2,2), ["vdocuments_48385"], [], src="엔비디아 이사회 성명")
-M((2,3), ["vsingapore_28635"], [])
+M((2,3), ["L261105h_archive"], [P("사태 총정리")])
+M((2,4), ["commons_nytbuilding_2", "newspaper_41191_a", "vdocuments_24632".replace("24632","24632") if False else "L261107s_seoul_bed_phone"], [P("10월 29일 · 뉴욕타임스 보도")], src="뉴욕타임스 보도 인용")
+M((2,5), ["commons_ustreasury_3"], [P("11월 4일 · 미국 하원 3개 위원회")], src="미국 하원")
+M((2,6), ["vnewspaper_41199".replace("41199","41192") if False else "L261105k_cin_phone".replace("L261105k_cin_phone","L261107s_phone_red")], [P("11월 7일 · 파이낸셜타임스 보도")], src="FT 보도 인용")
+M((2,7), ["vbusinessman_22961", "L2611ss_dc_build".replace("L2611ss_dc_build","vairplane_4368"), "L2611sy_myeongdong_night"], [P("11월 8일 · 불륜 인정 · 이사회 조사")], src="CBS News · 세계일보 2026-11-09")
+M((2,8), ["vstockmarket_47214".replace("47214","47213") if False else "commons_nvidiagpu_1".replace("commons_nvidiagpu_1","vnetwork_19653") if False else "vwallstreet_4842"], [P("11월 9일 · 프리마켓 약 -5%")], src=NV)
+M((2,9), ["vsingapore_28635"], [])
 T("게임 회사가 AI 회사가 됐다", "")
 M((3,0), ["vsingapore_30998", "datacenter_23282"], [])
 M((3,1), ["laptop_1781", "phone_4915"], [TB(["2015년", "2023년 3월"], [["세븐로드 인터내셔널", "메가스피드"]], ["gray", "gold"], at=0.2)], src="NYT·Reuters 보도 인용")
@@ -169,7 +175,7 @@ M((9,0), ["vsingapore_28635".replace("28635","30998") if False else "vsatellite_
 M((9,1), ["L261107s_chip_stairs"], [], src=FIN)
 S.append({"v": {"type": "end", "sub": "", "btn_at": ["0:좋아요", "0:구독", "0:구독"], "note": {"text": ""}, "closing_photo": resolve("vsatellite_47401"), "backdrop": resolve("commons_datacenter_2"), "bd_dim": 0.74},
     "lines": [L(9,2)], "endscreen": 8, "sketch_add": [], "en": [""], "asof": False, "src": ""})
-TITLE = "엔비디아 주가 전망, 프리장 310조 증발… 젠슨 황 사건은 싱가포르 회사에서 시작됐다"
+TITLE = "엔비디아 젠슨 황 불륜 사태 총정리, 프리장 310조 증발과 주가 전망"
 spec = {k: base[k] for k in ["fx", "format", "world", "notebook", "hook", "overlay"]}
 spec["look"] = {"paper": "blueprint", "dark": "ink", "accent": "sky"}
 spec["music"] = copy.deepcopy(base["music"]); spec["music"].pop("bed_eq", None)
@@ -178,7 +184,7 @@ spec.update({"id": "L261109-nvidia-huang", "company": "NVDA", "no_data": True, "
  "events": [{"at": "2026-11-09T18:43:00+09:00", "by": "owner", "what": "채팅 지시 — 엔비디아 긴급 롱폼, 빨리 렌더. 남들이 모르는 싱가포르 회사·중국 개방론 중심 훅·리훅"}],
  "opening": "미스터리형 — 310조 증발 → 불륜이 아니라 싱가포르 회사 → 상자째 칩 → 감청 기록 → 중국 개방론의 이유", "hook_type": "미스터리 훅 + 리훅",
  "endscreen_target": "L261107-soxl-38", "title": TITLE, "doc_title": "젠슨 황 사건은 어디서 시작됐나", "title_en": "Nvidia stock outlook: the Jensen Huang scandal began with a Singapore company",
- "tags": ["엔비디아 주가 전망", "엔비디아 주가", "엔비디아", "젠슨 황", "메가스피드", "엔비디아 이사회 조사", "엔비디아 실적", "NVDA", "미국 주식", "서학개미", "AI 칩", "대중국 수출 규제"],
+ "tags": ["엔비디아 사태 총정리", "젠슨 황 불륜", "엔비디아 주가 전망", "엔비디아 주가", "엔비디아", "젠슨 황", "메가스피드", "엔비디아 이사회 조사", "엔비디아 실적", "NVDA", "미국 주식", "서학개미", "AI 칩", "대중국 수출 규제"],
  "search_keywords": ["엔비디아 주가 전망", "엔비디아 주가", "젠슨 황", "엔비디아", "NVDA"],
  "sources": ["CBS News 2026-11-09 (젠슨 황 성명·이사회 독립 조사·메가스피드 48억 달러)", "세계일보 2026-11-09 (NYT·FT 보도: 감청·이름 공개·내부 문서·타이베이 사진·트럼프 발언)", "FourWeekMBA 2026-11-09 (프리마켓 -5.1%, 약 2,310억 달러) · 환율 1,355원", "톰 코튼 상원의원 보도자료·서한 2025-10-13/14", "TechFlow 칼럼이 인용한 NYT·Reuters 보도 (세븐로드 2015 등록, 2023-03 사명 변경, 2024-06 구매 시작, 인스퍼 관련 납품, 말레이시아·인도네시아 데이터센터)", "뉴스스페이스 2026-11 (엔비디아·메가스피드 입장, 중국 외교부 반박)", "Yahoo Finance 2026-05-04 (점유율 0 발언, 중국 매출 196.7억 달러, 10-K 경고) · FT 2023-05 (CGTN·SupplyChainBrain 인용) · Reuters·NPR 2025 (H20 15%)", "미국 하원 3개 위원회 비공개 설명 요구 (2026-11-04, 11/18·회신 11/11)", "사진: Wikimedia Commons · 영상: Mixkit·Pexels · 음악: Pixabay"],
  "pinned_comment": "젠슨 황의 중국 개방론, 여러분은 돈·논리·외부 영향력 중 무엇이라고 보시나요? 댓글로 나눠 주세요.\n※ 스파이 관련 내용은 보도된 의혹이며 사실로 확인되지 않았습니다. 2026년 11월 9일 프리마켓 기준이며 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
@@ -186,8 +192,8 @@ spec.update({"id": "L261109-nvidia-huang", "company": "NVDA", "no_data": True, "
  "description_en": "Nvidia fell about 5% premarket after CEO Jensen Huang admitted an affair and the board opened an independent probe. Espionage claims remain unverified reporting. We trace Megaspeed, Huang's China stance and what shareholders should watch.",
  "hook_promises": ["싱가포르 회사의 정체", "중국 개방론의 이유", "주주가 볼 것 3가지"], "viewer_question": "젠슨 황 사건은 어디서 시작됐고 주주에게 얼마나 큰 문제인가",
  "format_note": "11/9 긴급. 스파이는 의혹으로만, 상대 여성 이름·사진 없음, 실존 인물 사진 없음.",
- "thumb": {"photo": "il_L261107s_chip_crack.jpeg", "focus_x": 0.5, "l1": "프리장 시가총액 310조 증발", "l2": "시작은 싱가포르 회사?", "pos": "left", "s1": 60, "s2": 110},
- "ab_sets": [{"key": "a", "default": True, "title": TITLE, "file": "thumb_a.jpg", "type": "A 310조"}, {"key": "b", "title": TITLE, "file": "thumb_b.jpg", "type": "B 중국 개방론"}, {"key": "c", "title": TITLE, "file": "thumb_c.jpg", "type": "C 상자째 칩"}],
+ "thumb": {"photo": "il_L261107s_chip_crack.jpeg", "focus_x": 0.5, "l1": "엔비디아 젠슨 황 불륜 사태", "l2": "총정리", "pos": "left", "s1": 60, "s2": 110},
+ "ab_sets": [{"key": "a", "default": True, "title": TITLE, "file": "thumb_a.jpg", "type": "A 불륜 사태 총정리"}, {"key": "b", "title": TITLE, "file": "thumb_b.jpg", "type": "B 310조"}, {"key": "c", "title": TITLE, "file": "thumb_c.jpg", "type": "C 중국 개방론"}],
  "scenes": S})
 EXTRA = {"이사회도 국가": ["vnewspaper_41199"], "메가스피드도 외부": ["vhandshake_30016"], "누군가 정말": ["L261110a_conveyor_night"], "그럼 주주에게": ["vstockmarket_47213".replace("47213","47016") if False else "vnetwork_31536"], "엔비디아는 1993": ["vofficebuilding_31663"],
  "엔비디아에는 공개": ["vmeeting_4809".replace("4809","22961") if False else "vhandshake_24047"], "신뢰 문제도": ["vnetwork_19653"], "이제 주가 전망": ["vnewyork_4442"], "엔비디아 시가총액은": ["L261107s_phone_red"], "같은 프리마켓": ["vsemiconductor_1138".replace("1138","1140") if False else "Y261105_a_server"], "사업 숫자는": ["vairplane_4204"],
