@@ -1,7 +1,7 @@
 {
- "requested": "2026-11-09T19:10",
- "note": "명상록 실화극 시안 (해설 건석, 황제 명일, 장군 권일)",
- "tag": "cine01",
+ "requested": "2026-11-10T00:40",
+ "note": "명상록 실화극 1호",
+ "tag": "cep01",
  "keep": true,
  "lang": "kor",
  "model": "ssfm-v30",
@@ -9,319 +9,704 @@
  "tempo": 1.0,
  "voices": [
   {
-   "name": "n1_A",
+   "name": "l000",
    "id": "tc_6731b2e0855f351b98d30c48",
    "line": "배신한 사람에게 하는 가장 완벽한 복수.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "n1_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "배신한 사람에게 하는 가장 완벽한 복수.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n1_C",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "배신한 사람에게 하는 가장 완벽한 복수.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n2_A",
+   "name": "l001",
    "id": "tc_6731b2e0855f351b98d30c48",
    "line": "2천 년 전, 이 복수를 실제로 한 사람이 있습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "n2_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "2천 년 전, 이 복수를 실제로 한 사람이 있습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n2_C",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "2천 년 전, 이 복수를 실제로 한 사람이 있습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n3_A",
+   "name": "l002",
    "id": "tc_6731b2e0855f351b98d30c48",
    "line": "여기, 그를 배신한 사람들의 이름이 든 상자가 있습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "n3_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "여기, 그를 배신한 사람들의 이름이 든 상자가 있습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n3_C",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "여기, 그를 배신한 사람들의 이름이 든 상자가 있습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n4_A",
+   "name": "l003",
    "id": "tc_6731b2e0855f351b98d30c48",
    "line": "열어 보기만 하면 됩니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "n4_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "열어 보기만 하면 됩니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n4_C",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "열어 보기만 하면 됩니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "n5_A",
+   "name": "l004",
    "id": "tc_6731b2e0855f351b98d30c48",
    "line": "그런데 그는, 상자를 불 속에 넣었습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "n5_B",
+   "name": "l007",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "그런데 그는, 상자를 불 속에 넣었습니다.",
+   "line": "십 년 전, 로마 동쪽 전선에 한 장군의 이름이 퍼졌습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "n5_C",
+   "name": "l008",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "그런데 그는, 상자를 불 속에 넣었습니다.",
+   "line": "파르티아와의 전쟁에서, 그는 적의 수도까지 밀고 들어갔습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "g1a_A",
+   "name": "l009",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "이름은 아비디우스 카시우스.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l010",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "이 이름을 기억해 주십시오.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l011",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "황제는 그를 믿었습니다. 제국의 동쪽 전부를 맡겼습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l012",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "군대도, 속주도, 전쟁을 치를 권한까지.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l013",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "서기 175년 봄. 황제는 멀리 도나우 강 전선에 있었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l014",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "쉰네 살의 황제는, 몇 해째 천막에서 겨울을 나고 있었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l015",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그리고 그해, 황제가 쓰러집니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l016",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "병은 깊었고, 소문은 황제보다 빨리 움직였습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l017",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "후계자인 아들 코모두스는 아직 열세 살.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l018",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "곁을 지키던 황후 파우스티나는 두려웠습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l019",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "남편이 죽으면, 어린 아들은 어떻게 될 것인가.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l020",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "전해지기로는, 황후가 카시우스에게 몰래 편지를 보냈다고 합니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l021",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "황제가 죽으면, 당신이 제국을 맡아 달라고.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l022",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "이 편지를 기억해 주십시오. 진실은 아무도 모릅니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l023",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "몇 주 뒤, 시리아에 소식이 닿습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l024",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "황제가 죽었다는 소식이었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l025",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "175년 4월, 카시우스는 군대 앞에서 황제를 선언합니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l026",
+   "id": "tc_66860d458ca8b2dc5f72b865",
+   "line": "황제는 죽었다. 이제 로마는 나를 따르라.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l027",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "시리아와 이집트가 그를 따랐습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l028",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그런데 며칠 뒤, 다른 소식이 도착합니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l029",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "황제는 살아 있었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l030",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "돌아갈 수 있었습니다. 실수였다고 말할 수도 있었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l031",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그러나 그는 멈추지 않았습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l032",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "도나우의 황제에게 소식이 닿은 것은 그 뒤였습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l033",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "소식을 전한 것은 카파도키아 총독, 베루스였습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l034",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "가장 믿은 사람의 이름이, 그 편지에 있었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l035",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "그였단 말인가. 왜, 하필 그였는가.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l036",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "황제는 처음에 이 소식을 숨겼습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l037",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그러나 소문은 막사 사이로 번졌습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l038",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "병사들이 술렁이기 시작합니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l039",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "황제는 병사들을 모았습니다. 모두가 분노의 연설을 기다렸습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l040",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "병사들이여. 나는 분노하러 여기 선 것이 아니다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l041",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "내 운명을 슬퍼하러 왔다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l042",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "내게 가장 소중한 벗이, 나를 향해 음모를 꾸몄다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l043",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "이 전쟁에서 내가 얻고 싶은 것은 하나다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l044",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "내게 잘못한 사람을 용서하는 것.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l045",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "우정을 저버린 사람의 친구로 남는 것이다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l047",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "기록에 따르면, 황제는 그를 욕하지 않았습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l048",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그가 쓴 말은 하나, 은혜를 모르는 사람이었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l049",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "『명상록』에는 이런 문장이 있습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l050",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "은혜를 모르는 사람을 탓할 때는, 무엇보다 너 자신을 돌아보라.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l051",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "믿음을 준 것은, 나의 선택이었다는 뜻입니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l052",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "황제는 서둘러 북쪽 전쟁을 끝냅니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l053",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "야만족들이 군사를 보내 돕겠다고 제안했습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l054",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "로마 사람끼리의 일을, 너희에게 보일 수는 없다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l055",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그리고 군대를 이끌고 동쪽으로 향합니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l056",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "살아 있는 카시우스를 만나, 용서하기 위해서였습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l057",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그러나 그 만남은 오지 않습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l058",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "7월, 시리아.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l059",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "백인대장 안토니우스가, 말을 타고 카시우스에게 다가옵니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l060",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "칼이 목을 스쳤습니다. 치명상은 아니었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l061",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "말은 그대로 지나갔고, 십인대장이 끝을 맺었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l062",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "석 달 여엿새.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l063",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그것이 그가 황제였던 시간입니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l064",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그의 머리가 황제에게 오고 있었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l065",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "묻어라. 보지 않겠다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l066",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "도착하기도 전에 묻으라는 명령이었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l067",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "살아서 만나고 싶었다. 이제, 용서할 사람이 없다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l068",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그는 이렇게 썼습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l069",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "가장 좋은 복수는, 그 사람과 같아지지 않는 것이다.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l070",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그리고 얼마 뒤, 상자 하나가 황제 앞에 도착합니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l071",
    "id": "tc_675a73eb789ff3ea6cc80235",
    "line": "폐하. 카시우스의 편지들입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "g1a_B",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "폐하. 카시우스의 편지들입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "g1a_C",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "폐하. 카시우스의 편지들입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "g1b_A",
+   "name": "l072",
    "id": "tc_675a73eb789ff3ea6cc80235",
    "line": "원로원 의원, 장군, 총독. 누가 그를 도왔는지, 전부 들어 있습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "g1b_B",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "원로원 의원, 장군, 총독. 누가 그를 도왔는지, 전부 들어 있습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "g1b_C",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "원로원 의원, 장군, 총독. 누가 그를 도왔는지, 전부 들어 있습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "e1_A",
+   "name": "l073",
    "id": "tc_62d66c2d1523be99355fda02",
    "line": "읽어 보았는가.",
    "emotion": "tonedown",
    "tempo": 0.85
   },
   {
-   "name": "e1_B",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "읽어 보았는가.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "e1_C",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "읽어 보았는가.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "g2_A",
+   "name": "l074",
    "id": "tc_675a73eb789ff3ea6cc80235",
    "line": "아닙니다. 폐하께서 먼저 보셔야 합니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "g2_B",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "아닙니다. 폐하께서 먼저 보셔야 합니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "g2_C",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "아닙니다. 폐하께서 먼저 보셔야 합니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "e2_A",
+   "name": "l075",
    "id": "tc_62d66c2d1523be99355fda02",
    "line": "이걸 읽으면, 내일 나는 누구를 보게 되겠나.",
    "emotion": "tonedown",
    "tempo": 0.85
   },
   {
-   "name": "e2_B",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "이걸 읽으면, 내일 나는 누구를 보게 되겠나.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "e2_C",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "이걸 읽으면, 내일 나는 누구를 보게 되겠나.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "g3_A",
+   "name": "l076",
    "id": "tc_675a73eb789ff3ea6cc80235",
    "line": "폐하를 배신한 자들입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "g3_B",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "폐하를 배신한 자들입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "g3_C",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "폐하를 배신한 자들입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "e3_A",
+   "name": "l077",
    "id": "tc_62d66c2d1523be99355fda02",
    "line": "아니다. 내일부터는, 모든 사람이 배신자로 보일 것이다.",
    "emotion": "tonedown",
    "tempo": 0.85
   },
   {
-   "name": "e3_B",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "아니다. 내일부터는, 모든 사람이 배신자로 보일 것이다.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "e3_C",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "아니다. 내일부터는, 모든 사람이 배신자로 보일 것이다.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "e4_A",
+   "name": "l078",
    "id": "tc_62d66c2d1523be99355fda02",
    "line": "불을 가져오게.",
    "emotion": "tonedown",
    "tempo": 0.85
   },
   {
-   "name": "e4_B",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "불을 가져오게.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "e4_C",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "불을 가져오게.",
-   "emotion": "tonedown",
-   "tempo": 0.85
-  },
-  {
-   "name": "g4_A",
+   "name": "l079",
    "id": "tc_675a73eb789ff3ea6cc80235",
    "line": "폐하. 저들은 폐하를 죽이려 했습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "g4_B",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "폐하. 저들은 폐하를 죽이려 했습니다.",
+   "name": "l080",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "그래서, 나까지 그들처럼 되어야 하겠나.",
+   "emotion": "tonedown",
+   "tempo": 0.85
+  },
+  {
+   "name": "l082",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "다른 기록은 베루스가 대신 태웠다고도 전합니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "g4_C",
-   "id": "tc_675a73eb789ff3ea6cc80235",
-   "line": "폐하. 저들은 폐하를 죽이려 했습니다.",
+   "name": "l083",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "확실한 것은, 그 이름들이 어디에도 남지 않았다는 것입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "e5_A",
+   "name": "l084",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "원로원은 공모자들을 처벌하라고 요구했습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l085",
    "id": "tc_62d66c2d1523be99355fda02",
-   "line": "그래서, 나까지 그들처럼 되어야 하겠나.",
+   "line": "내 치세에, 원로원 의원이 피 흘리는 일은 없기를 바란다.",
    "emotion": "tonedown",
    "tempo": 0.85
   },
   {
-   "name": "e5_B",
+   "name": "l086",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "완전한 자비는 아니었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l087",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "카시우스의 아들은 살해됐고, 몇몇은 추방됐습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l088",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그리고 황후.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l089",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그가 아내를 의심했는지, 기록은 말하지 않습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l090",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "다만 그는, 신들에게 감사한 목록에 이렇게 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l091",
    "id": "tc_62d66c2d1523be99355fda02",
-   "line": "그래서, 나까지 그들처럼 되어야 하겠나.",
+   "line": "이런 아내가 내 곁에 있었던 것을.",
    "emotion": "tonedown",
    "tempo": 0.85
   },
   {
-   "name": "e5_C",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "그래서, 나까지 그들처럼 되어야 하겠나.",
+   "name": "l093",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "2026년, 서울.",
    "emotion": "tonedown",
-   "tempo": 0.85
+   "tempo": 1.0
+  },
+  {
+   "name": "l094",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오래 함께한 동업자, 가족, 친구.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l095",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그 사람이 내 이야기를 어떻게 했는지 알 수 있는 메시지가",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l096",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘 손안에 있다면, 여러분은 열겠습니까.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l097",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "열면 이름을 얻습니다. 대신 그 이름을 평생 들고 삽니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l098",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "배신한 사람에게 하는 복수, 세 가지입니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l099",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "첫째, 욕하지 마십시오. 그 말은 내 입만 더럽힙니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l100",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "둘째, 그의 끝을 구경하지 마십시오.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l101",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "셋째, 알 필요 없는 것은 열지 마십시오.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "l102",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "이것이, 황제가 한 복수였습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "o1",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "매일 밤, 황제처럼 생각하라. 황제의 일기.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "o2",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
   }
  ]
 }
