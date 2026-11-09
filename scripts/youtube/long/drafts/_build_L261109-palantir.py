@@ -173,7 +173,7 @@ M((9,6), ["vbusinessman_231", "I:boardroom_empty"], [], src="3분기 실적 설�
 M((9,7), ["vbusinessman_8941", "commons_archiveboxes_2"], [TB(["AI 모델 단독", "데이터·업무 절차 연결"], [["제한적 효과", "실제 성과"]], ["gray", "gold"], at=0.3)], src="3분기 주주 서한 · 경영진 주장")
 M((9,8), ["vmoney_18296", "vmoney_45703"], [PU("약 85억 달러", "2026년 매출 전망 · 전년 대비 약 +91%", at=0.15, color="green")], src="팔란티어 3분기 실적 발표")
 M((9,9), ["commons_openaihq_3", "commons_chatgpt_1", "commons_chatgpt_2"], [IC("warning", "위험 ① AI 모델사 직접 진출", at=0.1, color="red")], src="3분기 실적 설명회")
-M((9,10), ["commons_cacapitol_1", "vwashington_22786", "commons_ustreasury_3"], [PCT([{"label": "미국 매출 비중", "v": 84}], at=0.3, dec=0), IC("warning", "위험 ② 미국 집중", at=0.05, color="red")], src=Q3)
+M((9,10), ["commons_cacapitol_1", "vwashington_22786", "commons_ustreasury_3"], BARS("위험 ② 미국 집중 · 매출 구성", [b("미국", 84, "84%", "gold"), b("미국 외", 16, "16%", "gray")], at=0.4), src=Q3)
 M((9,11), ["commons_msftsign_3", "L261105g_cin_signing"], [IC("warning", "위험 ③ 짧아진 계약 기간", at=0.1, color="red")], src="3분기 실적 설명회")
 M((9,12), ["vstockmarket_47214", "commons_nysefloor_2", "commons_sfskyline_3", "vstockmarket_47792"], [TB(["사업", "주가"], [["성장 지속", "이익의 113배"]], ["gold", "red"], at=0.25)], src="11월 6일 종가 기준 · " + FINE)
 

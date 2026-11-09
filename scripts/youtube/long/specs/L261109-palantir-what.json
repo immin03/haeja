@@ -2986,26 +2986,29 @@
    "src": "팔란티어 2026년 3분기 실적(SEC 8-K, 11월 2일)",
    "sketch": [
     {
-     "kind": "pct",
+     "kind": "print",
+     "text": "위험 ② 미국 집중 · 매출 구성",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
      "items": [
       {
-       "label": "미국 매출 비중",
-       "v": 84
+       "label": "미국",
+       "v": 84,
+       "text": "84%",
+       "color": "gold"
+      },
+      {
+       "label": "미국 외",
+       "v": 16,
+       "text": "16%",
+       "color": "gray"
       }
      ],
      "line": 0,
-     "at": 0.3,
-     "scale": 2.26,
-     "gap": 400,
-     "dec": 0
-    },
-    {
-     "kind": "icon",
-     "name": "warning",
-     "text": "위험 ② 미국 집중",
-     "line": 0,
-     "at": 0.05,
-     "color": "red"
+     "at": 0.4
     }
    ]
   },
