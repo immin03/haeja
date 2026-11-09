@@ -1,0 +1,28 @@
+{
+ "id": "cep1_chief",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "He extends his open hand and nods slowly; mouth stays closed. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0fb-e40e-7683-a94b-9517fe6ad464/5cd5e543-59d4-4cf9-9665-e62abd819003.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c27a-f9fe-7ad0-9b8d-090ce95af48e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c27a-f9fe-7ad0-9b8d-090ce95af48e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c27a-f9fe-7ad0-9b8d-090ce95af48e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1c27a-f9fe-7ad0-9b8d-090ce95af48e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c27a-f9fe-7ad0-9b8d-090ce95af48e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c27a-f9fe-7ad0-9b8d-090ce95af48e/cancel",
+  "expires_at": "2026-11-16T22:43:22.070665+00:00"
+ },
+ "seconds": 6
+}

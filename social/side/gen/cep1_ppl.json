@@ -1,0 +1,28 @@
+{
+ "id": "cep1_ppl",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "He stands still and listens, a slow blink, breath in the cold; mouth stays closed. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0fb-4f26-7152-ac90-b107b166c9b7/8f614e82-72f5-4d96-9595-c494d5aabccf.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c27a-dc12-77ec-874d-7c4d2f971039",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c27a-dc12-77ec-874d-7c4d2f971039/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c27a-dc12-77ec-874d-7c4d2f971039/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1c27a-dc12-77ec-874d-7c4d2f971039",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c27a-dc12-77ec-874d-7c4d2f971039/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c27a-dc12-77ec-874d-7c4d2f971039/cancel",
+  "expires_at": "2026-11-16T22:43:14.410580+00:00"
+ },
+ "seconds": 6
+}
