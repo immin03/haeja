@@ -1101,6 +1101,8 @@ const store = (() => {
         mode = wantLogin ? 'login' : 'guest'; this.track(...this.entry()); return;
       }
       user = session.user; mode = 'db'; this.track(...this.entry());
+      /* 카카오 OAuth 복귀 직후에만 세션에 provider 토큰이 들어 있다 — '카카오톡으로 알림 받기' 연결에 쓴다 (2026-11-10) */
+      this.__prov = session.provider_refresh_token ? { t: session.provider_token || '', r: session.provider_refresh_token } : null;
       if(user.email !== DEMO_EMAIL) sb.rpc('is_admin').then(({ data }) => { try{ if(data === true) localStorage.setItem('vn-staff', '1'); }catch(_){} }).catch(() => {});
       /* 다른 곳에서 로그아웃돼 이 기기 세션이 끊기면, 저장이 조용히 실패하지 않도록 로그인 화면으로 */
       sb.auth.onAuthStateChange((ev, s2) => { if(ev === 'SIGNED_OUT' || (ev === 'TOKEN_REFRESHED' && !s2)) this.expired(); });
@@ -1517,7 +1519,7 @@ function iosSheet(){
     <p>앱처럼 아이콘 한 번에 열리고, 관심 회사가 싸지면 알림을 받을 수 있어요. 30초면 끝나요.</p>
     <ol class="is-steps">${html}<li class="is-st"><span class="is-ic is-app"><img src="/icon-192.png?v=6" alt=""></span><span><b>홈 화면의 밸류노트 아이콘으로 열기</b><span>열리면 "알림 켜기"가 바로 나옵니다.</span></span></li></ol>
     ${member ? `<div class="is-pin" id="is-pin"><span class="small muted">홈 화면 앱은 처음 열 때 지금 계정으로 자동 로그인돼요.</span></div>` : ''}
-    <div class="gate-a"><button type="button" class="btn primary" data-is="close">알겠어요</button></div>
+    <div class="gate-a">${kmAvail() && !KM.linked ? `<button type="button" class="btn kakao-btn km-mini" data-km="start" data-from="ios">${KAKAO_SVG}<span>대신 카카오톡으로 받기</span></button>` : ''}<button type="button" class="btn primary" data-is="close">알겠어요</button></div>
   </div></div>${point ? `<div class="is-point is-${point}" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="#EADBB9" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>` : ''}`);
   pxTrack('ios-guide');
   if(member) handoffPrep().then(d => { const el = document.getElementById('is-pin'); if(!el) return;
@@ -1610,13 +1612,13 @@ function pushCard(){
       <span><b>알림</b> <span class="pill p-good">켜짐</span> <span class="small muted">기기 ${subs.length || 1}대</span></span>
       <span class="small al-push-more">${open ? '접기' : '알림 종류 · 기기'} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="transform:rotate(${open?180:0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </button>
-    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${pushPrefsHtml()}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
+    ${open ? `<div class="al-push-body"><div class="small muted">${txt}</div>${tip}${pushPrefsHtml()}${kmCardHtml()}${devs}<div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-al="push-off">이 기기 알림 끄기</button></div></div>` : ''}
   </div>`;
   }
   return `<div class="card al-push"><div class="row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap;gap:12px">
     <div style="min-width:0;flex:1"><b>알림 받기</b> <span class="pill p-none">꺼짐</span><div class="small muted">${txt}</div><div class="status-line" id="al-msg"></div></div>
     ${(pushState==='off'||pushState==='ios-install') ? `<button class="btn primary" data-al="push-on">알림 켜기</button>` : ''}
-  </div>${pushWhyHtml()}${devs}</div>`;
+  </div>${kmCardHtml()}${pushWhyHtml()}${devs}</div>`;
 }
 document.addEventListener('click', async e => {
   const el = e.target.closest('[data-dev-del]'); if(!el) return;
@@ -1803,12 +1805,66 @@ document.addEventListener('click', async e => {
   const error = await kakaoGo();
   if(error){ b.disabled = false; const m = document.getElementById('lg-msg'); if(m) m.textContent = '카카오 로그인을 시작하지 못했습니다: ' + error.message; }
 });
-async function kakaoGo(){
+async function kakaoGo(opts){
   try{ localStorage.setItem('vn-remember', '1'); localStorage.setItem('vn-noauto', '0'); sessionStorage.setItem('vn-live', '1'); }catch(_){}
-  store.track('view', 'kakao-start');
-  const { error } = await store.client.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo: location.origin + '/' } });
+  /* opts.msg: '카카오톡으로 알림 받기' — talk_message 동의를 추가로 받는다(스위치 kakao_msg 가 켜진 경우에만; 기본 가입은 scope를 요청하지 않는다) (2026-11-10) */
+  const msg = !!(opts && opts.msg) && KM.on;
+  store.track('view', msg ? 'kakao-msg-go' : 'kakao-start');
+  const options = { redirectTo: location.origin + '/' };
+  if(msg){ options.scopes = 'profile_nickname profile_image account_email talk_message'; try{ localStorage.setItem('vn-kakao-msg', '1'); }catch(_){} }
+  const { error } = await store.client.auth.signInWithOAuth({ provider: 'kakao', options });
   return error;
 }
+/* ============ 카카오톡으로 알림 받기 (2026-11-10) ============
+   웹 푸시 허용률이 낮아(6회 중 5회 거절) 카카오 로그인 회원(71%)에게는 본인 카톡 '나와의 채팅'으로 알림을 보낸다(카카오 '나에게 보내기' API, 0원).
+   클라이언트는 talk_message 추가 동의만 받고 provider 토큰을 Edge 함수 kakao-link 에 넘긴다. 전송은 서버(notify·push-digest)가 한다.
+   스위치 public.kakao_msg_on() 이 false 면(카카오 개발자 콘솔에 동의항목이 아직 없음) 기능 전체를 숨긴다 — scope를 요청하면 로그인이 깨지기 때문. */
+const KM = { on: false, linked: null, at: null, busy: false };
+const kmIsKakao = () => !!store.user && ((store.user.app_metadata || {}).provider || '') === 'kakao';
+const kmAvail = () => KM.on && store.mode === 'db' && !store.isGuest && !store.isDemo && kmIsKakao();
+async function kmCall(body){
+  const { data, error } = await store.client.functions.invoke('kakao-link', { body });
+  if(error) throw error; return data || {};
+}
+async function kmInit(){
+  if(store.mode !== 'db' || store.isGuest || store.isDemo || !kmIsKakao()) return;
+  try{ const { data } = await store.client.rpc('kakao_msg_on'); KM.on = data === true; }catch(_){ KM.on = false; }
+  if(!KM.on) return;
+  let want = false; try{ want = localStorage.getItem('vn-kakao-msg') === '1'; }catch(_){}
+  const pv = store.__prov;
+  if(want && pv && pv.r){
+    try{ localStorage.removeItem('vn-kakao-msg'); }catch(_){}
+    try{ const r = await kmCall({ action: 'link', provider_token: pv.t, provider_refresh_token: pv.r });
+      KM.linked = !!r.linked; KM.at = r.linked_at || new Date().toISOString();
+      if(r.linked){ store.track('engage', 'kakao-msg-linked'); toastMsg('이제 카카오톡으로도 알림을 받습니다'); saveProg({ setupPush: true }); }
+      else toastMsg('카카오톡 메시지 동의가 확인되지 않았습니다. 알림 탭에서 다시 시도해 주세요.');
+    }catch(_){ KM.linked = false; }
+    render(); return;
+  }
+  try{ const r = await kmCall({ action: 'status' }); KM.linked = !!r.linked; KM.at = r.linked_at || null; if(S.tab === 'alerts') render(); }catch(_){}
+}
+function kmStart(from){
+  store.track('engage', 'kakao-msg-start' + (from ? ':' + from : ''));
+  try{ localStorage.setItem('vn-kakao-msg', '1'); }catch(_){}
+  return kakaoGo({ msg: true });
+}
+/* 알림 탭에 넣는 카카오 칸 */
+function kmCardHtml(){
+  if(!kmAvail()) return '';
+  if(KM.linked) return `<div class="km-row on"><span>${KAKAO_SVG}<b>카카오톡 알림 켜짐</b><span class="small muted">내 카톡 '나와의 채팅'으로 옵니다</span></span><span class="km-acts"><button type="button" class="linkbtn" data-km="test">테스트 보내기</button><button type="button" class="linkbtn" data-km="unlink">해제</button></span></div>`;
+  return `<div class="km-row"><button type="button" class="btn kakao-btn km-btn" data-km="start" data-from="alerts">${KAKAO_SVG}<span>카카오톡으로 알림 받기 · 앱 설치 없이</span></button><div class="small muted">카카오 동의 화면에서 '카카오톡 메시지 전송'에 동의하면 됩니다. 광고는 보내지 않고, 내 종목 소식과 아침 브리핑만 옵니다.</div></div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-km]'); if(!b) return;
+  const k = b.dataset.km;
+  if(k === 'start'){ b.disabled = true; const err = await kmStart(b.dataset.from || ''); if(err){ b.disabled = false; toastMsg('카카오 연결을 시작하지 못했습니다: ' + err.message); } return; }
+  if(KM.busy) return; KM.busy = true; b.disabled = true;
+  try{
+    if(k === 'unlink'){ await kmCall({ action: 'unlink' }); KM.linked = false; store.track('engage', 'kakao-msg-unlink'); toastMsg('카카오톡 알림을 해제했습니다'); render(); }
+    if(k === 'test'){ const r = await kmCall({ action: 'test' }); toastMsg(r.ok ? '카카오톡으로 테스트 메시지를 보냈습니다' : '보내지 못했습니다: ' + (r.reason || r.error || '')); }
+  }catch(err){ toastMsg('처리하지 못했습니다: ' + (err.message || err)); }
+  KM.busy = false; b.disabled = false;
+});
 const needSignupAgree = () => !!store.user && !store.isDemo && ((store.user.app_metadata || {}).provider || 'email') !== 'email' && !(store.user.user_metadata || {}).agreed;
 function oauthAgreeHtml(){
   return `<div class="ca-list"><div class="ca-t">처음 오셨네요. 아래 항목에 동의해 주세요.</div>
@@ -2082,7 +2138,7 @@ function osResult(r){
     <div class="os-res-g"><div><small>밸류노트 점수</small><b>${isNum(r.b) ? r.b : '–'}<i>/100</i></b></div><div><small>적정 주가</small><b>${fmtPx(r.iv, r.cur)}</b></div><div><small>지금 주가</small><b>${fmtPx(r.px, r.cur)}</b></div></div>
     ${R !== null ? `<div class="os-res-v ${R > 1.05 ? 'dn' : R < 0.95 ? 'up' : ''}">${ghGap2(R)}</div>` : '<div class="os-res-v muted">적정 주가는 하루 뒤 정성 평가가 끝나면 함께 보여 드립니다</div>'}
     <label class="os-held"><input type="checkbox" id="os-held"${S.onbStock.held ? ' checked' : ''}> <span>지금 보유 중입니다 <small>(포트폴리오에도 넣어 드립니다)</small></span></label>
-    <div class="os-acts"><button type="button" class="btn primary" data-os="alert">${pushState === 'ios-install' ? '이 종목 알림 받기 (30초 설정)' : R !== null && R < 0.95 ? jo(r.n, '이', '가') + ' 크게 움직이면 알려 주세요' : jo(r.n, '이', '가') + ' 싸지면 알려 주세요'}</button>
+    <div class="os-acts">${kmAvail() && !KM.linked ? `<button type="button" class="btn kakao-btn" data-os="kakao">${KAKAO_SVG}<span>카카오톡으로 ${esc(r.n)} 소식 받기</span></button>` : `<button type="button" class="btn primary" data-os="alert">${pushState === 'ios-install' ? '이 종목 알림 받기 (30초 설정)' : R !== null && R < 0.95 ? jo(r.n, '이', '가') + ' 크게 움직이면 알려 주세요' : jo(r.n, '이', '가') + ' 싸지면 알려 주세요'}</button>`}
     <button type="button" class="btn" data-os="open">왜 이 점수인지 보기</button></div></div>`;
 }
 function onbStockHtml(){
@@ -2123,6 +2179,7 @@ document.addEventListener('click', async e => {
   if(!r) return;
   osSaveInterest(r, S.onbStock.held);
   if(k === 'open'){ store.track('engage', 'onb-stock-open'); osClose(); osOpenDetail(r); return; }
+  if(k === 'kakao'){ store.track('engage', 'onb-stock-kakao'); b.disabled = true; b.querySelector('span').textContent = '카카오로 이동 중…'; const err = await kmStart('onb'); if(err){ b.disabled = false; b.querySelector('span').textContent = `카카오톡으로 ${r.n} 소식 받기`; toastMsg('카카오 연결을 시작하지 못했습니다: ' + err.message); } return; }
   if(k === 'alert'){
     store.track('engage', 'onb-stock-alert');
     if(pushState === 'ios-install'){ osClose(); osOpenDetail(r); setTimeout(iosSheet, 400); return; }
@@ -2453,7 +2510,7 @@ function interestPushNudge(name){
     const sub = ios ? '아이폰은 홈 화면에 추가한 뒤 아이콘으로 열면 알림을 받을 수 있어요. 30초면 끝나요.' : '가격이 크게 바뀌거나 적정 주가에 가까워지면 바로 알려 드려요. 하루 최대 두 번만 보내요.';
     document.body.insertAdjacentHTML('beforeend', `<div class="pn-bar" role="dialog" aria-label="알림 안내"><div class="pn-in">
       <div class="pn-t"><b>${esc(jo(name, '이', '가'))} 싸지면 알려 드릴까요?</b><span>${sub}</span></div>
-      <div class="pn-a"><button type="button" class="btn primary" data-pn="${ios ? 'ios' : 'on'}">${ios ? '추가 방법 보기' : '알림 받기'}</button><button type="button" class="linkbtn" data-pn="no">괜찮아요</button></div>
+      <div class="pn-a"><button type="button" class="btn primary" data-pn="${ios ? 'ios' : 'on'}">${ios ? '추가 방법 보기' : '알림 받기'}</button>${kmAvail() && !KM.linked ? `<button type="button" class="btn kakao-btn km-mini" data-km="start" data-from="nudge">${KAKAO_SVG}<span>대신 카카오톡으로 받기</span></button>` : ''}<button type="button" class="linkbtn" data-pn="no">괜찮아요</button></div>
       <div class="status-line small" id="al-msg"></div></div></div>`);
     store.track('view', ios ? 'pn-nudge-ios' : 'pn-nudge');
   }, 4500);
@@ -6792,6 +6849,7 @@ function refresh(kind){
     /* 새 사용자는 빈 상태로 바로 시작한다 (튜토리얼은 예시 데이터로 보여 준다). 옛 JSON 가져오기는 ?import 로만 연다 */
     if(count === 0 && location.search.includes('import')){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
   setSave(store.isGuest ? '' : '동기화됨');
+  kmInit().catch(() => {});
   loadDemoAn();
   const brand = document.querySelector('.brand');
   if(brand && store.isGuest){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
@@ -7484,6 +7542,14 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .os-held{display:flex;align-items:center;gap:8px;margin:12px 0 2px;font-size:14px;cursor:pointer;text-align:left}.os-held input{margin:0;flex:none;width:18px;height:18px;padding:0;accent-color:var(--accent)}.os-held span{flex:1}.os-held small{color:var(--muted);font-size:12px}
 .os-acts{display:flex;flex-direction:column;gap:8px;margin-top:12px}.os-acts .btn{width:100%;box-sizing:border-box;justify-content:center}
 .os-foot{text-align:center;margin-top:12px}
+/* 카카오톡으로 알림 받기 (2026-11-10) */
+.km-row{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:8px}
+.km-row.on{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.km-row.on>span:first-child{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.km-row.on svg{flex:none}
+.km-acts{display:flex;gap:12px;align-items:center}
+.km-btn{width:100%;box-sizing:border-box;justify-content:center}
+.btn.kakao-btn.km-mini{width:auto;padding:10px 14px;font-size:14px}.pn-a .km-mini{flex:1 1 auto}.pn-a .btn.primary{white-space:nowrap}
+.os-acts .kakao-btn{width:100%;box-sizing:border-box;justify-content:center}
 /* 홈 '오늘의 점수 변동' (2026-11-10) */
 .dm-card .eyebrow{color:var(--gold)}
 .dm-list{display:flex;flex-direction:column}
