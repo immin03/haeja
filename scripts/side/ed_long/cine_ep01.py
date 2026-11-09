@@ -186,8 +186,13 @@ AMB = {}
 for keys, a in [("order sick boy fau write read arrive scroll wife diary bury", FIRE), ("out", ["wind_2.mp3", 0.2]), ("snow alone camp ranks spk spkw ppl envoy chief refuse courier march ehorse", COLD),
                 ("ride casp msgr decide cloak ctalk cheer walk dec desert bag grave cent strike", DRY), ("city", ["fire_1.mp3", 0.3]), ("senate sen2", None)]:
     for k in keys.split(): AMB[k] = a
-SFX = {"ride": [["horse_0.mp3", 0.2, 0.22]], "courier": [["horse_2.mp3", 0.1, 0.4]], "courier_b": [["horse_2.mp3", 0.1, 0.3]], "cheer": [["war_7.mp3", 0.1, 0.32]], "cloak": [["war_7.mp3", 0.6, 0.14]],
-       "strike": [["horse_1.mp3", 0.1, 0.35], ["swords_2.mp3", 1.0, 0.35]], "march": [["war_7.mp3", 0.0, 0.1]], "cent": [["horse_0.mp3", 0.1, 0.2]]}
+SFX = {"ride": [["horse_0.mp3", 0.2, 0.3]], "city": [["fire_1.mp3", 0.0, 0.35], ["war_3.mp3", 0.4, 0.14]], "casp": [["cinematic_2.mp3", 0.0, 0.35]], "order": [["paper_1.mp3", 0.5, 0.4]], "snow": [["wind_4.mp3", 0.0, 0.25]],
+       "sick": [["heartbeat_1.mp3", 0.5, 0.3]], "sick_b": [["heartbeat_1.mp3", 0.3, 0.3]], "fau": [["heartbeat_3.mp3", 1.0, 0.18]], "write": [["paper_2.mp3", 0.4, 0.4]], "courier": [["horse_2.mp3", 0.1, 0.5]], "courier_b": [["horse_2.mp3", 0.1, 0.4]],
+       "msgr": [["paper_3.mp3", 1.0, 0.35]], "msgr_b": [["impact_3.mp3", 1.2, 0.35]], "cheer": [["war_7.mp3", 0.1, 0.5], ["impact_2.mp3", 0.1, 0.3]], "cloak": [["war_7.mp3", 0.3, 0.3], ["cinematic_6.mp3", 0.3, 0.4]], "decide": [["heartbeat_2.mp3", 0.6, 0.35]], "decide_b": [["impact_3.mp3", 2.5, 0.25]],
+       "arrive": [["wind_3.mp3", 0.0, 0.3], ["paper_1.mp3", 2.0, 0.35]], "read": [["heartbeat_2.mp3", 0.5, 0.4], ["impact_3.mp3", 2.0, 0.3]], "camp": [["fire_3.mp3", 0.0, 0.3], ["night_1.mp3", 0.0, 0.15]], "ranks": [["war_7.mp3", 0.0, 0.2], ["drum_2.mp3", 0.5, 0.4]], "spk": [["wind_4.mp3", 0.0, 0.15]],
+       "envoy": [["war_5.mp3", 0.0, 0.12]], "march": [["war_7.mp3", 0.0, 0.3], ["drum_1.mp3", 0.3, 0.5], ["horse_3.mp3", 0.0, 0.2]], "ehorse": [["horse_3.mp3", 0.0, 0.4]], "walk": [["wind_3.mp3", 0.0, 0.2]], "cent": [["horse_0.mp3", 0.1, 0.35], ["heartbeat_2.mp3", 0.8, 0.45]],
+       "strike": [["horse_1.mp3", 0.1, 0.5], ["swords_2.mp3", 1.0, 0.55], ["impact_1.mp3", 1.1, 0.6]], "dec": [["horse_1.mp3", 0.0, 0.3], ["impact_0.mp3", 2.6, 0.5]], "desert": [["wind_4.mp3", 0.0, 0.35]], "bag": [["horse_0.mp3", 0.0, 0.3]], "bury": [["impact_3.mp3", 0.3, 0.2]],
+       "senate": [["war_0.mp3", 0.0, 0.05], ["cinematic_2.mp3", 0.0, 0.3]], "scroll": [["paper_1.mp3", 0.6, 0.4]], "diary": [["paper_2.mp3", 0.5, 0.3]], "c1v_chest": [["impact_3.mp3", 0.3, 0.3]], "c1v_emp_fire": [["impact_3.mp3", 3.5, 0.25]], "c1v_burn": [["fire_2.mp3", 0.0, 0.5]]}   # 11/10 대표: 효과음 더 풍부하게
 TALK = {"spk", "spkw", "spk2", "spkw2", "ctalk", "bury", "c1v_emp_talk", "c1v_emp_talk_b", "c1v_gen_talk", "c1v_gen_talk_b", "c1v_emp_fire"}   # 입이 움직이는 클립: 소리와 입이 같이 시작·끝나도록 앞뒤 여백 최소
 ENDS = ["욕하지 마라", "그의 끝을 구경하지 마라", "알 필요 없는 것은 열지 마라"]
 INTRO_SFX = [["cinematic_6.mp3", 1.47, 1.0], ["war_7.mp3", 0.6, 0.18], ["ring_synth.wav", 2.4, 0.35], ["impact_2.mp3", 3.02, 1.0], ["impact_0.mp3", 3.02, 0.7], ["drum_5.mp3", 3.92, 1.0], ["drum_0.mp3", 3.92, 0.7],
@@ -219,15 +224,23 @@ def spec():
         sh = {"type": "video", "src": k if k.startswith("c1v_") else clipid(k), "move": dict(STILL), "pre": pre, "post": post, "start": o.pop("start", 0.0)}
         if a: sh["amb"] = list(a)
         if n: sh["voice"] = [n]
-        if k in SFX and "sfx" not in o: o["sfx"] = SFX[k]
+        sb = SFX.get(k) or SFX.get(base)
+        if sb and "sfx" not in o: o["sfx"] = sb
         sh.update(o); shots.append(sh)
     def m(f, a, b, vol, start=0, fin=3, fout=3, tail=2.0, offset=0.5): return {"file": f, "at_shot": a, "offset": offset, "start": start, "until_shot": b, "vol": vol, "fin": fin, "fout": fout, "tail": tail}
-    music = [m("cinematic_5.mp3", 0, 5, 0.18, fin=1, fout=1.2, offset=0),
-             m("dramatic_4.mp3", 6, 7, 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2),   # 인트로 북소리
-             m("cinematic_0.mp3", 7, 23, 0.15), m("dramatic_0.mp3", 23, 32, 0.17), m("sad_0.mp3", 32, 39, 0.13, start=20),
-             m("sad_3.mp3", 39, 52, 0.15, fin=4, fout=4), m("cinematic_4.mp3", 52, 57, 0.16), m("dramatic_2.mp3", 57, 62, 0.15, tail=0.6, fout=1.2),
-             m("sad_5.mp3", 64, 70, 0.14), m("sad_3.mp3", 71, 81, 0.13, start=60), m("sad_1.mp3", 84, 92, 0.13),
-             m("sad_0.mp3", 93, 98, 0.08, start=60, fin=2, fout=1.5, tail=0.4), m("cinematic_4.mp3", 98, 103, 0.17, start=110), m("sad_5.mp3", 103, 105, 0.26, fin=2, fout=4, tail=0, offset=0)]
+    # 11/10 대표: 카시우스 등장을 짧게 훅에 (첫 문장 직후). 음악은 더 풍부하게, 빈 구간 없이
+    hook = [dict(shots[25], voice=None, pre=0, post=0, dur=3.0, tin="black", fin=0.25), dict(shots[26], pre=0.05, post=0.2), dict(shots[27], voice=None, pre=0, post=0, dur=2.6, tout="black", fout=0.5)]
+    for h in hook:
+        if not h["voice"]: h.pop("voice")
+    hook[0]["sfx"] = [["war_7.mp3", 0.0, 0.45], ["impact_2.mp3", 0.0, 0.55], ["drum_5.mp3", 0.1, 0.6]]; hook[2]["sfx"] = [["war_7.mp3", 0.0, 0.6], ["impact_0.mp3", 0.1, 0.5]]
+    shots[1] = dict(shots[1], tin="black", fin=0.4); shots[1:1] = hook   # 이후 장면 번호 +3
+    Z = lambda i: i + 3 if i >= 1 else i
+    music = [m("cinematic_5.mp3", 0, 1, 0.2, fin=0.8, fout=0.6, tail=0.2, offset=0), m("dramatic_4.mp3", 1, 4, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0),
+             m("cinematic_5.mp3", 4, Z(5), 0.2, start=20, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
+    for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.2, {"fin": 4, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
+                             ("dramatic_4.mp3", 57, 62, 0.22, {"start": 30, "tail": 0.6, "fout": 1.2}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
+                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("sad_5.mp3", 103, 105, 0.28, {"fin": 2, "fout": 4, "tail": 0, "offset": 0})]:
+        music.append(m(f, Z(a), Z(b), vol, **kw))
     S = {"id": "cine_ep01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
          "intro": {"logo": "docs/emperor/profile_final.png", "series": "명상록 실화극"}, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
          "voice_dir": d, "voice_files": vf, "subs": subs, "monologue_voices": mono, "cast_voices": cast, "music": music, "shots": shots}
