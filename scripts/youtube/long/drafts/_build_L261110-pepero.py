@@ -82,7 +82,7 @@ LQ = "뉴시스 2024-11-29"
 LB = "한경비즈니스 2026-10-29"
 FIN = "다올투자증권 2026-10-12 · 매수·매도 권유 아님"
 # 훅
-M((0,0), ["L261108p_us_courtroom", "commons_uscourthouse_2"], [LOW("“A tale of more than just desserts.”", "Ezaki Glico v. Lotte · 2021년 1월", at=0.9)], src=CT, cold=True, first=True)
+M((0,0), ["L261108p_us_courtroom", "L261105h_uscourt"], [LOW("“A tale of more than just desserts.”", "Ezaki Glico v. Lotte · 2021년 1월", at=0.9)], src=CT, cold=True, first=True)
 M((0,1), ["L261108p_stick_handle", "commons_pepero_1"], [PU("POCKY vs PEPERO", "미국 연방 항소법원", at=0.6, hold=1.8, soft=False)], src=CT, cold=True)
 M((0,2), ["vdocuments_22856", "vnewspaper_41199"], [], src=CT, cold=True)
 M((0,3), ["tokyo_28687", "commons_busanstairs_1"], [TB(["막대 과자", "11월 11일"], [["일본이 먼저", "한국이 먼저"]], ["gray", "gold"], at=1.0)], cold=True)
@@ -118,7 +118,7 @@ M((4,0), ["tokyo_4231", "commons_lawson_2"], [LOW("POCKY", "1966년 · 일본 �
 M((4,1), ["vnewspaper_34190"], [])
 M((4,2), ["vcourt_46117", "vcontract_23222"], [P("2015년 · 미국 소송 제기")], src=CT)
 M((4,3), ["vdocuments_48385"], [], src=CT)
-M((4,4), ["L261105h_uscourt", "newspaper_41191_a"], [LOW("“the no mess handle”", "글리코 광고 문구 · 판결문 인용", at=2.0)], src=CT)
+M((4,4), ["commons_uscourthouse_2", "newspaper_41191_a"], [LOW("“the no mess handle”", "글리코 광고 문구 · 판결문 인용", at=2.0)], src=CT)
 M((4,5), ["vcourt_46820"], [TB(["포키의 특징", "판결"], [["잡기·먹기·나누기·포장", "실용적 기능"]], ["gray", "gold"], at=0.5)], src=CT)
 M((4,6), ["vcourt_47602"], [], src=CT)
 M((4,7), ["vdocuments_24632"], [])
@@ -183,8 +183,8 @@ M((8,6), ["cargo_30125"], [IC("up", "③ 빼빼로 해외 매출 1,000억 원", 
 M((8,7), ["commons_oldgrocery_3", "vstockmarket_47792"], [], src=FIN)
 M((8,8), ["vstockmarket_47016"], [], src=FIN)
 M((9,0), ["L261108p_closing_store"], [])
-M((9,1), ["commons_vendingnight_2"], [])
-S.append({"v": {"type": "end", "sub": "", "btn_at": ["0:좋아요", "0:구독", "0:구독"], "note": {"text": ""}, "closing_photo": resolve("commons_vendingnight_3"), "backdrop": resolve("L261108p_thumb_girls".replace("thumb_girls","sticks_eleven") if False else "commons_seoulnight_2"), "bd_dim": 0.74},
+M((9,1), ["L2611sy_snackbar"], [])
+S.append({"v": {"type": "end", "sub": "", "btn_at": ["0:좋아요", "0:구독", "0:구독"], "note": {"text": ""}, "closing_photo": resolve("commons_seoulnight_2"), "backdrop": resolve("L261108p_sticks_eleven"), "bd_dim": 0.74},
     "lines": [L(9,2), L(9,3)], "endscreen": 8, "sketch_add": [], "en": ["", ""], "asof": False, "src": ""})
 TITLE = "빼빼로데이 유래, 미국 법원까지 간 6년 소송… 그 날을 만든 건 롯데가 아니었다"
 spec = {k: base[k] for k in ["fx", "format", "world", "notebook", "hook", "overlay"]}
@@ -206,7 +206,7 @@ spec.update({"id": "L261110-pepero-day", "company": None, "no_data": True, "seri
  "thumb": {"photo": "il_L261108p_thumb_girls.jpeg", "focus_x": 0.6, "l1": "이 날을 만든 건", "l2": "롯데가 아니었다", "pos": "left", "s1": 70, "s2": 130},
  "ab_sets": [{"key": "a", "default": True, "title": TITLE, "file": "thumb_a.jpg", "type": "A 유래"}, {"key": "b", "title": TITLE, "file": "thumb_b.jpg", "type": "B 소송"}, {"key": "c", "title": TITLE, "file": "thumb_c.jpg", "type": "C 타워·주가 전망"}],
  "scenes": S})
-EXTRA = {"광복 뒤": ["commons_yenbills_3"], "쓸모 때문에": ["L261105h_contract"], "2024년 9월": ["vofficebuilding_40652"], "지난해 빼빼로 매출": ["commons_krxboard_1"], "시작이 1993년": ["commons_busanstairs_3"], "외환위기 직후": ["vseoul_20089"], "판사의 논리": ["commons_ussupremeish_2"], "그리고 판사는": ["L2611sy_court"], "이렇게 막대 모양": ["commons_familymart_1"], "절정은 2011": ["commons_chocolatesale_2"], "그런데 인터넷에서": ["vcomputer_308"], "학교는 더": ["city_49845_a"], "학교들은 행사": ["commons_oldgrocery_4", "vshopping_4147"], "직장에서는": ["commons_cafeint_1"], "세븐일레븐은": ["commons_koreaconv_3"], "여기까지가": ["commons_seoulnight_3"], "장남 신동주": ["commons_archiveboxes_1"], "롯데 측은": ["vmeeting_15716"], "앞에서 기억": ["commons_bankvault_2"], "일부 회사채": ["commons_stockcert_1", "L261105g_cin_receipt"], "다만 국내": ["commons_oldgrocery_1"], "경영권 분쟁의": ["commons_tokyocommute_1"], "첫째는 인도": ["commons_haryana_2", "vshopping_42123"], "셋째는 빼빼로": ["commons_busanport_1"], "그래서 이 회사": ["vanalytics_42648"], "부산 여학생들이": ["commons_busanport_2"], "판사의 말처럼": ["commons_vendingnight_4"]}
+EXTRA = {"광복 뒤": ["commons_yenbills_3"], "쓸모 때문에": ["L261105h_contract"], "2024년 9월": ["vofficebuilding_40652"], "지난해 빼빼로 매출": ["commons_krxboard_1"], "시작이 1993년": ["commons_busanstairs_3"], "외환위기 직후": ["vseoul_20089"], "판사의 논리": ["commons_ussupremeish_2"], "그리고 판사는": ["L2611sy_court"], "이렇게 막대 모양": ["commons_familymart_1"], "절정은 2011": ["commons_chocolatesale_2"], "그런데 인터넷에서": ["vcomputer_308"], "학교는 더": ["city_49845_a"], "학교들은 행사": ["candy_10374_a", "vpresentation_24068"], "직장에서는": ["commons_cafeint_1"], "세븐일레븐은": ["commons_koreaconv_3"], "여기까지가": ["commons_seoulnight_3"], "장남 신동주": ["commons_archiveboxes_1"], "롯데 측은": ["vmeeting_15716"], "앞에서 기억": ["commons_bankvault_2"], "일부 회사채": ["commons_stockcert_1", "L261105g_cin_receipt"], "다만 국내": ["commons_oldgrocery_1"], "경영권 분쟁의": ["commons_tokyocommute_1"], "첫째는 인도": ["commons_haryana_2", "vshopping_42123"], "셋째는 빼빼로": ["commons_busanport_1"], "그래서 이 회사": ["vanalytics_42648"], "부산 여학생들이": ["commons_busanport_2"], "판사의 말처럼": ["gift_14839_b"]}
 for s_ in spec["scenes"]:
     for k_, ex_ in EXTRA.items():
         if s_.get("lines") and s_["lines"][0].startswith(k_) and "cuts" in s_["v"]:
