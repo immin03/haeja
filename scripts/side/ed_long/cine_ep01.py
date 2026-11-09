@@ -180,6 +180,38 @@ def genv():
     print(len(bs), "묶음", sum(len(b) for b in bs), "클립", round(sum(0.75 if x[1] == SEED else 0.1 for b in bs for x in b), 2), "달러")
 
 
+# ---------- 11/10 대표 A안: 대사 중에는 말하는 입을 보여주지 않는다(듣는 사람·뒷모습·손). 카시우스 선언만 예외. 해설·무언 장면 추가로 8분 이상
+SP = "on a wooden platform in the snow at blue dusk, torches"
+IMG2 = {"sback": "Medium wide shot from directly behind " + EMP.replace("the Roman", "a Roman") + " standing " + SP + ", only his back and crimson cloak visible, facing ranks of Roman legionaries in the snow, no face of him visible.",
+        "ppl2": "Close shot of a young Roman legionary in a snow-dusted helmet standing in formation at blue dusk, listening, eyes wet and shining, face fully visible, mouth closed, breath in the cold.",
+        "ppl3": "Close shot of a scarred old Roman centurion with a transverse-crested helmet standing in the snow at blue dusk, listening with his jaw set, face fully visible, mouth closed, torchlight on his cheek.",
+        "hand2": "Close-up of an older man's pale hand with a crimson wool sleeve gripping the snow-covered wooden rail of a platform at blue dusk, knuckles tight, snow falling, torches blurred behind.",
+        "glis": "Close portrait, three-quarter view, of " + GEN + " " + TENT2.replace("inside a dark", "inside a dark") + ", standing and listening, conflicted eyes, firelight on his face." + C.FACE + " His mouth stays firmly closed.",
+        "stop": "Close-up " + TENT2 + ": an older man's hand with a crimson sleeve raised palm-out in a quiet gesture of refusal, in the blurred background a kneeling soldier with a closed dark leather sack, nothing graphic."}
+W_ = C.MOVE
+VID2 = {"sback": ("sback", "cep1i_sback.jpeg", "His cloak moves in the wind, snow falls, the ranks stand still; very slow push-in. We never see his face."), "ppl2": ("ppl2", "cep1i_ppl2.jpeg", "He stands still, a slow blink, his eyes glisten, breath in the cold; mouth stays closed."),
+        "ppl3": ("ppl3", "cep1i_ppl3.jpeg", "He stands still and slowly lowers his eyes; mouth stays closed; torchlight flickers."), "hand2": ("hand2", "cep1i_hand2.jpeg", "The hand tightens slowly on the rail, snow falling on it; very slow push-in."),
+        "glis": ("glis", "cep1i_glis.jpeg", "He listens without moving, a slow blink; his mouth stays closed the whole shot; firelight flickers; very slow push-in."), "glis_b": ("glis", "cep1i_glis.jpeg", "He swallows and his eyes shift slightly toward the fire; his mouth stays closed the whole shot; very slow drift."),
+        "glis_c": ("glis", "cep1i_glis.jpeg", "He slowly lowers his eyes in shame and bows his head slightly; his mouth stays closed the whole shot."), "elis": ("elis", "c1_emp_listen.jpeg", "He listens without moving, a slow blink; his mouth stays closed the whole shot; firelight flickers; very slow push-in."),
+        "elis_b": ("elis", "c1_emp_listen.jpeg", "He looks down at the chest and back up slowly; his mouth stays closed the whole shot; firelight flickers."), "stop": ("stop", "cep1i_stop.jpeg", "The raised hand stays still and slowly closes; firelight flickers; the soldier lowers his head.")}
+REPL = {40: "sback", 42: "ppl2", 44: "ppl3", 45: "hand2", 65: "stop", 74: "elis", 75: "glis", 77: "glis_b", 79: "elis_b", 80: "glis_c"}
+NEWV = {"n1": "시리아 출신의 그는, 규율이 무섭기로 이름난 장군이었습니다.", "n2": "곡창 이집트가 넘어가자, 원로원은 카시우스를 국가의 적으로 선포했습니다.", "n3": "제국의 절반이, 하룻밤 사이에 적이 될 수 있었습니다.", "n4": "그는 열세 살 아들을 곁으로 불러, 후계자로 세웠습니다.", "n5": "그 뒤 황제는 동쪽을 돌며, 반란에 가담한 도시들을 너그럽게 대했습니다."}
+INS = {10: [("ride", "n1", {})], 27: [("senate", "n2", {})], 36: [("alone", None, {"dur": 3.5, "start": 1.5, "amb": ["wind_2.mp3", 0.3]}), ("snow_b", "n3", {})], 39: [("hand2", None, {"dur": 2.8, "amb": ["wind_2.mp3", 0.3], "sfx": [["heartbeat_2.mp3", 0.3, 0.4]]})],
+       54: [("boy", "n4", {})], 55: [("march", None, {"dur": 3.5, "start": 1.5, "amb": ["wind_2.mp3", 0.2], "sfx": [["drum_1.mp3", 0.2, 0.5], ["war_7.mp3", 0.0, 0.25]]})], 69: [("diary", None, {"dur": 3.0, "start": 2.0})], 83: [("ehorse", "n5", {})]}
+CAS_C = {"zeus": "tc_6a5882fe54564e2a06a218bb", "poseidon": "tc_6a8f9d53322676d2f0934a21", "hades": "tc_6a867e6bd49b8f6a07db59da", "jongdae": "tc_67e38d8c771b5511659c4534"}
+CAS_PICK = "zeus"
+
+
+def gen2():
+    jobs = [{"id": "cep1i_" + k, "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": v + " " + FILM}} for k, v in IMG2.items()]
+    json.dump(jobs, open(os.path.join(ROOT, "scripts/side/gen/EDL261110-cep01j.json"), "w"), ensure_ascii=False, indent=1)
+    v = [{"id": clipid(k), "kind": "video", "endpoint": WAN, "image": "social/side/gen/" + im, "body": {"duration": 5, "prompt": p + " " + C.MOVE}} for k, (_, im, p) in VID2.items()]
+    json.dump(v, open(os.path.join(ROOT, "scripts/side/gen/EDL261110-cep01v8.json"), "w"), ensure_ascii=False, indent=1)
+    vs = [{"name": n, "id": N, "line": t, "emotion": "tonedown", "tempo": 1.0} for n, t in NEWV.items()]
+    vs += [{"name": "cas_" + n, "id": i, "line": "황제는 죽었다. 이제 로마는 나를 따르라.", "emotion": "angry", "intensity": 1.2, "tempo": 0.92} for n, i in CAS_C.items()]
+    json.dump({"requested": "2026-11-10T07:00", "note": "실화극 1호 보강", "tag": "cep01b", "keep": True, "lang": "kor", "model": "ssfm-v30", "emotion": "tonedown", "tempo": 1.0, "voices": vs}, open(os.path.join(ROOT, "scripts/side/voices_req.json"), "w"), ensure_ascii=False, indent=1)
+
+
 # ---------- 렌더 설정 (python3 cine_ep01.py spec) — ED_FPS=24, 장면 길이는 클립(5초)에 최대한 맞춘다
 FIRE = ["fire_4.mp3", 0.34]; FIRE2 = ["fire_0.mp3", 0.28]; COLD = ["wind_2.mp3", 0.24]; DRY = ["wind_1.mp3", 0.16]
 AMB = {}
@@ -206,17 +238,23 @@ def spec():
         if f.endswith(".mp3"): vf[f[:-4].split("_")[-1]] = f
     q = lambda t: "\u201c" + t + "\u201d"; subs = {}; shots = []; mono = []; cast = []
     dur_of = lambda n: float(os.popen(f"ffprobe -v error -show_entries format=duration -of csv=p=0 {os.path.join(ROOT, d, vf[n])}").read())
-    for i, (k, v, t, o) in enumerate(L):
-        if k == "INTRO": shots.append({"type": "intro", "sfx": INTRO_SFX}); continue
+    d2 = "social/side/voice_samples/cep01b"
+    for f in sorted(os.listdir(os.path.join(ROOT, d2))):
+        if f.endswith(".mp3"):
+            n = f[:-4].split("_", 3)[-1]; vf[n] = "../cep01b/" + f
+    vf["l026"] = vf["cas_" + CAS_PICK]
+    pos = {}
+    def add(i, k, v, t, o, n):
+        if k == "INTRO": shots.append({"type": "intro", "sfx": INTRO_SFX}); return
         if k == "RECAP":
-            shots.append({"type": "recap", "items": ENDS, "dur": 6.2, "fixed": True, "cascade": [0.5, 0.8], "nocap": True, "amb": ["wind_2.mp3", 0.22], "head": "배신한 사람에게 하는 복수 · 세 가지", "head_en": "THREE WAYS", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8}); continue
+            shots.append({"type": "recap", "items": ENDS, "dur": 6.2, "fixed": True, "cascade": [0.5, 0.8], "nocap": True, "amb": ["wind_2.mp3", 0.22], "head": "배신한 사람에게 하는 복수 · 세 가지", "head_en": "THREE WAYS", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8}); return
         if k == "FINALE":
-            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "o2"], "pre": 0.8, "gap": 0.8, "post": 1.0, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "amb": ["wind_2.mp3", 0.15], "sfx": []}); continue
-        base = k[:-2] if k.endswith("_b") else k.rstrip("2") if k in ("spk2", "spkw2", "diary2") else k
-        o = dict(o); a = o.pop("amb", AMB.get(base, FIRE if k.startswith("c1v_") else COLD)); pre = o.pop("pre", 0.3); post = o.pop("post", 0.4); n = f"l{i:03d}" if v else None
+            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "o2"], "pre": 0.8, "gap": 0.8, "post": 1.0, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "amb": ["wind_2.mp3", 0.15], "sfx": []}); return
+        base = k[:-2] if k.endswith("_b") or k.endswith("_c") else k.rstrip("2") if k in ("spk2", "spkw2", "diary2") else k
+        o = dict(o); a = o.pop("amb", AMB.get(base, FIRE if k.startswith("c1v_") or base in ("glis", "elis", "stop") else COLD)); pre = o.pop("pre", 0.3); post = o.pop("post", 0.4)
         if o.get("grade") == "none": o["grade"] = "modern"
         if n:
-            if k in TALK: pre, post = min(pre, 0.1), min(post, 0.15) if k not in ("c1v_emp_talk_b",) else post
+            if k in TALK: pre, post = min(pre, 0.1), min(post, 0.15)
             elif dur_of(n) + pre + post > 5.04: pre, post = min(pre, 0.12), min(post, 0.15)   # 클립을 늘리지 않게
             subs[n] = ("!" + t[1:]) if t.startswith("!") else (t if v == N else q(t.lstrip("!")))
             if v == M: mono.append(n)
@@ -227,16 +265,17 @@ def spec():
         sb = SFX.get(k) or SFX.get(base)
         if sb and "sfx" not in o: o["sfx"] = sb
         sh.update(o); shots.append(sh)
+    for i, (k, v, t, o) in enumerate(L):
+        pos[i] = len(shots); add(i, REPL.get(i, k), v, t, o, f"l{i:03d}" if v else None)
+        for k2, n2, o2 in INS.get(i, []): add(None, k2, N if n2 else None, NEWV.get(n2), o2, n2)
     def m(f, a, b, vol, start=0, fin=3, fout=3, tail=2.0, offset=0.5): return {"file": f, "at_shot": a, "offset": offset, "start": start, "until_shot": b, "vol": vol, "fin": fin, "fout": fout, "tail": tail}
-    # 11/10 대표: 카시우스 등장을 짧게 훅에 (첫 문장 직후). 음악은 더 풍부하게, 빈 구간 없이
-    hook = [dict(shots[25], voice=None, pre=0, post=0, dur=3.0, tin="black", fin=0.25), dict(shots[26], pre=0.05, post=0.2), dict(shots[27], voice=None, pre=0, post=0, dur=2.6, tout="black", fout=0.5)]
-    for h in hook:
-        if not h["voice"]: h.pop("voice")
+    # 11/10 대표: 카시우스 등장을 첫 장면으로
+    hook = [dict(shots[pos[25]], pre=0, post=0, dur=3.0, tin="black", fin=0.25), dict(shots[pos[26]], pre=0.05, post=0.2), dict(shots[pos[27]], pre=0, post=0, dur=2.6, tout="black", fout=0.5)]
+    hook[0].pop("voice", None); hook[2].pop("voice", None)
     hook[0]["sfx"] = [["war_7.mp3", 0.0, 0.45], ["impact_2.mp3", 0.0, 0.55], ["drum_5.mp3", 0.1, 0.6]]; hook[2]["sfx"] = [["war_7.mp3", 0.0, 0.6], ["impact_0.mp3", 0.1, 0.5]]
-    shots[1] = dict(shots[1], tin="black", fin=0.4); shots[1:1] = hook   # 이후 장면 번호 +3
-    Z = lambda i: i + 3 if i >= 1 else i
-    music = [m("cinematic_5.mp3", 0, 1, 0.2, fin=0.8, fout=0.6, tail=0.2, offset=0), m("dramatic_4.mp3", 1, 4, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0),
-             m("cinematic_5.mp3", 4, Z(5), 0.2, start=20, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
+    shots[0:0] = hook
+    Z = lambda i: pos[i] + 3 if i in pos else len(shots)
+    music = [m("dramatic_4.mp3", 0, 3, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0), m("cinematic_5.mp3", Z(0), Z(5), 0.2, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
     for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.2, {"fin": 4, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
                              ("dramatic_4.mp3", 57, 62, 0.22, {"start": 30, "tail": 0.6, "fout": 1.2}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
                              ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("sad_5.mp3", 103, 105, 0.28, {"fin": 2, "fout": 4, "tail": 0, "offset": 0})]:
@@ -248,4 +287,4 @@ def spec():
 
 
 if __name__ == "__main__":
-    {"gen": gen, "genv": genv, "spec": spec}[sys.argv[1]]()
+    {"gen": gen, "genv": genv, "spec": spec, "gen2": gen2}[sys.argv[1]]()
