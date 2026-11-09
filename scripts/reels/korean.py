@@ -69,6 +69,9 @@ def to_speech(text):
     t = re.sub(r"(?<![\d.,])(\d{1,2})\s*(시간|시(?![즌장가기대점청작]))", lambda m: (HOURS.get(int(m[1])) or sino(m[1])) + " " + m[2], t)  # 아침 8시 → 여덟 시, 3시간 → 세 시간 (2026-10-25 '팔시'로 읽던 버그)
     t = re.sub(r"(?<![\d.,])(\d+)\s*(주당)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)
     t = re.sub(r"(?<![\d.,])(\d+)\s*(달(?!러)|개(?!월)|가지|번)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)  # 18달러는 '십팔 달러' (2026-10-24 '열여덟 달러'로 읽던 버그)
+    # 2026-11-10 대표님: "1곳 3곳 일곳이 아니라 한곳", "1천여 명 일천여 명이 아니라 천여 명" — 곳·명·잔·권·채·살 앞은 고유어, 맨 앞 1천은 '천'
+    t = re.sub(r"(?<![\d.,])(\d+)\s*(곳|명|잔|권|채(?!권)|살)", lambda m: (NATIVE.get(int(m[1])) or sino(m[1])) + " " + m[2], t)
+    t = re.sub(r"(?<![\d.,])1\s*천", "천", t)
     t = re.sub(r"([+\-−]?)(\d[\d,]*(?:\.\d+)?)", lambda m: sign(m[1]) + num(m[2]), t)
     return re.sub(r"\s+", " ", t).strip()
 

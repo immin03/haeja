@@ -797,7 +797,7 @@ def end_page(v, lines, fill, V, at_time):
     if v.get("sub"):
         B.append(dict(kind="print", text=F(v["sub"]), x=cx, y=650, size=(46 if len(F(v["sub"])) > 18 else 54), w="ExtraBold", anchor="m", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4))
     if not v.get("no_slogan"):   # 2026-11-09 대표님: 마지막에 슬로건을 함께, 오른쪽은 관련 영상
-        B.append(dict(kind="print", text="현명한 투자를 위한 채널, 밸류노트", x=cx, y=360, size=50, w="ExtraBold", anchor="m", t=S0))
+        B.append(dict(kind="print", text="현명한 투자를 위한 채널, 밸류노트", x=cx, y=360, size=50, w="ExtraBold", anchor="m", t=S0, **({"color": (246, 241, 232)} if v.get("dark_end") else {})))
     wds = (250, 260, 300); gap = 24; px = cx - (sum(wds) + 2 * gap) / 2; py = 470
     for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
         kind = ("sub", "like", "bell")[i]; wd = wds[i]

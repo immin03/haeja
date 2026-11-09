@@ -1684,7 +1684,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 tex, tip = nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, u, write_t0=wt0)
                 if tip is not None: pen_tip, pen_al = tip, 1.0
             else:
-                if I["inked"]: img = background("light")   # 손글씨 페이지: 빈 종이에서 시작
+                if I["inked"]: img = background("dark" if sc["v"].get("dark_end") else "light")   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
                 else:
                     img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
                     if bdf: img = on_backdrop(img, bdf(u), theme)
@@ -1730,8 +1730,9 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             if I["flip"] and prev_tex is not None and u < fd + .1:
                 flip = (math.pi * NBK.eio(clamp((u - .1) / fd)), prev_tex)
             if I["full"]: fr = np.asarray(full_img).astype(np.float32); amt = 0.0; bars = 0.0; grade = 0.0; sweep = -1.0
+            elif sc["v"].get("dark_end"): fr = np.asarray(img.convert("RGB")).astype(np.float32); amt = 0.0; bars = 0.0; grade = 0.0; sweep = -1.0
             else: fr = nb.frame(tex, NBK.cam_of(pose), flip=flip, tab=I["ci"], pen_tip=pen_tip, pen_alpha=pen_al, dof=dof)
-            if (I["full"] or prev_full) and prev_fr is not None and u < .45 and k > cold and not sc["v"].get("cine"):   # 그림 장면은 앞 장면에서 부드럽게 넘어온다 (훅·인트로는 딱 끊는 컷 — 2026-11-03)
+            if (I["full"] or prev_full or sc["v"].get("dark_end")) and prev_fr is not None and u < .45 and k > cold and not sc["v"].get("cine"):   # 그림 장면은 앞 장면에서 부드럽게 넘어온다 (훅·인트로는 딱 끊는 컷 — 2026-11-03)
                 a_ = NBK.eio(u / .45); fr = prev_fr * (1 - a_) + np.asarray(fr, np.float32) * a_
             # 3) 오프닝 다큐 효과 · 시네마틱 (빛줄기·렌즈 빛·검은 화면에서 떠오르기·극장 비율 띠)
             if grade > 0: fr = NBK.doc_grade(fr, grade, fi, nb)
@@ -2004,7 +2005,7 @@ def main():
             nb_ = max(1, int(round(dur / unit)))
             if unit > BEAT and len(sc["v"].get("cuts", [])) > nb_:
                 print(f"  훅 마디 맞춤: 사진 {len(sc['v']['cuts'])}장 → {nb_}장 (마디 {nb_}개)"); sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:nb_])
-        if sc.get("endscreen"): dur = max(dur + .8, 8.0); ENDSCREEN_SEC[0] = round(dur, 1)   # 2026-11-03 대표님 "공백이 길었다": 20초 고정 대신 말 끝 + 0.8초 (유튜브 최종 화면 최소 5초는 지킴)
+        if sc.get("endscreen"): dur = max(dur + .8, 8.0, float(sc["endscreen"])); ENDSCREEN_SEC[0] = round(dur, 1)   # 2026-11-03 대표님 "공백이 길었다": 20초 고정 대신 말 끝 + 0.8초 (유튜브 최종 화면 최소 5초는 지킴)
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
     total = t
     mix = np.zeros(int((total + 1) * SR), np.float32)

@@ -1,5 +1,5 @@
 # 2026-11-10 빼빼로데이 롱폼 재제작 — 훅→힌트→리훅 · 대표 11/9·11/10 지시 · 사운드 최신 기준(H6→H1 @30, 120Hz 아래 차단)
-# 사용: python3 scripts/youtube/long/drafts/_build_L261110-pepero.py → specs/L261110-pepero-day.json
+# 사용: python3 scripts/youtube/long/drafts/_build_L261110-pepero.py → specs/L261110-pepero-v2.json
 import json, os, copy, re, math
 HERE = os.path.dirname(os.path.abspath(__file__)); SPECS = os.path.join(HERE, "..", "specs")
 LIB = os.path.join(HERE, "..", "..", "..", "blog", "media", "lib")
@@ -122,9 +122,8 @@ M((4,4), ["commons_uscourthouse_2", "newspaper_41191_a"], [LOW("“the no mess h
 M((4,5), ["vcourt_46820"], [TB(["포키의 특징", "판결"], [["잡기·먹기·나누기·포장", "실용적 기능"]], ["gray", "gold"], at=0.5)], src=CT)
 M((4,6), ["vcourt_47602"], [], src=CT)
 M((4,7), ["vdocuments_24632"], [])
-M((4,8), ["commons_ussupremeish_1"], [LOW("“That's the way the cookie crumbles.”", "판결문 마지막 문장", at=1.6)], src=CT)
-M((4,9), ["candy_10381_a"], [])
-M((4,10), ["commons_koreaconv_1"], [])
+M((4,8), ["commons_ussupremeish_1"], [])
+M((4,9), ["commons_koreaconv_1"], [])
 T("천년에 단 하루", "")
 M((5,0), ["tokyo_30137", "commons_lawson_1"], [LOW("포키의 날", "1999년 · 일본 글리코 지정", at=0.3)], src="글리코 · 헤럴드경제 2025-06-07")
 M((5,1), ["L261108p_office_gifts", "gift_14839_a"], [])
@@ -133,32 +132,38 @@ M((5,3), ["commons_chocolatesale_1"], [LOW("“천년에 단 하루”", "2011�
 M((5,4), ["phone_4915", "laptop_4713"], [TB(["2111년 11월 11일", "2211년 11월 11일"], [["1이 여섯 개", "1이 여섯 개"]], ["gray", "gray"], at=0.6)], src="뉴데일리 2011-11-03")
 M((5,5), ["L261110a_rural_school"], [], src="매일신문 2011-11-09")
 M((5,6), ["city_1606_a"], BARS("11월 11일 휴업 학교 수 · 대구 초등", [b("2009년", 2, "2곳", "gray"), b("2010년", 0.3, "0곳", "gray"), b("2011년", 101, "101곳", "red")]), src="매일신문 2011-11-09")
-M((5,7), ["vpresentation_9069"], [])
-M((5,8), ["commons_pricetag_1", "money_23524_a"], [], src="뉴데일리 2011-11-03")
-M((5,9), ["commons_jewelryshop_1", "commons_handbagshop_1"], BARS("받고 싶은 선물 · 20~30대 여성", [b("액세서리", 27, "27%", "gray"), b("명품 가방", 20, "20%", "gray"), b("화장품", 18, "18%", "gray"), b("빼빼로", 17, "17%", "gold")]), src="엘르엣진 설문 2011")
-M((5,10), ["commons_silkscarf_1"], [])
-M((5,11), ["vofficebuilding_31663", "commons_familymart_2"], [LOW("2026년 11월 11일", "수요일", at=0.3)], src="파이낸셜뉴스 2026-10-16")
-M((5,12), ["office_914_a", "L261108p_store_night"], [])
-M((5,13), ["commons_koreaconv_2"], [PU("+120%", "세븐일레븐 지난해 11월 1~11일 관련 매출", color="green", at=0.4, hold=1.8)], src="새턴경제 2026-11-04")
-M((5,14), ["L261108p_warehouse"], [])
-M((5,15), ["wheat_17120", "commons_doljanchi_2"], [])
-M((5,16), ["commons_jongno_1"], [])
+M((5,7), ["commons_jewelryshop_1", "commons_handbagshop_1"], BARS("받고 싶은 선물 · 20~30대 여성", [b("액세서리", 27, "27%", "gray"), b("명품 가방", 20, "20%", "gray"), b("화장품", 18, "18%", "gray"), b("빼빼로", 17, "17%", "gold")]), src="엘르엣진 설문 2011")
+M((5,8), ["commons_silkscarf_1"], [])
+M((5,9), ["vofficebuilding_31663", "office_914_a"], [LOW("2026년 11월 11일", "수요일", at=0.3)], src="파이낸셜뉴스 2026-10-16")
+M((5,10), ["commons_koreaconv_2"], [PU("+120%", "세븐일레븐 지난해 11월 1~11일 관련 매출", color="green", at=0.4, hold=1.8)], src="새턴경제 2026-11-04")
+M((5,11), ["L261108p_warehouse"], [])
+M((5,12), ["commons_jongno_1"], [])
 T("담보로 잡힌 123층", "")
-M((6,0), ["vnewspaper_41192", "vseoul_20093"], [P("2015년 7월")], src="서울신문 2015-07-31")
-M((6,1), ["vdocuments_39496"], [LOW("신동주 측 공개", "해임 지시서 · 신동주 측 주장", at=0.5)], src="서울신문 2015-07-31")
-M((6,2), ["vcontract_28362"], [LOW("롯데그룹 측 반박", "적법 절차 없어 무효", at=0.3)], src="서울신문 2015-07-31")
+M((6,0), ["commons_lotteworldtower_2"], [])
+M((6,1), ["vnewspaper_41192", "vdocuments_39496"], [LOW("신동주 측 공개", "해임 지시서 · 신동주 측 주장", at=1.5)], src="서울신문 2015-07-31")
+M((6,2), ["vcontract_28362", "commons_archiveboxes_1"], [LOW("롯데그룹 측 반박", "적법 절차 없어 무효", at=0.3)], src="서울신문 2015-07-31")
 M((6,3), ["vconference_13192", "vmeeting_22961"], [P("2015년 8월 17일 · 일본 롯데홀딩스 주주총회")], src="이투데이")
-M((6,4), ["commons_lotteworldtower_2", "vseoul_20095"], [PU("123층", "1987년 부지 매입 · 2017년 완공", at=0.8, hold=1.8)], src=SH)
-M((6,5), ["L261104g_banker_silhouette"], [])
-M((6,6), ["phone_14669", "vnews_41204"], [P("2024년 11월 18일 · 공시 '사실무근'")], src=LQ)
-M((6,7), ["commons_refinery_1", "commons_refinery_2"], BARS("롯데케미칼 차입금", [b("2019년", 3.6, "약 3.6조", "gray"), b("2024년 9월", 10.9, "약 10.9조", "red")], at=0.5), src=LQ)
-M((6,8), ["L261105k_cin_ledger"], [TB(["회사채 약정", "2024년 3분기 말"], [["5배 이상", "4.3배"]], ["gray", "red"], at=0.8)], src=LQ)
-M((6,9), ["L261107m_storm_tower", "L261105g_cin_vaultclose"], [PU("6조 원+", "롯데월드타워 가치 · 은행 담보 제공", color="red", at=1.2, hold=1.8)], src=LQ)
-M((6,10), ["L261105h_towerman"], [])
-M((6,11), ["vhandshake_30016", "vcontract_23222".replace("23222","23222") if False else "vmoney_47005"], [PU("1조 3,105억 원", "롯데렌탈 매각 · TPG · 2026년 10월 30일", at=1.2, hold=1.8)], src="글로벌이코노믹 2026-10-30")
-M((6,12), ["vmoney_45703"], [], src=LB)
-M((6,13), ["L261108p_thumb_sticks"], [])
-T("매출의 열에 하나도 안 되는 과자", "")
+M((6,4), ["vseoul_20095", "L261105h_towerman"], [PU("123층", "1987년 부지 매입 · 2017년 완공", at=0.8, hold=1.8)], src=SH)
+M((6,5), ["vnightcity_40746", "commons_constructiondc_1"], [LOW("2022년 가을", "레고랜드 사태", at=0.3)], src="데일리바이트 2022-11-23")
+M((6,6), ["commons_refinery_1", "vmoney_47005"], [TB(["롯데케미칼", "롯데홈쇼핑"], [["5,000억 원", "1,000억 원"]], ["gold", "gold"], at=0.2)], src="데일리바이트 2022-11-23")
+M((6,7), ["vofficebuilding_41541", "commons_bankvault_2"], [LOW("미즈호은행 · 약 3,000억 원", "잠원동 본사 땅·건물 담보", at=1.2)], src="데일리바이트 2022-11-23")
+M((6,8), ["commons_krxboard_2"], [TB(["차입금", "순이익"], [["재계 4위", "재계 17위"]], ["red", "gray"], at=0.3)], src="뉴스토마토 2024-11-13")
+M((6,9), ["phone_14669"], [LOW("“롯데그룹 공중분해 위기”", "2024년 11월 16일 · 유튜브 영상 제목", at=0.4)], src="데일리바이트 2024-11")
+M((6,10), ["vnews_41204", "vcomputer_46635"], [LOW("증권가 지라시", "모라토리엄·인력 절반 감축 · 롯데 측 사실무근", at=0.4)], src="데일리바이트 2024-11")
+M((6,11), ["vstockmarket_47213"], [PU("-10.22%", "2024년 11월 18일 · 롯데케미칼 주가", color="red", at=0.3, hold=1.8)], src="데일리바이트 2024-11")
+M((6,12), ["commons_refinery_2", "L261105g_cin_receipt"], BARS("롯데케미칼 차입금", [b("2019년", 3.6, "약 3.6조", "gray"), b("2024년 9월", 10.9, "약 10.9조", "red")], at=1.0), src=LQ)
+M((6,13), ["L261105k_cin_ledger", "commons_stockcert_1"], [PU("2조 500억 원", "특약 위반 사유 발생 회사채 규모", color="red", at=0.8, hold=1.8)], src="한국경제 2024-12-02")
+M((6,14), ["L261107m_storm_tower", "L261105g_cin_vaultclose"], [PU("6조 원+", "롯데월드타워 가치 · 은행 담보 제공", color="red", at=1.4, hold=1.8)], src="르몽드 디플로마티크 · " + LQ)
+M((6,15), ["commons_uscourthouse_2".replace("commons_uscourthouse_2","vdocuments_48385") if False else "commons_seoulnight_1".replace("commons_seoulnight_1","commons_lottedept_2") if False else "L261104g_banker_silhouette"], [])
+M((6,16), ["vstockmarket_47012"], [], src="한국경제 2024-12-02")
+M((6,17), ["vofficebuilding_40701", "money_23524_a"], [TB(["총차입금", "1년 내 만기"], [["8조 6,199억 원", "약 5조 원"]], ["red", "red"], at=0.8)], src="파이낸셜뉴스 2026-08-12 · 아시아경제 2026-05-31")
+M((6,18), ["vnightcity_40747"], [], src=LQ)
+M((6,19), ["vhandshake_30016", "vcourt_46820".replace("vcourt_46820","vdocuments_22856") if False else "vconference_23116"], [LOW("공정거래위원회", "기업결합 승인 불발 · 2026년 5월 계약 해지", at=1.2)], src="아시아경제 2026-05-31")
+M((6,20), ["vmoney_45703", "vcontract_23222".replace("vcontract_23222","vbusinessman_231")], [TB(["최초 계약", "최종 매각"], [["주당 7만 7,115원", "주당 5만 9,000원"]], ["gray", "red"], at=0.3), PU("1조 3,105억 원", "롯데렌탈 매각 · TPG · 2026년 10월 30일", at=3.2, hold=1.8)], src="글로벌이코노믹 2026-10-30")
+M((6,21), ["vnightcity_49878", "commons_lottedept_1".replace("commons_lottedept_1","commons_seoulnight_1")], [LOW("롯데백화점 부산 센텀시티점", "2026년 10월 29일 · 신세계에 매각 합의", at=0.5)], src="서울신문 2026-10-29")
+M((6,22), ["commons_yeouido_1"], [], src=LB + " · 아시아타임즈 2026-11-01")
+M((6,23), ["L261108p_thumb_sticks"], [])
+T("매출의 10%도 안 되는 과자", "")
 M((7,0), ["commons_pepero_2"], [])
 M((7,1), ["L261108p_analyst_desk"], BARS("지난해 매출", [b("빼빼로", 2430, "2,430억", "gold"), b("롯데웰푸드 전체", 42160, "4조 2,160억", "gray")]), src="아주경제 2026-10-20 · 스마트투데이 2026-02-06")
 M((7,2), ["L261108p_cocoa_farm", "commons_cocoapod_1", "L261108p_cocoa_screens"], [PU("-30%", "지난해 롯데웰푸드 영업이익", color="red", at=1.0, hold=1.8)], src="비즈워치 2026-02-11")
@@ -183,23 +188,27 @@ M((8,6), ["cargo_30125"], [IC("up", "③ 빼빼로 해외 매출 1,000억 원", 
 M((8,7), ["commons_oldgrocery_3", "vstockmarket_47792"], [], src=FIN)
 M((8,8), ["vstockmarket_47016"], [], src=FIN)
 M((9,0), ["L261108p_closing_store"], [])
-M((9,1), ["L2611sy_snackbar"], [])
-S.append({"v": {"type": "end", "sub": "", "btn_at": ["0:좋아요", "0:구독", "0:구독"], "note": {"text": ""}, "closing_photo": resolve("commons_seoulnight_2"), "backdrop": resolve("L261108p_sticks_eleven"), "bd_dim": 0.74},
-    "lines": [L(9,2), L(9,3)], "endscreen": 8, "sketch_add": [], "en": ["", ""], "asof": False, "src": ""})
+M((9,1), ["L2611sy_court"], [LOW("“That's the way the cookie crumbles.”", "판결문 마지막 문장 · 2021년 1월", at=1.0)], src=CT)
+M((9,2), ["commons_seoulnight_2"], [])
+M((9,3), ["L2611sy_snackbar"], [])
+M((9,4), ["vdocuments_24632".replace("vdocuments_24632","vdocuments_45923") if False else "L261105h_archive", "vpresentation_24173"], [])
+M((9,5), ["commons_busanstairs_2".replace("commons_busanstairs_2","vnightcity_40747").replace("vnightcity_40747","vhandshake_46755")], [])
+S.append({"v": {"type": "end", "sub": "", "btn_at": ["0:현명한", "0:현명한", "0:현명한"], "note": {"text": ""}, "dark_end": True},
+    "lines": [L(9,6)], "endscreen": 11, "sketch_add": [], "en": [""], "asof": False, "src": ""})
 TITLE = "빼빼로데이 유래, 미국 법원까지 간 6년 소송… 그 날을 만든 건 롯데가 아니었다"
 spec = {k: base[k] for k in ["fx", "format", "world", "notebook", "hook", "overlay"]}
 spec["look"] = {"paper": "blueprint", "dark": "ink", "accent": "sky"}
 spec["music"] = copy.deepcopy(base["music"]); spec["music"].pop("bed_eq", None)
 spec["music"].update(bed=["social/music/samples3/H6_full.mp3@30", "social/music/samples3/H1_full.mp3@30"], bed_gain_db=3, bed_hp=120, note="본편 H6 House - July → H1 Deep House Sunset · 120Hz 아래 차단 (대표 11/9 최신 기준)")
-spec.update({"id": "L261110-pepero-day", "company": None, "no_data": True, "series": "빼빼로데이", "scheduled_at": "2026-11-10T19:30:00+09:00",
+spec.update({"id": "L261110-pepero-v2", "company": None, "no_data": True, "series": "빼빼로데이", "scheduled_at": "2026-11-10T19:30:00+09:00",
  "events": [{"at": "2026-11-10T00:24:00+09:00", "by": "owner", "what": "채팅 지시 — 빼빼로 내일 예약본 작업, 훅·리훅 살리고 사운드 최신 버전"}],
  "opening": "미스터리형 — 판결문 첫 줄 → 손잡이 소송 → 광고 문구(답 미공개) → 11월 11일의 수수께끼 → 휴업 → 타워 담보 → 판결문 마지막 줄 예고", "hook_type": "미스터리 훅 + 힌트 + 리훅",
  "endscreen_target": "L261105-hermes", "title": TITLE, "doc_title": "빼빼로데이는 누가 만들었나", "title_en": "Pepero Day: the six-year US lawsuit and the day Lotte did not invent",
- "tags": ["빼빼로데이 유래", "빼빼로데이", "빼빼로", "포키", "롯데웰푸드", "롯데웰푸드 주가", "롯데웰푸드 주가 전망", "신격호", "롯데월드타워", "롯데 유동성", "11월 11일", "가래떡데이", "빼빼로 수출", "인도 빼빼로", "K푸드"],
+ "tags": ["빼빼로데이 유래", "빼빼로데이", "빼빼로", "포키", "롯데웰푸드", "롯데웰푸드 주가", "롯데웰푸드 주가 전망", "신격호", "롯데월드타워", "롯데 유동성", "11월 11일", "빼빼로 수출", "인도 빼빼로", "K푸드"],
  "search_keywords": ["빼빼로데이 유래", "빼빼로데이", "롯데웰푸드 주가 전망", "빼빼로"],
- "sources": ["미국 연방 제3순회항소법원 2021-01-26 판결 (Ezaki Glico v. Lotte International America, 판결문 인용)", "아이뉴스24 2025-11-07 · 헤럴드경제 2025-06-07 · 연합통신 1996-11-13 (유래)", "머니투데이·뉴데일리 2020-01-19 (신격호 생애) · 서울신문 1998-09-04 (재무구조)", "뉴데일리 2011-11-03 · 매일신문 2011-11-09 · 엘르엣진 설문 2011 (밀레니엄 빼빼로데이·대구 휴업·선물 설문)", "파이낸셜뉴스 2026-10-16 · 새턴경제 2026-11-04 (올해 편의점 준비)", "서울신문 2015-07-31 · 이투데이 (경영권 분쟁, 양측 주장)", "뉴시스 2024-11-29 (유동성 위기설·롯데월드타워 담보)", "글로벌이코노믹 2026-10-30 · 한경비즈니스 2026-10-29 (롯데렌탈·자금 확보)", "아주경제 2026-10-20·2026-06-30 · 머니투데이 2026-10-23 · 더구루 2026-09-05 · 새턴경제 2024-09-09 (빼빼로 매출·원롯데)", "스마트투데이 2026-02-06 · 비즈워치 2026-02-11 (2025년 실적)", "다올투자증권 2026-10-12 (3분기 전망, S저널 인용)", "그림: AI 생성 스틸(실존 인물 아님) · 사진: Wikimedia Commons · 영상: Mixkit·Pexels"],
+ "sources": ["미국 연방 제3순회항소법원 2021-01-26 판결 (Ezaki Glico v. Lotte International America, 판결문 인용)", "아이뉴스24 2025-11-07 · 헤럴드경제 2025-06-07 · 연합통신 1996-11-13 (유래)", "머니투데이·뉴데일리 2020-01-19 (신격호 생애) · 서울신문 1998-09-04 (재무구조)", "뉴데일리 2011-11-03 · 매일신문 2011-11-09 · 엘르엣진 설문 2011 (밀레니엄 빼빼로데이·대구 휴업·선물 설문)", "파이낸셜뉴스 2026-10-16 · 새턴경제 2026-11-04 (올해 편의점 준비)", "서울신문 2015-07-31 · 이투데이 (경영권 분쟁, 양측 주장)", "뉴시스 2024-11-29 · 르몽드 디플로마티크 · 한국경제 2024-12-02 · 데일리바이트 2022-11-23·2024-11 · 뉴스토마토 2024-11-13 (위기설·타워 담보·회사채·롯데건설)", "글로벌이코노믹 2026-10-30 · 한경비즈니스 2026-10-29 · 파이낸셜뉴스 2026-08-12 · 아시아경제 2026-05-31 · 서울신문 2026-10-29 (호텔롯데·롯데렌탈·센텀시티)", "아주경제 2026-10-20·2026-06-30 · 머니투데이 2026-10-23 · 더구루 2026-09-05 · 새턴경제 2024-09-09 (빼빼로 매출·원롯데)", "스마트투데이 2026-02-06 · 비즈워치 2026-02-11 (2025년 실적)", "다올투자증권 2026-10-12 (3분기 전망, S저널 인용)", "그림: AI 생성 스틸(실존 인물 아님) · 사진: Wikimedia Commons · 영상: Mixkit·Pexels"],
  "pinned_comment": "이번 빼빼로데이, 여러분은 누구에게 주실 건가요? 직장 동료 몫까지 챙기시나요? 댓글로 나눠 주세요.\n※ 2015년 경영권 분쟁은 양측 주장을 함께 소개했습니다. 주가 전망은 2026년 10월 12일 증권사 자료 기준이며 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
- "description_head": "빼빼로데이 유래가 궁금하신 분들을 위해 정리했습니다.\n\n11월 11일을 만든 건 롯데가 아니었습니다. 포키와 빼빼로의 6년 미국 소송, 2011년 대구 초등학교 휴업, 창업자의 타워가 담보가 된 사연, 롯데웰푸드 주가 전망까지 다룹니다.\n\n※ 주가 전망은 2026년 10월 12일 증권사 자료 기준이며 매수·매도 권유가 아닙니다.",
+ "description_head": "빼빼로데이 유래가 궁금하신 분들을 위해 정리했습니다.\n\n11월 11일을 만든 건 롯데가 아니었습니다. 포키와 빼빼로의 6년 미국 소송, 2011년 대구 초등학교 휴업, 창업자의 타워가 담보가 된 사연과 지라시·회사채 위기, 롯데웰푸드 주가 전망까지 다룹니다.\n\n※ 주가 전망은 2026년 10월 12일 증권사 자료 기준이며 매수·매도 권유가 아닙니다.",
  "description_en": "Pepero Day was not invented by Lotte. We trace the six-year US lawsuit with Pocky, the 2011 school closures, the Lotte World Tower pledge and what to watch at Lotte Wellfood.",
  "hook_promises": ["판결문의 마지막 한 줄", "승패를 결정한 광고 문구", "볼 것 3가지"], "viewer_question": "빼빼로데이는 누가 만들었고 롯데는 지금 어떤 상황인가",
  "format_note": "11/10 재제작. 실존 인물 사진 없음. 경영권 분쟁은 양측 주장 구분. 시그니엘 매각 언급 없음.",
@@ -215,7 +224,7 @@ for s_ in spec["scenes"]:
     if s_["v"].get("cine"):
         for e_ in s_.get("sketch") or []:
             if e_.get("kind") == "lower": e_["y"] = 540
-out = os.path.join(OUT_DIR, "L261110-pepero-day.json")
+out = os.path.join(OUT_DIR, "L261110-pepero-v2.json")
 json.dump(spec, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 spoken = [x for sc in S for x in sc.get("lines", [])]; expected = [x for c, l in SCRIPT for x in l]
 assert " ".join(spoken) == " ".join(expected), "불일치"
