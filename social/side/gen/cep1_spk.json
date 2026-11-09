@@ -1,0 +1,31 @@
+{
+ "id": "cep1_spk",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "He speaks slowly and sorrowfully to an army, his lips and jaw moving naturally in continuous speech for the whole shot; his breath visible; the camera is almost still. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c107-3c5d-7802-bf0d-194119ab0126/2bda3747-e888-4e95-9a07-de2d45231d10.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c136-b15c-70f6-a764-855e0da6fa86",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c136-b15c-70f6-a764-855e0da6fa86/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c136-b15c-70f6-a764-855e0da6fa86/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c136-b15c-70f6-a764-855e0da6fa86",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c136-b15c-70f6-a764-855e0da6fa86/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c136-b15c-70f6-a764-855e0da6fa86/cancel",
+  "expires_at": "2026-11-16T16:57:45.714767+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c136-b15c-70f6-a764-855e0da6fa86/b3ce398f-7532-45e5-9859-1fbfda7440f1.mp4"
+  }
+ },
+ "seconds": 519,
+ "file": "social/side/gen/cep1_spk.mp4"
+}
