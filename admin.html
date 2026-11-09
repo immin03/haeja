@@ -885,6 +885,71 @@ table.svt tr[data-goto]:hover td{background:var(--bg)}
   .dk{grid-template-columns:repeat(2,1fr);row-gap:12px}
   .svr{grid-template-columns:80px 1fr}
 }
+
+/* 구독자 30일 프로젝트 현황판 (2026-11-10) */
+.sp-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
+.sp-big{font-size:40px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.sp-big small{font-size:15px;font-weight:700;color:var(--muted);margin-left:6px}
+.sp-k{font-size:12.5px;color:var(--muted);font-weight:700}
+.sp-tg{margin-top:12px;display:grid;gap:10px}
+.sp-tg .h{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;gap:8px}
+.sp-tg .h b{font-weight:800}
+.sp-bar{height:10px;border-radius:999px;background:var(--grid);overflow:hidden;position:relative}
+.sp-bar i{position:absolute;inset:0 auto 0 0;border-radius:999px;background:var(--navy)}
+.sp-bar.g i{background:var(--gold)}
+.sp-bar u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--bad);text-decoration:none}
+.sp-pace{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.sp-pace div{background:var(--bg);border-radius:10px;padding:9px 10px}
+.sp-pace b{display:block;font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+.sp-pace span{font-size:11.5px;color:var(--muted);font-weight:700}
+.sp-chart svg{width:100%;height:auto;display:block}
+.sp-chart .lg{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:6px}
+.sp-chart .lg i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.sp-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.sp-kpi{padding:12px 14px}
+.sp-kpi .v{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px}
+.sp-kpi .g{font-size:12px;color:var(--muted);margin-top:2px}
+.sp-kpi .st{display:inline-block;font-size:11.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:6px}
+.sp-kpi .st.ok{color:var(--good);background:rgba(45,122,95,.12)}.sp-kpi .st.no{color:var(--bad);background:rgba(216,65,90,.12)}.sp-kpi .st.na{color:var(--muted);background:var(--bg)}
+table.sp-t{width:100%;border-collapse:collapse;font-size:13px}
+table.sp-t th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.sp-t td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.sp-t td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.sp-t tr:last-child td{border-bottom:0}
+.sp-tag{display:inline-block;font-size:11px;font-weight:800;padding:1px 7px;border-radius:999px;background:var(--bg);color:var(--ink2);white-space:nowrap}
+.sp-tag.a{background:rgba(62,106,168,.12);color:var(--s-visit)}.sp-tag.b{background:rgba(176,152,104,.16);color:var(--s-sign)}
+.sp-tag.bad{background:rgba(216,65,90,.12);color:var(--bad)}.sp-tag.ok{background:rgba(45,122,95,.12);color:var(--good)}
+.sp-cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.sp-day{border:1px solid var(--line);border-radius:10px;padding:8px;min-height:92px;font-size:12px;background:var(--surface)}
+.sp-day.today{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.sp-day .d{font-weight:800;font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+.sp-day .t{margin-top:6px;line-height:1.4;font-weight:700;color:var(--ink)}
+.sp-day.off{background:var(--bg)}
+.sp-day .s{margin-top:4px}
+.sp-wk{font-size:12.5px;font-weight:800;margin:12px 0 6px;color:var(--ink2)}
+.sp-act{display:grid;gap:6px}
+.sp-act>div{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:start;font-size:13.5px;line-height:1.5}
+.sp-act .ck{width:18px;height:18px;border-radius:5px;border:2px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#FFFFFF;margin-top:1px}
+.sp-act .ck.on{background:var(--good);border-color:var(--good)}
+.sp-act .m{font-size:12px;color:var(--muted)}
+.sp-bench{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.sp-bc{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface)}
+.sp-bc .c{font-size:12px;color:var(--muted);font-weight:700}
+.sp-bc h3{font-size:14.5px;margin:4px 0 6px;line-height:1.4}
+.sp-bc ul{margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.55}
+.sp-bc .n{font-size:12px;font-weight:800;color:var(--ink2)}
+.sp-flow{display:grid;gap:6px;font-size:13.5px;line-height:1.55}
+.sp-flow div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.sp-flow div:last-child{border-bottom:0}
+.sp-flow b{font-variant-numeric:tabular-nums;color:var(--ink2)}
+.sp-log{font-size:13px;line-height:1.6}
+.sp-log div{padding:5px 0;border-bottom:1px solid var(--line)}.sp-log div:last-child{border-bottom:0}
+.sp-log .m{color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
+.sp-scroll{overflow-x:auto}
+.sp-note{font-size:12px;color:var(--muted);line-height:1.55}.sp-note2{font-size:12.5px;line-height:1.55;color:var(--ink2)}
+.sp-bc h3 a{color:inherit;text-decoration:none}.sp-bc h3 a:hover{text-decoration:underline}
+.sp-note a{color:var(--ink2)}
+@media (max-width:860px){.sp-hero{grid-template-columns:1fr}.sp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.sp-cal{grid-template-columns:repeat(2,minmax(0,1fr))}.sp-day.off{display:none}}
 </style>
 </head>
 <body>
@@ -967,7 +1032,7 @@ function barsList(obj, order){
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
 const GROUPS = [
-  ['brief', '브리핑', ['brief']],
+  ['brief', '브리핑', ['brief', 'sprint']],
   ['content', '콘텐츠', ['calendar', 'youtube', 'social', 'blog', 'column']],
   ['result', '유입', ['overview', 'traffic', 'landing', 'dm']],
   ['member', '회원', ['users', 'survey', 'mail', 'stocks', 'qual']],
@@ -975,6 +1040,7 @@ const GROUPS = [
 ];
 const PAGES = [
   ['brief', '브리핑'],
+  ['sprint', '구독자 30일'],
   ['overview', '방문·가입'],
   ['rules', '운영 기준'],
   ['users', '회원 관리'],
@@ -2866,6 +2932,145 @@ function vGoal(kp){
   </div>`;
 }
 
+
+/* ===== 구독자 30일 프로젝트 현황판 (2026-11-10 대표님: "이 한 달 구독자 늘리는 프로젝트를 위한 별도 대시보드 현황판을 관리자에 하나 만들어줘")
+   원본: docs agent 'sprint-30d' (계획·할 일·벤치마킹·결정 기록 — 브리핑 갱신 때 Claude가 고침, 제1 원칙 122)
+         docs agent 'yt-channel' (구독자 이력) · yt_admin_list(영상별 숫자) · yt_plan_list(기획안 일정) — 화면이 바로 읽는다 */
+const SP = { loaded: false, busy: false };
+async function spLoad(){
+  const [sd, ch] = await Promise.all([
+    sb.from('docs').select('data,updated_at').eq('collection', 'agent').eq('id', 'sprint-30d').maybeSingle(),
+    sb.from('docs').select('data').eq('collection', 'agent').eq('id', 'yt-channel').maybeSingle()]);
+  SP.doc = (sd.data || {}).data || {}; SP.docAt = (sd.data || {}).updated_at || null; SP.chan = (ch.data || {}).data || {};
+  if(!YT.list) { try{ await ytFetch(); }catch(e){} }
+  SP.loaded = true;
+}
+const spDay = iso => Date.parse(String(iso).slice(0, 10) + 'T00:00:00+09:00');
+function spSeries(){
+  const c = SP.chan || {}, pts = [];
+  (c.history || []).forEach(h => { if(h && h.subs != null && h.at) pts.push([Date.parse(h.at), +h.subs]); });
+  if(c.subs != null && c.at) pts.push([Date.parse(c.at), +c.subs]);
+  pts.sort((a, b) => a[0] - b[0]);
+  const out = []; pts.forEach(p => { if(!out.length || p[0] - out[out.length - 1][0] > 30 * 60e3) out.push(p); else out[out.length - 1] = p; });
+  return out;
+}
+function spChart(D, series){
+  const W = 640, H = 220, L = 44, R = 12, T = 12, B = 26;
+  const t0 = Date.parse('2026-11-01T00:00:00+09:00'), t1 = Date.parse(D.end + 'T23:59:00+09:00'), tS = Date.parse(D.start + 'T00:00:00+09:00');
+  const yMax = Math.max(D.stretch || 5000, ...series.map(p => p[1])) * 1.05;
+  const x = t => L + (Math.min(Math.max(t, t0), t1) - t0) / (t1 - t0) * (W - L - R), y = v => T + (1 - v / yMax) * (H - T - B);
+  const line = (pts, col, w, dash) => pts.length ? `<polyline fill="none" stroke="${col}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"${dash ? ` stroke-dasharray="${dash}"` : ''} points="${pts.map(p => `${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(' ')}"/>` : '';
+  const ticks = [0, 1000, 2000, 3000, 4000, 5000].filter(v => v <= yMax);
+  const days = []; for(let t = t0; t <= t1; t += 7 * 864e5) days.push(t);
+  const fmt = t => { const d = new Date(t + 9 * 3600e3); return `${d.getUTCMonth() + 1}/${d.getUTCDate()}`; };
+  const s0 = +D.start_subs || 580, nowP = series.length ? series[series.length - 1] : null;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="구독자 추이와 목표선">
+    ${ticks.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(v) + 4}" font-size="10.5" text-anchor="end" fill="var(--muted)">${v ? n0(v) : '0'}</text>`).join('')}
+    ${days.map(t => `<text x="${x(t)}" y="${H - 8}" font-size="10.5" text-anchor="middle" fill="var(--muted)">${fmt(t)}</text>`).join('')}
+    <line x1="${x(tS)}" x2="${x(tS)}" y1="${T}" y2="${H - B}" stroke="var(--line)" stroke-dasharray="3 3"/>
+    ${line([[tS, s0], [t1, D.stretch || 5000]], 'var(--gold)', 1.6, '5 4')}
+    ${line([[tS, s0], [t1, D.target || 3000]], 'var(--muted)', 1.6, '5 4')}
+    ${line(series, 'var(--navy)', 2.6)}
+    ${nowP ? `<circle cx="${x(nowP[0])}" cy="${y(nowP[1])}" r="4.5" fill="var(--navy)" stroke="var(--surface)" stroke-width="2"/><text x="${Math.min(x(nowP[0]) + 8, W - 60)}" y="${y(nowP[1]) - 8}" font-size="12" font-weight="800" fill="var(--ink)">${n0(nowP[1])}명</text>` : ''}
+  </svg>`;
+}
+function spLongs(D){
+  const from = Date.parse('2026-11-07T00:00:00+09:00');
+  return (YT.list || []).filter(y => y.kind === 'long' && y.youtube_id && y.status === 'uploaded' && Date.parse(y.scheduled_at || y.uploaded_at) >= from)
+    .sort((a, b) => Date.parse(b.scheduled_at || b.uploaded_at) - Date.parse(a.scheduled_at || a.uploaded_at));
+}
+const spType = t => /주가 전망|물타기|갖고 계신|보유자|ETF|레버리지/.test(t || '') ? 'A' : 'B';
+function spKpis(D, longs){
+  const inS = longs.filter(y => Date.parse(y.scheduled_at || y.uploaded_at) >= spDay(D.start));
+  const pool = inS.length >= 2 ? inS : longs.slice(0, 5), lab = inS.length >= 2 ? `11/10 이후 ${inS.length}편` : `최근 ${pool.length}편(프로젝트 전 포함)`;
+  const st = y => (y.stats || {}).studio || {};
+  const ctrs = pool.map(y => +st(y).ctr).filter(v => v > 0), pcts = pool.map(y => +st(y).avg_pct).filter(v => v > 0);
+  const s30 = pool.map(y => +((st(y).retention || {}).s30)).filter(v => v > 0);
+  const sv = pool.filter(y => st(y).subs != null && +st(y).views > 0), subsSum = sv.reduce((a, y) => a + (+st(y).subs || 0), 0), viewSum = sv.reduce((a, y) => a + (+st(y).views || 0), 0);
+  const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null, minC = ctrs.length ? Math.min(...ctrs) : null;
+  const per1k = viewSum ? subsSum / viewSum * 1000 : null;
+  const tile = (l, v, goal, ok, note) => `<div class="card sp-kpi"><div class="sp-k">${l}</div><div class="v">${v}</div><div class="g">목표 ${goal}${note ? ' · ' + note : ''}</div><span class="st ${ok == null ? 'na' : ok ? 'ok' : 'no'}">${ok == null ? '수집 전' : ok ? '달성' : '미달'}</span></div>`;
+  return `<div class="sp-kpis">
+    ${tile('롱폼 클릭률 (가장 낮은 편)', minC != null ? minC.toFixed(1) + '%' : '–', '전 편 5% 이상', minC == null ? null : minC >= 5, ctrs.length ? `평균 ${avg(ctrs).toFixed(1)}%` : '')}
+    ${tile('0:30 시점 잔존', s30.length ? avg(s30).toFixed(0) + '%' : '–', '70%', s30.length ? avg(s30) >= 70 : null, s30.length ? '' : '레버리지 편 61%')}
+    ${tile('평균 시청률', pcts.length ? avg(pcts).toFixed(1) + '%' : '–', '40% 이상', pcts.length ? avg(pcts) >= 40 : null, '')}
+    ${tile('조회 1,000회당 구독', per1k != null ? per1k.toFixed(1) + '명' : '–', '8명 이상', per1k == null ? null : per1k >= 8, viewSum ? `${n0(subsSum)}명 / ${n0(viewSum)}회` : '')}
+  </div><div class="sp-note" style="margin:-4px 0 12px">기준: ${lab} · 스튜디오 수집값(성과 진단·업로드 작업이 채움). 화요일 이후 공개분은 48시간 뒤부터 반영됩니다.</div>`;
+}
+function spCal(D){
+  const plans = YT.plans || [], posts = (YT.list || []).filter(y => y.kind === 'long');
+  const slot = D.slots || { 0: '대응', 1: '정규', 3: '정규', 4: '대응', 5: '정규', 6: '정규' };  /* 월=0 … 일=6 */
+  const startMon = spDay('2026-11-09'), today = kstDate(new Date().toISOString());
+  const STL = { proposed: ['기획안 승인 대기', ''], approved: ['승인 · 제작 예정', 'ok'], producing: ['제작 중', 'ok'], script_review: ['원고 검토 대기', ''], done: ['완료', 'ok'] };
+  let html = '';
+  for(let w = 0; w < 5; w++){
+    const ws = startMon + w * 7 * 864e5; if(ws > spDay(D.end)) break;
+    const days = [];
+    for(let i = 0; i < 7; i++){
+      const t = ws + i * 864e5, iso = new Date(t + 9 * 3600e3).toISOString().slice(0, 10), dt = new Date(t + 9 * 3600e3), dow = (dt.getUTCDay() + 6) % 7;
+      const kind = slot[dow] || ''; const inRange = iso >= D.start && iso <= D.end;
+      const pub0 = posts.filter(y => kstDate(y.scheduled_at) === iso && y.status !== 'hold').sort((a, b) => Date.parse(a.scheduled_at) - Date.parse(b.scheduled_at)), pub = pub0.filter((y, k) => pub0.findIndex(z => z.title === y.title) === k);  /* 같은 제목 재렌더본은 먼저 공개되는 한 편만 */
+      const pl = plans.filter(x => x.target_at && kstDate(x.target_at) === iso && !['rejected', 'cancelled'].includes(x.status) && !(pub.length && x.status === 'done'));
+      const items = pub.map(y => `<div class="t">${esc((y.title || '').slice(0, 42))}</div><div class="s"><span class="sp-tag ${y.youtube_id && Date.parse(y.scheduled_at) <= Date.now() ? 'ok' : ''}">${y.youtube_id && Date.parse(y.scheduled_at) <= Date.now() ? '공개 · ' + n0((ytViewsOf(y) || {}).v || 0) + '회' : '예약 ' + kday(y.scheduled_at).split(' ')[1]}</span></div>`)
+        .concat(pl.map(x => `<div class="t">${esc((x.title || x.id).slice(0, 42))}</div><div class="s"><span class="sp-tag ${(STL[x.status] || ['', ''])[1]}">${(STL[x.status] || [x.status])[0]}</span></div>`)).join('');
+      days.push(`<div class="sp-day${iso === today ? ' today' : ''}${(!kind || !inRange) && !items ? ' off' : ''}"><div class="d"><span>${dt.getUTCMonth() + 1}/${dt.getUTCDate()} ${DOW[dt.getUTCDay()]}</span>${kind && inRange ? `<span class="sp-tag ${kind === '정규' ? 'a' : 'b'}">${kind}</span>` : ''}</div>${items || (kind && inRange ? `<div class="s muted" style="margin-top:6px">${kind === '대응' ? '소재 있을 때만' : '<b style="color:var(--bad)">비어 있음</b>'}</div>` : '')}</div>`);
+    }
+    html += `<div class="sp-wk">${w + 1}주차</div><div class="sp-cal">${days.join('')}</div>`;
+  }
+  return html;
+}
+function vSprint(){
+  if(!SP.loaded){ if(!SP.busy){ SP.busy = true; spLoad().then(() => { SP.busy = false; if(page() === 'sprint') render(); }).catch(() => { SP.busy = false; }); } return '<div class="empty">불러오는 중</div>'; }
+  const D = { start: '2026-11-10', end: '2026-12-09', start_subs: 580, target: 3000, stretch: 5000, ...(SP.doc || {}) };
+  const series = spSeries(), now = series.length ? series[series.length - 1] : [Date.now(), D.start_subs];
+  const subs = now[1], dayN = Math.max(1, Math.floor((Date.now() - spDay(D.start)) / 864e5) + 1), left = Math.max(0, Math.ceil((spDay(D.end) + 864e5 - Date.now()) / 864e5));
+  const gained = subs - D.start_subs, pace = gained / Math.max(dayN - (Date.now() < spDay(D.start) + 864e5 ? 0.5 : 0), 0.5);
+  const need3 = left ? Math.max(0, (D.target - subs) / left) : 0, need5 = left ? Math.max(0, (D.stretch - subs) / left) : 0;
+  const expected = D.start_subs + (D.target - D.start_subs) * Math.min(1, (Date.now() - spDay(D.start)) / (spDay(D.end) + 864e5 - spDay(D.start)));
+  const bar = (label, goal, cls) => { const p = Math.max(0, Math.min(100, subs / goal * 100)), e = Math.max(0, Math.min(100, (D.start_subs + (goal - D.start_subs) * Math.min(1, (Date.now() - spDay(D.start)) / (spDay(D.end) + 864e5 - spDay(D.start)))) / goal * 100));
+    return `<div><div class="h"><span><b>${label}</b> ${n0(goal)}명</span><span>${p.toFixed(0)}% · 오늘 있어야 할 위치 ${n0(Math.round(goal * e / 100))}명</span></div><div class="sp-bar ${cls}"><i style="width:${p}%"></i><u style="left:${e}%" title="일정대로라면 오늘 위치"></u></div></div>`; };
+  const longs = spLongs(D), A = (D.actions || []), B = (D.bench || []), LOG = (D.log || []);
+  const chan = SP.chan || {};
+  return `${head('구독자 30일 프로젝트', `${D.start.slice(5).replace('-', '/')} ~ ${D.end.slice(5).replace('-', '/')} · ${dayN}일째 · 남은 ${left}일 · 최우선: 채널 구독자·조회수`, 'sprint')}
+  <div class="br-fresh" style="margin-bottom:12px"><div class="x">구독자 숫자 기준 <b>${chan.at ? kst(chan.at) : '–'}</b><br><span>유튜브 공개 페이지 값 · 버튼을 누르면 지금 숫자로 다시 읽습니다${SP.docAt ? ` · 계획·할 일 갱신 ${kst(SP.docAt)}` : ''}</span></div><button class="br-b ghost" data-sp-reload${BR.ytBusy ? ' disabled' : ''}>${BR.ytBusy ? '읽는 중…' : '구독자 새로고침'}</button></div>
+  <div class="sp-hero">
+    <div class="card"><div class="sp-k">지금 구독자</div><div class="sp-big">${n0(subs)}<small>명 · 시작 ${n0(D.start_subs)}명에서 ${gained >= 0 ? '+' : ''}${n0(gained)}</small></div>
+      <div class="sp-tg">${bar('필달 목표', D.target, '')}${bar('도전 목표', D.stretch, 'g')}</div>
+      <div class="sp-pace"><div><b>${pace > 0 ? '+' + n0(Math.round(pace)) : '–'}</b><span>지금 하루 평균</span></div><div><b>+${n0(Math.ceil(need3))}</b><span>3,000명까지 하루 필요</span></div><div><b>+${n0(Math.ceil(need5))}</b><span>5,000명까지 하루 필요</span></div></div>
+      <div class="sp-note" style="margin-top:8px">${subs >= expected ? '✓ 필달 목표 일정보다 앞서 있습니다' : `필달 목표 일정보다 ${n0(Math.round(expected - subs))}명 뒤처져 있습니다`} · 참고: 수익 창출 조건 구독자 1,000명</div></div>
+    <div class="card sp-chart"><div class="sp-k">구독자 추이와 목표선</div>${spChart(D, series)}<div class="lg"><span><i style="background:var(--navy)"></i>실제</span><span><i style="background:var(--muted)"></i>필달 3,000명 선</span><span><i style="background:var(--gold)"></i>도전 5,000명 선</span></div></div>
+  </div>
+  <h2>매주 보는 숫자 4개</h2>
+  ${spKpis(D, longs)}
+  <h2>롱폼 성적표 <span class="qcount">${longs.length}</span></h2>
+  <div class="card sp-scroll"><table class="sp-t"><thead><tr><th>공개</th><th>틀</th><th>제목</th><th class="n">조회</th><th class="n">클릭률</th><th class="n">평균 시청률</th><th class="n">구독</th><th>조치</th></tr></thead><tbody>
+  ${longs.map(y => { const s = (y.stats || {}).studio || {}, v = (ytViewsOf(y) || {}).v, age = (Date.now() - Date.parse(y.scheduled_at || y.uploaded_at)) / 3600e3, t = spType(y.title);
+    const ctr = s.ctr != null ? +s.ctr : null, flag = ctr != null && age >= 48 && ctr < 4 ? '<span class="sp-tag bad">제목·썸네일 교체</span>' : age < 48 ? '<span class="sp-tag">48시간 대기</span>' : ctr == null ? '<span class="sp-tag">수집 전</span>' : '<span class="sp-tag ok">유지</span>';
+    return `<tr><td class="n" style="text-align:left">${kday(y.scheduled_at || y.uploaded_at)}</td><td><span class="sp-tag ${t === 'A' ? 'a' : 'b'}">${t === 'A' ? 'A 보유자' : 'B 다큐'}</span></td><td>${esc(y.title)}</td><td class="n">${v != null ? n0(v) : '–'}</td><td class="n">${ctr != null ? ctr.toFixed(1) + '%' : '–'}</td><td class="n">${s.avg_pct != null ? (+s.avg_pct).toFixed(1) + '%' : '–'}</td><td class="n">${s.subs != null ? '+' + n0(s.subs) : '–'}</td><td>${flag}</td></tr>`; }).join('') || '<tr><td colspan="8" class="muted">아직 없습니다</td></tr>'}
+  </tbody></table><div class="sp-note" style="margin-top:8px">조치 기준(제1 원칙 120): 공개 48시간 뒤 클릭률 4% 미만이면 제목·썸네일을 다른 유형으로 교체, 72시간 뒤 다시 확인 · A 보유자 대응편 : B 다큐 = 3 : 1</div></div>
+  <h2>롱폼 편성표 <span class="qcount">주 6편 · 12:30</span></h2>
+  <div class="card">${spCal(D)}<div class="sp-note" style="margin-top:10px">정규 = 화·목·토·일 · 대응 = 월·금(보유자 대응·후속 소재가 있을 때만) · 사건 대응은 칸과 무관하게 렌더·검수 끝나는 즉시 공개 · 기획안 승인·수정은 <a href="#youtube/plan">유튜브 → 기획안</a></div></div>
+  <h2>끝까지 보게 하는 구조 <span class="qcount">제1 원칙 119</span></h2>
+  <div class="card"><div class="sp-flow">
+    <div><b>0~15초</b><span>장면 하나로 시작 — 사람·시각·장소 (\"점심 12시 회사 1층 식당 앞\"). 인사·채널 소개 없음</span></div>
+    <div><b>15~35초</b><span>역설 + 숫자 하나 + 핵심 질문 (\"그런데 이상한 건…\")</span></div>
+    <div><b>35~60초</b><span>약속(\"끝날 때쯤이면 ○○을 알게 됩니다\") + 엔딩에서 다룰 가장 센 사례를 한 줄로 미리 걸기. 답은 힌트만</span></div>
+    <div><b>본문</b><span>30~60초마다 작은 질문·'그런데' 반전, 2~3분마다 큰 리후킹(부분 답 → 더 큰 질문), 중반에 가짜 결말 한 번(\"정답일까요? 아직 아닙니다\"), '아까 그 ○○ 기억하시죠' 콜백 2번 이상, 비교 숫자는 화면에 스코어보드로 고정</span></div>
+    <div><b>엔딩</b><span>첫 장면으로 돌아가 다른 의미로 닫기 · 내일 생활에서 떠올릴 장면 하나 · 지금 할 행동 하나 · \"밸류노트는 기업의 숫자 뒤에 숨은 이야기를 같이 펼쳐 보는 곳입니다\" 구독 멘트 + 댓글 질문</span></div>
+  </div></div>
+  <h2>벤치마킹 <span class="qcount">${B.length}</span></h2>
+  <div class="sp-bench">${B.map(b => `<div class="sp-bc"><div class="c">${esc(b.region || '')} · ${esc(b.channel || '')}${b.subs ? ' · 구독자 ' + esc(b.subs) : ''}</div><h3>${b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>` : esc(b.title)}</h3><div class="n">${esc(b.views || '')}${b.length ? ' · ' + esc(b.length) : ''}</div><ul>${(b.points || []).map(p => `<li>${esc(p)}</li>`).join('')}</ul>${b.use ? `<div class="sp-note2" style="margin-top:6px"><b>우리 적용</b> ${esc(b.use)}</div>` : ''}</div>`).join('') || '<div class="empty">아직 없습니다</div>'}</div>
+  <div class="sp-note" style="margin:6px 0 12px">월·목 10:23 벤치마킹 작업이 국내·해외 '구독자 대비 조회 5배 이상' 롱폼의 자막을 읽어 여기에 추가합니다(제1 원칙 123)</div>
+  <h2>할 일 <span class="qcount">${A.filter(a => a.status !== 'done').length} 남음</span></h2>
+  <div class="card sp-act">${A.map(a => `<div><span class="ck${a.status === 'done' ? ' on' : ''}">${a.status === 'done' ? '✓' : ''}</span><span>${esc(a.title)}${a.note ? `<div class="m">${esc(a.note)}</div>` : ''}</span><span class="sp-tag${a.who === '대표' ? ' b' : ''}">${esc(a.who || 'Claude')}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('') || '<div class="empty">없습니다</div>'}</div>
+  <h2>결정·변경 기록</h2>
+  <div class="card sp-log">${LOG.slice().reverse().slice(0, 20).map(l => `<div><span class="m">${esc(l.at || '')}</span>${esc(l.text || '')}</div>`).join('') || '<div class="empty">없습니다</div>'}</div>`;
+}
+function bindSprint(){
+  const b = $('#main').querySelector('[data-sp-reload]');
+  if(b) b.onclick = async () => { b.disabled = true; b.textContent = '읽는 중…'; await brYtRefresh(true); SP.loaded = false; await spLoad(); render(); };
+}
+
 /* 대표님이 직접 할 일 (2026-10-30 운영자: "내가 할 일은 내가 처리할 수 있게 처리 버튼이나 하는 방식 안내")
    docs agent 'owner-todo' data.items: {id, title, why, how:[단계], link:{label,href}, kind: done|daily|decide|input, choices:[{key,label,note}], status, done_at, answer}
    버튼을 누르면 owner-todo 를 바로 고치고, Claude가 이어서 할 일이 있으면 brief-inbox 에 넣어 브리핑 작업(2시간마다 17분)이 처리한다. */
@@ -3309,9 +3514,10 @@ function render(s){
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  let html; try { html = p === 'brief' ? vBrief() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers() : p === 'mail' ? vMail() : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s); } catch(e) { console.error(e); html = `<div class="card"><b>이 화면을 그리지 못했습니다.</b><div class="m">데이터 한 건이 형식에 맞지 않습니다: ${esc(e.message)} — 위 요청칸에 그대로 알려 주시면 고칩니다.</div></div>`; }
+  let html; try { html = p === 'brief' ? vBrief() : p === 'sprint' ? vSprint() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers() : p === 'mail' ? vMail() : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s); } catch(e) { console.error(e); html = `<div class="card"><b>이 화면을 그리지 못했습니다.</b><div class="m">데이터 한 건이 형식에 맞지 않습니다: ${esc(e.message)} — 위 요청칸에 그대로 알려 주시면 고칩니다.</div></div>`; }
   $('#main').innerHTML = html;
   if(p === 'brief') bindBrief();
+  if(p === 'sprint') bindSprint();
   if(p === 'users') bindUsers();
   if(p === 'survey') bindSurvey();
   if(p === 'mail') bindMail();
