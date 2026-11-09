@@ -1,0 +1,41 @@
+[
+ {
+  "id": "c1_emp_talk2",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "16:9",
+   "prompt": "Close portrait, three-quarter view, of the Roman emperor Marcus Aurelius at age fifty-four, lean weathered face, short curly grey-brown hair, short neatly trimmed grey-flecked beard, deep tired eyes, plain brown wool tunic under a deep crimson wool military cloak fastened with a round bronze brooch, sitting in a dark leather tent at night, warm firelight from one side and deep shadow on the other, a small flame out of focus behind him, his lips slightly parted in the middle of speaking quietly, calm heavy eyes looking up toward someone standing. His face is in the middle of the frame, fully visible and lit, with space above his head. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow depth of field, subtle 35mm film grain, realistic human hands with five fingers. Not a painting, not an illustration. Horizontal 16:9 widescreen frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+  }
+ },
+ {
+  "id": "c1v_wide",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_wide.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The general slides the chest a few centimetres toward the seated emperor and takes his hands away; the emperor stays still and looks at it; flames flicker in the foreground; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_gen_talk",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_gen_talk.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He speaks urgently in Latin, his lips and jaw moving naturally in continuous speech for the whole shot, a small tense shake of the head; the firelight moves on his face; the camera is almost still. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_emp_talk",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_emp_talk2.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He speaks slowly and quietly, his lips and jaw moving naturally in continuous unhurried speech for the whole shot, then a slow blink; the firelight moves on his face; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ }
+]
