@@ -1370,8 +1370,8 @@ async function mlPreview(kind){
   const { data, error } = await sb.functions.invoke('mail', { body: { action: 'preview', kind: kind === 'welcome-sub' ? 'welcome' : kind, as: kind === 'welcome-sub' ? 'sub' : 'new' } });
   ML.pv = error || !data?.ok ? { error: (data && data.error) || (error && error.message) || '불러오지 못했습니다' } : data; if(page() === 'mail') render();
 }
-const ML_KIND = { welcome: '가입 축하', digest: '주간 칼럼', consent: '동의·거부 결과', reconfirm: '2년 재확인' };
-const ML_PV = { welcome: '가입 축하 · 구독 전 회원', 'welcome-sub': '가입 축하 · 구독한 회원', digest: '주간 칼럼', consent: '동의·거부 결과', reconfirm: '2년 재확인' };
+const ML_KIND = { welcome: '가입 축하', d1: '안내 D+1 · 내 종목 점수', d3: '안내 D+3 · 유형별 3곳', d7: '안내 D+7 · 점수 변동', digest: '주간 칼럼', consent: '동의·거부 결과', reconfirm: '2년 재확인' };
+const ML_PV = { welcome: '가입 축하 · 구독 전 회원', 'welcome-sub': '가입 축하 · 구독한 회원', d1: '안내 D+1 · 내 종목 점수', d3: '안내 D+3 · 유형별 3곳', d7: '안내 D+7 · 점수 변동', digest: '주간 칼럼', consent: '동의·거부 결과', reconfirm: '2년 재확인' };
 const ML_ST = { queued: ['대기', '#B09868'], sent: ['보냄', 'var(--good)'], failed: ['실패', 'var(--bad)'], skipped: ['건너뜀', 'var(--muted)'] };
 function vMail(){
   if(ML.d === undefined){ setTimeout(() => mlLoad(), 0); return `${head('메일', '', 'mail')}<div class="empty">불러오는 중</div>`; }
