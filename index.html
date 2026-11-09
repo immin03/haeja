@@ -2886,7 +2886,7 @@ const DM = { st: 'idle', cur: null, prev: null };
 function dayMoveLoad(){
   if(DM.st !== 'idle') return; DM.st = 'loading';
   const get = u => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
-  Promise.all([get('/c/scores.json'), get('/c/scores-prev.json')]).then(([c, p]) => { DM.cur = c && c.c ? c : null; DM.prev = p && p.c && p.date !== c?.date ? p : null; DM.st = 'done'; if(S.tab === 'portfolio') render(); });
+  Promise.all([get('/c/scores.json'), get('/c/scores-prev.json')]).then(([c, p]) => { DM.cur = c && c.c ? c : null; DM.prev = p && p.c && (p.built || p.date) !== (c?.built || c?.date) ? p : null; DM.st = 'done'; if(S.tab === 'portfolio') render(); });
 }
 const dmSlugOf = t => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const dmKey = s => String(s || '').toUpperCase().replace(/\.(KS|KQ|T|HK|SS|SZ)$/, '').replace(/^0+(?=\d{4}$)/, '');
@@ -2903,7 +2903,7 @@ function dayMoveCard(){
   if(store.isGuest || store.isDemo) return '';
   if(DM.st !== 'done'){ setTimeout(dayMoveLoad, 0); return ''; }
   if(!DM.cur) return '';
-  const C = DM.cur.c, P = DM.prev ? DM.prev.c : null, d = DM.cur.date || today();
+  const C = DM.cur.c, P = DM.prev ? DM.prev.c : null, d = DM.cur.built || DM.cur.date || today();
   const dLabel = `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일 계산`;
   const rowHtml = (k, r, side) => `<button type="button" class="dm-row" data-act="vl-open" data-v="${esc(k.split('-')[0].toUpperCase())}" data-n="${esc(r[0])}"><span class="dm-nm"><b>${esc(r[0])}</b><span class="small muted">${esc(MKT[r[4]]?.label || r[4])}${r[6] ? ' · ' + esc(r[6]) : ''}</span></span><span class="dm-side">${side}</span></button>`;
   let movers = [];
@@ -2920,7 +2920,7 @@ function dayMoveCard(){
     : fresh.map(([k, r]) => rowHtml(k, r, `<span class="num"><b>${r[1]}</b><i>/100</i></span><span class="small">${dmGap(r[5])}</span>`)).join('');
   const head = movers.length ? '어제보다 점수·저평가 폭이 크게 바뀐 회사' : (P ? '어제와 크게 달라진 회사는 없습니다 · 지금 저평가 구간, 종합 70점 이상' : '지금 저평가 구간 · 종합 70점 이상');
   return `<div class="card dm-card" style="margin-top:16px">
-    <div class="row" style="justify-content:space-between;align-items:baseline"><div><span class="eyebrow">오늘의 점수 변동</span><div class="small muted">${esc(dLabel)}${P ? ` · 어제(${esc(String(DM.prev.date).slice(5).replace('-', '/'))})와 비교` : ''}</div></div><button type="button" class="linkbtn small" data-act="go-tab" data-v="value">저평가 순위 ›</button></div>
+    <div class="row" style="justify-content:space-between;align-items:baseline"><div><span class="eyebrow">오늘의 점수 변동</span><div class="small muted">${esc(dLabel)}${P ? ` · 어제(${esc(String(DM.prev.built || DM.prev.date).slice(5).replace('-', '/'))})와 비교` : ''}</div></div><button type="button" class="linkbtn small" data-act="go-tab" data-v="value">저평가 순위 ›</button></div>
     <div class="small muted" style="margin:8px 0 4px">${head}</div>
     <div class="dm-list">${body || '<div class="small muted">오늘 계산된 점수표가 아직 없습니다.</div>'}</div>
     ${far ? `<div class="dm-mine"><div class="small muted" style="margin-bottom:4px">내 종목 중 적정 주가와 가장 멀리 있는 회사${far.held ? '' : ' · 관심 종목'}</div>${rowHtml(far.k, far.r, `<span class="num"><b>${far.r[1] ?? '–'}</b><i>/100</i></span><span class="small">${dmGap(far.r[5])}</span>`)}</div>`

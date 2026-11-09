@@ -544,8 +544,11 @@ for (const m of MKT_ORDER) fs.writeFileSync(path.join(dir, MSLUG[m] + '.html'), 
 const R0 = (v) => (isNum(v) ? Math.round(v) : null);
 const scores = Object.fromEntries(all.map((x) => [x.slug, [x.r.n, R0(x.sc.b), R0(x.sc.q), R0(x.sc.v), grpOf(x.r.m),
   isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv < 2 ? R0(x.sc.mos) : null, x.r.ind || x.r.s || '']]));
-fs.writeFileSync(path.join(dir, 'scores.json'), JSON.stringify({ date, c: scores }));
-const prevOut = prevAll && prevAll.date && prevAll.date !== date ? prevAll : (prevKeep && prevKeep.date !== date ? prevKeep : null);
+// built: 이 표를 만든 날(KST). date(스크리너 생성일)는 며칠 같을 수 있어, '어제와 비교'는 built로 가른다
+const built = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+fs.writeFileSync(path.join(dir, 'scores.json'), JSON.stringify({ date, built, c: scores }));
+const yday = new Date(Date.now() + 9 * 3600e3 - 864e5).toISOString().slice(0, 10);
+const prevOut = prevAll && prevAll.c && (prevAll.built || yday) !== built ? { ...prevAll, built: prevAll.built || yday } : (prevKeep && prevKeep.built !== built ? prevKeep : null);
 if (prevOut) fs.writeFileSync(path.join(dir, 'scores-prev.json'), JSON.stringify(prevOut));
 // 소개 페이지 마지막 '지금 적정 매수가 아래' 순위: 앱 저평가 순위(valueRows 'under')와 같은 기준·같은 순서
 //  현재가 ≤ 적정 주가의 75%, 재무 점수 50점 이상, 감점 신호 없음, 데이터 신뢰도 낮음 제외 → 가장 많이 싼 순
