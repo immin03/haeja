@@ -1,0 +1,28 @@
+{
+ "id": "cep1_order_b",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "Same moment continuing. The camera drifts slowly sideways and pushes in closer. Small natural motion only. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0f5-1bd9-7880-8028-4770a2a94b3c/c6cc4a50-1d97-4a4e-a39f-88a55453bd57.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c17a-a476-7951-b0fe-637f111eca25",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c17a-a476-7951-b0fe-637f111eca25/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c17a-a476-7951-b0fe-637f111eca25/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1c17a-a476-7951-b0fe-637f111eca25",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c17a-a476-7951-b0fe-637f111eca25/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c17a-a476-7951-b0fe-637f111eca25/cancel",
+  "expires_at": "2026-11-16T18:03:22.904941+00:00"
+ },
+ "seconds": 7
+}
