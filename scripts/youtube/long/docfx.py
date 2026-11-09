@@ -265,7 +265,7 @@ def _broadcast(im, beats, u, lines):
         elif k == "lower":   # 하단 자막띠: 금색 세로선이 서고 이름·설명이 옆에서 밀려 들어온다
             hold = b.get("hold", 5.0); fade = 1 - eio((p - hold) / .5)
             if fade <= 0: continue
-            y = H - 330; q = eout(p / .35); r = eout((p - .15) / .45); d = ImageDraw.Draw(im, "RGBA")
+            y = H - 372; q = eout(p / .35)   # 2026-11-09 대표님: 자막과 겹침 → 위로; r = eout((p - .15) / .45); d = ImageDraw.Draw(im, "RGBA")
             bg = Image.new("RGBA", im.size); ImageDraw.Draw(bg).rectangle([120, y - 10, 120 + 900 * r, y + 120], fill=(8, 14, 26, int(170 * fade))); im.alpha_composite(bg)
             d = ImageDraw.Draw(im, "RGBA"); d.rectangle([120, y - 10 + 130 * (1 - q), 128, y + 120], fill=(*GOLD, int(255 * fade)))
             _st(d, (150 - 30 * (1 - r), y + 4), b["text"], font=F("Heavy", 50), fill=(*WHITE, int(255 * r * fade)))

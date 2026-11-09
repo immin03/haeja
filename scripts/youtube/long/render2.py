@@ -1201,7 +1201,7 @@ def dock_logo(im, p, a=1.0):
             _DOCK[th] = (L, sm, m)
     L, sm, sh = _DOCK["dark"]
     x0, y0 = W / 2 - L.width / 2, H / 2 + 110 - 40 - L.height
-    x1, y1 = W - 58 - sm.width, 34
+    x1, y1 = W - 34 - sm.width, 34   # 2026-11-09 대표님: 오른쪽 여백이 넓다 → 58→34
     if p < 1:
         e = NBK_eio(p); s_ = 1 + (DOCK_S - 1) * e
         Z = L.resize((max(1, int(L.width * s_)), max(1, int(L.height * s_))), Image.LANCZOS)

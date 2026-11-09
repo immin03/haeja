@@ -238,6 +238,13 @@ spec.update({
         {"key": "c", "title": TITLE, "file": "thumb_c.jpg", "type": "C 좌우 대비 (매출 +96% vs 주가 -23%)"}],
     "scenes": S,
 })
+# 2026-11-09 17:00 대표 수정: 자막과 내용이 겹치는 화면 글씨 제거 · 막대 금액 줄임 · 기존 하우스 곡 + 저음 차단
+for i_ in (8, 16, 33, 45, 58, 64, 67): spec["scenes"][i_]["sketch"] = []
+spec["scenes"][35]["sketch"][0]["text"] = "블랙스카이 사례 (달러)"
+for it_ in spec["scenes"][35]["sketch"][1]["items"]: it_["text"] = "800만"
+spec["scenes"][41]["sketch"][0]["text"] = "3분기 미국 매출 (달러)"
+for it_, v_ in zip(spec["scenes"][41]["sketch"][1]["items"], ("9.84억", "9.53억")): it_["text"] = v_
+spec["music"].update(bed=["social/music/samples3/H6_full.mp3@30", "social/music/samples3/H1_full.mp3@30"], bed_gain_db=3, bed_hp=120)
 out = os.path.join(OUT_DIR, "L261109-palantir-what.json")
 json.dump(spec, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 # 원고 일치 검사

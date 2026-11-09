@@ -156,6 +156,9 @@ def render(spec, out):
     y2 = H - 40; y1 = y2 - f2.size * 1.02 - 4
     text(im, (LX, y1), spec["l1"], f1, tuple(spec.get("c1", IVORY)))
     text(im, (LX, y2), spec["l2"], f2, tuple(spec.get("c2", {"down": RED, "gold": (242, 212, 151)}.get(spec.get("tone"), GREEN))))   # 2026-11-06 대표님: 노란색 촌스러움 → 원래 썸네일 색(아이보리 + 형광 초록)
+    if spec.get("company"):   # 2026-11-09 대표님: 쇼츠처럼 롱폼 썸네일에도 기업 로고(이름) — 두 줄 제목 바로 위
+        fc = fit(spec["company"], spec.get("company_s", 66), 620, "Heavy") if not os.path.exists(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf")) else ImageFont.truetype(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf"), spec.get("company_s", 66))
+        text(im, (LX + 2, y1 - f1.size - 14), spec["company"], fc, IVORY)
     if spec.get("tag"):   # 맨 위 금색 띠 한 줄 (예: "반드시 봐야 할 3가지") — 두 줄 제목과 별도로 넣는 강한 후킹
         ft = font(spec.get("st", 62)); tw = ft.getlength(spec["tag"]); ph = ft.size * 1.55; pw = tw + ft.size * 1.1; x0, y0 = 40, 30   # 2026-11-06 대표님 "배너가 너무 안 보인다" → 50→62px
         sh = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([x0 + 4, y0 + 6, x0 + pw + 4, y0 + ph + 6], 10, fill=(0, 0, 0, 220))

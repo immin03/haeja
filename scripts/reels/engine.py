@@ -1700,13 +1700,7 @@ def build_audio(scenes, total, mood, path):
     impact = .7 * np.sin(2 * np.pi * (70 - 40 * s) * s) * np.exp(-s * 6) + .15 * rng.standard_normal(len(s)) * np.exp(-s * 30)
     def tick(f):
         s_ = np.arange(int(SR * .05)) / SR; return .15 * np.sin(2 * np.pi * f * s_) * np.exp(-s_ * 80)
-    for j, x_ in enumerate(scenes[1:]):
-        if "whoosh" in SFX:
-            nm = "whoosh" if j % 2 == 0 or "alt_whoosh" not in SFX else "alt_whoosh"
-            addfx(x_["start"] - PEAK[nm], .2 * SFX[nm])
-        else:
-            m = int(SR * .4); w = signal.lfilter(*signal.butter(2, 1800 / (SR / 2), "low"), rng.standard_normal(m))
-            addfx(x_["start"] - .15, .35 * w * np.sin(np.linspace(0, np.pi, m)) ** 2)
+    # 2026-11-09 대표님: 쇼츠 장면 전환 휙 소리가 이상하다 → 전환 효과음 전체 제거
     for x_ in scenes:
         st, ty, Lx, sc = x_["start"], x_["sc"]["type"], x_["L"], x_["sc"]
         if ty == "hook":
