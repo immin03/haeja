@@ -166,8 +166,8 @@ def render(spec, out):
         im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
         ImageDraw.Draw(im).rounded_rectangle([x0, y0, x0 + pw, y0 + ph], 10, fill=(242, 212, 151))
         ImageDraw.Draw(im).text((x0 + pw / 2, y0 + ph / 2 + 2), spec["tag"], font=ft, fill=NAVY, anchor="mm")
-    if spec.get("logo_right") or spec.get("versus") or spec.get("tag"): paste_logo(im, W - 30, 22, 28, "dark", align="right")
-    else: paste_logo(im, 34, 26, 30, "dark", align="left")   # 로고는 왼쪽 위 (오른쪽은 제품 사진 자리)
+    if spec.get("logo_right") or spec.get("versus") or spec.get("tag"): paste_logo(im, W - 30, 22, 40, "dark", align="right")   # 11/9 17:37 대표님: 밸류노트 로고도 더 크게 (28→40)
+    else: paste_logo(im, 34, 26, 42, "dark", align="left")   # 로고는 왼쪽 위 (오른쪽은 제품 사진 자리)
     for t, f, s in ((spec["l1"], f1, spec.get("s1", 104)), (spec["l2"], f2, spec.get("s2", 150))):
         if f.size < s * .85: print(f"  ⚠ 글자가 길어 작아짐 {f.size}/{s}: {t}")
     im.convert("RGB").save(out, quality=94); return out
