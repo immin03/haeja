@@ -557,6 +557,9 @@
     "cuts": [
      {
       "lib": "vdocuments_48385.mp4"
+     },
+     {
+      "lib": "vnewspaper_41199.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -949,6 +952,9 @@
     "cuts": [
      {
       "lib": "server_47050.mp4"
+     },
+     {
+      "lib": "vhandshake_30016.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -1720,6 +1726,9 @@
     "cuts": [
      {
       "lib": "vsatellite_47399.mp4"
+     },
+     {
+      "lib": "il_L261110a_conveyor_night.jpeg"
      }
     ],
     "wash_amt": 0.85
@@ -1743,6 +1752,9 @@
     "cuts": [
      {
       "lib": "vnightcity_40746.mp4"
+     },
+     {
+      "lib": "vnetwork_31536.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -1766,6 +1778,9 @@
     "cuts": [
      {
       "lib": "vofficebuilding_40652.mp4"
+     },
+     {
+      "lib": "il_L261101_tower.jpeg"
      }
     ],
     "wash_amt": 0.85
@@ -1852,6 +1867,72 @@
     "wash": "left",
     "cuts": [
      {
+      "lib": "vofficebuilding_40701.mp4"
+     },
+     {
+      "lib": "il_L261105h_towerman.jpeg"
+     },
+     {
+      "lib": "vhandshake_24047.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "엔비디아에는 공개된 후계 구도가 없습니다. 임원 상당수가 젠슨 황에게 직접 보고하는 구조라, 결정은 빠르지만 공백이 생기면 메우기 어려워요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "파이낸셜뉴스 2026-11-09",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "후계 구도",
+     "sub": "공개된 승계 계획 없음",
+     "line": 0,
+     "at": 0.1
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vphonecall_23073.mp4"
+     },
+     {
+      "lib": "vnews_41204.mp4"
+     },
+     {
+      "lib": "vnetwork_19653.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "신뢰 문제도 있습니다. 젠슨 황은 지난달까지 이 임원과의 접촉이 다른 고객사 임원과 다르지 않다고 설명했습니다. 이번 인정과 앞뒤가 맞지 않는 부분이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Bloomberg 인터뷰(2026-10-29) · 파이낸셜뉴스 인용",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
       "lib": "vcourt_46820.mp4"
      },
      {
@@ -1922,13 +2003,13 @@
     {
      "kind": "table",
      "cols": [
-      "11월 11일",
-      "11월 18일"
+      "회신 기한",
+      "비공개 설명"
      ],
      "rows": [
       [
-       "참석 여부 회신",
-       "비공개 설명 요구일"
+       "11월 11일",
+       "11월 18일 요구"
       ]
      ],
      "colors": [
@@ -1953,7 +2034,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "공교롭게도 엔비디아 실적 발표도 11월 18일 전후로 예상됩니다."
+    "공교롭게도 엔비디아 실적 발표도 같은 시기입니다."
    ],
    "sketch_add": [],
    "en": [
@@ -1970,25 +2051,227 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "commons_hbm_2.jpg"
+      "lib": "il_L261110a_exchange_night.jpeg"
      },
      {
-      "lib": "vdata_5404.mp4"
+      "lib": "vwallstreet_24517.mp4"
+     },
+     {
+      "lib": "il_L261110a_phone_pay.jpeg"
      }
     ],
     "wash_amt": 0.85
    },
    "lines": [
-    "전망은 이렇게 정리됩니다. 지금까지 이 사건으로 AI 칩 수요가 꺾였다는 증거는 없어요. 문제는 실적이 아니라 신뢰입니다."
+    "이제 주가 전망입니다. 국내 투자자가 들고 있는 엔비디아 주식만 19조 7천억 원이에요. 먼저 시장이 어디까지 반영했는지부터 보겠습니다."
    ],
    "sketch_add": [],
    "en": [
     ""
    ],
    "asof": false,
-   "src": "",
-   "sketch": [],
-   "chapter": "앞으로 볼 것 3가지"
+   "src": "한국예탁결제원 (비즈워치 2026-11-09)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "19조 7천억 원",
+     "sub": "국내 투자자 엔비디아 보관금액 · 11월 5일",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 1.8,
+     "style": "soft"
+    }
+   ],
+   "chapter": "엔비디아 주가 전망"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_storm_tower.jpeg"
+     },
+     {
+      "lib": "vanalytics_41277.mp4"
+     },
+     {
+      "lib": "il_L261107s_phone_red.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "엔비디아 시가총액은 10월에 약 5조 8천억 달러까지 갔다가, AI 투자 수익성 우려로 이미 5조 달러 아래로 내려와 있었습니다. 그 위에 이번 사건이 얹힌 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "파이낸셜뉴스 2026-11-09 · 11/6 종가 기준 추정",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "엔비디아 시가총액 (달러)",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "10월 고점",
+       "v": 5.8,
+       "text": "5.8조",
+       "color": "gray"
+      },
+      {
+       "label": "11월",
+       "v": 4.5,
+       "text": "약 4.5조",
+       "color": "red"
+      }
+     ],
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_hbm_1.jpg"
+     },
+     {
+      "lib": "vdata_21053.mp4"
+     },
+     {
+      "lib": "il_Y261105_a_server.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "같은 프리마켓에서 AMD와 브로드컴, TSMC는 오히려 소폭 올랐어요. AI 업황 전체보다 엔비디아 고유의 움직임이라는 해석이 나오는 이유입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "프리마켓 약 -5.1% (2026-11-09 기준) · 환율 1,355원",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "엔비디아",
+      "AMD·브로드컴·TSMC"
+     ],
+     "rows": [
+      [
+       "약 -5%",
+       "소폭 상승"
+      ]
+     ],
+     "colors": [
+      "red",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_datacenter_1.jpg"
+     },
+     {
+      "lib": "vdata_5404.mp4"
+     },
+     {
+      "lib": "vairplane_4204.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "사업 숫자는 아직 꺾이지 않았습니다. 직전 분기 매출은 962억 달러로 1년 전의 2배가 넘었고, 이번 분기 전망은 1,080억 달러예요. 중국 매출을 0으로 잡고 낸 숫자입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 2027 회계연도 2분기 실적 (SEC 8-K)",
+   "sketch": [
+    {
+     "kind": "print",
+     "text": "분기 매출 (달러)",
+     "line": 0,
+     "at": 0.05
+    },
+    {
+     "kind": "bars",
+     "items": [
+      {
+       "label": "직전 분기",
+       "v": 96.2,
+       "text": "962억",
+       "color": "gray"
+      },
+      {
+       "label": "이번 분기 전망",
+       "v": 108,
+       "text": "1,080억",
+       "color": "gold"
+      }
+     ],
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261110a_midnight_phones.jpeg"
+     },
+     {
+      "lib": "commons_datacenter_4.jpg"
+     },
+     {
+      "lib": "chip_47051.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 대중국 규제가 강화돼도 이번 분기 전망 자체가 곧바로 흔들리지는 않습니다. 번스타인은 수요에 영향이 없을 것으로 봤고, 댄 아이브스도 긍정적인 투자의견을 유지했어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "FourWeekMBA·비즈워치 2026-11-09",
+   "sketch": []
   },
   {
    "v": {
@@ -2003,7 +2286,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "앞으로 볼 것은 세 가지입니다."
+    "다만 판단은 세 갈래로 나눠서 하셔야 합니다."
    ],
    "sketch_add": [],
    "en": [
@@ -2023,13 +2306,13 @@
       "lib": "vstockmarket_9607.mp4"
      },
      {
-      "lib": "vwallstreet_24517.mp4"
+      "lib": "vwallstreet_4842.mp4"
      }
     ],
     "wash_amt": 0.85
    },
    "lines": [
-    "첫째, 11월 18일 전후 젠슨 황의 참석 여부와 엔비디아 실적이에요. 매출 전망이 유지되는지를 봅니다."
+    "첫째는 단기 충격입니다. 기밀 유출이 없고 젠슨 황이 자리를 지키면, 주가는 다시 실적으로 평가받게 돼요."
    ],
    "sketch_add": [],
    "en": [
@@ -2040,13 +2323,208 @@
    "sketch": [
     {
      "kind": "icon",
-     "name": "bolt",
-     "text": "① 11월 18일 전후 · 참석 여부와 실적",
+     "name": "up",
+     "text": "① 단기 충격 · 유출 없음 + CEO 유지",
      "line": 0,
      "at": 0.08,
      "color": "gold"
     }
    ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "containership_30467.mp4"
+     },
+     {
+      "lib": "commons_ustreasury_3.jpg"
+     },
+     {
+      "lib": "vshanghai_31089.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "둘째는 규제 확대입니다. 의회 조사나 대중국 규제로 번지면 문제가 동남아시아 판매까지 넓어집니다. 메가스피드 같은 고객이 막히는지 봐야 해요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "매수·매도 권유 아님",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "globe",
+     "text": "② 규제 확대 · 동남아시아 판매",
+     "line": 0,
+     "at": 0.08,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_box_exit.jpeg"
+     },
+     {
+      "lib": "vphonecall_39790.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "셋째는 CEO 교체입니다. 후계 구도가 없는 회사에서 대표가 바뀌면, 실적과 별개로 기업가치를 깎아서 보는 요인이 될 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "매수·매도 권유 아님",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "warning",
+     "text": "③ CEO 교체 · 기업가치 할인",
+     "line": 0,
+     "at": 0.08,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107s_dawn_phone.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 이 세 갈래를 무엇으로 구분할까요. 날짜순으로 보시면 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_phone.jpeg"
+     },
+     {
+      "lib": "vcapitol_40677.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 11일은 젠슨 황의 의회 설명 참석 회신 기한입니다. 참석하지 않으면 정치적 부담이 커질 수 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 하원 3개 위원회",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "bolt",
+     "text": "11월 11일 · 참석 회신 기한",
+     "line": 0,
+     "at": 0.08,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261104g_morning_phone.jpeg"
+     },
+     {
+      "lib": "il_L2611ss_dc_build.jpeg"
+     },
+     {
+      "lib": "il_L261107m_subway_phone.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "한국 시간 11월 18일 아침에는 엔비디아 실적이 나옵니다. 이번 분기 매출이 1,080억 달러를 얼마나 넘는지보다, 다음 분기 전망이 어떻게 나오는지가 더 중요합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "비즈워치 2026-11-09",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "bolt",
+     "text": "11월 18일 아침(한국 시간) · 실적",
+     "line": 0,
+     "at": 0.08,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261110a_search_phone.jpeg"
+     },
+     {
+      "lib": "vconference_23116.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "실적 설명회에서 이 사건과 후계 질문에 어떻게 답하는지도 보셔야 해요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "매수·매도 권유 아님",
+   "sketch": []
   },
   {
    "v": {
@@ -2064,7 +2542,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "둘째, 이사회 조사 결과입니다. 기밀 유출이 확인되면 CEO 거취까지 이어지는 문제가 됩니다."
+    "그다음은 이사회 조사 결과입니다. 기밀 유출이 확인되면 CEO 거취까지 이어지는 문제가 됩니다."
    ],
    "sketch_add": [],
    "en": [
@@ -2076,7 +2554,7 @@
     {
      "kind": "icon",
      "name": "building",
-     "text": "② 이사회 조사 결과",
+     "text": "이사회 조사 결과",
      "line": 0,
      "at": 0.08,
      "color": "gold"
@@ -2102,7 +2580,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "셋째, 미국 상무부의 메가스피드 조사입니다. 우회 사용이 인정되면 동남아시아 판매 규제가 강화될 수 있고, 삼성전자와 SK하이닉스 같은 메모리 회사 수요에도 영향을 줍니다."
+    "마지막은 미국 상무부의 메가스피드 조사예요. 우회 사용이 인정되면 동남아시아 판매 규제가 강화될 수 있고, 삼성전자와 SK하이닉스 같은 메모리 회사 수요에도 영향을 줄 수 있습니다."
    ],
    "sketch_add": [],
    "en": [
@@ -2114,12 +2592,41 @@
     {
      "kind": "icon",
      "name": "globe",
-     "text": "③ 미국 상무부의 메가스피드 조사",
+     "text": "미국 상무부의 메가스피드 조사",
      "line": 0,
      "at": 0.08,
      "color": "gold"
     }
    ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_hbm_2.jpg"
+     },
+     {
+      "lib": "il_L261107m_night_worker.jpeg"
+     },
+     {
+      "lib": "vsatellite_45033.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "정리하면, 지금까지 AI 칩 수요가 꺾였다는 증거는 없습니다. 문제는 실적이 아니라 신뢰이고, 이 사건이 실적까지 번지는지는 이 일정에서 확인할 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "매수·매도 권유 아님",
+   "sketch": []
   },
   {
    "v": {
@@ -2155,6 +2662,9 @@
     "cuts": [
      {
       "lib": "il_L261107s_chip_stairs.jpeg"
+     },
+     {
+      "lib": "vnightcity_40747.mp4"
      }
     ],
     "wash_amt": 0.85
