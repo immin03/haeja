@@ -2879,6 +2879,54 @@ function concHtml(rows, total, cashW){
   <div class="card">${P.bal.map(b => `<div class="check"><span class="pill ${b.ok?'p-good':'p-warn'}">${b.ok?'통과':'확인'}</span><span>${esc(b.t)}${b.why?`<div class="small muted">${esc(b.why)}</div>`:''}</span></div>`).join('')}</div>`;
 }
 
+/* ============ 홈 최상단 '오늘의 점수 변동' (2026-11-10) ============
+   매일 볼 게 없다는 가치투자 앱의 약점 보완: 어제(c/scores-prev.json) 대비 오늘(c/scores.json) 점수·저평가 폭이 크게 바뀐 회사와,
+   내 종목(보유+관심) 중 적정 주가와 가장 멀리 떨어진 회사를 날짜와 함께 보여 준다. 푸시·메일 소재도 여기서 나온다. */
+const DM = { st: 'idle', cur: null, prev: null };
+function dayMoveLoad(){
+  if(DM.st !== 'idle') return; DM.st = 'loading';
+  const get = u => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
+  Promise.all([get('/c/scores.json'), get('/c/scores-prev.json')]).then(([c, p]) => { DM.cur = c && c.c ? c : null; DM.prev = p && p.c && p.date !== c?.date ? p : null; DM.st = 'done'; if(S.tab === 'portfolio') render(); });
+}
+const dmSlugOf = t => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const dmKey = s => String(s || '').toUpperCase().replace(/\.(KS|KQ|T|HK|SS|SZ)$/, '').replace(/^0+(?=\d{4}$)/, '');
+function dmMine(){
+  const C = DM.cur.c, out = [];
+  const add = (k, held) => { if(C[k] && !out.some(o => o.k === k)) out.push({ k, r: C[k], held }); };
+  for(const h of S.holdings || []){ const k = Object.keys(C).find(k => dmKey(k.split('-')[0]) === dmKey(h.ticker) || C[k][0] === h.name); if(k) add(k, true); }
+  for(const x of (S.interests || [])){ const k = x.slug || dmSlugOf(x.t || x.code); add(k, false); }
+  return out;
+}
+const dmGap = m => m === null ? '<b class="down">2배 이상 고평가</b>' : m >= 5 ? `<b class="up">${Math.round(m)}% 저평가</b>` : m > -5 ? '<b class="muted">적정 주가 수준</b>' : `<b class="down">${Math.round(-m)}% 고평가</b>`;
+const dmDelta = (d, unit) => !isNum(d) || !d ? '' : `<small class="${d > 0 ? 'up' : 'down'}">${d > 0 ? '+' : '−'}${Math.abs(d)}${unit}</small>`;
+function dayMoveCard(){
+  if(store.isGuest || store.isDemo) return '';
+  if(DM.st !== 'done'){ setTimeout(dayMoveLoad, 0); return ''; }
+  if(!DM.cur) return '';
+  const C = DM.cur.c, P = DM.prev ? DM.prev.c : null, d = DM.cur.date || today();
+  const dLabel = `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일 계산`;
+  const rowHtml = (k, r, side) => `<button type="button" class="dm-row" data-act="vl-open" data-v="${esc(k.split('-')[0].toUpperCase())}" data-n="${esc(r[0])}"><span class="dm-nm"><b>${esc(r[0])}</b><span class="small muted">${esc(MKT[r[4]]?.label || r[4])}${r[6] ? ' · ' + esc(r[6]) : ''}</span></span><span class="dm-side">${side}</span></button>`;
+  let movers = [];
+  if(P){
+    movers = Object.entries(C).filter(([k, r]) => P[k] && isNum(r[1]) && isNum(P[k][1]) && r[1] >= 50)
+      .map(([k, r]) => { const db = r[1] - P[k][1], dm = isNum(r[5]) && isNum(P[k][5]) ? r[5] - P[k][5] : null, entered = isNum(r[5]) && r[5] >= 25 && !(isNum(P[k][5]) && P[k][5] >= 25); return { k, r, db, dm, entered, w: Math.abs(db) * 2 + (isNum(dm) ? Math.abs(dm) : 0) + (entered ? 30 : 0) }; })
+      .filter(x => x.entered || Math.abs(x.db) >= 3 || (isNum(x.dm) && Math.abs(x.dm) >= 8)).sort((a, b) => b.w - a.w).slice(0, 4);
+  }
+  const mine = dmMine().map(o => ({ ...o, gap: o.r[5] === null ? -200 : o.r[5] })).sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap));
+  const far = mine[0];
+  const fresh = Object.entries(C).filter(([, r]) => isNum(r[5]) && r[5] >= 25 && isNum(r[1]) && r[1] >= 70).sort((a, b) => b[1][1] - a[1][1]).slice(0, 3);
+  const body = movers.length
+    ? movers.map(x => rowHtml(x.k, x.r, `<span class="num"><b>${x.r[1]}</b><i>/100</i> ${dmDelta(x.db, '점')}</span><span class="small">${x.entered ? '<b class="up">저평가 구간 진입</b>' : dmGap(x.r[5])} ${dmDelta(isNum(x.dm) ? Math.round(x.dm) : null, '%p')}</span>`)).join('')
+    : fresh.map(([k, r]) => rowHtml(k, r, `<span class="num"><b>${r[1]}</b><i>/100</i></span><span class="small">${dmGap(r[5])}</span>`)).join('');
+  const head = movers.length ? '어제보다 점수·저평가 폭이 크게 바뀐 회사' : (P ? '어제와 크게 달라진 회사는 없습니다 · 지금 저평가 구간, 종합 70점 이상' : '지금 저평가 구간 · 종합 70점 이상');
+  return `<div class="card dm-card" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between;align-items:baseline"><div><span class="eyebrow">오늘의 점수 변동</span><div class="small muted">${esc(dLabel)}${P ? ` · 어제(${esc(String(DM.prev.date).slice(5).replace('-', '/'))})와 비교` : ''}</div></div><button type="button" class="linkbtn small" data-act="go-tab" data-v="value">저평가 순위 ›</button></div>
+    <div class="small muted" style="margin:8px 0 4px">${head}</div>
+    <div class="dm-list">${body || '<div class="small muted">오늘 계산된 점수표가 아직 없습니다.</div>'}</div>
+    ${far ? `<div class="dm-mine"><div class="small muted" style="margin-bottom:4px">내 종목 중 적정 주가와 가장 멀리 있는 회사${far.held ? '' : ' · 관심 종목'}</div>${rowHtml(far.k, far.r, `<span class="num"><b>${far.r[1] ?? '–'}</b><i>/100</i></span><span class="small">${dmGap(far.r[5])}</span>`)}</div>`
+      : `<div class="dm-mine small muted">보유 종목이나 관심 회사를 하나만 넣어 두면, 그 회사가 어제보다 어떻게 바뀌었는지 여기서 먼저 보여 드립니다.</div>`}
+  </div>`;
+}
 function viewPortfolio(){
   const st = cfg();
   if(!S.loaded.h) return `<div class="empty">보유 종목을 불러오는 중</div>`;
@@ -2904,7 +2952,7 @@ function viewPortfolio(){
     </button>${open ? `<div class="pf-open">${holdCard(r)}</div>` : ''}`; };
   const acts = P.acts.filter(a => a.lv !== 'good').slice(0,3);
   return `
-  
+  ${dayMoveCard()}
   <div class="card pf-top" style="margin-top:16px">
     <div class="row" style="justify-content:space-between;align-items:flex-end">
       <div><span class="eyebrow">총 평가액</span><div class="hero-num num" data-v="${Math.round(total)}">${fmtKRW(total)}</div>
@@ -7435,6 +7483,17 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .os-held{display:flex;align-items:center;gap:8px;margin:12px 0 2px;font-size:14px;cursor:pointer;text-align:left}.os-held input{margin:0;flex:none;width:18px;height:18px;padding:0;accent-color:var(--accent)}.os-held span{flex:1}.os-held small{color:var(--muted);font-size:12px}
 .os-acts{display:flex;flex-direction:column;gap:8px;margin-top:12px}.os-acts .btn{width:100%;box-sizing:border-box;justify-content:center}
 .os-foot{text-align:center;margin-top:12px}
+/* 홈 '오늘의 점수 변동' (2026-11-10) */
+.dm-card .eyebrow{color:var(--gold)}
+.dm-list{display:flex;flex-direction:column}
+.dm-row{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);width:100%}
+.dm-list .dm-row:first-child{border-top:0}
+.dm-row:hover b{color:var(--gold)}
+.dm-nm{display:flex;flex-direction:column;gap:2px;min-width:0}.dm-nm b{font-size:15px}.dm-nm .small{font-size:12px}
+.dm-side{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none;text-align:right}.dm-side .num b{font-size:17px}.dm-side .num i{font-style:normal;font-size:11px;color:var(--muted)}
+.dm-side small{font-size:11.5px;font-weight:700;margin-left:4px}.dm-side .small b{font-size:12.5px}
+.dm-mine{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}.dm-mine .dm-row{border-top:0;padding-top:4px}
+
 
 .onb-ic{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;border:1.5px solid var(--gold)}
 .onb-tx{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}.onb-tx b{font-size:17px;font-weight:800;color:var(--ink)}.onb-tx span{font-size:14px;color:var(--ink)}.onb-tx small{font-size:12px;color:var(--muted)}

@@ -525,8 +525,10 @@ for (const s of Object.values(MSLUG)) if (seen.has(s)) throw new Error('slug cla
 const date = meta.generatedAt || new Date().toISOString().slice(0, 10);
 const dir = path.join(ROOT, 'c');
 // 어제 점수(색인 요청 대상 고르기용)
-let prev = {};
-try { prev = JSON.parse(fs.readFileSync(process.env.PREV_SCORES || path.join(dir, 'scores.json'), 'utf8')).c || {}; } catch (_) {}
+let prev = {}, prevAll = null, prevKeep = null;
+try { prevAll = JSON.parse(fs.readFileSync(process.env.PREV_SCORES || path.join(dir, 'scores.json'), 'utf8')); prev = prevAll.c || {}; } catch (_) {}
+// 앱 홈 '오늘의 점수 변동'이 읽는 어제 점수표. 같은 날 다시 만들 때는 이미 있던 어제 표를 그대로 둔다 (2026-11-10)
+try { prevKeep = JSON.parse(fs.readFileSync(path.join(dir, 'scores-prev.json'), 'utf8')); } catch (_) {}
 fs.rmSync(dir, { recursive: true, force: true });
 fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(path.join(dir, 'c.css'), CSS);
@@ -543,6 +545,8 @@ const R0 = (v) => (isNum(v) ? Math.round(v) : null);
 const scores = Object.fromEntries(all.map((x) => [x.slug, [x.r.n, R0(x.sc.b), R0(x.sc.q), R0(x.sc.v), grpOf(x.r.m),
   isNum(x.sc.iv) && x.sc.iv > 0 && isNum(x.r.px) && x.r.px / x.sc.iv < 2 ? R0(x.sc.mos) : null, x.r.ind || x.r.s || '']]));
 fs.writeFileSync(path.join(dir, 'scores.json'), JSON.stringify({ date, c: scores }));
+const prevOut = prevAll && prevAll.date && prevAll.date !== date ? prevAll : (prevKeep && prevKeep.date !== date ? prevKeep : null);
+if (prevOut) fs.writeFileSync(path.join(dir, 'scores-prev.json'), JSON.stringify(prevOut));
 // 소개 페이지 마지막 '지금 적정 매수가 아래' 순위: 앱 저평가 순위(valueRows 'under')와 같은 기준·같은 순서
 //  현재가 ≤ 적정 주가의 75%, 재무 점수 50점 이상, 감점 신호 없음, 데이터 신뢰도 낮음 제외 → 가장 많이 싼 순
 const vt = {};
