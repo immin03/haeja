@@ -1,0 +1,42 @@
+[
+ {
+  "id": "c1v_enter",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_enter.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "He walks slowly forward away from the camera into the tent toward the chest, his cloak swaying with each step; the tent flap falls closed behind him; the camera follows him slowly. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_hand",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_hand.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "The hand rests on the lid, the fingers slowly curl and tighten, then stop just above the wax seal and do not break it; the firelight flickers on the knuckles; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_push",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_push.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "With a slow heavy effort he pushes the chest forward into the fire, it tips and slides into the flames, a burst of sparks and embers rises around him; the camera stays still. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ },
+ {
+  "id": "c1v_burn",
+  "kind": "video",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "social/side/gen/c1_burn.jpeg",
+  "body": {
+   "duration": 5,
+   "prompt": "Flames climb over the chest, the scrolls inside curl and blacken and catch fire, embers swirl upward; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing."
+  }
+ }
+]

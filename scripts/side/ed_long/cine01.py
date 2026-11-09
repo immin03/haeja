@@ -41,6 +41,8 @@ IMAGES = {
  "c1_emp_fire": "Medium close-up in profile of " + EMP + ", sitting very still in a dark leather tent at night, looking into a fire just out of frame, orange light moving over his face, his mouth closed, thin smoke drifting between him and the camera." + FACE,
 }
 
+EMP2 = ("Close portrait, three-quarter view, of " + EMP.replace("short grey-flecked full beard", "short neatly trimmed grey-flecked beard") + ", sitting in a dark leather tent at night, warm firelight from one side and deep shadow on the other, a small flame out of focus behind him, "
+        "his lips slightly parted in the middle of speaking quietly, calm heavy eyes looking up toward someone standing." + FACE)
 SEED = "bytedance/seedance-2.5/image-to-video"; WAN = "alibaba/wan-3.0/image-to-video"
 MOVE = ("Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. "
         "Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.")
@@ -52,7 +54,7 @@ VIDEOS = {  # 이름: (묶음, 모델, 움직임)
  "c1v_wide": (2, SEED, "The general slides the chest a few centimetres toward the seated emperor and takes his hands away; the emperor stays still and looks at it; flames flicker in the foreground; very slow push-in."),
  "c1v_gen_talk": (2, SEED, "He speaks urgently in Latin, his lips and jaw moving naturally in continuous speech for the whole shot, a small tense shake of the head; the firelight moves on his face; the camera is almost still."),
  "c1v_emp_talk": (2, SEED, "He speaks slowly and quietly, his lips and jaw moving naturally in continuous unhurried speech for the whole shot, then a slow blink; the firelight moves on his face; very slow push-in."),
- "c1v_ots": (2, SEED, "The general listens without speaking, his mouth stays closed, he swallows and his eyes narrow a little; the out-of-focus shoulder stays still; the firelight moves on his face."),
+ "c1v_ots": (3, SEED, "The general listens without speaking, his mouth stays closed, he swallows and his eyes narrow a little; the out-of-focus shoulder stays still; the firelight moves on his face."),
  "c1v_chest": (3, WAN, "The hands let go and draw away out of frame; dust drifts in the firelight; very slow push-in on the chest."),
  "c1v_seal": (3, WAN, "Firelight slides slowly across the wax seal; dust motes drift; the camera glides very slowly along the leather strap."),
  "c1v_emp_listen": (3, WAN, "He keeps listening in silence, his mouth stays closed, a slow breath and one slow blink; the firelight moves over his face; very slow push-in."),
@@ -91,8 +93,9 @@ def gen():
 
 
 def genv(n):
-    src = lambda k: f"social/side/gen/{k.replace('c1v_', 'c1_')}.jpeg"
-    jobs = [{"id": k, "kind": "video", "endpoint": e, "image": src(k), "body": {"duration": 5, "prompt": p + " " + MOVE}} for k, (b, e, p) in VIDEOS.items() if b == n]
+    src = lambda k: f"social/side/gen/{k.replace('c1v_', 'c1_')}{'2' if k == 'c1v_emp_talk' else ''}.jpeg"
+    jobs = [] if n != 2 else [{"id": "c1_emp_talk2", "kind": "image", "endpoint": "xai/grok-imagine-image-2.0", "body": {"aspect_ratio": "16:9", "prompt": EMP2 + " " + FILM}}]
+    jobs += [{"id": k, "kind": "video", "endpoint": e, "image": src(k), "body": {"duration": 5, "prompt": p + " " + MOVE}} for k, (b, e, p) in VIDEOS.items() if b == n]
     json.dump(jobs, open(os.path.join(ROOT, f"scripts/side/gen/EDL261109-cine01v{n}.json"), "w"), ensure_ascii=False, indent=1)
     print(len(jobs), "영상")
 
