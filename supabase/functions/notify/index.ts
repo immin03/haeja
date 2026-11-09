@@ -4,6 +4,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 import webpush from "npm:web-push@3.6.7";
+import { sendKakaoMemo } from "./_shared/kakao.ts";   // 2026-11-10 같은 알림을 카카오 "나에게 보내기"로도
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const cors = {
@@ -44,7 +45,11 @@ Deno.serve(async (req: Request) => {
         if (code === 404 || code === 410) { await sb.from("docs").delete().eq("collection", "push_subs").eq("id", s.id); gone++; }
       }
     }
-    return json({ ok: true, sent, gone });
+    // 카카오톡 메시지 전송에 동의한 회원이면 같은 알림을 본인 카톡으로도 (push:false 인 알림함 전용 알림은 트리거가 이 함수를 부르지 않는다)
+    let kakao = "skip";
+    try { const kr = await sendKakaoMemo(sb, body.owner, { title: a.title || "밸류노트", body: a.body || "", url: typeof a.url === "string" ? a.url : "/?tab=alerts" }); kakao = kr.ok ? "sent" : (kr.skip ? "skip" : "error: " + kr.reason); }
+    catch (e) { kakao = "error: " + String((e as Error)?.message || e); }
+    return json({ ok: true, sent, gone, kakao });
   } catch (e) {
     return json({ ok: false, error: String((e as Error)?.message || e) }, 500);
   }

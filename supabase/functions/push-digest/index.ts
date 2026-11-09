@@ -60,7 +60,9 @@ Deno.serve(async (req: Request) => {
 
     // 알림을 켠 사용자
     const subs = await load("push_subs");
-    const owners = [...new Set(subs.map((s) => s.owner))].filter((o) => o !== demo);
+    // 2026-11-10 카카오 "나에게 보내기"를 연결한 회원도 대상 (알림함에 쓰면 트리거→notify 가 웹 푸시와 카톡을 함께 보낸다)
+    const { data: kk } = await sb.from("kakao_tokens").select("uid");
+    const owners = [...new Set([...subs.map((s) => s.owner), ...(kk || []).map((k: { uid: string }) => k.uid)])].filter((o) => o !== demo);
     if (!owners.length) return Response.json({ ok: true, owners: 0 });
     const [ints, holds, states, prefs, alerts] = await Promise.all([
       load("interests", owners), load("holdings", owners), load("push_state", owners), load("push_prefs", owners),
