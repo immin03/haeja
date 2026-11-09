@@ -1,0 +1,31 @@
+{
+ "id": "c1v_burn",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "Flames climb over the chest, the scrolls inside curl and blacken and catch fire, embers swirl upward; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bfc8-7163-79e9-955b-18271c3f34c9/f9ac3f7d-6e31-4028-9ea8-fc438989139c.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bfd9-7853-70b7-b922-63757fa0400b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bfd9-7853-70b7-b922-63757fa0400b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bfd9-7853-70b7-b922-63757fa0400b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bfd9-7853-70b7-b922-63757fa0400b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bfd9-7853-70b7-b922-63757fa0400b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bfd9-7853-70b7-b922-63757fa0400b/cancel",
+  "expires_at": "2026-11-16T10:31:07.572325+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bfd9-7853-70b7-b922-63757fa0400b/9010dd28-3094-48c0-86d6-5565d6ebbac6.mp4"
+  }
+ },
+ "seconds": 209,
+ "file": "social/side/gen/c1v_burn.mp4"
+}
