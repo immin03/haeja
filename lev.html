@@ -195,6 +195,9 @@ body{padding-bottom:76px}
 .small{font-size:14px;color:var(--muted);margin:0 0 4px}
 .verdict{margin-top:12px;background:#fff;border:1px solid var(--gold2);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.6}
 .verdict b{color:var(--ink)}
+.lcta{margin-top:12px;display:flex;flex-direction:column;gap:10px;background:var(--navy,#0E1A2B);color:#fff;border-radius:14px;padding:16px}
+.lcta .t b{display:block;font-size:15.5px;line-height:1.45;word-break:keep-all}.lcta .t span{display:block;font-size:13px;color:#B9C2CF;margin-top:4px;word-break:keep-all}
+.lcta .btn{justify-content:center}
 
 /* 2026-11-08 개편: 거장의 장기 투자 중심 */
 .calc-jump{display:block;text-align:center;margin-top:14px;font-size:15px;font-weight:800;color:var(--ivory);text-decoration:underline}
@@ -266,6 +269,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
   <h3 class="h3">1년 뒤 계좌, 네 가지 경우</h3>
   <table class="sc4" id="l-tbl"></table>
   <div class="verdict" id="l-ver"></div>
+  <div class="lcta" id="l-cta" hidden><div class="t"><b id="l-cta-t"></b><span>적정 주가와 점수가 바뀔 때마다 알려 드립니다. 카카오로 3초면 됩니다.</span></div><a class="btn kakao" id="l-cta-a" href="/?kakao=1&amp;from=lev&amp;utm_source=lev-calc" data-ev="cta-calc" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.86 5.31 4.66 6.72L5.7 21.3c-.08.3.26.54.52.37l4.27-2.84c.49.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>이 회사 밸류노트에 넣고 추적</a></div>
   <details class="fold planfold">
     <summary><b>나눠 넣으면 평균 가격은?</b><span>새 돈을 세 번에 나눠 넣는 경우를 예시로 봅니다</span></summary>
     <p class="small">새로 넣을 돈을 세 번으로 나눠 조건에 닿을 때 넣는다고 가정했을 때, 평균 산 가격과 본전까지의 거리가 어떻게 바뀌는지 보여 주는 예시입니다. 조건이 오지 않으면 넣지 않은 돈은 그대로 남습니다.</p>
@@ -425,6 +429,12 @@ function lcalc(){
   var mx = Math.pow(1 / d, 1 / (L - 1)), worstA = (now + add) * Math.pow(.7, L) * d, worstB = (now + add) * .7;
   $('#l-ver').innerHTML = '<b>기준선은 ' + c.base + ' ' + pctf(mx - 1) + basePx(c, mx) + '</b>입니다. 1년 안에 그보다 더 오른다고 보면 레버리지를 그대로 두는 쪽이, 그 아래에 머문다고 보면 주식이나 1배 ETF로 옮기는 쪽이 더 많이 남습니다.' +
     '<br>네 경우 중 가장 나쁜 30% 더 하락에서는 레버리지로 물타면 <b>' + man(worstA) + '</b>, 갈아타면 <b>' + man(worstB) + '</b>이 남습니다. 이 금액을 견딜 수 있는지부터 보세요. 생활비나 비상금까지 끌어와야 하는 돈이라면 새 돈을 넣지 않는 것도 선택지입니다.';
+  /* 계산 결과 바로 아래 가입 유도 (2026-11-10): 이 레버리지의 기초 회사를 밸류노트 관심 종목에 담고 추적 */
+  (function(){ var card = c.cards && c.cards[0], r = SC && SC.c && card ? SC.c[card] : null, nm = r ? r[0] : (c.slug ? c.n : '기초 회사'), code = card ? card.split('-')[0].toUpperCase() : '', tk = card ? (card.indexOf('-ks') > 0 ? code + '.KS' : card.indexOf('-kq') > 0 ? code + '.KQ' : code) : '';
+    var box = $('#l-cta'); if(!box) return; box.hidden = false;
+    var jo = function(w, a, b){ var ch = w.charCodeAt(w.length - 1); return w + (ch < 0xAC00 || ch > 0xD7A3 ? b : ((ch - 0xAC00) % 28 ? a : b)); }, subj = c.slug ? nm + ' 주식' : c.n + '의 기초 회사 ' + nm;
+    $('#l-cta-t').textContent = (r && r[1] != null ? jo(subj, '은', '는') + ' 지금 거장 기준 ' + r[1] + '점입니다. ' : jo(subj, '을', '를') + ' ') + '밸류노트에 넣어 두면 ' + (r && r[5] != null && r[5] >= 25 ? '적정 주가보다 싼 지금 구간을 놓치지 않습니다.' : '적정 주가 근처에 왔을 때 바로 알 수 있습니다.');
+    $('#l-cta-a').setAttribute('href', '/?kakao=1&from=lev&utm_source=lev-calc' + (tk ? '&watch=' + encodeURIComponent(tk) + '&co=' + encodeURIComponent(code) + '&q=' + encodeURIComponent(nm) : '')); })();
   /* 물타기 계획표: 지금 · 10% 더 하락 · 20% 더 하락에 1/3씩 */
   var steps = [['1차', '지금', 1], ['2차', c.base + ' 10% 더 하락 시', .9], ['3차', c.base + ' 20% 더 하락 시', .8]];
   var sh = hold / avg, cost = hold, t = '<tr><th>회차</th><th>그때 ETF<br>(약)</th><th>평균 산 가격</th><th>본전까지<br>' + c.base.replace(' 주가', '') + '</th></tr>';
@@ -449,7 +459,7 @@ $('#seg').addEventListener('click', function(e){ var b = e.target.closest('[data
 setCo(new URLSearchParams(location.search).get('p') || 'hynix', true);
 $('#eb').textContent = CO[CK].n + (CK === 'k200' ? '' : (CO[CK].L === 3 ? ' 3배' : ' 레버리지')) + ' 갖고 계신 분께';
 var pf = $('.planfold'); pf.addEventListener('toggle', function(){ if(pf.open) hit('plan-open'); });
-fetch('/c/scores.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c){ SC = j; cards(); } }).catch(function(){});
+fetch('/c/scores.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c){ SC = j; cards(); lcalc(); } }).catch(function(){});
 ['hynix','samsung'].forEach(function(k){
   fetch('/c/' + CO[k].slug, { cache:'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
     var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var px = /현재가 ([\d,]+)원/.exec(m[1]);

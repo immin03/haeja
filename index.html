@@ -2061,7 +2061,7 @@ document.addEventListener('click', e => {
   if(first && typeof introDone === 'function') introDone();
   S.tab = 'myguide'; try{ localStorage.setItem('ml-tab', 'myguide'); }catch(_){}
   /* 2026-11-10 가입 첫날 이후 재방문이 0인 문제 → 유형 다음에 '내 종목 1개'를 바로 받고, 그 종목 점수를 보여 준 뒤 그 종목 알림으로 묻는다 */
-  if(first && !store.isGuest && !store.isDemo && store.mode === 'db'){ S.onbStock = { q: '', pick: null, held: false }; store.track('view', 'onb-stock'); }
+  if(first && !store.isGuest && !store.isDemo && store.mode === 'db'){ const pre = S.wantQ && (S2.screen || []).length ? scoredRows().find(r => r.n === S.wantQ) : null; S.onbStock = { q: pre ? pre.n : '', pick: pre ? pre.n : null, held: false }; store.track('view', pre ? 'onb-stock-pre' : 'onb-stock'); }
   render(); window.scrollTo(0, 0);
 });
 /* ============ 가입 직후 '내 종목 1개' (2026-11-10) ============
@@ -5078,6 +5078,7 @@ function wantApply(){
   if(vt && Date.now() - (vt.at || 0) < 3 * 864e5){ S.tab = 'value'; S.vlSide = 'under'; if(VL_MKT.some(([k]) => k === vt.m)) S.vlMkt = vt.m; store.track('view', 'want-value'); render(); window.scrollTo(0, 0); }
   let w = null; try{ w = JSON.parse(localStorage.getItem('vn-want') || 'null'); localStorage.removeItem('vn-want'); }catch(_){}
   if(!w || !w.t || Date.now() - (w.at || 0) > 3 * 864e5) return;
+  S.wantQ = w.q || ''; /* 가입 직후 '내 종목 1개' 단계에 미리 채워 두 번 묻지 않는다 (2026-11-10) */
   const c = S.companies.find(x => (x.yf || '').toUpperCase() === String(w.t).toUpperCase());
   if(!(c && c.pinned)) toggleStar(c ? c.id : null, w.t);
   store.track('view', 'want-watch');
