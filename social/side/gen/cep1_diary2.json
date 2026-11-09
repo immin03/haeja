@@ -1,0 +1,28 @@
+{
+ "id": "cep1_diary2",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand writes slowly, stops, then continues; the lamp flame flickers; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c109-3947-7118-87d9-a2894ab584d1/74af9fc0-6a2c-4fb4-b12f-c800ffe5fcec.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c167-dcf2-7fde-b271-b45e2e4a85ca",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c167-dcf2-7fde-b271-b45e2e4a85ca/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c167-dcf2-7fde-b271-b45e2e4a85ca/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1c167-dcf2-7fde-b271-b45e2e4a85ca",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c167-dcf2-7fde-b271-b45e2e4a85ca/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c167-dcf2-7fde-b271-b45e2e4a85ca/cancel",
+  "expires_at": "2026-11-16T17:42:52.559791+00:00"
+ },
+ "seconds": 6
+}
