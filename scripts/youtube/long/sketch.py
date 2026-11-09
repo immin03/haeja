@@ -788,16 +788,17 @@ def end_page(v, lines, fill, V, at_time):
     S0 = (lines[0][0] + .05) if lines else 0.0
     # 2026-11-02 대표님: "다음 노트에서는 좀 이상한데 / 그 사진은 뭐지? / 구독 좋아요 알림설정도 가운데 정렬 깔끔하게"
     # → 끝 화면 왼쪽 칸은 사진 없이 [인사 · 다음 영상 한 줄 · 버튼 세 개 · 질문] 을 칸 가운데에 맞춰 세로로 가지런히
-    # 2026-11-09 대표님: 구독·좋아요·알림 좌측 정렬 → 화면 가운데 (오른쪽 유튜브 동영상 요소와 겹치지 않게 그 아래 줄)
-    cx = 960
+    cx = (COL_X + ES_BOX[0] - 60) / 2
     # 2026-11-03 대표님: "'봐 주셔서 감사합니다'는 의미 없는 말이고 이것만 띄워 놓고 공백이 길었다", "관련 영상 칸이 안 맞으니 점선을 빼고 영상만 배치"
     # → 인사 제목·점선 칸·'함께 보면 좋은 영상' 글씨를 그리지 않는다. 왼쪽엔 [다음 영상 한 줄 · 버튼 세 개 · 질문]만, 오른쪽은 비워 두고 업로드 때 유튜브 '동영상' 요소만 얹는다.
     B = []
     if v.get("note"):   # 마무리 질문(댓글 유도) 한 줄이 엔딩 화면이 열리자마자 먼저 — 빈 화면 없이
-        B.append(dict(kind="print", text=F(v["note"].get("text", "")), x=cx, y=710, size=56, w="ExtraBold", color="gold", anchor="m", t=S0))
+        B.append(dict(kind="print", text=F(v["note"].get("text", "")), x=cx, y=340, size=56, w="ExtraBold", color="gold", anchor="m", t=S0))
     if v.get("sub"):
-        B.append(dict(kind="print", text=F(v["sub"]), x=cx, y=930, size=(46 if len(F(v["sub"])) > 18 else 54), w="ExtraBold", anchor="m", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4))
-    wds = (250, 260, 300); gap = 24; px = cx - (sum(wds) + 2 * gap) / 2; py = 780
+        B.append(dict(kind="print", text=F(v["sub"]), x=cx, y=650, size=(46 if len(F(v["sub"])) > 18 else 54), w="ExtraBold", anchor="m", t=T(v["sub_at"]) if v.get("sub_at") else S0 + .4))
+    if not v.get("no_slogan"):   # 2026-11-09 대표님: 마지막에 슬로건을 함께, 오른쪽은 관련 영상
+        B.append(dict(kind="print", text="현명한 투자를 위한 채널, 밸류노트", x=cx, y=360, size=50, w="ExtraBold", anchor="m", t=S0))
+    wds = (250, 260, 300); gap = 24; px = cx - (sum(wds) + 2 * gap) / 2; py = 470
     for i, at in enumerate((v.get("btn_at") or [None] * 3)[:3]):
         kind = ("sub", "like", "bell")[i]; wd = wds[i]
         B.append(dict(kind="pill", which=kind, x=px, y=py, w=wd, h=92, t=(T(at) if at else S0 + 1.2) + .28 * i)); px += wd + gap
@@ -863,7 +864,8 @@ class Pill(IW.Beat):
         im = Image.fromarray(tex); d = ImageDraw.Draw(im, "RGBA")
         d.rounded_rectangle([x0 + 4, y0 + 7, x1 + 4, y1 + 7], int(h / 2), fill=(0, 0, 0, int(a * .18)))   # 그림자
         d.rounded_rectangle([x0, y0, x1, y1], int(h / 2), fill=(*bg, a), outline=(22, 36, 70, int(a * (.9 if bg == (255, 255, 255) else 0))), width=3)
-        ic = h * .38; ix, iy = x0 + h * .42, cy
+        ic = h * .38; iy = cy   # 2026-11-09 대표님: 아이콘+글자 묶음을 버튼 한가운데에
+        f = IW.font("ExtraBold", int(b["h"] * .38)); tw_ = d.textlength(lab, font=f); left_ = cx - (ic * 1.3 + tw_) / 2; ix = left_ + ic * .55
         if b["which"] == "sub":
             d.polygon([(ix - ic * .45, iy - ic * .55), (ix - ic * .45, iy + ic * .55), (ix + ic * .6, iy)], fill=(*fg, a))
         elif b["which"] == "like":
@@ -874,7 +876,7 @@ class Pill(IW.Beat):
             d.pieslice([ix - ic * .55, iy - ic * .7, ix + ic * .55, iy + ic * .6], 180, 360, fill=(*fg, a))
             d.rectangle([ix - ic * .55, iy - ic * .1, ix + ic * .55, iy + ic * .35], fill=(*fg, a))
             d.rectangle([ix - ic * .7, iy + ic * .35, ix + ic * .7, iy + ic * .48], fill=(*fg, a)); d.ellipse([ix - ic * .15, iy + ic * .5, ix + ic * .15, iy + ic * .78], fill=(*fg, a))
-        f = IW.font("ExtraBold", int(b["h"] * .38)); tx = ix + ic * .95
+        tx = left_ + ic * 1.3
         d.text((tx, cy), lab, font=f, fill=(*fg, a), anchor="lm")
         tex[:] = np.asarray(im)
 
