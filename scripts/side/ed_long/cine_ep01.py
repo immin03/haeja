@@ -117,7 +117,7 @@ s("out", dur=4.5, amb=["wind_2.mp3", 0.25], tout="black", fout=0.9)
 for a in [("m3", N, "2026년, 서울.", {"tin": "black", "fin": 0.6}), ("m1", N, "오래 함께한 동업자, 가족, 친구.", {}), ("m2", N, "그 사람이 내 이야기를 어떻게 했는지 알 수 있는 메시지가", {}), ("m3_b", N, "오늘 손안에 있다면, 여러분은 열겠습니까.", {}), ("m1_b", N, "열면 이름을 얻습니다. 대신 그 이름을 평생 들고 삽니다.", {"tout": "black", "fout": 0.6})]:
     s(a[0], a[1], a[2], grade="none", amb=["night_2.mp3", 0.12], **a[3])
 # 9 방법 3개
-s("spk", N, "배신한 사람에게 하는 복수, 세 가지입니다.", tin="black", fin=0.6)
+s("diary2", N, "배신한 사람에게 하는 복수, 세 가지입니다.", tin="black", fin=0.6)
 s("scroll_b", N, "첫째, 욕하지 마십시오. 그 말은 내 입만 더럽힙니다.")
 s("grave", N, "둘째, 그의 끝을 구경하지 마십시오.")
 s("c1v_hand", N, "셋째, 알 필요 없는 것은 열지 마십시오.")
@@ -180,5 +180,59 @@ def genv():
     print(len(bs), "묶음", sum(len(b) for b in bs), "클립", round(sum(0.75 if x[1] == SEED else 0.1 for b in bs for x in b), 2), "달러")
 
 
+# ---------- 렌더 설정 (python3 cine_ep01.py spec) — ED_FPS=24, 장면 길이는 클립(5초)에 최대한 맞춘다
+FIRE = ["fire_4.mp3", 0.34]; FIRE2 = ["fire_0.mp3", 0.28]; COLD = ["wind_2.mp3", 0.24]; DRY = ["wind_1.mp3", 0.16]
+AMB = {}
+for keys, a in [("order sick boy fau write read arrive scroll wife diary bury", FIRE), ("out", ["wind_2.mp3", 0.2]), ("snow alone camp ranks spk spkw ppl envoy chief refuse courier march ehorse", COLD),
+                ("ride casp msgr decide cloak ctalk cheer walk dec desert bag grave cent strike", DRY), ("city", ["fire_1.mp3", 0.3]), ("senate sen2", None)]:
+    for k in keys.split(): AMB[k] = a
+SFX = {"ride": [["horse_0.mp3", 0.2, 0.22]], "courier": [["horse_2.mp3", 0.1, 0.4]], "courier_b": [["horse_2.mp3", 0.1, 0.3]], "cheer": [["war_7.mp3", 0.1, 0.32]], "cloak": [["war_7.mp3", 0.6, 0.14]],
+       "strike": [["horse_1.mp3", 0.1, 0.35], ["swords_2.mp3", 1.0, 0.35]], "march": [["war_7.mp3", 0.0, 0.1]], "cent": [["horse_0.mp3", 0.1, 0.2]]}
+TALK = {"spk", "spkw", "spk2", "spkw2", "ctalk", "bury", "c1v_emp_talk", "c1v_emp_talk_b", "c1v_gen_talk", "c1v_gen_talk_b", "c1v_emp_fire"}   # 입이 움직이는 클립: 소리와 입이 같이 시작·끝나도록 앞뒤 여백 최소
+ENDS = ["욕하지 마라", "그의 끝을 구경하지 마라", "알 필요 없는 것은 열지 마라"]
+INTRO_SFX = [["cinematic_6.mp3", 1.47, 1.0], ["war_7.mp3", 0.6, 0.18], ["ring_synth.wav", 2.4, 0.35], ["impact_2.mp3", 3.02, 1.0], ["impact_0.mp3", 3.02, 0.7], ["drum_5.mp3", 3.92, 1.0], ["drum_0.mp3", 3.92, 0.7],
+             ["cinematic_4.mp3", 4.9, 0.8], ["impact_3.mp3", 6.2, 0.55], ["transition_5.mp3", 8.96, 0.5]]   # 11/10 대표: 원래 속도, 더 웅장하게
+
+
+def spec():
+    from cine01 import STILL
+    d = "social/side/voice_samples/" + TAG; vf = {}
+    for f in sorted(os.listdir(os.path.join(ROOT, d))):
+        if f.endswith(".mp3"): vf[f[:-4].split("_")[-1]] = f
+    q = lambda t: "\u201c" + t + "\u201d"; subs = {}; shots = []; mono = []; cast = []
+    dur_of = lambda n: float(os.popen(f"ffprobe -v error -show_entries format=duration -of csv=p=0 {os.path.join(ROOT, d, vf[n])}").read())
+    for i, (k, v, t, o) in enumerate(L):
+        if k == "INTRO": shots.append({"type": "intro", "sfx": INTRO_SFX}); continue
+        if k == "RECAP":
+            shots.append({"type": "recap", "items": ENDS, "dur": 6.2, "fixed": True, "cascade": [0.5, 0.8], "nocap": True, "amb": ["wind_2.mp3", 0.22], "head": "배신한 사람에게 하는 복수 · 세 가지", "head_en": "THREE WAYS", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8}); continue
+        if k == "FINALE":
+            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "o2"], "pre": 0.8, "gap": 0.8, "post": 1.0, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "amb": ["wind_2.mp3", 0.15], "sfx": []}); continue
+        base = k[:-2] if k.endswith("_b") else k.rstrip("2") if k in ("spk2", "spkw2", "diary2") else k
+        o = dict(o); a = o.pop("amb", AMB.get(base, FIRE if k.startswith("c1v_") else COLD)); pre = o.pop("pre", 0.3); post = o.pop("post", 0.4); n = f"l{i:03d}" if v else None
+        if o.get("grade") == "none": o["grade"] = "modern"
+        if n:
+            if k in TALK: pre, post = min(pre, 0.1), min(post, 0.15) if k not in ("c1v_emp_talk_b",) else post
+            elif dur_of(n) + pre + post > 5.04: pre, post = min(pre, 0.12), min(post, 0.15)   # 클립을 늘리지 않게
+            subs[n] = ("!" + t[1:]) if t.startswith("!") else (t if v == N else q(t.lstrip("!")))
+            if v == M: mono.append(n)
+            elif v in (V, CAS): cast.append(n)
+        sh = {"type": "video", "src": k if k.startswith("c1v_") else clipid(k), "move": dict(STILL), "pre": pre, "post": post, "start": o.pop("start", 0.0)}
+        if a: sh["amb"] = list(a)
+        if n: sh["voice"] = [n]
+        if k in SFX and "sfx" not in o: o["sfx"] = SFX[k]
+        sh.update(o); shots.append(sh)
+    def m(f, a, b, vol, start=0, fin=3, fout=3, tail=2.0, offset=0.5): return {"file": f, "at_shot": a, "offset": offset, "start": start, "until_shot": b, "vol": vol, "fin": fin, "fout": fout, "tail": tail}
+    music = [m("cinematic_5.mp3", 0, 5, 0.18, fin=1, fout=1.2, offset=0),
+             m("dramatic_4.mp3", 6, 7, 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2),   # 인트로 북소리
+             m("cinematic_0.mp3", 7, 23, 0.15), m("dramatic_0.mp3", 23, 32, 0.17), m("sad_0.mp3", 32, 39, 0.13, start=20),
+             m("sad_3.mp3", 39, 52, 0.15, fin=4, fout=4), m("cinematic_4.mp3", 52, 57, 0.16), m("dramatic_2.mp3", 57, 62, 0.15, tail=0.6, fout=1.2),
+             m("sad_5.mp3", 64, 70, 0.14), m("sad_3.mp3", 71, 81, 0.13, start=60), m("sad_1.mp3", 84, 92, 0.13),
+             m("sad_0.mp3", 93, 98, 0.08, start=60, fin=2, fout=1.5, tail=0.4), m("cinematic_4.mp3", 98, 103, 0.17, start=110), m("sad_5.mp3", 103, 105, 0.26, fin=2, fout=4, tail=0, offset=0)]
+    S = {"id": "cine_ep01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
+         "intro": {"logo": "docs/emperor/profile_final.png", "series": "명상록 실화극"}, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
+         "voice_dir": d, "voice_files": vf, "subs": subs, "monologue_voices": mono, "cast_voices": cast, "music": music, "shots": shots}
+    json.dump(S, open(os.path.join(HERE, "spec_cine_ep01.json"), "w"), ensure_ascii=False, indent=1); print(len(shots), "장면", len(vf), "목소리")
+
+
 if __name__ == "__main__":
-    {"gen": gen, "genv": genv}[sys.argv[1]]()
+    {"gen": gen, "genv": genv, "spec": spec}[sys.argv[1]]()
