@@ -140,16 +140,29 @@ T("한 사람에게 걸린 회사", "")
 M((7,0), ["commons_nvidiahq_2".replace("_2","_3") if False else "vofficebuilding_40652"], [])
 M((7,1), ["vstockmarket_47012", "vmoney_18261".replace("18261","47005") if False else "vstockmarket_47016"], [PU("2,310억 달러", "프리마켓 시가총액 감소 · 약 310조 원", color="red", at=0.3, hold=2.0)], src=NV)
 M((7,2), ["vbusinessman_8941", "vmeeting_15716"], [])
-M((7,3), ["vcourt_46820", "vmeeting_22961".replace("22961","4809") if False else "vcontract_23222"], [], src="엔비디아 이사회 성명")
-M((7,4), ["vwashington_22784"], [], src="세계일보 2026-11-09")
-M((7,5), ["vwashington_22788", "vdocuments_45923"], [TB(["11월 11일", "11월 18일"], [["참석 여부 회신", "비공개 설명 요구일"]], ["gold", "red"], at=0.25)], src="미국 하원 3개 위원회")
-M((7,6), ["vstockmarket_47792"], [])
-T("앞으로 볼 것 3가지", "")
-M((8,0), ["commons_hbm_2", "vanalytics_5462".replace("5462","41277") if False else "vdata_5404"], [])
-M((8,1), ["vtyping_242".replace("242","41183")], [])
-M((8,2), ["vcapitol_49851".replace("49851","40677") if False else "vstockmarket_9607", "commons_nvidiahq_1".replace("_1","_2") if False else "vwallstreet_24517"], [IC("bolt", "① 11월 18일 전후 · 참석 여부와 실적", at=0.08)], src=FIN)
-M((8,3), ["vcourt_47602", "vmeeting_15716".replace("15716","22961") if False else "vdocuments_22856".replace("22856","24632") if False else "vconference_46820".replace("vconference_46820","vcourt_46117")], [IC("building", "② 이사회 조사 결과", at=0.08)], src=FIN)
-M((8,4), ["commons_ustreasury_1", "commons_skhynix_1", "vsemiconductor_1141"], [IC("globe", "③ 미국 상무부의 메가스피드 조사", at=0.08)], src=FIN)
+M((7,3), ["L2611ss_night_office".replace("L2611ss_night_office","vofficebuilding_40701"), "vmeeting_22961".replace("22961","15716") if False else "L261105h_towerman"], [LOW("후계 구도", "공개된 승계 계획 없음", at=0.1)], src="파이낸셜뉴스 2026-11-09")
+M((7,4), ["vphonecall_23073", "vdocuments_22856".replace("22856","24632") if False else "vnews_41204"], [], src="Bloomberg 인터뷰(2026-10-29) · 파이낸셜뉴스 인용")
+M((7,5), ["vcourt_46820", "vcontract_23222"], [], src="엔비디아 이사회 성명")
+M((7,6), ["vwashington_22784"], [], src="세계일보 2026-11-09")
+M((7,7), ["vwashington_22788", "vdocuments_45923"], [TB(["회신 기한", "비공개 설명"], [["11월 11일", "11월 18일 요구"]], ["gold", "red"], at=0.25)], src="미국 하원 3개 위원회")
+M((7,8), ["vstockmarket_47792"], [])
+T("엔비디아 주가 전망", "")
+M((8,0), ["L261110a_exchange_night", "vwallstreet_24517"], [PU("19조 7천억 원", "국내 투자자 엔비디아 보관금액 · 11월 5일", at=0.3, hold=1.8)], src="한국예탁결제원 (비즈워치 2026-11-09)")
+M((8,1), ["L261107m_storm_tower", "vstockmarket_47213".replace("47213","47016") if False else "vanalytics_41277"], BARS("엔비디아 시가총액 (달러)", [b("10월 고점", 5.8, "5.8조", "gray"), b("11월", 4.5, "약 4.5조", "red")]), src="파이낸셜뉴스 2026-11-09 · 11/6 종가 기준 추정")
+M((8,2), ["commons_hbm_1", "chip_47051".replace("47051","47258") if False else "vsemiconductor_1138".replace("1138","1141") if False else "vdata_21053"], [TB(["엔비디아", "AMD·브로드컴·TSMC"], [["약 -5%", "소폭 상승"]], ["red", "green"], at=0.3)], src=NV)
+M((8,3), ["server_47050".replace("47050","7863") if False else "L261110a_server_aisle".replace("L261110a_server_aisle","commons_datacenter_1"), "vdata_5404"], BARS("분기 매출 (달러)", [b("직전 분기", 96.2, "962억", "gray"), b("이번 분기 전망", 108, "1,080억", "gold")]), src="엔비디아 2027 회계연도 2분기 실적 (SEC 8-K)")
+M((8,4), ["vnews_14044".replace("14044","41204") if False else "vconference_23116".replace("23116","4809") if False else "vmeeting_4809".replace("4809","4809") if False else "vbusinessman_42648".replace("42648","231") if False else "L261110a_midnight_phones"], [], src="FourWeekMBA·비즈워치 2026-11-09")
+M((8,5), ["vtyping_41183"], [])
+M((8,6), ["vstockmarket_9607"], [IC("up", "① 단기 충격 · 유출 없음 + CEO 유지", at=0.08, color="gold")], src=FIN)
+M((8,7), ["vwashington_22787".replace("22787","22786") if False else "vsingapore_30966".replace("30966","30998") if False else "cargo_4011".replace("4011","30125") if False else "containership_30467", "L261107m_cargo_chips".replace("L261107m_cargo_chips","vnightcity_40747") if False else "commons_ustreasury_3"], [IC("globe", "② 규제 확대 · 동남아시아 판매", at=0.08, color="gold")], src=FIN)
+M((8,8), ["L261109p_box_exit", "vphonecall_39790"], [IC("warning", "③ CEO 교체 · 기업가치 할인", at=0.08, color="red")], src=FIN)
+M((8,9), ["L261107s_dawn_phone"], [])
+M((8,10), ["vcapitol_49851".replace("49851","40700") if False else "vwashington_22786".replace("22786","22788") if False else "vdocuments_48385".replace("48385","39496") if False else "vcontract_28362".replace("28362","23112") if False else "L261105k_cin_phone"], [IC("bolt", "11월 11일 · 참석 회신 기한", at=0.08)], src="미국 하원 3개 위원회")
+M((8,11), ["vstockmarket_47214".replace("47214","47016") if False else "vanalytics_5462".replace("5462","41277") if False else "L261104g_morning_phone", "L2611ss_dc_build"], [IC("bolt", "11월 18일 아침(한국 시간) · 실적", at=0.08)], src="비즈워치 2026-11-09")
+M((8,12), ["vmeeting_22961".replace("22961","4809") if False else "vconference_23116".replace("23116","23116") if False else "vpresentation_0" if False else "L261110a_search_phone"], [], src=FIN)
+M((8,13), ["vcourt_47602", "vcourt_46117"], [IC("building", "이사회 조사 결과", at=0.08)], src=FIN)
+M((8,14), ["commons_ustreasury_1", "commons_skhynix_1", "vsemiconductor_1141"], [IC("globe", "미국 상무부의 메가스피드 조사", at=0.08)], src=FIN)
+M((8,15), ["commons_hbm_2", "vdata_14724".replace("14724","5404") if False else "L261107m_night_worker"], [], src=FIN)
 T("", "")
 CH_PENDING.pop()
 M((9,0), ["vsingapore_28635".replace("28635","30998") if False else "vsatellite_46148", "vnightcity_49878"], [])
@@ -176,6 +189,14 @@ spec.update({"id": "L261109-nvidia-huang", "company": "NVDA", "no_data": True, "
  "thumb": {"photo": "il_L261107s_chip_crack.jpeg", "focus_x": 0.5, "l1": "프리장 시가총액 310조 증발", "l2": "시작은 싱가포르 회사?", "pos": "left", "s1": 60, "s2": 110},
  "ab_sets": [{"key": "a", "default": True, "title": TITLE, "file": "thumb_a.jpg", "type": "A 310조"}, {"key": "b", "title": TITLE, "file": "thumb_b.jpg", "type": "B 중국 개방론"}, {"key": "c", "title": TITLE, "file": "thumb_c.jpg", "type": "C 상자째 칩"}],
  "scenes": S})
+EXTRA = {"이사회도 국가": ["vnewspaper_41199"], "메가스피드도 외부": ["vhandshake_30016"], "누군가 정말": ["L261110a_conveyor_night"], "그럼 주주에게": ["vstockmarket_47213".replace("47213","47016") if False else "vnetwork_31536"], "엔비디아는 1993": ["L261101_tower"],
+ "엔비디아에는 공개": ["vmeeting_4809".replace("4809","22961") if False else "vhandshake_24047"], "신뢰 문제도": ["vnetwork_19653"], "이제 주가 전망": ["vshanghai_31089".replace("vshanghai_31089","L261110a_phone_pay")], "엔비디아 시가총액은": ["L261107s_phone_red"], "같은 프리마켓": ["vsemiconductor_1138".replace("1138","1140") if False else "Y261105_a_server"], "사업 숫자는": ["vairplane_4204"],
+ "그래서 대중국": ["vcontract_23222".replace("23222","28362") if False else "L261110a_search_phone".replace("search_phone","midnight_phones") if False else "commons_datacenter_4", "vdocuments_39496".replace("39496","22856") if False else "vmoney_47005".replace("47005","18296") if False else "L2611ss_china_fab".replace("L2611ss_china_fab","vanalytics_5462") if False else "chip_47048".replace("47048","47051")],
+ "첫째는 단기": ["vstockmarket_47792".replace("47792","47213") if False else "vwallstreet_24517".replace("24517","4842")], "둘째는 규제": ["vsingapore_28635".replace("28635","20174") if False else "vshanghai_31089"], "11월 11일은": ["vcapitol_49851".replace("vcapitol_49851","vnewspaper_34190") if False else "vcapitol_40677"], "한국 시간": ["vstockmarket_47213".replace("47213","47012") if False else "vmoney_18261".replace("18261","45703") if False else "vanalytics_5462".replace("5462","41277") if False else "L261105h_parisnight".replace("L261105h_parisnight","L2611sy_court") if False else "commons_nvidiahq_3".replace("_3","_2") if False else "commons_datacenter_2".replace("_2","_3") if False else "vpresentation_1" if False else "L261107m_subway_phone"], "실적 설명회": ["vbusinessman_42648".replace("42648","231") if False else "vconference_23116"], "정리하면": ["vsatellite_45033"], "아직 확인되지": ["vsatellite_47401".replace("47401","46148") if False else "vnightcity_40746".replace("40746","40747")]}
+for s_ in spec["scenes"]:
+    for k_, ex_ in EXTRA.items():
+        if s_.get("lines") and s_["lines"][0].startswith(k_) and "cuts" in s_["v"]:
+            s_["v"]["cuts"] += [{"lib": resolve(c_)} for c_ in ex_]
 for s_ in spec["scenes"]:
     if s_["v"].get("cine"):
         for e_ in s_.get("sketch") or []:
