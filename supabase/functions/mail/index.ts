@@ -1,5 +1,6 @@
 // 회원 메일 (2026-11-05)
 // - {action:"drain"}   : (5분마다) 대기열(mail_queue)의 메일을 만들어 Resend로 보낸다. RESEND_API_KEY가 없으면 보내지 않고 기다린다.
+// - 가입 뒤 D+1·D+3·D+7 안내 메일(kind d1/d3/d7, 서비스 안내): 가입 트리거가 not_before(아침 8:30 KST)와 함께 대기열에 넣고 drain이 시각이 되면 보낸다 (2026-11-10)
 // - {action:"digest"}  : (매주 월 08:30 KST) 수신 동의한 회원마다 이번 주 칼럼 메일을 대기열에 넣고 바로 보낸다. 2년 지난 동의는 재확인 안내도 넣는다.
 // - {action:"preview", kind} : (관리자) 메일 미리보기 HTML
 // - {action:"test", kind}    : (관리자) 관리자 본인 메일로 한 통 보내기
@@ -166,7 +167,7 @@ ${body.replace(/→/g, ARW)}
 const toText = (html: string) => html.replace(/<head[\s\S]*?<\/head>/g, "").replace(/<div style="display:none[^"]*">[\s\S]*?<\/div>/, "").replace(/<style[\s\S]*?<\/style>/g, "").replace(/<a [^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g, "$2 ($1)").replace(/<br\s*\/?>|<\/(p|div|tr|h\d)>/g, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/[ \t]+/g, " ").replace(/\n\s*\n+/g, "\n\n").trim();
 
 /* ---------- 메일 종류별 ---------- */
-type Who = { uid?: string; email: string; name?: string; ok?: boolean; consent_at?: string | null; token?: string };
+type Who = { uid?: string; email: string; name?: string; ok?: boolean; consent_at?: string | null; token?: string; source?: string };
 const unsubUrl = (w: Who) => w.token ? `${SITE}/mail?u=${w.token}` : `${SITE}/?tab=account`;
 async function welcome(w: Who) {
   const [C, V, N] = await Promise.all([columns(10, 3), videos(0, 4), scored()]);
@@ -239,6 +240,136 @@ function reconfirmMail(w: Who) {
   return { subject: "[밸류노트] 칼럼 메일 수신 동의 확인 안내", html: shell("2년마다 수신 동의 여부를 알려 드립니다.", body, "정보통신망법에 따라 2년마다 수신 동의 여부를 알려 드리는 메일입니다.", "reconfirm") };
 }
 
+
+/* ---------- 가입 뒤 D+1·D+3·D+7 안내 메일 (2026-11-10) ----------
+   가입 당일 이후 다시 들어오는 회원이 거의 없어, 첫 주에 세 번 '돌아올 이유'를 메일로 보낸다. 광고가 아니라 회원 본인의 종목·유형에 대한 서비스 안내다.
+   D+1 어제 보신 종목은 왜 그 점수인지 / D+3 회원님 유형에 맞는 고득점 회사 3곳 / D+7 이번 주 점수가 크게 움직인 회사 + 내 종목 지금 상태 */
+type SRow = [string, number | null, number | null, number | null, string, number | null, string];
+let SCORES: { date: string; c: Record<string, SRow> } | null = null;
+async function scoresAll() {
+  if (SCORES) return SCORES;
+  try { const r = await fetch(SITE + "/c/scores.json", { headers: { "cache-control": "no-cache" } }); const j = await r.json(); if (j?.c && Object.keys(j.c).length > 100) SCORES = j; } catch (_) { /* 없으면 빈 표 */ }
+  return SCORES || { date: ymd(kst()), c: {} };
+}
+const slugOf = (t: unknown) => String(t || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const nkey = (s: unknown) => String(s || "").toUpperCase().replace(/\.(KS|KQ|T|HK|SS|SZ)$/, "").replace(/^0+(?=\d{4}$)/, "");
+const joK = (w: string, a: string, b: string) => { const c = w.charCodeAt(w.length - 1); if (c < 0xac00 || c > 0xd7a3) return w + b; return w + ((c - 0xac00) % 28 ? a : b); };
+const MKT_KO: Record<string, string> = { KR: "국내", US: "미국", JP: "일본", HK: "홍콩", CN: "중국" };
+const coLink = (slug: string, r: SRow, src: string) => `${SITE}/?co=${encodeURIComponent(slug.split("-")[0].toUpperCase())}&q=${encodeURIComponent(r[0])}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
+function gapKo(m: number | null) {
+  if (m === null) return "적정 주가의 두 배가 넘는 가격에 거래되고 있습니다";
+  if (m >= 25) return `적정 주가보다 ${Math.round(m)}% 쌉니다. 밸류노트가 보는 저평가 구간입니다`;
+  if (m >= 0) return `적정 주가보다 ${Math.round(m)}% 쌉니다`;
+  return `적정 주가보다 ${Math.round(-m)}% 높은 가격에 거래되고 있습니다`;
+}
+function gapShort(m: number | null) {
+  if (m === null) return `<b style="color:#C23A52">2배 이상 고평가</b>`;
+  if (m >= 5) return `<b style="color:#1E6A4C">${Math.round(m)}% 저평가</b>`;
+  if (m > -5) return `<b style="color:${BODY}">적정 주가 수준</b>`;
+  return `<b style="color:#C23A52">${Math.round(-m)}% 고평가</b>`;
+}
+async function userDocs(uid: string, col: string) {
+  const { data } = await sb.from("docs").select("id,data,updated_at").eq("collection", col).eq("owner", uid);
+  return (data || []) as { id: string; data: any; updated_at: string }[];
+}
+/* 회원이 본 회사 중 점수표에 있는 것, 최근에 본 순서 */
+async function myStocks(uid: string, S: Record<string, SRow>) {
+  const [ints, holds] = await Promise.all([userDocs(uid, "interests"), userDocs(uid, "holdings")]);
+  const out: { slug: string; r: SRow; held: boolean; last: string }[] = [];
+  for (const h of holds) { const k = Object.keys(S).find((k) => nkey(k.split("-")[0]) === nkey(h.data?.ticker) || S[k][0] === h.data?.name); if (k && !out.some((o) => o.slug === k)) out.push({ slug: k, r: S[k], held: true, last: h.updated_at }); }
+  for (const x of ints.sort((a, b) => String(b.data?.last || "").localeCompare(String(a.data?.last || "")))) { const k = x.data?.slug || slugOf(x.data?.t || x.data?.code); if (S[k] && !out.some((o) => o.slug === k)) out.push({ slug: k, r: S[k], held: false, last: x.data?.last || x.updated_at }); }
+  return out;
+}
+/* 유형별 추천: value·bold → 종합 높은 저평가 회사, income → 품질 높고 비싸지 않은 회사 (배당 표는 메일에서 못 읽으므로 품질로 대신) */
+function picksFor(type: string, S: Record<string, SRow>, exclude: Set<string>, n = 3) {
+  const L = Object.entries(S).filter(([k, r]) => !exclude.has(k) && r[1] !== null && r[2] !== null && r[5] !== null && !/ETF|ETN|레버리지|인버스|X[23]$/i.test(r[0]));
+  const pick = type === "income"
+    ? L.filter(([, r]) => (r[2] as number) >= 70 && (r[5] as number) >= 0 && (r[1] as number) >= 65).sort((a, b) => (b[1][2] as number) - (a[1][2] as number) || (b[1][5] as number) - (a[1][5] as number))
+    : L.filter(([, r]) => (r[5] as number) >= 25 && (r[2] as number) >= 60 && (r[1] as number) >= 65).sort((a, b) => (b[1][1] as number) - (a[1][1] as number) || (b[1][5] as number) - (a[1][5] as number));
+  // 한 시장에 몰리지 않게 시장별로 먼저 하나씩
+  const out: [string, SRow][] = [], seen = new Set<string>();
+  for (const e of pick) if (out.length < n && !seen.has(e[1][4])) { out.push(e); seen.add(e[1][4]); }
+  for (const e of pick) if (out.length < n && !out.includes(e)) out.push(e);
+  return out;
+}
+const TYPE_KO: Record<string, [string, string]> = { value: ["가치 성장형", "적정 주가보다 30% 이상 싼 가격에서만 사고, 잘 아는 3~5개 회사에 모아 오래 들고 가는 투자"], income: ["안전 배당형", "배당을 오래 꾸준히 늘려 온 회사를 사고, 받은 배당은 다시 사는 데 쓰는 투자"], bold: ["공격 도전형", "큰 수익을 노리는 베팅은 전체의 10% 안에서만 하고, 나머지 90%는 기준을 통과한 회사로 버팀목을 만드는 투자"] };
+function stockRow(slug: string, r: SRow, src: string, sub: string, last = false) {
+  return `<tr><td style="padding:0 36px"><a href="${coLink(slug, r, src)}" style="text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${last ? "" : `border-bottom:1px solid ${LINE};`}"><tr>
+    <td valign="top" style="padding:16px 0"><div style="font-family:${F};font-size:16px;font-weight:800;letter-spacing:-.015em;line-height:1.4;word-break:keep-all">${esc(r[0])} <span style="font-size:12px;font-weight:600;color:${MUTED}">${MKT_KO[r[4]] || r[4]}${r[6] ? " · " + esc(r[6]) : ""}</span></div>
+    <div style="font-family:${F};font-size:13.5px;line-height:1.65;color:${MUTED};margin-top:4px;word-break:keep-all">${sub}</div></td>
+    <td width="96" valign="top" align="right" style="padding:16px 0"><div style="font-family:${F};font-size:22px;font-weight:800;color:${INK};line-height:1">${r[1] ?? "–"}<span style="font-size:11px;color:${MUTED};font-weight:600">/100</span></div><div style="font-family:${F};font-size:12.5px;margin-top:5px">${gapShort(r[5])}</div></td></tr></table></a></td></tr>`;
+}
+const scoreLegend = `<tr><td style="padding:22px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:16px"><tr><td style="padding:18px 22px">
+  ${[["종합 점수", "워렌 버핏·벤저민 그레이엄·찰리 멍거가 기업을 고르던 기준을 하나로 합친 점수입니다. 70점이 넘으면 세 사람의 기준을 대체로 통과한 회사입니다."], ["품질 점수", "이익이 꾸준히 늘었는지, 빚은 적은지, 번 돈이 실제 현금으로 남는지 등 재무 13개 지표로 매깁니다."], ["저평가 폭", "보수적으로 계산한 적정 주가와 지금 주가의 차이입니다. 25% 이상이면 밸류노트가 보는 저평가 구간입니다."]]
+    .map(([t, d], i) => `<div style="padding:${i ? 12 : 0}px 0 0"><div style="font-family:${F};font-size:13.5px;font-weight:800;color:${INK}">${t}</div><div style="font-family:${F};font-size:13px;line-height:1.7;color:${BODY};margin-top:3px;word-break:keep-all">${d}</div></div>`).join("")}
+</td></tr></table></td></tr>`;
+const tipHome = (src: string) => `<tr><td style="padding:28px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:18px 22px">${eyebrow("Tip")}<div style="font-family:${F};font-size:14.5px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">점수는 매일 저녁 다시 계산됩니다</div>
+  <div style="font-family:${F};font-size:13.5px;line-height:1.75;color:${BODY};margin-top:6px;word-break:keep-all">밸류노트를 홈 화면에 추가해 두면 주소를 다시 치지 않아도 아이콘 한 번으로 열리고, 관심 회사가 싸졌을 때 알림도 받을 수 있습니다. 아이폰은 Safari 공유 버튼 → "홈 화면에 추가", 안드로이드는 메뉴 → "앱 설치"입니다.</div>
+  ${btn(tabUrl("alerts", src), "알림·홈 화면 설정 →")}</div></td></tr>`;
+async function onboardMail(kind: "d1" | "d3" | "d7", w: Who) {
+  const nm = w.name || w.email.split("@")[0], src = kind;
+  const SJ = await scoresAll(), S = SJ.c;
+  if (!Object.keys(S).length) return null;
+  const mine = w.uid ? await myStocks(w.uid, S) : [];
+  const settings = w.uid ? (await userDocs(w.uid, "settings")).find((d) => d.id === "main")?.data : null;
+  const type: string = settings?.investor?.type || "value", [typeNm, typeDesc] = TYPE_KO[type] || TYPE_KO.value;
+  const foot = `이 메일은 밸류노트 가입 회원께 첫 주에 세 번(가입 다음 날·3일째·7일째)만 보내는 서비스 안내입니다. 이후에는 보내지 않습니다. 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:#B9C2CF;text-decoration:underline">수신 거부</a>를 누르세요.`;
+  let body = "", subject = "", pre = "";
+
+  if (kind === "d1") {
+    const x = mine[0];
+    if (x) {
+      const [name, total] = [x.r[0], x.r[1]];
+      subject = `${nm} 님, ${joK(name, "은", "는")} 왜 ${total ?? "이"}점일까요`;
+      pre = `${name} 점수의 근거와 적정 주가를 확인해 보세요.`;
+      body = `${hero("Day 1 · 첫 번째 안내", `${esc(nm)} 님,<br>${total !== null ? `${esc(joK(name, "은", "는"))} 왜<br>${total}점일까요` : `${esc(name)}의 점수를<br>확인해 보세요`}`,
+          `${x.held ? "보유 종목으로 넣으신" : "가입 때 보신"} ${esc(joK(name, "은", "는"))} 지금 ${gapKo(x.r[5])}. 점수가 어떻게 나왔는지 세 가지만 보면 됩니다.`, [coLink(x.slug, x.r, src), `${esc(name)} 근거 전체 보기 →`])}
+        ${h2("Your Stock", "지금 이 회사의 숫자")}${stockRow(x.slug, x.r, src, `품질 ${x.r[2] ?? "–"}점 · 저평가 ${x.r[3] ?? "–"}점 · ${gapKo(x.r[5])}`, true)}
+        ${scoreLegend}
+        ${mine.length > 1 ? h2("Also", "함께 보신 회사") + mine.slice(1, 4).map((y, i, a) => stockRow(y.slug, y.r, src, gapKo(y.r[5]), i === a.length - 1)).join("") : ""}
+        ${tipHome(src)}`;
+    } else {
+      const P = picksFor(type, S, new Set(), 1)[0];
+      subject = `${nm} 님, 어제 가입하신 밸류노트는 이렇게 쓰면 됩니다`;
+      pre = "종목 하나만 넣으면 점수와 적정 주가를 바로 계산합니다.";
+      body = `${hero("Day 1 · 첫 번째 안내", `${esc(nm)} 님,<br>종목 하나만 넣어 보세요`, `지금 갖고 있거나 보고 있는 회사 하나를 넣으면, 워렌 버핏·벤저민 그레이엄 기준으로 몇 점인지와 적정 주가를 바로 계산해 드립니다. 그 회사가 싸질 때 알려 드릴 수도 있습니다.`, [tabUrl("portfolio", src), "내 종목 넣기 →"])}
+        ${P ? h2("Example", `오늘 ${typeNm} 기준 1위 회사`) + stockRow(P[0], P[1], src, gapKo(P[1][5]), true) : ""}
+        ${scoreLegend}
+        ${tipHome(src)}`;
+    }
+  }
+  if (kind === "d3") {
+    const ex = new Set(mine.map((m) => m.slug)), P = picksFor(type, S, ex, 3);
+    if (!P.length) return null;
+    subject = `${nm} 님, ${typeNm} 기준으로 지금 점수가 가장 높은 회사 3곳`;
+    pre = `${P.map((p) => p[1][0]).join(" · ")} — ${SJ.date} 기준`;
+    body = `${hero("Day 3 · 두 번째 안내", `${esc(nm)} 님의 유형,<br>${esc(typeNm)}에 맞는<br>회사 3곳입니다`, `${esc(typeDesc)}. 이 기준으로 ${Object.keys(S).length}개 회사 중 지금 점수가 가장 높은 곳을 골랐습니다(${SJ.date} 계산).`, [tabUrl("myguide", src), "나의 가이드에서 전체 보기 →"])}
+      ${h2("Top 3", `${typeNm} 기준 · 종합 점수 순`)}${P.map(([k, r], i) => stockRow(k, r, src, gapKo(r[5]) + (type === "bold" && i === 0 ? " · 도전 칸이 아니라 90% 버팀목에 둘 회사입니다" : ""), i === P.length - 1)).join("")}
+      <tr><td style="padding:22px 36px 0">${p("점수가 높다는 것은 세 사람의 기준을 통과했다는 뜻이지, 지금 사라는 신호가 아닙니다. 회사 화면에서 점수의 근거와 위험 표시를 먼저 확인하세요. 관심 회사로 담아 두면 적정 주가보다 더 싸졌을 때 알려 드립니다.", `font-size:14px;color:${MUTED}`)}</td></tr>
+      ${mine.length ? h2("Your Stocks", "내 종목은 지금") + mine.slice(0, 3).map((y, i, a) => stockRow(y.slug, y.r, src, gapKo(y.r[5]), i === a.length - 1)).join("") : ""}`;
+  }
+  if (kind === "d7") {
+    // 지난 저장분(push-digest가 날짜별로 남기는 pd_scores.prev)과 비교해 저평가 폭이 크게 바뀐 회사
+    const { data: snap } = await sb.from("app_config").select("value").eq("key", "pd_scores").maybeSingle();
+    const prev: Record<string, number | null> = (snap?.value as any)?.prev || {};
+    const moved = Object.entries(S).filter(([k, r]) => r[5] !== null && prev[k] != null && (r[1] ?? 0) >= 60 && Math.abs((r[5] as number) - (prev[k] as number)) >= 8)
+      .map(([k, r]) => ({ k, r, d: (r[5] as number) - (prev[k] as number) })).sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 4);
+    const fresh = Object.entries(S).filter(([, r]) => r[5] !== null && (r[5] as number) >= 25 && (r[1] ?? 0) >= 70).sort((a, b) => (b[1][1] ?? 0) - (a[1][1] ?? 0)).slice(0, 3);
+    subject = moved.length ? `${nm} 님, 최근 저평가 폭이 크게 바뀐 회사 ${moved.length}곳` : `${nm} 님, 밸류노트 일주일 — 지금 저평가 구간에 있는 회사`;
+    pre = moved.length ? moved.map((m) => `${m.r[0]} ${m.d > 0 ? "+" : ""}${Math.round(m.d)}%p`).join(" · ") : fresh.map((f) => f[1][0]).join(" · ");
+    body = `${hero("Day 7 · 마지막 안내", `${esc(nm)} 님,<br>일주일 동안<br>점수는 이렇게 움직였습니다`, `밸류노트는 매일 저녁 ${Object.keys(S).length}개 회사의 적정 주가를 다시 계산합니다. 주가가 움직이면 저평가 폭이 바뀌고, 실적이 나오면 점수가 바뀝니다. 최근 계산에서 가장 크게 움직인 곳입니다.`, [tabUrl("value", src), "저평가 순위 전체 보기 →"])}
+      ${moved.length ? h2("Movers", "최근 저평가 폭이 크게 바뀐 회사") + moved.map((m, i) => stockRow(m.k, m.r, src, `지난 계산 대비 ${m.d > 0 ? "+" : ""}${Math.round(m.d)}%p · ${gapKo(m.r[5])}`, i === moved.length - 1)).join("") : h2("Undervalued", "지금 저평가 구간 · 종합 70점 이상") + fresh.map(([k, r], i) => stockRow(k, r, src, gapKo(r[5]), i === fresh.length - 1)).join("")}
+      ${mine.length ? h2("Your Stocks", "내 종목은 지금") + mine.slice(0, 4).map((y, i, a) => stockRow(y.slug, y.r, src, gapKo(y.r[5]), i === a.length - 1)).join("") : `<tr><td style="padding:22px 36px 0">${p("아직 넣어 두신 종목이 없습니다. 보유 종목이나 관심 회사를 하나만 넣어 두면 다음부터는 그 회사의 변화를 먼저 알려 드립니다.")}${btn(tabUrl("portfolio", src), "내 종목 넣기 →")}</td></tr>`}
+      ${w.ok ? "" : `<tr><td style="padding:32px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};background-image:linear-gradient(150deg,${NAVY2} 0%,${NAVY} 60%);border-radius:18px"><tr><td style="padding:28px 28px">
+        ${eyebrow("Weekly Note · 매주 월요일 08:30", GOLD)}
+        <div style="font-family:${F};font-size:20px;font-weight:800;letter-spacing:-.025em;line-height:1.45;color:#FFFFFF;margin-top:10px;word-break:keep-all">안내 메일은 여기까지입니다.<br>계속 받으시려면 칼럼 메일을 켜 주세요</div>
+        <div style="font-family:${F};font-size:14px;line-height:1.8;color:#B9C2CF;margin-top:12px;word-break:keep-all">매주 월요일 아침, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
+        ${btn(w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", src), "칼럼 메일 받기 →", false)}
+        <div style="font-family:${F};font-size:11px;line-height:1.7;color:#7F8B9D;margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 칼럼·투자 정보(광고성 정보) 수신 동의이며 선택 사항입니다.</div></td></tr></table></td></tr>`}`;
+  }
+  return { subject, html: shell(pre, body, foot, src) };
+}
+
 /* ---------- 보내기 ---------- */
 async function send(to: string, m: { subject: string; html: string }, w?: Who, ad = false) {
   const headers: Record<string, string> = {};
@@ -252,7 +383,7 @@ async function send(to: string, m: { subject: string; html: string }, w?: Who, a
 async function who(uid: string | null, email: string): Promise<Who> {
   const w: Who = { uid: uid || undefined, email };
   if (uid) {
-    const { data: p } = await sb.from("mail_prefs").select("ok,consent_at,token").eq("uid", uid).maybeSingle();
+    const { data: p } = await sb.from("mail_prefs").select("ok,consent_at,token,source").eq("uid", uid).maybeSingle();
     if (p) Object.assign(w, p);
     const { data: a } = await sb.auth.admin.getUserById(uid);
     const md = a?.user?.user_metadata || {};
@@ -265,10 +396,11 @@ async function build(q: { kind: string; ref: string }, w: Who) {
   if (q.kind === "digest") return await digest(w);
   if (q.kind === "consent") return consentMail(w, q.ref.startsWith("on:"), new Date().toISOString());
   if (q.kind === "reconfirm") return reconfirmMail(w);
+  if (q.kind === "d1" || q.kind === "d3" || q.kind === "d7") return await onboardMail(q.kind, w);
   return null;
 }
 async function drain() {
-  const { data: Q } = await sb.from("mail_queue").select("*").eq("status", "queued").lt("tries", 5).order("created_at").limit(40);
+  const { data: Q } = await sb.from("mail_queue").select("*").eq("status", "queued").lt("tries", 5).lte("not_before", new Date().toISOString()).order("created_at").limit(40);
   if (!Q?.length) return { ok: true, sent: 0 };
   await loadKey();
   if (!KEY) return { ok: false, waiting: Q.length, reason: "RESEND_API_KEY 없음 · 키를 넣으면 대기 중인 메일부터 보냅니다" };
@@ -281,6 +413,10 @@ async function drain() {
     const w = await who(q.uid, q.email);
     if (ad && !w.ok) { await sb.from("mail_queue").update({ status: "skipped", error: "수신 거부됨" }).eq("id", q.id); continue; }
     if (q.kind === "welcome" && Date.now() - Date.parse(q.created_at) > 8 * 864e5) { await sb.from("mail_queue").update({ status: "skipped", error: "가입 8일이 지나 보내지 않음" }).eq("id", q.id); continue; }
+    const onb = q.kind === "d1" || q.kind === "d3" || q.kind === "d7";
+    if (onb && !daytime()) { held++; continue; }                     // 안내 메일도 아침~저녁에만
+    if (onb && w.source === "unsub") { await sb.from("mail_queue").update({ status: "skipped", error: "수신 거부한 회원" }).eq("id", q.id); continue; }
+    if (onb && Date.now() - Date.parse(q.not_before || q.created_at) > 3 * 864e5) { await sb.from("mail_queue").update({ status: "skipped", error: "예정일에서 3일이 지나 보내지 않음" }).eq("id", q.id); continue; }
     try {
       const m = await build(q, w);
       if (!m) { await sb.from("mail_queue").update({ status: "skipped", error: "보낼 내용 없음" }).eq("id", q.id); continue; }
@@ -332,7 +468,7 @@ Deno.serve(async (req: Request) => {
       if (!admin) return json({ ok: false, error: "관리자만 쓸 수 있습니다" }, 403);
       const w = await who(admin.id, admin.email!);
       if (!w.token) w.token = "00000000-0000-0000-0000-000000000000";
-      const kind = ["welcome", "digest", "consent", "reconfirm"].includes(body.kind) ? body.kind : "welcome";
+      const kind = ["welcome", "digest", "consent", "reconfirm", "d1", "d3", "d7"].includes(body.kind) ? body.kind : "welcome";
       // 미리보기는 실제 받을 모양: 가입 축하는 기본이 '구독 전' 회원용(구독 버튼 있는 판), as=sub이면 구독한 회원용
       if (kind === "welcome" && body.as !== "sub") { w.ok = false; w.consent_at = null; }
       else { w.ok = true; if (!w.consent_at) w.consent_at = new Date().toISOString(); }
