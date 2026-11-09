@@ -1,0 +1,31 @@
+{
+ "id": "cep1_cheer",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "They thrust their swords upward and shout together; dust rises. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c105-36ee-7aa2-b9dc-e75646b5cb20/b89b341d-3c6c-40ed-86d2-e0708ff91385.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c11b-eb0e-76ad-9204-37837cfaecf8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c11b-eb0e-76ad-9204-37837cfaecf8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c11b-eb0e-76ad-9204-37837cfaecf8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.75,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c11b-eb0e-76ad-9204-37837cfaecf8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c11b-eb0e-76ad-9204-37837cfaecf8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c11b-eb0e-76ad-9204-37837cfaecf8/cancel",
+  "expires_at": "2026-11-16T16:25:49.138166+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c11b-eb0e-76ad-9204-37837cfaecf8/d03657ad-d313-4b12-a000-38cb9ff5dbe3.mp4"
+  }
+ },
+ "seconds": 356,
+ "file": "social/side/gen/cep1_cheer.mp4"
+}
