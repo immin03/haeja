@@ -1,7 +1,7 @@
 {
- "requested": "2026-11-10T06:18",
- "note": "ep20 n3 다시 녹음(음성 관문 클릭 불통과)",
- "tag": "d261110c",
+ "requested": "2026-11-10T07:00",
+ "note": "실화극 1호 보강",
+ "tag": "cep01b",
  "keep": true,
  "lang": "kor",
  "model": "ssfm-v30",
@@ -9,25 +9,71 @@
  "tempo": 1.0,
  "voices": [
   {
-   "name": "ep20_n3_C",
+   "name": "n1",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "약속 없는 저녁을, 먼저 달력에 적어 두십시오. 남의 얘기만 듣다 온 밤에는, 내 마음이 어떤지 모릅니다. 황제도 사람에 둘러싸인 낮이 끝나면, 막사에 혼자 앉았습니다.",
+   "line": "시리아 출신의 그는, 규율이 무섭기로 이름난 장군이었습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "ep20_n3_D",
+   "name": "n2",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "약속 없는 저녁을, 먼저 달력에 적어 두십시오. 남의 얘기만 듣다 온 밤에는, 내 마음이 어떤지 모릅니다. 황제도 사람에 둘러싸인 낮이 끝나면, 막사에 혼자 앉았습니다.",
+   "line": "곡창 이집트가 넘어가자, 원로원은 카시우스를 국가의 적으로 선포했습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "ep20_n3_E",
+   "name": "n3",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "약속 없는 저녁을, 먼저 달력에 적어 두십시오. 남의 얘기만 듣다 온 밤에는, 내 마음이 어떤지 모릅니다. 황제도 사람에 둘러싸인 낮이 끝나면, 막사에 혼자 앉았습니다.",
+   "line": "제국의 절반이, 하룻밤 사이에 적이 될 수 있었습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
+  },
+  {
+   "name": "n4",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그는 열세 살 아들을 곁으로 불러, 후계자로 세웠습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "n5",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그 뒤 황제는 동쪽을 돌며, 반란에 가담한 도시들을 너그럽게 대했습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "cas_zeus",
+   "id": "tc_6a5882fe54564e2a06a218bb",
+   "line": "황제는 죽었다. 이제 로마는 나를 따르라.",
+   "emotion": "angry",
+   "intensity": 1.2,
+   "tempo": 0.92
+  },
+  {
+   "name": "cas_poseidon",
+   "id": "tc_6a8f9d53322676d2f0934a21",
+   "line": "황제는 죽었다. 이제 로마는 나를 따르라.",
+   "emotion": "angry",
+   "intensity": 1.2,
+   "tempo": 0.92
+  },
+  {
+   "name": "cas_hades",
+   "id": "tc_6a867e6bd49b8f6a07db59da",
+   "line": "황제는 죽었다. 이제 로마는 나를 따르라.",
+   "emotion": "angry",
+   "intensity": 1.2,
+   "tempo": 0.92
+  },
+  {
+   "name": "cas_jongdae",
+   "id": "tc_67e38d8c771b5511659c4534",
+   "line": "황제는 죽었다. 이제 로마는 나를 따르라.",
+   "emotion": "angry",
+   "intensity": 1.2,
+   "tempo": 0.92
   }
  ]
 }
