@@ -333,6 +333,7 @@ class Intro:
         self.t_kick = text_layer([self.kicker], "ui", 40, GOLD, track=6, shadow=False, height=60)
         self.t_title = text_layer([self.title], "ko", 78, IVORY, height=130)
         self.dust = Particles("embers", 90, 11)
+        self.series = text_layer([spec["series"]], "ko6", 46, IVORY, track=6, shadow=False, height=74) if spec.get("series") else None   # 11/9 실화극 부제
         self.dur = 12.0
 
     def frame(self, t):
@@ -393,6 +394,10 @@ class Intro:
         if t >= 7.0:
             a = ease((t - 7.0) / 0.9) * (1 - ease((t - 9.6) / 0.6))
             layer = np.zeros((H, W, 4), np.uint8); layer[735:735 + self.ko.shape[0]] = self.ko
+            img = blend(img, layer, a)
+        if t >= 7.6 and self.series is not None:
+            a = ease((t - 7.6) / 0.8) * (1 - ease((t - 9.6) / 0.6))
+            layer = np.zeros((H, W, 4), np.uint8); layer[825:825 + self.series.shape[0]] = self.series
             img = blend(img, layer, a)
         return img
 

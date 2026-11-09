@@ -148,7 +148,7 @@ def spec():
      shot("c1v_emp_talk_b", "e5", pre=0.5, post=1.3, tout="black", fout=1.0),
     ]
     S = {"id": "cine01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
-         "intro": {"logo": "docs/emperor/profile_final.png", "ep_kicker": "명상록 실화극", "ep_title": "배신한 사람에게 하는 가장 완벽한 복수"}, "intro_speed": 1.5,
+         "intro": {"logo": "docs/emperor/profile_final.png", "series": "명상록 실화극"}, "intro_speed": 1.5,
          "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0}, "voice_dir": d, "voice_files": vf, "subs": subs,
          "monologue_voices": [n for n, v, t in LINES if v == M], "cast_voices": [n for n, v, t in LINES if v == V],
          "music": [{"file": "cinematic_5.mp3", "at_shot": 0, "offset": 0.0, "start": 0, "until_shot": 5, "vol": 0.18, "fin": 1.0, "fout": 1.2},
