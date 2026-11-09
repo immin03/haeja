@@ -25,12 +25,10 @@
   "intro_offset": 0.07,
   "end_on_logo": true,
   "bed": [
-   "social/music/samples4/H1_full.mp3",
-   "social/music/samples4/H2_full.mp3",
-   "social/music/samples4/M2_full.mp3",
-   "social/music/samples4/M1_full.mp3"
+   "social/music/samples3/H6_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
   ],
-  "note": "본편 Lofi Chill → Lofi Restaurant → Background Documentary → A Calm Soundtrack (Content ID 없음, 72~78BPM) · 대표 11/9: 노이즈캔슬 이어폰에서 음악이 크다 → 저음 강조 제거, 90Hz 아래 차단",
+  "note": "본편 H6 House - July → H1 Deep House Sunset (Content ID 없음) · 대표 11/9 17:00: 잔잔한 곡은 졸림 → 원래 곡 + 120Hz 아래 차단·저음 강조 없음",
   "hits": [
    2.93,
    6.83,
@@ -58,8 +56,8 @@
    85.09,
    87.77
   ],
-  "bed_gain_db": 1,
-  "bed_hp": 90
+  "bed_gain_db": 3,
+  "bed_hp": 120
  },
  "id": "L261109-palantir-what",
  "company": "PLTR",
@@ -423,7 +421,7 @@
     "doc_cine": true
    },
    "lines": [
-    "3분기 매출은 96%가 늘었는데요. 이게 말이 됩니까."
+    "3분기 매출은 96%가 늘었는데요. 아주 황당한 일입니다."
    ],
    "sketch_add": [],
    "en": [
@@ -582,16 +580,7 @@
    ],
    "asof": false,
    "src": "",
-   "sketch": [
-    {
-     "kind": "icon",
-     "name": "up",
-     "text": "앞으로 볼 지표 4가지",
-     "line": 0,
-     "at": 0.3,
-     "color": "gold"
-    }
-   ],
+   "sketch": [],
    "lead": 0.08,
    "hold": 0.12
   },
@@ -896,15 +885,7 @@
    ],
    "asof": false,
    "src": "",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "국민 전체 감시 주장",
-     "sub": "확인된 사실 아님 · 회사 부인",
-     "line": 0,
-     "at": 0.1
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1514,15 +1495,7 @@
    ],
    "asof": false,
    "src": "",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "스팩(SPAC)",
-     "sub": "합병을 목적으로 먼저 상장한 빈 회사",
-     "line": 0,
-     "at": 0.08
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1594,7 +1567,7 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "블랙스카이 사례",
+     "text": "블랙스카이 사례 (달러)",
      "line": 0,
      "at": 0.05
     },
@@ -1604,13 +1577,13 @@
       {
        "label": "팔란티어 투자",
        "v": 800,
-       "text": "800만 달러",
+       "text": "800만",
        "color": "gold"
       },
       {
        "label": "수취 계약",
        "v": 800,
-       "text": "800만 달러",
+       "text": "800만",
        "color": "gold"
       }
      ],
@@ -1840,7 +1813,7 @@
    "sketch": [
     {
      "kind": "print",
-     "text": "3분기 미국 매출",
+     "text": "3분기 미국 매출 (달러)",
      "line": 0,
      "at": 0.05
     },
@@ -1850,13 +1823,13 @@
       {
        "label": "미국 기업",
        "v": 9.84,
-       "text": "9.84억 달러",
+       "text": "9.84억",
        "color": "gold"
       },
       {
        "label": "미국 정부",
        "v": 9.53,
-       "text": "9.53억 달러",
+       "text": "9.53억",
        "color": "gray"
       }
      ],
@@ -1992,15 +1965,7 @@
    ],
    "asof": false,
    "src": "",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "신규 계약 금액",
-     "sub": "이번 분기에 새로 맺은 계약의 총액",
-     "line": 0,
-     "at": 0.08
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -2494,15 +2459,7 @@
    ],
    "asof": false,
    "src": "",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "의결권",
-     "sub": "주주총회에서 경영 안건에 투표할 수 있는 권리",
-     "line": 0,
-     "at": 0.08
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -2680,16 +2637,7 @@
    ],
    "asof": false,
    "src": "각 사 2026년 3분기 실적 발표 종합 (10월 30일 기준 · 1,355원 환산)",
-   "sketch": [
-    {
-     "kind": "icon",
-     "name": "up",
-     "text": "2027년 투자 확대 예고",
-     "line": 0,
-     "at": 0.15,
-     "color": "gold"
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -2799,16 +2747,7 @@
    ],
    "asof": false,
    "src": "",
-   "sketch": [
-    {
-     "kind": "icon",
-     "name": "building",
-     "text": "팔란티어 · 4단계 기업용 소프트웨어",
-     "line": 0,
-     "at": 0.12,
-     "color": "gold"
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
