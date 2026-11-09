@@ -1,0 +1,32 @@
+{
+ "id": "cep1i_ride",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Wide shot of the Roman general Avidius Cassius at about forty-five, lean hawk-nosed face, close-cropped black hair, short black beard, hard pale eyes, gilded bronze muscle cuirass, purple-red cloak riding a dark horse along a long column of Roman legionaries in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows, red banners without symbols. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow depth of field, subtle 35mm film grain, realistic human hands with five fingers. Not a painting, not an illustration. Horizontal 16:9 widescreen frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c0f5-1bee-7f87-bb74-46892d578721",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0f5-1bee-7f87-bb74-46892d578721/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0f5-1bee-7f87-bb74-46892d578721/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c0f5-1bee-7f87-bb74-46892d578721",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0f5-1bee-7f87-bb74-46892d578721/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0f5-1bee-7f87-bb74-46892d578721/cancel",
+  "expires_at": "2026-11-16T15:39:12.461454+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0f5-1bee-7f87-bb74-46892d578721/5aae7305-a2de-46cd-8a9b-abcdaa9a57a8.jpeg"
+   }
+  ]
+ },
+ "seconds": 105,
+ "file": "social/side/gen/cep1i_ride.jpeg"
+}

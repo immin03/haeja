@@ -1,0 +1,32 @@
+{
+ "id": "cep1i_sick",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Medium shot inside a dark leather Roman command tent on the Danube at night, an iron brazier glowing orange, deep blue shadow: the Roman emperor Marcus Aurelius at age fifty-four, lean weathered face, short curly grey-brown hair, short grey-flecked full beard, deep tired eyes, plain brown wool tunic under a deep crimson wool military cloak fastened with a round bronze brooch lying ill on a low camp bed under wool blankets, sweat on his pale face, eyes half closed, a clay cup beside him. His mouth stays closed. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow depth of field, subtle 35mm film grain, realistic human hands with five fingers. Not a painting, not an illustration. Horizontal 16:9 widescreen frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c0f6-bca2-7e0b-bf76-7d37081921f3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0f6-bca2-7e0b-bf76-7d37081921f3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0f6-bca2-7e0b-bf76-7d37081921f3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c0f6-bca2-7e0b-bf76-7d37081921f3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0f6-bca2-7e0b-bf76-7d37081921f3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0f6-bca2-7e0b-bf76-7d37081921f3/cancel",
+  "expires_at": "2026-11-16T15:40:38.112696+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0f6-bca2-7e0b-bf76-7d37081921f3/6b7b27cb-9f9d-42f1-8356-f6aaa718329a.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "social/side/gen/cep1i_sick.jpeg"
+}

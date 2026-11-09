@@ -1,0 +1,32 @@
+{
+ "id": "cep1i_camp",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Medium shot at a Roman winter legion camp on the Danube frontier, blue-grey dusk, snow on leather tents, warm orange campfires in the distance, breath visible in the cold: four Roman legionaries in cloaks huddled around a campfire, leaning in and whispering, worried faces lit by fire. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow depth of field, subtle 35mm film grain, realistic human hands with five fingers. Not a painting, not an illustration. Horizontal 16:9 widescreen frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c0fb-4d6f-705d-b6b8-7088a75f454a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0fb-4d6f-705d-b6b8-7088a75f454a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0fb-4d6f-705d-b6b8-7088a75f454a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c0fb-4d6f-705d-b6b8-7088a75f454a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0fb-4d6f-705d-b6b8-7088a75f454a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0fb-4d6f-705d-b6b8-7088a75f454a/cancel",
+  "expires_at": "2026-11-16T15:46:10.788943+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0fb-4d6f-705d-b6b8-7088a75f454a/12a3ed79-4034-4e2d-b0d2-0b3b076f484f.jpeg"
+   }
+  ]
+ },
+ "seconds": 117,
+ "file": "social/side/gen/cep1i_camp.jpeg"
+}

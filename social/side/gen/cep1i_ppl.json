@@ -1,0 +1,32 @@
+{
+ "id": "cep1i_ppl",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Close shot of a grizzled Roman legionary in a snow-dusted helmet standing in formation, listening, weathered face fully visible, mouth closed, breath visible in the cold, blue dusk light. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow depth of field, subtle 35mm film grain, realistic human hands with five fingers. Not a painting, not an illustration. Horizontal 16:9 widescreen frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c0fb-4f26-7152-ac90-b107b166c9b7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0fb-4f26-7152-ac90-b107b166c9b7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0fb-4f26-7152-ac90-b107b166c9b7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c0fb-4f26-7152-ac90-b107b166c9b7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c0fb-4f26-7152-ac90-b107b166c9b7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c0fb-4f26-7152-ac90-b107b166c9b7/cancel",
+  "expires_at": "2026-11-16T15:45:47.857969+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c0fb-4f26-7152-ac90-b107b166c9b7/8f614e82-72f5-4d96-9595-c494d5aabccf.jpeg"
+   }
+  ]
+ },
+ "seconds": 93,
+ "file": "social/side/gen/cep1i_ppl.jpeg"
+}
