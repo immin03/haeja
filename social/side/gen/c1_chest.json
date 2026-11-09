@@ -1,0 +1,32 @@
+{
+ "id": "c1_chest",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "Low close-up inside a large Roman leather command tent at night in the dry eastern provinces, heavy leather walls, wooden tent poles, a rough wooden camp table, a low round fire pit ringed with stones in the middle of the tent glowing with orange flames: a dark oak travel chest bound with black iron straps, about the size of a large suitcase, its lid closed, a leather strap across the lid sealed with a lump of dark red wax sitting on the rough wooden table, two scarred soldier's hands in leather bracers just letting go of it after setting it down, dust hanging in the firelight, the fire pit out of focus behind. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow depth of field, subtle 35mm film grain, realistic human hands with five fingers. Not a painting, not an illustration. Horizontal 16:9 widescreen frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame. Absolutely no text, no letters, no numbers, no writing, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1bfc6-ce00-7c91-9232-88538ce957f9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bfc6-ce00-7c91-9232-88538ce957f9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bfc6-ce00-7c91-9232-88538ce957f9/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1bfc6-ce00-7c91-9232-88538ce957f9",
+  "status_url": "https://api.higgsfield.ai/requests/01a1bfc6-ce00-7c91-9232-88538ce957f9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1bfc6-ce00-7c91-9232-88538ce957f9/cancel",
+  "expires_at": "2026-11-16T10:08:56.283232+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bfc6-ce00-7c91-9232-88538ce957f9/e7b37726-0be9-417a-ac7b-1679c7994474.jpeg"
+   }
+  ]
+ },
+ "seconds": 101,
+ "file": "social/side/gen/c1_chest.jpeg"
+}
