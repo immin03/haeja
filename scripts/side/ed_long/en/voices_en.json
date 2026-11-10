@@ -1,0 +1,14 @@
+{
+ "_about": "The Emperor's Diary (EN) — fixed character → Typecast voice mapping for all English episodes (owner 2026-11-11 01:55 KST: narrator Ron, Marcus Aurelius Robert slower). Keep the same mapping for future episodes; add new recurring characters here.",
+ "model": "ssfm-v30",
+ "lang": "eng",
+ "roles": {
+  "N": {"role": "narrator", "name": "Ron", "voice_id": "tc_6620ee223bc61e2f6b79fdb5", "emotion": "tonedown", "tempo": 1.0, "note": "deep, authoritative documentary narrator"},
+  "M": {"role": "Marcus Aurelius (emperor's own lines and Meditations quotes)", "name": "Robert", "voice_id": "tc_66bc600762cab997910b107b", "emotion": "tonedown", "tempo": 0.87, "note": "senior, calm; noticeably slower than default"},
+  "V": {"role": "Roman general / officer / messenger (e.g. Martius Verus)", "name": "Carl", "voice_id": "tc_6777666645604e14c7ff8ee5", "emotion": "tonedown", "tempo": 1.0, "note": "middle-aged, clear, urgent soldier; distinct from Ron's bass and Robert's age"},
+  "C": {"role": "antagonist / rebel (e.g. Avidius Cassius)", "name": "Rusty", "voice_id": "tc_67bfc776d41bad708fdf4ef9", "emotion": "angry", "intensity": 1.2, "tempo": 0.95, "note": "husky bass, hard; used for shouted declarations"}
+ },
+ "reserve": {
+  "W": {"role": "women (e.g. empress Faustina) — to be chosen when an English episode first needs a female speaking line", "name": null}
+ }
+}
