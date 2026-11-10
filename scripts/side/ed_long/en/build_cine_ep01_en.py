@@ -58,6 +58,9 @@ for sh in S["shots"]:
         new = "cep1en_" + mm.group(1)
         if not any(os.path.exists(os.path.join(gen, new + e)) for e in (".jpeg", ".jpg", ".png", ".webp")): raise SystemExit("modern image missing: " + new)
         sh["src"] = new; sh["type"] = "still"
+# retakes (owner rule: replace flagged takes, never hand-stamp). l035: 'Why... why him' drag 1.37 s -> clean take, padded to the original 4.008 s so timing is unchanged
+RETAKE = {"l035": "../cep01en4/voice_cep01en4_03_l035p.mp3"}
+S["voice_files"].update(RETAKE)
 S["voice_dir"] = "social/side/voice_samples/" + VD[0]; S["root"] = "../../../.."   # spec lives in en/
 json.dump(S, open(m.OUT_SPEC, "w"), ensure_ascii=False, indent=1)
 import re

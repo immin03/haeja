@@ -3,127 +3,492 @@
  "source_id": "cine_ep01",
  "en_id": "cine_ep01_en",
  "channel": "en",
- "voice_test": {"tag": "envt01", "line_ids": [0, 1, 2, 3, 4], "candidates": {"Lorenzo": "tc_68f0422cc863e7c17af5183d", "Dean": "tc_673eb45cdc1073aef51e6b90", "Carl": "tc_6777666645604e14c7ff8ee5"}, "emotion": "tonedown", "model": "ssfm-v30", "lang": "eng"},
+ "voice_test": {
+  "tag": "envt01",
+  "line_ids": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "candidates": {
+   "Lorenzo": "tc_68f0422cc863e7c17af5183d",
+   "Dean": "tc_673eb45cdc1073aef51e6b90",
+   "Carl": "tc_6777666645604e14c7ff8ee5"
+  },
+  "emotion": "tonedown",
+  "model": "ssfm-v30",
+  "lang": "eng"
+ },
  "lines": {
-  "0": ["N", "!What's the perfect revenge on someone who betrayed you?"],
-  "1": ["N", "Two thousand years ago, a man was handed a box."],
-  "2": ["N", "Inside were the names of everyone who betrayed him."],
-  "3": ["N", "All he had to do was open it."],
-  "4": ["N", "Instead, he threw it into the fire."],
-  "7": ["N", "Ten years earlier, one general's name was spreading along Rome's eastern frontier."],
-  "8": ["N", "In the war with Parthia, he drove all the way to the enemy's capital."],
-  "9": ["N", "His name was Avidius Cassius."],
-  "10": ["N", "Remember that name."],
-  "11": ["N", "The emperor trusted him. He gave him the entire East."],
-  "12": ["N", "The armies, the provinces, even the power to wage war."],
-  "13": ["N", "Spring, 175 AD. The emperor was far away, on the Danube frontier."],
-  "14": ["N", "At fifty-four, he had spent winter after winter in a tent."],
-  "15": ["N", "And that year, the emperor collapsed."],
-  "16": ["N", "The illness was serious, and the rumors moved faster than he could."],
-  "17": ["N", "His heir, his son Commodus, was only thirteen."],
-  "18": ["N", "At his side, the empress Faustina was afraid."],
-  "19": ["N", "If her husband died, what would happen to their boy?"],
-  "20": ["N", "One account says she wrote to Cassius in secret."],
-  "21": ["N", "If the emperor dies, she asked, take the empire."],
-  "22": ["N", "Remember that letter. No one knows the truth."],
-  "23": ["N", "Weeks later, news reached Syria."],
-  "24": ["N", "The emperor was dead."],
-  "25": ["N", "In April 175, Cassius stood before his army and declared himself emperor."],
-  "26": ["C", "The emperor is dead. Rome follows me now."],
-  "27": ["N", "Syria and Egypt went over to him."],
-  "28": ["N", "But a few days later, different news arrived."],
-  "29": ["N", "The emperor was alive."],
-  "30": ["N", "He could have turned back. He could have called it a mistake."],
-  "31": ["N", "But he didn't stop."],
-  "32": ["N", "Only then did the news reach the emperor on the Danube."],
-  "33": ["N", "It was brought by Martius Verus, governor of Cappadocia."],
-  "34": ["N", "In that letter was the name of the man he trusted most."],
-  "35": ["M", "Him? Why... why him, of all people?"],
-  "36": ["N", "At first, the emperor kept the news to himself."],
-  "37": ["N", "But the rumor spread from tent to tent."],
-  "38": ["N", "The soldiers grew restless."],
-  "39": ["N", "He gathered his men. Everyone expected a speech full of rage."],
-  "40": ["M", "Soldiers. I have not come here to rage."],
-  "41": ["M", "I have come to grieve my fate."],
-  "42": ["M", "The friend I held dearest has plotted against me."],
-  "43": ["M", "From this war, I want only one thing."],
-  "44": ["M", "To forgive the man who wronged me."],
-  "45": ["M", "To remain a friend to the one who broke our friendship."],
-  "47": ["N", "By every record, he never cursed him."],
-  "48": ["N", "The only word he used for him was 'ungrateful.'"],
-  "49": ["N", "In the Meditations, there is this line."],
-  "50": ["M", "Above all, when you blame someone as faithless or ungrateful, turn to yourself."],
-  "51": ["N", "Trusting him had been his own choice."],
-  "52": ["N", "The emperor rushed to end the war in the north."],
-  "53": ["N", "Barbarian chiefs offered to send troops to help him."],
-  "54": ["M", "What happens between Romans is not for your eyes."],
-  "55": ["N", "Then he led his army east."],
-  "56": ["N", "To meet Cassius alive, and to forgive him."],
-  "57": ["N", "But that meeting never came."],
-  "58": ["N", "July. Syria."],
-  "59": ["N", "A centurion named Antonius rode up to Cassius."],
-  "60": ["N", "The blade caught his neck. The wound was not fatal."],
-  "61": ["N", "The horse carried on, and another officer finished it."],
-  "62": ["N", "Three months and six days."],
-  "63": ["N", "That was how long he was emperor."],
-  "64": ["N", "His head was on its way to the emperor."],
-  "65": ["M", "Bury it. I will not look."],
-  "66": ["N", "He ordered it buried before it ever reached him."],
-  "67": ["M", "I wanted to meet him alive. Now there is no one left to forgive."],
-  "68": ["N", "He wrote this."],
-  "69": ["M", "The best way to avenge yourself is not to become like the one who wronged you."],
-  "70": ["N", "Some time later, a chest arrived before the emperor."],
-  "71": ["V", "Caesar. The letters of Cassius."],
-  "72": ["V", "Senators, generals, governors. Everyone who helped him. It's all in here."],
-  "73": ["M", "Have you read them?"],
-  "74": ["V", "No. You should see them first."],
-  "75": ["M", "If I read these... who will I see tomorrow?"],
-  "76": ["V", "The men who betrayed you."],
-  "77": ["M", "No. From tomorrow, I would see a traitor in every face."],
-  "78": ["M", "Bring fire."],
-  "79": ["V", "Caesar, these men wanted you dead."],
-  "80": ["M", "And so I should become like them?"],
-  "82": ["N", "Another account says Verus burned them for him."],
-  "83": ["N", "What is certain is this: those names survive nowhere."],
-  "84": ["N", "The Senate demanded the conspirators be punished."],
-  "85": ["M", "Let no senator's blood be shed in my reign."],
-  "86": ["N", "It was not perfect mercy."],
-  "87": ["N", "Cassius's son was killed. Others were exiled."],
-  "88": ["N", "And the empress."],
-  "89": ["N", "Whether he ever suspected her, the records don't say."],
-  "90": ["N", "But in his list of things he thanked the gods for, he wrote this."],
-  "91": ["M", "That I had such a wife, so loving, and so sincere."],
-  "93": ["N", "Today."],
-  "94": ["N", "A business partner. A brother. An old friend."],
-  "95": ["N", "Imagine the messages that show exactly what they said about you"],
-  "96": ["N", "were in your hand tonight. Would you open them?"],
-  "97": ["N", "Open them, and you get the names. But you carry those names for the rest of your life."],
-  "98": ["N", "Three ways to beat someone who betrayed you."],
-  "99": ["N", "One. Don't curse them. Those words only dirty your own mouth."],
-  "100": ["N", "Two. Don't stand and watch their downfall."],
-  "101": ["N", "Three. Don't open what you don't need to know."],
-  "102": ["N", "That was the emperor's revenge."]
+  "0": [
+   "N",
+   "!What's the perfect revenge on someone who betrayed you?"
+  ],
+  "1": [
+   "N",
+   "Two thousand years ago, a man was handed a box."
+  ],
+  "2": [
+   "N",
+   "Inside were the names of everyone who betrayed him."
+  ],
+  "3": [
+   "N",
+   "All he had to do was open it."
+  ],
+  "4": [
+   "N",
+   "Instead, he threw it into the fire."
+  ],
+  "7": [
+   "N",
+   "Ten years earlier, one general's name was spreading along Rome's eastern frontier."
+  ],
+  "8": [
+   "N",
+   "In the war with Parthia, he drove all the way to the enemy's capital."
+  ],
+  "9": [
+   "N",
+   "His name was Avidius Cassius."
+  ],
+  "10": [
+   "N",
+   "Remember that name."
+  ],
+  "11": [
+   "N",
+   "The emperor trusted him. He gave him the entire East."
+  ],
+  "12": [
+   "N",
+   "The armies, the provinces, even the power to wage war."
+  ],
+  "13": [
+   "N",
+   "Spring, 175 AD. The emperor was far away, on the Danube frontier."
+  ],
+  "14": [
+   "N",
+   "At fifty-four, he had spent winter after winter in a tent."
+  ],
+  "15": [
+   "N",
+   "And that year, the emperor collapsed."
+  ],
+  "16": [
+   "N",
+   "The illness was serious, and the rumors moved faster than he could."
+  ],
+  "17": [
+   "N",
+   "His heir, his son Commodus, was only thirteen."
+  ],
+  "18": [
+   "N",
+   "At his side, the empress Faustina was afraid."
+  ],
+  "19": [
+   "N",
+   "If her husband died, what would happen to their boy?"
+  ],
+  "20": [
+   "N",
+   "One account says she wrote to Cassius in secret."
+  ],
+  "21": [
+   "N",
+   "If the emperor dies, she asked, take the empire."
+  ],
+  "22": [
+   "N",
+   "Remember that letter. No one knows the truth."
+  ],
+  "23": [
+   "N",
+   "Weeks later, news reached Syria."
+  ],
+  "24": [
+   "N",
+   "The emperor was dead."
+  ],
+  "25": [
+   "N",
+   "In April 175, Cassius stood before his army and declared himself emperor."
+  ],
+  "26": [
+   "C",
+   "The emperor is dead. Rome follows me now."
+  ],
+  "27": [
+   "N",
+   "Syria and Egypt went over to him."
+  ],
+  "28": [
+   "N",
+   "But a few days later, different news arrived."
+  ],
+  "29": [
+   "N",
+   "The emperor was alive."
+  ],
+  "30": [
+   "N",
+   "He could have turned back. He could have called it a mistake."
+  ],
+  "31": [
+   "N",
+   "But he didn't stop."
+  ],
+  "32": [
+   "N",
+   "Only then did the news reach the emperor on the Danube."
+  ],
+  "33": [
+   "N",
+   "It was brought by Martius Verus, governor of Cappadocia."
+  ],
+  "34": [
+   "N",
+   "In that letter was the name of the man he trusted most."
+  ],
+  "35": [
+   "M",
+   "Him? Why... why him, of all people?"
+  ],
+  "36": [
+   "N",
+   "At first, the emperor kept the news to himself."
+  ],
+  "37": [
+   "N",
+   "But the rumor spread from tent to tent."
+  ],
+  "38": [
+   "N",
+   "The soldiers grew restless."
+  ],
+  "39": [
+   "N",
+   "He gathered his men. Everyone expected a speech full of rage."
+  ],
+  "40": [
+   "M",
+   "Soldiers. I have not come here to rage."
+  ],
+  "41": [
+   "M",
+   "I have come to grieve my fate."
+  ],
+  "42": [
+   "M",
+   "The friend I held dearest has plotted against me."
+  ],
+  "43": [
+   "M",
+   "From this war, I want only one thing."
+  ],
+  "44": [
+   "M",
+   "To forgive the man who wronged me."
+  ],
+  "45": [
+   "M",
+   "To remain a friend to the one who broke our friendship."
+  ],
+  "47": [
+   "N",
+   "By every record, he never cursed him."
+  ],
+  "48": [
+   "N",
+   "The only word he used for him was 'ungrateful.'"
+  ],
+  "49": [
+   "N",
+   "In the Meditations, there is this line."
+  ],
+  "50": [
+   "M",
+   "Above all, when you blame someone as faithless or ungrateful, turn to yourself."
+  ],
+  "51": [
+   "N",
+   "Trusting him had been his own choice."
+  ],
+  "52": [
+   "N",
+   "The emperor rushed to end the war in the north."
+  ],
+  "53": [
+   "N",
+   "Barbarian chiefs offered to send troops to help him."
+  ],
+  "54": [
+   "M",
+   "What happens between Romans is not for your eyes."
+  ],
+  "55": [
+   "N",
+   "Then he led his army east."
+  ],
+  "56": [
+   "N",
+   "To meet Cassius alive, and to forgive him."
+  ],
+  "57": [
+   "N",
+   "But that meeting never came."
+  ],
+  "58": [
+   "N",
+   "July. Syria."
+  ],
+  "59": [
+   "N",
+   "A centurion named Antonius rode up to Cassius."
+  ],
+  "60": [
+   "N",
+   "The blade caught his neck. The wound was not fatal."
+  ],
+  "61": [
+   "N",
+   "The horse carried on, and another officer finished it."
+  ],
+  "62": [
+   "N",
+   "Three months and six days."
+  ],
+  "63": [
+   "N",
+   "That was how long he was emperor."
+  ],
+  "64": [
+   "N",
+   "His head was on its way to the emperor."
+  ],
+  "65": [
+   "M",
+   "Bury it. I will not look."
+  ],
+  "66": [
+   "N",
+   "He ordered it buried before it ever reached him."
+  ],
+  "67": [
+   "M",
+   "I wanted to meet him alive. Now there is no one left to forgive."
+  ],
+  "68": [
+   "N",
+   "He wrote this."
+  ],
+  "69": [
+   "M",
+   "The best way to avenge yourself is not to become like the one who wronged you."
+  ],
+  "70": [
+   "N",
+   "Some time later, a chest arrived before the emperor."
+  ],
+  "71": [
+   "V",
+   "Caesar. The letters of Cassius."
+  ],
+  "72": [
+   "V",
+   "Senators, generals, governors. Everyone who helped him. It's all in here."
+  ],
+  "73": [
+   "M",
+   "Have you read them?"
+  ],
+  "74": [
+   "V",
+   "No. You should see them first."
+  ],
+  "75": [
+   "M",
+   "If I read these... who will I see tomorrow?"
+  ],
+  "76": [
+   "V",
+   "The men who betrayed you."
+  ],
+  "77": [
+   "M",
+   "No. From tomorrow, I would see a traitor in every face."
+  ],
+  "78": [
+   "M",
+   "Bring fire."
+  ],
+  "79": [
+   "V",
+   "Caesar, these men wanted you dead."
+  ],
+  "80": [
+   "M",
+   "And so I should become like them?"
+  ],
+  "82": [
+   "N",
+   "Another account says Verus burned them for him."
+  ],
+  "83": [
+   "N",
+   "What is certain is this: those names survive nowhere."
+  ],
+  "84": [
+   "N",
+   "The Senate demanded the conspirators be punished."
+  ],
+  "85": [
+   "M",
+   "Let no senator's blood be shed in my reign."
+  ],
+  "86": [
+   "N",
+   "It was not perfect mercy."
+  ],
+  "87": [
+   "N",
+   "Cassius's son was killed. Others were exiled."
+  ],
+  "88": [
+   "N",
+   "And the empress."
+  ],
+  "89": [
+   "N",
+   "Whether he ever suspected her, the records don't say."
+  ],
+  "90": [
+   "N",
+   "But in his list of things he thanked the gods for, he wrote this."
+  ],
+  "91": [
+   "M",
+   "That I had such a wife, so loving, and so sincere."
+  ],
+  "93": [
+   "N",
+   "Today."
+  ],
+  "94": [
+   "N",
+   "A business partner. A brother. An old friend."
+  ],
+  "95": [
+   "N",
+   "Imagine the messages that show exactly what they said about you"
+  ],
+  "96": [
+   "N",
+   "were in your hand tonight. Would you open them?"
+  ],
+  "97": [
+   "N",
+   "Open them, and you get the names. But you carry those names for the rest of your life."
+  ],
+  "98": [
+   "N",
+   "Three ways to beat someone who betrayed you."
+  ],
+  "99": [
+   "N",
+   "One. Don't curse them. Those words only dirty your own mouth."
+  ],
+  "100": [
+   "N",
+   "Two. Don't stand and watch their downfall."
+  ],
+  "101": [
+   "N",
+   "Three. Don't open what you don't need to know."
+  ],
+  "102": [
+   "N",
+   "That was the emperor's revenge."
+  ]
  },
  "insert": {
-  "n1": ["N", "Born in Syria, he was a general known for discipline harsh enough to frighten his own men."],
-  "n2": ["N", "When Egypt, Rome's breadbasket, fell to him, the Senate declared Cassius a public enemy."],
-  "n3": ["N", "Half the empire could become his enemy overnight."],
-  "n4": ["N", "He called his thirteen-year-old son to his side and named him heir."],
-  "n5": ["N", "Afterward, the emperor toured the East and showed mercy to the cities that had joined the revolt."]
+  "n1": [
+   "N",
+   "Born in Syria, he was a general known for discipline harsh enough to frighten his own men."
+  ],
+  "n2": [
+   "N",
+   "When Egypt, Rome's breadbasket, fell to him, the Senate declared Cassius a public enemy."
+  ],
+  "n3": [
+   "N",
+   "Half the empire could become his enemy overnight."
+  ],
+  "n4": [
+   "N",
+   "He called his thirteen-year-old son to his side and named him heir."
+  ],
+  "n5": [
+   "N",
+   "Afterward, the emperor toured the East and showed mercy to the cities that had joined the revolt."
+  ]
  },
  "outro": {
-  "o1": ["N", "Think like an emperor, every night. The Emperor's Diary."],
-  "o2": ["N", "If this helped you, a like and a subscribe mean a lot. Thank you."]
+  "o1": [
+   "N",
+   "Think like an emperor, every night. The Emperor's Diary."
+  ],
+  "o2": [
+   "N",
+   "If this helped you, a like and a subscribe mean a lot. Thank you."
+  ]
  },
  "screens": {
-  "intro": {"ko_line_replace": "THE EMPEROR'S DIARY  :  TRUE STORIES FROM THE MEDITATIONS", "series": "BETRAYAL"},
-  "recap": {"head": "3 Ways to Beat Someone Who Betrayed You", "head_en": "THREE WAYS", "items": ["Don't curse them", "Don't watch their downfall", "Don't open what you don't need to know"]},
+  "intro": {
+   "ko_line_replace": "THE EMPEROR'S DIARY  :  TRUE STORIES FROM THE MEDITATIONS",
+   "series": "BETRAYAL"
+  },
+  "recap": {
+   "head": "Three Ways to Beat Someone Who Betrayed You",
+   "head_en": "THREE WAYS",
+   "items": [
+    "Don't curse them",
+    "Don't watch their downfall",
+    "Don't open what you don't need to know"
+   ]
+  },
   "finale_verses": [
-   {"lines": ["Today I shall meet", "the ungrateful, the arrogant, the deceitful"], "src": "Meditations 2.1"},
-   {"lines": ["The best revenge", "is not to become like the wrongdoer"], "src": "Meditations 6.6"},
-   {"lines": ["The universe is change.", "Life is opinion."], "src": "Meditations 4.3"}
+   {
+    "lines": [
+     "Today I shall meet",
+     "the ungrateful, the arrogant, the deceitful"
+    ],
+    "src": "Meditations 2.1"
+   },
+   {
+    "lines": [
+     "The best revenge",
+     "is not to become like the wrongdoer"
+    ],
+    "src": "Meditations 6.6"
+   },
+   {
+    "lines": [
+     "The universe is change.",
+     "Life is opinion."
+    ],
+    "src": "Meditations 4.3"
+   }
   ],
-  "finale": {"slogan": "Think like an emperor, every night.", "brand": "The Emperor's Diary  ·  True Stories from the Meditations", "cta": "See you in the next story"},
+  "finale": {
+   "slogan": "Think like an emperor, every night.",
+   "brand": "Marcus Aurelius  ·  Meditations",
+   "cta": "See you in the next story"
+  },
   "captions_modern": "Today"
  },
  "quotes_basis": {
@@ -136,7 +501,13 @@
  },
  "modern_section": {
   "_note": "현실판 = cine_ep01.L[93..97]. Korean version used stills (no video) from 3 images cep1i_m1/m2/m3 (Seoul, Korean people). EN: regenerate the same 3 images with Western people/settings, keep still + camera move (no video). Est. 3 x grok image (gen.py price 0.05) = 0.15 recorded, about 0.3 USD actual; optional wan video 3 x 0.50 = 1.5 recorded. Everything else reuses the existing cep1/c1v library clips (no Korean text baked in).",
-  "shots": {"93": "m3", "94": "m1", "95": "m2", "96": "m3_b", "97": "m1_b"},
+  "shots": {
+   "93": "m3",
+   "94": "m1",
+   "95": "m2",
+   "96": "m3_b",
+   "97": "m1_b"
+  },
   "prompts": {
    "m1": "Photorealistic contemporary scene in a London apartment kitchen at night, cool neutral light, desaturated: a white British woman in her late forties at a kitchen table, her face lit by a smartphone she is holding, the screen not visible, mouth closed, face fully visible.",
    "m2": "Photorealistic contemporary scene in a Chicago office at night, cool neutral light, desaturated: an American man in his fifties sitting alone at a desk, looking down at a smartphone on the desk, screen not visible, mouth closed, face fully visible.",
