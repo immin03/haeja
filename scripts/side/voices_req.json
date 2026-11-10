@@ -1,24 +1,136 @@
 {
- "requested": "2026-11-10T19:05",
- "note": "실화극 1호 음성 관문 불통과 2줄 다시",
- "tag": "cep01h",
+ "requested": "2026-11-11T01:55",
+ "note": "The Emperor's Diary (EN) 첫 쇼츠 en05b — 영어 성우 Lorenzo(해설)·Zeus(황제 인용)",
+ "tag": "en05b",
  "keep": true,
- "lang": "kor",
+ "lang": "eng",
  "model": "ssfm-v30",
  "emotion": "tonedown",
  "tempo": 1.0,
  "voices": [
   {
-   "name": "l009",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "이름은, 아비디우스 카시우스.",
+   "name": "en05b_n1_A",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "You close someone's feed, and suddenly your whole day feels small.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "l049",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "명상록에는, 이런 문장이 있습니다.",
+   "name": "en05b_n1_B",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "You close someone's feed, and suddenly your whole day feels small.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_n2_A",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Marcus Aurelius ruled the Roman Empire. There was no one above him to envy. And yet, in his private journal, he wrote this.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_n2_B",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Marcus Aurelius ruled the Roman Empire. There was no one above him to envy. And yet, in his private journal, he wrote this.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_e3_A",
+   "id": "tc_6a5882fe54564e2a06a218bb",
+   "line": "How much trouble he avoids, who does not look to see what his neighbor says, or does, or thinks.",
+   "emotion": "tonedown",
+   "tempo": 0.95
+  },
+  {
+   "name": "en05b_e3_B",
+   "id": "tc_6a5882fe54564e2a06a218bb",
+   "line": "How much trouble he avoids, who does not look to see what his neighbor says, or does, or thinks.",
+   "emotion": "tonedown",
+   "tempo": 0.95
+  },
+  {
+   "name": "en05b_n4_A",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Every minute spent watching their life is a minute taken from yours. So he added one more line.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_n4_B",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Every minute spent watching their life is a minute taken from yours. So he added one more line.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_e5_A",
+   "id": "tc_6a5882fe54564e2a06a218bb",
+   "line": "Look only to what you do yourself, that it may be just.",
+   "emotion": "tonedown",
+   "tempo": 0.95
+  },
+  {
+   "name": "en05b_e5_B",
+   "id": "tc_6a5882fe54564e2a06a218bb",
+   "line": "Look only to what you do yourself, that it may be just.",
+   "emotion": "tonedown",
+   "tempo": 0.95
+  },
+  {
+   "name": "en05b_end_A",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Tonight's task. Instead of checking on others, write down one thing you did today.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_end_B",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Tonight's task. Instead of checking on others, write down one thing you did today.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_o1_A",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Every night,",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_o1_B",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "Every night,",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_o2_A",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "think like an emperor.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_o2_B",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "think like an emperor.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_o3_A",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "The Emperor's Diary.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "en05b_o3_B",
+   "id": "tc_68f0422cc863e7c17af5183d",
+   "line": "The Emperor's Diary.",
    "emotion": "tonedown",
    "tempo": 1.0
   }
