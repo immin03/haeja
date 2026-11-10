@@ -25,13 +25,16 @@ def place(src, face):
     im = Image.open(os.path.join(GEN, src)).convert("RGB"); sw, sh = im.size
     fx0, fy0, fx1, fy1 = face[0] * sw, face[1] * sh, face[2] * sw, face[3] * sh
     fh = fy1 - fy0
-    s = (H * 0.50) / fh                     # face height ~56% of frame height -> face area ~1/4-1/3 of frame
+    s = (H * 0.66) / fh                     # face height ~56% of frame height -> face area ~1/4-1/3 of frame
     cx, cy = (fx0 + fx1) / 2 * s, (fy0 + fy1) / 2 * s
-    tx, ty = W * 0.75, H * 0.47             # face centre on the right, upper-middle (lower-right stays dark)
-    s = max(s, (tx + 10) / ((fx0 + fx1) / 2), (W - tx + 10) / (sw - (fx0 + fx1) / 2), (ty + 10) / ((fy0 + fy1) / 2), (H - ty + 10) / (sh - (fy0 + fy1) / 2))   # always cover the frame
+    tx, ty = W * 0.74, H * 0.50             # face centre on the right, upper-middle (lower-right stays dark)
     cx, cy = (fx0 + fx1) / 2 * s, (fy0 + fy1) / 2 * s
     im = im.resize((int(sw * s), int(sh * s)), Image.LANCZOS)
-    canvas = Image.new("RGB", (W, H), (8, 8, 10)); canvas.paste(im, (int(tx - cx), int(ty - cy)))
+    bg = Image.open(os.path.join(GEN, src)).convert("RGB").resize((W, H), Image.LANCZOS).filter(ImageFilter.GaussianBlur(28))
+    canvas = ImageEnhance.Brightness(bg).enhance(0.45)            # soft fill where the scaled image does not reach
+    m = Image.new("L", im.size, 255); md = ImageDraw.Draw(m)
+    for i in range(60): md.rectangle([i, i, im.size[0] - 1 - i, im.size[1] - 1 - i], outline=int(255 * i / 60))   # feathered edges
+    canvas.paste(im, (int(tx - cx), int(ty - cy)), m)
     return canvas
 
 

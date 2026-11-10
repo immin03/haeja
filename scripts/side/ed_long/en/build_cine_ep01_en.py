@@ -3,7 +3,7 @@ Same shots, clips, sound design and music as the Korean cut; only the voice file
 Voices: social/side/voice_samples/cep01en1..3 (voice-fast runs, names l000.., n1..n5, o1, o2). Output: en/spec_cine_ep01_en.json
 python3 build_cine_ep01_en.py
 """
-import json, os, sys, types
+import json, os, re, sys, types
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ED = os.path.dirname(HERE)
 sys.path.insert(0, ED)
@@ -53,12 +53,12 @@ S = json.load(open(m.OUT_SPEC))
 gen = os.path.join(m.ROOT, "social/side/gen")
 for sh in S["shots"]:
     s = sh.get("src") or ""
-    if s.startswith("cep1i_m") or s.startswith("cep1_m"):   # 현실판: Western people (cep1en_m1..3)
-        k = s.split("_")[-1]
-        new = "cep1en_" + ("m" + k[1] if k.startswith("m") else k)
+    mm = re.match(r"^cep1i?_(m[123])(_b)?$", s)
+    if mm:   # 현실판: Western people (cep1en_m1..3)
+        new = "cep1en_" + mm.group(1)
         if not any(os.path.exists(os.path.join(gen, new + e)) for e in (".jpeg", ".jpg", ".png", ".webp")): raise SystemExit("modern image missing: " + new)
         sh["src"] = new; sh["type"] = "still"
-S["voice_dir"] = "social/side/voice_samples/" + VD[0]
+S["voice_dir"] = "social/side/voice_samples/" + VD[0]; S["root"] = "../../../.."   # spec lives in en/
 json.dump(S, open(m.OUT_SPEC, "w"), ensure_ascii=False, indent=1)
 import re
 bad = [x for x in json.dumps({k: S[k] for k in ("subs", "shots", "intro")}, ensure_ascii=False).split('"') if re.search(r"[가-힣]", x)]
