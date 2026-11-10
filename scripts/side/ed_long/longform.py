@@ -802,6 +802,9 @@ def wrap_ko(text, fnt, maxw):
     return best
 
 
+CAP_SCALE = 1.0
+
+
 def caption_layer(text, kind, cache):
     key = (text, kind)
     if key in cache: return cache[key]
@@ -810,6 +813,7 @@ def caption_layer(text, kind, cache):
         lay = text_layer(lines, "ko", 72, (240, 222, 178), height=110 * len(lines) + 40, line_gap=1.4)
     else:
         kk, sz, col = ("ko6", 46, (246, 238, 222)) if kind == "mono" else ("ui", 44, (255, 255, 255))
+        sz = int(round(sz * CAP_SCALE))   # 11/10 대표: 40·50대 시청층 — 자막 살짝 크게 (spec "cap_scale")
         lines = wrap_ko(text, font(kk, sz), 1500)
         lay = text_layer(lines, kk, sz, col, height=int(sz * 1.45 * len(lines)) + 30, line_gap=1.4)
     cache[key] = lay; return lay
@@ -840,6 +844,7 @@ def draw_captions(img, gt, events, cache):
 
 
 def caption_events(S, plan, vfile):
+    global CAP_SCALE; CAP_SCALE = float(S.get("cap_scale", 1.0))
     subs = S.get("subs", {}); mono = set(S.get("monologue_voices", [])); ev = []
     for p in plan:
         if p["s"].get("nocap"): continue

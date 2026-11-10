@@ -295,7 +295,7 @@ def spec():
         music.append(m(f, Z(a), Z(b), vol, **kw))
     for x in shots: x.pop("_id", None)
     S = {"id": "cine_ep01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
-         "intro": {"logo": "docs/emperor/profile_final.png", "series": "명상록 실화극", "series_size": 62, "series_at": 6.4}, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
+         "intro": {"logo": "docs/emperor/profile_final.png", "series": "명상록 실화극", "series_size": 62, "series_at": 6.4}, "cap_scale": 1.12, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
          "voice_dir": d, "voice_files": vf, "subs": subs, "monologue_voices": mono, "cast_voices": cast, "music": music, "shots": shots}
     json.dump(S, open(os.path.join(HERE, "spec_cine_ep01.json"), "w"), ensure_ascii=False, indent=1); print(len(shots), "장면", len(vf), "목소리")
 
