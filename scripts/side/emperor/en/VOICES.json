@@ -1,0 +1,8 @@
+{
+ "decided": "2026-11-11 01:55 KST 대표: 영어 채널(The Emperor's Diary, @EmperorsDiary-en) 성우",
+ "lang": "eng",
+ "model": "ssfm-v30",
+ "narrator": {"name": "Ron", "id": "tc_6620ee223bc61e2f6b79fdb5", "tempo": 1.0, "emotion": "tonedown"},
+ "emperor": {"name": "Robert", "id": "tc_66bc600762cab997910b107b", "tempo": 0.88, "emotion": "tonedown", "use": "Marcus Aurelius 본인 말(명상록 직접 인용)만"},
+ "request": "scripts/side/voices_req.json 에 lang \"eng\" 로 묶음마다 A·B 두 테이크 (이름 <id>_<묶음>_<A|B>)"
+}
