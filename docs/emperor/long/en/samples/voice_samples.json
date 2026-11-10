@@ -1,0 +1,12 @@
+{
+ "_about": "Emperor voice samples (Typecast ssfm-v30, lang eng). Each file = calm line, 0.9 s pause, emotional line. Output loudness -16 LUFS (voices.py); in the video the emperor track gets the same gain for every option.",
+ "lines": {"calm": "The best way to avenge yourself is not to become like the one who wronged you.", "emotional": "Him? Why... why him, of all people?"},
+ "samples": {
+  "voice_emperor_v1RobertStrong.mp3": {"voice": "Robert", "voice_id": "tc_66bc600762cab997910b107b", "calm": {"emotion": "toneup", "intensity": 1.3, "tempo": 0.97}, "emotional": {"emotion": "angry", "intensity": 1.2, "tempo": 0.97}},
+  "voice_emperor_v2RobertNormal.mp3": {"voice": "Robert", "voice_id": "tc_66bc600762cab997910b107b", "calm": {"emotion": "normal", "intensity": 1.3, "tempo": 1.0}, "emotional": {"emotion": "sad", "intensity": 1.3, "tempo": 1.0}},
+  "voice_emperor_v3Zeus.mp3": {"voice": "Zeus (elder, documentary)", "voice_id": "tc_6a5882fe54564e2a06a218bb", "calm": {"emotion": "normal", "intensity": 1.2, "tempo": 0.95}, "emotional": {"emotion": "sad", "intensity": 1.2, "tempo": 0.95}},
+  "voice_emperor_v4Poseidon.mp3": {"voice": "Poseidon (elder, storytelling)", "voice_id": "tc_6a8f9d53322676d2f0934a21", "calm": {"emotion": "normal", "intensity": 1.2, "tempo": 0.95}, "emotional": {"emotion": "sad", "intensity": 1.2, "tempo": 0.95}},
+  "voice_emperor_v5Dean.mp3": {"voice": "Dean (elder, announcer/documentary)", "voice_id": "tc_673eb45cdc1073aef51e6b90", "calm": {"emotion": "normal", "intensity": 1.2, "tempo": 0.95}, "emotional": {"emotion": "sad", "intensity": 1.2, "tempo": 0.95}, "qa": "calm take has a 1.81 s drawn-out sound (take_check drag) - would need a retake"}
+ },
+ "ending_vo": {"voice_ending_endA_Ron.mp3": "ending_text_options.json A (9.4 s)", "voice_ending_endB_Ron.mp3": "ending_text_options.json B (8.1 s)"}
+}
