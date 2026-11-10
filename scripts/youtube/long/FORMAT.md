@@ -1,3 +1,5 @@
+> ★ 2026-11-11 음악 금지: social/music/samples3 H6 'House - July'(Easy_Eva)는 Pixabay 표기와 달리 유튜브 저작권 주장(Content ID)이 걸린다 — 어떤 영상에도 쓰지 않는다. 본편 음악은 H5 Ambient House → H1 Deep House Sunset. 새 곡을 쓰기 전에는 그 곡을 쓴 기존 영상에 저작권 주장이 없는지 스튜디오에서 확인한다(대표 11/11 "이런 거 나 보고 싶지 않거든").
+
 # 밸류노트 유튜브 롱폼 메인 포맷 (v1, 2026-10-21 첫 편 SK하이닉스 기준)
 
 > **제1 원칙 (2026-10-29 운영자)**: 작업을 시작하기 전에 `scripts/OWNER_RULES.md`(원본: Supabase docs agent 'owner-rules', 관리자 → 운영 기준)를 가장 먼저 읽고, 이 문서의 어떤 규칙보다 우선해 따른다.
