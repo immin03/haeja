@@ -333,7 +333,7 @@ class Intro:
         self.t_kick = text_layer([self.kicker], "ui", 40, GOLD, track=6, shadow=False, height=60)
         self.t_title = text_layer([self.title], "ko", 78, IVORY, height=130)
         self.dust = Particles("embers", 90, 11)
-        self.series = text_layer([spec["series"]], "ko6", 46, IVORY, track=6, shadow=False, height=74) if spec.get("series") else None   # 11/9 실화극 부제
+        self.series = text_layer([spec["series"]], "ko6", int(spec.get("series_size", 46)), IVORY, track=6, shadow=False, height=int(spec.get("series_size", 46) * 1.6)) if spec.get("series") else None; self.series_at = float(spec.get("series_at", 7.6))   # 11/9 실화극 부제
         self.dur = 12.0
 
     def frame(self, t):
@@ -395,8 +395,8 @@ class Intro:
             a = ease((t - 7.0) / 0.9) * (1 - ease((t - 9.6) / 0.6))
             layer = np.zeros((H, W, 4), np.uint8); layer[735:735 + self.ko.shape[0]] = self.ko
             img = blend(img, layer, a)
-        if t >= 7.6 and self.series is not None:
-            a = ease((t - 7.6) / 0.8) * (1 - ease((t - 9.6) / 0.6))
+        if self.series is not None and t >= self.series_at:
+            a = ease((t - self.series_at) / 0.8) * (1 - ease((t - 9.6) / 0.6))
             layer = np.zeros((H, W, 4), np.uint8); layer[825:825 + self.series.shape[0]] = self.series
             img = blend(img, layer, a)
         return img
@@ -587,7 +587,7 @@ def finale_frame(s, t, dur, cache, logo):
         coin = coin_gold(logo); c2 = cv2.resize(coin, (180, 180))
         cache["fin"] = dict(coin=c2, sl=text_layer([s.get("slogan", "매일 밤, 황제처럼 생각하라")], "ko", 54, (240, 216, 166), shadow=False, height=86),
                             en=text_layer(["THE EMPEROR'S DIARY"], "en", 40, BRIGHT_GOLD, track=10, shadow=False, height=66),
-                            ko=text_layer(["황제의 일기"], "ko6", 32, (232, 210, 160), shadow=False, height=52),
+                            ko=text_layer([s.get("brand_ko", "황제의 일기")], "ko6", 32, (232, 210, 160), shadow=False, height=52),
                             pk=text_layer([s.get("prev_kicker", "이전 이야기  ·  EPISODE 1")], "ko6", 30, (226, 200, 150), shadow=False, height=50),
                             nk=text_layer([s.get("next_kicker", "다음 이야기")], "ko6", 28, (210, 190, 150), shadow=False, height=46),
                             nx=text_layer([s.get("next", "")], "ko", 40, BRIGHT_IVORY, shadow=False, height=66),
