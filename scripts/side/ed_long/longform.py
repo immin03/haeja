@@ -25,7 +25,8 @@ GOLD = (201, 164, 92); IVORY = (239, 230, 212)
 def font(kind, size):
     f = {"ko": "hahmlet-korean-700-normal.ttf", "ko6": "hahmlet-korean-600-normal.ttf", "en": "cormorant-sc-latin-600-normal.ttf",
          "en5": "cormorant-sc-latin-500-normal.ttf", "ui": "Pretendard-SemiBold.otf", "uim": "Pretendard-Medium.otf",
-         "it": "cormorant-garamond-latin-500-italic.ttf", "script": "PinyonScript-Regular.ttf"}[kind]
+         "it": "cormorant-garamond-latin-500-italic.ttf", "script": "PinyonScript-Regular.ttf",
+         "suit": "SUIT-ExtraBold.ttf", "suitb": "SUIT-Bold.ttf", "suits": "SUIT-SemiBold.ttf"}[kind]   # SUIT: scripts/reels/fonts
     return ImageFont.truetype(FONTS + f, size)
 
 
@@ -654,7 +655,43 @@ def prev_frame(s, t, dur, cache, P):
     return blend(img, l, ease((t - 0.9) / 0.8) * out_a)
 
 
+def recap_cards(s, t, dur, cache, active):
+    """11/10 대표: 세 가지 정리 화면 — 위쪽 몰림 없이 가운데 세 칸, 영화 장면을 흐리게 깐 바탕, SUIT 고딕"""
+    if "rcc" not in cache:
+        bg = cv2.imread(s["bg"]); bg = cv2.resize(bg, (int(W * 1.06), int(H * 1.06))); bg = cv2.GaussianBlur(bg, (0, 0), 16)
+        bg = (bg.astype(np.float32) * 0.34).astype(np.uint8)
+        def pil_layer(w, h, draw):
+            im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); draw(ImageDraw.Draw(im)); return np.array(im)
+        fk, ft, fn, fi = font("suits", 34), font("suit", 76), font("en", 112), font("suitb", 54)
+        kick = pil_layer(W, 50, lambda d: d.text((W // 2, 25), s.get("kicker", "명상록 실화극"), font=fk, fill=(226, 190, 118, 255), anchor="mm"))
+        head = pil_layer(W, 90, lambda d: d.text((W // 2, 45), s.get("head", ""), font=ft, fill=(250, 247, 240, 255), anchor="mm"))
+        cards = []
+        for i, it in enumerate(s["items"]):
+            lines = it.split("\n")
+            def dr(d, i=i, lines=lines):
+                d.rectangle((0, 0, 519, 379), fill=(8, 8, 10, 130)); d.rectangle((0, 0, 519, 2), fill=(226, 190, 118, 255))
+                d.text((44, 26), f"{i + 1:02d}", font=fn, fill=(226, 190, 118, 255))
+                for j, ln in enumerate(lines): d.text((44, 196 + j * 72), ln, font=fi, fill=(250, 247, 240, 255))
+            cards.append(pil_layer(520, 380, dr))
+        cache["rcc"] = (bg, kick, head, cards)
+    bg, kick, head, cards = cache["rcc"]; out_a = 1 - ease((t - dur + 0.9) / 0.9); fin_a = ease(t / 0.9)
+    z = 1.0 + 0.04 * (t / dur); bh, bw = bg.shape[:2]; cw, ch = int(W * 1.06 / z), int(H * 1.06 / z)
+    img = cv2.resize(bg[(bh - ch) // 2:(bh - ch) // 2 + ch, (bw - cw) // 2:(bw - cw) // 2 + cw], (W, H))
+    img = (img.astype(np.float32) * fin_a * out_a).astype(np.uint8)
+    l = np.zeros((H, W, 4), np.uint8); l[222:272] = kick; l[282:372] = head
+    l[398:401, W // 2 - 70:W // 2 + 70] = (226, 190, 118, 255)
+    img = blend(img, l, ease((t - 0.2) / 0.8) * out_a)
+    x0 = (W - (3 * 520 + 2 * 36)) // 2
+    for i, c in enumerate(cards):
+        if active is None or i > active: continue
+        ta = t - s["cascade"][0] - i * s["cascade"][1]; a = ease(ta / 0.7); dy = int(28 * (1 - a))
+        l = np.zeros((H, W, 4), np.uint8); x = x0 + i * 556; y = 462 + dy; l[y:y + 380, x:x + 520] = c
+        img = blend(img, l, a * (1.0 if i == active else 0.86) * out_a)
+    return img
+
+
 def recap_frame(s, t, dur, cache, active):
+    if s.get("style") == "cards": return recap_cards(s, t, dur, cache, active)
     """오늘의 일곱 문장 (템플릿): 왼쪽 정렬 목록, 지금 읽는 문장만 금색으로 밝게, 읽은 문장은 은은하게 남음"""
     if "rc" not in cache:
         f = font("ko", 42); fk = font("en", 40)

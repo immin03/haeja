@@ -249,9 +249,11 @@ def spec():
     def add(i, k, v, t, o, n):
         if k == "INTRO": shots.append({"type": "intro", "sfx": INTRO_SFX}); return
         if k == "RECAP":
-            shots.append({"type": "recap", "items": ENDS, "dur": 6.2, "fixed": True, "cascade": [0.5, 0.8], "nocap": True, "amb": ["wind_2.mp3", 0.22], "head": "배신한 사람에게 하는 복수 · 세 가지", "head_en": "THREE WAYS", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8}); return
+            shots.append({"type": "recap", "style": "cards", "bg": os.path.join(ROOT, "social/side/gen/cep1i_sback.jpeg"), "items": ["욕하지 마라", "그의 끝을\n구경하지 마라", "알 필요 없는 것은\n열지 마라"], "dur": 9.0, "fixed": True, "cascade": [1.3, 1.7], "nocap": True, "amb": ["wind_2.mp3", 0.16],
+                          "kicker": "명상록 실화극  ·  오늘의 가르침", "head": "뒤통수 친 사람을 이기는 3가지 방법", "tin": "dissolve", "fin": 0.9,
+                          "sfx": [["whoosh_2.mp3", 0.0, 0.35], ["impact_3.mp3", 1.3, 0.5], ["drum_5.mp3", 1.3, 0.35], ["impact_3.mp3", 3.0, 0.5], ["impact_2.mp3", 4.7, 0.6], ["drum_5.mp3", 4.7, 0.45]]}); return
         if k == "FINALE":
-            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "p2", "p3"], "pre": 0.8, "gap": 0.7, "post": 1.4, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "구독과 좋아요는 다음 실화극을 만드는 큰 힘이 됩니다. 감사합니다.", "amb": ["wind_2.mp3", 0.15], "sfx": []}); return
+            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "p2", "p3"], "pre": 0.8, "gap": 0.7, "post": 1.4, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "구독과 좋아요는 다음 실화극을 만드는 큰 힘이 됩니다. 감사합니다.", "amb": ["wind_2.mp3", 0.12], "sfx": [["cinematic_6.mp3", 0.2, 0.5]]}); return
         base = k[:-2] if k.endswith("_b") or k.endswith("_c") else k.rstrip("2") if k in ("spk2", "spkw2", "diary2") else k
         o = dict(o); a = o.pop("amb", AMB.get(base, FIRE if k.startswith("c1v_") or base in ("glis", "elis", "stop") else COLD)); pre = o.pop("pre", 0.3); post = o.pop("post", 0.4)
         if o.get("grade") == "none": o["grade"] = "modern"
@@ -291,7 +293,7 @@ def spec():
     music = [m("dramatic_4.mp3", 0, 3, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0), m("cinematic_5.mp3", Z(0), Z(5), 0.2, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
     for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.2, {"fin": 4, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
                              ("dramatic_4.mp3", 57, 62, 0.22, {"start": 30, "tail": 0.6, "fout": 1.2}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
-                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("sad_5.mp3", 103, 105, 0.28, {"fin": 2, "fout": 4, "tail": 0, "offset": 0})]:
+                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("epic_0.mp3", 103, 105, 0.26, {"start": 75, "fin": 1.5, "fout": 3, "tail": 0, "offset": 0})]:
         music.append(m(f, Z(a), Z(b), vol, **kw))
     for x in shots: x.pop("_id", None)
     S = {"id": "cine_ep01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
