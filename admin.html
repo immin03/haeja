@@ -3048,7 +3048,7 @@ function vSprint(){
     const ctr = s.ctr != null ? +s.ctr : null, flag = ctr != null && age >= 48 && ctr < 4 ? '<span class="sp-tag bad">제목·썸네일 교체</span>' : age < 48 ? '<span class="sp-tag">48시간 대기</span>' : ctr == null ? '<span class="sp-tag">수집 전</span>' : '<span class="sp-tag ok">유지</span>';
     return `<tr><td class="n" style="text-align:left">${kday(y.scheduled_at || y.uploaded_at)}</td><td><span class="sp-tag ${t === 'A' ? 'a' : 'b'}">${t === 'A' ? 'A 보유자' : 'B 다큐'}</span></td><td>${esc(y.title)}</td><td class="n">${v != null ? n0(v) : '–'}</td><td class="n">${ctr != null ? ctr.toFixed(1) + '%' : '–'}</td><td class="n">${s.avg_pct != null ? (+s.avg_pct).toFixed(1) + '%' : '–'}</td><td class="n">${s.subs != null ? '+' + n0(s.subs) : '–'}</td><td>${flag}</td></tr>`; }).join('') || '<tr><td colspan="8" class="muted">아직 없습니다</td></tr>'}
   </tbody></table><div class="sp-note" style="margin-top:8px">조치 기준(제1 원칙 120): 공개 48시간 뒤 클릭률 4% 미만이면 제목·썸네일을 다른 유형으로 교체, 72시간 뒤 다시 확인 · A 보유자 대응편 : B 다큐 = 3 : 1</div></div>
-  <h2>롱폼 편성표 <span class="qcount">주 6편 · 12:30</span></h2>
+  <h2>롱폼 편성표 <span class="qcount">주 6편 · 평일 11:30 · 주말 12:30</span></h2>
   <div class="card">${spCal(D)}<div class="sp-note" style="margin-top:10px">정규 = 화·목·토·일 · 대응 = 월·금(보유자 대응·후속 소재가 있을 때만) · 사건 대응은 칸과 무관하게 렌더·검수 끝나는 즉시 공개 · 기획안 승인·수정은 <a href="#youtube/plan">유튜브 → 기획안</a></div></div>
   <h2>끝까지 보게 하는 구조 <span class="qcount">제1 원칙 119</span></h2>
   <div class="card"><div class="sp-flow">
