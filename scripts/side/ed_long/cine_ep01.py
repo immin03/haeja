@@ -2,7 +2,7 @@
 사실: 카시우스 디오 72권 §22~29. 각색: 황제·카시우스·베루스의 대사와 천막 장면, 황후 편지의 내용.
 python3 cine_ep01.py gen | genv N | spec
 """
-import json, os, sys
+import re, json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE); import cine01 as C
 TAG = "cep01"; N, M, V = C.G, C.M, C.V; CAS = "tc_66860d458ca8b2dc5f72b865"
@@ -110,7 +110,7 @@ s("c1v_push", dur=4.6, amb=["fire_2.mp3", 0.7], sfx=[["fire_2.mp3", 1.2, 0.8]])
 s("c1v_burn", N, "다른 기록은 베루스가 대신 태웠다고도 전합니다.", post=0.3)
 s("c1v_seal", N, "확실한 것은, 그 이름들이 어디에도 남지 않았다는 것입니다.")
 for a in [("senate", N, "원로원은 공모자들을 처벌하라고 요구했습니다."), ("sen2", M, "내 치세에, 원로원 의원이 피 흘리는 일은 없기를 바란다."), ("senate_b", N, "완전한 자비는 아니었습니다."), ("sen2_b", N, "카시우스의 아들은 살해됐고, 몇몇은 추방됐습니다."),
-          ("wife", N, "그리고 황후."), ("wife_b", N, "그가 아내를 의심했는지, 기록은 말하지 않습니다."), ("diary2", N, "다만 그는, 신들에게 감사한 목록에 이렇게 적었습니다."), ("wife", M, "이런 아내가 내 곁에 있었던 것을.")]:
+          ("wife", N, "그리고 황후."), ("wife_b", N, "그가 아내를 의심했는지, 기록은 말하지 않습니다."), ("diary2", N, "다만 그는, 신들에게 감사한 목록에 이렇게 적었습니다."), ("wife", M, "이런 아내가 내 곁에 있었던 것에, 감사한다.")]:
     s(*a)
 s("out", dur=4.5, amb=["wind_2.mp3", 0.25], tout="black", fout=0.9)
 # 8 현대 한 덩어리
@@ -194,7 +194,7 @@ VID2 = {"sback": ("sback", "cep1i_sback.jpeg", "His cloak moves in the wind, sno
         "glis": ("glis", "cep1i_glis.jpeg", "He listens without moving, a slow blink; his mouth stays closed the whole shot; firelight flickers; very slow push-in."), "glis_b": ("glis", "cep1i_glis.jpeg", "He swallows and his eyes shift slightly toward the fire; his mouth stays closed the whole shot; very slow drift."),
         "glis_c": ("glis", "cep1i_glis.jpeg", "He slowly lowers his eyes in shame and bows his head slightly; his mouth stays closed the whole shot."), "elis": ("elis", "c1_emp_listen.jpeg", "He listens without moving, a slow blink; his mouth stays closed the whole shot; firelight flickers; very slow push-in."),
         "elis_b": ("elis", "c1_emp_listen.jpeg", "He looks down at the chest and back up slowly; his mouth stays closed the whole shot; firelight flickers."), "stop": ("stop", "cep1i_stop.jpeg", "The raised hand stays still and slowly closes; firelight flickers; the soldier lowers his head.")}
-REPL = {40: "sback", 42: "ppl2", 44: "ppl3", 45: "hand2", 65: "stop", 75: "glis", 77: "glis_b", 79: "elis_b"}   # 11/10 대표: 대화에 입 나오는 장면 두 개(74 장군, 80 황제)는 되살림
+REPL = {40: "sback", 42: "ppl2", 44: "ppl3", 45: "hand2", 65: "stop", 77: "glis_b", 79: "elis_b"}   # 11/10 대표: 장군이 말한 직후엔 황제(입 보임)로   # 11/10 대표: 대화에 입 나오는 장면 두 개(74 장군, 80 황제)는 되살림
 NEWV = {"n1": "시리아 출신의 그는, 규율이 무섭기로 이름난 장군이었습니다.", "n2": "곡창 이집트가 넘어가자, 원로원은 카시우스를 국가의 적으로 선포했습니다.", "n3": "제국의 절반이, 하룻밤 사이에 적이 될 수 있었습니다.", "n4": "그는 열세 살 아들을 곁으로 불러, 후계자로 세웠습니다.", "n5": "그 뒤 황제는 동쪽을 돌며, 반란에 가담한 도시들을 너그럽게 대했습니다."}
 INS = {10: [("ride", "n1", {})], 27: [("senate", "n2", {})], 36: [("alone", None, {"dur": 3.5, "start": 1.5, "amb": ["wind_2.mp3", 0.3]}), ("snow_b", "n3", {})], 39: [("hand2", None, {"dur": 2.8, "amb": ["wind_2.mp3", 0.3], "sfx": [["heartbeat_2.mp3", 0.3, 0.4]]})],
        54: [("boy", "n4", {})], 55: [("march", None, {"dur": 3.5, "start": 1.5, "amb": ["wind_2.mp3", 0.2], "sfx": [["drum_1.mp3", 0.2, 0.5], ["war_7.mp3", 0.0, 0.25]]})], 69: [("diary", None, {"dur": 3.0, "start": 2.0})], 83: [("ehorse", "n5", {})]}
@@ -231,6 +231,12 @@ INTRO_SFX = [["cinematic_6.mp3", 1.47, 1.0], ["war_7.mp3", 0.6, 0.18], ["ring_sy
              ["cinematic_4.mp3", 4.9, 0.8], ["impact_3.mp3", 6.2, 0.55], ["transition_5.mp3", 8.96, 0.5]]   # 11/10 대표: 원래 속도, 더 웅장하게
 
 
+MV = [("cloak", 0.0, None), ("cheer", 0.5, None), ("ride", 0.0, None), ("city", 0.0, None), ("march", 0.5, None), ("casp", 0.0, None),
+      ("ranks", 0.0, None), ("sback", 0.0, (["오늘 나는 무례하고", "은혜를 모르는 사람을 만날 것이다"], "명상록 2권 1절")), ("ppl2", 0.0, None), ("ppl3", 0.0, None),
+      ("strike", 0.5, None), ("dec", 0.0, None), ("desert", 0.0, None), ("alone", 0.0, None), ("c1v_emp_fire", 0.0, (["가장 좋은 복수는", "그 사람과 같아지지 않는 것이다"], "명상록 6권 6절")),
+      ("c1v_push", 0.0, None), ("c1v_burn", 0.0, None), ("c1v_seal", 0.0, None), ("diary", 0.0, (["우주는 변화이고", "삶은 생각이 만든다"], "명상록 4권 3절"))]
+
+
 def spec():
     from cine01 import STILL
     d = "social/side/voice_samples/" + TAG; vf = {}
@@ -242,7 +248,7 @@ def spec():
     for f in sorted(os.listdir(os.path.join(ROOT, d2))):
         if f.endswith(".mp3"):
             n = f[:-4].split("_", 3)[-1]; vf[n] = "../cep01b/" + f
-    for dd in ("cep01c", "cep01d"):
+    for dd in ("cep01c", "cep01d", "cep01e"):
         if os.path.isdir(os.path.join(ROOT, "social/side/voice_samples", dd)):
             for f in sorted(os.listdir(os.path.join(ROOT, "social/side/voice_samples", dd))):
                 if f.endswith(".mp3"): vf[f[:-4].split("_", 3)[-1]] = f"../{dd}/" + f
@@ -254,8 +260,14 @@ def spec():
             shots.append({"type": "recap", "center": True, "items": ENDS, "dur": 9.0, "fixed": True, "cascade": [1.3, 1.7], "nocap": True, "amb": ["wind_2.mp3", 0.16],
                           "head": "뒤통수 친 사람을 이기는 3가지 방법", "head_en": "THREE WAYS", "tin": "dissolve", "fin": 0.9,
                           "sfx": [["whoosh_2.mp3", 0.0, 0.3], ["impact_3.mp3", 1.3, 0.5], ["drum_5.mp3", 1.3, 0.35], ["impact_3.mp3", 3.0, 0.5], ["impact_2.mp3", 4.7, 0.6], ["drum_5.mp3", 4.7, 0.45]]}); return
-        if k == "FINALE":
-            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "q2"], "pre": 0.8, "gap": 0.6, "post": 1.4, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "구독과 좋아요는 다음 실화극을 만드는 큰 힘이 됩니다. 감사합니다.", "amb": ["wind_2.mp3", 0.12], "sfx": [["cinematic_6.mp3", 0.2, 0.5]]}); return
+        if k == "FINALE":   # 11/10 대표: 정리 뒤 1~2분 뮤직비디오처럼 (대사 없이 장면 + 웅장한 음악 + 명상록 구절)
+            for j, (src, st, ov) in enumerate(MV):
+                sh = {"type": "video", "src": src if src.startswith("c1v_") else clipid(src), "move": {"zoom": [1.0, 1.06] if j % 2 == 0 else [1.06, 1.0]}, "dur": 4.6, "start": st, "nocap": True, "tin": "dissolve", "fin": 0.6}
+                if ov: sh["overlays"] = [{"kind": "verse", "lines": ov[0], "src": ov[1], "at": 0.6, "until": 4.4, "size": 64}]
+                if j == len(MV) - 1: sh.update(tout="black", fout=1.4, dur=5.6)
+                shots.append(sh)
+
+            shots.append({"type": "finale", "dur": 13.0, "voice": ["o1", "q3"], "pre": 0.6, "gap": 0.6, "post": 1.4, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "명상록 실화극  ·  다음 이야기에서 뵙겠습니다", "amb": ["wind_2.mp3", 0.12], "sfx": [["cinematic_6.mp3", 0.2, 0.5]]}); return
         base = k[:-2] if k.endswith("_b") or k.endswith("_c") else k.rstrip("2") if k in ("spk2", "spkw2", "diary2") else k
         o = dict(o); a = o.pop("amb", AMB.get(base, FIRE if k.startswith("c1v_") or base in ("glis", "elis", "stop") else COLD)); pre = o.pop("pre", 0.3); post = o.pop("post", 0.4)
         if o.get("grade") == "none": o["grade"] = "modern"
@@ -294,11 +306,11 @@ def spec():
     Z = lambda i: pos[i] + 3 if i in pos else len(shots)
     music = [m("dramatic_4.mp3", 0, 3, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0), m("cinematic_5.mp3", Z(0), Z(5), 0.2, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
     for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.24, {"fin": 3, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
-                             ("cinematic_3.mp3", 57, 62, 0.3, {"start": 40, "tail": 0.6, "fout": 2.0}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
-                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("epic_0.mp3", 103, 105, 0.26, {"start": 75, "fin": 1.5, "fout": 3, "tail": 0, "offset": 0})]:
+                             ("sad_1.mp3", 57, 62, 0.27, {"start": 12, "fin": 2, "tail": 0.6, "fout": 2.5})   # 11/10 대표: 6:55 그 음악을 카시우스 최후에, ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
+                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("epic_0.mp3", 103, 105, 0.42, {"start": 5, "fin": 1.5, "fout": 4, "tail": 0, "offset": 0})]:
         music.append(m(f, Z(a), Z(b), vol, **kw))
     # 11/10 대표: 같은 그림·영상을 두 번 이어 틀지 않는다 → 한 장면으로 길게 + 살짝 클로즈업
-    base = lambda x: (x.get("src") or "").replace("_b", "").rstrip("2") if x["type"] in ("video", "still") else None
+    base = lambda x: re.sub(r"^(cep1i?_|c1v_|c1_)", "", (x.get("src") or "")).replace("_b", "").rstrip("2") if x["type"] in ("video", "still") and not x.get("nocap") else None
     out, remap = [], {}
     for i, x in enumerate(shots):
         p = out[-1] if out else None
@@ -328,7 +340,7 @@ def spec():
         if x.get("src") in DRAMA: x["sfx"] = DRAMA[x["src"]]
     for x in shots: x.pop("_id", None)
     S = {"id": "cine_ep01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
-         "intro": {"logo": "docs/emperor/profile_final.png", "series": "명상록 실화극", "series_size": 62, "series_at": 6.4}, "cap_scale": 1.12, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
+         "intro": {"logo": "docs/emperor/profile_final.png", "ko": "황제의 일기  :  명상록 실화극"}, "cap_scale": 1.12, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
          "voice_dir": d, "voice_files": vf, "subs": subs, "monologue_voices": mono, "cast_voices": cast, "music": music, "shots": shots}
     json.dump(S, open(os.path.join(HERE, "spec_cine_ep01.json"), "w"), ensure_ascii=False, indent=1); print(len(shots), "장면", len(vf), "목소리")
 

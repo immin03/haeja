@@ -330,7 +330,7 @@ class Intro:
         self.coin = coin_gold(spec["logo"]); self.title = spec.get("ep_title", "")
         self.kicker = spec.get("ep_kicker", "")
         self.en = text_layer(["THE EMPEROR'S DIARY"], "en", 74, GOLD, track=14, shadow=False, height=120)
-        self.ko = text_layer(["황제의 일기"], "ko6", 56, (222, 196, 140), shadow=False, height=80)
+        self.ko = text_layer([spec.get("ko", "황제의 일기")], "ko6", 56, (222, 196, 140), shadow=False, height=80)
         self.t_kick = text_layer([self.kicker], "ui", 40, GOLD, track=6, shadow=False, height=60)
         self.t_title = text_layer([self.title], "ko", 78, IVORY, height=130)
         self.dust = Particles("embers", 90, 11)
