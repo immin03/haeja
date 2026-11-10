@@ -20,7 +20,7 @@ REPO = os.environ.get("GITHUB_REPOSITORY", "immin03/haeja")
 BRANCH = os.environ.get("GITHUB_REF_NAME", "main")
 HARD_CAP = 3.0  # 회차(한 번 실행) 절대 상한 3달러 — 환경변수·실행 입력으로도 못 올린다 (11/5 대표 지시)
 PRICE = {  # 대략 단가 (open.higgsfield.ai 2026-10-27 표시가, 할인 반영) — 상한 계산용
-    "image": 0.05, "video_per_s": {"wan-3.0/": 0.02, "wan-3.0-prime": 0.027, "kling": 0.11, "seedance": 0.15, "grok": 0.08}}
+    "image": 0.05, "video_per_s": {"wan-3.0/": 0.10, "wan-3.0-prime": 0.027, "kling": 0.11, "seedance": 0.15, "grok": 0.08}}
 
 
 def est(job):
