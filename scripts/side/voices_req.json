@@ -1,138 +1,208 @@
 {
- "requested": "2026-11-11T02:08",
- "note": "EN 첫 쇼츠 다시 녹음 — 대표 01:55 결정: 해설 Ron, 황제 인용 Robert(템포 0.88)",
- "tag": "en05c",
+ "requested": "2026-11-11T04:58",
+ "note": "황제의 일기 데일리 ep22·ep23",
+ "tag": "d261111",
  "keep": true,
- "lang": "eng",
+ "lang": "kor",
  "model": "ssfm-v30",
  "emotion": "tonedown",
  "tempo": 1.0,
  "voices": [
   {
-   "name": "en05b_n1_A",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "You close someone's feed, and suddenly your whole day feels small.",
+   "name": "ep22_n1_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "돈 걱정될 때, 반드시 해야 할 한 가지. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_n1_B",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "You close someone's feed, and suddenly your whole day feels small.",
+   "name": "ep22_n1_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "돈 걱정될 때, 반드시 해야 할 한 가지. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_n2_A",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "Marcus Aurelius ruled the Roman Empire. There was no one above him to envy. And yet, in his private journal, he wrote this.",
+   "name": "ep22_n2_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "잔고를 확인하고 누우면, 없는 것만 줄줄이 떠오릅니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_n2_B",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "Marcus Aurelius ruled the Roman Empire. There was no one above him to envy. And yet, in his private journal, he wrote this.",
+   "name": "ep22_n2_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "잔고를 확인하고 누우면, 없는 것만 줄줄이 떠오릅니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_e3_A",
-   "id": "tc_66bc600762cab997910b107b",
-   "line": "How much trouble he avoids, who does not look to see what his neighbor says, or does, or thinks.",
-   "emotion": "tonedown",
-   "tempo": 0.88
-  },
-  {
-   "name": "en05b_e3_B",
-   "id": "tc_66bc600762cab997910b107b",
-   "line": "How much trouble he avoids, who does not look to see what his neighbor says, or does, or thinks.",
-   "emotion": "tonedown",
-   "tempo": 0.88
-  },
-  {
-   "name": "en05b_n4_A",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "Every minute spent watching their life is a minute taken from yours. So he added one more line.",
+   "name": "ep22_n3_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "없는 것 말고, 가진 것을 세십시오. 사고 싶은 목록은 길어도, 가진 것은 적어 본 적이 없습니다. 불 끄기 전에, 오늘 가진 것 세 가지만 적으십시오. 황제도 일기에, 가진 것을 세는 연습을 적었습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_n4_B",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "Every minute spent watching their life is a minute taken from yours. So he added one more line.",
+   "name": "ep22_n3_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "없는 것 말고, 가진 것을 세십시오. 사고 싶은 목록은 길어도, 가진 것은 적어 본 적이 없습니다. 불 끄기 전에, 오늘 가진 것 세 가지만 적으십시오. 황제도 일기에, 가진 것을 세는 연습을 적었습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_e5_A",
-   "id": "tc_66bc600762cab997910b107b",
-   "line": "Look only to what you do yourself, that it may be just.",
-   "emotion": "tonedown",
-   "tempo": 0.88
-  },
-  {
-   "name": "en05b_e5_B",
-   "id": "tc_66bc600762cab997910b107b",
-   "line": "Look only to what you do yourself, that it may be just.",
-   "emotion": "tonedown",
-   "tempo": 0.88
-  },
-  {
-   "name": "en05b_end_A",
-   "id": "tc_66bc600762cab997910b107b",
-   "line": "Tonight's task. Instead of checking on others, write down one thing you did today.",
-   "emotion": "tonedown",
-   "tempo": 0.88
-  },
-  {
-   "name": "en05b_end_B",
-   "id": "tc_66bc600762cab997910b107b",
-   "line": "Tonight's task. Instead of checking on others, write down one thing you did today.",
-   "emotion": "tonedown",
-   "tempo": 0.88
-  },
-  {
-   "name": "en05b_o1_A",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "Every night,",
+   "name": "ep22_n4_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그중 하나가, 없다고 떠올려 보십시오. 아파 보고 나서야, 아무 일 없던 하루가 귀했다는 걸 압니다. 역병이 로마를 덮친 해에도, 황제는 이렇게 적었습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_o1_B",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "Every night,",
+   "name": "ep22_n4_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "그중 하나가, 없다고 떠올려 보십시오. 아파 보고 나서야, 아무 일 없던 하루가 귀했다는 걸 압니다. 역병이 로마를 덮친 해에도, 황제는 이렇게 적었습니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_o2_A",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "think like an emperor.",
+   "name": "ep22_e5_A",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "없는 것보다, 가진 것을 생각하라. 그것이 없었다면, 얼마나 간절히 찾았을지 떠올려라.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep22_e5_B",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "없는 것보다, 가진 것을 생각하라. 그것이 없었다면, 얼마나 간절히 찾았을지 떠올려라.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep22_end_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 자기 전에, 가진 것 세 가지 적기.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep22_end_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 자기 전에, 가진 것 세 가지 적기.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep23_n1_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "나이 들수록 말을 줄여야 할 네 가지 이유. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_o2_B",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "think like an emperor.",
+   "name": "ep23_n1_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "나이 들수록 말을 줄여야 할 네 가지 이유. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_o3_A",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "The Emperor's Diary.",
+   "name": "ep23_n2_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "모임에서 돌아오는 길, 괜히 한 말이 계속 걸립니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "en05b_o3_B",
-   "id": "tc_6620ee223bc61e2f6b79fdb5",
-   "line": "The Emperor's Diary.",
+   "name": "ep23_n2_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "모임에서 돌아오는 길, 괜히 한 말이 계속 걸립니다.",
    "emotion": "tonedown",
    "tempo": 1.0
+  },
+  {
+   "name": "ep23_n3_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "첫째, 말의 절반은 필요 없습니다. 어제 한 말 중 절반은, 안 해도 됐던 말입니다. 말하기 전에, 꼭 필요한지 물으십시오. 황제는 말을 덜면, 걱정도 줄어든다고 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_n3_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "첫째, 말의 절반은 필요 없습니다. 어제 한 말 중 절반은, 안 해도 됐던 말입니다. 말하기 전에, 꼭 필요한지 물으십시오. 황제는 말을 덜면, 걱정도 줄어든다고 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_n4_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "둘째, 들어야 사람이 보입니다. 상대가 말할 때, 나는 내 할 말만 고릅니다. 끝까지 듣고, 되물은 뒤에 답하십시오. 황제는 말하는 사람의 마음속에 들어가 보라고 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_n4_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "둘째, 들어야 사람이 보입니다. 상대가 말할 때, 나는 내 할 말만 고릅니다. 끝까지 듣고, 되물은 뒤에 답하십시오. 황제는 말하는 사람의 마음속에 들어가 보라고 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_n5_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "셋째, 가르치려 들면 사람이 떠납니다. 나이가 들수록, 듣기보다 조언이 많아집니다. 틀린 말엔 꾸짖지 말고, 옳은 말을 슬쩍 보태십시오. 황제의 스승이, 그렇게 바로잡았습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_n5_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "셋째, 가르치려 들면 사람이 떠납니다. 나이가 들수록, 듣기보다 조언이 많아집니다. 틀린 말엔 꾸짖지 말고, 옳은 말을 슬쩍 보태십시오. 황제의 스승이, 그렇게 바로잡았습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_n6_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "넷째, 말보다 사는 모습이 남습니다. 말 잘한 사람보다, 곁을 지킨 사람이 기억납니다. 할 말이 생기면, 말 대신 한 번 해 보이십시오. 황제도 자기 자신에게, 이렇게 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_n6_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "넷째, 말보다 사는 모습이 남습니다. 말 잘한 사람보다, 곁을 지킨 사람이 기억납니다. 할 말이 생기면, 말 대신 한 번 해 보이십시오. 황제도 자기 자신에게, 이렇게 적었습니다.",
+   "emotion": "tonedown",
+   "tempo": 1.0
+  },
+  {
+   "name": "ep23_e7_A",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "좋은 사람이 어떠해야 하는지, 더는 말하지 마라. 그런 사람이 되어라.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep23_e7_B",
+   "id": "tc_62d66c2d1523be99355fda02",
+   "line": "좋은 사람이 어떠해야 하는지, 더는 말하지 마라. 그런 사람이 되어라.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep23_end_A",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 조언하고 싶은 순간, 한 번 참고 끝까지 듣기.",
+   "emotion": "tonedown",
+   "tempo": 0.9
+  },
+  {
+   "name": "ep23_end_B",
+   "id": "tc_6731b2e0855f351b98d30c48",
+   "line": "오늘의 할 일. 조언하고 싶은 순간, 한 번 참고 끝까지 듣기.",
+   "emotion": "tonedown",
+   "tempo": 0.9
   }
  ]
 }
