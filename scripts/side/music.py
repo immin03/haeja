@@ -25,6 +25,11 @@ def main():
         if os.path.exists(_p):
             _s = _u.spec_from_file_location("ed_sfx", _p); _m = _u.module_from_spec(_s); _s.loader.exec_module(_m); _m.main()
     except Exception as e: print("롱폼 효과음 실패", e)
+    try:   # 2026-11-10 실화극 1호 뮤직비디오 보컬곡
+        import importlib.util as _u2
+        _p2 = os.path.join(ROOT, "scripts", "side", "ed_long", "fetch_vocal.py")
+        _s2 = _u2.spec_from_file_location("ed_vocal", _p2); _m2 = _u2.module_from_spec(_s2); _s2.loader.exec_module(_m2); _m2.main()
+    except Exception as e: print("보컬곡 실패", e)
     found = {}
     for p in PAGES:
         try: s = get(p)
