@@ -4,8 +4,9 @@
 # 게시가 끝나고 3일 지난 story.mp4 는 저장소에서 지운다(다시 쓸 일 없음).
 name: story-clips
 on:
-  schedule:
-    - cron: '11,41 * * * *'
+  # 2026-11-11 중지: 스토리는 대표가 정한 '게시물 공유(스토리에 추가)' 방식만 쓰고, 영상만 따로 올리는 스토리는 하지 않음 (app_config instagram_story_paused=true). 30분마다 쓸모없는 story.mp4를 만들지 않게 예약을 끔.
+  # schedule:
+  #   - cron: '11,41 * * * *'
   workflow_dispatch:
 permissions:
   contents: write
