@@ -310,11 +310,14 @@ def spec():
                              ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("epic_0.mp3", 103, 105, 0.42, {"start": 5, "fin": 1.5, "fout": 4, "tail": 0, "offset": 0})]:
         music.append(m(f, Z(a), Z(b), vol, **kw))
     # 11/10 대표: 같은 그림·영상을 두 번 이어 틀지 않는다 → 한 장면으로 길게 + 살짝 클로즈업
-    base = lambda x: re.sub(r"^(cep1i?_|c1v_|c1_)", "", (x.get("src") or "")).replace("_b", "").rstrip("2") if x["type"] in ("video", "still") and not x.get("nocap") else None
+    def base(x):
+        if x["type"] not in ("video", "still") or x.get("nocap"): return None
+        k_ = re.sub(r"_(b|c)$", "", re.sub(r"^(cep1i?_|c1v_|c1_)", "", x.get("src") or ""))
+        return {"spk2": "spk", "spkw2": "spkw", "diary2": "diary"}.get(k_, k_)
     out, remap = [], {}
     for i, x in enumerate(shots):
         p = out[-1] if out else None
-        if p and i > 3 and base(x) and base(x) == base(p) and x["type"] == p["type"] and not p.get("tout") and not x.get("tin"):
+        if p and i > 3 and base(x) and base(x) == base(p) and not p.get("tout") and not x.get("tin"):   # 영상+같은 그림 사진도 한 장면으로(첫 영상을 천천히)
             if x.get("voice"): p["voice"] = (p.get("voice") or []) + x["voice"]; p["gap"] = 0.5; p["post"] = x.get("post", 0.4)
             else: p["post"] = p.get("post", 0.4) + x.get("dur", 3.0)
             p.pop("dur", None); p["move"] = {"zoom": [1.0, 1.1]}
