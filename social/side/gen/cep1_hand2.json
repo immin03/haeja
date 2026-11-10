@@ -1,0 +1,31 @@
+{
+ "id": "cep1_hand2",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "The hand tightens slowly on the rail, snow falling on it; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c268-076f-73bb-9583-9ce877dda77c/7f4b267f-5e33-49ca-8ec7-f652d43d23e7.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c332-667e-7f20-88fd-0a9266f8c6fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c332-667e-7f20-88fd-0a9266f8c6fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c332-667e-7f20-88fd-0a9266f8c6fd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c332-667e-7f20-88fd-0a9266f8c6fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c332-667e-7f20-88fd-0a9266f8c6fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c332-667e-7f20-88fd-0a9266f8c6fd/cancel",
+  "expires_at": "2026-11-17T02:06:32.189519+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c332-667e-7f20-88fd-0a9266f8c6fd/decd9651-b368-479f-8b80-67bbae985d7b.mp4"
+  }
+ },
+ "seconds": 172,
+ "file": "social/side/gen/cep1_hand2.mp4"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "cep1_elis_b",
+ "endpoint": "alibaba/wan-3.0/image-to-video",
+ "body": {
+  "duration": 5,
+  "prompt": "He looks down at the chest and back up slowly; his mouth stays closed the whole shot; firelight flickers. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first frame. Natural human motion at real-time speed, firelight flickers realistically. Smooth steady camera, no cuts, no sudden shake, no morphing faces, no extra fingers or limbs, no text appearing.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1bfc8-8b69-78eb-9a54-9e8d29691e9c/f07f6720-b21b-458d-a16d-22e072a1bb40.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c336-3bbe-767b-a974-1bcb670e4065",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c336-3bbe-767b-a974-1bcb670e4065/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c336-3bbe-767b-a974-1bcb670e4065/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.1,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c336-3bbe-767b-a974-1bcb670e4065",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c336-3bbe-767b-a974-1bcb670e4065/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c336-3bbe-767b-a974-1bcb670e4065/cancel",
+  "expires_at": "2026-11-17T02:10:42.727170+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c336-3bbe-767b-a974-1bcb670e4065/09e55cbb-fab5-4e18-b25d-9f5fb536fc1a.mp4"
+  }
+ },
+ "seconds": 172,
+ "file": "social/side/gen/cep1_elis_b.mp4"
+}
