@@ -35,7 +35,17 @@ def text(im,lines,x,y,size,gold=None,tag='명상록',lh=1.12):
     d.rectangle((x,ty,x+tw+48,ty+86),fill=(138,24,28))
     track(d,(x+24,ty+8),tag,tf,(255,246,236),4)
     d.rectangle((x+tw+64,ty+42,x+tw+64+100,ty+44),fill=(236,196,118))
+    brand(im)
     return im
+def brand(im):
+    # 11/10 대표: 오른쪽 위에 채널 이름을 작고 세련되게
+    d=ImageDraw.Draw(im);ef=ImageFont.truetype('/root/fonts/cormorant-sc-latin-600-normal.ttf',30);kf=S_('SemiBold',22)
+    en="THE EMPEROR'S DIARY";ko='황제의 일기';ew=tw_(d,en,ef,3);kw=tw_(d,ko,kf,6);r=W-40;cd=58
+    bw=max(ew,kw);x0=r-bw;cx=int(x0-14-cd)
+    sh=Image.new('L',(W,H),0);ImageDraw.Draw(sh).rectangle((cx-10,24,r+10,24+cd+12),fill=150);im.paste((0,0,0),(0,0),sh.filter(ImageFilter.GaussianBlur(22)))
+    c=Image.open('docs/emperor/profile_final.png').convert('RGBA').resize((cd,cd),Image.LANCZOS);mk=Image.new('L',(cd,cd),0);ImageDraw.Draw(mk).ellipse((0,0,cd-1,cd-1),fill=255)
+    im.paste(c.convert('RGB'),(cx,30),mk)
+    track(d,(int(r-ew),30),en,ef,(236,206,140),3);track(d,(int(r-kw),68),ko,kf,(240,234,224),6)
 def fin(im):
     im=ImageEnhance.Contrast(im).enhance(1.12);im=ImageEnhance.Color(im).enhance(1.12)
     v=np.array(im).astype(np.float32);yy,xx=np.mgrid[0:H,0:W];r=((xx-W/2)/(W/2))**2+((yy-H/2)/(H/2))**2
