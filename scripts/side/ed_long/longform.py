@@ -887,7 +887,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
             d = dur_of(vfile(v)); vt.append((v, cur, d)); cur += d + gap
         need = (cur - gap + post) if vs else 0
         d = max(s.get("dur", 0), need)
-        if s["type"] == "intro": d = 10.6 / float(S.get("intro_speed", 1))   # 11/9 실화극: 인트로 빠르게
+        if s["type"] == "intro": d = 10.6 / float(S.get("intro_speed", 1)) + float(S.get("intro_hold", 0))   # 11/9 실화극: 인트로 빠르게
         if s.get("fixed"): d = s["dur"]
         s["_vat"] = {v: a for v, a, dd in vt}   # 장면 안에서 각 목소리가 시작하는 시각 (엔딩 글자 박자 맞추기)
         plan.append({"s": s, "t0": t, "dur": d, "voices": [(v, t + a, dd) for v, a, dd in vt]}); t += d
@@ -933,7 +933,9 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
             if gt < t_from or gt >= t_to: continue
             prog = tt / d
             if s["type"] == "black": img = np.zeros((H, W, 3), np.uint8)
-            elif s["type"] == "intro": img = intro.frame(tt * float(S.get("intro_speed", 1)))
+            elif s["type"] == "intro":   # 11/10 대표: 로고·부제가 다 보인 순간(9.0초)에 1초 머문다 (spec "intro_hold")
+                hd = float(S.get("intro_hold", 0)); ti = tt if tt < 9.0 else (9.0 if tt < 9.0 + hd else tt - hd)
+                img = intro.frame(ti * float(S.get("intro_speed", 1)))
             elif s["type"] == "card": img = card_frame(s, tt, d, cache)
             elif s["type"] == "episode": img = episode_frame(s, tt, d, cache)
             elif s["type"] == "outro": img = outro_frame(s, tt, d, cache, P(S["intro"]["logo"]))

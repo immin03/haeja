@@ -258,7 +258,7 @@ def spec():
     for f in sorted(os.listdir(os.path.join(ROOT, d2))):
         if f.endswith(".mp3"):
             n = f[:-4].split("_", 3)[-1]; vf[n] = "../cep01b/" + f
-    for dd in ("cep01c", "cep01d", "cep01e", "cep01f"):
+    for dd in ("cep01c", "cep01d", "cep01e", "cep01f", "cep01g"):
         if os.path.isdir(os.path.join(ROOT, "social/side/voice_samples", dd)):
             for f in sorted(os.listdir(os.path.join(ROOT, "social/side/voice_samples", dd))):
                 if f.endswith(".mp3"): vf[f[:-4].split("_", 3)[-1]] = f"../{dd}/" + f
@@ -269,7 +269,7 @@ def spec():
         if k == "RECAP":
             shots.append({"type": "recap", "center": True, "items": ENDS, "dur": 9.0, "fixed": True, "cascade": [1.3, 1.7], "nocap": True, "amb": ["wind_2.mp3", 0.16],
                           "head": "뒤통수 친 사람을 이기는 3가지 방법", "head_en": "THREE WAYS", "tin": "dissolve", "fin": 0.9,
-                          "sfx": [["whoosh_2.mp3", 0.0, 0.3], ["impact_3.mp3", 1.3, 0.5], ["drum_5.mp3", 1.3, 0.35], ["impact_3.mp3", 3.0, 0.5], ["impact_2.mp3", 4.7, 0.6], ["drum_5.mp3", 4.7, 0.45]]}); return
+                          "sfx": [["paper_3.mp3", 1.3, 0.22], ["paper_3.mp3", 3.0, 0.22], ["paper_3.mp3", 4.7, 0.22]]}); return
         if k == "FINALE":   # 11/10 대표: 정리 뒤 1~2분 뮤직비디오처럼 (대사 없이 장면 + 웅장한 음악 + 명상록 구절)
             for j, (src, st, ov) in enumerate(MV):
                 dd = 6.4 if ov else 4.6   # 11/10 대표: 구절은 1~2초 더 오래
@@ -278,7 +278,7 @@ def spec():
                 if j == len(MV) - 1: sh.update(tout="black", fout=1.4, dur=5.6)
                 shots.append(sh)
 
-            shots.append({"type": "finale", "dur": 13.0, "voice": ["o1", "q4"], "pre": 0.6, "gap": 0.6, "post": 2.2, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "명상록 실화극  ·  다음 이야기에서 뵙겠습니다", "amb": ["wind_2.mp3", 0.12], "sfx": [["cinematic_6.mp3", 0.2, 0.5]]}); return
+            shots.append({"type": "finale", "dur": 13.0, "voice": ["o1", "q5"], "pre": 0.6, "gap": 0.6, "post": 2.6, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "명상록 실화극  ·  다음 이야기에서 뵙겠습니다", "amb": ["wind_2.mp3", 0.12], "sfx": [["cinematic_6.mp3", 0.2, 0.5]]}); return
         base = k[:-2] if k.endswith("_b") or k.endswith("_c") else k.rstrip("2") if k in ("spk2", "spkw2", "diary2") else k
         o = dict(o); a = o.pop("amb", AMB.get(base, FIRE if k.startswith("c1v_") or base in ("glis", "elis", "stop") else COLD)); pre = o.pop("pre", 0.3); post = o.pop("post", 0.4)
         if o.get("grade") == "none": o["grade"] = "modern"
@@ -318,7 +318,7 @@ def spec():
     music = [m("dramatic_4.mp3", 0, 3, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0), m("cinematic_5.mp3", Z(0), Z(5), 0.2, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
     for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.24, {"fin": 3, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
                              ("sad_1.mp3", 57, 62, 0.27, {"start": 12, "fin": 2, "tail": 0.6, "fout": 2.5}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
-                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), (MV_MUSIC[0], 103, 105, MV_MUSIC[2], {"start": MV_MUSIC[1], "fin": 2.0, "fout": 7, "tail": 0, "offset": 0})]:
+                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), (MV_MUSIC[0], 103, 105, MV_MUSIC[2], {"start": MV_MUSIC[1], "fin": 2.0, "fout": 10, "tail": 0, "offset": 0})]:
         music.append(m(f, Z(a), Z(b), vol, **kw))
     # 11/10 대표: 같은 그림·영상을 두 번 이어 틀지 않는다 → 한 장면으로 길게 + 살짝 클로즈업
     def base(x):
@@ -354,7 +354,7 @@ def spec():
         if x.get("src") in DRAMA and not x.get("nocap"): x["sfx"] = DRAMA[x["src"]]   # 뮤직비디오 구간에는 효과음 없이 음악만
     for x in shots: x.pop("_id", None)
     S = {"id": "cine_ep01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
-         "intro": {"logo": "docs/emperor/profile_final.png", "ko": "황제의 일기  :  명상록 실화극", "series": "배신 편", "series_size": 44, "series_at": 7.8}, "sfx_trim": True, "cap_scale": 1.12, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
+         "intro": {"logo": "docs/emperor/profile_final.png", "ko": "황제의 일기  :  명상록 실화극", "series": "배신 편", "series_size": 44, "series_at": 7.8}, "sfx_trim": True, "intro_hold": 1.0, "cap_scale": 1.12, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},
          "voice_dir": d, "voice_files": vf, "subs": subs, "monologue_voices": mono, "cast_voices": cast, "music": music, "shots": shots}
     json.dump(S, open(os.path.join(HERE, "spec_cine_ep01.json"), "w"), ensure_ascii=False, indent=1); print(len(shots), "장면", len(vf), "목소리")
 
