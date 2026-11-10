@@ -264,7 +264,12 @@ def spec():
         if n: sh["voice"] = [n]
         sb = SFX.get(k) or SFX.get(base)
         if sb and "sfx" not in o: o["sfx"] = sb
-        sh.update(o); shots.append(sh)
+        sh.update(o)
+        if not sh["src"].startswith("c1v_") and not os.path.exists(os.path.join(ROOT, "social/side/gen", sh["src"] + ".mp4")):   # 11/10 대표: 비용 절약 — 영상 없는 장면은 그림 + 카메라 이동 + 입자
+            im = VID2[k][1][:-5] if k in VID2 else "cep1i_" + img_key(k); j = len(shots) % 4
+            mv = [{"zoom": [1.0, 1.07]}, {"zoom": [1.08, 1.0]}, {"zoom": [1.06, 1.06], "pan": [[-0.03, 0], [0.03, 0]]}, {"zoom": [1.03, 1.09], "pan": [[0, 0.02], [0, -0.02]]}][j]
+            sh.update(type="still", src=im, move=mv, flicker=a is not None and a[0].startswith("fire"), particles="snow" if a in (COLD,) or k in ("snow", "snow_b", "out") else "embers" if a and a[0].startswith("fire") else "dust"); sh.pop("start", None)
+        shots.append(sh)
     for i, (k, v, t, o) in enumerate(L):
         pos[i] = len(shots); add(i, REPL.get(i, k), v, t, o, f"l{i:03d}" if v else None)
         for k2, n2, o2 in INS.get(i, []): add(None, k2, N if n2 else None, NEWV.get(n2), o2, n2)
