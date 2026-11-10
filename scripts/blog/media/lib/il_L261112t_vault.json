@@ -1,0 +1,27 @@
+{
+ "id": "il_L261112t_vault",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-red highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A huge open bank vault door with neat stacks of banknote bundles inside, warm amber light spilling out into a navy dark room.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c2c2-4804-745e-ad36-b2c40ea7815a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c2c2-4804-745e-ad36-b2c40ea7815a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c2c2-4804-745e-ad36-b2c40ea7815a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1c2c2-4804-745e-ad36-b2c40ea7815a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c2c2-4804-745e-ad36-b2c40ea7815a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c2c2-4804-745e-ad36-b2c40ea7815a/cancel",
+  "expires_at": "2026-11-17T00:01:14.964468+00:00"
+ },
+ "seconds": 7
+}
