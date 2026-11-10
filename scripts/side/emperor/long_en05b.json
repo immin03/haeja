@@ -2,17 +2,17 @@
  "id": "en05b",
  "lang": "en",
  "from": "ep05b",
- "note": "2026-11-11 영어 채널(The Emperor's Diary) 첫 쇼츠. 한국어 ep05b(남과 비교할수록 인생이 새는 이유, 유튜브 1,266회 · 황제 채널 1위)를 영어로 새로 씀. 인용은 George Long(1862) 명상록 4.18 을 가볍게 다듬음. 화면은 라이브러리 클립 재사용(새 생성 0)",
- "kicker": "A ROMAN EMPEROR'S DIARY",
+ "note": "2026-11-11 영어 채널(The Emperor's Diary) 첫 쇼츠. 한국어 ep05b(남과 비교할수록 인생이 새는 이유, 유튜브 1,266회 · 황제 채널 1위)를 영어로 새로 씀. 인용은 George Long(1862) 명상록 4.18 을 가볍게 다듬음. 화면은 라이브러리 클립 재사용(새 생성 0) | 02:09 대표: 훅 첫 2초(말+큰 글씨 같은 문장), 30~45초, Inter/Playfair",
+ "kicker": "",
  "hook": [
-  "Why comparing",
-  "yourself quietly",
-  "drains your life"
+  "STOP comparing",
+  "your life",
+  "to theirs."
  ],
- "title_line": "Why comparing yourself drains your life",
+ "title_line": "Stop comparing your life to theirs",
  "music": {
-  "file": "/home/claude/ed/music/music_miss-you.mp3",
-  "start": 19.5,
+  "file": "/home/claude/ed/music/music_classical-7.mp3",
+  "start": 91,
   "bed": 0.22
  },
  "voice": "",
@@ -27,6 +27,16 @@
   "/home/claude/haeja/social/side/gen/libv_emp_corridor.mp4"
  ],
  "sents": [
+  [
+   0,
+   0,
+   0,
+   0,
+   "none",
+   [
+    "Stop comparing your life to theirs."
+   ]
+  ],
   [
    0,
    0,
@@ -66,8 +76,7 @@
    1,
    "cap",
    [
-    "There was no one above him",
-    "to envy."
+    "No one was above him."
    ]
   ],
   [
@@ -77,17 +86,8 @@
    2,
    "cap",
    [
-    "And yet, in his private journal,"
-   ]
-  ],
-  [
-   0,
-   0,
-   0,
-   2,
-   "cap",
-   [
-    "he wrote this."
+    "And still, he wrote this",
+    "in his journal."
    ]
   ],
   [
@@ -97,7 +97,8 @@
    3,
    "quote",
    [
-    "How much trouble he avoids,"
+    "How much trouble",
+    "he avoids,"
    ]
   ],
   [
@@ -148,17 +149,7 @@
    0,
    0,
    5,
-   "cap",
-   [
-    "So he added one more line."
-   ]
-  ],
-  [
-   0,
-   0,
-   0,
-   5,
-   "big",
+   "quote",
    [
     "Look only to what",
     "you do yourself,",
@@ -167,11 +158,11 @@
   ]
  ],
  "tonight": [
-  "Instead of checking on others,",
-  "write down one thing",
+  "Write down",
+  "one thing",
   "you did today."
  ],
  "source": "Marcus Aurelius, Meditations 4.18",
- "end_voice": "",
- "outro_voice": ""
+ "end_voice": "/home/claude/haeja/social/side/voice_samples/en05d/voice_en05d_13_en05b_end_A.mp3",
+ "outro_voice": "/home/claude/vo/en05b/outro.mp3"
 }

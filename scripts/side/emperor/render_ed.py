@@ -33,12 +33,11 @@ TXT = {"slogan1": "매일 밤,", "slogan2": "황제처럼 생각하라", "brand"
        "thanks1": "좋아요와 {s}는 영상 제작에", "thanks2": "큰 힘이 됩니다. 감사합니다.", "tonight": "오늘의 할 일"}
 if LANG == "en":
     EF = os.path.join(os.path.dirname(os.path.abspath(__file__)), "en", "fonts") + "/"
-    # 2026-11-11 01:58 대표: 영어판 화면 글씨는 굵은 산세리프·고대비(미국 시청자 기준)
-    FONTS.update({"hook": (EF + "Inter-Bold.ttf", 92), "big": (EF + "Inter-Bold.ttf", 78),
-                  "endbig": (EF + "Inter-Bold.ttf", 60), "quote": (EF + "Inter-SemiBold.ttf", 62),
-                  "slogan": (EF + "Inter-Bold.ttf", 76), "sub": (EF + "Inter-SemiBold.ttf", 38),
-                  "kicker": (EF + "Inter-Bold.ttf", 44), "src": (EF + "Inter-SemiBold.ttf", 32),
-                  "cta": (EF + "Inter-SemiBold.ttf", 32), "cap": (EF + "Inter-Bold.ttf", 52), "small": (EF + "Inter-SemiBold.ttf", 36)})
+    # 2026-11-11 02:09 대표(02:08 지시 대체): 미국 스토아 쇼츠 문법 — 짧은 펀치 문장은 굵은 산세리프, 황제 인용은 우아한 세리프(Playfair). en/SHORTS_EN.md
+    FONTS.update({"hook": (EF + "Inter-Bold.ttf", 96), "big": (EF + "Inter-Bold.ttf", 80), "cap": (EF + "Inter-Bold.ttf", 52),
+                  "quote": (EF + "PlayfairDisplay-SemiBoldItalic.ttf", 70), "endbig": (EF + "Inter-Bold.ttf", 60),
+                  "slogan": (EF + "PlayfairDisplay-Bold.ttf", 80), "sub": (EF + "Inter-SemiBold.ttf", 38), "kicker": (EF + "Inter-Bold.ttf", 44),
+                  "src": (EF + "Inter-SemiBold.ttf", 32), "cta": (EF + "Inter-SemiBold.ttf", 32), "small": (EF + "Inter-SemiBold.ttf", 36)})
     TXT.update({"slogan1": "Every night,", "slogan2": "think like an emperor", "brand": "The Emperor's Diary", "lead": "If this line stayed with you",
                 "like": "Like", "sub": "Subscribe", "follow": "Follow", "share": "Share",
                 "thanks1": "A like and a {s}", "thanks2": "keep these coming. Thank you.", "tonight": "TONIGHT'S TASK"})
@@ -161,6 +160,7 @@ def watermark(img, a=0.55):
     txt = "THE EMPEROR'S DIARY"
     w = d.textlength(txt, font=f)
     yy = H - 110 if THEME.get("name") == "C" else H - 330
+    if LANG == "en": yy = H - 430   # 2026-11-11: 영어판은 화면 아래 20%(쇼츠 버튼 영역)를 비운다
     d.text(((W - w) / 2, yy), txt, font=f, fill=THEME.get("wm", (255, 255, 255)) + (int(255 * a),))
 
 
@@ -344,7 +344,7 @@ def outro(spec_o, base, t, platform="reels"):
         layer.alpha_composite(coin, (cx - coin.width // 2, cy - coin.height // 2))
         ef = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 56)
         _track(d, cy + R + 52, "THE EMPEROR'S DIARY", ef, LG, ease((u - 0.25) / 0.5), 0.22)
-        kf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 46) if LANG != "en" else ImageFont.truetype(F + "Inter-Bold.ttf", 46)
+        kf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 46) if LANG != "en" else ImageFont.truetype(F + "PlayfairDisplay-Bold.ttf", 48)
         try: kf.set_variation_by_axes([600])
         except Exception: pass
         aw = ease((u - 0.45) / 0.5)

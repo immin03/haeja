@@ -1,0 +1,170 @@
+{
+ "id": "en05ba",
+ "lang": "en",
+ "from": "ep05b",
+ "note": "2026-11-11 영어 채널(The Emperor's Diary) 첫 쇼츠. 한국어 ep05b(남과 비교할수록 인생이 새는 이유, 유튜브 1,266회 · 황제 채널 1위)를 영어로 새로 씀. 인용은 George Long(1862) 명상록 4.18 을 가볍게 다듬음. 화면은 라이브러리 클립 재사용(새 생성 0) | 02:09 대표: 훅 첫 2초(말+큰 글씨 같은 문장), 30~45초, Inter/Playfair | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "STOP comparing",
+  "your life",
+  "to theirs."
+ ],
+ "title_line": "Stop comparing your life to theirs",
+ "music": {
+  "file": "/home/claude/ed/music/music_classical-7.mp3",
+  "start": 91,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en05ba.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_market_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/libv_emp_ridge.mp4",
+  "/home/claude/haeja/social/side/gen/edv01_tent.mp4",
+  "/home/claude/haeja/social/side/gen/libv_candle_diary_txt.mp4",
+  "/home/claude/haeja/social/side/gen/libv_hourglass.mp4",
+  "/home/claude/haeja/social/side/gen/libv_emp_corridor.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.589,
+   1,
+   0,
+   "none",
+   [
+    "Stop comparing your life to theirs."
+   ]
+  ],
+  [
+   3.459,
+   5.359,
+   2,
+   0,
+   "cap",
+   [
+    "You close someone's feed,"
+   ]
+  ],
+  [
+   5.409,
+   8.026,
+   2,
+   0,
+   "cap",
+   [
+    "and suddenly your whole day",
+    "feels small."
+   ]
+  ],
+  [
+   8.886,
+   11.366,
+   3,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius ruled",
+    "the Roman Empire."
+   ]
+  ],
+  [
+   11.416,
+   12.976,
+   3,
+   1,
+   "cap",
+   [
+    "No one was above him."
+   ]
+  ],
+  [
+   13.026,
+   15.314,
+   3,
+   2,
+   "cap",
+   [
+    "And still, he wrote this",
+    "in his journal."
+   ]
+  ],
+  [
+   16.164,
+   17.971,
+   4,
+   3,
+   "quote",
+   [
+    "How much trouble",
+    "he avoids,"
+   ]
+  ],
+  [
+   17.971,
+   19.577,
+   4,
+   3,
+   "quote",
+   [
+    "who does not look to see"
+   ]
+  ],
+  [
+   19.577,
+   22.5,
+   4,
+   3,
+   "quote",
+   [
+    "what his neighbor says,",
+    "or does, or thinks."
+   ]
+  ],
+  [
+   23.33,
+   25.51,
+   5,
+   4,
+   "big",
+   [
+    "Every minute spent",
+    "watching their life"
+   ]
+  ],
+  [
+   25.56,
+   27.244,
+   5,
+   4,
+   "big",
+   [
+    "is a minute",
+    "taken from yours."
+   ]
+  ],
+  [
+   28.094,
+   32.074,
+   6,
+   5,
+   "quote",
+   [
+    "Look only to what",
+    "you do yourself,",
+    "that it may be just."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Write down",
+  "one thing",
+  "you did today."
+ ],
+ "source": "Marcus Aurelius, Meditations 4.18",
+ "end_voice": "/home/claude/vo/v2/en05b_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en05b_outro_voice.wav",
+ "theme": "A",
+ "vol": 1.0
+}

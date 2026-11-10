@@ -45,11 +45,12 @@ def build(path):
         else:
             cut["img"] = c; cut["move"] = "in" if k % 2 == 0 else "out"; cut["amt"] = 0.08
         if k == 0:
-            cut["texts"] += [{"t0": -1, "style": "kicker", "lines": [E["kicker"]], "after": 10}, {"t0": -1, "style": "hook", "lines": E["hook"]}]
+            cut["texts"] += ([{"t0": -1, "style": "kicker", "lines": [E["kicker"]], "after": 10}] if E.get("kicker") else []) + [{"t0": -1, "style": "hook", "lines": E["hook"]}]
         else:  # 고정 제목 (모든 컷 맨 위)
             cut["texts"].append({"t0": -1, "style": "sub", "lines": [E["title_line"]], "after": 34})
         for i, s in enumerate(sents):
             if s[3] != k: continue
+            if s[4] == "none": continue   # 2026-11-11 영어판: 첫 화면 훅과 같은 문장은 자막을 따로 띄우지 않음
             a, b = abs_t[i]; la, lb = round(a - starts[k] - 0.05, 2), round(b - starts[k] + 0.15, 2)
             if s[4] == "cap":
                 cut["caps"].append({"t0": max(0.05, la), "t1": lb, "lines": s[5]})
