@@ -1,0 +1,32 @@
+{
+ "id": "il_L261111h_robot_wave",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A sleek grey humanoid robot on a dark stage turning its head and waving one hand, blue stage haze, audience silhouettes.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c467-1c88-7ace-bf14-85820a8f262f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c467-1c88-7ace-bf14-85820a8f262f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c467-1c88-7ace-bf14-85820a8f262f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c467-1c88-7ace-bf14-85820a8f262f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c467-1c88-7ace-bf14-85820a8f262f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c467-1c88-7ace-bf14-85820a8f262f/cancel",
+  "expires_at": "2026-11-17T07:42:13.038566+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c467-1c88-7ace-bf14-85820a8f262f/a9d50ec9-9459-41fc-8f5e-dd72506888c2.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261111h_robot_wave.jpeg"
+}

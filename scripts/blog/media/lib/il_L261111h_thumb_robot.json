@@ -1,0 +1,32 @@
+{
+ "id": "il_L261111h_thumb_robot",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Bright clean cinematic photograph, photorealistic, premium magazine look, navy and ivory tones with soft gold light, one clear subject large in the upper part of the frame, high clarity. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark, no recognizable faces. Scene: A sleek grey humanoid robot standing confidently in front of a bright modern car assembly line, the robot large and sharp in the upper center, dark navy lower area.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c46c-8ba6-7062-9896-ea14764dbbd3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c46c-8ba6-7062-9896-ea14764dbbd3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c46c-8ba6-7062-9896-ea14764dbbd3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c46c-8ba6-7062-9896-ea14764dbbd3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c46c-8ba6-7062-9896-ea14764dbbd3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c46c-8ba6-7062-9896-ea14764dbbd3/cancel",
+  "expires_at": "2026-11-17T07:48:46.438036+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c46c-8ba6-7062-9896-ea14764dbbd3/e9e36950-c1b7-4e3a-9367-7f3fc3f24b4b.jpeg"
+   }
+  ]
+ },
+ "seconds": 118,
+ "file": "scripts/blog/media/lib/il_L261111h_thumb_robot.jpeg"
+}

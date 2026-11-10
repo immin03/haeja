@@ -1,0 +1,32 @@
+{
+ "id": "il_L261111h_thumb_suv",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Bright clean cinematic photograph, photorealistic, premium magazine look, navy and ivory tones with soft gold light, one clear subject large in the upper part of the frame, high clarity. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs, no watermark, no recognizable faces. Scene: A new white SUV in a bright premium showroom, front three-quarter view, large and sharp in the upper part of the frame, dark navy floor in the lower part.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c46c-c0f0-7162-bead-d6a4d2037129",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c46c-c0f0-7162-bead-d6a4d2037129/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c46c-c0f0-7162-bead-d6a4d2037129/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c46c-c0f0-7162-bead-d6a4d2037129",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c46c-c0f0-7162-bead-d6a4d2037129/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c46c-c0f0-7162-bead-d6a4d2037129/cancel",
+  "expires_at": "2026-11-17T07:49:12.412397+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c46c-c0f0-7162-bead-d6a4d2037129/6ed2bf28-11e4-4a31-85fe-5277ec2c598e.jpeg"
+   }
+  ]
+ },
+ "seconds": 130,
+ "file": "scripts/blog/media/lib/il_L261111h_thumb_suv.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L261111h_georgia_robots",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A bright new car factory in rural Georgia USA, two grey humanoid robots carrying car parts beside an assembly line, red clay landscape visible through large windows.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1c468-736b-7e57-bbfd-ea76d50d657b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c468-736b-7e57-bbfd-ea76d50d657b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c468-736b-7e57-bbfd-ea76d50d657b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1c468-736b-7e57-bbfd-ea76d50d657b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1c468-736b-7e57-bbfd-ea76d50d657b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1c468-736b-7e57-bbfd-ea76d50d657b/cancel",
+  "expires_at": "2026-11-17T07:44:40.712689+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1c468-736b-7e57-bbfd-ea76d50d657b/a0f1eef9-fae4-4475-ad6f-fcdf7d5be092.jpeg"
+   }
+  ]
+ },
+ "seconds": 143,
+ "file": "scripts/blog/media/lib/il_L261111h_georgia_robots.jpeg"
+}
