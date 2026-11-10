@@ -231,7 +231,16 @@ INTRO_SFX = [["cinematic_6.mp3", 1.47, 1.0], ["war_7.mp3", 0.6, 0.18], ["ring_sy
              ["cinematic_4.mp3", 4.9, 0.8], ["impact_3.mp3", 6.2, 0.55], ["transition_5.mp3", 8.96, 0.5]]   # 11/10 대표: 원래 속도, 더 웅장하게
 
 
-MV_MUSIC = ("sad_1.mp3", 40, 0.2)   # 11/10 대표: 보컬 있는 곡 — Sun and His Daughter (6:52 그 곡)
+def _mv_music():
+    """11/10 대표 2안: Sascha Ende 'Battlefield 6 Streaming Music Vol. 9 [Epic Vocals]' (CC BY 4.0 — 설명란 출처 표기). 없으면 Sun and His Daughter.
+    음량은 곡마다 달라 평균 크기를 재서 맞춘다(본편 음악과 비슷한 -24dB 근처)"""
+    p = os.path.join(ROOT, "social/side/ed_long/music/vocal_0.mp3")
+    if not os.path.exists(p): return ("sad_1.mp3", 40, 0.2)
+    import subprocess, numpy as np
+    a = np.frombuffer(subprocess.check_output(["ffmpeg", "-v", "error", "-i", p, "-ac", "1", "-ar", "8000", "-f", "f32le", "-"]), np.float32)
+    db = 20 * np.log10(np.sqrt((a ** 2).mean()) + 1e-9)
+    return ("vocal_0.mp3", 0, round(float(min(1.0, 10 ** ((-24 - db) / 20))), 3))
+MV_MUSIC = _mv_music()
 MV = [("cloak", 0.0, None), ("cheer", 0.5, None), ("ride", 0.0, None), ("city", 0.0, None), ("march", 0.5, None), ("casp", 0.0, None),
       ("ranks", 0.0, None), ("sback", 0.0, (["오늘 나는 무례하고", "은혜를 모르는 사람을 만날 것이다"], "명상록 2권 1절")), ("ppl2", 0.0, None), ("ppl3", 0.0, None),
       ("strike", 0.5, None), ("dec", 0.0, None), ("desert", 0.0, None), ("alone", 0.0, None), ("c1v_emp_fire", 0.0, (["가장 좋은 복수는", "그 사람과 같아지지 않는 것이다"], "명상록 6권 6절")),
@@ -309,7 +318,7 @@ def spec():
     music = [m("dramatic_4.mp3", 0, 3, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0), m("cinematic_5.mp3", Z(0), Z(5), 0.2, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
     for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.24, {"fin": 3, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
                              ("sad_1.mp3", 57, 62, 0.27, {"start": 12, "fin": 2, "tail": 0.6, "fout": 2.5}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
-                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), (MV_MUSIC[0], 103, 105, MV_MUSIC[2], {"start": MV_MUSIC[1], "fin": 1.5, "fout": 4, "tail": 0, "offset": 0})]:
+                             ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), (MV_MUSIC[0], 103, 105, MV_MUSIC[2], {"start": MV_MUSIC[1], "fin": 2.0, "fout": 7, "tail": 0, "offset": 0})   # 끝: 아웃트로 마지막 7초에 걸쳐 천천히 줄어든다]:
         music.append(m(f, Z(a), Z(b), vol, **kw))
     # 11/10 대표: 같은 그림·영상을 두 번 이어 틀지 않는다 → 한 장면으로 길게 + 살짝 클로즈업
     def base(x):
