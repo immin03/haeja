@@ -242,18 +242,20 @@ def spec():
     for f in sorted(os.listdir(os.path.join(ROOT, d2))):
         if f.endswith(".mp3"):
             n = f[:-4].split("_", 3)[-1]; vf[n] = "../cep01b/" + f
-    for f in sorted(os.listdir(os.path.join(ROOT, "social/side/voice_samples/cep01c"))):
-        if f.endswith(".mp3"): vf[f[:-4].split("_", 3)[-1]] = "../cep01c/" + f
+    for dd in ("cep01c", "cep01d"):
+        if os.path.isdir(os.path.join(ROOT, "social/side/voice_samples", dd)):
+            for f in sorted(os.listdir(os.path.join(ROOT, "social/side/voice_samples", dd))):
+                if f.endswith(".mp3"): vf[f[:-4].split("_", 3)[-1]] = f"../{dd}/" + f
     vf["l026"] = vf["cas_" + CAS_PICK]
     pos = {}
     def add(i, k, v, t, o, n):
         if k == "INTRO": shots.append({"type": "intro", "sfx": INTRO_SFX}); return
         if k == "RECAP":
-            shots.append({"type": "recap", "style": "cards", "bg": os.path.join(ROOT, "social/side/gen/cep1i_sback.jpeg"), "items": ["욕하지 마라", "그의 끝을\n구경하지 마라", "알 필요 없는 것은\n열지 마라"], "dur": 9.0, "fixed": True, "cascade": [1.3, 1.7], "nocap": True, "amb": ["wind_2.mp3", 0.16],
-                          "kicker": "명상록 실화극  ·  오늘의 가르침", "head": "뒤통수 친 사람을 이기는 3가지 방법", "tin": "dissolve", "fin": 0.9,
-                          "sfx": [["whoosh_2.mp3", 0.0, 0.35], ["impact_3.mp3", 1.3, 0.5], ["drum_5.mp3", 1.3, 0.35], ["impact_3.mp3", 3.0, 0.5], ["impact_2.mp3", 4.7, 0.6], ["drum_5.mp3", 4.7, 0.45]]}); return
+            shots.append({"type": "recap", "center": True, "items": ENDS, "dur": 9.0, "fixed": True, "cascade": [1.3, 1.7], "nocap": True, "amb": ["wind_2.mp3", 0.16],
+                          "head": "뒤통수 친 사람을 이기는 3가지 방법", "head_en": "THREE WAYS", "tin": "dissolve", "fin": 0.9,
+                          "sfx": [["whoosh_2.mp3", 0.0, 0.3], ["impact_3.mp3", 1.3, 0.5], ["drum_5.mp3", 1.3, 0.35], ["impact_3.mp3", 3.0, 0.5], ["impact_2.mp3", 4.7, 0.6], ["drum_5.mp3", 4.7, 0.45]]}); return
         if k == "FINALE":
-            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "p2", "p3"], "pre": 0.8, "gap": 0.7, "post": 1.4, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "구독과 좋아요는 다음 실화극을 만드는 큰 힘이 됩니다. 감사합니다.", "amb": ["wind_2.mp3", 0.12], "sfx": [["cinematic_6.mp3", 0.2, 0.5]]}); return
+            shots.append({"type": "finale", "dur": 20.0, "voice": ["o1", "q2"], "pre": 0.8, "gap": 0.6, "post": 1.4, "nocap": True, "tin": "black", "slogan": "매일 밤, 황제처럼 생각하라", "brand_ko": "황제의 일기  ·  명상록 실화극", "cta": "구독과 좋아요는 다음 실화극을 만드는 큰 힘이 됩니다. 감사합니다.", "amb": ["wind_2.mp3", 0.12], "sfx": [["cinematic_6.mp3", 0.2, 0.5]]}); return
         base = k[:-2] if k.endswith("_b") or k.endswith("_c") else k.rstrip("2") if k in ("spk2", "spkw2", "diary2") else k
         o = dict(o); a = o.pop("amb", AMB.get(base, FIRE if k.startswith("c1v_") or base in ("glis", "elis", "stop") else COLD)); pre = o.pop("pre", 0.3); post = o.pop("post", 0.4)
         if o.get("grade") == "none": o["grade"] = "modern"
@@ -291,10 +293,39 @@ def spec():
     shots[0:0] = hook
     Z = lambda i: pos[i] + 3 if i in pos else len(shots)
     music = [m("dramatic_4.mp3", 0, 3, 0.34, fin=0.2, fout=0.8, tail=0.2, offset=0), m("cinematic_5.mp3", Z(0), Z(5), 0.2, fin=1, fout=1.2, offset=0), m("dramatic_4.mp3", Z(6), Z(7), 0.55, fin=0.6, fout=2.0, tail=0.3, offset=0.2)]
-    for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.2, {"fin": 4, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
-                             ("dramatic_4.mp3", 57, 62, 0.22, {"start": 30, "tail": 0.6, "fout": 1.2}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
+    for f, a, b, vol, kw in [("cinematic_0.mp3", 7, 23, 0.2, {}), ("dramatic_0.mp3", 23, 32, 0.22, {}), ("sad_0.mp3", 32, 39, 0.17, {"start": 20}), ("sad_3.mp3", 39, 52, 0.24, {"fin": 3, "fout": 4}), ("epic_0.mp3", 52, 57, 0.24, {}),
+                             ("cinematic_3.mp3", 57, 62, 0.3, {"start": 40, "tail": 0.6, "fout": 2.0}), ("sad_5.mp3", 64, 70, 0.19, {}), ("sad_3.mp3", 70, 84, 0.17, {"start": 60}), ("sad_1.mp3", 84, 92, 0.17, {}),
                              ("sad_0.mp3", 93, 98, 0.1, {"start": 60, "fin": 2, "fout": 1.5, "tail": 0.4}), ("cinematic_4.mp3", 98, 103, 0.22, {"start": 110}), ("epic_0.mp3", 103, 105, 0.26, {"start": 75, "fin": 1.5, "fout": 3, "tail": 0, "offset": 0})]:
         music.append(m(f, Z(a), Z(b), vol, **kw))
+    # 11/10 대표: 같은 그림·영상을 두 번 이어 틀지 않는다 → 한 장면으로 길게 + 살짝 클로즈업
+    base = lambda x: (x.get("src") or "").replace("_b", "").rstrip("2") if x["type"] in ("video", "still") else None
+    out, remap = [], {}
+    for i, x in enumerate(shots):
+        p = out[-1] if out else None
+        if p and i > 3 and base(x) and base(x) == base(p) and x["type"] == p["type"] and not p.get("tout") and not x.get("tin"):
+            if x.get("voice"): p["voice"] = (p.get("voice") or []) + x["voice"]; p["gap"] = 0.5; p["post"] = x.get("post", 0.4)
+            else: p["post"] = p.get("post", 0.4) + x.get("dur", 3.0)
+            p.pop("dur", None); p["move"] = {"zoom": [1.0, 1.1]}
+            for k_ in ("sfx",):
+                if x.get(k_) and not p.get(k_): p[k_] = x[k_]
+            remap[i] = len(out) - 1; continue
+        remap[i] = len(out); out.append(x)
+    for mu in music: mu["at_shot"] = remap.get(mu["at_shot"], len(out)); mu["until_shot"] = remap.get(mu["until_shot"], len(out))
+    shots = out
+    ii = [k for k, x in enumerate(shots) if x["type"] == "intro"][0]   # 11/10 대표: 강한 후킹 뒤 로고로 너무 급하게 넘어감 → 어둠 속 한 박자
+    shots[ii - 1].update(tout="black", fout=1.2); shots[ii - 1]["post"] = shots[ii - 1].get("post", 0.4) + 0.6
+    shots.insert(ii, {"type": "black", "dur": 0.8, "amb": ["wind_2.mp3", 0.2], "sfx": [["impact_3.mp3", 0.0, 0.25]]})
+    for mu in music:
+        if mu["at_shot"] >= ii: mu["at_shot"] += 1
+        if mu["until_shot"] >= ii: mu["until_shot"] += 1
+    DRAMA = {"cep1_strike": [["swords_2.mp3", 0.9, 0.6], ["impact_1.mp3", 1.0, 0.85], ["cinematic_6.mp3", 1.0, 0.6], ["heartbeat_2.mp3", 1.6, 0.5]],   # 카시우스 최후
+             "cep1_dec": [["impact_0.mp3", 0.4, 0.7], ["drum_5.mp3", 0.4, 0.6], ["heartbeat_3.mp3", 1.5, 0.45]],
+             "cep1_desert": [["wind_4.mp3", 0.0, 0.45], ["heartbeat_1.mp3", 0.5, 0.35]],
+             "cep1_read": [["impact_3.mp3", 0.6, 0.55], ["heartbeat_2.mp3", 0.6, 0.5], ["cinematic_2.mp3", 0.0, 0.3]],   # 황제가 배신을 알게 되는 순간
+             "cep1_alone": [["wind_3.mp3", 0.0, 0.4], ["heartbeat_1.mp3", 0.4, 0.35]], "cep1_stop": [["impact_3.mp3", 0.3, 0.5]],
+             "cep1_grave": [["wind_4.mp3", 0.0, 0.3], ["impact_3.mp3", 0.5, 0.35]], "cep1i_grave": [["wind_4.mp3", 0.0, 0.3], ["impact_3.mp3", 0.5, 0.35]]}
+    for x in shots:
+        if x.get("src") in DRAMA: x["sfx"] = DRAMA[x["src"]]
     for x in shots: x.pop("_id", None)
     S = {"id": "cine_ep01", "root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
          "intro": {"logo": "docs/emperor/profile_final.png", "series": "명상록 실화극", "series_size": 62, "series_at": 6.4}, "cap_scale": 1.12, "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 1.0},

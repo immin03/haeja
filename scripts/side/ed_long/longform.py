@@ -655,65 +655,33 @@ def prev_frame(s, t, dur, cache, P):
     return blend(img, l, ease((t - 0.9) / 0.8) * out_a)
 
 
-def recap_cards(s, t, dur, cache, active):
-    """11/10 대표: 세 가지 정리 화면 — 위쪽 몰림 없이 가운데 세 칸, 영화 장면을 흐리게 깐 바탕, SUIT 고딕"""
-    if "rcc" not in cache:
-        bg = cv2.imread(s["bg"]); bg = cv2.resize(bg, (int(W * 1.06), int(H * 1.06))); bg = cv2.GaussianBlur(bg, (0, 0), 16)
-        bg = (bg.astype(np.float32) * 0.34).astype(np.uint8)
-        def pil_layer(w, h, draw):
-            im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); draw(ImageDraw.Draw(im)); return np.array(im)
-        fk, ft, fn, fi = font("suits", 34), font("suit", 76), font("en", 112), font("suitb", 54)
-        kick = pil_layer(W, 50, lambda d: d.text((W // 2, 25), s.get("kicker", "명상록 실화극"), font=fk, fill=(226, 190, 118, 255), anchor="mm"))
-        head = pil_layer(W, 90, lambda d: d.text((W // 2, 45), s.get("head", ""), font=ft, fill=(250, 247, 240, 255), anchor="mm"))
-        cards = []
-        for i, it in enumerate(s["items"]):
-            lines = it.split("\n")
-            def dr(d, i=i, lines=lines):
-                d.rectangle((0, 0, 519, 379), fill=(8, 8, 10, 130)); d.rectangle((0, 0, 519, 2), fill=(226, 190, 118, 255))
-                d.text((44, 26), f"{i + 1:02d}", font=fn, fill=(226, 190, 118, 255))
-                for j, ln in enumerate(lines): d.text((44, 196 + j * 72), ln, font=fi, fill=(250, 247, 240, 255))
-            cards.append(pil_layer(520, 380, dr))
-        cache["rcc"] = (bg, kick, head, cards)
-    bg, kick, head, cards = cache["rcc"]; out_a = 1 - ease((t - dur + 0.9) / 0.9); fin_a = ease(t / 0.9)
-    z = 1.0 + 0.04 * (t / dur); bh, bw = bg.shape[:2]; cw, ch = int(W * 1.06 / z), int(H * 1.06 / z)
-    img = cv2.resize(bg[(bh - ch) // 2:(bh - ch) // 2 + ch, (bw - cw) // 2:(bw - cw) // 2 + cw], (W, H))
-    img = (img.astype(np.float32) * fin_a * out_a).astype(np.uint8)
-    l = np.zeros((H, W, 4), np.uint8); l[222:272] = kick; l[282:372] = head
-    l[398:401, W // 2 - 70:W // 2 + 70] = (226, 190, 118, 255)
-    img = blend(img, l, ease((t - 0.2) / 0.8) * out_a)
-    x0 = (W - (3 * 520 + 2 * 36)) // 2
-    for i, c in enumerate(cards):
-        if active is None or i > active: continue
-        ta = t - s["cascade"][0] - i * s["cascade"][1]; a = ease(ta / 0.7); dy = int(28 * (1 - a))
-        l = np.zeros((H, W, 4), np.uint8); x = x0 + i * 556; y = 462 + dy; l[y:y + 380, x:x + 520] = c
-        img = blend(img, l, a * (1.0 if i == active else 0.86) * out_a)
-    return img
-
-
 def recap_frame(s, t, dur, cache, active):
-    if s.get("style") == "cards": return recap_cards(s, t, dur, cache, active)
     """오늘의 일곱 문장 (템플릿): 왼쪽 정렬 목록, 지금 읽는 문장만 금색으로 밝게, 읽은 문장은 은은하게 남음"""
     if "rc" not in cache:
-        f = font("ko", 42); fk = font("en", 40)
-        rows = []; base_y = 48
+        big = s.get("center") and len(s["items"]) <= 4   # 11/10 대표: 항목이 적으면 크게, 화면 가운데에
+        f = font("ko", 58 if big else 42); fk = font("en", 56 if big else 40)
+        rows = []; base_y = 66 if big else 48
         for i, it in enumerate(s["items"]):   # 11/4 대표: I II III 과 문장을 한 줄 기준선에 맞추고, 숫자는 오른쪽 끝을 한 열로
-            im = Image.new("RGBA", (1500, 64), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
-            d.text((80, base_y), ["I", "II", "III", "IV", "V", "VI", "VII"][i], font=fk, fill=BRIGHT_GOLD + (255,), anchor="rs")
-            d.text((120, base_y), it, font=f, fill=(255, 255, 255, 255), anchor="ls")
+            im = Image.new("RGBA", (1500, 88 if big else 64), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+            d.text((100 if big else 80, base_y), ["I", "II", "III", "IV", "V", "VI", "VII"][i], font=fk, fill=BRIGHT_GOLD + (255,), anchor="rs")
+            d.text((150 if big else 120, base_y), it, font=f, fill=(255, 255, 255, 255), anchor="ls")
             rows.append(np.array(im))
-        cache["rc"] = (rows, text_layer([s.get("head", "오늘의 일곱 문장")], "ko", 46, (240, 214, 160), shadow=False, height=70),
-                       text_layer([s.get("head_en", "SEVEN LINES FROM ONE NIGHT")], "en5", 30, (214, 182, 122), track=10, shadow=False, height=50))
+        cache["rc"] = (rows, text_layer([s.get("head", "오늘의 일곱 문장")], "ko", 56 if big else 46, (240, 214, 160), shadow=False, height=84 if big else 70),
+                       text_layer([s.get("head_en", "SEVEN LINES FROM ONE NIGHT")], "en5", 34 if big else 30, (214, 182, 122), track=10, shadow=False, height=56 if big else 50))
+        rh = 126 if big else 76; tot = 56 + 84 + 70 + len(rows) * rh
+        cache["rc_y"] = ((H - tot) // 2 if big else 160, rh, big)
         widest = max(int(np.where(r[..., 3].max(axis=0) > 0)[0].max()) for r in rows)
         cache["rc_x"] = (W - widest) // 2
-    rows, hk, he = cache["rc"]; out_a = 1 - ease((t - dur + 0.8) / 0.8); x0 = cache["rc_x"]
-    img = warm_bg(cache, 560)
-    l = np.zeros((H, W, 4), np.uint8); l[160:210] = he; l[208:278] = hk; img = blend(img, l, ease(t / 0.8) * out_a)
+    rows, hk, he = cache["rc"]; out_a = 1 - ease((t - dur + 0.8) / 0.8); x0 = cache["rc_x"]; y0, rh, big = cache["rc_y"]
+    img = warm_bg(cache, 540 if big else 560)
+    l = np.zeros((H, W, 4), np.uint8); l[y0:y0 + he.shape[0]] = he; l[y0 + he.shape[0] - 2:y0 + he.shape[0] - 2 + hk.shape[0]] = hk
+    img = blend(img, l, ease(t / 0.8) * out_a)
     for i, r in enumerate(rows):
         if active is None or i > active: continue
         cur = (i == active)
         rr = r.copy()
         if cur: rr[..., :3] = (rr[..., :3].astype(np.float32) * np.array([1.0, 0.9, 0.7])).astype(np.uint8)
-        l = np.zeros((H, W, 4), np.uint8); y = 320 + i * 76; l[y:y + 64, x0:x0 + 1500] = rr[:, :W - x0]
+        l = np.zeros((H, W, 4), np.uint8); y = (y0 + 56 + 84 + 70 + i * rh) if big else 320 + i * 76; l[y:y + rr.shape[0], x0:x0 + 1500] = rr[:, :W - x0]
         img = blend(img, l, (1.0 if cur else 0.72) * out_a)
     return img
 

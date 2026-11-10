@@ -1,0 +1,3693 @@
+{
+ "id": "cine_ep01",
+ "root": "../../..",
+ "gen_dir": "social/side/gen",
+ "sfx_dir": "social/side/ed_long/sfx",
+ "music_dir": "social/side/ed_long/music",
+ "out_dir": "_long",
+ "intro": {
+  "logo": "docs/emperor/profile_final.png",
+  "series": "명상록 실화극",
+  "series_size": 62,
+  "series_at": 6.4
+ },
+ "cap_scale": 1.12,
+ "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.06|0.03,",
+ "voice_gain": {
+  "mono": 3.8,
+  "narr": 1.2,
+  "cast": 1.0
+ },
+ "voice_dir": "social/side/voice_samples/cep01",
+ "voice_files": {
+  "l000": "voice_cep01_01_l000.mp3",
+  "l001": "voice_cep01_02_l001.mp3",
+  "l002": "voice_cep01_03_l002.mp3",
+  "l003": "voice_cep01_04_l003.mp3",
+  "l004": "voice_cep01_05_l004.mp3",
+  "l007": "voice_cep01_06_l007.mp3",
+  "l008": "voice_cep01_07_l008.mp3",
+  "l009": "voice_cep01_08_l009.mp3",
+  "l010": "voice_cep01_09_l010.mp3",
+  "o2": "voice_cep01_100_o2.mp3",
+  "l011": "voice_cep01_10_l011.mp3",
+  "l012": "voice_cep01_11_l012.mp3",
+  "l013": "voice_cep01_12_l013.mp3",
+  "l014": "voice_cep01_13_l014.mp3",
+  "l015": "voice_cep01_14_l015.mp3",
+  "l016": "voice_cep01_15_l016.mp3",
+  "l017": "voice_cep01_16_l017.mp3",
+  "l018": "voice_cep01_17_l018.mp3",
+  "l019": "voice_cep01_18_l019.mp3",
+  "l020": "voice_cep01_19_l020.mp3",
+  "l021": "voice_cep01_20_l021.mp3",
+  "l022": "voice_cep01_21_l022.mp3",
+  "l023": "voice_cep01_22_l023.mp3",
+  "l024": "voice_cep01_23_l024.mp3",
+  "l025": "voice_cep01_24_l025.mp3",
+  "l026": "../cep01b/voice_cep01b_06_cas_zeus.mp3",
+  "l027": "voice_cep01_26_l027.mp3",
+  "l028": "voice_cep01_27_l028.mp3",
+  "l029": "voice_cep01_28_l029.mp3",
+  "l030": "voice_cep01_29_l030.mp3",
+  "l031": "voice_cep01_30_l031.mp3",
+  "l032": "voice_cep01_31_l032.mp3",
+  "l033": "voice_cep01_32_l033.mp3",
+  "l034": "voice_cep01_33_l034.mp3",
+  "l035": "voice_cep01_34_l035.mp3",
+  "l036": "voice_cep01_35_l036.mp3",
+  "l037": "voice_cep01_36_l037.mp3",
+  "l038": "voice_cep01_37_l038.mp3",
+  "l039": "voice_cep01_38_l039.mp3",
+  "l040": "voice_cep01_39_l040.mp3",
+  "l041": "voice_cep01_40_l041.mp3",
+  "l042": "voice_cep01_41_l042.mp3",
+  "l043": "voice_cep01_42_l043.mp3",
+  "l044": "voice_cep01_43_l044.mp3",
+  "l045": "voice_cep01_44_l045.mp3",
+  "l047": "voice_cep01_45_l047.mp3",
+  "l048": "voice_cep01_46_l048.mp3",
+  "l049": "voice_cep01_47_l049.mp3",
+  "l050": "voice_cep01_48_l050.mp3",
+  "l051": "voice_cep01_49_l051.mp3",
+  "l052": "voice_cep01_50_l052.mp3",
+  "l053": "voice_cep01_51_l053.mp3",
+  "l054": "voice_cep01_52_l054.mp3",
+  "l055": "voice_cep01_53_l055.mp3",
+  "l056": "voice_cep01_54_l056.mp3",
+  "l057": "voice_cep01_55_l057.mp3",
+  "l058": "voice_cep01_56_l058.mp3",
+  "l059": "voice_cep01_57_l059.mp3",
+  "l060": "voice_cep01_58_l060.mp3",
+  "l061": "voice_cep01_59_l061.mp3",
+  "l062": "voice_cep01_60_l062.mp3",
+  "l063": "voice_cep01_61_l063.mp3",
+  "l064": "voice_cep01_62_l064.mp3",
+  "l065": "voice_cep01_63_l065.mp3",
+  "l066": "voice_cep01_64_l066.mp3",
+  "l067": "voice_cep01_65_l067.mp3",
+  "l068": "voice_cep01_66_l068.mp3",
+  "l069": "voice_cep01_67_l069.mp3",
+  "l070": "voice_cep01_68_l070.mp3",
+  "l071": "voice_cep01_69_l071.mp3",
+  "l072": "voice_cep01_70_l072.mp3",
+  "l073": "voice_cep01_71_l073.mp3",
+  "l074": "voice_cep01_72_l074.mp3",
+  "l075": "voice_cep01_73_l075.mp3",
+  "l076": "voice_cep01_74_l076.mp3",
+  "l077": "voice_cep01_75_l077.mp3",
+  "l078": "voice_cep01_76_l078.mp3",
+  "l079": "voice_cep01_77_l079.mp3",
+  "l080": "voice_cep01_78_l080.mp3",
+  "l082": "voice_cep01_79_l082.mp3",
+  "l083": "voice_cep01_80_l083.mp3",
+  "l084": "voice_cep01_81_l084.mp3",
+  "l085": "voice_cep01_82_l085.mp3",
+  "l086": "voice_cep01_83_l086.mp3",
+  "l087": "voice_cep01_84_l087.mp3",
+  "l088": "voice_cep01_85_l088.mp3",
+  "l089": "voice_cep01_86_l089.mp3",
+  "l090": "voice_cep01_87_l090.mp3",
+  "l091": "voice_cep01_88_l091.mp3",
+  "l093": "voice_cep01_89_l093.mp3",
+  "l094": "voice_cep01_90_l094.mp3",
+  "l095": "voice_cep01_91_l095.mp3",
+  "l096": "voice_cep01_92_l096.mp3",
+  "l097": "voice_cep01_93_l097.mp3",
+  "l098": "voice_cep01_94_l098.mp3",
+  "l099": "voice_cep01_95_l099.mp3",
+  "l100": "voice_cep01_96_l100.mp3",
+  "l101": "voice_cep01_97_l101.mp3",
+  "l102": "voice_cep01_98_l102.mp3",
+  "o1": "voice_cep01_99_o1.mp3",
+  "n1": "../cep01b/voice_cep01b_01_n1.mp3",
+  "n2": "../cep01b/voice_cep01b_02_n2.mp3",
+  "n3": "../cep01b/voice_cep01b_03_n3.mp3",
+  "n4": "../cep01b/voice_cep01b_04_n4.mp3",
+  "n5": "../cep01b/voice_cep01b_05_n5.mp3",
+  "cas_zeus": "../cep01b/voice_cep01b_06_cas_zeus.mp3",
+  "cas_poseidon": "../cep01b/voice_cep01b_07_cas_poseidon.mp3",
+  "cas_hades": "../cep01b/voice_cep01b_08_cas_hades.mp3",
+  "cas_jongdae": "../cep01b/voice_cep01b_09_cas_jongdae.mp3",
+  "p2": "../cep01c/voice_cep01c_01_p2.mp3",
+  "p3": "../cep01c/voice_cep01c_02_p3.mp3"
+ },
+ "subs": {
+  "l000": "!배신한 사람에게 하는 가장 완벽한 복수.",
+  "l001": "2천 년 전, 이 복수를 실제로 한 사람이 있습니다.",
+  "l002": "여기, 그를 배신한 사람들의 이름이 든 상자가 있습니다.",
+  "l003": "열어 보기만 하면 됩니다.",
+  "l004": "그런데 그는, 상자를 불 속에 넣었습니다.",
+  "l007": "십 년 전, 로마 동쪽 전선에 한 장군의 이름이 퍼졌습니다.",
+  "l008": "파르티아와의 전쟁에서, 그는 적의 수도까지 밀고 들어갔습니다.",
+  "l009": "이름은 아비디우스 카시우스.",
+  "l010": "이 이름을 기억해 주십시오.",
+  "n1": "시리아 출신의 그는, 규율이 무섭기로 이름난 장군이었습니다.",
+  "l011": "황제는 그를 믿었습니다. 제국의 동쪽 전부를 맡겼습니다.",
+  "l012": "군대도, 속주도, 전쟁을 치를 권한까지.",
+  "l013": "서기 175년 봄. 황제는 멀리 도나우 강 전선에 있었습니다.",
+  "l014": "쉰네 살의 황제는, 몇 해째 천막에서 겨울을 나고 있었습니다.",
+  "l015": "그리고 그해, 황제가 쓰러집니다.",
+  "l016": "병은 깊었고, 소문은 황제보다 빨리 움직였습니다.",
+  "l017": "후계자인 아들 코모두스는 아직 열세 살.",
+  "l018": "곁을 지키던 황후 파우스티나는 두려웠습니다.",
+  "l019": "남편이 죽으면, 어린 아들은 어떻게 될 것인가.",
+  "l020": "전해지기로는, 황후가 카시우스에게 몰래 편지를 보냈다고 합니다.",
+  "l021": "황제가 죽으면, 당신이 제국을 맡아 달라고.",
+  "l022": "이 편지를 기억해 주십시오. 진실은 아무도 모릅니다.",
+  "l023": "몇 주 뒤, 시리아에 소식이 닿습니다.",
+  "l024": "황제가 죽었다는 소식이었습니다.",
+  "l025": "175년 4월, 카시우스는 군대 앞에서 황제를 선언합니다.",
+  "l026": "“황제는 죽었다. 이제 로마는 나를 따르라.”",
+  "l027": "시리아와 이집트가 그를 따랐습니다.",
+  "n2": "곡창 이집트가 넘어가자, 원로원은 카시우스를 국가의 적으로 선포했습니다.",
+  "l028": "그런데 며칠 뒤, 다른 소식이 도착합니다.",
+  "l029": "황제는 살아 있었습니다.",
+  "l030": "돌아갈 수 있었습니다. 실수였다고 말할 수도 있었습니다.",
+  "l031": "그러나 그는 멈추지 않았습니다.",
+  "l032": "도나우의 황제에게 소식이 닿은 것은 그 뒤였습니다.",
+  "l033": "소식을 전한 것은 카파도키아 총독, 베루스였습니다.",
+  "l034": "가장 믿은 사람의 이름이, 그 편지에 있었습니다.",
+  "l035": "“그였단 말인가. 왜, 하필 그였는가.”",
+  "l036": "황제는 처음에 이 소식을 숨겼습니다.",
+  "n3": "제국의 절반이, 하룻밤 사이에 적이 될 수 있었습니다.",
+  "l037": "그러나 소문은 막사 사이로 번졌습니다.",
+  "l038": "병사들이 술렁이기 시작합니다.",
+  "l039": "황제는 병사들을 모았습니다. 모두가 분노의 연설을 기다렸습니다.",
+  "l040": "“병사들이여. 나는 분노하러 여기 선 것이 아니다.”",
+  "l041": "“내 운명을 슬퍼하러 왔다.”",
+  "l042": "“내게 가장 소중한 벗이, 나를 향해 음모를 꾸몄다.”",
+  "l043": "“이 전쟁에서 내가 얻고 싶은 것은 하나다.”",
+  "l044": "“내게 잘못한 사람을 용서하는 것.”",
+  "l045": "“우정을 저버린 사람의 친구로 남는 것이다.”",
+  "l047": "기록에 따르면, 황제는 그를 욕하지 않았습니다.",
+  "l048": "그가 쓴 말은 하나, 은혜를 모르는 사람이었습니다.",
+  "l049": "『명상록』에는 이런 문장이 있습니다.",
+  "l050": "“은혜를 모르는 사람을 탓할 때는, 무엇보다 너 자신을 돌아보라.”",
+  "l051": "믿음을 준 것은, 나의 선택이었다는 뜻입니다.",
+  "l052": "황제는 서둘러 북쪽 전쟁을 끝냅니다.",
+  "l053": "야만족들이 군사를 보내 돕겠다고 제안했습니다.",
+  "l054": "“로마 사람끼리의 일을, 너희에게 보일 수는 없다.”",
+  "n4": "그는 열세 살 아들을 곁으로 불러, 후계자로 세웠습니다.",
+  "l055": "그리고 군대를 이끌고 동쪽으로 향합니다.",
+  "l056": "살아 있는 카시우스를 만나, 용서하기 위해서였습니다.",
+  "l057": "그러나 그 만남은 오지 않습니다.",
+  "l058": "7월, 시리아.",
+  "l059": "백인대장 안토니우스가, 말을 타고 카시우스에게 다가옵니다.",
+  "l060": "칼이 목을 스쳤습니다. 치명상은 아니었습니다.",
+  "l061": "말은 그대로 지나갔고, 십인대장이 끝을 맺었습니다.",
+  "l062": "석 달 여엿새.",
+  "l063": "그것이 그가 황제였던 시간입니다.",
+  "l064": "그의 머리가 황제에게 오고 있었습니다.",
+  "l065": "“묻어라. 보지 않겠다.”",
+  "l066": "도착하기도 전에 묻으라는 명령이었습니다.",
+  "l067": "“살아서 만나고 싶었다. 이제, 용서할 사람이 없다.”",
+  "l068": "그는 이렇게 썼습니다.",
+  "l069": "“가장 좋은 복수는, 그 사람과 같아지지 않는 것이다.”",
+  "l070": "그리고 얼마 뒤, 상자 하나가 황제 앞에 도착합니다.",
+  "l071": "“폐하. 카시우스의 편지들입니다.”",
+  "l072": "“원로원 의원, 장군, 총독. 누가 그를 도왔는지, 전부 들어 있습니다.”",
+  "l073": "“읽어 보았는가.”",
+  "l074": "“아닙니다. 폐하께서 먼저 보셔야 합니다.”",
+  "l075": "“이걸 읽으면, 내일 나는 누구를 보게 되겠나.”",
+  "l076": "“폐하를 배신한 자들입니다.”",
+  "l077": "“아니다. 내일부터는, 모든 사람이 배신자로 보일 것이다.”",
+  "l078": "“불을 가져오게.”",
+  "l079": "“폐하. 저들은 폐하를 죽이려 했습니다.”",
+  "l080": "“그래서, 나까지 그들처럼 되어야 하겠나.”",
+  "l082": "다른 기록은 베루스가 대신 태웠다고도 전합니다.",
+  "l083": "확실한 것은, 그 이름들이 어디에도 남지 않았다는 것입니다.",
+  "n5": "그 뒤 황제는 동쪽을 돌며, 반란에 가담한 도시들을 너그럽게 대했습니다.",
+  "l084": "원로원은 공모자들을 처벌하라고 요구했습니다.",
+  "l085": "“내 치세에, 원로원 의원이 피 흘리는 일은 없기를 바란다.”",
+  "l086": "완전한 자비는 아니었습니다.",
+  "l087": "카시우스의 아들은 살해됐고, 몇몇은 추방됐습니다.",
+  "l088": "그리고 황후.",
+  "l089": "그가 아내를 의심했는지, 기록은 말하지 않습니다.",
+  "l090": "다만 그는, 신들에게 감사한 목록에 이렇게 적었습니다.",
+  "l091": "“이런 아내가 내 곁에 있었던 것을.”",
+  "l093": "2026년, 서울.",
+  "l094": "오래 함께한 동업자, 가족, 친구.",
+  "l095": "그 사람이 내 이야기를 어떻게 했는지 알 수 있는 메시지가",
+  "l096": "오늘 손안에 있다면, 여러분은 열겠습니까.",
+  "l097": "열면 이름을 얻습니다. 대신 그 이름을 평생 들고 삽니다.",
+  "l098": "배신한 사람에게 하는 복수, 세 가지입니다.",
+  "l099": "첫째, 욕하지 마십시오. 그 말은 내 입만 더럽힙니다.",
+  "l100": "둘째, 그의 끝을 구경하지 마십시오.",
+  "l101": "셋째, 알 필요 없는 것은 열지 마십시오.",
+  "l102": "이것이, 황제가 한 복수였습니다."
+ },
+ "monologue_voices": [
+  "l035",
+  "l040",
+  "l041",
+  "l042",
+  "l043",
+  "l044",
+  "l045",
+  "l050",
+  "l054",
+  "l065",
+  "l067",
+  "l069",
+  "l073",
+  "l075",
+  "l077",
+  "l078",
+  "l080",
+  "l085",
+  "l091"
+ ],
+ "cast_voices": [
+  "l026",
+  "l071",
+  "l072",
+  "l074",
+  "l076",
+  "l079"
+ ],
+ "music": [
+  {
+   "file": "dramatic_4.mp3",
+   "at_shot": 0,
+   "offset": 0,
+   "start": 0,
+   "until_shot": 3,
+   "vol": 0.34,
+   "fin": 0.2,
+   "fout": 0.8,
+   "tail": 0.2
+  },
+  {
+   "file": "cinematic_5.mp3",
+   "at_shot": 3,
+   "offset": 0,
+   "start": 0,
+   "until_shot": 8,
+   "vol": 0.2,
+   "fin": 1,
+   "fout": 1.2,
+   "tail": 2.0
+  },
+  {
+   "file": "dramatic_4.mp3",
+   "at_shot": 9,
+   "offset": 0.2,
+   "start": 0,
+   "until_shot": 10,
+   "vol": 0.55,
+   "fin": 0.6,
+   "fout": 2.0,
+   "tail": 0.3
+  },
+  {
+   "file": "cinematic_0.mp3",
+   "at_shot": 10,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 27,
+   "vol": 0.2,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "dramatic_0.mp3",
+   "at_shot": 27,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 37,
+   "vol": 0.22,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "sad_0.mp3",
+   "at_shot": 37,
+   "offset": 0.5,
+   "start": 20,
+   "until_shot": 46,
+   "vol": 0.17,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "sad_3.mp3",
+   "at_shot": 46,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 60,
+   "vol": 0.2,
+   "fin": 4,
+   "fout": 4,
+   "tail": 2.0
+  },
+  {
+   "file": "epic_0.mp3",
+   "at_shot": 60,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 67,
+   "vol": 0.24,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "dramatic_4.mp3",
+   "at_shot": 67,
+   "offset": 0.5,
+   "start": 30,
+   "until_shot": 72,
+   "vol": 0.22,
+   "fin": 3,
+   "fout": 1.2,
+   "tail": 0.6
+  },
+  {
+   "file": "sad_5.mp3",
+   "at_shot": 74,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 81,
+   "vol": 0.19,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "sad_3.mp3",
+   "at_shot": 81,
+   "offset": 0.5,
+   "start": 60,
+   "until_shot": 96,
+   "vol": 0.17,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "sad_1.mp3",
+   "at_shot": 96,
+   "offset": 0.5,
+   "start": 0,
+   "until_shot": 103,
+   "vol": 0.17,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "sad_0.mp3",
+   "at_shot": 104,
+   "offset": 0.5,
+   "start": 60,
+   "until_shot": 109,
+   "vol": 0.1,
+   "fin": 2,
+   "fout": 1.5,
+   "tail": 0.4
+  },
+  {
+   "file": "cinematic_4.mp3",
+   "at_shot": 109,
+   "offset": 0.5,
+   "start": 110,
+   "until_shot": 114,
+   "vol": 0.22,
+   "fin": 3,
+   "fout": 3,
+   "tail": 2.0
+  },
+  {
+   "file": "epic_0.mp3",
+   "at_shot": 114,
+   "offset": 0,
+   "start": 75,
+   "until_shot": 116,
+   "vol": 0.26,
+   "fin": 1.5,
+   "fout": 3,
+   "tail": 0
+  }
+ ],
+ "shots": [
+  {
+   "type": "video",
+   "src": "cep1_cloak",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0,
+   "post": 0,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.0,
+     0.45
+    ],
+    [
+     "impact_2.mp3",
+     0.0,
+     0.55
+    ],
+    [
+     "drum_5.mp3",
+     0.1,
+     0.6
+    ]
+   ],
+   "dur": 3.0,
+   "tin": "black",
+   "fin": 0.25
+  },
+  {
+   "type": "video",
+   "src": "cep1_ctalk",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.05,
+   "post": 0.2,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l026"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_cheer",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0,
+   "post": 0,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.0,
+     0.6
+    ],
+    [
+     "impact_0.mp3",
+     0.1,
+     0.5
+    ]
+   ],
+   "dur": 2.6,
+   "tout": "black",
+   "fout": 0.5
+  },
+  {
+   "type": "video",
+   "src": "c1v_chest",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.6,
+   "post": 0.5,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l000"
+   ],
+   "tin": "black",
+   "fin": 0.5,
+   "sfx": [
+    [
+     "impact_2.mp3",
+     0.1,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_enter",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.15,
+   "post": 0.05,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l001"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_seal",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.2,
+   "post": 0.3,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l002"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_hand",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.2,
+   "post": 0.2,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l003"
+   ],
+   "dur": 5.0,
+   "sfx": [
+    [
+     "heartbeat_2.mp3",
+     1.8,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_push",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.6,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l004"
+   ],
+   "sfx": [
+    [
+     "fire_2.mp3",
+     1.2,
+     0.8
+    ],
+    [
+     "impact_3.mp3",
+     1.5,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_burn",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_2.mp3",
+    0.75
+   ],
+   "dur": 3.6,
+   "tout": "black",
+   "fout": 0.7,
+   "sfx": [
+    [
+     "fire_2.mp3",
+     0.0,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "intro",
+   "sfx": [
+    [
+     "cinematic_6.mp3",
+     1.47,
+     1.0
+    ],
+    [
+     "war_7.mp3",
+     0.6,
+     0.18
+    ],
+    [
+     "ring_synth.wav",
+     2.4,
+     0.35
+    ],
+    [
+     "impact_2.mp3",
+     3.02,
+     1.0
+    ],
+    [
+     "impact_0.mp3",
+     3.02,
+     0.7
+    ],
+    [
+     "drum_5.mp3",
+     3.92,
+     1.0
+    ],
+    [
+     "drum_0.mp3",
+     3.92,
+     0.7
+    ],
+    [
+     "cinematic_4.mp3",
+     4.9,
+     0.8
+    ],
+    [
+     "impact_3.mp3",
+     6.2,
+     0.55
+    ],
+    [
+     "transition_5.mp3",
+     8.96,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_ride",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l007"
+   ],
+   "sfx": [
+    [
+     "horse_0.mp3",
+     0.2,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_city",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_1.mp3",
+    0.3
+   ],
+   "voice": [
+    "l008"
+   ],
+   "sfx": [
+    [
+     "fire_1.mp3",
+     0.0,
+     0.35
+    ],
+    [
+     "war_3.mp3",
+     0.4,
+     0.14
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_casp",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l009"
+   ],
+   "sfx": [
+    [
+     "cinematic_2.mp3",
+     0.0,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_casp_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l010"
+   ],
+   "sfx": [
+    [
+     "cinematic_2.mp3",
+     0.0,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_ride",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "n1"
+   ],
+   "sfx": [
+    [
+     "horse_0.mp3",
+     0.2,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_order",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l011"
+   ],
+   "sfx": [
+    [
+     "paper_1.mp3",
+     0.5,
+     0.4
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_order_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l012"
+   ],
+   "sfx": [
+    [
+     "paper_1.mp3",
+     0.5,
+     0.4
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_snow",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l013"
+   ],
+   "sfx": [
+    [
+     "wind_4.mp3",
+     0.0,
+     0.25
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_snow_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l014"
+   ],
+   "sfx": [
+    [
+     "wind_4.mp3",
+     0.0,
+     0.25
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_sick",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l015"
+   ],
+   "sfx": [
+    [
+     "heartbeat_1.mp3",
+     0.5,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_sick_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l016"
+   ],
+   "sfx": [
+    [
+     "heartbeat_1.mp3",
+     0.3,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_boy",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l017"
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_fau",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l018"
+   ],
+   "sfx": [
+    [
+     "heartbeat_3.mp3",
+     1.0,
+     0.18
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_fau",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l019"
+   ],
+   "sfx": [
+    [
+     "heartbeat_3.mp3",
+     1.0,
+     0.18
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_write",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l020"
+   ],
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.4,
+     0.4
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_write",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l021"
+   ],
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.4,
+     0.4
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_courier",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l022"
+   ],
+   "sfx": [
+    [
+     "horse_2.mp3",
+     0.1,
+     0.5
+    ]
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "video",
+   "src": "cep1_msgr",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l023"
+   ],
+   "sfx": [
+    [
+     "paper_3.mp3",
+     1.0,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_msgr",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l024"
+   ],
+   "sfx": [
+    [
+     "impact_3.mp3",
+     1.2,
+     0.35
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_cloak",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l025"
+   ],
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.3,
+     0.3
+    ],
+    [
+     "cinematic_6.mp3",
+     0.3,
+     0.4
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_ctalk",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.1,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l026"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_cheer",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l027"
+   ],
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.1,
+     0.5
+    ],
+    [
+     "impact_2.mp3",
+     0.1,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_senate",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "voice": [
+    "n2"
+   ],
+   "sfx": [
+    [
+     "war_0.mp3",
+     0.0,
+     0.05
+    ],
+    [
+     "cinematic_2.mp3",
+     0.0,
+     0.3
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_msgr",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l028"
+   ],
+   "sfx": [
+    [
+     "paper_3.mp3",
+     1.0,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_decide",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l029"
+   ],
+   "sfx": [
+    [
+     "heartbeat_2.mp3",
+     0.6,
+     0.35
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_decide",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l030"
+   ],
+   "sfx": [
+    [
+     "impact_3.mp3",
+     2.5,
+     0.25
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_casp",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l031"
+   ],
+   "sfx": [
+    [
+     "cinematic_2.mp3",
+     0.0,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_courier",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l032"
+   ],
+   "sfx": [
+    [
+     "horse_2.mp3",
+     0.1,
+     0.4
+    ]
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "video",
+   "src": "cep1_arrive",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l033"
+   ],
+   "sfx": [
+    [
+     "wind_3.mp3",
+     0.0,
+     0.3
+    ],
+    [
+     "paper_1.mp3",
+     2.0,
+     0.35
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_read",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l034"
+   ],
+   "sfx": [
+    [
+     "heartbeat_2.mp3",
+     0.5,
+     0.4
+    ],
+    [
+     "impact_3.mp3",
+     2.0,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_read",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l035"
+   ],
+   "sfx": [
+    [
+     "heartbeat_2.mp3",
+     0.5,
+     0.4
+    ],
+    [
+     "impact_3.mp3",
+     2.0,
+     0.3
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_alone",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l036"
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_alone",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.3
+   ],
+   "dur": 3.5,
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_snow_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "n3"
+   ],
+   "sfx": [
+    [
+     "wind_4.mp3",
+     0.0,
+     0.25
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_camp",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l037"
+   ],
+   "sfx": [
+    [
+     "fire_3.mp3",
+     0.0,
+     0.3
+    ],
+    [
+     "night_1.mp3",
+     0.0,
+     0.15
+    ]
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_camp",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l038"
+   ],
+   "sfx": [
+    [
+     "fire_3.mp3",
+     0.0,
+     0.3
+    ],
+    [
+     "night_1.mp3",
+     0.0,
+     0.15
+    ]
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "video",
+   "src": "cep1_ranks",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l039"
+   ],
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.0,
+     0.2
+    ],
+    [
+     "drum_2.mp3",
+     0.5,
+     0.4
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_hand2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.3
+   ],
+   "dur": 2.8,
+   "sfx": [
+    [
+     "heartbeat_2.mp3",
+     0.3,
+     0.4
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_sback",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l040"
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_ppl",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l041"
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "video",
+   "src": "cep1_ppl2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l042"
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_ppl",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l043"
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "video",
+   "src": "cep1_ppl3",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l044"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_hand2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l045"
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_ppl",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.3
+   ],
+   "dur": 3.0,
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_alone",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l047"
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_scroll",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l048"
+   ],
+   "sfx": [
+    [
+     "paper_1.mp3",
+     0.6,
+     0.4
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "video",
+   "src": "cep1_diary",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l049"
+   ],
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.5,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_diary2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l050"
+   ],
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.5,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_scroll",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l051"
+   ],
+   "sfx": [
+    [
+     "paper_1.mp3",
+     0.6,
+     0.4
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_envoy",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l052"
+   ],
+   "sfx": [
+    [
+     "war_5.mp3",
+     0.0,
+     0.12
+    ]
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_chief",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l053"
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_refuse",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l054"
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "video",
+   "src": "cep1_boy",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "n4"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_march",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l055"
+   ],
+   "sfx": [
+    [
+     "war_7.mp3",
+     0.0,
+     0.3
+    ],
+    [
+     "drum_1.mp3",
+     0.3,
+     0.5
+    ],
+    [
+     "horse_3.mp3",
+     0.0,
+     0.2
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_march",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 1.5,
+   "amb": [
+    "wind_2.mp3",
+    0.2
+   ],
+   "dur": 3.5,
+   "sfx": [
+    [
+     "drum_1.mp3",
+     0.2,
+     0.5
+    ],
+    [
+     "war_7.mp3",
+     0.0,
+     0.25
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_ehorse",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "l056"
+   ],
+   "sfx": [
+    [
+     "horse_3.mp3",
+     0.0,
+     0.4
+    ]
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_walk",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l057"
+   ],
+   "sfx": [
+    [
+     "wind_3.mp3",
+     0.0,
+     0.2
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_walk",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l058"
+   ],
+   "sfx": [
+    [
+     "wind_3.mp3",
+     0.0,
+     0.2
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_cent",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l059"
+   ],
+   "sfx": [
+    [
+     "horse_0.mp3",
+     0.1,
+     0.35
+    ],
+    [
+     "heartbeat_2.mp3",
+     0.8,
+     0.45
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_strike",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l060"
+   ],
+   "sfx": [
+    [
+     "horse_1.mp3",
+     0.1,
+     0.5
+    ],
+    [
+     "swords_2.mp3",
+     1.0,
+     0.55
+    ],
+    [
+     "impact_1.mp3",
+     1.1,
+     0.6
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_dec",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l061"
+   ],
+   "sfx": [
+    [
+     "horse_1.mp3",
+     0.0,
+     0.3
+    ],
+    [
+     "impact_0.mp3",
+     2.6,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_desert",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l062"
+   ],
+   "dur": 5.0,
+   "sfx": [
+    [
+     "wind_4.mp3",
+     0.0,
+     0.35
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_desert",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.8,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l063"
+   ],
+   "sfx": [
+    [
+     "wind_4.mp3",
+     0.0,
+     0.35
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_bag",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l064"
+   ],
+   "sfx": [
+    [
+     "horse_0.mp3",
+     0.0,
+     0.3
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_stop",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l065"
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_grave",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l066"
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_read",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l067"
+   ],
+   "sfx": [
+    [
+     "heartbeat_2.mp3",
+     0.5,
+     0.4
+    ],
+    [
+     "impact_3.mp3",
+     2.0,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_grave",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l068"
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_diary",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l069"
+   ],
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.5,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_diary",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 2.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "dur": 3.0,
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.5,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_chest",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l070"
+   ],
+   "sfx": [
+    [
+     "impact_3.mp3",
+     0.3,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_wide",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l071"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_emp_listen",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l072"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_ots",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l073"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_gen_talk",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.1,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l074"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_glis",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l075"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_hand",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l076"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_glis_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l077"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_ots",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 1.0,
+   "post": 0.3,
+   "start": 2.3,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l078"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "cep1_elis_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l079"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_emp_talk_b",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.1,
+   "post": 0.15,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l080"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_push",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_2.mp3",
+    0.7
+   ],
+   "dur": 4.6,
+   "sfx": [
+    [
+     "fire_2.mp3",
+     1.2,
+     0.8
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_burn",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.3,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l082"
+   ],
+   "sfx": [
+    [
+     "fire_2.mp3",
+     0.0,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_seal",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l083"
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_ehorse",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "amb": [
+    "wind_2.mp3",
+    0.24
+   ],
+   "voice": [
+    "n5"
+   ],
+   "sfx": [
+    [
+     "horse_3.mp3",
+     0.0,
+     0.4
+    ]
+   ],
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_senate",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "voice": [
+    "l084"
+   ],
+   "sfx": [
+    [
+     "war_0.mp3",
+     0.0,
+     0.05
+    ],
+    [
+     "cinematic_2.mp3",
+     0.0,
+     0.3
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_sen2",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "voice": [
+    "l085"
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_senate",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "voice": [
+    "l086"
+   ],
+   "sfx": [
+    [
+     "war_0.mp3",
+     0.0,
+     0.05
+    ],
+    [
+     "cinematic_2.mp3",
+     0.0,
+     0.3
+    ]
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_sen2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "voice": [
+    "l087"
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_wife",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l088",
+    "l089"
+   ],
+   "flicker": true,
+   "particles": "embers",
+   "gap": 0.4
+  },
+  {
+   "type": "video",
+   "src": "cep1_diary2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l090"
+   ],
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.5,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_wife",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l091"
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_out",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_2.mp3",
+    0.25
+   ],
+   "dur": 4.5,
+   "tout": "black",
+   "fout": 0.9,
+   "flicker": false,
+   "particles": "snow"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_m3",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "night_2.mp3",
+    0.12
+   ],
+   "voice": [
+    "l093"
+   ],
+   "grade": "modern",
+   "tin": "black",
+   "fin": 0.6,
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_m1",
+   "move": {
+    "zoom": [
+     1.06,
+     1.06
+    ],
+    "pan": [
+     [
+      -0.03,
+      0
+     ],
+     [
+      0.03,
+      0
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "night_2.mp3",
+    0.12
+   ],
+   "voice": [
+    "l094"
+   ],
+   "grade": "modern",
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_m2",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "night_2.mp3",
+    0.12
+   ],
+   "voice": [
+    "l095"
+   ],
+   "grade": "modern",
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_m3",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "night_2.mp3",
+    0.12
+   ],
+   "voice": [
+    "l096"
+   ],
+   "grade": "modern",
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_m1",
+   "move": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "amb": [
+    "night_2.mp3",
+    0.12
+   ],
+   "voice": [
+    "l097"
+   ],
+   "grade": "modern",
+   "tout": "black",
+   "fout": 0.6,
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "cep1_diary2",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l098"
+   ],
+   "tin": "black",
+   "fin": 0.6,
+   "sfx": [
+    [
+     "paper_2.mp3",
+     0.5,
+     0.3
+    ]
+   ]
+  },
+  {
+   "type": "still",
+   "src": "cep1i_scroll",
+   "move": {
+    "zoom": [
+     1.03,
+     1.09
+    ],
+    "pan": [
+     [
+      0,
+      0.02
+     ],
+     [
+      0,
+      -0.02
+     ]
+    ]
+   },
+   "pre": 0.12,
+   "post": 0.15,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l099"
+   ],
+   "sfx": [
+    [
+     "paper_1.mp3",
+     0.6,
+     0.4
+    ]
+   ],
+   "flicker": true,
+   "particles": "embers"
+  },
+  {
+   "type": "still",
+   "src": "cep1i_grave",
+   "move": {
+    "zoom": [
+     1.0,
+     1.07
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "amb": [
+    "wind_1.mp3",
+    0.16
+   ],
+   "voice": [
+    "l100"
+   ],
+   "flicker": false,
+   "particles": "dust"
+  },
+  {
+   "type": "video",
+   "src": "c1v_hand",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 0.4,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l101"
+   ]
+  },
+  {
+   "type": "video",
+   "src": "c1v_burn",
+   "move": {
+    "zoom": [
+     1.0,
+     1.015
+    ]
+   },
+   "pre": 0.3,
+   "post": 1.0,
+   "start": 0.0,
+   "amb": [
+    "fire_4.mp3",
+    0.34
+   ],
+   "voice": [
+    "l102"
+   ],
+   "sfx": [
+    [
+     "fire_2.mp3",
+     0.0,
+     0.5
+    ]
+   ]
+  },
+  {
+   "type": "recap",
+   "style": "cards",
+   "bg": "/home/claude/haeja/social/side/gen/cep1i_sback.jpeg",
+   "items": [
+    "욕하지 마라",
+    "그의 끝을\n구경하지 마라",
+    "알 필요 없는 것은\n열지 마라"
+   ],
+   "dur": 9.0,
+   "fixed": true,
+   "cascade": [
+    1.3,
+    1.7
+   ],
+   "nocap": true,
+   "amb": [
+    "wind_2.mp3",
+    0.16
+   ],
+   "kicker": "명상록 실화극  ·  오늘의 가르침",
+   "head": "뒤통수 친 사람을 이기는 3가지 방법",
+   "tin": "dissolve",
+   "fin": 0.9,
+   "sfx": [
+    [
+     "whoosh_2.mp3",
+     0.0,
+     0.35
+    ],
+    [
+     "impact_3.mp3",
+     1.3,
+     0.5
+    ],
+    [
+     "drum_5.mp3",
+     1.3,
+     0.35
+    ],
+    [
+     "impact_3.mp3",
+     3.0,
+     0.5
+    ],
+    [
+     "impact_2.mp3",
+     4.7,
+     0.6
+    ],
+    [
+     "drum_5.mp3",
+     4.7,
+     0.45
+    ]
+   ]
+  },
+  {
+   "type": "finale",
+   "dur": 20.0,
+   "voice": [
+    "o1",
+    "p2",
+    "p3"
+   ],
+   "pre": 0.8,
+   "gap": 0.7,
+   "post": 1.4,
+   "nocap": true,
+   "tin": "black",
+   "slogan": "매일 밤, 황제처럼 생각하라",
+   "brand_ko": "황제의 일기  ·  명상록 실화극",
+   "cta": "구독과 좋아요는 다음 실화극을 만드는 큰 힘이 됩니다. 감사합니다.",
+   "amb": [
+    "wind_2.mp3",
+    0.12
+   ],
+   "sfx": [
+    [
+     "cinematic_6.mp3",
+     0.2,
+     0.5
+    ]
+   ]
+  }
+ ]
+}
