@@ -258,7 +258,7 @@ def spec():
     for f in sorted(os.listdir(os.path.join(ROOT, d2))):
         if f.endswith(".mp3"):
             n = f[:-4].split("_", 3)[-1]; vf[n] = "../cep01b/" + f
-    for dd in ("cep01c", "cep01d", "cep01e", "cep01f", "cep01g"):
+    for dd in ("cep01c", "cep01d", "cep01e", "cep01f", "cep01g", "cep01h"):
         if os.path.isdir(os.path.join(ROOT, "social/side/voice_samples", dd)):
             for f in sorted(os.listdir(os.path.join(ROOT, "social/side/voice_samples", dd))):
                 if f.endswith(".mp3"): vf[f[:-4].split("_", 3)[-1]] = f"../{dd}/" + f
