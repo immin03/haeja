@@ -18,6 +18,7 @@ PLAT = A[A.index("--platform") + 1] if "--platform" in A else "shorts"
 TMP = tempfile.mkdtemp(dir=os.environ.get("ED_TMP", os.path.dirname(os.path.abspath(OUT))))
 LOGO = os.path.join(HERE, "assets/logo_final.png")
 R.set_theme("A")
+EN = spec.get("lang") == "en"   # 2026-11-11 영어 채널(The Emperor's Diary) — 엔딩 글자만 영어, 화면 구성·효과는 같다
 for c in spec["cuts"]:
     cs = c.get("caps") or []
     for i in range(len(cs) - 1):
@@ -188,22 +189,28 @@ def outro2(u):
     if u < 0.95:
         hx = cx + Rr * math.cos(math.radians(-90 + ang)); hy = cy + Rr * math.sin(math.radians(-90 + ang)); rd.ellipse([hx - 14, hy - 14, hx + 14, hy + 14], fill=(255, 236, 190, 220))
     lay.alpha_composite(ring.filter(ImageFilter.GaussianBlur(8))); lay.alpha_composite(ring)
-    ct(700, "매일 밤,", R.font("sub"), LG, ease((u - OUT_T[0]) / 0.5))
-    ct(776, "황제처럼 생각하라", R.font("slogan"), LG_HI, ease((u - OUT_T[1]) / 0.6))
+    ct(700, "Every night," if EN else "매일 밤,", R.font("sub"), LG, ease((u - OUT_T[0]) / 0.5))
+    if EN: ct(786, "think like an emperor.", ImageFont.truetype(R.F + "Hahmlet[wght].ttf", 76), LG_HI, ease((u - OUT_T[1]) / 0.6))
+    else: ct(776, "황제처럼 생각하라", R.font("slogan"), LG_HI, ease((u - OUT_T[1]) / 0.6))
     a3 = ease((u - OUT_T[2]) / 0.5)
     if a3 > 0:
         R._glint_line(d, lay, W / 2, 960, 120, a3, u)
         kf = ImageFont.truetype(R.F + "Hahmlet[wght].ttf", 46)
         try: kf.set_variation_by_axes([600])
         except Exception: pass
-        ct(992, "황제의 일기", kf, (222, 196, 140), a3)
+        ct(992, "The Emperor's Diary" if EN else "황제의 일기", kf, (222, 196, 140), a3)
     ab = ease((u - OUT_T[3]) / 0.5)
     if ab > 0:
         # 11/5 대표: 실제 행동을 이끄는 한 줄 — "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."
         # 11/9 대표: 안내 글과 아이콘 사이가 좁음 → 글을 20px 올리고 아이콘을 55px 내림 (간격 약 32 → 약 107px)
-        ct(1110, "좋아요와 " + ("팔로우" if PLAT == "reels" else "구독") + "는 영상 제작에", R.font("small"), (222, 196, 140), ab)
-        ct(1168, "큰 힘이 됩니다. 감사합니다.", R.font("small"), (222, 196, 140), ab)
-        items = [("like", "좋아요"), ("follow", "팔로우") if PLAT == "reels" else ("bell", "구독"), ("share", "친구에게 공유")]
+        if EN:
+            ct(1110, "Likes and " + ("follows" if PLAT == "reels" else "subscriptions") + " truly help us", R.font("small"), (222, 196, 140), ab)
+            ct(1168, "make more of these. Thank you.", R.font("small"), (222, 196, 140), ab)
+            items = [("like", "Like"), ("follow", "Follow") if PLAT == "reels" else ("bell", "Subscribe"), ("share", "Share")]
+        else:
+            ct(1110, "좋아요와 " + ("팔로우" if PLAT == "reels" else "구독") + "는 영상 제작에", R.font("small"), (222, 196, 140), ab)
+            ct(1168, "큰 힘이 됩니다. 감사합니다.", R.font("small"), (222, 196, 140), ab)
+            items = [("like", "좋아요"), ("follow", "팔로우") if PLAT == "reels" else ("bell", "구독"), ("share", "친구에게 공유")]
         for k2, (kind, lab) in enumerate(items):
             ak = ease((u - OUT_T[3] - 0.1 - k2 * 0.15) / 0.4); bx = W / 2 - 290 + k2 * 290; by = 1385 + int((1 - ak) * 14)
             sp = R.cta_sprite(kind); sp2 = sp.copy(); sp2.putalpha(sp.split()[3].point(lambda v: int(v * ak)))

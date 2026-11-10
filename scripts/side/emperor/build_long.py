@@ -67,6 +67,7 @@ def build(path):
     end = {"dur": end_dur, "kicker": E.get("end_kicker", "오늘의 할 일"), "lines": E["tonight"], "source": E["source"], "slogan": None}
     voices.append({"file": E.get("outro_voice", "/home/claude/vo/outro_default.mp3"), "at": round(end_start + end["dur"] - 0.1, 3), "vol": 1.0})
     spec = {"id": key, "music": E["music"], "voice": voices, "cuts": cuts, "end": end, "outro": {"dur": 7.9, "p1": 4.7}}
+    if E.get("lang"): spec["lang"] = E["lang"]   # 2026-11-11 영어 채널(The Emperor's Diary): fx_short 엔딩 글자·voice_gate 받아쓰기 언어
     total = end_start + end["dur"] + 7.9
     # 2026-11-09 ep18(63초) 사고: 유튜브는 1분 넘는 쇼츠에 소유권 주장이 걸리면 전 세계 차단한다. secret-garden 은 RouteNote 주장('You Called Me')이 걸리는 곡 (TEMPLATE 고정값)
     if total >= 57 and "secret-garden" in E["music"]["file"]:
