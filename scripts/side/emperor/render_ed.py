@@ -26,6 +26,23 @@ FONTS = {
     "cap": (F + "Pretendard-SemiBold.otf", 50),
     "small": (F + "Pretendard-SemiBold.otf", 40),
 }
+# 2026-11-11 영어 채널(The Emperor's Diary, @EmperorsDiary-en): ED_LANG=en 이면 영어 글꼴·문구 (한국어 편은 그대로)
+LANG = os.environ.get("ED_LANG", "ko")
+TXT = {"slogan1": "매일 밤,", "slogan2": "황제처럼 생각하라", "brand": "황제의 일기", "lead": "오늘의 한 줄이 마음에 남았다면",
+       "like": "좋아요", "sub": "구독", "follow": "팔로우", "share": "친구에게 공유",
+       "thanks1": "좋아요와 {s}는 영상 제작에", "thanks2": "큰 힘이 됩니다. 감사합니다.", "tonight": "오늘의 할 일"}
+if LANG == "en":
+    EF = os.path.join(os.path.dirname(os.path.abspath(__file__)), "en", "fonts") + "/"
+    # 2026-11-11 01:58 대표: 영어판 화면 글씨는 굵은 산세리프·고대비(미국 시청자 기준)
+    FONTS.update({"hook": (EF + "Inter-Bold.ttf", 92), "big": (EF + "Inter-Bold.ttf", 78),
+                  "endbig": (EF + "Inter-Bold.ttf", 60), "quote": (EF + "Inter-SemiBold.ttf", 62),
+                  "slogan": (EF + "Inter-Bold.ttf", 76), "sub": (EF + "Inter-SemiBold.ttf", 38),
+                  "kicker": (EF + "Inter-Bold.ttf", 44), "src": (EF + "Inter-SemiBold.ttf", 32),
+                  "cta": (EF + "Inter-SemiBold.ttf", 32), "cap": (EF + "Inter-Bold.ttf", 52), "small": (EF + "Inter-SemiBold.ttf", 36)})
+    TXT.update({"slogan1": "Every night,", "slogan2": "think like an emperor", "brand": "The Emperor's Diary", "lead": "If this line stayed with you",
+                "like": "Like", "sub": "Subscribe", "follow": "Follow", "share": "Share",
+                "thanks1": "A like and a {s}", "thanks2": "keep these coming. Thank you.", "tonight": "TONIGHT'S TASK"})
+    F = EF
 COLOR = {"cap": IVORY, "slogan": IVORY, "cta": IVORY, "hook": IVORY, "big": IVORY, "endbig": IVORY, "quote": IVORY, "sub": GOLD, "kicker": GOLD, "src": DIM, "small": DIM}
 LH = {"cap": 1.42, "slogan": 1.3, "cta": 1.4, "hook": 1.28, "big": 1.3, "endbig": 1.4, "quote": 1.45, "sub": 1.4, "kicker": 1.3, "src": 1.4, "small": 1.45}
 _fc = {}
@@ -312,10 +329,10 @@ def outro(spec_o, base, t, platform="reels"):
     if "coin" not in _OUT: _OUT["coin"] = _coin_gold(spec_o.get("logo", "/home/claude/logo/logo_final.png"))
     if t < p1:
         a1 = ease((t - 0.35) / 0.5); a2 = ease((t - 1.6) / 0.5); fo = 1 - ease((t - (p1 - 0.35)) / 0.35)
-        ctext(700, "매일 밤,", "sub", a1 * fo, col=LG)
-        ctext(780, "황제처럼 생각하라", "slogan", a1 * fo, col=LG_HI)
+        ctext(700, TXT["slogan1"], "sub", a1 * fo, col=LG)
+        ctext(780, TXT["slogan2"], "slogan", a1 * fo, col=LG_HI)
         _glint_line(d, layer, W / 2, 962, 120, a2 * fo, t)
-        ctext(996, "황제의 일기", "sub", a2 * fo, col=LG_KO)
+        ctext(996, TXT["brand"], "sub", a2 * fo, col=LG_KO)
     else:
         u = t - p1; a = ease(u / 0.5)
         cx, cy, R = W // 2, 470, 168
@@ -327,16 +344,16 @@ def outro(spec_o, base, t, platform="reels"):
         layer.alpha_composite(coin, (cx - coin.width // 2, cy - coin.height // 2))
         ef = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 56)
         _track(d, cy + R + 52, "THE EMPEROR'S DIARY", ef, LG, ease((u - 0.25) / 0.5), 0.22)
-        kf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 46)
+        kf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 46) if LANG != "en" else ImageFont.truetype(F + "Inter-Bold.ttf", 46)
         try: kf.set_variation_by_axes([600])
         except Exception: pass
         aw = ease((u - 0.45) / 0.5)
-        w = d.textlength("황제의 일기", font=kf); d.text(((W - w) / 2, cy + R + 140), "황제의 일기", font=kf, fill=LG_KO + (int(255 * aw),))
+        w = d.textlength(TXT["brand"], font=kf); d.text(((W - w) / 2, cy + R + 140), TXT["brand"], font=kf, fill=LG_KO + (int(255 * aw),))
         _glint_line(d, layer, W / 2, cy + R + 228, 150, aw, u)
         # 아래: 안내 문구 + 좋아요 / 팔로우(구독) / 공유 — 금색 테두리·아이콘·글씨
         ab = ease((u - 0.6) / 0.45)
-        ctext(1030, spec_o.get("lead", "오늘의 한 줄이 마음에 남았다면"), "small", ab, col=LG_KO)
-        items = [("like", "좋아요"), ("follow" if platform == "reels" else "bell", "팔로우" if platform == "reels" else "구독"), ("share", "친구에게 공유")]
+        ctext(1030, spec_o.get("lead", TXT["lead"]), "small", ab, col=LG_KO)
+        items = [("like", TXT["like"]), ("follow" if platform == "reels" else "bell", TXT["follow"] if platform == "reels" else TXT["sub"]), ("share", TXT["share"])]
         gap = 290; x0 = W / 2 - gap
         for k, (kind, lab) in enumerate(items):
             ak = ease((u - 0.7 - k * 0.15) / 0.4); bx = x0 + k * gap; by = 1220 + int((1 - ak) * 14)

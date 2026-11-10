@@ -105,7 +105,7 @@ def main(ep, takes, vdir):
         side = open(src + ".txt").read() if os.path.exists(src + ".txt") else None
         ok, why = take_check(src)
         if side is None: why.append("'오늘의 할 일' 녹음 원문(.txt) 없음 — 이 편 문장으로 새로 녹음할 것 (다른 편 녹음 금지)")
-        elif _norm(side) not in (_norm(want), _norm("오늘의 할 일" + want), _norm("오늘의 할 일은" + want)):
+        elif _norm(side) not in (_norm(want), _norm("오늘의 할 일" + want), _norm("오늘의 할 일은" + want), _norm("Tonight's task. " + want)):   # 2026-11-11 영어 채널
             why.append(f"'오늘의 할 일' 원문 불일치: 녹음='{side.strip()}' / 화면='{want}'")
         if why: sys.exit(f"엔딩 녹음 불통과 {os.path.basename(src)}: {why}")
     for key in ("end_voice", "outro_voice"):

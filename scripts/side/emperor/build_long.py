@@ -64,7 +64,7 @@ def build(path):
         ev = E["end_voice"]; evd = dur(ev)
         voices.append({"file": ev, "at": round(end_start + 0.55, 3), "vol": E.get("vol", 1.3)})
         end_dur = max(end_dur, round(0.55 + evd + 1.1, 2))
-    end = {"dur": end_dur, "kicker": E.get("end_kicker", "오늘의 할 일"), "lines": E["tonight"], "source": E["source"], "slogan": None}
+    end = {"dur": end_dur, "kicker": E.get("end_kicker", "TONIGHT'S TASK" if os.environ.get("ED_LANG") == "en" else "오늘의 할 일"), "lines": E["tonight"], "source": E["source"], "slogan": None}
     voices.append({"file": E.get("outro_voice", "/home/claude/vo/outro_default.mp3"), "at": round(end_start + end["dur"] - 0.1, 3), "vol": 1.0})
     spec = {"id": key, "music": E["music"], "voice": voices, "cuts": cuts, "end": end, "outro": {"dur": 7.9, "p1": 4.7}}
     total = end_start + end["dur"] + 7.9

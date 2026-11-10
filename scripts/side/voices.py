@@ -48,7 +48,12 @@ def main_req(req):
         res.append({"n": i, "voice_id": v["id"], "name": v["name"], "line": v.get("line", req.get("line")), "url": f"https://github.com/{REPO}/releases/download/side-assets/{fn}"})
         print("샘플", i, name, flush=True)
     if files:
-        subprocess.run(["gh", "release", "upload", "side-assets", *files, "--clobber", "-R", REPO], check=True)
+        # 2026-11-11: side-assets 릴리스가 파일 1,000개 한도에 걸려 업로드가 실패하면 녹음 전체가 커밋되지 않았다(en05c).
+        # keep 요청은 저장소(voice_samples/<tag>)에 이미 복사됐으므로 릴리스 업로드 실패를 경고로만 남긴다.
+        r = subprocess.run(["gh", "release", "upload", "side-assets", *files, "--clobber", "-R", REPO])
+        if r.returncode != 0:
+            if not req.get("keep"): sys.exit("릴리스 업로드 실패")
+            print("경고: 릴리스 업로드 실패(파일 수 한도) — 저장소 voice_samples 복사본을 쓴다", flush=True)
         for f in files: os.remove(f)
     json.dump(res, open(os.path.join(OUT, f"voices_{tag}.json"), "w"), ensure_ascii=False, indent=1)
 
