@@ -522,9 +522,9 @@ def pill_layer(kind, label, pressed=False):
     if pressed: d.rounded_rectangle([2, 2, w - 3, h - 3], h // 2, fill=(212, 178, 112, 255))
     else: d.rounded_rectangle([2, 2, w - 3, h - 3], h // 2, fill=(20, 16, 12, 150), outline=GOLD + (255,), width=2)
     ic = Image.fromarray(icon_layer(kind, 64, (30, 22, 14) if pressed else (255, 255, 255), ring=False)).resize((60, 60), Image.LANCZOS)
-    im.alpha_composite(ic, (40, (h - 60) // 2))
     f = font("ui", 32); col = (30, 22, 14, 255) if pressed else (246, 238, 222, 255)
-    tw = d.textlength(label, font=f); d.text((112 + (w - 112 - 34 - tw) / 2, h / 2), label, font=f, fill=col, anchor="lm")
+    tw = d.textlength(label, font=f); gx = int((w - (60 + 14 + tw)) / 2)   # 11/10 대표: 아이콘+글자를 알약 가운데로
+    im.alpha_composite(ic, (gx, (h - 60) // 2)); d.text((gx + 74, h / 2), label, font=f, fill=col, anchor="lm")
     return np.array(im)
 
 
@@ -1026,7 +1026,8 @@ def mix_audio(S, plan, total, t_from, t_to, vfile, P, out_dir, tag):
             lab = add(path, p["t0"], vol, f"{loop}atrim=0:{d},afade=t=in:d=0.8,afade=t=out:st={max(d-0.9,0)}:d=0.9,")
             if lab: bg.append(lab)
         for key, at, vol in s.get("sfx", []):
-            lab = add(os.path.join(sfx_dir, key), p["t0"] + at, vol)
+            keep = max(p["dur"] - at + 0.5, 0.6)   # 11/10 대표: 긴 효과음(심장 박동 등)이 장면 뒤까지 웅웅 남지 않게 장면 끝에서 자른다 (spec "sfx_trim")
+            lab = add(os.path.join(sfx_dir, key), p["t0"] + at, vol, f"atrim=0:{keep},afade=t=out:st={max(keep - 0.6, 0)}:d=0.6," if S.get("sfx_trim") else "")
             if lab: bg.append(lab)   # 효과음은 덕킹하지 않는 쪽이 낫지만 단순하게 함께 둔다
     for m in S.get("music", []):
         path = os.path.join(mus_dir, m["file"]); length = m.get("len", 60)
