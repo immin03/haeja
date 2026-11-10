@@ -8,7 +8,7 @@ LIB = os.path.join(HERE, "..", "..", "..", "blog", "media", "lib")
 SCRIPT = json.load(open(os.path.join(HERE, "_script_L261112-soxl-nvidia.json"), encoding="utf-8"))
 base = json.load(open(os.path.join(SPECS, "L261108-lev-91.json"), encoding="utf-8"))
 soxl = json.load(open(os.path.join(SPECS, "L261107-soxl-38.json"), encoding="utf-8"))
-pep = json.load(open(os.path.join(SPECS, "L261110-pepero-v2.json"), encoding="utf-8"))
+pep = json.load(open(os.path.join(SPECS, "L261111-hyundai-robot.json"), encoding="utf-8"))
 OUT_DIR = os.environ.get("OUT_DIR", SPECS)
 BANNED = {"commons_handshake_1.jpg", "commons_handshake_2.jpg", "commons_samsungfab_1.jpg", "commons_pyeongtaek_1.jpg", "commons_pyeongtaek_2.jpg"}
 USED = {}; WARN = []
