@@ -8,7 +8,7 @@ import json, os, re, sys, types
 HERE = os.path.dirname(os.path.abspath(__file__)); ED = os.path.dirname(HERE)
 sys.path.insert(0, ED)
 E = json.load(open(os.path.join(HERE, "cine_ep01_en.json")))
-VD = ["cep01en1", "cep01en2", "cep01en3"]
+VD = ["cep01en1", "cep01en2", "cep01en3", "cep01en5"]   # cep01en5 = owner 2026-11-11 10:08: emperor (M) lines re-recorded with Robert normal 1.3 · tempo 1.0, + endA (Ron, ending text A)
 
 src = open(os.path.join(ED, "cine_ep01.py"), encoding="utf-8").read()
 rep = [
@@ -60,7 +60,12 @@ for sh in S["shots"]:
         sh["src"] = new; sh["type"] = "still"
 # retakes (owner rule: replace flagged takes, never hand-stamp). l035: 'Why... why him' drag 1.37 s -> clean take, padded to the original 4.008 s so timing is unchanged
 RETAKE = {"l035": "../cep01en4/voice_cep01en4_03_l035p.mp3"}
-S["voice_files"].update(RETAKE)
+if not os.path.exists(os.path.join(m.ROOT, "social/side/voice_samples/cep01en5")): S["voice_files"].update(RETAKE)   # Robert 1.0 takes (cep01en5) replace it
+# ending (owner 2026-11-11 round 2 → 10:03 "아웃트로는 그렇게 해도 될 것 같아"): end card v2, 18 s, slogan o1 then ending text A read by Ron (endA)
+for sh in S["shots"]:
+    if sh.get("type") == "finale":
+        sh.update({"dur": 18.0, "voice": ["o1", "endA"], "endcard": "v2", "pre": 0.8, "gap": 0.9})
+assert "endA" in S["voice_files"], "endA voice missing (social/side/voice_samples/cep01en5/voice_cep01en5_99_endA.mp3)"
 S["voice_dir"] = "social/side/voice_samples/" + VD[0]; S["root"] = "../../../.."   # spec lives in en/
 json.dump(S, open(m.OUT_SPEC, "w"), ensure_ascii=False, indent=1)
 import re

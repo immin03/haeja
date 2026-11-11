@@ -42,6 +42,25 @@ def load():
     def font(kind, size):
         return ImageFont.truetype(m.FONTS + FONTMAP[kind], int(round(size * SCALE.get(kind, 1.0))))
     m.font = font
+    # owner 2026-11-11: end card v2 (endcard_v2.py) — compact brand + ending text A at the top, empty slots for YouTube end-screen elements
+    fin0 = m.finale_frame
+    def finale_v2(s, t, dur, cache, logo):
+        if s.get("endcard") != "v2": return fin0(s, t, dur, cache, logo)
+        if "v2" not in cache:
+            import numpy as np, cv2
+            sys.path.insert(0, HERE); import endcard_v2
+            card = np.asarray(endcard_v2.card(False).convert("RGB"))[:, :, ::-1]
+            if card.shape[:2] != (m.H, m.W): card = cv2.resize(card, (m.W, m.H))
+            cache["v2"] = card.astype(np.float32)
+        a = m.ease(t / 1.2) * (1 - m.ease((t - dur + 0.8) / 0.8))
+        m._skip_bars = True   # full frame: the slots line up with YouTube's end-screen grid, so no cinema bars over the card
+        return (cache["v2"] * a).astype("uint8")
+    m.finale_frame = finale_v2
+    bars0 = m._bars
+    def bars(img):
+        if getattr(m, "_skip_bars", False): m._skip_bars = False; return img
+        return bars0(img)
+    m._bars = bars
     left = [l for l in src.splitlines() if re.search(r'"[^"#]*[가-힣][^"#]*"', l.split("#")[0]) and "print(" not in l and '"""' not in l]
     if left: print("note: Korean literals left in renderer (check they are not drawn):", len(left), flush=True)
     return m
