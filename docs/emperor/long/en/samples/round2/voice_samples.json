@@ -1,0 +1,11 @@
+{
+ "_about": "Emperor voice round 2 (Typecast ssfm-v30, eng). Each file = calm line, 0.9 s pause, emotional line. Durations in seconds.",
+ "lines": {"calm": "The best way to avenge yourself is not to become like the one who wronged you.", "emotional": "Him? Why... why him, of all people?"},
+ "samples": {
+  "voice_emperor_r2ZeusT100.mp3": {"voice": "Zeus", "voice_id": "tc_6a5882fe54564e2a06a218bb", "calm": {"emotion": "normal", "intensity": 0.95, "tempo": 1.0, "sec": 4.49}, "emotional": {"emotion": "sad", "intensity": 1.0, "tempo": 1.0, "sec": 3.58}, "total_sec": 8.93},
+  "voice_emperor_r2ZeusT105.mp3": {"voice": "Zeus", "voice_id": "tc_6a5882fe54564e2a06a218bb", "calm": {"emotion": "normal", "intensity": 0.95, "tempo": 1.05, "sec": 4.46}, "emotional": {"emotion": "sad", "intensity": 1.0, "tempo": 1.05, "sec": 3.58}, "total_sec": 8.90},
+  "voice_emperor_r2RobertT105.mp3": {"voice": "Robert", "voice_id": "tc_66bc600762cab997910b107b", "calm": {"emotion": "normal", "intensity": 1.0, "tempo": 1.05, "sec": 5.14}, "emotional": {"emotion": "sad", "intensity": 0.9, "tempo": 1.05, "sec": 3.12}, "total_sec": 9.12}
+ },
+ "context_clip": {"file": "mix_zeus_t100_scene.mp4", "sec": 17.3, "what": "real scene 2:39-2:57 of the episode: Ron narrates (Verus brings the letter, the name in it), Zeus t1.0 replies 'Him? Why... why him, of all people?', Ron continues. Rendered with the approved type system (a) Cinzel + EB Garamond."},
+ "qa": "take_check drag/hold: all six takes clean (max drag 0.83 s, no hold)"
+}

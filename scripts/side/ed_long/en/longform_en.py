@@ -22,7 +22,12 @@ STR = [  # (Korean default, English) — default UI strings in longform.py
 FONTMAP = {"ko": "CormorantGaramond-Bold.ttf", "ko6": "CormorantGaramond-SemiBold.ttf", "en": "CormorantSC-SemiBold.ttf", "en5": "CormorantSC-SemiBold.ttf",
            "ui": "Inter-SemiBold.ttf", "uim": "Inter-SemiBold.ttf", "it": "CormorantGaramond-MediumItalic.ttf", "script": "PinyonScript-Regular.ttf",
            "suit": "Inter-Bold.ttf", "suitb": "Inter-Bold.ttf", "suits": "Inter-SemiBold.ttf"}
-SCALE = {"ko": 1.12, "ko6": 1.12}   # Cormorant has a small x-height: draw a little larger than the Hangul face it replaces
+SCALE = {"ko": 1.12, "ko6": 1.12}
+if os.environ.get("ED_EN_TYPE") == "a":   # owner 2026-11-11: type system (a) Cinzel + EB Garamond approved
+    FONTMAP = {"ko": "Cinzel-SemiBold.ttf", "ko6": "fs_eb-garamond/eb-garamond-latin-500-italic.woff", "en": "Cinzel-SemiBold.ttf", "en5": "Cinzel-SemiBold.ttf",
+               "ui": "fs_eb-garamond/eb-garamond-latin-500-normal.woff", "uim": "fs_eb-garamond/eb-garamond-latin-500-normal.woff", "it": "fs_eb-garamond/eb-garamond-latin-500-italic.woff",
+               "script": "PinyonScript-Regular.ttf", "suit": "Inter-Bold.ttf", "suitb": "Inter-Bold.ttf", "suits": "Inter-SemiBold.ttf"}
+    SCALE = {"ko": 0.86, "ko6": 1.08, "ui": 1.0}   # Cormorant has a small x-height: draw a little larger than the Hangul face it replaces
 
 
 def load():
