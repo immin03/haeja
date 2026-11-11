@@ -65,6 +65,8 @@ if not os.path.exists(os.path.join(m.ROOT, "social/side/voice_samples/cep01en5")
 for sh in S["shots"]:
     if sh.get("type") == "finale":
         sh.update({"dur": 18.0, "voice": ["o1", "endA"], "endcard": "v2", "pre": 0.8, "gap": 0.9})
+for mu in S.get("music", []):   # owner 2026-11-11 11:06: music-video outro song a little quiet → 0.22 → 0.42 (+5.6 dB; voiced recap/end card still duck it)
+    if mu.get("file") == "vocal_0.mp3": mu["vol"] = 0.42
 assert "endA" in S["voice_files"], "endA voice missing (social/side/voice_samples/cep01en5/voice_cep01en5_99_endA.mp3)"
 S["voice_dir"] = "social/side/voice_samples/" + VD[0]; S["root"] = "../../../.."   # spec lives in en/
 json.dump(S, open(m.OUT_SPEC, "w"), ensure_ascii=False, indent=1)
