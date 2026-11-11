@@ -2015,7 +2015,7 @@ def main():
         if HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
             # 14:27 대표님: 사진 전환에 맞추려고 말을 멈추지 말 것 — 장면 길이는 말 길이 그대로, 장면 안에서 큰 베이스가 오면 그때만 사진을 바꾼다
             hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs; sc["v"]["_beat"] = BEAT or .5
-            if len(sc["v"].get("cuts", [])) > len(hs) + 1: sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:len(hs) + 1])
+            if len(sc["v"].get("cuts", [])) > len(hs) + 1 and not any(isinstance(c_, dict) and c_.get("d") for c_ in sc["v"]["cuts"]): sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:len(hs) + 1])   # 2026-11-12: 길이를 정한 컷(지구본 3.6초 → 무대 사진)은 남긴다
         elif BEAT and sc["v"].get("cine"):   # 장면 끝을 다음 박자에 맞춘다 → 장면이 바뀌는 순간이 늘 박자 위
             unit = BEAT * (4 if (spec.get("hook") or {}).get("cut", "bar" if HOOK_STYLE[0] == "basstaiko" else "beat") == "bar" else 1)
             # 2026-11-04 19:01 대표님 "다(★)다다다 다다다다 — 별 친 박자(마디 첫 박, 베이스가 제일 센 곳)에 사진을 바꾸면 제일 자연스럽다"
