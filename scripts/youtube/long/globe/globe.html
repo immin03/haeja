@@ -1,0 +1,97 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:SUIT;font-weight:800;src:url(SUIT-ExtraBold.ttf)}
+@font-face{font-family:SUIT;font-weight:600;src:url(SUIT-SemiBold.ttf)}
+html,body{margin:0;background:#0b1b33}canvas{display:block}
+</style>
+<script src="node_modules/d3-array/dist/d3-array.min.js"></script>
+<script src="node_modules/d3-geo/dist/d3-geo.min.js"></script>
+<script src="node_modules/topojson-client/dist/topojson-client.min.js"></script>
+</head><body><canvas id="c" width="1920" height="1080"></canvas>
+<script>
+const W=1920,H=1080, c=document.getElementById('c'), g=c.getContext('2d');
+const NAVY='#0b1b33', GOLD='#e0c896', GOLD_L='#eadbb9', IVORY='#f4eddc';
+let land=null, borders=null;
+const ease=x=>x<0?0:x>1?1:(x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const KR={name:'현대차',sub:'울산·서울',ll:[129.3,35.5]};
+// 시안 기준 위치 — 실제 사건이 일어난 곳
+const P=[
+ {name:'중동 전쟁',sub:'호르무즈 해협 · 유가',ll:[56.3,26.6],t:0.5},
+ {name:'미국 선거·금리',sub:'워싱턴',ll:[-77.0,38.9],t:1.7},
+ {name:'AI 데이터센터',sub:'반도체 쓸어 담기',ll:[-121.9,37.4],t:2.9},
+ {name:'파리 시위',sub:'유럽 소비 위축',ll:[2.35,48.86],t:4.1},
+];
+async function init(){
+  const r=await fetch('node_modules/world-atlas/land-50m.json'); const topo=await r.json();
+  land=topojson.feature(topo,topo.objects.land);
+  const r2=await fetch('node_modules/world-atlas/countries-50m.json'); const t2=await r2.json();
+  borders=topojson.mesh(t2,t2.objects.countries,(a,b)=>a!==b);
+  await document.fonts.load('800 40px SUIT'); await document.fonts.load('600 40px SUIT');
+  window.ready=true;
+}
+init();
+function label(x,y,name,sub,a,big,side){
+  g.save(); g.globalAlpha=a; g.textBaseline='middle';
+  const fs=big?54:40, ss=big?28:24; g.font=`800 ${fs}px SUIT`;
+  const w=Math.max(g.measureText(name).width,(g.font=`600 ${ss}px SUIT`,g.measureText(sub).width));
+  const dx=side<0?-(w+70):34, bx=x+dx-18, by=y-fs*0.95, bw=w+36, bh=fs+ss+30;
+  g.fillStyle='rgba(11,27,51,0.78)'; g.strokeStyle=big?GOLD:'rgba(224,200,150,0.55)'; g.lineWidth=big?3:2;
+  g.beginPath(); g.roundRect(bx,by,bw,bh,14); g.fill(); g.stroke();
+  g.fillStyle=big?GOLD:IVORY; g.font=`800 ${fs}px SUIT`; g.fillText(name,x+dx,y-fs*0.28);
+  g.fillStyle='rgba(234,219,185,0.8)'; g.font=`600 ${ss}px SUIT`; g.fillText(sub,x+dx,y+fs*0.5);
+  g.restore();
+}
+// mode: 'open' (한국 가까이 → 지구 전체), 'hook' (사건 4곳 → 현대차로 연결), 'map' (전부 연결된 채 천천히 회전)
+window.draw=function(mode,t){
+  let lam,phi,scale,cx=W*0.5,cy=H*0.56;
+  if(mode==='open'){ const k=ease(t/3.4); lam=-129.3+18*k-2*t; phi=-35.5-10*k; scale=1900+(500-1900)*k; cx=W*0.5-120*k; }
+  else { const k=mode==='hook'?t/9:t/8; lam=-22-12*k; phi=-54+2*k; scale=mode==='hook'?470+90*ease(cl((t-5.2)/3.5)):500; }
+  if(mode==='hook'&&t>5.2){ const z=ease(cl((t-5.2)/3.5)); lam+= -55*z*0; }
+  const proj=d3.geoOrthographic().rotate([lam,phi,0]).scale(scale).translate([cx,cy]).clipAngle(90).precision(.3);
+  const path=d3.geoPath(proj,g);
+  // 배경
+  const bg=g.createRadialGradient(cx,cy,scale*0.2,cx,cy,Math.max(W,H)); bg.addColorStop(0,'#16294a'); bg.addColorStop(1,NAVY);
+  g.fillStyle=bg; g.fillRect(0,0,W,H);
+  // 대기 빛
+  const glow=g.createRadialGradient(cx,cy,scale*0.96,cx,cy,scale*1.16); glow.addColorStop(0,'rgba(224,200,150,0.32)'); glow.addColorStop(1,'rgba(224,200,150,0)');
+  g.fillStyle=glow; g.beginPath(); g.arc(cx,cy,scale*1.16,0,7); g.fill();
+  // 바다(입체 음영)
+  const sea=g.createRadialGradient(cx-scale*0.35,cy-scale*0.4,scale*0.1,cx,cy,scale); sea.addColorStop(0,'#2a4776'); sea.addColorStop(0.7,'#152a4d'); sea.addColorStop(1,'#0c1d38');
+  g.fillStyle=sea; g.beginPath(); path({type:'Sphere'}); g.fill();
+  // 경위선
+  g.strokeStyle='rgba(234,219,185,0.07)'; g.lineWidth=1; g.beginPath(); path(d3.geoGraticule10()); g.stroke();
+  // 땅
+  g.fillStyle='rgba(234,219,185,0.20)'; g.beginPath(); path(land); g.fill();
+  g.strokeStyle='rgba(224,200,150,0.55)'; g.lineWidth=1.2; g.beginPath(); path(land); g.stroke();
+  g.strokeStyle='rgba(224,200,150,0.16)'; g.lineWidth=0.8; g.beginPath(); path(borders); g.stroke();
+  // 빛 반사(위 왼쪽) · 어두운 가장자리
+  const sh=g.createRadialGradient(cx-scale*0.4,cy-scale*0.45,0,cx,cy,scale*1.02); sh.addColorStop(0,'rgba(255,255,255,0.10)'); sh.addColorStop(0.55,'rgba(255,255,255,0)'); sh.addColorStop(1,'rgba(0,0,0,0.38)');
+  g.fillStyle=sh; g.beginPath(); path({type:'Sphere'}); g.fill();
+  const vis=ll=>d3.geoDistance(ll,[-lam,-phi])<Math.PI/2-0.05;
+  const kr=proj(KR.ll), krv=vis(KR.ll);
+  // 사건 → 현대차 연결선
+  const pts=mode==='open'?[]:P;
+  for(const p of pts){
+    const ta=mode==='map'?-9:p.t; if(t<ta) continue;
+    const a=cl((t-ta)/0.35), lk=ease(cl((t-ta-0.35)/0.9));
+    if(lk>0){
+      const line={type:'LineString',coordinates:[]}; const ip=d3.geoInterpolate(p.ll,KR.ll);
+      for(let i=0;i<=60*lk;i++) line.coordinates.push(ip(i/60));
+      g.save(); g.strokeStyle='rgba(224,200,150,0.9)'; g.lineWidth=4; g.shadowColor='rgba(224,200,150,0.8)'; g.shadowBlur=14;
+      g.setLineDash([18,10]); g.lineDashOffset=-t*40; g.beginPath(); path(line); g.stroke(); g.restore();
+    }
+    if(!vis(p.ll)) continue; const [x,y]=proj(p.ll);
+    const pul=(t*1.4+p.t)%1;
+    g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(244,237,220,${0.7*(1-pul)})`; g.lineWidth=3; g.beginPath(); g.arc(x,y,12+40*pul,0,7); g.stroke();
+    g.fillStyle=IVORY; g.beginPath(); g.arc(x,y,11,0,7); g.fill(); g.restore();
+    label(x,y,p.name,p.sub,a,false,p.ll[0]<-60||p.ll[0]>0&&p.ll[0]<10?-1:1);
+  }
+  // 현대차(한국)
+  if(krv){ const [x,y]=kr; const pul=(t*1.1)%1, big=mode==='hook'?1+0.25*ease(cl((t-5.2)/1.2)):1;
+    g.save(); g.strokeStyle=`rgba(224,200,150,${0.9*(1-pul)})`; g.lineWidth=4; g.beginPath(); g.arc(x,y,(16+60*pul)*big,0,7); g.stroke();
+    g.fillStyle=GOLD; g.shadowColor=GOLD; g.shadowBlur=24; g.beginPath(); g.arc(x,y,15*big,0,7); g.fill(); g.restore();
+    label(x,y,KR.name,mode==='open'?'시가총액 97조 원 증발':KR.sub,1,true,1);
+  }
+};
+</script></body></html>
