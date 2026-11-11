@@ -170,11 +170,11 @@ def render(spec, out):
         ft = font(spec.get("st", 62), "Heavy"); tw = ft.getlength(spec["tag"]); ph = ft.size * 1.5; pw = tw + ft.size * 1.0; x0, y0 = 44, 34
         sh = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([x0 + 3, y0 + 5, x0 + pw + 3, y0 + ph + 5], 8, fill=(0, 0, 0, 150)); im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
         ImageDraw.Draw(im).rounded_rectangle([x0, y0, x0 + pw, y0 + ph], 8, fill=bg_)
-        ImageDraw.Draw(im).text((x0 + pw / 2, y0 + ph / 2 + 2), spec["tag"], font=ft, fill=WHITE, anchor="mm")
-        if spec.get("ep"):   # 회차 배지: 흰 바탕 + 같은 색 글씨
+        ImageDraw.Draw(im).text((x0 + pw / 2, y0 + ph / 2 + 2), spec["tag"], font=ft, fill=tuple(spec.get("tag_fg", NAVY)), anchor="mm")   # 11/11 09:22 대표: 글씨는 우리 네이비
+        if spec.get("ep"):   # 회차 배지: 네이비 바탕 + 띠 색 글씨
             ex = x0 + pw + 12; ew = ft.getlength(spec["ep"]) + ft.size * 1.0
             sh = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([ex + 3, y0 + 5, ex + ew + 3, y0 + ph + 5], 8, fill=(0, 0, 0, 150)); im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
-            ImageDraw.Draw(im).rounded_rectangle([ex, y0, ex + ew, y0 + ph], 8, fill=WHITE)
+            ImageDraw.Draw(im).rounded_rectangle([ex, y0, ex + ew, y0 + ph], 8, fill=NAVY)
             ImageDraw.Draw(im).text((ex + ew / 2, y0 + ph / 2 + 2), spec["ep"], font=ft, fill=bg_, anchor="mm")
     elif spec.get("tag") and spec.get("tag_style") == "slim":   # 2026-11-11 대표 "위 배너가 무식하게 커 보이지 않게" — 얇은 네이비 반투명 띠 + 금색 테두리·글씨
         ft = font(spec.get("st", 50), "Bold"); tw = ft.getlength(spec["tag"]); ph = ft.size * 1.6; pw = tw + ft.size * 1.2; x0, y0 = 44, 36
