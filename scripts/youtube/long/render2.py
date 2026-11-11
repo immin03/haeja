@@ -1070,7 +1070,8 @@ def clip_source(pth, n_frames, seed, start=0.0):
     def get(u):
         i = int(u * FPS)
         if st["p"] is None and st["i"] < 0:
-            st["p"] = subprocess.Popen(["ffmpeg", "-v", "error", "-stream_loop", "-1", "-ss", str(start), "-i", pth, "-vf",
+            loop_ = [] if os.path.basename(pth).startswith("globe_") else ["-stream_loop", "-1"]   # 2026-11-12 대표님: 지구본은 한 번만 천천히 (3번 반복 금지) — 끝나면 마지막 장면에서 멈춘다
+            st["p"] = subprocess.Popen(["ffmpeg", "-v", "error", *loop_, "-ss", str(start), "-i", pth, "-vf",
                                         f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
                                        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL); _CLIPS.append(st["p"])
         while st["p"] is not None and st["i"] < i:
@@ -1105,7 +1106,8 @@ def cuts_source(v, n_frames, seed):
     edges = []; t = 0.0
     for c in cs:
         d_ = float(c.get("d") or each); edges.append((t, t + d_, c)); t += d_
-    if v.get("_hits") is not None:   # 큰 베이스 시각에만 컷 (2026-11-07)
+    if any(c.get("d") for c in cs): pass   # 2026-11-12: 길이를 정해 둔 컷(지구본 등)은 박자 컷 나누기보다 우선
+    elif v.get("_hits") is not None:   # 큰 베이스 시각에만 컷 (2026-11-07)
         b_ = hit_bounds(v["_hits"], len(cs)); bd = [0.0] + b_ + [total]
         edges = [(bd[i], bd[i + 1], cs[i]) for i in range(len(bd) - 1)]
     elif v.get("_beat"):   # 박자에 맞춰: 장면 박자 수를 컷 수로 나눠 경계를 박자 위에 둔다
@@ -1922,8 +1924,8 @@ def cut_edges(v, dur):
     """cuts_source 와 같은 계산으로 컷이 바뀌는 시각들"""
     cs = [c if isinstance(c, dict) else {"lib": c} for c in v.get("cuts", [])]
     if not cs: return []
-    if v.get("_hits") is not None: return hit_bounds(v["_hits"], len(cs))
-    if v.get("_beat"):
+    if v.get("_hits") is not None and not any(c.get("d") for c in cs): return hit_bounds(v["_hits"], len(cs))
+    if v.get("_beat") and not any(c.get("d") for c in cs):
         bt = v["_beat"]; B = max(1, int(round(dur / bt))); n = len(cs)
         return [max(1, int(round(i * B / n))) * bt for i in range(1, n)]
     fixed = sum(float(c["d"]) for c in cs if c.get("d")); free = [c for c in cs if not c.get("d")]

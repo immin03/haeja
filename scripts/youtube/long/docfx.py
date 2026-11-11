@@ -52,9 +52,36 @@ def _grad(strength):
     return _GRAD[strength]
 
 
+def _key_tokens(b):
+    """그래픽 속 핵심 숫자들 (내레이션에서 그 숫자를 말하는 순간에 맞추려고)"""
+    src = [b.get("text", ""), b.get("sub", "")]
+    for r in (b.get("rows") or []): src += [c for c in (r if isinstance(r, list) else [r])]
+    for i in (b.get("items") or []): src += [i.get("text", ""), i.get("label", "")]
+    toks = []
+    for t in src:
+        for m in re.findall(r"\d[\d,.]*\d|\d", str(t)):
+            m = m.replace(",", "")
+            if m not in toks and not re.fullmatch(r"(19|20)\d\d", m) and m not in ("1", "2", "3"): toks.append(m)   # 연도·번호는 말하는 순간이 아니라서 뺀다
+    return sorted(toks, key=lambda x: -len(x.replace(".", "")))[:3] if toks else []
+
+
 def _t0(b, lines):
+    """2026-11-12 대표님: 큰 숫자·표가 자막보다 먼저/늦게 휙 지나가지 않게 — 내레이션이 그 숫자를 말하는 순간에 맞춘다.
+    lines 항목은 (시작, 길이, 자막 글) — sync:false 로 끄면 예전처럼 line/at 비율."""
     i = min(b.get("line", 0), len(lines) - 1); a, v = lines[i][0], lines[i][1]
-    return a + b.get("at", .05) * v
+    base = a + b.get("at", .05) * v
+    if b.get("sync", True) and lines and len(lines[0]) >= 3:
+        for tok in _key_tokens(b):
+            for (la, lv, lt, *_) in lines:
+                plain = str(lt).replace(",", "")
+                k = plain.find(tok)
+                if k >= 0 and (len(tok) > 1 or not plain[k + 1:k + 2].isdigit()):
+                    return max(lines[0][0], la + lv * k / max(len(plain), 1) - .2)
+    return base
+
+
+def _scene_end(lines):
+    return max(l[0] + l[1] for l in lines) if lines else 0
 
 
 def _num(text):
@@ -212,7 +239,9 @@ def _bars(im, b, p, y):
         alpha = 235 if k == 0 else 150
         d.rectangle([bx, base - bh, bx + 120, base], fill=(*col, alpha))
         n = _num_k(i.get("text", ""), q)
-        d.text((bx, base - bh - 18), n, font=F("Heavy", 60), fill=(*col, 255), anchor="ld")
+        fs = 60   # 2026-11-12 대표님: 글자 겹침 금지 — 옆 막대 숫자 자리(280px)를 넘지 않게 줄인다
+        while fs > 30 and d.textlength(_num_k(i.get("text", ""), 1), font=F("Heavy", fs)) > 280: fs -= 2
+        d.text((bx, base - bh - 18), n, font=F("Heavy", fs), fill=(*col, 255), anchor="ld")
         d.text((bx, base + 18), i["label"], font=F("Medium", 28), fill=(*GRAY, 255))
 
 
@@ -255,7 +284,7 @@ def _broadcast(im, beats, u, lines):
         if p < 0: continue
         k = b["kind"]
         if k == "stamp":   # 왼쪽 위 장소·날짜: 타자기처럼 한 글자씩 + 깜빡이는 커서, 5초 뒤 사라짐
-            hold = b.get("hold", 5.0); fade = 1 - eio((p - hold) / .5)
+            hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
             if fade <= 0: continue
             t = b["text"]; n = min(len(t), int(p / .045)); d = ImageDraw.Draw(im, "RGBA"); f = F("Bold", 30)
             sy = H - 290; d.rectangle([150, sy, 156, sy + 36], fill=(*RED, int(255 * fade)))
@@ -263,7 +292,7 @@ def _broadcast(im, beats, u, lines):
             if n < len(t) or int(p * 2.2) % 2 == 0:
                 cx = 172 + d.textlength(t[:n], font=f) + 4; d.rectangle([cx, sy + 4, cx + 14, sy + 34], fill=(*WHITE, int(200 * fade)))
         elif k == "lower":   # 하단 자막띠: 금색 세로선이 서고 이름·설명이 옆에서 밀려 들어온다
-            hold = b.get("hold", 5.0); fade = 1 - eio((p - hold) / .5)
+            hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
             if fade <= 0: continue
             # 2026-11-09 대표님: 자막과 겹침 → 하단 띠를 위로
             y = b.get("y", H - 372); q = eout(p / .35); r = eout((p - .15) / .45); d = ImageDraw.Draw(im, "RGBA")
@@ -327,11 +356,12 @@ def _numparts(text):
 
 def _punches(im, pu, u, lines):
     for b in pu:
-        t0 = _t0(b, lines); p = u - t0; hold = b.get("hold", PUNCH_HOLD)
-        if p < -0.05 or p > hold + .45: continue
-        fade = 1 - eio((p - hold) / .45)
+        t0 = _t0(b, lines); p = u - t0
+        hold = max(b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))   # 2026-11-12 대표님: 숫자를 보고 갈 여운
+        if p < -0.05 or p > hold + .8: continue
+        fade = 1 - eio((p - hold) / .8)
         col = _tone(b, WHITE); soft = b.get("style") == "soft"   # soft: 번쩍·흔들림·쾅 없이 조용히 떠오르는 약한 박자 (강약 조절, 2026-11-06)
-        if soft: fade *= eout((p + .05) / .45)
+        if soft: fade *= eout((p + .05) / .7)
         # 뒤 화면을 눌러 어둡게 (가운데 숫자에 집중)
         dk = eout((p + .05) / .2) * fade * (.7 if soft else 1)
         a = np.asarray(im).astype(np.float32)
@@ -375,22 +405,34 @@ def _punches(im, pu, u, lines):
 
 
 def _table(im, b, p, y):
-    cols = b["cols"]; rows = b.get("rows", []); x = b.get("x", 150); cw = b.get("cw", 430); n = len(cols)
+    """2026-11-12 대표님: 글자 겹침 금지 — 칸 너비를 글자 길이에 맞추고, 화면을 넘으면 글자를 줄인다."""
+    cols = b["cols"]; rows = b.get("rows", []); x = b.get("x", 150); n = len(cols)
     tc = [TONE.get(c, WHITE) for c in (b.get("colors") or [None] * n)]
     d = ImageDraw.Draw(im, "RGBA"); ga = eout(p / .35)
-    for j, c in enumerate(cols):
-        _st(d, (x + j * cw, y + 8), c, font=F("Bold", 40), fill=(*tc[j], int(255 * ga)))
-    d.line([(x, y + 74), (x + (cw * n - 40) * eout(p / .5), y + 74)], fill=(*GOLD, 255), width=3)
+    hs, cs = 40, 38
+    for _ in range(12):
+        ws = []
+        for jj in range(n):
+            w_ = d.textlength(str(cols[jj]), font=F("Bold", hs))
+            for row in rows:
+                if jj < len(row): w_ = max(w_, d.textlength(str(row[jj]), font=F("SemiBold", cs)))
+            ws.append(max(b.get("cw", 0) if b.get("cw") else 0, w_ + 70, 240))
+        if x + sum(ws) <= W - 120 or cs <= 26: break
+        hs -= 2; cs -= 2
+    xs = [x + sum(ws[:jj]) for jj in range(n)]; tw = sum(ws) - 40
+    for jj, c in enumerate(cols):
+        _st(d, (xs[jj], y + 8), c, font=F("Bold", hs), fill=(*tc[jj], int(255 * ga)))
+    d.line([(x, y + 74), (x + tw * eout(p / .5), y + 74)], fill=(*GOLD, 255), width=3)
     for r, row in enumerate(rows):
         q = eout((p - .35 - .45 * r) / .4)
         if q <= 0: continue
         yy = y + 96 + 84 * r
-        for j, cell in enumerate(row):
-            _st(d, (x + j * cw + 18 * (1 - q), yy), cell, font=F("SemiBold", 38), fill=(*(tc[j] if b.get("tint_cells") else WHITE), int(255 * q)))
-        d.line([(x, yy + 70), (x + cw * n - 40, yy + 70)], fill=(255, 255, 255, int(40 * q)), width=1)
+        for jj, cell in enumerate(row[:n]):
+            _st(d, (xs[jj] + 18 * (1 - q), yy), cell, font=F("SemiBold", cs), fill=(*(tc[jj] if b.get("tint_cells") else WHITE), int(255 * q)))
+        d.line([(x, yy + 70), (x + tw, yy + 70)], fill=(255, 255, 255, int(40 * q)), width=1)
     if n > 1:   # 가운데 세로선
-        for j in range(1, n):
-            xx = x + j * cw - 30; d.line([(xx, y + 90), (xx, y + 90 + (84 * len(rows)) * ga)], fill=(255, 255, 255, 60), width=1)
+        for jj in range(1, n):
+            xx = xs[jj] - 30; d.line([(xx, y + 90), (xx, y + 90 + (84 * len(rows)) * ga)], fill=(255, 255, 255, 60), width=1)
 
 
 def _icon(d, name, cx, cy, s, col, w=5):
