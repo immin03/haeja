@@ -39,13 +39,13 @@ def big_coin(img, cx, cy, d, op):
     return Image.blend(base, ImageChops.screen(base, lay), op)
 
 
-def words(img, lines, sub):
+def words(img, lines, sub, yc=0.52):
     """v3 words (Anton, two sizes, soft shadow) + one small subtitle line in Cinzel under them."""
     fpath = os.path.join(FD, "Anton.woff"); x0 = int(W * 0.055)
     d0 = ImageDraw.Draw(img); base_size = 168
     k = min(1.0, min(W * 0.50 / d0.textlength(t, font=ImageFont.truetype(fpath, int(base_size * wgt))) for t, wgt, _ in lines))
     hs = [int(base_size * wgt * k) for _, wgt, _ in lines]; total = sum(int(h * 1.04) for h in hs) + (70 if sub else 0)
-    y = int(H * 0.52 - total / 2); pos = []
+    y = int(H * yc - total / 2); pos = []
     for (t, wgt, col), sz in zip(lines, hs):
         pos.append((t, ImageFont.truetype(fpath, sz), y, col)); y += int(sz * 1.04)
     ss = 30
