@@ -11,7 +11,9 @@ Build packaging for a US audience from scratch. Do not adapt the Korean thumbnai
 - Use at most 1–2 visual cues, for example one arrow or one circle.
 - Test at phone-feed size (about 360×202) before finalizing.
 - Each variant changes ONE element. For example: A = emperor face + text, B = betrayer/scene face + same text, C = A's image with different wording.
-- Do not copy the Korean thumbnail layout.
+- Do not copy the Korean thumbnail wording or Korean text; the words follow the US research (samples/round2/thumb_research.md: viewer's situation first, 4–9 words in two sizes, white + yellow/gold).
+- COIN EMBLEM (owner 2026-11-11 09:30, overrides the earlier small-badge layout of v1–v3): do it the way the Korean channel does (docs/emperor/long/ep04_a.jpg). The Aurelius coin is LARGE — about half the left side (diameter ≈ 640–680 px on 1280×720), warm gold, softly blended (screen) into the dark background, with the words sitting on top of it. Never a small logo badge in a corner. Reference build: make_thumb_en4.py (samples/round3/).
+- Korean thumbnails share: dark painterly figure, heavy white text + one yellow/gold line, one small subtitle line, text grouped on one side.
 
 ## Title
 - Under 70 characters, with the main keyword early.
