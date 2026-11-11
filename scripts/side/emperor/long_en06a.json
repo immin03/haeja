@@ -1,0 +1,171 @@
+{
+ "id": "en06a",
+ "lang": "en",
+ "from": "ep06x",
+ "note": "2026-11-11 영어 데일리 쇼츠(en05b 구조). 한국 ep06x 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "A VACATION",
+  "won't fix",
+  "your mind."
+ ],
+ "title_line": "A vacation won't fix your mind",
+ "music": {
+  "file": "/home/claude/ed/music/music_classical-7.mp3",
+  "start": 91,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en06a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_sea_waves.mp4",
+  "/home/claude/haeja/social/side/gen/libv_snow_camp.mp4",
+  "/home/claude/haeja/social/side/gen/libv_tent_stars.mp4",
+  "/home/claude/haeja/social/side/gen/libv_stars_ruins.mp4",
+  "/home/claude/haeja/social/side/gen/edv09_ruins.mp4",
+  "/home/claude/haeja/social/side/gen/libv_dust_light.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.395,
+   1,
+   0,
+   "none",
+   [
+    "A vacation won't fix your mind."
+   ]
+  ],
+  [
+   3.245,
+   5.015,
+   2,
+   0,
+   "cap",
+   [
+    "You fly somewhere beautiful,"
+   ]
+  ],
+  [
+   5.065,
+   6.383,
+   2,
+   0,
+   "cap",
+   [
+    "and the worry",
+    "comes with you."
+   ]
+  ],
+  [
+   7.243,
+   9.963,
+   3,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius ruled",
+    "the Roman Empire."
+   ]
+  ],
+  [
+   10.013,
+   12.403,
+   3,
+   1,
+   "cap",
+   [
+    "He spent his last years",
+    "in a war camp."
+   ]
+  ],
+  [
+   12.453,
+   14.566,
+   3,
+   2,
+   "cap",
+   [
+    "And there, he wrote this",
+    "in his journal."
+   ]
+  ],
+  [
+   15.416,
+   18.206,
+   4,
+   3,
+   "quote",
+   [
+    "People seek retreats",
+    "by the sea,",
+    "in the mountains."
+   ]
+  ],
+  [
+   18.256,
+   19.526,
+   4,
+   3,
+   "quote",
+   [
+    "But there is no place",
+    "more quiet"
+   ]
+  ],
+  [
+   19.576,
+   23.601,
+   4,
+   3,
+   "quote",
+   [
+    "than your own soul."
+   ]
+  ],
+  [
+   24.461,
+   25.731,
+   5,
+   4,
+   "big",
+   [
+    "You change the place."
+   ]
+  ],
+  [
+   25.781,
+   27.222,
+   5,
+   4,
+   "big",
+   [
+    "The worry",
+    "packs itself."
+   ]
+  ],
+  [
+   28.072,
+   32.532,
+   6,
+   5,
+   "quote",
+   [
+    "Give yourself",
+    "this retreat often,",
+    "and renew yourself."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Write down",
+  "one worry,",
+  "and let it go."
+ ],
+ "source": "Marcus Aurelius, Meditations 4.3",
+ "end_voice": "/home/claude/vo/v2/en06_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en06_outro_voice.wav",
+ "theme": "A",
+ "vol": 1.0
+}
