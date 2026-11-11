@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "chunks=$(python3 scripts/side/ed_long/render_plan.py chunks "$SPEC" ${{ github.event.inputs.chunks }})" >> $GITHUB_OUTPUT
           { echo 'paths<<EOF'; echo /scripts/side; echo /scripts/reels/fonts; python3 scripts/side/ed_long/render_plan.py paths "$SPEC" | sed 's#^#/#'; echo EOF; } >> $GITHUB_OUTPUT
-          { echo 'audio<<EOF'; echo /scripts/side; python3 scripts/side/ed_long/render_plan.py audio "$SPEC" | sed 's#^#/#'; echo EOF; } >> $GITHUB_OUTPUT
+          { echo 'audio<<EOF'; echo /scripts/side; echo /scripts/reels/fonts; python3 scripts/side/ed_long/render_plan.py audio "$SPEC" | sed 's#^#/#'; echo EOF; } >> $GITHUB_OUTPUT
 
   render:
     needs: plan
@@ -74,7 +74,8 @@ jobs:
           fetch-depth: 1
           sparse-checkout-cone-mode: false
           sparse-checkout: ${{ needs.plan.outputs.audio }}
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy opencv-python-headless pillow scipy
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy opencv-python-headless pillow scipy fonttools brotli
+      - run: sudo mkdir -p /root/fonts && sudo chmod 777 /root /root/fonts && bash scripts/side/ed_long/fonts_setup.sh /root/fonts   # 자막 시각 계산도 글꼴로 줄 너비를 잰다
       - uses: actions/download-artifact@v4
         with: { pattern: 'chunk-*', path: _chunks, merge-multiple: true }
       - name: 이어 붙이고 소리 섞기
