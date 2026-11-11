@@ -2,7 +2,6 @@
  "id": "cine_ep01_en",
  "channel": "en",
  "channel_handle": "@EmperorsDiary-en",
- "source_ko": {"id": "cine_ep01", "yt": "IJ7NXFssjys"},
  "title_options": [
   "3 Stoic Ways to BEAT Someone Who Betrayed You | Marcus Aurelius",
   "The PERFECT Revenge on Someone Who Betrayed You | Marcus Aurelius",
@@ -10,20 +9,52 @@
  ],
  "title": "3 Stoic Ways to BEAT Someone Who Betrayed You | Marcus Aurelius",
  "title_why": "63 chars; numbered list + keyword (Stoic, betrayed) up front + payoff (BEAT); matches the on-screen recap '3 Ways to Beat Someone Who Betrayed You'.",
- "description": "How do you beat someone who betrayed you? Marcus Aurelius, the Stoic emperor of Rome, faced the worst betrayal of his life, and his answer is the most powerful lesson in Stoicism you'll hear about revenge.\n\nIn 175 AD, a false rumor spread that the emperor was dead. Avidius Cassius, the general he trusted most, declared himself emperor, and half the empire followed him. Months later, a chest arrived holding the letters of everyone who had helped the rebellion. All Marcus had to do was open it. He threw it into the fire.\n\n3 Stoic ways to beat someone who betrayed you:\nI. Don't curse them\nII. Don't watch their downfall\nIII. Don't open what you don't need to know\n\n\"The best way to avenge yourself is not to become like the wrongdoer.\" (Meditations 6.6)\n\nCHAPTERS\n0:00 The perfect revenge\n0:45 The general Rome trusted\n1:57 \"The emperor is dead\"\n2:35 The name in the letter\n3:10 The speech nobody expected\n4:08 Marching east to forgive\n4:35 Three months and six days\n5:26 The chest of names\n6:28 Mercy, and its limits\n7:03 Would you open them?\n7:23 3 Stoic ways to beat a betrayer\n9:24 Think like an emperor\n\nIf this helped you, subscribe for a new story from the Meditations every week.\n\nSources: Marcus Aurelius, Meditations. Meditations quotes adapted from George Long's public-domain translation. Cassius Dio, Roman History, Books 71-72. Historia Augusta, Life of Marcus Aurelius and Life of Avidius Cassius.\n\nThis video is a dramatized retelling based on historical records and the Meditations. Some scenes and dialogue are dramatized. Visuals and voices are AI-generated (altered or synthetic content).\n\nMusic: \"Battlefield 6 Streaming Music Vol. 9 [Epic Vocals]\" by Sascha Ende (ende.app), CC BY 4.0\nMusic & SFX: Mixkit (mixkit.co)\n\n#Stoicism #MarcusAurelius #Meditations #Betrayal",
- "tags": ["stoicism", "marcus aurelius", "meditations", "stoic philosophy", "stoic wisdom", "betrayal", "how to deal with betrayal", "revenge", "best revenge", "forgiveness", "avidius cassius", "roman history", "stoic lessons", "philosophy", "the emperor's diary"],
+ "description": "How do you beat someone who betrayed you? Marcus Aurelius, the Stoic emperor of Rome, faced the worst betrayal of his life, and his answer is the most powerful lesson in Stoicism you'll hear about revenge.\n\nIn 175 AD, a false rumor spread that the emperor was dead. Avidius Cassius, the general he trusted most, declared himself emperor, and half the empire followed him. Months later, a chest arrived holding the letters of everyone who had helped the rebellion. All Marcus had to do was open it. He threw it into the fire.\n\n3 Stoic ways to beat someone who betrayed you:\nI. Don't curse them\nII. Don't watch their downfall\nIII. Don't open what you don't need to know\n\n\"The best way to avenge yourself is not to become like the wrongdoer.\" (Meditations 6.6)\n\nCHAPTERS\n0:00 The perfect revenge\n0:45 The general Rome trusted\n2:01 \"The emperor is dead\"\n2:33 The name in the letter\n3:07 The speech nobody expected\n4:07 Marching east to forgive\n4:33 Three months and six days\n5:20 The chest of names\n6:20 Mercy, and its limits\n6:54 Would you open them?\n7:16 3 Stoic ways to beat a betrayer\n7:43 Think like an emperor\n\nIf this helped you, subscribe for a new story from the Meditations every week.\n\nSources: Marcus Aurelius, Meditations. Meditations quotes adapted from George Long's public-domain translation. Cassius Dio, Roman History, Books 71-72. Historia Augusta, Life of Marcus Aurelius and Life of Avidius Cassius.\n\nThis video is a dramatized retelling based on historical records and the Meditations. Some scenes and dialogue are dramatized. Visuals and voices are AI-generated (altered or synthetic content).\n\nMusic: \"Battlefield 6 Streaming Music Vol. 9 [Epic Vocals]\" by Sascha Ende (ende.app), CC BY 4.0\nMusic & SFX: Mixkit (mixkit.co)\n\n#Stoicism #MarcusAurelius #Meditations #Betrayal",
+ "tags": [
+  "stoicism",
+  "marcus aurelius",
+  "meditations",
+  "stoic philosophy",
+  "stoic wisdom",
+  "betrayal",
+  "how to deal with betrayal",
+  "revenge",
+  "best revenge",
+  "forgiveness",
+  "avidius cassius",
+  "roman history",
+  "stoic lessons",
+  "philosophy",
+  "the emperor's diary"
+ ],
  "category_id": "27",
  "default_language": "en",
  "contains_synthetic_media": true,
  "made_for_kids": false,
- "thumbnails": {"A": "cine_ep01_en_thumb_A.png", "B": "cine_ep01_en_thumb_B.png", "C": "cine_ep01_en_thumb_C.png", "test": "A = emperor face + 'THE PERFECT REVENGE'; B = betrayer Cassius face, same text; C = A's image, text 'HE BURNED THEIR NAMES'"},
+ "thumbnails": {
+  "single": "docs/emperor/long/en/thumb_cine_ep01_en.jpg",
+  "note": "owner 2026-11-11 10:08 corner coin (d 520) · one thumbnail until A/B is available"
+ },
  "end_screen": {
-  "start": "9:25", "end": "9:37",
+  "start": "9:16",
+  "end": "9:33",
   "elements": [
-   {"type": "subscribe", "where": "gold coin at top center (x 50%, y 24% of frame)"},
-   {"type": "video", "pick": "best for viewer", "where": "empty left panel (x 14%-45%, y 55%-87%)"}
+   {
+    "type": "video",
+    "pick": "best for viewer",
+    "where": "left slot x 150-750 y 560-898 of 1920x1080"
+   },
+   {
+    "type": "subscribe",
+    "where": "centre (960,729)"
+   },
+   {
+    "type": "video",
+    "pick": "most recent upload",
+    "where": "right slot x 1170-1770 y 560-898"
+   }
   ],
-  "note": "The last 13 s (finale) is drawn with an empty left panel for the video element and the coin for the subscribe element. Subscribe/Like pills on the right are animation only."
+  "note": "end card v2 (endcard_v2.py)"
  },
  "pinned_comment": "Someone you trusted turned on you. Would you have opened the chest?\n\nIf this story helped, a like and a subscribe help us make the next one. Thank you."
 }
