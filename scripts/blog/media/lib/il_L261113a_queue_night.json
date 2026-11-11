@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113a_queue_night",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A long line of young people waiting at night outside a glowing minimalist flagship electronics store in a big Chinese city, light rain, reflections on the pavement.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cb59-f033-76d7-b1fe-e068374c2419",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cb59-f033-76d7-b1fe-e068374c2419/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cb59-f033-76d7-b1fe-e068374c2419/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cb59-f033-76d7-b1fe-e068374c2419",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cb59-f033-76d7-b1fe-e068374c2419/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cb59-f033-76d7-b1fe-e068374c2419/cancel",
+  "expires_at": "2026-11-18T16:05:19.459829+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cb59-f033-76d7-b1fe-e068374c2419/3e058d33-ffc8-43a3-bac7-dd5c60684907.jpeg"
+   }
+  ]
+ },
+ "seconds": 94,
+ "file": "scripts/blog/media/lib/il_L261113a_queue_night.jpeg"
+}
