@@ -1,0 +1,1966 @@
+{
+ "fx": 1430,
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "hook": {
+  "bpm": 61.52,
+  "style": "basstaiko",
+  "cut": "beat",
+  "pulse": false,
+  "ident_fx": false
+ },
+ "overlay": "doc",
+ "music": {
+  "intro": "social/music/samples3/I2_full.mp3",
+  "intro_offset": 0.07,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/samples3/H5_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
+  ],
+  "note": "본편 H5 Ambient House → H1 Deep House Sunset · 120Hz 아래 차단 (11/10 H6 House - July 저작권 주장(Content ID, Easy Eva) 발생 → 사용 금지) · 11/11 대표 \"배경음악 크다\"(SOXL 2편) → H5·H1은 H6보다 2.6dB 큰 곡이라 bed_gain_db 3→-1.5",
+  "hits": [
+   2.93,
+   6.83,
+   12.68,
+   18.53,
+   22.43,
+   26.33,
+   31.21,
+   35.6,
+   43.4,
+   47.3,
+   53.64,
+   57.54,
+   61.44,
+   65.34,
+   69.24,
+   74.6,
+   78.51,
+   82.41,
+   87.77
+  ],
+  "bed_gain_db": -1.5,
+  "bed_hp": 120
+ },
+ "look": {
+  "paper": "grain",
+  "dark": "navy",
+  "accent": "gold"
+ },
+ "id": "L261113-apple-duo",
+ "company": "AAPL",
+ "no_data": true,
+ "series": "내 계좌 점검",
+ "plan": "P261112u-apple",
+ "scheduled_at": "2026-11-13T11:30:00+09:00",
+ "opening": "결과(사상 최고가·6,800조) + 지구본(선전·한국·월가·워싱턴) + 모순(웃돈 1만 위안 → 정가 이하, 그런데 주가 최고가, 엔비디아 540조 증발 주) + 질문 + 약속 + 힌트(지키는 것도 AI, 깎는 것도 AI)",
+ "hook_type": "H11 모순 + 지구본 + 힌트(AI 양면) + 리훅(장마다 다음 장소 예고)",
+ "endscreen_target": "L261112-soxl-nvidia",
+ "title": "애플 주가 전망, 이 3가지만 보면 된다 | 아이폰 듀오 중국 웃돈 급감·품질 논란",
+ "doc_title": "애플을 움직이는 세계 지도: 중국 웃돈·한국 화면·월가 AI 매도·워싱턴 금리",
+ "title_en": "Apple stock outlook: iPhone Duo's fading China premium, memory costs and the AI rotation behind a record high",
+ "pinned_comment": "317만 원짜리 아이폰 듀오, 사시겠어요? 아니면 애플 주식을 사시겠어요? 댓글로 나눠 주세요.\n※ 화면 결함·수율·물량은 보도와 소비자 호소 기준이며, 영상 속 기준은 참고일 뿐 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "description_head": "애플 주가 전망, 11월 9일 애플은 사상 처음 350달러를 넘었고 시가총액은 약 5조 1천억 달러(약 6,800조 원)로 세계 1위입니다. 그런데 첫 접는 아이폰 '아이폰 듀오'는 중국에서 한때 1만 위안 넘던 웃돈이 사라지고 화면 줄·균열 호소가 이어졌습니다.\n\n엔비디아가 이틀 동안 540조 원을 잃은 주에 애플은 왜 최고가였을까요? 중국 선전의 재판매 시장, 접는 화면을 단독 공급하는 한국 아산의 삼성디스플레이, AI 데이터센터가 끌어올린 메모리 값과 애플 매출총이익률 45~46% 전망, 월가의 AI 주식 매도, 워싱턴의 금리까지, 애플을 움직이는 세계 지도 한 장과 앞으로 볼 숫자 3가지를 정리했습니다.\n\n※ 화면 결함·수율·물량은 보도와 소비자 호소이며 애플이 확인하지 않은 내용이 있습니다. 매수·매도 권유가 아닙니다.",
+ "description_en": "Apple closed above $350 for the first time on Nov 9 and is worth about $5.1 trillion, while its first foldable, the iPhone Duo, lost its China resale premium amid screen complaints. We connect Shenzhen's resale market, Samsung Display's foldable panels in Korea, AI-driven memory costs and Apple's 45-46% margin guidance, the rotation out of AI stocks, and US rates. Not investment advice.",
+ "hook_promises": [
+  "애플을 움직이는 세계 지도 한 장",
+  "앞으로 볼 숫자 3가지"
+ ],
+ "viewer_question": "아이폰 듀오 논란·메모리 값·AI 매도·금리가 내 애플 주식에 어떻게 이어지나",
+ "format_note": "대표 11/12 00:57 지정(트렌드 카드: 아이폰 듀오, 중국서 웃돈 급감·품질 논란). 현대차 편 형식(메르식 거시·지구본 훅·장별 지구본 확대). 화면 결함은 '호소·보도'로, 수율·물량은 익명 보도로 표시. 매수·매도 권유 내레이션 없음.",
+ "endscreen_also": "L261103-samsung-ai",
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_open.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 9일, 애플 주가가 사상 처음 350달러를 넘었습니다. 시가총액은 약 5조 1천억 달러, 우리 돈 약 6,800조 원이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스) · 환산 1달러=1,337.5원",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 6,800조 원",
+     "sub": "애플 시가총액 · 2026.11.9 · 세계 1위",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_hook.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 이 최고가 뒤에서, 지구 곳곳이 움직이고 있습니다. 중국 선전의 웃돈 시장, 한국의 화면 공장, 월가의 AI 매도, 그리고 워싱턴의 금리. 이 네 곳이 지금 애플을 흔들고 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_queue_night.jpeg"
+     },
+     {
+      "lib": "vshanghai_31063.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "애플의 첫 접는 아이폰, 아이폰 듀오. 중국 사전 주문 첫 물량은 몇 분 만에 다 팔렸고 재판매 시장에선 한때 정가보다 1만 위안, 약 200만 원 넘게 비싸게 거래됐습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 웃돈·정가 이하·주문 취소)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "+1만 위안",
+     "sub": "아이폰 듀오 중국 재판매 웃돈 · 출시 직후",
+     "line": 0,
+     "at": 0.3,
+     "color": "green",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_screen_line.jpeg"
+     },
+     {
+      "lib": "il_L261113a_boxes_stack.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 출시 며칠 만에 일부 판매처에선 정가보다 싸게 팔리기 시작합니다. 접히는 화면에 줄이 생겼다는 호소가 잇따랐거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 웃돈·정가 이하·주문 취소)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_two_boards.jpeg"
+     },
+     {
+      "lib": "vstockmarket_47792.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 그 사이 애플 주가는 사상 최고가를 다시 씁니다. 엔비디아가 이틀 동안 540조 원을 잃은 바로 그 주에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스) · 알파경제 2026-11-11 (엔비디아 이틀 약 540조 원)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "2026.11.9",
+      "하루 등락률"
+     ],
+     "rows": [
+      [
+       "애플",
+       "+2.43% · 사상 최고가"
+      ],
+      [
+       "엔비디아",
+       "-4.27%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_applestore_2.jpg"
+     },
+     {
+      "lib": "vshanghai_26816.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "접는 아이폰은 흔들리는데, 주가는 왜 최고가일까요? 그리고 이 최고가는 계속 갈 수 있을까요? 지금부터 지구 한 바퀴를 같이 돌아보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_iphonehand_2.jpg"
+     },
+     {
+      "lib": "phone_4919.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "애플을 갖고 계신 분이라면, 이 영상이 끝날 때쯤 애플 주가를 움직이는 세계 지도 한 장과 앞으로 볼 숫자 세 가지를 갖게 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "이 영상이 끝나면"
+     ],
+     "rows": [
+      [
+       "애플을 움직이는 세계 지도 한 장"
+      ],
+      [
+       "앞으로 볼 숫자 3가지"
+      ]
+     ],
+     "colors": [
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_chip_wafer_gold.jpeg"
+     },
+     {
+      "lib": "commons_googleplex_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "힌트를 하나 드리면, 지금 애플 주가를 지켜 주는 것도 AI고 애플의 이익을 깎고 있는 것도 AI입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "ident": true,
+    "cuts": [
+     {
+      "lib": "commons_applepark_1.jpg"
+     },
+     {
+      "lib": "il_L261113a_campus_dusk.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "밸류노트, 지금 시작합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_applepark_2.jpg"
+     },
+     {
+      "lib": "il_L261113a_keynote.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "결론부터 말씀드리면, 아이폰 듀오 논란은 아직 애플 실적을 바꿀 크기는 아닙니다. 진짜 변수는 따로 있어요. 시작은 중국 선전입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_shenzhen.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261113a_reseller_market.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "중국 선전의 화창베이는 세계 최대 전자상가 가운데 하나입니다. 새 아이폰이 나오면 웃돈이 가장 먼저 붙는 곳이죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "chapter": "중국 선전, 웃돈이 사라진 이유"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vchina_28699.mp4"
+     },
+     {
+      "lib": "il_L261110a_midnight_phones.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "아이폰 듀오의 중국 시작 가격은 1만 5,999위안, 우리 돈 약 317만 원입니다. 아이폰 역사상 가장 비싼 가격이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 웃돈·정가 이하·주문 취소)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 317만 원",
+     "sub": "아이폰 듀오 중국 시작 가격 · 256GB · 아이폰 역대 최고가",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vshanghai_30977.mp4"
+     },
+     {
+      "lib": "il_L261113a_cash_count.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 10월 23일 출시 며칠 만에 분위기가 바뀝니다. 선전 화창베이의 한 재판매자는 1TB 모델 웃돈을 2,800위안 낮췄고 상하이에선 최대 8만~10만 위안을 손해 본 재판매자도 나왔다고 전해졌어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 웃돈·정가 이하·주문 취소)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "아이폰 듀오 중국 재판매 시장",
+     "sub": "출시 첫날 웃돈 2,000~3,000위안 → 일부 손실 최대 8만~10만 위안",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vchina_31089.mp4"
+     },
+     {
+      "lib": "commons_shanghaimall_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "일부 판매처는 보조금을 붙여 정가보다 약 500위안 싸게 팔기 시작했고 애플 고객센터는 주문을 취소한 고객이 많았다고 말했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 웃돈·정가 이하·주문 취소)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "중국 판매처",
+      "정가 대비"
+     ],
+     "rows": [
+      [
+       "일부 플랫폼(보조금)",
+       "약 500위안 싸게"
+      ],
+      [
+       "더우",
+       "약 290위안 비싸게"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_unfold_hand.jpeg"
+     },
+     {
+      "lib": "commons_iphonehand_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이유 중 하나는 화면입니다. 접히는 가운데를 따라 균열과 흰 줄이 생겼다는 호소가 잇따랐고 애플도 화면 결함은 인정했어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 웃돈·정가 이하·주문 취소)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_repair_counter.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "중국 항저우에선 산 지 4일 만에 안쪽 화면이 꺼졌다는 사례가 보도됐습니다. 매장은 사용자 과실로 보고 1만 위안 넘는 수리비를 제시했죠. 애플은 문제를 겪은 기기가 소수라는 입장입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "위키트리 2026-11-09 (MyDrivers 인용)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "안쪽 화면 수리비",
+      "애플케어 없을 때"
+     ],
+     "rows": [
+      [
+       "중국",
+       "7,998위안"
+      ],
+      [
+       "미국",
+       "999달러"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_panel_conveyor.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 이 접는 화면은 누가 만들까요? 답은 한국에 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_asan.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261113a_oled_line.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "아이폰 듀오의 접는 화면은 삼성디스플레이가 단독으로 공급합니다. 충남 아산에 애플 폴더블 전용 라인까지 지었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "MTN 2026-09-17 · 씨이오스코어데일리 2026-09-14",
+   "sketch": [],
+   "chapter": "한국 아산, 접는 화면의 주인"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_samsungfab_1.jpg"
+     },
+     {
+      "lib": "factory_23696_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "화면 한 장 값은 약 250달러로 알려졌습니다. 기존 아이폰 화면이 약 70달러였으니 3배가 넘죠. 부품 가운데 가장 비싸요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "MTN 2026-09-17 (IT 팁스터 인용)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "화면 한 장(알려진 값)",
+      ""
+     ],
+     "rows": [
+      [
+       "기존 아이폰",
+       "약 70달러"
+      ],
+      [
+       "아이폰 듀오",
+       "약 250달러"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_lab_test.jpeg"
+     },
+     {
+      "lib": "il_L261113a_hinge_parts.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다만 출발은 순탄치 않았습니다. 중국 매체 지몐은 9월 중순 조립 수율이 60%를 조금 넘었고 화면과 힌지 부품도 수율이 낮고 배송이 늦었다고 전했어요. 익명 출처라 확인된 사실은 아닙니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "맥루머스 2026-09-29 (지몐 인용, 미확인)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "아이폰 듀오 조립 수율(보도)",
+     "sub": "2026.9.17 기준 60%대 초반 · 익명 출처 · 지몐",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_iphonehand_4.jpg"
+     },
+     {
+      "lib": "smartphone_41638_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "애플이 올해 준비한 아이폰 듀오는 600만~800만 대로 전해집니다. 아이폰 프로 한 모델이 2천만~3천만 대 팔리는 것과 비교하면 작은 물량이죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "맥루머스 2026-09-29 (공급망 출처)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "출하 규모(보도)",
+      ""
+     ],
+     "rows": [
+      [
+       "아이폰 듀오 2026년 준비 물량",
+       "600만~800만 대"
+      ],
+      [
+       "아이폰 프로 한 모델",
+       "2천만~3천만 대"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_dram_2.jpg"
+     },
+     {
+      "lib": "smartphone_4915_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 듀오 논란이 애플 실적을 당장 흔들 크기는 아닙니다. 애플 이익을 정말 깎고 있는 건 화면이 아니라 메모리예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_ai.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261107m_memory_wafer.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 2일 애플 실적 발표. 매출은 1,145억 달러로 12% 늘었고 아이폰 매출도 17.5% 늘었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "MTN 2026-11-03 · 24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "애플 9월 분기",
+      "1년 전 대비"
+     ],
+     "rows": [
+      [
+       "매출 1,145억 달러",
+       "+12%"
+      ],
+      [
+       "아이폰 매출 576억 달러",
+       "+17.5%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ],
+   "chapter": "AI가 애플에서 가져가는 것"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_earnings_call.jpeg"
+     },
+     {
+      "lib": "vstockmarket_47012.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 시간외 주가는 4% 가까이 빠졌어요. 이유는 메모리입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "MTN 2026-11-03",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "-4%",
+     "sub": "애플 실적 발표 뒤 시간외 · 2026.11.2",
+     "line": 0,
+     "at": 0.3,
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_dram_1.jpg"
+     },
+     {
+      "lib": "commons_datacenter_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "AI 데이터센터가 메모리를 쓸어 담으면서 메모리 값이 뛰었습니다. 9월 1일 취임한 존 터너스 CEO는 첫 실적 발표에서 이를 '전례 없는 수준'이라고 했죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "MTN 2026-11-03 · 아이티월드 2026-09",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "존 터너스 애플 CEO",
+     "sub": "2026.9.1 취임 · 첫 실적 발표에서 메모리 값 '전례 없는 수준'",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vanalytics_41278.mp4"
+     },
+     {
+      "lib": "il_L261104g_phone_margin.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "애플은 이번 분기 매출총이익률을 45~46%로 내다봤습니다. 지난 분기 47.9%보다 최대 2.9%포인트 낮아요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "MTN 2026-11-03 · 24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "애플 매출총이익률",
+      ""
+     ],
+     "rows": [
+      [
+       "9월 분기(실적)",
+       "47.9%"
+      ],
+      [
+       "12월 분기(전망)",
+       "45~46%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_memory_price.jpeg"
+     },
+     {
+      "lib": "il_L261107m_cargo_chips.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "메모리 구매 약정은 한 분기 만에 330억 달러 늘었고 메모리 부족으로 맥과 아이패드 공급도 빠듯할 거라고 했습니다. 트렌드포스는 4분기 일반 D램 계약 가격이 10~15% 더 오를 거라고 봐요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "MTN 2026-11-03 (트렌드포스 전망)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "+330억 달러",
+     "sub": "애플 메모리 구매 약정 · 한 분기 증가",
+     "line": 0,
+     "at": 0.3,
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_dram_3.jpg"
+     },
+     {
+      "lib": "il_L261107s_wafer_hands.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그 메모리를 만드는 곳 가운데 하나가 또 한국이죠. 애플의 원가는 늘고 한국 메모리 회사의 매출은 느는 구조입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_trader_gold.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 이상하지 않나요? 이익률이 깎인다는데 주가는 왜 최고가일까요? 답은 월가에 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_wallst.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "vwallstreet_24515.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 9일, 엔비디아가 4% 넘게 빠진 날 애플은 2.4% 올라 사상 최고가로 마감했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+   "sketch": [],
+   "chapter": "AI가 애플에 준 것"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_googleplex_2.jpg"
+     },
+     {
+      "lib": "il_L261110a_giant_screen.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "미국 투자 매체 모틀리풀은 그 이유를 AI 투자에서 찾습니다. 애플은 AI에 돈을 크게 쓰지 않아요. 시리의 바탕도 구글 제미나이를 빌려 씁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "모틀리풀 2026-11-10",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_datacenter_2.jpg"
+     },
+     {
+      "lib": "il_L261113a_dc_aisle.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "데이터센터에 수천억 달러를 쏟는 다른 빅테크와 달리, 시장은 애플을 AI 경쟁 속 안정적인 회사로 본다는 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "모틀리풀 2026-11-10",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_applepark_3.jpg"
+     },
+     {
+      "lib": "vnewyork_26920.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그 덕에 애플 시가총액은 약 5조 1천억 달러로 세계 1위입니다. 엔비디아 약 4조 3천억 달러, 마이크로소프트 약 4조 달러보다 크죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "시가총액 · 2026.11.9",
+      ""
+     ],
+     "rows": [
+      [
+       "애플",
+       "약 5조 1천억 달러"
+      ],
+      [
+       "엔비디아",
+       "약 4조 3천억 달러"
+      ],
+      [
+       "마이크로소프트",
+       "약 4조 달러"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vanalytics_42648_a.jpg"
+     },
+     {
+      "lib": "il_L261107m_trading_red.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다만 같은 글은 경고도 합니다. 돈이 다시 AI 주식으로 돌아가면, 그 돈을 마련하려고 애플을 팔 수 있다는 거죠. 지금 애플 주가는 이익의 약 39배로, 엔비디아의 약 23배보다 비쌉니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스) · 모틀리풀 2026-11-10",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "주가수익비율",
+      ""
+     ],
+     "rows": [
+      [
+       "애플",
+       "약 39배"
+      ],
+      [
+       "엔비디아",
+       "약 23배"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnightcity_40746.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "AI가 애플 주가를 지켜 주면서 동시에 이익을 깎고 있는 겁니다. 그럼 애플이 가장 신경 쓰는 시장, 중국은 어떨까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_china.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "vshanghai_31089.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "중국 스마트폰 시장은 3분기 출하량이 10% 줄어 14년 만에 가장 작았습니다. 메모리 값이 휴대폰 값을 끌어올린 영향이 컸어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "카운터포인트 (애플월드투데이 2026-10-19)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "-10%",
+     "sub": "중국 스마트폰 출하량 · 2026년 3분기 · 14년 만의 최저",
+     "line": 0,
+     "at": 0.3,
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ],
+   "chapter": "중국, 14년 만의 최저 시장"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_huawei_store.jpeg"
+     },
+     {
+      "lib": "vchina_36314.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 그 속에서 화웨이와 애플 두 회사가 출하량의 40%를 가져갔습니다. 애플은 점유율 19.5%로 2위였죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "카운터포인트 (애플월드투데이 2026-10-19)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "중국 스마트폰 · 2026년 3분기",
+      ""
+     ],
+     "rows": [
+      [
+       "화웨이 + 애플",
+       "출하량의 40%"
+      ],
+      [
+       "애플 점유율",
+       "19.5% · 2위"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_shanghaimall_2.jpg"
+     },
+     {
+      "lib": "commons_applestore_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "애플의 중화권 매출은 9월 분기 21%, 회계연도 전체로 28% 늘었습니다. 12월에는 중국에서 첫 AI 기능도 내놓을 계획이에요. 어떤 기능인지는 아직 밝히지 않았습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "애플 중화권 매출",
+      "1년 전 대비"
+     ],
+     "rows": [
+      [
+       "9월 분기",
+       "+21%"
+      ],
+      [
+       "회계연도 전체",
+       "+28%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_mall_crowd.jpeg"
+     },
+     {
+      "lib": "vchina_13312.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다만 접는 폰은 이야기가 다릅니다. 중국 접는 폰 시장의 1위는 화웨이예요. 아이폰 듀오는 화웨이의 안방에 처음 들어간 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "GSMArena 2026 (중국 접는 폰 시장 화웨이 1위)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_dome_dusk.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "마지막은 워싱턴입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_dc.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261110a_exchange_night.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 10일 나온 미국 10월 물가가 0.4% 올라 예상보다 높았습니다. 12월 금리 인상 가능성이 커졌고 미국 10년물 국채 금리는 5%를 다시 넘었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 노동부 10월 CPI (CBS·Kitco 2026-11-10) · 뉴스핌 2026-11-11",
+   "sketch": [],
+   "chapter": "워싱턴의 금리"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_rate_board.jpeg"
+     },
+     {
+      "lib": "calculator_34126_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "금리가 오르면 이익의 39배를 주고 사는 주식부터 부담이 커집니다. 먼 미래 이익의 오늘 가치가 줄어드니까요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vstockmarket_47214.mp4"
+     },
+     {
+      "lib": "il_L261109p_sell_board_blue.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "애플은 실적 발표 다음 날 331.90달러까지 밀렸다가 일주일 만에 최고가를 다시 썼습니다. 24/7 월스트리트는 이 331.90달러를 지켜야 할 선으로 봤어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "애플 종가 흐름",
+     "sub": "11.3 331.90달러 → 11.9 350.69달러 (사상 최고)",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113a_map.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이제 지금까지 본 것을 지도 한 장으로 펼쳐 보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnetwork_4916.mp4"
+     },
+     {
+      "lib": "il_L261113a_ship_containers.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "중국 선전에선 아이폰 듀오의 웃돈이 사라졌고 한국에선 접는 화면과 메모리가 애플 원가를 끌어올립니다. 월가에선 AI 주식에서 빠진 돈이 애플을 받쳤고 워싱턴의 금리는 높은 주가에 부담을 줍니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "어디서",
+      "무엇이",
+      "애플에"
+     ],
+     "rows": [
+      [
+       "중국 선전",
+       "웃돈 급감 · 화면 논란",
+       "듀오 첫 성적표 ↓"
+      ],
+      [
+       "한국",
+       "접는 화면 · 메모리",
+       "원가 ↑"
+      ],
+      [
+       "월가",
+       "AI 주식 매도",
+       "안정 수요 ↑"
+      ],
+      [
+       "워싱턴",
+       "금리",
+       "높은 주가 부담 ↑"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ],
+   "chapter": "애플을 움직이는 세계 지도"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_applestore_4.jpg"
+     },
+     {
+      "lib": "commons_applestore_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 애플 보유자는 아이폰 듀오 뉴스만큼, 메모리 값과 중국 판매, 미국 금리를 같이 봐야 합니다. 그럼 앞으로 볼 숫자는 무엇일까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261110a_search_phone.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "첫째, 매출총이익률. 내년 1월 말 발표될 12월 분기 실적에서 45~46% 전망을 지키는지 보세요. 메모리 값이 애플을 얼마나 깎는지 바로 보이는 숫자입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "up",
+     "text": "① 매출총이익률 45~46% 유지 · 12월 분기 실적 (2027.1 말)",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ],
+   "chapter": "앞으로 볼 숫자 3가지"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vchina_28611.mp4"
+     },
+     {
+      "lib": "il_L261110a_phone_pay.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "둘째, 중국. 12월 중국 첫 AI 기능 반응과, 아이폰 듀오 화면 문제를 애플이 어떻게 처리하는지입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "up",
+     "text": "② 12월 중국 AI 기능 · 아이폰 듀오 화면 대응",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vcapitol_40677.mp4"
+     },
+     {
+      "lib": "il_L261110a_red_screens.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "셋째, 12월 8~9일 미국 금리 결정과 331.90달러. 금리가 오르고 이 선이 깨지면, 사상 최고가에 대한 믿음이 흔들릴 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "up",
+     "text": "③ 12.8~9 미국 금리 결정 · 331.90달러 선",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_silhouette_screens.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 9일, 애플은 사상 처음 350달러를 넘었습니다. 그 뒤에는 선전의 재판매상, 아산의 화면 공장, 월가의 AI 매도, 워싱턴의 금리가 함께 있었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_iphonehand_1.jpg"
+     },
+     {
+      "lib": "phone_14669.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다음에 애플 뉴스를 보시면, 이 지도도 같이 떠올려 보세요. 주가가 왜 움직이는지 훨씬 잘 보일 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_phone_vs_chart.jpeg"
+     },
+     {
+      "lib": "il_L261107m_manhattan_sunrise.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여러분은 317만 원짜리 아이폰 듀오를 사시겠어요, 아니면 애플 주식을 사시겠어요? 댓글로 남겨 주세요. 도움이 되셨다면 좋아요와 구독 부탁드립니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "",
+    "btn_at": [
+     "0:현명한",
+     "0:현명한",
+     "0:현명한"
+    ],
+    "note": {
+     "text": ""
+    },
+    "dark_end": true
+   },
+   "lines": [
+    "기업을 이해하면, 투자가 달라집니다. 밸류노트였습니다."
+   ],
+   "endscreen": 11,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  }
+ ],
+ "tags": [
+  "애플 주가 전망",
+  "애플 주가",
+  "애플",
+  "아이폰 듀오",
+  "접는 아이폰",
+  "아이폰 폴더블",
+  "애플 사상 최고가",
+  "애플 시가총액",
+  "애플 실적",
+  "삼성디스플레이",
+  "메모리 가격",
+  "엔비디아 주가",
+  "미국 주식",
+  "존 터너스",
+  "화웨이 폴더블",
+  "아이폰 중국"
+ ],
+ "search_keywords": [
+  "애플 주가 전망",
+  "아이폰 듀오",
+  "애플 주가",
+  "접는 아이폰",
+  "애플 시가총액"
+ ],
+ "sources": [
+  "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+  "모틀리풀 2026-11-10",
+  "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 웃돈·정가 이하·주문 취소)",
+  "위키트리 2026-11-09 (MyDrivers 인용)",
+  "MTN 2026-09-17 · 씨이오스코어데일리 2026-09-14 (삼성디스플레이 단독 공급)",
+  "맥루머스 2026-09-29 (지몐·MyDrivers 인용, 미확인)",
+  "MTN 2026-11-03 (애플 실적·메모리·트렌드포스)",
+  "아이티월드 2026-09 (존 터너스 9월 1일 취임)",
+  "카운터포인트 (애플월드투데이 2026-10-19)",
+  "GSMArena 2026 (중국 접는 폰 시장)",
+  "미국 노동부 10월 CPI (CBS·Kitco 2026-11-10) · 뉴스핌 2026-11-11",
+  "알파경제 2026-11-11 (엔비디아 이틀 약 540조 원)"
+ ],
+ "thumb": {
+  "photo": "il_L261113a_unfold_hand.jpeg",
+  "focus_x": 0.55,
+  "l1": "애플 주가 전망",
+  "l2": "이 3가지만 보세요",
+  "pos": "left"
+ },
+ "ab_sets": [
+  {
+   "key": "a",
+   "default": true,
+   "title": "애플 주가 전망, 이 3가지만 보면 된다 | 아이폰 듀오 중국 웃돈 급감·품질 논란",
+   "file": "thumb_a.jpg",
+   "type": "A '이 3가지' 축"
+  },
+  {
+   "key": "b",
+   "title": "애플 주가 전망, 아이폰 듀오 중국서 외면? 그런데 주가는 사상 최고가인 이유",
+   "file": "thumb_b.jpg",
+   "type": "B 모순"
+  },
+  {
+   "key": "c",
+   "title": "아이폰 듀오의 모든 것, 317만 원 첫 접는 아이폰과 애플 주가",
+   "file": "thumb_c.jpg",
+   "type": "C 범용"
+  }
+ ],
+ "events": [
+  {
+   "at": "2026-11-12T02:40:00+09:00",
+   "by": "claude",
+   "what": "대표 11/12 00:57: 13일 롱폼 애플(아이폰 듀오) — 메르식 거시·지구본 훅 원고·렌더"
+  }
+ ]
+}

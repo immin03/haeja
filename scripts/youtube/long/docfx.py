@@ -296,10 +296,13 @@ def _broadcast(im, beats, u, lines):
             if fade <= 0: continue
             # 2026-11-09 대표님: 자막과 겹침 → 하단 띠를 위로
             y = b.get("y", H - 372); q = eout(p / .35); r = eout((p - .15) / .45); d = ImageDraw.Draw(im, "RGBA")
-            bg = Image.new("RGBA", im.size); ImageDraw.Draw(bg).rectangle([120, y - 10, 120 + 900 * r, y + 120], fill=(8, 14, 26, int(170 * fade))); im.alpha_composite(bg)
+            mt = ImageDraw.Draw(im); ssz = 32   # 2026-11-12: 글자가 띠 밖으로 잘리지 않게 띠 너비를 글자에 맞추고, 너무 길면 설명 글자를 줄인다
+            while ssz > 24 and mt.textlength(b.get("sub", ""), font=F("SemiBold", ssz)) > W - 420: ssz -= 2
+            bw = max(900, 60 + max(mt.textlength(b["text"], font=F("Heavy", 50)), mt.textlength(b.get("sub", ""), font=F("SemiBold", ssz))))
+            bg = Image.new("RGBA", im.size); ImageDraw.Draw(bg).rectangle([120, y - 10, 120 + bw * r, y + 120], fill=(8, 14, 26, int(170 * fade))); im.alpha_composite(bg)
             d = ImageDraw.Draw(im, "RGBA"); d.rectangle([120, y - 10 + 130 * (1 - q), 128, y + 120], fill=(*GOLD, int(255 * fade)))
             _st(d, (150 - 30 * (1 - r), y + 4), b["text"], font=F("Heavy", 50), fill=(*WHITE, int(255 * r * fade)))
-            if b.get("sub"): _st(d, (150 - 30 * (1 - r), y + 68), b["sub"], font=F("SemiBold", 32), fill=(*GOLD, int(255 * r * fade)))
+            if b.get("sub"): _st(d, (150 - 30 * (1 - r), y + 68), b["sub"], font=F("SemiBold", ssz), fill=(*GOLD, int(255 * r * fade)))
         elif k == "acct":   # 2026-11-07 SOXL 편: 반복 등장하는 '계좌 카드' — 오른쪽 위 어두운 유리 카드(흰 판 아님), 금색 윗선, 라벨·큰 숫자(from→to 세어 내려감)·보조 줄
             hold = b.get("hold", 999.0); fade = 1 - eio((p - hold) / .5)
             if fade <= 0: continue
