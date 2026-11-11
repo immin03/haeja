@@ -165,7 +165,16 @@ def render(spec, out):
     if spec.get("company"):   # 2026-11-09 대표님: 쇼츠처럼 롱폼 썸네일에도 기업 로고(이름) — 두 줄 제목 바로 위
         fc = fit(spec["company"], spec.get("company_s", 104), 620, "Heavy") if not os.path.exists(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf")) else ImageFont.truetype(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf"), spec.get("company_s", 104))
         text(im, (LX + spec.get("company_dx", 2), y1 - f1.size - 72), spec["company"], fc, IVORY)   # 11/9 17:21 대표님: 더 크게, 제목과 왼쪽 정렬, 살짝 위로
-    if spec.get("tag"):   # 맨 위 금색 띠 한 줄 (예: "반드시 봐야 할 3가지") — 두 줄 제목과 별도로 넣는 강한 후킹
+    if spec.get("tag") and spec.get("tag_style") == "slim":   # 2026-11-11 대표 "위 배너가 무식하게 커 보이지 않게" — 얇은 네이비 반투명 띠 + 금색 테두리·글씨
+        ft = font(spec.get("st", 50), "Bold"); tw = ft.getlength(spec["tag"]); ph = ft.size * 1.6; pw = tw + ft.size * 1.2; x0, y0 = 44, 36
+        bx = Image.new("RGBA", im.size, (0, 0, 0, 0)); bd_ = ImageDraw.Draw(bx)
+        bd_.rounded_rectangle([x0, y0, x0 + pw, y0 + ph], 8, fill=(11, 27, 51, 200), outline=(242, 212, 151, 255), width=2); im.alpha_composite(bx)
+        ImageDraw.Draw(im).text((x0 + pw / 2, y0 + ph / 2 + 1), spec["tag"], font=ft, fill=(242, 212, 151), anchor="mm")
+        if spec.get("ep"):
+            ex = x0 + pw + 12; ew = ft.getlength(spec["ep"]) + ft.size * 1.1
+            ImageDraw.Draw(im).rounded_rectangle([ex, y0, ex + ew, y0 + ph], 8, fill=(226, 45, 70))
+            ImageDraw.Draw(im).text((ex + ew / 2, y0 + ph / 2 + 1), spec["ep"], font=font(spec.get("st", 50), "Heavy"), fill=WHITE, anchor="mm")
+    elif spec.get("tag"):   # 맨 위 금색 띠 한 줄 (예: "반드시 봐야 할 3가지") — 두 줄 제목과 별도로 넣는 강한 후킹
         # 11/9 17:21 대표님: 왼쪽 위 띠 글씨가 작다 → 62→82
         ft = fit(spec["tag"], spec.get("st", 82), 1000); tw = ft.getlength(spec["tag"]); ph = ft.size * 1.55; pw = tw + ft.size * 1.1; x0, y0 = 40, 30   # 2026-11-06 대표님 "배너가 너무 안 보인다" → 50→62px
         sh = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([x0 + 4, y0 + 6, x0 + pw + 4, y0 + ph + 6], 10, fill=(0, 0, 0, 220))
