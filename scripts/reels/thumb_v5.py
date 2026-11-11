@@ -149,6 +149,12 @@ def render(spec, out):
         im = cover(spec["photo"], W, H, tuple(spec.get("focus", (.5, .5))), sat=spec.get("sat", 1.1))
         if spec.get("inset"): inset(im, spec["inset"]["photo"], tuple(spec["inset"]["box"]), tuple(spec["inset"].get("focus", (.5, .5))))
     grad(im, int(H * spec.get("grad_from", .38)), 0, 235 if OUTLINE else 250)
+    if spec.get("band"):   # 2026-11-10 r135 ①: 아래 42~45% 네이비→검정 띠(불투명 85%+) — 사진 밝기와 상관없이 읽히게
+        by = int(H * (1 - spec.get("band_h", .44))); fe = 36; bd = Image.new("RGBA", (W, H - by + fe), (0, 0, 0, 0)); dd = ImageDraw.Draw(bd)
+        for y in range(H - by + fe):
+            t = max(0, y - fe) / max(1, H - by); a = int((217 + 25 * t) * min(1, y / fe)); c = tuple(int(NAVY[i] * (1 - t) + 4 * t) for i in range(3))
+            dd.line([(0, y), (W, y)], fill=c + (a,))
+        im.alpha_composite(bd, (0, by - fe))
     tp = Image.new("L", (1, 130)); [tp.putpixel((0, y), int(130 * (1 - y / 130) ** 1.6)) for y in range(130)]   # 위쪽 살짝 어둡게: 밝은 사진에서도 로고가 보이게
     tb = Image.new("RGBA", (W, 130), (0, 0, 0, 255)); tb.putalpha(tp.resize((W, 130))); im.alpha_composite(tb, (0, 0))
     LX = 46; maxw = spec.get("maxw", 1190)
@@ -166,6 +172,11 @@ def render(spec, out):
         im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
         ImageDraw.Draw(im).rounded_rectangle([x0, y0, x0 + pw, y0 + ph], 10, fill=(242, 212, 151))
         ImageDraw.Draw(im).text((x0 + pw / 2, y0 + ph / 2 + 2), spec["tag"], font=ft, fill=NAVY, anchor="mm")
+        if spec.get("ep"):   # 시리즈 회차 배지 (예: "2편") — 금색 띠 바로 오른쪽, 빨간 상자 흰 글씨
+            ex = x0 + pw + 18; ew = ft.getlength(spec["ep"]) + ft.size * 1.0
+            sh = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([ex + 4, y0 + 6, ex + ew + 4, y0 + ph + 6], 10, fill=(0, 0, 0, 220)); im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+            ImageDraw.Draw(im).rounded_rectangle([ex, y0, ex + ew, y0 + ph], 10, fill=(226, 45, 70))
+            ImageDraw.Draw(im).text((ex + ew / 2, y0 + ph / 2 + 2), spec["ep"], font=ft, fill=WHITE, anchor="mm")
     if spec.get("logo_right") or spec.get("versus") or spec.get("tag"): paste_logo(im, W - 30, 22, 40, "dark", align="right")   # 11/9 17:37 대표님: 밸류노트 로고도 더 크게 (28→40)
     else: paste_logo(im, 34, 26, 42, "dark", align="left")   # 로고는 왼쪽 위 (오른쪽은 제품 사진 자리)
     for t, f, s in ((spec["l1"], f1, spec.get("s1", 104)), (spec["l2"], f2, spec.get("s2", 150))):
