@@ -79,6 +79,11 @@
    "at": "2026-11-11T15:45:00+09:00",
    "by": "claude",
    "what": "대표 15:36: 훅 3D 지구본 시안 — 한국(현대차) 확대 → 지구 전체, 사건 4곳(중동 전쟁·미국 선거·금리·AI 데이터센터·파리 시위)이 현대차로 이어지는 금선, 세계 지도 장 앞에 같은 지구본. 구조 확정 아님(반응 보고 확정)"
+  },
+  {
+   "at": "2026-11-11T16:00:00+09:00",
+   "by": "claude",
+   "what": "대표 15:44: 훅 지구본에 보스턴 로봇 추가(내레이션 포함), 장마다 해당 장소로 지구본 확대·강조·현대차로 금선(호르무즈·도요타·라스베이거스 CES·보스턴·미국 AI 빅테크·워싱턴·파리) 3.6초 뒤 기존 화면"
   }
  ],
  "opening": "결과(97조 증발) + 모순(코스피 -5% 날 현대차 장중 +8%·도요타 +15%, 다음 날 -4.77%) + 질문(중동·미국 선거·AI·파리) + 약속(세계 지도·기준 3가지) + 힌트(올린 것도 AI, 발목 잡는 것도 AI)",
@@ -379,7 +384,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "중동의 전쟁, 미국의 선거, AI 데이터센터, 그리고 파리의 시위. 이게 다 내 현대차 주식과 무슨 상관일까요?"
+    "중동의 전쟁, 미국의 선거, AI 데이터센터, 파리의 시위, 그리고 보스턴의 로봇. 이게 다 내 현대차 주식과 무슨 상관일까요?"
    ],
    "sketch_add": [],
    "en": [
@@ -580,10 +585,11 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261105k_cin_tanker.jpeg"
+      "lib": "globe_L261111h_hormuz.mp4",
+      "d": 3.6
      },
      {
-      "lib": "oil_13935_a.jpg"
+      "lib": "il_L261105k_cin_tanker.jpeg"
      }
     ],
     "wash_amt": 0.85
@@ -597,15 +603,7 @@
    ],
    "asof": false,
    "src": "머니투데이 2026-05-24 · MTN 2026-03-02",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "2026년 2월 · 중동 전쟁",
-     "sub": "호르무즈 해협 통행 제한 · 국제유가 급등",
-     "line": 0,
-     "at": 0.3
-    }
-   ],
+   "sketch": [],
    "chapter": "중동 전쟁과 현대차"
   },
   {
@@ -878,10 +876,11 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "car_35540_a.jpg"
+      "lib": "globe_L261111h_toyota.mp4",
+      "d": 3.6
      },
      {
-      "lib": "cargoship_36337_a.jpg"
+      "lib": "car_35540_a.jpg"
      }
     ],
     "wash_amt": 0.85
@@ -901,7 +900,7 @@
      "text": "도요타 영업이익 전망 상향",
      "sub": "2026.11.5 · 3조 9천억 엔(약 33조 원) · 주가 장중 +15%",
      "line": 0,
-     "at": 0.3
+     "at": 0.6
     }
    ]
   },
@@ -1367,10 +1366,11 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261111h_ces_stage.jpeg"
+      "lib": "globe_L261111h_vegas.mp4",
+      "d": 3.6
      },
      {
-      "lib": "il_L261111h_robot_wave.jpeg"
+      "lib": "il_L261111h_ces_stage.jpeg"
      }
     ],
     "cine": true,
@@ -1385,15 +1385,7 @@
    ],
    "asof": false,
    "src": "AP 2026-01-05 (CES 2026 현대차·보스턴 다이내믹스 발표) · 시가총액: 6/1 약 153조 원(75만 원) 기준 주식 수로 11/10 27만 5천 원 환산 약 56조 원",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "2026년 1월 5일 · 라스베이거스",
-     "sub": "CES 2026 · 현대차그룹 발표",
-     "line": 0,
-     "at": 0.5
-    }
-   ],
+   "sketch": [],
    "lead": 0.0,
    "hold": 0.12,
    "chapter": "AI가 준 것, 로봇 2.5배"
@@ -1580,10 +1572,11 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261111h_tokyo_contract.jpeg"
+      "lib": "globe_L261111h_boston.mp4",
+      "d": 3.6
      },
      {
-      "lib": "vcontract_23112.mp4"
+      "lib": "il_L261111h_tokyo_contract.jpeg"
      }
     ],
     "wash_amt": 0.85
@@ -1891,10 +1884,11 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "commons_dram_1.jpg"
+      "lib": "globe_L261111h_ai.mp4",
+      "d": 3.6
      },
      {
-      "lib": "il_L261107m_memory_wafer.jpeg"
+      "lib": "commons_dram_1.jpg"
      }
     ],
     "wash_amt": 0.85
@@ -2004,10 +1998,11 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "vcapitol_40677.mp4"
+      "lib": "globe_L261111h_dc.mp4",
+      "d": 3.6
      },
      {
-      "lib": "il_L261107m_capitol_dawn.jpeg"
+      "lib": "vcapitol_40677.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -2021,15 +2016,7 @@
    ],
    "asof": false,
    "src": "비즈워치 2026-11-05 (11/5 코스피·외국인 순매도·현대차 +3.53%)",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "2026.11.3 미국 중간선거",
-     "sub": "민주당 상·하원 모두 승리",
-     "line": 0,
-     "at": 0.3
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -2459,10 +2446,11 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "paris_25220.mp4"
+      "lib": "globe_L261111h_paris.mp4",
+      "d": 3.6
      },
      {
-      "lib": "il_L261105h_parisnight.jpeg"
+      "lib": "paris_25220.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -2482,7 +2470,7 @@
      "text": "프랑스 시위 · 2026년 9월~",
      "sub": "11월 5일 전국 220곳 · 경찰 등 7만 명 배치",
      "line": 0,
-     "at": 0.3
+     "at": 0.6
     }
    ],
    "chapter": "파리의 불길, 유럽의 중국 차"

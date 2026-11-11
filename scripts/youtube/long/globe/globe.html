@@ -17,10 +17,11 @@ const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const KR={name:'현대차',sub:'울산·서울',ll:[129.3,35.5]};
 // 시안 기준 위치 — 실제 사건이 일어난 곳
 const P=[
- {name:'중동 전쟁',sub:'호르무즈 해협 · 유가',ll:[56.3,26.6],t:0.5},
- {name:'미국 선거·금리',sub:'워싱턴',ll:[-77.0,38.9],t:1.7},
- {name:'AI 데이터센터',sub:'반도체 쓸어 담기',ll:[-121.9,37.4],t:2.9},
- {name:'파리 시위',sub:'유럽 소비 위축',ll:[2.35,48.86],t:4.1},
+ {name:'중동 전쟁',sub:'호르무즈 해협 · 유가',ll:[56.3,26.6],t:0.2,side:1},
+ {name:'미국 선거·금리',sub:'워싱턴',ll:[-77.0,38.9],t:1.1,side:-1,dy:55},
+ {name:'AI 데이터센터',sub:'반도체 쓸어 담기',ll:[-121.9,37.4],t:2.1,side:-1},
+ {name:'파리 시위',sub:'유럽 소비 위축',ll:[2.35,48.86],t:3.4,side:-1},
+ {name:'로봇',sub:'보스턴 다이내믹스',ll:[-71.06,42.36],t:4.8,side:-1,dy:-75},
 ];
 async function init(){
   const r=await fetch('node_modules/world-atlas/land-50m.json'); const topo=await r.json();
@@ -31,7 +32,7 @@ async function init(){
   window.ready=true;
 }
 init();
-function label(x,y,name,sub,a,big,side){
+function label(x,y,name,sub,a,big,side,dy){ dy=dy||0; y+=dy;
   g.save(); g.globalAlpha=a; g.textBaseline='middle';
   const fs=big?54:40, ss=big?28:24; g.font=`800 ${fs}px SUIT`;
   const w=Math.max(g.measureText(name).width,(g.font=`600 ${ss}px SUIT`,g.measureText(sub).width));
@@ -46,8 +47,9 @@ function label(x,y,name,sub,a,big,side){
 window.draw=function(mode,t){
   let lam,phi,scale,cx=W*0.5,cy=H*0.56;
   if(mode==='open'){ const k=ease(t/3.4); lam=-129.3+18*k-2*t; phi=-35.5-10*k; scale=1900+(500-1900)*k; cx=W*0.5-120*k; }
-  else { const k=mode==='hook'?t/9:t/8; lam=-22-12*k; phi=-54+2*k; scale=mode==='hook'?470+90*ease(cl((t-5.2)/3.5)):500; }
-  if(mode==='hook'&&t>5.2){ const z=ease(cl((t-5.2)/3.5)); lam+= -55*z*0; }
+  else { const k=mode==='hook'?t/10:t/8; lam=-3-4*k; phi=-57+2*k; scale=mode==='hook'?470+70*ease(cl((t-6.6)/3.5)):500; }
+  let F=window.FOCUS;
+  if(mode==='focus'){ const k=ease(cl(t/1.4)); const c=d3.geoInterpolate([22,54],F.ll)(k); lam=-c[0]-1.5*t; phi=-c[1]; scale=470+(F.zoom||980-470)*0+((F.zoom||980)-470)*k; }
   const proj=d3.geoOrthographic().rotate([lam,phi,0]).scale(scale).translate([cx,cy]).clipAngle(90).precision(.3);
   const path=d3.geoPath(proj,g);
   // 배경
@@ -71,6 +73,24 @@ window.draw=function(mode,t){
   const vis=ll=>d3.geoDistance(ll,[-lam,-phi])<Math.PI/2-0.05;
   const kr=proj(KR.ll), krv=vis(KR.ll);
   // 사건 → 현대차 연결선
+  if(mode==='focus'){
+    const a=cl((t-1.0)/0.4), [x,y]=proj(F.ll);
+    // 스포트라이트: 장소 밖을 살짝 어둡게
+    const sp=g.createRadialGradient(x,y,60,x,y,520); sp.addColorStop(0,'rgba(11,27,51,0)'); sp.addColorStop(1,`rgba(11,27,51,${0.45*a})`);
+    g.fillStyle=sp; g.fillRect(0,0,W,H);
+    const gl=g.createRadialGradient(x,y,0,x,y,150); gl.addColorStop(0,`rgba(224,200,150,${0.35*a})`); gl.addColorStop(1,'rgba(224,200,150,0)');
+    g.fillStyle=gl; g.beginPath(); g.arc(x,y,150,0,7); g.fill();
+    const lk=ease(cl((t-1.5)/1.1));
+    if(lk>0&&!F.noarc){ const line={type:'LineString',coordinates:[]}; const ip=d3.geoInterpolate(F.ll,KR.ll);
+      for(let i=0;i<=80*lk;i++) line.coordinates.push(ip(i/80));
+      g.save(); g.strokeStyle='rgba(224,200,150,0.9)'; g.lineWidth=5; g.shadowColor='rgba(224,200,150,0.8)'; g.shadowBlur=16; g.setLineDash([20,12]); g.lineDashOffset=-t*40; g.beginPath(); path(line); g.stroke(); g.restore(); }
+    if(a>0){ const pul=(t*1.2)%1; g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(244,237,220,${0.8*(1-pul)})`; g.lineWidth=4; g.beginPath(); g.arc(x,y,16+70*pul,0,7); g.stroke();
+      g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=20; g.beginPath(); g.arc(x,y,14,0,7); g.fill(); g.restore();
+      label(x,y,F.name,F.sub,a,true,F.side||1,F.dy||0); }
+    if(vis(KR.ll)&&!F.nokr){ const [kx,ky]=proj(KR.ll); g.save(); g.fillStyle=GOLD; g.shadowColor=GOLD; g.shadowBlur=20; g.beginPath(); g.arc(kx,ky,12,0,7); g.fill(); g.restore();
+      if(Math.hypot(kx-x,ky-y)>260) label(kx,ky,'현대차','',1,false,1); }
+    return;
+  }
   const pts=mode==='open'?[]:P;
   for(const p of pts){
     const ta=mode==='map'?-9:p.t; if(t<ta) continue;
@@ -85,10 +105,10 @@ window.draw=function(mode,t){
     const pul=(t*1.4+p.t)%1;
     g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(244,237,220,${0.7*(1-pul)})`; g.lineWidth=3; g.beginPath(); g.arc(x,y,12+40*pul,0,7); g.stroke();
     g.fillStyle=IVORY; g.beginPath(); g.arc(x,y,11,0,7); g.fill(); g.restore();
-    label(x,y,p.name,p.sub,a,false,p.ll[0]<-60||p.ll[0]>0&&p.ll[0]<10?-1:1);
+    label(x,y,p.name,p.sub,a,false,p.side,p.dy);
   }
   // 현대차(한국)
-  if(krv){ const [x,y]=kr; const pul=(t*1.1)%1, big=mode==='hook'?1+0.25*ease(cl((t-5.2)/1.2)):1;
+  if(krv){ const [x,y]=kr; const pul=(t*1.1)%1, big=mode==='hook'?1+0.25*ease(cl((t-6.6)/1.2)):1;
     g.save(); g.strokeStyle=`rgba(224,200,150,${0.9*(1-pul)})`; g.lineWidth=4; g.beginPath(); g.arc(x,y,(16+60*pul)*big,0,7); g.stroke();
     g.fillStyle=GOLD; g.shadowColor=GOLD; g.shadowBlur=24; g.beginPath(); g.arc(x,y,15*big,0,7); g.fill(); g.restore();
     label(x,y,KR.name,mode==='open'?'시가총액 97조 원 증발':KR.sub,1,true,1);
