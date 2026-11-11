@@ -14,21 +14,28 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from take_check import drag_why, held_runs, HOLD_MAX, norm
 SR = 16000; SIM_PIECE, SIM_FULL, CORR_MIN = 0.80, 0.72, 0.90
 MODEL = "sherpa-onnx-zipformer-korean-2024-06-24"
+MODEL_EN = "sherpa-onnx-zipformer-en-2023-06-26"   # 2026-11-11 영어 채널(The Emperor's Diary) 받아쓰기
+LANG = "ko"
 CACHE = os.environ.get("ED_STT_DIR", os.path.expanduser("~/.cache/ed_stt"))
 OUTRO_TXT = "매일 밤, 황제처럼 생각하라. 황제의 일기."
+OUTRO_TXT_EN = "Every night, think like an emperor. The Emperor's Diary."
 
 
 def recognizer():
     try: import sherpa_onnx
     except ImportError:
         subprocess.run([sys.executable, "-m", "pip", "install", "--break-system-packages", "-q", "sherpa-onnx"], check=True); import sherpa_onnx
-    d = os.path.join(CACHE, MODEL)
+    M = MODEL_EN if LANG == "en" else MODEL
+    d = os.path.join(CACHE, M)
     if not os.path.exists(d + "/tokens.txt"):
         os.makedirs(CACHE, exist_ok=True); t = d + ".tar.bz2"
-        subprocess.run(["curl", "-sSL", "--retry", "3", "--max-time", "500", "-o", t, f"https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/{MODEL}.tar.bz2"], check=True)
+        subprocess.run(["curl", "-sSL", "--retry", "3", "--max-time", "500", "-o", t, f"https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/{M}.tar.bz2"], check=True)
         subprocess.run(["tar", "xjf", t, "-C", CACHE], check=True); os.remove(t)
-    return sherpa_onnx.OfflineRecognizer.from_transducer(encoder=f"{d}/encoder-epoch-99-avg-1.int8.onnx", decoder=f"{d}/decoder-epoch-99-avg-1.int8.onnx",
-        joiner=f"{d}/joiner-epoch-99-avg-1.int8.onnx", tokens=f"{d}/tokens.txt", num_threads=4, sample_rate=SR, feature_dim=80)
+    def pick(part):   # int8 판이 있으면 그것, 없으면 기본 판
+        c = sorted(x for x in os.listdir(d) if x.startswith(part) and x.endswith(".onnx"))
+        return ([x for x in c if "int8" in x] or c)[0]
+    return sherpa_onnx.OfflineRecognizer.from_transducer(encoder=f"{d}/{pick('encoder')}", decoder=f"{d}/{pick('decoder')}",
+        joiner=f"{d}/{pick('joiner')}", tokens=f"{d}/tokens.txt", num_threads=4, sample_rate=SR, feature_dim=80)
 
 
 def load(f):
@@ -42,7 +49,10 @@ def jamo(t):
         k = ord(c) - 0xAC00; o += [CHO[k // 588], JUN[k % 588 // 28]]
         if k % 28: o.append(JON[k % 28])
     return o
-def sim(a, b): return difflib.SequenceMatcher(None, jamo(a), jamo(b), autojunk=False).ratio()
+def letters(t): return list(re.sub(r"[^a-z]", "", (t or "").lower()))   # 2026-11-11 영어: 알파벳 단위로 비교
+def sim(a, b):
+    if LANG == "en": return difflib.SequenceMatcher(None, letters(a), letters(b), autojunk=False).ratio()
+    return difflib.SequenceMatcher(None, jamo(a), jamo(b), autojunk=False).ratio()
 
 
 def locate(y, p):
@@ -57,13 +67,15 @@ def locate(y, p):
 
 
 def main(spec_path, *mp4s):
-    S = json.load(open(spec_path)); L = json.load(open(f"{HERE}/long_{S['id']}.json")); fail = []; asr = recognizer()
+    global LANG
+    S = json.load(open(spec_path)); L = json.load(open(f"{HERE}/long_{S['id']}.json")); fail = []
+    LANG = S.get("lang", L.get("lang", os.environ.get("ED_LANG", "ko"))); asr = recognizer()
     def stt(x):
         s = asr.create_stream(); s.accept_waveform(SR, x); asr.decode_stream(s); return s.result.text
     groups = sorted({s[2] for s in L["sents"]})
     texts = [" ".join(" ".join(s[5]) for s in L["sents"] if s[2] == g) for g in groups]
-    texts += ["오늘의 할 일. " + " ".join(L["tonight"])] if L.get("end_voice") else []
-    texts += [OUTRO_TXT]
+    texts += [("Tonight's task. " if LANG == "en" else "오늘의 할 일. ") + " ".join(L["tonight"])] if L.get("end_voice") else []
+    texts += [OUTRO_TXT_EN if LANG == "en" else OUTRO_TXT]
     if len(texts) != len(S["voice"]): sys.exit(f"불통과: 조각 {len(S['voice'])}개와 대본 {len(texts)}개 수가 다름")
     print("[A] 목소리 조각"); P = []
     for v, t in zip(S["voice"], texts):

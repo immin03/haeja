@@ -38,6 +38,11 @@ if LANG == "en":
                   "quote": (EF + "PlayfairDisplay-SemiBoldItalic.ttf", 70), "endbig": (EF + "Inter-Bold.ttf", 60),
                   "slogan": (EF + "PlayfairDisplay-Bold.ttf", 80), "sub": (EF + "Inter-SemiBold.ttf", 38), "kicker": (EF + "Inter-Bold.ttf", 44),
                   "src": (EF + "Inter-SemiBold.ttf", 32), "cta": (EF + "Inter-SemiBold.ttf", 32), "small": (EF + "Inter-SemiBold.ttf", 36)})
+    # 2026-11-11 15:11 대표: "롱폼에서 스타일 다 바꿨잖아… 폰트 스타일 다 맞춰서 쇼츠도 나가야지" → 롱폼 글꼴 체계 (a) Cinzel + EB Garamond 로 통일 (위 Inter/Playfair 대체)
+    FONTS.update({"hook": (EF + "Cinzel-SemiBold.ttf", 84), "big": (EF + "EBGaramond-SemiBold.ttf", 84), "cap": (EF + "EBGaramond-Medium.ttf", 56),
+                  "quote": (EF + "EBGaramond-MediumItalic.ttf", 72), "endbig": (EF + "EBGaramond-Medium.ttf", 62),
+                  "slogan": (EF + "EBGaramond-MediumItalic.ttf", 80), "sub": (EF + "EBGaramond-Medium.ttf", 40), "kicker": (EF + "Cinzel-SemiBold.ttf", 40),
+                  "src": (EF + "Cinzel-SemiBold.ttf", 28), "cta": (EF + "EBGaramond-Medium.ttf", 34), "small": (EF + "EBGaramond-Medium.ttf", 36)})
     TXT.update({"slogan1": "Every night,", "slogan2": "think like an emperor", "brand": "The Emperor's Diary", "lead": "If this line stayed with you",
                 "like": "Like", "sub": "Subscribe", "follow": "Follow", "share": "Share",
                 "thanks1": "A like and a {s}", "thanks2": "keep these coming. Thank you.", "tonight": "TONIGHT'S TASK"})
@@ -344,7 +349,7 @@ def outro(spec_o, base, t, platform="reels"):
         layer.alpha_composite(coin, (cx - coin.width // 2, cy - coin.height // 2))
         ef = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 56)
         _track(d, cy + R + 52, "THE EMPEROR'S DIARY", ef, LG, ease((u - 0.25) / 0.5), 0.22)
-        kf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 46) if LANG != "en" else ImageFont.truetype(F + "PlayfairDisplay-Bold.ttf", 48)
+        kf = ImageFont.truetype(F + "Hahmlet[wght].ttf", 46) if LANG != "en" else ImageFont.truetype(EF + "Cinzel-SemiBold.ttf", 44)
         try: kf.set_variation_by_axes([600])
         except Exception: pass
         aw = ease((u - 0.45) / 0.5)

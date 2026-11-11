@@ -193,7 +193,7 @@ def outro2(u):
     a3 = ease((u - OUT_T[2]) / 0.5)
     if a3 > 0:
         R._glint_line(d, lay, W / 2, 960, 120, a3, u)
-        kf = ImageFont.truetype(R.F + "Hahmlet[wght].ttf", 46) if R.LANG != "en" else ImageFont.truetype(R.F + "PlayfairDisplay-Bold.ttf", 48)
+        kf = ImageFont.truetype(R.F + "Hahmlet[wght].ttf", 46) if R.LANG != "en" else ImageFont.truetype(R.EF + "Cinzel-SemiBold.ttf", 44)
         try: kf.set_variation_by_axes([600])
         except Exception: pass
         ct(992, R.TXT["brand"], kf, (222, 196, 140), a3)
