@@ -1,0 +1,104 @@
+# 황제의 일기 롱폼 구간 병렬 렌더 (2026-11-11 대표: 컨테이너 1대로 1시간 → 러너 여러 대로 15~20분)
+# 스펙(json)을 장면 경계에서 n 조각으로 나눠 러너마다 화면만 그리고, 마지막 작업이 이어 붙인 뒤 소리를 섞어 완성본을 만든다.
+# 완성본(1080p)은 릴리스 ed-long-renders 에, 검수용 720p 는 저장소 docs/emperor/long/review/ 에 올린다.
+# 스펙은 저장소에 있어야 한다 — 빌더가 만드는 spec_cine_*.json 은 .gitignore 대상이니 git add -f 로 올린 뒤 실행.
+# 사용: gh api -X POST repos/immin03/haeja/actions/workflows/ed-long-render.yml/dispatches -f ref=main -f "inputs[spec]=scripts/side/ed_long/en/spec_cine_ep01_en.json"
+name: ed-long-render
+on:
+  workflow_dispatch:
+    inputs:
+      spec: { description: '스펙 경로 (저장소 기준)', required: true }
+      chunks: { description: '조각 수', required: false, default: '8' }
+      en_type: { description: '영어 글꼴 체계 (영어 롱폼은 a, 한국어는 비움)', required: false, default: 'a' }
+      fps: { description: '프레임 수', required: false, default: '24' }
+permissions:
+  contents: write
+concurrency: ed-long-render-${{ github.event.inputs.spec }}
+env:
+  SPEC: ${{ github.event.inputs.spec }}
+  ED_FPS: ${{ github.event.inputs.fps }}
+  ED_EN_TYPE: ${{ github.event.inputs.en_type }}
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      chunks: ${{ steps.p.outputs.chunks }}
+      paths: ${{ steps.p.outputs.paths }}
+      audio: ${{ steps.p.outputs.audio }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: scripts/side, sparse-checkout-cone-mode: true, fetch-depth: 1 }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy opencv-python-headless pillow scipy
+      - name: 목소리만 받아 장면 시각 계산
+        run: |
+          git sparse-checkout set --no-cone /scripts/side $(python3 scripts/side/ed_long/render_plan.py audio "$SPEC" | grep voice_samples | sed 's#^#/#')
+          R=scripts/side/ed_long/longform.py; case "$SPEC" in */en/*) R=scripts/side/ed_long/en/longform_en.py;; esac
+          python3 $R "$SPEC" --plan || true   # --plan 은 장면 시각(plan_<id>.json)만 쓰고 소리 단계에서 멈춘다
+      - id: p
+        run: |
+          echo "chunks=$(python3 scripts/side/ed_long/render_plan.py chunks "$SPEC" ${{ github.event.inputs.chunks }})" >> $GITHUB_OUTPUT
+          { echo 'paths<<EOF'; echo /scripts/side; echo /scripts/reels/fonts; python3 scripts/side/ed_long/render_plan.py paths "$SPEC" | sed 's#^#/#'; echo EOF; } >> $GITHUB_OUTPUT
+          { echo 'audio<<EOF'; echo /scripts/side; python3 scripts/side/ed_long/render_plan.py audio "$SPEC" | sed 's#^#/#'; echo EOF; } >> $GITHUB_OUTPUT
+
+  render:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        c: ${{ fromJson(needs.plan.outputs.chunks) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: ${{ needs.plan.outputs.paths }}
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy opencv-python-headless pillow scipy fonttools brotli
+      - run: sudo mkdir -p /root/fonts && sudo chmod 777 /root /root/fonts && bash scripts/side/ed_long/fonts_setup.sh /root/fonts
+      - name: 조각 ${{ matrix.c.name }} (${{ matrix.c.from }}~${{ matrix.c.to }}초)
+        run: |
+          R=scripts/side/ed_long/longform.py; case "$SPEC" in */en/*) R=scripts/side/ed_long/en/longform_en.py;; esac
+          python3 $R "$SPEC" --from ${{ matrix.c.from }} --to ${{ matrix.c.to }} --chunk ${{ matrix.c.name }}
+      - uses: actions/upload-artifact@v4
+        with: { name: 'chunk-${{ matrix.c.name }}', path: '_long/*_${{ matrix.c.name }}_v.mp4', retention-days: 3 }
+
+  merge:
+    needs: [plan, render]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: ${{ needs.plan.outputs.audio }}
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q numpy opencv-python-headless pillow scipy
+      - uses: actions/download-artifact@v4
+        with: { pattern: 'chunk-*', path: _chunks, merge-multiple: true }
+      - name: 이어 붙이고 소리 섞기
+        run: |
+          ID=$(python3 -c "import json;print(json.load(open('$SPEC'))['id'])"); mkdir -p _long
+          ls _chunks/*_v.mp4 | sort | sed "s#^#file '$PWD/#; s#\$#'#" > _chunks/list.txt; cat _chunks/list.txt
+          ffmpeg -v error -y -f concat -safe 0 -i _chunks/list.txt -c copy "_long/${ID}_v.mp4"
+          R=scripts/side/ed_long/longform.py; case "$SPEC" in */en/*) R=scripts/side/ed_long/en/longform_en.py;; esac
+          python3 $R "$SPEC" --audio-only   # 화면 파일이 있으면 화면은 건너뛰고 소리만 섞어 완성본을 만든다
+          ffprobe -v error -show_entries format=duration -of csv=p=0 "_long/${ID}.mp4"
+          ffmpeg -v error -y -i "_long/${ID}.mp4" -vf scale=1280:-2 -c:v libx264 -preset veryfast -crf 26 -c:a aac -b:a 128k -movflags +faststart "_long/${ID}_review720.mp4"
+          echo "ID=$ID" >> $GITHUB_ENV
+      - name: 완성본 → 릴리스, 검수본 → 저장소
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          gh release view ed-long-renders >/dev/null 2>&1 || gh release create ed-long-renders --title "황제의 일기 롱폼 렌더" --notes "1080p 완성본 보관" --latest=false
+          gh release upload ed-long-renders "_long/${ID}.mp4" --clobber
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          mkdir -p /tmp/rv && cp "_long/${ID}_review720.mp4" /tmp/rv/
+          for i in 1 2 3 4 5; do
+            git sparse-checkout add /docs/emperor/long/review
+            git fetch -q origin main && git reset -q --hard origin/main
+            mkdir -p docs/emperor/long/review && cp /tmp/rv/* docs/emperor/long/review/
+            git add --sparse docs/emperor/long/review && git commit -qm "황제의 일기 롱폼 렌더 ${ID} (구간 병렬) [skip ci]" && git push -q origin HEAD:main && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
