@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113a_panel_conveyor",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: Thin flexible display panels moving on a conveyor inside a high-tech factory, robotic suction arms above, amber and blue light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cb67-98f4-7372-842e-94205c166cf2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cb67-98f4-7372-842e-94205c166cf2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cb67-98f4-7372-842e-94205c166cf2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cb67-98f4-7372-842e-94205c166cf2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cb67-98f4-7372-842e-94205c166cf2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cb67-98f4-7372-842e-94205c166cf2/cancel",
+  "expires_at": "2026-11-18T16:19:52.116415+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cb67-98f4-7372-842e-94205c166cf2/81b4af7e-e734-470d-83a1-cf6885c957be.jpeg"
+   }
+  ]
+ },
+ "seconds": 68,
+ "file": "scripts/blog/media/lib/il_L261113a_panel_conveyor.jpeg"
+}

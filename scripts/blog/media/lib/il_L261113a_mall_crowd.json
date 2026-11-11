@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113a_mall_crowd",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A huge modern shopping mall atrium in a Chinese megacity, shoppers on escalators, warm lights, smartphone stores glowing on multiple floors, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cb68-a811-7c4e-93b9-0301f1479e3e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cb68-a811-7c4e-93b9-0301f1479e3e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cb68-a811-7c4e-93b9-0301f1479e3e/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cb68-a811-7c4e-93b9-0301f1479e3e",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cb68-a811-7c4e-93b9-0301f1479e3e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cb68-a811-7c4e-93b9-0301f1479e3e/cancel",
+  "expires_at": "2026-11-18T16:21:21.295906+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cb68-a811-7c4e-93b9-0301f1479e3e/ec987ef0-0775-42c4-ae98-4c5cfb37e1be.jpeg"
+   }
+  ]
+ },
+ "seconds": 87,
+ "file": "scripts/blog/media/lib/il_L261113a_mall_crowd.jpeg"
+}
