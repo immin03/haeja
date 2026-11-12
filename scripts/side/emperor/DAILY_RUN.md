@@ -11,7 +11,7 @@
 - 게시 시각(KST): **12:20 / 20:30** 두 편 (유튜브 쇼츠·인스타 릴스·틱톡 같은 시각, 쓰레드 글도 같은 시각)
   · 07:40 은 롱폼 소개 쇼츠 전용 칸(롱폼 다음 날 오전, 이 작업이 만들지 않음). 롱폼이 없는 날도 07:40 데일리는 만들지 않는다
   · 롱폼 본편은 19:30
-- ★ 길이·대본 구성: **TEMPLATE.md '★ 길이·내용 규칙' 절을 읽고 그대로** (12:20 = 60초, 20:30 = 80초 N가지. 여기에 요약하지 않음). 기획 단계에서 그 절의 "대본 자가 검사"를 통과해야 다음 단계로 간다
+- ★ 길이·대본 구성: **TEMPLATE.md '★ 길이·내용 규칙' 절을 읽고 그대로** (칸별 길이는 그 절에 있음 — 여기에 베껴 적지 않음). 기획 단계에서 그 절의 "대본 자가 검사"를 통과해야 다음 단계로 간다
   · 결과 비교 기준은 스튜디오 '계속 시청함'과 좋아요율. ed_posts.duration_sec 꼭 기록
 - 양식은 A 하나. 장면은 어두운 그림만(ed*, lc*, lib_*, edv*), 편마다 장면 묶음이 겹치지 않게, 어제 쓴 묶음은 피한다
 - 목소리: 해설 건석 tc_6731b2e0855f351b98d30c48, 명상록 인용은 황제 명일 tc_62d66c2d1523be99355fda02 (tempo 0.9). 둘 다 tonedown, 묶음별 2테이크
@@ -22,7 +22,7 @@
 1. 준비: 저장소 sparse clone 후 `scripts/side/emperor`, `social/side/gen`(쓰는 그림만), `docs/emperor/profile_final.png`.
    글꼴 /root/fonts: `Hahmlet[wght].ttf`(google/fonts ofl/hahmlet), `CormorantSC-SemiBold.ttf`(ofl/cormorantsc), `PinyonScript-Regular.ttf`(ofl/pinyonscript),
    Pretendard SemiBold/Bold/ExtraBold(.otf, orioncactus/pretendard). 음악·엔딩 목소리·로고는 `scripts/side/emperor/assets/` → `/home/claude/ed/music/`, `/home/claude/logo/logo_final.png` 로 복사.
-2. 기획(2편): 최근 14일 ed_posts 제목과 겹치지 않는 "사람 문제" 주제. 제목은 **TEMPLATE.md '★ 제목 규칙' 그대로** — 이 단계 끝에 그 절의 자가 검사를 통과하지 못하면 다시 짓는다. 첫 화면 훅 2줄 = 제목(`| 명상록` 꼬리는 첫 화면에 넣지 않고 유튜브 제목에만).
+2. 기획(2편): 주제는 **TEMPLATE.md '★ 주제·시청층 규칙' 그대로** (7일 안 같은 묶음 금지, 나이 묶음 주 1편, 12:20 = 20~40대 지금 장면) — ed_posts.images.topic 에 묶음 번호를 적는다. 제목은 **TEMPLATE.md '★ 제목 규칙' 그대로** — 이 단계 끝에 그 절의 자가 검사를 통과하지 못하면 다시 짓는다. 첫 화면 훅 2줄 = 제목(`| 명상록` 꼬리는 첫 화면에 넣지 않고 유튜브 제목에만).
    명상록 인용은 권·절을 확실히 아는 것만, George Long(1862) 영역본을 충실히 옮긴 쉬운 한국어. 로마 시대 장면만, 현대 상황은 내레이션 말로만(플랫폼 이름 금지).
 3. 대본 파일: 편마다 `long_<id>.json`(구조는 `long_ep08a.json`을 그대로 따름: kicker, hook, title_line, music, cuts, tonight, source, gap, hold, sents)
    sents 시각은 0으로 두고 문장 글·group·cut·style 만 채운다. 묶음 줄 목록은 `/home/claude/vo/v2_lines.json` 에 `{ "<id>": [["n1", 건석, 글], ["e2", 명일, 인용], ...] }`
