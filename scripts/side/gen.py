@@ -117,6 +117,7 @@ def run(job, H, spent):
     return cost if status == "completed" else 0.0
 
 
+ZIMG_MAX = 780  # Z-Image Turbo 프롬프트 최대 글자 수(11/13 시험: 822자 거절, 699자 통과)
 ED_SHORT_CAP = 2  # 데일리 쇼츠 한 편 새 생성 상한 (TEMPLATE.md ★ 생성 상한)
 ED_RPC = "https://msjbrwyzkiueqnzjeicm.supabase.co/rest/v1/rpc/ed_gen_cost_log"
 ED_TOKEN = "b81dd8eb317d7e43351bfde9271cffb0ab4636fd"  # ed_gen_costs 기록 전용(비공개 저장소)
@@ -215,7 +216,14 @@ def main(only=None):
         if name.startswith("ED"):   # 11/13 대표: 황제의 일기 그림은 Z-Image Turbo(장당 약 $0.014)가 기본 — Grok 은 작업에 "hero": true 일 때만
             for j in jobs:
                 if j["kind"] == "image" and j.get("endpoint", "").startswith("xai/grok-imagine-image") and not j.get("hero") and not j.get("ref") and not _exists(j["id"], "image"):  # 참고 그림(ref)으로 같은 주인공을 잇는 장면은 Grok 유지
-                    j["endpoint"] = "z-image/turbo"
+                    if len(j.get("body", {}).get("prompt", "")) <= ZIMG_MAX:
+                        j["endpoint"] = "z-image/turbo"
+                    else:   # 11/13 08:05 시험: Z-Image 는 약 800자 넘는 프롬프트를 400 'too long' 으로 거절(822자 실패, 699자 통과) → 긴 건 Grok 유지
+                        print(f"[{name}] {j['id']} 프롬프트 {len(j['body']['prompt'])}자 > {ZIMG_MAX} — Z-Image 거절 길이라 Grok 유지", flush=True)
+            for j in jobs:   # 작업 파일에 직접 z-image 를 적었는데 너무 길면 그림이 조용히 빠진다 → Grok 으로 돌린다
+                if j["kind"] == "image" and "z-image" in j.get("endpoint", "") and len(j.get("body", {}).get("prompt", "")) > ZIMG_MAX and not _exists(j["id"], "image"):
+                    print(f"[{name}] {j['id']} 프롬프트 {len(j['body']['prompt'])}자 > {ZIMG_MAX} — Z-Image 대신 Grok", flush=True)
+                    j["endpoint"] = "xai/grok-imagine-image-2.0"; j["body"].pop("raw_prompt", None)
         if name.startswith("ED"):   # 11/13 대표: 황제의 일기 영상은 무조건 저가 모델(wan-3.0-prime)만
             bad = [j["id"] for j in jobs if j["kind"] == "video" and "prime" not in j.get("endpoint", "") and not _exists(j["id"], "video")]
             if bad:
