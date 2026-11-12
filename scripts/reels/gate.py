@@ -38,6 +38,9 @@ def check(spec):
             say, cap = ln.get("say"), ln.get("cap")
             if say and cap and _norm(" ".join(cap)) != _norm(say):
                 errs.append(f"장면 {i}: 자막이 내레이션과 다릅니다 — 요약하지 말고 말 그대로 ({' '.join(cap)[:30]} ↔ {say[:30]})")
+    # 1-1. 어색한 말·소수점 금액 (scripts/script_words.py)
+    import sys as _s; _s.path.insert(0, os.path.join(HERE, "..")); import script_words
+    errs += script_words.check_lines([(i, ln.get("say") or "") for i, sc in enumerate(spec.get("scenes", [])) for ln in sc.get("lines", []) or []])
     # 2. 사진·영상 중복
     seen = {}
     for i, sc in enumerate(spec.get("scenes", [])):

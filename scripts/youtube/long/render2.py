@@ -1,3 +1,4 @@
+import sys
 """유튜브 롱폼 렌더러 v2 — 머니스웨거식 '빈 틀을 먼저 보여 주고 말에 맞춰 채우는' 화면 (1920x1080, 24fps)
 사용: python3 scripts/youtube/long/render2.py <spec.json> [--fake-voice]
 원고 형식(spec "format": 2):
@@ -2007,6 +2008,8 @@ def preflight(spec):
                 try: pr = open(jp, encoding="utf-8").read()
                 except Exception: pr = ""
                 if _anim.search(pr): errs.append(f"장면 {i}: 애니메이션풍 그림 {n} — 실사로 새로 만들거나 꼭 필요하면 allow_anim")
+        sys.path.insert(0, os.path.join(ROOT, "scripts")); import script_words   # 2026-11-12 대표: 원고 어색한 말·소수점 금액 검수
+        errs += script_words.check_lines([(i, l) for i, sc in enumerate(spec.get("scenes", [])) for l in sc.get("lines", [])])
         _ban = ["몫", "디레이팅", "리레이팅", "멀티플", "펀더멘털"]
         _tt = [("제목", spec.get("title", ""))] + [(f"썸네일 {a.get('key')}안 제목", a.get("title", "")) for a in spec.get("ab_sets", []) or []]
         for nm, tx in _tt:
