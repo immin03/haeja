@@ -85,9 +85,9 @@ def _read_many(paths):
 def _price(j):
     """기록이 없을 때 쓰는 추정 단가 (gen.py PRICE 와 같음)"""
     if not j: return None
-    if j.get("kind") == "image": return 0.05 * int(j.get("body", {}).get("num_images", 1))
+    if j.get("kind") == "image": return 0.06 * int(j.get("body", {}).get("num_images", 1))
     d = float(j.get("body", {}).get("duration", 5)); e = j.get("endpoint", "")
-    for k, v in {"wan-3.0-prime": 0.027, "wan-3.0/": 0.10, "kling": 0.11, "seedance": 0.15, "grok": 0.08}.items():
+    for k, v in {"wan-3.0-prime": 0.051, "wan-3.0/": 0.10, "kling": 0.11, "seedance": 0.15, "grok": 0.08}.items():
         if k in e: return round(v * d, 3)
     return round(0.15 * d, 3)
 
