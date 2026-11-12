@@ -1,0 +1,161 @@
+{
+ "id": "en02a",
+ "lang": "en",
+ "from": "ep02",
+ "note": "2026-11-12 영어 데일리 쇼츠(en05b 구조). ep02 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "The BEST revenge",
+  "is not what",
+  "you think."
+ ],
+ "title_line": "The best revenge is not what you think",
+ "music": {
+  "file": "/home/claude/ed/music/music_classical-7.mp3",
+  "start": 91,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en02a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_lamp_out.mp4",
+  "/home/claude/haeja/social/side/gen/ev2_sword.mp4",
+  "/home/claude/haeja/social/side/gen/libv_letter_open.mp4",
+  "/home/claude/haeja/social/side/gen/ev_fire.mp4",
+  "/home/claude/haeja/social/side/gen/edv05_letters.mp4",
+  "/home/claude/haeja/social/side/gen/libv_old_bench.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.534,
+   1,
+   0,
+   "none",
+   [
+    "The best revenge is not what you think."
+   ]
+  ],
+  [
+   3.374,
+   4.634,
+   2,
+   0,
+   "cap",
+   [
+    "Someone hurt you,"
+   ]
+  ],
+  [
+   4.684,
+   6.658,
+   2,
+   0,
+   "cap",
+   [
+    "and you keep rehearsing",
+    "what you'd say back."
+   ]
+  ],
+  [
+   7.528,
+   10.258,
+   3,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius ruled",
+    "the Roman Empire."
+   ]
+  ],
+  [
+   10.308,
+   12.548,
+   3,
+   1,
+   "cap",
+   [
+    "His most trusted general",
+    "betrayed him."
+   ]
+  ],
+  [
+   12.598,
+   14.18,
+   3,
+   2,
+   "cap",
+   [
+    "And he wrote this",
+    "in his journal."
+   ]
+  ],
+  [
+   15.03,
+   17.055,
+   4,
+   3,
+   "quote",
+   [
+    "The best way",
+    "to avenge yourself"
+   ]
+  ],
+  [
+   17.055,
+   20.103,
+   4,
+   3,
+   "quote",
+   [
+    "is not to become",
+    "like the one",
+    "who wronged you."
+   ]
+  ],
+  [
+   20.953,
+   23.463,
+   5,
+   4,
+   "big",
+   [
+    "He burned the traitor's",
+    "letters unread."
+   ]
+  ],
+  [
+   23.513,
+   25.517,
+   5,
+   4,
+   "big",
+   [
+    "He would not become",
+    "the man who hurt him."
+   ]
+  ],
+  [
+   26.367,
+   29.739,
+   6,
+   5,
+   "quote",
+   [
+    "See why they did wrong,",
+    "and you will pity them."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Write one reason",
+  "not to pay them back",
+  "in kind."
+ ],
+ "source": "Marcus Aurelius, Meditations 6.6, 7.26",
+ "end_voice": "/home/claude/vo/v2/en02_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en02_outro_voice.wav",
+ "theme": "A",
+ "vol": 1.0
+}
