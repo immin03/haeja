@@ -143,9 +143,8 @@ def draw(img, beats, u, lines):
         k = b["kind"]
         if k == "print" and first:
             q = eout(p / .35); d = ImageDraw.Draw(im, "RGBA")
-            d.line([(X, y + 17), (X + 50 * q, y + 17)], fill=(*GOLD, 255), width=3)
-            r = eout((p - .15) / .4)
-            if r > 0: _st(d, (X + 66 - 24 * (1 - r), y), b["text"], font=F("SemiBold", 32), fill=(*GOLD, int(255 * r)))
+            r = eout((p - .15) / .4)   # 2026-11-13 대표: 글자 앞 장식 선 없앰(겹침)
+            if r > 0: _st(d, (X + 24 * (1 - r), y), b["text"], font=F("SemiBold", 32), fill=(*GOLD, int(255 * r)))
             y += _height(b, True); first = False
         elif k == "print":
             r = eout(p / .45); d = ImageDraw.Draw(im, "RGBA")
@@ -311,7 +310,6 @@ def _broadcast(im, beats, u, lines):
             bg = Image.new("RGBA", im.size); bd = ImageDraw.Draw(bg)
             bd.rounded_rectangle([x0, y0, x0 + cw, y0 + ch], 18, fill=(8, 14, 26, int(205 * r)), outline=(*GOLD, int(120 * r)), width=2)
             im.alpha_composite(bg); d = ImageDraw.Draw(im, "RGBA")
-            d.line([(x0 + 28, y0 + 26), (x0 + 28 + 60 * eout(p / .4), y0 + 26)], fill=(*GOLD, int(255 * r)), width=3)
             _st(d, (x0 + 28, y0 + 40), b.get("label", ""), font=F("SemiBold", 30), fill=(*GOLD, int(255 * r)))
             fa, to = b.get("from"), b.get("to"); unit = b.get("unit", "만 원")
             if fa is not None and to is not None:
@@ -394,8 +392,7 @@ def _punches(im, pu, u, lines):
             if r > 0:
                 bb = d.textbbox((cx, cy), b["text"], font=F("Heavy", fs), anchor="mm")
                 yy = bb[3] + 40; lw = 70 * r
-                d.line([(cx - 40 - lw - 220, yy + 30), (cx - 220 - 40, yy + 30)], fill=(*GOLD, int(255 * r)), width=3)
-                d.line([(cx + 260, yy + 30), (cx + 260 + lw, yy + 30)], fill=(*GOLD, int(255 * r)), width=3)
+                # 2026-11-13 대표: 보조 문구 양옆 장식 선이 긴 문구와 겹친다 → 없앰
                 _st(d, (cx, yy + 30 + 10 * (1 - r)), b["sub"], font=F("Bold", 50), fill=(*GOLD, int(255 * r)), anchor="mm")
         # 박히는 순간 번쩍 + 흔들림
         if soft: continue
