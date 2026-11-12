@@ -1,0 +1,32 @@
+{
+ "id": "il_cmpz_bank_1980",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A 1980s bank branch interior with wood paneling, customers seen from behind queuing at teller windows, warm tungsten light, retro atmosphere.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d1d3-a5cd-7460-98c0-577bf13d58fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1d3-a5cd-7460-98c0-577bf13d58fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1d3-a5cd-7460-98c0-577bf13d58fd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d1d3-a5cd-7460-98c0-577bf13d58fd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1d3-a5cd-7460-98c0-577bf13d58fd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1d3-a5cd-7460-98c0-577bf13d58fd/cancel",
+  "expires_at": "2026-11-19T22:14:39.473398+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1d3-a5cd-7460-98c0-577bf13d58fd/6dec4e7a-ba76-42b3-83ed-360fde70a577.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_cmpz_bank_1980.png"
+}
