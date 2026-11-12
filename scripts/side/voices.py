@@ -2,7 +2,7 @@
 타입캐스트에서 영어를 읽을 수 있는 목소리 목록을 받아, 젊고 경쾌한 후보를 골라 같은 문장을 읽힌다.
 결과: 릴리스 side-assets 에 voice_<번호>_<이름>.mp3, social/side/voices.json (후보 목록·주소)
 """
-import json, os, subprocess, sys, urllib.request, urllib.error
+import hashlib, json, os, shutil, subprocess, sys, urllib.request, urllib.error
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "social", "side"); os.makedirs(OUT, exist_ok=True)
@@ -15,6 +15,27 @@ LINE = ("In 2014, North Korea banned a snack. Not a weapon. Not a phone. A tiny,
 def get(url):
     req = urllib.request.Request(url, headers={"X-API-KEY": KEY})
     with urllib.request.urlopen(req, timeout=60) as r: return json.loads(r.read())
+
+
+# 2026-11-13 대표: 같은 녹음은 다시 사지 않는다.
+# 같은 녹음 = 문장 + 성우 ID + 모델 + 언어 + 감정·세기 + 테이크 번호. 그 키(sha1 앞 12자리)로 타입캐스트 원본을
+# social/side/tts_cache/<키>.mp3 에 둔다. 속도(tempo)·음량은 ffmpeg 후처리라 키에 넣지 않는다 → 속도만 바꾸면 0원.
+# 같은 요청 안에 같은 문장이 여러 번이면 일부러 받는 테이크(A·B)로 보고 테이크 번호를 키에 넣는다.
+# FORCE=1(또는 req/줄의 "force": true)일 때만 캐시를 무시하고 새로 산다.
+CACHE = os.path.join(OUT, "tts_cache")
+FORCE = os.environ.get("FORCE", "").strip().lower() in ("1", "true", "yes")
+
+
+def tts_key(text, voice, model, lang, emotion, intensity, take=1):
+    s = json.dumps([text, voice, model, lang, emotion or "", float(intensity or 1.0), int(take)], ensure_ascii=False)
+    return hashlib.sha1(s.encode("utf-8")).hexdigest()[:12]
+
+
+def _log(chars=0, cached=0, lang="ko"):
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "reels")); import tts_log
+        tts_log.set_item(os.environ.get("TTS_ITEM") or "side-voices"); tts_log.add(chars=chars, cached=cached, lang=lang)
+    except Exception: pass
 
 
 def tts(voice, model, path, text=None, lang="eng", emotion=None, intensity=1.0):
@@ -32,25 +53,43 @@ def tts(voice, model, path, text=None, lang="eng", emotion=None, intensity=1.0):
 def main_req(req):
     """voices_req.json 에 voices 목록이 있으면 그 목소리들로 req.line 을 읽힌다 (2026-11-02 황제의 일기 한국어 성우 후보)"""
     tag = req.get("tag", "ko"); res = []; files = []
+    os.makedirs(CACHE, exist_ok=True); seen = {}; n_hit = n_buy = 0
     for i, v in enumerate(req["voices"], 1):
         name = v["name"].replace(" ", "_")[:24]; fn = f"voice_{tag}_{i:02d}_{name}.mp3"; dst = os.path.join(OUT, fn); raw = dst + ".raw.mp3"
         ok = False
         e0 = v.get("emotion", req.get("emotion"))
-        for emo in ([e0] if e0 else []) + [None]:
-            try:
-                tts(v["id"], req.get("model", "ssfm-v30"), raw, v.get("line", req.get("line")), req.get("lang", "kor"), emo, v.get("intensity", 1.0)); ok = True; break
-            except urllib.error.HTTPError as e: print("실패", name, emo, e.code, e.read()[:200])
-            except Exception as e: print("실패", name, emo, str(e)[:160])
+        text = v.get("line", req.get("line")) or LINE; model = req.get("model", "ssfm-v30"); lang = req.get("lang", "kor")
+        inten = v.get("intensity", 1.0)
+        base = (text, v["id"], model, lang, e0 or "", float(inten or 1.0)); seen[base] = seen.get(base, 0) + 1
+        take = int(v.get("take") or seen[base])
+        force = FORCE or bool(req.get("force")) or bool(v.get("force"))
+        emos = ([e0] if e0 else []) + [None]
+        if not force:   # 같은 녹음이 있으면 사지 않는다 (감정 실패로 기본 감정으로 산 녹음도 찾는다)
+            for emo in emos:
+                cp = os.path.join(CACHE, tts_key(text, v["id"], model, lang, emo, inten, take) + ".mp3")
+                if os.path.exists(cp) and os.path.getsize(cp) > 1000:
+                    shutil.copy(cp, raw); ok = True; n_hit += 1; _log(cached=len(text), lang=lang[:2])
+                    print("재사용", name, os.path.basename(cp), flush=True); break
+        if not ok:
+            for emo in emos:
+                try:
+                    tts(v["id"], model, raw, text, lang, emo, inten); ok = True; n_buy += 1
+                except urllib.error.HTTPError as e: print("실패", name, emo, e.code, e.read()[:200]); continue
+                except Exception as e: print("실패", name, emo, str(e)[:160]); continue
+                try: shutil.copy(raw, os.path.join(CACHE, tts_key(text, v["id"], model, lang, emo, inten, take) + ".mp3"))
+                except Exception as e: print("캐시 저장 실패(녹음은 그대로 씀)", name, e)
+                break   # 산 녹음은 캐시 저장이 실패해도 다시 사지 않는다
         if not ok: continue
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-af", f"atempo={v.get('tempo', req.get('tempo', 1.0))},loudnorm=I=-16:TP=-1.5", "-b:a", "160k", dst], check=True)
         os.remove(raw); files.append(dst)
         if req.get("keep"):  # 2026-11-03 롱폼 성우 샘플: 저장소에도 남겨 바로 받아 볼 수 있게
             kd = os.path.join(OUT, "voice_samples", tag); os.makedirs(kd, exist_ok=True)
-            import shutil; shutil.copy(dst, os.path.join(kd, fn))
+            shutil.copy(dst, os.path.join(kd, fn))
             # 2026-11-04: 녹음 원문을 옆에 남긴다 → take_check.py 가 대본과 대조 (다른 편 녹음을 잘못 쓰는 사고 방지)
             open(os.path.join(kd, fn + ".txt"), "w").write(v.get("line", req.get("line")) or "")
         res.append({"n": i, "voice_id": v["id"], "name": v["name"], "line": v.get("line", req.get("line")), "url": f"https://github.com/{REPO}/releases/download/side-assets/{fn}"})
         print("샘플", i, name, flush=True)
+    print(f"[녹음 캐시] 새로 산 줄 {n_buy} · 재사용 {n_hit}" + (" · FORCE" if FORCE or req.get("force") else ""), flush=True)
     if files:
         # 2026-11-11: side-assets 릴리스가 파일 1,000개 한도에 걸려 업로드가 실패하면 녹음 전체가 커밋되지 않았다(en05c).
         # keep 요청은 저장소(voice_samples/<tag>)에 이미 복사됐으므로 릴리스 업로드 실패를 경고로만 남긴다.
