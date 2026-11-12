@@ -49,7 +49,7 @@
    사이트 주소가 200이 될 때까지 기다린 뒤
    유튜브: `ED_KEY=<app_config ed_yt_long_key> ./yt_up.sh <id> <yt.mp4> <meta.json> hook_<id>.jpg`
    meta.json = {"title": "<제목> | 명상록"(해시태그 없음, 40자 이내 — yt_up.sh 가 어기면 멈춤), "description": TEMPLATE 설명란(#shorts 는 여기 끝에), "tags": TEMPLATE '태그 세트', "publish_at": 게시 시각 UTC}
-   썸네일: yt_up.sh 가 끝에 yt_thumb.sh 로 hook_<id>.jpg 를 지정한다(200 이 아니면 실패). 실제 화면 확인은 Chrome 작업 몫(TEMPLATE 썸네일 규칙)
+   썸네일: yt_up.sh 끝의 yt_thumb.sh(API)는 쇼츠에 반영되지 않는다(11/12 확인). ed_posts 등록 때 cover_path 를 반드시 채우면, 「황제의 일기 쇼츠 썸네일 고정」 크롬 작업(07:07·19:07)이 스튜디오에서 hook_<id>.jpg 를 지정한다(TEMPLATE 썸네일 규칙)
    ★ 댓글(2026-11-05 대표): yt_comment·ig_comment 는 질문 뒤 빈 줄 하나 + "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."(인스타는 '구독' → '팔로우') 로 끝낸다
    ed_posts: ep07~09 행과 같은 열로 insert (voice_qa = ig 도장의 ed_posts_voice_qa, video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
 10. 끝: 커밋 메시지는 한국어, 마지막 줄 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. 결과 한 줄: "완료: <id 제목 길이초> ×2" / "실패: <원인>"
