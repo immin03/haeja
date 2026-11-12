@@ -21,8 +21,10 @@ OUT = os.path.join(ROOT, "social", "side", "gen")
 REPO = os.environ.get("GITHUB_REPOSITORY", "immin03/haeja")
 BRANCH = os.environ.get("GITHUB_REF_NAME", "main")
 HARD_CAP = 3.0  # 회차(한 번 실행) 절대 상한 3달러 — 환경변수·실행 입력으로도 못 올린다 (11/5 대표 지시)
-PRICE = {  # 대략 단가 (open.higgsfield.ai 2026-10-27 표시가, 할인 반영) — 상한 계산용
-    "image": 0.05, "video_per_s": {"wan-3.0/": 0.10, "wan-3.0-prime": 0.027, "kling": 0.11, "seedance": 0.15, "grok": 0.08}}
+PRICE = {  # 상한 계산용 단가 — 2026-11-13 실청구로 고침(11/1~12 청구액 ÷ 실제 제출 건수, HIGGSFIELD-COST-AUDIT-2026-11-13)
+    # 그림 $0.06 · wan-3.0 5초 $0.47 · seedance-2.5 5초 $1.18. wan-3.0-prime 은 실청구 확인 전이라 넉넉히 잡음(확인 후 고칠 것)
+    "image": 0.06, "video_per_s": {"wan-3.0/": 0.10, "wan-3.0-prime": 0.06, "kling": 0.11, "seedance": 0.24, "grok": 0.08}}
+LONG_PAUSE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "emperor", "LONG_PAUSED")  # 11/13 대표: 롱폼·실화극 새 생성 보류
 
 
 def est(job):
@@ -204,6 +206,9 @@ def main(only=None):
         new = [j for j in jobs if not _exists(j["id"], j["kind"])]
         if _re.match(r"EDS\d{6}-(ep|en)", name) and len(new) > ED_SHORT_CAP and not any(j.get("over_cap_reason") for j in jobs):
             print(f"[{name}] 데일리 쇼츠 새 생성 {len(new)}개 > 상한 {ED_SHORT_CAP} — 라이브러리에서 먼저 찾을 것(이유가 있으면 over_cap_reason). 이 파일 건너뜀", flush=True)
+            continue
+        if name.startswith("EDL") and not name.endswith("en") and os.path.exists(LONG_PAUSE):
+            print(f"[{name}] 롱폼·실화극 생성 보류 중({open(LONG_PAUSE, encoding='utf-8').read().strip()}) — 건너뜀. 풀려면 {os.path.relpath(LONG_PAUSE, ROOT)} 삭제", flush=True)
             continue
         if name.startswith("ED"):   # 11/13 대표: 황제의 일기 영상은 무조건 저가 모델(wan-3.0-prime)만
             bad = [j["id"] for j in jobs if j["kind"] == "video" and "prime" not in j.get("endpoint", "") and not _exists(j["id"], "video")]
