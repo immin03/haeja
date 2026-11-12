@@ -161,6 +161,9 @@ def render(spec, out):
     f1 = fit(spec["l1"], spec.get("s1", 104), maxw); f2 = fit(spec["l2"], spec.get("s2", 150), maxw)
     y2 = H - 40; y1 = y2 - f2.size * 1.02 - 4
     text(im, (LX, y1), spec["l1"], f1, tuple(spec.get("c1", IVORY)))
+    if spec.get("l1_hl") and spec["l1_hl"] in spec["l1"]:   # 2026-11-12 대표 "회사 이름이 크게 보여야" — 첫 줄 안 회사명만 다른 색(기본 금색)으로 덧칠
+        pre = spec["l1"].split(spec["l1_hl"], 1)[0]
+        ImageDraw.Draw(im).text((LX + f1.getlength(pre), y1), spec["l1_hl"], font=f1, fill=tuple(spec.get("c1_hl", (242, 212, 151))), anchor="ls")
     text(im, (LX, y2), spec["l2"], f2, tuple(spec.get("c2", {"down": RED, "gold": (242, 212, 151)}.get(spec.get("tone"), GREEN))))   # 2026-11-06 대표님: 노란색 촌스러움 → 원래 썸네일 색(아이보리 + 형광 초록)
     if spec.get("company"):   # 2026-11-09 대표님: 쇼츠처럼 롱폼 썸네일에도 기업 로고(이름) — 두 줄 제목 바로 위
         fc = fit(spec["company"], spec.get("company_s", 104), 620, "Heavy") if not os.path.exists(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf")) else ImageFont.truetype(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf"), spec.get("company_s", 104))
