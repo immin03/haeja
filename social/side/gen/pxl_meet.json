@@ -1,0 +1,32 @@
+{
+ "id": "pxl_meet",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "In a small meeting room, a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie has just stood up holding a paper, mouth open mid-sentence, while a stern Korean team leader in his fifties across the table raises his open hand to stop him. Two colleagues at the side glance away. Painterly cinematic oil-painting look with fine film grain, a present-day Korean office scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d1d2-96fb-71df-833c-7a0566278667",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1d2-96fb-71df-833c-7a0566278667/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1d2-96fb-71df-833c-7a0566278667/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d1d2-96fb-71df-833c-7a0566278667",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1d2-96fb-71df-833c-7a0566278667/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1d2-96fb-71df-833c-7a0566278667/cancel",
+  "expires_at": "2026-11-19T22:14:39.983929+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1d2-96fb-71df-833c-7a0566278667/624aec32-4a96-464b-a674-882d313d653c.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "social/side/gen/pxl_meet.jpeg"
+}

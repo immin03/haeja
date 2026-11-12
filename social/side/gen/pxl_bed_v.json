@@ -1,0 +1,32 @@
+{
+ "id": "pxl_bed_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 4,
+  "resolution": "480p",
+  "prompt": "The man blinks slowly, exhales, and turns his head toward the window; the blue light shifts slightly. Camera almost still. Keep the painterly look identical. No text, no morphing faces.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1d2-96f8-74cb-abaa-11ab6a8a79ef/3dff95de-85c5-40a5-8f55-be722fcb0cef.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d1d4-4dcc-7f47-a265-8cb31c3ebefa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1d4-4dcc-7f47-a265-8cb31c3ebefa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1d4-4dcc-7f47-a265-8cb31c3ebefa/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.108,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d1d4-4dcc-7f47-a265-8cb31c3ebefa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1d4-4dcc-7f47-a265-8cb31c3ebefa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1d4-4dcc-7f47-a265-8cb31c3ebefa/cancel",
+  "expires_at": "2026-11-19T22:16:33.390327+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1d4-4dcc-7f47-a265-8cb31c3ebefa/a45bcebd-c279-4682-9070-bb65d88d071c.mp4"
+  }
+ },
+ "seconds": 80,
+ "file": "social/side/gen/pxl_bed_v.mp4"
+}

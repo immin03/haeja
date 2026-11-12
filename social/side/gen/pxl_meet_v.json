@@ -1,0 +1,17 @@
+{
+ "id": "pxl_meet_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 4,
+  "resolution": "480p",
+  "prompt": "The team leader raises his hand firmly to cut him off; the man stops speaking and slowly lowers his paper, his face stiffening. Camera almost still. Keep the painterly look identical. No text, no morphing faces.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1d2-96fb-71df-833c-7a0566278667/624aec32-4a96-464b-a674-882d313d653c.jpeg"
+ },
+ "submit_http": 500,
+ "submit": {
+  "code": 500,
+  "detail": "Internal Server Error"
+ },
+ "est_usd": 0.108,
+ "status": "submit_failed"
+}
