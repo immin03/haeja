@@ -20,6 +20,8 @@ STYLE = ("Editorial storybook illustration for a Korean finance explainer video.
 
 SPACE = " Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent."
 
+KEEP_GROK = {"L261113-apple-3a", "L261113-apple-3b", "L261113-gold-3a", "L261113-gold-3b"}
+
 
 def main(only=None):
     """4개씩 동시에 만든다 (한 장 30~100초)"""
@@ -30,6 +32,12 @@ def main(only=None):
         for j in json.load(open(f, encoding="utf-8")):
             if j.get("disabled"): continue
             j = dict(j); j.setdefault("kind", "image"); j.setdefault("endpoint", "xai/grok-imagine-image-2.0")
+            # 2026-11-13 대표님 결정: 반복해서 쓰는 공용 사진(base-)·썸네일·강조 컷(hero)은 Grok($0.06)에 한 번 투자,
+            # 한 편에만 쓰는 장면 사진은 Z-Image($0.014). 이미 Grok으로 반쯤 만든 편(KEEP_GROK)은 톤 맞추려 Grok 유지.
+            fn = os.path.basename(f)[:-5]
+            if (j["endpoint"].startswith("xai/grok-imagine-image") and not j.get("hero")
+                    and not fn.startswith("base-") and "thumb" not in fn and fn not in KEEP_GROK):
+                j["endpoint"] = "z-image/turbo"
             b = dict(j.get("body", {})); b.setdefault("aspect_ratio", "16:9")
             if not j.get("raw_prompt"): b["prompt"] = STYLE + b.get("prompt", "") + (SPACE if j.get("space", True) else "")
             j["body"] = b
