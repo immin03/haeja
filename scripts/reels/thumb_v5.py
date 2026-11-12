@@ -164,7 +164,13 @@ def render(spec, out):
     if spec.get("l1_hl") and spec["l1_hl"] in spec["l1"]:   # 2026-11-12 대표 "회사 이름이 크게 보여야" — 첫 줄 안 회사명만 다른 색(기본 금색)으로 덧칠
         pre = spec["l1"].split(spec["l1_hl"], 1)[0]
         ImageDraw.Draw(im).text((LX + f1.getlength(pre), y1), spec["l1_hl"], font=f1, fill=tuple(spec.get("c1_hl", (242, 212, 151))), anchor="ls")
+    if spec.get("l1_hl2") and spec["l1_hl2"] in spec["l1"]:   # 2026-11-12 대표 "-37%도 빨간색으로, 대비되게" — 첫 줄 숫자(하락 폭·증발액)만 빨강으로 덧칠
+        pre = spec["l1"].split(spec["l1_hl2"], 1)[0]
+        ImageDraw.Draw(im).text((LX + f1.getlength(pre), y1), spec["l1_hl2"], font=f1, fill=tuple(spec.get("c1_hl2", RED)), anchor="ls")
     text(im, (LX, y2), spec["l2"], f2, tuple(spec.get("c2", {"down": RED, "gold": (242, 212, 151)}.get(spec.get("tone"), GREEN))))   # 2026-11-06 대표님: 노란색 촌스러움 → 원래 썸네일 색(아이보리 + 형광 초록)
+    if spec.get("l2_hl2") and spec["l2_hl2"] in spec["l2"]:   # 둘째 줄 숫자만 빨강 (예: "SK하이닉스 -91%")
+        pre = spec["l2"].split(spec["l2_hl2"], 1)[0]
+        ImageDraw.Draw(im).text((LX + f2.getlength(pre), y2), spec["l2_hl2"], font=f2, fill=tuple(spec.get("c2_hl2", RED)), anchor="ls")
     if spec.get("company"):   # 2026-11-09 대표님: 쇼츠처럼 롱폼 썸네일에도 기업 로고(이름) — 두 줄 제목 바로 위
         fc = fit(spec["company"], spec.get("company_s", 104), 620, "Heavy") if not os.path.exists(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf")) else ImageFont.truetype(os.path.join(HERE, "fonts", "Montserrat-ExtraBold.ttf"), spec.get("company_s", 104))
         text(im, (LX + spec.get("company_dx", 2), y1 - f1.size - spec.get("company_gap", 72)), spec["company"], fc, IVORY)   # 11/9 17:21 대표님: 더 크게, 제목과 왼쪽 정렬, 살짝 위로
