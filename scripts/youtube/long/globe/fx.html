@@ -1,0 +1,151 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:SUIT;font-weight:800;src:url(SUIT-ExtraBold.ttf)}
+@font-face{font-family:SUIT;font-weight:600;src:url(SUIT-SemiBold.ttf)}
+html,body{margin:0;background:#0b1b33}canvas{display:block}
+</style>
+<script src="node_modules/d3-array/dist/d3-array.min.js"></script>
+<script src="node_modules/d3-geo/dist/d3-geo.min.js"></script>
+<script src="node_modules/topojson-client/dist/topojson-client.min.js"></script>
+</head><body><canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// 2026-11-12 대표 "코드로 만들 수 있는 건 전부 코드로" — 밸류노트 롱폼 볼거리 효과 (비용 0원)
+// 모드: histchart(과거 국면 겹침 차트) · flow(돈의 흐름) · scale(누름·받침 저울) · timeline(사건 레일)
+// 내용은 전부 window.CFG 로 받는다 (원고마다 바꿔 쓴다). cap.js 로 PAGE=fx.html 지정해 영상으로 뽑는다.
+const W=1920,H=1080,c=document.getElementById('c'),g=c.getContext('2d');
+const NAVY='#0b1b33',GOLD='#e0c896',IVORY='#f4eddc',GREEN='#3df5a0',RED='#ff4d6d',GRAY='rgba(244,237,220,0.45)';
+const ease=x=>x<0?0:x>1?1:(x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2), cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+let land=null;
+async function init(){
+  const r=await fetch('node_modules/world-atlas/land-50m.json'); const topo=await r.json(); land=topojson.feature(topo,topo.objects.land);
+  await document.fonts.load('800 40px SUIT'); await document.fonts.load('600 40px SUIT'); window.ready=true;
+}
+init();
+function bg(){ const b=g.createRadialGradient(W/2,H/2,100,W/2,H/2,W); b.addColorStop(0,'#16294a'); b.addColorStop(1,NAVY); g.fillStyle=b; g.fillRect(0,0,W,H);
+  for(let i=0;i<160;i++){ const r1=Math.sin(i*12.9898)*43758.5453, r2=Math.sin(i*78.233)*12543.31; g.fillStyle=`rgba(244,237,220,${0.05+0.12*((i%7)/7)})`; g.fillRect((r1-Math.floor(r1))*W,(r2-Math.floor(r2))*H,1.6,1.6); } }
+function txt(s,x,y,size,col,w,align,a){ g.save(); g.globalAlpha=a==null?1:a; g.font=`${w||800} ${size}px SUIT`; g.fillStyle=col; g.textAlign=align||'left'; g.textBaseline='middle'; g.shadowColor='rgba(0,0,0,0.5)'; g.shadowBlur=8; g.fillText(s,x,y); g.restore(); }
+function kicker(C,t){ const a=ease(cl(t/0.6)); g.save(); g.globalAlpha=a; g.fillStyle=GOLD; g.fillRect(120,96,64,4); g.restore(); txt(C.kicker||'',200,98,30,GOLD,600,'left',a); txt(C.title||'',120,160,58,IVORY,800,'left',a); }
+function glow(x,y,r,col,a){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,col.replace('A',a)); gr.addColorStop(1,col.replace('A',0)); g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
+
+// ① 과거 국면 겹침 차트: series [{name, pts:[...지수], color, end}] · x 개월, y 로그 지수(시작=100)
+function histchart(C,t){
+  bg(); kicker(C,t);
+  const X0=180,X1=1500,Y0=930,Y1=260, xm=C.xmax||36, lo=C.ymin||40, hi=C.ymax||600;
+  const X=m=>X0+(X1-X0)*m/xm, Y=v=>Y0-(Y0-Y1)*(Math.log(v)-Math.log(lo))/(Math.log(hi)-Math.log(lo));
+  const ga=ease(cl((t-0.3)/0.6));
+  g.save(); g.globalAlpha=ga; g.strokeStyle='rgba(244,237,220,0.18)'; g.lineWidth=1;
+  for(const v of (C.yticks||[50,100,200,400])){ g.beginPath(); g.moveTo(X0,Y(v)); g.lineTo(X1,Y(v)); g.stroke(); txt(v===100?'100 (첫 인상)':String(v),X0-16,Y(v),24,v===100?GOLD:GRAY,600,'right',ga); }
+  for(let m=0;m<=xm;m+=12){ txt(m===0?'첫 금리 인상':`${m}개월`,X(m),Y0+36,24,GRAY,600,'center',ga); }
+  g.strokeStyle='rgba(224,200,150,0.6)'; g.setLineDash([8,8]); g.beginPath(); g.moveTo(X0,Y(100)); g.lineTo(X1,Y(100)); g.stroke(); g.restore();
+  const S=C.series||[]; const labs=[];
+  S.forEach((s,k)=>{ const t0=0.9+k*(C.gap||0.9), p=ease(cl((t-t0)/1.4)); if(p<=0) return; const n=s.pts.length-1, upto=n*p;
+    g.save(); g.strokeStyle=s.color; g.lineWidth=s.bold?7:4; g.shadowColor=s.color; g.shadowBlur=s.bold?18:8; g.lineJoin='round'; g.beginPath();
+    for(let i=0;i<=Math.floor(upto);i++){ const x=X(i), y=Y(s.pts[i]); i?g.lineTo(x,y):g.moveTo(x,y); }
+    const fi=Math.floor(upto), fr=upto-fi; let ex=X(fi), ey=Y(s.pts[fi]); if(fi<n){ ex=X(fi+fr); ey=Y(s.pts[fi]+(s.pts[fi+1]-s.pts[fi])*fr); g.lineTo(ex,ey); }
+    g.stroke(); g.restore(); glow(ex,ey,30,s.glow||'rgba(255,240,205,A)',0.9);
+    if(p>=1) labs.push({x:ex,y:ey,s,a:ease(cl((t-t0-1.4)/0.5))}); });
+  labs.sort((a,b)=>a.y-b.y); let last=-1e9;
+  for(const L of labs){ let y=Math.max(L.y,last+56); last=y; txt(L.s.name,L.x+22,y-12,28,L.s.color,800,'left',L.a); txt(L.s.end,L.x+22,y+18,24,IVORY,600,'left',L.a); }
+  if(C.now){ const tn=0.9+S.length*(C.gap||0.9)+0.6, a=ease(cl((t-tn)/0.6)); if(a>0){ const x=X(C.now.m), y=Y(C.now.v), pul=(t*1.2)%1;
+    g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(224,200,150,${1-pul})`; g.lineWidth=4; g.beginPath(); g.arc(x,y,14+50*pul,0,7); g.stroke(); g.fillStyle=GOLD; g.shadowColor=GOLD; g.shadowBlur=30; g.beginPath(); g.arc(x,y,14,0,7); g.fill(); g.restore();
+    const lx=x+40, ly=Y(C.now.labv||60); g.save(); g.globalAlpha=a; g.strokeStyle='rgba(224,200,150,0.7)'; g.lineWidth=2; g.beginPath(); g.moveTo(x,y+16); g.lineTo(lx-8,ly-20); g.stroke(); g.restore(); txt(C.now.name,lx,ly-20,34,GOLD,800,'left',a); txt(C.now.sub,lx,ly+16,24,IVORY,600,'left',a); } }
+  if(C.note) txt(C.note,X0,1040,22,GRAY,600,'left',ga);
+}
+
+// ② 돈의 흐름: 평면 지도 위 출발지 → 도착 금고로 빛 알갱이, 도착 금고마다 숫자가 올라간다
+function flow(C,t){
+  bg(); kicker(C,t);
+  const proj=d3.geoNaturalEarth1().rotate([-(C.center||40),0]).fitExtent([[300,200],[W-300,790]],{type:'Sphere'}); const path=d3.geoPath(proj,g);
+  const ma=ease(cl(t/0.8)); g.save(); g.globalAlpha=ma*0.9; g.fillStyle='#122544'; g.beginPath(); path({type:'Sphere'}); g.fill(); g.fillStyle='rgba(234,219,185,0.16)'; g.beginPath(); path(land); g.fill(); g.strokeStyle='rgba(224,200,150,0.35)'; g.lineWidth=1; g.beginPath(); path(land); g.stroke(); g.restore();
+  (C.sinks||[]).forEach((sk,si)=>{ const [sx,sy]=sk.xy; const t0=0.8+si*(C.gap||2.2), a=ease(cl((t-t0)/0.5));
+    if(a<=0) return;
+    (sk.from||[]).forEach((f,fi)=>{ const [fx,fy]=proj(f.ll); const mx=(fx+sx)/2, my=Math.min(fy,sy)-120;
+      for(let k=0;k<14;k++){ const u=((t-t0)*0.45+k/14+fi*0.07)%1; if(t-t0<u/0.45) continue; const q=1-u;
+        const x=q*q*fx+2*q*u*mx+u*u*sx, y=q*q*fy+2*q*u*my+u*u*sy; glow(x,y,10,'rgba(255,225,150,A)',0.85*a); }
+      g.save(); g.globalAlpha=a; g.fillStyle=IVORY; g.beginPath(); g.arc(fx,fy,7,0,7); g.fill(); g.restore(); if(f.name) txt(f.name,fx+(f.dx||0),fy-24+(f.dy||0),24,IVORY,600,'center',a); });
+    const cnt=ease(cl((t-t0-0.4)/2.6)), v=Math.round(sk.value*cnt);
+    g.save(); g.globalAlpha=a; g.fillStyle='rgba(11,27,51,0.85)'; g.strokeStyle=GOLD; g.lineWidth=3; g.beginPath(); g.roundRect(sx-170,sy-80,340,150,18); g.fill(); g.stroke(); g.restore();
+    glow(sx,sy-6,120,'rgba(224,200,150,A)',0.18*a);
+    txt(sk.name,sx,sy-46,28,GOLD,600,'center',a); txt(`${v.toLocaleString()}${sk.unit||''}`,sx,sy+8,64,IVORY,800,'center',a); txt(sk.sub||'',sx,sy+50,22,GRAY,600,'center',a); });
+  if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',ma);
+}
+
+// ③ 저울: left/right 추가 하나씩 올라가며 기울었다 팽팽하게
+function scale(C,t){
+  bg(); kicker(C,t);
+  const L=C.left||{items:[]}, R=C.right||{items:[]}, cx=W/2, py=430, arm=520;
+  let wl=0,wr=0; const tl=[],tr=[];
+  L.items.forEach((it,i)=>{ const t0=0.8+i*1.0; const a=ease(cl((t-t0)/0.5)); tl.push(a); wl+=a*(it.w||1); });
+  R.items.forEach((it,i)=>{ const t0=0.8+(L.items.length+i)*1.0; const a=ease(cl((t-t0)/0.5)); tr.push(a); wr+=a*(it.w||1); });
+  const target=cl((wl-wr)*0.06,-0.16,0.16), wob=Math.sin(t*2.2)*0.012*Math.exp(-Math.max(0,t-6)*0.4); const ang=target+wob;
+  const ga=ease(cl((t-0.3)/0.6));
+  g.save(); g.globalAlpha=ga; g.fillStyle=GOLD; g.beginPath(); g.moveTo(cx-60,py+470); g.lineTo(cx+60,py+470); g.lineTo(cx+12,py); g.lineTo(cx-12,py); g.closePath(); g.fill();
+  g.translate(cx,py); g.rotate(ang); g.strokeStyle=GOLD; g.lineWidth=12; g.lineCap='round'; g.beginPath(); g.moveTo(-arm,0); g.lineTo(arm,0); g.stroke(); g.restore();
+  glow(cx,py,40,'rgba(255,240,205,A)',0.8*ga);
+  const side=(S,ts,sgn,col)=>{ const ex=cx+sgn*arm*Math.cos(ang), ey=py+sgn*arm*Math.sin(ang);
+    g.save(); g.globalAlpha=ga; g.strokeStyle='rgba(224,200,150,0.7)'; g.lineWidth=3; g.beginPath(); g.moveTo(ex,ey); g.lineTo(ex-210,ey+246); g.moveTo(ex,ey); g.lineTo(ex+210,ey+246); g.stroke();
+    g.fillStyle='rgba(224,200,150,0.25)'; g.strokeStyle=GOLD; g.beginPath(); g.ellipse(ex,ey+250,230,24,0,0,7); g.fill(); g.stroke(); g.restore();
+    txt(S.name,ex,ey-56,40,col,800,'center',ga);
+    S.items.forEach((it,i)=>{ const a=ts[i]; if(a<=0) return; const by=ey+222-i*62-(1-a)*80;
+      g.save(); g.globalAlpha=a; g.fillStyle='rgba(11,27,51,0.92)'; g.strokeStyle=col; g.lineWidth=2.5; g.beginPath(); g.roundRect(ex-250,by-48,500,54,12); g.fill(); g.stroke(); g.restore();
+      txt(it.text,ex,by-21,26,IVORY,800,'center',a); });
+    // 이유 줄은 판 아래
+    S.items.forEach((it,i)=>{ const a=ts[i]; if(a<=0||!it.why) return; txt('· '+it.why,ex-230,ey+310+i*40,24,GRAY,600,'left',a); });
+  };
+  side(L,tl,-1,RED); side(R,tr,1,GREEN);
+  const fa=ease(cl((t-(0.8+(L.items.length+R.items.length)*1.0+0.6))/0.8)); if(C.verdict) txt(C.verdict,cx,1030,40,GOLD,800,'center',fa);
+}
+
+// ④ 사건 레일: 날짜 축 위에 값 선이 그려지며 사건 카드가 하나씩
+function timeline(C,t){
+  bg(); kicker(C,t);
+  const P=C.points||[], X0=200,X1=1720,Yb=820,Yt=380; const vs=P.map(p=>p.v), lo=Math.min(...vs), hi=Math.max(...vs), pad=(hi-lo)*0.25||1;
+  const X=i=>X0+(X1-X0)*i/(P.length-1), Y=v=>Yb-(Yb-Yt)*(v-lo+pad)/(hi-lo+2*pad);
+  const ga=ease(cl((t-0.3)/0.6)); g.save(); g.globalAlpha=ga; g.strokeStyle='rgba(224,200,150,0.5)'; g.lineWidth=3; g.beginPath(); g.moveTo(X0-40,Yb+90); g.lineTo(X1+40,Yb+90); g.stroke(); g.restore();
+  const n=P.length-1, p=ease(cl((t-0.8)/(n*1.3))), upto=n*p;
+  g.save(); g.strokeStyle=GOLD; g.lineWidth=6; g.shadowColor=GOLD; g.shadowBlur=16; g.lineJoin='round'; g.beginPath();
+  for(let i=0;i<=Math.floor(upto);i++){ i?g.lineTo(X(i),Y(P[i].v)):g.moveTo(X(i),Y(P[i].v)); } const fi=Math.floor(upto), fr=upto-fi;
+  if(fi<n) g.lineTo(X(fi+fr),Y(P[fi].v+(P[fi+1].v-P[fi].v)*fr)); g.stroke(); g.restore();
+  P.forEach((q,i)=>{ if(upto<i-0.02) return; const a=ease(cl((upto-i+0.35)/0.35)), x=X(i), y=Y(q.v), col=q.color==='red'?RED:q.color==='green'?GREEN:GOLD;
+    glow(x,y,28,'rgba(255,240,205,A)',0.9*a); g.save(); g.globalAlpha=a; g.fillStyle=col; g.beginPath(); g.arc(x,y,10,0,7); g.fill();
+    g.strokeStyle='rgba(224,200,150,0.35)'; g.lineWidth=2; g.setLineDash([6,6]); g.beginPath(); g.moveTo(x,y+16); g.lineTo(x,Yb+90); g.stroke(); g.restore();
+    txt(q.date,x,Yb+124,26,GRAY,600,'center',a);
+    const up=q.up!=null?q.up:(i%2===0); const cy=up?y-90:y+90; g.save(); g.globalAlpha=a; g.fillStyle='rgba(11,27,51,0.9)'; g.strokeStyle=col; g.lineWidth=2.5;
+    g.font='800 34px SUIT'; const w1=g.measureText(q.big).width; g.font='600 24px SUIT'; const w2=g.measureText(q.sub||'').width; const bw=Math.max(w1,w2)+44;
+    const bx=Math.min(Math.max(x-bw/2,40),W-40-bw); g.beginPath(); g.roundRect(bx,cy-46,bw,92,14); g.fill(); g.stroke(); g.restore();
+    txt(q.big,bx+bw/2,cy-14,34,col,800,'center',a); txt(q.sub||'',bx+bw/2,cy+22,24,IVORY,600,'center',a); });
+  if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',ga);
+}
+
+// ⑤ 지분 구조도: nodes [{id,name,sub,x,y,main}] · edges [{a,b,label}] — 차례로 이어지고 마지막에 '주주 몫' 강조
+function stake(C,t){
+  bg(); kicker(C,t);
+  const N={}; (C.nodes||[]).forEach(n=>N[n.id]=n);
+  (C.edges||[]).forEach((e,i)=>{ const t0=0.8+i*(C.gap||1.1), p=ease(cl((t-t0)/0.9)); if(p<=0) return; const A=N[e.a],B=N[e.b];
+    const x=A.x+(B.x-A.x)*p, y=A.y+(B.y-A.y)*p;
+    g.save(); g.strokeStyle=e.hot?GOLD:'rgba(224,200,150,0.6)'; g.lineWidth=e.hot?6:3; g.shadowColor=GOLD; g.shadowBlur=e.hot?18:0; g.beginPath(); g.moveTo(A.x,A.y); g.lineTo(x,y); g.stroke(); g.restore();
+    const u=((t-t0)*0.5)%1; if(p>=1) glow(A.x+(B.x-A.x)*u,A.y+(B.y-A.y)*u,16,'rgba(255,240,205,A)',0.9);
+    const la=ease(cl((t-t0-0.6)/0.5)); if(la>0){ const mx=(A.x+B.x)/2, my=(A.y+B.y)/2; g.save(); g.globalAlpha=la; g.fillStyle='rgba(11,27,51,0.92)'; g.strokeStyle=e.hot?GOLD:'rgba(224,200,150,0.6)'; g.lineWidth=2;
+      g.font='800 34px SUIT'; const w=g.measureText(e.label).width+36; g.beginPath(); g.roundRect(mx-w/2,my-28,w,56,28); g.fill(); g.stroke(); g.restore(); txt(e.label,mx,my,34,e.hot?GOLD:IVORY,800,'center',la); } });
+  (C.nodes||[]).forEach((n,i)=>{ const t0=n.t!=null?n.t:0.4+i*0.25, a=ease(cl((t-t0)/0.5)); if(a<=0) return; const sc=0.85+0.15*a;
+    g.save(); g.globalAlpha=a; g.translate(n.x,n.y); g.scale(sc,sc); g.fillStyle=n.main?'#2a2a26':'#0e1f3a'; g.strokeStyle=n.main?GOLD:'rgba(244,237,220,0.5)'; g.lineWidth=n.main?4:2;
+    g.font='800 38px SUIT'; const w=Math.max(g.measureText(n.name).width,(g.font='600 24px SUIT',g.measureText(n.sub||'').width))+60; g.beginPath(); g.roundRect(-w/2,-56,w,112,20); g.fill(); g.stroke(); g.restore();
+    txt(n.name,n.x,n.y-14,38,n.main?GOLD:IVORY,800,'center',a); txt(n.sub||'',n.x,n.y+26,24,GRAY,600,'center',a); });
+  if(C.result){ const t0=0.8+(C.edges||[]).length*(C.gap||1.1)+0.5, a=ease(cl((t-t0)/0.7)); if(a>0){ txt(C.result.kicker,W/2,930,30,GOLD,600,'center',a); txt(C.result.big,W/2,990,64,IVORY,800,'center',a); } }
+  if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',ease(cl(t/0.8)));
+}
+// ⑥ 순위 경주: frames [{label, vals:{이름:값}}] 사이를 부드럽게 넘기며 막대가 자리 바꿈
+function race(C,t){
+  bg(); kicker(C,t);
+  const F=C.frames||[], dur=C.step||2.2, k=cl((t-0.6)/dur,0,F.length-1), i=Math.floor(k), f=k-i, j=Math.min(i+1,F.length-1), e=ease(f);
+  const names=Object.keys(F[0].vals), val=n=>F[i].vals[n]+(F[j].vals[n]-F[i].vals[n])*e;
+  const rank=fr=>[...names].sort((a,b)=>F[fr].vals[b]-F[fr].vals[a]); const ri=rank(i), rj=rank(j), mx=Math.max(...names.map(val))*1.08;
+  const X0=360, X1=1640, Y0=280, BH=110, GAP=40;
+  txt(F[f<0.5?i:j].label,1780,1000,64,'rgba(224,200,150,0.55)',800,'right',1);
+  names.forEach(n=>{ const y=Y0+(ri.indexOf(n)+(rj.indexOf(n)-ri.indexOf(n))*e)*(BH+GAP), v=val(n), w=(X1-X0)*v/mx, col=(C.colors||{})[n]||GOLD;
+    g.save(); const gr=g.createLinearGradient(X0,0,X0+w,0); gr.addColorStop(0,col.replace(')',',0.35)').replace('rgb','rgba')); gr.addColorStop(1,col); g.fillStyle=gr; g.shadowColor=col; g.shadowBlur=18; g.beginPath(); g.roundRect(X0,y,w,BH,14); g.fill(); g.restore();
+    txt(n,X0-24,y+BH/2,40,IVORY,800,'right',1); txt((C.fmt||'{v}').replace('{v}',v.toFixed(C.dec||1)),X0+w+20,y+BH/2,40,IVORY,800,'left',1); });
+  if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
+}
+window.draw=function(mode,t){ const C=window.CFG||{}; ({histchart,flow,scale,timeline,stake,race})[mode](C,t); };
+</script></body></html>
