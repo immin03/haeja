@@ -17,9 +17,10 @@ jobs:
     runs-on: ubuntu-24.04  # 2026-10-29 고정: 26 전환 후 브라우저 설치 실패
     timeout-minutes: 120  # 11/13: 커밋 재시도 여유
     env:
-      HF_API_KEY: ${{ secrets.HF_API_KEY }}
-      HF_API_KEY_ID: ${{ secrets.HF_API_KEY_ID }}
-      HF_API_KEY_SECRET: ${{ secrets.HF_API_KEY_SECRET }}
+      # 11/13: 황제의 일기 전용 Higgsfield 키(Emperor). ED_HF_API_KEY 가 있으면 그것만 쓰고, 없으면 예전 공용 키로 돌아간다.
+      HF_API_KEY: ${{ secrets.ED_HF_API_KEY || secrets.HF_API_KEY }}
+      HF_API_KEY_ID: ${{ !secrets.ED_HF_API_KEY && secrets.HF_API_KEY_ID || '' }}
+      HF_API_KEY_SECRET: ${{ !secrets.ED_HF_API_KEY && secrets.HF_API_KEY_SECRET || '' }}
       TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
       GH_TOKEN: ${{ github.token }}
       SIDE_GEN_MAX_USD: ${{ github.event.inputs.max_usd || '3' }}
