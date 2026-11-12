@@ -1964,9 +1964,35 @@ def split_end(spec):
 
 
 
+def preflight(spec):
+    """2026-11-12 대표님: 규칙을 글로만 두지 말고 렌더가 막는다.
+    ① 윤석열 전 대통령 사진(출처 제목에 이름이 있는 파일)은 어떤 장면에도 못 쓴다 — 있으면 렌더 중단
+    ② 자막·화면 글자 중 글꼴에 없는 글자(예: 지몐의 '몐')가 있으면 빈칸으로 나오므로 렌더 중단"""
+    import re as _re
+    lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); errs = []
+    try: cr = json.load(open(os.path.join(lib, "commons_credits.json"), encoding="utf-8"))
+    except Exception: cr = {}
+    ban = _re.compile(r"yoon|suk[- ]?yeol|윤석열", _re.I)
+    texts = []
+    for i, sc in enumerate(spec.get("scenes", [])):
+        for c in (sc.get("v") or {}).get("cuts", []) or []:
+            n = c.get("lib") if isinstance(c, dict) else c
+            if n and (ban.search(n) or ban.search(json.dumps(cr.get(n, {}), ensure_ascii=False))): errs.append(f"장면 {i}: 금지 인물 사진 {n}")
+        texts += sc.get("lines", []) + [str(sc.get("src", ""))]
+        for b in sc.get("sketch", []) or []: texts += [str(b.get(k, "")) for k in ("text", "sub")] + [str(x) for r in (b.get("rows") or []) for x in (r if isinstance(r, list) else [r])] + [str(x) for x in (b.get("cols") or [])]
+    fd = os.path.join(ROOT, "scripts", "reels", "fonts"); miss = set()
+    for w in ("Bold", "SemiBold", "Heavy"):   # 글꼴 목록에 있어도 모양이 비어 있는 글자가 있다(SUIT '몐') → 실제로 그려 보고 잉크가 없으면 빈칸
+        try: f_ = ImageFont.truetype(os.path.join(fd, f"SUIT-{w}.ttf"), 40)
+        except Exception: continue
+        for ch in {ch for t in texts for ch in t if ch.strip() and ord(ch) > 127}:
+            if f_.getmask(ch).getbbox() is None: miss.add(ch)
+    if miss: errs.append("글꼴에서 빈칸으로 나오는 글자: " + " ".join(sorted(miss)))
+    if errs: raise SystemExit("렌더 전 점검 실패 — " + " / ".join(errs))
+
+
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
+    spec = json.load(open(spec_path, encoding="utf-8")); preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
     import docfx as DOCFX; data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
