@@ -278,8 +278,16 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
   <div class="note" id="l-note"></div>
 </section>
 
-<section>
+<section id="rank">
   <div class="no">02</div>
+  <h2>지금 한국에서 점수가<br>가장 높은 회사는?</h2>
+  <p>계좌를 계산해 보셨다면, 이번에는 회사 쪽을 보겠습니다. 워렌 버핏·벤저민 그레이엄의 기준으로 계산했을 때 지금 적정 주가보다 싸게 거래되는 한국 회사입니다. 회사 이름은 가입하면 바로 보입니다.</p>
+  <div class="rk" id="rk"></div>
+  <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;vt=KR&amp;utm_source=lev-rank" data-ev="cta-rank" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 가입하고 회사 이름 보기</span></a>
+</section>
+
+<section>
+  <div class="no">03</div>
   <h2>회사는 돈을 벌었는데,<br>계좌는 왜 이럴까요?</h2>
   <p>SK하이닉스는 세 달 동안 영업이익 83조 원을 벌었습니다. 그런데 같은 기간 계좌는 이렇게 됐습니다.</p>
   <div class="vs">
@@ -290,7 +298,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 </section>
 
 <section>
-  <div class="no">03</div>
+  <div class="no">04</div>
   <h2>같은 해, 거장은<br>무엇을 들고 있었을까요?</h2>
   <p>워렌 버핏은 1988년 코카콜라 주식을 약 13억 달러에 샀습니다. 그 뒤 38년 동안 <b>한 주도 팔지 않았습니다.</b></p>
   <div class="story">
@@ -303,7 +311,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 </section>
 
 <section>
-  <div class="no">04</div>
+  <div class="no">05</div>
   <h2>마음 편한 투자는<br>세 가지만 봅니다</h2>
   <ol class="chk">
     <li><b>이 회사는 해마다 더 많이 버는가</b><span>1년 뒤, 3년 뒤에도 사람들이 이 회사 물건을 살지부터 봅니다. 주가 차트보다 먼저입니다.</span></li>
@@ -313,7 +321,7 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
 </section>
 
 <section>
-  <div class="no">05</div>
+  <div class="no">06</div>
   <h2>다만, 코카콜라도<br>지금은 비쌉니다</h2>
   <p>코카콜라는 좋은 회사지만, 올해 많이 오른 탓에 지금 가격은 버는 돈에 비해 비싼 편입니다. 밸류노트 기준으로 <b>적정 주가 약 45달러, 지금 약 96달러</b>입니다(11월 6일 기준). 거장의 방법은 "좋은 회사"에서 끝나지 않고, <b>"좋은 회사를 쌀 때"</b>까지입니다.</p>
   <div class="vn">
@@ -327,14 +335,6 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;fo
   </div>
   <h3 class="h3">내 상품 안의 회사는 지금 몇 점?</h3>
   <div class="cards2" id="cards2"></div>
-</section>
-
-<section>
-  <div class="no">06</div>
-  <h2>지금 한국에서 점수가<br>가장 높은 회사는?</h2>
-  <p>같은 기준으로 계산했을 때, 지금 적정 주가보다 싸게 거래되는 한국 회사입니다. 회사 이름은 가입하면 바로 보입니다.</p>
-  <div class="rk" id="rk"></div>
-  <a class="btn kakao big" href="/?kakao=1&amp;from=lev&amp;vt=KR&amp;utm_source=lev-rank" data-ev="cta-rank" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 가입하고 회사 이름 보기</span></a>
 </section>
 
 <section>
@@ -392,6 +392,8 @@ document.addEventListener('click', function(e){
   setTimeout(function(){ document.removeEventListener('visibilitychange', onh); if(!gone){ hit('go-ext-fail'); location.href = url; } }, 1500);
 }, false);
 setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
+/* 몇 번째 구간까지 읽었는지 (2026-11-12 성장 분석: 순위 구간을 계산기 바로 아래로 올린 효과 측정) */
+if('IntersectionObserver' in window){ var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ var n = x.target.querySelector('.no'); if(n) hit('sec-' + n.textContent.trim()); io.unobserve(x.target); } }); }, { threshold: .3 }); document.querySelectorAll('main section').forEach(function(el){ io.observe(el); }); }
 document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
 
 
