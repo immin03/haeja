@@ -12,6 +12,7 @@ G = 'social/side/gen/'; O = os.environ.get('OUT', '_long/'); os.makedirs(O, exis
 W, H = 1280, 720
 S_ = lambda w, s: ImageFont.truetype(f'/root/fonts/SUIT-{w}.ttf', s)
 YEL, WHT = (255, 214, 10), (255, 255, 255)
+IVO, IVO2 = (252, 247, 236), (246, 234, 210)   # 11/12 18:10 대표: 노랑·검은 테두리 싫음 → 밝은 아이보리, 테두리 없음
 
 
 def fit(p, box, cx=.5, cy=.4, scale=1.0):
@@ -57,7 +58,7 @@ def brand(im):
     for ch in ko: d.text((x, 68), ch, font=kf, fill=(240, 234, 224)); x += d.textlength(ch, font=kf) + 6
 
 
-def text(im, lines, colors, size, x=48, tag='명상록', lh=1.08, stroke=11, bot=36):
+def text(im, lines, colors, size, x=48, tag='명상록', lh=1.1, stroke=0, bot=40):
     """큰 글자 + 검은 테두리. 줄마다 크기를 따로 줄 수 있다(size 가 list)."""
     sizes = size if isinstance(size, list) else [size] * len(lines)
     d = ImageDraw.Draw(im)
@@ -65,8 +66,10 @@ def text(im, lines, colors, size, x=48, tag='명상록', lh=1.08, stroke=11, bot
     for s in reversed(sizes): y -= int(s * lh); ys.insert(0, y)
     # 그림자
     m = Image.new('L', (W, H), 0); dm = ImageDraw.Draw(m)
-    for l, s, yy in zip(lines, sizes, ys): dm.text((x, yy), l, font=S_('Heavy', s), fill=255, stroke_width=stroke + 6, stroke_fill=255)
-    im.paste((0, 0, 0), (0, 8), m.filter(ImageFilter.GaussianBlur(16)))
+    for l, s, yy in zip(lines, sizes, ys): dm.text((x, yy), l, font=S_('Heavy', s), fill=255)
+    # 테두리 대신 넓고 부드러운 그림자 두 겹 (글자 둘레가 선으로 보이지 않게)
+    im.paste((0, 0, 0), (0, 0), m.filter(ImageFilter.GaussianBlur(28)).point(lambda v: min(255, int(v * 1.6))))
+    im.paste((0, 0, 0), (0, 4), m.filter(ImageFilter.GaussianBlur(8)).point(lambda v: int(v * .55)))
     for l, s, yy, c in zip(lines, sizes, ys, colors):
         d.text((x, yy), l, font=S_('Heavy', s), fill=c, stroke_width=stroke, stroke_fill=(0, 0, 0))
     if tag:
@@ -81,25 +84,25 @@ def text(im, lines, colors, size, x=48, tag='명상록', lh=1.08, stroke=11, bot
 # A: 황제 vs 카시우스 — 지금 쓰는 장면 그대로, 얼굴 크게 + 글자 크게
 a = Image.new('RGB', (W, H)); L = fit('cep1i_spk.jpeg', (700, H), .55, .15, 1.3); R = fit('cep1i_ctalk.jpeg', (840, H), .5, .1, 1.35)
 a.paste(R, (440, 0)); a.paste(L, (0, 0), grad(700, H, 470, 690, 1, 0))
-a = fin(a); a = coin(a, 640, 140, 380, .18); a = bottom_dark(a, 400, .5)
-text(a, ['뒤통수 친 사람,', '이렇게 이겨라'], [WHT, YEL], [150, 190]).save(O + 'thumb2_A.jpg', quality=93)
+a = fin(a); a = coin(a, 640, 140, 380, .18); a = bottom_dark(a, 360, .62)
+text(a, ['뒤통수 친 사람,', '이렇게 이겨라'], [IVO, IVO2], [150, 190]).save(O + 'thumb2_A.jpg', quality=93)
 
 # B: 불 앞의 황제 얼굴 크게(오른쪽) + 질문형
 b = Image.new('RGB', (W, H)); bg = fit('c1_burn.jpeg', (W, H), .5, .5, 1.0); e = fit('c1_emp_fire.jpeg', (720, H), .5, .12, 1.35)
-b.paste(bg, (0, 0)); b.paste(e, (560, 0), grad(720, H, 0, 220, 0, 1)); b = fin(b, 1.12); b = coin(b, 300, 210, 440, .2); b = bottom_dark(b, 420, .45)
-text(b, ['믿었던 사람이', '등 돌렸을 때'], [WHT, YEL], [140, 186]).save(O + 'thumb2_B.jpg', quality=93)
+b.paste(bg, (0, 0)); b.paste(e, (560, 0), grad(720, H, 0, 220, 0, 1)); b = fin(b, 1.12); b = coin(b, 300, 210, 440, .2); b = bottom_dark(b, 360, .6)
+text(b, ['믿었던 사람이', '등 돌렸을 때'], [IVO, IVO2], [140, 186]).save(O + 'thumb2_B.jpg', quality=93)
 
 # C: 불타는 상자 — 이야기 훅
 c = Image.new('RGB', (W, H)); ch = fit('c1_chest.jpeg', (820, H), .45, .35, 1.1); e2 = fit('c1_emp_listen.jpeg', (620, H), .5, .08, 1.45)
-c.paste(ch, (0, 0)); c.paste(e2, (660, 0), grad(620, H, 0, 220, 0, 1)); c = fin(c, 1.12); c = coin(c, 1040, 170, 420, .15); c = bottom_dark(c, 420, .45)
-text(c, ['배신자 명단을', '황제는 불태웠다'], [WHT, YEL], [140, 170]).save(O + 'thumb2_C.jpg', quality=93)
+c.paste(ch, (0, 0)); c.paste(e2, (660, 0), grad(620, H, 0, 220, 0, 1)); c = fin(c, 1.12); c = coin(c, 1040, 170, 420, .15); c = bottom_dark(c, 360, .6)
+text(c, ['배신자 명단을', '황제는 불태웠다'], [IVO, IVO2], [140, 170]).save(O + 'thumb2_C.jpg', quality=93)
 
 # 비교판: 위 = 지금 썸네일, 아래 = 새 시안 3장 / 휴대폰 크기(320px) 줄
 cur = Image.open(O + 'cur.jpg').convert('RGB').resize((W // 2, H // 2)) if os.path.exists(O + 'cur.jpg') else None
 s = Image.new('RGB', (W * 3 // 2 + 40, H + 60), (24, 24, 24)); d = ImageDraw.Draw(s); lf = S_('Bold', 26)
 if cur: s.paste(cur, (10, 30)); d.text((10, 0), '지금', font=lf, fill=(220, 220, 220))
 for i, n in enumerate('ABC'):
-    s.paste(Image.open(O + f'thumb2_{n}.jpg').resize((W // 2, H // 2)), (10 + i * (W // 2 + 10), H // 2 + 50)); d.text((10 + i * (W // 2 + 10), H // 2 + 20), f'새 시안 {n}', font=lf, fill=(255, 214, 10))
+    s.paste(Image.open(O + f'thumb2_{n}.jpg').resize((W // 2, H // 2)), (10 + i * (W // 2 + 10), H // 2 + 50)); d.text((10 + i * (W // 2 + 10), H // 2 + 20), f'새 시안 {n}', font=lf, fill=(246, 234, 210))
 m = Image.new('RGB', (4 * 330 + 10, 200), (24, 24, 24))
 if cur: m.paste(cur.resize((320, 180)), (10, 10))
 for i, n in enumerate('ABC'): m.paste(Image.open(O + f'thumb2_{n}.jpg').resize((320, 180)), (10 + (i + 1) * 330, 10))
