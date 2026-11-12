@@ -37,6 +37,7 @@ jobs:
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
-          git add -A scripts/blog/media/lib; git diff --cached --quiet && exit 0
+          python3 scripts/media/library.py build || true   # 2026-11-13 공용 이미지 라이브러리 목록 갱신
+          git add -A scripts/blog/media/lib scripts/media/catalog.json; git diff --cached --quiet && exit 0
           git commit -qm "롱폼 일러스트 $(TZ=Asia/Seoul date '+%F %H:%M')"
           for i in 1 2 3; do git pull --rebase -X theirs -q && git push -q && exit 0; sleep 5; done; exit 1
