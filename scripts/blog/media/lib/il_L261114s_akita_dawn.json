@@ -1,0 +1,32 @@
+{
+ "id": "il_L261114s_akita_dawn",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: The same kind of snowy northern Japanese factory seen from a distance at sunrise, golden light on fresh snow, empty parking lot, calm and reflective.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cd1b-229a-754a-9ec7-49691a0c6ccd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd1b-229a-754a-9ec7-49691a0c6ccd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd1b-229a-754a-9ec7-49691a0c6ccd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cd1b-229a-754a-9ec7-49691a0c6ccd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd1b-229a-754a-9ec7-49691a0c6ccd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd1b-229a-754a-9ec7-49691a0c6ccd/cancel",
+  "expires_at": "2026-11-19T00:15:40.011965+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cd1b-229a-754a-9ec7-49691a0c6ccd/8f5e9df5-ba25-454f-a903-238e9c1b182d.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "scripts/blog/media/lib/il_L261114s_akita_dawn.jpeg"
+}

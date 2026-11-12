@@ -1,0 +1,32 @@
+{
+ "id": "il_L261114s_dc_construction",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A massive AI data center under construction in the American plains at golden hour, cranes, steel frames, rows of power transformers, trucks, enormous scale.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cd1e-5fc2-78f4-8b6b-0d2ae83da30b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd1e-5fc2-78f4-8b6b-0d2ae83da30b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd1e-5fc2-78f4-8b6b-0d2ae83da30b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cd1e-5fc2-78f4-8b6b-0d2ae83da30b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd1e-5fc2-78f4-8b6b-0d2ae83da30b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd1e-5fc2-78f4-8b6b-0d2ae83da30b/cancel",
+  "expires_at": "2026-11-19T00:19:12.850698+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cd1e-5fc2-78f4-8b6b-0d2ae83da30b/327933d9-6c52-4830-8f1d-3df47a115889.jpeg"
+   }
+  ]
+ },
+ "seconds": 74,
+ "file": "scripts/blog/media/lib/il_L261114s_dc_construction.jpeg"
+}
