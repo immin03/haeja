@@ -28,7 +28,9 @@ LONG_PAUSE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "emperor",
 
 
 def est(job):
-    if job["kind"] == "image": return PRICE["image"] * int(job.get("body", {}).get("num_images", 1))
+    if job["kind"] == "image":
+        unit = 0.015 if "z-image" in job.get("endpoint", "") else PRICE["image"]   # Z-Image Turbo 장당 약 $0.014
+        return unit * int(job.get("body", {}).get("num_images", 1))
     d = float(job.get("body", {}).get("duration", 5))
     for k, v in PRICE["video_per_s"].items():
         if k in job["endpoint"]: return v * d
@@ -89,7 +91,8 @@ def run(job, H, spent):
     body = dict(job.get("body", {}))
     if job.get("image"): body[job.get("image_field", "image_url")] = raw_url(job["image"])
     if job.get("ref"): body[job.get("ref_field", "image_urls")] = [raw_url(r) for r in (job["ref"] if isinstance(job["ref"], list) else [job["ref"]])]
-    key = str(uuid.uuid5(uuid.NAMESPACE_URL, jid + json.dumps(body, sort_keys=True)))
+    # 11/13: 모델(endpoint)도 키에 넣는다 — 같은 장면을 다른 모델로 바꿔 내면 '이미 쓴 키' 422로 거절되던 문제(밸류노트 Z-Image 전환 때 17건)
+    key = str(uuid.uuid5(uuid.NAMESPACE_URL, jid + job["endpoint"] + json.dumps(body, sort_keys=True)))
     # 실패했던 작업을 다시 낼 때 같은 키를 쓰면 Higgsfield가 예전 실패 결과(잔액 부족 등)를 그대로 돌려준다 → 새 키
     if job.get("retry") or (os.path.exists(old) and json.load(open(old)).get("status") in ("failed", "submit_failed")):
         key = str(uuid.uuid4())
@@ -204,12 +207,14 @@ def main(only=None):
         if only and name not in only: continue
         jobs = [j for j in json.load(open(f, encoding="utf-8")) if not j.get("disabled")]
         new = [j for j in jobs if not _exists(j["id"], j["kind"])]
-        if _re.match(r"EDS\d{6}-(ep|en)", name) and len(new) > ED_SHORT_CAP and not any(j.get("over_cap_reason") for j in jobs):
-            print(f"[{name}] 데일리 쇼츠 새 생성 {len(new)}개 > 상한 {ED_SHORT_CAP} — 라이브러리에서 먼저 찾을 것(이유가 있으면 over_cap_reason). 이 파일 건너뜀", flush=True)
-            continue
+        # 11/13 대표: 쇼츠 편당 새 생성 개수 상한은 없앰(이야기형 쇼츠). 1회 실행 비용 상한(HARD_CAP)만 남는다.
         if name.startswith("EDL") and not name.endswith("en") and os.path.exists(LONG_PAUSE):
             print(f"[{name}] 롱폼·실화극 생성 보류 중({open(LONG_PAUSE, encoding='utf-8').read().strip()}) — 건너뜀. 풀려면 {os.path.relpath(LONG_PAUSE, ROOT)} 삭제", flush=True)
             continue
+        if name.startswith("ED"):   # 11/13 대표: 황제의 일기 그림은 Z-Image Turbo(장당 약 $0.014)가 기본 — Grok 은 작업에 "hero": true 일 때만
+            for j in jobs:
+                if j["kind"] == "image" and j.get("endpoint", "").startswith("xai/grok-imagine-image") and not j.get("hero") and not j.get("ref") and not _exists(j["id"], "image"):  # 참고 그림(ref)으로 같은 주인공을 잇는 장면은 Grok 유지
+                    j["endpoint"] = "z-image/turbo"
         if name.startswith("ED"):   # 11/13 대표: 황제의 일기 영상은 무조건 저가 모델(wan-3.0-prime)만
             bad = [j["id"] for j in jobs if j["kind"] == "video" and "prime" not in j.get("endpoint", "") and not _exists(j["id"], "video")]
             if bad:
