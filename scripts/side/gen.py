@@ -163,6 +163,11 @@ def main(only=None):
         if _re.match(r"EDS\d{6}-(ep|en)", name) and len(new) > ED_SHORT_CAP and not any(j.get("over_cap_reason") for j in jobs):
             print(f"[{name}] 데일리 쇼츠 새 생성 {len(new)}개 > 상한 {ED_SHORT_CAP} — 라이브러리에서 먼저 찾을 것(이유가 있으면 over_cap_reason). 이 파일 건너뜀", flush=True)
             continue
+        if name.startswith("ED"):   # 11/13 대표: 황제의 일기 영상은 무조건 저가 모델(wan-3.0-prime)만
+            bad = [j["id"] for j in jobs if j["kind"] == "video" and "prime" not in j.get("endpoint", "") and not _exists(j["id"], "video")]
+            if bad:
+                print(f"[{name}] 저가 모델(wan-3.0-prime) 아닌 영상 {len(bad)}개 — 건너뜀: {bad[:5]}", flush=True)
+                jobs = [j for j in jobs if j["id"] not in bad]
         byfile[name] = jobs; todo += jobs
     sys.path.insert(0, os.path.dirname(__file__)); from progress import report
     got = {}
