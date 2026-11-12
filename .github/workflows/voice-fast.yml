@@ -20,16 +20,22 @@ jobs:
         with: { fetch-depth: 1 }
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - run: printf '%s' "$REQ" > scripts/side/voices_req.json && python3 scripts/side/voices.py
-      - name: 커밋 (넉넉히 재시도)
+      - name: 커밋 (넉넉히 재시도 — rebase 대신 새로 받아 덮어쓰기, 11/13 rebase 가 45분 넘게 걸려 녹음 유실)
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
           git checkout -- scripts/side/voices_req.json
-          git add social/side/voice_samples; git diff --cached --quiet && exit 0
-          git commit -qm "급한 재녹음 $(TZ=Asia/Seoul date '+%F %H:%M') [skip ci]"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
+          mkdir -p /tmp/new && git ls-files -o -m social/side/voice_samples | xargs -r -I{} cp --parents {} /tmp/new/
+          [ -z "$(ls -A /tmp/new)" ] && exit 0
+          for i in 1 2 3 4 5 6 7 8; do
+            timeout 240 git fetch -q --depth 1 origin main && git reset -q --hard origin/main && cp -r /tmp/new/. . \
+              && git add social/side/voice_samples && git commit -qm "급한 재녹음 $(TZ=Asia/Seoul date '+%F %H:%M') [skip ci]" \
+              && timeout 240 git push -q origin HEAD:main && exit 0
+            sleep $((i*10))
+          done
+          exit 1
       - name: 커밋 실패·시간 초과 대비 — 새 녹음만 모으기
         if: failure() || cancelled()
-        run: mkdir -p /tmp/rescue && { git diff --name-only $GITHUB_SHA HEAD -- social/side/voice_samples; git ls-files -o -m social/side/voice_samples; } | sort -u | xargs -r -I{} cp --parents {} /tmp/rescue/ || true
+        run: mkdir -p /tmp/rescue && { cp -r /tmp/new/. /tmp/rescue/ 2>/dev/null; git ls-files -o -m social/side/voice_samples | xargs -r -I{} cp --parents {} /tmp/rescue/; } || true
       - name: 새 녹음을 실행 결과물로 7일 보관
         if: failure() || cancelled()
         uses: actions/upload-artifact@v4
