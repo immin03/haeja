@@ -12,7 +12,7 @@ G = 'social/side/gen/'; O = os.environ.get('OUT', '_long/'); os.makedirs(O, exis
 W, H = 1280, 720
 S_ = lambda w, s: ImageFont.truetype(f'/root/fonts/SUIT-{w}.ttf', s)
 YEL, WHT = (255, 214, 10), (255, 255, 255)
-IVO, IVO2 = (252, 247, 236), (246, 234, 210)   # 11/12 18:10 대표: 노랑·검은 테두리 싫음 → 밝은 아이보리, 테두리 없음
+IVO, IVO2 = (252, 247, 236), (238, 196, 126)   # 11/12 대표: 노랑·검은 테두리 싫음 → 윗줄 밝은 아이보리, 강조 줄 샴페인 금빛(18:14 확정), 테두리 없음
 
 
 def fit(p, box, cx=.5, cy=.4, scale=1.0):
