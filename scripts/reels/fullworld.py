@@ -56,33 +56,20 @@ def _vpath(name):
     raise FileNotFoundError(f"영상 소재 없음: {name}")
 
 
-def _video(name, secs, start=0.0):
+def _video(name, secs, start=0.0, xfrac=0.5):
     """세로 화면을 꽉 채우게 잘라 720x1280으로 풀어 둔다(출력 때 1080x1920으로 키움). 영상이 장면보다 짧으면 앞뒤로 왕복 재생."""
     import subprocess
-    k = (name, round(start, 2))
+    k = (name, round(start, 2), round(float(xfrac), 3))
     if k not in _V:
         if len(_V) >= 2: _V.pop(next(iter(_V)))
-        # 2026-11-12: 코드로 만든 가로 효과 영상(globe_*)은 세로로 꽉 채워 자르면 지명 상자가 잘린다(현대차 쇼츠 '르 아이치').
-        # 가로 폭의 약 70%가 보이게 줄여 가운데에 놓고, 위아래는 남색으로 부드럽게 이어 붙인다.
-        fit = os.path.basename(str(name)).startswith("globe_")
-        if fit:
-            FW = int(VW * 1.4) // 2 * 2; FH = int(FW * 9 / 16) // 2 * 2
-            vf = f"scale={FW}:{FH},crop={VW}:{FH},pad={VW}:{VH}:0:{(VH - FH) // 2 - 40}:0x0B1B33,fps=30"
-        else:
-            vf = f"scale={VW}:{VH}:force_original_aspect_ratio=increase,crop={VW}:{VH},fps=30"
+        # 2026-11-12: 코드로 만든 가로 효과 영상(globe_*)은 가운데만 자르면 지명 상자가 잘린다(현대차 쇼츠 '르 아이치').
+        # 줄여서 가운데 놓으면 글씨가 너무 작다 → 꽉 채우되 자르는 위치를 대본 "video_x"(0~1, 기본 0.5)로 옮겨 지명 상자를 화면 안에 넣는다.
+        vf = f"scale={VW}:{VH}:force_original_aspect_ratio=increase,crop={VW}:{VH}:(iw-ow)*{float(xfrac):.3f}:(ih-oh)/2,fps=30"
         raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{start:.2f}", "-i", _vpath(name), "-t", f"{secs + .6:.2f}", "-an", "-vf", vf,
                               "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
         n = len(raw) // (VW * VH * 3)
         if not n: raise RuntimeError(f"영상 프레임 없음: {name}")
-        arr = np.frombuffer(raw[:n * VW * VH * 3], np.uint8).reshape(n, VH, VW, 3)
-        if fit:
-            arr = arr.copy(); y0 = (VH - FH) // 2 - 40; y1 = y0 + FH; F = 70
-            bg = np.array([11, 27, 51], np.float32)
-            for i in range(F):
-                a = i / F
-                arr[:, y0 + i] = (arr[:, y0 + i] * a + bg * (1 - a)).astype(np.uint8)
-                arr[:, y1 - 1 - i] = (arr[:, y1 - 1 - i] * a + bg * (1 - a)).astype(np.uint8)
-        _V[k] = arr
+        _V[k] = np.frombuffer(raw[:n * VW * VH * 3], np.uint8).reshape(n, VH, VW, 3)
     return _V[k]
 
 
@@ -118,7 +105,7 @@ def picture(E, s, u):
     영상은 "video": "<lib mp4 | assets/broll 이름 | 경로>" (선택 "video_start": 초). 사진은 "img" 이고 정지 화면 없이 켄 번즈(느린 줌인·줌아웃·이동, 한 장면 한 방향)."""
     f = s["sc"]["full"]; p = _ease(E, u / max(s["dur"], 1.0))
     if f.get("video"):
-        fr = _video(f["video"], s["dur"], float(f.get("video_start", 0) or 0))
+        fr = _video(f["video"], s["dur"], float(f.get("video_start", 0) or 0), f.get("video_x", 0.5))
         n = len(fr); i = int(u * 30); i = i % (2 * n - 2) if n > 1 else 0
         if i >= n: i = 2 * n - 2 - i
         im = Image.fromarray(fr[i]).resize((W, H), Image.BICUBIC)
