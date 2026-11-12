@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113g2_ring_hand",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A hand holding a plain gold band ring between two fingers against a soft dark window light, macro, shallow depth of field.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cdca-3018-7e5f-aa7f-e12c72a1a875",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cdca-3018-7e5f-aa7f-e12c72a1a875/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cdca-3018-7e5f-aa7f-e12c72a1a875/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cdca-3018-7e5f-aa7f-e12c72a1a875",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cdca-3018-7e5f-aa7f-e12c72a1a875/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cdca-3018-7e5f-aa7f-e12c72a1a875/cancel",
+  "expires_at": "2026-11-19T03:26:31.070079+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cdca-3018-7e5f-aa7f-e12c72a1a875/ca444b00-0326-4df2-939f-8c63011f3664.jpeg"
+   }
+  ]
+ },
+ "seconds": 49,
+ "file": "scripts/blog/media/lib/il_L261113g2_ring_hand.jpeg"
+}
