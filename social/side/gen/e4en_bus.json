@@ -1,0 +1,32 @@
+{
+ "id": "e4en_bus",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "An American man in his early sixties in a dark coat sitting by the window of a city bus on a grey morning, looking out at people hurrying to work, his face tired and lonely. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d069-f93f-7ced-a790-4d08665db503",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d069-f93f-7ced-a790-4d08665db503/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d069-f93f-7ced-a790-4d08665db503/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d069-f93f-7ced-a790-4d08665db503",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d069-f93f-7ced-a790-4d08665db503/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d069-f93f-7ced-a790-4d08665db503/cancel",
+  "expires_at": "2026-11-19T15:41:21.364668+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d069-f93f-7ced-a790-4d08665db503/be5d0dab-c64d-429f-817e-730406b5b791.jpeg"
+   }
+  ]
+ },
+ "seconds": 117,
+ "file": "social/side/gen/e4en_bus.jpeg"
+}

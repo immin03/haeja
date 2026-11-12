@@ -1,0 +1,32 @@
+{
+ "id": "e4en_walk",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "The same American woman in her mid forties walking alone on a park path by a river at dusk, holding a worn red leash with no dog attached, her face sad but calm, autumn trees. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d069-e201-77c2-8691-e3b68edcc1fb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d069-e201-77c2-8691-e3b68edcc1fb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d069-e201-77c2-8691-e3b68edcc1fb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d069-e201-77c2-8691-e3b68edcc1fb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d069-e201-77c2-8691-e3b68edcc1fb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d069-e201-77c2-8691-e3b68edcc1fb/cancel",
+  "expires_at": "2026-11-19T15:40:49.009031+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d069-e201-77c2-8691-e3b68edcc1fb/5edd24a1-1a28-44d7-b116-edbd6d743f53.jpeg"
+   }
+  ]
+ },
+ "seconds": 92,
+ "file": "social/side/gen/e4en_walk.jpeg"
+}

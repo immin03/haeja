@@ -1,0 +1,32 @@
+{
+ "id": "e4en_funeral",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "The same American man in his early fifties now in a black suit, sitting alone late at night in a quiet funeral home viewing room in the United States, a framed portrait of an old father and white lilies on a stand behind him slightly out of focus, his head lowered, regret on his face, face clearly lit. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d068-5a4e-7e9d-b3cc-806a7c85c8ba",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d068-5a4e-7e9d-b3cc-806a7c85c8ba/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d068-5a4e-7e9d-b3cc-806a7c85c8ba/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d068-5a4e-7e9d-b3cc-806a7c85c8ba",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d068-5a4e-7e9d-b3cc-806a7c85c8ba/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d068-5a4e-7e9d-b3cc-806a7c85c8ba/cancel",
+  "expires_at": "2026-11-19T15:39:04.972484+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d068-5a4e-7e9d-b3cc-806a7c85c8ba/b6735bf1-f0e0-4eda-b273-038904c4525f.jpeg"
+   }
+  ]
+ },
+ "seconds": 86,
+ "file": "social/side/gen/e4en_funeral.jpeg"
+}

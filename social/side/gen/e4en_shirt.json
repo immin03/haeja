@@ -1,0 +1,32 @@
+{
+ "id": "e4en_shirt",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "16:9",
+  "prompt": "The same American man in his early sixties alone in a small kitchen at dawn, clumsily ironing a white shirt on a board, a framed photo of his late wife on the shelf slightly out of focus, cold light with one warm lamp. Same painterly cinematic oil-painting texture and fine film grain, but a cool desaturated blue-grey palette with only one small warm light, horizontal 16:9 widescreen film frame, main subject in the middle band of the frame, nothing important in the top and bottom eighth of the frame, faces clearly lit. Absolutely no text, no letters, no numbers, no readable screens, no watermark, no brands anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d06a-1107-7022-b753-2f7071dcefad",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d06a-1107-7022-b753-2f7071dcefad/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d06a-1107-7022-b753-2f7071dcefad/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d06a-1107-7022-b753-2f7071dcefad",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d06a-1107-7022-b753-2f7071dcefad/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d06a-1107-7022-b753-2f7071dcefad/cancel",
+  "expires_at": "2026-11-19T15:41:09.400810+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d06a-1107-7022-b753-2f7071dcefad/215c5172-45f0-4d66-bb46-cab877fb7086.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "social/side/gen/e4en_shirt.jpeg"
+}
