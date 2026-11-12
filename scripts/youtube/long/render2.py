@@ -1997,6 +1997,16 @@ def preflight(spec):
                 if n and not n.startswith("globe_"): _seen.setdefault(n, []).append(i)
         for n, ix in _seen.items():
             if len(ix) > 1: errs.append(f"같은 사진·영상 반복 {n} (장면 {ix})")
+        # 2026-11-12 12:18 대표: 애니메이션(수채화·스케치) 그림은 이제 톤이 안 맞는다 → 새 그림은 실사만. 옛 그림은 꼭 필요할 때만 컷에 "allow_anim": true
+        _anim = _re.compile(r"watercolor|sketch|ink wash|illustration|hand-drawn|painting|pen and ink", _re.I)
+        for i, sc in enumerate(spec.get("scenes", [])):
+            for c in (sc.get("v") or {}).get("cuts", []) or []:
+                n = c.get("lib") if isinstance(c, dict) else c
+                if not n or not n.startswith("il_") or (isinstance(c, dict) and c.get("allow_anim")): continue
+                jp = os.path.join(lib, n.rsplit(".", 1)[0] + ".json")
+                try: pr = open(jp, encoding="utf-8").read()
+                except Exception: pr = ""
+                if _anim.search(pr): errs.append(f"장면 {i}: 애니메이션풍 그림 {n} — 실사로 새로 만들거나 꼭 필요하면 allow_anim")
         _ban = ["몫", "디레이팅", "리레이팅", "멀티플", "펀더멘털"]
         _tt = [("제목", spec.get("title", ""))] + [(f"썸네일 {a.get('key')}안 제목", a.get("title", "")) for a in spec.get("ab_sets", []) or []]
         for nm, tx in _tt:
