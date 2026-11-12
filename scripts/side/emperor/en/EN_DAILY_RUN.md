@@ -32,8 +32,8 @@
    `ED_LANG=en python3 build_long.py long_<id>a.json` → `ED_LANG=en python3 render_ed.py /home/claude/ed/spec_<id>a.json base.mp4 --platform shorts` →
    `ED_LANG=en python3 fx_short.py /home/claude/ed/spec_<id>a.json base.mp4 <id>_yt.mp4 --fx fx_<id>.json --platform shorts` →
    `ED_LANG=en python3 voice_gate.py /home/claude/ed/spec_<id>a.json <id>_yt.mp4 <id>_yt.mp4` 가 "통과"여야 한다(영어 받아쓰기 모델 자동 사용).
-   화면 확인: 12장 격자 한 장을 Read — 글자 잘림·겹침, 한글, 영어 글꼴이 Cinzel/EB Garamond 인지.
-5. 표지: long_<id>.json 에 "cover"(대문자 2~3줄, 금빛은 {…}, TEMPLATE.md ★ 쇼츠 표지 규칙) → `ED_LANG=en python3 cover_ed.py <id>` → docs/emperor/en/cover_<id>.jpg. ed_posts.images.yt_cover 에 경로 기록, 업로드 때 썸네일은 이 파일.
+   화면 확인: 12장 격자 한 장을 Read — 글자 잘림·겹침, 한글, 영어 글꼴이 Cinzel/EB Garamond 인지(표지 제목만 Gloock).
+5. 표지: long_<id>.json 에 "cover"(대문자 2~4줄, 한 줄 약 10자, Gloock 160px 고정 — 문구는 최대한 짧게, TEMPLATE.md ★ 쇼츠 표지 규칙) → `ED_LANG=en python3 cover_ed.py <id>` → docs/emperor/en/cover_<id>.jpg. ed_posts.images.yt_cover 에 경로 기록, 업로드 때 썸네일은 이 파일.
    커밋: `docs/emperor/en/<id>_reels.mp4`, `hook_<id>.jpg`(0초 프레임), `cover_<id>.jpg`, `<id>_reels.mp4.voiceqa.json`, `scripts/side/emperor/long_<id>.json`·`fx_<id>.json`.
 6. 기록: 사용 기록 `python3 ../library.py check ../fx_<id>.json --record --ep=<id> --at="<칸 시각>"`(library_usage.jsonl 커밋). ed_posts insert — id `<id>`, kind 'reel_en', title, video_path `/docs/emperor/en/<id>_reels.mp4`, cover_path, scheduled_at(칸 시각), duration_sec, voice_qa(도장 값),
    ig_caption = 유튜브 설명(SHORTS_EN.md 8절: 첫 문장 키워드, 1~2줄 요약, "Subscribe for a new lesson from the Meditations every day.", 출처 한 줄, `#Shorts #Stoicism #MarcusAurelius #<주제>`),
