@@ -1,0 +1,1685 @@
+{
+ "fx": 1430,
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "hook": {
+  "bpm": 61.52,
+  "style": "basstaiko",
+  "cut": "beat",
+  "pulse": false,
+  "ident_fx": false
+ },
+ "overlay": "doc",
+ "music": {
+  "intro": "social/music/samples3/I2_full.mp3",
+  "intro_offset": 0.07,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/samples3/H5_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
+  ],
+  "note": "본편 H5 Ambient House → H1 Deep House Sunset · 120Hz 아래 차단 (11/10 H6 House - July 저작권 주장(Content ID, Easy Eva) 발생 → 사용 금지) · 11/11 대표 \"배경음악 크다\"(SOXL 2편) → H5·H1은 H6보다 2.6dB 큰 곡이라 bed_gain_db 3→-1.5",
+  "hits": [
+   2.93,
+   6.83,
+   12.68,
+   18.53,
+   22.43,
+   26.33,
+   31.21,
+   35.6,
+   43.4,
+   47.3,
+   53.64,
+   57.54,
+   61.44,
+   65.34,
+   69.24,
+   74.6,
+   78.51,
+   82.41,
+   87.77
+  ],
+  "bed_gain_db": -1.5,
+  "bed_hp": 120
+ },
+ "look": {
+  "paper": "grain",
+  "dark": "navy",
+  "accent": "gold"
+ },
+ "id": "L261113-gold-2",
+ "company": "GOLD",
+ "no_data": true,
+ "series": "금 2편",
+ "plan": "P261112-gold-2",
+ "scheduled_at": "2026-11-13T11:30:00+09:00",
+ "opening": "결과(한 돈 101만→67만) + 지구본(베이징·뭄바이·호르무즈·워싱턴) + 모순(금값 빠진 분기 중앙은행 +42%, 그중 63% 미공개 / 물가 발표 하루 -3%) + 질문 + 약속 + 힌트(1편 이유 셋 중 하나는 세지고 하나는 방향 바꿈)",
+ "hook_type": "H11 모순 + 지구본 + 힌트(1편 이유 재채점) + 리훅(장마다 다음 장소)",
+ "endscreen_target": "L261030-gold-ring",
+ "title": "금값 전망, 지금 사도 될까? 2편 | 금리 인상 91%인데 중앙은행은 42% 더 샀다",
+ "doc_title": "금값을 움직이는 세계 지도: 워싱턴 금리·호르무즈 유가·이름 없는 중앙은행·뭄바이·종로",
+ "title_en": "Gold price outlook, Part 2: a 91% rate-hike bet, 200 tonnes of anonymous central-bank buying, and Korea's gold price",
+ "pinned_comment": "지금 금, 사시겠어요 기다리시겠어요? 댓글로 나눠 주세요.\n▶ 1편: 금값 전망, 돌반지 지금 팔면 64만 원? (살 때·팔 때 차이와 판단 기준)\n※ 영상 속 숫자와 기준은 참고일 뿐 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "description_head": "금값 전망, 지금 사도 될까? 2편입니다. 1월에 한 돈 101만 원이던 금이 지금 약 67만 원. 10월 30일 올해 최저를 찍고 일주일에 5% 넘게 반등했다가, 11월 10일 미국 물가 발표 하루 만에 약 3% 빠졌습니다.\n\n그런데 금값이 4,000달러 아래로 빠졌던 3분기, 세계 중앙은행은 금을 42% 더 샀고 그중 약 200톤은 어느 나라가 샀는지 공개되지 않았습니다. 워싱턴의 금리 인상 91%, 호르무즈의 유가, 베이징과 이름 없는 중앙은행들, 비싸서 못 사는 뭄바이, 환율이 끌어내리는 종로 금값까지, 금값을 움직이는 세계 지도 한 장과 사기 전에 볼 숫자 3가지를 정리했습니다.\n\n※ 참고 기준이며 매수·매도 권유가 아닙니다.",
+ "description_en": "Part 2 of our gold series. Korean gold fell from about KRW 1.01m per don in January to about KRW 670k. Central banks bought 42% more gold in Q3 even as prices fell, with about 63% unreported. We map the Fed (91% hike odds), oil and Iran, anonymous central-bank buying, weak Indian jewellery demand, record Western ETF inflows and the won. Not investment advice.",
+ "hook_promises": [
+  "금값을 움직이는 세계 지도 한 장",
+  "사기 전에 볼 숫자 3가지"
+ ],
+ "viewer_question": "금값이 빠졌는데 지금 사도 될까 — 금리·유가·중앙은행·인도 수요·환율",
+ "format_note": "대표 11/12 09:54 지정: 금 1편 후속 2편, 최신 방식. 1편과 같은 내용 반복 최소화(살 때·팔 때 구조·버핏 정육면체는 한 줄 참조만). 권유 내레이션 없음.",
+ "endscreen_also": "L261105-gold-doc",
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_open.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1월에 한 돈 101만 원이던 금이 지금 약 67만 원입니다. 1편을 올린 10월 말과 비슷한 자리예요. 그런데 그사이 금값은 크게 한 번 출렁였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국거래소 금시장 (11/9 종가 1g 17만 8,770원, 엔지니어링 환산 한 돈 약 67만 원) · 1편(L261030-gold-ring) 1월 29일 고점 한 돈 약 101만 원",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 67만 원",
+     "sub": "한국거래소 금 한 돈 · 2026.11.9 · 1월 고점 101만 원",
+     "line": 0,
+     "at": 0.3,
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_hook.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 이 금값, 종로 금은방에서만 정해지지 않습니다. 베이징 중앙은행의 금고 뭄바이의 금은방, 호르무즈의 유가, 그리고 워싱턴의 금리. 이 네 곳이 지금 한국 금값을 흔들고 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_vault_hidden.jpeg"
+     },
+     {
+      "lib": "commons_goldvault_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "먼저 이상한 숫자 하나. 금값이 4,000달러 아래로 빠졌던 3분기, 세계 중앙은행들은 금을 1년 전보다 42% 더 샀습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "+42%",
+     "sub": "세계 중앙은행 금 매입 · 2026년 3분기 · 321톤",
+     "line": 0,
+     "at": 0.3,
+     "color": "green",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_cargo_plane.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "더 이상한 건 그다음입니다. 그 321톤 가운데 약 63%, 200톤 가까이는 어느 나라가 샀는지 공개되지 않았어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 200톤",
+     "sub": "3분기 중앙은행 매입 중 국가 미공개 · 약 63%",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_fed_dusk.jpeg"
+     },
+     {
+      "lib": "il_L261113g_etf_screens.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 화요일, 미국 물가 발표 하루 만에 국제 금값은 약 3% 빠졌습니다. 누군가는 몰래 사고 누군가는 급하게 팔고 있는 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트레이딩이코노믹스 2026-11-10~11 (CPI 뒤 금값 약 -3%·12월 인상 확률 91%) · 네이션(로이터) 2026-11-06",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vjewelry_34611.mp4"
+     },
+     {
+      "lib": "il_L261113g_jongno_night.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 2편입니다. 지금 금, 사도 될까요? 지구 한 바퀴를 같이 돌아보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_scale_ring.jpeg"
+     },
+     {
+      "lib": "commons_goldring_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "금을 갖고 계시거나 사려는 분이라면, 이 영상이 끝날 때 금값을 움직이는 세계 지도 한 장과 앞으로 볼 숫자 세 가지를 갖게 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "이 영상이 끝나면"
+     ],
+     "rows": [
+      [
+       "금값을 움직이는 세계 지도 한 장"
+      ],
+      [
+       "사기 전에 볼 숫자 3가지"
+      ]
+     ],
+     "colors": [
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_bars_stack.jpeg"
+     },
+     {
+      "lib": "gold_2862.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "힌트를 하나 드리면, 1편에서 말한 금값을 누르는 세 가지 이유 중 하나는 더 세졌고 하나는 방향을 바꿨습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cine": true,
+    "ident": true,
+    "cuts": [
+     {
+      "lib": "il_L261113g_bank_vault_door.jpeg"
+     }
+    ]
+   },
+   "lines": [
+    "밸류노트, 지금 시작합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_seoul.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261113g_price_board.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1편을 올린 10월 29일, 금은방에서 금 한 돈을 팔면 64만 원이었습니다. 국제 금값은 온스당 4,000달러 아래였죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "1편 L261030-gold-ring (10/26 한국금거래소 팔 때 64만 원)",
+   "sketch": [],
+   "chapter": "1편 그 뒤, 금값에 일어난 일"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "coins_47008_a.jpg"
+     },
+     {
+      "lib": "vmoney_47005.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다음 날인 10월 30일, 국제 금값은 3,869달러로 올해 가장 낮은 값을 찍습니다. 그리고 다음 주에는 일주일 만에 5% 넘게 올랐어요. 8월 이후 가장 좋은 한 주였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "네이션(로이터) 2026-11-06",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "국제 금값(온스당)",
+      ""
+     ],
+     "rows": [
+      [
+       "10.30 올해 최저",
+       "3,869.85달러"
+      ],
+      [
+       "11.2~6 한 주",
+       "+5.2%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_jewelryshop_1.jpg"
+     },
+     {
+      "lib": "commons_jewelryshop_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 9일 한국금거래소 시세로 순금 한 돈은 살 때 78만 9천 원, 팔 때 66만 4천 원. 1편 때보다 팔 때 값이 2만 원쯤 올랐죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국금거래소 (CBC뉴스 2026-11-09)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "순금 한 돈 · 2026.11.9",
+      ""
+     ],
+     "rows": [
+      [
+       "살 때",
+       "78만 9천 원"
+      ],
+      [
+       "팔 때",
+       "66만 4천 원"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_fedbuilding.jpeg"
+     },
+     {
+      "lib": "il_L261110a_exchange_night.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 미국 시각 11월 10일 화요일, 금값은 하루에 약 3% 빠집니다. 범인은 1편에서 말한 첫 번째 이유, 금리였어요. 시작은 워싱턴입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트레이딩이코노믹스 2026-11-10~11 (CPI 뒤 금값 약 -3%·12월 인상 확률 91%) · 네이션(로이터) 2026-11-06",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_dc.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261104g_fed_winter.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이날 나온 미국 10월 물가는 한 달 새 0.4% 올라 예상 0.3%보다 높았습니다. 연준 이사 월러는 물가가 더 오르면 금리를 0.5%포인트 올릴 수도 있다고 했죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트레이딩이코노믹스 2026-11-10~11 (CPI 뒤 금값 약 -3%·12월 인상 확률 91%) · 네이션(로이터) 2026-11-06",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "미국 10월 소비자물가",
+     "sub": "+0.4% · 예상 0.3% · 근원물가 0.3%(예상 0.2%)",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "워싱턴, 금리 인상 91%"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "bank_46980_a.jpg"
+     },
+     {
+      "lib": "il_L261105k_cin_exchange.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그러자 12월 금리 인상 가능성은 일주일 전 74%에서 91%까지 올랐습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트레이딩이코노믹스 2026-11-10~11 (CPI 뒤 금값 약 -3%·12월 인상 확률 91%) · 네이션(로이터) 2026-11-06",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "12월 미국 금리 인상 확률",
+      ""
+     ],
+     "rows": [
+      [
+       "일주일 전",
+       "약 74%"
+      ],
+      [
+       "11월 11일",
+       "약 91%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_nyfedvault_3.jpg"
+     },
+     {
+      "lib": "bank_38481_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1편에서 말씀드렸죠. 금의 약점은 이자가 없다는 것. 미국 10년물 국채 금리가 5%를 다시 넘은 지금, 1만 달러를 국채에 넣으면 1년 이자가 500달러쯤입니다. 금은 1년 뒤에도 그대로고요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴스핌 2026-11-11 (10년물 5% 재돌파) · 단순 계산",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "1만 달러를 1년 넣으면",
+      ""
+     ],
+     "rows": [
+      [
+       "미국 10년물 국채(약 5%)",
+       "이자 약 500달러"
+      ],
+      [
+       "금",
+       "이자 0달러"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_tanker_strait.jpeg"
+     },
+     {
+      "lib": "oil_4360_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 금리 인상 걱정을 키우는 건 물가고 물가를 흔드는 건 또 기름값입니다. 다음은 호르무즈예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_hormuz.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261105k_cin_tanker.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 9일 트럼프 대통령이 이란에 군사 행동이 필요 없어 보인다고 하자, 미국 원유 값은 하루 4.56% 내린 86.69달러가 됐습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국경제TV·프라임경제 2026-11-10",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "WTI 86.69달러 · 하루 -4.56%",
+     "sub": "2026.11.9 · 미국·이란 평화 기대",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "호르무즈, 기름값과 금"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "oil_48353_a.jpg"
+     },
+     {
+      "lib": "coins_47017_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그날 금값은 거꾸로 2% 가까이 올랐어요. 기름값이 내리면 물가 걱정이 줄고 그만큼 금리 인상 걱정도 줄어들 거라 본 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트레이딩이코노믹스 2026-11-10",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "2026.11.9",
+      ""
+     ],
+     "rows": [
+      [
+       "미국 원유",
+       "-4.56%"
+      ],
+      [
+       "국제 금값",
+       "약 +2% · 4,120달러"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "oil_4362_a.jpg"
+     },
+     {
+      "lib": "commons_nyfedvault_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 바로 다음 날 물가 숫자가 그 기대를 지웠죠. 금값은 기름값보다 금리를 더 무서워합니다. 이 두 줄이 지금 금값을 위아래로 당기고 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_vaultclose.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 금을 산 쪽은 누구일까요? 이번엔 베이징입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_beijing.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261113g_beijing_dusk.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "세계금협회에 따르면 3분기 세계 중앙은행은 금 321톤을 샀습니다. 최근 5년 분기 평균 227톤보다 100톤 가까이 많죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "중앙은행 금 매입",
+      ""
+     ],
+     "rows": [
+      [
+       "2026년 3분기",
+       "321톤 · 1년 전보다 +42%"
+      ],
+      [
+       "최근 5년 분기 평균",
+       "227톤"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ],
+   "chapter": "베이징, 누가 샀는지 모르는 금"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_goldvault_3.jpg"
+     },
+     {
+      "lib": "commons_bankvault_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이름이 공개된 큰 손은 중국 인민은행 63톤, 폴란드 중앙은행 40톤입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "3분기 공개 매입",
+      ""
+     ],
+     "rows": [
+      [
+       "중국 인민은행",
+       "63톤"
+      ],
+      [
+       "폴란드 중앙은행",
+       "40톤"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_goldload.jpeg"
+     },
+     {
+      "lib": "commons_bankvault_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 공식 보고된 건 120톤뿐입니다. 나머지 약 200톤은 어느 나라가 샀는지 몰라요. 세계금협회가 거래 흐름으로 추정한 숫자입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 63% 미공개",
+     "sub": "3분기 중앙은행 매입 321톤 중 공식 보고 120톤",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261104g_central_vault.jpeg"
+     },
+     {
+      "lib": "commons_bankofrussia_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "왜 몰래 살까요? 1편에서 말한 이유, 보험입니다. 금은 어느 나라 정부의 약속에도 기대지 않아요. 달러나 국채가 막혀도 금고 속 금은 남죠. 그 보험을 산다는 걸 굳이 알리고 싶지 않은 나라도 있는 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "1편 (중앙은행 매입 이유) · 해석",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_goldbars_3.jpg"
+     },
+     {
+      "lib": "commons_goldbars_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "중앙은행이 금값이 빠진 분기에 오히려 더 샀다는 건, 가격이 내려오면 사겠다는 손이 바닥에 있다는 뜻이기도 합니다. 그럼 우리 같은 개인은 어떨까요? 뭄바이로 가 보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_mumbai.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "il_L261113g_india_shop_empty.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "세계 금 장신구 수요는 3분기 313톤으로 17% 줄었습니다. 2000년 통계를 낸 뒤 3분기로는 가장 적었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "-17%",
+     "sub": "세계 금 장신구 수요 · 2026년 3분기 · 2000년 이후 3분기 최저",
+     "line": 0,
+     "at": 0.3,
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ],
+   "chapter": "뭄바이, 비싸서 못 사는 사람들"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_india_bride.jpeg"
+     },
+     {
+      "lib": "il_L261108p_india_factory.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "결혼식마다 금을 두르는 인도에서도 장신구는 20%, 금괴와 금화는 40% 줄었습니다. 비싸서 못 사는 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "인도 · 2026년 3분기",
+      "1년 전 대비"
+     ],
+     "rows": [
+      [
+       "금 장신구 약 100톤",
+       "-20%"
+      ],
+      [
+       "금괴·금화 55톤",
+       "-40%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_london.mp4",
+      "d": 3.6
+     },
+     {
+      "lib": "money_23524_a.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 같은 분기 서양의 금 펀드에는 211톤, 역대 가장 많은 310억 달러가 들어왔습니다. 유럽 92톤, 북미 81톤이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "금 ETF 3분기 유입",
+      ""
+     ],
+     "rows": [
+      [
+       "전체",
+       "211톤 · 310억 달러(역대 최대)"
+      ],
+      [
+       "유럽 · 북미",
+       "92톤 · 81톤"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_coin_hand.jpeg"
+     },
+     {
+      "lib": "il_L261113a_trader_gold.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1편에서 금값을 누른 두 번째 이유가 1월에 몰렸다 빠져나간 단기 자금이었죠. 그 돈이 3분기에 다시 금 펀드로 돌아온 겁니다. 이게 힌트에서 말한 방향이 바뀐 하나예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_jewelryshop_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 마지막으로, 우리 동네 금은방으로 돌아와 보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vjewelry_5218.mp4"
+     },
+     {
+      "lib": "commons_jewelryshop_4.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "한국 금값은 국제 금값에 원·달러 환율을 곱하고 국내에서 사려는 사람이 몰리면 웃돈이 붙습니다. 1편에서 말한 구조죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "1편 L261030-gold-ring",
+   "sketch": [],
+   "chapter": "종로, 한국 금값이 덜 오르는 이유"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "money_47012_a.jpg"
+     },
+     {
+      "lib": "il_L261104g_exchange_booth.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 원·달러 환율은 3분기 평균 1,423원에서 11월 10일 1,337.5원으로 약 6% 내려왔습니다. 국제 금값이 그대로여도 한국 금값은 그만큼 싸지는 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "현대차 3분기 실적(평균 환율) · 서울신문 2026-11-11",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "원·달러 환율",
+      ""
+     ],
+     "rows": [
+      [
+       "3분기 평균",
+       "1,423원"
+      ],
+      [
+       "11월 10일",
+       "1,337.5원 · 약 -6%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261104g_jeweler_counter.jpeg"
+     },
+     {
+      "lib": "commons_goldring_3.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 1편에서 말씀드린 살 때와 팔 때의 차이. 11월 9일 시세로 12만 5천 원입니다. 오늘 사서 바로 팔면, 금값이 19% 가까이 올라야 본전이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국금거래소 (CBC뉴스 2026-11-09) · 단순 계산",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "순금 한 돈 · 11.9",
+      ""
+     ],
+     "rows": [
+      [
+       "살 때와 팔 때 차이",
+       "12만 5천 원"
+      ],
+      [
+       "본전까지 필요한 상승",
+       "약 19%"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261113g_map.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이제 지금까지 본 것을 지도 한 장으로 펼쳐 보겠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "gold_34611_b.jpg"
+     },
+     {
+      "lib": "vmoney_18296.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "워싱턴의 금리는 금을 누르고 호르무즈의 유가는 그 금리 걱정을 키웠다 줄였다 합니다. 베이징과 이름 없는 중앙은행들은 바닥에서 사고 뭄바이의 개인은 비싸서 못 사죠. 서울에선 환율이 한국 금값을 끌어내립니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "어디서",
+      "무엇이",
+      "금값에"
+     ],
+     "rows": [
+      [
+       "워싱턴",
+       "금리 인상 91%",
+       "↓ 누름"
+      ],
+      [
+       "호르무즈",
+       "유가",
+       "↕ 금리 걱정"
+      ],
+      [
+       "베이징·미공개",
+       "중앙은행 매입",
+       "↑ 바닥"
+      ],
+      [
+       "뭄바이",
+       "장신구 -20%",
+       "↓ 실수요"
+      ],
+      [
+       "서울",
+       "환율 -6%",
+       "↓ 한국 금값"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold",
+      "green"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ],
+   "chapter": "금값을 움직이는 세계 지도"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "coins_18263_a.jpg"
+     },
+     {
+      "lib": "commons_goldring_4.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 지금 금을 볼 땐 종로 시세판만큼, 미국 금리와 중앙은행, 환율을 같이 봐야 합니다. 그럼 사기 전에 볼 숫자 세 가지는 무엇일까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "bank_14977_b.jpg"
+     },
+     {
+      "lib": "il_L261109p_money_loop.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "첫째, 12월 8~9일 미국 금리 결정. 시장은 이미 인상을 91% 반영했습니다. 실제로 올리는지, 0.5%포인트를 올리는지가 금값의 첫 갈림길이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트레이딩이코노믹스 2026-11-10~11 (CPI 뒤 금값 약 -3%·12월 인상 확률 91%) · 네이션(로이터) 2026-11-06",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "up",
+     "text": "① 12.8~9 미국 금리 결정 · 인상 폭",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ],
+   "chapter": "사기 전에 볼 숫자 3가지"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_goldcert_2.jpg"
+     },
+     {
+      "lib": "il_L261105g_cin_cbvault_bright.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "둘째, 중앙은행 매입. 내년 초 나올 세계금협회 4분기 보고서에서 매입이 이어지는지 보세요. 바닥을 받쳐 주는 손이 그대로인지 확인하는 숫자입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "up",
+     "text": "② 중앙은행 매입 지속 · 세계금협회 4분기 보고서(2027년 초)",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "coins_38406_a.jpg"
+     },
+     {
+      "lib": "il_L261107s_scale_coins.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "셋째, 원·달러 환율과 살 때·팔 때 차이. 금은방 실물은 본전까지 19% 가까이 필요하고 증권 계좌로 사는 한국거래소 금시장은 부가세 없이 1그램 단위로 사고팔 수 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국금거래소 (CBC뉴스 2026-11-09) · 1편",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "up",
+     "text": "③ 환율 · 살 때·팔 때 차이(실물 약 19%) · 한국거래소 금시장",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_goldvault_2.jpg"
+     },
+     {
+      "lib": "commons_goldring_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "10월 30일 금값이 올해 바닥을 찍은 그날에도, 어느 나라 중앙은행은 조용히 금을 사고 있었을 겁니다. 금값을 맞히긴 어려워도, 누가 왜 사는지는 볼 수 있죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vjewelry_20877.mp4"
+     },
+     {
+      "lib": "il_L261104g_thumb_ring.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여러분은 지금 금, 사시겠어요 기다리시겠어요? 댓글로 남겨 주세요. 도움이 되셨다면 좋아요와 구독 부탁드립니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "",
+    "btn_at": [
+     "0:현명한",
+     "0:현명한",
+     "0:현명한"
+    ],
+    "note": {
+     "text": ""
+    },
+    "dark_end": true
+   },
+   "lines": [
+    "기업을 이해하면, 투자가 달라집니다. 밸류노트였습니다."
+   ],
+   "endscreen": 11,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  }
+ ],
+ "tags": [
+  "금값 전망",
+  "금값",
+  "금시세",
+  "금 시세",
+  "금 사도 될까",
+  "금 투자",
+  "금값 하락",
+  "돌반지",
+  "금 한 돈 가격",
+  "중앙은행 금 매입",
+  "금 ETF",
+  "금리 인상",
+  "한국거래소 금시장",
+  "금값 2편",
+  "국제 금값"
+ ],
+ "search_keywords": [
+  "금값 전망",
+  "금 사도 될까",
+  "금시세",
+  "금값 하락",
+  "금 한 돈"
+ ],
+ "sources": [
+  "한국거래소 금시장 (11/9 종가 1g 17만 8,770원, 엔지니어링 환산 한 돈 약 67만 원) · 1편(L261030-gold-ring) 1월 29일 고점 한 돈 약 101만 원",
+  "한국금거래소 (CBC뉴스 2026-11-09)",
+  "트레이딩이코노믹스 2026-11-10~11 (CPI 뒤 금값 약 -3%·12월 인상 확률 91%) · 네이션(로이터) 2026-11-06",
+  "세계금협회 3분기 금 수요 동향 (키트코 2026-11-03)",
+  "네이션(로이터) 2026-11-06",
+  "한국경제TV·프라임경제 2026-11-10 (유가)",
+  "뉴스핌 2026-11-11 (10년물)",
+  "서울신문 2026-11-11 (환율)",
+  "1편 L261030-gold-ring"
+ ],
+ "thumb": {
+  "photo": "gold_2862_a.jpg",
+  "focus_x": 0.6,
+  "l1": "금값 1월보다 -34%",
+  "l2": "지금 사야 할까?",
+  "pos": "left"
+ },
+ "ab_sets": [
+  {
+   "key": "a",
+   "default": true,
+   "title": "금값 전망, 지금 사도 될까? 2편 | 금리 인상 91%인데 중앙은행은 42% 더 샀다",
+   "file": "thumb_a.jpg",
+   "type": "A 1편 썸네일 + 2편"
+  },
+  {
+   "key": "b",
+   "title": "금값 전망, 금값 빠진 세 달… 중앙은행은 왜 금을 42% 더 샀을까",
+   "file": "thumb_b.jpg",
+   "type": "B 모순"
+  },
+  {
+   "key": "c",
+   "title": "누가 샀는지 모르는 금 200톤, 금값 전망 2편",
+   "file": "thumb_c.jpg",
+   "type": "C 미스터리"
+  }
+ ],
+ "events": [
+  {
+   "at": "2026-11-12T10:50:00+09:00",
+   "by": "claude",
+   "what": "대표 11/12 09:54: 금 2편 13일 11:30 (애플 14일로) — 메르식 거시·지구본 원고"
+  }
+ ]
+}
