@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113g_tanker_strait",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A large oil tanker passing through a narrow sea strait between rocky desert mountains at sunrise, a navy patrol boat in the distance, haze.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cd4d-fa60-7661-8c34-b599fc796503",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd4d-fa60-7661-8c34-b599fc796503/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd4d-fa60-7661-8c34-b599fc796503/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cd4d-fa60-7661-8c34-b599fc796503",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd4d-fa60-7661-8c34-b599fc796503/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd4d-fa60-7661-8c34-b599fc796503/cancel",
+  "expires_at": "2026-11-19T01:10:54.742269+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cd4d-fa60-7661-8c34-b599fc796503/43a9dbab-7150-46f8-95b8-0f31771d21d8.jpeg"
+   }
+  ]
+ },
+ "seconds": 56,
+ "file": "scripts/blog/media/lib/il_L261113g_tanker_strait.jpeg"
+}

@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113g_vault_hidden",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A massive underground central bank gold vault, rows of gold bars on steel shelves, a single unmarked crate being wheeled in by a worker seen from behind, secretive mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cd4c-a5c5-70f7-8d88-4ba77c3c6542",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd4c-a5c5-70f7-8d88-4ba77c3c6542/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd4c-a5c5-70f7-8d88-4ba77c3c6542/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cd4c-a5c5-70f7-8d88-4ba77c3c6542",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cd4c-a5c5-70f7-8d88-4ba77c3c6542/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cd4c-a5c5-70f7-8d88-4ba77c3c6542/cancel",
+  "expires_at": "2026-11-19T01:09:52.678378+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cd4c-a5c5-70f7-8d88-4ba77c3c6542/e1773232-0419-4373-a7f1-328e46570bab.jpeg"
+   }
+  ]
+ },
+ "seconds": 80,
+ "file": "scripts/blog/media/lib/il_L261113g_vault_hidden.jpeg"
+}
