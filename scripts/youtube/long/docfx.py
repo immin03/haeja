@@ -365,8 +365,10 @@ def _punches(im, pu, u, lines):
         if soft: fade *= eout((p + .05) / .7)
         # 뒤 화면을 눌러 어둡게 (가운데 숫자에 집중)
         dk = eout((p + .05) / .2) * fade * (.7 if soft else 1)
+        # 2026-11-13 대표: 숫자 뒤 사진의 가는 선(빗줄기·전선 등)이 글자 사이로 보인다 → 숫자가 뜨는 동안 뒤 사진을 흐리게
+        if dk > 0.02: im = Image.blend(im, im.filter(ImageFilter.GaussianBlur(10)), min(1.0, dk))
         a = np.asarray(im).astype(np.float32)
-        a[..., :3] *= (1 - .55 * dk)
+        a[..., :3] *= (1 - .62 * dk)
         im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
         txt = b["text"]; n = None if b.get("clock") else _numparts(txt)
         if b.get("clock") and p > -0.05:   # 2026-11-06 대표님: "00:00 → 24:00 빠르게 시간 올라가는 효과" — 시계처럼 세어 올라간다
