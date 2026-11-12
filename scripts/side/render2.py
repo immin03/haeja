@@ -78,6 +78,10 @@ def say(text, v):
     voice, emo, semis, tempo = v["id"], v.get("emotion", "normal"), float(v.get("pitch", 0)), float(v.get("tempo", 1.12))
     key = hashlib.sha1(f"{voice}|{emo}|{semis}|{tempo}|{text}".encode()).hexdigest()[:20]
     wav = os.path.join(CACHE, key + ".wav")
+    try:
+        sys.path.insert(0, os.path.join(HERE, "..", "reels")); import tts_log
+        tts_log.add(**({"cached": len(text)} if os.path.exists(wav) else {"chars": len(text)}), lang="en")
+    except Exception: pass
     if not os.path.exists(wav):
         if not os.environ.get("TYPECAST_API_KEY"):
             n = int(SR * max(1.2, len(text.split()) * 0.27)); return np.zeros(n, np.float32)

@@ -38,8 +38,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: scripts/reels/.cache
-          key: yt-tts-${{ github.run_id }}
-          restore-keys: yt-tts-
+          key: tts-all-${{ github.run_id }}   # 2026-11-12 롱폼·쇼츠·빠른 렌더·사이드가 같은 음성 보관함을 쓴다 (같은 문장은 다시 사지 않는다)
+          restore-keys: |
+            tts-all-
+            yt-tts-
+
       - name: 대상 고르기
         id: pick
         run: |

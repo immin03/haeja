@@ -38,11 +38,14 @@ jobs:
           sudo ln -sf "$(python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" /usr/local/bin/ffmpeg
           ffmpeg -version | head -1
       - name: 음성 캐시
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4   # 2026-11-12 불러오기만 하던 것을 저장까지 — 고쳐서 다시 렌더할 때 바뀐 문장만 산다
         with:
           path: scripts/reels/.cache
-          key: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko-one-${{ github.run_id }}
-          restore-keys: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
+          key: tts-all-${{ github.run_id }}   # 2026-11-12 롱폼·쇼츠·빠른 렌더·사이드가 같은 음성 보관함을 쓴다 (같은 문장은 다시 사지 않는다)
+          restore-keys: |
+            tts-all-
+            tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
+
       - name: 렌더
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}

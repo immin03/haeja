@@ -36,7 +36,7 @@ def _say_en(text):
             try:
                 with urllib.request.urlopen(req, timeout=90) as r: open(mp3, "wb").write(r.read())
                 try:
-                    import tts; tts._log_usage(len(text))
+                    import tts, tts_log; tts._log_usage(len(text)); tts_log.add(chars=len(text), lang="en")
                 except Exception: pass
             except urllib.error.HTTPError as e:
                 last = f"HTTP {e.code}: {e.read().decode(errors='replace')[:200]}"; continue

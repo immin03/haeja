@@ -89,6 +89,8 @@ def _typecast(text, speed, fresh=False):
     os.makedirs(TC_CACHE, exist_ok=True)
     mp3 = os.path.join(TC_CACHE, key + ".mp3")
     if fresh and os.path.exists(mp3): os.remove(mp3)   # 이상한 소리가 섞인 결과는 버리고 다시 받는다
+    import tts_log
+    if os.path.exists(mp3): tts_log.add(cached=len(text))
     if not os.path.exists(mp3):
         # 요청 형식이 거절되면 단순한 형식으로 한 번 더 (키 점검 때 통과한 형식이 마지막)
         bodies = [
@@ -115,7 +117,7 @@ def _typecast(text, speed, fresh=False):
                 if e.code not in (400, 422): raise RuntimeError(last)
         else:
             raise RuntimeError(last)
-        _log_usage(len(text))
+        _log_usage(len(text)); tts_log.add(chars=len(text))
     raw = subprocess.run(["ffmpeg", "-v", "error", "-i", mp3, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
                          capture_output=True, check=True).stdout
     x = np.frombuffer(raw, dtype=np.float32).copy()
