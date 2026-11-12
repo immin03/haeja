@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113g3_sell_counter",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A gold ring on a velvet tray pushed across a jeweler's counter, an appraiser's hand with a loupe, the seller's hand hesitating, close-up.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ce95-6f76-7427-beeb-3fafd23a0241",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce95-6f76-7427-beeb-3fafd23a0241/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce95-6f76-7427-beeb-3fafd23a0241/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ce95-6f76-7427-beeb-3fafd23a0241",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce95-6f76-7427-beeb-3fafd23a0241/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce95-6f76-7427-beeb-3fafd23a0241/cancel",
+  "expires_at": "2026-11-19T07:09:26.247572+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ce95-6f76-7427-beeb-3fafd23a0241/19f2445f-61f3-4d0d-8197-929a2ea15760.jpeg"
+   }
+  ]
+ },
+ "seconds": 106,
+ "file": "scripts/blog/media/lib/il_L261113g3_sell_counter.jpeg"
+}

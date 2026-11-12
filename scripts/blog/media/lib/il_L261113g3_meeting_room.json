@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113g3_meeting_room",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: An empty grand meeting room with a long polished wooden table and leather chairs at dawn, pale light through tall windows, the moment before a decision.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ce96-7f63-7605-9a9d-d554fb5728aa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce96-7f63-7605-9a9d-d554fb5728aa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce96-7f63-7605-9a9d-d554fb5728aa/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ce96-7f63-7605-9a9d-d554fb5728aa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce96-7f63-7605-9a9d-d554fb5728aa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce96-7f63-7605-9a9d-d554fb5728aa/cancel",
+  "expires_at": "2026-11-19T07:09:53.213676+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ce96-7f63-7605-9a9d-d554fb5728aa/7a4bb422-30c6-422c-87b2-42c5e6355c30.jpeg"
+   }
+  ]
+ },
+ "seconds": 62,
+ "file": "scripts/blog/media/lib/il_L261113g3_meeting_room.jpeg"
+}
