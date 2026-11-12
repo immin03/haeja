@@ -391,11 +391,18 @@ def doc_overlay(E, img, s, u):
     X = X0; y = top + 70
     if lab:
         p = u - .15; d = ImageDraw.Draw(img)
-        q = _eout(p / .35)
-        if q > 0: d.line([(X, y + 22), (X + 56 * q, y + 22)], fill=DGOLD, width=4)
-        r = _eout((p - .15) / .4)
-        if r > 0: _dtext(img, (X + 76 - 26 * (1 - r), y + 22), lab, E.fit_font(lab, "SemiBold", 44, BAND_W - 90), (*DGOLD, int(255 * r)), anchor="lm")
-        y += 84
+        # 2026-11-13 대표: "작은 폰트 쓰지 마, 안 보여" → 줄이지 않고 46px 고정, 길면 두 줄로. 앞 장식 선도 없앰(겹침)
+        lf = E.F("SemiBold", 46); maxw = BAND_W - 40
+        words = lab.split(); rows = [""]
+        for w_ in words:
+            t_ = (rows[-1] + " " + w_).strip()
+            if d.textlength(t_, font=lf) <= maxw or not rows[-1]: rows[-1] = t_
+            else: rows.append(w_)
+        r = _eout((p - .05) / .4)
+        if r > 0:
+            for k_, row in enumerate(rows[:2]):
+                _dtext(img, (X + 26 * (1 - r), y + 22 + k_ * 60), row, lf, (*DGOLD, int(255 * r)), anchor="lm")
+        y += 84 + 60 * (min(len(rows), 2) - 1)
     col = DTONE.get(f.get("tone", "ink"), DWHITE)
     if num:
         t0 = _tat(E, L, f.get("num_line", 0), f.get("num_frac", .3)); p = u - t0
