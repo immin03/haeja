@@ -1,0 +1,32 @@
+{
+ "id": "il_Y261112n_server_aisle",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Vertical 9:16 composition with the main subject in the middle third. Scene: A long data center aisle of glowing server racks with green and blue lights, a lone engineer seen from behind walking away, cold air haze.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ce85-5b71-7b1e-b1e6-23e4bc25bd88",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce85-5b71-7b1e-b1e6-23e4bc25bd88/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce85-5b71-7b1e-b1e6-23e4bc25bd88/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ce85-5b71-7b1e-b1e6-23e4bc25bd88",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce85-5b71-7b1e-b1e6-23e4bc25bd88/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce85-5b71-7b1e-b1e6-23e4bc25bd88/cancel",
+  "expires_at": "2026-11-19T06:51:05.079514+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ce85-5b71-7b1e-b1e6-23e4bc25bd88/23af2b1f-de6f-4108-a085-2b94342a04d0.jpeg"
+   }
+  ]
+ },
+ "seconds": 62,
+ "file": "scripts/blog/media/lib/il_Y261112n_server_aisle.jpeg"
+}
