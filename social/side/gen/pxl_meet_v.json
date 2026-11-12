@@ -7,11 +7,26 @@
   "prompt": "The team leader raises his hand firmly to cut him off; the man stops speaking and slowly lowers his paper, his face stiffening. Camera almost still. Keep the painterly look identical. No text, no morphing faces.",
   "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1d2-96fb-71df-833c-7a0566278667/624aec32-4a96-464b-a674-882d313d653c.jpeg"
  },
- "submit_http": 500,
+ "submit_http": 200,
  "submit": {
-  "code": 500,
-  "detail": "Internal Server Error"
+  "status": "queued",
+  "request_id": "01a1d1da-5d39-7e92-a13f-062eb4cb4fa8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1da-5d39-7e92-a13f-062eb4cb4fa8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1da-5d39-7e92-a13f-062eb4cb4fa8/cancel",
+  "expires_after": 604800
  },
  "est_usd": 0.108,
- "status": "submit_failed"
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d1da-5d39-7e92-a13f-062eb4cb4fa8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1da-5d39-7e92-a13f-062eb4cb4fa8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1da-5d39-7e92-a13f-062eb4cb4fa8/cancel",
+  "expires_at": "2026-11-19T22:24:34.201334+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1da-5d39-7e92-a13f-062eb4cb4fa8/b65d4578-a2f5-4b10-ae3e-c83e42a6d5e0.mp4"
+  }
+ },
+ "seconds": 166,
+ "file": "social/side/gen/pxl_meet_v.mp4"
 }
