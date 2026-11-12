@@ -26,10 +26,10 @@ jobs:
           git checkout -- scripts/side/voices_req.json
           git add social/side/voice_samples; git diff --cached --quiet && exit 0
           git commit -qm "급한 재녹음 $(TZ=Asia/Seoul date '+%F %H:%M') [skip ci]"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null; sleep $((i*10)); done; exit 1
+          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
       - name: 커밋 실패·시간 초과 대비 — 새 녹음만 모으기
         if: failure() || cancelled()
-        run: mkdir -p /tmp/rescue && git ls-files -o -m social/side/voice_samples | xargs -r -I{} cp --parents {} /tmp/rescue/ || true
+        run: mkdir -p /tmp/rescue && { git diff --name-only $GITHUB_SHA HEAD -- social/side/voice_samples; git ls-files -o -m social/side/voice_samples; } | sort -u | xargs -r -I{} cp --parents {} /tmp/rescue/ || true
       - name: 새 녹음을 실행 결과물로 7일 보관
         if: failure() || cancelled()
         uses: actions/upload-artifact@v4

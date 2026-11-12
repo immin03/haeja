@@ -60,7 +60,7 @@ jobs:
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
           git add -A social/side; git diff --cached --quiet && exit 0
           git commit -qm "사이드 채널 생성물 $(TZ=Asia/Seoul date '+%F %H:%M')"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null; sleep $((i*10)); done; exit 1
+          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
       - name: 2차 생성 (영상)
         if: steps.pick.outputs.files != ''
         run: python3 scripts/side/gen.py ${{ steps.pick.outputs.files }}
@@ -68,14 +68,14 @@ jobs:
         run: |
           git add -A social/side; git diff --cached --quiet && exit 0
           git commit -qm "사이드 채널 생성물(영상) $(TZ=Asia/Seoul date '+%F %H:%M')"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null; sleep $((i*10)); done; exit 1
+          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
       - name: 황제의 일기 라이브러리 목록 갱신 (ED 작업일 때)
         if: contains(steps.pick.outputs.files, 'ED')
         run: |
           python3 scripts/side/emperor/library.py build || exit 0
           git add scripts/side/emperor/LIBRARY.json social/side/gen_costs.jsonl 2>/dev/null; git diff --cached --quiet && exit 0
           git commit -qm "황제의 일기 라이브러리 목록 갱신 $(TZ=Asia/Seoul date '+%F %H:%M')"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null; sleep $((i*10)); done; exit 1
+          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
       - name: 커밋 실패·시간 초과 대비 — 이번 실행에서 새로 생긴 파일 모으기
         if: failure() || cancelled()
         run: mkdir -p /tmp/rescue && find social/side scripts/side/emperor -type f -newer /tmp/t0 -exec cp --parents {} /tmp/rescue/ \; || true
