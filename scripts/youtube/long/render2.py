@@ -1987,6 +1987,22 @@ def preflight(spec):
         for ch in {ch for t in texts for ch in t if ch.strip() and ord(ch) > 127}:
             if f_.getmask(ch).getbbox() is None: miss.add(ch)
     if miss: errs.append("글꼴에서 빈칸으로 나오는 글자: " + " ".join(sorted(miss)))
+    # 2026-11-12 대표 "왜 이런 현상이 계속 무한 반복돼" → 규칙을 기억에 맡기지 않고 막는다 (11/12 이후 원고)
+    _m = _re.search(r"(\d{6})", spec.get("id", "")); _d = int(_m.group(1)) if _m else 0
+    if _d >= 261112:
+        _seen = {}
+        for i, sc in enumerate(spec.get("scenes", [])):
+            for c in (sc.get("v") or {}).get("cuts", []) or []:
+                n = c.get("lib") if isinstance(c, dict) else c
+                if n and not n.startswith("globe_"): _seen.setdefault(n, []).append(i)
+        for n, ix in _seen.items():
+            if len(ix) > 1: errs.append(f"같은 사진·영상 반복 {n} (장면 {ix})")
+        _ban = ["몫", "디레이팅", "리레이팅", "멀티플", "펀더멘털"]
+        _tt = [("제목", spec.get("title", ""))] + [(f"썸네일 {a.get('key')}안 제목", a.get("title", "")) for a in spec.get("ab_sets", []) or []]
+        for nm, tx in _tt:
+            if tx and not _re.search(r"\d", tx): errs.append(f"{nm}에 숫자가 없습니다: {tx}")
+            for w in _ban:
+                if w in tx: errs.append(f"{nm}에 시청자가 모르는 분석 용어 '{w}': {tx}")
     if errs: raise SystemExit("렌더 전 점검 실패 — " + " / ".join(errs))
 
 

@@ -1766,6 +1766,7 @@ def write_subs(spec, scenes, total, outdir):
 
 def render(spec, outdir, stills=None):
     global YT_BANNER, YT, GL_ON, WORLD
+    import gate; gate.enforce(spec)   # 2026-11-12 대표: 규칙 어기면 렌더 자체를 막는다(자막=내레이션·사진 중복·제목 띠 명확성·윤석열)
     # 2026-10-26 운영자: "앞으로 올릴 거 전부 그 방식(팝업 노트)으로" → 기본은 팝업 노트 + 깔끔한 화면(제목 두 줄).
     # 예전 화면이 꼭 필요하면 대본에 "world": "classic".
     WORLD = spec.get("world", "popup")
