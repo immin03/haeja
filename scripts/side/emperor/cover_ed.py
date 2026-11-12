@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE)
 W, H = 1080, 1920
-IVORY, CHAMP = (250, 246, 236), (238, 196, 126)
+IVORY, CHAMP = (255, 253, 247), (238, 196, 126)   # 11/13 01:01 대표: 제목은 전부 흰색 한 가지, 금빛은 「명상록」과 양옆 선에만 (색이 오가면 어지럽다)
 LANG = os.environ.get("ED_LANG", "ko")
 FD = "/root/fonts/"; EF = os.path.join(HERE, "en", "fonts") + "/"
 
@@ -90,7 +90,7 @@ def make(cid, out=None):
     total = lh * len(lines) + 46 + fs.size
     y = yc - total // 2; items = []   # (segments[(text, colour)], font, y)
     for l in lines:
-        segs = [(t, CHAMP if i % 2 else IVORY) for i, t in enumerate(re.split(r"[{}]", l)) if t]
+        segs = [(re.sub(r"[{}]", "", l), IVORY)]
         if "{" not in l and len(lines) == 1: segs = [(l, CHAMP)]
         items.append((segs, f, y)); y += lh
     items.append(([(sub, CHAMP)], fs, y + 46)); sub_y = y + 46
