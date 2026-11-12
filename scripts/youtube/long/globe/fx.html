@@ -10,6 +10,7 @@ html,body{margin:0;background:#0b1b33}canvas{display:block}
 </head><body><canvas id="c" width="1920" height="1080"></canvas>
 <script>
 // 2026-11-12 대표 "코드로 만들 수 있는 건 전부 코드로" — 밸류노트 롱폼 볼거리 효과 (비용 0원)
+// ★ 자막 안전 구역: 모든 효과의 글자·상자는 y 860 위에만 둔다 (아래는 자막·출처 자리, 2026-11-12 대표 '자막하고 화면이 겹쳐')
 // 모드: histchart(과거 국면 겹침 차트) · flow(돈의 흐름) · scale(누름·받침 저울) · timeline(사건 레일)
 // 내용은 전부 window.CFG 로 받는다 (원고마다 바꿔 쓴다). cap.js 로 PAGE=fx.html 지정해 영상으로 뽑는다.
 const W=1920,H=1080,c=document.getElementById('c'),g=c.getContext('2d');
@@ -55,7 +56,7 @@ function histchart(C,t){
 // ② 돈의 흐름: 평면 지도 위 출발지 → 도착 금고로 빛 알갱이, 도착 금고마다 숫자가 올라간다
 function flow(C,t){
   bg(); kicker(C,t);
-  const proj=d3.geoNaturalEarth1().rotate([-(C.center||40),0]).fitExtent([[300,200],[W-300,790]],{type:'Sphere'}); const path=d3.geoPath(proj,g);
+  const proj=d3.geoNaturalEarth1().rotate([-(C.center||40),0]).fitExtent([[420,190],[W-420,840]],{type:'Sphere'})  /* 2026-11-12 대표: 자막(아래 860~1000)과 겹치지 않게 — 숫자 상자는 양옆으로 */; const path=d3.geoPath(proj,g);
   const ma=ease(cl(t/0.8)); g.save(); g.globalAlpha=ma*0.9; g.fillStyle='#122544'; g.beginPath(); path({type:'Sphere'}); g.fill(); g.fillStyle='rgba(234,219,185,0.16)'; g.beginPath(); path(land); g.fill(); g.strokeStyle='rgba(224,200,150,0.35)'; g.lineWidth=1; g.beginPath(); path(land); g.stroke(); g.restore();
   (C.sinks||[]).forEach((sk,si)=>{ const [sx,sy]=sk.xy; const t0=0.8+si*(C.gap||2.2), a=ease(cl((t-t0)/0.5));
     if(a<=0) return;
