@@ -9,7 +9,9 @@ html,body{margin:0;background:#0b1b33}canvas{display:block}
 <script src="node_modules/topojson-client/dist/topojson-client.min.js"></script>
 </head><body><canvas id="c" width="1920" height="1080"></canvas>
 <script>
-const W=1920,H=1080, c=document.getElementById('c'), g=c.getContext('2d');
+// 2026-11-13 대표: 쇼츠는 롱폼 지구본을 잘라 쓰지 말고 세로로 새로 — ?w=1080&h=1920 이면 세로판(지명 상자 가운데·큰 글씨)
+const QS=new URLSearchParams(location.search); const W=+(QS.get('w')||1920), H=+(QS.get('h')||1080), VERT=H>W;
+const c=document.getElementById('c'); c.width=W; c.height=H; const g=c.getContext('2d');
 const NAVY='#0b1b33', GOLD='#e0c896', GOLD_L='#eadbb9', IVORY='#f4eddc';
 let land=null, borders=null, TEX=null;
 const ease=x=>x<0?0:x>1?1:(x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2);
@@ -35,9 +37,11 @@ async function init(){
 init();
 function label(x,y,name,sub,a,big,side,dy){ dy=dy||0; y+=dy;
   g.save(); g.globalAlpha=a; g.textBaseline='middle';
-  const fs=big?54:40, ss=big?28:24; g.font=`800 ${fs}px SUIT`;
+  const fs=VERT?(big?66:56):(big?54:40), ss=VERT?(big?40:36):(big?28:24); g.font=`800 ${fs}px SUIT`;
   const w=Math.max(g.measureText(name).width,(g.font=`600 ${ss}px SUIT`,g.measureText(sub).width));
-  const dx=side<0?-(w+70):34, bx=x+dx-18, by=y-fs*0.95, bw=w+36, bh=fs+ss+30;
+  let dx=side<0?-(w+70):34;
+  if(VERT){ y+=fs*1.6; dx=-w/2; if(x+dx<60) dx=60-x; if(x+dx+w>W-60) dx=W-60-w-x; }   // 세로판: 점 아래 가운데, 화면 밖으로 안 나가게
+  const bx=x+dx-18, by=y-fs*0.95, bw=w+36, bh=fs+ss+30;
   g.fillStyle='rgba(11,27,51,0.78)'; g.strokeStyle=big?GOLD:'rgba(224,200,150,0.55)'; g.lineWidth=big?3:2;
   g.beginPath(); g.roundRect(bx,by,bw,bh,14); g.fill(); g.stroke();
   g.fillStyle=big?GOLD:IVORY; g.font=`800 ${fs}px SUIT`; g.fillText(name,x+dx,y-fs*0.28);
@@ -49,10 +53,10 @@ window.draw=function(mode,t){
   const C=window.CFG||{}; if(C.home) KR=C.home; if(C.pts) P=C.pts;
   if(mode==='flat') return drawFlat(C,t);
   const V=C.view||[-3,-57], VD=C.drift||[-4,2];
-  let lam,phi,scale,cx=W*0.5,cy=H*0.56;
+  let lam,phi,scale,cx=W*0.5,cy=VERT?H*0.53:H*0.56;
   if(mode==='open'){ const k=ease(t/(C.open_t||5.0));
     if(C.view){ const c=d3.geoInterpolate(KR.ll,[-V[0],-V[1]])(k*0.5); lam=-c[0]-1.5*t; phi=-c[1]; scale=1900+(520-1900)*k; }
-    else { lam=-129.3+18*k-2*t; phi=-35.5-10*k; scale=1900+(500-1900)*k; cx=W*0.5-120*k; } }
+    else { lam=-129.3+18*k-2*t; phi=-35.5-10*k; scale=1900+(500-1900)*k; if(!VERT) cx=W*0.5-120*k; } }
   else { const OFF=window.HOOK_OFF||0; const k=mode==='hook'?t/(10+OFF):t/8; lam=V[0]+VD[0]*k; phi=V[1]+VD[1]*k; scale=mode==='hook'?470+70*ease(cl((t-6.6-OFF)/3.5)):500;
     if(C.keys&&mode!=='map'){ // [[초, 경도, 위도, 크기], ...] — 11/12 끊김 수정: 구간마다 멈추지 않고 한 번에 매끄럽게(호 길이 기준 이동, 전체 1회 가감속)
       const ks=C.keys.map(q=>[q[0]+(q[0]>0?OFF:0),q[1],q[2],q[3]||560]);
