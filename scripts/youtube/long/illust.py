@@ -38,6 +38,22 @@ def main(only=None):
             spent += c; batch.append(j)
     with ThreadPoolExecutor(4) as ex: list(ex.map(lambda j: gen.run(j, H, 0.0), batch))
     print(f"이번 실행 비용(추정 상한): {spent:.2f}달러 · {len(batch)}건")
+    # 2026-11-13: 크레딧 부족으로 실패하면 관리자 알림(푸시) — 밤새 생성이 멈춘 걸 아침에야 안 일 재발 방지
+    low = 0
+    for j in batch:
+        rp = os.path.join(ROOT, "scripts", "blog", "media", "lib", j["id"] + ".json")
+        try:
+            if "credit balance" in json.dumps(json.load(open(rp, encoding="utf-8"))): low += 1
+        except Exception: pass
+    if low:
+        print(f"⚠ Higgsfield 크레딧 부족으로 {low}건 실패 — 충전 필요")
+        try:
+            import urllib.request
+            body = json.dumps({"run_id": os.environ.get("GITHUB_RUN_ID", ""), "workflow": "yt-illust",
+                               "rows": [{"item": "밸류노트 이미지 생성", "lang": "err", "chars": 0, "cached_chars": low}]}).encode()
+            urllib.request.urlopen(urllib.request.Request("https://msjbrwyzkiueqnzjeicm.supabase.co/functions/v1/vn-tts-log", data=body,
+                                   headers={"Content-Type": "application/json"}, method="POST"), timeout=20).read()
+        except Exception as e: print("  알림 실패:", e)
 
 
 if __name__ == "__main__":
