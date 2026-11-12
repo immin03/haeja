@@ -82,10 +82,16 @@ def make(cid, out=None):
     base = 150 if LANG != "en" else 124; maxw = W * 0.92
     lines = [x.upper() if LANG == "en" else x for x in spec["cover"]] if spec.get("cover") else split_best(text, font(base), d, maxw)   # cover = 사람이 끊은 줄(2~3줄, 뜻 단위). 없을 때만 자동
     # 11/13 00:57 대표: 줄마다 같은 크기(두 줄, 안 되면 세 줄), 골드는 꼭 필요한 곳에만({…} 표시), 밑줄 없음, 「명상록」 양옆 선은 둔다
-    cap = 150 if LANG != "en" else 124
+    # 11/13 01:04 대표: 모든 표지가 같은 글자 크기(한글 140·영어 98). 그 크기로 두 줄에 안 들어가면 세 줄로 다시 나눈다(뜻이 끊기지 않게 단어 단위, 줄 길이 고르게)
+    sz = 140 if LANG != "en" else 98   # 영어 Cinzel 대문자는 한 줄 16자까지 98px
     plain = [re.sub(r"[{}]", "", l) for l in lines]
-    sz = cap
-    while max(d.textlength(l, font=font(sz)) for l in plain) > maxw: sz -= 3
+    acc = []
+    for l in plain:   # 너무 긴 줄만 그 줄 안에서 둘로 (사람이 끊은 뜻 단위는 그대로 둔다)
+        if d.textlength(l, font=font(sz)) > maxw and " " in l: acc += split_best(l, font(sz), d, maxw)
+        else: acc.append(l)
+    plain = acc
+    while max(d.textlength(l, font=font(sz)) for l in plain) > maxw: sz -= 3   # 네 줄로도 안 되는 아주 긴 문구만 줄인다
+    lines = plain
     f = font(sz); fs = font(96 if LANG != "en" else 84); lh = int(sz * 1.2)
     total = lh * len(lines) + 46 + fs.size
     y = yc - total // 2; items = []   # (segments[(text, colour)], font, y)
