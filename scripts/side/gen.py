@@ -201,6 +201,17 @@ def main(only=None):
     """입력이 준비된 작업부터 4개씩 동시에 돌린다 (앞 작업 결과를 참고로 쓰는 작업은 다음 차례에)"""
     from concurrent.futures import ThreadPoolExecutor
     H = hf.auth_headers(); spent = 0.0; cap = min(float(os.environ.get("SIDE_GEN_MAX_USD", "3")), HARD_CAP)
+    if os.environ.get("SIDE_GEN_MAX_USD", "").strip() in ("0", "0.0"):   # 11/13: 견적만 — 생성하지 않고 Higgsfield 공식 금액만 출력(돈 안 듦)
+        tot = 0.0
+        for f in sorted(glob.glob(os.path.join(ROOT, "scripts", "side", "gen", "*.json"))):
+            name = os.path.basename(f)[:-5]
+            if only and name not in only: continue
+            for j in json.load(open(f, encoding="utf-8")):
+                body = dict(j.get("body", {}))
+                if j.get("image"): body[j.get("image_field", "image_url")] = raw_url(j["image"])
+                u = hf_estimate(j["endpoint"], body, H); tot += u or 0
+                print(f"견적 {name} {j['id']}: {u}", flush=True)
+        print(f"견적 합계: {round(tot, 4)}달러", flush=True); return
     files = sorted(glob.glob(os.path.join(ROOT, "scripts", "side", "gen", "*.json")))
     todo = []; byfile = {}
     import re as _re
