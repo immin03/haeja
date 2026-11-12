@@ -130,5 +130,16 @@
    "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A laptop on a desk showing an abstract trading app interface in gold tones, a tiny one-gram gold bar beside it, cozy evening light.",
    "aspect_ratio": "16:9"
   }
+ },
+ {
+  "id": "il_Y261111h_car_loan",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "raw_prompt": true,
+  "space": false,
+  "body": {
+   "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Vertical 9:16 composition with the main subject in the middle third. Scene: A car dealership desk at night, a loan contract without readable text, a calculator and a new car key fob, a customer's hand hesitating over a pen, glossy new SUV blurred in the showroom behind, heavy interest-rate mood.",
+   "aspect_ratio": "9:16"
+  }
  }
 ]
