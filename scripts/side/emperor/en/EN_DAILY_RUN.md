@@ -33,7 +33,8 @@
    `ED_LANG=en python3 fx_short.py /home/claude/ed/spec_<id>a.json base.mp4 <id>_yt.mp4 --fx fx_<id>.json --platform shorts` →
    `ED_LANG=en python3 voice_gate.py /home/claude/ed/spec_<id>a.json <id>_yt.mp4 <id>_yt.mp4` 가 "통과"여야 한다(영어 받아쓰기 모델 자동 사용).
    화면 확인: 12장 격자 한 장을 Read — 글자 잘림·겹침, 한글, 영어 글꼴이 Cinzel/EB Garamond 인지.
-5. 커밋: `docs/emperor/en/<id>_reels.mp4`, `hook_<id>.jpg`(0초 프레임), `<id>_reels.mp4.voiceqa.json`, `scripts/side/emperor/long_<id>.json`·`fx_<id>.json`.
+5. 표지: long_<id>.json 에 "cover"(대문자 2~3줄, 금빛은 {…}, TEMPLATE.md ★ 쇼츠 표지 규칙) → `ED_LANG=en python3 cover_ed.py <id>` → docs/emperor/en/cover_<id>.jpg. ed_posts.images.yt_cover 에 경로 기록, 업로드 때 썸네일은 이 파일.
+   커밋: `docs/emperor/en/<id>_reels.mp4`, `hook_<id>.jpg`(0초 프레임), `cover_<id>.jpg`, `<id>_reels.mp4.voiceqa.json`, `scripts/side/emperor/long_<id>.json`·`fx_<id>.json`.
 6. 기록: ed_posts insert — id `<id>`, kind 'reel_en', title, video_path `/docs/emperor/en/<id>_reels.mp4`, cover_path, scheduled_at(칸 시각), duration_sec, voice_qa(도장 값),
    ig_caption = 유튜브 설명(SHORTS_EN.md 8절: 첫 문장 키워드, 1~2줄 요약, "Subscribe for a new lesson from the Meditations every day.", 출처 한 줄, `#Shorts #Stoicism #MarcusAurelius #<주제>`),
    to_ig/to_th false, ig/th/tt/ig_comment/yt_comment 상태 'skip: EN', images {"yt_tags":[…], "lang":"en", "channel":"@EmperorsDiary-en", "from":"<한국 편 id>"}.
@@ -44,7 +45,7 @@
 2. 크롬 잠금(docs locks 'chrome-studio', holder 'ed-en-upload') → 자기 새 탭. 스튜디오 헤더가 The Emperor’s Diary 인지 확인(아니면 계정 전환).
 3. 편마다 `studio.youtube.com/channel/UCRvSvKOjbsEXKY03TCP9I1w/videos/upload?d=ud` 에서:
    - 파일: raw.githubusercontent.com/immin03/haeja/<커밋>/<video_path> 를 **8MB씩 Range 요청**으로 받아 Blob 으로 합친 뒤 `input[type=file]` 에 DataTransfer 로 넣는다(한 번에 받는 GET 은 실패함, 11/11 확인).
-   - 제목·설명(ig_caption)·썸네일(이미지 file input 에 hook jpg)·"아동용 아님"·고급 설정의 "예, AI가 사용되었습니다"·태그(images.yt_tags)·동영상 언어 영어(미국).
+   - 제목·설명(ig_caption)·썸네일(이미지 file input 에 images.yt_cover, 없으면 hook jpg)·"아동용 아님"·고급 설정의 "예, AI가 사용되었습니다"·태그(images.yt_tags)·동영상 언어 영어(미국).
    - 공개 상태: "예약" → scheduled_at 날짜·시각(한국 시간) → 예약. 공개 직전 20분 미만이면 바로 공개.
    - 완료 후 `update ed_posts set yt_video_id='<id>' where id='<post>'`.
 4. 탭 닫고 잠금 해제. 마지막 한 줄: "완료: 예약 <n>편" / "할 일 없음" / "실패: <원인>".
