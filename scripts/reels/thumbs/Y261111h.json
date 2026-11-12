@@ -1,12 +1,31 @@
 {
  "v": 3,
  "format": "short",
- "l1": "현대차 시총 97조 증발",
- "l2": "주가를 흔드는 5가지",
+ "layout": "shorts_main",
+ "l1": "현대차 주가 전망",
+ "l2": "흔드는 5가지",
  "name": "HYUNDAI",
- "big_label": "시가총액 · 6.1 → 11.10",
+ "chart": {
+  "kind": "line",
+  "pts": [
+   [
+    "1월 2일",
+    298500
+   ],
+   [
+    "6월 1일",
+    750000
+   ],
+   [
+    "11월 10일",
+    275000
+   ]
+  ],
+  "mark": 1,
+  "mark_label": "75만 원"
+ },
+ "big_label": "시가총액 6.1 → 11.10",
  "big": "-97조",
  "tone": "down",
- "layout": "shorts_main",
  "photo": "il_L261111h_thumb_suv.jpeg"
 }

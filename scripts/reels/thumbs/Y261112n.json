@@ -1,12 +1,27 @@
 {
  "v": 3,
  "format": "short",
- "l1": "젠슨 황 해임되면?",
- "l2": "엔비디아 하룻밤",
- "name": "엔비디아",
+ "layout": "shorts_main",
+ "l1": "엔비디아 주가 전망",
+ "l2": "젠슨 황 해임되면?",
+ "name": "NVIDIA",
+ "chart": {
+  "kind": "line",
+  "pts": [
+   [
+    "11일 정규장",
+    173.73
+   ],
+   [
+    "시간외",
+    159.51
+   ]
+  ],
+  "mark": 0,
+  "mark_label": "173.73달러"
+ },
  "big_label": "11.11(현지) 시간외 · 시가총액 단순 계산",
  "big": "-460조",
  "tone": "down",
- "layout": "shorts_main",
  "photo": "owner_jensen_2.jpg"
 }
