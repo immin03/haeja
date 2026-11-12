@@ -62,12 +62,27 @@ def _video(name, secs, start=0.0):
     k = (name, round(start, 2))
     if k not in _V:
         if len(_V) >= 2: _V.pop(next(iter(_V)))
-        vf = f"scale={VW}:{VH}:force_original_aspect_ratio=increase,crop={VW}:{VH},fps=30"
+        # 2026-11-12: 코드로 만든 가로 효과 영상(globe_*)은 세로로 꽉 채워 자르면 지명 상자가 잘린다(현대차 쇼츠 '르 아이치').
+        # 가로 폭의 약 70%가 보이게 줄여 가운데에 놓고, 위아래는 남색으로 부드럽게 이어 붙인다.
+        fit = os.path.basename(str(name)).startswith("globe_")
+        if fit:
+            FW = int(VW * 1.4) // 2 * 2; FH = int(FW * 9 / 16) // 2 * 2
+            vf = f"scale={FW}:{FH},crop={VW}:{FH},pad={VW}:{VH}:0:{(VH - FH) // 2 - 40}:0x0B1B33,fps=30"
+        else:
+            vf = f"scale={VW}:{VH}:force_original_aspect_ratio=increase,crop={VW}:{VH},fps=30"
         raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{start:.2f}", "-i", _vpath(name), "-t", f"{secs + .6:.2f}", "-an", "-vf", vf,
                               "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
         n = len(raw) // (VW * VH * 3)
         if not n: raise RuntimeError(f"영상 프레임 없음: {name}")
-        _V[k] = np.frombuffer(raw[:n * VW * VH * 3], np.uint8).reshape(n, VH, VW, 3)
+        arr = np.frombuffer(raw[:n * VW * VH * 3], np.uint8).reshape(n, VH, VW, 3)
+        if fit:
+            arr = arr.copy(); y0 = (VH - FH) // 2 - 40; y1 = y0 + FH; F = 70
+            bg = np.array([11, 27, 51], np.float32)
+            for i in range(F):
+                a = i / F
+                arr[:, y0 + i] = (arr[:, y0 + i] * a + bg * (1 - a)).astype(np.uint8)
+                arr[:, y1 - 1 - i] = (arr[:, y1 - 1 - i] * a + bg * (1 - a)).astype(np.uint8)
+        _V[k] = arr
     return _V[k]
 
 
