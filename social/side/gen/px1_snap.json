@@ -1,0 +1,27 @@
+{
+ "id": "px1_snap",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "The same Seoul office meeting room, a Korean man in his late thirties with short neat black hair, wearing a navy knit sweater over a white shirt standing up abruptly with one hand on the table, angry face, mouth open as he snaps back, the older boss in a grey suit leaning back surprised, a chair pushed behind him. Painterly cinematic oil-painting look with fine film grain, a present-day scene painted in a Renaissance chiaroscuro manner, rich warm amber key light against deep navy shadows, faces clearly lit and readable, muted bronze, umber and navy palette, elegant and restrained, not cartoonish. Vertical 9:16 frame, main subject in the middle of the frame, calm darker empty space in the top third. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d095-40b1-7b9b-8348-c664c25d95fe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d095-40b1-7b9b-8348-c664c25d95fe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d095-40b1-7b9b-8348-c664c25d95fe/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1d095-40b1-7b9b-8348-c664c25d95fe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d095-40b1-7b9b-8348-c664c25d95fe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d095-40b1-7b9b-8348-c664c25d95fe/cancel",
+  "expires_at": "2026-11-19T16:26:44.942940+00:00"
+ },
+ "seconds": 7
+}

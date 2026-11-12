@@ -1,0 +1,27 @@
+{
+ "id": "px1_walk",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Golden sunset on a quiet street in Seoul after work, a Korean man in his late thirties with short neat black hair, wearing a navy knit sweater over a white shirt with a coat over his sweater walking toward the viewer with a relaxed, light smile, his bag on his shoulder, long warm shadows, ginkgo leaves on the pavement. Painterly cinematic oil-painting look with fine film grain, a present-day scene painted in a Renaissance chiaroscuro manner, rich warm amber key light against deep navy shadows, faces clearly lit and readable, muted bronze, umber and navy palette, elegant and restrained, not cartoonish. Vertical 9:16 frame, main subject in the middle of the frame, calm darker empty space in the top third. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark anywhere."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d095-5c35-7767-816b-ba5e99140f82",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d095-5c35-7767-816b-ba5e99140f82/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d095-5c35-7767-816b-ba5e99140f82/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1d095-5c35-7767-816b-ba5e99140f82",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d095-5c35-7767-816b-ba5e99140f82/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d095-5c35-7767-816b-ba5e99140f82/cancel",
+  "expires_at": "2026-11-19T16:26:51.999388+00:00"
+ },
+ "seconds": 7
+}
