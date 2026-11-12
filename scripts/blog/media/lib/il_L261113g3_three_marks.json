@@ -1,0 +1,32 @@
+{
+ "id": "il_L261113g3_three_marks",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: An open leather notebook on a dark wooden desk with three abstract pencil marks, a gold coin and a fountain pen beside it, warm desk lamp, analytical mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ce75-8e10-715e-a272-6a62c4511dcd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce75-8e10-715e-a272-6a62c4511dcd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce75-8e10-715e-a272-6a62c4511dcd/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ce75-8e10-715e-a272-6a62c4511dcd",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ce75-8e10-715e-a272-6a62c4511dcd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ce75-8e10-715e-a272-6a62c4511dcd/cancel",
+  "expires_at": "2026-11-19T06:33:40.687677+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ce75-8e10-715e-a272-6a62c4511dcd/dbf6bbc2-af62-4f33-9dff-f15cb8c9d26c.jpeg"
+   }
+  ]
+ },
+ "seconds": 50,
+ "file": "scripts/blog/media/lib/il_L261113g3_three_marks.jpeg"
+}
