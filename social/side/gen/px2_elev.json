@@ -1,0 +1,33 @@
+{
+ "id": "px2_elev",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Morning in a steel office elevator, a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie stands alone holding a coffee cup, shoulders dropped, eyes down, the doors closing in front of him. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d1e9-04c6-75c2-afb9-53590ac0913b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1e9-04c6-75c2-afb9-53590ac0913b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1e9-04c6-75c2-afb9-53590ac0913b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d1e9-04c6-75c2-afb9-53590ac0913b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1e9-04c6-75c2-afb9-53590ac0913b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1e9-04c6-75c2-afb9-53590ac0913b/cancel",
+  "expires_at": "2026-11-19T22:39:17.006820+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1e9-04c6-75c2-afb9-53590ac0913b/1ecc358e-1bd2-445c-8b9b-8c7df7dd0621.jpeg"
+   }
+  ]
+ },
+ "seconds": 88,
+ "file": "social/side/gen/px2_elev.jpeg"
+}

@@ -1,0 +1,33 @@
+{
+ "id": "px2_puppet_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "The strings tug once and his hands jerk upward. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1ea-6119-7fae-a0c0-ae4c37a39b1d/96a5760e-a31e-494b-bdb0-efafa77b35ff.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d1ed-1a7e-71a2-8fdd-a26c83644f18",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1ed-1a7e-71a2-8fdd-a26c83644f18/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1ed-1a7e-71a2-8fdd-a26c83644f18/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.081,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d1ed-1a7e-71a2-8fdd-a26c83644f18",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d1ed-1a7e-71a2-8fdd-a26c83644f18/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d1ed-1a7e-71a2-8fdd-a26c83644f18/cancel",
+  "expires_at": "2026-11-19T22:44:06.751856+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d1ed-1a7e-71a2-8fdd-a26c83644f18/6a61f5cb-19ec-403a-b66e-4672fa2f577c.mp4"
+  }
+ },
+ "seconds": 112,
+ "file": "social/side/gen/px2_puppet_v.mp4"
+}
