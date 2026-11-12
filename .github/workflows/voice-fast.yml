@@ -10,7 +10,7 @@ concurrency: voice-fast
 jobs:
   rec:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 45  # 11/13: 47줄 녹음이 15분을 넘겨 커밋 단계에서 잘려 녹음이 전부 사라짐
     env:
       TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
       GH_TOKEN: ${{ github.token }}
@@ -20,9 +20,17 @@ jobs:
         with: { fetch-depth: 1 }
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - run: printf '%s' "$REQ" > scripts/side/voices_req.json && python3 scripts/side/voices.py
-      - run: |
+      - name: 커밋 (넉넉히 재시도)
+        run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
           git checkout -- scripts/side/voices_req.json
           git add social/side/voice_samples; git diff --cached --quiet && exit 0
           git commit -qm "급한 재녹음 $(TZ=Asia/Seoul date '+%F %H:%M') [skip ci]"
-          for i in 1 2 3 4 5; do git pull --rebase -X theirs -q && git push -q && exit 0; sleep 5; done; exit 1
+          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null; sleep $((i*10)); done; exit 1
+      - name: 커밋 실패·시간 초과 대비 — 새 녹음만 모으기
+        if: failure() || cancelled()
+        run: mkdir -p /tmp/rescue && git ls-files -o -m social/side/voice_samples | xargs -r -I{} cp --parents {} /tmp/rescue/ || true
+      - name: 새 녹음을 실행 결과물로 7일 보관
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@v4
+        with: { name: voice-rescue, path: /tmp/rescue, retention-days: 7, if-no-files-found: ignore }
