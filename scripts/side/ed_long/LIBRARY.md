@@ -13,6 +13,7 @@
 - 먼저 라이브러리에서 찾고, 없을 때만 새로 만든다.
 - 새로 만드는 장면도 가능하면 범용으로 만들어 라이브러리에 넣는다(그 편에만 쓰는 인물·사건 장면은 예외).
 - 기준 목록: `scripts/side/emperor/CLIPS.json`(쇼츠·롱폼 공용 클립 목록), `scripts/side/ed_long/library.py`(LIB) + `library_u.py`(범용 U).
+- ★ 2026-11-13: 전체 목록·찾기·점검·비용은 `scripts/side/emperor/library.py`(LIBRARY.json) 하나로 한다. 규칙 원본은 TEMPLATE.md '★ 공용 라이브러리·생성 상한'. 이 문서와 다르면 그쪽을 따른다(데일리 쇼츠도 편당 0~2개까지 생성 허용, 최근 5편 기준).
 
 ## 2. 영상 모델
 - 기본은 wan 3.0 (5초 약 0.10달러).

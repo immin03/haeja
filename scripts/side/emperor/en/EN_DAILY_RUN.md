@@ -21,7 +21,7 @@
    - 인용은 확실히 아는 『명상록』 권·절만, 조지 롱(1862) 번역을 쉽게 다듬은 문장. 지어낸 인용 금지.
    - 미국식 철자, 한글 0자, 특정 앱·플랫폼 이름 금지("feed", "phone" 같은 일반어는 됨).
    - 제목: 문제/결과 먼저 60자 미만, 대문자 강조 1~2단어, 끝 " | Marcus Aurelius" 또는 " | Stoicism", 해시태그 없음.
-   - `long_<id>.json`(id = en + 한국 편 번호, 예 ep19 → en19), `fx_<id>.json`(장면 6컷, CLIPS.json 라이브러리 재사용, 최근 영어 7편에 쓴 클립 피함, 새 생성 금지).
+   - `long_<id>.json`(id = en + 한국 편 번호, 예 ep19 → en19), `fx_<id>.json`(장면 6컷). 장면은 **TEMPLATE.md '★ 공용 라이브러리·생성 상한' 그대로**: `python3 ../library.py build` 후 장면마다 `python3 ../library.py find <주제어> --vert` 먼저(한국어판과 같은 장면이면 같은 파일을 같이 쓴다, 최근 5편 사용분은 뒤로), 맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성. fx 를 다 쓰면 `python3 ../library.py check fx_<id>.json` 통과(한 편 안 중복 금지).
 3. 녹음: voice-fast 워크플로를 REST로 부른다(`gh api -X POST repos/immin03/haeja/actions/workflows/voice-fast.yml/dispatches --input body.json`, body = {"ref":"main","inputs":{"req": "<JSON 문자열>"}}).
    req = {"tag":"<id>v","lang":"eng","model":"ssfm-v30","keep":true,"voices":[{name,id,line,emotion,intensity,tempo}…]}.
    이름 `<id>_<묶음>_<A|B>`(n0,n1,n2,e3,n4,e5,end 각 A·B 두 테이크). 해설 Ron `tc_6620ee223bc61e2f6b79fdb5` tempo 0.95 tonedown, 인용 Robert `tc_66bc600762cab997910b107b` tempo 0.88 tonedown(en/VOICES.json).
@@ -35,7 +35,7 @@
    화면 확인: 12장 격자 한 장을 Read — 글자 잘림·겹침, 한글, 영어 글꼴이 Cinzel/EB Garamond 인지.
 5. 표지: long_<id>.json 에 "cover"(대문자 2~3줄, 금빛은 {…}, TEMPLATE.md ★ 쇼츠 표지 규칙) → `ED_LANG=en python3 cover_ed.py <id>` → docs/emperor/en/cover_<id>.jpg. ed_posts.images.yt_cover 에 경로 기록, 업로드 때 썸네일은 이 파일.
    커밋: `docs/emperor/en/<id>_reels.mp4`, `hook_<id>.jpg`(0초 프레임), `cover_<id>.jpg`, `<id>_reels.mp4.voiceqa.json`, `scripts/side/emperor/long_<id>.json`·`fx_<id>.json`.
-6. 기록: ed_posts insert — id `<id>`, kind 'reel_en', title, video_path `/docs/emperor/en/<id>_reels.mp4`, cover_path, scheduled_at(칸 시각), duration_sec, voice_qa(도장 값),
+6. 기록: 사용 기록 `python3 ../library.py check ../fx_<id>.json --record --ep=<id> --at="<칸 시각>"`(library_usage.jsonl 커밋). ed_posts insert — id `<id>`, kind 'reel_en', title, video_path `/docs/emperor/en/<id>_reels.mp4`, cover_path, scheduled_at(칸 시각), duration_sec, voice_qa(도장 값),
    ig_caption = 유튜브 설명(SHORTS_EN.md 8절: 첫 문장 키워드, 1~2줄 요약, "Subscribe for a new lesson from the Meditations every day.", 출처 한 줄, `#Shorts #Stoicism #MarcusAurelius #<주제>`),
    to_ig/to_th false, ig/th/tt/ig_comment/yt_comment 상태 'skip: EN', images {"yt_tags":[…], "lang":"en", "channel":"@EmperorsDiary-en", "from":"<한국 편 id>"}.
    한 편이 실패해도 나머지는 계속, 실패는 docs alerts 'ed-en-<D>-<id>' 로 남긴다.

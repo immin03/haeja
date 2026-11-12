@@ -5,7 +5,7 @@
 (2026-11-08 사고: 이 문서가 11/6 제목 양식을 베껴 적어 두고 "이 문서가 이긴다"고 해서, 11/7 대표가 TEMPLATE.md 제목 규칙을 바꿨는데도 14~17편이 옛 양식으로 나갔다. 같은 규칙을 두 곳에 적지 않는다. TEMPLATE.md 와 이 문서가 다르면 **TEMPLATE.md 가 이긴다.**)
 
 ## 고정값
-- ★ 장면: `scripts/side/ed_long/LIBRARY.md` 3장 — 새 그림·영상 생성 금지, 라이브러리(CLIPS.json)에서만 고르고 최근 7일 안에 쓴 클립은 피하며 쓰지 않는 클립은 제외
+- ★ 장면: **TEMPLATE.md '★ 공용 라이브러리·생성 상한' 그대로** — 장면마다 `library.py find` 먼저, 맞는 게 없을 때만 편당 0~2개 생성, 최근 5편에 쓴 것은 뒤로, 한 편 안 중복 금지, 쓰지 않는 클립 제외
 - ★ 제목: **TEMPLATE.md '★ 제목 규칙' 절을 읽고 그대로** (여기에 요약하지 않음). 기획 단계에서 그 절의 "자가 검사" 줄을 하나씩 확인하고 통과해야 다음 단계로 간다
 - ★ 썸네일: **TEMPLATE.md '★ 썸네일 규칙' 절을 읽고 그대로**
 - 게시 시각(KST): **12:20 / 20:30** 두 편 (유튜브 쇼츠·인스타 릴스·틱톡 같은 시각, 쓰레드 글도 같은 시각)
@@ -34,7 +34,9 @@
 5. 음성 조립: 테이크 고르기 — `python3 take_check.py <mp3> "<대본 글>"` 가 통과한 것 중 고음역 튐이 적은 쪽 (소리 끌림·원문 불일치는 불통과, 둘 다 불통과면 그 묶음만 다시 녹음) → `ED_LINES=/home/claude/vo/v2_lines.json python3 voice_v2.py <id> <A,B,…> <voice_dir>` → `long_<id>a.json`
 6. 일기 쓰는 장면: `python3 tablet_script.py social/side/gen/edv02_tablet.mp4 /home/claude/ed/edv02_<id>.mp4 "<Long 영어 원문 3줄, |로 구분>"`
 7. 렌더: `python3 build_long.py long_<id>a.json` → `python3 render_ed.py /home/claude/ed/spec_<id>a.json <base.mp4> --platform shorts`
-   → ★ 시네마틱 고정 포맷(2026-11-05 대표 확정, FX.md 필독): CLIPS.json 에서 장면을 골라 `fx_<id>.json` 을 쓰고
+   → 장면 고르기(★ 2026-11-13): `python3 library.py build` 후 장면마다 `python3 library.py find <주제어> --vert` 로 먼저 찾는다(최근 5편 사용분은 뒤로 밀려 나온다).
+     맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성 요청(상한은 gen.py 가 막는다). fx 를 다 쓰면 `python3 library.py check fx_<id>.json` 통과(한 편 안 중복 금지).
+   → ★ 시네마틱 고정 포맷(2026-11-05 대표 확정, FX.md 필독): 고른 장면으로 `fx_<id>.json` 을 쓰고
    `python3 fx_short.py /home/claude/ed/spec_<id>a.json <base.mp4> <yt.mp4> --fx fx_<id>.json --platform shorts` 와 `... <ig.mp4> ... --platform reels`
    (render_ed 의 reels 렌더는 하지 않는다. 클립은 social/side/gen/<클립>.mp4 를 sparse-checkout 에 추가)
 8. 검사(필수): ★ 음성 관문 — 2026-11-08 ep17 사고('떠올리기' 1.8초 끌린 녹음이 그대로 게시) 재발 방지. **올릴 파일 두 개를 직접 검사한다.**
@@ -45,7 +47,7 @@
    장면 8장 한 장짜리 격자를 한 번 보고 글자 잘림·겹침·밝은 그림 위 자막만 고친다. 자막이 말보다 먼저 넘어가지 않는지 인용 구간 프레임 2장으로 확인.
    길이 확인: `ffprobe` 로 잰 yt.mp4 길이가 칸 길이(TEMPLATE '★ 길이·내용 규칙') ±5초 밖이면 대본으로 돌아가 항목을 더하거나 뺀다(쉼·속도로 맞추지 않음).
    불통과 2번이면 그 편은 올리지 않고 docs collection 'alerts' 에 남긴다.
-9. 올리기: fx_short.py 결과 그대로(인코딩 포함) `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(0초 프레임: `ffmpeg -ss 0 -i <yt.mp4> -frames:v 1 -q:v 2 hook_<id>.jpg` — 자막 없는 첫 화면인지 Read 로 한 번 확인) 커밋·푸시,
+9. 올리기: (먼저 사용 기록 `python3 library.py check fx_<id>.json --record --ep=<id> --at="<공개 시각>"` → library_usage.jsonl 도 같이 커밋)  fx_short.py 결과 그대로(인코딩 포함) `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(0초 프레임: `ffmpeg -ss 0 -i <yt.mp4> -frames:v 1 -q:v 2 hook_<id>.jpg` — 자막 없는 첫 화면인지 Read 로 한 번 확인) 커밋·푸시,
    사이트 주소가 200이 될 때까지 기다린 뒤
    유튜브: `ED_KEY=<app_config ed_yt_long_key> ./yt_up.sh <id> <yt.mp4> <meta.json> hook_<id>.jpg`
    meta.json = {"title": "<제목> | 명상록"(해시태그 없음, 40자 이내 — yt_up.sh 가 어기면 멈춤), "description": TEMPLATE 설명란(#shorts 는 여기 끝에), "tags": TEMPLATE '태그 세트', "publish_at": 게시 시각 UTC}

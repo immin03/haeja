@@ -8,6 +8,8 @@
 - 이미 결과 파일이 있으면 건너뛴다 (같은 장면을 두 번 돈 내고 만들지 않는다)
 - 제출이 거절되면(필드 이름이 다르거나 하면) 응답을 그대로 기록해서 다음 수정에 쓴다 — 거절은 과금되지 않는다
 - 한 번 실행에 쓸 수 있는 돈 상한: 환경변수 SIDE_GEN_MAX_USD (기본 3달러)
+- 2026-11-13 황제의 일기(ED*.json): 실행마다 비용을 social/side/gen_costs.jsonl + Supabase ed_gen_cost_log 에 남긴다(한 달 누적이 기준을 넘을 때만 관리자 알림).
+  데일리 쇼츠 작업 파일(EDS<날짜>-ep…/en…)은 편당 새 그림·영상 2개까지. 넘기려면 작업 하나에 "over_cap_reason" 을 적는다(기록에 남는다).
 """
 import glob, json, os, sys, time, uuid, urllib.request, urllib.error
 
@@ -101,6 +103,37 @@ def run(job, H, spent):
     return cost if status == "completed" else 0.0
 
 
+ED_SHORT_CAP = 2  # 데일리 쇼츠 한 편 새 생성 상한 (TEMPLATE.md ★ 생성 상한)
+ED_RPC = "https://msjbrwyzkiueqnzjeicm.supabase.co/rest/v1/rpc/ed_gen_cost_log"
+ED_TOKEN = "b81dd8eb317d7e43351bfde9271cffb0ab4636fd"  # ed_gen_costs 기록 전용(비공개 저장소)
+
+
+def _exists(jid, kind):
+    exts = (".mp4", ".webm", ".mov") if kind == "video" else (".png", ".jpg", ".jpeg", ".webp")
+    return any(os.path.exists(os.path.join(OUT, jid + e)) for e in exts)
+
+
+def _ed_ledger(fname, jobs, got):
+    """황제의 일기 작업 파일 하나의 이번 실행 비용 기록 (실패해도 생성은 멈추지 않는다)"""
+    import datetime
+    ids = [j["id"] for j in jobs if got.get(j["id"], 0) > 0]
+    usd = round(sum(got.get(i, 0) for i in ids), 3)
+    if not ids: return
+    kinds = {j["id"]: j["kind"] for j in jobs}
+    row = {"at": datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).isoformat(timespec="minutes"), "channel": "emperor",
+           "run": os.environ.get("GITHUB_RUN_ID", "local"), "job": fname, "usd": usd, "ids": ids,
+           "n_image": sum(kinds[i] == "image" for i in ids), "n_video": sum(kinds[i] == "video" for i in ids),
+           "reason": next((j.get("over_cap_reason") for j in jobs if j.get("over_cap_reason")), None)}
+    with open(os.path.join(ROOT, "social", "side", "gen_costs.jsonl"), "a", encoding="utf-8") as f: f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    try:
+        from progress import ANON
+        body = {"p_token": ED_TOKEN, "p_run": row["run"], "p_job": fname, "p_usd": usd, "p_n_image": row["n_image"], "p_n_video": row["n_video"], "p_ids": ids}
+        req = urllib.request.Request(ED_RPC, method="POST", data=json.dumps(body).encode(),
+                                     headers={"apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json"})
+        print("비용 기록:", urllib.request.urlopen(req, timeout=15).read().decode()[:200], flush=True)
+    except Exception as e: print("비용 기록 안 됨(무시):", str(e)[:160], flush=True)
+
+
 def _ready(job):
     """입력(image·ref)이 이미 만들어져 있어야 제출할 수 있다"""
     paths = ([job["image"]] if job.get("image") else []) + (job["ref"] if isinstance(job.get("ref"), list) else [job["ref"]] if job.get("ref") else [])
@@ -120,15 +153,23 @@ def main(only=None):
     from concurrent.futures import ThreadPoolExecutor
     H = hf.auth_headers(); spent = 0.0; cap = min(float(os.environ.get("SIDE_GEN_MAX_USD", "3")), HARD_CAP)
     files = sorted(glob.glob(os.path.join(ROOT, "scripts", "side", "gen", "*.json")))
-    todo = []
+    todo = []; byfile = {}
+    import re as _re
     for f in files:
-        if only and os.path.basename(f)[:-5] not in only: continue
-        todo += [j for j in json.load(open(f, encoding="utf-8")) if not j.get("disabled")]
+        name = os.path.basename(f)[:-5]
+        if only and name not in only: continue
+        jobs = [j for j in json.load(open(f, encoding="utf-8")) if not j.get("disabled")]
+        new = [j for j in jobs if not _exists(j["id"], j["kind"])]
+        if _re.match(r"EDS\d{6}-(ep|en)", name) and len(new) > ED_SHORT_CAP and not any(j.get("over_cap_reason") for j in jobs):
+            print(f"[{name}] 데일리 쇼츠 새 생성 {len(new)}개 > 상한 {ED_SHORT_CAP} — 라이브러리에서 먼저 찾을 것(이유가 있으면 over_cap_reason). 이 파일 건너뜀", flush=True)
+            continue
+        byfile[name] = jobs; todo += jobs
     sys.path.insert(0, os.path.dirname(__file__)); from progress import report
+    got = {}
     JID = "gen-" + os.environ.get("GITHUB_RUN_ID", "local"); total = len(todo); done = [0]
     report(JID, "이미지·영상 생성 (Higgsfield)", pct=0, detail=f"{total}건 대기", kind="gen")
     def one(j):
-        r = run(j, H, 0.0); done[0] += 1
+        r = run(j, H, 0.0); done[0] += 1; got[j["id"]] = r
         report(JID, pct=100 * done[0] / max(1, total), detail=f"{done[0]}/{total} · 방금 {j['id']}", cost=round(spent, 2), kind="gen")
         return r
     while todo:
@@ -143,6 +184,8 @@ def main(only=None):
             if spent + c > cap: print(f"[{j['id']}] 상한 {cap}달러 초과 예상 — 건너뜀"); continue
             spent += c; batch.append(j)
         with ThreadPoolExecutor(4) as ex: list(ex.map(one, batch))
+    for name, jobs in byfile.items():
+        if name.startswith("ED"): _ed_ledger(name, jobs, got)
     report(JID, status="done", pct=100, detail=f"{done[0]}/{total} 완료 · 예상 비용 {spent:.2f}달러", cost=round(spent, 2), kind="gen")
     print(f"이번 실행 예상 비용 상한 사용: {spent:.2f}달러")
 
