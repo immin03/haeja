@@ -54,7 +54,14 @@ def run(job, H, spent):
     jid = job["id"]; os.makedirs(OUT, exist_ok=True)
     exts = (".mp4", ".webm", ".mov") if job["kind"] == "video" else (".png", ".jpg", ".jpeg", ".webp")
     for e in exts:
-        if os.path.exists(os.path.join(OUT, jid + e)): print(f"[{jid}] 이미 있음"); return 0.0
+        if os.path.exists(os.path.join(OUT, jid + e)):
+            rp = os.path.join(OUT, jid + ".json")   # 11/13: 예전 생성분도 실제 금액(공식 견적) 채워 두기 — 돈 안 듦
+            if os.path.exists(rp):
+                r0 = json.load(open(rp))
+                if r0.get("usd_hf") is None and r0.get("body"):
+                    r0["usd_hf"] = hf_estimate(r0.get("endpoint", job["endpoint"]), r0["body"], H); json.dump(r0, open(rp, "w"), ensure_ascii=False, indent=1)
+                    print(f"[{jid}] 이미 있음 · 실제 금액 {r0['usd_hf']}", flush=True); return 0.0
+            print(f"[{jid}] 이미 있음"); return 0.0
     old = os.path.join(OUT, jid + ".json")
     # 2026-11-03: 15분 안에 안 끝나 '진행 중'으로 남은 작업은 새로 내지 않고 같은 요청을 이어서 기다린다 (중복 비용 방지)
     if os.path.exists(old) and not job.get("retry"):
@@ -84,8 +91,10 @@ def run(job, H, spent):
     # 실패했던 작업을 다시 낼 때 같은 키를 쓰면 Higgsfield가 예전 실패 결과(잔액 부족 등)를 그대로 돌려준다 → 새 키
     if job.get("retry") or (os.path.exists(old) and json.load(open(old)).get("status") in ("failed", "submit_failed")):
         key = str(uuid.uuid4())
+    real = hf_estimate(job["endpoint"], body, H)   # 11/13: 실제 금액 기록(성공한 생성만 청구됨)
+    if real is not None: cost = real
     t0 = time.time(); st, js = hf.http("POST", f"{hf.BASE}/{job['endpoint']}", {**H, "Idempotency-Key": key}, body)
-    rec = {"id": jid, "endpoint": job["endpoint"], "body": body, "submit_http": st, "submit": js, "est_usd": round(cost, 3)}
+    rec = {"id": jid, "endpoint": job["endpoint"], "body": body, "submit_http": st, "submit": js, "est_usd": round(cost, 3), "usd_hf": real}
     print(f"[{jid}] 제출 {st}: {json.dumps(js, ensure_ascii=False)[:300]}", flush=True)
     if st >= 300 or "request_id" not in js:
         rec["status"] = "submit_failed"; json.dump(rec, open(os.path.join(OUT, jid + ".json"), "w"), ensure_ascii=False, indent=1); return 0.0
@@ -153,6 +162,18 @@ def _ed_credit_alert(byfile):
                                      headers={"apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json"})
         print("크레딧 알림:", urllib.request.urlopen(req, timeout=15).read().decode()[:200], flush=True)
     except Exception as e: print("크레딧 알림 안 됨(무시):", str(e)[:160], flush=True)
+
+
+def hf_estimate(endpoint, body, H):
+    """Higgsfield 공식 견적(POST /estimate/<모델>) — 문서상 '내 계정 기준 정확한 금액'. 실패하면 None"""
+    try:
+        st, js = hf.http("POST", f"{hf.BASE}/estimate/{endpoint}", H, body)
+        if st < 300 and isinstance(js, dict):
+            v = js.get("usd", js.get("cost", js.get("price")))
+            return float(v) if v is not None else None
+        print(f"  견적 응답 {st}: {str(js)[:160]}", flush=True)
+    except Exception as e: print("  견적 실패:", str(e)[:120], flush=True)
+    return None
 
 
 def _ready(job):
