@@ -65,11 +65,36 @@ def split_best(text, f, d, maxw):
     return best[1]
 
 
+def still(name, cx):
+    """라이브러리 그림(jpeg) 배경 — 일부만 받은 저장소면 git 에서 꺼낸다"""
+    import io
+    for ext in (".jpeg", ".jpg", ".png"):
+        p = os.path.join(ROOT, "social/side/gen", name + ext)
+        if os.path.exists(p): raw = open(p, "rb").read(); break
+        r = subprocess.run(["git", "-C", ROOT, "show", f"origin/main:social/side/gen/{name}{ext}"], capture_output=True)
+        if r.returncode == 0: raw = r.stdout; break
+    else: raise SystemExit("배경 없음: " + name)
+    im = Image.open(io.BytesIO(raw)).convert("RGB")
+    k = max(W / im.width, H / im.height) * 1.06; im = im.resize((int(im.width * k) + 1, int(im.height * k) + 1), Image.LANCZOS)
+    x = int(min(max(cx * im.width - W / 2, 0), im.width - W)); y = (im.height - H) // 2
+    im = im.crop((x, y, x + W, y + H))
+    im = ImageEnhance.Contrast(im).enhance(1.06); im = ImageEnhance.Color(im).enhance(1.05)
+    return ImageEnhance.Brightness(im).enhance(0.85)
+
+
 def make(cid, out=None):
-    spec = json.load(open(os.path.join(HERE, f"long_{cid}.json")))
-    fx = json.load(open(os.path.join(HERE, f"fx_{cid}.json")))
-    clip, cx = fx["shots"][0][0][0], fx["shots"][0][0][1]
-    im = frame(clip, cx)
+    old = json.load(open(os.path.join(HERE, "covers_old.json"), encoding="utf-8")).get(cid, {})   # 11/13 예전 편 표지
+    lp = os.path.join(HERE, f"long_{cid}.json")
+    spec = json.load(open(lp)) if os.path.exists(lp) else {"hook": []}
+    if old.get("cover"): spec["cover"] = old["cover"]
+    if old.get("bg"):
+        n = old["bg"]; ex = any(os.path.exists(os.path.join(ROOT, "social/side/gen", n + e)) for e in (".jpeg", ".jpg", ".png")) or \
+            subprocess.run(["git", "-C", ROOT, "cat-file", "-e", f"origin/main:social/side/gen/{n}.jpeg"]).returncode == 0
+        im = still(n, old.get("cx", .5)) if ex else frame(n, old.get("cx", .5))
+    else:
+        fx = json.load(open(os.path.join(HERE, f"fx_{cid}.json")))
+        clip, cx = fx["shots"][0][0][0], fx["shots"][0][0][1]
+        im = frame(clip, cx)
     text = " ".join(spec["cover"]) if spec.get("cover") else spec.get("title_line") or " ".join(spec["hook"])
     if LANG == "en": text = text.upper()
     else:
