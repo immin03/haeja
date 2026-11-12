@@ -23,6 +23,10 @@ def tts(voice, model, path, text=None, lang="eng", emotion=None, intensity=1.0):
     req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST", data=json.dumps(body).encode(),
                                  headers={"X-API-KEY": KEY, "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=120) as r: open(path, "wb").write(r.read())
+    try:   # 2026-11-12 타입캐스트 사용량 기록 (황제의 일기 녹음도 같은 계정)
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "reels")); import tts_log
+        tts_log.set_item(os.environ.get("TTS_ITEM") or "side-voices"); tts_log.add(chars=len(text or LINE), lang=lang[:2])
+    except Exception: pass
 
 
 def main_req(req):
