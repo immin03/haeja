@@ -46,16 +46,24 @@ function label(x,y,name,sub,a,big,side,dy){ dy=dy||0; y+=dy;
 // mode: 'open' (한국 가까이 → 지구 전체), 'hook' (사건 4곳 → 현대차로 연결), 'map' (전부 연결된 채 천천히 회전)
 window.draw=function(mode,t){
   const C=window.CFG||{}; if(C.home) KR=C.home; if(C.pts) P=C.pts;
+  if(mode==='flat') return drawFlat(C,t);
   const V=C.view||[-3,-57], VD=C.drift||[-4,2];
   let lam,phi,scale,cx=W*0.5,cy=H*0.56;
-  if(mode==='open'){ const k=ease(t/5.0);
+  if(mode==='open'){ const k=ease(t/(C.open_t||5.0));
     if(C.view){ const c=d3.geoInterpolate(KR.ll,[-V[0],-V[1]])(k*0.5); lam=-c[0]-1.5*t; phi=-c[1]; scale=1900+(520-1900)*k; }
     else { lam=-129.3+18*k-2*t; phi=-35.5-10*k; scale=1900+(500-1900)*k; cx=W*0.5-120*k; } }
   else { const OFF=window.HOOK_OFF||0; const k=mode==='hook'?t/(10+OFF):t/8; lam=V[0]+VD[0]*k; phi=V[1]+VD[1]*k; scale=mode==='hook'?470+70*ease(cl((t-6.6-OFF)/3.5)):500;
-    if(C.keys&&mode!=='map'){ // [[초, 경도, 위도, 크기], ...] 순서대로 카메라가 지구를 돈다 (HOOK_OFF 더함)
-      const ks=C.keys.map(q=>[q[0]+(q[0]>0?OFF:0),q[1],q[2],q[3]||560]); let i=0; while(i<ks.length-2&&t>ks[i+1][0]) i++;
-      const A=ks[i],B=ks[Math.min(i+1,ks.length-1)], u=B[0]>A[0]?ease(cl((t-A[0])/(B[0]-A[0]))):1;
-      const c=d3.geoInterpolate([A[1],A[2]],[B[1],B[2]])(u); lam=-c[0]; phi=-c[1]; scale=A[3]+(B[3]-A[3])*u; }
+    if(C.keys&&mode!=='map'){ // [[초, 경도, 위도, 크기], ...] — 11/12 끊김 수정: 구간마다 멈추지 않고 한 번에 매끄럽게(호 길이 기준 이동, 전체 1회 가감속)
+      const ks=C.keys.map(q=>[q[0]+(q[0]>0?OFF:0),q[1],q[2],q[3]||560]);
+      const T0=ks[0][0], T1=ks[ks.length-1][0]; const d=[0]; for(let i=1;i<ks.length;i++) d.push(d[i-1]+Math.max(d3.geoDistance([ks[i-1][1],ks[i-1][2]],[ks[i][1],ks[i][2]]),0.02));
+      const sm=x=>x<0?0:x>1?1:x*x*x*(x*(6*x-15)+10); // smootherstep
+      // 시간 → 진행: 각 key 시각을 맞추되 속도 변화를 부드럽게(키 시각 보간 + smootherstep 혼합)
+      let i=0; while(i<ks.length-2&&t>ks[i+1][0]) i++; const A=ks[i],B=ks[i+1]||A;
+      const lu=B[0]>A[0]?cl((t-A[0])/(B[0]-A[0])):1; const sKey=(d[i]+(d[i+1]-d[i])*lu)/d[d.length-1];
+      const sGlob=sm(cl((t-T0)/(T1-T0))); const s=0.5*sKey+0.5*sGlob, D=s*d[d.length-1];
+      let j=0; while(j<d.length-2&&D>d[j+1]) j++; const uu=d[j+1]>d[j]?cl((D-d[j])/(d[j+1]-d[j])):1;
+      const c=d3.geoInterpolate([ks[j][1],ks[j][2]],[ks[j+1][1],ks[j+1][2]])(uu); lam=-c[0]; phi=-c[1];
+      scale=ks[j][3]+(ks[j+1][3]-ks[j][3])*(uu*uu*(3-2*uu)); }
     if(C.keys&&mode==='map'){ const q=C.keys[C.keys.length-1]; lam=-q[1]-1.5*t; phi=-q[2]; scale=q[3]||520; } }
   let F=window.FOCUS;
   if(mode==='focus'){ const k=ease(cl(t/1.4)); const c=d3.geoInterpolate([-V[0],-V[1]],F.ll)(k); lam=-c[0]-1.5*t; phi=-c[1]; scale=470+(F.zoom||980-470)*0+((F.zoom||980)-470)*k; }
@@ -64,6 +72,9 @@ window.draw=function(mode,t){
   // 배경
   const bg=g.createRadialGradient(cx,cy,scale*0.2,cx,cy,Math.max(W,H)); bg.addColorStop(0,'#16294a'); bg.addColorStop(1,NAVY);
   g.fillStyle=bg; g.fillRect(0,0,W,H);
+  if(C.fx){ // 11/12 화려한 효과: 별빛 반짝임
+    for(let i=0;i<220;i++){ const r1=Math.sin(i*12.9898)*43758.5453, r2=Math.sin(i*78.233)*12543.31; const x=(r1-Math.floor(r1))*W, y=(r2-Math.floor(r2))*H;
+      const tw=0.35+0.65*Math.abs(Math.sin(t*1.3+i)); g.fillStyle=`rgba(244,237,220,${0.10+0.35*tw*((i%7)/7)})`; g.fillRect(x,y,(i%5===0)?2.4:1.4,(i%5===0)?2.4:1.4); } }
   // 대기 빛
   const glow=g.createRadialGradient(cx,cy,scale*0.96,cx,cy,scale*1.16); glow.addColorStop(0,'rgba(224,200,150,0.32)'); glow.addColorStop(1,'rgba(224,200,150,0)');
   g.fillStyle=glow; g.beginPath(); g.arc(cx,cy,scale*1.16,0,7); g.fill();
@@ -79,6 +90,10 @@ window.draw=function(mode,t){
   // 빛 반사(위 왼쪽) · 어두운 가장자리
   const sh=g.createRadialGradient(cx-scale*0.4,cy-scale*0.45,0,cx,cy,scale*1.02); sh.addColorStop(0,'rgba(255,255,255,0.10)'); sh.addColorStop(0.55,'rgba(255,255,255,0)'); sh.addColorStop(1,'rgba(0,0,0,0.38)');
   g.fillStyle=sh; g.beginPath(); path({type:'Sphere'}); g.fill();
+  if(C.fx){ const sx=cx+scale*Math.cos(t*0.6)*0.9, sy=cy-scale*0.35; const sw=g.createRadialGradient(sx,sy,0,sx,sy,scale*0.7); sw.addColorStop(0,'rgba(255,240,205,0.10)'); sw.addColorStop(1,'rgba(255,240,205,0)');
+    g.save(); g.beginPath(); path({type:'Sphere'}); g.clip(); g.fillStyle=sw; g.fillRect(0,0,W,H); g.restore();
+    const rim=g.createRadialGradient(cx,cy,scale*0.98,cx,cy,scale*1.05); rim.addColorStop(0,'rgba(240,215,160,0)'); rim.addColorStop(0.5,`rgba(240,215,160,${0.35+0.15*Math.sin(t*2)})`); rim.addColorStop(1,'rgba(240,215,160,0)');
+    g.fillStyle=rim; g.beginPath(); g.arc(cx,cy,scale*1.05,0,7); g.fill(); }
   const vis=ll=>d3.geoDistance(ll,[-lam,-phi])<Math.PI/2-0.05;
   const kr=proj(KR.ll), krv=vis(KR.ll);
   // 사건 → 현대차 연결선
@@ -92,7 +107,9 @@ window.draw=function(mode,t){
     const lk=ease(cl((t-1.5)/1.1));
     if(lk>0&&!F.noarc){ const line={type:'LineString',coordinates:[]}; const ip=d3.geoInterpolate(F.ll,KR.ll);
       for(let i=0;i<=80*lk;i++) line.coordinates.push(ip(i/80));
-      g.save(); g.strokeStyle='rgba(224,200,150,0.9)'; g.lineWidth=5; g.shadowColor='rgba(224,200,150,0.8)'; g.shadowBlur=16; g.setLineDash([20,12]); g.lineDashOffset=-t*40; g.beginPath(); path(line); g.stroke(); g.restore(); }
+      g.save(); g.strokeStyle='rgba(224,200,150,0.9)'; g.lineWidth=5; g.shadowColor='rgba(224,200,150,0.8)'; g.shadowBlur=16; g.setLineDash([20,12]); g.lineDashOffset=-t*40; g.beginPath(); path(line); g.stroke(); g.restore();
+      if(C.fx){ const hp=ip(lk<1?lk*80/80:((t-2.6)*0.5)%1); if(vis(hp)){ const [hx,hy]=proj(hp); const hg=g.createRadialGradient(hx,hy,0,hx,hy,30); hg.addColorStop(0,'rgba(255,248,225,0.95)'); hg.addColorStop(1,'rgba(255,230,170,0)'); g.fillStyle=hg; g.beginPath(); g.arc(hx,hy,30,0,7); g.fill(); } } }
+    if(C.fx&&a>0){ const bh=220*ease(cl((t-1.0)/0.7)); const bm=g.createLinearGradient(x,y,x,y-bh); bm.addColorStop(0,`rgba(255,240,205,${0.6*a})`); bm.addColorStop(1,'rgba(255,240,205,0)'); g.fillStyle=bm; g.fillRect(x-4,y-bh,8,bh); }
     if(a>0){ const pul=(t*1.2)%1; g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(244,237,220,${0.8*(1-pul)})`; g.lineWidth=4; g.beginPath(); g.arc(x,y,16+70*pul,0,7); g.stroke();
       g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=20; g.beginPath(); g.arc(x,y,14,0,7); g.fill(); g.restore();
       label(x,y,F.name,F.sub,a,true,F.side||1,F.dy||0); }
@@ -109,9 +126,12 @@ window.draw=function(mode,t){
       for(let i=0;i<=60*lk;i++) line.coordinates.push(ip(i/60));
       g.save(); g.strokeStyle='rgba(224,200,150,0.9)'; g.lineWidth=4; g.shadowColor='rgba(224,200,150,0.8)'; g.shadowBlur=14;
       g.setLineDash([18,10]); g.lineDashOffset=-t*40; g.beginPath(); path(line); g.stroke(); g.restore();
+      if(C.fx){ const hp=lk<1?ip(lk):ip(((t-ta)*0.45)%1); if(vis(hp)){ const [hx,hy]=proj(hp); const hg=g.createRadialGradient(hx,hy,0,hx,hy,26); hg.addColorStop(0,'rgba(255,248,225,0.95)'); hg.addColorStop(1,'rgba(255,230,170,0)'); g.fillStyle=hg; g.beginPath(); g.arc(hx,hy,26,0,7); g.fill(); } }
     }
     if(!vis(p.ll)) continue; const [x,y]=proj(p.ll);
     const pul=(t*1.4+p.t)%1;
+    if(C.fx){ const bh=140*ease(cl((t-ta)/0.6)); const bm=g.createLinearGradient(x,y,x,y-bh); bm.addColorStop(0,`rgba(255,240,205,${0.55*a})`); bm.addColorStop(1,'rgba(255,240,205,0)'); g.fillStyle=bm; g.fillRect(x-3,y-bh,6,bh);
+      const p2=(pul+0.5)%1; g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(224,200,150,${0.6*(1-p2)})`; g.lineWidth=2; g.beginPath(); g.arc(x,y,12+64*p2,0,7); g.stroke(); g.restore(); }
     g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(244,237,220,${0.7*(1-pul)})`; g.lineWidth=3; g.beginPath(); g.arc(x,y,12+40*pul,0,7); g.stroke();
     g.fillStyle=IVORY; g.beginPath(); g.arc(x,y,11,0,7); g.fill(); g.restore();
     label(x,y,p.name,p.sub,a,false,p.side,p.dy);
@@ -123,4 +143,34 @@ window.draw=function(mode,t){
     label(x,y,KR.name,mode==='open'?(KR.open_sub||KR.sub):KR.sub,1,true,KR.side||1);
   }
 };
+// 11/12 'flat': 세계 지도 한 장 — 지구 뒤편에 가려지는 곳 없이 모든 장소를 한 화면에(장소가 차례로 켜지고 한국으로 연결)
+function drawFlat(C,t){
+  const mp=C.map_pts||P, ctr=C.flat_center||25;
+  const k0=ease(cl(t/1.2)); const proj=d3.geoNaturalEarth1().rotate([-ctr,0]).fitExtent([[60,120],[W-60,H-40]],{type:'Sphere'});
+  const sc0=proj.scale(); proj.scale(sc0*(1.25-0.25*k0)); const [tx,ty]=proj.translate(); proj.translate([tx,ty+20*(1-k0)]);
+  const path=d3.geoPath(proj,g);
+  const bg=g.createRadialGradient(W/2,H/2,100,W/2,H/2,W); bg.addColorStop(0,'#16294a'); bg.addColorStop(1,NAVY); g.fillStyle=bg; g.fillRect(0,0,W,H);
+  g.save(); g.globalAlpha=k0;
+  g.fillStyle='#132849'; g.beginPath(); path({type:'Sphere'}); g.fill();
+  g.strokeStyle='rgba(234,219,185,0.07)'; g.lineWidth=1; g.beginPath(); path(d3.geoGraticule10()); g.stroke();
+  g.fillStyle='rgba(234,219,185,0.18)'; g.beginPath(); path(land); g.fill();
+  g.strokeStyle='rgba(224,200,150,0.5)'; g.lineWidth=1.1; g.beginPath(); path(land); g.stroke();
+  g.strokeStyle='rgba(224,200,150,0.14)'; g.lineWidth=0.7; g.beginPath(); path(borders); g.stroke();
+  g.strokeStyle='rgba(224,200,150,0.35)'; g.lineWidth=2; g.beginPath(); path({type:'Sphere'}); g.stroke(); g.restore();
+  if(C.title){ g.save(); g.globalAlpha=k0; g.fillStyle=GOLD; g.font='800 54px SUIT'; g.textAlign='center'; g.fillText(C.title,W/2,82); g.restore(); }
+  const [kx,ky]=proj(KR.ll);
+  mp.forEach((p,i)=>{ const ta=1.0+i*(C.flat_gap||0.9); if(t<ta) return; const a=cl((t-ta)/0.35), lk=ease(cl((t-ta-0.2)/0.9));
+    const [px,py]=proj(p.ll); const mx=(px+kx)/2, my=Math.min(py,ky)-Math.abs(kx-px)*0.22-40; // 화면 위 곡선(지도 가장자리로 넘어가지 않게)
+    const bz=u=>[(1-u)*(1-u)*px+2*(1-u)*u*mx+u*u*kx,(1-u)*(1-u)*py+2*(1-u)*u*my+u*u*ky];
+    g.save(); g.strokeStyle='rgba(224,200,150,0.9)'; g.lineWidth=4; g.shadowColor='rgba(224,200,150,0.8)'; g.shadowBlur=14; g.setLineDash([18,10]); g.lineDashOffset=-t*40; g.beginPath();
+    for(let j=0;j<=60;j++){ const u=j/60*lk, q=bz(u); j?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]); } g.stroke(); g.restore();
+    const hu=lk<1?lk:((t-ta)*0.4)%1, [hx,hy]=bz(hu); const hg=g.createRadialGradient(hx,hy,0,hx,hy,24); hg.addColorStop(0,'rgba(255,248,225,0.95)'); hg.addColorStop(1,'rgba(255,230,170,0)'); g.fillStyle=hg; g.beginPath(); g.arc(hx,hy,24,0,7); g.fill();
+    const [x,y]=proj(p.ll); const pul=(t*1.3+i*0.3)%1;
+    g.save(); g.globalAlpha=a; g.strokeStyle=`rgba(244,237,220,${0.7*(1-pul)})`; g.lineWidth=3; g.beginPath(); g.arc(x,y,12+40*pul,0,7); g.stroke();
+    g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=16; g.beginPath(); g.arc(x,y,11,0,7); g.fill(); g.restore();
+    label(x,y,p.name,p.sub,a,false,p.side||1,p.dy||0); });
+  const pul=(t*1.1)%1; g.save(); g.globalAlpha=k0; g.strokeStyle=`rgba(224,200,150,${0.9*(1-pul)})`; g.lineWidth=4; g.beginPath(); g.arc(kx,ky,16+60*pul,0,7); g.stroke();
+  g.fillStyle=GOLD; g.shadowColor=GOLD; g.shadowBlur=24; g.beginPath(); g.arc(kx,ky,15,0,7); g.fill(); g.restore();
+  label(kx,ky,KR.name,KR.sub,k0,true,KR.side||1,KR.dy||0);
+}
 </script></body></html>
