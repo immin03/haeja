@@ -174,7 +174,8 @@ def hf_estimate(endpoint, body, H):
     try:
         st, js = hf.http("POST", f"{hf.BASE}/estimate/{endpoint}", H, body)
         if st < 300 and isinstance(js, dict):
-            v = js.get("usd", js.get("cost", js.get("price")))
+            v = js.get("usd", js.get("cost", js.get("price", js.get("amount"))))
+            if v is None: print(f"  견적 응답(금액 키 없음) {st}: {str(js)[:200]}", flush=True)
             return float(v) if v is not None else None
         print(f"  견적 응답 {st}: {str(js)[:160]}", flush=True)
     except Exception as e: print("  견적 실패:", str(e)[:120], flush=True)
