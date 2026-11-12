@@ -443,6 +443,6 @@ def _dbars(E, img, it, p, y):
         bx = X0 + k * step; bh = h * abs(i["v"]) / vmax * q; col = DTONE.get(i.get("color"), DWHITE)
         d.rectangle([bx, base - bh, bx + 130, base], fill=col if k == len(it) - 1 else tuple(int(c * .62) for c in col))   # 마지막(강조) 막대만 선명하게
         _dtext(img, (bx, base - bh - 14), _count(i.get("text", ""), q), E.F("Heavy", 58), (*col, 255), anchor="ld")
-        _dtext(img, (bx, base + 18), i["label"], E.F("SemiBold", 32), (*DGRAY, 255))
+        _dtext(img, (bx, base + 18), i["label"], E.F("SemiBold", 40), (*DGRAY, 255))
         d = ImageDraw.Draw(img)
     return img
