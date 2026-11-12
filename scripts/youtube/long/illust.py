@@ -20,7 +20,7 @@ STYLE = ("Editorial storybook illustration for a Korean finance explainer video.
 
 SPACE = " Composition: keep the left 40 percent of the frame as calm, nearly empty ivory paper wash (room for handwritten notes); place the main subject in the right 60 percent."
 
-KEEP_GROK = {"L261113-apple-3a", "L261113-apple-3b", "L261113-gold-3a", "L261113-gold-3b"}
+KEEP_GROK = set()  # 11/13 대표님: 한 번 쓰고 마는 건 무조건 Z-Image
 
 
 def main(only=None):
