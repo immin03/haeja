@@ -1,0 +1,32 @@
+{
+ "id": "il_L261028j_th_tokyo_night",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Main subject in the upper right half of the frame, darker calm area at the bottom for a title. Scene: Tokyo financial district at night seen from a high window, glowing skyscrapers and a vast city grid of lights, a giant abstract green rising light trail across the skyline, triumphant mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1cee1-3c9c-7e6e-8972-bbdd52ea70cb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cee1-3c9c-7e6e-8972-bbdd52ea70cb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cee1-3c9c-7e6e-8972-bbdd52ea70cb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.05,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1cee1-3c9c-7e6e-8972-bbdd52ea70cb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1cee1-3c9c-7e6e-8972-bbdd52ea70cb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1cee1-3c9c-7e6e-8972-bbdd52ea70cb/cancel",
+  "expires_at": "2026-11-19T08:32:08.435215+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1cee1-3c9c-7e6e-8972-bbdd52ea70cb/ca337561-ffe4-4ae1-ba49-d501fab411f5.jpeg"
+   }
+  ]
+ },
+ "seconds": 99,
+ "file": "scripts/blog/media/lib/il_L261028j_th_tokyo_night.jpeg"
+}
