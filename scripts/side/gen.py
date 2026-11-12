@@ -134,6 +134,27 @@ def _ed_ledger(fname, jobs, got):
     except Exception as e: print("비용 기록 안 됨(무시):", str(e)[:160], flush=True)
 
 
+def _ed_credit_alert(byfile):
+    """11/13: 황제의 일기 생성이 크레딧 부족으로 실패하면 /side 알림 + 휴대폰 푸시 (하루 1건으로 묶음)"""
+    low = []
+    for name, jobs in byfile.items():
+        if not name.startswith("ED"): continue
+        for j in jobs:
+            rp = os.path.join(OUT, j["id"] + ".json")
+            try:
+                if "credit balance" in json.dumps(json.load(open(rp, encoding="utf-8"))).lower(): low.append(j["id"])
+            except Exception: pass
+    if not low: return
+    print(f"⚠ Higgsfield 크레딧 부족으로 {len(low)}건 실패 — 충전 필요: {low[:5]}", flush=True)
+    try:
+        from progress import ANON
+        body = {"p_token": ED_TOKEN, "p_run": os.environ.get("GITHUB_RUN_ID", "local"), "p_n": len(low), "p_ids": low}
+        req = urllib.request.Request(ED_RPC.replace("ed_gen_cost_log", "ed_gen_credit_alert"), method="POST", data=json.dumps(body).encode(),
+                                     headers={"apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json"})
+        print("크레딧 알림:", urllib.request.urlopen(req, timeout=15).read().decode()[:200], flush=True)
+    except Exception as e: print("크레딧 알림 안 됨(무시):", str(e)[:160], flush=True)
+
+
 def _ready(job):
     """입력(image·ref)이 이미 만들어져 있어야 제출할 수 있다"""
     paths = ([job["image"]] if job.get("image") else []) + (job["ref"] if isinstance(job.get("ref"), list) else [job["ref"]] if job.get("ref") else [])
@@ -191,6 +212,7 @@ def main(only=None):
         with ThreadPoolExecutor(4) as ex: list(ex.map(one, batch))
     for name, jobs in byfile.items():
         if name.startswith("ED"): _ed_ledger(name, jobs, got)
+    _ed_credit_alert(byfile)
     report(JID, status="done", pct=100, detail=f"{done[0]}/{total} 완료 · 예상 비용 {spent:.2f}달러", cost=round(spent, 2), kind="gen")
     print(f"이번 실행 예상 비용 상한 사용: {spent:.2f}달러")
 
