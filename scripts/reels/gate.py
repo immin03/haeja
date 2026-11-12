@@ -49,6 +49,11 @@ def check(spec):
     for img, idx in seen.items():
         if len(idx) > 1 and not img.startswith("owner_"):
             errs.append(f"같은 사진·영상을 {len(idx)}번 씁니다: {img} (장면 {idx})")
+    # 2-1. 사진 칸(img·photo)에 영상 파일 → 렌더가 중간에 깨진다 (11/12 엔비디아 쇼츠). 영상은 full.video
+    for i, sc in enumerate(spec.get("scenes", [])):
+        for n in ((sc.get("full") or {}).get("img"), sc.get("photo")):
+            if n and str(n).endswith(".mp4"):
+                errs.append(f"장면 {i}: 사진 칸에 영상 {n} — full.video 로 넣고 img 는 사진으로")
     # 3. 제목 띠·제목
     banner = " ".join(spec.get("banner") or [])
     title = spec.get("title", "")
