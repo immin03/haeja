@@ -386,6 +386,7 @@ def doc_overlay(E, img, s, u):
     top = (getattr(E, "BAND_H", 0) or 330)
     if g > 0:   # 위쪽을 남색으로 (글씨 자리) + 전체를 살짝 어둡게 — 다큐 색
         a = np.asarray(img, np.float32); m = _dgrad(top + 120, 760) * .82 * g
+        if str(f.get("video", "")).startswith("globe_"): m = _dgrad(top + 60, 300) * .82 * g   # 지구본은 이미 어두워 지명이 가려지지 않게 위쪽만 살짝 (11/13)
         a = a * (1 - .14 * g); a = a * (1 - m) + np.array([8, 14, 26], np.float32) * m
         img = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
     X = X0; y = top + 70
