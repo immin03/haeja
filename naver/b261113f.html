@@ -1,0 +1,199 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 워렌 버핏 후계자, 젠슨 황과 달리 5년 전에 정했다</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">거장의 투자</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">워렌 버핏 후계자, 젠슨 황과 달리 5년 전에 정했다</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 3장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261113f/01.png" alt="비 내리는 밤, 도시 불빛이 보이는 창가 앞에 비어 있는 가죽 의자" width="720"></p>
+<p><br></p>
+<blockquote><p><b>요약</b></p><p>· 워렌 버핏 후계자 그렉 에이블은 2021년 처음 이름이 알려진 뒤 2026년 1월 버크셔 해서웨이 CEO가 됐습니다. 반면 엔비디아는 젠슨 황이 11월 12일 사임하자 그날 임시 CEO를 세웠고, 주가는 장중 14%까지 빠졌습니다.</p></blockquote>
+<p><br></p>
+<p>11월 12일 미국 장이 열리기 전, 엔비디아가 짧은 공시 하나를 냈습니다. 이사회가 젠슨 황의 사임을 받아들였다는 내용이었죠. CEO 자리도, 이사 자리도 그날 바로 내려놓는다고 했습니다.</p>
+<p><br></p>
+<p>33년 동안 엔비디아의 유일한 CEO였던 사람이 하루아침에 떠난 겁니다. 빈 자리는 재무책임자 콜레트 크레스가 임시로 맡았습니다.</p>
+<p><br></p>
+<p>엔비디아 주가는 장중 한때 14% 빠졌다가 4.3% 하락으로 마감했습니다.</p>
+<p><br></p>
+<p>창업자가 떠나면 회사는 어떻게 될까요? 같은 질문에 5년 넘게 걸려 답한 회사가 있습니다. 워렌 버핏의 버크셔 해서웨이, 그리고 후계자 그렉 에이블입니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 워렌 버핏 후계자 그렉 에이블, 5년에 걸쳐 자리를 넘겨받았다</b></span></p>
+
+<p>워렌 버핏 후계자 그렉 에이블의 이름이 처음 공개된 건 2021년 5월입니다. 주주총회에서 찰리 멍거가 &#39;그렉이 문화를 지킬 것&#39;이라고 말한 게 시작이었죠.</p>
+<p><br></p>
+<p>버핏은 이틀 뒤 방송 인터뷰에서 이를 확인했습니다. 자신에게 무슨 일이 생기면 에이블이 회사를 맡는다고요. 그때 버핏은 90세였습니다.</p>
+<p><br></p>
+<p>다음 단계는 2025년 5월 주주총회였습니다. 버핏은 그해 말 CEO에서 물러나겠다고 직접 말했어요. 이사회는 다음 날 만장일치로 에이블을 새해 첫날부터 CEO로 정했습니다.</p>
+<p><br></p>
+<p>에이블은 예정대로 올해 1월 CEO가 됐습니다. 9월에는 버핏이 회장 자리까지 내려놓았고 오랫동안 이사로 있던 아들 하워드 버핏이 회장을 맡았죠.</p>
+<p><br></p>
+<p>버핏은 그날 역할을 이렇게 나눴습니다. &#39;회사는 그렉이 운영하고 하워드는 회사의 문화와 가치를 지킬 것&#39;이라고요.</p>
+<p><br></p>
+<p>이름 공개부터 회장 교체까지, 버크셔는 한 단계씩 매번 미리 알렸습니다. 주주가 갑자기 놀랄 일이 거의 없었던 겁니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261113f/02.png" alt="후계자 공개부터 CEO 교체까지 걸린 시간" width="720"></p><p><span style="color:#888888;font-size:13px">후계자 공개부터 CEO 교체까지 걸린 시간</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 버크셔 주가는 은퇴 발표 뒤 한 번 빠지고 다시 올랐다</b></span></p>
+
+<p>버크셔 주가도 흔들리긴 했습니다. 은퇴 발표 뒤 첫 거래일, 버크셔 B주(개인 투자자가 주로 사는 값이 낮은 주식)는 약 5% 빠졌어요. 같은 날 나온 이익 감소 소식도 겹쳤습니다.</p>
+<p><br></p>
+<p>그다음 흐름이 중요합니다. 에이블이 CEO가 된 올해, 버크셔 B주는 11월 초까지 약 16% 올랐습니다. 이번 주엔 최근 1년 사이 가장 높은 가격 근처에서 거래됐죠.</p>
+<p><br></p>
+<p>에이블은 2월 첫 주주 서한에서 버핏을 &#39;뒤를 잇기 매우 어려운 사람&#39;이라고 불렀습니다. 그러면서 회사 문화는 바뀌지 않는다고 적었어요. 거창한 새 전략 대신 &#39;성장을 위한 성장이 아니라 규율&#39;을 강조했고요.</p>
+<p><br></p>
+<p>&#39;버핏 없는 버크셔&#39;라는 걱정은 하루에 몰려오지 않았습니다. 몇 년에 걸쳐 조금씩 나뉘어 왔고, 그때마다 주가가 한 번씩 흔들리고 넘어갔죠.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 엔비디아는 젠슨 황 다음 사람을 정해 두지 않았다</b></span></p>
+
+<p>엔비디아는 사정이 정반대였습니다. 젠슨 황은 1993년 회사를 함께 세운 뒤 줄곧 CEO였어요. 회사 지분도 약 3.6%를 가진 개인 최대 주주입니다.</p>
+<p><br></p>
+<p>엔비디아에는 공식 후계자가 없었습니다. 젠슨 황은 올해 3월 한 팟캐스트에서 승계 계획을 믿지 않는다고 말했어요. 여덟 달 뒤 그가 떠난 날, 회사 공시에 들어간 문장은 &#39;정식 CEO를 찾고 있다&#39;였습니다.</p>
+<p><br></p>
+<p>엔비디아 이사회는 회사 안팎의 후보를 모두 보겠다고 했어요. 그때까지 크레스는 재무책임자 일과 CEO 일을 함께 맡습니다.</p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261113f/03.jpg" alt="밤 도시 풍경이 보이는 빈 회의실, 긴 테이블 위에 서류 묶음이 놓여 있다" width="720"></p>
+<p><br></p>
+<p>콜레트 크레스는 2013년 엔비디아에 들어왔습니다. 그 뒤 엔비디아 연 매출은 약 41억 달러에서 약 2,159억 달러로 커졌죠. 회사 숫자를 가장 잘 아는 사람인 건 분명합니다.</p>
+<p><br></p>
+<p>다만 시장이 궁금한 건 숫자 너머입니다. 누가 다음 칩 전략을 정하고 누가 큰 고객사와 마주 앉느냐죠. 저는 이 질문에 답이 나오기 전까지 엔비디아 주가의 흔들림이 쉽게 멎지 않을 거라고 봅니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 젠슨 황 사임, 한국 투자자 엔비디아 보유액은 19조 원대다</b></span></p>
+
+<p>젠슨 황 사임 소식이 한국에서도 크게 다뤄진 이유가 있습니다. 한국예탁결제원 자료로 11월 5일 기준 한국 투자자가 직접 가진 엔비디아 주식은 약 19조 7천억 원이에요.</p>
+<p><br></p>
+<p>미국 주식 가운데 테슬라 다음으로 많습니다. ETF로 간접 보유한 몫은 여기에 빠져 있으니 실제로는 더 크죠.</p>
+<p><br></p>
+<p>반도체 ETF를 가진 분, SK하이닉스를 가진 분도 이 뉴스와 거리가 멀지 않습니다. 엔비디아가 사는 메모리가 한국 반도체 회사들의 매출로 이어지니까요.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 조금만 더 들어가 보면, 승계 계획</b></span></p>
+
+<p>투자자들이 회사를 볼 때 따로 챙기는 항목이 있습니다. 승계 계획은 CEO가 갑자기 떠나도 누가, 어떤 순서로 회사를 맡을지 미리 정해 둔 계획입니다.</p>
+<p><br></p>
+<p>미국 상장사는 보통 이사회가 이 계획을 관리하고 후보 이름은 밝히지 않는 경우가 많습니다. 버크셔는 이름과 시점을 몇 년에 걸쳐 공개한 드문 경우예요. 엔비디아는 계획 자체를 두지 않은 쪽이었고요.</p>
+<p><br></p>
+<p>한 줄로 말하면, 승계 계획은 창업자가 떠나는 날의 주가 충격을 미리 나눠서 치러 두는 장치입니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 엔비디아 새 CEO와 버크셔 주가, 다음 갈림길은 실적과 서한이다</b></span></p>
+
+<p>엔비디아 임시 CEO의 첫 무대는 닷새 뒤, 미국 시각 11월 17일 3분기 실적 발표입니다. 한국 시각으로는 18일 새벽이죠. 이번엔 실적 숫자만큼, 설명회에서 누가 어떤 말을 하는지가 중요해졌습니다.</p>
+<p><br></p>
+<p>길은 두 갈래입니다. 하나는 이사회가 정식 CEO를 빨리 정하고 실적도 기대만큼 나오는 경우예요. 그러면 버크셔처럼 걱정이 비교적 빨리 가라앉을 수 있습니다.</p>
+<p><br></p>
+<p>다른 하나는 후보 찾기가 길어지는 경우입니다. 임시 체제가 길수록 큰 결정은 미뤄지기 쉽고 주가는 인사 뉴스 하나에도 더 크게 흔들릴 수 있어요.</p>
+<p><br></p>
+<p>제가 보기에 버크셔가 보여 준 건 &#39;뛰어난 후계자&#39;보다 &#39;미리 알린 후계자&#39;의 힘입니다. 에이블이 버핏만큼 잘할지는 아무도 장담하지 못했어요. 그래도 누가, 언제 맡는지 알았기에 주가는 한 번 흔들리고 다시 섰습니다.</p>
+<p><br></p>
+<p>엔비디아에서 가장 먼저 볼 것은 정식 CEO 이름이 언제 나오느냐입니다. 실적 발표 전후로 이름이 나온다면 회사를 이끌 사람이 비어 있다는 걱정은 그만큼 빨리 줄어듭니다.</p>
+<p><br></p>
+<p>확인할 것은 세 가지입니다. 첫째, 18일 새벽 엔비디아의 다음 분기 매출 전망이 시장 기대를 넘는지입니다. 둘째, 이사회가 정식 CEO를 회사 안에서 고르는지 밖에서 데려오는지입니다.</p>
+<p><br></p>
+<p>셋째, 버크셔는 내년 초 나올 에이블의 두 번째 주주 서한입니다. 버핏이 회장에서도 물러난 뒤 처음 쓰는 편지라, 쌓아 둔 현금을 어디에 쓸지에 대한 말이 나오는지 볼 만합니다.</p>
+<p><br></p>
+<p>반도체 주식을 들고 계신다면 내 계좌에서 한 회사, 한 사람에게 기대는 몫이 얼마인지 세어 보세요. 같은 뉴스라도 계좌가 얼마나 흔들릴지는 그 비중이 정합니다.</p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> 자주 묻는 질문</b></span></p>
+
+<p>Q. 워렌 버핏 후계자는 누구인가요? 워렌 버핏 후계자는 그렉 에이블입니다. 에이블은 2026년 1월 1일 버크셔 해서웨이 CEO가 됐고 버핏은 9월 회장 자리도 아들 하워드 버핏에게 넘겼습니다.</p>
+<p><br></p>
+<p>Q. 젠슨 황은 왜 사임했나요? 젠슨 황은 혼외 관계를 인정한 뒤 이사회 조사와 언론 보도가 이어지던 중 11월 12일 사임했습니다. 엔비디아는 공시에서 사임 이유를 따로 밝히지 않았습니다.</p>
+<p><br></p>
+<p>Q. 엔비디아 새 CEO는 누구인가요? 엔비디아 임시 CEO는 재무책임자 콜레트 크레스입니다. 엔비디아 이사회는 회사 안팎에서 정식 CEO를 찾고 있습니다.</p>
+<p><br></p>
+<p>같이 읽으면 좋은 글: 「엔비디아 주가 전망, 젠슨 황 해임설에 시간외 8% 급락한 이유」</p>
+<p><br></p>
+<p>회사의 다음 사람은 결국 공시 한 줄로 나옵니다. 가진 회사가 있다면, 그 한 줄이 이미 나와 있는지 한 번 찾아보셔도 좋겠습니다.</p>
+<p><br></p>
+<p>버핏이 떠난 뒤의 버크셔를 투자 거장들의 잣대로 다시 재 본 결과는 밸류노트에 정리해 두었어요. 궁금하시면 가볍게 들러 보셔도 좋겠습니다.</p>
+<p><br></p>
+<p><a href="https://www.valuenote.co.kr/c/brk-b?utm_source=naver&amp;utm_campaign=b261113f">밸류노트에서 버크셔 해서웨이 더 보기</a></p>
+<p><br></p>
+<p style="text-align:right"><b>— Luciano</b></p>
+<p><br></p>
+<p><span style="color:#888888;font-size:13px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 젠슨 황 사임과 임시 CEO는 엔비디아 8-K 공시(2026년 11월 12일), 주가는 모틀리풀·코인데스크(11월 12일), 지분·승계 관련 내용은 글로벌이코노믹·세계일보(11월 12일), 사임 배경은 알자지라(11월 12일), 한국 투자자 보유액은 한국예탁결제원 자료를 인용한 비즈워치(11월 9일), 버크셔 승계 과정은 버크셔 해서웨이 보도자료(2025년 5월 4일)·CNBC(2021년 5월 3일)·AP(2026년 9월 18일), 버크셔 주가와 에이블 서한은 모틀리풀·앙트레프레너를 참고했습니다. 그림: AI 일러스트. 이 글은 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><h2>태그</h2><div class="row"><div id="tags">#워렌버핏후계자 #워렌버핏 #그렉에이블 #버크셔해서웨이 #젠슨황사임 #엔비디아새CEO #콜레트크레스 #엔비디아 #승계계획 #버크셔주가 #엔비디아주가</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261113f/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261113f/01.png" download="valuenote-b261113f-1.png"><img src="https://www.valuenote.co.kr/naver/b261113f/01.png" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261113f/02.png" download="valuenote-b261113f-2.png"><img src="https://www.valuenote.co.kr/naver/b261113f/02.png" alt="사진 2" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261113f/03.jpg" download="valuenote-b261113f-3.jpg"><img src="https://www.valuenote.co.kr/naver/b261113f/03.jpg" alt="사진 3" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-13 10:50</b> · 작성</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 비 내리는 밤, 도시 불빛이 보이는 창가 앞에 비어 있는 가죽 의자]\n\n요약\n· 워렌 버핏 후계자 그렉 에이블은 2021년 처음 이름이 알려진 뒤 2026년 1월 버크셔 해서웨이 CEO가 됐습니다. 반면 엔비디아는 젠슨 황이 11월 12일 사임하자 그날 임시 CEO를 세웠고, 주가는 장중 14%까지 빠졌습니다.\n\n11월 12일 미국 장이 열리기 전, 엔비디아가 짧은 공시 하나를 냈습니다. 이사회가 젠슨 황의 사임을 받아들였다는 내용이었죠. CEO 자리도, 이사 자리도 그날 바로 내려놓는다고 했습니다.\n\n33년 동안 엔비디아의 유일한 CEO였던 사람이 하루아침에 떠난 겁니다. 빈 자리는 재무책임자 콜레트 크레스가 임시로 맡았습니다.\n\n엔비디아 주가는 장중 한때 14% 빠졌다가 4.3% 하락으로 마감했습니다.\n\n창업자가 떠나면 회사는 어떻게 될까요? 같은 질문에 5년 넘게 걸려 답한 회사가 있습니다. 워렌 버핏의 버크셔 해서웨이, 그리고 후계자 그렉 에이블입니다.\n\n■ 워렌 버핏 후계자 그렉 에이블, 5년에 걸쳐 자리를 넘겨받았다\n\n워렌 버핏 후계자 그렉 에이블의 이름이 처음 공개된 건 2021년 5월입니다. 주주총회에서 찰리 멍거가 '그렉이 문화를 지킬 것'이라고 말한 게 시작이었죠.\n\n버핏은 이틀 뒤 방송 인터뷰에서 이를 확인했습니다. 자신에게 무슨 일이 생기면 에이블이 회사를 맡는다고요. 그때 버핏은 90세였습니다.\n\n다음 단계는 2025년 5월 주주총회였습니다. 버핏은 그해 말 CEO에서 물러나겠다고 직접 말했어요. 이사회는 다음 날 만장일치로 에이블을 새해 첫날부터 CEO로 정했습니다.\n\n에이블은 예정대로 올해 1월 CEO가 됐습니다. 9월에는 버핏이 회장 자리까지 내려놓았고 오랫동안 이사로 있던 아들 하워드 버핏이 회장을 맡았죠.\n\n버핏은 그날 역할을 이렇게 나눴습니다. '회사는 그렉이 운영하고 하워드는 회사의 문화와 가치를 지킬 것'이라고요.\n\n이름 공개부터 회장 교체까지, 버크셔는 한 단계씩 매번 미리 알렸습니다. 주주가 갑자기 놀랄 일이 거의 없었던 겁니다.\n\n[사진: 후계자 공개부터 CEO 교체까지 걸린 시간]\n\n■ 버크셔 주가는 은퇴 발표 뒤 한 번 빠지고 다시 올랐다\n\n버크셔 주가도 흔들리긴 했습니다. 은퇴 발표 뒤 첫 거래일, 버크셔 B주(개인 투자자가 주로 사는 값이 낮은 주식)는 약 5% 빠졌어요. 같은 날 나온 이익 감소 소식도 겹쳤습니다.\n\n그다음 흐름이 중요합니다. 에이블이 CEO가 된 올해, 버크셔 B주는 11월 초까지 약 16% 올랐습니다. 이번 주엔 최근 1년 사이 가장 높은 가격 근처에서 거래됐죠.\n\n에이블은 2월 첫 주주 서한에서 버핏을 '뒤를 잇기 매우 어려운 사람'이라고 불렀습니다. 그러면서 회사 문화는 바뀌지 않는다고 적었어요. 거창한 새 전략 대신 '성장을 위한 성장이 아니라 규율'을 강조했고요.\n\n'버핏 없는 버크셔'라는 걱정은 하루에 몰려오지 않았습니다. 몇 년에 걸쳐 조금씩 나뉘어 왔고, 그때마다 주가가 한 번씩 흔들리고 넘어갔죠.\n\n■ 엔비디아는 젠슨 황 다음 사람을 정해 두지 않았다\n\n엔비디아는 사정이 정반대였습니다. 젠슨 황은 1993년 회사를 함께 세운 뒤 줄곧 CEO였어요. 회사 지분도 약 3.6%를 가진 개인 최대 주주입니다.\n\n엔비디아에는 공식 후계자가 없었습니다. 젠슨 황은 올해 3월 한 팟캐스트에서 승계 계획을 믿지 않는다고 말했어요. 여덟 달 뒤 그가 떠난 날, 회사 공시에 들어간 문장은 '정식 CEO를 찾고 있다'였습니다.\n\n엔비디아 이사회는 회사 안팎의 후보를 모두 보겠다고 했어요. 그때까지 크레스는 재무책임자 일과 CEO 일을 함께 맡습니다.\n\n[사진: 밤 도시 풍경이 보이는 빈 회의실, 긴 테이블 위에 서류 묶음이 놓여 있다]\n\n콜레트 크레스는 2013년 엔비디아에 들어왔습니다. 그 뒤 엔비디아 연 매출은 약 41억 달러에서 약 2,159억 달러로 커졌죠. 회사 숫자를 가장 잘 아는 사람인 건 분명합니다.\n\n다만 시장이 궁금한 건 숫자 너머입니다. 누가 다음 칩 전략을 정하고 누가 큰 고객사와 마주 앉느냐죠. 저는 이 질문에 답이 나오기 전까지 엔비디아 주가의 흔들림이 쉽게 멎지 않을 거라고 봅니다.\n\n■ 젠슨 황 사임, 한국 투자자 엔비디아 보유액은 19조 원대다\n\n젠슨 황 사임 소식이 한국에서도 크게 다뤄진 이유가 있습니다. 한국예탁결제원 자료로 11월 5일 기준 한국 투자자가 직접 가진 엔비디아 주식은 약 19조 7천억 원이에요.\n\n미국 주식 가운데 테슬라 다음으로 많습니다. ETF로 간접 보유한 몫은 여기에 빠져 있으니 실제로는 더 크죠.\n\n반도체 ETF를 가진 분, SK하이닉스를 가진 분도 이 뉴스와 거리가 멀지 않습니다. 엔비디아가 사는 메모리가 한국 반도체 회사들의 매출로 이어지니까요.\n\n■ 조금만 더 들어가 보면, 승계 계획\n\n투자자들이 회사를 볼 때 따로 챙기는 항목이 있습니다. 승계 계획은 CEO가 갑자기 떠나도 누가, 어떤 순서로 회사를 맡을지 미리 정해 둔 계획입니다.\n\n미국 상장사는 보통 이사회가 이 계획을 관리하고 후보 이름은 밝히지 않는 경우가 많습니다. 버크셔는 이름과 시점을 몇 년에 걸쳐 공개한 드문 경우예요. 엔비디아는 계획 자체를 두지 않은 쪽이었고요.\n\n한 줄로 말하면, 승계 계획은 창업자가 떠나는 날의 주가 충격을 미리 나눠서 치러 두는 장치입니다.\n\n■ 엔비디아 새 CEO와 버크셔 주가, 다음 갈림길은 실적과 서한이다\n\n엔비디아 임시 CEO의 첫 무대는 닷새 뒤, 미국 시각 11월 17일 3분기 실적 발표입니다. 한국 시각으로는 18일 새벽이죠. 이번엔 실적 숫자만큼, 설명회에서 누가 어떤 말을 하는지가 중요해졌습니다.\n\n길은 두 갈래입니다. 하나는 이사회가 정식 CEO를 빨리 정하고 실적도 기대만큼 나오는 경우예요. 그러면 버크셔처럼 걱정이 비교적 빨리 가라앉을 수 있습니다.\n\n다른 하나는 후보 찾기가 길어지는 경우입니다. 임시 체제가 길수록 큰 결정은 미뤄지기 쉽고 주가는 인사 뉴스 하나에도 더 크게 흔들릴 수 있어요.\n\n제가 보기에 버크셔가 보여 준 건 '뛰어난 후계자'보다 '미리 알린 후계자'의 힘입니다. 에이블이 버핏만큼 잘할지는 아무도 장담하지 못했어요. 그래도 누가, 언제 맡는지 알았기에 주가는 한 번 흔들리고 다시 섰습니다.\n\n엔비디아에서 가장 먼저 볼 것은 정식 CEO 이름이 언제 나오느냐입니다. 실적 발표 전후로 이름이 나온다면 회사를 이끌 사람이 비어 있다는 걱정은 그만큼 빨리 줄어듭니다.\n\n확인할 것은 세 가지입니다. 첫째, 18일 새벽 엔비디아의 다음 분기 매출 전망이 시장 기대를 넘는지입니다. 둘째, 이사회가 정식 CEO를 회사 안에서 고르는지 밖에서 데려오는지입니다.\n\n셋째, 버크셔는 내년 초 나올 에이블의 두 번째 주주 서한입니다. 버핏이 회장에서도 물러난 뒤 처음 쓰는 편지라, 쌓아 둔 현금을 어디에 쓸지에 대한 말이 나오는지 볼 만합니다.\n\n반도체 주식을 들고 계신다면 내 계좌에서 한 회사, 한 사람에게 기대는 몫이 얼마인지 세어 보세요. 같은 뉴스라도 계좌가 얼마나 흔들릴지는 그 비중이 정합니다.\n\n■ 자주 묻는 질문\n\nQ. 워렌 버핏 후계자는 누구인가요? 워렌 버핏 후계자는 그렉 에이블입니다. 에이블은 2026년 1월 1일 버크셔 해서웨이 CEO가 됐고 버핏은 9월 회장 자리도 아들 하워드 버핏에게 넘겼습니다.\n\nQ. 젠슨 황은 왜 사임했나요? 젠슨 황은 혼외 관계를 인정한 뒤 이사회 조사와 언론 보도가 이어지던 중 11월 12일 사임했습니다. 엔비디아는 공시에서 사임 이유를 따로 밝히지 않았습니다.\n\nQ. 엔비디아 새 CEO는 누구인가요? 엔비디아 임시 CEO는 재무책임자 콜레트 크레스입니다. 엔비디아 이사회는 회사 안팎에서 정식 CEO를 찾고 있습니다.\n\n같이 읽으면 좋은 글: 「엔비디아 주가 전망, 젠슨 황 해임설에 시간외 8% 급락한 이유」\n\n회사의 다음 사람은 결국 공시 한 줄로 나옵니다. 가진 회사가 있다면, 그 한 줄이 이미 나와 있는지 한 번 찾아보셔도 좋겠습니다.\n\n버핏이 떠난 뒤의 버크셔를 투자 거장들의 잣대로 다시 재 본 결과는 밸류노트에 정리해 두었어요. 궁금하시면 가볍게 들러 보셔도 좋겠습니다.\n\n밸류노트에서 버크셔 해서웨이 더 보기 https://www.valuenote.co.kr/c/brk-b?utm_source=naver&utm_campaign=b261113f\n\n— Luciano\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 젠슨 황 사임과 임시 CEO는 엔비디아 8-K 공시(2026년 11월 12일), 주가는 모틀리풀·코인데스크(11월 12일), 지분·승계 관련 내용은 글로벌이코노믹·세계일보(11월 12일), 사임 배경은 알자지라(11월 12일), 한국 투자자 보유액은 한국예탁결제원 자료를 인용한 비즈워치(11월 9일), 버크셔 승계 과정은 버크셔 해서웨이 보도자료(2025년 5월 4일)·CNBC(2021년 5월 3일)·AP(2026년 9월 18일), 버크셔 주가와 에이블 서한은 모틀리풀·앙트레프레너를 참고했습니다. 그림: AI 일러스트. 이 글은 Luciano가 작성했습니다.";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261113f", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
