@@ -43,7 +43,7 @@
    통과하면 6단계 insert 의 images 에 "qa_en": {"passed": true, "at": "<시각>"} 를 넣는다. 업로드 작업은 qa_en.passed 가 true 인 편만 올린다. 출고 검수 작업(매일 17:50·22:50)이 올리기 직전에 한 번 더 확인한다.
 6. 기록: 사용 기록 `python3 ../library.py check ../fx_<id>.json --record --ep=<id> --at="<칸 시각>"`(library_usage.jsonl 커밋). ed_posts insert — id `<id>`, kind 'reel_en', title, video_path `/docs/emperor/en/<id>_reels.mp4`, cover_path, scheduled_at(칸 시각), duration_sec, voice_qa(도장 값),
    ig_caption = 유튜브 설명(SHORTS_EN.md 8절: 첫 문장 키워드, 1~2줄 요약, "Subscribe for a new lesson from the Meditations every day.", 출처 한 줄, `#Shorts #Stoicism #MarcusAurelius #<주제>`),
-   to_ig/to_th false, ig/th/tt/ig_comment/yt_comment 상태 'skip: EN', images {"yt_tags":[…], "lang":"en", "channel":"@EmperorsDiary-en", "from":"<한국 편 id>"}.
+   to_ig/to_th false, ig/th/tt/ig_comment 상태 'skip: EN', ★ 2026-11-14 대표 "댓글도 잘 달아주고": yt_comment = 영어 질문 한 줄(한국 편 yt_comment 의 질문을 자연스러운 영어로) + "\n\nOne line from the Meditations, every day — The Emperor's Diary. Subscribe so tomorrow's line finds you.", yt_comment_status 'pending', images {"yt_tags":[…], "lang":"en", "channel":"@EmperorsDiary-en", "from":"<한국 편 id>"}.
    한 편이 실패해도 나머지는 계속, 실패는 docs alerts 'ed-en-<D>-<id>' 로 남긴다.
 
 ## B. 업로드 (예약 작업 "The Emperor's Diary (EN) 쇼츠 업로드", 매일 18:13 KST, 대표님 컴퓨터의 크롬)
@@ -54,4 +54,10 @@
    - 제목·설명(ig_caption)·썸네일(이미지 file input 에 images.yt_cover, 없으면 hook jpg)·"아동용 아님"·고급 설정의 "예, AI가 사용되었습니다"·태그(images.yt_tags)·동영상 언어 영어(미국).
    - 공개 상태: "예약" → scheduled_at 날짜·시각(한국 시간) → 예약. 공개 직전 20분 미만이면 바로 공개.
    - 완료 후 `update ed_posts set yt_video_id='<id>' where id='<post>'`.
-4. 탭 닫고 잠금 해제. 마지막 한 줄: "완료: 예약 <n>편" / "할 일 없음" / "실패: <원인>".
+   - ★ 2026-11-14 관련 동영상: 세부정보의 '관련 동영상'에 채널의 최신 롱폼(지금은 "3 Stoic Ways to BEAT Someone Who Betrayed You")을 고른다(대표 지시: 미국 쇼츠는 전부 롱폼으로 연결).
+3-1. ★ 2026-11-14 고정 댓글 (예약 공개 전에는 댓글을 달 수 없다 — 매 실행마다 이미 공개된 편을 처리):
+   `select id, yt_video_id, yt_comment from ed_posts where kind='reel_en' and yt_video_id is not null and scheduled_at < now() and coalesce(yt_comment_status,'') not in ('posted','done_manual') and yt_comment is not null`.
+   편마다 youtube.com/watch?v=<id> → 댓글 입력칸 아바타·이름이 @EmperorsDiary-en 인지 확인(아니면 youtube.com/channel_switcher 에서 The Emperor's Diary 선택) → 댓글 입력(빈 줄은 줄바꿈) → 올리기 → 그 댓글 ⋮ → 고정 → 확인.
+   고정 표시("@EmperorsDiary-en님이 고정함")를 확인한 뒤 `update ed_posts set yt_comment_status='posted' where id='<post>'`. 실패는 yt_comment_error 에 한 줄.
+   ※ 한국 채널(황제의일기)로 바꿔 둔 상태면 끝날 때 원래 채널로 되돌릴 필요는 없다 — 다음 작업이 시작할 때 각자 확인한다.
+4. 탭 닫고 잠금 해제. 마지막 한 줄: "완료: 예약 <n>편 · 댓글 <m>편" / "할 일 없음" / "실패: <원인>".
