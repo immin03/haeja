@@ -35,17 +35,25 @@ async function init(){
   window.ready=true;
 }
 init();
-function label(x,y,name,sub,a,big,side,dy){ dy=dy||0; y+=dy;
-  g.save(); g.globalAlpha=a; g.textBaseline='middle';
-  const fs=VERT?(big?66:56):(big?54:40), ss=VERT?(big?40:36):(big?28:24); g.font=`800 ${fs}px SUIT`;
-  const w=Math.max(g.measureText(name).width,(g.font=`600 ${ss}px SUIT`,g.measureText(sub).width));
-  let dx=side<0?-(w+70):34;
-  if(VERT){ y+=fs*1.6; dx=-w/2; if(x+dx<60) dx=60-x; if(x+dx+w>W-60) dx=W-60-w-x; }   // 세로판: 점 아래 가운데, 화면 밖으로 안 나가게
-  const bx=x+dx-18, by=y-fs*0.95, bw=w+36, bh=fs+ss+30;
-  g.fillStyle='rgba(11,27,51,0.78)'; g.strokeStyle=big?GOLD:'rgba(224,200,150,0.55)'; g.lineWidth=big?3:2;
-  g.beginPath(); g.roundRect(bx,by,bw,bh,14); g.fill(); g.stroke();
-  g.fillStyle=big?GOLD:IVORY; g.font=`800 ${fs}px SUIT`; g.fillText(name,x+dx,y-fs*0.28);
-  g.fillStyle='rgba(234,219,185,0.8)'; g.font=`600 ${ss}px SUIT`; g.fillText(sub,x+dx,y+fs*0.5);
+// 2026-11-13 대표: 지명 상자 안 글자(애플 등)가 위·왼쪽에 쏠려 아래·오른쪽 여백이 남음 → 실제 글자 잉크 높이로 재서
+// 위아래·좌우 여백을 같게, 상자는 점 높이에 세로 가운데, 점(맥동 고리)과 겹치지 않게 일정 간격
+const _LM={};
+function _ink(font){ if(_LM[font]) return _LM[font]; g.save(); g.font=font; const m=g.measureText('한국애플월가워싱턴');
+  const r={asc:m.actualBoundingBoxAscent, h:m.actualBoundingBoxAscent+m.actualBoundingBoxDescent}; g.restore(); return (_LM[font]=r); }
+function label(x,y,name,sub,a,big,side,dy){ dy=dy||0; y+=dy; sub=sub||'';
+  g.save(); g.globalAlpha=a; g.textBaseline='alphabetic'; g.textAlign='left';
+  const fs=VERT?(big?66:56):(big?54:40), ss=VERT?(big?40:36):(big?28:24);
+  const FN=`800 ${fs}px SUIT`, FS=`600 ${ss}px SUIT`, mN=_ink(FN), mS=_ink(FS);
+  g.font=FN; const wN=g.measureText(name).width; g.font=FS; const wS=sub?g.measureText(sub).width:0; const w=Math.max(wN,wS);
+  const px=Math.round(fs*(big?0.5:0.55)), py=Math.round(fs*(big?0.36:0.4)), gap=sub?Math.round(fs*0.3):0;
+  const bw=w+px*2, bh=py*2+mN.h+(sub?gap+mS.h:0), off=big?40:30;   // off: 점 중심 → 상자 가장자리 (맥동 고리 피함)
+  let bx=side<0?x-off-bw:x+off, by=y-bh/2;
+  if(VERT){ by=y+fs*0.9; bx=x-bw/2; if(bx<60) bx=60; if(bx+bw>W-60) bx=W-60-bw; }   // 세로판: 점 아래 가운데, 화면 밖으로 안 나가게
+  g.fillStyle='rgba(11,27,51,0.80)'; g.strokeStyle=big?GOLD:'rgba(224,200,150,0.55)'; g.lineWidth=big?3:2;
+  g.beginPath(); g.roundRect(bx,by,bw,bh,Math.round(fs*0.28)); g.fill(); g.stroke();
+  const tx=bx+px, ny=by+py+mN.asc;
+  g.fillStyle=big?GOLD:IVORY; g.font=FN; g.fillText(name,tx,ny);
+  if(sub){ g.fillStyle='rgba(234,219,185,0.82)'; g.font=FS; g.fillText(sub,tx,by+py+mN.h+gap+mS.asc); }
   g.restore();
 }
 // mode: 'open' (한국 가까이 → 지구 전체), 'hook' (사건 4곳 → 현대차로 연결), 'map' (전부 연결된 채 천천히 회전)

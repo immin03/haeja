@@ -793,15 +793,16 @@ def end_page(v, lines, fill, V, at_time):
     # → 인사 제목·점선 칸·'함께 보면 좋은 영상' 글씨를 그리지 않는다. 왼쪽엔 [다음 영상 한 줄 · 버튼 세 개 · 질문]만, 오른쪽은 비워 두고 업로드 때 유튜브 '동영상' 요소만 얹는다.
     if v.get("dark_end"):   # 2026-11-10 대표님: 끝 화면은 노트 대신 새 채널 배너 톤 — 차별화된 분석 · 기업 이해 · 투자가 달라진다
         IV = (246, 241, 232); GD = (236, 217, 180); X0 = 130
+        Y0 = 292   # 2026-11-13 대표: 문구 묶음 전체가 아래로 쏠림 → 화면 세로 가운데로 (372 → 292, 버튼 아래 끝 782 · 묶음 중심 약 537)
         # 2026-11-12 대표님: 금·금리 같은 거시 주제는 "거시적 관점을 가지면, 투자가 달라집니다" — 원고 v.slogan 으로 바꿀 수 있게
         sl = v.get("slogan") or ["기업을 이해하면,", "투자가 달라집니다", "스토리와 숫자로 기업의 내재 가치를 짚어 드립니다"]
-        B = [dict(kind="print", text="차별화된 분석을 전하는 경제·투자 채널", x=X0, y=372, size=40, w="SemiBold", color=GD, t=S0),
-             dict(kind="print", text=sl[0], x=X0, y=434, size=96, w="ExtraBold", color=IV, t=S0 + .25),
-             dict(kind="print", text=sl[1], x=X0, y=556, size=96, w="ExtraBold", color=GD, t=S0 + .55),
-             dict(kind="print", text=sl[2], x=X0, y=690, size=38, w="Medium", color=IV, t=S0 + .85)]
+        B = [dict(kind="print", text="차별화된 분석을 전하는 경제·투자 채널", x=X0, y=Y0, size=40, w="SemiBold", color=GD, t=S0),
+             dict(kind="print", text=sl[0], x=X0, y=Y0 + 62, size=96, w="ExtraBold", color=IV, t=S0 + .25),
+             dict(kind="print", text=sl[1], x=X0, y=Y0 + 184, size=96, w="ExtraBold", color=GD, t=S0 + .55),
+             dict(kind="print", text=sl[2], x=X0, y=Y0 + 318, size=38, w="Medium", color=IV, t=S0 + .85)]
         wds = (250, 260, 300); gap = 24; px = X0
         for i, kind in enumerate(("sub", "like", "bell")):
-            B.append(dict(kind="pill", which=kind, x=px, y=770, w=wds[i], h=92, t=S0 + 1.2 + .28 * i)); px += wds[i] + gap
+            B.append(dict(kind="pill", which=kind, x=px, y=Y0 + 398, w=wds[i], h=92, t=S0 + 1.2 + .28 * i)); px += wds[i] + gap
         return B
     B = []
     if v.get("note"):   # 마무리 질문(댓글 유도) 한 줄이 엔딩 화면이 열리자마자 먼저 — 빈 화면 없이
