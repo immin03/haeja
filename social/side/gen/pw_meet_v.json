@@ -1,0 +1,33 @@
+{
+ "id": "pw_meet_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 4,
+  "resolution": "480p",
+  "prompt": "The manager raises his hand firmly to cut him off; the man stops speaking and slowly lowers his paper, his face stiffening. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d580-2f33-73ab-8d05-c981544522f1/830779fa-b4ea-4872-b087-acd992291e3e.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d583-f6e4-7efb-9757-358b3cfc91b8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d583-f6e4-7efb-9757-358b3cfc91b8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d583-f6e4-7efb-9757-358b3cfc91b8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.24,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d583-f6e4-7efb-9757-358b3cfc91b8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d583-f6e4-7efb-9757-358b3cfc91b8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d583-f6e4-7efb-9757-358b3cfc91b8/cancel",
+  "expires_at": "2026-11-20T15:27:30.730417+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d583-f6e4-7efb-9757-358b3cfc91b8/bc57fc79-d507-4001-9c90-40371becca42.mp4"
+  }
+ },
+ "seconds": 6,
+ "file": "social/side/gen/pw_meet_v.mp4"
+}

@@ -1,0 +1,33 @@
+{
+ "id": "st3_move",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "a Korean office worker in her mid-thirties, shoulder-length black hair, beige cardigan over a white blouse carrying two heavy cardboard moving boxes up an apartment stairwell, tired but smiling, a friend walking ahead empty-handed. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5b3-1c33-7581-a2ff-61cfa940aac7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5b3-1c33-7581-a2ff-61cfa940aac7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5b3-1c33-7581-a2ff-61cfa940aac7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5b3-1c33-7581-a2ff-61cfa940aac7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5b3-1c33-7581-a2ff-61cfa940aac7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5b3-1c33-7581-a2ff-61cfa940aac7/cancel",
+  "expires_at": "2026-11-20T16:17:42.561329+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5b3-1c33-7581-a2ff-61cfa940aac7/1d7219aa-0a68-42b6-b2c3-e65315868ec7.png"
+   }
+  ]
+ },
+ "seconds": 6,
+ "file": "social/side/gen/st3_move.png"
+}

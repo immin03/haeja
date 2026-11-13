@@ -1,0 +1,33 @@
+{
+ "id": "pw_desk_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "He sits down calmly and opens the notebook; sunlight brightens a little. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d582-03e0-77d3-a67b-7e2e789d13fa/4b194c5b-11d3-44dc-9e91-bb064eee5278.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d585-6ee0-7b95-b788-61c2319b4cc2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d585-6ee0-7b95-b788-61c2319b4cc2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d585-6ee0-7b95-b788-61c2319b4cc2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d585-6ee0-7b95-b788-61c2319b4cc2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d585-6ee0-7b95-b788-61c2319b4cc2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d585-6ee0-7b95-b788-61c2319b4cc2/cancel",
+  "expires_at": "2026-11-20T15:29:56.642217+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d585-6ee0-7b95-b788-61c2319b4cc2/aee25ec5-abdb-45f2-9c0c-7db0d224f45d.mp4"
+  }
+ },
+ "seconds": 6,
+ "file": "social/side/gen/pw_desk_v.mp4"
+}

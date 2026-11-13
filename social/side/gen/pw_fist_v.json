@@ -1,0 +1,33 @@
+{
+ "id": "pw_fist_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "His hand slowly clenches into a tight fist. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d580-2db6-7c7d-a448-17add2e5951d/581f43b2-efef-4977-bdc9-a6528baadeda.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d583-f6dc-7ab2-9c43-ca0b17323e8b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d583-f6dc-7ab2-9c43-ca0b17323e8b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d583-f6dc-7ab2-9c43-ca0b17323e8b/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d583-f6dc-7ab2-9c43-ca0b17323e8b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d583-f6dc-7ab2-9c43-ca0b17323e8b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d583-f6dc-7ab2-9c43-ca0b17323e8b/cancel",
+  "expires_at": "2026-11-20T15:27:58.340286+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d583-f6dc-7ab2-9c43-ca0b17323e8b/4d07b83c-3fec-4af9-a63e-8eabc2f2ee35.mp4"
+  }
+ },
+ "seconds": 6,
+ "file": "social/side/gen/pw_fist_v.mp4"
+}
