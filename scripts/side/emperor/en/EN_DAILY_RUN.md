@@ -15,6 +15,7 @@
 제작 작업이 D 날 낮에 세 편을 만들고, 업로드 작업이 D 날 저녁 전에 세 편을 스튜디오 예약 게시로 올린다.
 
 ## A. 제작 (예약 작업 "The Emperor's Diary (EN) 쇼츠 제작", 매일 13:41 KST)
+- ★ 2026-11-14 음악: 한국 편의 music 을 그대로 복사하지 말고 TEMPLATE.md 음악 규칙(miss-you / we-ll-be-okay / i-believe-2)을 따른다. classical-7 금지(단조·음산).
 0. 빈 칸 확인: `select id, scheduled_at from ed_posts where kind='reel_en' and scheduled_at >= '<D> 21:00+09' and scheduled_at < '<D+1> 12:00+09'`. 이미 찬 칸은 건너뛴다. 셋 다 차 있으면 끝.
 1. 소재 고르기: 한국 채널 쇼츠(ed_posts kind='reel', id like 'ep%')를 유튜브 반응 순으로(ed_stats platform 'youtube' 최신 views, 같으면 likes) 줄 세우고, `images->>'from'` 으로 이미 영어판을 만든 편은 뺀다. 위에서부터 빈 칸 수만큼 고른다.
 2. 대본(영어로 새로 쓴다, 번역 아님 — SHORTS_EN.md 1·2·8절):

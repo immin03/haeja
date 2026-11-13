@@ -130,8 +130,8 @@
 ## 고정값
 - 성우: Typecast 건석 tc_6731b2e0855f351b98d30c48, tonedown, tempo 1.0 (두 테이크 받아 쉼이 또렷한 쪽)
 - 글꼴: Hahmlet 600 / Cormorant SC / Pretendard SemiBold, 아이보리 톤
-- 음악 3곡 돌려쓰기 (편 번호 % 3): 1 miss-you(시작 19.5s) → 2 classical-7(91s) → 0 secret-garden(97s), 내레이션 아래 bed 0.30
-- ★ 2026-11-09 secret-garden 은 57초 미만 편에만 (ep18 63초가 RouteNote 'You Called Me' 소유권 주장으로 전 세계 차단됨. 유튜브는 1분 넘는 쇼츠에 주장이 걸리면 정책과 상관없이 차단). 57초 이상 칸이 secret-garden 차례면 classical-7 또는 miss-you 로 바꾼다. build_long.py 가 어기면 멈춤
+- ★ 2026-11-14 대표 "음악이 다 음산하다" → 음악 3곡 돌려쓰기 (편 번호 % 3): 1 miss-you(시작 19.5s) → 2 we-ll-be-okay(0s) → 0 i-believe-2(0s). 셋 다 장조·따뜻한 곡(분석: 장조 +0.22/+0.36/+0.28). classical-7(단조)·secret-garden(단조·소유권 주장)·cinematic/dramatic/sad 계열은 쓰지 않는다. 영어 쇼츠도 같은 규칙. 내레이션 아래 bed 0.17~0.22 그대로
+- ★ 2026-11-09 secret-garden 은 57초 미만 편에만 (ep18 63초가 RouteNote 'You Called Me' 소유권 주장으로 전 세계 차단됨. 유튜브는 1분 넘는 쇼츠에 주장이 걸리면 정책과 상관없이 차단). (옛 규칙) 57초 이상 칸이 secret-garden 차례면 classical-7 또는 miss-you 로 바꾼다. build_long.py 가 어기면 멈춤
 - '출근' 같은 현대 표현 금지 → "일을 시작하기 전에" 등
 
 ## 양식·음성·믹스 (2026-11-04 대표 확정)
