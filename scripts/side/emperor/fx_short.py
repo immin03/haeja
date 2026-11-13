@@ -188,8 +188,8 @@ def outro2(u):
     if u < 0.95:
         hx = cx + Rr * math.cos(math.radians(-90 + ang)); hy = cy + Rr * math.sin(math.radians(-90 + ang)); rd.ellipse([hx - 14, hy - 14, hx + 14, hy + 14], fill=(255, 236, 190, 220))
     lay.alpha_composite(ring.filter(ImageFilter.GaussianBlur(8))); lay.alpha_composite(ring)
-    ct(700, R.TXT["slogan1"], R.font("sub"), LG, ease((u - OUT_T[0]) / 0.5))
-    ct(776, R.TXT["slogan2"], R.font("slogan"), LG_HI, ease((u - OUT_T[1]) / 0.6))
+    ct(700, R.TXT["slogan1"], R.ofont("sub"), LG, ease((u - OUT_T[0]) / 0.5))
+    ct(776, R.TXT["slogan2"], R.ofont("slogan"), LG_HI, ease((u - OUT_T[1]) / 0.6))
     a3 = ease((u - OUT_T[2]) / 0.5)
     if a3 > 0:
         R._glint_line(d, lay, W / 2, 960, 120, a3, u)
@@ -201,14 +201,14 @@ def outro2(u):
     if ab > 0:
         # 11/5 대표: 실제 행동을 이끄는 한 줄 — "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."
         # 11/9 대표: 안내 글과 아이콘 사이가 좁음 → 글을 20px 올리고 아이콘을 55px 내림 (간격 약 32 → 약 107px)
-        ct(1110, R.TXT["thanks1"].format(s=(R.TXT["follow"] if PLAT == "reels" else R.TXT["sub"]).lower() if R.LANG == "en" else (R.TXT["follow"] if PLAT == "reels" else R.TXT["sub"])), R.font("small"), (222, 196, 140), ab)
-        ct(1168, R.TXT["thanks2"], R.font("small"), (222, 196, 140), ab)
+        ct(1110, R.TXT["thanks1"].format(s=(R.TXT["follow"] if PLAT == "reels" else R.TXT["sub"]).lower() if R.LANG == "en" else (R.TXT["follow"] if PLAT == "reels" else R.TXT["sub"])), R.ofont("small"), (222, 196, 140), ab)
+        ct(1168, R.TXT["thanks2"], R.ofont("small"), (222, 196, 140), ab)
         items = [("like", R.TXT["like"]), ("follow", R.TXT["follow"]) if PLAT == "reels" else ("bell", R.TXT["sub"]), ("share", R.TXT["share"])]
         for k2, (kind, lab) in enumerate(items):
             ak = ease((u - OUT_T[3] - 0.1 - k2 * 0.15) / 0.4); bx = W / 2 - 290 + k2 * 290; by = 1385 + int((1 - ak) * 14)
             sp = R.cta_sprite(kind); sp2 = sp.copy(); sp2.putalpha(sp.split()[3].point(lambda v: int(v * ak)))
             lay.alpha_composite(sp2, (int(bx - sp.width / 2), int(by - sp.height / 2)))
-            f = R.font("cta"); w = d.textlength(lab, font=f); d.text((bx - w / 2, by + 112), lab, font=f, fill=LG_HI + (int(240 * ak),))
+            f = R.ofont("cta"); w = d.textlength(lab, font=f); d.text((bx - w / 2, by + 112), lab, font=f, fill=LG_HI + (int(240 * ak),))
     img.alpha_composite(lay); return img
 t = END
 while t < TOT:
@@ -226,12 +226,12 @@ while t < TOT:
         img.alpha_composite(Image.new("RGBA", (W, H), R.BG + (int(220 * ease2(u / 0.9)),)))
         lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
         write_line(d, lay, 640, E["kicker"], "sub", ease2((t - T_K[0] + .1) / (T_K[1] - T_K[0])), R.GOLD)
-        y = 730; lh = int(R.font("endbig").size * R.LH["endbig"])
+        y = 730; lh = int(R.ofont("endbig").size * R.LH["endbig"])
         for ln, (a0, a1) in zip(E["lines"], T_L):
             write_line(d, lay, y, ln, "endbig", ease2((t - a0 + .1) / (a1 - a0)), R.IVORY); y += lh
         sa = ease((t - T_L[-1][1] - .2) / .5)
         if sa > 0:
-            f = R.font("small"); w = d.textlength(E["source"], font=f); d.text(((W - w) / 2, y + 110), E["source"], font=f, fill=R.DIM + (int(255 * sa),))
+            f = R.ofont("small"); w = d.textlength(E["source"], font=f); d.text(((W - w) / 2, y + 110), E["source"], font=f, fill=R.DIM + (int(255 * sa),))
         q = ease2((t - (OS - 1.15)) / 1.15)
         if q > 0:
             a = np.array(lay); a[..., 3] = (a[..., 3] * (1 - q)).astype(np.uint8); lay = Image.fromarray(a)

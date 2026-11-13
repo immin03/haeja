@@ -43,6 +43,12 @@ if LANG == "en":
                   "quote": (EF + "EBGaramond-MediumItalic.ttf", 72), "endbig": (EF + "EBGaramond-Medium.ttf", 62),
                   "slogan": (EF + "EBGaramond-MediumItalic.ttf", 80), "sub": (EF + "EBGaramond-Medium.ttf", 40), "kicker": (EF + "Cinzel-SemiBold.ttf", 40),
                   "src": (EF + "Cinzel-SemiBold.ttf", 28), "cta": (EF + "EBGaramond-Medium.ttf", 34), "small": (EF + "EBGaramond-Medium.ttf", 36)})
+    OFONTS = dict(FONTS)   # 엔딩(슬로건·버튼) 화면은 기준 엔딩(en05b)과 똑같이 둔다 — 출고 검수(qa_en)가 엔딩을 기준과 비교함
+    # 2026-11-13 21:57 대표(en02 화면): "자막이 너무 작게 보여, 텍스트 전부 조금 더 키워" → 영어 쇼츠 글자 전부 약 20~35% 키움. 한 줄이 화면을 넘으면 그 줄만 자동으로 줄인다(fit_font)
+    FONTS.update({"hook": (EF + "Cinzel-SemiBold.ttf", 98), "big": (EF + "EBGaramond-SemiBold.ttf", 94), "cap": (EF + "EBGaramond-Medium.ttf", 72),
+                  "quote": (EF + "EBGaramond-MediumItalic.ttf", 86), "endbig": (EF + "EBGaramond-Medium.ttf", 74),
+                  "slogan": (EF + "EBGaramond-MediumItalic.ttf", 88), "sub": (EF + "EBGaramond-Medium.ttf", 54), "kicker": (EF + "Cinzel-SemiBold.ttf", 48),
+                  "src": (EF + "Cinzel-SemiBold.ttf", 34), "cta": (EF + "EBGaramond-Medium.ttf", 40), "small": (EF + "EBGaramond-Medium.ttf", 44)})
     TXT.update({"slogan1": "Every night,", "slogan2": "think like an emperor", "brand": "The Emperor's Diary", "lead": "If this line stayed with you",
                 "like": "Like", "sub": "Subscribe", "follow": "Follow", "share": "Share",
                 "thanks1": "A like and a {s}", "thanks2": "keep these coming. Thank you.", "tonight": "TONIGHT'S TASK"})
@@ -91,6 +97,23 @@ def font(style):
 def ease(x): return 0 if x <= 0 else 1 if x >= 1 else 1 - (1 - x) ** 3
 
 
+def ofont(st):
+    """엔딩 화면 전용 글꼴(영어판은 11/13 이전 크기 그대로)"""
+    if LANG == "en" and "OFONTS" in globals():
+        p, sz = OFONTS[st]; return ImageFont.truetype(p, sz)
+    return font(st)
+
+
+def fit_font(d, txt, f, maxw):
+    """2026-11-13: 글자를 키운 뒤 긴 줄이 화면 밖으로 나가지 않게 그 줄만 줄인다"""
+    if d.textlength(txt, font=f) <= maxw: return f
+    sz = f.size
+    while sz > 24:
+        sz -= 2; g = ImageFont.truetype(f.path, sz)
+        if d.textlength(txt, font=g) <= maxw: return g
+    return g
+
+
 def draw_block(img, blocks, t, top=250, x0=96):
     """blocks: 같은 컷 안의 글 묶음들. 위에서부터 차례로 쌓는다. 각 묶음은 t0에 0.35초 동안 떠오른다."""
     layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
@@ -105,13 +128,14 @@ def draw_block(img, blocks, t, top=250, x0=96):
         dy = int((1 - a) * 18)
         for ln in b["lines"]:
             col = COLOR[st] + (int(255 * a),)
+            f0 = f; f = fit_font(d, ln, f, (W - x0 - 56) if THEME.get("align") != "center" else (W - 112))
             cx = x0 if THEME.get("align") != "center" else (W - d.textlength(ln, font=f)) / 2
             if st == "quote" and THEME.get("align") != "center":  # 원문 앞 금색 세로선
                 d.rectangle([x0 - 34, y + 10 + dy, x0 - 28, y + lh - 6 + dy], fill=COLOR["sub"] + (int(255 * a),))
             # 글자 그림자(가독성) — B(밝은 판)는 그림자 없음
             if THEME.get("shadow", 1): d.text((cx + 2, y + dy + 3), ln, font=f, fill=(0, 0, 0, int(150 * a)))
             d.text((cx, y + dy), ln, font=f, fill=col)
-            y += lh
+            f = f0; y += lh
         y += b.get("after", 18)
     img.alpha_composite(layer)
 
@@ -129,11 +153,12 @@ def draw_caps(img, caps, t, y0=1150):
             wmax = max(d.textlength(ln, font=f) for ln in c["lines"])
             d.rounded_rectangle([(W - wmax) / 2 - 34, y - 18, (W + wmax) / 2 + 34, y + n * lh + 6], 26, fill=(246, 239, 226, int(225 * a)))
         for ln in c["lines"]:
-            w = d.textlength(ln, font=f); x = (W - w) / 2
+            fl = fit_font(d, ln, f, W - 112)   # 11/13: 키운 글자가 넘치면 그 줄만 줄임
+            w = d.textlength(ln, font=fl); x = (W - w) / 2
             if THEME.get("name") == "B":
-                d.text((x, y), ln, font=f, fill=THEME["ink"] + (int(255 * a),)); y += lh; continue
-            for dx, dy in ((0, 3), (2, 2), (-2, 2)): d.text((x + dx, y + dy), ln, font=f, fill=(0, 0, 0, int(170 * a)))
-            d.text((x, y), ln, font=f, fill=COLOR["cap"] + (int(255 * a),)); y += lh
+                d.text((x, y), ln, font=fl, fill=THEME["ink"] + (int(255 * a),)); y += lh; continue
+            for dx, dy in ((0, 3), (2, 2), (-2, 2)): d.text((x + dx, y + dy), ln, font=fl, fill=(0, 0, 0, int(170 * a)))
+            d.text((x, y), ln, font=fl, fill=COLOR["cap"] + (int(255 * a),)); y += lh
     img.alpha_composite(layer)
 
 
@@ -161,7 +186,7 @@ def top_shade(img, h=980, strength=200):
 def watermark(img, a=0.55):
     """처음 화면·오늘 밤 할 일 화면 공통: 같은 글꼴·같은 위치(H-330)"""
     d = ImageDraw.Draw(img)
-    f = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 34)
+    f = ImageFont.truetype(F + "CormorantSC-SemiBold.ttf", 34 if LANG != "en" else 44)   # 11/13 영어판 키움
     txt = "THE EMPEROR'S DIARY"
     w = d.textlength(txt, font=f)
     yy = H - 110 if THEME.get("name") == "C" else H - 330
