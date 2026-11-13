@@ -63,7 +63,7 @@ def png(lines, path, kind="cap"):
         im.paste((0, 0, 0, 255), (0, 0), g); y = 150
         for l in D["bar"]:
             f = F((88 if max(len(x) for x in D["bar"]) <= 15 else 78) if EN else (94 if max(len(x) for x in D["bar"]) <= 10 else 84)); w = d.textlength(l, font=f); d.text(((W - w) / 2, y), l, font=f, fill=IV); y += 116
-        fs = F(50, "ExtraBold") if EN else F(64, "Bold"); s = LABEL; w = d.textlength(s, font=fs); cy = y + 12 + int(fs.size * 0.62); d.text(((W - w) / 2, y + 12), s, font=fs, fill=CH)
+        fs = F(58, "ExtraBold") if EN else F(64, "Bold"); s = LABEL; w = d.textlength(s, font=fs); cy = y + 12 + int(fs.size * 0.62); d.text(((W - w) / 2, y + 12), s, font=fs, fill=CH)
         L = min(90, (W - w) / 2 - 60)
         if L > 30: d.line([(W / 2 - w / 2 - 24 - L, cy), (W / 2 - w / 2 - 24, cy)], fill=CH, width=3); d.line([(W / 2 + w / 2 + 24, cy), (W / 2 + w / 2 + 24 + L, cy)], fill=CH, width=3)
         im.save(path); return
