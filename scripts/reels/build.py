@@ -42,7 +42,7 @@ def main(only=None):
             try:
                 sec = engine.render(sp, d)
             except Exception as e:   # 한 편이 실패해도(앱 화면 글자 못 찾음 등) 나머지 릴스는 계속 렌더한다
-                print("  ✗", e); failed.append(sp["id"]); continue
+                import traceback; traceback.print_exc(); print("  ✗", e); failed.append(sp["id"]); continue
             open(mark, "w").write(h)
             print(f"  {sec:.1f}초")
         if not os.path.exists(os.path.join(d, "reel.mp4")): continue
