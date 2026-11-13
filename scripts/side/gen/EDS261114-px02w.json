@@ -1,0 +1,140 @@
+[
+ {
+  "id": "pw_meet",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "In a small corporate meeting room, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie has just stood up holding a paper, mouth open mid-sentence, while a stern American manager in his fifties across the table raises his open hand to stop him. Two colleagues at the side glance away. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_meet_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/pw_meet.jpeg",
+  "body": {
+   "duration": 4,
+   "resolution": "480p",
+   "prompt": "The manager raises his hand firmly to cut him off; the man stops speaking and slowly lowers his paper, his face stiffening. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "pw_smirk",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "In an office meeting room, two American colleagues in their thirties, a man and a woman, sitting at the table turn their heads toward each other and smirk, one covering her mouth with her hand; an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie stands blurred in the foreground edge. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_smirk_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/pw_smirk.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The two colleagues turn to each other and smirk; one covers her mouth. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "pw_bed",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Late at night in a dark small city apartment bedroom, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie, glasses on the bedside table, lies on his back in bed wide awake staring at the ceiling, faint cold blue light from the window across his face. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_bed_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/pw_bed.jpeg",
+  "body": {
+   "duration": 4,
+   "resolution": "480p",
+   "prompt": "The man blinks slowly, exhales, and turns his head toward the window; the blue light shifts slightly. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "pw_fist",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Close-up in a dark bedroom at night, the hand of an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie resting on the blanket, faint blue window light on his knuckles, his tense face softly visible behind. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_fist_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/pw_fist.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "His hand slowly clenches into a tight fist. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "pw_elev",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Morning in a steel office elevator, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie stands alone holding a paper coffee cup, shoulders dropped, eyes down, the doors closing in front of him. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_mirror",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "In a dim office restroom, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie looks into the mirror; his reflection's face is twisted with anger while his real face is tired. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_puppet",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Symbolic image: the hands of an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie hanging from thin golden puppet strings that rise up into the dark, his face looking up at the strings. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_puppet_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/pw_puppet.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The strings tug once and his hands jerk upward. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "pw_desk",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Bright clear morning sunlight through tall office windows, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie sits down at his desk, calm, opening a notebook, colleagues blurred in the background. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "pw_desk_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/pw_desk.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "He sits down calmly and opens the notebook; sunlight brightens a little. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ }
+]
