@@ -1,0 +1,100 @@
+[
+ {
+  "id": "sw2_brag",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "At a American restaurant dinner table with plates and glasses, a loud American man in his forties in a loosened tie boasts with a raised glass and a wide grin, colleagues around him look tired and bored. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw2_brag_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw2_brag.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The boasting man waves his glass and laughs loudly; the others glance away. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw2_listen",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "At the same dinner table, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie sits quietly listening with a small calm smile, holding a glass of water, warm restaurant light. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw2_listen_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw2_listen.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "He listens quietly and gives a small nod. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw2_deal",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "In a bright office, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie shakes hands with a client across a table with a signed contract on it, both standing. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw2_deal_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw2_deal.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The two men shake hands firmly over the contract. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw2_doubt",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Three American office workers sitting with crossed arms and skeptical narrowed eyes, looking at someone off-frame who is talking; dim meeting room. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw2_lips",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie closing a leather notebook with one hand and raising a finger to his lips with a faint smile, lamp light at night. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw2_lips_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw2_lips.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "He closes the notebook and raises a finger to his lips. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw2_night",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie alone at his desk late at night working with focus under a single desk lamp, the rest of the office dark. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ }
+]

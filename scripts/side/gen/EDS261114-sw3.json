@@ -1,0 +1,120 @@
+[
+ {
+  "id": "sw3_yes",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "In an office, an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse smiles and accepts a tall stack of folders that a colleague is handing over to her, her own desk already full. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw3_yes_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw3_yes.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The colleague drops the stack of folders into her arms; she keeps smiling. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw3_move",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse carrying two heavy cardboard moving boxes up an apartment stairwell, tired but smiling, a friend walking ahead empty-handed. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw3_sick",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse lying sick in bed under a blanket in a dim small apartment, a silent dark phone lying on the blanket beside her hand. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw3_sick_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw3_sick.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "She turns her head to look at the silent phone, then looks away. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw3_think",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse sitting on the edge of her bed at night hugging her knees, looking at the floor, faint blue window light. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw3_avoid",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse standing in an office corridor while several colleagues walk away from her with their backs turned, she watches them go. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw3_avoid_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw3_avoid.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The colleagues walk away down the corridor; she stays still. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw3_no",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse gently raising one open hand and shaking her head with a calm kind smile toward a colleague holding out a stack of folders. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw3_no_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw3_no.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "She raises her hand gently and shakes her head with a calm smile. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "sw3_peace",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse walking out of an office building into warm morning sunlight, relaxed shoulders, a light smile. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "sw3_peace_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/sw3_peace.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "She walks forward into the sunlight and looks up. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ }
+]
