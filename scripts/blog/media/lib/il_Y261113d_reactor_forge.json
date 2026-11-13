@@ -1,0 +1,33 @@
+{
+ "id": "il_Y261113d_reactor_forge",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Vertical 9:16 composition with the main subject in the middle third. Scene: A massive glowing red-hot steel forging for a nuclear reactor vessel being shaped in a dark forge shop, huge hydraulic press, orange sparks and steam, workers in silver protective suits seen from behind.",
+  "aspect_ratio": "9:16"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d375-876b-7430-9b1d-d8e5d7fb05d6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d375-876b-7430-9b1d-d8e5d7fb05d6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d375-876b-7430-9b1d-d8e5d7fb05d6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d375-876b-7430-9b1d-d8e5d7fb05d6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d375-876b-7430-9b1d-d8e5d7fb05d6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d375-876b-7430-9b1d-d8e5d7fb05d6/cancel",
+  "expires_at": "2026-11-20T05:51:05.204425+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d375-876b-7430-9b1d-d8e5d7fb05d6/5b6c154b-2efe-475b-ba97-7c10e970f57a.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_Y261113d_reactor_forge.png"
+}
