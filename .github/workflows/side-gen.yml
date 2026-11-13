@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
         with: { fetch-depth: 2 }
       - name: 시작 시각 표시 (실패 시 새 파일만 골라 백업)
-        run: touch /tmp/t0
+        run: touch -d '-1 minute' /tmp/t0
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - name: 도구
@@ -58,25 +58,18 @@ jobs:
         run: python3 scripts/side/gen.py ${{ steps.pick.outputs.files }}
       - name: 커밋 (이미지가 올라가야 영상 입력 주소가 생긴다)
         run: |
-          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
-          git add -A social/side; git diff --cached --quiet && exit 0
-          git commit -qm "사이드 채널 생성물 $(TZ=Asia/Seoul date '+%F %H:%M')"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
+          bash scripts/side/commit_new.sh "사이드 채널 생성물 $(TZ=Asia/Seoul date '+%F %H:%M')"
       - name: 2차 생성 (영상)
         if: steps.pick.outputs.files != ''
         run: python3 scripts/side/gen.py ${{ steps.pick.outputs.files }}
       - name: 커밋
         run: |
-          git add -A social/side; git diff --cached --quiet && exit 0
-          git commit -qm "사이드 채널 생성물(영상) $(TZ=Asia/Seoul date '+%F %H:%M')"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
+          bash scripts/side/commit_new.sh "사이드 채널 생성물(영상) $(TZ=Asia/Seoul date '+%F %H:%M')"
       - name: 황제의 일기 라이브러리 목록 갱신 (ED 작업일 때)
         if: contains(steps.pick.outputs.files, 'ED')
         run: |
           python3 scripts/side/emperor/library.py build || exit 0
-          git add scripts/side/emperor/LIBRARY.json social/side/gen_costs.jsonl 2>/dev/null; git diff --cached --quiet && exit 0
-          git commit -qm "황제의 일기 라이브러리 목록 갱신 $(TZ=Asia/Seoul date '+%F %H:%M')"
-          for i in 1 2 3 4 5 6 7 8; do timeout 300 git pull --rebase -X theirs -q && timeout 300 git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i*10)); done; exit 1
+          bash scripts/side/commit_new.sh "황제의 일기 라이브러리 목록 갱신 $(TZ=Asia/Seoul date '+%F %H:%M')"
       - name: 커밋 실패·시간 초과 대비 — 이번 실행에서 새로 생긴 파일 모으기
         if: failure() || cancelled()
         run: mkdir -p /tmp/rescue && find social/side scripts/side/emperor -type f -newer /tmp/t0 -exec cp --parents {} /tmp/rescue/ \; || true
