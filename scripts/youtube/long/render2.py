@@ -1797,7 +1797,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             bars = max(bars, amt)
             if bars < 1:
                 a_ = 1 - bars; d.rectangle([0, 0, W, 5], fill=(30, 24, 18, int(160 * a_))); d.rectangle([0, 0, int(W * (x["start"] + u) / total), 5], fill=(*GOLD, int(255 * a_)))
-                if RM and IDK is not None and k > IDK and typ != "end":
+                if RM and (k > IDK if IDK is not None else x["start"] + u >= RM[0][0] - .01) and typ != "end":
                     tn = x["start"] + u; ci_ = max([j for j, (t_, _) in enumerate(RM) if t_ <= tn + .01], default=-1)
                     for t_, _ in RM: d.rectangle([int(W * t_ / total) - 1, 0, int(W * t_ / total) + 1, 11], fill=(232, 226, 212, int(200 * a_)))
                     fr_ = F("SemiBold", 25); fx_ = 60; y_ = 20
