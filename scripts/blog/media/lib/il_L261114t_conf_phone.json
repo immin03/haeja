@@ -1,0 +1,33 @@
+{
+ "id": "il_L261114t_conf_phone",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Main subject in the right 60 percent, calmer darker left side. Scene: A black conference speakerphone on a long empty boardroom table with a single glass of water, tense quiet light",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5a5-78ed-7c51-96c3-4422b01454a3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5a5-78ed-7c51-96c3-4422b01454a3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5a5-78ed-7c51-96c3-4422b01454a3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5a5-78ed-7c51-96c3-4422b01454a3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5a5-78ed-7c51-96c3-4422b01454a3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5a5-78ed-7c51-96c3-4422b01454a3/cancel",
+  "expires_at": "2026-11-20T16:02:43.435353+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5a5-78ed-7c51-96c3-4422b01454a3/fa6632bc-fd0e-4cc2-a1f5-f5db5a2c94bf.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261114t_conf_phone.png"
+}
