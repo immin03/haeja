@@ -1,0 +1,140 @@
+[
+ {
+  "id": "st1_shout",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "In an open-plan office, a furious Korean department head in his fifties leans over a desk shouting and pointing, while a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie sits calmly looking up at him; colleagues watch from behind. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_shout_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st1_shout.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The department head jabs his finger and shouts; the seated man stays perfectly still. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st1_calm",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Close-up portrait of a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie, completely calm steady face, slight nod, office blurred behind him. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_line",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Several Korean colleagues gathered around the desk of a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie, leaning in and asking him for advice, he listens kindly; warm afternoon light. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_line_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st1_line.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The colleagues lean in toward him and he nods. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st1_chess",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Close-up of a man's hand in a white shirt cuff pushing a golden chess king piece across a dark wooden table toward another hand waiting to take it. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_chess_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st1_chess.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The hand slides the chess king across the table to the other hand. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st1_alone",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "A Korean department head in his fifties sitting alone in an empty meeting room after everyone has left, head lowered, regretful, cold evening light. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_scale",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie looking thoughtfully at a small brass balance scale on his desk under a lamp at night, one pan lower than the other. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_scale_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st1_scale.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The balance scale tips slowly to one side. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st1_breath",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie in a meeting room, eyes closed for a moment, taking one slow deep breath, hands resting flat on the table. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_breath_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st1_breath.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "He closes his eyes and takes one slow breath, shoulders dropping. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st1_walk",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie walking upright down a bright office corridor toward tall windows full of morning light, seen from the front, calm and dignified. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st1_walk_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st1_walk.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "He walks calmly toward the camera through the light. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ }
+]

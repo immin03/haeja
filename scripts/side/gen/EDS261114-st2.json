@@ -1,0 +1,120 @@
+[
+ {
+  "id": "st2_brag",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "At a Korean company dinner table with grilled meat and glasses, a loud Korean man in his forties in a loosened tie boasts with a raised glass and a wide grin, colleagues around him look tired and bored. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st2_brag_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st2_brag.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The boasting man waves his glass and laughs loudly; the others glance away. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st2_listen",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "At the same dinner table, a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie sits quietly listening with a small calm smile, holding a glass of water, warm restaurant light. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st2_listen_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st2_listen.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "He listens quietly and gives a small nod. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st2_deal",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "In a bright office, a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie shakes hands with a client across a table with a signed contract on it, both standing. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st2_deal_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st2_deal.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The two men shake hands firmly over the contract. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st2_doubt",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Three Korean office workers sitting with crossed arms and skeptical narrowed eyes, looking at someone off-frame who is talking; dim meeting room. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st2_report",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "Close-up of a man's hands in white shirt cuffs placing a thick finished report quietly on a dark wooden desk in front of a seated executive. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st2_report_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st2_report.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "The hands set the report down on the desk and withdraw. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st2_lips",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie closing a leather notebook with one hand and raising a finger to his lips with a faint smile, lamp light at night. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ },
+ {
+  "id": "st2_lips_v",
+  "kind": "video",
+  "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+  "image": "social/side/gen/st2_lips.jpeg",
+  "body": {
+   "duration": 3,
+   "resolution": "480p",
+   "prompt": "He closes the notebook and raises a finger to his lips. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+  }
+ },
+ {
+  "id": "st2_night",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "body": {
+   "aspect_ratio": "9:16",
+   "prompt": "a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie alone at his desk late at night working with focus under a single desk lamp, the rest of the office dark. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+  }
+ }
+]
