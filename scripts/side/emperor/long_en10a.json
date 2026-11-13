@@ -1,0 +1,166 @@
+{
+ "id": "en10a",
+ "lang": "en",
+ "from": "ep10",
+ "note": "2026-11-13 영어 쇼츠 백로그(en05b 구조). ep10 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "STOP waiting",
+  "for their",
+  "approval."
+ ],
+ "title_line": "Stop waiting for their approval",
+ "music": {
+  "file": "/home/claude/ed/music/music_classical-7.mp3",
+  "start": 91,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en10a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev3_senators.mp4",
+  "/home/claude/haeja/social/side/gen/libv_market_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/libv_emp_corridor.mp4",
+  "/home/claude/haeja/social/side/gen/edv05_letters.mp4",
+  "/home/claude/haeja/social/side/gen/libv_hourglass.mp4",
+  "/home/claude/haeja/social/side/gen/libv_river_flow.mp4"
+ ],
+ "sents": [
+  [
+   0.44,
+   2.36,
+   1,
+   0,
+   "none",
+   [
+    "Stop waiting for their approval."
+   ]
+  ],
+  [
+   2.41,
+   4.51,
+   1,
+   0,
+   "cap",
+   [
+    "Nobody noticed",
+    "what you did today,"
+   ]
+  ],
+  [
+   4.56,
+   6.328,
+   1,
+   0,
+   "cap",
+   [
+    "and suddenly",
+    "it feels worthless."
+   ]
+  ],
+  [
+   7.158,
+   9.788,
+   2,
+   1,
+   "cap",
+   [
+    "The emperor of Rome",
+    "was praised all day."
+   ]
+  ],
+  [
+   9.838,
+   11.583,
+   2,
+   1,
+   "cap",
+   [
+    "He knew how little",
+    "it was worth."
+   ]
+  ],
+  [
+   12.423,
+   14.343,
+   3,
+   2,
+   "cap",
+   [
+    "So he wrote this",
+    "in his journal."
+   ]
+  ],
+  [
+   15.193,
+   18.693,
+   4,
+   3,
+   "quote",
+   [
+    "Whatever is beautiful",
+    "is beautiful in itself."
+   ]
+  ],
+  [
+   18.743,
+   20.434,
+   4,
+   3,
+   "quote",
+   [
+    "Praise is no part of it."
+   ]
+  ],
+  [
+   21.284,
+   23.134,
+   5,
+   4,
+   "big",
+   [
+    "Applause doesn't",
+    "make it better."
+   ]
+  ],
+  [
+   23.184,
+   24.912,
+   5,
+   4,
+   "big",
+   [
+    "Silence doesn't",
+    "make it worse."
+   ]
+  ],
+  [
+   25.762,
+   30.407,
+   6,
+   5,
+   "quote",
+   [
+    "Nothing is made",
+    "worse or better",
+    "by being praised."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Name one thing",
+  "you did today",
+  "that needed no praise."
+ ],
+ "source": "Marcus Aurelius, Meditations 4.20",
+ "end_voice": "/home/claude/vo/v2/en10_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en10_outro_voice.wav",
+ "cover": [
+  "STOP",
+  "SEEKING",
+  "APPROVAL"
+ ],
+ "theme": "A",
+ "vol": 0.92
+}
