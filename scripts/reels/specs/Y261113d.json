@@ -83,7 +83,7 @@
    },
    "tone": "loss",
    "full": {
-    "img": "il_Y261113d_turbine_hall.jpeg",
+    "img": "il_Y261113d_turbine_hall.png",
     "video": "none",
     "motion": "in",
     "label": "두산에너빌리티 시가총액 · 5월 52주 최고가 → 11월 12일 종가 · 단순 계산",
@@ -140,12 +140,11 @@
    "lines": [
     {
      "cap": [
-      "올해 첫 거래일엔",
-      "7만 5,500원이었고",
-      "5월엔 13만 9,200원까지",
+      "올해 첫 거래일엔 7만 5천 원대,",
+      "5월엔 13만 9천 원대까지",
       "올랐죠."
      ],
-     "say": "올해 첫 거래일엔 7만 5,500원이었고 5월엔 13만 9,200원까지 올랐죠."
+     "say": "올해 첫 거래일엔 7만 5천 원대, 5월엔 13만 9천 원대까지 올랐죠."
     },
     {
      "cap": [
@@ -159,9 +158,9 @@
   },
   {
    "type": "photo",
-   "photo": "il_Y261113d_czech_plant.jpeg",
+   "photo": "il_Y261113d_czech_plant.png",
    "full": {
-    "img": "il_Y261113d_czech_plant.jpeg",
+    "img": "il_Y261113d_czech_plant.png",
     "label": "두산에너빌리티 하루 등락률 · 종가 기준",
     "pct": [
      {
@@ -201,9 +200,9 @@
   },
   {
    "type": "photo",
-   "photo": "il_Y261113d_reactor_forge.jpeg",
+   "photo": "il_Y261113d_reactor_forge.png",
    "full": {
-    "img": "il_Y261113d_reactor_forge.jpeg",
+    "img": "il_Y261113d_reactor_forge.png",
     "label": "두산에너빌리티 3분기 영업이익 · 10월 29일 발표 · 1년 전 대비 +90.6%",
     "num": "2,612억 원",
     "num_line": 0,
@@ -256,9 +255,9 @@
   },
   {
    "type": "photo",
-   "photo": "il_Y261113d_us_nuclear.jpeg",
+   "photo": "il_Y261113d_us_nuclear.png",
    "full": {
-    "img": "il_Y261113d_us_nuclear.jpeg",
+    "img": "il_Y261113d_us_nuclear.png",
     "label": "① 미국 원전 · 원전 수주 연초 목표 → 올해 전망",
     "bars": [
      {
@@ -309,11 +308,11 @@
   },
   {
    "type": "photo",
-   "photo": "il_Y261113d_texas_gas.jpeg",
+   "photo": "il_Y261113d_texas_gas.png",
    "full": {
-    "img": "il_Y261113d_texas_gas.jpeg",
-    "label": "② 미국 가스터빈 · 누적 공급 계약",
-    "num": "12기",
+    "img": "il_Y261113d_texas_gas.png",
+    "label": "② 미국 가스터빈 · 누적 공급 계약 대수",
+    "num": "12대",
     "num_line": 0,
     "num_frac": 0.6,
     "tone": "gold",
@@ -322,16 +321,16 @@
    "lines": [
     {
      "cap": [
-      "둘째, 가스터빈입니다."
+      "둘째, 미국 가스터빈 수주입니다."
      ],
-     "say": "둘째, 가스터빈입니다."
+     "say": "둘째, 미국 가스터빈 수주입니다."
     },
     {
      "cap": [
-      "미국에 공급하기로 한",
-      "가스터빈은 지금까지 12기."
+      "미국과 맺은 가스터빈",
+      "공급 계약은 지금까지 12대예요."
      ],
-     "say": "미국에 공급하기로 한 가스터빈은 지금까지 12기."
+     "say": "미국과 맺은 가스터빈 공급 계약은 지금까지 12대예요."
     },
     {
      "cap": [
@@ -352,9 +351,9 @@
   },
   {
    "type": "photo",
-   "photo": "il_Y261113d_heavy_barge.jpeg",
+   "photo": "il_Y261113d_heavy_barge.png",
    "full": {
-    "img": "il_Y261113d_heavy_barge.jpeg",
+    "img": "il_Y261113d_heavy_barge.png",
     "label": "③ 올해 수주 목표 · 9월까지 75.2% 달성",
     "bars": [
      {
@@ -373,9 +372,9 @@
    "lines": [
     {
      "cap": [
-      "셋째, 올해 수주 목표입니다."
+      "셋째, 올해 전체 수주 목표입니다."
      ],
-     "say": "셋째, 올해 수주 목표입니다."
+     "say": "셋째, 올해 전체 수주 목표입니다."
     },
     {
      "cap": [
@@ -469,5 +468,6 @@
    ]
   }
  ],
- "full_say": "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."
+ "full_say": "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "end_custom": true
 }
