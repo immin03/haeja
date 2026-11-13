@@ -1,0 +1,33 @@
+{
+ "id": "sw1_breath",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie in a meeting room, eyes closed for a moment, taking one slow deep breath, hands resting flat on the table. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d736-49a5-7794-96f7-7134626c9aed",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d736-49a5-7794-96f7-7134626c9aed/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d736-49a5-7794-96f7-7134626c9aed/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d736-49a5-7794-96f7-7134626c9aed",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d736-49a5-7794-96f7-7134626c9aed/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d736-49a5-7794-96f7-7134626c9aed/cancel",
+  "expires_at": "2026-11-20T23:20:31.397929+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d736-49a5-7794-96f7-7134626c9aed/69054dd7-51db-4915-8260-543cd9ed1f7e.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/sw1_breath.png"
+}

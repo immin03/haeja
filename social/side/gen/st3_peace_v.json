@@ -1,0 +1,33 @@
+{
+ "id": "st3_peace_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "She walks forward into the sunlight and looks up. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5b3-8ee7-7f4d-9238-c60a01f837f8/25e14a32-5cce-46e3-8a49-d29f2bf2bb21.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5b7-1ebd-7927-9a78-49d9625002d2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5b7-1ebd-7927-9a78-49d9625002d2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5b7-1ebd-7927-9a78-49d9625002d2/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5b7-1ebd-7927-9a78-49d9625002d2",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5b7-1ebd-7927-9a78-49d9625002d2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5b7-1ebd-7927-9a78-49d9625002d2/cancel",
+  "expires_at": "2026-11-20T16:25:34.229587+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5b7-1ebd-7927-9a78-49d9625002d2/3edc8c3d-905d-4242-9169-d67a96a7e541.mp4"
+  }
+ },
+ "seconds": 6,
+ "file": "social/side/gen/st3_peace_v.mp4"
+}

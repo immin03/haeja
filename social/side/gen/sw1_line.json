@@ -1,0 +1,33 @@
+{
+ "id": "sw1_line",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Several American colleagues gathered around the desk of an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie, leaning in and asking him for advice, he listens kindly; warm afternoon light. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d736-11a8-7189-9240-311d3eac2d5f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d736-11a8-7189-9240-311d3eac2d5f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d736-11a8-7189-9240-311d3eac2d5f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d736-11a8-7189-9240-311d3eac2d5f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d736-11a8-7189-9240-311d3eac2d5f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d736-11a8-7189-9240-311d3eac2d5f/cancel",
+  "expires_at": "2026-11-20T23:20:14.922753+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d736-11a8-7189-9240-311d3eac2d5f/2fa8955a-1003-4e9b-a88e-d6eef69bd837.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/sw1_line.png"
+}

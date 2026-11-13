@@ -1,0 +1,33 @@
+{
+ "id": "st3_avoid_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "The colleagues walk away down the corridor; she stays still. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5b3-6c9f-77b3-acda-df97591dc0cb/e6931133-66a5-47eb-98f9-a987a9b68eab.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5b3-c680-7d27-a06e-a12f0bf6c826",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5b3-c680-7d27-a06e-a12f0bf6c826/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5b3-c680-7d27-a06e-a12f0bf6c826/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5b3-c680-7d27-a06e-a12f0bf6c826",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5b3-c680-7d27-a06e-a12f0bf6c826/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5b3-c680-7d27-a06e-a12f0bf6c826/cancel",
+  "expires_at": "2026-11-20T16:21:43.468713+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5b3-c680-7d27-a06e-a12f0bf6c826/0aedc6b3-d192-4e21-81d6-9c51a04adf32.mp4"
+  }
+ },
+ "seconds": 6,
+ "file": "social/side/gen/st3_avoid_v.mp4"
+}
