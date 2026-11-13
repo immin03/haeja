@@ -79,7 +79,8 @@ def check(pid, video, cover, title, desc):
     # 5 글
     txt = f"{title}\n{desc}"
     if re.search(r"[가-힣]", txt): fails.append("제목·설명에 한글")
-    if re.search(r"korean|translated|translation", txt, re.I): fails.append("제목·설명에 Korean/translated")
+    # 11/13 수정: 출처 줄 "George Long's public-domain translation" 은 정상 — 한국 채널 흔적만 잡는다
+    if re.search(r"korean|\btranslated\b|english version|korea\b", txt, re.I): fails.append("제목·설명에 Korean/translated")
     if len(title) > 70: fails.append(f"제목 {len(title)}자")
     return {"id": pid, "passed": not fails, "fails": fails}
 
