@@ -129,9 +129,11 @@
   .bars2 .row{grid-template-columns:minmax(0,1fr) 70px 54px}
   .road{grid-template-columns:1fr}
 }
+.embed header,.embed #tabs,.embed #foot,.embed main>.acc{display:none!important}.embed main{padding-top:8px}
 </style>
 </head>
 <body>
+<script>if(/[?&]embed=1/.test(location.search)) document.documentElement.classList.add('embed'); /* 관리자 화면 안에 넣을 때 머리말·메뉴 숨김 (2026-11-14) */</script>
 <header><div class="st-hd">
   <a class="st-brand" href="#channel"><b>성과 관리 플랫폼</b><small>베타 · 무료</small></a>
   <div class="r"><span id="who"></span><a href="#login" id="loginA">관리자 로그인</a><button class="btn" id="out" hidden>로그아웃</button></div>

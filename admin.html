@@ -1031,35 +1031,38 @@ function barsList(obj, order){
 }
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
+/* 2026-11-14 대표님: 관리자는 검수·성과·개선만 본다 → 묶음 4개(검수·성과·개선·벤치마킹) + 운영 기록(나머지 전부). 황제의 일기 관리자(/side)와 같은 순서 */
 const GROUPS = [
-  ['brief', '브리핑', ['brief', 'sprint']],
-  ['content', '콘텐츠', ['calendar', 'youtube', 'social', 'blog', 'column']],
-  ['result', '유입', ['overview', 'traffic', 'landing', 'dm']],
-  ['member', '회원', ['users', 'survey', 'mail', 'stocks', 'qual']],
-  ['rules', '운영 기준', ['rules']],
+  ['review', '검수', ['brief', 'youtube', 'social', 'column']],
+  ['perf', '성과', ['overview', 'sprint', 'users']],
+  ['improve', '개선', ['improve']],
+  ['bench', '벤치마킹·핫토픽', ['bench']],
+  ['ops', '운영 기록', ['calendar', 'rules', 'traffic', 'landing', 'dm', 'survey', 'mail', 'stocks', 'qual', 'blog']],
 ];
 const PAGES = [
-  ['brief', '브리핑'],
-  ['sprint', '구독자 30일'],
-  ['overview', '방문·가입'],
+  ['brief', '할 일·요청'],
+  ['youtube', '유튜브'],
+  ['social', '인스타·쓰레드'],
+  ['column', '칼럼'],
+  ['overview', '회원·방문'],
+  ['sprint', '유튜브 구독자'],
+  ['users', '회원 목록'],
+  ['improve', '개선'],
+  ['bench', '벤치마킹·핫토픽'],
+  ['calendar', '일정'],
   ['rules', '운영 기준'],
-  ['users', '회원 관리'],
+  ['traffic', '유입·기기'],
+  ['landing', '소개 페이지'],
+  ['dm', '댓글 DM 유입'],
   ['survey', '설문 응답'],
   ['mail', '메일'],
   ['stocks', '회원 종목'],
   ['qual', '정성 의견'],
-  ['traffic', '유입·기기'],
-  ['landing', '소개 페이지'],
-  ['dm', '댓글 DM 유입'],
-  ['calendar', '일정'],
-  ['youtube', '유튜브'],
-  ['social', '인스타'],
   ['blog', '네이버 블로그'],
-  ['column', '칼럼'],
 ];
 let DATA = null;
 /* 성과 진단·숏폼 진단·벤치마킹은 2026-11-03부터 성과 관리 플랫폼(/studio)에 있다. 옛 주소로 들어오면 그쪽으로 보낸다. */
-if(/^#(perf|perfs|bench)(\/|$)/.test(location.hash)) location.replace('/studio' + location.hash);
+if(/^#(perf|perfs)(\/|$)/.test(location.hash)) location.replace('/studio' + location.hash);
 const page = () => { const h = location.hash.slice(1).split('/')[0]; return PAGES.some(p => p[0] === h) ? h : 'brief'; };
 const subPage = () => location.hash.slice(1).split('/')[1] || '';
 const groupOf = id => GROUPS.find(g => g[2].includes(id)) || GROUPS[0];
@@ -3050,6 +3053,33 @@ function vSprint(){
   </tbody></table><div class="sp-note" style="margin-top:8px">조치 기준(제1 원칙 120): 공개 48시간 뒤 클릭률 4% 미만이면 제목·썸네일을 다른 유형으로 교체, 72시간 뒤 다시 확인 · A 보유자 대응편 : B 다큐 = 3 : 1</div></div>
   <h2>롱폼 편성표 <span class="qcount">주 6편 · 평일 11:30 · 주말 12:30</span></h2>
   <div class="card">${spCal(D)}<div class="sp-note" style="margin-top:10px">정규 = 화·목·토·일 · 대응 = 월·금(보유자 대응·후속 소재가 있을 때만) · 사건 대응은 칸과 무관하게 렌더·검수 끝나는 즉시 공개 · 기획안 승인·수정은 <a href="#youtube/plan">유튜브 → 기획안</a></div></div>
+  <div class="sp-note" style="margin-top:12px">고칠 점·할 일은 <a href="#improve">개선</a>, 다른 채널 사례는 <a href="#bench">벤치마킹·핫토픽</a> 탭에 있습니다.</div>`;
+}
+/* 2026-11-14 개선 탭: 하루치가 아니라 쌓인 숫자로 진단 3줄 + 잘된·안된 3편 + 할 일 */
+function spD(){ return { start: '2026-11-10', end: '2026-12-09', start_subs: 580, target: 3000, stretch: 5000, ...(SP.doc || {}) }; }
+function spNeed(pg){ if(SP.loaded) return true; if(!SP.busy){ SP.busy = true; spLoad().then(() => { SP.busy = false; if(page() === pg) render(); }).catch(() => { SP.busy = false; }); } return false; }
+function vImprove(){
+  if(!spNeed('improve')) return '<div class="empty">불러오는 중</div>';
+  const D = spD(), longs = spLongs(D), A = (D.actions || []), LOG = (D.log || []);
+  const st = y => (y.stats || {}).studio || {}, avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const ctr = avg(longs.map(y => +st(y).ctr).filter(v => v > 0)), pct = avg(longs.map(y => +st(y).avg_pct).filter(v => v > 0));
+  const sv = longs.filter(y => st(y).subs != null && +st(y).views > 0), per1k = sv.length ? sv.reduce((a, y) => a + (+st(y).subs || 0), 0) / sv.reduce((a, y) => a + (+st(y).views || 0), 0) * 1000 : null;
+  const dx = (name, v, goal, unit, fix) => `<div class="br-row"><i class="br-dot ${v == null ? 'info' : v >= goal ? 'good' : 'bad'}"></i><div class="t"><b>${name} ${v == null ? '수집 전' : v.toFixed(1) + unit}</b> <span class="muted">목표 ${goal}${unit}</span><div class="m">${v == null ? '숫자가 쌓이면 진단합니다.' : v >= goal ? '목표를 넘었습니다. 지금 방식 유지.' : fix}</div></div></div>`;
+  const aged = longs.filter(y => (Date.now() - Date.parse(y.scheduled_at || y.uploaded_at)) / 3600e3 >= 48).map(y => [y, (ytViewsOf(y) || {}).v || 0]).sort((a, b) => b[1] - a[1]);
+  const li = ([y, v]) => `<div class="br-row"><div class="t"><b>${esc(y.title)}</b><div class="m">조회 ${n0(v)}회${st(y).ctr != null ? ' · 클릭률 ' + (+st(y).ctr).toFixed(1) + '%' : ''}${st(y).avg_pct != null ? ' · 평균 시청률 ' + (+st(y).avg_pct).toFixed(1) + '%' : ''} · ${spType(y.title) === 'A' ? '보유자 대응' : '다큐'}</div></div></div>`;
+  const open = A.filter(a => a.status !== 'done');
+  return `${head('개선', `쌓인 숫자 기준 · 11/7 이후 롱폼 ${longs.length}편`, 'improve')}
+  <h2>누적 진단 <span class="qcount">3줄</span></h2>
+  <div class="card">${dx('클릭률', ctr, 5, '%', '제목·썸네일이 약합니다. 잘된 3편의 제목 방식으로 바꿉니다.')}${dx('평균 시청률', pct, 40, '%', '초반 30초에서 빠집니다. 첫 장면을 더 짧고 구체적으로.')}${dx('조회 1,000회당 구독', per1k, 8, '명', '끝부분 구독 멘트와 다음 편 예고를 강화합니다.')}</div>
+  <div class="br-cols"><div><h2>잘된 3편</h2><div class="card">${aged.slice(0, 3).map(li).join('') || '<div class="empty">공개 48시간 지난 편이 아직 없습니다</div>'}</div></div>
+  <div><h2>안된 3편</h2><div class="card">${aged.length > 3 ? aged.slice(-3).reverse().map(li).join('') : '<div class="empty">비교할 편수가 부족합니다</div>'}</div></div></div>
+  <h2>지금 고칠 것 <span class="qcount">${open.length} 남음</span></h2>
+  <div class="card sp-act">${open.slice(0, 3).map(a => `<div><span class="ck"></span><span>${esc(a.title)}${a.note ? `<div class="m">${esc(a.note)}</div>` : ''}</span><span class="sp-tag${a.who === '대표' ? ' b' : ''}">${esc(a.who || 'Claude')}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('') || '<div class="empty">없습니다</div>'}</div>
+  <details class="fold" style="margin-top:16px"><summary>할 일 전체 · 결정 기록 · 영상 구조 원칙</summary>
+  <h2>할 일 <span class="qcount">${A.filter(a => a.status !== 'done').length} 남음</span></h2>
+  <div class="card sp-act">${A.map(a => `<div><span class="ck${a.status === 'done' ? ' on' : ''}">${a.status === 'done' ? '✓' : ''}</span><span>${esc(a.title)}${a.note ? `<div class="m">${esc(a.note)}</div>` : ''}</span><span class="sp-tag${a.who === '대표' ? ' b' : ''}">${esc(a.who || 'Claude')}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('') || '<div class="empty">없습니다</div>'}</div>
+  <h2>결정·변경 기록</h2>
+  <div class="card sp-log">${LOG.slice().reverse().slice(0, 20).map(l => `<div><span class="m">${esc(l.at || '')}</span>${esc(l.text || '')}</div>`).join('') || '<div class="empty">없습니다</div>'}</div>
   <h2>끝까지 보게 하는 구조 <span class="qcount">제1 원칙 119</span></h2>
   <div class="card"><div class="sp-flow">
     <div><b>0~15초</b><span>장면 하나로 시작 — 사람·시각·장소 (\"점심 12시 회사 1층 식당 앞\"). 인사·채널 소개 없음</span></div>
@@ -3058,13 +3088,26 @@ function vSprint(){
     <div><b>본문</b><span>30~60초마다 작은 질문·'그런데' 반전, 2~3분마다 큰 리후킹(부분 답 → 더 큰 질문), 중반에 가짜 결말 한 번(\"정답일까요? 아직 아닙니다\"), '아까 그 ○○ 기억하시죠' 콜백 2번 이상, 비교 숫자는 화면에 스코어보드로 고정</span></div>
     <div><b>엔딩</b><span>첫 장면으로 돌아가 다른 의미로 닫기 · 내일 생활에서 떠올릴 장면 하나 · 지금 할 행동 하나 · \"밸류노트는 기업의 숫자 뒤에 숨은 이야기를 같이 펼쳐 보는 곳입니다\" 구독 멘트 + 댓글 질문</span></div>
   </div></div>
+  </details>`;
+}
+function vBenchTab(){
+  if(!spNeed('bench')) return '<div class="empty">불러오는 중</div>';
+  const D = spD(), B = (D.bench || []);
+  return `${head('벤치마킹·핫토픽', '지금 뜨는 주제와 따라 할 사례', 'bench')}
+  ${BR.loaded ? vHotTopics() : ''}
   <h2>벤치마킹 <span class="qcount">${B.length}</span></h2>
   <div class="sp-bench">${B.map(b => `<div class="sp-bc"><div class="c">${esc(b.region || '')} · ${esc(b.channel || '')}${b.subs ? ' · 구독자 ' + esc(b.subs) : ''}</div><h3>${b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>` : esc(b.title)}</h3><div class="n">${esc(b.views || '')}${b.length ? ' · ' + esc(b.length) : ''}</div><ul>${(b.points || []).map(p => `<li>${esc(p)}</li>`).join('')}</ul>${b.use ? `<div class="sp-note2" style="margin-top:6px"><b>우리 적용</b> ${esc(b.use)}</div>` : ''}</div>`).join('') || '<div class="empty">아직 없습니다</div>'}</div>
   <div class="sp-note" style="margin:6px 0 12px">월·목 10:23 벤치마킹 작업이 국내·해외 '구독자 대비 조회 5배 이상' 롱폼의 자막을 읽어 여기에 추가합니다(제1 원칙 123)</div>
-  <h2>할 일 <span class="qcount">${A.filter(a => a.status !== 'done').length} 남음</span></h2>
-  <div class="card sp-act">${A.map(a => `<div><span class="ck${a.status === 'done' ? ' on' : ''}">${a.status === 'done' ? '✓' : ''}</span><span>${esc(a.title)}${a.note ? `<div class="m">${esc(a.note)}</div>` : ''}</span><span class="sp-tag${a.who === '대표' ? ' b' : ''}">${esc(a.who || 'Claude')}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('') || '<div class="empty">없습니다</div>'}</div>
-  <h2>결정·변경 기록</h2>
-  <div class="card sp-log">${LOG.slice().reverse().slice(0, 20).map(l => `<div><span class="m">${esc(l.at || '')}</span>${esc(l.text || '')}</div>`).join('') || '<div class="empty">없습니다</div>'}</div>`;
+  <div class="sp-note">주제로 직접 찾기: <a href="/studio#bench">성과 관리 플랫폼 · 벤치마킹 ↗</a> · <a href="/studio#hot">핫 토픽 근거 전체 ↗</a></div>`;
+}
+function bindHot(){
+  $('#main').querySelectorAll('[data-hot-act]').forEach(b => b.onclick = async () => {
+    const act = b.dataset.hotAct, key = b.closest('[data-hot]').dataset.hot; b.disabled = true;
+    const { data, error } = await sb.rpc('hot_topic_act', { p_key: key, p_action: act });
+    if(error || !data || !data.ok){ toast((data && data.reason) || (error && error.message) || '처리하지 못했습니다', true); b.disabled = false; return; }
+    toast(act === 'dismiss' ? '다시 보지 않습니다.' : '요청했습니다. 1시간 안에 제작을 시작합니다.');
+    const h = await sb.rpc('hot_topics_admin', { p_all: false }); BR.hot = h.data || null; render();
+  });
 }
 function bindSprint(){
   const b = $('#main').querySelector('[data-sp-reload]');
@@ -3382,7 +3425,6 @@ function vBrief(){
   const auto2 = (BR.autoChecks || 0) + BR.alerts.filter(a => a.data.read !== true && !brOtherChannel(a) && !BR_PERSONAL.test(String(a.data.source || '')) && brAlertBig(a) && brAlertDone(a)).length;
   return `<div class="br">
   <div class="br-fresh"><div class="x">최신 확인 <b>${brStampAt(BR.checkedAt)}</b><br><span>${BR.checking ? '지금 데이터와 유튜브 숫자를 다시 읽는 중입니다' : `지금 데이터와 맞춰 봤습니다${auto2 ? ` · 이미 처리됐거나 지난 알림 ${auto2}건 숨김` : ''}`}</span></div><button class="br-b ghost" data-br-reload title="긴급 항목을 지금 데이터로 다시 확인하고 구독자·시청시간을 새로 읽습니다"${BR.checking ? ' disabled' : ''}>${BR.checking ? '확인 중…' : '새로고침'}</button></div>
-  ${vHotTopics()}
   <div class="br-top">
     <div class="br-seg">${[['d', '일간'], ['w', '주간'], ['m', '월간']].map(([k, t]) => `<button data-br-mode="${k}"${BR.mode === k ? ' class="on"' : ''}>${t}</button>`).join('')}</div>
     <div class="br-upd"><span class="m">${esc(r.label)}</span></div>
@@ -3510,14 +3552,15 @@ function render(s){
   const g = groupOf(p), title = id => PAGES.find(x => x[0] === id)[1];
   const badge = id => hot[id] ? `<span class="c ${hot[id][1]}" title="${hot[id][2]}">${hot[id][0]}</span>` : cnt[id] != null ? `<span class="c">${n0(cnt[id])}</span>` : '';
   nav.firstElementChild.innerHTML = GROUPS.map(([gid, gt, ids]) => { const h = ids.map(i => hot[i]).filter(Boolean), n = h.reduce((a, x) => a + x[0], 0), c = h.some(x => x[1] === 'hot') ? 'hot' : 'warm';
-    return `<a href="#${ids[0]}"${gid === g[0] ? ' aria-current="page"' : ''}>${gt}${n ? `<span class="c ${c}" title="${h.map(x => x[2]).join(' · ')}">${n}</span>` : ''}</a>`; }).join('') + `<a href="/studio" title="성과 진단·벤치마킹은 성과 관리 플랫폼으로 옮겼습니다">성과 ↗</a>`;
+    return `<a href="#${ids[0]}"${gid === g[0] ? ' aria-current="page"' : ''}>${gt}${n ? `<span class="c ${c}" title="${h.map(x => x[2]).join(' · ')}">${n}</span>` : ''}</a>`; }).join('') + `<a href="/side" title="황제의 일기 관리자로 이동">황제의 일기 ↗</a>`;
   const sub = nav.querySelector('.sub'); sub.hidden = g[2].length < 2;
   sub.firstElementChild.innerHTML = g[2].map(id => `<a href="#${id}"${id === p ? ' aria-current="page"' : ''}>${title(id)}${badge(id)}</a>`).join('');
   document.title = 'ValueNote 관리자 · ' + g[1] + (g[2].length > 1 ? ' › ' + title(p) : '');
-  let html; try { html = p === 'brief' ? vBrief() : p === 'sprint' ? vSprint() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers() : p === 'mail' ? vMail() : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s); } catch(e) { console.error(e); html = `<div class="card"><b>이 화면을 그리지 못했습니다.</b><div class="m">데이터 한 건이 형식에 맞지 않습니다: ${esc(e.message)} — 위 요청칸에 그대로 알려 주시면 고칩니다.</div></div>`; }
+  let html; try { html = p === 'brief' ? vBrief() : p === 'improve' ? vImprove() : p === 'bench' ? vBenchTab() : p === 'sprint' ? vSprint() : p === 'survey' ? vSurvey(s) : p === 'users' ? vUsers() : p === 'mail' ? vMail() : p === 'stocks' ? vStocks() : p === 'traffic' ? vTraffic(s) : p === 'landing' ? vLanding() : p === 'dm' ? vDm() : p === 'column' ? vColumn() : p === 'qual' ? vQual() : p === 'social' ? vSocial() : p === 'youtube' ? vYoutube() : p === 'rules' ? vRules() : p === 'blog' ? vBlog() : p === 'calendar' ? vCalendar() : vOverview(s); } catch(e) { console.error(e); html = `<div class="card"><b>이 화면을 그리지 못했습니다.</b><div class="m">데이터 한 건이 형식에 맞지 않습니다: ${esc(e.message)} — 위 요청칸에 그대로 알려 주시면 고칩니다.</div></div>`; }
   $('#main').innerHTML = html;
   if(p === 'brief') bindBrief();
   if(p === 'sprint') bindSprint();
+  if(p === 'bench') bindHot();
   if(p === 'users') bindUsers();
   if(p === 'survey') bindSurvey();
   if(p === 'mail') bindMail();
