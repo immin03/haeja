@@ -39,6 +39,8 @@ def read_clip(name, cx, n, speed=0.82):
     w, h = map(int, subprocess.run(["ffprobe","-v","error","-select_streams","v","-show_entries","stream=width,height","-of","csv=p=0",path],capture_output=True,text=True).stdout.strip().split(","))
     sc = H * 1.0 / h * 1.06; sw = int(w * sc) // 2 * 2; sh = int(h * sc) // 2 * 2
     cw, ch = int(W * 1.06) // 2 * 2, int(H * 1.06) // 2 * 2
+    if sw < cw or sh < ch:   # 2026-11-14: 480×854(9:16 보다 아주 조금 좁음) 클립에서 crop 이 화면보다 커져 검은 화면 → 모자라는 쪽에 맞춰 키움
+        sc = max(cw / w, ch / h); sw = max(cw, int(w * sc + 1) // 2 * 2); sh = max(ch, int(h * sc + 1) // 2 * 2)
     x = int(min(max(cx * sw - cw / 2, 0), sw - cw)); y = (sh - ch) // 2
     vf = f"setpts=PTS/{speed},fps={FPS},scale={sw}:{sh}:flags=lanczos,crop={cw}:{ch}:{x}:{y},eq=contrast=1.06:saturation=1.05"
     pr = subprocess.Popen(["ffmpeg","-v","error","-i",path,"-vf",vf,"-frames:v",str(n),"-f","rawvideo","-pix_fmt","rgb24","-"],stdout=subprocess.PIPE)
