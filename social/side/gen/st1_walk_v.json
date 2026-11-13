@@ -1,0 +1,33 @@
+{
+ "id": "st1_walk_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "He walks calmly toward the camera through the light. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5e9-7515-76b6-b9d5-7dfab1de16ae/729c038e-773d-4fb0-b269-8cfea8cf48f8.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5ec-802e-7a6a-913a-338235e9a4f8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ec-802e-7a6a-913a-338235e9a4f8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ec-802e-7a6a-913a-338235e9a4f8/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5ec-802e-7a6a-913a-338235e9a4f8",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ec-802e-7a6a-913a-338235e9a4f8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ec-802e-7a6a-913a-338235e9a4f8/cancel",
+  "expires_at": "2026-11-20T17:23:42.327005+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5ec-802e-7a6a-913a-338235e9a4f8/40bef34a-c468-4713-94d5-821d3db9d960.mp4"
+  }
+ },
+ "seconds": 219,
+ "file": "social/side/gen/st1_walk_v.mp4"
+}

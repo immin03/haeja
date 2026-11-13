@@ -1,0 +1,33 @@
+{
+ "id": "st2_night",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie alone at his desk late at night working with focus under a single desk lamp, the rest of the office dark. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5e9-eab2-7aa8-bc97-12f7e09f27cc",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5e9-eab2-7aa8-bc97-12f7e09f27cc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5e9-eab2-7aa8-bc97-12f7e09f27cc/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5e9-eab2-7aa8-bc97-12f7e09f27cc",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5e9-eab2-7aa8-bc97-12f7e09f27cc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5e9-eab2-7aa8-bc97-12f7e09f27cc/cancel",
+  "expires_at": "2026-11-20T17:17:27.832696+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5e9-eab2-7aa8-bc97-12f7e09f27cc/59a1a88c-8f29-449e-b7fa-9c7ad43fe65c.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/st2_night.png"
+}

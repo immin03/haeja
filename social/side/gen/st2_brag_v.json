@@ -1,0 +1,33 @@
+{
+ "id": "st2_brag_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "The boasting man waves his glass and laughs loudly; the others glance away. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5e9-78bc-7374-b6e6-830f785bbcef/d3b34849-dfb3-42be-8cbb-82820e61db0c.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5ec-806a-7ab5-9ca7-9d26a2cd2e3c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ec-806a-7ab5-9ca7-9d26a2cd2e3c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ec-806a-7ab5-9ca7-9d26a2cd2e3c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5ec-806a-7ab5-9ca7-9d26a2cd2e3c",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ec-806a-7ab5-9ca7-9d26a2cd2e3c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ec-806a-7ab5-9ca7-9d26a2cd2e3c/cancel",
+  "expires_at": "2026-11-20T17:23:11.881414+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5ec-806a-7ab5-9ca7-9d26a2cd2e3c/aa5ed11e-5038-41a3-9f36-0bacd669e4c0.mp4"
+  }
+ },
+ "seconds": 187,
+ "file": "social/side/gen/st2_brag_v.mp4"
+}

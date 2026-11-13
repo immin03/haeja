@@ -1,0 +1,33 @@
+{
+ "id": "st1_line_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "The colleagues lean in toward him and he nods. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5e9-02b3-79c3-be69-c8aff9b91576/b66b1a8e-49be-4c7e-b282-bd3f949dbb08.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5ea-482d-7109-a44e-255b79bde593",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ea-482d-7109-a44e-255b79bde593/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ea-482d-7109-a44e-255b79bde593/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5ea-482d-7109-a44e-255b79bde593",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ea-482d-7109-a44e-255b79bde593/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ea-482d-7109-a44e-255b79bde593/cancel",
+  "expires_at": "2026-11-20T17:20:22.263854+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5ea-482d-7109-a44e-255b79bde593/2f5f90b5-15de-4afb-b366-e989e2266662.mp4"
+  }
+ },
+ "seconds": 163,
+ "file": "social/side/gen/st1_line_v.mp4"
+}

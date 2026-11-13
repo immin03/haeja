@@ -1,0 +1,33 @@
+{
+ "id": "st2_deal_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "The two men shake hands firmly over the contract. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5e9-af2d-7dd4-9933-5050fc4df790/59e495e0-4858-4c1d-a2d3-53ddc6861179.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5ef-6446-7a55-a646-73a45973cfff",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ef-6446-7a55-a646-73a45973cfff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ef-6446-7a55-a646-73a45973cfff/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5ef-6446-7a55-a646-73a45973cfff",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5ef-6446-7a55-a646-73a45973cfff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5ef-6446-7a55-a646-73a45973cfff/cancel",
+  "expires_at": "2026-11-20T17:26:51.655011+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5ef-6446-7a55-a646-73a45973cfff/8a8dac03-e659-4b94-a235-4d05e8591e0d.mp4"
+  }
+ },
+ "seconds": 219,
+ "file": "social/side/gen/st2_deal_v.mp4"
+}

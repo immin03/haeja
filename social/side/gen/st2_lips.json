@@ -1,0 +1,33 @@
+{
+ "id": "st2_lips",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie closing a leather notebook with one hand and raising a finger to his lips with a faint smile, lamp light at night. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5e9-e86f-7bc4-b5b9-a2481f08171f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5e9-e86f-7bc4-b5b9-a2481f08171f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5e9-e86f-7bc4-b5b9-a2481f08171f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5e9-e86f-7bc4-b5b9-a2481f08171f",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5e9-e86f-7bc4-b5b9-a2481f08171f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5e9-e86f-7bc4-b5b9-a2481f08171f/cancel",
+  "expires_at": "2026-11-20T17:17:28.850389+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5e9-e86f-7bc4-b5b9-a2481f08171f/d1ce8177-8601-4da3-8a83-e6001156d0fa.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/st2_lips.png"
+}

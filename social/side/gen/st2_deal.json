@@ -1,0 +1,33 @@
+{
+ "id": "st2_deal",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "In a bright office, a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie shakes hands with a client across a table with a signed contract on it, both standing. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d5e9-af2d-7dd4-9933-5050fc4df790",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5e9-af2d-7dd4-9933-5050fc4df790/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5e9-af2d-7dd4-9933-5050fc4df790/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d5e9-af2d-7dd4-9933-5050fc4df790",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d5e9-af2d-7dd4-9933-5050fc4df790/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d5e9-af2d-7dd4-9933-5050fc4df790/cancel",
+  "expires_at": "2026-11-20T17:17:13.636771+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d5e9-af2d-7dd4-9933-5050fc4df790/59e495e0-4858-4c1d-a2d3-53ddc6861179.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/st2_deal.png"
+}
