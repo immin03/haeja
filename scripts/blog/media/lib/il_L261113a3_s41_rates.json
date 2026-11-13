@@ -1,0 +1,33 @@
+{
+ "id": "il_L261113a3_s41_rates",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: blank paper with no printing, A calculator, a pen and a printed interest-rate chart without readable text on a dark desk, tense mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d276-f7f7-7506-86ae-157df00b95da",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d276-f7f7-7506-86ae-157df00b95da/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d276-f7f7-7506-86ae-157df00b95da/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d276-f7f7-7506-86ae-157df00b95da",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d276-f7f7-7506-86ae-157df00b95da/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d276-f7f7-7506-86ae-157df00b95da/cancel",
+  "expires_at": "2026-11-20T01:14:05.918900+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d276-f7f7-7506-86ae-157df00b95da/20e73017-3560-48be-9b02-7bd76b17e7a5.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_L261113a3_s41_rates.jpeg"
+}
