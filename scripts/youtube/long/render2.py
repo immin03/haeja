@@ -1681,6 +1681,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         est = NBK.pose_for(cold - 1, "title", nb, mode="title")   # 공개 장면은 노트 전체가 정면으로 보이는 데서 멈춘다
     prev_tex = None; prev_pose = None; fi = 0; t0_clock = dt.datetime.now(); prev_fr = None; prev_full = False
     IDK = next((k for k, x in enumerate(timeline) if x["sc"]["v"].get("ident")), None)   # 인트로 장면 번호 (로고 고정용)
+    RM = [(x["start"], x["sc"]["chapter"]) for x in timeline if x["sc"].get("chapter")] if spec.get("roadmap") else []   # 2026-11-14 대표님: 상단 바에 지금 이야기·다음 이야기를 작게 (계속 보게 하는 장치)
     for k, x in enumerate(timeline):
         if only_sc and k not in only_sc: continue
         sc = x["sc"]; n = int(round(x["dur"] * FPS)); typ = sc["v"]["type"]; I = info[k]; theme = I["theme"]
@@ -1796,6 +1797,14 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             bars = max(bars, amt)
             if bars < 1:
                 a_ = 1 - bars; d.rectangle([0, 0, W, 5], fill=(30, 24, 18, int(160 * a_))); d.rectangle([0, 0, int(W * (x["start"] + u) / total), 5], fill=(*GOLD, int(255 * a_)))
+                if RM and IDK is not None and k > IDK and typ != "end":
+                    tn = x["start"] + u; ci_ = max([j for j, (t_, _) in enumerate(RM) if t_ <= tn + .01], default=-1)
+                    for t_, _ in RM: d.rectangle([int(W * t_ / total) - 1, 0, int(W * t_ / total) + 1, 11], fill=(232, 226, 212, int(200 * a_)))
+                    fr_ = F("SemiBold", 25); fx_ = 60; y_ = 20
+                    segs = ([(f"PART {ci_ + 1}/{len(RM)} · {RM[ci_][1]}", (244, 237, 220))] if ci_ >= 0 else []) + ([(("다음 → " if ci_ >= 0 else "곧 → ") + RM[ci_ + 1][1], (226, 192, 120))] if ci_ + 1 < len(RM) else [])
+                    for j, (tx_, col_) in enumerate(segs):
+                        d.text((fx_ + 2, y_ + 2), tx_, font=fr_, fill=(0, 0, 0, int(150 * a_))); d.text((fx_, y_), tx_, font=fr_, fill=(*col_, int(235 * a_)))
+                        fx_ += int(d.textlength(tx_, font=fr_)) + 34
             foot = " · ".join([q for q in [src, (f"데이터 {asof} 기준" if asof else "")] if q])
             if foot:
                 fy = H - 40 if amt <= 0 else H - 40
