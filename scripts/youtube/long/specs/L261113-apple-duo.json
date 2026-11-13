@@ -1009,10 +1009,8 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261113a_memory_price.jpeg"
-     },
-     {
-      "lib": "il_L261107m_cargo_chips.jpeg"
+      "lib": "globe_L261113a_fx_flow.mp4",
+      "d": 30
      }
     ],
     "wash_amt": 0.85
@@ -1026,18 +1024,7 @@
    ],
    "asof": false,
    "src": "MTN 2026-11-03 (트렌드포스 전망)",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "+330억 달러",
-     "sub": "애플 메모리 구매 약정 · 한 분기 증가",
-     "line": 0,
-     "at": 0.3,
-     "color": "red",
-     "hold": 2.4,
-     "style": "soft"
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1175,10 +1162,8 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261113a3_s32_campus.jpeg"
-     },
-     {
-      "lib": "il_L261113a3_s32_nyc.png"
+      "lib": "globe_L261113a_fx_race.mp4",
+      "d": 30
      }
     ],
     "wash_amt": 0.85
@@ -1192,35 +1177,7 @@
    ],
    "asof": false,
    "src": "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
-   "sketch": [
-    {
-     "kind": "table",
-     "cols": [
-      "시가총액 · 2026.11.9",
-      ""
-     ],
-     "rows": [
-      [
-       "애플",
-       "약 5조 1천억 달러"
-      ],
-      [
-       "엔비디아",
-       "약 4조 3천억 달러"
-      ],
-      [
-       "마이크로소프트",
-       "약 4조 달러"
-      ]
-     ],
-     "colors": [
-      "gray",
-      "gold"
-     ],
-     "line": 0,
-     "at": 0.35
-    }
-   ]
+   "sketch": []
   },
   {
    "v": {
@@ -1601,10 +1558,8 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261113a3_s44_world.png"
-     },
-     {
-      "lib": "il_L261113a_ship_containers.jpeg"
+      "lib": "globe_L261113a_fx_scale.mp4",
+      "d": 30
      }
     ],
     "wash_amt": 0.85
@@ -1618,45 +1573,7 @@
    ],
    "asof": false,
    "src": "",
-   "sketch": [
-    {
-     "kind": "table",
-     "cols": [
-      "어디서",
-      "무엇이",
-      "애플에"
-     ],
-     "rows": [
-      [
-       "중국 선전",
-       "프리미엄 급감 · 화면 논란",
-       "듀오 첫 성적표 ↓"
-      ],
-      [
-       "한국",
-       "폴더블 화면 · 메모리",
-       "원가 ↑"
-      ],
-      [
-       "월가",
-       "AI 주식 매도",
-       "안정 수요 ↑"
-      ],
-      [
-       "워싱턴",
-       "금리",
-       "높은 주가 부담 ↑"
-      ]
-     ],
-     "colors": [
-      "gray",
-      "gold",
-      "green"
-     ],
-     "line": 0,
-     "at": 0.35
-    }
-   ],
+   "sketch": [],
    "chapter": "애플을 움직이는 세계 지도"
   },
   {
