@@ -73,8 +73,9 @@ def check(pid, video, cover, title, desc):
         a = np.asarray(im.convert("L"), np.float32)
         if a.mean() < 18: fails.append("표지가 너무 어두움")
         band = np.asarray(im.crop((60, 650, 1020, 1300)), np.float32)
-        white = ((band > 235).all(axis=2)).mean()
-        if white < 0.004: fails.append("표지 가운데에 흰 제목 글자가 안 보임")
+        top = np.asarray(im.crop((60, 120, 1020, 640)), np.float32)   # 2026-11-14 이야기형(현대판) 표지는 제목이 위 1/3
+        white = max(((band > 235).all(axis=2)).mean(), ((top > 235).all(axis=2)).mean())
+        if white < 0.004: fails.append("표지에 흰 제목 글자가 안 보임(가운데·위 모두)")
     except Exception as e: fails.append(f"표지 파일 문제: {str(e)[:40]}")
     # 5 글
     txt = f"{title}\n{desc}"
