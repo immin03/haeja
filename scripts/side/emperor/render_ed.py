@@ -440,6 +440,8 @@ def main(spec_path, out, frames_dir=None, platform="reels"):
             ms = int(v["at"] * 1000)
             fc += f";[{k+2}:a]adelay={ms}|{ms},volume={v.get('vol',1.0)}[v{k}]"; parts.append(f"[v{k}]")
         fc += f";{''.join(parts)}[m]amix=inputs={len(voices)+1}:normalize=0:duration=first,aresample=48000,volume=2.5dB,alimiter=limit=0.85:attack=5:release=60:level=disabled[a]"   # 2026-11-04: 한 번에 거는 loudnorm(목소리 일그러짐) 대신 고정 음량 + 리미터. 목소리 조각은 미리 -16 LUFS 로 맞춰 둔다
+        if LANG == "en":   # 2026-11-13 영어 쇼츠: ffmpeg 6.1 alimiter 는 latency=0 이면 리미팅이 없어도 첫 조각 파형이 틀어져(상관 0.84~0.89) voice_gate 일그러짐 불통과 → 지연 보정 켬(상관 0.99)
+            fc = fc.replace("level=disabled[a]", "level=disabled:latency=1[a]")
         fc = fc.replace(f"volume={mv}[m]", f"volume={mv},apad=whole_dur={total}[m]")
         fc = fc.replace(f"{''.join(parts)}[m]amix", f"[m]{''.join(parts)}amix")
     else:

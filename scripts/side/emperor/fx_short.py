@@ -263,7 +263,7 @@ for t in [x[2] for x in shots[1:] if x[4]]:
     ins += ["-i", SW]; ms = int(max(0, t - 0.9) * 1000); fc.append(f"[{k}:a]adelay={ms}|{ms},volume=0.3[s{k}]"); mix.append(f"[s{k}]"); k += 1
 for t in PUNCH:
     ins += ["-i", BM]; ms = int(t * 1000); fc.append(f"[{k}:a]adelay={ms}|{ms},volume=0.5[s{k}]"); mix.append(f"[s{k}]"); k += 1
-fc.append(f"{''.join(mix)}amix=inputs={len(mix)}:normalize=0:duration=first,alimiter=limit=0.9,aresample=48000[a]")
+fc.append(f"{''.join(mix)}amix=inputs={len(mix)}:normalize=0:duration=first,alimiter=limit=0.9{':latency=1' if R.LANG == 'en' else ''},aresample=48000[a]")   # 2026-11-13 영어: render_ed 와 같은 이유(ffmpeg 6.1 alimiter 지연 보정 없으면 목소리 파형 틀어짐)
 base = ["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", ";".join(fc), "-map", "0:v", "-map", "[a]", "-pix_fmt", "yuv420p", "-shortest"]
 if PLAT == "shorts":   # 유튜브
     subprocess.run(base + ["-c:v", "libx264", "-preset", "medium", "-crf", "21", "-tune", "grain", "-maxrate", "9M", "-bufsize", "18M", "-c:a", "aac", "-b:a", "192k", "-ac", "2", OUT], check=True)
