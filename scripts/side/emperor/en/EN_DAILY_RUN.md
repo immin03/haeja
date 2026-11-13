@@ -35,6 +35,9 @@
    화면 확인: 12장 격자 한 장을 Read — 글자 잘림·겹침, 한글, 영어 글꼴이 Cinzel/EB Garamond 인지(표지 제목만 Gloock).
 5. 표지: long_<id>.json 에 "cover"(대문자 2~4줄, 한 줄 약 10자, Gloock 160px 고정 — 문구는 최대한 짧게, TEMPLATE.md ★ 쇼츠 표지 규칙) → `ED_LANG=en python3 cover_ed.py <id>` → docs/emperor/en/cover_<id>.jpg. ed_posts.images.yt_cover 에 경로 기록, 업로드 때 썸네일은 이 파일.
    커밋: `docs/emperor/en/<id>_reels.mp4`, `hook_<id>.jpg`(0초 프레임), `cover_<id>.jpg`, `<id>_reels.mp4.voiceqa.json`, `scripts/side/emperor/long_<id>.json`·`fx_<id>.json`.
+5-1. ★ 출고 전 자동 검수 (2026-11-13 대표: "음성·아웃트로·썸네일 검수를 내가 안 하니 문제 안 되게 계속 체크"): `python3 qa_en.py <id> docs/emperor/en/<id>_reels.mp4 docs/emperor/en/cover_<id>.jpg "<title>" "<설명>"` 가 통과해야 한다
+   (음성 검수 도장·영상 해시 일치 / 1080×1920·30~70초·음량 / 엔딩이 기준 en05b 와 같음 / 표지 크기·가운데 흰 제목 / 글에 한글·Korean 없음). 실패하면 고쳐서 다시 — 통과 못 하면 큐에 넣지 않는다.
+   통과하면 6단계 insert 의 images 에 "qa_en": {"passed": true, "at": "<시각>"} 를 넣는다. 업로드 작업은 qa_en.passed 가 true 인 편만 올린다. 출고 검수 작업(매일 17:50·22:50)이 올리기 직전에 한 번 더 확인한다.
 6. 기록: 사용 기록 `python3 ../library.py check ../fx_<id>.json --record --ep=<id> --at="<칸 시각>"`(library_usage.jsonl 커밋). ed_posts insert — id `<id>`, kind 'reel_en', title, video_path `/docs/emperor/en/<id>_reels.mp4`, cover_path, scheduled_at(칸 시각), duration_sec, voice_qa(도장 값),
    ig_caption = 유튜브 설명(SHORTS_EN.md 8절: 첫 문장 키워드, 1~2줄 요약, "Subscribe for a new lesson from the Meditations every day.", 출처 한 줄, `#Shorts #Stoicism #MarcusAurelius #<주제>`),
    to_ig/to_th false, ig/th/tt/ig_comment/yt_comment 상태 'skip: EN', images {"yt_tags":[…], "lang":"en", "channel":"@EmperorsDiary-en", "from":"<한국 편 id>"}.
