@@ -409,7 +409,10 @@ def doc_overlay(E, img, s, u):
         t0 = _tat(E, L, f.get("num_line", 0), f.get("num_frac", .3)); p = u - t0
         if p > 0:
             r = _eout(p / .5); c = _eout(p / 1.0)
-            txt = _count(num, c); fnt = E.F("Heavy", 190 if len(num) <= 7 else 150)
+            txt = _count(num, c); sz = int(f.get("num_size") or (190 if len(num) <= 7 else 150))
+            # 2026-11-13 대표: "① 같은 번호만 덩그러니 뜨면 안 된다" → 번호에는 제목을 붙이고(① 실적 발표), 화면 폭에 맞게 글자를 줄인다
+            while sz > 72 and ImageDraw.Draw(img).textlength(num, font=E.F("Heavy", sz)) > img.size[0] - X - 60: sz -= 6
+            fnt = E.F("Heavy", sz)
             _dtext(img, (X, y + 22 * (1 - r)), txt, fnt, (*col, int(255 * r)), glow=True)
         y += 230
     if pct:

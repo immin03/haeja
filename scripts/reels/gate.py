@@ -1,3 +1,4 @@
+import re
 """렌더 전 자동 차단 (2026-11-12 대표: "왜 이런 현상이 계속 무한 반복돼")
 
 규칙을 기억에 맡기지 않고, 어기면 렌더 자체가 시작되지 않게 한다.
@@ -82,8 +83,41 @@ def check(spec):
     return errs
 
 
+NAMES = ["젠슨 황", "팀 쿡", "스티브 잡스", "콜레트 크레스", "댄 아이브스", "베라 루빈", "일론 머스크", "워렌 버핏", "제롬 파월",
+         "도널드 트럼프", "샘 올트먼", "리사 수", "이재용", "최태원", "하비 존스", "마이크로 소프트", "SK 하이닉스"]
+
+
+def cap_lint(spec):
+    """2026-11-13 대표: "자막이 사람 이름도 다 잘라버린다. 반복되면 안 된다" — 자막 한 덩어리는 의미 단위.
+    ① 이름·날짜·숫자+단위가 두 덩어리로 갈리면 실패 ② 한 덩어리 24자 넘으면 실패(폰트를 줄여도 한 줄에 안 들어감)"""
+    errs = []
+    names = NAMES + list(spec.get("names", []))
+    for i, sc in enumerate(spec.get("scenes", [])):
+        for ln in sc.get("lines", []) or []:
+            cap = ln.get("cap") or []
+            for a, b in zip(cap, cap[1:]):
+                tail, head = a.split()[-1] if a.split() else "", b.split()[0] if b.split() else ""
+                pair = f"{tail} {head}"
+                if any(n in pair and n not in a and n not in b for n in names):
+                    errs.append(f"장면 {i}: 이름이 자막 두 덩어리로 갈림 — '{a}' / '{b}'")
+                if re.search(r"(\d+월|\d[\d,.]*)$", tail) and re.match(r"^(\d+일|%|달러|원|조|억|만|배)", head):
+                    errs.append(f"장면 {i}: 날짜·숫자가 갈림 — '{a}' / '{b}'")
+        fu = sc.get("full") or {}
+        if re.fullmatch(r"\s*[①-⑩0-9]\s*", str(fu.get("num", ""))):
+            errs.append(f"장면 {i}: 번호(①)만 크게 뜸 — '① 실적 발표'처럼 번호에 제목을 붙일 것")
+    viz = sum(1 for sc in spec.get("scenes", []) if (sc.get("full") or {}).get("pct") or (sc.get("full") or {}).get("bars"))
+    if spec.get("platform", "yt") and viz < 2 and spec.get("viz_ok") is not True:
+        errs.append(f"코드 그래프(pct·bars)가 {viz}개 — 숫자 비교(목표가·등락률·시총 등)는 최소 2장면 그래프로 보여줄 것 (2026-11-13 대표)")
+    for i, sc in enumerate(spec.get("scenes", [])):
+        for ln in sc.get("lines", []) or []:
+            for c in ln.get("cap") or []:
+                if len(c) > 24:
+                    errs.append(f"장면 {i}: 자막 한 덩어리가 너무 김(24자 초과) — '{c}'")
+    return errs
+
+
 def enforce(spec):
-    errs = check(spec)
+    errs = check(spec) + (cap_lint(spec) if _date(spec) >= 261113 and spec.get("gate") is not False else [])
     if errs:
         raise SystemExit("렌더 전 점검 실패 (scripts/reels/gate.py) — " + " / ".join(errs))
 
