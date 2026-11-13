@@ -1,0 +1,33 @@
+{
+ "id": "pw_desk",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "Bright clear morning sunlight through tall office windows, an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie sits down at his desk, calm, opening a notebook, colleagues blurred in the background. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d582-03e0-77d3-a67b-7e2e789d13fa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d582-03e0-77d3-a67b-7e2e789d13fa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d582-03e0-77d3-a67b-7e2e789d13fa/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d582-03e0-77d3-a67b-7e2e789d13fa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d582-03e0-77d3-a67b-7e2e789d13fa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d582-03e0-77d3-a67b-7e2e789d13fa/cancel",
+  "expires_at": "2026-11-20T15:25:15.908754+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d582-03e0-77d3-a67b-7e2e789d13fa/4b194c5b-11d3-44dc-9e91-bb064eee5278.jpeg"
+   }
+  ]
+ },
+ "seconds": 6,
+ "file": "social/side/gen/pw_desk.jpeg"
+}
