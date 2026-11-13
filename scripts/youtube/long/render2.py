@@ -32,6 +32,16 @@ TH = {"light": {"bg": PAPER, "ink": INK, "muted": MUTED, "acc": GOLD_D, "card": 
 MONO = None
 
 
+
+def _vn_comment(t):
+    """11/13 대표님: 고정 댓글에는 항상 밸류노트 링크가 들어간다."""
+    t = (t or "").strip()
+    if not t or "valuenote.co.kr" in t:
+        return t
+    line = "📌 내 종목 적정 가격과 점수 확인 → 밸류노트 https://valuenote.co.kr/yt"
+    parts = t.split("\n※", 1)
+    return parts[0].rstrip() + "\n\n" + line + ("\n\n※" + parts[1] if len(parts) > 1 else "")
+
 def M(s):
     """숫자용 등폭 글꼴 (없으면 SUIT)"""
     global MONO
@@ -2294,7 +2304,7 @@ def finish(spec, V, timeline, total, enc, tmp, wav, out, data):
                       "*본 영상은 투자 교육용 정보이며, 특정 종목의 매수·매도 권유가 아닙니다. 적정 주가는 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 결과이며, 이 방식이 늘 맞지는 않습니다."])
     meta = {"id": spec["id"], "kind": "long", "title": fill(spec["title"], V)[:100], "description": desc, "tags": spec.get("tags", []),
             "scheduled_at": spec["scheduled_at"], "duration": round(total, 1), "data": data["raw"], "data_asof": data["raw"]["asof_iso"],
-            "events": spec.get("events", []), "pinned_comment": fill(spec.get("pinned_comment", ""), V), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
+            "events": spec.get("events", []), "pinned_comment": _vn_comment(fill(spec.get("pinned_comment", ""), V)), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
             "qa": {"media": [[k, "lib", s["sc"]["v"].get("lib")] for k, s in enumerate(timeline) if s["sc"]["v"]["type"] == "media"] + [[k, "lib", s["sc"]["v"]["backdrop"]] for k, s in enumerate(timeline) if s["sc"]["v"].get("backdrop")],
                    "lines": [[round(x["start"] + a, 2), round(d_, 2), l, to_speech(l)] for x in timeline for (a, d_, l) in x["lines"]],
                    "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG}}
