@@ -1065,9 +1065,10 @@ def y_caption_one(img, u, L):
         if u >= a_ - .05: a, v, cap = a_, v_, c
     d = ImageDraw.Draw(img); sz = 58
     # 2026-11-13 대표: "자막이 사람 이름까지 잘라 먹는다 — 작으면 폰트를 줄여서라도 의미 단위로" → 대본의 자막 한 덩어리는 절대 쪼개지 않고, 넘치면 글자를 줄인다(최소 44)
-    while sz > 44 and d.textlength(cap, font=F("Bold", sz)) > 940: sz -= 2
+    units = [cap] if isinstance(cap, str) else list(cap)
+    while sz > 44 and max(d.textlength(c, font=F("Bold", sz)) for c in units) > 940: sz -= 2
     font = F("Bold", sz)
-    lines = [cap] if d.textlength(cap, font=font) <= 980 else y_wrap(d, font, cap, limit=940)
+    lines = y_wrap(d, font, units, limit=980)   # 44로 줄여도 넘치는 덩어리만 나눈다 (gate가 24자 넘는 덩어리를 막으므로 사실상 안 나뉨)
     line, t0 = cap_page_span(cap_pages(lines, 1), u, a, v); line = line[0]
     k = clamp((u - t0 + .05) / .12)   # 0 → 1 등장
     ease_k = 1 - (1 - k) ** 3
