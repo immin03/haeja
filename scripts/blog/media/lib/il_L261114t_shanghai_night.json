@@ -1,0 +1,33 @@
+{
+ "id": "il_L261114t_shanghai_night",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Main subject in the right 60 percent, calmer darker left side. Scene: A vast modern electric car factory complex at night on the edge of a Chinese megacity, rows of glowing windows, new white cars parked in long lines",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d57b-a270-7d47-b908-5e4d001d9074",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d57b-a270-7d47-b908-5e4d001d9074/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d57b-a270-7d47-b908-5e4d001d9074/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d57b-a270-7d47-b908-5e4d001d9074",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d57b-a270-7d47-b908-5e4d001d9074/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d57b-a270-7d47-b908-5e4d001d9074/cancel",
+  "expires_at": "2026-11-20T15:17:00.097706+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d57b-a270-7d47-b908-5e4d001d9074/f3a2c145-1699-4b39-a457-6d2b9d454ce5.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261114t_shanghai_night.png"
+}

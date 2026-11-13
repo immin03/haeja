@@ -1,0 +1,33 @@
+{
+ "id": "il_L261114t_solar_roof",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Main subject in the right 60 percent, calmer darker left side. Scene: Rows of black solar panels on a suburban house roof in California, golden late sun, slightly faded and dusty",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d57c-64d1-72b1-b375-7b0c44ce3961",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d57c-64d1-72b1-b375-7b0c44ce3961/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d57c-64d1-72b1-b375-7b0c44ce3961/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d57c-64d1-72b1-b375-7b0c44ce3961",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d57c-64d1-72b1-b375-7b0c44ce3961/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d57c-64d1-72b1-b375-7b0c44ce3961/cancel",
+  "expires_at": "2026-11-20T15:17:50.693424+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d57c-64d1-72b1-b375-7b0c44ce3961/061f3c35-c853-4a1f-8452-2233fa8d4d8e.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261114t_solar_roof.png"
+}
