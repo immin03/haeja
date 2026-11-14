@@ -171,5 +171,5 @@ function docs(C,t){
   if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
 }
 window.draw=function(mode,t){ const C=window.CFG||{}; window.FS=C.fs||1; const fn=({histchart,flow,scale,timeline,stake,race,docs})[mode];
-  if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
+  if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
 </script></body></html>

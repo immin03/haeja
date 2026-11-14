@@ -1800,11 +1800,34 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 if RM and (k > IDK if IDK is not None else x["start"] + u >= RM[0][0] - .01) and typ != "end":
                     tn = x["start"] + u; ci_ = max([j for j, (t_, _) in enumerate(RM) if t_ <= tn + .01], default=-1)
                     for t_, _ in RM: d.rectangle([int(W * t_ / total) - 1, 0, int(W * t_ / total) + 1, 11], fill=(232, 226, 212, int(200 * a_)))
-                    fr_ = F("SemiBold", 25); fx_ = 60; y_ = 20
-                    segs = ([(f"PART {ci_ + 1}/{len(RM)} · {RM[ci_][1]}", (244, 237, 220))] if ci_ >= 0 else []) + ([(("다음 → " if ci_ >= 0 else "곧 → ") + RM[ci_ + 1][1], (226, 192, 120))] if ci_ + 1 < len(RM) else [])
-                    for j, (tx_, col_) in enumerate(segs):
-                        d.text((fx_ + 2, y_ + 2), tx_, font=fr_, fill=(0, 0, 0, int(150 * a_))); d.text((fx_, y_), tx_, font=fr_, fill=(*col_, int(235 * a_)))
-                        fx_ += int(d.textlength(tx_, font=fr_)) + 34
+                    # 2026-11-14 대표님: 장 제목은 책 목차처럼 명사형. 장이 바뀔 때 3초간 전체 목차, 그 뒤엔 '번호 · 지금 장 · 다음 장' 한 줄
+                    t_in = tn - RM[ci_][0] if ci_ >= 0 else 99
+                    c0 = (sc["v"].get("cuts") or [{}])[0].get("lib", "") if t_in < 3.4 else ""
+                    toc_a = 0.0 if ("_fx_" in c0 or sc["v"].get("ident")) else clamp(min(t_in / .35, (3.2 - t_in) / .4))
+                    if toc_a > 0 and ci_ >= 0:
+                        x0, y0, w0, rh = 56, 34, 660, 44
+                        ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); od = AD(ov)
+                        od.rounded_rectangle([x0, y0, x0 + w0, y0 + 60 + rh * len(RM)], 18, fill=(8, 18, 36, 205), outline=(226, 192, 120, 90), width=2)
+                        od.text((x0 + 28, y0 + 20), "목차", font=F("Bold", 22), fill=(226, 192, 120, 255))
+                        for j, (_, nm) in enumerate(RM):
+                            yy = y0 + 58 + j * rh
+                            if j == ci_:
+                                od.rounded_rectangle([x0 + 14, yy - 4, x0 + w0 - 14, yy + rh - 8], 10, fill=(226, 192, 120, 40)); od.rectangle([x0 + 14, yy - 4, x0 + 19, yy + rh - 8], fill=(226, 192, 120, 255))
+                                cc, ff, nc = (244, 237, 220, 255), F("ExtraBold", 27), (226, 192, 120, 255)
+                            elif j < ci_: cc, ff, nc = (150, 158, 172, 200), F("SemiBold", 25), (150, 158, 172, 200)
+                            else: cc, ff, nc = (232, 226, 212, 215), F("SemiBold", 25), (200, 180, 140, 210)
+                            od.text((x0 + 34, yy + 4), f"{j + 1:02d}", font=F("Bold", 22), fill=nc); od.text((x0 + 82, yy + 2), nm, font=ff, fill=cc)
+                        if toc_a < 1: ov.putalpha(ov.getchannel("A").point(lambda v: int(v * toc_a)))
+                        im.paste(ov, (0, 0), ov); d = AD(im)
+                    la_ = a_ * (1 - toc_a)
+                    if la_ > 0:
+                        fx_ = 60; y_ = 20
+                        segs = ([(f"{ci_ + 1:02d}/{len(RM):02d}", (226, 192, 120), F("Bold", 24)), (RM[ci_][1], (244, 237, 220), F("ExtraBold", 26))] if ci_ >= 0 else []) \
+                             + ([("다음", (200, 180, 140), F("SemiBold", 22)), (RM[ci_ + 1][1], (200, 180, 140), F("SemiBold", 24))] if ci_ + 1 < len(RM) else [])
+                        for j, (tx_, col_, fr_) in enumerate(segs):
+                            if j == 2: fx_ += 18
+                            d.text((fx_ + 2, y_ + 2), tx_, font=fr_, fill=(0, 0, 0, int(150 * la_))); d.text((fx_, y_), tx_, font=fr_, fill=(*col_, int(240 * la_)))
+                            fx_ += int(d.textlength(tx_, font=fr_)) + 16
             foot = " · ".join([q for q in [src, (f"데이터 {asof} 기준" if asof else "")] if q])
             if foot:
                 fy = H - 40 if amt <= 0 else H - 40
