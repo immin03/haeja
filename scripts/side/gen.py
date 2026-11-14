@@ -257,6 +257,7 @@ def main(only=None):
         todo = [j for j in todo if j not in ready]
         batch = []
         for j in ready:
+            if _exists(j["id"], j["kind"]): batch.append(j); continue   # 2026-11-14: 이미 있는 장면은 상한 계산에서 뺀다(이미 만든 st1~sw1 이 3달러를 다 차지해 새 장면이 매번 건너뛰어졌다)
             c = est(j)
             if spent + c > cap: print(f"[{j['id']}] 상한 {cap}달러 초과 예상 — 건너뜀"); continue
             spent += c; batch.append(j)
