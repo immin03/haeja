@@ -1,0 +1,185 @@
+{
+ "id": "en27a",
+ "lang": "en",
+ "from": "ep27",
+ "note": "2026-11-14 영어 쇼츠 백로그(en05b 구조). ep27 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "STOP putting",
+  "it off until",
+  "tomorrow."
+ ],
+ "title_line": "Stop putting it off until tomorrow",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en27a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_hourglass.mp4",
+  "/home/claude/haeja/social/side/gen/libv_blacksmith.mp4",
+  "/home/claude/haeja/social/side/gen/edv01_tent.mp4",
+  "/home/claude/haeja/social/side/gen/libv_candle_face.mp4",
+  "/home/claude/haeja/social/side/gen/libv_sunrise_hills.mp4",
+  "/home/claude/haeja/social/side/gen/libv_stars_ruins.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.488,
+   1,
+   0,
+   "none",
+   [
+    "Stop putting it off until tomorrow."
+   ]
+  ],
+  [
+   3.358,
+   5.068,
+   2,
+   0,
+   "cap",
+   [
+    "Your list hasn't moved,"
+   ]
+  ],
+  [
+   5.118,
+   6.754,
+   2,
+   0,
+   "cap",
+   [
+    "and somehow it's",
+    "already evening."
+   ]
+  ],
+  [
+   7.754,
+   10.534,
+   3,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius ran",
+    "an empire at war."
+   ]
+  ],
+  [
+   10.584,
+   12.204,
+   3,
+   1,
+   "cap",
+   [
+    "He knew this",
+    "feeling too."
+   ]
+  ],
+  [
+   12.254,
+   13.83,
+   3,
+   2,
+   "cap",
+   [
+    "So he wrote this",
+    "to himself."
+   ]
+  ],
+  [
+   14.68,
+   15.888,
+   4,
+   3,
+   "quote",
+   [
+    "Remember how often"
+   ]
+  ],
+  [
+   15.888,
+   17.938,
+   4,
+   3,
+   "quote",
+   [
+    "you have put off",
+    "these things."
+   ]
+  ],
+  [
+   18.799,
+   20.259,
+   5,
+   4,
+   "big",
+   [
+    "Don't wait",
+    "to feel ready."
+   ]
+  ],
+  [
+   20.309,
+   21.755,
+   5,
+   4,
+   "big",
+   [
+    "Start with",
+    "five minutes."
+   ]
+  ],
+  [
+   22.605,
+   25.095,
+   6,
+   5,
+   "quote",
+   [
+    "A limit of time",
+    "is fixed for you."
+   ]
+  ],
+  [
+   25.145,
+   27.675,
+   6,
+   5,
+   "quote",
+   [
+    "If you do not use it,",
+    "it will go,"
+   ]
+  ],
+  [
+   27.725,
+   29.581,
+   6,
+   5,
+   "quote",
+   [
+    "and it will",
+    "never return."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Pick one task.",
+  "Do five minutes.",
+  "Right now."
+ ],
+ "source": "Marcus Aurelius, Meditations 2.4",
+ "end_voice": "/home/claude/vo/v2/en27_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en27_outro_voice.wav",
+ "cover": [
+  "STOP",
+  "DELAYING"
+ ],
+ "theme": "A",
+ "vol": 1.0
+}
