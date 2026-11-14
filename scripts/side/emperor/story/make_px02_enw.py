@@ -57,7 +57,7 @@ def png(lines, path, kind="cap"):
         im.paste((0, 0, 0, 255), (0, 0), g); y = 150
         for l in ["WHEN THEY", "DISRESPECT YOU"]:
             f = F(92, "title"); w = d.textlength(l, font=f); d.text(((W - w) / 2, y), l, font=f, fill=IV); y += 116
-        fs = F(58, "title"); s = "MODERN MEDITATIONS"; w = d.textlength(s, font=fs); cy = y + 12 + int(fs.size * 0.62); d.text(((W - w) / 2, y + 12), s, font=fs, fill=CH)   # 2026-11-14 현대판 표시·글자 키움
+        fs = F(58, "title"); s = "MEDITATIONS (MODERN)"; w = d.textlength(s, font=fs); cy = y + 12 + int(fs.size * 0.62); d.text(((W - w) / 2, y + 12), s, font=fs, fill=CH)   # 2026-11-14 현대판 표시·글자 키움
         L = min(90, (W - w) / 2 - 60)
         if L > 30: d.line([(W / 2 - w / 2 - 24 - L, cy), (W / 2 - w / 2 - 24, cy)], fill=CH, width=3); d.line([(W / 2 + w / 2 + 24, cy), (W / 2 + w / 2 + 24 + L, cy)], fill=CH, width=3)
         im.save(path); return
@@ -67,7 +67,7 @@ def png(lines, path, kind="cap"):
     elif kind == "card":
         f = F(70, "cap"); y = 860; ls = ["Today's line", "Meditations, Book 6.6"]; col = IV; src = None
     else:
-        f = F(78, "cap"); y = 640; ls = lines; col = IV; src = None
+        f = F(78, "cap"); y = 1180; ls = lines; col = IV; src = None
     sh = Image.new("L", (W, H), 0); sd = ImageDraw.Draw(sh)
     for i, l in enumerate(ls):
         w = d.textlength(l, font=f); sd.text(((W - w) / 2, y + i * int(f.size * 1.34)), l, font=f, fill=255)

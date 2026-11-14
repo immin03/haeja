@@ -17,7 +17,7 @@ if EN:
 else:
     F = lambda s, w="ExtraBold": ImageFont.truetype(f"/root/fonts/Pretendard-{w}.otf", s)
 GAP = 0.22
-LABEL = "MODERN MEDITATIONS" if EN else "현대판 명상록"   # 2026-11-14 대표: 기존 쇼츠와 다른 버전임을 표시
+LABEL = "MEDITATIONS (MODERN)" if EN else "명상록 (현대판)"   # 2026-11-14 대표: 명상록이 메인, 괄호로 현대판 표시
 MUSIC = HERE + "/music/" + ("we-ll-be-okay.mp3" if sum(map(ord, EPID)) % 2 == 0 else "i-believe-2.mp3")   # 장조·따뜻한 곡 (cinematic_2 는 음산)
 LINES = {k: l for k, l, *_ in D["sc"]}
 SC = []
@@ -73,7 +73,8 @@ def png(lines, path, kind="cap"):
     elif kind == "card":
         f = F(64, "Bold"); y = 860; ls = D["card"]; col = IV; src = None
     else:
-        f = F(78 if EN else 74, "Bold"); y = 640; ls = lines; col = IV; src = None
+        f = F(78 if EN else 74, "Bold"); y = 1180; ls = lines;   # 2026-11-14 대표: 자막을 가운데 아래로(얼굴 가림 방지)
+        col = IV; src = None
     sh = Image.new("L", (W, H), 0); sd = ImageDraw.Draw(sh)
     for i, l in enumerate(ls):
         w = d.textlength(l, font=f); sd.text(((W - w) / 2, y + i * int(f.size * 1.34)), l, font=f, fill=255)
