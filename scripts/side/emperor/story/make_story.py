@@ -47,12 +47,14 @@ def chunks(t):
     out = []
     for p in parts:
         p = p.rstrip(",")
-        while len(p) > (26 if EN else 15):
-            sp = [m.start() for m in re.finditer(" ", p)]
-            cut = min(sp, key=lambda i: abs(i - len(p) / 2)) if sp else len(p)
-            out.append(p[:cut]); p = p[cut + 1:]
-        out.append(p)
+        out += _split(p)
     return out
+
+
+def _split(p):   # 2026-11-14: 반으로 나눈 앞쪽도 길면 다시 나눈다(영어 긴 문장이 화면 밖으로 나가던 문제)
+    if len(p) <= (26 if EN else 15) or " " not in p: return [p]
+    sp = [m.start() for m in re.finditer(" ", p)]; cut = min(sp, key=lambda i: abs(i - len(p) / 2))
+    return _split(p[:cut]) + _split(p[cut + 1:])
 
 
 def png(lines, path, kind="cap"):

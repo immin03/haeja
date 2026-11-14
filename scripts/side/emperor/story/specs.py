@@ -80,7 +80,7 @@ EN_TXT = {
          "That's how you protect yourself, and the relationship.", "Today's line: Meditations, Book Five, Section Six."]}}
 MAN_W = "an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie"
 WOM_W = "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse"
-PXW = {"@px2_smirk_v.mp4": "@pw_smirk_v.mp4", "@px2_desk_v.mp4": "@pw_desk_v.mp4"}
+PXW = {"@px2_smirk_v.mp4": "@pw_smirk_v.mp4", "@px2_desk_v.mp4": "@pw_desk_v.mp4", "@px2_cal_v.mp4": "@sw1_alone.png", "@px2_light_v.mp4": "@sw2_listen_v.mp4"}   # 11/14 영어판에 한국인 장면이 섞이지 않게
 EN_JOBS = {}
 for _id, _t in EN_TXT.items():
     _sc = []; _jobs = []
