@@ -1,0 +1,175 @@
+{
+ "id": "en12a",
+ "lang": "en",
+ "from": "ep12",
+ "note": "2026-11-14 영어 쇼츠 백로그(en05b 구조). ep12 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "Your ANGER",
+  "hurts you more",
+  "than them."
+ ],
+ "title_line": "Your anger hurts you more than them",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en12a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev2_lightning.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+  "/home/claude/haeja/social/side/gen/libv_close_diary.mp4",
+  "/home/claude/haeja/social/side/gen/ev_fire.mp4",
+  "/home/claude/haeja/social/side/gen/libv_storm_ship.mp4",
+  "/home/claude/haeja/social/side/gen/libv_olive_tree.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.262,
+   1,
+   0,
+   "none",
+   [
+    "Your anger hurts you more than them."
+   ]
+  ],
+  [
+   3.122,
+   5.332,
+   2,
+   0,
+   "cap",
+   [
+    "Someone was rude to you",
+    "this morning."
+   ]
+  ],
+  [
+   5.382,
+   7.448,
+   2,
+   0,
+   "cap",
+   [
+    "Tonight, you're still",
+    "replaying it."
+   ]
+  ],
+  [
+   8.308,
+   11.308,
+   3,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius faced",
+    "rude men every day."
+   ]
+  ],
+  [
+   11.358,
+   12.808,
+   3,
+   1,
+   "cap",
+   [
+    "He felt the same fire."
+   ]
+  ],
+  [
+   12.858,
+   14.241,
+   3,
+   2,
+   "cap",
+   [
+    "So he wrote this",
+    "in his journal."
+   ]
+  ],
+  [
+   15.091,
+   19.158,
+   4,
+   3,
+   "quote",
+   [
+    "Consider how much",
+    "more pain our anger",
+    "brings us"
+   ]
+  ],
+  [
+   19.158,
+   21.359,
+   4,
+   3,
+   "quote",
+   [
+    "than the acts",
+    "themselves."
+   ]
+  ],
+  [
+   22.229,
+   23.599,
+   5,
+   4,
+   "big",
+   [
+    "They hurt you once."
+   ]
+  ],
+  [
+   23.649,
+   25.631,
+   5,
+   4,
+   "big",
+   [
+    "Your anger",
+    "replays it all night."
+   ]
+  ],
+  [
+   26.481,
+   29.921,
+   6,
+   5,
+   "quote",
+   [
+    "To be moved by anger",
+    "is not manly."
+   ]
+  ],
+  [
+   29.971,
+   33.512,
+   6,
+   5,
+   "quote",
+   [
+    "Mildness and gentleness",
+    "are more manly."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Recall one thing",
+  "that made you angry.",
+  "Which hurt more?"
+ ],
+ "source": "Marcus Aurelius, Meditations 11.18",
+ "end_voice": "/home/claude/vo/v2/en12_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en12_outro_voice.wav",
+ "cover": [
+  "ANGER",
+  "HURTS YOU"
+ ],
+ "theme": "A",
+ "vol": 1.0
+}
