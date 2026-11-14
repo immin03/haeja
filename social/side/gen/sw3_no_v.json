@@ -1,0 +1,33 @@
+{
+ "id": "sw3_no_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "She raises her hand gently and shakes her head with a calm smile. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d737-2bcd-78e4-b7b4-f0f6bed98a84/9a31545e-2edc-437f-bac1-8405f59b41c9.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d779-baff-7688-8c57-c045ea03973a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d779-baff-7688-8c57-c045ea03973a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d779-baff-7688-8c57-c045ea03973a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d779-baff-7688-8c57-c045ea03973a",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d779-baff-7688-8c57-c045ea03973a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d779-baff-7688-8c57-c045ea03973a/cancel",
+  "expires_at": "2026-11-21T00:35:28.258121+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d779-baff-7688-8c57-c045ea03973a/4e1de7bf-7dbb-4a8c-9a24-5a59afeb8967.mp4"
+  }
+ },
+ "seconds": 87,
+ "file": "social/side/gen/sw3_no_v.mp4"
+}

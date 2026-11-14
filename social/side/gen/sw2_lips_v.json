@@ -1,0 +1,33 @@
+{
+ "id": "sw2_lips_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "He closes the notebook and raises a finger to his lips. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d736-b9bf-7a16-8d82-8432ebe969b0/443c361a-6670-493d-b3e1-0273959c603c.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d778-f040-7f94-a982-8853d07a73c5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d778-f040-7f94-a982-8853d07a73c5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d778-f040-7f94-a982-8853d07a73c5/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d778-f040-7f94-a982-8853d07a73c5",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d778-f040-7f94-a982-8853d07a73c5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d778-f040-7f94-a982-8853d07a73c5/cancel",
+  "expires_at": "2026-11-21T00:33:56.176113+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d778-f040-7f94-a982-8853d07a73c5/783fd553-7f92-4c20-8015-055face6cadd.mp4"
+  }
+ },
+ "seconds": 50,
+ "file": "social/side/gen/sw2_lips_v.mp4"
+}

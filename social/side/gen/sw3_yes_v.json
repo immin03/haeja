@@ -1,0 +1,33 @@
+{
+ "id": "sw3_yes_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "The colleague drops the stack of folders into her arms; she keeps smiling. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d736-f2aa-7c98-9414-9bd7f6d30220/3be0d376-b081-413d-8a7d-8e059b7b0b88.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1d778-f3a3-7fcd-bb98-bf655352d5f6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d778-f3a3-7fcd-bb98-bf655352d5f6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d778-f3a3-7fcd-bb98-bf655352d5f6/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1d778-f3a3-7fcd-bb98-bf655352d5f6",
+  "status_url": "https://api.higgsfield.ai/requests/01a1d778-f3a3-7fcd-bb98-bf655352d5f6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1d778-f3a3-7fcd-bb98-bf655352d5f6/cancel",
+  "expires_at": "2026-11-21T00:34:07.380882+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1d778-f3a3-7fcd-bb98-bf655352d5f6/d2abd3e2-b3db-4d78-be6b-839cdd343fc4.mp4"
+  }
+ },
+ "seconds": 62,
+ "file": "social/side/gen/sw3_yes_v.mp4"
+}
