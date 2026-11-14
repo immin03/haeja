@@ -2,27 +2,28 @@
  "id": "en23",
  "lang": "en",
  "from": "ep23",
- "note": "2026-11-13 영어 쇼츠 백로그(en05b 구조). ep23 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond",
+ "note": "2026-11-14 영어 쇼츠 백로그(en05b 구조). ep23 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙",
  "kicker": "",
  "hook": [
-  "WISE people",
-  "talk less."
+  "Why wise",
+  "people",
+  "talk LESS."
  ],
- "title_line": "Wise people talk less",
+ "title_line": "Why wise people talk less",
  "music": {
-  "file": "/home/claude/ed/music/music_classical-7.mp3",
-  "start": 91,
+  "file": "/home/claude/ed/music/music_we-ll-be-okay.mp3",
+  "start": 0,
   "bed": 0.22
  },
  "voice": "",
  "gap": 0.75,
  "hold": 1.5,
  "cuts": [
+  "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
   "/home/claude/haeja/social/side/gen/ev3_forum.mp4",
-  "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+  "/home/claude/haeja/social/side/gen/libv_candle_diary_txt.mp4",
   "/home/claude/haeja/social/side/gen/libv_two_walk.mp4",
-  "/home/claude/haeja/social/side/gen/libv_letter_open.mp4",
-  "/home/claude/haeja/social/side/gen/libv_farmer_field.mp4",
+  "/home/claude/haeja/social/side/gen/libv_old_bench.mp4",
   "/home/claude/haeja/social/side/gen/ev3_statue.mp4"
  ],
  "sents": [
@@ -33,7 +34,7 @@
    0,
    "none",
    [
-    "Wise people talk less."
+    "Why wise people talk less."
    ]
   ],
   [
@@ -43,7 +44,8 @@
    0,
    "cap",
    [
-    "You come home from dinner,"
+    "You head home",
+    "after dinner,"
    ]
   ],
   [
@@ -64,8 +66,8 @@
    1,
    "cap",
    [
-    "The emperor of Rome",
-    "sat through endless councils."
+    "Marcus Aurelius could",
+    "lecture anyone in Rome."
    ]
   ],
   [
@@ -75,8 +77,7 @@
    1,
    "cap",
    [
-    "He spoke last,",
-    "and listened first."
+    "He chose to listen."
    ]
   ],
   [
@@ -86,7 +87,7 @@
    2,
    "cap",
    [
-    "So he wrote this",
+    "And he wrote this",
     "in his journal."
    ]
   ],
@@ -97,8 +98,8 @@
    3,
    "quote",
    [
-    "Attend carefully",
-    "to what is said."
+    "Listen carefully",
+    "to what another says,"
    ]
   ],
   [
@@ -108,8 +109,8 @@
    3,
    "quote",
    [
-    "Enter, as far as you can,",
-    "into the speaker's mind."
+    "and as far as you can,",
+    "be in the speaker's mind."
    ]
   ],
   [
@@ -119,7 +120,7 @@
    4,
    "big",
    [
-    "Say less."
+    "Half of what we say"
    ]
   ],
   [
@@ -129,7 +130,8 @@
    4,
    "big",
    [
-    "Show it instead."
+    "never needed",
+    "to be said."
    ]
   ],
   [
@@ -139,8 +141,9 @@
    5,
    "quote",
    [
-    "Stop talking about",
-    "what a good man should be."
+    "No longer talk about",
+    "what a good man",
+    "should be."
    ]
   ],
   [
@@ -155,12 +158,12 @@
   ]
  ],
  "tonight": [
-  "In your next talk,",
-  "listen to the end",
-  "before you answer."
+  "Next time you want",
+  "to give advice,",
+  "listen to the end."
  ],
  "source": "Marcus Aurelius, Meditations 6.53, 10.16",
- "end_voice": "/home/claude/haeja/social/side/voice_samples/en1114b/voice_en1114b_13_en23_end_A.mp3",
+ "end_voice": "/home/claude/haeja/social/side/voice_samples/en1114d/voice_en1114d_27_en23_end_A.mp3",
  "outro_voice": "/home/claude/vo/outro_en_ABA.wav",
  "cover": [
   "TALK",

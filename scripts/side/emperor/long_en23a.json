@@ -2,54 +2,56 @@
  "id": "en23a",
  "lang": "en",
  "from": "ep23",
- "note": "2026-11-13 영어 쇼츠 백로그(en05b 구조). ep23 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "note": "2026-11-14 영어 쇼츠 백로그(en05b 구조). ep23 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
  "kicker": "",
  "hook": [
-  "WISE people",
-  "talk less."
+  "Why wise",
+  "people",
+  "talk LESS."
  ],
- "title_line": "Wise people talk less",
+ "title_line": "Why wise people talk less",
  "music": {
-  "file": "/home/claude/ed/music/music_classical-7.mp3",
-  "start": 91,
+  "file": "/home/claude/ed/music/music_we-ll-be-okay.mp3",
+  "start": 0,
   "bed": 0.22
  },
  "voice": "/home/claude/vo/v2/v_en23a.wav",
  "gap": 0.75,
  "hold": 1.5,
  "cuts": [
+  "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
   "/home/claude/haeja/social/side/gen/ev3_forum.mp4",
-  "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+  "/home/claude/haeja/social/side/gen/libv_candle_diary_txt.mp4",
   "/home/claude/haeja/social/side/gen/libv_two_walk.mp4",
-  "/home/claude/haeja/social/side/gen/libv_letter_open.mp4",
-  "/home/claude/haeja/social/side/gen/libv_farmer_field.mp4",
+  "/home/claude/haeja/social/side/gen/libv_old_bench.mp4",
   "/home/claude/haeja/social/side/gen/ev3_statue.mp4"
  ],
  "sents": [
   [
    0.47,
-   2.5,
+   2.203,
    1,
    0,
    "none",
    [
-    "Wise people talk less."
+    "Why wise people talk less."
    ]
   ],
   [
-   2.55,
-   3.95,
-   1,
+   3.063,
+   4.425,
+   2,
    0,
    "cap",
    [
-    "You come home from dinner,"
+    "You head home",
+    "after dinner,"
    ]
   ],
   [
-   4.0,
-   6.176,
-   1,
+   4.425,
+   6.738,
+   2,
    0,
    "cap",
    [
@@ -58,94 +60,95 @@
    ]
   ],
   [
-   6.996,
-   10.106,
-   2,
+   7.588,
+   10.458,
+   3,
    1,
    "cap",
    [
-    "The emperor of Rome",
-    "sat through endless councils."
+    "Marcus Aurelius could",
+    "lecture anyone in Rome."
    ]
   ],
   [
-   10.156,
-   12.771,
-   2,
+   10.508,
+   11.988,
+   3,
    1,
    "cap",
    [
-    "He spoke last,",
-    "and listened first."
+    "He chose to listen."
    ]
   ],
   [
-   13.631,
-   15.363,
+   12.038,
+   13.56,
    3,
    2,
    "cap",
    [
-    "So he wrote this",
+    "And he wrote this",
     "in his journal."
    ]
   ],
   [
-   16.213,
-   18.713,
+   14.41,
+   17.167,
    4,
    3,
    "quote",
    [
-    "Attend carefully",
-    "to what is said."
+    "Listen carefully",
+    "to what another says,"
    ]
   ],
   [
-   18.763,
-   22.091,
+   17.167,
+   20.686,
    4,
    3,
    "quote",
    [
-    "Enter, as far as you can,",
-    "into the speaker's mind."
+    "and as far as you can,",
+    "be in the speaker's mind."
    ]
   ],
   [
-   22.911,
-   24.011,
+   21.526,
+   23.016,
    5,
    4,
    "big",
    [
-    "Say less."
+    "Half of what we say"
    ]
   ],
   [
-   24.061,
-   25.162,
+   23.066,
+   24.432,
    5,
    4,
    "big",
    [
-    "Show it instead."
+    "never needed",
+    "to be said."
    ]
   ],
   [
-   25.992,
-   29.463,
+   25.282,
+   28.592,
    6,
    5,
    "quote",
    [
-    "Stop talking about",
-    "what a good man should be."
+    "No longer talk about",
+    "what a good man",
+    "should be."
    ]
   ],
   [
-   29.463,
-   30.034,
+   28.642,
+   29.552,
    6,
    5,
    "quote",
@@ -155,9 +158,9 @@
   ]
  ],
  "tonight": [
-  "In your next talk,",
-  "listen to the end",
-  "before you answer."
+  "Next time you want",
+  "to give advice,",
+  "listen to the end."
  ],
  "source": "Marcus Aurelius, Meditations 6.53, 10.16",
  "end_voice": "/home/claude/vo/v2/en23_end_voice.wav",
@@ -167,5 +170,5 @@
   "LESS"
  ],
  "theme": "A",
- "vol": 0.8
+ "vol": 1.0
 }
