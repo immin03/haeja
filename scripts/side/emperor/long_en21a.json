@@ -1,0 +1,175 @@
+{
+ "id": "en21a",
+ "lang": "en",
+ "from": "ep21",
+ "note": "2026-11-14 영어 쇼츠 백로그(en05b 구조). ep21 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "The people",
+  "who STAY never",
+  "say this."
+ ],
+ "title_line": "The people who stay never say this",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en21a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_dust_light.mp4",
+  "/home/claude/haeja/social/side/gen/edv06_forum.mp4",
+  "/home/claude/haeja/social/side/gen/libv_close_diary.mp4",
+  "/home/claude/haeja/social/side/gen/edv05_letters.mp4",
+  "/home/claude/haeja/social/side/gen/libv_farmer_field.mp4",
+  "/home/claude/haeja/social/side/gen/libv_lamp_out.mp4"
+ ],
+ "sents": [
+  [
+   0.44,
+   2.552,
+   1,
+   0,
+   "none",
+   [
+    "The people who stay never say this."
+   ]
+  ],
+  [
+   3.402,
+   5.072,
+   2,
+   0,
+   "cap",
+   [
+    "Hundreds of contacts,"
+   ]
+  ],
+  [
+   5.122,
+   6.984,
+   2,
+   0,
+   "cap",
+   [
+    "and no one to call",
+    "on a hard night."
+   ]
+  ],
+  [
+   7.844,
+   11.454,
+   3,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius carried",
+    "wars and a plague."
+   ]
+  ],
+  [
+   11.504,
+   14.204,
+   3,
+   1,
+   "cap",
+   [
+    "Yet there was one phrase",
+    "he refused to use."
+   ]
+  ],
+  [
+   14.254,
+   15.714,
+   3,
+   2,
+   "cap",
+   [
+    "He wrote it down",
+    "in his journal."
+   ]
+  ],
+  [
+   16.564,
+   20.464,
+   4,
+   3,
+   "quote",
+   [
+    "Not to say often to anyone,",
+    "or write in a letter,"
+   ]
+  ],
+  [
+   20.514,
+   21.952,
+   4,
+   3,
+   "quote",
+   [
+    "that I have no leisure."
+   ]
+  ],
+  [
+   22.812,
+   24.532,
+   5,
+   4,
+   "big",
+   [
+    "Say you're busy",
+    "too often,"
+   ]
+  ],
+  [
+   24.582,
+   25.998,
+   5,
+   4,
+   "big",
+   [
+    "and people",
+    "stop asking."
+   ]
+  ],
+  [
+   26.848,
+   30.645,
+   6,
+   5,
+   "quote",
+   [
+    "Nor to keep excusing",
+    "what we owe",
+    "to those we live with,"
+   ]
+  ],
+  [
+   30.645,
+   32.615,
+   6,
+   5,
+   "quote",
+   [
+    "by pleading",
+    "urgent business."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Text one friend.",
+  "Set a dinner",
+  "this week."
+ ],
+ "source": "Marcus Aurelius, Meditations 1.12",
+ "end_voice": "/home/claude/vo/v2/en21_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en21_outro_voice.wav",
+ "cover": [
+  "WHO",
+  "STAYS"
+ ],
+ "theme": "A",
+ "vol": 1.0
+}
