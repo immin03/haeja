@@ -1031,16 +1031,14 @@ function barsList(obj, order){
 }
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
-/* 2026-11-14 대표님: 관리자는 검수·성과·개선만 본다 → 묶음 4개(검수·성과·개선·벤치마킹) + 운영 기록(나머지 전부). 황제의 일기 관리자(/side)와 같은 순서 */
+/* 2026-11-14 대표님 2차: "중복 없애고 핵심만, 성과·검수 하나로" → 홈(할 일·숫자·개선·핫토픽) · 콘텐츠(검수 도구) · 회원. 나머지 화면은 주소(#mail 등)로만 연다 */
 const GROUPS = [
-  ['review', '검수', ['brief', 'youtube', 'social', 'column']],
-  ['perf', '성과', ['overview', 'sprint', 'users']],
-  ['improve', '개선', ['improve']],
-  ['bench', '벤치마킹·핫토픽', ['bench']],
-  ['ops', '운영 기록', ['calendar', 'rules', 'traffic', 'landing', 'dm', 'survey', 'mail', 'stocks', 'qual', 'blog']],
+  ['home', '홈', ['brief']],
+  ['content', '콘텐츠', ['youtube', 'social', 'column']],
+  ['member', '회원', ['users']],
 ];
 const PAGES = [
-  ['brief', '할 일·요청'],
+  ['brief', '홈'],
   ['youtube', '유튜브'],
   ['social', '인스타·쓰레드'],
   ['column', '칼럼'],
@@ -3058,8 +3056,8 @@ function vSprint(){
 /* 2026-11-14 개선 탭: 하루치가 아니라 쌓인 숫자로 진단 3줄 + 잘된·안된 3편 + 할 일 */
 function spD(){ return { start: '2026-11-10', end: '2026-12-09', start_subs: 580, target: 3000, stretch: 5000, ...(SP.doc || {}) }; }
 function spNeed(pg){ if(SP.loaded) return true; if(!SP.busy){ SP.busy = true; spLoad().then(() => { SP.busy = false; if(page() === pg) render(); }).catch(() => { SP.busy = false; }); } return false; }
-function vImprove(){
-  if(!spNeed('improve')) return '<div class="empty">불러오는 중</div>';
+function vImprove(compact){
+  if(!spNeed(compact ? 'brief' : 'improve')) return compact ? '' : '<div class="empty">불러오는 중</div>';
   const D = spD(), longs = spLongs(D), A = (D.actions || []), LOG = (D.log || []);
   const st = y => (y.stats || {}).studio || {}, avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
   const ctr = avg(longs.map(y => +st(y).ctr).filter(v => v > 0)), pct = avg(longs.map(y => +st(y).avg_pct).filter(v => v > 0));
@@ -3068,14 +3066,14 @@ function vImprove(){
   const aged = longs.filter(y => (Date.now() - Date.parse(y.scheduled_at || y.uploaded_at)) / 3600e3 >= 48).map(y => [y, (ytViewsOf(y) || {}).v || 0]).sort((a, b) => b[1] - a[1]);
   const li = ([y, v]) => `<div class="br-row"><div class="t"><b>${esc(y.title)}</b><div class="m">조회 ${n0(v)}회${st(y).ctr != null ? ' · 클릭률 ' + (+st(y).ctr).toFixed(1) + '%' : ''}${st(y).avg_pct != null ? ' · 평균 시청률 ' + (+st(y).avg_pct).toFixed(1) + '%' : ''} · ${spType(y.title) === 'A' ? '보유자 대응' : '다큐'}</div></div></div>`;
   const open = A.filter(a => a.status !== 'done');
-  return `${head('개선', `쌓인 숫자 기준 · 11/7 이후 롱폼 ${longs.length}편`, 'improve')}
-  <h2>누적 진단 <span class="qcount">3줄</span></h2>
+  return `${compact ? '' : head('개선', `쌓인 숫자 기준 · 11/7 이후 롱폼 ${longs.length}편`, 'improve')}
+  <h2>개선 · 누적 진단 <span class="qcount">롱폼 ${longs.length}편 기준</span></h2>
   <div class="card">${dx('클릭률', ctr, 5, '%', '제목·썸네일이 약합니다. 잘된 3편의 제목 방식으로 바꿉니다.')}${dx('평균 시청률', pct, 40, '%', '초반 30초에서 빠집니다. 첫 장면을 더 짧고 구체적으로.')}${dx('조회 1,000회당 구독', per1k, 8, '명', '끝부분 구독 멘트와 다음 편 예고를 강화합니다.')}</div>
   <div class="br-cols"><div><h2>잘된 3편</h2><div class="card">${aged.slice(0, 3).map(li).join('') || '<div class="empty">공개 48시간 지난 편이 아직 없습니다</div>'}</div></div>
   <div><h2>안된 3편</h2><div class="card">${aged.length > 3 ? aged.slice(-3).reverse().map(li).join('') : '<div class="empty">비교할 편수가 부족합니다</div>'}</div></div></div>
-  <h2>지금 고칠 것 <span class="qcount">${open.length} 남음</span></h2>
-  <div class="card sp-act">${open.slice(0, 3).map(a => `<div><span class="ck"></span><span>${esc(a.title)}${a.note ? `<div class="m">${esc(a.note)}</div>` : ''}</span><span class="sp-tag${a.who === '대표' ? ' b' : ''}">${esc(a.who || 'Claude')}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('') || '<div class="empty">없습니다</div>'}</div>
-  <details class="fold" style="margin-top:16px"><summary>할 일 전체 · 결정 기록 · 영상 구조 원칙</summary>
+  ${compact ? '' : `<h2>지금 고칠 것 <span class="qcount">${open.length} 남음</span></h2>
+  <div class="card sp-act">${open.slice(0, 3).map(a => `<div><span class="ck"></span><span>${esc(a.title)}${a.note ? `<div class="m">${esc(a.note)}</div>` : ''}</span><span class="sp-tag${a.who === '대표' ? ' b' : ''}">${esc(a.who || 'Claude')}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('') || '<div class="empty">없습니다</div>'}</div>`}
+  ${compact ? '' : `<details class="fold" style="margin-top:16px"><summary>할 일 전체 · 결정 기록 · 영상 구조 원칙</summary>
   <h2>할 일 <span class="qcount">${A.filter(a => a.status !== 'done').length} 남음</span></h2>
   <div class="card sp-act">${A.map(a => `<div><span class="ck${a.status === 'done' ? ' on' : ''}">${a.status === 'done' ? '✓' : ''}</span><span>${esc(a.title)}${a.note ? `<div class="m">${esc(a.note)}</div>` : ''}</span><span class="sp-tag${a.who === '대표' ? ' b' : ''}">${esc(a.who || 'Claude')}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('') || '<div class="empty">없습니다</div>'}</div>
   <h2>결정·변경 기록</h2>
@@ -3088,7 +3086,7 @@ function vImprove(){
     <div><b>본문</b><span>30~60초마다 작은 질문·'그런데' 반전, 2~3분마다 큰 리후킹(부분 답 → 더 큰 질문), 중반에 가짜 결말 한 번(\"정답일까요? 아직 아닙니다\"), '아까 그 ○○ 기억하시죠' 콜백 2번 이상, 비교 숫자는 화면에 스코어보드로 고정</span></div>
     <div><b>엔딩</b><span>첫 장면으로 돌아가 다른 의미로 닫기 · 내일 생활에서 떠올릴 장면 하나 · 지금 할 행동 하나 · \"밸류노트는 기업의 숫자 뒤에 숨은 이야기를 같이 펼쳐 보는 곳입니다\" 구독 멘트 + 댓글 질문</span></div>
   </div></div>
-  </details>`;
+  </details>`}`;
 }
 function vBenchTab(){
   if(!spNeed('bench')) return '<div class="empty">불러오는 중</div>';
@@ -3122,7 +3120,7 @@ const brTodoToday = it => it.kind === 'daily' ? (it.done_at && kstDate(it.done_a
 function vTodo(fallback){
   const T = BR.todo && BR.todo.items ? BR.todo.items : null;
   if(!T){ return fallback.length ? `<div class="card br-todo"><div class="br-todo-h">대표님이 직접 할 일 <span class="qcount">${fallback.length}</span></div><ul class="br-li">${fallback.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : ''; }
-  const open = T.filter(it => !brTodoToday(it)), done = T.filter(brTodoToday);
+  const open = T.filter(it => !brTodoToday(it) && it.status !== 'delegated'), done = T.filter(brTodoToday);
   if(!open.length) return '';
   return `<div class="card br-todo">
   ${open.map(it => `<div class="br-td" data-td="${esc(it.id)}">
@@ -3133,7 +3131,9 @@ function vTodo(fallback){
     <div class="br-acts">
       ${it.link ? `<a class="br-b ghost" href="${esc(it.link.href)}"${/^https?:/.test(it.link.href) ? ' target="_blank" rel="noopener"' : ''}${/\.(png|jpe?g)$/.test(it.link.href) ? ' download' : ''}>${esc(it.link.label)}</a>` : ''}
       ${it.kind === 'decide' ? (it.choices || []).map(c => `<button class="br-b${c.key === 'keep' ? ' ghost' : ''}" data-td-act="choice" data-td-key="${esc(c.key)}" title="${esc(c.note || '')}">${esc(c.label)}</button>`).join('') : ''}
-      ${it.kind === 'done' || it.kind === 'daily' ? `<button class="br-b" data-td-act="done">완료</button>` : ''}
+      ${it.kind !== 'decide' && it.kind !== 'input' ? `<button class="br-b" data-td-act="done">완료</button>` : ''}
+      <button class="br-b" data-td-act="delegate" title="Claude가 직접 처리합니다(브라우저·서버 작업 포함). 대표님 계정 로그인이 필요한 일은 방법을 다시 알려 드립니다">Claude에게 맡기기</button>
+      <button class="br-b ghost" data-td-act="skip">안 함</button>
       <button class="br-b ghost" data-td-act="say">의견</button>
     </div>
     ${it.kind === 'decide' && (it.choices || []).some(c => c.note) ? `<div class="m br-tdnote">${(it.choices || []).filter(c => c.note).map(c => `· ${esc(c.label)}: ${esc(c.note)}`).join('<br>')}</div>` : ''}
@@ -3156,6 +3156,8 @@ async function brTodoAct(row, act, btn){
   if(act === 'say'){ const b = row.querySelector('.br-say'); b.hidden = !b.hidden; if(!b.hidden) b.querySelector('textarea').focus(); return; }
   if(act === 'send'){ const t = (row.querySelector('.br-say textarea').value || '').trim(); if(!t) return;
     btn.disabled = true; if(await brSaveInbox({ kind: 'feedback', ref: 'owner-todo:' + id, text: `[할 일 · ${it.title}] ${t}` })){ toast('받았습니다. 내 요청에 처리 상태가 뜹니다.'); render(); } else btn.disabled = false; return; }
+  if(act === 'delegate'){ btn.disabled = true; return brTodoSave(id, { status: 'delegated', delegated_at: now }, `[할 일 맡김] ${it.title} — 대표님이 Claude에게 맡김. 직접 처리하고 끝나면 완료로 바꿀 것`, 'Claude에게 맡겼습니다. 끝나면 목록에서 사라집니다.'); }
+  if(act === 'skip'){ if(!confirm('이 일은 하지 않기로 할까요?')) return; btn.disabled = true; return brTodoSave(id, { status: 'done', done_at: now, answer: '안 함' }, `[할 일 안 함] ${it.title}`, '목록에서 뺐습니다.'); }
   if(act === 'done'){ btn.disabled = true; return brTodoSave(id, it.kind === 'daily' ? { done_at: now } : { status: 'done', done_at: now }, it.kind === 'daily' ? '' : `[할 일 완료] ${it.title} — 대표님이 관리자에서 완료 표시`, it.kind === 'daily' ? '오늘 몫을 끝냈습니다.' : '완료로 옮겼습니다.'); }
   if(act === 'input'){ const v = (row.querySelector('.br-tdin input').value || '').trim(); if(!v){ row.querySelector('.br-tdin input').focus(); return; }
     btn.disabled = true; return brTodoSave(id, { status: 'done', done_at: now, answer: v }, `[할 일 답변] ${it.title}: ${v} — 이대로 처리해 주세요(유튜브 채널 설정은 업로드 작업이 스튜디오에서)`, '등록했습니다. Claude가 이어서 처리합니다.'); }
@@ -3344,13 +3346,13 @@ function brReqs(){
   /* 처리 안 된 것 먼저, 그다음 최근 순 */
   return L.filter(r => !hide.has(r.key)).sort((a, b) => (a.done - b.done) || String(b.at || '').localeCompare(String(a.at || ''))).slice(0, 12);
 }
-function vReqs(){
-  const L = brReqs(), nh = ((((BR.inbox || {}).data || {}).hidden) || []).length;
+function vReqs(openOnly){
+  const L = brReqs().filter(r => !openOnly || !r.done), nh = ((((BR.inbox || {}).data || {}).hidden) || []).length;
   if(!L.length) return '<div class="m">지금 남은 요청이 없습니다. 위 요청칸에 적으면 여기에 처리 상태가 뜹니다.</div>';
   const nd = L.filter(r => r.done).length;
   /* 2026-11-07 대표님: "처리한 거는 처리했음으로 놔두고 내가 더 보지 않기 누를 수 있게" */
   return L.map(r => `<div class="br-row${r.done ? ' br-done' : ''}"><i class="br-dot ${({ ok: 'good', wait: 'warn', run: 'info', bad: 'bad' })[r.st[0]]}"></i><div class="t"><div class="br-rq"><span class="br-st ${r.st[0]}">${r.done ? '✓ ' : ''}${esc(r.st[1])}</span><b>${esc(String(r.req || r.what).replace(/^\[[^\]]*\]\s*/, '').slice(0, 90))}</b></div>${r.detail ? `<div class="m">${esc(String(r.detail).slice(0, r.done ? 140 : 220)).replace(/\n/g, '<br>')}</div>` : ''}${!r.done && r.next ? `<div class="br-next">→ ${esc(r.next)}</div>` : ''}</div><div class="bt">${r.done_btn ? `<button class="br-b" data-br-fbdone="${esc(r.done_btn)}">완료했어요</button>` : ''}${r.link && !r.done ? `<a class="br-b ghost" href="${r.link}">열기</a>` : ''}<button class="br-b ghost" data-br-hide="${esc(r.key)}">더 보지 않기</button></div></div>`).join('')
-    + (nd > 1 || nh ? `<div class="br-foot">${nd > 1 ? `<button class="br-b ghost" data-br-hidedone>처리한 것 모두 숨기기</button>` : '<span></span>'}${nh ? `<button class="br-b ghost" data-br-unhide>숨긴 ${nh}건 다시 보기</button>` : ''}</div>` : '');
+    + (!openOnly && (nd > 1 || nh) ? `<div class="br-foot">${nd > 1 ? `<button class="br-b ghost" data-br-hidedone>처리한 것 모두 숨기기</button>` : '<span></span>'}${nh ? `<button class="br-b ghost" data-br-unhide>숨긴 ${nh}건 다시 보기</button>` : ''}</div>` : '');
 }
 async function brHide(keys, reset){
   const cur = BR.inbox && BR.inbox.data ? BR.inbox.data : { items: [] };
@@ -3418,38 +3420,24 @@ function vBrief(){
   const head = d.headline ? esc(d.headline) : esc(auto);
   const urgent = brChecks(), alerts = BR.alerts.filter(a => brAlertOpen(a) && brAlertBig(a));
   BR.checksNow = urgent;
-  const reqs = brReqs(), todoOpen = ((BR.todo || {}).items || []).filter(it => !brTodoToday(it)).length;
+  const reqs = brReqs(), todoOpen = ((BR.todo || {}).items || []).filter(it => !brTodoToday(it) && it.status !== 'delegated').length;
   const dot = l => `<i class="br-dot ${({ bad: 'bad', urgent: 'bad', error: 'bad', warn: 'warn', good: 'good' })[l] || 'info'}"></i>`;
   const ref = (BR.refresh || {}).at;
   const nu = urgent.length + alerts.length;
   const auto2 = (BR.autoChecks || 0) + BR.alerts.filter(a => a.data.read !== true && !brOtherChannel(a) && !BR_PERSONAL.test(String(a.data.source || '')) && brAlertBig(a) && brAlertDone(a)).length;
+  const al = alerts.filter(a => Date.now() - Date.parse(a.data.at || a.updated_at || 0) < 36 * 3600e3);   /* 2026-11-14: 36시간 지난 알림은 홈에 안 띄움 */
+  const openReq = reqs.filter(x => !x.done).length, nTodo = urgent.length + al.length + todoOpen;
   return `<div class="br">
-  <div class="br-fresh"><div class="x">최신 확인 <b>${brStampAt(BR.checkedAt)}</b><br><span>${BR.checking ? '지금 데이터와 유튜브 숫자를 다시 읽는 중입니다' : `지금 데이터와 맞춰 봤습니다${auto2 ? ` · 이미 처리됐거나 지난 알림 ${auto2}건 숨김` : ''}`}</span></div><button class="br-b ghost" data-br-reload title="긴급 항목을 지금 데이터로 다시 확인하고 구독자·시청시간을 새로 읽습니다"${BR.checking ? ' disabled' : ''}>${BR.checking ? '확인 중…' : '새로고침'}</button></div>
-  <div class="br-top">
-    <div class="br-seg">${[['d', '일간'], ['w', '주간'], ['m', '월간']].map(([k, t]) => `<button data-br-mode="${k}"${BR.mode === k ? ' class="on"' : ''}>${t}</button>`).join('')}</div>
-    <div class="br-upd"><span class="m">${esc(r.label)}</span></div>
-  </div>
+  <div class="br-fresh"><div class="x">최신 확인 <b>${brStampAt(BR.checkedAt)}</b>${auto2 ? `<br><span>이미 처리됐거나 지난 알림 ${auto2}건 숨김</span>` : ''}</div><button class="br-b ghost" data-br-reload${BR.checking ? ' disabled' : ''}>${BR.checking ? '확인 중…' : '새로고침'}</button></div>
   <div class="br-kpis wide">${N.kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${/^[-−]/.test(k.delta) ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
-  <div class="br-topgrid"><div>${vGoal(N.kp)}</div><div>
-  <h2>${r.word} 콘텐츠</h2>
-  <div class="card">${C.map(c => `<details class="br-ch"><summary><span class="n">${c.name}</span><span class="c">${c.done.length ? `<em class="ok">✓ ${c.done.length}</em>` : ''}${c.wait.length + c.fix.length ? `<em>남음 ${c.wait.length + c.fix.length}</em>` : ''}${c.bad.length ? `<em class="bad">실패 ${c.bad.length}</em>` : ''}${c.held.length ? `<em class="m">보류 ${c.held.length}</em>` : ''}${!c.all.length ? '<em class="m">없음</em>' : ''}</span></summary>${c.all.length ? `<ul>${[...c.all].filter(x => BR.mode === 'd' || !c.st(x)[0].match(/^m$/)).sort((a, b) => String(a.scheduled_at).localeCompare(String(b.scheduled_at))).slice(0, 30).map(x => { const t = c.st(x); const why = t[0] === 'm' || t[0] === 'bad' ? brWhy(x) : ''; return `<li${t[0] === 'm' ? ' class="br-off"' : ''}><span class="m">${kday(x.scheduled_at)}</span> <span class="br-st ${t[0] === 'm' ? 'off' : t[0]}">${t[1]}</span> ${esc(x.title || x.id)}${why ? `<div class="br-why">왜: ${esc(why)}</div>` : ''}</li>`; }).join('')}</ul>` : ''}</details>`).join('')}</div>
-  </div></div>
-
-  ${nu ? `<div class="card br-urgent"><div class="br-sec">긴급 <span class="qcount">${nu}</span></div>
-    ${urgent.length ? vChecks() : ''}
-    ${alerts.slice(0, 20).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(String(a.data.body).slice(0, 200))}</div>` : ''}${a.data.at ? `<div class="br-when">${kday(a.data.at)} 기록 · ${brLiveWord(brFactDone(a.data.title, a.data.body, a.data.at))}</div>` : ''}</div><div class="bt"><button class="br-b ghost" data-br-read="${esc(a.id)}">처리했음 · 다시 보지 않기</button></div></div>`).join('')}
-  </div>` : `<div class="br-calm">✓ 지금 급한 것 없음</div>`}
-
-  <div class="card br-hl"><p>${head}</p>${d.at && d.headline ? `<div class="br-at">${kst(d.at)} 작성</div>` : ''}</div>
-
-  <div class="br-cols"><div class="br-main">
-  <h2>내 요청 ${reqs.filter(x => !x.done).length ? `<span class="qcount">처리 중 ${reqs.filter(x => !x.done).length}</span>` : ''}</h2>
-  <div class="card">${vReqs()}</div>
-
-  ${todoOpen ? `<h2>대표님이 직접 할 일 <span class="qcount">${todoOpen}</span></h2>${vTodo([])}` : ''}
-  </div>
-  ${ref ? `<div class="br-stamp">자동 정리·갱신 ${kst(ref)} · 하루 3번(08:10·13:10·19:10)</div>` : ''}
-  </div></div>
+  <h2>지금 할 일 ${nTodo ? `<span class="qcount">${nTodo}</span>` : ''}</h2>
+  ${nTodo ? `${urgent.length || al.length ? `<div class="card br-urgent">${urgent.length ? vChecks() : ''}
+    ${al.slice(0, 12).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(String(a.data.body).slice(0, 200))}</div>` : ''}${a.data.at ? `<div class="br-when">${kday(a.data.at)}</div>` : ''}</div><div class="bt"><button class="br-b" data-br-delegate="${esc(a.id)}">Claude에게 맡기기</button><button class="br-b ghost" data-br-read="${esc(a.id)}">처리했음</button></div></div>`).join('')}
+  </div>` : ''}${todoOpen ? vTodo([]) : ''}` : `<div class="br-calm">✓ 지금 손댈 일 없음</div>`}
+  ${openReq ? `<h2>진행 중인 요청 <span class="qcount">${openReq}</span></h2><div class="card">${vReqs(true)}</div>` : ''}
+  ${vImprove(true)}
+  ${vHotTopics()}
+  <div class="sp-note" style="margin-top:10px">벤치마킹 사례·주제 찾기: <a href="#bench">벤치마킹</a> · <a href="/studio#bench">성과 관리 플랫폼 ↗</a> · 지난 화면(메일·설문·유입 등)은 주소 뒤에 #mail 처럼 붙여 엽니다</div>
 </div>`;
 }
 async function brSaveInbox(item){
@@ -3530,6 +3518,8 @@ function bindBrief(){
     b.disabled = true;
     if(await brSaveInbox({ kind: 'revert', ref: a.ref || null, src: a.src || null, text: '되돌리기: ' + a.title })){ a.reverted = true; toast('되돌리기를 요청했습니다. 다음 작업부터 원래대로 돌아갑니다.'); render(); } else b.disabled = false; });
   box.querySelectorAll('[data-br-read]').forEach(b => b.onclick = async () => { b.disabled = true; await brRead([b.dataset.brRead]); render(); });
+  box.querySelectorAll('[data-br-delegate]').forEach(b => b.onclick = async () => { b.disabled = true; const a = BR.alerts.find(x => x.id === b.dataset.brDelegate); if(!a) return;
+    if(await brSaveInbox({ kind: 'feedback', ref: 'alert:' + a.id, text: `[알림 맡김] ${a.data.title} — ${String(a.data.body || '').slice(0, 300)} · 원인 찾아 고치고 끝나면 알림을 읽음으로` })){ await brRead([a.id]); toast('Claude에게 맡겼습니다. 내 요청에 처리 상태가 뜹니다.'); render(); } else b.disabled = false; });
   const yr = box.querySelector('[data-br-ytrefresh]'); if(yr) yr.onclick = () => brYtRefresh(true);
   const ra = box.querySelector('[data-br-readall]'); if(ra) ra.onclick = async () => { ra.disabled = true; await brRead(BR.alerts.filter(brAlertOpen).map(a => a.id)); toast('모두 읽음으로 바꿨습니다.'); render(); };
   const sd = box.querySelector('[data-br-send]'); if(sd) sd.onclick = async () => {
