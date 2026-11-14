@@ -230,6 +230,10 @@ def check(path, record=False, ep=None, at=None):
     cnt = collections.Counter(toks); dup = {t: n for t, n in cnt.items() if n > 1}
     rec = sorted(t for t in cnt if (set(ids[t]["used"]) - {me, "L-" + me}) & recent)
     bad = sorted(t for t in cnt if not ids[t]["ok"])
+    # 2026-11-14 대표 "그냥 명상록은 로마 배경만, 현대판만 현대 장면 — 왔다 갔다 섞지 말자" (한국·영어 모두)
+    story = bool(re.match(r"(st|sw|px)\d", me)) or '"format": "story"' in s
+    era_bad = sorted(t for t in cnt if (ids[t]["era"] != "roman") != story)
+    if era_bad: print(f"  ✗ {'현대판에 로마 장면' if story else '일반 명상록에 현대 장면'}:", ", ".join(era_bad)); bad = bad + era_bad
     print(f"{path}: 그림·영상 {len(cnt)}개")
     if dup: print("  ✗ 한 편 안 중복:", ", ".join(f"{t}×{n}" for t, n in dup.items()))
     if bad: print("  ✗ 쓰지 않는 것:", ", ".join(bad))
@@ -297,7 +301,7 @@ if __name__ == "__main__":
     if cmd == "build": build()
     elif cmd == "find":
         find(" ".join(args), vert=True if "--vert" in flags else None, kind="video" if "--video" in flags else ("image" if "--image" in flags else None),
-             era="roman" if "--roman" in flags else ("modern" if "--modern" in flags else None))
+             era="modern" if "--modern" in flags else "roman")   # 2026-11-14 대표: 일반 명상록은 로마 장면만 → 기본은 roman, 현대판(이야기형)만 --modern
     elif cmd == "check":   # --record [--ep=<편>] [--at="YYYY-MM-DD HH:MM"] : 통과하면 사용 기록을 남긴다(최근 5편 판단에 쓰임)
         kv = dict(x[2:].split("=", 1) for x in flags if "=" in x)
         sys.exit(max([check(p, "--record" in flags, kv.get("ep"), kv.get("at")) for p in args] or [0]))

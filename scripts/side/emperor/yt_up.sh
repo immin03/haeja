@@ -57,4 +57,8 @@ P
 call @$T/start.json; echo
 for n in $(seq 1 20); do R=$(call "{\"key\":\"$K\",\"action\":\"push\",\"state_key\":\"$SKEY\"}"); echo "$R"; echo "$R" | grep -q '"done":true' && break; done
 ED_KEY=$K "$(dirname "$0")/yt_thumb.sh" "$ID" "$J"
+# 2026-11-14 대표 "재생 목록도 명상록 / 현대판 각각 구분": 이야기형(st·px·sw 로 시작하는 편, 또는 meta.json format=story)은 '명상록 (현대판)', 나머지는 '명상록' 재생목록에 넣는다
+VID=$(echo "$R" | python3 -c "import sys,json;print(json.loads(sys.stdin.read().strip().splitlines()[-1]).get('video_id',''))" 2>/dev/null)
+PL=$(python3 -c "import json,re,sys;d=json.load(open('$M'));print('ed_pl_modern' if d.get('format')=='story' or re.match(r'(st|px|sw)\d','$ID') else 'ed_pl_classic')")
+[ -n "$VID" ] && { echo "재생목록 $PL ← $VID"; call "{\"key\":\"$K\",\"action\":\"playlist\",\"list\":\"$PL\",\"video_ids\":[\"$VID\"]}"; echo; }
 call "{\"key\":\"$K\",\"action\":\"clean\",\"state_key\":\"$SKEY\"}"; echo; rm -rf $T

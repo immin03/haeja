@@ -54,6 +54,8 @@
    - 제목·설명(ig_caption)·썸네일(이미지 file input 에 images.yt_cover, 없으면 hook jpg)·"아동용 아님"·고급 설정의 "예, AI가 사용되었습니다"·태그(images.yt_tags)·동영상 언어 영어(미국).
    - 공개 상태: "예약" → scheduled_at 날짜·시각(한국 시간) → 예약. 공개 직전 20분 미만이면 바로 공개.
    - 완료 후 `update ed_posts set yt_video_id='<id>' where id='<post>'`.
+   - ★ 2026-11-14 재생목록(대표 "명상록 / 현대판 각각 구분"): 세부정보의 '재생목록'에서 하나만 고른다 — images.format 이 'story' 이면 "Meditations (Modern) | Stoic Stories for Today", 아니면 "Meditations | Marcus Aurelius, One Line a Day". 둘 다 고르지 않는다.
+   - ★ 2026-11-14 제목 끝: 일반 편은 "| Marcus Aurelius", 이야기형(현대판)은 "| Meditations (Modern)" — ed_posts.title 그대로 쓴다.
    - ★ 2026-11-14 관련 동영상: 세부정보의 '관련 동영상'에 채널의 최신 롱폼(지금은 "3 Stoic Ways to BEAT Someone Who Betrayed You")을 고른다(대표 지시: 미국 쇼츠는 전부 롱폼으로 연결).
 3-1. ★ 2026-11-14 고정 댓글 (예약 공개 전에는 댓글을 달 수 없다 — 매 실행마다 이미 공개된 편을 처리):
    `select id, yt_video_id, yt_comment from ed_posts where kind='reel_en' and yt_video_id is not null and scheduled_at < now() and coalesce(yt_comment_status,'') not in ('posted','done_manual') and yt_comment is not null`.
