@@ -1,0 +1,174 @@
+{
+ "id": "en22a",
+ "lang": "en",
+ "from": "ep22",
+ "note": "2026-11-14 영어 쇼츠 백로그(en05b 구조). ep22 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "Worried about",
+  "MONEY?",
+  "Do this tonight."
+ ],
+ "title_line": "Worried about money? Do this tonight",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en22a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_market_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/libv_tent_stars.mp4",
+  "/home/claude/haeja/social/side/gen/libv_candle_diary_txt.mp4",
+  "/home/claude/haeja/social/side/gen/libv_family_table.mp4",
+  "/home/claude/haeja/social/side/gen/libv_mother_child.mp4",
+  "/home/claude/haeja/social/side/gen/libv_pyre_far.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   3.042,
+   1,
+   0,
+   "none",
+   [
+    "Worried about money? Do this tonight."
+   ]
+  ],
+  [
+   3.902,
+   6.202,
+   2,
+   0,
+   "cap",
+   [
+    "You check your balance",
+    "before bed,"
+   ]
+  ],
+  [
+   6.252,
+   8.016,
+   2,
+   0,
+   "cap",
+   [
+    "and all you see",
+    "is what's missing."
+   ]
+  ],
+  [
+   8.876,
+   11.276,
+   3,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius ruled",
+    "through a plague."
+   ]
+  ],
+  [
+   11.326,
+   12.976,
+   3,
+   1,
+   "cap",
+   [
+    "Rome lost so much."
+   ]
+  ],
+  [
+   13.026,
+   14.877,
+   3,
+   2,
+   "cap",
+   [
+    "And still he wrote this",
+    "in his journal."
+   ]
+  ],
+  [
+   15.727,
+   18.417,
+   4,
+   3,
+   "quote",
+   [
+    "Think not so much",
+    "of what you lack"
+   ]
+  ],
+  [
+   18.467,
+   19.692,
+   4,
+   3,
+   "quote",
+   [
+    "as of what you have."
+   ]
+  ],
+  [
+   20.552,
+   22.972,
+   5,
+   4,
+   "big",
+   [
+    "You've listed what you want",
+    "a hundred times."
+   ]
+  ],
+  [
+   23.022,
+   24.628,
+   5,
+   4,
+   "big",
+   [
+    "Have you ever listed",
+    "what you have?"
+   ]
+  ],
+  [
+   25.448,
+   27.358,
+   6,
+   5,
+   "quote",
+   [
+    "Pick the best of it,"
+   ]
+  ],
+  [
+   27.408,
+   32.093,
+   6,
+   5,
+   "quote",
+   [
+    "and think how eagerly",
+    "you would seek it",
+    "if you did not have it."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Before bed,",
+  "write down three things",
+  "you already have."
+ ],
+ "source": "Marcus Aurelius, Meditations 7.27",
+ "end_voice": "/home/claude/vo/v2/en22_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en22_outro_voice.wav",
+ "cover": [
+  "MONEY",
+  "WORRIES?"
+ ],
+ "theme": "A",
+ "vol": 1.0
+}
