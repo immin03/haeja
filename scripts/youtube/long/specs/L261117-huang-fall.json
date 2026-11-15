@@ -1,0 +1,2298 @@
+{
+ "fx": 1336.7,
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "hook": {
+  "bpm": 61.52,
+  "style": "basstaiko",
+  "cut": "beat",
+  "pulse": false,
+  "ident_fx": false
+ },
+ "overlay": "doc",
+ "music": {
+  "intro": "social/music/samples3/I2_full.mp3",
+  "intro_offset": 0.07,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/samples3/H5_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
+  ],
+  "note": "본편 H5 Ambient House → H1 Deep House Sunset · 120Hz 아래 차단 (11/10 H6 House - July 저작권 주장(Content ID, Easy Eva) 발생 → 사용 금지) · 11/11 대표 \"배경음악 크다\"(SOXL 2편) → H5·H1은 H6보다 2.6dB 큰 곡이라 bed_gain_db 3→-1.5",
+  "hits": [
+   2.93,
+   6.83,
+   12.68,
+   18.53,
+   22.43,
+   26.33,
+   31.21,
+   35.6,
+   43.4,
+   47.3,
+   53.64,
+   57.54,
+   61.44,
+   65.34,
+   69.24,
+   74.6,
+   78.51,
+   82.41,
+   87.77
+  ],
+  "bed_gain_db": -1.5,
+  "bed_hp": 120
+ },
+ "look": {
+  "paper": "grain",
+  "dark": "navy",
+  "accent": "gold"
+ },
+ "roadmap": true,
+ "id": "L261117-huang-fall",
+ "company": "NVDA",
+ "no_data": true,
+ "series": "누가 그리고 왜",
+ "plan": "test-2026-11-16",
+ "scheduled_at": "2026-11-17T19:30:00+09:00",
+ "opening": "장면형(사과 메일 → 사라짐) → 숫자 -14% → 날짜 역설(실적 D-5 · 의회 D-6) → 질문(누가 순서를 짰나) → 약속 3가지 → 인트로",
+ "hook_type": "저스트인타임 벤치마크 · 누가 그리고 왜 · 용의자 구조 · 가설 표시",
+ "endscreen_target": "L261112-soxl-nvidia",
+ "endscreen_also": "L261109-nvidia-huang",
+ "title": "젠슨 황 사임의 배후 | 33년 엔비디아 왕국이 2주 만에 무너졌다, 누가 설계했나",
+ "doc_title": "젠슨 황 몰락의 2주 — 용의자 넷과 빈자리",
+ "title_en": "Who was behind Jensen Huang's fall? 33 years of Nvidia, gone in 2 weeks",
+ "pinned_comment": "젠슨 황 사임으로 가장 많이 얻은 쪽은 누구라고 보시나요? ① 워싱턴 ② 중국 ③ 경쟁사·고객사 ④ 월가 — 댓글로 골라 주세요.\n※ '제작진의 가설' 구간은 사실이 아닌 추정이며, 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "description_head": "젠슨 황 사임 이유, 엔비디아 주가 전망을 찾는 분들께. 2026년 10월 29일 첫 보도부터 11월 12일 사임까지 2주, 실적 발표 5일 전·의회 비공개 브리핑 6일 전에 일어난 일을 날짜순으로 정리하고, 워싱턴·중국·경쟁사·월가 네 용의자가 각각 무엇을 얻는지 따라갑니다.\n\n※ '제작진의 가설'은 사실이 아닌 추정이며 반대 정황도 함께 다뤘습니다. 원음은 한국어 더빙입니다. 매수·매도 권유가 아닙니다.",
+ "description_en": "From the first NYT report on Oct 29 to Huang's resignation on Nov 12: two weeks, five days before earnings and six days before a closed-door House briefing. Four suspects and what each gains. The 'hypothesis' section is speculation, not fact.",
+ "hook_promises": [
+  "용의자 네 명",
+  "맞는 정황과 안 맞는 정황",
+  "주주가 확인할 신호 세 가지"
+ ],
+ "viewer_question": "젠슨 황의 몰락은 누가 설계했나",
+ "format_note": "테스트 렌더(대표 11/16 00:00 요청). 원음 자리는 '원음 자리' 카드 + 임시 같은 음성. 인물 사진·방송 원음은 대표님 파일 받으면 교체. 사내 임원은 이름·얼굴 쓰지 않음. 앨리스 황 얼굴 쓰지 않음.",
+ "tags": [
+  "젠슨 황 사임",
+  "젠슨황 사임 이유",
+  "엔비디아 주가 전망",
+  "엔비디아 주가",
+  "젠슨 황",
+  "엔비디아 CEO",
+  "앨리스 황",
+  "메가스피드",
+  "엔비디아 스파이"
+ ],
+ "search_keywords": [
+  "젠슨 황 사임",
+  "엔비디아 주가 전망"
+ ],
+ "sources": [
+  "AI타임스 2026-11-13 · 알자지라 2026-11-12",
+  "CNBC 2025-07-22 (가장 영향력 있는 CEO)",
+  "CNBC 2026-06-08 (상원 은행위원회 초대 거절) · 포위크MBA 2026-11",
+  "CNBC 2026-11-14 (법무부 조사)",
+  "CNBC 2026-11-14 (알티미터·아트레이디스 서한)",
+  "CNBC 2026-11-14 · 엔비디아 8-K 2026-11-12",
+  "GovInfoSecurity 2026-11 (친척 아님)",
+  "SBS 2026-11-13 (순환거래 우려)",
+  "뉴데일리 2025-11-03 (CBS 60분 인터뷰)",
+  "뉴데일리 2026-11 (미확인 보도)",
+  "뉴데일리 2026-11-13 (로이터 인용)",
+  "뉴데일리·파이낸셜뉴스 2026-11-12~13 (미 정보당국 판단 보도)",
+  "뉴욕타임스 2026-10-29 (네오테오 인용)",
+  "뉴욕타임스 2026-10-29 · PC월드 2026-11-12 (이사회 입장)",
+  "뉴욕타임스 2026-11-11 (파이낸셜뉴스 인용)",
+  "뉴욕타임스 영상 보도 2026-10-29",
+  "뉴욕타임스 인용 수입 기록(임포트지니어스) · 2024.6~2026.2",
+  "뉴욕타임스 인용 임포트지니어스 수입 기록 · 환산 1달러=1,336.7원",
+  "백악관 AI 행동계획 연설 2025-07-23",
+  "알자지라 2026-11-12",
+  "알자지라 2026-11-12 (이사회 신뢰 표명)",
+  "알자지라 2026-11-12 (주주 집단소송)",
+  "알자지라 2026-11-12 (첫 이사회 의장)",
+  "야후 파이낸스 2026 GTC 인터뷰 보도",
+  "에이아이챗데일리 2026-11 (출석 여부 미공개)",
+  "엔비디아 3분기 실적 발표 예정일 2026-11-17",
+  "엔비디아 8-K 2026-11-12 · 알자지라 2026-11-12 (사유 미공개)",
+  "엔비디아 실적 발표 2026-11-17 예정",
+  "쿠키뉴스 2026-05-12 (H200 미반입)",
+  "쿠키뉴스 2026-05-12 (블룸버그·로이터 인용)",
+  "타이완뉴스 2026-11",
+  "트렌드포스 2025-11",
+  "파이낸셜뉴스 2026-11-12",
+  "파이낸셜뉴스 2026-11-12 (워크텔 립턴 선임)",
+  "파이낸셜뉴스 2026-11-12 · 엔비디아 8-K 2026-11-12",
+  "하원 외교위원회 보도자료 2026-11-05",
+  "하원 외교위원회 보도자료 2026-11-05 (11.18 비공개 브리핑 요청)",
+  "헤럴드경제 2026-11-12",
+  "헤럴드경제 2026-11-12 (월스트리트저널 인용)"
+ ],
+ "thumb": {
+  "photo": "il_L261109p_thumb_tower.jpeg",
+  "focus_x": 0.5,
+  "l1": "33년 왕국, 2주 만에",
+  "l2": "누가 설계했나",
+  "pos": "left",
+  "tag": "실적 D-5 · 의회 D-6"
+ },
+ "ab_sets": [
+  {
+   "key": "a",
+   "default": true,
+   "title": "젠슨 황 사임의 배후 | 33년 엔비디아 왕국이 2주 만에 무너졌다, 누가 설계했나",
+   "file": "thumb_a.jpg",
+   "type": "A 질문형",
+   "tag": "실적 D-5 · 의회 D-6",
+   "l1": "33년 왕국, 2주 만에",
+   "l2": "누가 설계했나",
+   "photo": "il_L261109p_thumb_tower.jpeg"
+  },
+  {
+   "key": "b",
+   "title": "젠슨 황은 함정에 빠졌나 | 싱가포르 여성, 48억 달러 칩, 그리고 워싱턴",
+   "file": "thumb_b.jpg",
+   "type": "B 함정형",
+   "tag": "48억 달러 칩",
+   "l1": "싱가포르 여성과 칩",
+   "l2": "함정이었나?",
+   "photo": "il_L261107m_silhouette_screens.jpeg"
+  },
+  {
+   "key": "c",
+   "title": "젠슨 황 사임, 실적 발표 5일 전 사라진 이유 | 엔비디아를 떠나게 만든 4명의 용의자",
+   "file": "thumb_c.jpg",
+   "type": "C 용의자형",
+   "tag": "용의자 4",
+   "l1": "그를 끌어내린 건",
+   "l2": "누구인가",
+   "photo": "il_L261109p_boardroom_empty.jpeg"
+  }
+ ],
+ "events": [
+  {
+   "at": "2026-11-16T00:30:00+09:00",
+   "by": "claude",
+   "what": "테스트 렌더 (대표 요청, 업로드 안 함)"
+  }
+ ],
+ "marks": {
+  "훅": [
+   0,
+   2,
+   4,
+   5
+  ],
+  "약속": [
+   7
+  ],
+  "가설": [
+   58,
+   59,
+   60,
+   61
+  ]
+ },
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vspy_14090.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 8일 일요일, 그는 직원들에게 사과 메일을 보냈습니다. 그리고 나흘 뒤, 33년 동안 지켜 온 회사에서 사라졌습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "파이낸셜뉴스 2026-11-12 · 엔비디아 8-K 2026-11-12",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2026.11.8 → 11.12",
+     "sub": "사과 메일 → 즉시 사임 · 나흘",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_boardroom_empty.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "엔비디아를 세계에서 가장 비싼 회사로 만든 사람, 젠슨 황입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "33년",
+     "sub": "1993년 공동 창업 → 2026년 11월 12일 사임",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vstockmarket_47214.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그날 아침 엔비디아 주가는 장 초반 14% 넘게 빠졌고, 시가총액은 4조 달러 아래로 내려갔어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "AI타임스 2026-11-13 · 알자지라 2026-11-12",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "-14%",
+     "sub": "11.12 장 초반 최대 낙폭 · 시가총액 4조 달러 아래",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_leak_screen.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 날짜를 나란히 놓으면 이상한 점이 보입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_earnings_call.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그가 물러난 날은, 엔비디아 실적 발표 5일 전이었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 3분기 실적 발표 예정일 2026-11-17",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "D-5",
+     "sub": "11.17 엔비디아 실적 발표",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_capitol_dawn.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 미국 의회가 그를 비공개로 부르기로 한 날의, 딱 엿새 전이었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "하원 외교위원회 보도자료 2026-11-05 (11.18 비공개 브리핑 요청)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "D-6",
+     "sub": "11.18 하원 3개 위원회 비공개 브리핑 요청일",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_file_network.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "싱가포르의 한 여성, 사라진 48억 달러어치 칩, 그리고 워싱턴. 우연이었을까요, 아니면 누군가 순서를 짰을까요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴욕타임스 인용 수입 기록(임포트지니어스) · 2024.6~2026.2",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "check",
+     "text": "여성 · 48억 달러 칩 · 워싱턴",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_weigh_balance.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "끝까지 보시면 용의자 네 명, 맞는 정황과 안 맞는 정황, 그리고 엔비디아 주주가 앞으로 확인할 신호 세 가지가 남습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "check",
+     "text": "용의자 4 · 정황 · 확인할 신호 3",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261109p_dots_city.jpeg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "ident": true
+   },
+   "lines": [
+    "밸류노트, 지금 시작합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vsingapore_20174.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "먼저 그 여성부터 보겠습니다. 이름은 앨리스 황. 젠슨 황과 성이 같지만 친척은 아닙니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "GovInfoSecurity 2026-11 (친척 아님)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "앨리스 황",
+     "sub": "싱가포르 메가스피드 전 임원 · 젠슨 황과 친척 아님",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "앨리스 황과 메가스피드"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vsingapore_28635.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그는 싱가포르 데이터센터 회사 메가스피드의 임원이었어요. 메가스피드는 엔비디아의 동남아 핵심 거래처였고요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "알자지라 2026-11-12",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_cargo_chips.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "메가스피드의 말레이시아 자매 회사는 2024년 6월부터 올해 2월까지, 엔비디아 칩이 들어간 장비를 최소 48억 달러어치 사들였습니다. 우리 돈으로 약 6조 4천억 원이에요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴욕타임스 인용 임포트지니어스 수입 기록 · 환산 1달러=1,336.7원",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "48억 달러",
+     "sub": "약 6조 4천억 원 · 2024.6~2026.2 · 메가스피드 말레이시아 자매사",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vdocuments_22856.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "문제는 이 칩이 어디로 갔느냐입니다. 미국 법무부는 메가스피드가 수출이 막힌 칩을 중국으로 돌렸는지 들여다보고 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2026-11-14 (법무부 조사)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vsurveillance_22997.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 미국 정보당국은, 앨리스 황이 중국 정보기관을 위해 일했을 가능성을 의심하고 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리·파이낸셜뉴스 2026-11-12~13 (미 정보당국 판단 보도)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "미 정보당국 판단 (보도)",
+     "sub": "중국 정보기관 연계 가능성 · 기소된 사람은 아직 없음",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_shell_door.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "대만 언론은 두 사람이 지난해 5월 한 비즈니스 만찬에서 함께 있는 영상을 공개하기도 했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "타이완뉴스 2026-11",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnewyork_26920.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이제 시계를 10월 29일로 돌려 보죠. 뉴욕타임스가 첫 보도를 냅니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴욕타임스 영상 보도 2026-10-29",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2026.10.29 · 첫 보도",
+     "sub": "뉴욕타임스 · 앨리스 황과의 관계",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "2주 만에 무너진 33년"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_police_desk.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 이 첫 보도에는 묘한 문장이 있었어요. 미국 정보당국은 젠슨 황이 앨리스 황의 정체를 몰랐다고 결론 내렸다는 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴욕타임스 2026-10-29 (네오테오 인용)",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "check",
+     "text": "정보당국: 젠슨 황은 몰랐다",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vwashington_22784.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "몰랐다면 끝날 일이었죠. 그런데 일주일 뒤 워싱턴이 움직입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105g_cin_capitol.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 4일, 하원 공화당 위원장 세 명이 서한을 보냅니다. 11월 18일에 비공개로 와서 설명하라, 답은 11일까지 달라."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "하원 외교위원회 보도자료 2026-11-05",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "하원 위원장 3명 서한",
+      ""
+     ],
+     "rows": [
+      [
+       "보낸 날",
+       "11월 4일"
+      ],
+      [
+       "답변 기한",
+       "11월 11일"
+      ],
+      [
+       "비공개 브리핑",
+       "11월 18일"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vpolice_32790.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "FBI, 의회, 그리고 엔비디아 자체 조사까지 시작됐습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "알자지라 2026-11-12",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_night_worker.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 8일 일요일, 젠슨 황은 직원들에게 메일을 보내 혼외 관계를 인정하고 사과합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "파이낸셜뉴스 2026-11-12",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "11.8 일요일",
+     "sub": "직원 메일로 관계 인정·사과",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_founders_key.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그날 이사회는 그를 믿는다고 했어요. 여기까지는 버티는 그림이었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "알자지라 2026-11-12 (이사회 신뢰 표명)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vdocuments_24632.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "10일, 이사회는 뉴욕의 대형 로펌을 불러 독립 조사를 맡깁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "파이낸셜뉴스 2026-11-12 (워크텔 립턴 선임)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "11.10",
+     "sub": "이사회, 대형 로펌에 독립 조사 의뢰",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_hourglass.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "답변 기한은 11월 11일이었습니다. 젠슨 황 쪽은 이 날짜까지 출석하겠다는 답을 공개하지 않았어요. 그리고 바로 그날, 두 번째 보도가 나옵니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "에이아이챗데일리 2026-11 (출석 여부 미공개)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_silhouette_screens.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 11일, 뉴욕타임스의 두 번째 보도. 이번엔 회사 안 임원과의 또 다른 관계였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴욕타임스 2026-11-11 (파이낸셜뉴스 인용)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "11.11 · 두 번째 보도",
+     "sub": "사내 임원과의 별도 관계",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_insider_exit.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그날 밤 이사회가 긴급 회의를 열었고, 다음 날 아침 사임이 발표됩니다. 이유는 한 줄도 없었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 8-K 2026-11-12 · 알자지라 2026-11-12 (사유 미공개)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "사유: 없음",
+     "sub": "엔비디아 사임 발표문 2026.11.12",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vofficebuilding_31663.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "로이터는 이후 또 다른 직원과의 세 번째 의혹까지 보도했습니다. 한 번 열린 문으로 기사가 줄줄이 들어온 셈이죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리 2026-11-13 (로이터 인용)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_cash_count.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "회사는 바로 빈자리를 메웠습니다. 13년 동안 돈 관리를 맡아 온 최고재무책임자 콜레트 크레스가 임시 CEO가 됐어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2026-11-14 · 엔비디아 8-K 2026-11-12",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "콜레트 크레스",
+     "sub": "임시 CEO · 2013년 합류 · 전 최고재무책임자",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_dealing_room.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 엔비디아 역사상 처음으로 이사회 의장 자리가 생깁니다. 맡은 사람은 1993년, 회사가 상장하기도 전부터 이사였던 하비 존스입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "알자지라 2026-11-12 (첫 이사회 의장)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "하비 존스",
+     "sub": "엔비디아 첫 이사회 의장 · 1993년부터 이사",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_bootcamp.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "창업자가 회장과 CEO를 다 쥐던 회사가, 하룻밤 사이에 이사회가 키를 잡는 회사로 바뀐 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_campus_dusk.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "보세요. 첫 보도에서 사임까지 딱 2주. 그런데 이 2주 동안 한 번도 쉬지 않고 다음 폭탄이 터졌습니다. 누가 이렇게 순서를 맞춰 줬을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "날짜",
+      "사건"
+     ],
+     "rows": [
+      [
+       "10.29",
+       "첫 보도"
+      ],
+      [
+       "11.4",
+       "의회 서한"
+      ],
+      [
+       "11.8",
+       "인정·사과"
+      ],
+      [
+       "11.11",
+       "두 번째 보도"
+      ],
+      [
+       "11.12",
+       "사임"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vwashington_22786.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "첫 번째 용의자는 워싱턴입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "용의자 ①",
+     "sub": "워싱턴",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ],
+   "chapter": "용의자 ① 워싱턴"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_gov_vs_corp.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "사실 젠슨 황은 지난해까지 워싱턴에서 가장 힘센 경영자로 불렸습니다. 트럼프 대통령의 첫 반응은 이랬는데도요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2025-07-22 (가장 영향력 있는 CEO)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vwashington_22787.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "트럼프 대통령, 더빙입니다. \"엔비디아를 쪼개자고 했죠. 그랬더니 그게 누구냐고. 엔비디아가 대체 뭔데? 처음 들어 봤어요.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "백악관 AI 행동계획 연설 2025-07-23",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "원음 자리 · 트럼프 대통령",
+     "sub": "2025.7.23 AI 행동계획 발표 연설 · 한국어 더빙 (테스트는 임시 음성)",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vwashington_22788.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "\"그런데 젠슨을 알게 됐고, 이제 왜 그런지 알겠더군요.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "백악관 AI 행동계획 연설 2025-07-23",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "원음 자리 · 트럼프 대통령",
+     "sub": "2025.7.23 같은 연설 · 한국어 더빙 (테스트는 임시 음성)",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_rate_board.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "트럼프 대통령은 지난해 엔비디아를 세계에서 가장 위대한 회사라고 부르면서도, 최신 블랙웰 칩만큼은 중국에 넘기지 않겠다고 선을 그었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리 2025-11-03 (CBS 60분 인터뷰)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vsemiconductor_1138.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "칩을 팔고 싶은 사람과, 칩을 지키고 싶은 사람. 둘 사이의 줄다리기는 그때부터 이미 시작돼 있었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_beijing_dusk.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 올해 5월, 이상한 일이 있었습니다. 트럼프 대통령의 중국 방문 경제 사절단 명단에서 젠슨 황만 빠진 거예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "쿠키뉴스 2026-05-12 (블룸버그·로이터 인용)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2026.5 트럼프 방중 사절단",
+     "sub": "팀 쿡·일론 머스크 포함 · 젠슨 황 제외",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_border_night.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "가장 가까웠던 사람이 반년 전부터 조용히 멀어지고 있었던 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_ballot.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "게다가 이번 중간선거 뒤 내년 의회는 주도권이 바뀝니다. 지난 6월 상원 청문회 초대를 거절했던 그에게, 내년엔 공개 청문회가 기다릴 수도 있었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2026-06-08 (상원 은행위원회 초대 거절) · 포위크MBA 2026-11",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "warning",
+     "text": "6월 상원 청문회 초대 거절",
+     "line": 0,
+     "at": 0.35,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vwallstreet_24515.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "워싱턴이 원한 건 엔비디아가 아니라, 젠슨 황이라는 협상 상대가 사라지는 것이었을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vchina_13312.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "두 번째 용의자, 중국입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "용의자 ②",
+     "sub": "중국",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ],
+   "chapter": "용의자 ② 중국"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_key_lockin.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "만약 정말 미인계였다면, 중국은 무엇을 얻었을까요. 핵심 정보? 정보당국은 젠슨 황이 몰랐다고 봤고, 이사회도 기밀이 새었다고 볼 근거는 없다고 했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴욕타임스 2026-10-29 · PC월드 2026-11-12 (이사회 입장)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "chip_47048.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그렇다면 얻은 건 관계입니다. 엔비디아와 워싱턴 사이가 틀어지면, 미국은 칩 수출을 더 조일 수밖에 없죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_huawei_store.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "미국이 문을 더 닫을수록 중국은 자국 칩을 쓸 명분이 생깁니다. 실제로 중국은 미국이 팔겠다고 한 엔비디아 칩도 아직 들이지 않고 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "쿠키뉴스 2026-05-12 (H200 미반입)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_satellite_earth.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "국내 한 매체는 앨리스 황이 중국 국가안전부 수장의 직접 지휘를 받았다고까지 보도했습니다. 다만 확인된 사실은 아닙니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "뉴데일리 2026-11 (미확인 보도)",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "warning",
+     "text": "미확인 보도",
+     "line": 0,
+     "at": 0.35,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vhacker_34838.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "물론 반대로 볼 수도 있습니다. 미인계가 드러난 순간, 중국 쪽 연결 고리는 오히려 모두 끊기니까요. 중국에 이득만 있는 그림은 아닙니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "server_7863.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "세 번째 용의자는 엔비디아의 경쟁사, 그리고 가장 큰 고객들입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "용의자 ③",
+     "sub": "경쟁사·빅테크 고객",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ],
+   "chapter": "용의자 ③ 경쟁사와 고객사"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_ai_rivals.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "구글과 아마존은 엔비디아 칩 대신 쓸 자체 칩을 만들고 있습니다. 엔비디아의 협상력이 약해질수록 이들은 값을 깎을 수 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트렌드포스 2025-11",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "datacenter_23282.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "젠슨 황은 고객 회사들 앞에서도 거침없는 사람이었습니다. 올해 GTC에서는 AI 때문에 사람을 줄이는 경영자들을 두고 상상력이 바닥났다고까지 말했죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "야후 파이낸스 2026 GTC 인터뷰 보도",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_money_loop.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "창업자가 빠진 엔비디아는, 고객 입장에선 조금 더 다루기 쉬운 회사일 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vwallstreet_24517.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "네 번째 용의자, 월가입니다. 폭락한 날 누가 웃었는지 보죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "용의자 ④",
+     "sub": "월가",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ],
+   "chapter": "용의자 ④ 월가"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_trading_red.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "사임 당일 미국 개인 투자자들은 개장 30분 만에 우리 돈 약 1,500억 원어치를 사들였습니다. 역대 최대 규모예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "헤럴드경제 2026-11-12 (월스트리트저널 인용)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 1,500억 원",
+     "sub": "11.12 개장 30분 · 미국 개인 순매수 역대 최대",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnewyork_30544.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "시장도 바로 계산에 들어갔습니다. 창업자 한 사람이 빠졌을 뿐인데, 하루 만에 수천억 달러가 출렁였으니까요. 엔비디아가 AI 회사들에 투자하고, 그 회사들이 다시 엔비디아 칩을 사는 구조라서 리더 공백이 업계 전체를 흔들 수 있다는 걱정도 나왔습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "SBS 2026-11-13 (순환거래 우려)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_phone_vs_chart.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "한국 투자자도 사흘 동안 867억 원어치를 샀고요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "헤럴드경제 2026-11-12",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "867억 원",
+     "sub": "서학개미 엔비디아 순매수 · 최근 사흘",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_trader_gold.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 이틀 뒤, 엔비디아 주식을 약 21억 3천만 달러어치 가진 두 투자사가 이사회에 편지를 보냅니다. 후임자를 천천히 뽑고, 젠슨 황의 복귀 가능성도 열어 두라고요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2026-11-14 (알티미터·아트레이디스 서한)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "11.14 대주주 2곳 서한",
+     "sub": "후임 천천히 · 복귀 가능성 열어 둘 것",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_wallst_cheer.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "주가가 크게 빠진 날 싸게 산 쪽, 그리고 복귀를 외치는 대주주. 창업자가 돌아오면, 가장 크게 웃는 건 폭락 때 산 사람들이겠죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_crash_spac.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "쫓겨난 창업자의 복귀. 어디서 많이 본 장면 아닌가요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_analyst_wall.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여기서부터는 사실이 아니라 저희 제작진의 가설입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "제작진의 가설",
+     "sub": "사실이 아님 · 맞는 정황과 안 맞는 정황을 함께",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ],
+   "chapter": "제작진의 가설"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_calc_notebook.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "받쳐 주는 정황부터. 실적 발표와 의회 출석 바로 앞, 2주 동안 끊김 없이 이어진 보도, 그리고 반년 전부터 멀어진 백악관."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "맞는 정황",
+      ""
+     ],
+     "rows": [
+      [
+       "타이밍",
+       "실적 D-5 · 의회 D-6"
+      ],
+      [
+       "보도 간격",
+       "2주 동안 연속"
+      ],
+      [
+       "백악관",
+       "5월 사절단 제외"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_locked_drive.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "맞지 않는 정황도 분명합니다. 정보당국은 그가 몰랐다고 봤고, 결정타는 누가 꾸민 문서가 아니라 본인이 인정한 사생활이었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "안 맞는 정황",
+      ""
+     ],
+     "rows": [
+      [
+       "정보당국",
+       "젠슨 황은 몰랐다"
+      ],
+      [
+       "결정타",
+       "본인이 인정한 사생활"
+      ],
+      [
+       "기소",
+       "아직 아무도 없음"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "red"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_box_exit.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 저희 결론은 이렇습니다. 누군가 방아쇠를 당겼다는 증거는 없다. 다만 그가 넘어질 때, 받쳐 줄 사람이 아무도 없었다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "방아쇠보다 빈자리",
+     "sub": "누가 쐈나 → 왜 아무도 막지 않았나",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "commons_nvidiahq_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 엔비디아 주주는 무엇을 봐야 할까요. 신호는 세 가지입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "chapter": "엔비디아 주주가 볼 신호 3가지"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_earnings_call.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "첫째, 11월 17일 실적 발표. 숫자보다 중국 매출과 리더십 질문에 누가 어떻게 답하는지 보세요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 실적 발표 2026-11-17 예정",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "check",
+     "text": "① 11.17 실적 발표 · 중국·리더십 답변",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vdocuments_39496.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "둘째, 이사회가 맡긴 독립 조사 결과. 회사가 칩이 새는 걸 알고 있었는지가 나오면 이야기가 완전히 달라집니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "check",
+     "text": "② 독립 조사 결과 · 회사가 알았나",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g_vault_hidden.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "주주 집단소송도 이미 걸렸습니다. 조사 결과가 나쁘게 나오면, 그다음은 돈 문제가 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "알자지라 2026-11-12 (주주 집단소송)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_keynote.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "셋째, 정식 CEO가 누가 되느냐, 그리고 복귀설이 진짜가 되느냐입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "check",
+     "text": "③ 정식 CEO 선임 · 복귀설",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vstockmarket_47213.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "내가 가진 엔비디아가 지금 이익 대비 얼마에 거래되는지는, 밸류노트 앱에서 한 번에 확인하실 수 있어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_dome_dusk.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "33년을 쌓은 사람이 2주 만에 사라졌습니다. 누가 설계했는지는 아직 아무도 모릅니다. 하지만 이 질문만은 남겨 두세요. 그가 넘어질 때, 왜 아무도 잡아 주지 않았을까."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_contract_cash.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여러분은 누가 가장 많이 얻었다고 보시나요? 댓글로 남겨 주세요. 좋아요와 구독은 영상 제작에 큰 힘이 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "",
+    "btn_at": [
+     "0:기업을",
+     "0:기업을",
+     "0:기업을"
+    ],
+    "note": {
+     "text": ""
+    },
+    "dark_end": true
+   },
+   "lines": [
+    "기업을 이해하면, 투자가 달라집니다. 감사합니다. 밸류노트였습니다."
+   ],
+   "endscreen": 11,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  }
+ ]
+}
