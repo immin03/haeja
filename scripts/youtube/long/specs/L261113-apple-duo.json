@@ -67,7 +67,7 @@
  "title_en": "Apple stock outlook: iPhone Duo's fading China premium, memory costs and the AI rotation behind a record high",
  "pinned_comment": "317만 원짜리 아이폰 듀오, 사시겠어요? 아니면 애플 주식을 사시겠어요? 댓글로 나눠 주세요.\n\n📌 내 종목 적정 가격과 점수 확인 → 밸류노트 https://valuenote.co.kr/yt\n\n※ 화면 결함·수율·물량은 보도와 소비자 호소 기준이며, 영상 속 기준은 참고일 뿐 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
  "description_head": "애플 주가 전망, 11월 13일 애플은 356.27달러로 사상 최고 종가를 다시 썼고 시가총액은 약 5조 1,800억 달러(약 6,900조 원)로 세계 1위입니다. 그런데 첫 폴더블 아이폰 '아이폰 듀오'는 중국에서 한때 1만 위안 넘던 프리미엄이 사라지고 화면 줄·균열 호소가 이어졌습니다.\n\n젠슨 황이 엔비디아 CEO에서 물러난 주에 애플은 왜 최고가였을까요? 중국 선전의 재판매 시장, 폴더블 화면을 단독 공급하는 한국 아산의 삼성디스플레이, AI 데이터센터가 끌어올린 메모리 값과 애플 매출총이익률 45~46% 전망, 월가의 AI 주식 매도, 워싱턴의 금리까지, 애플을 움직이는 세계 지도 한 장과 앞으로 볼 숫자 3가지를 정리했습니다.\n\n※ 주가·시가총액은 2026년 11월 13일(미국) 종가, 환산 1달러=1,336.7원. 화면 결함·수율·물량은 보도와 소비자 호소이며 애플이 확인하지 않은 내용이 있습니다. 매수·매도 권유가 아닙니다.",
- "description_en": "Apple closed above $350 for the first time on Nov 9 and is worth about $5.1 trillion, while its first foldable, the iPhone Duo, lost its China resale premium amid screen complaints. We connect Shenzhen's resale market, Samsung Display's foldable panels in Korea, AI-driven memory costs and Apple's 45-46% margin guidance, the rotation out of AI stocks, and US rates. Not investment advice.",
+ "description_en": "Apple closed at a record $356.27 on Nov 13 and is worth about $5.18 trillion, while its first foldable, the iPhone Duo, lost its China resale premium amid screen complaints. We connect Shenzhen's resale market, Samsung Display's foldable panels in Korea, AI-driven memory costs and Apple's 45-46% margin guidance, the rotation out of AI stocks after Jensen Huang's exit from Nvidia, and US rates. Not investment advice.",
  "hook_promises": [
   "애플을 움직이는 세계 지도 한 장",
   "앞으로 볼 숫자 3가지"
@@ -477,7 +477,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "그런데 10월 23일 출시 며칠 만에 분위기가 바뀝니다. 선전 화창베이의 한 재판매자는 1TB 모델 프리미엄을 2,800위안 낮췄고 상하이에선 최대 8만~10만 위안을 손해 본 재판매자도 나왔다고 전해졌어요."
+    "그런데 10월 23일 출시 며칠 만에 분위기가 바뀝니다. 선전 화창베이의 한 재판매자는 1테라바이트 모델 프리미엄을 2,800위안 낮췄고 상하이에선 최대 8만~10만 위안을 손해 본 재판매자도 나왔다고 전해졌어요."
    ],
    "sketch_add": [],
    "en": [
@@ -1596,7 +1596,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261110a_search_phone.jpeg"
+      "lib": "il_L261113a_memory_price.jpeg"
      }
     ],
     "wash_amt": 0.85
@@ -1819,7 +1819,11 @@
   "애플 시가총액"
  ],
  "sources": [
-  "24/7 월스트리트 2026-11-10 (11/9 종가·시가총액·실적·가이던스)",
+  "24/7 월스트리트 2026-11-10 (11/9 종가·실적·가이던스)",
+  "StockAnalysis·구글 파이낸스·Macrotrends 2026-11-13 (애플 356.27달러 사상 최고 종가·시가총액 5.18조 달러)",
+  "CNBC·야후 파이낸스 2026-11-13 (젠슨 황 사임·엔비디아 시가총액 4조 달러 하회)",
+  "FinHacker 2026-11-13 (엔비디아 3.93조·마이크로소프트 3.89조 달러)",
+  "서울 외환시장 2026-11-13 주간 종가 1,336.7원(파이낸셜뉴스·데일리안)",
   "모틀리풀 2026-11-10",
   "연합뉴스 2026-10-27 (글로벌타임스 인용, 중국 프리미엄·정가 이하·주문 취소)",
   "위키트리 2026-11-09 (MyDrivers 인용)",
@@ -1829,8 +1833,7 @@
   "아이티월드 2026-09 (존 터너스 9월 1일 취임)",
   "카운터포인트 (애플월드투데이 2026-10-19)",
   "GSMArena 2026 (중국 폴더블폰 시장)",
-  "미국 노동부 10월 CPI (CBS·Kitco 2026-11-10) · 뉴스핌 2026-11-11",
-  "알파경제 2026-11-11 (엔비디아 이틀 약 540조 원)"
+  "미국 노동부 10월 CPI (CBS·Kitco 2026-11-10) · 뉴스핌 2026-11-11"
  ],
  "thumb": {
   "photo": "il_L261113a_unfold_hand.jpeg",

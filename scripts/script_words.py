@@ -14,6 +14,11 @@ WORDS = {
     "일곳": "한 곳",
 }
 # 읽기 실수: 소수점 달러(331.90달러 → "삼백삼십일 점 구공 달러"로 읽힘) — "약 332달러"처럼 반올림하거나 "331달러 90센트"
+# 2026-11-15 대표: "1TB를 1테라바이트라고 하지 1TB라고 안 하잖아 … 그런 거 하나 보자마자 AI가 했구나" — 숫자 뒤 영문 단위 약어는 내레이션·자막에 한글로 풀어 쓴다
+UNITS = {"TB": "테라바이트", "GB": "기가바이트", "MB": "메가바이트", "KB": "킬로바이트", "Gb": "기가비트", "GW": "기가와트", "MW": "메가와트", "kW": "킬로와트",
+         "kWh": "킬로와트시", "TWh": "테라와트시", "GWh": "기가와트시", "nm": "나노미터", "mm": "밀리미터", "cm": "센티미터", "km": "킬로미터", "kg": "킬로그램",
+         "mAh": "밀리암페어시", "Hz": "헤르츠", "GHz": "기가헤르츠", "MHz": "메가헤르츠", "bp": "베이시스포인트", "%p": "%포인트", "oz": "온스", "t": "톤"}
+UNIT_RX = re.compile(r"(\d[\d,.]*)\s?(" + "|".join(sorted(map(re.escape, UNITS), key=len, reverse=True)) + r")(?![A-Za-z])")
 DEC_MONEY = re.compile(r"\d+\.\d+\s*(달러|위안|엔|유로|원)")
 
 
@@ -26,4 +31,7 @@ def check_lines(lines):
         m = DEC_MONEY.search(l)
         if m:
             errs.append(f"장면 {i}: 소수점 금액 '{m.group(0)}' — 읽으면 '점 구공'이 된다. 반올림(약 …) 또는 'N달러 M센트'")
+        u = UNIT_RX.search(l)
+        if u:
+            errs.append(f"장면 {i}: 영문 단위 '{u.group(0)}' → '{u.group(1)}{UNITS[u.group(2)]}' — 내레이션·자막은 한글로 (AI가 쓴 티가 난다)")
     return errs
