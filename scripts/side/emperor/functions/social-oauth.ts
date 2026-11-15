@@ -7,6 +7,7 @@
 // 4) 황제의 일기(2026-11-02): instagram_ed / threads_ed / youtube_ed.
 //    Claude가 SQL로 social_oauth_state에 1회용 nonce를 넣고 ?go=<nonce> 링크를 대표에게 준다(1시간 유효).
 //    인스타·쓰레드는 ed_accounts에, 유튜브는 youtube_account id=2 에 저장. 로그인 계정이 emperors.diary 가 아니면 저장하지 않는다.
+// 5) 영어 채널(2026-11-15): youtube_en_ed → youtube_account id=3. 고른 채널이 The Emperor's Diary(@EmperorsDiary-en)가 아니면 저장하지 않는다.
 // verify_jwt = false (Meta가 직접 호출하므로). 관리자 확인은 함수 안에서 한다.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -36,9 +37,10 @@ const CFG = {
 } as const;
 type P = keyof typeof CFG;
 const ED_USER = "emperors.diary";
-const baseOf = (p: string) => p.replace(/_ed$/, "") as P;
+const baseOf = (p: string) => p.replace(/_ed$/, "").replace(/_en$/, "") as P;
+const EN_CH = "UCRvSvKOjbsEXKY03TCP9I1w";
 const isEd = (p: string) => p.endsWith("_ed");
-const VALID = ["instagram", "threads", "youtube", "instagram_ed", "threads_ed", "youtube_ed"];
+const VALID = ["instagram", "threads", "youtube", "instagram_ed", "threads_ed", "youtube_ed", "youtube_en_ed"];
 
 async function youtubeConnect(code: string, rowId = 1) {
   const form = new URLSearchParams({ client_id: CFG.youtube.id(), client_secret: CFG.youtube.secret(), grant_type: "authorization_code", redirect_uri: URL_SELF, code });
@@ -48,6 +50,8 @@ async function youtubeConnect(code: string, rowId = 1) {
   const c = ch.items?.[0];
   if (!c) throw new Error("이 구글 계정에 유튜브 채널이 없습니다. 채널을 고르는 화면에서 올바른 채널을 선택해 주세요.");
   if (rowId === 2 && c.id === "UCXh2Zs40HIrLZK5GTrHyYSQ") throw new Error("밸류노트 채널이 선택됐습니다. 채널 선택 화면에서 '황제의 일기'를 골라 다시 연결해 주세요.");
+  if (rowId === 2 && c.id === EN_CH) throw new Error("영어 채널이 선택됐습니다. 이 링크는 한국 '황제의 일기'용입니다.");
+  if (rowId === 3 && c.id !== EN_CH) throw new Error(`'${c.snippet?.title}' 채널이 선택됐습니다. 채널 선택 화면에서 'The Emperor’s Diary'(@EmperorsDiary-en)를 골라 다시 연결해 주세요. 기존 연결은 그대로입니다.`);
   const { data: old } = await sb.from("youtube_account").select("refresh_token").eq("id", rowId).maybeSingle();
   const refresh = t.refresh_token || old?.refresh_token;
   if (!refresh) throw new Error("갱신 토큰을 받지 못했습니다. myaccount.google.com/permissions 에서 ValueNote 접근을 삭제한 뒤 다시 연결해 주세요.");
@@ -139,7 +143,7 @@ Deno.serve(async (req: Request) => {
     if (err) return ed ? html("연결이 취소됐습니다: " + err.replace(/</g, "&lt;"), 400) : back(st.ret, `social_err=${encodeURIComponent(err)}`);
     const code = (u.searchParams.get("code") || "").replace(/#_$/, "");
     if (base === "youtube") {
-      const title = await youtubeConnect(code, ed ? 2 : 1);
+      const title = await youtubeConnect(code, st.platform === "youtube_en_ed" ? 3 : ed ? 2 : 1);
       return ed ? html(`✅ 유튜브 '${title}' 채널 연결 완료. 이 창을 닫으셔도 됩니다.`) : back(st.ret, "social_ok=youtube");
     }
     const t = await exchange(base, code);

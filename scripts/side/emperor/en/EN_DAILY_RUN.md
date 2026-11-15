@@ -16,7 +16,7 @@
 
 ## A. 제작 (예약 작업 "The Emperor's Diary (EN) 쇼츠 제작", 매일 13:41 KST)
 - ★ 2026-11-14 음악: 한국 편의 music 을 그대로 복사하지 말고 TEMPLATE.md 음악 규칙(miss-you / we-ll-be-okay / i-believe-2)을 따른다. classical-7 금지(단조·음산).
-0. 빈 칸 확인: `select id, scheduled_at from ed_posts where kind='reel_en' and scheduled_at >= '<D> 21:00+09' and scheduled_at < '<D+1> 12:00+09'`. 이미 찬 칸은 건너뛴다. 셋 다 차 있으면 끝.
+0. 빈 칸 확인: `select id, scheduled_at from ed_posts where kind='reel_en' and scheduled_at >= '<D> 21:00+09' and scheduled_at < '<D+1> 12:00+09'`. 이미 찬 칸은 건너뛴다. 셋 다 차 있으면 끝. ★ 11/15 양산형 방지: 그 창(D 21:00 ~ D+1 12:00)에 현대판(id sw·px…en, 05:47 등) 행이 있으면 일반 편은 2칸만 채운다(합계 하루 3편).
 ★ 2026-11-15 검색 노출: 소재·제목·설명 첫 줄·태그·고정 댓글은 SHORTS_EN.md 8-1절을 따른다(문제형 검색어 우선, 태그 고정 세트, 설명 첫 줄 검색어 문장, 고정 댓글에 인용 한 줄).
 1. 소재 고르기: 한국 채널 쇼츠(ed_posts kind='reel', id like 'ep%')를 유튜브 반응 순으로(ed_stats platform 'youtube' 최신 views, 같으면 likes) 줄 세우고, `images->>'from'` 으로 이미 영어판을 만든 편은 뺀다. 위에서부터 빈 칸 수만큼 고른다.
 2. 대본(영어로 새로 쓴다, 번역 아님 — SHORTS_EN.md 1·2·8절):
@@ -25,7 +25,7 @@
    - 인용은 확실히 아는 『명상록』 권·절만, 조지 롱(1862) 번역을 쉽게 다듬은 문장. 지어낸 인용 금지.
    - 미국식 철자, 한글 0자, 특정 앱·플랫폼 이름 금지("feed", "phone" 같은 일반어는 됨).
    - 제목: 문제/결과 먼저 60자 미만, 대문자 강조 1~2단어, 끝 " | Marcus Aurelius" 또는 " | Stoicism", 해시태그 없음.
-   - `long_<id>.json`(id = en + 한국 편 번호, 예 ep19 → en19), `fx_<id>.json`(장면 6컷). 장면은 **TEMPLATE.md '★ 공용 라이브러리·생성 상한' 그대로**: `python3 ../library.py build` 후 장면마다 `python3 ../library.py find <주제어> --vert` 먼저(한국어판과 같은 장면이면 같은 파일을 같이 쓴다, 최근 5편 사용분은 뒤로), 맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성. fx 를 다 쓰면 `python3 ../library.py check fx_<id>.json` 통과(한 편 안 중복 금지).
+   - `long_<id>.json`(id = en + 한국 편 번호, 예 ep19 → en19), `fx_<id>.json`(장면 6컷). 장면은 **TEMPLATE.md '★ 공용 라이브러리·생성 상한' 그대로**: `python3 ../library.py build` 후 장면마다 `python3 ../library.py find <주제어> --vert` 먼저(★ 11/15 양산형 방지: 한국 원본과 장면 겹침 50% 이하 — 같은 주제라도 다른 그림을 고른다, 첫 장면은 최근 9편 첫 장면과 다르게, 최근 5편 사용분은 뒤로), 맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성. fx 를 다 쓰면 `python3 ../library.py check fx_<id>.json` 통과(한 편 안 중복 금지).
 3. 녹음: voice-fast 워크플로를 REST로 부른다(`gh api -X POST repos/immin03/haeja/actions/workflows/voice-fast.yml/dispatches --input body.json`, body = {"ref":"main","inputs":{"req": "<JSON 문자열>"}}).
    req = {"tag":"<id>v","lang":"eng","model":"ssfm-v30","keep":true,"voices":[{name,id,line,emotion,intensity,tempo}…]}.
    이름 `<id>_<묶음>_<A|B>`(n0,n1,n2,e3,n4,e5,end 각 A·B 두 테이크). 해설 Ron `tc_6620ee223bc61e2f6b79fdb5` tempo 0.95 tonedown, 인용 Robert `tc_66bc600762cab997910b107b` tempo 0.88 tonedown(en/VOICES.json).
@@ -39,6 +39,7 @@
    화면 확인: 12장 격자 한 장을 Read — 글자 잘림·겹침, 한글, 영어 글꼴이 Cinzel/EB Garamond 인지(표지 제목만 Gloock).
 5. 표지: long_<id>.json 에 "cover"(대문자 2~4줄, 한 줄 약 10자, Gloock 160px 고정 — 문구는 최대한 짧게, TEMPLATE.md ★ 쇼츠 표지 규칙) → `ED_LANG=en python3 cover_ed.py <id>` → docs/emperor/en/cover_<id>.jpg. ed_posts.images.yt_cover 에 경로 기록, 업로드 때 썸네일은 이 파일.
    커밋: `docs/emperor/en/<id>_reels.mp4`, `hook_<id>.jpg`(0초 프레임), `cover_<id>.jpg`, `<id>_reels.mp4.voiceqa.json`, `scripts/side/emperor/long_<id>.json`·`fx_<id>.json`.
+5-0. ★ 2026-11-15 양산형 검사: `python3 ../authentic_check.py ../fx_<id>.json --src=<한국 편 id> --posts=/tmp/posts.json` 통과(TEMPLATE.md '★ 양산형 방지' 2, posts.json 만드는 SQL 도 거기). 실패면 장면·제목을 고쳐 다시. 하루 칸은 현대판 포함 3편 — 현대판(sw) 칸이 있는 날은 일반 칸 하나를 비운다. 3편에 1번은 가치 편(같은 절 3, images.value_add).
 5-1. ★ 출고 전 자동 검수 (2026-11-13 대표: "음성·아웃트로·썸네일 검수를 내가 안 하니 문제 안 되게 계속 체크"): `python3 qa_en.py <id> docs/emperor/en/<id>_reels.mp4 docs/emperor/en/cover_<id>.jpg "<title>" "<설명>"` 가 통과해야 한다
    (음성 검수 도장·영상 해시 일치 / 1080×1920·30~70초·음량 / 엔딩이 기준 en05b 와 같음 / 표지 크기·가운데 흰 제목 / 글에 한글·Korean 없음). 실패하면 고쳐서 다시 — 통과 못 하면 큐에 넣지 않는다.
    통과하면 6단계 insert 의 images 에 "qa_en": {"passed": true, "at": "<시각>"} 를 넣는다. 업로드 작업은 qa_en.passed 가 true 인 편만 올린다. 출고 검수 작업(매일 17:50·22:50)이 올리기 직전에 한 번 더 확인한다.
