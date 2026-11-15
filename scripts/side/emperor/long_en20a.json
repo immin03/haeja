@@ -1,0 +1,164 @@
+{
+ "id": "en20a",
+ "lang": "en",
+ "from": "ep20",
+ "note": "2026-11-15 영어 쇼츠 백로그(en05b 구조). ep20 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "The older you get,",
+  "the more you need",
+  "TIME ALONE."
+ ],
+ "title_line": "Why you need time alone",
+ "music": {
+  "file": "/home/claude/ed/music/music_we-ll-be-okay.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en20a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/cep1_sback.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_cheer.mp4",
+  "/home/claude/haeja/social/side/gen/libv_quill2.mp4",
+  "/home/claude/haeja/social/side/gen/libv_sea_waves.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_alone.mp4",
+  "/home/claude/haeja/social/side/gen/libv_stars_ruins.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   3.63,
+   1,
+   0,
+   "none",
+   [
+    "The older you get, the more you need time alone."
+   ]
+  ],
+  [
+   4.5,
+   6.39,
+   2,
+   1,
+   "cap",
+   [
+    "You laugh all night",
+    "with friends,"
+   ]
+  ],
+  [
+   6.44,
+   8.084,
+   2,
+   1,
+   "cap",
+   [
+    "then feel empty",
+    "on the way home."
+   ]
+  ],
+  [
+   8.914,
+   12.134,
+   3,
+   2,
+   "big",
+   [
+    "People give you joy.",
+    "They can't give you rest."
+   ]
+  ],
+  [
+   12.184,
+   14.455,
+   3,
+   2,
+   "cap",
+   [
+    "Marcus Aurelius",
+    "wrote alone at night."
+   ]
+  ],
+  [
+   15.305,
+   17.805,
+   4,
+   3,
+   "quote",
+   [
+    "Men seek retreats",
+    "for themselves,"
+   ]
+  ],
+  [
+   17.855,
+   19.994,
+   4,
+   3,
+   "quote",
+   [
+    "by the sea,",
+    "in the mountains."
+   ]
+  ],
+  [
+   20.854,
+   22.234,
+   5,
+   4,
+   "cap",
+   [
+    "You don't need a trip."
+   ]
+  ],
+  [
+   22.284,
+   24.062,
+   5,
+   4,
+   "big",
+   [
+    "Just one",
+    "empty evening."
+   ]
+  ],
+  [
+   24.912,
+   28.592,
+   6,
+   5,
+   "quote",
+   [
+    "Nowhere can a man retire",
+    "with more quiet"
+   ]
+  ],
+  [
+   28.642,
+   30.355,
+   6,
+   5,
+   "quote",
+   [
+    "than into",
+    "his own soul."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Turn off the lights.",
+  "Sit alone",
+  "for ten minutes."
+ ],
+ "source": "Marcus Aurelius, Meditations 4.3",
+ "end_voice": "/home/claude/vo/v2/en20_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en20_outro_voice.wav",
+ "cover": [
+  "TIME",
+  "ALONE"
+ ],
+ "theme": "A",
+ "vol": 0.82
+}
