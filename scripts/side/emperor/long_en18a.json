@@ -1,0 +1,166 @@
+{
+ "id": "en18a",
+ "lang": "en",
+ "from": "ep18",
+ "note": "2026-11-15 영어 쇼츠 백로그(en05b 구조). ep18 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "Someday, you'll",
+  "run out of time",
+  "to SAY IT."
+ ],
+ "title_line": "Don't wait to tell them",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en18a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev_rider.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_msgr.mp4",
+  "/home/claude/haeja/social/side/gen/ev4_halala.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_bury.mp4",
+  "/home/claude/haeja/social/side/gen/ev_garden.mp4",
+  "/home/claude/haeja/social/side/gen/ev_dawn.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   3.55,
+   1,
+   0,
+   "none",
+   [
+    "Someday, you'll run out of time to say it."
+   ]
+  ],
+  [
+   4.42,
+   6.69,
+   2,
+   1,
+   "cap",
+   [
+    "You'll call",
+    "when things calm down."
+   ]
+  ],
+  [
+   6.74,
+   8.268,
+   2,
+   1,
+   "cap",
+   [
+    "Then the news",
+    "comes first."
+   ]
+  ],
+  [
+   9.148,
+   11.008,
+   3,
+   2,
+   "cap",
+   [
+    "On a long journey",
+    "through the East,"
+   ]
+  ],
+  [
+   11.058,
+   13.608,
+   3,
+   2,
+   "cap",
+   [
+    "Marcus Aurelius",
+    "lost his wife Faustina,"
+   ]
+  ],
+  [
+   13.658,
+   15.305,
+   3,
+   2,
+   "cap",
+   [
+    "after thirty years",
+    "of marriage."
+   ]
+  ],
+  [
+   16.155,
+   20.715,
+   4,
+   3,
+   "quote",
+   [
+    "Do not act as if",
+    "you were going to live",
+    "ten thousand years."
+   ]
+  ],
+  [
+   20.765,
+   22.435,
+   4,
+   3,
+   "quote",
+   [
+    "Death hangs over you."
+   ]
+  ],
+  [
+   23.285,
+   24.975,
+   5,
+   4,
+   "big",
+   [
+    "Who have you been",
+    "meaning to thank?"
+   ]
+  ],
+  [
+   25.025,
+   25.904,
+   5,
+   4,
+   "cap",
+   [
+    "Tell them today."
+   ]
+  ],
+  [
+   26.754,
+   30.586,
+   6,
+   5,
+   "quote",
+   [
+    "While you live,",
+    "while it is in your power,",
+    "be good."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Send one message",
+  "to someone you've been",
+  "meaning to thank."
+ ],
+ "source": "Marcus Aurelius, Meditations 4.17",
+ "end_voice": "/home/claude/vo/v2/en18_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en18_outro_voice.wav",
+ "cover": [
+  "DON'T",
+  "WAIT TO",
+  "SAY IT"
+ ],
+ "theme": "A",
+ "vol": 0.92
+}
