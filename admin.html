@@ -1032,9 +1032,11 @@ function barsList(obj, order){
 
 /* 관리자 메뉴 (2026-10-24 개편): 큰 묶음 4개 → 그 안의 세부 메뉴. 블로그도 콘텐츠 안으로 들임 */
 /* 2026-11-14 대표님 2차: "중복 없애고 핵심만, 성과·검수 하나로" → 홈(할 일·숫자·개선·핫토픽) · 콘텐츠(검수 도구) · 회원. 나머지 화면은 주소(#mail 등)로만 연다 */
+/* 2026-11-15 대표님: "블로그는 매일 내가 직접 하는 일인데 왜 없앴냐" → 블로그를 맨 위 메뉴로 되살림. 칼럼은 Claude가 알아서 관리하므로 메뉴에서 뺌(#column 주소로만) */
 const GROUPS = [
   ['home', '홈', ['brief']],
-  ['content', '콘텐츠', ['youtube', 'social', 'column']],
+  ['blog', '블로그', ['blog']],
+  ['content', '콘텐츠', ['youtube', 'social']],
   ['member', '회원', ['users']],
 ];
 const PAGES = [
@@ -1099,8 +1101,8 @@ function todoList(){
   if(qOpen) L.push(['info', `정성 평가 의견 <b>${qOpen}건</b> 검토 대기`, '#qual', '답변하기']);
   const monday = (() => { const d = new Date(Date.now() + 9 * 3600e3); const w = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - w); return d.toISOString().slice(0, 10); })();
   const kstNow = new Date(Date.now() + 9 * 3600e3), dow = (kstNow.getUTCDay() + 6) % 7, hh = kstNow.getUTCHours();
-  if(COL.list !== null && !COL.list.some(c => c.id === 'col-' + monday) && (dow > 0 || hh >= 9)) L.push(['warn', `이번 주(${monday}) 칼럼이 <b>아직 없습니다</b> · 월 08:40 자동 작성이 안 된 것 같습니다`, '#column', '쓰기']);
-  if(!L.length) return '<div class="ok">✓ 지금 손댈 일이 없습니다. 자동 게시·칼럼·알림 모두 정상입니다.</div>';
+  const bt = blogToday(); if(bt && bt.todo.length) L.push(['warn', `오늘 네이버 블로그 <b>${bt.todo.length}편</b> 아직 안 올림`, '#blog', '올리기']);
+  if(!L.length) return '<div class="ok">✓ 지금 손댈 일이 없습니다. 자동 게시·알림 모두 정상입니다.</div>';
   return `<div class="todo">${L.map(([c, t, h, g]) => `<a href="${h}"><span class="i ${c}"></span><span>${t}</span><span class="g">${g} ›</span></a>`).join('')}</div>`;
 }
 /* 알림·홈 화면 전환: 회사 보고 묻기 → 권한 창 → 허용, 아이폰 안내 → 홈 화면 앱 → 알림 (admin_push_funnel) */
@@ -2337,6 +2339,32 @@ function bindCalendar(){
   document.querySelectorAll('[data-cal-m]').forEach(b => b.onclick = () => { CAL.month = b.dataset.calM; CAL.sel = null; render(); });
   document.querySelectorAll('[data-cal-ch]').forEach(b => b.onclick = () => { const k = b.dataset.calCh; CAL.off[k] = !CAL.off[k]; if(k === 'long') CAL.off.plan = CAL.off[k]; render(); });
 }
+/* 오늘 올릴 네이버 블로그 (2026-11-15): /naver/ 목록에서 오늘 날짜 글을 찾고, '올렸어요' 기록(docs naver/posted)과 맞춰 본다. 홈 카드·메뉴 숫자에 쓴다 */
+const BLG = { list: null, posted: {}, loading: false };
+async function blgLoad(){
+  if(BLG.loading) return; BLG.loading = true;
+  try {
+    const html = await (await fetch('/naver/?t=' + Date.now(), { cache: 'no-store' })).text();
+    const src = (/<div id="src"[^>]*>([\s\S]*?)<\/main>/.exec(html) || [, html])[1];
+    const L = []; src.replace(/<div class="it" data-id="([^"]+)">[\s\S]*?<b>([^<]+)<\/b><\/span>/g, (m, id, t) => { if(!L.some(x => x.id === id)) L.push({ id, title: t.replace(/&#39;/g, "'").replace(/&amp;/g, '&'), slot: (/(점심|저녁|아침|밤)[^<]*게시/.exec(m) || [''])[0].replace(/\s*게시$/, '') }); return m; });
+    const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle();
+    BLG.posted = (data && data.data && data.data.posted) || {}; BLG.list = L;
+  } catch(e) { console.warn(e); BLG.list = BLG.list || []; }
+  BLG.loading = false; BLG.at = Date.now(); if(DATA) render();
+}
+function blogToday(){
+  if(BLG.list === null){ setTimeout(blgLoad, 0); return null; }
+  if(!BLG.loading && Date.now() - (BLG.at || 0) > 60e3) setTimeout(blgLoad, 0);   /* '올렸어요' 누른 뒤 1분 안에 홈 숫자도 맞춰짐 */
+  const d = new Date(Date.now() + 9 * 3600e3).toISOString().slice(2, 10).replace(/-/g, '');
+  const all = BLG.list.filter(x => x.id.startsWith('b' + d));
+  return { all, todo: all.filter(x => !BLG.posted[x.id]), done: all.filter(x => BLG.posted[x.id]) };
+}
+function vBlogCard(){
+  const bt = blogToday();
+  if(!bt) return '<div class="card"><div class="muted">오늘 블로그 글 불러오는 중…</div></div>';
+  if(!bt.all.length) return '<div class="card"><div class="muted">오늘 블로그 글이 아직 준비되지 않았습니다. 매일 아침 2편이 올라옵니다.</div></div>';
+  return `<div class="card">${bt.all.map(x => { const ok = !!BLG.posted[x.id]; return `<a class="br-row" href="/naver/${esc(x.id)}" target="_blank" style="text-decoration:none;color:inherit">${ok ? '<i class="br-dot good"></i>' : '<i class="br-dot warn"></i>'}<div class="t"><b>${esc(x.title)}</b><div class="m">${esc(x.slot || '')} · ${ok ? '올림 완료' : '아직 안 올림 · 눌러서 복사하기'}</div></div></a>`; }).join('')}<div class="m" style="margin-top:8px"><a href="#blog">블로그 전체 목록 →</a></div></div>`;
+}
 /* 네이버 블로그: 따로 있던 /naver/ 글 목록을 콘텐츠 메뉴 안에 붙인다 */
 function vBlog(){
   return `<div class="ptitle"><div><h1>네이버 블로그</h1><div class="sub">글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣고, 올린 글은 '올렸어요'로 표시합니다.</div></div><a class="lnk" href="${location.origin}/naver/" target="_blank" data-newwin>새 창으로 열기 ↗</a></div>
@@ -3430,6 +3458,8 @@ function vBrief(){
   return `<div class="br">
   <div class="br-fresh"><div class="x">최신 확인 <b>${brStampAt(BR.checkedAt)}</b>${auto2 ? `<br><span>이미 처리됐거나 지난 알림 ${auto2}건 숨김</span>` : ''}</div><button class="br-b ghost" data-br-reload${BR.checking ? ' disabled' : ''}>${BR.checking ? '확인 중…' : '새로고침'}</button></div>
   <div class="br-kpis wide">${N.kp.map(k => `<div class="card br-k"><div class="l">${esc(k.label)}</div><div class="v">${esc(k.value)}${k.delta ? ` <span class="d ${/^[-−]/.test(k.delta) ? 'dn' : 'up'}">${esc(k.delta)}</span>` : ''}</div>${k.note ? `<div class="s">${esc(k.note)}</div>` : ''}</div>`).join('')}</div>
+  <h2>오늘 네이버 블로그 ${(() => { const bt = blogToday(); return bt && bt.todo.length ? `<span class="qcount">${bt.todo.length}편 남음</span>` : ''; })()}</h2>
+  ${vBlogCard()}
   <h2>지금 할 일 ${nTodo ? `<span class="qcount">${nTodo}</span>` : ''}</h2>
   ${nTodo ? `${urgent.length || al.length ? `<div class="card br-urgent">${urgent.length ? vChecks() : ''}
     ${al.slice(0, 12).map(a => `<div class="br-row">${dot(a.data.level)}<div class="t"><b>${esc(a.data.title)}</b>${a.data.body ? `<div class="m">${esc(String(a.data.body).slice(0, 200))}</div>` : ''}${a.data.at ? `<div class="br-when">${kday(a.data.at)}</div>` : ''}</div><div class="bt"><button class="br-b" data-br-delegate="${esc(a.id)}">Claude에게 맡기기</button><button class="br-b ghost" data-br-read="${esc(a.id)}">처리했음</button></div></div>`).join('')}
@@ -3536,6 +3566,7 @@ function render(s){
     const na = OPS.posts.filter(x => !isDone(x) && x.approved === false).length;
     if(nf) hot.social = [nf, 'hot', nf + '편 실패'];
     const nq = OPS.qual.filter(f => f.status !== 'done').length; if(nq) hot.qual = [nq, 'warm', nq + '건 검토 대기']; }
+  { const bt = blogToday(); if(bt && bt.todo.length) hot.blog = [bt.todo.length, 'hot', '오늘 블로그 ' + bt.todo.length + '편 안 올림']; }
   $('#asof').textContent = '기준 ' + kst(s.asOf);
   if(BR.loaded){ const nb = brPending() + brChecks().filter(c => c.level !== 'info').length; if(nb) hot.brief = [nb, 'hot', '확인할 것 ' + nb + '건']; }
   const nav = $('#tabs'); nav.hidden = false;
