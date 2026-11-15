@@ -2,14 +2,34 @@
  "v": 3,
  "format": "short",
  "layout": "shorts_main",
- "name": "애플",
- "name_h": 230,
- "name_w": 1000,
- "name_gap": 90,
- "l1": "아이폰 듀오",
- "l2": "중국서 왜 외면?",
- "big": "프리미엄 0",
- "big_label": "정가보다 200만 원 넘던 웃돈 → 정가 이하",
- "tone": "down",
- "photo": "il_L261113a_reseller_market.jpeg"
+ "l1": "애플 주가 전망",
+ "l2": "3가지만 보면 된다",
+ "name": "APPLE",
+ "focus": [
+  0.5,
+  0.5
+ ],
+ "chart": {
+  "kind": "line",
+  "pts": [
+   [
+    "1월 2일",
+    271.0
+   ],
+   [
+    "11월 3일",
+    331.9
+   ],
+   [
+    "11월 13일",
+    356.27
+   ]
+  ],
+  "mark": 2,
+  "mark_label": "사상 최고"
+ },
+ "big": "+1,600조",
+ "big_label": "올해 늘어난 시가총액 · 11월 13일 기준",
+ "tone": "up",
+ "photo": "il_L261113a_keynote.jpeg"
 }

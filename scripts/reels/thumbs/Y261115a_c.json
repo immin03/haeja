@@ -2,14 +2,34 @@
  "v": 3,
  "format": "short",
  "layout": "shorts_main",
- "name": "애플",
- "name_h": 230,
- "name_w": 1000,
- "name_gap": 90,
- "l1": "애플 이익 깎는 건",
- "l2": "듀오 아닌 메모리",
- "big": "45~46%",
- "big_label": "이번 분기 매출총이익률 전망 · 지난 분기 47.9%",
- "tone": "down",
- "photo": "il_L261113a3_s24_dram.jpeg"
+ "l1": "애플 주가 전망",
+ "l2": "3가지만 보면 된다",
+ "name": "APPLE",
+ "focus": [
+  0.5,
+  0.5
+ ],
+ "chart": {
+  "kind": "line",
+  "pts": [
+   [
+    "1월 2일",
+    271.0
+   ],
+   [
+    "11월 3일",
+    331.9
+   ],
+   [
+    "11월 13일",
+    356.27
+   ]
+  ],
+  "mark": 2,
+  "mark_label": "사상 최고"
+ },
+ "big": "+31%",
+ "big_label": "올해 상승률 · 11월 13일 사상 최고가",
+ "tone": "up",
+ "photo": "il_L261113a3_s4_ath.jpeg"
 }
