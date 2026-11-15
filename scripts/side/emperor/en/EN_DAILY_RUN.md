@@ -57,7 +57,10 @@
    - ★ 2026-11-14 재생목록(대표 "명상록 / 현대판 각각 구분"): 세부정보의 '재생목록'에서 하나만 고른다 — images.format 이 'story' 이면 "Meditations (Modern) | Stoic Stories for Today", 아니면 "Meditations | Marcus Aurelius, One Line a Day". 둘 다 고르지 않는다.
    - ★ 2026-11-14 제목 끝: 일반 편은 "| Marcus Aurelius", 이야기형(현대판)은 "| Meditations (Modern)" — ed_posts.title 그대로 쓴다.
    - ★ 2026-11-14 관련 동영상: 세부정보의 '관련 동영상'에 채널의 최신 롱폼(지금은 "3 Stoic Ways to BEAT Someone Who Betrayed You")을 고른다(대표 지시: 미국 쇼츠는 전부 롱폼으로 연결).
-3-1. ★ 2026-11-14 고정 댓글 (예약 공개 전에는 댓글을 달 수 없다 — 매 실행마다 이미 공개된 편을 처리):
+3-1. ★ 2026-11-15 고정 댓글은 이 업로드 작업이 아니라 전용 예약 작업 "The Emperor's Diary (EN) 공개 직후 고정 댓글"(22:03·02:03·09:03 KST, 크롬)이 한다.
+   사고(11/14~15): ① Supabase ed-publish 가 영어 편 댓글을 **한국 채널(황제의 일기) 토큰**으로 달아 버림(en09·en19·en11·px02en·en14) → 공개 화면에 안 보이고 고정도 불가, 상태는 'posted'로 찍혀 크롬 단계가 건너뜀 ② 이 업로드 작업은 올릴 영상이 없으면 0단계에서 끝나 고정 단계까지 못 감.
+   조치: DB 트리거 ed_posts_en_comment_guard 가 kind '*_en' 의 'pending' 을 'pin_pending' 으로 바꿔 ed-publish 가 영어 편을 못 잡게 함. 영어 편 insert 는 yt_comment_status 'pin_pending' 으로 넣는다(아래 6단계의 'pending' 도 트리거가 바꿔 줌).
+   아래 절차는 전용 작업이 쓰는 방식과 같다(참고용):
    `select id, yt_video_id, yt_comment from ed_posts where kind='reel_en' and yt_video_id is not null and scheduled_at < now() and coalesce(yt_comment_status,'') not in ('posted','done_manual') and yt_comment is not null`.
    편마다 youtube.com/watch?v=<id> → 댓글 입력칸 아바타·이름이 @EmperorsDiary-en 인지 확인(아니면 youtube.com/channel_switcher 에서 The Emperor's Diary 선택) → 댓글 입력(빈 줄은 줄바꿈) → 올리기 → 그 댓글 ⋮ → 고정 → 확인.
    고정 표시("@EmperorsDiary-en님이 고정함")를 확인한 뒤 `update ed_posts set yt_comment_status='posted' where id='<post>'`. 실패는 yt_comment_error 에 한 줄.
