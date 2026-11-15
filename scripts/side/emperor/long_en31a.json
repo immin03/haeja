@@ -1,0 +1,192 @@
+{
+ "id": "en31a",
+ "lang": "en",
+ "from": "ep31",
+ "note": "2026-11-15 영어 쇼츠 백로그(en05b 구조). ep31 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They TALK",
+  "about you when",
+  "you're not there."
+ ],
+ "title_line": "When people talk behind your back",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en31a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev3_senators.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_casp_b.mp4",
+  "/home/claude/haeja/social/side/gen/c1v_burn.mp4",
+  "/home/claude/haeja/social/side/gen/c1v_emp_talk.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_march.mp4",
+  "/home/claude/haeja/social/side/gen/edv09_ruins.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.668,
+   1,
+   0,
+   "none",
+   [
+    "They talk about you when you're not there."
+   ]
+  ],
+  [
+   3.548,
+   7.138,
+   2,
+   1,
+   "cap",
+   [
+    "Once, a false rumor said",
+    "Marcus Aurelius was dead."
+   ]
+  ],
+  [
+   7.188,
+   9.788,
+   2,
+   1,
+   "cap",
+   [
+    "His general Avidius Cassius",
+    "believed it,"
+   ]
+  ],
+  [
+   9.838,
+   11.421,
+   2,
+   1,
+   "cap",
+   [
+    "and declared himself",
+    "emperor."
+   ]
+  ],
+  [
+   12.271,
+   14.702,
+   3,
+   2,
+   "big",
+   [
+    "One.",
+    "Don't hunt for",
+    "who said it."
+   ]
+  ],
+  [
+   15.552,
+   21.132,
+   4,
+   2,
+   "quote",
+   [
+    "How much trouble he avoids",
+    "who does not look",
+    "at what his neighbor says,"
+   ]
+  ],
+  [
+   21.182,
+   23.483,
+   4,
+   2,
+   "quote",
+   [
+    "but only at",
+    "what he does himself."
+   ]
+  ],
+  [
+   24.393,
+   26.793,
+   5,
+   3,
+   "big",
+   [
+    "Two.",
+    "If it's true, fix it."
+   ]
+  ],
+  [
+   26.843,
+   28.506,
+   5,
+   3,
+   "cap",
+   [
+    "If it's not,",
+    "let it pass."
+   ]
+  ],
+  [
+   29.356,
+   34.219,
+   6,
+   3,
+   "quote",
+   [
+    "If anyone can show me",
+    "I am wrong,",
+    "I will gladly change."
+   ]
+  ],
+  [
+   35.049,
+   37.836,
+   7,
+   4,
+   "big",
+   [
+    "Three.",
+    "Don't explain.",
+    "Just do your work."
+   ]
+  ],
+  [
+   38.666,
+   42.136,
+   8,
+   5,
+   "quote",
+   [
+    "Stop talking about",
+    "what a good man",
+    "should be."
+   ]
+  ],
+  [
+   42.136,
+   42.708,
+   8,
+   5,
+   "quote",
+   [
+    "Be one."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Instead of explaining,",
+  "finish one thing",
+  "you need to do."
+ ],
+ "source": "Marcus Aurelius, Meditations 10.16",
+ "end_voice": "/home/claude/vo/v2/en31_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en31_outro_voice.wav",
+ "cover": [
+  "THEY TALK",
+  "BEHIND",
+  "YOUR BACK"
+ ],
+ "theme": "A",
+ "vol": 1.0
+}
