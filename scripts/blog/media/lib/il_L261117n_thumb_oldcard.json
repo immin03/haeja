@@ -1,0 +1,33 @@
+{
+ "id": "il_L261117n_thumb_oldcard",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A bright dramatic macro of a single vintage 1990s computer graphics card held up against a dark navy background, gold rim light, very clear subject.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1dc9c-0a84-75dd-957d-38fbdb4bc913",
+  "status_url": "https://api.higgsfield.ai/requests/01a1dc9c-0a84-75dd-957d-38fbdb4bc913/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1dc9c-0a84-75dd-957d-38fbdb4bc913/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1dc9c-0a84-75dd-957d-38fbdb4bc913",
+  "status_url": "https://api.higgsfield.ai/requests/01a1dc9c-0a84-75dd-957d-38fbdb4bc913/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1dc9c-0a84-75dd-957d-38fbdb4bc913/cancel",
+  "expires_at": "2026-11-22T00:30:46.147307+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1dc9c-0a84-75dd-957d-38fbdb4bc913/b0f9b732-0724-422e-a57e-c6d4549c4d77.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_L261117n_thumb_oldcard.jpeg"
+}

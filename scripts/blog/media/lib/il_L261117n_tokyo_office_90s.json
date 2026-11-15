@@ -1,0 +1,33 @@
+{
+ "id": "il_L261117n_tokyo_office_90s",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A 1990s Japanese corporate executive office in Tokyo at dusk, a large window with city lights, an empty leather chair behind a wooden desk with neat papers.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1dc9f-5d85-7eed-94d0-c7bba4e28628",
+  "status_url": "https://api.higgsfield.ai/requests/01a1dc9f-5d85-7eed-94d0-c7bba4e28628/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1dc9f-5d85-7eed-94d0-c7bba4e28628/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1dc9f-5d85-7eed-94d0-c7bba4e28628",
+  "status_url": "https://api.higgsfield.ai/requests/01a1dc9f-5d85-7eed-94d0-c7bba4e28628/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1dc9f-5d85-7eed-94d0-c7bba4e28628/cancel",
+  "expires_at": "2026-11-22T00:33:21.789923+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1dc9f-5d85-7eed-94d0-c7bba4e28628/3226b99b-a6b3-4779-90ea-2a171e5a08be.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261117n_tokyo_office_90s.png"
+}

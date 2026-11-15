@@ -1,0 +1,33 @@
+{
+ "id": "il_L261117n_empty_stage",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: An empty technology keynote stage with a single spotlight circle on the floor and a dark empty auditorium, no people, strong sense of absence.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1dc9d-df0a-73a0-a70e-4595888597d7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1dc9d-df0a-73a0-a70e-4595888597d7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1dc9d-df0a-73a0-a70e-4595888597d7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1dc9d-df0a-73a0-a70e-4595888597d7",
+  "status_url": "https://api.higgsfield.ai/requests/01a1dc9d-df0a-73a0-a70e-4595888597d7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1dc9d-df0a-73a0-a70e-4595888597d7/cancel",
+  "expires_at": "2026-11-22T00:31:43.580451+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1dc9d-df0a-73a0-a70e-4595888597d7/dde67cbf-b8b2-458d-a3cd-c6138006ede5.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261117n_empty_stage.png"
+}
