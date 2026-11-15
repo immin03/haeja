@@ -387,11 +387,15 @@ function viewChannel(){
 /* 영어 채널 검색 순위 (11/15 대표 "검색에 더 많이 노출되게") — ed-stats-en 이 매일 10:55 목표 검색어 상위 50 안의 우리 영상 순위를 적는다 */
 function enRank(){
   const rows = (S.d.stats || []).filter(x => x.platform === 'youtube_en' && x.id === 'search_rank').sort((a, b) => a.day < b.day ? 1 : -1);
-  if (!rows.length) return '';
+  /* 11/15 영어 채널 로그인 연결(id=3) 후: 실제로 들어온 검색어 (최근 28일) */
+  const st = (S.d.stats || []).filter(x => x.platform === 'youtube_en' && x.id === 'search_terms').sort((a, b) => (a.day + a.at) < (b.day + b.at) ? 1 : -1)[0];
+  const terms = st && st.m && st.m.terms ? st.m.terms.slice(0, 10) : [];
+  const tcard = terms.length ? `<h2>실제 유입 검색어<span class="n">최근 28일 · YouTube 검색</span></h2><div class="card">${terms.map(t => `<div class="lp"><div class="t">${esc(t.q)}</div><div class="s">${num(t.views)}회</div></div>`).join('')}</div>` : '';
+  if (!rows.length) return tcard;
   const m = rows[0].m || {}, prev = (rows[1] || {}).m || {};
   const li = Object.keys(m).map(q => { const h = m[q], p = prev[q]; const pos = h && h[0] ? h[0].pos : null, pp = p && p[0] ? p[0].pos : null;
     return `<div class="lp"><div class="t">${esc(q)}</div><div class="s">${pos ? `<b>${pos}위</b> · ${esc(h[0].title)}` : '50위 밖'}${pp && pos ? ` · 전날 ${pp}위` : ''}</div></div>`; }).join('');
-  return `<h2>검색 순위<span class="n">미국 · 목표 검색어 상위 50 · ${esc(rows[0].day)}</span></h2><div class="card">${li}</div>`;
+  return `<h2>검색 순위<span class="n">미국 · 목표 검색어 상위 50 · ${esc(rows[0].day)}</span></h2><div class="card">${li}</div>` + tcard;
 }
 function bindChannel(){
   const M = $('#main');
