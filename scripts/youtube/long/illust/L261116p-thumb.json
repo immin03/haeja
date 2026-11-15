@@ -1,0 +1,38 @@
+[
+ {
+  "id": "il_L261116p_thumb_turbine",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "hero": true,
+  "raw_prompt": true,
+  "space": false,
+  "body": {
+   "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A gigantic gas turbine rotor in a brightly lit factory hall, golden metal blades gleaming, very clear single subject in the upper half, clean dark navy background below.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "il_L261116p_thumb_transformer",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "hero": true,
+  "raw_prompt": true,
+  "space": false,
+  "body": {
+   "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A giant high-voltage power transformer in a brightly lit outdoor yard at golden hour, porcelain bushings shining, very clear single subject in the upper half.",
+   "aspect_ratio": "16:9"
+  }
+ },
+ {
+  "id": "il_L261116p_thumb_grid",
+  "kind": "image",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "hero": true,
+  "raw_prompt": true,
+  "space": false,
+  "body": {
+   "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: High-voltage transmission towers and power lines over a glowing AI data center at dusk, bright and clear subject in the upper half, dark navy below.",
+   "aspect_ratio": "16:9"
+  }
+ }
+]
