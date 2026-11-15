@@ -17,6 +17,7 @@
 ## A. 제작 (예약 작업 "The Emperor's Diary (EN) 쇼츠 제작", 매일 13:41 KST)
 - ★ 2026-11-14 음악: 한국 편의 music 을 그대로 복사하지 말고 TEMPLATE.md 음악 규칙(miss-you / we-ll-be-okay / i-believe-2)을 따른다. classical-7 금지(단조·음산).
 0. 빈 칸 확인: `select id, scheduled_at from ed_posts where kind='reel_en' and scheduled_at >= '<D> 21:00+09' and scheduled_at < '<D+1> 12:00+09'`. 이미 찬 칸은 건너뛴다. 셋 다 차 있으면 끝.
+★ 2026-11-15 검색 노출: 소재·제목·설명 첫 줄·태그·고정 댓글은 SHORTS_EN.md 8-1절을 따른다(문제형 검색어 우선, 태그 고정 세트, 설명 첫 줄 검색어 문장, 고정 댓글에 인용 한 줄).
 1. 소재 고르기: 한국 채널 쇼츠(ed_posts kind='reel', id like 'ep%')를 유튜브 반응 순으로(ed_stats platform 'youtube' 최신 views, 같으면 likes) 줄 세우고, `images->>'from'` 으로 이미 영어판을 만든 편은 뺀다. 위에서부터 빈 칸 수만큼 고른다.
 2. 대본(영어로 새로 쓴다, 번역 아님 — SHORTS_EN.md 1·2·8절):
    - 첫 문장 = 훅: 0~2초에 단독으로 서는 짧은 펀치 문장, 같은 문장을 첫 화면 큰 글씨로(hook 3줄 안팎).

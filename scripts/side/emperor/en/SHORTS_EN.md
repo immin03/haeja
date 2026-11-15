@@ -37,6 +37,18 @@
 - 설명: 첫 문장에 키워드, 1~2줄 요약, 구독 CTA 한 줄, "Meditations quotes adapted from George Long's public-domain translation.",
   AI 공개(스튜디오 '변경되거나 합성된 콘텐츠' = 예, 한국판과 동일), 끝에 해시태그 3~5개: #Shorts #Stoicism #MarcusAurelius + 주제 태그 1개.
 
+## 8-1. ★ 검색 노출 (2026-11-15 대표 "관련 검색어를 싹 다 잡을 수 있게, 무리하지 않는 선에서")
+근거(11/15 스튜디오·유튜브 자동완성, 미국): 쇼츠 유입은 쇼츠 피드 92%·검색 4.4%, 롱폼은 검색 44%. 자동완성 상위 = marcus aurelius quotes / marcus aurelius meditations / stoicism marcus aurelius / stoic quotes / stoic lessons,
+문제형 = how to deal with disrespectful people / ignore people who disrespect you / how to stop overthinking / how to not care what people think / how to deal with toxic people / how to control emotions (and anger) / how to let go.
+- 소재: 위 문제형 검색어와 겹치는 한국 편을 먼저 고른다(잘된 편도 전부 사람 갈등형 — 무례·복수·말 안 통함·지치게 하는 사람). 혼자 하는 습관형(휴가·아침 의욕)은 뒤로.
+- 제목: 훅 양식은 그대로(대문자 1~2단어, 60자 미만). 가능하면 검색어 그대로의 말을 앞에 둔다 — 예 "How to Deal With DISRESPECTFUL People | Marcus Aurelius", "STOP Overthinking Tonight | Marcus Aurelius". 끝은 " | Marcus Aurelius"(검색 1순위 말) 기본.
+- 설명 첫 줄 = 그 편의 문제형 검색어를 자연스러운 문장으로 ("How to deal with disrespectful people, the Stoic way — a lesson from Marcus Aurelius' Meditations."). 둘째 줄에 인용 출처 "Meditations, Book N.N".
+  해시태그 3개만(제목 위에 3개가 뜬다): #MarcusAurelius #Stoicism #<문제형 한 단어>. #Shorts 는 빼도 된다.
+- 태그(images.yt_tags, 합계 450자 이하): ① 그 편 문제형 검색어 2~3개(자동완성 문구 그대로) ② 고정 세트 "marcus aurelius, marcus aurelius quotes, meditations marcus aurelius, stoicism, stoicism marcus aurelius, stoic quotes, stoic lessons, stoic philosophy, meditations".
+- 고정 댓글: 질문 한 줄 + 인용 한 줄(따옴표, "— Marcus Aurelius, Meditations N.N") + 기존 끝 문장. 사람들이 인용문을 검색·공유한다.
+- 검색 순위: ed-stats-en 이 매일 10:55 app_config ed_en_keywords.track(8개) 상위 50 안 우리 순위를 ed_stats youtube_en/search_rank 에 적고 관리자 미국 탭 '검색 순위'에 보인다. 검색어 바꾸려면 그 설정만 고친다.
+- 무리하지 않기: 이미 올린 영상 제목은 바꾸지 않는다(초반 신호가 흔들림). 태그는 스튜디오 일괄 수정으로 고정 세트만 더한다.
+
 ## 9. 기록
 - Supabase ed_posts 에 `kind='reel_en'` 으로 넣는다(한국 업로더·인스타·틱톡·쓰레드·댓글 작업은 kind 'reel' 만 읽음).
   to_ig/to_th false, ig/th/tt/yt_comment 상태 'skip: EN', ig_caption = 유튜브 설명, images = {"yt_tags": [...], "lang": "en", "channel": "@EmperorsDiary-en"}.

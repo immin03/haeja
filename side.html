@@ -305,7 +305,8 @@ const kpi = (l, v, s) => `<div class="card kpi"><div class="l">${esc(l)}</div><d
 
 /* 편별 유튜브 조회: 한국은 DB 수집(3시간마다), 영어는 공개 숫자 */
 function ytViews(p){
-  if (isEN(p)) { const y = S.yt.en; const v = y && !y.err ? [...(y.shorts || []), ...(y.longs || [])].find(x => x.id === p.yt_video_id) : null; return v ? +v.views : null; }
+  if (isEN(p)) { const d = latest().find(x => x.platform === 'youtube_en' && x.id === p.yt_video_id); if (d) return +d.m.views || 0;  /* 11/15 영어 채널 별도 수집(ed-stats-en, 3시간마다) */
+    const y = S.yt.en; const v = y && !y.err ? [...(y.shorts || []), ...(y.longs || [])].find(x => x.id === p.yt_video_id) : null; return v ? +v.views : null; }
   const r = latest().find(x => x.platform === 'youtube' && (x.id === p.yt_video_id || (p.ep && x.ep === p.ep))); return r ? (+r.m.views || 0) : null;
 }
 function allViews(p){
@@ -325,7 +326,8 @@ function viewChannel(){
   let K;
   if (en) {
     const c = y && !y.err ? y.channel : null, st = y && !y.err ? y.stats.short : null;
-    K = [kpi('구독자', c ? num(c.subs) : '…', c ? `채널 총 조회 ${num(c.total_views)}` : '유튜브 공개 숫자 읽는 중'), kpi('쇼츠 평균 조회', st ? num(st.avg) : '…', st ? `가운데값 ${num(st.median)} · 최고 ${num(st.best)}` : ''),
+    const ea = accountOn('youtube_en'), ea7 = accountOn('youtube_en', new Date(now - 7 * 864e5 + 9 * 3600e3).toISOString().slice(0, 10));
+    K = [kpi('구독자', ea ? num(ea.subscribers) : c ? num(c.subs) : '…', ea ? `채널 총 조회 ${num(ea.views)}${ea7 ? ` · 7일 +${num(ea.subscribers - ea7.subscribers)}명` : ''}` : c ? `채널 총 조회 ${num(c.total_views)}` : '유튜브 공개 숫자 읽는 중'), kpi('쇼츠 평균 조회', st ? num(st.avg) : '…', st ? `가운데값 ${num(st.median)} · 최고 ${num(st.best)}` : ''),
       kpi('최근 7일 올린 편', wk.length + '편', wkv.length ? `평균 ${num(avg(wkv))}회` : ''), kpi('예약 대기', up.length + '편', up[0] ? '다음 ' + kst(up[0].scheduled_at) : '')];
   } else {
     const a = accountOn('youtube') || {}, ig = accountOn('instagram') || {}, tt = accountOn('tiktok') || {}, subs = a.subscribers != null ? +a.subscribers : null;
@@ -373,6 +375,7 @@ function viewChannel(){
   <h2>현대판 vs 기존<span class="n">섞어 올려 비교 중</span></h2>${cmp}
   <h2>개선 · 누적 진단<span class="n">공개 48시간 지난 ${R.length}편 전체 기준</span></h2>
   <div class="card">${lines.length ? lines.map(([t, b]) => `<div class="ck"><div class="t"><span class="dot warn"></span>${esc(t)}</div><div class="b">${esc(b)}</div></div>`).join('') : `<div class="empty">${en && !(y && !y.err) ? '유튜브 숫자를 읽는 중입니다' : '6편 이상 쌓이면 진단이 나옵니다'}</div>`}</div>
+  ${en ? enRank() : ''}
   <div class="two"><div><h2>잘된 3편</h2><div class="card">${R.slice(0, 3).map(li).join('') || '<div class="empty">아직 없습니다</div>'}</div></div>
     <div><h2>안된 3편</h2><div class="card">${R.length > 5 ? R.slice(-3).reverse().map(li).join('') : '<div class="empty">비교할 편수가 부족합니다</div>'}</div></div></div>
   <h2>다음 예약<span class="n">${up.length}편 중 가까운 8편</span></h2>
@@ -380,6 +383,15 @@ function viewChannel(){
   <h2>벤치마킹·핫토픽</h2>
   <div class="card">${B.map(b => `<div class="ck"><div class="t">${b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>` : esc(b.title)}</div><div class="b">${esc(b.points || '')}</div>${b.use ? `<div class="nx"><b>우리 적용</b> ${esc(b.use)}</div>` : ''}</div>`).join('')}
     <div class="note" style="margin-top:8px"><a href="/studio#bench" onclick="try{localStorage.setItem('st-acc','\\"ed\\"')}catch(e){}">지금 뜨는 영상·주제 더 찾기 (성과 관리 플랫폼) ↗</a></div></div>`;
+}
+/* 영어 채널 검색 순위 (11/15 대표 "검색에 더 많이 노출되게") — ed-stats-en 이 매일 10:55 목표 검색어 상위 50 안의 우리 영상 순위를 적는다 */
+function enRank(){
+  const rows = (S.d.stats || []).filter(x => x.platform === 'youtube_en' && x.id === 'search_rank').sort((a, b) => a.day < b.day ? 1 : -1);
+  if (!rows.length) return '';
+  const m = rows[0].m || {}, prev = (rows[1] || {}).m || {};
+  const li = Object.keys(m).map(q => { const h = m[q], p = prev[q]; const pos = h && h[0] ? h[0].pos : null, pp = p && p[0] ? p[0].pos : null;
+    return `<div class="lp"><div class="t">${esc(q)}</div><div class="s">${pos ? `<b>${pos}위</b> · ${esc(h[0].title)}` : '50위 밖'}${pp && pos ? ` · 전날 ${pp}위` : ''}</div></div>`; }).join('');
+  return `<h2>검색 순위<span class="n">미국 · 목표 검색어 상위 50 · ${esc(rows[0].day)}</span></h2><div class="card">${li}</div>`;
 }
 function bindChannel(){
   const M = $('#main');
