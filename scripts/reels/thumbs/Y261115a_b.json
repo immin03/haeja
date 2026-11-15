@@ -4,7 +4,6 @@
  "layout": "shorts_main",
  "l1": "애플 주가 전망",
  "l2": "3가지만 보면 된다",
- "name": "APPLE",
  "focus": [
   0.5,
   0.5
@@ -28,8 +27,10 @@
   "mark": 2,
   "mark_label": "사상 최고"
  },
- "big": "+1,600조",
- "big_label": "올해 늘어난 시가총액 · 11월 13일 기준",
+ "big": "시총 +1,600조",
+ "big_label": "올해 늘어난 애플 시가총액(회사 가치) · 1월 → 11월 13일",
  "tone": "up",
- "photo": "il_L261113a_keynote.jpeg"
+ "photo": "il_L261113a_keynote.jpeg",
+ "top_gap": 170,
+ "big_size": 250
 }

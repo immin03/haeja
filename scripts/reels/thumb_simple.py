@@ -477,6 +477,7 @@ def render_v3(spec, out):
         if spec.get("name_center") and (spec.get("name") or spec.get("logo")):
             nh = spec["name_h"]; top += spec["name_gap"]; name_block(im, spec, W / 2, top + nh / 2, spec["name_w"], nh); top += nh + spec["after_name"]
         elif spec.get("logo"): name_block(im, spec, W / 2, top + 90, 780, 130); top += 220
+        elif spec.get("top_gap"): top += spec["top_gap"]   # 2026-11-15 대표님: 로고·영문 회사명 없이 쓸 때 제목과 큰 숫자 사이 간격
         elif em: emblem(im, em["kind"], W / 2, top + 130, em.get("size", 230), em.get("text")); top += 290
         if spec.get("big_center"):   # 2026-11-08 대표님: 큰 숫자를 화면 중간에 크게 — 제목 → 큰 숫자 → 라벨 → 그래프 순
             col = RED if tone == "down" else GREEN
