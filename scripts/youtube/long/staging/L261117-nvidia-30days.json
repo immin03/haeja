@@ -1,0 +1,2226 @@
+{
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "hook": {
+  "bpm": 61.52,
+  "style": "basstaiko",
+  "cut": "beat",
+  "pulse": false,
+  "ident_fx": false
+ },
+ "overlay": "doc",
+ "music": {
+  "intro": "social/music/samples3/I2_full.mp3",
+  "intro_offset": 0.07,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/samples3/H5_full.mp3@30",
+   "social/music/samples3/H1_full.mp3@30"
+  ],
+  "note": "본편 H5 Ambient House → H1 Deep House Sunset · 120Hz 아래 차단 (11/10 H6 House - July 저작권 주장(Content ID, Easy Eva) 발생 → 사용 금지) · 11/11 대표 \"배경음악 크다\"(SOXL 2편) → H5·H1은 H6보다 2.6dB 큰 곡이라 bed_gain_db 3→-1.5",
+  "hits": [
+   2.93,
+   6.83,
+   12.68,
+   18.53,
+   22.43,
+   26.33,
+   31.21,
+   35.6,
+   43.4,
+   47.3,
+   53.64,
+   57.54,
+   61.44,
+   65.34,
+   69.24,
+   74.6,
+   78.51,
+   82.41,
+   87.77
+  ],
+  "bed_gain_db": -1.5,
+  "bed_hp": 120
+ },
+ "look": {
+  "paper": "grain",
+  "dark": "navy",
+  "accent": "gold"
+ },
+ "fx": 1450,
+ "id": "L261117-nvidia-30days",
+ "company": "NVDA",
+ "no_data": true,
+ "series": "기업 뒷이야기",
+ "plan": "P261104c-nvidia-30days",
+ "scheduled_at": "2026-11-17T11:30:00+09:00",
+ "roadmap": true,
+ "opening": "장면형(1996 캘리포니아 작은 회사 대표의 연락 '우리 칩은 틀렸다, 그래도 돈은 달라') → 500만 달러 → 역설(그 사람이 이번 주 떠났다 · 4조 달러 아래) → 보유자 호명(11/18 새벽 첫 실적) → 약속 → 예고(12년 만에 창업자를 불러온 회사) → 힌트('틀렸다'는 한마디)",
+ "hook_type": "H11 모순 + 장면형 훅 + 예고·힌트 + 장마다 리훅",
+ "endscreen_target": "L261109-nvidia-huang",
+ "endscreen_also": "L261112-soxl-nvidia",
+ "title": "엔비디아 주가 전망, 젠슨 황 없는 첫 실적 11월 18일 | 파산 30일 전 회사를 살린 사람이 떠났다",
+ "doc_title": "엔비디아, 망할 뻔한 회사는 어떻게 세상의 칩이 되었나 — 그리고 창업자가 떠난 지금",
+ "title_en": "Nvidia stock outlook: the first earnings without Jensen Huang — how a $5M Sega check saved a company 30 days from bankruptcy",
+ "pinned_comment": "여러분이 1996년 세가의 사장이었다면, '우리 칩은 틀렸다'고 고백한 회사에 돈을 주셨을까요? 댓글로 들려주세요.\n\n📌 엔비디아 숫자는 여기서 조금 더 분석할 수 있습니다 → 밸류노트 https://valuenote.co.kr/yt\n\n※ 과거 사례가 반복된다는 보장은 없습니다. 영상 속 기준은 참고일 뿐 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "description_head": "엔비디아 주가 전망, 젠슨 황 사임 뒤 첫 실적을 앞두고 정리했습니다. 미국 시각 11월 12일 젠슨 황이 창업 33년 만에 CEO에서 물러났고, 엔비디아 시가총액은 다음 날 2025년 7월 이후 처음으로 4조 달러 아래로 내려왔습니다. 첫 실적은 한국 시각 11월 18일 새벽입니다.\n\n문제는 사람 한 명이 아니었습니다. 1993년 데니스에서 시작한 회사가 첫 칩 NV1의 실패, 세가가 건넨 500만 달러와 6개월, RIVA 128, CUDA를 거쳐 어떻게 AI의 통행료를 받게 됐는지, 그리고 애플·스타벅스처럼 창업자가 떠난 회사들이 어떻게 됐는지를 따라갔습니다.\n\n실적 발표 날 볼 것 3가지: ① 데이터센터 매출·다음 분기 전망 ② 매출총이익률 ③ 차세대 칩 일정·후임 CEO 언급.\n\n자료: 엔비디아 8-K(2026-11-12), 엔비디아 2분기 실적(2026-08), 젠슨 황 대만대 졸업 연설(엔비디아 블로그 2023-05-26), VGC(2026-07-15), 포춘(2025-12-04), CNBC(2026-11-13), 한국예탁결제원. 과거 사례가 반복된다는 보장은 없으며 매수·매도 권유가 아닙니다.\n\n#엔비디아 #엔비디아주가전망 #젠슨황",
+ "description_en": "Jensen Huang stepped down as Nvidia CEO on Nov 12, and Nvidia closed below a $4 trillion market cap the next day. Before the first earnings without him, we trace the Denny's founding in 1993, the failed NV1, Sega's $5 million and six months of runway, RIVA 128, CUDA and the AI toll road, what happened to Apple and Starbucks after their founders left, and the three things to check on earnings day. Not investment advice.",
+ "hook_promises": [
+  "창업자가 떠난 엔비디아에 무엇이 남았나",
+  "실적 발표에서 확인할 것 3가지",
+  "창업자를 12년 만에 다시 불러온 회사(애플)"
+ ],
+ "viewer_question": "젠슨 황이 떠난 엔비디아, 무엇이 남고 무엇이 흔들리나 — 11/18 실적에서 볼 것",
+ "format_note": "D-2 원고(staging). 기획 v1 → v2: 11/12 젠슨 황 사임·11/13 시가총액 4조 달러 아래·11/17(미국) 실적을 반영해 보유자 대응형으로 재구성, 세가·30일 창업 이야기를 다큐 뼈대로 유지. 직전 엔비디아 롱폼(L261109 불륜 의혹·L261112 SOXL)과 겹치지 않게 사생활·의혹·레버리지 원리는 다루지 않음. 투자 경력 언급 없음(직전 테슬라 편에 있음). 매수·매도 권유 내레이션 없음. 코드 효과 4개(사건 레일·돈의 흐름·저울·문서 몽타주) — globe_L261117n_fx_*.mp4 는 D-1 전에 있어야 함.",
+ "marks": {
+  "훅": [
+   0
+  ],
+  "역설": [
+   3,
+   4
+  ],
+  "약속": [
+   7
+  ],
+  "예고": [
+   8,
+   9
+  ],
+  "복선": [
+   12,
+   29
+  ],
+  "R1": [
+   18
+  ],
+  "R2": [
+   24
+  ],
+  "R3": [
+   32
+  ],
+  "회수": [
+   36,
+   50,
+   52,
+   56,
+   57
+  ],
+  "R4": [
+   40
+  ],
+  "가짜결말": [
+   49
+  ],
+  "R5": [
+   59
+  ],
+  "R6": [
+   64
+  ],
+  "북엔드": [
+   71,
+   72,
+   73
+  ]
+ },
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_fax_1996.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1996년, 미국 캘리포니아의 작은 반도체 회사 대표가 가장 큰 고객에게 연락합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "1996 · 미국 캘리포니아",
+     "sub": "직원 100명 남짓 반도체 회사",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_contract_hand.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "우리 칩은 틀렸습니다. 계약을 끝내 주세요. 그래도 돈은 다 주셔야 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_tokyo_office_90s.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "상대는 정말로 돈을 넣었습니다. 500만 달러였죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "VGC 2026-07-15 · 엔비디아 블로그 2023-05-26 (젠슨 황 대만대 졸업 연설)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "500만 달러",
+     "sub": "세가 → 엔비디아 투자 · 1996",
+     "line": 0,
+     "at": 0.2,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261110a_server_aisle.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그 회사가 엔비디아입니다. 그런데 이상한 건, 그때 그 연락을 한 사람이 이번 주 회사를 떠났다는 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_empty_stage.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "미국 시각 11월 12일, 젠슨 황이 창업 33년 만에 최고경영자 자리에서 물러났습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 8-K 보도자료 2026-11-12",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "엔비디아 공시 · 2026.11.12",
+     "sub": "사장·CEO·이사 즉시 사임 · 임시 CEO 콜레트 크레스",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_empty_floor.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다음 날 엔비디아 시가총액은, 1년 4개월 만에 4조 달러 아래로 내려왔습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2026-11-13",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "4조 달러 아래",
+     "sub": "2025년 7월 이후 처음 · 2026.11.13 종가",
+     "line": 0,
+     "at": 0.2,
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_retail_investor_morning.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "엔비디아는 한국 투자자가 테슬라 다음으로 많이 가진 해외 주식이죠. 갖고 계신 분이라면 한국 시각 11월 18일 새벽이 중요합니다. 젠슨 황 없는 첫 실적이 나오거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "한국예탁결제원 세이브로 2026-01 보관금액 · 야후 파이낸스 2026-11-13 (11/17 실적 발표)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_notebook_desk.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이 영상이 끝날 때쯤이면, 창업자가 떠난 엔비디아에 무엇이 남았는지, 그리고 실적 발표에서 확인할 것 3가지를 알게 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_campus_90s_dusk.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "마지막엔 창업자를 내보냈다가 12년 만에 다시 불러온 회사로 갑니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_old_gpu_dust.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "힌트를 드리면, 30년 전 엔비디아를 살린 건 칩이 아니라 '틀렸다'는 한마디였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261107m_gpu_red.jpeg"
+     },
+     {
+      "lib": "il_L261113a3_s24_datacenter.png"
+     }
+    ],
+    "cine": true,
+    "ident": true
+   },
+   "lines": [
+    "밸류노트, 지금 시작합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261111h_boardroom.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "결론부터 말씀드리면, 엔비디아는 칩을 잘 만들어서 살아남은 회사가 아닙니다. 틀렸을 때 가장 먼저 인정하고 방향을 바꿔서 살아남았죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_chip_closeup.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 지금은 칩 하나가 아니라, 그 칩을 쓰게 만드는 소프트웨어 CUDA까지 묶어서 돈을 법니다. 이 구조는 젠슨 황이 떠나도 하루아침에 사라지지 않아요. 다만 흔들릴 수 있는 곳이 두 군데 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_diner_booth.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1993년 4월, 캘리포니아 산호세의 패밀리 레스토랑 데니스. 30살 젠슨 황이 엔지니어 두 명과 커피를 놓고 앉습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 블로그 2023-09 (데니스 창업 기념) · 엔비디아 회사 연혁",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "1993.4 · 미국 산호세",
+     "sub": "패밀리 레스토랑 데니스",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "데니스의 구석 자리"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_diner_kitchen.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "젠슨 황은 10대 때 바로 이 식당 체인에서 설거지를 하던 사람이었습니다. 세계에서 가장 비싼 회사의 첫 회의실치고는 꽤 소박하죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 블로그 2023-09",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_engineers_notes.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "같이 앉은 사람은 크리스 말라초스키와 커티스 프리엠. 세 사람의 생각은 하나였죠. 컴퓨터 게임의 3D 그래픽만 맡는 칩을 만들자."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_pc_game_90s.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그때 PC 게임 화면은 뚝뚝 끊겼습니다. 그래픽 계산까지 중앙처리장치 하나가 다 떠안고 있었거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_latin_book.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "회사 이름은 라틴어로 질투를 뜻하는 말에서 따왔습니다. 남들이 질투할 칩을 만들겠다는 뜻이었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_first_board.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 이 세 사람이 처음 내놓은 칩은, 처음부터 틀린 답이었습니다. 왜 그랬을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_nv1_box.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1995년, 엔비디아의 첫 제품 NV1이 나옵니다. 문제는 입체를 그리는 방식이었어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "1995 · 첫 제품 NV1",
+     "sub": "곡면 사각형 방식 3D 칩",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "첫 칩 NV1의 실패"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_quad_mesh.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "NV1은 휘어진 사각형 조각을 이어 붙여 입체를 만들었습니다. 곡면은 매끄러웠지만 게임 회사들에겐 낯선 방식이었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 블로그 2023-05-26 (대만대 졸업 연설)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_triangle_mesh.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 마이크로소프트가 윈도우용 3D 표준을 정하면서 삼각형을 기본 단위로 삼습니다. 게임 회사들은 그쪽으로 몰려갔죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 블로그 2023-05-26",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_console_pad.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "곤란한 건 그다음입니다. 엔비디아는 일본 게임 회사 세가의 다음 게임기에 들어갈 칩까지, 같은 사각형 방식으로 만들기로 계약해 둔 상태였거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_calendar_cash.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "끝까지 만들면 아무도 안 쓰는 방식에 시간을 버리고 그만두면 회사 돈이 바닥나는 상황이었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_phone_night_office.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "젠슨 황은 세 번째 길을 고릅니다. 고객에게 틀렸다고 털어놓는 거였죠. 세가는 뭐라고 했을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261111h_tokyo_contract.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "상대는 세가의 이리마지리 쇼이치로. 혼다에서 F1 엔진을 만들던 엔지니어 출신이었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "세가 · 이리마지리 쇼이치로",
+     "sub": "혼다 F1 엔진 엔지니어 출신",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "세가의 500만 달러"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_f1_engine.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "젠슨 황은 2023년 대만대 졸업 연설에서 그날을 이렇게 회고했습니다. 우리 방식이 틀렸으니 다른 파트너를 찾으시라, 하지만 계약한 돈은 다 주셔야 한다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 블로그 2023-05-26",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261109p_boardroom_empty.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "돈을 못 받으면 엔비디아는 문을 닫아야 했으니까요. 놀랍게도 이리마지리는 며칠 고민한 뒤 받아들였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_dollar_stack.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "세가는 엔비디아에 500만 달러를 넣습니다. 젠슨 황 표현으로는, 그 돈으로 6개월을 살 수 있게 됐죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 블로그 2023-05-26 · VGC 2026-07-15",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "6개월",
+     "sub": "젠슨 황 · 2023 대만대 졸업 연설",
+     "line": 0,
+     "at": 0.2,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_hourglass.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "6개월 안에 팔리는 칩을 못 만들면 끝이었습니다. 이 6개월, 잠깐 기억해 두세요. 뒤에서 다시 꺼낼게요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261028j_th_tokyo_night.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "반전은 그 뒤에 있습니다. 세가는 엔비디아가 상장한 뒤, 이 주식을 팔았습니다. 그 주식을 계속 들고 있었다면 얼마였을지, 젠슨 황도 웃으며 이야기할 정도죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "VGC 2026-07-15",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_akihabara_night.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 올해 7월, 젠슨 황은 도쿄 아키하바라에서 이리마지리를 다시 만나, 30년 전 그 돈에 고맙다고 인사했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "VGC 2026-07-15 · 톰스하드웨어 2026-07",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2026.7 · 도쿄 아키하바라",
+     "sub": "젠슨 황 · 이리마지리 재회",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_lab_night.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 6개월을 받은 회사는 뭘 했을까요. 여기서 잘 알려지지 않은 이야기가 나옵니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_empty_desks.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "엔비디아는 직원 절반 넘게를 내보내야 했다고 젠슨 황은 회고합니다. 남은 돈으로는 시제품을 여러 번 만들어 볼 수도 없었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "젠슨 황 인터뷰 회고(애퀴어드 2023-10 등)",
+   "sketch": [],
+   "chapter": "30일 뒤의 파산"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_emulator_machine.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 문 닫는 회사에서 칩 설계를 미리 돌려 보는 장비, 에뮬레이터를 사 옵니다. 실제 칩 없이 먼저 시험하고 바로 양산에 들어간 거예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "젠슨 황 인터뷰 회고(애퀴어드 2023-10 등)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261105k_cin_cleanroom.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1997년에 나온 칩이 RIVA 128입니다. 이번엔 마이크로소프트의 삼각형 표준에 정확히 맞췄죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "1997 · RIVA 128",
+     "sub": "삼각형 표준 3D 칩",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_shipping_boxes.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "앞에서 기억해 두시라고 한 6개월, 그 끝에 나온 이 칩이 몇 달 만에 100만 개 가까이 팔리며 회사를 살립니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "무니와이즈 · 엔비디아 회사 연혁 (출시 4개월 약 100만 개로 알려짐)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 100만 개",
+     "sub": "RIVA 128 · 출시 4개월 판매로 알려진 수량",
+     "line": 0,
+     "at": 0.2,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_staff_meeting.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 젠슨 황은 그 뒤로도 오랫동안, 직원들 앞에서 우리 회사는 30일 뒤에 망한다는 말로 이야기를 시작했다고 알려져 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "포춘 2025-12-04",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "30일",
+     "sub": "젠슨 황이 직원들에게 하던 말로 알려짐",
+     "line": 0,
+     "at": 0.2,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_late_office_light.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "지난해 12월에도 그는 세계에서 가장 비싼 회사를 이끌면서 망할까 봐 늘 불안하다고 말했죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "포춘 2025-12-04",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261117n_fx_timeline.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1999년 상장, 같은 해 세계 최초의 GPU라고 이름 붙인 지포스 256. 그리고 2006년, 이 회사는 이상한 결정을 내립니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 회사 연혁",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_code_screen.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "게임 그래픽 칩으로 다른 계산도 하게 만드는 도구, CUDA입니다. 당시엔 돈만 쓰는 사업이라는 소리를 들었는데요. 이게 어떻게 지금 엔비디아의 진짜 돈줄이 됐을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_university_lab.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "2012년, 토론토대 연구팀이 게임용 엔비디아 그래픽 카드 2장으로 이미지 인식 대회에서 압도적으로 이깁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "알렉스넷 논문 2012 · 엔비디아 블로그",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "2012 · 토론토대 알렉스넷",
+     "sub": "그래픽 카드 2장으로 학습",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "CUDA라는 통행료"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_gpu_two_cards.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래픽 칩은 작은 계산 수천 개를 한꺼번에 처리합니다. 인공지능 학습이 딱 그런 계산이었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a_dc_aisle.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그 뒤 인공지능 회사들은 엔비디아 칩을 사려고 줄을 섭니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113a2_dc_build.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "올해 2분기, 엔비디아 매출 10달러 가운데 9달러 넘게가 데이터센터, 그러니까 AI 서버에서 나왔습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 2027 회계연도 2분기 실적 (2026-08, 유나이트AI)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 92%",
+     "sub": "데이터센터 890억 달러 ÷ 전체 매출 962억 달러 · 2026년 2분기",
+     "line": 0,
+     "at": 0.2,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261117n_fx_flow.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "돈은 이렇게 흐릅니다. 마이크로소프트·아마존·구글·메타가 데이터센터를 짓고 그 설비 투자의 상당 부분이 엔비디아로 들어가죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_developer_night.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "비결은 칩보다 CUDA입니다. 전 세계 AI 개발자들이 20년 가까이 CUDA로 프로그램을 짜 왔거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_toll_gate.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다른 회사 칩으로 옮기려면 그 프로그램을 다시 손봐야 합니다. 그래서 엔비디아는 칩을 비싸게 팔 수 있고 시장은 이걸 AI의 통행료라고 부르죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_wallstreet_bull.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "2025년 7월 시가총액 4조 달러, 같은 해 10월엔 세계 최초로 5조 달러를 넘깁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2025-07 · 2025-10",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "5조 달러",
+     "sub": "세계 최초 · 2025.10",
+     "line": 0,
+     "at": 0.2,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_quiet_hq_dusk.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 CUDA가 있으니, 엔비디아는 젠슨 황 없이도 괜찮을까요? 여기서 끝나면 편하겠지만 아직 아닙니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_single_chair.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "처음에 말씀드린 흔들릴 수 있는 곳 두 군데. 첫째는 사람, 둘째는 고객입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_campus_1985.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "창업자가 떠난 회사는 어떻게 됐을까요. 1985년, 애플 이사회는 스티브 잡스를 사실상 내보냅니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "1985 · 애플",
+     "sub": "창업자 스티브 잡스 퇴장",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "창업자가 떠난 회사들"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_computer_store_90s.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "애플은 몇 년 더 컸지만 1990년대 중반 위기에 빠졌고 1997년 잡스를 12년 만에 다시 불러옵니다. 처음에 예고한 그 회사죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_coffee_counter.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "스타벅스도 비슷했습니다. 하워드 슐츠가 2000년 최고경영자에서 물러났다가, 2008년 실적이 꺾이자 돌아왔죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_tech_store_crowd.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "반대 사례도 있습니다. 2011년 잡스가 세상을 떠난 뒤, 팀 쿡의 애플은 시가총액이 10배 안팎으로 커졌습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_board_minutes.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "차이는 누가 이어받았느냐였습니다. 팀 쿡은 잡스 곁에서 10년 넘게 공급망을 맡아 온 사람이었거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "창업자 퇴장",
+      "이어받은 사람"
+     ],
+     "rows": [
+      [
+       "애플 1985",
+       "외부 영입 · 위기"
+      ],
+      [
+       "스타벅스 2000",
+       "8년 뒤 창업자 복귀"
+      ],
+      [
+       "애플 2011",
+       "오랜 내부 인물 · 성장"
+      ]
+     ],
+     "colors": [
+      "gray",
+      "gold"
+     ],
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_earnings_drop.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "엔비디아는 어느 쪽일까요. 임시 최고경영자는 2013년부터 재무를 맡아 온 콜레트 크레스. 새 이사회 의장 하비 존스는, 1993년부터 이사회에 있던 사람입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 8-K 2026-11-12 · 엔비디아 주주총회 위임장 자료(이사 경력)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_diner_empty_dawn.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "네, 처음에 말씀드린 그 데니스 시절부터 이 회사를 지켜본 사람이죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_capitol_dawn.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다만 이번 퇴장은 오래 준비한 승계가 아니라 갑작스러운 사임이었습니다. 이사회는 후임자 일정을 아직 밝히지 않았어요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 8-K 2026-11-12",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_custom_chip.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "두 번째, 고객입니다. 엔비디아의 가장 큰 고객인 구글·아마존·마이크로소프트는 각자 자기 AI 칩을 만들고 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_container_ship.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "미국의 대중국 수출 규제도, 언제든 팔 수 있는 곳을 막을 수 있죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261117n_fx_scale.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "상승 압력은 CUDA와 AI 설비 투자, 하락 압력은 창업자 공백과 고객의 자체 칩, 그리고 수출 규제예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g3_drop_dawn.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "역사도 한 번 볼게요. 2000년 닷컴 거품 때 네트워크 장비 회사 시스코는, 고객들이 설비 투자를 줄이자 실적보다 먼저 주가가 크게 무너졌습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "시스코 주가 2000~2002 (나스닥)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_trader_green.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "반대로 고객의 투자가 이어지는 동안엔, 장비 회사의 실적도 버텼습니다. 결국 열쇠는 사람보다 고객의 지갑일 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_alarm_phone_dawn.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 실적 발표 날, 엔비디아 주주는 정확히 무엇을 봐야 할까요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_server_close.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "한국 시각 11월 18일 새벽, 콜레트 크레스가 임시 최고경영자로 첫 실적을 발표합니다. 볼 건 세 가지예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "야후 파이낸스 2026-11-13 (미국 시각 11/17 화요일 실적)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "실적 발표 · 한국 시각 11.18 새벽",
+     "sub": "임시 CEO 콜레트 크레스 첫 발표",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "11월 18일 새벽의 실적"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_margin_scale.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "첫째, 데이터센터 매출과 다음 분기 전망입니다. 지난 분기 890억 달러에서 계속 늘어나는지가 먼저예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 2분기 실적 2026-08",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "chart",
+     "text": "① 데이터센터 매출 · 다음 분기 전망",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_investor_kitchen.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "둘째, 매출총이익률. 칩을 팔아 남기는 비율이 버티면, 고객들이 아직 비싼 값을 치르고 있다는 뜻입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "dollar",
+     "text": "② 매출총이익률",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_roadmap_desk.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "셋째, 차세대 칩 일정과 후임 최고경영자에 대한 언급입니다. 사람의 공백이 제품 일정까지 번지는지 확인하는 대목이죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "icon",
+     "name": "check",
+     "text": "③ 차세대 칩 일정 · 후임 CEO 언급",
+     "line": 0,
+     "at": 0.35,
+     "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107s_seoul_bed_phone.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "실적 발표 날은 주가가 크게 움직이는 날입니다. 한 번에 결정하기보다, 이 세 가지를 확인하고 나눠서 판단하는 쪽이 흔들림이 적습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "참고 기준 · 매수·매도 권유 아님",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107s_red_cliff.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "특히 엔비디아를 2배로 따라가는 레버리지 상품은, 실적 날 하루 움직임도 2배가 됩니다. 비중부터 먼저 확인해 보세요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "참고 기준 · 매수·매도 권유 아님",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_diner_booth_night.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "1993년 데니스 구석 자리에서 시작한 회사. 30년 전엔 틀렸다는 한마디가 회사를 살렸습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_empty_office_ceo.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "30일 뒤에 망한다고 말하던 사람은 떠났습니다. 그 말이 회사에 남아 있는지, 11월 18일 새벽 숫자가 첫 답을 줄 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_seoul_finance_night.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그날 아침 증권앱을 열면, 데이터센터 매출 하나만 먼저 확인해 보세요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_night_desk_lamp.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여러분이 세가의 사장이었다면, 틀렸다고 고백한 회사에 돈을 주셨을까요? 댓글로 들려주세요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261117n_fx_docs.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이 영상 하나를 만들려고 30년 전 연설과 인터뷰, 회사 공시와 실적 자료까지 찾아봤습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_base_yield_monitor.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "밸류노트는 이렇게 기업의 숫자 뒤에 숨은 이야기를 같이 펼쳐 보는 곳입니다. 다음 이야기도 함께 보고 싶으시면 구독해 주세요. 좋아요와 구독은 영상 제작에 큰 힘이 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "",
+    "btn_at": [
+     "0:기업을",
+     "0:기업을",
+     "0:기업을"
+    ],
+    "note": {
+     "text": ""
+    },
+    "dark_end": true,
+    "slogan": "기업을 이해하면, 투자가 달라집니다"
+   },
+   "lines": [
+    "기업을 이해하면, 투자가 달라집니다. 감사합니다. 밸류노트였습니다."
+   ],
+   "endscreen": 11,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": ""
+  }
+ ],
+ "tags": [
+  "엔비디아 주가 전망",
+  "엔비디아 주가",
+  "엔비디아",
+  "젠슨 황",
+  "젠슨황 사임",
+  "엔비디아 실적",
+  "엔비디아 세가",
+  "CUDA",
+  "NVDA",
+  "미국 주식",
+  "서학개미",
+  "AI 반도체"
+ ],
+ "search_keywords": [
+  "엔비디아 주가 전망",
+  "엔비디아 주가",
+  "엔비디아 실적",
+  "젠슨 황",
+  "엔비디아 역사"
+ ],
+ "sources": [
+  "엔비디아 8-K 보도자료 2026-11-12",
+  "CNBC 2026-11-13 (4조 달러 아래 마감)",
+  "야후 파이낸스 2026-11-13 (11/17 화요일 실적)",
+  "엔비디아 2027 회계연도 2분기 실적 2026-08 (매출 962억 달러·데이터센터 890억 달러, 유나이트AI)",
+  "엔비디아 블로그 2023-05-26 (젠슨 황 대만대 졸업 연설: 세가·6개월)",
+  "VGC 2026-07-15 (젠슨 황·이리마지리 재회, 세가 500만 달러)",
+  "톰스하드웨어 2026-07 (세가 1996년 500만 달러 투자)",
+  "포춘 2025-12-04 (망할까 봐 불안 · 30일)",
+  "엔비디아 블로그 2023-09 (데니스 창업)",
+  "알렉스넷 2012 (GTX 580 2장)",
+  "한국예탁결제원 세이브로 2026-01 (해외 주식 보관금액 테슬라 1위·엔비디아 2위)",
+  "엔비디아 주총 위임장 자료 (하비 존스 1993년부터 이사)",
+  "나스닥 시스코 주가 2000~2002"
+ ],
+ "thumb": {
+  "photo": "il_L261117n_thumb_dc.jpeg",
+  "focus_x": 0.5,
+  "l1": "젠슨 황 없는 첫 실적",
+  "l2": "11월 18일 볼 3가지",
+  "pos": "left"
+ },
+ "ab_sets": [
+  {
+   "key": "a",
+   "default": true,
+   "title": "엔비디아 주가 전망, 젠슨 황 없는 첫 실적 11월 18일 | 파산 30일 전 회사를 살린 사람이 떠났다",
+   "file": "thumb_a.jpg",
+   "type": "A 보유자·사건 (젠슨 황 없는 첫 실적 · 데이터센터 사진)"
+  },
+  {
+   "key": "b",
+   "title": "엔비디아 주가 전망, 세가가 건넨 500만 달러가 살린 회사 | 젠슨 황 33년 만의 퇴장",
+   "file": "thumb_b.jpg",
+   "type": "B 범용 (파산 30일 전 회사 · 옛 그래픽 카드 사진)"
+  },
+  {
+   "key": "c",
+   "title": "엔비디아 주가 전망, 시가총액 4조 달러 붕괴 | 창업자 떠난 회사, 애플·스타벅스는 어떻게 됐나",
+   "file": "thumb_c.jpg",
+   "type": "C 큰 숫자·모순 (4조 달러 아래 · 빈 의자 사진)"
+  }
+ ],
+ "events": [
+  {
+   "at": "2026-11-15T10:30:00+09:00",
+   "by": "claude-long",
+   "what": "D-2 원고(staging) 작성 · 기획 v2 갱신(젠슨 황 사임 반영)"
+  }
+ ]
+}
