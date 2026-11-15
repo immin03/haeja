@@ -1,0 +1,180 @@
+{
+ "id": "en29a",
+ "lang": "en",
+ "from": "ep29",
+ "note": "2026-11-15 영어 쇼츠 백로그(en05b 구조). ep29 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "You fight",
+  "HARDEST with",
+  "the ones you love."
+ ],
+ "title_line": "How to stop fighting with family",
+ "music": {
+  "file": "/home/claude/ed/music/music_we-ll-be-okay.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en29a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/cep1_fau.mp4",
+  "/home/claude/haeja/social/side/gen/c1v_emp_listen.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_read.mp4",
+  "/home/claude/haeja/social/side/gen/ev4_girls.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_widow.mp4",
+  "/home/claude/haeja/social/side/gen/ev_stars.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.439,
+   1,
+   0,
+   "none",
+   [
+    "You fight hardest with the ones you love."
+   ]
+  ],
+  [
+   3.289,
+   6.021,
+   2,
+   0,
+   "cap",
+   [
+    "Three rules from",
+    "an emperor's",
+    "private journal."
+   ]
+  ],
+  [
+   6.891,
+   9.211,
+   3,
+   1,
+   "big",
+   [
+    "One.",
+    "Stop trying to fix them."
+   ]
+  ],
+  [
+   9.261,
+   11.52,
+   3,
+   1,
+   "cap",
+   [
+    "When they nag,",
+    "just listen to the end."
+   ]
+  ],
+  [
+   12.37,
+   15.35,
+   4,
+   2,
+   "quote",
+   [
+    "If you can,",
+    "correct them by teaching."
+   ]
+  ],
+  [
+   15.4,
+   19.811,
+   4,
+   2,
+   "quote",
+   [
+    "If not, remember",
+    "that kindness was given",
+    "to you for this."
+   ]
+  ],
+  [
+   20.881,
+   24.241,
+   5,
+   3,
+   "big",
+   [
+    "Two.",
+    "Remember one good thing",
+    "before you speak."
+   ]
+  ],
+  [
+   25.091,
+   29.337,
+   6,
+   3,
+   "quote",
+   [
+    "When you want to be glad,",
+    "think of the good",
+    "in those who live with you."
+   ]
+  ],
+  [
+   30.177,
+   32.327,
+   7,
+   4,
+   "big",
+   [
+    "Three.",
+    "Be kind first."
+   ]
+  ],
+  [
+   32.377,
+   34.538,
+   7,
+   4,
+   "cap",
+   [
+    "Win the argument,",
+    "lose the evening."
+   ]
+  ],
+  [
+   35.318,
+   38.638,
+   8,
+   5,
+   "quote",
+   [
+    "Kindness cannot be beaten,",
+    "if it is real,"
+   ]
+  ],
+  [
+   38.688,
+   41.461,
+   8,
+   5,
+   "quote",
+   [
+    "and not a forced smile,",
+    "or an act."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Skip the last word.",
+  "Ask how their day was."
+ ],
+ "source": "Marcus Aurelius, Meditations 11.18",
+ "end_voice": "/home/claude/vo/v2/en29_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en29_outro_voice.wav",
+ "cover": [
+  "STOP",
+  "FIGHTING",
+  "AT HOME"
+ ],
+ "theme": "A",
+ "vol": 1.0
+}
