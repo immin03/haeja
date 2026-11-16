@@ -2152,8 +2152,8 @@ def preflight(spec):
 
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; DOCFX.set_design2(D2[0]); HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
-    import docfx as DOCFX; data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
+    spec = json.load(open(spec_path, encoding="utf-8")); preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
+    import docfx as DOCFX; DOCFX.set_design2(D2[0]); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
     R.BG = R.bg_gradient(); R.LOGO = Image.open(os.path.join(HERE, "assets", "logo.png")).convert("RGBA")
