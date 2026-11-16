@@ -33,7 +33,7 @@ def tint(p, cfg):
     k = np.clip((xx - w * .5) / (w * .08) + .5, 0, 1)   # 가운데에서 부드럽게 바뀐다
     col = np.array([30, 80, 220], np.float32) * (1 - k) + np.array([220, 40, 45], np.float32) * k
     a = a * .5 + col * .5; p = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(p)
-    L_, R_ = cfg["versus"]; fs = max(40, int(w * .085)); y = int(h * (.16 if h < w * 1.2 else .14))
+    L_, R_ = cfg["versus"]; fs = max(40, int(w * .085)); y = int(h * (.84 if h < w * 1.2 else .14))
     d.text((w * (.36 if h < w else .27), y), L_, font=F(fs), fill=(255, 255, 255), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
     d.text((w * .76, y), R_, font=F(fs), fill=(255, 255, 255), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
     d.text((w * (.56 if h < w else .515), y), "VS", font=F(int(fs * 1.15)), fill=(255, 214, 90), anchor="mm", stroke_width=5, stroke_fill=(0, 0, 0))
