@@ -1,0 +1,165 @@
+{
+ "id": "en32a",
+ "lang": "en",
+ "from": "ep32",
+ "note": "2026-11-16 영어 쇼츠 백로그(en05b 구조). ep32 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A | 2026-11-16 음량 -12.9→범위 안으로 vol 0.93",
+ "kicker": "",
+ "hook": [
+  "You DREAD work",
+  "every morning",
+  "for one reason."
+ ],
+ "title_line": "Why mornings feel so heavy",
+ "music": {
+  "file": "/home/claude/ed/music/music_we-ll-be-okay.mp3",
+  "start": 0,
+  "bed": 0.19
+ },
+ "voice": "/home/claude/vo/v2/v_en32a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_market_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/edv01_tent.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_snow_b.mp4",
+  "/home/claude/haeja/social/side/gen/libv_farmer_field.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_order.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_ranks.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.914,
+   1,
+   0,
+   "none",
+   [
+    "You dread work every morning for one reason."
+   ]
+  ],
+  [
+   3.744,
+   5.884,
+   2,
+   1,
+   "cap",
+   [
+    "It feels like",
+    "someone else's work."
+   ]
+  ],
+  [
+   5.934,
+   7.379,
+   2,
+   1,
+   "cap",
+   [
+    "So your body",
+    "says no."
+   ]
+  ],
+  [
+   8.239,
+   11.949,
+   3,
+   2,
+   "cap",
+   [
+    "Marcus Aurelius wrote",
+    "his journal in army camps"
+   ]
+  ],
+  [
+   11.999,
+   14.08,
+   3,
+   2,
+   "cap",
+   [
+    "on the Danube, at war,",
+    "in his fifties."
+   ]
+  ],
+  [
+   14.93,
+   19.38,
+   4,
+   3,
+   "quote",
+   [
+    "Do you not see",
+    "the little birds,",
+    "the ants, the bees,"
+   ]
+  ],
+  [
+   19.43,
+   22.139,
+   4,
+   3,
+   "quote",
+   [
+    "working to put",
+    "their part of the world",
+    "in order?"
+   ]
+  ],
+  [
+   22.999,
+   25.249,
+   5,
+   4,
+   "big",
+   [
+    "It's not their work.",
+    "It's yours."
+   ]
+  ],
+  [
+   25.299,
+   26.659,
+   5,
+   4,
+   "cap",
+   [
+    "Finish one piece of it."
+   ]
+  ],
+  [
+   27.509,
+   29.639,
+   6,
+   5,
+   "quote",
+   [
+    "Were you made",
+    "only for comfort,"
+   ]
+  ],
+  [
+   29.689,
+   30.792,
+   6,
+   5,
+   "quote",
+   [
+    "and not for action?"
+   ]
+  ]
+ ],
+ "tonight": [
+  "Before bed, write",
+  "one task that's yours",
+  "to finish tomorrow."
+ ],
+ "source": "Marcus Aurelius, Meditations 5.1",
+ "end_voice": "/home/claude/vo/v2/en32_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en32_outro_voice.wav",
+ "cover": [
+  "DREAD",
+  "WORK?"
+ ],
+ "theme": "A",
+ "vol": 0.93
+}
