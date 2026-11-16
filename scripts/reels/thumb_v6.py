@@ -63,10 +63,10 @@ def doc(c):
     soft_paste(im, ph, W - pw, .24); grad_bottom(im, .78, 110); d = ImageDraw.Draw(im)
     L2 = c["l2"].split("\n"); s2 = min(fit(d, "{" + l + "}", 112, 640) for l in L2); s1 = fit(d, c["l1"], 58, 620, "ExtraBold")
     y = H - 70 - (len(L2) - 1) * (s2 + 10)
-    hi1 = RED if c.get("l1_red") else GOLD
-    text(d, (64, y - s2 - 28), c["l1"], s1, hi=hi1); quote_mark(d, 64, y - s2 - s1 - 120, 60)
-    for l in L2: text(d, (64, y), "{" + l + "}", s2); y += s2 + 10
-    if c.get("tag"): chip(d, 64, 72, c["tag"], RED if c.get("tag_red") else GOLD, WHITE if c.get("tag_red") else NAVY, 32)
+    HI = RED if c.get("pink", True) else GOLD
+    text(d, (64, y - s2 - 28), c["l1"], s1, hi=WHITE); quote_mark(d, 64, y - s2 - s1 - 120, 60)
+    for l in L2: text(d, (64, y), "{" + l + "}", s2, hi=HI); y += s2 + 10
+    if c.get("tag"): chip(d, 64, 72, c["tag"], HI, NAVY, 32)
     return im
 
 def versus(c):
@@ -85,8 +85,8 @@ def versus(c):
             chip(d, x, 128, p["label"], WHITE if p.get("tint") == "red" else GOLD, NAVY, 32)
     if c.get("mid"):
         f = F("Heavy", 96); d.text((W / 2, 300), c["mid"], font=f, fill=GOLD, anchor="mm", stroke_width=6, stroke_fill=NAVY)
-    s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, hi=RED, anchor="ms")
-    s2 = fit(d, "{" + c["l2"] + "}", 110, W - 100); text(d, (W / 2, 670), "{" + c["l2"] + "}", s2, anchor="ms")
+    s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, hi=GOLD, anchor="ms")
+    s2 = fit(d, "{" + c["l2"] + "}", 110, W - 100); text(d, (W / 2, 670), "{" + c["l2"] + "}", s2, hi=RED, anchor="ms")
     logo(d); return im
 
 def chips(c):
@@ -98,7 +98,7 @@ def chips(c):
         for i in range(1, len(phs)): sd.line([i * cw, 0, i * cw, H], fill=NAVY, width=6)
     soft_paste(im, strip, W - pw, .16); grad_bottom(im, .52, 235); d = ImageDraw.Draw(im)
     y = 64
-    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if c.get("chip_red") else [GOLD, WHITE][i % 2], WHITE if c.get("chip_red") else NAVY, 34); y += 76
+    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else WHITE, NAVY, 34); y += 76
     lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y = H - 58 - (len(lines) - 1) * (s + 12)
     for l in lines: text(d, (56, y), l, s, hi=RED if c.get("hi_red") else GOLD); y += s + 12
     return im
