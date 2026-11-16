@@ -1541,6 +1541,33 @@ def level_voice(a, target=.1):
     return y.astype(np.float32)
 
 
+DUB_VOICES = {"seongho": "tc_5fe06471a9f79e8f959be96f"}   # 더빙은 내레이션(대표님 클론)과 다른 목소리
+
+
+def dub_voice(l, who):
+    """더빙 문장: 내레이션과 다른 타입캐스트 성우로 읽는다"""
+    import tts as T_
+    old = T_.TC_VOICE; T_.TC_VOICE = DUB_VOICES.get(who, who)
+    try: return R.pace(T_.speak(to_speech(l), 1.1)) * .92
+    finally: T_.TC_VOICE = old
+
+
+def dub_orig(d, dur, voices):
+    """원음: 처음 orig초는 또렷하게, 그 뒤엔 13%로 낮춰 더빙 밑에 깐다. 크기는 더빙 목소리에 맞춘다"""
+    pth = os.path.join(ROOT, "scripts", "blog", "media", "lib", d["clip"])
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(d.get("start", 0)), "-i", pth, "-t", f"{dur:.2f}", "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, np.float32).copy(); n = int(dur * SR)
+    x = np.pad(x, (0, max(0, n - len(x))))[:n]
+    o = int(float(d.get("orig", 2.5)) * SR); ref = x[:o] if o > SR // 2 else x
+    v = np.concatenate(voices) if voices else np.zeros(1, np.float32)
+    vr = float(np.sqrt(np.mean(v ** 2))) if len(v) > 10 else .08; xr = float(np.sqrt(np.mean(ref ** 2))) + 1e-9
+    x = x * (vr / xr * .95)
+    tt = np.arange(n) / SR; o_ = o / SR
+    g = np.where(tt < o_, 1.0, np.maximum(float(d.get("under", .13)), 1 - (tt - o_) / .45 * (1 - float(d.get("under", .13)))))
+    g = g * np.clip((dur - tt) / .35, 0, 1) * np.clip(tt / .05, 0, 1)
+    return (x * g).astype(np.float32)
+
+
 def clean_voice(l, speak):
     """성우 음성에 가끔 섞이는 이상한 소리(늘어진 소리·괴물 소리·덜 녹음된 소리)를 걸러 낸다 (2026-10-22 운영자 검수).
     1) 말 속도가 평소(초당 약 6.7음절)보다 크게 느리거나 빠르면  2) 음성 인식으로 다시 받아 적었을 때 원고와 많이 다르면
@@ -2109,10 +2136,14 @@ def main():
         if spec.get("world") == "notebook" and "lead" not in sc:   # 2026-10-28 운영자: 인트로·장 전환은 시네마틱하게 → 말 앞에 화면만 흐르는 구간
             if not timeline: u = 1.1                                  # 오프닝: 검은 화면에서 떠오르며 제목이 뜰 시간
             elif sc.get("chapter") and sc["v"]["type"] == "title": u = 1.15   # 장 제목: 카메라가 물러나 페이지가 넘어가고 제목이 떠오를 시간
+        DUB = sc.get("dub")   # 2026-11-16 대표님: 인터뷰 원음 2~3초 → 원음은 작게 깔고 다른 성우가 한국어 더빙
+        if DUB: u = max(u, float(DUB.get("orig", 2.5)) + .15)
         for l in lines:
-            a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
+            if DUB and not fake: a = dub_voice(l, DUB.get("voice", "seongho"))
+            else: a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
+        if DUB: dur = max(dur, float(DUB.get("min", 0))); audio.append((t, dub_orig(DUB, dur, [x_ for _, x_ in audio[-len(lines):]])))
         HITS = MUSIC.get("hits") or []
         if HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
             # 14:27 대표님: 사진 전환에 맞추려고 말을 멈추지 말 것 — 장면 길이는 말 길이 그대로, 장면 안에서 큰 베이스가 오면 그때만 사진을 바꾼다
