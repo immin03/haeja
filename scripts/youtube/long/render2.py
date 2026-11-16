@@ -1832,10 +1832,11 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 if RM and (k > IDK if IDK is not None else x["start"] + u >= RM[0][0] - .01) and typ != "end":
                     tn = x["start"] + u; ci_ = max([j for j, (t_, _) in enumerate(RM) if t_ <= tn + .01], default=-1)
                     for t_, _ in RM: d.rectangle([int(W * t_ / total) - 1, 0, int(W * t_ / total) + 1, 11], fill=(232, 226, 212, int(200 * a_)))
+                    # 2026-11-16 대표님: 퍼즐 장면은 화면 안 장 제목과 목차가 겹친다 → 퍼즐 컷으로 여는 장은 목차를 띄우지 않는다
                     # 2026-11-14 대표님: 장 제목은 책 목차처럼 명사형. 장이 바뀔 때 3초간 전체 목차, 그 뒤엔 '번호 · 지금 장 · 다음 장' 한 줄
                     t_in = tn - RM[ci_][0] if ci_ >= 0 else 99
                     c0 = (sc["v"].get("cuts") or [{}])[0].get("lib", "") if t_in < 3.4 else ""
-                    toc_a = 0.0 if ("_fx_" in c0 or sc["v"].get("ident")) else clamp(min(t_in / .35, (3.2 - t_in) / .4))
+                    toc_a = 0.0 if ("_fx_" in c0 or "puzzle_" in c0 or sc["v"].get("ident")) else clamp(min(t_in / .35, (3.2 - t_in) / .4))
                     if toc_a > 0 and ci_ >= 0:
                         x0, y0, w0, rh = 56, 34, 660, 44
                         ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); od = AD(ov)

@@ -203,7 +203,9 @@
       "lib": "euronews_trump_fine.mp4"
      }
     ],
-    "wash_amt": 0.85
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "\"그 일로 그와 직접 얘기해 보진 않았습니다. 좋은 사람이라는 건 압니다. 하지만 무슨 일이 벌어지고 있는지는 아무도 모르죠.\"",
@@ -237,13 +239,18 @@
    "v": {
     "type": "media",
     "full": true,
-    "wash": "left",
+    "wash": "none",
     "cuts": [
      {
       "lib": "il_L261109p_insider_exit.jpeg"
+     },
+     {
+      "lib": "vofficebuilding_40652.mp4"
      }
     ],
-    "wash_amt": 0.85
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "그로부터 나흘 뒤, 젠슨 황은 33년 동안 이끈 엔비디아를 떠났습니다. 대통령이 좋은 사람이라고 감싼 사람이, 왜 자기 회사에서는 버티지 못했을까요?"
@@ -268,13 +275,18 @@
    "v": {
     "type": "media",
     "full": true,
-    "wash": "left",
+    "wash": "none",
     "cuts": [
      {
       "lib": "il_L261110a_midnight_phones.jpeg"
+     },
+     {
+      "lib": "vnews_14044.mp4"
      }
     ],
-    "wash_amt": 0.85
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "그런데 물러난 지 나흘 만에, 이번엔 돌아오라는 목소리가 터져 나왔습니다. 채널A에 따르면 복귀 청원에 약 14만 명이 이름을 올렸어요."
@@ -302,13 +314,18 @@
    "v": {
     "type": "media",
     "full": true,
-    "wash": "left",
+    "wash": "none",
     "cuts": [
      {
       "lib": "il_L261113a_trader_gold.jpeg"
+     },
+     {
+      "lib": "vdocuments_45923.mp4"
      }
     ],
-    "wash_amt": 0.85
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "엔비디아 주식을 약 21억 달러 규모로 가진 두 투자사도 이사회에 편지를 보냈습니다. 후임은 천천히 뽑고, 복귀 가능성은 열어 두라고요."
@@ -357,13 +374,18 @@
    "v": {
     "type": "media",
     "full": true,
-    "wash": "left",
+    "wash": "none",
     "cuts": [
+     {
+      "lib": "vcapitol_40677.mp4"
+     },
      {
       "lib": "il_L261114t_road_fork.png"
      }
     ],
-    "wash_amt": 0.85
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
    },
    "lines": [
     "결론의 방향만 먼저 말씀드리면, 마지막 열쇠는 엔비디아 이사회가 아니라 워싱턴에 있습니다. 그것도 중간선거로 주인이 바뀐 워싱턴이요."
@@ -2471,7 +2493,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261116p_newspaper_2020.png"
+      "lib": "il_L261117n_late_office_light.png"
      }
     ],
     "wash_amt": 0.85
@@ -2575,7 +2597,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "누가 판을 짰는지는 아무도 모릅니다. 하지만 판이 바뀌면서 웃는 쪽은 분명히 보이죠. 트럼프와 엔비디아는 팔자, 민주당과 앤트로픽은 막자. 젠슨 황의 복귀는 결국, 이 두 진영의 싸움에서 누가 이기느냐에 걸려 있습니다."
+    "누가 판을 짰는지는 아무도 모릅니다. 하지만 편은 분명히 갈렸어요. 젠슨 황 복귀를 지지하는 쪽엔 실리콘밸리와 대주주들이, 복귀를 막아서는 쪽엔 재무장관이 섰습니다. 그리고 마지막 열쇠, 내년 의회는 민주당이 쥡니다."
    ],
    "sketch_add": [],
    "en": [
@@ -2587,21 +2609,21 @@
     {
      "kind": "table",
      "cols": [
-      "팔자 vs 막자",
+      "젠슨 황 복귀",
       ""
      ],
      "rows": [
       [
-       "팔자",
-       "트럼프 · 엔비디아"
+       "복귀 지지",
+       "머스크 · 대주주 · 청원 14만 명"
       ],
       [
-       "막자",
-       "민주당 · 앤트로픽"
+       "복귀 반대",
+       "베선트 재무장관 · 후임은 외부에서"
       ],
       [
-       "관망",
-       "중국"
+       "마지막 열쇠",
+       "2027년 민주당 의회 · 청문회"
       ]
      ],
      "colors": [
@@ -2915,6 +2937,40 @@
      "line": 0,
      "at": 0.35,
      "color": "gold"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261114s_contract_desk.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이번 편을 위해 뉴욕타임스, CNN, 블룸버그, 폴리티코부터 채널A, YTN까지 국내외 보도와 의회 서한, 증권신고서까지 40건 넘는 자료를 하나하나 맞춰 봤습니다. 확인되지 않은 이야기는 모두 뺐습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "자료 40건+",
+     "sub": "국내외 보도 · 의회 서한 · 증권신고서 교차 확인",
+     "line": 0,
+     "at": 0.3,
+     "color": "gold",
+     "hold": 2.4,
+     "style": "soft"
     }
    ]
   },
