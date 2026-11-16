@@ -1330,7 +1330,7 @@ def full_source(v, n_frames, seed):
     if v.get("ident"):
         if D2[0]:
             import vn2
-            bg = clip_source(os.path.join(lib, v.get("ident_bg", "vhongkong_28644.mp4")), n_frames + 2, 1)
+            bg = clip_source(os.path.join(lib, v.get("ident_bg", "vnewyork_30544.mp4")), n_frames + 2, 1)
             return vn2.intro_source(bg, n_frames, FPS)
         return ident_source(n_frames)   # 2026-11-03 대표님: 훅 뒤 2~3초 밸류노트 인트로
     if v.get("cuts"): return cuts_source(v, n_frames, seed)   # 2026-11-03 대표님: '돈의 질서'처럼 외부 사진·영상을 빠른 템포로
@@ -1561,39 +1561,40 @@ def level_voice(a, target=.1):
 
 
 DUB_VOICES = {"seongho": "tc_5fe06471a9f79e8f959be96f"}   # 더빙은 내레이션(대표님 클론)과 다른 목소리
-_AGE_PICK = {}
+_AGE_PICK = {}; _DUB_PERSON = {}; DUB_LOG = []
 
 
-def _voice_for_age(age):
-    """2026-11-16 대표님: 인물마다 나잇대에 맞는 다른 목소리 — 타입캐스트 목소리 목록에서 한국어 남성·나잇대로 고른다 (실패하면 성호)"""
-    if age in _AGE_PICK: return _AGE_PICK[age]
+def _voice_list(who):
+    """who: elder | middle_age | young_adult (남성) · f_middle_age | f_young_adult (여성) → 타입캐스트 목소리 id 후보 목록"""
+    if who in _AGE_PICK: return _AGE_PICK[who]
     import urllib.request, json as _j
-    vid = None
-    for url in (f"https://api.typecast.ai/v2/voices?model=ssfm-v30&gender=male&age={age}", "https://api.typecast.ai/v2/voices?model=ssfm-v30", "https://api.typecast.ai/v1/voices?model=ssfm-v30"):
+    gender = "female" if who.startswith("f_") else "male"; age = who[2:] if who.startswith("f_") else who; out = []
+    for url in (f"https://api.typecast.ai/v2/voices?model=ssfm-v30&gender={gender}&age={age}", "https://api.typecast.ai/v2/voices?model=ssfm-v30"):
         try:
             req = urllib.request.Request(url, headers={"X-API-KEY": os.environ.get("TYPECAST_API_KEY", "")})
             d = _j.loads(urllib.request.urlopen(req, timeout=20).read())
             L = d if isinstance(d, list) else (d.get("voices") or d.get("result") or d.get("data") or [])
-            used = set(_AGE_PICK.values()) | set(DUB_VOICES.values())
             def ok(v):
                 g = str(v.get("gender", "")).lower(); a = str(v.get("age", "")).lower()
-                return (not g or g == "male") and (not v.get("age") or age in a) and v.get("voice_id") not in used
-            c = [v for v in L if isinstance(v, dict) and ok(v)]
-            if c: vid = c[0]["voice_id"]; print(f"  더빙 목소리({age}): {c[0].get('voice_name', '')} {vid}", flush=True); break
+                return g == gender and (not a or age in a)
+            out = [v["voice_id"] for v in L if isinstance(v, dict) and v.get("voice_id") and ok(v)]
+            if out: break
         except Exception as e: print("  더빙 목소리 목록 실패:", url, str(e)[:120], flush=True)
-    _AGE_PICK[age] = vid or DUB_VOICES["seongho"]; return _AGE_PICK[age]
-
-
-_DUB_PERSON = {}; DUB_LOG = []   # 2026-11-16 대표님: 같은 인물(젠슨 황)의 더빙 목소리가 두 가지로 나옴 → 인물 이름별로 처음 정한 목소리를 끝까지 고정
+    print(f"  더빙 목소리 후보({who}): {len(out)}개", flush=True)
+    _AGE_PICK[who] = out; return out
 
 
 def dub_voice(l, who, person=None):
-    """더빙 문장: 내레이션과 다른 타입캐스트 성우로 읽는다 (who: seongho | elder | middle_age | young_adult | 타입캐스트 id)"""
+    """더빙 문장: 내레이션과 다른 타입캐스트 성우. 같은 인물은 끝까지 같은 목소리, 다른 인물은 서로 다른 목소리 (2026-11-16 대표님)"""
     import tts as T_
-    vid = _voice_for_age(who) if who in ("elder", "middle_age", "young_adult") else DUB_VOICES.get(who, who)
-    if person:
-        vid = _DUB_PERSON.setdefault(person, vid)
-    DUB_LOG.append([person or who, vid, l[:30]])
+    key = person or who
+    if key not in _DUB_PERSON:
+        if who in ("elder", "middle_age", "young_adult", "f_middle_age", "f_young_adult"):
+            used = set(_DUB_PERSON.values()); c = [v for v in _voice_list(who) if v not in used]
+            vid = c[0] if c else DUB_VOICES["seongho"]
+        else: vid = DUB_VOICES.get(who, who)
+        _DUB_PERSON[key] = vid; print(f"  더빙 목소리: {key} → {vid}", flush=True)
+    vid = _DUB_PERSON[key]; DUB_LOG.append([key, vid, l[:30]])
     old = T_.TC_VOICE; T_.TC_VOICE = vid
     try: return R.pace(T_.speak(to_speech(l), 1.1)) * .92
     finally: T_.TC_VOICE = old
@@ -1918,7 +1919,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 d.text((62, fy + 2), foot, font=F("Medium", 21), fill=(0, 0, 0, 150)); d.text((60, fy), foot, font=F("Medium", 21), fill=(232, 226, 212, 230))
             cur = next((l for l in reversed(x["lines"]) if u >= l[0] - .05), None)
             if D2[0]:
-                if cur and u <= cur[0] + cur[1] + .25 and typ != "end" and not sc["v"].get("ident") and not DOCFX.punch_active(sc.get("sketch"), u, x["lines"]):
+                if cur and u <= cur[0] + cur[1] + .25 and typ != "end" and not sc["v"].get("ident"):   # 2026-11-16 21:34 대표: 자막은 항상 떠 있고 강조는 그 위에
                     sub_v2(im, cur[2], u - cur[0], cur[1], left=bool(sc.get("dub")))
             elif cur and u <= cur[0] + cur[1] + .25 and typ != "end":
                 subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 200) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-16 대표님: 인트로 자막이 하단 띠와 겹침 → 극장 띠 바로 위로   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리

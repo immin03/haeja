@@ -112,6 +112,13 @@ def _tone(b, default=WHITE):
 
 def draw(img, beats, u, lines):
     """img: 전체 화면 그림(RGB) · beats: 장면의 sketch 비트 · u: 장면 안 시각(초) · lines: [(시작, 길이, …)]"""
+    if DESIGN2[0]:   # v2.1: 표·체크리스트·타임라인·한 줄 요점은 새 양식(vn2.panel)으로, 자막 위에
+        v2k = [b for b in beats if b.get("kind") in ("table", "steps", "timeline", "icon")]
+        if v2k:
+            import vn2
+            im_ = img.convert("RGBA")
+            for b in v2k: im_ = vn2.panel(im_, b, u - _t0(b, lines))
+            img = im_.convert("RGB"); beats = [b for b in beats if b not in v2k]
     bs = [b for b in beats if b.get("kind") in ("print", "write", "chart", "bars", "pct", "table", "icon")]
     pu = [b for b in beats if b.get("kind") == "punch"]
     ov_ = [b for b in beats if b.get("kind") in ("stamp", "lower", "quote", "acct")]   # 2026-11-06 방송국 다큐 연출: 장소·날짜 도장, 하단 자막띠, 인용 카드

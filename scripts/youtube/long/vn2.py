@@ -187,7 +187,7 @@ def number(im, text, sub, p, fade, numparts=None):
         c = eout(p / .9); v = numparts[1] * c
         body = f"{v:,.{numparts[2]}f}" if numparts[3] else f"{v:.{numparts[2]}f}"
         text = numparts[0] + body + numparts[4]
-    x = 130; y0 = H - 440
+    x = 130; y0 = H - 580
     lay = Image.new("RGBA", (W - 200, 420), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
     fl = NS("Medium", 30); xx = 0; ra = eout(p / .5)
     for ch in label: d.text((xx, 0), ch, font=fl, fill=(255, 255, 255, int(255 * ra))); xx += d.textlength(ch, font=fl) + 6
@@ -220,9 +220,79 @@ def phrase(im, text, sub, p, fade):
     if label:
         fl = NS("Medium", 32); lw = int(d0.textlength(label, font=fl)) + 40
         ll = Image.new("RGBA", (lw + 20, 60), (0, 0, 0, 0)); ImageDraw.Draw(ll).text((10, 8), label, font=fl, fill=(240, 240, 240, 255))
-        _paste(im, _shadowed(ll, 6, .6), (130 - 10, H - 160 - th + 10), a * eout(p / .5))
-    _paste(im, _shadowed(lay, 10, .75, (4, 6)), (130 - 30 + 20 * (1 - r), H - 120 - th + 30), a * r)
+        _paste(im, _shadowed(ll, 6, .6), (130 - 10, H - 300 - th + 10), a * eout(p / .5))
+    _paste(im, _shadowed(lay, 10, .75, (4, 6)), (130 - 30 + 20 * (1 - r), H - 260 - th + 30), a * r)
     if src:
         sl = Image.new("RGBA", (W - 300, 50), (0, 0, 0, 0)); ImageDraw.Draw(sl).text((10, 8), src, font=NS("Regular", 24), fill=(195, 195, 195, 255))
-        _paste(im, _shadowed(sl, 5, .6), (130 - 10, H - 92), a * eout((p - .4) / .5))
+        _paste(im, _shadowed(sl, 5, .6), (130 - 10, H - 232), a * eout((p - .4) / .5))
+    return im
+
+
+# ── v2.1 (2026-11-16 21:34 대표님): 표·체크리스트·타임라인 새 양식 — 자막은 항상 아래에 떠 있고 이 판들은 그 위에 놓인다 ──
+def _track(d, x, y, t, f, tr, fill):
+    for c in t: d.text((x, y), c, font=f, fill=fill); x += d.textlength(c, font=f) + tr
+    return x
+
+
+def _head(d, x, y, title, w, a):
+    _track(d, x, y, title, NS("Medium", 28), 4, (255, 255, 255, int(255 * a)))
+    d.rectangle([x, y + 50, x + int(w * a), y + 51], fill=(255, 255, 255, 170)); d.rectangle([x, y + 48, x + int(56 * a), y + 53], fill=(*PINK, 255))
+
+
+def panel(im, b, p):
+    """b: table | steps | timeline | icon 비트 · p: 나타난 뒤 흐른 시간(초). 장면 끝까지 남는다."""
+    a = eout((p + .25) / .45)
+    if a <= 0: return im
+    k = b.get("kind")
+    if k == "timeline": return _timeline(im, b, p, a)
+    im = _left_shade(im, a)
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay); x = 130
+    if k == "table":
+        rows = b.get("rows", []); y = 200 if len(rows) <= 4 else 150; title = (b.get("cols") or [""])[0] or b.get("title", "")
+        if title: _head(d, x, y, title, 900, a)
+        hl = b.get("hl"); lw = max([d.textlength(str(r[0]), font=NS("Medium", 28)) for r in rows] + [120]) + 60
+        size = 46 if max([len(str(r[1])) for r in rows] + [0]) <= 20 else 38
+        for i, r in enumerate(rows):
+            ra = eout((p - .15 - .3 * i) / .45)
+            if ra <= 0: continue
+            yy = y + 92 + i * 112
+            d.text((x, yy + 14), str(r[0]), font=NS("Medium", 28), fill=(205, 205, 210, int(255 * ra)))
+            col = PINK if hl == i else (255, 255, 255)
+            d.text((x + lw, yy + (0 if size == 46 else 6)), str(r[1]), font=SUIT("Bold", size), fill=(*col, int(255 * ra)))
+            if len(r) > 2 and r[2]: d.text((x + lw + d.textlength(str(r[1]), font=SUIT("Bold", size)) + 28, yy + 16), str(r[2]), font=NS("Regular", 26), fill=(200, 200, 205, int(255 * ra)))
+            d.rectangle([x, yy + 88, x + 900, yy + 88], fill=(255, 255, 255, int(60 * ra)))
+    elif k == "steps":
+        rows = b.get("rows", []); y = 190; on = b.get("on")
+        if b.get("title"): _head(d, x, y, b["title"], 640, a)
+        for i, r in enumerate(rows):
+            ra = eout((p - .15 - .25 * i) / .45)
+            if ra <= 0: continue
+            yy = y + 100 + i * 158; al = int((255 if (on is None or on == i) else 115) * ra)
+            d.text((x, yy + 6), f"0{i + 1}", font=NS("Thin", 72), fill=(255, 255, 255, al))
+            d.text((x + 130, yy), str(r[0]), font=NS("Medium", 26), fill=(*(PINK if on == i else (200, 200, 200)), al))
+            d.text((x + 130, yy + 36), str(r[1]), font=SUIT("Bold", 46), fill=(255, 255, 255, al))
+            if len(r) > 2: d.text((x + 130, yy + 98), str(r[2]), font=NS("Regular", 26), fill=(215, 215, 215, al))
+    elif k == "icon":
+        y = H - 330; t = b.get("text", "")
+        d.rectangle([x, y, x + int(56 * a), y + 5], fill=(*PINK, 255))
+        f = SUIT("Bold", 50 if len(t) <= 24 else 42)
+        d.text((x, y + 26), t, font=f, fill=(255, 255, 255, int(255 * a)))
+    _paste(im, _shadowed(lay, 8, .6), (0, int(10 * (1 - a))), 1.0)
+    return im
+
+
+def _timeline(im, b, p, a):
+    arr = np.asarray(im).astype(np.float32); arr[..., :3] *= (1 - .42 * a); im = Image.fromarray(arr.astype(np.uint8), im.mode)
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    ev = b.get("events", []); on = b.get("on"); y = 450; x0, x1 = 230, 1690; n = max(1, len(ev) - 1)
+    d.rectangle([x0, y, x0 + int((x1 - x0) * eout(p / .8)), y + 2], fill=(255, 255, 255, 190))
+    for i, e in enumerate(ev):
+        ra = eout((p - .2 - .3 * i) / .45)
+        if ra <= 0: continue
+        cx = x0 + (x1 - x0) * i / n; hot = (on == i); r = 11 if hot else 7; al = int(255 * ra)
+        d.ellipse([cx - r, y + 1 - r, cx + r, y + 1 + r], fill=(*(PINK if hot else (255, 255, 255)), al))
+        d.text((cx, y - 40), str(e[0]), font=NS("Thin", 76), fill=(255, 255, 255, al), anchor="ms")
+        d.text((cx, y + 70), str(e[1]), font=SUIT("Bold", 38), fill=(*(PINK if hot else (255, 255, 255)), al), anchor="ms")
+        if len(e) > 2: d.text((cx, y + 112), str(e[2]), font=NS("Regular", 26), fill=(210, 210, 210, al), anchor="ms")
+    _paste(im, _shadowed(lay, 8, .6), (0, 0), 1.0)
     return im
