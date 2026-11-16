@@ -97,9 +97,15 @@ def chips(c):
         sd = ImageDraw.Draw(strip)
         for i in range(1, len(phs)): sd.line([i * cw, 0, i * cw, H], fill=NAVY, width=6)
     soft_paste(im, strip, W - pw, c.get("fade", .05)); grad_bottom(im, c.get("bot", .55), c.get("bot_a", 225)); d = ImageDraw.Draw(im)
-    y = c.get("chip_y", 64)
-    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else (255, 255, 255), NAVY, 46); y += 90
-    lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y = H - 58 - (len(lines) - 1) * (s + 12)
+    lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y0 = H - 58 - (len(lines) - 1) * (s + 12)
+    if c.get("chip_over_hi"):   # 2026-11-16 대표: 칩은 강조 단어 바로 위에 (무엇의 숫자인지 헷갈리지 않게)
+        l = lines[-1]; f = F("Heavy", s); pre = l.split("{")[0]; hx = 56 + d.textlength(pre, font=f)
+        cy = H - 58 - s - 96; hx += 24
+        for i, t in enumerate(c.get("chips", [])): chip(d, hx, cy, t, RED if i == 0 else (255, 255, 255), NAVY, 46)
+    else:
+        y = c.get("chip_y", 64)
+        for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else (255, 255, 255), NAVY, 46); y += 90
+    y = y0
     for l in lines: text(d, (56, y), l, s, hi=RED); y += s + 12
     return im
 
