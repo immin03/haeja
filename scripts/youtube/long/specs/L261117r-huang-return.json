@@ -63,7 +63,7 @@
  "hook_type": "보도 인용형 · 퍼즐 4조각 · 주장 하나(복귀는 의회가 정한다) · 제작진 해석 표시",
  "endscreen_target": "L261112-soxl-nvidia",
  "endscreen_also": "L261109-nvidia-huang",
- "title": "젠슨 황 몰락에 앤트로픽이 웃는다? | 복귀 시나리오 3가지와 1조 4천억 달러 IPO",
+ "title": "젠슨 황 엔비디아 복귀 시나리오 3가지 | 14만 명이 돌아오라는데, 美재무장관은 '냉랭'",
  "doc_title": "젠슨 황 복귀 퍼즐 — 네 조각과 마지막 열쇠",
  "title_en": "Will Jensen Huang return to Nvidia? Three scenarios, and why Washington holds the key",
  "pinned_comment": "젠슨 황, 어느 시나리오로 갈까요? ① 조기 복귀 ② 청문회 뒤 복귀 ③ 엔비디아 밖에서 새 출발 — 댓글로 골라 주세요.\n※ 보도 인용과 제작진의 해석을 구분해 담았으며, 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
@@ -155,10 +155,10 @@
  "ab_sets": [
   {
    "key": "a",
-   "default": true,
-   "title": "젠슨 황 몰락에 앤트로픽이 웃는다? | 복귀 시나리오 3가지와 1조 4천억 달러 IPO",
+   "default": false,
+   "title": "젠슨 황 몰락에 앤트로픽이 웃는다? | 선거 닷새 전 터진 보도, IPO 최대 1조 4천억 달러",
    "file": "thumb_a.jpg",
-   "type": "A 시나리오형",
+   "type": "A 음모론형",
    "tag": "IPO 1조 4천억 달러",
    "l1": "젠슨 황 몰락에",
    "l2": "앤트로픽이 웃는다?",
@@ -166,19 +166,20 @@
   },
   {
    "key": "b",
-   "title": "왜 지금 젠슨 황을 막는가 | 美재무장관 '실적 부풀리기' 의혹, 민주당 vs 공화당 3가지 시나리오",
+   "title": "젠슨 황 엔비디아 복귀 시나리오 3가지 | 14만 명이 돌아오라는데, 美재무장관은 '냉랭'",
    "file": "thumb_b.jpg",
-   "type": "B 정치형",
+   "type": "B 복귀 시나리오형(YTN·채널A 결)",
    "tag": "실적 부풀리기 의혹",
    "l1": "왜 지금",
    "l2": "젠슨 황을 막는가",
-   "photo": "il_L261107m_capitol_dawn.jpeg"
+   "photo": "il_L261107m_capitol_dawn.jpeg",
+   "default": true
   },
   {
    "key": "c",
-   "title": "젠슨 황, 물러난 지 나흘 만에 복귀설… 14만 명 청원 뒤 베일에 싸인 전쟁 3가지 시나리오",
+   "title": "왜 지금 젠슨 황의 복귀를 막는가 | '실적 부풀리기' 의혹까지, 복귀 시나리오 3가지",
    "file": "thumb_c.jpg",
-   "type": "C 퍼즐형",
+   "type": "C 복귀 저지형(월가 스케치·채널A 결)",
    "tag": "복귀 시나리오 3",
    "l1": "14만 명 청원 뒤",
    "l2": "베일에 싸인 전쟁",
