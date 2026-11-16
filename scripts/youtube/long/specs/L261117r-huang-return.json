@@ -225,8 +225,7 @@
      "text": "원음 · 트럼프 대통령",
      "sub": "2026.11.8 플로리다 팜비치 · 한국어 더빙",
      "line": 0,
-     "at": 0.3,
-     "y": 560
+     "at": 0.3
     }
    ],
    "dim": 0.0,
@@ -234,7 +233,7 @@
     "clip": "euronews_trump_fine.mp4",
     "orig": 2.6,
     "start": 0,
-    "voice": "seongho"
+    "voice": "elder"
    }
   },
   {
@@ -269,8 +268,7 @@
      "text": "11.8 → 11.12",
      "sub": "대통령의 공개 옹호 4일 뒤 사임",
      "line": 0,
-     "at": 0.3,
-     "y": 560
+     "at": 0.3
     }
    ]
   },
@@ -345,8 +343,7 @@
      "text": "CNBC 보도 · 11.14",
      "sub": "대주주 2곳 서한 · 지분 약 21억 달러 규모 · 복귀 가능성 열어 둘 것",
      "line": 0,
-     "at": 0.3,
-     "y": 560
+     "at": 0.3
     }
    ]
   },
@@ -373,6 +370,47 @@
    "src": "",
    "sketch": [],
    "dim": 0.0
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vsecret_50745.mp4"
+     },
+     {
+      "lib": "vdetective_49252.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "그런데 이 모든 게 정말 우연일까요? 선거 5일 전에 터진 보도, 4일 만의 사임, 그리고 바로 다음 주 1조 4천억 달러 상장.",
+    "도대체 누가, 이 판을 설계한 걸까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "누가 설계했나?",
+     "sub": "선거 5일 전 보도 · 4일 만의 사임 · 1조 4천억 달러 상장",
+     "line": 1,
+     "at": 0.1,
+     "color": "red",
+     "hold": 2.4,
+     "style": "soft"
+    }
+   ]
   },
   {
    "v": {
@@ -1287,7 +1325,7 @@
     "clip": "euronews_trump_honorable.mp4",
     "orig": 2.6,
     "start": 0,
-    "voice": "seongho"
+    "voice": "elder"
    }
   },
   {
@@ -1531,6 +1569,13 @@
      ],
      "line": 0,
      "at": 0.35
+    },
+    {
+     "kind": "lower",
+     "text": "척 슈머",
+     "sub": "미 상원 민주당 원내대표",
+     "line": 0,
+     "at": 0.3
     }
    ]
   },
@@ -2041,7 +2086,7 @@
     "clip": "cbs_huang_race.mp4",
     "orig": 2.5,
     "start": 0,
-    "voice": "seongho"
+    "voice": "middle_age"
    }
   },
   {
@@ -2112,7 +2157,7 @@
     "clip": "cbs_huang_doom.mp4",
     "orig": 2.5,
     "start": 0,
-    "voice": "seongho"
+    "voice": "middle_age"
    }
   },
   {
@@ -2948,10 +2993,10 @@
    "v": {
     "type": "media",
     "full": true,
-    "wash": "left",
+    "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261114s_contract_desk.jpeg"
+      "lib": "fx_sources_cascade.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -2973,12 +3018,13 @@
      "text": "자료 40건+",
      "sub": "국내외 보도 · 의회 서한 · 증권신고서 교차 확인",
      "line": 0,
-     "at": 0.3,
+     "at": 0.6,
      "color": "gold",
      "hold": 2.4,
      "style": "soft"
     }
-   ]
+   ],
+   "dim": 0.0
   },
   {
    "v": {

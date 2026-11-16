@@ -1542,12 +1542,34 @@ def level_voice(a, target=.1):
 
 
 DUB_VOICES = {"seongho": "tc_5fe06471a9f79e8f959be96f"}   # 더빙은 내레이션(대표님 클론)과 다른 목소리
+_AGE_PICK = {}
+
+
+def _voice_for_age(age):
+    """2026-11-16 대표님: 인물마다 나잇대에 맞는 다른 목소리 — 타입캐스트 목소리 목록에서 한국어 남성·나잇대로 고른다 (실패하면 성호)"""
+    if age in _AGE_PICK: return _AGE_PICK[age]
+    import urllib.request, json as _j
+    vid = None
+    for url in (f"https://api.typecast.ai/v2/voices?model=ssfm-v30&gender=male&age={age}", "https://api.typecast.ai/v2/voices?model=ssfm-v30", "https://api.typecast.ai/v1/voices?model=ssfm-v30"):
+        try:
+            req = urllib.request.Request(url, headers={"X-API-KEY": os.environ.get("TYPECAST_API_KEY", "")})
+            d = _j.loads(urllib.request.urlopen(req, timeout=20).read())
+            L = d if isinstance(d, list) else (d.get("voices") or d.get("result") or d.get("data") or [])
+            used = set(_AGE_PICK.values()) | set(DUB_VOICES.values())
+            def ok(v):
+                g = str(v.get("gender", "")).lower(); a = str(v.get("age", "")).lower()
+                return (not g or g == "male") and (not v.get("age") or age in a) and v.get("voice_id") not in used
+            c = [v for v in L if isinstance(v, dict) and ok(v)]
+            if c: vid = c[0]["voice_id"]; print(f"  더빙 목소리({age}): {c[0].get('voice_name', '')} {vid}", flush=True); break
+        except Exception as e: print("  더빙 목소리 목록 실패:", url, str(e)[:120], flush=True)
+    _AGE_PICK[age] = vid or DUB_VOICES["seongho"]; return _AGE_PICK[age]
 
 
 def dub_voice(l, who):
-    """더빙 문장: 내레이션과 다른 타입캐스트 성우로 읽는다"""
+    """더빙 문장: 내레이션과 다른 타입캐스트 성우로 읽는다 (who: seongho | elder | middle_age | young_adult | 타입캐스트 id)"""
     import tts as T_
-    old = T_.TC_VOICE; T_.TC_VOICE = DUB_VOICES.get(who, who)
+    vid = _voice_for_age(who) if who in ("elder", "middle_age", "young_adult") else DUB_VOICES.get(who, who)
+    old = T_.TC_VOICE; T_.TC_VOICE = vid
     try: return R.pace(T_.speak(to_speech(l), 1.1)) * .92
     finally: T_.TC_VOICE = old
 
@@ -1867,7 +1889,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 d.text((62, fy + 2), foot, font=F("Medium", 21), fill=(0, 0, 0, 150)); d.text((60, fy), foot, font=F("Medium", 21), fill=(232, 226, 212, 230))
             cur = next((l for l in reversed(x["lines"]) if u >= l[0] - .05), None)
             if cur and u <= cur[0] + cur[1] + .25 and typ != "end":
-                subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 330) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리
+                subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 200) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-16 대표님: 인트로 자막이 하단 띠와 겹침 → 극장 띠 바로 위로   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리
             enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
             if i == n - 1: last_fr = np.asarray(fr, np.float32)
             if i == n - 1:
