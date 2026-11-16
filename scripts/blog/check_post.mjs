@@ -178,7 +178,7 @@ for (const dir of dirs) {
   for (const x of scanKo(textFromFile(dir))) (x.lv === 'err' ? E : W).push(`AI 문체 ${x.id} ${x.c}회 (${x.ex.join(' / ')}) → ${x.fix}`);
   // 필명·고지·출처 목록
   { const last = p.blocks[p.blocks.length - 1] || {}; const endOk = /밸류노트 에디터 Luciano가 작성했습니다\.$/.test(last.note || '');
-    const v9e = /^v9/.test(p.style || '');
+    const v9e = /^v9/.test(p.style || '') || (/^b(\d{6})/.test(id) && Number(id.slice(1, 7)) >= 261117); // 11/17 글부터는 어느 데스크가 쓰든 v9
     if (v9e) { // 2026-11-16 운영자: "제일 마지막 밸류노트 에디터 Luciano가 작성했다로 하면 되고", "화려한 사진·편집 사진을 많이 넣기보다 적당히 몇 개만 해야 사람이 쓴 것 같다"
       if (!endOk) E.push('v9 글의 맨 마지막 문장은 "이 글은 밸류노트 에디터 Luciano가 작성했습니다." 여야 합니다');
       if (p.blocks.filter((b) => b.img).length > 2) E.push('v9 이미지는 글자 없는 사진 1장 + 단순 그래프 또는 사진 1장까지 (STYLE v9 38)');
