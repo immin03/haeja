@@ -1,0 +1,223 @@
+{
+ "id": "en33a",
+ "lang": "en",
+ "from": "ep33",
+ "note": "2026-11-16 영어 쇼츠 백로그(en05b 구조). ep33 소재를 영어로 새로 씀. 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | n4 는 클릭 판정으로 문장 고쳐 재녹음 en1116r | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A | 2026-11-16 테이크 조합·vol 0.97 (음성 관문 클릭 판정 여유)",
+ "kicker": "",
+ "hook": [
+  "Feeling WORTHLESS?",
+  "Drop these",
+  "three thoughts."
+ ],
+ "title_line": "Three thoughts to drop",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_en33a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/libv_old_bench.mp4",
+  "/home/claude/haeja/social/side/gen/libv_candle_face.mp4",
+  "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_diary2.mp4",
+  "/home/claude/haeja/social/side/gen/ev2_walkout.mp4",
+  "/home/claude/haeja/social/side/gen/ev_stars.mp4"
+ ],
+ "sents": [
+  [
+   0.47,
+   3.385,
+   1,
+   0,
+   "none",
+   [
+    "Feeling worthless? Drop these three thoughts."
+   ]
+  ],
+  [
+   4.245,
+   6.055,
+   2,
+   1,
+   "cap",
+   [
+    "You forget what",
+    "you did right,"
+   ]
+  ],
+  [
+   6.105,
+   7.705,
+   2,
+   1,
+   "cap",
+   [
+    "and replay what",
+    "you did wrong."
+   ]
+  ],
+  [
+   8.565,
+   10.765,
+   3,
+   2,
+   "big",
+   [
+    "One.",
+    "Everyone is",
+    "watching me."
+   ]
+  ],
+  [
+   10.815,
+   13.822,
+   3,
+   2,
+   "cap",
+   [
+    "They aren't.",
+    "By tomorrow, no one remembers."
+   ]
+  ],
+  [
+   14.672,
+   17.472,
+   4,
+   2,
+   "quote",
+   [
+    "Soon you will",
+    "forget all things,"
+   ]
+  ],
+  [
+   17.522,
+   20.399,
+   4,
+   2,
+   "quote",
+   [
+    "and soon all things",
+    "will forget you."
+   ]
+  ],
+  [
+   21.249,
+   23.116,
+   5,
+   3,
+   "big",
+   [
+    "Two.",
+    "I have to be perfect."
+   ]
+  ],
+  [
+   23.116,
+   25.341,
+   5,
+   3,
+   "cap",
+   [
+    "Don't polish it",
+    "ten more times."
+   ]
+  ],
+  [
+   25.341,
+   27.048,
+   5,
+   3,
+   "cap",
+   [
+    "Just finish it today."
+   ]
+  ],
+  [
+   27.898,
+   31.878,
+   6,
+   3,
+   "quote",
+   [
+    "Be content",
+    "if the smallest thing",
+    "goes well,"
+   ]
+  ],
+  [
+   31.928,
+   34.246,
+   6,
+   3,
+   "quote",
+   [
+    "and count it",
+    "no small matter."
+   ]
+  ],
+  [
+   35.106,
+   37.856,
+   7,
+   4,
+   "big",
+   [
+    "Three.",
+    "Their opinion",
+    "is who I am."
+   ]
+  ],
+  [
+   37.906,
+   39.956,
+   7,
+   4,
+   "cap",
+   [
+    "Score yourself",
+    "by what you did today."
+   ]
+  ],
+  [
+   40.806,
+   44.486,
+   8,
+   5,
+   "quote",
+   [
+    "Every man loves himself",
+    "more than all others,"
+   ]
+  ],
+  [
+   44.536,
+   49.838,
+   8,
+   5,
+   "quote",
+   [
+    "yet values his own",
+    "opinion of himself less",
+    "than the opinion of others."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Before bed, write",
+  "one thing",
+  "you did well today."
+ ],
+ "source": "Marcus Aurelius, Meditations 12.4",
+ "end_voice": "/home/claude/vo/v2/en33_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/en33_outro_voice.wav",
+ "cover": [
+  "FEEL",
+  "WORTHLESS?"
+ ],
+ "theme": "A",
+ "vol": 0.97
+}
