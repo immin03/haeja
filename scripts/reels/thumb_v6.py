@@ -60,7 +60,7 @@ def chip(d, x, y, t, bg=(255, 255, 255), fg=NAVY, size=34):
 def doc(c):
     im = Image.new("RGB", (W, H), NAVY); pw = int(W * c.get("pw", .64))
     ph = grade(cover(load(c["photo"]), pw, H, *c.get("focus", [.5, .3])), .9)
-    soft_paste(im, ph, W - pw, .24); grad_bottom(im, .78, 110); d = ImageDraw.Draw(im)
+    soft_paste(im, ph, W - pw, c.get("fade", .12)); grad_bottom(im, .8, 90); d = ImageDraw.Draw(im)
     L2 = c["l2"].split("\n"); s2 = min(fit(d, "{" + l + "}", 128, 860) for l in L2); s1 = fit(d, c["l1"], 72, 760, "ExtraBold")
     y = H - 58 - (len(L2) - 1) * (s2 + 10)
     HI = RED
@@ -96,7 +96,7 @@ def chips(c):
     if len(phs) > 1:
         sd = ImageDraw.Draw(strip)
         for i in range(1, len(phs)): sd.line([i * cw, 0, i * cw, H], fill=NAVY, width=6)
-    soft_paste(im, strip, W - pw, .16); grad_bottom(im, .52, 235); d = ImageDraw.Draw(im)
+    soft_paste(im, strip, W - pw, c.get("fade", .07)); grad_bottom(im, .55, 225); d = ImageDraw.Draw(im)
     y = 64
     for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else (255, 255, 255), NAVY, 46); y += 90
     lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y = H - 58 - (len(lines) - 1) * (s + 12)
