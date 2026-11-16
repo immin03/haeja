@@ -1,7 +1,7 @@
 {
  "id": "ep35",
  "theme": "A",
- "note": "2026-11-17 20:30 데일리 80초 칸(4가지 숫자형, 주제 묶음 3 가족·친구·연인 — 친구에게 서운할 때). 8권 59절·7권 26절·10권 30절·4권 7절. 묶음별 녹음 d261117 (ep35 n3 는 끌기 불통과로 문장 고쳐 재녹음 d261117r)",
+ "note": "2026-11-17 20:30 데일리 80초 칸(4가지 숫자형, 주제 묶음 3 가족·친구·연인 — 친구에게 서운할 때). 8권 59절·7권 26절·10권 30절·4권 7절. 묶음별 녹음 d261117 (ep35 n3 는 끌기 불통과로 문장 고쳐 재녹음 d261117r) · 2차 재녹음 d261117s(음성 관문 끌림)",
  "kicker": "『명상록』 4권 7절",
  "hook": [
   "친구에게 서운할 때",
@@ -16,7 +16,20 @@
  "voice": "",
  "gap": 0.55,
  "hold": 1.4,
- "cuts": [],
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev3_return.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_glis_c.mp4",
+  "/home/claude/haeja/social/side/gen/libv_mother_child.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_fau.mp4",
+  "/home/claude/haeja/social/side/gen/libv_family_table.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_hand2.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_sick.mp4",
+  "/home/claude/haeja/social/side/gen/ev2_walkout.mp4",
+  "/home/claude/haeja/social/side/gen/ev_fire.mp4",
+  "/home/claude/haeja/social/side/gen/ev2_lightning.mp4",
+  "/home/claude/haeja/social/side/gen/libv_storm_ship.mp4",
+  "/home/claude/ed/edv02_ep35.mp4"
+ ],
  "sents": [
   [
    0,
@@ -58,8 +71,8 @@
    3,
    "big",
    [
-    "첫째, 말 안 하면",
-    "모른다."
+    "첫째,",
+    "말해야 안다."
    ]
   ],
   [
@@ -247,7 +260,7 @@
   "친구에게 짧게 말하기"
  ],
  "source": "마르쿠스 아우렐리우스 『명상록』 4권 7절",
- "end_voice": "",
+ "end_voice": "/home/claude/vo/mix35/voice_d261117_28_ep35_end_B.mp3",
  "outro_voice": "/home/claude/ed/music/outro_shorts.mp3",
  "cover": [
   "친구에게",
