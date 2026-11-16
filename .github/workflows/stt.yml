@@ -1,0 +1,19 @@
+name: stt-temp
+on: { push: { branches: [stt-temp] } }
+jobs:
+  stt:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -q faster-whisper
+      - run: |
+          python3 - <<'PY'
+          from faster_whisper import WhisperModel
+          m=WhisperModel("medium.en",device="cpu",compute_type="int8")
+          for f in ["rec54.wav","amazed.wav"]:
+              print("==",f)
+              segs,_=m.transcribe(f,word_timestamps=True)
+              for s in segs:
+                  print(f"{s.start:6.2f}-{s.end:6.2f} {s.text.strip()}")
+                  print("   W:"," ".join(f"{w.word.strip()}@{w.start:.2f}" for w in s.words))
+          PY
