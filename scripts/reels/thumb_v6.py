@@ -85,7 +85,7 @@ def versus(c):
             chip(d, x, 128, p["label"], WHITE if p.get("tint") == "red" else GOLD, NAVY, 32)
     if c.get("mid"):
         f = F("Heavy", 96); d.text((W / 2, 300), c["mid"], font=f, fill=GOLD, anchor="mm", stroke_width=6, stroke_fill=NAVY)
-    s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, w="ExtraBold", anchor="ms")
+    s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, hi=RED, anchor="ms")
     s2 = fit(d, "{" + c["l2"] + "}", 110, W - 100); text(d, (W / 2, 670), "{" + c["l2"] + "}", s2, anchor="ms")
     logo(d); return im
 
