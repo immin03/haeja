@@ -63,7 +63,7 @@
  "hook_type": "검색형 제목 + 원음 도입 + 8월 콜 문장을 답안지로 재구성",
  "endscreen_target": "L261117r-huang-return",
  "endscreen_also": "L261112-soxl-nvidia",
- "title": "엔비디아 실적이 AI 버블의 끝을 알린다면? | 내일 새벽, 앤트로픽 상장과 SOXL까지 흔들 숫자 3개",
+ "title": "엔비디아 실적 발표 전 꼭 알아야 할 3가지 | 젠슨 황 없는 첫 실적, 11월 18일 새벽 6시 20분",
  "doc_title": "엔비디아 실적 발표 D-1 — 3개월 전 답안지로 읽는 숫자 3개와 대답 3개",
  "title_en": "Nvidia earnings preview: the first report without Jensen Huang — three numbers that matter more than $109B",
  "pinned_comment": "내일 새벽 엔비디아 실적, 어느 시나리오에 거시겠어요? ① 깜짝 실적 ② 예상 부합 ③ 실적 쇼크 — 댓글로 골라 주세요.\n\n📌 엔비디아 숫자는 여기서 조금 더 분석할 수 있습니다 → 밸류노트 https://valuenote.co.kr/yt\n\n※ 예상치와 제작진 계산은 참고용이며 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
@@ -130,21 +130,21 @@
   {
    "key": "a",
    "default": true,
-   "title": "엔비디아 실적이 AI 버블의 끝을 알린다면? | 내일 새벽, 앤트로픽 상장과 SOXL까지 흔들 숫자 3개",
+   "title": "엔비디아 실적 발표 전 꼭 알아야 할 3가지 | 젠슨 황 없는 첫 실적, 11월 18일 새벽 6시 20분",
    "file": "thumb.jpg",
-   "type": "A AI 버블형"
+   "type": "A 3가지형"
   },
   {
    "key": "b",
-   "title": "젠슨 황 없는 엔비디아 첫 실적 | AI 버블 적신호인가, 앤트로픽 상장의 신호탄인가",
+   "title": "엔비디아 실적이 앤트로픽 상장을 흔든다? | 11월 18일 새벽 6시 20분, 결과별 시나리오 3가지",
    "file": "thumb_b.jpg",
-   "type": "B 앤트로픽 연결형"
+   "type": "B 연결형"
   },
   {
    "key": "c",
-   "title": "엔비디아 실적 발표 D-1, 결과별 시나리오 3가지 | SOXL·앤트로픽·삼성전자는 어떻게 될까",
+   "title": "AI 버블의 끝일까, 엔비디아 실적이 답한다 | 젠슨 황 없는 첫 성적표, 숫자 3개와 SOXL",
    "file": "thumb_c.jpg",
-   "type": "C 시나리오형"
+   "type": "C AI버블형"
   }
  ],
  "events": [
@@ -241,6 +241,9 @@
     "wash": "none",
     "cuts": [
      {
+      "lib": "ai_huang_steeple_169.png"
+     },
+     {
       "lib": "il_L261117n_alarm_phone_dawn.png"
      }
     ],
@@ -256,7 +259,7 @@
     ""
    ],
    "asof": false,
-   "src": "엔비디아 IR 2026-10-28",
+   "src": "엔비디아 IR 2026-10-28 · AI 생성 연출 이미지",
    "sketch": [
     {
      "kind": "punch",
@@ -351,6 +354,9 @@
     "wash": "none",
     "cuts": [
      {
+      "lib": "ai_split_169.png"
+     },
+     {
       "lib": "il_L261114t_ipo_bell.png"
      }
     ],
@@ -366,7 +372,7 @@
     ""
    ],
    "asof": false,
-   "src": "아시아경제 2026-11-16",
+   "src": "아시아경제 2026-11-16 · AI 생성 연출 이미지",
    "sketch": [
     {
      "kind": "punch",
@@ -2416,7 +2422,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261113a_two_boards.jpeg"
+      "lib": "ai_amodei_steeple2_169.png"
      }
     ],
     "wash_amt": 0.85
@@ -2429,7 +2435,7 @@
     ""
    ],
    "asof": false,
-   "src": "Crypto Briefing 2026-11 (S-1 공모 구조)",
+   "src": "Crypto Briefing 2026-11 (S-1 공모 구조) · AI 생성 연출 이미지",
    "sketch": [
     {
      "kind": "punch",
@@ -2482,6 +2488,9 @@
     "wash": "left",
     "cuts": [
      {
+      "lib": "ai_huang_dark_169.png"
+     },
+     {
       "lib": "il_L261110a_empty_chair.jpeg"
      }
     ],
@@ -2495,7 +2504,7 @@
     ""
    ],
    "asof": false,
-   "src": "",
+   "src": "AI 생성 연출 이미지",
    "sketch": []
   },
   {
@@ -2666,5 +2675,6 @@
    "asof": false,
    "src": ""
   }
- ]
+ ],
+ "synthetic_media": true
 }
