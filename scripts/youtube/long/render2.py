@@ -1584,10 +1584,16 @@ def _voice_for_age(age):
     _AGE_PICK[age] = vid or DUB_VOICES["seongho"]; return _AGE_PICK[age]
 
 
-def dub_voice(l, who):
+_DUB_PERSON = {}; DUB_LOG = []   # 2026-11-16 대표님: 같은 인물(젠슨 황)의 더빙 목소리가 두 가지로 나옴 → 인물 이름별로 처음 정한 목소리를 끝까지 고정
+
+
+def dub_voice(l, who, person=None):
     """더빙 문장: 내레이션과 다른 타입캐스트 성우로 읽는다 (who: seongho | elder | middle_age | young_adult | 타입캐스트 id)"""
     import tts as T_
     vid = _voice_for_age(who) if who in ("elder", "middle_age", "young_adult") else DUB_VOICES.get(who, who)
+    if person:
+        vid = _DUB_PERSON.setdefault(person, vid)
+    DUB_LOG.append([person or who, vid, l[:30]])
     old = T_.TC_VOICE; T_.TC_VOICE = vid
     try: return R.pace(T_.speak(to_speech(l), 1.1)) * .92
     finally: T_.TC_VOICE = old
@@ -1881,7 +1887,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                     # 2026-11-14 대표님: 장 제목은 책 목차처럼 명사형. 장이 바뀔 때 3초간 전체 목차, 그 뒤엔 '번호 · 지금 장 · 다음 장' 한 줄
                     t_in = tn - RM[ci_][0] if ci_ >= 0 else 99
                     c0 = (sc["v"].get("cuts") or [{}])[0].get("lib", "") if t_in < 3.4 else ""
-                    toc_a = 0.0 if ("_fx_" in c0 or "puzzle_" in c0 or sc["v"].get("ident")) else clamp(min(t_in / .35, (3.2 - t_in) / .4))
+                    toc_a = 0.0 if (D2[0] or "_fx_" in c0 or "puzzle_" in c0 or sc["v"].get("ident")) else clamp(min(t_in / .35, (3.2 - t_in) / .4))
                     if toc_a > 0 and ci_ >= 0:
                         x0, y0, w0, rh = 56, 34, 660, 44
                         ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); od = AD(ov)
@@ -2104,7 +2110,7 @@ def preflight(spec):
     lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); errs = []
     try: cr = json.load(open(os.path.join(lib, "commons_credits.json"), encoding="utf-8"))
     except Exception: cr = {}
-    ban = _re.compile(r"yoon|suk[- ]?yeol|윤석열", _re.I)
+    ban = _re.compile(r"yoon|suk[- ]?yeol|윤석열|vsecret_50745|vsecret_50747|vhacker_46627", _re.I)   # 2026-11-16 대표님: 훅에 가면 쓴 해커 영상이 0.5초 튀어나옴 → 가면·복면 얼굴 소재 금지
     texts = []
     for i, sc in enumerate(spec.get("scenes", [])):
         for c in (sc.get("v") or {}).get("cuts", []) or []:
@@ -2196,7 +2202,7 @@ def main():
         DUB = sc.get("dub")   # 2026-11-16 대표님: 인터뷰 원음 2~3초 → 원음은 작게 깔고 다른 성우가 한국어 더빙
         if DUB: u = max(u, float(DUB.get("orig", 2.5)) + .15)
         for l in lines:
-            if DUB and not fake: a = dub_voice(l, DUB.get("voice", "seongho"))
+            if DUB and not fake: a = dub_voice(l, DUB.get("voice", "seongho"), DUB.get("person") or next((b_.get("text") for b_ in sc.get("sketch", []) if b_.get("kind") == "lower"), None))
             else: a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
@@ -2432,7 +2438,7 @@ def finish(spec, V, timeline, total, enc, tmp, wav, out, data):
             "events": spec.get("events", []), "pinned_comment": _vn_comment(fill(spec.get("pinned_comment", ""), V)), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
             "qa": {"media": [[k, "lib", s["sc"]["v"].get("lib")] for k, s in enumerate(timeline) if s["sc"]["v"]["type"] == "media"] + [[k, "lib", s["sc"]["v"]["backdrop"]] for k, s in enumerate(timeline) if s["sc"]["v"].get("backdrop")],
                    "lines": [[round(x["start"] + a, 2), round(d_, 2), l, to_speech(l)] for x in timeline for (a, d_, l) in x["lines"]],
-                   "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG}}
+                   "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG, "dub": DUB_LOG}}
     if ENDSCREEN_SEC[0]: meta["endscreen_sec"] = ENDSCREEN_SEC[0]   # 업로드 때 유튜브 최종 화면 요소를 마지막 이 초만큼 건다
     json.dump(meta, open(os.path.join(out, "meta.json"), "w"), ensure_ascii=False, indent=1)
     print(f"완료: {total / 60:.1f}분 → {out}")
