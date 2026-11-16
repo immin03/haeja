@@ -96,7 +96,7 @@ def chips(c):
     if len(phs) > 1:
         sd = ImageDraw.Draw(strip)
         for i in range(1, len(phs)): sd.line([i * cw, 0, i * cw, H], fill=NAVY, width=6)
-    soft_paste(im, strip, W - pw, c.get("fade", .07)); grad_bottom(im, .55, 225); d = ImageDraw.Draw(im)
+    soft_paste(im, strip, W - pw, c.get("fade", .05)); grad_bottom(im, c.get("bot", .55), c.get("bot_a", 225)); d = ImageDraw.Draw(im)
     y = 64
     for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else (255, 255, 255), NAVY, 46); y += 90
     lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y = H - 58 - (len(lines) - 1) * (s + 12)
