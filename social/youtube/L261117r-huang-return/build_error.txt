@@ -1,0 +1,10 @@
+2026-11-16T06:41:02.324150+00:00
+Traceback (most recent call last):
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 60, in main
+    sh([sys.executable, os.path.join(HERE, renderer), f])
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 19, in sh
+    if r.returncode: raise RuntimeError(f"명령 실패({r.returncode}): {' '.join(cmd)[:120]}\n{r.stderr[-1500:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: 명령 실패(1): /opt/hostedtoolcache/Python/3.12.16/x64/bin/python3 /home/runner/work/haeja/haeja/scripts/youtube/long/render2.py /home/
+렌더 전 점검 실패 — 같은 사진·영상 반복 il_L261110a_midnight_phones.jpeg (장면 [2, 12]) / 같은 사진·영상 반복 il_L261109p_boardroom_empty.jpeg (장면 [16, 39]) / 같은 사진·영상 반복 il_L261114t_legal_files.png (장면 [17, 38, 71]) / 같은 사진·영상 반복 il_L261109p_locked_drive.jpeg (장면 [40, 48, 66]) / 같은 사진·영상 반복 il_L261113a_two_boards.jpeg (장면 [73, 74])
+
