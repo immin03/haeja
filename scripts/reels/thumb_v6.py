@@ -55,7 +55,7 @@ def quote_mark(d, x, y, s=70):
         d.polygon([(cx + s * .05, y + s * .55), (cx + s * .30, y), (cx + s * .42, y + s * .05), (cx + s * .30, y + s * .55)], fill=GOLD)
 def chip(d, x, y, t, bg=GOLD, fg=NAVY, size=34):
     f = F("Heavy", size); w = d.textlength(t, font=f)
-    d.rounded_rectangle([x, y, x + w + 36, y + size + 22], 10, fill=bg); d.text((x + 18, y + 9), t, font=f, fill=fg); return x + w + 36
+    d.rounded_rectangle([x, y, x + w + 40, y + size + 26], 12, fill=bg); d.text((x + 20, y + 10), t, font=f, fill=fg); return x + w + 36
 
 def doc(c):
     im = Image.new("RGB", (W, H), NAVY); pw = int(W * c.get("pw", .64))
@@ -66,7 +66,7 @@ def doc(c):
     HI = RED if c.get("pink", True) else GOLD
     text(d, (64, y - s2 - 28), c["l1"], s1, hi=WHITE); quote_mark(d, 64, y - s2 - s1 - 120, 60)
     for l in L2: text(d, (64, y), "{" + l + "}", s2, hi=HI); y += s2 + 10
-    if c.get("tag"): chip(d, 64, 72, c["tag"], HI, NAVY, 32)
+    if c.get("tag"): chip(d, 60, 60, c["tag"], HI, NAVY, 46)
     return im
 
 def versus(c):
@@ -81,8 +81,8 @@ def versus(c):
     grad_bottom(im, .38, 252); d = ImageDraw.Draw(im)
     for i, p in enumerate(ps):
         if p.get("label"):
-            f = F("ExtraBold", 32); w = d.textlength(p["label"], font=f); x = i * cw + (cw - w - 36) / 2
-            chip(d, x, 128, p["label"], WHITE if p.get("tint") == "red" else GOLD, NAVY, 32)
+            f = F("Heavy", 44); w = d.textlength(p["label"], font=f); x = i * cw + (cw - w - 36) / 2
+            chip(d, x, 120, p["label"], WHITE if p.get("tint") == "red" else GOLD, NAVY, 44)
     if c.get("mid"):
         f = F("Heavy", 96); d.text((W / 2, 300), c["mid"], font=f, fill=GOLD, anchor="mm", stroke_width=6, stroke_fill=NAVY)
     s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, hi=GOLD, anchor="ms")
@@ -98,7 +98,7 @@ def chips(c):
         for i in range(1, len(phs)): sd.line([i * cw, 0, i * cw, H], fill=NAVY, width=6)
     soft_paste(im, strip, W - pw, .16); grad_bottom(im, .52, 235); d = ImageDraw.Draw(im)
     y = 64
-    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else WHITE, NAVY, 34); y += 76
+    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else WHITE, NAVY, 46); y += 90
     lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y = H - 58 - (len(lines) - 1) * (s + 12)
     for l in lines: text(d, (56, y), l, s, hi=RED if c.get("hi_red") else GOLD); y += s + 12
     return im
