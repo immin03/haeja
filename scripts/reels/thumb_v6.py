@@ -39,6 +39,12 @@ def grad_left(im, to=.62, a0=245):
     g = Image.new("L", (W, H), 0); gd = ImageDraw.Draw(g)
     for x in range(W): gd.line([x, 0, x, H], fill=int(a0 * max(0, 1 - x / (W * to)) ** 1.1))
     im.paste(Image.new("RGB", (W, H), NAVY), (0, 0), g)
+def soft_paste(im, ph, x, fade=.5, top_fade=0):
+    """사진 왼쪽 가장자리를 부드럽게(코사인 곡선) 네이비로 녹인다 — 경계선이 안 보이게"""
+    import math
+    m = Image.new("L", ph.size, 255); md = ImageDraw.Draw(m); fw = int(ph.width * fade)
+    for i in range(fw): md.line([i, 0, i, ph.height], fill=int(255 * (1 - math.cos(math.pi * i / fw)) / 2))
+    im.paste(ph, (x, 0), m)
 def grad_bottom(im, frm=.45, a0=250):
     g = Image.new("L", (W, H), 0); gd = ImageDraw.Draw(g)
     for y in range(H): gd.line([0, y, W, y], fill=int(a0 * max(0, (y / H - frm) / (1 - frm)) ** 1.2))
@@ -53,7 +59,7 @@ def chip(d, x, y, t, bg=GOLD, fg=NAVY, size=34):
 
 def doc(c):
     im = Image.new("RGB", (W, H), NAVY); ph = grade(cover(load(c["photo"]), int(W * .72), H, *c.get("focus", [.5, .3])), .8)
-    im.paste(ph, (W - ph.width, 0)); grad_left(im, .78); grad_bottom(im, .7, 160); d = ImageDraw.Draw(im)
+    soft_paste(im, ph, W - ph.width, .55); grad_left(im, .5, 150); grad_bottom(im, .72, 120); d = ImageDraw.Draw(im)
     L2 = c["l2"].split("\n"); s2 = min(fit(d, "{" + l + "}", 112, 760) for l in L2); s1 = fit(d, c["l1"], 58, 760, "ExtraBold")
     y = H - 70 - (len(L2) - 1) * (s2 + 10)
     text(d, (64, y - s2 - 28), c["l1"], s1, w="ExtraBold"); quote_mark(d, 64, y - s2 - s1 - 120, 60)
@@ -82,14 +88,18 @@ def versus(c):
     logo(d); return im
 
 def chips(c):
-    im = Image.new("RGB", (W, H), NAVY); ph = grade(cover(load(c["photo"]), int(W * .6), H, *c.get("focus", [.5, .3])), .9)
-    im.paste(ph, (W - ph.width, 0)); grad_left(im, .62); d = ImageDraw.Draw(im)
+    im = Image.new("RGB", (W, H), NAVY); phs = c.get("photos") or [{"photo": c["photo"], "focus": c.get("focus", [.5, .3])}]
+    pw = int(W * .64); cw = pw // len(phs); strip = Image.new("RGB", (pw, H), NAVY)
+    for i, p in enumerate(phs): strip.paste(grade(cover(load(p["photo"]), cw, H, *p.get("focus", [.5, .3])), .9), (i * cw, 0))
+    if len(phs) > 1:
+        sd = ImageDraw.Draw(strip)
+        for i in range(1, len(phs)): sd.line([i * cw, 0, i * cw, H], fill=NAVY, width=6)
+    soft_paste(im, strip, W - pw, .42); grad_left(im, .4, 120); grad_bottom(im, .5, 235); d = ImageDraw.Draw(im)
     y = 64
-    for i, t in enumerate(c.get("chips", [])):
-        chip(d, 56, y, t, [GOLD, WHITE][i % 2], NAVY, 32); y += 74
-    lines = c["head"]; s = min(fit(d, l, 104, 700) for l in lines); y = H - 64 - (len(lines) - 1) * (s + 14)
-    for l in lines: text(d, (56, y), l, s, stroke=0); y += s + 14
-    logo(d); return im
+    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, [GOLD, WHITE][i % 2], NAVY, 34); y += 76
+    lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y = H - 58 - (len(lines) - 1) * (s + 12)
+    for l in lines: text(d, (56, y), l, s); y += s + 12
+    return im
 
 if __name__ == "__main__":
     c = json.load(open(sys.argv[1], encoding="utf-8")); im = {"doc": doc, "versus": versus, "chips": chips}[c["layout"]](c); brand_logo(im); im = im.convert("RGB")
