@@ -61,8 +61,8 @@ def doc(c):
     im = Image.new("RGB", (W, H), NAVY); pw = int(W * c.get("pw", .64))
     ph = grade(cover(load(c["photo"]), pw, H, *c.get("focus", [.5, .3])), .9)
     soft_paste(im, ph, W - pw, .24); grad_bottom(im, .78, 110); d = ImageDraw.Draw(im)
-    L2 = c["l2"].split("\n"); s2 = min(fit(d, "{" + l + "}", 112, 640) for l in L2); s1 = fit(d, c["l1"], 58, 620, "ExtraBold")
-    y = H - 70 - (len(L2) - 1) * (s2 + 10)
+    L2 = c["l2"].split("\n"); s2 = min(fit(d, "{" + l + "}", 128, 860) for l in L2); s1 = fit(d, c["l1"], 72, 760, "ExtraBold")
+    y = H - 58 - (len(L2) - 1) * (s2 + 10)
     HI = RED
     text(d, (64, y - s2 - 28), c["l1"], s1, hi=WHITE); quote_mark(d, 64, y - s2 - s1 - 120, 60)
     for l in L2: text(d, (64, y), "{" + l + "}", s2, hi=HI); y += s2 + 10
@@ -85,8 +85,8 @@ def versus(c):
             chip(d, x, 120, p["label"], (255, 255, 255), NAVY, 44)
     if c.get("mid"):
         f = F("Heavy", 96); d.text((W / 2, 300), c["mid"], font=f, fill=RED, anchor="mm", stroke_width=6, stroke_fill=NAVY)
-    s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, hi=RED, anchor="ms")
-    s2 = fit(d, "{" + c["l2"] + "}", 110, W - 100); text(d, (W / 2, 670), "{" + c["l2"] + "}", s2, hi=RED, anchor="ms")
+    s1 = fit(d, c["l1"], 68, W - 80, "ExtraBold"); text(d, (W / 2, 536), c["l1"], s1, hi=RED, anchor="ms")
+    s2 = fit(d, "{" + c["l2"] + "}", 128, W - 60); text(d, (W / 2, 676), "{" + c["l2"] + "}", s2, hi=RED, anchor="ms")
     logo(d); return im
 
 def chips(c):
