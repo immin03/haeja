@@ -1,0 +1,13 @@
+{"prefix": "puzzle_L261117r",
+ "pieces": [
+  {"name": "실리콘밸리", "img": "il_L261105h_valley.jpeg", "verdict": "돌아오라", "tone": "gold"},
+  {"name": "엔비디아\n이사회", "img": "commons_nvidiahq_2.jpg", "verdict": "조사 결과 대기", "tone": "gray"},
+  {"name": "베이징", "img": "il_L261113g_beijing_dusk.jpeg", "verdict": "당파 싸움이다", "tone": "red"},
+  {"name": "워싱턴", "img": "il_L261107m_capitol_dawn.jpeg", "verdict": "청문회가 먼저", "tone": "red"}],
+ "clips": [
+  {"name": "open", "dur": 8, "show": [], "add": null, "left": ["젠슨 황, 돌아올까?", "네 조각이 맞아야 한다", "실리콘밸리 · 엔비디아 이사회 · 베이징 · 워싱턴"]},
+  {"name": "p1", "dur": 8, "show": [], "add": 0, "left": ["조각 1 · 실리콘밸리", "돌아오라", "청원 14만 명 · 대주주 서한"]},
+  {"name": "p2", "dur": 8, "show": [0], "add": 1, "left": ["조각 2 · 엔비디아 이사회", "조사 결과 대기", "독립 조사 · 사임 이유 미공개"]},
+  {"name": "p3", "dur": 8, "show": [0, 1], "add": 2, "left": ["조각 3 · 베이징", "당파 싸움이다", "관영 매체 주장 · 중국 정부는 부인"]},
+  {"name": "p4", "dur": 8, "show": [0, 1, 2], "add": 3, "left": ["조각 4 · 워싱턴", "청문회가 먼저", "11.18 비공개 브리핑 · 2027.1 새 의회"]},
+  {"name": "end", "dur": 9, "show": [0, 1, 2, 3], "add": null, "key": 3, "left": ["마지막 열쇠는 워싱턴", "복귀는 이사회보다 의회가 정한다", "확인할 신호 3가지"]}]}

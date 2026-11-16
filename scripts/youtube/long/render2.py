@@ -1081,9 +1081,14 @@ def clip_source(pth, n_frames, seed, start=0.0):
     def get(u):
         i = int(u * FPS)
         if st["p"] is None and st["i"] < 0:
-            loop_ = [] if os.path.basename(pth).startswith("globe_") else ["-stream_loop", "-1"]   # 2026-11-12 대표님: 지구본은 한 번만 천천히 (3번 반복 금지) — 끝나면 마지막 장면에서 멈춘다
-            st["p"] = subprocess.Popen(["ffmpeg", "-v", "error", *loop_, "-ss", str(start), "-i", pth, "-vf",
-                                        f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
+            # 2026-11-16 대표님: "영상을 두 번 반복하면서 버벅인다 — 반복하지 말고 첫 영상을 천천히 재생" → 반복 재생을 없애고,
+            # 클립이 컷보다 짧으면 느리게 늘려(최대 2.5배) 한 번만 재생한다. 그래도 모자라면 마지막 장면에서 멈춘다
+            try: cd_ = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", pth], capture_output=True, text=True).stdout.strip() or 0) - float(start)
+            except Exception: cd_ = 0
+            need_ = n_frames / FPS; slow_ = min(2.5, need_ / cd_) if 0 < cd_ < need_ else 1.0
+            pre_ = f"setpts={slow_:.3f}*PTS," if slow_ > 1.001 else ""
+            st["p"] = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", str(start), "-i", pth, "-vf",
+                                        f"{pre_}scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
                                        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL); _CLIPS.append(st["p"])
         while st["p"] is not None and st["i"] < i:
             b = st["p"].stdout.read(W * H * 3)
