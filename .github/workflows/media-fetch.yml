@@ -1,0 +1,23 @@
+name: media-fetch
+# 2026-11-17 대표님: 참고 영상 링크를 주면 Claude가 직접 필요한 구간만 받아 온다 (짧은 구간만, 결과물은 1일 뒤 자동 삭제)
+on:
+  workflow_dispatch:
+    inputs:
+      url: {description: "영상 주소", required: true}
+      start: {description: "시작(초)", default: "0"}
+      dur: {description: "길이(초, 최대 90)", default: "30"}
+      name: {description: "파일 이름", default: "clip"}
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - run: |
+          pip install -q -U yt-dlp
+          sudo apt-get -qq install -y ffmpeg >/dev/null
+          D=$(( ${{ inputs.dur }} > 90 ? 90 : ${{ inputs.dur }} ))
+          E=$(( ${{ inputs.start }} + D ))
+          yt-dlp -f "bv*[height<=720]+ba/b[height<=720]" --download-sections "*${{ inputs.start }}-${E}" --force-keyframes-at-cuts --merge-output-format mp4 -o "${{ inputs.name }}.mp4" "${{ inputs.url }}"
+          ffprobe -v error -show_entries format=duration -of csv=p=0 "${{ inputs.name }}.mp4"
+      - uses: actions/upload-artifact@v4
+        with: {name: "${{ inputs.name }}", path: "${{ inputs.name }}.mp4", retention-days: 1}
