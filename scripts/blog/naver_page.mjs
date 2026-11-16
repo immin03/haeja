@@ -72,15 +72,18 @@ const blockHtml = (b) => {
   if (b.sources) return `<p><b>참고한 자료</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
   return '';
 };
+// 2026-11-16 운영자: "태그도 별도로 복사하게 하지 말고 글 문단 안에 넣어놔, 그것만 복사하면 되게" — 태그 줄을 본문 안(끝 고지 문단 바로 앞)에 넣는다. 태그 복사 칸은 없앴다.
+const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
+const lastNote = post.blocks.length && post.blocks[post.blocks.length - 1].note ? post.blocks.length - 1 : -1;
+const tagHtml = tags ? `<p>${esc(tags)}</p>` : '';
 const body = post.blocks.map((b, i) => {
-  const html = blockHtml(b);
+  const html = (i === lastNote && tagHtml ? tagHtml + '\n' + BLANK + '\n' : '') + blockHtml(b);
   if (i === 0) return html;
   const prev = post.blocks[i - 1];
   const gap = b.h ? BLANK + BLANK : prev.h ? '' : BLANK;
   return gap + '\n' + html;
-}).join('\n');
+}).join('\n') + (lastNote < 0 && tagHtml ? '\n' + BLANK + '\n' + tagHtml : '');
 const plain = post.blocks.map((b) => b.h ? `■ ${b.h}` : b.p ? b.p.replace(/\*\*/g, '') : b.img ? `[사진: ${b.cap || b.alt || b.img}]` : b.quote ? `"${b.quote}"${b.src ? ` — ${b.src}` : ''}` : b.link ? `${b.text || ''} ${b.link}` : b.summary ? (b.summary.length > 1 ? '3줄 요약\n' : '요약\n') + b.summary.map((x) => '· ' + x.replace(/\*\*/g, '')).join('\n') : b.table ? [b.table.head, ...b.table.rows].map((r) => r.join(' | ')).join('\n') : b.sources ? '참고한 자료\n' + b.sources.map(([n, u]) => `· ${n} ${u}`).join('\n') : b.video ? '' : b.note || '').filter((x, i, a) => x !== '' || !a[i - 1]).join('\n\n');
-const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
 const imgs = post.blocks.filter((b) => b.img).map((b) => b.img);
 const vids = post.blocks.filter((b) => b.video).map((b) => b.video);
 
@@ -123,13 +126,12 @@ h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
 ${post.blocks.some((x) => x.kind === 'gif') ? `<li>움직이는 사진(GIF)도 본문 복사에 함께 들어간다. 붙여넣은 뒤 GIF가 멈춰 있거나 빠졌으면, <b>사진 모두 받기</b>의 g1.gif 를 그 자리에 [사진] 버튼으로 넣는다.</li>` : ''}
 ${vids.length ? `<li>본문의 <b>▶ 여기에 동영상 올리기</b> 자리에, 아래 <b>영상</b> 칸에서 받은 파일을 편집기 [동영상] 버튼으로 넣는다. (영상이 있는 글이 머무는 시간이 길다)</li>` : ''}
 <li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
-<li><b>태그 복사</b> → 발행 화면의 태그 칸에 붙여넣기 → 발행.</li></ol></section>
+<li>발행. (태그는 본문 끝에 #으로 들어 있어 따로 붙일 필요가 없다)</li></ol></section>
 ${post.slot ? `<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">${esc(post.slot)}</div></section>` : ''}
 ${category ? `<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">${esc(category)}</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>` : ''}
 <section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">${esc(post.title)}</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 ${imgs.length}장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
 <div id="art">${body}</div></section>
-<section class="card"><h2>태그</h2><div class="row"><div id="tags">${esc(tags)}</div><button class="btn" data-copy="tags">태그 복사</button></div></section>
 <section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/${id}/photos.zip" download>사진 모두 받기</a></div>
 <div class="ph">${imgs.map((f, i) => `<a href="${imgUrl(f)}" download="valuenote-${id}-${i + 1}.${f.split('.').pop()}"><img src="${imgUrl(f)}" alt="사진 ${i + 1}" loading="lazy"></a>`).join('')}</div>
 <p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
@@ -138,7 +140,7 @@ ${Array.isArray(post.history) && post.history.length ? `<section class="card"><h
 <section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
 </main>
 <script>
-const PLAIN = ${JSON.stringify(plain).replace(/</g, '\\u003c')};
+const PLAIN = ${JSON.stringify(plain + (tags ? '\n\n' + tags : '')).replace(/</g, '\\u003c')};
 function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
 function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
 document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });

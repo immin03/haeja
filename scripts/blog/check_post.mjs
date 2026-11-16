@@ -177,15 +177,20 @@ for (const dir of dirs) {
   // AI 문체 (2026-10-26 운영자 결정, CONTENT.md 6절): ✗ 는 고친 뒤 출고, ! 는 읽고 판단
   for (const x of scanKo(textFromFile(dir))) (x.lv === 'err' ? E : W).push(`AI 문체 ${x.id} ${x.c}회 (${x.ex.join(' / ')}) → ${x.fix}`);
   // 필명·고지·출처 목록
-  if (!p.blocks.some((b) => SIG.test(b.p || ''))) E.push('"— Luciano" 줄이 없습니다');
+  { const last = p.blocks[p.blocks.length - 1] || {}; const endOk = /밸류노트 에디터 Luciano가 작성했습니다\.$/.test(last.note || '');
+    const v9e = /^v9/.test(p.style || '');
+    if (v9e) { // 2026-11-16 운영자: "제일 마지막 밸류노트 에디터 Luciano가 작성했다로 하면 되고", "화려한 사진·편집 사진을 많이 넣기보다 적당히 몇 개만 해야 사람이 쓴 것 같다"
+      if (!endOk) E.push('v9 글의 맨 마지막 문장은 "이 글은 밸류노트 에디터 Luciano가 작성했습니다." 여야 합니다');
+      if (p.blocks.filter((b) => b.img).length > 2) E.push('v9 이미지는 글자 없는 사진 1장 + 단순 그래프 또는 사진 1장까지 (STYLE v9 38)');
+    } else if (!p.blocks.some((b) => SIG.test(b.p || ''))) E.push('"— Luciano" 줄이 없습니다'); }
   const note = p.blocks.find((b) => b.note);
   if (!note || !/Luciano가 작성했습니다/.test(note.note)) E.push('고지에 작성자 문장(Luciano가 작성했습니다)이 없습니다');
   // 2026-10-29 운영자 결정: 회사 블로그가 아니라 일반 블로거 글처럼 — 밸류노트 노출 최소화, 검색어 중심
   { const body = p.blocks.filter((b) => !b.note).map((b) => strip(b.p || '') + ' ' + (b.h || '')).join(' '); const vn = (body.match(/밸류노트/g) || []).length; if (vn > 1) W.push(`본문에 '밸류노트' ${vn}번 — 끝 링크 문장 한 번만 (STYLE v3-11)`); }
   if (/밸류노트/.test(p.title) || (p.blocks.find((b) => b.summary)?.summary || []).some((x) => /밸류노트/.test(x))) E.push("제목·3줄 요약에 '밸류노트'가 있습니다 — 일반 블로거 글처럼");
   if ((p.tags || []).some((t) => /밸류노트/.test(t))) E.push("태그에 '밸류노트'가 있습니다 — 2026-10-29부터 쓰지 않습니다");
-  if (/에디터|Editor/.test(note?.note || '')) W.push('고지에 에디터 직함이 있습니다 — "이 글은 Luciano가 작성했습니다."로');
-  { const kw = String((p.tags || [])[0] || ''); const head = String(p.title || '').replace(/\s/g, '').slice(0, 14); const core = kw.replace(/(주가전망|주가|전망|목표주가|적정주가)$/, ''); if (kw && core && !head.includes(core)) W.push(`첫 태그(핵심 검색어) "${kw}"의 대상 이름이 제목 앞쪽(14자)에 없습니다 — 검색어를 제목 맨 앞에`); }
+  if (!/^v9/.test(p.style || '') && /에디터|Editor/.test(note?.note || '')) W.push('고지에 에디터 직함이 있습니다 — "이 글은 Luciano가 작성했습니다."로');
+  { const kw = String((p.tags || [])[0] || ''); const head = String(p.title || '').replace(/\s/g, '').slice(0, 14); const core = kw.replace(/(주가전망|주가|전망|목표주가|적정주가)$/, ''); if (kw && core && !head.includes(core)) (/^v9/.test(p.style || '') ? E : W).push(`첫 태그(핵심 검색어 = 사람들이 아는 회사 이름, v9 38) "${kw}"의 대상 이름이 제목 앞쪽(14자)에 없습니다 — 검색어를 제목 맨 앞에`); }
   // 쉽게 읽히는가 (2026-10-29 운영자: "애널리스트 글처럼 어렵다") — README ★ 12
   { const paras = p.blocks.filter((b) => b.p && strip(b.p).length > 40 && !/^Q[.\s]/.test(strip(b.p))).map((b) => strip(b.p));
     const nn = paras.map((x) => (x.match(/\d[\d,.]*/g) || []).length); const per = nn.reduce((a, b) => a + b, 0) / Math.max(1, paras.length);
