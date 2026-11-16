@@ -26,6 +26,20 @@ def cover(im, w, h, fx=.5):
     l = int((im.width - w) * fx); t = (im.height - h) // 2; return im.crop((l, t, l + w, t + h))
 
 
+def tint(p, cfg):
+    """versus: 사진을 왼쪽 파랑 | 오른쪽 빨강으로 물들이고 위쪽에 '민주당 VS 공화당'"""
+    if not cfg.get("versus"): return p
+    a = np.asarray(p, np.float32); w, h = p.size; xx = np.arange(w)[None, :, None]
+    k = np.clip((xx - w * .5) / (w * .08) + .5, 0, 1)   # 가운데에서 부드럽게 바뀐다
+    col = np.array([30, 80, 220], np.float32) * (1 - k) + np.array([220, 40, 45], np.float32) * k
+    a = a * .5 + col * .5; p = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(p)
+    L_, R_ = cfg["versus"]; fs = max(40, int(w * .085)); y = int(h * (.16 if h < w * 1.2 else .14))
+    d.text((w * (.36 if h < w else .27), y), L_, font=F(fs), fill=(255, 255, 255), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
+    d.text((w * .76, y), R_, font=F(fs), fill=(255, 255, 255), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
+    d.text((w * (.56 if h < w else .515), y), "VS", font=F(int(fs * 1.15)), fill=(255, 214, 90), anchor="mm", stroke_width=5, stroke_fill=(0, 0, 0))
+    return p
+
+
 def segs(line):
     out = []
     for part in re.split(r"(\{[^}]*\})", line):
@@ -40,17 +54,17 @@ def make(cfg, out):
     im = Image.new("RGB", (W, H), BG)
     # 사진: 가로형은 오른쪽 60%, 세로형은 위쪽 62%
     if long_:
-        pw = int(W * .62); ph = load(cfg["photo"]); p = cover(ph, pw, H, cfg.get("focus_x", .5)); im.paste(p, (W - pw, 0))
+        pw = int(W * .62); ph = load(cfg["photo"]); p = tint(cover(ph, pw, H, cfg.get("focus_x", .5)), cfg); im.paste(p, (W - pw, 0))
         if cfg.get("photo2"):
             p2 = cover(load(cfg["photo2"]), int(pw * .45), H, cfg.get("focus2_x", .5)); im.paste(p2, (W - p2.width, 0))
         a = np.asarray(im, np.float32); xx = np.arange(W)[None, :, None]
-        k = np.clip((xx - (W - pw)) / (pw * .55), 0, 1) ** 1.2; a = a * (.25 + .75 * k) + np.array(BG, np.float32) * (1 - k) * .75
+        k = np.clip((xx - (W - pw)) / (pw * .45), 0, 1) ** 1.1; a = a * k + np.array(BG, np.float32) * (1 - k)
         im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
         x0, y0, size, gap = 52, 120, 118, 8; qsize = 120
     else:
-        ph_h = int(H * .62); p = cover(load(cfg["photo"]), W, ph_h, cfg.get("focus_x", .5)); im.paste(p, (0, 0))
+        ph_h = int(H * .62); p = tint(cover(load(cfg["photo"]), W, ph_h, cfg.get("focus_x", .5)), cfg); im.paste(p, (0, 0))
         a = np.asarray(im, np.float32); yy = np.arange(H)[:, None, None]
-        k = np.clip((ph_h - yy) / (ph_h * .45), 0, 1); a = a * (.3 + .7 * k) + np.array(BG, np.float32) * (1 - k) * .8
+        k = np.clip((ph_h - yy) / (ph_h * .35), 0, 1); a = a * k + np.array(BG, np.float32) * (1 - k)
         im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
         x0, y0, size, gap = 70, int(H * .50), 168, 12; qsize = 170
     d = ImageDraw.Draw(im)
@@ -73,6 +87,11 @@ def make(cfg, out):
             d.text((x, y + s_), t, font=f, fill=col, anchor="ls", stroke_width=max(2, s_ // 30), stroke_fill=(0, 0, 0))
             x += d.textlength(t, font=f)
         y += s_ + gap
+    if cfg.get("sub"):   # 작은 한 줄 (예: 그 뒤 베일에 싸인 잔혹한 전쟁)
+        fs = int(size * .42); f = F(fs)
+        while d.textlength(cfg["sub"], font=f) > maxw and fs > 24: fs -= 2; f = F(fs)
+        d.rectangle([x0, y + 14, x0 + d.textlength(cfg["sub"], font=f) + 24, y + 14 + fs + 22], fill=(200, 40, 48))
+        d.text((x0 + 12, y + 14 + fs + 6), cfg["sub"], font=f, fill=WHITE, anchor="ls")
     im.save(out, quality=92); print("→", out)
 
 
