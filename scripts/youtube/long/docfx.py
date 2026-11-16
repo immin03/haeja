@@ -275,6 +275,28 @@ def _pct(im, b, p, y):
 
 # ───────── 2026-11-06 시네마틱: 숫자 펀치 · 비교표 · 아이콘 ─────────
 PUNCH_HOLD = 2.4
+DESIGN2 = [False]   # 2026-11-16 대표님 디자인 v2 (vn2.py): 이름표·데이터 라인 숫자·명조 문구
+
+
+def set_design2(on):
+    global GOLD
+    DESIGN2[0] = bool(on)
+    if on:
+        GOLD = (255, 77, 109); TONE["gold"] = GOLD   # 금색 → 핑크 (네이비·화이트·핑크)
+
+
+def _punch_win(b, lines):
+    t0 = _t0(b, lines); hold = max(b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))
+    return t0, hold
+
+
+def punch_active(beats, u, lines):
+    """자막을 숨길 구간: 강조(펀치)가 떠 있는 동안 (2026-11-16 대표님: 자막과 강조가 동시에 나오면 안 된다)"""
+    for b in beats or []:
+        if b.get("kind") != "punch": continue
+        t0, hold = _punch_win(b, lines)
+        if t0 - .1 <= u <= t0 + hold + .6: return True
+    return False
 
 
 def _broadcast(im, beats, u, lines):
@@ -290,6 +312,12 @@ def _broadcast(im, beats, u, lines):
             _st(d, (172, sy), t[:n], font=f, fill=(*WHITE, int(235 * fade)))
             if n < len(t) or int(p * 2.2) % 2 == 0:
                 cx = 172 + d.textlength(t[:n], font=f) + 4; d.rectangle([cx, sy + 4, cx + 14, sy + 34], fill=(*WHITE, int(200 * fade)))
+        elif k == "lower" and DESIGN2[0]:   # v2: 다큐 이름표
+            import vn2
+            hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
+            if fade <= 0: continue
+            im = im.convert("RGBA") if im.mode != "RGBA" else im
+            vn2.nametag(im, b["text"], b.get("sub", ""), p, fade, y=b.get("y2"))
         elif k == "lower":   # 하단 자막띠: 금색 세로선이 서고 이름·설명이 옆에서 밀려 들어온다
             hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
             if fade <= 0: continue
@@ -356,6 +384,15 @@ def _numparts(text):
 
 
 def _punches(im, pu, u, lines):
+    if DESIGN2[0]:
+        import vn2
+        for b in pu:
+            t0, hold = _punch_win(b, lines); p = u - t0
+            if p < -0.05 or p > hold + .8: continue
+            fade = (1 - eio((p - hold) / .8)) * eout((p + .05) / .35)
+            if vn2.is_number(b["text"]): im = vn2.number(im, b["text"], b.get("sub", ""), p, fade, None if b.get("clock") else _numparts(b["text"]))
+            else: im = vn2.phrase(im, b["text"], b.get("sub", ""), p, fade)
+        return im
     for b in pu:
         t0 = _t0(b, lines); p = u - t0
         hold = max(b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))   # 2026-11-12 대표님: 숫자를 보고 갈 여운

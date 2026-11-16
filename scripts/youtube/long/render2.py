@@ -1264,6 +1264,7 @@ def ident_source(n_frames):
     return get
 
 
+D2 = [False]   # 2026-11-16 대표님 디자인 v2 (vn2.py)
 IDENT_FX = [False]   # spec hook.ident_fx — 2026-11-07 대표님: 밸류노트 로고 전환도 화려하게
 _SPARK = np.random.default_rng(11).random((46, 4))
 
@@ -1326,7 +1327,12 @@ def full_source(v, n_frames, seed):
     """2026-11-01 A안: 일러스트를 화면 전체에 깔고 천천히 켄 번즈. 노트 필기 쪽(v.wash: left|right|none)은 아이보리로 살짝 덮어 글씨가 읽히게.
     (속도: 원본은 한 번만 키워 두고, 프레임마다 BILINEAR 한 번 + C 합성만 — 2026-11-01 첫 렌더가 150분 제한에 걸려 고침)"""
     lib = os.path.join(ROOT, "scripts", "blog", "media", "lib")
-    if v.get("ident"): return ident_source(n_frames)   # 2026-11-03 대표님: 훅 뒤 2~3초 밸류노트 인트로
+    if v.get("ident"):
+        if D2[0]:
+            import vn2
+            bg = clip_source(os.path.join(lib, v.get("ident_bg", "vhongkong_28644.mp4")), n_frames + 2, 1)
+            return vn2.intro_source(bg, n_frames, FPS)
+        return ident_source(n_frames)   # 2026-11-03 대표님: 훅 뒤 2~3초 밸류노트 인트로
     if v.get("cuts"): return cuts_source(v, n_frames, seed)   # 2026-11-03 대표님: '돈의 질서'처럼 외부 사진·영상을 빠른 템포로
     pth = os.path.join(lib, v.get("lib", ""))
     if not v.get("lib") or not os.path.exists(pth): return lambda u: background("light")
@@ -1398,6 +1404,19 @@ def subtitle2(img, text, u_in, dur, y=None):
     d.text((x, y), l, font=f, fill=(255, 255, 255, int(255 * a)))
     for m in re.finditer(r"[+\-−]?\d[\d,.]*(?:\s?(?:조|억|만|천))*(?:\s?\d[\d,]*\s?(?:억|만|천))*\s?(?:원|%p|%|배|점|년|분기|곳|개)?", l):
         tx = x + d.textlength(l[:m.start()], font=f); d.text((tx, y), m.group().rstrip(), font=f, fill=(*GOLD_L, int(255 * a)))
+
+
+def sub_v2(img, text, u_in, dur, left=False):
+    """v2 자막: 띠 없이 그림자만. 인물이 말하는 장면(더빙)은 이름표 아래 왼쪽 정렬"""
+    import vn2
+    if not text: return
+    d = AD(img); f = vn2.SUIT("Bold", 48); pages = sub_pages(d, text, f, maxw=1500 if not left else 1450)
+    tot = sum(len(p) for p in pages); acc = 0; pi = 0; start = 0.0
+    for pi, pg in enumerate(pages):
+        if u_in < dur * (acc + len(pg)) / tot or pi == len(pages) - 1: start = dur * acc / tot; break
+        acc += len(pg)
+    a = clamp((u_in - start) / .12) if pi else clamp(u_in / .15 + .3)
+    vn2.subtitle_line(img, pages[pi], a, x0=(130 if left else None), y=(H - 205 if left else H - 150))
 
 
 def make_theme(n, seed=11):
@@ -1826,8 +1845,8 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             if k == 0 and cold:
                 fr = NBK.anamorphic_flare(fr, 1450 - 260 * clamp(u / 3), 420, .55 * math.sin(math.pi * clamp((u - .35) / 2.2)))
             if I["full"] and sc["v"].get("cine"):   # 2026-11-03 대표님: 처음 훅은 다큐처럼 시네마틱 (극장 비율 띠 + 필름 색), 인트로 끝에 띠가 열리며 화면이 커진다
-                if not sc["v"].get("ident"): fr = NBK.doc_grade(fr, .55, fi, nb)
-                cb = 1.0 - (NBK.eio(clamp((u - (x["dur"] - .7)) / .7)) if sc["v"].get("ident") else 0.0)
+                if not sc["v"].get("ident") and not D2[0]: fr = NBK.doc_grade(fr, .55, fi, nb)
+                cb = 0.0 if D2[0] else 1.0 - (NBK.eio(clamp((u - (x["dur"] - .7)) / .7)) if sc["v"].get("ident") else 0.0)
                 fr = NBK.letterbox(fr, cb); bars = max(bars, cb)
             if amt > 0:
                 fr = NBK.doc_grade(fr, amt, fi, nb); fr = NBK.letterbox(fr, amt)
@@ -1843,14 +1862,18 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); NBK.stamp(lay, stamps[str(k)], u)
                 if amt < 1: lay.putalpha(lay.getchannel("A").point(lambda v: int(v * amt)))
                 im.paste(lay, (0, 0), lay)
-            if IDK is not None and typ != "end":   # 인트로 로고 → 오른쪽 위 고정 (2026-11-04)
+            if D2[0]:
+                if IDK is not None and k > IDK and typ != "end":
+                    import vn2; vn2.logo(im, clamp(u / .6) if k == IDK + 1 else 1.0)
+            elif IDK is not None and typ != "end":   # 인트로 로고 → 오른쪽 위 고정 (2026-11-04)
                 if k == IDK and u >= x["dur"] - DOCK_T: dock_logo(im, clamp((u - (x["dur"] - DOCK_T)) / (DOCK_T - .05)))
                 elif k > IDK: dock_logo(im, 1.0, .92)
             # 4) 진행 막대 · 출처 · 자막 (화면 위에)
+            ACC_ = (255, 77, 109) if D2[0] else (226, 192, 120); ACC2_ = (200, 200, 205) if D2[0] else (200, 180, 140); WHITE_ = (255, 255, 255)
             d = AD(im)
             bars = max(bars, amt)
             if bars < 1:
-                a_ = 1 - bars; d.rectangle([0, 0, W, 5], fill=(30, 24, 18, int(160 * a_))); d.rectangle([0, 0, int(W * (x["start"] + u) / total), 5], fill=(*GOLD, int(255 * a_)))
+                a_ = 1 - bars; d.rectangle([0, 0, W, 5], fill=(30, 24, 18, int(160 * a_))); d.rectangle([0, 0, int(W * (x["start"] + u) / total), 5], fill=(*(WHITE_ if D2[0] else GOLD), int(255 * a_)))
                 if RM and (k > IDK if IDK is not None else x["start"] + u >= RM[0][0] - .01) and typ != "end":
                     tn = x["start"] + u; ci_ = max([j for j, (t_, _) in enumerate(RM) if t_ <= tn + .01], default=-1)
                     for t_, _ in RM: d.rectangle([int(W * t_ / total) - 1, 0, int(W * t_ / total) + 1, 11], fill=(232, 226, 212, int(200 * a_)))
@@ -1862,33 +1885,36 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                     if toc_a > 0 and ci_ >= 0:
                         x0, y0, w0, rh = 56, 34, 660, 44
                         ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); od = AD(ov)
-                        od.rounded_rectangle([x0, y0, x0 + w0, y0 + 60 + rh * len(RM)], 18, fill=(8, 18, 36, 205), outline=(226, 192, 120, 90), width=2)
-                        od.text((x0 + 28, y0 + 20), "목차", font=F("Bold", 22), fill=(226, 192, 120, 255))
+                        od.rounded_rectangle([x0, y0, x0 + w0, y0 + 60 + rh * len(RM)], 18, fill=(8, 18, 36, 205), outline=(*ACC_, 90), width=2)
+                        od.text((x0 + 28, y0 + 20), "목차", font=F("Bold", 22), fill=(*ACC_, 255))
                         for j, (_, nm) in enumerate(RM):
                             yy = y0 + 58 + j * rh
                             if j == ci_:
-                                od.rounded_rectangle([x0 + 14, yy - 4, x0 + w0 - 14, yy + rh - 8], 10, fill=(226, 192, 120, 40)); od.rectangle([x0 + 14, yy - 4, x0 + 19, yy + rh - 8], fill=(226, 192, 120, 255))
-                                cc, ff, nc = (244, 237, 220, 255), F("ExtraBold", 27), (226, 192, 120, 255)
+                                od.rounded_rectangle([x0 + 14, yy - 4, x0 + w0 - 14, yy + rh - 8], 10, fill=(*ACC_, 40)); od.rectangle([x0 + 14, yy - 4, x0 + 19, yy + rh - 8], fill=(*ACC_, 255))
+                                cc, ff, nc = (244, 237, 220, 255), F("ExtraBold", 27), (*ACC_, 255)
                             elif j < ci_: cc, ff, nc = (150, 158, 172, 200), F("SemiBold", 25), (150, 158, 172, 200)
-                            else: cc, ff, nc = (232, 226, 212, 215), F("SemiBold", 25), (200, 180, 140, 210)
+                            else: cc, ff, nc = (232, 226, 212, 215), F("SemiBold", 25), (*ACC2_, 210)
                             od.text((x0 + 34, yy + 4), f"{j + 1:02d}", font=F("Bold", 22), fill=nc); od.text((x0 + 82, yy + 2), nm, font=ff, fill=cc)
                         if toc_a < 1: ov.putalpha(ov.getchannel("A").point(lambda v: int(v * toc_a)))
                         im.paste(ov, (0, 0), ov); d = AD(im)
                     la_ = a_ * (1 - toc_a)
                     if la_ > 0:
                         fx_ = 60; y_ = 20
-                        segs = ([(f"{ci_ + 1:02d}/{len(RM):02d}", (226, 192, 120), F("Bold", 24)), (RM[ci_][1], (244, 237, 220), F("ExtraBold", 26))] if ci_ >= 0 else []) \
-                             + ([("다음", (200, 180, 140), F("SemiBold", 22)), (RM[ci_ + 1][1], (200, 180, 140), F("SemiBold", 24))] if ci_ + 1 < len(RM) else [])
+                        segs = ([(f"{ci_ + 1:02d}/{len(RM):02d}", ACC_, F("Bold", 24)), (RM[ci_][1], (244, 237, 220), F("ExtraBold", 26))] if ci_ >= 0 else []) \
+                             + ([("다음", ACC2_, F("SemiBold", 22)), (RM[ci_ + 1][1], ACC2_, F("SemiBold", 24))] if ci_ + 1 < len(RM) else [])
                         for j, (tx_, col_, fr_) in enumerate(segs):
                             if j == 2: fx_ += 18
                             d.text((fx_ + 2, y_ + 2), tx_, font=fr_, fill=(0, 0, 0, int(150 * la_))); d.text((fx_, y_), tx_, font=fr_, fill=(*col_, int(240 * la_)))
                             fx_ += int(d.textlength(tx_, font=fr_)) + 16
             foot = " · ".join([q for q in [src, (f"데이터 {asof} 기준" if asof else "")] if q])
-            if foot:
+            if foot and not D2[0]:   # v2: 화면 출처 표기 없음 (설명란에)
                 fy = H - 40 if amt <= 0 else H - 40
                 d.text((62, fy + 2), foot, font=F("Medium", 21), fill=(0, 0, 0, 150)); d.text((60, fy), foot, font=F("Medium", 21), fill=(232, 226, 212, 230))
             cur = next((l for l in reversed(x["lines"]) if u >= l[0] - .05), None)
-            if cur and u <= cur[0] + cur[1] + .25 and typ != "end":
+            if D2[0]:
+                if cur and u <= cur[0] + cur[1] + .25 and typ != "end" and not sc["v"].get("ident") and not DOCFX.punch_active(sc.get("sketch"), u, x["lines"]):
+                    sub_v2(im, cur[2], u - cur[0], cur[1], left=bool(sc.get("dub")))
+            elif cur and u <= cur[0] + cur[1] + .25 and typ != "end":
                 subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 200) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-16 대표님: 인트로 자막이 하단 띠와 겹침 → 극장 띠 바로 위로   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리
             enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
             if i == n - 1: last_fr = np.asarray(fr, np.float32)
@@ -1985,6 +2011,14 @@ def hook_bed(n, timeline):
         x = _decode(ip, 1)[:, 0]
         if MUSIC.get("intro_offset") is not None: x = x[int(float(MUSIC["intro_offset"]) * SR):]   # 곡의 첫 박을 0초에 맞춘다 → 컷·박자 효과가 음악 박자 위에 떨어진다
         else: lv = np.abs(x); i0 = int(np.argmax(lv > .01)) if (lv > .01).any() else 0; x = x[i0:]
+        if MUSIC.get("end_on_logo") and D2[0]:   # 2026-11-16 v2 인트로: 곡은 이어지되 로고가 뜨는 동안 작아지고(덕킹), 효과음이 따로 들린다
+            m = min(n, len(x), int(h1 * SR)); bed[:m] = x[:m]
+            tt_ = np.arange(m) / SR; dk = np.interp(tt_, [0, h0 + .2, h0 + .9, h1 - 1.0, h1], [1, 1, .25, .25, 0]).astype(np.float32); bed[:m] *= dk
+            import vn2; st_ = vn2.intro_sfx_times(h1 - h0)
+            add(h0 - 1.3, sfx_riser(1.3, .07, seed=3))
+            add(h0 + st_["whoosh"], NBK_whoosh(1.0, .08)); add(h0 + st_["boom"], NBK_boom(.22)); add(h0 + st_["chime"], sfx_chime(.06))
+            fi = int(SR * .3); bed[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)
+            return bed, h1
         if MUSIC.get("end_on_logo"):   # 2026-11-07 대표님: 음악이 로고에서 끝나게 — 로고 첫 박에서 곡을 끊고, 곡에서 가장 센 타격 한 번 + 웅장한 울림이 로고 끝까지 잦아든다
             i0 = int(h0 * SR); m = min(n, len(x), i0); bed[:m] = x[:m]
             g = int(.03 * SR); bed[max(0, i0 - g):i0] *= np.linspace(1, 0, min(g, i0), dtype=np.float32)
@@ -2118,7 +2152,7 @@ def preflight(spec):
 
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
+    spec = json.load(open(spec_path, encoding="utf-8")); preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; DOCFX.set_design2(D2[0]); HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
     import docfx as DOCFX; data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)
