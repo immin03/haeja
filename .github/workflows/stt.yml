@@ -9,10 +9,13 @@ jobs:
       - run: |
           python3 - <<'PY'
           from faster_whisper import WhisperModel
+          import wave, numpy as np
+          def ld(f):
+              w=wave.open(f); return np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(np.float32)/32768
           m=WhisperModel("medium.en",device="cpu",compute_type="int8")
           for f in ["rec54.wav","amazed.wav"]:
               print("==",f)
-              segs,_=m.transcribe(f,word_timestamps=True)
+              segs,_=m.transcribe(ld(f),word_timestamps=True)
               for s in segs:
                   print(f"{s.start:6.2f}-{s.end:6.2f} {s.text.strip()}")
                   print("   W:"," ".join(f"{w.word.strip()}@{w.start:.2f}" for w in s.words))
