@@ -17,11 +17,11 @@ def grade(im, dark=.78, sat=.85): return ImageEnhance.Color(ImageEnhance.Brightn
 def segs(line):   # "{강조}" → [(글자, 강조여부)]
     return [(t, i % 2 == 1) for i, t in enumerate(re.split(r"[{}]", line)) if t]
 SHADOWS = []
-def text(d, xy, line, size, base=WHITE, hi=GOLD, w="Heavy", stroke=0, anchor="ls"):
+def text(d, xy, line, size, base=WHITE, hi=None, w="Heavy", stroke=0, anchor="ls"):
     x, y = xy; f = F("Heavy", size)
     if anchor == "ms": x -= sum(d.textlength(t, font=f) for t, _ in segs(line)) / 2
     for t, h in segs(line):
-        SHADOWS.append((x, y, t, f)); d.text((x, y), t, font=f, fill=hi if h else base, anchor="ls"); x += d.textlength(t, font=f)
+        SHADOWS.append((x, y, t, f)); d.text((x, y), t, font=f, fill=(hi or RED) if h else base, anchor="ls"); x += d.textlength(t, font=f)
 def shadowed(im, draw_fn):
     """글자를 한 번 그려 위치를 모은 뒤, 그림자 층을 깔고 다시 그린다"""
     SHADOWS.clear(); tmp = im.copy(); draw_fn(tmp)
@@ -49,11 +49,11 @@ def grad_bottom(im, frm=.45, a0=250):
     g = Image.new("L", (W, H), 0); gd = ImageDraw.Draw(g)
     for y in range(H): gd.line([0, y, W, y], fill=int(a0 * max(0, (y / H - frm) / (1 - frm)) ** 1.2))
     im.paste(Image.new("RGB", (W, H), NAVY), (0, 0), g)
-def quote_mark(d, x, y, s=70):
+def quote_mark(d, x, y, s=70, col=None):
     for k in (0, 1):
-        cx = x + k * s * .62; d.ellipse([cx, y + s * .38, cx + s * .46, y + s * .84], fill=GOLD)
-        d.polygon([(cx + s * .05, y + s * .55), (cx + s * .30, y), (cx + s * .42, y + s * .05), (cx + s * .30, y + s * .55)], fill=GOLD)
-def chip(d, x, y, t, bg=GOLD, fg=NAVY, size=34):
+        cx = x + k * s * .62; d.ellipse([cx, y + s * .38, cx + s * .46, y + s * .84], fill=col or RED)
+        d.polygon([(cx + s * .05, y + s * .55), (cx + s * .30, y), (cx + s * .42, y + s * .05), (cx + s * .30, y + s * .55)], fill=col or RED)
+def chip(d, x, y, t, bg=(255, 255, 255), fg=NAVY, size=34):
     f = F("Heavy", size); w = d.textlength(t, font=f)
     d.rounded_rectangle([x, y, x + w + 40, y + size + 26], 12, fill=bg); d.text((x + 20, y + 10), t, font=f, fill=fg); return x + w + 36
 
@@ -63,7 +63,7 @@ def doc(c):
     soft_paste(im, ph, W - pw, .24); grad_bottom(im, .78, 110); d = ImageDraw.Draw(im)
     L2 = c["l2"].split("\n"); s2 = min(fit(d, "{" + l + "}", 112, 640) for l in L2); s1 = fit(d, c["l1"], 58, 620, "ExtraBold")
     y = H - 70 - (len(L2) - 1) * (s2 + 10)
-    HI = RED if c.get("pink", True) else GOLD
+    HI = RED
     text(d, (64, y - s2 - 28), c["l1"], s1, hi=WHITE); quote_mark(d, 64, y - s2 - s1 - 120, 60)
     for l in L2: text(d, (64, y), "{" + l + "}", s2, hi=HI); y += s2 + 10
     if c.get("tag"): chip(d, 60, 60, c["tag"], HI, NAVY, 46)
@@ -82,10 +82,10 @@ def versus(c):
     for i, p in enumerate(ps):
         if p.get("label"):
             f = F("Heavy", 44); w = d.textlength(p["label"], font=f); x = i * cw + (cw - w - 36) / 2
-            chip(d, x, 120, p["label"], WHITE if p.get("tint") == "red" else GOLD, NAVY, 44)
+            chip(d, x, 120, p["label"], (255, 255, 255), NAVY, 44)
     if c.get("mid"):
-        f = F("Heavy", 96); d.text((W / 2, 300), c["mid"], font=f, fill=GOLD, anchor="mm", stroke_width=6, stroke_fill=NAVY)
-    s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, hi=GOLD, anchor="ms")
+        f = F("Heavy", 96); d.text((W / 2, 300), c["mid"], font=f, fill=RED, anchor="mm", stroke_width=6, stroke_fill=NAVY)
+    s1 = fit(d, c["l1"], 56, W - 120, "ExtraBold"); text(d, (W / 2, 548), c["l1"], s1, hi=RED, anchor="ms")
     s2 = fit(d, "{" + c["l2"] + "}", 110, W - 100); text(d, (W / 2, 670), "{" + c["l2"] + "}", s2, hi=RED, anchor="ms")
     logo(d); return im
 
@@ -98,9 +98,9 @@ def chips(c):
         for i in range(1, len(phs)): sd.line([i * cw, 0, i * cw, H], fill=NAVY, width=6)
     soft_paste(im, strip, W - pw, .16); grad_bottom(im, .52, 235); d = ImageDraw.Draw(im)
     y = 64
-    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else WHITE, NAVY, 46); y += 90
+    for i, t in enumerate(c.get("chips", [])): chip(d, 56, y, t, RED if i == 0 else (255, 255, 255), NAVY, 46); y += 90
     lines = c["head"]; s = min(fit(d, l, c.get("size", 132), c.get("maxw", 880)) for l in lines); y = H - 58 - (len(lines) - 1) * (s + 12)
-    for l in lines: text(d, (56, y), l, s, hi=RED if c.get("hi_red") else GOLD); y += s + 12
+    for l in lines: text(d, (56, y), l, s, hi=RED); y += s + 12
     return im
 
 if __name__ == "__main__":
