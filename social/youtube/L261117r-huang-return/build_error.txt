@@ -1,4 +1,4 @@
-2026-11-16T06:41:02.324150+00:00
+2026-11-16T11:27:40.437601+00:00
 Traceback (most recent call last):
   File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 60, in main
     sh([sys.executable, os.path.join(HERE, renderer), f])
@@ -6,5 +6,11 @@ Traceback (most recent call last):
     if r.returncode: raise RuntimeError(f"명령 실패({r.returncode}): {' '.join(cmd)[:120]}\n{r.stderr[-1500:]}")
                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RuntimeError: 명령 실패(1): /opt/hostedtoolcache/Python/3.12.16/x64/bin/python3 /home/runner/work/haeja/haeja/scripts/youtube/long/render2.py /home/
-렌더 전 점검 실패 — 같은 사진·영상 반복 il_L261110a_midnight_phones.jpeg (장면 [2, 12]) / 같은 사진·영상 반복 il_L261109p_boardroom_empty.jpeg (장면 [16, 39]) / 같은 사진·영상 반복 il_L261114t_legal_files.png (장면 [17, 38, 71]) / 같은 사진·영상 반복 il_L261109p_locked_drive.jpeg (장면 [40, 48, 66]) / 같은 사진·영상 반복 il_L261113a_two_boards.jpeg (장면 [73, 74])
+Traceback (most recent call last):
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/render2.py", line 2442, in <module>
+    main()
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/render2.py", line 2155, in main
+    spec = json.load(open(spec_path, encoding="utf-8")); preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; DOCFX.set_design2(D2[0]); HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
+                                                                                                                                                                                     ^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'set_design2'
 
