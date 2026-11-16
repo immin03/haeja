@@ -48,6 +48,7 @@
 - 태그(images.yt_tags, 합계 450자 이하): ① 그 편 문제형 검색어 2~3개(자동완성 문구 그대로) ② 고정 세트 "marcus aurelius, marcus aurelius quotes, meditations marcus aurelius, stoicism, stoicism marcus aurelius, stoic quotes, stoic lessons, stoic philosophy, meditations".
 - 고정 댓글: 질문 한 줄 + 인용 한 줄(따옴표, "— Marcus Aurelius, Meditations N.N") + 기존 끝 문장. 사람들이 인용문을 검색·공유한다.
 - 검색 순위: ed-stats-en 이 매일 10:55 app_config ed_en_keywords.track(8개) 상위 50 안 우리 순위를 ed_stats youtube_en/search_rank 에 적고 관리자 미국 탭 '검색 순위'에 보인다. 검색어 바꾸려면 그 설정만 고친다.
+- ★ 2026-11-16 대표: 태그·설정을 고칠 때는 기존 것을 유지한 채 더하기만 한다(스튜디오 일괄 수정은 '추가' 방식만, '모두 바꾸기' 금지). 기존 태그를 지우거나 갈아끼우지 않는다.
 - 무리하지 않기: 이미 올린 영상 제목은 바꾸지 않는다(초반 신호가 흔들림). 태그는 스튜디오 일괄 수정으로 고정 세트만 더한다.
 
 ## 9. 기록
