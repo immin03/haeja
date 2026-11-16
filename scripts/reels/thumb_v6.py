@@ -33,8 +33,9 @@ def fit(d, line, size, maxw, w="Heavy"):
     return size
 def logo(d): pass
 def brand_logo(im):
-    from brand import paste_logo
-    paste_logo(im, W - 36, 28, 30, "dark", align="right")
+    import sys as _s, os as _o; _s.path.insert(0, _o.path.join(_o.path.dirname(_o.path.abspath(__file__)), "..", "youtube", "long"))
+    import vn2   # 2026-11-16 대표님: 로고 B안 (VALUE 굵게 + NOTE 얇게) 전체 통일
+    L = vn2.logo_layer(40, 3); im.paste(L, (W - 36 + 12 - L.width, 28 - 12), L)
 def grad_left(im, to=.62, a0=245):
     g = Image.new("L", (W, H), 0); gd = ImageDraw.Draw(g)
     for x in range(W): gd.line([x, 0, x, H], fill=int(a0 * max(0, 1 - x / (W * to)) ** 1.1))
