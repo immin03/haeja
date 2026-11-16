@@ -101,7 +101,13 @@ for (const dir of dirs) {
   // ★ v6 (2026-11-01 15:31 운영자: "숫자가 너무 많이 나오고 분석글로만 느껴져") — 이야기가 먼저, 숫자는 기둥만. 경고가 아니라 오류.
   { const body = p.blocks.filter((b) => b.p && !SIG.test(b.p)).map((b) => strip(b.p));
     const tot = body.reduce((a, x) => a + v6nums(x), 0), chars = body.join(' ').length, dens = tot * 1000 / Math.max(1, chars);
-    const lim = /이 3가지만/.test(p.title || '') ? 18 : 12; // r54: 「이 3가지만」 시리즈만 18개까지
+    const v9 = /^v9/.test(p.style || '') || (/^b(\d{6})/.test(id) && Number(id.slice(1, 7)) >= 261115); // ★ v9 (2026-11-16 운영자: 블로그는 주가 전망·기업 분석이 아니라 세상 이야기)
+    if (v9) {
+      if (/주가 전망|목표가|이 3가지만|고점 뒤|반 토막 난 이유/.test(p.title || '')) E.push('v9 제목이 주가 전망·종목 리포트 꼴입니다 — 사물·역사·세상 이야기로 (STYLE v9 32 · 제1 원칙 175)');
+      if (p.blocks.some((x) => /자주 묻는 질문/.test(x.h || '') || /^같이 읽으면 좋은 글/.test(x.p || ''))) E.push('v9 자주 묻는 질문·같이 읽으면 좋은 글은 넣지 않습니다 (STYLE v9 36)');
+      if (p.meta && p.meta.from_long) E.push('v9 롱폼 짝 글은 블로그에서 폐지 — meta.from_long 을 지우고 블로그가 따로 기획 (STYLE v9 31)');
+    }
+    const lim = v9 ? 10 : /이 3가지만/.test(p.title || '') ? 18 : 12; // v9: 10개 · (옛 글) r54: 「이 3가지만」 시리즈만 18개까지
     if (dens > lim) E.push(`v6 숫자 밀도 1,000자당 ${dens.toFixed(1)}개(날짜·연도 제외 ${tot}개) — ${lim}개 이하로, 큰 숫자는 아는 크기로 (STYLE v6 ③${lim === 18 ? ' · 제1 원칙 r54' : ''})`);
     const heavy = body.filter((x) => v6nums(x) >= 3); if (heavy.length) E.push(`v6 숫자 3개 이상 문단 ${heavy.length}개 — 한 문단 2개까지: ${heavy[0].slice(0, 40)}…`);
     const zero = body.filter((x) => v6nums(x) === 0).length; if (zero * 2 < body.length) E.push(`v6 숫자 없는 문단 ${zero}/${body.length} — 절반 이상이어야 합니다 (STYLE v6 ③)`);
