@@ -57,25 +57,29 @@ if (category && !CATS.includes(category)) console.warn(`⚠ 블로그 카테고�
 //   소제목 위 = 빈 줄 2개(새 단락이 시작된다는 느낌), 소제목 아래 = 빈 줄 없음(소제목이 아래 글에 붙는다),
 //   그 밖의 블록 사이 = 빈 줄 1개.
 const BLANK = '<p><br></p>';
+// 2026-11-16 15:19 운영자: "글자 색감이 회색으로 나와" — 네이버 편집기는 색이 없는 글자를 자기 기본색(회색 계열)으로 바꾸고,
+//   <blockquote>는 회색 글씨 인용구로 바꾼다. 그래서 모든 글자에 검정(#000000)을 직접 박고, 요약은 인용구 대신 일반 문단으로 넣는다.
+const INK = 'color:#000000';
+const ink = (h) => `<span style="${INK}">${h}</span>`;
 const blockHtml = (b) => {
-  if (b.h) return `<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> ${inline(b.h)}</b></span></p>`;
-  if (b.p && /^— (Editor: )?Luciano$/.test(b.p)) return `<p style="text-align:right"><b>${inline(b.p)}</b></p>`;
-  if (b.p) return `<p>${inline(b.p)}</p>`;
+  if (b.h) return `<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> ${ink(inline(b.h))}</b></span></p>`;
+  if (b.p && /^— (Editor: )?Luciano$/.test(b.p)) return `<p style="text-align:right"><b>${ink(inline(b.p))}</b></p>`;
+  if (b.p) return `<p>${ink(inline(b.p))}</p>`;
   if (b.img && b.href) return `<p><a href="${esc(b.href)}"><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></a></p>`;
-  if (b.img) return `<p><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></p>${b.cap ? `<p><span style="color:#888888;font-size:13px">${esc(b.cap)}</span></p>` : ''}`;
-  if (b.quote) return `<blockquote><p>"${esc(b.quote)}"</p>${b.src ? `<p>— ${esc(b.src)}</p>` : ''}</blockquote>`;
+  if (b.img) return `<p><img src="${imgUrl(b.img)}" alt="${esc(b.alt || b.cap || '')}" width="720"></p>${b.cap ? `<p><span style="color:#555555;font-size:14px">${esc(b.cap)}</span></p>` : ''}`;
+  if (b.quote) return `<p>${ink('"' + esc(b.quote) + '"')}</p>${b.src ? `<p>${ink('— ' + esc(b.src))}</p>` : ''}`;
   if (b.link) return `<p><a href="${esc(b.link)}">${esc(b.text || b.link)}</a></p>`;
-  if (b.note) return `<p><span style="color:#888888;font-size:13px">${esc(b.note)}</span></p>`;
-  if (b.summary) return `<blockquote><p><b>${b.summary.length > 1 ? "3줄 요약" : "요약"}</b></p>${b.summary.map((x) => `<p>· ${inline(x)}</p>`).join('')}</blockquote>`;
-  if (b.table) return `<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr>${b.table.head.map((x) => `<th style="background:#F3EEE3">${esc(x)}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((x) => `<td>${inline(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  if (b.note) return `<p><span style="color:#444444;font-size:14px">${esc(b.note)}</span></p>`;
+  if (b.summary) return `<p><b>${ink(b.summary.length > 1 ? "3줄 요약" : "요약")}</b></p>${b.summary.map((x) => `<p>${ink('· ' + inline(x))}</p>`).join('')}`;
+  if (b.table) return `<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%"><thead><tr>${b.table.head.map((x) => `<th style="background:#F3EEE3">${ink(esc(x))}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((x) => `<td>${ink(inline(x))}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
   if (b.video) return `<div data-skip="1" style="border:2px dashed #C9AF7A;background:#FBF5EA;border-radius:10px;padding:12px 14px;margin:4px 0;font-size:14px;color:#7A6947"><b>▶ 여기에 동영상 올리기</b> · ${esc(b.video)} — 아래 '영상' 칸에서 받아, 네이버 편집기 위 [동영상] 버튼으로 이 자리에 넣으세요.${b.cap ? `<br>영상 설명(영상 아래에 붙여 넣기): ${esc(b.cap)}` : ''}</div>`;
-  if (b.sources) return `<p><b>참고한 자료</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
+  if (b.sources) return `<p><b>${ink('참고한 자료')}</b></p>${b.sources.map(([n, u]) => `<p><span style="font-size:13px;color:#444444">· ${esc(n)} <a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, '').slice(0, 60))}</a></span></p>`).join('')}`;
   return '';
 };
 // 2026-11-16 운영자: "태그도 별도로 복사하게 하지 말고 글 문단 안에 넣어놔, 그것만 복사하면 되게" — 태그 줄을 본문 안(끝 고지 문단 바로 앞)에 넣는다. 태그 복사 칸은 없앴다.
 const tags = (post.tags || []).map((t) => '#' + t.replace(/\s+/g, '')).join(' ');
 const lastNote = post.blocks.length && post.blocks[post.blocks.length - 1].note ? post.blocks.length - 1 : -1;
-const tagHtml = tags ? `<p>${esc(tags)}</p>` : '';
+const tagHtml = tags ? `<p>${ink(esc(tags))}</p>` : '';
 const body = post.blocks.map((b, i) => {
   const html = (i === lastNote && tagHtml ? tagHtml + '\n' + BLANK + '\n' : '') + blockHtml(b);
   if (i === 0) return html;
