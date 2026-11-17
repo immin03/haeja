@@ -96,7 +96,7 @@ function scale(C,t){
     S.items.forEach((it,i)=>{ const a=ts[i]; if(a<=0||!it.why) return; txt('· '+it.why,ex-230,ey+310+i*40,24,GRAY,600,'left',a); });
   };
   side(L,tl,-1,RED); side(R,tr,1,GREEN);
-  const fa=ease(cl((t-(0.8+(L.items.length+R.items.length)*1.0+0.6))/0.8)); if(C.verdict) txt(C.verdict,cx,(C.vy||1030),40,PINK,800,'center',fa);
+  const fa=ease(cl((t-(0.8+(L.items.length+R.items.length)*1.0+0.6))/0.8)); if(C.verdict&&fa>0){ const vy=(C.vy||1030); g.save(); g.globalAlpha=fa; g.font='800 '+Math.round(40*(window.FS||1))+'px SUIT'; const vw=g.measureText(C.verdict).width+80, vh=Math.round(40*(window.FS||1))+40; g.fillStyle='rgba(14,14,16,0.94)'; g.strokeStyle=PINK; g.lineWidth=2; g.beginPath(); g.roundRect(cx-vw/2,vy-vh/2,vw,vh,vh/2); g.fill(); g.stroke(); g.restore(); txt(C.verdict,cx,vy,40,PINK,800,'center',fa); }   // 2026-11-17 대표: 결론 줄이 받침대와 겹쳐 안 보임 → 어두운 판 위에
 }
 
 // ④ 사건 레일: 날짜 축 위에 값 선이 그려지며 사건 카드가 하나씩

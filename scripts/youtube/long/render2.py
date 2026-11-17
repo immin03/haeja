@@ -1320,6 +1320,22 @@ def dark_end_bg2():
     _DARK_END2 = im_; return _DARK_END2.copy()
 
 
+def end_slogan(img, sl, u):
+    """끝 화면 왼쪽: 로고 아래 슬로건 세 줄이 차례로 떠오른다. 오른쪽 절반은 유튜브 종료 화면(구독·다음 영상) 자리라 비워 둔다"""
+    import vn2 as _v2
+    d = ImageDraw.Draw(img, "RGBA"); x = 112; ys = (300, 372, 488); sizes = (40, 66, 46); ws = ("SemiBold", "Heavy", "Bold")
+    cols = ((200, 200, 205), IVORY, IVORY)
+    for i, t in enumerate(sl[:3]):
+        a = _v2.eout((u - .25 - .35 * i) / .5)
+        if a <= 0: continue
+        f = _v2.SUIT(ws[i], sizes[i]); y = ys[i] + int(18 * (1 - a))
+        d.text((x + 2, y + 3), t, font=f, fill=(0, 0, 0, int(140 * a)))
+        d.text((x, y), t, font=f, fill=(*cols[i], int(255 * a)))
+        if i == 2:   # 핑크 밑줄이 왼쪽에서 그어진다
+            e = _v2.eout((u - 1.3) / .6); tw = d.textlength(t, font=f)
+            if e > 0: d.rectangle([x, y + sizes[i] + 14, x + tw * e, y + sizes[i] + 20], fill=(*RED, int(255 * a)))
+
+
 _DARK_END = None
 def dark_end_bg():
     """2026-11-10 대표님: 끝 화면 = 새 채널 배너 톤 (네이비 + 옅은 캔들 + 금색 상승선)"""
@@ -1855,7 +1871,9 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 tex, tip = nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, u, write_t0=wt0)
                 if tip is not None: pen_tip, pen_al = tip, 1.0
             else:
-                if I["inked"]: img = (dark_end_bg2() if sc["v"].get("end_v2") else dark_end_bg()) if sc["v"].get("dark_end") else background("light")   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
+                if I["inked"]:
+                    img = (dark_end_bg2() if sc["v"].get("end_v2") else dark_end_bg()) if sc["v"].get("dark_end") else background("light")
+                    if sc["v"].get("end_v2"): end_slogan(img, sc["v"].get("slogan") or ["뉴스가 말하지 않는", "기업과 경제의 이야기", "기업을 이해하면, 투자가 달라집니다"], u)   # 2026-11-17 23:16 대표 "아웃트로 생성 잘못됐어" — 슬로건이 원고에만 있고 그려지지 않던 것   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
                 else:
                     img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
                     if bdf: img = on_backdrop(img, bdf(u), theme)
