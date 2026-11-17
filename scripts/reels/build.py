@@ -41,7 +41,7 @@ def main(only=None):
             print("렌더:", sp["id"], sp["title"])
             try:
                 sec = engine.render(sp, d)
-            except Exception as e:   # 한 편이 실패해도(앱 화면 글자 못 찾음 등) 나머지 릴스는 계속 렌더한다
+            except (Exception, SystemExit) as e:   # gate.enforce 는 SystemExit 로 막는다 — 한 편(급변 E…)이 점검에 걸려도 나머지 쇼츠는 계속 렌더 (2026-11-17: E261116KQ11 하나가 Y261117r·Y261118a 렌더를 막음). 한 편이 실패해도(앱 화면 글자 못 찾음 등) 나머지 릴스는 계속 렌더한다
                 import traceback; traceback.print_exc(); print("  ✗", e); failed.append(sp["id"]); continue
             open(mark, "w").write(h)
             print(f"  {sec:.1f}초")
