@@ -1,12 +1,12 @@
 [
   {
-    "id": "vn_pres3_c1_front",
+    "id": "vn_pres4_a_front",
     "endpoint": "bytedance/seedance-2.5/image-to-video",
-    "image": "scripts/higgsfield/in/vn_presenter_ref2.png",
-    "use": "2026-11-17 23:48 대표 확정 진행자 사진(네이비 투피스·넓은 타이·금빛 라운드 시계) — 롱폼 중간 3~5초 진행자 컷",
+    "image": "scripts/higgsfield/in/vn_pres4_a_front.png",
+    "use": "2026-11-18 대표 피드백: 턱 안 보이게, 필기 없이 말하는 손 제스처만, 각도 다르게",
     "max_usd": 0.6,
     "body": {
-      "prompt": "Very slow gentle push-in from the front. He speaks into the microphone, his right hand with the pen making small natural explaining gestures, left hand resting on the desk. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+      "prompt": "Locked-off camera with a very slow, subtle push-in. He is talking: his right hand loosely holding the pen rises and makes relaxed explaining gestures in the air, opening and turning slightly, then lowers; left hand rests on the desk. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing stays at or below the shirt collar the whole time: never tilt up, never show the chin, jaw, mouth or face. He never writes; the notebook stays untouched. Calm, natural movement. No text, no logos.",
       "duration": 5,
       "resolution": "720p",
       "aspect_ratio": "16:9",
@@ -14,13 +14,13 @@
     }
   },
   {
-    "id": "vn_pres3_c2_left",
+    "id": "vn_pres4_b_left",
     "endpoint": "bytedance/seedance-2.5/image-to-video",
-    "image": "scripts/higgsfield/in/vn_presenter_ref2.png",
-    "use": "2026-11-17 23:48 대표 확정 진행자 사진(네이비 투피스·넓은 타이·금빛 라운드 시계) — 롱폼 중간 3~5초 진행자 컷",
+    "image": "scripts/higgsfield/in/vn_pres4_b_left.png",
+    "use": "2026-11-18 대표 피드백: 턱 안 보이게, 필기 없이 말하는 손 제스처만, 각도 다르게",
     "max_usd": 0.6,
     "body": {
-      "prompt": "The camera slowly arcs about 25 degrees to the left around him. He leans slightly toward the microphone as he talks, small hand gesture with the pen. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+      "prompt": "Camera stays at this angle with a slight slow drift sideways, no tilt. While talking, he makes an open-palm gesture with his right hand as if laying out a point, then a small counting gesture with his fingers. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing stays at or below the shirt collar the whole time: never tilt up, never show the chin, jaw, mouth or face. He never writes; the notebook stays untouched. Calm, natural movement. No text, no logos.",
       "duration": 5,
       "resolution": "720p",
       "aspect_ratio": "16:9",
@@ -28,13 +28,13 @@
     }
   },
   {
-    "id": "vn_pres3_c3_right",
+    "id": "vn_pres4_c_right",
     "endpoint": "bytedance/seedance-2.5/image-to-video",
-    "image": "scripts/higgsfield/in/vn_presenter_ref2.png",
-    "use": "2026-11-17 23:48 대표 확정 진행자 사진(네이비 투피스·넓은 타이·금빛 라운드 시계) — 롱폼 중간 3~5초 진행자 컷",
+    "image": "scripts/higgsfield/in/vn_pres4_c_right.png",
+    "use": "2026-11-18 대표 피드백: 턱 안 보이게, 필기 없이 말하는 손 제스처만, 각도 다르게",
     "max_usd": 0.6,
     "body": {
-      "prompt": "The camera slowly arcs about 25 degrees to the right around him. He lowers the pen and writes a short note in the open notebook while still speaking. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+      "prompt": "Camera stays at this angle with a slow gentle drift, no tilt. As he talks, his left hand lifts off the desk and makes a calm emphasizing gesture, then returns to the desk; right hand moves slightly. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing stays at or below the shirt collar the whole time: never tilt up, never show the chin, jaw, mouth or face. He never writes; the notebook stays untouched. Calm, natural movement. No text, no logos.",
       "duration": 5,
       "resolution": "720p",
       "aspect_ratio": "16:9",
@@ -42,27 +42,13 @@
     }
   },
   {
-    "id": "vn_pres3_c4_hands",
+    "id": "vn_pres4_d_hands",
     "endpoint": "bytedance/seedance-2.5/image-to-video",
-    "image": "scripts/higgsfield/in/vn_presenter_ref2.png",
-    "use": "2026-11-17 23:48 대표 확정 진행자 사진(네이비 투피스·넓은 타이·금빛 라운드 시계) — 롱폼 중간 3~5초 진행자 컷",
+    "image": "scripts/higgsfield/in/vn_pres4_d_hands.png",
+    "use": "2026-11-18 대표 피드백: 턱 안 보이게, 필기 없이 말하는 손 제스처만, 각도 다르게",
     "max_usd": 0.6,
     "body": {
-      "prompt": "The camera slowly tilts down and pushes in toward his hands on the desk: the pen underlines a line in the notebook, the round gold watch on his left wrist catches the light. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
-      "duration": 5,
-      "resolution": "720p",
-      "aspect_ratio": "16:9",
-      "generate_audio": false
-    }
-  },
-  {
-    "id": "vn_pres3_c5_mic",
-    "endpoint": "bytedance/seedance-2.5/image-to-video",
-    "image": "scripts/higgsfield/in/vn_presenter_ref2.png",
-    "use": "2026-11-17 23:48 대표 확정 진행자 사진(네이비 투피스·넓은 타이·금빛 라운드 시계) — 롱폼 중간 3~5초 진행자 컷",
-    "max_usd": 0.6,
-    "body": {
-      "prompt": "The camera slowly pushes in toward the microphone in the foreground with a gentle rack focus, the tie knot and pocket square softly blurred behind it, slight breathing movement of his chest as he speaks. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+      "prompt": "Close framing on his torso and hands, camera nearly still. As he talks, both hands move naturally: the right hand gestures with the pen held loosely, the left hand taps the desk once lightly and opens toward the viewer. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing stays at or below the shirt collar the whole time: never tilt up, never show the chin, jaw, mouth or face. He never writes; the notebook stays untouched. Calm, natural movement. No text, no logos.",
       "duration": 5,
       "resolution": "720p",
       "aspect_ratio": "16:9",
