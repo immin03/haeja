@@ -801,8 +801,8 @@ def end_page(v, lines, fill, V, at_time):
             return [dict(kind="print", text=sl[0], x=X0, y=Y0, size=92, w="Heavy", color=WH, t=S0),
                     dict(kind="print", text=sl[1], x=X0, y=Y0 + 116, size=92, w="Heavy", color=WH, t=S0 + .3),
                     dict(kind="print", text=sl[2], x=X0, y=Y0 + 250, size=44, w="Heavy", color=WH, t=S0 + .6),
-                    dict(kind="print", text="매주 새로운 이야기", x=X0 + 200, y=Y0 + 400, size=40, w="Bold", color=WH, t=S0 + .9),
-                    dict(kind="print", text="구독하고 알림 받기", x=X0 + 200, y=Y0 + 456, size=32, w="Medium", color=GR, t=S0 + 1.0)]
+                    dict(kind="print", text="매주 새로운 이야기", x=X0 + 260, y=Y0 + 440, size=40, w="Bold", color=WH, t=S0 + .9),   # 2026-11-17 대표님: 구독 동그라미 자리 여유 있게
+                    dict(kind="print", text="구독하고 알림 받기", x=X0 + 260, y=Y0 + 496, size=32, w="Medium", color=GR, t=S0 + 1.0)]
         B = [dict(kind="print", text="차별화된 분석을 전하는 경제·투자 채널", x=X0, y=Y0, size=40, w="SemiBold", color=GD, t=S0),
              dict(kind="print", text=sl[0], x=X0, y=Y0 + 62, size=96, w="ExtraBold", color=IV, t=S0 + .25),
              dict(kind="print", text=sl[1], x=X0, y=Y0 + 184, size=96, w="ExtraBold", color=GD, t=S0 + .55),

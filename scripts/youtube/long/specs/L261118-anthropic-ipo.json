@@ -118,7 +118,10 @@
   "엔비디아 8-K 2026-11-12",
   "아시아경제 2026-11-16 (환율 1,335.7원)",
   "구글·앤트로픽 TPU 계약 발표 2025-10-23 (SiliconANGLE·The Register)",
-  "Maginative 2025-10 (아마존 트레이니엄·프로젝트 레이니어)"
+  "Maginative 2025-10 (아마존 트레이니엄·프로젝트 레이니어)",
+  "JP모건 앤트로픽 상장 로드쇼 (메리 어도스·제이미 다이먼·다리오 아모데이, 2026-11)",
+  "Bloomberg TV 2026-10-26 · 2026-11 (상장 서류·개인 투자자)",
+  "CNBC 2026-11 (S-1 위험 요인 · 다이먼 대담 보도)"
  ],
  "thumb": {
   "photo": "ph_anthropic_ceo.jpg",
@@ -166,6 +169,44 @@
   "note": "v3 원고 — 독립 검수 전"
  },
  "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261116p_bank_boardroom.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "\"역사상 가장 중대한 상장이 될 겁니다.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "JP모건 앤트로픽 상장 로드쇼 (2026-11)",
+   "dub": {
+    "clip": "ant_erdos_ipo.mp3",
+    "orig": 3.4,
+    "start": 0,
+    "voice": "f_middle_age",
+    "person": "메리 어도스"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "메리 어도스",
+     "sub": "JP모건 자산·자산관리 부문 CEO · 앤트로픽 상장 로드쇼 원음",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
   {
    "v": {
     "type": "media",
@@ -791,6 +832,44 @@
    "v": {
     "type": "media",
     "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "ant_bbg_circular.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "\"AMD와 브로드컴, 엔비디아까지 이 주식을 크게 사 주는 쪽이라는 겁니다. 돈이 돌고 도는 거래라는 지적이 점점 커지는 때에요.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Bloomberg TV 2026-10-26",
+   "dub": {
+    "clip": "ant_bbg_circular.mp4",
+    "orig": 2.6,
+    "start": 0,
+    "voice": "f_middle_age",
+    "person": "블룸버그 앵커"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "블룸버그 TV",
+     "sub": "앤트로픽 상장 서류 공개 당일 보도 · 블룸버그 원음",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
     "wash": "left",
     "cuts": [
      {
@@ -800,7 +879,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "이 고리에 한국도 들어 있습니다. 엔비디아와 구글 AI 칩 옆에 붙는 고성능 메모리의 상당 부분을 SK하이닉스와 삼성전자가 만듭니다."
+    "이 돈 흐름에 한국도 들어 있습니다. 엔비디아와 구글 AI 칩 옆에 붙는 고성능 메모리의 상당 부분을 SK하이닉스와 삼성전자가 만듭니다."
    ],
    "sketch_add": [],
    "en": [
@@ -871,7 +950,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "그런데 이상하지 않나요? 이 고리 한가운데 있는 두 회사는 원래 공개적으로 싸우던 사이였습니다."
+    "그런데 이상하지 않나요? 이 돈 흐름 한가운데 있는 두 회사는 원래 공개적으로 싸우던 사이였습니다."
    ],
    "sketch_add": [],
    "en": [
@@ -937,12 +1016,10 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "7개월 뒤 다보스에서 아모데이가 되받아칩니다.",
-    "\"미국 칩을 중국에 파는 건, 북한에 핵무기를 파는 것과 비슷합니다.\""
+    "7개월 뒤 다보스에서 아모데이가 되받아칩니다."
    ],
    "sketch_add": [],
    "en": [
-    "",
     ""
    ],
    "asof": false,
@@ -953,16 +1030,44 @@
      "text": "DAVOS · 2026.01",
      "line": 0,
      "at": 0.2
-    },
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "ant_amodei_davos_crazy.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "\"미친 짓이라고 생각합니다. 북한에 핵무기를 파는 것과 비슷하죠.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Bloomberg 2026-01-20 (다보스)",
+   "dub": {
+    "clip": "ant_amodei_davos_crazy.mp4",
+    "orig": 2.8,
+    "start": 0,
+    "voice": "middle_age",
+    "person": "다리오 아모데이"
+   },
+   "sketch": [
     {
-     "kind": "quote",
-     "rows": [
-      "미국 칩을 중국에 파는 건,",
-      "북한에 핵무기를 파는 것과 비슷합니다"
-     ],
-     "by": "다리오 아모데이 · 앤트로픽 최고경영자 · 2026년 1월 다보스",
-     "line": 1,
-     "at": 0.2
+     "kind": "lower",
+     "text": "다리오 아모데이",
+     "sub": "앤트로픽 CEO · 2026년 1월 다보스 · 블룸버그 원음",
+     "line": 0,
+     "at": 0.3
     }
    ]
   },
@@ -1378,6 +1483,46 @@
    "v": {
     "type": "media",
     "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "ant_cnbc_selfpreserve.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "\"모델이 예상치 못한 전략적 행동, 스스로를 지키려는 행동을 보였고 앞으로도 보일 수 있다고 적었습니다.\"",
+    "\"종료에 저항하거나 정보를 숨기고 조작하려는 시도까지요.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC (앤트로픽 S-1 위험 요인)",
+   "dub": {
+    "clip": "ant_cnbc_selfpreserve.mp4",
+    "orig": 2.6,
+    "start": 0,
+    "voice": "f_middle_age",
+    "person": "CNBC 기자"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "CNBC 보도",
+     "sub": "앤트로픽 상장 신고서 위험 요인 · CNBC 원음",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
     "wash": "left",
     "cuts": [
      {
@@ -1577,6 +1722,46 @@
    "v": {
     "type": "media",
     "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "ant_bbg_retail_meme.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "\"AI 투자는 개인 투자자의 현상, 밈 주식 같은 현상이었습니다.\"",
+    "\"앤트로픽도 똑똑하다면 그 흐름을 그대로 이용하려 할 겁니다.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    "",
+    ""
+   ],
+   "asof": false,
+   "src": "Bloomberg TV 2026-11",
+   "dub": {
+    "clip": "ant_bbg_retail_meme.mp4",
+    "orig": 2.8,
+    "start": 0,
+    "voice": "young_adult",
+    "person": "맥스 채프킨"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "맥스 채프킨",
+     "sub": "블룸버그 기자 · 블룸버그 원음",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
     "wash": "left",
     "cuts": [
      {
@@ -1605,6 +1790,67 @@
      "color": "red"
     }
    ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "ant_cnbc_lowside.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "\"아모데이는 다이먼에게 이렇게 말했습니다. 우리는 늘 적게 사는 편이고, 비교적 적은 컴퓨팅을 비교적 싸게 미리 사 둔다고요.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNBC 2026-11 (다이먼·아모데이 대담 보도)",
+   "dub": {
+    "clip": "ant_cnbc_lowside.mp4",
+    "orig": 2.8,
+    "start": 0,
+    "voice": "f_middle_age",
+    "person": "케이트 루니"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "케이트 루니",
+     "sub": "CNBC 기자 · 앤트로픽 상장 로드쇼 보도 · CNBC 원음",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_empty_desks.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "약속은 크게 잡아 두되, 실제 주문은 매출을 보며 나눠 낸다는 뜻이죠. 칩 회사 입장에선 1,200조 원이 한꺼번에 오는 게 아니라, 앤트로픽 매출에 맞춰 조금씩 들어온다는 얘기이기도 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
   },
   {
    "v": {
@@ -1792,29 +2038,6 @@
    "v": {
     "type": "media",
     "full": true,
-    "wash": "left",
-    "cuts": [
-     {
-      "lib": "il_L261118a_closing_bridge_dawn.png"
-     }
-    ],
-    "wash_amt": 0.85
-   },
-   "lines": [
-    "여러분은 어느 쪽이 먼저 흔들릴 거라고 보시나요? 댓글로 남겨 주세요. 밸류노트는 뉴스가 말하지 않는 기업과 경제의 이야기를 전합니다. 구독과 좋아요는 영상 제작에 큰 힘이 됩니다."
-   ],
-   "sketch_add": [],
-   "en": [
-    ""
-   ],
-   "asof": false,
-   "src": "",
-   "sketch": []
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
     "wash": "none",
     "cuts": [
      {
@@ -1834,6 +2057,29 @@
    "src": "",
    "sketch": [],
    "dim": 0.0
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261118a_closing_bridge_dawn.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여러분은 어느 쪽이 먼저 흔들릴 거라고 보시나요? 댓글로 남겨 주세요. 밸류노트는 뉴스가 말하지 않는 기업과 경제의 이야기를 전합니다. 구독과 좋아요는 영상 제작에 큰 힘이 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
   },
   {
    "v": {
