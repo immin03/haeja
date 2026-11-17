@@ -227,8 +227,9 @@ def draw_band(E, img, lines, top=0):
 # ── 제목 띠 v4 (2026-11-01 16:11 대표님 결정: A 기준 + B의 왼쪽 정렬·골드 알약 태그, 글자 조금 더 크게, 제목 최대 2줄, 로고 영문만 크게) ──
 # 대본: "banner_band": true, "banner_style": "tag", "banner_tag": "치킨 한 마리 팔면", "banner": ["사장님 손엔 3,037원", "배달앱 몫은 6,710원?"]
 # 네이비 단색 띠 · 크림 글자 · 숫자만 골드 · 외곽선 없이 옅은 그림자 · 왼쪽 정렬(x 60) · 오른쪽 위 영문 ValueNote 로고. 제목 본문은 최대 2줄(넘으면 렌더 오류).
-CREAM = (246, 236, 214); GOLDN = (232, 200, 132); TAGC = (214, 172, 84)
+CREAM = (246, 236, 214); GOLDN = (232, 200, 132); TAGC = (214, 172, 84); TAGTXT = (11, 27, 51)
 BAND_MAX_LINES = 2
+ENDLOW = (6, 14, 30)
 
 
 def _num_runs(E, s_):
@@ -279,7 +280,7 @@ def draw_tag_band(E, img, tag, lines):
     if tag:
         tf = E.F("Bold", 54); tw = d.textlength(tag, font=tf); ty = TOP_PAD + 46
         d.rounded_rectangle([X0, ty, X0 + tw + 52, ty + 78], 39, fill=TAGC)
-        d.text((X0 + 26, ty + 39), tag, font=tf, fill=NAVYB, anchor="lm"); y = TOP_PAD + 150
+        d.text((X0 + 26, ty + 39), tag, font=tf, fill=TAGTXT, anchor="lm"); y = TOP_PAD + 150
     f = tag_fonts(E, lines)
     for i, s_ in enumerate(lines):
         _shadow_runs(img, X0, y + f.size * .59 + i * f.size * 1.18, _num_runs(E, s_), f)
@@ -297,6 +298,7 @@ def logo_bottom(img, y=None, size=46, a=.75):
     y = LOGO_Y if y is None else y
     from brand import EN_FONT
     f = ImageFont.truetype(EN_FONT, size)
+    if LOOK[0] == "bw": return _logo_bw(img, y, size, a)
     lay = Image.new("RGBA", img.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
     ld.text((W / 2 + 2, y + 3), "ValueNote", font=f, fill=(0, 0, 0, int(110 * a)), anchor="mm")
     lay = lay.filter(ImageFilter.GaussianBlur(3)); ImageDraw.Draw(lay).text((W / 2, y), "ValueNote", font=f, fill=(255, 255, 255, int(255 * a)), anchor="mm")
@@ -306,19 +308,25 @@ def logo_bottom(img, y=None, size=46, a=.75):
 def ending_card(E, s, u, kind):
     """엔딩 카드: 영문 ValueNote 로고 크게 + 슬로건 "매일 조금 더 / 현명한 투자 습관" + 유튜브 「+ 구독하기」/ 인스타 「+ 팔로우하기」"""
     from brand import paste_logo
-    yy = np.linspace(0, 1, H)[:, None]; a = np.array(NAVYB) * (1 - yy) + np.array((6, 14, 30)) * yy
+    yy = np.linspace(0, 1, H)[:, None]; a = np.array(NAVYB) * (1 - yy) + np.array(ENDLOW) * yy
     im = Image.fromarray(np.repeat(a[:, None, :], W, 1).astype(np.uint8))
     f = s["sc"]["full"]
     if f.get("img"):
         src = _img(f["img"]).resize((W, int(W * _img(f["img"]).height / _img(f["img"]).width)))
         src = Image.blend(src, Image.new("RGB", src.size, NAVYB), .82); im.paste(src, (0, H - src.height))
     p = E.prog(u, .05, .45)
-    paste_logo(im, W / 2, 660, 120, "dark", align="center", ko=False)
-    d = ImageDraw.Draw(im); d.line([(W / 2 - 70, 860), (W / 2 + 70, 860)], fill=TAGC, width=4)
-    fs = E.F("ExtraBold", 70)
-    for i, l in enumerate(f.get("slogan", ["매일 조금 더", "현명한 투자 습관"])): d.text((W / 2, 960 + i * 98), l, font=fs, fill=(246, 241, 232) if i == 0 else GOLDN, anchor="mm")
+    if LOOK[0] == "bw":   # 2026-11-17: VALUE 굵게 + NOTE 얇게, 핑크 굵은 둥근 밑줄, 새 슬로건
+        _logo_bw(im, 700, 118, 1.0 * p)
+        d = ImageDraw.Draw(im); d.rounded_rectangle([W / 2 - 80, 810, W / 2 + 80, 826], 8, fill=PINK)
+        sl = f.get("slogan", ["뉴스가 말하지 않는", "기업과 경제의 이야기", "당신의 투자가 현명해집니다"])
+        for i, l in enumerate(sl): d.text((W / 2, 930 + i * 84), l, font=E.F("Heavy" if i == len(sl) - 1 else "SemiBold", 66 if i == len(sl) - 1 else 56), fill=(255, 255, 255) if i == len(sl) - 1 else (215, 215, 215), anchor="mm")
+    else:
+        paste_logo(im, W / 2, 660, 120, "dark", align="center", ko=False)
+        d = ImageDraw.Draw(im); d.line([(W / 2 - 70, 860), (W / 2 + 70, 860)], fill=TAGC, width=4)
+        fs = E.F("ExtraBold", 70)
+        for i, l in enumerate(f.get("slogan", ["매일 조금 더", "현명한 투자 습관"])): d.text((W / 2, 960 + i * 98), l, font=fs, fill=(246, 241, 232) if i == 0 else GOLDN, anchor="mm")
     btn = "+ 구독하기" if kind == "yt" else "+ 팔로우하기"; fb = E.F("Heavy", 62); bw = d.textlength(btn, font=fb) + 130
-    q = E.prog(u, .4, .8); by = 1230 + (1 - q) * 20
+    q = E.prog(u, .4, .8); by = (1240 if LOOK[0] == "bw" else 1230) + (1 - q) * 20
     if q > 0:
         d.rounded_rectangle([W / 2 - bw / 2, by, W / 2 + bw / 2, by + 124], 62, fill=(196, 52, 60) if kind == "yt" else TAGC)
         d.text((W / 2, by + 62), btn, font=fb, fill=(255, 255, 255) if kind == "yt" else NAVYB, anchor="mm")
@@ -337,6 +345,8 @@ def ending_card(E, s, u, kind):
 # 대본: full 의 "label"(작은 제목) · "num"(큰 숫자) · "tone" 그대로 + 선택 "pct": [{"label","v"}] · "bars": [{"label","v","text","color"}]
 DGOLD = (226, 192, 120); DWHITE = (246, 243, 236); DGRAY = (170, 178, 192); DRED = (236, 92, 100); DGREEN = (84, 214, 150)
 DTONE = {"loss": DRED, "good": DGREEN, "gold": DGOLD, "ink": DWHITE}
+DOCTINT = (8, 14, 26)
+LOOK = [None]
 _DG = {}
 
 
@@ -387,7 +397,7 @@ def doc_overlay(E, img, s, u):
     if g > 0:   # 위쪽을 남색으로 (글씨 자리) + 전체를 살짝 어둡게 — 다큐 색
         a = np.asarray(img, np.float32); m = _dgrad(top + 120, 760) * .82 * g
         if str(f.get("video", "")).startswith("globe_"): m = _dgrad(top + 60, 300) * .82 * g   # 지구본은 이미 어두워 지명이 가려지지 않게 위쪽만 살짝 (11/13)
-        a = a * (1 - .14 * g); a = a * (1 - m) + np.array([8, 14, 26], np.float32) * m
+        a = a * (1 - .14 * g); a = a * (1 - m) + np.array(DOCTINT, np.float32) * m
         img = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
     X = X0; y = top + 70
     if lab:
@@ -450,3 +460,31 @@ def _dbars(E, img, it, p, y):
         _dtext(img, (bx, base + 18), i["label"], E.F("SemiBold", 40), (*DGRAY, 255))
         d = ImageDraw.Draw(img)
     return img
+
+
+# ── 흑백 룩 (2026-11-17 대표님: 네이비·금색 → 시크한 흑백, 포인트는 핑크 하나, 핑크는 굵은 둥근 '밑줄' 모양) ──
+_FONTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+PINK = (255, 77, 109)
+
+
+def _logo_bw(img, y, size=46, a=.8):
+    fb = ImageFont.truetype(os.path.join(_FONTS, "Montserrat-ExtraBold.ttf"), size)
+    fl = ImageFont.truetype(os.path.join(_FONTS, "Montserrat-Light.ttf"), size)
+    d0 = ImageDraw.Draw(img); w1 = d0.textlength("VALUE", font=fb); w2 = d0.textlength("NOTE", font=fl); x = W / 2 - (w1 + 4 + w2) / 2
+    lay = Image.new("RGBA", img.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+    for xx, s_, f in ((x, "VALUE", fb), (x + w1 + 4, "NOTE", fl)): ld.text((xx + 2, y + 3), s_, font=f, fill=(0, 0, 0, int(110 * a)), anchor="lm")
+    lay = lay.filter(ImageFilter.GaussianBlur(3)); ld = ImageDraw.Draw(lay)
+    for xx, s_, f in ((x, "VALUE", fb), (x + w1 + 4, "NOTE", fl)): ld.text((xx, y), s_, font=f, fill=(255, 255, 255, int(255 * a)), anchor="lm")
+    img.paste(lay, (0, 0), lay)
+
+
+def apply_look(look):
+    """대본 "look": "bw" 이면 띠·다큐 표시·엔딩의 네이비·금색을 흑백 + 핑크로 바꾼다 (렌더마다 호출, 기본값은 옛 색)"""
+    g = globals(); LOOK[0] = look
+    if look == "bw":
+        g.update(NAVYB=(12, 12, 12), CREAM=(255, 255, 255), GOLDN=(255, 255, 255), TAGC=PINK, TAGTXT=(255, 255, 255),
+                 DGOLD=(235, 235, 235), DGRAY=(190, 190, 190), DOCTINT=(6, 6, 6), ENDLOW=(0, 0, 0))
+    else:
+        g.update(NAVYB=(11, 27, 51), CREAM=(246, 236, 214), GOLDN=(232, 200, 132), TAGC=(214, 172, 84), TAGTXT=(11, 27, 51),
+                 DGOLD=(226, 192, 120), DGRAY=(170, 178, 192), DOCTINT=(8, 14, 26), ENDLOW=(6, 14, 30))
+    g["DTONE"] = {"loss": DRED, "good": DGREEN, "gold": g["DGOLD"], "ink": DWHITE}

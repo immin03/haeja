@@ -1613,8 +1613,8 @@ def render_cover(spec, outdir):
     Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec); SPEC = spec; DOC = spec.get("overlay", "doc" if cap_one_for({"id": spec.get("id", "")}) else "paper") == "doc"
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
+    import fullworld; fullworld.apply_look(spec.get("look"))   # 2026-11-17 대표님: "look":"bw" → 흑백 + 핑크 밑줄
     if BANNER_BAND:
-        import fullworld
         if BANNER_TAG is not None:
             if len(YT_BANNER) > fullworld.BAND_MAX_LINES: raise RuntimeError(f"{spec['id']}: 제목 띠 본문은 최대 {fullworld.BAND_MAX_LINES}줄입니다(태그 별도, 2026-11-01 대표님) — {YT_BANNER}")
             BAND_H = fullworld.tag_band_height(sys.modules[__name__], BANNER_TAG, YT_BANNER)
@@ -1784,8 +1784,8 @@ def render(spec, outdir, stills=None):
     Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec); SPEC = spec; DOC = spec.get("overlay", "doc" if cap_one_for({"id": spec.get("id", "")}) else "paper") == "doc"
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
+    import fullworld; fullworld.apply_look(spec.get("look"))   # 2026-11-17 대표님: "look":"bw" → 흑백 + 핑크 밑줄
     if BANNER_BAND:
-        import fullworld
         if BANNER_TAG is not None:
             if len(YT_BANNER) > fullworld.BAND_MAX_LINES: raise RuntimeError(f"{spec['id']}: 제목 띠 본문은 최대 {fullworld.BAND_MAX_LINES}줄입니다(태그 별도, 2026-11-01 대표님) — {YT_BANNER}")
             BAND_H = fullworld.tag_band_height(sys.modules[__name__], BANNER_TAG, YT_BANNER)
