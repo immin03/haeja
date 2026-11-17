@@ -1,5 +1,5 @@
 {
- "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용",
+ "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가",
  "clips": [
   {
    "name": "bbg_ant_oversub",
@@ -78,6 +78,22 @@
    "name": "au_amodei_dimon_roadshow",
    "url": "https://www.youtube.com/watch?v=mNIYbP3LRpM",
    "mode": "audio"
+  },
+  {
+   "name": "fox_vance_alicehuang",
+   "url": "https://www.youtube.com/shorts/IOMt0uY5Wxs",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "note": "원본: 폭스뉴스 '잉그러햄 앵글' 11/16(미국) 밴스 부통령 인터뷰 — 앨리스 황 스파이 여부"
+  },
+  {
+   "name": "ndtv_vance_alicehuang",
+   "url": "https://www.youtube.com/watch?v=QC1a1d8Qpds",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "note": "같은 발언 NDTV 재방송본(예비)"
   }
  ]
 }
