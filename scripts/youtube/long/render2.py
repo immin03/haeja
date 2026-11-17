@@ -1637,7 +1637,7 @@ def clean_voice(l, speak):
     캐시를 버리고 다시 받는다. 세 번까지 받아 가장 정상인 것을 쓴다."""
     say = to_speech(l); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
     for k in range(3):
-        a = R.pace(speak(say, 1.05, fresh=k > 0)); rate = syl / max(.1, len(a) / SR)
+        a = R.pace(speak(say, 1.07, fresh=k > 0)); rate = syl / max(.1, len(a) / SR)   # 2026-11-17 22:56 대표: 1.05는 살짝 느림 → 1.07 (원래 1.1)
         bad_rate = syl >= 10 and not (5.5 <= rate <= 8.3)
         try:
             import verify; sc = verify.score(l, verify.hear(a, SR))
@@ -2168,7 +2168,8 @@ def preflight(spec):
                 except Exception: pr = ""
                 if _anim.search(pr): errs.append(f"장면 {i}: 애니메이션풍 그림 {n} — 실사로 새로 만들거나 꼭 필요하면 allow_anim")
         sys.path.insert(0, os.path.join(ROOT, "scripts")); import script_words   # 2026-11-12 대표: 원고 어색한 말·소수점 금액 검수
-        errs += script_words.check_lines([(i, l) for i, sc in enumerate(spec.get("scenes", [])) for l in sc.get("lines", [])])
+        errs += script_words.check_lines([(i, l) for i, sc in enumerate(spec.get("scenes", [])) for l in sc.get("lines", [])]
+                                         + [(i, str(b.get(k_, ""))) for i, sc in enumerate(spec.get("scenes", [])) for b in sc.get("sketch", []) or [] for k_ in ("title", "text", "sub") if b.get(k_)])   # 2026-11-17 대표: 화면 표 제목('1,200조 원이 지나가는 길')도 검수
         _ban = ["몫", "디레이팅", "리레이팅", "멀티플", "펀더멘털"]
         _tt = [("제목", spec.get("title", ""))] + [(f"썸네일 {a.get('key')}안 제목", a.get("title", "")) for a in spec.get("ab_sets", []) or []]
         for nm, tx in _tt:
