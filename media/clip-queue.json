@@ -1,5 +1,5 @@
 {
- "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가",
+ "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송)",
  "clips": [
   {
    "name": "bbg_ant_oversub",
@@ -94,6 +94,15 @@
    "dur": 120,
    "mode": "video",
    "note": "같은 발언 NDTV 재방송본(예비)"
+  },
+  {
+   "name": "musk_conflicted_q3",
+   "url": "https://www.youtube.com/watch?v=vc4Gso1GCkg",
+   "start": 3240,
+   "dur": 480,
+   "mode": "video",
+   "for": "L261119-tesla-spacex2",
+   "want": "Because I'm a conflicted party, I can't actually be in the discussions of the special committees (Q&A, Deutsche Bank Edison Yu 질문 답변, 대략 55:00~1:02:00)"
   }
  ]
 }
