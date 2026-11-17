@@ -13,7 +13,9 @@ posts.json = ed_posts 에서 뽑은 [{id, kind, title, at, dur, from, fmt, value
 import collections, difflib, glob, json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = {c["id"] for c in json.load(open(os.path.join(HERE, "LIBRARY.json"), encoding="utf-8"))["items"]}
+_CAT = {c["id"]: c for c in json.load(open(os.path.join(HERE, "LIBRARY.json"), encoding="utf-8"))["items"]}
+LIB = set(_CAT)
+ULOG = os.path.join(HERE, "library_usage.jsonl")
 
 # 기준 (11/15)
 SAME_CH_MAX = 0.40      # 같은 채널 최근 14편 중 어느 편과도 장면 겹침 40% 이하
@@ -22,6 +24,10 @@ OPEN_DAYS_EPS = 9       # 첫 장면은 같은 채널 최근 9편(약 3일)의 �
 TITLE_SIM_MAX = 0.80    # 같은 채널 제목과 글자 유사도 80% 미만
 PER_DAY_MAX = 3         # 채널당 하루 쇼츠 3편 상한 (대표 11/15 권장안 1)
 LEN_MIN_SPREAD = 8      # 최근 6편 길이의 최대-최소가 8초 이상 (전부 같은 길이 금지)
+REUSE_DAYS = 7          # 2026-11-17 대표 "같은 장면 반복이 심하다": 같은 채널 최근 7일(예약분 포함)에 쓴 장면은
+REUSE_MAX = 0.30        #   한 편의 30% 이하만 다시 쓴다. Higgsfield 체험분이 라이브러리에 들어오면(로마 800개 이상) 0.10으로 낮춘다
+NIGHT_MAX = 0.50        # '밤 책상·촛불·일기' + '막사' 장면이 한 편의 50% 이하 (11/10~17 한국 쇼츠 33~67% — 다 어두운 밤이라 같은 영상처럼 보임)
+NIGHT_RX = re.compile(r"candle|oil lamp|lamp|desk|diary|writing|quill|wax tablet|scroll|tent|camp", re.I)
 VALUE_EVERY = 3         # '사람이 더한 가치' 편은 3편에 1번 이상 (대표 11/15: 테스트로 몇 편에 한 번씩)
 
 
@@ -107,10 +113,22 @@ def check_one(me, fx, posts, src=None):
                 break
     # 5) 하루 편수
     if me in post and post[me].get("at"):
-        day = kst_day(post[me]["at"])
-        n = sum(1 for p in posts if chan(p["id"], p.get("kind")) == ch and p.get("at") and kst_day(p["at"]) == day and not p.get("paused"))
+        day = ch_day(post[me]["at"], ch)
+        n = sum(1 for p in posts if chan(p["id"], p.get("kind")) == ch and p.get("at") and ch_day(p["at"], ch) == day and not p.get("paused"))
         if n > PER_DAY_MAX:
             fails.append(f"{day} {ch} 쇼츠 {n}편 (상한 {PER_DAY_MAX})")
+    # 5-1) 7일 안 재사용 (11/17)
+    at = (post.get(me) or {}).get("at")
+    used = recent_used(ch, me, at)
+    if mine and used:
+        same = sorted(set(mine) & used)
+        r = len(same) / max(1, len(set(mine)))
+        if r > REUSE_MAX:
+            fails.append(f"같은 채널 최근 {REUSE_DAYS}일에 쓴 장면이 {r:.0%} (상한 {REUSE_MAX:.0%}): {', '.join(same[:8])} — library.py find 로 안 쓴 장면을 고른다")
+    # 5-2) 밤 장면 쏠림 (11/17)
+    night = [t for t in set(mine) if NIGHT_RX.search(((_CAT.get(t) or {}).get("scene") or "") + " " + ((_CAT.get(t) or {}).get("scene_ko") or ""))]
+    if len(set(mine)) >= 4 and len(night) / len(set(mine)) > NIGHT_MAX:
+        fails.append(f"밤 책상·촛불·막사 장면이 {len(night)}/{len(set(mine))} (상한 {NIGHT_MAX:.0%}) — 낮의 로마(거리·원로원·전장·자연·가족)로 바꾼다")
     # 6) 길이 다양성 (경고)
     lens = [post[k]["dur"] for k in recent[-5:] if k in post and post[k].get("dur")] + ([post[me]["dur"]] if me in post and post[me].get("dur") else [])
     if len(lens) >= 6 and max(lens) - min(lens) < LEN_MIN_SPREAD:
@@ -120,6 +138,36 @@ def check_one(me, fx, posts, src=None):
     if len(vals) >= VALUE_EVERY and not any(vals):
         warns.append(f"최근 {VALUE_EVERY}편에 '사람이 더한 가치' 편이 없음 — 이 편을 가치 편으로 (TEMPLATE.md '★ 양산형 방지' 3)")
     return fails, warns
+
+
+def recent_used(ch, me, at):
+    """같은 채널이 이 편 공개 시각 전 REUSE_DAYS 일 동안(그리고 아직 공개 전인 예약분) 쓴 장면 id"""
+    import datetime
+    if not os.path.exists(ULOG):
+        return set()
+    base = (datetime.datetime.fromisoformat(str(at).replace("Z", "+00:00")).astimezone(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d %H:%M")
+            if at else datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d %H:%M"))
+    lo = (datetime.datetime.strptime(base, "%Y-%m-%d %H:%M") - datetime.timedelta(days=REUSE_DAYS)).strftime("%Y-%m-%d %H:%M")
+    hi = (datetime.datetime.strptime(base, "%Y-%m-%d %H:%M") + datetime.timedelta(days=REUSE_DAYS)).strftime("%Y-%m-%d %H:%M")
+    out = set()
+    for l in open(ULOG, encoding="utf-8"):
+        try: r = json.loads(l)
+        except Exception: continue
+        if r.get("ep") == me or chan(r.get("ep", "")) != ch or not (lo <= r.get("at", "") <= hi):
+            continue
+        out |= set(r.get("ids", []))
+    return out
+
+
+def ch_day(at, ch):
+    """하루 편수 셈의 '하루' — 한국 채널은 한국 날짜, 영어 채널은 미국 동부 날짜(21:47·01:47·05:47·08:47 KST 가 같은 날).
+    11/17: 영어를 한국 날짜로 세서 11/17(동부) 4편이 통과한 일 → 고침"""
+    if ch != "EN":
+        return kst_day(at)
+    import datetime
+    from zoneinfo import ZoneInfo
+    d = datetime.datetime.fromisoformat(str(at).replace("Z", "+00:00"))
+    return d.astimezone(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
 
 
 def kst_day(at):

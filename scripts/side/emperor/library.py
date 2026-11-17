@@ -27,7 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.pat
 GEN = "social/side/gen"
 CAT = os.path.join(HERE, "LIBRARY.json")
 LEDGER = os.path.join(ROOT, "social/side/gen_costs.jsonl")
-ULOG = os.path.join(HERE, "library_usage.jsonl")   # 편마다 한 줄 {"at": 공개 날짜, "ep": 편, "ids": [...]} — check --record 가 쓴다. 최근 5편 판단 기준
+ULOG = os.path.join(HERE, "library_usage.jsonl")   # 편마다 한 줄 {"at": 공개 날짜, "ep": 편, "ids": [...]} — check --record 가 쓴다. 최근 7일 판단 기준
 JOBS = sorted(glob.glob(os.path.join(ROOT, "scripts/side/gen/ED*.json")))
 USAGE = ["scripts/side/emperor/fx_*.json", "scripts/side/emperor/long_*.json", "scripts/side/ed_long/spec_*.json",
          "scripts/side/ed_long/en/spec_*.json", "scripts/side/ed_long/shorts/*.json"]
@@ -132,6 +132,16 @@ def _usage(ids):
     return use, when
 
 
+RECENT_DAYS = 7   # 2026-11-17 대표 "같은 장면 반복이 심하다" → '최근' = 최근 5편이 아니라 최근 7일(양 채널, 예약분 포함)
+
+
+def _recent(order, when):
+    import datetime
+    cut = (datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))) - datetime.timedelta(days=RECENT_DAYS)).strftime("%Y-%m-%d %H:%M")
+    r = [e for e in order if when.get(e) and when[e] >= cut]
+    return r if len(r) >= 5 else order[-5:]
+
+
 def build(quiet=False):
     J = _jobs(); files = _gen_files()
     stem = {}
@@ -170,7 +180,7 @@ def build(quiet=False):
                     "ok": i not in banned and bool(scene or k), "made": j.get("_day", ""), "job": j.get("_job", ""),
                     "used": u, "n_used": len(u), "usd": rec.get("est_usd") or _price(j)})
     meta = {"_about": "황제의 일기 공용 그림·영상 라이브러리. library.py build 로 다시 만든다(손으로 고치지 않는다).",
-            "_recent_eps": order[-5:], "_built": subprocess.run(["date", "+%F %T %Z"], capture_output=True, text=True).stdout.strip(),
+            "_recent_eps": _recent(order, when), "_built": subprocess.run(["date", "+%F %T %Z"], capture_output=True, text=True).stdout.strip(),
             "items": cat}
     json.dump(meta, open(CAT, "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     if not quiet:
@@ -214,14 +224,14 @@ def find(q, vert=None, kind=None, era=None, n=10, exclude=(), show=True):
     res.sort(key=lambda x: -x[0])
     if show:
         for s, rec, c in res[:n]:
-            tag = "(최근 5편)" if rec else ""
+            tag = "(최근 7일)" if rec else ""
             print(f"{s:5.1f} {c['id']:24s} {c['kind'][:3]} {c['ar']:5s} {c['era']:11s} 사용{c['n_used']:2d} {tag:9s} {(c['scene_ko'] or c['scene'])[:80]}")
         if not res: print("맞는 것 없음 → 이 장면만 새로 생성 (생성 상한: TEMPLATE.md ★ 생성 상한)")
     return [c for _, _, c in res[:n]]
 
 
 def check(path, record=False, ep=None, at=None):
-    """한 편 설정 파일 점검: 한 편 안에서 같은 그림·영상 두 번 금지, 최근 5편 사용 경고"""
+    """한 편 설정 파일 점검: 한 편 안에서 같은 그림·영상 두 번 금지, 최근 7일 사용 경고"""
     m = _load(); ids = {c["id"]: c for c in m["items"]}; recent = set(m.get("_recent_eps", []))
     s = open(path, encoding="utf-8").read()
     toks = [t for t in re.findall(r"[A-Za-z][A-Za-z0-9_]{2,}", s) if t in ids]
@@ -237,7 +247,7 @@ def check(path, record=False, ep=None, at=None):
     print(f"{path}: 그림·영상 {len(cnt)}개")
     if dup: print("  ✗ 한 편 안 중복:", ", ".join(f"{t}×{n}" for t, n in dup.items()))
     if bad: print("  ✗ 쓰지 않는 것:", ", ".join(bad))
-    if rec: print("  ! 최근 5편에 쓴 것(바꿀 수 있으면 바꾸기):", ", ".join(rec))
+    if rec: print("  ! 최근 7일에 쓴 것(바꿀 수 있으면 바꾸기):", ", ".join(rec))
     if not (dup or bad or rec): print("  통과")
     if record and not (dup or bad):
         import datetime
