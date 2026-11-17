@@ -9,9 +9,10 @@ const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SE
 const KEY_HASH = "bca8dc4d95be579003c6d0f098fb38b98b39be21334cb4418afc277800f0aea1";
 const BANNER = "https://raw.githubusercontent.com/immin03/haeja/main/brand/youtube-banner-2048x1152.png";
 const DESCRIPTION = [
-  "현명한 투자를 위한 경제·투자 채널, 밸류노트입니다.",
+  "뉴스가 말하지 않는 기업과 경제의 이야기,",
+  "당신의 투자가 현명해집니다. 밸류노트입니다.",
   "",
-  "기업의 숫자부터 그 숫자를 만든 이야기까지 한 장의 노트로 정리합니다. 실적과 재무로 보는 기업 분석, 지금 가격이 싼지 비싼지 따져 보는 주가 전망, 그리고 브랜드가 성공한 이유와 창업부터 지금까지의 기업 역사를 다룹니다.",
+  "헤드라인 뒤에 숨은 숫자와 이유를 짚습니다. 실적과 재무로 보는 기업 분석, 지금 가격이 싼지 비싼지 따져 보는 주가 전망, AI·반도체·금리처럼 시장 전체를 움직이는 경제의 흐름까지 다룹니다.",
   "",
   "투자 권유가 아니라, 판단에 필요한 숫자와 맥락을 드립니다.",
   "",
