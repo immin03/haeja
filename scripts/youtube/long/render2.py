@@ -1425,7 +1425,7 @@ def sub_v2(img, text, u_in, dur, left=False):
     """v2 자막: 띠 없이 그림자만. 인물이 말하는 장면(더빙)은 이름표 아래 왼쪽 정렬"""
     import vn2
     if not text: return
-    d = AD(img); f = vn2.SUIT("Bold", 48); pages = sub_pages(d, text, f, maxw=1500 if not left else 1450)
+    d = AD(img); f = vn2.SUIT("Bold", 55); pages = sub_pages(d, text, f, maxw=1500 if not left else 1450)
     tot = sum(len(p) for p in pages); acc = 0; pi = 0; start = 0.0
     for pi, pg in enumerate(pages):
         if u_in < dur * (acc + len(pg)) / tot or pi == len(pages) - 1: start = dur * acc / tot; break
@@ -1611,7 +1611,7 @@ def dub_voice(l, who, person=None):
         _DUB_PERSON[key] = vid; print(f"  더빙 목소리: {key} → {vid}", flush=True)
     vid = _DUB_PERSON[key]; DUB_LOG.append([key, vid, l[:30]])
     old = T_.TC_VOICE; T_.TC_VOICE = vid
-    try: return R.pace(T_.speak(to_speech(l), 1.1)) * .92
+    try: return R.pace(T_.speak(to_speech(l), 1.05)) * .92
     finally: T_.TC_VOICE = old
 
 
@@ -1637,7 +1637,7 @@ def clean_voice(l, speak):
     캐시를 버리고 다시 받는다. 세 번까지 받아 가장 정상인 것을 쓴다."""
     say = to_speech(l); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
     for k in range(3):
-        a = R.pace(speak(say, 1.1, fresh=k > 0)); rate = syl / max(.1, len(a) / SR)
+        a = R.pace(speak(say, 1.05, fresh=k > 0)); rate = syl / max(.1, len(a) / SR)
         bad_rate = syl >= 10 and not (5.5 <= rate <= 8.3)
         try:
             import verify; sc = verify.score(l, verify.hear(a, SR))

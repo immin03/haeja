@@ -101,8 +101,8 @@ def intro_source(bg_get, n_frames, fps=30):
         z = 1 + .05 * t / dur; cw, ch = int(W / z), int(H / z)
         fr = fr.crop(((W - cw) // 2, (H - ch) // 2, (W - cw) // 2 + cw, (H - ch) // 2 + ch)).resize((W, H), Image.BILINEAR)
         q = eio((t - .6 * k) / (1.2 * k)); sm = fr.resize((W // 4, H // 4), Image.BILINEAR).filter(ImageFilter.GaussianBlur(.5 + 1.0 * q)).resize((W, H), Image.BILINEAR)
-        fr = Image.blend(fr, sm, .35 + .65 * q)
-        arr = np.asarray(fr, np.float32) * (.62 - .3 * q)
+        fr = Image.blend(fr, sm, .15 + .35 * q)   # 2026-11-17 대표님: 인트로 배경을 덜 흐리게
+        arr = np.asarray(fr, np.float32) * (.66 - .26 * q)
         L = text_layer(t); La = np.asarray(L, np.float32) / 255
         if La.max() > 0:
             glow = np.asarray(L.resize((W // 4, H // 4), Image.BILINEAR).filter(ImageFilter.GaussianBlur(4)).resize((W, H), Image.BILINEAR), np.float32) / 255 * .45
@@ -125,7 +125,7 @@ def intro_sfx_times(dur):
 
 
 # ── 자막 (그림자만) ─────────────────────────────────────
-def subtitle_line(im, text, a, x0=None, y=None, size=48):
+def subtitle_line(im, text, a, x0=None, y=None, size=55):
     if not text or a <= 0: return
     f = SUIT("Bold", size); d0 = ImageDraw.Draw(Image.new("L", (1, 1))); tw = d0.textlength(text, font=f)
     pad = 30; lay = Image.new("RGBA", (int(tw) + pad * 2, size + pad * 2), (0, 0, 0, 0))
