@@ -12,7 +12,7 @@ bad=[]
 if not t: bad.append("제목 없음")
 if "#" in t: bad.append("제목에 해시태그")
 # 2026-11-08: 꼬리는 ` | 명상록` 하나만 허용 (TEMPLATE 제목 규칙, 11/7 대표) — 예전 검사가 모든 | 를 막아 규칙과 충돌했다
-body=t[:-len(" | 명상록")] if t.endswith(" | 명상록") else t
+body=t[:-len(" | 명상록 (현대판)")] if t.endswith(" | 명상록 (현대판)") else t[:-len(" | 명상록")] if t.endswith(" | 명상록") else t   # 2026-11-18: 현대판 꼬리(TEMPLATE ★ 두 명상록 구분)도 허용
 if "|" in body: bad.append("제목에 다른 꼬리(|)")
 if len(t)>40: bad.append(f"{len(t)}자(40자 초과)")
 if bad: print("제목 규칙 위반:", t, "·", ", ".join(bad)); sys.exit(1)
