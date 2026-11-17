@@ -1388,14 +1388,58 @@ def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
     if foot: d.text((60, H - 46), foot, font=F("Medium", 22), fill=A(t["muted"], 1))
 
 
+# 2026-11-17 23:03 대표: "~계산하실 수 있을 / 겁니다."처럼 꽉 채워 끊고 꼬리만 남기면 어색하다 → 모든 롱폼 자막은
+# 말이 끝나는 자리(~지, ~고, ~면, ~서, 쉼표…)에서, 줄 길이가 비슷하게 끊는다. "수 / 있을 / 겁니다"처럼 뒤에 붙어야 하는 말 앞에선 끊지 않는다.
+_SUB_OK = re.compile(r"([,.?!]|지|고|며|면|서|데|니까|지만|도록|려면|듯|요|죠|다)[\"'”’)]*$")   # 말이 끝나는 자리 (가장 좋음)
+_SUB_PT = re.compile(r"(는|은|을|를|이|가|에|에서|으로|로|도|만)[\"'”’)]*$")   # 조사 뒤 (그다음)
+_SUB_GLUE = re.compile(r"^(못|않|말고|마세요|수|것|겁니다|거|건|게|때|뿐|만큼|중|등|및|더|되|있|없|하|해|합니다|했습니다|입니다|이다|있습니다|없습니다|됩니다|봅니다)")
+_SUB_DET = {"이", "그", "저", "이런", "그런", "저런", "내", "제", "약", "총", "단", "각", "몇", "두", "세", "네", "한", "첫", "새", "모든", "어느", "무슨", "같은", "바로", "더", "가장"}
+
+
+def _balanced(d, p, f, maxw):
+    """한 마디(쉼표·마침표 사이)를 줄 수가 같으면서 길이가 고른 줄들로 나눈다"""
+    ws = p.split()
+    if len(ws) < 2 or d.textlength(p, font=f) <= maxw: return [p]
+    n = max(2, len(wrap(d, p, f, maxw)))
+    tl = lambda a, b: d.textlength(" ".join(ws[a:b]), font=f)
+    target = d.textlength(p, font=f) / n
+    from functools import lru_cache
+
+    @lru_cache(None)
+    def best(i, k):   # ws[i:] 를 k 줄로
+        if k == 1:
+            w = tl(i, len(ws)); return (0 if w <= maxw else 1e12) + (w - target) ** 2 / 5e3 + (400 if w < maxw * .3 else 0), (len(ws),)   # 짧은 꼬리 줄은 크게 감점
+        r = (1e18, ())
+        for j in range(i + 1, len(ws) - k + 2):
+            w = tl(i, j)
+            if w > maxw: break
+            c = (w - target) ** 2 / 5e3
+            if re.search(r"[,.?!][\"'”’)]*$", ws[j - 1]): pass        # 쉼표 뒤가 가장 좋은 자리
+            elif _SUB_OK.search(ws[j - 1]): c += 60                # ~지·~고·~면 등 말이 끝나는 자리
+            else: c += 250 if _SUB_PT.search(ws[j - 1]) else 600   # 조사 뒤는 차선, 그 외는 말이 덜 끝난 자리
+            if _SUB_GLUE.match(ws[j]): c += 900                  # '수 / 있을 / 겁니다' 같은 꼬리 앞
+            if ws[j - 1] in _SUB_DET: c += 900                    # '이 / 회사'처럼 꾸미는 말 뒤
+            if j - i < 2: c += 300                               # 한 단어짜리 줄
+            sc, br = best(j, k - 1)
+            if c + sc < r[0]: r = (c + sc, (j,) + br)
+        return r
+    cost, br = best(0, n)
+    c2, b2 = best(0, n + 1) if len(ws) > n else (1e18, ())
+    if c2 + 150 < cost: cost, br = c2, b2   # 한 줄 더 쓰는 게 훨씬 자연스러우면 그쪽으로
+    if cost >= 1e12: return wrap(d, p, f, maxw)
+    out, a = [], 0
+    for b in br: out.append(" ".join(ws[a:b])); a = b
+    return out
+
+
 def sub_pages(d, text, f, maxw=1480):
     """자막을 한 줄짜리 묶음으로: 쉼표·마침표에서 먼저 끊고, 그래도 길면 단어 단위로 (2026-10-22 운영자: 한 줄씩)"""
-    parts = [p.strip() for p in re.split(r"(?<=[,.?!])\s+", text) if p.strip()]
+    parts = [p.strip() for p in re.split(r"(?<=[.?!])\s+", text) if p.strip()]   # 2026-11-17: 쉼표는 _balanced 가 끊기 좋은 자리로 고른다 (쉼표마다 끊으면 "7곳입니다." 같은 꼬리가 남음)
     # 2026-10-25 운영자: "~입니다. 답은," 처럼 다음 문장 머리가 앞 줄 끝에 붙으면 안 된다 → 문장 끝(. ? !)을 넘어서는 절대 합치지 않는다
     end = lambda l: bool(re.search(r"[.?!][\"'”’)]*$", l))
     out = []
     for p in parts:
-        for l in wrap(d, p, f, maxw):
+        for l in _balanced(d, p, f, maxw):
             if out and len(l) < 9 and not end(out[-1]) and d.textlength(out[-1] + " " + l, font=f) <= maxw: out[-1] += " " + l
             else: out.append(l)
     i = 0
