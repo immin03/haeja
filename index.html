@@ -3633,7 +3633,7 @@ const COLST = { m: null, busy: false };
 async function colStatsLoad(){ if(COLST.busy || COLST.m || !store.client) return; COLST.busy = true; try{ const { data } = await store.client.rpc('column_stats_all'); COLST.m = data || {}; }catch(_){ COLST.m = {}; } COLST.busy = false; if(S.tab === 'column') render(); }
 const colLikedKey = id => 'vn-like-' + id;
 const colLiked = id => { try{ return localStorage.getItem(colLikedKey(id)) === '1'; }catch(_){ return false; } };
-function colStatHtml(c){ const st = (COLST.m || {})[c.id] || {}; return `<span class="col-stat">조회 ${(st.v || 0).toLocaleString('ko-KR')} · 추천 ${(st.l || 0).toLocaleString('ko-KR')}</span>`; }
+function colStatHtml(c){ return ''; }   /* 2026-11-17 대표님: 조회·추천 숫자는 보이지 않게 */
 async function colView(id){
   try{ const k = 'vn-view-' + id + '-' + today(); if(localStorage.getItem(k)) return; localStorage.setItem(k, '1'); }catch(_){}
   try{ await store.client.rpc('column_view', { p_id: id }); if(COLST.m){ const st = COLST.m[id] ||= { v: 0, l: 0 }; st.v++; if(S.tab === 'column') render(); } }catch(_){}
@@ -3675,7 +3675,7 @@ const blogBox = () => `<a class="card blog-box" href="${BLOG_URL}" target="_blan
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
-    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'weekly' ? '밸류노트 주간 칼럼' : '밸류노트 칼럼 · ' + COL_SERIES[colSeries(open)]}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''} · ${colStatHtml(open)}</div>${colByline(open) ? `<div class="col-by">${esc(colByline(open))}</div>` : ''}
+    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'weekly' ? '밸류노트 주간 칼럼' : '밸류노트 칼럼 · ' + COL_SERIES[colSeries(open)]}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''}</div>${colByline(open) ? `<div class="col-by">${esc(colByline(open))}</div>` : ''}
       ${open.cover ? `<figure class="col-fig col-cover"><img src="${esc(open.cover)}" alt=""></figure>` : ''}
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
       <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
@@ -3685,11 +3685,11 @@ function viewColumn(){
       <p class="small muted col-disc">${colByline(open) ? '밸류노트 에디터 Luciano가 작성한 글입니다. ' : ''}공개된 자료를 정리한 글이며 특정 종목의 매수·매도를 권하지 않습니다.</p></article>
     ${newsletterBox()}`;
   /* 2026-10-27 운영자: 칼럼 화면이 헷갈린다 → 탭·구획 없이 최신순 한 줄 스크롤. 어디서 온 글인지는 작은 레이블로만 구분 */
-  issuesLoad(); colStatsLoad();
+  
   const exOf = t => { const e = String(t || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*|]/g, '').replace(/\s+/g, ' ').trim(); const x = e.slice(0, 90); return x + (e.length > 90 && !/[.!?다요]$/.test(x) ? '…' : ''); };
   const feed = [
-    ...L.map(c => ({ k: 'col', at: String(c.id || '').slice(4, 14), c })),
-    ...(ISS.L || []).map(x => ({ k: 'iss', at: String(x.at || '').slice(0, 10), x }))
+    /* 2026-11-17 대표님: 블로그 글을 다 가져오지 말고 관심 많은 글만 골라서(pick) 칼럼으로 */
+    ...L.filter(c => c.pick).map(c => ({ k: 'col', at: String(c.id || '').slice(4, 14), c }))
   ].sort((a, b) => b.at.localeCompare(a.at));
   const SRC = { col: ['칼럼', 'src-col'], blog: ['블로그', 'src-blog'], iss: ['정리본', 'src-iss'] };
   const tag = (k, sub) => `<span class="col-src-tag ${SRC[k][1]}">${SRC[k][0]}</span>${sub ? `<span class="col-ser">${esc(sub)}</span>` : ''}`;
@@ -3698,10 +3698,10 @@ function viewColumn(){
     if(f.k === 'iss'){ const x = f.x; return `<a class="card col-item${i === 0 ? ' first' : ''}" href="/blog/${esc(x.slug)}?utm_source=app-column"><span class="small muted col-meta">${tag('iss', '')}${esc(md(f.at))}</span><b>${esc(x.title)}</b><span class="small col-ex">${esc(exOf(x.desc))}</span></a>`; }
     const c = f.c;
     return `<button type="button" class="card col-item${i === 0 ? ' first' : ''}${c.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(c.id)}">
-      ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted col-meta">${tag(c.from ? 'blog' : 'col', COL_SERIES[colSeries(c)])}${esc(colDate(c))} · ${colStatHtml(c)}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(exOf(c.body))}</span></button>`;
+      ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted col-meta">${tag('col', COL_SERIES[colSeries(c)])}${esc(colDate(c))}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(exOf(c.body))}</span></button>`;
   };
-  return `<div style="margin-top:16px"><h2 style="margin:0">칼럼</h2><div class="small muted">최신 글부터 차례로 보여 드립니다 · <span class="col-src-tag src-col">칼럼</span>밸류노트 칼럼 <span class="col-src-tag src-blog">블로그</span>네이버 블로그 글 <span class="col-src-tag src-iss">정리본</span>릴스 정리본</div></div>
-    ${feed.length ? `<div class="col-list">${feed.map(item).join('')}</div>` : `<div class="card empty" style="margin-top:12px">${ISS.L ? '첫 칼럼을 준비하고 있어요.' : '불러오는 중'}</div>`}
+  return `<div style="margin-top:16px"><h2 style="margin:0">칼럼</h2><div class="small muted">많이 묻는 질문에 밸류노트가 숫자로 답한 글</div></div>
+    ${feed.length ? `<div class="col-list">${feed.map(item).join('')}</div>` : `<div class="card empty" style="margin-top:12px">첫 칼럼을 준비하고 있어요.</div>`}
     ${newsletterBox()}
     ${blogBox()}
     <div data-yt="latest" data-yt-src="app-column"></div>`;
