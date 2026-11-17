@@ -28,10 +28,12 @@ def render(sp, out):
     f2 = fit(SUIT, "Heavy", sp["l2"], 150, W - 70); st(img, (W / 2, 420), sp["l2"], f2, PINK)
     if min(f1.size, f2.size) < 130: print("  ⚠ 표지 제목이 길어 글씨가 130 아래로 작아졌습니다 — 제목을 더 짧게:", sp["l1"], "/", sp["l2"])
     # 회사 이름 (영문 크게)
-    fn = fit(MON, "ExtraBold", sp["name"], 230, W - 90); st(img, (W / 2, 660), sp["name"], fn, WH, blur=18)
+    if sp.get("name"): fn = fit(MON, "ExtraBold", sp["name"], 230, W - 90); st(img, (W / 2, 660), sp["name"], fn, WH, blur=18)
+    else: s_up = 120   # 22:31 대표님: 영문 회사명이 튀어 보임 → 이름 줄 없이 숫자를 위로·더 크게
     # 큰 숫자
-    fb = fit(SUIT, "Heavy", sp["big"], 300, W - 80); st(img, (W / 2, 905), sp["big"], fb, col, blur=20, a=230)
-    fl = fit(SUIT, "Bold", sp["big_label"], 50, W - 120); st(img, (W / 2, 1065), sp["big_label"], fl, (235, 235, 238))
+    up = 0 if sp.get("name") else 150
+    fb = fit(SUIT, "Heavy", sp["big"], 300 if sp.get("name") else 360, W - 80); st(img, (W / 2, 905 - up), sp["big"], fb, col, blur=20, a=230)
+    fl = fit(SUIT, "Bold", sp["big_label"], 50, W - 120); st(img, (W / 2, 1065 - up + (40 if not sp.get("name") else 0)), sp["big_label"], fl, (235, 235, 238))
     # 얇은 그래프 (높은 곳 → 낮은 곳)
     d = ImageDraw.Draw(img); x0, x1, y0, y1 = 120, 960, 1215, 1350
     pts = [(x0, y0), (x0 + 260, y0 + 30), (x0 + 430, y1 - 40), (x0 + 600, y1), (x1, y1 + 4)]
