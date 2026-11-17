@@ -87,7 +87,7 @@ EN_TXT = {
          "Truly smart people don't announce their plans. They show you when it's done.", "A Roman emperor watched countless men talk about philosophy.", "And in his diary, he left a single line.",
          "Waste no more time arguing what a good man should be. Be one.", "Today, don't talk about what you're going to do.", "Just leave one thing done.",
          "Today's line: Meditations, Book Ten, Section Sixteen."]},
- "st4": {"title": "The Quietest Revenge on People Who PUT YOU DOWN | Marcus Aurelius", "bar": ["THE QUIETEST REVENGE", "ON PEOPLE WHO PUT YOU DOWN"],
+ "st4": {"title": "The Quietest Revenge on People Who PUT YOU DOWN | Marcus Aurelius", "bar": ["WHEN THEY", "PUT YOU DOWN"],
    "quote": ["“The best revenge", "is not to become", "like them.”"], "qsrc": "— MARCUS AURELIUS, MEDITATIONS 6.6", "card": ["Today's line", "Meditations, Book 6.6"],
    "l": ["At a holiday dinner, a relative said it in front of everyone: at your age, still living like this?", "The table went quiet. She just smiled and served him another bowl of soup.",
          "On the drive home, a hundred comebacks came to mind.", "That night, she replayed his words again and again.", "Wanting to hit back at people who put you down is only human.",
