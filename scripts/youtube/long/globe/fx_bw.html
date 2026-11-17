@@ -27,7 +27,7 @@ function bg(){ const b=g.createRadialGradient(W/2,H/2,100,W/2,H/2,W); b.addColor
   for(let i=0;i<160;i++){ const r1=Math.sin(i*12.9898)*43758.5453, r2=Math.sin(i*78.233)*12543.31; g.fillStyle=`rgba(235,235,238,${0.05+0.12*((i%7)/7)})`; g.fillRect((r1-Math.floor(r1))*W,(r2-Math.floor(r2))*H,1.6,1.6); } }
 function txt(s,x,y,size,col,w,align,a){ size=size*(window.FS||1); g.save(); g.globalAlpha=a==null?1:a; g.font=`${w||800} ${size}px SUIT`; g.fillStyle=col; g.textAlign=align||'left'; g.textBaseline='middle'; g.shadowColor='rgba(0,0,0,0.5)'; g.shadowBlur=8; g.fillText(s,x,y); g.restore(); }
 function kicker(C,t){ const f_=window.FS; window.FS=1; kicker0(C,t); window.FS=f_; }
-function kicker0(C,t){ const a=ease(cl(t/0.6)); g.save(); g.globalAlpha=a; g.fillStyle=PINK; g.fillRect(120,96,64,5); g.restore(); txt(C.kicker||'',200,98,32,'#dcdcdc',600,'left',a); txt(C.title||'',120,162,62,IVORY,800,'left',a); }
+function kicker0(C,t){ const a=ease(cl(t/0.6)); g.save(); g.globalAlpha=a; g.fillStyle=PINK; const ky=C.ky||96; g.fillRect(120,ky,64,5); g.restore(); txt(C.kicker||'',200,ky+2,32,'#dcdcdc',600,'left',a); txt(C.title||'',120,ky+66,62,IVORY,800,'left',a); }   // ky: 롱폼 왼쪽 위 목차와 겹치지 않게 내림 (2026-11-17)
 function glow(x,y,r,col,a){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,col.replace('A',a)); gr.addColorStop(1,col.replace('A',0)); g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
 
 // ① 과거 국면 겹침 차트: series [{name, pts:[...지수], color, end}] · x 개월, y 로그 지수(시작=100)
