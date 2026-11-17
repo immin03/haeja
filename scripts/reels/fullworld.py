@@ -449,15 +449,21 @@ def _dpct(E, img, it, p, y):
 
 
 def _dbars(E, img, it, p, y):
-    d = ImageDraw.Draw(img); h = 420; base = y + 80 + h; vmax = max(abs(i["v"]) for i in it); n = len(it); step = min(330, (BAND_W - 40) // n)
+    # 2026-11-18 대표님: 막대 위 숫자끼리 겹치지 않게 — 칸을 넓히고, 숫자·이름은 막대 가운데 정렬, 그래도 넘치면 글자를 줄인다
+    d = ImageDraw.Draw(img); h = 420; base = y + 80 + h; vmax = max(abs(i["v"]) for i in it); n = len(it)
+    step = min(420, (BAND_W - 40) // n); bw = min(170, int(step * .5)); gap = 36
+    fs = 58
+    while fs > 34 and max(d.textlength(i.get("text", ""), font=E.F("Heavy", fs)) for i in it) > step - gap: fs -= 2
+    ls = 40
+    while ls > 26 and max(d.textlength(i["label"], font=E.F("SemiBold", ls)) for i in it) > step - gap: ls -= 2
     d.line([(X0, base), (X0 + step * n * _eout(p / .4), base)], fill=(200, 205, 215), width=2)
     for k, i in enumerate(it):
         q = _eout((p - .15 - k * .35) / .9)
         if q <= 0: continue
-        bx = X0 + k * step; bh = h * abs(i["v"]) / vmax * q; col = DTONE.get(i.get("color"), DWHITE)
-        d.rectangle([bx, base - bh, bx + 130, base], fill=col if k == len(it) - 1 else tuple(int(c * .62) for c in col))   # 마지막(강조) 막대만 선명하게
-        _dtext(img, (bx, base - bh - 14), _count(i.get("text", ""), q), E.F("Heavy", 58), (*col, 255), anchor="ld")
-        _dtext(img, (bx, base + 18), i["label"], E.F("SemiBold", 40), (*DGRAY, 255))
+        bx = X0 + k * step + (step - bw) // 2; cx = bx + bw / 2; bh = h * abs(i["v"]) / vmax * q; col = DTONE.get(i.get("color"), DWHITE)
+        d.rectangle([bx, base - bh, bx + bw, base], fill=col if k == len(it) - 1 else tuple(int(c * .62) for c in col))   # 마지막(강조) 막대만 선명하게
+        _dtext(img, (cx, base - bh - 14), _count(i.get("text", ""), q), E.F("Heavy", fs), (*col, 255), anchor="md")
+        _dtext(img, (cx, base + 18), i["label"], E.F("SemiBold", ls), (*DGRAY, 255), anchor="ma")
         d = ImageDraw.Draw(img)
     return img
 
