@@ -55,9 +55,23 @@ def main(only):
                 if img.startswith("capture:"):
                     try: sh(["node", os.path.join(HERE, "capture_co.js"), data["raw"]["name"], os.path.join(OUT, sid, "shot_" + img.replace(":", "_") + ".png"), data["raw"]["code"]])
                     except Exception as e: print("앱 화면 캡처 실패(빈 화면으로 진행):", e)
+            # 2026-11-17 대표님: 영상 속 앱 화면 5초는 렌더 직전에 실제 종목 페이지를 다시 찍는다 (컷 {"lib": "app_<slug>_<id>.mp4", "app": [slug, 회사명, "자막1|자막2"]})
+            # 실패하면 저장소에 둔 지난 캡처 그대로 쓴다
+            for sc in spec["scenes"]:
+                for c in (sc["v"].get("cuts") or []):
+                    if isinstance(c, dict) and c.get("app"):
+                        try:
+                            try: import playwright  # noqa: F401
+                            except ImportError:
+                                sh([sys.executable, "-m", "pip", "install", "-q", "playwright"]); sh([sys.executable, "-m", "playwright", "install", "--with-deps", "chromium"])
+                            a = c["app"]; sh([sys.executable, os.path.join(HERE, "appscreen.py"), a[0], a[1], os.path.join(ROOT, "scripts", "blog", "media", "lib", c["lib"])] + ([a[2]] if len(a) > 2 else []))
+                        except Exception as e: print("앱 화면 다시 찍기 실패(저장된 캡처로 진행):", e)
             renderer = "render2.py" if spec.get("format") == 2 else "render.py"  # v2: 머니스웨거식 샷 리스트 원고
             os.environ["TTS_ITEM"] = sid   # 타입캐스트 사용량을 편별로 기록 (scripts/reels/tts_log.py)
             sh([sys.executable, os.path.join(HERE, renderer), f])
+            if spec.get("thumb_v8"):   # 2026-11-17 썸네일 v8(큰 2줄 · 핑크 밑줄) 3안 — 렌더러가 만든 옛 썸네일을 덮는다
+                try: sh([sys.executable, os.path.join(HERE, "thumb_v8.py"), f, os.path.join(OUT, sid)])
+                except Exception as e: print("썸네일 v8 실패(옛 썸네일 유지):", e)
             meta = json.load(open(meta_p, encoding="utf-8"))
             stamp = now.strftime("%y%m%d%H%M"); tag = "yt-" + sid; name = f"{sid}-{stamp}.mp4"
             vid = os.path.join(OUT, sid, "video.mp4"); up = os.path.join(OUT, sid, name); os.replace(vid, up)
