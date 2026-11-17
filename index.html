@@ -16,9 +16,9 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" href="/favicon-64.png?v=6">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=7">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=7">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="밸류노트">
@@ -68,7 +68,7 @@ if('serviceWorker' in navigator)window.addEventListener('load',function(){naviga
 <style>.seo-static{padding:24px 4px;color:#6B7584;font-size:14px}.seo-static h1{font-size:18px}</style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-name">밸류노트</div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 워렌 버핏 · 찰리 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
+<div id="splash" aria-hidden="true"><div class="sp-wm">VALUE<span>NOTE</span></div><div class="sp-name">밸류노트</div><div class="sp-sub">뉴스가 말하지 않는 기업과 경제의 이야기</div><div class="sp-ko">당신의 투자가 현명해집니다</div><div class="sp-bar"><i></i></div></div>
 <title>밸류노트 ValueNote · 적정 주가와 가치투자 점수, 그레이엄·워렌 버핏 기준</title>
 <link rel="canonical" href="https://www.valuenote.co.kr/">
 <link rel="alternate" type="application/rss+xml" title="밸류노트 칼럼" href="https://www.valuenote.co.kr/rss.xml">
@@ -734,7 +734,7 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 </style>
 
 <header class="top">
-  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark vn solo" aria-label="ValueNote 밸류노트 홈으로"><span class="vn-en"><span class="wm-a">Value</span><span class="wm-b">Note</span></span><span class="vn-ko">밸류노트</span></h1></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
+  <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark vn solo" aria-label="ValueNote 밸류노트 홈으로"><span class="vn-en"><span class="wm-a">VALUE</span><span class="wm-b">NOTE</span></span><span class="vn-ko">밸류노트</span></h1></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
@@ -1176,7 +1176,7 @@ const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg vn"><span class="vn-en"><span class="wm-a">Value</span><span class="wm-b">Note</span></span><span class="vn-ko">밸류노트</span></div><div class="login-sub">On the Shoulders of Giants</div>
+    <div class="login-brand"><div class="wordmark lg vn"><span class="vn-en"><span class="wm-a">VALUE</span><span class="wm-b">NOTE</span></span><span class="vn-ko">밸류노트</span></div><div class="login-sub">On the Shoulders of Giants</div>
       <p>그레이엄·워렌 버핏·찰리 멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p><p class="login-why">종목을 찍어 주지 않습니다. 공개된 기준으로 내 판단을 점검합니다.</p></div>
     <div class="card stack login-card">
     ${kakaoBtnHtml()}<div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
@@ -7966,5 +7966,23 @@ __swipeNav('#app', () => {
 });
 </script>
 <script src="/yt.js?v=1" defer></script>
+<style id="brand-2026-11">/* 2026-11-17 대표님: 새 브랜드 — VALUE 굵게 + NOTE 얇게, 흰색, 금색 제거, 포인트 핑크 */
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:300;font-display:block;src:url(/fonts/montserrat-300.woff2) format("woff2")}
+#splash{background:#0A101C!important}
+#splash .sp-wm{font-family:"Montserrat",sans-serif!important;font-weight:800!important;letter-spacing:.06em!important;color:#fff!important;border-bottom:0!important;padding-bottom:0!important}
+#splash .sp-wm span{font-weight:300!important;color:#fff!important;background:none!important;-webkit-text-fill-color:#fff!important;margin-left:.06em}
+#splash .sp-name{color:rgba(255,255,255,.88)!important;font-weight:500!important;font-size:18px!important;letter-spacing:.5em!important;margin-top:4px!important}
+#splash .sp-sub{color:rgba(255,255,255,.72)!important;text-transform:none!important;letter-spacing:0!important;font-size:14px!important;font-weight:500!important;margin-top:18px}
+#splash .sp-ko{color:#fff!important;font-size:16px!important;font-weight:800!important}
+#splash .sp-bar i{background:#FF4D6D!important}
+.wordmark,.wordmark.vn{font-family:"Montserrat",sans-serif!important;letter-spacing:.05em!important}
+.wordmark .wm-a{font-weight:800!important;color:#fff!important}
+.wordmark .wm-b{font-weight:300!important;color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important;margin-left:.05em}
+.wordmark.vn .vn-en{border-bottom:0!important}
+.wordmark.vn .vn-ko{color:rgba(255,255,255,.85)!important;font-weight:500!important}
+.wordmark.lg .wm-a,.wordmark.lg.vn .wm-a{color:#0A101C!important}
+.wordmark.lg .wm-b,.wordmark.lg.vn .wm-b{color:#0A101C!important;-webkit-text-fill-color:#0A101C!important}
+.wordmark.lg.vn .vn-ko{color:#0A101C!important}
+</style>
 </body>
 </html>

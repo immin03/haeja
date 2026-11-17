@@ -7,7 +7,7 @@
 import sys
 
 APP_NAME = "ValueNote"
-APP_SLOGAN = "On the Shoulders of Giants"
+APP_SLOGAN = "뉴스가 말하지 않는 기업과 경제의 이야기"
 
 src, dst = sys.argv[1], sys.argv[2]
 s = open(src, encoding="utf-8").read()
@@ -95,7 +95,7 @@ STORE = r"""const store = (() => {
 function loginView(){
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
-    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">Value</span><span class="wm-b">Note</span></div><div class="login-sub"><b class="ko-name">밸류노트</b> · On the Shoulders of Giants</div>
+    <div class="login-brand"><div class="wordmark lg"><span class="wm-a">VALUE</span><span class="wm-b">NOTE</span></div><div class="login-sub"><b class="ko-name">밸류노트</b> · 당신의 투자가 현명해집니다</div>
       <p>그레이엄·버핏·멍거의 어깨 위에서, 멀리 보고 오래 투자하는 노트</p></div>
     <div class="card stack login-card">
     ${kakaoBtnHtml()}<div class="lg-tabs" role="tablist"><button type="button" role="tab" data-lg="login" aria-selected="${lgMode==='login'}">로그인</button><button type="button" role="tab" data-lg="signup" aria-selected="${lgMode==='signup'}">회원가입</button></div>
@@ -298,7 +298,7 @@ rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
 LOGO = '<svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#16243A"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#C9B180"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#C9B180"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#C9B180"/></svg>'
-rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">Value</span><span class="wm-b">Note</span></h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
+rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">VALUE</span><span class="wm-b">NOTE</span></h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
 rep("function setSave(t){ const el = $('#saveState'); if(el) el.textContent = t; }", "function setSave(t){ const el = $('#saveState'); if(!el) return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }")
 # tab icons (bottom bar on mobile)
 ICONS = {'portfolio':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
@@ -313,9 +313,9 @@ HEAD = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="icon" type="image/png" href="/favicon-64.png?v=6">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=7">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=7">
 <meta name="theme-color" content="#0E1A2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="밸류노트">
@@ -342,7 +342,7 @@ HEAD = """<!doctype html>
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-wm">Value<span>Note</span></div><div class="sp-name">밸류노트</div><div class="sp-sub">On the Shoulders of Giants</div><div class="sp-ko">그레이엄 · 버핏 · 멍거의 어깨 위에서, 멀리 보는 투자</div><div class="sp-bar"><i></i></div></div>
+<div id="splash" aria-hidden="true"><div class="sp-wm">VALUE<span>NOTE</span></div><div class="sp-name">밸류노트</div><div class="sp-sub">뉴스가 말하지 않는 기업과 경제의 이야기</div><div class="sp-ko">당신의 투자가 현명해집니다</div><div class="sp-bar"><i></i></div></div>
 """
 s = HEAD.replace("가치노트", APP_NAME) + s.lstrip() + "\n<style>\n" + open(__file__.replace("build_web.py", "theme.css"), encoding="utf-8").read() + "\n</style>\n</body>\n</html>\n"
 open(dst, "w", encoding="utf-8").write(s)
