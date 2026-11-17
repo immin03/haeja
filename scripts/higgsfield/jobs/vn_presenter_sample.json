@@ -1,0 +1,41 @@
+[
+  {
+    "id": "vn_presenter_front",
+    "endpoint": "bytedance/seedance-2.5/text-to-video",
+    "use": "2026-11-17 대표 요청: 롱폼 중간중간 3~5초 진행자 컷 시안 — 정면",
+    "max_usd": 1.0,
+    "body": {
+      "prompt": "Cinematic medium close-up, front view: a man in a tailored charcoal suit and crisp white shirt seated at a dark wooden desk in a dim broadcast studio, framed from the chin down so his face is never visible. A single warm spotlight from above. A black broadcast microphone on a boom arm in front of his chest. He is speaking into the microphone with calm, natural hand gestures, his right hand slowly turning a black pen over an open notebook. Black and white film look, soft grain, shallow depth of field, slow gentle push-in. No text, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "16:9",
+      "generate_audio": false
+    }
+  },
+  {
+    "id": "vn_presenter_side",
+    "endpoint": "bytedance/seedance-2.5/text-to-video",
+    "use": "진행자 컷 시안 — 옆 45도",
+    "max_usd": 1.0,
+    "body": {
+      "prompt": "Cinematic 45-degree side angle: a man in a tailored charcoal suit and white shirt leans slightly toward a black broadcast microphone on a boom arm, speaking, framed from the chin down so his face is never visible. His hand taps a black pen lightly on a notebook while he talks. Dark studio, single warm spotlight from above creating a rim light on the suit shoulder. Black and white film look, soft grain, shallow depth of field, slow lateral camera slide. No text, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "16:9",
+      "generate_audio": false
+    }
+  },
+  {
+    "id": "vn_presenter_hands",
+    "endpoint": "bytedance/seedance-2.5/text-to-video",
+    "use": "진행자 컷 시안 — 손·펜 클로즈업",
+    "max_usd": 1.0,
+    "body": {
+      "prompt": "Cinematic close-up of hands in a charcoal suit jacket sleeve and white shirt cuff on a dark wooden desk: one hand underlines a line in an open notebook with a black pen while the other rests near the base of a black broadcast microphone, as if the man is explaining something while speaking. Dark studio, single warm spotlight from above. Black and white film look, soft grain, shallow depth of field, slow gentle push-in. No face, no text, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "16:9",
+      "generate_audio": false
+    }
+  }
+]
