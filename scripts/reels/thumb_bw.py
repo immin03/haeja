@@ -24,12 +24,13 @@ def render(sp, out):
     img = Image.fromarray(np.clip(a * (1 - m), 0, 255).astype(np.uint8)).convert("RGBA")
     col = PINK if sp.get("tone", "loss") == "loss" else WH
     # 제목 2줄 (흰색 · 둘째 줄 핑크)
-    f1 = fit(SUIT, "Heavy", sp["l1"], 128, W - 80); st(img, (W / 2, 250), sp["l1"], f1, WH)
-    f2 = fit(SUIT, "Heavy", sp["l2"], 128, W - 80); st(img, (W / 2, 400), sp["l2"], f2, PINK)
+    f1 = fit(SUIT, "Heavy", sp["l1"], 150, W - 70); st(img, (W / 2, 250), sp["l1"], f1, WH)   # 22:29 대표님: 제목은 짧게, 글씨는 크게(150 기준)
+    f2 = fit(SUIT, "Heavy", sp["l2"], 150, W - 70); st(img, (W / 2, 420), sp["l2"], f2, PINK)
+    if min(f1.size, f2.size) < 130: print("  ⚠ 표지 제목이 길어 글씨가 130 아래로 작아졌습니다 — 제목을 더 짧게:", sp["l1"], "/", sp["l2"])
     # 회사 이름 (영문 크게)
-    fn = fit(MON, "ExtraBold", sp["name"], 230, W - 90); st(img, (W / 2, 640), sp["name"], fn, WH, blur=18)
+    fn = fit(MON, "ExtraBold", sp["name"], 230, W - 90); st(img, (W / 2, 660), sp["name"], fn, WH, blur=18)
     # 큰 숫자
-    fb = fit(SUIT, "Heavy", sp["big"], 300, W - 80); st(img, (W / 2, 890), sp["big"], fb, col, blur=20, a=230)
+    fb = fit(SUIT, "Heavy", sp["big"], 300, W - 80); st(img, (W / 2, 905), sp["big"], fb, col, blur=20, a=230)
     fl = fit(SUIT, "Bold", sp["big_label"], 50, W - 120); st(img, (W / 2, 1065), sp["big_label"], fl, (235, 235, 238))
     # 얇은 그래프 (높은 곳 → 낮은 곳)
     d = ImageDraw.Draw(img); x0, x1, y0, y1 = 120, 960, 1215, 1350
