@@ -37,9 +37,11 @@ def render(sp, out):
     # 얇은 그래프 (높은 곳 → 낮은 곳)
     d = ImageDraw.Draw(img); x0, x1, y0, y1 = 120, 960, 1215, 1350
     pts = [(x0, y0), (x0 + 260, y0 + 30), (x0 + 430, y1 - 40), (x0 + 600, y1), (x1, y1 + 4)]
+    if sp.get("trend") == "up":   # 2026-11-18 실적 호조 편: 낮은 곳 → 높은 곳 (내려가는 선이 '실적 하락'으로 읽히지 않게)
+        pts = [(x, y0 + y1 - y) for x, y in pts]
     fill = Image.new("RGBA", img.size, (0, 0, 0, 0)); ImageDraw.Draw(fill).polygon(pts + [(x1, y1 + 90), (x0, y1 + 90)], fill=(*PINK, 46)); img.alpha_composite(fill)
-    d = ImageDraw.Draw(img); d.line(pts, fill=PINK, width=9, joint="curve"); d.ellipse([x0 - 13, y0 - 13, x0 + 13, y0 + 13], fill=WH)
-    d.polygon([(x1 + 30, y1 + 4), (x1 - 4, y1 - 16), (x1 - 4, y1 + 24)], fill=PINK)
+    d = ImageDraw.Draw(img); d.line(pts, fill=PINK, width=9, joint="curve"); d.ellipse([pts[0][0] - 13, pts[0][1] - 13, pts[0][0] + 13, pts[0][1] + 13], fill=WH)
+    ye = pts[-1][1]; d.polygon([(x1 + 30, ye), (x1 - 4, ye - 20), (x1 - 4, ye + 20)], fill=PINK)
     if sp.get("from_label"): st(img, (x0 + 10, y0 - 50), sp["from_label"], SUIT("ExtraBold", 50), WH, anchor="lm")
     # 로고 + 핑크 밑줄
     fb2, fl2 = MON("ExtraBold", 64), MON("Light", 64); lw = fb2.getlength("VALUE") + fl2.getlength("NOTE") + 10; lx = (W - lw) / 2; ly = 1560
