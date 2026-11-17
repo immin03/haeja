@@ -1,0 +1,34 @@
+{
+ "id": "vn_pres3_c4_hands",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "prompt": "The camera slowly tilts down and pushes in toward his hands on the desk: the pen underlines a line in the notebook, the round gold watch on his left wrist catches the light. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/scripts/higgsfield/in/vn_presenter_ref2.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea2c-90fc-701d-963e-4f61adbfe519",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea2c-90fc-701d-963e-4f61adbfe519/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea2c-90fc-701d-963e-4f61adbfe519/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-17T15:42:31Z",
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ea2c-90fc-701d-963e-4f61adbfe519",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea2c-90fc-701d-963e-4f61adbfe519/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea2c-90fc-701d-963e-4f61adbfe519/cancel",
+  "expires_at": "2026-11-24T15:48:37.567428+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea2c-90fc-701d-963e-4f61adbfe519/8cc9ac3c-a2b6-494c-8ebe-ca1b4747f1d6.mp4"
+  }
+ },
+ "seconds": 367,
+ "file": "scripts/higgsfield/out/vn_pres3_c4_hands.mp4"
+}

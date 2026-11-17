@@ -1,0 +1,34 @@
+{
+ "id": "vn_pres3_c5_mic",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "prompt": "The camera slowly pushes in toward the microphone in the foreground with a gentle rack focus, the tie knot and pocket square softly blurred behind it, slight breathing movement of his chest as he speaks. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/scripts/higgsfield/in/vn_presenter_ref2.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea32-2e1e-7e53-b985-7d720de3fccb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea32-2e1e-7e53-b985-7d720de3fccb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea32-2e1e-7e53-b985-7d720de3fccb/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-17T15:48:39Z",
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ea32-2e1e-7e53-b985-7d720de3fccb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea32-2e1e-7e53-b985-7d720de3fccb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea32-2e1e-7e53-b985-7d720de3fccb/cancel",
+  "expires_at": "2026-11-24T15:53:02.367807+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea32-2e1e-7e53-b985-7d720de3fccb/6e8f6b7e-2fb9-4e23-8939-1f18f526f63c.mp4"
+  }
+ },
+ "seconds": 265,
+ "file": "scripts/higgsfield/out/vn_pres3_c5_mic.mp4"
+}
