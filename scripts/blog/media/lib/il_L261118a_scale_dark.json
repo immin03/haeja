@@ -1,0 +1,33 @@
+{
+ "id": "il_L261118a_scale_dark",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: An old brass balance scale on a dark desk, one pan holding a single sealed envelope, the other empty, dramatic side light",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1e6ec-357c-7179-8dc9-c6f484046b35",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e6ec-357c-7179-8dc9-c6f484046b35/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e6ec-357c-7179-8dc9-c6f484046b35/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1e6ec-357c-7179-8dc9-c6f484046b35",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e6ec-357c-7179-8dc9-c6f484046b35/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e6ec-357c-7179-8dc9-c6f484046b35/cancel",
+  "expires_at": "2026-11-24T00:33:29.697454+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1e6ec-357c-7179-8dc9-c6f484046b35/69396ad0-6059-4b02-a544-ca11e4734ee5.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261118a_scale_dark.png"
+}

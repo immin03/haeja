@@ -1,0 +1,33 @@
+{
+ "id": "il_L261118a_thumb_ipo",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Bright clean cinematic photograph, high clarity, one clear single subject, premium magazine look, deep navy and warm gold tones, Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A bright stock exchange listing ceremony stage seen from the floor, giant glowing blue video walls, gold confetti falling, cheering crowd blurred, bright and celebratory, subject in upper half",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1e6ea-b910-775f-8a03-8cf49c70a643",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e6ea-b910-775f-8a03-8cf49c70a643/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e6ea-b910-775f-8a03-8cf49c70a643/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1e6ea-b910-775f-8a03-8cf49c70a643",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e6ea-b910-775f-8a03-8cf49c70a643/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e6ea-b910-775f-8a03-8cf49c70a643/cancel",
+  "expires_at": "2026-11-24T00:32:59.558544+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1e6ea-b910-775f-8a03-8cf49c70a643/a513c839-9607-4cc7-8b75-0d513bdfa491.jpeg"
+   }
+  ]
+ },
+ "seconds": 81,
+ "file": "scripts/blog/media/lib/il_L261118a_thumb_ipo.jpeg"
+}

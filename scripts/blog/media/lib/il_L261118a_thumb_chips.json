@@ -1,0 +1,33 @@
+{
+ "id": "il_L261118a_thumb_chips",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Bright clean cinematic photograph, high clarity, one clear single subject, premium magazine look, deep navy and warm gold tones, Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A brightly lit pile of glowing advanced AI processor chips on top of thick bundles of US dollar banknotes, gold rim light, very clear single subject in upper half, dark navy background",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1e6ea-b912-78b4-a129-441761769321",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e6ea-b912-78b4-a129-441761769321/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e6ea-b912-78b4-a129-441761769321/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1e6ea-b912-78b4-a129-441761769321",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e6ea-b912-78b4-a129-441761769321/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e6ea-b912-78b4-a129-441761769321/cancel",
+  "expires_at": "2026-11-24T00:33:03.973675+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1e6ea-b912-78b4-a129-441761769321/d3d03978-4ba1-4580-8c10-c9130ff7d6dd.jpeg"
+   }
+  ]
+ },
+ "seconds": 82,
+ "file": "scripts/blog/media/lib/il_L261118a_thumb_chips.jpeg"
+}
