@@ -1,6 +1,6 @@
 """영상 속 앱 화면 5초 (2026-11-17 대표님 확정: 테슬라 2편부터, 영상마다 그 종목 페이지를 5초 보여 준다)
 - 실제 종목 페이지(https://www.valuenote.co.kr/c/<slug>)를 휴대전화 크기로 렌더 직전에 캡처 → 숫자가 늘 최신
-- 검은 바탕 + 오른쪽 휴대전화 화면이 천천히 스크롤, 점수 줄에 핑크 밑줄 / 왼쪽: 라벨 + 주소 / 자막 55px
+- 검은 바탕 + 오른쪽 휴대전화 화면이 천천히 스크롤, 점수 줄에 핑크 밑줄 / 왼쪽: 라벨 + 회사 이름 (주소는 넣지 않음) / 자막 52px
 사용: python3 appscreen.py <slug> <회사명> <out.mp4> ["자막1|자막2"]
 배경음은 넣지 않는다 (본편 음악·내레이션 아래에 그대로 깔린다)
 """
@@ -56,9 +56,9 @@ def left_text(im, t):
     for ch in f"밸류노트 · {NAME} 종목 페이지": d.text((x, 0), ch, font=fl, fill=(235, 235, 235, 255)); x += d.textlength(ch, font=fl) + 5
     ln = 560 * eout((t - .4) / .7)
     d.rectangle([0, 52, ln, 54], fill=(255, 255, 255, 220)); d.rounded_rectangle([0, 49, min(64, ln), 57], 4, fill=(*PINK, 255))
-    d.text((0, 92), "valuenote.co.kr", font=SUIT("Bold", 66), fill=(255, 255, 255, 255))
-    d.text((0, 176), f"/c/{SLUG}", font=SUIT("Bold", 66), fill=(255, 255, 255, 255))
-    d.text((0, 270), "672개 회사를 같은 기준으로 매일 계산", font=NS("Regular", 28), fill=(200, 200, 200, 255))
+    # 2026-11-17 대표님: 주소(/c/tsla)까지 보이면 지저분 → 이름과 한 줄 설명만
+    d.text((0, 96), NAME, font=SUIT("Bold", 72), fill=(255, 255, 255, 255))
+    d.text((0, 200), "같은 기준으로 매일 계산하는 기업 점수", font=NS("Regular", 30), fill=(205, 205, 205, 255))
     _paste(im, _shadowed(lay, 8, .5), (150 - 20 * (1 - a), 250), a)
 
 
@@ -83,7 +83,7 @@ for k in range(N):
     vn2.logo(im)
     for s0, s1, txt in SUBS:
         if s0 <= t < s1 or (s1 == DUR and t >= s0):
-            vn2.subtitle_line(im, txt, clamp((t - s0) / .12) if s0 else 1.0, size=55)
+            vn2.subtitle_line(im, txt, clamp((t - s0) / .12) if s0 else 1.0)
     im.convert("RGB").save(os.path.join(OUT, f"f{k:04d}.png"))
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-framerate", str(FPS), "-i", os.path.join(OUT, "f%04d.png"), "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", MP4], check=True)
 print("앱 화면", SLUG, MP4)

@@ -125,7 +125,7 @@ def intro_sfx_times(dur):
 
 
 # ── 자막 (그림자만) ─────────────────────────────────────
-def subtitle_line(im, text, a, x0=None, y=None, size=55):
+def subtitle_line(im, text, a, x0=None, y=None, size=52):   # 2026-11-17 대표님: 55px는 살짝 커 보여 52px
     if not text or a <= 0: return
     f = SUIT("Bold", size); d0 = ImageDraw.Draw(Image.new("L", (1, 1))); tw = d0.textlength(text, font=f)
     pad = 30; lay = Image.new("RGBA", (int(tw) + pad * 2, size + pad * 2), (0, 0, 0, 0))

@@ -1425,7 +1425,7 @@ def sub_v2(img, text, u_in, dur, left=False):
     """v2 자막: 띠 없이 그림자만. 인물이 말하는 장면(더빙)은 이름표 아래 왼쪽 정렬"""
     import vn2
     if not text: return
-    d = AD(img); f = vn2.SUIT("Bold", 55); pages = sub_pages(d, text, f, maxw=1500 if not left else 1450)
+    d = AD(img); f = vn2.SUIT("Bold", 52); pages = sub_pages(d, text, f, maxw=1500 if not left else 1450)
     tot = sum(len(p) for p in pages); acc = 0; pi = 0; start = 0.0
     for pi, pg in enumerate(pages):
         if u_in < dur * (acc + len(pg)) / tot or pi == len(pages) - 1: start = dur * acc / tot; break
