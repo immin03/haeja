@@ -12,8 +12,8 @@ module.exports = (req, res) => {
     start_url: ok ? '/?h=' + h : '/',
     scope: '/',
     display: 'standalone',
-    background_color: '#0E1A2B',
-    theme_color: '#0E1A2B',
+    background_color: '#191919',
+    theme_color: '#191919',
     lang: 'ko',
     icons: [
       { src: '/icon-192.png?v=6', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },

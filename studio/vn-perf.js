@@ -160,7 +160,7 @@ function pfRetSvg(ret, dur){
     ${ok.filter(p => p[0] === '15초').map(p => `<text x="${X(p[1]) + 4}" y="${Y(p[2]) - 5}" font-size="10" font-weight="800" fill="var(--bad)">${p[2]}%</text>`).join('')}
   </svg>`;
 }
-const PF_SRC_COL = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#8a94a6', '#5b6b85'];
+const PF_SRC_COL = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#939393', '#696969'];
 function pfSrc(src){
   const e = Object.entries(src || {}).filter(([, v]) => +v > 0).sort((a, b) => b[1] - a[1]); if(!e.length) return '';
   return `<div class="pf-src"><div class="cap">유입 경로</div><div class="bar">${e.map(([k, v], i) => `<span style="width:${v}%;background:${PF_SRC_COL[i % 7]}" title="${esc(k)} ${v}%"></span>`).join('')}</div>

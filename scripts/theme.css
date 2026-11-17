@@ -3,20 +3,20 @@
 /* ===== 가치노트 테마: Navy & Gold (웹 버전 전용, 기존 스타일 위에 덮어쓴다) ===== */
 :root{
   --font:"VN Arrow","SUIT Variable","SUIT","Pretendard Variable","Pretendard",system-ui,-apple-system,sans-serif;
-  --navy:#0E1A2B; --navy-2:#16243A; --gold:#C9B180; --gold-soft:#F4ECDC;
-  --bg:#F5F3EE; --surface:#FFFFFF; --ink:#0E1A2B; --muted:#646E7E; --line:#E6E1D6;
-  --accent:#2D7A5F; --accent-soft:#E3F0EA; --warn:#A8761C; --warn-soft:#F7EDD8;
+  --navy:#111111; --navy-2:#232323; --gold:#FF4D6D; --gold-soft:#F1F1F1;
+  --bg:#F3F3F3; --surface:#FFFFFF; --ink:#111111; --muted:#6D6D6D; --line:#E1E1E1;
+  --accent:#2D7A5F; --accent-soft:#E3F0EA; --warn:#A8761C; --warn-soft:#EEEEEE;
   --bad:#D8415A; --bad-soft:#F8E3E0; --up:#EC4C66; --down:#2E64C8;
   --r:16px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --navy:#070C15; --navy-2:#111B2B; --gold:#D8BF8E; --gold-soft:#2A251C;
-  --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
+  --navy:#0C0C0C; --navy-2:#1A1A1A; --gold:#FF4D6D; --gold-soft:#2A1A1E;
+  --bg:#0F0F0F; --surface:#191919; --ink:#E7E7E7; --muted:#969696; --line:#2B2B2B;
   --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E281C;
   --bad:#FF788F; --bad-soft:#3D1D23; --up:#FF748B; --down:#78A6FF; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --navy:#070C15; --navy-2:#111B2B; --gold:#D8BF8E; --gold-soft:#2A251C;
-  --bg:#0A0F18; --surface:#111A27; --ink:#ECE7DC; --muted:#8E97A7; --line:#212C3C;
+  --navy:#0C0C0C; --navy-2:#1A1A1A; --gold:#FF4D6D; --gold-soft:#2A1A1E;
+  --bg:#0F0F0F; --surface:#191919; --ink:#E7E7E7; --muted:#969696; --line:#2B2B2B;
   --accent:#5FC59C; --accent-soft:#15291F; --warn:#E2B154; --warn-soft:#2E281C;
   --bad:#FF788F; --bad-soft:#3D1D23; --up:#FF748B; --down:#78A6FF; color-scheme:dark}
 
@@ -25,7 +25,7 @@ body{font-family:var(--font);letter-spacing:-.01em;background:var(--bg)}
 .num{font-family:var(--font)}
 
 /* 헤더: 네이비 바탕, 흰 글씨, 금색 포인트 */
-header.top{background:var(--navy);border-bottom:0;box-shadow:0 2px 12px rgba(7,12,21,.18)}
+header.top{background:var(--navy);border-bottom:0;box-shadow:0 2px 12px rgba(12,12,12,.18)}
 .brand h1{color:#FFFFFF;font-weight:800;font-size:21px;letter-spacing:-.03em}
 .brand-sub{color:var(--gold);font-weight:500;letter-spacing:.02em}
 .brand-sub #saveState{color:rgba(255,255,255,.55);font-weight:400;letter-spacing:0}
@@ -34,8 +34,8 @@ header.top{background:var(--navy);border-bottom:0;box-shadow:0 2px 12px rgba(7,1
 nav.tabs button{color:rgba(255,255,255,.6);font-weight:600}
 nav.tabs button[aria-selected="true"]{color:#FFFFFF;border-color:var(--gold)}
 nav.subtabs button{background:transparent;border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.75)}
-nav.subtabs button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#0E1A2B}
-.bell-n{background:var(--gold);color:#0E1A2B}
+nav.subtabs button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#191919}
+.bell-n{background:var(--gold);color:#191919}
 
 /* 제목: 금색 짧은 막대 */
 h2{font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -45,27 +45,27 @@ h3{font-weight:700}
 .eyebrow{color:var(--muted);font-weight:600;letter-spacing:.06em}
 
 /* 카드 */
-.card{border:1px solid var(--line);border-radius:var(--r);box-shadow:0 1px 2px rgba(14,26,43,.04),0 8px 24px rgba(14,26,43,.05)}
+.card{border:1px solid var(--line);border-radius:var(--r);box-shadow:0 1px 2px rgba(25,25,25,.04),0 8px 24px rgba(25,25,25,.05)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .card{box-shadow:none}}
 
 /* 버튼 */
 button.btn{border-radius:10px;font-weight:600}
 button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.btn.primary{background:var(--gold);border-color:var(--gold);color:#0E1A2B}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.btn.primary{background:var(--gold);border-color:var(--gold);color:#191919}}
 
 /* 포트폴리오 맨 위 카드: 네이비 그라데이션 */
 .pf-top{
-  --ink:#F3EFE6; --muted:#A3ADBE; --line:rgba(255,255,255,.12); --surface:#1A2940; --bg:#13203A;
+  --ink:#EFEFEF; --muted:#ACACAC; --line:rgba(255,255,255,.12); --surface:#272727; --bg:#1F1F1F;
   --up:#FF7F94; --down:#86B6FF; --accent:#66CFA4; --accent-soft:rgba(102,207,164,.14);
   --warn:#E9BC64; --warn-soft:rgba(233,204,145,.14); --bad:#FF7F94; --bad-soft:rgba(255,127,148,.14);
-  background:linear-gradient(160deg,#16243A 0%,#0E1A2B 70%);border:0;color:var(--ink);
-  box-shadow:0 10px 30px rgba(14,26,43,.25)}
+  background:linear-gradient(160deg,#232323 0%,#191919 70%);border:0;color:var(--ink);
+  box-shadow:0 10px 30px rgba(25,25,25,.25)}
 .pf-top .eyebrow{color:var(--gold)}
 .pf-top .hero-num{color:#FFFFFF;font-weight:800;letter-spacing:-.03em}
 .pf-top .btn{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:#FFFFFF}
 .pf-top .pf-bar{background:rgba(255,255,255,.06)}
-.pf-top .pf-open .card{background:#1A2940;border-color:var(--gold);box-shadow:none}
-.pf-top input,.pf-top select{background:#0E1A2B;color:#F3EFE6;border-color:rgba(255,255,255,.18)}
+.pf-top .pf-open .card{background:#272727;border-color:var(--gold);box-shadow:none}
+.pf-top input,.pf-top select{background:#191919;color:#EFEFEF;border-color:rgba(255,255,255,.18)}
 
 /* 브리핑 헤드라인 */
 .br-head{font-weight:800;letter-spacing:-.02em}
@@ -78,25 +78,25 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 
 /* ===== 톤 맞춘 데이터 색: 골드·슬레이트·세이지·코퍼·더스티 바이올렛·샌드 ===== */
 :root{
-  --s1:#B09868; --s2:#5C6F8C; --s3:#4F7F76; --s4:#BE5567; --s5:#6B6799; --s6:#C2B292; --series:#5C6F8C;
+  --s1:#8A8A8A; --s2:#6D6D6D; --s3:#4F7F76; --s4:#BE5567; --s5:#6B6799; --s6:#C2B292; --series:#6D6D6D;
   --up:#E14D66; --down:#3D6BB3;
-  --c-core:#B09868; --c-exp:#8C97A8; --c-cash:#E2DCCF;
+  --c-core:#8A8A8A; --c-exp:#969696; --c-cash:#DCDCDC;
   --s7:#7D8C4A; --s8:#B86472; --s9:#3E8AA0; --s10:#8E8064; --s11:#5B8A5E; --s12:#8A5FA0;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --s1:#D8BF8E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
+  --s1:#FF4D6D; --s2:#A1A1A1; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#D9D9D9; --series:#A1A1A1;
   --up:#FF869A; --down:#86AEEA;
-  --c-core:#D8BF8E; --c-exp:#6F7C90; --c-cash:#2A3546;
+  --c-core:#FF4D6D; --c-exp:#7B7B7B; --c-cash:#343434;
   --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9B895; --s11:#94C497; --s12:#BE9AD2;
 }}
 :root[data-theme="dark"]{
-  --s1:#D8BF8E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4; --series:#8FA3C2;
+  --s1:#FF4D6D; --s2:#A1A1A1; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#D9D9D9; --series:#A1A1A1;
   --up:#FF869A; --down:#86AEEA;
-  --c-core:#D8BF8E; --c-exp:#6F7C90; --c-cash:#2A3546;
+  --c-core:#FF4D6D; --c-exp:#7B7B7B; --c-cash:#343434;
   --s7:#B3C27C; --s8:#D99AAA; --s9:#7EC1D4; --s10:#C9B895; --s11:#94C497; --s12:#BE9AD2;
 }
 .pf-top{
-  --s1:#D8BF8E; --s2:#8FA3C2; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#E4D6B4;
+  --s1:#FF4D6D; --s2:#A1A1A1; --s3:#7FB0A5; --s4:#D09A7C; --s5:#A39FD0; --s6:#D9D9D9;
   --up:#FF869A; --down:#8DB4EC}
 .pf-top .pf-bar{gap:3px;height:8px}
 .pf-top .pf-bar i{border-radius:4px}
@@ -108,14 +108,14 @@ button.btn.primary{background:var(--navy);border-color:var(--navy);color:#FFFFFF
 .p-warn{background:var(--gold-soft);color:var(--warn)}
 /* 기간 선택 버튼: 네이비(라이트) / 골드(다크) */
 .seg button[aria-pressed="true"]{background:var(--navy);color:#FFFFFF}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}}
-:root[data-theme="dark"] .seg button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{background:var(--gold);color:#191919}}
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{background:var(--gold);color:#191919}
 .tr-chip.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
 
 /* ================= 디자인 v2: 더 단정하고 앱다운 화면 ================= */
-:root{ --r:18px; --line:#E8E3D8; --bg:#F6F4EF; }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){ --line:#1F2A3A; --bg:#0A0F18; }}
-:root[data-theme="dark"]{ --line:#1F2A3A; --bg:#0A0F18; }
+:root{ --r:18px; --line:#E3E3E3; --bg:#F4F4F4; }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){ --line:#292929; --bg:#0F0F0F; }}
+:root[data-theme="dark"]{ --line:#292929; --bg:#0F0F0F; }
 
 /* 헤더: 로고 + 워드마크 + 슬로건(잘리지 않게), 오른쪽은 아이콘만 */
 header.top{box-shadow:none}
@@ -131,39 +131,39 @@ header.top{box-shadow:none}
 .brand .bell:hover{background:rgba(255,255,255,.08)}
 .bell-n{top:1px;right:0;min-width:16px;height:16px;font-size:10px;box-shadow:0 0 0 2px var(--navy)}
 .acct{position:relative;display:flex}
-.acct-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:220px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 36px rgba(7,12,21,.24);padding:6px;z-index:40}
+.acct-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:220px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 36px rgba(12,12,12,.24);padding:6px;z-index:40}
 .acct-mail{padding:10px 10px 10px;border-bottom:1px solid var(--line);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .acct-item{all:unset;box-sizing:border-box;display:block;width:100%;padding:10px;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px}
 .acct-item:hover,.acct-item:focus-visible{background:var(--bg)}
 
 /* 저장 상태: 헤더 대신 잠깐 뜨는 토스트 */
-.save-toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,8px);background:rgba(14,26,43,.94);color:#FFFFFF;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;white-space:nowrap}
+.save-toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,8px);background:rgba(25,25,25,.94);color:#FFFFFF;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;white-space:nowrap}
 .save-toast.show{opacity:1;transform:translate(-50%,0)}
 @media (min-width:721px){.save-toast{bottom:28px}}
 
 /* 하위 메뉴: 테두리 없는 칩 */
 nav.subtabs{padding:4px 16px 12px;gap:6px}
 nav.subtabs button{border:0!important;background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);font-weight:600;padding:7px 14px}
-nav.subtabs button[aria-pressed="true"]{background:var(--gold);color:#0E1A2B}
+nav.subtabs button[aria-pressed="true"]{background:var(--gold);color:#191919}
 
 /* 메인 메뉴: 휴대폰에서는 아래 탭 바 */
 .tab-ic{display:none}
 @media (max-width:720px){
   nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;max-width:none;margin:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,1fr);gap:0;
     background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
-  nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;border:0!important;color:#8A93A3!important;font-size:11px;font-weight:600;letter-spacing:0}
+  nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;border:0!important;color:#929292!important;font-size:11px;font-weight:600;letter-spacing:0}
   nav.tabs button[aria-selected="true"]{color:var(--navy)!important}
   .tab-ic{display:block;line-height:0}
   .wrap{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
 }
-@media (max-width:720px) and (prefers-color-scheme: dark){:root:not([data-theme="light"]) nav.tabs{background:rgba(11,17,27,.92)} :root:not([data-theme="light"]) nav.tabs button[aria-selected="true"]{color:var(--gold)!important}}
-@media (max-width:720px){:root[data-theme="dark"] nav.tabs{background:rgba(11,17,27,.92)} :root[data-theme="dark"] nav.tabs button[aria-selected="true"]{color:var(--gold)!important}}
+@media (max-width:720px) and (prefers-color-scheme: dark){:root:not([data-theme="light"]) nav.tabs{background:rgba(16,16,16,.92)} :root:not([data-theme="light"]) nav.tabs button[aria-selected="true"]{color:var(--gold)!important}}
+@media (max-width:720px){:root[data-theme="dark"] nav.tabs{background:rgba(16,16,16,.92)} :root[data-theme="dark"] nav.tabs button[aria-selected="true"]{color:var(--gold)!important}}
 
 /* 제목·카드·칩: 장식 줄이고 여백·위계로 정리 */
 h2{font-size:19px;font-weight:800;letter-spacing:-.03em;margin:32px 0 12px}
 h2::before{display:none}
 h3{letter-spacing:-.02em}
-.card{border-radius:var(--r);padding:18px;box-shadow:0 1px 1px rgba(14,26,43,.03),0 8px 24px rgba(14,26,43,.045)}
+.card{border-radius:var(--r);padding:18px;box-shadow:0 1px 1px rgba(25,25,25,.03),0 8px 24px rgba(25,25,25,.045)}
 .eyebrow{letter-spacing:.02em;font-size:11.5px;font-weight:600}
 .pill{font-weight:600;border-radius:7px;padding:3px 8px;letter-spacing:-.01em}
 button.btn{border-radius:10px;font-weight:600;letter-spacing:-.01em}
@@ -226,58 +226,58 @@ input,select,textarea{border-radius:10px}
 
 /* ===== 톤앤매너: 앱 아이콘과 같은 네이비 그라데이션 · 아이보리 · 골드 광택 ===== */
 :root{
-  --ivory:#F3EEE3;
-  --navy-grad:radial-gradient(130% 160% at 50% -10%,#17283F 0%,#0E1A2B 45%,#0A1322 100%);
-  --gold-grad:linear-gradient(90deg,#B49C6D 0%,#EADBB9 50%,#B49C6D 100%);
-  --gold-grad-v:linear-gradient(180deg,#EADBB9 0%,#B49C6D 100%);
+  --ivory:#EEEEEE;
+  --navy-grad:radial-gradient(130% 160% at 50% -10%,#262626 0%,#191919 45%,#121212 100%);
+  --gold-grad:linear-gradient(90deg,#8E8E8E 0%,#E9E9E9 50%,#8E8E8E 100%);
+  --gold-grad-v:linear-gradient(180deg,#E9E9E9 0%,#8E8E8E 100%);
 }
 /* 헤더: 아이콘 배경과 같은 그라데이션 + 아래 골드 헤어라인 */
-header.top{background:var(--navy-grad);position:relative;box-shadow:0 8px 24px rgba(7,12,21,.22)}
+header.top{background:var(--navy-grad);position:relative;box-shadow:0 8px 24px rgba(12,12,12,.22)}
 header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-grad);opacity:.45}
-.brand-mark{width:34px;height:34px;border-radius:9px;flex:0 0 auto;display:block;box-shadow:0 0 0 1px rgba(234,219,185,.28),0 4px 10px rgba(0,0,0,.25)}
+.brand-mark{width:34px;height:34px;border-radius:9px;flex:0 0 auto;display:block;box-shadow:0 0 0 1px rgba(233,233,233,.28),0 4px 10px rgba(0,0,0,.25)}
 .wordmark .wm-a,.brand h1.wordmark{color:var(--ivory)}
 .wordmark .wm-b{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
-.brand-sub{color:#CDB78A}
-nav.tabs button{color:rgba(243,238,227,.58)}
+.brand-sub{color:#B0B0B0}
+nav.tabs button{color:rgba(238,238,238,.58)}
 nav.tabs button[aria-selected="true"]{color:var(--ivory);border-color:#D4BE91}
-nav.subtabs button[aria-pressed="true"]{background:var(--gold-grad);border-color:transparent;color:#0A1322}
-.bell-n{background:var(--gold-grad);color:#0A1322}
+nav.subtabs button[aria-pressed="true"]{background:var(--gold-grad);border-color:transparent;color:#121212}
+.bell-n{background:var(--gold-grad);color:#121212}
 /* 제목 앞 막대: 더 가늘게, 골드 광택 */
 h2::before{width:3px;height:16px;background:var(--gold-grad-v)}
 /* 주요 버튼: 네이비 그라데이션 + 아이보리 글씨 */
-button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);border-color:#0A1322;color:var(--ivory);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+button.btn.primary{background:linear-gradient(180deg,#262626 0%,#121212 100%);border-color:#121212;color:var(--ivory);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
 /* 포트폴리오 맨 위 카드: 아이콘과 같은 빛 */
-.pf-top{background:radial-gradient(120% 140% at 30% -10%,#1B2E49 0%,#0E1A2B 50%,#0A1322 100%);box-shadow:0 12px 32px rgba(10,19,34,.28),inset 0 0 0 1px rgba(234,219,185,.10)}
+.pf-top{background:radial-gradient(120% 140% at 30% -10%,#2C2C2C 0%,#191919 50%,#121212 100%);box-shadow:0 12px 32px rgba(18,18,18,.28),inset 0 0 0 1px rgba(233,233,233,.10)}
 .pf-top .hero-num{color:var(--ivory)}
 .pf-top .eyebrow{color:#D4BE91}
 /* 첫 화면(스플래시)·로그인 */
 #splash{background:var(--navy-grad)!important}
-#splash .sp-mark{width:88px;height:88px;border-radius:22px;display:block;margin-bottom:10px;box-shadow:0 0 0 1px rgba(234,219,185,.25),0 18px 40px rgba(0,0,0,.4);animation:spIn .7s ease-out both}
+#splash .sp-mark{width:88px;height:88px;border-radius:22px;display:block;margin-bottom:10px;box-shadow:0 0 0 1px rgba(233,233,233,.25),0 18px 40px rgba(0,0,0,.4);animation:spIn .7s ease-out both}
 #splash .sp-wm{color:var(--ivory)!important}
 #splash .sp-wm span{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent!important;padding-right:.06em}
-#splash .sp-sub{color:#CDB78A!important}
+#splash .sp-sub{color:#B0B0B0!important}
 #splash .sp-bar i{background:var(--gold-grad)!important}
-.login-mark{width:64px;height:64px;border-radius:16px;display:block;margin:0 auto 14px;box-shadow:0 10px 24px rgba(10,19,34,.25)}
+.login-mark{width:64px;height:64px;border-radius:16px;display:block;margin:0 auto 14px;box-shadow:0 10px 24px rgba(18,18,18,.25)}
 .wordmark.lg .wm-a{color:var(--ink)}
 /* 다크 모드: 주요 버튼은 골드 광택 */
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.btn.primary{background:var(--gold-grad);border-color:transparent;color:#0A1322}}
-:root[data-theme="dark"] button.btn.primary{background:var(--gold-grad);border-color:transparent;color:#0A1322}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.btn.primary{background:var(--gold-grad);border-color:transparent;color:#121212}}
+:root[data-theme="dark"] button.btn.primary{background:var(--gold-grad);border-color:transparent;color:#121212}
 /* ── 2026-10-23 확정 로고: Montserrat ExtraBold + 얇은 금색 줄 + 가운데 '밸류노트' (scripts/brand.py와 같은 모양) ── */
 .wordmark,#splash .sp-wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;font-variation-settings:normal!important}
-.wordmark .wm-b,#splash .sp-wm span{font-style:normal!important;font-weight:800!important;background:none!important;-webkit-text-fill-color:currentColor;color:#EADBB9!important;padding-right:0}
+.wordmark .wm-b,#splash .sp-wm span{font-style:normal!important;font-weight:800!important;background:none!important;-webkit-text-fill-color:currentColor;color:#E9E9E9!important;padding-right:0}
 .wordmark .wm-a,.brand h1.wordmark .wm-a,#splash .sp-wm{color:#FFFFFF!important}
 .wordmark.vn{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
-.wordmark.vn .vn-en{display:block;padding-bottom:.2em;border-bottom:1px solid #EADBB9;white-space:nowrap}
-.wordmark.vn .vn-ko{display:block;margin-top:.32em;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif;font-weight:700;font-size:.5em;letter-spacing:.22em;padding-left:.22em;color:#EADBB9}
+.wordmark.vn .vn-en{display:block;padding-bottom:.2em;border-bottom:1px solid #E9E9E9;white-space:nowrap}
+.wordmark.vn .vn-ko{display:block;margin-top:.32em;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif;font-weight:700;font-size:.5em;letter-spacing:.22em;padding-left:.22em;color:#E9E9E9}
 .brand h1.wordmark.vn{font-size:24px}
 .wordmark.vn.solo .vn-ko{display:none}.wordmark.vn.solo .vn-en{border:0;padding:0}
-.wordmark.lg.vn .wm-a{color:#0B1B33!important}.wordmark.lg.vn .wm-b,.wordmark.lg.vn .vn-ko{color:#AE9260!important}.wordmark.lg.vn .vn-en{border-color:#C0A87C}
-#splash .sp-wm{display:inline-block;padding-bottom:.18em;border-bottom:1.5px solid #EADBB9;font-size:44px!important}
-#splash .sp-name{color:#EADBB9!important;font-size:21px!important;font-weight:700!important;letter-spacing:.24em!important;margin-top:10px!important;padding-left:.24em}
+.wordmark.lg.vn .wm-a{color:#191919!important}.wordmark.lg.vn .wm-b,.wordmark.lg.vn .vn-ko{color:#AE9260!important}.wordmark.lg.vn .vn-en{border-color:#C0A87C}
+#splash .sp-wm{display:inline-block;padding-bottom:.18em;border-bottom:1.5px solid #E9E9E9;font-size:44px!important}
+#splash .sp-name{color:#E9E9E9!important;font-size:21px!important;font-weight:700!important;letter-spacing:.24em!important;margin-top:10px!important;padding-left:.24em}
 
 /* 2026-11-17 대표님: 새 브랜드 — VALUE 굵게 + NOTE 얇게, 흰색, 금색 제거, 포인트 핑크 */
 @font-face{font-family:"Montserrat";font-style:normal;font-weight:300;font-display:block;src:url(/fonts/montserrat-300.woff2) format("woff2")}
-#splash{background:#0A101C!important}
+#splash{background:#101010!important}
 #splash .sp-wm{font-family:"Montserrat",sans-serif!important;font-weight:800!important;letter-spacing:.06em!important;color:#fff!important;border-bottom:0!important;padding-bottom:0!important}
 #splash .sp-wm span{font-weight:300!important;color:#fff!important;background:none!important;-webkit-text-fill-color:#fff!important;margin-left:.06em}
 #splash .sp-name{color:rgba(255,255,255,.88)!important;font-weight:500!important;font-size:18px!important;letter-spacing:.5em!important;margin-top:4px!important}
@@ -289,7 +289,7 @@ button.btn.primary{background:linear-gradient(180deg,#17283F 0%,#0A1322 100%);bo
 .wordmark .wm-b{font-weight:300!important;color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important;margin-left:.05em}
 .wordmark.vn .vn-en{border-bottom:0!important}
 .wordmark.vn .vn-ko{color:rgba(255,255,255,.85)!important;font-weight:500!important}
-.wordmark.lg .wm-a,.wordmark.lg.vn .wm-a{color:#0A101C!important}
-.wordmark.lg .wm-b,.wordmark.lg.vn .wm-b{color:#0A101C!important;-webkit-text-fill-color:#0A101C!important}
-.wordmark.lg.vn .vn-ko{color:#0A101C!important}
+.wordmark.lg .wm-a,.wordmark.lg.vn .wm-a{color:#101010!important}
+.wordmark.lg .wm-b,.wordmark.lg.vn .wm-b{color:#101010!important;-webkit-text-fill-color:#101010!important}
+.wordmark.lg.vn .vn-ko{color:#101010!important}
 

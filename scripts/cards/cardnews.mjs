@@ -29,7 +29,7 @@ const FONT_DIR = path.join(path.dirname(req.resolve('pretendard/package.json')),
 const fonts = [['Medium', 500], ['Bold', 700], ['ExtraBold', 800], ['Black', 900]].map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FONT_DIR, `Pretendard-${w}.woff`)), weight: n, style: 'normal' }));
 
 const W = 1080, H = 1350;
-const C = { navy: '#0D1828', navy2: '#16253B', card: '#1B2B44', ink: '#F4EFE4', mute: '#B3BDCB', dim: '#8693A7', gold: '#EADBB9', gold2: '#C9AF7A', up: '#3DF5A0', down: '#FF4D6D', line: 'rgba(255,255,255,.12)' };
+const C = { navy: '#171717', navy2: '#232323', card: '#292929', ink: '#EFEFEF', mute: '#BCBCBC', dim: '#929292', gold: '#E9E9E9', gold2: '#FF4D6D', up: '#3DF5A0', down: '#FF4D6D', line: 'rgba(255,255,255,.12)' };
 const h = (type, style, ...children) => ({ type, props: { style: { display: 'flex', ...style }, children: children.flat().filter((c) => c !== null && c !== undefined && c !== false && c !== '') } });
 const t = (text, style) => h('div', { wordBreak: 'keep-all', ...style }, String(text));
 const img = (src, style) => ({ type: 'img', props: { src, style } });
@@ -46,7 +46,7 @@ const credit = (f) => { const c = CREDITS[f]; if (!c) return ''; const a = Strin
 
 function shell(spec, i, n, body, { light = false } = {}) {
   return h('div', { width: W, height: H, flexDirection: 'column', background: C.navy, color: C.ink, fontFamily: 'P', position: 'relative' },
-    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'radial-gradient(circle at 85% 0%, rgba(234,219,185,.10), rgba(13,24,40,0) 55%)' }),
+    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'radial-gradient(circle at 85% 0%, rgba(233,233,233,.10), rgba(23,23,23,0) 55%)' }),
     h('div', { justifyContent: 'space-between', alignItems: 'center', padding: '56px 64px 0 64px' },
       mark(), h('div', { fontSize: 26, fontWeight: 800, color: C.mute, background: 'rgba(255,255,255,.08)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
     h('div', { flexDirection: 'column', flexGrow: 1, padding: '40px 64px 0 64px' }, body),
@@ -62,14 +62,14 @@ const num = (k, bg = '#FFFFFF') => h('div', { width: 64, height: 64, borderRadiu
 const K = {
   cover: (s, sp, i, n) => h('div', { width: W, height: H, position: 'relative', fontFamily: 'P', color: '#FFFFFF', background: C.navy },
     img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: H, objectFit: 'cover' }),
-    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'linear-gradient(180deg,rgba(9,17,30,.55) 0%,rgba(9,17,30,.25) 30%,rgba(9,17,30,.80) 62%,rgba(9,17,30,.96) 100%)' }),
+    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'linear-gradient(180deg,rgba(16,16,16,.55) 0%,rgba(16,16,16,.25) 30%,rgba(16,16,16,.80) 62%,rgba(16,16,16,.96) 100%)' }),
     h('div', { position: 'absolute', left: 64, top: 56, right: 64, justifyContent: 'space-between', alignItems: 'center' }, mark(210),
       h('div', { fontSize: 26, fontWeight: 800, color: '#FFFFFF', background: 'rgba(0,0,0,.35)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
     h('div', { position: 'absolute', left: 64, right: 64, bottom: 96, flexDirection: 'column' },
       eyebrow(s.eyebrow),
       t(s.l1, { fontSize: s.l1.length > 13 ? 84 : 100, fontWeight: 900, letterSpacing: -3, lineHeight: 1.12, textShadow: '0 4px 18px rgba(0,0,0,.5)' }),
       t(s.l2, { fontSize: s.l2.length > 13 ? 84 : 100, fontWeight: 900, letterSpacing: -3, lineHeight: 1.12, color: C.gold, textShadow: '0 4px 18px rgba(0,0,0,.5)' }),
-      s.sub ? h('div', { flexDirection: 'column', marginTop: 30 }, String(s.sub).split('\n').map((l) => t(l, { fontSize: 36, fontWeight: 700, color: '#E3E8EF', lineHeight: 1.4 }))) : null)),
+      s.sub ? h('div', { flexDirection: 'column', marginTop: 30 }, String(s.sub).split('\n').map((l) => t(l, { fontSize: 36, fontWeight: 700, color: '#E7E7E7', lineHeight: 1.4 }))) : null)),
 
   text: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column' },
     eyebrow(s.eyebrow), bigTitle(s.title, s.size || 66),
@@ -84,12 +84,12 @@ const K = {
 
   criteria: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column' },
     eyebrow(s.eyebrow), bigTitle(s.title, s.size || 62),
-    h('div', { flexDirection: 'column', marginTop: s.rows.length > 4 ? 30 : 40, gap: s.rows.length > 4 ? 14 : 20 }, s.rows.map((r, k) => h('div', { alignItems: 'center', background: '#F4EFE4', borderRadius: 24, padding: s.rows.length > 4 ? '20px 30px' : '30px 32px', gap: 26 },
+    h('div', { flexDirection: 'column', marginTop: s.rows.length > 4 ? 30 : 40, gap: s.rows.length > 4 ? 14 : 20 }, s.rows.map((r, k) => h('div', { alignItems: 'center', background: '#EFEFEF', borderRadius: 24, padding: s.rows.length > 4 ? '20px 30px' : '30px 32px', gap: 26 },
       num(k + 1, C.navy2),
       h('div', { flexDirection: 'column', flexGrow: 1, flexShrink: 1 },
         t(r.label, { fontSize: 40, fontWeight: 900, color: C.navy, letterSpacing: -1 }),
-        r.sub ? t(r.sub, { fontSize: 27, fontWeight: 600, color: '#5B6678', marginTop: 6, lineHeight: 1.35 }) : null),
-      r.value ? h('div', { flexShrink: 0, borderLeft: '2px solid #D9D1C1', paddingLeft: 26, minWidth: 190, justifyContent: 'flex-end' },
+        r.sub ? t(r.sub, { fontSize: 27, fontWeight: 600, color: '#656565', marginTop: 6, lineHeight: 1.35 }) : null),
+      r.value ? h('div', { flexShrink: 0, borderLeft: '2px solid #D2D2D2', paddingLeft: 26, minWidth: 190, justifyContent: 'flex-end' },
         t(r.value, { fontSize: 38, fontWeight: 900, color: '#1F7A55', letterSpacing: -1 })) : null))),
     s.note ? para(s.note, { fontSize: 28, marginTop: 30 }) : null)),
 
@@ -102,7 +102,7 @@ const K = {
       h('div', { alignItems: 'baseline', justifyContent: 'space-between', marginTop: 4 },
         t(it.big, { fontSize: 62, fontWeight: 900, letterSpacing: -2, lineHeight: 1.1, color: ['good', 'green'].includes(it.tone) ? C.up : ['bad', 'red'].includes(it.tone) ? C.down : C.ink }),
         it.side ? t(it.side, { fontSize: 34, fontWeight: 800, color: C.mute }) : null),
-      it.chip ? h('div', { marginTop: 10, alignSelf: 'flex-start', background: 'rgba(234,219,185,.12)', border: '1px solid rgba(234,219,185,.35)', borderRadius: 12, padding: '8px 16px' }, t(it.chip, { fontSize: 28, fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null,
+      it.chip ? h('div', { marginTop: 10, alignSelf: 'flex-start', background: 'rgba(233,233,233,.12)', border: '1px solid rgba(233,233,233,.35)', borderRadius: 12, padding: '8px 16px' }, t(it.chip, { fontSize: 28, fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null,
       it.meaning ? t(it.meaning, { fontSize: 29, fontWeight: 700, color: C.ink, marginTop: 10 }) : null))),
     s.note ? h('div', { flexDirection: 'column', marginTop: 22 }, String(s.note).split('\n').map((l, k) => t(l, { fontSize: 31, fontWeight: k ? 700 : 900, color: k ? C.mute : C.gold, lineHeight: 1.4 }))) : null,
     s.small ? t(s.small, { fontSize: 22, color: C.dim, fontWeight: 500, lineHeight: 1.4, marginTop: 'auto', paddingBottom: 14 }) : null))
@@ -132,10 +132,10 @@ const K = {
       s.inline  // inline: 큰 숫자와 칩을 한 줄에 (2열 × 5줄 = 타일 10개용, 2026-10-24)
         ? h('div', { alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
           t(x.big, { fontSize: 58, fontWeight: 900, color: tone(x.tone), letterSpacing: -2, lineHeight: 1.1 }),
-          x.chip ? h('div', { background: 'rgba(234,219,185,.12)', border: '1px solid rgba(234,219,185,.35)', borderRadius: 10, padding: '6px 12px' }, t(x.chip, { fontSize: 23, fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null)
+          x.chip ? h('div', { background: 'rgba(233,233,233,.12)', border: '1px solid rgba(233,233,233,.35)', borderRadius: 10, padding: '6px 12px' }, t(x.chip, { fontSize: 23, fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null)
         : t(x.big, { fontSize: z(x.big.length > 9 ? 46 : 70), fontWeight: 900, color: tone(x.tone), letterSpacing: -2, marginTop: z(4), lineHeight: 1.1 }),
       x.bigLabel ? t(x.bigLabel, { fontSize: z(21), color: C.mute, fontWeight: 700, marginTop: 2, lineHeight: 1.3 }) : null,
-      x.chip && !s.inline ? h('div', { marginTop: z(10), background: 'rgba(234,219,185,.12)', border: '1px solid rgba(234,219,185,.35)', borderRadius: 10, padding: '7px 8px', justifyContent: 'center' }, t(x.chip, { fontSize: z(x.chip.length > 16 ? 20 : 22), fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null,
+      x.chip && !s.inline ? h('div', { marginTop: z(10), background: 'rgba(233,233,233,.12)', border: '1px solid rgba(233,233,233,.35)', borderRadius: 10, padding: '7px 8px', justifyContent: 'center' }, t(x.chip, { fontSize: z(x.chip.length > 16 ? 20 : 22), fontWeight: 900, color: C.gold, letterSpacing: -0.5 })) : null,
       x.note ? h('div', { flexDirection: 'column', marginTop: z(10) }, String(x.note).split('\n').map((l) => t(l, { fontSize: z(22), color: C.ink, fontWeight: 700, lineHeight: 1.35 }))) : null);
     const rows = []; for (let k = 0; k < s.tiles.length; k += cols) rows.push(s.tiles.slice(k, k + cols));
     return shell(sp, i, n, h('div', { flexDirection: 'column', flexGrow: 1 },
@@ -192,7 +192,7 @@ const K = {
     return h('div', { width: W, height: H, flexDirection: 'column', position: 'relative', fontFamily: 'P', color: C.ink, background: C.navy },
       h('div', { width: W, height: PH, position: 'relative' },
         img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: PH, objectFit: 'cover' }),
-        h('div', { position: 'absolute', left: 0, top: 0, width: W, height: PH, background: 'linear-gradient(180deg,rgba(9,17,30,.55) 0%,rgba(9,17,30,0) 26%,rgba(9,17,30,0) 70%,rgba(13,24,40,1) 100%)' }),
+        h('div', { position: 'absolute', left: 0, top: 0, width: W, height: PH, background: 'linear-gradient(180deg,rgba(16,16,16,.55) 0%,rgba(16,16,16,0) 26%,rgba(16,16,16,0) 70%,rgba(23,23,23,1) 100%)' }),
         h('div', { position: 'absolute', left: 64, top: 56, right: 64, justifyContent: 'space-between', alignItems: 'center' }, mark(190),
           h('div', { fontSize: 26, fontWeight: 800, color: '#FFFFFF', background: 'rgba(0,0,0,.40)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
         credit(s.photo) ? t(credit(s.photo), { position: 'absolute', right: 64, bottom: 40, fontSize: 17, color: 'rgba(255,255,255,.55)', fontWeight: 500 }) : null),
@@ -266,7 +266,7 @@ const K = {
   //   takeaway: "**금색 강조**가 들어간 결론 한 줄"
   ecover: (s, sp, i, n) => h('div', { width: W, height: H, position: 'relative', fontFamily: 'P', color: '#FFFFFF', background: C.navy },
     img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: H, objectFit: 'cover' }),
-    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'linear-gradient(180deg,rgba(9,17,30,.70) 0%,rgba(9,17,30,.20) 28%,rgba(9,17,30,.55) 52%,rgba(9,17,30,.97) 74%,rgba(13,24,40,1) 100%)' }),
+    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'linear-gradient(180deg,rgba(16,16,16,.70) 0%,rgba(16,16,16,.20) 28%,rgba(16,16,16,.55) 52%,rgba(16,16,16,.97) 74%,rgba(23,23,23,1) 100%)' }),
     h('div', { position: 'absolute', left: 64, top: 56, right: 64, justifyContent: 'space-between', alignItems: 'center' }, mark(210),
       h('div', { fontSize: 26, fontWeight: 800, color: '#FFFFFF', background: 'rgba(0,0,0,.35)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
     credit(s.photo) ? t(credit(s.photo), { position: 'absolute', right: 64, top: 130, fontSize: 17, color: 'rgba(255,255,255,.6)', fontWeight: 500 }) : null,
@@ -274,7 +274,7 @@ const K = {
       s.eyebrow ? h('div', { background: C.gold, color: C.navy, fontSize: 32, fontWeight: 900, borderRadius: 14, padding: '8px 22px', marginBottom: 22 }, s.eyebrow) : null,
       t(s.l1, { fontSize: s.l1.length > 11 ? 84 : 96, fontWeight: 900, letterSpacing: -3, lineHeight: 1.1, textShadow: '0 4px 18px rgba(0,0,0,.6)', textAlign: 'center' }),
       t(s.big, { fontSize: s.big.length > 9 ? 150 : 178, fontWeight: 900, letterSpacing: -6, lineHeight: 1.05, marginTop: 8, color: s.tone === 'down' ? C.down : s.tone === 'up' ? C.up : C.gold, textShadow: '0 6px 24px rgba(0,0,0,.55)' }),
-      s.sub ? t(s.sub, { fontSize: 40, fontWeight: 800, color: '#E3E8EF', marginTop: 14, textAlign: 'center', lineHeight: 1.35 }) : null,
+      s.sub ? t(s.sub, { fontSize: 40, fontWeight: 800, color: '#E7E7E7', marginTop: 14, textAlign: 'center', lineHeight: 1.35 }) : null,
       s.date ? t(s.date, { fontSize: 24, fontWeight: 600, color: 'rgba(255,255,255,.55)', marginTop: 26 }) : null)),
 
   data: (s, sp, i, n) => {
@@ -326,7 +326,7 @@ const K = {
       t(k.value, { fontSize: k.value.length > 9 ? 46 : 56, fontWeight: 900, color: tone(k.tone || 'plain'), letterSpacing: -2, marginTop: 4, lineHeight: 1.1 }),
       k.sub ? t(k.sub, { fontSize: 22, fontWeight: 600, color: C.mute, marginTop: 4 }) : null))) : null;
 
-    const quote = s.quote ? h('div', { flexDirection: 'column', marginTop: 18, borderLeft: `6px solid ${C.gold}`, background: 'rgba(234,219,185,.07)', borderRadius: '0 18px 18px 0', padding: '18px 24px' },
+    const quote = s.quote ? h('div', { flexDirection: 'column', marginTop: 18, borderLeft: `6px solid ${C.gold}`, background: 'rgba(233,233,233,.07)', borderRadius: '0 18px 18px 0', padding: '18px 24px' },
       s.quote.en ? t(`“${s.quote.en}”`, { fontSize: 23, fontWeight: 600, color: C.dim, lineHeight: 1.4 }) : null,
       t(s.quote.ko, { fontSize: 32, fontWeight: 900, color: C.ink, marginTop: 6, lineHeight: 1.35 }),
       s.quote.who ? t(s.quote.who, { fontSize: 22, fontWeight: 700, color: C.gold, marginTop: 8 }) : null) : null;
@@ -350,7 +350,7 @@ const K = {
         s.thumb ? img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.thumb)), { width: 170, height: 170, borderRadius: 26, objectFit: 'cover', flexShrink: 0, marginLeft: 20, border: `2px solid ${C.line}` }) : null),
       h('div', { flexDirection: 'column', marginTop: 26 }, chart, split, watch),
       kpis, quote,
-      s.takeaway ? h('div', { marginTop: 24, marginBottom: 14, background: 'rgba(234,219,185,.10)', border: `2px solid ${C.gold2}`, borderRadius: 18, padding: '16px 22px' }, rich(s.takeaway, 30)) : null));
+      s.takeaway ? h('div', { marginTop: 24, marginBottom: 14, background: 'rgba(233,233,233,.10)', border: `2px solid ${C.gold2}`, borderRadius: 18, padding: '16px 22px' }, rich(s.takeaway, 30)) : null));
   },
 
   // ── 화제형 (2026-10-29 운영자: korean_alpha_male 벤치마킹 — "화제성 글들을 우리 톤으로") ──
@@ -363,7 +363,7 @@ const K = {
     return h('div', { width: W, height: H, position: 'relative', fontFamily: 'P', color: C.ink, background: C.navy, flexDirection: 'column' },
       h('div', { width: W, height: PH, position: 'relative' },
         img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: PH, objectFit: 'cover' }),
-        h('div', { position: 'absolute', left: 0, top: 0, width: W, height: PH, background: 'linear-gradient(180deg,rgba(9,17,30,.55) 0%,rgba(9,17,30,0) 22%,rgba(9,17,30,0) 62%,rgba(13,24,40,1) 100%)' }),
+        h('div', { position: 'absolute', left: 0, top: 0, width: W, height: PH, background: 'linear-gradient(180deg,rgba(16,16,16,.55) 0%,rgba(16,16,16,0) 22%,rgba(16,16,16,0) 62%,rgba(23,23,23,1) 100%)' }),
         h('div', { position: 'absolute', left: 50, top: 46, right: 50, justifyContent: 'space-between', alignItems: 'center' }, mark(190),
           h('div', { fontSize: 26, fontWeight: 800, color: '#FFFFFF', background: 'rgba(0,0,0,.40)', borderRadius: 40, padding: '8px 22px' }, `${i}/${n}`)),
         credit(s.photo) ? t(credit(s.photo), { position: 'absolute', right: 50, top: 120, fontSize: 17, color: 'rgba(255,255,255,.55)', fontWeight: 500 }) : null),
@@ -375,7 +375,7 @@ const K = {
   },
 
   story: (s, sp, i, n) => shell(sp, i, n, h('div', { flexDirection: 'column', flexGrow: 1, marginTop: -10 },
-    h('div', { borderLeft: `8px solid ${C.gold}`, background: 'rgba(234,219,185,.10)', borderRadius: '0 18px 18px 0', padding: '18px 24px', flexDirection: 'column' },
+    h('div', { borderLeft: `8px solid ${C.gold}`, background: 'rgba(233,233,233,.10)', borderRadius: '0 18px 18px 0', padding: '18px 24px', flexDirection: 'column' },
       String(s.head).split('\n').map((l) => t(l, { fontSize: 48, fontWeight: 900, color: C.gold, lineHeight: 1.3, letterSpacing: -1 }))),
     s.photo ? img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { width: W - 128, height: 380, objectFit: 'cover', borderRadius: 22, marginTop: 30 }) : null,
     s.big ? h('div', { alignItems: 'baseline', gap: 18, marginTop: 26 }, t(s.big, { fontSize: 96, fontWeight: 900, letterSpacing: -3, color: s.tone === 'down' ? C.down : s.tone === 'up' ? C.up : C.ink }), s.bigNote ? t(s.bigNote, { fontSize: 32, fontWeight: 700, color: C.mute }) : null) : null,

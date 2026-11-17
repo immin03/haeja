@@ -297,7 +297,7 @@ rep(".dropbox{", """.brand-r{display:flex;align-items:center;gap:8px;margin-left
 # 3) 로컬 저장 안내 문구 제거 (웹에서는 항상 DB)
 s = s.replace("${store.mode==='local'?`<div class=\"notice\" style=\"margin-top:16px\">로그인 상태가 아니어서 이 기기 브라우저에만 저장됩니다.</div>`:''}", "")
 
-LOGO = '<svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#16243A"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#C9B180"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#C9B180"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#C9B180"/></svg>'
+LOGO = '<svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#232323"/><rect x="17" y="13" width="30" height="38" rx="4" fill="#FFFFFF"/><rect x="22" y="36" width="4.5" height="9" rx="1.2" fill="#FF4D6D"/><rect x="29.7" y="30" width="4.5" height="15" rx="1.2" fill="#FF4D6D"/><rect x="37.4" y="23" width="4.5" height="22" rx="1.2" fill="#FF4D6D"/></svg>'
 rep('<div class="brand"><h1>가치노트</h1><small id="saveState">불러오는 중</small></div>', '<div class="brand"><div class="brand-l"><div class="brand-t"><h1 class="wordmark" aria-label="ValueNote 가치노트"><span class="wm-a">VALUE</span><span class="wm-b">NOTE</span></h1><span class="brand-sub">' + APP_SLOGAN + '</span></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>')
 rep("function setSave(t){ const el = $('#saveState'); if(el) el.textContent = t; }", "function setSave(t){ const el = $('#saveState'); if(!el) return; clearTimeout(setSave._t); if(!t || t === '동기화됨'){ el.classList.remove('show'); return; } el.textContent = t; el.classList.add('show'); if(!/중$/.test(t)) setSave._t = setTimeout(() => el.classList.remove('show'), t.includes('실패') ? 5000 : 1400); }")
 # tab icons (bottom bar on mobile)
@@ -313,10 +313,10 @@ HEAD = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="icon" type="image/png" href="/favicon-64.png?v=7">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=8">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=7">
-<meta name="theme-color" content="#0E1A2B">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=8">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="밸류노트">
 <meta name="application-name" content="밸류노트">
@@ -328,14 +328,14 @@ HEAD = """<!doctype html>
 <script src="config.js"></script>
 <script>window.__t0=Date.now();window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__installEvt=e;});</script>
 <style>
-#splash{position:fixed;inset:0;z-index:100;background:#0E1A2B;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .45s ease;font-family:"VN Arrow","SUIT Variable","SUIT","Pretendard Variable",system-ui,sans-serif}
+#splash{position:fixed;inset:0;z-index:100;background:#191919;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .45s ease;font-family:"VN Arrow","SUIT Variable","SUIT","Pretendard Variable",system-ui,sans-serif}
 #splash.out{opacity:0;pointer-events:none}
 #splash .sp-wm{font-family:"Fraunces",Georgia,serif;font-size:46px;font-weight:600;letter-spacing:-.02em;color:#FFFFFF;animation:spIn .7s ease-out both;font-variation-settings:"opsz" 144}
-#splash .sp-wm span{color:#C9B180;font-style:italic}
-#splash .sp-sub{color:#C9B180;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;animation:spIn .7s .15s ease-out both}
+#splash .sp-wm span{color:#FF4D6D;font-style:italic}
+#splash .sp-sub{color:#FF4D6D;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;animation:spIn .7s .15s ease-out both}
 #splash .sp-ko{color:rgba(255,255,255,.6);font-size:13px;animation:spIn .7s .3s ease-out both}
 #splash .sp-bar{width:120px;height:2px;border-radius:1px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:18px}
-#splash .sp-bar i{display:block;height:100%;width:40%;background:#C9B180;animation:spBar 1.1s ease-in-out infinite}
+#splash .sp-bar i{display:block;height:100%;width:40%;background:#FF4D6D;animation:spBar 1.1s ease-in-out infinite}
 @keyframes spIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes spBar{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
 @media (prefers-reduced-motion: reduce){#splash *{animation:none!important}}

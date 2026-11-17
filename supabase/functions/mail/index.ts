@@ -88,7 +88,7 @@ const companiesText = (n: number) => n ? `${Math.floor(n / 50) * 50}곳이 넘�
 /* ---------- 메일 틀 (2026-11-05 대표: 더 세련되게 · SUIT · 웹과 같은 느낌) ---------- */
 const F = `'SUIT Variable','SUIT','Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif`;
 const WM = `'Montserrat','Helvetica Neue',Arial,sans-serif`;
-const NAVY = "#0E1A2B", NAVY2 = "#17283F", GOLD = "#C9B180", GOLD2 = "#B49C6D", IVORY = "#EADBB9", INK = "#0E1A2B", BODY = "#3B4657", MUTED = "#6B7484", LINE = "#E9E4D8", BG = "#F5F3EE";
+const NAVY = "#191919", NAVY2 = "#262626", GOLD = "#FF4D6D", GOLD2 = "#8E8E8E", IVORY = "#E9E9E9", INK = "#191919", BODY = "#454545", MUTED = "#737373", LINE = "#E4E4E4", BG = "#F3F3F3";
 const eyebrow = (t: string, c = GOLD2) => `<div style="font-family:${F};font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:${c}">${t}</div>`;
 const btn = (href: string, t: string, dark = true) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 2px"><tr><td style="background:${dark ? NAVY : IVORY};border-radius:999px"><a href="${href}" style="display:inline-block;padding:14px 26px;font-family:${F};font-size:14.5px;font-weight:700;letter-spacing:-.01em;color:${dark ? "#FFFFFF" : NAVY};text-decoration:none;word-break:keep-all">${t}</a></td></tr></table>`;
 const h2 = (eb: string, t: string) => `<tr><td style="padding:44px 36px 14px">${eyebrow(eb)}<div style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:${INK};margin-top:8px;word-break:keep-all">${t}</div></td></tr>`;
@@ -121,7 +121,7 @@ function vidGrid(V: Vid[], src: string) {
 }
 const channels = (src: string) => {
   const a = (href: string, t: string) => `<a href="${href}" style="font-family:${F};font-size:12.5px;font-weight:700;color:${IVORY};text-decoration:none;letter-spacing:.02em">${t}</a>`;
-  const dot = `<span style="color:#3A4A62">&nbsp;&nbsp;·&nbsp;&nbsp;</span>`;
+  const dot = `<span style="color:#484848">&nbsp;&nbsp;·&nbsp;&nbsp;</span>`;
   return `${a(`https://www.youtube.com/@valuenote_korea?utm_source=valuenote_mail&utm_campaign=${src}`, "YouTube")}${dot}${a("https://www.instagram.com/value.note.korea/", "Instagram")}${dot}${a("https://blog.naver.com/valuenote_korea", "Naver Blog")}${dot}${a(`${SITE}/?utm_source=mail&utm_campaign=${src}`, "valuenote.co.kr")}`;
 };
 /* 로고: Montserrat "Value"(흰)+"Note"(아이보리) · 아래 얇은 금선 · 그 아래 가운데 '밸류노트' (2026-10-23 확정안) */
@@ -132,12 +132,12 @@ const wordmark = `<table role="presentation" cellpadding="0" cellspacing="0"><tr
 const ARW = `<span style="font-family:Arial,Helvetica,sans-serif;font-weight:400">→</span>`;
 /* hero: 남색 첫 화면 — 위에 로고, 아래에 작은 금색 라벨 + 큰 제목 + 한 줄 설명 (+ 버튼) */
 function hero(eb: string, title: string, sub: string, cta?: [string, string]) {
-  return `<tr><td style="background:${NAVY};background-image:linear-gradient(160deg,${NAVY2} 0%,${NAVY} 55%,#0A1322 100%);padding:34px 36px 44px">
+  return `<tr><td style="background:${NAVY};background-image:linear-gradient(160deg,${NAVY2} 0%,${NAVY} 55%,#121212 100%);padding:34px 36px 44px">
     ${wordmark}
     <div style="height:40px;line-height:40px;font-size:1px">&nbsp;</div>
     ${eyebrow(eb, GOLD)}
     <div style="font-family:${F};font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.38;color:#FFFFFF;margin-top:12px;word-break:keep-all">${title}</div>
-    <div style="font-family:${F};font-size:15px;line-height:1.8;color:#B9C2CF;margin-top:14px;word-break:keep-all">${sub}</div>
+    <div style="font-family:${F};font-size:15px;line-height:1.8;color:#C1C1C1;margin-top:14px;word-break:keep-all">${sub}</div>
     ${cta ? btn(cta[0], cta[1], false) : ""}
   </td></tr>`;
 }
@@ -158,9 +158,9 @@ ${body.replace(/→/g, ARW)}
 <tr><td style="height:44px;line-height:44px;font-size:1px">&nbsp;</td></tr>
 <tr><td style="background:${NAVY};padding:28px 36px 30px">
   <div>${channels(src)}</div>
-  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:16px;word-break:keep-all">${foot}</div>
-  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:8px;word-break:keep-all">밸류노트의 글과 영상은 공개된 자료를 정리한 것이며 특정 종목의 매수·매도를 권하지 않습니다.</div>
-  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#8C97A8;margin-top:8px">보낸 곳: 밸류노트(ValueNote) · 문의 <a href="mailto:${CONTACT}" style="color:#B9C2CF;text-decoration:underline">${CONTACT}</a></div>
+  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#969696;margin-top:16px;word-break:keep-all">${foot}</div>
+  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#969696;margin-top:8px;word-break:keep-all">밸류노트의 글과 영상은 공개된 자료를 정리한 것이며 특정 종목의 매수·매도를 권하지 않습니다.</div>
+  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:#969696;margin-top:8px">보낸 곳: 밸류노트(ValueNote) · 문의 <a href="mailto:${CONTACT}" style="color:#C1C1C1;text-decoration:underline">${CONTACT}</a></div>
 </td></tr>
 </table></td></tr></table></body></html>`);
 }
@@ -194,17 +194,17 @@ async function welcome(w: Who) {
       <td width="20" valign="middle" align="right" style="font-family:${F};font-size:15px;color:${GOLD2}">→</td></tr></table></a>`).join("")}
   </td></tr></table></td></tr>`;
   const consent = w.ok && w.consent_at
-    ? `${kDate(w.consent_at)}에 칼럼·투자 정보 메일 수신에 동의하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:#B9C2CF;text-decoration:underline">수신 거부</a>를 누르세요.`
-    : `이 메일은 밸류노트 가입 안내 메일입니다. 칼럼 메일은 위 버튼이나 앱의 <a href="${tabUrl("account", "welcome")}" style="color:#B9C2CF;text-decoration:underline">내 계정</a>에서 켤 수 있으며, 켜지 않으면 이 안내 말고는 보내지 않습니다.`;
+    ? `${kDate(w.consent_at)}에 칼럼·투자 정보 메일 수신에 동의하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:#C1C1C1;text-decoration:underline">수신 거부</a>를 누르세요.`
+    : `이 메일은 밸류노트 가입 안내 메일입니다. 칼럼 메일은 위 버튼이나 앱의 <a href="${tabUrl("account", "welcome")}" style="color:#C1C1C1;text-decoration:underline">내 계정</a>에서 켤 수 있으며, 켜지 않으면 이 안내 말고는 보내지 않습니다.`;
   /* 칼럼을 보여 준 바로 다음에 구독 상자 */
   const sub = w.ok
     ? `<tr><td style="padding:28px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:20px 22px">${eyebrow("Weekly Note")}<div style="font-family:${F};font-size:15px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">칼럼 메일 구독이 완료됐습니다. 매주 월요일 아침 8시 30분, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 보내 드립니다.</div></div></td></tr>`
     : `<tr><td style="padding:32px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};background-image:linear-gradient(150deg,${NAVY2} 0%,${NAVY} 60%);border-radius:18px"><tr><td style="padding:30px 28px">
       ${eyebrow("Weekly Note · 매주 월요일 08:30", GOLD)}
       <div style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.025em;line-height:1.45;color:#FFFFFF;margin-top:10px;word-break:keep-all">한 주의 시장을<br>칼럼 네 편으로 정리해 드립니다</div>
-      <div style="font-family:${F};font-size:14px;line-height:1.8;color:#B9C2CF;margin-top:12px;word-break:keep-all">한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 월요일 아침 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
+      <div style="font-family:${F};font-size:14px;line-height:1.8;color:#C1C1C1;margin-top:12px;word-break:keep-all">한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 월요일 아침 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
       ${btn(w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", "welcome"), "칼럼 메일 받기 →", false)}
-      <div style="font-family:${F};font-size:11px;line-height:1.7;color:#7F8B9D;margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 칼럼·투자 정보(광고성 정보) 수신 동의이며 선택 사항입니다.</div>
+      <div style="font-family:${F};font-size:11px;line-height:1.7;color:#8A8A8A;margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 칼럼·투자 정보(광고성 정보) 수신 동의이며 선택 사항입니다.</div>
     </td></tr></table></td></tr>`;
   const body = `${hero("Welcome to ValueNote", `${esc(nm)} 님,<br>시장이 흔들려도<br>기준은 흔들리지 않게.`,
       `밸류노트는 워렌 버핏·벤저민 그레이엄·찰리 멍거가 기업을 판단하던 원칙으로 ${companiesText(N)} 기업의 적정 주가와 점수를 매일 다시 계산합니다. 감정이 아닌 기준으로, 오래 가는 투자를 돕습니다.`,
@@ -225,7 +225,7 @@ async function digest(w: Who) {
   ${C.length > 1 ? h2("More Columns", "함께 읽으면 좋은 칼럼") + C.slice(1).map((c, i, a) => colRow(c, "digest", i === a.length - 1)).join("") : ""}
   ${V.length ? h2("On YouTube", "이번 주 새 영상") + vidGrid(V, "digest") : ""}
   <tr><td style="padding:12px 36px 0">${btn(tabUrl("column", "digest"), "칼럼 전체 보기 →")}</td></tr>`;
-  const foot = `이 메일은 ${w.consent_at ? kDate(w.consent_at) + "에 " : ""}칼럼·투자 정보 메일 수신에 동의하신 분께 보내는 광고성 정보입니다. 더 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:#B9C2CF;text-decoration:underline;font-weight:700">수신 거부</a>를 누르세요. 한 번 누르면 바로 처리됩니다.`;
+  const foot = `이 메일은 ${w.consent_at ? kDate(w.consent_at) + "에 " : ""}칼럼·투자 정보 메일 수신에 동의하신 분께 보내는 광고성 정보입니다. 더 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:#C1C1C1;text-decoration:underline;font-weight:700">수신 거부</a>를 누르세요. 한 번 누르면 바로 처리됩니다.`;
   return { subject: `(광고) ${top ? top.title : "이번 주 밸류노트 새 영상"}`, html: shell(top ? top.excerpt : "이번 주 밸류노트 새 영상", body, foot, "digest") };
 }
 function consentMail(w: Who, on: boolean, at: string) {
@@ -313,7 +313,7 @@ async function onboardMail(kind: "d1" | "d3" | "d7", w: Who) {
   const mine = w.uid ? await myStocks(w.uid, S) : [];
   const settings = w.uid ? (await userDocs(w.uid, "settings")).find((d) => d.id === "main")?.data : null;
   const type: string = settings?.investor?.type || "value", [typeNm, typeDesc] = TYPE_KO[type] || TYPE_KO.value;
-  const foot = `이 메일은 밸류노트 가입 회원께 첫 주에 세 번(가입 다음 날·3일째·7일째)만 보내는 서비스 안내입니다. 이후에는 보내지 않습니다. 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:#B9C2CF;text-decoration:underline">수신 거부</a>를 누르세요.`;
+  const foot = `이 메일은 밸류노트 가입 회원께 첫 주에 세 번(가입 다음 날·3일째·7일째)만 보내는 서비스 안내입니다. 이후에는 보내지 않습니다. 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:#C1C1C1;text-decoration:underline">수신 거부</a>를 누르세요.`;
   let body = "", subject = "", pre = "";
 
   if (kind === "d1") {
@@ -363,9 +363,9 @@ async function onboardMail(kind: "d1" | "d3" | "d7", w: Who) {
       ${w.ok ? "" : `<tr><td style="padding:32px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};background-image:linear-gradient(150deg,${NAVY2} 0%,${NAVY} 60%);border-radius:18px"><tr><td style="padding:28px 28px">
         ${eyebrow("Weekly Note · 매주 월요일 08:30", GOLD)}
         <div style="font-family:${F};font-size:20px;font-weight:800;letter-spacing:-.025em;line-height:1.45;color:#FFFFFF;margin-top:10px;word-break:keep-all">안내 메일은 여기까지입니다.<br>계속 받으시려면 칼럼 메일을 켜 주세요</div>
-        <div style="font-family:${F};font-size:14px;line-height:1.8;color:#B9C2CF;margin-top:12px;word-break:keep-all">매주 월요일 아침, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
+        <div style="font-family:${F};font-size:14px;line-height:1.8;color:#C1C1C1;margin-top:12px;word-break:keep-all">매주 월요일 아침, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
         ${btn(w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", src), "칼럼 메일 받기 →", false)}
-        <div style="font-family:${F};font-size:11px;line-height:1.7;color:#7F8B9D;margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 칼럼·투자 정보(광고성 정보) 수신 동의이며 선택 사항입니다.</div></td></tr></table></td></tr>`}`;
+        <div style="font-family:${F};font-size:11px;line-height:1.7;color:#8A8A8A;margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 칼럼·투자 정보(광고성 정보) 수신 동의이며 선택 사항입니다.</div></td></tr></table></td></tr>`}`;
   }
   return { subject, html: shell(pre, body, foot, src) };
 }

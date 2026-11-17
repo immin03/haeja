@@ -17,7 +17,7 @@ const fonts = [['Medium', 500], ['SemiBold', 600], ['Bold', 700], ['ExtraBold', 
   .map(([w, n]) => ({ name: 'P', data: fs.readFileSync(path.join(FD, `Pretendard-${w}.woff`)), weight: n, style: 'normal' }));
 
 const W = 1080, H = 1350, PAD = 72;
-const C = { navy: '#0D1828', navy2: '#13223A', card: '#1A2A44', card2: '#22355A', ink: '#F4EFE4', mute: '#B8C2D0', dim: '#7F8CA1', gold: '#EADBB9', gold2: '#C9AF7A', up: '#3DF5A0', down: '#FF4D6D', line: 'rgba(255,255,255,.10)' };
+const C = { navy: '#171717', navy2: '#212121', card: '#282828', card2: '#343434', ink: '#EFEFEF', mute: '#C1C1C1', dim: '#8B8B8B', gold: '#E9E9E9', gold2: '#FF4D6D', up: '#3DF5A0', down: '#FF4D6D', line: 'rgba(255,255,255,.10)' };
 const h = (type, style, ...ch) => ({ type, props: { style: { display: 'flex', ...style }, children: ch.flat().filter((c) => c !== null && c !== undefined && c !== false && c !== '') } });
 const t = (s, st) => h('div', { wordBreak: 'keep-all', ...st }, String(s));
 const img = (src, st) => ({ type: 'img', props: { src, style: st } });
@@ -29,7 +29,7 @@ const PROFILE = path.join(ROOT, 'brand/profile-1080.png');
 
 // 공통 틀: 위 로고 + 쪽수, 아래 출처 줄
 const frame = (sp, i, n, body, { foot = true } = {}) => h('div', { width: W, height: H, flexDirection: 'column', background: C.navy, color: C.ink, fontFamily: 'P', position: 'relative' },
-  h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'radial-gradient(circle at 90% 0%, rgba(234,219,185,.09), rgba(13,24,40,0) 50%)' }),
+  h('div', { position: 'absolute', left: 0, top: 0, width: W, height: H, background: 'radial-gradient(circle at 90% 0%, rgba(233,233,233,.09), rgba(23,23,23,0) 50%)' }),
   h('div', { justifyContent: 'space-between', alignItems: 'center', padding: `56px ${PAD}px 0 ${PAD}px` }, logo(),
     t(`${i} / ${n}`, { fontSize: 24, fontWeight: 700, color: C.dim, letterSpacing: 1 })),
   h('div', { flexDirection: 'column', flexGrow: 1, padding: `36px ${PAD}px 0 ${PAD}px` }, body),
@@ -46,7 +46,7 @@ const K = {
   // 표지: 인물 사진 위 2/3, 아래 3줄 큰 제목 + 한 줄 약속
   cover: (s, sp, i, n) => h('div', { width: W, height: H, position: 'relative', fontFamily: 'P', color: C.ink, background: C.navy },
     img(uri(path.join(ROOT, 'scripts/blog/media/lib', s.photo)), { position: 'absolute', left: 0, top: 0, width: W, height: 900, objectFit: 'cover', objectPosition: s.pos || 'center 20%' }),
-    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: 905, background: 'linear-gradient(180deg, rgba(13,24,40,.35) 0%, rgba(13,24,40,0) 22%, rgba(13,24,40,0) 48%, rgba(13,24,40,.85) 82%, #0D1828 100%)' }),
+    h('div', { position: 'absolute', left: 0, top: 0, width: W, height: 905, background: 'linear-gradient(180deg, rgba(23,23,23,.35) 0%, rgba(23,23,23,0) 22%, rgba(23,23,23,0) 48%, rgba(23,23,23,.85) 82%, #171717 100%)' }),
     h('div', { position: 'absolute', left: PAD, top: 56, right: PAD, justifyContent: 'space-between', alignItems: 'center' }, logo(190),
       t(`${i} / ${n}`, { fontSize: 24, fontWeight: 700, color: '#FFFFFF', background: 'rgba(0,0,0,.35)', borderRadius: 30, padding: '6px 18px' })),
     h('div', { position: 'absolute', left: PAD, right: PAD, bottom: 70, flexDirection: 'column' },
@@ -54,7 +54,7 @@ const K = {
       s.lines.map((l, k) => t(l, { fontSize: k === s.lines.length - 1 ? 118 : 86, fontWeight: 900, letterSpacing: -3.5, lineHeight: 1.1, color: k === s.lines.length - 1 ? C.gold : '#FFFFFF', textShadow: '0 4px 24px rgba(0,0,0,.45)' })),
       h('div', { marginTop: 30, alignItems: 'center' },
         h('div', { width: 6, height: 44, background: C.gold2, marginRight: 18, borderRadius: 3 }),
-        t(s.sub, { fontSize: 38, fontWeight: 700, color: '#E6EAF0' })),
+        t(s.sub, { fontSize: 38, fontWeight: 700, color: '#EAEAEA' })),
       s.credit ? t(s.credit, { fontSize: 17, color: 'rgba(255,255,255,.45)', marginTop: 26 }) : null)),
 
   // 저장용 총정리 표: 10줄, 줄마다 번호·이름·하는 일·비중 막대·금액
@@ -73,7 +73,7 @@ const K = {
             h('div', { alignItems: 'baseline' }, t(r.name, { fontSize: 32, fontWeight: 800, color: C.ink }), r.tag ? t(r.tag, { fontSize: 20, fontWeight: 700, color: C.gold2, marginLeft: 10 }) : null),
             t(r.what, { fontSize: 22, fontWeight: 500, color: C.dim, marginTop: 2 })),
           h('div', { width: 220, height: 14, marginRight: 18, alignItems: 'center' },
-            h('div', { width: `${Math.max(6, (r.pct / max) * 100)}%`, height: 14, borderRadius: 7, background: k < 5 ? C.gold : 'rgba(234,219,185,.38)' })),
+            h('div', { width: `${Math.max(6, (r.pct / max) * 100)}%`, height: 14, borderRadius: 7, background: k < 5 ? C.gold : 'rgba(233,233,233,.38)' })),
           h('div', { flexDirection: 'column', alignItems: 'flex-end', flexGrow: 1 },
             t(`${r.pct.toFixed(1)}%`, { fontSize: 32, fontWeight: 900, color: C.ink }),
             t(r.usd, { fontSize: 19, fontWeight: 600, color: C.dim }))))),
@@ -88,7 +88,7 @@ const K = {
       t(s.bigUnit, { fontSize: 52, fontWeight: 900, color: C.gold, marginLeft: 10, marginBottom: 18 })),
     t(s.bigLabel, { fontSize: 32, fontWeight: 700, color: C.mute, marginTop: 16 }),
     h('div', { marginTop: 50, height: 120, borderRadius: 18, overflow: 'hidden', width: W - PAD * 2 },
-      s.parts.map((p, k) => h('div', { width: `${p.pct}%`, height: 120, background: p.rest ? '#2A3B58' : [C.gold, '#D9C79F', '#C6B184', '#B39C6C', '#A08957'][k], alignItems: 'center', justifyContent: 'center', borderRight: `3px solid ${C.navy}` },
+      s.parts.map((p, k) => h('div', { width: `${p.pct}%`, height: 120, background: p.rest ? '#393939' : [C.gold, '#D9C79F', '#C6B184', '#B39C6C', '#A08957'][k], alignItems: 'center', justifyContent: 'center', borderRight: `3px solid ${C.navy}` },
         t(`${Math.round(p.pct)}`, { fontSize: p.rest ? 40 : 38, fontWeight: 900, color: p.rest ? C.mute : C.navy })))),
     h('div', { marginTop: 14, width: W - PAD * 2 },
       s.parts.map((p) => h('div', { width: `${p.pct}%`, justifyContent: 'center' }, t(p.label, { fontSize: p.rest ? 24 : 22, fontWeight: 700, color: p.rest ? C.dim : C.mute, textAlign: 'center' })))),
@@ -99,7 +99,7 @@ const K = {
     const mx = Math.max(s.before.v, s.after.v), bh = 380;
     const bar = (x, hi) => h('div', { flexDirection: 'column', alignItems: 'center', width: 300 },
       t(x.show, { fontSize: 44, fontWeight: 900, color: hi ? C.ink : C.mute, marginBottom: 14 }),
-      h('div', { width: 170, height: Math.round(bh * x.v / mx), borderRadius: '18px 18px 0 0', background: hi ? C.gold : '#34476A' }),
+      h('div', { width: 170, height: Math.round(bh * x.v / mx), borderRadius: '18px 18px 0 0', background: hi ? C.gold : '#454545' }),
       t(x.label, { fontSize: 28, fontWeight: 700, color: C.mute, marginTop: 16 }),
       x.rank ? t(x.rank, { fontSize: 26, fontWeight: 800, color: hi ? C.gold : C.dim, marginTop: 6 }) : null);
     return frame(sp, i, n, h('div', { flexDirection: 'column' },
@@ -124,7 +124,7 @@ const K = {
             t(r.label, { fontSize: 34, fontWeight: 800, color: C.ink }),
             t(r.show, { fontSize: 56, fontWeight: 900, color: r.tone === 'up' ? C.up : r.tone === 'down' ? C.down : C.ink })),
           h('div', { marginTop: 14, height: 34, borderRadius: 17, background: 'rgba(255,255,255,.06)', width: W - PAD * 2 },
-            h('div', { width: `${Math.max(4, r.v / mx * 100)}%`, height: 34, borderRadius: 17, background: r.tone === 'up' ? C.up : r.tone === 'down' ? C.down : r.tone === 'mute' ? '#5A6B88' : C.gold }))))),
+            h('div', { width: `${Math.max(4, r.v / mx * 100)}%`, height: 34, borderRadius: 17, background: r.tone === 'up' ? C.up : r.tone === 'down' ? C.down : r.tone === 'mute' ? '#696969' : C.gold }))))),
       h('div', { marginTop: 10, padding: '30px 34px', background: C.navy2, borderRadius: 24, border: `1px solid ${C.line}`, flexDirection: 'column' },
         t(s.boxTitle, { fontSize: 30, fontWeight: 900, color: C.gold }),
         s.body.map((b) => t(b, { fontSize: 31, fontWeight: 500, color: C.mute, lineHeight: 1.55, marginTop: 10 })))));
