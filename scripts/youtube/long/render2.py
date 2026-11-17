@@ -1873,7 +1873,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             else:
                 if I["inked"]:
                     img = (dark_end_bg2() if sc["v"].get("end_v2") else dark_end_bg()) if sc["v"].get("dark_end") else background("light")
-                    if sc["v"].get("end_v2"): end_slogan(img, sc["v"].get("slogan") or ["뉴스가 말하지 않는", "기업과 경제의 이야기", "기업을 이해하면, 투자가 달라집니다"], u)   # 2026-11-17 23:16 대표 "아웃트로 생성 잘못됐어" — 슬로건이 원고에만 있고 그려지지 않던 것   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
+                    # 2026-11-18 대표 "아웃트로 이상하게 됐어": 슬로건은 sketch.py 끝 화면(end_v2)이 이미 그린다 → end_slogan 중복 호출 삭제 (11/17 밤 잘못 추가)   # 2026-11-17 23:16 대표 "아웃트로 생성 잘못됐어" — 슬로건이 원고에만 있고 그려지지 않던 것   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
                 else:
                     img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
                     if bdf: img = on_backdrop(img, bdf(u), theme)
@@ -1986,9 +1986,11 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                         fx_ = 60; y_ = 22
                         segs = ([(f"{ci_ + 1:02d}/{len(RM):02d}", ACC_, F("Bold", 32)), (RM[ci_][1], (246, 246, 246), F("ExtraBold", 35))] if ci_ >= 0 else []) \
                              + ([("NEXT", ACC2_, F("Bold", 26)), (RM[ci_ + 1][1], ACC2_, F("SemiBold", 30))] if ci_ + 1 < len(RM) else [])   # 2026-11-17 대표님: 왼쪽 위 목차 글씨 키움
+                        by_ = y_ + 36   # 2026-11-18 대표님 "NEXT 다음 항목 정렬 깔끔하게, 아예 일렬로" → 글자 크기가 달라도 한 기준선(baseline)에 맞추고, 현재 장과 NEXT 사이에 얇은 세로선
                         for j, (tx_, col_, fr_) in enumerate(segs):
-                            if j == 2: fx_ += 18
-                            d.text((fx_ + 2, y_ + 2), tx_, font=fr_, fill=(0, 0, 0, int(150 * la_))); d.text((fx_, y_), tx_, font=fr_, fill=(*col_, int(240 * la_)))
+                            if j == 2:
+                                fx_ += 10; d.line([(fx_, by_ - 24), (fx_, by_ + 2)], fill=(200, 200, 205, int(150 * la_)), width=2); fx_ += 22
+                            d.text((fx_ + 2, by_ + 2), tx_, font=fr_, fill=(0, 0, 0, int(150 * la_)), anchor="ls"); d.text((fx_, by_), tx_, font=fr_, fill=(*col_, int(240 * la_)), anchor="ls")
                             fx_ += int(d.textlength(tx_, font=fr_)) + 16
             foot = " · ".join([q for q in [src, (f"데이터 {asof} 기준" if asof else "")] if q])
             if foot and not D2[0]:   # v2: 화면 출처 표기 없음 (설명란에)
