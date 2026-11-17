@@ -1,0 +1,149 @@
+[
+{
+"id": "sw4_table",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "At an American family holiday dinner table full of dishes, an older American relative in his sixties points his fork and smirks while speaking loudly; an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_table_v",
+"kind": "video",
+"endpoint": "alibaba/wan-3.0-prime/image-to-video",
+"image": "social/side/gen/sw4_table.jpeg",
+"body": {
+"duration": 3,
+"resolution": "480p",
+"prompt": "The older relative smirks and points with his chopsticks; the others freeze and turn toward her. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+}
+},
+{
+"id": "sw4_soup",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_soup_v",
+"kind": "video",
+"endpoint": "alibaba/wan-3.0-prime/image-to-video",
+"image": "social/side/gen/sw4_soup.jpeg",
+"body": {
+"duration": 3,
+"resolution": "480p",
+"prompt": "She smiles and sets the bowl of soup down in front of him. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+}
+},
+{
+"id": "sw4_car",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_car_v",
+"kind": "video",
+"endpoint": "alibaba/wan-3.0-prime/image-to-video",
+"image": "social/side/gen/sw4_car.jpeg",
+"body": {
+"duration": 3,
+"resolution": "480p",
+"prompt": "City lights slide past the window; she keeps staring ahead, jaw tight. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+}
+},
+{
+"id": "sw4_night",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan lying awake in bed at night in a dark bedroom, eyes open, staring at the ceiling, faint blue window light. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_small",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "Seen from far down a long holiday dinner table, an older American man in his sixties sitting alone at the end of the table, looking small, the other relatives have moved away and are talking among themselves. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_book",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_book_v",
+"kind": "video",
+"endpoint": "alibaba/wan-3.0-prime/image-to-video",
+"image": "social/side/gen/sw4_book.jpeg",
+"body": {
+"duration": 3,
+"resolution": "480p",
+"prompt": "She opens the old book and turns the first page slowly. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+}
+},
+{
+"id": "sw4_window",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan standing by an apartment window at dawn holding a cup of tea, calm peaceful face, soft golden light on her face. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_smile",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "At the next family gathering, an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_smile_v",
+"kind": "video",
+"endpoint": "alibaba/wan-3.0-prime/image-to-video",
+"image": "social/side/gen/sw4_smile.jpeg",
+"body": {
+"duration": 3,
+"resolution": "480p",
+"prompt": "She passes the fruit plate and laughs; the relatives lean in toward her. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+}
+},
+{
+"id": "sw4_walk",
+"kind": "image",
+"endpoint": "xai/grok-imagine-image-2.0",
+"body": {
+"aspect_ratio": "9:16",
+"prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+}
+},
+{
+"id": "sw4_walk_v",
+"kind": "video",
+"endpoint": "alibaba/wan-3.0-prime/image-to-video",
+"image": "social/side/gen/sw4_walk.jpeg",
+"body": {
+"duration": 3,
+"resolution": "480p",
+"prompt": "She walks calmly toward the camera through the morning light. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers."
+}
+}
+]

@@ -50,6 +50,22 @@ EP = {
    ("s11", "줄 거면, 잊을 만큼만 주세요. 잊지 못할 것 같으면, 거절해도 됩니다.", "st3_no", f"{WOM} gently raising one open hand and shaking her head with a calm kind smile toward a colleague holding out a stack of folders.", "She raises her hand gently and shakes her head with a calm smile."),
    ("s12", "그게 나도 지키고, 관계도 지키는 방법입니다.", "st3_peace", f"{WOM} walking out of an office building into warm morning sunlight, relaxed shoulders, a light smile.", "She walks forward into the sunlight and looks up."),
    ("card", "오늘 내용은, 명상록 5권 6절입니다.", "@lb04_scrolls.jpeg", None, None)]},
+"st4": {"title": "깎아내리는 사람에게 하는 가장 조용한 복수 | 명상록", "bar": ["깎아내리는 사람에게", "하는 조용한 복수"],
+  "quote": ["“가장 좋은 복수는", "그와 같은 사람이", "되지 않는 것이다”"], "qsrc": "— 마르쿠스 아우렐리우스 『명상록』 6.6", "card": ["오늘 내용은", "『명상록』 6권 6절"],
+  "sc": [
+   ("s01", "명절 저녁, 친척 어른이 모두 앞에서 말했다. 그 나이에 아직도 그러고 사니?", "st4_table", "At a Korean family holiday dinner table full of dishes, an older Korean relative in his sixties points his chopsticks and smirks while speaking loudly; a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her.", "The older relative smirks and points with his chopsticks; the others freeze and turn toward her."),
+   ("s02", "식탁이 조용해졌다. 그녀는 웃으며, 국을 한 그릇 더 떠 드렸다.", "st4_soup", "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light.", "She smiles and sets the bowl of soup down in front of him."),
+   ("s03", "집에 오는 차 안에서, 하고 싶은 말이 백 가지는 떠올랐다.", "st4_car", "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together.", "City lights slide past the window; she keeps staring ahead, jaw tight."),
+   ("s04", "그날 밤, 그녀는 그 말을 몇 번이고 되씹었다.", "st4_night", "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan lying awake in bed at night in a dark bedroom, eyes open, staring at the ceiling, faint blue window light.", None),
+   ("s05", "깎아내리는 사람에게, 똑같이 갚아 주고 싶은 건 당연하다.", "st4_fist", "Close-up of a middle-aged woman's hand slowly clenching into a fist on her knee over a burgundy knit sleeve, dim warm light.", None),
+   ("s06", "하지만 같은 말로 갚는 순간, 나도 그 사람과 같은 자리에 앉게 된다.", "st4_chairs", "Two identical wooden chairs facing each other across an empty dim room, a single beam of light falling between them.", None),
+   ("s07", "깎아내리는 말은, 그 사람의 크기를 보여 줄 뿐이다.", "st4_small", "Seen from far down a long holiday dinner table, an older Korean man in his sixties sitting alone at the end of the table, looking small, the other relatives have moved away and are talking among themselves.", None),
+   ("s08", "이천 년 전 로마 황제도, 무례한 말을 매일 들었다.", "st4_book", "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her.", "She opens the old book and turns the first page slowly."),
+   ("s09", "그리고 일기에, 이렇게 적었다.", "st4_page", "Close-up of a woman's fingers resting on the open page of an old book under warm lamp light, the printed lines are soft and unreadable, a pencil underline on one line.", None),
+   ("q", "가장 좋은 복수는, 그와 같은 사람이 되지 않는 것이다.", "st4_window", "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan standing by an apartment window at dawn holding a cup of tea, calm peaceful face, soft golden light on her face.", None),
+   ("s11", "다음에 누가 당신을 깎아내리면, 대꾸 대신 한 번 웃고, 화제를 바꾸세요.", "st4_smile", "At the next family gathering, a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light.", "She passes the fruit plate and laughs; the relatives lean in toward her."),
+   ("s12", "끝까지 품위를 지킨 사람이, 결국 이깁니다.", "st4_walk", "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front.", "She walks calmly toward the camera through the morning light."),
+   ("card", "오늘 내용은, 명상록 6권 6절입니다.", "@st4_page.jpeg", None, None)]},
 }
 
 
@@ -71,6 +87,14 @@ EN_TXT = {
          "Truly smart people don't announce their plans. They show you when it's done.", "A Roman emperor watched countless men talk about philosophy.", "And in his diary, he left a single line.",
          "Waste no more time arguing what a good man should be. Be one.", "Today, don't talk about what you're going to do.", "Just leave one thing done.",
          "Today's line: Meditations, Book Ten, Section Sixteen."]},
+ "st4": {"title": "The Quietest Revenge on People Who PUT YOU DOWN | Marcus Aurelius", "bar": ["THE QUIETEST REVENGE", "ON PEOPLE WHO PUT YOU DOWN"],
+   "quote": ["“The best revenge", "is not to become", "like them.”"], "qsrc": "— MARCUS AURELIUS, MEDITATIONS 6.6", "card": ["Today's line", "Meditations, Book 6.6"],
+   "l": ["At a holiday dinner, a relative said it in front of everyone: at your age, still living like this?", "The table went quiet. She just smiled and served him another bowl of soup.",
+         "On the drive home, a hundred comebacks came to mind.", "That night, she replayed his words again and again.", "Wanting to hit back at people who put you down is only human.",
+         "But the moment you pay them back in kind, you take the seat right next to them.", "Words that tear you down only show how small the speaker is.",
+         "Two thousand years ago, a Roman emperor heard rude words every day.", "And in his diary, he wrote this.", "The best revenge is not to become like them.",
+         "Next time someone puts you down, skip the comeback. Smile once, and change the subject.", "The one who keeps their dignity to the end wins.",
+         "Today's line: Meditations, Book Six, Section Six."]},
  "st3": {"title": "Why People Who Give Everything Get ABANDONED | Marcus Aurelius", "bar": ["WHY GOOD PEOPLE", "GET ABANDONED"],
    "quote": ["“A vine bears its grapes,", "and asks for", "nothing more.”"], "qsrc": "— MARCUS AURELIUS, MEDITATIONS 5.6", "card": ["Today's line", "Meditations, Book 5.6"],
    "l": ["A woman had never once said no to a favor.", "A coworker's overtime, a friend's move, her family's errands. She did it all.", "But the day she got sick, no one called.",
@@ -80,6 +104,8 @@ EN_TXT = {
          "That's how you protect yourself, and the relationship.", "Today's line: Meditations, Book Five, Section Six."]}}
 MAN_W = "an American office worker in his early forties, short brown hair, light stubble, thin metal glasses, white shirt and navy tie"
 WOM_W = "an American office worker in her mid-thirties, shoulder-length auburn hair, beige cardigan over a white blouse"
+WOM5 = "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan"
+WOM5_W = "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan"   # 11/18 st4·sw4
 PXW = {"@px2_smirk_v.mp4": "@pw_smirk_v.mp4", "@px2_desk_v.mp4": "@pw_desk_v.mp4", "@px2_cal_v.mp4": "@sw1_alone.png", "@px2_light_v.mp4": "@sw2_listen_v.mp4"}   # 11/14 영어판에 한국인 장면이 섞이지 않게
 EN_JOBS = {}
 for _id, _t in EN_TXT.items():
@@ -88,7 +114,7 @@ for _id, _t in EN_TXT.items():
         if src.startswith("@"): src2, img2 = PXW.get(src, src), None
         elif "Korean" in img:   # 사람 얼굴·국적이 보이는 장면만 서양판으로 다시 생성
             src2 = src.replace("st", "sw", 1)
-            img2 = img.replace(MAN, MAN_W).replace(WOM, WOM_W).replace("Korean company dinner table with grilled meat and glasses", "American restaurant dinner table with plates and glasses").replace("Korean", "American")
+            img2 = img.replace(WOM5, WOM5_W).replace("points his chopsticks", "points his fork").replace("with his chopsticks", "with his fork").replace(MAN, MAN_W).replace(WOM, WOM_W).replace("Korean company dinner table with grilled meat and glasses", "American restaurant dinner table with plates and glasses").replace("Korean", "American").replace("a American", "an American")
             _jobs.append((src2, img2, mv))
         else: src2, img2 = "@" + src + ("_v.mp4" if mv else ".jpeg"), None   # 얼굴 없는 장면은 한국판 그대로
         _sc.append((k, en, src2, img2, mv))
