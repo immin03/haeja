@@ -47,6 +47,16 @@ from korean import to_speech  # noqa: E402
 
 W, H, FPS, SR = 1080, 1920, 30, 44100
 NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (224, 200, 150); GOLD_D = (150, 129, 88)
+
+
+def _pbar(d, T, total):
+    """상단 진행 막대. look bw(흑백 + 핑크, 2026-11-17)면 짙은 회색 바탕에 핑크, 아니면 옛 네이비·금색"""
+    try:
+        import fullworld; bw = fullworld.LOOK[0] == "bw"
+    except Exception:
+        bw = False
+    bg, fg = ((38, 38, 38), (255, 77, 109)) if bw else ((20, 36, 62), GOLD)
+    d.rectangle([0, 0, W, 8], fill=bg); d.rectangle([0, 0, int(W * T / total), 8], fill=fg)
 IVORY = (246, 241, 232); GRAY = (140, 152, 172); DIM = (78, 94, 122); LOSS = (255, 77, 109)
 GAIN = (96, 196, 150); GRID = (38, 58, 92)
 TONE = {"loss": LOSS, "gold": GOLD, "good": GAIN, "gray": GRAY, "ivory": IVORY}
@@ -1425,7 +1435,7 @@ def frame(T, scenes, total, pen=True):
             fullworld.draw_tag_band(sys.modules[__name__], img, BANNER_TAG, YT_BANNER); fullworld.logo_bottom(img)
         elif YT_BANNER and BANNER_BAND: fullworld.draw_band(sys.modules[__name__], img, YT_BANNER)   # 진한 단색 제목 띠 (대본 "banner_band": true, 2026-11-01 15:11)
         elif YT_BANNER: draw_banner_soft(img)
-        d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+        d = ImageDraw.Draw(img); _pbar(d, T, total)
         return img
     if WORLD in ("popup", "ink"):   # 팝업 노트 (popworld.py) · 잉크 노트 (inkworld.py, 2026-10-26)
         if WORLD == "ink":
@@ -1439,7 +1449,7 @@ def frame(T, scenes, total, pen=True):
         else: caption(img, u, s["L"])
         YT_CAP_Y = _cy
         if YT_BANNER: draw_banner_soft(img)
-        d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+        d = ImageDraw.Draw(img); _pbar(d, T, total)
         return img
     if GL_ON and YT:   # 골드 라인 v2: 노트 판 위를 펜이 짚고 카메라가 따라간다 (goldworld.py)
         import goldworld
@@ -1447,7 +1457,7 @@ def frame(T, scenes, total, pen=True):
         img, (ptip, pa, pz) = goldworld.render(sys.modules[__name__], T, scenes, total, _GW["line"])
         y_caption(img, u, s["L"])
         if YT_BANNER: draw_banner(img)
-        d = ImageDraw.Draw(img); d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+        d = ImageDraw.Draw(img); _pbar(d, T, total)
         if pen and pa > .02: _gl_pen(img, ptip[0], ptip[1], pa, .85 * max(.7, pz))
         return img
     if GL_ON == "rail":   # 장면 경계 ±0.25초: 카메라가 펜을 따라 옆으로 (앞 장면은 왼쪽으로 빠지고 다음 장면이 오른쪽에서)
@@ -1468,7 +1478,7 @@ def frame(T, scenes, total, pen=True):
     d = ImageDraw.Draw(img)
     if YT_BANNER: draw_banner(img); d = ImageDraw.Draw(img)
     elif sc["type"] not in ("cta", "screen"): logo(d, 236)
-    d.rectangle([0, 0, W, 8], fill=(20, 36, 62)); d.rectangle([0, 0, int(W * T / total), 8], fill=GOLD)
+    _pbar(d, T, total)
     for (px_, py_, pa_) in (pens if pen else []):   # 썸네일에는 펜을 그리지 않는다
         if -40 < px_ < W + 40: _gl_pen(img, px_, py_, pa_)
     d = ImageDraw.Draw(img)
