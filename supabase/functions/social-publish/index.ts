@@ -8,6 +8,7 @@
 //                   정기 게시하지 않고 paused=true + '보류: 날짜 경과'로 돌린다 (미리 만든 콘텐츠를 며칠 뒤 올려 숫자가 달라지는 일 방지, 2026-10-28)
 //                   단 evergreen=true 또는 「3가지만/이것만 보면 된다」 제목은 예외 (2026-11-03)
 // - 스토리: 인스타에 올라간 릴스·카드뉴스를 다음 실행 때 스토리로도 게시 (릴스=같은 영상, 안 되면 표지 / 카드=첫 장). instagram_story_paused=true면 멈춤 (2026-10-31)
+//           2026-11-07: 릴스는 59초 스토리용 영상(같은 폴더 story.mp4, GitHub story-clips 가 만듦)을 쓴다. 아직 없으면 게시 뒤 60분까지 기다린다.
 // - app_config: social_paused(전체) / instagram_paused / threads_paused(채널별) 가 true면 정기 게시를 건너뜀 (수동 '지금 올리기'는 그대로 동작)
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -18,7 +19,7 @@ const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { sta
 const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/v1.0";
 const GAP_MIN = 60; // 인스타 슬롯 간격(app_config ig_slots gap_min 60)과 맞춤 (2026-11-03)
 const DISC = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.";
-// 모든 게시물 본문 끝에 붙는 고정 안내 (해시태그·고지문 앞)
+// 모든 게시물 본문 끝에 붙는 고정 안내 (해시태그·고지문 앞) — 2026-11-17 새 슬로건
 const CTA = "▶ 뉴스가 말하지 않는 기업과 경제의 이야기, 밸류노트\n당신의 투자가 현명해집니다. 600여 개 기업의 점수와 적정 주가는 프로필 링크에서.";
 const igCaption = (p: any) => { const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" "); return p.caption + "\n\n" + CTA + (tags ? "\n\n" + tags : "") + "\n\n" + DISC; };
 // 쓰레드에는 댓글 → DM 자동 발송이 없으므로 인스타용 댓글 안내 줄은 뺀다
@@ -144,13 +145,17 @@ async function finishReels(acc: Record<string, Acc>) {
 
 // ── 스토리 자동 게시 (2026-10-31) ─────────────────────────────────────────
 // 인스타에 피드 게시물(릴스·카드뉴스)이 올라가면, 다음 실행(5분 안)에 같은 소재로 스토리를 한 번 더 올린다.
-// - 릴스: 같은 영상을 스토리로. 영상이 길어 거부·처리 실패하면 표지 이미지로 자동 대체
+// - 릴스: 59초 스토리용 영상(story.mp4). 아직 없으면 게시 뒤 60분까지 기다리고, 그래도 없거나 거부되면 표지 이미지로 대체
 // - 카드뉴스: 첫 장 이미지
 // - 피드 게시 뒤 12시간이 지난 건은 올리지 않고 skipped (밀린 옛 글이 한꺼번에 스토리로 나가지 않게)
 // - app_config.instagram_story_paused = true 면 멈춤
-// - 스토리는 API로 링크 스티커·게시물 공유 스티커를 붙일 수 없음(메타 제한) → 프로필 방문 유도용
+// - 스토리는 API로 링크 스티커·게시물 공유 스티커를 붙일 수 없음(메타 제한) → 영상 끝에 '프로필 → 릴스에서' 안내
 const STORY_MAX_AGE_H = 12;
+const STORY_WAIT_MIN = 60;
 const storyImage = (p: any) => p.kind === "reel" ? (p.cover || null) : ((p.images || [])[0] || null);
+async function exists(url: string) {
+  try { const r = await fetch(url, { method: "HEAD" }); return r.ok; } catch { return false; }
+}
 
 async function startStory(a: Acc, p: any, site: string, mode: "video" | "image") {
   const params: Record<string, string> = { media_type: "STORIES", access_token: a.access_token };
@@ -210,11 +215,18 @@ async function stories(acc: Record<string, Acc>, site: string) {
       await sb.from("social_posts").update({ story_status: "skipped", story_error: `피드 게시 뒤 ${STORY_MAX_AGE_H}시간이 지나 스토리를 건너뜀` }).eq("id", p.id);
       continue;
     }
+    // 릴스는 59초 스토리용 영상(story.mp4)을 쓴다. 아직 안 만들어졌으면 게시 뒤 60분까지 다음 실행에서 다시 본다
+    let src = p;
+    if (p.kind === "reel" && p.video) {
+      const sv = String(p.video).replace(/reel\.mp4$/, "story.mp4");
+      if (sv !== p.video && await exists(site + sv)) src = { ...p, video: sv };
+      else if (Date.now() - new Date(p.ig_at).getTime() < STORY_WAIT_MIN * 60e3) { out.push({ id: p.id, wait: "story.mp4" }); continue; }
+    }
     const { data: lock } = await sb.from("social_posts").update({ story_status: "publishing" }).eq("id", p.id).eq("story_status", "pending").select("id");
     if (!lock?.length) continue;
-    const mode: "video" | "image" | null = p.kind === "reel" && p.video ? "video" : storyImage(p) ? "image" : null;
+    const mode: "video" | "image" | null = src.kind === "reel" && src.video && src !== p ? "video" : storyImage(p) ? "image" : (src.kind === "reel" && src.video ? "video" : null);
     if (!mode) { await storyFail(p, "스토리로 올릴 영상·이미지가 없습니다"); continue; }
-    try { await startStory(a, p, site, mode); out.push({ id: p.id, started: mode }); }
+    try { await startStory(a, src, site, mode); out.push({ id: p.id, started: mode, video: mode === "video" ? src.video : undefined }); }
     catch (e) { out.push(await storyFallback(a, { ...p, story_mode: mode }, site, String((e as Error).message || e))); }
     started++;
   }
