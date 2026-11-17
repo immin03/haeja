@@ -49,6 +49,13 @@ W, H, FPS, SR = 1080, 1920, 30, 44100
 NAVY = (11, 27, 51); NAVY2 = (22, 44, 78); GOLD = (224, 200, 150); GOLD_D = (150, 129, 88)
 
 
+def _is_bw():
+    try:
+        import fullworld; return fullworld.LOOK[0] == "bw"
+    except Exception:
+        return False
+
+
 def _pbar(d, T, total):
     """상단 진행 막대. look bw(흑백 + 핑크, 2026-11-17)면 짙은 회색 바탕에 핑크, 아니면 옛 네이비·금색"""
     try:
@@ -495,10 +502,11 @@ def s_recap(img, u, sc, L, T):
         op = p * (1.0 if on else .55)
         y = top0 + k * (ch + gap)
         lay = Image.new("RGBA", (W, ch + 8), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
-        d.rounded_rectangle([X0, 2, X1, ch], 30, fill=(24, 46, 82, 255) if on else (19, 37, 68, 255),
-                            outline=(*GOLD, 255) if (on and not every) else (*GOLD_D, 200), width=3 if (on and not every) else 2)
+        BW_ = _is_bw(); PK_ = (255, 77, 109)
+        d.rounded_rectangle([X0, 2, X1, ch], 30, fill=((28, 28, 31, 255) if on else (20, 20, 22, 255)) if BW_ else ((24, 46, 82, 255) if on else (19, 37, 68, 255)),
+                            outline=((*PK_, 255) if (on and not every) else (78, 78, 84, 220)) if BW_ else ((*GOLD, 255) if (on and not every) else (*GOLD_D, 200)), width=3 if (on and not every) else 2)
         r = 34; cx = X0 + 30 + r; cy = 18 + r
-        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(*NAVY, 255), outline=(255, 255, 255, 255), width=4)
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(*((255, 77, 109) if (BW_ and on) else (12, 12, 12) if BW_ else NAVY), 255), outline=(255, 255, 255, 255), width=4)
         d.text((cx, cy + 1), str(k + 1), font=F("Heavy", 40), fill=(255, 255, 255, 255), anchor="mm")
         tx = cx + r + 26; mw = X1 - 34 - tx
         d.text((tx, cy), it["t"], font=fit_font(it["t"], "ExtraBold", 56, mw), fill=(*IVORY, 255), anchor="lm")
@@ -512,8 +520,8 @@ def s_recap(img, u, sc, L, T):
             while fs > 26 and chip_w(fs) > mw: fs -= 2
             for lab, val in chips:
                 fl, fv = F("Bold", fs - 6), F("SemiBold", fs); w_ = fl.getlength(lab) + fv.getlength(val) + 58
-                d.rounded_rectangle([cx2, cyc - 27, cx2 + w_, cyc + 27], 27, fill=(*mix(NAVY2, GOLD, .16), 255), outline=(*GOLD_D, 255), width=2)
-                d.text((cx2 + 20, cyc + 1), lab, font=fl, fill=(*GOLD, 255), anchor="lm")
+                d.rounded_rectangle([cx2, cyc - 27, cx2 + w_, cyc + 27], 27, fill=(36, 36, 40, 255) if BW_ else (*mix(NAVY2, GOLD, .16), 255), outline=(90, 90, 96, 255) if BW_ else (*GOLD_D, 255), width=2)
+                d.text((cx2 + 20, cyc + 1), lab, font=fl, fill=(*((255, 77, 109) if BW_ else GOLD), 255), anchor="lm")
                 d.text((cx2 + 20 + fl.getlength(lab) + 18, cyc + 1), val, font=fv, fill=(*IVORY, 255), anchor="lm")
                 cx2 += w_ + 14
         if op < 1: lay.putalpha(lay.getchannel("A").point(lambda q: int(q * op)))
@@ -1435,6 +1443,23 @@ def frame(T, scenes, total, pen=True):
             fullworld.draw_tag_band(sys.modules[__name__], img, BANNER_TAG, YT_BANNER); fullworld.logo_bottom(img)
         elif YT_BANNER and BANNER_BAND: fullworld.draw_band(sys.modules[__name__], img, YT_BANNER)   # 진한 단색 제목 띠 (대본 "banner_band": true, 2026-11-01 15:11)
         elif YT_BANNER: draw_banner_soft(img)
+        d = ImageDraw.Draw(img); _pbar(d, T, total)
+        return img
+    if _is_bw():   # 2026-11-17 대표님 "옛날 노트 스타일 하지 말라" — 흑백 룩에선 꽉 찬 그림이 아닌 장면(정리 카드 등)도 노트 없이 짙은 단색 바탕
+        import fullworld
+        img = Image.new("RGB", (W, H), (12, 12, 12))
+        gd = ImageDraw.Draw(img)
+        for yy in range(0, H, 8): gd.rectangle([0, yy, W, yy + 8], fill=tuple(int(12 + 10 * (1 - abs(yy - H * .55) / (H * .55))) for _ in range(3)))
+        fn = DRAW.get(sc["type"])
+        if fn: img = fn(img, u, sc, s["L"], T) or img
+        if sc["type"] not in NO_CAPTION:
+            _cy = YT_CAP_Y; YT_CAP_Y = 1450
+            if YT: y_caption(img, u, s["L"])
+            else: caption(img, u, s["L"])
+            YT_CAP_Y = _cy
+        if YT_BANNER and BANNER_BAND and BANNER_TAG is not None:
+            fullworld.draw_tag_band(sys.modules[__name__], img, BANNER_TAG, YT_BANNER); fullworld.logo_bottom(img)
+        elif YT_BANNER and BANNER_BAND: fullworld.draw_band(sys.modules[__name__], img, YT_BANNER)
         d = ImageDraw.Draw(img); _pbar(d, T, total)
         return img
     if WORLD in ("popup", "ink"):   # 팝업 노트 (popworld.py) · 잉크 노트 (inkworld.py, 2026-10-26)
