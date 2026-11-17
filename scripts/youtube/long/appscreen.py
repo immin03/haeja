@@ -21,6 +21,13 @@ from playwright.sync_api import sync_playwright
 with sync_playwright() as p:
     b = p.chromium.launch(); c = b.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=3, is_mobile=True, has_touch=True, locale="ko-KR", timezone_id="Asia/Seoul")
     pg = c.new_page(); pg.goto(f"https://www.valuenote.co.kr/c/{SLUG}", wait_until="networkidle", timeout=90000); pg.wait_for_timeout(2500)
+    # 2026-11-17 대표님: 적정 주가는 영상에 보이지 않게 (테슬라처럼 극단값이면 오해) → 점수 카드 안에서 적정 주가 블록만 숨긴다
+    pg.evaluate(r"""() => { const all=[...document.querySelectorAll('body *')];
+      all.filter(e=>/적정 주가|적정 매수가|안전마진|이 계산이 틀릴/.test(e.innerText||'') && !/밸류노트 점수/.test(e.innerText||'') && e.parentElement && /밸류노트 점수/.test(e.parentElement.innerText||''))
+         .forEach(e=>e.style.setProperty('display','none','important')); }""")
+    pg.evaluate("() => document.querySelectorAll('img[loading=lazy]').forEach(i => i.loading = 'eager')")
+    for yy in (800, 1600, 2400, 0): pg.evaluate(f'window.scrollTo(0,{yy})'); pg.wait_for_timeout(700)
+    pg.wait_for_timeout(800)
     SCORE_Y = pg.evaluate(r"""() => { const e=[...document.querySelectorAll('*')].filter(x=>x.children.length===0 && /\/ ?100/.test(x.textContent||'')).map(x=>x.getBoundingClientRect().top + scrollY).filter(y=>y>200).sort((a,b)=>a-b)[0]; return e || 548 }""")
     pg.screenshot(path=SHOT, full_page=True); b.close()
 
@@ -44,7 +51,7 @@ v = np.clip(1 - (((xx - W * .62) / W) ** 2 + ((yy - H * .5) / H) ** 2) * 1.6, 0,
 bg = np.stack([10 + 16 * v, 10 + 16 * v, 12 + 17 * v], -1).astype(np.uint8)
 BG = Image.fromarray(bg).convert("RGBA")
 
-SC0, SC1 = 0, 250                # 스크롤 (css px)
+SC0 = max(0, SCORE_Y - 260); SC1 = max(0, SCORE_Y - 170)   # 2026-11-17 대표님: 적정 주가 카드는 화면에 넣지 않는다 → 점수 줄 근처에서 시작해 조금만 스크롤
 SUBS = [(0.0, 2.4, SUBL[0]), (2.4, 5.0, SUBL[-1])]
 
 
