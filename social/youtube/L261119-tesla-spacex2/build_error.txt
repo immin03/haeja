@@ -1,0 +1,10 @@
+2026-11-17T16:56:57.873316+00:00
+Traceback (most recent call last):
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 71, in main
+    sh([sys.executable, os.path.join(HERE, renderer), f])
+  File "/home/runner/work/haeja/haeja/scripts/youtube/long/build.py", line 19, in sh
+    if r.returncode: raise RuntimeError(f"명령 실패({r.returncode}): {' '.join(cmd)[:120]}\n{r.stderr[-1500:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: 명령 실패(1): /opt/hostedtoolcache/Python/3.12.16/x64/bin/python3 /home/runner/work/haeja/haeja/scripts/youtube/long/render2.py /home/
+렌더 전 점검 실패 — 같은 사진·영상 반복 commons_musk_5.jpg (장면 [25, 26]) / 같은 사진·영상 반복 il_L261113g3_coins_rise.jpeg (장면 [59, 61])
+
