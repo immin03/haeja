@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119t_bookend_table",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: The same long dark negotiation table now set with neatly arranged documents and a single fountain pen ready for signing, chairs still empty, dawn light through glass",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1e919-c76b-7da5-a553-2dbda054c54d",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e919-c76b-7da5-a553-2dbda054c54d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e919-c76b-7da5-a553-2dbda054c54d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1e919-c76b-7da5-a553-2dbda054c54d",
+  "status_url": "https://api.higgsfield.ai/requests/01a1e919-c76b-7da5-a553-2dbda054c54d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1e919-c76b-7da5-a553-2dbda054c54d/cancel",
+  "expires_at": "2026-11-24T10:42:44.670373+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1e919-c76b-7da5-a553-2dbda054c54d/e5553999-02bf-416a-ab44-60754ed9c73e.png"
+   }
+  ]
+ },
+ "seconds": 25,
+ "file": "scripts/blog/media/lib/il_L261119t_bookend_table.png"
+}
