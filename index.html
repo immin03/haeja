@@ -2943,7 +2943,7 @@ const DM = { st: 'idle', cur: null, prev: null };
 function dayMoveLoad(){
   if(DM.st !== 'idle') return; DM.st = 'loading';
   const get = u => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
-  Promise.all([get('/c/scores.json'), get('/c/scores-prev.json')]).then(([c, p]) => { DM.cur = c && c.c ? c : null; DM.prev = p && p.c && (p.built || p.date) !== (c?.built || c?.date) ? p : null; DM.st = 'done'; if(S.tab === 'portfolio') render(); });
+  Promise.all([get('/c/scores.json'), get('/c/scores-prev.json')]).then(([c, p]) => { DM.cur = c && c.c ? c : null; DM.prev = p && p.c && (p.built || p.date) !== (c?.built || c?.date) ? p : null; DM.st = 'done'; if(['portfolio', 'companies'].includes(S.tab)) render(); });
 }
 const dmSlugOf = t => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const dmKey = s => String(s || '').toUpperCase().replace(/\.(KS|KQ|T|HK|SS|SZ)$/, '').replace(/^0+(?=\d{4}$)/, '');
@@ -3009,7 +3009,6 @@ function viewPortfolio(){
     </button>${open ? `<div class="pf-open">${holdCard(r)}</div>` : ''}`; };
   const acts = P.acts.filter(a => a.lv !== 'good').slice(0,3);
   return `
-  ${dayMoveCard()}
   <div class="card pf-top" style="margin-top:16px">
     <div class="row" style="justify-content:space-between;align-items:flex-end">
       <div><span class="eyebrow">총 평가액</span><div class="hero-num num" data-v="${Math.round(total)}">${fmtKRW(total)}</div>
@@ -4170,6 +4169,7 @@ function viewCompanies(){
   const gLim = store.isGuest && !(S.coQ||'').trim() && rows.length > 10;
   const shown = rows.slice(0, gLim ? 10 : (S.coShown || 30));
   return `<div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">기업</h2><button class="btn" data-act="co-new">직접 추가</button></div>
+  ${dayMoveCard()}
   <div class="card stack" style="margin-top:10px;gap:10px">${funnelHtml()}${filterBarHtml()}</div>
   <div id="coRes">${coResultsHtml(rows, shown, gLim, st)}</div>
   `;
@@ -7987,6 +7987,14 @@ __swipeNav('#app', () => {
 /* 2026-11-17 대표님: 시청자 76%가 45세 이상 — 글자 키우고 버튼 크게 */
 .kakao-btn{min-height:56px;font-size:17px!important;border-radius:14px!important}
 button.btn.primary,a.btn.primary{min-height:48px}
+
+/* 2026-11-17 대표님: 금선·은색 대신 핑크 — 탭 밑줄, 고른 칩, 알림 숫자 */
+:root{--gold-grad:linear-gradient(90deg,#FF4D6D 0%,#FF4D6D 100%)}
+nav.tabs button[aria-selected="true"]{border-color:#FF4D6D!important}
+nav.subtabs button[aria-pressed="true"]{background:#FF4D6D!important;border-color:#FF4D6D!important;color:#FFFFFF!important}
+.bell-n{background:#FF4D6D!important;color:#FFFFFF!important}
+header.top::after{background:rgba(255,255,255,.12)!important;opacity:1!important}
+.wordmark .wm-b{background:none!important;-webkit-text-fill-color:#fff!important;color:#fff!important}
 </style>
 </body>
 </html>
