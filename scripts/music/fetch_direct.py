@@ -3,7 +3,7 @@ import json, os, subprocess, urllib.request
 import numpy as np
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.abspath(os.path.join(HERE,"..",".."))
 SET=os.environ.get("SET","2"); OUT=os.path.join(ROOT,"social","music","samples"+SET); os.makedirs(OUT,exist_ok=True)
-UA={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36","Referer":"https://pixabay.com/"}
+UA={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36","Referer":("https://suno.com/" if os.environ.get("SET")=="7" else "https://pixabay.com/")}
 def bpm(path):
     try:
         raw=subprocess.run(["ffmpeg","-v","error","-i",path,"-t","60","-ac","1","-ar","11025","-f","s16le","-"],capture_output=True).stdout
@@ -18,7 +18,7 @@ for c in json.load(open(os.path.join(HERE,f"candidates{SET}.json"),encoding="utf
     try:
         open(raw,"wb").write(urllib.request.urlopen(urllib.request.Request(c["mp3"],headers=UA),timeout=60).read())
         dur=float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",raw],capture_output=True,text=True).stdout.strip() or 0)
-        st=0 if c["role"]=="인트로" else min(25,max(0,dur-50))
+        st=0 if c["role"] in ("인트로","쇼츠") else min(25,max(0,dur-50))
         subprocess.run(["ffmpeg","-y","-v","error","-ss",str(st),"-t","45","-i",raw,"-af","afade=t=in:d=0.4,afade=t=out:st=42:d=3,loudnorm=I=-16:TP=-1.5","-b:a","128k",os.path.join(OUT,c["key"]+".mp3")],check=True)
         m.update(duration=round(dur,1),bpm=bpm(raw),file=f"social/music/samples{SET}/{c['key']}.mp3",full=f"social/music/samples{SET}/{c['key']}_full.mp3")
     except Exception as e: m["error"]=str(e)[:200]
