@@ -1,0 +1,31 @@
+{
+ "id": "vn_pres2_c2_left",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "prompt": "The camera slowly arcs about 25 degrees to the left around him. He leans slightly toward the microphone as he talks, small hand gesture with the pen. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/scripts/higgsfield/in/vn_presenter_ref2.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea02-8fb8-74ed-a1e2-8b2b2d9b5753",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea02-8fb8-74ed-a1e2-8b2b2d9b5753/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea02-8fb8-74ed-a1e2-8b2b2d9b5753/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-17T14:56:38Z",
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1ea02-8fb8-74ed-a1e2-8b2b2d9b5753",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea02-8fb8-74ed-a1e2-8b2b2d9b5753/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea02-8fb8-74ed-a1e2-8b2b2d9b5753/cancel",
+  "expires_at": "2026-11-24T14:56:39.290964+00:00"
+ },
+ "seconds": 11
+}

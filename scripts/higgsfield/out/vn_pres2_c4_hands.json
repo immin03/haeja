@@ -1,0 +1,31 @@
+{
+ "id": "vn_pres2_c4_hands",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "prompt": "The camera slowly tilts down and pushes in toward his hands on the desk: the pen underlines a line in the notebook, the round gold watch on his left wrist catches the light. Keep the exact same man, navy two-piece suit, white shirt, wide dark silk tie, white pocket square, round gold dress watch, microphone, notebook and library background as the reference image. Black and white, soft film grain, warm spotlight from above. The frame never shows anything above the jawline; no face, no mouth. Calm, natural, subtle movement only. No text, no logos.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/scripts/higgsfield/in/vn_presenter_ref2.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea02-e2c9-7a4e-90a7-569a4586560b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea02-e2c9-7a4e-90a7-569a4586560b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea02-e2c9-7a4e-90a7-569a4586560b/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-17T14:57:00Z",
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a1ea02-e2c9-7a4e-90a7-569a4586560b",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea02-e2c9-7a4e-90a7-569a4586560b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea02-e2c9-7a4e-90a7-569a4586560b/cancel",
+  "expires_at": "2026-11-24T14:57:00.575280+00:00"
+ },
+ "seconds": 11
+}
