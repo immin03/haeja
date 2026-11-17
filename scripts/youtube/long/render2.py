@@ -12,7 +12,7 @@ import sys
 """
 import json, math, os, re, subprocess, sys, datetime as dt
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -1305,6 +1305,19 @@ def ident_fx(im, u, dur, kk, cy, lg):
     return im
 
 
+_DARK_END2 = None
+def dark_end_bg2():
+    """2026-11-17 대표님: 아우트로를 새 톤으로 — 흐리고 어둡게 낮춘 뉴욕 + 왼쪽(글씨 쪽) 더 어둡게"""
+    global _DARK_END2
+    if _DARK_END2 is not None: return _DARK_END2.copy()
+    p = os.path.join(ROOT, "scripts", "blog", "media", "lib", "il_L261107m_manhattan_sunrise.jpeg")
+    bg = Image.open(p).convert("RGB"); s_ = max(W / bg.width, H / bg.height)
+    bg = bg.resize((int(bg.width * s_) + 1, int(bg.height * s_) + 1)).crop((0, 0, W, H)).filter(ImageFilter.GaussianBlur(18))
+    bg = ImageEnhance.Brightness(ImageEnhance.Color(bg).enhance(.5)).enhance(.32)
+    a = np.asarray(bg).astype(np.float32); xs = np.arange(W); m = np.clip((1100 - xs) / 1100, 0, 1) * .45; a *= (1 - m)[None, :, None]
+    _DARK_END2 = Image.fromarray(a.astype(np.uint8)); return _DARK_END2.copy()
+
+
 _DARK_END = None
 def dark_end_bg():
     """2026-11-10 대표님: 끝 화면 = 새 채널 배너 톤 (네이비 + 옅은 캔들 + 금색 상승선)"""
@@ -1796,7 +1809,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                 tex, tip = nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, u, write_t0=wt0)
                 if tip is not None: pen_tip, pen_al = tip, 1.0
             else:
-                if I["inked"]: img = dark_end_bg() if sc["v"].get("dark_end") else background("light")   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
+                if I["inked"]: img = (dark_end_bg2() if sc["v"].get("end_v2") else dark_end_bg()) if sc["v"].get("dark_end") else background("light")   # 손글씨 페이지: 빈 종이에서 시작 (2026-11-10 대표님: 끝 화면은 노트 대신 세련된 어두운 화면)
                 else:
                     img = apply_fit(draw(sc, V, u, x["lines"], "dark" if typ == "media" else theme, media), fit, theme)
                     if bdf: img = on_backdrop(img, bdf(u), theme)
@@ -2207,6 +2220,7 @@ def main():
             else: a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
             lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
         dur = u + sc.get("hold", .35)
+        if sc.get("dur"): dur = max(dur, float(sc["dur"]))   # 2026-11-17: 인트로 로고에 한 마디를 넣어도 로고 길이(5초)는 지킨다
         if DUB: dur = max(dur, float(DUB.get("min", 0))); audio.append((t, dub_orig(DUB, dur, [x_ for _, x_ in audio[-len(lines):]])))
         HITS = MUSIC.get("hits") or []
         if HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다

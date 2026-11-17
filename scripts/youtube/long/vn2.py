@@ -138,19 +138,17 @@ def subtitle_line(im, text, a, x0=None, y=None, size=48):
 
 # ── 다큐 이름표 ─────────────────────────────────────────
 def nametag(im, name, desc, p, fade, y=None):
+    """2026-11-17 대표님: 이름만 짧게 보이고 직책이 안 보였다 → 이름 크게, 소속·직책은 그 아래 한 줄로 크게, 자막 위에, 장면 내내"""
     a = eout(p / .5) * fade
     if a <= 0: return
-    fn, fd = SUIT("Heavy", 54), SUIT("Medium", 28)
-    d0 = ImageDraw.Draw(Image.new("L", (1, 1))); wn = d0.textlength(name, font=fn); dt = ("/ " + desc) if desc else ""; wd = d0.textlength(dt, font=fd)
-    one = wn + 16 + wd <= 1100
-    w = int(max(wn + 16 + wd, wn, wd) if one else max(wn, wd)) + 60; h = 150 if not one else 100
-    lay = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
-    d.text((20, 14), name, font=fn, fill=(255, 255, 255, 255))
-    if dt:
-        if one: d.text((20 + wn + 16, 38), dt, font=fd, fill=(225, 225, 225, 255))
-        else: d.text((20, 86), desc, font=fd, fill=(225, 225, 225, 255))
-    y = (H - 300 if one else H - 350) if y is None else y
-    _paste(im, _shadowed(lay, 8, .7), (130 - 20 + 24 * (1 - eout(p / .5)), y), a)
+    fn, fd = SUIT("Heavy", 64), SUIT("Bold", 38)
+    d0 = ImageDraw.Draw(Image.new("L", (1, 1))); w = int(max(d0.textlength(name, font=fn), d0.textlength(desc or "", font=fd))) + 80
+    lay = Image.new("RGBA", (w, 150), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    d.rectangle([20, 14, 26, 128 if desc else 82], fill=(255, 77, 109, 255))
+    d.text((46, 70), name, font=fn, fill=(255, 255, 255, 255), anchor="ls")
+    if desc: d.text((48, 122), desc, font=fd, fill=(218, 220, 225, 255), anchor="ls")
+    y = (H - 370) if y is None else y
+    _paste(im, _shadowed(lay, 10, .8), (90 + 24 * (1 - eout(p / .5)), y), a)
 
 
 # ── 숫자·문구 강조 ──────────────────────────────────────

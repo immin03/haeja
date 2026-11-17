@@ -796,6 +796,13 @@ def end_page(v, lines, fill, V, at_time):
         Y0 = 292   # 2026-11-13 대표: 문구 묶음 전체가 아래로 쏠림 → 화면 세로 가운데로 (372 → 292, 버튼 아래 끝 782 · 묶음 중심 약 537)
         # 2026-11-12 대표님: 금·금리 같은 거시 주제는 "거시적 관점을 가지면, 투자가 달라집니다" — 원고 v.slogan 으로 바꿀 수 있게
         sl = v.get("slogan") or ["기업을 이해하면,", "투자가 달라집니다", "스토리와 숫자로 기업의 내재 가치를 짚어 드립니다"]
+        if v.get("end_v2"):   # 2026-11-17 대표님: 아우트로도 새 톤으로 — 어두운 도시 배경, 흰 글씨, 버튼 없이 구독 요소 자리만, 오른쪽은 관련 영상 2개(이름·테두리 없음)
+            WH = (255, 255, 255); GR = (205, 207, 212); X0 = 110; Y0 = 300
+            return [dict(kind="print", text=sl[0], x=X0, y=Y0, size=92, w="Heavy", color=WH, t=S0),
+                    dict(kind="print", text=sl[1], x=X0, y=Y0 + 116, size=92, w="Heavy", color=WH, t=S0 + .3),
+                    dict(kind="print", text=sl[2], x=X0, y=Y0 + 250, size=36, w="Medium", color=GR, t=S0 + .6),
+                    dict(kind="print", text="매주 새 기업 분석", x=X0 + 200, y=Y0 + 400, size=40, w="Bold", color=WH, t=S0 + .9),
+                    dict(kind="print", text="구독하고 알림 받기", x=X0 + 200, y=Y0 + 456, size=32, w="Medium", color=GR, t=S0 + 1.0)]
         B = [dict(kind="print", text="차별화된 분석을 전하는 경제·투자 채널", x=X0, y=Y0, size=40, w="SemiBold", color=GD, t=S0),
              dict(kind="print", text=sl[0], x=X0, y=Y0 + 62, size=96, w="ExtraBold", color=IV, t=S0 + .25),
              dict(kind="print", text=sl[1], x=X0, y=Y0 + 184, size=96, w="ExtraBold", color=GD, t=S0 + .55),

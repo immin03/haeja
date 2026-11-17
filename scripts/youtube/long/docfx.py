@@ -68,6 +68,7 @@ def _key_tokens(b):
 def _t0(b, lines):
     """2026-11-12 대표님: 큰 숫자·표가 자막보다 먼저/늦게 휙 지나가지 않게 — 내레이션이 그 숫자를 말하는 순간에 맞춘다.
     lines 항목은 (시작, 길이, 자막 글) — sync:false 로 끄면 예전처럼 line/at 비율."""
+    if b.get("kind") == "lower" and DESIGN2[0]: return .4   # 2026-11-17 대표님: 이름표가 늦게·짧게 떴다 → 장면 시작부터
     i = min(b.get("line", 0), len(lines) - 1); a, v = lines[i][0], lines[i][1]
     base = a + b.get("at", .05) * v
     if b.get("sync", True) and lines and len(lines[0]) >= 3:
@@ -293,7 +294,7 @@ def set_design2(on):
 
 
 def _punch_win(b, lines):
-    t0 = _t0(b, lines); hold = max(b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))
+    t0 = _t0(b, lines); hold = max(3.0, b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))
     return t0, hold
 
 
@@ -402,7 +403,7 @@ def _punches(im, pu, u, lines):
         return im
     for b in pu:
         t0 = _t0(b, lines); p = u - t0
-        hold = max(b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))   # 2026-11-12 대표님: 숫자를 보고 갈 여운
+        hold = max(3.0, b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))   # 2026-11-12 대표님: 숫자를 보고 갈 여운
         if p < -0.05 or p > hold + .8: continue
         fade = 1 - eio((p - hold) / .8)
         col = _tone(b, WHITE); soft = b.get("style") == "soft"   # soft: 번쩍·흔들림·쾅 없이 조용히 떠오르는 약한 박자 (강약 조절, 2026-11-06)
