@@ -21,36 +21,41 @@
   "ident_fx": false
  },
  "music": {
-  "intro": "social/music/samples5/I1_full.mp3",
+  "intro": "social/music/samples3/I3_full.mp3",
   "intro_offset": 0.0,
   "end_on_logo": true,
   "bed": [
-   "social/music/samples5/M3_full.mp3@0",
-   "social/music/samples5/M4_full.mp3@0",
-   "social/music/samples5/M5_full.mp3@0"
+   "social/music/samples4/M2_full.mp3@0",
+   "social/music/samples6/N1_full.mp3@0",
+   "social/music/samples6/N5_full.mp3@0"
   ],
   "hits": [
-   0.19,
-   6.39,
-   9.59,
-   12.79,
-   19.34,
-   22.38,
-   25.59,
-   28.79,
-   32.39,
-   36.78,
-   39.98,
-   43.19,
-   54.4,
-   60.81,
-   67.2,
-   79.99,
-   86.4
+   0.57,
+   4.05,
+   7.55,
+   15.43,
+   18.85,
+   22.98,
+   26.57,
+   29.82,
+   33.05,
+   36.7,
+   40.3,
+   43.55,
+   46.98,
+   50.4,
+   54.27,
+   60.85,
+   64.12,
+   67.3,
+   70.9,
+   75.7,
+   83.72,
+   88.65
   ],
   "bed_gain_db": 3,
   "bed_hp": 120,
-  "note": "2026-11-16 대표: 인트로 I1 Cinematic Tension(Kulakovka) · 본편 M3 Piece by Piece · M4 Following the Evidence · M5 The Case File(ChestnutMusicStudios) 섞기 — 조용하고 긴장감 있게. 곡 페이지 Content ID 등록 표시 없음 확인"
+  "note": "2026-11-17 대표님: 기업 분석 편은 덜 무겁게 — 인트로 Symphonic Hip-hop 02(vjgalaxy) · 본편 Documentary Piano(SigmaMusicArt) · Documentary(AtlasAudio) · Technology(The_Mountain) 섞기. 모두 Content ID 등록 없음"
  },
  "id": "L261118-anthropic-ipo",
  "company": "ANTHROPIC",
@@ -150,7 +155,11 @@
   }
  ],
  "design": "v2",
- "review": null,
+ "review": {
+  "avg": 7.5,
+  "rounds": 3,
+  "note": "독립 검수 6.7 → 7.3 → 7.5 (목표 8.5 미달) · 남은 지적: 위트·썸네일 문구·아마존 빠진 이유"
+ },
  "scenes": [
   {
    "v": {
@@ -266,7 +275,7 @@
     "doc_cine": true
    },
    "lines": [
-    "이렇게 싸우던 상대의 주식을, 엔비디아가 사기로 했습니다. 1년 전 최대 100억 달러 투자를 약속했고 이번 상장에서도 공모가로 약 100억 달러의 주식을 받습니다."
+    "이렇게 싸우던 상대의 주식을, 엔비디아가 사기로 했습니다. 1년 전 최대 100억 달러 투자를 약속했던 엔비디아가, 이번 상장에서 공모가로 약 100억 달러의 주식을 사기로 한 겁니다."
    ],
    "sketch_add": [],
    "en": [
@@ -773,7 +782,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261104g_lehman_boxes.jpeg"
+      "lib": "il_L261116p_dark_office.png"
      }
     ],
     "wash_amt": 0.85
@@ -858,7 +867,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "문제는 그 뒤입니다. 재단이 팔던 무렵 약 184억 달러였던 앤트로픽의 몸값은, 이번 공모가 상단 기준 1조 4천억 달러입니다. 70배 넘게 뛴 거죠."
+    "문제는 그 뒤입니다. 재단이 팔던 무렵 약 184억 달러였던 앤트로픽의 몸값은, 이번 공모가 상단 기준 약 1조 4천억 달러, 우리 돈 약 1,880조 원입니다. 70배 넘게 뛴 거죠."
    ],
    "sketch_add": [],
    "en": [
@@ -1443,9 +1452,6 @@
     "cuts": [
      {
       "lib": "il_L261118a_conspiracy_wall.png"
-     },
-     {
-      "lib": "vsecret_50747.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -1518,7 +1524,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "다만 한 가지는 분명합니다. 젠슨 황이 맺어 둔 돈의 관계는, 그가 떠난 뒤에도 그대로 남아 이번 상장에 들어옵니다. 그럼 그 돈은 어디로 돌고 있을까요?"
+    "다만 한 가지는 분명합니다. 젠슨 황이 맺어 둔 거래는, 그가 떠난 뒤에도 그대로 남아 이번 상장에 들어옵니다. 그럼 그 돈은 어디로 돌고 있을까요?"
    ],
    "sketch_add": [],
    "en": [
@@ -1747,7 +1753,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261118a_ballot_box.png"
+      "lib": "vsecret_49379.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -2165,7 +2171,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "il_L261118a_nasdaq_2012.png"
+      "lib": "vwallstreet_24517.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -2373,7 +2379,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "그러니까 목요일 밤 첫 시세가 몇 퍼센트 오르든, 진짜 시험은 이 두 가지가 흔들리지 않느냐입니다."
+    "그러니까 목요일 밤 첫 시세가 오르든 내리든, 진짜 시험은 이 두 가지가 흔들리지 않느냐입니다."
    ],
    "sketch_add": [],
    "en": [
@@ -2462,7 +2468,7 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "목요일 밤, 증권 앱에 ANT라는 세 글자가 처음 뜨면, 오르는 숫자보다 이 두 가지를 먼저 떠올려 보세요. 매출이 계속 느는가, 칩 회사들이 버티는가."
+    "목요일 밤, 증권 앱에 ANT라는 세 글자가 처음 뜨면, 첫 시세보다 이 두 가지를 먼저 떠올려 보세요. 매출이 계속 느는가, 칩 회사들이 버티는가."
    ],
    "sketch_add": [],
    "en": [
@@ -2499,6 +2505,30 @@
   },
   {
    "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vn_sources_L261118.mp4"
+     }
+    ],
+    "dim": 0.0
+   },
+   "lines": [
+    "이 영상을 위해 상장 신고서와 법원 결정, 회사 공시와 보도까지 10건이 넘는 자료를 확인했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "dim": 0.0
+  },
+  {
+   "v": {
     "type": "end",
     "sub": "",
     "btn_at": [
@@ -2510,6 +2540,7 @@
      "text": ""
     },
     "dark_end": true,
+    "end_v2": true,
     "slogan": [
      "기업을 이해하면,",
      "투자가 달라집니다.",
