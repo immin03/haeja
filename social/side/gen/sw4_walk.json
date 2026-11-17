@@ -1,0 +1,33 @@
+{
+ "id": "sw4_walk",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea86-49a0-712d-b2b0-d14979b06d76",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea86-49a0-712d-b2b0-d14979b06d76/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea86-49a0-712d-b2b0-d14979b06d76/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ea86-49a0-712d-b2b0-d14979b06d76",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea86-49a0-712d-b2b0-d14979b06d76/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea86-49a0-712d-b2b0-d14979b06d76/cancel",
+  "expires_at": "2026-11-24T17:20:56.427005+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea86-49a0-712d-b2b0-d14979b06d76/1d235fc0-b861-40ad-b1e2-8222ea7c57e0.png"
+   }
+  ]
+ },
+ "seconds": 25,
+ "file": "social/side/gen/sw4_walk.png"
+}

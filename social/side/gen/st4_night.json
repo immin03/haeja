@@ -1,0 +1,33 @@
+{
+ "id": "st4_night",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan lying awake in bed at night in a dark bedroom, eyes open, staring at the ceiling, faint blue window light. Painterly cinematic oil-painting look with fine film grain, a present-day Korean scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea83-a520-756f-a3b1-7b076903c747",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea83-a520-756f-a3b1-7b076903c747/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea83-a520-756f-a3b1-7b076903c747/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ea83-a520-756f-a3b1-7b076903c747",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea83-a520-756f-a3b1-7b076903c747/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea83-a520-756f-a3b1-7b076903c747/cancel",
+  "expires_at": "2026-11-24T17:17:46.345818+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea83-a520-756f-a3b1-7b076903c747/e4ae96ce-4eb1-4c66-9794-1834a1b400f4.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/st4_night.png"
+}

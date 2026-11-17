@@ -1,0 +1,33 @@
+{
+ "id": "st4_book_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "She opens the old book and turns the first page slowly. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea84-187b-7a1c-9309-df4075d2ab7a/6406db66-265f-4aec-bcdf-41e6a2c39ccb.jpeg"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea87-744c-7a54-b9d0-18ec70178c94",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea87-744c-7a54-b9d0-18ec70178c94/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea87-744c-7a54-b9d0-18ec70178c94/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ea87-744c-7a54-b9d0-18ec70178c94",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea87-744c-7a54-b9d0-18ec70178c94/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea87-744c-7a54-b9d0-18ec70178c94/cancel",
+  "expires_at": "2026-11-24T17:23:38.802791+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea87-744c-7a54-b9d0-18ec70178c94/5d5fe140-0c1b-48d1-85ab-aeeb18f00040.mp4"
+  }
+ },
+ "seconds": 112,
+ "file": "social/side/gen/st4_book_v.mp4"
+}

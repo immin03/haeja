@@ -1,0 +1,33 @@
+{
+ "id": "sw4_car",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "aspect_ratio": "9:16",
+  "prompt": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together. Painterly cinematic oil-painting look with fine film grain, a present-day American scene painted in a Renaissance chiaroscuro manner, warm amber key light against deep navy shadows, faces and hands large, clearly lit and readable, simple uncluttered background, muted bronze, umber and navy palette, not cartoonish. Vertical 9:16 frame, main action in the middle of the frame, calm darker empty space in the top quarter. Absolutely no text, no letters, no numbers, no readable screens, no logos, no watermark."
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea85-95c1-79d4-8562-71659fcfff74",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea85-95c1-79d4-8562-71659fcfff74/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea85-95c1-79d4-8562-71659fcfff74/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ea85-95c1-79d4-8562-71659fcfff74",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea85-95c1-79d4-8562-71659fcfff74/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea85-95c1-79d4-8562-71659fcfff74/cancel",
+  "expires_at": "2026-11-24T17:19:53.903525+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea85-95c1-79d4-8562-71659fcfff74/a2cc6da9-1eea-442e-a23b-c3e7f4e549be.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/sw4_car.png"
+}

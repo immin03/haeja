@@ -1,0 +1,33 @@
+{
+ "id": "st4_soup_v",
+ "endpoint": "alibaba/wan-3.0-prime/image-to-video",
+ "body": {
+  "duration": 3,
+  "resolution": "480p",
+  "prompt": "She smiles and sets the bowl of soup down in front of him. The motion happens once in the first second and a half, then everything holds almost still. Camera still. Keep the painterly look identical. No text, no morphing faces, no extra fingers.",
+  "image_url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea83-a51c-7f95-ab65-76552ac70fda/c93c7374-cf30-453c-8473-366dc3686936.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1ea87-743e-78fe-ba2a-d175bee6b6ac",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea87-743e-78fe-ba2a-d175bee6b6ac/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea87-743e-78fe-ba2a-d175bee6b6ac/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.18,
+ "usd_hf": null,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1ea87-743e-78fe-ba2a-d175bee6b6ac",
+  "status_url": "https://api.higgsfield.ai/requests/01a1ea87-743e-78fe-ba2a-d175bee6b6ac/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1ea87-743e-78fe-ba2a-d175bee6b6ac/cancel",
+  "expires_at": "2026-11-24T17:23:49.232621+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1ea87-743e-78fe-ba2a-d175bee6b6ac/09643386-ef8a-4d9f-a508-6aa610919a3a.mp4"
+  }
+ },
+ "seconds": 125,
+ "file": "social/side/gen/st4_soup_v.mp4"
+}
