@@ -1,0 +1,39 @@
+# 완성 영상 일부만 덧입혀 새 파일로 올리기 (2026-11-17 대표님: 계기판·아우트로만 바꾸는데 전체 렌더 40분은 길다)
+# media/patch/<짧은 id>/ 에 overlay(gov.zip: 투명 PNG 연속) · endonly.mp4(끝 화면) 를 두고, 기존 릴리스 영상에 덧입혀 새 이름으로 올린다.
+name: yt-patch
+on:
+  workflow_dispatch:
+    inputs:
+      id: { description: '영상 id (예 L261117e-nvidia-earnings)', required: true }
+      base: { description: '기존 릴리스 파일 이름', required: true }
+      out: { description: '새 파일 이름', required: true }
+      dir: { description: 'media/patch 아래 폴더', required: true }
+      at: { description: '덧입힐 시작 초', required: true }
+      cut: { description: '끝 화면 교체 시작 초', required: true }
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            media/patch
+      - name: 도구
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg unzip
+      - name: 덧입히기
+        run: |
+          set -e
+          T=yt-${{ inputs.id }}; D=media/patch/${{ inputs.dir }}
+          gh release download "$T" -p "${{ inputs.base }}" -O base.mp4 -R ${{ github.repository }}
+          mkdir ov && unzip -q $D/gov.zip -d ov
+          ffmpeg -loglevel error -y -i base.mp4 -framerate 24 -itsoffset ${{ inputs.at }} -i ov/%04d.png -i $D/endonly.mp4 \
+            -filter_complex "[0:v][1:v]overlay=0:0:eof_action=pass[o];[o]trim=0:${{ inputs.cut }},setpts=PTS-STARTPTS[a];[2:v]fps=24,setpts=PTS-STARTPTS[b];[a][b]concat=n=2:v=1:a=0[v]" \
+            -map "[v]" -map 0:a -r 24 -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p -c:a copy -movflags +faststart "${{ inputs.out }}"
+          ffprobe -v error -show_entries format=duration -of csv=p=0 "${{ inputs.out }}"
+          gh release upload "$T" "${{ inputs.out }}" -R ${{ github.repository }}
