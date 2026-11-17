@@ -486,13 +486,14 @@ def s_recap(img, u, sc, L, T):
     every = u >= last_end + .05 or len(L) < n    # 한 줄로 몰아 말하면 강조 없이 차례로만 나타난다
     # 제목
     title = sc.get("title") or "이 3가지만"
-    appear(img, u, .02, title, fit_font(title, "ExtraBold", 66, 940), IVORY, (W / 2, 528), dur=.35, rise=24)
+    appear(img, u, .02, title, fit_font(title, "ExtraBold", 66, 940), IVORY, (W / 2, max(528, BAND_H + 70) if _is_bw() else 528), dur=.35, rise=24)   # 2026-11-17: 제목 띠에 가리지 않게
     # 카드 높이: 내용에 맞춰
     has_d = any(it.get("d") for it in items); has_c = any(it.get("when") or it.get("where") for it in items)
     ch = 104 + (50 if has_d else 0) + (70 if has_c else 0)
     gap = 18 if n <= 3 else 12
     if n > 3: ch = min(ch, int((1340 - 610 - gap * (n - 1)) / n))
-    top0 = 612 + max(0, (1340 - 612 - (n * ch + (n - 1) * gap)) // 2)
+    T0_ = max(612, BAND_H + 140) if _is_bw() else 612
+    top0 = T0_ + max(0, (1380 - T0_ - (n * ch + (n - 1) * gap)) // 2)
     X0, X1 = 64, W - 64
     for k, it in enumerate(items):
         t0 = starts[k] if not every or len(L) >= n else starts[k]
