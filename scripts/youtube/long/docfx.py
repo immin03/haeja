@@ -286,6 +286,10 @@ PUNCH_HOLD = 2.4
 DESIGN2 = [False]   # 2026-11-16 대표님 디자인 v2 (vn2.py): 이름표·데이터 라인 숫자·명조 문구
 
 
+def _PANEL():
+    return (14, 14, 16) if DESIGN2[0] else (8, 14, 26)   # 2026-11-17 흑백 톤: 네이비 판 → 짙은 회색
+
+
 def set_design2(on):
     global GOLD
     DESIGN2[0] = bool(on)
@@ -315,11 +319,11 @@ def _broadcast(im, beats, u, lines):
         if k == "stamp":   # 왼쪽 위 장소·날짜: 타자기처럼 한 글자씩 + 깜빡이는 커서, 5초 뒤 사라짐
             hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
             if fade <= 0: continue
-            t = b["text"]; n = min(len(t), int(p / .045)); d = ImageDraw.Draw(im, "RGBA"); f = F("Bold", 30)
-            sy = H - 290; d.rectangle([150, sy, 156, sy + 36], fill=(*RED, int(255 * fade)))
+            t = b["text"]; n = min(len(t), int(p / .045)); d = ImageDraw.Draw(im, "RGBA"); f = F("Bold", 40)   # 2026-11-17 대표님: 작아 보여 30→40
+            sy = H - 300; d.rectangle([150, sy, 157, sy + 46], fill=(*RED, int(255 * fade)))
             _st(d, (172, sy), t[:n], font=f, fill=(*WHITE, int(235 * fade)))
             if n < len(t) or int(p * 2.2) % 2 == 0:
-                cx = 172 + d.textlength(t[:n], font=f) + 4; d.rectangle([cx, sy + 4, cx + 14, sy + 34], fill=(*WHITE, int(200 * fade)))
+                cx = 172 + d.textlength(t[:n], font=f) + 4; d.rectangle([cx, sy + 5, cx + 16, sy + 44], fill=(*WHITE, int(200 * fade)))
         elif k == "lower" and DESIGN2[0]:   # v2: 다큐 이름표
             import vn2
             hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
@@ -334,7 +338,7 @@ def _broadcast(im, beats, u, lines):
             mt = ImageDraw.Draw(im); ssz = 32   # 2026-11-12: 글자가 띠 밖으로 잘리지 않게 띠 너비를 글자에 맞추고, 너무 길면 설명 글자를 줄인다
             while ssz > 24 and mt.textlength(b.get("sub", ""), font=F("SemiBold", ssz)) > W - 420: ssz -= 2
             bw = max(900, 60 + max(mt.textlength(b["text"], font=F("Heavy", 50)), mt.textlength(b.get("sub", ""), font=F("SemiBold", ssz))))
-            bg = Image.new("RGBA", im.size); ImageDraw.Draw(bg).rectangle([120, y - 10, 120 + bw * r, y + 120], fill=(8, 14, 26, int(170 * fade))); im.alpha_composite(bg)
+            bg = Image.new("RGBA", im.size); ImageDraw.Draw(bg).rectangle([120, y - 10, 120 + bw * r, y + 120], fill=(*_PANEL(), int(170 * fade))); im.alpha_composite(bg)
             d = ImageDraw.Draw(im, "RGBA"); d.rectangle([120, y - 10 + 130 * (1 - q), 128, y + 120], fill=(*GOLD, int(255 * fade)))
             _st(d, (150 - 30 * (1 - r), y + 4), b["text"], font=F("Heavy", 50), fill=(*WHITE, int(255 * r * fade)))
             if b.get("sub"): _st(d, (150 - 30 * (1 - r), y + 68), b["sub"], font=F("SemiBold", ssz), fill=(*GOLD, int(255 * r * fade)))
@@ -344,7 +348,7 @@ def _broadcast(im, beats, u, lines):
             r = eout(p / .45) * fade; cw, ch = 500, 250 + 44 * len(b.get("rows", []))
             x0 = W - 110 - cw + int(40 * (1 - eout(p / .45))); y0 = 118
             bg = Image.new("RGBA", im.size); bd = ImageDraw.Draw(bg)
-            bd.rounded_rectangle([x0, y0, x0 + cw, y0 + ch], 18, fill=(8, 14, 26, int(205 * r)), outline=(*GOLD, int(120 * r)), width=2)
+            bd.rounded_rectangle([x0, y0, x0 + cw, y0 + ch], 18, fill=(*_PANEL(), int(205 * r)), outline=(*GOLD, int(120 * r)), width=2)
             im.alpha_composite(bg); d = ImageDraw.Draw(im, "RGBA")
             _st(d, (x0 + 28, y0 + 40), b.get("label", ""), font=F("SemiBold", 30), fill=(*GOLD, int(255 * r)))
             fa, to = b.get("from"), b.get("to"); unit = b.get("unit", "만 원")
@@ -366,7 +370,7 @@ def _broadcast(im, beats, u, lines):
                 r = eout((p - .4 - i * .7) / .6)
                 if r > 0: _st(d, (W // 2, y0 + 60 + i * 88 + 12 * (1 - r)), t, font=f, fill=(*WHITE, int(255 * r)), anchor="mm")
             r = eout((p - .5 - len(rows) * .7) / .5)
-            if r > 0: _st(d, (W // 2, y0 + 80 + len(rows) * 88), "— " + b.get("by", ""), font=F("SemiBold", 38), fill=(*GOLD, int(255 * r)), anchor="mm")
+            if r > 0: _st(d, (W // 2, y0 + 80 + len(rows) * 88), "— " + b.get("by", ""), font=F("SemiBold", 46), fill=(*GOLD, int(255 * r)), anchor="mm")
     return im
 
 

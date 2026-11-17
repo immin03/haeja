@@ -1921,9 +1921,9 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                         im.paste(ov, (0, 0), ov); d = AD(im)
                     la_ = a_ * (1 - toc_a)
                     if la_ > 0:
-                        fx_ = 60; y_ = 20
-                        segs = ([(f"{ci_ + 1:02d}/{len(RM):02d}", ACC_, F("Bold", 24)), (RM[ci_][1], (244, 237, 220), F("ExtraBold", 26))] if ci_ >= 0 else []) \
-                             + ([("다음", ACC2_, F("SemiBold", 22)), (RM[ci_ + 1][1], ACC2_, F("SemiBold", 24))] if ci_ + 1 < len(RM) else [])
+                        fx_ = 60; y_ = 22
+                        segs = ([(f"{ci_ + 1:02d}/{len(RM):02d}", ACC_, F("Bold", 32)), (RM[ci_][1], (246, 246, 246), F("ExtraBold", 35))] if ci_ >= 0 else []) \
+                             + ([("다음", ACC2_, F("SemiBold", 28)), (RM[ci_ + 1][1], ACC2_, F("SemiBold", 30))] if ci_ + 1 < len(RM) else [])   # 2026-11-17 대표님: 왼쪽 위 목차 글씨 키움
                         for j, (tx_, col_, fr_) in enumerate(segs):
                             if j == 2: fx_ += 18
                             d.text((fx_ + 2, y_ + 2), tx_, font=fr_, fill=(0, 0, 0, int(150 * la_))); d.text((fx_, y_), tx_, font=fr_, fill=(*col_, int(240 * la_)))
