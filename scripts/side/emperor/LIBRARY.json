@@ -1,13 +1,56 @@
 {
 "_about": "황제의 일기 공용 그림·영상 라이브러리. library.py build 로 다시 만든다(손으로 고치지 않는다).",
 "_recent_eps": [
+"en05b",
+"ep22",
+"L-cine01",
+"ep23",
+"en01",
+"en07",
+"en06",
+"ep24",
+"ep25",
+"en08",
+"en15",
+"en02",
+"ep26",
+"ep27",
+"en25",
+"en24",
+"en09",
+"ep28",
+"en19",
+"en11",
+"en14",
+"ep30",
+"ep31",
+"en03",
+"en04",
+"en17",
+"ep32",
+"ep33",
+"en10",
+"en27",
+"en26",
+"ep35",
+"en16",
 "en23",
 "en12",
 "en13",
 "en21",
-"en22"
+"en22",
+"en29",
+"en28",
+"en20",
+"en18",
+"en30",
+"en31",
+"en32",
+"en33",
+"en34",
+"en35"
 ],
-"_built": "2026-11-15 04:46:53 UTC",
+"_built": "2026-11-17 17:28:54 UTC",
 "items": [
 {
 "file": "c1_burn.jpeg",
@@ -258,36 +301,15 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "L-cine01",
-"ep30"
+"ep30",
+"en12",
+"en31"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.75
-},
-{
-"file": "c1v_chest.mp4",
-"id": "c1v_chest",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "c1_chest",
-"scene": "Low close-up inside a large Roman leather command tent at night in the dry eastern provinces, heavy leather walls, wooden tent poles, a rough wooden camp table, a low round fire pit ringed with stones in the middle of the tent glowing with orange flames: a dark oak travel chest bound with black iron straps, about the size of a large suitcase, its lid closed, a leather strap across the lid sealed with a lump of dark r | 움직임: The hands let go and draw away out of frame; dust drifts in the firelight; very slow push-in on the chest. Photorealistic live-action footage, keep the face, co",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-09",
-"job": "EDL261109-cine01v3",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en",
-"L-cine01",
-"ep31"
-],
-"n_used": 4,
-"usd": 0.1
 },
 {
 "file": "c1v_emp_fire.mp4",
@@ -304,13 +326,14 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v3",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "L-cine01",
 "ep27",
-"ep31"
+"ep31",
+"en12"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -328,12 +351,16 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v3",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "L-cine01",
-"ep26"
+"ep26",
+"ep33",
+"en23",
+"en29",
+"en35"
 ],
-"n_used": 4,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -351,34 +378,14 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v2",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "L-cine01",
-"ep27"
+"ep27",
+"en31",
+"en35"
 ],
-"n_used": 4,
-"usd": 0.75
-},
-{
-"file": "c1v_emp_talk_b.mp4",
-"id": "c1v_emp_talk_b",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "c1_emp_talk2",
-"scene": "Close portrait, three-quarter view, of the Roman emperor Marcus Aurelius at age fifty-four, lean weathered face, short curly grey-brown hair, short neatly trimmed grey-flecked beard, deep tired eyes, plain brown wool tunic under a deep crimson wool military cloak fastened with a round bronze brooch, sitting in a dark leather tent at night, warm firelight from one side and deep shadow on the other, a small flame out o | 움직임: He looks up and says one quiet sentence, his lips and jaw moving naturally and slowly, then he stops speaking, closes his mouth and holds the look in silence; t",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-09",
-"job": "EDL261109-cine01v3",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en",
-"L-cine01"
-],
-"n_used": 3,
+"n_used": 6,
 "usd": 0.75
 },
 {
@@ -396,35 +403,14 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"L-cine01",
-"ep30"
-],
-"n_used": 4,
-"usd": 0.75
-},
-{
-"file": "c1v_gen_talk.mp4",
-"id": "c1v_gen_talk",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "c1_gen_talk",
-"scene": "Close portrait, three-quarter view, of a Roman general of about fifty, clean-shaven square jaw, short dark hair grey at the temples, a pale old scar across his left eyebrow, dented bronze muscle cuirass over a red tunic, dark red cloak, in a dark leather tent at night, warm firelight from one side, his lips slightly parted in the middle of speaking, his brow tense, urgent eyes. His face is in the middle of the frame, | 움직임: He speaks urgently in Latin, his lips and jaw moving naturally in continuous speech for the whole shot, a small tense shake of the head; the firelight moves on ",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-09",
-"job": "EDL261109-cine01v2",
-"used": [
 "L-mix_tmp",
-"L-cine_ep01_en",
 "L-cine01",
-"ep27"
+"ep30",
+"ep32",
+"en34"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.75
 },
 {
@@ -443,29 +429,8 @@
 "job": "EDL261109-cine01v3",
 "used": [
 "ep29",
-"L-cine01"
-],
-"n_used": 2,
-"usd": 0.75
-},
-{
-"file": "c1v_hand.mp4",
-"id": "c1v_hand",
-"kind": "video",
-"ar": "16:9",
-"era": "modern",
-"src": "c1_hand",
-"scene": "Close-up from the side at table height: an older man's weathered hand with a deep crimson wool sleeve resting flat on the closed lid of a dark oak travel chest bound with black iron straps, about the size of a large suitcase, its lid closed, a leather strap across the lid sealed with a lump of dark red wax, the fingers just touching the red wax seal, firelight on the knuckles, deep darkness behind. Photorealistic fil | 움직임: The hand rests on the lid, the fingers slowly curl and tighten, then stop just above the wax seal and do not break it; the firelight flickers on the knuckles; v",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-09",
-"job": "EDL261109-cine01v1",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en",
-"L-cine01"
+"L-cine01",
+"ep35"
 ],
 "n_used": 3,
 "usd": 0.75
@@ -485,12 +450,14 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v3",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "L-cine01",
-"ep31"
+"ep31",
+"en23",
+"en35"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.75
 },
 {
@@ -508,37 +475,14 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "L-cine01",
 "ep27",
 "ep31"
 ],
 "n_used": 5,
 "usd": 0.75
-},
-{
-"file": "c1v_seal.mp4",
-"id": "c1v_seal",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "c1_seal",
-"scene": "Extreme close-up of a lump of dark red wax seal on a worn leather strap across the lid of a dark oak chest bound with black iron, the wax has an abstract smooth blurred impression with no symbols, orange firelight sliding across it, tiny dust motes, extremely shallow depth of field, deep darkness behind. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natura | 움직임: Firelight slides slowly across the wax seal; dust motes drift; the",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-09",
-"job": "EDL261109-cine01v3",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en",
-"L-cine01",
-"ep31"
-],
-"n_used": 4,
-"usd": 0.1
 },
 {
 "file": "c1v_wide.mp4",
@@ -555,12 +499,15 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v2",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "L-cine01",
-"ep27"
+"ep27",
+"en23",
+"en29",
+"en35"
 ],
-"n_used": 4,
+"n_used": 7,
 "usd": 0.75
 },
 {
@@ -578,12 +525,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "ep26",
-"ep31"
+"ep31",
+"en21",
+"en20"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.5
 },
 {
@@ -601,34 +550,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v2",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"ep29",
-"ep31"
-],
-"n_used": 4,
-"usd": 0.75
-},
-{
-"file": "cep1_boy.mp4",
-"id": "cep1_boy",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_boy",
-"scene": "Medium shot inside a dark leather Roman command tent on the Danube at night, an iron brazier glowing orange, deep blue shadow: a Roman boy of thirteen with curly golden-brown hair and a white tunic with a purple stripe, standing by a tent pole, uneasy eyes, face fully visible and lit. His mouth stays closed. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, na | 움직임: He looks down and then toward the tent flap; mouth stays closed; light flickers. Photorealistic live-action footage, keep the face, costume, lighting and every ",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v5",
-"used": [
 "L-mix_tmp",
-"L-cine_ep01_en"
+"ep29",
+"ep31",
+"en34"
 ],
-"n_used": 2,
-"usd": 0.1
+"n_used": 5,
+"usd": 0.75
 },
 {
 "file": "cep1_bury.mp4",
@@ -644,30 +573,11 @@
 "ok": true,
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
-"used": [],
-"n_used": 0,
-"usd": 0.75
-},
-{
-"file": "cep1_casp.mp4",
-"id": "cep1_casp",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_casp",
-"scene": "Close portrait, three-quarter view, of the Roman general Avidius Cassius at about forty-five, lean hawk-nosed face, close-cropped black hair, short black beard, hard pale eyes, gilded bronze muscle cuirass, purple-red cloak, in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows, calm proud expression, mouth closed. His face is in the middle of the frame, fully visible and  | 움직임: He stays still, a slow blink, a slight turn of the head; mouth stays closed; very slow push-in. Photorealistic live-action footage, keep the face, costume, ligh",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v5",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"en18"
 ],
-"n_used": 2,
-"usd": 0.1
+"n_used": 1,
+"usd": 0.75
 },
 {
 "file": "cep1_casp_b.mp4",
@@ -683,30 +593,11 @@
 "ok": true,
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
-"used": [],
-"n_used": 0,
-"usd": 0.1
-},
-{
-"file": "cep1_cent.mp4",
-"id": "cep1_cent",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_cent",
-"scene": "Medium tracking shot in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows: a Roman centurion with a transverse-crested helmet riding a horse at a walk along a dusty road, one hand drifting to his sword hilt, cold eyes. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, lea | 움직임: He rides forward and his hand closes slowly on the sword hilt;",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v4",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"en31"
 ],
-"n_used": 2,
-"usd": 0.75
+"n_used": 1,
+"usd": 0.1
 },
 {
 "file": "cep1_cheer.mp4",
@@ -723,73 +614,11 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v1",
 "used": [
+"L-cine_ep01_en",
 "L-mix_tmp",
-"L-cine_ep01_en"
+"en20"
 ],
-"n_used": 2,
-"usd": 0.75
-},
-{
-"file": "cep1_city.mp4",
-"id": "cep1_city",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_city",
-"scene": "Epic wide shot of a great mud-brick Mesopotamian walled city burning at dusk beside a wide river, smoke columns, tiny Roman siege lines in the foreground. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orang | 움직임: Smoke drifts and flames flicker; very slow push-in. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v5",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
-],
-"n_used": 2,
-"usd": 0.1
-},
-{
-"file": "cep1_cloak.mp4",
-"id": "cep1_cloak",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_cloak",
-"scene": "Medium wide shot in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows: on a stone platform the Roman general Avidius Cassius at about forty-five, lean hawk-nosed face, close-cropped black hair, short black beard, hard pale eyes, gilded bronze muscle cuirass, purple-red cloak having a purple cloak placed on his shoulders by two officers, ranks of Roman soldiers below raisi | 움직임: The officers settle the cloak on his shoulders, he steps forward and raises one arm; soldiers raise swords. Real-time motion. Photorealistic live-action footage",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v1",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
-],
-"n_used": 2,
-"usd": 0.75
-},
-{
-"file": "cep1_ctalk.mp4",
-"id": "cep1_ctalk",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_ctalk",
-"scene": "Close portrait, nearly frontal, of the Roman general Avidius Cassius at about forty-five, lean hawk-nosed face, close-cropped black hair, short black beard, hard pale eyes, gilded bronze muscle cuirass, purple-red cloak on a platform in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows, his lips parted in the middle of speaking loudly, fierce eyes. His face is in the midd | 움직임: He speaks loudly to an army, his lips and jaw moving naturally in continuous speech for the whole shot; the",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v1",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
-],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.75
 },
 {
@@ -807,8 +636,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.1
@@ -828,8 +657,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "ep31"
 ],
 "n_used": 3,
@@ -850,8 +679,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.5
@@ -871,14 +700,17 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v4",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "ep26",
 "en24",
 "ep28",
-"ep31"
+"ep31",
+"en13",
+"en30",
+"en34"
 ],
-"n_used": 6,
+"n_used": 9,
 "usd": 0.75
 },
 {
@@ -896,12 +728,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v4",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "ep27",
-"ep30"
+"ep30",
+"en23",
+"en33"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.75
 },
 {
@@ -920,9 +754,10 @@
 "job": "EDL261110-cep01v9",
 "used": [
 "ep27",
-"ep31"
+"ep31",
+"en32"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -940,10 +775,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"L-cine_ep01_en",
+"ep34",
 "L-mix_tmp",
-"L-cine_ep01_en"
+"en33"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -961,10 +798,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"L-cine_ep01_en",
 "L-mix_tmp",
-"L-cine_ep01_en"
+"ep35",
+"en29"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.5
 },
 {
@@ -1002,11 +841,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"ep31"
+"L-mix_tmp",
+"ep31",
+"en35"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1024,9 +864,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"ep29"
+"ep29",
+"ep35"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.1
 },
 {
@@ -1044,8 +885,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.5
@@ -1065,10 +906,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"L-cine_ep01_en",
 "L-mix_tmp",
-"L-cine_ep01_en"
+"ep35",
+"en12"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1086,10 +929,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"L-cine_ep01_en",
 "L-mix_tmp",
-"L-cine_ep01_en"
+"ep33",
+"en31"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1107,11 +952,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"ep29"
+"L-mix_tmp",
+"ep29",
+"en18"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1129,11 +975,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"ep31"
+"L-mix_tmp",
+"ep31",
+"en32"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1172,8 +1019,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.1
@@ -1193,8 +1040,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.1
@@ -1214,11 +1061,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v2",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"ep31"
+"L-mix_tmp",
+"ep31",
+"en32"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.75
 },
 {
@@ -1236,33 +1084,16 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"ep27",
-"ep31"
-],
-"n_used": 4,
-"usd": 0.1
-},
-{
-"file": "cep1_ride.mp4",
-"id": "cep1_ride",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_ride",
-"scene": "Wide shot of the Roman general Avidius Cassius at about forty-five, lean hawk-nosed face, close-cropped black hair, short black beard, hard pale eyes, gilded bronze muscle cuirass, purple-red cloak riding a dark horse along a long column of Roman legionaries in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows, red banners without symbols. Photorealistic film still from a | 움직임: He rides slowly forward along the marching column; dust rises; slow tracking shot. Photorealistic live-action footage, keep the face, costume, lighting and ever",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v5",
-"used": [
 "L-mix_tmp",
-"L-cine_ep01_en"
+"ep27",
+"ep31",
+"ep33",
+"en21",
+"en29",
+"en31"
 ],
-"n_used": 2,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -1280,10 +1111,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"L-cine_ep01_en",
 "L-mix_tmp",
-"L-cine_ep01_en"
+"ep33",
+"en20"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1301,10 +1134,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"L-cine_ep01_en",
 "L-mix_tmp",
-"L-cine_ep01_en"
+"ep35",
+"en33"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1322,9 +1157,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
-"ep27"
+"ep27",
+"ep32"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.1
 },
 {
@@ -1342,12 +1178,13 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
+"L-mix_tmp",
 "ep27",
-"ep30"
+"ep30",
+"en33"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -1365,75 +1202,13 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
-"L-mix_tmp",
 "L-cine_ep01_en",
-"ep31"
+"L-mix_tmp",
+"ep31",
+"en32"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
-},
-{
-"file": "cep1_spk.mp4",
-"id": "cep1_spk",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_spk",
-"scene": "Close portrait, three-quarter view, of the Roman emperor Marcus Aurelius at age fifty-four, lean weathered face, short curly grey-brown hair, short grey-flecked full beard, deep tired eyes, plain brown wool tunic under a deep crimson wool military cloak fastened with a round bronze brooch on a platform in the snow at blue dusk, thin and pale, crimson cloak, snowflakes in his grey hair, lips parted in the middle of sp | 움직임: He speaks slowly and sorrowfully to an army, his lips and jaw moving naturally in continuous speech for the whole shot; his breath visible; the",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v2",
-"used": [
-"ep29",
-"ep26"
-],
-"n_used": 2,
-"usd": 0.75
-},
-{
-"file": "cep1_spk2.mp4",
-"id": "cep1_spk2",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_spk",
-"scene": "Close portrait, three-quarter view, of the Roman emperor Marcus Aurelius at age fifty-four, lean weathered face, short curly grey-brown hair, short grey-flecked full beard, deep tired eyes, plain brown wool tunic under a deep crimson wool military cloak fastened with a round bronze brooch on a platform in the snow at blue dusk, thin and pale, crimson cloak, snowflakes in his grey hair, lips parted in the middle of sp | 움직임: He speaks slowly and sorrowfully to an army, his lips and jaw moving naturally in continuous speech for the whole shot; his breath visible; the",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v3",
-"used": [
-"ep27",
-"ep31"
-],
-"n_used": 2,
-"usd": 0.75
-},
-{
-"file": "cep1_spkw.mp4",
-"id": "cep1_spkw",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_spkw",
-"scene": "Medium shot from the front and slightly below of the Roman emperor Marcus Aurelius at age fifty-four, lean weathered face, short curly grey-brown hair, short grey-flecked full beard, deep tired eyes, plain brown wool tunic under a deep crimson wool military cloak fastened with a round bronze brooch standing on a wooden platform in the snow, addressing unseen soldiers, one hand open at his side, lips parted, blue dusk | 움직임: He speaks with one open hand moving slightly, his lips and jaw moving naturally in continuous speech; breath visible; snow falls. Photorealistic live-action foo",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v3",
-"used": [
-"ep27",
-"ep30"
-],
-"n_used": 2,
-"usd": 0.75
 },
 {
 "file": "cep1_spkw2.mp4",
@@ -1471,32 +1246,11 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.1
-},
-{
-"file": "cep1_strike.mp4",
-"id": "cep1_strike",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_strike",
-"scene": "Medium shot in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows: a mounted Roman centurion with a transverse-crested helmet riding past the Roman general Avidius Cassius at about forty-five, lean hawk-nosed face, close-cropped black hair, short black beard, hard pale eyes, gilded bronze muscle cuirass, purple-red cloak on foot, a raised sword catching the sun, nothing gr | 움직임: The horseman rides past at speed and swings the sword; the man on foot staggers and clutches his neck with one hand; the horse carries the rider on; dust bursts",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v5",
-"used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
-],
-"n_used": 2,
-"usd": 0.75
 },
 {
 "file": "cep1_walk.mp4",
@@ -1513,8 +1267,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.5
@@ -1534,8 +1288,8 @@
 "made": "2026-11-11",
 "job": "EDL261111-cep01en",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1555,8 +1309,8 @@
 "made": "2026-11-11",
 "job": "EDL261111-cep01en",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1576,8 +1330,8 @@
 "made": "2026-11-11",
 "job": "EDL261111-cep01en",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1597,8 +1351,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1636,8 +1390,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1693,8 +1447,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1768,8 +1522,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1825,8 +1579,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1936,8 +1690,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -1957,8 +1711,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2014,8 +1768,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2161,8 +1915,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2182,8 +1936,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2275,8 +2029,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2332,8 +2086,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2353,8 +2107,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2374,8 +2128,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2521,8 +2275,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2542,8 +2296,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01i",
 "used": [
-"L-mix_tmp",
-"L-cine_ep01_en"
+"L-cine_ep01_en",
+"L-mix_tmp"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -2974,9 +2728,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-ep02v",
+"L-ep01_intro",
 "L-ep01",
 "L-ep02"
 ],
@@ -2998,8 +2752,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3020,8 +2774,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3747,8 +3501,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3769,8 +3523,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3791,8 +3545,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4332,10 +4086,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
-"L-ep02v",
 "L-ep03v",
+"L-ep02v",
+"L-ep01_intro",
 "L-ep01",
 "L-ep02",
 "L-ep03"
@@ -4358,9 +4112,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-ep03v",
+"L-ep01_intro",
 "L-ep01",
 "L-ep03"
 ],
@@ -4382,8 +4136,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4404,8 +4158,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4806,8 +4560,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4828,8 +4582,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4850,8 +4604,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4872,8 +4626,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4894,8 +4648,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4916,8 +4670,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4938,8 +4692,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4960,8 +4714,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4982,8 +4736,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -5004,8 +4758,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -5260,6 +5014,7 @@
 "made": "2026-11-02",
 "job": "ED261102-ep01",
 "used": [
+"ep34",
 "ep06x",
 "ep29",
 "ep05b",
@@ -5274,9 +5029,10 @@
 "en15",
 "en11",
 "en04",
-"en27"
+"en27",
+"en32"
 ],
-"n_used": 15,
+"n_used": 17,
 "usd": 0.1
 },
 {
@@ -5340,9 +5096,11 @@
 "ep21",
 "en01",
 "ep25",
-"en16"
+"ep35",
+"en16",
+"en32"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -5360,6 +5118,7 @@
 "made": "2026-11-02",
 "job": "ED261102-ep02",
 "used": [
+"ep34",
 "ep11",
 "ep17",
 "ep21",
@@ -5369,7 +5128,7 @@
 "en10",
 "en21"
 ],
-"n_used": 8,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -5394,10 +5153,11 @@
 "en05b",
 "ep25",
 "en03",
+"ep33",
 "en16",
 "en21"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5423,9 +5183,10 @@
 "en19",
 "ep31",
 "en03",
-"en23"
+"en23",
+"en33"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5445,9 +5206,11 @@
 "used": [
 "ep06x",
 "ep05b",
-"ep09"
+"ep09",
+"ep33",
+"en30"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -5471,9 +5234,12 @@
 "ep22",
 "en06",
 "ep25",
-"en03"
+"en03",
+"ep33",
+"en31",
+"en35"
 ],
-"n_used": 7,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5494,9 +5260,11 @@
 "L-ep02v",
 "L-ep02",
 "ep27",
-"ep30"
+"ep30",
+"en28",
+"en34"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -5517,9 +5285,11 @@
 "L-ep02v",
 "L-ep02",
 "ep26",
-"ep30"
+"ep30",
+"ep33",
+"en12"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -5546,9 +5316,10 @@
 "ep25",
 "en11",
 "en26",
+"ep35",
 "en13"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -5574,9 +5345,10 @@
 "ep25",
 "en15",
 "en17",
+"ep35",
 "en12"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5627,9 +5399,11 @@
 "ep23",
 "en08",
 "en11",
-"en26"
+"en26",
+"ep35",
+"en33"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5648,9 +5422,11 @@
 "job": "EDL261104-ep03v",
 "used": [
 "L-ep03v",
-"L-ep03"
+"L-ep03",
+"ep35",
+"en21"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -5669,9 +5445,10 @@
 "job": "EDL261104-ep03v2",
 "used": [
 "L-ep03v",
-"L-ep03"
+"L-ep03",
+"en22"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -5698,9 +5475,10 @@
 "ep24",
 "en08",
 "en11",
-"en23"
+"en23",
+"en34"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -5741,9 +5519,10 @@
 "used": [
 "L-ep03v",
 "L-ep03",
-"ep27"
+"ep27",
+"en22"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -5761,8 +5540,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "L-ep03"
 ],
 "n_used": 3,
@@ -5783,11 +5562,12 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
-"L-ep03"
+"ep29",
+"L-ep03",
+"ep35"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -5827,9 +5607,10 @@
 "job": "EDL261104-ep03v",
 "used": [
 "L-ep03v",
-"L-ep03"
+"L-ep03",
+"en21"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -5849,9 +5630,11 @@
 "used": [
 "L-ep03v",
 "L-ep03",
-"ep26"
+"ep26",
+"ep33",
+"en30"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -5869,18 +5652,19 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "ep13",
 "L-ep03",
 "ep18",
 "ep22",
 "en15",
 "en19",
+"ep35",
 "en16",
 "en22"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -5905,9 +5689,11 @@
 "ep23",
 "en07",
 "en19",
-"en26"
+"ep33",
+"en26",
+"en35"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5934,9 +5720,10 @@
 "en07",
 "ep24",
 "en19",
+"ep33",
 "en12"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -5954,6 +5741,7 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
+"ep34",
 "L-ep03p",
 "L-ep03v",
 "ep13",
@@ -5964,9 +5752,10 @@
 "ep24",
 "en24",
 "en10",
-"en23"
+"en23",
+"en31"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -5991,9 +5780,10 @@
 "ep23",
 "en15",
 "en10",
+"ep35",
 "en12"
 ],
-"n_used": 8,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -6019,9 +5809,10 @@
 "ep23",
 "en01",
 "en11",
-"en23"
+"en23",
+"en32"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -6040,9 +5831,12 @@
 "job": "EDL261104-ep03v2",
 "used": [
 "L-ep03v",
-"L-ep03"
+"L-ep03",
+"ep35",
+"en22",
+"en30"
 ],
-"n_used": 2,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -6063,9 +5857,10 @@
 "L-ep03v",
 "L-ep03",
 "ep27",
-"en24"
+"en24",
+"ep33"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -6108,9 +5903,11 @@
 "L-ep03v",
 "L-ep03",
 "ep26",
-"en24"
+"en24",
+"ep33",
+"en35"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -6129,9 +5926,10 @@
 "job": "EDL261104-ep03v2",
 "used": [
 "L-ep03v",
-"L-ep03"
+"L-ep03",
+"en29"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -6153,9 +5951,11 @@
 "L-ep04",
 "ep26",
 "en25",
-"ep30"
+"ep30",
+"en28",
+"en35"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -6173,9 +5973,11 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"L-ep04"
+"L-ep04",
+"ep35",
+"en13"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -6196,9 +5998,12 @@
 "L-ep04",
 "ep27",
 "en09",
-"ep30"
+"ep30",
+"ep32",
+"en23",
+"en28"
 ],
-"n_used": 4,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -6216,9 +6021,11 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"L-ep04"
+"L-ep04",
+"en22",
+"en29"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -6237,9 +6044,10 @@
 "job": "EDL261107-ep04v",
 "used": [
 "L-ep04p",
-"L-ep04"
+"L-ep04",
+"en18"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -6278,9 +6086,11 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"L-ep04"
+"L-ep04",
+"en22",
+"en18"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": 0.1
 },
 {
@@ -6300,9 +6110,10 @@
 "used": [
 "L-ep04",
 "ep26",
-"ep31"
+"ep31",
+"en23"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -6320,8 +6131,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -6342,8 +6153,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"ep34",
+"L-ep01_intro",
 "L-ep01",
 "ep11",
 "ep17",
@@ -6351,9 +6163,10 @@
 "ep23",
 "en01",
 "ep25",
-"en04"
+"en04",
+"en18"
 ],
-"n_used": 10,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -6371,18 +6184,19 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01",
 "ep12",
 "ep16",
 "ep20",
 "ep25",
 "en02",
+"ep35",
 "en16",
 "en12"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -6400,12 +6214,14 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "ep29",
-"L-ep01"
+"L-ep01_intro",
+"L-ep01",
+"en12",
+"en18"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -6423,12 +6239,15 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01",
-"ep26"
+"ep26",
+"ep32",
+"en28",
+"en35"
 ],
-"n_used": 4,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -6446,12 +6265,14 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01",
-"ep31"
+"ep31",
+"en21",
+"en18"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -6469,13 +6290,17 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"ep34",
+"L-ep01_intro",
 "L-ep01",
 "ep27",
-"en09"
+"en09",
+"en22",
+"en29",
+"en33"
 ],
-"n_used": 5,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -7656,9 +7481,11 @@
 "ep23",
 "ep25",
 "en15",
-"en14"
+"en14",
+"ep33",
+"en35"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -7682,9 +7509,11 @@
 "ep27",
 "en24",
 "en04",
-"en27"
+"ep32",
+"en27",
+"en30"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -7742,6 +7571,7 @@
 "made": "",
 "job": "",
 "used": [
+"ep34",
 "ep11",
 "ep15",
 "ep20",
@@ -7753,11 +7583,13 @@
 "en19",
 "en03",
 "en04",
+"ep33",
 "en26",
+"ep35",
 "en23",
 "en22"
 ],
-"n_used": 14,
+"n_used": 17,
 "usd": null
 },
 {
@@ -7775,8 +7607,9 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
-"L-ep04p",
+"ep34",
 "L-ep03v",
+"L-ep04p",
 "ep11",
 "L-ep03",
 "ep14",
@@ -7789,9 +7622,11 @@
 "en08",
 "en19",
 "en17",
-"en27"
+"en27",
+"en22",
+"en33"
 ],
-"n_used": 15,
+"n_used": 18,
 "usd": 0.75
 },
 {
@@ -7820,11 +7655,12 @@
 "en15",
 "en14",
 "en17",
+"ep32",
 "en16",
 "en12",
 "en21"
 ],
-"n_used": 14,
+"n_used": 15,
 "usd": 0.75
 },
 {
@@ -7850,10 +7686,11 @@
 "ep22",
 "en01",
 "en19",
+"ep32",
 "en16",
 "en13"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.75
 },
 {
@@ -7878,9 +7715,11 @@
 "en06",
 "en25",
 "en17",
-"en21"
+"ep32",
+"en21",
+"en33"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -7903,9 +7742,11 @@
 "ep20",
 "en05b",
 "ep23",
-"en10"
+"ep32",
+"en10",
+"en34"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -7929,9 +7770,11 @@
 "en05b",
 "ep23",
 "en03",
-"en16"
+"ep33",
+"en16",
+"en30"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -7956,9 +7799,10 @@
 "ep25",
 "en02",
 "en03",
+"ep33",
 "en13"
 ],
-"n_used": 8,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -7983,9 +7827,10 @@
 "ep24",
 "en08",
 "en14",
+"ep35",
 "en22"
 ],
-"n_used": 8,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -8009,9 +7854,11 @@
 "ep24",
 "en15",
 "en14",
-"en21"
+"ep32",
+"en21",
+"en32"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -8035,10 +7882,12 @@
 "ep22",
 "ep25",
 "en25",
+"ep32",
 "en10",
-"en27"
+"en27",
+"en34"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -8056,6 +7905,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
+"ep34",
 "ep15",
 "ep18",
 "ep21",
@@ -8065,7 +7915,7 @@
 "en26",
 "en21"
 ],
-"n_used": 8,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -8092,9 +7942,10 @@
 "ep24",
 "en02",
 "en11",
+"ep33",
 "en13"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -8112,6 +7963,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
+"ep34",
 "ep14",
 "ep19",
 "en05b",
@@ -8119,9 +7971,10 @@
 "ep24",
 "en14",
 "en10",
-"en22"
+"en22",
+"en32"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -8145,9 +7998,12 @@
 "ep22",
 "ep25",
 "en24",
-"en22"
+"ep35",
+"en21",
+"en22",
+"en33"
 ],
-"n_used": 7,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -8172,10 +8028,12 @@
 "ep25",
 "en02",
 "en14",
+"ep35",
 "en23",
-"en21"
+"en21",
+"en33"
 ],
-"n_used": 9,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -8201,9 +8059,11 @@
 "en07",
 "en25",
 "en17",
-"en12"
+"ep33",
+"en12",
+"en32"
 ],
-"n_used": 9,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -8269,9 +8129,12 @@
 "ep26",
 "en25",
 "ep28",
-"ep30"
+"ep30",
+"en12",
+"en20",
+"en34"
 ],
-"n_used": 7,
+"n_used": 10,
 "usd": 0.75
 },
 {
@@ -8294,9 +8157,12 @@
 "L-ep04",
 "ep27",
 "en09",
-"ep30"
+"ep30",
+"ep32",
+"en28",
+"en34"
 ],
-"n_used": 6,
+"n_used": 9,
 "usd": 0.75
 },
 {
@@ -8320,10 +8186,13 @@
 "en07",
 "ep24",
 "en09",
+"ep32",
 "en27",
-"en13"
+"en23",
+"en13",
+"en35"
 ],
-"n_used": 8,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -8348,9 +8217,11 @@
 "ep21",
 "ep23",
 "en08",
-"en10"
+"ep33",
+"en10",
+"en35"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -8368,12 +8239,15 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib3",
 "used": [
+"ep34",
 "L-ep03v",
 "L-ep03",
 "ep27",
-"en09"
+"en09",
+"en13",
+"en28"
 ],
-"n_used": 4,
+"n_used": 7,
 "usd": 0.75
 },
 {
@@ -8397,9 +8271,12 @@
 "ep24",
 "en09",
 "ep28",
-"en26"
+"en26",
+"en12",
+"en20",
+"en35"
 ],
-"n_used": 7,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -8422,9 +8299,12 @@
 "en06",
 "ep24",
 "en25",
-"en04"
+"en04",
+"ep32",
+"en13",
+"en34"
 ],
-"n_used": 6,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -8448,9 +8328,12 @@
 "en06",
 "ep25",
 "en03",
-"en27"
+"ep33",
+"en27",
+"en20",
+"en35"
 ],
-"n_used": 7,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -8474,9 +8357,10 @@
 "en06",
 "ep24",
 "en17",
+"ep35",
 "en12"
 ],
-"n_used": 7,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -8502,9 +8386,11 @@
 "ep25",
 "en25",
 "en04",
-"en27"
+"ep32",
+"en27",
+"en33"
 ],
-"n_used": 9,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -8522,8 +8408,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "L-ep03",
 "ep14",
 "L-ep04",
@@ -8533,9 +8419,10 @@
 "ep24",
 "en14",
 "en17",
+"ep33",
 "en22"
 ],
-"n_used": 12,
+"n_used": 13,
 "usd": 0.75
 },
 {
@@ -8563,9 +8450,10 @@
 "en08",
 "ep31",
 "en23",
-"en13"
+"en13",
+"en33"
 ],
-"n_used": 11,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -8593,9 +8481,11 @@
 "ep25",
 "en24",
 "en04",
-"en26"
+"ep33",
+"en26",
+"en34"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.75
 },
 {
@@ -8721,10 +8611,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
 "L-ep02v",
+"L-ep01_intro",
 "L-ep01",
 "L-ep02"
 ],
@@ -8782,9 +8672,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8805,9 +8695,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8828,9 +8718,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8887,9 +8777,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-ep02v",
+"L-ep01_intro",
 "L-ep01",
 "L-ep02"
 ],
@@ -8911,9 +8801,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8934,9 +8824,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
+"L-ep01_intro",
 "L-ep01",
 "L-ep04"
 ],
@@ -8994,9 +8884,9 @@
 "made": "",
 "job": "",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -9057,8 +8947,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot2",
 "used": [
-"L-ep01_intro",
-"L-ep01v"
+"L-ep01v",
+"L-ep01_intro"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -10426,6 +10316,330 @@
 "usd": 0.18
 },
 {
+"file": "st4_book.jpeg",
+"id": "st4_book",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.06
+},
+{
+"file": "st4_book_v.mp4",
+"id": "st4_book_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_kr",
+"src": "st4_book",
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her. | 움직임: She opens the old book and turns the first page slowly. The motion happens once in the first second and a half, then everything holds almost still.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "st4_car.png",
+"id": "st4_car",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "st4_car_v.mp4",
+"id": "st4_car_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_kr",
+"src": "st4_car",
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together. | 움직임: City lights slide past the window; she keeps staring ahead, jaw tight. The motion happens once in the first second and a half, then everything holds almost stil",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "st4_chairs.png",
+"id": "st4_chairs",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "Two identical wooden chairs facing each other across an empty dim room, a single beam of light falling between them.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "st4_fist.png",
+"id": "st4_fist",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "Close-up of a middle-aged woman's hand slowly clenching into a fist on her knee over a burgundy knit sleeve, dim warm light.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "st4_night.png",
+"id": "st4_night",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan lying awake in bed at night in a dark bedroom, eyes open, staring at the ceiling, faint blue window light.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "st4_page.png",
+"id": "st4_page",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "Close-up of a woman's fingers resting on the open page of an old book under warm lamp light, the printed lines are soft and unreadable, a pencil underline on one line.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "st4_small.png",
+"id": "st4_small",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "Seen from far down a long holiday dinner table, an older Korean man in his sixties sitting alone at the end of the table, looking small, the other relatives have moved away and are talking among themselves.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "st4_smile.jpeg",
+"id": "st4_smile",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "At the next family gathering, a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.06
+},
+{
+"file": "st4_smile_v.mp4",
+"id": "st4_smile_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_kr",
+"src": "st4_smile",
+"scene": "At the next family gathering, a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light. | 움직임: She passes the fruit plate and laughs; the relatives lean in toward her. The motion happens once in the first second and a half, then everything holds almost st",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "st4_soup.png",
+"id": "st4_soup",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "st4_soup_v.mp4",
+"id": "st4_soup_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_kr",
+"src": "st4_soup",
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light. | 움직임: She smiles and sets the bowl of soup down in front of him. The motion happens once in the first second and a half, then everything holds almost still.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "st4_table.jpeg",
+"id": "st4_table",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "At a Korean family holiday dinner table full of dishes, an older Korean relative in his sixties points his chopsticks and smirks while speaking loudly; a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.06
+},
+{
+"file": "st4_table_v.mp4",
+"id": "st4_table_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_kr",
+"src": "st4_table",
+"scene": "At a Korean family holiday dinner table full of dishes, an older Korean relative in his sixties points his chopsticks and smirks while speaking loudly; a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her. | 움직임: The older relative smirks and points with his chopsticks; the others freeze and turn toward her. The motion happens once in the first second and a half, then ev",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "st4_walk.jpeg",
+"id": "st4_walk",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.06
+},
+{
+"file": "st4_walk_v.mp4",
+"id": "st4_walk_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_kr",
+"src": "st4_walk",
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front. | 움직임: She walks calmly toward the",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "st4_window.png",
+"id": "st4_window",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan standing by an apartment window at dawn holding a cup of tea, calm peaceful face, soft golden light on her face.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-st4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
 "file": "sw1_alone.png",
 "id": "sw1_alone",
 "kind": "image",
@@ -11036,6 +11250,276 @@
 "used": [],
 "n_used": 0,
 "usd": 0.18
+},
+{
+"file": "sw4_book.jpeg",
+"id": "sw4_book",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.06
+},
+{
+"file": "sw4_book_v.mp4",
+"id": "sw4_book_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_west",
+"src": "sw4_book",
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her. | 움직임: She opens the old book and turns the first page slowly. The motion happens once in the first second and a half, then everything holds almost still.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "sw4_car.png",
+"id": "sw4_car",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "sw4_car_v.mp4",
+"id": "sw4_car_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_west",
+"src": "sw4_car",
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together. | 움직임: City lights slide past the window; she keeps staring ahead, jaw tight. The motion happens once in the first second and a half, then everything holds almost stil",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "sw4_night.png",
+"id": "sw4_night",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan lying awake in bed at night in a dark bedroom, eyes open, staring at the ceiling, faint blue window light.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "sw4_small.png",
+"id": "sw4_small",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "Seen from far down a long holiday dinner table, an older American man in his sixties sitting alone at the end of the table, looking small, the other relatives have moved away and are talking among themselves.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "sw4_smile.jpeg",
+"id": "sw4_smile",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "At the next family gathering, an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.06
+},
+{
+"file": "sw4_smile_v.mp4",
+"id": "sw4_smile_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_west",
+"src": "sw4_smile",
+"scene": "At the next family gathering, an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light. | 움직임: She passes the fruit plate and laughs; the relatives lean in toward her. The motion happens once in the first second and a half, then everything holds almost st",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "sw4_soup.png",
+"id": "sw4_soup",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "sw4_soup_v.mp4",
+"id": "sw4_soup_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_west",
+"src": "sw4_soup",
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light. | 움직임: She smiles and sets the bowl of soup down in front of him. The motion happens once in the first second and a half, then everything holds almost still.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "sw4_table.jpeg",
+"id": "sw4_table",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "At an American family holiday dinner table full of dishes, an older American relative in his sixties points his fork and smirks while speaking loudly; an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.06
+},
+{
+"file": "sw4_table_v.mp4",
+"id": "sw4_table_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_west",
+"src": "sw4_table",
+"scene": "At an American family holiday dinner table full of dishes, an older American relative in his sixties points his fork and smirks while speaking loudly; an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her. | 움직임: The older relative smirks and points with his chopsticks; the others freeze and turn toward her. The motion happens once in the first second and a half, then ev",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "sw4_walk.png",
+"id": "sw4_walk",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
+},
+{
+"file": "sw4_walk_v.mp4",
+"id": "sw4_walk_v",
+"kind": "video",
+"ar": "9:16",
+"era": "modern_west",
+"src": "sw4_walk",
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front. | 움직임: She walks calmly toward the",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.18
+},
+{
+"file": "sw4_window.png",
+"id": "sw4_window",
+"kind": "image",
+"ar": "9:16",
+"era": "modern_west",
+"src": null,
+"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan standing by an apartment window at dawn holding a cup of tea, calm peaceful face, soft golden light on her face.",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDS261118-sw4",
+"used": [],
+"n_used": 0,
+"usd": 0.015
 },
 {
 "file": "zi_diary.png",
