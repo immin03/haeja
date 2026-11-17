@@ -80,7 +80,7 @@ function scale(C,t){
   let wl=0,wr=0; const tl=[],tr=[];
   L.items.forEach((it,i)=>{ const t0=0.8+i*1.0; const a=ease(cl((t-t0)/0.5)); tl.push(a); wl+=a*(it.w||1); });
   R.items.forEach((it,i)=>{ const t0=0.8+(L.items.length+i)*1.0; const a=ease(cl((t-t0)/0.5)); tr.push(a); wr+=a*(it.w||1); });
-  const target=cl((wl-wr)*0.06,-0.16,0.16), wob=Math.sin(t*2.2)*0.012*Math.exp(-Math.max(0,t-6)*0.4); const ang=target+wob;
+  const target=cl((wr-wl)*0.06,-0.16,0.16) /* 2026-11-18: 무거운 쪽이 내려가게 (전에는 반대로 올라감) */, wob=Math.sin(t*2.2)*0.012*Math.exp(-Math.max(0,t-6)*0.4); const ang=target+wob;
   const ga=ease(cl((t-0.3)/0.6));
   g.save(); g.globalAlpha=ga; g.fillStyle=GOLD; g.beginPath(); g.moveTo(cx-60,py+470); g.lineTo(cx+60,py+470); g.lineTo(cx+12,py); g.lineTo(cx-12,py); g.closePath(); g.fill();
   g.translate(cx,py); g.rotate(ang); g.strokeStyle=GOLD; g.lineWidth=12; g.lineCap='round'; g.beginPath(); g.moveTo(-arm,0); g.lineTo(arm,0); g.stroke(); g.restore();
@@ -173,6 +173,6 @@ function docs(C,t){
     g.restore(); });
   if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
 }
-window.draw=function(mode,t){ const C=window.CFG||{}; window.FS=C.fs||1; const fn=({histchart,flow,scale,timeline,stake,race,docs})[mode];
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; const fn=({histchart,flow,scale,timeline,stake,race,docs})[mode];
   if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
 </script></body></html>
