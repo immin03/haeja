@@ -1,5 +1,5 @@
 {
- "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송)",
+ "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱')",
  "clips": [
   {
    "name": "bbg_ant_oversub",
@@ -103,6 +103,13 @@
    "mode": "video",
    "for": "L261119-tesla-spacex2",
    "want": "Because I'm a conflicted party, I can't actually be in the discussions of the special committees (Q&A, Deutsche Bank Edison Yu 질문 답변, 대략 55:00~1:02:00)"
+  },
+  {
+   "name": "au_tsla_q3_2026_call",
+   "url": "https://www.youtube.com/watch?v=tFezqXBF-gw",
+   "mode": "audio",
+   "for": "L261119-tesla-spacex2",
+   "want": "테슬라 공식 3분기 실적 Q&A — 머스크 '전체 주식 50%… 꽤 높은 문턱(pretty high bar)' 구간을 STT로 찾기"
   }
  ]
 }
