@@ -2141,6 +2141,12 @@ def preflight(spec):
         for ch in {ch for t in texts for ch in t if ch.strip() and ord(ch) > 127}:
             if f_.getmask(ch).getbbox() is None: miss.add(ch)
     if miss: errs.append("글꼴에서 빈칸으로 나오는 글자: " + " ".join(sorted(miss)))
+    # 2026-11-17 대표님: Pixabay 'Content ID 등록 표시 없음'만 보고 고른 곡이 유튜브 소유권 주장을 받음(수익 창출 제한) → 걸린 곡·같은 작곡가 곡은 렌더가 막는다
+    #   samples3/I2·I5 BerryDeep(Epical Hip-Hop) · samples3/H6 Easy_Eva(House - July) · samples5/M1·samples6/N1 AtlasAudio(Dawn Keys 매칭)
+    _mban = _re.compile(r"samples3/(I2|I5|H6)_|samples5/M1_|samples6/N1_")
+    _mus = spec.get("music") or {}
+    for _f in [_mus.get("intro") or ""] + list(_mus.get("bed") or []) + ([_mus["bed"]] if isinstance(_mus.get("bed"), str) else []):
+        if isinstance(_f, str) and _mban.search(_f): errs.append(f"저작권 소유권 주장 받은 음악 사용 금지: {_f}")
     # 2026-11-12 대표 "왜 이런 현상이 계속 무한 반복돼" → 규칙을 기억에 맡기지 않고 막는다 (11/12 이후 원고)
     _m = _re.search(r"(\d{6})", spec.get("id", "")); _d = int(_m.group(1)) if _m else 0
     if _d >= 261112:
