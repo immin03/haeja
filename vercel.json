@@ -48,6 +48,11 @@
       "source": "/soxl",
       "destination": "/lev?p=soxl",
       "permanent": false
+    },
+    {
+      "source": "/g",
+      "destination": "/start?utm_source=g-hub",
+      "permanent": false
     }
   ],
   "rewrites": [
