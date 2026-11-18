@@ -1,0 +1,19 @@
+{
+ "v": 3,
+ "format": "short",
+ "layout": "shorts_main",
+ "l1": "구글 주가 전망",
+ "l2": "3가지만 보면 된다",
+ "name": "Google",
+ "focus": [0.5, 0.5],
+ "chart": {
+  "kind": "line",
+  "pts": [["52주 최고", 408.61], ["10월 28일", 324.89], ["11월 17일", 280.2]],
+  "mark": 0,
+  "mark_label": "409달러"
+ },
+ "big_label": "52주 최고가 대비 · 11월 17일 종가 280달러",
+ "big": "-31%",
+ "tone": "down",
+ "photo": "il_L261117n_thumb_dc.jpeg"
+}
