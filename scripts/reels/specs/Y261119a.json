@@ -23,8 +23,8 @@
  "scheduled_at": "2026-11-19T21:00:00+09:00",
  "banner_tag": "테슬라 스페이스X 합병",
  "banner": [
-  "안 팔았는데 세금?",
-  "한국 주주만 내는 돈"
+  "테슬라 안 팔아도",
+  "세금 1,045만 원"
  ],
  "title": "테슬라 스페이스X 합병, 한 주도 안 팔았는데 세금 1,045만 원? #테슬라",
  "title_en": "Tesla–SpaceX merger: why Korean Tesla holders could owe tax without selling a share #Tesla",
@@ -79,8 +79,8 @@
    "lines": [
     {
      "cap": [
-      "테슬라를 한 주도 안 팔았는데",
-      "세금 1,045만 원?"
+      "테슬라를 한 주도 안 팔았는데,",
+      "세금 1,045만 원이 나올 수 있습니다."
      ],
      "say": "테슬라를 한 주도 안 팔았는데, 세금 1,045만 원이 나올 수 있습니다."
     },
@@ -122,11 +122,25 @@
    "photo": "il_L261119t_kr_investor_night.png",
    "full": {
     "img": "il_L261119t_kr_investor_night.png",
-    "label": "해외주식 양도소득세 22% · 연 250만 원 공제",
-    "num": "약 1,045만 원",
-    "num_line": 0,
-    "tone": "gold",
-    "num_size": 120
+    "label": "예시 · 5천만 원에 산 테슬라를 바꾸는 날 1억 원일 때",
+    "bars": [
+     {
+      "label": "산 값",
+      "v": 5000,
+      "text": "5,000만 원"
+     },
+     {
+      "label": "바꾸는 날",
+      "v": 10000,
+      "text": "1억 원"
+     },
+     {
+      "label": "세금",
+      "v": 1045,
+      "text": "1,045만 원",
+      "color": "loss"
+     }
+    ]
    },
    "lines": [
     {
@@ -150,7 +164,20 @@
    "photo": "il_L261119t_empty_wallet.png",
    "full": {
     "img": "il_L261119t_empty_wallet.png",
-    "label": "교환 날 손에 들어오는 현금 0원"
+    "label": "바꾸는 날 · 내 통장과 세금 고지서",
+    "bars": [
+     {
+      "label": "통장에 들어온 현금",
+      "v": 0,
+      "text": "0원"
+     },
+     {
+      "label": "내야 할 세금",
+      "v": 1045,
+      "text": "1,045만 원",
+      "color": "loss"
+     }
+    ]
    },
    "lines": [
     {
