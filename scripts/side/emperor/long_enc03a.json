@@ -1,0 +1,179 @@
+{
+ "id": "enc03a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-18 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They LAUGHED",
+  "at your",
+  "dream."
+ ],
+ "title_line": "When people mock your dreams",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.17
+ },
+ "voice": "/home/claude/vo/v2/v_enc03a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/c1v_gen_talk_b.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_ppl2.mp4",
+  "/home/claude/haeja/social/side/gen/ev4_city.mp4",
+  "/home/claude/haeja/social/side/gen/edv04_field.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_galen.mp4",
+  "/home/claude/haeja/social/side/gen/libv_sea_waves.mp4"
+ ],
+ "sents": [
+  [
+   0.44,
+   1.929,
+   1,
+   0,
+   "none",
+   [
+    "They laughed at your dream."
+   ]
+  ],
+  [
+   2.799,
+   5.339,
+   2,
+   1,
+   "cap",
+   [
+    "A friend, a cousin,",
+    "a coworker."
+   ]
+  ],
+  [
+   5.389,
+   7.559,
+   2,
+   1,
+   "cap",
+   [
+    "One smirk,",
+    "and you start to doubt."
+   ]
+  ],
+  [
+   8.419,
+   10.757,
+   3,
+   2,
+   "cap",
+   [
+    "Marcus Aurelius had",
+    "one rule for this."
+   ]
+  ],
+  [
+   11.607,
+   13.744,
+   4,
+   3,
+   "quote",
+   [
+    "If a thing is good",
+    "to be done,"
+   ]
+  ],
+  [
+   13.744,
+   17.99,
+   4,
+   3,
+   "quote",
+   [
+    "do not be turned aside",
+    "by the blame",
+    "or the words of others."
+   ]
+  ],
+  [
+   18.85,
+   20.65,
+   5,
+   4,
+   "big",
+   [
+    "Their laugh",
+    "lasts a second."
+   ]
+  ],
+  [
+   20.7,
+   22.38,
+   5,
+   4,
+   "big",
+   [
+    "Your work",
+    "lasts for years."
+   ]
+  ],
+  [
+   22.43,
+   24.15,
+   5,
+   4,
+   "cap",
+   [
+    "Stop explaining your dream."
+   ]
+  ],
+  [
+   24.2,
+   24.816,
+   5,
+   4,
+   "cap",
+   [
+    "Show it."
+   ]
+  ],
+  [
+   25.656,
+   29.576,
+   6,
+   5,
+   "quote",
+   [
+    "Be like the headland",
+    "the waves keep breaking on."
+   ]
+  ],
+  [
+   29.626,
+   33.819,
+   6,
+   5,
+   "quote",
+   [
+    "It stands firm,",
+    "and the water falls quiet",
+    "around it."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Take one small step",
+  "on your dream.",
+  "Tell no one."
+ ],
+ "source": "Marcus Aurelius, Meditations 5.3 · 4.49",
+ "end_voice": "/home/claude/vo/v2/enc03_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc03_outro_voice.wav",
+ "cover": [
+  "THEY",
+  "LAUGHED"
+ ],
+ "title": "When People MOCK Your Dreams | Marcus Aurelius",
+ "slot": "2026-11-20 21:47",
+ "theme": "A",
+ "vol": 0.92
+}
