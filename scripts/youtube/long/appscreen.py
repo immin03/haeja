@@ -87,7 +87,7 @@ for k in range(N):
     phone.paste(scr, (BZ, BZ), mask)
     _paste(im, body_sh, (PX - BZ - 80, PY - BZ - 80 + dy), pa)
     _paste(im, phone, (PX - BZ, PY - BZ + dy), pa)
-    vn2.logo(im)
+    # vn2.logo(im)  2026-11-18: 롱폼 렌더러가 오른쪽 위 로고를 이미 그린다 → 두 개가 겹쳐 보였음
     for s0, s1, txt in SUBS:
         if s0 <= t < s1 or (s1 == DUR and t >= s0):
             vn2.subtitle_line(im, txt, clamp((t - s0) / .12) if s0 else 1.0)

@@ -66,6 +66,20 @@ def main(only):
                                 sh([sys.executable, "-m", "pip", "install", "-q", "playwright"]); sh([sys.executable, "-m", "playwright", "install", "--with-deps", "chromium"])
                             a = c["app"]; sh([sys.executable, os.path.join(HERE, "appscreen.py"), a[0], a[1], os.path.join(ROOT, "scripts", "blog", "media", "lib", c["lib"])] + ([a[2]] if len(a) > 2 else []))
                         except Exception as e: print("앱 화면 다시 찍기 실패(저장된 캡처로 진행):", e)
+            # 2026-11-18 대표님: 세로 인물 사진이 가로 화면에서 눈 위로 잘림 → 렌더 직전에 *_wide(흐린 배경 + 인물 전체)로 바꿔 원고에 저장
+            try:
+                sys.path.insert(0, HERE); import make_wide
+                _ch = False
+                for sc in spec["scenes"]:
+                    for c in (sc.get("v", {}).get("cuts") or []):
+                        n = c.get("lib") if isinstance(c, dict) else None
+                        if n and n.endswith("_wide.jpg") and not os.path.exists(os.path.join(make_wide.LIB, n)):   # 저장소에 없는 wide 는 원본에서 다시 만든다
+                            for ext in (".jpg", ".jpeg", ".png", ".webp"):
+                                if os.path.exists(os.path.join(make_wide.LIB, n[:-9] + ext)): make_wide.make(n[:-9] + ext); break
+                        elif n and not n.endswith("_wide.jpg") and n.lower().endswith((".jpg", ".jpeg", ".png", ".webp")) and make_wide.is_portrait(n):
+                            c["lib"] = make_wide.make(n); _ch = True; print("세로 사진 → 가로:", n, "→", c["lib"])
+                if _ch: json.dump(spec, open(f, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+            except Exception as e: print("세로 사진 가로 변환 실패(원본으로 진행):", e)
             renderer = "render2.py" if spec.get("format") == 2 else "render.py"  # v2: 머니스웨거식 샷 리스트 원고
             os.environ["TTS_ITEM"] = sid   # 타입캐스트 사용량을 편별로 기록 (scripts/reels/tts_log.py)
             sh([sys.executable, os.path.join(HERE, renderer), f])
