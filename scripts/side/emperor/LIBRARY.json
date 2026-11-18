@@ -1,8 +1,6 @@
 {
 "_about": "황제의 일기 공용 그림·영상 라이브러리. library.py build 로 다시 만든다(손으로 고치지 않는다).",
 "_recent_eps": [
-"en05b",
-"ep22",
 "L-cine01",
 "ep23",
 "en01",
@@ -32,25 +30,32 @@
 "en10",
 "en27",
 "en26",
+"ep34",
 "ep35",
 "en16",
 "en23",
 "en12",
+"ep36",
+"ep37",
 "en13",
 "en21",
 "en22",
+"enc01",
 "en29",
 "en28",
 "en20",
+"enc02",
 "en18",
+"enc03",
 "en30",
 "en31",
 "en32",
+"enc04",
 "en33",
 "en34",
 "en35"
 ],
-"_built": "2026-11-17 17:28:54 UTC",
+"_built": "2026-11-18 15:46:15 KST",
 "items": [
 {
 "file": "c1_burn.jpeg",
@@ -429,10 +434,12 @@
 "job": "EDL261109-cine01v3",
 "used": [
 "ep29",
+"enc03a",
 "L-cine01",
-"ep35"
+"ep35",
+"enc03"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.75
 },
 {
@@ -475,13 +482,15 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
+"enc04a",
 "L-cine_ep01_en",
 "L-mix_tmp",
 "L-cine01",
 "ep27",
-"ep31"
+"ep31",
+"enc04"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.75
 },
 {
@@ -550,9 +559,9 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v2",
 "used": [
+"ep29",
 "L-cine_ep01_en",
 "L-mix_tmp",
-"ep29",
 "ep31",
 "en34"
 ],
@@ -574,9 +583,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"ep36",
 "en18"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.75
 },
 {
@@ -594,9 +604,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"ep37",
 "en31"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.1
 },
 {
@@ -616,9 +627,10 @@
 "used": [
 "L-cine_ep01_en",
 "L-mix_tmp",
+"ep37",
 "en20"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.75
 },
 {
@@ -637,9 +649,12 @@
 "job": "EDL261110-cep01v9",
 "used": [
 "L-cine_ep01_en",
-"L-mix_tmp"
+"L-mix_tmp",
+"enc02a",
+"ep37",
+"enc02"
 ],
-"n_used": 2,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -659,30 +674,11 @@
 "used": [
 "L-cine_ep01_en",
 "L-mix_tmp",
-"ep31"
+"enc02a",
+"ep31",
+"enc02"
 ],
-"n_used": 3,
-"usd": 0.5
-},
-{
-"file": "cep1_desert.mp4",
-"id": "cep1_desert",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_desert",
-"scene": "Vast empty pale Syrian plain under white sky, a single riderless horse standing far away, heat haze, nothing else. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow depth of field, sub | 움직임: Heat haze shimmers; the horse flicks its tail; the",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v6",
-"used": [
-"L-cine_ep01_en",
-"L-mix_tmp"
-],
-"n_used": 2,
+"n_used": 5,
 "usd": 0.5
 },
 {
@@ -776,11 +772,12 @@
 "job": "EDL261110-cep01v9",
 "used": [
 "L-cine_ep01_en",
-"ep34",
 "L-mix_tmp",
+"ep34",
+"ep37",
 "en33"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -805,26 +802,6 @@
 ],
 "n_used": 4,
 "usd": 0.5
-},
-{
-"file": "cep1_glis.mp4",
-"id": "cep1_glis",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_glis",
-"scene": "Close portrait, three-quarter view, of a Roman general of about fifty, clean-shaven square jaw, short dark hair grey at the temples, a pale old scar across his left eyebrow, dented bronze muscle cuirass over a red tunic, dark red cloak inside a dark leather Roman command tent on the Danube at night, an iron brazier glowing orange, deep blue shadow, standing and listening, conflicted eyes, firelight on his face. His f | 움직임: He listens without moving, a slow blink; his mouth stays closed the whole shot; firelight flickers; very slow push-in. Photorealistic live-action footage, keep ",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v9",
-"used": [
-"ep26"
-],
-"n_used": 1,
-"usd": 0.1
 },
 {
 "file": "cep1_glis_b.mp4",
@@ -865,31 +842,11 @@
 "job": "EDL261110-cep01v9",
 "used": [
 "ep29",
-"ep35"
+"ep35",
+"enc03"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.1
-},
-{
-"file": "cep1_grave.mp4",
-"id": "cep1_grave",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_grave",
-"scene": "Close shot at dusk of two Roman soldiers' hands and iron spades filling a small hole in dry earth, plain and quiet, nothing graphic. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze, deep teal-black shadows against warm orange firelight, shallow d | 움직임: Spades push dry earth into the hole slowly; dust drifts. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the ",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v6",
-"used": [
-"L-cine_ep01_en",
-"L-mix_tmp"
-],
-"n_used": 2,
-"usd": 0.5
 },
 {
 "file": "cep1_hand2.mp4",
@@ -952,12 +909,13 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"ep29",
 "L-cine_ep01_en",
 "L-mix_tmp",
-"ep29",
+"ep36",
 "en18"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -998,10 +956,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"enc02a",
 "ep27",
-"ep30"
+"ep30",
+"enc02"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1019,31 +979,13 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"enc03a",
 "L-cine_ep01_en",
-"L-mix_tmp"
+"L-mix_tmp",
+"ep36",
+"enc03"
 ],
-"n_used": 2,
-"usd": 0.1
-},
-{
-"file": "cep1_ppl3.mp4",
-"id": "cep1_ppl3",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_ppl3",
-"scene": "Close shot of a scarred old Roman centurion with a transverse-crested helmet standing in the snow at blue dusk, listening with his jaw set, face fully visible, mouth closed, torchlight on his cheek. Photorealistic film still from a prestige epic historical drama, shot on ARRI Alexa with anamorphic lenses, natural skin pores and wrinkles, real wool, leather and bronze textures, volumetric firelight and thin smoke haze | 움직임: He stands still and slowly lowers his eyes; mouth stays closed; torchlight flickers. Photorealistic live-action footage, keep the face, costume, lighting and ev",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v9",
-"used": [
-"L-cine_ep01_en",
-"L-mix_tmp"
-],
-"n_used": 2,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -1157,10 +1099,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"enc04a",
 "ep27",
-"ep32"
+"ep32",
+"enc04"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -1225,10 +1169,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v3",
 "used": [
+"enc01a",
 "ep28",
-"ep31"
+"ep31",
+"enc01"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.75
 },
 {
@@ -1246,32 +1192,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"enc01a",
 "L-cine_ep01_en",
-"L-mix_tmp"
+"L-mix_tmp",
+"ep36",
+"enc01"
 ],
-"n_used": 2,
+"n_used": 5,
 "usd": 0.1
-},
-{
-"file": "cep1_walk.mp4",
-"id": "cep1_walk",
-"kind": "video",
-"ar": "16:9",
-"era": "roman",
-"src": "cep1i_walk",
-"scene": "Medium shot of the Roman general Avidius Cassius at about forty-five, lean hawk-nosed face, close-cropped black hair, short black beard, hard pale eyes, gilded bronze muscle cuirass, purple-red cloak walking alone on foot along a pale dusty camp road in the Roman province of Syria in harsh dry white sunlight, pale stone and dust, deep hard shadows, tents behind him, unaware. Photorealistic film still from a prestige  | 움직임: He walks slowly toward the camera; dust drifts. Photorealistic live-action footage, keep the face, costume, lighting and every detail identical to the first fra",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-10",
-"job": "EDL261110-cep01v6",
-"used": [
-"L-cine_ep01_en",
-"L-mix_tmp"
-],
-"n_used": 2,
-"usd": 0.5
 },
 {
 "file": "cep1en_m1.jpeg",
@@ -2728,9 +2656,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
-"L-ep02v",
 "L-ep01_intro",
+"L-ep02v",
+"L-ep01v",
 "L-ep01",
 "L-ep02"
 ],
@@ -2752,8 +2680,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -2774,8 +2702,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3501,8 +3429,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3523,8 +3451,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3545,8 +3473,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4086,10 +4014,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
+"L-ep02v",
 "L-ep01v",
 "L-ep03v",
-"L-ep02v",
-"L-ep01_intro",
 "L-ep01",
 "L-ep02",
 "L-ep03"
@@ -4112,9 +4040,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-ep03v",
-"L-ep01_intro",
 "L-ep01",
 "L-ep03"
 ],
@@ -4136,8 +4064,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4158,8 +4086,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4560,8 +4488,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4582,8 +4510,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4604,8 +4532,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4626,8 +4554,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4648,8 +4576,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4670,8 +4598,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4692,8 +4620,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4714,8 +4642,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4736,8 +4664,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4758,8 +4686,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -5014,7 +4942,6 @@
 "made": "2026-11-02",
 "job": "ED261102-ep01",
 "used": [
-"ep34",
 "ep06x",
 "ep29",
 "ep05b",
@@ -5030,9 +4957,11 @@
 "en11",
 "en04",
 "en27",
+"ep34",
+"ep37",
 "en32"
 ],
-"n_used": 17,
+"n_used": 18,
 "usd": 0.1
 },
 {
@@ -5091,6 +5020,7 @@
 "made": "2026-11-02",
 "job": "ED261102-field",
 "used": [
+"enc03a",
 "ep11",
 "ep17",
 "ep21",
@@ -5098,9 +5028,10 @@
 "ep25",
 "ep35",
 "en16",
+"enc03",
 "en32"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5118,7 +5049,6 @@
 "made": "2026-11-02",
 "job": "ED261102-ep02",
 "used": [
-"ep34",
 "ep11",
 "ep17",
 "ep21",
@@ -5126,6 +5056,7 @@
 "ep25",
 "en02",
 "en10",
+"ep34",
 "en21"
 ],
 "n_used": 9,
@@ -5175,6 +5106,7 @@
 "made": "2026-11-02",
 "job": "ED261102-ep03b",
 "used": [
+"enc04a",
 "ep05b",
 "ep10",
 "ep19",
@@ -5184,9 +5116,10 @@
 "ep31",
 "en03",
 "en23",
+"enc04",
 "en33"
 ],
-"n_used": 10,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -5372,9 +5305,10 @@
 "ep19",
 "ep25",
 "en02",
+"ep37",
 "en13"
 ],
-"n_used": 7,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -5446,9 +5380,10 @@
 "used": [
 "L-ep03v",
 "L-ep03",
+"ep36",
 "en22"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -5476,9 +5411,10 @@
 "en08",
 "en11",
 "en23",
+"ep36",
 "en34"
 ],
-"n_used": 11,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -5496,10 +5432,13 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
+"enc03a",
 "L-ep03v",
-"L-ep03"
+"L-ep03",
+"ep37",
+"enc03"
 ],
-"n_used": 2,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -5540,8 +5479,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"L-ep03v",
 "ep29",
+"L-ep03v",
 "L-ep03"
 ],
 "n_used": 3,
@@ -5562,8 +5501,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"L-ep03v",
 "ep29",
+"L-ep03v",
 "L-ep03",
 "ep35"
 ],
@@ -5608,9 +5547,10 @@
 "used": [
 "L-ep03v",
 "L-ep03",
+"ep37",
 "en21"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -5628,13 +5568,15 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
+"enc02a",
 "L-ep03v",
 "L-ep03",
 "ep26",
 "ep33",
+"enc02",
 "en30"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -5652,8 +5594,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"L-ep03v",
 "ep29",
+"L-ep03v",
 "ep13",
 "L-ep03",
 "ep18",
@@ -5741,7 +5683,6 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep34",
 "L-ep03p",
 "L-ep03v",
 "ep13",
@@ -5752,10 +5693,12 @@
 "ep24",
 "en24",
 "en10",
+"ep34",
 "en23",
+"ep37",
 "en31"
 ],
-"n_used": 13,
+"n_used": 14,
 "usd": 0.1
 },
 {
@@ -5810,9 +5753,10 @@
 "en01",
 "en11",
 "en23",
+"ep36",
 "en32"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -5854,13 +5798,15 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
+"enc04a",
 "L-ep03v",
 "L-ep03",
 "ep27",
 "en24",
-"ep33"
+"ep33",
+"enc04"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -5900,14 +5846,16 @@
 "job": "EDL261104-ep03v2",
 "used": [
 "L-ep03p",
+"enc01a",
 "L-ep03v",
 "L-ep03",
 "ep26",
 "en24",
 "ep33",
+"enc01",
 "en35"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -5927,9 +5875,10 @@
 "used": [
 "L-ep03v",
 "L-ep03",
+"ep36",
 "en29"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -5973,11 +5922,13 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
+"enc03a",
 "L-ep04",
 "ep35",
-"en13"
+"en13",
+"enc03"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -6022,10 +5973,11 @@
 "job": "EDL261107-ep04v",
 "used": [
 "L-ep04",
+"ep36",
 "en22",
 "en29"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -6045,9 +5997,10 @@
 "used": [
 "L-ep04p",
 "L-ep04",
+"ep37",
 "en18"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -6066,9 +6019,11 @@
 "job": "EDL261107-ep04v",
 "used": [
 "L-ep04p",
-"L-ep04"
+"L-ep04",
+"ep37",
+"enc02"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -6087,10 +6042,11 @@
 "job": "EDL261107-ep04v",
 "used": [
 "L-ep04",
+"ep37",
 "en22",
 "en18"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -6131,11 +6087,14 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
-"L-ep01"
+"enc01a",
+"L-ep01v",
+"L-ep01",
+"ep37",
+"enc01"
 ],
-"n_used": 3,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -6153,9 +6112,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
-"ep34",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep11",
 "ep17",
@@ -6164,9 +6122,11 @@
 "en01",
 "ep25",
 "en04",
+"ep34",
+"ep37",
 "en18"
 ],
-"n_used": 12,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -6184,8 +6144,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep12",
 "ep16",
@@ -6214,14 +6174,15 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
-"ep29",
 "L-ep01_intro",
+"ep29",
+"L-ep01v",
 "L-ep01",
 "en12",
+"ep36",
 "en18"
 ],
-"n_used": 6,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -6239,8 +6200,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep26",
 "ep32",
@@ -6265,8 +6226,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep31",
 "en21",
@@ -6290,18 +6251,270 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
-"ep34",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep27",
 "en09",
+"ep34",
 "en22",
 "en29",
 "en33"
 ],
 "n_used": 9,
 "usd": 0.1
+},
+{
+"file": "hfr_forum_noon_push.mp4",
+"id": "hfr_forum_noon_push",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Bright midday in the Roman Forum, the",
+"scene_ko": "포룸 군중 머리 위로 신전 계단의 연설자에게 다가감",
+"use_ko": "남의 시선·여론·휩쓸림",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_forum_noon_wide.mp4",
+"id": "hfr_forum_noon_wide",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "The Roman Forum at bright midday, a large crowd in tunics and togas gathered before a marble temple listening to a speaker, hard sunlight, wide establishing shot.",
+"scene_ko": "정오의 포룸, 신전 앞에 모인 군중 (넓게)",
+"use_ko": "세상·사람들·평판·군중",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_legion_forest_shields.mp4",
+"id": "hfr_legion_forest_shields",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Roman legionaries behind a wall of wet red shields in a misty forest, helmets glistening with rain, eagle standard behind them, the",
+"scene_ko": "젖은 방패 뒤 병사들의 얼굴로 다가감",
+"use_ko": "단단함·인내·두려움·맞섬",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_legion_forest_wide.mp4",
+"id": "hfr_legion_forest_wide",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A Roman legion in a tight wall of red shields advances through a rain-soaked pine forest on the Danube frontier, eagle standard above the ranks, grey daylight and mist, wide low-angle shot.",
+"scene_ko": "빗속 숲을 전진하는 군단의 방패 벽 (넓게)",
+"use_ko": "버팀·전쟁·역경·책임",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_milkyway_camp_back.mp4",
+"id": "hfr_milkyway_camp_back",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Night in a Roman army camp, back view of the emperor in a cloak looking up at the Milky Way, his breath visible, a tent and campfires glowing beside him.",
+"scene_ko": "은하수를 올려다보는 황제의 뒷모습",
+"use_ko": "성찰·내려놓음·죽음·시간",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_milkyway_camp_wide.mp4",
+"id": "hfr_milkyway_camp_wide",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Night, a frosted Roman army camp under a vast Milky Way, glowing tents and small campfires, the emperor stands alone as a small figure seen from behind, wide shot.",
+"scene_ko": "은하수 아래 서리 내린 진영, 홀로 선 황제 (넓게)",
+"use_ko": "고독·우주·작은 나·밤",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_senate_emp_face.mp4",
+"id": "hfr_senate_emp_face",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Close-up of the Roman emperor Marcus Aurelius' calm face in soft daylight in the Senate, grey curly hair and beard, steady eyes looking ahead, slow push-in.",
+"scene_ko": "낮빛 속 황제의 차분한 얼굴 클로즈업",
+"use_ko": "결론·평정·인용·다짐",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_senate_emp_silent.mp4",
+"id": "hfr_senate_emp_silent",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "The Roman emperor Marcus Aurelius in a white toga with a purple stripe sits silent and still on a marble bench in the Senate in daylight, senators blurred around him.",
+"scene_ko": "수군대는 원로원 한가운데 말없이 앉은 황제",
+"use_ko": "침묵·무례한 사람·참음·흔들리지 않음",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_senate_whisper_mid.mp4",
+"id": "hfr_senate_whisper_mid",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Daylight in the Roman Senate, senators in white togas whisper behind their hands and glance sideways at the emperor in the front row who looks straight ahead.",
+"scene_ko": "원로원 의원들이 황제를 곁눈질하며 귓속말 (중간)",
+"use_ko": "뒷말·험담·시선·모함",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_senate_whisper_wide.mp4",
+"id": "hfr_senate_whisper_wide",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Wide shot inside the marble Roman Senate house in daylight, rows of senators in white togas lean toward each other and whisper behind their hands while the emperor sits apart and silent, shafts of sunlight.",
+"scene_ko": "낮의 원로원, 의원들이 손을 가리고 수군대고 황제는 떨어져 앉음 (넓게)",
+"use_ko": "뒷말·험담·무시·소외",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_tent_face_dark.mp4",
+"id": "hfr_tent_face_dark",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Night close-up of the Roman emperor's face lit by candle in a dark tent, grey curly hair and beard, he stares into the darkness, bronze brooch on a crimson cloak.",
+"scene_ko": "촛불에 비친 황제의 얼굴 클로즈업 (어두운 막사)",
+"use_ko": "고뇌·결론·인용",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_tent_lookup_blue.mp4",
+"id": "hfr_tent_lookup_blue",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Night in a leather tent, the Roman emperor stops writing, lifts his eyes from the papyrus beside a candle and stares ahead thinking, slow push-in on his face.",
+"scene_ko": "쓰다 멈추고 고개를 든 황제 (푸른 밤 막사)",
+"use_ko": "깨달음·결심·인용",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_tent_write_blue.mp4",
+"id": "hfr_tent_write_blue",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Night, the Roman emperor Marcus Aurelius writes with a quill at a rough wooden desk inside a leather tent by a single candle, blue night camp behind him.",
+"scene_ko": "푸른 밤 막사에서 촛불 아래 일기를 쓰는 황제",
+"use_ko": "일기·성찰·하루의 끝",
+"cx": 0.42,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_tent_write_dark.mp4",
+"id": "hfr_tent_write_dark",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Night, the Roman emperor writes slowly with a reed pen on papyrus at a desk in a dark tent lit by one candle flame, scrolls on the table.",
+"scene_ko": "어두운 막사, 촛불 하나 아래 글을 쓰는 황제",
+"use_ko": "일기·고독·밤",
+"cx": 0.45,
+"ok": true,
+"made": "2026-11-18",
+"job": "EDH261118-trial1",
+"used": [],
+"n_used": 0,
+"usd": 0.001
 },
 {
 "file": "lb01_dawn_window.jpeg",
@@ -7571,7 +7784,6 @@
 "made": "",
 "job": "",
 "used": [
-"ep34",
 "ep11",
 "ep15",
 "ep20",
@@ -7585,6 +7797,7 @@
 "en04",
 "ep33",
 "en26",
+"ep34",
 "ep35",
 "en23",
 "en22"
@@ -7607,9 +7820,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
-"ep34",
-"L-ep03v",
 "L-ep04p",
+"L-ep03v",
 "ep11",
 "L-ep03",
 "ep14",
@@ -7623,10 +7835,12 @@
 "en19",
 "en17",
 "en27",
+"ep34",
+"ep36",
 "en22",
 "en33"
 ],
-"n_used": 18,
+"n_used": 19,
 "usd": 0.75
 },
 {
@@ -7828,9 +8042,10 @@
 "en08",
 "en14",
 "ep35",
+"ep37",
 "en22"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -7849,6 +8064,7 @@
 "job": "EDL261105-lib6",
 "used": [
 "ep29",
+"enc02a",
 "ep14",
 "ep21",
 "ep24",
@@ -7856,9 +8072,10 @@
 "en14",
 "ep32",
 "en21",
+"enc02",
 "en32"
 ],
-"n_used": 9,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -7905,7 +8122,6 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"ep34",
 "ep15",
 "ep18",
 "ep21",
@@ -7913,9 +8129,11 @@
 "en02",
 "en11",
 "en26",
+"ep34",
+"ep36",
 "en21"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -7963,7 +8181,6 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"ep34",
 "ep14",
 "ep19",
 "en05b",
@@ -7971,6 +8188,7 @@
 "ep24",
 "en14",
 "en10",
+"ep34",
 "en22",
 "en32"
 ],
@@ -8085,9 +8303,10 @@
 "ep18",
 "ep22",
 "ep25",
+"ep37",
 "en22"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -8239,11 +8458,11 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib3",
 "used": [
-"ep34",
 "L-ep03v",
 "L-ep03",
 "ep27",
 "en09",
+"ep34",
 "en13",
 "en28"
 ],
@@ -8265,6 +8484,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
+"enc03a",
 "ep15",
 "ep20",
 "en06",
@@ -8274,9 +8494,10 @@
 "en26",
 "en12",
 "en20",
+"enc03",
 "en35"
 ],
-"n_used": 10,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -8388,9 +8609,10 @@
 "en04",
 "ep32",
 "en27",
+"enc01",
 "en33"
 ],
-"n_used": 11,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -8408,8 +8630,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
-"L-ep03v",
 "ep29",
+"L-ep03v",
 "L-ep03",
 "ep14",
 "L-ep04",
@@ -8611,10 +8833,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
+"L-ep02v",
 "L-ep01v",
 "L-pilot",
-"L-ep02v",
-"L-ep01_intro",
 "L-ep01",
 "L-ep02"
 ],
@@ -8672,9 +8894,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8695,9 +8917,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8718,9 +8940,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8777,9 +8999,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01v",
-"L-ep02v",
 "L-ep01_intro",
+"L-ep02v",
+"L-ep01v",
 "L-ep01",
 "L-ep02"
 ],
@@ -8801,9 +9023,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8824,9 +9046,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01",
 "L-ep04"
 ],
@@ -8884,9 +9106,9 @@
 "made": "",
 "job": "",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -8947,8 +9169,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot2",
 "used": [
-"L-ep01v",
-"L-ep01_intro"
+"L-ep01_intro",
+"L-ep01v"
 ],
 "n_used": 2,
 "usd": 0.05
