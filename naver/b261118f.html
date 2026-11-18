@@ -1,0 +1,186 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 워렌 버핏이 사 모은 도미노피자, 후계자는 왜 1년 반 만에 다 팔았을까</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li>발행. (태그는 본문 끝에 #으로 들어 있어 따로 붙일 필요가 없다)</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">거장의 투자</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">워렌 버핏이 사 모은 도미노피자, 후계자는 왜 1년 반 만에 다 팔았을까</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 2장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261118f/01.jpg" alt="배달원이 길에서 주소를 확인하며 주변을 둘러보고 있다" width="720"></p>
+<p><br></p>
+<p><span style="color:#000000">1960년 미국 미시간주의 대학 도시 입실랜티. 톰 모나한과 동생 제임스는 900달러를 빌려 작은 피자집 하나를 샀습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">얼마 뒤 동생은 피자집 반쪽을 형에게 넘겼습니다. 대신 받은 건 폭스바겐 비틀 한 대였어요. 형은 그 피자집을 도미노피자로 키웠습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1998년 톰 모나한은 가진 지분 93%를 사모펀드 베인캐피털에 팔았습니다. 값은 10억 달러쯤이었다고 합니다. 비틀 한 대와 바꾼 반쪽의 값을 계산해 보는 건 동생에게 실례일 것 같습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그 도미노피자 주식을 워렌 버핏의 버크셔 해서웨이가 1년 넘게 사 모았습니다. 그리고 워렌 버핏이 물러나자마자 한 주도 남기지 않고 팔았어요. 왜 그랬는지는 이 회사가 무엇으로 컸는지부터 보면 보입니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">도미노피자가 판 건 피자보다 배달이었다</span></b></span></p>
+
+<p><span style="color:#000000">도미노피자는 처음부터 배달 회사에 가까웠습니다. 1984년에는 주문하고 반 시간 안에 피자를 가져다준다는 약속을 내걸었어요. 피자 맛보다 도착 시간이 이 회사의 얼굴이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그 약속은 법정에서 끝났습니다. 1989년 세인트루이스에서 도미노피자 배달 차량이 사고를 냈고 1993년 12월 배심원단은 피해자에게 약 7,900만 달러를 물어 주라고 평결했어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">도미노피자는 일주일쯤 뒤 그 약속을 접었습니다. 톰 모나한은 그 평결이 결정타였다고 말했습니다. 새 약속은 맛이 마음에 들지 않으면 돈을 돌려준다는 것이었어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">약속은 빨리 오는 피자에서 마음에 드는 피자로 바뀌었습니다. 정작 맛이 문제가 된 건 그 뒤였습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">2010년 도미노피자는 자기 피자가 맛없다고 광고했다</span></b></span></p>
+
+<p><span style="color:#000000">2000년대 후반 도미노피자는 빵은 종이 상자 같고 소스는 케첩 같다는 평을 듣고 있었습니다. 2010년 새로 최고경영자가 된 패트릭 도일은 이 평을 감추지 않았습니다. 사람들이 한 혹평을 광고에 그대로 내보내고 조리법을 처음부터 바꿨다고 알렸어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">회사가 스스로 맛없었다고 인정하는 광고는 드뭅니다. 도미노피자 주가는 그해 9달러가 안 됐습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">도미노피자는 그 뒤 피자를 휴대폰으로 시키는 회사가 됐습니다. 주문하면 지금 반죽을 펴는지, 오븐에 들어갔는지, 배달원이 출발했는지를 화면으로 보여 줬어요. 2025년에는 미국 매출의 85% 넘게가 앱과 웹으로 들어왔습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">같은 해 지구 반대편에서 배달의민족이 나왔다</span></b></span></p>
+
+<p><span style="color:#000000">도미노피자가 맛없다는 고백을 하던 2010년 6월, 한국에서는 배달의민족이 문을 열었습니다. 김봉진 창업자가 동네 음식점 전단지를 모아 휴대폰으로 옮긴 게 시작이었어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">배달 앱은 배달의 의미를 바꿨습니다. 예전에는 배달원을 직접 둔 음식점만 배달을 할 수 있었습니다. 지금은 앱 하나에 올라가면 동네 분식집도 배달 음식점이 됩니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">도미노피자는 오랫동안 배달 앱에 들어가지 않았습니다. 자기 배달원이 직접 가져다준다는 것이 남과 다른 점이었기 때문입니다. 그러다 2023년 7월 우버이츠와 손을 잡았어요. 미국 사람들이 배달 앱에서 도미노피자를 처음 주문할 수 있게 된 겁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그 우버가 지금은 한국으로 오고 있습니다. 2026년 7월 우버는 배달의민족 주인인 독일 딜리버리히어로를 약 21조 원에 사겠다고 나섰어요. 배달을 남과 다르게 만들던 무기가 미국에서도 한국에서도 앱 회사 손으로 넘어가고 있습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">워렌 버핏의 버크셔는 사고 후계자의 버크셔는 팔았다</span></b></span></p>
+
+<p><span style="color:#000000">버크셔 해서웨이는 2024년 3분기 도미노피자 주식을 처음 샀습니다. 130만 주를 평균 435달러 언저리에 샀어요. &#39;워렌 버핏이 피자를 샀다&#39;는 기사가 쏟아졌습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">버크셔 해서웨이는 그 뒤로도 계속 샀습니다. 2025년 말에는 도미노피자 주식의 10분의 1 가까이를 가진 큰손이 됐어요.</span></p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261118f/02.png" alt="버크셔 해서웨이의 도미노피자 보유 주식 수" width="720"></p><p><span style="color:#555555;font-size:14px">버크셔 해서웨이의 도미노피자 보유 주식 수</span></p>
+<p><br></p>
+<p><span style="color:#000000">2025년 12월 31일 워렌 버핏은 최고경영자 자리를 그렉 에이블에게 넘겼습니다. 그렉 에이블의 첫 분기였던 2026년 1분기에 버크셔 해서웨이는 도미노피자 주식을 한 주도 남기지 않고 팔았어요. 같은 분기에 아마존과 비자 같은 회사도 정리했습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그 분기 도미노피자의 성적표가 힌트가 됩니다. 미국에서 원래 있던 매장의 매출이 0.9% 느는 데 그쳤고 회사는 한 해 전망을 낮췄습니다. 고객이 직접 가져가는 포장 주문은 늘었지만 배달 주문은 오히려 조금 줄었어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">배달로 큰 회사에서 배달이 줄고 있었습니다. 경쟁 피자 회사들이 도미노피자의 할인 행사를 그대로 따라 했다는 회사 설명도 나왔습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">다른 회사에도 쓸 수 있는 질문 하나</span></b></span></p>
+
+<p><span style="color:#000000">저는 여기서 피자보다 오래 쓸 질문 하나를 챙겼습니다. 이 회사가 남보다 잘하던 일을 이제 누군가가 모든 경쟁자에게 대신 해 주고 있지는 않은가.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1990년대의 도미노피자는 빠른 배달 하나로 이겼습니다. 지금은 배달 앱이 모든 음식점에 배달원을 빌려줍니다. 남보다 잘하던 일이 흔해지면 그 회사는 다른 이유를 찾아야 합니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">숫자로 확인하는 방법도 쉽습니다. 10월 발표된 3분기 실적에서 도미노피자의 전 세계 매출은 3.2% 늘었지만 미국에서 원래 있던 매장의 매출은 0.3% 느는 데 그쳤습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">전체 매출은 느는데 원래 있던 매장의 매출은 거의 그대로라면, 늘어난 매출은 대부분 새로 연 매장에서 나온 겁니다. 고객이 늘었다기보다 매장이 늘었습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">반대로 보면, 도미노피자는 여전히 이기고 있다</span></b></span></p>
+
+<p><span style="color:#000000">물론 다르게 볼 여지도 큽니다. 도미노피자 경영진은 미국 피자 시장 점유율을 11년 연속 늘렸다고 말합니다. 가맹점이 버는 돈도 늘고 있다고 합니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">주가가 이미 많이 내려온 점도 있습니다. 5월 기준으로 도미노피자 주가는 사상 최고가보다 46% 낮았습니다. 기대가 낮아진 만큼 실망할 거리도 줄었다고 볼 수 있습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">버크셔 해서웨이가 판 이유가 도미노피자 때문만은 아니라는 해석도 있습니다. 토드 콤스는 버크셔에서 주식 운용 일부를 맡았던 투자 담당자인데 2025년 말 회사를 떠났습니다. 외신은 이번에 정리한 종목 상당수가 그의 몫이었다고 봅니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">새 최고경영자가 보유 종목 수를 줄인 결과일 수도 있다는 겁니다. 저는 이 해석에도 일리가 있다고 봅니다. 그래도 제 결론은 이렇습니다. 남길 종목과 뺄 종목을 고르는 자리에서 도미노피자가 빠진 건, 배달이 더는 이 회사만의 무기가 아니게 된 것과 떼어 놓고 보기 어렵습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">조금만 더 들어가 보면, 같은 매장 매출</span></b></span></p>
+
+<p><span style="color:#000000">위에서 원래 있던 매장의 매출이라고 부른 숫자를 식당 체인에서는 같은 매장 매출이라고 합니다. 문을 연 지 한 해가 넘은 매장끼리 올해와 작년의 매출을 비교한 증가율입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">매장을 계속 새로 열면 전체 매출은 늘 수밖에 없습니다. 같은 매장 매출은 새 매장 효과를 빼고 기존 매장에 고객이 더 왔는지만 보여 줍니다. 전체 매출은 느는데 이 숫자만 멈춰 있다면 그 체인은 넓어지고 있을 뿐 깊어지지는 않고 있는 겁니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">앞으로 볼 것</span></b></span></p>
+
+<p><span style="color:#000000">첫째는 같은 매장 매출이 다시 오르는지입니다. 연초까지 회사가 기대했던 수준으로 돌아오면 버크셔 해서웨이가 너무 일찍 판 게 됩니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">둘째는 배달과 포장의 비율입니다. 배달 주문이 계속 줄고 포장이 늘어난다면 도미노피자를 키운 배달이 더는 이 회사만의 무기가 아니라는 신호입니다. 한국에서는 우버의 배달의민족 인수 심사가 같은 질문을 다른 쪽에서 던지게 됩니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">60여 년 전 톰 모나한은 남들이 하지 않던 배달에 피자집을 걸었고 동생은 비틀을 골랐습니다. 이제 배달은 휴대폰 화면 하나로 어느 음식점이나 합니다. 도미노피자가 다음에 보여 줘야 하는 건 빨리 오는 피자가 아니라 굳이 도미노피자를 시킬 이유입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">워렌 버핏 같은 투자 거장들이 회사를 고르고 정리할 때 보는 기준은 밸류노트에 따로 정리해 두었습니다. 궁금하시면 한번 들러 보세요.</span></p>
+<p><br></p>
+<p><a href="https://www.valuenote.co.kr/?utm_source=naver&amp;utm_campaign=b261118f">밸류노트 둘러보기</a></p>
+<p><br></p>
+<p><span style="color:#000000">#도미노피자 #워렌버핏 #워렌버핏도미노피자 #버크셔해서웨이 #그렉에이블 #톰모나한 #배달의민족 #우버이츠 #배달앱 #같은매장매출</span></p>
+<p><br></p>
+<p><span style="color:#444444;font-size:14px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 톰 모나한과 가게 인수·매각은 위키백과, 30분 배달 약속과 평결은 AP를 전한 데저렛뉴스(1993년 12월 22일), 2010년 광고와 주가는 쿼츠, 디지털 주문 비중과 3분기 실적은 도미노피자 3분기 실적 발표(10월 13일), 배달의민족 출발과 우버의 딜리버리히어로 인수 제안은 헤럴드경제(7월), 우버이츠 제휴는 네이션스레스토랑뉴스(2023년 7월 12일), 버크셔 해서웨이의 매수는 인덱스박스(5월), 전량 매도와 1분기 실적·주가는 모틀리풀·더스트리트·티커(5월), 3분기 보유 현황은 크라우드펀디드웰스를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261118f/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261118f/01.jpg" download="valuenote-b261118f-1.jpg"><img src="https://www.valuenote.co.kr/naver/b261118f/01.jpg" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261118f/02.png" download="valuenote-b261118f-2.png"><img src="https://www.valuenote.co.kr/naver/b261118f/02.png" alt="사진 2" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-18 10:18</b> · 작성</div><div class="small" style="margin:4px 0"><b>2026-11-18 10:18</b> · 새 글 (v9)</div><div class="small" style="margin:4px 0"><b>2026-11-18 10:20</b> · 독립 검수 2회 반영 (평균 미달 review)</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 배달원이 길에서 주소를 확인하며 주변을 둘러보고 있다]\n\n1960년 미국 미시간주의 대학 도시 입실랜티. 톰 모나한과 동생 제임스는 900달러를 빌려 작은 피자집 하나를 샀습니다.\n\n얼마 뒤 동생은 피자집 반쪽을 형에게 넘겼습니다. 대신 받은 건 폭스바겐 비틀 한 대였어요. 형은 그 피자집을 도미노피자로 키웠습니다.\n\n1998년 톰 모나한은 가진 지분 93%를 사모펀드 베인캐피털에 팔았습니다. 값은 10억 달러쯤이었다고 합니다. 비틀 한 대와 바꾼 반쪽의 값을 계산해 보는 건 동생에게 실례일 것 같습니다.\n\n그 도미노피자 주식을 워렌 버핏의 버크셔 해서웨이가 1년 넘게 사 모았습니다. 그리고 워렌 버핏이 물러나자마자 한 주도 남기지 않고 팔았어요. 왜 그랬는지는 이 회사가 무엇으로 컸는지부터 보면 보입니다.\n\n■ 도미노피자가 판 건 피자보다 배달이었다\n\n도미노피자는 처음부터 배달 회사에 가까웠습니다. 1984년에는 주문하고 반 시간 안에 피자를 가져다준다는 약속을 내걸었어요. 피자 맛보다 도착 시간이 이 회사의 얼굴이었습니다.\n\n그 약속은 법정에서 끝났습니다. 1989년 세인트루이스에서 도미노피자 배달 차량이 사고를 냈고 1993년 12월 배심원단은 피해자에게 약 7,900만 달러를 물어 주라고 평결했어요.\n\n도미노피자는 일주일쯤 뒤 그 약속을 접었습니다. 톰 모나한은 그 평결이 결정타였다고 말했습니다. 새 약속은 맛이 마음에 들지 않으면 돈을 돌려준다는 것이었어요.\n\n약속은 빨리 오는 피자에서 마음에 드는 피자로 바뀌었습니다. 정작 맛이 문제가 된 건 그 뒤였습니다.\n\n■ 2010년 도미노피자는 자기 피자가 맛없다고 광고했다\n\n2000년대 후반 도미노피자는 빵은 종이 상자 같고 소스는 케첩 같다는 평을 듣고 있었습니다. 2010년 새로 최고경영자가 된 패트릭 도일은 이 평을 감추지 않았습니다. 사람들이 한 혹평을 광고에 그대로 내보내고 조리법을 처음부터 바꿨다고 알렸어요.\n\n회사가 스스로 맛없었다고 인정하는 광고는 드뭅니다. 도미노피자 주가는 그해 9달러가 안 됐습니다.\n\n도미노피자는 그 뒤 피자를 휴대폰으로 시키는 회사가 됐습니다. 주문하면 지금 반죽을 펴는지, 오븐에 들어갔는지, 배달원이 출발했는지를 화면으로 보여 줬어요. 2025년에는 미국 매출의 85% 넘게가 앱과 웹으로 들어왔습니다.\n\n■ 같은 해 지구 반대편에서 배달의민족이 나왔다\n\n도미노피자가 맛없다는 고백을 하던 2010년 6월, 한국에서는 배달의민족이 문을 열었습니다. 김봉진 창업자가 동네 음식점 전단지를 모아 휴대폰으로 옮긴 게 시작이었어요.\n\n배달 앱은 배달의 의미를 바꿨습니다. 예전에는 배달원을 직접 둔 음식점만 배달을 할 수 있었습니다. 지금은 앱 하나에 올라가면 동네 분식집도 배달 음식점이 됩니다.\n\n도미노피자는 오랫동안 배달 앱에 들어가지 않았습니다. 자기 배달원이 직접 가져다준다는 것이 남과 다른 점이었기 때문입니다. 그러다 2023년 7월 우버이츠와 손을 잡았어요. 미국 사람들이 배달 앱에서 도미노피자를 처음 주문할 수 있게 된 겁니다.\n\n그 우버가 지금은 한국으로 오고 있습니다. 2026년 7월 우버는 배달의민족 주인인 독일 딜리버리히어로를 약 21조 원에 사겠다고 나섰어요. 배달을 남과 다르게 만들던 무기가 미국에서도 한국에서도 앱 회사 손으로 넘어가고 있습니다.\n\n■ 워렌 버핏의 버크셔는 사고 후계자의 버크셔는 팔았다\n\n버크셔 해서웨이는 2024년 3분기 도미노피자 주식을 처음 샀습니다. 130만 주를 평균 435달러 언저리에 샀어요. '워렌 버핏이 피자를 샀다'는 기사가 쏟아졌습니다.\n\n버크셔 해서웨이는 그 뒤로도 계속 샀습니다. 2025년 말에는 도미노피자 주식의 10분의 1 가까이를 가진 큰손이 됐어요.\n\n[사진: 버크셔 해서웨이의 도미노피자 보유 주식 수]\n\n2025년 12월 31일 워렌 버핏은 최고경영자 자리를 그렉 에이블에게 넘겼습니다. 그렉 에이블의 첫 분기였던 2026년 1분기에 버크셔 해서웨이는 도미노피자 주식을 한 주도 남기지 않고 팔았어요. 같은 분기에 아마존과 비자 같은 회사도 정리했습니다.\n\n그 분기 도미노피자의 성적표가 힌트가 됩니다. 미국에서 원래 있던 매장의 매출이 0.9% 느는 데 그쳤고 회사는 한 해 전망을 낮췄습니다. 고객이 직접 가져가는 포장 주문은 늘었지만 배달 주문은 오히려 조금 줄었어요.\n\n배달로 큰 회사에서 배달이 줄고 있었습니다. 경쟁 피자 회사들이 도미노피자의 할인 행사를 그대로 따라 했다는 회사 설명도 나왔습니다.\n\n■ 다른 회사에도 쓸 수 있는 질문 하나\n\n저는 여기서 피자보다 오래 쓸 질문 하나를 챙겼습니다. 이 회사가 남보다 잘하던 일을 이제 누군가가 모든 경쟁자에게 대신 해 주고 있지는 않은가.\n\n1990년대의 도미노피자는 빠른 배달 하나로 이겼습니다. 지금은 배달 앱이 모든 음식점에 배달원을 빌려줍니다. 남보다 잘하던 일이 흔해지면 그 회사는 다른 이유를 찾아야 합니다.\n\n숫자로 확인하는 방법도 쉽습니다. 10월 발표된 3분기 실적에서 도미노피자의 전 세계 매출은 3.2% 늘었지만 미국에서 원래 있던 매장의 매출은 0.3% 느는 데 그쳤습니다.\n\n전체 매출은 느는데 원래 있던 매장의 매출은 거의 그대로라면, 늘어난 매출은 대부분 새로 연 매장에서 나온 겁니다. 고객이 늘었다기보다 매장이 늘었습니다.\n\n■ 반대로 보면, 도미노피자는 여전히 이기고 있다\n\n물론 다르게 볼 여지도 큽니다. 도미노피자 경영진은 미국 피자 시장 점유율을 11년 연속 늘렸다고 말합니다. 가맹점이 버는 돈도 늘고 있다고 합니다.\n\n주가가 이미 많이 내려온 점도 있습니다. 5월 기준으로 도미노피자 주가는 사상 최고가보다 46% 낮았습니다. 기대가 낮아진 만큼 실망할 거리도 줄었다고 볼 수 있습니다.\n\n버크셔 해서웨이가 판 이유가 도미노피자 때문만은 아니라는 해석도 있습니다. 토드 콤스는 버크셔에서 주식 운용 일부를 맡았던 투자 담당자인데 2025년 말 회사를 떠났습니다. 외신은 이번에 정리한 종목 상당수가 그의 몫이었다고 봅니다.\n\n새 최고경영자가 보유 종목 수를 줄인 결과일 수도 있다는 겁니다. 저는 이 해석에도 일리가 있다고 봅니다. 그래도 제 결론은 이렇습니다. 남길 종목과 뺄 종목을 고르는 자리에서 도미노피자가 빠진 건, 배달이 더는 이 회사만의 무기가 아니게 된 것과 떼어 놓고 보기 어렵습니다.\n\n■ 조금만 더 들어가 보면, 같은 매장 매출\n\n위에서 원래 있던 매장의 매출이라고 부른 숫자를 식당 체인에서는 같은 매장 매출이라고 합니다. 문을 연 지 한 해가 넘은 매장끼리 올해와 작년의 매출을 비교한 증가율입니다.\n\n매장을 계속 새로 열면 전체 매출은 늘 수밖에 없습니다. 같은 매장 매출은 새 매장 효과를 빼고 기존 매장에 고객이 더 왔는지만 보여 줍니다. 전체 매출은 느는데 이 숫자만 멈춰 있다면 그 체인은 넓어지고 있을 뿐 깊어지지는 않고 있는 겁니다.\n\n■ 앞으로 볼 것\n\n첫째는 같은 매장 매출이 다시 오르는지입니다. 연초까지 회사가 기대했던 수준으로 돌아오면 버크셔 해서웨이가 너무 일찍 판 게 됩니다.\n\n둘째는 배달과 포장의 비율입니다. 배달 주문이 계속 줄고 포장이 늘어난다면 도미노피자를 키운 배달이 더는 이 회사만의 무기가 아니라는 신호입니다. 한국에서는 우버의 배달의민족 인수 심사가 같은 질문을 다른 쪽에서 던지게 됩니다.\n\n60여 년 전 톰 모나한은 남들이 하지 않던 배달에 피자집을 걸었고 동생은 비틀을 골랐습니다. 이제 배달은 휴대폰 화면 하나로 어느 음식점이나 합니다. 도미노피자가 다음에 보여 줘야 하는 건 빨리 오는 피자가 아니라 굳이 도미노피자를 시킬 이유입니다.\n\n워렌 버핏 같은 투자 거장들이 회사를 고르고 정리할 때 보는 기준은 밸류노트에 따로 정리해 두었습니다. 궁금하시면 한번 들러 보세요.\n\n밸류노트 둘러보기 https://www.valuenote.co.kr/?utm_source=naver&utm_campaign=b261118f\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 톰 모나한과 가게 인수·매각은 위키백과, 30분 배달 약속과 평결은 AP를 전한 데저렛뉴스(1993년 12월 22일), 2010년 광고와 주가는 쿼츠, 디지털 주문 비중과 3분기 실적은 도미노피자 3분기 실적 발표(10월 13일), 배달의민족 출발과 우버의 딜리버리히어로 인수 제안은 헤럴드경제(7월), 우버이츠 제휴는 네이션스레스토랑뉴스(2023년 7월 12일), 버크셔 해서웨이의 매수는 인덱스박스(5월), 전량 매도와 1분기 실적·주가는 모틀리풀·더스트리트·티커(5월), 3분기 보유 현황은 크라우드펀디드웰스를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.\n\n#도미노피자 #워렌버핏 #워렌버핏도미노피자 #버크셔해서웨이 #그렉에이블 #톰모나한 #배달의민족 #우버이츠 #배달앱 #같은매장매출";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261118f", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
