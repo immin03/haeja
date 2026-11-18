@@ -1649,7 +1649,7 @@ def render_cover(spec, outdir):
     Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec); SPEC = spec; DOC = spec.get("overlay", "doc" if cap_one_for({"id": spec.get("id", "")}) else "paper") == "doc"
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
-    import fullworld; fullworld.apply_look(spec.get("look"))   # 2026-11-17 대표님: "look":"bw" → 흑백 + 핑크 밑줄
+    import fullworld; fullworld.apply_look(spec.get("look", "bw"))   # 2026-11-17 대표님: "look":"bw" → 흑백 + 핑크 밑줄
     if BANNER_BAND:
         if BANNER_TAG is not None:
             if len(YT_BANNER) > fullworld.BAND_MAX_LINES: raise RuntimeError(f"{spec['id']}: 제목 띠 본문은 최대 {fullworld.BAND_MAX_LINES}줄입니다(태그 별도, 2026-11-01 대표님) — {YT_BANNER}")
@@ -1820,7 +1820,7 @@ def render(spec, outdir, stills=None):
     Y_SPEED = float(spec.get("voice_speed", 1.1)); CAP_ONE = cap_one_for(spec); SPEC = spec; DOC = spec.get("overlay", "doc" if cap_one_for({"id": spec.get("id", "")}) else "paper") == "doc"
     BANNER_BAND = bool(spec.get("banner_band")) and bool(YT_BANNER)
     BANNER_TAG = spec.get("banner_tag") if (BANNER_BAND and spec.get("banner_style") == "tag") else None
-    import fullworld; fullworld.apply_look(spec.get("look"))   # 2026-11-17 대표님: "look":"bw" → 흑백 + 핑크 밑줄
+    import fullworld; fullworld.apply_look(spec.get("look", "bw"))   # 2026-11-17 대표님: "look":"bw" → 흑백 + 핑크 밑줄
     if BANNER_BAND:
         if BANNER_TAG is not None:
             if len(YT_BANNER) > fullworld.BAND_MAX_LINES: raise RuntimeError(f"{spec['id']}: 제목 띠 본문은 최대 {fullworld.BAND_MAX_LINES}줄입니다(태그 별도, 2026-11-01 대표님) — {YT_BANNER}")
@@ -1870,10 +1870,16 @@ def render(spec, outdir, stills=None):
     if spec.get("platform") == "youtube" and spec.get("thumb_end", True):
         cover_path = os.path.join(outdir, "cover.jpg")
         tj = os.path.join(HERE, "thumbs", f"{spec['id']}.json")   # 2026-10-28 운영자: 삼성전자 쇼츠 같은 심플 썸네일로 통일 (thumb_simple.py)
-        if os.path.exists(tj):
+        tbw = os.path.join(HERE, "thumbs_bw", f"{spec['id']}.json")   # 2026-11-18 대표님: 표지는 흑백+핑크(thumb_bw)만 — 옛 네이비 표지 금지
+        if os.path.exists(tbw):
+            import thumb_bw; thumb_bw.render(json.load(open(tbw, encoding="utf-8")), cover_path)
+            Image.open(cover_path).save(os.path.join(HERE, "thumbs_bw", f"{spec['id']}.jpg"), quality=92)
+        elif spec.get("look") == "classic" and os.path.exists(tj):
             import thumb_simple; thumb_simple.render(json.load(open(tj, encoding="utf-8")), cover_path)
         elif spec.get("thumb_file") and os.path.exists(os.path.join(HERE, "..", "..", spec["thumb_file"])):
             Image.open(os.path.join(HERE, "..", "..", spec["thumb_file"])).convert("RGB").resize((W, H)).save(cover_path, quality=92)
+        elif spec.get("look") != "classic":
+            raise RuntimeError(f"{spec['id']}: scripts/reels/thumbs_bw/{spec['id']}.json(흑백+핑크 표지)이 없습니다 — 표지 대본을 먼저 만드세요 (2026-11-18 대표님: 옛 네이비 표지 재발 금지)")
         else:
             print(f"  ⚠ {spec['id']}: scripts/reels/thumbs/{spec['id']}.json 이 없어 첫 장면을 썸네일로 씁니다 — 심플 썸네일을 만들어야 업로드할 수 있습니다")
             frame(min(1.6, scenes[0]["dur"] - .1), scenes, total, pen=False).convert("RGB").save(cover_path, quality=90)

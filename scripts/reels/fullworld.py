@@ -486,6 +486,9 @@ def _logo_bw(img, y, size=46, a=.8):
 
 def apply_look(look):
     """대본 "look": "bw" 이면 띠·다큐 표시·엔딩의 네이비·금색을 흑백 + 핑크로 바꾼다 (렌더마다 호출, 기본값은 옛 색)"""
+    # 2026-11-18 대표님: 흑백+핑크 디자인 업데이트가 구글 쇼츠에 안 들어감(대본에 "look" 이 빠지면 옛 네이비·금색) → 기본값을 흑백으로.
+    #   옛 색이 꼭 필요할 때만 "look": "classic"
+    look = "classic" if look == "classic" else "bw"
     g = globals(); LOOK[0] = look
     if look == "bw":
         g.update(NAVYB=(12, 12, 12), CREAM=(255, 255, 255), GOLDN=(255, 255, 255), TAGC=PINK, TAGTXT=(255, 255, 255),
