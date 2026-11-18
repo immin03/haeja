@@ -1,0 +1,178 @@
+{
+ "id": "enc01a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-18 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They don't",
+  "love you.",
+  "They USE you."
+ ],
+ "title_line": "When people use you",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_enc01a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/cep1_stop.mp4",
+  "/home/claude/haeja/social/side/gen/ev_box.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_spkw2.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_glis.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_ppl3.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_watch.mp4"
+ ],
+ "sents": [
+  [
+   0.47,
+   2.447,
+   1,
+   0,
+   "none",
+   [
+    "They don't love you. They use you."
+   ]
+  ],
+  [
+   3.307,
+   5.207,
+   2,
+   1,
+   "cap",
+   [
+    "They're warm when",
+    "they need something,"
+   ]
+  ],
+  [
+   5.257,
+   6.945,
+   2,
+   1,
+   "cap",
+   [
+    "and gone the moment",
+    "they get it."
+   ]
+  ],
+  [
+   7.815,
+   10.545,
+   3,
+   2,
+   "cap",
+   [
+    "Marcus Aurelius knew",
+    "people like this."
+   ]
+  ],
+  [
+   10.595,
+   13.281,
+   3,
+   2,
+   "cap",
+   [
+    "So every morning,",
+    "he wrote himself a warning."
+   ]
+  ],
+  [
+   14.131,
+   16.871,
+   4,
+   3,
+   "quote",
+   [
+    "Begin the morning",
+    "by saying to yourself:"
+   ]
+  ],
+  [
+   16.921,
+   21.093,
+   4,
+   3,
+   "quote",
+   [
+    "I shall meet the busybody,",
+    "the ungrateful,",
+    "the deceitful."
+   ]
+  ],
+  [
+   21.953,
+   24.373,
+   5,
+   4,
+   "big",
+   [
+    "Expect it,",
+    "and it can't shock you."
+   ]
+  ],
+  [
+   24.423,
+   25.473,
+   5,
+   4,
+   "cap",
+   [
+    "Help when it's right."
+   ]
+  ],
+  [
+   25.523,
+   26.996,
+   5,
+   4,
+   "cap",
+   [
+    "Say no when it's not."
+   ]
+  ],
+  [
+   27.846,
+   31.756,
+   6,
+   5,
+   "quote",
+   [
+    "When a man wrongs you,",
+    "ask what he thought",
+    "was good or evil."
+   ]
+  ],
+  [
+   31.806,
+   35.177,
+   6,
+   5,
+   "quote",
+   [
+    "Then you will pity him,",
+    "and feel no anger."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Say no to one favor",
+  "you don't owe."
+ ],
+ "source": "Marcus Aurelius, Meditations 2.1 · 7.26",
+ "end_voice": "/home/claude/vo/v2/enc01_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc01_outro_voice.wav",
+ "cover": [
+  "THEY",
+  "USE YOU"
+ ],
+ "title": "STOP Letting People USE You | Marcus Aurelius",
+ "slot": "2026-11-19 08:47",
+ "theme": "A",
+ "vol": 1.0
+}
