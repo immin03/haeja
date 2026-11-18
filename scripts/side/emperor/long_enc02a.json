@@ -1,0 +1,176 @@
+{
+ "id": "enc02a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-18 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They took",
+  "the CREDIT",
+  "for your work."
+ ],
+ "title_line": "When someone takes your credit",
+ "music": {
+  "file": "/home/claude/ed/music/music_we-ll-be-okay.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_enc02a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/cep1_order_b.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_grave.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_refuse.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_decide.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_dec.mp4",
+  "/home/claude/haeja/social/side/gen/libv_farmer_field.mp4"
+ ],
+ "sents": [
+  [
+   0.44,
+   2.217,
+   1,
+   0,
+   "none",
+   [
+    "They took the credit for your work."
+   ]
+  ],
+  [
+   3.067,
+   4.447,
+   2,
+   1,
+   "cap",
+   [
+    "You did the hard part."
+   ]
+  ],
+  [
+   4.497,
+   5.649,
+   2,
+   1,
+   "cap",
+   [
+    "They took the applause."
+   ]
+  ],
+  [
+   6.509,
+   9.75,
+   3,
+   2,
+   "cap",
+   [
+    "Marcus Aurelius kept",
+    "one question",
+    "for moments like this."
+   ]
+  ],
+  [
+   10.57,
+   14.11,
+   4,
+   3,
+   "quote",
+   [
+    "When you are offended",
+    "by a man's shameless act,"
+   ]
+  ],
+  [
+   14.16,
+   15.44,
+   4,
+   3,
+   "quote",
+   [
+    "ask yourself:",
+    "Is it possible",
+    "that shameless men"
+   ]
+  ],
+  [
+   15.49,
+   20.24,
+   4,
+   3,
+   "quote",
+   [
+    "should not be in the world?"
+   ]
+  ],
+  [
+   20.29,
+   21.5,
+   4,
+   3,
+   "quote",
+   [
+    "It is not possible."
+   ]
+  ],
+  [
+   22.35,
+   23.96,
+   5,
+   4,
+   "big",
+   [
+    "So don't be shocked."
+   ]
+  ],
+  [
+   24.01,
+   25.887,
+   5,
+   4,
+   "cap",
+   [
+    "Calmly put your name",
+    "on your work."
+   ]
+  ],
+  [
+   26.737,
+   30.997,
+   6,
+   5,
+   "quote",
+   [
+    "A good man is like a vine",
+    "that bears its grapes,"
+   ]
+  ],
+  [
+   31.047,
+   32.679,
+   6,
+   5,
+   "quote",
+   [
+    "and seeks nothing more."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Tell one person",
+  "what you built",
+  "this week."
+ ],
+ "source": "Marcus Aurelius, Meditations 9.42 · 5.6",
+ "end_voice": "/home/claude/vo/v2/enc02_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc02_outro_voice.wav",
+ "cover": [
+  "THEY TOOK",
+  "YOUR",
+  "CREDIT"
+ ],
+ "title": "When Someone STEALS Your Credit | Marcus Aurelius",
+ "slot": "2026-11-20 08:47",
+ "theme": "A",
+ "vol": 1.0
+}
