@@ -14,14 +14,14 @@
  },
  "roadmap": true,
  "hook": {
-  "bpm": 75.0,
+  "bpm": 94.0,
   "style": "basstaiko",
   "cut": "bar",
   "pulse": false,
   "ident_fx": false
  },
  "music": {
-  "intro": "social/music/samples3/I3_full.mp3",
+  "intro": "social/music/own/intro_business.mp3",
   "intro_offset": 0.0,
   "end_on_logo": true,
   "bed": [
@@ -29,32 +29,24 @@
    "social/music/own/bed_business_b.mp3@0"
   ],
   "hits": [
-   0.57,
-   4.05,
-   7.55,
-   15.43,
-   18.85,
-   22.98,
-   26.57,
-   29.82,
-   33.05,
-   36.7,
-   40.3,
-   43.55,
-   46.98,
-   50.4,
-   54.27,
-   60.85,
-   64.12,
-   67.3,
-   70.9,
-   75.7,
-   83.72,
-   88.65
+   5.62,
+   12.03,
+   14.6,
+   17.17,
+   19.7,
+   22.27,
+   24.8,
+   28.0,
+   32.47,
+   35.97,
+   38.52,
+   42.67,
+   45.22,
+   52.87
   ],
   "bed_gain_db": 1,
   "bed_hp": 120,
-  "note": "2026-11-17 대표님: 기업 분석 편은 덜 무겁게 — 인트로 Symphonic Hip-hop 02(vjgalaxy) · 본편 Documentary Piano(SigmaMusicArt) · Documentary(AtlasAudio) · Technology(The_Mountain) 섞기. 모두 Content ID 등록 없음 · 2026-11-17 22:30 N1 Documentary(AtlasAudio) 제외 — 엔비디아 실적 편에서 Content ID 소유권 주장(Dawn Keys, We Are Era Music) 발생 · 2026-11-18 본편 음악을 Suno 자체 곡(기업 분석 A·B)으로 교체 — Pixabay 소유권 주장 재발 방지 · 2026-11-18 대표: 본편 음악이 살짝 큼 → bed_gain_db 3→1"
+  "note": "2026-11-17 대표님: 기업 분석 편은 덜 무겁게 — 인트로 Symphonic Hip-hop 02(vjgalaxy) · 본편 Documentary Piano(SigmaMusicArt) · Documentary(AtlasAudio) · Technology(The_Mountain) 섞기. 모두 Content ID 등록 없음 · 2026-11-17 22:30 N1 Documentary(AtlasAudio) 제외 — 엔비디아 실적 편에서 Content ID 소유권 주장(Dawn Keys, We Are Era Music) 발생 · 2026-11-18 본편 음악을 Suno 자체 곡(기업 분석 A·B)으로 교체 — Pixabay 소유권 주장 재발 방지 · 2026-11-18 대표: 본편 음악이 살짝 큼 → bed_gain_db 3→1 · 2026-11-18 17:50 인트로도 Suno 자체 곡(intro_business, 94bpm)으로 교체 — Pixabay 소유권 주장 방지. hits는 새 곡 베이스 타격 위치"
  },
  "id": "L261119-tesla-spacex2",
  "company": "TESLA",
@@ -181,6 +173,11 @@
    "at": "2026-11-17T19:40:00+09:00",
    "by": "claude",
    "what": "긴급 실행(대표 11/17 18:28 '렌더링 진행하자'): 대표 검토 원고 그대로, 사실 확인 뒤 6곳 수정(트위터 선례 삭제·145조 원·청원 수치·흑자 표현·칼시 기한·주식 '묶임' 표현)"
+  },
+  {
+   "at": "2026-11-18T17:50:00+09:00",
+   "by": "claude",
+   "what": "공개 전 재검수 반영: 텍사스 법무장관 → 1월 취임 법무장관 당선인으로 정정 + 블룸버그 '1월 전 발표 서두름' 한 줄, 머스크 더빙 목소리 두 곳 같은 성우로 고정, 인트로 음악 Suno 자체 곡으로 교체"
   }
  ],
  "review": {
@@ -230,7 +227,7 @@
     "clip": "silence_8s.wav",
     "orig": 0.3,
     "start": 0,
-    "voice": "middle_age",
+    "voice": "tc_6af54d6a6b24a08feffb40b4",
     "person": "일론 머스크",
     "under": 0.0
    },
@@ -1021,7 +1018,7 @@
     "clip": "au_tsla_q3_merger.m4a",
     "orig": 3.2,
     "start": 0,
-    "voice": "middle_age",
+    "voice": "tc_6af54d6a6b24a08feffb40b4",
     "person": "일론 머스크"
    },
    "sketch": [
@@ -1562,14 +1559,18 @@
     "wash_amt": 0.85
    },
    "lines": [
-    "투자은행 제프리스는 이번 달 보고서에서, 새 의회와 일부 주 정부에서 이 합병을 들여다볼 수 있다고 봤습니다. 텍사스 법무장관도 강한 검토를 예고했습니다."
+    "투자은행 제프리스는 이번 달 보고서에서, 새 의회와 일부 주 정부에서 이 합병을 들여다볼 수 있다고 봤습니다.",
+    "1월에 취임하는 텍사스 새 법무장관도, 이 합병을 강하게 들여다보겠다고 이미 예고했습니다.",
+    "블룸버그는 머스크가 새 의회가 열리기 전에 합병을 발표하려고 서두르고 있다고 보도했습니다."
    ],
    "sketch_add": [],
    "en": [
+    "",
+    "",
     ""
    ],
    "asof": false,
-   "src": "제프리스 · 블룸버그 2026-11-12",
+   "src": "제프리스 · 블룸버그 2026-11-12 · 텍사스 법무장관 당선인 네이선 존슨(블룸버그 2026-11-13)",
    "sketch": []
   },
   {
