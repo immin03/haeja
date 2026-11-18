@@ -1,5 +1,5 @@
 {
- "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱')",
+ "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱') · 2026-11-18 17:40 테슬라 2편: musk_conflicted_q3(54:00~56:00)는 전력 얘기 구간이라 원음 아님 → 전체 음성 au_spacex_q3_2026_call 추가",
  "clips": [
   {
    "name": "bbg_ant_oversub",
@@ -124,6 +124,13 @@
    "mode": "audio",
    "for": "L261118-anthropic-ipo",
    "want": "같은 실적 콜 다른 업로드(예비) — 위 영상이 콜 원음이 아니면 이것 사용"
+  },
+  {
+   "name": "au_spacex_q3_2026_call",
+   "url": "https://www.youtube.com/watch?v=vc4Gso1GCkg",
+   "mode": "audio",
+   "for": "L261119-tesla-spacex2",
+   "want": "스페이스X 3분기 실적 발표 전체 음성 — 머스크 'Because I'm a conflicted party' 구간을 STT로 찾기 (musk_conflicted_q3 120초 컷은 다른 구간이었음)"
   }
  ]
 }
