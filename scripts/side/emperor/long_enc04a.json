@@ -1,0 +1,153 @@
+{
+ "id": "enc04a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-18 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They INSULTED you.",
+  "Don't",
+  "bite back."
+ ],
+ "title_line": "When someone insults you",
+ "music": {
+  "file": "/home/claude/ed/music/music_miss-you.mp3",
+  "start": 19.5,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_enc04a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/edv07_crowd.mp4",
+  "/home/claude/haeja/social/side/gen/c1v_push.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_triumph.mp4",
+  "/home/claude/haeja/social/side/gen/cep1_sick_b.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.637,
+   1,
+   0,
+   "none",
+   [
+    "They insulted you. Don't bite back."
+   ]
+  ],
+  [
+   3.507,
+   5.007,
+   2,
+   1,
+   "cap",
+   [
+    "Your face gets hot."
+   ]
+  ],
+  [
+   5.057,
+   7.457,
+   2,
+   1,
+   "cap",
+   [
+    "The perfect comeback",
+    "is already loaded."
+   ]
+  ],
+  [
+   7.507,
+   9.553,
+   2,
+   1,
+   "cap",
+   [
+    "Marcus Aurelius wrote",
+    "a better answer."
+   ]
+  ],
+  [
+   10.402,
+   12.697,
+   3,
+   2,
+   "quote",
+   [
+    "The best way",
+    "to avenge yourself"
+   ]
+  ],
+  [
+   12.697,
+   15.411,
+   3,
+   2,
+   "quote",
+   [
+    "is not to become",
+    "like the wrongdoer."
+   ]
+  ],
+  [
+   16.271,
+   17.851,
+   4,
+   2,
+   "big",
+   [
+    "Silence isn't weakness."
+   ]
+  ],
+  [
+   17.901,
+   19.305,
+   4,
+   2,
+   "big",
+   [
+    "It's a win",
+    "they can't take."
+   ]
+  ],
+  [
+   20.155,
+   23.035,
+   5,
+   3,
+   "quote",
+   [
+    "How much more pain",
+    "anger brings us"
+   ]
+  ],
+  [
+   23.085,
+   25.33,
+   5,
+   3,
+   "quote",
+   [
+    "than the things",
+    "that made us angry."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Next insult,",
+  "wait three seconds.",
+  "Then decide."
+ ],
+ "source": "Marcus Aurelius, Meditations 6.6 · 11.18",
+ "end_voice": "/home/claude/vo/v2/enc04_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc04_outro_voice.wav",
+ "cover": [
+  "DON'T",
+  "BITE BACK"
+ ],
+ "title": "How to Stay CALM When Someone Insults You | Stoicism",
+ "slot": "2026-11-22 01:47",
+ "theme": "A",
+ "vol": 1.0
+}
