@@ -47,6 +47,7 @@
    장면 8장 한 장짜리 격자를 한 번 보고 글자 잘림·겹침·밝은 그림 위 자막만 고친다. 자막이 말보다 먼저 넘어가지 않는지 인용 구간 프레임 2장으로 확인.
    길이 확인: `ffprobe` 로 잰 yt.mp4 길이가 칸 길이(TEMPLATE '★ 길이·내용 규칙') ±5초 밖이면 대본으로 돌아가 항목을 더하거나 뺀다(쉼·속도로 맞추지 않음).
    불통과 2번이면 그 편은 올리지 않고 docs collection 'alerts' 에 남긴다.
+★ 2026-11-18 재사용 관문: yt_up.sh 가 올리기 직전 `authentic_check.py --gate` 를 돌린다(TEMPLATE '★ 양산형 방지' 1). 실패하면 관문을 건드리지 말고 fx 의 장면을 최근 7일에 안 쓴 클립(hfr_ 새 클립 우선, `library.py find`)으로 바꿔 다시 렌더한다. 밤 장면은 한 편의 절반 이하.
 9. 올리기: (먼저 사용 기록 `python3 library.py check fx_<id>.json --record --ep=<id> --at="<공개 시각>"` → library_usage.jsonl 도 같이 커밋)  fx_short.py 결과 그대로(인코딩 포함) `docs/emperor/ep/<id>_reels.mp4`(유튜브), `<id>_reels_ig.mp4`(인스타·틱톡), 표지 `hook_<id>.jpg`(0초 프레임: `ffmpeg -ss 0 -i <yt.mp4> -frames:v 1 -q:v 2 hook_<id>.jpg` — 자막 없는 첫 화면인지 Read 로 한 번 확인) 커밋·푸시,
    사이트 주소가 200이 될 때까지 기다린 뒤
    유튜브: `ED_KEY=<app_config ed_yt_long_key> ./yt_up.sh <id> <yt.mp4> <meta.json> hook_<id>.jpg`

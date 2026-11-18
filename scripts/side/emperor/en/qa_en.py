@@ -83,7 +83,31 @@ def check(pid, video, cover, title, desc):
     # 11/13 수정: 출처 줄 "George Long's public-domain translation" 은 정상 — 한국 채널 흔적만 잡는다
     if re.search(r"korean|\btranslated\b|english version|korea\b", txt, re.I): fails.append("제목·설명에 Korean/translated")
     if len(title) > 70: fails.append(f"제목 {len(title)}자")
+    # 6 장면 재사용 (2026-11-18 대표: "재사용 높은 거 올리면 안 될 것 같아 … 앞으로만 잘 올라가게")
+    fails += reuse_gate(pid)
     return {"id": pid, "passed": not fails, "fails": fails}
+
+
+def reuse_gate(pid):
+    """같은 채널 앞뒤 7일에 쓴 장면이 30%를 넘거나(2컷까지 허용) 밤 장면이 50%를 넘으면 실패. 장면 목록(fx)이 없는 현대판은 건너뛴다.
+    출고 검수 작업은 en 폴더만 받아 두므로, 검사에 필요한 파일을 여기서 더 받는다. 검사를 돌리지 못하면 실패로 본다(모르는 채로 올리지 않는다)."""
+    emp = os.path.dirname(HERE)
+    try:
+        need = [os.path.join(emp, x) for x in ("authentic_check.py", "LIBRARY.json", "library_usage.jsonl")]
+        if not all(os.path.exists(x) for x in need) or not os.path.exists(os.path.join(emp, f"fx_{pid}.json")):
+            subprocess.run(["git", "-C", ROOT, "sparse-checkout", "add", "--no-cone", "/scripts/side/emperor/*.json",
+                            "/scripts/side/emperor/*.jsonl", "/scripts/side/emperor/authentic_check.py"], capture_output=True, timeout=400)
+        if not all(os.path.exists(x) for x in need):
+            return ["재사용 검사 파일을 받지 못함"]
+        if not os.path.exists(os.path.join(emp, f"fx_{pid}.json")):
+            return []
+        r = subprocess.run([sys.executable, "authentic_check.py", "--gate", pid], cwd=emp, capture_output=True, text=True, timeout=180)
+        if r.returncode == 0:
+            return []
+        out = [l.strip(" ✗") for l in r.stdout.splitlines() if "✗" in l]
+        return [x[:150] for x in out] or ["재사용 검사 오류: " + (r.stderr.strip().splitlines() or ["?"])[-1][:100]]
+    except Exception as e:
+        return [f"재사용 검사 실행 실패: {str(e)[:80]}"]
 
 
 if __name__ == "__main__":

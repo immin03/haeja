@@ -40,6 +40,12 @@ d=ImageStat.Stat(ImageChops.difference(a,b)).mean[0]
 if d>4: print(f"썸네일이 영상 첫 화면과 다름(차이 {d:.1f}) — 0초 프레임으로 다시 뽑을 것: {j}"); sys.exit(1)
 print(f"썸네일 검사 통과(차이 {d:.1f})")
 CHK
+# ★ 재사용 관문 (2026-11-18 대표: "재사용 높은 거 올리면 안 될 것 같아 … 앞으로만 잘 올라가게") — 같은 채널 앞뒤 7일에 쓴 장면이 30%를 넘거나(2컷까지는 허용)
+#   밤 책상·촛불·막사 장면이 50%를 넘으면 올리지 않는다. 로마 데일리 쇼츠(ep…)만. 사용 기록(library.py check --record)을 먼저 남긴 뒤 부른다.
+if echo "$ID" | grep -Eq '^ep[0-9]+'; then
+  AT=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('publish_at') or '')" "$M")
+  ( cd "$(dirname "$0")" && python3 authentic_check.py --gate "$ID" ${AT:+--at="$AT"} ) || { echo "재사용 관문 실패 — fx_$ID.json 의 장면을 최근 7일에 안 쓴 것으로 바꿔 다시 렌더한 뒤 올린다(library.py find, hfr_ 새 클립 우선)"; exit 1; }
+fi
 U=https://msjbrwyzkiueqnzjeicm.supabase.co/functions/v1/ed-yt-long
 A="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zamJyd3l6a2l1ZXFuemplaWNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTk0NTcsImV4cCI6MjEwNzQzNTQ1N30.RIq2MRW8bwHQUO_dPeIarujjWcYD_dXn06icr1Mpmuw"
 K="${ED_KEY:?ED_KEY 필요: app_config ed_yt_long_key}"

@@ -26,6 +26,7 @@ PER_DAY_MAX = 3         # 채널당 하루 쇼츠 3편 상한 (대표 11/15 권�
 LEN_MIN_SPREAD = 8      # 최근 6편 길이의 최대-최소가 8초 이상 (전부 같은 길이 금지)
 REUSE_DAYS = 7          # 2026-11-17 대표 "같은 장면 반복이 심하다": 같은 채널 최근 7일(예약분 포함)에 쓴 장면은
 REUSE_MAX = 0.30        #   한 편의 30% 이하만 다시 쓴다. Higgsfield 체험분이 라이브러리에 들어오면(로마 800개 이상) 0.10으로 낮춘다
+REUSE_FREE = 2          # 2026-11-18 대표 "한두 컷은 할 수 있겠지만": 다시 쓴 장면이 2개 이하면 비율과 상관없이 통과(6~7컷짜리 영어 편)
 NIGHT_MAX = 0.50        # '밤 책상·촛불·일기' + '막사' 장면이 한 편의 50% 이하 (11/10~17 한국 쇼츠 33~67% — 다 어두운 밤이라 같은 영상처럼 보임)
 NIGHT_RX = re.compile(r"candle|oil lamp|lamp|desk|diary|writing|quill|wax tablet|scroll|tent|camp", re.I)
 VALUE_EVERY = 3         # '사람이 더한 가치' 편은 3편에 1번 이상 (대표 11/15: 테스트로 몇 편에 한 번씩)
@@ -57,10 +58,14 @@ def jac(a, b):
     return len(a & b) / max(1, len(a | b))
 
 
+PAUSED = set()
+
+
 def load_posts(path):
     if not path or not os.path.exists(path):
         return []
     P = json.load(open(path, encoding="utf-8"))
+    PAUSED.update(p["id"] for p in P if p.get("paused"))
     return sorted(P, key=lambda p: p.get("at") or "")
 
 
@@ -123,7 +128,7 @@ def check_one(me, fx, posts, src=None):
     if mine and used:
         same = sorted(set(mine) & used)
         r = len(same) / max(1, len(set(mine)))
-        if r > REUSE_MAX:
+        if r > REUSE_MAX and len(same) > REUSE_FREE:
             fails.append(f"같은 채널 최근 {REUSE_DAYS}일에 쓴 장면이 {r:.0%} (상한 {REUSE_MAX:.0%}): {', '.join(same[:8])} — library.py find 로 안 쓴 장면을 고른다")
     # 5-2) 밤 장면 쏠림 (11/17)
     night = [t for t in set(mine) if NIGHT_RX.search(((_CAT.get(t) or {}).get("scene") or "") + " " + ((_CAT.get(t) or {}).get("scene_ko") or ""))]
@@ -154,6 +159,8 @@ def recent_used(ch, me, at):
         try: r = json.loads(l)
         except Exception: continue
         if r.get("ep") == me or chan(r.get("ep", "")) != ch or not (lo <= r.get("at", "") <= hi):
+            continue
+        if r.get("ep") in PAUSED:      # 2026-11-18: 비공개(paused)로 돌린 편은 나가지 않으므로 세지 않는다
             continue
         out |= set(r.get("ids", []))
     return out
@@ -193,6 +200,21 @@ def main():
                 bad += len(f)
         print(f"실패 {bad}건" if bad else "전체 통과")
         return 1 if bad else 0
+    if "--gate" in sys.argv:
+        # 2026-11-18 대표 "앞으로만 잘 올라가게": 업로드 직전 관문(yt_up.sh · en/qa_en.py 가 부른다). 재사용·밤 장면 두 가지만 본다.
+        # 실패 1, 통과 0, 장면 목록이 없는 편(현대판 등) 0. --at=<공개 시각 ISO> 가 없으면 지금 시각 기준.
+        rc = 0
+        for a in args:
+            me = os.path.basename(a)[3:-5] if os.path.basename(a).startswith("fx_") else a
+            if me not in fx:
+                print(f"{me}: 장면 목록 없음 — 관문 건너뜀"); continue
+            p = [x for x in posts if x["id"] != me] + [{"id": me, "kind": "reel_en" if chan(me) == "EN" else "reel", "at": kv.get("at")}]
+            f, _ = check_one(me, {me: fx[me]}, p)
+            f = [x for x in f if "최근 7일" in x or "밤 책상" in x or f"최근 {REUSE_DAYS}일" in x]
+            print(f"{me}: " + ("재사용 관문 통과" if not f else "재사용 관문 실패"))
+            for x in f: print("  ✗", x)
+            rc |= 1 if f else 0
+        return rc
     rc = 0
     for a in args:
         me = os.path.basename(a)[3:-5] if os.path.basename(a).startswith("fx_") else a
