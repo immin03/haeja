@@ -1097,7 +1097,7 @@ def y_caption_one(img, u, L):
     ld.rounded_rectangle([0, 0, bw - 1, bh - 1], 14, fill=(6, 12, 26, int(178 * (.4 + .6 * ease_k))))
     ld.text((32, bh / 2), line, font=font, fill=IVORY, anchor="lm")
     for m in key_numbers(line):
-        ld.text((32 + ld.textlength(line[:m.start()], font=font), bh / 2), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
+        ld.text((32 + ld.textlength(line[:m.start()], font=font), bh / 2), m.group().rstrip(), font=font, fill=(GOLD if (SPEC or {}).get("look") == "classic" else (255, 77, 109)), anchor="lm")   # 2026-11-18 흑백 기본: 자막 숫자는 핑크
     if sc < .999: lay = lay.resize((max(1, int(bw * sc)), max(1, int(bh * sc))), Image.BICUBIC)
     if k < 1: lay.putalpha(lay.getchannel("A").point(lambda x: int(x * (.3 + .7 * ease_k))))
     img.paste(lay, (int(YT_CAP_X - lay.width / 2), int(YT_CAP_Y - lay.height / 2 + dy)), lay)
@@ -1124,7 +1124,7 @@ def y_caption(img, u, L):
         d.text((x0, y), line, font=font, fill=IVORY, anchor="lm")
         for m in key_numbers(line):
             tx = x0 + d.textlength(line[:m.start()], font=font)
-            d.text((tx, y), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
+            d.text((tx, y), m.group().rstrip(), font=font, fill=(GOLD if (SPEC or {}).get("look") == "classic" else (255, 77, 109)), anchor="lm")   # 2026-11-18 흑백 기본: 자막 숫자는 핑크
 
 # 자막에서 금색으로 칠하는 숫자 (2026-10-27 운영자: "HBM4는 숫자로 보면 안 되지 — 규칙을 정립")
 # 규칙: 양(量)을 나타내는 숫자만 칠한다 = 숫자 뒤에 단위(원·달러·%·%p·배·점·포인트·명·개·곳, 조·억·만·천 포함)가 붙은 것.
@@ -1233,7 +1233,7 @@ def caption(img, u, L):
             for m in key_numbers(line):
                 if k < m.end(): continue
                 tx = x0 + d.textlength(line[:m.start()], font=font); tw = d.textlength(m.group().rstrip(), font=font)
-                d.text((tx, y), m.group().rstrip(), font=font, fill=GOLD, anchor="lm")
+                d.text((tx, y), m.group().rstrip(), font=font, fill=(GOLD if (SPEC or {}).get("look") == "classic" else (255, 77, 109)), anchor="lm")   # 2026-11-18 흑백 기본: 자막 숫자는 핑크
                 gw = tw * clamp((rev - m.end() + 1) / 4)
                 d.rectangle([tx, y + 34, tx + gw, y + 38], fill=GOLD)
             rev -= len(line)
