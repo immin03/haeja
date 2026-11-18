@@ -121,7 +121,8 @@
   "JP모건 앤트로픽 상장 로드쇼 (메리 어도스·제이미 다이먼·다리오 아모데이, 2026-11)",
   "Bloomberg TV 2026-10-26 · 2026-11 (상장 서류·개인 투자자)",
   "CNBC 2026-11 (S-1 위험 요인 · 다이먼 대담 보도)",
-  "엔비디아 3분기(2027 회계연도) 실적 발표 2026-11-17 · Coinpaper·Coinpedia 2026-11-17 (시장 예상)"
+  "엔비디아 3분기(2027 회계연도) 실적 발표 2026-11-17 · Coinpaper·Coinpedia 2026-11-17 (시장 예상)",
+  "엔비디아 3분기 실적 콜 2026-11-17(콜레트 크레스·하비 존스 원음) · 젠슨 황 X 성명 2026-11-17(CNN·NBC·TechCrunch 보도)"
  ],
  "thumb": {
   "photo": "ph_anthropic_ceo.jpg",
@@ -173,6 +174,46 @@
    "v": {
     "type": "media",
     "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "commons_nvidiahq_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "\"총매출 1,160억 달러, 1년 전보다 두 배 넘게 늘었습니다.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 3분기(2027 회계연도) 실적 콜 2026-11-17 원음",
+   "dub": {
+    "clip": "nv_kress_116b.m4a",
+    "orig": 3.0,
+    "start": 0,
+    "voice": "f_middle_age",
+    "person": "콜레트 크레스"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "콜레트 크레스",
+     "sub": "엔비디아 임시 CEO · 3분기 실적 콜 · 2026년 11월 17일",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
     "wash": "left",
     "cuts": [
      {
@@ -184,7 +225,7 @@
     "doc_cine": true
    },
    "lines": [
-    "같은 날, 물러난 젠슨 황은 X에 이렇게 썼습니다. 이사회가 원한다면, 다시 돌아가겠다고요."
+    "그런데 같은 날, 물러난 젠슨 황은 X에 이렇게 썼습니다. 이사회가 원한다면, 다시 돌아가겠다고요."
    ],
    "sketch_add": [],
    "en": [
@@ -205,6 +246,86 @@
     }
    ],
    "hook_slot": "huang_return"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261111h_boardroom.jpeg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "\"이사회는 만장일치로 사임을 받아들였고, 젠슨 황을 CEO로 복귀시킬 생각이 없습니다.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 3분기(2027 회계연도) 실적 콜 2026-11-17 원음",
+   "dub": {
+    "clip": "nv_jones_noreinstate.m4a",
+    "orig": 3.0,
+    "start": 0,
+    "voice": "middle_age",
+    "person": "하비 존스"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "하비 존스",
+     "sub": "엔비디아 이사회 의장 · 3분기 실적 콜 · 2026년 11월 17일",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "commons_nvidiagpu_2.jpg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "\"앤트로픽의 연간 환산 매출은 10월 말 810억 달러에 이르렀습니다.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "엔비디아 3분기(2027 회계연도) 실적 콜 2026-11-17 원음",
+   "dub": {
+    "clip": "nv_kress_ant81b.m4a",
+    "orig": 2.5,
+    "start": 0,
+    "voice": "f_middle_age",
+    "person": "콜레트 크레스"
+   },
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "콜레트 크레스",
+     "sub": "엔비디아 임시 CEO · 같은 실적 콜에서",
+     "line": 0,
+     "at": 0.3
+    }
+   ]
   },
   {
    "v": {
