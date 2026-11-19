@@ -1,72 +1,8 @@
-{
- "shots": [
-  [
-   [
-    "ev3_senators",
-    0.3,
-    0,
-    0.7,
-    0
-   ]
-  ],
-  [
-   [
-    "cep1_casp_b",
-    0.5,
-    0,
-    0.7,
-    0
-   ],
-   [
-    "cep1_ride",
-    0.5,
-    3.6,
-    0.7,
-    0
-   ]
-  ],
-  [
-   [
-    "c1v_burn",
-    0.5,
-    0,
-    0.6,
-    0
-   ],
-   [
-    "cep1_read",
-    0.5,
-    4.0,
-    0.6,
-    0
-   ]
-  ],
-  [
-   [
-    "c1v_emp_talk",
-    0.5,
-    0,
-    0.6,
-    0
-   ]
-  ],
-  [
-   [
-    "cep1_march",
-    0.5,
-    0,
-    0.7,
-    1
-   ]
-  ],
-  [
-   [
-    "edv09_ruins",
-    0.5,
-    0,
-    0.5,
-    0
-   ]
-  ]
- ]
-}
+{"shots": [
+ [["hfr_corridor_whisper", 0.45, 0, 0.8, 0]],
+ [["cep1_casp_b", 0.5, 0, 0.7, 0], ["cep1_cheer", 0.55, 4.2, 0.7, 0]],
+ [["hfr_senate_whisper_wide", 0.5, 0, 0.7, 1], ["hfr_senate_emp_silent", 0.55, 6.2, 0.7, 0]],
+ [["hfr_senate_whisper_mid", 0.5, 0, 0.7, 0], ["hfr_senate_emp_face", 0.5, 5.6, 0.7, 0]],
+ [["hfr_legion_forest_wide", 0.5, 0, 0.8, 0]],
+ [["hfr_corridor_walk", 0.5, 0, 0.75, 1]]
+]}
