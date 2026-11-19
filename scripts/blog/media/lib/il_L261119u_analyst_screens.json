@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119u_analyst_screens",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: Two analysts seen from behind in a dark secure room in front of a wall of abstract blurred data screens, cold light",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f11f-37ca-7c69-bc77-c352f601c399",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f11f-37ca-7c69-bc77-c352f601c399/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f11f-37ca-7c69-bc77-c352f601c399/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f11f-37ca-7c69-bc77-c352f601c399",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f11f-37ca-7c69-bc77-c352f601c399/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f11f-37ca-7c69-bc77-c352f601c399/cancel",
+  "expires_at": "2026-11-26T00:05:56.128940+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f11f-37ca-7c69-bc77-c352f601c399/f55eb337-bcaf-4408-a8cb-8884bcb13fb3.png"
+   }
+  ]
+ },
+ "seconds": 43,
+ "file": "scripts/blog/media/lib/il_L261119u_analyst_screens.png"
+}

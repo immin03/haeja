@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119u_gov_building_rain",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A stern government department building with tall columns in heavy rain at night, a single lit office window",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f120-72e6-7e85-8d55-abd5bc3a0571",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f120-72e6-7e85-8d55-abd5bc3a0571/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f120-72e6-7e85-8d55-abd5bc3a0571/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f120-72e6-7e85-8d55-abd5bc3a0571",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f120-72e6-7e85-8d55-abd5bc3a0571/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f120-72e6-7e85-8d55-abd5bc3a0571/cancel",
+  "expires_at": "2026-11-26T00:06:47.557754+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f120-72e6-7e85-8d55-abd5bc3a0571/8e478cd1-7f92-44fa-8eb4-383a3280ce43.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261119u_gov_building_rain.png"
+}

@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119u_intel_folder",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A thick classified intelligence folder and a dimmed desk lamp on a dark government desk at night, a map of a city partly visible but unreadable, tense mood",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f11d-3b2c-739d-ab81-18230603eeaa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f11d-3b2c-739d-ab81-18230603eeaa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f11d-3b2c-739d-ab81-18230603eeaa/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f11d-3b2c-739d-ab81-18230603eeaa",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f11d-3b2c-739d-ab81-18230603eeaa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f11d-3b2c-739d-ab81-18230603eeaa/cancel",
+  "expires_at": "2026-11-26T00:03:15.526325+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f11d-3b2c-739d-ab81-18230603eeaa/91c3b445-1810-4302-b759-3b526d644c01.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261119u_intel_folder.png"
+}

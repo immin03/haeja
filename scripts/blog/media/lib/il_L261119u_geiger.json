@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119u_geiger",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A radiation detector device lying on dark concrete under a single harsh light, ominous, a city skyline blurred far behind",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f11d-71a1-7810-9e61-519518ccd687",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f11d-71a1-7810-9e61-519518ccd687/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f11d-71a1-7810-9e61-519518ccd687/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f11d-71a1-7810-9e61-519518ccd687",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f11d-71a1-7810-9e61-519518ccd687/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f11d-71a1-7810-9e61-519518ccd687/cancel",
+  "expires_at": "2026-11-26T00:03:30.594287+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f11d-71a1-7810-9e61-519518ccd687/e50cd262-d045-46ad-a278-31d5d356dcd4.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261119u_geiger.png"
+}
