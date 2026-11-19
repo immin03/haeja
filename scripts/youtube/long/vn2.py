@@ -125,9 +125,15 @@ def intro_sfx_times(dur):
 
 
 # ── 자막 (그림자만) ─────────────────────────────────────
-def subtitle_line(im, text, a, x0=None, y=None, size=52, bg=False):   # 2026-11-17 대표님: 55px는 살짝 커 보여 52px
+def subtitle_line(im, text, a, x0=None, y=None, size=52, bg=False, box=False):   # 2026-11-17 대표님: 55px는 살짝 커 보여 52px
     if not text or a <= 0: return
     f = SUIT("Bold", size); d0 = ImageDraw.Draw(Image.new("L", (1, 1))); tw = d0.textlength(text, font=f)
+    if box:   # 2026-11-19 대표 v5: 뉴스 화면(80% 축소) 아래 빈 띠에 반투명 검정 바탕 자막 — 방송사 하단 띠와 겹치지 않게
+        x = (W - tw) / 2 if x0 is None else x0; y = H - 150 if y is None else y
+        bx = Image.new("RGBA", (int(tw) + 56, size + 34), (0, 0, 0, 0)); ImageDraw.Draw(bx).rounded_rectangle([0, 0, bx.width - 1, bx.height - 1], 12, fill=(0, 0, 0, 165))
+        _paste(im, bx, (x - 28, y - 10), a)
+        lay = Image.new("RGBA", (int(tw) + 4, size + 20), (0, 0, 0, 0)); ImageDraw.Draw(lay).text((0, -4), text, font=f, fill=(255, 255, 255, 255))
+        _paste(im, lay, (x, y + 4), a); return
     pad = 30; lay = Image.new("RGBA", (int(tw) + pad * 2, size + pad * 2), (0, 0, 0, 0))
     if bg:   # 2026-11-19 대표(v4.1): 원음(뉴스 화면) 장면은 반투명 검정 바탕을 깔아 뉴스 띠·화면 글씨와 구분
         ImageDraw.Draw(lay).rounded_rectangle([pad - 22, 6, pad + int(tw) + 22, size + pad * 2 - 6], 14, fill=(0, 0, 0, 165))

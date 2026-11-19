@@ -327,6 +327,7 @@ def _broadcast(im, beats, u, lines):
         elif k == "lower" and DESIGN2[0]:   # v2: 다큐 이름표
             import vn2
             hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
+            if b.get("until"): hold = float(b["until"]) - _t0(b, lines); fade = 1 - eio((p - hold) / float(b.get("fade_out", .2)))   # 2026-11-19 대표 v5: 뉴스 원음 장면은 이름표를 원음 구간(2초 남짓)만 아래 빈 띠에 두고, 더빙 자막이 나오기 전에 걷는다
             if fade <= 0: continue
             im = im.convert("RGBA") if im.mode != "RGBA" else im
             vn2.nametag(im, b["text"], b.get("sub", ""), p, fade, y=b.get("y2"))

@@ -1187,6 +1187,17 @@ def plan(spec, speak):
                 a = np.frombuffer(raw, np.float32).copy(); a = np.pad(a, (0, max(0, int(sd * SR) - len(a))))[:int(sd * SR)]
                 a = a * (float(so.get("rms", .1)) / (float(np.sqrt(np.mean(a ** 2))) + 1e-9)); tt_ = np.arange(len(a)) / SR
                 a = (a * np.clip(tt_ / .06, 0, 1) * np.clip((sd - tt_) / .3, 0, 1)).astype(np.float32)
+                if so.get("dub") and ln.get("say"):   # 2026-11-19 대표 v5: 원음 1~2초 들려준 뒤 한국어 더빙(해설과 다른 한국어 성우, 대화 톤) — 자막만 두는 방식 금지
+                    import tts as T_
+                    _old = T_.TC_VOICE; T_.TC_VOICE = so["dub"]
+                    try: dv = np.asarray(speak(to_speech(ln["say"]), 1.05), np.float32) * .92
+                    finally: T_.TC_VOICE = _old
+                    o_ = float(so.get("orig", 2.0)); dd_ = len(dv) / SR; tot_ = o_ + .15 + dd_ + .25
+                    n_ = int(tot_ * SR); a = np.pad(a, (0, max(0, n_ - len(a))))[:n_]; tt_ = np.arange(n_) / SR
+                    vr_ = float(np.sqrt(np.mean(dv ** 2))) + 1e-9; a = a * (vr_ / (float(np.sqrt(np.mean(a[:int(o_ * SR)] ** 2))) + 1e-9) * .95)
+                    g_ = np.where(tt_ < o_, 1.0, np.maximum(.12, 1 - (tt_ - o_) / .45 * .88)) * np.clip((tot_ - tt_) / .3, 0, 1)
+                    vo.append((u, (a * g_).astype(np.float32))); vo.append((u + o_ + .15, dv)); L.append([u + o_ + .15, dd_, ln.get("cap")])
+                    u += tot_ + GAP + ln.get("pause", 0); continue
                 L.append([u, sd, ln.get("cap")]); vo.append((u, a)); u += sd + GAP + ln.get("pause", 0); continue
             if ln.get("join"):   # 한 문장을 한 번에 읽고(끊김 없이) 자막만 문장 조각별로 넘긴다
                 txt = " ".join(p["say"] for p in ln["join"])
@@ -1443,7 +1454,7 @@ def frame(T, scenes, total, pen=True):
         import fullworld
         img = fullworld.render(sys.modules[__name__], T, s, scenes)
         global YT_CAP_Y
-        _cy = YT_CAP_Y; YT_CAP_Y = 1450   # 2026-11-05 대표: 하단 자막 140px 위로 (1590 → 1450)
+        _cy = YT_CAP_Y; YT_CAP_Y = float(sc["full"].get("cap_y", 1450))   # 2026-11-05 대표: 하단 자막 140px 위로 (1590 → 1450) · 2026-11-19 v5: 뉴스 원음 장면은 방송사 띠 아래로(cap_y)
         if sc["full"].get("end"): pass
         elif YT: y_caption(img, u, s["L"])
         else: caption(img, u, s["L"])
@@ -1586,6 +1597,9 @@ def plan_estimate(spec):
         L = []; u = .1
         for ln in lines:
             if ln.get("sot"):
+                if ln["sot"].get("dub") and ln.get("say"):
+                    o_ = float(ln["sot"].get("orig", 2.0)); v = max(.8, len(ln["say"].replace(" ", "")) * .15)
+                    L.append([u + o_ + .15, v, ln.get("cap")]); u += o_ + .15 + v + .25 + GAP + ln.get("pause", 0); continue
                 v = float(ln["sot"]["dur"]); L.append([u, v, ln.get("cap")]); u += v + GAP + ln.get("pause", 0); continue
             if ln.get("join"):
                 v = max(.8, len(" ".join(p["say"] for p in ln["join"]).replace(" ", "")) * .17 / ln.get("speed", speed))
