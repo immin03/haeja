@@ -1,0 +1,190 @@
+{
+ "id": "enc05a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-19 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They'll NEVER",
+  "say sorry.",
+  "Stop waiting."
+ ],
+ "title_line": "When they never apologize",
+ "music": {
+  "file": "/home/claude/ed/music/music_we-ll-be-okay.mp3",
+  "start": 0,
+  "bed": 0.22
+ },
+ "voice": "/home/claude/vo/v2/v_enc05a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/hfr_petition_point.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_alone_stand.mp4",
+  "/home/claude/haeja/social/side/gen/ev2_sword.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_general_watch.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_legion_forest_shields.mp4",
+  "/home/claude/haeja/social/side/gen/libv_autumn_leaves.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   3.087,
+   1,
+   0,
+   "none",
+   [
+    "They'll never say sorry. Stop waiting for it."
+   ]
+  ],
+  [
+   3.947,
+   5.267,
+   2,
+   1,
+   "cap",
+   [
+    "You replay the moment."
+   ]
+  ],
+  [
+   5.317,
+   7.287,
+   2,
+   1,
+   "cap",
+   [
+    "You rehearse the apology",
+    "they owe you."
+   ]
+  ],
+  [
+   7.337,
+   8.303,
+   2,
+   1,
+   "cap",
+   [
+    "It never comes."
+   ]
+  ],
+  [
+   9.173,
+   12.573,
+   3,
+   2,
+   "cap",
+   [
+    "An emperor dealt with",
+    "people like this every day."
+   ]
+  ],
+  [
+   12.623,
+   13.847,
+   3,
+   2,
+   "cap",
+   [
+    "Here is what he wrote."
+   ]
+  ],
+  [
+   14.697,
+   21.557,
+   4,
+   3,
+   "quote",
+   [
+    "When you blame a man",
+    "as faithless or ungrateful,",
+    "turn to yourself."
+   ]
+  ],
+  [
+   21.607,
+   27.59,
+   4,
+   3,
+   "quote",
+   [
+    "The fault is your own,",
+    "if you trusted a man like that",
+    "to keep his word."
+   ]
+  ],
+  [
+   28.46,
+   30.65,
+   5,
+   4,
+   "big",
+   [
+    "Some people",
+    "can't admit they're wrong."
+   ]
+  ],
+  [
+   30.7,
+   32.77,
+   5,
+   4,
+   "cap",
+   [
+    "That's their weight.",
+    "Not yours."
+   ]
+  ],
+  [
+   32.82,
+   34.201,
+   5,
+   4,
+   "cap",
+   [
+    "Stop holding the door open."
+   ]
+  ],
+  [
+   35.051,
+   39.821,
+   6,
+   5,
+   "quote",
+   [
+    "It is ridiculous",
+    "not to flee your own badness,",
+    "which you can,"
+   ]
+  ],
+  [
+   39.871,
+   44.198,
+   6,
+   5,
+   "quote",
+   [
+    "but to flee",
+    "other men's badness,",
+    "which you cannot."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Write the apology",
+  "you wanted.",
+  "Then let it go."
+ ],
+ "source": "Marcus Aurelius, Meditations 9.42 · 7.71",
+ "end_voice": "/home/claude/vo/v2/enc05_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc05_outro_voice.wav",
+ "cover": [
+  "THEY WON'T",
+  "SAY SORRY"
+ ],
+ "title": "People Who NEVER Apologize | Marcus Aurelius",
+ "slot": "2026-11-23 21:47",
+ "theme": "A",
+ "vol": 1.0
+}
