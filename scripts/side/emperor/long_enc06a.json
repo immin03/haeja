@@ -1,0 +1,169 @@
+{
+ "id": "enc06a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-19 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They only CALL",
+  "when they",
+  "need something."
+ ],
+ "title_line": "When they only call for favors",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.17
+ },
+ "voice": "/home/claude/vo/v2/v_enc06a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/hfr_aide_whisper.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_gown.mp4",
+  "/home/claude/haeja/social/side/gen/ev3_widow.mp4",
+  "/home/claude/haeja/social/side/gen/libv_river_flow.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_banquet_cup.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_tent_lookup_blue.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   2.301,
+   1,
+   0,
+   "none",
+   [
+    "They only call when they need something."
+   ]
+  ],
+  [
+   3.151,
+   5.692,
+   2,
+   1,
+   "cap",
+   [
+    "No \"how are you.\"",
+    "Just a favor."
+   ]
+  ],
+  [
+   5.742,
+   7.677,
+   2,
+   1,
+   "cap",
+   [
+    "And you say yes.",
+    "Again."
+   ]
+  ],
+  [
+   8.517,
+   11.341,
+   3,
+   2,
+   "cap",
+   [
+    "Marcus Aurelius had",
+    "a different way to give."
+   ]
+  ],
+  [
+   12.161,
+   15.401,
+   4,
+   3,
+   "quote",
+   [
+    "Be like a vine",
+    "that has produced grapes,"
+   ]
+  ],
+  [
+   15.451,
+   18.995,
+   4,
+   3,
+   "quote",
+   [
+    "and seeks nothing more",
+    "once it has borne its fruit."
+   ]
+  ],
+  [
+   19.835,
+   22.175,
+   5,
+   4,
+   "big",
+   [
+    "Give because",
+    "it's who you are."
+   ]
+  ],
+  [
+   22.225,
+   25.165,
+   5,
+   4,
+   "cap",
+   [
+    "But giving freely",
+    "doesn't mean giving forever."
+   ]
+  ],
+  [
+   25.215,
+   27.18,
+   5,
+   4,
+   "cap",
+   [
+    "You can say,",
+    "not this time."
+   ]
+  ],
+  [
+   28.03,
+   33.02,
+   6,
+   5,
+   "quote",
+   [
+    "When you have done",
+    "a good act,",
+    "why look for a third thing,"
+   ]
+  ],
+  [
+   33.07,
+   34.8,
+   6,
+   5,
+   "quote",
+   [
+    "as fools do,",
+    "praise, or a return?"
+   ]
+  ]
+ ],
+ "tonight": [
+  "Next time they call,",
+  "notice how you feel.",
+  "Then choose."
+ ],
+ "source": "Marcus Aurelius, Meditations 5.6 · 7.73",
+ "end_voice": "/home/claude/vo/v2/enc06_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc06_outro_voice.wav",
+ "cover": [
+  "THEY CALL",
+  "FOR FAVORS"
+ ],
+ "title": "They Only CALL When They Need Something | Marcus Aurelius",
+ "slot": "2026-11-24 21:47",
+ "theme": "A",
+ "vol": 0.89
+}
