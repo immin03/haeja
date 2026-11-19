@@ -246,7 +246,8 @@
      "text": "트럼프",
      "sub": "미국 대통령 · 원음 · NBC News 2026.11.18",
      "line": 0,
-     "at": 0.3
+     "at": 0.3,
+     "y2": 470
     }
    ]
   },
@@ -415,15 +416,19 @@
   {
    "v": {
     "type": "media",
+    "full": true,
+    "wash": "none",
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
     "cuts": [
      {
-      "lib": "commons_pentagon_1.jpg"
+      "lib": "broll_L261119u_fox10_pentagon.mp4"
      },
      {
-      "lib": "il_L261114t_pentagon.png"
+      "lib": "commons_pentagon_1.jpg"
      }
-    ],
-    "cine": true
+    ]
    },
    "lines": [
     "그런데 이 첩보가 나오기 전부터, 미국 국방부의 움직임도 심상치 않았습니다."
@@ -434,7 +439,7 @@
    ],
    "asof": false,
    "src": "Fox News·Newsweek 2026-10 (국방부 FORTRESS 계획 보도)",
-   "note": "[훅] 보강 ① 90일"
+   "note": "[훅] 보강 ① 90일 · v4.1 빈 화면 수정: FOX10 국방부 항공 B롤(원음 없이)"
   },
   {
    "v": {
@@ -470,12 +475,22 @@
   {
    "v": {
     "type": "media",
+    "full": true,
+    "wash": "none",
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
     "cuts": [
      {
-      "lib": "il_L261119u_fortress_wall.png"
+      "lib": "broll_L261119u_fox10_troops.mp4"
+     },
+     {
+      "lib": "il_L261105g_cin_fortress.jpeg"
+     },
+     {
+      "lib": "il_L261108p_warehouse.jpeg"
      }
-    ],
-    "cine": true
+    ]
    },
    "lines": [
     "본토의 주요 기지가 외부 지원 없이 최소 90일을 버티도록, 탄약과 연료, 전자 장비, 핵심 광물, 의약품, 예비 부품까지 쌓아 두라는 계획입니다."
@@ -486,17 +501,27 @@
    ],
    "asof": false,
    "src": "Fox News·Newsweek 2026-10",
-   "note": "[훅] 보강 ① 비축 목록"
+   "note": "[훅] 보강 ① 비축 목록 · v4.1 빈 화면 수정: FOX10 B롤 + 기지·비축 창고"
   },
   {
    "v": {
     "type": "media",
+    "full": true,
+    "wash": "none",
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
     "cuts": [
+     {
+      "lib": "il_L261118a_warehouse_dusk.png"
+     },
+     {
+      "lib": "commons_usarmypentagon_1.jpg"
+     },
      {
       "lib": "il_L261119u_invoice_tower.png"
      }
-    ],
-    "cine": true
+    ]
    },
    "lines": [
     "앞서 8월에는 이란 전쟁으로 무기 재고가 줄자, 방산업체들에 21일 안에 납품을 앞당기고 생산을 늘릴 계획을 내라고 요구했다는 보도도 있었습니다. 전쟁 준비일까요, 아니면 늘 하던 대비일까요?"
@@ -507,7 +532,7 @@
    ],
    "asof": false,
    "src": "Al Jazeera·UPI 2026-08-08~09 (국방부 방산업체 증산 요구 보도)",
-   "note": "[훅] 보강 ② 21일 · 질문형(중립)"
+   "note": "[훅] 보강 ② 21일 · 질문형(중립) · v4.1 빈 화면 수정: 물류·군 실사"
   },
   {
    "v": {
@@ -2269,6 +2294,7 @@
   "bgm": "M4 Following the Evidence · M5 The Case File (Pixabay, L261117r 사용 · 클레임 없음)",
   "intro": "I3 (r176)",
   "faststart": true,
-  "layout": "원음 화면은 80% 크기로 위쪽에 두고 흐린 배경 — 방송 자막띠와 한글 자막이 겹치지 않게 (14:5x 1차 렌더 확인 후)"
+  "layout": "원음 화면은 80% 크기로 위쪽에 두고 흐린 배경 — 방송 자막띠와 한글 자막이 겹치지 않게 (14:5x 1차 렌더 확인 후)",
+  "v41": "2026-11-19 긴급 수정: 원음 장면 자막을 뉴스 띠 위(약 70%)+반투명 검정 바탕, 이름표 위로, 빈 화면 3장면(국방부 90일·21일) 실사·B롤로 채움"
  }
 }
