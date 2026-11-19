@@ -23,7 +23,7 @@ FONTS = {
     "src": (F + "Pretendard-SemiBold.otf", 34),
     "slogan": (F + "Hahmlet[wght].ttf", 98),
     "cta": (F + "Pretendard-SemiBold.otf", 36),
-    "cap": (F + "Pretendard-SemiBold.otf", 50),
+    "cap": (F + "Pretendard-Bold.otf", 70),   # 2026-11-19 대표 "가운데 자막이 작다, 모든 나이대가 본다" → 50 SemiBold → 70 Bold (최근 237줄 중 98%가 그대로 들어감, 넘치는 줄은 fit_font 가 그 줄만 줄임)
     "small": (F + "Pretendard-SemiBold.otf", 40),
 }
 # 2026-11-11 영어 채널(The Emperor's Diary, @EmperorsDiary-en): ED_LANG=en 이면 영어 글꼴·문구 (한국어 편은 그대로)
@@ -45,7 +45,7 @@ if LANG == "en":
                   "src": (EF + "Cinzel-SemiBold.ttf", 28), "cta": (EF + "EBGaramond-Medium.ttf", 34), "small": (EF + "EBGaramond-Medium.ttf", 36)})
     OFONTS = dict(FONTS)   # 엔딩(슬로건·버튼) 화면은 기준 엔딩(en05b)과 똑같이 둔다 — 출고 검수(qa_en)가 엔딩을 기준과 비교함
     # 2026-11-13 21:57 대표(en02 화면): "자막이 너무 작게 보여, 텍스트 전부 조금 더 키워" → 영어 쇼츠 글자 전부 약 20~35% 키움. 한 줄이 화면을 넘으면 그 줄만 자동으로 줄인다(fit_font)
-    FONTS.update({"hook": (EF + "Cinzel-SemiBold.ttf", 98), "big": (EF + "EBGaramond-SemiBold.ttf", 94), "cap": (EF + "EBGaramond-Medium.ttf", 72),
+    FONTS.update({"hook": (EF + "Cinzel-SemiBold.ttf", 98), "big": (EF + "EBGaramond-SemiBold.ttf", 94), "cap": (EF + "EBGaramond-SemiBold.ttf", 82),   # 2026-11-19 대표: 자막 키움 72 Medium → 82 SemiBold
                   "quote": (EF + "EBGaramond-MediumItalic.ttf", 86), "endbig": (EF + "EBGaramond-Medium.ttf", 74),
                   "slogan": (EF + "EBGaramond-MediumItalic.ttf", 88), "sub": (EF + "EBGaramond-Medium.ttf", 54), "kicker": (EF + "Cinzel-SemiBold.ttf", 48),
                   "src": (EF + "Cinzel-SemiBold.ttf", 34), "cta": (EF + "EBGaramond-Medium.ttf", 40), "small": (EF + "EBGaramond-Medium.ttf", 44)})
