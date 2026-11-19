@@ -197,7 +197,18 @@ function intraday(C,t){
     if(q.t) txtS(q.t,x,Y0+46,24,GRAY,600,'center',a); });
   if(C.note) txt(C.note,X0,1046,22,GRAY,600,'left',ga);
 }
-window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday})[mode];
+
+// ⑨ 전광판(board) — 2026-11-20 대표 "다른 주식들도 많이 빠졌다는 것 보여 주고": 종목 타일이 하나씩 켜진다 (빨강 하락·초록 상승)
+// cfg: {kicker, title, cols, step, tiles:[{name, v:'-3.30%', sub, up:bool, big:bool}], note}
+function board(C,t){
+  bg(); kicker(C,t);
+  const T=C.tiles||[], cols=C.cols||4, X0=150, X1=W-150, Y0=C.y0||250, gap=24, tw=(X1-X0-gap*(cols-1))/cols, th=C.th||170, st=C.step||0.45;
+  T.forEach((q,i)=>{ const a=ease(cl((t-0.7-i*st)/0.4)); if(a<=0) return; const r=Math.floor(i/cols), c=i%cols, x=X0+c*(tw+gap), y=Y0+r*(th+gap)+(1-a)*30;
+    const col=q.up?'#3df5a0':RED; g.save(); g.globalAlpha=a; g.fillStyle=q.up?'rgba(61,245,160,0.16)':'rgba(255,77,109,0.16)'; g.strokeStyle=col; g.lineWidth=q.up?5:2.5; if(q.up){g.shadowColor=col; g.shadowBlur=26;} g.beginPath(); g.roundRect(x,y,tw,th,16); g.fill(); g.stroke(); g.restore();
+    txt(q.name,x+28,y+44,34,IVORY,800,'left',a); if(q.sub) txtS(q.sub,x+28,y+86,22,GRAY,600,'left',a); txt(q.v,x+tw-28,y+th-40,58,col,800,'right',a); });
+  if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
+}
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
     if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
   safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
