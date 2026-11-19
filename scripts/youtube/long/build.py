@@ -33,19 +33,56 @@ def rerender_ids():
         print("다시 만들기 목록 조회 실패:", e); return set()
 
 
+def _rpc(name, body):
+    import re
+    cfg = open(os.path.join(ROOT, "config.js")).read()
+    u = re.search(r"SUPABASE_URL:\s*'([^']+)'", cfg)[1]; k = re.search(r"SUPABASE_ANON_KEY:\s*'([^']+)'", cfg)[1]
+    req = urllib.request.Request(u + "/rest/v1/rpc/" + name, data=json.dumps(body).encode(), method="POST",
+                                 headers={"apikey": k, "Authorization": "Bearer " + k, "Content-Type": "application/json"})
+    return json.loads(urllib.request.urlopen(req, timeout=30).read() or b"null")
+
+
+def lock(sid, holder):
+    """DB 잠금 (public.render_lock, 최대 4시간). DB에 닿지 못하면 렌더는 진행한다(워크플로 concurrency 가 1차 방어)."""
+    try: return _rpc("render_lock", {"p_id": sid, "p_holder": holder, "p_minutes": 240}) or {"ok": True}
+    except Exception as e: print("  잠금 확인 실패(진행):", e); return {"ok": True}
+
+
+def unlock(sid, holder):
+    try: _rpc("render_unlock", {"p_id": sid, "p_holder": holder})
+    except Exception as e: print("  잠금 풀기 실패(4시간 뒤 자동 만료):", e)
+
+
 def main(only):
     now = dt.datetime.now(dt.timezone.utc)
     again = set() if only else rerender_ids()
     done = []
     for f in sorted(glob.glob(os.path.join(HERE, "specs", "*.json"))):
         if f.endswith(".data.json"): continue
-        spec = json.load(open(f, encoding="utf-8")); sid = spec["id"]
-        when = dt.datetime.fromisoformat(spec["scheduled_at"])
+        # 2026-11-19: specs/ 안에 id·scheduled_at 없는 파일(메모·깨진 json)이 있어도 전체 build 가 멈추지 않게 건너뛴다
+        try:
+            spec = json.load(open(f, encoding="utf-8")); sid = spec["id"]
+            when = dt.datetime.fromisoformat(spec["scheduled_at"])
+            if not isinstance(spec.get("scenes"), list): raise KeyError("scenes")
+        except Exception as e:
+            print("  건너뜀(롱폼 스펙 아님):", os.path.basename(f), type(e).__name__, str(e)[:80], flush=True); continue
         meta_p = os.path.join(OUT, sid, "meta.json")
         if "--all-upcoming" in only: need = now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)
         else: need = (sid in only) if only else (sid in again or (not os.path.exists(meta_p) and now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)))
         if not need: continue
         print("렌더:", sid, spec["title"], flush=True)
+        # 2026-11-19 대표 18:07: 렌더 전 관문 — 원고·스펙 검수가 실패하면 렌더를 시작하지 않는다 (사유는 기획 progress·alerts 에 기록)
+        g = subprocess.run([sys.executable, os.path.join(HERE, "prerender_gate.py"), f, "--report"], capture_output=True, text=True)
+        print(g.stdout[-4000:], g.stderr[-1500:], flush=True)
+        if g.returncode != 0:
+            os.makedirs(os.path.join(OUT, sid), exist_ok=True)
+            open(os.path.join(OUT, sid, "build_error.txt"), "w", encoding="utf-8").write(now.isoformat() + "\n렌더 전 관문 실패 — 렌더 안 함\n" + g.stdout[-3000:])
+            print("  ✗ 렌더 전 관문 실패 — 렌더 안 함:", sid, flush=True); continue
+        # 2026-11-19: 한 영상 한 작업 — 같은 롱폼을 두 작업이 동시에 렌더하지 않게 DB 잠금 (docs locks 'render-<id>')
+        holder = f"{os.environ.get('GITHUB_WORKFLOW', 'local')}#{os.environ.get('GITHUB_RUN_ID', os.getpid())}"
+        lk = lock(sid, holder)
+        if not lk.get("ok"):
+            print("  ✗ 잠금 — 다른 작업이 렌더 중이라 건너뜀:", sid, lk, flush=True); continue
         try:
             sh(["node", os.path.join(HERE, "data.mjs"), f])
             data = json.load(open(f.replace(".json", ".data.json"), encoding="utf-8"))
@@ -114,6 +151,8 @@ def main(only):
             print("  ✗ 실패:", sid, e, flush=True)
             os.makedirs(os.path.join(OUT, sid), exist_ok=True)
             open(os.path.join(OUT, sid, "build_error.txt"), "w", encoding="utf-8").write(now.isoformat() + "\n" + traceback.format_exc()[-3000:])
+        finally:
+            unlock(sid, holder)
     # 검수 대기열: 메타가 있는 롱폼 전부 (최근 30일)
     queue = []
     for m in sorted(glob.glob(os.path.join(OUT, "*", "meta.json"))):

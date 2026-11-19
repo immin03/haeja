@@ -28,12 +28,37 @@ jobs:
         with: { python-version: '3.12' }
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
+      # 2026-11-19: 도구 설치가 자주 시간 초과 → apt 패키지·pip·playwright 브라우저를 캐시한다 (캐시가 있으면 1~2분)
+      - name: apt 캐시 (ffmpeg·한글 글꼴)
+        id: aptc
+        continue-on-error: true
+        timeout-minutes: 15
+        uses: awalsh128/cache-apt-pkgs-action@v1.5.0
+        with: { packages: ffmpeg fonts-noto-cjk, version: '1' }
+      - name: pip 캐시
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-ytlong-v1-${{ runner.os }}-py312
+      - name: playwright 캐시
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            node_modules
+          key: pw-ytlong-1.47.2-${{ runner.os }}
       - name: 도구 설치
         timeout-minutes: 20   # 2026-11-12: 이 단계가 75분 넘게 멈춘 일이 있어 상한·재시도를 둔다
         run: |
-          for i in 1 2 3; do timeout 300 sudo apt-get update -qq -o Acquire::Retries=3 && timeout 400 sudo apt-get install -y -qq -o Acquire::Retries=3 ffmpeg fonts-noto-cjk && break; echo "apt 재시도 $i"; sleep 10; done
+          if ! command -v ffmpeg >/dev/null || ! fc-list | grep -qi "noto sans cjk"; then
+            for i in 1 2 3; do timeout 300 sudo apt-get update -qq -o Acquire::Retries=3 && timeout 400 sudo apt-get install -y -qq -o Acquire::Retries=3 ffmpeg fonts-noto-cjk && break; echo "apt 재시도 $i"; sleep 10; done
+          fi
           timeout 400 pip install -q numpy scipy pillow soundfile opencv-python-headless sherpa-onnx==1.13.8
-          (timeout 300 npm i --no-save playwright@1.47.2 >/dev/null 2>&1 && timeout 400 npx playwright install --with-deps chromium >/dev/null 2>&1) || true
+          if [ ! -d node_modules/playwright ] || [ ! -d ~/.cache/ms-playwright ]; then
+            (timeout 300 npm i --no-save playwright@1.47.2 >/dev/null 2>&1 && timeout 400 npx playwright install --with-deps chromium >/dev/null 2>&1) || true
+          else
+            timeout 300 npx playwright install-deps chromium >/dev/null 2>&1 || true
+          fi
       - name: 음성 캐시 (같은 문장은 타입캐스트에 다시 요청하지 않는다)
         uses: actions/cache@v4
         with:

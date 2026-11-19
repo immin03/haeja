@@ -788,7 +788,7 @@ def main():
             if i == n - 1: prev_last = fr.astype(np.float32)
         print(f"  장면 {k + 1}/{len(timeline)} {s['dur']:.1f}초", flush=True)
     enc.stdin.close(); enc.wait()
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-i", wav, "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest",
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-i", wav, "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart",   # 2026-11-19: 검수 플레이어 바로 재생
                     os.path.join(out, "video.mp4")], check=True)
     os.remove(tmp)
     # 4) 썸네일 (제목이 크게 보이게)

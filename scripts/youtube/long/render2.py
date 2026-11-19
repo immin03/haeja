@@ -2520,8 +2520,7 @@ def main():
                     im3 = draw(sc, V, tp, s["lines"], theme, None); goldline_title(im3, tp, s["dur"], fill(sc["v"].get("text", ""), V)); im3 = gl_shift(im3, gl_pan(k, tp, s["dur"], timeline), theme)
                     im3.save(os.path.join(sd, f"{k:02d}_{typ}_gl{tp:.1f}.jpg"), quality=80)
             if GL_SPINE and typ == "end": goldline_end(img, sc["v"], u, s["lines"])
-            if typ not in ("media", "end"):
-                z = 1.03; cw, ch = W / z, H / z; img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+            # r180 ①: 코드 그래픽 화면은 확대 없이 고정 (예전 3% 다가가기 삭제 2026-11-19)
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", fill(sc.get("src", sc["v"].get("src", "")), V), V.get("asof"), .5, logo_dark, logo_light)
             if typ != "end": subtitle2(img, lt[2], lt[1] * .9, lt[1])
             img.save(os.path.join(sd, f"{k:02d}_{typ}.jpg"), quality=80)
@@ -2558,9 +2557,7 @@ def main():
             if GL_SPINE and typ == "title" and sc.get("chapter"): goldline_title(img, u, s["dur"], fill(sc["v"].get("text", ""), V))
             if GL_SPINE and typ == "end": goldline_end(img, sc["v"], u, s["lines"])
             if GL_SPINE: img = gl_shift(img, gl_pan(k, u, s["dur"], timeline), "dark" if typ == "media" else theme)   # 골드 라인: 카메라가 선을 따라간다 (확대 전에 밀어야 이음매가 안 보인다)
-            if typ not in ("media", "end"):  # 그래픽 화면은 장면 내내 아주 천천히 다가간다 (멈춘 화면처럼 보이지 않게)
-                z = 1 + .03 * (u / max(1.0, s["dur"])); cw, ch = W / z, H / z
-                img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+            # r180 ① (대표 11/19 16:40): 코드 그래픽 화면(도식·표·장 제목)은 확대·축소 없이 고정 — 예전 '3% 천천히 다가가기' 삭제
             chrome2(img, "dark" if typ == "media" else theme, chapter if typ != "end" else "", src, asof, (s["start"] + u) / total, logo_dark, logo_light)
             cur = next((l for l in reversed(s["lines"]) if u >= l[0] - .05), None)
             if cur and u <= cur[0] + cur[1] + .25 and typ != "end": subtitle2(img, cur[2], u - cur[0], cur[1])
