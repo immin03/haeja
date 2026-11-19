@@ -1179,6 +1179,15 @@ def plan(spec, speak):
         lines = cta_lines(spec, sc, lines)
         L = []; u = .1; vo = []
         for ln in lines:
+            if ln.get("sot"):   # 2026-11-19 대표: 원음(뉴스·인물 발언) 그대로 + 한글 자막 — 더빙·TTS 없음. 클립은 scripts/blog/media/lib
+                import subprocess as _sp
+                so = ln["sot"]; sd = float(so["dur"]); sp_ = os.path.join(HERE, "..", "blog", "media", "lib", so["clip"])
+                if not os.path.exists(sp_): raise SystemExit(f"원음 클립 없음: {so['clip']}")
+                raw = _sp.run(["ffmpeg", "-v", "error", "-ss", str(so.get("start", 0)), "-i", sp_, "-t", f"{sd:.2f}", "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True, check=True).stdout
+                a = np.frombuffer(raw, np.float32).copy(); a = np.pad(a, (0, max(0, int(sd * SR) - len(a))))[:int(sd * SR)]
+                a = a * (float(so.get("rms", .1)) / (float(np.sqrt(np.mean(a ** 2))) + 1e-9)); tt_ = np.arange(len(a)) / SR
+                a = (a * np.clip(tt_ / .06, 0, 1) * np.clip((sd - tt_) / .3, 0, 1)).astype(np.float32)
+                L.append([u, sd, ln.get("cap")]); vo.append((u, a)); u += sd + GAP + ln.get("pause", 0); continue
             if ln.get("join"):   # 한 문장을 한 번에 읽고(끊김 없이) 자막만 문장 조각별로 넘긴다
                 txt = " ".join(p["say"] for p in ln["join"])
                 a = y_voice(txt, speak, ln.get("speed")) if YT else speak(to_speech(txt), ln.get("speed", speed) * REEL_TEMPO)
@@ -1576,6 +1585,8 @@ def plan_estimate(spec):
         lines = cta_lines(spec, sc, lines)
         L = []; u = .1
         for ln in lines:
+            if ln.get("sot"):
+                v = float(ln["sot"]["dur"]); L.append([u, v, ln.get("cap")]); u += v + GAP + ln.get("pause", 0); continue
             if ln.get("join"):
                 v = max(.8, len(" ".join(p["say"] for p in ln["join"]).replace(" ", "")) * .17 / ln.get("speed", speed))
                 for (f0, f1), p in zip(join_fracs(ln["join"]), ln["join"]): L.append([u + v * f0, v * (f1 - f0), p.get("cap")])
