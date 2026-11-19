@@ -2286,6 +2286,19 @@ def main():
         if spec.get("world") == "notebook" and "lead" not in sc:   # 2026-10-28 운영자: 인트로·장 전환은 시네마틱하게 → 말 앞에 화면만 흐르는 구간
             if not timeline: u = 1.1                                  # 오프닝: 검은 화면에서 떠오르며 제목이 뜰 시간
             elif sc.get("chapter") and sc["v"]["type"] == "title": u = 1.15   # 장 제목: 카메라가 물러나 페이지가 넘어가고 제목이 떠오를 시간
+        SOT = sc.get("sot")   # 2026-11-19 대표(r178): 원음 그대로(더빙 없이) + 한글 자막. lines = 자막(번역), 소리는 클립 원음
+        if SOT:
+            spth = os.path.join(ROOT, "scripts", "blog", "media", "lib", SOT["clip"])
+            if not os.path.exists(spth): raise SystemExit(f"원음 클립 없음: {SOT['clip']} — 원음 없이 렌더하지 않음(r178)")
+            sd = float(SOT["dur"])
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(SOT.get("start", 0)), "-i", spth, "-t", f"{sd:.2f}", "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True, check=True).stdout
+            x = np.frombuffer(raw, np.float32).copy(); x = np.pad(x, (0, max(0, int(sd * SR) - len(x))))[:int(sd * SR)]
+            x = x * (float(SOT.get("rms", .085)) / (float(np.sqrt(np.mean(x ** 2))) + 1e-9)); n_ = len(x); tt = np.arange(n_) / SR
+            x = (x * np.clip(tt / .06, 0, 1) * np.clip((sd - tt) / .3, 0, 1)).astype(np.float32)
+            audio.append((t + u, x)); tot = sum(len(l) for l in lines) or 1; u0 = u
+            for l in lines: d_ = sd * len(l) / tot; lt.append((u0, d_, l)); u0 += d_
+            u += sd + R.GAP; dur = u + sc.get("hold", .35)
+            timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur; continue
         DUB = sc.get("dub")   # 2026-11-16 대표님: 인터뷰 원음 2~3초 → 원음은 작게 깔고 다른 성우가 한국어 더빙
         if DUB: u = max(u, float(DUB.get("orig", 2.5)) + .15)
         for l in lines:
@@ -2508,7 +2521,7 @@ def main():
 
 def finish(spec, V, timeline, total, enc, tmp, wav, out, data):
     enc.stdin.close(); enc.wait()
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-i", wav, "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest", os.path.join(out, "video.mp4")], check=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-i", wav, "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", os.path.join(out, "video.mp4")], check=True)   # 2026-11-19 대표: 검수 플레이어 검은 화면(moov가 파일 끝) → faststart
     os.remove(tmp)
     make_thumb(spec, V, out)
     # 4) 설명·메타
