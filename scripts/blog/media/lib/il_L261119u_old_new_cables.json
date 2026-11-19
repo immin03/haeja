@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119u_old_new_cables",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: Old copper telephone cables cut and hanging beside a bundle of new glowing fiber optic cables in a dark utility room, a technician's gloved hand",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f132-717b-76b8-8a59-18f05a162dbb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f132-717b-76b8-8a59-18f05a162dbb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f132-717b-76b8-8a59-18f05a162dbb/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f132-717b-76b8-8a59-18f05a162dbb",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f132-717b-76b8-8a59-18f05a162dbb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f132-717b-76b8-8a59-18f05a162dbb/cancel",
+  "expires_at": "2026-11-26T00:26:25.389133+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f132-717b-76b8-8a59-18f05a162dbb/1b1a5ba4-35a9-474c-9fc0-e58905709e24.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261119u_old_new_cables.png"
+}
