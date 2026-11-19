@@ -1481,7 +1481,7 @@ def subtitle2(img, text, u_in, dur, y=None):
         tx = x + d.textlength(l[:m.start()], font=f); d.text((tx, y), m.group().rstrip(), font=f, fill=(*GOLD_L, int(255 * a)))
 
 
-def sub_v2(img, text, u_in, dur, left=False):
+def sub_v2(img, text, u_in, dur, left=False, hi=False):
     """v2 자막: 띠 없이 그림자만. 인물이 말하는 장면(더빙)은 이름표 아래 왼쪽 정렬"""
     import vn2
     if not text: return
@@ -1491,6 +1491,8 @@ def sub_v2(img, text, u_in, dur, left=False):
         if u_in < dur * (acc + len(pg)) / tot or pi == len(pages) - 1: start = dur * acc / tot; break
         acc += len(pg)
     a = clamp((u_in - start) / .12) if pi else clamp(u_in / .15 + .3)
+    if hi:   # 2026-11-19 대표(v4.1): 원음·뉴스 화면은 자막을 뉴스 하단 띠 위(화면 높이 약 70%)로 올리고 반투명 검정 바탕
+        vn2.subtitle_line(img, pages[pi], a, y=int(H * .70) - 80, bg=True); return   # 바탕 아래 끝이 화면 70% (뉴스 띠 윗선)
     vn2.subtitle_line(img, pages[pi], a, x0=(130 if left else None), y=(H - 205 if left else H - 150))
 
 
@@ -1999,7 +2001,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             cur = next((l for l in reversed(x["lines"]) if u >= l[0] - .05), None)
             if D2[0]:
                 if cur and u <= cur[0] + cur[1] + .25 and typ != "end" and not sc["v"].get("ident"):   # 2026-11-16 21:34 대표: 자막은 항상 떠 있고 강조는 그 위에
-                    sub_v2(im, cur[2], u - cur[0], cur[1], left=bool(sc.get("dub")))
+                    sub_v2(im, cur[2], u - cur[0], cur[1], left=bool(sc.get("dub")), hi=bool(sc.get("sot") or sc.get("sub_hi")))
             elif cur and u <= cur[0] + cur[1] + .25 and typ != "end":
                 subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 200) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-16 대표님: 인트로 자막이 하단 띠와 겹침 → 극장 띠 바로 위로   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리
             enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1

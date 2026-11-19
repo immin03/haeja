@@ -125,10 +125,12 @@ def intro_sfx_times(dur):
 
 
 # ── 자막 (그림자만) ─────────────────────────────────────
-def subtitle_line(im, text, a, x0=None, y=None, size=52):   # 2026-11-17 대표님: 55px는 살짝 커 보여 52px
+def subtitle_line(im, text, a, x0=None, y=None, size=52, bg=False):   # 2026-11-17 대표님: 55px는 살짝 커 보여 52px
     if not text or a <= 0: return
     f = SUIT("Bold", size); d0 = ImageDraw.Draw(Image.new("L", (1, 1))); tw = d0.textlength(text, font=f)
     pad = 30; lay = Image.new("RGBA", (int(tw) + pad * 2, size + pad * 2), (0, 0, 0, 0))
+    if bg:   # 2026-11-19 대표(v4.1): 원음(뉴스 화면) 장면은 반투명 검정 바탕을 깔아 뉴스 띠·화면 글씨와 구분
+        ImageDraw.Draw(lay).rounded_rectangle([pad - 22, 6, pad + int(tw) + 22, size + pad * 2 - 6], 14, fill=(0, 0, 0, 165))
     ImageDraw.Draw(lay).text((pad, pad - 4), text, font=f, fill=(255, 255, 255, 255))
     sh = lay.getchannel("A").filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(7)).point(lambda v: int(v * .78))
     out = Image.new("RGBA", lay.size, (0, 0, 0, 0)); out.paste((0, 0, 0, 255), (0, 3), sh); out.alpha_composite(lay)
