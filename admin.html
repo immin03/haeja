@@ -934,6 +934,25 @@ table.sp-t tr:last-child td{border-bottom:0}
 .sp-act .m{font-size:12px;color:var(--muted)}
 .sp-bench{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
 .sp-bc{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface)}
+.out-card{padding:6px 14px 12px}
+.out-r{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.out-r.done{opacity:.55}
+.out-p{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.out-p .s{flex-shrink:0;width:56px;text-align:center;font-size:24px;font-weight:800;color:#ff3b6b;line-height:1.1}
+.out-p .s small{font-size:12px;margin-left:1px}
+.out-p .t{flex:1;min-width:0}.out-p.done{opacity:.55}.out-p .b{display:flex;flex-direction:column;gap:6px;flex-shrink:0}.out-p .x{font-size:12.5px;color:var(--muted);font-weight:700}
+.out-p h3{font-size:15px;margin:3px 0 4px;line-height:1.4;word-break:keep-all}
+.out-p .m{font-size:13px;color:var(--muted);line-height:1.5;word-break:keep-all}
+.out-r img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block}
+.out-r .t{flex:1;min-width:0}
+.out-r>a{flex-shrink:0;display:block}.out-r .m{font-size:13px;color:var(--muted)}.out-r:last-of-type,.out-p:last-child{border-bottom:0}
+.out-r .x{font-size:12.5px;color:var(--muted)}
+.out-r .x b{color:#ff3b6b;font-size:14px}
+.out-r h3{font-size:14.5px;margin:3px 0 4px;line-height:1.4;word-break:keep-all}
+.out-r h3 a{color:inherit;text-decoration:none}
+.out-r .b{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.out-tag{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--line);font-size:11.5px;font-weight:700}
+@media(max-width:640px){.out-p{flex-wrap:wrap}.out-p .b{flex-direction:row;width:100%;padding-left:70px}.out-r{flex-wrap:wrap}.out-r>a{width:100%}.out-r img{width:100%}.out-r .b{flex-direction:row;width:100%}}
 .sp-bc .c{font-size:12px;color:var(--muted);font-weight:700}
 .sp-bc h3{font-size:14.5px;margin:4px 0 6px;line-height:1.4}
 .sp-bc ul{margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.55}
@@ -3124,10 +3143,50 @@ function vImprove(compact){
   </div></div>
   </details>`}`;
 }
+/* 오늘의 아웃라이어 (2026-11-19 대표 승인): 고정 참고 채널 50곳의 최근 7일 롱폼 중 채널 평소(중앙값)의 5배 이상, 매일 06:10 갱신. 원본 docs 'bench_out', 함수 bench-outlier */
+const OUT = { d: null, loading: false, tried: false };
+async function outLoad(){
+  if(OUT.loading) return; OUT.loading = true;
+  const { data } = await sb.functions.invoke('bench-outlier', { body: { action: 'get' } }).catch(() => ({}));
+  OUT.d = data && data.ok ? data.data : null; OUT.loading = false; OUT.tried = true; if(page() === 'bench') render();
+}
+function vOutliers(){
+  if(!OUT.tried){ outLoad(); return '<h2>오늘의 아웃라이어</h2><div class="card"><div class="empty">불러오는 중</div></div>'; }
+  const d = OUT.d; if(!d) return '<h2>오늘의 아웃라이어</h2><div class="card"><div class="empty">아직 결과가 없습니다 (매일 06:10 갱신)</div></div>';
+  const at = new Date(d.at).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const row = x => `<div class="out-r${x.mark ? ' done' : ''}" data-out="${esc(x.video_id)}">
+    <a href="${esc(x.url)}" target="_blank" rel="noopener"><img src="${esc(x.thumb)}" alt="" loading="lazy"></a>
+    <div class="t"><div class="x"><b>평소의 ${x.ratio}배</b> · 조회 ${n0(x.views)}회 (평소 ${n0(x.median)}회) · ${x.days ? x.days + '일 전' : '오늘'}</div>
+      <h3><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a></h3>
+      <div class="m">${esc(x.channel)} · ${esc(x.group)}${x.length ? ' · ' + esc(x.length) : ''}${(x.tags || []).length ? ' · ' + x.tags.map(t => `<span class="out-tag">${esc(t)}</span>`).join(' ') : ''}</div></div>
+    <div class="b">${x.mark ? `<span class="m">${x.mark === 'plan' ? '기획안 요청함' : '패스'}</span>` : `<button class="soc-btn" data-out-act="plan">기획안 만들기</button><button class="soc-btn ghost" data-out-act="pass">패스</button>`}</div></div>`;
+  const all = d.picks || [], pk = all.filter(x => x.mark !== 'reject').slice(0, 5), rej = all.filter(x => x.mark === 'reject').length;
+  const pick = x => `<div class="out-p${x.mark === 'plan' ? ' done' : ''}" data-pick="${x.rank}"><div class="s">${x.score}<small>점</small></div><div class="t"><div class="x">${esc(x.topic)}</div><h3>${esc(x.title)}</h3><div class="m">${esc(x.why)}</div>${x.minus ? `<div class="m">감점: ${esc(x.minus)}</div>` : ''}</div>
+    <div class="b">${x.mark === 'plan' ? '<span class="m">기획안 요청함</span>' : `<button class="soc-btn" data-pick-act="plan">기획안 만들기</button><button class="soc-btn ghost" data-pick-act="reject">반려</button>`}</div></div>`;
+  return `<h2>오늘의 기획안 후보 <span class="qcount">${pk.length}</span></h2>
+  <div class="card out-card">${pk.map(pick).join('') || (all.length ? '<div class="empty">예비 후보를 다 썼습니다. 다음 핫 토픽 작업(08:27·12:27·17:27·21:27) 때 새로 채웁니다</div>' : '<div class="empty">오늘 후보는 08:27 핫 토픽 작업 때 올라옵니다</div>')}
+  ${rej ? `<div class="sp-note" style="margin-top:8px">반려 ${rej}건 · 반려하면 예비 후보가 바로 올라옵니다</div>` : ''}</div>
+  <h2>오늘의 아웃라이어 <span class="qcount">${Math.min((d.items || []).length, 5)}</span></h2>
+  <div class="card out-card">${(d.items || []).slice(0, 5).map(row).join('') || '<div class="empty">오늘은 조건(최근 7일·평소의 5배 이상)에 맞는 영상이 없습니다</div>'}
+  <div class="sp-note" style="margin-top:8px">${esc(d.rule || '')} · 참고 채널 ${d.channels_ok}/${d.channels_total}곳 계산 · 후보 ${d.candidates}개 · ${at} 갱신</div></div>`;
+}
+function bindOut(){
+  $('#main').querySelectorAll('[data-pick-act]').forEach(b => b.onclick = async () => {
+    const mark = b.dataset.pickAct, rank = +b.closest('[data-pick]').dataset.pick; b.disabled = true;
+    const { data } = await sb.functions.invoke('bench-outlier', { body: { action: 'pick', date: OUT.d.date, rank, mark } }).catch(() => ({}));
+    if(data && data.ok){ const it = (OUT.d.picks || []).find(x => x.rank === rank); if(it) it.mark = mark; toast(mark === 'plan' ? '기획안 요청에 올렸습니다' : '반려했습니다. 다음 후보를 올립니다'); render(); } else { b.disabled = false; toast('저장하지 못했습니다'); }
+  });
+  $('#main').querySelectorAll('[data-out-act]').forEach(b => b.onclick = async () => {
+    const mark = b.dataset.outAct, id = b.closest('[data-out]').dataset.out; b.disabled = true;
+    const { data } = await sb.functions.invoke('bench-outlier', { body: { action: 'mark', date: OUT.d.date, video_id: id, mark } }).catch(() => ({}));
+    if(data && data.ok){ const it = (OUT.d.items || []).find(x => x.video_id === id); if(it) it.mark = mark; toast(mark === 'plan' ? '기획안 요청에 올렸습니다' : '패스했습니다'); render(); } else { b.disabled = false; toast('저장하지 못했습니다'); }
+  });
+}
 function vBenchTab(){
   if(!spNeed('bench')) return '<div class="empty">불러오는 중</div>';
   const D = spD(), B = (D.bench || []);
   return `${head('벤치마킹·핫토픽', '지금 뜨는 주제와 따라 할 사례', 'bench')}
+  ${vOutliers()}
   ${BR.loaded ? vHotTopics() : ''}
   <h2>벤치마킹 <span class="qcount">${B.length}</span></h2>
   <div class="sp-bench">${B.map(b => `<div class="sp-bc"><div class="c">${esc(b.region || '')} · ${esc(b.channel || '')}${b.subs ? ' · 구독자 ' + esc(b.subs) : ''}</div><h3>${b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>` : esc(b.title)}</h3><div class="n">${esc(b.views || '')}${b.length ? ' · ' + esc(b.length) : ''}</div><ul>${(b.points || []).map(p => `<li>${esc(p)}</li>`).join('')}</ul>${b.use ? `<div class="sp-note2" style="margin-top:6px"><b>우리 적용</b> ${esc(b.use)}</div>` : ''}</div>`).join('') || '<div class="empty">아직 없습니다</div>'}</div>
@@ -3590,7 +3649,7 @@ function render(s){
   $('#main').innerHTML = html;
   if(p === 'brief') bindBrief();
   if(p === 'sprint') bindSprint();
-  if(p === 'bench') bindHot();
+  if(p === 'bench'){ bindHot(); bindOut(); }
   if(p === 'users') bindUsers();
   if(p === 'survey') bindSurvey();
   if(p === 'mail') bindMail();
