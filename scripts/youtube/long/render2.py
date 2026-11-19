@@ -2269,6 +2269,7 @@ def main():
     # 1) 음성
     if not fake: from tts import speak
     timeline = []; t = 0.0; audio = []
+    SOT_IV = []
     BEAT = (60.0 / float(spec["hook"]["bpm"])) if spec.get("hook", {}).get("bpm") else 0.0   # 2026-11-03 대표님: 훅은 음악 박자에 맞춰 컷이 딱딱 바뀌어야 의미가 있다
     for sc in spec["scenes"]:
         lines = []
@@ -2296,6 +2297,7 @@ def main():
             x = x * (float(SOT.get("rms", .085)) / (float(np.sqrt(np.mean(x ** 2))) + 1e-9)); n_ = len(x); tt = np.arange(n_) / SR
             x = (x * np.clip(tt / .06, 0, 1) * np.clip((sd - tt) / .3, 0, 1)).astype(np.float32)
             audio.append((t + u, x)); tot = sum(len(l) for l in lines) or 1; u0 = u
+            SOT_IV.append((t + u, t + u + sd))   # 2026-11-19 대표: 원음 구간은 BGM 덕킹
             for l in lines: d_ = sd * len(l) / tot; lt.append((u0, d_, l)); u0 += d_
             u += sd + R.GAP; dur = u + sc.get("hold", .35)
             timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur; continue
@@ -2429,6 +2431,11 @@ def main():
         bed = bed * (v_rms / b_rms * 10 ** (-8 / 20)) * (1 - .45 * env)
         if HOOK_STYLE[0] == "basstaiko" and not MUSIC.get("intro"):   # 2026-11-04 16:02 대표님 "음악 소리가 거의 안 들려" → 이 스타일은 들리는 대역 -5dB, 봉우리는 부드럽게 눌러 목소리 크기를 지킨다
             bed = bed * 10 ** (3 / 20); bed = (.55 * np.tanh(bed / .55)).astype(np.float32)   # 2026-11-04 대표님 "인트로 쪽 사운드… 거의 안 들려" → 말 없는 틈 -14→-8dB, 말할 때 덜 낮춤(.6→.45)
+    if SOT_IV:   # 2026-11-19 대표(v4): 원음(뉴스·트럼프) 동안 배경음악·훅 음악을 크게 낮춘다 (-16dB), 앞뒤 0.3초 부드럽게
+        dm = np.zeros(len(mix), np.float32)
+        for a_, b_ in SOT_IV: dm[max(0, int((a_ - .3) * SR)):int((b_ + .3) * SR)] = 1
+        dm = _movavg(dm, int(SR * .3)); dg = (1 - .84 * np.clip(dm, 0, 1)).astype(np.float32)
+        mus = mus * dg[:len(mus), None]; bed = bed * dg[:len(bed)]
     if os.environ.get("SAVE_DRY"):   # 검수용: 음악·베드 없는 목소리+효과음만 (훅 음악 시안 비교용)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", os.path.join(out, "voice_dry.wav")], input=mix.astype(np.float32).tobytes(), check=True)
     st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
