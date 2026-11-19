@@ -1,0 +1,2102 @@
+{
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "overlay": "doc",
+ "look": {
+  "paper": "grain",
+  "dark": "charcoal",
+  "accent": "red"
+ },
+ "roadmap": true,
+ "hook": {
+  "bpm": 75.0,
+  "style": "basstaiko",
+  "cut": "bar",
+  "pulse": false,
+  "ident_fx": false
+ },
+ "music": {
+  "intro": "social/music/samples3/I3_full.mp3",
+  "intro_offset": 0.0,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/own/bed_business_b.mp3@0",
+   "social/music/own/bed_business_a.mp3@0"
+  ],
+  "hits": [
+   0.57,
+   4.05,
+   7.55,
+   15.43,
+   18.85,
+   22.98,
+   26.57,
+   29.82,
+   33.05,
+   36.7,
+   40.3,
+   43.55,
+   46.98,
+   50.4,
+   54.27,
+   60.85,
+   64.12,
+   67.3,
+   70.9,
+   75.7,
+   83.72,
+   88.65
+  ],
+  "bed_gain_db": 1,
+  "bed_hp": 120,
+  "note": "r176(11/19): 인트로는 L261118·L261117e와 같은 기존 외부 곡 I3(Symphonic Hip-hop 02) — 테슬라 2편의 자체 제작 인트로 쓰지 않음 · 본편 Suno 자체 곡 A·B(규칙 그대로)"
+ },
+ "id": "L261119u-us-war-fear",
+ "company": "MSFT · 사이버보안 · AI",
+ "no_data": true,
+ "series": "사건의 뒤편",
+ "plan": "P261119u-us-war-fear",
+ "scheduled_at": "2026-11-19T19:30:00+09:00",
+ "opening": "결론 먼저형 — 트럼프 발언(더빙) → CNN 첩보 → 6일간 7곳 마비 몽타주 → '정부가 밝힌 원인은 해킹도 테러도 아니었다' 역설 → 결론 한 줄(약 30초) → 약속 → 예고(보안주 역설)",
+ "hook_type": "공포 → 역설 → 결론 먼저",
+ "endscreen_target": "L261118-anthropic-ipo",
+ "endscreen_also": "L261107-soxl-38",
+ "design": "v2",
+ "synthetic_media": true,
+ "title": "미국 6일 동안 7곳 마비, 범인은 AI였나? 마이크로소프트·보안주·AI 주식은 어떻게 될까",
+ "doc_title": "미국 연쇄 마비 — AI가 드러낸 구멍의 청구서",
+ "title_en": "7 US outages in 6 days, NSA included — was AI behind it? What it means for Microsoft, cybersecurity and AI stocks",
+ "description_head": "미국 NSA 마비와 미국 연쇄 장애(마이크로소프트·연방항공청·JP모건 체이스·애플·NSA)가 6일 동안 7곳에서 이어졌습니다. 이란 더티밤 첩보까지 겹치며 전쟁 공포가 퍼졌지만, 정부와 각 회사가 밝힌 원인은 공격이 아니었습니다.\n문제는 전쟁이 아니었습니다. 진짜 이야기는 NSA를 멈춘 'PHP 취약점 패치'에 있었습니다. AI가 오래된 소프트웨어 구멍을 한꺼번에 찾아내고, 막는 작업이 몰리며 시스템이 멈추는 시대 — 그 첫 청구서가 마이크로소프트 주가 전망, 사이버보안주(크라우드스트라이크·팔로알토·옥타), 앤트로픽 상장과 AI 주식에 각각 무엇을 뜻하는지 정리했습니다.\n\n마이크로소프트 365는 7월 업데이트 결함으로 하루 넘게 멈췄고, 연방항공청은 4시간 21분 동안 전국 이륙을 막았습니다. 미국 국가정보장은 NSA 마비가 10월 공개된 PHP 취약점 패치 뒤 재가동 실패 때문이라고 설명했습니다. 마이크로소프트가 2026년 10월 한 달에 고친 취약점은 1,413건으로 2025년 1년 치보다 많습니다. 앞으로 볼 3가지(장애 반복 여부 · 12월 1일 크라우드스트라이크 실적 · 앤트로픽 상장 뒤 흐름)로 마무리했습니다.\n\n※ 이란의 공격이라는 공식 근거는 없으며, NSA 패치 대상 취약점을 앤트로픽 미토스가 찾았다는 근거도 없습니다. 원화 환산은 11월 16일 환율(1,335.7원) 기준. 트럼프 대통령 발언은 한국어 더빙입니다. 매수·매도 권유가 아닙니다.\n\n#미국NSA마비 #마이크로소프트주가전망 #사이버보안주",
+ "description_en": "Seven US outages in six days — Microsoft 365, an FAA nationwide ground stop, Chase, United, Apple, Marriott and the NSA's classified network — on top of a CNN report on an Iranian dirty-bomb plot. Officials say none was a cyberattack; the DNI tied the NSA outage to patching a PHP flaw disclosed in October. We explain why AI-found vulnerabilities and the patch rush matter for Microsoft, cybersecurity stocks and Anthropic's IPO. Not investment advice.",
+ "pinned_comment": "이번 미국 연쇄 마비, 사고라고 보시나요, 큰 변화의 시작이라고 보시나요? ① 우연한 사고 ② AI 시대의 시작 ③ 아직 모르겠다 — 댓글로 골라 주세요.\n\n📺 함께 보면 좋은 영상: 앤트로픽 상장 총정리\n\n※ 이란의 공격이라는 공식 근거는 없으며, NSA 패치 취약점을 미토스가 찾았다는 근거도 없습니다. 매수·매도 권유가 아닙니다.\n좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "hook_promises": [
+  "마이크로소프트에 남은 청구서",
+  "보안주가 떨어진 역설",
+  "AI 회사의 다음 수"
+ ],
+ "viewer_question": "미국 연쇄 마비는 전쟁의 신호인가, 내 마이크로소프트·보안주·AI 주식에는 무슨 의미인가",
+ "tags": [
+  "미국 NSA 마비",
+  "미국 연쇄 장애",
+  "마이크로소프트 주가 전망",
+  "마이크로소프트 주가",
+  "사이버보안주",
+  "크라우드스트라이크 주가",
+  "팔로알토 주가",
+  "앤트로픽 상장",
+  "AI 해킹 미토스",
+  "소프트웨어주 하락 이유",
+  "이란 더티밤",
+  "미국 이란 전쟁"
+ ],
+ "search_keywords": [
+  "미국 NSA 마비",
+  "마이크로소프트 주가 전망",
+  "사이버보안주"
+ ],
+ "sources": [
+  "CNN 2026-11-16 (Al Jazeera 2026-11-17 인용)",
+  "The National·1News 2026-11-17~18 (트럼프 발언)",
+  "KOMO·National News Desk 2026-11-17 (장애 7건 정리)",
+  "마이크로소프트 설명 (Investing.com 2026-11-16 · Wikipedia '2026 Microsoft outage')",
+  "미국 연방항공청 · AVweb 2026-11-16",
+  "The Record·ABC News 2026-11-17 · CBS 2026-11-18 (국가정보장 발언)",
+  "FBI·NSA·CISA 공동 경고 2026-10-21",
+  "앤트로픽 발표 2026-04-07 · Axios·Bloomberg(eWeek) 2026-04~05",
+  "Cybernews (마이크로소프트 패치 집계)",
+  "NewsBytes 2026-11-13 · Pluang 2026-11-18 · 24/7 Wall St 2026-11-18",
+  "Yahoo Finance 2026-03-27 · 24/7 Wall St·TIKR 2026-11-05",
+  "Fortune(WSJ)·Bloomberg 2026-11-18 (앤트로픽 공모가)",
+  "Nextgov·CNN 2026-06-13",
+  "Reuters 2026-02-23 (Bridgewater)",
+  "The Hill · Daily Signal 2026-11-18 (더피)",
+  "크라우드스트라이크 IR 2026-11-04",
+  "연준 의사록·월러 발언 2026-11-18"
+ ],
+ "thumb": {
+  "photo": "il_L261119u_thumb_a.jpeg",
+  "focus_x": 0.5,
+  "l1": "미국이 멈췄다",
+  "l2": "범인은 AI?",
+  "pos": "left"
+ },
+ "thumb_v8": [
+  {
+   "key": "a",
+   "file": "thumb_a.jpg",
+   "photo": "il_L261119u_thumb_a.jpeg",
+   "kicker": "NSA 기밀망까지 6일 7곳",
+   "l1": "미국이 멈췄다",
+   "l2": "범인은 AI?",
+   "ul": "AI?"
+  },
+  {
+   "key": "b",
+   "file": "thumb_b.jpg",
+   "photo": "il_L261119u_thumb_b.jpeg",
+   "kicker": "미국 NSA 마비",
+   "l1": "NSA까지 멈췄다",
+   "l2": "AI 시대의 청구서",
+   "ul": "청구서"
+  },
+  {
+   "key": "c",
+   "file": "thumb_c.jpg",
+   "photo": "il_L261119u_thumb_c.jpeg",
+   "kicker": "마이크로소프트 주가 전망",
+   "l1": "마이크로소프트·보안주",
+   "l2": "누가 돈을 낼까?",
+   "ul": "돈"
+  }
+ ],
+ "ab_sets": [
+  {
+   "key": "a",
+   "default": true,
+   "title": "미국 6일 동안 7곳 마비, 범인은 AI였나? 마이크로소프트·보안주·AI 주식은 어떻게 될까",
+   "file": "thumb_a.jpg",
+   "type": "A 반전형 (범인은 AI?) · 콜드 오픈과 같은 질문"
+  },
+  {
+   "key": "b",
+   "title": "미국 NSA 마비, 6일 동안 7곳이 멈춘 진짜 이유 | AI가 찾은 구멍의 청구서",
+   "file": "thumb_b.jpg",
+   "type": "B 범용 사건형"
+  },
+  {
+   "key": "c",
+   "title": "마이크로소프트 주가 전망, 미국 6일 7곳 마비 뒤 보안주가 떨어진 역설 | AI 주식은?",
+   "file": "thumb_c.jpg",
+   "type": "C 보유자형"
+  }
+ ],
+ "events": [
+  {
+   "at": "2026-11-19T09:40:00+09:00",
+   "by": "claude",
+   "what": "긴급 실행(대표 11/19 08:26 '바로 기획 촘촘하게 … 렌더링까지 바로'): verify_before_render 전 항목 확인 후 원고 수정 — 트럼프 발언 장소(아시아 순방)·조건문, MS 장애 기간(14일 복구)·7월 결함, FAA 원인(조사 중·통신 장비), 이란 해커 지속 공격 문장 삭제(근거 없음), NSA 취약점 = 10/20 공개 PHP 취약점(미토스 연결 근거 없음 명시), MS 패치 수(10월 1,413건 > 2025년 1,273건), MS -2.27%는 11/17 소프트웨어 급락일, 소프트웨어 지수 -25% 삭제(근거 없음), 보안주 하락 3/27·11/5 수치, 앤트로픽 공모가 83달러·약 1.5조 달러, 외국인 이용 제한 = 6월 상무부, 더피 500억 달러(긴급 표현 삭제), 금값 '-25%'는 틀림(고점 대비 약 -32%) → 원고·썸네일에 쓰지 않음"
+  }
+ ],
+ "review": {
+  "rounds": [
+   6.4,
+   6.8,
+   7.2
+  ],
+  "avg": 7.2,
+  "note": "독립 검수 3회(6.4 → 6.8 → 7.2) — 지적 반영: 트럼프 인용 대상 명확화·CNN 줄 축소·원인의 원인 장면·약속 회수 장면·단정 완화·위트 1줄 추가. 대표 확정 구조(트럼프 발언 먼저·제목 A)는 유지"
+ },
+ "format_note": "v2 원고(대표 11/19 08:37 수정) + 사실 확인 반영 v3 · 흑백+핑크 톤 · fx_bw 코드 효과 4개(사건 레일·흐름도·저울·자료) · 인트로 기존 외부 곡(r176) · 트럼프 발언은 원음 클립 없어 다른 성우 더빙",
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_wh_dusk.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "\"만약 그런 계획이 있다면, 이란은 어떤 나라도 치른 적 없는 대가를 치르게 될 겁니다.\""
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "트럼프 대통령 기자 문답 2026-11-17 (The National·1News 보도)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "도널드 트럼프",
+     "sub": "미국 대통령 · 이란 더티밤 첩보 질문에 · 2026년 11월 17일",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "dub": {
+    "clip": "silence_8s.wav",
+    "orig": 0.3,
+    "start": 0,
+    "voice": "middle_age",
+    "person": "도널드 트럼프",
+    "under": 0.0
+   },
+   "note": "[훅][원음] 원음 클립 없음 → 다른 성우 더빙 + 사진·이름표"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_dc_night_aerial.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "11월 17일, 아시아 순방 중이던 도널드 트럼프 대통령이 한 말입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "The National 2026-11-17",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_intel_folder.png"
+     },
+     {
+      "lib": "il_L261119u_geiger.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "하루 전 CNN은 미국 관리 7명을 인용해, 이란의 워싱턴 더티밤 계획 첩보를 보도했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CNN 2026-11-16 (Al Jazeera 2026-11-17 인용)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "관리 7명",
+     "sub": "CNN 보도 · 이란 더티밤 계획 첩보 · 11월 16일",
+     "line": 0,
+     "at": 0.4,
+     "hold": 2.6
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_departure_board.png"
+     },
+     {
+      "lib": "il_L261119u_server_red.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "그리고 같은 주, 미국이 하나씩 멈췄습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_office_frozen.png"
+     },
+     {
+      "lib": "il_L261119u_planes_parked.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "마이크로소프트 이메일이 하루 넘게 먹통이 됐고 미국 전역의 비행기가 4시간 넘게 땅에 묶였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "마이크로소프트 2026-11-14 · 미국 연방항공청 2026-11-13",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_nsa_hq.png"
+     },
+     {
+      "lib": "il_L261119u_dark_terminal.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "은행 거래가 막혔고 마지막엔 미국 국가안보국, NSA의 기밀 통신망까지 꺼졌습니다. 6일 동안 7곳입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "KOMO·National News Desk 2026-11-17",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "6일 · 7곳",
+     "sub": "11월 12일~17일 미국 연쇄 장애",
+     "line": 0,
+     "at": 0.55,
+     "hold": 2.6,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_question_hall.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "전쟁이 시작된 걸까요? 그런데 NSA가 멈춘 이유에 대해 미국 정부가 내놓은 설명은, 해킹도 테러도 아니었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 국가정보장 발언 2026-11-17 (The Record·ABC News)",
+   "sketch": [],
+   "note": "[훅] 역설"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_old_code_light.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "결론부터 말씀드리면, 이번 연쇄 마비는 전쟁의 신호라기보다, AI가 오래된 소프트웨어 구멍을 한꺼번에 드러내는 시대의 첫 청구서에 가깝습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "quote",
+     "rows": [
+      "전쟁의 신호가 아니라",
+      "AI 시대의 첫 청구서"
+     ],
+     "by": "오늘의 결론",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "note": "[결론 한 줄]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_three_towers.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "이 영상이 끝날 때쯤이면, 이 청구서가 마이크로소프트, 보안 회사, AI 회사 주가를 각각 어느 쪽으로 흔드는지 알게 되실 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[약속]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_padlock_crack.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "lines": [
+    "특히 구멍이 많아질수록 돈을 벌 것 같은 보안 회사 주가가 왜 오히려 떨어졌는지, 그 역설은 뒤에서 꼭 보셔야 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[예고]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261118a_ident_bridge.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "ident": true
+   },
+   "lines": [
+    "사건 뒤 돈의 흐름을 읽는 경제 채널. 밸류노트, 지금 시작합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "dur": 6.0
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_email_spinner.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "날짜순으로 보겠습니다. 11월 12일, 마이크로소프트 365의 아웃룩과 팀즈, 코파일럿이 멈췄습니다. 완전히 돌아온 건 14일 아침이었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "마이크로소프트 발표 · Wikipedia '2026 Microsoft outage'",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "11월 12일 · 마이크로소프트 365",
+     "sub": "아웃룩·팀즈·코파일럿 장애 · 14일 아침 완전 복구",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "6일 동안 멈춘 7곳"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_cable_gateway.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "마이크로소프트는 7월 업데이트 때 생긴 결함이 몇 달 동안 숨어 있다가 터졌다고 설명했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "마이크로소프트 찰스 라마나 설명 (Investing.com 2026-11-16)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_atc_tower.png"
+     },
+     {
+      "lib": "il_L261114t_control_room.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "13일 오후, 미국 연방항공청이 전국 모든 공항의 이륙을 4시간 21분 동안 막았습니다. 9·11 이후 두 번째 전국 이륙 금지였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 연방항공청 2026-11-13 · Gray TV 2026-11-14",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "4시간 21분",
+     "sub": "미국 전국 이륙 금지 · 11월 13일",
+     "line": 0,
+     "at": 0.35,
+     "hold": 2.8,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_radio_site.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "항공관제센터 22곳 가운데 17곳이 흔들렸고 낡은 구리선을 광케이블로 바꾸며 새로 단 통신 장비가 원인으로 지목됐습니다. 조사는 아직 진행 중입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "AVweb 2026-11-16 · 미국 연방항공청",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261119u_fx_rail.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "16일엔 JP모건 체이스의 온라인 뱅킹과 유나이티드항공 시스템이, 17일엔 애플 서비스와 메리어트 예약, 그리고 NSA 기밀망이 문제를 일으켰습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "KOMO·National News Desk 2026-11-17 · 각 회사 발표",
+   "sketch": [],
+   "note": "코드 효과 ① 사건 레일"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_phones_crowd.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "하나씩 보면 원인이 다 다릅니다. 그런데 6일 안에 7곳이 몰리자, 사람들은 이걸 하나의 이야기로 묶기 시작했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_chess_dark.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "가장 먼저 나온 이야기는 전쟁이었습니다. 정말 이란의 공격이었을까요?"
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[R1]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_desert_smoke.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "의심할 만한 배경은 있습니다. 올해 2월 말 미국과 이스라엘이 이란을 공습하면서 전쟁이 시작됐고 4월에 휴전했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "2026-02-28 공습 · 2026-04-08 휴전 발표",
+   "sketch": [
+    {
+     "kind": "timeline",
+     "events": [
+      [
+       "2026.02.28",
+       "미국·이스라엘 공습"
+      ],
+      [
+       "2026.04.08",
+       "휴전"
+      ],
+      [
+       "2026.11.16",
+       "워싱턴 첩보 보도"
+      ]
+     ],
+     "on": 2,
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "전쟁의 신호인가"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_hacker_room.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그리고 휴전 일곱 달 만에 워싱턴 첩보가 나왔고 같은 주에 연쇄 마비가 겹쳤습니다. 사이버 공격이라는 해석이 빠르게 퍼질 수밖에 없었죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_press_room.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "하지만 지금까지 나온 공식 설명은 모두 같은 방향입니다. 마이크로소프트도, 체이스도, 애플도, 유나이티드항공도 사이버 공격이 아니었다고 했고 연방항공청도 공격 징후는 없다고 밝혔습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "각 회사 발표 · 미국 연방항공청 (KOMO 2026-11-17 정리)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261113g3_dc_dusk.jpeg"
+     },
+     {
+      "lib": "il_L261119u_podium_seal.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "백악관은 현재 본토에 대한 신뢰할 만한 위협은 없다고 했고 국토안보부 장관은 이란의 계획을 아직 희망 사항 수준으로 평가했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "백악관 대변인 2026-11-17 · 마크웨인 멀린 국토안보부 장관 (1News 2026-11-18)",
+   "sketch": [
+    {
+     "kind": "quote",
+     "rows": [
+      "현재 본토에 대한",
+      "신뢰할 만한 위협은 없다"
+     ],
+     "by": "백악관 대변인 · 2026년 11월 17일",
+     "line": 0,
+     "at": 0.2
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_magnifier_doc.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 원인이 정말 제각각일까요? 적어도 하나는 다른 이야기를 품고 있습니다. 힌트는 NSA 마비에 대한 정부 설명 한 줄에 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[R2]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_tv_studio.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "17일 오후, 제이 클레이턴 미국 국가정보장은 방송 인터뷰에서 NSA 마비의 원인을 이렇게 설명했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Fox Business 인터뷰 2026-11-17 (CBS 2026-11-18)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "제이 클레이턴",
+     "sub": "미국 국가정보장 · 2026년 11월 17일 방송 인터뷰",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "chapter": "NSA를 멈춘 것"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_reboot_rack.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "PHP라는 웹 시스템의 취약점을 고치는 패치를 한 뒤, 일부 시스템이 다시 켜지지 않았다는 겁니다. 사이버 공격도, 국가가 조직한 공격도 아니라고 했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Fox Business·CNBC 2026-11-17 (CBS 2026-11-18 요약)",
+   "sketch": [
+    {
+     "kind": "quote",
+     "rows": [
+      "PHP 취약점 패치 뒤",
+      "일부 시스템 재가동 실패"
+     ],
+     "by": "제이 클레이턴 미국 국가정보장 발언 요지 · 11월 17일",
+     "line": 0,
+     "at": 0.2
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_web_globe.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "PHP는 전 세계 웹사이트 상당수가 쓰는 프로그래밍 언어입니다. 10월 20일, 여기서 아주 위험한 구멍 두 개가 공개됐고 다음 날 FBI와 NSA 등이 공동 경고를 냈습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "FBI·NSA·CISA 공동 경고 2026-10-21 · CBS 2026-11-18",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_calendar_pin.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이 날짜, 10월 20일은 잠깐 기억해 두세요. 바로 다시 꺼낼게요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "복선 ①"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_vault_ai.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "올해 4월, 앤트로픽은 해킹 실력이 뛰어난 AI 모델 미토스를 일반에 공개하지 않고 약 40곳의 기업과 기관에만 열었습니다. 27년 묵은 운영체제 구멍까지 찾아냈거든요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "앤트로픽 발표 2026-04-07 (프로젝트 글래스윙)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "27년",
+     "sub": "미토스가 찾아낸 가장 오래된 구멍의 나이",
+     "line": 0,
+     "at": 0.55,
+     "hold": 2.8
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_code_screen.png"
+     },
+     {
+      "lib": "il_L261119u_analyst_screens.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "NSA도 이 모델로 마이크로소프트 소프트웨어와 자기 시스템의 구멍을 찾아봤다는 보도가 나왔습니다. AI로 구멍을 찾는 경쟁이 시작된 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Axios 2026-04 · Bloomberg 2026-05 (eWeek 2026-05-01 인용)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_two_lights.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 아까 그 10월 20일의 구멍은 누가 찾았을까요? CBS는 AI가 이 구멍을 찾는 데 도움을 줬다고 보도했습니다. 다만 앤트로픽의 미토스가 찾았다는 근거는 없습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "CBS 2026-11-18",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "확인된 사실",
+     "sub": "AI가 발견에 도움(CBS) · 미토스가 찾았다는 근거는 없음",
+     "line": 0,
+     "at": 0.4
+    }
+   ],
+   "note": "복선 회수 ① · 미토스 연결은 단정하지 않음"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_patch_stack.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그 뒤로 패치가 쏟아졌습니다. 마이크로소프트가 올해 10월 한 달 동안 고친 보안 취약점이 1,413건, 2025년 1년 치보다 많습니다. AI로 취약점을 찾는 속도가 빨라진 것도 한 이유로 꼽힙니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Cybernews (마이크로소프트 10월 정기 패치 집계 · 2025년 연간 1,273건)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "1,413건",
+     "sub": "마이크로소프트 2026년 10월 한 달 패치 · 2025년 연간 1,273건",
+     "line": 0,
+     "at": 0.4,
+     "hold": 3.0,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261119u_fx_chain.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "흐름은 이렇습니다. AI가 오래된 구멍을 한꺼번에 찾아냅니다. 정부와 기업은 서둘러 막습니다. 그리고 막는 작업이 몰릴수록 시스템이 잠깐씩 멈추는 일도 늘어날 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "미국 국가정보장 발언 2026-11-17 · CBS 2026-11-18",
+   "sketch": [],
+   "note": "코드 효과 ② 돈·사건의 흐름"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_maintenance_door.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "범인을 찾으러 갔더니, 문 앞에 '공사 중' 팻말이 걸려 있었던 겁니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "위트"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_old_new_cables.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "물론 마이크로소프트와 연방항공청의 장애는 AI와 직접 관련이 없습니다. 하지만 낡은 시스템을 고치고 바꾸다 멈췄다는 점에서는 닮았습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "마이크로소프트 설명 · AVweb 2026-11-16",
+   "sketch": [],
+   "note": "원인의 원인"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_invoice_tower.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 이 청구서는 누가 낼까요? 청구서를 가장 먼저 받은 곳은 마이크로소프트입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[R3]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_trader_calm.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "장애가 난 다음 날, 마이크로소프트 주가는 장중 3% 가까이 빠졌다가 오히려 조금 오른 채 마감했습니다. 시장은 하루짜리 사고로 본 거죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "NewsBytes 2026-11-13 (종가 523.88달러)",
+   "sketch": [],
+   "chapter": "소프트웨어 회사의 청구서"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_red_board.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 17일엔 달랐습니다. 소프트웨어 주식이 한꺼번에 급락했고 마이크로소프트도 2.27% 내린 506달러에 마감했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Pluang 2026-11-18 (11월 17일 종가)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "▼2.27%",
+     "sub": "마이크로소프트 11월 17일 종가 506달러",
+     "line": 0,
+     "at": 0.4,
+     "hold": 3.0,
+     "color": "red"
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_analyst_report.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "증권사 가운데 목표 주가를 내린 곳은 아직 없습니다. 문제는 숫자보다 신뢰예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 Wall St 2026-11-18 (평균 목표가·의견 집계)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_meeting_room.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "마이크로소프트는 지금 기업 고객에게 AI 비서 코파일럿을 팔고 있습니다. 이메일이 하루 넘게 멈춘 회사가 AI 값을 더 받기는 쉽지 않겠죠."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_developer_night.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "게다가 소프트웨어 회사들은 올해 내내 AI가 기존 프로그램을 대신할 수 있다는 걱정에 시달렸습니다. 이제는 AI 때문에 막아야 할 구멍까지 늘었습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_two_faces_coin.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "소프트웨어 회사에게 AI는 매출을 넘보는 경쟁자이면서 패치와 점검 비용을 늘리는 청구서이기도 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "steps",
+     "title": "소프트웨어 회사에게 AI는",
+     "rows": [
+      [
+       "1",
+       "매출 경쟁자",
+       "기존 프로그램 대체 우려"
+      ],
+      [
+       "2",
+       "비용 청구서",
+       "패치·점검·장애 비용"
+      ]
+     ],
+     "on": null,
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_shield_crack.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그렇다면 구멍을 막아 주는 보안 회사는 웃고 있어야 하지 않을까요? 그런데 주가는 반대로 움직였습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[R4]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_soc_room.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "상식대로라면 구멍이 많아질수록 보안 회사는 더 바빠지고 더 많이 벌어야 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "chapter": "보안 회사의 역설"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_leak_paper.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그런데 3월 27일, 미토스의 존재가 처음 새어 나간 날, 팔로알토는 장중 6%, 옥타는 7%, 크라우드스트라이크는 6% 떨어졌습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Yahoo Finance 2026-03-27 (장중 기준)",
+   "sketch": [
+    {
+     "kind": "table",
+     "cols": [
+      "3월 27일 장중",
+      ""
+     ],
+     "rows": [
+      [
+       "팔로알토",
+       "▼6%",
+       ""
+      ],
+      [
+       "옥타",
+       "▼7%",
+       ""
+      ],
+      [
+       "크라우드스트라이크",
+       "▼6%",
+       ""
+      ]
+     ],
+     "hl": null,
+     "line": 0,
+     "at": 0.3
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261116p_wallst_red.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "11월 5일 기술주 급락 때도 크라우드스트라이크는 9%, 옥타와 팔로알토는 10% 안팎 빠졌습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "24/7 Wall St·TIKR 2026-11-05 (장중 기준)",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_robot_lock.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "시장이 걱정한 건 이겁니다. AI가 직접 구멍을 찾고 막아 주면, 비싼 보안 프로그램이 덜 필요해지지 않을까."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_fortress_wall.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "보안 회사들의 답은 반대입니다. AI가 공격하는 쪽도 빠르게 만들기 때문에, 보안은 오히려 더 필요해진다는 겁니다. 보안 업계는 이번 연쇄 마비를 그 근거로 들 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "크라우드스트라이크·팔로알토 경영진 공개 발언",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261119u_fx_scale.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그래서 보안주는 지금 저울 위에 있습니다. 한쪽엔 늘어나는 수요, 다른 쪽엔 AI에게 자리를 내줄 수 있다는 걱정입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "코드 효과 ③ 저울"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_empty_throne.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 결국 보안 회사가 이 판의 승자일까요? 아직 아닙니다. 이 판의 판도를 쥐고 있을지 모르는 회사가 따로 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[가짜 결말]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_exchange_dawn.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "공교롭게도 그 회사가, 한국 시간으로 내일 새벽 미국 주식시장에 데뷔합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[R5]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261114t_ipo_bell.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "바로 미토스를 만든 앤트로픽입니다. 공모가는 처음 내건 70에서 78달러 범위를 넘어 83달러로 정해졌다는 보도가 나왔습니다. 기업가치는 약 1조 5천억 달러, 우리 돈 약 2,000조 원입니다. 다만 상장 뒤 주가가 어떻게 될지는 전혀 다른 문제입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Fortune(WSJ 인용)·Bloomberg 2026-11-18 · 원화 환산 1,335.7원",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "약 2,000조 원",
+     "sub": "앤트로픽 기업가치 · 공모가 83달러 보도 기준",
+     "line": 0,
+     "at": 0.5,
+     "hold": 3.0
+    }
+   ],
+   "chapter": "AI 산업의 다음 수"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_match_water.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "구멍을 찾는 AI를 만든 회사가, 구멍 때문에 미국이 흔들린 바로 그 주에 상장하는 겁니다. AI는 구멍을 찾는 쪽에도, 막는 쪽에도 서 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_gov_building_rain.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "정부의 시선도 날카로워졌습니다. 미국 상무부는 이미 지난 6월, 미토스급 모델을 외국인이 쓰지 못하게 막으라고 지시했습니다. AI의 능력이 커질수록 규제도 함께 커지는 흐름입니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Nextgov·CNN 2026-06-13",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261117n_thumb_dc.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "돈의 흐름은 더 커지고 있습니다. 알파벳, 아마존, 메타, 마이크로소프트가 올해 AI 인프라에 쓰는 돈은 약 6,500억 달러로 예상됩니다. 작년보다 60% 가까이 많습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "Reuters 2026-02-23 (Bridgewater 추정 · 2025년 약 4,100억 달러)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "6,500억 달러",
+     "sub": "빅테크 4곳 2026년 AI 인프라 투자 예상",
+     "line": 0,
+     "at": 0.4,
+     "hold": 3.0
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261107m_memory_wafer.jpeg"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이 돈은 데이터센터와 반도체로 흘러갑니다. 엔비디아의 AI 칩, 그리고 그 옆에 붙는 SK하이닉스와 삼성전자의 메모리도 이 투자와 연결돼 있습니다. 실제로 얼마나 수혜가 되는지는 실적으로 확인해야 합니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_old_radar.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "구멍을 막는 데 드는 돈도 커집니다. 숀 더피 교통장관은 이번 마비 뒤 항공관제 현대화에 500억 달러를 의회에 요구했습니다. 낡은 시스템을 바꾸는 돈은 상당 부분 클라우드와 보안, 반도체 쪽으로 이어질 수 있습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "The Hill 2026-11 · Daily Signal 2026-11-18",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "숀 더피",
+     "sub": "미국 교통장관 · 항공관제 현대화 500억 달러 요구",
+     "line": 0,
+     "at": 0.4
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_three_doors.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "결국 마이크로소프트에는 신뢰라는 청구서가, 보안주에는 늘어나는 수요와 대체 걱정 사이의 저울이, AI 인프라에는 더 커지는 지출이 남았습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "steps",
+     "title": "청구서가 남긴 것",
+     "rows": [
+      [
+       "마이크로소프트",
+       "신뢰 부담",
+       "장애·가격 협상력"
+      ],
+      [
+       "보안주",
+       "수요 vs 대체 우려",
+       "저울 위"
+      ],
+      [
+       "AI 인프라",
+       "지출 증가",
+       "데이터센터·반도체"
+      ]
+     ],
+     "on": null,
+     "line": 0,
+     "at": 0.35
+    }
+   ],
+   "note": "[약속 회수] 세 회사 방향 정리"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_binoculars.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "그럼 지금 주주는 무엇을 보고 판단해야 할까요? 아직 답이 정해진 판은 아닙니다. 다만 신호가 나올 자리는 정해져 있습니다. 앞으로 이 세 가지를 보시면 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[R6]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_repeat_clock.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "첫째, 장애가 반복되는지입니다. 한 번이면 사고지만 마이크로소프트 같은 회사에서 반복되면 그건 가격을 올릴 힘과 고객 신뢰의 문제가 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "chapter": "그래서 무엇을 볼까"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_earnings_night.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "둘째, 미국 시간 12월 1일, 우리 시간 2일 아침에 나오는 크라우드스트라이크 실적입니다. AI 때문에 보안 수요가 정말 늘었는지, 숫자로 처음 확인하는 자리예요."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "크라우드스트라이크 IR 공지 2026-11-04",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261116p_phone_blue.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "셋째, 앤트로픽 상장 이후의 흐름입니다. 첫 몇 주 주가, 그리고 정부가 미토스 같은 모델을 어디까지 허용하는지가 AI 산업 전체의 속도를 가늠할 신호가 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [
+    {
+     "kind": "steps",
+     "title": "앞으로 볼 3가지",
+     "rows": [
+      [
+       "1",
+       "장애 반복 여부",
+       "마이크로소프트·클라우드"
+      ],
+      [
+       "2",
+       "12월 1일 실적",
+       "크라우드스트라이크 · 한국 시간 2일 아침"
+      ],
+      [
+       "3",
+       "앤트로픽 상장 뒤",
+       "주가 · AI 규제 범위"
+      ]
+     ],
+     "on": null,
+     "line": 0,
+     "at": 0.35
+    }
+   ]
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261114t_fed.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "물론 지금 시장을 당장 누르는 건 12월 금리 인상 우려입니다. 연준 인사들이 인상을 거론하면서 S&P500은 5거래일 연속 하락했죠. 단기 변수는 금리, 긴 흐름은 AI라고 나눠 보시면 정리가 쉽습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "월러 연준 이사 발언 2026-11-18 · 연준 의사록 · 금 선물 2026-11-18 · S&P500 2026-11-18",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_dawn_capital.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "처음의 그 말로 돌아가 보겠습니다. 어떤 나라도 치른 적 없는 대가. 이번 주 미국이 실제로 치른 대가는 폭탄이 아니라, AI 시대에 낡은 시스템을 고치는 비용에 가까웠습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "[북엔드] 콜백 ②"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "il_L261119u_phone_maintenance.png"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "다음에 앱이나 은행 화면에서 '점검 중'이라는 글자를 보시면, 그 뒤에서 누군가 AI가 찾은 구멍을 막고 있을지도 모른다는 걸 떠올려 보세요. 이제 '점검 중'은 새 시대의 경보음일지도 모릅니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "globe_L261119u_fx_sources.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "이 영상을 위해 미국 정부 발표와 각 회사의 장애 설명, 보안 업계 자료까지 15건이 넘는 자료를 확인했습니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "note": "코드 효과 ④ 자료 몽타주"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "left",
+    "cuts": [
+     {
+      "lib": "vnightcity_49878.mp4"
+     },
+     {
+      "lib": "vwallstreet_24517.mp4"
+     },
+     {
+      "lib": "vofficebuilding_41541.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "lines": [
+    "여러분은 이번 연쇄 마비, 사고라고 보시나요, 아니면 큰 변화의 시작이라고 보시나요? 댓글로 남겨 주세요. 밸류노트는 사건 뒤에 숨은 돈의 흐름을 같이 펼쳐 보는 곳입니다. 좋아요와 구독은 영상 제작에 큰 힘이 됩니다."
+   ],
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "sketch": []
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "",
+    "btn_at": [
+     "0:거시적",
+     "0:거시적",
+     "0:거시적"
+    ],
+    "note": {
+     "text": ""
+    },
+    "dark_end": true,
+    "end_v2": true,
+    "slogan": [
+     "사건 뒤의",
+     "돈의 흐름을 읽는 채널",
+     "거시적 관점을 가지면, 투자가 달라집니다"
+    ]
+   },
+   "lines": [
+    "거시적 관점을 가지면, 투자가 달라집니다. 밸류노트였습니다. 감사합니다."
+   ],
+   "endscreen": 11,
+   "sketch_add": [],
+   "en": [
+    ""
+   ],
+   "asof": false,
+   "src": "",
+   "note": "[북엔드] 끝 화면"
+  }
+ ]
+}
