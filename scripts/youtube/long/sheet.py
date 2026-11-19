@@ -11,11 +11,11 @@ def main():
     n = int(dur // step) + 1; per = 16
     for k in range(0, n, per):
         t0 = k * step; frames = min(per, n - k)
-        vf = (f"fps=1/{step},drawtext=text='%{{pts\\:hms}}':x=12:y=12:fontsize=34:fontcolor=yellow:box=1:boxcolor=black@0.6:boxborderw=6,"
+        vf = (f"fps=1/{step},drawtext=text='%{{pts\\:hms\\:{t0:.2f}}}':x=12:y=12:fontsize=34:fontcolor=yellow:box=1:boxcolor=black@0.6:boxborderw=6,"
               "drawbox=x=0:y=ih*0.82:w=iw:h=3:color=yellow@0.7:t=fill,drawbox=x=iw*0.06:y=0:w=2:h=ih:color=yellow@0.5:t=fill,"
               "drawbox=x=iw*0.94:y=0:w=2:h=ih:color=yellow@0.5:t=fill,scale=640:-1,tile=4x4")
         o = os.path.join(out, f"sheet_{k // per + 1:02d}.jpg")
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.2f}", "-copyts", "-i", v, "-t", f"{frames * step:.2f}", "-vf", vf, "-frames:v", "1", o], check=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.2f}", "-i", v, "-t", f"{frames * step:.2f}", "-vf", vf, "-frames:v", "1", o], check=True)
         print(o)
 
 
