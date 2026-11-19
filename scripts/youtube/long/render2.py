@@ -1067,10 +1067,24 @@ def media_source(v, n_frames, seed):
 
 _CLIPS = []
 
+# ★ r180 (대표 2026-11-19 16:40, 여러 번 반복 지적 — 모든 롱폼·쇼츠 고정 규칙, 렌더러 기본값)
+#  ① 코드 효과 화면(흐름도·연표·저울·자료 목록·장 제목·레이더 등 globe_/_fx_/app_/puzzle_ 클립)은 확대·축소·줄어드는 효과 없이 고정
+#  ② 코드 화면 여백은 globe/fx_bw.html safeDraw 가 기본으로 맞춘다(좌우 6%, 위 머리글과 간격, 본문은 자막 영역 아래 18% 위에서 끝)
+#  ③ 원음·뉴스·인물 이름표: 최소 3초(R180_TAG_MIN), 자막 위쪽에 두어 자막이 나와도 사라지지 않게 (docfx.py lower)
+#     뉴스 원음 클립은 화면을 66%로 줄여 위에 두고(NEWS_SCALE), 이름표는 그 아래·자막 위 빈 띠에 — 방송 띠와 겹치지 않게
+#  ④ 렌더 뒤 8초 간격 장면 시트로 ①~③ 확인 (qa: scripts/youtube/long/sheet.py)
+R180_TAG_MIN = 3.0
+CODE_SCREEN_RE = re.compile(r"(^|/)(globe_|app_|puzzle_)|_fx_")
+
+
+def is_code_screen(pth):
+    return bool(CODE_SCREEN_RE.search(os.path.basename(str(pth or ""))))
+
 
 def clip_source(pth, n_frames, seed, start=0.0):
     """영상 클립을 화면 가득 (2026-11-03): 프레임을 미리 풀어 두지 않고 ffmpeg 파이프에서 순서대로 읽는다 (메모리 절약). 아주 천천히 밀고 들어간다."""
     st = {"p": None, "i": -1, "buf": None}; zin = seed % 2 == 0; dur = max(1, n_frames - 1)
+    fixed = is_code_screen(pth)   # r180 ①: 코드 효과 화면은 카메라 확대·축소 없이 고정
 
     def close():
         if st["p"] is not None:
@@ -1097,7 +1111,7 @@ def clip_source(pth, n_frames, seed, start=0.0):
         if st["i"] >= n_frames - 1: close()
         if st["buf"] is None: return background("dark")
         im = Image.frombuffer("RGB", (W, H), st["buf"])
-        t = min(1.0, u * FPS / dur); z = (1.0 + .04 * t) if zin else (1.04 - .04 * t)
+        t = min(1.0, u * FPS / dur); z = 1.0 if fixed else ((1.0 + .04 * t) if zin else (1.04 - .04 * t))
         if z > 1.0005:
             cw, ch = W / z, H / z; im = im.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
         return im
@@ -1122,7 +1136,10 @@ def cuts_source(v, n_frames, seed):
     edges = []; t = 0.0
     for c in cs:
         d_ = float(c.get("d") or each); edges.append((t, t + d_, c)); t += d_
-    if any(c.get("d") for c in cs): pass   # 2026-11-12: 길이를 정해 둔 컷(지구본 등)은 박자 컷 나누기보다 우선
+    if v.get("_lines_at") and len(v["_lines_at"]) >= 1:   # 2026-11-19 v6 대표 "6일 동안 와다다다": 말 한 줄마다 컷이 바뀐다 (줄 수 < 컷 수면 남은 컷은 마지막 줄 뒤)
+        la = [0.0] + list(v["_lines_at"][1:len(cs)]); la += [la[-1] + (total - la[-1]) * (k_ + 1) / (len(cs) - len(la) + 1) for k_ in range(len(cs) - len(la))]
+        edges = [(la[i], la[i + 1] if i + 1 < len(la) else total, cs[i]) for i in range(len(cs))]
+    elif any(c.get("d") for c in cs): pass   # 2026-11-12: 길이를 정해 둔 컷(지구본 등)은 박자 컷 나누기보다 우선
     elif v.get("_hits") is not None:   # 큰 베이스 시각에만 컷 (2026-11-07)
         b_ = hit_bounds(v["_hits"], len(cs)); bd = [0.0] + b_ + [total]
         edges = [(bd[i], bd[i + 1], cs[i]) for i in range(len(bd) - 1)]
@@ -1611,6 +1628,7 @@ def load_theme(n):
 
 
 VOICE_LOG = []
+SOT_MUSIC_DB = [[]]   # r181 검수 기록
 
 
 CENTS = []   # 지금까지 고른 문장들의 음색 밝기(스펙트럼 중심, Hz)
@@ -1865,6 +1883,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             if I["full"]:
                 full_img = fullsrc(u)
                 if DOC_OVERLAY and sc.get("sketch") and (not sc["v"].get("cine") or sc["v"].get("doc_cine")):   # 2026-11-04 대표님: 판 없이 다큐처럼 (docfx.py) · 2026-11-06 훅(cine)에도 doc_cine 이면 같은 다큐 글씨
+                    DOCFX.NEWS[0] = bool(sc.get("news"))   # r180 ③: 뉴스 장면은 이름표를 뉴스 화면 아래·자막 위에
                     full_img = DOCFX.draw(full_img, sc["sketch"], u, x["lines"])
                 elif sk:
                     arr = np.asarray(full_img).copy(); SK.panel(arr, sk, u); SK.apply(arr, sk, u); full_img = Image.fromarray(arr)   # 제1 원칙 72: 그림 위 글씨 뒤 반투명 판
@@ -2272,7 +2291,7 @@ def main():
     # 1) 음성
     if not fake: from tts import speak
     timeline = []; t = 0.0; audio = []
-    SOT_IV = []
+    SOT_IV = []; SOT_MUSIC_DB[0] = []
     BEAT = (60.0 / float(spec["hook"]["bpm"])) if spec.get("hook", {}).get("bpm") else 0.0   # 2026-11-03 대표님: 훅은 음악 박자에 맞춰 컷이 딱딱 바뀌어야 의미가 있다
     for sc in spec["scenes"]:
         lines = []
@@ -2316,7 +2335,8 @@ def main():
             dur = max(dur, float(DUB.get("min", 0))); audio.append((t, dub_orig(DUB, dur, [x_ for _, x_ in audio[-len(lines):]])))
             SOT_IV.append((t, t + dur))   # 2026-11-19 대표 v5: 원음+더빙 장면도 배경음악을 낮춘다
         HITS = MUSIC.get("hits") or []
-        if HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
+        if sc["v"].get("cut_by_line"): sc["v"]["_lines_at"] = [l_[0] for l_ in lt]   # 2026-11-19 v6: 줄마다 컷 (박자 컷보다 우선)
+        elif HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
             # 14:27 대표님: 사진 전환에 맞추려고 말을 멈추지 말 것 — 장면 길이는 말 길이 그대로, 장면 안에서 큰 베이스가 오면 그때만 사진을 바꾼다
             hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs; sc["v"]["_beat"] = BEAT or .5
             if len(sc["v"].get("cuts", [])) > len(hs) + 1 and not any(isinstance(c_, dict) and c_.get("d") for c_ in sc["v"]["cuts"]): sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:len(hs) + 1])   # 2026-11-12: 길이를 정한 컷(지구본 3.6초 → 무대 사진)은 남긴다
@@ -2392,6 +2412,8 @@ def main():
                             if b_["text"][ci] != " ": _add(x["start"] + t0_ + ci * .045, NBK.type_tick(SR, seed=ci + k * 31))
                     elif b_.get("kind") in ("lower", "quote"):
                         _add(x["start"] + DOCFX._t0(b_, x["lines"]), NBK.whoosh(SR, .9, level=.03, seed=k + 7))
+                    elif b_.get("kind") == "tag":   # 2026-11-19 v6 '와다다' 몽타주: 사건이 바뀔 때마다 묵직한 타격
+                        t0_ = DOCFX._t0(b_, x["lines"]); _add(x["start"] + t0_ - .03, NBK.boom(SR, level=.10, seed=int(t0_ * 10) + k)); _add(x["start"] + t0_, sfx_hit(.08, seed=int(t0_ * 7) + k))
                 for b_ in sk_:   # 시계 펀치: 세어 올라가는 동안 빠른 똑딱
                     if b_.get("kind") == "punch" and b_.get("clock"):
                         t0_ = DOCFX._t0(b_, x["lines"]); cnt = b_.get("count", 1.0); q = 0.0
@@ -2439,8 +2461,28 @@ def main():
     if SOT_IV:   # 2026-11-19 대표(v4): 원음(뉴스·트럼프) 동안 배경음악·훅 음악을 크게 낮춘다 (-16dB), 앞뒤 0.3초 부드럽게
         dm = np.zeros(len(mix), np.float32)
         for a_, b_ in SOT_IV: dm[max(0, int((a_ - .3) * SR)):int((b_ + .3) * SR)] = 1
-        dm = _movavg(dm, int(SR * .3)); dg = (1 - .84 * np.clip(dm, 0, 1)).astype(np.float32)
-        mus = mus * dg[:len(mus), None]; bed = bed * dg[:len(bed)]
+        dm = np.clip(_movavg(dm, int(SR * .3)), 0, 1).astype(np.float32)
+        # r181 (대표 11/19 16:45 "뉴스·원음 나올 때 인트로·본편 음악이 아예 끊김"): 음악은 원음·더빙 아래 계속 깔고 볼륨만 낮춘다.
+        # 원음 구간 목표 = 말 없는 평소 음악 대비 -19dB 고정 (말소리 덕킹과 겹쳐 -24dB 이하로 사라지던 것을 막는다, 0이 되면 실패)
+        tgt = float(10 ** (-19 / 20))
+        mfree = (MUS_LEVEL * boost)[:len(mus)]; mcur = (MUS_LEVEL * boost * (1 - MUS_DUCK * env))[:len(mus)]
+        gm = (mcur * (1 - dm[:len(mus)]) + mfree * tgt * dm[:len(mus)]) / np.maximum(mcur, 1e-6)
+        mus = mus * gm[:, None]
+        if h1:   # 훅(인트로 곡) 구간: 원음 동안 인트로 곡도 평소 대비 -19dB 까지만 (꺼지지 않게)
+            bfree = np.abs(bed); bref = float(np.sqrt(np.mean(bed[:int(max(1.0, h1 - 2.7) * SR)] ** 2))) + 1e-9
+            bcur = _movavg(bfree, int(SR * .4)) + 1e-9
+            gb = np.where(dm[:len(bed)] > 0, np.minimum(1.0, np.maximum(1 - .84 * dm[:len(bed)], (bref * tgt * .8) / bcur)), 1.0).astype(np.float32)
+            bed = bed * gb
+        else:
+            bed = bed * (1 - .84 * dm[:len(bed)])
+        SOT_MUSIC_DB[0] = []
+        for a_, b_ in SOT_IV:   # 검수 기록: 원음 구간 음악 크기 (평소 대비 dB)
+            i0, i1 = int(a_ * SR), int(b_ * SR)
+            if i1 > i0:
+                lv = float(np.sqrt(np.mean((mus[i0:i1, 0] + bed[i0:i1]) ** 2))) + 1e-9
+                ref = float(np.sqrt(np.mean((th_[max(0, i0 - 30 * SR):i0, 0] * MUS_LEVEL) ** 2))) + 1e-9 if i0 > lead_ + SR else float(np.sqrt(np.mean(bed[:max(SR, int((h1 - 2.7) * SR))] ** 2))) + 1e-9
+                SOT_MUSIC_DB[0].append([round(a_, 1), round(20 * math.log10(lv / ref), 1)])
+        print("  r181 원음 구간 음악 크기(dB, 평소 대비):", SOT_MUSIC_DB[0], flush=True)
     if os.environ.get("SAVE_DRY"):   # 검수용: 음악·베드 없는 목소리+효과음만 (훅 음악 시안 비교용)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", os.path.join(out, "voice_dry.wav")], input=mix.astype(np.float32).tobytes(), check=True)
     st_ = np.stack([mix + bed, mix + bed], 1) + mus; st_ = (st_ / max(1.0, np.abs(st_).max() / .95)).astype(np.float32)
@@ -2551,7 +2593,7 @@ def finish(spec, V, timeline, total, enc, tmp, wav, out, data):
             "events": spec.get("events", []), "pinned_comment": _vn_comment(fill(spec.get("pinned_comment", ""), V)), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
             "qa": {"media": [[k, "lib", s["sc"]["v"].get("lib")] for k, s in enumerate(timeline) if s["sc"]["v"]["type"] == "media"] + [[k, "lib", s["sc"]["v"]["backdrop"]] for k, s in enumerate(timeline) if s["sc"]["v"].get("backdrop")],
                    "lines": [[round(x["start"] + a, 2), round(d_, 2), l, to_speech(l)] for x in timeline for (a, d_, l) in x["lines"]],
-                   "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG, "dub": DUB_LOG}}
+                   "scenes": [[round(x["start"], 2), round(x["dur"], 2), x["sc"]["v"]["type"]] for x in timeline], "voice": VOICE_LOG, "dub": DUB_LOG, "sot_music_db": SOT_MUSIC_DB[0]}}
     if ENDSCREEN_SEC[0]: meta["endscreen_sec"] = ENDSCREEN_SEC[0]   # 업로드 때 유튜브 최종 화면 요소를 마지막 이 초만큼 건다
     json.dump(meta, open(os.path.join(out, "meta.json"), "w"), ensure_ascii=False, indent=1)
     print(f"완료: {total / 60:.1f}분 → {out}")

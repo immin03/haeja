@@ -69,6 +69,8 @@ def _t0(b, lines):
     """2026-11-12 대표님: 큰 숫자·표가 자막보다 먼저/늦게 휙 지나가지 않게 — 내레이션이 그 숫자를 말하는 순간에 맞춘다.
     lines 항목은 (시작, 길이, 자막 글) — sync:false 로 끄면 예전처럼 line/at 비율."""
     if b.get("kind") == "lower" and DESIGN2[0]: return .4   # 2026-11-17 대표님: 이름표가 늦게·짧게 떴다 → 장면 시작부터
+    if b.get("kind") == "tag" and lines:   # 2026-11-19 v6 몽타주 꼬리표: 그 줄을 말하기 시작할 때
+        return lines[min(b.get("line", 0), len(lines) - 1)][0]
     i = min(b.get("line", 0), len(lines) - 1); a, v = lines[i][0], lines[i][1]
     base = a + b.get("at", .05) * v
     if b.get("sync", True) and lines and len(lines[0]) >= 3:
@@ -122,7 +124,7 @@ def draw(img, beats, u, lines):
             img = im_.convert("RGB"); beats = [b for b in beats if b not in v2k]
     bs = [b for b in beats if b.get("kind") in ("print", "write", "chart", "bars", "pct", "table", "icon")]
     pu = [b for b in beats if b.get("kind") == "punch"]
-    ov_ = [b for b in beats if b.get("kind") in ("stamp", "lower", "quote", "acct")]   # 2026-11-06 방송국 다큐 연출: 장소·날짜 도장, 하단 자막띠, 인용 카드
+    ov_ = [b for b in beats if b.get("kind") in ("stamp", "lower", "quote", "acct", "tag")]   # 2026-11-06 방송국 다큐 연출: 장소·날짜 도장, 하단 자막띠, 인용 카드
     if not bs and not pu and not ov_: return img
     if not bs:
         im = img.convert("RGBA")
@@ -283,6 +285,10 @@ def _pct(im, b, p, y):
 
 # ───────── 2026-11-06 시네마틱: 숫자 펀치 · 비교표 · 아이콘 ─────────
 PUNCH_HOLD = 2.4
+NEWS = [False]   # r180 ③: 지금 장면이 뉴스 원음 화면인가 (render2 가 장면마다 넣는다)
+TAG_MIN = 3.0   # r180 ③: 원음·뉴스·인물 이름표 최소 표시 시간(초)
+NEWS_TAG_Y = 800   # r180 ③: 뉴스 화면(66%, y 84~797) 아래 · 뉴스 자막 상자(y 952~) 위
+SUB_TOP = 1080 - 160   # 일반 자막 윗선 (vn2 subtitle_line y=H-150 의 글자 위 끝 부근) — 이름표는 이 위에서 끝난다
 DESIGN2 = [False]   # 2026-11-16 대표님 디자인 v2 (vn2.py): 이름표·데이터 라인 숫자·명조 문구
 
 
@@ -328,9 +334,19 @@ def _broadcast(im, beats, u, lines):
             import vn2
             hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
             if b.get("until"): hold = float(b["until"]) - _t0(b, lines); fade = 1 - eio((p - hold) / float(b.get("fade_out", .2)))   # 2026-11-19 대표 v5: 뉴스 원음 장면은 이름표를 원음 구간(2초 남짓)만 아래 빈 띠에 두고, 더빙 자막이 나오기 전에 걷는다
+            # r180 ③ (대표 11/19 16:40 "너무 빨리 사라짐"): 최소 3초, 자막보다 높은 자리 → 자막이 나와도 걷지 않는다 (until 이 짧아도 3초 이상)
+            if hold < TAG_MIN: hold = TAG_MIN; fade = 1 - eio((p - hold) / .4)
             if fade <= 0: continue
             im = im.convert("RGBA") if im.mode != "RGBA" else im
-            vn2.nametag(im, b["text"], b.get("sub", ""), p, fade, y=b.get("y2"))
+            y_ = NEWS_TAG_Y if NEWS[0] else b.get("y2")
+            if y_ is not None and y_ + 132 > SUB_TOP: y_ = SUB_TOP - 140   # 이름표 아래 끝(+132)이 자막 윗선을 넘지 않게
+            vn2.nametag(im, b["text"], b.get("sub", ""), p, fade, y=y_)
+        elif k == "tag" and DESIGN2[0]:   # 2026-11-19 v6 대표 "6일 동안 여러 사건이 와다다다": 말 한 줄마다 바뀌는 사건 꼬리표 (다음 줄이 시작되면 바로 바뀜)
+            import vn2
+            i_ = min(b.get("line", 0), len(lines) - 1); end_ = lines[i_ + 1][0] if i_ + 1 < len(lines) else _scene_end(lines) + 1.0
+            if u >= end_: continue
+            im = im.convert("RGBA") if im.mode != "RGBA" else im
+            vn2.nametag(im, b["text"], b.get("sub", ""), max(p, 0) * 2.5, 1.0, y=b.get("y2"))
         elif k == "lower":   # 하단 자막띠: 금색 세로선이 서고 이름·설명이 옆에서 밀려 들어온다
             hold = max(b.get("hold", 5.0), _scene_end(lines) - _t0(b, lines) - .3); fade = 1 - eio((p - hold) / .8)
             if fade <= 0: continue

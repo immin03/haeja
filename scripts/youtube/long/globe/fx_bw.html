@@ -14,7 +14,7 @@ html,body{margin:0;background:#0c0c0e}canvas{display:block}
 // ★ 자막 안전 구역: 모든 효과의 글자·상자는 y 860 위에만 둔다 (아래는 자막·출처 자리, 2026-11-12 대표 '자막하고 화면이 겹쳐')
 // 모드: histchart(과거 국면 겹침 차트) · flow(돈의 흐름) · scale(누름·받침 저울) · timeline(사건 레일)
 // 내용은 전부 window.CFG 로 받는다 (원고마다 바꿔 쓴다). cap.js 로 PAGE=fx.html 지정해 영상으로 뽑는다.
-const W=1920,H=1080,c=document.getElementById('c'),g=c.getContext('2d');
+const W=1920,H=1080,c=document.getElementById('c'); let g=c.getContext('2d');   // r180: g 를 바꿔 끼워 본문 크기를 잰다
 const NAVY='#0c0c0e',GOLD='#f2f2f2',IVORY='#ffffff',GREEN='#ffffff',RED='#ff4d6d',PINK='#ff4d6d',GRAY='rgba(225,225,228,0.6)';
 const ease=x=>x<0?0:x>1?1:(x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2), cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 let land=null;
@@ -23,12 +23,12 @@ async function init(){
   await document.fonts.load('800 40px SUIT'); await document.fonts.load('600 40px SUIT'); window.ready=true;
 }
 init();
-function bg(){ const b=g.createRadialGradient(W/2,H/2,100,W/2,H/2,W); b.addColorStop(0,'#1d1d21'); b.addColorStop(1,NAVY); g.fillStyle=b; g.fillRect(0,0,W,H);
+function bg(){ if(window.NOBG) return; const b=g.createRadialGradient(W/2,H/2,100,W/2,H/2,W); b.addColorStop(0,'#1d1d21'); b.addColorStop(1,NAVY); g.fillStyle=b; g.fillRect(0,0,W,H);
   for(let i=0;i<160;i++){ const r1=Math.sin(i*12.9898)*43758.5453, r2=Math.sin(i*78.233)*12543.31; g.fillStyle=`rgba(235,235,238,${0.05+0.12*((i%7)/7)})`; g.fillRect((r1-Math.floor(r1))*W,(r2-Math.floor(r2))*H,1.6,1.6); } }
 function txt(s,x,y,size,col,w,align,a){ size=size*(window.FS||1); g.save(); g.globalAlpha=a==null?1:a; g.font=`${w||800} ${size}px SUIT`; g.fillStyle=col; g.textAlign=align||'left'; g.textBaseline='middle'; g.shadowColor='rgba(0,0,0,0.5)'; g.shadowBlur=8; g.fillText(s,x,y); g.restore(); }
 /* 2026-11-18 대표: 핵심(이름·결론)은 크게, 보조(연결 설명·항목·부제)는 덜 키운다 → FS2 */
 function txtS(s,x,y,size,col,w,align,a){ const f=window.FS; window.FS=window.FS2||1; txt(s,x,y,size,col,w,align,a); window.FS=f; }
-function kicker(C,t){ const f_=window.FS; window.FS=1; kicker0(C,t); window.FS=f_; }
+function kicker(C,t){ if(window.NOKICK) return; const f_=window.FS; window.FS=1; kicker0(C,t); window.FS=f_; }
 function kicker0(C,t){ const a=ease(cl(t/0.6)); g.save(); g.globalAlpha=a; g.fillStyle=PINK; const ky=C.ky||96; g.fillRect(120,ky,64,5); g.restore(); txt(C.kicker||'',200,ky+2,32,'#dcdcdc',600,'left',a); txt(C.title||'',120,ky+66,62,IVORY,800,'left',a); }   // ky: 롱폼 왼쪽 위 목차와 겹치지 않게 내림 (2026-11-17)
 function glow(x,y,r,col,a){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,col.replace('A',a)); gr.addColorStop(1,col.replace('A',0)); g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
 
@@ -176,5 +176,33 @@ function docs(C,t){
   if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
 }
 window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs})[mode];
-  if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
+  if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
+    if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
+  safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
+
+/* ★ r180 (대표 11/19 16:40, 반복 지적 — 모든 롱폼·쇼츠 고정 규칙) 코드 화면 안전 배치 — 기본값
+   ① 카메라 확대·축소 없음: 화면은 고정 (본문이 그려지는 움직임만)
+   ② 여백: 좌우 최소 6%(116px) · 위 머리글(목차 01/05·NEXT, y 0~70)과 부제·제목 사이 간격 · 본문은 자막 영역(아래 18%, y 885~) 위에서 끝
+   방법: 본문을 다 그린 마지막 모습의 실제 범위를 한 번 재서, 안전 상자 SAFE_BOX 안에 들어가게 한 번만 줄이고(키우지 않음) 고정한다.
+   부제·제목은 KY(=150) 아래, 출처 줄은 맨 아래(자막 밑) 작은 글씨로 따로. */
+const SAFE_L=116, SAFE_R=W-116, SAFE_B=868, KY=150;
+let _bb=null, _bbKey='';
+function _measure(C,fn){
+  const oc=document.createElement('canvas'); oc.width=W; oc.height=H; const g0=g; g=oc.getContext('2d');
+  window.NOBG=1; window.NOKICK=1; try{ fn(C,60); } finally { g=g0; window.NOBG=0; window.NOKICK=0; }
+  const d=oc.getContext('2d').getImageData(0,0,W,H).data; let x0=W,y0=H,x1=0,y1=0;
+  for(let y=0;y<H;y+=2){ const r=y*W*4; for(let x=0;x<W;x+=2){ if(d[r+x*4+3]>40){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; } } }
+  if(x1<=x0||y1<=y0) return {x0:0,y0:0,x1:W,y1:H}; return {x0,y0,x1:x1+2,y1:y1+2};
+}
+function safeDraw(C,fn,t){
+  const Cb=Object.assign({},C); delete Cb.note; delete Cb.shrink; delete Cb.top;
+  const key=JSON.stringify(C); if(key!==_bbKey){ _bb=_measure(Cb,fn); _bbKey=key; }
+  const top=KY+(C.title?120:40), bw=_bb.x1-_bb.x0, bh=_bb.y1-_bb.y0;
+  const s=Math.min(1,(SAFE_R-SAFE_L)/bw,(SAFE_B-top)/bh);
+  const cx=(_bb.x0+_bb.x1)/2, tx=W/2-cx*s, ty=top+((SAFE_B-top)-bh*s)/2-_bb.y0*s;
+  window.NOBG=0; bg(); const f_=window.FS; window.FS=1; kicker0(Object.assign({},C,{ky:KY}),t); window.FS=f_;
+  g.save(); g.translate(tx,ty); g.scale(s,s); window.NOBG=1; window.NOKICK=1; try{ fn(Cb,t); } finally { window.NOBG=0; window.NOKICK=0; g.restore(); }
+  if(C.note) txt(C.note,SAFE_L,1052,20,GRAY,600,'left',ease(cl(t/0.8)));
+  window.SAFE_INFO={s,box:[tx+_bb.x0*s,ty+_bb.y0*s,tx+_bb.x1*s,ty+_bb.y1*s]};
+}
 </script></body></html>
