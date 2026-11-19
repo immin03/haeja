@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119u_emergency_radio",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: An old emergency broadcast radio on a kitchen table at night, a single lamp, a family's empty chairs around it, quiet tense mood",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f14f-6d17-7f73-b81e-9c365c9a5258",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f14f-6d17-7f73-b81e-9c365c9a5258/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f14f-6d17-7f73-b81e-9c365c9a5258/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f14f-6d17-7f73-b81e-9c365c9a5258",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f14f-6d17-7f73-b81e-9c365c9a5258/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f14f-6d17-7f73-b81e-9c365c9a5258/cancel",
+  "expires_at": "2026-11-26T00:58:05.057297+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f14f-6d17-7f73-b81e-9c365c9a5258/46ff9089-eda5-48fe-9853-fed8e827137c.png"
+   }
+  ]
+ },
+ "seconds": 12,
+ "file": "scripts/blog/media/lib/il_L261119u_emergency_radio.png"
+}

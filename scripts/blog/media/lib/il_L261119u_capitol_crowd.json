@@ -1,0 +1,33 @@
+{
+ "id": "il_L261119u_capitol_crowd",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, anamorphic widescreen, near-monochrome desaturated black-and-white color grade with deep blacks and soft silver highlights, very subtle cool tint, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Scene: A large crowd seen from behind holding blank cardboard signs in front of a distant white domed legislative building at dusk, no faces visible",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f14f-a2cb-7990-8dc7-f243a61319e3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f14f-a2cb-7990-8dc7-f243a61319e3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f14f-a2cb-7990-8dc7-f243a61319e3/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f14f-a2cb-7990-8dc7-f243a61319e3",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f14f-a2cb-7990-8dc7-f243a61319e3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f14f-a2cb-7990-8dc7-f243a61319e3/cancel",
+  "expires_at": "2026-11-26T00:58:20.416155+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f14f-a2cb-7990-8dc7-f243a61319e3/c09e203a-6f8e-406c-9f82-e8ff6d80f3dd.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261119u_capitol_crowd.png"
+}
