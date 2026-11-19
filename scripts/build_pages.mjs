@@ -40,7 +40,11 @@ async function load() {
   if (!r.ok) throw new Error('screen ' + r.status);
   const docs = await r.json();
   const meta = docs.find((d) => d.id === 'meta')?.data || {};
-  const rows = docs.filter((d) => d.id.startsWith('chunk-')).sort((a, b) => a.id.localeCompare(b.id)).flatMap((d) => d.data?.rows || []);
+  const chunks = docs.filter((d) => d.id.startsWith('chunk-')).sort((a, b) => a.id.localeCompare(b.id));
+  const rows = chunks.flatMap((d) => d.data?.rows || []);
+  /* 2026-11-19: 재무는 매주 토요일 수집(meta.generatedAt), 주가는 평일 매일 갱신(chunk.pxAt). 화면 날짜는 주가 갱신일을 쓴다 */
+  const pxAt = chunks.map((d) => d.data?.pxAt).filter(Boolean).sort().pop();
+  if (pxAt && (!meta.generatedAt || pxAt > meta.generatedAt)) meta.generatedAt = pxAt;
   await loadVN();
   return { meta, rows };
 }
