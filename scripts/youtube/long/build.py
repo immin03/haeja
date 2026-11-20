@@ -119,10 +119,22 @@ def main(only):
             except Exception as e: print("세로 사진 가로 변환 실패(원본으로 진행):", e)
             renderer = "render2.py" if spec.get("format") == 2 else "render.py"  # v2: 머니스웨거식 샷 리스트 원고
             os.environ["TTS_ITEM"] = sid   # 타입캐스트 사용량을 편별로 기록 (scripts/reels/tts_log.py)
+            # 2026-11-20 대표: "썸네일이 옛날 걸로 검수 페이지에 올라가고, 올릴 때도 옛날 걸로 올라간다" — 원인: 대표가 확정해 손으로 바꾼
+            # 썸네일([skip ci] 커밋)을 그 뒤 다시 렌더할 때마다 렌더러/thumb_v8 이 원고 기준 옛 썸네일로 덮어썼다(L261119u 11/19 12:28·14:37).
+            # 원고에 "thumb_fixed"가 있으면 렌더 전에 지금 썸네일을 떼어 두었다가 렌더 뒤 그대로 되돌린다. 썸네일을 바꾸라는 지시가 오면
+            # 제작 작업이 thumb_fixed 를 지우고 thumb_v8 을 고쳐 다시 렌더한다(제1 원칙 r184).
+            _keep = {}
+            if spec.get("thumb_fixed"):
+                for _n in ("thumb.jpg", "thumb_a.jpg", "thumb_b.jpg", "thumb_c.jpg", "thumb_en.jpg"):
+                    _p = os.path.join(OUT, sid, _n)
+                    if os.path.exists(_p): _keep[_n] = open(_p, "rb").read()
+                print("확정 썸네일 보존:", sid, sorted(_keep) or "없음(처음 렌더)")
             sh([sys.executable, os.path.join(HERE, renderer), f])
-            if spec.get("thumb_v8"):   # 2026-11-17 썸네일 v8(큰 2줄 · 핑크 밑줄) 3안 — 렌더러가 만든 옛 썸네일을 덮는다
+            if spec.get("thumb_v8") and not _keep:   # 2026-11-17 썸네일 v8(큰 2줄 · 핑크 밑줄) 3안 — 렌더러가 만든 옛 썸네일을 덮는다
                 try: sh([sys.executable, os.path.join(HERE, "thumb_v8.py"), f, os.path.join(OUT, sid)])
                 except Exception as e: print("썸네일 v8 실패(옛 썸네일 유지):", e)
+            for _n, _b in _keep.items():   # 확정 썸네일 되돌리기
+                open(os.path.join(OUT, sid, _n), "wb").write(_b)
             meta = json.load(open(meta_p, encoding="utf-8"))
             stamp = now.strftime("%y%m%d%H%M"); tag = "yt-" + sid; name = f"{sid}-{stamp}.mp4"
             vid = os.path.join(OUT, sid, "video.mp4"); up = os.path.join(OUT, sid, name); os.replace(vid, up)
