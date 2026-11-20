@@ -21,7 +21,7 @@ from brand import paste_logo  # noqa: E402  (2026-10-23 확정 로고)
 import render as R  # noqa: E402  (글꼴·자막·음성 속도·배경음악·사진 움직임을 함께 쓴다)
 from render import F, AD, clamp, ease, fill, wrap, count_text, W, H, FPS, SR, ROOT  # noqa: E402
 DRAFT = os.environ.get("DRAFT") == "1"   # 2026-11-20 검수용 빠른 시안
-FPS_OUT = 12 if DRAFT else FPS
+FPS_OUT = 24 if DRAFT else FPS   # 2026-11-21 대표 "사진 움직임이 버벅인다": 시안도 24장/초로 (12장/초는 움직임이 끊겨 보임)
 from korean import to_speech  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 
@@ -1035,9 +1035,10 @@ class LazyPhoto:
     def __len__(self): return self.n
 
     def __getitem__(self, i):
-        im = self.im; t = i / max(1, self.n - 1); z = (1.0 + .08 * t) if self.zin else (1.08 - .08 * t)
+        # 2026-11-21 대표 "사진만으로 움직이니 버벅인다": 끝에서 멈칫하던 이동(1.6배 후 가장자리에 걸림)을 없애고, 부드러운 가감속으로 천천히 한 방향만
+        im = self.im; t0 = i / max(1, self.n - 1); t = t0 * t0 * (3 - 2 * t0); z = (1.0 + .06 * t) if self.zin else (1.06 - .06 * t)
         w, h = W * self.kk / z, H * self.kk / z
-        cx = im.width / 2 + self.dx * (im.width - w) / 2 * (t - .5) * 1.6; cy = im.height / 2 + self.dy * (im.height - h) / 2 * (t - .5) * 1.6
+        cx = im.width / 2 + self.dx * (im.width - w) / 2 * (t - .5) * .9; cy = im.height / 2 + self.dy * (im.height - h) / 2 * (t - .5) * .9
         l = min(max(cx - w / 2, 0), im.width - w); tp = min(max(cy - h / 2, 0), im.height - h)
         return np.asarray(im.resize((W, H), Image.BILINEAR, box=(l, tp, l + w, tp + h)))
 
@@ -1401,7 +1402,7 @@ def full_source(v, n_frames, seed):
     dur = max(1, n_frames - 1)
 
     def get(u):
-        t = min(1.0, u * FPS / dur); z = (1.0 + .06 * t) if zin else (1.06 - .06 * t)
+        t = min(1.0, u * FPS / dur); t = t * t * (3 - 2 * t); z = (1.0 + .06 * t) if zin else (1.06 - .06 * t)   # 2026-11-21: 부드러운 가감속
         # 2026-11-04 금 편: 16:9보다 넓은/좁은 사진에서 자를 칸이 사진 밖으로 나가 렌더가 멈춰, 짧은 변 기준으로 맞추고 안쪽으로 묶음
         sc = min(bw / W, bh / H) / (1.1 * z); cw = W * sc; ch = H * sc
         cx = (bw - cw) / 2 + dx * (bw - cw) / 2 * (t - .5); cy = (bh - ch) / 2 + dy * (bh - ch) / 2 * (t - .5)
