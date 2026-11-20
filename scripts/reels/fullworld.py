@@ -390,8 +390,8 @@ def _tat(E, L, i, frac):
 
 def doc_overlay(E, img, s, u):
     f = s["sc"]["full"]; L = s["L"]
-    lab = f.get("label"); num = f.get("num"); pct = f.get("pct"); bars = f.get("bars")
-    if not (lab or num or pct or bars): return img
+    lab = f.get("label"); num = f.get("num"); pct = f.get("pct"); bars = f.get("bars"); checks = f.get("checks")
+    if not (lab or num or pct or bars or checks): return img
     g = E.ease_io(max(0.0, min(1.0, (u - .05) / .5)))
     top = (getattr(E, "BAND_H", 0) or 330)
     if g > 0:   # 위쪽을 남색으로 (글씨 자리) + 전체를 살짝 어둡게 — 다큐 색
@@ -431,6 +431,30 @@ def doc_overlay(E, img, s, u):
     if bars:
         t0 = _tat(E, L, f.get("num_line", 0), f.get("bars_frac", .2)); p = u - t0
         if p > 0: img = _dbars(E, img, bars, p, y)
+    if checks: img = _dchecks(E, img, checks, L, u, y)
+    return img
+
+
+def _dchecks(E, img, it, L, u, y):
+    """2026-11-20 대표 10:47 (Y261120a v3.1): 체크리스트 화면 — 1·2·3 번호(핑크 원) + 큰 흰 글씨(60대 시청자).
+    각 항목 {"t": 글, "line": 나오는 음성 줄}. 지금 말하는 항목은 핑크 밑줄, 지난 항목은 살짝 흐리게, 아직 안 나온 항목은 숨김."""
+    starts = [_tat(E, L, int(i.get("line", k)), 0.0) for k, i in enumerate(it)]
+    cur = max([k for k, t in enumerate(starts) if u >= t] or [-1])
+    fs = 92; fnt = E.F("Heavy", fs); nf = E.F("Heavy", 70); d = ImageDraw.Draw(img)
+    while fs > 64 and max(d.textlength(i["t"], font=fnt) for i in it) > BAND_W - 170: fs -= 4; fnt = E.F("Heavy", fs)
+    for k, i in enumerate(it):
+        p = u - starts[k]
+        if p <= 0: continue
+        r = _eout(p / .45); ry = y + 70 + k * 230; a = 1.0 if k == cur else .55
+        cx = X0 + 58; d = ImageDraw.Draw(img)
+        col = PINK if k == cur else (120, 120, 120)
+        d.ellipse([cx - 52, ry - 52, cx + 52, ry + 52], fill=(*col,) if r >= 1 else tuple(int(c * r) for c in col))
+        _dtext(img, (cx, ry + 2), str(k + 1), nf, (255, 255, 255, int(255 * r)), anchor="mm")
+        tx = X0 + 150 + int(26 * (1 - r))
+        _dtext(img, (tx, ry + 2), i["t"], fnt, (255, 255, 255, int(255 * r * a)), glow=True, anchor="lm")
+        if k == cur:
+            d = ImageDraw.Draw(img); tw = d.textlength(i["t"], font=fnt) * _eout((p - .2) / .5)
+            if tw > 0: d.rounded_rectangle([tx, ry + fs // 2 + 8, tx + tw, ry + fs // 2 + 24], radius=8, fill=PINK)
     return img
 
 
