@@ -1,5 +1,18 @@
 scripts
 supabase
 README.md
+
+# 2026-11-20 Vercel 비용 사고: 배포마다 수 GB가 올라가 배포 저장·빌드 비용이 폭증했다.
+# 사이트(페이지·인스타 게시 함수)가 사이트 주소로 가져가지 않는 파일만 뺀다.
+# 영어 쇼츠 업로드·검수는 raw.githubusercontent.com 에서 받는다. 렌더 작업은 저장소에서 직접 읽는다.
 docs/emperor/en
 docs/emperor/long
+social/side/tts_cache
+social/side/voice_samples
+social/side/ed_long
+social/music
+
+# 영상 사본: Supabase 함수 media-offload(mode mirror, 크론 media-mirror 10분마다)가 Storage 'media' 에 올리고,
+# 사이트 주소 요청은 vercel.json rewrite 가 Storage 사본을 내준다. 사본이 다 올라간 뒤에만 여기에 추가한다.
+#   docs/emperor/ep/*.mp4   ← Supabase 업로드 한도 50MB → 200MB 로 올린 뒤 추가 (50MB 넘는 에피소드 19개)
+#   social/side/gen/*.mp4   ← 사본 확인 뒤 추가
