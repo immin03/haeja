@@ -43,15 +43,15 @@ def render(t, out):
     f2 = vn2.SUIT("Heavy", 150) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 150)
     while D.textlength(t["l2"], font=f2) > TW - LX - 40: f2 = vn2.font(os.path.basename(f2.path), f2.size - 6)
     while D.textlength(t["kicker"], font=fk) > TW - LX - 40: fk = vn2.font(os.path.basename(fk.path), fk.size - 4)
-    while D.textlength(t["l1"], font=f1) > TW - LX - 40: f1 = vn2.font(os.path.basename(f1.path), f1.size - 4)
-    y2 = TH - 70 - f2.size; y1 = y2 - 30 - f1.size; yk = y1 - 18 - fk.size
+    while D.textlength(t.get("l1",""), font=f1) > TW - LX - 40: f1 = vn2.font(os.path.basename(f1.path), f1.size - 4)
+    y2 = TH - 70 - f2.size; y1 = y2 - 30 - f1.size; yk = (y1 if t.get("l1") else y2) - 18 - fk.size   # 2026-11-20 부제 없이 큰 한 줄도 허용
     x = LX
     if t.get("badge"):
         fb = vn2.SUIT("ExtraBold", 40); bw = D.textlength(t["badge"], font=fb) + 40
         D.rounded_rectangle([x, yk - 4, x + bw, yk + fk.size + 14], 10, fill=(*PINK, 255)); D.text((x + 20, yk), t["badge"], font=fb, fill=(255, 255, 255)); x += bw + 22
     _txt(th, (x, yk), t["kicker"], fk, (*PINK, 255)); D = ImageDraw.Draw(th)
     pass
-    _txt(th, (LX, y1), t["l1"], f1); _txt(th, (LX, y2), t["l2"], f2); D = ImageDraw.Draw(th)
+    (t.get("l1") and _txt(th, (LX, y1), t["l1"], f1)); _txt(th, (LX, y2), t["l2"], f2); D = ImageDraw.Draw(th)
     if t.get("ul") and t["ul"] in t["l2"]:
         i = t["l2"].index(t["ul"]); ux0 = LX + D.textlength(t["l2"][:i], font=f2); ux1 = ux0 + D.textlength(t["ul"], font=f2)
         D.rounded_rectangle([ux0, y2 + f2.size + 14, ux1, y2 + f2.size + 26], 6, fill=(*PINK, 255))
