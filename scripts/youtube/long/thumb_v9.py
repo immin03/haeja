@@ -39,7 +39,7 @@ def render(t, out):
     th.alpha_composite(g); g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
     for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(140 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.4)))
     th.alpha_composite(g); D = ImageDraw.Draw(th)
-    LX = 64; fk, f1 = vn2.SUIT("Heavy", 86) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 86), vn2.SUIT("Bold", 58)
+    LX = 64; fk, f1 = vn2.SUIT("Heavy", 86) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 86), vn2.SUIT("ExtraBold", 84)   # 2026-11-20 대표: 가운데 부제가 작아 안 보임(60대 시청자) — 58 Bold → 84 ExtraBold
     f2 = vn2.SUIT("Heavy", 150) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 150)
     while D.textlength(t["l2"], font=f2) > TW - LX - 40: f2 = vn2.font(os.path.basename(f2.path), f2.size - 6)
     while D.textlength(t["kicker"], font=fk) > TW - LX - 40: fk = vn2.font(os.path.basename(fk.path), fk.size - 4)
