@@ -143,7 +143,10 @@ def check(spec, spec_path, use_db=True):
         if not (sot or (dub and dub.get("clip"))): continue
         n_orig += 1; clip = (sot or dub).get("clip")
         if not lib_exists(clip): fail("③", f"장면 {i}: 원음 클립 파일 없음 {clip} — 원음 확보 후 렌더 (CLIPS.md)")
-        if sot and not dub: fail("③", f"장면 {i}: 원음 뒤 한국어 더빙 지정 없음(sot만 — r179 자막만 금지)")
+        # 2026-11-21 대표: 더빙 없이 원음+자막 테스트(r205) — spec.orig_mode=="sot_test"면 sot만 허용, 원음은 넉넉하게
+        if sot and not dub and spec.get("orig_mode") != "sot_test": fail("③", f"장면 {i}: 원음 뒤 한국어 더빙 지정 없음(sot만 — r179 자막만 금지)")
+        if sot and not sc.get("lines"): fail("③", f"장면 {i}: 원음 자막(번역 문장) 없음")
+        if sot and not (4.0 <= float(sot.get("dur", 0)) <= 45.0): fail("③", f"장면 {i}: 원음 길이 {sot.get('dur')}초 — 4~45초")
         if dub and not (dub.get("voice") and sc.get("lines")): fail("③", f"장면 {i}: 더빙 목소리·문장 지정 없음")
         if not any(b.get("kind") == "lower" and b.get("text") for b in (sc.get("sketch") or [])): fail("③", f"장면 {i}: 원음 이름표(lower) 없음")
         if tl[i][1] < 3.0: fail("③", f"장면 {i}: 원음 장면 {tl[i][1]:.1f}초 — 이름표 3초 이상 보이게")
