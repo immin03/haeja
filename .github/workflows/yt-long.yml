@@ -51,7 +51,7 @@ jobs:
       - name: 도구 설치
         timeout-minutes: 20   # 2026-11-12: 이 단계가 75분 넘게 멈춘 일이 있어 상한·재시도를 둔다
         run: |
-          if ! command -v ffmpeg >/dev/null || ! fc-list | grep -qi "noto sans cjk"; then
+          if ! ffmpeg -version >/dev/null 2>&1 || ! fc-list | grep -qi "noto sans cjk"; then   # 2026-11-20: 캐시로 ffmpeg 파일만 있고 실행이 안 되는(127) 경우가 있어 실제 실행으로 확인
             for i in 1 2 3; do timeout 300 sudo apt-get update -qq -o Acquire::Retries=3 && timeout 400 sudo apt-get install -y -qq -o Acquire::Retries=3 ffmpeg fonts-noto-cjk && break; echo "apt 재시도 $i"; sleep 10; done
           fi
           timeout 400 pip install -q numpy scipy pillow soundfile opencv-python-headless sherpa-onnx==1.13.8
