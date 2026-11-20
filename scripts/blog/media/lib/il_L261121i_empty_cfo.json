@@ -1,0 +1,33 @@
+{
+ "id": "il_L261121i_empty_cfo",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: An empty office chair turned away from a desk with financial binders and a closed laptop, late evening light through blinds, someone has just left.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f99a-e740-73b0-8d55-587b8bb97aac",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f99a-e740-73b0-8d55-587b8bb97aac/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f99a-e740-73b0-8d55-587b8bb97aac/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f99a-e740-73b0-8d55-587b8bb97aac",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f99a-e740-73b0-8d55-587b8bb97aac/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f99a-e740-73b0-8d55-587b8bb97aac/cancel",
+  "expires_at": "2026-11-27T15:37:50.730110+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f99a-e740-73b0-8d55-587b8bb97aac/ed4cabbc-f757-4526-bbe0-7959862c5cf1.png"
+   }
+  ]
+ },
+ "seconds": 31,
+ "file": "scripts/blog/media/lib/il_L261121i_empty_cfo.png"
+}

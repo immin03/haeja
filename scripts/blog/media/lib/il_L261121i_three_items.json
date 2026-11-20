@@ -1,0 +1,33 @@
+{
+ "id": "il_L261121i_three_items",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: Top-down view of a dark desk with three objects neatly spaced: a stack of paper share certificates, a small brass padlock, and a calculator showing a blank display, warm lamp.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1f99b-1ca9-7ae4-8723-a6435dde254d",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f99b-1ca9-7ae4-8723-a6435dde254d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f99b-1ca9-7ae4-8723-a6435dde254d/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1f99b-1ca9-7ae4-8723-a6435dde254d",
+  "status_url": "https://api.higgsfield.ai/requests/01a1f99b-1ca9-7ae4-8723-a6435dde254d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1f99b-1ca9-7ae4-8723-a6435dde254d/cancel",
+  "expires_at": "2026-11-27T15:37:43.037279+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1f99b-1ca9-7ae4-8723-a6435dde254d/af099b42-1e24-4c2c-934e-262a87687c34.png"
+   }
+  ]
+ },
+ "seconds": 12,
+ "file": "scripts/blog/media/lib/il_L261121i_three_items.png"
+}
