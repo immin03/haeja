@@ -2066,7 +2066,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
             cur = next((l for l in reversed(x["lines"]) if u >= l[0] - .05), None)
             if D2[0]:
                 if cur and u <= cur[0] + cur[1] + .25 and typ != "end" and not sc["v"].get("ident"):   # 2026-11-16 21:34 대표: 자막은 항상 떠 있고 강조는 그 위에
-                    sub_v2(im, cur[2], u - cur[0], cur[1], left=bool(sc.get("dub")) and not sc.get("news"), hi=bool((sc.get("sot") or sc.get("sub_hi")) and not sc.get("news")), box=bool(sc.get("news")))
+                    sub_v2(im, cur[2], u - cur[0], cur[1])   # 2026-11-20 14:44 대표 "원음 자막이 왜 달라져, 다른 자막과 똑같이" → 원음·뉴스 구간도 같은 자막 틀
             elif cur and u <= cur[0] + cur[1] + .25 and typ != "end":
                 subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 200) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-16 대표님: 인트로 자막이 하단 띠와 겹침 → 극장 띠 바로 위로   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리
             if _want: enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
