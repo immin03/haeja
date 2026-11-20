@@ -294,7 +294,7 @@
     "wash": "left",
     "cuts": [
      {
-      "lib": "globe_L261120_fx_intraday.mp4"
+      "lib": "globe_L261120_fx_intraday_big.mp4"
      }
     ],
     "wash_amt": 0.85
@@ -302,22 +302,12 @@
    "sketch_add": [],
    "asof": false,
    "src": "CNBC·Yahoo Finance 2026-11-19(미국) · 제작진 계산(17.82달러 × 131억 주) · 시간외 Benzinga·StockAnalysis",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "약 310조 원",
-     "sub": "장중 고점 114.99 → 종가 97.17 · 발행주식 131억 주 · 1달러 약 1,330원 환산",
-     "line": 0,
-     "at": 0.4,
-     "hold": 3.0,
-     "color": "red"
-    }
-   ],
+   "sketch": [],
    "lines": [
     "장중 고점에서 종가까지, 시가총액 약 310조 원이 사라졌습니다.",
     "장이 끝난 뒤, 시간외에서도 또 밀렸습니다."
    ],
-   "note": "[훅] 코드 효과 하루 주가 흐름"
+   "note": "[훅] 코드 효과 하루 주가 흐름 · 대표 16:53 '310조 너무 작다' → 오른쪽 큰 그래프 + 왼쪽 -310조 크게(그래프 영상 안에)"
   },
   {
    "v": {
