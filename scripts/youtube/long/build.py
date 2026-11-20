@@ -131,7 +131,10 @@ def main(only):
                 print("확정 썸네일 보존:", sid, sorted(_keep) or "없음(처음 렌더)")
             sh([sys.executable, os.path.join(HERE, renderer), f])
             if spec.get("thumb_v8") and not _keep:   # 2026-11-17 썸네일 v8(큰 2줄 · 핑크 밑줄) 3안 — 렌더러가 만든 옛 썸네일을 덮는다
-                try: sh([sys.executable, os.path.join(HERE, "thumb_v8.py"), f, os.path.join(OUT, sid)])
+                # 2026-11-20 대표 "이거 최신 규칙 맞아? 왜 자꾸 이러지" — 11/18 확정 썸네일 틀은 v9(핑크 큰 머리글·밑줄 없음, thumb_v9.py)인데
+                # 렌더는 계속 v8(작은 흰 머리글)로 만들고 있었다. 원고 키 이름은 thumb_v8 그대로 두고 그리는 틀만 v9로.
+                _tv = "thumb_v9.py" if os.path.exists(os.path.join(HERE, "thumb_v9.py")) else "thumb_v8.py"
+                try: sh([sys.executable, os.path.join(HERE, _tv), f, os.path.join(OUT, sid)])
                 except Exception as e: print("썸네일 v8 실패(옛 썸네일 유지):", e)
             for _n, _b in _keep.items():   # 확정 썸네일 되돌리기
                 open(os.path.join(OUT, sid, _n), "wb").write(_b)
