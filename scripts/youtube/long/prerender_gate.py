@@ -229,8 +229,11 @@ def check(spec, spec_path, use_db=True):
     for i, sc in enumerate(scenes):
         texts += [(f"장면 {i}", l) for l in sc.get("lines", [])] + [(f"장면 {i} 출처", str(sc.get("src", "")))]
         texts += [(f"장면 {i} 화면", str(b.get(k, ""))) for b in (sc.get("sketch") or []) for k in ("text", "sub", "title")]
+    # 2026-11-20 12:22 대표 "중대한, 그 무게는 엉뚱한 데 떨어졌습니다 — 이런 표현 진짜 하지 말자. 추상적이고 뭔 소리인지 모르겠다"
+    ban2 = re.compile(r"무게는|무게가 실|엉뚱한 (곳|데)|신호탄|축포")
     for where, tx in texts:
         for m_ in ban.finditer(tx or ""): fail("⑨", f"{where}: 금지어 '{m_.group(0)}' — {tx[max(0, m_.start() - 12):m_.end() + 12]}")
+        for m_ in ban2.finditer(tx or ""): fail("⑨", f"{where}: 추상 비유 금지(r185) '{m_.group(0)}' — {tx[max(0, m_.start() - 12):m_.end() + 12]}")
         for m_ in re.finditer(r"(다섯|여섯|일곱|여덟|아홉|스무|서른|마흔|쉰|예순|일흔|여든|아흔) ?(곳|번|차례|명|개|해|살|년|달)", tx or ""):
             warn("⑨", f"{where}: 고유어 수 '{m_.group(0)}' — 아라비아 숫자 권장(r84·r183)")
 

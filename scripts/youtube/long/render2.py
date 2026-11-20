@@ -20,6 +20,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 from brand import paste_logo  # noqa: E402  (2026-10-23 확정 로고)
 import render as R  # noqa: E402  (글꼴·자막·음성 속도·배경음악·사진 움직임을 함께 쓴다)
 from render import F, AD, clamp, ease, fill, wrap, count_text, W, H, FPS, SR, ROOT  # noqa: E402
+DRAFT = os.environ.get("DRAFT") == "1"   # 2026-11-20 검수용 빠른 시안
+FPS_OUT = 12 if DRAFT else FPS
 from korean import to_speech  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "scripts", "reels"))
 
@@ -1164,7 +1166,7 @@ def cuts_source(v, n_frames, seed):
         if j != st["j"]:
             if st["src"] is not None and hasattr(st["src"], "close"): st["src"].close()
             a, b, c = edges[j]; nf = int(round(((max(b, total) - a) if j == len(edges) - 1 else (b - a)) * FPS)) + 2
-            st["src"] = full_source({"lib": c["lib"], "wash": c.get("wash", "none")}, nf, seed * 7 + j); st["j"] = j; st["a"] = a
+            st["src"] = full_source({"lib": c["lib"], "wash": c.get("wash", "none"), "start": c.get("start", 0)}, nf, seed * 7 + j); st["j"] = j; st["a"] = a   # start: 원음 영상 컷을 더빙과 같은 지점부터 (2026-11-20)
         return st["src"](max(0.0, u - st["a"]))
     return get
 
@@ -1381,10 +1383,12 @@ def full_source(v, n_frames, seed):
             bg = clip_source(os.path.join(lib, v.get("ident_bg", "vnewyork_30544.mp4")), n_frames + 2, 1)
             return vn2.intro_source(bg, n_frames, FPS)
         return ident_source(n_frames)   # 2026-11-03 대표님: 훅 뒤 2~3초 밸류노트 인트로
+    if v.get("panel") and v.get("cuts"):   # 2026-11-20 12:22 대표: 밸류노트 앱 소개 화면이 너무 크다 → 화면 절반 크기 + 옆에 글
+        return panel_source(cuts_source(v, n_frames, seed), v["panel"])
     if v.get("cuts"): return cuts_source(v, n_frames, seed)   # 2026-11-03 대표님: '돈의 질서'처럼 외부 사진·영상을 빠른 템포로
     pth = os.path.join(lib, v.get("lib", ""))
     if not v.get("lib") or not os.path.exists(pth): return lambda u: background("light")
-    if pth.lower().endswith((".mp4", ".mov", ".webm")): return clip_source(pth, n_frames, seed)
+    if pth.lower().endswith((".mp4", ".mov", ".webm")): return clip_source(pth, n_frames, seed, start=float(v.get("start") or 0))
     src = Image.open(pth).convert("RGB"); r = max(W / src.width, H / src.height) * 1.1
     big = src.resize((int(src.width * r), int(src.height * r)), Image.LANCZOS); bw, bh = big.size
     dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, 1)]; dx, dy = dirs[seed % len(dirs)]; zin = seed % 2 == 0
@@ -1406,6 +1410,45 @@ def full_source(v, n_frames, seed):
         if ov is not None: im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
         return im
     return get
+
+
+def panel_source(get, P):
+    """2026-11-20 대표: 앱 화면은 절반 크기(오른쪽) + 왼쪽에 제목·요점 글. 배경은 같은 화면을 흐리고 어둡게."""
+    from PIL import ImageEnhance
+    title = P.get("title", ""); rows = P.get("rows", []); ACC = (255, 77, 109)
+    pw = int(W * .5); ph = int(pw * H / W); x0 = W - pw - 80; y0 = (H - ph) // 2 - 40
+    mask = Image.new("L", (pw, ph), 0); ImageDraw.Draw(mask).rounded_rectangle([0, 0, pw - 1, ph - 1], 22, fill=255)
+    shadow = Image.new("RGBA", (pw + 80, ph + 80), (0, 0, 0, 0)); ImageDraw.Draw(shadow).rounded_rectangle([40, 48, pw + 40, ph + 48], 26, fill=(0, 0, 0, 170))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(18))
+    ft = F("ExtraBold", 58); fr = F("Bold", 42); tw = x0 - 110 - 60
+
+    def wrap(t, f):
+        out = []; cur = ""
+        for w_ in t.split(" "):
+            nx = (cur + " " + w_).strip()
+            if AD(Image.new("RGB", (4, 4))).textlength(nx, font=f) <= tw or not cur: cur = nx
+            else: out.append(cur); cur = w_
+        return out + ([cur] if cur else [])
+
+    def g(u):
+        f_ = get(u).convert("RGB")
+        bg = ImageEnhance.Brightness(f_.resize((W // 10, H // 10)).filter(ImageFilter.GaussianBlur(2)).resize((W, H), Image.BILINEAR)).enhance(.22).convert("RGBA")
+        bg.alpha_composite(shadow, (x0 - 40, y0 - 40))
+        bg.paste(f_.resize((pw, ph), Image.BILINEAR), (x0, y0), mask)
+        d = AD(bg); y = 250
+        a0 = clamp(u / .4)
+        for ln in wrap(title, ft):
+            d.text((110, y), ln, font=ft, fill=(255, 255, 255, int(255 * a0))); y += 76
+        d.rectangle([110, y + 6, 190, y + 12], fill=(*ACC, int(255 * a0))); y += 48
+        for j, r in enumerate(rows):
+            a = clamp((u - .5 - .55 * j) / .35)
+            if a <= 0: continue
+            d.ellipse([112, y + 18, 128, y + 34], fill=(*ACC, int(255 * a)))
+            for ln in wrap(r, fr):
+                d.text((150, y), ln, font=fr, fill=(236, 236, 240, int(255 * a))); y += 56
+            y += 22
+        return bg.convert("RGB")
+    return g
 
 
 def chrome2(img, theme, chapter, src, asof, frac, logo_dark, logo_light):
@@ -1877,6 +1920,8 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
         last_tex = None; last_pose = None
         for i in range(n):
             u = i / FPS
+            _want = round((x["start"] + (i + 1) / FPS) * FPS_OUT) > fi if DRAFT else True   # 시안: 12장/초에 필요한 프레임만 그린다 (누적 기준이라 음성과 어긋나지 않음)
+            if DRAFT and not _want and i != n - 1: continue
             # 1) 장면 그림 → 페이지
             pen_tip = None; pen_al = 0.0
             full_img = None
@@ -2024,7 +2069,7 @@ def notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, 
                     sub_v2(im, cur[2], u - cur[0], cur[1], left=bool(sc.get("dub")) and not sc.get("news"), hi=bool((sc.get("sot") or sc.get("sub_hi")) and not sc.get("news")), box=bool(sc.get("news")))
             elif cur and u <= cur[0] + cur[1] + .25 and typ != "end":
                 subtitle2(im, cur[2], u - cur[0], cur[1], y=(H - 200) if sc["v"].get("cine") else (H - 160) - int(round(40 * bars)))   # 2026-11-16 대표님: 인트로 자막이 하단 띠와 겹침 → 극장 띠 바로 위로   # 2026-11-03 대표님: 시네마틱 구간 자막은 확 올리고, 본편부터 원래 자리
-            enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
+            if _want: enc.stdin.write(np.asarray(im.convert("RGB")).tobytes()); fi += 1
             if i == n - 1: last_fr = np.asarray(fr, np.float32)
             if i == n - 1:
                 last_tex = tex if I["mode"] != "title" else nb.page_title(fill(sc["v"].get("text", ""), V), fill(sc["v"].get("sub", ""), V), I["ci"] + 1, 99)[0]
@@ -2534,8 +2579,11 @@ def main():
         return
     # 2) 영상
     tmp = os.path.join(out, "video_noaudio.mp4")
-    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                            "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
+    # 2026-11-20 대표 "랜더링 빨리할 수 있는 효율… 저용량으로 빠르게 해서 줘, 내가 오케이하면 최종 랜더": DRAFT=1 이면 검수용 시안 —
+    # 1초 12장만 그리고(그리는 시간 절반), 960x540 저용량으로 굽는다. 음성·장면 구성은 최종과 같다.
+    _vf = ["-vf", "scale=960:540"] if DRAFT else []
+    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS_OUT), "-i", "-"] + _vf +
+                           ["-c:v", "libx264", "-preset", "ultrafast" if DRAFT else "veryfast", "-crf", "28" if DRAFT else "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
     prev_last = None; chapter = ""
     only_sc = [int(x) for x in os.environ.get("RENDER_SCENES", "").split(",") if x.strip()]   # 검수용: 일부 장면만 영상으로 (예: RENDER_SCENES=14,15,16)
     if NBW: return notebook_video(spec, V, timeline, total, enc, tmp, wav, out, only_sc, cold, stamps, data)

@@ -53,7 +53,12 @@ def unlock(sid, holder):
     except Exception as e: print("  잠금 풀기 실패(4시간 뒤 자동 만료):", e)
 
 
+def _on_term(*_):   # 2026-11-20 대표 "왜 그런 실수를 자꾸": 실행을 취소하면 렌더 잠금이 남아 다음 렌더가 "렌더 완료: []"로 건너뛰었다 →
+    raise KeyboardInterrupt("취소 신호")   # 취소(SIGTERM)도 예외로 바꿔 finally 의 unlock 이 반드시 돌게 한다
+
+
 def main(only):
+    import signal; signal.signal(signal.SIGTERM, _on_term)
     now = dt.datetime.now(dt.timezone.utc)
     again = set() if only else rerender_ids()
     done = []
@@ -139,7 +144,7 @@ def main(only):
             for _n, _b in _keep.items():   # 확정 썸네일 되돌리기
                 open(os.path.join(OUT, sid, _n), "wb").write(_b)
             meta = json.load(open(meta_p, encoding="utf-8"))
-            stamp = now.strftime("%y%m%d%H%M"); tag = "yt-" + sid; name = f"{sid}-{stamp}.mp4"
+            stamp = now.strftime("%y%m%d%H%M"); tag = "yt-" + sid; name = f"{sid}-{stamp}{'-draft' if os.environ.get('DRAFT') == '1' else ''}.mp4"   # 2026-11-20 시안은 이름에 -draft
             vid = os.path.join(OUT, sid, "video.mp4"); up = os.path.join(OUT, sid, name); os.replace(vid, up)
             if subprocess.run(["gh", "release", "view", tag, "-R", REPO], capture_output=True).returncode != 0:
                 sh(["gh", "release", "create", tag, "-R", REPO, "--title", f"유튜브 롱폼 {sid}", "--notes", "관리자 검수용 영상 (자동 생성)", "--latest=false"])

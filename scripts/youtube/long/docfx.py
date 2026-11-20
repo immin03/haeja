@@ -125,6 +125,10 @@ def draw(img, beats, u, lines):
     bs = [b for b in beats if b.get("kind") in ("print", "write", "chart", "bars", "pct", "table", "icon")]
     pu = [b for b in beats if b.get("kind") == "punch"]
     ov_ = [b for b in beats if b.get("kind") in ("stamp", "lower", "quote", "acct", "tag")]   # 2026-11-06 방송국 다큐 연출: 장소·날짜 도장, 하단 자막띠, 인용 카드
+    # 2026-11-20 12:22 대표 "스샷처럼 겹쳐진 곳들 안 나오게" (3:21 큰 숫자 위에 꼬리표·출처가 겹침): 강조(펀치)가 떠 있는 동안
+    # 같은 왼쪽 아래 자리를 쓰는 꼬리표(tag)·도장(stamp)은 그리지 않는다. 펀치가 끝나면 다시 나온다.
+    if pu and ov_ and punch_active(pu, u, lines):
+        ov_ = [b for b in ov_ if b.get("kind") not in ("tag", "stamp")]
     if not bs and not pu and not ov_: return img
     if not bs:
         im = img.convert("RGBA")
