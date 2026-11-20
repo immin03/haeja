@@ -1,8 +1,6 @@
 {
 "_about": "황제의 일기 공용 그림·영상 라이브러리. library.py build 로 다시 만든다(손으로 고치지 않는다).",
 "_recent_eps": [
-"en02",
-"ep26",
 "ep27",
 "en25",
 "en24",
@@ -34,6 +32,8 @@
 "ep39",
 "en29",
 "enc02",
+"ep40",
+"ep41",
 "enc03",
 "en31",
 "en13",
@@ -43,7 +43,7 @@
 "enc05",
 "enc06"
 ],
-"_built": "2026-11-19 19:02:31 UTC",
+"_built": "2026-11-20 03:59:51 UTC",
 "items": [
 {
 "file": "c1_burn.jpeg",
@@ -545,9 +545,9 @@
 "job": "EDL261110-cep01v2",
 "used": [
 "L-mix_tmp",
+"ep29",
 "L-cine_ep01_en",
 "en34",
-"ep29",
 "ep31"
 ],
 "n_used": 5,
@@ -634,9 +634,9 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"enc02a",
 "L-mix_tmp",
 "L-cine_ep01_en",
+"enc02a",
 "ep37",
 "enc02"
 ],
@@ -658,9 +658,9 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"enc02a",
 "L-mix_tmp",
 "L-cine_ep01_en",
+"enc02a",
 "ep31",
 "enc02"
 ],
@@ -682,10 +682,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v4",
 "used": [
+"en30",
 "L-mix_tmp",
 "L-cine_ep01_en",
 "en34",
-"en30",
 "ep26",
 "en24",
 "ep28",
@@ -895,10 +895,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"en18",
 "L-mix_tmp",
-"L-cine_ep01_en",
 "ep29",
+"L-cine_ep01_en",
+"en18",
 "ep36",
 "en13"
 ],
@@ -1179,9 +1179,9 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"enc01a",
 "L-mix_tmp",
 "L-cine_ep01_en",
-"enc01a",
 "ep36",
 "enc01"
 ],
@@ -2643,8 +2643,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep02v",
 "L-ep01_intro",
+"L-ep02v",
 "L-ep01v",
 "L-ep01",
 "L-ep02"
@@ -4001,10 +4001,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep02v",
-"L-ep01_intro",
-"L-ep01v",
 "L-ep03v",
+"L-ep01_intro",
+"L-ep02v",
+"L-ep01v",
 "L-ep01",
 "L-ep02",
 "L-ep03"
@@ -4027,9 +4027,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep03v",
 "L-ep01_intro",
 "L-ep01v",
-"L-ep03v",
 "L-ep01",
 "L-ep03"
 ],
@@ -5093,8 +5093,8 @@
 "made": "2026-11-02",
 "job": "ED261102-ep03b",
 "used": [
-"en33",
 "enc04a",
+"en33",
 "ep05b",
 "ep10",
 "ep19",
@@ -5124,8 +5124,8 @@
 "made": "2026-11-02",
 "job": "ED261102-ep03b",
 "used": [
-"ep06x",
 "en30",
+"ep06x",
 "ep05b",
 "ep09",
 "ep33"
@@ -5177,9 +5177,9 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep02",
 "used": [
+"en28",
 "L-ep02v",
 "en34",
-"en28",
 "L-ep02",
 "ep27",
 "ep30"
@@ -5286,8 +5286,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep02",
 "used": [
-"L-ep02v",
 "enc05a",
+"L-ep02v",
 "L-ep02",
 "ep13",
 "ep19",
@@ -5315,8 +5315,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep02v",
 "used": [
-"L-ep02v",
 "en33",
+"L-ep02v",
 "L-ep02",
 "ep12",
 "ep19",
@@ -5367,8 +5367,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"en22",
 "L-ep03v",
+"en22",
 "L-ep03",
 "ep36",
 "enc06"
@@ -5391,9 +5391,9 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v",
 "used": [
-"en34",
 "L-ep03v",
 "L-ep03p",
+"en34",
 "L-ep03",
 "ep14",
 "ep19",
@@ -5422,8 +5422,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"enc03a",
 "L-ep03v",
+"enc03a",
 "L-ep03",
 "ep37",
 "enc03"
@@ -5446,9 +5446,9 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"en22",
-"enc06a",
 "L-ep03v",
+"enc06a",
+"en22",
 "L-ep03",
 "ep27",
 "enc06"
@@ -5471,8 +5471,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "L-ep03"
 ],
 "n_used": 3,
@@ -5493,8 +5493,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "L-ep03",
 "ep35"
 ],
@@ -5560,9 +5560,9 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"enc02a",
 "en30",
 "L-ep03v",
+"enc02a",
 "L-ep03",
 "ep26",
 "ep33",
@@ -5586,8 +5586,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "ep13",
 "L-ep03",
 "ep18",
@@ -5765,9 +5765,9 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"en22",
 "en30",
 "L-ep03v",
+"en22",
 "L-ep03",
 "ep35"
 ],
@@ -5864,8 +5864,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"enc06a",
 "L-ep03v",
+"enc06a",
 "L-ep03",
 "ep36",
 "en29",
@@ -5889,8 +5889,8 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"L-ep04p",
 "en28",
+"L-ep04p",
 "L-ep04",
 "ep26",
 "en25",
@@ -5988,8 +5988,8 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"en18",
 "L-ep04p",
+"en18",
 "L-ep04",
 "ep37"
 ],
@@ -6034,8 +6034,8 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"en22",
 "en18",
+"en22",
 "L-ep04",
 "ep37"
 ],
@@ -6080,9 +6080,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"enc01a",
 "L-ep01_intro",
 "L-ep01v",
-"enc01a",
 "L-ep01",
 "ep37",
 "enc01"
@@ -6105,8 +6105,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"en18",
 "L-ep01_intro",
+"en18",
 "L-ep01v",
 "L-ep01",
 "ep11",
@@ -6167,9 +6167,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"en18",
-"ep29",
 "L-ep01_intro",
+"ep29",
+"en18",
 "L-ep01v",
 "L-ep01",
 "en12",
@@ -6193,9 +6193,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"en28",
 "L-ep01_intro",
 "L-ep01v",
-"en28",
 "L-ep01",
 "ep26",
 "ep32"
@@ -6218,8 +6218,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"en18",
 "L-ep01_intro",
+"en18",
 "L-ep01v",
 "L-ep01",
 "ep31",
@@ -6243,10 +6243,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"en22",
 "en33",
 "L-ep01_intro",
 "L-ep01v",
+"en22",
 "L-ep01",
 "ep27",
 "en09",
@@ -6255,6 +6255,60 @@
 ],
 "n_used": 9,
 "usd": 0.1
+},
+{
+"file": "hfr_accuse_faces.mp4",
+"id": "hfr_accuse_faces",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Daylight glowing through a narrow window behind them, close-up profiles of a scowling grey-haired old senator and a composed bearded man staring at each other a breath apart, rim light on their hair, senators out of focus in the haze.",
+"scene_ko": "낮, 찌푸린 노의원과 담담한 남자의 옆얼굴이 아주 가까이 마주 보는 클로즈업",
+"use_ko": "분노와 평정의 대비·대답하지 않음",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_accuse_mid.mp4",
+"id": "hfr_accuse_mid",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Daylight backlight from a tall narrow window, medium two-shot in profile of an angry elderly senator leaning toward a calm bearded man in a cream toga, face to face in a dusty stone hall with seated senators blurred behind.",
+"scene_ko": "낮, 역광 속에서 화난 노의원과 차분한 수염 난 남자가 옆모습으로 마주 선 중간 구도",
+"use_ko": "맞섬·화내는 사람 앞의 침착",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_accuse_rise.mp4",
+"id": "hfr_accuse_rise",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Daylight streaming through a narrow window into a stone Senate hall, an elderly grey-haired senator in a toga stands up and jabs his hand toward a seated bearded man in a cream toga, who looks back at him without moving while other senators watch from the benches.",
+"scene_ko": "낮, 좁은 창으로 빛이 드는 원로원에서 노의원이 일어나 앉아 있는 수염 난 남자에게 손짓하며 따진다",
+"use_ko": "비난·모욕을 받는 순간",
+"cx": 0.42,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
 },
 {
 "file": "hfr_aide_face.mp4",
@@ -6292,9 +6346,10 @@
 "job": "EDH261119-trial1",
 "used": [
 "enc06a",
+"ep41",
 "enc06"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -6430,8 +6485,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -6512,9 +6569,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
-"en29"
+"en29",
+"ep41"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6532,9 +6590,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"ep40",
 "en13"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6552,9 +6611,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
-"en29"
+"en29",
+"ep41"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6635,9 +6695,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
-"en29"
+"en29",
+"ep40"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6655,9 +6716,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"ep40",
 "en13"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6675,9 +6737,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
-"en29"
+"en29",
+"ep41"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6715,9 +6778,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"ep41",
 "en35"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6735,9 +6799,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
-"en29"
+"en29",
+"ep41"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6796,8 +6861,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -6814,8 +6881,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -6832,8 +6901,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -6871,9 +6942,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"ep40",
 "en13"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -6955,8 +7027,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -6973,8 +7047,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -6991,8 +7067,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7030,9 +7108,10 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"ep40",
 "en13"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -7067,8 +7146,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7085,8 +7166,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7103,8 +7186,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7121,8 +7206,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7139,8 +7226,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7157,8 +7246,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7175,8 +7266,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7193,8 +7286,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7211,8 +7306,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7230,9 +7327,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"ep40",
 "en35"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -7250,9 +7348,10 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"ep41",
 "en35"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -7278,6 +7377,114 @@
 "usd": 0.001
 },
 {
+"file": "hfr_rainforest_column.mp4",
+"id": "hfr_rainforest_column",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Grey daylight in a rain-soaked pine forest, a long column of Roman legionaries in iron helmets and dark wet cloaks marches toward the",
+"scene_ko": "낮, 비에 젖은 소나무 숲 진흙길을 따라 다가오는 로마 군단의 긴 행렬, 나무 사이 안개",
+"use_ko": "행군·의무·묵묵히 나아감",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_rainforest_helmet.mp4",
+"id": "hfr_rainforest_helmet",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Grey daylight in the rain, close-up of a weathered Roman legionary in an iron helmet with cheek guards and a soaked wool cloak pinned with a bronze brooch, marching forward with a hard stare, other helmets blurred behind him.",
+"scene_ko": "낮, 빗속에서 쇠투구와 젖은 망토 차림으로 굳은 눈빛을 한 병사의 얼굴 가까이",
+"use_ko": "각오·두려움을 누르는 얼굴",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_rainforest_ranks.mp4",
+"id": "hfr_rainforest_ranks",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Grey daylight in a misty pine forest, medium shot of ranks of Roman soldiers in bronze and iron helmets and soaked dark cloaks walking straight at the",
+"scene_ko": "낮, 안개 낀 숲에서 젖은 망토를 두른 병사들이 줄지어 정면으로 걸어온다",
+"use_ko": "인내·함께 버팀·고된 날",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_riverford_face.mp4",
+"id": "hfr_riverford_face",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Pale daylight in river mist, close shot of a tired soldier in a dark iron helmet and green wool cloak carrying a heavy rolled blanket on his shoulder and a round shield, trudging forward with other soldiers blurred behind him.",
+"scene_ko": "낮, 강 안개 속 무거운 담요 짐을 어깨에 멘 지친 병사의 얼굴 가까이",
+"use_ko": "피로·그래도 걷는다",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_riverford_mid.mp4",
+"id": "hfr_riverford_mid",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Pale misty daylight, medium shot of helmeted soldiers in fur and green wool cloaks wading knee-deep through a cold river toward the camera, heavy rolled blankets on their shoulders and round wooden shields with iron bosses.",
+"scene_ko": "낮, 무릎까지 차는 찬 강물을 헤치며 다가오는 병사들, 어깨에 말아 올린 담요와 방패",
+"use_ko": "짐을 지고 가는 삶·묵묵함",
+"cx": 0.38,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_riverford_wide.mp4",
+"id": "hfr_riverford_wide",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Pale daylight over a misty river, a line of soldiers in dark helmets and fur cloaks wades through shallow grey water carrying bedrolls on their shoulders and round shields, tall dry reeds and faint hills behind them.",
+"scene_ko": "낮, 안개 낀 강을 짐과 둥근 방패를 지고 줄지어 건너는 병사들, 뒤로 갈대밭",
+"use_ko": "고된 길·강을 건넘·버팀",
+"cx": 0.3,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
 "file": "hfr_senate_emp_face.mp4",
 "id": "hfr_senate_emp_face",
 "kind": "video",
@@ -7292,9 +7499,10 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"ep41",
 "en31"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": 0.001
 },
 {
@@ -7316,6 +7524,60 @@
 "en31"
 ],
 "n_used": 2,
+"usd": 0.001
+},
+{
+"file": "hfr_senate_hush_flank.mp4",
+"id": "hfr_senate_hush_flank",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Daylight in a hazy stone Senate chamber, two elderly senators in cream togas with dark red trim sit in the foreground turned toward each other, and between them a bearded man in a linen tunic sits still on a stone bench with both hands on a scroll.",
+"scene_ko": "낮, 앞쪽 두 노의원이 서로 마주 보고 그 사이로 두루마리에 손을 얹은 남자가 가만히 앉아 있다",
+"use_ko": "뒷말·험담 속의 평정",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_senate_hush_seated.mp4",
+"id": "hfr_senate_hush_seated",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Daylight in an empty stone chamber, a dark-haired bearded man in a plain linen tunic sits alone on a stone bench facing the camera, hands resting on an unrolled scroll, soft haze around him as the",
+"scene_ko": "낮, 빈 돌방에 홀로 앉아 두루마리에 손을 얹고 정면을 바라보는 수염 난 남자, 천천히 다가감",
+"use_ko": "혼자 남은 고요·흔들리지 않음",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
+"usd": 0.001
+},
+{
+"file": "hfr_senate_hush_wide.mp4",
+"id": "hfr_senate_hush_wide",
+"kind": "video",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Daylight falling from a high window into a bare stone Senate chamber, grey-haired senators in cream togas lean together and whisper on both sides of the frame while a dark-haired bearded man in a plain linen tunic sits alone and silent on a stone bench in the distance.",
+"scene_ko": "낮, 돌로 된 원로원 방 양쪽에서 의원들이 귓속말하고 멀리 수염 난 남자가 홀로 말없이 앉아 있다",
+"use_ko": "수군거림·남의 평판·침묵",
+"cx": 0.5,
+"ok": true,
+"made": "2026-11-20",
+"job": "EDH261120-trial2",
+"used": [],
+"n_used": 0,
 "usd": 0.001
 },
 {
@@ -7374,8 +7636,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7392,8 +7656,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7410,8 +7676,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7575,8 +7843,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7593,8 +7863,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep41"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -7611,8 +7883,10 @@
 "ok": true,
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
-"used": [],
-"n_used": 0,
+"used": [
+"ep40"
+],
+"n_used": 1,
 "usd": 0.001
 },
 {
@@ -8920,10 +9194,10 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
-"en22",
+"L-ep03v",
 "en33",
 "L-ep04p",
-"L-ep03v",
+"en22",
 "ep11",
 "L-ep03",
 "ep14",
@@ -9134,8 +9408,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"en22",
 "ep29",
+"en22",
 "ep13",
 "ep18",
 "ep22",
@@ -9163,8 +9437,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"enc02a",
 "ep29",
+"enc02a",
 "ep14",
 "ep21",
 "ep24",
@@ -9310,9 +9584,9 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"en22",
 "en33",
 "ep29",
+"en22",
 "ep14",
 "ep18",
 "ep22",
@@ -9444,8 +9718,8 @@
 "job": "EDL261105-lib3",
 "used": [
 "en20",
-"en34",
 "L-ep03v",
+"en34",
 "L-ep03",
 "L-ep04",
 "ep26",
@@ -9472,9 +9746,9 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib3",
 "used": [
-"en34",
 "en28",
 "L-ep03v",
+"en34",
 "L-ep03",
 "L-ep04",
 "ep27",
@@ -9530,8 +9804,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"ep29",
 "enc06a",
+"ep29",
 "ep14",
 "L-ep04",
 "ep18",
@@ -9586,8 +9860,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"enc03a",
 "en20",
+"enc03a",
 "ep15",
 "ep20",
 "en06",
@@ -9731,9 +10005,9 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
-"en22",
-"ep29",
 "L-ep03v",
+"ep29",
+"en22",
 "L-ep03",
 "ep14",
 "L-ep04",
@@ -9794,8 +10068,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib2",
 "used": [
-"en34",
 "L-ep03v",
+"en34",
 "ep11",
 "L-ep03",
 "ep17",
@@ -9934,9 +10208,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep02v",
 "L-pilot",
 "L-ep01_intro",
+"L-ep02v",
 "L-ep01v",
 "L-ep01",
 "L-ep02"
@@ -10100,8 +10374,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep02v",
 "L-ep01_intro",
+"L-ep02v",
 "L-ep01v",
 "L-ep01",
 "L-ep02"
@@ -10621,24 +10895,6 @@
 "usd": 0.06
 },
 {
-"file": "px2_desk_v.mp4",
-"id": "px2_desk_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "px2_desk",
-"scene": "Bright clear morning sunlight through tall office windows, a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie sits down at his desk, calm, opening a notebook, colleagues blurred in the background. | 움직임: He sits down calmly and opens the notebook; sunlight brightens a little. The motion happens once in the first second and a half, then everything holds almost st",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-13",
-"job": "EDS261113-px02",
-"used": [],
-"n_used": 0,
-"usd": 0.081
-},
-{
 "file": "px2_elev.jpeg",
 "id": "px2_elev",
 "kind": "image",
@@ -10673,26 +10929,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.06
-},
-{
-"file": "px2_fist_v.mp4",
-"id": "px2_fist_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "px2_fist",
-"scene": "Close-up in a dark bedroom at night, the hand of a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie resting on the blanket, faint blue window light on his knuckles, his tense face softly visible behind. | 움직임: His hand slowly clenches into a tight fist. The motion happens once in the first second and a half, then everything holds almost still.",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-13",
-"job": "EDS261113-px02",
-"used": [
-"ep28"
-],
-"n_used": 1,
-"usd": 0.081
 },
 {
 "file": "px2_light.jpeg",
@@ -10769,26 +11005,6 @@
 "usd": 0.06
 },
 {
-"file": "px2_puppet_v.mp4",
-"id": "px2_puppet_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "px2_puppet",
-"scene": "Symbolic image: the hands of a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie hanging from thin golden puppet strings that rise up into the dark, his face looking up at the strings. | 움직임: The strings tug once and his hands jerk upward. The motion happens once in the first second and a half, then everything holds almost still.",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-13",
-"job": "EDS261113-px02",
-"used": [
-"ep28"
-],
-"n_used": 1,
-"usd": 0.081
-},
-{
 "file": "px2_smirk.jpeg",
 "id": "px2_smirk",
 "kind": "image",
@@ -10807,24 +11023,6 @@
 "usd": 0.06
 },
 {
-"file": "px2_smirk_v.mp4",
-"id": "px2_smirk_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "px2_smirk",
-"scene": "In an office meeting room, two Korean colleagues in their thirties sitting at the table turn their heads toward each other and smirk, one covering his mouth with his hand; a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie stands blurred in the foreground edge. | 움직임: The two colleagues turn to each other and smirk; one covers his mouth. The motion happens once in the first second and a half, then everything holds almost stil",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-13",
-"job": "EDS261113-px02",
-"used": [],
-"n_used": 0,
-"usd": 0.081
-},
-{
 "file": "pxl_bed.jpeg",
 "id": "pxl_bed",
 "kind": "image",
@@ -10841,26 +11039,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.05
-},
-{
-"file": "pxl_bed_v.mp4",
-"id": "pxl_bed_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "pxl_bed",
-"scene": "Late at night in a dark small Seoul apartment bedroom, a Korean office worker in his early forties, short black hair, thin metal glasses, white shirt and navy tie, glasses on the bedside table, lies on his back in bed wide awake staring at the ceiling, faint cold blue light from the window across his face. | 움직임: The man blinks slowly, exhales, and turns his head toward the window; the blue light shifts slightly.",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-13",
-"job": "EDS261113-pxlow",
-"used": [
-"ep28"
-],
-"n_used": 1,
-"usd": 0.108
 },
 {
 "file": "pxl_meet.jpeg",
