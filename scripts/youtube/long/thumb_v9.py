@@ -39,7 +39,7 @@ def render(t, out):
     th.alpha_composite(g); g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
     for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(140 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.4)))
     th.alpha_composite(g); D = ImageDraw.Draw(th)
-    LX = 64; fk, f1 = vn2.SUIT("Heavy", 86) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 86), vn2.SUIT("ExtraBold", 84)   # 2026-11-20 대표: 가운데 부제가 작아 안 보임(60대 시청자) — 58 Bold → 84 ExtraBold
+    LX = 64; fk, f1 = vn2.SUIT("Heavy", 104) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 104), vn2.SUIT("ExtraBold", 84)   # 2026-11-20 대표: 가운데 부제가 작아 안 보임(60대 시청자) — 58 Bold → 84 ExtraBold
     f2 = vn2.SUIT("Heavy", 150) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 150)
     while D.textlength(t["l2"], font=f2) > TW - LX - 40: f2 = vn2.font(os.path.basename(f2.path), f2.size - 6)
     while D.textlength(t["kicker"], font=fk) > TW - LX - 40: fk = vn2.font(os.path.basename(fk.path), fk.size - 4)
@@ -55,6 +55,11 @@ def render(t, out):
     if t.get("ul") and t["ul"] in t["l2"]:
         i = t["l2"].index(t["ul"]); ux0 = LX + D.textlength(t["l2"][:i], font=f2); ux1 = ux0 + D.textlength(t["ul"], font=f2)
         D.rounded_rectangle([ux0, y2 + f2.size + 14, ux1, y2 + f2.size + 26], 6, fill=(*PINK, 255))
+    if t.get("banner"):   # 2026-11-20 대표: 왼쪽 위 주요 내용 배너(핑크 바탕 + 검정 글씨, 11/11 배너 규칙)
+        fbn = vn2.SUIT("Heavy", 54) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 54)
+        bw = D.textlength(t["banner"], font=fbn); D = ImageDraw.Draw(th)
+        D.rounded_rectangle([LX - 4, 34, LX + bw + 40, 34 + fbn.size + 30], 12, fill=(*PINK, 255))
+        D.text((LX + 18, 34 + 12), t["banner"], font=fbn, fill=(10, 10, 12))
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34 - 12))
     th.convert("RGB").save(out, quality=92)
 
