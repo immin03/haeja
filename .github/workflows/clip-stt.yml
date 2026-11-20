@@ -25,7 +25,7 @@ jobs:
         run: |
           for n in $NAMES; do git sparse-checkout add "/scripts/blog/media/lib/$n.*"; done
           ls -la scripts/blog/media/lib/ || true
-      - run: pip install -q faster-whisper
+      - run: (command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)) && pip install -q faster-whisper
       - name: 받아쓰기
         env: { NAMES: "${{ github.event.inputs.names }}" }
         run: |
@@ -37,7 +37,10 @@ jobs:
           for n in os.environ['NAMES'].split():
               fs = [f for f in glob.glob(f'scripts/blog/media/lib/{n}.*')]
               if not fs: print('없음', n); continue
-              segs, info = m.transcribe(fs[0], vad_filter=True, beam_size=5)
+              import subprocess, numpy as np
+              raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', fs[0], '-f', 's16le', '-ac', '1', '-ar', '16000', '-'], capture_output=True, check=True).stdout
+              audio = np.frombuffer(raw, np.int16).astype(np.float32) / 32768.0
+              segs, info = m.transcribe(audio, vad_filter=True, beam_size=5)
               out = [{'s': round(s.start, 2), 'e': round(s.end, 2), 't': s.text.strip()} for s in segs]
               json.dump({'file': os.path.basename(fs[0]), 'dur': round(info.duration, 2), 'segments': out}, open(f'media/stt/{n}.json', 'w'), ensure_ascii=False, indent=1)
               print(n, len(out), '구간')
