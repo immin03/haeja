@@ -1,0 +1,33 @@
+{
+ "id": "il_L261121j_padlock_shatter",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A glowing translucent digital padlock made of light floating in darkness, cracking and shattering into thousands of tiny glowing blue-gold particles, abstract, cinematic.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1fa1b-062f-71ad-a8d9-57a88b922026",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa1b-062f-71ad-a8d9-57a88b922026/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa1b-062f-71ad-a8d9-57a88b922026/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1fa1b-062f-71ad-a8d9-57a88b922026",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa1b-062f-71ad-a8d9-57a88b922026/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa1b-062f-71ad-a8d9-57a88b922026/cancel",
+  "expires_at": "2026-11-27T17:59:56.899857+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1fa1b-062f-71ad-a8d9-57a88b922026/4b8dac32-c837-47f9-9e93-56bab7593c54.png"
+   }
+  ]
+ },
+ "seconds": 160,
+ "file": "scripts/blog/media/lib/il_L261121j_padlock_shatter.png"
+}

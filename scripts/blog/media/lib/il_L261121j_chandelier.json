@@ -1,0 +1,33 @@
+{
+ "id": "il_L261121j_chandelier",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A golden quantum computer dilution refrigerator chandelier with layered gold plates and coiled cables hanging in a dark clean room, rim light, cinematic.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1fa24-0d57-78ab-98e3-a8eb2f8ec8ee",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa24-0d57-78ab-98e3-a8eb2f8ec8ee/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa24-0d57-78ab-98e3-a8eb2f8ec8ee/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1fa24-0d57-78ab-98e3-a8eb2f8ec8ee",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa24-0d57-78ab-98e3-a8eb2f8ec8ee/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa24-0d57-78ab-98e3-a8eb2f8ec8ee/cancel",
+  "expires_at": "2026-11-27T18:07:16.327155+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1fa24-0d57-78ab-98e3-a8eb2f8ec8ee/5d64407e-d231-4379-994f-d2f8467bd5aa.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261121j_chandelier.png"
+}

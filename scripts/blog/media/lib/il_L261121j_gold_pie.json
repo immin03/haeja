@@ -1,0 +1,33 @@
+{
+ "id": "il_L261121j_gold_pie",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A gold-colored pie on a dark table being cut into more and more thinner slices by a knife, each slice getting smaller, dramatic light from above.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1fa23-d807-73a9-8e32-8f431863cdbe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa23-d807-73a9-8e32-8f431863cdbe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa23-d807-73a9-8e32-8f431863cdbe/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1fa23-d807-73a9-8e32-8f431863cdbe",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa23-d807-73a9-8e32-8f431863cdbe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa23-d807-73a9-8e32-8f431863cdbe/cancel",
+  "expires_at": "2026-11-27T18:07:05.090071+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1fa23-d807-73a9-8e32-8f431863cdbe/8de4e661-53b6-4c2a-95f8-22c9e14c476d.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261121j_gold_pie.png"
+}

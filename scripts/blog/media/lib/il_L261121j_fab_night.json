@@ -1,0 +1,33 @@
+{
+ "id": "il_L261121j_fab_night",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: Exterior of a modern semiconductor fabrication plant at night in a snowy northern American landscape, glowing windows, steam from vents, parking lot lights.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1fa22-b0fb-7cf0-87c7-ba5e355c0239",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa22-b0fb-7cf0-87c7-ba5e355c0239/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa22-b0fb-7cf0-87c7-ba5e355c0239/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1fa22-b0fb-7cf0-87c7-ba5e355c0239",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa22-b0fb-7cf0-87c7-ba5e355c0239/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa22-b0fb-7cf0-87c7-ba5e355c0239/cancel",
+  "expires_at": "2026-11-27T18:07:26.689853+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1fa22-b0fb-7cf0-87c7-ba5e355c0239/21f40254-f936-45c7-8ef6-6a984746d348.png"
+   }
+  ]
+ },
+ "seconds": 111,
+ "file": "scripts/blog/media/lib/il_L261121j_fab_night.png"
+}

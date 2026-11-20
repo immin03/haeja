@@ -1,0 +1,33 @@
+{
+ "id": "il_L261121j_kr_office_screens",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: Seen from behind, an East Asian office worker on a crowded subway train at night looking down at a smartphone with a red glowing stock chart reflection on the window, other passengers blurred.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a1fa1d-9588-7c07-b6e3-d2ac1f5c8136",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa1d-9588-7c07-b6e3-d2ac1f5c8136/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa1d-9588-7c07-b6e3-d2ac1f5c8136/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a1fa1d-9588-7c07-b6e3-d2ac1f5c8136",
+  "status_url": "https://api.higgsfield.ai/requests/01a1fa1d-9588-7c07-b6e3-d2ac1f5c8136/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a1fa1d-9588-7c07-b6e3-d2ac1f5c8136/cancel",
+  "expires_at": "2026-11-27T18:04:15.290893+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a1fa1d-9588-7c07-b6e3-d2ac1f5c8136/cff9a7f2-ab2f-4c7b-b6a3-e009121c703e.png"
+   }
+  ]
+ },
+ "seconds": 253,
+ "file": "scripts/blog/media/lib/il_L261121j_kr_office_screens.png"
+}
