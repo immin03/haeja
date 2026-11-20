@@ -1,0 +1,35 @@
+[
+ {
+  "id": "hfr_torchcrowd_wide",
+  "kind": "video",
+  "endpoint": "higgsfield-trial/seedance",
+  "source": "ed_hf_queue 21",
+  "body": {
+   "prompt": "Night wide high-angle shot from behind a lone man in a dark cloak standing on stone temple steps, one finger raised, facing a vast crowd holding hundreds of torches in the smoky dark.",
+   "aspect_ratio": "16:9",
+   "duration": 5
+  }
+ },
+ {
+  "id": "hfr_torchcrowd_mid",
+  "kind": "video",
+  "endpoint": "higgsfield-trial/seedance",
+  "source": "ed_hf_queue 21",
+  "body": {
+   "prompt": "Night shot from behind a cloaked man standing still with one finger raised before a huge silent crowd, scattered torch flames glowing through drifting smoke and haze.",
+   "aspect_ratio": "16:9",
+   "duration": 5
+  }
+ },
+ {
+  "id": "hfr_torchcrowd_back",
+  "kind": "video",
+  "endpoint": "higgsfield-trial/seedance",
+  "source": "ed_hf_queue 21",
+  "body": {
+   "prompt": "Night close shot from behind a bearded man's head and cloaked shoulders, his raised hand pointing one finger upward, torch lights blurred into soft glowing dots in the dark haze beyond.",
+   "aspect_ratio": "16:9",
+   "duration": 5
+  }
+ }
+]
