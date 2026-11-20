@@ -85,10 +85,18 @@ async function repoTree(): Promise<{ path: string; size: number }[]> {
   const h: Record<string, string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'valuenote-media-mirror' };
   const tok = Deno.env.get('GITHUB_TOKEN') || Deno.env.get('GH_TOKEN');
   if (tok) h.Authorization = `Bearer ${tok}`;
-  const r = await fetch(`https://api.github.com/repos/${REPO}/git/trees/main?recursive=1`, { headers: h });
-  if (!r.ok) throw new Error(`저장소 목록 ${r.status}`);
-  const j = await r.json();
-  return (j.tree ?? []).filter((e: any) => e.type === 'blob' && MIRROR_PATH.test(e.path)).map((e: any) => ({ path: e.path, size: e.size }));
+  // 2026-11-20: 저장소 전체 목록(recursive)은 너무 커서 GitHub이 500을 낸다 → 필요한 폴더 두 개만 따로 읽는다
+  const out: { path: string; size: number }[] = [];
+  for (const dir of ['docs/emperor/ep', 'social/side/gen']) {
+    const r = await fetch(`https://api.github.com/repos/${REPO}/git/trees/main:${dir}`, { headers: h });
+    if (!r.ok) throw new Error(`저장소 목록 ${dir} ${r.status}`);
+    const j = await r.json();
+    for (const e of j.tree ?? []) {
+      const path = `${dir}/${e.path}`;
+      if (e.type === 'blob' && MIRROR_PATH.test(path)) out.push({ path, size: e.size });
+    }
+  }
+  return out;
 }
 
 async function mirror(only: string[] | null, budgetMs: number) {

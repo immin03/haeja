@@ -12,7 +12,7 @@ social/side/voice_samples
 social/side/ed_long
 social/music
 
-# 영상 사본: Supabase 함수 media-offload(mode mirror, 크론 media-mirror 10분마다)가 Storage 'media' 에 올리고,
+# 영상 사본 (2026-11-20 19시 사본 전부 확인 후 적용): Supabase 함수 media-offload(mode mirror, 크론 media-mirror 10분마다)가 Storage 'media' 에 올리고,
 # 사이트 주소 요청은 vercel.json rewrite 가 Storage 사본을 내준다. 사본이 다 올라간 뒤에만 여기에 추가한다.
-#   docs/emperor/ep/*.mp4   ← Supabase 업로드 한도 50MB → 200MB 로 올린 뒤 추가 (50MB 넘는 에피소드 19개)
-#   social/side/gen/*.mp4   ← 사본 확인 뒤 추가
+docs/emperor/ep/*.mp4
+social/side/gen/*.mp4
