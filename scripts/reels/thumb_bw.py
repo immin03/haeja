@@ -23,6 +23,7 @@ def render(sp, out):
     m = .30 + .35 * np.clip((.55 - yy) / .45, 0, 1) + .35 * np.clip((yy - .78) / .22, 0, 1)
     img = Image.fromarray(np.clip(a * (1 - m), 0, 255).astype(np.uint8)).convert("RGBA")
     col = PINK if sp.get("tone", "loss") == "loss" else WH
+    if sp.get("layout") == "slogan": return slogan(img, sp, out)
     # 제목 2줄 (흰색 · 둘째 줄 핑크)
     f1 = fit(SUIT, "Heavy", sp["l1"], 150, W - 70); st(img, (W / 2, 250), sp["l1"], f1, WH)   # 22:29 대표님: 제목은 짧게, 글씨는 크게(150 기준)
     f2 = fit(SUIT, "Heavy", sp["l2"], 150, W - 70); st(img, (W / 2, 420), sp["l2"], f2, PINK)
@@ -50,5 +51,27 @@ def render(sp, out):
     st(img, (lx, ly), "VALUE", fb2, WH, anchor="lm"); st(img, (lx + fb2.getlength("VALUE") + 10, ly), "NOTE", fl2, WH, anchor="lm")
     ImageDraw.Draw(img).rounded_rectangle([lx, ly + 46, lx + lw, ly + 56], 5, fill=PINK)
     img.convert("RGB").save(out, quality=92)
+def slogan(img, sp, out):
+    """2026-11-20 대표 09:15 표지(Y261120a): 3줄 단정형 — l1 흰색 크게 / l2 가장 크게(폭 85% 이상) 핑크 / l3 흰색에 hl(숫자)만 핑크·l2 의 약 1/2.
+    그 외 글자·각주 없음, V 로고만 오른쪽 위 작게. 글자 뒤는 어둡게."""
+    dark = Image.new("RGBA", img.size, (0, 0, 0, 0)); ImageDraw.Draw(dark).rectangle([0, 120, W, 1000], fill=(0, 0, 0, 120))
+    img.alpha_composite(dark.filter(ImageFilter.GaussianBlur(60)))
+    f2 = SUIT("Heavy", 400)
+    while f2.getlength(sp["l2"]) > W - 60: f2 = SUIT("Heavy", f2.size - 4)
+    if f2.getlength(sp["l2"]) < .85 * W: print("  ⚠ 둘째 줄 폭이 85% 미만")
+    f1 = fit(SUIT, "Heavy", sp["l1"], min(150, int(f2.size * .9)), W - 100)
+    st(img, (W / 2, 330), sp["l1"], f1, WH, blur=16, a=230)
+    st(img, (W / 2, 330 + f1.size * .55 + f2.size * .62), sp["l2"], f2, PINK, blur=20, a=240)
+    y3 = 330 + f1.size * .55 + f2.size * 1.24 + 60
+    t3, hl = sp["l3"], sp.get("hl", "")
+    f3 = fit(SUIT, "Heavy", t3, int(f2.size * .5), W - 100)
+    x = (W - f3.getlength(t3)) / 2; i = t3.find(hl) if hl else -1
+    parts = [(t3, WH)] if i < 0 else [(t3[:i], WH), (hl, PINK), (t3[i + len(hl):], WH)]
+    for txt, c in parts:
+        if txt: st(img, (x, y3), txt, f3, c, anchor="lm", blur=14, a=230); x += f3.getlength(txt)
+    # V 로고만 작게 (오른쪽 위)
+    fv = MON("ExtraBold", 54); st(img, (W - 70, 90), "V", fv, WH, blur=8); ImageDraw.Draw(img).rounded_rectangle([W - 92, 122, W - 48, 128], 3, fill=PINK)
+    img.convert("RGB").save(out, quality=92)
+
 if __name__ == "__main__":
     render(json.load(open(sys.argv[1], encoding="utf-8")), sys.argv[2])

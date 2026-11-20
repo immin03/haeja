@@ -1920,6 +1920,17 @@ def render(spec, outdir, stills=None):
     if tail_img is not None:
         for _ in range(int(tail * FPS)): p.stdin.write(tail_img.tobytes())
     p.stdin.close(); p.wait(); os.remove(wav)
+    head = float(spec.get("cover_head") or 0)
+    if tail_img is not None and head > 0:
+        # 2026-11-20 대표 09:15 (Y261120a cover_spec "영상 첫 프레임도 같은 화면"): 표지를 맨 앞 head 초 붙이고 소리·자막을 그만큼 민다
+        tmp = out + ".body.mp4"; os.replace(out, tmp); ms = int(head * 1000)
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-loop", "1", "-t", str(head), "-framerate", str(FPS), "-i", cover_path, "-i", tmp,
+                        "-filter_complex", f"[0:v]scale={W}:{H},fps={FPS},format=yuv420p,setsar=1[a];[1:v]fps={FPS},format=yuv420p,setsar=1[b];[a][b]concat=n=2:v=1:a=0[v];[1:a]adelay={ms}|{ms}[au]",
+                        "-map", "[v]", "-map", "[au]", "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-c:a", "aac", "-b:a", "160k", "-ar", "48000",
+                        "-movflags", "+faststart", out], check=True)
+        os.remove(tmp)
+        for x in scenes: x["start"] += head
+        total += head
     if tail_img is not None:   # 썸네일은 위에서 이미 만들었다
         open(os.path.join(outdir, "cover.v"), "w").write(str(COVER_V))
         write_subs(spec, scenes, total, outdir)
