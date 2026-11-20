@@ -200,6 +200,12 @@ const list = fs.readdirSync(root).filter((d) => fs.existsSync(path.join(root, d,
   .sort((a, b) => (/^b\d/.test(b.d) - /^b\d/.test(a.d)) || ((a.order ?? 99) - (b.order ?? 99)) || b.d.localeCompare(a.d));
 const L = (x) => { const m = x.d.match(/^b(\d\d)(\d\d)(\d\d)([mwfx])/); return m ? `20${m[1]}.${m[2]}.${m[3]} · ${{ m: '시장 · 매크로', w: '기업 분석', f: '가치투자 공부 · 사용법', x: '시장 이슈 (수시)' }[m[4]]}` : (x.order ? `첫 글 묶음 · 올리는 순서 ${x.order}번` : '첫 글'); };
 // 올린 글 표시: post.json 의 posted(날짜) + 관리자 로그인 시 docs(collection=naver, id=posted)에 저장한 표시를 합친다
+// 2026-11-20 대표 "관리자에 안 들어가 있다": 일부 폴더만 받은(sparse) 작업에서 이 스크립트를 돌리면 목록이 그 몇 편으로 줄어
+// b261120u·b261120f 등이 관리자 블로그 목록에서 사라졌다 → git 에 있는 글 수보다 적게 보이면 목록(index.html)을 쓰지 않는다.
+try {
+  const tracked = execFileSync('git', ['ls-files', path.join(root, '*', 'post.json')], { encoding: 'utf8' }).split('\n').filter(Boolean).length;
+  if (tracked && list.length < tracked) { console.error(`⚠ 글 목록 ${list.length}편 < 저장소 ${tracked}편 — 폴더 일부만 받은 상태라 naver/index.html 을 고치지 않습니다 (git sparse-checkout add '/naver/*/post.json')`); process.exit(0); }
+} catch (_) {}
 const baked = Object.fromEntries(list.filter((x) => x.posted).map((x) => [x.d, x.posted]));
 fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>블로그 글 목록 · 밸류노트</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
