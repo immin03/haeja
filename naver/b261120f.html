@@ -1,0 +1,176 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 코웨이는 IMF 때 100만 원짜리 정수기를 왜 빌려주기 시작했을까</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li>발행. (태그는 본문 끝에 #으로 들어 있어 따로 붙일 필요가 없다)</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">코웨이는 IMF 때 100만 원짜리 정수기를 왜 빌려주기 시작했을까</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 2장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261120f/01.jpg" alt="햇빛이 드는 깔끔한 부엌 조리대" width="720"></p>
+<p><br></p>
+<p><b><span style="color:#000000">요약</span></b></p><p><span style="color:#000000">· 코웨이는 왜 100만 원짜리 정수기를 팔지 않고 빌려주기 시작했을까요. 답은 1998년 금반지를 들고 은행 앞에 선 사람들의 줄에 있습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1998년 초 한국 사람들은 장롱 속 금반지와 돌 반지를 들고 은행 앞에 줄을 섰습니다. 나라가 진 빚을 갚는 데 보태겠다는 거였어요. 그렇게 모인 금이 227톤이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그 줄에 선 집들은 큰돈 드는 물건부터 안 샀습니다. 정수기도 그중 하나였어요. 그때 정수기 한 대 값은 100만 원 안팎이었습니다. 금반지를 내놓는 집에서 살 물건은 아니었죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">정수기를 만들던 웅진코웨이는 이해 4월 이상한 결정을 내립니다. 정수기를 팔지 않고 빌려주기로 한 거예요. 지금은 너무 익숙한 &#39;렌탈&#39;이 이렇게 시작됐습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">백과사전 외판원이 정수기 회사를 차렸다</span></b></span></p>
+
+<p><span style="color:#000000">웅진코웨이 창업자 윤석금은 원래 백과사전 외판원이었습니다. 1971년 스물여섯 살에 한국브리태니커에 들어가 영어 백과사전을 집집마다 팔았어요. 그리고 몇 해 만에 54개 나라 브리태니커 판매원 가운데 판매 1위에 올랐습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">영어 백과사전을 한국 가정에 파는 일은 쉽지 않습니다. 물건보다 사람을 먼저 믿게 해야 하죠. 윤석금은 그 일을 가장 잘한 사람이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1980년대 윤석금은 출판사를 차려 웅진씽크빅을 키웠고 1989년 정수기 회사를 세웠습니다. 이듬해 첫 정수기를 팔기 시작했어요. 수돗물을 그냥 마시던 시절이라 정수기는 형편이 넉넉한 집이나 들이는 물건이었습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">팔지 말고 빌려주고, 집으로 찾아가자</span></b></span></p>
+
+<p><span style="color:#000000">외환위기는 그 넉넉한 집들의 지갑부터 닫았습니다. 웅진코웨이는 100만 원을 한 번에 받는 대신 한 달에 2만 7천 원씩 받기로 했어요. 업계에서 처음이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">빌려준 정수기는 누군가 계속 관리해야 합니다. 필터를 갈고 물이 잘 나오는지 봐야 하니까요. 웅진코웨이는 비용을 줄이려고 차가 있는 주부들을 관리 직원으로 뽑았습니다. 이름은 코웨이 레이디, 줄여서 &#39;코디&#39;였어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">시작할 때 코디는 80여 명이었습니다. 이들은 주기적으로 같은 집을 찾아가 필터를 갈고 이야기를 나눴어요. 1999년 정부는 코디를 &#39;신지식인&#39;으로 뽑았습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">코디가 하는 일은 필터 교체만이 아니었습니다. 같은 사람이 몇 달마다 찾아오니 고객은 계약을 끊기가 어려웠어요. 얼굴을 아는 사람이 갈아 주는 필터라 더 믿음이 갔고요. 윤석금이 백과사전을 팔며 익힌 것, 물건보다 사람을 먼저 믿게 하는 일이 정수기에서도 통했습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">고객은 빠르게 늘었습니다. 렌탈 고객은 2000년 50만 명을 넘었고 2006년에는 400만 명이 됐어요. 백과사전을 집집마다 팔던 사람이 이번에는 정수기 관리하는 사람을 집집마다 보낸 겁니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">주인이 두 번 바뀌는 동안에도 매달 돈은 들어왔다</span></b></span></p>
+
+<p><span style="color:#000000">회사 이야기는 순탄하지 않았습니다. 웅진그룹은 건설과 금융으로 사업을 넓히다 2012년 법정관리에 들어갔어요. 가장 알짜였던 코웨이는 사모펀드 MBK파트너스에 팔렸습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">윤석금은 2019년 초 코웨이를 다시 사들였습니다. 그런데 돈을 대부분 빌려서 산 탓에 그룹이 버티지 못했어요. 되찾은 지 1년도 안 돼 다시 내놨고 그해 말 게임 회사 넷마블이 샀습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">넷마블이 내세운 이유가 재미있습니다. 구독경제였어요. 게임 회사가 정수기 회사를 사면서 매달 돈을 내는 고객을 산 겁니다. 정수기 회사의 새 주인이 게임 회사라는 건 지금 봐도 조금 낯선 조합이에요. 주인이 두 번 바뀌는 동안에도 코웨이 고객들은 매달 렌탈료를 냈습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">한국 렌탈 시장은 그 사이 크게 컸습니다. KT경제경영연구소는 2020년 시장을 약 40조 원으로 추정했어요. 정수기에서 시작한 렌탈은 공기청정기와 비데, 매트리스와 안마의자로 번졌습니다. 지금은 SK매직과 쿠쿠 같은 회사도 같은 방식으로 경쟁합니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">코디는 말레이시아에서 다시 집집마다 찾아갔다</span></b></span></p>
+
+<p><span style="color:#000000">한국에서 통한 방식이 바다를 건넜습니다. 코웨이는 2006년 말레이시아 쿠알라룸푸르에 법인을 세우고 한국에서 교육 담당자를 보내 현지 코디를 뽑아 가르쳤어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">말레이시아는 이슬람 신자가 많은 나라입니다. 코웨이는 2010년 정수기 업계에서 처음으로 할랄 인증을 받았어요. 먹고 마시는 것에 엄격한 사람들에게 정수기도 믿을 수 있다고 보여 준 겁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">2007년 말레이시아 렌탈 계정은 4천 개 정도였습니다. 2018년에는 100만 개를 넘었어요. 집으로 찾아가 얼굴을 보고 관리하는 방식이 말레이시아 가정에서도 그대로 통했습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">지금은 해외가 회사를 끌고 갑니다. 올해 3분기 말레이시아 법인 매출은 작년 같은 때보다 21% 넘게 늘었어요. 미국과 태국 법인도 빠르게 크고 있습니다.</span></p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261120f/02.png" alt="코웨이 3분기 매출 증가율" width="720"></p><p><span style="color:#555555;font-size:14px">코웨이 3분기 매출 증가율</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">100만 원짜리를 빌려주면 본전까지 세 해가 넘게 걸린다</span></b></span></p>
+
+<p><span style="color:#000000">렌탈이 어떤 장사인지는 계산 하나로 보입니다. 100만 원짜리 정수기를 한 달 2만 7천 원씩 받아서 판 값을 다 모으려면 세 해가 넘게 걸려요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그동안 그 집이 계속 돈을 내고 코디가 찾아가 관계를 이어 가야 장사가 됩니다. 정수기를 만들어 집에 놓는 비용은 처음에 다 쓰고 돈은 몇 년에 걸쳐 나눠 받으니까요. 고객이 빨리 늘수록 처음에 들어가는 돈도 그만큼 커지고요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그래서 저는 렌탈 회사를 볼 때 질문 하나를 던집니다. 계약이 끝난 뒤에도 이 집이 다시 빌릴까. 그렇다고 답할 수 있으면 한 번 놓은 정수기가 몇 년씩 돈을 벌어 줍니다. 아니라면 매년 새 고객을 찾느라 돈을 써야 하고요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">국내는 거의 그대로, 말레이시아 하나에 기대는 것은 부담</span></b></span></p>
+
+<p><span style="color:#000000">반대쪽 이야기도 있습니다. 같은 3분기 국내 매출은 2% 느는 데 그쳤어요. 한국 집에는 이미 정수기가 있을 만큼 있습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">해외 매출의 대부분이 말레이시아 한 나라에서 나온다는 점도 부담입니다. 그 나라 경기나 규제가 흔들리면 회사 전체가 같이 흔들려요. 미국 같은 큰 시장에서 말레이시아만큼 자리를 잡을지는 아직 알 수 없습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">조금만 더 들어가 보면, 렌탈 계정</span></b></span></p>
+
+<p><span style="color:#000000">렌탈 회사가 가장 자주 말하는 숫자는 계정입니다. 계정은 매달 돈을 내는 계약 한 건이에요. 정수기와 공기청정기를 함께 빌린 집은 계정이 두 개입니다. 새로 생긴 계정에서 끝난 계정을 뺀 것을 순증이라고 해요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">올해 3분기 국내 순증 계정은 작년 같은 때보다 4분의 1 넘게 늘었습니다. 국내 매출은 거의 제자리여도 매달 돈을 내는 계약은 아직 쌓이고 있어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">제가 앞으로 먼저 볼 것은 두 가지입니다. 해외 매출 비중이 꾸준히 커지는지, 그리고 말레이시아 다음으로 미국이 얼마나 빨리 따라오는지예요. 다음 성적표는 내년 초 나올 4분기 실적입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1998년 금반지를 들고 은행 앞에 줄을 서던 해에 웅진코웨이는 살 수 없으면 빌리게 하자고 생각했습니다. 그 생각이 지금은 쿠알라룸푸르의 부엌에서 매달 렌탈료를 받고 있어요. 외환위기는 코웨이에게서 고객을 빼앗은 게 아니라 장사하는 방법을 바꿔 놓았습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">코웨이를 워렌 버핏 같은 투자 거장들이 회사를 고를 때 쓰는 잣대로 재 보면 어떤 모습인지 밸류노트에 정리해 두었어요. 관심 있으시면 한번 들러 보세요.</span></p>
+<p><br></p>
+<p><a href="https://www.valuenote.co.kr/c/021240-ks?utm_source=naver&amp;utm_campaign=b261120f">밸류노트에서 코웨이 더 보기</a></p>
+<p><br></p>
+<p><span style="color:#000000">#코웨이 #코웨이정수기 #정수기렌탈 #렌탈 #코디 #윤석금 #웅진 #말레이시아 #구독경제 #외환위기</span></p>
+<p><br></p>
+<p><span style="color:#444444;font-size:14px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 금 모으기 운동은 국가기록원과 뉴시스, 윤석금 창업자 이야기와 렌탈 시작 당시 가격은 한국경제 생글생글·전자신문(2019년 6월)·롱블랙, 렌탈 고객 수와 코디 연혁은 코웨이 회사 연혁, 매각 과정은 코리아타임스·토마토·더팩트, 렌탈 시장 규모는 아주경제가 전한 KT경제경영연구소 추정, 말레이시아 진출과 할랄 인증은 주간경향·아시아경제, 3분기 실적은 SBS Biz와 더밸류뉴스(11월 6일)를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261120f/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261120f/01.jpg" download="valuenote-b261120f-1.jpg"><img src="https://www.valuenote.co.kr/naver/b261120f/01.jpg" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261120f/02.png" download="valuenote-b261120f-2.png"><img src="https://www.valuenote.co.kr/naver/b261120f/02.png" alt="사진 2" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-20 10:11</b> · 작성</div><div class="small" style="margin:4px 0"><b>2026-11-20 10:11</b> · 새 글 (v9)</div><div class="small" style="margin:4px 0"><b>2026-11-20 11:20</b> · 독립 검수 1회 반영: 제목 줄임, 계산 절 앞으로, 숫자 정리</div><div class="small" style="margin:4px 0"><b>2026-11-20 11:40</b> · 독립 검수 2회 반영: 요약을 궁금증형으로, 매각 금액 삭제</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 햇빛이 드는 깔끔한 부엌 조리대]\n\n요약\n· 코웨이는 왜 100만 원짜리 정수기를 팔지 않고 빌려주기 시작했을까요. 답은 1998년 금반지를 들고 은행 앞에 선 사람들의 줄에 있습니다.\n\n1998년 초 한국 사람들은 장롱 속 금반지와 돌 반지를 들고 은행 앞에 줄을 섰습니다. 나라가 진 빚을 갚는 데 보태겠다는 거였어요. 그렇게 모인 금이 227톤이었습니다.\n\n그 줄에 선 집들은 큰돈 드는 물건부터 안 샀습니다. 정수기도 그중 하나였어요. 그때 정수기 한 대 값은 100만 원 안팎이었습니다. 금반지를 내놓는 집에서 살 물건은 아니었죠.\n\n정수기를 만들던 웅진코웨이는 이해 4월 이상한 결정을 내립니다. 정수기를 팔지 않고 빌려주기로 한 거예요. 지금은 너무 익숙한 '렌탈'이 이렇게 시작됐습니다.\n\n■ 백과사전 외판원이 정수기 회사를 차렸다\n\n웅진코웨이 창업자 윤석금은 원래 백과사전 외판원이었습니다. 1971년 스물여섯 살에 한국브리태니커에 들어가 영어 백과사전을 집집마다 팔았어요. 그리고 몇 해 만에 54개 나라 브리태니커 판매원 가운데 판매 1위에 올랐습니다.\n\n영어 백과사전을 한국 가정에 파는 일은 쉽지 않습니다. 물건보다 사람을 먼저 믿게 해야 하죠. 윤석금은 그 일을 가장 잘한 사람이었습니다.\n\n1980년대 윤석금은 출판사를 차려 웅진씽크빅을 키웠고 1989년 정수기 회사를 세웠습니다. 이듬해 첫 정수기를 팔기 시작했어요. 수돗물을 그냥 마시던 시절이라 정수기는 형편이 넉넉한 집이나 들이는 물건이었습니다.\n\n■ 팔지 말고 빌려주고, 집으로 찾아가자\n\n외환위기는 그 넉넉한 집들의 지갑부터 닫았습니다. 웅진코웨이는 100만 원을 한 번에 받는 대신 한 달에 2만 7천 원씩 받기로 했어요. 업계에서 처음이었습니다.\n\n빌려준 정수기는 누군가 계속 관리해야 합니다. 필터를 갈고 물이 잘 나오는지 봐야 하니까요. 웅진코웨이는 비용을 줄이려고 차가 있는 주부들을 관리 직원으로 뽑았습니다. 이름은 코웨이 레이디, 줄여서 '코디'였어요.\n\n시작할 때 코디는 80여 명이었습니다. 이들은 주기적으로 같은 집을 찾아가 필터를 갈고 이야기를 나눴어요. 1999년 정부는 코디를 '신지식인'으로 뽑았습니다.\n\n코디가 하는 일은 필터 교체만이 아니었습니다. 같은 사람이 몇 달마다 찾아오니 고객은 계약을 끊기가 어려웠어요. 얼굴을 아는 사람이 갈아 주는 필터라 더 믿음이 갔고요. 윤석금이 백과사전을 팔며 익힌 것, 물건보다 사람을 먼저 믿게 하는 일이 정수기에서도 통했습니다.\n\n고객은 빠르게 늘었습니다. 렌탈 고객은 2000년 50만 명을 넘었고 2006년에는 400만 명이 됐어요. 백과사전을 집집마다 팔던 사람이 이번에는 정수기 관리하는 사람을 집집마다 보낸 겁니다.\n\n■ 주인이 두 번 바뀌는 동안에도 매달 돈은 들어왔다\n\n회사 이야기는 순탄하지 않았습니다. 웅진그룹은 건설과 금융으로 사업을 넓히다 2012년 법정관리에 들어갔어요. 가장 알짜였던 코웨이는 사모펀드 MBK파트너스에 팔렸습니다.\n\n윤석금은 2019년 초 코웨이를 다시 사들였습니다. 그런데 돈을 대부분 빌려서 산 탓에 그룹이 버티지 못했어요. 되찾은 지 1년도 안 돼 다시 내놨고 그해 말 게임 회사 넷마블이 샀습니다.\n\n넷마블이 내세운 이유가 재미있습니다. 구독경제였어요. 게임 회사가 정수기 회사를 사면서 매달 돈을 내는 고객을 산 겁니다. 정수기 회사의 새 주인이 게임 회사라는 건 지금 봐도 조금 낯선 조합이에요. 주인이 두 번 바뀌는 동안에도 코웨이 고객들은 매달 렌탈료를 냈습니다.\n\n한국 렌탈 시장은 그 사이 크게 컸습니다. KT경제경영연구소는 2020년 시장을 약 40조 원으로 추정했어요. 정수기에서 시작한 렌탈은 공기청정기와 비데, 매트리스와 안마의자로 번졌습니다. 지금은 SK매직과 쿠쿠 같은 회사도 같은 방식으로 경쟁합니다.\n\n■ 코디는 말레이시아에서 다시 집집마다 찾아갔다\n\n한국에서 통한 방식이 바다를 건넜습니다. 코웨이는 2006년 말레이시아 쿠알라룸푸르에 법인을 세우고 한국에서 교육 담당자를 보내 현지 코디를 뽑아 가르쳤어요.\n\n말레이시아는 이슬람 신자가 많은 나라입니다. 코웨이는 2010년 정수기 업계에서 처음으로 할랄 인증을 받았어요. 먹고 마시는 것에 엄격한 사람들에게 정수기도 믿을 수 있다고 보여 준 겁니다.\n\n2007년 말레이시아 렌탈 계정은 4천 개 정도였습니다. 2018년에는 100만 개를 넘었어요. 집으로 찾아가 얼굴을 보고 관리하는 방식이 말레이시아 가정에서도 그대로 통했습니다.\n\n지금은 해외가 회사를 끌고 갑니다. 올해 3분기 말레이시아 법인 매출은 작년 같은 때보다 21% 넘게 늘었어요. 미국과 태국 법인도 빠르게 크고 있습니다.\n\n[사진: 코웨이 3분기 매출 증가율]\n\n■ 100만 원짜리를 빌려주면 본전까지 세 해가 넘게 걸린다\n\n렌탈이 어떤 장사인지는 계산 하나로 보입니다. 100만 원짜리 정수기를 한 달 2만 7천 원씩 받아서 판 값을 다 모으려면 세 해가 넘게 걸려요.\n\n그동안 그 집이 계속 돈을 내고 코디가 찾아가 관계를 이어 가야 장사가 됩니다. 정수기를 만들어 집에 놓는 비용은 처음에 다 쓰고 돈은 몇 년에 걸쳐 나눠 받으니까요. 고객이 빨리 늘수록 처음에 들어가는 돈도 그만큼 커지고요.\n\n그래서 저는 렌탈 회사를 볼 때 질문 하나를 던집니다. 계약이 끝난 뒤에도 이 집이 다시 빌릴까. 그렇다고 답할 수 있으면 한 번 놓은 정수기가 몇 년씩 돈을 벌어 줍니다. 아니라면 매년 새 고객을 찾느라 돈을 써야 하고요.\n\n■ 국내는 거의 그대로, 말레이시아 하나에 기대는 것은 부담\n\n반대쪽 이야기도 있습니다. 같은 3분기 국내 매출은 2% 느는 데 그쳤어요. 한국 집에는 이미 정수기가 있을 만큼 있습니다.\n\n해외 매출의 대부분이 말레이시아 한 나라에서 나온다는 점도 부담입니다. 그 나라 경기나 규제가 흔들리면 회사 전체가 같이 흔들려요. 미국 같은 큰 시장에서 말레이시아만큼 자리를 잡을지는 아직 알 수 없습니다.\n\n■ 조금만 더 들어가 보면, 렌탈 계정\n\n렌탈 회사가 가장 자주 말하는 숫자는 계정입니다. 계정은 매달 돈을 내는 계약 한 건이에요. 정수기와 공기청정기를 함께 빌린 집은 계정이 두 개입니다. 새로 생긴 계정에서 끝난 계정을 뺀 것을 순증이라고 해요.\n\n올해 3분기 국내 순증 계정은 작년 같은 때보다 4분의 1 넘게 늘었습니다. 국내 매출은 거의 제자리여도 매달 돈을 내는 계약은 아직 쌓이고 있어요.\n\n제가 앞으로 먼저 볼 것은 두 가지입니다. 해외 매출 비중이 꾸준히 커지는지, 그리고 말레이시아 다음으로 미국이 얼마나 빨리 따라오는지예요. 다음 성적표는 내년 초 나올 4분기 실적입니다.\n\n1998년 금반지를 들고 은행 앞에 줄을 서던 해에 웅진코웨이는 살 수 없으면 빌리게 하자고 생각했습니다. 그 생각이 지금은 쿠알라룸푸르의 부엌에서 매달 렌탈료를 받고 있어요. 외환위기는 코웨이에게서 고객을 빼앗은 게 아니라 장사하는 방법을 바꿔 놓았습니다.\n\n코웨이를 워렌 버핏 같은 투자 거장들이 회사를 고를 때 쓰는 잣대로 재 보면 어떤 모습인지 밸류노트에 정리해 두었어요. 관심 있으시면 한번 들러 보세요.\n\n밸류노트에서 코웨이 더 보기 https://www.valuenote.co.kr/c/021240-ks?utm_source=naver&utm_campaign=b261120f\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 금 모으기 운동은 국가기록원과 뉴시스, 윤석금 창업자 이야기와 렌탈 시작 당시 가격은 한국경제 생글생글·전자신문(2019년 6월)·롱블랙, 렌탈 고객 수와 코디 연혁은 코웨이 회사 연혁, 매각 과정은 코리아타임스·토마토·더팩트, 렌탈 시장 규모는 아주경제가 전한 KT경제경영연구소 추정, 말레이시아 진출과 할랄 인증은 주간경향·아시아경제, 3분기 실적은 SBS Biz와 더밸류뉴스(11월 6일)를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.\n\n#코웨이 #코웨이정수기 #정수기렌탈 #렌탈 #코디 #윤석금 #웅진 #말레이시아 #구독경제 #외환위기";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261120f", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
