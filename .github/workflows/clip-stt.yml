@@ -1,0 +1,50 @@
+# 원음 받아쓰기 (2026-11-21): 원음 클립의 영어 발언을 시간과 함께 받아써 media/stt/<name>.json 에 남긴다.
+# 롱폼 원음 구간(start·dur)과 한국어 자막을 실제 발언에 맞추는 데 쓴다. 클라우드 작업 환경은 모델 서버가 막혀 있어 여기서 돌린다.
+name: clip-stt
+on:
+  workflow_dispatch:
+    inputs:
+      names: { description: '클립 이름(확장자 없이, 공백으로 구분)', required: true }
+permissions:
+  contents: write
+concurrency: clip-stt
+jobs:
+  stt:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/
+            /media/stt/
+      - name: 클립 받기
+        env: { NAMES: "${{ github.event.inputs.names }}" }
+        run: |
+          for n in $NAMES; do git sparse-checkout add "/scripts/blog/media/lib/$n.*"; done
+          ls -la scripts/blog/media/lib/ || true
+      - run: pip install -q faster-whisper
+      - name: 받아쓰기
+        env: { NAMES: "${{ github.event.inputs.names }}" }
+        run: |
+          python3 - <<'PY'
+          import os, glob, json
+          from faster_whisper import WhisperModel
+          m = WhisperModel('small.en', device='cpu', compute_type='int8')
+          os.makedirs('media/stt', exist_ok=True)
+          for n in os.environ['NAMES'].split():
+              fs = [f for f in glob.glob(f'scripts/blog/media/lib/{n}.*')]
+              if not fs: print('없음', n); continue
+              segs, info = m.transcribe(fs[0], vad_filter=True, beam_size=5)
+              out = [{'s': round(s.start, 2), 'e': round(s.end, 2), 't': s.text.strip()} for s in segs]
+              json.dump({'file': os.path.basename(fs[0]), 'dur': round(info.duration, 2), 'segments': out}, open(f'media/stt/{n}.json', 'w'), ensure_ascii=False, indent=1)
+              print(n, len(out), '구간')
+          PY
+      - name: 커밋
+        run: |
+          git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
+          git add media/stt
+          git diff --cached --quiet || git commit -m "원음 받아쓰기 [skip ci]"
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
