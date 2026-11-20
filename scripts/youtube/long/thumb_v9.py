@@ -56,10 +56,10 @@ def render(t, out):
         i = t["l2"].index(t["ul"]); ux0 = LX + D.textlength(t["l2"][:i], font=f2); ux1 = ux0 + D.textlength(t["ul"], font=f2)
         D.rounded_rectangle([ux0, y2 + f2.size + 14, ux1, y2 + f2.size + 26], 6, fill=(*PINK, 255))
     if t.get("banner"):   # 2026-11-20 대표: 왼쪽 위 주요 내용 배너(핑크 바탕 + 검정 글씨, 11/11 배너 규칙)
-        fbn = vn2.SUIT("Heavy", 54) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 54)
+        fbn = vn2.SUIT("Heavy", 62) if os.path.exists(os.path.join(vn2.FD, "SUIT-Heavy.ttf")) else vn2.SUIT("ExtraBold", 62)
         bw = D.textlength(t["banner"], font=fbn); D = ImageDraw.Draw(th)
         D.rounded_rectangle([LX - 4, 34, LX + bw + 40, 34 + fbn.size + 30], 12, fill=(*PINK, 255))
-        D.text((LX + 18, 34 + 12), t["banner"], font=fbn, fill=(10, 10, 12))
+        D.text((LX + 18, 34 + 12), t["banner"], font=fbn, fill=(255, 255, 255))   # 11/20 10:40 대표: 흰 글씨, 살짝 크게
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34 - 12))
     th.convert("RGB").save(out, quality=92)
 
