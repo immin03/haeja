@@ -1832,6 +1832,12 @@ def write_subs(spec, scenes, total, outdir):
 def render(spec, outdir, stills=None):
     global YT_BANNER, YT, GL_ON, WORLD
     import gate; gate.enforce(spec)
+    # 2026-11-21 대표: "그런 정도 이슈로 실패하면 앞부분만 갈아 끼우면 되잖아" — 표지 대본이 없으면 음성(타입캐스트)을 사기 전에 바로 멈춘다.
+    # 예전엔 음성을 다 만든 뒤 표지 단계에서 실패해 음성 비용·시간을 날렸다.
+    if stills is None and spec.get("platform") == "youtube" and spec.get("thumb_end", True) and spec.get("look") != "classic":
+        _tf = spec.get("thumb_file")
+        if not os.path.exists(os.path.join(HERE, "thumbs_bw", f"{spec['id']}.json")) and not (_tf and os.path.exists(os.path.join(HERE, "..", "..", _tf))):
+            raise RuntimeError(f"{spec['id']}: scripts/reels/thumbs_bw/{spec['id']}.json(흑백+핑크 표지)이 없습니다 — 음성 만들기 전에 멈춤")
     import tts_log; tts_log.set_item(spec.get("id"))   # 2026-11-12 타입캐스트 사용량 편별 기록 / 대표: 규칙 어기면 렌더 자체를 막는다 대표: 규칙 어기면 렌더 자체를 막는다(자막=내레이션·사진 중복·제목 띠 명확성·윤석열)
     # 2026-10-26 운영자: "앞으로 올릴 거 전부 그 방식(팝업 노트)으로" → 기본은 팝업 노트 + 깔끔한 화면(제목 두 줄).
     # 예전 화면이 꼭 필요하면 대본에 "world": "classic".
