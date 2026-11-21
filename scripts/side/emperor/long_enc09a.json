@@ -1,0 +1,146 @@
+{
+ "id": "enc09a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-21 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They HURT you.",
+  "You want",
+  "revenge."
+ ],
+ "title_line": "How to Get REVENGE Without Becoming Them",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.17
+ },
+ "voice": "/home/claude/vo/v2/v_enc09a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/ev3_senate.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_cup_offer.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_aide_face.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_snowmarch_wide.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_milkyway_camp_back.mp4"
+ ],
+ "sents": [
+  [
+   0.45,
+   2.619,
+   1,
+   0,
+   "none",
+   [
+    "They hurt you. You want revenge."
+   ]
+  ],
+  [
+   3.479,
+   5.739,
+   2,
+   1,
+   "cap",
+   [
+    "You replay it",
+    "every night."
+   ]
+  ],
+  [
+   5.789,
+   7.95,
+   2,
+   1,
+   "cap",
+   [
+    "But they've",
+    "already paid."
+   ]
+  ],
+  [
+   8.79,
+   12.45,
+   3,
+   2,
+   "quote",
+   [
+    "He who does wrong",
+    "does wrong against himself,"
+   ]
+  ],
+  [
+   12.5,
+   14.969,
+   3,
+   2,
+   "quote",
+   [
+    "because he makes",
+    "himself bad."
+   ]
+  ],
+  [
+   15.819,
+   17.509,
+   4,
+   3,
+   "big",
+   [
+    "So don't",
+    "copy them."
+   ]
+  ],
+  [
+   17.559,
+   20.59,
+   4,
+   3,
+   "cap",
+   [
+    "Every cruel word you send back",
+    "makes you more like them."
+   ]
+  ],
+  [
+   21.44,
+   23.735,
+   5,
+   4,
+   "quote",
+   [
+    "The best way",
+    "to avenge yourself"
+   ]
+  ],
+  [
+   23.735,
+   26.449,
+   5,
+   4,
+   "quote",
+   [
+    "is not to become",
+    "like the wrongdoer."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Write down what they did.",
+  "Close the page.",
+  "Let it end there."
+ ],
+ "source": "Marcus Aurelius, Meditations 9.4 · 6.6",
+ "end_voice": "/home/claude/vo/v2/enc09_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc09_outro_voice.wav",
+ "cover": [
+  "REVENGE?",
+  "DON'T",
+  "COPY THEM"
+ ],
+ "title": "How to Get REVENGE Without Becoming Them | Stoicism",
+ "slot": "2026-11-28 08:47",
+ "theme": "A",
+ "vol": 0.72
+}
