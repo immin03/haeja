@@ -1,8 +1,6 @@
 {
 "_about": "황제의 일기 공용 그림·영상 라이브러리. library.py build 로 다시 만든다(손으로 고치지 않는다).",
 "_recent_eps": [
-"en09",
-"ep28",
 "en19",
 "en11",
 "en14",
@@ -33,6 +31,8 @@
 "ep41",
 "enc03",
 "en31",
+"ep42",
+"ep43",
 "en13",
 "en32",
 "enc04",
@@ -44,9 +44,13 @@
 "en18",
 "enc07",
 "enc08",
-"en33"
+"en33",
+"enc09",
+"enc10",
+"enc11",
+"enc12"
 ],
-"_built": "2026-11-21 04:55:17 KST",
+"_built": "2026-11-21 15:27:11 KST",
 "items": [
 {
 "file": "c1v_burn.mp4",
@@ -1062,8 +1066,8 @@
 "made": "",
 "job": "",
 "used": [
-"ep06x",
 "ep29",
+"ep06x",
 "ep05b",
 "ep09",
 "ep11",
@@ -1719,6 +1723,7 @@
 "made": "",
 "job": "",
 "used": [
+"enc09a",
 "ep12",
 "ep16",
 "ep20",
@@ -1727,9 +1732,10 @@
 "ep24",
 "en19",
 "ep33",
-"en12"
+"en12",
+"enc09"
 ],
-"n_used": 9,
+"n_used": 11,
 "usd": null
 },
 {
@@ -2274,9 +2280,10 @@
 "job": "",
 "used": [
 "enc08a",
+"ep43",
 "enc08"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2295,9 +2302,10 @@
 "job": "",
 "used": [
 "enc07a",
+"ep43",
 "enc07"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2316,9 +2324,10 @@
 "job": "",
 "used": [
 "enc07a",
+"ep43",
 "enc07"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2336,9 +2345,11 @@
 "made": "",
 "job": "",
 "used": [
-"ep38"
+"enc09a",
+"ep38",
+"enc09"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2358,9 +2369,10 @@
 "used": [
 "enc06a",
 "ep41",
+"ep43",
 "enc06"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": null
 },
 {
@@ -2400,9 +2412,10 @@
 "job": "",
 "used": [
 "ep38",
+"ep43",
 "en35"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2484,9 +2497,10 @@
 "job": "",
 "used": [
 "enc07a",
+"ep42",
 "enc07"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2505,9 +2519,10 @@
 "job": "",
 "used": [
 "ep40",
+"ep42",
 "enc08"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2694,10 +2709,12 @@
 "made": "",
 "job": "",
 "used": [
+"enc12a",
 "ep39",
-"en31"
+"en31",
+"enc12"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": null
 },
 {
@@ -2715,10 +2732,12 @@
 "made": "",
 "job": "",
 "used": [
+"enc09a",
 "en29",
-"ep40"
+"ep40",
+"enc09"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": null
 },
 {
@@ -2736,10 +2755,12 @@
 "made": "",
 "job": "",
 "used": [
+"enc12a",
 "ep40",
-"en13"
+"en13",
+"enc12"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": null
 },
 {
@@ -2778,9 +2799,10 @@
 "made": "",
 "job": "",
 "used": [
-"en29"
+"en29",
+"ep43"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": null
 },
 {
@@ -2903,9 +2925,11 @@
 "made": "",
 "job": "",
 "used": [
-"ep40"
+"enc10a",
+"ep40",
+"enc10"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": null
 },
 {
@@ -2944,9 +2968,12 @@
 "made": "",
 "job": "",
 "used": [
-"ep39"
+"enc10a",
+"ep39",
+"ep43",
+"enc10"
 ],
-"n_used": 1,
+"n_used": 4,
 "usd": null
 },
 {
@@ -3113,9 +3140,11 @@
 "made": "",
 "job": "",
 "used": [
-"ep38"
+"enc09a",
+"ep38",
+"enc09"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3155,9 +3184,10 @@
 "job": "",
 "used": [
 "enc08a",
+"ep43",
 "enc08"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3388,9 +3418,10 @@
 "job": "",
 "used": [
 "ep41",
+"ep43",
 "en35"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3410,9 +3441,10 @@
 "used": [
 "enc05a",
 "ep39",
+"ep43",
 "enc05"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": null
 },
 {
@@ -3429,8 +3461,14 @@
 "ok": true,
 "made": "",
 "job": "",
-"used": [],
-"n_used": 0,
+"used": [
+"enc10a",
+"enc11a",
+"ep42",
+"enc10",
+"enc11"
+],
+"n_used": 5,
 "usd": null
 },
 {
@@ -3449,9 +3487,10 @@
 "job": "",
 "used": [
 "enc08a",
+"ep43",
 "enc08"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3470,9 +3509,10 @@
 "job": "",
 "used": [
 "enc07a",
+"ep42",
 "enc07"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3490,9 +3530,10 @@
 "made": "",
 "job": "",
 "used": [
+"ep42",
 "enc08"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": null
 },
 {
@@ -3511,9 +3552,10 @@
 "job": "",
 "used": [
 "enc08a",
+"ep42",
 "enc08"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3531,9 +3573,10 @@
 "made": "",
 "job": "",
 "used": [
+"ep42",
 "en18"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": null
 },
 {
@@ -3572,10 +3615,12 @@
 "made": "",
 "job": "",
 "used": [
+"enc11a",
 "ep38",
-"en31"
+"en31",
+"enc11"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": null
 },
 {
@@ -3594,9 +3639,10 @@
 "job": "",
 "used": [
 "enc07a",
+"ep43",
 "enc07"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3614,9 +3660,10 @@
 "made": "",
 "job": "",
 "used": [
+"ep43",
 "en20"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": null
 },
 {
@@ -3635,9 +3682,10 @@
 "job": "",
 "used": [
 "enc07a",
+"ep43",
 "enc07"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3676,10 +3724,12 @@
 "made": "",
 "job": "",
 "used": [
+"enc11a",
 "ep38",
-"en31"
+"en31",
+"enc11"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": null
 },
 {
@@ -3739,9 +3789,11 @@
 "made": "",
 "job": "",
 "used": [
-"ep41"
+"enc09a",
+"ep41",
+"enc09"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3780,10 +3832,12 @@
 "made": "",
 "job": "",
 "used": [
+"enc10a",
 "ep39",
-"en29"
+"en29",
+"enc10"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": null
 },
 {
@@ -3822,9 +3876,11 @@
 "made": "",
 "job": "",
 "used": [
-"ep39"
+"ep39",
+"ep42",
+"enc09"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3886,9 +3942,10 @@
 "job": "",
 "used": [
 "ep39",
+"ep42",
 "enc05"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": null
 },
 {
@@ -3905,8 +3962,13 @@
 "ok": true,
 "made": "",
 "job": "",
-"used": [],
-"n_used": 0,
+"used": [
+"enc12a",
+"ep43",
+"enc11",
+"enc12"
+],
+"n_used": 4,
 "usd": null
 },
 {
@@ -3923,8 +3985,11 @@
 "ok": true,
 "made": "",
 "job": "",
-"used": [],
-"n_used": 0,
+"used": [
+"ep43",
+"enc11"
+],
+"n_used": 2,
 "usd": null
 },
 {
@@ -3941,8 +4006,12 @@
 "ok": true,
 "made": "",
 "job": "",
-"used": [],
-"n_used": 0,
+"used": [
+"enc11a",
+"ep43",
+"enc11"
+],
+"n_used": 3,
 "usd": null
 },
 {
@@ -3960,9 +4029,12 @@
 "made": "",
 "job": "",
 "used": [
-"ep41"
+"enc12a",
+"ep41",
+"enc10",
+"enc12"
 ],
-"n_used": 1,
+"n_used": 4,
 "usd": null
 },
 {
@@ -3980,9 +4052,10 @@
 "made": "",
 "job": "",
 "used": [
-"ep41"
+"ep41",
+"enc10"
 ],
-"n_used": 1,
+"n_used": 2,
 "usd": null
 },
 {
@@ -4000,9 +4073,11 @@
 "made": "",
 "job": "",
 "used": [
-"ep40"
+"enc11a",
+"ep40",
+"enc11"
 ],
-"n_used": 1,
+"n_used": 3,
 "usd": null
 },
 {
@@ -4384,8 +4459,8 @@
 "made": "",
 "job": "",
 "used": [
-"ep29",
 "enc05a",
+"ep29",
 "ep14",
 "ep18",
 "ep23",
@@ -4680,6 +4755,7 @@
 "made": "",
 "job": "",
 "used": [
+"enc10a",
 "ep29",
 "ep13",
 "ep18",
@@ -4689,9 +4765,10 @@
 "en14",
 "ep35",
 "ep37",
-"en22"
+"en22",
+"enc10"
 ],
-"n_used": 10,
+"n_used": 12,
 "usd": null
 },
 {
@@ -4748,9 +4825,10 @@
 "en25",
 "ep32",
 "en10",
-"en27"
+"en27",
+"ep42"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": null
 },
 {
@@ -5049,8 +5127,8 @@
 "made": "",
 "job": "",
 "used": [
-"enc06a",
 "ep29",
+"enc06a",
 "ep14",
 "ep18",
 "ep21",
