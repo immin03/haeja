@@ -5,7 +5,10 @@
 //   POST ?op=has   {paths:[...]}  → {have:[...]}       (여러 개를 한 번에 확인)
 //   GET  ?op=get&p=<경로>          → 음성 파일 그대로 (없으면 404)
 //   PUT  ?op=put&p=<경로>  (본문=파일) → 저장 (이미 있으면 그대로 둠)
+//   POST ?op=prune                → 마지막으로 쓴 지 60일 지난 녹음 정리 (주 1회 크론 tts-prune, 인증 불필요 — 규칙대로만 지움)
 // 경로: ko|en|side / <키 8~64자>.mp3|.wav
+// 정리 기준(2026-11-21 대표 "업로드 끝난 건 지워도 되지 않나?"): 업로드 직후 지우면 게시 후 수정·쇼츠·영어 더빙·재렌더 때 다시 사야 한다.
+// 그래서 '마지막으로 쓴 날' 기준 60일이 지나면 지운다. 다시 쓰이면(get) 날짜가 갱신돼 자주 쓰는 공용 문장은 남는다.
 // 인증: 헤더 X-API-KEY = 타입캐스트 키(렌더 작업이 이미 가진 비밀값). 처음 한 번 타입캐스트에 키가 진짜인지 확인한 뒤
 // 그 sha256 을 app_config.tts_cache_key_sha 에 고정한다. 이후엔 그 키만 통과. 키를 바꾸면 app_config 의 그 행을 지우면 된다.
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
@@ -52,11 +55,29 @@ async function exists(p: string): Promise<boolean> {
   return r.ok;
 }
 
+const KEEP_DAYS = 60;
+
+async function prune() {
+  let removed = 0;
+  for (let i = 0; i < 10; i++) {
+    const { data, error } = await sb.rpc('tts_expired', { days: KEEP_DAYS, lim: 1000 });
+    if (error) return { error: error.message, removed };
+    const names = (data || []) as string[];
+    if (!names.length) break;
+    const { error: e2 } = await sb.storage.from(BUCKET).remove(names);
+    if (e2) return { error: e2.message, removed };
+    removed += names.length;
+    if (names.length < 1000) break;
+  }
+  return { removed, keep_days: KEEP_DAYS };
+}
+
 Deno.serve(async (req) => {
   try {
-    if (!(await authed(req))) return json({ error: 'unauthorized' }, 401);
     const u = new URL(req.url);
     const op = u.searchParams.get('op');
+    if (op === 'prune') return json(await prune());
+    if (!(await authed(req))) return json({ error: 'unauthorized' }, 401);
     if (op === 'has') {
       const { paths } = await req.json();
       const ps = (Array.isArray(paths) ? paths : []).filter((p: string) => OK.test(p)).slice(0, 40);
@@ -69,6 +90,7 @@ Deno.serve(async (req) => {
     if (op === 'get') {
       const { data, error } = await sb.storage.from(BUCKET).download(p);
       if (error || !data) return json({ error: 'not found' }, 404);
+      await sb.rpc('tts_touch', { p: [p] });   // 마지막으로 쓴 날 갱신 (60일 정리 기준)
       return new Response(data, { headers: { 'content-type': 'application/octet-stream' } });
     }
     if (op === 'put') {
