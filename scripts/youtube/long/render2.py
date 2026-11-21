@@ -2279,7 +2279,7 @@ def preflight(spec):
     lib = os.path.join(ROOT, "scripts", "blog", "media", "lib"); errs = []
     try: cr = json.load(open(os.path.join(lib, "commons_credits.json"), encoding="utf-8"))
     except Exception: cr = {}
-    ban = _re.compile(r"yoon|suk[- ]?yeol|윤석열|vsecret_50745|vsecret_50747|vhacker_46627", _re.I)   # 2026-11-16 대표님: 훅에 가면 쓴 해커 영상이 0.5초 튀어나옴 → 가면·복면 얼굴 소재 금지
+    ban = _re.compile(r"yoon|suk[- ]?yeol|윤석열|vsecret_50745|vsecret_50747|vhacker_46627|vwallstreet_3051|vnews_28293|vanalytics_41277|vanalytics_41278|vcomputer_9757|vcomputer_50748", _re.I)   # 2026-11-21 대표: 욕설 문구 간판·그린스크린·유튜브 통계 화면·의미 없는 코드 화면 금지(L261121e)   # 2026-11-16 대표님: 훅에 가면 쓴 해커 영상이 0.5초 튀어나옴 → 가면·복면 얼굴 소재 금지
     texts = []
     for i, sc in enumerate(spec.get("scenes", [])):
         for c in (sc.get("v") or {}).get("cuts", []) or []:
@@ -2334,7 +2334,11 @@ def preflight(spec):
 
 def main():
     spec_path = sys.argv[1]; fake = "--fake-voice" in sys.argv
-    spec = json.load(open(spec_path, encoding="utf-8")); preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
+    spec = json.load(open(spec_path, encoding="utf-8"))
+    for _sc in spec.get("scenes", []):   # 2026-11-21 r180 ③ 기본값: 뉴스 원음(news + sot_ 클립)은 66%로 줄여 위에 — 방송 띠·이름표·자막 겹침 방지(스펙에 news_scale 이 없어도)
+        _v = _sc.get("v") or {}
+        if _sc.get("news") and "news_scale" not in _v and any(str(c.get("lib") if isinstance(c, dict) else c).startswith("sot_") for c in (_v.get("cuts") or [])): _v["news_scale"] = 0.66
+    preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
     import docfx as DOCFX; DOCFX.set_design2(D2[0]); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
     out = os.path.join(ROOT, "social", "youtube", spec["id"]); os.makedirs(out, exist_ok=True)

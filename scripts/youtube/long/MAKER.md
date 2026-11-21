@@ -59,3 +59,10 @@ FINAL MESSAGE (Korean only, ≤ 6 lines; shown in the run log, not pushed): line
 - 렌더 뒤 오류(썸네일·설명·자막)는 영상을 버리지 않는다: safe_thumb, 업로드 3회 재시도, 실패 시 릴리스에 `-salvage.mp4`.
 - 실패하면 처음부터 다시 렌더하지 말고 고칠 부분만(음성 캐시 재사용).
 - 매시 점검은 check 잡이 먼저 거른다. 직접 건 렌더는 점검 실행과 다른 줄에서 바로 돈다.
+
+## 11/21 L261121e(버리·폴 튜더 존스) 확정 사항 — owner-rules-long r191 이 원본
+- 코드 화면(globe) 캡처는 반드시 `PAGE=fx_bw.html` (safeDraw: 위 머리글 KY 150 아래·본문 y 868 위). `fx.html`(옛 배치) 금지. cfg 에 `note` 넣지 않는다(화면 아래 출처 줄과 겹침). 캡처 뒤 y110·y860 선을 그어 확인.
+- 뉴스 원음(news + sot_ 클립)은 render2 가 자동으로 66% 축소(news_scale). 세로 원본은 `v.crop_x: [a, b]`.
+- 첫 15초: 가장 센 원음 한마디 콜드 오픈 → 주인공 얼굴 사진 + 핵심 사실 → 확인된 직접 인용 카드(quote) → 결과 숫자 → 다음 인물 사진·소개.
+- 렌더 전 프레임 시트로 배경 영상 확인: 글자 간판·그린스크린·유튜브 통계·의미 없는 코드 화면·문장과 반대 분위기 금지(render2 preflight 금지 목록).
+- 시안을 먼저 보여 주는 편은 스펙에 `"manual": true`.
