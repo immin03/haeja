@@ -5,6 +5,7 @@
 //   POST ?op=has   {paths:[...]}  → {have:[...]}       (여러 개를 한 번에 확인)
 //   GET  ?op=get&p=<경로>          → 음성 파일 그대로 (없으면 404)
 //   PUT  ?op=put&p=<경로>  (본문=파일) → 저장 (이미 있으면 그대로 둠)
+//   GET  ?op=list&ns=ko           → {names:[...]} 그 갈래에 있는 전체 목록 (렌더 한 번에 1회 받아 문장마다 묻지 않게)
 //   POST ?op=prune                → 마지막으로 쓴 지 60일 지난 녹음 정리 (주 1회 크론 tts-prune, 인증 불필요 — 규칙대로만 지움)
 // 경로: ko|en|side / <키 8~64자>.mp3|.wav
 // 정리 기준(2026-11-21 대표 "업로드 끝난 건 지워도 되지 않나?"): 업로드 직후 지우면 게시 후 수정·쇼츠·영어 더빙·재렌더 때 다시 사야 한다.
@@ -78,6 +79,13 @@ Deno.serve(async (req) => {
     const op = u.searchParams.get('op');
     if (op === 'prune') return json(await prune());
     if (!(await authed(req))) return json({ error: 'unauthorized' }, 401);
+    if (op === 'list') {
+      const ns = u.searchParams.get('ns') || '';
+      if (!['ko', 'en', 'side'].includes(ns)) return json({ error: 'bad ns' }, 400);
+      const { data, error } = await sb.rpc('tts_names', { pfx: ns });
+      if (error) return json({ error: error.message }, 500);
+      return json({ names: data || [] });
+    }
     if (op === 'has') {
       const { paths } = await req.json();
       const ps = (Array.isArray(paths) ? paths : []).filter((p: string) => OK.test(p)).slice(0, 40);

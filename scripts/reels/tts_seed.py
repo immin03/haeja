@@ -33,9 +33,12 @@ def main():
         chunk = todo[i:i + 40]
         have = tts_store.has([p for p, _ in chunk])
         if tts_store._OFF["v"]: break
-        for p, src in chunk:
-            if p in have or tts_store.put(p, src):
-                done.add(p); up += p not in have
+        import concurrent.futures
+        new = [(p, src) for p, src in chunk if p not in have]
+        done.update(p for p, _ in chunk if p in have)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as ex:
+            for (p, _), ok in zip(new, ex.map(lambda x: tts_store.put_now(*x), new)):
+                if ok: done.add(p); up += 1
     open(mark, "w").write("\n".join(sorted(done)))
     print(f"[음성 보관함] 옮겨 담기: 새로 올림 {up} · 확인 {len(todo)} · 누적 {len(done)}", flush=True)
 

@@ -115,25 +115,21 @@ def _decode(mp3, ratio=1.0):
 
 
 def _find(text, raw_text, tempo, take):
-    """이미 산 녹음 찾기 → (mp3 경로, 속도 보정 비율) 또는 (None, None). 로컬 → 영구 보관함 순서"""
+    """이미 산 녹음 찾기 → (mp3 경로, 속도 보정 비율) 또는 (None, None).
+    로컬에 있으면 네트워크 없이 바로. 없을 때만 보관함에 '한 번' 묻는다(정확한 키·예전 키·가까운 속도를 한 요청으로),
+    있으면 그 파일 하나만 내려받는다 → 처음 사는 문장도 추가 요청은 1번뿐 (2026-11-21 효율 점검)"""
     import tts_store
-    keys = [_tc_key(text, tempo, take)]
-    if raw_text != text: keys.append(_tc_key(raw_text, tempo, take))   # 공백 정리 전 예전 키
-    for k in keys:
-        mp3 = os.path.join(TC_CACHE, k + ".mp3")
-        if tts_store.local_or_remote(mp3, f"ko/{k}.mp3"): return mp3, 1.0
-    if take or os.environ.get("TTS_EXACT_TEMPO"): return None, None
-    # 가까운 속도로 산 녹음 (로컬 먼저, 없으면 보관함에 한 번에 물어본다)
-    cand = []
-    for t in NEAR_TEMPOS:
-        t = round(t, 2)
-        if t == tempo or not (.92 <= tempo / t <= 1.09): continue
-        for tx in dict.fromkeys([text, raw_text]):
-            k = _tc_key(tx, t, 0); cand.append((k, tempo / t))
-    for k, ratio in cand:
+    cand = [(_tc_key(text, tempo, take), 1.0)]
+    if raw_text != text: cand.append((_tc_key(raw_text, tempo, take), 1.0))   # 공백 정리 전 예전 키
+    if not take and not os.environ.get("TTS_EXACT_TEMPO"):
+        for t in NEAR_TEMPOS:
+            t = round(t, 2)
+            if t == tempo or not (.92 <= tempo / t <= 1.09): continue
+            for tx in dict.fromkeys([text, raw_text]): cand.append((_tc_key(tx, t, 0), tempo / t))
+    for k, ratio in cand:   # 1) 로컬
         mp3 = os.path.join(TC_CACHE, k + ".mp3")
         if os.path.exists(mp3) and os.path.getsize(mp3) > 500: return mp3, ratio
-    have = tts_store.has([f"ko/{k}.mp3" for k, _ in cand])
+    have = tts_store.has([f"ko/{k}.mp3" for k, _ in cand])   # 2) 보관함 (한 번)
     for k, ratio in cand:
         if f"ko/{k}.mp3" in have:
             mp3 = os.path.join(TC_CACHE, k + ".mp3")
