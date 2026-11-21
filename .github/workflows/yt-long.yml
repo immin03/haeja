@@ -132,4 +132,7 @@ jobs:
           key: tts-all-${{ github.run_id }}-${{ github.run_attempt }}
       - name: 커밋
         # 2026-10-29: 다른 렌더와 동시에 끝나면 리베이스가 깨져(exit 128) 실패 메일이 왔다. 바뀐 파일만 최신 main 위에 다시 얹는다.
-        run: bash scripts/ci/push_results.sh "유튜브 롱폼 $(TZ=Asia/Seoul date '+%F %H:%M')" social/youtube scripts/youtube/long/specs social/typecast_usage.json
+        # 2026-11-21: 렌더가 중간에 멈추면 video.mp4·voice.wav(100MB 넘음)가 남아 커밋이 통째로 실패했다 → 큰 파일은 커밋에서 뺀다
+        run: |
+          find social/youtube -type f -size +95M -print -delete || true
+          bash scripts/ci/push_results.sh "유튜브 롱폼 $(TZ=Asia/Seoul date '+%F %H:%M')" social/youtube scripts/youtube/long/specs social/typecast_usage.json

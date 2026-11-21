@@ -1779,6 +1779,15 @@ def clean_voice(l, speak):
     return level_voice(best[1])
 
 
+def safe_thumb(spec, V, out):
+    """2026-11-21 대표 "썸네일은 썸네일이고 렌더는 렌더지": 썸네일 오류가 다 구운 영상을 버리게 하지 않는다.
+    확정 썸네일(thumb_fixed)이 있으면 어차피 build.py 가 되돌리므로 만들지도 않는다. 실패해도 경고만 찍고 영상 업로드로 넘어간다."""
+    if spec.get("thumb_fixed"):
+        print("썸네일 생략: thumb_fixed(확정 썸네일 보존)"); return
+    try: make_thumb(spec, V, out)
+    except Exception as e: print("⚠ 썸네일 실패(영상은 그대로 진행):", repr(e))
+
+
 def make_thumb(spec, V, out):
     """썸네일 (2026-10-22 운영자: 머니스웨거처럼 단순·직관·자극적으로) — 관련 사진 한 장 + 굵은 두 줄(흰색 + 노란색 질문)"""
     tj = os.path.join(ROOT, "scripts", "reels", "thumbs", f"{spec['id']}{'_' + spec['_ab'] if spec.get('_ab') else ''}.json")
@@ -2577,7 +2586,7 @@ def main():
                     im_ = np.asarray(draw(sc, V, t_ + .4, s["lines"], theme, None)).astype(np.int16)
                     if (np.abs(im_ - bga).max(-1) > 12).mean() < .004: print(f"  ⚠ 빈 화면: 장면 {k} 문장 {li} · {txt[:30]}")
             print(k, typ, fit and fit["k"])
-        make_thumb(spec, V, sd)
+        safe_thumb(spec, V, sd)
         return
     # 2) 영상
     tmp = os.path.join(out, "video_noaudio.mp4")
@@ -2624,7 +2633,7 @@ def finish(spec, V, timeline, total, enc, tmp, wav, out, data):
     enc.stdin.close(); enc.wait()
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-i", wav, "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", os.path.join(out, "video.mp4")], check=True)   # 2026-11-19 대표: 검수 플레이어 검은 화면(moov가 파일 끝) → faststart
     os.remove(tmp)
-    make_thumb(spec, V, out)
+    safe_thumb(spec, V, out)
     # 4) 설명·메타
     chapters = []
     for s in timeline:
