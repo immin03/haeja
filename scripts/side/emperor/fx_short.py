@@ -130,6 +130,8 @@ for fi in range(N):
 # ---------- 오늘의 할 일: 내레이션에 맞춰 글이 써진다 ----------
 from PIL import ImageFont
 E = spec["end"]; O = spec["outro"]; DELAY = 0.35   # 오늘의 할 일 내레이션 뒤 여유 (소리도 같은 만큼 늘림)
+NOEND = bool(E.get("skip"))   # 2026-11-22 포맷 순환(history·list): 오늘의 할 일 화면 없이 바로 슬로건·엔딩
+if NOEND: DELAY = 0.0
 OS = END + E["dur"] + DELAY; TOT = OS + O["dur"]
 OS0 = END + E["dur"]   # render_ed 완성본에서 마지막 화면이 시작되는 시각
 def voiced(a, b, src=None):
@@ -147,7 +149,7 @@ def voiced(a, b, src=None):
     return segs
 EV = spec["voice"][-2]   # [..., 오늘의 할 일, 슬로건]
 _evd = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", EV["file"]], capture_output=True, text=True).stdout)
-seg = voiced(EV["at"], EV["at"] + _evd, src=EV["file"])
+seg = voiced(EV["at"], EV["at"] + _evd, src=EV["file"]) if not NOEND else []
 T_K = seg[0] if seg else [END + .8, END + 1.5]
 rest = seg[1:]; nL = len(E["lines"])
 while len(rest) > nL:   # 가장 가까운 두 조각부터 합친다
@@ -157,7 +159,7 @@ if rest and len(rest) < nL:   # 2026-11-08: 쉼 없이 이어 읽은 테이크 �
     for n in Ln:
         x1 = x0 + (a1 - a0) * n / sum(Ln); rest.append([x0, x1]); x0 = x1
 T_L = rest if len(rest) == nL else [[END + 2.3, END + 4.1], [END + 4.5, END + 5.9]][:nL]
-NAR_END = T_L[-1][1]
+NAR_END = T_L[-1][1] if not NOEND else END
 oseg = voiced(OS0 - 0.2, OS0 + spec["outro"]["dur"])
 VO = {"outro": [max(0, x[0] - OS0 - 0.05) for x in oseg[:3]] + ([oseg[min(2, len(oseg) - 1)][1] - OS0 + 0.1] if oseg else [])} if len(oseg) >= 3 else {}
 bgE = Image.fromarray(LAST).convert("RGBA").filter(ImageFilter.GaussianBlur(18))
@@ -216,7 +218,7 @@ t = END
 while t < TOT:
     fi += 1; t = fi / FPS
     if t >= TOT: break
-    if t < OS:
+    if t < OS and not NOEND:
         u = t - END
         img = bgE.copy()
         if u < 0.8:   # 마지막 장면이 계속 움직이다가 부드럽게 흐려진다 (갑자기 바뀌지 않게)
@@ -241,8 +243,11 @@ while t < TOT:
         if q > 0:
             nxt = outro2(0.0); img = Image.blend(img, nxt, q * 0.85)
     else:
-        u = t - OS
+        u = max(0.0, t - OS)
         img = outro2(u)
+        if NOEND and u < 0.8:   # 마지막 장면이 계속 움직이며 엔딩 화면으로 부드럽게 넘어간다
+            live = Image.fromarray(np.clip(frame_at(len(shots) - 1, t) * GRADE * VIG, 0, 255).astype(np.uint8)).convert("RGBA")
+            img = Image.blend(live, img.convert("RGBA"), ease2(u / 0.8))
         z = 1 + 0.03 * ease(u / O["dur"]); bw, bh = W / z, H / z
         img = img.resize((W, H), Image.BILINEAR, box=((W - bw) / 2, (H - bh) / 2, (W + bw) / 2, (H + bh) / 2))
     # 금빛 먼지(끝 화면에도 계속)
@@ -257,9 +262,12 @@ enc.stdin.close(); enc.wait()
 SW = os.path.join(TMP, "swell.wav"); BM = os.path.join(TMP, "boom.wav")
 subprocess.run(["ffmpeg","-v","error","-y","-f","lavfi","-i","anoisesrc=d=1.2:c=pink:a=0.8","-af","highpass=f=200,lowpass=f=2500,afade=t=in:d=0.8:curve=exp,afade=t=out:st=0.8:d=0.4,volume=0.45","-ar","48000","-ac","2",SW],check=True)
 subprocess.run(["ffmpeg","-v","error","-y","-f","lavfi","-i","sine=f=48:d=1.6","-f","lavfi","-i","anoisesrc=d=1.6:c=brown:a=0.6","-filter_complex","[0][1]amix=2,lowpass=f=160,afade=t=out:st=0.05:d=1.5,volume=1.6","-ar","48000","-ac","2",BM],check=True)
-sa, sb = NAR_END + 0.13, OS0 - 0.15; tempo = (sb - sa) / (sb - sa + DELAY)
-assert sb - sa > 0.4 and 0.5 <= tempo <= 1.0, f"오늘의 할 일 뒤 여유 계산 오류 sa={sa} sb={sb} tempo={tempo} — 목소리 시각 확인"
-fc = ["[1:a]asplit=3[x1][x2][x3]", f"[x1]atrim=0:{sa},asetpts=PTS-STARTPTS[a1]", f"[x2]atrim={sa}:{sb},asetpts=PTS-STARTPTS,atempo={tempo:.4f}[a2]", f"[x3]atrim={sb},asetpts=PTS-STARTPTS[a3]", "[a1][a2][a3]concat=n=3:v=0:a=1[base]"]
+if NOEND:   # 늘릴 여유가 없으니 완성본 소리 그대로
+    fc = ["[1:a]anull[base]"]
+else:
+    sa, sb = NAR_END + 0.13, OS0 - 0.15; tempo = (sb - sa) / (sb - sa + DELAY)
+    assert sb - sa > 0.4 and 0.5 <= tempo <= 1.0, f"오늘의 할 일 뒤 여유 계산 오류 sa={sa} sb={sb} tempo={tempo} — 목소리 시각 확인"
+    fc = ["[1:a]asplit=3[x1][x2][x3]", f"[x1]atrim=0:{sa},asetpts=PTS-STARTPTS[a1]", f"[x2]atrim={sa}:{sb},asetpts=PTS-STARTPTS,atempo={tempo:.4f}[a2]", f"[x3]atrim={sb},asetpts=PTS-STARTPTS[a3]", "[a1][a2][a3]concat=n=3:v=0:a=1[base]"]
 ins = ["-i", HEAD, "-i", ORIG]; mix = ["[base]"]; k = 2
 for t in [x[2] for x in shots[1:] if x[4]]:
     ins += ["-i", SW]; ms = int(max(0, t - 0.9) * 1000); fc.append(f"[{k}:a]adelay={ms}|{ms},volume=0.3[s{k}]"); mix.append(f"[s{k}]"); k += 1
@@ -274,4 +282,4 @@ else:                  # 인스타·틱톡: 10MB 아래 (틱톡 업로드 한도
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", HEAD, "-an", "-c:v", "libx264", "-preset", "medium", "-b:v", "1450k", "-maxrate", "3M", "-bufsize", "6M", "-pass", "1", "-passlogfile", PL, "-pix_fmt", "yuv420p", "-f", "mp4", "/dev/null"], check=True)
     subprocess.run(base + ["-c:v", "libx264", "-preset", "medium", "-b:v", "1450k", "-maxrate", "3M", "-bufsize", "6M", "-pass", "2", "-passlogfile", PL, "-c:a", "aac", "-b:a", "160k", "-ac", "2", "-ar", "48000", "-movflags", "+faststart", OUT], check=True)
 import shutil; shutil.rmtree(TMP, ignore_errors=True)
-print(f"{OUT} · 샷 {len(shots)} · 금빛 {sum(1 for x in shots if x[4])} · 오늘의 할 일 {T_K[0]:.2f}/{[round(x[0],2) for x in T_L]} · 엔딩 {VO.get('outro')}")
+print(f"{OUT} · 샷 {len(shots)} · 금빛 {sum(1 for x in shots if x[4])} · 오늘의 할 일 {'없음' if NOEND else f'{T_K[0]:.2f}/{[round(x[0],2) for x in T_L]}'} · 엔딩 {VO.get('outro')}")

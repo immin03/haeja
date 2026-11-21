@@ -58,6 +58,14 @@ def build(path):
                 cut["texts"].append({"t0": max(0.05, la), "lines": s[5], "style": s[4]})
         if not cut["caps"]: del cut["caps"]
         cuts.append(cut)
+    # 2026-11-22 포맷 순환(list): 원문 낭독 없이 화면 한 줄 — 그 컷의 마지막 내레이션이 끝난 뒤 뜬다
+    if E.get("screen_quote"):
+        sq = E["screen_quote"]; k = sq["cut"]
+        if sq.get("at") == "start":   # 그 컷 첫 내레이션과 함께
+            t0 = min(abs_t[i][0] for i, s in enumerate(sents) if s[3] == k) - starts[k] + 0.1
+        else:
+            t0 = max(abs_t[i][1] for i, s in enumerate(sents) if s[3] == k) - starts[k] + 0.25
+        cuts[k]["texts"].append({"t0": round(t0, 2), "lines": sq["lines"], "style": sq.get("style", "quote")})
     end_start = starts[-1] + cuts[-1]["dur"] - 0.25
     # 2026-11-03 대표: 마지막 화면 이름을 '오늘의 할 일'로(아침·점심 편에도 맞게), 그 화면에도 내레이션을 넣어 공백을 없앤다
     end_dur = E.get("end_dur", 5.0)
@@ -65,9 +73,13 @@ def build(path):
         ev = E["end_voice"]; evd = dur(ev)
         voices.append({"file": ev, "at": round(end_start + 0.55, 3), "vol": E.get("vol", 1.3)})
         end_dur = max(end_dur, round(0.55 + evd + 1.1, 2))
+    if not E.get("tonight"):   # 2026-11-22 포맷 순환(history·list): 오늘의 할 일 화면 없이 슬로건·엔딩만
+        end_dur = 0.0
     end = {"dur": end_dur, "kicker": E.get("end_kicker", "TONIGHT'S TASK" if os.environ.get("ED_LANG") == "en" else "오늘의 할 일"), "lines": E["tonight"], "source": E["source"], "slogan": None}
     voices.append({"file": E.get("outro_voice", "/home/claude/vo/outro_default.mp3"), "at": round(end_start + end["dur"] - 0.1, 3), "vol": 1.0})
     spec = {"id": key, "music": E["music"], "voice": voices, "cuts": cuts, "end": end, "outro": {"dur": 7.9, "p1": 4.7}}
+    if not E.get("tonight"):
+        end["skip"] = True; spec["voice_delay_tail"] = 0.0
     total = end_start + end["dur"] + 7.9
     # 2026-11-09 ep18(63초) 사고: 유튜브는 1분 넘는 쇼츠에 소유권 주장이 걸리면 전 세계 차단한다. secret-garden 은 RouteNote 주장('You Called Me')이 걸리는 곡 (TEMPLATE 고정값)
     if total >= 57 and "secret-garden" in E["music"]["file"]:
