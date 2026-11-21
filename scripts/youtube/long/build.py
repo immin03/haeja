@@ -196,6 +196,7 @@ def main(only):
             open(os.path.join(OUT, sid, "build_error.txt"), "w", encoding="utf-8").write(now.isoformat() + "\n" + traceback.format_exc()[-3000:])
         finally:
             unlock(sid, holder)
+    if os.environ.get("DRY") == "1": return   # 점검만: 대기열 파일은 건드리지 않는다
     # 검수 대기열: 메타가 있는 롱폼 전부 (최근 30일)
     queue = []
     for m in sorted(glob.glob(os.path.join(OUT, "*", "meta.json"))):
