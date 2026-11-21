@@ -1,0 +1,141 @@
+{
+ "id": "enc12a",
+ "lang": "en",
+ "from": null,
+ "topic": "conflict",
+ "note": "2026-11-21 영어 오리지널(갈등형, en05b 구조). 인용 George Long(1862) 다듬음, 라이브러리 클립 재사용(새 생성 0), Cinzel/EB Garamond, 음악 TEMPLATE 3곡 규칙 | 2026-11-04 v2: 묶음별 녹음, 인용은 황제(명일), 잘라 붙이지 않음, -16 LUFS, 레이아웃 A",
+ "kicker": "",
+ "hook": [
+  "They LIED",
+  "to your face."
+ ],
+ "title_line": "People Who LIE to Your Face",
+ "music": {
+  "file": "/home/claude/ed/music/music_i-believe-2.mp3",
+  "start": 0,
+  "bed": 0.17
+ },
+ "voice": "/home/claude/vo/v2/v_enc12a.wav",
+ "gap": 0.75,
+ "hold": 1.5,
+ "cuts": [
+  "/home/claude/haeja/social/side/gen/hfr_corridor_whisper.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_cup_stare.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_toyhorse_face.mp4",
+  "/home/claude/haeja/social/side/gen/hfr_torchcrowd_back.mp4"
+ ],
+ "sents": [
+  [
+   0.46,
+   1.959,
+   1,
+   0,
+   "none",
+   [
+    "They lied to your face."
+   ]
+  ],
+  [
+   2.929,
+   4.709,
+   2,
+   1,
+   "cap",
+   [
+    "And smiled",
+    "while they did it."
+   ]
+  ],
+  [
+   4.759,
+   6.274,
+   2,
+   1,
+   "cap",
+   [
+    "Now you want",
+    "to expose them."
+   ]
+  ],
+  [
+   7.124,
+   8.904,
+   3,
+   2,
+   "quote",
+   [
+    "Does another do me wrong?"
+   ]
+  ],
+  [
+   8.954,
+   10.124,
+   3,
+   2,
+   "quote",
+   [
+    "Let him look to it."
+   ]
+  ],
+  [
+   10.174,
+   13.67,
+   3,
+   2,
+   "quote",
+   [
+    "He has his own disposition,",
+    "his own activity."
+   ]
+  ],
+  [
+   14.54,
+   16.58,
+   4,
+   3,
+   "big",
+   [
+    "A lie is a weight",
+    "they carry."
+   ]
+  ],
+  [
+   16.63,
+   17.41,
+   4,
+   3,
+   "cap",
+   [
+    "Not you."
+   ]
+  ],
+  [
+   17.46,
+   19.627,
+   4,
+   3,
+   "cap",
+   [
+    "Stay honest.",
+    "Time does the rest."
+   ]
+  ]
+ ],
+ "tonight": [
+  "Next time they lie,",
+  "don't argue.",
+  "Just remember it."
+ ],
+ "source": "Marcus Aurelius, Meditations 5.25",
+ "end_voice": "/home/claude/vo/v2/enc12_end_voice.wav",
+ "outro_voice": "/home/claude/vo/v2/enc12_outro_voice.wav",
+ "cover": [
+  "THEY LIED",
+  "TO YOUR",
+  "FACE"
+ ],
+ "title": "People Who LIE to Your Face | Marcus Aurelius",
+ "slot": "2026-11-29 21:47",
+ "theme": "A",
+ "vol": 0.72
+}
