@@ -14,6 +14,11 @@
 | 저녁 | 08:47 (D+1) | 18:47 |
 제작 작업이 D 날 낮에 세 편을 만들고, 업로드 작업이 D 날 저녁 전에 세 편을 스튜디오 예약 게시로 올린다.
 
+## ★ 2026-11-21 대표 결정 — 포맷 순환 (이 절이 아래 절보다 우선)
+- 하루 2편 유지(한국 채널도 11/21부터 2편). 새로 만드는 편은 TEMPLATE.md '★ 포맷 순환' 표에서 포맷을 고른다 — 바로 앞뒤 편과 다른 포맷, 7일 40% 이하. 길이·구성·제목 틀·엔딩은 그 포맷 줄을 따른다(quote 만 아래 en05b 구조). 영어 제목 틀은 같은 뜻으로 영어답게 (history: "What Marcus Aurelius Did When …", list: "N Things to NEVER …", viewer: "A Viewer Asked: …").
+- ed_posts.images.format 에 코드(quote·story·history·list·viewer)를 꼭 적는다. authentic_check.py 가 11/30 공개분부터 검사한다(그 전 예약분은 그대로).
+- redo_1118 재제작 편은 원래 포맷(quote)으로 두되, 앞뒤 편과 포맷이 겹치면 칸을 바꾼다.
+
 ## ★ 2026-11-18 대표 결정 — 하루 2편 + 재사용 높은 편 재제작 (이 절이 아래 '3편' 표현보다 우선)
 - 당분간 **하루 2편: 21:47(D)·08:47(D+1)**. 01:47 칸은 새로 채우지 않는다(이미 예약된 편은 그대로). 창(D 21:00 ~ D+1 12:00)에 paused 아닌 편이 2편 있으면 만들지 않는다. 현대판(sw…)도 2편에 포함.
 - A-0 재제작 먼저: 빈 칸이 있으면 새 소재보다 먼저 `select id from ed_posts where kind='reel_en' and paused and images ? 'redo_1118' and not coalesce((images->'redo_1118'->>'done')::boolean,false) order by (images->'redo_1118'->>'old_at')` 의 편을 고친다. 갈등 주제(en29·en31·en13·en35)를 먼저.

@@ -1,6 +1,7 @@
 # 황제의 일기 데일리 쇼츠 — 매일 자동 제작 순서 (2026-11-04 대표 확정, 고정)
 
 예약 작업 "황제의 일기 데일리 쇼츠 제작"이 매일 04:41(KST)에 이 문서대로 그날 2편을 만들어 예약까지 끝낸다. (2026-11-04 19:47 대표 변경: 데일리 3편 → 2편)
+★ 2026-11-21 대표 "2편으로 가자 한국도 2편으로": 현대판·롱폼 소개 쇼츠를 포함해 하루 2편이 상한이다(DB 트리거도 3번째를 거부). 그날 현대판·소개 쇼츠가 이미 있으면 데일리는 1편만. 두 편은 포맷이 달라야 한다 — TEMPLATE.md '★ 포맷 순환' 을 먼저 읽는다.
 ★ 규칙의 원본은 TEMPLATE.md 하나다. 제목·썸네일·설명란·댓글 규칙은 **이 문서에 다시 적지 않는다** — 반드시 TEMPLATE.md 해당 절을 읽고 그대로 따른다.
 (2026-11-08 사고: 이 문서가 11/6 제목 양식을 베껴 적어 두고 "이 문서가 이긴다"고 해서, 11/7 대표가 TEMPLATE.md 제목 규칙을 바꿨는데도 14~17편이 옛 양식으로 나갔다. 같은 규칙을 두 곳에 적지 않는다. TEMPLATE.md 와 이 문서가 다르면 **TEMPLATE.md 가 이긴다.**)
 
@@ -13,16 +14,16 @@
   · 롱폼 본편은 19:30
 - ★ 길이·대본 구성: **TEMPLATE.md '★ 길이·내용 규칙' 절을 읽고 그대로** (칸별 길이는 그 절에 있음 — 여기에 베껴 적지 않음). 기획 단계에서 그 절의 "대본 자가 검사"를 통과해야 다음 단계로 간다
   · 결과 비교 기준은 스튜디오 '계속 시청함'과 좋아요율. ed_posts.duration_sec 꼭 기록
-- 양식은 A 하나. 장면은 어두운 그림만(ed*, lc*, lib_*, edv*), 편마다 장면 묶음이 겹치지 않게, 어제 쓴 묶음은 피한다
+- 화면 양식(그림 톤)은 A 하나 — 내용 포맷(quote·history·list·viewer)과 다른 말이다. 장면은 어두운 그림만(ed*, lc*, lib_*, edv*), 편마다 장면 묶음이 겹치지 않게, 어제 쓴 묶음은 피한다
 - 목소리: 해설 건석 tc_6731b2e0855f351b98d30c48, 명상록 인용은 황제 명일 tc_62d66c2d1523be99355fda02 (tempo 0.9). 둘 다 tonedown, 묶음별 2테이크
 - 화면: 시네마틱 고정 포맷(FX.md). 마지막 화면은 슬로건+엔딩 한 화면(fx_short.py). 유튜브용 --platform shorts, 인스타·틱톡용 --platform reels
 
 ## 순서
-0. 확인: app_config ed_paused 가 true면 멈춤. ed_posts 에 오늘 12:20/20:30 데일리 reel 이 이미 있으면 그 칸은 건너뛴다.
+0. 확인: app_config ed_paused 가 true면 멈춤. ed_posts 에 오늘 12:20/20:30 데일리 reel 이 이미 있으면 그 칸은 건너뛴다. ★ 오늘(한국 날짜) paused 아닌 reel 이 이미 2편이면(현대판·소개 쇼츠 포함) 만들지 않고 끝낸다.
 1. 준비: 저장소 sparse clone 후 `scripts/side/emperor`, `social/side/gen`(쓰는 그림만), `docs/emperor/profile_final.png`.
    글꼴 /root/fonts: `Hahmlet[wght].ttf`(google/fonts ofl/hahmlet), `CormorantSC-SemiBold.ttf`(ofl/cormorantsc), `PinyonScript-Regular.ttf`(ofl/pinyonscript),
    Pretendard SemiBold/Bold/ExtraBold(.otf, orioncactus/pretendard). 음악·엔딩 목소리·로고는 `scripts/side/emperor/assets/` → `/home/claude/ed/music/`, `/home/claude/logo/logo_final.png` 로 복사.
-2. 기획(2편): 주제는 **TEMPLATE.md '★ 주제·시청층 규칙' 그대로** (7일 안 같은 묶음 금지, 나이 묶음 주 1편, 12:20 = 20~40대 지금 장면) — ed_posts.images.topic 에 묶음 번호를 적는다. 제목은 **TEMPLATE.md '★ 제목 규칙' 그대로** — 이 단계 끝에 그 절의 자가 검사를 통과하지 못하면 다시 짓는다. 첫 화면 훅 2줄 = 제목(`| 명상록` 꼬리는 첫 화면에 넣지 않고 유튜브 제목에만).
+2. 기획(2편): ★ 포맷 먼저 — 앞뒤 편의 images.format 을 보고 TEMPLATE.md '★ 포맷 순환' 표에서 두 편의 포맷을 서로 다르게 고른다(바로 앞 편과도 다르게, 7일 40% 이하, 2주 비율 목표에 모자란 포맷 먼저). 길이·구성·제목 틀·엔딩은 그 포맷 줄을 따른다(quote 만 칸 길이). 첫 3초 훅은 2안을 써서 센 쪽. 주제는 **TEMPLATE.md '★ 주제·시청층 규칙' 그대로** (7일 안 같은 묶음 금지, 나이 묶음 주 1편, 12:20 = 20~40대 지금 장면) — ed_posts.images.topic 에 묶음 번호를 적는다. 제목은 **TEMPLATE.md '★ 제목 규칙' 그대로** — 이 단계 끝에 그 절의 자가 검사를 통과하지 못하면 다시 짓는다. 첫 화면 훅 2줄 = 제목(`| 명상록` 꼬리는 첫 화면에 넣지 않고 유튜브 제목에만).
    명상록 인용은 권·절을 확실히 아는 것만, George Long(1862) 영역본을 충실히 옮긴 쉬운 한국어. 로마 시대 장면만, 현대 상황은 내레이션 말로만(플랫폼 이름 금지).
 3. 대본 파일: 편마다 `long_<id>.json`(구조는 `long_ep08a.json`을 그대로 따름: kicker, hook, title_line, music, cuts, tonight, source, gap, hold, sents)
    sents 시각은 0으로 두고 문장 글·group·cut·style 만 채운다. 묶음 줄 목록은 `/home/claude/vo/v2_lines.json` 에 `{ "<id>": [["n1", 건석, 글], ["e2", 명일, 인용], ...] }`
@@ -35,7 +36,7 @@
 6. 일기 쓰는 장면: `python3 tablet_script.py social/side/gen/edv02_tablet.mp4 /home/claude/ed/edv02_<id>.mp4 "<Long 영어 원문 3줄, |로 구분>"`
 7. 렌더: `python3 build_long.py long_<id>a.json` → `python3 render_ed.py /home/claude/ed/spec_<id>a.json <base.mp4> --platform shorts`
    → 장면 고르기(★ 2026-11-13): `python3 library.py build` 후 장면마다 `python3 library.py find <주제어> --vert` 로 먼저 찾는다(최근 5편 사용분은 뒤로 밀려 나온다).
-     맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성 요청(상한은 gen.py 가 막는다). fx 를 다 쓰면 `python3 library.py check fx_<id>.json` 통과(한 편 안 중복 금지). ★ 11/15 이어서 `python3 authentic_check.py fx_<id>.json --posts=/tmp/posts.json` 통과(TEMPLATE.md '★ 양산형 방지' — 첫 장면·장면 겹침·제목·하루 3편, 3편에 1번 가치 편).
+     맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성 요청(상한은 gen.py 가 막는다). fx 를 다 쓰면 `python3 library.py check fx_<id>.json` 통과(한 편 안 중복 금지). ★ 11/15 이어서 `python3 authentic_check.py fx_<id>.json --posts=/tmp/posts.json` 통과(TEMPLATE.md '★ 양산형 방지' — 첫 장면·장면 겹침·제목·하루 2편·포맷 순환, 3편에 1번 가치 편). posts.json 에 이번 편 줄을 넣을 때 fmt 도 넣는다.
    → ★ 시네마틱 고정 포맷(2026-11-05 대표 확정, FX.md 필독): 고른 장면으로 `fx_<id>.json` 을 쓰고
    `python3 fx_short.py /home/claude/ed/spec_<id>a.json <base.mp4> <yt.mp4> --fx fx_<id>.json --platform shorts` 와 `... <ig.mp4> ... --platform reels`
    (render_ed 의 reels 렌더는 하지 않는다. 클립은 social/side/gen/<클립>.mp4 를 sparse-checkout 에 추가)
@@ -55,7 +56,7 @@
    표지: long_<id>.json 에 "cover" 를 쓰고(TEMPLATE ★ 쇼츠 표지 규칙) `python3 cover_ed.py <id>` → docs/emperor/ep/cover_<id>.jpg 커밋, ed_posts.images 에 "yt_cover": "/docs/emperor/ep/cover_<id>.jpg" 기록.
    썸네일: yt_up.sh 끝의 yt_thumb.sh(API)는 쇼츠에 반영되지 않는다(11/12 확인). ed_posts 등록 때 cover_path 를 반드시 채우면, 「황제의 일기 쇼츠 썸네일 고정」 크롬 작업(07:07·19:07)이 스튜디오에서 hook_<id>.jpg 를 지정한다(TEMPLATE 썸네일 규칙)
    ★ 댓글(2026-11-05 대표): yt_comment·ig_comment 는 질문 뒤 빈 줄 하나 + "좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다."(인스타는 '구독' → '팔로우') 로 끝낸다
-   ed_posts: ep07~09 행과 같은 열로 insert (voice_qa = ig 도장의 ed_posts_voice_qa, video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
+   ed_posts: ep07~09 행과 같은 열로 insert (★ images.format = 포맷 코드 필수, voice_qa = ig 도장의 ed_posts_voice_qa, video_path = _reels_ig, cover_path, yt_video_id, duration_sec, ig_caption, ig_comment, th_text, tt_text, yt_comment, to_ig/to_th true, 상태 pending, paused false)
 10. 끝: 커밋 메시지는 한국어, 마지막 줄 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. 결과 한 줄: "완료: <id 제목 길이초> ×2" / "실패: <원인>"
 
 ## ★ 멈춤·침묵 재발 방지 (2026-11-06 대표 지시, 필수)

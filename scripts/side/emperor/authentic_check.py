@@ -2,13 +2,13 @@
 """양산형(유튜브 '진정성 없는 콘텐츠') 위험 검사 — 2026-11-15 대표 "양산형 채널로 비춰질 가능성 … 이 문제 안 되게 잘 점검해줘"
 
 유튜브 기준: 템플릿으로 찍어내 영상마다 거의 바뀌지 않는 채널, 대량·반복 업로드는 수익 창출 불가.
-우리 위험 요소(11/15 점검): AI 그림·목소리, 한 양식, 하루 3편, 같은 엔딩, 영어판이 한국 편 기반.
+우리 위험 요소(11/15 점검): AI 그림·목소리, 한 양식, 하루 여러 편(11/21부터 2편), 같은 엔딩, 영어판이 한국 편 기반.
 그래서 편마다 '눈에 보이게 다른' 것을 숫자로 지킨다. 규칙 원본: TEMPLATE.md '★ 양산형 방지'.
 
 쓰는 법 (scripts/side/emperor 에서):
   python3 authentic_check.py fx_<id>.json [--src=<한국 편 id>] [--posts=posts.json]   # 한 편 출고 전 검사 (실패 1, 경고만 0)
   python3 authentic_check.py --all [--posts=posts.json]                                # 채널 전체 점검표 (주간 점검)
-posts.json = ed_posts 에서 뽑은 [{id, kind, title, at, dur, from, fmt, value_add}] (없으면 제목·길이·편수 검사는 건너뜀)
+posts.json = ed_posts 에서 뽑은 [{id, kind, title, at, dur, from, fmt(images.format), value_add}] (없으면 제목·길이·편수 검사는 건너뜀)
 """
 import collections, difflib, glob, json, os, re, sys
 
@@ -22,13 +22,18 @@ SAME_CH_MAX = 0.40      # 같은 채널 최근 14편 중 어느 편과도 장면
 EN_SRC_MAX = 0.50       # 영어판은 한국 원본과 장면 겹침 50% 이하 (두 채널이 같은 영상처럼 보이지 않게)
 OPEN_DAYS_EPS = 9       # 첫 장면은 같은 채널 최근 9편(약 3일)의 첫 장면과 달라야 한다
 TITLE_SIM_MAX = 0.80    # 같은 채널 제목과 글자 유사도 80% 미만
-PER_DAY_MAX = 3         # 채널당 하루 쇼츠 3편 상한 (대표 11/15 권장안 1)
+PER_DAY_MAX = 2         # 채널당 하루 쇼츠 2편 상한 (현대판·롱폼 소개 쇼츠 포함) — 2026-11-21 대표 "2편으로 가자 한국도 2편으로" (이전 3편)
 LEN_MIN_SPREAD = 8      # 최근 6편 길이의 최대-최소가 8초 이상 (전부 같은 길이 금지)
 REUSE_DAYS = 7          # 2026-11-17 대표 "같은 장면 반복이 심하다": 같은 채널 최근 7일(예약분 포함)에 쓴 장면은
 REUSE_MAX = 0.30        #   한 편의 30% 이하만 다시 쓴다. Higgsfield 체험분이 라이브러리에 들어오면(로마 800개 이상) 0.10으로 낮춘다
 REUSE_FREE = 2          # 2026-11-18 대표 "한두 컷은 할 수 있겠지만": 다시 쓴 장면이 2개 이하면 비율과 상관없이 통과(6~7컷짜리 영어 편)
 NIGHT_MAX = 0.50        # '밤 책상·촛불·일기' + '막사' 장면이 한 편의 50% 이하 (11/10~17 한국 쇼츠 33~67% — 다 어두운 밤이라 같은 영상처럼 보임)
 NIGHT_RX = re.compile(r"candle|oil lamp|lamp|desk|diary|writing|quill|wax tablet|scroll|tent|camp", re.I)
+# 2026-11-21 대표 "쇼츠가 계속 비슷한 포맷 … 다양성" → 포맷 5종 순환 (TEMPLATE.md '★ 포맷 순환')
+FORMATS = {"quote": "인용형", "story": "현대판 이야기형", "history": "60초 실화형", "list": "빠른 목록형", "viewer": "시청자 사연형"}
+FMT_SHARE_MAX = 0.40    # 같은 채널 최근 7일(예약분 포함) 중 한 포맷이 40% 이하
+FMT_MIN_N = 5           #   비율 검사는 그 창에 포맷이 적힌 편이 5편 이상일 때만
+FMT_SINCE = {"KR": "2026-11-22", "EN": "2026-11-30"}   # 이 날짜(공개일) 이후 편부터 적용 — 이미 예약된 편은 그대로 둔다
 VALUE_EVERY = 3         # '사람이 더한 가치' 편은 3편에 1번 이상 (대표 11/15: 테스트로 몇 편에 한 번씩)
 
 
@@ -134,6 +139,8 @@ def check_one(me, fx, posts, src=None):
     night = [t for t in set(mine) if NIGHT_RX.search(((_CAT.get(t) or {}).get("scene") or "") + " " + ((_CAT.get(t) or {}).get("scene_ko") or ""))]
     if len(set(mine)) >= 4 and len(night) / len(set(mine)) > NIGHT_MAX:
         fails.append(f"밤 책상·촛불·막사 장면이 {len(night)}/{len(set(mine))} (상한 {NIGHT_MAX:.0%}) — 낮의 로마(거리·원로원·전장·자연·가족)로 바꾼다")
+    # 5-3) 포맷 순환 (11/21)
+    fails += check_format(me, ch, post, posts)
     # 6) 길이 다양성 (경고)
     lens = [post[k]["dur"] for k in recent[-5:] if k in post and post[k].get("dur")] + ([post[me]["dur"]] if me in post and post[me].get("dur") else [])
     if len(lens) >= 6 and max(lens) - min(lens) < LEN_MIN_SPREAD:
@@ -143,6 +150,47 @@ def check_one(me, fx, posts, src=None):
     if len(vals) >= VALUE_EVERY and not any(vals):
         warns.append(f"최근 {VALUE_EVERY}편에 '사람이 더한 가치' 편이 없음 — 이 편을 가치 편으로 (TEMPLATE.md '★ 양산형 방지' 3)")
     return fails, warns
+
+
+def fmt_of(p):
+    f = (p or {}).get("fmt")
+    if f in FORMATS:
+        return f
+    if re.match(r"(st|sw|px)", (p or {}).get("id", "")):
+        return "story"                   # 현대판 id 는 포맷을 안 적어도 story
+    return f
+
+
+def check_format(me, ch, post, posts):
+    """2026-11-21: 같은 채널 바로 앞 편과 같은 포맷 금지, 최근 7일 한 포맷 40% 이하. FMT_SINCE 이전 편은 검사하지 않는다."""
+    import datetime
+    p = post.get(me) or {}
+    at = p.get("at")
+    if not at or ch_day(at, ch) < FMT_SINCE[ch]:
+        return []
+    f = fmt_of(p)
+    if f not in FORMATS:
+        return [f"포맷이 안 적혀 있음 — ed_posts.images.format 에 {'/'.join(FORMATS)} 중 하나 (TEMPLATE.md '★ 포맷 순환')"]
+    out = []
+    same = [q for q in posts if q["id"] != me and chan(q["id"], q.get("kind")) == ch and q.get("at") and not q.get("paused")]
+    t = datetime.datetime.fromisoformat(str(at).replace("Z", "+00:00"))
+    ts = lambda q: datetime.datetime.fromisoformat(str(q["at"]).replace("Z", "+00:00"))
+    before = [q for q in same if ts(q) < t]
+    after = [q for q in same if ts(q) > t]
+    if before:
+        prev = max(before, key=ts)
+        if fmt_of(prev) == f:
+            out.append(f"바로 앞 편 {prev['id']} 와 같은 포맷({FORMATS[f]}) — 이어서 같은 포맷 금지")
+    if after:
+        nxt = min(after, key=ts)
+        if fmt_of(nxt) == f:
+            out.append(f"바로 뒤 편 {nxt['id']} 와 같은 포맷({FORMATS[f]}) — 이어서 같은 포맷 금지")
+    win = [q for q in same if abs((ts(q) - t).total_seconds()) <= REUSE_DAYS * 86400 and fmt_of(q) in FORMATS] + [p]
+    if len(win) >= FMT_MIN_N:
+        r = sum(1 for q in win if fmt_of(q) == f) / len(win)
+        if r > FMT_SHARE_MAX:
+            out.append(f"앞뒤 {REUSE_DAYS}일 {len(win)}편 중 {FORMATS[f]}이 {r:.0%} (상한 {FMT_SHARE_MAX:.0%}) — 다른 포맷으로")
+    return out
 
 
 def recent_used(ch, me, at):
