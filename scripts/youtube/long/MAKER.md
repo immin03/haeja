@@ -53,3 +53,9 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 git pull --rebase origin main; push. Confirm the yt-long workflow started (gh run list -R immin03/haeja --workflow yt-long.yml --limit 1) and wait for it (poll 3 min, up to 150 min, updating progress each poll). Check the rendered video length (ffprobe or the workflow log): if it is under 8:00, add a story scene, push again and re-render before uploading. Run yt_fetch()/yt_import() and verify in youtube_posts that the long exists with status 'review'; then progress 100 and plan status 'done'. If the render failed, report the error line from the workflow log.
 
 FINAL MESSAGE (Korean only, ≤ 6 lines; shown in the run log, not pushed): line 1 "관리자 → 유튜브 검수에서 <게시 날짜·시각> 전에 확인해 주세요" with the long's title; its one-sentence message, length (m:ss), opening form, the three promises in a few words, the three title/thumbnail sets in one line each, review average (mark "검수 미달" when below target); "승인하시면 파생 쇼츠를 만들고, A/B 테스트·정리본 링크·고정 댓글은 업로드 데스크가 처리합니다". No buy/sell recommendations; never 무료/유료.
+
+## 렌더 효율·실패 처리 (owner-rules r188 — 이 기준 하나만 따른다)
+- 렌더 전: 로컬 `prerender_gate.py` 통과 후에만 dispatch. dispatch 는 건 시점 커밋으로 돈다(고친 뒤에 건다).
+- 렌더 뒤 오류(썸네일·설명·자막)는 영상을 버리지 않는다: safe_thumb, 업로드 3회 재시도, 실패 시 릴리스에 `-salvage.mp4`.
+- 실패하면 처음부터 다시 렌더하지 말고 고칠 부분만(음성 캐시 재사용).
+- 매시 점검은 check 잡이 먼저 거른다. 직접 건 렌더는 점검 실행과 다른 줄에서 바로 돈다.

@@ -449,3 +449,8 @@ python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover      
 - 표지만 문제: `python3 scripts/reels/swap_cover.py <id>` — 영상 다시 렌더하지 않고 표지 구간만 교체(약 40초, 음성 재구매 없음)
 - 엔진은 표지 대본이 없으면 음성 만들기 전에 멈춘다 / 음성 캐시는 실패해도 저장 / 서버는 /scripts/ 만 받는다
 - render-one 브랜치에도 main 의 스크립트·워크플로 변경을 같이 넣는다 ([skip ci])
+- (11/21 18시 추가, 같은 r188 ⑨~⑬) 썸네일·설명·자막 등 렌더 뒤 오류가 영상을 버리지 않게: render2 safe_thumb, build.py 업로드 3회 재시도·실패 시 `-salvage.mp4` 로 영상 살림, 커밋 전 95MB 넘는 파일 제외
+- 롱폼 렌더 전 필수 칸(title·description_head·scheduled_at) 확인 → 비면 음성 사기 전에 멈춤
+- yt-long 매시·매일 점검은 check 잡(원고·메타만)으로 할 일 있을 때만 전체 실행 / 직접 건 렌더는 자기 줄(run_id)로 바로 돈다
+- dispatch 는 건 시점 커밋으로 돈다 — 고친 뒤에 걸고, "적용된다"고 말하기 전에 head_sha 확인
+- 렌더 효율 규칙은 owner-rules r188 한 항목에만 적는다 (새 번호 만들지 않음)
