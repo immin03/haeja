@@ -71,7 +71,7 @@
  "title": "빅쇼트는 팔고 개미는 1.5조 샀다 | 삼성전자 -7%·고점 반토막, \"7만전자\" vs \"30만전자\" 누가 맞나",
  "doc_title": "같은 주식, 네 개의 돈 | 삼성전자 반토막 다음",
  "title_en": "The Big Short bets against memory while Korean retail buys $1bn of Samsung — who is right?",
- "description_head": "삼성전자가 금요일 하루 7% 빠지며 6월 고점의 반토막이 됐습니다. 빅쇼트 마이클 버리는 메모리 하락에 걸었고, 외국인은 팔고, 개인은 하루 1조 5,950억 원을 샀고, SK하이닉스는 지금도 자기 주식을 사고 있습니다.\n젠슨 황·최태원·마이크론 CEO의 원음으로 \"이번엔 다르다\"는 주장을 짚고, 과거 삼성전자가 반토막 났을 때의 데이터와 지금 확인할 숫자 세 가지를 정리합니다.",
+ "description_head": "역대 최대 공모 앤트로픽이 상장한 다음 날, 삼성전자는 하루 7% 빠지며 6월 고점의 반토막이 됐습니다. 빅쇼트 마이클 버리는 메모리 하락에 걸었고, 외국인은 팔고, 개인은 하루 1조 5,950억 원을 샀고, SK하이닉스는 지금도 자기 주식을 사고 있습니다.\n젠슨 황·최태원·마이크론 CEO의 원음으로 \"이번엔 다르다\"는 주장을 짚고, 과거 삼성전자가 반토막 났을 때의 데이터와 지금 확인할 숫자 세 가지를 정리합니다.",
  "description_en": "Samsung Electronics fell 7% on Friday, half its June peak. Michael Burry is betting on a memory down cycle, foreigners are selling, Korean retail bought 1.6 trillion won in a day, and the companies keep buying back stock. With first-hand remarks from Jensen Huang, Chey Tae-won and Micron's CEO we weigh the 'this time is different' case, look at Samsung's past halvings and list three numbers to watch. Not investment advice.",
  "pinned_comment": "여러분 돈은 네 개 중 어느 쪽에 서 있나요? 원음 출처는 설명란에 적었습니다. 좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.\n\n※ 원음: CNBC(젠슨 황 10/22, 최태원 8/13, 산제이 메로트라, 아준 카팔), 블룸버그(재닛 무이, 닐 캠플링). 숫자 기준 2026년 11월 20일 종가. 매수·매도 권유가 아닙니다.",
  "hook_promises": [
@@ -99,6 +99,10 @@
   "7만전자"
  ],
  "sources": [
+  "앤트로픽 나스닥 상장 2026-11-19(AP·디크립트·더팩트)",
+  "무하마드 엘에리언 X 2026-11-19",
+  "엔비디아 2026-11-20 -14%(CNBC·모틀리풀)",
+  "CNBC 2026-09-14(아모데이 글 뒤 메모리주 하락)",
   "CNBC 2026-10-22 젠슨 황(아준 카팔)",
   "CNBC 2026-08-13 최태원(케이티 타라소프)",
   "CNBC 산제이 메로트라(마이크론 본사)",
@@ -342,7 +346,107 @@
     "wash": "none",
     "cuts": [
      {
+      "lib": "commons_nasdaqsite_1.jpg"
+     },
+     {
+      "lib": "server_7863.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "앤트로픽 나스닥 상장 2026-11-19(공모가 83달러·시초가 111.5달러·종가 97.17달러 +17.1%·공모 813억 4천만 달러) · AP·디크립트·더팩트",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "앤트로픽 +17%",
+     "sub": "2026.11.19 나스닥 상장 · 역대 최대 813억 달러",
+     "line": 1,
+     "at": 0.4,
+     "color": "gold"
+    }
+   ],
+   "lines": [
+    "방아쇠는 전날 밤 미국이었습니다. 역대 가장 큰 기업공개, 앤트로픽이 나스닥에 상장한 날이죠.",
+    "공모가 83달러, 첫 거래는 111달러로 34% 높게 시작해 17% 오른 채 끝났습니다. 공모로 모은 돈만 813억 달러, 역사상 최대입니다."
+   ],
+   "note": "[1장] 방아쇠 — 앤트로픽 상장일"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vanalytics_42648.mp4"
+     },
+     {
       "lib": "commons_nvidiahq_1.jpg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "뉴욕증시 2026-11-19 다우 -1,101.11(-2.19%)·나스닥 -2.25%·필라델피아 반도체지수 -2.42%·엔비디아 -3.3%(6거래일 연속 하락) · AP·더팩트",
+   "sketch": [],
+   "lines": [
+    "그런데 시장은 거꾸로 갔습니다. 다우지수는 1,100포인트 빠졌고, 미국 반도체지수도 2.4% 내렸습니다. 엔비디아는 6일 연속 하락이었죠.",
+    "AI 기대를 되살릴 거라던 상장이, 오히려 AI 주식을 끌어내린 겁니다."
+   ],
+   "note": "[1장] 상장일 역설"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vanalytics_47006.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "무하마드 엘에리언 X 2026-11-19(스톡트윗츠 인용)",
+   "sketch": [
+    {
+     "kind": "quote",
+     "rows": [
+      "AI의 약속만이 아니라,",
+      "그 자리를 만드는 문제"
+     ],
+     "by": "무하마드 엘에리언 · X 2026.11.19",
+     "line": 0,
+     "at": 0.2
+    }
+   ],
+   "lines": [
+    "이유를 두고 월가의 경제학자 무하마드 엘에리언은 이렇게 썼습니다. AI의 약속만이 아니라, 그 자리를 만드는 문제라고요.",
+    "앤트로픽을 사려면 돈이 필요하고, 그 돈은 이미 많이 오른 반도체 주식을 팔아서 마련된다는 뜻입니다. 그 반도체 주식 맨 앞줄에 삼성전자와 SK하이닉스가 있었습니다."
+   ],
+   "note": "[1장] 엘에리언 — 자리 만들기"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "ai_amodei_steeple2_169.png"
      },
      {
       "lib": "server_47050.mp4"
@@ -355,13 +459,36 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "엔비디아 2026-11-20(미국) -14% · 나스닥 -5.28% · 젠슨 황 2026-11-12 사임(엔비디아 발표)",
+   "src": "블록미디어 2026-11-20(아모데이 \"9천억 달러 AI 투자 약정 감당 가능\") · CNBC 2026-09-14(아모데이 속도 조절 글 → SK하이닉스 -6%·삼성전자 -4%)",
    "sketch": [],
    "lines": [
-    "방아쇠는 미국이었습니다. 엔비디아가 하루에 14% 무너졌고, 나스닥도 5% 넘게 빠졌습니다.",
-    "그런데 삼성전자에겐 악재가 하나 더 있었습니다."
+    "앤트로픽은 삼성전자에게 양날의 칼입니다. 앤트로픽 CEO는 상장 날, 9천억 달러에 이르는 AI 컴퓨팅 약정을 감당할 수 있다고 했습니다. 그만큼 칩과 메모리를 사겠다는 뜻이죠.",
+    "하지만 지난 9월, 같은 CEO가 AI 개발 속도를 늦추자는 글을 올리자 SK하이닉스는 6%, 삼성전자는 4% 넘게 빠졌습니다. 메모리 주가가 앤트로픽의 말 한마디에 흔들리는 시장입니다."
    ],
-   "note": "[1장] 방아쇠"
+   "note": "[1장] 앤트로픽 = 양날의 칼"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vsemiconductor_1139.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "그리고 삼성전자에겐 악재가 하나 더 있었습니다."
+   ],
+   "note": "[1장] 다리"
   },
   {
    "v": {
@@ -373,7 +500,7 @@
       "lib": "commons_wafer_1.jpg"
      },
      {
-      "lib": "vsemiconductor_1139.mp4"
+      "lib": "vanalytics_5462.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -416,13 +543,14 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "헤럴드경제 2026-11-21 주말 해외 거래 추정 보도",
+   "src": "엔비디아 2026-11-20(미국) -14.01%(로이터 SEC 회계 조사 보도) · 나스닥 -5.28% · CNBC·모틀리풀 · 헤럴드경제 2026-11-21 주말 해외 거래 추정 보도",
    "sketch": [],
    "lines": [
+    "그리고 한국 장이 끝난 금요일 밤, 미국에선 더 큰 일이 터졌습니다. 엔비디아가 회계 조사 보도에 14% 폭락했고, 나스닥도 5.28% 빠졌습니다.",
     "주말 사이 해외 거래로 추정한 값은 삼성전자 -6.76%, SK하이닉스 -8.77%입니다. 월요일 개장도 쉽지 않을 수 있다는 뜻이죠.",
     "그럼 이 주식을 두고 돈은 지금 어떻게 움직이고 있을까요? 첫 번째 돈부터 보겠습니다."
    ],
-   "note": "[1장] 월요일 위험 → [R1] 리후킹"
+   "note": "[1장] 금요일 밤 엔비디아 → 월요일 위험 → [R1] 리후킹"
   },
   {
    "v": {
@@ -471,10 +599,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "server_7863.mp4"
+      "lib": "vbusinessman_22961.mp4"
      },
      {
-      "lib": "vanalytics_42648.mp4"
+      "lib": "vbusinessman_23073.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -511,7 +639,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_musk_1_wide.jpg"
+      "lib": "commons_musk_1.jpg"
      }
     ],
     "wash_amt": 0.85,
@@ -649,7 +777,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vanalytics_47006.mp4"
+      "lib": "vbusinessman_231.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -676,7 +804,7 @@
       "lib": "vwallstreet_24517.mp4"
      },
      {
-      "lib": "commons_krxboard_2_wide.jpg"
+      "lib": "commons_krxboard_2.jpg"
      }
     ],
     "wash_amt": 0.85,
@@ -744,7 +872,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vanalytics_5462.mp4"
+      "lib": "vdata_12262.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -809,7 +937,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_22961.mp4"
+      "lib": "vdata_14724.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -939,7 +1067,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_23073.mp4"
+      "lib": "vdata_23282.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1003,7 +1131,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_231.mp4"
+      "lib": "vdata_47793.mp4"
      },
      {
       "lib": "datacenter_23282.mp4"
@@ -1097,7 +1225,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vdata_12262.mp4"
+      "lib": "vdata_50749.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1185,7 +1313,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_seoulnight_1_wide.jpg"
+      "lib": "commons_seoulnight_1.jpg"
      },
      {
       "lib": "vmoney_47005.mp4"
@@ -1247,7 +1375,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vdata_14724.mp4"
+      "lib": "vmicrochip_2381.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1322,7 +1450,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vdata_23282.mp4"
+      "lib": "vmoney_18261.mp4"
      },
      {
       "lib": "commons_pangyo_1.jpg"
@@ -1350,7 +1478,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vdata_47793.mp4"
+      "lib": "vmoney_18296.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1432,7 +1560,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_krxboard_3_wide.jpg"
+      "lib": "commons_krxboard_3.jpg"
      }
     ],
     "wash_amt": 0.85,
@@ -1504,7 +1632,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vdata_50749.mp4"
+      "lib": "vnews_14044.mp4"
      },
      {
       "lib": "server_23215.mp4"
@@ -1546,7 +1674,7 @@
    "sketch": [],
    "lines": [
     "그 믿음은 세 가지 숫자로 확인할 수 있습니다. 첫째, 매달 말 나오는 서버용 D램 계약 가격. 이게 꺾이면 버리 쪽, 계속 오르면 젠슨 황 쪽입니다.",
-    "둘째, 1월 말 마이크로소프트·아마존·메타 같은 큰손들의 내년 설비투자 계획. 셋째, 중국 출하가 언제 다시 풀리는지, 그리고 중국 CXMT의 생산이 얼마나 늘어나는지입니다.",
+    "둘째, 1월 말 마이크로소프트·아마존·메타 같은 큰손들의 내년 설비투자 계획, 그리고 상장으로 큰돈을 모은 앤트로픽이 그 돈을 실제로 칩과 메모리에 쓰는지. 셋째, 중국 출하가 언제 다시 풀리는지, 그리고 중국 CXMT의 생산이 얼마나 늘어나는지입니다.",
     "그리고 1월 말, 삼성전자 이사회가 55조에서 75조 원을 어떻게 돌려줄지도 함께 나옵니다."
    ],
    "note": "[6장] 확인할 신호 3가지 + 날짜"
@@ -1583,7 +1711,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vmicrochip_2381.mp4"
+      "lib": "vnews_41204.mp4"
      },
      {
       "lib": "vnews_14111.mp4"
