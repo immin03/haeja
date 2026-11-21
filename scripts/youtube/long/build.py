@@ -74,6 +74,8 @@ def main(only):
         meta_p = os.path.join(OUT, sid, "meta.json")
         if "--all-upcoming" in only: need = now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)
         else: need = (sid in only) if only else (sid in again or (not os.path.exists(meta_p) and now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)))
+        # 2026-11-21 18:30: 매시 점검이 시안 검토 중인 편(L261121e)을 옛 원고로 최종 렌더해 잠금까지 잡았다 → "manual": true 인 편은 자동 점검이 렌더하지 않는다(직접 건 실행만)
+        if need and not only and spec.get("manual"): print("  건너뜀(직접 렌더만):", sid, flush=True); need = False
         if not need: continue
         if os.environ.get("DRY") == "1":   # 2026-11-21: 매시 점검은 렌더할 게 있는지만 먼저 본다(28GB 전체 내려받기 전에)
             print("DRY_TARGET", sid, flush=True); continue

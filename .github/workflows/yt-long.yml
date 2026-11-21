@@ -106,7 +106,7 @@ jobs:
             # 이미 공개 시각이 지난 스펙은 다시 렌더하지 않는다. 다시 만들려면 workflow_dispatch 로 ids 를 직접 준다.
             ids=$(python3 - $ids <<'PY'
           import json, subprocess, sys, datetime
-          META = {'title','doc_title','title_en','description_head','description_en','pinned_comment','tags','search_keywords','thumb','thumb_v8','thumb_v9','ab_sets','thumb_fixed','thumb_photos_needed','events','review','what','format_note','orig_mode_note','gate_waive','sources','hook_promises','viewer_question','endscreen_target','endscreen_also','plan','scheduled_at'}
+          META = {'title','doc_title','title_en','description_head','description_en','pinned_comment','tags','search_keywords','thumb','thumb_v8','thumb_v9','ab_sets','thumb_fixed','thumb_photos_needed','events','review','what','format_note','orig_mode_note','gate_waive','sources','hook_promises','viewer_question','endscreen_target','endscreen_also','plan','scheduled_at','manual'}
           now = datetime.datetime.now(datetime.timezone.utc)
           keep = []
           for i in sys.argv[1:]:
