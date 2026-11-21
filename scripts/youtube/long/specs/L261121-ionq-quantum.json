@@ -68,12 +68,12 @@
  "hook_type": "현지 원음 인용 + 모순 + 보유자 질문",
  "endscreen_target": "L261120-anthropic-day1",
  "endscreen_also": "L261107-soxl-38",
- "title": "아이온큐에 대한 모든 것 | 젠슨 황 '15~30년'부터 큐데이·40달러 증자까지, 주주 필독 총정리",
+ "title": "아이온큐 현재 상황 총정리 | 매출 4배인데 주가 1년 최저, 큐데이·40달러 증자·AI 폭락까지",
  "doc_title": "아이온큐, 양자 판이 바뀌었다 | 큐데이·경쟁사 줄상장·증자·AI 그림자",
- "title_en": "IonQ stock: what the CEO's 2028 'Q-Day' really means | What shareholders should know",
- "description_head": "아이온큐 주가 전망 · 실적은 사상 최대인데 주가는 1년 최저. CEO가 말한 2028년 큐데이, 경쟁사 줄상장, 40달러 증자, AI 장세의 그림자까지.\n한국에 잘 알려지지 않은 현지 발언으로 양자 판도를 정리하고, 주주가 확인할 것 세 가지를 짚습니다.",
+ "title_en": "IonQ stock: why the stock hit a 1-year low despite record revenue | What shareholders should know",
+ "description_head": "아이온큐 주가 전망 · 실적은 사상 최대인데 주가는 1년 최저. CEO가 말한 '이번 임기 안 큐데이', 경쟁사 줄상장, 40달러 증자, AI 장세의 그림자까지.\n한국에 잘 알려지지 않은 현지 발언으로 양자 판도를 정리하고, 주주가 확인할 것 세 가지를 짚습니다.",
  "description_en": "IonQ posted record revenue yet its stock sits at a one-year low. We follow the quantum market through first-hand remarks — Jensen Huang's '15–30 years' and 'inflection point', a House hearing on 'steal now, decrypt later', IonQ CEO Niccolo de Masi on Q-Day — and close with three things shareholders should watch: share count, government security contracts and interest rates. Not investment advice.",
- "pinned_comment": "큐데이, 정말 2028년에 올까요? 과거가 그대로 반복된다는 보장은 없습니다. 좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
+ "pinned_comment": "큐데이, 정말 몇 년 안에 올까요? 과거가 그대로 반복된다는 보장은 없습니다. 좋아요와 구독은 영상 제작에 큰 힘이 됩니다. 감사합니다.",
  "hook_promises": [
   "주주가 확인할 것 세 가지"
  ],
@@ -114,7 +114,7 @@
  "thumb": {
   "photo": "il_L261121i_thumb_lock.jpeg",
   "focus_x": 0.5,
-  "l1": "아이온큐 CEO \"2028년 큐데이\"",
+  "l1": "아이온큐 CEO \"이번 임기 안에 큐데이\"",
   "l2": "암호가 다 뚫린다?",
   "pos": "left"
  },
@@ -123,52 +123,52 @@
    "key": "a",
    "file": "thumb_a.jpg",
    "photo": "il_L261121j_thumb_all.jpeg",
-   "kicker": "주주 필독 총정리",
+   "kicker": "",
    "l1": "",
-   "l2": "아이온큐에 대한 모든 것",
-   "ul": "모든 것",
+   "l2": "아이온큐",
+   "ul": "",
    "banner": ""
   },
   {
    "key": "b",
    "file": "thumb_b.jpg",
-   "photo": "ai_p1117_huang_closeup.jpeg",
-   "kicker": "젠슨 황은 왜",
+   "photo": "il_L261121j_thumb_all.jpeg",
+   "kicker": "",
    "l1": "",
-   "l2": "양자 산업을 주저앉혔나?",
-   "ul": "주저앉혔나?",
-   "banner": "아이온큐 주주 필독"
+   "l2": "아이온큐",
+   "ul": "",
+   "banner": ""
   },
   {
    "key": "c",
    "file": "thumb_c.jpg",
-   "photo": "il_L261121i_thumb_lock.jpeg",
-   "kicker": "아이온큐 CEO \"2028년 큐데이\"",
+   "photo": "il_L261121j_thumb_all.jpeg",
+   "kicker": "",
    "l1": "",
-   "l2": "암호가 다 뚫린다?",
-   "ul": "뚫린다?",
-   "banner": "실적 최대인데 주가 1년 최저"
+   "l2": "아이온큐",
+   "ul": "",
+   "banner": ""
   }
  ],
  "ab_sets": [
   {
    "key": "a",
    "default": true,
-   "title": "아이온큐에 대한 모든 것 | 젠슨 황 '15~30년'부터 큐데이·40달러 증자까지, 주주 필독 총정리",
+   "title": "아이온큐 현재 상황 총정리 | 매출 4배인데 주가 1년 최저, 큐데이·40달러 증자·AI 폭락까지",
    "file": "thumb_a.jpg",
-   "type": "A 단순 총정리형 (대표 11/21 시도)"
+   "type": "A 아이온큐 크게 + 현재 상황 총정리"
   },
   {
    "key": "b",
-   "title": "젠슨 황은 왜 양자 산업을 주저앉혔나? | 하루 -40%, 아이온큐 주가 전망 현지 발언 총정리",
+   "title": "아이온큐 매출 4배인데 주가 1년 최저 | 큐데이·증자·AI 폭락, 주주가 확인할 3가지",
    "file": "thumb_b.jpg",
-   "type": "B 질문형 · 젠슨 황 (대표 11/21 제안)"
+   "type": "B 아이온큐 크게 + 매출 4배인데 1년 최저"
   },
   {
    "key": "c",
-   "title": "아이온큐 주가 전망, CEO \"큐데이는 2028년\" vs 젠슨 황 \"양자 회사가 어떻게 상장을?\" | 주주 필독 총정리",
+   "title": "아이온큐 실적 발표 8일 만에 CFO 사임 | 40달러 증자·AI 폭락, 주가 1년 최저의 이유",
    "file": "thumb_c.jpg",
-   "type": "C 원음 인용형 · 큐데이"
+   "type": "C 아이온큐 크게 + 8일 만에 CFO 사임"
   }
  ],
  "gate_waive": {
@@ -1564,7 +1564,7 @@
    "lines": [
     "3분기 실적 발표에서 한 애널리스트가 내년에 역풍은 없느냐고 물었습니다. 니콜로 데 마시 CEO는 역풍은 안 보인다고 답했습니다.",
     "반대쪽 목소리도 있습니다. 경쟁사 리게티의 수보드 쿨카르니 CEO는 같은 달 실적 발표에서, 양자컴퓨터는 아직 연구개발 단계라고 말했습니다.",
-    "2028년 큐데이는 CEO의 주장이고, 경쟁사는 아직 연구 단계라고 봅니다.",
+    "큐데이가 이번 임기 안에 온다는 건 CEO의 주장이고, 경쟁사는 아직 연구 단계라고 봅니다.",
     "주주가 믿을 것은 날짜가 아니라 계약과 숫자입니다. 그럼 무엇을 확인하면 될까요?"
    ],
    "note": "[R6] 리후킹"
@@ -1721,7 +1721,7 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "여러분은 큐데이가 정말 2028년에 올 거라고 보십니까? 댓글로 남겨 주세요.",
+    "여러분은 큐데이가 정말 몇 년 안에 올 거라고 보십니까? 댓글로 남겨 주세요.",
     "밸류노트는 기업의 숫자 뒤에 숨은 이야기를 같이 읽는 곳입니다. 다음 이야기도 함께 보고 싶으시면 구독해 주세요."
    ],
    "note": "[북엔드] 정체성 구독 문장 (자료 확인 문장 삭제 · 대표 11/21)"
@@ -1771,5 +1771,5 @@
  "orig_mode": "sot_test",
  "orig_mode_note": "2026-11-21 대표 승인: 원음 더빙 없이 원음+한국어 자막. 원음은 넉넉하게(말이 끝나는 자리까지, 보통 15~30초). 자막은 본편과 같은 52px. 원음 앞 소개·뒤 해석 유지, 음악은 원음 밑에 계속",
  "what": "v4(11/21 09시: 주식·금·비트코인 동반 급락 거시 장면, 젠슨 황 CUDA-Q 원음으로 AI·양자 연결고리, 발음 교정) · v3(11/21 03시 대표 피드백): 문장마다 컷(영상·도식 비중↑, 한 사진 최대 한 문장), 코드 도식 5개(큐데이·5년 흐름·사업 구조·매입가·저울), 원본 영상 B롤 4개, 큐데이 설명 초반 배치, 로고 인트로 복구, '자료 다 봤다' 문장 삭제, 2:16 '젠슨 황의 말을 듣고 판 사람들', 썸네일 A 총정리형·B 젠슨 황 질문형, IBM 크리슈나 긍정 원음",
- "thumb_fixed": "2026-11-21 10:09 대표 확정: A안 = '주주 필독(굵게) / 아이온큐 / 총정리(밑줄 없음)' 시그니처 — 손으로 만든 이미지, 재렌더 때 보존"
+ "thumb_fixed": "2026-11-21 10:48 대표 확정: A·B·C 모두 '아이온큐' 크게 + 부제 한 줄 시그니처(손으로 만든 이미지, 재렌더 때 보존)"
 }
