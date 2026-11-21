@@ -443,3 +443,9 @@ python3 scripts/reels/engine.py scripts/reels/specs/F03.json out/F03 cover      
 - [10/30 igbench] 이익률·비중·수익률 %가 이야기의 중심인 쇼츠·릴스는 첫 화면 첫 줄을 '100원(100달러) 중 N원' 내 돈 단위로 바꿔 쓴다(예: "100원어치 팔아 80원 남긴 SK하이닉스"). % 원래 숫자와 기준일은 둘째 줄이나 화면 아래에. 비유·의인화 금지(제1 원칙 31)는 그대로 — 환산은 실제 숫자 계산이어야 한다. (근거 조회수는 README_ARCHIVE.md)
 
 > ★ 제1 원칙 51 (11/01): 제목은 HOOKS.md 5절 공식(A 이 3가지만 / B 대상 호명 / C 후회형) + 구체 숫자, 첫 문장은 생활 돈 고민으로 열고, 기획안에 pattern:<win-patterns id>를 적는다.
+
+## 렌더 효율 (2026-11-21 대표 "효율 극대화 · 절대 놓치지 마" — owner-rules r188)
+- 보내기 전: `PYTHONPATH=scripts/reels python3 scripts/reels/preflight.py <id>` 통과 필수 (대본·gate·표지 대본·표지 사진)
+- 표지만 문제: `python3 scripts/reels/swap_cover.py <id>` — 영상 다시 렌더하지 않고 표지 구간만 교체(약 40초, 음성 재구매 없음)
+- 엔진은 표지 대본이 없으면 음성 만들기 전에 멈춘다 / 음성 캐시는 실패해도 저장 / 서버는 /scripts/ 만 받는다
+- render-one 브랜치에도 main 의 스크립트·워크플로 변경을 같이 넣는다 ([skip ci])
