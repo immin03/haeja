@@ -75,6 +75,14 @@ def main(only):
         if "--all-upcoming" in only: need = now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)
         else: need = (sid in only) if only else (sid in again or (not os.path.exists(meta_p) and now - dt.timedelta(hours=6) <= when <= now + dt.timedelta(hours=30)))
         if not need: continue
+        if os.environ.get("DRY") == "1":   # 2026-11-21: 매시 점검은 렌더할 게 있는지만 먼저 본다(28GB 전체 내려받기 전에)
+            print("DRY_TARGET", sid, flush=True); continue
+        # 2026-11-21 대표 "썸네일 때문에 왜 재렌더": 렌더 뒤에야 필요한 칸이 비면 다 구운 영상을 버린다 → 렌더 전에 확인
+        _miss = [k for k in ("title", "description_head", "scheduled_at") if not spec.get(k)]
+        if _miss:
+            os.makedirs(os.path.join(OUT, sid), exist_ok=True)
+            open(os.path.join(OUT, sid, "build_error.txt"), "w", encoding="utf-8").write(now.isoformat() + "\n렌더 전 필수 칸 없음: " + ", ".join(_miss))
+            print("  ✗ 필수 칸 없음 — 렌더 안 함:", sid, _miss, flush=True); continue
         print("렌더:", sid, spec["title"], flush=True)
         # 2026-11-19 대표 18:07: 렌더 전 관문 — 원고·스펙 검수가 실패하면 렌더를 시작하지 않는다 (사유는 기획 progress·alerts 에 기록)
         g = subprocess.run([sys.executable, os.path.join(HERE, "prerender_gate.py"), f, "--report"], capture_output=True, text=True)
@@ -148,7 +156,11 @@ def main(only):
             vid = os.path.join(OUT, sid, "video.mp4"); up = os.path.join(OUT, sid, name); os.replace(vid, up)
             if subprocess.run(["gh", "release", "view", tag, "-R", REPO], capture_output=True).returncode != 0:
                 sh(["gh", "release", "create", tag, "-R", REPO, "--title", f"유튜브 롱폼 {sid}", "--notes", "관리자 검수용 영상 (자동 생성)", "--latest=false"])
-            sh(["gh", "release", "upload", tag, up, "--clobber", "-R", REPO])
+            for _try in range(3):   # 2026-11-21: 업로드 한 번 끊겼다고 다 구운 영상을 버리지 않는다
+                try: sh(["gh", "release", "upload", tag, up, "--clobber", "-R", REPO]); break
+                except Exception as e:
+                    if _try == 2: raise
+                    print("  업로드 재시도", _try + 1, e, flush=True); import time; time.sleep(20)
             os.remove(up)
             for w in ("voice.wav",):
                 p = os.path.join(OUT, sid, w)
@@ -169,6 +181,17 @@ def main(only):
         except Exception as e:
             import traceback
             print("  ✗ 실패:", sid, e, flush=True)
+            # 2026-11-21: 영상은 다 구웠는데 그 뒤(썸네일·메타·자막)에서 죽으면 영상까지 버려졌다 → 영상만이라도 릴리스에 올린다
+            _v = os.path.join(OUT, sid, "video.mp4")
+            if os.path.exists(_v) and os.path.getsize(_v) > 1_000_000:
+                try:
+                    _tag = "yt-" + sid; _nm = f"{sid}-{now.strftime('%y%m%d%H%M')}{'-draft' if os.environ.get('DRAFT') == '1' else ''}-salvage.mp4"
+                    _up = os.path.join(OUT, sid, _nm); os.replace(_v, _up)
+                    if subprocess.run(["gh", "release", "view", _tag, "-R", REPO], capture_output=True).returncode != 0:
+                        sh(["gh", "release", "create", _tag, "-R", REPO, "--title", f"유튜브 롱폼 {sid}", "--notes", "관리자 검수용 영상 (자동 생성)", "--latest=false"])
+                    sh(["gh", "release", "upload", _tag, _up, "--clobber", "-R", REPO]); os.remove(_up)
+                    print("  ↳ 영상은 살림:", _nm, flush=True)
+                except Exception as e2: print("  ↳ 영상 살리기 실패:", e2, flush=True)
             os.makedirs(os.path.join(OUT, sid), exist_ok=True)
             open(os.path.join(OUT, sid, "build_error.txt"), "w", encoding="utf-8").write(now.isoformat() + "\n" + traceback.format_exc()[-3000:])
         finally:
