@@ -1,5 +1,5 @@
 {
- "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱') · 2026-11-18 17:40 테슬라 2편: musk_conflicted_q3(54:00~56:00)는 전력 얘기 구간이라 원음 아님 → 전체 음성 au_spacex_q3_2026_call 추가 · 2026-11-21 15:50 폴 튜더 존스 편(L261121e) 원음 요청 21건",
+ "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱') · 2026-11-18 17:40 테슬라 2편: musk_conflicted_q3(54:00~56:00)는 전력 얘기 구간이라 원음 아님 → 전체 음성 au_spacex_q3_2026_call 추가 · 2026-11-21 15:50 폴 튜더 존스 편(L261121e) 원음 요청 21건 · 2026-11-22 00:25 메모리 2편(R2611212355memory) 원음 요청 12건: 젠슨 황 CNBC 10/22·마이크론 CEO 8/20·최태원 CNBC 8/13·카팔·블룸버그(하이닉스 40조 자사주, 아시아 반도체 매도)·재닛 무이·마졸라",
  "clips": [
   {
    "name": "bbg_ant_oversub",
@@ -395,6 +395,84 @@
    "start": 400,
    "dur": 91,
    "use": "L261121e 폴 튜더 존스 인터뷰 끝부분(400~491초, 영상 길이 491초 — full_4~8은 영상 길이를 넘어 삭제)"
+  },
+  {
+   "name": "au_mem_huang_kharpal",
+   "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
+   "mode": "audio"
+  },
+  {
+   "name": "mem_huang_kharpal_v1",
+   "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_huang_report",
+   "url": "https://www.youtube.com/watch?v=8kHwVQCSsSM",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "au_mem_mehrotra_boise",
+   "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
+   "mode": "audio"
+  },
+  {
+   "name": "mem_mehrotra_boise_v1",
+   "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "au_mem_chey_cnbc",
+   "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
+   "mode": "audio"
+  },
+  {
+   "name": "mem_chey_cnbc_v1",
+   "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_kharpal_volatility",
+   "url": "https://www.youtube.com/watch?v=1VR0Om-3QKY",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_bbg_skh_buyback",
+   "url": "https://www.youtube.com/watch?v=XX-OIoyrQKM",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_bbg_selloff_asia",
+   "url": "https://www.youtube.com/watch?v=bZnIY_xsu6A",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_mui_debate",
+   "url": "https://www.youtube.com/watch?v=mwiYzcmNyPE",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_mazzola_reset",
+   "url": "https://www.youtube.com/watch?v=lahnwThsBHc",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
   }
  ]
 }
