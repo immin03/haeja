@@ -22,7 +22,9 @@ jobs:
         with:
           path: scripts/reels/.cache
           key: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko-preview-${{ github.run_id }}
-          restore-keys: tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
+          restore-keys: |   # 2026-11-21 공용 음성 보관함(tts-all) 먼저
+            tts-all-
+            tts-supertonic-3-int8-2026-05-11-asr-zipformer-ko
       - name: 렌더
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}

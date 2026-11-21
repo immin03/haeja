@@ -29,6 +29,13 @@ def _say_en(text):
     for voice in voices:
         key = hashlib.sha1(f"{voice}|{MODEL}|eng|{text}".encode()).hexdigest()[:20]
         mp3 = os.path.join(CACHE, key + ".mp3")
+        try:   # 2026-11-21 영구 음성 보관함: 로컬 캐시가 날아가도 다시 사지 않는다
+            import tts_store; tts_store.local_or_remote(mp3, f"en/{key}.mp3")
+        except Exception: pass
+        if os.path.exists(mp3):
+            try:
+                import tts_log; tts_log.add(cached=len(text), lang="en")
+            except Exception: pass
         if not os.path.exists(mp3):
             body = {"text": text, "model": MODEL, "voice_id": voice, "language": "eng", "output": {"audio_format": "mp3"}}
             req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST", data=json.dumps(body).encode(),
@@ -37,6 +44,9 @@ def _say_en(text):
                 with urllib.request.urlopen(req, timeout=90) as r: open(mp3, "wb").write(r.read())
                 try:
                     import tts, tts_log; tts._log_usage(len(text)); tts_log.add(chars=len(text), lang="en")
+                except Exception: pass
+                try:
+                    import tts_store; tts_store.put(f"en/{key}.mp3", mp3)
                 except Exception: pass
             except urllib.error.HTTPError as e:
                 last = f"HTTP {e.code}: {e.read().decode(errors='replace')[:200]}"; continue

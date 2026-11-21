@@ -1759,10 +1759,11 @@ def dub_orig(d, dur, voices):
 def clean_voice(l, speak):
     """성우 음성에 가끔 섞이는 이상한 소리(늘어진 소리·괴물 소리·덜 녹음된 소리)를 걸러 낸다 (2026-10-22 운영자 검수).
     1) 말 속도가 평소(초당 약 6.7음절)보다 크게 느리거나 빠르면  2) 음성 인식으로 다시 받아 적었을 때 원고와 많이 다르면
-    캐시를 버리고 다시 받는다. 세 번까지 받아 가장 정상인 것을 쓴다."""
+    캐시를 버리고 다시 받는다. 세 번까지 받아 가장 정상인 것을 쓴다.
+    2026-11-21: 다시 받은 녹음은 테이크 번호(0·1·2)로 따로 보관 → 같은 원고를 다시 렌더하면 이 줄도 0원."""
     say = to_speech(l); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
     for k in range(3):
-        a = R.pace(speak(say, 1.07, fresh=k > 0)); rate = syl / max(.1, len(a) / SR)   # 2026-11-17 22:56 대표: 1.05는 살짝 느림 → 1.07 (원래 1.1)
+        a = R.pace(speak(say, 1.07, take=k)); rate = syl / max(.1, len(a) / SR)   # 2026-11-17 22:56 대표: 1.05는 살짝 느림 → 1.07 (원래 1.1)
         bad_rate = syl >= 10 and not (5.5 <= rate <= 8.3)
         try:
             import verify; sc = verify.score(l, verify.hear(a, SR))

@@ -80,22 +80,31 @@ def say(text, v):
     wav = os.path.join(CACHE, key + ".wav")
     try:
         sys.path.insert(0, os.path.join(HERE, "..", "reels")); import tts_log
-        tts_log.add(**({"cached": len(text)} if os.path.exists(wav) else {"chars": len(text)}), lang="en")
-    except Exception: pass
+        if os.path.exists(wav): tts_log.add(cached=len(text), lang="en")
+    except Exception: tts_log = None
     if not os.path.exists(wav):
         if not os.environ.get("TYPECAST_API_KEY"):
             n = int(SR * max(1.2, len(text.split()) * 0.27)); return np.zeros(n, np.float32)
         base = {"text": text, "model": "ssfm-v30", "voice_id": voice, "language": "eng"}
         if emo != "normal": base["prompt"] = {"emotion_type": "preset", "emotion_preset": emo, "emotion_intensity": 1.0}
-        mp3 = os.path.join(CACHE, key + ".mp3"); done = None
+        # 2026-11-21: 음높이·속도는 ffmpeg 후처리라 원본 녹음 키에서 뺀다 → 속도·음높이만 바꾸면 0원. 영구 보관함(side/)에도 둔다
+        rkey = hashlib.sha1(f"{voice}|{emo}|{text}".encode()).hexdigest()[:20]
+        mp3 = os.path.join(CACHE, rkey + ".mp3"); done = None; bought = False
+        try:
+            sys.path.insert(0, os.path.join(HERE, "..", "reels")); import tts_store
+            if tts_store.local_or_remote(mp3, f"side/{rkey}.mp3"): done = _TTS_MODE["m"] or "ffmpeg"
+        except Exception: tts_store = None
         # 2026-10-27 시험: 타입캐스트 audio_pitch·audio_tempo 는 받아 주지만 실제로 바뀌지 않음 → 감정만 API, 음높이·속도는 ffmpeg
         modes = [_TTS_MODE["m"]] if _TTS_MODE["m"] else ["ffmpeg", "plain"]
-        for m in modes:
+        for m in ([] if done else modes):
             body = dict(base)
             if m == "api": body["output"] = {"audio_format": "mp3", "audio_pitch": int(round(semis)), "audio_tempo": tempo}
             else: body["output"] = {"audio_format": "mp3"}
             if m == "plain": body.pop("prompt", None)
-            try: open(mp3, "wb").write(_tts_call(body)); done = m; _TTS_MODE["m"] = m; break
+            try:
+                open(mp3, "wb").write(_tts_call(body)); done = m; _TTS_MODE["m"] = m; bought = True
+                if tts_store and m != "api": tts_store.put(f"side/{rkey}.mp3", mp3)
+                break
             except urllib.error.HTTPError as e: print("음성 방식", m, "거절", e.code, e.read()[:160], flush=True)
         if not done: raise RuntimeError("음성 실패: " + text[:40])
         if done == "api": af = "anull"
@@ -103,7 +112,10 @@ def say(text, v):
             r = 2 ** (semis / 12); af = f"asetrate={SR}*{r:.5f},aresample={SR},atempo={tempo / r:.5f}"
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", mp3, "-af", af, "-ac", "1", "-ar", str(SR), wav], check=True)
         try:
-            sys.path.insert(0, os.path.join(ROOT, "scripts", "youtube", "long")); import tts; tts._log_usage(len(text))
+            if bought:
+                if tts_log: tts_log.add(chars=len(text), lang="en")
+                sys.path.insert(0, os.path.join(ROOT, "scripts", "reels")); import tts; tts._log_usage(len(text))
+            elif tts_log: tts_log.add(cached=len(text), lang="en")
         except Exception: pass
     raw = subprocess.run(["ffmpeg", "-v", "error", "-i", wav, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True, check=True).stdout
     x = np.frombuffer(raw, dtype=np.float32).copy()

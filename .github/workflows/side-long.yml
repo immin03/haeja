@@ -31,6 +31,7 @@ jobs:
           path: scripts/reels/.cache
           key: side-tts-${{ github.run_id }}
           restore-keys: |
+            tts-all-
             side-tts-
             yt-tts-
       - name: 대상 고르기

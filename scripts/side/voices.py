@@ -31,6 +31,24 @@ def tts_key(text, voice, model, lang, emotion, intensity, take=1):
     return hashlib.sha1(s.encode("utf-8")).hexdigest()[:12]
 
 
+def _store():
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "reels")); import tts_store
+        return tts_store
+    except Exception: return None
+
+
+def _store_get(cp, ck):
+    """2026-11-21 영구 음성 보관함(Supabase Storage side/): 저장소 tts_cache·actions/cache 에 없으면 여기서 찾는다"""
+    if os.path.exists(cp): return True
+    st = _store(); return bool(st and st.fetch(f"side/{ck}.mp3", cp))
+
+
+def _store_put(src, ck):
+    st = _store()
+    if st: st.put(f"side/{ck}.mp3", src)
+
+
 def _log(chars=0, cached=0, lang="ko"):
     try:
         sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "reels")); import tts_log
@@ -66,8 +84,8 @@ def main_req(req):
         emos = ([e0] if e0 else []) + [None]
         if not force:   # 같은 녹음이 있으면 사지 않는다 (감정 실패로 기본 감정으로 산 녹음도 찾는다)
             for emo in emos:
-                cp = os.path.join(CACHE, tts_key(text, v["id"], model, lang, emo, inten, take) + ".mp3")
-                if os.path.exists(cp) and os.path.getsize(cp) > 1000:
+                ck = tts_key(text, v["id"], model, lang, emo, inten, take); cp = os.path.join(CACHE, ck + ".mp3")
+                if _store_get(cp, ck) and os.path.getsize(cp) > 1000:
                     shutil.copy(cp, raw); ok = True; n_hit += 1; _log(cached=len(text), lang=lang[:2])
                     print("재사용", name, os.path.basename(cp), flush=True); break
         if not ok:
@@ -76,8 +94,10 @@ def main_req(req):
                     tts(v["id"], model, raw, text, lang, emo, inten); ok = True; n_buy += 1
                 except urllib.error.HTTPError as e: print("실패", name, emo, e.code, e.read()[:200]); continue
                 except Exception as e: print("실패", name, emo, str(e)[:160]); continue
-                try: shutil.copy(raw, os.path.join(CACHE, tts_key(text, v["id"], model, lang, emo, inten, take) + ".mp3"))
+                ck = tts_key(text, v["id"], model, lang, emo, inten, take)
+                try: shutil.copy(raw, os.path.join(CACHE, ck + ".mp3"))
                 except Exception as e: print("캐시 저장 실패(녹음은 그대로 씀)", name, e)
+                _store_put(raw, ck)
                 break   # 산 녹음은 캐시 저장이 실패해도 다시 사지 않는다
         if not ok: continue
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-af", f"atempo={v.get('tempo', req.get('tempo', 1.0))},loudnorm=I=-16:TP=-1.5", "-b:a", "160k", dst], check=True)

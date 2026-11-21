@@ -118,7 +118,7 @@ def speak_checked(text, speed, speak, sr, log, orig=None):
     tc = bool(os.environ.get("TYPECAST_API_KEY"))
     tries = [(m, 16, True, f) for m, f in TC_TRIES] if tc else [(m, s, c, False) for m, s, c in TRIES]
     for k, (m, steps, chunk, fresh) in enumerate(tries):
-        a = speak(text, speed * m, steps=steps, chunk=chunk, fresh=fresh) if tc else speak(text, speed * m, steps=steps, chunk=chunk)
+        a = speak(text, speed * m, steps=steps, chunk=chunk, take=k) if tc else speak(text, speed * m, steps=steps, chunk=chunk)
         h = hear(a, sr); r = score(text, h); bad = problems(orig or text, text, h)
         key = (not bad, r)
         if best is None or key > best[0]: best = (key, a, h, bad, r)

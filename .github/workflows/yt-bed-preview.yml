@@ -30,7 +30,9 @@ jobs:
         with:
           path: scripts/reels/.cache
           key: yt-tts-bed-${{ github.run_id }}
-          restore-keys: yt-tts-
+          restore-keys: |   # 2026-11-21 시안도 공용 음성 보관함(tts-all)을 먼저 되살린다 — 예전엔 옛 yt-tts 묶음만 받아 시안마다 다시 샀다
+            tts-all-
+            yt-tts-
       - name: 소리만 렌더
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}

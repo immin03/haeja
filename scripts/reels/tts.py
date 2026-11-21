@@ -81,49 +81,110 @@ VOICE_TEMPO = 1.1    # 2026-10-25 운영자 확정: 클론 목소리는 타입�
 TC_CACHE = os.path.join(CACHE, "typecast")
 
 
-def _typecast(text, speed, fresh=False):
-    """타입캐스트로 읽어 44.1kHz mono float 배열을 돌려준다. 같은 문장은 캐시를 쓴다 (크레딧 절약)"""
-    import hashlib, json, subprocess, urllib.request, urllib.error
-    tempo = round(min(1.3, max(.85, speed / TC_BASE_SPEED * VOICE_TEMPO)), 2)
-    key = hashlib.sha1(f"{TC_VOICE}|{TC_MODEL}|{tempo}|{text}".encode()).hexdigest()[:20]
-    os.makedirs(TC_CACHE, exist_ok=True)
-    mp3 = os.path.join(TC_CACHE, key + ".mp3")
-    if fresh and os.path.exists(mp3): os.remove(mp3)   # 이상한 소리가 섞인 결과는 버리고 다시 받는다
-    import tts_log
-    if os.path.exists(mp3): tts_log.add(cached=len(text))
-    if not os.path.exists(mp3):
-        # 요청 형식이 거절되면 단순한 형식으로 한 번 더 (키 점검 때 통과한 형식이 마지막)
-        bodies = [
-            {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
-             "prompt": {"emotion_preset": "normal", "emotion_intensity": 1},
-             "output": {"audio_format": "mp3", "audio_tempo": tempo}},
-            {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
-             "output": {"audio_format": "mp3", "audio_tempo": tempo}},
-            {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
-             "output": {"audio_format": "mp3"}},
-        ]
-        last = None
-        for body in bodies:
-            req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST",
-                                         data=json.dumps(body).encode(),
-                                         headers={"X-API-KEY": os.environ["TYPECAST_API_KEY"],
-                                                  "Content-Type": "application/json"})
-            try:
-                with urllib.request.urlopen(req, timeout=90) as r:
-                    open(mp3, "wb").write(r.read())
-                break
-            except urllib.error.HTTPError as e:
-                last = f"HTTP {e.code}: {e.read().decode(errors='replace')[:300]}"
-                if e.code not in (400, 422): raise RuntimeError(last)
-        else:
-            raise RuntimeError(last)
-        _log_usage(len(text)); tts_log.add(chars=len(text))
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", mp3, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
+# 2026-11-21 재렌더 효율 (대표: "같은 걸 반복 렌더할 때 최대 효율"):
+#  1) 다시 받기(재녹음)는 캐시를 지우지 않고 '테이크 번호'로 따로 보관한다. 예전엔 품질 검사에서 걸리면 원본을 지우고 새로 사서
+#     같은 자리에 덮어썼기 때문에, 다음 렌더에서 또 걸리면 또 샀다(렌더할 때마다 같은 줄을 1~2번씩 재구매).
+#     이제 테이크 0·1·2 가 각각 남아 두 번째 렌더부터는 같은 줄에 0원.
+#  2) 영구 음성 보관함(tts_store, Supabase Storage)을 로컬 캐시 뒤에 둔다 — actions/cache 가 날아가도 다시 사지 않는다.
+#  3) 문장 앞뒤·중간 공백 차이로 키가 달라지지 않게 공백을 정리한 문장으로 키를 만든다(예전 키도 함께 찾는다).
+#  4) 속도만 바꿨을 때(1.1 → 1.07 등, 11/17 22:56 에 이 이유로 롱폼 한 편 4,781자를 다시 삼): 가까운 속도(±8%)로 산 녹음이
+#     있으면 ffmpeg atempo 로 속도만 맞춰 쓴다(음높이 유지). TTS_EXACT_TEMPO=1 이면 이 재사용을 끄고 정확한 속도로 산다.
+NEAR_TEMPOS = (1.1, 1.07, 1.05, 1.03, 1.0, 1.12, 1.15, 1.2, 1.21)
+
+
+def _norm(text):
+    import re
+    return re.sub(r"\s+", " ", text or "").strip()
+
+
+def _tc_key(text, tempo, take=0):
+    import hashlib
+    k = hashlib.sha1(f"{TC_VOICE}|{TC_MODEL}|{tempo}|{text}".encode()).hexdigest()[:20]
+    return k if not take else f"{k}_t{int(take)}"
+
+
+def _decode(mp3, ratio=1.0):
+    import subprocess
+    af = ["-af", f"atempo={ratio:.4f}"] if abs(ratio - 1) > .004 else []
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", mp3, *af, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
                          capture_output=True, check=True).stdout
     x = np.frombuffer(raw, dtype=np.float32).copy()
     idx = np.where(np.abs(x) > 0.012)[0]
     if len(idx): x = x[max(0, idx[0] - int(.06 * SR)): idx[-1] + int(.12 * SR)]
     return x
+
+
+def _find(text, raw_text, tempo, take):
+    """이미 산 녹음 찾기 → (mp3 경로, 속도 보정 비율) 또는 (None, None). 로컬 → 영구 보관함 순서"""
+    import tts_store
+    keys = [_tc_key(text, tempo, take)]
+    if raw_text != text: keys.append(_tc_key(raw_text, tempo, take))   # 공백 정리 전 예전 키
+    for k in keys:
+        mp3 = os.path.join(TC_CACHE, k + ".mp3")
+        if tts_store.local_or_remote(mp3, f"ko/{k}.mp3"): return mp3, 1.0
+    if take or os.environ.get("TTS_EXACT_TEMPO"): return None, None
+    # 가까운 속도로 산 녹음 (로컬 먼저, 없으면 보관함에 한 번에 물어본다)
+    cand = []
+    for t in NEAR_TEMPOS:
+        t = round(t, 2)
+        if t == tempo or not (.92 <= tempo / t <= 1.09): continue
+        for tx in dict.fromkeys([text, raw_text]):
+            k = _tc_key(tx, t, 0); cand.append((k, tempo / t))
+    for k, ratio in cand:
+        mp3 = os.path.join(TC_CACHE, k + ".mp3")
+        if os.path.exists(mp3) and os.path.getsize(mp3) > 500: return mp3, ratio
+    have = tts_store.has([f"ko/{k}.mp3" for k, _ in cand])
+    for k, ratio in cand:
+        if f"ko/{k}.mp3" in have:
+            mp3 = os.path.join(TC_CACHE, k + ".mp3")
+            if tts_store.fetch(f"ko/{k}.mp3", mp3): return mp3, ratio
+    return None, None
+
+
+def _typecast(text, speed, fresh=False, take=0):
+    """타입캐스트로 읽어 44.1kHz mono float 배열을 돌려준다. 같은 문장(같은 테이크)은 다시 사지 않는다 (크레딧 절약)"""
+    import json, urllib.request, urllib.error
+    import tts_log, tts_store
+    tempo = round(min(1.3, max(.85, speed / TC_BASE_SPEED * VOICE_TEMPO)), 2)
+    raw_text = text; text = _norm(text)
+    os.makedirs(TC_CACHE, exist_ok=True)
+    key = _tc_key(text, tempo, take)
+    mp3 = os.path.join(TC_CACHE, key + ".mp3")
+    if fresh and not take and os.path.exists(mp3): os.remove(mp3)   # 직접 '새로 받기'를 요청한 경우만 (렌더 재시도는 take 를 쓴다)
+    if not fresh:
+        hit, ratio = _find(text, raw_text, tempo, take)
+        if hit:
+            tts_log.add(cached=len(text))
+            if ratio != 1.0: print(f"  [속도만 다른 녹음 재사용] x{ratio:.3f} · {text[:24]}", flush=True)
+            return _decode(hit, ratio)
+    # 요청 형식이 거절되면 단순한 형식으로 한 번 더 (키 점검 때 통과한 형식이 마지막)
+    bodies = [
+        {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
+         "prompt": {"emotion_preset": "normal", "emotion_intensity": 1},
+         "output": {"audio_format": "mp3", "audio_tempo": tempo}},
+        {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
+         "output": {"audio_format": "mp3", "audio_tempo": tempo}},
+        {"text": text, "model": TC_MODEL, "voice_id": TC_VOICE, "language": "kor",
+         "output": {"audio_format": "mp3"}},
+    ]
+    last = None
+    for body in bodies:
+        req = urllib.request.Request("https://api.typecast.ai/v1/text-to-speech", method="POST",
+                                     data=json.dumps(body).encode(),
+                                     headers={"X-API-KEY": os.environ["TYPECAST_API_KEY"],
+                                              "Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=90) as r:
+                open(mp3, "wb").write(r.read())
+            break
+        except urllib.error.HTTPError as e:
+            last = f"HTTP {e.code}: {e.read().decode(errors='replace')[:300]}"
+            if e.code not in (400, 422): raise RuntimeError(last)
+    else:
+        raise RuntimeError(last)
+    _log_usage(len(text)); tts_log.add(chars=len(text))
+    tts_store.put(f"ko/{key}.mp3", mp3)   # 영구 보관함에도 (다음 렌더·다른 작업이 다시 사지 않게)
+    return _decode(mp3)
 
 
 def _log_usage(n):
@@ -138,15 +199,17 @@ def _log_usage(n):
     if u[m] > 150000: print(f"⚠ 타입캐스트 이번 달 사용량 {u[m]:,}자 — 라이트 한도 20만 자에 가깝습니다")
 
 
-def speak(text, speed=1.15, steps=8, chunk=True, fresh=False):
+def speak(text, speed=1.15, steps=8, chunk=True, fresh=False, take=None):
     """text(한글 발음) → 44.1kHz mono float 배열.
-    타입캐스트: 문장 단위로 한 번에 읽는다. 로컬 예비: 절 단위로 나눠 읽고 짧은 쉼을 넣어 잇는다"""
+    타입캐스트: 문장 단위로 한 번에 읽는다. 로컬 예비: 절 단위로 나눠 읽고 짧은 쉼을 넣어 잇는다
+    take: 품질 검사 다시 받기 번호(0=처음). 테이크마다 따로 보관해 다음 렌더에서 다시 사지 않는다.
+    fresh: take 없이 True 면 그 녹음을 버리고 새로 산다(사람이 직접 '새로 받기'를 고를 때만)"""
     if os.environ.get("TYPECAST_API_KEY"):
         # 목소리가 섞이면 안 되므로 로컬 음성으로 몰래 바꾸지 않는다: 두 번 실패하면 이 릴스는 실패 처리
         import time
         for i in range(3):
             try:
-                return _typecast(text, speed, fresh)
+                return _typecast(text, speed, fresh=bool(fresh and take is None), take=int(take or 0))
             except Exception as e:
                 err = e; print(f"타입캐스트 호출 실패({i + 1}/3):", str(e)[:200]); time.sleep(3 * (i + 1))
         raise RuntimeError(f"타입캐스트 음성 생성 실패: {err}")

@@ -1144,7 +1144,7 @@ def y_voice(txt, speak, speed=None):
     say = to_speech(txt); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
     for k in range(3):
         spd = speed or Y_SPEED; k_ = spd / 1.1
-        raw = speak(say, spd, fresh=k > 0)
+        raw = speak(say, spd, take=k)   # 2026-11-21: 테이크별 보관 → 다음 렌더에서 재구매 없음
         a = np.asarray(raw, np.float32).copy(); rate = syl / max(.1, len(a) / SR)
         try:
             import verify; heard = verify.hear(a, SR); sc = verify.score(txt, heard)

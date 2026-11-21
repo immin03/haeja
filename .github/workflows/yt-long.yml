@@ -91,6 +91,13 @@ jobs:
           else
             python3 scripts/youtube/long/build.py ${{ steps.pick.outputs.ids }}
           fi
+      - name: 예전 녹음을 영구 음성 보관함으로 옮겨 담기 (2026-11-21, 한 번에 최대 400개 · 실패해도 진행)
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 8
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+        run: python3 scripts/reels/tts_seed.py
       - name: 음성 캐시 저장 (실패해도 저장)
         if: always()   # 2026-11-21 대표: 렌더가 뒤에서 실패해도 이미 산 음성은 남긴다 → 고쳐서 다시 돌리면 음성은 다시 안 산다
         uses: actions/cache/save@v4
