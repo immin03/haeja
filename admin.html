@@ -2173,7 +2173,7 @@ const CH = {
 async function calLoad(){
   if(CAL.loading) return; CAL.loading = true;
   try{
-    const [html, ps] = await Promise.all([fetch('/naver/', { cache: 'no-store' }).then(r => r.ok ? r.text() : '').catch(() => ''),
+    const [html, ps] = await Promise.all([fetch('/naver', { cache: 'no-store' }).then(r => r.ok ? r.text() : '').catch(() => ''),
       sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle()]);
     const doc = new DOMParser().parseFromString(html, 'text/html');
     CAL.blog = [...doc.querySelectorAll('#src .it')].map(el => ({ id: el.dataset.id, title: (el.querySelector('b') || {}).textContent || el.dataset.id, cat: (el.querySelector('.cat') || {}).textContent || '' }));
@@ -2371,7 +2371,7 @@ const BLG = { list: null, posted: {}, loading: false };
 async function blgLoad(){
   if(BLG.loading) return; BLG.loading = true;
   try {
-    const html = await (await fetch('/naver/?t=' + Date.now(), { cache: 'no-store' })).text();
+    const html = await (await fetch('/naver?t=' + Date.now(), { cache: 'no-store' })).text();
     const src = (/<div id="src"[^>]*>([\s\S]*?)<\/main>/.exec(html) || [, html])[1];
     const L = []; src.replace(/<div class="it" data-id="([^"]+)">[\s\S]*?<b>([^<]+)<\/b><\/span>/g, (m, id, t) => { if(!L.some(x => x.id === id)) L.push({ id, title: t.replace(/&#39;/g, "'").replace(/&amp;/g, '&'), slot: (/(점심|저녁|아침|밤)[^<]*게시/.exec(m) || [''])[0].replace(/\s*게시$/, '') }); return m; });
     const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle();
@@ -2395,7 +2395,7 @@ function vBlogCard(){
 /* 네이버 블로그: 따로 있던 /naver/ 글 목록을 콘텐츠 메뉴 안에 붙인다 */
 function vBlog(){
   return `<div class="ptitle"><div><h1>네이버 블로그</h1><div class="sub">글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣고, 올린 글은 '올렸어요'로 표시합니다.</div></div><a class="lnk" href="${location.origin}/naver/" target="_blank" data-newwin>새 창으로 열기 ↗</a></div>
-  <iframe class="blog-frame" src="/naver/" title="네이버 블로그 글 목록" allow="clipboard-write; clipboard-read"></iframe>`;
+  <iframe class="blog-frame" src="/naver" title="네이버 블로그 글 목록" allow="clipboard-write; clipboard-read"></iframe>`;
 }
 /* 게시 일시 칸 → ISO. onlyIfChanged면 자동 배정 기본값 그대로일 때 null(자동), 빈 칸이면 false(중단) */
 function ytpTarget(id, onlyIfChanged){
