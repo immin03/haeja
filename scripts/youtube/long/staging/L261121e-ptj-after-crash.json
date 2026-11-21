@@ -109,6 +109,13 @@
   "앤트로픽 S-1/A",
   "CME 페드워치"
  ],
+ "thumb": {
+  "photo": "thumbsrc_L261121e_burry.jpg",
+  "focus_x": 0.6,
+  "l1": "빅쇼트 마이클 버리",
+  "l2": "나스닥 하락에 2배 베팅",
+  "pos": "left"
+ },
  "thumb_v8": [
   {
    "key": "a",
@@ -652,7 +659,7 @@
       "lib": "vstockmarket_47213.mp4"
      },
      {
-      "lib": "vanalytics_42648.mp4"
+      "lib": "vanalytics_47006.mp4"
      },
      {
       "lib": "vdata_47793.mp4"
@@ -696,7 +703,7 @@
       "lib": "server_47050.mp4"
      },
      {
-      "lib": "vanalytics_47006.mp4"
+      "lib": "vanalytics_5462.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -743,9 +750,74 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "월가는 이번 하락의 원인을 어디서 찾고 있을까요? 씨티의 미국 주식 전략 책임자는 문제를 신뢰라고 짚었습니다."
+    "놀라운 건 늘 낙관하던 사람의 말입니다. 기술주 강세론자로 유명한 댄 아이브스는 상장 당일 이렇게 말했습니다."
    ],
    "note": "[2장] 원음 예고"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "sot_L261121e_ives.mp4",
+      "start": 0.0
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "CNBC 파워런치 2026-11-19(미국) · 댄 아이브스 원음",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "댄 아이브스",
+     "sub": "요크빌 아이브스 파트너 · CNBC 파워런치 2026.11.19",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "하지만 다른 한편으로, 지금 기술주는 어두운 시기를 지나고 있습니다.",
+    "엔비디아와 중국 걱정, AMD 공매도 보고서까지 겹쳤고, 투자자들은 바닥이 어딘지 찾고 있습니다.",
+    "공포의 순간이지만, 멈추는 건 아닙니다. AI 혁명의 구축은 아직 15%도 안 왔습니다."
+   ],
+   "note": "[2장] 원음 ⑤ 댄 아이브스 \"암흑기\"",
+   "news": true,
+   "sot": {
+    "clip": "sot_L261121e_ives.mp4",
+    "start": 0.0,
+    "dur": 26.0,
+    "rms": 0.085
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vnews_41204.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "기술주를 가장 오래 믿어 온 사람마저 어두운 시기라는 말을 꺼낸 겁니다. 다만 그는 끝을 말하진 않았습니다.",
+    "씨티의 미국 주식 전략 책임자는 문제를 신뢰라고 짚었습니다."
+   ],
+   "note": "[2장] 원음 뒤 풀이 → 다음 원음 예고"
   },
   {
    "v": {
@@ -797,7 +869,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vanalytics_5462.mp4"
+      "lib": "vbusinessman_22961.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -820,7 +892,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_22961.mp4"
+      "lib": "vbusinessman_23073.mp4"
      },
      {
       "lib": "vnewspaper_41199.mp4"
@@ -852,7 +924,7 @@
       "lib": "vstockmarket_47016.mp4"
      },
      {
-      "lib": "vbusinessman_23073.mp4"
+      "lib": "vbusinessman_231.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -877,7 +949,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_231.mp4"
+      "lib": "vbusinessman_33031.mp4"
      },
      {
       "lib": "vwallstreet_3051.mp4"
@@ -905,7 +977,70 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_33031.mp4"
+      "lib": "vnews_28293.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "2020년형이라고 보는 쪽의 대표 주자는 댄 아이브스입니다."
+   ],
+   "note": "[3장] 원음 예고"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "sot_L261121e_ives_b.mp4",
+      "start": 0.0
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "CNBC 파워런치 2026-11-19(미국) · 댄 아이브스 원음",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "댄 아이브스",
+     "sub": "요크빌 아이브스 파트너 · CNBC 2026.11.19",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "우리는 이 시기를 2025년 4월 관세 충격, 2020년 3월 코로나 때처럼 기회였다고 돌아보게 될 겁니다.",
+    "2007년 같은 거품의 순간이 아닙니다."
+   ],
+   "note": "[3장] 원음 댄 아이브스 \"2020년처럼 기회였다고 돌아볼 것\"",
+   "news": true,
+   "sot": {
+    "clip": "sot_L261121e_ives_b.mp4",
+    "start": 0.0,
+    "dur": 14.2,
+    "rms": 0.085
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vcomputer_1781.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1048,7 +1183,7 @@
    "sketch": [],
    "lines": [
     "12월에 금리를 0.5%포인트 올려야 한다는 겁니다. 2000년 닷컴 거품이 꺼질 때도 연준은 금리를 올리고 있었습니다. 이 점은 2000년을 닮았습니다.",
-    "반대 목소리도 있습니다. 펀드스트랫의 톰 리는 이번 하락을 건강한 조정이라고 봅니다."
+    "반대 목소리도 있습니다. 세계 최대 자산운용사 블랙록의 포트폴리오 매니저는 폴 튜더 존스가 말한 주식 공급 문제를 정면으로 반박합니다."
    ],
    "note": "[4장] 풀이 → 반대 원음 예고"
   },
@@ -1059,7 +1194,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "sot_L261121e_tomlee.mp4",
+      "lib": "sot_L261121e_koesterich.mp4",
       "start": 0.0
      }
     ],
@@ -1069,29 +1204,94 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "CNBC 클로징벨 2026-10(미국) · 톰 리 원음",
+   "src": "블룸버그 서베일런스 2026-11-19(미국) · 러스 쾨스터리치 원음",
    "sketch": [
     {
      "kind": "lower",
-     "text": "톰 리",
-     "sub": "펀드스트랫 공동 창업자 · CNBC 클로징벨 2026.10",
+     "text": "러스 쾨스터리치",
+     "sub": "블랙록 포트폴리오 매니저 · 블룸버그 2026.11.19",
      "line": 0,
      "at": 0.3
     }
    ],
    "lines": [
-    "AI 걱정이 오히려 거품을 막고 있다고 보는 이유는, AI가 여전히 놀라운 발견을 내고 있기 때문입니다.",
-    "2주쯤 전 오픈AI는 수학 문제 770개를 풀어냈습니다. AI의 발견과 생산성 향상은 끝물이 아닙니다.",
-    "이런 발전이 계속 나오는 한, AI에 들어간 돈은 성과를 내고 있습니다.",
-    "채권시장이 AI의 투기적 과열을 막아 주고 있는 건 오히려 건강하다고 봅니다.",
-    "그래서 이번 하락은 아주 건강한 조정이라고 생각합니다."
+    "주식 공급은 사실 지난 3~4개월 동안 벌어진 일에 비하면 큰 문제가 아니라고 봅니다.",
+    "공급이 있긴 하지만 자사주 매입도 아주 많았고, 1990년대 후반과 비교하면 공급은 크지 않습니다.",
+    "시장이 아직 정리하고 있는 건 올해 상반기에 쌓인 거대한 쏠림 거래입니다. AI, 반도체, 메모리로 돈과 빚이 몰렸죠.",
+    "그게 몇 달째 풀리고 있고, 아직 그 한가운데라고 봅니다.",
+    "실적은 탄탄합니다. 지금 위험을 줄이게 만드는 건 수급입니다."
    ],
-   "note": "[4장] 원음 ⑧ 톰 리 \"건강한 조정\"",
+   "note": "[4장] 원음 ⑧ 블랙록 쾨스터리치 \"기술적 매도\"",
    "news": true,
    "sot": {
-    "clip": "sot_L261121e_tomlee.mp4",
+    "clip": "sot_L261121e_koesterich.mp4",
     "start": 0.0,
-    "dur": 44.5,
+    "dur": 41.6,
+    "rms": 0.085
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vanalytics_42648.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "주식이 쏟아지는 게 아니라, 한쪽으로 몰렸던 돈과 빚이 빠져나가는 중이라는 겁니다. 그렇다면 언제 끝날까요? 딥워터의 진 먼스터는 이렇게 답합니다."
+   ],
+   "note": "[4장] 원음 사이 다리"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "sot_L261121e_munster.mp4",
+      "start": 0.0
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "2026-11-20(미국) · 진 먼스터 원음",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "진 먼스터",
+     "sub": "딥워터 자산운용 대표 · 2026.11.20",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "첫인상은 무너졌다는 겁니다. 이제 끝났다, 거품이 터졌다고 말하는 투자자들도 있습니다.",
+    "끝났는지는 아마 두 달은 지나야 알 수 있을 겁니다.",
+    "다음 주에 반등이 나온다고 해서 속임수였다는 걸 알 수 있는 것도 아니고,",
+    "더 떨어진다고 해서 끝났다는 뜻도 아닙니다."
+   ],
+   "note": "[4장] 원음 ⑨ 진 먼스터 \"두 달은 지나야 안다\"",
+   "news": true,
+   "sot": {
+    "clip": "sot_L261121e_munster.mp4",
+    "start": 0.0,
+    "dur": 28.1,
     "rms": 0.085
    }
   },
@@ -1126,7 +1326,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vcomputer_1781.mp4"
+      "lib": "vcomputer_308.mp4"
      },
      {
       "lib": "vnewyork_33965.mp4"
@@ -1207,7 +1407,7 @@
       "lib": "server_20822.mp4"
      },
      {
-      "lib": "vcomputer_308.mp4"
+      "lib": "vcomputer_46635.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1257,7 +1457,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vcomputer_46635.mp4"
+      "lib": "vcomputer_50748.mp4"
      },
      {
       "lib": "vnewyork_30544.mp4"
@@ -1285,7 +1485,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vcomputer_50748.mp4"
+      "lib": "vcomputer_9757.mp4"
      },
      {
       "lib": "vnews_14111.mp4"
