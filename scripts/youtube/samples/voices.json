@@ -1,5 +1,199 @@
 [
  {
+  "voice_id": "uc_6addc9b84bd9f624e177b63b",
+  "voice_name": {
+   "eng": "ValueNote_Minwoo",
+   "kor": "ValueNote_Minwoo"
+  },
+  "voice_type": "custom",
+  "models": [
+   {
+    "version": "ssfm-v30",
+    "emotions": [
+     "angry",
+     "happy",
+     "normal",
+     "sad",
+     "tonedown",
+     "toneup",
+     "whisper"
+    ]
+   }
+  ],
+  "gender": null,
+  "age": null,
+  "use_cases": [],
+  "preview_url": null
+ },
+ {
+  "voice_id": "uc_6adc2a5a6020d22026e9b1d1",
+  "voice_name": {
+   "eng": "ValueNote owner voice 1",
+   "kor": "ValueNote owner voice 1"
+  },
+  "voice_type": "custom",
+  "models": [
+   {
+    "version": "ssfm-v30",
+    "emotions": [
+     "angry",
+     "happy",
+     "normal",
+     "sad",
+     "tonedown",
+     "toneup",
+     "whisper"
+    ]
+   }
+  ],
+  "gender": null,
+  "age": null,
+  "use_cases": [],
+  "preview_url": null
+ },
+ {
+  "voice_id": "tc_6af54d6a6b24a08feffb40b4",
+  "voice_name": {
+   "eng": "Ozzie",
+   "kor": "오지"
+  },
+  "voice_type": "original",
+  "models": [
+   {
+    "version": "ssfm-v30",
+    "emotions": [
+     "angry",
+     "happy",
+     "normal",
+     "sad",
+     "tonedown",
+     "toneup",
+     "whisper"
+    ]
+   }
+  ],
+  "gender": "male",
+  "age": "middle_age",
+  "use_cases": [
+   "Audiobook/Storytelling"
+  ],
+  "preview_url": "https://static2.typecast.ai/c/261112_ozzie/ozzie_mixdown.mp3"
+ },
+ {
+  "voice_id": "tc_6af54d77f4d336c400d1370d",
+  "voice_name": {
+   "eng": "Jinheon",
+   "kor": "진헌"
+  },
+  "voice_type": "original",
+  "models": [
+   {
+    "version": "ssfm-v30",
+    "emotions": [
+     "angry",
+     "happy",
+     "normal",
+     "sad",
+     "tonedown",
+     "toneup",
+     "whisper"
+    ]
+   }
+  ],
+  "gender": "male",
+  "age": "young_adult",
+  "use_cases": [
+   "Voicemail/Voice Assistant"
+  ],
+  "preview_url": "https://static2.typecast.ai/c/261112_jinheon/jinheon_mixdown.mp3"
+ },
+ {
+  "voice_id": "tc_6aebeb819569c33a9ae4d6bc",
+  "voice_name": {
+   "eng": "Alistair",
+   "kor": "앨리스터"
+  },
+  "voice_type": "original",
+  "models": [
+   {
+    "version": "ssfm-v30",
+    "emotions": [
+     "angry",
+     "happy",
+     "normal",
+     "sad",
+     "tonedown",
+     "toneup",
+     "whisper"
+    ]
+   }
+  ],
+  "gender": "male",
+  "age": "young_adult",
+  "use_cases": [
+   "Game"
+  ],
+  "preview_url": "https://static2.typecast.ai/c/261105_alistair/alistair_mixdown.mp3"
+ },
+ {
+  "voice_id": "tc_6ae2b37121dec45412f200c9",
+  "voice_name": {
+   "eng": "Zara",
+   "kor": "자라"
+  },
+  "voice_type": "original",
+  "models": [
+   {
+    "version": "ssfm-v30",
+    "emotions": [
+     "angry",
+     "happy",
+     "normal",
+     "sad",
+     "tonedown",
+     "toneup",
+     "whisper"
+    ]
+   }
+  ],
+  "gender": "female",
+  "age": "middle_age",
+  "use_cases": [
+   "Game",
+   "Anime"
+  ],
+  "preview_url": "https://static2.typecast.ai/c/261029_zara/zara_mixdown.mp3"
+ },
+ {
+  "voice_id": "tc_6ae2b38a6c6f117dcc049386",
+  "voice_name": {
+   "eng": "Ayun",
+   "kor": "아윤"
+  },
+  "voice_type": "original",
+  "models": [
+   {
+    "version": "ssfm-v30",
+    "emotions": [
+     "angry",
+     "happy",
+     "normal",
+     "sad",
+     "tonedown",
+     "toneup",
+     "whisper"
+    ]
+   }
+  ],
+  "gender": "female",
+  "age": "child",
+  "use_cases": [
+   "Game",
+   "Anime"
+  ],
+  "preview_url": "https://static2.typecast.ai/c/261029_ayun/ayun_mixdown.mp3"
+ },
+ {
   "voice_id": "tc_6aa23da1f9559d89ed550d7e",
   "voice_name": {
    "eng": "Krista",
