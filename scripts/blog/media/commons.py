@@ -13,6 +13,7 @@ wants = json.load(open(os.path.join(HERE, "commons_wants.json")))
 cp = os.path.join(LIB, "commons_credits.json"); credits = json.load(open(cp)) if os.path.exists(cp) else {}
 for w in wants:
     q = w["q"]; slug = w["slug"]; n = 0
+    if os.path.exists(os.path.join(LIB, f"commons_{slug}_1.jpg")): continue   # 2026-11-22: 이미 받은 검색어는 API 호출 없이 건너뜀(전체 재조회로 15분 초과 취소되던 문제)
     api = "https://commons.wikimedia.org/w/api.php?" + urllib.parse.urlencode({"action": "query", "format": "json", "generator": "search", "gsrsearch": q + " filetype:bitmap", "gsrnamespace": 6, "gsrlimit": 25, "prop": "imageinfo", "iiprop": "url|extmetadata|size", "iiurlwidth": 1920})
     pages = sorted(json.loads(get(api)).get("query", {}).get("pages", {}).values(), key=lambda p: p.get("index", 99))
     for p in pages:
