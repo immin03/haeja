@@ -28,7 +28,14 @@ jobs:
         id: ${{ fromJson(needs.ids.outputs.list) }}
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 1 }  # 2026-11-06: 전체 이력(13.9GB)을 매번 받지 않는다. 아래 커밋 단계는 origin/main 만 다시 받으므로 얕은 클론으로 충분
+        # 2026-11-21 대표 "효율 극대화": 렌더에 필요한 scripts/ 만 받는다 (예전엔 social/·naver/ 영상까지 다 받느라 체크아웃만 5~9분)
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /social/typecast_usage.json
+      # 2026-11-06: 전체 이력(13.9GB)을 매번 받지 않는다. 아래 커밋 단계는 origin/main 만 다시 받으므로 얕은 클론으로 충분
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - name: 도구 설치
@@ -66,7 +73,7 @@ jobs:
             git fetch -q origin main && git checkout -q -f -B main origin/main
             cp /tmp/keep/$id.json scripts/reels/specs/$id.json
             rm -rf social/reels/$id && cp -r /tmp/keep/$id social/reels/$id
-            git add scripts/reels/specs/$id.json social/reels/$id
+            git add --sparse scripts/reels/specs/$id.json social/reels/$id
             git diff --cached --quiet && exit 0
             git commit -q -m "릴스 한 편 바로 렌더: $id"
             git push origin main && exit 0
