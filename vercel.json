@@ -57,6 +57,18 @@
   ],
   "rewrites": [
     {
+      "source": "/naver/:id/:file",
+      "destination": "https://raw.githubusercontent.com/immin03/haeja/main/naver/:id/:file"
+    },
+    {
+      "source": "/naver/:id",
+      "destination": "/api/naver?p=:id"
+    },
+    {
+      "source": "/naver",
+      "destination": "/api/naver"
+    },
+    {
       "source": "/social/reels/:id/reel.mp4",
       "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/social/reels/:id/reel.mp4"
     },
@@ -68,5 +80,6 @@
       "source": "/social/side/gen/:file",
       "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/social/side/gen/:file"
     }
-  ]
+  ],
+  "ignoreCommand": "git rev-parse -q --verify HEAD^ >/dev/null || exit 1; ! git diff --name-only HEAD^ HEAD | grep -qvE '^(scripts/|supabase/|\\.github/|README\\.md$|naver/)'"
 }

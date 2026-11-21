@@ -16,3 +16,7 @@ social/music
 # 사이트 주소 요청은 vercel.json rewrite 가 Storage 사본을 내준다. 사본이 다 올라간 뒤에만 여기에 추가한다.
 docs/emperor/ep/*.mp4
 social/side/gen/*.mp4
+
+# 네이버 블로그 복사 페이지 (2026-11-21 대표 "블로그 글만"): api/naver.js 와 vercel.json rewrite 가 GitHub(main)에서 바로 내준다.
+# 블로그 글은 배포를 기다리지 않고 push 뒤 5분 안에 보이며, naver/ 만 바뀐 커밋은 배포하지 않는다(vercel.json ignoreCommand).
+naver
