@@ -64,12 +64,12 @@
  "series": "사건의 뒤편",
  "plan": "R2611211530after",
  "scheduled_at": "2026-11-21T20:30:00+09:00",
- "opening": "원음 2개: 폴 튜더 존스 '1999년과 똑같다' → '2027년은 정말 힘든 해' → 5주 전 경고·이번 주 -5% → 질문 → 약속",
+ "opening": "마이클 버리 하락 베팅 2배(화면 인용) → 원음 2개: 폴 튜더 존스 '1999년과 똑같다' → '2027년은 정말 힘든 해' → 5주 전 경고·이번 주 -5% → 질문 → 약속",
  "hook_type": "거장 원음 + 경고가 맞아떨어짐 + 폭락 다음 질문",
  "endscreen_target": "L261120-anthropic-day1",
  "endscreen_also": "L261121-ionq-quantum",
- "title": "\"2027년은 정말 힘든 해\" 1987년 폭락 맞힌 폴 튜더 존스, 5주 전 경고가 지금 벌어진다 | 폭락 다음에 오는 것",
- "doc_title": "폴 튜더 존스의 경고 | 폭락 다음에 오는 것",
+ "title": "빅쇼트 마이클 버리, 나스닥 하락 베팅 2배로 | 1987년 폭락 맞힌 폴 튜더 존스도 \"1999년과 똑같다\"",
+ "doc_title": "두 전설의 경고 | 폭락 다음에 오는 것",
  "title_en": "Paul Tudor Jones warned 2027 would be 'really, really challenging' — what comes after the Nasdaq's second 5% crash",
  "description_head": "나스닥이 한 달 새 두 번째로 하루 5% 넘게 무너졌습니다. 1987년 폭락을 맞힌 폴 튜더 존스는 5주 전 \"1999년과 똑같다, 2027년은 정말 힘든 해\"라고 경고했습니다.\n월가 거장들의 원음으로 이번 폭락이 2000년형인지 2020년형인지 짚고, 12월 8일(스페이스X 보호예수)·12월 9일(미국 금리 결정)까지 폭락 다음 일정을 정리합니다.",
  "description_en": "The Nasdaq fell more than 5% in a day for the second time this month. Five weeks ago Paul Tudor Jones said markets feel 'exactly like 1999' and that 2027 will be 'really, really challenging'. Through first-hand remarks from Wall Street voices we ask whether this is a 2000-style or 2020-style selloff and mark the dates that come next: SpaceX's Dec 8 lockup expiry and the Fed's Dec 9 decision. Not investment advice.",
@@ -114,49 +114,52 @@
    "key": "a",
    "file": "thumb_a.jpg",
    "photo": "il_L261104g_wallst_2008.jpeg",
-   "kicker": "1987년 폭락 맞힌 전설",
-   "l1": "폴 튜더 존스",
-   "l2": "“1999년과 똑같다”",
-   "ul": "1999년"
+   "kicker": "빅쇼트 마이클 버리",
+   "l1": "나스닥 하락에",
+   "l2": "2배 베팅",
+   "ul": "2배",
+   "face": "burry.png"
   },
   {
    "key": "b",
    "file": "thumb_b.jpg",
    "photo": "il_L261110a_exchange_night.jpeg",
-   "kicker": "5주 전 경고",
-   "l1": "“2027년은 정말 힘든 해”",
-   "l2": "폭락은 이제 시작?",
-   "ul": "시작"
+   "kicker": "1987년 폭락 맞힌 전설의 섬뜩한 경고",
+   "l1": "폴 튜더 존스",
+   "l2": "“1999년과 똑같다”",
+   "ul": "1999년",
+   "face": "ptj.png"
   },
   {
    "key": "c",
    "file": "thumb_c.jpg",
    "photo": "il_L261104g_chip_crash.jpeg",
-   "kicker": "나스닥 한 달에 두 번 -5%",
-   "l1": "폭락 다음에 오는 것",
-   "l2": "12월 8일·9일",
-   "ul": "12월"
+   "kicker": "두 전설의 경고",
+   "l1": "버리 · 폴 튜더 존스",
+   "l2": "폭락은 이제 시작?",
+   "ul": "시작",
+   "face": "burry.png+ptj.png"
   }
  ],
  "ab_sets": [
   {
    "key": "a",
    "default": true,
-   "title": "\"2027년은 정말 힘든 해\" 1987년 폭락 맞힌 폴 튜더 존스, 5주 전 경고가 지금 벌어진다 | 폭락 다음에 오는 것",
+   "title": "빅쇼트 마이클 버리, 나스닥 하락 베팅 2배로 | 1987년 폭락 맞힌 폴 튜더 존스도 \"1999년과 똑같다\"",
    "file": "thumb_a.jpg",
-   "type": "A 거장 이름 + 인용"
+   "type": "A 버리 얼굴 + 2배 베팅"
   },
   {
    "key": "b",
-   "title": "\"2027년은 정말 힘든 해\" 폴 튜더 존스의 경고, 나스닥 폭락은 이제 시작인가 | 월가 거장들의 판단",
+   "title": "1987년 폭락 맞힌 전설의 섬뜩한 경고 \"1999년과 똑같다\" | 빅쇼트 버리도 나스닥 하락에 베팅",
    "file": "thumb_b.jpg",
-   "type": "B 인용 + 질문"
+   "type": "B 폴 튜더 존스 얼굴 + 인용"
   },
   {
    "key": "c",
-   "title": "나스닥 한 달에 두 번 -5%, 폭락 다음에 오는 것 | 12월 8일·9일 달력에 적어 두세요",
+   "title": "빅쇼트 버리·폴 튜더 존스, 두 전설의 경고 | 나스닥 한 달에 두 번 -5%, 폭락은 이제 시작인가",
    "file": "thumb_c.jpg",
-   "type": "C 날짜형"
+   "type": "C 두 얼굴 대결"
   }
  ],
  "gate_waive": {
@@ -166,6 +169,67 @@
  "orig_mode": "sot_test",
  "orig_mode_note": "대표 11/21 15:38~15:40: 원음 비중 JIT처럼 높게(약 50%), 원음 사이 해설은 앞 1~2문장 예고·뒤 1~2문장 풀이. 이번 편은 거장들의 해석이 주인공. 원음+한국어 자막(더빙 없음).",
  "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vnewspaper_41204.mp4"
+     },
+     {
+      "lib": "il_L261109p_crash_spac.jpeg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "마이클 버리 공개 2026-11-12(미국) · 야후 파이낸스 보도 · 나스닥 2026-11-20 -5.28%",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "나스닥 하락 베팅 2배",
+     "sub": "마이클 버리 공개 · 2026.11.12 · 만기 2027년 초",
+     "line": 1,
+     "at": 0.3,
+     "color": "red"
+    }
+   ],
+   "lines": [
+    "2008년 금융위기를 미리 내다본 영화 '빅쇼트'의 실제 주인공, 마이클 버리.",
+    "그가 11월 12일, 나스닥 하락에 건 베팅을 두 배로 늘렸다고 공개했습니다. 그리고 8일 뒤, 나스닥은 하루 만에 5% 넘게 무너졌습니다."
+   ],
+   "note": "[훅] 마이클 버리 (원음 없음 · 공개 내용 화면 인용)"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vwallstreet_24517.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "CNBC 스쿼크박스 2026-10-13",
+   "sketch": [],
+   "lines": [
+    "그런데 같은 경고를 5주 전에 먼저 한 전설이 또 있습니다. 1987년 폭락을 맞힌 폴 튜더 존스입니다.",
+    "이 영상이 끝날 때쯤엔, 폭락 다음에 달력에 적어 둘 날짜까지 정리해 드리겠습니다."
+   ],
+   "note": "[훅] 두 번째 전설 · 약속 → 원음"
+  },
   {
    "v": {
     "type": "media",
@@ -280,7 +344,6 @@
     }
    ],
    "lines": [
-    "이 말을 한 사람은 폴 튜더 존스입니다. 1987년 블랙먼데이 폭락을 미리 내다보고 큰돈을 번 전설적인 투자자죠.",
     "그가 이 경고를 한 건 5주 전입니다. 그리고 이번 주, 나스닥은 한 달 사이 두 번째로 하루 만에 5% 넘게 무너졌습니다."
    ],
    "note": "[훅] 누구·언제·이번 주"
@@ -308,8 +371,8 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "그의 경고는 이제 시작일까요?",
-    "오늘은 월가 거장들이 이번 폭락을 어떻게 읽고 있는지, 그들의 목소리로 직접 들어 보겠습니다. 마지막엔 폭락 다음에 달력에 적어 둘 날짜까지 정리하겠습니다."
+    "두 전설의 경고는 이제 시작일까요?",
+    "오늘은 월가 거장들이 이번 폭락을 어떻게 읽고 있는지, 그들의 목소리로 직접 들어 보겠습니다."
    ],
    "note": "[훅] 질문 → 약속"
   },
@@ -622,6 +685,47 @@
     "나스닥은 올해 오른 걸 전부 토해 냈습니다."
    ],
    "note": "[2장] 이번 주 사실"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vsemiconductor_1139.mp4"
+     },
+     {
+      "lib": "server_47050.mp4"
+     },
+     {
+      "lib": "il_L261104g_chip_crash.jpeg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "마이클 버리 서브스택 2026-11-12 · 야후 파이낸스 보도(반도체 ETF SMH 하락 베팅 확대, 2027년 6월 만기)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "반도체 ETF 하락 베팅 확대",
+     "sub": "마이클 버리 · 2026.11",
+     "line": 0,
+     "at": 0.4,
+     "color": "red"
+    }
+   ],
+   "lines": [
+    "마이클 버리가 고른 베팅 대상도 눈여겨볼 만합니다. 그는 나스닥 지수와 함께 반도체 ETF 하락에도 베팅을 늘렸습니다.",
+    "엔비디아가 흔들리면 함께 흔들릴 회사로 코어위브, 네비우스, TSMC, ASML을 꼽았고, 앞으로 2년 동안 반도체 몸값이 더 내려갈 거라고 봤습니다.",
+    "흥미로운 건, AMD와 브로드컴은 엔비디아가 약해지면 오히려 득을 볼 수 있다고 봤다는 점입니다. SOXL을 들고 계신다면, 그가 꼽은 회사들의 실적 날짜를 같이 챙겨 보셔야 합니다."
+   ],
+   "note": "[2장] 마이클 버리의 베팅 대상 · SOXL 보유자 연결"
   },
   {
    "v": {
@@ -1200,7 +1304,7 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "처음에 들으신 말, 기억하시죠. 여전히 1999년 같다는 그 말이 맞는지는 12월이 답해 줄 겁니다.",
+    "마이클 버리의 베팅 만기는 2027년 초입니다. 폴 튜더 존스가 정말 힘든 해라고 한 바로 그해죠. 두 전설의 경고가 맞는지는 12월부터 답이 나오기 시작할 겁니다.",
     "여러분은 이번 폭락, 2000년형과 2020년형 중 어느 쪽이라고 보십니까? 댓글로 남겨 주세요.",
     "밸류노트는 사건 뒤 돈의 흐름을 같이 읽는 곳입니다. 다음 이야기도 함께 보고 싶으시면 구독해 주세요."
    ],
@@ -1238,5 +1342,6 @@
    "src": "",
    "note": "[북엔드] 끝 화면"
   }
- ]
+ ],
+ "thumb_photos_needed": "대표 제공 사진 E:\\vn-clips\\thumb\\burry.png · ptj.png (2026-11-21 16:49 대표 '사진 받아줄게')"
 }
