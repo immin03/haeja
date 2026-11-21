@@ -61,7 +61,7 @@ jobs:
             timeout 300 npx playwright install-deps chromium >/dev/null 2>&1 || true
           fi
       - name: 음성 캐시 (같은 문장은 타입캐스트에 다시 요청하지 않는다)
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: scripts/reels/.cache
           key: tts-all-${{ github.run_id }}   # 2026-11-12 롱폼·쇼츠·빠른 렌더·사이드가 같은 음성 보관함을 쓴다 (같은 문장은 다시 사지 않는다)
@@ -91,6 +91,12 @@ jobs:
           else
             python3 scripts/youtube/long/build.py ${{ steps.pick.outputs.ids }}
           fi
+      - name: 음성 캐시 저장 (실패해도 저장)
+        if: always()   # 2026-11-21 대표: 렌더가 뒤에서 실패해도 이미 산 음성은 남긴다 → 고쳐서 다시 돌리면 음성은 다시 안 산다
+        uses: actions/cache/save@v4
+        with:
+          path: scripts/reels/.cache
+          key: tts-all-${{ github.run_id }}-${{ github.run_attempt }}
       - name: 커밋
         # 2026-10-29: 다른 렌더와 동시에 끝나면 리베이스가 깨져(exit 128) 실패 메일이 왔다. 바뀐 파일만 최신 main 위에 다시 얹는다.
         run: bash scripts/ci/push_results.sh "유튜브 롱폼 $(TZ=Asia/Seoul date '+%F %H:%M')" social/youtube scripts/youtube/long/specs social/typecast_usage.json
