@@ -1154,6 +1154,12 @@ def cuts_source(v, n_frames, seed):
     def get(u):
         im = _cut_get(u)
         if v.get("news_scale"):   # 2026-11-21 r180 ③ 구현: 뉴스 원음은 66%로 줄여 위에(y 84~797) — 방송 띠·이름표(NEWS_TAG_Y 800)·자막이 겹치지 않게. 바깥은 같은 화면을 흐리고 어둡게
+            if v.get("crop_x"):   # 세로(9:16) 원본이 가로 화면 가운데 끼어 있는 클립: 그 띠만 잘라 화면 높이에 맞춰 크게 (2026-11-21 L261121e 폴 튜더 존스 2027 원음)
+                a_, b_ = v["crop_x"]; im = im.crop((int(W * a_), 0, int(W * b_), H))
+                ch = int(H * .66); cw = int(im.width * ch / im.height)
+                bg_ = im.resize((16, 9), Image.BILINEAR).resize((W, H), Image.BILINEAR); bg_ = Image.blend(bg_, Image.new("RGB", (W, H), (6, 12, 24)), .78)
+                bg_.paste(im.resize((cw, ch), Image.BILINEAR), ((W - cw) // 2, int(84 * H / 1080))); im = bg_
+                return im
             k_ = float(v["news_scale"]); cw, ch = int(W * k_), int(H * k_)
             bg_ = im.resize((W // 10, H // 10), Image.BILINEAR).resize((W, H), Image.BILINEAR)
             bg_ = Image.blend(bg_, Image.new("RGB", (W, H), (6, 12, 24)), .78)
