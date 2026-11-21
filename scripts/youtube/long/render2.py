@@ -1153,6 +1153,11 @@ def cuts_source(v, n_frames, seed):
 
     def get(u):
         im = _cut_get(u)
+        if v.get("news_scale"):   # 2026-11-21 r180 ③ 구현: 뉴스 원음은 66%로 줄여 위에(y 84~797) — 방송 띠·이름표(NEWS_TAG_Y 800)·자막이 겹치지 않게. 바깥은 같은 화면을 흐리고 어둡게
+            k_ = float(v["news_scale"]); cw, ch = int(W * k_), int(H * k_)
+            bg_ = im.resize((W // 10, H // 10), Image.BILINEAR).resize((W, H), Image.BILINEAR)
+            bg_ = Image.blend(bg_, Image.new("RGB", (W, H), (6, 12, 24)), .78)
+            bg_.paste(im.resize((cw, ch), Image.BILINEAR), ((W - cw) // 2, int(84 * H / 1080))); im = bg_
         if v.get("_pulse"):   # 2026-11-07 대표님: 박자마다 사진이 살짝 '쿵' 하고 다가온다 (박자에 맞춘 훅 전용)
             ph = u % v["_pulse"]; z = 1 + .035 * math.exp(-ph / .11)
             if z > 1.002:
