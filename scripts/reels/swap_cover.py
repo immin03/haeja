@@ -24,7 +24,15 @@ def dur(p):
 def main(i):
     spec = json.load(open(os.path.join(HERE, "specs", f"{i}.json"), encoding="utf-8"))
     d = os.path.join(ROOT, "social", "reels", i); reel = os.path.join(d, "reel.mp4"); cover = os.path.join(d, "cover.jpg")
-    if not os.path.exists(reel): sys.exit(f"✗ {reel} 가 없습니다 — 처음 렌더는 reels-one 으로")
+    if not os.path.exists(reel):   # 2026-11-22: 영상 원본이 Storage 에만 있을 수 있다(저장소에는 reel.stored 표시만) → 사이트 주소에서 받아 온다
+        import urllib.request
+        try:
+            os.makedirs(d, exist_ok=True)
+            rq = urllib.request.Request(f"https://www.valuenote.co.kr/social/reels/{i}/reel.mp4", headers={"User-Agent": "valuenote-swap-cover"})
+            with urllib.request.urlopen(rq, timeout=300) as r, open(reel, "wb") as fh: fh.write(r.read())
+        except Exception as e:
+            if os.path.exists(reel): os.remove(reel)
+            sys.exit(f"✗ {reel} 가 없고 사이트에서도 못 받았습니다 ({e}) — 처음 렌더는 reels-one 으로")
     import thumb_bw
     thumb_bw.render(json.load(open(os.path.join(HERE, "thumbs_bw", f"{i}.json"), encoding="utf-8")), cover)
     head = float(spec.get("cover_head") or 0); D = dur(reel); tmp = reel + ".swap.mp4"
