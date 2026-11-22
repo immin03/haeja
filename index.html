@@ -623,6 +623,7 @@ body.noscroll{overflow:hidden}
 .inv-opts{display:flex;flex-wrap:wrap;gap:6px}
 .inv-o{all:unset;box-sizing:border-box;cursor:pointer;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:14px;font-weight:600;display:flex;flex-direction:column;gap:1px;line-height:1.3}
 .inv-o small{font-size:14px;font-weight:500;color:var(--muted)}
+.onb-basic .inv-qs{gap:12px}.onb-basic .inv-q b{font-size:15px}.onb-basic .inv-o{padding:10px 14px;font-size:15px}.onb .onb-basic{margin:0 0 16px;padding:0 0 16px;border-bottom:1px solid var(--line)}
 .inv-o.on{border-color:var(--navy, var(--accent));background:var(--navy, var(--accent));color:#FFFFFF}
 .inv-o.on small{color:rgba(255,255,255,.75)}
 .inv-o{-webkit-tap-highlight-color:transparent;transition:background .12s,border-color .12s}
@@ -2096,7 +2097,8 @@ function onboardHtml(){
   return `<div class="intro consent onb${still}" role="dialog" aria-modal="true" aria-label="나의 투자 유형"><div class="intro-card">
     <div class="eyebrow" style="color:var(--gold)">시작 전에 한 번만</div>
     <h2 class="intro-t">어떤 투자를 원하세요?</h2>
-    <p class="small muted" style="margin:0 0 14px">하나만 누르면 끝입니다. 고른 유형에 맞춘 투자 가이드를 바로 만들어 드립니다.</p>
+    <p class="small muted" style="margin:0 0 14px">유형 하나만 누르면 시작합니다. 고른 유형에 맞춘 투자 가이드를 바로 만들어 드립니다.</p>
+    <div class="onb-basic">${invQHtml(['age','from'])}</div>
     ${onbTypesHtml(inv().type, 'data-onb-type')}
   </div></div>`;
 }
@@ -2231,7 +2233,8 @@ function viewMyGuide(){
     : T.k === 'value' ? '적정 주가보다 25% 이상 싸고 재무 점수 60점 이상, 감점 신호 없는 회사 중 종합 점수 높은 순'
     : '적정 주가보다 25% 이상 싼 회사 중 배당이 거의 없는 회사를 먼저, 그다음 많이 싼 순. 반드시 도전 칸(전체 10%) 안에서만';
   const all = T.k === 'income' ? `<button type="button" class="btn" data-mg-all="dividend">배당 회사 전체 보기</button>` : `<button type="button" class="btn" data-mg-all="value">저평가 회사 전체 보기</button>`;
-  return `${head}
+  const basic = (!inv().age && !inv().basicSkip && !store.isGuest && !store.isDemo) ? `<div class="card onb-basic onb-basic-ask" style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><b style="font-size:16px">두 가지만 알려 주세요</b><button type="button" class="linkbtn small" data-act="basic-skip">다음에</button></div><p class="small muted" style="margin:4px 0 10px">더 맞는 정보를 드리는 데 씁니다. 고르면 바로 저장됩니다.</p>${invQHtml(['age','from'])}</div>` : '';
+  return `${head}${basic}
   <div class="mg-types" role="group" aria-label="투자 유형">${Object.values(VN_TYPES).map(t => `<button type="button" class="${t.k === T.k ? 'on' : ''}" data-mg-type="${t.k}" aria-pressed="${t.k === T.k}">${esc(t.n)}</button>`).join('')}</div>
   <div class="card mg-goal"><div class="eyebrow">나의 목표</div><div class="inv-qs" style="margin-top:8px">${goal}</div></div>
   <div class="onb-res" style="margin-top:12px">
@@ -5049,6 +5052,9 @@ function applyDemo(){
 }
 /* ===== 투자자 자기 점검 (맞춤 제안용) ===== */
 const INV_Q = [
+  /* 2026-11-22 대표: 가입자 연령대·알게 된 경로를 기본 정보로 받는다(선택). 랜딩·메일 문구와 글자 크기 판단에 쓴다 */
+  {k:'age', q:'연령대는? (선택)', o:['20대','30대','40대','50대','60대 이상']},
+  {k:'from', q:'밸류노트를 어떻게 알게 되셨나요? (선택)', o:['유튜브','인스타그램','네이버 블로그·검색','지인 추천','기타']},
   {k:'expect', q:'밸류노트에 가장 기대하는 것은? (여러 개 선택)', multi:true, o:['좋은 회사 고르는 기준','적정 매수가·매수 시점 알림','내 포트폴리오 점검','보유 종목 뉴스 요약','투자 원칙·습관 만들기','가치투자 공부']},
   {k:'size', q:'투자 규모는?', o:['1천만 원 미만','1천만~5천만 원','5천만~2억 원','2억~5억 원','5억~10억 원','10억 원 이상']},
   {k:'count', q:'지금 보유 종목 수는?', o:['아직 없음','1~3개','4~7개','8~15개','16개 이상']},
@@ -6709,8 +6715,14 @@ document.addEventListener('click', async e => {
   if(act === 'hold-new'){ S.editHold = {name:'', ticker:'', market:'KR', kind:'stock', qty:null, avg:null, price:null, currency:'KRW'}; render(); $('#h-name')?.focus(); }
   if(act === 'star'){ toggleStar(a.dataset.id, a.dataset.t); const y = window.scrollY; render(); if(S.tab === 'analyze') updateEval(); window.scrollTo(0,y); return; }
   if(act === 'intro-next'){ S.introStep = (S.introStep||0) + 1; render(); return; }
+  if(act === 'basic-skip'){ saveInv({basicSkip: today()}); store.track('engage', 'basic-skip'); render(); return; }
   if(act === 'inv-pick'){ const k = a.dataset.k, v = a.dataset.v, q = INV_Q.find(x => x.k === k);
     if(q.multi){ const cur = new Set(inv()[k] || []); cur.has(v) ? cur.delete(v) : cur.add(v); saveInv({[k]: [...cur]}); } else saveInv({[k]: v});
+    if(k === 'age' || k === 'from') store.track('engage', 'basic-' + k + '-' + v);
+    if(a.closest('.onb-basic-ask')){ const box = a.closest('.inv-opts'), now = inv();
+      box.querySelectorAll('.inv-o').forEach(o => { const on = now[k] === o.dataset.v; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); });
+      if(now.age && now.from){ const c = a.closest('.onb-basic-ask'); setTimeout(() => { c.innerHTML = '<b style="font-size:16px">감사합니다. 저장했습니다.</b>'; setTimeout(() => c.remove(), 1600); }, 300); }
+      return; }
     if(a.closest('.onb')){
       const box = a.closest('.inv-opts'), now = inv();
       box.querySelectorAll('.inv-o').forEach(o => { const on = q.multi ? (now[k]||[]).includes(o.dataset.v) : now[k] === o.dataset.v; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); });
