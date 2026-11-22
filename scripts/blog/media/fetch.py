@@ -150,5 +150,38 @@ if KEY:
 else:
     print("PEXELS_API_KEY 없음: Pexels 사진은 건너뜀")
 
+# 4) (선택) Pexels 영상 — 2026-11-22 대표 "영상을 너무 비슷한 걸 많이 쓴다, 무료 영상 사이트를 더 연결" (Mixkit 태그당 몇 개뿐이라 같은 컷이 반복됨)
+#    wants.json "pexels_videos": {"<영어 검색어>": N} → lib/vpx<검색어>_<id>.mp4 (12초, 1280x720, 소리 없음) + _a.jpg·_b.jpg
+#    이름이 v 로 시작해야 롱폼 스펙의 중복 검사(v<주제>_<번호>)와 화면 소스 규칙을 그대로 탄다
+if KEY:
+    for q, n in W.get("pexels_videos", {}).items():
+        tag = "vpx" + re.sub(r"[^a-z0-9]", "", q.lower())[:18]
+        have = [f for f in os.listdir(LIB) if f.startswith(tag + "_") and f.endswith(".mp4")]
+        if len(have) >= n: continue
+        try:
+            r = json.loads(get(f"https://api.pexels.com/videos/search?query={urllib.parse.quote(q)}&per_page={n + 4}&orientation=landscape&size=medium",
+                               headers={"Authorization": KEY}))
+        except Exception as e:
+            print("  Pexels 영상 실패", q, e); continue
+        got = len(have)
+        for v in r.get("videos", []):
+            if got >= n: break
+            if v.get("duration", 0) < 6: continue
+            fs = sorted([x for x in v.get("video_files", []) if x.get("width") and 1280 <= x["width"] <= 1920 and x.get("file_type") == "video/mp4"], key=lambda x: x["width"])
+            if not fs: continue
+            base = f"{tag}_{v['id']}"; mp4 = os.path.join(LIB, base + ".mp4")
+            if os.path.exists(mp4): continue
+            raw = f"/tmp/{base}_raw.mp4"
+            try:
+                get(fs[0]["link"], raw)
+                ff("-i", raw, "-t", "12", "-an", "-vf", "scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=30", "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-movflags", "+faststart", mp4)
+                ff("-ss", "1", "-i", mp4, "-frames:v", "1", "-q:v", "3", os.path.join(LIB, base + "_a.jpg"))
+                ff("-ss", "6", "-i", mp4, "-frames:v", "1", "-q:v", "3", os.path.join(LIB, base + "_b.jpg"))
+            except Exception as e:
+                print("  영상 받기 실패", base, e); continue
+            for f_ in (base + ".mp4", base + "_a.jpg", base + "_b.jpg"):
+                IDX[f_] = {"title": q, "src": v.get("url", ""), "id": f"pexels-video:{v['id']}", "license": "Pexels License (상업적 이용 가능, 출처 표기 불필요)"}
+            got += 1; print("받음", base)
+
 json.dump(dict(sorted(IDX.items())), open(IDX_P, "w"), ensure_ascii=False, indent=1)
 print("창고", len(IDX), "개")
