@@ -1442,11 +1442,16 @@ def panel_source(get, P):
             else: out.append(cur); cur = w_
         return out + ([cur] if cur else [])
 
+    full_bg = bool(P.get("full_bg"))   # 2026-11-22 대표: 오른쪽 절반에 앱 화면 두 개(미리 합성한 영상) — 그대로 깔고 왼쪽에 글만
+
     def g(u):
         f_ = get(u).convert("RGB")
-        bg = ImageEnhance.Brightness(f_.resize((W // 10, H // 10)).filter(ImageFilter.GaussianBlur(2)).resize((W, H), Image.BILINEAR)).enhance(.22).convert("RGBA")
-        bg.alpha_composite(shadow, (x0 - 40, y0 - 40))
-        bg.paste(f_.resize((pw, ph), Image.BILINEAR), (x0, y0), mask)
+        if full_bg:
+            bg = f_.convert("RGBA")
+        else:
+            bg = ImageEnhance.Brightness(f_.resize((W // 10, H // 10)).filter(ImageFilter.GaussianBlur(2)).resize((W, H), Image.BILINEAR)).enhance(.22).convert("RGBA")
+            bg.alpha_composite(shadow, (x0 - 40, y0 - 40))
+            bg.paste(f_.resize((pw, ph), Image.BILINEAR), (x0, y0), mask)
         d = AD(bg); y = 250
         a0 = clamp(u / .4)
         for ln in wrap(title, ft):

@@ -167,6 +167,9 @@
     "cuts": [
      {
       "lib": "commons_buffett_2_wide.jpg"
+     },
+     {
+      "lib": "vstockmarket_14114.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -216,12 +219,20 @@
      },
      {
       "lib": "voldman_33361.mp4"
+     },
+     {
+      "lib": "vreading_13809.mp4"
+     },
+     {
+      "lib": "vcitytraffic_1146.mp4"
+     },
+     {
+      "lib": "vtrading_18143.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -283,6 +294,9 @@
     "cuts": [
      {
       "lib": "vcasino_4100.mp4"
+     },
+     {
+      "lib": "vgambling_4163.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -329,16 +343,21 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_nasdaqsite_1_wide.jpg"
+      "lib": "commons_nasdaqsite_1.jpg"
      },
      {
       "lib": "vcrowd_14084.mp4"
+     },
+     {
+      "lib": "vnewyork_22806.mp4"
+     },
+     {
+      "lib": "vcitytraffic_1151.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -368,6 +387,15 @@
     "cuts": [
      {
       "lib": "vnewspaper_34190.mp4"
+     },
+     {
+      "lib": "vdocuments_25262.mp4"
+     },
+     {
+      "lib": "vfinance_17435.mp4"
+     },
+     {
+      "lib": "vmoney_18261.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -391,9 +419,9 @@
    ],
    "lines": [
     "그해 12월, 미국 경제지 배런스는 표지에 이렇게 썼습니다. 워런, 뭐가 문제야?",
-    "기술주를 사지 않는 버핏은 시대에 뒤처진 노인 취급을 받았습니다."
+    "기술주를 사지 않는 버핏은 시대에 뒤처진 노인 취급을 받았습니다. 그런데 그 이유를, 그는 아흔다섯인 지금도 똑같이 말합니다."
    ],
-   "note": "[1장] 배런스 표지"
+   "note": "[1장] 배런스 표지 → 원음 예고"
   },
   {
    "v": {
@@ -402,16 +430,65 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_buffett_1_wide.jpg"
-     },
-     {
-      "lib": "vmeeting_15716.mp4"
+      "lib": "sot_L261122b_understand.mp4",
+      "start": 0.0
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
     "doc_cine": true,
-    "cut_by_line": true
+    "news_scale": 0.66
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "CNBC 2026-05-02 · 워런 버핏 원음",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "워런 버핏",
+     "sub": "버크셔 해서웨이 · CNBC 2026.5.2 (주주총회)",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "10년 전보다 지금, 전체 사업 가운데 제가 이해하는 비율이 더 적습니다. 몇 년째 새로운 산업을 배우지 않았거든요. 그래서 저 자신을 속이지 않습니다.",
+    "앞으로도 배우지 않을 겁니다. 그 산업과 함께 자라고, 제품을 써 보고, 직접 본 젊은 사람들보다 제가 나을 리가 없죠."
+   ],
+   "note": "[1장] 원음 — \"10년 전보다 이해하는 사업이 적다\" (5장에서 앞으로 당김 · 대표 11:15 원음 주기)",
+   "news": true,
+   "sot": {
+    "clip": "sot_L261122b_understand.mp4",
+    "start": 0.0,
+    "dur": 32.31,
+    "rms": 0.085
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "commons_buffett_1.jpg"
+     },
+     {
+      "lib": "vmeeting_15716.mp4"
+     },
+     {
+      "lib": "vconference_13192.mp4"
+     },
+     {
+      "lib": "vpresentation_24068.mp4"
+     },
+     {
+      "lib": "vcash_18263.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -427,8 +504,8 @@
     }
    ],
    "lines": [
-    "그해 7월 아이다호 선밸리, 버핏은 기술 업계 거물들 앞에서 숫자 두 개를 꺼냈습니다. 다우지수는 1964년 말 874, 17년 뒤 1981년 말엔 875. 거의 제자리였죠.",
-    "그런데 그다음 17년은 10배 넘게 올랐습니다. 버핏은 그 차이가 기업이 아니라 금리와 기대에서 왔고, 이제 그 기대가 너무 높다고 경고했습니다. 많은 사람이 흘려들었죠."
+    "모르는 건 사지 않는다. 1999년 7월 선밸리에서도 버핏은 기술 업계 거물들 앞에 숫자 두 개를 꺼냈습니다. 다우지수는 17년 동안 제자리였는데, 그다음 17년은 10배 넘게 올랐다는 겁니다.",
+    "그 차이는 기업이 아니라 금리와 기대에서 왔고, 이제 그 기대가 너무 높다는 경고였죠. 다들 흘려들었습니다."
    ],
    "note": "[1장] 선밸리 연설 + 17년 제자리 (두 장면 → 하나)"
   },
@@ -463,7 +540,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vtrading_18143.mp4"
+      "lib": "vtrading_30873.mp4"
+     },
+     {
+      "lib": "vcharts_24057.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -475,8 +555,7 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "어디서 들어 본 이야기 같지 않나요? 지난 영상에서 폴 튜더 존스는 지금이 1999년과 똑같다고 했습니다.",
-    "그렇다면 이번에도 버핏이 맞을까요? 그 전에, 그가 정반대로 움직였던 두 번째 장면부터 보겠습니다."
+    "폴 튜더 존스는 지금이 1999년과 똑같다고 했죠. 그럼 이번에도 버핏이 맞을까요? 두 번째 장면, 2008년입니다."
    ],
    "note": "[1장] 콜백(L261121e) → [R1] 리후킹"
   },
@@ -490,13 +569,15 @@
       "lib": "vstorm_25081.mp4"
      },
      {
-      "lib": "vfinance_17435.mp4"
+      "lib": "vfinance_47210.mp4"
+     },
+     {
+      "lib": "vmoney_18304.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -506,14 +587,14 @@
      "kind": "punch",
      "text": "골드만 50억 · GE 30억 달러",
      "sub": "2008.9.23 · 10.1",
-     "line": 1,
+     "line": 0,
      "at": 0.4,
      "color": "gold"
     }
    ],
    "lines": [
-    "2008년 9월, 리먼 브라더스가 무너지고 모두가 주식을 던질 때, 버핏은 반대로 돈을 꺼냈습니다.",
-    "9월 23일 골드만삭스에 50억 달러, 일주일 뒤엔 GE에 30억 달러를 넣었습니다. 그날 저녁, 찰리 로즈가 물었습니다."
+    "2008년 9월, 리먼이 무너지고 모두가 주식을 던질 때 버핏은 반대로 골드만삭스에 50억 달러, 일주일 뒤 GE에 30억 달러를 넣었습니다.",
+    "그날 저녁, 찰리 로즈가 물었습니다."
    ],
    "note": "[2장] 2008 투자",
    "chapter": "2008년, 모두가 팔 때"
@@ -568,6 +649,9 @@
     "cuts": [
      {
       "lib": "vwashington_22786.mp4"
+     },
+     {
+      "lib": "vbank_14977.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -702,13 +786,18 @@
       "lib": "vnewspaper_41188.mp4"
      },
      {
-      "lib": "vstockmarket_14114.mp4"
+      "lib": "vstockmarket_47796.mp4"
+     },
+     {
+      "lib": "vreading_4948.mp4"
+     },
+     {
+      "lib": "vanalytics_5454.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -739,6 +828,9 @@
     "cuts": [
      {
       "lib": "vfreighttrain_48871.mp4"
+     },
+     {
+      "lib": "vtrain_1594.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -804,6 +896,9 @@
     "cuts": [
      {
       "lib": "vcrowd_15997.mp4"
+     },
+     {
+      "lib": "vcitytraffic_13.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -867,7 +962,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vcash_18261.mp4"
+      "lib": "vcash_23524.mp4"
+     },
+     {
+      "lib": "vcoins_38406.mp4"
+     },
+     {
+      "lib": "vnewyork_22938.mp4"
+     },
+     {
+      "lib": "vskyscraper_30468.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -936,12 +1040,20 @@
      },
      {
       "lib": "commons_berkshirehq_2.jpg"
+     },
+     {
+      "lib": "vnewyork_22953.mp4"
+     },
+     {
+      "lib": "vcitytraffic_42357.mp4"
+     },
+     {
+      "lib": "vcrowd_4154.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -1025,7 +1137,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vphonecall_23073.mp4"
+      "lib": "vphonecall_39785.mp4"
+     },
+     {
+      "lib": "vsmartphone_41174.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1091,6 +1206,9 @@
     "cuts": [
      {
       "lib": "vnightcity_40640.mp4"
+     },
+     {
+      "lib": "vstorm_44981.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1155,6 +1273,18 @@
     "cuts": [
      {
       "lib": "vairplane_27988.mp4"
+     },
+     {
+      "lib": "vcrowd_4390.mp4"
+     },
+     {
+      "lib": "vnightcity_40746.mp4"
+     },
+     {
+      "lib": "vnewspaper_41210.mp4"
+     },
+     {
+      "lib": "vdocuments_39496.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1180,6 +1310,15 @@
     "cuts": [
      {
       "lib": "commons_buffett_2.jpg"
+     },
+     {
+      "lib": "vbusinessman_4169.mp4"
+     },
+     {
+      "lib": "vmeeting_36897.mp4"
+     },
+     {
+      "lib": "vofficebuilding_21573.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1216,7 +1355,7 @@
    "sketch": [],
    "lines": [
     "이걸 우리 계좌로 옮기면 네 가지입니다. 첫째, 빚으로 사지 않는다. 삼성전자 한 종목에만 빚내서 산 돈이 3조 6천억 원, 바로 그 반대편입니다.",
-    "둘째, 내가 설명할 수 있는 회사만 산다. 셋째, 현금은 노는 돈이 아니라 기회를 사는 돈이다.",
+    "둘째, 내가 설명할 수 있는 회사만 산다. 앞에서 들은 버핏 자신의 원칙이죠. 셋째, 현금은 노는 돈이 아니라 기회를 사는 돈이다.",
     "넷째, 사기 전에 얼마면 비싼지, 내 기준 가격부터 정한다. 버핏이 말한 교회에 남는 방법입니다."
    ],
    "note": "[5장] 원칙 4가지(도식)",
@@ -1229,80 +1368,21 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vcalculator_34125.mp4"
+      "lib": "vnightcity_41161.mp4"
+     },
+     {
+      "lib": "vseoul_20094.mp4"
+     },
+     {
+      "lib": "vtrading_45708.mp4"
+     },
+     {
+      "lib": "vfinance_47735.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
     "doc_cine": true
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "",
-   "sketch": [],
-   "lines": [
-    "특히 둘째 원칙은, 아흔이 넘은 버핏 자신에게도 똑같이 적용됩니다. AI 시대를 두고 그는 이렇게 말했습니다."
-   ],
-   "note": "[5장] 원음 예고 · [R4]"
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "sot_L261122b_understand.mp4",
-      "start": 0.0
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true,
-    "news_scale": 0.66
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "CNBC 2026-05-02 · 워런 버핏 원음",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "워런 버핏",
-     "sub": "버크셔 해서웨이 · CNBC 2026.5.2 (주주총회)",
-     "line": 0,
-     "at": 0.3
-    }
-   ],
-   "lines": [
-    "10년 전보다 지금, 전체 사업 가운데 제가 이해하는 비율이 더 적습니다. 몇 년째 새로운 산업을 배우지 않았거든요. 그래서 저 자신을 속이지 않습니다.",
-    "앞으로도 배우지 않을 겁니다. 그 산업과 함께 자라고, 제품을 써 보고, 직접 본 젊은 사람들보다 제가 나을 리가 없죠."
-   ],
-   "note": "[5장] 원음 — \"10년 전보다 이해하는 사업이 적다\"",
-   "news": true,
-   "sot": {
-    "clip": "sot_L261122b_understand.mp4",
-    "start": 0.0,
-    "dur": 32.31,
-    "rms": 0.085
-   }
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "vnightcity_40746.mp4"
-     },
-     {
-      "lib": "vseoul_20094.mp4"
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -1321,21 +1401,29 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "app_radar_L261120w.mp4"
+      "lib": "app_dual_L261122b.mp4"
      }
     ],
     "wash_amt": 0.85,
-    "news_scale": 0.66
+    "panel": {
+     "title": "버핏의 기준을 내 계좌에",
+     "rows": [
+      "워런 버핏·그레이엄 기준 점수와 적정 주가",
+      "경제 레이더로 매일 시장 경계 단계 확인",
+      "내 포트폴리오 채점 · 유지와 정리 판단"
+     ],
+     "full_bg": true
+    }
    },
    "sketch_add": [],
    "asof": false,
-   "src": "",
+   "src": "밸류노트 앱 화면 · 2026-11-20 계산",
    "sketch": [],
    "lines": [
-    "사기 전에 내 기준 가격부터 정하고 싶다면, 밸류노트에서 워런 버핏과 벤저민 그레이엄의 기준으로 종목을 평가하고 내 포트폴리오를 관리할 수 있습니다.",
-    "링크는 설명란에 있습니다. 구독도 부탁드립니다."
+    "사기 전에 내 기준 가격부터 정하고 싶다면, 밸류노트에서 워런 버핏과 벤저민 그레이엄의 기준으로 종목을 평가하고, 내 포트폴리오를 관리할 수 있습니다.",
+    "버크셔 해서웨이도 지금 그 기준으로 몇 점인지, 설명란 링크에서 바로 보실 수 있습니다."
    ],
-   "note": "[밸류노트 소개] 버핏 기준 평가·관리 (대표 11/22 10:03, 5~10초) · 66% 축소(자막·상단 띠 겹침 방지)"
+   "note": "[밸류노트 소개] 왼쪽 글 + 오른쪽 앱 화면 두 개 스크롤 (대표 11/22 11:15)"
   },
   {
    "v": {
@@ -1358,7 +1446,7 @@
     ]
    },
    "lines": [
-    "기업을 이해하면, 투자가 달라집니다. 감사합니다."
+    "끝까지 봐 주셔서 정말 감사합니다. 구독과 좋아요 하나가 이 채널을 계속 만들어 가는 데 정말 큰 힘이 됩니다. 꼭 부탁드리겠습니다."
    ],
    "endscreen": 11,
    "sketch_add": [],
