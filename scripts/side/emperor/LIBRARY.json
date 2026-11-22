@@ -1,9 +1,6 @@
 {
 "_about": "황제의 일기 공용 그림·영상 라이브러리. library.py build 로 다시 만든다(손으로 고치지 않는다).",
 "_recent_eps": [
-"ep31",
-"en03",
-"en04",
 "en17",
 "ep32",
 "ep33",
@@ -46,9 +43,14 @@
 "enc09",
 "enc10",
 "enc11",
-"enc12"
+"enc12",
+"enc13",
+"enc15",
+"enc14",
+"enc16",
+"enc17"
 ],
-"_built": "2026-11-22 13:44:20 KST",
+"_built": "2026-11-23 04:46:08 KST",
 "items": [
 {
 "file": "c1_burn.jpeg",
@@ -375,15 +377,17 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v2",
 "used": [
+"enc13a",
 "L-mix_tmp",
 "L-cine_ep01_en",
 "L-cine01",
 "ep27",
 "en31",
 "ep44",
-"en35"
+"en35",
+"enc13"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.75
 },
 {
@@ -401,14 +405,16 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
+"enc14a",
 "L-mix_tmp",
-"L-cine_ep01_en",
 "en34",
+"L-cine_ep01_en",
 "L-cine01",
 "ep30",
-"ep32"
+"ep32",
+"enc14"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.75
 },
 {
@@ -426,8 +432,8 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v3",
 "used": [
-"ep29",
 "enc03a",
+"ep29",
 "L-cine01",
 "ep35",
 "enc03"
@@ -474,9 +480,9 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
+"enc04a",
 "L-mix_tmp",
 "L-cine_ep01_en",
-"enc04a",
 "L-cine01",
 "ep27",
 "ep31",
@@ -551,13 +557,15 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v2",
 "used": [
-"ep29",
+"enc14a",
 "L-mix_tmp",
-"L-cine_ep01_en",
 "en34",
-"ep31"
+"L-cine_ep01_en",
+"ep29",
+"ep31",
+"enc14"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.75
 },
 {
@@ -641,8 +649,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-mix_tmp",
 "enc02a",
+"L-mix_tmp",
 "L-cine_ep01_en",
 "ep37",
 "enc02"
@@ -665,8 +673,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"L-mix_tmp",
 "enc02a",
+"L-mix_tmp",
 "L-cine_ep01_en",
 "ep31",
 "enc02"
@@ -689,16 +697,18 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v4",
 "used": [
-"L-mix_tmp",
 "en30",
-"L-cine_ep01_en",
+"enc16a",
+"L-mix_tmp",
 "en34",
+"L-cine_ep01_en",
 "ep26",
 "en24",
 "ep28",
-"ep31"
+"ep31",
+"enc16"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.75
 },
 {
@@ -764,12 +774,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"enc15a",
 "L-mix_tmp",
 "L-cine_ep01_en",
 "ep34",
-"ep37"
+"ep37",
+"enc15"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -787,12 +799,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"enc17a",
 "L-mix_tmp",
 "L-cine_ep01_en",
 "ep35",
-"en29"
+"en29",
+"enc17"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.5
 },
 {
@@ -810,12 +824,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
+"enc13a",
 "L-mix_tmp",
 "L-cine_ep01_en",
 "ep31",
-"en35"
+"en35",
+"enc13"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -902,9 +918,9 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"ep29",
 "L-mix_tmp",
 "L-cine_ep01_en",
+"ep29",
 "ep36",
 "en13",
 "en18"
@@ -1071,11 +1087,13 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"enc17a",
 "L-mix_tmp",
 "L-cine_ep01_en",
-"ep35"
+"ep35",
+"enc17"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -1116,13 +1134,15 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"enc16a",
 "L-mix_tmp",
 "L-cine_ep01_en",
 "ep27",
 "ep30",
-"ep45"
+"ep45",
+"enc16"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -1187,8 +1207,8 @@
 "job": "EDL261110-cep01v9",
 "used": [
 "L-mix_tmp",
-"enc01a",
 "L-cine_ep01_en",
+"enc01a",
 "ep36",
 "enc01"
 ],
@@ -2650,9 +2670,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-ep02v",
-"L-ep01_intro",
 "L-ep01",
 "L-ep02"
 ],
@@ -2674,8 +2694,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -2696,8 +2716,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3048,8 +3068,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03",
 "used": [
-"L-ep03v",
 "L-ep03p",
+"L-ep03v",
 "L-ep03"
 ],
 "n_used": 3,
@@ -3088,8 +3108,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03",
 "used": [
-"L-ep03v",
 "L-ep03p",
+"L-ep03v",
 "L-ep03"
 ],
 "n_used": 3,
@@ -3380,8 +3400,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03",
 "used": [
-"L-ep03v",
 "L-ep03p",
+"L-ep03v",
 "L-ep03"
 ],
 "n_used": 3,
@@ -3423,8 +3443,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3445,8 +3465,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3467,8 +3487,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4008,10 +4028,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-ep03v",
 "L-ep02v",
-"L-ep01_intro",
 "L-ep01",
 "L-ep02",
 "L-ep03"
@@ -4034,9 +4054,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-ep03v",
-"L-ep01_intro",
 "L-ep01",
 "L-ep03"
 ],
@@ -4058,8 +4078,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4080,8 +4100,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4482,8 +4502,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4504,8 +4524,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4526,8 +4546,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4548,8 +4568,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4570,8 +4590,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4592,8 +4612,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4614,8 +4634,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4636,8 +4656,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4658,8 +4678,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4680,8 +4700,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4936,8 +4956,8 @@
 "made": "2026-11-02",
 "job": "ED261102-ep01",
 "used": [
-"ep29",
 "ep06x",
+"ep29",
 "ep05b",
 "ep09",
 "ep11",
@@ -5131,13 +5151,15 @@
 "made": "2026-11-02",
 "job": "ED261102-ep03b",
 "used": [
-"en30",
 "ep06x",
+"en30",
+"enc16a",
 "ep05b",
 "ep09",
-"ep33"
+"ep33",
+"enc16"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -5185,14 +5207,16 @@
 "job": "EDL261104-ep02",
 "used": [
 "L-ep02v",
+"enc16a",
 "en28",
 "en34",
 "L-ep02",
 "ep27",
 "ep30",
-"ep45"
+"ep45",
+"enc16"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -5211,13 +5235,15 @@
 "job": "EDL261104-ep02",
 "used": [
 "L-ep02v",
+"enc16a",
 "L-ep02",
 "ep26",
 "ep30",
 "ep33",
-"en12"
+"en12",
+"enc16"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -5236,6 +5262,7 @@
 "job": "EDL261104-ep02",
 "used": [
 "L-ep02v",
+"enc16a",
 "L-ep02",
 "ep13",
 "ep16",
@@ -5245,9 +5272,10 @@
 "en11",
 "en26",
 "ep35",
-"en13"
+"en13",
+"enc16"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -5294,8 +5322,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep02",
 "used": [
-"L-ep02v",
 "enc05a",
+"L-ep02v",
 "L-ep02",
 "ep13",
 "ep19",
@@ -5324,6 +5352,7 @@
 "job": "EDL261104-ep02v",
 "used": [
 "L-ep02v",
+"enc16a",
 "L-ep02",
 "ep12",
 "ep19",
@@ -5332,9 +5361,10 @@
 "en11",
 "en26",
 "ep35",
-"en33"
+"en33",
+"enc16"
 ],
-"n_used": 10,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -5399,8 +5429,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v",
 "used": [
-"L-ep03v",
 "L-ep03p",
+"L-ep03v",
 "en34",
 "L-ep03",
 "ep14",
@@ -5479,8 +5509,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "L-ep03"
 ],
 "n_used": 3,
@@ -5501,12 +5531,13 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "L-ep03",
-"ep35"
+"ep35",
+"enc17"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -5568,8 +5599,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"L-ep03v",
 "enc02a",
+"L-ep03v",
 "en30",
 "L-ep03",
 "ep26",
@@ -5594,8 +5625,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "ep13",
 "L-ep03",
 "ep18",
@@ -5684,8 +5715,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"L-ep03v",
 "L-ep03p",
+"L-ep03v",
 "ep13",
 "L-ep03",
 "ep19",
@@ -5847,8 +5878,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"L-ep03v",
 "L-ep03p",
+"L-ep03v",
 "enc01a",
 "L-ep03",
 "ep26",
@@ -5900,16 +5931,18 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"L-ep04p",
+"enc14a",
 "en28",
+"L-ep04p",
 "L-ep04",
 "ep26",
 "en25",
 "ep30",
 "ep45",
-"en35"
+"en35",
+"enc14"
 ],
-"n_used": 8,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -6090,9 +6123,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "enc01a",
-"L-ep01_intro",
 "L-ep01",
 "ep37",
 "enc01"
@@ -6115,8 +6148,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep11",
 "ep17",
@@ -6147,8 +6180,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep12",
 "ep16",
@@ -6177,9 +6210,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "ep29",
-"L-ep01_intro",
 "L-ep01",
 "en12",
 "ep36",
@@ -6203,14 +6236,16 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01_intro",
+"enc15a",
 "L-ep01v",
 "en28",
-"L-ep01_intro",
 "L-ep01",
 "ep26",
-"ep32"
+"ep32",
+"enc15"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -6228,8 +6263,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep31",
 "en21",
@@ -6253,8 +6288,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01v",
 "L-ep01_intro",
+"L-ep01v",
 "L-ep01",
 "ep27",
 "en09",
@@ -6304,10 +6339,12 @@
 "job": "EDH261120-trial2",
 "used": [
 "enc07a",
+"enc14a",
 "ep43",
-"enc07"
+"enc07",
+"enc14"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -6670,10 +6707,12 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"enc13a",
 "ep39",
-"en35"
+"en35",
+"enc13"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -6691,10 +6730,12 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"enc15a",
 "ep39",
-"en31"
+"en31",
+"enc15"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -6735,12 +6776,14 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"enc15a",
 "enc09a",
 "en29",
 "ep40",
-"enc09"
+"enc09",
+"enc15"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -6824,9 +6867,10 @@
 "job": "EDH261119-trial2",
 "used": [
 "ep41",
-"en35"
+"en35",
+"enc16"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -7080,10 +7124,12 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
+"enc17a",
 "ep41",
-"en22"
+"en22",
+"enc17"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -7186,11 +7232,13 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
+"enc17a",
 "enc08a",
 "ep43",
-"enc08"
+"enc08",
+"enc17"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -7252,10 +7300,12 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
+"enc13a",
 "ep40",
-"en33"
+"en33",
+"enc13"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -7295,9 +7345,10 @@
 "job": "EDH261120-trial1",
 "used": [
 "ep41",
-"en33"
+"en33",
+"enc15"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -7708,10 +7759,12 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"enc17a",
 "ep38",
-"en31"
+"en31",
+"enc17"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -7752,10 +7805,12 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
+"enc14a",
 "ep41",
-"en33"
+"en33",
+"enc14"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -9256,8 +9311,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"ep29",
 "enc05a",
+"ep29",
 "ep14",
 "L-ep04",
 "ep18",
@@ -9287,6 +9342,7 @@
 "job": "EDL261105-lib6",
 "used": [
 "en30",
+"enc14a",
 "ep15",
 "ep23",
 "en01",
@@ -9294,9 +9350,10 @@
 "en24",
 "en04",
 "ep32",
-"en27"
+"en27",
+"enc14"
 ],
-"n_used": 9,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -9603,8 +9660,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"ep29",
 "enc10a",
+"ep29",
 "ep13",
 "ep18",
 "ep22",
@@ -9634,8 +9691,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"ep29",
 "enc02a",
+"ep29",
 "ep14",
 "ep21",
 "ep24",
@@ -9723,6 +9780,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
+"enc13a",
 "ep29",
 "ep13",
 "ep17",
@@ -9733,9 +9791,10 @@
 "en02",
 "en11",
 "ep33",
-"en13"
+"en13",
+"enc13"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -10001,8 +10060,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"ep29",
 "enc06a",
+"ep29",
 "ep14",
 "L-ep04",
 "ep18",
@@ -10032,14 +10091,16 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib3",
 "used": [
+"enc15a",
 "L-ep03v",
 "en28",
 "L-ep03",
 "ep27",
 "en09",
-"ep34"
+"ep34",
+"enc15"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.75
 },
 {
@@ -10203,8 +10264,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
-"ep29",
 "L-ep03v",
+"ep29",
 "L-ep03",
 "ep14",
 "L-ep04",
@@ -10235,6 +10296,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
+"enc13a",
 "ep29",
 "ep13",
 "ep18",
@@ -10245,9 +10307,10 @@
 "en08",
 "ep31",
 "en23",
-"en13"
+"en13",
+"enc13"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -10405,10 +10468,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
-"L-ep01v",
-"L-pilot",
-"L-ep02v",
 "L-ep01_intro",
+"L-ep01v",
+"L-ep02v",
+"L-pilot",
 "L-ep01",
 "L-ep02"
 ],
@@ -10466,9 +10529,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10489,9 +10552,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10512,9 +10575,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10571,9 +10634,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-ep02v",
-"L-ep01_intro",
 "L-ep01",
 "L-ep02"
 ],
@@ -10595,9 +10658,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10618,9 +10681,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01",
 "L-ep04"
 ],
@@ -10678,9 +10741,9 @@
 "made": "",
 "job": "",
 "used": [
+"L-ep01_intro",
 "L-ep01v",
 "L-pilot",
-"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10741,8 +10804,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot2",
 "used": [
-"L-ep01v",
-"L-ep01_intro"
+"L-ep01_intro",
+"L-ep01v"
 ],
 "n_used": 2,
 "usd": 0.05
