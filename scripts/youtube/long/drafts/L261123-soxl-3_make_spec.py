@@ -453,7 +453,7 @@ x["lines"] = ["특히 지금 추가 매수를 고민하는 분이라면, 오늘 
 x["sketch"] = []
 # 14) 마지막 질문 — 위에 '유형 vs'
 x = sc[at_note("[엔딩] 질문")]
-x["sketch"] = [tag("외부 충격  vs  사이클  vs  함정", "이번 14번째 폭락은?", line=0)]
+x["sketch"] = [quote(["외부 충격  vs  사이클  vs  함정"], "이번 14번째 폭락은?", line=0, at=0.0)]   # 화면 위쪽 카드
 # 15) 끝 멘트 — 거시적 관점
 sc[at_note("[북엔드]")]["lines"] = ["거시적 관점으로 시장을 이해하면, 투자가 달라집니다. 감사합니다. 밸류노트였습니다."]
 left = [(x.get("note", "")[:20], c["lib"]) for x in sc for c in x["v"].get("cuts", []) if c["lib"].startswith("v")]
