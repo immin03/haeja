@@ -65,15 +65,21 @@ jobs:
           path: scripts/reels/.cache
           key: tts-all-${{ github.run_id }}-${{ matrix.id }}
       - name: main 에 결과만 커밋
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
           id=${{ matrix.id }}; mkdir -p /tmp/keep
+          # 2026-11-22: 영상은 Storage 로 올리고 저장소에는 표시(reel.stored)만 남긴다. 올리기에 실패하면 예전처럼 영상을 커밋한다.
+          rm -f /tmp/stored.txt; MEDIA_STORE_OUT=/tmp/stored.txt python3 scripts/ci/media_store.py put social/reels/$id/reel.mp4 || true
+          if grep -q "social/reels/$id/reel.mp4" /tmp/stored.txt 2>/dev/null; then stat -c %s social/reels/$id/reel.mp4 > social/reels/$id/reel.stored; rm -f social/reels/$id/reel.mp4; fi
           cp scripts/reels/specs/$id.json /tmp/keep/$id.json; cp -r social/reels/$id /tmp/keep/$id
           for i in 1 2 3 4 5 6 7 8; do
             git fetch -q origin main && git checkout -q -f -B main origin/main
             cp /tmp/keep/$id.json scripts/reels/specs/$id.json
             rm -rf social/reels/$id && cp -r /tmp/keep/$id social/reels/$id
             git add --sparse scripts/reels/specs/$id.json social/reels/$id
+            [ -f social/reels/$id/reel.stored ] && git rm -q --sparse --cached --ignore-unmatch social/reels/$id/reel.mp4 || true   # 예전에 커밋된 영상이 남아 있으면 지운다(사이트가 옛 영상을 내주지 않게)
             git diff --cached --quiet && exit 0
             git commit -q -m "릴스 한 편 바로 렌더: $id"
             git push origin main && exit 0
