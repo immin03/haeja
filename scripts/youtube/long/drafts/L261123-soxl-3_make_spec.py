@@ -337,7 +337,7 @@ def trim(prefix, start, dur, lines):
 sc = [x for x in sc if not x.get("note", "").startswith("[훅] 원음② 젠슨")]
 trim("[훅] 원음① 잡스", 7.5, 9.2, sc[at_note("[훅] 원음① 잡스")]["lines"])   # 앞 무음 1.2초·뒤 박수 빼고
 x = setc("[훅] 기술은 진짜였다", [N("chip_dust"), "il_L261105g_cin_crisis2008.jpeg", N("fab_corridor_dawn")],
-         [punch("D램 값 -75%", "2008년 한 해 · D램익스체인지", line=0, at=6.0), punch("반도체지수 -69%", "2008년 금융위기 · 고점 대비", line=1, at=1.0)])
+         [punch("D램 값 -75%", "2008년 한 해 · D램익스체인지", line=0, at=6.0), punch("반도체지수 -69%", "2008년 금융위기 · 고점 대비", line=1, at=2.6)])
 x["lines"] = ["아이폰은 진짜 혁명이었습니다. 그런데 그때 반도체는 거꾸로 무너졌습니다. 공장을 너무 늘린 D램은 1년 새 값이 75% 빠졌고, 반도체지수는 69% 무너졌습니다.",
               "기술은 진짜였지만, 주가는 사이클을 따랐습니다. 지금 AI도, 이번엔 다르다고 합니다."]
 x["src"] = "트렌드포스(D램익스체인지) 2008-12-30(1Gb D램 2.29→0.58달러, 약 -75%) · IDC 2009(2007~08 과잉 투자) · SimianX 2026-11(반도체지수 2008 -69%)"
@@ -370,7 +370,7 @@ M = [
      ("[2장] 세 장면", [N("floor_2000"), "il_L261105g_cin_storm.jpeg"]),
      ("[2장] ③ 금리", [N("fed_dawn"), N("bond_glow")]),
      ("[2장] ④ 상장", ["il_L261114t_ipo_bell.png", N("ipo_confetti")]),
-     ("[2장] 정리", [N("tower_night"), "il_L261113g3_drop_dawn.jpeg"]),
+     ("[2장] 정리", ["il_L261118a_office_tower_lights.png", "il_L261113g3_drop_dawn.jpeg"]),
      ("[3장] 반대 근거", [N("dc_cranes"), "il_L261110a_server_aisle.jpeg"]),
      ("[3장] 2022", [N("wafer_shatter")]),
      ("[3장] 회복 시간", [N("hourglass_wafer"), N("empty_wallet")]),
