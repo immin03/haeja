@@ -88,7 +88,7 @@
     },
     {
       "source": "/social/reels/:id/reel.mp4",
-      "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/social/reels/:id/reel.mp4"
+      "destination": "/api/reel?id=:id"
     },
     {
       "source": "/docs/emperor/ep/:file(.+\\.mp4)",
