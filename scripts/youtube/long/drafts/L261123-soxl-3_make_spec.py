@@ -293,7 +293,7 @@ spec.update({
  "opening": "원음 2개(잡스 2007 → 젠슨 황 2026) → 반도체 -84/-69/-42.5% → 템플턴 → SOXL 300→30 → 13번 → 약속",
  "hook_type": "이번엔 다르다 원음 몽타주 + 역사 반복",
  "endscreen_target": "L261107-soxl-38", "endscreen_also": "L261112-soxl-nvidia",
- "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것",
+ "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다",
  "doc_title": "반도체 급락, 끝나는 신호 5가지",
  "title_en": "SOXL down 90%: how chip-stock bottoms formed in 13 crashes since 1995 (with TQQQ)",
  "description_head": "SOXL이 6월 300달러에서 30달러가 됐습니다. 반도체지수는 1995년 이후 20% 넘게 무너진 게 13번이고, 회복은 3개월부터 15년까지 갈렸습니다.\n스티브 잡스·젠슨 황·워런 버핏·하워드 막스·켄 그리핀·폴 튜더 존스의 원음으로 '이번엔 다르다'의 반복을 짚고, 13번의 폭락을 SOXL·TQQQ로 다시 보며 바닥 근처에서 반복된 신호 5가지와 확인할 날짜를 정리합니다.",
@@ -308,12 +308,12 @@ spec.update({
  "orig_mode": "sot_test", "orig_mode_note": "원음+한국어 자막(더빙 없음). 게이츠·잡스 구간은 STT로 확정 후 start/dur 갱신.",
  "voice_speed": 1.0,
  "gate_waive": {"r196": "대표 2026-11-21 인트로·아웃트로 양식 자유", "⑦": "대표 2026-11-22 20:10 '그래 그러면 SOXL3편을 그렇게 갈게' · 20:11 '오케이 그럼 너말대로 할게' — 제목을 '끝나는 신호 5가지' 각도로 변경(썸네일 3안은 그대로)"},
- "thumb_fixed": "2026-11-22 17:08 대표 확정 3안(A SOXL·TQQQ 바닥 찾는 법 / B SOXL -90% 바닥 신호 왔나? / C 패턴에서 찾는 SOXL 바닥잡기) — 렌더가 덮어쓰지 않게 (20:25 대표: 인물형 C안 취소, 바닥 확인 방법으로)",
- "thumb": {"photo": "il_L261105g_cin_panic.jpeg", "focus_x": 0.6, "l1": "SOXL·TQQQ", "l2": "바닥 찾는 법", "pos": "left"},
+ "thumb_fixed": "2026-11-22 20:53 대표 확정 — 제목 'SOXL·반도체 급락, 끝나는 신호 5가지' · 썸네일 3안 아랫줄 '끝나는 신호 5가지' 공통(drafts/L261123-soxl-3_thumbs.py) — 렌더가 덮어쓰지 않게",
+ "thumb": {"photo": "il_L261105g_cin_panic.jpeg", "focus_x": 0.6, "l1": "반도체 급락", "l2": "끝나는 신호 5가지", "pos": "left"},
  "ab_sets": [
-  {"key": "a", "default": True, "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것", "file": "thumb_a.jpg", "type": "A -90% 물린 분들 필독 / SOXL·TQQQ 바닥 찾는 법"},
-  {"key": "b", "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것", "file": "thumb_b.jpg", "type": "B 반도체 30년 폭락 13번 / SOXL -90% 바닥 신호 왔나?"},
-  {"key": "c", "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것", "file": "thumb_c.jpg", "type": "C 2000·2008·2026 / 패턴에서 찾는 SOXL 바닥잡기"}],
+  {"key": "a", "default": True, "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_a.jpg", "type": "A 반도체 급락 / 끝나는 신호 5가지"},
+  {"key": "b", "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_b.jpg", "type": "B SOXL -90% / 끝나는 신호 5가지"},
+  {"key": "c", "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_c.jpg", "type": "C 30년간 13번 폭락 / 끝나는 신호 5가지"}],
  "scenes": sc,
 })
 json.dump(spec, open(OUT, 'w'), ensure_ascii=False, indent=1)
