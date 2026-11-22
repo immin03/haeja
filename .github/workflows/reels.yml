@@ -56,6 +56,17 @@ jobs:
         env:
           TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
         run: python3 scripts/reels/build.py || touch /tmp/voicefail
+      - name: 새 영상은 Storage 로 올리고 저장소에는 표시만 남긴다 (2026-11-22 · 실패하면 예전처럼 영상을 커밋)
+        continue-on-error: true
+        timeout-minutes: 15
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+          MEDIA_STORE_OUT: /tmp/stored.txt
+        run: |
+          python3 scripts/ci/media_store.py changed social/reels
+          for p in $(cat /tmp/stored.txt 2>/dev/null); do
+            case "$p" in */reel.mp4) stat -c %s "$p" > "${p%.mp4}.stored"; rm -f "$p"; echo "표시만 남김: $p";; esac
+          done
       - name: 예전 녹음을 영구 음성 보관함으로 옮겨 담기 (2026-11-21, 한 번에 최대 400개 · 실패해도 진행)
         if: always()
         continue-on-error: true
