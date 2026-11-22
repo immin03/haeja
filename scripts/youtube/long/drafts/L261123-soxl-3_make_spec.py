@@ -283,12 +283,12 @@ spec.update({
  "orig_mode": "sot_test", "orig_mode_note": "원음+한국어 자막(더빙 없음). 게이츠·잡스 구간은 STT로 확정 후 start/dur 갱신.",
  "voice_speed": 1.0,
  "gate_waive": {"r196": "대표 2026-11-21 인트로·아웃트로 양식 자유", "⑦": "대표 2026-11-22 20:10 '그래 그러면 SOXL3편을 그렇게 갈게' · 20:11 '오케이 그럼 너말대로 할게' — 제목을 '끝나는 신호 5가지' 각도로 변경(썸네일 3안은 그대로)"},
- "thumb_fixed": "2026-11-22 17:08 대표 확정 A·B 그대로 + 20:22 C를 인물형(젠슨 황, drafts/L261123-soxl-3_thumb_c.py)으로 교체 — 렌더가 덮어쓰지 않게",
+ "thumb_fixed": "2026-11-22 17:08 대표 확정 3안(A SOXL·TQQQ 바닥 찾는 법 / B SOXL -90% 바닥 신호 왔나? / C 패턴에서 찾는 SOXL 바닥잡기) — 렌더가 덮어쓰지 않게 (20:25 대표: 인물형 C안 취소, 바닥 확인 방법으로)",
  "thumb": {"photo": "il_L261105g_cin_panic.jpeg", "focus_x": 0.6, "l1": "SOXL·TQQQ", "l2": "바닥 찾는 법", "pos": "left"},
  "ab_sets": [
   {"key": "a", "default": True, "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것", "file": "thumb_a.jpg", "type": "A -90% 물린 분들 필독 / SOXL·TQQQ 바닥 찾는 법"},
   {"key": "b", "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것", "file": "thumb_b.jpg", "type": "B 반도체 30년 폭락 13번 / SOXL -90% 바닥 신호 왔나?"},
-  {"key": "c", "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것", "file": "thumb_c.jpg", "type": "C 인물형 — 젠슨 황 \"역사상 가장 중대한 기술\" / 그런데 반도체는 왜 -42%? (대표 11/22 20:22, 원음은 콜드 오픈에 실제로 나옴)"}],
+  {"key": "c", "title": "반도체 급락, 끝나는 신호 5가지 | SOXL -90%, 30년간 13번 폭락에서 반복된 것", "file": "thumb_c.jpg", "type": "C 2000·2008·2026 / 패턴에서 찾는 SOXL 바닥잡기"}],
  "scenes": sc,
 })
 json.dump(spec, open(OUT, 'w'), ensure_ascii=False, indent=1)
