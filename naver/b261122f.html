@@ -1,0 +1,178 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 워렌 버핏은 왜 새 맛으로 망신당한 코카콜라를 샀을까</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li>발행. (태그는 본문 끝에 #으로 들어 있어 따로 붙일 필요가 없다)</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">거장의 투자</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">워렌 버핏은 왜 새 맛으로 망신당한 코카콜라를 샀을까</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 2장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261122f/01.jpg" alt="오래된 가게 한쪽에 놓인 빨간 탄산음료 디스펜서" width="720"></p>
+<p><br></p>
+<p><b><span style="color:#000000">요약</span></b></p><p><span style="color:#000000">· 워렌 버핏은 왜 맛 바꾸기에 실패한 회사를 샀을까. 79일 만에 옛 맛을 되돌린 소동이 사람들이 맛이 아니라 이름을 산다는 걸 보여 줬기 때문입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1936년 미국 오마하의 한 식료품점에서 여섯 살 소년이 콜라 여섯 병을 샀습니다. 할아버지가 하던 곳이었고 값은 25센트였어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">소년은 그 병을 들고 동네를 돌며 한 병에 5센트씩 팔았습니다. 다 팔면 5센트가 남는 장사였죠. 소년의 이름은 워렌 버핏입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그는 그 뒤로도 콜라를 계속 지켜봤습니다. 그런데 정작 주식은 한 주도 사지 않았어요. 첫 주식을 산 건 그로부터 52년이 지난 뒤였습니다. 본인 말로는 1988년 여름에야 머리가 눈과 연결됐다고 합니다. 늘 보던 걸 그제야 투자로 옮긴 거죠.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">코카콜라는 한 잔에 5센트짜리 약국 음료로 시작했다</span></b></span></p>
+
+<p><span style="color:#000000">이야기는 더 거슬러 올라갑니다. 1886년 5월 미국 애틀랜타의 약사 존 펨버턴은 직접 만든 시럽을 들고 동네 약국으로 갔습니다. 시럽에 탄산수를 섞어 한 잔에 5센트를 받고 팔았어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이름은 펨버턴의 동업자이자 경리였던 프랭크 로빈슨이 지었습니다. 대문자 C 두 개가 광고에 잘 어울릴 거라는 이유였어요. 지금도 쓰는 흘림체 글씨도 로빈슨이 직접 썼습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">첫해 장사는 초라했습니다. 하루 평균 아홉 잔이 팔렸다고 회사 연혁에 적혀 있어요. 반세기 뒤 오마하의 소년이 받던 값도 여전히 5센트였습니다. 코카콜라는 그 사이 약국 한 곳의 음료에서 미국 어디서나 파는 음료가 됐고요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">1985년 코카콜라는 맛을 바꿨다가 79일 만에 항복했다</span></b></span></p>
+
+<p><span style="color:#000000">워렌 버핏이 주식을 사기 3년 전, 코카콜라에 큰 사고가 났습니다. 1985년 4월 코카콜라는 99년 만에 맛을 바꾼 &#39;뉴 코크&#39;를 내놨어요. 펩시와의 경쟁에서 밀린다는 걱정 때문이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">맛만 보면 틀린 결정이 아니었습니다. 상표를 가리고 마시게 한 시험에서 사람들은 대체로 새 맛을 더 좋아했어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그런데 반응은 정반대였습니다. 시험으로 더 맛있다는 걸 확인하고 내놨는데 사람들이 화를 낸 거예요. 회사에는 하루 최대 8,000통의 항의 전화가 걸려 왔고 항의 편지도 4만 통쯤 쌓였어요. 최고경영자 로베르토 고이주에타 앞으로 &#39;최고 멍청이님께&#39;라고 적힌 편지까지 왔습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그해 7월 코카콜라는 옛 맛을 &#39;코카콜라 클래식&#39;이라는 이름으로 되살렸습니다. 뉴 코크가 나온 지 79일 만이었어요. 회사가 맛을 바꿔서 망신을 당한 사건으로 지금도 경영 수업에 나옵니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">사람들은 맛이 아니라 이름을 마시고 있었다</span></b></span></p>
+
+<p><span style="color:#000000">저는 이 사건을 조금 다르게 봅니다. 상표를 가리면 새 맛이 이겼고 상표를 보여 주면 옛 맛이 이겼어요. 사람들이 산 건 혀가 고른 맛보다 백 년 동안 익숙해진 이름이었다는 뜻입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그 이름에는 기억이 붙어 있습니다. 야구장에서, 여름 바닷가에서, 영화관에서 마신 맛이 이름 하나에 다 담겨 있어요. 회사가 맛을 바꾸자 사람들은 그 기억을 빼앗긴다고 느꼈습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">회사가 바꾸려 해도 사람들이 못 바꾸게 막는 이름이라면, 그 이름은 웬만한 공장보다 튼튼한 재산입니다. 워렌 버핏이 평생 찾아다닌 게 이런 사업이에요. 값을 조금 올려도 사람들이 다른 데로 가지 않는 사업이죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">세상의 흐름도 코카콜라 편이었습니다. 1980년대 말은 미국 회사들이 해외로 뻗어 나가던 때였고, 그는 코카콜라가 세계를 덮어 가는 모습을 지켜봤다고 썼어요. 지금 한국에서는 LG생활건강 자회사가 코카콜라를 병에 담아 팝니다. 애틀랜타의 시럽 한 통이 서울의 편의점까지 온 겁니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">워렌 버핏은 3년 뒤 코카콜라 주식을 사들였다</span></b></span></p>
+
+<p><span style="color:#000000">워렌 버핏의 마음이 먼저 움직인 곳은 주식보다 입맛이었습니다. 1985년 코카콜라 사장 돈 키오가 막 나온 체리 코크를 워렌 버핏에게 보냈어요. 키오는 오마하에서 워렌 버핏과 길 건너 이웃으로 살던 사람입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그는 이듬해 주주 편지에 48년 동안 다른 콜라만 마시다가 체리 코크로 바꿨다고 썼습니다. 펩시를 즐겨 마시던 사람이 콜라부터 갈아탄 겁니다. 그 뒤로 하루 다섯 캔씩 마신다고 알려졌어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1987년 10월 미국 증시가 하루 만에 크게 무너졌습니다. 워렌 버핏은 이듬해부터 코카콜라 주식을 조용히 모았어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1989년 3월 이 사실이 알려지자 시장이 술렁였습니다. 버크셔 해서웨이는 10억 달러 넘게 들여 6.3%를 가진 두 번째로 큰 주주가 돼 있었어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그는 그때 영원히 갖고 있겠다고 말했습니다. &#39;최고 멍청이님께&#39; 편지를 받았던 그 최고경영자 고이주에타가 키오와 함께 회사를 새로 다듬고 있었던 것도 믿을 이유였어요. 제 눈에는 뉴 코크로 망신을 당하고도 79일 만에 고집을 꺾은 경영진이라는 점도 커 보입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">반대 시각도 있습니다. 설탕 음료를 줄이자는 흐름이 해마다 강해지고 있고 코카콜라는 더 이상 빨리 크는 회사가 아닙니다. 이미 세계 어디서나 팔리니 더 넓힐 곳도 많지 않죠. 지금 코카콜라를 새로 사는 사람에게는 그때와 다른 계산이 필요합니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">성공에는 사들인 시점의 덕도 있었습니다. 증시가 크게 무너진 직후라 주식값이 눌려 있었거든요. 같은 회사라도 언제 얼마에 사느냐에 따라 결과는 전혀 달라집니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">조금만 더 들어가 보면, 산 값 대비 배당</span></b></span></p>
+
+<p><span style="color:#000000">이 투자가 얼마나 좋았는지는 쉬운 계산 하나로 보입니다. 버크셔 해서웨이가 1994년까지 코카콜라에 넣은 돈은 13억 달러쯤이에요. 올해 받는 배당만 8억 달러가 넘습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">코카콜라가 해마다 빠짐없이 배당을 올려 왔기 때문입니다.</span></p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261122f/02.png" alt="버크셔가 코카콜라에서 받는 배당" width="720"></p><p><span style="color:#555555;font-size:14px">버크셔가 코카콜라에서 받는 배당</span></p>
+<p><br></p>
+<p><span style="color:#000000">처음 다 사들인 해에 받은 배당은 지금의 열 분의 일 정도였습니다. 같은 주식을 그대로 들고 있었을 뿐인데 받는 돈이 열 배 넘게 불어난 거죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">올해 배당을 처음 들인 돈으로 나누면 65%쯤 나옵니다. 한 줄로 말하면, 산 값 대비 배당은 처음 넣은 돈에 비해 해마다 얼마를 돌려받는지를 보여 주는 숫자입니다. 지금은 두 해 치 배당이면 처음 넣은 돈을 다 돌려받습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">뉴 코크 소동에서 다른 회사에도 써먹을 질문을 하나 꺼낼 수 있습니다. 이 회사가 제품을 바꾸면 사람들이 화를 낼까. 화를 낸다면 그 이름은 값을 올려도 버틸 힘이 있습니다. 반대로 아무도 알아채지 못한다면 그 이름은 값을 올릴 힘이 약합니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">앞으로 볼 것은 배당과 판매량이다</span></b></span></p>
+
+<p><span style="color:#000000">코카콜라를 볼 때는 두 가지만 챙겨 보면 됩니다. 하나는 내년 2월에도 배당을 올리는지입니다. 올해 2월에 올린 것이 64년 연속이었어요. 이 기록이 끊기면 회사가 스스로 힘이 빠졌다고 말하는 거예요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">다른 하나는 값을 올린 뒤에도 팔리는 양이 유지되는지입니다. 값만 올라가고 팔리는 양이 줄기 시작하면 사람들이 이름보다 지갑을 먼저 보기 시작했다는 신호예요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">제가 보기에 이 이야기의 핵심은 기다림입니다. 그는 콜라를 알아보고도 반세기 넘게 주식을 사지 않았고, 산 뒤에는 한 주도 팔지 않았어요. 좋은 이름을 고르는 일보다 그 이름을 오래 들고 있는 일이 더 어려웠을지도 모릅니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1936년 여섯 살 워렌 버핏은 콜라 한 병에서 1센트도 안 되는 이익을 남겼습니다. 52년 뒤 그는 그 콜라를 만드는 회사의 주식을 샀어요. 그리고 지금은 해마다 그때 산 값의 절반이 넘는 돈을 배당으로 받습니다. 뉴 코크 소동 때 사람들이 지켜 낸 건 옛 맛만이 아니었던 거죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">코카콜라를 워렌 버핏 같은 투자 거장들의 잣대로 보면 어떻게 보이는지 밸류노트에 정리해 두었습니다. 관심 있으시면 참고 삼아 한번 보셔도 좋겠어요.</span></p>
+<p><br></p>
+<p><a href="https://www.valuenote.co.kr/c/ko?utm_source=naver&amp;utm_campaign=b261122f">밸류노트에서 코카콜라 보기</a></p>
+<p><br></p>
+<p><span style="color:#000000">#워렌버핏 #코카콜라 #워렌버핏코카콜라 #뉴코크 #버크셔해서웨이 #체리코크 #배당 #펩시 #고이주에타 #LG생활건강</span></p>
+<p><br></p>
+<p><span style="color:#444444;font-size:14px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 코카콜라 탄생 이야기는 코카콜라 회사 연혁, 뉴 코크 사건은 히스토리닷컴, 워렌 버핏의 어린 시절 콜라 장사와 52년 이야기는 버크셔 해서웨이 1989년 주주 편지, 1989년 지분 공개는 UPI(1989년 3월 16일), 체리 코크로 바꾼 이야기는 비즈니스인사이더와 비즈뉴스, 지분 수와 매입 원가·배당은 모틀리풀(2019년 11월, 2026년 3월)과 포천(2023년 2월), 올해 배당은 코카콜라 발표(2월 19일), 한국 병입 회사는 서울신문(2007년 4월)을 참고했습니다. 사진: Myotus, 위키미디어 공용(CC BY-SA 4.0). 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261122f/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261122f/01.jpg" download="valuenote-b261122f-1.jpg"><img src="https://www.valuenote.co.kr/naver/b261122f/01.jpg" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261122f/02.png" download="valuenote-b261122f-2.png"><img src="https://www.valuenote.co.kr/naver/b261122f/02.png" alt="사진 2" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-22 10:05</b> · 작성</div><div class="small" style="margin:4px 0"><b>2026-11-22 10:05</b> · 수정: 독자 검토 반영(2회)</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 오래된 가게 한쪽에 놓인 빨간 탄산음료 디스펜서]\n\n요약\n· 워렌 버핏은 왜 맛 바꾸기에 실패한 회사를 샀을까. 79일 만에 옛 맛을 되돌린 소동이 사람들이 맛이 아니라 이름을 산다는 걸 보여 줬기 때문입니다.\n\n1936년 미국 오마하의 한 식료품점에서 여섯 살 소년이 콜라 여섯 병을 샀습니다. 할아버지가 하던 곳이었고 값은 25센트였어요.\n\n소년은 그 병을 들고 동네를 돌며 한 병에 5센트씩 팔았습니다. 다 팔면 5센트가 남는 장사였죠. 소년의 이름은 워렌 버핏입니다.\n\n그는 그 뒤로도 콜라를 계속 지켜봤습니다. 그런데 정작 주식은 한 주도 사지 않았어요. 첫 주식을 산 건 그로부터 52년이 지난 뒤였습니다. 본인 말로는 1988년 여름에야 머리가 눈과 연결됐다고 합니다. 늘 보던 걸 그제야 투자로 옮긴 거죠.\n\n■ 코카콜라는 한 잔에 5센트짜리 약국 음료로 시작했다\n\n이야기는 더 거슬러 올라갑니다. 1886년 5월 미국 애틀랜타의 약사 존 펨버턴은 직접 만든 시럽을 들고 동네 약국으로 갔습니다. 시럽에 탄산수를 섞어 한 잔에 5센트를 받고 팔았어요.\n\n이름은 펨버턴의 동업자이자 경리였던 프랭크 로빈슨이 지었습니다. 대문자 C 두 개가 광고에 잘 어울릴 거라는 이유였어요. 지금도 쓰는 흘림체 글씨도 로빈슨이 직접 썼습니다.\n\n첫해 장사는 초라했습니다. 하루 평균 아홉 잔이 팔렸다고 회사 연혁에 적혀 있어요. 반세기 뒤 오마하의 소년이 받던 값도 여전히 5센트였습니다. 코카콜라는 그 사이 약국 한 곳의 음료에서 미국 어디서나 파는 음료가 됐고요.\n\n■ 1985년 코카콜라는 맛을 바꿨다가 79일 만에 항복했다\n\n워렌 버핏이 주식을 사기 3년 전, 코카콜라에 큰 사고가 났습니다. 1985년 4월 코카콜라는 99년 만에 맛을 바꾼 '뉴 코크'를 내놨어요. 펩시와의 경쟁에서 밀린다는 걱정 때문이었습니다.\n\n맛만 보면 틀린 결정이 아니었습니다. 상표를 가리고 마시게 한 시험에서 사람들은 대체로 새 맛을 더 좋아했어요.\n\n그런데 반응은 정반대였습니다. 시험으로 더 맛있다는 걸 확인하고 내놨는데 사람들이 화를 낸 거예요. 회사에는 하루 최대 8,000통의 항의 전화가 걸려 왔고 항의 편지도 4만 통쯤 쌓였어요. 최고경영자 로베르토 고이주에타 앞으로 '최고 멍청이님께'라고 적힌 편지까지 왔습니다.\n\n그해 7월 코카콜라는 옛 맛을 '코카콜라 클래식'이라는 이름으로 되살렸습니다. 뉴 코크가 나온 지 79일 만이었어요. 회사가 맛을 바꿔서 망신을 당한 사건으로 지금도 경영 수업에 나옵니다.\n\n■ 사람들은 맛이 아니라 이름을 마시고 있었다\n\n저는 이 사건을 조금 다르게 봅니다. 상표를 가리면 새 맛이 이겼고 상표를 보여 주면 옛 맛이 이겼어요. 사람들이 산 건 혀가 고른 맛보다 백 년 동안 익숙해진 이름이었다는 뜻입니다.\n\n그 이름에는 기억이 붙어 있습니다. 야구장에서, 여름 바닷가에서, 영화관에서 마신 맛이 이름 하나에 다 담겨 있어요. 회사가 맛을 바꾸자 사람들은 그 기억을 빼앗긴다고 느꼈습니다.\n\n회사가 바꾸려 해도 사람들이 못 바꾸게 막는 이름이라면, 그 이름은 웬만한 공장보다 튼튼한 재산입니다. 워렌 버핏이 평생 찾아다닌 게 이런 사업이에요. 값을 조금 올려도 사람들이 다른 데로 가지 않는 사업이죠.\n\n세상의 흐름도 코카콜라 편이었습니다. 1980년대 말은 미국 회사들이 해외로 뻗어 나가던 때였고, 그는 코카콜라가 세계를 덮어 가는 모습을 지켜봤다고 썼어요. 지금 한국에서는 LG생활건강 자회사가 코카콜라를 병에 담아 팝니다. 애틀랜타의 시럽 한 통이 서울의 편의점까지 온 겁니다.\n\n■ 워렌 버핏은 3년 뒤 코카콜라 주식을 사들였다\n\n워렌 버핏의 마음이 먼저 움직인 곳은 주식보다 입맛이었습니다. 1985년 코카콜라 사장 돈 키오가 막 나온 체리 코크를 워렌 버핏에게 보냈어요. 키오는 오마하에서 워렌 버핏과 길 건너 이웃으로 살던 사람입니다.\n\n그는 이듬해 주주 편지에 48년 동안 다른 콜라만 마시다가 체리 코크로 바꿨다고 썼습니다. 펩시를 즐겨 마시던 사람이 콜라부터 갈아탄 겁니다. 그 뒤로 하루 다섯 캔씩 마신다고 알려졌어요.\n\n1987년 10월 미국 증시가 하루 만에 크게 무너졌습니다. 워렌 버핏은 이듬해부터 코카콜라 주식을 조용히 모았어요.\n\n1989년 3월 이 사실이 알려지자 시장이 술렁였습니다. 버크셔 해서웨이는 10억 달러 넘게 들여 6.3%를 가진 두 번째로 큰 주주가 돼 있었어요.\n\n그는 그때 영원히 갖고 있겠다고 말했습니다. '최고 멍청이님께' 편지를 받았던 그 최고경영자 고이주에타가 키오와 함께 회사를 새로 다듬고 있었던 것도 믿을 이유였어요. 제 눈에는 뉴 코크로 망신을 당하고도 79일 만에 고집을 꺾은 경영진이라는 점도 커 보입니다.\n\n반대 시각도 있습니다. 설탕 음료를 줄이자는 흐름이 해마다 강해지고 있고 코카콜라는 더 이상 빨리 크는 회사가 아닙니다. 이미 세계 어디서나 팔리니 더 넓힐 곳도 많지 않죠. 지금 코카콜라를 새로 사는 사람에게는 그때와 다른 계산이 필요합니다.\n\n성공에는 사들인 시점의 덕도 있었습니다. 증시가 크게 무너진 직후라 주식값이 눌려 있었거든요. 같은 회사라도 언제 얼마에 사느냐에 따라 결과는 전혀 달라집니다.\n\n■ 조금만 더 들어가 보면, 산 값 대비 배당\n\n이 투자가 얼마나 좋았는지는 쉬운 계산 하나로 보입니다. 버크셔 해서웨이가 1994년까지 코카콜라에 넣은 돈은 13억 달러쯤이에요. 올해 받는 배당만 8억 달러가 넘습니다.\n\n코카콜라가 해마다 빠짐없이 배당을 올려 왔기 때문입니다.\n\n[사진: 버크셔가 코카콜라에서 받는 배당]\n\n처음 다 사들인 해에 받은 배당은 지금의 열 분의 일 정도였습니다. 같은 주식을 그대로 들고 있었을 뿐인데 받는 돈이 열 배 넘게 불어난 거죠.\n\n올해 배당을 처음 들인 돈으로 나누면 65%쯤 나옵니다. 한 줄로 말하면, 산 값 대비 배당은 처음 넣은 돈에 비해 해마다 얼마를 돌려받는지를 보여 주는 숫자입니다. 지금은 두 해 치 배당이면 처음 넣은 돈을 다 돌려받습니다.\n\n뉴 코크 소동에서 다른 회사에도 써먹을 질문을 하나 꺼낼 수 있습니다. 이 회사가 제품을 바꾸면 사람들이 화를 낼까. 화를 낸다면 그 이름은 값을 올려도 버틸 힘이 있습니다. 반대로 아무도 알아채지 못한다면 그 이름은 값을 올릴 힘이 약합니다.\n\n■ 앞으로 볼 것은 배당과 판매량이다\n\n코카콜라를 볼 때는 두 가지만 챙겨 보면 됩니다. 하나는 내년 2월에도 배당을 올리는지입니다. 올해 2월에 올린 것이 64년 연속이었어요. 이 기록이 끊기면 회사가 스스로 힘이 빠졌다고 말하는 거예요.\n\n다른 하나는 값을 올린 뒤에도 팔리는 양이 유지되는지입니다. 값만 올라가고 팔리는 양이 줄기 시작하면 사람들이 이름보다 지갑을 먼저 보기 시작했다는 신호예요.\n\n제가 보기에 이 이야기의 핵심은 기다림입니다. 그는 콜라를 알아보고도 반세기 넘게 주식을 사지 않았고, 산 뒤에는 한 주도 팔지 않았어요. 좋은 이름을 고르는 일보다 그 이름을 오래 들고 있는 일이 더 어려웠을지도 모릅니다.\n\n1936년 여섯 살 워렌 버핏은 콜라 한 병에서 1센트도 안 되는 이익을 남겼습니다. 52년 뒤 그는 그 콜라를 만드는 회사의 주식을 샀어요. 그리고 지금은 해마다 그때 산 값의 절반이 넘는 돈을 배당으로 받습니다. 뉴 코크 소동 때 사람들이 지켜 낸 건 옛 맛만이 아니었던 거죠.\n\n코카콜라를 워렌 버핏 같은 투자 거장들의 잣대로 보면 어떻게 보이는지 밸류노트에 정리해 두었습니다. 관심 있으시면 참고 삼아 한번 보셔도 좋겠어요.\n\n밸류노트에서 코카콜라 보기 https://www.valuenote.co.kr/c/ko?utm_source=naver&utm_campaign=b261122f\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 코카콜라 탄생 이야기는 코카콜라 회사 연혁, 뉴 코크 사건은 히스토리닷컴, 워렌 버핏의 어린 시절 콜라 장사와 52년 이야기는 버크셔 해서웨이 1989년 주주 편지, 1989년 지분 공개는 UPI(1989년 3월 16일), 체리 코크로 바꾼 이야기는 비즈니스인사이더와 비즈뉴스, 지분 수와 매입 원가·배당은 모틀리풀(2019년 11월, 2026년 3월)과 포천(2023년 2월), 올해 배당은 코카콜라 발표(2월 19일), 한국 병입 회사는 서울신문(2007년 4월)을 참고했습니다. 사진: Myotus, 위키미디어 공용(CC BY-SA 4.0). 이 글은 밸류노트 에디터 Luciano가 작성했습니다.\n\n#워렌버핏 #코카콜라 #워렌버핏코카콜라 #뉴코크 #버크셔해서웨이 #체리코크 #배당 #펩시 #고이주에타 #LG생활건강";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261122f", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
