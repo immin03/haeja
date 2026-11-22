@@ -122,7 +122,7 @@
   "브리태니커(흑사병)",
   "존 템플턴 16 Rules for Investment Success"
  ],
- "format_note": "v1 2026-11-22 · 콜드 오픈 원음 몽타주 · 원음 7구간(게이츠·잡스·젠슨 황·PTJ·버핏 2) · 장 6 · 화면 밀도 규칙(문장마다 표·숫자·도식)",
+ "format_note": "v2 2026-11-22 (잡스 원음·인용/숫자 겹침 장면 분리) · v1 2026-11-22 · 콜드 오픈 원음 몽타주 · 원음 7구간(게이츠·잡스·젠슨 황·PTJ·버핏 2) · 장 6 · 화면 밀도 규칙(문장마다 표·숫자·도식)",
  "orig_mode": "sot_test",
  "orig_mode_note": "원음+한국어 자막(더빙 없음). 게이츠·잡스 구간은 STT로 확정 후 start/dur 갱신.",
  "gate_waive": {
@@ -265,35 +265,39 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_iphonehand_1.jpg"
-     },
-     {
-      "lib": "vsmartphone_41174.mp4"
+      "lib": "soxl3_jobs_iphone2007.mp4",
+      "start": 6.35
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "news_scale": 0.66
    },
    "sketch_add": [],
    "asof": false,
    "src": "애플 맥월드 2007 키노트(2007-01-09)",
    "sketch": [
     {
-     "kind": "quote",
-     "rows": [
-      "아주 가끔, 모든 것을 바꾸는",
-      "혁명적인 제품이 나온다"
-     ],
-     "by": "스티브 잡스 · 2007.1.9 아이폰 발표",
+     "kind": "lower",
+     "text": "스티브 잡스",
+     "sub": "당시 애플 CEO · 2007.1.9 아이폰 발표",
      "line": 0,
-     "at": 0.2
+     "at": 0.3
     }
    ],
    "lines": [
-    "2007년 1월, 스티브 잡스는 아이폰을 꺼내며 이렇게 말했습니다. 아주 가끔, 모든 것을 바꾸는 혁명적인 제품이 나온다고요."
+    "아주 가끔, 혁명적인 제품이 나타나",
+    "모든 것을 바꿔 놓습니다."
    ],
-   "note": "[훅] 잡스 2007 — 원음 수집 실패로 인용 카드(원음 도착 시 교체 가능)"
+   "note": "[훅] 원음② 잡스 2007 — STT 6.35~22.12 (v2: 인용 카드 → 원음)",
+   "news": true,
+   "sot": {
+    "clip": "soxl3_jobs_iphone2007.mp4",
+    "start": 6.35,
+    "dur": 15.8,
+    "rms": 0.085
+   }
   },
   {
    "v": {
@@ -401,9 +405,6 @@
     "cuts": [
      {
       "lib": "il_L261105g_cin_panic.jpeg"
-     },
-     {
-      "lib": "vtrading_23168.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -412,7 +413,7 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "존 템플턴 '16 Rules for Investment Success' · 24/7 월스트리트 2026-11-20(SOXL 최고 종가 6.22 300.77달러, 11.20 30.92달러)",
+   "src": "존 템플턴 '16 Rules for Investment Success'",
    "sketch": [
     {
      "kind": "quote",
@@ -423,22 +424,48 @@
      "by": "존 템플턴",
      "line": 0,
      "at": 0.2
-    },
+    }
+   ],
+   "lines": [
+    "투자에서 가장 위험한 네 단어는, 이번엔 다르다. 전설적인 투자자 존 템플턴의 말입니다."
+   ],
+   "note": "[훅] 템플턴 (v2: 인용·숫자 겹침 → 장면 분리)"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vtrading_23168.mp4"
+     },
+     {
+      "lib": "il_L261107m_kospi_board_red.jpeg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "24/7 월스트리트 2026-11-20(SOXL 최고 종가 6.22 300.77달러, 11.20 30.92달러)",
+   "sketch": [
     {
      "kind": "punch",
      "text": "SOXL 300달러 → 30달러",
      "sub": "6.22 최고 종가 300.77 → 11.20 종가 30.92 · -90%",
-     "line": 1,
+     "line": 0,
      "at": 0.4,
      "color": "red",
      "hold": 1.8
     }
    ],
    "lines": [
-    "투자에서 가장 위험한 네 단어는, 이번엔 다르다. 전설적인 투자자 존 템플턴의 말입니다.",
     "SOXL은 6월 300달러에서 지난 금요일 30달러가 됐습니다. 처음 겪는 일 같으시죠? 반도체는 이미 13번 겪었습니다. 한 번 겪어 본 일은, 대응할 수 있습니다."
    ],
-   "note": "[훅] 템플턴 + 질문"
+   "note": "[훅] 질문"
   },
   {
    "v": {
@@ -1427,7 +1454,7 @@
       "lib": "vnewyork_30544.mp4"
      },
      {
-      "lib": "commons_nasdaqsite_3_wide.jpg"
+      "lib": "commons_nasdaqsite_3.jpg"
      }
     ],
     "wash_amt": 0.85,
@@ -1790,9 +1817,6 @@
     "cuts": [
      {
       "lib": "vstockmarket_47798.mp4"
-     },
-     {
-      "lib": "vmoney_45703.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1811,7 +1835,31 @@
      "at": 0.4,
      "color": "gold",
      "hold": 1.8
-    },
+    }
+   ],
+   "lines": [
+    "그리고 바닥을 지나면, 과거 사이클에서 반도체지수는 평균 42% 올랐습니다."
+   ],
+   "note": "[5장] 바닥 뒤 평균"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vmoney_45703.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "뱅크오브아메리카 2026-11 보고서",
+   "sketch": [
     {
      "kind": "quote",
      "rows": [
@@ -1819,15 +1867,14 @@
       "날짜를 알려 주지 않는다"
      ],
      "by": "밸류노트 정리",
-     "line": 1,
+     "line": 0,
      "at": 0.2
     }
    ],
    "lines": [
-    "그리고 바닥을 지나면, 과거 사이클에서 반도체지수는 평균 42% 올랐습니다.",
     "다만 반대 사례도 기억해야 합니다. 2000년엔 이런 신호가 나와도 15년이 걸렸습니다. 신호는 확률을 높여 줄 뿐, 날짜를 알려 주지는 않습니다."
    ],
-   "note": "[5장] 반례 + 리후킹 [R4]"
+   "note": "[5장] 반례 + 리후킹 [R4] (v2: 숫자·인용 겹침 → 장면 분리)"
   },
   {
    "v": {
