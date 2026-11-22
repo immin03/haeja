@@ -313,7 +313,7 @@ spec.update({
  "ab_sets": [
   {"key": "a", "default": True, "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_a.jpg", "type": "A 반도체 급락 / 끝나는 신호 5가지"},
   {"key": "b", "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_b.jpg", "type": "B SOXL -90% / 끝나는 신호 5가지"},
-  {"key": "c", "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_c.jpg", "type": "C 반도체 13번 폭락 / 끝나는 신호 5가지"}],
+  {"key": "c", "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_c.jpg", "type": "C 반도체 바닥 / 확인 방법 5가지 (대표 21:03)"}],
  "scenes": sc,
 })
 json.dump(spec, open(OUT, 'w'), ensure_ascii=False, indent=1)

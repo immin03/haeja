@@ -14,7 +14,7 @@ TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 SETS = [   # 20:53 대표: 제목 각도 '반도체 급락, 끝나는 신호 5가지'로 — 아랫줄은 세 안 공통, 윗줄만 바꿔 A/B 테스트
     dict(file="thumb_a.jpg", photo="il_L261105g_cin_panic.jpeg", fx=.62, l1="반도체 급락", l2=("끝나는 신호", " 5가지")),
     dict(file="thumb_b.jpg", photo="il_L261107s_chip_stairs.jpeg", fx=.75, l1="SOXL -90%", l2=("끝나는 신호", " 5가지")),
-    dict(file="thumb_c.jpg", photo="il_L261113a_phone_vs_chart.jpeg", fx=.55, l1="반도체 13번 폭락", l2=("끝나는 신호", " 5가지")),
+    dict(file="thumb_c.jpg", photo="il_L261113a_phone_vs_chart.jpeg", fx=.55, l1="반도체 바닥", l2=("확인 방법", " 5가지")),
 ]
 
 
