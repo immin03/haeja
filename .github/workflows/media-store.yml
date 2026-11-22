@@ -1,0 +1,36 @@
+name: media-store
+# 저장소에 있는 영상을 Supabase Storage(media 버킷)에 올린다. 수동 실행용(점검·이전). 도구: scripts/ci/media_store.py
+on:
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: '올릴 경로 (공백으로 구분, 저장소 경로 그대로)'
+        required: true
+permissions:
+  contents: read
+concurrency: media-store
+jobs:
+  put:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/ci/
+      - name: 올릴 파일만 추가로 받기
+        env:
+          PATHS: ${{ github.event.inputs.paths }}
+        run: |
+          for p in $PATHS; do git sparse-checkout add "/$p"; done
+          ls -la $PATHS
+      - name: Storage 로 올리기
+        env:
+          TYPECAST_API_KEY: ${{ secrets.TYPECAST_API_KEY }}
+          PATHS: ${{ github.event.inputs.paths }}
+          MEDIA_STORE_OUT: /tmp/stored.txt
+        run: |
+          python3 scripts/ci/media_store.py put $PATHS
+          test -s /tmp/stored.txt   # 하나도 못 올렸으면 실패로 표시
