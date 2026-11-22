@@ -387,6 +387,12 @@
      },
      {
       "lib": "vdata_5410.mp4"
+     },
+     {
+      "lib": "vfactory_14051.mp4"
+     },
+     {
+      "lib": "vsmartphone_144.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -395,13 +401,23 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "엔비디아 2026-11-20(미국) -14.01%(로이터 SEC 회계 조사 보도) · 나스닥 -5.28% · 헤럴드경제 2026-11-21 주말 해외 거래 추정 보도",
-   "sketch": [],
+   "src": "엔비디아 2026-11-20(미국) -14.01%(로이터 SEC 회계 조사 보도) · 나스닥 -5.28% · 헤럴드경제 2026-11-21 주말 해외 거래 추정 보도 · 마이크론 2026-11-20 -13.89%(CNBC·캡노츠), 6월 25일 최고 종가 1,213.56달러 대비 -50%(24/7 월스트리트)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "마이크론 -13.9%",
+     "sub": "2026.11.20(미국) · 6월 최고가 대비 -50%",
+     "line": 1,
+     "at": 0.4,
+     "color": "red"
+    }
+   ],
    "lines": [
     "그리고 한국 장이 끝난 금요일 밤, 엔비디아가 회계 조사 보도에 14%, 나스닥이 5.28% 빠졌습니다. 주말 해외 거래로 추정한 삼성전자는 -6.76%입니다.",
+    "같은 밤, 미국 메모리 회사 마이크론도 13.9% 빠졌습니다. 6월 최고가의 딱 절반, 삼성전자와 똑같은 반토막 자리입니다.",
     "이렇게 떨어진 주식을 두고 돈의 판단은 완전히 갈립니다. 갈리는 지점은 하나, 메모리 공급이 언제 따라잡느냐입니다. 업계의 시계부터 들어 보죠."
    ],
-   "note": "[1장] 금요일 밤 엔비디아 → 쟁점 → 원음 예고"
+   "note": "[1장] 금요일 밤 엔비디아·마이크론 → 쟁점 → 원음 예고"
   },
   {
    "v": {
@@ -456,13 +472,19 @@
       "lib": "commons_micronfab_1.jpg"
      },
      {
-      "lib": "vfactory_14051.mp4"
-     },
-     {
-      "lib": "vsmartphone_144.mp4"
+      "lib": "vfactory_14631.mp4"
      },
      {
       "lib": "vnightcity_41160.mp4"
+     },
+     {
+      "lib": "vskyscraper_2034.mp4"
+     },
+     {
+      "lib": "vcitytraffic_11.mp4"
+     },
+     {
+      "lib": "vbusinessman_151.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -471,7 +493,7 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "마이클 버리 서브스택 2026-07-01 · 인베즈·씨티비즈 보도",
+   "src": "마이클 버리 서브스택 2026-07-01 · 인베즈·씨티비즈 보도 · 24/7 월스트리트 2026-11-20(마이크론 지난 두 하락 -50%·-54%, 배런스 인용)",
    "sketch": [
     {
      "kind": "quote",
@@ -486,7 +508,8 @@
    ],
    "lines": [
     "마이클 버리가 메모리를 찍은 건 올해 7월입니다. 미국 메모리 회사 마이크론을 1,051달러에 공매도했다고 공개했죠.",
-    "이유는 한 줄이었습니다. 마이크론은 42년 동안 30% 넘게 빠진 적이 34번이나 되는, 가장 순환적인 주식이라는 겁니다."
+    "이유는 한 줄이었습니다. 마이크론은 42년 동안 30% 넘게 빠진 적이 34번이나 되는, 가장 순환적인 주식이라는 겁니다.",
+    "그리고 마이크론의 지난 두 번의 하락은 고점에서 50%, 54% 빠진 뒤에 끝났습니다. 지금이 바로 50%입니다."
    ],
    "note": "[2장] 버리 마이크론 숏",
    "chapter": "첫 번째 돈, 빅쇼트"
@@ -498,19 +521,19 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vskyscraper_2034.mp4"
-     },
-     {
-      "lib": "vcitytraffic_11.mp4"
-     },
-     {
-      "lib": "vbusinessman_151.mp4"
-     },
-     {
       "lib": "vmeeting_23116.mp4"
      },
      {
       "lib": "vdocuments_24632.mp4"
+     },
+     {
+      "lib": "vnewspaper_41201.mp4"
+     },
+     {
+      "lib": "vcash_24061.mp4"
+     },
+     {
+      "lib": "vcoins_46984.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -549,13 +572,13 @@
       "lib": "commons_musk_1.jpg"
      },
      {
-      "lib": "vnewspaper_41201.mp4"
+      "lib": "vbank_38481.mp4"
      },
      {
-      "lib": "vcash_24061.mp4"
+      "lib": "vcalculator_34125.mp4"
      },
      {
-      "lib": "vcoins_46984.mp4"
+      "lib": "vcrowd_4401.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -596,10 +619,10 @@
       "lib": "commons_yeouido_1.jpg"
      },
      {
-      "lib": "vbank_38481.mp4"
+      "lib": "vwarehouse_39462.mp4"
      },
      {
-      "lib": "vcalculator_34125.mp4"
+      "lib": "vofficebuilding_30386.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -632,13 +655,13 @@
     "wash": "none",
     "cuts": [
      {
+      "lib": "vcalculator_34126.mp4"
+     },
+     {
       "lib": "vdocuments_46503.mp4"
      },
      {
-      "lib": "vcrowd_4401.mp4"
-     },
-     {
-      "lib": "vwarehouse_39462.mp4"
+      "lib": "vpresentation_9069.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -662,13 +685,13 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vofficebuilding_30386.mp4"
+      "lib": "vreading_4950.mp4"
      },
      {
       "lib": "commons_krxboard_2.jpg"
      },
      {
-      "lib": "vpresentation_9069.mp4"
+      "lib": "vnewyork_26920.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -702,12 +725,6 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vreading_4950.mp4"
-     },
-     {
-      "lib": "vnewyork_26920.mp4"
-     },
-     {
       "lib": "vtrain_1622.mp4"
      },
      {
@@ -715,6 +732,12 @@
      },
      {
       "lib": "vkorea_30146.mp4"
+     },
+     {
+      "lib": "vtrading_26748.mp4"
+     },
+     {
+      "lib": "vfinance_49219.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -747,16 +770,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vtrading_26748.mp4"
-     },
-     {
-      "lib": "vfinance_49219.mp4"
-     },
-     {
       "lib": "vmoney_18305.mp4"
      },
      {
       "lib": "vdata_5437.mp4"
+     },
+     {
+      "lib": "vfactory_15596.mp4"
+     },
+     {
+      "lib": "vsmartphone_41638.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -824,7 +847,7 @@
       "lib": "vmoney_24354.mp4"
      },
      {
-      "lib": "vfactory_14631.mp4"
+      "lib": "vfactory_17675.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -892,10 +915,10 @@
       "lib": "commons_wafer_2.jpg"
      },
      {
-      "lib": "vfactory_15596.mp4"
+      "lib": "vfactory_22032.mp4"
      },
      {
-      "lib": "vsmartphone_41638.mp4"
+      "lib": "vsmartphone_42136.mp4"
      },
      {
       "lib": "vnightcity_41375.mp4"
@@ -963,10 +986,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vfactory_17675.mp4"
+      "lib": "vsmartphone_43270.mp4"
      },
      {
-      "lib": "vsmartphone_42136.mp4"
+      "lib": "vnightcity_6754.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1030,16 +1053,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vfactory_22032.mp4"
-     },
-     {
-      "lib": "vsmartphone_43270.mp4"
-     },
-     {
-      "lib": "vnightcity_6754.mp4"
-     },
-     {
       "lib": "vbusinessman_4805.mp4"
+     },
+     {
+      "lib": "vmeeting_46682.mp4"
+     },
+     {
+      "lib": "vdocuments_48385.mp4"
+     },
+     {
+      "lib": "vcoins_47017.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1063,10 +1086,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vmeeting_46682.mp4"
+      "lib": "vbank_46980.mp4"
      },
      {
-      "lib": "vdocuments_48385.mp4"
+      "lib": "vcalculator_47415.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1132,13 +1155,13 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vmeeting_4813.mp4"
+      "lib": "vbank_46990.mp4"
      },
      {
-      "lib": "vcoins_47017.mp4"
+      "lib": "vcalculator_47416.mp4"
      },
      {
-      "lib": "vbank_46980.mp4"
+      "lib": "vcrowd_4437.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1229,16 +1252,16 @@
       "lib": "commons_seoulnight_1.jpg"
      },
      {
-      "lib": "vbank_46990.mp4"
-     },
-     {
-      "lib": "vcalculator_34126.mp4"
-     },
-     {
-      "lib": "vcrowd_4437.mp4"
-     },
-     {
       "lib": "vwarehouse_45847.mp4"
+     },
+     {
+      "lib": "vofficebuilding_31663.mp4"
+     },
+     {
+      "lib": "vreading_50128.mp4"
+     },
+     {
+      "lib": "vnewyork_4443.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1272,16 +1295,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vofficebuilding_31663.mp4"
-     },
-     {
-      "lib": "vreading_50128.mp4"
-     },
-     {
-      "lib": "vnewyork_4443.mp4"
-     },
-     {
       "lib": "vtrain_27768.mp4"
+     },
+     {
+      "lib": "vseoul_30154.mp4"
+     },
+     {
+      "lib": "vkorea_8992.mp4"
+     },
+     {
+      "lib": "vfactory_23696.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1305,16 +1328,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vseoul_30154.mp4"
-     },
-     {
-      "lib": "vkorea_8992.mp4"
-     },
-     {
-      "lib": "vfactory_23696.mp4"
-     },
-     {
       "lib": "vsmartphone_4915.mp4"
+     },
+     {
+      "lib": "vmeeting_4813.mp4"
+     },
+     {
+      "lib": "vwarehouse_45848.mp4"
+     },
+     {
+      "lib": "vofficebuilding_40652.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1389,22 +1412,22 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vseoul_30161.mp4"
+      "lib": "vwarehouse_4705.mp4"
      },
      {
       "lib": "commons_pangyo_1.jpg"
      },
      {
-      "lib": "vcalculator_47415.mp4"
-     },
-     {
-      "lib": "vwarehouse_45848.mp4"
-     },
-     {
-      "lib": "vofficebuilding_40652.mp4"
+      "lib": "vofficebuilding_40653.mp4"
      },
      {
       "lib": "vtrain_4333.mp4"
+     },
+     {
+      "lib": "vseoul_30161.mp4"
+     },
+     {
+      "lib": "vsemiconductor_1138.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1428,9 +1451,6 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vsemiconductor_1138.mp4"
-     },
-     {
       "lib": "vkorea_20094.mp4"
      },
      {
@@ -1438,6 +1458,9 @@
      },
      {
       "lib": "vtrading_18143.mp4"
+     },
+     {
+      "lib": "vcharts_17435.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1470,13 +1493,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vcalculator_47416.mp4"
+      "lib": "vofficebuilding_40701.mp4"
      },
      {
-      "lib": "vwarehouse_4705.mp4"
-     },
-     {
-      "lib": "vofficebuilding_40653.mp4"
+      "lib": "vtrain_48925.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1489,9 +1509,71 @@
    "sketch": [],
    "lines": [
     "그러니까 지금 회사는 버리와 반대편에 서 있습니다. 그것도 버리보다 훨씬 큰돈으로요.",
-    "그럼 과거엔 어땠을까요? 삼성전자가 반토막 났을 때, 그다음에 무슨 일이 있었는지 데이터로 보겠습니다."
+    "그럼 이런 하락이 처음일까요?"
    ],
    "note": "[4장] 정리 · [R5] 리후킹"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "globe_L261122m_fx_puts.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "트럼프 2026-11-16 발언·CNBC(엔비디아 이사회 검토 안 함) · 엔비디아 2026-11-12 젠슨 황 사임 · 월러 이사 2026-11-10 런던 발언 · CME 페드워치 2026-11-11(12월 인상 사실상 100%)",
+   "sketch": [],
+   "lines": [
+    "다만 이번 하락이 더 무겁게 느껴지는 이유가 있습니다. 폭락장마다 시장이 기대던 언덕 세 개가 지금은 안 보인다는 겁니다.",
+    "트럼프는 젠슨 황의 복귀도 나쁘지 않다고 했지만 엔비디아 이사회는 검토하지 않고 있고, AI 생태계에 돈을 돌리던 젠슨 황은 자리에 없습니다.",
+    "마지막 언덕인 연준은 물가 때문에 12월 9일 오히려 금리를 올릴 가능성이 높습니다."
+   ],
+   "note": "[5장 앞] 기댈 언덕 세 개 — 트럼프·젠슨 황·연준",
+   "chapter": "기댈 언덕이 없을 때"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vstorm_47948.mp4"
+     },
+     {
+      "lib": "vofficebuilding_41541.mp4"
+     },
+     {
+      "lib": "vtrain_6778.mp4"
+     },
+     {
+      "lib": "vnewyork_11712.mp4"
+     },
+     {
+      "lib": "vstockmarket_47006.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "연준 FOMC 2018-12-19 인상 · S&P500 2018-09-20 고점 → 2018-12-24 약 -19.8% · 파월 2019-01-04 전미경제학회 발언 · 삼성전자 2017년 말 고점 이후 14개월 하락(파이낸셜뉴스·한화투자증권)",
+   "sketch": [],
+   "lines": [
+    "비슷한 장면이 2018년 12월에도 있었습니다. 연준이 12월 19일 금리를 올렸고, 미국 S&P500은 크리스마스이브까지 고점 대비 20% 가까이 빠졌습니다.",
+    "흐름을 돌린 건 이듬해 1월 4일, 파월 의장의 인내심을 갖겠다는 말이었습니다. 그리고 삼성전자의 그때 바닥도 바로 그 무렵, 2019년 1월 초였습니다."
+   ],
+   "note": "[5장 앞] 2018년 12월 — 연준 인상 → 파월 1.4 → 반등"
   },
   {
    "v": {
@@ -1515,8 +1597,7 @@
     "삼성전자가 고점에서 40% 넘게 빠진 적은 처음이 아닙니다. 2000년 닷컴 붕괴 땐 69%, 2008년 금융위기와 2022년 메모리 불황 땐 47%, 2024년엔 44% 빠졌습니다.",
     "이번엔 51%. 2008년 금융위기 때보다도 깊습니다."
    ],
-   "note": "[5장] 과거 반토막 도식",
-   "chapter": "삼성전자가 반토막 났을 때"
+   "note": "[5장] 과거 반토막 도식"
   },
   {
    "v": {
@@ -1528,16 +1609,16 @@
       "lib": "commons_krxboard_3.jpg"
      },
      {
-      "lib": "vofficebuilding_40701.mp4"
-     },
-     {
-      "lib": "vtrain_48925.mp4"
-     },
-     {
       "lib": "vsemiconductor_1139.mp4"
      },
      {
-      "lib": "vstockmarket_47006.mp4"
+      "lib": "vstockmarket_47012.mp4"
+     },
+     {
+      "lib": "vtrading_30873.mp4"
+     },
+     {
+      "lib": "vcharts_24057.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1561,13 +1642,13 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vtrading_30873.mp4"
-     },
-     {
-      "lib": "vcharts_17435.mp4"
-     },
-     {
       "lib": "vfinance_47210.mp4"
+     },
+     {
+      "lib": "vmoney_18261.mp4"
+     },
+     {
+      "lib": "vanalytics_46977.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1591,16 +1672,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vofficebuilding_41541.mp4"
-     },
-     {
-      "lib": "vtrain_6778.mp4"
-     },
-     {
       "lib": "vsemiconductor_1141.mp4"
      },
      {
-      "lib": "vstockmarket_47012.mp4"
+      "lib": "vstockmarket_47016.mp4"
+     },
+     {
+      "lib": "vtrading_45708.mp4"
+     },
+     {
+      "lib": "vdata_12262.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1624,19 +1705,19 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vtrading_45708.mp4"
-     },
-     {
-      "lib": "vcharts_24057.mp4"
-     },
-     {
       "lib": "vfinance_47214.mp4"
      },
      {
-      "lib": "vmoney_18261.mp4"
+      "lib": "vmoney_18296.mp4"
      },
      {
-      "lib": "vanalytics_46977.mp4"
+      "lib": "vanalytics_47796.mp4"
+     },
+     {
+      "lib": "vsmartphone_41174.mp4"
+     },
+     {
+      "lib": "vnightcity_40640.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1686,25 +1767,25 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vstockmarket_47016.mp4"
+      "lib": "vstockmarket_47792.mp4"
      },
      {
       "lib": "vfinance_47735.mp4"
      },
      {
-      "lib": "vmoney_18296.mp4"
+      "lib": "vmoney_18304.mp4"
      },
      {
-      "lib": "vanalytics_47796.mp4"
+      "lib": "vanalytics_5454.mp4"
      },
      {
-      "lib": "vdata_12262.mp4"
+      "lib": "vdata_14724.mp4"
      },
      {
-      "lib": "vsmartphone_41174.mp4"
+      "lib": "vnightcity_40746.mp4"
      },
      {
-      "lib": "vnightcity_40640.mp4"
+      "lib": "vskyscraper_231.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1732,9 +1813,6 @@
       "lib": "il_L261110a_exchange_night.jpeg"
      },
      {
-      "lib": "vskyscraper_231.mp4"
-     },
-     {
       "lib": "vcitytraffic_1146.mp4"
      },
      {
@@ -1745,6 +1823,9 @@
      },
      {
       "lib": "vdocuments_22856.mp4"
+     },
+     {
+      "lib": "vnewspaper_34175.mp4"
      }
     ],
     "wash_amt": 0.85,
