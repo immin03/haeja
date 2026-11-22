@@ -20,6 +20,11 @@ def specs():
         yield f, json.load(open(f, encoding="utf-8"))
 
 
+def have_video(d):
+    # 2026-11-22: 영상은 Storage(media 버킷)가 원본이다. 저장소에는 reel.mp4 대신 표시 파일 reel.stored 만 남을 수 있다
+    # (워크플로가 scripts/ci/media_store.py 로 올린 뒤 남김). 사이트 주소 /social/reels/<id>/reel.mp4 는 그대로 열린다.
+    return os.path.exists(os.path.join(d, "reel.mp4")) or os.path.exists(os.path.join(d, "reel.stored"))
+
 def digest(spec):
     keep = {k: spec[k] for k in ("scenes", "mood", "speed", "banner", "style", "full_say", "full_cap", "rev", "goldline", "outro", "world", "voice_speed") if k in spec}   # 쇼츠 제목 띠·끝 안내 문장이 바뀌어도 다시 렌더
     if (spec.get("dm") or {}).get("keyword"): keep["dm"] = spec["dm"]["keyword"]   # 키워드가 바뀌면 마지막 장면을 다시 그린다
@@ -35,7 +40,7 @@ def main(only=None):
     for f, sp in specs():
         d = os.path.join(OUT, sp["id"]); h = digest(sp)
         mark = os.path.join(d, "spec.sha")
-        stale = not os.path.exists(os.path.join(d, "reel.mp4")) or not os.path.exists(mark) or open(mark).read().strip() != h
+        stale = not have_video(d) or not os.path.exists(mark) or open(mark).read().strip() != h
         when = dt.datetime.fromisoformat(sp["scheduled_at"])
         if (only and sp["id"] in only) or (not only and stale and when > now - dt.timedelta(hours=6)):
             print("렌더:", sp["id"], sp["title"])
@@ -45,7 +50,7 @@ def main(only=None):
                 import traceback; traceback.print_exc(); print("  ✗", e); failed.append(sp["id"]); continue
             open(mark, "w").write(h)
             print(f"  {sec:.1f}초")
-        if not os.path.exists(os.path.join(d, "reel.mp4")): continue
+        if not have_video(d): continue
         cv = os.path.join(d, "cover.v")   # 썸네일 방식이 바뀌었으면, 아직 올라가지 않은 릴스의 썸네일만 다시 그린다
         if when > now and (not os.path.exists(cv) or open(cv).read().strip() != str(engine.COVER_V)):
             print("썸네일:", sp["id"]); engine.render_cover(sp, d)
