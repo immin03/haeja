@@ -28,7 +28,7 @@ def make(sp,out):
     img.convert('RGB').save(out,quality=92); return out
 L='/tmp/hj/scripts/blog/media/lib/'
 SP={
- 'Y261121a':{'photo':L+'il_L261121i_thumb_q.jpeg','fx':.62,'zoom':1.25,'py':470,'kicker':'1년 전 93달러, 이번엔 40달러','rows':[('아이온큐',WH),('반값에 또 팔았다',PINK)]},
+ 'Y261121a':{'photo':L+'il_L261121i_thumb_q.jpeg','fx':.62,'zoom':1.25,'py':470,'kicker':'매출 4배인데 주가는 1년 최저','rows':[('아이온큐 주가 전망',WH),('이 3가지만 보세요',PINK)]},
  'Y261122b':{'photo':L+'commons_buffett_2.jpg','fx':.5,'kicker':'나스닥 폭락장에 혼자 신고가','rows':[('워런 버핏',WH),('또 혼자 웃었다',PINK)]},
  'Y261121s':{'photo':'/tmp/pj/mem/th/burry_samsung.png','fx':.55,'zoom':.72,'py':520,'kicker':'빅쇼트 마이클 버리','rows':[('메모리 공매도',WH),('블랙먼데이 오나?',PINK)]},
 }
