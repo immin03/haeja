@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
   # 워크플로가 올린 커밋은 push 로 다른 워크플로를 깨우지 못한다. 사이트 페이지를 만드는 작업이 끝나면, 그리고 30분마다 한 번 더 맞춘다(바뀐 게 없으면 아무것도 올리지 않는다).
   workflow_run:
-    workflows: [company-pages]
+    workflows: [company-pages, reels]
     types: [completed]
   schedule:
     - cron: '7,37 * * * *'
