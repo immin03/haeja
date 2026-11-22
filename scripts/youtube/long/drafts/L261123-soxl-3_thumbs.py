@@ -46,8 +46,8 @@ def render(t, out):
     th.alpha_composite(g); g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
     for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(175 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.6)))
     th.alpha_composite(g); D = ImageDraw.Draw(th)
-    fb = F("ExtraBold", 44); bw = D.textlength("SOXL 3편", font=fb) + 40
-    D.rounded_rectangle([40, 34, 40 + bw, 34 + 66], 12, fill=(*PINK, 255)); D.text((60, 41), "SOXL 3편", font=fb, fill=(255, 255, 255))
+    fb = F("ExtraBold", 54); bw = D.textlength("SOXL 3편", font=fb) + 48   # 21:01 대표: 배지 조금 더 크게 (44 → 54)
+    D.rounded_rectangle([40, 32, 40 + bw, 32 + 80], 14, fill=(*PINK, 255)); D.text((64, 39), "SOXL 3편", font=fb, fill=(255, 255, 255))
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34)); D = ImageDraw.Draw(th)
     # 20:58 대표 "너무 과하게 큼 → 조금 더 세련되게": 잘된 썸네일(저스트인타임·삼성 3가지 편) 비율 — 화면 높이의 약 16~17%, 두 줄 사이 숨, 여백 넉넉히
     LX = 72; f1 = F("ExtraBold", 112); f2 = F("Heavy", 122)
