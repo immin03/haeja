@@ -1,0 +1,35 @@
+/* 2026-10-30 대표님: "화살표가 >로 표기돼" — SUIT 글꼴의 →가 >처럼 생겨 화살표만 다른 글꼴로 */
+@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}
+:root{--bg:#F3F3F3;--surface:#FFFFFF;--ink:#191919;--ink2:#454545;--muted:#737373;--line:#E1E1E1;--accent:#2D7A5F}
+@media (prefers-color-scheme: dark){:root{--bg:#0F0F0F;--surface:#191919;--ink:#E7E7E7;--ink2:#C8C8C8;--muted:#969696;--line:#2B2B2B;--accent:#5FC59C;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"VN Arrow","SUIT Variable","SUIT","Pretendard Variable",system-ui,-apple-system,sans-serif;word-break:keep-all;line-height:1.75;-webkit-font-smoothing:antialiased}
+header{background:radial-gradient(130% 160% at 50% -10%,#262626 0%,#191919 45%,#121212 100%);position:relative}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,#8E8E8E,#E9E9E9 50%,#8E8E8E);opacity:.45}
+.hd{max-width:760px;margin:0 auto;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.wm{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:21px;color:#EEEEEE;text-decoration:none}
+.wm i{font-style:italic;background:linear-gradient(90deg,#8E8E8E,#E9E9E9 50%,#8E8E8E);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.back{color:rgba(238,238,238,.75);font-size:13px;text-decoration:none}
+main{max-width:760px;margin:0 auto;padding:24px 16px 64px;font-size:15px}
+h1{font-size:24px;margin:8px 0 4px;letter-spacing:-.02em}
+h2{font-size:16px;margin:28px 0 8px;letter-spacing:-.01em}
+.meta{color:var(--muted);font-size:13px;margin:0 0 18px}
+p,li{color:var(--ink2)}
+ul,ol{padding-left:20px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;white-space:nowrap}
+tr:last-child th,tr:last-child td{border-bottom:0}
+.note{font-size:13px;color:var(--muted)}
+a{color:var(--accent)}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
+/* 2026-10-23 확정 로고: Montserrat ExtraBold + 얇은 금색 줄 + 가운데 '밸류노트' */
+.wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;font-variation-settings:normal!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #E9E9E9;white-space:nowrap}
+.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E9E9E9;color:#E9E9E9!important;padding-right:0!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E9E9E9!important;text-transform:none!important;vertical-align:baseline!important}
+.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+

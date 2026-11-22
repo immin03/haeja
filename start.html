@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>밸류노트 · 주식 사기 전에, 점수부터</title>
+<meta name="description" content="소문과 테마 대신 워렌 버핏·그레이엄·찰리 멍거의 기준으로. 밸류노트는 5개 시장 600+ 기업의 점수와 적정 주가를 매일 같은 공식으로 계산합니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="밸류노트 ValueNote">
+<meta property="og:title" content="밸류노트 · 주식 사기 전에, 점수부터 확인하세요">
+<meta property="og:description" content="워렌 버핏·그레이엄·찰리 멍거의 기준으로 600+ 기업의 점수와 적정 주가를 매일 계산합니다.">
+<meta property="og:image" content="https://www.valuenote.co.kr/og.png">
+<meta property="og:url" content="https://www.valuenote.co.kr/start">
+<meta property="og:locale" content="ko_KR">
+<link rel="canonical" href="https://www.valuenote.co.kr/start">
+<link rel="icon" type="image/png" href="/favicon-64.png?v=6">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
+<meta name="theme-color" content="#161616">
+<link rel="preload" href="/fonts/montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-400.woff2) format("woff2");font-weight:100 599;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"VN Arrow";src:url(/fonts/vn-arrow-700.woff2) format("woff2");font-weight:600 1000;unicode-range:U+2190-21FF,U+27F6;font-display:swap}@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/fraunces-latin-600-italic.woff2) format("woff2")}@font-face{font-family:"Montserrat";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/montserrat-800.woff2) format("woff2")}
+/* 2026-10-23 확정 로고: Montserrat ExtraBold + 얇은 금색 줄 + 가운데 '밸류노트' */
+.wm{font-family:"Montserrat","SUIT Variable",sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;font-variation-settings:normal!important;display:inline-flex!important;flex-direction:column;align-items:center;line-height:1!important;color:#fff!important;text-decoration:none!important}
+.wm .e{display:block;padding-bottom:.2em;border-bottom:1px solid #E9E9E9;white-space:nowrap}
+.wm i{font-style:normal!important;background:none!important;-webkit-text-fill-color:#E9E9E9;color:#E9E9E9!important;padding-right:0!important}
+.wm small{display:block!important;margin:.32em 0 0!important;font-family:"VN Arrow","SUIT Variable",SUIT,sans-serif!important;font-weight:700!important;font-size:.5em!important;letter-spacing:.22em!important;padding-left:.22em;color:#E9E9E9!important;text-transform:none!important;vertical-align:baseline!important}.wm.solo small{display:none!important}.wm.solo .e{border:0!important;padding:0!important}
+.res-v{margin:14px 0 0;padding:12px 14px;border-radius:12px;font-size:17px;font-weight:800;text-align:center}.res-v.lo{background:#E4F6EC;color:#12804A}.res-v.mid{background:#F0F0F0;color:#222}.res-v.hi{background:#FFE9EE;color:#C2264A}
+.rk-h{margin:26px 0 10px;font-size:16px;font-weight:800;color:rgba(242,242,242,.85)}
+#sbox{margin-top:16px}
+.sform input{height:56px;font-size:17px}.sform .btn{min-height:56px;font-size:16px}
+</style>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css"></noscript>
+<script>/* 인스타·카톡 앱 안 브라우저에서도 소개는 그대로 읽게 둔다. 바깥 브라우저로 넘기는 일은 가입 버튼을 눌러 앱(/)으로 갈 때 앱이 한다.
+   (처음 보는 화면에서 바로 다른 앱으로 튕기면 대부분 뒤로 가기를 누른다) */
+/* 로그인한 사람은 소개 페이지가 필요 없다 → 바로 앱 */
+(function(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k)){location.replace('/'+location.search);return;}}localStorage.setItem('vn-start','1');}catch(e){}})();</script>
+<style>
+:root{
+  --navy:#161616; --navy2:#212121; --navy3:#2D2D2D; --gold:#E9E9E9; --gold2:#FF4D6D;
+  --ivory:#F2F2F2; --paper:#F8F8F8; --ink:#202020; --muted:#666666; --line:#DFDFDF;
+  --good:#1F8A5B; --bad:#DB4B63; --warn:#C98A12; --up:#EC4762; --down:#2C62C9;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"VN Arrow","SUIT Variable","SUIT",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+.wm{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.02em;font-variation-settings:"opsz" 144}
+.wm i{font-style:italic;color:var(--gold)}
+
+/* 머리 */
+.top{position:absolute;left:0;right:0;top:0;z-index:5}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:16px}
+.top .wm{font-size:22px;color:#fff;text-decoration:none}
+.top .wm small{display:block;font-family:"VN Arrow","SUIT Variable",sans-serif;font-size:14px;font-weight:600;letter-spacing:.02em;color:rgba(242,242,242,.62);margin-top:-2px}
+.top .login{font-size:14px;font-weight:700;color:var(--ivory);text-decoration:none;border:1px solid rgba(233,233,233,.42);border-radius:999px;padding:7px 14px}
+
+/* 첫 화면 */
+.hero{background:radial-gradient(120% 80% at 90% 0%,rgba(233,233,233,.22) 0,rgba(233,233,233,0) 55%),linear-gradient(170deg,var(--navy2) 0%,var(--navy) 75%);color:var(--ivory);padding:70px 0 26px;position:relative;overflow:hidden}
+.eyebrow{font-size:14px;font-weight:800;letter-spacing:.08em;color:var(--gold2)}
+.hero .eyebrow{color:var(--gold)}
+.hero h1{margin:10px 0 12px;font-size:34px;line-height:1.26;font-weight:850;letter-spacing:-.02em;color:#fff}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .sub{margin:0 0 20px;font-size:16px;color:rgba(242,242,242,.84)}
+.hero .sub b{color:#fff}
+.sform{display:flex;gap:8px}
+.sform input{flex:1;min-width:0;height:50px;border-radius:14px;border:1px solid rgba(233,233,233,.38);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:16px;padding:0 16px;outline:none}
+.sform input::placeholder{color:rgba(242,242,242,.5)}
+.sform input:focus{border-color:var(--gold);background:rgba(255,255,255,.12)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:50px;padding:0 20px;border-radius:14px;border:0;font-weight:800;font-size:16px;text-decoration:none;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy)}
+.btn.navy{background:var(--navy);color:var(--ivory)}
+.btn.line{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips button{height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(233,233,233,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:14px;font-weight:700}
+.chips button.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.chips button.ig{border-color:var(--gold)}
+.chips button.ig small{color:var(--gold);font-weight:800;margin-right:4px}
+.chips button.ig.on small{color:var(--navy)}
+#res{margin-top:14px}
+.res{background:#fff;color:var(--ink);border-radius:18px;padding:18px;box-shadow:0 18px 40px rgba(9,9,9,.35);animation:up .35s ease-out}
+.res-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.res-h b{font-size:19px}
+.res-h span{font-size:14px;color:var(--muted);text-align:right}
+.res-g{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:center;margin-top:12px}
+.big{font-size:52px;font-weight:900;line-height:1;letter-spacing:-.03em}
+.big i{font-style:normal;font-size:16px;color:var(--muted);font-weight:700;margin-left:3px}
+.big small{display:block;font-size:14px;font-weight:700;color:var(--muted);letter-spacing:0;margin-bottom:6px}
+.mbar{font-size:14px;font-weight:700;color:var(--muted)}
+.mbar+.mbar{margin-top:9px}
+.mbar div{display:flex;justify-content:space-between}
+.mbar div b{color:var(--ink)}
+.trk{height:8px;border-radius:5px;background:#E9E9E9;margin-top:4px;overflow:hidden}
+.trk i{display:block;height:100%;border-radius:5px;background:var(--navy3);transform-origin:left;animation:grow .7s ease-out both}
+.trk.g i{background:var(--gold2)}
+.res-say{margin:14px 0 0;padding:11px 13px;border-radius:12px;background:#F1F1F1;font-size:15px;font-weight:600}
+.res a.res-k{display:flex;width:100%;margin-top:12px;height:48px;font-size:16px}
+.res a.more{display:block;margin-top:12px;text-align:center;font-size:15px;font-weight:800;color:var(--navy);text-decoration:none}
+.res-miss{background:rgba(255,255,255,.08);border:1px dashed rgba(233,233,233,.4);border-radius:14px;padding:14px;font-size:15px;color:rgba(242,242,242,.85)}
+.hero .scroll{display:flex;align-items:center;gap:8px;margin-top:26px;font-size:14px;font-weight:700;color:rgba(242,242,242,.7);text-decoration:none}
+.hero .scroll span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+/* 광고·릴스에서 본 회사: 답을 먼저 보여 준다 */
+.hero h1{font-size:30px;margin:6px 0 14px}
+.hero.feat h1{margin-top:16px;font-size:25px}
+.hero .rk-tabs{justify-content:flex-start;margin:0 0 10px}
+.hero .rk{max-width:none;margin:0 0 12px;gap:6px}
+.hero .rk a{padding:9px 14px}
+.hero .rk .r b{font-size:18px}
+.hero .rk .lock{margin-top:0}
+.rk a.one{background:#fff;color:var(--ink);border-color:#fff}
+.rk a.one .n{color:var(--gold2)}
+.rk a.one .nm{display:block;font-size:17px;font-weight:850;line-height:1.25}
+.rk a.one .in2 small{color:var(--muted)}
+.rk a.one .r b{color:var(--ink)}.rk a.one .r b i{color:var(--muted)}
+.rk a.one .r span{color:var(--good)}
+.btn.hk{width:100%;height:54px;font-size:16px}
+.hsm{margin-top:12px;text-align:center;font-size:14px;font-weight:700;color:rgba(242,242,242,.55)}
+.hsm a{color:rgba(242,242,242,.8)}
+.hsm .sopen{margin:0;color:rgba(242,242,242,.8);font-size:14px}
+#sbox{margin-top:14px}
+#sbox .chips{margin:0 0 10px}
+.fcl{background:rgba(255,255,255,.07);border:1px solid rgba(233,233,233,.28);border-radius:14px;padding:9px 13px;margin-top:8px;font-size:15px;font-weight:600;line-height:1.5;color:rgba(242,242,242,.88)}
+.fcl b{color:#fff}.fcl em{font-style:normal;color:#FF8498;font-weight:850;white-space:nowrap}.fcl em.ok{color:#7FD3A6}
+.fcv{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:14px;font-weight:800;color:var(--gold);text-decoration:none}
+.fcv i{width:20px;height:14px;border-radius:4px;background:#FF0000;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.fcv i:after{content:"";border-style:solid;border-width:4px 0 4px 6px;border-color:transparent transparent transparent #FFFFFF;margin-left:1px}
+#hxv{margin:0 0 14px}
+.fcl small{display:block;margin-top:4px;font-size:14px;color:rgba(242,242,242,.6);font-weight:600}
+.fc{background:#fff;color:var(--ink);border-radius:18px;padding:16px 16px 14px;box-shadow:0 18px 40px rgba(9,9,9,.35);animation:up .4s ease-out}
+.fc-g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fc-g div{background:#F1F1F1;border-radius:12px;padding:10px 12px}
+.fc-g div.iv{background:var(--navy);color:var(--ivory)}
+.fc-g small{display:block;font-size:14px;font-weight:700;color:var(--muted)}
+.fc-g div.iv small{color:rgba(242,242,242,.7)}
+.fc-g b{display:block;font-size:20px;font-weight:900;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums}
+.fc-g div.iv b{color:var(--gold)}
+.fc-gap{margin:12px 0 4px;font-size:17px;font-weight:850;line-height:1.4}
+.fc-gap em{font-style:normal;color:var(--bad);white-space:nowrap}.fc-gap em.ok{color:var(--good)}
+.fc-sc{font-size:14px;font-weight:700;color:var(--muted)}
+.fc-sc b{color:var(--ink)}
+.fc-note{margin:8px 0 0;font-size:14px;line-height:1.55;color:var(--muted)}
+.fc-go{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:12px;height:48px;border-radius:14px;background:linear-gradient(90deg,var(--gold2),var(--gold));color:var(--navy);font-weight:850;font-size:16px;text-decoration:none}
+.fc-go span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+.hero .others{margin:18px 0 0;font-size:14px;font-weight:700;color:rgba(242,242,242,.7)}
+.hero .others+.chips{margin-top:8px}
+.sopen{background:none;border:0;padding:0;margin-top:12px;font-size:14px;font-weight:700;color:rgba(242,242,242,.75);text-decoration:underline;text-underline-offset:3px}
+.hero.feat .sform{margin-top:10px}
+.hero.feat .sform[hidden]{display:none}
+.hero.feat .scroll{display:none}
+@media (max-width:360px){.hero.feat h1{font-size:27px}.fc-g b{font-size:17px}}
+
+/* 이야기 단락 */
+section.st{padding:56px 0}
+section.st+section.st{border-top:1px solid var(--line)}
+.st h2{margin:8px 0 14px;font-size:27px;line-height:1.34;font-weight:850;letter-spacing:-.02em}
+.st p{margin:0 0 14px;font-size:16.5px;color:#363636}
+.st p.lead{font-size:17.5px;color:var(--ink);font-weight:600}
+.st .note{font-size:14px;color:var(--muted);line-height:1.6}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* 01 말풍선 */
+.bubbles{display:flex;flex-direction:column;gap:10px;margin:6px 0 22px}
+.bub{align-self:flex-start;max-width:86%;background:#fff;border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:12px 16px;font-size:16px;font-weight:700;box-shadow:0 4px 14px rgba(32,32,32,.05)}
+.bub small{display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bottom:2px}
+.bub:nth-child(2){align-self:flex-end;border-radius:18px 18px 6px 18px}
+.reveal.in .bub{animation:pop .45s ease-out both}
+.reveal.in .bub:nth-child(2){animation-delay:.18s}.reveal.in .bub:nth-child(3){animation-delay:.36s}
+
+/* 02 세 가지 질문 */
+.g2{color:var(--gold2)}
+.bk{background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);border-radius:18px;padding:20px 18px 16px;margin:6px 0 20px;box-shadow:0 18px 40px rgba(22,22,22,.18)}
+.bk-top small{font-size:14px;font-weight:700;color:rgba(242,242,242,.7)}
+.bk-big{font-size:38px;font-weight:900;letter-spacing:-.03em;line-height:1.1;color:var(--gold);margin:6px 0 8px;font-variant-numeric:tabular-nums}
+.st .bk-top p{margin:0 0 14px;font-size:15px;font-weight:600;color:rgba(242,242,242,.85)}
+.bk-top p b{color:var(--gold)}
+.bk-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;border-top:1px solid rgba(242,242,242,.15);padding-top:12px}
+.bk-row small{display:block;font-size:14px;color:rgba(242,242,242,.62);font-weight:600}
+.bk-row b{font-size:17px;font-weight:850}
+.bk-row b.gd{color:var(--gold)}
+@media (max-width:360px){.bk-big{font-size:32px}}
+.reveal.in .bk{animation:pop .5s ease-out both}
+.qs3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 18px}
+.qs3 div{display:flex;flex-direction:column;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 6px 16px;text-align:center}
+.qs3 .n{display:flex;align-items:center;justify-content:center;flex:none;width:36px;height:36px;margin:0 0 12px;border-radius:50%;background:var(--navy);color:#FFFFFF;font-weight:900;font-size:17px}
+.qs3 b{display:flex;align-items:center;justify-content:center;min-height:2.8em;font-size:16px;line-height:1.4;word-break:keep-all}
+.reveal.in .qs3 div{animation:pop .45s ease-out both}.reveal.in .qs3 div:nth-child(2){animation-delay:.12s}.reveal.in .qs3 div:nth-child(3){animation-delay:.24s}
+
+/* 03 점수 카드 */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 16px}
+.sc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-decoration:none;color:inherit}
+.sc .nm{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-weight:800;font-size:16px}
+.sc .nm span{font-size:14px;color:var(--muted);font-weight:700}
+.sc .bs{font-size:36px;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin:6px 0 8px}
+.sc .bs i{font-style:normal;font-size:14px;color:var(--muted);font-weight:700;margin-left:2px}
+.sc .mbar{font-size:14px}
+.sc .trk{height:6px}
+.lesson{background:var(--navy);color:var(--ivory);border-radius:16px;padding:16px 18px;font-size:16px;font-weight:600;margin:0 0 14px}
+.lesson b{color:var(--gold)}
+
+/* 03 하이닉스 카드 */
+.hx{margin:0 0 14px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.hx-h{font-size:16px}
+.hx-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 10px}
+.hx-g div{background:#F1F1F1;border-radius:12px;padding:10px 12px}
+.hx-g small{display:block;font-size:14px;font-weight:700;color:var(--muted)}
+.hx-g b{display:block;font-size:21px;font-weight:900;letter-spacing:-.02em;margin:2px 0}
+.hx p{margin:0!important;font-size:15px!important;color:#363636!important;line-height:1.6}
+
+/* 04 검증 */
+.hl{color:var(--bad);font-size:1.25em}
+.vs{display:grid;gap:12px;margin:10px 0 16px}
+.vrow{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.vrow .vh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.vrow .vh b{font-size:16px}
+.vrow .vh span{font-size:14px;color:var(--muted);font-weight:700}
+.vrow .pct{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-top:6px}
+.vrow .pct small{font-size:15px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:0}
+.vrow.good .pct{color:var(--good)}.vrow.bad .pct{color:var(--bad)}
+.dots{display:flex;gap:5px;margin-top:10px}
+.dots i{flex:1;height:10px;border-radius:3px;background:#E3E3E3}
+.vrow.good .dots i.f{background:var(--bad)}.vrow.bad .dots i.f{background:var(--bad)}
+.dots i.h{background:linear-gradient(90deg,var(--bad) 50%,#E3E3E3 50%)}
+.dots i.s{background:linear-gradient(90deg,var(--bad) 70%,#E3E3E3 70%)}
+/* 04 그때 샀다면 */
+.bt{background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);border-radius:18px;padding:20px 18px 16px;margin:6px 0 20px;box-shadow:0 18px 40px rgba(22,22,22,.18)}
+.bt-top small{font-size:14px;font-weight:700;color:rgba(242,242,242,.7)}
+.bt-big{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:1.1;color:var(--gold);margin:6px 0 8px;font-variant-numeric:tabular-nums}
+.st .bt-top p{margin:0 0 6px;font-size:15px;font-weight:600;color:rgba(242,242,242,.85)}
+.bt-top p b{color:#fff}
+.bars3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end;height:190px;margin-top:10px;padding-top:6px;border-top:1px solid rgba(242,242,242,.15)}
+.b3{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;text-align:center}
+.b3 b{font-size:16px;font-weight:850;margin-bottom:6px;color:rgba(242,242,242,.9)}
+.b3 i{display:block;width:62%;height:var(--h);min-height:6px;border-radius:8px 8px 3px 3px;background:rgba(242,242,242,.28);transform-origin:bottom;transform:scaleY(0)}
+.b3.g b{color:var(--gold);font-size:18px}
+.b3.g i{background:linear-gradient(180deg,var(--gold),var(--gold2))}
+.b3 small{display:block;margin-top:8px;font-size:14px;line-height:1.35;font-weight:700;color:rgba(242,242,242,.7)}
+.reveal.in .b3 i{animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both}
+.reveal.in .b3:nth-child(2) i{animation-delay:.15s}.reveal.in .b3.g i{animation-delay:.35s;animation-duration:1.5s}
+@keyframes rise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.bt-list{display:grid;gap:8px;margin:6px 0 16px}
+.bt-list div{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.bt-list .sc{font-weight:900;font-size:16px;color:var(--navy);background:var(--gold);border-radius:999px;text-align:center;padding:3px 0}
+.bt-list b{font-size:16px}
+.bt-list em{font-style:normal;font-weight:850;font-size:16px;color:var(--good);text-align:right}
+.reveal.in .bt-list div{animation:pop .45s ease-out both}.reveal.in .bt-list div:nth-child(2){animation-delay:.1s}.reveal.in .bt-list div:nth-child(3){animation-delay:.2s}
+.bt-all{margin:14px 0 12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.bt-all summary{font-weight:800;font-size:15px;cursor:pointer}
+.bt-all table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+.bt-all th{text-align:left;font-size:14px;color:var(--muted);font-weight:700;padding:4px 0;border-bottom:1px solid var(--line)}
+.bt-all td{padding:7px 0;border-bottom:1px solid #ECECEC}
+.bt-all td:nth-child(2),.bt-all th:nth-child(2){text-align:center}.bt-all td:nth-child(3),.bt-all th:nth-child(3){text-align:right}
+@media (max-width:380px){.bt-big{font-size:34px}.bt-list div{grid-template-columns:50px 1fr;row-gap:2px}.bt-list em{grid-column:2;text-align:left;font-size:15px}}
+@media (prefers-reduced-motion:reduce){.reveal.in .b3 i{animation:none;transform:none}}
+/* 05·06 실제 앱 화면 */
+.phone{position:relative;margin:24px auto 18px;max-width:330px;border-radius:30px;padding:8px;background:var(--navy);box-shadow:0 24px 50px rgba(22,22,22,.22)}
+.phone img{display:block;width:100%;height:auto;border-radius:23px}
+.phone .ptag{position:absolute;left:50%;top:-12px;transform:translateX(-50%);white-space:nowrap;font-size:14px;font-weight:800;background:var(--gold);color:var(--navy);border-radius:999px;padding:4px 11px;z-index:1}
+.reveal.in .phone{animation:up .6s ease-out both}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 0}
+.feats div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
+.feats b{display:block;font-size:15px}
+.feats span{display:block;font-size:14px;color:var(--muted);line-height:1.45;margin-top:2px}
+.feats .t-v{color:#8F7B53}.feats .t-w{color:#636363}.feats .t-s{color:#DB4A62}
+
+/* 마지막: 적정 매수가 아래 순위 (이름은 가입 후 공개) */
+.end h2 em{font-style:normal;color:var(--gold)}
+#s7 h2{font-size:24px}
+#s7{padding-bottom:28px}
+.rk-tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:4px 0 14px}
+.rk-tabs button{height:34px;padding:0 13px;border-radius:999px;border:1px solid rgba(233,233,233,.32);background:rgba(255,255,255,.06);color:var(--ivory);font-size:14px;font-weight:700}
+.rk-tabs button small{opacity:.7;margin-left:3px;font-weight:700}
+.rk-tabs button.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.rk{max-width:440px;margin:0 auto 20px;display:grid;gap:8px;text-align:left}
+.rk a{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-decoration:none;color:inherit}
+.rk .n{font-weight:900;font-size:17px;color:var(--gold);text-align:center}
+.rk .ph{display:block;height:15px;width:var(--w,64%);border-radius:5px;background:linear-gradient(90deg,rgba(255,255,255,.28),rgba(255,255,255,.12));filter:blur(.6px)}
+.rk .phw{display:flex;align-items:center;gap:6px}.rk .phw .ph{flex:none;width:30px}
+.rk .pk{flex:none;font-style:normal;font-size:14px;font-weight:800;color:var(--navy);background:var(--gold);border-radius:999px;padding:3px 8px;line-height:1.3;white-space:nowrap}
+.rk .in2 small{display:block;margin-top:6px;font-size:14px;color:rgba(242,242,242,.7);font-weight:600}
+.rk .r{text-align:right;line-height:1.25}
+.rk .r b{display:block;font-size:20px;font-weight:900;color:#fff}.rk .r b i{font-style:normal;font-size:14px;color:rgba(242,242,242,.6);margin-left:1px}
+.rk .r span{font-size:14px;font-weight:800;color:#7FD3A6}
+.rk .lock{font-size:14px;color:rgba(242,242,242,.55);text-align:center;margin-top:2px}
+
+.gets{max-width:440px;margin:0 auto 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gets div{padding:12px 6px 10px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
+.gets i{display:flex;align-items:center;justify-content:center;width:34px;height:34px;margin:0 auto 7px;border-radius:50%}
+.gets svg{width:18px;height:18px;fill:none;stroke:#FFFFFF;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.gets b{display:block;font-size:14px;color:#fff;line-height:1.3}
+.gets span{display:block;font-size:14px;color:rgba(242,242,242,.62);margin-top:2px}
+.reveal.in .gets div{animation:pop .4s ease-out both}.reveal.in .gets div:nth-child(2){animation-delay:.06s}.reveal.in .gets div:nth-child(3){animation-delay:.12s}.reveal.in .gets div:nth-child(4){animation-delay:.18s}.reveal.in .gets div:nth-child(5){animation-delay:.24s}.reveal.in .gets div:nth-child(6){animation-delay:.3s}
+
+/* 마지막 */
+.end{background:linear-gradient(170deg,var(--navy2),var(--navy));color:var(--ivory);padding:56px 0 44px;text-align:center}
+.end h2{margin:8px 0 12px;font-size:28px;line-height:1.34;font-weight:850;color:#fff}
+.end p{margin:0 auto 22px;max-width:440px;font-size:16px;color:rgba(242,242,242,.84)}
+.end .acts{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
+.end .acts .btn{width:100%}
+.btn.kakao{background:#FEE500;color:#191600}
+.end .acts .btn.ghost{background:transparent;border:1px solid rgba(233,233,233,.45);color:var(--ivory)}
+.fin{margin:34px auto 26px;padding-top:30px;border-top:1px solid rgba(233,233,233,.28);max-width:440px}
+.end .fin p{margin:0;max-width:none}
+.end .fin .fin-q{font-size:27px;line-height:1.36;font-weight:850;color:#fff;letter-spacing:-.02em}
+.end .fin .fin-a{margin-top:12px;font-size:18px;line-height:1.5;font-weight:700;color:rgba(242,242,242,.88)}
+.fin-a b{color:var(--gold)}
+.reveal.in .fin{animation:pop .5s ease-out .2s both}
+.end2{border-top:1px solid rgba(233,233,233,.14);padding-top:44px}
+.end .h2s{font-size:22px;margin-bottom:18px}
+.end .small{margin-top:14px;font-size:14px;color:rgba(242,242,242,.6)}
+footer{background:var(--navy);color:rgba(242,242,242,.55);font-size:14px;line-height:1.6;padding:20px 0 110px;border-top:1px solid rgba(255,255,255,.06)}
+footer a{color:rgba(242,242,242,.75)}
+
+/* 아래 고정 버튼 */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(248,248,248,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s ease}
+.sticky.on{transform:none}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.sticky .btn svg{margin-right:6px;flex:none}
+.mid-k{display:flex;width:100%;justify-content:center;margin:12px 0 0}
+.sticky .in{max-width:640px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.sticky .t{flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.35;color:var(--muted)}
+.sticky .t a{color:var(--muted);text-decoration:none}
+.sticky .t b{display:block;color:var(--ink);font-size:15px}
+.sticky .btn{height:46px;padding:0 18px}
+
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(6px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media (min-width:700px){.hero{padding:104px 0 48px}.hero.feat h1{font-size:40px}.hero h1{font-size:44px}.st h2{font-size:31px}.cards{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:360px){.hero h1{font-size:30px}.big{font-size:44px}.cards{gap:8px}.sc{padding:12px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="wm solo" href="/start" aria-label="밸류노트"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
+  <a class="login" href="/?login&amp;from=start" data-ev="login">로그인</a>
+</div></header>
+
+<section class="hero" data-sec="s0">
+  <div class="wrap">
+    <div class="eyebrow" id="eb">워렌 버핏·그레이엄 기준 · 매일 계산</div>
+    <div id="fc"></div>
+    <a class="fcv" id="fcv" href="#hxv" hidden></a>
+    <h1 id="h1">내 주식, 지금<br><em>싼가요 비싼가요?</em></h1>
+    <div id="sbox">
+      <div class="chips" id="chips"></div>
+      <form class="sform" id="sform" autocomplete="off"><input id="sq" placeholder="내 종목 이름 (예: 삼성전자)" aria-label="종목 검색" enterkeyhint="search"><button class="btn gold" type="submit">점수 보기</button></form>
+      <div id="res"></div>
+    </div>
+    <div class="rk-h">지금 적정 주가보다 싸게 팔리는 회사</div>
+    <div class="rk-tabs" id="rk-tabs" role="tablist"></div>
+    <div class="rk" id="rk"></div>
+    <a class="btn kakao hk" href="/?kakao=1&amp;from=start&amp;vt=KR" data-ev="cta-hero-kakao" data-out id="rk-k"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg><span id="rk-kt">카카오로 1초 만에 전체 보기</span></a>
+    <div class="hsm"><a href="/?signup&amp;from=start" data-ev="cta-hero-email" data-out>이메일로 가입</a><button type="button" class="sopen" id="sopen" hidden>다른 회사 점수 보기</button></div>
+    <a class="scroll" href="#s1" data-ev="scroll-cue"><span>↓</span> 이 계산은 어떻게 나올까요? 1분 소개</a>
+  </div>
+</section>
+
+<section class="st" id="s1" data-sec="s1"><div class="wrap reveal">
+  <div class="eyebrow">01 · 우리가 주식을 사는 방식</div>
+  <h2 id="s1h">대부분은 이렇게 삽니다</h2>
+  <div class="bubbles">
+    <div class="bub"><small>지인에게 들은 말</small>"이거 곧 오른대"</div>
+    <div class="bub"><small>뉴스와 유튜브</small>"요즘은 AI가 대세래"</div>
+    <div class="bub"><small>막연한 느낌</small>"회사가 좋잖아, 망하겠어?"</div>
+  </div>
+  <p class="lead">살 때도 팔 때도 기준이 없으니, 주가가 흔들리면 같이 흔들립니다.</p>
+</div></section>
+
+<section class="st" id="s2" data-sec="s2"><div class="wrap reveal">
+  <div class="eyebrow">02 · 대가들의 방식</div>
+  <h2>워렌 버핏과 찰리 멍거는<br>60년 동안 <span class="g2">6,099,294%</span>를 벌었습니다</h2>
+  <div class="bk">
+    <div class="bk-top"><small>1965년 버크셔에 1억 원을 넣었다면, 2025년 말</small>
+      <div class="bk-big">약 6조 1천억 원</div>
+      <p>같은 돈을 미국 대표 지수 S&amp;P500에 넣었다면 약 461억 원입니다.</p></div>
+    <div class="bk-row">
+      <div><small>버크셔 연평균</small><b class="gd">19.7%</b></div>
+      <div><small>S&amp;P500 연평균</small><b>10.5%</b></div>
+      <div><small>S&amp;P500 누적</small><b>46,061%</b></div>
+    </div>
+  </div>
+  <p class="lead">그들은 주식을 사기 전에 늘 세 가지를 물었습니다.</p>
+  <div class="qs3">
+    <div><span class="n">1</span><b>좋은<br>사업인가</b></div>
+    <div><span class="n">2</span><b>적정한<br>가격인가</b></div>
+    <div><span class="n">3</span><b>10년 뒤에도<br>괜찮은가</b></div>
+  </div>
+  <div class="lesson">이 방식은 느려 보이지만, 가장 큰 결과를 남겼습니다.<br><b>밸류노트는 모든 기능을 이 방식으로 설계하고, 모든 기업을 이 방식으로 평가합니다.</b></div>
+  <p class="note">* 버크셔 해서웨이 주가 기준(2025년 연례 보고서). 찰리 멍거는 1978년부터 함께했습니다. 과거 수익률은 미래 수익을 보장하지 않습니다.</p>
+</div></section>
+
+<section class="st" id="s3" data-sec="s3"><div class="wrap reveal">
+  <div class="eyebrow">03 · 600+ 기업, 같은 기준</div>
+  <h2>유명한 회사들은<br>지금 몇 점일까요</h2>
+  <div class="cards" id="cards"></div>
+  <div class="lesson" id="lesson"><b>좋은 회사와 좋은 투자는 다릅니다.</b> 재무가 최상위여도 가격에 기대가 너무 많이 담기면 점수는 낮아집니다.</div>
+  <div class="hx" id="hx">
+    <div class="hx-h"><b>요즘 많이 찾는 SK하이닉스는?</b></div>
+    <div class="hx-g">
+      <div><small>지금 주가</small><b id="hx-px">1,277,000원</b></div>
+      <div><small>워렌 버핏식 적정 주가</small><b id="hx-iv">295,282원</b></div>
+    </div>
+    <p>호황이 계속된다고 가정하지 않고 보수적으로 계산한 값입니다. AI 호황이 길게 이어지면 더 높게 볼 수도 있습니다.</p>
+  </div>
+  <div id="hxv" data-yt="co:000660" data-yt-src="start-hynix" data-yt-label="SK하이닉스, 왜 29만 원인지 영상으로 보기" data-yt-compact></div>
+  <p class="note">점수는 늘 맞지는 않습니다. 버크셔는 이 방식으로 지금 고평가로 나오는 알파벳을 올해도 더 샀습니다. <span id="asof"></span></p>
+  <a class="btn kakao mid-k" href="/?kakao=1&amp;from=start&amp;utm_source=start-s3" data-ev="cta-s3-kakao" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>내 종목도 이렇게 확인하기 · 카카오 1초</a>
+</div></section>
+
+<section class="st" id="s4" data-sec="s4"><div class="wrap reveal">
+  <div class="eyebrow">04 · 밸류노트 점수대로 샀다면</div>
+  <h2>4년 전 <span class="g2">70점 이상</span>에<br>1억 원을 넣었다면</h2>
+  <div class="bt">
+    <div class="bt-top"><small>2022년 10월 20일 → 2026년 10월 20일<br>배당 포함 · 원화 기준</small>
+      <div class="bt-big"><span id="bt-n" data-to="7.45">7.45</span>억 원</div>
+      <p>같은 1억 원을 코스피에 넣었다면 <b style="white-space:nowrap">2억 5천만 원</b>입니다.</p></div>
+    <div class="bars3" aria-hidden="true">
+      <div class="b3"><b>2.5억</b><i style="--h:33%"></i><small>코스피</small></div>
+      <div class="b3"><b>2.5억</b><i style="--h:34%"></i><small>70점 미만<br>9곳 평균</small></div>
+      <div class="b3 g"><b>7.5억</b><i style="--h:100%"></i><small>70점 이상<br>3곳 평균</small></div>
+    </div>
+  </div>
+  <p class="lead">그때 70점을 넘었던 회사는 세 곳이었습니다.</p>
+  <div class="bt-list">
+    <div><span class="sc">92점</span><b>메타</b><em>1억 → 4억 9천만 원</em></div>
+    <div><span class="sc">89점</span><b>KB금융</b><em>1억 → 3억 8천만 원</em></div>
+    <div><span class="sc">73점</span><b>SK하이닉스</b><em>1억 → 13억 6천만 원</em></div>
+  </div>
+  <div class="lesson">세 곳 모두 코스피보다 많이 벌었습니다. 70점이 안 되던 9곳 가운데 코스피를 이긴 곳은 3곳뿐이었습니다.<br><b>그래서 밸류노트는 지금 70점을 넘는 회사를 매일 찾아 알려 드립니다.</b></div>
+  <details class="bt-all"><summary>12곳 전체 결과 보기</summary>
+    <table><thead><tr><th>회사</th><th>그때 점수</th><th>1억 원이 지금</th></tr></thead><tbody>
+    <tr><td>메타</td><td>92점</td><td>4억 9천만 원</td></tr>
+    <tr><td>KB금융</td><td>89점</td><td>3억 8천만 원</td></tr>
+    <tr><td>SK하이닉스</td><td>73점</td><td>13억 6천만 원</td></tr>
+    <tr><td>소니그룹</td><td>69점</td><td>1억 9천만 원</td></tr>
+    <tr><td>미쓰비시UFJ</td><td>65점</td><td>4억 5천만 원</td></tr>
+    <tr><td>마이크로소프트</td><td>63점</td><td>2억 1천만 원</td></tr>
+    <tr><td>토요타</td><td>58점</td><td>1억 5천만 원</td></tr>
+    <tr><td>삼성전자</td><td>49점</td><td>3억 9천만 원</td></tr>
+    <tr><td>애플</td><td>47점</td><td>2억 2천만 원</td></tr>
+    <tr><td>알파벳</td><td>47점</td><td>3억 2천만 원</td></tr>
+    <tr><td>닌텐도</td><td>42점</td><td>1억 3천만 원</td></tr>
+    <tr><td>현대차</td><td>22점</td><td>2억 1천만 원</td></tr>
+    </tbody></table>
+  </details>
+  <p class="note">한국·미국·일본에서 많이 아는 회사 12곳을 결과를 보기 전에 먼저 정하고 모두 계산했습니다. 그때 점수는 지금 밸류노트 공식에 2022년 10월 20일까지 나온 결산 자료와 그날 종가만 넣어 다시 계산한 값입니다. 해외 주식은 그날 환율로 사고 배당은 현지 통화로 모았다가 2026년 10월 20일 환율로 바꾼 세전 금액이며, 수수료와 코스피 배당은 넣지 않았습니다. 12곳은 예시이며, 과거 수익률은 미래 수익을 보장하지 않습니다.</p>
+  <a class="btn kakao mid-k" href="/?kakao=1&amp;from=start&amp;utm_source=start-s4" data-ev="cta-s4-kakao" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>지금 70점 넘는 회사 보기 · 카카오 1초</a>
+</div></section>
+
+<section class="st shotsec" id="s5" data-sec="s5"><div class="wrap reveal">
+  <div class="eyebrow">05 · 내 포트폴리오</div>
+  <h2>종목만 넣으면<br>유지·정리를 알려 줍니다</h2>
+  <figure class="phone"><span class="ptag">실제 앱 화면 · 예시 계정</span><img src="/start-img/portfolio.webp?v=2" width="780" height="1647" loading="lazy" decoding="async" alt="밸류노트 포트폴리오 현황 화면: 종목마다 가치주·관찰주·투기주 표시와 유지·비중 줄이기·정리 1순위 안내, 지금 할 일"></figure>
+  <div class="feats">
+    <div><b class="t-v">가치주</b><span>오래 들고 갈 종목</span></div>
+    <div><b class="t-w">관찰주</b><span>비중을 줄일 종목</span></div>
+    <div><b class="t-s">투기주</b><span>정리할 종목</span></div>
+  </div>
+  <a class="btn kakao mid-k" href="/?kakao=1&amp;from=start&amp;utm_source=start-pf" data-ev="cta-pf-kakao" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>내 포트폴리오 채점하기 · 카카오 1초</a>
+</div></section>
+
+<section class="end" id="s8" data-sec="s8"><div class="wrap reveal">
+  <div class="eyebrow" style="color:var(--gold)">06 · 가입하면</div>
+  <h2 class="h2s">투자 판단을 돕는 기능도<br>함께 드립니다</h2>
+  <div class="gets">
+    <div><i style="background:#FF4D6D"><svg viewBox="0 0 24 24"><path d="M4 19h16M7 16V9m5 7V5m5 11v-4"/></svg></i><b>저평가 순위 전체</b><span>5개 시장 매일</span></div>
+    <div><i style="background:#DB4A62"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i><b>적정 매수가 알림</b><span>휴대폰·PC로</span></div>
+    <div><i style="background:#1F8A5B"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></i><b>내 종목 채점</b><span>유지·정리 판단</span></div>
+    <div><i style="background:#E07A2E"><svg viewBox="0 0 24 24"><path d="M3 15a9 9 0 0 1 18 0"/><path d="m12 15 4-5"/></svg></i><b>경제 레이더</b><span>평일 아침 갱신</span></div>
+    <div><i style="background:#676767"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><b>주간 칼럼 메일</b><span>매주 월요일</span></div>
+    <div><i style="background:#6A5BB8"><svg viewBox="0 0 24 24"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg></i><b>결정 일지</b><span>왜 샀는지 기록</span></div>
+  </div>
+  <div class="fin">
+    <p class="fin-q">언제까지 기준 없이<br>투자하실 건가요?</p>
+    <p class="fin-a" id="fin-a">이제 <b>밸류노트</b>와 함께<br>현명한 투자자가 되세요.</p>
+  </div>
+  <div class="acts">
+    <a class="btn kakao" href="/?kakao=1&amp;from=start&amp;vt=KR" data-ev="cta-kakao" data-out id="rk-k2"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 만에 시작하기</a>
+  </div>
+  <div class="small"><a href="/?signup&amp;from=start" data-ev="cta-end-signup" data-out>이메일로 가입</a> · <a href="/?login&amp;from=start" data-ev="login-end">로그인</a></div>
+</div></section>
+
+<footer><div class="wrap">본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다. 표시되는 점수·적정 주가는 과거 데이터와 가정에 기반한 추정치로 수익을 보장하지 않습니다.<br><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a><br><a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a> · © ValueNote</div></footer>
+
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b>저평가 회사 전체 보기</b><span>가입하고 바로 확인하세요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=start" data-ev="cta-sticky-kakao" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입</a></div></div>
+
+<script>
+(function(){
+'use strict';
+var $ = function(s){ return document.querySelector(s); };
+var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+var MK = {KR:'한국', US:'미국', JP:'일본', HK:'홍콩', CN:'중국'};
+/* 받침에 따라 은/는 */
+var jo = function(w, a, b){ var c = String(w).charCodeAt(String(w).length - 1); if(c < 0xAC00 || c > 0xD7A3) return w + b; return w + ((c - 0xAC00) % 28 ? a : b); };
+
+/* ---------- 방문 기록: 앱과 같은 방문자 번호(vn-sid)·유입 경로(vn-ref)를 써서 소개 → 앱 → 가입을 이어서 본다 ---------- */
+var EV_URL = 'https://msjbrwyzkiueqnzjeicm.supabase.co/rest/v1/events', once = {}, T0 = Date.now();
+var EV_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zamJyd3l6a2l1ZXFuemplaWNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTk0NTcsImV4cCI6MjEwNzQzNTQ1N30.RIq2MRW8bwHQUO_dPeIarujjWcYD_dXn06icr1Mpmuw'; /* 공개 키(anon): 방문 기록 추가만 가능 */
+function sid(){ try{ var v = localStorage.getItem('vn-sid'); if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g,'').slice(0,32); localStorage.setItem('vn-sid', v); } return v; }catch(_){ return 'nosid'; } }
+function device(){ var u = navigator.userAgent; var os = /iPhone|iPad|iPod/.test(u) ? 'iOS' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : '기타'; return (/Mobi|iPhone|Android/.test(u) ? '모바일' : 'PC') + ' · ' + os; }
+function skip(){
+  try{ var sf = new URLSearchParams(location.search).get('staff'); if(sf === '1') localStorage.setItem('vn-staff','1'); if(sf === '0') localStorage.removeItem('vn-staff'); if(localStorage.getItem('vn-staff') === '1') return true; }catch(_){}
+  return /^(localhost|127\.|0\.0\.0\.0|192\.168\.)/.test(location.hostname) || location.protocol === 'file:' || navigator.webdriver || /bot|crawl|spider|slurp|yeti|headless|lighthouse|preview|facebookexternalhit/i.test(navigator.userAgent);
+}
+function refOf(){
+  var q = new URLSearchParams(location.search), ua = navigator.userAgent;
+  var app = /Instagram/.test(ua) ? 'ig' : /Barcelona|Threads/.test(ua) ? 'threads' : /KAKAOTALK/.test(ua) ? 'kakaotalk' : /FBAN|FBAV/.test(ua) ? 'facebook' : /NAVER\(/.test(ua) ? 'naver-app' : '';
+  var host = ''; try{ if(document.referrer){ var h = new URL(document.referrer).hostname; if(h !== location.hostname) host = h; } }catch(_){}
+  var r = q.get('utm_source') || q.get('ref') || app || host; if(/kakao\.com$/.test(r)) r = '';
+  try{ if(r && !localStorage.getItem('vn-ref')) localStorage.setItem('vn-ref', r); }catch(_){}
+  return r;
+}
+var REF = refOf(), SKIP = skip();
+function send(kind, path){
+  if(SKIP) return;
+  var row = { kind: kind, sid: sid(), path: path.slice(0, 200), ref: (kind === 'visit' ? REF : (function(){ try{ return localStorage.getItem('vn-ref') || REF; }catch(_){ return REF; } })()).slice(0, 300), device: device() };
+  /* 페이지를 여는 순간 바로 저장한다. 예전에는 Supabase 라이브러리가 다 받아진 뒤에야 저장해서, 그 전에 나간 사람은 집계되지 않았다 */
+  try{ fetch(EV_URL, { method: 'POST', keepalive: true, headers: { 'apikey': EV_KEY, 'Authorization': 'Bearer ' + EV_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify(row) }).catch(function(){}); }catch(_){}
+}
+function hit(k){ if(once[k]) return; once[k] = 1; send('engage', '/start:' + k); }
+/* 나가는 순간 몇 초 만에 나갔는지 기록 (out-3 = 3초 안, out-10, out-30, out-60, out-60p) */
+function outHit(){ var t = (Date.now() - T0) / 1000; hit(t < 3 ? 'out-3' : t < 10 ? 'out-10' : t < 30 ? 'out-30' : t < 60 ? 'out-60' : 'out-60p'); }
+addEventListener('pagehide', outHit); document.addEventListener('visibilitychange', function(){ if(document.hidden) outHit(); });
+send('visit', '/start');
+setTimeout(function(){ if(!document.hidden) hit('t5'); }, 5000);
+setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
+setTimeout(function(){ if(!document.hidden) hit('t60'); }, 60000);
+document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
+/* 가입 버튼: 인스타·카톡 앱 안 브라우저에서는 카카오 로그인·입력이 막히기 쉬워, 누르는 순간 크롬(안드로이드)·Safari(아이폰)로 연다.
+   방문자 번호(vsid)·유입 경로(vref)를 함께 넘겨 소개 → 가입이 같은 사람으로 이어지게 한다. 소개를 읽는 동안에는 앱 안에 그대로 둔다 */
+var UA = navigator.userAgent, INAPP = /Instagram|FBAN|FBAV|Barcelona|Threads|KAKAOTALK|NAVER\(|Line\//.test(UA);
+function outUrl(href){ var u = new URL(href, location.href); u.searchParams.set('vsid', sid()); try{ var r = localStorage.getItem('vn-ref') || REF; if(r) u.searchParams.set('vref', r); }catch(_){} return u.href; }
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[data-out]'); if(!a || !INAPP) return;
+  var url = outUrl(a.getAttribute('href')); e.preventDefault(); hit('go-ext');
+  if(/KAKAOTALK/.test(UA)){ location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url); return; }
+  if(/Android/.test(UA)){ location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end'; return; }
+  /* 아이폰: Safari로 열기를 시도하고, 1.5초 안에 넘어가지 않으면 그 자리에서 그대로 진행 */
+  var gone = false, onh = function(){ if(document.hidden) gone = true; }; document.addEventListener('visibilitychange', onh);
+  location.href = 'x-safari-' + url;
+  setTimeout(function(){ document.removeEventListener('visibilitychange', onh); if(!gone){ hit('go-ext-fail'); location.href = url; } }, 1500);
+}, false);
+
+/* 04: 금액이 올라가는 숫자 */
+(function(){ var el = document.getElementById('bt-n'); if(!el) return; var to = parseFloat(el.dataset.to); var done = false;
+  function run(){ if(done) return; done = true; var t0 = null; function step(t){ if(!t0) t0 = t; var p = Math.min(1, (t - t0) / 1600); var e = 1 - Math.pow(1 - p, 3); el.textContent = (1 + (to - 1) * e).toFixed(2); if(p < 1) requestAnimationFrame(step); } el.textContent = '1.00'; requestAnimationFrame(step); }
+  if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var o = new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ run(); o.disconnect(); } }); }, { threshold: .4 }); o.observe(el); })();
+/* ---------- 단락이 보이면: 등장 효과 + 도달 기록 ---------- */
+var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting) return; var t = en.target;
+  if(t.classList.contains('reveal')){ t.classList.add('in'); io.unobserve(t); } }); }, { threshold: .2 }) : null;
+document.querySelectorAll('.reveal').forEach(function(el){ if(io) io.observe(el); else el.classList.add('in'); });
+/* 도달 기록은 등장 효과와 따로: 단락 윗부분이 화면 위쪽 절반까지 올라와야 '읽음'으로 센다.
+   (예전 기준 20%는 첫 화면 아래에 살짝 걸친 01 단락까지 열자마자 잡혀 실제보다 많이 보였다) */
+var rio = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting) return;
+  hit(en.target.dataset.sec); rio.unobserve(en.target); }); }, { rootMargin: '0px 0px -50% 0px', threshold: 0 }) : null;
+document.querySelectorAll('[data-sec]').forEach(function(el){ if(rio) rio.observe(el); });
+/* 아래로 내리기 시작했는지 (화면 높이의 1/4 이상) · 검색창을 눌렀는지 */
+addEventListener('scroll', function sc(){ if(scrollY > innerHeight * .25){ hit('scroll'); removeEventListener('scroll', sc); } }, { passive: true });
+$('#sq').addEventListener('focus', function(){ hit('search-focus'); });
+$('#sopen').addEventListener('click', function(){ var b = $('#sbox'); b.hidden = !b.hidden; hit('search-open'); });
+/* 첫 화면이 실제로 그려지기까지 걸린 시간 (인스타 앱 안 브라우저가 느려 못 보고 나가는지 가려낸다) */
+addEventListener('load', function(){ setTimeout(function(){ try{ var p = performance.getEntriesByType('paint').filter(function(e){ return e.name === 'first-contentful-paint'; })[0];
+  var t = p ? p.startTime : performance.now(); hit(t < 1000 ? 'fcp-1' : t < 3000 ? 'fcp-3' : t < 6000 ? 'fcp-6' : 'fcp-9'); }catch(_){} }, 0); });
+
+/* 아래 가입 버튼은 처음부터 계속 띄운다 (마지막 가입 단락에서만 숨김, 2026-10-20) */
+var sticky = $('#sticky'), hero = $('.hero'), end = $('#s8');
+function stk(){ var hk = $('#rk-k').getBoundingClientRect(), et = end.getBoundingClientRect().top; sticky.classList.toggle('on', hk.bottom < 0 && et > innerHeight * .85); }  /* 첫 화면 가입 버튼이 보이는 동안은 아래 버튼을 숨긴다 */
+addEventListener('scroll', stk, { passive: true }); stk();
+/* 빠르게 훑고 지나간 단락도 보이게: 화면 위로 지나간 단락은 바로 표시 */
+addEventListener('scroll', function(){ document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ if(el.getBoundingClientRect().top < innerHeight * .9) el.classList.add('in'); }); }, { passive: true });
+
+/* ---------- 점수 데이터: 공개 기업 페이지가 매일 만드는 점수표 ---------- */
+var FALLBACK = { date:'', c:{ 'aapl':['애플',36,91,0,'US'], 'ko':['코카콜라',35,86,1,'US'], '000270-ks':['기아',76,85,100,'KR'], '005930-ks':['삼성전자',47,71,23,'KR'],
+  '005830-ks':['DB손해보험',79,92,98,'KR'], '086280-ks':['현대글로비스',73,83,90,'KR'], 'tsla':['테슬라',26,51,0,'US'], '035720-ks':['카카오',25,56,4,'KR'], '000660-ks':['SK하이닉스',47,67,30,'KR'], 'googl':['알파벳',47,94,15,'US'] } };
+var D = FALLBACK, byName = {};
+function idx(){ byName = {}; Object.keys(D.c).forEach(function(s){ var r = D.c[s]; if(r && r[0]) byName[r[0].replace(/\s/g,'').toLowerCase()] = s; }); }
+function row(slug){ var r = D.c[slug]; return r ? { slug: slug, n: r[0], b: r[1], q: r[2], v: r[3], m: r[4], mos: r[5] } : null; }
+function find(q){ q = (q || '').replace(/\s/g,'').toLowerCase(); if(!q) return null; if(byName[q]) return row(byName[q]); if(D.c[q]) return row(q);
+  var best = null; Object.keys(byName).forEach(function(k){ if(!best && (k.indexOf(q) === 0 || (q.length >= 2 && k.indexOf(q) >= 0))) best = byName[k]; }); return best ? row(best) : null; }
+var num = function(v){ return typeof v === 'number' && isFinite(v); };
+function band(b){ return !num(b) ? '' : b >= 70 ? 'hi' : b >= 50 ? 'mid' : 'lo'; }
+function verdict(r){
+  var k, t;
+  if(num(r.mos)){ k = r.mos >= 5 ? 'lo' : r.mos > -5 ? 'mid' : 'hi'; t = r.mos >= 5 ? '적정 주가보다 ' + Math.round(r.mos) + '% 싸게 거래 중' : r.mos > -5 ? '적정 주가 근처' : '적정 주가보다 ' + Math.round(-r.mos) + '% 비싸게 거래 중'; }
+  else if(num(r.v)){ k = r.v >= 60 ? 'lo' : r.v >= 40 ? 'mid' : 'hi'; t = r.v >= 60 ? '지금 가격은 싼 편' : r.v >= 40 ? '지금 가격은 적정 수준' : '지금 가격은 비싼 편'; }
+  else return '';
+  return '<div class="res-v ' + k + '">' + t + '</div>';
+}
+function say(r){
+  if(!num(r.b)) return '아직 점수를 계산하지 못한 회사입니다.';
+  if(num(r.q) && num(r.v) && r.q >= 80 && r.v < 30) return '재무는 최상위권이지만, 지금 주가에는 이미 큰 기대가 담겨 있습니다.';
+  if(num(r.q) && num(r.v) && r.q < 60 && r.v >= 60) return '가격은 낮아 보이지만, 사업의 질에서 점검할 부분이 남아 있습니다.';
+  if(r.b >= 70) return '재무와 가격 모두 워렌 버핏·그레이엄의 기준에 가까운 편입니다.';
+  if(r.b >= 50) return '기준에 일부 가깝지만, 재무나 가격 중 한쪽이 아쉽습니다.';
+  return '재무나 가격이 워렌 버핏·그레이엄의 기준과 거리가 있습니다.';
+}
+function bars(r){ return '<div class="mbar"><div><span>재무 점수</span><b>' + (num(r.q) ? r.q : '–') + '</b></div><div class="trk"><i style="width:' + (num(r.q) ? r.q : 0) + '%"></i></div></div>' +
+  '<div class="mbar"><div><span>가격 점수</span><b>' + (num(r.v) ? r.v : '–') + '</b></div><div class="trk g"><i style="width:' + (num(r.v) ? Math.max(2, r.v) : 0) + '%"></i></div></div>'; }
+var KSVG = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>';
+/* 가입 뒤 이 종목을 관심 종목에 담도록 앱에 넘긴다 (slug '000660-ks' → 티커 '000660.KS') */
+function wantUrl(r, src){ var t = r.slug.replace(/-([a-z]+)$/, '.$1').toUpperCase(), co = r.slug.split('-')[0].toUpperCase();
+  return '/?kakao=1&co=' + encodeURIComponent(co) + '&q=' + encodeURIComponent(r.n) + '&watch=' + encodeURIComponent(t) + '&utm_source=' + src; }
+var pick = null;
+function showRes(r, q){
+  var box = $('#res');
+  if(!r){ box.innerHTML = '<div class="res-miss">' + esc(jo(q, '은', '는')) + ' 기본 목록 600+ 기업에서 찾지 못했습니다. 가입하면 목록에 없는 종목도 이름으로 바로 분석할 수 있어요 (3회까지).</div>'; return; }
+  pick = r.n; chips();
+  /* 앱 알림은 적정 매수가(적정 주가의 70%)에서 온다. 안전마진(mos)이 30% 이상이면 이미 그 아래, 2~30%면 알림이 의미 있는 거리,
+     그보다 비싸면 알림 대신 내 종목 채점을 권한다 (적정 주가의 4배인 회사에 알림을 권하면 말이 안 돼 보인다) */
+  var below = num(r.mos) && r.mos >= 30, near = num(r.mos) && r.mos > 2 && !below;
+  box.innerHTML = '<div class="res"><div class="res-h"><b>' + esc(r.n) + '</b><span>' + esc(MK[r.m] || '') + ' · 밸류노트 점수</span></div>' +
+    '<div class="res-g"><div class="big"><small>100점 만점</small>' + (num(r.b) ? r.b : '–') + '<i>점</i></div><div>' + bars(r) + '</div></div>' +
+    verdict(r) +
+    '<p class="res-say">' + esc(say(r)) + '</p>' +
+    '<a class="btn kakao res-k" href="' + wantUrl(r, below ? 'start-res-below' : near ? 'start-res' : 'start-res-score') + '" data-ev="res-kakao">' + KSVG + (below ? esc(r.n) + ' 관심 종목에 담기' : near ? esc(r.n) + ' 적정 매수가 알림 받기' : '내 종목 점수도 확인하기') + '</a>' +
+    '<a class="more" href="#s1" data-ev="res-more">이 점수는 어떻게 나왔을까요? ↓</a></div>';
+  /* 아래 고정 버튼도 방금 본 종목으로 */
+  var st = document.querySelector('#sticky .t b'), sk = document.querySelector('#sticky a.btn.kakao');
+  if(st) st.textContent = below ? r.n + ' 지금 적정 매수가 아래' : near ? r.n + ' 알림 받기' : '내 종목은 몇 점일까요?'; if(sk){ sk.href = wantUrl(r, 'start-sticky'); sk.lastChild.textContent = '카카오로 1초 가입'; }
+}
+var CHIPS = ['삼성전자','SK하이닉스','기아','애플','테슬라','엔비디아'], IG = null;
+function chips(){ var fn = FEAT && row(FEAT) ? row(FEAT).n : null; var L = (IG && CHIPS.indexOf(IG) < 0 && IG !== fn ? [IG] : []).concat(CHIPS).filter(function(n){ return n !== fn; });
+  $('#chips').innerHTML = L.map(function(n){ var ig = n === IG; return '<button type="button" class="' + (ig ? 'ig ' : '') + (pick === n ? 'on' : '') + '" data-pick="' + esc(n) + '">' + (ig ? '<small>인스타 오늘의 기업</small>' : '') + esc(n) + '</button>'; }).join(''); }
+$('#chips').addEventListener('click', function(e){ var b = e.target.closest('[data-pick]'); if(!b) return; var r = find(b.dataset.pick); showRes(r, b.dataset.pick); hit('chip'); });
+$('#sform').addEventListener('submit', function(e){ e.preventDefault(); var q = $('#sq').value.trim(); if(!q) return; showRes(find(q), q); hit('search'); $('#sq').blur(); });
+
+function cards(){
+  var L = ['aapl','ko','000270-ks','005930-ks'].map(row).filter(Boolean);
+  $('#cards').innerHTML = L.map(function(r){ return '<div class="sc"><div class="nm">' + esc(r.n) + '<span>' + esc(MK[r.m] || '') + '</span></div><div class="bs">' + (num(r.b) ? r.b : '–') + '<i>점</i></div>' + bars(r) + '</div>'; }).join('');
+  var a = row('aapl'), k = row('ko');
+  if(a && k && num(a.q) && num(k.q) && a.q >= 80 && k.q >= 80 && a.b < 50 && k.b < 50)
+    $('#lesson').innerHTML = '<b>좋은 회사와 좋은 투자는 다릅니다.</b> 애플·코카콜라는 재무 ' + Math.min(a.q, k.q) + '점 이상 최상위 회사지만, 가격에 기대가 많이 담겨 밸류노트 점수는 ' + Math.max(a.b, k.b) + '점 이하입니다.';
+  if(D.date) $('#asof').textContent = '(' + D.date.replace(/-/g, '.') + ' 기준)';
+}
+/* 지금 적정 매수가 아래(적정 주가보다 30% 이상 낮은) 회사: 시장별 점수순 5곳, 이름은 가린다 */
+var IND = [[/heavy construction machinery|construction machinery/i,'건설기계'],[/game|gaming/i,'게임'],[/medical|health/i,'의료기기·헬스케어'],[/insurance|보험/i,'보험'],[/bank|은행/i,'은행'],[/auto/i,'자동차'],[/footwear|apparel|textile|luxury|의류|신발/i,'의류·신발'],
+  [/semiconductor|반도체/i,'반도체'],[/software/i,'소프트웨어'],[/telecom|통신/i,'통신'],[/oil|gas|energy|정유|에너지/i,'에너지'],[/chemical|화학/i,'화학'],[/steel|철강/i,'철강'],
+  [/drug|pharma|제약|biotech/i,'제약·바이오'],[/food|식품/i,'식품'],[/beverage|음료/i,'음료'],[/retail|유통/i,'유통'],[/construction|engineering|건설|주택/i,'건설'],[/shipping|marine|해운/i,'해운'],
+  [/utilit|전력/i,'전력'],[/real estate|부동산/i,'부동산'],[/capital markets|brokerage|증권/i,'증권'],[/asset management/i,'자산운용'],[/aerospace|defense/i,'항공·방산'],[/electrical|electronic|가전/i,'전기·전자'],
+  [/machinery|기계/i,'기계'],[/freight|logistics|물류/i,'물류'],[/tobacco/i,'담배'],[/entertainment|leisure|travel|여가|오락/i,'여가·여행'],[/internet|interactive/i,'인터넷'],[/household|생활/i,'생활용품'],[/aluminum|metal|알루미늄|금속/i,'금속']];
+function ind(t){ t = String(t || ''); for(var i = 0; i < IND.length; i++) if(IND[i][0].test(t)) return IND[i][1]; return t.split(/,| 및 /)[0] || '기타'; }
+var RK = {}, RKM = 'KR', RKN = {KR:'한국', US:'미국', JP:'일본', HK:'홍콩', CN:'중국'};
+/* 앱 '저평가 순위'와 같은 기준·같은 순서 (매일 기업 페이지를 만들 때 함께 계산: 현재가 ≤ 적정 주가의 75%, 재무 50점 이상, 감점 없음) */
+fetch('/c/value-top.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){
+  RK = (j && j.m) || {}; if(!RK[RKM]) RKM = Object.keys(RK).sort(function(a, b){ return RK[b].n - RK[a].n; })[0] || 'KR'; rk(); }).catch(function(){});
+function rk(){
+  var M = RK[RKM], L = M ? M.top : [], W = [58, 72, 50, 66, 54];
+  if(!M){ $('#rk').innerHTML = ''; return; }
+  $('#rk-tabs').innerHTML = ['KR','US','JP','HK','CN'].filter(function(m){ return RK[m] && RK[m].n; }).map(function(m){ return '<button type="button" role="tab" data-rk="' + m + '" class="' + (m === RKM ? 'on' : '') + '" aria-selected="' + (m === RKM) + '">' + RKN[m] + '<small>' + RK[m].n + '</small></button>'; }).join('');
+  var go = '/?kakao=1&from=start&vt=' + RKM, kb = $('#rk-k'); if(kb) kb.href = go;
+  $('#rk-kt').textContent = '카카오로 1초 만에 ' + M.n + '곳 전체 보기';
+  $('#rk').innerHTML = L.slice(0, 3).map(function(x, i){
+    var open = i === 0 && x.n;
+    var name = open ? '<b class="nm">' + esc(x.n) + '</b>' : '<span class="phw"><i class="ph" style="--w:' + W[i] + '%" aria-hidden="true"></i><em class="pk">이름 보기 ›</em></span>';  /* 가린 이름 옆에 '이름 보기'를 붙여 누를 수 있는 줄로 보이게 (2026-10-22) */
+    var href = open && x.s ? wantUrl({ slug: x.s, n: x.n }, 'start-rk1') : go;
+    return '<a href="' + href + '" data-ev="' + (open ? 'rk-1' : 'rk-row') + '" data-out' + (open ? ' class="one"' : '') + '><span class="n">' + (i + 1) + '</span><span class="in2">' + name + '<small>' + esc(ind(x.ind)) + '</small></span><span class="r"><b>' + x.b + '<i>점</i></b><span>' + x.low + '% 저평가 · 상승 여력 +' + x.up + '%</span></span></a>'; }).join('') +
+    '<div class="lock">' + (RKN[RKM] || '') + ' ' + M.n + '곳 중 1위만 공개 · 나머지 이름은 가입하면 바로 보입니다</div>';
+}
+$('#rk-tabs').addEventListener('click', function(e){ var b = e.target.closest('[data-rk]'); if(!b) return; RKM = b.dataset.rk; rk(); hit('rk-' + RKM); });
+function render(){ idx(); chips(); cards(); }
+
+/* ---------- 첫 화면 주인공: 광고·릴스에서 보고 들어온 회사의 '답'을 먼저 보여 준다 ----------
+   1) 링크에 ?c=000660-ks 가 있으면 그 회사 (광고 도착 주소를 회사별로 달 때)
+   2) 지금 돌리는 유료 광고의 회사 (AD: 광고를 바꾸면 여기만 바꾸면 된다)
+   3) 없으면 가장 최근에 올라간 기업 릴스의 회사 */
+var AD = { slug: '000660-ks', until: '2026-11-10' };
+var FEAT = null, FEATD = null;
+function featSlug(){
+  var q = new URLSearchParams(location.search).get('c'); if(q && /^[0-9a-z.-]{1,20}$/i.test(q)) return q.toLowerCase();
+  if(AD && AD.slug && Date.now() < Date.parse(AD.until + 'T23:59:59+09:00')) return AD.slug;
+  return null;
+}
+var won = function(s){ return Number(String(s).replace(/[^\d.]/g, '')); };
+function feat(slug){
+  if(!slug || FEAT === slug) return; FEAT = slug; var r = row(slug); if(!r) { FEAT = null; return; }
+  hit('v-feat');
+  var hero = $('.hero'); hero.classList.add('feat');
+  $('#eb').textContent = /^ig|instagram/i.test(REF || '') ? '인스타에서 보신 그 계산' : '워렌 버핏 기준 적정 주가';
+  $('#h1').innerHTML = esc(jo(r.n, '이', '가')) + ' 비싸다면,<br>지금 <em>싼 회사</em>는 어디일까?';
+  if(slug === '000660-ks' && $('#hx')) $('#hx').hidden = true;
+  $('#s1h').innerHTML = '숫자를 보기 전에,<br>대부분은 이렇게 삽니다';
+  $('#fin-a').innerHTML = '방금 본 <b>' + esc(r.n) + '</b>처럼 600+ 기업을 매일 같은 기준으로.<br>이제 <b>밸류노트</b>와 함께<br>현명한 투자자가 되세요.';
+  chips(); fcard(r);
+  fetch('/c/' + slug, { cache: 'no-cache' }).then(function(x){ return x.text(); }).then(function(h){
+    var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
+    var px = /현재가 ([$₩]?[\d,.]*\d)(원?)/.exec(d), iv = /적정 주가 ([$₩]?[\d,.]*\d)(원?)/.exec(d);
+    if(px && iv){ FEATD = { px: px[1] + px[2], iv: iv[1] + iv[2], pn: won(px[1]), vn: won(iv[1]) }; fcard(row(slug) || r); }
+  }).catch(function(){});
+}
+function fcard(r){
+  var d = FEATD, x = d && d.pn > 0 && d.vn > 0 ? d.pn / d.vn : null;
+  /* 적정 주가보다 싼 회사가 광고 주인공이면 질문 방향을 바꾼다 */
+  if(x && x < .98) $('#h1').innerHTML = esc(r.n) + '처럼<br><em>싸게</em> 팔리는 회사, 또 어디?';
+  var line = !d ? '<b>' + esc(r.n) + '</b> · 밸류노트 점수 ' + (num(r.b) ? r.b + '점' : '–')
+    : '<b>' + esc(r.n) + '</b> ' + esc(d.px) + ' → 적정 주가 ' + esc(d.iv) + ' ' +
+      (x >= 1.5 ? '<em>약 ' + (Math.round(x * 10) / 10) + '배 비쌈</em>' : x > 1.02 ? '<em>' + Math.round((x - 1) * 100) + '% 비쌈</em>' : x < .98 ? '<em class="ok">' + Math.round((1 - x) * 100) + '% 쌈</em>' : '<em class="ok">적정</em>');
+  var note = r.slug === '000660-ks' ? 'AI 호황이 길게 이어진다고 가정하지 않은 보수적 계산입니다.' : '워렌 버핏·그레이엄의 방식으로 계산한 값이며, 늘 맞지는 않습니다.';
+  $('#fc').innerHTML = '<div class="fcl">' + line + '<small>' + esc(note) + '</small></div>';
+}
+fetch('/c/000660-ks', { cache: 'no-cache' }).then(function(r){ return r.text(); }).then(function(h){
+  var m = /<meta name="description" content="([^"]+)"/.exec(h); if(!m) return; var d = m[1];
+  var iv = /적정 주가 ([\d,]+)원/.exec(d), px = /현재가 ([\d,]+)원/.exec(d);
+  if(iv) $('#hx-iv').textContent = iv[1] + '원'; if(px) $('#hx-px').textContent = px[1] + '원'; }).catch(function(){});
+render();
+(function(){ var f = featSlug(); if(f) feat(f); else hit('v-plain'); })();
+/* 광고 주인공 회사의 유튜브 롱폼이 있으면 첫 화면에 한 줄 링크 → 03 섹션의 영상 카드로 내려가 바로 재생 (가입 버튼은 그대로 위에) */
+window.addEventListener('load', function(){
+  if(!FEAT || !window.VNYT) return;
+  var co = FEAT.split('-')[0];
+  VNYT.load().then(function(d){
+    var v = (d.videos || []).filter(function(x){ return x.kind === 'long' && String(x.company || '').toLowerCase() === co; })[0], a = $('#fcv'), box = $('#hxv');
+    if(!v || !a || !box) return;
+    if(box.getAttribute('data-yt') !== 'co:' + co){ box.removeAttribute('data-yt-done'); box.setAttribute('data-yt', 'co:' + co); box.setAttribute('data-yt-label', (row(FEAT) || {}).n ? row(FEAT).n + ', 영상으로 보기' : '영상으로 보기'); VNYT.mount(); }
+    a.innerHTML = '<i aria-hidden="true"></i>왜 이 가격인지 ' + Math.max(1, Math.round((v.dur || 0) / 60)) + '분 영상으로 보기 ›';
+    a.hidden = false;
+    a.addEventListener('click', function(e){ e.preventDefault(); hit('yt-hero');
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function(){ var b = box.querySelector('.vnyt-frame'); if(b) b.click(); }, 650); });
+  });
+});
+fetch('/c/scores.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(j){ if(j && j.c && Object.keys(j.c).length > 100){ D = j; render(); if(FEAT) fcard(row(FEAT)); else if(pick) showRes(find(pick), pick); } }).catch(function(){});
+/* 인스타 릴스에서 본 오늘의 기업을 칩 맨 앞에 */
+fetch('/social/reels/queue.json', { cache: 'no-cache' }).then(function(r){ return r.json(); }).then(function(L){ var now = Date.now();
+  var it = (L || []).filter(function(x){ return /^A\d{6}[a-z]$/.test(x.id) && Date.parse(x.scheduled_at) <= now && /·/.test(x.title || ''); }).sort(function(a, b){ return b.scheduled_at.localeCompare(a.scheduled_at); })[0];
+  if(!it) return; var n = (it.title.split('·')[1] || '').trim(); if(n && find(n) && /^오늘의 기업|기업 ·|낮게 보는|앞선 기업|적정 주가/.test(it.title) && !/TOP/.test(it.title)){ IG = find(n).n; if(!FEAT) feat(find(n).slug); else chips(); } }).catch(function(){});
+})();
+</script>
+<script src="/yt.js?v=1" defer></script>
+</body>
+</html>
