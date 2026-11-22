@@ -1772,6 +1772,9 @@ def dub_orig(d, dur, voices):
     return (x * g).astype(np.float32)
 
 
+VOICE_SPEED = [1.07]
+
+
 def clean_voice(l, speak):
     """성우 음성에 가끔 섞이는 이상한 소리(늘어진 소리·괴물 소리·덜 녹음된 소리)를 걸러 낸다 (2026-10-22 운영자 검수).
     1) 말 속도가 평소(초당 약 6.7음절)보다 크게 느리거나 빠르면  2) 음성 인식으로 다시 받아 적었을 때 원고와 많이 다르면
@@ -1779,8 +1782,9 @@ def clean_voice(l, speak):
     2026-11-21: 다시 받은 녹음은 테이크 번호(0·1·2)로 따로 보관 → 같은 원고를 다시 렌더하면 이 줄도 0원."""
     say = to_speech(l); syl = len(re.sub(r"[^가-힣]", "", say)); best = None
     for k in range(3):
-        a = R.pace(speak(say, 1.07, take=k)); rate = syl / max(.1, len(a) / SR)   # 2026-11-17 22:56 대표: 1.05는 살짝 느림 → 1.07 (원래 1.1)
-        bad_rate = syl >= 10 and not (5.5 <= rate <= 8.3)
+        _vs = VOICE_SPEED[0]   # 2026-11-22 대표 20:10: 편별 말 속도(스펙 "voice_speed", 기본 1.07) — 45세 이상 시청자가 많아 SOXL 3편부터 1.0 시험
+        a = R.pace(speak(say, _vs, take=k)); rate = syl / max(.1, len(a) / SR)   # 2026-11-17 22:56 대표: 1.05는 살짝 느림 → 1.07 (원래 1.1)
+        bad_rate = syl >= 10 and not (5.5 * _vs / 1.07 <= rate <= 8.3 * _vs / 1.07)   # 속도를 낮춘 편이 '느린 녹음'으로 오인돼 다시 사지 않게 기준도 같이 움직인다
         try:
             import verify; sc = verify.score(l, verify.hear(a, SR))
         except Exception: sc = 1.0
@@ -2343,6 +2347,7 @@ def main():
     for _sc in spec.get("scenes", []):   # 2026-11-21 r180 ③ 기본값: 뉴스 원음(news + sot_ 클립)은 66%로 줄여 위에 — 방송 띠·이름표·자막 겹침 방지(스펙에 news_scale 이 없어도)
         _v = _sc.get("v") or {}
         if _sc.get("news") and "news_scale" not in _v and any(str(c.get("lib") if isinstance(c, dict) else c).startswith("sot_") for c in (_v.get("cuts") or [])): _v["news_scale"] = 0.66
+    VOICE_SPEED[0] = min(1.15, max(.95, float(spec.get("voice_speed", 1.07))))
     preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
     import docfx as DOCFX; DOCFX.set_design2(D2[0]); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))
