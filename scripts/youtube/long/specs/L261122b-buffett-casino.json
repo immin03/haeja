@@ -63,7 +63,7 @@
  "no_data": true,
  "series": "사건의 뒤편",
  "plan": "R2611220030buffett",
- "scheduled_at": "2026-11-22T12:30:00+09:00",
+ "scheduled_at": "2026-11-22T11:10:00+09:00",
  "opening": "버핏 원음 '지금처럼 도박하는 기분이었던 적은 없다' → 얼굴 → 나스닥 -5% vs 버크셔 신고가 → 1999·2008 예고 → 약속",
  "hook_type": "거장 원음 + 폭락장 속 신고가 대비",
  "endscreen_target": "L261121e-ptj-after-crash",
@@ -215,7 +215,7 @@
       "lib": "commons_omaha_1.jpg"
      },
      {
-      "lib": "vstockmarket_47792.mp4"
+      "lib": "voldman_33361.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -228,10 +228,75 @@
    "src": "1999년 닷컴 · 2008년 금융위기 · 버크셔 연례 서한",
    "sketch": [],
    "lines": [
-    "모두가 AI를 쫓을 때 현금을 쌓아 두던 노인. 그는 이걸 미리 알고 있었던 걸까요? 사실 버핏은 이런 장면을 처음 겪는 게 아닙니다.",
-    "1999년에도, 2008년에도 그는 남들과 정반대로 움직였고, 처음엔 조롱받았습니다. 오늘은 그 세 번의 선택과, 지금 내 계좌로 옮겨 올 원칙을 정리해 드리겠습니다."
+    "모두가 AI를 쫓을 때 현금을 쌓아 두던 노인. 그는 이걸 미리 알고 있었던 걸까요? 1999년에도, 2008년에도 그는 남들과 정반대로 움직였고, 처음엔 조롱받았습니다.",
+    "오늘은 그 세 번의 선택과 내 계좌로 옮겨 올 원칙을 정리합니다. 먼저, 그가 지금 시장을 어떻게 보는지부터 들어 보죠."
    ],
-   "note": "[훅] 질문 → 약속"
+   "note": "[훅] 약속 → 원음 예고 (대표 11/22 10:03 원음 당기기)"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "sot_L261122b_casino.mp4",
+      "start": 0.0
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "news_scale": 0.66
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "CNBC 2026-05-02 · 워런 버핏 원음",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "워런 버핏",
+     "sub": "버크셔 해서웨이 · CNBC 2026.5.2 (주주총회)",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "저는 시장을 카지노가 딸린 교회에 비유해 왔습니다. 사람들은 교회와 카지노를 오갈 수 있죠.",
+    "늘 교회에 사람이 더 많다고 말해 왔는데, 카지노가 사람들에게 아주 매력적인 곳이 됐습니다.",
+    "하루짜리 옵션을 사고판다면, 그건 투자도 아니고 투기도 아닙니다. 그냥 완전한 도박이에요."
+   ],
+   "note": "[훅] 원음 2 — \"카지노가 딸린 교회\" (3장에서 앞으로 당김)",
+   "news": true,
+   "sot": {
+    "clip": "sot_L261122b_casino.mp4",
+    "start": 0.0,
+    "dur": 34.86,
+    "rms": 0.085
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "vcasino_4100.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "하루짜리 옵션, 레버리지 ETF, 빚으로 산 반도체 주식. 버핏이 말한 카지노는 지금 우리 시장 이야기이기도 합니다."
+   ],
+   "note": "[훅] 풀이 한 줄"
   },
   {
    "v": {
@@ -264,10 +329,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_nasdaqsite_1_wide.jpg"
+      "lib": "commons_nasdaqsite_1.jpg"
      },
      {
-      "lib": "commons_timessquare_1_wide.jpg"
+      "lib": "vcrowd_14084.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -302,7 +367,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_22961.mp4"
+      "lib": "vnewspaper_34190.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -337,10 +402,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_buffett_1_wide.jpg"
+      "lib": "commons_buffett_1.jpg"
      },
      {
-      "lib": "vnewyork_4442.mp4"
+      "lib": "vmeeting_15716.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -350,31 +415,7 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "포춘 1999-11-22 \"Mr. Buffett on the Stock Market\"(1999년 7월 선밸리 연설 정리)",
-   "sketch": [],
-   "lines": [
-    "그보다 몇 달 앞선 7월, 버핏은 아이다호 선밸리에 모인 기술·미디어 업계 거물들 앞에서 연설했습니다. 지금 투자자들이 기대하는 수익은 너무 높다고 경고했죠.",
-    "그 자리의 많은 사람이 그의 말을 흘려들었습니다."
-   ],
-   "note": "[1장] 선밸리 연설"
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "commons_nysefloor_2_wide.jpg"
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "포춘 1999-11-22 버핏 연설 정리(다우 1964-12-31 874.12 → 1981-12-31 875.00 → 1998-12-31 9,181.43)",
+   "src": "포춘 1999-11-22 \"Mr. Buffett on the Stock Market\"(1999년 7월 선밸리 연설 정리, 다우 1964-12-31 874.12 → 1981-12-31 875.00 → 1998-12-31 9,181.43)",
    "sketch": [
     {
      "kind": "punch",
@@ -386,10 +427,10 @@
     }
    ],
    "lines": [
-    "그날 그가 꺼낸 건 숫자 두 개였습니다. 1964년 말 다우지수는 874, 17년 뒤인 1981년 말엔 875. 17년 동안 거의 제자리였습니다.",
-    "그런데 그다음 17년 동안은 10배 넘게 올랐죠. 버핏은 이 차이를 만든 게 기업의 성장보다 금리와 사람들의 기대였다고 설명했습니다. 그리고 그 기대가 너무 높아졌다고 했습니다."
+    "그해 7월 아이다호 선밸리, 버핏은 기술 업계 거물들 앞에서 숫자 두 개를 꺼냈습니다. 다우지수는 1964년 말 874, 17년 뒤 1981년 말엔 875. 거의 제자리였죠.",
+    "그런데 그다음 17년은 10배 넘게 올랐습니다. 버핏은 그 차이가 기업이 아니라 금리와 기대에서 왔고, 이제 그 기대가 너무 높다고 경고했습니다. 많은 사람이 흘려들었죠."
    ],
-   "note": "[1장] 선밸리 숫자 — 17년 제자리"
+   "note": "[1장] 선밸리 연설 + 17년 제자리 (두 장면 → 하나)"
   },
   {
    "v": {
@@ -408,16 +449,7 @@
    "sketch_add": [],
    "asof": false,
    "src": "Inc. 2026-11-16(버크셔 A주 2000-03-10 4만 1,300달러, 2000~2002 버크셔 +29.7% · S&P500 -37.6%) · 나스닥 2000-03-10 5,048.62 → 2002-10-09 1,114.11",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "같은 날, 정반대",
-     "sub": "2000.3.10 나스닥 정점 = 버크셔 바닥",
-     "line": 0,
-     "at": 0.4,
-     "color": "gold"
-    }
-   ],
+   "sketch": [],
    "lines": [
     "그리고 2000년 3월 10일, 나스닥이 5,048로 정점을 찍은 바로 그날, 버크셔 A주는 4만 1,300달러로 바닥을 찍었습니다.",
     "그 뒤 3년, 나스닥은 78% 무너졌고, 버크셔는 30% 가까이 올랐습니다. 같은 기간 S&P500은 38% 빠졌습니다."
@@ -431,7 +463,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vstockmarket_9607.mp4"
+      "lib": "vtrading_18143.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -455,10 +487,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_23073.mp4"
+      "lib": "vstorm_25081.mp4"
      },
      {
-      "lib": "vnewspaper_34175.mp4"
+      "lib": "vfinance_17435.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -535,7 +567,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_ustreasury_2.jpg"
+      "lib": "vstockmarket_14114.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -601,7 +633,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_bankvault_1_wide.jpg"
+      "lib": "vambulance_14089.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -667,10 +699,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_nysefloor_1_wide.jpg"
+      "lib": "vnewspaper_41188.mp4"
      },
      {
-      "lib": "vnews_41204.mp4"
+      "lib": "vstockmarket_45706.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -706,7 +738,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_berkshirehq_1_wide.jpg"
+      "lib": "vfreighttrain_48871.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -771,7 +803,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vwallstreet_24515.mp4"
+      "lib": "vcrowd_15997.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -835,7 +867,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_231.mp4"
+      "lib": "vcash_18261.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -917,76 +949,10 @@
    "sketch": [],
    "lines": [
     "그리고 2026년. 버핏은 작년 말 CEO 자리를 그레그 에이블에게 넘겼고, 올해 9월 18일엔 60년 가까이 지켜 온 회장 자리에서도 물러났습니다.",
-    "5월 주주총회에서 처음으로 무대가 아닌 객석에 앉은 그에게, CNBC의 베키 퀵이 시장이 어떻게 느껴지느냐고 물었습니다."
+    "5월 주주총회에서 처음으로 무대가 아닌 객석에 앉은 그는, 앞에서 들은 카지노 이야기를 꺼냈습니다. 그럼 버크셔는 지금 무엇을 하느냐는 질문에, 답은 짧았습니다."
    ],
    "note": "[3장] 은퇴 · 원음 예고",
    "chapter": "2026년, 96세 버핏의 경고"
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "sot_L261122b_casino.mp4",
-      "start": 0.0
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true,
-    "news_scale": 0.66
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "CNBC 2026-05-02 · 워런 버핏 원음",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "워런 버핏",
-     "sub": "버크셔 해서웨이 · CNBC 2026.5.2 (주주총회)",
-     "line": 0,
-     "at": 0.3
-    }
-   ],
-   "lines": [
-    "저는 시장을 카지노가 딸린 교회에 비유해 왔습니다. 사람들은 교회와 카지노를 오갈 수 있죠.",
-    "늘 교회에 사람이 더 많다고 말해 왔는데, 카지노가 사람들에게 아주 매력적인 곳이 됐습니다.",
-    "하루짜리 옵션을 사고판다면, 그건 투자도 아니고 투기도 아닙니다. 그냥 완전한 도박이에요."
-   ],
-   "note": "[3장] 원음 — \"카지노가 딸린 교회\"",
-   "news": true,
-   "sot": {
-    "clip": "sot_L261122b_casino.mp4",
-    "start": 0.0,
-    "dur": 34.86,
-    "rms": 0.085
-   }
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "commons_timessquare_2.jpg"
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "",
-   "sketch": [],
-   "lines": [
-    "하루짜리 옵션, 레버리지 ETF, 빚으로 산 반도체 주식. 버핏이 말한 카지노는 지금 우리 시장의 모습과 크게 다르지 않습니다.",
-    "그럼 버크셔는 무엇을 하고 있었을까요? 버핏의 답은 짧았습니다."
-   ],
-   "note": "[3장] 풀이 → 원음 예고"
   },
   {
    "v": {
@@ -1059,7 +1025,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_ustreasury_1.jpg"
+      "lib": "vphonecall_23073.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1124,7 +1090,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vdata_12262.mp4"
+      "lib": "vnightcity_40640.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1188,7 +1154,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vbusinessman_42648.mp4"
+      "lib": "vairplane_27988.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1263,7 +1229,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_omaha_2.jpg"
+      "lib": "vcalculator_34125.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1327,10 +1293,10 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "vdata_14724.mp4"
+      "lib": "vnightcity_40746.mp4"
      },
      {
-      "lib": "vnews_14111.mp4"
+      "lib": "vseoul_20094.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1344,10 +1310,31 @@
    "sketch": [],
    "lines": [
     "1999년 선밸리에서 그의 말을 흘려들은 사람들, 그리고 27년 뒤 폭락장에서 신고가를 쓴 버크셔. 버핏은 이번에도 맞을지 모릅니다. 틀려도 살아남을 준비가 돼 있으니까요.",
-    "여러분 계좌는 지금 투자인가요, 도박인가요? 댓글로 남겨 주세요.",
-    "밸류노트는 사건 뒤 돈의 흐름을 같이 읽는 곳입니다. 다음 이야기도 함께 보고 싶으시면 구독해 주세요."
+    "여러분 계좌는 지금 투자인가요, 도박인가요? 댓글로 남겨 주세요."
    ],
-   "note": "[콜백] 1999 선밸리 · [북엔드] 질문 · 구독"
+   "note": "[콜백] 1999 선밸리 · [북엔드] 질문"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "app_radar_L261120w.mp4"
+     }
+    ],
+    "wash_amt": 0.85
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "사기 전에 내 기준 가격부터 정하고 싶다면, 밸류노트에서 워런 버핏과 벤저민 그레이엄의 기준으로 종목을 평가하고 내 포트폴리오를 관리할 수 있습니다.",
+    "링크는 설명란에 있습니다. 구독도 부탁드립니다."
+   ],
+   "note": "[밸류노트 소개] 버핏 기준 평가·관리 (대표 11/22 10:03, 5~10초)"
   },
   {
    "v": {
