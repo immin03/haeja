@@ -1,0 +1,3141 @@
+{
+ "file": "soxl3_jensen_gtc23_audio.mp3",
+ "dur": 4671.44,
+ "segments": [
+  {
+   "s": 0.56,
+   "e": 2.56,
+   "t": "for nearly four decades."
+  },
+  {
+   "s": 3.68,
+   "e": 7.6,
+   "t": "Moore's law has been the governing dynamics of the computer industry,"
+  },
+  {
+   "s": 8.24,
+   "e": 11.82,
+   "t": "which in turn has impacted every industry."
+  },
+  {
+   "s": 12.8,
+   "e": 17.78,
+   "t": "The exponential performance increase at constant cost and power"
+  },
+  {
+   "s": 18.48,
+   "e": 20.48,
+   "t": "has slowed."
+  },
+  {
+   "s": 20.48,
+   "e": 21.8,
+   "t": "Yet,"
+  },
+  {
+   "s": 21.8,
+   "e": 29.76,
+   "t": "computing advance has gone to light speed. The warp drive engine is accelerated computing and the energy source"
+  },
+  {
+   "s": 30.64,
+   "e": 32.32,
+   "t": "is AI."
+  },
+  {
+   "s": 32.32,
+   "e": 38.56,
+   "t": "The arrival of accelerated computing and AI is timely as industries tackle powerful dynamics,"
+  },
+  {
+   "s": 39.76,
+   "e": 41.12,
+   "t": "sustainability,"
+  },
+  {
+   "s": 41.12,
+   "e": 43.12,
+   "t": "generative AI and"
+  },
+  {
+   "s": 43.56,
+   "e": 45.28,
+   "t": "digitalization."
+  },
+  {
+   "s": 45.28,
+   "e": 53.44,
+   "t": "Without Moore's law, as computing surges, data center power is skyrocketing and companies struggle to achieve net zero."
+  },
+  {
+   "s": 54.4,
+   "e": 57.08,
+   "t": "The impressive capabilities of generative AI"
+  },
+  {
+   "s": 58.04,
+   "e": 62.92,
+   "t": "created a sense of urgency for companies to reimagine their products and business models."
+  },
+  {
+   "s": 63.92,
+   "e": 67.16,
+   "t": "Industrial companies are racing to digitalize and"
+  },
+  {
+   "s": 67.84,
+   "e": 71.2,
+   "t": "reinvent into software driven tech companies"
+  },
+  {
+   "s": 71.96,
+   "e": 73.96,
+   "t": "to be the disruptor and"
+  },
+  {
+   "s": 74.36,
+   "e": 76.36,
+   "t": "not the disrupted."
+  },
+  {
+   "s": 76.68,
+   "e": 83.5,
+   "t": "Today, we will discuss how accelerated computing and AI are powerful tools for tackling these challenges and"
+  },
+  {
+   "s": 84.16,
+   "e": 86.64,
+   "t": "engaging the enormous opportunities ahead."
+  },
+  {
+   "s": 87.16,
+   "e": 91.8,
+   "t": "We will share new advances in NVIDIA's full stack, data center scale,"
+  },
+  {
+   "s": 92.6,
+   "e": 96.8,
+   "t": "accelerated computing platform. We will reveal new chips, systems,"
+  },
+  {
+   "s": 97.64,
+   "e": 101.0,
+   "t": "acceleration libraries, cloud and AI services, and"
+  },
+  {
+   "s": 101.76,
+   "e": 103.76,
+   "t": "partnerships that open new markets."
+  },
+  {
+   "s": 104.36,
+   "e": 106.36,
+   "t": "Welcome to GTC."
+  },
+  {
+   "s": 106.68,
+   "e": 113.92,
+   "t": "GTC is our conference for developers. The global NVIDIA ecosystem spans 4 million developers,"
+  },
+  {
+   "s": 114.56,
+   "e": 118.44,
+   "t": "40,000 companies, and 14,000 startups."
+  },
+  {
+   "s": 119.44,
+   "e": 126.12,
+   "t": "Thank you to our diamond sponsors for supporting us and making GTC 2023 a huge success."
+  },
+  {
+   "s": 127.32,
+   "e": 129.32,
+   "t": "We're so excited to welcome more than"
+  },
+  {
+   "s": 130.32,
+   "e": 132.32,
+   "t": "250,000 of you to our conference."
+  },
+  {
+   "s": 132.88,
+   "e": 138.8,
+   "t": "GTC has grown incredibly. Only four years ago, our in-person GTC conference"
+  },
+  {
+   "s": 139.28,
+   "e": 141.28,
+   "t": "had 8,000 attendees."
+  },
+  {
+   "s": 141.28,
+   "e": 147.76,
+   "t": "At GTC 2023, we'll learn from leaders like Demis Hassabis of DeepMind,"
+  },
+  {
+   "s": 148.36,
+   "e": 150.64,
+   "t": "Valerie Taylor of Argon Labs,"
+  },
+  {
+   "s": 151.32,
+   "e": 153.32,
+   "t": "Scott Belsky of Adobe,"
+  },
+  {
+   "s": 153.32,
+   "e": 155.32,
+   "t": "Paul DeBevec of Netflix,"
+  },
+  {
+   "s": 156.04,
+   "e": 163.32,
+   "t": "Thomas Schultes of ETH Zurich, and a special fireside chat I'm having with Ilya Suskivar,"
+  },
+  {
+   "s": 164.2,
+   "e": 168.6,
+   "t": "co-founder of OpenAI, the creator of ChatGPT."
+  },
+  {
+   "s": 169.4,
+   "e": 176.4,
+   "t": "We have 650 amazing talks from the brightest minds in academia and the world's largest industries."
+  },
+  {
+   "s": 177.24,
+   "e": 180.76,
+   "t": "There are more than 70 talks on generative AI alone."
+  },
+  {
+   "s": 181.68,
+   "e": 186.24,
+   "t": "Other great talks like pre-trained multitask models for robotics,"
+  },
+  {
+   "s": 187.36,
+   "e": 192.32,
+   "t": "sessions on synthetic data generation, an important method for advancing AI,"
+  },
+  {
+   "s": 193.28,
+   "e": 200.08,
+   "t": "including one using Isaac Sim to generate physically based lidar point clouds, a bunch of talks on digital twins"
+  },
+  {
+   "s": 200.48,
+   "e": 204.04,
+   "t": "from using AI to populate virtual factories of the future"
+  },
+  {
+   "s": 204.88,
+   "e": 208.0,
+   "t": "to restoring lost Roman mosaics of the past."
+  },
+  {
+   "s": 209.08,
+   "e": 217.04,
+   "t": "Cool talks on computational instruments, including a giant optical telescope and a photon counting CT."
+  },
+  {
+   "s": 218.0,
+   "e": 221.44,
+   "t": "Material science for carbon capture and solar cells."
+  },
+  {
+   "s": 222.4,
+   "e": 225.2,
+   "t": "To climate science, including our work on Earth 2."
+  },
+  {
+   "s": 226.44,
+   "e": 232.48,
+   "t": "Important works by NVIDIA Research on trustworthy AI and AV safety."
+  },
+  {
+   "s": 233.92,
+   "e": 238.6,
+   "t": "From computational lithography for microchips to make the smallest machines"
+  },
+  {
+   "s": 239.44,
+   "e": 244.08,
+   "t": "to AI at the Large Hadron Collider to explain the universe."
+  },
+  {
+   "s": 244.92,
+   "e": 250.72,
+   "t": "The world's most important companies are here from auto and transportation, health care,"
+  },
+  {
+   "s": 251.36,
+   "e": 258.0,
+   "t": "manufacturing, financial services, retail, apparel, media and entertainment,"
+  },
+  {
+   "s": 258.88,
+   "e": 263.12,
+   "t": "telco, and of course, the world's leading AI companies."
+  },
+  {
+   "s": 263.76,
+   "e": 270.8,
+   "t": "The purpose of GTC is to inspire the world on the art of the possible of accelerated computing"
+  },
+  {
+   "s": 271.76,
+   "e": 276.56,
+   "t": "and to celebrate the achievements of the scientists and researchers that use it."
+  },
+  {
+   "s": 286.61,
+   "e": 303.58,
+   "t": "I am a translator, transforming text into creative discovery, movement into animation"
+  },
+  {
+   "s": 307.71,
+   "e": 321.1,
+   "t": "and direction into action. I am a healer, exploring the building blocks that make us unique,"
+  },
+  {
+   "s": 325.02,
+   "e": 337.06,
+   "t": "modeling new threats before they happen and searching for the cures to keep them at bay."
+  },
+  {
+   "s": 337.06,
+   "e": 355.78,
+   "t": "I am a visionary, generating new medical miracles and giving us a new perspective on our sun"
+  },
+  {
+   "s": 356.58,
+   "e": 368.56,
+   "t": "to keep us safe here on Earth. A navigator, discovering a unique moment in a sea of content."
+  },
+  {
+   "s": 370.16,
+   "e": 375.92,
+   "t": "We're announcing the next generation and the perfect setting for any story."
+  },
+  {
+   "s": 381.49,
+   "e": 388.99,
+   "t": "I am a creator, building 3D experiences from snapshots"
+  },
+  {
+   "s": 392.19,
+   "e": 395.87,
+   "t": "and adding new levels of reality to our virtual selves."
+  },
+  {
+   "s": 399.15,
+   "e": 405.6,
+   "t": "I am a helper, bringing brainstorms to life,"
+  },
+  {
+   "s": 405.6,
+   "e": 423.57,
+   "t": "sharing the wisdom of a million programmers and turning ideas into virtual worlds."
+  },
+  {
+   "s": 430.48,
+   "e": 442.21,
+   "t": "I even helped write the script, breathe life into the words and compose the melody."
+  },
+  {
+   "s": 442.21,
+   "e": 460.46,
+   "t": "Brought to life by NVIDIA, deep learning and brilliant minds."
+  },
+  {
+   "s": 467.15,
+   "e": 472.59,
+   "t": "NVIDIA invented accelerated computing to solve problems that normal computers can't."
+  },
+  {
+   "s": 473.87,
+   "e": 481.47,
+   "t": "Accelerated computing is not easy. It requires full stack invention from chips, systems,"
+  },
+  {
+   "s": 482.27,
+   "e": 487.15,
+   "t": "networking, acceleration libraries to refactoring the applications."
+  },
+  {
+   "s": 488.11,
+   "e": 496.43,
+   "t": "Each optimized stack accelerates an application domain from graphics, imaging, particle or fluid"
+  },
+  {
+   "s": 496.43,
+   "e": 503.87,
+   "t": "dynamics, quantum physics to data processing and machine learning. Once accelerated, the"
+  },
+  {
+   "s": 503.87,
+   "e": 509.79,
+   "t": "application can enjoy incredible speed up as well as scale up across many computers."
+  },
+  {
+   "s": 510.75,
+   "e": 517.47,
+   "t": "The combination of speed up and scale up has enabled us to achieve a million x for many"
+  },
+  {
+   "s": 517.47,
+   "e": 523.07,
+   "t": "applications over the past decade, helping solve problems previously impossible."
+  },
+  {
+   "s": 523.87,
+   "e": 531.23,
+   "t": "Though there are many examples, the most famous is deep learning. In 2012, Alex Kirshevsky,"
+  },
+  {
+   "s": 531.23,
+   "e": 538.03,
+   "t": "Ilya Suskivar and Jeff Hinton needed an insanely fast computer to train the AlexNet"
+  },
+  {
+   "s": 538.03,
+   "e": 547.23,
+   "t": "computer vision model. The researchers trained AlexNet with 14 million images on G-Force GTX 580,"
+  },
+  {
+   "s": 548.03,
+   "e": 556.27,
+   "t": "processing 262 quadrillion floating point operations. And the train model won the"
+  },
+  {
+   "s": 556.27,
+   "e": 565.31,
+   "t": "ImageNet challenge by a wide margin and ignited the big bang of AI. A decade later,"
+  },
+  {
+   "s": 565.31,
+   "e": 572.11,
+   "t": "the transformer model was invented and Ilya, now at OpenAI, trained the GPT-3"
+  },
+  {
+   "s": 572.11,
+   "e": 581.31,
+   "t": "large language model to predict the next word. 323 sextillion floating point operations"
+  },
+  {
+   "s": 581.31,
+   "e": 588.11,
+   "t": "were required to train GPT-3. One million times more floating point operations than to train"
+  },
+  {
+   "s": 588.11,
+   "e": 599.31,
+   "t": "AlexNet. The result this time, chat GPT, the AI heard around the world. A new computing platform"
+  },
+  {
+   "s": 599.31,
+   "e": 608.11,
+   "t": "has been invented. The iPhone moment of AI has started. Accelerated computing and AI have arrived."
+  },
+  {
+   "s": 609.71,
+   "e": 615.47,
+   "t": "Acceleration libraries are at the core of accelerated computing. These libraries"
+  },
+  {
+   "s": 616.03,
+   "e": 622.67,
+   "t": "connect to applications, which connect to the world's industries, forming a network of networks."
+  },
+  {
+   "s": 623.55,
+   "e": 629.63,
+   "t": "Three decades in the making, several thousand applications are now NVIDIA accelerated,"
+  },
+  {
+   "s": 630.35,
+   "e": 637.47,
+   "t": "with libraries in almost every domain of science and industry. All NVIDIA GPUs are CUDA compatible,"
+  },
+  {
+   "s": 638.03,
+   "e": 644.27,
+   "t": "providing a large install base and significant reach for developers. A wealth of accelerated"
+  },
+  {
+   "s": 644.27,
+   "e": 650.91,
+   "t": "applications attract end users, which creates a large market for cloud service providers"
+  },
+  {
+   "s": 651.47,
+   "e": 658.11,
+   "t": "and computer makers to serve. A large market affords billions in R&D to fuel its growth."
+  },
+  {
+   "s": 658.75,
+   "e": 667.07,
+   "t": "NVIDIA has established the accelerated computing virtual cycle. Of the 300 acceleration libraries"
+  },
+  {
+   "s": 667.07,
+   "e": 674.27,
+   "t": "and 400 AI models that span ray tracing and neural rendering, physical, earth and life sciences,"
+  },
+  {
+   "s": 674.91,
+   "e": 683.63,
+   "t": "quantum physics and chemistry, computer vision, data processing, machine learning and AI. We updated"
+  },
+  {
+   "s": 684.27,
+   "e": 690.51,
+   "t": "100 this year that increased the performance and features of our entire install base."
+  },
+  {
+   "s": 691.31,
+   "e": 697.39,
+   "t": "Let me highlight some acceleration libraries that solve new challenges and open new markets."
+  },
+  {
+   "s": 698.11,
+   "e": 703.87,
+   "t": "The auto and aerospace industries use CFD for turbulence and aerodynamic simulation."
+  },
+  {
+   "s": 704.51,
+   "e": 708.43,
+   "t": "The electronics industry uses CFD for thermal management design."
+  },
+  {
+   "s": 709.39,
+   "e": 714.59,
+   "t": "This is Cadence's slide of their new CFD solver accelerated by CUDA."
+  },
+  {
+   "s": 715.47,
+   "e": 721.55,
+   "t": "At equivalent system cost, NVIDIA A100 is nine times the throughput of CPU servers."
+  },
+  {
+   "s": 722.35,
+   "e": 730.35,
+   "t": "Or at equivalent simulation throughput, NVIDIA is nine times lower cost or 17 times less energy"
+  },
+  {
+   "s": 730.35,
+   "e": 738.35,
+   "t": "consumed. ANSYS, Siemens, Cadence and other leading CFD solvers are now CUDA accelerated."
+  },
+  {
+   "s": 739.15,
+   "e": 746.67,
+   "t": "Worldwide industrial CAE uses nearly 100 billion CPU core hours yearly."
+  },
+  {
+   "s": 747.63,
+   "e": 753.55,
+   "t": "Acceleration is the best way to reclaim power and achieve sustainability and net zero."
+  },
+  {
+   "s": 754.19,
+   "e": 758.75,
+   "t": "NVIDIA is partnering with the global quantum computing research community."
+  },
+  {
+   "s": 759.79,
+   "e": 765.95,
+   "t": "The NVIDIA quantum platform consists of libraries and systems for researchers to advance quantum"
+  },
+  {
+   "s": 765.95,
+   "e": 772.59,
+   "t": "programming models, system architectures and algorithms. CU Quantum is an acceleration"
+  },
+  {
+   "s": 772.59,
+   "e": 779.87,
+   "t": "library for quantum circuit simulations. IBM Qiskit, Google Cirq, Baidu Quantum Leaf,"
+  },
+  {
+   "s": 780.75,
+   "e": 789.95,
+   "t": "Qmware, Qera, Xanadu Penny Lane, Agnostic and AWS Bracket have integrated CU Quantum"
+  },
+  {
+   "s": 789.95,
+   "e": 797.55,
+   "t": "into their simulation frameworks. Open Quantum CUDA is our hybrid GPU quantum programming model."
+  },
+  {
+   "s": 798.35,
+   "e": 808.91,
+   "t": "IonQ, Orca Computing, Atom, Qera, Oxford Quantum Circuits, IQM, Pascal, Quantum Brilliance,"
+  },
+  {
+   "s": 808.91,
+   "e": 816.59,
+   "t": "Continuum, Raggedi, Xanadu and Enion have integrated Open Quantum CUDA. Error correction"
+  },
+  {
+   "s": 816.59,
+   "e": 821.79,
+   "t": "on a large number of qubits is necessary to recover data from quantum noise and decoherence."
+  },
+  {
+   "s": 822.59,
+   "e": 828.51,
+   "t": "Today we're announcing a quantum control link developed in partnership with quantum machines"
+  },
+  {
+   "s": 828.51,
+   "e": 834.91,
+   "t": "that connects NVIDIA GPUs to a quantum computer to do error correction at extremely high speeds."
+  },
+  {
+   "s": 836.03,
+   "e": 840.91,
+   "t": "Though commercial quantum computers are still a decade or two away, we're delighted to support"
+  },
+  {
+   "s": 840.91,
+   "e": 847.23,
+   "t": "this large and vibrant research community with NVIDIA Quantum. Enterprises worldwide"
+  },
+  {
+   "s": 847.23,
+   "e": 853.87,
+   "t": "use Apache Spark to process data lakes and warehouses, SQL queries, graph analytics"
+  },
+  {
+   "s": 853.87,
+   "e": 861.95,
+   "t": "and recommender systems. Spark Rapids is NVIDIA's accelerated Apache Spark data processing engine."
+  },
+  {
+   "s": 862.83,
+   "e": 868.35,
+   "t": "Data processing is the leading workload of the world's 500 billion dollar"
+  },
+  {
+   "s": 868.35,
+   "e": 874.99,
+   "t": "cloud computing spend. Spark Rapids now accelerates major cloud data processing platforms"
+  },
+  {
+   "s": 874.99,
+   "e": 882.03,
+   "t": "including GCP Dataproc, Amazon EMR, Databricks and Cloudera."
+  },
+  {
+   "s": 883.07,
+   "e": 889.63,
+   "t": "Recommender systems use vector databases to store, index, search and retrieve massive data sets of"
+  },
+  {
+   "s": 889.63,
+   "e": 896.19,
+   "t": "unstructured data. A new important use case of vector databases is large language models"
+  },
+  {
+   "s": 896.19,
+   "e": 903.31,
+   "t": "to retrieve domain-specific or proprietary facts that can be queried during text generation."
+  },
+  {
+   "s": 904.11,
+   "e": 911.15,
+   "t": "We are introducing a new library, Raft. To accelerate indexing, loading the data and"
+  },
+  {
+   "s": 911.15,
+   "e": 917.55,
+   "t": "retrieving a batch of neighbors for a single query. We are bringing the acceleration of Raft"
+  },
+  {
+   "s": 917.55,
+   "e": 925.55,
+   "t": "to Meta's open source phase AI similarity search, Milvus open source vector database"
+  },
+  {
+   "s": 925.55,
+   "e": 931.79,
+   "t": "used by over 1,000 organizations and Redis with over 4 billion docker pools."
+  },
+  {
+   "s": 932.67,
+   "e": 937.55,
+   "t": "Vector databases will be essential for organizations building proprietary large language models."
+  },
+  {
+   "s": 938.91,
+   "e": 945.47,
+   "t": "22 years ago, operations research scientists, Lee and Lim, posted a series of challenging"
+  },
+  {
+   "s": 945.47,
+   "e": 953.87,
+   "t": "pickup and delivery problems. PDP shows up in manufacturing, transportation, retail and logistics"
+  },
+  {
+   "s": 953.87,
+   "e": 961.07,
+   "t": "and even disaster relief. PDP is a generalization of the traveling salesperson problem and is MP hard"
+  },
+  {
+   "s": 961.71,
+   "e": 965.15,
+   "t": "meaning there is no efficient algorithm to find an exact solution."
+  },
+  {
+   "s": 966.03,
+   "e": 972.75,
+   "t": "The solution time grows factorial as the problem size increases. Using an evolution algorithm"
+  },
+  {
+   "s": 973.39,
+   "e": 979.71,
+   "t": "and accelerated computing to analyze 30 billion moves per second, NVIDIA Coop"
+  },
+  {
+   "s": 979.71,
+   "e": 985.63,
+   "t": "has broken the world record and discovered the best solution for Lee and Lim's challenge."
+  },
+  {
+   "s": 986.43,
+   "e": 995.87,
+   "t": "AT&T routinely dispatches 30,000 technicians to service 13 million customers across 700 geographic"
+  },
+  {
+   "s": 995.87,
+   "e": 1005.15,
+   "t": "zones. Today, running on CPUs, AT&T's dispatch optimization takes overnight. AT&T wants to find"
+  },
+  {
+   "s": 1005.15,
+   "e": 1012.35,
+   "t": "a dispatch solution in real time that continuously optimizes for urgent customer needs and overall"
+  },
+  {
+   "s": 1012.35,
+   "e": 1020.99,
+   "t": "customer satisfaction while adjusting for delays and new incidents that arise. With Coop, AT&T"
+  },
+  {
+   "s": 1020.99,
+   "e": 1029.71,
+   "t": "can find a solution 100 times faster and update their dispatch in real time. AT&T has adopted a full"
+  },
+  {
+   "s": 1029.71,
+   "e": 1036.59,
+   "t": "suite of NVIDIA AI libraries. In addition to Spark Rapids and Coop, they're using Riva"
+  },
+  {
+   "s": 1036.59,
+   "e": 1044.43,
+   "t": "for conversational AI and Omniverse for digital avatars. AT&T is tapping into NVIDIA accelerated"
+  },
+  {
+   "s": 1044.43,
+   "e": 1052.67,
+   "t": "computing and AI for sustainability, cost savings, and new services. Coop can also optimize"
+  },
+  {
+   "s": 1052.67,
+   "e": 1061.71,
+   "t": "logistics services. 400 billion parcels are delivered to 377 billion stops each year."
+  },
+  {
+   "s": 1062.67,
+   "e": 1070.59,
+   "t": "Deloitte, Capgemini, SoftServe, Accenture, and Quantify are using NVIDIA Coop to help customers"
+  },
+  {
+   "s": 1070.59,
+   "e": 1076.35,
+   "t": "optimize operations. NVIDIA's inference platform consists of three software SDKs."
+  },
+  {
+   "s": 1077.47,
+   "e": 1084.27,
+   "t": "NVIDIA TensorRT is our inference runtime that optimizes for the target GPU. NVIDIA Triton"
+  },
+  {
+   "s": 1084.83,
+   "e": 1091.47,
+   "t": "is a multi-framework data center inference serving software supporting GPUs and CPUs."
+  },
+  {
+   "s": 1092.35,
+   "e": 1099.23,
+   "t": "Microsoft Office and Teams, Amazon, American Express, and the US Postal Service are among"
+  },
+  {
+   "s": 1099.23,
+   "e": 1106.51,
+   "t": "the 40,000 customers using TensorRT and Triton. Uber uses Triton to serve hundreds of thousands of"
+  },
+  {
+   "s": 1106.51,
+   "e": 1114.19,
+   "t": "ETA predictions per second. With over 60 million daily users, Roblox uses Triton to serve models"
+  },
+  {
+   "s": 1114.19,
+   "e": 1120.03,
+   "t": "for game recommendations, build avatars, and moderate content and marketplace ads."
+  },
+  {
+   "s": 1121.07,
+   "e": 1127.39,
+   "t": "We are releasing some great new features, model analyzer support for model ensembles,"
+  },
+  {
+   "s": 1128.19,
+   "e": 1137.15,
+   "t": "multiple concurrent model serving, and multi-GPU multi-node inference for GPT-3 large language models."
+  },
+  {
+   "s": 1138.03,
+   "e": 1143.79,
+   "t": "NVIDIA Triton Management Service is our new software that automates the scaling and"
+  },
+  {
+   "s": 1143.79,
+   "e": 1151.07,
+   "t": "orchestration of Triton inference instances across a data center. Triton Management Service will help"
+  },
+  {
+   "s": 1151.07,
+   "e": 1158.11,
+   "t": "you improve the throughput and cost efficiency of deploying your models. 50 to 80 percent of"
+  },
+  {
+   "s": 1158.11,
+   "e": 1164.67,
+   "t": "cloud video pipelines are processed on CPUs, consuming power and cost and adding latency."
+  },
+  {
+   "s": 1165.87,
+   "e": 1174.43,
+   "t": "CV CUDA for computer vision and VPF for video processing are new cloud-scale acceleration"
+  },
+  {
+   "s": 1174.43,
+   "e": 1181.71,
+   "t": "libraries. CV CUDA includes 30 computer vision operators for detection, segmentation, and"
+  },
+  {
+   "s": 1181.71,
+   "e": 1190.11,
+   "t": "classification. VPF is a Python video encode and decode acceleration library. Tencent uses"
+  },
+  {
+   "s": 1190.11,
+   "e": 1199.63,
+   "t": "CV CUDA and VPF to process 300,000 videos per day. Microsoft uses CV CUDA and VPF to process"
+  },
+  {
+   "s": 1199.63,
+   "e": 1207.15,
+   "t": "visual search. Runway is a super cool company that uses CV CUDA and VPF to process video"
+  },
+  {
+   "s": 1207.15,
+   "e": 1214.67,
+   "t": "for their cloud generative AI video editing service. Already 80 percent of internet traffic"
+  },
+  {
+   "s": 1214.67,
+   "e": 1221.39,
+   "t": "is video. User-generated video content is driving significant growth and consuming massive amounts"
+  },
+  {
+   "s": 1221.47,
+   "e": 1229.71,
+   "t": "of power. We should accelerate all video processing and reclaim the power. CV CUDA and VPF"
+  },
+  {
+   "s": 1229.71,
+   "e": 1236.03,
+   "t": "are in early access. NVIDIA accelerated computing helped achieve a genomics milestone."
+  },
+  {
+   "s": 1236.67,
+   "e": 1242.59,
+   "t": "Now doctors can draw blood and sequence a patient's DNA in the same visit. In another"
+  },
+  {
+   "s": 1242.59,
+   "e": 1249.07,
+   "t": "milestone NVIDIA powered instruments reduce the cost of whole genome sequencing to just $100."
+  },
+  {
+   "s": 1249.15,
+   "e": 1257.55,
+   "t": "Genomics is a critical tool in synthetic biology with applications ranging from drug discovery"
+  },
+  {
+   "s": 1257.55,
+   "e": 1264.83,
+   "t": "and agriculture to energy production. NVIDIA Parabricks is a suite of AI accelerated libraries"
+  },
+  {
+   "s": 1265.47,
+   "e": 1272.59,
+   "t": "for end-to-end genomics analysis in the cloud or in instrument. NVIDIA Parabricks is available"
+  },
+  {
+   "s": 1272.59,
+   "e": 1281.79,
+   "t": "in every public cloud and genomics platforms like Terra, DNANexus, and FormBio. Today we're"
+  },
+  {
+   "s": 1281.79,
+   "e": 1288.75,
+   "t": "announcing Parabricks 4.1 and will run on NVIDIA accelerated genomics instruments from PacBio,"
+  },
+  {
+   "s": 1289.31,
+   "e": 1299.31,
+   "t": "Oxford Nanopore, Ultima, Singular, BioNano, and Nanostring. The world's $250 billion"
+  },
+  {
+   "s": 1299.31,
+   "e": 1304.91,
+   "t": "medical instruments market is being transformed. Medical instruments will be software-defined"
+  },
+  {
+   "s": 1304.91,
+   "e": 1312.27,
+   "t": "and AI-powered. NVIDIA Holoscan is a software library for real-time sensor processing systems."
+  },
+  {
+   "s": 1313.15,
+   "e": 1320.75,
+   "t": "Over 75 companies are developing medical instruments on Holoscan. Today we are announcing"
+  },
+  {
+   "s": 1320.75,
+   "e": 1328.11,
+   "t": "Medtronic. The world leader in medical instruments and NVIDIA are building their AI platform for"
+  },
+  {
+   "s": 1328.11,
+   "e": 1335.07,
+   "t": "software-defined medical devices. This partnership will create a common platform for Medtronic systems"
+  },
+  {
+   "s": 1335.63,
+   "e": 1342.35,
+   "t": "ranging from surgical navigation to robotic assisted surgery. Today Medtronic announced"
+  },
+  {
+   "s": 1342.35,
+   "e": 1348.91,
+   "t": "that its GI Genius system with AI for early detection of colon cancer is built on NVIDIA"
+  },
+  {
+   "s": 1348.91,
+   "e": 1356.35,
+   "t": "Holoscan and will ship around the end of this year. The chip industry is the foundation"
+  },
+  {
+   "s": 1356.35,
+   "e": 1362.43,
+   "t": "of nearly every industry. Chip manufacturing demands extreme precision producing features"
+  },
+  {
+   "s": 1363.07,
+   "e": 1370.99,
+   "t": "1,000 times smaller than a bacterium and on the order of a single gold atom or a strand of human"
+  },
+  {
+   "s": 1370.99,
+   "e": 1377.55,
+   "t": "DNA. Lithography, the process of creating patterns on a wafer, is the beginning of the chip"
+  },
+  {
+   "s": 1377.55,
+   "e": 1385.31,
+   "t": "manufacturing process and consists of two stages photo mass making and pattern projection. It is"
+  },
+  {
+   "s": 1385.31,
+   "e": 1391.71,
+   "t": "fundamentally an imaging problem at the limits of physics. The photo mask is like a stencil"
+  },
+  {
+   "s": 1391.71,
+   "e": 1398.35,
+   "t": "of a chip. Light is blocked or passed through the mask to the wafer to create the pattern."
+  },
+  {
+   "s": 1398.99,
+   "e": 1405.07,
+   "t": "The light is produced by the ASML EUV extreme ultraviolet lithography system."
+  },
+  {
+   "s": 1405.71,
+   "e": 1412.75,
+   "t": "Each system is more than a quarter of a billion dollars. ASML EUV uses a radical way to create"
+  },
+  {
+   "s": 1412.75,
+   "e": 1421.39,
+   "t": "light. Laser pulses firing 50,000 times a second at a drop of 10 vaporizing it creating a plasma"
+  },
+  {
+   "s": 1421.39,
+   "e": 1430.59,
+   "t": "that emits 13.5 nanometer EUV light nearly x-ray. Multi-layer mirrors guide the light to the mask."
+  },
+  {
+   "s": 1431.31,
+   "e": 1437.55,
+   "t": "The multi-layer reflectors in the mask reticle take advantage of interference patterns of the"
+  },
+  {
+   "s": 1437.55,
+   "e": 1448.27,
+   "t": "13.5 nanometer light to create finer features down to 3 nanometers. Magic. The wafer is positioned"
+  },
+  {
+   "s": 1448.27,
+   "e": 1455.39,
+   "t": "within a quarter of a nanometer and aligned 20,000 times a second to adjust for any vibration."
+  },
+  {
+   "s": 1456.27,
+   "e": 1462.03,
+   "t": "The step before lithography is equally miraculous. Computational lithography"
+  },
+  {
+   "s": 1462.03,
+   "e": 1468.99,
+   "t": "applies inverse physics algorithms to predict the patterns on the mask that will produce the"
+  },
+  {
+   "s": 1468.99,
+   "e": 1476.03,
+   "t": "final patterns on the wafer. In fact, the patterns on the mask do not resemble the final features at"
+  },
+  {
+   "s": 1476.03,
+   "e": 1483.23,
+   "t": "all. Computational lithography simulates Maxwell's equations of the behavior of the light passing"
+  },
+  {
+   "s": 1483.23,
+   "e": 1489.55,
+   "t": "through optics and interacting with photo resists. Computational lithography is the largest"
+  },
+  {
+   "s": 1489.55,
+   "e": 1495.71,
+   "t": "computational workload in chip design and manufacturing consuming tens of billions of"
+  },
+  {
+   "s": 1495.71,
+   "e": 1503.07,
+   "t": "CPU hours annually. Massive data centers run 24-7 to create reticles used in lithography systems."
+  },
+  {
+   "s": 1503.63,
+   "e": 1509.79,
+   "t": "These data centers are part of the nearly $200 billion annual CAPX invested by chip"
+  },
+  {
+   "s": 1509.79,
+   "e": 1516.59,
+   "t": "manufacturers. Computational lithography is growing fast as algorithm complexity increases"
+  },
+  {
+   "s": 1516.59,
+   "e": 1523.47,
+   "t": "enabling the industry to go to two nanometers and beyond. NVIDIA today is announcing KuLitho,"
+  },
+  {
+   "s": 1523.47,
+   "e": 1530.27,
+   "t": "a library for computational lithography. KuLitho, a massive body of work that has taken nearly four"
+  },
+  {
+   "s": 1530.27,
+   "e": 1536.99,
+   "t": "years and with close collaboration with TSMC, ASML, and Synopsys, accelerates computational"
+  },
+  {
+   "s": 1536.99,
+   "e": 1546.59,
+   "t": "lithography by over 40 times. There are 89 reticles for the NVIDIA H100. Running on CPUs,"
+  },
+  {
+   "s": 1547.31,
+   "e": 1554.99,
+   "t": "a single reticle currently takes two weeks to process. KuLitho, running on GPUs,"
+  },
+  {
+   "s": 1554.99,
+   "e": 1562.99,
+   "t": "can process a reticle in a single eight hour shift. TSMC can reduce their 40,000 CPU servers"
+  },
+  {
+   "s": 1562.99,
+   "e": 1572.51,
+   "t": "used for computational lithography by accelerating with KuLitho on just 500 DGX H100 systems,"
+  },
+  {
+   "s": 1572.51,
+   "e": 1579.71,
+   "t": "reducing power from 35 megawatts to just five megawatts. With KuLitho, TSMC can reduce"
+  },
+  {
+   "s": 1579.71,
+   "e": 1585.31,
+   "t": "prototype cycle time, increase throughput, and reduce the carbon footprint of their manufacturing"
+  },
+  {
+   "s": 1586.03,
+   "e": 1592.67,
+   "t": "and prepare for two nanometer and beyond. TSMC will be qualifying KuLitho for production"
+  },
+  {
+   "s": 1592.67,
+   "e": 1599.87,
+   "t": "starting in June. Every industry needs to accelerate every workload so that we can reclaim"
+  },
+  {
+   "s": 1599.87,
+   "e": 1607.15,
+   "t": "power and do more with less. Over the past 10 years, cloud computing has grown 20%"
+  },
+  {
+   "s": 1607.15,
+   "e": 1614.75,
+   "t": "annually into a massive $1 trillion industry. Some 30 million CPU servers do the majority"
+  },
+  {
+   "s": 1614.83,
+   "e": 1620.75,
+   "t": "of the processing. There are challenges on the horizon. As Moore's law ends,"
+  },
+  {
+   "s": 1621.55,
+   "e": 1629.07,
+   "t": "increasing CPU performance comes with increased power, and the mandate to decrease carbon emissions"
+  },
+  {
+   "s": 1629.07,
+   "e": 1635.87,
+   "t": "is fundamentally at odds with the need to increase data centers. Cloud computing growth"
+  },
+  {
+   "s": 1635.87,
+   "e": 1641.71,
+   "t": "is power limited. First and foremost, data centers must accelerate every workload."
+  },
+  {
+   "s": 1642.51,
+   "e": 1649.31,
+   "t": "Acceleration will reclaim power. The energy saved can fuel new growth. Whatever is not accelerated"
+  },
+  {
+   "s": 1649.31,
+   "e": 1655.79,
+   "t": "will be processed on CPUs. The CPU design point for accelerated cloud data centers differs"
+  },
+  {
+   "s": 1655.79,
+   "e": 1662.91,
+   "t": "fundamentally from the past. In AI and cloud services, accelerated computing offloads"
+  },
+  {
+   "s": 1662.91,
+   "e": 1670.59,
+   "t": "parallelizable workloads, and CPUs process other workloads like web RPC and database queries."
+  },
+  {
+   "s": 1671.31,
+   "e": 1679.07,
+   "t": "We designed the GRACE CPU for an AI and cloud first world where AI workloads are GPU accelerated"
+  },
+  {
+   "s": 1679.07,
+   "e": 1686.19,
+   "t": "and GRACE excels at single-threaded execution and memory processing. It's not just about the CPU"
+  },
+  {
+   "s": 1686.19,
+   "e": 1693.87,
+   "t": "chip. Data center operators optimize for throughput and total cost of ownership of the entire data"
+  },
+  {
+   "s": 1693.87,
+   "e": 1700.27,
+   "t": "center. We designed GRACE for high energy efficiency at cloud data center scale. GRACE"
+  },
+  {
+   "s": 1700.27,
+   "e": 1706.35,
+   "t": "comprises 72 ARM cores connected by a super high-speed on-chip scalable coherent fabric"
+  },
+  {
+   "s": 1706.35,
+   "e": 1712.27,
+   "t": "that delivers 3.2 terabytes per second of cross-sectional bandwidth. GRACE Superchip"
+  },
+  {
+   "s": 1712.27,
+   "e": 1720.35,
+   "t": "connects 144 cores between two CPU dies over a 900 gigabytes per second low power"
+  },
+  {
+   "s": 1720.35,
+   "e": 1726.83,
+   "t": "chip-to-chip coherent interface. The memory system is LPDDR low power memory like used in cell"
+  },
+  {
+   "s": 1726.83,
+   "e": 1732.91,
+   "t": "phones that we specially enhanced for use in data centers. It delivers one terabytes per second"
+  },
+  {
+   "s": 1732.91,
+   "e": 1740.51,
+   "t": "two and a half times the bandwidth of today's systems at one eighth the power. The entire 144"
+  },
+  {
+   "s": 1740.51,
+   "e": 1747.39,
+   "t": "core GRACE Superchip module with one terabyte of memory is only five by eight inches."
+  },
+  {
+   "s": 1748.27,
+   "e": 1754.99,
+   "t": "It is so low power it can be air cooled. This is the computing module with passive cooling."
+  },
+  {
+   "s": 1755.55,
+   "e": 1762.83,
+   "t": "Two GRACE Superchip computers can fit in a single 1U air cooled server. GRACE's performance and"
+  },
+  {
+   "s": 1762.83,
+   "e": 1769.23,
+   "t": "power efficiency are excellent for cloud and scientific computing applications. We tested GRACE"
+  },
+  {
+   "s": 1769.23,
+   "e": 1774.91,
+   "t": "on a popular Google benchmark which tests how quickly cloud microservices communicate"
+  },
+  {
+   "s": 1774.91,
+   "e": 1781.31,
+   "t": "and high bench suite that test Apache Spark memory intensive data processing. These kinds"
+  },
+  {
+   "s": 1781.31,
+   "e": 1789.31,
+   "t": "of workloads are foundational for cloud data centers. At microservices GRACE is 1.3 times faster"
+  },
+  {
+   "s": 1789.31,
+   "e": 1797.31,
+   "t": "than the average of the newest generation x86 CPUs and 1.2 times faster at data processing"
+  },
+  {
+   "s": 1797.31,
+   "e": 1804.91,
+   "t": "and that higher performance is achieved using only 60 percent of the power measured at the full server"
+  },
+  {
+   "s": 1804.91,
+   "e": 1815.71,
+   "t": "node. CSPs can outfit a power limited data center with 1.7 times more GRACE servers each delivering"
+  },
+  {
+   "s": 1815.71,
+   "e": 1824.59,
+   "t": "25 percent higher throughput. At ISO power GRACE gives CSPs two times the growth opportunity."
+  },
+  {
+   "s": 1825.15,
+   "e": 1835.39,
+   "t": "GRACE's sampling and ASUS, ATOS, Gigabyte, HPE, QCT, Supermicro, Wistron, and ZT are building"
+  },
+  {
+   "s": 1835.39,
+   "e": 1841.55,
+   "t": "systems now. In a modern software defined data center the operating system doing virtualization"
+  },
+  {
+   "s": 1841.55,
+   "e": 1849.15,
+   "t": "network storage and security can consume nearly half of the data center's CPU cores and associated"
+  },
+  {
+   "s": 1849.15,
+   "e": 1857.55,
+   "t": "power. Data centers must accelerate every workload to reclaim power and free CPUs for revenue"
+  },
+  {
+   "s": 1857.55,
+   "e": 1863.71,
+   "t": "generating workloads. NVIDIA Bluefield offloads and accelerates the data center operating system"
+  },
+  {
+   "s": 1863.71,
+   "e": 1870.03,
+   "t": "and infrastructure software. Over two dozen ecosystem partners including Checkpoint, Cisco,"
+  },
+  {
+   "s": 1870.59,
+   "e": 1879.47,
+   "t": "DDN, Dell EMC, Juniper, Palo Alto Networks, Red Hat, and VMware use Bluefield's data center"
+  },
+  {
+   "s": 1879.47,
+   "e": 1885.55,
+   "t": "acceleration technology to run their software platforms more efficiently. Bluefield 3 is in"
+  },
+  {
+   "s": 1885.55,
+   "e": 1893.95,
+   "t": "production and adopted by leading cloud service providers Baidu, CoreWeave, JD.com, Microsoft"
+  },
+  {
+   "s": 1893.95,
+   "e": 1901.63,
+   "t": "Azure, Oracle OCI, and Tencent Games to accelerate their clouds. NVIDIA accelerated computing"
+  },
+  {
+   "s": 1901.63,
+   "e": 1908.83,
+   "t": "starts with DGX, the world's AI supercomputer. The engine behind the large language model"
+  },
+  {
+   "s": 1908.83,
+   "e": 1915.07,
+   "t": "breakthrough iHAND delivered the world's first DGX to open AI. Since then half of the fortune"
+  },
+  {
+   "s": 1915.07,
+   "e": 1923.23,
+   "t": "100 companies have installed DGX AI supercomputers. DGX has become the essential instrument of AI."
+  },
+  {
+   "s": 1924.03,
+   "e": 1933.39,
+   "t": "The GPU of DGX is 8H100 modules. H100 has a transformer engine designed to process models"
+  },
+  {
+   "s": 1933.39,
+   "e": 1941.39,
+   "t": "like the amazing chat GPT which stands for generative pre-trained transformers. The 8H100"
+  },
+  {
+   "s": 1941.39,
+   "e": 1947.63,
+   "t": "modules are NV-linked to each other across NV-linked switches to allow fully non-blocking"
+  },
+  {
+   "s": 1947.63,
+   "e": 1955.63,
+   "t": "transactions. The 8H100s work as one giant GPU. The computing fabric is one of the most vital"
+  },
+  {
+   "s": 1955.63,
+   "e": 1964.19,
+   "t": "systems of the AI supercomputer. 400 gigabits per second ultra-low latency NVIDIA Quantum InfiniBand"
+  },
+  {
+   "s": 1964.19,
+   "e": 1971.31,
+   "t": "within network processing connects hundreds and thousands of DGX nodes into an AI supercomputer."
+  },
+  {
+   "s": 1972.27,
+   "e": 1978.75,
+   "t": "NVIDIA DGX H100 is the blueprint for customers building AI infrastructure worldwide."
+  },
+  {
+   "s": 1979.39,
+   "e": 1985.87,
+   "t": "It is now in full production. I am thrilled that Microsoft announced Azure is opening private"
+  },
+  {
+   "s": 1985.87,
+   "e": 1993.15,
+   "t": "previews to their H100 AI supercomputer. Other systems and cloud services will soon come from"
+  },
+  {
+   "s": 1993.15,
+   "e": 2003.71,
+   "t": "ATOS, AWS, CirrusScale, CoreWeave, Dell, Gigabyte, Google, HPE, Lambda, Lenovo, Oracle,"
+  },
+  {
+   "s": 2003.71,
+   "e": 2010.59,
+   "t": "Quanta, and Supermicro. The market for DGX AI supercomputers has grown significantly."
+  },
+  {
+   "s": 2011.55,
+   "e": 2019.55,
+   "t": "Originally used as an AI research instrument DGX AI supercomputers are expanding into operations"
+  },
+  {
+   "s": 2020.27,
+   "e": 2029.95,
+   "t": "running 24-7 to refine data and process AI. DGX supercomputers are modern AI factories."
+  },
+  {
+   "s": 2031.15,
+   "e": 2038.51,
+   "t": "We are at the iPhone moment of AI. Startups are racing to build disruptive products and"
+  },
+  {
+   "s": 2038.51,
+   "e": 2045.63,
+   "t": "business models while incumbents are looking to respond. Generative AI has triggered a sense of"
+  },
+  {
+   "s": 2045.63,
+   "e": 2054.27,
+   "t": "urgency and enterprises worldwide to develop AI strategies. Customers need to access NVIDIA AI"
+  },
+  {
+   "s": 2054.83,
+   "e": 2063.47,
+   "t": "easier and faster. We are announcing NVIDIA DGX Cloud through partnerships with Microsoft Azure,"
+  },
+  {
+   "s": 2064.19,
+   "e": 2071.31,
+   "t": "Google GCP, and Oracle OCI to bring NVIDIA DGX AI supercomputers"
+  },
+  {
+   "s": 2071.31,
+   "e": 2080.27,
+   "t": "to every company instantly from a browser. DGX Cloud is optimized to run NVIDIA AI Enterprise,"
+  },
+  {
+   "s": 2080.91,
+   "e": 2087.87,
+   "t": "the world's leading acceleration library suite for end-to-end development and deployment of AI."
+  },
+  {
+   "s": 2089.07,
+   "e": 2095.31,
+   "t": "DGX Cloud offers customers the best of NVIDIA AI and the best of the world's leading cloud"
+  },
+  {
+   "s": 2095.31,
+   "e": 2103.71,
+   "t": "service providers. This partnership brings NVIDIA's ecosystem to the CSPs while amplifying"
+  },
+  {
+   "s": 2103.71,
+   "e": 2110.99,
+   "t": "NVIDIA's scale and reach. This win-win partnership gives customers racing to engage generative AI"
+  },
+  {
+   "s": 2111.79,
+   "e": 2117.71,
+   "t": "instant access to NVIDIA in global scale clouds. We are excited by the speed,"
+  },
+  {
+   "s": 2118.35,
+   "e": 2126.91,
+   "t": "scale, and reach of this cloud extension of our business model. Oracle Cloud Infrastructure OCI"
+  },
+  {
+   "s": 2126.91,
+   "e": 2133.79,
+   "t": "will be the first NVIDIA DGX Cloud. OCI has excellent performance. They have a two-tier"
+  },
+  {
+   "s": 2134.43,
+   "e": 2142.03,
+   "t": "computing fabric and management network. NVIDIA CX7 with the industry's best RDMA is the computing"
+  },
+  {
+   "s": 2142.03,
+   "e": 2149.15,
+   "t": "fabric, and Bluefield 3 will be the infrastructure processor for the management network. The"
+  },
+  {
+   "s": 2149.15,
+   "e": 2155.63,
+   "t": "combination is a state-of-the-art DGX AI supercomputer that can be offered as a multi-tenant"
+  },
+  {
+   "s": 2155.63,
+   "e": 2162.59,
+   "t": "cloud service. We have 50 early access enterprise customers spanning consumer internet and software,"
+  },
+  {
+   "s": 2163.31,
+   "e": 2170.59,
+   "t": "healthcare, media and entertainment, and financial services, chat GPT, stable diffusion,"
+  },
+  {
+   "s": 2171.47,
+   "e": 2179.95,
+   "t": "DALI, and mid-journey have awakened the world to generative AI. These applications' ease of use"
+  },
+  {
+   "s": 2179.95,
+   "e": 2186.67,
+   "t": "and impressive capabilities attracted over a hundred million users in just a few months."
+  },
+  {
+   "s": 2187.71,
+   "e": 2194.91,
+   "t": "Chat GPT is the fastest growing application in history. No training is necessary. Just ask"
+  },
+  {
+   "s": 2194.91,
+   "e": 2201.39,
+   "t": "these models to do something. The prompts can be precise or ambiguous. If not clear,"
+  },
+  {
+   "s": 2201.95,
+   "e": 2208.59,
+   "t": "through conversation, chat GPT learns your intentions. The generated text is beyond impressive."
+  },
+  {
+   "s": 2209.47,
+   "e": 2217.23,
+   "t": "Chat GPT can compose memos and poems, paraphrase a research paper, solve math problems, highlight"
+  },
+  {
+   "s": 2217.23,
+   "e": 2224.83,
+   "t": "key points of a contract, and even code software programs. Chat GPT is a computer"
+  },
+  {
+   "s": 2225.47,
+   "e": 2232.19,
+   "t": "that not only runs software, but writes software. Many breakthroughs led to generative AI."
+  },
+  {
+   "s": 2232.91,
+   "e": 2237.95,
+   "t": "Transformers learn context and meaning from the relationships and dependency of data,"
+  },
+  {
+   "s": 2238.91,
+   "e": 2246.91,
+   "t": "in parallel and at large scale. This led to large language models that learn from so much data"
+  },
+  {
+   "s": 2246.91,
+   "e": 2252.75,
+   "t": "they can perform downstream tasks without explicit training. And diffusion models,"
+  },
+  {
+   "s": 2252.75,
+   "e": 2260.19,
+   "t": "inspired by physics, learn without supervision to generate images. In just over a decade,"
+  },
+  {
+   "s": 2260.19,
+   "e": 2265.39,
+   "t": "we went from trying to recognize cats to generating realistic images of a cat"
+  },
+  {
+   "s": 2266.11,
+   "e": 2273.07,
+   "t": "in a spacesuit walking on the moon. Generative AI is a new kind of computer,"
+  },
+  {
+   "s": 2273.71,
+   "e": 2280.27,
+   "t": "one that we program in human language. This ability has profound implications."
+  },
+  {
+   "s": 2281.55,
+   "e": 2288.99,
+   "t": "Everyone can direct a computer to solve problems. This was a domain only for computer programmers."
+  },
+  {
+   "s": 2290.03,
+   "e": 2297.87,
+   "t": "Now, everyone is a programmer. Generative AI is a new computing platform like PC,"
+  },
+  {
+   "s": 2298.59,
+   "e": 2305.63,
+   "t": "internet, mobile, and cloud. And like in previous computing eras, first movers are creating new"
+  },
+  {
+   "s": 2305.63,
+   "e": 2312.19,
+   "t": "applications and founding new companies to capitalize on generative AI's ability to automate"
+  },
+  {
+   "s": 2312.19,
+   "e": 2319.55,
+   "t": "and co-create. Debuild lets users design and deploy web applications just by explaining what"
+  },
+  {
+   "s": 2319.55,
+   "e": 2327.23,
+   "t": "they want. Grammarly is a writing assistant that considers context. Tab 9 helps developers"
+  },
+  {
+   "s": 2327.23,
+   "e": 2335.71,
+   "t": "write code. Omnikey generates customized ads and copy. Core AI is a virtual customer"
+  },
+  {
+   "s": 2335.71,
+   "e": 2343.23,
+   "t": "service agent. Jasper generates marketing material. Jasper has written nearly 5 billion words,"
+  },
+  {
+   "s": 2343.23,
+   "e": 2349.95,
+   "t": "reducing time to generate the first draft by 80%. Insilico uses AI to accelerate drug design."
+  },
+  {
+   "s": 2350.51,
+   "e": 2357.07,
+   "t": "Absai is using AI to predict therapeutic antibodies. Generative AI will reinvent"
+  },
+  {
+   "s": 2357.07,
+   "e": 2363.47,
+   "t": "nearly every industry. Many companies can use one of the excellent generative AI APIs"
+  },
+  {
+   "s": 2363.47,
+   "e": 2370.83,
+   "t": "coming to market. Some companies need to build custom models with their proprietary data"
+  },
+  {
+   "s": 2371.55,
+   "e": 2377.95,
+   "t": "that are experts in their domain. They need to set up usage guardrails and refine their"
+  },
+  {
+   "s": 2377.95,
+   "e": 2383.39,
+   "t": "models to align with their company's safety, privacy, and security requirements."
+  },
+  {
+   "s": 2384.75,
+   "e": 2392.03,
+   "t": "The industry needs a foundry, a TSMC, for custom large language models. Today,"
+  },
+  {
+   "s": 2392.75,
+   "e": 2399.23,
+   "t": "we announce the NVIDIA AI foundations, a cloud service for customers needing to build,"
+  },
+  {
+   "s": 2399.79,
+   "e": 2406.35,
+   "t": "refine, and operate custom large language models and generative AI, trained with their"
+  },
+  {
+   "s": 2406.35,
+   "e": 2413.23,
+   "t": "proprietary data and for their domain-specific tasks. NVIDIA AI foundations comprise language,"
+  },
+  {
+   "s": 2413.87,
+   "e": 2421.07,
+   "t": "visual, and biology model-making services. NVIDIA NEMO is for building custom language"
+  },
+  {
+   "s": 2421.07,
+   "e": 2427.23,
+   "t": "text-to-text generative models. Customers can bring their model or start with the NEMO"
+  },
+  {
+   "s": 2427.23,
+   "e": 2436.99,
+   "t": "pre-trained language models ranging from GPT-8, GPT-43, and GPT-530 billion parameters."
+  },
+  {
+   "s": 2436.99,
+   "e": 2441.31,
+   "t": "Throughout the entire process, NVIDIA AI experts will work with you"
+  },
+  {
+   "s": 2441.31,
+   "e": 2445.55,
+   "t": "from creating your proprietary model to operations. Let's take a look."
+  },
+  {
+   "s": 2446.43,
+   "e": 2452.59,
+   "t": "Generative models like NVIDIA's 43B foundational model learn by training on billions of sentences"
+  },
+  {
+   "s": 2452.59,
+   "e": 2458.43,
+   "t": "and trillions of words. As the model converges, it begins to understand the relationships between"
+  },
+  {
+   "s": 2458.43,
+   "e": 2464.27,
+   "t": "words and their underlying concepts captured in the weights in the embedded space of the model."
+  },
+  {
+   "s": 2465.39,
+   "e": 2470.19,
+   "t": "Transformer models use a technique called self-attention, a mechanism designed to learn"
+  },
+  {
+   "s": 2470.19,
+   "e": 2476.43,
+   "t": "dependencies and relationships within a sequence of words. The result is a model that provides the"
+  },
+  {
+   "s": 2476.43,
+   "e": 2483.39,
+   "t": "foundation for a chat GPT-like experience. These generative models require expansive amounts"
+  },
+  {
+   "s": 2483.39,
+   "e": 2489.95,
+   "t": "of data, deep AI expertise for data processing and distributed training, and large-scale compute"
+  },
+  {
+   "s": 2489.95,
+   "e": 2497.07,
+   "t": "to train, deploy, and maintain at the pace of innovation. Enterprises can fast-track their"
+  },
+  {
+   "s": 2497.07,
+   "e": 2503.79,
+   "t": "generative AI adoption with NVIDIA NEMO service running on NVIDIA DGX Cloud. The quickest path"
+  },
+  {
+   "s": 2503.79,
+   "e": 2510.19,
+   "t": "is starting with one of NVIDIA's state-of-the-art pre-trained foundation models. With the NEMO service,"
+  },
+  {
+   "s": 2510.19,
+   "e": 2515.39,
+   "t": "organizations can easily customize a model with P-tuning to teach it specialized skills"
+  },
+  {
+   "s": 2515.39,
+   "e": 2521.31,
+   "t": "like summarizing financial documents, creating brand-specific content, and composing emails with"
+  },
+  {
+   "s": 2521.31,
+   "e": 2527.23,
+   "t": "personalized writing styles. Connecting the model to a proprietary knowledge base ensures that"
+  },
+  {
+   "s": 2527.31,
+   "e": 2534.19,
+   "t": "responses are accurate, current, and cited for their business. Next, they can provide guardrails"
+  },
+  {
+   "s": 2534.19,
+   "e": 2543.71,
+   "t": "by adding logic and monitoring inputs, outputs, toxicity, and bias thresholds so it operates"
+  },
+  {
+   "s": 2543.71,
+   "e": 2550.11,
+   "t": "within a specified domain and prevents undesired responses. After putting the model to work,"
+  },
+  {
+   "s": 2550.11,
+   "e": 2554.67,
+   "t": "it can continuously improve with reinforcement learning based on user interactions."
+  },
+  {
+   "s": 2554.67,
+   "e": 2561.39,
+   "t": "And NEMO's playground is available for rapid prototyping before moving to the Cloud API"
+  },
+  {
+   "s": 2561.39,
+   "e": 2567.71,
+   "t": "for larger-scale evaluation and application integration. Sign up for the NVIDIA NEMO"
+  },
+  {
+   "s": 2567.71,
+   "e": 2573.79,
+   "t": "service today to codify your enterprise's knowledge into a personalized AI model that you control."
+  },
+  {
+   "s": 2575.55,
+   "e": 2582.27,
+   "t": "Picasso is a visual language model-making service for customers who want to build custom"
+  },
+  {
+   "s": 2582.27,
+   "e": 2594.34,
+   "t": "models trained with licensed or proprietary content. Let's take a look. Generative AI"
+  },
+  {
+   "s": 2594.34,
+   "e": 2600.1,
+   "t": "is transforming how visual content is created, but to realize its full potential, enterprises"
+  },
+  {
+   "s": 2600.1,
+   "e": 2605.7,
+   "t": "need massive amounts of copyright-cleared data, AI experts, and an AI supercomputer."
+  },
+  {
+   "s": 2606.5,
+   "e": 2611.7,
+   "t": "NVIDIA Picasso is a cloud service for building and deploying generative AI-powered image,"
+  },
+  {
+   "s": 2611.7,
+   "e": 2618.98,
+   "t": "video, and 3D applications. With it, enterprises, ISVs, and service providers can deploy their own"
+  },
+  {
+   "s": 2618.98,
+   "e": 2625.22,
+   "t": "models. We are working with Premier partners to bring generative AI capabilities to every industry."
+  },
+  {
+   "s": 2626.02,
+   "e": 2631.38,
+   "t": "Organizations can also start with NVIDIA Edify models and train them on their data to create"
+  },
+  {
+   "s": 2631.38,
+   "e": 2638.98,
+   "t": "a product or service. These models generate images, videos, and 3D assets. To access generative"
+  },
+  {
+   "s": 2638.98,
+   "e": 2644.1,
+   "t": "AI models, applications send an API call with text prompts and metadata to Picasso."
+  },
+  {
+   "s": 2644.9,
+   "e": 2650.34,
+   "t": "Picasso uses the appropriate model running on NVIDIA DGX Cloud to send back the generated"
+  },
+  {
+   "s": 2650.34,
+   "e": 2656.9,
+   "t": "asset to the application. This can be a photorealistic image, a high-resolution video,"
+  },
+  {
+   "s": 2657.62,
+   "e": 2668.26,
+   "t": "or a detailed 3D geometry. Generative assets can be imported into editing tools or into NVIDIA"
+  },
+  {
+   "s": 2668.26,
+   "e": 2674.42,
+   "t": "Omniverse to build photorealistic virtual worlds, metaverse applications, and digital twin"
+  },
+  {
+   "s": 2674.42,
+   "e": 2680.42,
+   "t": "simulations. With NVIDIA Picasso services running on NVIDIA DGX Cloud, you can streamline"
+  },
+  {
+   "s": 2680.42,
+   "e": 2686.58,
+   "t": "training, optimization, and inference needed to build custom generative AI applications."
+  },
+  {
+   "s": 2687.3,
+   "e": 2692.66,
+   "t": "See how NVIDIA Picasso can bring transformative generative AI capabilities to your applications."
+  },
+  {
+   "s": 2692.66,
+   "e": 2701.06,
+   "t": "We are delighted that Getty Images will use the Picasso service to build Edify image and"
+  },
+  {
+   "s": 2701.06,
+   "e": 2707.78,
+   "t": "Edify video generative models. Trained on their rich library of responsibly licensed"
+  },
+  {
+   "s": 2707.78,
+   "e": 2714.58,
+   "t": "professional images and video assets, enterprises will be able to create custom images and video"
+  },
+  {
+   "s": 2714.58,
+   "e": 2721.14,
+   "t": "with simple text or image prompts. Shutterstock is developing an Edify 3D generative model."
+  },
+  {
+   "s": 2721.78,
+   "e": 2728.42,
+   "t": "Trained on their professional image, 3D, and video assets library, Shutterstock will help"
+  },
+  {
+   "s": 2728.42,
+   "e": 2735.22,
+   "t": "simplify the creation of 3D assets for creative production, digital twins, and virtual collaboration,"
+  },
+  {
+   "s": 2736.1,
+   "e": 2740.02,
+   "t": "making these workflows faster and easier for enterprises to implement."
+  },
+  {
+   "s": 2740.02,
+   "e": 2746.66,
+   "t": "And I'm thrilled to announce a significant expansion of our long-time partnership with"
+  },
+  {
+   "s": 2746.66,
+   "e": 2753.62,
+   "t": "Adobe to build a set of next generation AI capabilities for the future of creativity,"
+  },
+  {
+   "s": 2753.62,
+   "e": 2760.1,
+   "t": "integrating generative AI into the everyday workflows of marketers and creative professionals."
+  },
+  {
+   "s": 2760.1,
+   "e": 2768.02,
+   "t": "The new generative AI models will be optimized for image creation, video, 3D, and animation to"
+  },
+  {
+   "s": 2768.02,
+   "e": 2775.46,
+   "t": "protect artists' rights. Adobe is developing with a focus on commercial viability and proper content"
+  },
+  {
+   "s": 2775.46,
+   "e": 2782.34,
+   "t": "attribution, powered by Adobe's Content Authenticity Initiative. Our third language domain"
+  },
+  {
+   "s": 2782.34,
+   "e": 2789.22,
+   "t": "is biology. Drug discovery is a nearly $2 trillion industry with $250 billion"
+  },
+  {
+   "s": 2789.94,
+   "e": 2797.06,
+   "t": "dedicated to R&D. NVIDIA's Clara is a healthcare application framework for imaging,"
+  },
+  {
+   "s": 2797.06,
+   "e": 2803.14,
+   "t": "instruments, genomics, and drug discovery. The industry is now jumping onto generative AI"
+  },
+  {
+   "s": 2803.86,
+   "e": 2809.3,
+   "t": "to discover disease targets, design novel molecules or protein-based drugs,"
+  },
+  {
+   "s": 2810.1,
+   "e": 2814.42,
+   "t": "and predict the behavior of the medicines in the body. In silico medicine,"
+  },
+  {
+   "s": 2815.3,
+   "e": 2822.5,
+   "t": "Exentia, Absi, and Evozime are among hundreds of new AI drug discovery startups."
+  },
+  {
+   "s": 2823.3,
+   "e": 2828.98,
+   "t": "Several have discovered novel targets or drug candidates that have started human clinical trials."
+  },
+  {
+   "s": 2829.94,
+   "e": 2836.82,
+   "t": "Bionemo help researchers create, fine-tune, and serve custom models with their proprietary data."
+  },
+  {
+   "s": 2837.78,
+   "e": 2842.02,
+   "t": "Let's take a look. There are three key stages to drug discovery,"
+  },
+  {
+   "s": 2842.74,
+   "e": 2848.26,
+   "t": "discovering the biology that causes disease, designing new molecules, whether those are small"
+  },
+  {
+   "s": 2848.26,
+   "e": 2854.5,
+   "t": "molecules, proteins, or antibodies, and finally, screening how those molecules interact with each"
+  },
+  {
+   "s": 2854.58,
+   "e": 2860.42,
+   "t": "other. Today, generative AI is transforming every step of the drug discovery process."
+  },
+  {
+   "s": 2861.54,
+   "e": 2866.5,
+   "t": "NVIDIA Bionemo Service provides state-of-the-art generative AI models for drug discovery."
+  },
+  {
+   "s": 2867.46,
+   "e": 2872.5,
+   "t": "It's available as a cloud service, providing instant and easy access to accelerated drug"
+  },
+  {
+   "s": 2872.5,
+   "e": 2880.66,
+   "t": "discovery workflows. Bionemo includes models like Alpha Fold, ESM Fold, and Open Fold for 3D"
+  },
+  {
+   "s": 2880.66,
+   "e": 2888.34,
+   "t": "protein structure prediction, Prote GPT for protein generation, ESM1 and ESM2 for protein"
+  },
+  {
+   "s": 2888.34,
+   "e": 2895.3,
+   "t": "property prediction, Mega Mole Bart and Moleflow for molecule generation, and DifDoc for molecule"
+  },
+  {
+   "s": 2895.3,
+   "e": 2901.94,
+   "t": "docking. Drug discovery teams can use the models through Bionemo's web interface or cloud APIs."
+  },
+  {
+   "s": 2903.54,
+   "e": 2909.78,
+   "t": "Here's an example of using NVIDIA Bionemo for drug discovery virtual screening. Generative models"
+  },
+  {
+   "s": 2909.86,
+   "e": 2915.46,
+   "t": "can now read a protein's amino acid sequence and, in seconds, accurately predict the structure of a"
+  },
+  {
+   "s": 2915.46,
+   "e": 2921.86,
+   "t": "target protein. They can also generate molecules with desirable ADME properties that optimize how"
+  },
+  {
+   "s": 2921.86,
+   "e": 2928.02,
+   "t": "a drug behaves in the body. Generative models can even predict the 3D interactions of a protein"
+  },
+  {
+   "s": 2928.02,
+   "e": 2934.9,
+   "t": "and molecule, accelerating the discovery of optimal drug candidates. With NVIDIA DGX Cloud,"
+  },
+  {
+   "s": 2934.9,
+   "e": 2940.18,
+   "t": "Bionemo also provides on-demand supercomputing infrastructure to further optimize and train"
+  },
+  {
+   "s": 2940.18,
+   "e": 2945.86,
+   "t": "models, saving teams valuable time and money so they can focus on discovering life-saving medicines."
+  },
+  {
+   "s": 2946.82,
+   "e": 2954.02,
+   "t": "The new AI drug discovery pipelines are here. Sign up now for access to NVIDIA Bionemo service."
+  },
+  {
+   "s": 2955.46,
+   "e": 2959.3,
+   "t": "We will continue to work with the industry to include models into Bionemo"
+  },
+  {
+   "s": 2959.86,
+   "e": 2964.5,
+   "t": "that encompass the end-to-end workflow of drug discovery and virtual screening."
+  },
+  {
+   "s": 2965.3,
+   "e": 2975.94,
+   "t": "Amgen, AstraZeneca, Insilico Medicine, EvoZyne, Inno4, and Alchemib Therapeutics are early access"
+  },
+  {
+   "s": 2975.94,
+   "e": 2984.42,
+   "t": "users of Bionemo, NVIDIA AI Foundations, a cloud service, a foundry for building custom"
+  },
+  {
+   "s": 2984.42,
+   "e": 2992.18,
+   "t": "language models and generative AI. Since AlexNet a decade ago, deep learning has opened"
+  },
+  {
+   "s": 2992.18,
+   "e": 3000.5,
+   "t": "giant new markets. Automated driving, robotics, smart speakers, and reinvented how we shop,"
+  },
+  {
+   "s": 3000.5,
+   "e": 3008.74,
+   "t": "consume news, and enjoy music. That's just the tip of the iceberg. AI is at an inflection point,"
+  },
+  {
+   "s": 3009.3,
+   "e": 3016.02,
+   "t": "as generative AI has started a new wave of opportunities, driving a step function increase"
+  },
+  {
+   "s": 3016.02,
+   "e": 3023.62,
+   "t": "in inference workloads. AI can now generate diverse data spanning voice, text, images,"
+  },
+  {
+   "s": 3024.26,
+   "e": 3032.5,
+   "t": "video, and 3D graphics to proteins and chemicals. Designing a cloud data center to process generative"
+  },
+  {
+   "s": 3032.5,
+   "e": 3039.22,
+   "t": "AI is a great challenge. On the one hand, a single type of accelerator is ideal,"
+  },
+  {
+   "s": 3039.86,
+   "e": 3045.54,
+   "t": "because it allows the data center to be elastic and handle the unpredictable peaks and valleys"
+  },
+  {
+   "s": 3045.54,
+   "e": 3053.94,
+   "t": "of traffic. On the other hand, no one accelerator can optimally process the diversity of algorithms,"
+  },
+  {
+   "s": 3053.94,
+   "e": 3062.1,
+   "t": "models, data types, and sizes. NVIDIA's One Architecture platform offers both acceleration"
+  },
+  {
+   "s": 3062.1,
+   "e": 3070.82,
+   "t": "and elasticity. Today, we are announcing our new inference platform. Four configurations,"
+  },
+  {
+   "s": 3071.7,
+   "e": 3078.9,
+   "t": "one architecture, one software stack. Each configuration is optimized for a class of workloads."
+  },
+  {
+   "s": 3079.54,
+   "e": 3086.42,
+   "t": "For AI video workloads, we have L4 optimized for video decoding and transcoding,"
+  },
+  {
+   "s": 3086.42,
+   "e": 3091.7,
+   "t": "video content moderation, and video call features like background replacement,"
+  },
+  {
+   "s": 3091.7,
+   "e": 3097.62,
+   "t": "relighting, making eye contact, transcription, and real-time language translation."
+  },
+  {
+   "s": 3099.14,
+   "e": 3108.74,
+   "t": "Most cloud videos today are processed on CPUs. One 8 GPU L4 server will replace over 100 dual"
+  },
+  {
+   "s": 3108.74,
+   "e": 3115.78,
+   "t": "socket CPU servers for processing AI video. Snap is a leading user of NVIDIA AI for computer"
+  },
+  {
+   "s": 3115.78,
+   "e": 3123.14,
+   "t": "vision and recommender systems. Snap will use L4 for AV1 video processing, generative AI,"
+  },
+  {
+   "s": 3123.14,
+   "e": 3129.78,
+   "t": "and augmented reality. Snapchat users upload hundreds of millions of videos every day."
+  },
+  {
+   "s": 3130.82,
+   "e": 3139.46,
+   "t": "Google announced today NVIDIA L4 on GCP. NVIDIA and Google Cloud are working to deploy major"
+  },
+  {
+   "s": 3139.46,
+   "e": 3146.98,
+   "t": "workloads on L4. Let me highlight five. First, we're accelerating inference for generative AI"
+  },
+  {
+   "s": 3146.98,
+   "e": 3155.14,
+   "t": "models for cloud services like Wombo and Descript. Second, we're integrating Triton inference server"
+  },
+  {
+   "s": 3155.14,
+   "e": 3162.18,
+   "t": "with Google Kubernetes Engine and Vertex AI. Third, we're accelerating Google Dataproc with"
+  },
+  {
+   "s": 3162.18,
+   "e": 3169.54,
+   "t": "NVIDIA Spark Rabbits. Fourth, we're accelerating Alpha Fold and UL2 and T5 large language models."
+  },
+  {
+   "s": 3170.1,
+   "e": 3176.18,
+   "t": "And fifth, we are accelerating Google Cloud's immersive stream that renders 3D and AR"
+  },
+  {
+   "s": 3176.18,
+   "e": 3184.34,
+   "t": "experiences. With this collaboration, Google GCP is a premier NVIDIA AI cloud. We look"
+  },
+  {
+   "s": 3184.34,
+   "e": 3190.02,
+   "t": "forward to telling you even more about our collaboration very soon. For Omniverse,"
+  },
+  {
+   "s": 3190.02,
+   "e": 3196.82,
+   "t": "graphics rendering, and generative AI like text-to-image and text-to-video, we are announcing"
+  },
+  {
+   "s": 3196.82,
+   "e": 3205.86,
+   "t": "L40. L40 is up to 10 times the performance of NVIDIA's T4, the most popular cloud inference GPU."
+  },
+  {
+   "s": 3206.9,
+   "e": 3212.58,
+   "t": "Runway is a pioneer in generative AI. Their research team was a key creator of stable"
+  },
+  {
+   "s": 3212.58,
+   "e": 3219.22,
+   "t": "diffusion and its predecessor, latent diffusion. Runway is inventing generative AI models for"
+  },
+  {
+   "s": 3219.22,
+   "e": 3225.46,
+   "t": "creating and editing content. With over 30 AI magic tools, their service is revolutionizing"
+  },
+  {
+   "s": 3225.46,
+   "e": 3232.98,
+   "t": "the creative process, all from the cloud. Let's take a look. Runway is making amazing AI-powered"
+  },
+  {
+   "s": 3232.98,
+   "e": 3238.74,
+   "t": "video editing and image creation tools accessible to everyone. Powered by the latest generation of"
+  },
+  {
+   "s": 3238.74,
+   "e": 3243.7,
+   "t": "NVIDIA GPUs running locally or in the cloud, Runway makes it possible to remove an object"
+  },
+  {
+   "s": 3243.7,
+   "e": 3250.18,
+   "t": "from a video with just a few brush strokes or apply different styles to video using just an"
+  },
+  {
+   "s": 3250.18,
+   "e": 3257.06,
+   "t": "input image or change the background or the foreground of a video. What used to take hours"
+  },
+  {
+   "s": 3257.06,
+   "e": 3261.7,
+   "t": "using conventional tools can now be completed with professional broadcast quality results"
+  },
+  {
+   "s": 3261.7,
+   "e": 3267.7,
+   "t": "in just a few minutes. Runway does this by utilizing CV CUDA, an open source project"
+  },
+  {
+   "s": 3267.7,
+   "e": 3272.34,
+   "t": "that enables developers to build highly efficient GPU-accelerated pre- and post-processing"
+  },
+  {
+   "s": 3272.34,
+   "e": 3279.22,
+   "t": "pipelines for computer vision workloads and scale them into the cloud. With NVIDIA technology,"
+  },
+  {
+   "s": 3279.22,
+   "e": 3283.54,
+   "t": "Runway is able to make impossible things to give the best experience to content creators."
+  },
+  {
+   "s": 3285.06,
+   "e": 3291.86,
+   "t": "What previously limited pros can now be done by you. In fact, Runway is used in Oscar-nominated"
+  },
+  {
+   "s": 3291.86,
+   "e": 3296.58,
+   "t": "Hollywood films and we are placing this technology in the hands of the world's creators."
+  },
+  {
+   "s": 3308.16,
+   "e": 3313.92,
+   "t": "Large language models like ChatGPT are a significant new inference workload."
+  },
+  {
+   "s": 3314.88,
+   "e": 3322.48,
+   "t": "GPT models are memory and computationally intensive. Furthermore, inference is a high-volume"
+  },
+  {
+   "s": 3322.48,
+   "e": 3328.64,
+   "t": "scale-out workload and requires standard commodity servers. For large language model inference like"
+  },
+  {
+   "s": 3328.64,
+   "e": 3339.44,
+   "t": "ChatGPT, we are announcing a new Hopper GPU. The PCI Express H100 with dual GPU NVLink."
+  },
+  {
+   "s": 3340.24,
+   "e": 3351.68,
+   "t": "The new H100 has 94 GB of HBM3 memory. H100 can process the 175 billion parameter GPT-3"
+  },
+  {
+   "s": 3352.32,
+   "e": 3358.24,
+   "t": "and supporting commodity PCI Express servers make it easy to scale out. The only GPU in"
+  },
+  {
+   "s": 3358.24,
+   "e": 3367.36,
+   "t": "the cloud today that can practically process ChatGPT is HGX A100. Compared to HGX A100"
+  },
+  {
+   "s": 3368.0,
+   "e": 3376.72,
+   "t": "for GPT-3 processing, a standard server with four pairs of H100 with dual GPU NVLink"
+  },
+  {
+   "s": 3377.28,
+   "e": 3385.04,
+   "t": "is up to 10 times faster. H100 can reduce large language model processing costs by an order of"
+  },
+  {
+   "s": 3385.04,
+   "e": 3393.28,
+   "t": "magnitude. Grace Hopper is our new superchip that connects Grace CPU and Hopper GPU over a high"
+  },
+  {
+   "s": 3393.28,
+   "e": 3401.68,
+   "t": "speed 900 GB per second coherent chip-to-chip interface. Grace Hopper is ideal for processing"
+  },
+  {
+   "s": 3401.68,
+   "e": 3408.8,
+   "t": "giant datasets like AI databases for recommender systems and large language models. Today,"
+  },
+  {
+   "s": 3409.44,
+   "e": 3417.76,
+   "t": "CPUs with large memory store and query giant embedding tables then transfer results to GPUs"
+  },
+  {
+   "s": 3417.76,
+   "e": 3423.84,
+   "t": "for inference. With Grace Hopper, Grace queries the embedding tables and transfers the results"
+  },
+  {
+   "s": 3424.4,
+   "e": 3430.72,
+   "t": "directly to Hopper across the high-speed interface seven times faster than PCI Express."
+  },
+  {
+   "s": 3431.44,
+   "e": 3438.72,
+   "t": "Customers want to build AI databases several orders of magnitude larger. Grace Hopper is the ideal"
+  },
+  {
+   "s": 3438.72,
+   "e": 3447.28,
+   "t": "engine. This is NVIDIA's inference platform, one architecture for diverse AI workloads"
+  },
+  {
+   "s": 3448.0,
+   "e": 3454.8,
+   "t": "and maximum data center acceleration and elasticity. The world's largest industries"
+  },
+  {
+   "s": 3455.52,
+   "e": 3462.48,
+   "t": "make physical things, but they want to build them digitally. Omniverse is a platform for"
+  },
+  {
+   "s": 3462.48,
+   "e": 3470.64,
+   "t": "industrial digitalization that bridges digital and physical. It lets industries design, build,"
+  },
+  {
+   "s": 3470.64,
+   "e": 3477.6,
+   "t": "operate and optimize physical products and factories digitally before making a physical replica."
+  },
+  {
+   "s": 3478.56,
+   "e": 3484.96,
+   "t": "Digitalization boosts efficiency and speed and saves money. One use of Omniverse is the virtual"
+  },
+  {
+   "s": 3484.96,
+   "e": 3491.68,
+   "t": "bring-up of a factory where all of its machinery is integrated digitally before the real factory is"
+  },
+  {
+   "s": 3491.68,
+   "e": 3497.84,
+   "t": "built. This reduces last-minute surprises, change orders and plant opening delays."
+  },
+  {
+   "s": 3498.72,
+   "e": 3504.64,
+   "t": "Virtual factory integration can save billions for the world's factories. The semiconductor"
+  },
+  {
+   "s": 3504.72,
+   "e": 3513.68,
+   "t": "industry is investing half a trillion dollars to build a record 84 new fabs. By 2030, auto"
+  },
+  {
+   "s": 3513.68,
+   "e": 3522.08,
+   "t": "manufacturers will build 300 factories to make 200 million electric vehicles and battery makers"
+  },
+  {
+   "s": 3522.08,
+   "e": 3529.44,
+   "t": "are building 100 more mega factories. Digitalization is also transforming logistics,"
+  },
+  {
+   "s": 3530.08,
+   "e": 3537.2,
+   "t": "moving goods through billions of square feet of warehouses worldwide. Let's look at how"
+  },
+  {
+   "s": 3537.2,
+   "e": 3543.52,
+   "t": "Amazon uses Omniverse to automate, optimize and plan its autonomous warehouses."
+  },
+  {
+   "s": 3546.83,
+   "e": 3551.95,
+   "t": "Amazon Robotics has manufactured and deployed the largest fleet of mobile industrial robots"
+  },
+  {
+   "s": 3551.95,
+   "e": 3557.47,
+   "t": "in the world. The newest member of this robotic fleet is Proteus, Amazon's first fully"
+  },
+  {
+   "s": 3557.47,
+   "e": 3563.55,
+   "t": "autonomous warehouse robot. Proteus is built to move through our facilities using advanced safety,"
+  },
+  {
+   "s": 3563.55,
+   "e": 3570.11,
+   "t": "perception and navigation technology. Let's see how NVIDIA IsaacSim, built on Omniverse,"
+  },
+  {
+   "s": 3570.11,
+   "e": 3575.71,
+   "t": "is creating physically accurate photoreal simulations to help accelerate Proteus deployments."
+  },
+  {
+   "s": 3576.99,
+   "e": 3583.63,
+   "t": "Proteus features multiple sensors that include cameras, lidars and ultrasonic sensors to power"
+  },
+  {
+   "s": 3583.63,
+   "e": 3588.67,
+   "t": "its autonomy software systems. The Proteus team needed to improve the performance of a neural"
+  },
+  {
+   "s": 3588.67,
+   "e": 3593.07,
+   "t": "network that read fiducial markers and helped the robot determine its location on the map."
+  },
+  {
+   "s": 3594.11,
+   "e": 3599.39,
+   "t": "It takes a lot of data and the right kind to train the ML models that are driven by the robot"
+  },
+  {
+   "s": 3599.39,
+   "e": 3606.35,
+   "t": "sensor input. With Omniverse Replicator in IsaacSim, Amazon Robotics was able to generate large"
+  },
+  {
+   "s": 3606.35,
+   "e": 3612.27,
+   "t": "photoreal synthetic datasets that improved the marker detection success rate from 88.6 percent"
+  },
+  {
+   "s": 3612.27,
+   "e": 3619.07,
+   "t": "to 98 percent. The use of synthetic data generated by Omniverse Replicator also sped up development"
+  },
+  {
+   "s": 3619.07,
+   "e": 3624.35,
+   "t": "times from months to days as we were able to iteratively test and train our models"
+  },
+  {
+   "s": 3624.35,
+   "e": 3629.63,
+   "t": "much faster than when only using real data. To enable new autonomous capabilities for the"
+  },
+  {
+   "s": 3629.63,
+   "e": 3635.31,
+   "t": "expanding fleet of Proteus robots, Amazon Robotics is working towards closing the gap from simulation"
+  },
+  {
+   "s": 3635.31,
+   "e": 3643.15,
+   "t": "to reality, building large-scale multi-sensor multi-robot simulations. With Omniverse, Amazon"
+  },
+  {
+   "s": 3643.15,
+   "e": 3650.19,
+   "t": "Robotics will optimize operations with full fidelity warehouse digital twins. Whether we're"
+  },
+  {
+   "s": 3650.19,
+   "e": 3656.19,
+   "t": "generating synthetic data or developing new levels of autonomy, IsaacSim on Omniverse helps the"
+  },
+  {
+   "s": 3656.19,
+   "e": 3662.35,
+   "t": "Amazon Robotics team save time and money as we deploy Proteus across our facilities."
+  },
+  {
+   "s": 3664.91,
+   "e": 3671.31,
+   "t": "Omniverse has unique technologies for digitalization and Omniverse is the premier development"
+  },
+  {
+   "s": 3671.31,
+   "e": 3678.43,
+   "t": "platform for USD which serves as a common language that lets teams collaborate to create"
+  },
+  {
+   "s": 3678.43,
+   "e": 3685.79,
+   "t": "virtual worlds and digital twins. Omniverse is physically based, mirroring the laws of physics."
+  },
+  {
+   "s": 3686.67,
+   "e": 3692.83,
+   "t": "It can connect to robotic systems and operate with hardware in the loop. It features generative"
+  },
+  {
+   "s": 3692.83,
+   "e": 3700.11,
+   "t": "AI to accelerate the creation of virtual worlds and Omniverse can manage data sets of enormous scale."
+  },
+  {
+   "s": 3701.07,
+   "e": 3855.12,
+   "t": "We've made significant updates to Omniverse in every area. Let's take a look. 300,000 creators"
+  },
+  {
+   "s": 3855.12,
+   "e": 3863.2,
+   "t": "and designers have downloaded Omniverse. Omniverse is not a tool but a USD network and shared"
+  },
+  {
+   "s": 3863.2,
+   "e": 3870.56,
+   "t": "database. A fabric connecting to design tools used across industries. It connects,"
+  },
+  {
+   "s": 3870.56,
+   "e": 3876.88,
+   "t": "composes and simulates the assets created by industry-leading tools. We are delighted to"
+  },
+  {
+   "s": 3876.88,
+   "e": 3883.68,
+   "t": "see the growth of Omniverse connections. Each connection links the ecosystem of one platform"
+  },
+  {
+   "s": 3884.24,
+   "e": 3891.52,
+   "t": "to the ecosystems of all the others. Omniverse's network of networks is growing exponentially."
+  },
+  {
+   "s": 3892.32,
+   "e": 3899.44,
+   "t": "Bentley Systems Lumen RT is now connected so are Siemens Teamcenter, NX and Process Simulate."
+  },
+  {
+   "s": 3900.24,
+   "e": 3909.04,
+   "t": "Rockwell Automation Emulate 3D, Cesium, Unity and many more. Let's look at the digitalization"
+  },
+  {
+   "s": 3909.04,
+   "e": 3915.28,
+   "t": "of the three trillion dollar auto industry and see how car companies are evaluating Omniverse in"
+  },
+  {
+   "s": 3915.28,
+   "e": 3923.2,
+   "t": "their workflows. Volvo Cars and GM use Omniverse USD Composer to connect and unify their asset"
+  },
+  {
+   "s": 3923.2,
+   "e": 3931.6,
+   "t": "pipelines. GM connects designers, sculptors and artists using Alias, Siemens NX, Unreal,"
+  },
+  {
+   "s": 3931.6,
+   "e": 3938.16,
+   "t": "Maya, 3DX Max and virtually assembles the components into a digital twin of the car."
+  },
+  {
+   "s": 3938.88,
+   "e": 3944.72,
+   "t": "In engineering and simulation, they visualize the power flow aerodynamics in Omniverse."
+  },
+  {
+   "s": 3945.28,
+   "e": 3952.88,
+   "t": "For next generation Mercedes-Benz and Jaguar Land Rover vehicles, engineers use DriveSim in"
+  },
+  {
+   "s": 3952.88,
+   "e": 3960.08,
+   "t": "Omniverse to generate synthetic data to train AI models, validate the active safety system against"
+  },
+  {
+   "s": 3960.08,
+   "e": 3968.32,
+   "t": "a virtual end cap driving test and simulate real driving scenarios. Omniverse's generative AI"
+  },
+  {
+   "s": 3969.04,
+   "e": 3976.48,
+   "t": "reconstructs previously driven routes into 3D so past experiences can be re-enacted or modified."
+  },
+  {
+   "s": 3977.28,
+   "e": 3983.84,
+   "t": "Working with ideal works, BMW uses Isaac Sim in Omniverse to generate synthetic data"
+  },
+  {
+   "s": 3983.84,
+   "e": 3990.24,
+   "t": "and scenarios to train factory robots. Lotus is using Omniverse to virtually assemble"
+  },
+  {
+   "s": 3990.24,
+   "e": 3995.44,
+   "t": "welding stations. Toyota is using Omniverse to build digital twins of their plants."
+  },
+  {
+   "s": 3996.32,
+   "e": 4002.16,
+   "t": "Mercedes-Benz uses Omniverse to build, optimize and plan assembly lines for new models."
+  },
+  {
+   "s": 4002.96,
+   "e": 4010.24,
+   "t": "Remac and Lucid Motors use Omniverse to build digital stores from actual design data that"
+  },
+  {
+   "s": 4010.24,
+   "e": 4016.72,
+   "t": "faithfully represent their cars. BMW is using Omniverse to plan operations across nearly three"
+  },
+  {
+   "s": 4016.72,
+   "e": 4025.36,
+   "t": "dozen factories worldwide and they are building a new EV factory completely in Omniverse two years"
+  },
+  {
+   "s": 4025.76,
+   "e": 4033.6,
+   "t": "before the physical plant opens. Let's visit. The world's industries are accelerating digitalization"
+  },
+  {
+   "s": 4033.6,
+   "e": 4039.68,
+   "t": "with over 3.4 trillion dollars being invested in the next three years. We at BMW strive to be"
+  },
+  {
+   "s": 4039.68,
+   "e": 4046.0,
+   "t": "leading edge in automotive digitalization. With NVIDIA Omniverse and AI we set up new factories"
+  },
+  {
+   "s": 4046.0,
+   "e": 4051.84,
+   "t": "faster and produce more efficiently than ever. This results in significant savings for us."
+  },
+  {
+   "s": 4051.84,
+   "e": 4057.12,
+   "t": "It all starts with planning, a complex process in which we need to connect many tools, data sets"
+  },
+  {
+   "s": 4057.12,
+   "e": 4062.48,
+   "t": "and specialists around the world. Traditionally we are limited since data is managed separately"
+  },
+  {
+   "s": 4062.48,
+   "e": 4068.96,
+   "t": "in a variety of systems and tools. Today we've changed all that. We are developing custom"
+  },
+  {
+   "s": 4068.96,
+   "e": 4075.2,
+   "t": "Omniverse applications to connect our existing tools, know-how and teams all in a unified view."
+  },
+  {
+   "s": 4076.0,
+   "e": 4081.6,
+   "t": "Omniverse is cloud-native and cloud-agnostic, enabling teams to collaborate across our virtual"
+  },
+  {
+   "s": 4081.6,
+   "e": 4087.84,
+   "t": "factories from everywhere. I'm about to join a virtual planning session for Davidson in Hungary,"
+  },
+  {
+   "s": 4087.84,
+   "e": 4097.6,
+   "t": "our new EV factory opening in 2025. Let's jump in. Ah, Milan is joining. Hello everyone. Hi Milan,"
+  },
+  {
+   "s": 4097.6,
+   "e": 4102.16,
+   "t": "great to see you. We are in the middle of an optimization loop for the party shop."
+  },
+  {
+   "s": 4102.16,
+   "e": 4107.2,
+   "t": "Would you like to see? Thanks, I'm highly interested and I'd like to invite a friend."
+  },
+  {
+   "s": 4108.16,
+   "e": 4115.52,
+   "t": "Sure. Hey Milan, good to see you. Jensen, welcome to our virtual planning session."
+  },
+  {
+   "s": 4115.52,
+   "e": 4121.28,
+   "t": "It's great to be here. What are we looking at? This is our global planning team who are working"
+  },
+  {
+   "s": 4121.28,
+   "e": 4126.0,
+   "t": "on a robot cell in Dabbleton's Digital Twin. Matthias, tell us what's happening."
+  },
+  {
+   "s": 4126.0,
+   "e": 4130.8,
+   "t": "So we've just learned the production concept requires some changes. We are now reconfiguring"
+  },
+  {
+   "s": 4130.8,
+   "e": 4135.84,
+   "t": "the layout to add a new robot into the cell. Okay, but if we add a new robot on the"
+  },
+  {
+   "s": 4135.84,
+   "e": 4142.24,
+   "t": "logistics side, we need to move our storage container. All right, let's get this new robot in."
+  },
+  {
+   "s": 4146.67,
+   "e": 4154.19,
+   "t": "That's perfect, but let's double check. Can we run the cell? Excellent. Milan, this is just"
+  },
+  {
+   "s": 4154.19,
+   "e": 4161.31,
+   "t": "incredible. Virtual factory integration is essential for every industry. I'm so proud to see what our"
+  },
+  {
+   "s": 4161.31,
+   "e": 4168.43,
+   "t": "teams did together. Congratulations. We are working globally to optimize locally. After planning,"
+  },
+  {
+   "s": 4168.51,
+   "e": 4174.99,
+   "t": "operations is king and we've already started. To celebrate the launch of our virtual plant,"
+  },
+  {
+   "s": 4174.99,
+   "e": 4180.35,
+   "t": "I'd like to invite you to open the first digital factory with me. I'd be honored. Let's do it."
+  },
+  {
+   "s": 4190.46,
+   "e": 4196.54,
+   "t": "Car companies employ nearly 14 million people. Digitalization will enhance the industry's"
+  },
+  {
+   "s": 4196.54,
+   "e": 4203.74,
+   "t": "efficiency, productivity, and speed. Omniverse is the digital to physical operating system"
+  },
+  {
+   "s": 4203.74,
+   "e": 4209.66,
+   "t": "to realize industrial visualization. Today, we're announcing three systems designed to run"
+  },
+  {
+   "s": 4209.66,
+   "e": 4215.82,
+   "t": "Omniverse. First, we're launching a new generation of workstations powered by NVIDIA,"
+  },
+  {
+   "s": 4215.82,
+   "e": 4223.98,
+   "t": "ADA, RTX GPUs, and Intel's newest CPUs. The new workstations are ideal for doing ray tracing,"
+  },
+  {
+   "s": 4223.98,
+   "e": 4232.14,
+   "t": "physics simulation, neural graphics, and generative AI. They will be available from Box, Dell, HP,"
+  },
+  {
+   "s": 4232.14,
+   "e": 4240.14,
+   "t": "and Lenovo starting in March. Second, new NVIDIA OVX servers optimized for Omniverse."
+  },
+  {
+   "s": 4240.86,
+   "e": 4249.34,
+   "t": "OVX consists of L40, ADA, RTX server GPUs, and our new Bluefield 3. OVX servers will be available"
+  },
+  {
+   "s": 4249.34,
+   "e": 4257.9,
+   "t": "from Dell, HPE, Quanta, Gigabyte, Lenovo, and Supermicro. Each layer of the Omniverse stack,"
+  },
+  {
+   "s": 4257.98,
+   "e": 4265.66,
+   "t": "including the chips, systems, networking, and software, are new inventions. Building and"
+  },
+  {
+   "s": 4265.66,
+   "e": 4270.78,
+   "t": "operating the Omniverse computer requires a sophisticated IT team. We're going to make"
+  },
+  {
+   "s": 4270.78,
+   "e": 4275.66,
+   "t": "Omniverse fast and easy to scale and engage. Let's take a look."
+  },
+  {
+   "s": 4276.94,
+   "e": 4282.38,
+   "t": "The world's largest industries are racing to digitalize their physical processes."
+  },
+  {
+   "s": 4282.38,
+   "e": 4288.78,
+   "t": "Today, that's a complex undertaking. NVIDIA Omniverse Cloud is a platform as a service that"
+  },
+  {
+   "s": 4288.78,
+   "e": 4295.02,
+   "t": "provides instant, secure access to managed Omniverse Cloud APIs, workflows, and customizable"
+  },
+  {
+   "s": 4295.02,
+   "e": 4302.06,
+   "t": "applications running on NVIDIA OVX. Enterprise teams access the suite of managed services through"
+  },
+  {
+   "s": 4302.06,
+   "e": 4309.9,
+   "t": "the web browser, Omniverse Launcher, or via a custom-built integration. Once in Omniverse Cloud,"
+  },
+  {
+   "s": 4309.9,
+   "e": 4316.14,
+   "t": "enterprise teams can instantly access, extend, and publish foundation applications and workflows"
+  },
+  {
+   "s": 4316.14,
+   "e": 4321.82,
+   "t": "to assemble and compose virtual worlds, generate data to train perception AIs,"
+  },
+  {
+   "s": 4323.34,
+   "e": 4328.7,
+   "t": "test and validate autonomous vehicles, or simulate autonomous robots,"
+  },
+  {
+   "s": 4330.14,
+   "e": 4336.54,
+   "t": "accessing and publishing shared data to Omniverse Nucleus. Designers and engineers working in"
+  },
+  {
+   "s": 4336.54,
+   "e": 4342.46,
+   "t": "their favorite third-party design tools on RTX workstations publish edits to Nucleus in parallel."
+  },
+  {
+   "s": 4343.5,
+   "e": 4347.58,
+   "t": "Then, when ready to iterate or view their integrated model in Omniverse,"
+  },
+  {
+   "s": 4347.58,
+   "e": 4354.54,
+   "t": "can simply open a web browser and log in. As projects and teams scale, Omniverse Cloud"
+  },
+  {
+   "s": 4354.54,
+   "e": 4360.14,
+   "t": "helps optimize cost by provisioning compute resources and licenses as needed, and new"
+  },
+  {
+   "s": 4360.22,
+   "e": 4367.1,
+   "t": "services and upgrades are automatically provided with real-time updates. With Omniverse Cloud,"
+  },
+  {
+   "s": 4367.1,
+   "e": 4373.66,
+   "t": "enterprises can fast-track unified digitalization and collaboration across major industrial workflows,"
+  },
+  {
+   "s": 4373.66,
+   "e": 4378.94,
+   "t": "increasing efficiency, reducing costs and waste, and accelerating the path to innovation."
+  },
+  {
+   "s": 4379.98,
+   "e": 4396.27,
+   "t": "See you in Omniverse! Today, we announce the NVIDIA Omniverse Cloud, a fully managed cloud"
+  },
+  {
+   "s": 4396.27,
+   "e": 4402.35,
+   "t": "service. We're partnering with Microsoft to bring Omniverse Cloud to the world's industries."
+  },
+  {
+   "s": 4402.35,
+   "e": 4409.71,
+   "t": "We will host it in Azure, benefiting from Microsoft's rich storage, security, applications,"
+  },
+  {
+   "s": 4409.71,
+   "e": 4416.59,
+   "t": "and services portfolio. We are connecting Omniverse Cloud to Microsoft 365 productivity suite,"
+  },
+  {
+   "s": 4417.39,
+   "e": 4423.71,
+   "t": "including Teams, OneDrive, SharePoint, and the Azure IoT Digital Twin Services,"
+  },
+  {
+   "s": 4424.59,
+   "e": 4432.67,
+   "t": "Microsoft, and NVIDIA are bringing Omniverse to hundreds of millions of Microsoft 365"
+  },
+  {
+   "s": 4432.67,
+   "e": 4440.83,
+   "t": "and Azure users. Accelerated computing and AI have arrived. Developers use NVIDIA to speed up"
+  },
+  {
+   "s": 4440.83,
+   "e": 4447.39,
+   "t": "and scale up to solve problems previously impossible. A daunting challenge is net zero."
+  },
+  {
+   "s": 4448.03,
+   "e": 4454.83,
+   "t": "Every company must accelerate every workload to reclaim power. Accelerated computing is a full"
+  },
+  {
+   "s": 4454.83,
+   "e": 4463.39,
+   "t": "stack, data center scale computing challenge. Grace, Grace Hopper, and Bluefield3 are new chips"
+  },
+  {
+   "s": 4463.39,
+   "e": 4470.11,
+   "t": "for super energy efficient accelerated data centers. Acceleration libraries solve new challenges"
+  },
+  {
+   "s": 4470.11,
+   "e": 4477.23,
+   "t": "and open new markets. We updated 100 acceleration libraries, including Ku Quantum for quantum"
+  },
+  {
+   "s": 4477.23,
+   "e": 4484.11,
+   "t": "computing, Kuopt for combinatorial optimization, and KuLitho for computational lithography."
+  },
+  {
+   "s": 4484.91,
+   "e": 4491.07,
+   "t": "We are thrilled to partner with TSMC, ASML, and Synopsys to go to two nanometers and beyond."
+  },
+  {
+   "s": 4491.71,
+   "e": 4498.19,
+   "t": "NVIDIA DGX AI Supercomputer is the engine behind the generative large language model breakthrough."
+  },
+  {
+   "s": 4498.19,
+   "e": 4505.39,
+   "t": "The DGX H100 AI Supercomputer is in production and available soon from an expanding network of"
+  },
+  {
+   "s": 4505.39,
+   "e": 4512.27,
+   "t": "OEM and cloud partners worldwide. The DGX Supercomputer is going beyond research and"
+  },
+  {
+   "s": 4512.27,
+   "e": 4519.55,
+   "t": "becoming a modern AI factory. Every company will manufacture intelligence. We are extending our"
+  },
+  {
+   "s": 4519.55,
+   "e": 4526.11,
+   "t": "business model with NVIDIA DGX Cloud by partnering with Microsoft Azure, Google GCP,"
+  },
+  {
+   "s": 4526.75,
+   "e": 4535.15,
+   "t": "and Oracle OCI to instantly bring NVIDIA AI to every company from a browser. DGX Cloud"
+  },
+  {
+   "s": 4535.15,
+   "e": 4540.27,
+   "t": "offers customers the best of NVIDIA and the best of the world's leading CSPs."
+  },
+  {
+   "s": 4541.07,
+   "e": 4547.55,
+   "t": "We are at the iPhone moment for AI. Generative AI inference workloads have gone into overdrive."
+  },
+  {
+   "s": 4548.11,
+   "e": 4555.47,
+   "t": "We launched our new inference platform for configurations, one architecture, L4 for AI"
+  },
+  {
+   "s": 4555.47,
+   "e": 4563.63,
+   "t": "video, L40 for omniverse and graphics rendering, H100 PCI Express for scaling out large language"
+  },
+  {
+   "s": 4563.63,
+   "e": 4569.87,
+   "t": "model inference, Grace Hopper for recommender systems and vector databases. NVIDIA's inference"
+  },
+  {
+   "s": 4569.87,
+   "e": 4577.79,
+   "t": "platform enables maximum data center acceleration and elasticity. NVIDIA and Google Cloud are"
+  },
+  {
+   "s": 4577.79,
+   "e": 4584.75,
+   "t": "working together to deploy a broad range of inference workloads. With this collaboration,"
+  },
+  {
+   "s": 4584.75,
+   "e": 4592.27,
+   "t": "Google GCP is a premier NVIDIA AI cloud. NVIDIA AI Foundations is a cloud service,"
+  },
+  {
+   "s": 4592.27,
+   "e": 4598.91,
+   "t": "a foundry for building custom language models and generative AI. NVIDIA AI Foundations comprises"
+  },
+  {
+   "s": 4598.91,
+   "e": 4606.27,
+   "t": "language, visual and biology model making services. Getty Images and Shutterstock are building custom"
+  },
+  {
+   "s": 4606.27,
+   "e": 4612.59,
+   "t": "visual language models and we're partnering with Adobe to build a set of next generation AI"
+  },
+  {
+   "s": 4612.59,
+   "e": 4619.87,
+   "t": "capabilities for the future of creativity. Omniverse is the digital to physical operating system"
+  },
+  {
+   "s": 4619.87,
+   "e": 4626.43,
+   "t": "to realize industrial digitalization. Omniverse can unify the end-to-end workflow"
+  },
+  {
+   "s": 4626.43,
+   "e": 4632.75,
+   "t": "and digitalize the $3 trillion, 14 million employee automotive industry."
+  },
+  {
+   "s": 4634.03,
+   "e": 4641.23,
+   "t": "Omniverse is leaping to the cloud. Hosted in Azure, we partner with Microsoft to bring"
+  },
+  {
+   "s": 4641.23,
+   "e": 4647.23,
+   "t": "Omniverse cloud to the world's industries. I thank our systems, cloud and software partners,"
+  },
+  {
+   "s": 4648.19,
+   "e": 4654.11,
+   "t": "researchers, scientists, and especially our amazing employees for building the NVIDIA"
+  },
+  {
+   "s": 4654.11,
+   "e": 4660.27,
+   "t": "accelerated computing ecosystem. Together, we are helping the world do the impossible."
+  },
+  {
+   "s": 4661.23,
+   "e": 4662.67,
+   "t": "Have a great GTC."
+  }
+ ]
+}
