@@ -49,15 +49,15 @@ def render(t, out):
     fb = F("ExtraBold", 44); bw = D.textlength("SOXL 3편", font=fb) + 40
     D.rounded_rectangle([40, 34, 40 + bw, 34 + 66], 12, fill=(*PINK, 255)); D.text((60, 41), "SOXL 3편", font=fb, fill=(255, 255, 255))
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34)); D = ImageDraw.Draw(th)
-    LX, MAXW = 60, TW - 120
-    f = F("Heavy", 168); l2 = "".join(t["l2"])
-    while max(D.textlength(t["l1"], font=f), D.textlength(l2, font=f)) > MAXW: f = vn2.font(os.path.basename(f.path), f.size - 4)
-    y2 = TH - 60 - f.size; y1 = y2 - 22 - f.size
-    shadow_text(th, (LX, y1), t["l1"], f, WHITE)
-    a, b = t["l2"]; pink_first = True   # 앞부분(핵심어)이 핑크
-    shadow_text(th, (LX, y2), a, f, (*PINK, 255) if pink_first else WHITE); D = ImageDraw.Draw(th)
-    shadow_text(th, (LX + D.textlength(a, font=f), y2), b, f, WHITE if pink_first else (*PINK, 255))
-    th.convert("RGB").save(out, quality=92); print(t["file"], "글자", f.size)
+    # 20:58 대표 "너무 과하게 큼 → 조금 더 세련되게": 잘된 썸네일(저스트인타임·삼성 3가지 편) 비율 — 화면 높이의 약 16~17%, 두 줄 사이 숨, 여백 넉넉히
+    LX = 72; f1 = F("ExtraBold", 112); f2 = F("Heavy", 122)
+    y2 = TH - 84 - f2.size; y1 = y2 - 18 - f1.size
+    shadow_text(th, (LX, y1), t["l1"], f1, WHITE)
+    a, b = t["l2"]; D = ImageDraw.Draw(th)
+    shadow_text(th, (LX, y2), a, f2, (*PINK, 255)); D = ImageDraw.Draw(th)
+    shadow_text(th, (LX + D.textlength(a, font=f2), y2), b, f2, WHITE)
+    assert D.textlength(t["l1"], font=f1) < TW - 2 * LX and D.textlength(a + b, font=f2) < TW - 2 * LX
+    th.convert("RGB").save(out, quality=92); print(t["file"])
 
 
 if __name__ == "__main__":
