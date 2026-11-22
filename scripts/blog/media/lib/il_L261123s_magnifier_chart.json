@@ -1,0 +1,33 @@
+{
+ "id": "il_L261123s_magnifier_chart",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A brass magnifying glass lying on paper printouts of abstract line charts without any numbers, desk lamp light, coffee cup, night.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20374-99a7-7c7a-9057-1f8f77ac8120",
+  "status_url": "https://api.higgsfield.ai/requests/01a20374-99a7-7c7a-9057-1f8f77ac8120/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20374-99a7-7c7a-9057-1f8f77ac8120/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20374-99a7-7c7a-9057-1f8f77ac8120",
+  "status_url": "https://api.higgsfield.ai/requests/01a20374-99a7-7c7a-9057-1f8f77ac8120/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20374-99a7-7c7a-9057-1f8f77ac8120/cancel",
+  "expires_at": "2026-11-29T13:31:51.309578+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20374-99a7-7c7a-9057-1f8f77ac8120/5d5ecda8-6eae-411b-b9d0-4cd80f4f4e80.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261123s_magnifier_chart.png"
+}

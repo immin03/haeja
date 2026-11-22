@@ -1,0 +1,33 @@
+{
+ "id": "il_L261123s_fab_corridor_dawn",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A long empty semiconductor cleanroom corridor at dawn, workers in white bunny suits walking away far in the distance, soft amber light through glass.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20374-46e3-765d-b968-bfa86a925926",
+  "status_url": "https://api.higgsfield.ai/requests/01a20374-46e3-765d-b968-bfa86a925926/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20374-46e3-765d-b968-bfa86a925926/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20374-46e3-765d-b968-bfa86a925926",
+  "status_url": "https://api.higgsfield.ai/requests/01a20374-46e3-765d-b968-bfa86a925926/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20374-46e3-765d-b968-bfa86a925926/cancel",
+  "expires_at": "2026-11-29T13:31:30.604910+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20374-46e3-765d-b968-bfa86a925926/9ff349f5-d171-4342-b607-4ca16c3094bd.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261123s_fab_corridor_dawn.png"
+}

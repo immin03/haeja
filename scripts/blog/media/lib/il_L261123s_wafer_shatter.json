@@ -1,0 +1,33 @@
+{
+ "id": "il_L261123s_wafer_shatter",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, moody deep navy blue color grade with warm amber-gold highlights, shallow depth of field, film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A silicon wafer shattering into pieces in mid-air against a dark red background, slow motion, sparks of light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20375-a351-71c5-aeac-07b8aa6d912f",
+  "status_url": "https://api.higgsfield.ai/requests/01a20375-a351-71c5-aeac-07b8aa6d912f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20375-a351-71c5-aeac-07b8aa6d912f/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20375-a351-71c5-aeac-07b8aa6d912f",
+  "status_url": "https://api.higgsfield.ai/requests/01a20375-a351-71c5-aeac-07b8aa6d912f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20375-a351-71c5-aeac-07b8aa6d912f/cancel",
+  "expires_at": "2026-11-29T13:33:02.127150+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20375-a351-71c5-aeac-07b8aa6d912f/96e0fa98-b4e8-4152-857c-37100d5a692f.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261123s_wafer_shatter.png"
+}
