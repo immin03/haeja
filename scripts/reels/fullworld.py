@@ -468,7 +468,7 @@ def _dpct(E, img, it, p, y):
         _dtext(img, (X0, ry), i["label"], E.F("SemiBold", 38), (*DGRAY, int(255 * min(1, q * 2))))
         bw = max(8, maxw * abs(v) / vmax * q); d = ImageDraw.Draw(img)
         d.rectangle([X0, ry + 60, X0 + bw, ry + 130], fill=col)
-        _dtext(img, (X0 + bw + 24, ry + 95), f"{v * q:+.2f}%", E.F("Heavy", 76), (*col, 255), anchor="lm")
+        _dtext(img, (X0 + bw + 24, ry + 95), f"{v * q:+.{i.get('dec', 2)}f}%", E.F("Heavy", 76), (*col, 255), anchor="lm")
     return img
 
 
