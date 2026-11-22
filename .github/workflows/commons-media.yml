@@ -13,6 +13,15 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 2026-11-22: 저장소 전체(약 11GB)를 받지 않고 이 작업에 필요한 폴더만 받는다. 빠진 폴더가 필요해지면 아래 줄을 지운다.
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/docs/
+            !/social/side/
+            !/social/music/
       - run: |
           pip install -q imageio-ffmpeg
           sudo ln -sf "$(python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" /usr/local/bin/ffmpeg
