@@ -26,6 +26,24 @@
           "value": "/"
         }
       ]
+    },
+    {
+      "source": "/(social|docs|media)/(.*)\\.mp4",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "video/mp4"
+        }
+      ]
+    },
+    {
+      "source": "/(social|docs|media)/(.*)\\.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json; charset=utf-8"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -73,13 +91,25 @@
       "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/social/reels/:id/reel.mp4"
     },
     {
-      "source": "/docs/emperor/ep/:file",
+      "source": "/docs/emperor/ep/:file(.+\\.mp4)",
       "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/docs/emperor/ep/:file"
     },
     {
-      "source": "/social/side/gen/:file",
+      "source": "/social/side/gen/:file(.+\\.mp4)",
       "destination": "https://msjbrwyzkiueqnzjeicm.supabase.co/storage/v1/object/public/media/social/side/gen/:file"
+    },
+    {
+      "source": "/social/:path*",
+      "destination": "https://raw.githubusercontent.com/immin03/haeja/main/social/:path*"
+    },
+    {
+      "source": "/docs/:path*",
+      "destination": "https://raw.githubusercontent.com/immin03/haeja/main/docs/:path*"
+    },
+    {
+      "source": "/media/:path*",
+      "destination": "https://raw.githubusercontent.com/immin03/haeja/main/media/:path*"
     }
   ],
-  "ignoreCommand": "git rev-parse -q --verify HEAD^ >/dev/null || exit 1; ! git diff --name-only HEAD^ HEAD | grep -qvE '^(scripts/|supabase/|\\.github/|README\\.md$|naver/)'"
+  "ignoreCommand": "git rev-parse -q --verify HEAD^ >/dev/null || exit 1; ! git diff --name-only HEAD^ HEAD | grep -qvE '^(scripts/|supabase/|\\.github/|README\\.md$|naver/|social/|media/|docs/)'"
 }
