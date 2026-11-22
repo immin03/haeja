@@ -1109,11 +1109,25 @@ def clip_source(pth, n_frames, seed, start=0.0):
                                        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL); _CLIPS.append(st["p"])
         while st["p"] is not None and st["i"] < i:
             b = st["p"].stdout.read(W * H * 3)
-            if len(b) < W * H * 3: close(); break
+            if len(b) < W * H * 3:
+                close()
+                # 2026-11-22 대표 "영상이 끝나고 멈춰 있다 — 모든 영상은 화면 넘어가기 전까지 안 멈추게": 클립이 모자라면 마지막 장면에서 멈추지 않고
+                # 처음부터 다시 틀되, 이어지는 0.6초는 직전 장면과 겹쳐 녹이듯 넘긴다(뚝 끊기는 반복 X)
+                if st["i"] < n_frames - 2 and st.get("loops", 0) < 6:
+                    st["loops"] = st.get("loops", 0) + 1; st["fade"] = (st["buf"], st["i"])
+                    st["p"] = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", str(start), "-i", pth, "-vf",
+                                                f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=rgb24", "-f", "rawvideo", "-"],
+                                               stdout=subprocess.PIPE, stderr=subprocess.DEVNULL); _CLIPS.append(st["p"])
+                    continue
+                break
             st["buf"] = b; st["i"] += 1
         if st["i"] >= n_frames - 1: close()
         if st["buf"] is None: return background("dark")
         im = Image.frombuffer("RGB", (W, H), st["buf"])
+        if st.get("fade"):
+            fb_, fi_ = st["fade"]; k_ = (st["i"] - fi_) / max(1, int(.6 * FPS))
+            if k_ < 1 and fb_ is not None: im = Image.blend(Image.frombuffer("RGB", (W, H), fb_), im, max(0.0, k_))
+            else: st["fade"] = None
         t = min(1.0, u * FPS / dur); z = 1.0 if fixed else ((1.0 + .04 * t) if zin else (1.04 - .04 * t))
         if z > 1.0005:
             cw, ch = W / z, H / z; im = im.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))

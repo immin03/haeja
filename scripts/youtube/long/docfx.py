@@ -243,6 +243,21 @@ def _chart(im, b, p):
 def _bars(im, b, p, y):
     it = b["items"]; x = b.get("x", 150); h = b.get("h", 380); base = y + 120 + h; vmax = max(abs(i["v"]) for i in it)
     d = ImageDraw.Draw(im, "RGBA")
+    # 2026-11-22 대표 SOXL 3편 검수: "-84% 빠졌다는데 막대가 위로 솟아 있다 → 수평선 아래로 내려와야" — 숫자가 모두 '-'인 하락 막대는 기준선에서 아래로
+    if b.get("down") or all(str(i.get("text", "")).strip().startswith("-") for i in it):
+        top = y + 120
+        d.line([(x - 20, top), (x - 20 + 300 * len(it) * eout(p / .4), top)], fill=(255, 255, 255, 140), width=2)
+        for k, i in enumerate(it):
+            q = eout((p - .15 - k * .35) / .9)
+            if q <= 0: continue
+            bx = x + k * 300; bh = h * abs(i["v"]) / vmax * q; col = TONE.get(i.get("color"), WHITE) if i.get("color") not in (None, "ink") else WHITE
+            if i.get("color") == "gray": col = GRAY
+            d.rectangle([bx, top, bx + 120, top + bh], fill=(*col, 235 if k == 0 else 170))
+            fs = 60
+            while fs > 30 and d.textlength(_num_k(i.get("text", ""), 1), font=F("Heavy", fs)) > 280: fs -= 2
+            d.text((bx, top + bh + 14), _num_k(i.get("text", ""), q), font=F("Heavy", fs), fill=(*col, 255), anchor="la")
+            d.text((bx, top - 16), i["label"], font=F("Medium", 28), fill=(*GRAY, 255), anchor="ld")
+        return
     d.line([(x - 20, base), (x - 20 + 300 * len(it) * eout(p / .4), base)], fill=(255, 255, 255, 110), width=2)
     for k, i in enumerate(it):
         q = eout((p - .15 - k * .35) / .9)
