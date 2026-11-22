@@ -324,11 +324,22 @@ def set_design2(on):
 
 def _punch_win(b, lines):
     t0 = _t0(b, lines); hold = max(3.0, b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))
+    nx = b.get("_next_t0")   # 2026-11-22 대표 23:26 "하이라이트 글씨 겹침 제발 없게": 같은 장면 다음 강조가 뜨기 전에 완전히 사라진다
+    if nx is not None: hold = max(.8, min(hold, nx - t0 - 1.0))
     return t0, hold
+
+
+def mark_punch_order(beats, lines):
+    """같은 장면 강조(펀치)들에 다음 강조 시작 시각을 적어 둔다 — 겹침 방지"""
+    pu = [b for b in beats or [] if b.get("kind") == "punch"]
+    ts = sorted(((_t0(b, lines), i) for i, b in enumerate(pu)))
+    for k, (t, i) in enumerate(ts):
+        pu[i]["_next_t0"] = ts[k + 1][0] if k + 1 < len(ts) else None
 
 
 def punch_active(beats, u, lines):
     """자막을 숨길 구간: 강조(펀치)가 떠 있는 동안 (2026-11-16 대표님: 자막과 강조가 동시에 나오면 안 된다)"""
+    mark_punch_order(beats, lines)
     for b in beats or []:
         if b.get("kind") != "punch": continue
         t0, hold = _punch_win(b, lines)
@@ -432,6 +443,7 @@ def _numparts(text):
 
 
 def _punches(im, pu, u, lines):
+    mark_punch_order(pu, lines)
     if DESIGN2[0]:
         import vn2
         for b in pu:

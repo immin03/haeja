@@ -2427,7 +2427,10 @@ def main():
             x = (x * np.clip(tt / .06, 0, 1) * np.clip((sd - tt) / .3, 0, 1)).astype(np.float32)
             audio.append((t + u, x)); tot = sum(len(l) for l in lines) or 1; u0 = u
             SOT_IV.append((t + u, t + u + sd))   # 2026-11-19 대표: 원음 구간은 BGM 덕킹
-            for l in lines: d_ = sd * len(l) / tot; lt.append((u0, d_, l)); u0 += d_
+            if SOT.get("at") and len(SOT["at"]) == len(lines):   # 2026-11-22 대표 23:26 "말하기도 전에 자막이 보이고 이미 넘어가 버린다": 줄마다 실제 말하는 구간(클립 안 초)
+                for (a_, d_), l in zip(SOT["at"], lines): lt.append((u + float(a_), float(d_), l))
+            else:
+                for l in lines: d_ = sd * len(l) / tot; lt.append((u0, d_, l)); u0 += d_
             u += sd + R.GAP; dur = u + sc.get("hold", .35)
             timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur; continue
         DUB = sc.get("dub")   # 2026-11-16 대표님: 인터뷰 원음 2~3초 → 원음은 작게 깔고 다른 성우가 한국어 더빙

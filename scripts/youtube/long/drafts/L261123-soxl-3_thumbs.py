@@ -13,7 +13,7 @@ TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 
 SETS = [   # 20:53 대표: 제목 각도 '반도체 급락, 끝나는 신호 5가지'로 — 아랫줄은 세 안 공통, 윗줄만 바꿔 A/B 테스트
     dict(file="thumb_a.jpg", photo="il_L261105g_cin_panic.jpeg", fx=.62, l1="반도체 바닥 신호 0/5", l2=("아직 물타지 마라", "")),   # 22:30 대표 "세게"
-    dict(file="thumb_b.jpg", photo="il_L261107s_chip_stairs.jpeg", fx=.75, l1="SOXL -90%", l2=("물타기 전", " 5가지")),
+    dict(file="thumb_b.jpg", photo="il_L261107s_red_cliff.jpeg", fx=.6, chip="고점 대비 -90% 폭락", l1=("SOXL 300 → ", "30달러"), l2=("지금 물타도 될까?", ""), ep2=True),   # 23:29 대표: 2편 썸네일(300 → 46달러)을 기억하는 시청자용 — 같은 틀, 지금 디자인
     dict(file="thumb_c.jpg", photo="il_L261113a_phone_vs_chart.jpeg", fx=.55, l1="반도체 바닥 신호 0/5", l2=("아직 사면 안 된다", "")),
 ]
 
@@ -46,13 +46,25 @@ def render(t, out):
     th.alpha_composite(g); g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
     for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(175 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.6)))
     th.alpha_composite(g); D = ImageDraw.Draw(th)
-    fb = F("ExtraBold", 54); bw = D.textlength("SOXL 3편", font=fb) + 48   # 21:01 대표: 배지 조금 더 크게 (44 → 54)
-    D.rounded_rectangle([40, 32, 40 + bw, 32 + 80], 14, fill=(*PINK, 255)); D.text((64, 39), "SOXL 3편", font=fb, fill=(255, 255, 255))
+    fb = F("ExtraBold", 54)
+    if t.get("chip"):   # 2편 틀: 빨간 띠(고점 대비 하락) + 어두운 '3편'
+        bw = D.textlength(t["chip"], font=fb) + 48; D.rounded_rectangle([40, 32, 40 + bw, 32 + 80], 14, fill=(*PINK, 255)); D.text((64, 39), t["chip"], font=fb, fill=(255, 255, 255))
+        x2 = 40 + bw + 16; bw2 = D.textlength("3편", font=fb) + 48; D.rounded_rectangle([x2, 32, x2 + bw2, 32 + 80], 14, fill=(20, 20, 24, 235)); D.text((x2 + 24, 39), "3편", font=fb, fill=(255, 255, 255))
+    else:
+        bw = D.textlength("SOXL 3편", font=fb) + 48   # 21:01 대표: 배지 조금 더 크게 (44 → 54)
+        D.rounded_rectangle([40, 32, 40 + bw, 32 + 80], 14, fill=(*PINK, 255)); D.text((64, 39), "SOXL 3편", font=fb, fill=(255, 255, 255))
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34)); D = ImageDraw.Draw(th)
     # 20:58 대표 "너무 과하게 큼 → 조금 더 세련되게": 잘된 썸네일(저스트인타임·삼성 3가지 편) 비율 — 화면 높이의 약 16~17%, 두 줄 사이 숨, 여백 넉넉히
     LX = 72; f1 = F("ExtraBold", 112); f2 = F("Heavy", 122)
     y2 = TH - 84 - f2.size; y1 = y2 - 18 - f1.size
-    shadow_text(th, (LX, y1), t["l1"], f1, WHITE)
+    if t.get("ep2"):
+        l1s = "".join(t["l1"]); z = 122
+        while ImageDraw.Draw(th).textlength(l1s, font=F("Heavy", z)) > TW - 2 * LX - 10: z -= 4
+        f1 = F("Heavy", z); y1 = y2 - 20 - f1.size
+    if isinstance(t["l1"], tuple):
+        p1, q1 = t["l1"]; shadow_text(th, (LX, y1), p1, f1, WHITE); D = ImageDraw.Draw(th); shadow_text(th, (LX + D.textlength(p1, font=f1), y1), q1, f1, (*PINK, 255)); t = dict(t, l1=p1 + q1)
+    else: shadow_text(th, (LX, y1), t["l1"], f1, WHITE)
+    if t.get("ep2"): t = dict(t, l2=("", t["l2"][0]))   # 둘째 줄은 흰색
     a, b = t["l2"]; D = ImageDraw.Draw(th)
     shadow_text(th, (LX, y2), a, f2, (*PINK, 255)); D = ImageDraw.Draw(th)
     shadow_text(th, (LX + D.textlength(a, font=f2), y2), b, f2, WHITE)
