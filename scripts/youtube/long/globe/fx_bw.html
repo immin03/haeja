@@ -208,7 +208,28 @@ function board(C,t){
     txt(q.name,x+28,y+44,34,IVORY,800,'left',a); if(q.sub) txtS(q.sub,x+28,y+86,22,GRAY,600,'left',a); txt(q.v,x+tw-28,y+th-40,58,col,800,'right',a); });
   if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
 }
-window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board})[mode];
+
+// ⑩ 바닥 계기판(gauge) — 2026-11-22 대표 "새로운 전개 방식": 칸마다 꺼짐·가까워짐·켜짐, focus 칸만 밝게
+// cfg: {kicker,title, rows:[{name, past, now, state:'off'|'near'|'on', p:0~1(선택), tick:'12배'(선택)}], focus:index|null, answer:'', step}
+function gauge(C,t){
+  bg(); kicker(C,t);
+  const R=C.rows||[], X0=150, X1=W-150, Y0=C.y0||270, rh=C.rh||104, st=C.step||0.35, F=C.focus;
+  R.forEach((q,i)=>{ const a0=ease(cl((t-0.6-i*st)/0.45)); if(a0<=0) return; const dim=(F!=null&&F!==i)?0.32:1, a=a0*dim, y=Y0+i*rh+(1-a0)*24;
+    const on=q.state==='on', near=q.state==='near', pul=(Math.sin(t*3.2)+1)/2;
+    g.save(); g.globalAlpha=a0*(F===i?1:0.9); g.fillStyle=F===i?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.025)'; g.strokeStyle=F===i?PINK:'rgba(225,225,228,0.18)'; g.lineWidth=F===i?3:1.5; g.beginPath(); g.roundRect(X0,y-rh/2+8,X1-X0,rh-16,16); g.fill(); g.stroke(); g.restore();
+    const lx=X0+56; g.save(); g.globalAlpha=a; g.lineWidth=4; g.strokeStyle=on?IVORY:near?PINK:'rgba(225,225,228,0.45)'; g.beginPath(); g.arc(lx,y,26,0,7); g.stroke();
+    if(on){ g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=30; g.beginPath(); g.arc(lx,y,15,0,7); g.fill(); }
+    else if(near){ g.fillStyle=PINK; g.globalAlpha=a*(0.45+0.55*pul); g.shadowColor=PINK; g.shadowBlur=24; g.beginPath(); g.arc(lx,y,13,0,7); g.fill(); }
+    g.restore();
+    txt(q.name,lx+60,y-(q.p!=null?12:0),48,IVORY,800,'left',a);
+    if(q.p!=null){ const bx=lx+60, bw=640, by=y+30, pp=q.p*ease(cl((t-1.2-i*st)/1.2)); g.save(); g.globalAlpha=a; g.fillStyle='rgba(225,225,228,0.15)'; g.beginPath(); g.roundRect(bx,by-5,bw,10,5); g.fill();
+      g.fillStyle=near||on?PINK:'rgba(235,235,238,0.7)'; g.beginPath(); g.roundRect(bx,by-5,Math.max(10,bw*pp),10,5); g.fill(); g.strokeStyle=IVORY; g.lineWidth=3; g.beginPath(); g.moveTo(bx+bw,by-16); g.lineTo(bx+bw,by+16); g.stroke(); g.restore();
+      if(q.tick) txtS(q.tick,bx+bw+14,by,26,GRAY,600,'left',a); }
+    txtS(q.past||'',X1-36,y-22,27,GRAY,600,'right',a); txt(q.now||'',X1-40,y,52,on?IVORY:near?PINK:'#dcdcdc',800,'right',a); });
+  if(C.answer){ const ta=0.6+R.length*st+1.4, a=ease(cl((t-ta)/0.6)); if(a>0) txt(C.answer,W/2,Y0+R.length*rh+30,54,IVORY,800,'center',a); }
+  if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
+}
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
     if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
   safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)

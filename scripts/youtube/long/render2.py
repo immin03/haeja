@@ -1024,10 +1024,21 @@ def draw_phone(img, d, v, u, lines, V, theme):
         d.text((838 + 30 * (1 - p), y + 26), fill(s, V), font=fitF(d, fill(s, V), "ExtraBold", 46, 1720 - 838 - 36), fill=A(t["ink"], p))
 
 
+PHOTO_LIFT = [1.0]   # 2026-11-22 대표 22:42 "사진을 너무 어둡게 하지 말고 약간 밝게" — 스펙 "photo_lift"(1.0~1.4): 어두운 곳을 끌어올리는 감마 + 밝기
+
+
+def lift_photo(im):
+    k = PHOTO_LIFT[0]
+    if k <= 1.0: return im
+    g = 1 / (1 + (k - 1) * 1.6)   # 감마: 어두운 곳을 더 많이 올린다
+    lut = [min(255, int(255 * ((v / 255) ** g) * (1 + (k - 1) * .25))) for v in range(256)]
+    return im.point(lut * 3)
+
+
 class LazyPhoto:
     """R.photo_frames와 같은 켄 번즈 움직임을, 필요한 프레임만 그때 만든다 (긴 장면에서 메모리가 넘치지 않게)"""
     def __init__(self, pth, n, seed):
-        im = Image.open(pth).convert("RGB"); r = max(W / im.width, H / im.height) * 1.18
+        im = lift_photo(Image.open(pth).convert("RGB")); r = max(W / im.width, H / im.height) * 1.18
         self.im = im.resize((int(im.width * r), int(im.height * r)), Image.LANCZOS); self.n = n
         dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, 1)]; self.dx, self.dy = dirs[seed % len(dirs)]; self.zin = seed % 2 == 0
         self.kk = min(self.im.width / W, self.im.height / H)
@@ -2362,6 +2373,7 @@ def main():
         _v = _sc.get("v") or {}
         if _sc.get("news") and "news_scale" not in _v and any(str(c.get("lib") if isinstance(c, dict) else c).startswith("sot_") for c in (_v.get("cuts") or [])): _v["news_scale"] = 0.66
     VOICE_SPEED[0] = min(1.15, max(.95, float(spec.get("voice_speed", 1.07))))
+    PHOTO_LIFT[0] = min(1.4, max(1.0, float(spec.get("photo_lift", 1.0))))
     preflight(spec); global DOC_OVERLAY, DOCFX; DOC_OVERLAY = spec.get("overlay") == "doc"; D2[0] = spec.get("design") == "v2"; HOOK_STYLE[0] = (spec.get("hook") or {}).get("style", "drive"); MUSIC.clear(); MUSIC.update(spec.get("music") or {}); IDENT_FX[0] = bool((spec.get("hook") or {}).get("ident_fx"))
     import docfx as DOCFX; DOCFX.set_design2(D2[0]); data = json.load(open(spec_path.replace(".json", ".data.json"), encoding="utf-8")); V = data["vars"]; CV.update(V)
     set_look(spec.get("look"))

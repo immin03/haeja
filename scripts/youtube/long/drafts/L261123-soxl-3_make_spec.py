@@ -317,6 +317,92 @@ SWAP = {"vdata_14724.mp4": "vdata_30870.mp4", "vnightcity_40747.mp4": "vfreightt
 for x in sc:
     for c in x["v"].get("cuts", []):
         if c.get("lib") in SWAP: c["lib"] = SWAP[c["lib"]]
+# ───────── v7 (대표 11/22 22:11~22:28): 잘된 편(SOXL 1편 41%·테슬라 43%) 공식 — 직접 만든 사진 + 코드 그래픽, 무료 영상 거의 0
+# 원음은 핵심 한 문장만(버리·버핏 편 27~28%: 무료 영상+긴 원음), '반도체 바닥 계기판' 하나로 끝까지 (글 적게·글자 크게)
+def PH(n):
+    for ext in (".png", ".jpeg", ".jpg"):
+        if os.path.exists(LIB + n + ext): return n + ext
+    raise AssertionError(("missing photo", n))
+def N(k): return PH("il_L261123s_" + k)
+def setc(prefix, cuts, sketch=None):
+    x = sc[at_note(prefix)]; x["v"]["cuts"] = [{"lib": c} if isinstance(c, str) else c for c in cuts]
+    if sketch is not None: x["sketch"] = sketch
+    return x
+FX = lambda k, d=None: dict({"lib": f"globe_L261123s_fx_{k}.mp4"}, **({"d": d} if d else {}))
+def trim(prefix, start, dur, lines):
+    x = sc[at_note(prefix)]; x["sot"]["start"] = start; x["sot"]["dur"] = dur; x["v"]["cuts"][0]["start"] = start; x["lines"] = lines
+# 원음 줄이기 (147초 → 약 75초)
+# 인트로 1:31 → 약 1:04 (대표 22:37 '인트로 얼마나 길지'): 잡스 원음 빼고, 젠슨 황은 첫 문장만
+# 대표 22:39: 잡스만 → '아이폰은 진짜였는데 메모리는 무너졌다' → 지금 AI도 '이번엔 다르다' (사실 확인: 2007~08 D램은 호황이 아니라 공급 과잉 폭락)
+sc = [x for x in sc if not x.get("note", "").startswith("[훅] 원음② 젠슨")]
+trim("[훅] 원음① 잡스", 7.5, 9.2, sc[at_note("[훅] 원음① 잡스")]["lines"])   # 앞 무음 1.2초·뒤 박수 빼고
+x = setc("[훅] 기술은 진짜였다", [N("chip_dust"), "il_L261105g_cin_crisis2008.jpeg", N("fab_corridor_dawn")],
+         [punch("D램 값 -75%", "2008년 한 해 · D램익스체인지", line=0, at=6.0), punch("반도체지수 -69%", "2008년 금융위기 · 고점 대비", line=1, at=1.0)])
+x["lines"] = ["아이폰은 진짜 혁명이었습니다. 그런데 그때 반도체는 거꾸로 무너졌습니다. 공장을 너무 늘린 D램은 1년 새 값이 75% 빠졌고, 반도체지수는 69% 무너졌습니다.",
+              "기술은 진짜였지만, 주가는 사이클을 따랐습니다. 지금 AI도, 이번엔 다르다고 합니다."]
+x["src"] = "트렌드포스(D램익스체인지) 2008-12-30(1Gb D램 2.29→0.58달러, 약 -75%) · IDC 2009(2007~08 과잉 투자) · SimianX 2026-11(반도체지수 2008 -69%)"
+trim("[5장] 원음 버핏", 5.8, 11.5, ["가장 좋은 기회는 대개, 경제 전반이 공황에 빠졌을 때 왔습니다.", "무언가를 사기 가장 좋은 때는, 아무도 전화를 받지 않을 때입니다."])
+trim("[2장] 원음③ PTJ", 38.95, 10.45, ["상장, 증자, 보호예수 해제 물량까지 빼면,", "2009년 이후 가장 나쁜 돈의 흐름입니다."])
+sc[at_note("[2장] ④ 상장")]["lines"].append("폴 튜더 존스는 자사주 매입, 인수합병처럼 이 시장을 떠받친 돈을 모두 더한 뒤 이렇게 말했습니다.")
+trim("[6장] 원음⑤ 막스", 81.57, 15.4, ["버블의 핵심 재료는 심리적 과열입니다. 너무 높은 가격이란 없다는 생각이죠.", "지금은 그 정도의 광기가 보이지 않습니다."])
+x = sc[at_note("[6장] 해석 시작")]; x["lines"][-1] = "그때 닷컴 버블을 먼저 경고했던 하워드 막스는, 비싸다는 것과 내일 떨어진다는 건 다른 말이라며 이렇게 말했습니다."
+trim("[6장] 원음⑥ 그리핀", 50.2, 5.6, ["저는 지금 시장이, 사람들이 제대로 공부를 하기 시작한 과정이라고 봅니다."])
+x = sc[at_note("[6장] 사이클 근거")]; x["lines"][-1] = "지난달 반도체가 금융위기 이후 가장 길게 연속으로 떨어졌을 때, 시타델의 켄 그리핀은 이렇게 말했습니다."
+# 답부터 + 계기판 (SOXL 1편의 '답부터 말씀드리겠습니다')
+x = setc("[약속]", [FX("gauge_all")], [])
+x["lines"] = ["오늘은 반도체 30년, 13번의 폭락에서 바닥마다 반복된 신호 다섯 가지를 계기판 하나에 모아 보겠습니다.",
+              "답부터 말씀드리면, 지금 켜진 칸은 아직 없습니다. 가장 가까운 칸은 가격입니다.",
+              "그리고 마지막엔, 지금이 그 13번 중 어느 쪽을 닮았는지 정리하겠습니다."]
+x["src"] = "뱅크오브아메리카 2026-11 보고서 · 녹색경제신문 2026-11-21 · 제작진 판단"
+for pre, k in [("[5장] 신호 ①", "gauge_1"), ("[5장] 신호 ②", "gauge_2"), ("[5장] 신호 ③", "gauge_3"), ("[5장] 신호 ④⑤", "gauge_4"), ("[5장] 신호 ⑤", "gauge_5"), ("[5장] 한 장 정리", "gauge_final")]:
+    setc(pre, [FX(k)], [])
+x = sc[at_note("[5장] 신호 ①")]; x["lines"][0] = "계기판 첫 칸부터 보겠습니다."
+setc("[1장] 작은 질문", [FX("crashes")], [])
+setc("[2장] ② 돈의 순환", [FX("loop", 18), "commons_nvidiahq_2.jpg"], [])
+# 나머지 배경: 새로 만든 사진(il_L261123s_*) + 최근 3편에 안 쓴 기존 사진
+M = [
+     ("[1장] 3개월 대 15년", ["il_L261105g_cin_seoul1998.jpeg", N("empty_office_2002")]),
+     ("[1장] 3유형 ①", [N("storm_over_fab")]), ("[1장] 3유형 ②", [N("chip_inventory")]), ("[1장] 3유형 ③", [N("chip_cliff")]),
+     ("[1장] 리후킹", [N("magnifier_chart"), N("wafer_light")]),
+     ("[5장] 바닥 뒤 평균", [N("storm_clearing")]),
+     ("[2장] 반례", [N("long_road")]),
+     ("[2장] 리후킹", [N("crt_office_2000")]),
+     ("[2장] 세 장면", [N("floor_2000"), "il_L261105g_cin_storm.jpeg"]),
+     ("[2장] ③ 금리", [N("fed_dawn"), N("bond_glow")]),
+     ("[2장] ④ 상장", ["il_L261114t_ipo_bell.png", N("ipo_confetti")]),
+     ("[2장] 정리", [N("tower_night"), "il_L261113g3_drop_dawn.jpeg"]),
+     ("[3장] 반대 근거", [N("dc_cranes"), "il_L261110a_server_aisle.jpeg"]),
+     ("[3장] 2022", [N("wafer_shatter")]),
+     ("[3장] 회복 시간", [N("hourglass_wafer"), N("empty_wallet")]),
+     ("[3장] 유형별 차이", ["il_L261107s_chip_crack.jpeg", N("city_lights_on")]),
+     ("[3장] 결론", [N("fork_road")]),
+     ("[4장] TQQQ", ["il_L261116p_red_investor.png", "commons_nasdaqsite_3.jpg"]),
+     ("[4장] 가짜 결말", ["il_L261118a_hook_chess_night.png"]),
+     ("[6장] 해석 시작", [N("earnings_desk"), "il_L261117n_late_office_light.png"]),
+     ("[6장] 사이클 근거", ["il_L261116p_dc_aerial_night.png"]),
+     ("[6장] 판정", [N("crossroads_person")]),
+     ("[6장] 상황별", ["il_L261116p_checklist_desk.png", N("notebook_morning")]),
+     ("[6장] 확인할 신호", [N("chip_on_scale"), "il_L261117n_roadmap_desk.png"]),
+     ("[엔딩] 첫 장면으로", [N("dawn_chip_city"), "il_L261110a_exchange_night.jpeg"]),
+     ("[엔딩] 질문", [N("sunrise_window")])]
+for pre, cuts in M: setc(pre, cuts)
+# 세게 여는 훅 (대표 22:30 "처음 후킹 워딩 세게"): 원음보다 앞에 — 사실인 가장 센 말 '켜진 신호 0개'
+cold = S([], ["SOXL, 300달러가 30달러가 됐습니다.",
+              "물타기 버튼에 손이 가 있다면, 이것부터 보세요. 반도체가 바닥마다 켰던 신호 5개. 지금은 아직, 1개도 켜지지 않았습니다."],
+         [punch("SOXL -90%", "6월 300달러 → 11월 30달러", line=0, at=0.3), punch("바닥 신호 0/5", "11월 21일 기준", line=1, at=4.6)],
+         "24/7 월스트리트 2026-11-20(SOXL 6.22 300.77달러, 11.20 30.92달러) · 뱅크오브아메리카 2026-11 · 녹색경제신문 2026-11-21 · 제작진 판단", "[훅0] 세게 여는 말")
+cold["v"]["cuts"] = [{"lib": N("phone_red_night")}, {"lib": N("trading_floor_red")}]
+sc.insert(0, cold)
+q = setc("[훅] 질문", ["il_L261107m_kospi_board_red.jpeg"], [])
+q["lines"] = ["반도체는 이미 13번 무너졌고, 13번 다 바닥이 있었습니다."]
+t_ = sc[at_note("[훅] 템플턴")]; t_["lines"] = ["존 템플턴은 이 말을, 투자에서 가장 위험한 네 단어라고 했습니다."]
+x = sc[at_note("[약속]")]
+x["lines"] = ["반도체는 이미 13번 무너졌고, 13번 다 바닥이 있었습니다.", "오늘은 그 바닥마다 켜졌던 신호 5개를, 이 계기판에 한 칸씩 채워 보겠습니다."]
+sc = [y for y in sc if not y.get("note", "").startswith("[훅] 질문")]   # 인트로 1분 미만 (대표 22:42) — 질문 장면은 약속으로 합침
+left = [(x.get("note", "")[:20], c["lib"]) for x in sc for c in x["v"].get("cuts", []) if c["lib"].startswith("v")]
+assert not left, left   # 무료 영상 0
+ph = [c["lib"] for x in sc for c in x["v"].get("cuts", []) if c["lib"].startswith("il_")]
+assert len(ph) == len(set(ph)), [l for l in ph if ph.count(l) > 1]
 libs = [c["lib"] for x in sc for c in x["v"].get("cuts", []) if c["lib"].startswith("v")]
 assert len(libs) == len(set(libs)), [l for l in libs if libs.count(l) > 1]
 
@@ -325,7 +411,7 @@ spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', '
 spec.update({
  "id": "L261123-soxl-3", "company": "SOXL", "no_data": True, "series": "SOXL 시리즈", "plan": "P261123-soxl-3",
  "scheduled_at": "2026-11-23T18:00:00+09:00", "manual": True,
- "opening": "원음 2개(잡스 2007 → 젠슨 황 2026) → 반도체 -84/-69/-42.5% → 템플턴 → SOXL 300→30 → 13번 → 약속",
+ "opening": "세게 여는 말(SOXL -90% · 바닥 신호 0/5) → 잡스 2007 원음 → 아이폰은 진짜였지만 D램 -75%·반도체 -69% → 지금 AI '이번엔 다르다' → 반도체 -84/-69/-42.5% → 템플턴 → SOXL 300→30 → 13번 → 약속",
  "hook_type": "이번엔 다르다 원음 몽타주 + 역사 반복",
  "endscreen_target": "L261107-soxl-38", "endscreen_also": "L261112-soxl-nvidia",
  "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지",
@@ -339,16 +425,17 @@ spec.update({
  "tags": ["SOXL", "SOXL 주가", "SOXL 전망", "TQQQ", "레버리지 ETF", "반도체 ETF", "물타기", "반도체 바닥", "필라델피아 반도체지수", "엔비디아"],
  "search_keywords": ["soxl 전망", "soxl 바닥", "tqqq 전망", "레버리지 etf 장기투자", "반도체 바닥"],
  "sources": ["CNBC 2026 버크셔 주주총회 워런 버핏", "CNBC 2025-10-13 하워드 막스", "시타델 증권 퓨처 오브 글로벌 마켓 2026(켄 그리핀)", "애플 맥월드 2007 키노트", "CNBC 2026-10 젠슨 황(아준 카팔)", "CNBC 워런 버핏 인터뷰", "CNBC 2026 폴 튜더 존스", "SimianX SOX 하락장 1995~2026", "뱅크오브아메리카 반도체 보고서 2026-11(오데일리 보도)", "24/7 월스트리트 2026-11-20·2026-05", "모틀리풀/AOL 2026-11-16", "녹색경제신문 2026-11-21", "야후 파이낸스 TQQQ 2026-11-20", "엔비디아 SEC 8-K 2026-11-17", "토마스 퉁구즈 2025-10(루슨트)", "포천 2025-09-28", "CNBC 2017-06-19(블랙스톤)", "로이터·IPOX 2026-11", "존 템플턴 16 Rules for Investment Success"],
- "format_note": "v6 2026-11-22 대표 21:54 검수 — 3유형 말 맞춰 하나씩 · 바닥 신호 과거→지금→아직 · 버핏 콜백·엔딩 버핏 문장 삭제 · 말 속도 1.03 · 하락 막대 아래로·영상 멈춤 없음(렌더러) / v5 원음 3개 / v4 제목·신호 장 앞으로 / v3 덜어내기",
+ "format_note": "v7 2026-11-22 대표 22:11~22:28 — 직접 만든 사진·코드 그래픽(바닥 계기판) 위주, 무료 영상 0, 원음 핵심만(147→75초), 답부터 · v6 2026-11-22 대표 21:54 검수 — 3유형 말 맞춰 하나씩 · 바닥 신호 과거→지금→아직 · 버핏 콜백·엔딩 버핏 문장 삭제 · 말 속도 1.03 · 하락 막대 아래로·영상 멈춤 없음(렌더러) / v5 원음 3개 / v4 제목·신호 장 앞으로 / v3 덜어내기",
  "orig_mode": "sot_test", "orig_mode_note": "원음+한국어 자막(더빙 없음). 게이츠·잡스 구간은 STT로 확정 후 start/dur 갱신.",
  "voice_speed": 1.03,
+ "photo_lift": 1.25,   # 대표 22:42 사진 약간 밝게
  "gate_waive": {"r196": "대표 2026-11-21 인트로·아웃트로 양식 자유", "②": "대표 2026-11-22 21:54 '그담에 또 버핏은 이렇게 했다를 이야기할 필요는 없다' — 버핏 콜백 삭제로 콜백 수가 줄어도 진행", "⑦": "대표 2026-11-22 20:10 '그래 그러면 SOXL3편을 그렇게 갈게' · 20:11 '오케이 그럼 너말대로 할게' — 제목을 '끝나는 신호 5가지' 각도로 변경(썸네일 3안은 그대로)"},
  "thumb_fixed": "2026-11-22 20:53 대표 확정 — 제목 'SOXL·반도체 급락, 끝나는 신호 5가지' · 썸네일 3안 아랫줄 '끝나는 신호 5가지' 공통(drafts/L261123-soxl-3_thumbs.py) — 렌더가 덮어쓰지 않게",
- "thumb": {"photo": "il_L261105g_cin_panic.jpeg", "focus_x": 0.6, "l1": "반도체 급락", "l2": "끝나는 신호 5가지", "pos": "left"},
+ "thumb": {"photo": "il_L261105g_cin_panic.jpeg", "focus_x": 0.6, "l1": "반도체 바닥 신호 0/5", "l2": "아직 물타지 마라", "pos": "left"},
  "ab_sets": [
-  {"key": "a", "default": True, "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_a.jpg", "type": "A 반도체 급락 / 끝나는 신호 5가지"},
-  {"key": "b", "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_b.jpg", "type": "B SOXL -90% / 끝나는 신호 5가지"},
-  {"key": "c", "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_c.jpg", "type": "C 반도체 바닥 / 확인 방법 5가지 (대표 21:03)"}],
+  {"key": "a", "default": True, "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_a.jpg", "type": "A 반도체 바닥 신호 0/5 / 아직 물타지 마라 (대표 22:30 세게)"},
+  {"key": "b", "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_b.jpg", "type": "B SOXL -90% / 물타기 전 5가지"},
+  {"key": "c", "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_c.jpg", "type": "C 반도체 바닥 신호 0/5 / 아직 사면 안 된다 (대표 22:35)"}],
  "scenes": sc,
 })
 json.dump(spec, open(OUT, 'w'), ensure_ascii=False, indent=1)

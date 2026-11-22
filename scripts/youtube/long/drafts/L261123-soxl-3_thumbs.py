@@ -12,9 +12,9 @@ LIB = os.path.join(HERE, "..", "..", "..", "blog", "media", "lib")
 TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 
 SETS = [   # 20:53 대표: 제목 각도 '반도체 급락, 끝나는 신호 5가지'로 — 아랫줄은 세 안 공통, 윗줄만 바꿔 A/B 테스트
-    dict(file="thumb_a.jpg", photo="il_L261105g_cin_panic.jpeg", fx=.62, l1="반도체 급락", l2=("끝나는 신호", " 5가지")),
-    dict(file="thumb_b.jpg", photo="il_L261107s_chip_stairs.jpeg", fx=.75, l1="SOXL -90%", l2=("끝나는 신호", " 5가지")),
-    dict(file="thumb_c.jpg", photo="il_L261113a_phone_vs_chart.jpeg", fx=.55, l1="반도체 바닥", l2=("확인 방법", " 5가지")),
+    dict(file="thumb_a.jpg", photo="il_L261105g_cin_panic.jpeg", fx=.62, l1="반도체 바닥 신호 0/5", l2=("아직 물타지 마라", "")),   # 22:30 대표 "세게"
+    dict(file="thumb_b.jpg", photo="il_L261107s_chip_stairs.jpeg", fx=.75, l1="SOXL -90%", l2=("물타기 전", " 5가지")),
+    dict(file="thumb_c.jpg", photo="il_L261113a_phone_vs_chart.jpeg", fx=.55, l1="반도체 바닥 신호 0/5", l2=("아직 사면 안 된다", "")),
 ]
 
 
@@ -29,7 +29,7 @@ def photo(name, fx):
     s = max(TW / im.width, TH / im.height); im = im.resize((int(im.width * s) + 1, int(im.height * s) + 1), Image.LANCZOS)
     x0 = int((im.width - TW) * fx); y0 = (im.height - TH) // 2
     im = im.crop((x0, y0, x0 + TW, y0 + TH))
-    im = ImageEnhance.Color(im).enhance(.7); im = ImageEnhance.Brightness(im).enhance(1.0)
+    im = ImageEnhance.Color(im).enhance(.8); im = im.point([min(255, int(255 * ((v / 255) ** .7) * 1.06)) for v in range(256)] * 3)   # 22:42 대표: 사진 약간 밝게 (잘된 썸네일처럼)
     return im.convert("RGBA")
 
 
