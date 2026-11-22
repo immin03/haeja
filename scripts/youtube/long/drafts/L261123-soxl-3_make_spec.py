@@ -293,7 +293,7 @@ spec.update({
  "opening": "원음 2개(잡스 2007 → 젠슨 황 2026) → 반도체 -84/-69/-42.5% → 템플턴 → SOXL 300→30 → 13번 → 약속",
  "hook_type": "이번엔 다르다 원음 몽타주 + 역사 반복",
  "endscreen_target": "L261107-soxl-38", "endscreen_also": "L261112-soxl-nvidia",
- "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다",
+ "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지",
  "doc_title": "반도체 급락, 끝나는 신호 5가지",
  "title_en": "SOXL down 90%: how chip-stock bottoms formed in 13 crashes since 1995 (with TQQQ)",
  "description_head": "SOXL이 6월 300달러에서 30달러가 됐습니다. 반도체지수는 1995년 이후 20% 넘게 무너진 게 13번이고, 회복은 3개월부터 15년까지 갈렸습니다.\n스티브 잡스·젠슨 황·워런 버핏·하워드 막스·켄 그리핀·폴 튜더 존스의 원음으로 '이번엔 다르다'의 반복을 짚고, 13번의 폭락을 SOXL·TQQQ로 다시 보며 바닥 근처에서 반복된 신호 5가지와 확인할 날짜를 정리합니다.",
@@ -311,9 +311,9 @@ spec.update({
  "thumb_fixed": "2026-11-22 20:53 대표 확정 — 제목 'SOXL·반도체 급락, 끝나는 신호 5가지' · 썸네일 3안 아랫줄 '끝나는 신호 5가지' 공통(drafts/L261123-soxl-3_thumbs.py) — 렌더가 덮어쓰지 않게",
  "thumb": {"photo": "il_L261105g_cin_panic.jpeg", "focus_x": 0.6, "l1": "반도체 급락", "l2": "끝나는 신호 5가지", "pos": "left"},
  "ab_sets": [
-  {"key": "a", "default": True, "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_a.jpg", "type": "A 반도체 급락 / 끝나는 신호 5가지"},
-  {"key": "b", "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_b.jpg", "type": "B SOXL -90% / 끝나는 신호 5가지"},
-  {"key": "c", "title": "SOXL·반도체 급락, 끝나는 신호 5가지 | 30년간 13번 폭락에서 매번 반복됐다", "file": "thumb_c.jpg", "type": "C 반도체 바닥 / 확인 방법 5가지 (대표 21:03)"}],
+  {"key": "a", "default": True, "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_a.jpg", "type": "A 반도체 급락 / 끝나는 신호 5가지"},
+  {"key": "b", "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_b.jpg", "type": "B SOXL -90% / 끝나는 신호 5가지"},
+  {"key": "c", "title": "SOXL -90%, 반도체 바닥은 언제? | 30년간 13번 폭락, 바닥마다 반복된 신호 5가지", "file": "thumb_c.jpg", "type": "C 반도체 바닥 / 확인 방법 5가지 (대표 21:03)"}],
  "scenes": sc,
 })
 json.dump(spec, open(OUT, 'w'), ensure_ascii=False, indent=1)
