@@ -130,12 +130,12 @@ function stake(C,t){
     const x=A.x+(B.x-A.x)*p, y=A.y+(B.y-A.y)*p;
     g.save(); g.strokeStyle=e.hot?PINK:'rgba(225,225,228,0.6)'; g.lineWidth=e.hot?6:3; g.shadowColor=GOLD; g.shadowBlur=e.hot?18:0; g.beginPath(); g.moveTo(A.x,A.y); g.lineTo(x,y); g.stroke(); g.restore();
     const u=((t-t0)*0.5)%1; if(p>=1) glow(A.x+(B.x-A.x)*u,A.y+(B.y-A.y)*u,16,'rgba(255,255,255,A)',0.9);
-    const la=ease(cl((t-t0-0.6)/0.5)); if(la>0){ const mx=(A.x+B.x)/2, my=(A.y+B.y)/2; g.save(); g.globalAlpha=la; g.fillStyle='rgba(20,20,23,0.92)'; g.strokeStyle=e.hot?PINK:'rgba(225,225,228,0.6)'; g.lineWidth=2;
+    const la=ease(cl((t-t0-0.6)/0.5)); if(la>0&&C.plain){ const mx=(A.x+B.x)/2, my=(A.y+B.y)/2; g.save(); g.globalAlpha=la*0.92; g.fillStyle='rgba(12,12,14,0.85)'; const F2=window.FS2||1; g.font='800 '+Math.round(26*F2)+'px SUIT'; const w=g.measureText(e.label).width+24, hh=Math.round(40*F2); g.fillRect(mx-w/2,my-hh/2,w,hh); g.restore(); txtS(e.label,mx,my,26,e.hot?PINK:IVORY,800,'center',la); } else if(la>0){ const mx=(A.x+B.x)/2, my=(A.y+B.y)/2; g.save(); g.globalAlpha=la; g.fillStyle='rgba(20,20,23,0.92)'; g.strokeStyle=e.hot?PINK:'rgba(225,225,228,0.6)'; g.lineWidth=2;
       const F2=window.FS2||1; g.font='800 '+Math.round(26*F2)+'px SUIT'; const w=g.measureText(e.label).width+30, hh=Math.round(40*F2); g.beginPath(); g.roundRect(mx-w/2,my-hh/2,w,hh,hh/2); g.fill(); g.stroke(); g.restore(); txtS(e.label,mx,my,26,e.hot?PINK:IVORY,800,'center',la); } });
   (C.nodes||[]).forEach((n,i)=>{ const t0=n.t!=null?n.t:0.4+i*0.25, a=ease(cl((t-t0)/0.5)); if(a<=0) return; const sc=0.85+0.15*a;
     g.save(); g.globalAlpha=a; g.translate(n.x,n.y); g.scale(sc,sc); g.fillStyle=n.main?'#26262a':'#1a1a1d'; g.strokeStyle=n.main?PINK:'rgba(235,235,238,0.5)'; g.lineWidth=n.main?4:2;
-    g.font='800 '+Math.round(38*(window.FS||1))+'px SUIT'; const w=Math.max(g.measureText(n.name).width,(g.font='600 '+Math.round(24*(window.FS2||1))+'px SUIT',g.measureText(n.sub||'').width))+60; g.beginPath(); g.roundRect(-w/2,-56,w,112,20); g.fill(); g.stroke(); g.restore();
-    txt(n.name,n.x,n.y-14,38,n.main?GOLD:IVORY,800,'center',a); txtS(n.sub||'',n.x,n.y+26,24,GRAY,600,'center',a); });
+    g.font='800 '+Math.round(38*(window.FS||1))+'px SUIT'; const w=Math.max(g.measureText(n.name).width,(g.font='600 '+Math.round(24*(window.FS2||1))+'px SUIT',g.measureText(n.sub||'').width))+60; const bh=n.sub?112:92; g.beginPath(); g.roundRect(-w/2,-bh/2,w,bh,20); g.fill(); g.stroke(); g.restore();
+    if(n.sub){ txt(n.name,n.x,n.y-14,38,n.main?GOLD:IVORY,800,'center',a); txtS(n.sub,n.x,n.y+26,24,GRAY,600,'center',a); } else txt(n.name,n.x,n.y+2,38,n.main?GOLD:IVORY,800,'center',a); });
   if(C.result){ const t0=0.8+(C.edges||[]).length*(C.gap||1.1)+0.5, a=ease(cl((t-t0)/0.7)); if(a>0){ txt(C.result.kicker,W/2,780,30,PINK,600,'center',a); txt(C.result.big,W/2,840,60,IVORY,800,'center',a); } }
   if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',ease(cl(t/0.8)));
 }
@@ -217,17 +217,18 @@ function gauge(C,t){
   R.forEach((q,i)=>{ const a0=ease(cl((t-0.6-i*st)/0.45)); if(a0<=0) return; const dim=(F!=null&&F!==i)?0.32:1, a=a0*dim, y=Y0+i*rh+(1-a0)*24;
     const on=q.state==='on', near=q.state==='near', pul=(Math.sin(t*3.2)+1)/2;
     g.save(); g.globalAlpha=a0*(F===i?1:0.9); g.fillStyle=F===i?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.025)'; g.strokeStyle=F===i?PINK:'rgba(225,225,228,0.18)'; g.lineWidth=F===i?3:1.5; g.beginPath(); g.roundRect(X0,y-rh/2+8,X1-X0,rh-16,16); g.fill(); g.stroke(); g.restore();
-    const lx=X0+56; g.save(); g.globalAlpha=a; g.lineWidth=4; g.strokeStyle=on?IVORY:near?PINK:'rgba(225,225,228,0.45)'; g.beginPath(); g.arc(lx,y,26,0,7); g.stroke();
-    if(on){ g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=30; g.beginPath(); g.arc(lx,y,15,0,7); g.fill(); }
-    else if(near){ g.fillStyle=PINK; g.globalAlpha=a*(0.45+0.55*pul); g.shadowColor=PINK; g.shadowBlur=24; g.beginPath(); g.arc(lx,y,13,0,7); g.fill(); }
+    const lx=X0+54, cy=y+2; g.save(); g.globalAlpha=a; g.lineWidth=4; g.strokeStyle=on?IVORY:near?PINK:'rgba(225,225,228,0.45)'; g.beginPath(); g.arc(lx,cy,22,0,7); g.stroke();
+    if(on){ g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=30; g.beginPath(); g.arc(lx,cy,14,0,7); g.fill(); }
+    else if(near){ g.fillStyle=PINK; g.globalAlpha=a*(0.45+0.55*pul); g.shadowColor=PINK; g.shadowBlur=24; g.beginPath(); g.arc(lx,cy,12,0,7); g.fill(); }
     g.restore();
-    txt(q.name,lx+60,y-(q.p!=null?12:0),48,IVORY,800,'left',a);
-    if(q.p!=null){ const bx=lx+60, bw=640, by=y+30, pp=q.p*ease(cl((t-1.2-i*st)/1.2)); g.save(); g.globalAlpha=a; g.fillStyle='rgba(225,225,228,0.15)'; g.beginPath(); g.roundRect(bx,by-5,bw,10,5); g.fill();
-      g.fillStyle=near||on?PINK:'rgba(235,235,238,0.7)'; g.beginPath(); g.roundRect(bx,by-5,Math.max(10,bw*pp),10,5); g.fill(); g.strokeStyle=IVORY; g.lineWidth=3; g.beginPath(); g.moveTo(bx+bw,by-16); g.lineTo(bx+bw,by+16); g.stroke(); g.restore();
-      if(q.tick) txtS(q.tick,bx+bw+14,by,26,GRAY,600,'left',a); }
-    txtS(q.past||'',X1-36,y-22,27,GRAY,600,'right',a); txt(q.now||'',X1-40,y,52,on?IVORY:near?PINK:'#dcdcdc',800,'right',a); });
-  if(C.answer){ const ta=0.6+R.length*st+1.4, a=ease(cl((t-ta)/0.6)); if(a>0) txt(C.answer,W/2,Y0+R.length*rh+30,54,IVORY,800,'center',a); }
-  if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
+    const hasBar=q.p!=null; txt(q.name,lx+52,hasBar?cy-14:cy,42,IVORY,800,'left',a);
+    if(hasBar){ const bx=lx+52, bw=560, by=cy+24, pp=q.p*ease(cl((t-1.2-i*st)/1.2)); g.save(); g.globalAlpha=a; g.fillStyle='rgba(225,225,228,0.15)'; g.beginPath(); g.roundRect(bx,by-5,bw,10,5); g.fill();
+      g.fillStyle=near||on?PINK:'rgba(235,235,238,0.7)'; g.beginPath(); g.roundRect(bx,by-5,Math.max(10,bw*pp),10,5); g.fill(); g.strokeStyle=IVORY; g.lineWidth=3; g.beginPath(); g.moveTo(bx+bw,by-14); g.lineTo(bx+bw,by+14); g.stroke(); g.restore(); }
+    if(q.goal){ txt(q.now||'',X1-36,cy-15,42,on?IVORY:near?PINK:'#dcdcdc',800,'right',a); txtS('기준 '+q.goal,X1-36,cy+22,28,GRAY,600,'right',a); }
+    else txt(q.now||'',X1-36,cy,42,on?IVORY:near?PINK:'#dcdcdc',800,'right',a); });
+  let yb=Y0+R.length*rh-24;
+  if(C.answer){ const ta=0.6+R.length*st+1.0, a=ease(cl((t-ta)/0.6)); if(a>0) txt(C.answer,X1-36,Y0-rh/2-34,48,PINK,800,'right',a); }   // 제목 줄 오른쪽 — 계기판이 작아지지 않게
+  if(C.foot){ const a=ease(cl((t-0.6-R.length*st)/0.6)); yb+=30; if(a>0) txtS(C.foot,W/2,yb,26,GRAY,600,'center',a); }
 }
 window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
