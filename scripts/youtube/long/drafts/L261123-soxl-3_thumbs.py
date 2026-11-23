@@ -12,7 +12,7 @@ LIB = os.path.join(HERE, "..", "..", "..", "blog", "media", "lib")
 TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 
 SETS = [   # 20:53 대표: 제목 각도 '반도체 급락, 끝나는 신호 5가지'로 — 아랫줄은 세 안 공통, 윗줄만 바꿔 A/B 테스트
-    dict(file="thumb_a.jpg", photo="il_L261105g_cin_panic.jpeg", fx=.62, l1="반도체 바닥 신호 0/5", l2=("물타기 전에 꼭 보세요", "")),   # 22:30 대표 "세게"
+    dict(file="thumb_a.jpg", photo="il_L261105g_cin_panic.jpeg", fx=.62, l1="반도체 바닥 신호 0/5", l2=("물타기 전 꼭 보세요", "")),   # 22:30 대표 "세게" · 11/23 19:46 "전에 → 전"
     dict(file="thumb_b.jpg", photo="il_L261107s_red_cliff.jpeg", fx=.6, chip="고점 대비 -90% 폭락", l1=("SOXL 300 → ", "30달러"), l2=("지금 물타도 될까?", ""), ep2=True),   # 23:29 대표: 2편 썸네일(300 → 46달러)을 기억하는 시청자용 — 같은 틀, 지금 디자인
     dict(file="thumb_c.jpg", photo="il_L261113a_phone_vs_chart.jpeg", fx=.55, l1="반도체 바닥 신호 0/5", l2=("바닥은 아직일까?", "")),
 ]
@@ -55,10 +55,10 @@ def render(t, out):
         D.rounded_rectangle([40, 32, 40 + bw, 32 + 80], 14, fill=(*PINK, 255)); D.text((64, 39), "SOXL 3편", font=fb, fill=(255, 255, 255))
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34)); D = ImageDraw.Draw(th)
     # 20:58 대표 "너무 과하게 큼 → 조금 더 세련되게": 잘된 썸네일(저스트인타임·삼성 3가지 편) 비율 — 화면 높이의 약 16~17%, 두 줄 사이 숨, 여백 넉넉히
-    LX = 72; f1 = F("ExtraBold", 112); f2 = F("Heavy", 122)
+    LX = 72; f1 = F("ExtraBold", 121); f2 = F("Heavy", 132)   # 11/23 19:58 대표: 글씨 +8%
     y2 = TH - 84 - f2.size; y1 = y2 - 18 - f1.size
     if t.get("ep2"):
-        l1s = "".join(t["l1"]); z = 122
+        l1s = "".join(t["l1"]); z = 132
         while ImageDraw.Draw(th).textlength(l1s, font=F("Heavy", z)) > TW - 2 * LX - 10: z -= 4
         f1 = F("Heavy", z); y1 = y2 - 20 - f1.size
     if isinstance(t["l1"], tuple):
