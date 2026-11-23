@@ -9,9 +9,9 @@
 - ★ 장면: **TEMPLATE.md '★ 공용 라이브러리·생성 상한' 그대로** — 장면마다 `library.py find` 먼저, 맞는 게 없을 때만 편당 0~2개 생성, 최근 5편에 쓴 것은 뒤로, 한 편 안 중복 금지, 쓰지 않는 클립 제외
 - ★ 제목: **TEMPLATE.md '★ 제목 규칙' 절을 읽고 그대로** (여기에 요약하지 않음). 기획 단계에서 그 절의 "자가 검사" 줄을 하나씩 확인하고 통과해야 다음 단계로 간다
 - ★ 썸네일: **TEMPLATE.md '★ 썸네일 규칙' 절을 읽고 그대로**
-- 게시 시각(KST): **12:20 / 20:30** 두 편 (유튜브 쇼츠·인스타 릴스·틱톡 같은 시각, 쓰레드 글도 같은 시각)
+- 게시 시각(KST): **11:30 / 19:30** 두 편 (★ 2026-11-23 대표 결정, 이전 12:20/20:30) (유튜브 쇼츠·인스타 릴스·틱톡 같은 시각, 쓰레드 글도 같은 시각)
   · 07:40 은 롱폼 소개 쇼츠 전용 칸(롱폼 다음 날 오전, 이 작업이 만들지 않음). 롱폼이 없는 날도 07:40 데일리는 만들지 않는다
-  · 롱폼 본편은 19:30
+  · 롱폼 본편은 20:30 (11/23 쇼츠가 19:30으로 옮김)
 - ★ 길이·대본 구성: **TEMPLATE.md '★ 길이·내용 규칙' 절을 읽고 그대로** (칸별 길이는 그 절에 있음 — 여기에 베껴 적지 않음). 기획 단계에서 그 절의 "대본 자가 검사"를 통과해야 다음 단계로 간다
   · 결과 비교 기준은 스튜디오 '계속 시청함'과 좋아요율. ed_posts.duration_sec 꼭 기록
 - 화면 양식(그림 톤)은 A 하나 — 내용 포맷(quote·history·list·viewer)과 다른 말이다. 장면은 어두운 그림만(ed*, lc*, lib_*, edv*), 편마다 장면 묶음이 겹치지 않게, 어제 쓴 묶음은 피한다
@@ -19,11 +19,11 @@
 - 화면: 시네마틱 고정 포맷(FX.md). 마지막 화면은 슬로건+엔딩 한 화면(fx_short.py). 유튜브용 --platform shorts, 인스타·틱톡용 --platform reels
 
 ## 순서
-0. 확인: app_config ed_paused 가 true면 멈춤. ed_posts 에 오늘 12:20/20:30 데일리 reel 이 이미 있으면 그 칸은 건너뛴다. ★ 오늘(한국 날짜) paused 아닌 reel 이 이미 2편이면(현대판·소개 쇼츠 포함) 만들지 않고 끝낸다.
+0. 확인: app_config ed_paused 가 true면 멈춤. ed_posts 에 오늘 11:30/19:30 데일리 reel 이 이미 있으면 그 칸은 건너뛴다. ★ 오늘(한국 날짜) paused 아닌 reel 이 이미 2편이면(현대판·소개 쇼츠 포함) 만들지 않고 끝낸다.
 1. 준비: 저장소 sparse clone 후 `scripts/side/emperor`, `social/side/gen`(쓰는 그림만), `docs/emperor/profile_final.png`.
    글꼴 /root/fonts: `Hahmlet[wght].ttf`(google/fonts ofl/hahmlet), `CormorantSC-SemiBold.ttf`(ofl/cormorantsc), `PinyonScript-Regular.ttf`(ofl/pinyonscript),
    Pretendard SemiBold/Bold/ExtraBold(.otf, orioncactus/pretendard). 음악·엔딩 목소리·로고는 `scripts/side/emperor/assets/` → `/home/claude/ed/music/`, `/home/claude/logo/logo_final.png` 로 복사.
-2. 기획(2편): ★ 포맷 먼저 — 앞뒤 편의 images.format 을 보고 TEMPLATE.md '★ 포맷 순환' 표에서 두 편의 포맷을 서로 다르게 고른다(바로 앞 편과도 다르게, 7일 40% 이하, 2주 비율 목표에 모자란 포맷 먼저). 길이·구성·제목 틀·엔딩은 그 포맷 줄을 따른다(quote 만 칸 길이). 첫 3초 훅은 2안을 써서 센 쪽. 주제는 **TEMPLATE.md '★ 주제·시청층 규칙' 그대로** (7일 안 같은 묶음 금지, 나이 묶음 주 1편, 12:20 = 20~40대 지금 장면) — ed_posts.images.topic 에 묶음 번호를 적는다. 제목은 **TEMPLATE.md '★ 제목 규칙' 그대로** — 이 단계 끝에 그 절의 자가 검사를 통과하지 못하면 다시 짓는다. 첫 화면 훅 2줄 = 제목(`| 명상록` 꼬리는 첫 화면에 넣지 않고 유튜브 제목에만).
+2. 기획(2편): ★ 포맷 먼저 — 앞뒤 편의 images.format 을 보고 TEMPLATE.md '★ 포맷 순환' 표에서 두 편의 포맷을 서로 다르게 고른다(바로 앞 편과도 다르게, 7일 40% 이하, 2주 비율 목표에 모자란 포맷 먼저). 길이·구성·제목 틀·엔딩은 그 포맷 줄을 따른다(quote 만 칸 길이). 첫 3초 훅은 2안을 써서 센 쪽. 주제는 **TEMPLATE.md '★ 주제·시청층 규칙' 그대로** (7일 안 같은 묶음 금지, 나이 묶음 주 1편, 11:30 = 20~40대 지금 장면) — ed_posts.images.topic 에 묶음 번호를 적는다. 제목은 **TEMPLATE.md '★ 제목 규칙' 그대로** — 이 단계 끝에 그 절의 자가 검사를 통과하지 못하면 다시 짓는다. 첫 화면 훅 2줄 = 제목(`| 명상록` 꼬리는 첫 화면에 넣지 않고 유튜브 제목에만).
    명상록 인용은 권·절을 확실히 아는 것만, George Long(1862) 영역본을 충실히 옮긴 쉬운 한국어. 로마 시대 장면만, 현대 상황은 내레이션 말로만(플랫폼 이름 금지).
 3. 대본 파일: 편마다 `long_<id>.json`(구조는 `long_ep08a.json`을 그대로 따름: kicker, hook, title_line, music, cuts, tonight, source, gap, hold, sents)
    sents 시각은 0으로 두고 문장 글·group·cut·style 만 채운다. 묶음 줄 목록은 `/home/claude/vo/v2_lines.json` 에 `{ "<id>": [["n1", 건석, 글], ["e2", 명일, 인용], ...] }`
