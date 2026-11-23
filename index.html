@@ -1885,7 +1885,10 @@ document.addEventListener('click', async e => {
 async function kakaoGo(opts){
   try{ localStorage.setItem('vn-remember', '1'); localStorage.setItem('vn-noauto', '0'); sessionStorage.setItem('vn-live', '1'); }catch(_){}
   /* opts.msg: '카카오톡으로 알림 받기' — talk_message 동의를 추가로 받는다(스위치 kakao_msg 가 켜진 경우에만; 기본 가입은 scope를 요청하지 않는다) (2026-11-10) */
-  const msg = !!(opts && opts.msg) && KM.on;
+  let msg = !!(opts && opts.msg) && KM.on;
+  /* 반도체 계기판(/semi?alert=semi)에서 온 카카오 가입: 가입 동의 화면에서 '카카오톡 메시지 전송'도 같이 받아 바로 카톡으로 알림 (2026-11-23) */
+  if(!msg){ let ws = 0; try{ ws = +localStorage.getItem('vn-want-semi') || 0; }catch(_){}
+    if(ws && Date.now() - ws < 7 * 864e5){ try{ const { data } = await store.client.rpc('kakao_msg_on'); if(data === true){ msg = true; KM.on = true; } }catch(_){} } }
   store.track('view', msg ? 'kakao-msg-go' : 'kakao-start');
   const options = { redirectTo: location.origin + '/' };
   let kp = false; try{ kp = localStorage.getItem('vn-at-kp') === '1' || !!(window.AT && AT.kakaoPhone); }catch(_){}
