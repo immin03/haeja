@@ -1635,7 +1635,7 @@ function viewAlerts(){
       <span class="al-main"><span class="al-top"><b>${esc(a.title)}</b><span class="small muted">${agoText(a.at)}</span></span>${a.body?`<span class="small al-body">${esc(a.body)}</span>`:''}</span>
     </button>`; };
   return `
-  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">알림</h2>${alUnread() ? `<button class="btn" data-al="read-all">모두 읽음</button>` : ''}</div>
+  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">알림</h2><span class="row" style="gap:8px">${alUnread() ? `<button class="btn" data-al="read-all">모두 읽음</button>` : ''}<button class="btn primary" data-ns="open">알림 설정</button></span></div>
   <div style="margin-top:12px">${pushCard()}</div>
   <div class="legend" style="margin-top:12px">${Object.values(AL_LV).map(v => `<span style="--c:${v.c}">${v.l}</span>`).join('')}</div>
   ${list.length ? ['오늘','어제','이전'].filter(g => groups[g]).map(g => `<h3 class="eyebrow" style="margin:18px 0 6px">${g}</h3><div class="card al-list">${groups[g].map(item).join('')}</div>`).join('') : `<div class="card empty" style="margin-top:12px">아직 알림이 없습니다. 아침 브리핑, 급등락, 적정 매수가 도달 같은 일이 생기면 여기에 쌓입니다.</div>`}`;
@@ -1717,6 +1717,29 @@ async function paintAdminLink(){
   }
   el.style.display = S.__isAdmin && S.__adminFor === uid ? 'block' : 'none';
 }
+/* ============ 알림 설정 화면 (2026-11-23 대표: 계정 설정과 따로 큰 메뉴로) ============
+   카카오톡 알림 → 휴대폰·PC 알림 → 받을 알림 종류 순. 헤더 '알림 설정' 버튼·계정 메뉴·계정 화면·알림 화면에서 들어온다. ?tab=notify */
+function viewNotify(){
+  const kakao = kmAvail() ? kmCardHtml(true)
+    : (!kmIsKakao() ? `<div class="small muted">카카오로 로그인한 계정에서 켤 수 있습니다. 로그아웃 뒤 '카카오로 시작하기'로 들어오시면 같은 계정으로 이어집니다.</div>` : `<div class="small muted">불러오는 중…</div>`);
+  const prev = S.alPushOpen; S.alPushOpen = false; const push = pushCard(); S.alPushOpen = prev;
+  return `
+  <h2 class="guide-title">알림 설정</h2>
+  <p class="small muted" style="margin:-4px 0 14px">관심 회사가 싸지거나, 반도체 바닥 신호가 바뀌는 날 바로 알려 드립니다.</p>
+  <h3 class="eyebrow guide-h">카카오톡으로 받기</h3>
+  <div class="card ns-kakao">${kakao}</div>
+  <h3 class="eyebrow guide-h">휴대폰·PC 알림</h3>
+  ${push}
+  <h3 class="eyebrow guide-h">어떤 알림을 받을까요</h3>
+  <div class="card">${pushPrefsHtml()}</div>
+  <div style="margin-top:14px"><button type="button" class="btn" data-al="open">받은 알림 보기 ›</button></div>`;
+}
+document.addEventListener('click', async e => {
+  const el = e.target.closest('[data-ns]'); if(!el) return;
+  store.track('engage', 'notify-open');
+  S.tab = 'notify'; try{ await checkPush(); }catch(_){} render(); window.scrollTo(0,0);
+  try{ if(typeof kmInit === 'function' && KM.linked === null) kmInit().catch(() => {}); }catch(_){}
+});
 function viewAccount(){
   const u = S.user, q = (typeof AZ !== 'undefined' && AZ.quota) ? AZ.quota : null;
   const since = u?.created_at ? String(u.created_at).slice(0,10) : '';
@@ -1726,6 +1749,8 @@ function viewAccount(){
     <span class="ac-avatar" aria-hidden="true">${esc((userName() || u?.email || '?').slice(0,1).toUpperCase())}</span>
     <div style="min-width:0"><b>${esc(userName() || '이름 없음')}</b><div class="small muted ac-mail">${esc(u?.email || '')}</div>${since ? `<div class="small muted">가입 ${esc(since)}</div>` : ''}</div>
   </div>
+
+  <button type="button" class="card ns-big" data-ns="open"><span class="ns-ic">🔔</span><span><b>알림 설정</b><span class="small muted">카카오톡 · 휴대폰 알림 · 반도체 바닥 계기판</span></span><span class="muted">›</span></button>
 
   ${inviteCardHtml()}
   ${newsletterBox()}
@@ -1750,7 +1775,7 @@ function viewAccount(){
 
   <h3 class="eyebrow guide-h">이용</h3>
   <div class="card ac-list">
-    <button type="button" class="ac-link" data-al="open"><span>알림 설정</span><span class="muted">›</span></button>
+    <button type="button" class="ac-link" data-ns="open"><span>알림 설정</span><span class="muted">›</span></button>
     <button type="button" class="ac-link" data-act="go-tab" data-v="grade"><span>내 투자자 등급</span><span class="muted">›</span></button>
     <button type="button" class="ac-link" data-act="intro-open"><span>처음 안내 다시 보기</span><span class="muted">›</span></button>
     <div class="ac-link static"><span>목록에 없는 종목 분석</span><span class="muted num">${q ? `${q.left}/${q.limit}회 남음` : '–'}</span></div>
@@ -1843,7 +1868,7 @@ async function kmInit(){
     }catch(_){ KM.linked = false; }
     render(); return;
   }
-  try{ const r = await kmCall({ action: 'status' }); KM.linked = !!r.linked; KM.at = r.linked_at || null; if(S.tab === 'alerts') render(); }catch(_){}
+  try{ const r = await kmCall({ action: 'status' }); KM.linked = !!r.linked; KM.at = r.linked_at || null; if(S.tab === 'alerts' || S.tab === 'notify') render(); }catch(_){}
 }
 function kmStart(from){
   store.track('engage', 'kakao-msg-start' + (from ? ':' + from : ''));
@@ -1851,8 +1876,8 @@ function kmStart(from){
   return kakaoGo({ msg: true });
 }
 /* 알림 탭에 넣는 카카오 칸 */
-function kmCardHtml(){
-  if(!kmAvail()) return '';
+function kmCardHtml(force){
+  if(!kmAvail() || (S.tab === 'notify' && !force)) return '';
   if(KM.linked) return `<div class="km-row on"><span>${KAKAO_SVG}<b>카카오톡 알림 켜짐</b><span class="small muted">내 카톡 '나와의 채팅'으로 옵니다</span></span><span class="km-acts"><button type="button" class="linkbtn" data-km="test">테스트 보내기</button><button type="button" class="linkbtn" data-km="unlink">해제</button></span></div>`;
   return `<div class="km-row"><button type="button" class="btn kakao-btn km-btn" data-km="start" data-from="alerts">${KAKAO_SVG}<span>카카오톡으로 알림 받기 · 앱 설치 없이</span></button><div class="small muted">카카오 동의 화면에서 '카카오톡 메시지 전송'에 동의하면 됩니다. 광고는 보내지 않고, 내 종목 소식과 아침 브리핑만 옵니다.</div></div>`;
 }
@@ -2681,6 +2706,7 @@ function __renderCore(){
   if(S.tab === 'value') app.innerHTML = viewValue();
   if(S.tab === 'myguide') app.innerHTML = viewMyGuide();
   if(S.tab === 'alerts') app.innerHTML = viewAlerts();
+  if(S.tab === 'notify') app.innerHTML = viewNotify();
   if(S.tab === 'account') app.innerHTML = viewAccount();
   if(S.tab === 'briefing' && S.loaded.s){ const bd = prog().briefDays || []; if(!bd.includes(today())) saveProg({briefDays: [...bd, today()].slice(-30)}); }
   clearTimeout(S.__lvT); S.__lvT = setTimeout(checkLevelUp, 3000);
@@ -6014,7 +6040,7 @@ function renderNav(){
   const g = groupOf(S.tab);
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === g.k)));
   const sub = document.getElementById('subnav');
-  if(sub && (S.tab === 'alerts' || S.tab === 'account' || S.tab === 'guide')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }
+  if(sub && (S.tab === 'alerts' || S.tab === 'notify' || S.tab === 'account' || S.tab === 'guide')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }
   if(sub) sub.innerHTML = g.subs.map(([k,l]) => `<button type="button" data-sub="${k}" aria-pressed="${(TAB_ALIAS[S.tab]||S.tab)===k}">${l}</button>`).join('');
 }
 
@@ -6876,8 +6902,10 @@ function refresh(kind){
   }
   else if(brand){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
     const slot = document.createElement('span'); slot.id = 'bellSlot'; slot.innerHTML = bellHtml();
+    /* 알림 설정 바로가기 (대표 11/23: 계정 설정과 따로, 눈에 띄게) */
+    const ns = document.createElement('button'); ns.type = 'button'; ns.className = 'ns-top'; ns.dataset.ns = 'open'; ns.innerHTML = '알림 설정'; wrap.appendChild(ns);
     const b = document.createElement('div'); b.className = 'acct';
-    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-who"><b class="acct-name">내 계정</b><div class="acct-mail small muted"></div></div><button type="button" role="menuitem" class="acct-item" data-acct-go="account">계정 설정</button><button type="button" role="menuitem" class="acct-item" data-acct-go="grade">내 투자자 등급</button><button type="button" role="menuitem" class="acct-item" data-acct-go="intro">처음 안내 다시 보기</button><a role="menuitem" class="acct-item acct-admin" href="admin.html" style="display:none">관리자 페이지</a><div class="acct-sep"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
+    b.innerHTML = '<button type="button" class="bell" aria-label="계정" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8.6" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.8 19.4c1.4-3.2 4.1-4.8 7.2-4.8s5.8 1.6 7.2 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="acct-menu" role="menu" hidden><div class="acct-who"><b class="acct-name">내 계정</b><div class="acct-mail small muted"></div></div><button type="button" role="menuitem" class="acct-item acct-ns" data-acct-go="notify">🔔 알림 설정 · 카카오톡</button><button type="button" role="menuitem" class="acct-item" data-acct-go="account">계정 설정</button><button type="button" role="menuitem" class="acct-item" data-acct-go="grade">내 투자자 등급</button><button type="button" role="menuitem" class="acct-item" data-acct-go="intro">처음 안내 다시 보기</button><a role="menuitem" class="acct-item acct-admin" href="admin.html" style="display:none">관리자 페이지</a><div class="acct-sep"></div><button type="button" role="menuitem" class="acct-item" data-acct="logout">로그아웃</button></div>';
     const ab = b.querySelector('button'), am = b.querySelector('.acct-menu');
     setTimeout(loadUser, 0);
     setTimeout(() => { mailLoad().then(() => setTimeout(mailAsk, 300)).catch(() => {}); }, 6000);
@@ -6891,7 +6919,7 @@ function refresh(kind){
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   /* 메일·관리자 메시지 링크 (2026-11-05): ?tab=portfolio 또는 #portfolio 로 그 화면을 바로 연다. utm_source=mail 이면 메일 유입으로 기록 */
-  { const u = new URLSearchParams(location.search), OK = ['portfolio','companies','column','account','alerts','briefing','watchlist','analyze','grade','journal','dividend'];
+  { const u = new URLSearchParams(location.search), OK = ['portfolio','companies','column','account','alerts','notify','briefing','watchlist','analyze','grade','journal','dividend'];
     const t = u.get('tab') || (location.hash.length > 1 ? location.hash.slice(1) : '');
     if(OK.includes(t)){ S.tab = t; if(t === 'account') mailLoad(); }
     if(u.get('utm_source') === 'mail') store.track('view', 'from-mail-' + (u.get('utm_campaign') || 'x').replace(/[^a-z0-9-]/gi, '').slice(0, 20));
@@ -7086,6 +7114,12 @@ header.top{box-shadow:none}
 .brand .bell:hover{background:rgba(255,255,255,.08)}
 .bell-n{top:1px;right:0;min-width:16px;height:16px;font-size:14px;box-shadow:0 0 0 2px var(--navy)}
 .acct{position:relative;display:flex}
+.ns-top{all:unset;cursor:pointer;font-size:13px;font-weight:700;color:#0E0E0E;background:#FEE500;padding:7px 12px;border-radius:999px;white-space:nowrap;margin-right:2px}
+.ns-top:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.ns-big{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:14px;cursor:pointer;padding:18px;margin-top:12px;border:1.5px solid #FEE500;background:linear-gradient(0deg,rgba(254,229,0,.10),rgba(254,229,0,.10)),var(--surface);border-radius:16px}
+.ns-big b{display:block;font-size:17px}.ns-big .ns-ic{font-size:26px}.ns-big > span:nth-child(2){flex:1;min-width:0}
+.ns-kakao .km-row{margin:0}.acct-ns{font-weight:700}
+@media (max-width:380px){.ns-top{font-size:12px;padding:6px 9px}}
 .acct-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:220px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 36px rgba(12,12,12,.24);padding:6px;z-index:40}
 .acct-mail{padding:10px 10px 10px;border-bottom:1px solid var(--line);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .acct-item{all:unset;box-sizing:border-box;display:block;width:100%;padding:10px;border-radius:10px;cursor:pointer;font-weight:600;font-size:15px}
