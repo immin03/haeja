@@ -1369,7 +1369,7 @@ def dark_end_bg2():
     p = os.path.join(ROOT, "scripts", "blog", "media", "lib", "il_L261107m_manhattan_sunrise.jpeg")
     bg = Image.open(p).convert("RGB"); s_ = max(W / bg.width, H / bg.height)
     bg = bg.resize((int(bg.width * s_) + 1, int(bg.height * s_) + 1)).crop((0, 0, W, H)).filter(ImageFilter.GaussianBlur(18))
-    bg = ImageEnhance.Brightness(ImageEnhance.Color(bg).enhance(.5)).enhance(.32)
+    bg = ImageEnhance.Brightness(ImageEnhance.Color(bg).enhance(.6)).enhance(.5)   # 2026-11-23 대표 "아웃트로 잘 안 보여" — .32 → .5
     a = np.asarray(bg).astype(np.float32); xs = np.arange(W); m = np.clip((1100 - xs) / 1100, 0, 1) * .45; a *= (1 - m)[None, :, None]
     im_ = Image.fromarray(a.astype(np.uint8))
     import vn2 as _v2; lg = _v2.logo_layer(44, 3); im_.paste(lg, (110, 196), lg)   # 2026-11-17 대표님: '기업을 이해하면' 위에 로고도 같이
