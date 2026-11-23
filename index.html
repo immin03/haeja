@@ -1730,8 +1730,10 @@ var AT = { ui: false, sub: undefined, busy: false };
 const atPhone = v => String(v || '').replace(/\D/g, '').replace(/^82(?=1)/, '0');
 const atMask = p => p ? p.replace(/^(\d{3})\d+(\d{4})$/, '$1-****-$2') : '';
 async function atInit(){
-  try{ if(!store.client) return; const { data } = await store.client.rpc('alimtalk_ui_on'); AT.ui = data === true; }catch(_){ AT.ui = false; }
+  try{ if(!store.client) return; const { data } = await store.client.rpc('alimtalk_flags'); AT.ui = !!(data && data.ui); AT.kakaoPhone = !!(data && data.kakao_phone); try{ localStorage.setItem('vn-at-kp', AT.kakaoPhone ? '1' : '0'); }catch(_){} }catch(_){ AT.ui = false; }
   if(!AT.ui || store.mode !== 'db' || store.isGuest || store.isDemo || !store.user) return;
+  /* 카카오 로그인에서 전화번호 제공에 동의했으면(심사 승인 뒤) 번호를 따로 입력받지 않고 저장 */
+  if(AT.kakaoPhone && store.__prov && store.__prov.t){ try{ const { data } = await store.client.functions.invoke('kakao-link', { body: { action: 'phone', provider_token: store.__prov.t } }); if(data && data.saved) store.track('engage', 'alimtalk-on:kakao'); }catch(_){} }
   try{ const { data } = await store.client.from('alimtalk_subs').select('phone,agreed_at,last_sent_at').eq('uid', store.user.id).maybeSingle(); AT.sub = data || null; }catch(_){ AT.sub = null; }
   /* 이메일 가입 화면에서 번호·동의를 남긴 경우: 가입 직후 로그인되면 저장 (하루 안) */
   { let pend = null; try{ pend = JSON.parse(localStorage.getItem('vn-at-pending') || 'null'); }catch(_){}
@@ -1886,7 +1888,9 @@ async function kakaoGo(opts){
   const msg = !!(opts && opts.msg) && KM.on;
   store.track('view', msg ? 'kakao-msg-go' : 'kakao-start');
   const options = { redirectTo: location.origin + '/' };
-  if(msg){ options.scopes = 'profile_nickname profile_image account_email talk_message'; try{ localStorage.setItem('vn-kakao-msg', '1'); }catch(_){} }
+  let kp = false; try{ kp = localStorage.getItem('vn-at-kp') === '1' || !!(window.AT && AT.kakaoPhone); }catch(_){}
+  if(msg || kp){ options.scopes = 'profile_nickname profile_image account_email' + (msg ? ' talk_message' : '') + (kp ? ' phone_number' : ''); }
+  if(msg){ try{ localStorage.setItem('vn-kakao-msg', '1'); }catch(_){} }
   const { error } = await store.client.auth.signInWithOAuth({ provider: 'kakao', options });
   return error;
 }
