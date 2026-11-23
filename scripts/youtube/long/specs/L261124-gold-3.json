@@ -232,8 +232,8 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "gold3_boockvar_kitco.mp4",
-      "start": 0.0
+      "lib": "gold3_boockvar_aistock.mp4",
+      "start": 4.0
      }
     ],
     "wash_amt": 0.85,
@@ -255,15 +255,25 @@
    ],
    "lines": [
     "금은 지금 AI 주식처럼 취급받고 있습니다.",
-    "금은 AI 주식이 아닌데도요."
+    "금은 AI 주식이 아닙니다. 결국 회복할 겁니다."
    ],
-   "note": "[훅] 원음① 부크바 — 구간 STT로 확정(start/dur 갱신)",
+   "note": "[훅] 원음① 부크바 — STT 1078.1~1089.0초 'I think while gold is treated like an AI stock today, which it's not, it is not and it will recover'",
    "news": true,
    "sot": {
-    "clip": "gold3_boockvar_kitco.mp4",
-    "start": 0.0,
-    "dur": 12.0,
-    "rms": 0.085
+    "clip": "gold3_boockvar_aistock.mp4",
+    "start": 4.0,
+    "dur": 11.1,
+    "rms": 0.085,
+    "at": [
+     [
+      0.1,
+      4.7
+     ],
+     [
+      4.8,
+      6.2
+     ]
+    ]
    }
   },
   {
@@ -1147,7 +1157,7 @@
     "cuts": [
      {
       "lib": "gold3_buf_rose_timing.mp4",
-      "start": 14.0
+      "start": 17.6
      }
     ],
     "wash_amt": 0.85,
@@ -1168,16 +1178,26 @@
     }
    ],
    "lines": [
-    "6개월이 될지 2년이 될지는 모르겠습니다.",
-    "아마 2년 쪽이겠지만, 저도 모릅니다. 한두 달은 아닐 겁니다."
+    "경기는 돌아섭니다. 6개월 뒤일지 2년 뒤일지는 모르겠습니다.",
+    "2년 쪽이 더 가능성 있겠죠. 한두 달은 아닐 겁니다."
    ],
-   "note": "[5장] 원음② 버핏 — 원본 1764~1776초(요청 구간 1750부터 → 14.0초), 도착 후 STT로 확정",
+   "note": "[5장] 원음② 버핏 — STT 확정 17.68~26.18초 'They will turn around … six months or two years … not one month or two months'",
    "news": true,
    "sot": {
     "clip": "gold3_buf_rose_timing.mp4",
-    "start": 14.0,
-    "dur": 12.0,
-    "rms": 0.085
+    "start": 17.6,
+    "dur": 8.7,
+    "rms": 0.085,
+    "at": [
+     [
+      0.1,
+      4.8
+     ],
+     [
+      6.1,
+      2.6
+     ]
+    ]
    },
    "chapter": "놓치지 않는 법, 나눠 사기"
   },

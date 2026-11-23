@@ -5,7 +5,7 @@ import json, os, re, copy
 # 틀: SOXL 3편(L261123-soxl-3) 최종 v12 — 직접 만든 사진·코드 그래픽 위주, 무료 영상 0, 원음+한국어 자막, 말 속도 1.03, 사진 밝게
 HJ = os.environ.get('HJ', '/home/claude/haeja')
 LIB = HJ + '/scripts/blog/media/lib/'
-OUT = HJ + '/scripts/youtube/long/staging/L261124-gold-3.json'
+OUT = HJ + '/scripts/youtube/long/specs/L261124-gold-3.json'
 PENDING = {"gold3_boockvar_kitco.mp4", "gold3_buf_rose_timing.mp4"}   # clip-queue 요청 중(11/24 07:5x) — 도착 전엔 관문 ③이 막는다
 
 def cut(*names):
@@ -50,10 +50,14 @@ sc.append(S(["il_L261107m_wallst_cheer.jpeg", "il_L261113a_phone_vs_chart.jpeg"]
      "신호를 기다리던 분은, 이 하루를 그대로 놓쳤습니다."],
     [punch("SOXL 하루 +40%", "약 31달러 → 43달러 · 2026.11.23 미국 종가", color="red")],
     "야후 파이낸스 2026-11-23(엔비디아 +31%, 젠슨 황 복귀) · 밸류노트 계기판 시세(SOXL 11.20 30.88 → 11.23 43.21달러)", "[훅] 다음 날 +40%"))
-sc.append(SOT("gold3_boockvar_kitco.mp4", 0.0, 12.0,
-    ["금은 지금 AI 주식처럼 취급받고 있습니다.", "금은 AI 주식이 아닌데도요."],
+BV = os.path.exists(LIB + "gold3_boockvar_aistock.mp4")   # 1074~1094초 영상 구간 — 도착 전엔 전체 음성 + 키트코 화면(0~120초 중 부크바 장면)
+bv = SOT("gold3_boockvar_aistock.mp4" if BV else "gold3_boockvar_kitco.mp4", 4.0 if BV else 66.5, 11.1,
+    ["금은 지금 AI 주식처럼 취급받고 있습니다.", "금은 AI 주식이 아닙니다. 결국 회복할 겁니다."],
     "피터 부크바", "원포인트 BFG 웰스파트너스 최고투자책임자 · Kitco 2026.10.30", "Kitco 뉴스 2026-11-02 공개(10-30 뉴올리언스 투자 콘퍼런스 녹화)",
-    "[훅] 원음① 부크바 — 구간 STT로 확정(start/dur 갱신)"))
+    "[훅] 원음① 부크바 — STT 1078.1~1089.0초 'I think while gold is treated like an AI stock today, which it's not, it is not and it will recover'")
+if not BV: bv["sot"].update({"clip": "gold3_boockvar_kitco_audio.mp3", "start": 1078.0})
+bv["sot"]["at"] = [[0.1, 4.7], [4.8, 6.2]]
+sc.append(bv)
 sc.append(S(["il_L261113a_trader_gold.jpeg", "commons_goldbars_1.jpg"],
     ["금도 같은 주에 같은 일을 겪었습니다. 지난주 9% 넘게 빠져 1년 2개월 만의 최저까지 내려갔다가, 같은 월요일 하루 만에 3.5% 튀어 올랐습니다.",
      "금 바닥 신호도 5개 중 아직 1개만 켜졌습니다. 그럼 신호가 다 켜질 때까지 기다려야 할까요?"],
@@ -166,10 +170,12 @@ sc.append(S(["globe_L261123s_fx_gauge_final.mp4"],
     "밸류노트 SOXL 3편(2026-11-23) · 계기판 시세(SOXL 11.20 30.88 → 11.23 43.21달러)", "[4장] 반례 — 신호는 늦다 [R3]"))
 
 # ───────── 5장: 바닥을 못 맞히는 우리가 놓치지 않는 법 ─────────
-sc.append(CH(SOT("gold3_buf_rose_timing.mp4", 14.0, 12.0,
-    ["6개월이 될지 2년이 될지는 모르겠습니다.", "아마 2년 쪽이겠지만, 저도 모릅니다. 한두 달은 아닐 겁니다."],
+_bf = SOT("gold3_buf_rose_timing.mp4", 17.6, 8.7,
+    ["경기는 돌아섭니다. 6개월 뒤일지 2년 뒤일지는 모르겠습니다.", "2년 쪽이 더 가능성 있겠죠. 한두 달은 아닐 겁니다."],
     "워런 버핏", "버크셔 해서웨이 회장 · 찰리 로즈 인터뷰 2008.10", "찰리 로즈 2008-10-01 워런 버핏 인터뷰",
-    "[5장] 원음② 버핏 — 원본 1764~1776초(요청 구간 1750부터 → 14.0초), 도착 후 STT로 확정"), "놓치지 않는 법, 나눠 사기"))
+    "[5장] 원음② 버핏 — STT 확정 17.68~26.18초 'They will turn around … six months or two years … not one month or two months'")
+_bf["sot"]["at"] = [[0.1, 4.8], [6.1, 2.6]]
+sc.append(CH(_bf, "놓치지 않는 법, 나눠 사기"))
 sc.append(S(["il_L261123s_dawn_chip_city.png"],
     ["지난 월요일로 돌아가 보겠습니다. 하루 40%를 다 잡은 사람은 거의 없습니다. 신호를 기다린 사람은 아무것도 못 잡았고요.",
      "그런데 생각한 금액의 3분의 1이라도 미리 넣어 둔 사람은, 그 하루의 3분의 1을 가져갔습니다. 바닥을 맞히진 못해도, 아예 놓치지는 않은 겁니다."],
