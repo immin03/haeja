@@ -1,7 +1,7 @@
 {
- "requested": "2026-11-24T05:20",
- "note": "황제의 일기 데일리 11/24 ep48(11:30)·ep49(19:30) 묶음별 녹음",
- "tag": "d261124",
+ "requested": "2026-11-24T05:50",
+ "note": "황제의 일기 ep48 n1 재녹음 — 음성 관문 클릭('2천' 첫소리, 4.48초), 쉼표 위치만 바꿈",
+ "tag": "d261124b",
  "keep": true,
  "lang": "kor",
  "model": "ssfm-v30",
@@ -9,184 +9,16 @@
  "tempo": 1.0,
  "voices": [
   {
-   "name": "ep48_n1_A",
+   "name": "ep48_n1_C",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "말 많이 한 날, 밤에 후회되는 진짜 이유. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
+   "line": "말 많이 한 날, 밤에 후회되는 진짜 이유. 2천 년 전, 로마 황제가 명상록에 쓴 답입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   },
   {
-   "name": "ep48_n1_B",
+   "name": "ep48_n1_D",
    "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "말 많이 한 날, 밤에 후회되는 진짜 이유. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n2_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "회의가 끝나고, 괜히 한 말 한마디가 계속 떠오릅니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n2_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "회의가 끝나고, 괜히 한 말 한마디가 계속 떠오릅니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n3_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "첫째, 말이 생각보다 앞서서. 안 해도 될 말까지, 덧붙였기 때문입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n3_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "첫째, 말이 생각보다 앞서서. 안 해도 될 말까지, 덧붙였기 때문입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n4_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "말하기 전에, 꼭 필요한 말인지 물으십시오.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n4_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "말하기 전에, 꼭 필요한 말인지 물으십시오.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n5_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "둘째, 침묵을 못 견뎌서. 잠깐의 정적이 어색해, 아무 말이나 꺼냅니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n5_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "둘째, 침묵을 못 견뎌서. 잠깐의 정적이 어색해, 아무 말이나 꺼냅니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n6_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "정적은 실수가 아닙니다. 그냥 두셔도 됩니다. 황제는 이렇게 적었습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_n6_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "정적은 실수가 아닙니다. 그냥 두셔도 됩니다. 황제는 이렇게 적었습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_e7_A",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "우리가 하는 말과 일의 대부분은 필요 없다. 그것을 덜어 내면, 여유는 늘고 불안은 줄어든다.",
-   "emotion": "tonedown",
-   "tempo": 0.9
-  },
-  {
-   "name": "ep48_e7_B",
-   "id": "tc_62d66c2d1523be99355fda02",
-   "line": "우리가 하는 말과 일의 대부분은 필요 없다. 그것을 덜어 내면, 여유는 늘고 불안은 줄어든다.",
-   "emotion": "tonedown",
-   "tempo": 0.9
-  },
-  {
-   "name": "ep48_end_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "오늘의 할 일. 덧붙이고 싶은 한마디를, 오늘 한 번 삼켜 보기",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep48_end_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "오늘의 할 일. 덧붙이고 싶은 한마디를, 오늘 한 번 삼켜 보기",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n1_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "관계를 끊기 전에, 꼭 확인할 세 가지. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n1_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "관계를 끊기 전에, 꼭 확인할 세 가지. 2천 년 전 로마 황제가 명상록에 쓴 답입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n2_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "첫째, 악의였나, 몰라서였나. 대부분은, 몰라서 그럽니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n2_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "첫째, 악의였나, 몰라서였나. 대부분은, 몰라서 그럽니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n3_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "둘째, 나는 같은 잘못이 없었나. 나도 누군가에겐, 그런 사람이었습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n3_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "둘째, 나는 같은 잘못이 없었나. 나도 누군가에겐, 그런 사람이었습니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n4_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "셋째, 미움 없이 놓을 수 있나. 미워하며 끊으면, 그 사람을 계속 데리고 삽니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n4_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "셋째, 미움 없이 놓을 수 있나. 미워하며 끊으면, 그 사람을 계속 데리고 삽니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n5_A",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "황제의 답은, 이 한 줄입니다.",
-   "emotion": "tonedown",
-   "tempo": 1.0
-  },
-  {
-   "name": "ep49_n5_B",
-   "id": "tc_6731b2e0855f351b98d30c48",
-   "line": "황제의 답은, 이 한 줄입니다.",
+   "line": "말 많이 한 날, 밤에 후회되는 진짜 이유. 2천 년 전 로마 황제가, 명상록에 쓴 답입니다.",
    "emotion": "tonedown",
    "tempo": 1.0
   }
