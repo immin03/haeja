@@ -1192,6 +1192,8 @@ function loginView(){
       <div class="ag-sum">수집 항목: 이메일, 비밀번호(암호화) · 목적: 회원 식별과 서비스 제공 · 보유 기간: 회원 탈퇴 시까지</div>
       <label><input type="checkbox" class="ag" data-k="invest"> <span>[필수] 투자 자문이 아닌 정보 도구임을 이해합니다</span> <button type="button" class="linkbtn" data-lg="terms">보기</button></label>
       <label><input type="checkbox" class="ag" data-k="age"> <span>[필수] 만 14세 이상입니다</span></label>
+      ${(window.AT || {}).ui ? `<label class="f" style="margin-top:6px">[선택] 카카오톡 알림 받을 휴대폰 번호<input id="lg-phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678"></label>
+      <label><input type="checkbox" class="ag-opt" id="ag-phone"> <span>[선택] 휴대폰 번호 수집·이용 동의 <span class="muted">(목적: 카카오 알림톡 발송 · 보유: 알림 끄기 또는 탈퇴 시까지)</span></span></label>` : ''}
       <label><input type="checkbox" class="ag-opt" id="ag-mail"> <span>[선택] 칼럼·투자 정보 메일 받기 <span class="muted">(광고성 정보 수신 동의)</span></span></label>
       <div class="ag-sum">매주 월요일 아침, 최신 칼럼 중 중요한 글과 새 영상을 이메일로 보내 드립니다. 동의하지 않아도 가입할 수 있고, 언제든 메일 아래 링크나 내 계정에서 끌 수 있습니다.</div>
     </div>` : ''}
@@ -1235,6 +1237,8 @@ document.addEventListener('click', e => {
 });
 function bindLogin(){
   const go = document.getElementById('lg-go'); if(!go) return;
+  /* 알림톡 번호 칸(가입 화면)은 스위치를 읽은 뒤 보인다 */
+  if(window.AT && !AT.loginChecked){ AT.loginChecked = true; atInit().then(() => { if(AT.ui && lgMode === 'signup' && document.getElementById('lg-go') && !document.getElementById('lg-phone')){ const app = document.getElementById('app'); if(app){ app.innerHTML = loginView(); bindLogin(); } } }).catch(() => {}); }
   const form = document.getElementById('lg-form'); if(form) form.addEventListener('submit', e => { e.preventDefault(); });
   if(lgMode === 'login' && document.getElementById('lg-email')?.value) setTimeout(() => document.getElementById('lg-pw')?.focus(), 50);
   /* Enter는 폼 제출로 로그인 버튼이 눌린다 */
@@ -1249,6 +1253,8 @@ function bindLogin(){
       go.disabled = true; msg.textContent = '가입하는 중';
       const { data, error } = await store.signup(email, pw, !!document.getElementById('ag-mail')?.checked);
       if(error){ go.disabled = false; msg.textContent = /registered|exists/i.test(error.message) ? '이미 가입된 이메일입니다. "로그인"을 눌러 주세요.' : /signups? not allowed|disabled/i.test(error.message) ? '지금은 가입을 받지 않습니다.' : '가입하지 못했습니다: ' + error.message; return; }
+      { const ph = document.getElementById('lg-phone')?.value, okp = !!document.getElementById('ag-phone')?.checked;
+        if(ph && okp){ try{ localStorage.setItem('vn-at-pending', JSON.stringify({ p: atPhone(ph), t: Date.now() })); }catch(_){} } }
       if(data?.session){ await lgAfterLogin(email, pw); location.reload(); return; }
       const r2 = await store.login(email, pw); if(!r2.error){ await lgAfterLogin(email, pw); location.reload(); return; }
       go.disabled = false; msg.textContent = '가입은 됐지만 바로 로그인하지 못했습니다. "로그인" 탭에서 다시 시도해 주세요.'; return;
@@ -1717,6 +1723,50 @@ async function paintAdminLink(){
   }
   el.style.display = S.__isAdmin && S.__adminFor === uid ? 'block' : 'none';
 }
+/* ============ 카카오 알림톡 받을 번호 (2026-11-23) ============
+   대표: 나에게 보내기(나와의 채팅) 대신 '밸류노트' 카카오톡 채널 알림톡으로 보낸다. 발송은 서버 함수 alimtalk(솔라피).
+   스위치 public.alimtalk_ui_on() 이 켜져야 번호 칸이 보인다(채널·템플릿 준비 전에는 숨김). 번호는 alimtalk_subs(본인만 읽기·쓰기) */
+var AT = { ui: false, sub: undefined, busy: false };
+const atPhone = v => String(v || '').replace(/\D/g, '').replace(/^82(?=1)/, '0');
+const atMask = p => p ? p.replace(/^(\d{3})\d+(\d{4})$/, '$1-****-$2') : '';
+async function atInit(){
+  try{ if(!store.client) return; const { data } = await store.client.rpc('alimtalk_ui_on'); AT.ui = data === true; }catch(_){ AT.ui = false; }
+  if(!AT.ui || store.mode !== 'db' || store.isGuest || store.isDemo || !store.user) return;
+  try{ const { data } = await store.client.from('alimtalk_subs').select('phone,agreed_at,last_sent_at').eq('uid', store.user.id).maybeSingle(); AT.sub = data || null; }catch(_){ AT.sub = null; }
+  /* 이메일 가입 화면에서 번호·동의를 남긴 경우: 가입 직후 로그인되면 저장 (하루 안) */
+  { let pend = null; try{ pend = JSON.parse(localStorage.getItem('vn-at-pending') || 'null'); }catch(_){}
+    if(pend && pend.p && Date.now() - (pend.t || 0) < 864e5){ try{ localStorage.removeItem('vn-at-pending'); }catch(_){} if(!AT.sub){ const r = await atSave(pend.p, 'signup'); if(r.ok) toastMsg('카카오톡 알림톡을 켰습니다.'); } } }
+  if(S.tab === 'notify') render();
+}
+async function atSave(phone, source){
+  const p = atPhone(phone);
+  if(!/^01[016789]\d{7,8}$/.test(p)) return { ok: false, msg: '휴대폰 번호를 확인해 주세요. (예: 010-1234-5678)' };
+  const row = { uid: store.user.id, phone: p, source: source || 'notify', agreed_at: new Date().toISOString(), updated_at: new Date().toISOString() };
+  const { error } = await store.client.from('alimtalk_subs').upsert(row, { onConflict: 'uid' });
+  if(error) return { ok: false, msg: '저장하지 못했습니다: ' + error.message };
+  AT.sub = { phone: p, agreed_at: row.agreed_at }; store.track('engage', 'alimtalk-on:' + (source || 'notify'));
+  return { ok: true };
+}
+function atCardHtml(){
+  if(AT.sub) return `<div class="km-row on"><span><b>카카오톡 알림톡 켜짐</b><span class="small muted">${esc(atMask(AT.sub.phone))} · '밸류노트' 채널로 옵니다</span></span><span class="km-acts"><button type="button" class="linkbtn" data-at="edit">번호 바꾸기</button> · <button type="button" class="linkbtn" data-at="off">끄기</button></span></div>`;
+  return `<div class="at-form"><div class="small muted" style="margin-bottom:10px">'밸류노트' 카카오톡 채널로 알림을 받습니다. 카카오톡에 가입된 휴대폰 번호를 넣어 주세요.</div>
+    <div class="row" style="gap:8px;flex-wrap:nowrap"><input id="at-phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678" style="flex:1;min-width:0"><button type="button" class="btn primary" data-at="save">받기</button></div>
+    <label class="small" style="display:flex;gap:8px;margin-top:10px;align-items:flex-start"><input type="checkbox" id="at-agree" style="width:auto;flex:none;margin-top:3px"> <span style="flex:1">[선택] 개인정보(휴대폰 번호) 수집·이용 동의 · 목적: 카카오 알림톡 발송 · 보유: 알림 끄기 또는 회원 탈퇴 시까지 <a href="/privacy" target="_blank" rel="noopener">보기</a></span></label>
+    <div class="status-line" id="at-msg"></div></div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-at]'); if(!b || AT.busy) return;
+  const k = b.dataset.at, msg = document.getElementById('at-msg');
+  if(k === 'edit'){ AT.sub = null; render(); return; }
+  if(k === 'off'){ AT.busy = true; try{ await store.client.from('alimtalk_subs').delete().eq('uid', store.user.id); AT.sub = null; store.track('engage', 'alimtalk-off'); toastMsg('알림톡을 껐습니다. 번호도 지웠습니다.'); }catch(_){} AT.busy = false; render(); return; }
+  if(k === 'save'){
+    if(!document.getElementById('at-agree')?.checked){ if(msg) msg.textContent = '번호 수집·이용에 동의해 주세요.'; return; }
+    AT.busy = true; b.disabled = true; const r = await atSave(document.getElementById('at-phone')?.value, 'notify'); AT.busy = false; b.disabled = false;
+    if(!r.ok){ if(msg) msg.textContent = r.msg; return; }
+    toastMsg('카카오톡 알림톡을 켰습니다.'); render();
+  }
+});
+
 /* ============ 알림 설정 화면 (2026-11-23 대표: 계정 설정과 따로 큰 메뉴로) ============
    카카오톡 알림 → 휴대폰·PC 알림 → 받을 알림 종류 순. 헤더 '알림 설정' 버튼·계정 메뉴·계정 화면·알림 화면에서 들어온다. ?tab=notify */
 function viewNotify(){
@@ -1727,7 +1777,7 @@ function viewNotify(){
   <h2 class="guide-title">알림 설정</h2>
   <p class="small muted" style="margin:-4px 0 14px">관심 회사가 싸지거나, 반도체 바닥 신호가 바뀌는 날 바로 알려 드립니다.</p>
   <h3 class="eyebrow guide-h">카카오톡으로 받기</h3>
-  <div class="card ns-kakao">${kakao}</div>
+  <div class="card ns-kakao">${AT.ui && store.user && !store.isDemo ? atCardHtml() : kakao}</div>
   <h3 class="eyebrow guide-h">휴대폰·PC 알림</h3>
   ${push}
   <h3 class="eyebrow guide-h">어떤 알림을 받을까요</h3>
@@ -1738,6 +1788,7 @@ document.addEventListener('click', async e => {
   const el = e.target.closest('[data-ns]'); if(!el) return;
   store.track('engage', 'notify-open');
   S.tab = 'notify'; try{ await checkPush(); }catch(_){} render(); window.scrollTo(0,0);
+  atInit().catch(() => {});
   try{ if(typeof kmInit === 'function' && KM.linked === null) kmInit().catch(() => {}); }catch(_){}
 });
 function viewAccount(){
@@ -6891,7 +6942,7 @@ function refresh(kind){
     /* 새 사용자는 빈 상태로 바로 시작한다 (튜토리얼은 예시 데이터로 보여 준다). 옛 JSON 가져오기는 ?import 로만 연다 */
     if(count === 0 && location.search.includes('import')){ setSave(''); document.querySelectorAll('nav.tabs, nav.subtabs').forEach(n => n.style.display = 'none'); document.getElementById('app').innerHTML = importView(); bindImport(); hideSplash(); return; } }
   setSave(store.isGuest ? '' : '동기화됨');
-  kmInit().catch(() => {});
+  kmInit().catch(() => {}); atInit().catch(() => {});
   loadDemoAn();
   const brand = document.querySelector('.brand');
   if(brand && store.isGuest){ const wrap = document.createElement('div'); wrap.className = 'brand-r';
@@ -6908,7 +6959,7 @@ function refresh(kind){
     ab.onclick = e => { e.stopPropagation(); const open = am.hidden; am.hidden = !open; ab.setAttribute('aria-expanded', String(open)); };
     document.addEventListener('click', e => { if(!b.contains(e.target)){ am.hidden = true; ab.setAttribute('aria-expanded','false'); } });
     b.querySelectorAll('[data-acct-go]').forEach(x => x.onclick = () => { am.hidden = true; ab.setAttribute('aria-expanded','false'); const g = x.dataset.acctGo;
-      if(g === 'intro'){ S.introForce = true; S.introStep = 0; } else S.tab = g; render(); window.scrollTo(0,0); });
+      if(g === 'intro'){ S.introForce = true; S.introStep = 0; } else S.tab = g; render(); window.scrollTo(0,0); if(g === 'notify'){ try{ checkPush().then(() => render()); }catch(_){} atInit().catch(() => {}); } });
     const q = document.createElement('button'); q.type = 'button'; q.className = 'bell help'; q.setAttribute('aria-label', 'Q&A: 사용법과 설계'); q.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8v.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
     q.onclick = () => { S.tab = 'guide'; render(); window.scrollTo(0,0); };
     wrap.appendChild(q); wrap.appendChild(slot); wrap.appendChild(b); brand.appendChild(wrap); }
