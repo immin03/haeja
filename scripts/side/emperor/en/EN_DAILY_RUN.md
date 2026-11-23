@@ -30,6 +30,7 @@
 - A-0 재제작 먼저: 빈 칸이 있으면 새 소재보다 먼저 `select id from ed_posts where kind='reel_en' and paused and images ? 'redo_1118' and not coalesce((images->'redo_1118'->>'done')::boolean,false) order by (images->'redo_1118'->>'old_at')` 의 편을 고친다. 갈등 주제(en29·en31·en13·en35)를 먼저.
   1) `python3 ../library.py build` 후 그 편 `fx_<id>.json` 의 장면을 최근 7일에 안 쓴 클립으로 바꾼다(`library.py find <주제어> --vert`, 사용 0·hfr_ 우선). 대본·녹음(`long_<id>.json`, voice_samples)은 그대로 — 새로 녹음하지 않는다.
   2) `python3 ../authentic_check.py ../fx_<id>.json --src=<한국 편 id> --posts=/tmp/posts.json` 가 통과해야 한다(7일 재사용 30% 이하·밤 50% 이하). 통과시킬 클립이 모자라면 그 편은 그날 건너뛴다 — 억지로 채우지 않는다.
+  2-1) ★ 2026-11-24 대표 "중복으로 보이는 일 해소": 녹음 전에 `python3 ../content_check.py ../long_<id>.json` 통과(같은 구절 앞 60편 금지·문장 그대로 반복 금지·같은 조언 금지·제목 틀 연속 금지·황제 얼굴 표지 연속 2편까지, TEMPLATE.md '★ 내용 중복 방지').
   3) 렌더 → 새 video_path 로 `update ed_posts set video_path=…, yt_video_id=null, paused=false, scheduled_at='<빈 칸>', images = images - 'qa_en' - 'yt_thumb' || jsonb_build_object('redo_1118', images->'redo_1118' || '{"done":true}')`. 업로드 작업이 새 영상으로 올린다. 예전 영상(redo_1118.old_yt)은 스튜디오에 비공개로 남아 있다 — 공개로 되돌리지 않는다.
 - 새 편(갈등형 오리지널 enc…)도 같은 검사를 통과해야 하고, 한 편에 hfr_ 새 클립을 2개 이상 넣는다(있을 때).
 

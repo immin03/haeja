@@ -36,7 +36,7 @@
 6. 일기 쓰는 장면: `python3 tablet_script.py social/side/gen/edv02_tablet.mp4 /home/claude/ed/edv02_<id>.mp4 "<Long 영어 원문 3줄, |로 구분>"`
 7. 렌더: `python3 build_long.py long_<id>a.json` → `python3 render_ed.py /home/claude/ed/spec_<id>a.json <base.mp4> --platform shorts`
    → 장면 고르기(★ 2026-11-13): `python3 library.py build` 후 장면마다 `python3 library.py find <주제어> --vert` 로 먼저 찾는다(최근 5편 사용분은 뒤로 밀려 나온다).
-     맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성 요청(상한은 gen.py 가 막는다). fx 를 다 쓰면 `python3 library.py check fx_<id>.json` 통과(한 편 안 중복 금지). ★ 11/15 이어서 `python3 authentic_check.py fx_<id>.json --posts=/tmp/posts.json` 통과(TEMPLATE.md '★ 양산형 방지' — 첫 장면·장면 겹침·제목·하루 2편·포맷 순환, 3편에 1번 가치 편). posts.json 에 이번 편 줄을 넣을 때 fmt 도 넣는다.
+     맞는 게 없을 때만 `scripts/side/gen/EDS<yymmdd>-<id>.json` 에 0~2개 생성 요청(상한은 gen.py 가 막는다). fx 를 다 쓰면 `python3 library.py check fx_<id>.json` 통과(한 편 안 중복 금지). ★ 11/15 이어서 `python3 authentic_check.py fx_<id>.json --posts=/tmp/posts.json` 통과(TEMPLATE.md '★ 양산형 방지' — 첫 장면·장면 겹침·제목·하루 2편·포맷 순환, 3편에 1번 가치 편). posts.json 에 이번 편 줄을 넣을 때 fmt 도 넣는다. ★ 11/24 이어서 `python3 content_check.py long_<id>.json` 통과(녹음 전 — 구절 30일·문장 그대로 반복·같은 조언·제목 틀·황제 얼굴 표지 연속, TEMPLATE.md '★ 내용 중복 방지'). 둘째 문장은 고정 문장을 쓰지 않고 매 편 새로 쓴다.
    → ★ 시네마틱 고정 포맷(2026-11-05 대표 확정, FX.md 필독): 고른 장면으로 `fx_<id>.json` 을 쓰고
    `python3 fx_short.py /home/claude/ed/spec_<id>a.json <base.mp4> <yt.mp4> --fx fx_<id>.json --platform shorts` 와 `... <ig.mp4> ... --platform reels`
    (render_ed 의 reels 렌더는 하지 않는다. 클립은 social/side/gen/<클립>.mp4 를 sparse-checkout 에 추가)
