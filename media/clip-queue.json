@@ -1,694 +1,716 @@
 {
-  "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱') · 2026-11-18 17:40 테슬라 2편: musk_conflicted_q3(54:00~56:00)는 전력 얘기 구간이라 원음 아님 → 전체 음성 au_spacex_q3_2026_call 추가 · 2026-11-21 15:50 폴 튜더 존스 편(L261121e) 원음 요청 21건 · 2026-11-22 00:25 메모리 2편(R2611212355memory) 원음 요청 12건: 젠슨 황 CNBC 10/22·마이크론 CEO 8/20·최태원 CNBC 8/13·카팔·블룸버그(하이닉스 40조 자사주, 아시아 반도체 매도)·재닛 무이·마졸라 · 2026-11-22 00:40 버핏 재조명 편 원음 10건(2026 주총 CNBC·카지노 발언·찰리 로즈 2008·1997 주총·2009 BNSF) · 2026-11-22 17:30 SOXL 3편(L261123-soxl-3) 원음 3건: 게이츠 TED 2015·잡스 2007 아이폰·젠슨 황 GTC 2023(음성 전체→STT로 구간) · 17:50 젠슨 황 GTC 전체 음성 대신 CNBC 카팔 인터뷰 374~426초 영상으로 교체 · 18:20 SOXL 3편 원음 추가 요청: 그리핀(블룸버그 2026-10)·하워드 막스(CNBC 2025-10)",
-  "clips": [
-    {
-      "name": "bbg_ant_oversub",
-      "url": "https://www.youtube.com/watch?v=3hJscphUBAI",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "bbg_ant_14t",
-      "url": "https://www.youtube.com/watch?v=VFsng_wiwOw",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "cnbc_ant_doomers",
-      "url": "https://www.youtube.com/watch?v=Xtapw2EPYW8",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "cnbc_ant_risk",
-      "url": "https://www.youtube.com/watch?v=QYoNCUlgUnQ",
-      "start": 0,
-      "dur": 81,
-      "mode": "video"
-    },
-    {
-      "name": "cnbc_amodei_dimon",
-      "url": "https://www.youtube.com/watch?v=w9Pdanfq0-c",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "bbg_amodei_davos_crazy",
-      "url": "https://www.youtube.com/watch?v=NKVyADY1otY",
-      "start": 0,
-      "dur": 50,
-      "mode": "video"
-    },
-    {
-      "name": "bbg_amodei_davos_mistake",
-      "url": "https://www.youtube.com/watch?v=NJinI8SDf3M",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "yahoo_huang_jobs_wrong",
-      "url": "https://www.youtube.com/watch?v=eRZxwHrHsTQ",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "bbg_ant_retail",
-      "url": "https://www.youtube.com/watch?v=IjH4w_RFIFQ",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "au_cbs_huang_ext",
-      "url": "https://www.youtube.com/watch?v=xCUala5j7aQ",
-      "mode": "audio"
-    },
-    {
-      "name": "au_cnbc_amodei_davos",
-      "url": "https://www.youtube.com/watch?v=1jid0m8Hd6g",
-      "mode": "audio"
-    },
-    {
-      "name": "au_amodei_dimon_roadshow",
-      "url": "https://www.youtube.com/watch?v=mNIYbP3LRpM",
-      "mode": "audio"
-    },
-    {
-      "name": "fox_vance_alicehuang",
-      "url": "https://www.youtube.com/shorts/IOMt0uY5Wxs",
-      "start": 0,
-      "dur": 120,
-      "mode": "video",
-      "note": "원본: 폭스뉴스 '잉그러햄 앵글' 11/16(미국) 밴스 부통령 인터뷰 — 앨리스 황 스파이 여부"
-    },
-    {
-      "name": "ndtv_vance_alicehuang",
-      "url": "https://www.youtube.com/watch?v=QC1a1d8Qpds",
-      "start": 0,
-      "dur": 120,
-      "mode": "video",
-      "note": "같은 발언 NDTV 재방송본(예비)"
-    },
-    {
-      "name": "musk_conflicted_q3",
-      "url": "https://www.youtube.com/watch?v=vc4Gso1GCkg",
-      "start": 3240,
-      "dur": 480,
-      "mode": "video",
-      "for": "L261119-tesla-spacex2",
-      "want": "Because I'm a conflicted party, I can't actually be in the discussions of the special committees (Q&A, Deutsche Bank Edison Yu 질문 답변, 대략 55:00~1:02:00)"
-    },
-    {
-      "name": "au_tsla_q3_2026_call",
-      "url": "https://www.youtube.com/watch?v=tFezqXBF-gw",
-      "mode": "audio",
-      "for": "L261119-tesla-spacex2",
-      "want": "테슬라 공식 3분기 실적 Q&A — 머스크 '전체 주식 50%… 꽤 높은 문턱(pretty high bar)' 구간을 STT로 찾기"
-    },
-    {
-      "name": "au_nvda_q3fy27_call",
-      "url": "https://www.youtube.com/watch?v=zQ8GcHo3ymc",
-      "mode": "audio",
-      "for": "L261118-anthropic-ipo",
-      "want": "엔비디아 3분기(FY27) 실적 콜 11/17 — 크레스 임시 CEO 첫 발언·수요/전망 문장을 STT로 찾아 인트로 원음 훅"
-    },
-    {
-      "name": "au_nvda_q3fy27_call_b",
-      "url": "https://www.youtube.com/watch?v=m_aq9fIkIfA",
-      "mode": "audio",
-      "for": "L261118-anthropic-ipo",
-      "want": "같은 실적 콜 다른 업로드(예비) — 위 영상이 콜 원음이 아니면 이것 사용"
-    },
-    {
-      "name": "au_spacex_q3_2026_call",
-      "url": "https://www.youtube.com/watch?v=vc4Gso1GCkg",
-      "mode": "audio",
-      "for": "L261119-tesla-spacex2",
-      "want": "스페이스X 3분기 실적 발표 전체 음성 — 머스크 'Because I'm a conflicted party' 구간을 STT로 찾기 (musk_conflicted_q3 120초 컷은 다른 구간이었음)"
-    },
-    {
-      "name": "war_nbc_trump_dirtybomb",
-      "url": "https://www.youtube.com/watch?v=aFyVUmX4LtQ",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261119u 트럼프 원음(이란 더티밤 경고)"
-    },
-    {
-      "name": "war_cbs_trump_seriously",
-      "url": "https://www.youtube.com/watch?v=ECLtghhHt-0",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261119u 트럼프 원음 예비"
-    },
-    {
-      "name": "war_fox5_dc_threat",
-      "url": "https://www.youtube.com/watch?v=7AnvCmeDu6k",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261119u 워싱턴 테러 첩보 뉴스 원음"
-    },
-    {
-      "name": "war_fox_nsa_outage",
-      "url": "https://www.youtube.com/watch?v=hPIRGlCSLCA",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261119u NSA 마비 뉴스 원음"
-    },
-    {
-      "name": "war_ap_faa_ground",
-      "url": "https://www.youtube.com/watch?v=ySssh9si5x4",
-      "mode": "video",
-      "start": 0,
-      "dur": 90,
-      "use": "L261119u FAA 전국 운항 중단"
-    },
-    {
-      "name": "war_nbc_travelers_limbo",
-      "url": "https://www.youtube.com/watch?v=fSEexkaJg1Q",
-      "mode": "video",
-      "start": 0,
-      "dur": 100,
-      "use": "L261119u 공항 대기 현장"
-    },
-    {
-      "name": "war_cnn_travelers_stuck",
-      "url": "https://www.youtube.com/watch?v=31ju_0fg3XY",
-      "mode": "video",
-      "start": 0,
-      "dur": 49,
-      "use": "L261119u 공항 승객 인터뷰"
-    },
-    {
-      "name": "war_fox10_fortress90",
-      "url": "https://www.youtube.com/watch?v=FwRkEd-MoLo",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261119u 국방부 90일 계획 훅"
-    },
-    {
-      "name": "ionq_house_mace",
-      "url": "https://www.youtube.com/watch?v=oG9lqaK6c6I",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261121 원음② — 하원 청문회 2025-06-24 낸시 메이스 위원장 개회 발언 '훔쳐 두고 나중에 해독(steal now, decrypt later)' 대목(개회 직후). 대체 영상 https://www.youtube.com/watch?v=vuZbo-vYxEs"
-    },
-    {
-      "name": "ionq_demasi_elisity",
-      "url": "https://www.youtube.com/watch?v=sOVSBXltphM",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261121 원음③ — CNBC 모건 브레넌 × 니콜로 데 마시 엘리시티 인수 인터뷰. 큐데이·보안 필요 대목"
-    },
-    {
-      "name": "ionq_jensen_paris",
-      "url": "https://www.youtube.com/watch?v=gIyZqdNdniI",
-      "mode": "video",
-      "start": 0,
-      "dur": 90,
-      "use": "L261121 원음④ — 젠슨 황 GTC 파리 2025-06-11 '양자 컴퓨팅이 변곡점에 다가가고 있다' 대목. 대체: 엔비디아 기조연설 https://www.youtube.com/watch?v=X9cHONwKkn4"
-    },
-    {
-      "name": "ionq_jensen_qday",
-      "url": "https://www.youtube.com/watch?v=9XB-LsfpvCU",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261121 훅 원음① — 엔비디아 GTC 2025 퀀텀 데이(3/20) 젠슨 황 'I didn't know they were public. How could a quantum computing company be public?' 대목"
-    },
-    {
-      "name": "ionq_dwave_wrong",
-      "url": "https://www.youtube.com/watch?v=MsPkLZub8fc",
-      "mode": "video",
-      "start": 0,
-      "dur": 90,
-      "use": "L261121 1장 원음 — 디웨이브 앨런 바라츠 CEO '젠슨 황은 틀렸다' 대목"
-    },
-    {
-      "name": "ionq_jensen_qday_b",
-      "url": "https://www.youtube.com/watch?v=9XB-LsfpvCU",
-      "mode": "video",
-      "start": 110,
-      "dur": 90,
-      "use": "L261121 훅 원음① 이어지는 대목 — 젠슨 황 'I didn't know they were public. How could a quantum computing company be public?' (ionq_jensen_qday 120초 직후)"
-    },
-    {
-      "name": "ionq_krishna_bbg",
-      "url": "https://www.youtube.com/watch?v=4Kw-wArZCGA",
-      "mode": "video",
-      "start": 0,
-      "dur": 300,
-      "use": "L261121 긍정 거시 원음 — IBM 아빈드 크리슈나 CEO, 블룸버그(미즈호 기술 콘퍼런스 2026) 양자 우위·사업 전망 대목"
-    },
-    {
-      "name": "pj_ptj_full_1",
-      "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
-      "mode": "video",
-      "start": 0,
-      "dur": 180,
-      "use": "L261121e 폴 튜더 존스 CNBC 스쿼크박스 2026-10-13 풀 인터뷰 0~180초(1999 비유·2027 힘든 해·보호예수·1년 내내 숏·분산)"
-    },
-    {
-      "name": "pj_ptj_full_2",
-      "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
-      "mode": "video",
-      "start": 180,
-      "dur": 180,
-      "use": "L261121e 폴 튜더 존스 CNBC 스쿼크박스 2026-10-13 풀 인터뷰 180~360초(1999 비유·2027 힘든 해·보호예수·1년 내내 숏·분산)"
-    },
-    {
-      "name": "pj_ptj_full_3",
-      "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
-      "mode": "video",
-      "start": 360,
-      "dur": 180,
-      "use": "L261121e 폴 튜더 존스 CNBC 스쿼크박스 2026-10-13 풀 인터뷰 360~540초(1999 비유·2027 힘든 해·보호예수·1년 내내 숏·분산)"
-    },
-    {
-      "name": "pj_ptj_short",
-      "url": "https://www.youtube.com/shorts/sCFJ3vphE9E",
-      "mode": "video",
-      "start": 0,
-      "dur": 60,
-      "use": "L261121e 훅 — CNBC 공식 쇼츠 '2027 will be really, really challenging'"
-    },
-    {
-      "name": "pj_waller_1",
-      "url": "https://www.youtube.com/watch?v=SuzARBoNncQ",
-      "mode": "video",
-      "start": 0,
-      "dur": 180,
-      "use": "L261121e 월러 연준 이사 CNBC 스쿼크박스 11/18 '50bp' 대목"
-    },
-    {
-      "name": "pj_waller_2",
-      "url": "https://www.youtube.com/watch?v=SuzARBoNncQ",
-      "mode": "video",
-      "start": 180,
-      "dur": 180,
-      "use": "L261121e 월러 연준 이사 CNBC 스쿼크박스 11/18 '50bp' 대목"
-    },
-    {
-      "name": "pj_waller_3",
-      "url": "https://www.youtube.com/watch?v=SuzARBoNncQ",
-      "mode": "video",
-      "start": 360,
-      "dur": 180,
-      "use": "L261121e 월러 연준 이사 CNBC 스쿼크박스 11/18 '50bp' 대목"
-    },
-    {
-      "name": "pj_ives_1",
-      "url": "https://www.youtube.com/watch?v=amCaa1kTEZo",
-      "mode": "video",
-      "start": 0,
-      "dur": 180,
-      "use": "L261121e 댄 아이브스 CNBC 파워런치 11/19 'dark period for tech'"
-    },
-    {
-      "name": "pj_ives_2",
-      "url": "https://www.youtube.com/watch?v=amCaa1kTEZo",
-      "mode": "video",
-      "start": 180,
-      "dur": 180,
-      "use": "L261121e 댄 아이브스 CNBC 파워런치 11/19 'dark period for tech'"
-    },
-    {
-      "name": "pj_munster_1",
-      "url": "https://www.youtube.com/watch?v=9hDXcvZ11yA",
-      "mode": "video",
-      "start": 0,
-      "dur": 150,
-      "use": "L261121e 진 먼스터 '패닉성 AI 매도, 기회' 11/20"
-    },
-    {
-      "name": "pj_munster_2",
-      "url": "https://www.youtube.com/watch?v=9hDXcvZ11yA",
-      "mode": "video",
-      "start": 150,
-      "dur": 150,
-      "use": "L261121e 진 먼스터 '패닉성 AI 매도, 기회' 11/20"
-    },
-    {
-      "name": "pj_koesterich_1",
-      "url": "https://www.youtube.com/watch?v=qdoFBiuur24",
-      "mode": "video",
-      "start": 3245,
-      "dur": 150,
-      "use": "L261121e 블룸버그 서베일런스 11/19 54:05~ 블랙록 러스 쾨스터리치 'AI 매도는 펀더멘털보다 기술적'"
-    },
-    {
-      "name": "pj_koesterich_2",
-      "url": "https://www.youtube.com/watch?v=qdoFBiuur24",
-      "mode": "video",
-      "start": 3395,
-      "dur": 150,
-      "use": "L261121e 블룸버그 서베일런스 11/19 54:05~ 블랙록 러스 쾨스터리치 'AI 매도는 펀더멘털보다 기술적'"
-    },
-    {
-      "name": "pj_chronert",
-      "url": "https://www.youtube.com/watch?v=zDqamhGuBNU",
-      "mode": "video",
-      "start": 0,
-      "dur": 180,
-      "use": "L261121e 씨티 스콧 크로너트 'AI 신뢰의 시험'"
-    },
-    {
-      "name": "pj_tomlee",
-      "url": "https://www.youtube.com/watch?v=9Viee9cZ0Yk",
-      "mode": "video",
-      "start": 0,
-      "dur": 180,
-      "use": "L261121e 톰 리 CNBC 클로징벨 'AI 매도 막바지'·시스코 1997"
-    },
-    {
-      "name": "pj_news_plummet",
-      "url": "https://www.youtube.com/watch?v=8lsuSJgUpoM",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261121e 11/20 뉴스 '시장 폭락' 현장 B롤"
-    },
-    {
-      "name": "pj_ptj_flows",
-      "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
-      "mode": "video",
-      "start": 285,
-      "dur": 120,
-      "use": "L261121e 폴 튜더 존스 '자금 흐름·IPO·보호예수 해제·2002 이후 최악' 대목(285~405초, 1차 요청 2번 조각이 120초에서 끊겨 빠진 구간)"
-    },
-    {
-      "name": "pj_ptj_tail",
-      "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
-      "mode": "video",
-      "start": 400,
-      "dur": 91,
-      "use": "L261121e 폴 튜더 존스 인터뷰 끝부분(400~491초, 영상 길이 491초 — full_4~8은 영상 길이를 넘어 삭제)"
-    },
-    {
-      "name": "au_mem_huang_kharpal",
-      "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
-      "mode": "audio"
-    },
-    {
-      "name": "mem_huang_kharpal_v1",
-      "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "mem_huang_report",
-      "url": "https://www.youtube.com/watch?v=8kHwVQCSsSM",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "au_mem_mehrotra_boise",
-      "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
-      "mode": "audio"
-    },
-    {
-      "name": "mem_mehrotra_boise_v1",
-      "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "au_mem_chey_cnbc",
-      "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
-      "mode": "audio"
-    },
-    {
-      "name": "mem_chey_cnbc_v1",
-      "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "mem_kharpal_volatility",
-      "url": "https://www.youtube.com/watch?v=1VR0Om-3QKY",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "mem_bbg_skh_buyback",
-      "url": "https://www.youtube.com/watch?v=XX-OIoyrQKM",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "mem_bbg_selloff_asia",
-      "url": "https://www.youtube.com/watch?v=bZnIY_xsu6A",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "mem_mui_debate",
-      "url": "https://www.youtube.com/watch?v=mwiYzcmNyPE",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "mem_mazzola_reset",
-      "url": "https://www.youtube.com/watch?v=lahnwThsBHc",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "au_buf_cnbc_2026_meeting",
-      "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
-      "mode": "audio"
-    },
-    {
-      "name": "buf_cnbc_2026_meeting_v1",
-      "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "buf_casino_short",
-      "url": "https://www.youtube.com/shorts/ldQliNsbCiY",
-      "start": 0,
-      "dur": 60,
-      "mode": "video"
-    },
-    {
-      "name": "buf_cash_gambling_bbg",
-      "url": "https://www.youtube.com/watch?v=g10WqyALNw0",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "buf_ai_dontknow",
-      "url": "https://www.youtube.com/watch?v=F4Cg0iqhBPM",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "au_buf_rose_crisis",
-      "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
-      "mode": "audio"
-    },
-    {
-      "name": "buf_rose_crisis_v1",
-      "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "buf_greedy_fearful",
-      "url": "https://www.youtube.com/watch?v=PwlRov5t0Zk",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "buf_1997_wait_crash",
-      "url": "https://www.youtube.com/watch?v=XxZz9ys3fK0",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "buf_rose_2009_bnsf",
-      "url": "https://www.youtube.com/watch?v=NC1eV1vjncU",
-      "start": 0,
-      "dur": 120,
-      "mode": "video"
-    },
-    {
-      "name": "mem_sot_jensen_nooversupply",
-      "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
-      "mode": "video",
-      "start": 938,
-      "dur": 40,
-      "use": "L261122m 젠슨 황 '2029 공급과잉? I don't think so' 938~978초"
-    },
-    {
-      "name": "mem_sot_chey_war",
-      "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
-      "mode": "video",
-      "start": 594,
-      "dur": 62,
-      "use": "L261122m 최태원 '수요 2배·내년이 가장 힘든 해·전쟁' 594~656초"
-    },
-    {
-      "name": "mem_sot_chey_cycle",
-      "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
-      "mode": "video",
-      "start": 1808,
-      "dur": 110,
-      "use": "L261122m 최태원 '사이클 없다곤 못하지만 훨씬 긴 사이클' 1808~1918초"
-    },
-    {
-      "name": "mem_sot_mehrotra_commodity",
-      "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
-      "mode": "video",
-      "start": 124,
-      "dur": 34,
-      "use": "L261122m 산제이 메로트라 '더 이상 원자재 아니다' 124~158초"
-    },
-    {
-      "name": "buf_sot_casino",
-      "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
-      "mode": "video",
-      "start": 232,
-      "dur": 82,
-      "use": "L261122b 버핏 CNBC 2026-05-02 '카지노가 딸린 교회·도박 기분' 232~314초"
-    },
-    {
-      "name": "buf_sot_phone",
-      "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
-      "mode": "video",
-      "start": 404,
-      "dur": 50,
-      "use": "L261122b 버핏 '아무도 전화를 안 받을 때가 살 때' 404~454초"
-    },
-    {
-      "name": "buf_sot_nothing",
-      "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
-      "mode": "video",
-      "start": 112,
-      "dur": 52,
-      "use": "L261122b 버핏 '그럼 아무것도 안 한다·60년 중 5년' 112~164초"
-    },
-    {
-      "name": "buf_sot_rose_fearful",
-      "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
-      "mode": "video",
-      "start": 122,
-      "dur": 42,
-      "use": "L261122b 버핏 찰리 로즈 2008-10-01 '남들이 두려워할 때 욕심' 122~164초"
-    },
-    {
-      "name": "buf_sot_rose_leverage",
-      "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
-      "mode": "video",
-      "start": 2036,
-      "dur": 44,
-      "use": "L261122b 버핏 찰리 로즈 2008 '사람들은 빚이 먹힐 땐 빚을 사랑한다' 2036~2080초"
-    },
-    {
-      "name": "buf_sot_understand",
-      "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
-      "mode": "video",
-      "start": 170,
-      "dur": 40,
-      "use": "L261122b 버핏 2026-05-02 '10년 전보다 이해하는 사업이 적다' 170~210초"
-    },
-    {
-      "name": "buf_sot_blue",
-      "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
-      "mode": "video",
-      "start": 462,
-      "dur": 22,
-      "use": "L261122b 버핏 2026-05-02 '보이면 일어나지 않는다, 예상 못 한 데서 온다' 462~484초"
-    },
-    {
-      "name": "buf_sot_rose_athlete",
-      "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
-      "mode": "video",
-      "start": 226,
-      "dur": 46,
-      "use": "L261122b 버핏 찰리 로즈 2008-10-01 '심정지 운동선수·경제의 진주만' 226~272초"
-    },
-    {
-      "name": "soxl3_gates_ted2015",
-      "url": "https://www.youtube.com/watch?v=6Af6b_wyiwI",
-      "mode": "video",
-      "start": 0,
-      "dur": 150,
-      "use": "L261123-soxl-3 콜드오픈: 빌 게이츠 TED 2015 'We're not ready for the next epidemic' 구간 찾기(0~150초)"
-    },
-    {
-      "name": "soxl3_jobs_iphone2007",
-      "url": "https://www.youtube.com/watch?v=MnrJzXM7a6o",
-      "mode": "video",
-      "start": 0,
-      "dur": 60,
-      "use": "L261123-soxl-3 콜드오픈: 잡스 2007 'Every once in a while a revolutionary product comes along that changes everything' · 18:00 원래 링크 수집 실패 → 10분 요약본 MnrJzXM7a6o로 교체"
-    },
-    {
-      "name": "soxl3_jensen_consequential",
-      "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
-      "mode": "video",
-      "start": 374,
-      "dur": 52,
-      "use": "L261123-soxl-3 콜드오픈: 젠슨 황 CNBC(아준 카팔) 'AI는 역사상 가장 중대한 기술… 그게 전부' 374~426초 (STT au_mem_huang_kharpal 382.5~423.4)"
-    },
-    {
-      "name": "soxl3_griffin_bbg",
-      "url": "https://www.youtube.com/watch?v=QWzQo74cA7U",
-      "mode": "video",
-      "start": 380,
-      "dur": 120,
-      "use": "L261123-soxl-3: 켄 그리핀 블룸버그(2026-10-20 퓨처 오브 글로벌 마켓) '경제의 급진적 전환엔 거의 늘 버블이 엮여 있다' 6:44 장 근처"
-    },
-    {
-      "name": "soxl3_griffin_audio",
-      "url": "https://www.youtube.com/watch?v=QWzQo74cA7U",
-      "mode": "audio",
-      "use": "L261123-soxl-3: 그리핀 전체 음성 — 버블·아마존 발언 구간 STT로 찾기"
-    },
-    {
-      "name": "soxl3_marks_cnbc",
-      "url": "https://www.youtube.com/watch?v=gYs_xAR0TGs",
-      "mode": "video",
-      "start": 0,
-      "dur": 120,
-      "use": "L261123-soxl-3: 하워드 막스 CNBC 2025-10-13 '높지만 미치진 않았다·버블의 핵심은 심리' (영상 ID 확인 필요 — STT로 검증)"
-    },
-    {
-      "name": "soxl3_jensen_iphone_moment",
-      "url": "https://www.youtube.com/watch?v=DiGB5uAYKAg",
-      "mode": "video",
-      "start": 2026,
-      "dur": 20,
-      "use": "L261123-soxl-3 v2 콜드오픈: 젠슨 황 GTC 2023 'We are at the iPhone moment of AI' (전체 음성 STT 2031.2~2038.5초)"
-    }
-  ]
+ "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱') · 2026-11-18 17:40 테슬라 2편: musk_conflicted_q3(54:00~56:00)는 전력 얘기 구간이라 원음 아님 → 전체 음성 au_spacex_q3_2026_call 추가 · 2026-11-21 15:50 폴 튜더 존스 편(L261121e) 원음 요청 21건 · 2026-11-22 00:25 메모리 2편(R2611212355memory) 원음 요청 12건: 젠슨 황 CNBC 10/22·마이크론 CEO 8/20·최태원 CNBC 8/13·카팔·블룸버그(하이닉스 40조 자사주, 아시아 반도체 매도)·재닛 무이·마졸라 · 2026-11-22 00:40 버핏 재조명 편 원음 10건(2026 주총 CNBC·카지노 발언·찰리 로즈 2008·1997 주총·2009 BNSF) · 2026-11-22 17:30 SOXL 3편(L261123-soxl-3) 원음 3건: 게이츠 TED 2015·잡스 2007 아이폰·젠슨 황 GTC 2023(음성 전체→STT로 구간) · 17:50 젠슨 황 GTC 전체 음성 대신 CNBC 카팔 인터뷰 374~426초 영상으로 교체 · 18:20 SOXL 3편 원음 추가 요청: 그리핀(블룸버그 2026-10)·하워드 막스(CNBC 2025-10)",
+ "clips": [
+  {
+   "name": "bbg_ant_oversub",
+   "url": "https://www.youtube.com/watch?v=3hJscphUBAI",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "bbg_ant_14t",
+   "url": "https://www.youtube.com/watch?v=VFsng_wiwOw",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "cnbc_ant_doomers",
+   "url": "https://www.youtube.com/watch?v=Xtapw2EPYW8",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "cnbc_ant_risk",
+   "url": "https://www.youtube.com/watch?v=QYoNCUlgUnQ",
+   "start": 0,
+   "dur": 81,
+   "mode": "video"
+  },
+  {
+   "name": "cnbc_amodei_dimon",
+   "url": "https://www.youtube.com/watch?v=w9Pdanfq0-c",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "bbg_amodei_davos_crazy",
+   "url": "https://www.youtube.com/watch?v=NKVyADY1otY",
+   "start": 0,
+   "dur": 50,
+   "mode": "video"
+  },
+  {
+   "name": "bbg_amodei_davos_mistake",
+   "url": "https://www.youtube.com/watch?v=NJinI8SDf3M",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "yahoo_huang_jobs_wrong",
+   "url": "https://www.youtube.com/watch?v=eRZxwHrHsTQ",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "bbg_ant_retail",
+   "url": "https://www.youtube.com/watch?v=IjH4w_RFIFQ",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "au_cbs_huang_ext",
+   "url": "https://www.youtube.com/watch?v=xCUala5j7aQ",
+   "mode": "audio"
+  },
+  {
+   "name": "au_cnbc_amodei_davos",
+   "url": "https://www.youtube.com/watch?v=1jid0m8Hd6g",
+   "mode": "audio"
+  },
+  {
+   "name": "au_amodei_dimon_roadshow",
+   "url": "https://www.youtube.com/watch?v=mNIYbP3LRpM",
+   "mode": "audio"
+  },
+  {
+   "name": "fox_vance_alicehuang",
+   "url": "https://www.youtube.com/shorts/IOMt0uY5Wxs",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "note": "원본: 폭스뉴스 '잉그러햄 앵글' 11/16(미국) 밴스 부통령 인터뷰 — 앨리스 황 스파이 여부"
+  },
+  {
+   "name": "ndtv_vance_alicehuang",
+   "url": "https://www.youtube.com/watch?v=QC1a1d8Qpds",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "note": "같은 발언 NDTV 재방송본(예비)"
+  },
+  {
+   "name": "musk_conflicted_q3",
+   "url": "https://www.youtube.com/watch?v=vc4Gso1GCkg",
+   "start": 3240,
+   "dur": 480,
+   "mode": "video",
+   "for": "L261119-tesla-spacex2",
+   "want": "Because I'm a conflicted party, I can't actually be in the discussions of the special committees (Q&A, Deutsche Bank Edison Yu 질문 답변, 대략 55:00~1:02:00)"
+  },
+  {
+   "name": "au_tsla_q3_2026_call",
+   "url": "https://www.youtube.com/watch?v=tFezqXBF-gw",
+   "mode": "audio",
+   "for": "L261119-tesla-spacex2",
+   "want": "테슬라 공식 3분기 실적 Q&A — 머스크 '전체 주식 50%… 꽤 높은 문턱(pretty high bar)' 구간을 STT로 찾기"
+  },
+  {
+   "name": "au_nvda_q3fy27_call",
+   "url": "https://www.youtube.com/watch?v=zQ8GcHo3ymc",
+   "mode": "audio",
+   "for": "L261118-anthropic-ipo",
+   "want": "엔비디아 3분기(FY27) 실적 콜 11/17 — 크레스 임시 CEO 첫 발언·수요/전망 문장을 STT로 찾아 인트로 원음 훅"
+  },
+  {
+   "name": "au_nvda_q3fy27_call_b",
+   "url": "https://www.youtube.com/watch?v=m_aq9fIkIfA",
+   "mode": "audio",
+   "for": "L261118-anthropic-ipo",
+   "want": "같은 실적 콜 다른 업로드(예비) — 위 영상이 콜 원음이 아니면 이것 사용"
+  },
+  {
+   "name": "au_spacex_q3_2026_call",
+   "url": "https://www.youtube.com/watch?v=vc4Gso1GCkg",
+   "mode": "audio",
+   "for": "L261119-tesla-spacex2",
+   "want": "스페이스X 3분기 실적 발표 전체 음성 — 머스크 'Because I'm a conflicted party' 구간을 STT로 찾기 (musk_conflicted_q3 120초 컷은 다른 구간이었음)"
+  },
+  {
+   "name": "war_nbc_trump_dirtybomb",
+   "url": "https://www.youtube.com/watch?v=aFyVUmX4LtQ",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261119u 트럼프 원음(이란 더티밤 경고)"
+  },
+  {
+   "name": "war_cbs_trump_seriously",
+   "url": "https://www.youtube.com/watch?v=ECLtghhHt-0",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261119u 트럼프 원음 예비"
+  },
+  {
+   "name": "war_fox5_dc_threat",
+   "url": "https://www.youtube.com/watch?v=7AnvCmeDu6k",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261119u 워싱턴 테러 첩보 뉴스 원음"
+  },
+  {
+   "name": "war_fox_nsa_outage",
+   "url": "https://www.youtube.com/watch?v=hPIRGlCSLCA",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261119u NSA 마비 뉴스 원음"
+  },
+  {
+   "name": "war_ap_faa_ground",
+   "url": "https://www.youtube.com/watch?v=ySssh9si5x4",
+   "mode": "video",
+   "start": 0,
+   "dur": 90,
+   "use": "L261119u FAA 전국 운항 중단"
+  },
+  {
+   "name": "war_nbc_travelers_limbo",
+   "url": "https://www.youtube.com/watch?v=fSEexkaJg1Q",
+   "mode": "video",
+   "start": 0,
+   "dur": 100,
+   "use": "L261119u 공항 대기 현장"
+  },
+  {
+   "name": "war_cnn_travelers_stuck",
+   "url": "https://www.youtube.com/watch?v=31ju_0fg3XY",
+   "mode": "video",
+   "start": 0,
+   "dur": 49,
+   "use": "L261119u 공항 승객 인터뷰"
+  },
+  {
+   "name": "war_fox10_fortress90",
+   "url": "https://www.youtube.com/watch?v=FwRkEd-MoLo",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261119u 국방부 90일 계획 훅"
+  },
+  {
+   "name": "ionq_house_mace",
+   "url": "https://www.youtube.com/watch?v=oG9lqaK6c6I",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261121 원음② — 하원 청문회 2025-06-24 낸시 메이스 위원장 개회 발언 '훔쳐 두고 나중에 해독(steal now, decrypt later)' 대목(개회 직후). 대체 영상 https://www.youtube.com/watch?v=vuZbo-vYxEs"
+  },
+  {
+   "name": "ionq_demasi_elisity",
+   "url": "https://www.youtube.com/watch?v=sOVSBXltphM",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261121 원음③ — CNBC 모건 브레넌 × 니콜로 데 마시 엘리시티 인수 인터뷰. 큐데이·보안 필요 대목"
+  },
+  {
+   "name": "ionq_jensen_paris",
+   "url": "https://www.youtube.com/watch?v=gIyZqdNdniI",
+   "mode": "video",
+   "start": 0,
+   "dur": 90,
+   "use": "L261121 원음④ — 젠슨 황 GTC 파리 2025-06-11 '양자 컴퓨팅이 변곡점에 다가가고 있다' 대목. 대체: 엔비디아 기조연설 https://www.youtube.com/watch?v=X9cHONwKkn4"
+  },
+  {
+   "name": "ionq_jensen_qday",
+   "url": "https://www.youtube.com/watch?v=9XB-LsfpvCU",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261121 훅 원음① — 엔비디아 GTC 2025 퀀텀 데이(3/20) 젠슨 황 'I didn't know they were public. How could a quantum computing company be public?' 대목"
+  },
+  {
+   "name": "ionq_dwave_wrong",
+   "url": "https://www.youtube.com/watch?v=MsPkLZub8fc",
+   "mode": "video",
+   "start": 0,
+   "dur": 90,
+   "use": "L261121 1장 원음 — 디웨이브 앨런 바라츠 CEO '젠슨 황은 틀렸다' 대목"
+  },
+  {
+   "name": "ionq_jensen_qday_b",
+   "url": "https://www.youtube.com/watch?v=9XB-LsfpvCU",
+   "mode": "video",
+   "start": 110,
+   "dur": 90,
+   "use": "L261121 훅 원음① 이어지는 대목 — 젠슨 황 'I didn't know they were public. How could a quantum computing company be public?' (ionq_jensen_qday 120초 직후)"
+  },
+  {
+   "name": "ionq_krishna_bbg",
+   "url": "https://www.youtube.com/watch?v=4Kw-wArZCGA",
+   "mode": "video",
+   "start": 0,
+   "dur": 300,
+   "use": "L261121 긍정 거시 원음 — IBM 아빈드 크리슈나 CEO, 블룸버그(미즈호 기술 콘퍼런스 2026) 양자 우위·사업 전망 대목"
+  },
+  {
+   "name": "pj_ptj_full_1",
+   "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
+   "mode": "video",
+   "start": 0,
+   "dur": 180,
+   "use": "L261121e 폴 튜더 존스 CNBC 스쿼크박스 2026-10-13 풀 인터뷰 0~180초(1999 비유·2027 힘든 해·보호예수·1년 내내 숏·분산)"
+  },
+  {
+   "name": "pj_ptj_full_2",
+   "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
+   "mode": "video",
+   "start": 180,
+   "dur": 180,
+   "use": "L261121e 폴 튜더 존스 CNBC 스쿼크박스 2026-10-13 풀 인터뷰 180~360초(1999 비유·2027 힘든 해·보호예수·1년 내내 숏·분산)"
+  },
+  {
+   "name": "pj_ptj_full_3",
+   "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
+   "mode": "video",
+   "start": 360,
+   "dur": 180,
+   "use": "L261121e 폴 튜더 존스 CNBC 스쿼크박스 2026-10-13 풀 인터뷰 360~540초(1999 비유·2027 힘든 해·보호예수·1년 내내 숏·분산)"
+  },
+  {
+   "name": "pj_ptj_short",
+   "url": "https://www.youtube.com/shorts/sCFJ3vphE9E",
+   "mode": "video",
+   "start": 0,
+   "dur": 60,
+   "use": "L261121e 훅 — CNBC 공식 쇼츠 '2027 will be really, really challenging'"
+  },
+  {
+   "name": "pj_waller_1",
+   "url": "https://www.youtube.com/watch?v=SuzARBoNncQ",
+   "mode": "video",
+   "start": 0,
+   "dur": 180,
+   "use": "L261121e 월러 연준 이사 CNBC 스쿼크박스 11/18 '50bp' 대목"
+  },
+  {
+   "name": "pj_waller_2",
+   "url": "https://www.youtube.com/watch?v=SuzARBoNncQ",
+   "mode": "video",
+   "start": 180,
+   "dur": 180,
+   "use": "L261121e 월러 연준 이사 CNBC 스쿼크박스 11/18 '50bp' 대목"
+  },
+  {
+   "name": "pj_waller_3",
+   "url": "https://www.youtube.com/watch?v=SuzARBoNncQ",
+   "mode": "video",
+   "start": 360,
+   "dur": 180,
+   "use": "L261121e 월러 연준 이사 CNBC 스쿼크박스 11/18 '50bp' 대목"
+  },
+  {
+   "name": "pj_ives_1",
+   "url": "https://www.youtube.com/watch?v=amCaa1kTEZo",
+   "mode": "video",
+   "start": 0,
+   "dur": 180,
+   "use": "L261121e 댄 아이브스 CNBC 파워런치 11/19 'dark period for tech'"
+  },
+  {
+   "name": "pj_ives_2",
+   "url": "https://www.youtube.com/watch?v=amCaa1kTEZo",
+   "mode": "video",
+   "start": 180,
+   "dur": 180,
+   "use": "L261121e 댄 아이브스 CNBC 파워런치 11/19 'dark period for tech'"
+  },
+  {
+   "name": "pj_munster_1",
+   "url": "https://www.youtube.com/watch?v=9hDXcvZ11yA",
+   "mode": "video",
+   "start": 0,
+   "dur": 150,
+   "use": "L261121e 진 먼스터 '패닉성 AI 매도, 기회' 11/20"
+  },
+  {
+   "name": "pj_munster_2",
+   "url": "https://www.youtube.com/watch?v=9hDXcvZ11yA",
+   "mode": "video",
+   "start": 150,
+   "dur": 150,
+   "use": "L261121e 진 먼스터 '패닉성 AI 매도, 기회' 11/20"
+  },
+  {
+   "name": "pj_koesterich_1",
+   "url": "https://www.youtube.com/watch?v=qdoFBiuur24",
+   "mode": "video",
+   "start": 3245,
+   "dur": 150,
+   "use": "L261121e 블룸버그 서베일런스 11/19 54:05~ 블랙록 러스 쾨스터리치 'AI 매도는 펀더멘털보다 기술적'"
+  },
+  {
+   "name": "pj_koesterich_2",
+   "url": "https://www.youtube.com/watch?v=qdoFBiuur24",
+   "mode": "video",
+   "start": 3395,
+   "dur": 150,
+   "use": "L261121e 블룸버그 서베일런스 11/19 54:05~ 블랙록 러스 쾨스터리치 'AI 매도는 펀더멘털보다 기술적'"
+  },
+  {
+   "name": "pj_chronert",
+   "url": "https://www.youtube.com/watch?v=zDqamhGuBNU",
+   "mode": "video",
+   "start": 0,
+   "dur": 180,
+   "use": "L261121e 씨티 스콧 크로너트 'AI 신뢰의 시험'"
+  },
+  {
+   "name": "pj_tomlee",
+   "url": "https://www.youtube.com/watch?v=9Viee9cZ0Yk",
+   "mode": "video",
+   "start": 0,
+   "dur": 180,
+   "use": "L261121e 톰 리 CNBC 클로징벨 'AI 매도 막바지'·시스코 1997"
+  },
+  {
+   "name": "pj_news_plummet",
+   "url": "https://www.youtube.com/watch?v=8lsuSJgUpoM",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261121e 11/20 뉴스 '시장 폭락' 현장 B롤"
+  },
+  {
+   "name": "pj_ptj_flows",
+   "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
+   "mode": "video",
+   "start": 285,
+   "dur": 120,
+   "use": "L261121e 폴 튜더 존스 '자금 흐름·IPO·보호예수 해제·2002 이후 최악' 대목(285~405초, 1차 요청 2번 조각이 120초에서 끊겨 빠진 구간)"
+  },
+  {
+   "name": "pj_ptj_tail",
+   "url": "https://www.youtube.com/watch?v=__msRgEFFXo",
+   "mode": "video",
+   "start": 400,
+   "dur": 91,
+   "use": "L261121e 폴 튜더 존스 인터뷰 끝부분(400~491초, 영상 길이 491초 — full_4~8은 영상 길이를 넘어 삭제)"
+  },
+  {
+   "name": "au_mem_huang_kharpal",
+   "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
+   "mode": "audio"
+  },
+  {
+   "name": "mem_huang_kharpal_v1",
+   "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_huang_report",
+   "url": "https://www.youtube.com/watch?v=8kHwVQCSsSM",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "au_mem_mehrotra_boise",
+   "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
+   "mode": "audio"
+  },
+  {
+   "name": "mem_mehrotra_boise_v1",
+   "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "au_mem_chey_cnbc",
+   "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
+   "mode": "audio"
+  },
+  {
+   "name": "mem_chey_cnbc_v1",
+   "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_kharpal_volatility",
+   "url": "https://www.youtube.com/watch?v=1VR0Om-3QKY",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_bbg_skh_buyback",
+   "url": "https://www.youtube.com/watch?v=XX-OIoyrQKM",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_bbg_selloff_asia",
+   "url": "https://www.youtube.com/watch?v=bZnIY_xsu6A",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_mui_debate",
+   "url": "https://www.youtube.com/watch?v=mwiYzcmNyPE",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_mazzola_reset",
+   "url": "https://www.youtube.com/watch?v=lahnwThsBHc",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "au_buf_cnbc_2026_meeting",
+   "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
+   "mode": "audio"
+  },
+  {
+   "name": "buf_cnbc_2026_meeting_v1",
+   "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "buf_casino_short",
+   "url": "https://www.youtube.com/shorts/ldQliNsbCiY",
+   "start": 0,
+   "dur": 60,
+   "mode": "video"
+  },
+  {
+   "name": "buf_cash_gambling_bbg",
+   "url": "https://www.youtube.com/watch?v=g10WqyALNw0",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "buf_ai_dontknow",
+   "url": "https://www.youtube.com/watch?v=F4Cg0iqhBPM",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "au_buf_rose_crisis",
+   "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
+   "mode": "audio"
+  },
+  {
+   "name": "buf_rose_crisis_v1",
+   "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "buf_greedy_fearful",
+   "url": "https://www.youtube.com/watch?v=PwlRov5t0Zk",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "buf_1997_wait_crash",
+   "url": "https://www.youtube.com/watch?v=XxZz9ys3fK0",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "buf_rose_2009_bnsf",
+   "url": "https://www.youtube.com/watch?v=NC1eV1vjncU",
+   "start": 0,
+   "dur": 120,
+   "mode": "video"
+  },
+  {
+   "name": "mem_sot_jensen_nooversupply",
+   "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
+   "mode": "video",
+   "start": 938,
+   "dur": 40,
+   "use": "L261122m 젠슨 황 '2029 공급과잉? I don't think so' 938~978초"
+  },
+  {
+   "name": "mem_sot_chey_war",
+   "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
+   "mode": "video",
+   "start": 594,
+   "dur": 62,
+   "use": "L261122m 최태원 '수요 2배·내년이 가장 힘든 해·전쟁' 594~656초"
+  },
+  {
+   "name": "mem_sot_chey_cycle",
+   "url": "https://www.youtube.com/watch?v=FWrZTOIVgNg",
+   "mode": "video",
+   "start": 1808,
+   "dur": 110,
+   "use": "L261122m 최태원 '사이클 없다곤 못하지만 훨씬 긴 사이클' 1808~1918초"
+  },
+  {
+   "name": "mem_sot_mehrotra_commodity",
+   "url": "https://www.youtube.com/watch?v=qG5Z-lVzdkU",
+   "mode": "video",
+   "start": 124,
+   "dur": 34,
+   "use": "L261122m 산제이 메로트라 '더 이상 원자재 아니다' 124~158초"
+  },
+  {
+   "name": "buf_sot_casino",
+   "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
+   "mode": "video",
+   "start": 232,
+   "dur": 82,
+   "use": "L261122b 버핏 CNBC 2026-05-02 '카지노가 딸린 교회·도박 기분' 232~314초"
+  },
+  {
+   "name": "buf_sot_phone",
+   "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
+   "mode": "video",
+   "start": 404,
+   "dur": 50,
+   "use": "L261122b 버핏 '아무도 전화를 안 받을 때가 살 때' 404~454초"
+  },
+  {
+   "name": "buf_sot_nothing",
+   "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
+   "mode": "video",
+   "start": 112,
+   "dur": 52,
+   "use": "L261122b 버핏 '그럼 아무것도 안 한다·60년 중 5년' 112~164초"
+  },
+  {
+   "name": "buf_sot_rose_fearful",
+   "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
+   "mode": "video",
+   "start": 122,
+   "dur": 42,
+   "use": "L261122b 버핏 찰리 로즈 2008-10-01 '남들이 두려워할 때 욕심' 122~164초"
+  },
+  {
+   "name": "buf_sot_rose_leverage",
+   "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
+   "mode": "video",
+   "start": 2036,
+   "dur": 44,
+   "use": "L261122b 버핏 찰리 로즈 2008 '사람들은 빚이 먹힐 땐 빚을 사랑한다' 2036~2080초"
+  },
+  {
+   "name": "buf_sot_understand",
+   "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
+   "mode": "video",
+   "start": 170,
+   "dur": 40,
+   "use": "L261122b 버핏 2026-05-02 '10년 전보다 이해하는 사업이 적다' 170~210초"
+  },
+  {
+   "name": "buf_sot_blue",
+   "url": "https://www.youtube.com/watch?v=QQOWQcnNmr0",
+   "mode": "video",
+   "start": 462,
+   "dur": 22,
+   "use": "L261122b 버핏 2026-05-02 '보이면 일어나지 않는다, 예상 못 한 데서 온다' 462~484초"
+  },
+  {
+   "name": "buf_sot_rose_athlete",
+   "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
+   "mode": "video",
+   "start": 226,
+   "dur": 46,
+   "use": "L261122b 버핏 찰리 로즈 2008-10-01 '심정지 운동선수·경제의 진주만' 226~272초"
+  },
+  {
+   "name": "soxl3_gates_ted2015",
+   "url": "https://www.youtube.com/watch?v=6Af6b_wyiwI",
+   "mode": "video",
+   "start": 0,
+   "dur": 150,
+   "use": "L261123-soxl-3 콜드오픈: 빌 게이츠 TED 2015 'We're not ready for the next epidemic' 구간 찾기(0~150초)"
+  },
+  {
+   "name": "soxl3_jobs_iphone2007",
+   "url": "https://www.youtube.com/watch?v=MnrJzXM7a6o",
+   "mode": "video",
+   "start": 0,
+   "dur": 60,
+   "use": "L261123-soxl-3 콜드오픈: 잡스 2007 'Every once in a while a revolutionary product comes along that changes everything' · 18:00 원래 링크 수집 실패 → 10분 요약본 MnrJzXM7a6o로 교체"
+  },
+  {
+   "name": "soxl3_jensen_consequential",
+   "url": "https://www.youtube.com/watch?v=_-1q_kwJ5jU",
+   "mode": "video",
+   "start": 374,
+   "dur": 52,
+   "use": "L261123-soxl-3 콜드오픈: 젠슨 황 CNBC(아준 카팔) 'AI는 역사상 가장 중대한 기술… 그게 전부' 374~426초 (STT au_mem_huang_kharpal 382.5~423.4)"
+  },
+  {
+   "name": "soxl3_griffin_bbg",
+   "url": "https://www.youtube.com/watch?v=QWzQo74cA7U",
+   "mode": "video",
+   "start": 380,
+   "dur": 120,
+   "use": "L261123-soxl-3: 켄 그리핀 블룸버그(2026-10-20 퓨처 오브 글로벌 마켓) '경제의 급진적 전환엔 거의 늘 버블이 엮여 있다' 6:44 장 근처"
+  },
+  {
+   "name": "soxl3_griffin_audio",
+   "url": "https://www.youtube.com/watch?v=QWzQo74cA7U",
+   "mode": "audio",
+   "use": "L261123-soxl-3: 그리핀 전체 음성 — 버블·아마존 발언 구간 STT로 찾기"
+  },
+  {
+   "name": "soxl3_marks_cnbc",
+   "url": "https://www.youtube.com/watch?v=gYs_xAR0TGs",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261123-soxl-3: 하워드 막스 CNBC 2025-10-13 '높지만 미치진 않았다·버블의 핵심은 심리' (영상 ID 확인 필요 — STT로 검증)"
+  },
+  {
+   "name": "soxl3_jensen_iphone_moment",
+   "url": "https://www.youtube.com/watch?v=DiGB5uAYKAg",
+   "mode": "video",
+   "start": 2026,
+   "dur": 20,
+   "use": "L261123-soxl-3 v2 콜드오픈: 젠슨 황 GTC 2023 'We are at the iPhone moment of AI' (전체 음성 STT 2031.2~2038.5초)"
+  },
+  {
+   "name": "gold3_boockvar_kitco_audio",
+   "url": "https://www.youtube.com/watch?v=tsa3BR_515I",
+   "mode": "audio",
+   "use": "L261124-gold-3: 피터 부크바 Kitco(2026-10-30 녹화·11/2 공개) 전체 음성 — 'Gold is treated like an AI stock … forced selling' 구간 STT로 찾기"
+  },
+  {
+   "name": "gold3_boockvar_kitco",
+   "url": "https://www.youtube.com/watch?v=tsa3BR_515I",
+   "mode": "video",
+   "start": 0,
+   "dur": 120,
+   "use": "L261124-gold-3 콜드오픈 원음①: 부크바 '금이 AI 주식처럼 팔린다' — 0~120초 우선(구간은 STT로 확정, 밖이면 재요청)"
+  },
+  {
+   "name": "gold3_buf_rose_timing",
+   "url": "https://www.youtube.com/watch?v=HAwptsxebgI",
+   "mode": "video",
+   "start": 1750,
+   "dur": 40,
+   "use": "L261124-gold-3 5장 원음: 버핏 찰리 로즈 2008-10 '6개월일지 2년일지 모른다, 한두 달은 아니다' STT 1764~1776초 (au_buf_rose_crisis)"
+  }
+ ]
 }
