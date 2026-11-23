@@ -247,7 +247,8 @@ def _head(d, x, y, title, w, a):
 
 def panel(im, b, p):
     """b: table | steps | timeline | icon 비트 · p: 나타난 뒤 흐른 시간(초). 장면 끝까지 남는다."""
-    a = eout((p + .25) / .45)
+    cont = bool(b.get("cont"))   # 2026-11-23 대표: 앞 장면에서 이어지는 표 — 판·기존 줄은 처음부터 그대로, 새 줄만 추가되고 강조만 바뀐다(다시 깜빡이지 않게)
+    a = 1.0 if cont else eout((p + .25) / .45)
     if a <= 0: return im
     k = b.get("kind")
     if k == "timeline": return _timeline(im, b, p, a)
@@ -273,7 +274,7 @@ def panel(im, b, p):
         many = len(rows) >= 4; y = 150 if many else 190; gap = 128 if many else 158
         if b.get("title"): _head(d, x, y, b["title"], 640, a)
         for i, r in enumerate(rows):
-            ra = eout((p - .15 - .25 * i) / .45)
+            ra = (1.0 if i < (on or 0) else eout((p + .05) / .45)) if cont else eout((p - .15 - .25 * i) / .45)
             if ra <= 0: continue
             yy = y + 100 + i * gap; al = int((255 if (on is None or on == i) else 115) * ra)
             d.text((x, yy + 6), f"0{i + 1}", font=NS("Thin", 72), fill=(255, 255, 255, al))

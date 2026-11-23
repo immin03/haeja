@@ -212,9 +212,9 @@ function board(C,t){
 // ⑩ 바닥 계기판(gauge) — 2026-11-22 대표 "새로운 전개 방식": 칸마다 꺼짐·가까워짐·켜짐, focus 칸만 밝게
 // cfg: {kicker,title, rows:[{name, past, now, state:'off'|'near'|'on', p:0~1(선택), tick:'12배'(선택)}], focus:index|null, answer:'', step}
 function gauge(C,t){
-  bg(); kicker(C,t);
+  bg(); kicker(C,C.cont?99:t);   // cont: 앞 계기판에서 이어짐 — 제목·이미 나온 칸은 처음부터 그대로, 이번 칸만 새로 추가(2026-11-23 대표)
   const R=C.rows||[], X0=150, X1=W-150, Y0=C.y0||270, rh=C.rh||104, st=C.step||0.35, F=C.focus;
-  R.forEach((q,i)=>{ const a0=ease(cl((t-0.6-i*st)/0.45)); if(a0<=0) return; const dim=(F!=null&&F!==i)?0.32:1, a=a0*dim, y=Y0+i*rh+(1-a0)*24;
+  R.forEach((q,i)=>{ if(C.cont&&i>F) return; const a0=C.cont?(i<F?1:ease(cl((t-0.05)/0.45))):ease(cl((t-0.6-i*st)/0.45)); if(a0<=0) return; const dim=(F!=null&&F!==i)?0.32:1, a=a0*dim, y=Y0+i*rh+(1-a0)*24;
     const on=q.state==='on', near=q.state==='near', pul=(Math.sin(t*3.2)+1)/2;
     g.save(); g.globalAlpha=a0*(F===i?1:0.9); g.fillStyle=F===i?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.025)'; g.strokeStyle=F===i?PINK:'rgba(225,225,228,0.18)'; g.lineWidth=F===i?3:1.5; g.beginPath(); g.roundRect(X0,y-rh/2+8,X1-X0,rh-16,16); g.fill(); g.stroke(); g.restore();
     const lx=X0+54, cy=y+2; g.save(); g.globalAlpha=a; g.lineWidth=4; g.strokeStyle=on?IVORY:near?PINK:'rgba(225,225,228,0.45)'; g.beginPath(); g.arc(lx,cy,22,0,7); g.stroke();
@@ -222,13 +222,13 @@ function gauge(C,t){
     else if(near){ g.fillStyle=PINK; g.globalAlpha=a*(0.45+0.55*pul); g.shadowColor=PINK; g.shadowBlur=24; g.beginPath(); g.arc(lx,cy,12,0,7); g.fill(); }
     g.restore();
     const hasBar=q.p!=null; txt(q.name,lx+52,hasBar?cy-14:cy,42,IVORY,800,'left',a);
-    if(hasBar){ const bx=lx+52, bw=560, by=cy+24, pp=q.p*ease(cl((t-1.2-i*st)/1.2)); g.save(); g.globalAlpha=a; g.fillStyle='rgba(225,225,228,0.15)'; g.beginPath(); g.roundRect(bx,by-5,bw,10,5); g.fill();
+    if(hasBar){ const bx=lx+52, bw=560, by=cy+24, pp=q.p*(C.cont?(i<F?1:ease(cl((t-0.3)/1.0))):ease(cl((t-1.2-i*st)/1.2))); g.save(); g.globalAlpha=a; g.fillStyle='rgba(225,225,228,0.15)'; g.beginPath(); g.roundRect(bx,by-5,bw,10,5); g.fill();
       g.fillStyle=near||on?PINK:'rgba(235,235,238,0.7)'; g.beginPath(); g.roundRect(bx,by-5,Math.max(10,bw*pp),10,5); g.fill(); g.strokeStyle=IVORY; g.lineWidth=3; g.beginPath(); g.moveTo(bx+bw,by-14); g.lineTo(bx+bw,by+14); g.stroke(); g.restore(); }
     if(q.goal){ txt(q.now||'',X1-36,cy-15,42,on?IVORY:near?PINK:'#dcdcdc',800,'right',a); txtS('기준 '+q.goal,X1-36,cy+23,30,GRAY,600,'right',a); }
     else txt(q.now||'',X1-36,cy,42,on?IVORY:near?PINK:'#dcdcdc',800,'right',a); });
   let yb=Y0+R.length*rh-24;
   if(C.answer){ const ta=0.6+R.length*st+1.0, a=ease(cl((t-ta)/0.6)); yb+=40; if(a>0) txt(C.answer,W/2,yb,44,PINK,800,'center',a); }
-  if(C.foot){ const a=ease(cl((t-0.6-R.length*st)/0.6)); yb+=C.answer?44:30; if(a>0) txtS(C.foot,W/2,yb,26,GRAY,600,'center',a); }
+  if(C.foot){ const a=C.cont?1:ease(cl((t-0.6-R.length*st)/0.6)); yb+=C.answer?44:30; if(a>0) txtS(C.foot,W/2,yb,26,GRAY,600,'center',a); }
 }
 window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
