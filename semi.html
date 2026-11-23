@@ -208,7 +208,7 @@ body{padding-bottom:76px}
   <div class="wrap">
     <a class="wm" href="/start?utm_source=semi"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
     <div class="eyebrow">반도체 · SOXL 보유자를 위한</div>
-    <h1>반도체 바닥 계기판,<br>지금 <em id="h-on">–</em>개 켜졌습니다</h1>
+    <h1 id="h-t">반도체 바닥 계기판,<br>지금 <em id="h-on">–</em>개 켜졌습니다</h1>
     <p>과거 반도체 하락장의 바닥에서 반복된 <b>신호 5개</b>를 매일 미국 장 마감 뒤 자동으로 점검합니다. 차트를 매일 들여다보지 않아도, 여기서 한 번에 확인하세요.</p>
     <div class="lamps" id="lamps"></div>
     <div class="stat">
@@ -224,7 +224,7 @@ body{padding-bottom:76px}
 <section>
   <div class="no">01</div>
   <h2>바닥 신호 5개,<br>오늘 상태</h2>
-  <p>SOXL 3편에서 다룬 신호입니다. 막대가 끝까지 차면 그 신호가 켜집니다.</p>
+  <p>SOXL 3편 5장에서 다룬 신호 5개입니다. 막대가 끝까지 차면 그 신호가 켜집니다.</p>
   <div class="sig" id="sig"></div>
   <div class="note" id="sig-note"></div>
 </section>
@@ -331,7 +331,7 @@ document.addEventListener('click', function(e){ var a = e.target.closest && e.ta
 var md = function(d){ var p = String(d || '').split('-'); return p.length === 3 ? (+p[1]) + '월 ' + (+p[2]) + '일' : d; };
 var sg = function(x){ return (x > 0 ? '+' : '') + x.toFixed(1) + '%'; };
 function render(g){
-  $('#h-on').textContent = g.on;
+  if(g.on === 0) $('#h-t').innerHTML = '반도체 바닥 계기판,<br>아직 <em>0</em>개입니다'; else $('#h-on').textContent = g.on;
   $('#lamps').innerHTML = g.signals.map(function(s, i){ return '<span class="' + (s.on ? 'on' : '') + '">' + (i + 1) + '</span>'; }).join('');
   var sx = (g.etfs || []).filter(function(e){ return e.name === 'SOXL'; })[0];
   if(sx){ $('#h-soxl').textContent = '$' + sx.last.toFixed(2); $('#h-dd').textContent = sg(sx.dd); }
@@ -343,7 +343,7 @@ function render(g){
   $('#sig-note').textContent = '미국 ' + md(g.asof) + ' 마감 기준 · 매일 미국 장 마감 뒤 자동 갱신';
   var s = g.sox;
   $('#cmp').innerHTML = '<div><small>고점 대비 하락</small><b>' + sg(s.dd) + '</b><span>과거 평균 -32%</span></div>' +
-    '<div><small>하락 기간</small><b>' + s.days + '거래일</b><span>과거 평균 253일</span></div>';
+    '<div><small>하락 기간</small><b>' + ((g.raw && g.raw.calDays) || s.days) + '일</b><span>과거 평균 253일</span></div>';
   $('#etf').innerHTML = '<div class="hd"><span>상품</span><span style="text-align:right">지금</span><span style="text-align:right">고점 대비</span></div>' +
     g.etfs.map(function(e){ return '<div class="rw"><div><b>' + esc(e.name) + '</b><small>' + esc(e.lev) + ' · 고점 ' + md(e.hiDate) + '</small></div><span>$' + e.last.toFixed(2) + '</span><span class="up">' + sg(e.dd) + '</span></div>'; }).join('');
   var p = (s.spark || []).map(function(x){ return x[1]; });
