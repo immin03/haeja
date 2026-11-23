@@ -201,6 +201,33 @@ body{padding-bottom:76px}
 .chart{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 12px 10px;margin-top:10px}
 .chart svg{width:100%;height:140px;display:block}
 .chart .cap{font-size:12px;color:var(--muted);margin-top:6px}
+/* 큰 글씨판 (대표 11/23: 나이 드신 분이 많이 봄 — 글씨 크게, 직관적으로) */
+body{font-size:18px}
+.hero h1{font-size:36px}.hero p{font-size:19px;line-height:1.6}
+.eyebrow{font-size:15px}
+.stat small{font-size:15px}.stat b{font-size:26px}
+.lamps span{height:56px;font-size:22px}
+h2{font-size:28px}
+section p{font-size:19px;line-height:1.65}
+.note{font-size:15px}
+.sg .nm{font-size:21px}
+.sg .st{font-size:16px;padding:5px 13px}
+.sg .bar{height:12px}
+.sg .vl{font-size:18px;flex-wrap:wrap}
+.sg .vl b{font-size:20px}
+.ft i{font-size:30px}.ft b{font-size:19px}.ft span{font-size:16px}
+.alt{font-size:16px}
+.cmp small{font-size:16px}.cmp b{font-size:32px}.cmp span{font-size:16px}
+.tbl .hd{font-size:15px}
+.tbl.et .rw b{font-size:20px}.tbl.et .rw small{font-size:14px}.tbl.et .rw span{font-size:19px}
+.chart .cap{font-size:14px}
+.calc label span{font-size:18px}.calc input{height:52px;font-size:20px;width:130px}.calc em{font-size:16px}
+.out span{font-size:16px}.out b{font-size:20px}.out b.gd{font-size:24px}
+.yt b{font-size:18px}.yt small{font-size:15px}
+.btn{height:62px;font-size:20px}
+.sticky .t{font-size:15px}.sticky .t b{font-size:17px}.sticky .btn{height:54px;font-size:18px}
+.end h2{font-size:28px}.end p{font-size:19px}.end small{font-size:14px}
+@media (max-width:380px){.hero h1{font-size:31px}h2{font-size:25px}.lamps span{height:50px}.ft{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -209,7 +236,7 @@ body{padding-bottom:76px}
     <a class="wm" href="/start?utm_source=semi"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
     <div class="eyebrow">반도체 · SOXL 보유자를 위한</div>
     <h1 id="h-t">반도체 바닥 계기판,<br>지금 <em id="h-on">–</em>개 켜졌습니다</h1>
-    <p>과거 반도체 하락장의 바닥에서 반복된 <b>신호 5개</b>를 매일 미국 장 마감 뒤 자동으로 점검합니다. 차트를 매일 들여다보지 않아도, 여기서 한 번에 확인하세요.</p>
+    <p>반도체가 바닥일 때마다 켜졌던 <b>신호 5개</b>를<br>매일 자동으로 확인해 드립니다.</p>
     <div class="lamps" id="lamps"></div>
     <div class="stat">
       <div><small>SOXL</small><b id="h-soxl">–</b></div>
@@ -224,7 +251,7 @@ body{padding-bottom:76px}
 <section>
   <div class="no">01</div>
   <h2>바닥 신호 5개,<br>오늘 상태</h2>
-  <p>SOXL 3편 5장에서 다룬 신호 5개입니다. 막대가 끝까지 차면 그 신호가 켜집니다.</p>
+  <p>막대가 끝까지 차면 <b>빨간불</b>이 켜집니다.</p>
   <div class="sig" id="sig"></div>
   <div class="note" id="sig-note"></div>
 </section>
@@ -232,12 +259,10 @@ body{padding-bottom:76px}
 <section>
   <div class="no">02</div>
   <h2>신호가 바뀔 때마다<br>바로 알려 드립니다</h2>
-  <p>계기판은 매일 바뀝니다. 가입해 두시면 언제든 들어와 확인하실 수 있고, <b>5개 신호 중 하나라도 켜지거나 꺼지는 날</b> 카카오톡과 휴대폰 알림으로 바로 알려 드립니다.</p>
+  <p>신호가 하나라도 바뀌는 날,<br><b>카카오톡으로 바로 알려 드립니다.</b></p>
   <div class="ft">
-    <div><i>🔔</i><b>신호 알림</b><span>신호가 켜지거나 꺼지는 날 카카오톡·휴대폰 알림을 보내 드립니다.</span></div>
-    <div><i>📟</i><b>계기판 상시 확인</b><span>매일 미국 장 마감 뒤 자동으로 바뀌는 계기판을 언제든 봅니다.</span></div>
-    <div><i>📊</i><b>반도체 종목 점수</b><span>엔비디아·브로드컴·AMD가 지금 비싼지 싼지 적정 주가로 봅니다.</span></div>
-    <div><i>🧮</i><b>내 종목 점검</b><span>갖고 있는 종목을 넣으면 들고 갈 종목과 줄일 종목을 나눠 드립니다.</span></div>
+    <div><i>🔔</i><b>신호 알림</b><span>신호가 바뀌는 날 카톡으로 알려 드려요.</span></div>
+    <div><i>📟</i><b>계기판 상시 확인</b><span>매일 아침 새로 바뀐 계기판을 언제든 봅니다.</span></div>
   </div>
   <a class="btn kakao big" href="/?kakao=1&amp;from=semi&amp;alert=semi&amp;utm_source=semi-ft" data-ev="cta-ft" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 1초 가입하기</a>
   <div class="alt"><a href="/?signup&amp;from=semi&amp;alert=semi&amp;utm_source=semi-email" data-ev="cta-email" data-out>이메일로 가입</a> · 가입 후 언제든 탈퇴할 수 있습니다</div>
@@ -245,9 +270,8 @@ body{padding-bottom:76px}
 
 <section>
   <div class="no">03</div>
-  <h2>지금 하락장은<br>과거 평균과 비교하면</h2>
+  <h2>지금 하락장,<br>과거와 비교하면</h2>
   <div class="cmp" id="cmp"></div>
-  <div class="note">과거 평균: 반도체 하락장 평균 기간 253일·평균 하락률 -32% (SOXL 3편 정리 기준)</div>
 </section>
 
 <section>
@@ -260,7 +284,7 @@ body{padding-bottom:76px}
 <section>
   <div class="no">05</div>
   <h2>물타면 본전은 어디일까요?<br>직접 계산해 보세요</h2>
-  <p>지금 평단과 보유 금액, 추가로 넣을 금액을 넣으면 새 평단과 본전까지 필요한 상승률이 바로 나옵니다.</p>
+  <p>숫자만 바꾸면 새 평단이 바로 나옵니다.</p>
   <div class="calc">
     <label><span>지금 평단</span><input id="c-avg" type="number" inputmode="decimal" value="150"><em>달러</em></label>
     <label><span>보유 금액</span><input id="c-hold" type="number" inputmode="decimal" value="1000"><em>만 원</em></label>
@@ -287,7 +311,7 @@ body{padding-bottom:76px}
 <footer class="end">
   <div class="wrap">
     <h2>계기판은 매일 바뀝니다.<br>신호가 바뀌는 날 알려 드릴게요</h2>
-    <p>가입해 두시면 계기판을 언제든 확인하고, 신호가 바뀌는 날 바로 알림을 받습니다.</p>
+    <p>가입만 해 두시면 신호가 바뀌는 날 카톡으로 알려 드립니다.</p>
     <a class="btn kakao big" href="/?kakao=1&amp;from=semi&amp;alert=semi&amp;utm_source=semi-end" data-ev="cta-end" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>카카오로 가입하고 신호 알림 받기</a>
     <small>계기판은 과거 하락장에서 반복된 신호를 정리한 참고 자료이며, 바닥 시점을 맞히거나 매수·매도를 권하는 것이 아닙니다. 신호가 모두 켜져도 더 내려갈 수 있습니다.</small>
   </div>
@@ -329,18 +353,20 @@ document.addEventListener('click', function(e){ var a = e.target.closest && e.ta
 
 /* ---------- 계기판 ---------- */
 var md = function(d){ var p = String(d || '').split('-'); return p.length === 3 ? (+p[1]) + '월 ' + (+p[2]) + '일' : d; };
+/* 어르신도 한눈에: 괄호 속 세부·'·' 뒤 설명은 뺀다 (대표 11/23) */
+var simp = function(t){ return String(t || '').replace(/\s*\(.*?\)\s*/g, ' ').split(' · ')[0].trim(); };
 var sg = function(x){ return (x > 0 ? '+' : '') + x.toFixed(1) + '%'; };
 function render(g){
   if(g.on === 0) $('#h-t').innerHTML = '반도체 바닥 계기판,<br>아직 <em>0</em>개입니다'; else $('#h-on').textContent = g.on;
   $('#lamps').innerHTML = g.signals.map(function(s, i){ return '<span class="' + (s.on ? 'on' : '') + '">' + (i + 1) + '</span>'; }).join('');
   var sx = (g.etfs || []).filter(function(e){ return e.name === 'SOXL'; })[0];
   if(sx){ $('#h-soxl').textContent = '$' + sx.last.toFixed(2); $('#h-dd').textContent = sg(sx.dd); }
-  $('#h-asof').textContent = md(g.asof);
+  $('#h-asof').textContent = String(g.asof || '').slice(5).replace('-', '/').replace(/^0/, '').replace('/0', '/');
   $('#sig').innerHTML = g.signals.map(function(s){
-    return '<div class="sg' + (s.on ? ' on' : '') + '"><div class="tp"><i class="dot"></i><span class="nm">' + esc(s.name) + '</span><span class="st">' + (s.on ? '켜짐' : '대기') + '</span></div>' +
+    return '<div class="sg' + (s.on ? ' on' : '') + '"><div class="tp"><i class="dot"></i><span class="nm">' + esc(s.name) + '</span><span class="st">' + (s.on ? '켜짐' : '아직') + '</span></div>' +
       '<div class="bar"><i style="width:' + Math.max(3, Math.round(s.pct)) + '%"></i></div>' +
-      '<div class="vl"><span>지금 <b>' + esc(s.now) + '</b></span><span>기준 ' + esc(s.target) + '</span></div><small>' + esc(s.note) + '</small></div>'; }).join('');
-  $('#sig-note').textContent = '미국 ' + md(g.asof) + ' 마감 기준 · 매일 미국 장 마감 뒤 자동 갱신';
+      '<div class="vl"><span>지금 <b>' + esc(simp(s.now)) + '</b></span><span>기준 <b>' + esc(simp(s.target)) + '</b></span></div></div>'; }).join('');
+  $('#sig-note').textContent = md(g.asof) + ' 미국 장 마감 기준 · 매일 아침 자동으로 바뀝니다';
   var s = g.sox;
   $('#cmp').innerHTML = '<div><small>고점 대비 하락</small><b>' + sg(s.dd) + '</b><span>과거 평균 -32%</span></div>' +
     '<div><small>하락 기간</small><b>' + ((g.raw && g.raw.calDays) || s.days) + '일</b><span>과거 평균 253일</span></div>';
