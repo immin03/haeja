@@ -277,7 +277,7 @@ def panel(im, b, p):
             ra = (1.0 if i < (on or 0) else eout((p + .05) / .45)) if cont else eout((p - .15 - .25 * i) / .45)
             if ra <= 0: continue
             yy = y + 100 + i * gap; al = int((255 if (on is None or on == i) else 115) * ra)
-            d.text((x, yy + 6), f"0{i + 1}", font=NS("Thin", 72), fill=(255, 255, 255, al))
+            d.text((x, yy + 6), f"0{i + 1 + int(b.get('n0', 0))}", font=NS("Thin", 72), fill=(255, 255, 255, al))
             d.text((x + 130, yy), str(r[0]), font=NS("Medium", 26), fill=(*(PINK if on == i else (200, 200, 200)), al))
             d.text((x + 130, yy + 36), str(r[1]), font=SUIT("Bold", 46), fill=(255, 255, 255, al))
             if len(r) > 2 and not many: d.text((x + 130, yy + 98), str(r[2]), font=NS("Regular", 26), fill=(215, 215, 215, al))

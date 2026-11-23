@@ -172,19 +172,9 @@
    "sketch_add": [],
    "asof": false,
    "src": "밸류노트 SOXL 3편(2026-11-23 17:10 공개)",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "반도체 바닥 신호 0/5",
-     "sub": "밸류노트 SOXL 3편 · 2026.11.23 공개",
-     "line": 0,
-     "at": 0.4,
-     "color": "gold",
-     "hold": 1.8
-    }
-   ],
+   "sketch": [],
    "lines": [
-    "지난 월요일, 저희는 반도체 바닥 신호 5개 중 켜진 게 하나도 없다는 영상을 올렸습니다."
+    "어제, 저희는 반도체 바닥 신호 5개 중 켜진 게 하나도 없다는 영상을 올렸습니다."
    ],
    "note": "[훅] 0/5 계기판"
   },
@@ -1016,7 +1006,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_goldbars_2.jpg"
+      "lib": "il_L261123s_tower_night.png"
      }
     ],
     "wash_amt": 0.85,
@@ -1044,7 +1034,8 @@
      ],
      "on": null,
      "line": 0,
-     "at": 0.3
+     "at": 0.3,
+     "n0": 2
     }
    ],
    "lines": [
@@ -1123,11 +1114,15 @@
     "cuts": [
      {
       "lib": "globe_L261123s_fx_gauge_final.mp4"
+     },
+     {
+      "lib": "il_L261123s_storm_clearing.png"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -1137,7 +1132,7 @@
      "kind": "punch",
      "text": "신호는 늦게 켜진다",
      "sub": "SOXL 신호 0/5 → 다음 날 +40%",
-     "line": 0,
+     "line": 1,
      "at": 0.4,
      "color": "red",
      "hold": 1.8
