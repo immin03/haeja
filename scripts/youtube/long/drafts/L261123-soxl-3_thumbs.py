@@ -29,7 +29,7 @@ def photo(name, fx):
     s = max(TW / im.width, TH / im.height); im = im.resize((int(im.width * s) + 1, int(im.height * s) + 1), Image.LANCZOS)
     x0 = int((im.width - TW) * fx); y0 = (im.height - TH) // 2
     im = im.crop((x0, y0, x0 + TW, y0 + TH))
-    im = ImageEnhance.Color(im).enhance(.8); im = im.point([min(255, int(255 * ((v / 255) ** .7) * 1.06)) for v in range(256)] * 3)   # 22:42 대표: 사진 약간 밝게 (잘된 썸네일처럼)
+    im = ImageEnhance.Color(im).enhance(.8); im = im.point([min(255, int(255 * ((v / 255) ** .62) * 1.12)) for v in range(256)] * 3)   # 22:42·13:18 대표: 사진 더 밝게
     return im.convert("RGBA")
 
 
@@ -42,9 +42,9 @@ def shadow_text(th, xy, s, f, fill):
 def render(t, out):
     th = photo(t["photo"], t["fx"])
     g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
-    for x in range(TW): d.line([x, 0, x, TH], fill=(0, 0, 0, int(110 * max(0, 1 - x / (TW * .85)) ** 1.2)))
+    for x in range(TW): d.line([x, 0, x, TH], fill=(0, 0, 0, int(85 * max(0, 1 - x / (TW * .85)) ** 1.2)))
     th.alpha_composite(g); g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
-    for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(175 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.6)))
+    for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(150 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.6)))
     th.alpha_composite(g); D = ImageDraw.Draw(th)
     fb = F("ExtraBold", 54)
     if t.get("chip"):   # 2편 틀: 빨간 띠(고점 대비 하락) + 어두운 '3편'
