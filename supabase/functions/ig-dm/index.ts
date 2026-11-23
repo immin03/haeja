@@ -9,6 +9,10 @@
 //   - dm_guide에 '?'가 들어 있어도(/lev?p=soxl) 링크가 깨지지 않게 했다
 //   - 정리본 페이지는 utm_source=ig-dm 으로 들어오면 다른 칼럼 목록을 숨긴다(scripts/reels/guide.py)
 //
+// 2026-11-23 (대표 19:14): 자동 DM은 콘텐츠별로 켠다 — 의미 있는 릴스에만 dm_keyword를 넣고, 평소에는 키워드 없음(= 반응 안 함).
+//   - dm_guide가 /semi(바닥 계기판)로 시작하면 '정리본'이 아니라 '계기판' 문구로 보낸다(공개 답글 포함).
+// 2026-11-24 (금값 3편): dm_guide에 tab=gold 가 있으면 '금 바닥 계기판' 문구로 보낸다.
+//
 // Meta 앱 설정 (운영자가 한 번):
 //   웹훅 콜백 URL = https://<프로젝트>.supabase.co/functions/v1/ig-dm , 확인 토큰 = 비밀값 IG_WEBHOOK_VERIFY 또는 app_config.ig_webhook_verify
 //   구독 필드 = comments, messages, messaging_postbacks
@@ -51,7 +55,10 @@ const norm = (s: string) => String(s || "").replace(/\s+/g, "").replace(/['"‘�
 // 2026-10-29: 매니챗 공개 답글 문구를 이어받음 (매니챗 해지 후 자체 발송으로 전환)
 const REPLIES = ["DM으로 정리본을 보내 드렸습니다 📩", "보내 드렸습니다! DM함을 확인해 주세요", "요청하신 정리본이 DM으로 도착했습니다", "정리본 DM으로 보내 드렸어요. 확인 부탁드립니다!"];
 const REPLIES_NO_GUIDE = ["DM 보내 드렸습니다 📩", "보내 드렸습니다! DM함을 확인해 주세요"];
+const REPLIES_GAUGE = ["계기판 링크를 DM으로 보내 드렸습니다 📩", "보내 드렸습니다! DM함을 확인해 주세요", "계기판 링크 DM으로 보내 드렸어요. 확인 부탁드립니다!"];
 const pick = (a: string[]) => a[Math.floor(Math.random() * a.length)];
+const isGauge = (post: any) => /^\/semi(\/|\?|$)/.test(String(post?.dm_guide || ""));
+const gaugeName = (post: any) => /[?&]tab=gold\b/.test(String(post?.dm_guide || "")) ? "금" : "반도체";
 
 // 릴스에 연결된 정리본 주소 (없으면 null). dm_guide에 이미 '?'가 있어도 utm을 제대로 붙인다.
 function guideUrl(site: string, post: any): string | null {
@@ -68,9 +75,12 @@ function followButton(text: string) {
   return { attachment: { type: "template", payload: { template_type: "button", text, buttons: [{ type: "postback", title: "팔로우 확인 🙌", payload: POSTBACK }] } } };
 }
 
-// 정리본이 있는 릴스: 그 정리본 하나만. 없는 릴스: '정리본'이라 하지 않고 밸류노트에서 해당 종목을 확인하도록 안내
+// 계기판 릴스: 바닥 계기판 링크 하나. 정리본이 있는 릴스: 그 정리본 하나만. 없는 릴스: '정리본'이라 하지 않고 밸류노트에서 해당 종목을 확인하도록 안내
 function guideMessage(site: string, post: any, head: string) {
   const url = guideUrl(site, post);
+  if (url && isGauge(post)) return { attachment: { type: "template", payload: { template_type: "button",
+    text: `${head}\n\n${gaugeName(post)} 바닥 계기판입니다. 영상에서 본 바닥 신호 5개가 지금 몇 개 켜졌는지, 미국 장이 끝나면 매일 자동으로 바뀝니다.\n\n가입해 두시면 신호가 바뀌는 날 휴대폰으로 바로 알려 드립니다.`,
+    buttons: [{ type: "web_url", url, title: "계기판 보러 가기" }] } } };
   if (url) return { attachment: { type: "template", payload: { template_type: "button",
     text: `${head}\n\n${cleanTitle(post)}정리본입니다. 릴스에서 다 못 한 숫자와 내 종목에 바로 적용하는 방법까지 담았습니다.\n\n@value.note.korea 를 팔로우해 두시면 새 정리본이 나올 때 가장 먼저 보실 수 있습니다.`,
     buttons: [{ type: "web_url", url, title: "정리본 보러 가기" }] } } };
@@ -95,7 +105,7 @@ async function onComment(v: any, a: any, site: string) {
   }
   const { error: dup } = await sb.from("ig_dm").insert({ comment_id: cid, media_id: media, post_id: post?.id || null, igsid: from.id || null, username: from.username || null, keyword: post?.dm_keyword || null, status: "new" });
   if (dup) return "dup";
-  const reply = post?.dm_guide ? pick(REPLIES) : pick(REPLIES_NO_GUIDE);
+  const reply = isGauge(post) ? pick(REPLIES_GAUGE) : post?.dm_guide ? pick(REPLIES) : pick(REPLIES_NO_GUIDE);
   try {
     if ((await cfg("ig_dm_follow_gate")) !== true) {
       // 팔로우 확인 없이 첫 DM에 바로 링크 (2026-10-29)
@@ -109,7 +119,7 @@ async function onComment(v: any, a: any, site: string) {
     // 2026-10-29: 메타가 DM을 실제로 보내고도 "An unknown error has occurred"(500)를 돌려주는 경우가 있다 → 다시 보내지 않고 '보냄'으로 처리한다.
     try {
       await api(`${a.account_id}/messages`, a.access_token, { recipient: { comment_id: cid }, message: followButton(
-        `안녕하세요, 밸류노트입니다 🙂\n댓글 남겨 주셔서 감사합니다. 릴스에서 다룬 내용을 정리본으로 준비해 두었습니다.\n\n팔로우해 주시면 바로 정리본을 보내 드립니다. 팔로우하신 뒤 아래 버튼을 눌러 주세요.`) });
+        `안녕하세요, 밸류노트입니다 🙂\n댓글 남겨 주셔서 감사합니다. ${isGauge(post) ? gaugeName(post) + " 바닥 계기판 링크를" : "릴스에서 다룬 내용을 정리본으로"} 준비해 두었습니다.\n\n팔로우해 주시면 바로 보내 드립니다. 팔로우하신 뒤 아래 버튼을 눌러 주세요.`) });
     } catch (e1) {
       const msg = String((e1 as Error).message || "");
       console.error("private-reply", msg);
@@ -128,7 +138,7 @@ async function onComment(v: any, a: any, site: string) {
 async function onMessage(m: any, a: any, site: string) {
   const uid = m.sender?.id; if (!uid || uid === a.account_id || m.message?.is_echo) return "skip";
   const isBtn = m.postback?.payload === POSTBACK;
-  const isAsk = /정리본|자료|링크|팔로우/.test(String(m.message?.text || ""));
+  const isAsk = /정리본|자료|링크|팔로우|계기판/.test(String(m.message?.text || ""));
   if (!isBtn && !isAsk) return "ignore";
   const { data: rows } = await sb.from("ig_dm").select("*").eq("igsid", uid).order("created_at", { ascending: false }).limit(1);
   const row = rows?.[0];
