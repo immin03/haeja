@@ -2635,17 +2635,38 @@ function chGate(after, mode){
     S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
     store.track('view', all ? 'ch-add-all' : 'ch-add'); setTimeout(() => { g.remove(); if(typeof render === 'function') render(); toastMsg(all ? '채널 추가 완료! 밸류노트 소식을 카카오톡으로 보내 드릴게요.' : '채널 추가 완료! 계기판 신호가 바뀌는 날 알려 드릴게요.'); if(after) after(); }, 400);
   });
+  /* 2026-11-23 19:00 대표: '나중에 할게요' → 경고 한 번 + 앱·브라우저 알림이라도 켜 두기 (계기판 알림은 끄지 않는다) */
+  const pushTry = () => { if(typeof enablePush === 'function' && typeof pushState !== 'undefined' && pushState !== 'on') setTimeout(() => enablePush().catch(() => {}), 300); };
   g.querySelector('.ch-later').addEventListener('click', () => {
     try{ localStorage.setItem('vn-ch-later', String(Date.now())); }catch(_){}
-    if(all){ store.track('view', 'ch-later-all'); g.remove(); return; }
-    const P = { ...pushPrefs(), semi: false }; delete P.id;
-    S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
-    store.track('view', 'ch-later'); g.remove(); if(typeof render === 'function') render();
+    store.track('view', all ? 'ch-warn-all' : 'ch-warn');
+    g.querySelector('.ch-in').innerHTML = `
+      <div class="ch-step">잠깐만요</div>
+      <h2>채널을 추가하지 않으면<br>알림을 제때 못 받을 수 있어요</h2>
+      <p>${all ? '계기판 신호나 새 소식' : '반도체 바닥 신호'}가 바뀌어도 카카오톡으로는 알려 드릴 수 없어요. 대신 <b>이 기기의 앱·브라우저 알림</b>으로라도 받아 보세요.</p>
+      <a class="ch-go" href="${VN_CH_URL}" target="_blank" rel="noopener">채널 추가하고 카카오톡으로 받기</a>
+      <button type="button" class="ch-push">이 기기 알림으로만 받기</button>
+      <button type="button" class="ch-later">알림 받지 않기</button>`;
+    g.querySelector('.ch-go').addEventListener('click', () => {
+      const P = { ...pushPrefs(), ...(all ? {} : { semi: true }), ch: new Date().toISOString() }; delete P.id;
+      S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
+      store.track('view', all ? 'ch-add-all' : 'ch-add'); setTimeout(() => { g.remove(); if(typeof render === 'function') render(); toastMsg('채널 추가 완료! 알림을 카카오톡으로 보내 드릴게요.'); if(after) after(); else pushTry(); }, 400);
+    });
+    g.querySelector('.ch-push').addEventListener('click', () => {
+      const P = { ...pushPrefs(), ...(all ? {} : { semi: true }) }; delete P.id;
+      S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
+      store.track('view', all ? 'ch-push-all' : 'ch-push'); g.remove(); if(typeof render === 'function') render();
+      toastMsg('이 기기 알림으로 보내 드릴게요. 카카오톡 채널은 알림 설정에서 언제든 추가할 수 있어요.'); pushTry();
+    });
+    g.querySelector('.ch-later').addEventListener('click', () => {
+      if(!all){ const P = { ...pushPrefs(), semi: false }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); }
+      store.track('view', all ? 'ch-later-all' : 'ch-later'); g.remove(); if(typeof render === 'function') render();
+    });
   });
 }
 document.addEventListener('change', e => {
   const el = e.target.closest && e.target.closest('[data-pk]'); if(!el) return;
-  if(el.dataset.pk === 'semi' && el.checked && !pushPrefs().ch){ el.checked = false; chGate(); return; }
+  if(el.dataset.pk === 'semi' && el.checked && !pushPrefs().ch){ el.checked = false; chGate(() => { if(typeof enablePush === 'function' && pushState !== 'on') enablePush().catch(() => {}); }); return; }
   const P = { ...pushPrefs(), [el.dataset.pk]: el.checked }; delete P.id;
   S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
 });
@@ -7600,6 +7621,7 @@ input,select,textarea{border-radius:10px}
 .ch-gate h2{font-size:25px;line-height:1.35;margin:8px 0 12px;font-weight:800}
 .ch-gate p{font-size:17px;line-height:1.6;margin:0 0 20px;color:#333}
 .ch-gate .ch-go{display:block;text-align:center;background:#FEE500;color:#191919;font-size:19px;font-weight:800;padding:18px;border-radius:14px;text-decoration:none}
+.ch-gate .ch-push{display:block;width:100%;margin-top:10px;background:#111;color:#fff;border:0;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer}
 .ch-gate .ch-later{display:block;width:100%;margin-top:10px;background:none;border:0;color:#888;font-size:15px;padding:10px;cursor:pointer}
 .vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#EEEEEE;font-size:14px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(12,12,12,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
