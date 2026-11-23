@@ -18,6 +18,6 @@ async def main(out_png, width=430, height=932, full=True):
         await pg.add_style_tag(content='.sticky{display:none!important} body{padding-bottom:0!important}')
         await pg.screenshot(path=out_png, full_page=full)
         h = await pg.evaluate('document.body.scrollHeight')
-        print('height', h, await pg.evaluate("document.querySelector('#h-on').textContent"))
+        print('height', h)
         await b.close()
 asyncio.run(main(sys.argv[1]))
