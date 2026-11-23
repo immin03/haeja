@@ -1204,6 +1204,7 @@ function loginView(){
     </div><p class="small muted" style="text-align:center;margin-top:12px">${lgMode==='signup' ? '이미 계정이 있으면 위의 "로그인"을 누르세요.' : '자동 로그인을 끄면 브라우저를 닫을 때 로그아웃됩니다.'}</p>
     ${store.isGuest ? `<div class="lg-demo"><button type="button" class="btn" data-guest="back">‹ 둘러보기로 돌아가기</button></div>` : `<div class="lg-demo"><span>가입 전에 먼저 보고 싶다면</span><button type="button" class="btn" data-lg="browse">로그인 없이 둘러보기</button></div>`}
     <div id="lg-terms" class="disc-box small" style="display:none;margin-top:12px"></div>
+    <div class="biz-info muted" style="margin-top:20px;font-size:12.5px;line-height:1.6;text-align:center;word-break:keep-all">상호 주식회사 더트러스티스 · 서비스명 밸류노트(ValueNote) · 대표 최민우<br>사업자등록번호 249-88-00428 · 주소 서울특별시 강남구 테헤란로25길 20, 1801호(역삼동, 역삼현대벤처오피스텔)<br>문의 value.note.korea@gmail.com · <a href="/terms">이용약관</a> · <a href="/privacy">개인정보 처리방침</a></div>
   </div>`;
 }
 let lgMode = (location.hash === '#signup' || location.search.includes('signup')) ? 'signup' : 'login';
@@ -2694,7 +2695,7 @@ function consentHtml(){
 }
 function discFootHtml(){
   const est = ['analyze','alerts','watchlist','companies'].includes(S.tab);
-  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a> · <a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div></footer>`;
+  return `<footer class="disc-foot">${est ? `<div>${esc(DISC_EST)}</div>` : ''}<div>${esc(DISC_LINE)} <button type="button" class="linkbtn" data-consent="view">전문 보기</button></div><div class="disc-links"><a href="https://www.youtube.com/@valuenote_korea" target="_blank" rel="noopener">유튜브</a> · <a href="https://blog.naver.com/valuenote_korea" target="_blank" rel="noopener">블로그</a> · <a href="https://www.instagram.com/value.note.korea/" target="_blank" rel="noopener">인스타그램</a> · <a href="/terms">이용약관</a> · <a href="/privacy"><b>개인정보 처리방침</b></a></div><div class="biz-info" style="margin-top:8px;font-size:12.5px;line-height:1.6;color:inherit;opacity:.85;word-break:keep-all">상호 주식회사 더트러스티스 · 서비스명 밸류노트(ValueNote) · 대표 최민우<br>사업자등록번호 249-88-00428 · 주소 서울특별시 강남구 테헤란로25길 20, 1801호(역삼동, 역삼현대벤처오피스텔)<br>문의 value.note.korea@gmail.com</div></footer>`;
 }
 document.addEventListener('change', e => { if(e.target && e.target.classList && e.target.classList.contains('ca-req')){ const b = document.getElementById('disc-ok'); if(b) b.disabled = ![...document.querySelectorAll('.ca-req')].every(x => x.checked); } });
 document.addEventListener('click', e => {
