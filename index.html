@@ -2528,8 +2528,8 @@ document.addEventListener('click', async e => {
   if(pushState === 'on'){ saveProg({ setupPush: true }); document.querySelector('.pn-bar')?.remove(); toastMsg('알림을 켰어요. 의미 있는 날에만 알려 드릴게요.'); setTimeout(installOffer, 3200); } else b.disabled = false;
 });
 /* 알림 종류 고르기 (알림 탭) */
-const PUSH_KINDS = [['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
-const pushPrefs = () => ({ interest: true, value: true, column: true, ...((S.pushPrefs || []).find(d => d.id === 'main') || {}) });
+const PUSH_KINDS = [['semi', '반도체 바닥 계기판', '바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi)'], ['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
+const pushPrefs = () => ({ semi: false, interest: true, value: true, column: true, ...((S.pushPrefs || []).find(d => d.id === 'main') || {}) });
 function pushPrefsHtml(){
   const P = pushPrefs();
   return `<div class="al-kinds"><div class="eyebrow">받을 알림</div>${PUSH_KINDS.map(([k, t, d]) => `<label class="al-kind"><input type="checkbox" data-pk="${k}" ${P[k] ? 'checked' : ''}><span><b>${t}</b><span class="small muted">${d}</span></span></label>`).join('')}<div class="small muted">보유 종목 급등락·적정 매수가 도달 알림은 늘 켜져 있어요. 하루 최대 두 번까지만 보내요.</div></div>`;
@@ -5137,6 +5137,11 @@ function companyFromRow(r){
 /* 가입·로그인 직후: 기업 페이지에서 누른 회사를 관심 종목에 담고 그 회사를 연다 (3일 안의 의도만) */
 function wantApply(){
   if(store.isGuest || store.isDemo || !S.loaded.c || !(S2.screen || []).length) return;
+  { let ws = 0; try{ ws = +localStorage.getItem('vn-want-semi') || 0; }catch(_){}
+    if(ws && Date.now() - ws < 7 * 864e5){ try{ localStorage.removeItem('vn-want-semi'); }catch(_){}
+      const P = { ...pushPrefs(), semi: true }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
+      store.track('view', 'want-semi-on'); toastMsg('반도체 바닥 계기판 알림을 켰어요. 신호가 바뀌는 날 알려 드릴게요.');
+      if(typeof enablePush === 'function' && typeof pushState !== 'undefined' && pushState !== 'on') setTimeout(() => enablePush().catch(() => {}), 1200); } }
   let vt = null; try{ vt = JSON.parse(localStorage.getItem('vn-want-tab') || 'null'); localStorage.removeItem('vn-want-tab'); }catch(_){}
   if(vt && Date.now() - (vt.at || 0) < 3 * 864e5){ S.tab = 'value'; S.vlSide = 'under'; if(VL_MKT.some(([k]) => k === vt.m)) S.vlMkt = vt.m; store.track('view', 'want-value'); render(); window.scrollTo(0, 0); }
   let w = null; try{ w = JSON.parse(localStorage.getItem('vn-want') || 'null'); localStorage.removeItem('vn-want'); }catch(_){}
@@ -6898,6 +6903,8 @@ function refresh(kind){
   /* 소개 페이지 마지막 순위(?vt=시장): 가입 뒤 저평가 순위 화면을 그 시장으로 연다 */
   { const u = new URLSearchParams(location.search); const vt = (u.get('vt') || '').toUpperCase();
     if(vt){ try{ localStorage.setItem('vn-want-tab', JSON.stringify({ m: vt, at: Date.now() })); }catch(_){} } }
+  /* 반도체 계기판(/semi)의 알림 버튼(?alert=semi): 가입 뒤 '반도체 바닥 계기판' 알림을 켜도록 기억해 둔다 (2026-11-23) */
+  { const u = new URLSearchParams(location.search); if(u.get('alert') === 'semi'){ try{ localStorage.setItem('vn-want-semi', String(Date.now())); }catch(_){} store.track('view', 'want-semi'); } }
   /* 기업 공개 페이지의 알림 버튼(?watch=티커): 가입 뒤 그 회사를 관심 종목에 담도록 기억해 둔다 (카카오 왕복으로 주소가 사라져도 남게) */
   { const u = new URLSearchParams(location.search); const w = u.get('watch');
     if(w){ try{ localStorage.setItem('vn-want', JSON.stringify({ t: w, co: u.get('co') || '', q: u.get('q') || '', at: Date.now() })); }catch(_){}
