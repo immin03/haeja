@@ -530,7 +530,7 @@ async function loadColumns() {
   try {
     const r = await fetch(`${URL0}/rest/v1/docs?collection=eq.trends&id=like.col-*&select=id,data`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } });
     if (!r.ok) return [];
-    return (await r.json()).map((d) => ({ id: d.id, ...(d.data || {}) })).filter((c) => c.title && c.body && /^col-[0-9a-z-]+$/.test(c.id)).sort((a, b) => b.id.localeCompare(a.id));
+    return (await r.json()).map((d) => ({ id: d.id, ...(d.data || {}) })).filter((c) => c.title && c.body && !c.hidden && /^col-[0-9a-z-]+$/.test(c.id)).sort((a, b) => b.id.localeCompare(a.id));
   } catch (_) { return []; }
 }
 
@@ -594,6 +594,8 @@ fs.mkdirSync(bdir, { recursive: true });
 // 칼럼 글(col-*)만 지우고 다시 쓴다. 이슈 분석 글(blog/<slug>.html)은 guide.py 담당이라 건드리지 않는다
 for (const f of fs.readdirSync(bdir)) if (/^col-.*\.html$/.test(f)) fs.rmSync(path.join(bdir, f));
 for (const c of cols) fs.writeFileSync(path.join(bdir, c.id + '.html'), colPage(c, cols));
+// 2026-11-23 대표: 내린 칼럼(hidden)이나 지워진 칼럼의 옛 페이지는 남기지 않는다
+if (cols.length) { const keep = new Set(cols.map((c) => c.id + '.html')); for (const f of fs.readdirSync(bdir)) if (/^col-[0-9a-z-]+\.html$/.test(f) && !keep.has(f)) fs.unlinkSync(path.join(bdir, f)); }
 fs.writeFileSync(path.join(bdir, 'index.html'), blogIndex(cols, date, issues));
 fs.writeFileSync(path.join(ROOT, 'rss.xml'), rss(cols, issues));
 // 이슈 분석 글(guide.py)이 '다른 칼럼'에 쓰는 목록

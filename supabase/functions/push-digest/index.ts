@@ -54,7 +54,7 @@ Deno.serve(async (req: Request) => {
       .sort((a, b) => (b[1][1] ?? 0) - (a[1][1] ?? 0)) : [];
 
     // 새 칼럼(3일 안)
-    const cols = (await load("trends", publisher ? [publisher] : undefined)).filter((d) => d.id.startsWith("col-") && d.data?.title)
+    const cols = (await load("trends", publisher ? [publisher] : undefined)).filter((d) => d.id.startsWith("col-") && d.data?.title && !d.data?.hidden)
       .sort((a, b) => b.id.localeCompare(a.id));
     const col = cols[0] && daysSince(cols[0].updated_at) < 3 ? cols[0] : null;
 
