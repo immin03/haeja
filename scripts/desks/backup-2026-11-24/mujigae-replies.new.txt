@@ -1,0 +1,14 @@
+무지개편지(@mujigae.letter, 펫로스 보호자에게 무료 추모 영상을 만들어 주는 인스타 계정)의 새 댓글과 DM을 확인하고 답해 줘. 대표님(최민우) 지시(2026-11-23): "인스타 댓글들 확인해서 조치해줘, 답변 등" / "우리가 쓴 글에 대한 댓글, 상대방이 우리 꺼에 쓴 댓글, DM 다 포함" / "사무실 크롬으로" / 매시간(08~23시) 실행. 자동화 작업이므로 확인을 묻지 말고 아래 원칙대로 끝까지 진행한다. 보고는 한국어, 결론부터 짧게. 할 일이 없으면 "새 댓글·DM 없음" 한 줄로 끝내고 알림은 보내지 않는다. 매시간 도는 작업이므로 할 일이 없을 때는 최소한의 확인만 하고 빨리 끝낸다.
+
+0. 브라우저 (사무실 크롬 고정, 대표님 지시 2026-11-23 10:46): ToolSearch로 mcp__claude-in-chrome__list_connected_browsers, select_browser 및 tabs_context_mcp, tabs_create_mcp, tabs_close_mcp, navigate, get_page_text, find, computer, javascript_tool을 한 번에 불러온다. 첫 브라우저 동작 전에 반드시 select_browser(deviceId ff260e5e-86fd-439d-b9b1-6aac08bebc7d, 사무실 PC Browser 2)를 호출한다. 다른 크롬(집 PC Browser 1 ec97b205-43a0-4b12-875a-bf4ae316550d = 대표님 개인 계정 등)은 연결돼 있어도 절대 선택하지 않고 대신 쓰지도 않는다. 묻지 않는다. 사무실 크롬에서 instagram.com을 열어 로그인 계정이 mujigae.letter인지 확인한다. 아니면 아무 행동도 하지 않는다(계정 전환·비밀번호 입력 금지). 사무실 크롬이 연결돼 있지 않거나 계정이 mujigae.letter가 아니면 PushNotification으로 "무지개편지 댓글 답장 실패: 사무실 크롬 미연결(또는 계정 다름)"을 하루 1번만 알리고(오늘 이미 알렸으면 생략, outreach_log action='warning' note='사무실 크롬 미연결'로 기록해 판단) 끝낸다. 새 탭에서 작업하고 끝나면 닫는다.
+
+1. 중복 방지: Supabase(project_id pwlkkzbbcqbcxjqvfxlo) execute_sql로 select account, action, post_url, content, note, at from outreach_log where action in ('comment_reply','dm_reply','reply_seen','dm','comment','offer_dm') and at > now() - interval '30 days'; 이미 답한 댓글·메시지에는 다시 답하지 않는다. 답하기 직전에 화면에서도 우리 답글이 이미 있는지 확인한다. '재연락 금지' note가 있는 계정에는 영상 안내를 하지 않는다. jaeeun8747은 본인이 먼저 연락하기로 했으니, 그분이 먼저 DM을 보낸 경우에만 답한다.
+
+2. 대상 (세 가지 모두):
+ (a) 우리 게시물에 달린 다른 사람 댓글 중 우리 답글이 아직 없는 것 — 프로필 그리드 최근 게시물 9개 + https://www.instagram.com/notifications/
+ (b) 아웃리치로 다른 보호자 글에 단 우리 댓글에 달린 답글 — 알림에서 확인
+ (c) DM — https://www.instagram.com/direct/inbox/ 와 메시지 요청함. 상대의 마지막 메시지에 우리가 아직 답하지 않은 대화.
+
+3~5·7. 답글·DM 원칙 (2026-11-24 주간 효율 점검이 문구 그대로 저장소로 옮김): 답할 대상이 하나라도 있을 때만 curl -s --max-time 60 https://raw.githubusercontent.com/immin03/haeja/main/scripts/desks/mujigae-replies.md 로 받아 전부 읽고 그대로 따른다(3. 댓글 답글 · 4. DM 답장 · 5. 공통 · 7. 단골 보호자께 영상 제안). 읽지 못하면 답하지 말고 "실패: mujigae-replies.md 읽기 실패"로 끝낸다.
+
+6. 보고·알림: 답한 게 1개 이상이거나 신청 접수·대표님 판단 필요 건이 있으면 PushNotification 한 번(<routine_summary> 태그 안에, 첫 문장: "신청 접수 n건" 이 있으면 그것을 먼저, 없으면 "인스타 댓글 n개·DM n개 답장 완료"; 이어서 계정·내용 요약·우리 답장을 짧게). 없으면 알림 없이 끝낸다. 끝나면 연 탭을 닫는다.
