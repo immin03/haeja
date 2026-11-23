@@ -49,6 +49,15 @@
           "value": "application/json; charset=utf-8"
         }
       ]
+    },
+    {
+      "source": "/media/kakao/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     }
   ],
   "redirects": [
