@@ -2622,54 +2622,50 @@ function pushPrefsHtml(){
 }
 /* 2026-11-23 대표: 반도체 계기판 알림은 '밸류노트 카카오톡 채널 추가'를 해야만 받는다 (나와의 채팅 발송은 끔) */
 const VN_CH_URL = 'https://pf.kakao.com/_TxcBvX/friend';
+/* 2026-11-24 대표: 알림 받을 곳은 화면 하나·버튼 둘로 정리 — 카카오톡 채널(기본) 또는 이 기기 알림, 둘 중 하나만 고르면 끝.
+   경고 2단계·동의 문구는 없앤다. 최근 계기판 신호 변화가 있으면 그걸 첫 줄로 보여 준다. */
+function semiRecent(){
+  const a = [...(S.alerts||[])].filter(x => x.source === '반도체 계기판' && !/^\[시험\]/.test(x.title||'') && x.at && Date.now() - new Date(x.at).getTime() < 3 * 864e5).sort((x,y) => (y.at||'').localeCompare(x.at||''))[0];
+  if(!a) return null;
+  const m = (a.title||'').match(/(\d+)개\s*→\s*(\d+)개/); if(!m) return null;
+  const d = new Date(a.at), kd = new Date(d.getTime() + 9*3600e3).toISOString().slice(0,10), td = new Date(Date.now() + 9*3600e3).toISOString().slice(0,10);
+  return { from: m[1], to: m[2], when: kd === td ? '오늘' : '최근' };
+}
 function chGate(after, mode){
   const all = mode === 'all';
   document.querySelector('.ch-gate')?.remove(); store.track('view', all ? 'ch-gate-all' : 'ch-gate');
+  const ps = pushGuess(), gold = !all && !!GZ().gold, sig = gold ? null : semiRecent();
+  const head = sig ? `${sig.when} 계기판 신호가<br>${sig.from}개 → ${sig.to}개로 바뀌었어요` : `${gold ? '금 바닥 ' : ''}계기판 신호가 바뀌면<br>바로 알려 드릴게요`;
+  const second = ps === 'on' || ps === 'unsupported' || ps === 'denied' ? ''
+    : `<button type="button" class="ch-push">${ps === 'ios-install' ? '아이폰 알림으로 받기 (홈 화면 추가)' : '이 기기 알림으로 받기'}</button>`;
   document.body.insertAdjacentHTML('beforeend', `<div class="ch-gate" role="dialog" aria-modal="true"><div class="ch-in">
-    <div class="ch-step">${all ? '가입 마지막 단계' : '알림 받기 마지막 단계'}</div>
-    <h2>밸류노트 카카오톡 채널을<br>추가해 주세요</h2>
-    <p>${all ? '반도체 바닥 계기판 신호, 새 칼럼 같은 밸류노트 소식은 <b>카카오톡 채널로만</b> 보내 드립니다.' : GZN() + ' 바닥 계기판 알림은 <b>채널을 추가한 분께만</b> 보내 드립니다. 신호가 바뀌는 날 카카오톡으로 알려 드려요.'}</p>
-    <a class="ch-go" href="${VN_CH_URL}" target="_blank" rel="noopener">밸류노트 채널 추가하기</a>
-    <button type="button" class="ch-later">나중에 할게요</button>
+    <div class="ch-step">알림 받을 곳 고르기</div>
+    <h2>${head}</h2>
+    <p>다음 신호를 놓치지 않도록, <b>카카오톡</b>으로 알려 드릴게요.</p>
+    <a class="ch-go" href="${VN_CH_URL}" target="_blank" rel="noopener">카카오톡으로 받기</a>
+    ${second}
+    <button type="button" class="ch-later">다음에 할게요</button>
   </div></div>`);
   const g = document.querySelector('.ch-gate');
+  const save = extra => { const P = { ...pushPrefs(), ...(all ? { semi: true } : GZ()), ...extra }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); };
   g.querySelector('.ch-go').addEventListener('click', () => {
-    const P = { ...pushPrefs(), ...(all ? {} : GZ()), ch: new Date().toISOString() }; delete P.id;
-    S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
-    store.track('view', all ? 'ch-add-all' : 'ch-add'); setTimeout(() => { g.remove(); if(typeof render === 'function') render(); toastMsg(all ? '채널 추가 완료! 밸류노트 소식을 카카오톡으로 보내 드릴게요.' : '채널 추가 완료! 계기판 신호가 바뀌는 날 알려 드릴게요.'); if(after) after(); }, 400);
+    save({ ch: new Date().toISOString() });
+    store.track('view', all ? 'ch-add-all' : 'ch-add');
+    setTimeout(() => { g.remove(); if(typeof render === 'function') render(); toastMsg('채널을 추가하셨다면 끝! 신호가 바뀌는 날 카카오톡으로 알려 드릴게요.'); if(after) after(); }, 400);
   });
-  /* 2026-11-23 19:00 대표: '나중에 할게요' → 경고 한 번 + 앱·브라우저 알림이라도 켜 두기 (계기판 알림은 끄지 않는다) */
-  const pushTry = () => { if(typeof enablePush === 'function' && typeof pushState !== 'undefined' && pushState !== 'on') setTimeout(() => enablePush().catch(() => {}), 300); };
+  g.querySelector('.ch-push')?.addEventListener('click', () => {
+    save({});
+    store.track('view', all ? 'ch-push-all' : 'ch-push'); g.remove(); if(typeof render === 'function') render();
+    if(typeof enablePush === 'function') setTimeout(() => enablePush().catch(() => {}), 200);
+  });
   g.querySelector('.ch-later').addEventListener('click', () => {
     try{ localStorage.setItem('vn-ch-later', String(Date.now())); }catch(_){}
-    store.track('view', all ? 'ch-warn-all' : 'ch-warn');
-    g.querySelector('.ch-in').innerHTML = `
-      <div class="ch-step">잠깐만요</div>
-      <h2>채널을 추가하지 않으면<br>알림을 제때 못 받을 수 있어요</h2>
-      <p>${all ? '계기판 신호나 새 소식' : GZN() + ' 바닥 신호'}가 바뀌어도 카카오톡으로는 알려 드릴 수 없어요. 대신 <b>이 기기의 앱·브라우저 알림</b>으로라도 받아 보세요.</p>
-      <a class="ch-go" href="${VN_CH_URL}" target="_blank" rel="noopener">채널 추가하고 카카오톡으로 받기</a>
-      <button type="button" class="ch-push">이 기기 알림으로만 받기</button>
-      <button type="button" class="ch-later">알림 받지 않기</button>`;
-    g.querySelector('.ch-go').addEventListener('click', () => {
-      const P = { ...pushPrefs(), ...(all ? {} : GZ()), ch: new Date().toISOString() }; delete P.id;
-      S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
-      store.track('view', all ? 'ch-add-all' : 'ch-add'); setTimeout(() => { g.remove(); if(typeof render === 'function') render(); toastMsg('채널 추가 완료! 알림을 카카오톡으로 보내 드릴게요.'); if(after) after(); else pushTry(); }, 400);
-    });
-    g.querySelector('.ch-push').addEventListener('click', () => {
-      const P = { ...pushPrefs(), ...(all ? {} : GZ()) }; delete P.id;
-      S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
-      store.track('view', all ? 'ch-push-all' : 'ch-push'); g.remove(); if(typeof render === 'function') render();
-      toastMsg('이 기기 알림으로 보내 드릴게요. 카카오톡 채널은 알림 설정에서 언제든 추가할 수 있어요.'); pushTry();
-    });
-    g.querySelector('.ch-later').addEventListener('click', () => {
-      if(!all){ const P = { ...pushPrefs(), ...(GZ().gold ? { gold: false } : { semi: false }) }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); }
-      store.track('view', all ? 'ch-later-all' : 'ch-later'); g.remove(); if(typeof render === 'function') render();
-    });
+    store.track('view', all ? 'ch-later-all' : 'ch-later'); g.remove(); if(typeof render === 'function') render();
   });
 }
 document.addEventListener('change', e => {
   const el = e.target.closest && e.target.closest('[data-pk]'); if(!el) return;
-  if((el.dataset.pk === 'semi' || el.dataset.pk === 'gold') && el.checked && !pushPrefs().ch){ el.checked = false; chGate(() => { if(typeof enablePush === 'function' && pushState !== 'on') enablePush().catch(() => {}); }); return; }
+  if((el.dataset.pk === 'semi' || el.dataset.pk === 'gold') && el.checked && !pushPrefs().ch){ el.checked = false; chGate(null); return; }
   const P = { ...pushPrefs(), [el.dataset.pk]: el.checked }; delete P.id;
   S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
 });
@@ -5277,10 +5273,12 @@ function wantApply(){
       store.track('view', 'want-semi-on');
       const pushOn = () => { if(typeof enablePush === 'function' && typeof pushState !== 'undefined' && pushState !== 'on') setTimeout(() => enablePush().catch(() => {}), 800); };
       if(pushPrefs().ch){ const P = { ...pushPrefs(), ...GZ() }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); toastMsg(GZN() + ' 바닥 계기판 알림을 켰어요.'); pushOn(); }
-      else setTimeout(() => chGate(pushOn), 600); }
-    /* 2026-11-23 대표: 모든 회원이 채널까지 추가하게 — 아직 안 누른 회원에게 하루 한 번 채널 추가 단계를 띄운다 */
-    else setTimeout(() => {
-      if(store.isGuest || store.isDemo || pushPrefs().ch || document.querySelector('.ch-gate, [role="dialog"], .modal, .ob')) return;
+      else setTimeout(() => chGate(null), 600); }
+    /* 2026-11-24 대표: 카톡 채널도 이 기기 알림도 없는 회원에게만 하루 한 번 '알림 받을 곳 고르기'를 띄운다 */
+    else setTimeout(async () => {
+      if(!S.pushChecked && typeof checkPush === 'function'){ try{ await checkPush(); }catch(_){} }
+      /* 2026-11-24: 카톡 채널·이 기기 알림 중 하나라도 되어 있으면 띄우지 않는다 */
+      if(store.isGuest || store.isDemo || pushPrefs().ch || pushGuess() === 'on' || document.querySelector('.ch-gate, [role="dialog"], .modal, .ob')) return;
       let last = 0; try{ last = +localStorage.getItem('vn-ch-later') || 0; }catch(_){}
       if(Date.now() - last < 20 * 3600e3) return;
       chGate(null, 'all');
@@ -7624,7 +7622,7 @@ input,select,textarea{border-radius:10px}
 .ch-gate h2{font-size:25px;line-height:1.35;margin:8px 0 12px;font-weight:800}
 .ch-gate p{font-size:17px;line-height:1.6;margin:0 0 20px;color:#333}
 .ch-gate .ch-go{display:block;text-align:center;background:#FEE500;color:#191919;font-size:19px;font-weight:800;padding:18px;border-radius:14px;text-decoration:none}
-.ch-gate .ch-push{display:block;width:100%;margin-top:10px;background:#111;color:#fff;border:0;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer}
+.ch-gate .ch-push{display:block;width:100%;margin-top:10px;background:#fff;color:#111;border:1.5px solid #111;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer}
 .ch-gate .ch-later{display:block;width:100%;margin-top:10px;background:none;border:0;color:#888;font-size:15px;padding:10px;cursor:pointer}
 .vn-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:95;background:var(--navy);color:#EEEEEE;font-size:14px;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(12,12,12,.3);max-width:calc(100% - 32px)}
 .login-card{padding:22px}
