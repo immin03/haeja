@@ -236,18 +236,30 @@ section p{font-size:19px;line-height:1.65}
 .chbox span{display:block;margin-top:6px;font-size:16px;line-height:1.55;opacity:.85}
 .chbox em{display:inline-block;margin-top:10px;font-style:normal;font-weight:850;font-size:17px;background:#FEE500;color:#0E0E0E;padding:10px 16px;border-radius:12px}
 .end .chbox{color:#F2F2F2;text-align:left}
+/* 계기판 탭: 반도체 / 금 (2026-11-24 금값 3편) */
+.tabs{display:flex;gap:8px;margin:0 0 22px}
+.tabs a{flex:1;display:flex;align-items:center;justify-content:center;height:52px;border-radius:14px;border:1px solid rgba(233,233,233,.25);color:rgba(242,242,242,.7);text-decoration:none;font-weight:850;font-size:19px}
+.tabs a.on{background:#fff;color:var(--navy);border-color:#fff}
+body.gold .semi-only{display:none}
+body:not(.gold) .gold-only{display:none}
+.gsp{background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 16px;margin:6px 0 12px}
+.gsp div{display:flex;justify-content:space-between;gap:10px;padding:14px 0;border-top:1px solid var(--line);font-size:18px}
+.gsp div:first-child{border-top:0}
+.gsp b{font-weight:850}
+.gsp div.now{color:var(--gold2)}
 </style>
 </head>
 <body>
 <header class="hero">
   <div class="wrap">
     <a class="wm" href="/start?utm_source=semi"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
-    <div class="eyebrow">반도체 · SOXL 보유자를 위한</div>
+    <nav class="tabs"><a href="/semi" data-tab="semi" class="on">반도체 · SOXL</a><a href="/semi?tab=gold" data-tab="gold">금</a></nav>
+    <div class="eyebrow" id="h-eb">반도체 · SOXL 보유자를 위한</div>
     <h1 id="h-t">반도체 바닥 계기판,<br>지금 <em id="h-on">–</em>개 켜졌습니다</h1>
-    <p>반도체가 바닥일 때마다 켜졌던 <b>신호 5개</b>를<br>매일 자동으로 확인해 드립니다.</p>
+    <p id="h-p">반도체가 바닥일 때마다 켜졌던 <b>신호 5개</b>를<br>매일 자동으로 확인해 드립니다.</p>
     <div class="lamps" id="lamps"></div>
     <div class="stat">
-      <div><small>SOXL</small><b id="h-soxl">–</b></div>
+      <div><small id="h-lb">SOXL</small><b id="h-soxl">–</b></div>
       <div><small>고점 대비</small><b class="gd" id="h-dd">–</b></div>
       <div><small>기준일</small><b id="h-asof">–</b></div>
     </div>
@@ -263,7 +275,8 @@ section p{font-size:19px;line-height:1.65}
   <p>막대가 끝까지 차면 <b>빨간불</b>이 켜집니다.</p>
   <div class="sig" id="sig"></div>
   <div class="note" id="sig-note"></div>
-  <div class="caveat"><b>절대적인 답은 아닙니다.</b> 신호 5개는 과거 반도체 바닥에서 반복된 공통점일 뿐입니다. 2000년엔 신호가 나와도 회복까지 15년이 걸렸고, 2020년 코로나 폭락 땐 신호가 다 켜지기 전에 반등이 먼저 왔습니다. 확률을 높여 주는 참고 지표로만 봐 주세요.</div>
+  <div class="caveat gold-only"><b>신호는 늦게 켜집니다.</b> 반도체 계기판이 0개였던 다음 날 SOXL은 40% 올랐습니다. 바닥은 신호가 다 켜지기 전에 지나가는 경우가 많습니다. 그래서 신호는 <b>비중을 늘리는 타이밍</b>으로, 나눠 사기는 <b>놓치지 않는 방법</b>으로 봐 주세요. 과거 금 바닥의 공통점을 정리한 참고 지표일 뿐, 매수·매도 권유가 아닙니다.</div>
+  <div class="caveat semi-only"><b>절대적인 답은 아닙니다.</b> 신호 5개는 과거 반도체 바닥에서 반복된 공통점일 뿐입니다. 2000년엔 신호가 나와도 회복까지 15년이 걸렸고, 2020년 코로나 폭락 땐 신호가 다 켜지기 전에 반등이 먼저 왔습니다. 확률을 높여 주는 참고 지표로만 봐 주세요.</div>
 </section>
 
 <section>
@@ -281,18 +294,26 @@ section p{font-size:19px;line-height:1.65}
 
 <section>
   <div class="no">03</div>
-  <h2>지금 하락장,<br>과거와 비교하면</h2>
+  <h2 id="s3-h">지금 하락장,<br>과거와 비교하면</h2>
   <div class="cmp" id="cmp"></div>
 </section>
 
 <section>
   <div class="no">04</div>
-  <h2>SOXL·SOXX·TQQQ<br>고점 대비 지금</h2>
+  <h2 id="s4-h">SOXL·SOXX·TQQQ<br>고점 대비 지금</h2>
   <div class="tbl et" id="etf"></div>
   <div class="chart"><svg id="spark" viewBox="0 0 600 160" preserveAspectRatio="none"></svg><div class="cap" id="spark-cap"></div></div>
 </section>
 
-<section>
+<section class="gold-only">
+  <div class="no">05</div>
+  <h2>신호를 기다리는 동안,<br>나눠 사는 예시</h2>
+  <p>금값 3편에서 보여 드린 <b>판단 틀 예시</b>입니다. 넣을 돈을 셋으로 나눠, 신호가 켜질수록 한 덩어리씩 넣는 방식입니다.</p>
+  <div class="gsp" id="gsp"><div data-n="0"><span>신호 0~1개</span><b>1/3</b></div><div data-n="2"><span>신호 2~3개</span><b>1/3 더</b></div><div data-n="4"><span>신호 4개 이상</span><b>나머지 1/3</b></div></div>
+  <div class="note">2008년 금은 바닥까지 221일 동안 34% 빠진 뒤 125% 올랐습니다. 고점에서 20% 빠졌을 때 한 번에 산 사람은 +86%, 같은 기간 매달 나눠 산 사람은 +107%였습니다. 과거 사례이며 앞으로도 같다는 보장은 없습니다.</div>
+</section>
+
+<section class="semi-only">
   <div class="no">05</div>
   <h2>물타면 본전은 어디일까요?<br>직접 계산해 보세요</h2>
   <p>숫자만 바꾸면 새 평단이 바로 나옵니다.</p>
@@ -305,7 +326,20 @@ section p{font-size:19px;line-height:1.65}
   </div>
 </section>
 
-<section>
+<section class="gold-only">
+  <div class="no">06</div>
+  <h2>영상으로 다시 보기</h2>
+  <a class="yt" href="https://www.youtube.com/watch?v=mwYDQGNjF8U" target="_blank" rel="noopener" data-ev="ytg1">
+    <img src="https://i.ytimg.com/vi/mwYDQGNjF8U/mqdefault.jpg" alt="" loading="lazy">
+    <div><b>금값 전망, 돌반지 지금 팔면 64만 원? 1편</b><small>밸류노트 유튜브</small></div>
+  </a>
+  <a class="yt" style="margin-top:10px" href="https://www.youtube.com/watch?v=SkfDOaT9grQ" target="_blank" rel="noopener" data-ev="ytg2">
+    <img src="https://i.ytimg.com/vi/SkfDOaT9grQ/mqdefault.jpg" alt="" loading="lazy">
+    <div><b>금값 전망, 지금 사도 될까? 2편</b><small>밸류노트 유튜브</small></div>
+  </a>
+</section>
+
+<section class="semi-only">
   <div class="no">06</div>
   <h2>영상으로 다시 보기</h2>
   <a class="yt" href="https://www.youtube.com/watch?v=L3Y9BkSDNRM" target="_blank" rel="noopener" data-ev="yt1">
@@ -329,7 +363,7 @@ section p{font-size:19px;line-height:1.65}
   <div class="biz-info" style="margin-top:8px;font-size:12.5px;line-height:1.6;color:inherit;opacity:.6;word-break:keep-all">상호 주식회사 더트러스티스 · 서비스명 밸류노트(ValueNote) · 대표 최민우<br>사업자등록번호 249-88-00428 · 주소 서울특별시 강남구 테헤란로25길 20, 1801호(역삼동, 역삼현대벤처오피스텔)<br>문의 value.note.korea@gmail.com</div></div>
 </footer>
 
-<div class="sticky" id="sticky"><div class="in"><div class="t"><b>반도체 바닥 신호 알림</b><span>신호가 바뀌는 날 알려 드려요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=semi&amp;alert=semi&amp;utm_source=semi-sticky" data-ev="cta-sticky" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>알림 받기</a></div></div>
+<div class="sticky" id="sticky"><div class="in"><div class="t"><b id="stk-t">반도체 바닥 신호 알림</b><span>신호가 바뀌는 날 알려 드려요</span></div><a class="btn kakao" href="/?kakao=1&amp;from=semi&amp;alert=semi&amp;utm_source=semi-sticky" data-ev="cta-sticky" data-out><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#000" d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.84 5.31 4.6 6.73l-.98 3.62c-.09.33.29.59.57.39l4.3-2.86c.5.06 1 .1 1.51.1 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>알림 받기</a></div></div>
 
 <script>
 (function(){
@@ -363,15 +397,32 @@ document.addEventListener('click', function(e){
 setTimeout(function(){ if(!document.hidden) hit('t15'); }, 15000);
 document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('[data-ev]'); if(a) hit(a.dataset.ev); }, true);
 
+/* ---------- 계기판 탭: 반도체 / 금 ---------- */
+var GOLD = new URLSearchParams(location.search).get('tab') === 'gold' || /^\/gold/.test(location.pathname);
+if(GOLD){
+  document.body.classList.add('gold');
+  document.querySelectorAll('.tabs a').forEach(function(a){ a.classList.toggle('on', a.dataset.tab === 'gold'); });
+  document.title = '금 바닥 계기판 · 금값 · 밸류노트';
+  $('#h-eb').textContent = '금 · 금 ETF 보유자를 위한';
+  $('#h-t').innerHTML = '금 바닥 계기판,<br>지금 <em id="h-on">–</em>개 켜졌습니다';
+  $('#h-p').innerHTML = '금값이 바닥일 때마다 켜졌던 <b>신호 5개</b>를<br>매일 자동으로 확인해 드립니다.';
+  $('#h-lb').textContent = '금 1온스';
+  $('#s3-h').innerHTML = '지금 금값 하락,<br>과거와 비교하면';
+  $('#s4-h').innerHTML = 'GLD·IAU·GDX<br>고점 대비 지금';
+  $('#stk-t').textContent = '금 바닥 신호 알림';
+  document.querySelectorAll('a[href*="alert=semi"]').forEach(function(a){ a.setAttribute('href', a.getAttribute('href').replace('alert=semi', 'alert=gold').replace('from=semi', 'from=gold').replace('utm_source=semi-', 'utm_source=gold-')); });
+  send('engage', '/semi:gold-tab');
+}
 /* ---------- 계기판 ---------- */
 var md = function(d){ var p = String(d || '').split('-'); return p.length === 3 ? (+p[1]) + '월 ' + (+p[2]) + '일' : d; };
 /* 어르신도 한눈에: 괄호 속 세부·'·' 뒤 설명은 뺀다 (대표 11/23) */
 var simp = function(t){ return String(t || '').replace(/\s*\(.*?\)\s*/g, ' ').split(' · ')[0].trim(); };
 var sg = function(x){ return (x > 0 ? '+' : '') + x.toFixed(1) + '%'; };
 function render(g){
-  if(g.on === 0) $('#h-t').innerHTML = '반도체 바닥 계기판,<br>아직 <em>0</em>개입니다'; else $('#h-on').textContent = g.on;
+  if(g.on === 0) $('#h-t').innerHTML = (GOLD ? '금' : '반도체') + ' 바닥 계기판,<br>아직 <em>0</em>개입니다'; else $('#h-on').textContent = g.on;
   $('#lamps').innerHTML = g.signals.map(function(s, i){ return '<span class="' + (s.on ? 'on' : '') + '">' + (i + 1) + '</span>'; }).join('');
-  var sx = (g.etfs || []).filter(function(e){ return e.name === 'SOXL'; })[0];
+  var sx = GOLD ? null : (g.etfs || []).filter(function(e){ return e.name === 'SOXL'; })[0];
+  if(GOLD && g.gold){ $('#h-soxl').textContent = '$' + Math.round(g.gold.last).toLocaleString('en-US'); $('#h-dd').textContent = sg(g.gold.dd); }
   if(sx){ $('#h-soxl').textContent = '$' + sx.last.toFixed(2); $('#h-dd').textContent = sg(sx.dd); }
   $('#h-asof').textContent = String(g.asof || '').slice(5).replace('-', '/').replace(/^0/, '').replace('/0', '/');
   $('#sig').innerHTML = g.signals.map(function(s){
@@ -379,8 +430,11 @@ function render(g){
       '<div class="bar"><i style="width:' + Math.max(3, Math.round(s.pct)) + '%"></i></div>' +
       '<div class="vl"><span>지금 <b>' + esc(simp(s.now)) + '</b></span><span>기준 <b>' + esc(simp(s.target)) + '</b></span></div></div>'; }).join('');
   $('#sig-note').textContent = md(g.asof) + ' 미국 장 마감 기준 · 매일 아침 자동으로 바뀝니다';
-  var s = g.sox;
-  $('#cmp').innerHTML = '<div><small>고점 대비 하락</small><b>' + sg(s.dd) + '</b><span>과거 평균 -32%</span></div>' +
+  var s = GOLD ? g.gold : g.sox;
+  if(GOLD){ var gd = Math.round((Date.parse(s.lastDate) - Date.parse(s.hiDate)) / 864e5);
+    $('#cmp').innerHTML = '<div><small>고점 대비 하락</small><b>' + sg(s.dd) + '</b><span>2008년 -34% · 2011년 -42%</span></div><div><small>고점 뒤</small><b>' + gd + '일</b><span>2008년엔 221일 만에 바닥</span></div>';
+    var n = g.on; document.querySelectorAll('#gsp div').forEach(function(d){ var k = +d.dataset.n; d.classList.toggle('now', k === 0 ? n <= 1 : k === 2 ? (n >= 2 && n <= 3) : n >= 4); }); }
+  else $('#cmp').innerHTML = '<div><small>고점 대비 하락</small><b>' + sg(s.dd) + '</b><span>과거 평균 -32%</span></div>' +
     '<div><small>하락 기간</small><b>' + ((g.raw && g.raw.calDays) || s.days) + '일</b><span>과거 평균 253일</span></div>';
   $('#etf').innerHTML = '<div class="hd"><span>상품</span><span style="text-align:right">지금</span><span style="text-align:right">고점 대비</span></div>' +
     g.etfs.map(function(e){ return '<div class="rw"><div><b>' + esc(e.name) + '</b><small>' + esc(e.lev) + ' · 고점 ' + md(e.hiDate) + '</small></div><span>$' + e.last.toFixed(2) + '</span><span class="up">' + sg(e.dd) + '</span></div>'; }).join('');
@@ -390,11 +444,11 @@ function render(g){
     var xy = p.map(function(v, i){ return [i / (p.length - 1) * W, pad + (1 - (v - mn) / (mx - mn)) * (H - 2 * pad)]; });
     var d = xy.map(function(q, i){ return (i ? 'L' : 'M') + q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join('');
     $('#spark').innerHTML = '<path d="' + d + 'L' + W + ',' + H + 'L0,' + H + 'Z" fill="rgba(255,77,109,.08)"/><path d="' + d + '" fill="none" stroke="#FF4D6D" stroke-width="2.5" vector-effect="non-scaling-stroke"/>';
-    $('#spark-cap').textContent = '필라델피아 반도체지수 최근 1년 · 최고 ' + md(s.hiDate) + ' ' + s.hi.toLocaleString('ko-KR') + ' → ' + md(s.lastDate) + ' ' + s.last.toLocaleString('ko-KR');
+    $('#spark-cap').textContent = (GOLD ? '금 선물(1온스) 최근 1년 · 최고 ' : '필라델피아 반도체지수 최근 1년 · 최고 ') + md(s.hiDate) + ' ' + s.hi.toLocaleString('ko-KR') + ' → ' + md(s.lastDate) + ' ' + s.last.toLocaleString('ko-KR');
   }
-  var cp = $('#c-px'); if(sx && !cp.dataset.touched){ cp.value = sx.last.toFixed(1); calc(); }
+  var cp = $('#c-px'); if(sx && !GOLD && !cp.dataset.touched){ cp.value = sx.last.toFixed(1); calc(); }
 }
-fetch('https://msjbrwyzkiueqnzjeicm.supabase.co/functions/v1/semi-gauge').then(function(r){ return r.json(); }).then(function(g){ if(g && g.signals) render(g); }).catch(function(){});
+fetch('https://msjbrwyzkiueqnzjeicm.supabase.co/functions/v1/' + (GOLD ? 'gold-gauge' : 'semi-gauge')).then(function(r){ return r.json(); }).then(function(g){ if(g && g.signals) render(g); }).catch(function(){});
 
 /* ---------- 물타기 계산기 ---------- */
 function calc(){

@@ -2611,8 +2611,11 @@ document.addEventListener('click', async e => {
   if(pushState === 'on'){ saveProg({ setupPush: true }); document.querySelector('.pn-bar')?.remove(); toastMsg('알림을 켰어요. 의미 있는 날에만 알려 드릴게요.'); setTimeout(installOffer, 3200); } else b.disabled = false;
 });
 /* 알림 종류 고르기 (알림 탭) */
-const PUSH_KINDS = [['semi', '반도체 바닥 계기판', '바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi)'], ['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
-const pushPrefs = () => ({ semi: false, interest: true, value: true, column: true, ...((S.pushPrefs || []).find(d => d.id === 'main') || {}) });
+const PUSH_KINDS = [['semi', '반도체 바닥 계기판', '바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi)'], ['gold', '금 바닥 계기판', '금 바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi?tab=gold)'], ['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
+/* 금 계기판(2026-11-24): /semi?tab=gold 의 알림 버튼(?alert=gold)으로 온 회원은 semi 대신 gold 를 켠다 */
+const GZ = () => { let k = 'semi'; try{ if(localStorage.getItem('vn-want-gauge') === 'gold') k = 'gold'; }catch(_){} return { [k]: true }; };
+const GZN = () => GZ().gold ? '금' : '반도체';
+const pushPrefs = () => ({ semi: false, gold: false, interest: true, value: true, column: true, ...((S.pushPrefs || []).find(d => d.id === 'main') || {}) });
 function pushPrefsHtml(){
   const P = pushPrefs();
   return `<div class="al-kinds"><div class="eyebrow">받을 알림</div>${PUSH_KINDS.map(([k, t, d]) => `<label class="al-kind"><input type="checkbox" data-pk="${k}" ${P[k] ? 'checked' : ''}><span><b>${t}</b><span class="small muted">${d}</span></span></label>`).join('')}<div class="small muted">보유 종목 급등락·적정 매수가 도달 알림은 늘 켜져 있어요. 하루 최대 두 번까지만 보내요.</div></div>`;
@@ -2625,13 +2628,13 @@ function chGate(after, mode){
   document.body.insertAdjacentHTML('beforeend', `<div class="ch-gate" role="dialog" aria-modal="true"><div class="ch-in">
     <div class="ch-step">${all ? '가입 마지막 단계' : '알림 받기 마지막 단계'}</div>
     <h2>밸류노트 카카오톡 채널을<br>추가해 주세요</h2>
-    <p>${all ? '반도체 바닥 계기판 신호, 새 칼럼 같은 밸류노트 소식은 <b>카카오톡 채널로만</b> 보내 드립니다.' : '반도체 바닥 계기판 알림은 <b>채널을 추가한 분께만</b> 보내 드립니다. 신호가 바뀌는 날 카카오톡으로 알려 드려요.'}</p>
+    <p>${all ? '반도체 바닥 계기판 신호, 새 칼럼 같은 밸류노트 소식은 <b>카카오톡 채널로만</b> 보내 드립니다.' : GZN() + ' 바닥 계기판 알림은 <b>채널을 추가한 분께만</b> 보내 드립니다. 신호가 바뀌는 날 카카오톡으로 알려 드려요.'}</p>
     <a class="ch-go" href="${VN_CH_URL}" target="_blank" rel="noopener">밸류노트 채널 추가하기</a>
     <button type="button" class="ch-later">나중에 할게요</button>
   </div></div>`);
   const g = document.querySelector('.ch-gate');
   g.querySelector('.ch-go').addEventListener('click', () => {
-    const P = { ...pushPrefs(), ...(all ? {} : { semi: true }), ch: new Date().toISOString() }; delete P.id;
+    const P = { ...pushPrefs(), ...(all ? {} : GZ()), ch: new Date().toISOString() }; delete P.id;
     S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
     store.track('view', all ? 'ch-add-all' : 'ch-add'); setTimeout(() => { g.remove(); if(typeof render === 'function') render(); toastMsg(all ? '채널 추가 완료! 밸류노트 소식을 카카오톡으로 보내 드릴게요.' : '채널 추가 완료! 계기판 신호가 바뀌는 날 알려 드릴게요.'); if(after) after(); }, 400);
   });
@@ -2643,30 +2646,30 @@ function chGate(after, mode){
     g.querySelector('.ch-in').innerHTML = `
       <div class="ch-step">잠깐만요</div>
       <h2>채널을 추가하지 않으면<br>알림을 제때 못 받을 수 있어요</h2>
-      <p>${all ? '계기판 신호나 새 소식' : '반도체 바닥 신호'}가 바뀌어도 카카오톡으로는 알려 드릴 수 없어요. 대신 <b>이 기기의 앱·브라우저 알림</b>으로라도 받아 보세요.</p>
+      <p>${all ? '계기판 신호나 새 소식' : GZN() + ' 바닥 신호'}가 바뀌어도 카카오톡으로는 알려 드릴 수 없어요. 대신 <b>이 기기의 앱·브라우저 알림</b>으로라도 받아 보세요.</p>
       <a class="ch-go" href="${VN_CH_URL}" target="_blank" rel="noopener">채널 추가하고 카카오톡으로 받기</a>
       <button type="button" class="ch-push">이 기기 알림으로만 받기</button>
       <button type="button" class="ch-later">알림 받지 않기</button>`;
     g.querySelector('.ch-go').addEventListener('click', () => {
-      const P = { ...pushPrefs(), ...(all ? {} : { semi: true }), ch: new Date().toISOString() }; delete P.id;
+      const P = { ...pushPrefs(), ...(all ? {} : GZ()), ch: new Date().toISOString() }; delete P.id;
       S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
       store.track('view', all ? 'ch-add-all' : 'ch-add'); setTimeout(() => { g.remove(); if(typeof render === 'function') render(); toastMsg('채널 추가 완료! 알림을 카카오톡으로 보내 드릴게요.'); if(after) after(); else pushTry(); }, 400);
     });
     g.querySelector('.ch-push').addEventListener('click', () => {
-      const P = { ...pushPrefs(), ...(all ? {} : { semi: true }) }; delete P.id;
+      const P = { ...pushPrefs(), ...(all ? {} : GZ()) }; delete P.id;
       S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
       store.track('view', all ? 'ch-push-all' : 'ch-push'); g.remove(); if(typeof render === 'function') render();
       toastMsg('이 기기 알림으로 보내 드릴게요. 카카오톡 채널은 알림 설정에서 언제든 추가할 수 있어요.'); pushTry();
     });
     g.querySelector('.ch-later').addEventListener('click', () => {
-      if(!all){ const P = { ...pushPrefs(), semi: false }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); }
+      if(!all){ const P = { ...pushPrefs(), ...(GZ().gold ? { gold: false } : { semi: false }) }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); }
       store.track('view', all ? 'ch-later-all' : 'ch-later'); g.remove(); if(typeof render === 'function') render();
     });
   });
 }
 document.addEventListener('change', e => {
   const el = e.target.closest && e.target.closest('[data-pk]'); if(!el) return;
-  if(el.dataset.pk === 'semi' && el.checked && !pushPrefs().ch){ el.checked = false; chGate(() => { if(typeof enablePush === 'function' && pushState !== 'on') enablePush().catch(() => {}); }); return; }
+  if((el.dataset.pk === 'semi' || el.dataset.pk === 'gold') && el.checked && !pushPrefs().ch){ el.checked = false; chGate(() => { if(typeof enablePush === 'function' && pushState !== 'on') enablePush().catch(() => {}); }); return; }
   const P = { ...pushPrefs(), [el.dataset.pk]: el.checked }; delete P.id;
   S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
 });
@@ -5273,7 +5276,7 @@ function wantApply(){
     if(ws && Date.now() - ws < 7 * 864e5){ try{ localStorage.removeItem('vn-want-semi'); }catch(_){}
       store.track('view', 'want-semi-on');
       const pushOn = () => { if(typeof enablePush === 'function' && typeof pushState !== 'undefined' && pushState !== 'on') setTimeout(() => enablePush().catch(() => {}), 800); };
-      if(pushPrefs().ch){ const P = { ...pushPrefs(), semi: true }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); toastMsg('반도체 바닥 계기판 알림을 켰어요.'); pushOn(); }
+      if(pushPrefs().ch){ const P = { ...pushPrefs(), ...GZ() }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); toastMsg(GZN() + ' 바닥 계기판 알림을 켰어요.'); pushOn(); }
       else setTimeout(() => chGate(pushOn), 600); }
     /* 2026-11-23 대표: 모든 회원이 채널까지 추가하게 — 아직 안 누른 회원에게 하루 한 번 채널 추가 단계를 띄운다 */
     else setTimeout(() => {
@@ -7044,7 +7047,7 @@ function refresh(kind){
   { const u = new URLSearchParams(location.search); const vt = (u.get('vt') || '').toUpperCase();
     if(vt){ try{ localStorage.setItem('vn-want-tab', JSON.stringify({ m: vt, at: Date.now() })); }catch(_){} } }
   /* 반도체 계기판(/semi)의 알림 버튼(?alert=semi): 가입 뒤 '반도체 바닥 계기판' 알림을 켜도록 기억해 둔다 (2026-11-23) */
-  { const u = new URLSearchParams(location.search); if(u.get('alert') === 'semi'){ try{ localStorage.setItem('vn-want-semi', String(Date.now())); }catch(_){} store.track('view', 'want-semi'); } }
+  { const u = new URLSearchParams(location.search); if(u.get('alert') === 'semi' || u.get('alert') === 'gold'){ try{ localStorage.setItem('vn-want-semi', String(Date.now())); localStorage.setItem('vn-want-gauge', u.get('alert')); }catch(_){} store.track('view', 'want-' + u.get('alert')); } }
   /* 기업 공개 페이지의 알림 버튼(?watch=티커): 가입 뒤 그 회사를 관심 종목에 담도록 기억해 둔다 (카카오 왕복으로 주소가 사라져도 남게) */
   { const u = new URLSearchParams(location.search); const w = u.get('watch');
     if(w){ try{ localStorage.setItem('vn-want', JSON.stringify({ t: w, co: u.get('co') || '', q: u.get('q') || '', at: Date.now() })); }catch(_){}
