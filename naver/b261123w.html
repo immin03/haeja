@@ -1,0 +1,174 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · AMD는 인텔 칩을 사진으로 베끼던 회사에서 어떻게 인텔을 앞질렀을까</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li>발행. (태그는 본문 끝에 #으로 들어 있어 따로 붙일 필요가 없다)</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">점심 12:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">AMD는 인텔 칩을 사진으로 베끼던 회사에서 어떻게 인텔을 앞질렀을까</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 2장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261123w/01.jpg" alt="무지갯빛으로 빛나는 반도체 웨이퍼" width="720"></p>
+<p><br></p>
+<p><b><span style="color:#000000">요약</span></b></p><p><span style="color:#000000">· 인텔 칩을 대신 만들던 AMD는 어떻게 인텔을 앞질렀을까. 인텔이 설계도를 끊자 칩을 처음부터 스스로 설계하기 시작했고, 그 힘이 지금 엔비디아 말고 다른 AI 칩을 찾는 회사들의 선택지로 이어졌기 때문입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1973년 여름, 엔지니어 세 명이 칩 하나를 앞에 두고 사진을 찍었습니다. 인텔이 막 내놓으려던 컴퓨터 두뇌 칩의 견본이었어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">찍은 사진은 400장쯤 됐습니다. 이들은 그 사진을 한 장씩 들여다보며 회로도를 손으로 다시 그렸어요. 그렇게 만든 복제 칩이 AMD가 처음 판 컴퓨터 두뇌 칩입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">AMD가 이 칩 하나를 만드는 데 든 돈은 50센트였습니다. 군대에 팔 때는 700달러를 받을 수 있었다고 해요. 인텔 입장에서는 속이 꽤 쓰렸을 장사였죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이상한 건 그다음입니다. 인텔은 AMD를 쫓아내지 않고 오히려 계약서를 내밀었어요. 몇 년 뒤 AMD는 인텔에 돈을 내고 인텔 칩을 만들어도 된다는 정식 허락을 받았습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">IBM은 인텔에 같은 칩을 만들 회사를 하나 더 데려오라고 했다</span></b></span></p>
+
+<p><span style="color:#000000">베끼던 회사가 정식 동업자가 된 데는 큰 고객의 요구가 있었습니다. 1980년대 초 IBM은 개인용 컴퓨터에 인텔 칩을 쓰기로 했어요. 조건이 하나 붙었습니다. 같은 칩을 만들 수 있는 두 번째 회사를 함께 내놓으라는 것이었죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">IBM에게는 당연한 요구였습니다. 칩을 만드는 회사가 한 곳뿐이면 그 공장이 멈추거나 값을 올려도 IBM은 손쓸 방법이 없어요. 컴퓨터에서 가장 중요한 부품을 한 회사에만 맡길 수는 없었던 겁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그래서 1982년 인텔과 AMD는 10년짜리 계약을 맺었습니다. 두 회사가 서로의 칩을 만들 수 있게 하는 계약이었어요. AMD는 그 뒤 인텔 칩을 대신 찍어 내며 덩치를 키웠습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">인텔은 AMD에 다음 칩 설계도를 주지 않기로 했다</span></b></span></p>
+
+<p><span style="color:#000000">사이가 틀어진 계기는 자랑이었습니다. AMD 창업자 제리 샌더스가 이 계약으로 AMD가 얼마나 버는지 언론에 대놓고 말하고 다녔거든요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1980년대 중반 인텔 사장 앤디 그로브는 부하 직원에게 짧은 메모를 남겼습니다. AMD와 주고받는 것의 균형을 빨리 맞추라는 내용이었는데, AMD를 부르는 말이 욕설이었어요. 인텔은 다음 칩을 혼자 만들기로 했습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">AMD는 1987년 중재를 신청했습니다. 두 회사는 7년 넘게 다툰 끝에 1995년에야 합의했어요. 그로브와 샌더스는 그사이 서로 말도 하지 않는 사이가 됐다고 합니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">제가 보기에 AMD에 가장 큰 일은 이 결별이었습니다. 인텔 설계도를 더는 받아 쓸 수 없게 되자 AMD는 칩을 처음부터 스스로 설계하는 회사로 바뀌어야 했어요. 남의 답안을 받아 적던 학생이 갑자기 혼자 문제를 풀게 된 겁니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">AI 회사들이 IBM과 똑같은 걱정을 시작했다</span></b></span></p>
+
+<p><span style="color:#000000">지금 AI 칩 시장은 1980년대 개인용 컴퓨터 시장과 많이 닮았습니다. AI를 만드는 회사들은 엔비디아 칩을 사려고 줄을 서요. 한 회사 칩에만 기대야 하는 불안도 그만큼 커졌어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">2025년 10월 오픈AI는 AMD와 대규모 AI 칩 공급 계약을 맺었습니다. 챗GPT를 만드는 회사가 엔비디아 말고 다른 칩도 크게 쓰겠다고 공개적으로 약속한 거예요. 40여 년 전 IBM이 말로 했던 요구를 이번에는 고객이 계약서로 직접 옮긴 겁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이 흐름은 한국에도 닿습니다. AMD의 최신 AI 칩에는 삼성전자가 만든 고대역폭 메모리가 들어가요. AI 칩 바로 옆에 붙어 데이터를 빠르게 넘겨 주는 메모리입니다. AMD가 직접 확인한 내용이에요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">망할 뻔했던 AMD를 다시 세운 건 설계였다</span></b></span></p>
+
+<p><span style="color:#000000">AMD가 늘 잘나간 건 아닙니다. 2014년 무렵에는 회사가 무너질 수 있다는 걱정까지 나왔어요. 그해 10월 엔지니어 출신 리사 수가 최고경영자가 됐고, 취임 뒤 주가는 한때 2달러 밑까지 내려갔습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">리사 수는 남의 칩을 따라가는 대신 새 설계 하나에 회사를 걸었습니다. 2017년 그 설계로 만든 라이젠과 에픽이 나왔어요. 개인용 컴퓨터 칩과 서버 칩 모두에서 인텔과 정면으로 붙은 겁니다.</span></p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261123w/02.png" alt="AMD 주가, 리사 수 취임 무렵과 지금" width="720"></p><p><span style="color:#555555;font-size:14px">AMD 주가, 리사 수 취임 무렵과 지금</span></p>
+<p><br></p>
+<p><span style="color:#000000">2022년 2월 AMD의 회사 가치가 처음으로 인텔을 넘었습니다. 인텔 칩을 사진으로 찍어 베끼던 회사가 50년이 안 돼 인텔보다 비싼 회사가 된 거예요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">지금 AMD를 끌고 가는 건 데이터센터입니다. 올해 3분기 데이터센터 매출은 85억 달러로 1년 전의 두 배 가까이 됐어요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">두 번째 공급처는 언제든 밀려날 수 있다</span></b></span></p>
+
+<p><span style="color:#000000">걱정도 만만치 않습니다. 11월 19일 미국 매체 헌터브룩은 AMD 칩이 켜질 때 가장 먼저 돌아가는 기본 프로그램이 미국 정부가 거래를 막은 중국 서버 회사 손에 들어갔다고 주장했어요. 다만 헌터브룩은 헤지펀드와 한 식구입니다. 주가가 떨어지면 돈을 버는 공매도를 하는 곳이라 주장을 곧이곧대로 받아들이기는 어려워요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">AMD는 이 주장을 부인했습니다. 로이터도 사실 여부를 따로 확인하지 못했다고 전했어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">다음 날 AMD 주가는 하루에만 13% 넘게 빠졌습니다. 다만 그날은 미국 기술주 전체가 크게 흔들린 날이기도 했어요. 의혹 하나만으로 빠졌다고 보기는 어렵습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">더 근본적인 걱정은 따로 있습니다. 두 번째 공급처는 첫 번째 회사 물건이 모자라거나 너무 비쌀 때 찾는 곳이에요. 엔비디아 칩이 넉넉해지고 값이 내려가면 AMD를 찾을 이유도 줄어듭니다. 1987년 인텔이 마음을 바꾸자 하루아침에 설계도를 잃었던 것처럼요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">조금만 더 들어가 보면, 두 번째 공급처</span></b></span></p>
+
+<p><span style="color:#000000">반도체 업계에서는 이걸 세컨드 소스라고 부릅니다. 한 줄로 말하면, 두 번째 공급처는 같은 부품을 만들 수 있는 회사를 하나 더 정해 두는 보험입니다. 1980년대 초 IBM이 인텔에 요구했던 게 바로 이 보험이었고, 지금 AI 회사들이 AMD에 기대하는 것도 같은 보험입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">저는 다른 회사를 볼 때도 이 질문을 하나 던져 봅니다. 이 회사의 큰 고객이 한 곳에만 맡기기 불안하다고 느끼는가. 그렇다면 그 회사는 선두가 아니어도 일감이 잘 끊기지 않습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">앞으로 볼 것은 데이터센터 매출과 의혹의 결말이다</span></b></span></p>
+
+<p><span style="color:#000000">AMD를 볼 때는 두 가지만 챙기면 됩니다. 첫째는 데이터센터 매출이 지금처럼 빠르게 느는지예요. 오픈AI에 들어갈 칩은 올해 하반기부터 설치가 시작됐으니, 효과가 있다면 이 숫자에 가장 먼저 찍혀 나옵니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">둘째는 헌터브룩 의혹에 미국 정부가 어떻게 반응하는지입니다. 두 번째 공급처를 고르는 고객은 값만큼이나 믿고 맡길 수 있는지를 따져요. 수출 규제 문제가 커지면 그 믿음부터 흔들립니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1973년 여름 엔지니어들이 남의 칩을 사진으로 찍어 베낄 때만 해도 AMD는 흉내 내는 회사였습니다. 그런 AMD에 일감을 준 건 IBM의 불안이었어요. 반세기가 지나 AMD를 찾는 AI 회사들도 같은 불안을 안고 있습니다. AMD가 50년 넘게 판 진짜 상품은 칩보다 &#39;다른 데서도 살 수 있다&#39;는 안심이었는지도 모릅니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">AMD를 워렌 버핏 같은 투자 거장들이 기업을 평가할 때 쓰는 기준으로 보면 어떤 모습인지 밸류노트에 정리해 두었습니다. 궁금하시면 가볍게 한번 들러 보세요.</span></p>
+<p><br></p>
+<p><a href="https://www.valuenote.co.kr/c/amd?utm_source=naver&amp;utm_campaign=b261123w">밸류노트에서 AMD 보기</a></p>
+<p><br></p>
+<p><span style="color:#000000">#AMD #인텔 #리사수 #엔비디아 #오픈AI #삼성전자 #반도체 #헌터브룩 #세컨드소스 #AI칩</span></p>
+<p><br></p>
+<p><span style="color:#444444;font-size:14px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 1973년 복제 칩 이야기는 톰스하드웨어(2025년 10월), AMD 창업은 미국 컴퓨터역사박물관, IBM의 두 번째 공급처 요구와 1982년 계약·1987년 중재·그로브의 메모는 일렉트로닉디자인(2007년 11월 판사 인터뷰), 1995년 합의는 LA타임스(1995년 1월), 리사 수 취임과 주가는 모틀리풀과 IEEE 스펙트럼, 회사 가치 역전은 톰스하드웨어(2022년 2월), 오픈AI 계약은 AMD 발표(2025년 10월), 삼성전자 메모리는 뉴시스(2025년 6월), 헌터브룩 의혹과 3분기 실적·주가는 모틀리풀(2026년 11월 22일)을 참고했습니다. 사진: Peellden, 위키미디어 공용(CC BY-SA 3.0). 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261123w/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261123w/01.jpg" download="valuenote-b261123w-1.jpg"><img src="https://www.valuenote.co.kr/naver/b261123w/01.jpg" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261123w/02.png" download="valuenote-b261123w-2.png"><img src="https://www.valuenote.co.kr/naver/b261123w/02.png" alt="사진 2" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-23 10:40</b> · 작성</div><div class="small" style="margin:4px 0"><b>2026-11-23 11:30</b> · 수정: 독자 검토 반영(2회)</div><div class="small" style="margin:4px 0"><b>2026-11-23 10:06</b> · 새 글 (v9)</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 무지갯빛으로 빛나는 반도체 웨이퍼]\n\n요약\n· 인텔 칩을 대신 만들던 AMD는 어떻게 인텔을 앞질렀을까. 인텔이 설계도를 끊자 칩을 처음부터 스스로 설계하기 시작했고, 그 힘이 지금 엔비디아 말고 다른 AI 칩을 찾는 회사들의 선택지로 이어졌기 때문입니다.\n\n1973년 여름, 엔지니어 세 명이 칩 하나를 앞에 두고 사진을 찍었습니다. 인텔이 막 내놓으려던 컴퓨터 두뇌 칩의 견본이었어요.\n\n찍은 사진은 400장쯤 됐습니다. 이들은 그 사진을 한 장씩 들여다보며 회로도를 손으로 다시 그렸어요. 그렇게 만든 복제 칩이 AMD가 처음 판 컴퓨터 두뇌 칩입니다.\n\nAMD가 이 칩 하나를 만드는 데 든 돈은 50센트였습니다. 군대에 팔 때는 700달러를 받을 수 있었다고 해요. 인텔 입장에서는 속이 꽤 쓰렸을 장사였죠.\n\n이상한 건 그다음입니다. 인텔은 AMD를 쫓아내지 않고 오히려 계약서를 내밀었어요. 몇 년 뒤 AMD는 인텔에 돈을 내고 인텔 칩을 만들어도 된다는 정식 허락을 받았습니다.\n\n■ IBM은 인텔에 같은 칩을 만들 회사를 하나 더 데려오라고 했다\n\n베끼던 회사가 정식 동업자가 된 데는 큰 고객의 요구가 있었습니다. 1980년대 초 IBM은 개인용 컴퓨터에 인텔 칩을 쓰기로 했어요. 조건이 하나 붙었습니다. 같은 칩을 만들 수 있는 두 번째 회사를 함께 내놓으라는 것이었죠.\n\nIBM에게는 당연한 요구였습니다. 칩을 만드는 회사가 한 곳뿐이면 그 공장이 멈추거나 값을 올려도 IBM은 손쓸 방법이 없어요. 컴퓨터에서 가장 중요한 부품을 한 회사에만 맡길 수는 없었던 겁니다.\n\n그래서 1982년 인텔과 AMD는 10년짜리 계약을 맺었습니다. 두 회사가 서로의 칩을 만들 수 있게 하는 계약이었어요. AMD는 그 뒤 인텔 칩을 대신 찍어 내며 덩치를 키웠습니다.\n\n■ 인텔은 AMD에 다음 칩 설계도를 주지 않기로 했다\n\n사이가 틀어진 계기는 자랑이었습니다. AMD 창업자 제리 샌더스가 이 계약으로 AMD가 얼마나 버는지 언론에 대놓고 말하고 다녔거든요.\n\n1980년대 중반 인텔 사장 앤디 그로브는 부하 직원에게 짧은 메모를 남겼습니다. AMD와 주고받는 것의 균형을 빨리 맞추라는 내용이었는데, AMD를 부르는 말이 욕설이었어요. 인텔은 다음 칩을 혼자 만들기로 했습니다.\n\nAMD는 1987년 중재를 신청했습니다. 두 회사는 7년 넘게 다툰 끝에 1995년에야 합의했어요. 그로브와 샌더스는 그사이 서로 말도 하지 않는 사이가 됐다고 합니다.\n\n제가 보기에 AMD에 가장 큰 일은 이 결별이었습니다. 인텔 설계도를 더는 받아 쓸 수 없게 되자 AMD는 칩을 처음부터 스스로 설계하는 회사로 바뀌어야 했어요. 남의 답안을 받아 적던 학생이 갑자기 혼자 문제를 풀게 된 겁니다.\n\n■ AI 회사들이 IBM과 똑같은 걱정을 시작했다\n\n지금 AI 칩 시장은 1980년대 개인용 컴퓨터 시장과 많이 닮았습니다. AI를 만드는 회사들은 엔비디아 칩을 사려고 줄을 서요. 한 회사 칩에만 기대야 하는 불안도 그만큼 커졌어요.\n\n2025년 10월 오픈AI는 AMD와 대규모 AI 칩 공급 계약을 맺었습니다. 챗GPT를 만드는 회사가 엔비디아 말고 다른 칩도 크게 쓰겠다고 공개적으로 약속한 거예요. 40여 년 전 IBM이 말로 했던 요구를 이번에는 고객이 계약서로 직접 옮긴 겁니다.\n\n이 흐름은 한국에도 닿습니다. AMD의 최신 AI 칩에는 삼성전자가 만든 고대역폭 메모리가 들어가요. AI 칩 바로 옆에 붙어 데이터를 빠르게 넘겨 주는 메모리입니다. AMD가 직접 확인한 내용이에요.\n\n■ 망할 뻔했던 AMD를 다시 세운 건 설계였다\n\nAMD가 늘 잘나간 건 아닙니다. 2014년 무렵에는 회사가 무너질 수 있다는 걱정까지 나왔어요. 그해 10월 엔지니어 출신 리사 수가 최고경영자가 됐고, 취임 뒤 주가는 한때 2달러 밑까지 내려갔습니다.\n\n리사 수는 남의 칩을 따라가는 대신 새 설계 하나에 회사를 걸었습니다. 2017년 그 설계로 만든 라이젠과 에픽이 나왔어요. 개인용 컴퓨터 칩과 서버 칩 모두에서 인텔과 정면으로 붙은 겁니다.\n\n[사진: AMD 주가, 리사 수 취임 무렵과 지금]\n\n2022년 2월 AMD의 회사 가치가 처음으로 인텔을 넘었습니다. 인텔 칩을 사진으로 찍어 베끼던 회사가 50년이 안 돼 인텔보다 비싼 회사가 된 거예요.\n\n지금 AMD를 끌고 가는 건 데이터센터입니다. 올해 3분기 데이터센터 매출은 85억 달러로 1년 전의 두 배 가까이 됐어요.\n\n■ 두 번째 공급처는 언제든 밀려날 수 있다\n\n걱정도 만만치 않습니다. 11월 19일 미국 매체 헌터브룩은 AMD 칩이 켜질 때 가장 먼저 돌아가는 기본 프로그램이 미국 정부가 거래를 막은 중국 서버 회사 손에 들어갔다고 주장했어요. 다만 헌터브룩은 헤지펀드와 한 식구입니다. 주가가 떨어지면 돈을 버는 공매도를 하는 곳이라 주장을 곧이곧대로 받아들이기는 어려워요.\n\nAMD는 이 주장을 부인했습니다. 로이터도 사실 여부를 따로 확인하지 못했다고 전했어요.\n\n다음 날 AMD 주가는 하루에만 13% 넘게 빠졌습니다. 다만 그날은 미국 기술주 전체가 크게 흔들린 날이기도 했어요. 의혹 하나만으로 빠졌다고 보기는 어렵습니다.\n\n더 근본적인 걱정은 따로 있습니다. 두 번째 공급처는 첫 번째 회사 물건이 모자라거나 너무 비쌀 때 찾는 곳이에요. 엔비디아 칩이 넉넉해지고 값이 내려가면 AMD를 찾을 이유도 줄어듭니다. 1987년 인텔이 마음을 바꾸자 하루아침에 설계도를 잃었던 것처럼요.\n\n■ 조금만 더 들어가 보면, 두 번째 공급처\n\n반도체 업계에서는 이걸 세컨드 소스라고 부릅니다. 한 줄로 말하면, 두 번째 공급처는 같은 부품을 만들 수 있는 회사를 하나 더 정해 두는 보험입니다. 1980년대 초 IBM이 인텔에 요구했던 게 바로 이 보험이었고, 지금 AI 회사들이 AMD에 기대하는 것도 같은 보험입니다.\n\n저는 다른 회사를 볼 때도 이 질문을 하나 던져 봅니다. 이 회사의 큰 고객이 한 곳에만 맡기기 불안하다고 느끼는가. 그렇다면 그 회사는 선두가 아니어도 일감이 잘 끊기지 않습니다.\n\n■ 앞으로 볼 것은 데이터센터 매출과 의혹의 결말이다\n\nAMD를 볼 때는 두 가지만 챙기면 됩니다. 첫째는 데이터센터 매출이 지금처럼 빠르게 느는지예요. 오픈AI에 들어갈 칩은 올해 하반기부터 설치가 시작됐으니, 효과가 있다면 이 숫자에 가장 먼저 찍혀 나옵니다.\n\n둘째는 헌터브룩 의혹에 미국 정부가 어떻게 반응하는지입니다. 두 번째 공급처를 고르는 고객은 값만큼이나 믿고 맡길 수 있는지를 따져요. 수출 규제 문제가 커지면 그 믿음부터 흔들립니다.\n\n1973년 여름 엔지니어들이 남의 칩을 사진으로 찍어 베낄 때만 해도 AMD는 흉내 내는 회사였습니다. 그런 AMD에 일감을 준 건 IBM의 불안이었어요. 반세기가 지나 AMD를 찾는 AI 회사들도 같은 불안을 안고 있습니다. AMD가 50년 넘게 판 진짜 상품은 칩보다 '다른 데서도 살 수 있다'는 안심이었는지도 모릅니다.\n\nAMD를 워렌 버핏 같은 투자 거장들이 기업을 평가할 때 쓰는 기준으로 보면 어떤 모습인지 밸류노트에 정리해 두었습니다. 궁금하시면 가볍게 한번 들러 보세요.\n\n밸류노트에서 AMD 보기 https://www.valuenote.co.kr/c/amd?utm_source=naver&utm_campaign=b261123w\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 1973년 복제 칩 이야기는 톰스하드웨어(2025년 10월), AMD 창업은 미국 컴퓨터역사박물관, IBM의 두 번째 공급처 요구와 1982년 계약·1987년 중재·그로브의 메모는 일렉트로닉디자인(2007년 11월 판사 인터뷰), 1995년 합의는 LA타임스(1995년 1월), 리사 수 취임과 주가는 모틀리풀과 IEEE 스펙트럼, 회사 가치 역전은 톰스하드웨어(2022년 2월), 오픈AI 계약은 AMD 발표(2025년 10월), 삼성전자 메모리는 뉴시스(2025년 6월), 헌터브룩 의혹과 3분기 실적·주가는 모틀리풀(2026년 11월 22일)을 참고했습니다. 사진: Peellden, 위키미디어 공용(CC BY-SA 3.0). 이 글은 밸류노트 에디터 Luciano가 작성했습니다.\n\n#AMD #인텔 #리사수 #엔비디아 #오픈AI #삼성전자 #반도체 #헌터브룩 #세컨드소스 #AI칩";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261123w", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
