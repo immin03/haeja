@@ -1821,7 +1821,8 @@ async function kakaoGo(opts){
    클라이언트는 talk_message 추가 동의만 받고 provider 토큰을 Edge 함수 kakao-link 에 넘긴다. 전송은 서버(notify·push-digest)가 한다.
    스위치 public.kakao_msg_on() 이 false 면(카카오 개발자 콘솔에 동의항목이 아직 없음) 기능 전체를 숨긴다 — scope를 요청하면 로그인이 깨지기 때문. */
 const KM = { on: false, linked: null, at: null, busy: false };
-const kmIsKakao = () => !!store.user && ((store.user.app_metadata || {}).provider || '') === 'kakao';
+/* 이메일로 가입한 뒤 카카오를 연결한 회원(providers 에 kakao)도 포함 (2026-11-23) */
+const kmIsKakao = () => { const m = (store.user && store.user.app_metadata) || {}; return !!store.user && (m.provider === 'kakao' || (Array.isArray(m.providers) && m.providers.includes('kakao'))); };
 const kmAvail = () => KM.on && store.mode === 'db' && !store.isGuest && !store.isDemo && kmIsKakao();
 async function kmCall(body){
   const { data, error } = await store.client.functions.invoke('kakao-link', { body });
