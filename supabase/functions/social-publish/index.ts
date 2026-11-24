@@ -20,7 +20,7 @@ const IG = "https://graph.instagram.com/v23.0", TH = "https://graph.threads.net/
 const GAP_MIN = 60; // 인스타 슬롯 간격(app_config ig_slots gap_min 60)과 맞춤 (2026-11-03)
 const DISC = "*본 콘텐츠는 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다.";
 // 모든 게시물 본문 끝에 붙는 고정 안내 (해시태그·고지문 앞) — 2026-11-17 새 슬로건
-const CTA = "▶ 뉴스가 말하지 않는 기업과 경제의 이야기, 밸류노트\n당신의 투자가 현명해집니다. 600여 개 기업의 점수와 적정 주가는 프로필 링크에서.";
+const CTA = "▶ 뉴스가 말하지 않는 기업과 경제의 이야기, 밸류노트\n당신의 투자가 현명해집니다. 650개가 넘는 기업의 점수와 적정 주가는 프로필 링크에서.";
 const igCaption = (p: any) => { const tags = (p.hashtags || []).map((h: string) => "#" + h).join(" "); return p.caption + "\n\n" + CTA + (tags ? "\n\n" + tags : "") + "\n\n" + DISC; };
 // 쓰레드에는 댓글 → DM 자동 발송이 없으므로 인스타용 댓글 안내 줄은 뺀다
 const thText = (p: any) => { const tail = "\n\n" + CTA + "\n\n" + DISC; const body = String(p.caption).split("\n\n").filter((x: string) => !x.startsWith("💬 댓글에")).join("\n\n"); return body.slice(0, 500 - tail.length) + tail; };
