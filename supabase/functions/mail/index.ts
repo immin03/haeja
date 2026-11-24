@@ -217,44 +217,104 @@ const subscribeBox = (w: Who, src: string, title: string, desc: string, pad = "3
       ${btn(w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", src), "뉴스레터 구독하기 →", false)}
       <div style="font-family:${F};font-size:11px;line-height:1.7;color:${ON_DARK2};margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 선택 사항이며 언제든 해지할 수 있습니다.</div>
     </td></tr></table></td></tr>`;
+/* 가입 축하 메일 (2026-11-24 대표: 계기판·칼럼·기능 소개까지 전부 담아 '활용 극대화'하게)
+   순서: 첫 화면 → 오늘 할 일 3가지 → 바닥 계기판(오늘 아침 숫자 그대로) → 메뉴 지도(3개 메뉴 15개 화면) → 칼럼 → 뉴스레터 → 영상 → 기준 3가지 */
+type GaugeNow = { key: string; name: string; on: number; dd: number | null; asof: string; url: string; what: string };
+async function gaugesNow(): Promise<GaugeNow[]> {
+  const { data } = await sb.from("app_config").select("key,value").in("key", ["semi_gauge", "gold_gauge"]);
+  const by: Record<string, any> = Object.fromEntries((data || []).map((r) => [r.key, r.value]));
+  const out: GaugeNow[] = [];
+  const s = by.semi_gauge, g = by.gold_gauge;
+  if (s && typeof s.on === "number") out.push({ key: "semi", name: "반도체 바닥 계기판", on: s.on, dd: s.sox?.dd ?? null, asof: s.asof || "", url: `${SITE}/semi?from=mail`, what: "필라델피아 반도체 지수" });
+  if (g && typeof g.on === "number") out.push({ key: "gold", name: "금 바닥 계기판", on: g.on, dd: g.gold?.dd ?? null, asof: g.asof || "", url: `${SITE}/semi?tab=gold&from=mail`, what: "금 가격" });
+  return out;
+}
+function gaugeCard(x: GaugeNow, last: boolean) {
+  const lamps = [0, 1, 2, 3, 4].map((i) => `<td width="20%" style="padding:0 ${i < 4 ? 5 : 0}px 0 0"><div style="height:8px;line-height:8px;font-size:1px;border-radius:4px;background:${i < x.on ? PINK : LINE}">&nbsp;</div></td>`).join("");
+  const md = x.asof ? `${+x.asof.slice(5, 7)}월 ${+x.asof.slice(8, 10)}일` : "";
+  return `<tr><td style="padding:0 36px ${last ? 0 : 12}px"><a href="${x.url}" style="display:block;text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1.5px solid ${INK};border-radius:16px"><tr><td style="padding:18px 20px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td valign="middle" style="font-family:${F};font-size:16.5px;font-weight:800;letter-spacing:-.02em;color:${INK}">${x.name}</td>
+      <td valign="middle" align="right" style="font-family:${F};font-size:22px;font-weight:800;color:${INK};white-space:nowrap">${x.on}<span style="font-size:13px;font-weight:600;color:${MUTED}"> / 5 켜짐</span></td></tr></table>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:12px 0 10px"><tr>${lamps}</tr></table>
+    <div style="font-family:${F};font-size:13.5px;line-height:1.7;color:${BODY};word-break:keep-all">${x.dd !== null ? `${joK(x.what, "은", "는")} 고점보다 ${Math.abs(Math.round(x.dd))}% 내려와 있습니다. ` : ""}${md ? `미국 ${md} 마감 기준입니다.` : ""}</div>
+    <div style="font-family:${F};font-size:13.5px;font-weight:700;color:${INK};margin-top:10px"><span style="border-bottom:3px solid ${PINK};padding-bottom:2px">신호 5개 자세히 보기</span> →</div>
+  </td></tr></table></a></td></tr>`;
+}
+const menuMap: [string, string, [string, string, string][]][] = [
+  ["포트폴리오", "내 돈이 지금 어디에 있는지", [
+    ["현황", "보유 종목마다 점수와 적정 주가, 지금 싼지 비싼지를 한 화면에 보여 줍니다.", "portfolio"],
+    ["나의 가이드", "고른 투자 유형(가치 성장·안전 배당·공격 도전)에 맞춰 지금 할 일과 후보 회사를 골라 드립니다.", "myguide"],
+    ["내 등급", "버핏·그레이엄·멍거의 습관을 미션으로 하나씩 채우며 투자자 등급을 올립니다.", "grade"],
+    ["결정 일지", "사고판 이유와 그때의 마음을 남기고, 3달 뒤 결과를 복기합니다.", "journal"],
+  ]],
+  ["브리핑", "오늘 시장에서 무슨 일이 있었는지", [
+    ["오늘", "내 종목 관련 뉴스를 호재·악재로 나눠 한 줄씩 정리합니다.", "briefing"],
+    ["칼럼", "시장 이슈와 기업 분석을 매일 새로 올립니다. 매주 시장 정리 칼럼도 있습니다.", "column"],
+    ["경제 레이더", "경기·금리·환율 지표 가운데 경계 신호가 켜진 곳을 한눈에 보여 줍니다.", "radar"],
+    ["메가트렌드", "AI·반도체 같은 큰 흐름이 지금 사이클의 어디쯤인지 비교합니다.", "trends"],
+    ["환율 · 금리", "환율과 금리가 내 포트폴리오에 어떤 영향을 주는지 계산합니다.", "fx"],
+  ]],
+  ["기업", "무엇을 살지 고를 때", [
+    ["찾기", "5개 시장 600여 개 회사의 점수와 적정 주가를 검색합니다.", "companies"],
+    ["저평가 · 고평가", "적정 주가보다 가장 싼 회사와 가장 비싼 회사를 순위로 봅니다.", "value"],
+    ["관심 종목", "담아 둔 회사가 적정 매수가에 오면 알려 드립니다.", "watchlist"],
+    ["배당", "배당을 오래 꾸준히 지켜 온 회사만 따로 모았습니다.", "dividend"],
+    ["기준 · 검증", "점수 기준이 버크셔 해서웨이의 실제 매수 사례에서도 맞았는지 검증한 결과입니다.", "ref"],
+  ]],
+];
+function menuHtml(src: string) {
+  return menuMap.map(([g, gd, rows], gi) => `<tr><td style="padding:${gi ? 26 : 0}px 36px 0">
+    <div style="font-family:${F};font-size:13px;font-weight:800;color:${INK};letter-spacing:-.01em"><span style="display:inline-block;background:${DARK};color:#FFFFFF;border-radius:999px;padding:4px 11px">${g}</span><span style="font-weight:600;color:${MUTED};margin-left:8px">${gd}</span></div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:6px">${rows.map(([t, d, tab], i) => `<tr><td style="${i < rows.length - 1 ? `border-bottom:1px solid ${LINE};` : ""}padding:0"><a href="${tabUrl(tab, src)}" style="display:block;text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td valign="top" style="padding:13px 0"><div style="font-family:${F};font-size:14.5px;font-weight:800;letter-spacing:-.015em;color:${INK}">${t}</div><div style="font-family:${F};font-size:13px;line-height:1.65;color:${MUTED};margin-top:3px;word-break:keep-all">${d}</div></td>
+      <td width="22" valign="middle" align="right" style="font-family:${F};font-size:15px;color:${INK}">→</td></tr></table></a></td></tr>`).join("")}</table></td></tr>`).join("");
+}
 async function welcome(w: Who) {
-  const [C, V, N] = await Promise.all([columns(10, 3), videos(0, 4), scored()]);
-  const nm = w.name || w.email.split("@")[0];
-  const pillars = [
-    ["가격이 아니라 가치를 봅니다", "주가의 오르내림이 아니라 기업이 실제로 벌어들이는 이익에서 출발합니다. 그 이익을 보수적으로 할인해 지금 가격이 합리적인지 판단합니다."],
-    ["거장의 원칙을 숫자로 옮겼습니다", "워렌 버핏의 경쟁우위, 벤저민 그레이엄의 안전마진, 찰리 멍거의 사업의 질. 세 사람이 기업을 고르던 기준을 하나의 점수와 적정 주가로 정리합니다."],
-    ["어떤 장에서도 흔들리지 않도록", "급등장에서는 과열을, 급락장에서는 기회를 숫자로 확인합니다. 시장의 소음이 아니라 정해 둔 기준으로 판단할 수 있게 돕습니다."],
-  ];
-  const pillarHtml = pillars.map(([t, d], i) => `<tr><td style="padding:0 36px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${i < pillars.length - 1 ? `border-bottom:1px solid ${LINE};` : ""}"><tr>
-    <td width="52" valign="top" style="padding:22px 0"><div style="font-family:${WM};font-size:13px;font-weight:800;color:${INK};letter-spacing:.04em">0${i + 1}</div></td>
-    <td valign="top" style="padding:20px 0"><div style="font-family:${F};font-size:16.5px;font-weight:800;letter-spacing:-.02em;line-height:1.5;color:${INK};word-break:keep-all">${t}</div>
-    <div style="font-family:${F};font-size:14px;line-height:1.8;color:${BODY};margin-top:6px;word-break:keep-all">${d}</div></td></tr></table></td></tr>`).join("");
+  const [C, V, N, G] = await Promise.all([columns(10, 3), videos(0, 4), scored(), gaugesNow()]);
+  const nm = w.name || w.email.split("@")[0], src = "welcome";
   const steps = [
-    ["보유 종목 등록", "지금 가진 종목이 적정 주가보다 싼지 비싼지 바로 확인합니다.", tabUrl("portfolio", "welcome")],
-    ["관심 기업 담기", "담아 둔 기업이 저평가 구간에 들어오면 알려 드립니다.", tabUrl("companies", "welcome")],
-    ["알림 켜기", "홈 화면에 추가하면 앱처럼 쓰고 알림도 받을 수 있습니다.", tabUrl("alerts", "welcome")],
+    ["내 종목 하나 넣기", "가진 종목이나 보고 있는 종목 하나만 넣으면 몇 점인지, 적정 주가보다 싼지 비싼지 바로 계산합니다.", tabUrl("portfolio", src)],
+    ["관심 기업 담기", "담아 둔 회사가 적정 매수가까지 내려오면 알려 드립니다. 기다리는 투자가 쉬워집니다.", tabUrl("watchlist", src)],
+    ["홈 화면에 추가 · 알림 켜기", "아이폰은 Safari 공유 버튼 → \"홈 화면에 추가\", 안드로이드는 메뉴 → \"앱 설치\". 앱처럼 열리고 알림을 받습니다.", tabUrl("alerts", src)],
   ];
   const stepHtml = `<tr><td style="padding:0 36px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:16px"><tr><td style="padding:8px 22px">
     ${steps.map(([t, d, href], i) => `<a href="${href}" style="display:block;text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${i < steps.length - 1 ? `border-bottom:1px solid ${LINE};` : ""}"><tr>
-      <td width="38" valign="middle" style="padding:16px 0"><div style="width:26px;height:26px;border-radius:13px;background:${DARK};color:#FFFFFF;font-family:${F};font-size:12.5px;font-weight:800;line-height:26px;text-align:center">${i + 1}</div></td>
-      <td valign="middle" style="padding:16px 0"><div style="font-family:${F};font-size:14.5px;font-weight:800;letter-spacing:-.015em;color:${INK}">${t}</div><div style="font-family:${F};font-size:13px;line-height:1.6;color:${MUTED};margin-top:2px;word-break:keep-all">${d}</div></td>
+      <td width="38" valign="top" style="padding:17px 0"><div style="width:26px;height:26px;border-radius:13px;background:${i === 0 ? PINK : DARK};color:#FFFFFF;font-family:${F};font-size:12.5px;font-weight:800;line-height:26px;text-align:center">${i + 1}</div></td>
+      <td valign="top" style="padding:16px 0"><div style="font-family:${F};font-size:15px;font-weight:800;letter-spacing:-.015em;color:${INK}">${t}</div><div style="font-family:${F};font-size:13px;line-height:1.65;color:${MUTED};margin-top:3px;word-break:keep-all">${d}</div></td>
       <td width="20" valign="middle" align="right" style="font-family:${F};font-size:15px;color:${INK}">→</td></tr></table></a>`).join("")}
   </td></tr></table></td></tr>`;
+  const gaugeHtml = G.length ? `${h2("Bottom Gauge", "많이 빠진 시장, 바닥 신호는 몇 개 켜졌을까")}
+    <tr><td style="padding:0 36px 14px">${p("과거 큰 하락의 바닥에서 반복해 나타난 공통점 5가지를 매일 아침 7시에 다시 점검합니다. 켜진 신호가 많을수록 과거 바닥과 닮았다는 뜻입니다. 신호가 바뀌면 밸류노트 첫 화면에서 바로 알려 드립니다.", "margin:0")}</td></tr>
+    ${G.map((x, i) => gaugeCard(x, i === G.length - 1)).join("")}
+    <tr><td style="padding:12px 36px 0">${p("계기판은 과거 바닥의 공통점을 정리한 참고 자료이며, 매수·매도를 권하는 신호가 아닙니다.", `margin:0;font-size:12.5px;color:${MUTED}`)}</td></tr>` : "";
   const consent = w.ok && w.consent_at
     ? `${kDate(w.consent_at)}에 밸류노트 뉴스레터를 구독하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:${ON_DARK};text-decoration:underline">구독 해지</a>를 누르세요.`
-    : `이 메일은 밸류노트 가입 안내 메일입니다. 뉴스레터는 위 버튼이나 앱의 <a href="${tabUrl("account", "welcome")}" style="color:${ON_DARK};text-decoration:underline">내 계정</a>에서 구독할 수 있으며, 구독하지 않으면 이 안내 말고는 보내지 않습니다.`;
+    : `이 메일은 밸류노트 가입 안내 메일입니다. 뉴스레터는 위 버튼이나 앱의 <a href="${tabUrl("account", src)}" style="color:${ON_DARK};text-decoration:underline">내 계정</a>에서 구독할 수 있으며, 구독하지 않으면 첫 주 안내 말고는 보내지 않습니다.`;
   const sub = w.ok
-    ? `<tr><td style="padding:28px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:20px 22px">${eyebrow("Weekly Note", MUTED)}<div style="font-family:${F};font-size:15px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">뉴스레터 구독이 완료됐습니다. 매주 월요일 아침 8시 30분, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 보내 드립니다.</div></div></td></tr>`
-    : subscribeBox(w, "welcome", "한 주의 시장을<br>칼럼 네 편으로 정리해 드립니다", "한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 월요일 아침 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.");
+    ? `<tr><td style="padding:32px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:20px 22px">${eyebrow("Weekly Note", MUTED)}<div style="font-family:${F};font-size:15px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">뉴스레터 구독이 완료됐습니다. 매주 월요일 아침 8시 30분, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 보내 드립니다.</div></div></td></tr>`
+    : subscribeBox(w, src, "한 주의 시장을<br>월요일 아침 한 통으로", "그 주에 꼭 짚어야 할 칼럼, 계기판 변화, 새 영상을 월요일 아침 8시 30분에 정리해 보냅니다. 일주일에 한 번이고, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.");
+  const pillars = [
+    ["가격이 아니라 가치", "주가의 오르내림이 아니라 기업이 실제로 버는 이익에서 출발해, 보수적으로 적정 주가를 계산합니다."],
+    ["거장의 원칙을 숫자로", "워렌 버핏의 경쟁우위, 벤저민 그레이엄의 안전마진, 찰리 멍거의 사업의 질을 하나의 점수로 정리했습니다."],
+    ["소음이 아니라 기준", "급등장에서는 과열을, 급락장에서는 기회를 숫자로 확인해 정해 둔 기준대로 판단하게 돕습니다."],
+  ];
+  const pillarHtml = `<tr><td style="padding:0 36px">${pillars.map(([t, d], i) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${i < pillars.length - 1 ? `border-bottom:1px solid ${LINE};` : ""}"><tr>
+    <td width="44" valign="top" style="padding:17px 0"><div style="font-family:${WM};font-size:13px;font-weight:800;color:${INK};letter-spacing:.04em">0${i + 1}</div></td>
+    <td valign="top" style="padding:15px 0"><div style="font-family:${F};font-size:15px;font-weight:800;letter-spacing:-.02em;color:${INK}">${t}</div><div style="font-family:${F};font-size:13px;line-height:1.7;color:${BODY};margin-top:4px;word-break:keep-all">${d}</div></td></tr></table>`).join("")}</td></tr>`;
   const body = `${hero("Welcome to ValueNote", `${esc(nm)} 님,<br>시장이 흔들려도<br>기준은 흔들리지 않게.`,
-      `밸류노트는 워렌 버핏·벤저민 그레이엄·찰리 멍거가 기업을 판단하던 원칙으로 ${companiesText(N)} 기업의 적정 주가와 점수를 매일 다시 계산합니다. 감정이 아닌 기준으로, 오래 가는 투자를 돕습니다.`,
-      [`${SITE}/?utm_source=mail&utm_campaign=welcome`, "밸류노트 시작하기 →"])}
-  ${h2("Our Principle", "현명한 투자를 위한 세 가지 기준")}${pillarHtml}
-  ${h2("Get Started", "처음 5분, 이렇게 시작해 보세요")}${stepHtml}
-  ${C.length ? h2("Editor's Pick", "지금 꼭 읽어 볼 칼럼") + C.map((c, i) => colRow(c, "welcome", i === C.length - 1)).join("") : ""}
+      `밸류노트는 워렌 버핏·벤저민 그레이엄·찰리 멍거의 원칙으로 ${companiesText(N)} 기업의 점수와 적정 주가를 매일 다시 계산합니다. 이 메일 한 통에 밸류노트를 200% 쓰는 방법을 모두 담았습니다.`,
+      [tabUrl("portfolio", src), "내 종목 점수 확인하기 →"])}
+  ${h2("Start Here", "가입 첫날, 이것 3가지만 해 두세요")}${stepHtml}
+  ${gaugeHtml}
+  ${h2("Menu Map", "밸류노트 메뉴 지도")}
+  <tr><td style="padding:0 36px 16px">${p("화면 위 메뉴는 포트폴리오 · 브리핑 · 기업 세 개입니다. 메뉴마다 아래 작은 탭이 있습니다. 필요한 화면을 눌러 바로 가 보세요.", "margin:0")}</td></tr>
+  ${menuHtml(src)}
+  ${C.length ? h2("Editor's Pick", "지금 꼭 읽어 볼 칼럼") + colBig(C[0], src) + (C.length > 1 ? `<tr><td style="height:10px;line-height:10px;font-size:1px">&nbsp;</td></tr>` + C.slice(1).map((c, i, a) => colRow(c, src, i === a.length - 1)).join("") : "") + `<tr><td style="padding:4px 36px 0">${btn(tabUrl("column", src), "칼럼 전체 보기 →")}</td></tr>` : ""}
   ${sub}
-  ${V.length ? h2("On YouTube", "기업이 돈을 버는 구조를 10분 안에") + vidGrid(V, "welcome") : ""}`;
-  return { subject: `${nm} 님, 밸류노트에 오신 걸 환영합니다`, html: shell("거장의 기준으로 기업의 적정 주가를 매일 계산합니다. 처음 5분 시작 가이드를 확인하세요.", body, consent, "welcome") };
+  ${V.length ? h2("On YouTube", "밸류노트 유튜브 최신 영상") + vidGrid(V, src) : ""}
+  ${h2("Our Principle", "밸류노트가 지키는 세 가지 기준")}${pillarHtml}`;
+  return { subject: `${nm} 님, 밸류노트 200% 활용법을 보내 드립니다`, html: shell("내 종목 점수, 반도체·금 바닥 계기판, 칼럼까지. 가입 첫날 해 둘 3가지를 정리했습니다.", body, consent, src) };
 }
 async function digest(w: Who) {
   const [C, V] = await Promise.all([columns(7, 4), videos(7, 4)]);
