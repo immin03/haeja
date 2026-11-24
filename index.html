@@ -330,6 +330,10 @@ details.more>summary{font-size:16px}
 .al-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .al-top .small{white-space:nowrap;flex:0 0 auto}
 .al-top b{font-size:16px}
+.al-go{color:var(--ink);font-weight:800;margin-left:4px}
+.al-where{font-size:13px;font-weight:700;color:var(--ink);margin-top:4px;text-decoration:underline;text-underline-offset:3px}
+.al-item:not(.open) .al-body{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.al-item.open .al-body{white-space:pre-line}
 .al-body{color:var(--ink)}
 .dropbox{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:8px;padding:12px;background:var(--surface)}
 
@@ -738,6 +742,7 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
   <div class="brand"><div class="brand-l"><div class="brand-t" data-home role="link" tabindex="0" title="홈으로"><h1 class="wordmark vn solo" aria-label="ValueNote 밸류노트 홈으로"><span class="vn-en"><span class="wm-a">VALUE</span><span class="wm-b">NOTE</span></span><span class="vn-ko">밸류노트</span></h1></div></div></div><div id="saveState" class="save-toast" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="portfolio" aria-selected="true"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 19V10m5.3 9V5m5.4 14v-7M20 19V8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">포트폴리오</span></button>
+    <button role="tab" data-tab="gauge" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4.5 17a8 8 0 1 1 15 0" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M12 15.5l4-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="16" r="1.6" fill="currentColor"/></svg><i class="tab-dot" aria-hidden="true"></i></span><span class="tab-l">계기판</span></button>
     <button role="tab" data-tab="briefing" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4.5" y="3.8" width="15" height="16.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.3 8.6h7.4M8.3 12h7.4M8.3 15.4h4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="tab-l">브리핑</span></button>
     <button role="tab" data-tab="companies" aria-selected="false"><span class="tab-ic"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.6" cy="10.6" r="5.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15 15 4.6 4.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><span class="tab-l">기업</span></button>
       </nav>
@@ -1637,15 +1642,33 @@ function viewAlerts(){
   const list = [...(S.alerts||[])].filter(a => !a.merged).sort((a,b) => (b.at||'').localeCompare(a.at||'')).slice(0, 60);
   const groups = {}; list.forEach(a => (groups[dayGroup(a.at)] ||= []).push(a));
   const item = a0 => { const a = alView(a0), lv = AL_LV[a.level] || AL_LV.info;
-    return `<button type="button" class="al-item ${a.read?'read':''}" data-al="go" data-id="${esc(a.id)}">
+    const to = alTarget(a0), open = S.alOpen === a.id;
+    return `<button type="button" class="al-item ${a.read?'read':''}${open?' open':''}" data-al="go" data-id="${esc(a.id)}" aria-expanded="${to ? 'false' : open}">
       <span class="al-dot" style="background:${lv.c}"></span>
-      <span class="al-main"><span class="al-top"><b>${esc(a.title)}</b><span class="small muted">${agoText(a.at)}</span></span>${a.body?`<span class="small al-body">${esc(a.body)}</span>`:''}</span>
+      <span class="al-main"><span class="al-top"><b>${esc(a.title)}</b><span class="small muted">${agoText(a.at)}${to ? ' <span class="al-go" aria-hidden="true">›</span>' : ''}</span></span>${a.body?`<span class="small al-body">${esc(a.body)}</span>`:''}${to && to.label ? `<span class="al-where">${esc(to.label)}</span>` : ''}</span>
     </button>`; };
   return `
   <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">알림</h2>${alUnread() ? `<button class="btn" data-al="read-all">모두 읽음</button>` : ''}</div>
   <div style="margin-top:12px">${pushCard()}</div>
   <div class="legend" style="margin-top:12px">${Object.values(AL_LV).map(v => `<span style="--c:${v.c}">${v.l}</span>`).join('')}</div>
   ${list.length ? ['오늘','어제','이전'].filter(g => groups[g]).map(g => `<h3 class="eyebrow" style="margin:18px 0 6px">${g}</h3><div class="card al-list">${groups[g].map(item).join('')}</div>`).join('') : `<div class="card empty" style="margin-top:12px">아직 알림이 없습니다. 아침 브리핑, 급등락, 적정 매수가 도달 같은 일이 생기면 여기에 쌓입니다.</div>`}`;
+}
+/* 알림을 눌렀을 때 갈 곳 (2026-11-24)
+   - url 이 우리 사이트 경로(/semi?…, /?col=… 등)면 그 주소로 / 바깥 주소면 새 창
+   - link(co·tab)가 있으면 앱 안 화면으로
+   - 둘 다 없는 운영 알림(쇼츠 마무리·최종 화면·긴급 감시 등)은 관리자에게만 관리자 화면의 해당 메뉴로
+   - 그래도 없으면 null → 그 자리에서 펼쳐 본문 전체를 보여 준다 */
+const AL_ADMIN = [[/칼럼/, 'column'], [/블로그/, 'blog'], [/벤치마킹|핫토픽/, 'bench'], [/릴스|인스타|쓰레드|게시 규칙/, 'social'], [/메일/, 'mail'], [/회원|설문/, 'users'],
+  [/유튜브|쇼츠|롱폼|최종 화면|렌더|고정 댓글|썸네일|성과|긴급|업로드|선제작|사용량|공개 후|저작권|대표 채팅|데일리|양산형|황제|Emperor|영어/, 'youtube']];
+function alStaff(){ if(S.__isAdmin) return true; try{ return localStorage.getItem('vn-staff') === '1'; }catch(_){ return false; } }
+function alTarget(a){
+  const l = a.link || {}, u = String(a.url || '');
+  if(/^\/semi/.test(u)) return { app: { tab: /gold/.test(u) ? 'gaugeGold' : 'gauge' }, label: (/gold/.test(u) ? '금' : '반도체') + ' 계기판 보기' };
+  if(/^\/(?!\/)/.test(u)) return { href: u, label: '' };
+  if(/^https:\/\//.test(u)) return { href: u, ext: true, label: '바로 가기' };
+  if(l.co || l.tab || l.col) return { app: l, label: '' };
+  if(alStaff()){ const t = `${a.source || ''} ${a.title || ''}`; const m = AL_ADMIN.find(([re]) => re.test(t)); return { href: '/admin#' + (m ? m[1] : 'brief'), label: '관리자에서 보기' }; }
+  return null;
 }
 async function markRead(ids){
   for(const id of ids){ const a = (S.alerts||[]).find(x => x.id === id); if(a && !a.read){ a.read = true; await store.set('alerts', id, { ...a, read: true }); } }
@@ -1661,11 +1684,14 @@ document.addEventListener('click', async e => {
   if(k === 'read-all'){ await markRead((S.alerts||[]).filter(a => !a.read).map(a => a.id)); render(); }
   if(k === 'go'){
     const a = (S.alerts||[]).find(x => x.id === el.dataset.id); if(!a) return;
-    await markRead([a.id]);
-    const l = a.link || {};
-    if(a.url && /^\/\?/.test(a.url)){ location.href = a.url; return; }
+    markRead([a.id]).catch(() => {});
+    const to = alTarget(a);
+    /* (2026-11-24 대표: 알림을 눌러도 작동을 안 함) 갈 곳이 없는 알림은 그 자리에서 펼쳐 전문을 보여 준다 */
+    if(!to){ S.alOpen = S.alOpen === a.id ? null : a.id; render(); return; }
+    if(to.href){ if(to.ext) window.open(to.href, '_blank', 'noopener'); else location.href = to.href; return; }
+    const l = to.app;
     if(l.co){ S.curId = l.co; S.tab = 'analyze'; render(); updateEval(); }
-    else { S.tab = l.tab || 'portfolio'; if(l.scope){ S.scope = l.scope; S.coFocus = null; S.coQ = ''; S.coMkt = 'ALL'; S.coMin = 0; S.coShown = 30; } render(); }
+    else { S.tab = l.tab || 'portfolio'; if(l.col) S.colOpen = l.col; if(l.scope){ S.scope = l.scope; S.coFocus = null; S.coQ = ''; S.coMkt = 'ALL'; S.coMin = 0; S.coShown = 30; } render(); }
     window.scrollTo(0,0);
   }
 });
@@ -2810,6 +2836,7 @@ function __renderCore(){
   if(S.tab === 'value') app.innerHTML = viewValue();
   if(S.tab === 'myguide') app.innerHTML = viewMyGuide();
   if(S.tab === 'alerts') app.innerHTML = viewAlerts();
+  if(S.tab === 'gauge' || S.tab === 'gaugeGold') app.innerHTML = viewGauge();
   if(S.tab === 'notify') app.innerHTML = viewNotify();
   if(S.tab === 'account') app.innerHTML = viewAccount();
   if(S.tab === 'briefing' && S.loaded.s){ const bd = prog().briefDays || []; if(!bd.includes(today())) saveProg({briefDays: [...bd, today()].slice(-30)}); }
@@ -6143,8 +6170,117 @@ function viewGuide(){
 }
 
 /* ============ 2단 메뉴 ============ */
+/* ============ 계기판 (2026-11-24 대표: "팝업 말고 서비스 안에 계기판 메뉴 · 회원만 · 과거 바닥 그래프까지 금·반도체 둘 다") ============
+   - 메뉴: 포트폴리오 옆 '계기판' → 반도체 · 금
+   - 비회원: 흐린 미리보기 + "회원가입하면 계기판을 확인할 수 있어요"
+   - 회원: 지금 신호 5개 · 이 계기판 알림을 아직 안 켠 사람에게만 '알림 받기' 카드 · 과거 4번 바닥 그래프(백테스트)
+   - 데이터: semi-gauge · gold-gauge(지금) / semi-backtest · gold-backtest(과거) — 모두 읽기 전용 함수 */
+const GZ_FN = 'https://msjbrwyzkiueqnzjeicm.supabase.co/functions/v1/';
+const GZ_META = {
+  semi: { nm: '반도체', live: 'semi-gauge', bt: 'semi-backtest', idx: '필라델피아 반도체지수', sig: ['실적', '가격', '기간', '공포', '금리'],
+    btFoot: '반도체지수 종가 기준 · 2011·2015·2018·2022 하락장(뱅크오브아메리카 보고서와 같은 4번) · 가격(예상 PER)은 과거 일별 자료가 없어 빈칸 · 금리는 과거를 "6개월 최고보다 0.5%p 이상 하락"으로 대신 계산' },
+  gold: { nm: '금', live: 'gold-gauge', bt: 'gold-backtest', idx: '금 선물(1온스)', sig: ['실질금리', '연준', '달러', '금 ETF', '공포'],
+    btFoot: '금 선물 종가 · FRED · 달러지수 기준 · 금 ETF는 과거 일별 자료가 없어 빈칸' },
+};
+const gzKind = () => S.tab === 'gaugeGold' ? 'gold' : 'semi';
+function gzLoad(k){
+  S.gz ||= {};
+  const o = S.gz[k] ||= { live: null, bt: null, busy: false, err: false };
+  if(o.busy || (o.live && o.bt)) return;
+  o.busy = true;
+  const get = f => fetch(GZ_FN + f).then(r => r.ok ? r.json() : null).catch(() => null);
+  Promise.all([get(GZ_META[k].live), get(GZ_META[k].bt)]).then(([lv, bt]) => {
+    o.busy = false; o.live = lv && lv.signals ? lv : null; o.bt = bt && bt.out ? bt : null; o.err = !o.live;
+    if(S.tab === 'gauge' || S.tab === 'gaugeGold') render();
+  });
+}
+/* 이 계기판 알림이 켜져 있는가: 계기판 알림 종류(semi/gold)가 켜져 있고, 받을 곳(카톡 채널 또는 이 기기 알림)이 있을 때 */
+function gzAlertOn(k){ const P = pushPrefs(); return !!P[k] && (!!P.ch || pushGuess() === 'on'); }
+const gzMd = d => { const p = String(d || '').split('-'); return p.length === 3 ? `${+p[1]}월 ${+p[2]}일` : ''; };
+const gzSg = v => (v > 0 ? '+' : '') + (Math.round(v * 10) / 10) + '%';
+/* 신호가 가장 많이 켜졌던 때 (바닥 날 포함 · 같으면 앞선 날) */
+const gzBest = e => [['바닥 날', e.atLow], ['한 달 뒤', e.m1], ['두 달 뒤', e.m2], ['세 달 뒤', e.m3]].reduce((a, b) => (b[1] && b[1].n > (a[1] ? a[1].n : -1)) ? b : a, ['', null]);
+const gzYmd = d => { const p = String(d || '').split('-'); return p.length === 3 ? `${p[0]}년 ${+p[1]}월 ${+p[2]}일` : ''; };
+function gzChart(e, k){
+  const ser = e.ser || []; if(ser.length < 3) return '';
+  const W = 320, H = 120, pl = 4, pr = 4, pt = 16, pb = 18, v = ser.map(x => x[1]), mn = Math.min(...v), mx = Math.max(...v);
+  const X = i => pl + i / (ser.length - 1) * (W - pl - pr), Y = y => pt + (1 - (y - mn) / ((mx - mn) || 1)) * (H - pt - pb);
+  const d = ser.map((p, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join('');
+  const li = Math.max(0, ser.findIndex(p => p[0] >= e.low[0]));
+  const best = gzBest(e);
+  const bi = best[1] ? ser.findIndex(p => p[0] >= best[1].d) : -1;
+  const lx = X(li), ly = Y(ser[li][1]);
+  return `<svg class="gz-ch" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(e.nm)}년 바닥 전후 그래프">
+    <path d="${d}L${X(ser.length - 1).toFixed(1)},${H - pb}L${pl},${H - pb}Z" fill="rgba(255,77,109,.07)"/>
+    <path d="${d}" fill="none" stroke="#111" stroke-width="1.6"/>
+    ${bi > 0 && best[0] !== '바닥 날' ? `<line x1="${X(bi).toFixed(1)}" x2="${X(bi).toFixed(1)}" y1="${pt - 6}" y2="${H - pb}" stroke="#FF4D6D" stroke-width="1" stroke-dasharray="3 3"/><text x="${Math.min(W - 4, X(bi) + 4).toFixed(1)}" y="${pt - 4}" font-size="10" fill="#FF4D6D" text-anchor="${X(bi) > W - 70 ? 'end' : 'start'}">신호 최다 ${best[1].n}개</text>` : ''}
+    <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="4.5" fill="#FF4D6D" stroke="#fff" stroke-width="1.5"/>
+    <text x="${lx.toFixed(1)}" y="${Math.min(H - 4, ly + 16).toFixed(1)}" font-size="10.5" font-weight="700" fill="#111" text-anchor="middle">바닥 ${gzMd(e.low[0]).replace('월 ', '/').replace('일', '')}</text>
+    <text x="${pl}" y="${H - 3}" font-size="9.5" fill="#999">${esc(ser[0][0].slice(0, 7).replace('-', '.'))}</text><text x="${W - pr}" y="${H - 3}" font-size="9.5" fill="#999" text-anchor="end">${esc(ser.at(-1)[0].slice(0, 7).replace('-', '.'))}</text>
+  </svg>`;
+}
+function gzDots(a){ return `<span class="gz-dots">${(a || []).map(x => `<i class="${x == null ? 'na' : x ? 'on' : ''}"></i>`).join('')}</span>`; }
+function gzBt(k){
+  const o = S.gz?.[k], M = GZ_META[k];
+  if(!o?.bt) return '';
+  const eps = o.bt.out || [];
+  const rows = eps.map(e => {
+    const best = gzBest(e);
+    return `<div class="gz-ep"><div class="gz-ep-h"><b>${esc(e.nm)}년 하락장</b><span class="small muted">${gzYmd(e.low[0])} 바닥${e.dd != null ? ` · 고점 대비 ${gzSg(e.dd)}` : ''}</span></div>
+      ${gzChart(e, k)}
+      <div class="gz-ep-r"><div><span>바닥 날 신호</span>${gzDots(e.atLow.a)}<b>${e.atLow.n}개</b></div>
+      ${best[1] && best[0] !== '바닥 날' ? `<div><span>${best[0]} (가장 많을 때)</span>${gzDots(best[1].a)}<b>${best[1].n}개</b></div>` : ''}
+      <div><span>바닥에서 3개월 뒤</span><b class="${(e.ret3m || 0) >= 0 ? 'up' : 'dn'}">${e.ret3m != null ? gzSg(e.ret3m) : '-'}</b></div></div></div>`; }).join('');
+  return `<h3 class="eyebrow" style="margin:28px 0 4px">과거 바닥에서는 어땠나</h3>
+    <p class="small muted" style="margin:0 0 10px">지난 4번의 ${M.nm} 바닥 전후 6개월 그래프입니다. 핑크 점이 바닥, 점선이 신호가 가장 많이 켜졌던 날입니다.</p>
+    <div class="gz-eps">${rows}</div>
+    <p class="small muted" style="margin:8px 0 0">동그라미 순서: ${M.sig.join(' · ')} (빈 동그라미 = 자료 없음) · ${esc(M.btFoot)}</p>`;
+}
+function viewGauge(){
+  const k = gzKind(), M = GZ_META[k];
+  /* 비회원: 회원가입하면 계기판이 보입니다 */
+  if(store.isGuest || store.isDemo){
+    const fake = [1, 0, 0, 1, 0];
+    return `<div class="gz-wrap">
+      <div class="gz-lock"><div class="gz-hero gz-blur" aria-hidden="true"><div class="gz-h1">${M.nm} 바닥 계기판</div><div class="gz-n"><b>?</b> / 5</div>
+        <div class="gz-lamps">${M.sig.map((s, i) => `<span class="${fake[i] ? 'on' : ''}"><i></i>${esc(s)}</span>`).join('')}</div></div>
+        <div class="gz-lock-in"><div class="gz-lock-ic" aria-hidden="true">🔒</div><h2>회원가입하면<br>계기판을 확인할 수 있어요</h2>
+          <p>반도체·금이 과거 바닥에서 보였던 신호 5개를 매일 아침 확인해 드립니다. 과거 4번의 바닥 그래프도 함께 볼 수 있어요.</p>
+          <div class="gz-lock-a">${kakaoOn() ? `<button type="button" class="btn kakao-btn" data-lg="kakao">${KAKAO_SVG}<span>카카오로 3초 만에 가입하기</span></button>` : ''}<button type="button" class="btn ${kakaoOn() ? '' : 'primary'}" data-guest="signup">이메일로 가입하기</button></div>
+          <button type="button" class="linkbtn" data-guest="login" style="margin-top:8px">이미 회원이에요 · 로그인</button></div></div></div>`;
+  }
+  gzLoad(k);
+  const o = S.gz?.[k] || {}, g = o.live;
+  if(!g) return `<div class="gz-wrap"><div class="card empty" style="margin-top:14px">${o.err ? '계기판을 불러오지 못했습니다. 잠시 뒤 다시 열어 주세요.' : '계기판을 불러오는 중'}</div></div>`;
+  const total = g.total || g.signals.length, s = k === 'gold' ? g.gold : g.sox;
+  const short = n => String(n || '').replace(/^[①-⑩]\s*/, '').replace(/\(.*?\)/g, '').trim();
+  const alertOn = gzAlertOn(k);
+  return `<div class="gz-wrap">
+    <div class="gz-hero"><div class="gz-h1">${M.nm} 바닥 계기판</div><div class="gz-n"><b>${g.on}</b> / ${total} <small>켜짐</small></div>
+      <div class="gz-lamps">${g.signals.map(x => `<span class="${x.on ? 'on' : ''}"><i></i>${esc(short(x.name))}</span>`).join('')}</div>
+      <div class="gz-meta">${s ? `${M.idx} 고점 대비 <b>${gzSg(s.dd)}</b> · ` : ''}미국 ${gzMd(g.asof)} 마감 기준 · 매일 아침 7시 갱신</div></div>
+    ${alertOn ? '' : `<div class="gz-al"><div><b>신호가 바뀌면 바로 알려 드릴까요?</b><span>${M.nm} 계기판 신호가 켜지거나 꺼지는 날에만 보냅니다.</span></div><button type="button" class="btn primary" data-gz-alert="${k}">알림 받기</button></div>`}
+    <h3 class="eyebrow" style="margin:24px 0 8px">신호 5개</h3>
+    <div class="card gz-sigs">${g.signals.map(x => `<div class="gz-sig${x.on ? ' on' : ''}"><span class="gz-st">${x.on ? '켜짐' : '대기'}</span>
+      <div><b>${esc(String(x.name).replace(/^[①-⑩]\s*/, ''))}</b><span class="small">지금 ${esc(x.now || '')}</span><span class="small muted">기준 ${esc(x.target || '')}</span></div></div>`).join('')}</div>
+    ${gzBt(k)}
+    <p class="small muted" style="margin:18px 0 0">계기판은 과거 바닥의 공통점을 정리한 참고 자료이며, 매수·매도를 권하는 신호가 아닙니다. <a href="/semi${k === 'gold' ? '?tab=gold' : ''}" style="color:inherit;text-decoration:underline">계기판 자세한 설명</a></p>
+  </div>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-gz-alert]'); if(!b) return;
+  const k = b.dataset.gzAlert;
+  try{ localStorage.setItem('vn-want-gauge', k); }catch(_){}
+  store.track('view', 'gz-alert-' + k);
+  if(pushPrefs().ch || pushGuess() === 'on'){
+    const P = { ...pushPrefs(), [k]: true }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {});
+    toastMsg(GZ_META[k].nm + ' 계기판 알림을 켰어요. 신호가 바뀌는 날 알려 드릴게요.'); render();
+  } else chGate(null);
+});
+
 const NAV = [
   {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['myguide','나의 가이드'],['grade','내 등급'],['journal','결정 일지']]},
+  {k:'gauge', l:'계기판', subs:[['gauge','반도체'],['gaugeGold','금']]},
   {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['radar','경제 레이더'],['trends','메가트렌드'],['fx','환율'],['rates','금리']]},
   {k:'companies', l:'기업', subs:[['companies','찾기'],['value','저평가·고평가'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
@@ -6790,6 +6926,7 @@ document.addEventListener('click', async e => {
   const sb = e.target.closest('#subnav button');
   if(sb){ S.tab = sb.dataset.sub; (S.lastSub ||= {})[groupOf(S.tab).k] = S.tab; render(); if(S.tab==='analyze') updateEval(); try{ localStorage.setItem('ml-tab', S.tab); }catch(_){} window.scrollTo(0,0); return; }
   const tab = e.target.closest('nav.tabs button');
+  if(tab && tab.dataset.href){ try{ store.track('view', 'nav-gauge'); }catch(_){} location.href = tab.dataset.href; return; }
   if(tab){ const g = NAV.find(x => x.k === tab.dataset.tab); S.tab = (S.lastSub||{})[g.k] || g.subs[0][0]; render(); if(S.tab==='analyze') updateEval(); try{ localStorage.setItem('ml-tab', S.tab); }catch(_){} window.scrollTo(0,0); return; }
   const sg = e.target.closest('[data-seg]');
   if(sg){
@@ -7031,7 +7168,7 @@ function refresh(kind){
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   /* 메일·관리자 메시지 링크 (2026-11-05): ?tab=portfolio 또는 #portfolio 로 그 화면을 바로 연다. utm_source=mail 이면 메일 유입으로 기록 */
-  { const u = new URLSearchParams(location.search), OK = ['portfolio','companies','column','account','alerts','notify','briefing','watchlist','analyze','grade','journal','dividend'];
+  { const u = new URLSearchParams(location.search), OK = ['portfolio','companies','column','account','alerts','notify','briefing','watchlist','analyze','grade','journal','dividend','gauge','gaugeGold'];
     const t = u.get('tab') || (location.hash.length > 1 ? location.hash.slice(1) : '');
     if(OK.includes(t)){ S.tab = t; if(t === 'account') mailLoad(); }
     if(u.get('utm_source') === 'mail') store.track('view', 'from-mail-' + (u.get('utm_campaign') || 'x').replace(/[^a-z0-9-]/gi, '').slice(0, 20));
@@ -7245,7 +7382,7 @@ nav.subtabs button[aria-pressed="true"]{background:var(--gold);color:#191919}
 /* 메인 메뉴: 휴대폰에서는 아래 탭 바 */
 .tab-ic{display:none}
 @media (max-width:720px){
-  nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;max-width:none;margin:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;max-width:none;margin:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:0;
     background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
   nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;border:0!important;color:#929292!important;font-size:14px;font-weight:600;letter-spacing:0}
   nav.tabs button[aria-selected="true"]{color:var(--navy)!important}
@@ -8225,7 +8362,7 @@ html.dark .gz-pop .gz-in,body.dark .gz-pop .gz-in{background:#fff;color:#111}
     return '<div class="gz-card"><div class="gz-row"><span class="gz-name">' + e(it.name) + '</span>'
       + '<span class="gz-cnt">' + e(it.from) + '<span class="gz-ar">→</span>' + e(it.to) + '<small> / ' + e(it.total || 5) + '</small></span></div>'
       + '<div class="gz-lamps" aria-hidden="true">' + lamps + '</div><ul>' + lis + '</ul>'
-      + '<a class="gz-go" href="' + e(it.url) + '" data-gz-go="' + e(it.gauge) + '">' + e(it.name) + ' 자세히 보기 →</a></div>';
+      + '<a class="gz-go" href="' + e(/^\/semi/.test(it.url || '') ? '/?tab=' + (/gold/.test(it.url) ? 'gaugeGold' : 'gauge') + '&from=pop' : it.url) + '" data-gz-go="' + e(it.gauge) + '">' + e(it.name) + ' 자세히 보기 →</a></div>';
   }
   function show(items){
     if(document.querySelector('.gz-pop')) return;
@@ -8253,8 +8390,12 @@ html.dark .gz-pop .gz-in,body.dark .gz-pop .gz-in{background:#fff;color:#111}
   }
   function run(){
     if(/^\/(admin|studio|semi|start|lev|go|mail)/.test(location.pathname)) return;
-    try{ if(sessionStorage.getItem(SEEN)) return; }catch(_){}
+    var seen = false; try{ seen = !!sessionStorage.getItem(SEEN); }catch(_){}
     fetch(URL_).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      /* 신호가 바뀐 48시간 동안 '계기판' 메뉴에 핑크 점 (팝업을 닫거나 다시 보지 않기를 눌러도 점은 48시간 유지) */
+      var fresh = ((j && j.items) || []).some(function(x){ return x && x.at && Date.now() - Date.parse(x.at) < 48 * 3600e3; });
+      if(fresh){ var nb = document.querySelector('nav.tabs [data-tab="gauge"]'); if(nb) nb.classList.add('gz-new'); }
+      if(seen) return;
       var never = getJ(NEVER, []);
       var items = ((j && j.items) || []).filter(function(x){ return x && x.key && never.indexOf(x.key) < 0 && Date.now() - Date.parse(x.at) < 48 * 3600e3; });
       if(!items.length) return;
@@ -8272,5 +8413,44 @@ html.dark .gz-pop .gz-in,body.dark .gz-pop .gz-in{background:#fff;color:#111}
   if(document.readyState === 'complete') setTimeout(run, 1200); else addEventListener('load', function(){ setTimeout(run, 1200); });
 })();
 </script>
+<style>/* 계기판 메뉴 (2026-11-24 대표: 계기판이 어디 있는지 안 보인다 → 포트폴리오 옆 메뉴) */
+nav.tabs .tab-ic{position:relative}
+nav.tabs .tab-dot{display:none;position:absolute;top:-1px;right:-5px;width:8px;height:8px;border-radius:4px;background:#FF4D6D}
+nav.tabs button.gz-new .tab-dot{display:block}
+</style>
+<style>/* 앱 안 계기판 (2026-11-24) */
+.gz-wrap{margin-top:18px;word-break:keep-all}
+.gz-hero{background:#111;background-image:linear-gradient(160deg,#2a2a2a 0%,#111 60%);color:#fff;border-radius:20px;padding:22px 18px 18px}
+.gz-h1{font-size:15px;font-weight:700;color:#bdbdbd}
+.gz-n{font-size:20px;font-weight:800;color:#bdbdbd;margin-top:4px}.gz-n b{font-size:44px;color:#FF4D6D;line-height:1.1;margin-right:2px}.gz-n small{font-size:15px;font-weight:700}
+.gz-lamps{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px}
+.gz-lamps span{border:1.5px solid #3a3a3a;background:#1a1a1a;border-radius:12px;padding:11px 2px 9px;text-align:center;font-size:12.5px;font-weight:700;color:#8a8a8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gz-lamps span i{display:block;width:11px;height:11px;border-radius:6px;background:#4a4a4a;margin:0 auto 7px}
+.gz-lamps span.on{border-color:#FF4D6D;background:#2a1418;color:#fff}.gz-lamps span.on i{background:#FF4D6D;box-shadow:0 0 8px rgba(255,77,109,.8)}
+.gz-meta{font-size:13px;color:#8a8a8a;margin-top:12px;line-height:1.5}.gz-meta b{color:#fff}
+.gz-al{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:12px;border:1.5px solid #FF4D6D;border-radius:16px;padding:14px 16px;background:rgba(255,77,109,.06)}
+.gz-al b{display:block;font-size:15.5px;color:var(--ink)}.gz-al span{display:block;font-size:13px;color:var(--muted);margin-top:3px;line-height:1.5}
+.gz-al .btn{flex:0 0 auto;white-space:nowrap}
+.gz-sigs{padding:4px 14px}
+.gz-sig{display:grid;grid-template-columns:46px 1fr;gap:12px;align-items:start;padding:13px 0;border-bottom:1px solid var(--line)}.gz-sig:last-child{border-bottom:0}
+.gz-sig b{display:block;font-size:15.5px;color:var(--ink)}.gz-sig .small{display:block;margin-top:3px;line-height:1.5}
+.gz-st{display:inline-block;text-align:center;font-size:12px;font-weight:800;border-radius:8px;padding:5px 0;background:var(--line);color:var(--muted)}
+.gz-sig.on .gz-st{background:#FF4D6D;color:#fff}
+.gz-eps{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:720px){.gz-eps{grid-template-columns:1fr 1fr}}
+.gz-ep{border:1px solid var(--line);border-radius:16px;padding:14px 14px 12px;background:var(--card,#fff)}
+.gz-ep-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.gz-ep-h b{font-size:17px;color:var(--ink)}
+.gz-ch{display:block;width:100%;height:auto;margin:8px 0 6px}
+.gz-ep-r>div{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding:5px 0;border-top:1px dashed var(--line)}
+.gz-ep-r>div span:first-child{flex:1}.gz-ep-r b{min-width:44px;text-align:right;color:var(--ink);font-size:14px}.gz-ep-r b.up{color:#D93654}.gz-ep-r b.dn{color:#2A6FDB}
+.gz-dots{display:inline-flex;gap:3px}.gz-dots i{width:9px;height:9px;border-radius:5px;background:#ddd}.gz-dots i.on{background:#FF4D6D}.gz-dots i.na{background:transparent;border:1px dashed #bbb;box-sizing:border-box}
+.gz-lock{position:relative;border-radius:20px;overflow:hidden}
+.gz-blur{filter:blur(6px);opacity:.55;pointer-events:none;user-select:none}
+.gz-lock-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;background:rgba(255,255,255,.78)}
+.gz-lock-in h2{font-size:22px;line-height:1.35;margin:6px 0 8px;color:#111}.gz-lock-in p{font-size:14px;line-height:1.6;color:#444;margin:0 0 14px;max-width:340px}
+.gz-lock-ic{font-size:26px}
+.gz-lock-a{display:flex;flex-direction:column;gap:8px;width:100%;max-width:300px}
+.gz-lock .gz-hero{min-height:360px}
+</style>
 </body>
 </html>
