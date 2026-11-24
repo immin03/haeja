@@ -1385,8 +1385,18 @@ function alKind(a){
   if(src === '반도체 계기판' || src === '금 계기판') return { imp: true, tag: '계기판', c: 'var(--accent)' };
   if(src === '장부 판정') return /초과|매도/.test(t) ? { imp: true, tag: '매도 점검', c: 'var(--warn)' } : { imp: true, tag: '매수가 도달', c: 'var(--good, #12935E)' };
   if(a.level === 'urgent' && !/장 마감 ·|브리핑/.test(t)) return { imp: true, tag: /\+/.test(t) ? '급등' : '급락', c: 'var(--bad)' };
+  /* 개장 브리핑의 시장 경고는 내 보유·관심 종목 이름이 들어 있을 때만 중요 (2026-11-24 대표: "알아서 판단") */
+  if(src === '개장 브리핑' && a.level === 'warn' && alMineRe() && alMineRe().test(t + ' ' + (a.body || ''))) return { imp: true, tag: '내 종목', c: 'var(--warn)' };
   if(src === '맞춤 알림' && a.level === 'good') return { imp: true, tag: '새로 싸짐', c: 'var(--good, #12935E)' };
   return { imp: false, tag: '', c: 'var(--muted)' };
+}
+let _alMine = { k: '', re: null };
+function alMineRe(){
+  const names = [...(S.holdings || []).flatMap(h => [h.name, h.ticker]), ...(S.companies || []).filter(c => c.watch || c.pinned).map(c => c.name)]
+    .map(x => String(x || '').trim()).filter(x => x.length >= 2);
+  const k = names.join('|'); if(k === _alMine.k) return _alMine.re;
+  _alMine = { k, re: names.length ? new RegExp(names.map(x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')) : null };
+  return _alMine.re;
 }
 const alImpUnread = () => (S.alerts||[]).filter(a => !a.read && alUser(a) && alKind(a).imp).length;
 function bellHtml(){
