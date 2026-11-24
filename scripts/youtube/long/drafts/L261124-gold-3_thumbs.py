@@ -13,9 +13,9 @@ LIB = os.path.join(HERE, "..", "..", "..", "blog", "media", "lib")
 TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 
 SETS = [   # 세 안 모두 '바닥 신호 5가지' 노출, 사진 3장 서로 다르게
-    dict(file="thumb_a.jpg", photo="il_L261124g_thumb_goldbars.jpeg", fx=.55, l1=("금값 바닥 신호 ", "1/5"), l2=("", "지금 사야 할까?")),
+    dict(file="thumb_a.jpg", photo="il_L261124g_thumb_goldbars.jpeg", fx=.55, dim=.8, l1=[("금값", "gold"), (" 바닥 신호 ", "w"), ("1/5", "pink")], l2=("", "지금 사야 할까?")),
     dict(file="thumb_b.jpg", photo="il_L261124g_goldvault_wide.jpeg", fx=.6, g2=True, chip="바닥 신호 5가지", l1=[("금값", "gold"), (" 1월보다 ", "w"), ("-37%", "pink")], l2=[("지금 사야 할까?", "w")]),   # 2026-11-24 17:45 대표: 한 안은 2편 썸네일(본 사람이 많음)과 비슷하게
-    dict(file="thumb_c.jpg", gauge="globe_L261124g_fx_gauge_final.mp4", l1=("금값 바닥 신호 ", "1/5"), l2=("", "지금 사야 할까?")),   # 2026-11-24 17:44 대표: 한 안은 계기판 5개를 흐리게 깔고
+    dict(file="thumb_c.jpg", gauge="globe_L261124g_fx_gauge_final.mp4", l1=[("금값", "gold"), (" 바닥 신호 ", "w"), ("1/5", "pink")], l2=("", "지금 사야 할까?")),   # 2026-11-24 17:44 대표: 한 안은 계기판 5개를 흐리게 깔고
 ]
 
 
@@ -78,6 +78,7 @@ def render_g2(t, out):
 def render(t, out):
     if t.get("g2"): return render_g2(t, out)
     th = gauge_bg(t["gauge"]) if t.get("gauge") else photo(t["photo"], t["fx"])
+    if t.get("dim"): th = ImageEnhance.Brightness(th).enhance(t["dim"])   # 17:51 대표: 세 번째 배경 조금 어둡게
     g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
     for x in range(TW): d.line([x, 0, x, TH], fill=(0, 0, 0, int(85 * max(0, 1 - x / (TW * .85)) ** 1.2)))
     th.alpha_composite(g); g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
@@ -98,10 +99,15 @@ def render(t, out):
         l1s = "".join(t["l1"]); z = 132
         while ImageDraw.Draw(th).textlength(l1s, font=F("Heavy", z)) > TW - 2 * LX - 10: z -= 4
         f1 = F("Heavy", z); y1 = y2 - 20 - f1.size
-    l1s_ = "".join(t["l1"]) if isinstance(t["l1"], tuple) else t["l1"]; z1 = f1.size
+    l1s_ = "".join(t["l1"]) if isinstance(t["l1"], tuple) else ("".join(p_[0] for p_ in t["l1"]) if isinstance(t["l1"], list) else t["l1"]); z1 = f1.size
     while ImageDraw.Draw(th).textlength(l1s_, font=F("ExtraBold" if not t.get("ep2") else "Heavy", z1)) > TW - 2 * LX - 10: z1 -= 4
     if z1 != f1.size: f1 = F("ExtraBold" if not t.get("ep2") else "Heavy", z1); y1 = y2 - 18 - f1.size
-    if isinstance(t["l1"], tuple):
+    if isinstance(t["l1"], list):   # 17:51 대표: '금값'은 2편처럼 금색
+        COL = {"w": WHITE, "gold": (240, 214, 150, 255), "pink": (*PINK, 255)}; x = LX
+        for txt, c in t["l1"]:
+            shadow_text(th, (x, y1), txt, f1, COL[c]); x += ImageDraw.Draw(th).textlength(txt, font=f1)
+        t = dict(t, l1="".join(p_[0] for p_ in t["l1"])); D = ImageDraw.Draw(th)
+    elif isinstance(t["l1"], tuple):
         p1, q1 = t["l1"]; shadow_text(th, (LX, y1), p1, f1, WHITE); D = ImageDraw.Draw(th); shadow_text(th, (LX + D.textlength(p1, font=f1), y1), q1, f1, (*PINK, 255)); t = dict(t, l1=p1 + q1)
     else: shadow_text(th, (LX, y1), t["l1"], f1, WHITE)
     if t.get("ep2"): t = dict(t, l2=("", t["l2"][0]))   # 둘째 줄은 흰색
