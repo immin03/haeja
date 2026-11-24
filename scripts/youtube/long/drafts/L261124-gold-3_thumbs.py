@@ -14,7 +14,7 @@ TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 
 SETS = [   # 세 안 모두 '바닥 신호 5가지' 노출, 사진 3장 서로 다르게
     dict(file="thumb_a.jpg", photo="il_L261124g_thumb_goldbars.jpeg", fx=.55, l1="금값 바닥 신호 5가지", l2=("지금 1개 켜졌다", "")),
-    dict(file="thumb_b.jpg", photo="il_L261124g_goldvault_wide.jpeg", fx=.6, g2=True, chip="바닥 신호 5가지", l1=[("금값", "gold"), (" 1월보다 ", "w"), ("-37%", "pink")], l2=[("바닥 신호 ", "w"), ("1개", "pink"), (" 켜졌다", "w")]),   # 2026-11-24 17:45 대표: 한 안은 2편 썸네일(본 사람이 많음)과 비슷하게
+    dict(file="thumb_b.jpg", photo="il_L261124g_goldvault_wide.jpeg", fx=.6, g2=True, chip="바닥 신호 5가지", l1=[("금값", "gold"), (" 1월보다 ", "w"), ("-37%", "pink")], l2=[("지금 사야 할까?", "w")]),   # 2026-11-24 17:45 대표: 한 안은 2편 썸네일(본 사람이 많음)과 비슷하게
     dict(file="thumb_c.jpg", gauge="globe_L261124g_fx_gauge_final.mp4", l1="금값 바닥 신호 5가지", l2=("지금 1개", " 켜졌다")),   # 2026-11-24 17:44 대표: 한 안은 계기판 5개를 흐리게 깔고
 ]
 
@@ -49,7 +49,7 @@ def gauge_bg(name):
     cards = im.crop((135, 278, 1785, 830))   # 카드 5개만 (제목 줄·1/5 배지는 썸네일 배지·로고와 겹치므로 뺀다)
     w = TW - 60; cards = cards.resize((w, int(cards.height * w / cards.width)), Image.LANCZOS)
     bg = Image.new("RGB", (TW, TH), im.getpixel((40, 40))); bg.paste(cards, (30, 128))
-    bg = bg.filter(ImageFilter.GaussianBlur(3.2)); bg = ImageEnhance.Brightness(bg).enhance(1.15)
+    bg = bg.filter(ImageFilter.GaussianBlur(1.3)); bg = ImageEnhance.Brightness(bg).enhance(.9)   # 17:47 대표: 계기판 조금 더 선명하게, 명도는 낮춰도 됨
     return bg.convert("RGBA")
 
 
