@@ -321,6 +321,16 @@ details.more>summary{font-size:16px}
 .bell:focus-visible{outline:2px solid var(--accent)}
 .bell-n{position:absolute;top:0;right:-2px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:var(--bad);color:#FFFFFF;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .al-list{padding:4px 12px}
+.bell-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.al-seg{display:flex;gap:6px;margin-top:14px}
+.al-seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:700;color:var(--muted)}
+.al-seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg,#fff)}
+.al-seg .n{margin-left:5px;font-weight:800}
+.al-seg button[aria-pressed="false"] .n.hot{color:var(--bad)}
+.al-item.imp{grid-template-columns:4px 1fr;gap:12px}
+.al-item.imp .al-dot{width:4px;height:auto;align-self:stretch;border-radius:2px;margin-top:2px}
+.al-tag{display:inline-block;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;color:#FFFFFF;margin-right:6px;vertical-align:2px}
+.al-imp-empty{padding:18px 4px;color:var(--muted);font-size:14px;line-height:1.7}
 .al-item{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:10px 1fr;gap:10px;align-items:start;padding:12px 2px;border-bottom:1px solid var(--line);cursor:pointer}
 .al-item:last-child{border-bottom:0}
 .al-item:focus-visible{outline:2px solid var(--accent)}
@@ -1367,11 +1377,23 @@ const AL_LV = {urgent:{c:'var(--bad)', l:'긴급'}, warn:{c:'var(--warn)', l:'�
 const AL_USER_SRC = new Set(['장 마감','개장 브리핑','종가 갱신','장부 판정','맞춤 알림','반도체 계기판','금 계기판','투자자 등급','설정','일정 알림','칼럼','주간 칼럼','경제 레이더']);
 const alUser = a => !a.merged && AL_USER_SRC.has(String(a.source || '').trim()) && !/^\[시험\]/.test(a.title || '');
 const alUnread = () => (S.alerts||[]).filter(a => !a.read && alUser(a)).length;
+/* 중요 / 소식 나누기 (2026-11-24 대표: "반도체 계기판 변화 같은 정말 중요한 것과 별로 중요하지 않은 것을 구분해서 보게")
+   중요 = 바로 판단이 필요한 것: 바닥 계기판 변화, 적정 매수가 도달·적정 주가 초과, 내 종목 급등락, 새로 싸진 회사
+   소식 = 장 마감 요약, 개장 브리핑, 칼럼, 최근 본 회사 소식, 등급, 설정 */
+function alKind(a){
+  const src = String(a.source || ''), t = String(a.title || '');
+  if(src === '반도체 계기판' || src === '금 계기판') return { imp: true, tag: '계기판', c: 'var(--accent)' };
+  if(src === '장부 판정') return /초과|매도/.test(t) ? { imp: true, tag: '매도 점검', c: 'var(--warn)' } : { imp: true, tag: '매수가 도달', c: 'var(--good, #12935E)' };
+  if(a.level === 'urgent') return { imp: true, tag: /\+/.test(t) ? '급등' : '급락', c: 'var(--bad)' };
+  if(src === '맞춤 알림' && a.level === 'good') return { imp: true, tag: '새로 싸짐', c: 'var(--good, #12935E)' };
+  return { imp: false, tag: '', c: 'var(--muted)' };
+}
+const alImpUnread = () => (S.alerts||[]).filter(a => !a.read && alUser(a) && alKind(a).imp).length;
 function bellHtml(){
-  const n = alUnread();
-  return `<button type="button" class="bell" data-al="open" aria-label="알림 ${n}개 안 읽음">
+  const n = alImpUnread(), m = alUnread();
+  return `<button type="button" class="bell" data-al="open" aria-label="중요 알림 ${n}개 · 전체 ${m}개 안 읽음">
     <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 15.4A1 1 0 0 0 5.2 17h13.6a1 1 0 0 0 .9-1.6L18 12.6V9a6 6 0 0 0-6-6zm0 19a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22z" fill="currentColor"/></svg>
-    ${n ? `<span class="bell-n num">${n > 9 ? '9+' : n}</span>` : ''}</button>`;
+    ${n ? `<span class="bell-n num">${n > 9 ? '9+' : n}</span>` : m ? '<span class="bell-dot" aria-hidden="true"></span>' : ''}</button>`;
 }
 /* 앱을 켜 둔 채 오래 있다가 돌아오면(5분 이상) 새로 불러온다. 홈 화면 앱은 메모리에 남아 지난 화면·데이터를 그대로 보여 주기 때문 */
 (() => { let hidAt = 0;
@@ -1653,19 +1675,29 @@ document.addEventListener('click', async e => {
   await loadSubs(); render();
 });
 function viewAlerts(){
-  const list = [...(S.alerts||[])].filter(alUser).sort((a,b) => alTime(b.at) - alTime(a.at)).slice(0, 60);
+  const all = [...(S.alerts||[])].filter(alUser).sort((a,b) => alTime(b.at) - alTime(a.at));
+  const imp = all.filter(a => alKind(a).imp), news = all.filter(a => !alKind(a).imp);
+  const nImp = imp.filter(a => !a.read).length, nNews = news.filter(a => !a.read).length;
+  const seg = S.alSeg === 'news' ? 'news' : 'imp';
+  const list = (seg === 'imp' ? imp : news).slice(0, 60);
   const groups = {}; list.forEach(a => (groups[dayGroup(a.at)] ||= []).push(a));
-  const item = a0 => { const a = alView(a0), lv = AL_LV[a.level] || AL_LV.info;
+  const item = a0 => { const a = alView(a0), k = alKind(a0);
     const to = alTarget(a0), open = S.alOpen === a.id;
-    return `<button type="button" class="al-item ${a.read?'read':''}${open?' open':''}" data-al="go" data-id="${esc(a.id)}" aria-expanded="${to ? 'false' : open}">
-      <span class="al-dot" style="background:${lv.c}"></span>
-      <span class="al-main"><span class="al-top"><b>${esc(a.title)}</b><span class="small muted">${agoText(a.at)}${to ? ' <span class="al-go" aria-hidden="true">›</span>' : ''}</span></span>${a.body?`<span class="small al-body">${esc(a.body)}</span>`:''}${to && to.label ? `<span class="al-where">${esc(to.label)}</span>` : ''}</span>
+    return `<button type="button" class="al-item ${k.imp?'imp ':''}${a.read?'read':''}${open?' open':''}" data-al="go" data-id="${esc(a.id)}" aria-expanded="${to ? 'false' : open}">
+      <span class="al-dot" style="background:${k.c}"></span>
+      <span class="al-main"><span class="al-top"><b>${k.tag ? `<span class="al-tag" style="background:${k.c}">${k.tag}</span>` : ''}${esc(a.title)}</b><span class="small muted">${agoText(a.at)}${to ? ' <span class="al-go" aria-hidden="true">›</span>' : ''}</span></span>${a.body?`<span class="small al-body">${esc(a.body)}</span>`:''}${to && to.label ? `<span class="al-where">${esc(to.label)}</span>` : ''}</span>
     </button>`; };
+  const unreadHere = list.some(a => !a.read);
   return `
-  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">알림</h2>${alUnread() ? `<button class="btn" data-al="read-all">모두 읽음</button>` : ''}</div>
+  <div class="row" style="justify-content:space-between;margin-top:20px"><h2 style="margin:0">알림</h2>${unreadHere ? `<button class="btn" data-al="read-all">모두 읽음</button>` : ''}</div>
   <div style="margin-top:12px">${pushCard()}</div>
-  <div class="legend" style="margin-top:12px">${Object.values(AL_LV).map(v => `<span style="--c:${v.c}">${v.l}</span>`).join('')}</div>
-  ${list.length ? ['오늘','어제','이전'].filter(g => groups[g]).map(g => `<h3 class="eyebrow" style="margin:18px 0 6px">${g}</h3><div class="card al-list">${groups[g].map(item).join('')}</div>`).join('') : `<div class="card empty" style="margin-top:12px">아직 알림이 없습니다. 아침 브리핑, 급등락, 적정 매수가 도달 같은 일이 생기면 여기에 쌓입니다.</div>`}`;
+  <div class="al-seg" role="tablist">
+    <button type="button" data-al="seg" data-seg="imp" aria-pressed="${seg==='imp'}">중요${nImp ? `<span class="n num hot">${nImp}</span>` : ''}</button>
+    <button type="button" data-al="seg" data-seg="news" aria-pressed="${seg==='news'}">소식${nNews ? `<span class="n num">${nNews}</span>` : ''}</button>
+  </div>
+  <div class="small muted" style="margin-top:8px">${seg === 'imp' ? '바닥 계기판 변화 · 적정 매수가 도달 · 적정 주가 초과 · 내 종목 급등락 · 새로 싸진 회사' : '장 마감 요약 · 개장 브리핑 · 새 칼럼 · 최근 보신 회사 소식'}</div>
+  ${list.length ? ['오늘','어제','이전'].filter(g => groups[g]).map(g => `<h3 class="eyebrow" style="margin:18px 0 6px">${g}</h3><div class="card al-list">${groups[g].map(item).join('')}</div>`).join('')
+    : `<div class="card al-imp-empty" style="margin-top:12px">${seg === 'imp' ? '아직 중요 알림이 없습니다. 바닥 계기판 신호가 바뀌거나 관심 종목이 적정 매수가에 오면 여기에 먼저 뜹니다.' : '아직 소식이 없습니다.'}</div>`}`;
 }
 /* 알림을 눌렀을 때 갈 곳 (2026-11-24)
    - url 이 우리 사이트 경로(/semi?…, /?col=… 등)면 그 주소로 / 바깥 주소면 새 창
@@ -1691,11 +1723,12 @@ async function markRead(ids){
 document.addEventListener('click', async e => {
   const el = e.target.closest('[data-al]'); if(!el) return;
   const k = el.dataset.al;
-  if(k === 'open'){ S.tab = 'alerts'; await checkPush(); render(); window.scrollTo(0,0); }
+  if(k === 'open'){ S.tab = 'alerts'; S.alSeg = alImpUnread() || !alUnread() ? 'imp' : 'news'; await checkPush(); render(); window.scrollTo(0,0); }
   if(k === 'push-on') enablePush();
   if(k === 'push-off') disablePush();
   if(k === 'push-toggle'){ S.alPushOpen = !S.alPushOpen; render(); }
-  if(k === 'read-all'){ await markRead((S.alerts||[]).filter(a => !a.read && alUser(a)).map(a => a.id)); render(); }
+  if(k === 'read-all'){ const imp = S.alSeg !== 'news'; await markRead((S.alerts||[]).filter(a => !a.read && alUser(a) && alKind(a).imp === imp).map(a => a.id)); render(); }
+  if(k === 'seg'){ S.alSeg = el.dataset.seg; S.alOpen = null; render(); }
   if(k === 'go'){
     const a = (S.alerts||[]).find(x => x.id === el.dataset.id); if(!a) return;
     markRead([a.id]).catch(() => {});
