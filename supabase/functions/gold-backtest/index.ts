@@ -35,6 +35,11 @@ function sig(d: string, S: any) {
   };
 }
 Deno.serve(async (req) => {
+  if (req.method === "GET" && new URL(req.url).searchParams.get("from")) {   // 그래프용 시세 (영상·랜딩): ?from=YYYY-MM-DD&to=&step=
+    const u = new URL(req.url), f = u.searchParams.get("from")!, t = u.searchParams.get("to") || "2100-01-01", st = Math.max(1, Number(u.searchParams.get("step") || 1));
+    const p = (await yahoo("GC=F")).filter(x => x[0] >= f && x[0] <= t).filter((_, i) => i % st === 0).map(x => [x[0], Math.round(x[1] * 10) / 10]);
+    return new Response(JSON.stringify(p), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
+  }
   if (req.method === "GET") { const { data } = await sb.from("app_config").select("value").eq("key", "gold_backtest").maybeSingle(); return new Response(JSON.stringify(data?.value || {}), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }); }
   const { data: sec } = await sb.from("app_config").select("value").eq("key", "vn_cron_secret").maybeSingle();
   if (req.headers.get("x-cron") !== String(sec?.value)) return new Response("key", { status: 403 });

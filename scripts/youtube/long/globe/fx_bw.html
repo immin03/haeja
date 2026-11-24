@@ -324,7 +324,47 @@ function btest(C,t){
   });
   if(C.foot){ const a=ease(cl((t-5.2-n*st)/0.6)); if(a>0) txtS(C.foot,W/2,Y0+ch+40,22,GRAY,600,'center',a); }
 }
-window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest})[mode];
+
+// ⑬ 선 그래프(lchart)·대비 카드(vs2) — 2026-11-24 대표 "그래프 코드로 더 예쁘게, 글씨는 최소 크기 이상"
+// lchart cfg: {kicker,title,badge, ser:[[d,v]], marks:[{d,label,sub,color:'pink'|'ivory',up:true}], hl:[{v,label}], t0:1.0, dur:2.4, foot}
+function lchart(C,t){
+  bg(); kicker(C,t);
+  const X0=150, X1=W-150, Y0=C.y0||300, ch=C.ch||520, S=C.ser||[]; if(!S.length) return;
+  const a=ease(cl((t-0.3)/0.5)); g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,Y0,0,Y0+ch); gr.addColorStop(0,'rgba(255,255,255,0.06)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(X0,Y0,X1-X0,ch,28); g.fill(); g.lineWidth=1.5; g.strokeStyle='rgba(225,225,228,0.16)'; g.stroke(); g.restore();
+  const gx0=X0+70, gx1=X1-70, gy0=Y0+110, gy1=Y0+ch-80, d0=Date.parse(S[0][0]), d1=Date.parse(S[S.length-1][0]);
+  const vs=S.map(q=>q[1]).concat((C.hl||[]).map(h=>h.v)), lo=Math.min(...vs)*0.97, hi=Math.max(...vs)*1.02;
+  const px=d=>gx0+(Date.parse(d)-d0)/(d1-d0)*(gx1-gx0), py=v=>gy1-(v-lo)/(hi-lo)*(gy1-gy0);
+  g.save(); g.globalAlpha=a; g.strokeStyle='rgba(225,225,228,0.10)'; g.lineWidth=1; for(let k=0;k<=3;k++){ const yy=gy0+(gy1-gy0)*k/3; g.beginPath(); g.moveTo(gx0,yy); g.lineTo(gx1,yy); g.stroke(); } g.restore();
+  (C.xl||[]).forEach(x=>txtS(x[1],px(x[0]),gy1+44,28,GRAY,700,'center',a));
+  const pr=ease(cl((t-(C.t0||0.9))/(C.dur||2.4))), m=Math.max(2,Math.round(S.length*pr));
+  g.save(); g.globalAlpha=a; const ar=g.createLinearGradient(0,gy0,0,gy1); ar.addColorStop(0,'rgba(242,242,242,0.20)'); ar.addColorStop(1,'rgba(242,242,242,0)');
+  g.beginPath(); S.slice(0,m).forEach((q,k)=>{ const X=px(q[0]),Y=py(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.lineTo(px(S[m-1][0]),gy1); g.lineTo(px(S[0][0]),gy1); g.closePath(); g.fillStyle=ar; g.fill();
+  g.beginPath(); S.slice(0,m).forEach((q,k)=>{ const X=px(q[0]),Y=py(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.strokeStyle=IVORY; g.lineWidth=4.5; g.lineJoin='round'; g.stroke(); g.restore();
+  (C.hl||[]).forEach((h,k)=>{ const ah=ease(cl((t-(h.at||3.4))/0.5)); if(ah<=0) return; const yy=py(h.v); g.save(); g.globalAlpha=ah; g.setLineDash([10,8]); g.strokeStyle=PINK; g.lineWidth=3; g.beginPath(); g.moveTo(gx0,yy); g.lineTo(gx1,yy); g.stroke(); g.restore();
+    const lb=h.label; g.save(); g.font='800 34px SUIT'; const lw=g.measureText(lb).width+36; g.restore(); g.save(); g.globalAlpha=ah; g.fillStyle=PINK; g.beginPath(); g.roundRect(gx1-lw,yy-60,lw,48,24); g.fill(); g.restore(); txt(lb,gx1-lw/2,yy-36,34,'#fff',800,'center',ah); });
+  (C.marks||[]).forEach((mk,k)=>{ const am=ease(cl((t-(mk.at||(1.6+k*0.7)))/0.45)); if(am<=0) return;
+    const q=S.reduce((b,q)=>Math.abs(Date.parse(q[0])-Date.parse(mk.d))<Math.abs(Date.parse(b[0])-Date.parse(mk.d))?q:b,S[0]); const X=px(q[0]), Y=py(q[1]); const col=mk.color==='ivory'?IVORY:PINK;
+    g.save(); g.globalAlpha=am; g.fillStyle=col; g.shadowColor=col; g.shadowBlur=22; g.beginPath(); g.arc(X,Y,12,0,7); g.fill(); g.restore();
+    if(!mk.label) return;
+    const up=mk.up!==false, by=up?Math.max(gy0-20,Y-92):Math.min(gy1+10,Y+92); g.save(); g.globalAlpha=am*0.7; g.strokeStyle=col; g.lineWidth=2; g.beginPath(); g.moveTo(X,Y+(up?-14:14)); g.lineTo(X,by+(up?34:-34)); g.stroke(); g.restore();
+    g.save(); g.font='800 36px SUIT'; let lw=g.measureText(mk.label).width; g.font='700 28px SUIT'; if(mk.sub) lw=Math.max(lw,g.measureText(mk.sub).width); g.restore(); lw+=40; const lh=mk.sub?92:56; const lx=Math.min(gx1-lw/2+30,Math.max(gx0+lw/2-30,X)); const ly=up?by-lh+34:by-34;
+    g.save(); g.globalAlpha=am; g.fillStyle='rgba(18,18,20,0.94)'; g.strokeStyle=col; g.lineWidth=2; g.beginPath(); g.roundRect(lx-lw/2,ly,lw,lh,18); g.fill(); g.stroke(); g.restore();
+    txt(mk.label,lx,ly+(mk.sub?34:28),36,col===PINK?PINK:IVORY,800,'center',am); if(mk.sub) txt(mk.sub,lx,ly+70,28,'#e8e8ea',700,'center',am); });
+  if(C.foot){ const af=ease(cl((t-4.0)/0.6)); if(af>0) txtS(C.foot,W/2,Y0+ch+40,24,GRAY,600,'center',af); }
+}
+// vs2 cfg: {kicker,title,badge, items:[{k,big,unit,sub,color}], foot}
+function vs2(C,t){
+  bg(); kicker(C,t);
+  const I=C.items||[], n=I.length, X0=150, X1=W-150, gap=40, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||300, ch=C.ch||500;
+  I.forEach((it,i)=>{ const x=X0+i*(cw+gap), cx=x+cw/2, a=ease(cl((t-0.4-i*0.9)/0.5)); if(a<=0) return; const y=Y0+(1-a)*28, col=it.color==='red'?'#ff5a6e':PINK;
+    g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,y,0,y+ch); gr.addColorStop(0,'rgba(255,255,255,0.07)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,28); g.fill(); g.lineWidth=it.hi?3:1.5; g.strokeStyle=it.hi?PINK:'rgba(225,225,228,0.16)'; if(it.hi){ g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=36; } g.stroke(); g.restore();
+    txt(it.k,cx,y+90,48,IVORY,800,'center',a);
+    const an=ease(cl((t-1.0-i*0.9)/0.6)); txt(it.big,cx,y+250,130,col,800,'center',an); txt(it.unit||'',cx,y+340,44,col,800,'center',an);
+    (it.sub?String(it.sub).split('\n'):[]).forEach((l,k)=>txtS(l,cx,y+420+k*44,34,'#e8e8ea',700,'center',an));
+  });
+  if(C.foot){ const af=ease(cl((t-2.6)/0.6)); if(af>0) txtS(C.foot,W/2,Y0+ch+44,24,GRAY,600,'center',af); }
+}
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest,lchart,vs2})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
     if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
   safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)

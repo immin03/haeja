@@ -263,10 +263,10 @@ def panel(im, b, p):
             ra = eout((p - .15 - .3 * i) / .45)
             if ra <= 0: continue
             yy = y + 92 + i * 112
-            d.text((x, yy + 14), str(r[0]), font=NS("Medium", 28), fill=(205, 205, 210, int(255 * ra)))
+            d.text((x, yy + 8), str(r[0]), font=NS("Medium", 36), fill=(205, 205, 210, int(255 * ra)))   # 2026-11-24 최소 글씨
             col = PINK if hl == i else (255, 255, 255)
             d.text((x + lw, yy + (0 if size == 46 else 6)), str(r[1]), font=SUIT("Bold", size), fill=(*col, int(255 * ra)))
-            if len(r) > 2 and r[2]: d.text((x + lw + d.textlength(str(r[1]), font=SUIT("Bold", size)) + 28, yy + 16), str(r[2]), font=NS("Regular", 26), fill=(200, 200, 205, int(255 * ra)))
+            if len(r) > 2 and r[2]: d.text((x + lw + d.textlength(str(r[1]), font=SUIT("Bold", size)) + 28, yy + 16), str(r[2]), font=NS("Regular", 34), fill=(200, 200, 205, int(255 * ra)))
             d.rectangle([x, yy + 88, x + 900, yy + 88], fill=(255, 255, 255, int(60 * ra)))
     elif k == "steps":
         rows = b.get("rows", []); on = b.get("on")
@@ -278,9 +278,9 @@ def panel(im, b, p):
             if ra <= 0: continue
             yy = y + 100 + i * gap; al = int((255 if (on is None or on == i) else 115) * ra)
             d.text((x, yy + 6), f"0{i + 1 + int(b.get('n0', 0))}", font=NS("Thin", 72), fill=(255, 255, 255, al))
-            d.text((x + 130, yy), str(r[0]), font=NS("Medium", 26), fill=(*(PINK if on == i else (200, 200, 200)), al))
-            d.text((x + 130, yy + 36), str(r[1]), font=SUIT("Bold", 46), fill=(255, 255, 255, al))
-            if len(r) > 2 and not many: d.text((x + 130, yy + 98), str(r[2]), font=NS("Regular", 26), fill=(215, 215, 215, al))
+            d.text((x + 130, yy - 4), str(r[0]), font=NS("Medium", 36), fill=(*(PINK if on == i else (200, 200, 200)), al))   # 2026-11-24 최소 글씨: 26 → 36
+            d.text((x + 130, yy + 42), str(r[1]), font=SUIT("Bold", 48), fill=(255, 255, 255, al))
+            if len(r) > 2 and not many: d.text((x + 130, yy + 104), str(r[2]), font=NS("Regular", 32), fill=(215, 215, 215, al))
     elif k == "icon":
         y = H - 330; t = b.get("text", "")
         d.rectangle([x, y, x + int(56 * a), y + 5], fill=(*PINK, 255))
