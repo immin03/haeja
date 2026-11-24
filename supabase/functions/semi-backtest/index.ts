@@ -49,10 +49,15 @@ Deno.serve(async (req) => {
     const after = (days: number) => { const p = sox.find(x => x[0] >= fwd(lo[0], days)); return p ? Math.round((p[1] / lo[1] - 1) * 1000) / 10 : null; };
     const at = (k: number) => { const d = fwd(lo[0], k); const s = sig(d, S, peak); const a = [s.lead, s.pe, s.days, s.vix, s.rate]; return { d, n: a.filter(Boolean).length, a }; };
     const w0 = back(lo[0], 182), w1 = fwd(lo[0], 182);
+    // 주마다 켜진 신호 수 (그래프 배경 띠: 2개 이상 켜진 기간) — 2026-11-24 대표 "불 2~3개 켜진 구간도 보여 주자"
+    const cnt = sox.filter(x => x[0] >= w0 && x[0] <= w1).filter((_, i) => i % 5 === 0).map(x => { const z = sig(x[0], S, peak); return [x[0], [z.lead, z.days, z.vix, z.rate].filter(Boolean).length]; });
+    const first2 = cnt.find(c => c[0] >= lo[0] && (c[1] as number) >= 2) || null;
+    const px2 = first2 ? sox.find(x => x[0] >= first2[0]) : null;
     const ser = sox.filter(x => x[0] >= w0 && x[0] <= w1).filter((_, i, arr) => i % 3 === 0 || arr[i][0] === lo[0]).map(x => [x[0], Math.round(x[1] * 10) / 10]);
     return { nm, low: [lo[0], Math.round(lo[1] * 10) / 10], peak: [peak[0], Math.round(peak[1] * 10) / 10], dd: Math.round((lo[1] / peak[1] - 1) * 1000) / 10,
       days: Math.round((Date.parse(lo[0]) - Date.parse(peak[0])) / 864e5), ret1m: after(30), ret3m: after(91), ret1y: after(365),
-      atLow: at(0), m1: at(30), m2: at(61), m3: at(91), ser };
+      atLow: at(0), m1: at(30), m2: at(61), m3: at(91), ser, cnt,
+      first2: first2 && px2 ? { d: first2[0], n: first2[1], days: Math.round((Date.parse(first2[0]) - Date.parse(lo[0])) / 864e5), fromLow: Math.round((px2[1] / lo[1] - 1) * 1000) / 10 } : null };
   });
   await sb.from("app_config").upsert({ key: "semi_backtest", value: { at: new Date().toISOString(), names: ["실적", "가격", "기간", "공포", "금리"], out } });
   return new Response(JSON.stringify({ out }), { headers: cors });

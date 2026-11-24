@@ -147,6 +147,8 @@ Deno.serve(async (_req: Request) => {
     let sw = 0, sl = 0;
     await Promise.all(DEF.map(async (d) => {
       const p = await fred(d.id, d.from); if (!p || p.length < 30) { fails.push(d.k); return; }
+      // (2026-11-24 대표: 레이더 VIX가 옛 숫자) FRED 공포지수는 하루 늦게 올라온다 → 그 뒤 날짜는 시세(^VIX)로 채운다
+      if (d.k === "vix") { const y = await yahoo("^VIX", "3mo"); if (y) for (const q of y) if (q[0] > p.at(-1)![0]) p.push([q[0], r2(q[1])]); }
       const { lv, why } = d.level(p); const last = p.at(-1)!;
       const b1 = before(p, 30), b12 = before(p, 365);
       ind[d.k] = { v: r2(last[1]), date: last[0], lv, why, chg1m: b1 ? r2(last[1] - b1[1]) : null, chg1y: b12 ? r2(last[1] - b12[1]) : null,

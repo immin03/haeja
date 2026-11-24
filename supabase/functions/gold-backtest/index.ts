@@ -17,7 +17,9 @@ async function gld(): Promise<Pt[]> {
     const p: Pt[] = []; t.split("\n").forEach(l => { const c = l.split(","); const d = Date.parse(c[0]); const tonnes = Number(String(c[9] || "").replace(/[^0-9.]/g, "")); if (isFinite(d) && tonnes > 0) p.push([new Date(d).toISOString().slice(0, 10), tonnes]); });
     return p.sort((a, b) => a[0] < b[0] ? -1 : 1); } catch (_) { return []; }
 }
-const upto = (p: Pt[], d: string) => p.filter(x => x[0] <= d);
+// 날짜 d 까지의 최근 400개만 (이진 탐색) — 주마다 신호를 세면서 전체 배열을 매번 거르다 계산 한도를 넘어서 바꿈 (2026-11-24)
+const ub = (p: Pt[], d: string) => { let lo = 0, hi = p.length; while (lo < hi) { const m = (lo + hi) >> 1; if (p[m][0] <= d) lo = m + 1; else hi = m; } return lo; };
+const upto = (p: Pt[], d: string) => { const e = ub(p, d); return p.slice(Math.max(0, e - 400), e); };
 const back = (d: string, days: number) => new Date(Date.parse(d) - days * 864e5).toISOString().slice(0, 10);
 function sig(d: string, S: any) {
   const ry = upto(S.ry, d), ry6 = ry.filter(x => x[0] >= back(d, 183)), ryMax = Math.max(...ry6.map(x => x[1])), ryNow = ry.at(-1)![1];
@@ -52,9 +54,14 @@ Deno.serve(async (req) => {
     const after = (days: number) => { const p = gc.find(x => x[0] >= new Date(Date.parse(lo[0]) + days * 864e5).toISOString().slice(0, 10)); return p ? Math.round((p[1] / lo[1] - 1) * 1000) / 10 : null; };
     const at = (k: number) => { const d = new Date(Date.parse(lo[0]) + k * 864e5).toISOString().slice(0, 10); const s = sig(d, S); return { d, n: Object.values(s).filter((x: any) => x.on).length, s }; };
     const w0 = back(lo[0], 182), w1 = new Date(Date.parse(lo[0]) + 182 * 864e5).toISOString().slice(0, 10);
+    // 주마다 켜진 신호 수 (금 ETF는 과거 일별 자료가 없어 빼고 4개로 센다) — 2026-11-24 대표 "불 2~3개 켜진 구간도 보여 주자"
+    const cnt = gc.filter(x => x[0] >= w0 && x[0] <= w1).filter((_, i) => i % 5 === 0).map(x => { const z = sig(x[0], S); return [x[0], [z.ry.on, z.fed.on, z.dxy.on, z.vix.on].filter(Boolean).length]; });
+    const first2 = cnt.find(c => c[0] >= lo[0] && (c[1] as number) >= 2) || null;
+    const px2 = first2 ? gc.find(x => x[0] >= first2[0]) : null;
     const ser = gc.filter(x => x[0] >= w0 && x[0] <= w1).filter((_, i, arr) => i % 3 === 0 || arr[i][0] === lo[0]).map(x => [x[0], Math.round(x[1] * 10) / 10]);
     const pk = (x: any) => ({ d: x.d, n: x.n, a: [x.s.ry.on, x.s.fed.on, x.s.dxy.on, null, x.s.vix.on] });   // ④ 금 ETF는 과거 일별 자료 없음(null)
-    return { nm, low: lo, ret1m: after(30), ret3m: after(91), ret1y: after(365), atLow: pk(at(0)), m1: pk(at(30)), m2: pk(at(61)), m3: pk(at(91)), ser };
+    return { nm, low: lo, ret1m: after(30), ret3m: after(91), ret1y: after(365), atLow: pk(at(0)), m1: pk(at(30)), m2: pk(at(61)), m3: pk(at(91)), ser, cnt,
+      first2: first2 && px2 ? { d: first2[0], n: first2[1], days: Math.round((Date.parse(first2[0]) - Date.parse(lo[0])) / 864e5), fromLow: Math.round((px2[1] / lo[1] - 1) * 1000) / 10 } : null };
   });
   await sb.from("app_config").upsert({ key: "gold_backtest", value: { at: new Date().toISOString(), out } });
   return new Response(JSON.stringify({ out }), { headers: { "Content-Type": "application/json" } });
