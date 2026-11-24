@@ -15,7 +15,7 @@ TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 SETS = [   # 세 안 모두 '바닥 신호 5가지' 노출, 사진 3장 서로 다르게
     dict(file="thumb_a.jpg", photo="il_L261124g_thumb_goldbars.jpeg", fx=.55, l1="금값 바닥 신호 5가지", l2=("지금 1개 켜졌다", "")),
     dict(file="thumb_b.jpg", photo="il_L261113g2_gold_2015.jpeg", fx=.55, chip="고점 대비 -37% 폭락", l1=("금값 101만 → ", "66만 원"), l2=("바닥 신호 5가지", ""), ep2=True),
-    dict(file="thumb_c.jpg", photo="il_L261113a_trader_gold.jpeg", fx=.55, l1="금, AI 주식처럼 팔렸다", l2=("바닥 신호 ", "5가지")),
+    dict(file="thumb_c.jpg", gauge="globe_L261124g_fx_gauge_final.mp4", l1="금값 바닥 신호 5가지", l2=("지금 1개", " 켜졌다")),   # 2026-11-24 17:44 대표: 한 안은 계기판 5개를 흐리게 깔고
 ]
 
 
@@ -40,8 +40,21 @@ def shadow_text(th, xy, s, f, fill):
     o = Image.new("RGBA", th.size, (0, 0, 0, 0)); o.paste((0, 0, 0, 255), (4, 6), sh); o.alpha_composite(lay); th.alpha_composite(o)
 
 
+def gauge_bg(name):
+    """계기판 클립 마지막 장면(5개 카드, VIX 켜짐)을 살짝 흐리게 깔아 배경으로"""
+    import subprocess, tempfile
+    tmp = tempfile.mktemp(suffix=".png")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-sseof", "-0.5", "-i", os.path.join(LIB, name), "-frames:v", "1", tmp], check=True)
+    im = Image.open(tmp).convert("RGB"); os.remove(tmp)
+    cards = im.crop((135, 278, 1785, 830))   # 카드 5개만 (제목 줄·1/5 배지는 썸네일 배지·로고와 겹치므로 뺀다)
+    w = TW - 60; cards = cards.resize((w, int(cards.height * w / cards.width)), Image.LANCZOS)
+    bg = Image.new("RGB", (TW, TH), im.getpixel((40, 40))); bg.paste(cards, (30, 128))
+    bg = bg.filter(ImageFilter.GaussianBlur(3.2)); bg = ImageEnhance.Brightness(bg).enhance(1.15)
+    return bg.convert("RGBA")
+
+
 def render(t, out):
-    th = photo(t["photo"], t["fx"])
+    th = gauge_bg(t["gauge"]) if t.get("gauge") else photo(t["photo"], t["fx"])
     g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
     for x in range(TW): d.line([x, 0, x, TH], fill=(0, 0, 0, int(85 * max(0, 1 - x / (TW * .85)) ** 1.2)))
     th.alpha_composite(g); g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
