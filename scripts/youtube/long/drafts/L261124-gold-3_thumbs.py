@@ -14,7 +14,7 @@ TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 
 SETS = [   # 세 안 모두 '바닥 신호 5가지' 노출, 사진 3장 서로 다르게
     dict(file="thumb_a.jpg", photo="il_L261124g_thumb_goldbars.jpeg", fx=.55, l1="금값 바닥 신호 5가지", l2=("지금 1개 켜졌다", "")),
-    dict(file="thumb_b.jpg", photo="il_L261124g_goldvault_wide.jpeg", fx=.6, g2=True, chip="바닥 신호 5가지", l1=[("금값", "gold"), (" 1월보다 ", "w"), ("-37%", "pink")], l2=[("지금 사야 할까?", "w")]),   # 2026-11-24 17:45 대표: 한 안은 2편 썸네일(본 사람이 많음)과 비슷하게
+    dict(file="thumb_b.jpg", photo="il_L261124g_goldvault_wide.jpeg", fx=.6, g2=True, chip="1월보다 -37%", l1=[("금값", "gold"), (" 바닥 신호 ", "w"), ("1/5", "pink")], l2=[("지금 사야 할까?", "w")]),   # 2026-11-24 17:45 대표: 한 안은 2편 썸네일(본 사람이 많음)과 비슷하게
     dict(file="thumb_c.jpg", gauge="globe_L261124g_fx_gauge_final.mp4", l1="금값 바닥 신호 5가지", l2=("지금 1개", " 켜졌다")),   # 2026-11-24 17:44 대표: 한 안은 계기판 5개를 흐리게 깔고
 ]
 
@@ -60,7 +60,7 @@ def render_g2(t, out):
     for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(240 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.1)))
     th.alpha_composite(g); D = ImageDraw.Draw(th)
     fc = F("ExtraBold", 50); cw = D.textlength(t["chip"], font=fc) + 52
-    D.rounded_rectangle([40, 34, 40 + cw, 34 + 82], 12, fill=(255, 255, 255, 250)); D.text((66, 44), t["chip"], font=fc, fill=(20, 22, 30))
+    D.rounded_rectangle([40, 34, 40 + cw, 34 + 82], 12, fill=(*PINK, 255)); D.text((66, 44), t["chip"], font=fc, fill=(255, 255, 255))   # 17:49 대표: 왼쪽 위 배너 잘 튀게 핑크
     x2 = 40 + cw + 16; cw2 = D.textlength("3편", font=fc) + 48
     D.rounded_rectangle([x2, 34, x2 + cw2, 34 + 82], 12, fill=(16, 30, 56, 245)); D.text((x2 + 24, 44), "3편", font=fc, fill=(255, 255, 255))
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34))
