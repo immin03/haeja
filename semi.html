@@ -469,7 +469,7 @@ function ring(p, on, sz, sw){ var r = (sz - sw) / 2 - 4, c = sz / 2, C = 2 * Mat
     '<line x1="' + (ex - dx).toFixed(1) + '" y1="' + (ey - dy).toFixed(1) + '" x2="' + (ex + dx).toFixed(1) + '" y2="' + (ey + dy).toFixed(1) + '" stroke="#FF4D6D" stroke-width="3" stroke-linecap="round"/></svg>'; }
 var short = function(n){ return String(n || '').replace(/^[①-⑩]\s*/, '').replace(/\(.*?\)/g, '').trim(); };
 /* 과거 4번 금 바닥 백테스트 (2026-11-24, supabase/functions/gold-backtest 결과 고정값) — 영상 금값 3편과 같은 숫자 */
-var BT = [["2008", "10월 24일", [0,1,0,null,0], "2개월 뒤", [1,1,1,null,0], "+23%"], ["2015", "12월 17일", [0,0,0,null,0], "2개월 뒤", [1,0,1,null,0], "+20%"],
+var BT = [["2008", "11월 13일", [0,1,0,null,0], "1개월 뒤", [1,1,1,null,0], "+35%"], ["2015", "12월 17일", [0,0,0,null,0], "2개월 뒤", [1,0,1,null,0], "+20%"],
   ["2020", "3월 19일", [0,1,0,null,0], "2개월 뒤", [1,1,1,null,0], "+17%"], ["2022", "11월 3일", [0,0,0,null,1], "1개월 뒤", [1,0,1,null,0], "+18%"]];
 (function(){ var el = document.getElementById('bt'); if(!el) return; var dots = function(a){ return '<div class="d">' + a.map(function(v){ return '<i class="' + (v == null ? 'na' : v ? 'on' : '') + '"></i>'; }).join('') + '<em>' + a.filter(function(v){ return v; }).length + '개</em></div>'; };
   el.innerHTML = BT.map(function(e){ return '<div><b>' + e[0] + '</b><small>' + e[1] + ' 바닥</small><span>바닥이던 날</span>' + dots(e[2]) + '<span>' + e[3] + ' (가장 많을 때)</span>' + dots(e[4]) + '<div class="r">3개월 뒤 <b>' + e[5] + '</b></div></div>'; }).join(''); })();

@@ -291,25 +291,38 @@ function _dots(x,y,arr,a,r){ const n=arr.length, gp=r*2+14, x0=x-(n-1)*gp/2; arr
   g.restore(); }); }
 function btest(C,t){
   bg(); kicker(C,t);
-  const E=C.eps||[], n=E.length, X0=150, X1=W-150, gap=32, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||292, ch=C.ch||528, st=C.step||0.35;
+  const E=C.eps||[], n=E.length, X0=150, X1=W-150, gap=32, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||292, ch=C.ch||528, st=C.step||0.45;
   E.forEach((e,i)=>{ const x=X0+i*(cw+gap), cx=x+cw/2, a=ease(cl((t-0.4-i*st)/0.5)); if(a<=0) return; const y=Y0+(1-a)*28;
     g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,y,0,y+ch); gr.addColorStop(0,'rgba(255,255,255,0.06)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,26); g.fill(); g.lineWidth=1.5; g.strokeStyle='rgba(225,225,228,0.16)'; g.stroke(); g.restore();
-    txt(e.yr,x+30,y+60,52,IVORY,800,'left',a); txtS(e.date,x+30,y+108,26,GRAY,600,'left',a);
-    // 바닥 날
-    const a1=ease(cl((t-1.0-i*st)/0.5));
-    txtS('바닥이던 날',cx,y+164,26,'rgba(225,225,228,0.75)',700,'center',a1); _dots(cx,y+204,e.at,a1,13);
-    txt(e.at.filter(v=>v).length+'개',cx,y+252,40,IVORY,800,'center',a1);
-    // 가장 많이 켜졌을 때
-    const a2=ease(cl((t-2.4-i*st)/0.5));
-    g.save(); g.globalAlpha=a2; g.fillStyle='rgba(225,225,228,0.12)'; g.fillRect(x+30,y+290,cw-60,1.5); g.restore();
-    txtS(e.peakLbl,cx,y+322,26,'rgba(225,225,228,0.75)',700,'center',a2); _dots(cx,y+362,e.peak,a2,13);
-    txt(e.peak.filter(v=>v).length+'개',cx,y+410,40,IVORY,800,'center',a2);
+    txt(e.yr,x+28,y+52,46,IVORY,800,'left',a); txtS(e.date,x+cw-28,y+56,24,GRAY,600,'right',a);
+    // 금값 선 그래프 (바닥 앞뒤 6개월)
+    const S=e.ser||[], gx0=x+26, gx1=x+cw-26, gy0=y+104, gy1=y+300, d0=Date.parse(S[0][0]), d1=Date.parse(S[S.length-1][0]);
+    const vs=S.map(q=>q[1]), lo=Math.min(...vs), hi=Math.max(...vs), px=d=>gx0+(Date.parse(d)-d0)/(d1-d0)*(gx1-gx0), py=v=>gy1-(v-lo)/(hi-lo)*(gy1-gy0);
+    const pr=ease(cl((t-1.0-i*st)/1.6)), m=Math.max(2,Math.round(S.length*pr));
+    g.save(); g.globalAlpha=a; g.strokeStyle='rgba(225,225,228,0.10)'; g.lineWidth=1; [gy0,(gy0+gy1)/2,gy1].forEach(yy=>{ g.beginPath(); g.moveTo(gx0,yy); g.lineTo(gx1,yy); g.stroke(); });
+    const ar=g.createLinearGradient(0,gy0,0,gy1); ar.addColorStop(0,'rgba(242,242,242,0.18)'); ar.addColorStop(1,'rgba(242,242,242,0)');
+    g.beginPath(); S.slice(0,m).forEach((q,k)=>{ const X=px(q[0]),Y=py(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.lineTo(px(S[m-1][0]),gy1); g.lineTo(px(S[0][0]),gy1); g.closePath(); g.fillStyle=ar; g.fill();
+    g.beginPath(); S.slice(0,m).forEach((q,k)=>{ const X=px(q[0]),Y=py(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.strokeStyle=IVORY; g.lineWidth=3.5; g.lineJoin='round'; g.stroke(); g.restore();
+    // 바닥 표시
+    const ab=ease(cl((t-2.4-i*st)/0.4));
+    if(ab>0){ const bx=px(e.low[0]), by=py(e.low[1]); g.save(); g.globalAlpha=ab; g.setLineDash([6,6]); g.strokeStyle='rgba(255,77,109,0.6)'; g.lineWidth=2; g.beginPath(); g.moveTo(bx,gy0-6); g.lineTo(bx,gy1+6); g.stroke(); g.setLineDash([]);
+      g.fillStyle=PINK; g.shadowColor=PINK; g.shadowBlur=20; g.beginPath(); g.arc(bx,by,10,0,7); g.fill(); g.restore();
+      txt('바닥',bx,gy1+30,26,PINK,800,'center',ab); }
+    // 신호가 가장 많이 켜진 날
+    const ak=ease(cl((t-3.4-i*st)/0.4));
+    if(ak>0){ const q=S.reduce((b,q)=>Math.abs(Date.parse(q[0])-Date.parse(e.peakD))<Math.abs(Date.parse(b[0])-Date.parse(e.peakD))?q:b,S[0]); const kx=px(q[0]), ky=py(q[1]);
+      g.save(); g.globalAlpha=ak; g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=16; g.beginPath(); g.arc(kx,ky,9,0,7); g.fill(); g.restore(); const lb=e.peakLbl+' · '+e.peak.filter(v=>v).length+'개', ly=Math.max(gy0+4,ky-40); g.save(); g.font='800 24px SUIT'; const lw=g.measureText(lb).width+28; g.restore(); const lx=Math.min(gx1-lw/2,Math.max(gx0+lw/2,kx));
+      g.save(); g.globalAlpha=ak; g.fillStyle='rgba(18,18,20,0.92)'; g.strokeStyle='rgba(255,255,255,0.55)'; g.lineWidth=1.5; g.beginPath(); g.roundRect(lx-lw/2,ly-20,lw,40,20); g.fill(); g.stroke(); g.restore(); txt(lb,lx,ly,24,IVORY,800,'center',ak); }
+    // 신호 개수 두 줄
+    const a1=ease(cl((t-2.6-i*st)/0.5)), a2=ease(cl((t-3.6-i*st)/0.5));
+    txtS('바닥 날',x+28,y+372,24,'rgba(225,225,228,0.75)',700,'left',a1); _dots(x+cw/2+16,y+372,e.at,a1,10); txt(e.at.filter(v=>v).length+'개',x+cw-28,y+372,32,PINK,800,'right',a1);
+    txtS(e.peakLbl,x+28,y+418,24,'rgba(225,225,228,0.75)',700,'left',a2); _dots(x+cw/2+16,y+418,e.peak,a2,10); txt(e.peak.filter(v=>v).length+'개',x+cw-28,y+418,32,IVORY,800,'right',a2);
     // 바닥 뒤 3개월
-    const a3=ease(cl((t-3.8-i*st)/0.5));
-    g.save(); g.globalAlpha=a3; g.fillStyle='rgba(255,77,109,0.12)'; g.beginPath(); g.roundRect(x+18,y+446,cw-36,64,16); g.fill(); g.restore();
-    txtS(e.retLbl,x+36,y+478,24,'rgba(225,225,228,0.8)',700,'left',a3); txt(e.ret,x+cw-36,y+478,40,PINK,800,'right',a3);
+    const a3=ease(cl((t-4.6-i*st)/0.5));
+    g.save(); g.globalAlpha=a3; g.fillStyle='rgba(255,77,109,0.12)'; g.beginPath(); g.roundRect(x+18,y+452,cw-36,60,16); g.fill(); g.restore();
+    txtS(e.retLbl,x+36,y+482,24,'rgba(225,225,228,0.8)',700,'left',a3); txt(e.ret,x+cw-36,y+482,40,PINK,800,'right',a3);
   });
-  if(C.foot){ const a=ease(cl((t-4.4-n*st)/0.6)); if(a>0) txtS(C.foot,W/2,Y0+ch+40,22,GRAY,600,'center',a); }
+  if(C.foot){ const a=ease(cl((t-5.2-n*st)/0.6)); if(a>0) txtS(C.foot,W/2,Y0+ch+40,22,GRAY,600,'center',a); }
 }
 window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)

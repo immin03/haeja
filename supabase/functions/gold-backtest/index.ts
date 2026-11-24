@@ -1,4 +1,4 @@
-// gold-backtest (2026-11-24 대표: 과거 금 바닥에서 신호가 몇 개 켜져 있었는지 백테스트) — x-cron 전용, 결과 JSON만 돌려준다
+// gold-backtest (2026-11-24 대표: 과거 금 바닥에서 신호가 몇 개 켜져 있었는지 백테스트) — POST(x-cron)로 계산해 app_config.gold_backtest 에 저장, GET 은 저장된 결과
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -35,18 +35,22 @@ function sig(d: string, S: any) {
   };
 }
 Deno.serve(async (req) => {
+  if (req.method === "GET") { const { data } = await sb.from("app_config").select("value").eq("key", "gold_backtest").maybeSingle(); return new Response(JSON.stringify(data?.value || {}), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }); }
   const { data: sec } = await sb.from("app_config").select("value").eq("key", "vn_cron_secret").maybeSingle();
   if (req.headers.get("x-cron") !== String(sec?.value)) return new Response("key", { status: 403 });
   const [gc, dx, vix, ry, ff, g] = await Promise.all([yahoo("GC=F"), yahoo("DX-Y.NYB"), yahoo("^VIX"), fred("DFII10"), fred("DFF"), gld()]);
   const S = { gc, dx, vix, ry, ff, gld: g };
-  // 바닥: 각 구간의 금 종가 최저일 (구간은 알려진 하락장)
-  // 바닥일: 영상 2장과 같은 기준(2008은 현물 최저 10월 24일 — 센추리 파이낸셜), 나머지는 금 선물 종가 최저일
-  const eps = [["2008", "2008-10-24"], ["2015", "2015-12-17"], ["2020", "2020-03-19"], ["2022", "2022-11-03"]];
+  // 바닥일: 금 선물(GC=F) 종가 최저일 (2008은 현물 최저 10/24보다 선물 종가 최저 11/13이 그래프 최저점이라 11/13)
+  const eps = [["2008", "2008-11-13"], ["2015", "2015-12-17"], ["2020", "2020-03-19"], ["2022", "2022-11-03"]];
   const out = eps.map(([nm, d0]) => {
     const lo = gc.find(x => x[0] >= d0)!;
     const after = (days: number) => { const p = gc.find(x => x[0] >= new Date(Date.parse(lo[0]) + days * 864e5).toISOString().slice(0, 10)); return p ? Math.round((p[1] / lo[1] - 1) * 1000) / 10 : null; };
     const at = (k: number) => { const d = new Date(Date.parse(lo[0]) + k * 864e5).toISOString().slice(0, 10); const s = sig(d, S); return { d, n: Object.values(s).filter((x: any) => x.on).length, s }; };
-    return { nm, low: lo, ret1m: after(30), ret3m: after(91), ret1y: after(365), atLow: at(0), m1: at(30), m2: at(61), m3: at(91) };
+    const w0 = back(lo[0], 182), w1 = new Date(Date.parse(lo[0]) + 182 * 864e5).toISOString().slice(0, 10);
+    const ser = gc.filter(x => x[0] >= w0 && x[0] <= w1).filter((_, i, arr) => i % 3 === 0 || arr[i][0] === lo[0]).map(x => [x[0], Math.round(x[1] * 10) / 10]);
+    const pk = (x: any) => ({ d: x.d, n: x.n, a: [x.s.ry.on, x.s.fed.on, x.s.dxy.on, null, x.s.vix.on] });   // ④ 금 ETF는 과거 일별 자료 없음(null)
+    return { nm, low: lo, ret1m: after(30), ret3m: after(91), ret1y: after(365), atLow: pk(at(0)), m1: pk(at(30)), m2: pk(at(61)), m3: pk(at(91)), ser };
   });
-  return new Response(JSON.stringify({ gldN: g.length, gldFirst: g[0], out }), { headers: { "Content-Type": "application/json" } });
+  await sb.from("app_config").upsert({ key: "gold_backtest", value: { at: new Date().toISOString(), out } });
+  return new Response(JSON.stringify({ out }), { headers: { "Content-Type": "application/json" } });
 });
